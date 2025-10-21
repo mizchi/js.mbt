@@ -1,8 +1,13 @@
 {
+  "nodeModulesDir": "auto",
   "tasks": {
     "dev": "deno run --watch main.ts"
   },
   "imports": {
-    "@std/assert": "jsr:@std/assert@1"
+    "@std/assert": "jsr:@std/assert@1",
+    "jest-environment-jsdom": "npm:jest-environment-jsdom@^30.2.0",
+    "jsdom": "npm:jsdom@^27.0.1",
+    "react": "npm:react@^19.2.0",
+    "react-dom": "npm:react-dom@^19.2.0"
   }
 }

@@ -44,12 +44,22 @@ extern "js" fn query_selector_internal(
   #| (el, selector) => el.querySelector(selector)
 
 ///|
-pub fn query_selector(self : Element, selector : String) -> Element? {
+pub fn Element::query_selector(self : Element, selector : String) -> Element? {
   let el = self.query_selector_internal(selector)
   if el.to_js_value().is_null() {
     return None
   } else {
     return Some(el)
+  }
+}
+
+///|
+pub fn Element::id(self : Element) -> String? {
+  let v = self.to_js_value().get("id")
+  if v.is_undefined() {
+    None
+  } else {
+    Some(v.to_string())
   }
 }
 
