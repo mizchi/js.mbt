@@ -1,0 +1,14 @@
+{
+  "name": "mizchi/js",
+  "version": "0.1.0",
+  "deps": {},
+  "readme": "README.md",
+  "repository": "https://github.com/mizchi/moonbit-js",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "description": "Misc utility library for MoonBit",
+  "source": "src",
+  "warn-list": "-28-29",
+  "alert-list": "-deprecated",
+  "preferred-target": "js"
+}
