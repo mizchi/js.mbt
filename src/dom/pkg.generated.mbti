@@ -1,0 +1,98 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/dom"
+
+import(
+  "mizchi/js/js"
+)
+
+// Values
+fn document() -> Element
+
+fn get_local_storage() -> Storage
+
+fn get_session_storage() -> Storage
+
+fn navigator() -> Navigator
+
+async fn request_animation_frame(() -> Unit raise) -> Unit noraise
+
+async fn wait_animation_frames() -> Unit noraise
+
+fn window() -> Element
+
+// Errors
+
+// Types and methods
+pub struct ChangeEvent(@js.Value)
+fn ChangeEvent::from(@js.Value) -> Self
+#deprecated
+fn ChangeEvent::inner(Self) -> @js.Value
+fn ChangeEvent::target(Self) -> Element
+
+#external
+pub type Element
+fn Element::add_event_listener(Self, String, (Event) -> Unit) -> Unit
+fn Element::append_child(Self, Self) -> Self
+fn Element::get_attribute(Self, String) -> @js.Value
+fn Element::get_inner_html(Self) -> String
+fn Element::get_tag_name(Self) -> String
+fn Element::get_text_content(Self) -> String
+fn Element::get_value(Self) -> String
+fn Element::id(Self) -> String?
+fn Element::insert_before(Self, Self) -> Self
+fn Element::query_selector(Self, String) -> Self?
+fn Element::remove_event_listener(Self, String, (Event) -> Unit) -> Unit
+fn Element::set_attribute(Self, String, String) -> Unit
+fn Element::set_inner_html(Self, String) -> Unit
+fn Element::set_text_content(Self, String) -> Unit
+fn Element::to_js_value(Self) -> @js.Value
+
+#external
+pub type Event
+fn Event::prevent_default(Self) -> Unit
+fn Event::stop_propagation(Self) -> Unit
+fn Event::target(Self) -> Element
+
+pub struct FocusEvent(@js.Value)
+fn FocusEvent::from(@js.Value) -> Self
+#deprecated
+fn FocusEvent::inner(Self) -> @js.Value
+fn FocusEvent::target(Self) -> Element
+
+pub struct KeyboardEvent(@js.Value)
+fn KeyboardEvent::alt_key(Self) -> Bool
+fn KeyboardEvent::code(Self) -> String
+fn KeyboardEvent::ctrl_key(Self) -> Bool
+fn KeyboardEvent::from(@js.Value) -> Self
+#deprecated
+fn KeyboardEvent::inner(Self) -> @js.Value
+fn KeyboardEvent::key(Self) -> String
+fn KeyboardEvent::key_code(Self) -> Int
+fn KeyboardEvent::shift_key(Self) -> Bool
+fn KeyboardEvent::target(Self) -> Element
+fn KeyboardEvent::which(Self) -> Int
+
+pub struct MouseEvent(@js.Value)
+fn MouseEvent::client_x(Self) -> Int
+fn MouseEvent::client_y(Self) -> Int
+fn MouseEvent::from(@js.Value) -> Self
+#deprecated
+fn MouseEvent::inner(Self) -> @js.Value
+fn MouseEvent::screen_x(Self) -> Int
+fn MouseEvent::screen_y(Self) -> Int
+
+#external
+pub type Navigator
+fn Navigator::on_line(Self) -> Bool
+fn Navigator::user_agent(Self) -> String
+
+#external
+pub type Storage
+fn Storage::get_item(Self, String) -> String?
+fn Storage::remove_item(Self, String) -> Unit
+fn Storage::set_item(Self, String, String) -> Unit
+
+// Type aliases
+
+// Traits
+

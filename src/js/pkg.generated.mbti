@@ -1,0 +1,187 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/js"
+
+// Values
+fn clear_interval(JSTimer) -> Unit
+
+fn clear_timeout(JSTimer) -> Unit
+
+fn[T] console_error(T) -> Unit
+
+fn[T] console_info(T) -> Unit
+
+fn[T] console_warn(T) -> Unit
+
+async fn fetch(String, method_~ : String, headers? : Map[String, String]) -> Promise[Response]
+
+fn ffi_import_module(String) -> Promise[Value]
+
+fn global_this() -> Value
+
+fn[A, B] identity(A) -> B
+
+fn import_meta() -> Value
+
+async fn import_module(String, specifier? : String) -> Value
+
+fn[T] log(T) -> Unit
+
+fn set_interval(() -> Unit, Int) -> JSTimer
+
+fn set_timeout(() -> Unit, Int) -> JSTimer
+
+async fn sleep(Int) -> Unit noraise
+
+fn structured_clone(Value) -> Value
+
+// Errors
+pub suberror InvalidNestedPromise SourceLoc
+
+pub suberror JsError Value
+
+// Types and methods
+pub type Date
+fn Date::new() -> Self
+fn Date::now() -> Int
+
+#external
+pub type JSTimer
+
+pub struct JsArray(Value)
+fn JsArray::at(Self, Int) -> Value
+#deprecated
+fn JsArray::inner(Self) -> Value
+fn JsArray::length(Self) -> Int
+fn JsArray::push(Self, &ToJsValue) -> Unit
+fn JsArray::set(Self, Int, &ToJsValue) -> Unit
+fn JsArray::to_value(Self) -> Value
+
+pub struct JsFunction(Value)
+fn JsFunction::call(Self, Array[Value]) -> Value
+fn[T] JsFunction::call_with_try(Self, Array[Value]) -> T raise JsError
+#deprecated
+fn JsFunction::inner(Self) -> Value
+fn JsFunction::name(Self) -> String?
+fn JsFunction::to_value(Self) -> Value
+
+pub struct JsObject(Value)
+fn JsObject::delete(Self, String) -> Unit
+fn JsObject::get(Self, String) -> Value?
+#deprecated
+fn JsObject::inner(Self) -> Value
+fn JsObject::set(Self, String, &ToJsValue) -> Unit
+fn JsObject::to_value(Self) -> Value
+
+#external
+pub type Math
+fn Math::abs(Double) -> Double
+fn Math::acos(Double) -> Double
+fn Math::asin(Double) -> Double
+fn Math::atan(Double) -> Double
+fn Math::atan2(Double, Double) -> Double
+fn Math::ceil(Double) -> Int
+fn Math::cos(Double) -> Double
+fn Math::exp(Double) -> Double
+fn Math::floor(Double) -> Int
+fn Math::log(Double) -> Double
+fn Math::max(Double, Double) -> Double
+fn Math::min(Double, Double) -> Double
+fn Math::pow(Double, Double) -> Double
+fn Math::random() -> Double
+fn Math::round(Double) -> Int
+fn Math::sin(Double) -> Double
+fn Math::sqrt(Double) -> Double
+fn Math::tan(Double) -> Double
+fn Math::tanh(Double) -> Double
+fn Math::trunc(Double) -> Double
+
+type Promise[T]
+fn[A, B] Promise::bind(Self[A], (A) -> Self[B] raise, reject? : (Error) -> Self[B]) -> Self[B]
+fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
+#callsite(autofill(loc))
+fn[A] Promise::new(A, loc~ : SourceLoc) -> Self[A]
+fn[A] Promise::reject(Error) -> Self[A]
+fn[A] Promise::resolve(A) -> Self[A]
+fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise, reject? : (Error) -> Self[B]) -> Self[B]
+async fn[A] Promise::wait(Self[A]) -> A
+
+#external
+pub type RegExp
+fn RegExp::exec(Self, String) -> RegExpResult?
+fn RegExp::new(String, flags? : String) -> Self
+fn RegExp::test_(Self, String) -> Bool
+
+pub struct RegExpResult {
+  full : String
+  input : String
+  index : Int
+  last_index : Int
+  groups : Map[String, String]?
+}
+
+#external
+pub type Request
+
+#external
+pub type Response
+fn Response::json(Self) -> Promise[Value]
+fn Response::text(Self) -> Promise[String]
+
+#external
+pub type Value
+fn Value::as_array(Self) -> JsArray
+fn Value::as_function(Self) -> JsFunction
+fn Value::as_object(Self) -> JsObject
+fn Value::at(Self, Int) -> Self
+fn Value::call(Self, Array[Self]) -> Self
+fn[T] Value::cast(Self) -> T
+fn Value::cast_as_nullable(Self) -> Self?
+fn[T] Value::cast_from(T) -> Self
+fn Value::delete(Self, String) -> Unit
+fn Value::from_array(Array[&ToJsValue]) -> Self
+fn Value::from_js_array(Array[Self]) -> Self
+fn Value::from_map(Map[String, &ToJsValue]) -> Self
+fn Value::get(Self, String) -> Self
+fn Value::instance_of(Self, Self) -> Bool
+fn Value::is_array(Self) -> Bool
+fn Value::is_boolean(Self) -> Bool
+fn Value::is_equal(Self, Self) -> Bool
+fn Value::is_function(Self) -> Bool
+fn Value::is_nan(Self) -> Bool
+fn Value::is_null(Self) -> Bool
+fn Value::is_number(Self) -> Bool
+fn Value::is_object(Self) -> Bool
+fn Value::is_string(Self) -> Bool
+fn Value::is_undefined(Self) -> Bool
+fn Value::js_null() -> Self
+fn Value::js_undefined() -> Self
+fn Value::keys(Self) -> Array[String]
+fn Value::length(Self) -> Int
+fn Value::new_array() -> Self
+fn Value::new_object() -> Self
+fn Value::output(Self, &Logger) -> Unit // from trait `Show`
+fn Value::push(Self, &ToJsValue) -> Unit
+fn Value::set(Self, String, &ToJsValue) -> Unit
+fn Value::stringify(Self, indent? : Int) -> String
+fn Value::to_js(Self) -> Self // from trait `ToJsValue`
+fn Value::to_json(Self) -> Json // from trait `ToJson`
+fn[T] Value::to_option(Self) -> T?
+fn Value::to_string(Self) -> String
+impl ToJsValue for Value
+impl Show for Value
+impl ToJson for Value
+
+// Type aliases
+
+// Traits
+pub(open) trait ToJsValue {
+  to_js(Self) -> Value
+}
+impl ToJsValue for Bool
+impl ToJsValue for Int
+impl ToJsValue for Double
+impl ToJsValue for String
+impl ToJsValue for Array[&ToJsValue]
+impl ToJsValue for Json
+impl ToJsValue for Map[String, &ToJsValue]
+
