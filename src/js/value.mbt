@@ -9,9 +9,9 @@ pub fn[T] Value::cast(self : Value) -> T = "%identity"
 ///|
 pub fn Value::cast_as_nullable(self : Value) -> Value? {
   if self.is_undefined() || self.is_null() {
-    return None
+    None
   } else {
-    return Some(self.cast())
+    Some(self.cast())
   }
 }
 

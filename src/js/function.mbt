@@ -23,12 +23,14 @@ pub extern "js" fn JsFunction::name(self : JsFunction) -> String? =
   #| (f) => f.name
 
 ///|
-extern "js" fn ffi_try_call(f : () -> Value raise) -> Value noraise =
+extern "js" fn ffi_try_call(
+  f : () -> Value raise,
+) -> Result[Value, Value] noraise =
   #|(f) => {
   #|  try {
-  #|    return { isError: false, value: f() };
+  #|    return { $tag: 1, value: f() };
   #|  } catch (e) {
-  #|    return { isError: true, value: e };
+  #|    return { $tag: 0, value: e };
   #|  }
   #|}
 
@@ -38,12 +40,10 @@ pub fn[T] JsFunction::call_with_try(
   args : Array[Value],
 ) -> T raise JsError {
   let v = ffi_try_call(() => self.call(args))
-  let is_error : Bool = v.get("isError").cast()
-  let result = v.get("value")
-  if is_error {
-    raise result |> identity |> JsError
+  match v {
+    Err(e) => raise JsError(e)
+    Ok(v) => v.cast()
   }
-  return result.cast()
 }
 
 ///|

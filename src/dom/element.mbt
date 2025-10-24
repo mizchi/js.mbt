@@ -11,12 +11,34 @@ pub extern "js" fn get_inner_html(self : Element) -> String =
   #| (el) => el.innerHTML
 
 ///|
-pub extern "js" fn get_text_content(self : Element) -> String =
-  #| (el) => el.textContent
+pub extern "js" fn set_text_content(self : Element, text : String) -> Unit =
+  #| (el, text) => el.textContent = text
 
 ///|
 pub extern "js" fn set_inner_html(self : Element, html : String) -> Unit =
   #| (el, html) => el.innerHTML = html
+
+///|
+pub extern "js" fn get_text_content(self : Element) -> String =
+  #| (el) => el.textContent
+
+///|
+pub extern "js" fn Element::set_attribute(
+  self : Element,
+  name : String,
+  value : String,
+) -> Unit =
+  #| (el, name, value) => el.setAttribute(name, value)
+
+///|
+pub extern "js" fn Element::get_attribute(
+  self : Element,
+  name : String,
+) -> Value =
+  #| (el, name) => {
+  #|  const value = el.getAttribute(name);
+  #|  return value === null ? null : value;
+  #|}
 
 ///|
 pub extern "js" fn get_value(self : Element) -> String =

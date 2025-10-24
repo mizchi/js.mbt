@@ -1,10 +1,10 @@
 {
   "name": "mizchi/jslib",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "deps": {},
   "readme": "README.md",
   "repository": "https://github.com/mizchi/moonbit-js",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "keywords": [],
   "description": "Misc utility library for MoonBit",
   "source": "src",
