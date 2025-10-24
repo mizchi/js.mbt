@@ -14,8 +14,6 @@ fn[T] console_warn(T) -> Unit
 
 async fn fetch(String, method_~ : String, headers? : Map[String, String]) -> Promise[Response]
 
-fn ffi_import_module(String) -> Promise[Value]
-
 fn global_this() -> Value
 
 fn[A, B] identity(A) -> B
@@ -141,7 +139,9 @@ fn Value::delete(Self, String) -> Unit
 fn Value::from_array(Array[&ToJsValue]) -> Self
 fn Value::from_js_array(Array[Self]) -> Self
 fn Value::from_map(Map[String, &ToJsValue]) -> Self
+#alias("_[_]")
 fn Value::get(Self, String) -> Self
+fn Value::get_inner(Self, String) -> Self
 fn Value::instance_of(Self, Self) -> Bool
 fn Value::is_array(Self) -> Bool
 fn Value::is_boolean(Self) -> Bool
@@ -161,6 +161,7 @@ fn Value::new_array() -> Self
 fn Value::new_object() -> Self
 fn Value::output(Self, &Logger) -> Unit // from trait `Show`
 fn Value::push(Self, &ToJsValue) -> Unit
+#alias("_[_]=_")
 fn Value::set(Self, String, &ToJsValue) -> Unit
 fn Value::stringify(Self, indent? : Int) -> String
 fn Value::to_js(Self) -> Self // from trait `ToJsValue`

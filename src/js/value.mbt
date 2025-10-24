@@ -28,7 +28,13 @@ pub impl Show for Value with output(self, logger) {
 }
 
 ///|
-pub extern "js" fn Value::get(self : Value, key : String) -> Value =
+#alias("_[_]")
+pub fn Value::get(self : Value, key : String) -> Value {
+  self.get_inner(key)
+}
+
+///|
+pub extern "js" fn Value::get_inner(self : Value, key : String) -> Value =
   #| (obj, k) => obj[k]
 
 ///|
@@ -53,6 +59,7 @@ pub extern "js" fn Value::call(self : Value, args : Array[Value]) -> Value =
   #|(f, args) => f(...args)
 
 ///|
+#alias("_[_]=_")
 pub fn Value::set(self : Value, key : String, value : &ToJsValue) -> Unit {
   self.set_internal(key, value.to_js())
 }

@@ -1,5 +1,5 @@
 ///|
-pub extern "js" fn ffi_import_module(module_name : String) -> Promise[Value] = "(moduleName) => import(moduleName)"
+extern "js" fn ffi_import_module(module_name : String) -> Promise[Value] = "(moduleName) => import(moduleName)"
 
 ///|
 pub async fn import_module(module_name : String, specifier? : String) -> Value {
