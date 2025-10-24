@@ -1,9 +1,9 @@
-# @mizchi/jslib
+# @mizchi/js
 
-Moonbit jslib (for my self yet)
+Moonbit js (for my self yet)
 
-- mizchi/jslib/js
-- mizchi/jslib/dom
+- mizchi/js/js
+- mizchi/js/dom
 
 ## Prior Art
 
