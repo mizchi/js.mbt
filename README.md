@@ -4,6 +4,7 @@ Moonbit js (for my self yet)
 
 - mizchi/js/js
 - mizchi/js/dom
+- mizchi/js/react
 
 ## Prior Art
 
