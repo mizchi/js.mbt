@@ -7,6 +7,7 @@
     "@std/assert": "jsr:@std/assert@1",
     "jest-environment-jsdom": "npm:jest-environment-jsdom@^30.2.0",
     "jsdom": "npm:jsdom@^27.0.1",
+    "preact": "npm:preact@^10.27.2",
     "react": "npm:react@^19.2.0",
     "react-dom": "npm:react-dom@^19.2.0"
   }

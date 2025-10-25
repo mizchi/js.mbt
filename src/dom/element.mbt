@@ -97,6 +97,14 @@ pub extern "js" fn document() -> Element =
 pub fn Element::to_js_value(self : Element) -> Value = "%identity"
 
 ///|
+pub extern "js" fn Element::focus_internal(self : Element) -> Unit = "(self) => self.focus()"
+
+///|
+pub fn Element::focus(self : Element) -> Unit {
+  self.focus_internal()
+}
+
+///|
 extern "js" fn Element::ffi_add_event_listener(
   self : Element,
   event : String,

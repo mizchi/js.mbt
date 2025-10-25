@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/examples"
+
+// Values
+
+// Errors
+
+// Types and methods
+type FooProps
+fn FooProps::to_json(Self) -> Json // from trait `ToJson`
+impl ToJson for FooProps
+
+type ItemProps
+fn ItemProps::to_json(Self) -> Json // from trait `ToJson`
+impl ToJson for ItemProps
+
+// Type aliases
+
+// Traits
+

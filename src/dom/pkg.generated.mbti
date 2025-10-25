@@ -33,6 +33,8 @@ fn ChangeEvent::target(Self) -> Element
 pub type Element
 fn Element::add_event_listener(Self, String, (Event) -> Unit) -> Unit
 fn Element::append_child(Self, Self) -> Self
+fn Element::focus(Self) -> Unit
+fn Element::focus_internal(Self) -> Unit
 fn Element::get_attribute(Self, String) -> @js.Value
 fn Element::get_inner_html(Self) -> String
 fn Element::get_tag_name(Self) -> String

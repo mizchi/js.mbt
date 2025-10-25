@@ -59,6 +59,11 @@ pub extern "js" fn Value::call(self : Value, args : Array[Value]) -> Value =
   #|(f, args) => f(...args)
 
 ///|
+// #alias("_[_]=_")
+// pub fn Value::set(self : Value, key : String, value : &ToJsValue) -> Unit {
+//   self.set_internal(key, value.to_js())
+// }
+
 #alias("_[_]=_")
 pub fn Value::set(self : Value, key : String, value : &ToJsValue) -> Unit {
   self.set_internal(key, value.to_js())

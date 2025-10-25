@@ -1,0 +1,58 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/react"
+
+import(
+  "mizchi/js/dom"
+  "mizchi/js/js"
+)
+
+// Values
+fn button(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, key? : String, style? : Map[String, String], on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit) -> VirtualElement
+
+fn[T] c(Component[T], T, children? : Array[&@js.ToJsValue], key? : String) -> VirtualElement
+
+fn[T] component((T) -> VirtualElement) -> Component[T]
+
+fn create_component_raw((@js.Value) -> VirtualElement) -> @js.Value
+
+fn div(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, key? : String, style? : Map[String, String], on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit) -> VirtualElement
+
+fn form(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, key? : String, style? : Map[String, String], on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit, on_submit? : (@dom.Event) -> Unit) -> VirtualElement
+
+fn h(String, Map[String, @js.Value], Array[&@js.ToJsValue], ref_? : ReactRef[&@js.ToJsValue], key? : String) -> VirtualElement
+
+fn node(String, Array[&@js.ToJsValue], attributes~ : Map[String, @js.Value], id~ : String?, class~ : String?, key~ : String?, style~ : Map[String, String]?, on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit) -> VirtualElement
+
+fn render(VirtualElement, @dom.Element) -> Unit
+
+fn span(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, key? : String, style? : Map[String, String], on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit) -> VirtualElement
+
+fn[F] use_callback(F, Array[&@js.ToJsValue]) -> F
+
+fn use_effect(() -> () -> Unit, Array[@js.Value]) -> Unit
+
+fn[T] use_memo(() -> T, Array[@js.Value]) -> T
+
+fn[T] use_ref(T?) -> ReactRef[T]
+
+fn[T : @js.ToJsValue] use_state(T) -> (T, (T) -> Unit)
+
+// Errors
+
+// Types and methods
+pub type Component[T]
+
+#external
+pub type ReactRef[T]
+fn[T] ReactRef::current(Self[T]) -> T?
+
+#external
+pub type VirtualElement
+fn VirtualElement::from_js_value(@js.Value) -> Self
+fn VirtualElement::to_js(Self) -> @js.Value // from trait `@js.ToJsValue`
+impl @js.ToJsValue for VirtualElement
+
+// Type aliases
+
+// Traits
+

@@ -2,3 +2,5 @@ node_modules
 .mooncakes
 dist
 target
+.vite
+dist
