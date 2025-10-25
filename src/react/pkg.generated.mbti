@@ -19,7 +19,7 @@ fn fragment(Array[&@js.ToJsValue], key? : String) -> VirtualElement
 
 fn h(String, Map[String, @js.Value], Array[&@js.ToJsValue], ref_? : ReactRef[&@js.ToJsValue], key? : String) -> VirtualElement
 
-fn h2(String, Map[String, &@js.ToJsValue], Array[&@js.ToJsValue], ref_? : ReactRef[&@js.ToJsValue], key? : String) -> VirtualElement
+fn props(id? : String, class? : String, style? : Map[String, String], on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Map[String, @js.Value]
 
 fn[T] provider(Context[T], T, Array[&@js.ToJsValue], key? : String) -> VirtualElement
 
@@ -73,3 +73,4 @@ impl @js.ToJsValue for VirtualElement
 // Type aliases
 
 // Traits
+
