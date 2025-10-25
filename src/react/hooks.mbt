@@ -1,7 +1,7 @@
 ///|
 extern "js" fn use_state_internal(initial : @js.Value) -> @js.Value =
   #| (initial) => {
-  #|   return ReactLib.useState(initial);
+  #|   return __ReactApi.useState(initial);
   #| }
 
 ///|
@@ -10,13 +10,25 @@ extern "js" fn use_callback_internal(
   keys : Array[@js.Value],
 ) -> @js.Value =
   #| (initial, keys) => {
-  #|   return ReactLib.useCallback(initial, keys);
+  #|   return __ReactApi.useCallback(initial, keys);
   #| }
 
 ///|
 extern "js" fn use_ref_internal(initial : @js.Value) -> @js.Value =
   #| (initial) => {
-  #|   return ReactLib.useRef(initial);
+  #|   return __ReactApi.useRef(initial);
+  #| }
+
+///|
+extern "js" fn use_context_internal(ctx : @js.Value) -> @js.Value =
+  #| (ctx) => {
+  #|   return __ReactApi.useContext(ctx);
+  #| }
+
+///|
+extern "js" fn create_context_internal(initial : @js.Value) -> @js.Value =
+  #| (initial) => {
+  #|   return __ReactApi.createContext(initial);
   #| }
 
 ///|
@@ -25,7 +37,7 @@ extern "js" fn use_effect_internal(
   keys : Array[@js.Value],
 ) -> Unit =
   #| (f, keys) => {
-  #|   return ReactLib.useEffect(f, keys);
+  #|   return __ReactApi.useEffect(f, keys);
   #| }
 
 ///|
@@ -34,7 +46,7 @@ extern "js" fn use_memo_internal(
   keys : Array[@js.Value],
 ) -> @js.Value =
   #| (f, keys) => {
-  #|   return ReactLib.useMemo(f, keys);
+  #|   return __ReactApi.useMemo(f, keys);
   #| }
 
 ///|
@@ -100,4 +112,49 @@ pub fn[T] ReactRef::current(v : ReactRef[T]) -> T? {
 ///|
 pub fn[T] ReactRef::set_current(v : ReactRef[T], o : T) -> Unit {
   set_current_internal(v |> @js.identity, o |> @js.identity)
+}
+
+///|
+#external
+pub type Context[T]
+
+///|
+pub fn[T] create_context(initial : T?) -> Context[T] {
+  let v = create_context_internal(initial |> @js.identity)
+  v.cast()
+}
+
+///|
+pub fn[T] use_context(ctx : Context[T]) -> T {
+  use_context_internal(ctx |> @js.identity).cast()
+}
+
+///|
+extern "js" fn use_internal(v : @js.Value) -> @js.Value =
+  #| (v) => use(v)
+
+///|
+pub fn[T] use_(promise : @js.Promise[T]) -> T {
+  use_internal(promise |> @js.identity).cast()
+}
+
+///|
+extern "js" fn use_reducer_internal(
+  reducer : @js.Value,
+  initial : @js.Value,
+) -> @js.Value =
+  #| (reducer, initial) => {
+  #|   return __ReactApi.useReducer(reducer, initial);
+  #| }
+
+///|
+pub fn[T, U] use_reducer(
+  reducer : (T, U) -> T,
+  initial : T,
+) -> (T, (U) -> Unit) {
+  let val = use_reducer_internal(
+    reducer |> @js.identity,
+    initial |> @js.identity,
+  )
+  (val.at(0).cast(), val.at(1).cast())
 }

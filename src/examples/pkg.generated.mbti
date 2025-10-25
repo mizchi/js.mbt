@@ -6,6 +6,12 @@ package "mizchi/js/examples"
 // Errors
 
 // Types and methods
+type EmptyProps
+fn EmptyProps::equal(Self, Self) -> Bool // from trait `Eq`
+#deprecated
+fn EmptyProps::op_equal(Self, Self) -> Bool // from trait `Eq`
+impl Eq for EmptyProps
+
 type FooProps
 fn FooProps::to_json(Self) -> Json // from trait `ToJson`
 impl ToJson for FooProps
@@ -13,6 +19,10 @@ impl ToJson for FooProps
 type ItemProps
 fn ItemProps::to_json(Self) -> Json // from trait `ToJson`
 impl ToJson for ItemProps
+
+type MyContextProps
+fn MyContextProps::to_json(Self) -> Json // from trait `ToJson`
+impl ToJson for MyContextProps
 
 // Type aliases
 

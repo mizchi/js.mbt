@@ -7,31 +7,37 @@ import(
 )
 
 // Values
-fn button(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, key? : String, style? : Map[String, String], on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit) -> VirtualElement
-
 fn[T] c(Component[T], T, children? : Array[&@js.ToJsValue], key? : String) -> VirtualElement
 
 fn[T] component((T) -> VirtualElement) -> Component[T]
 
 fn create_component_raw((@js.Value) -> VirtualElement) -> @js.Value
 
-fn div(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, key? : String, style? : Map[String, String], on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit) -> VirtualElement
+fn[T] create_context(T?) -> Context[T]
 
-fn form(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, key? : String, style? : Map[String, String], on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit, on_submit? : (@dom.Event) -> Unit) -> VirtualElement
+fn fragment(Array[&@js.ToJsValue], key? : String) -> VirtualElement
 
 fn h(String, Map[String, @js.Value], Array[&@js.ToJsValue], ref_? : ReactRef[&@js.ToJsValue], key? : String) -> VirtualElement
 
-fn node(String, Array[&@js.ToJsValue], attributes~ : Map[String, @js.Value], id~ : String?, class~ : String?, key~ : String?, style~ : Map[String, String]?, on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit) -> VirtualElement
+fn h2(String, Map[String, &@js.ToJsValue], Array[&@js.ToJsValue], ref_? : ReactRef[&@js.ToJsValue], key? : String) -> VirtualElement
+
+fn[T] provider(Context[T], T, Array[&@js.ToJsValue], key? : String) -> VirtualElement
 
 fn render(VirtualElement, @dom.Element) -> Unit
 
-fn span(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, key? : String, style? : Map[String, String], on_click? : (@dom.Event) -> Unit, on_keydown? : (@dom.Event) -> Unit, on_keyup? : (@dom.Event) -> Unit) -> VirtualElement
+fn suspense(Array[&@js.ToJsValue], fallback~ : VirtualElement) -> VirtualElement
+
+fn[T] use_(@js.Promise[T]) -> T
 
 fn[F] use_callback(F, Array[&@js.ToJsValue]) -> F
+
+fn[T] use_context(Context[T]) -> T
 
 fn use_effect(() -> () -> Unit, Array[@js.Value]) -> Unit
 
 fn[T] use_memo(() -> T, Array[@js.Value]) -> T
+
+fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
 
 fn[T] use_ref(T?) -> ReactRef[T]
 
@@ -43,8 +49,20 @@ fn[T : @js.ToJsValue] use_state(T) -> (T, (T) -> Unit)
 pub type Component[T]
 
 #external
+pub type Context[T]
+
+pub struct EmptyProps {
+}
+fn EmptyProps::equal(Self, Self) -> Bool // from trait `Eq`
+fn EmptyProps::new() -> Self
+#deprecated
+fn EmptyProps::op_equal(Self, Self) -> Bool // from trait `Eq`
+impl Eq for EmptyProps
+
+#external
 pub type ReactRef[T]
 fn[T] ReactRef::current(Self[T]) -> T?
+fn[T] ReactRef::set_current(Self[T], T) -> Unit
 
 #external
 pub type VirtualElement
@@ -55,4 +73,3 @@ impl @js.ToJsValue for VirtualElement
 // Type aliases
 
 // Traits
-
