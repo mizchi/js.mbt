@@ -30,7 +30,7 @@ pub impl ToJsValue for Bool with to_js(self) -> Value {
 
 ///|
 pub impl ToJsValue for Map[String, &ToJsValue] with to_js(self) -> Value {
-  let obj = Value::new_object()
+  let obj = new_object()
   for k, v in self {
     obj.set(k, v.to_js())
   }
@@ -39,7 +39,7 @@ pub impl ToJsValue for Map[String, &ToJsValue] with to_js(self) -> Value {
 
 ///|
 pub impl ToJsValue for Array[&ToJsValue] with to_js(self) -> Value {
-  let arr = Value::new_array()
+  let arr = new_array()
   for v in self {
     arr.push(v.to_js())
   }
@@ -49,20 +49,20 @@ pub impl ToJsValue for Array[&ToJsValue] with to_js(self) -> Value {
 ///|
 pub impl ToJsValue for Json with to_js(self) -> Value {
   match self {
-    Json::Null => Value::js_null()
+    Json::Null => js_null()
     Json::String(s) => Value::cast_from(s)
     Json::Number(n, ..) => Value::cast_from(n)
     Json::True => Value::cast_from(true)
     Json::False => Value::cast_from(false)
     Json::Object(o) => {
-      let obj = Value::new_object()
+      let obj = new_object()
       for k, v in o {
         obj.set(k, v)
       }
       obj
     }
     Json::Array(a) => {
-      let arr = Value::new_array()
+      let arr = new_array()
       for v in a {
         arr.push_internal(ToJsValue::to_js(v))
       }

@@ -1,4 +1,9 @@
 {
   "is-main": true,
-  "import": ["mizchi/js/js", "mizchi/js/dom", "mizchi/js/react"]
+  "import": [
+    "mizchi/js/js",
+    "mizchi/js/dom",
+    "mizchi/js/react",
+    "mizchi/js/react/element"
+  ]
 }

@@ -24,7 +24,7 @@ pub async fn fetch(
   method_~ : String,
   headers? : Map[String, String],
 ) -> Promise[Response] {
-  let init_obj = Value::new_object()
+  let init_obj = new_object()
   init_obj.set("method", method_)
   if headers is Some(headers) {
     for k, v in headers {

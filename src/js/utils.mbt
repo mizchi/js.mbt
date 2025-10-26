@@ -63,18 +63,18 @@ extern "js" fn Value::set_internal(
   #| (obj, k, v) => obj[k] = v
 
 ///|
-pub extern "js" fn Value::js_null() -> Value = "() => null"
+pub extern "js" fn js_null() -> Value = "() => null"
 
 ///|
-pub extern "js" fn Value::js_undefined() -> Value = "() => undefined"
+pub extern "js" fn js_undefined() -> Value = "() => undefined"
 
 ///|
-pub extern "js" fn Value::new_object() -> Value =
+pub extern "js" fn new_object() -> Value =
   #| () => ({})
 
 ///|
 pub fn Value::from_map(m : Map[String, &ToJsValue]) -> Value {
-  let obj = Value::new_object()
+  let obj = new_object()
   for k, v in m {
     obj.set(k, v.to_js())
   }
@@ -82,12 +82,12 @@ pub fn Value::from_map(m : Map[String, &ToJsValue]) -> Value {
 }
 
 ///|
-pub extern "js" fn Value::new_array() -> Value =
+pub extern "js" fn new_array() -> Value =
   #| () => []
 
 ///|
 pub fn Value::from_array(a : Array[&ToJsValue]) -> Value {
-  let arr = Value::new_array()
+  let arr = new_array()
   for v in a {
     arr.push(v)
   }
@@ -96,7 +96,7 @@ pub fn Value::from_array(a : Array[&ToJsValue]) -> Value {
 
 ///|
 pub fn Value::from_js_array(a : Array[Value]) -> Value {
-  let arr = Value::new_array()
+  let arr = new_array()
   for v in a {
     arr.push(v)
   }

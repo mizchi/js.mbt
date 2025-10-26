@@ -7,7 +7,7 @@ pub type Value
 pub fn[T] Value::cast(self : Value) -> T = "%identity"
 
 ///|
-pub fn Value::cast_as_nullable(self : Value) -> Value? {
+pub fn Value::cast_option(self : Value) -> Value? {
   if self.is_undefined() || self.is_null() {
     None
   } else {
@@ -59,11 +59,6 @@ pub extern "js" fn Value::call(self : Value, args : Array[Value]) -> Value =
   #|(f, args) => f(...args)
 
 ///|
-// #alias("_[_]=_")
-// pub fn Value::set(self : Value, key : String, value : &ToJsValue) -> Unit {
-//   self.set_internal(key, value.to_js())
-// }
-
 #alias("_[_]=_")
 pub fn Value::set(self : Value, key : String, value : &ToJsValue) -> Unit {
   self.set_internal(key, value.to_js())

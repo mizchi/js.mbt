@@ -1,15 +1,15 @@
 ///|
 test "moonbit to js value" {
-  let obj = @js.Value::new_object()
+  let obj = @js.new_object()
   obj
   ..set("key2", "y")
   ..set("key1", 123.0)
   ..set("key3", true)
-  ..set("key4", @js.Value::js_null())
-  let nested = @js.Value::new_object()
+  ..set("key4", @js.js_null())
+  let nested = @js.new_object()
   nested.set("nkey5", "nested value")
   obj.set("nested", nested)
-  let arr = @js.Value::new_array()
+  let arr = @js.new_array()
   arr..push("item1")..push(2.0)..push(false)
   obj.set("array", arr)
   obj.stringify(indent=2)
@@ -46,12 +46,12 @@ priv struct Params {
 
 ///|
 impl ToJsValue for Params with to_js(self) -> @js.Value {
-  let obj = @js.Value::new_object()
+  let obj = @js.new_object()
   obj.set("x", self.x)
   for k, v in self.events {
     let h = fn() {
       v()
-      @js.Value::js_undefined()
+      @js.js_undefined()
     }
     obj.set(k, @js.Value::cast_from(h))
   }

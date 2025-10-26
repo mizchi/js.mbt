@@ -15,12 +15,8 @@ pub extern "js" fn Event::target(self : Event) -> Element =
   #| (event) => event.target
 
 ///|
-pub struct MouseEvent(Value)
-
-///|
-pub fn MouseEvent::from(value : Value) -> MouseEvent {
-  MouseEvent(value.cast())
-}
+#external
+pub type MouseEvent
 
 ///|
 pub extern "js" fn MouseEvent::client_x(self : MouseEvent) -> Int =
@@ -40,75 +36,97 @@ pub extern "js" fn MouseEvent::screen_y(self : MouseEvent) -> Int =
   #| (event) => event.screenY
 
 ///|
-pub struct KeyboardEvent(Value)
-
-///|
-pub fn KeyboardEvent::from(value : Value) -> KeyboardEvent {
-  KeyboardEvent(value)
-}
+#external
+pub type KeyboardEvent
 
 ///|
 pub fn KeyboardEvent::target(self : KeyboardEvent) -> Element {
-  self.0.get("target").cast()
+  let value : Value = self |> @js.identity
+  value.get("target").cast()
 }
 
 ///|
 pub fn KeyboardEvent::key(self : KeyboardEvent) -> String {
-  self.0.get("key").cast()
+  let value : Value = self |> @js.identity
+  value.get("key").cast()
 }
 
 ///|
 pub fn KeyboardEvent::key_code(self : KeyboardEvent) -> Int {
-  self.0.get("keyCode").cast()
+  let value : Value = self |> @js.identity
+  value.get("keyCode").cast()
 }
 
 ///|
 pub fn KeyboardEvent::which(self : KeyboardEvent) -> Int {
-  self.0.get("which").cast()
+  let value : Value = self |> @js.identity
+  value.get("which").cast()
 }
 
 ///|
 pub fn KeyboardEvent::code(self : KeyboardEvent) -> String {
-  self.0.get("code").cast()
+  let value : Value = self |> @js.identity
+  value.get("code").cast()
 }
 
 ///|
 pub fn KeyboardEvent::ctrl_key(self : KeyboardEvent) -> Bool {
-  self.0.get("ctrlKey").cast()
+  let value : Value = self |> @js.identity
+  value.get("ctrlKey").cast()
 }
 
 ///|
 pub fn KeyboardEvent::alt_key(self : KeyboardEvent) -> Bool {
-  self.0.get("altKey").cast()
+  let value : Value = self |> @js.identity
+  value.get("altKey").cast()
 }
 
 ///|
 pub fn KeyboardEvent::shift_key(self : KeyboardEvent) -> Bool {
-  self.0.get("shiftKey").cast()
+  let value : Value = self |> @js.identity
+  value.get("shiftKey").cast()
 }
 
 ///|
-pub struct ChangeEvent(Value)
-
-///|
-pub fn ChangeEvent::from(value : Value) -> ChangeEvent {
-  ChangeEvent(value)
-}
+#external
+pub type ChangeEvent
 
 ///|
 pub fn ChangeEvent::target(self : ChangeEvent) -> Element {
-  self.0.get("target").cast()
+  let value : Value = self |> @js.identity
+  value.get("target").cast()
 }
 
 ///|
-pub struct FocusEvent(Value)
-
-///|
-pub fn FocusEvent::from(value : Value) -> FocusEvent {
-  FocusEvent(value)
-}
+#external
+pub type FocusEvent
 
 ///|
 pub fn FocusEvent::target(self : FocusEvent) -> Element {
-  self.0.get("target").cast()
+  let value : Value = self |> @js.identity
+  value.get("target").cast()
 }
+
+///|
+#external
+pub type FormEvent
+
+///|
+pub fn FormEvent::target(self : FormEvent) -> Element {
+  let value : Value = self |> @js.identity
+  value.get("target").cast()
+}
+
+///|
+pub fn FormEvent::current_target(self : FormEvent) -> Element {
+  let value : Value = self |> @js.identity
+  value.get("currentTarget").cast()
+}
+
+///|
+pub fn FormEvent::form_data(self : FormEvent) -> Element {
+  let value : Value = self |> @js.identity
+  value.get("formData").cast()
+}
+
+///|
