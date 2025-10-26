@@ -111,7 +111,7 @@ let counter : Component[EmptyProps] = component(_props => {
 })
 
 ///|
-struct FooProps {
+priv struct FooProps {
   x : Int
   items : Array[String]
 }
