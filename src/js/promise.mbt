@@ -23,6 +23,7 @@ extern "js" fn ffi_is_promise(x : Value) -> Bool = "(a) => a instanceof Promise"
 pub suberror InvalidNestedPromise SourceLoc
 
 ///|
+#external
 type Promise[T]
 
 ///|

@@ -50,9 +50,6 @@ struct MyContextProps {
 }
 
 ///|
-let myctx : Context[MyContextProps] = create_context(None)
-
-///|
 struct ItemProps {
   name : String
 }
@@ -63,6 +60,9 @@ let item_view : Component[ItemProps] = component(props => h(
   style={ "padding": "5px", "borderBottom": "1px solid #ccc" },
   [props.name],
 ))
+
+///|
+let myctx : Context[MyContextProps] = create_context(None)
 
 ///|
 let ctx_consumer : Component[EmptyProps] = component(_props => {

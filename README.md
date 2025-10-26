@@ -1,12 +1,10 @@
 # @mizchi/js
 
-Moonbit js (for my self yet)
+Moonbit js libraries (for my self yet)
 
 - mizchi/js/js
 - mizchi/js/dom
 - mizchi/js/react
-
-## react
 
 ```bash
 $ moon add mizchi/js
@@ -22,6 +20,28 @@ $ moon add mizchi/js
   ]
 }
 ```
+
+## mizchi/js/js
+
+```mbt
+let obj = @js.new_object()
+obj["xxx"] = 1
+let v: Int = obj.get("xxx") |> @js.identity
+```
+
+## mizchi/js/dom
+
+```mbt
+let root = @dom.document().query_selector("#root").unwrap()
+root.add_event_listener("click", ev => {
+  ev.prenent_default();
+  @js.log(root)
+});
+```
+
+## mizchi/js/react
+
+We are designing the API to be intuitive for React users, even if it means compromising on some aspects of safety.
 
 ```mbt
 using @react {
