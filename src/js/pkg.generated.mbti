@@ -22,7 +22,15 @@ fn import_meta() -> Value
 
 async fn import_module(String, specifier? : String) -> Value
 
+fn js_null() -> Value
+
+fn js_undefined() -> Value
+
 fn[T] log(T) -> Unit
+
+fn new_array() -> Value
+
+fn new_object() -> Value
 
 fn set_interval(() -> Unit, Int) -> JSTimer
 
@@ -133,8 +141,8 @@ fn Value::as_object(Self) -> JsObject
 fn Value::at(Self, Int) -> Self
 fn Value::call(Self, Array[Self]) -> Self
 fn[T] Value::cast(Self) -> T
-fn Value::cast_as_nullable(Self) -> Self?
 fn[T] Value::cast_from(T) -> Self
+fn Value::cast_option(Self) -> Self?
 fn Value::delete(Self, String) -> Unit
 fn Value::from_array(Array[&ToJsValue]) -> Self
 fn Value::from_js_array(Array[Self]) -> Self
@@ -153,12 +161,8 @@ fn Value::is_number(Self) -> Bool
 fn Value::is_object(Self) -> Bool
 fn Value::is_string(Self) -> Bool
 fn Value::is_undefined(Self) -> Bool
-fn Value::js_null() -> Self
-fn Value::js_undefined() -> Self
 fn Value::keys(Self) -> Array[String]
 fn Value::length(Self) -> Int
-fn Value::new_array() -> Self
-fn Value::new_object() -> Self
 fn Value::output(Self, &Logger) -> Unit // from trait `Show`
 fn Value::push(Self, &ToJsValue) -> Unit
 #alias("_[_]=_")

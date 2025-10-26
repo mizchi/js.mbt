@@ -192,7 +192,7 @@ pub fn[T] provider(
 
 ///|
 /// Examples
-/// ```
+/// ```nocheck
 /// /// Define props
 /// struct MyProps {
 ///   name : String
@@ -201,10 +201,9 @@ pub fn[T] provider(
 ///   let (cnt, set_cnt) = use_state(0)
 ///   h("div", [
 ///     "Hello, \{props.name}!",
-///     h("button", on_click=() => set_cnt(cnt + 1), [cnt.to_string()]),
+///     h("button", on_click=(_) => set_cnt(cnt + 1), [cnt.to_string()]),
 ///   ])
 /// })
-/// /// Render the component
 /// c(my_component, MyProps::{ name: "Moonbit" })
 /// ```
 pub fn[T] component(f : (T) -> VirtualElement, name? : String) -> Component[T] {

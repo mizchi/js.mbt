@@ -9,19 +9,17 @@ import(
 // Values
 fn[T] c(Component[T], T, children? : Array[&@js.ToJsValue], key? : String) -> VirtualElement
 
-fn[T] component((T) -> VirtualElement) -> Component[T]
+fn[T] component((T) -> VirtualElement, name? : String) -> Component[T]
 
-fn create_component_raw((@js.Value) -> VirtualElement) -> @js.Value
+fn create_component_raw((@js.Value) -> VirtualElement, name? : String) -> @js.Value
 
 fn[T] create_context(T?) -> Context[T]
 
 fn fragment(Array[&@js.ToJsValue], key? : String) -> VirtualElement
 
-fn h(String, Map[String, @js.Value], Array[&@js.ToJsValue], ref_? : ReactRef[&@js.ToJsValue], key? : String) -> VirtualElement
+fn h(String, disabled? : Bool, attributes? : Map[String, @js.Value], Array[&@js.ToJsValue], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> VirtualElement
 
-fn props(id? : String, class? : String, style? : Map[String, String], on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Map[String, @js.Value]
-
-fn[T] provider(Context[T], T, Array[&@js.ToJsValue], key? : String) -> VirtualElement
+fn[T] provider(Context[T], Array[&@js.ToJsValue], value~ : T) -> VirtualElement
 
 fn render(VirtualElement, @dom.Element) -> Unit
 
@@ -33,7 +31,7 @@ fn[F] use_callback(F, Array[&@js.ToJsValue]) -> F
 
 fn[T] use_context(Context[T]) -> T
 
-fn use_effect(() -> () -> Unit, Array[@js.Value]) -> Unit
+fn use_effect(() -> () -> Unit, Array[&@js.ToJsValue]) -> Unit
 
 fn[T] use_memo(() -> T, Array[@js.Value]) -> T
 
@@ -46,6 +44,7 @@ fn[T : @js.ToJsValue] use_state(T) -> (T, (T) -> Unit)
 // Errors
 
 // Types and methods
+#external
 pub type Component[T]
 
 #external
@@ -63,6 +62,8 @@ impl Eq for EmptyProps
 pub type ReactRef[T]
 fn[T] ReactRef::current(Self[T]) -> T?
 fn[T] ReactRef::set_current(Self[T], T) -> Unit
+fn[T] ReactRef::to_js(Self[T]) -> @js.Value // from trait `@js.ToJsValue`
+impl[T] @js.ToJsValue for ReactRef[T]
 
 #external
 pub type VirtualElement

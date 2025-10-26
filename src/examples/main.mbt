@@ -47,7 +47,7 @@ struct EmptyProps {} derive(Eq)
 ///|
 struct MyContextProps {
   v : String
-} derive(ToJson)
+}
 
 ///|
 let myctx : Context[MyContextProps] = create_context(None)
@@ -55,7 +55,7 @@ let myctx : Context[MyContextProps] = create_context(None)
 ///|
 struct ItemProps {
   name : String
-} derive(ToJson)
+}
 
 ///|
 let item_view : Component[ItemProps] = component(props => h(
@@ -188,8 +188,6 @@ let app : Component[FooProps] = component(props => {
         ),
         c(ctx_consumer, EmptyProps::{  }),
         c(counter, EmptyProps::{  }),
-        // hr(),
-        // c(counter_async, EmptyProps::{  }),
         hr(),
         form(
           method_="post",

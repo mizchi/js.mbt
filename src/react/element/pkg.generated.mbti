@@ -1,0 +1,115 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/react/element"
+
+import(
+  "mizchi/js/dom"
+  "mizchi/js/js"
+  "mizchi/js/react"
+)
+
+// Values
+fn a(Array[&@js.ToJsValue], href~ : String, download? : String, target? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn article(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn aside(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn blockquote(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn button(Array[&@js.ToJsValue], type_? : String, disabled? : Bool, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn circle(cx~ : Int, cy~ : Int, r~ : Int, stroke? : String, stroke_width? : Int, fill? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit) -> @react.VirtualElement
+
+fn code(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn defs(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn details(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn div(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn ellipse(cx~ : Int, cy~ : Int, rx~ : Int, ry~ : Int, stroke? : String, stroke_width? : Int, fill? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn footer(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn form(Array[&@js.ToJsValue], method_? : String, disabled? : Bool, name? : String, enc_type? : String, action? : (FormData) -> Unit, on_submit? : (@dom.FormEvent) -> Unit, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn g(Array[&@js.ToJsValue], stroke? : String, stroke_width? : Int, fill? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn h1(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn h2(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn h3(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn header(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn hr(attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn iframe(Array[&@js.ToJsValue], src~ : String, width? : Int, height? : Int, frameborder? : String, sandbox? : String, tab_index? : Int, allowfullscreen? : Bool, loading? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn image(x~ : Int, y~ : Int, href~ : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn img(Array[&@js.ToJsValue], src~ : String, srcset? : String, alt? : String, crossorigin? : String, decoding? : String, width? : Int, height? : Int, fetchpriority? : String, loading? : String, sizes? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn input(attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, name? : String, type_? : String, value? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn label(Array[&@js.ToJsValue], String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn li(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn line(x1~ : Int, y1~ : Int, x2~ : Int, y2~ : Int, stroke? : String, stroke_width? : Int, fill? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn main_(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn nav(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn ol(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn option(Array[&@js.ToJsValue], value~ : String, selected? : Bool, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn p(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn path(d~ : String, stroke? : String, stroke_width? : Int, fill? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn polygon(points~ : Array[(Int, Int)], stroke? : String, stroke_width? : Int, fill? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn polyline(points~ : Array[(Int, Int)], stroke? : String, stroke_width? : Int, fill? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn pre(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn rect(x~ : Int, y~ : Int, width~ : Int, height~ : Int, stroke? : String, stroke_width? : Int, fill? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn section(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn select(Array[&@js.ToJsValue], multiple? : Bool, disabled? : Bool, name? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn source(src~ : String, type_? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn span(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn summary(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn svg(Array[&@js.ToJsValue], width~ : Int, height~ : Int, view_box? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn text(Array[&@js.ToJsValue], x~ : Int, y~ : Int, dx? : String, dy? : String, length_adjust? : String, text_length? : String, rotate? : String, stroke? : String, stroke_width? : Int, fill? : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn textarea(Array[&@js.ToJsValue], rows? : Int, columns? : Int, spellcheck? : Bool, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn ul(Array[&@js.ToJsValue], attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn use_(href~ : String, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+fn video(Array[&@js.ToJsValue], controls? : Bool, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> @react.VirtualElement
+
+// Errors
+
+// Types and methods
+#external
+pub type FormData
+fn FormData::get(Self, String) -> @js.Value
+
+// Type aliases
+
+// Traits
+
