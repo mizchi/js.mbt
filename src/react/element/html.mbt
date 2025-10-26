@@ -299,6 +299,7 @@ pub fn textarea(
   spellcheck? : Bool,
   value? : String,
   default_value? : String,
+  placeholder? : String,
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -336,6 +337,9 @@ pub fn textarea(
   if default_value is Some(dv) {
     new_attributes["defaultValue"] = dv |> @js.Value::cast_from
   }
+  if placeholder is Some(p) {
+    new_attributes["placeholder"] = p |> @js.Value::cast_from
+  }
   common_node(
     "textarea",
     new_attributes,
@@ -365,6 +369,7 @@ pub fn input(
   type_? : String,
   value? : String,
   default_value? : String,
+  placeholder? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -393,6 +398,9 @@ pub fn input(
   }
   if type_ is Some(t) {
     new_attributes["type"] = t |> @js.Value::cast_from
+  }
+  if placeholder is Some(p) {
+    new_attributes["placeholder"] = p |> @js.Value::cast_from
   }
   common_node(
     "input",

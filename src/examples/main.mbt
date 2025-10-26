@@ -1,9 +1,4 @@
 ///|
-async fn[T, E : Error] suspend(
-  f : ((T) -> Unit, (E) -> Unit) -> Unit,
-) -> T raise E = "%async.suspend"
-
-///|
 fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
 
 ///|
@@ -72,6 +67,11 @@ let item_view : Component[ItemProps] = component(props => h(
 
 ///|
 let myctx : Ref[Context[MyContextProps]?] = { val: None }
+
+///|
+fn init_myctx() -> Unit {
+  myctx.val = Some(create_context(None))
+}
 
 ///|
 fn use_myctx() -> MyContextProps {
@@ -222,7 +222,7 @@ let app : Component[FooProps] = component(props => {
 ///|
 fn main {
   let dom = @dom.document().query_selector("#app").unwrap()
-  println("Initializing React client...")
+  // lazy init context
   run_async(async fn() noraise {
     let client = init_react_client() catch {
       _err => {
@@ -230,15 +230,11 @@ fn main {
         return ()
       }
     }
-    myctx.val = Some(create_context(None))
+    // lazy init context
+    // TODO: use async init later
+    init_myctx()
     client
     .create_root(dom)
     .render(c(app, { x: 42, items: ["Item 1", "Item 2", "Item 3"] }))
   })
-}
-
-///|
-fn init {
-  run_async(async fn() noraise { println("Running React example...") })
-  println("Starting React example...")
 }

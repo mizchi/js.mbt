@@ -24,7 +24,7 @@ pub suberror InvalidNestedPromise SourceLoc
 
 ///|
 #external
-type Promise[T]
+pub type Promise[T]
 
 ///|
 pub fn[A] Promise::resolve(x : A) -> Self[A] {

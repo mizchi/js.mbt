@@ -60,39 +60,6 @@ extern "js" fn use_reducer_internal(
   #| }
 
 ///|
-extern "js" fn use_action_state_internal(
-  action : @js.Value,
-  initial : @js.Value,
-  permalink? : String,
-) -> @js.Value =
-  #| (action, initial, permalink) => {
-  #|   return __ReactApi.useActionState(action, initial, permalink);
-  #| }
-
-///|
-// async fn[T, E : Error] suspend(
-//   f : ((T) -> Unit, (E) -> Unit) -> Unit,
-// ) -> T raise E = "%async.suspend"
-
-// ///|
-// fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
-
-///|
-/// WIP: Not works yet
-fn[S, A] _use_action_state(
-  action : async (S, A) -> S noraise,
-  initial : S,
-  permalink? : String,
-) -> (S, (A) -> Unit, Bool) {
-  let val = use_action_state_internal(
-    action |> @js.identity,
-    initial |> @js.identity,
-    permalink?,
-  )
-  (val.at(0).cast(), val.at(1).cast(), val.at(2).cast())
-}
-
-///|
 pub fn[T : @js.ToJsValue] use_state(initial : T) -> (T, (T) -> Unit) {
   let result = use_state_internal(initial.to_js())
   let value : T = result.at(0).cast()

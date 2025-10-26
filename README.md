@@ -2,10 +2,6 @@
 
 Moonbit js libraries (for my self yet)
 
-- mizchi/js/js
-- mizchi/js/dom
-- mizchi/js/react
-
 ```bash
 $ moon add mizchi/js
 ```
@@ -79,27 +75,26 @@ let counter: Component[CounterProps] = component(props => {
 })
 
 fn main {
-  let root = @dom.document().query_selector("#app").unwrap()
-  @react.render(c(counter, CounterProps::{ initial: 42 }), root)
+  run_async(async fn() noraise {
+    let client = init_react_client() catch {
+      _err => {
+        log("Failed to initialize React.")
+        return ()
+      }
+    }
+    let root = @dom.document().query_selector("#app").unwrap()
+
+    client
+    .create_root(root)
+    .render(c(counter, CounterProps::{ initial: 42 }))
+  })
 }
 ```
 
-js entrypoint
+entrypoint
 
-```js
-import React from "react";
-import * as ReactApi from "react";
-import { createRoot } from "react-dom/client";
-
-globalThis.__ReactApi = {
-  ...ReactApi,
-  render(element, container) {
-    const root = createRoot(container);
-    root.render(element);
-  },
-};
-
-await import("./target/js/release/build/examples/examples.js");
+```html
+<script type="module" src="./target/js/release/build/main/main.js"></script>
 ```
 
 ## Prior Art
