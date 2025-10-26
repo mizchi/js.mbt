@@ -14,15 +14,9 @@ fn EmptyProps::equal(Self, Self) -> Bool // from trait `Eq`
 fn EmptyProps::op_equal(Self, Self) -> Bool // from trait `Eq`
 impl Eq for EmptyProps
 
-type FooProps
-
 type ItemProps
-fn ItemProps::to_json(Self) -> Json // from trait `ToJson`
-impl ToJson for ItemProps
 
 type MyContextProps
-fn MyContextProps::to_json(Self) -> Json // from trait `ToJson`
-impl ToJson for MyContextProps
 
 // Type aliases
 

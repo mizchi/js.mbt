@@ -62,7 +62,7 @@ impl Eq for EmptyProps
 
 #external
 pub type ReactDOMClient
-fn ReactDOMClient::create_root(@dom.Element) -> ReactDOMRoot
+fn ReactDOMClient::create_root(Self, @dom.Element) -> ReactDOMRoot
 
 #external
 pub type ReactDOMRoot
