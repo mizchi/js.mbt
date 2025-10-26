@@ -297,6 +297,8 @@ pub fn textarea(
   rows? : Int,
   columns? : Int,
   spellcheck? : Bool,
+  value? : String,
+  default_value? : String,
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -328,6 +330,12 @@ pub fn textarea(
   if spellcheck is Some(s) {
     new_attributes["spellCheck"] = s |> @js.Value::cast_from
   }
+  if value is Some(v) {
+    new_attributes["value"] = v |> @js.Value::cast_from
+  }
+  if default_value is Some(dv) {
+    new_attributes["defaultValue"] = dv |> @js.Value::cast_from
+  }
   common_node(
     "textarea",
     new_attributes,
@@ -356,6 +364,7 @@ pub fn input(
   name? : String,
   type_? : String,
   value? : String,
+  default_value? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -378,6 +387,9 @@ pub fn input(
   }
   if value is Some(v) {
     new_attributes["value"] = v |> @js.Value::cast_from
+  }
+  if default_value is Some(dv) {
+    new_attributes["defaultValue"] = dv |> @js.Value::cast_from
   }
   if type_ is Some(t) {
     new_attributes["type"] = t |> @js.Value::cast_from

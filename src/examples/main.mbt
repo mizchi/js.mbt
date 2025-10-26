@@ -1,4 +1,12 @@
 ///|
+async fn[T, E : Error] suspend(
+  f : ((T) -> Unit, (E) -> Unit) -> Unit,
+) -> T raise E = "%async.suspend"
+
+///|
+fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
+
+///|
 using @react {
   type Component,
   type Context,
@@ -12,7 +20,8 @@ using @react {
   use_callback,
   use_context,
   use_reducer,
-  create_context
+  create_context,
+  init_react_client
 }
 
 ///|
@@ -62,11 +71,17 @@ let item_view : Component[ItemProps] = component(props => h(
 ))
 
 ///|
-let myctx : Context[MyContextProps] = create_context(None)
+let myctx : Ref[Context[MyContextProps]?] = { val: None }
+
+///|
+fn use_myctx() -> MyContextProps {
+  guard myctx.val is Some(ctx)
+  use_context(ctx)
+}
 
 ///|
 let ctx_consumer : Component[EmptyProps] = component(_props => {
-  let ctx_value : MyContextProps = use_context(myctx)
+  let ctx_value = use_myctx()
   h("div", attributes={ "className": "context-value" |> js }, [
     "Context value: \{ctx_value.v}",
   ])
@@ -78,32 +93,10 @@ enum CounterAction {
 }
 
 ///|
-/// WIP: async action state
-// let counter_async : Component[EmptyProps] = component(_ => {
-//   let f = async fn(state : Int, action : CounterAction) -> Int noraise {
-//     if action is CounterAction::Increment {
-//       state + 1
-//     } else {
-//       state
-//     }
-//   }
-//   @js.log(f)
-//   let (count, set_count, is_pending) = use_action_state(f, 0)
-//   h(
-//     "button",
-//     attributes={ "onClick": js(() => set_count(CounterAction::Increment)) },
-//     [if is_pending { "Updating..." } else { "Async Count: \{count}" }],
-//   )
-// })
-
-///|
 let counter : Component[EmptyProps] = component(_props => {
   let (count, dispatch) = use_reducer(
-    (state : Int, _action : CounterAction) => if _action
-      is CounterAction::Increment {
-      state + 1
-    } else {
-      state
+    (state : Int, action : CounterAction) => match action {
+      CounterAction::Increment => state + 1
     },
     0,
   )
@@ -136,7 +129,6 @@ let app : Component[FooProps] = component(props => {
   )
   use_effect(
     () => {
-      // log("Textarea rows: \{textarea.get_attribute("rows" |> identity) |> identity}")
       log("Component mounted with x = \{props.x}")
       () => log("Component unmounted")
     },
@@ -144,9 +136,13 @@ let app : Component[FooProps] = component(props => {
   )
   use_effect(
     () => {
-      if textarea_ref.current() is Some(textarea) {
-        textarea.focus()
-      }
+      run_async(async fn() noraise {
+        @js.sleep(300)
+        if textarea_ref.current() is Some(textarea) {
+          textarea.focus()
+        }
+        log("Starting async operation...")
+      })
       () => log("Component unmounted")
     },
     [],
@@ -161,6 +157,7 @@ let app : Component[FooProps] = component(props => {
     },
     [input_text],
   )
+  guard myctx.val is Some(myctx)
   provider(myctx, value={ v: "xxx" }, [
     h1(["Hello, Moonbit React!"]),
     div(
@@ -225,6 +222,23 @@ let app : Component[FooProps] = component(props => {
 ///|
 fn main {
   let dom = @dom.document().query_selector("#app").unwrap()
-  let items = ["Item 1", "Item 2", "Item 3"]
-  @react.render(c(app, { x: 42, items }), dom)
+  println("Initializing React client...")
+  run_async(async fn() noraise {
+    let client = init_react_client() catch {
+      _err => {
+        log("Failed to initialize React.")
+        return ()
+      }
+    }
+    myctx.val = Some(create_context(None))
+    client
+    .create_root(dom)
+    .render(c(app, { x: 42, items: ["Item 1", "Item 2", "Item 3"] }))
+  })
+}
+
+///|
+fn init {
+  run_async(async fn() noraise { println("Running React example...") })
+  println("Starting React example...")
 }

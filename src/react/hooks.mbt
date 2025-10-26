@@ -21,13 +21,14 @@ extern "js" fn use_ref_internal(initial : @js.Value) -> @js.Value =
 
 ///|
 extern "js" fn use_context_internal(ctx : @js.Value) -> @js.Value =
-  #| (ctx) => {
-  #|   return __ReactApi.useContext(ctx);
-  #| }
+  #| (ctx) => globalThis.__ReactApi.useContext(ctx)
 
 ///|
 extern "js" fn create_context_internal(initial : @js.Value) -> @js.Value =
   #| (initial) => {
+  #|   if (globalThis.__ReactApi === undefined) {
+  #|     throw new Error("React.createContext is not available");
+  #|   }
   #|   return __ReactApi.createContext(initial);
   #| }
 

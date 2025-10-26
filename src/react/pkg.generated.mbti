@@ -19,6 +19,8 @@ fn fragment(Array[&@js.ToJsValue], key? : String) -> VirtualElement
 
 fn h(String, disabled? : Bool, attributes? : Map[String, @js.Value], Array[&@js.ToJsValue], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> VirtualElement
 
+async fn init_react_client() -> ReactDOMClient
+
 fn[T] provider(Context[T], Array[&@js.ToJsValue], value~ : T) -> VirtualElement
 
 fn render(VirtualElement, @dom.Element) -> Unit
@@ -57,6 +59,14 @@ fn EmptyProps::new() -> Self
 #deprecated
 fn EmptyProps::op_equal(Self, Self) -> Bool // from trait `Eq`
 impl Eq for EmptyProps
+
+#external
+pub type ReactDOMClient
+fn ReactDOMClient::create_root(@dom.Element) -> ReactDOMRoot
+
+#external
+pub type ReactDOMRoot
+fn ReactDOMRoot::render(Self, VirtualElement) -> Unit
 
 #external
 pub type ReactRef[T]
