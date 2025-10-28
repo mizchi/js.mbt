@@ -1,35 +1,35 @@
 ///|
-pub(open) trait ToJsValue {
+pub(open) trait ToJs {
   to_js(Self) -> Value
 }
 
 ///|
-pub impl ToJsValue for Value with to_js(self) -> Value {
+pub impl ToJs for Value with to_js(self) -> Value {
   self
 }
 
 ///|
-pub impl ToJsValue for String with to_js(self) -> Value {
+pub impl ToJs for String with to_js(self) -> Value {
   Value::cast_from(self)
 }
 
 ///|
-pub impl ToJsValue for Double with to_js(self) -> Value {
+pub impl ToJs for Double with to_js(self) -> Value {
   Value::cast_from(self)
 }
 
 ///|
-pub impl ToJsValue for Int with to_js(self) -> Value {
+pub impl ToJs for Int with to_js(self) -> Value {
   Value::cast_from(self.to_double())
 }
 
 ///|
-pub impl ToJsValue for Bool with to_js(self) -> Value {
+pub impl ToJs for Bool with to_js(self) -> Value {
   Value::cast_from(self)
 }
 
 ///|
-pub impl ToJsValue for Map[String, &ToJsValue] with to_js(self) -> Value {
+pub impl ToJs for Map[String, &ToJs] with to_js(self) -> Value {
   let obj = new_object()
   for k, v in self {
     obj.set(k, v.to_js())
@@ -38,7 +38,7 @@ pub impl ToJsValue for Map[String, &ToJsValue] with to_js(self) -> Value {
 }
 
 ///|
-pub impl ToJsValue for Array[&ToJsValue] with to_js(self) -> Value {
+pub impl ToJs for Array[&ToJs] with to_js(self) -> Value {
   let arr = new_array()
   for v in self {
     arr.push(v.to_js())
@@ -47,7 +47,7 @@ pub impl ToJsValue for Array[&ToJsValue] with to_js(self) -> Value {
 }
 
 ///|
-pub impl ToJsValue for Json with to_js(self) -> Value {
+pub impl ToJs for Json with to_js(self) -> Value {
   match self {
     Json::Null => js_null()
     Json::String(s) => Value::cast_from(s)
@@ -64,7 +64,7 @@ pub impl ToJsValue for Json with to_js(self) -> Value {
     Json::Array(a) => {
       let arr = new_array()
       for v in a {
-        arr.push_internal(ToJsValue::to_js(v))
+        arr.push_internal(ToJs::to_js(v))
       }
       arr
     }

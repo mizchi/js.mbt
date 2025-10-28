@@ -50,7 +50,7 @@ extern "js" fn Value::push_internal(self : Value, value : Value) -> Unit =
   #| (xs, v) => xs.push(v)
 
 ///|
-pub fn Value::push(self : Value, value : &ToJsValue) -> Unit {
+pub fn Value::push(self : Value, value : &ToJs) -> Unit {
   self.push_internal(value.to_js())
 }
 
@@ -60,7 +60,7 @@ pub extern "js" fn Value::call(self : Value, args : Array[Value]) -> Value =
 
 ///|
 #alias("_[_]=_")
-pub fn Value::set(self : Value, key : String, value : &ToJsValue) -> Unit {
+pub fn Value::set(self : Value, key : String, value : &ToJs) -> Unit {
   self.set_internal(key, value.to_js())
 }
 
@@ -89,3 +89,31 @@ pub extern "js" fn Value::is_equal(self : Value, other : Value) -> Bool =
 pub fn[A, B] identity(a : A) -> B {
   Value::cast_from(a).cast()
 }
+
+///|
+extern "js" fn ffi_try_call(
+  f : () -> Value raise,
+) -> Result[Value, Value] noraise =
+  #|(f) => {
+  #|  try {
+  #|    return { $tag: 1, value: f() };
+  #|  } catch (e) {
+  #|    return { $tag: 0, value: e };
+  #|  }
+  #|}
+
+///|
+pub fn[T] Value::call_with_try(
+  self : Self,
+  args : Array[Value],
+) -> T raise JsError {
+  match ffi_try_call(() => self.call(args)) {
+    Err(e) => raise JsError(e)
+    Ok(v) => v.cast()
+  }
+}
+
+///|
+pub suberror JsError Value
+
+

@@ -60,7 +60,7 @@ extern "js" fn use_reducer_internal(
   #| }
 
 ///|
-pub fn[T : @js.ToJsValue] use_state(initial : T) -> (T, (T) -> Unit) {
+pub fn[T : @js.ToJs] use_state(initial : T) -> (T, (T) -> Unit) {
   let result = use_state_internal(initial.to_js())
   let value : T = result.at(0).cast()
   let update_fn : (T) -> Unit = result.at(1).cast()
@@ -68,13 +68,13 @@ pub fn[T : @js.ToJsValue] use_state(initial : T) -> (T, (T) -> Unit) {
 }
 
 ///|
-pub fn[F] use_callback(f : F, keys : Array[&@js.ToJsValue]) -> F {
+pub fn[F] use_callback(f : F, keys : Array[&@js.ToJs]) -> F {
   let keys = keys.map(k => k.to_js())
   use_callback_internal(f |> @js.identity, keys).cast()
 }
 
 ///|
-pub fn use_effect(f : () -> () -> Unit, keys : Array[&@js.ToJsValue]) -> Unit {
+pub fn use_effect(f : () -> () -> Unit, keys : Array[&@js.ToJs]) -> Unit {
   let keys = keys.map(k => k |> @js.identity)
   use_effect_internal(f, keys)
 }
@@ -103,7 +103,7 @@ pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
 pub type ReactRef[T]
 
 ///|
-pub impl[T] @js.ToJsValue for ReactRef[T] with to_js(self) -> @js.Value {
+pub impl[T] @js.ToJs for ReactRef[T] with to_js(self) -> @js.Value {
   self |> @js.identity
 }
 

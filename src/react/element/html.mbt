@@ -5,7 +5,7 @@ using @react {type VirtualElement, type ReactRef, h}
 fn common_node(
   tag_name : String,
   attributes : Map[String, @js.Value],
-  children~ : Array[&@js.ToJsValue],
+  children~ : Array[&@js.ToJs],
   id~ : String?,
   class~ : String?,
   className~ : String?,
@@ -69,7 +69,7 @@ fn common_node(
 ///|
 pub fn div(
   // common props
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -107,7 +107,7 @@ pub fn div(
 ///|
 pub fn pre(
   // common props
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -145,7 +145,7 @@ pub fn pre(
 ///|
 pub fn blockquote(
   // common props
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -182,7 +182,7 @@ pub fn blockquote(
 
 ///|
 pub fn span(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -219,7 +219,7 @@ pub fn span(
 
 ///|
 pub fn nav(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -256,7 +256,7 @@ pub fn nav(
 
 ///|
 pub fn p(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -293,7 +293,7 @@ pub fn p(
 
 ///|
 pub fn textarea(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   rows? : Int,
   columns? : Int,
   spellcheck? : Bool,
@@ -422,7 +422,7 @@ pub fn input(
 
 ///|
 pub fn main_(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -459,7 +459,7 @@ pub fn main_(
 
 ///|
 pub fn header(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -497,7 +497,7 @@ pub fn header(
 
 ///|
 pub fn footer(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -535,7 +535,7 @@ pub fn footer(
 
 ///|
 pub fn ul(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -573,7 +573,7 @@ pub fn ul(
 
 ///|
 pub fn ol(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -611,7 +611,7 @@ pub fn ol(
 
 ///|
 pub fn article(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -648,7 +648,7 @@ pub fn article(
 
 ///|
 pub fn aside(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -685,7 +685,7 @@ pub fn aside(
 
 ///|
 pub fn section(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -730,7 +730,7 @@ pub extern "js" fn FormData::get(self : FormData, key : String) -> @js.Value =
 
 ///|
 pub fn form(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
 
   // xxx
   method_? : String,
@@ -802,7 +802,7 @@ pub fn form(
 
 ///|
 pub fn select(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
 
   // xxx
   multiple? : Bool,
@@ -859,7 +859,7 @@ pub fn select(
 
 ///|
 pub fn option(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   value~ : String,
   selected? : Bool,
   // shared
@@ -909,7 +909,7 @@ pub fn option(
 
 ///|
 pub fn label(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   htmlFor : String,
   // shared
   attributes? : Map[String, @js.Value],
@@ -955,7 +955,7 @@ pub fn label(
 
 ///|
 pub fn li(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -993,7 +993,7 @@ pub fn li(
 
 ///|
 pub fn code(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -1031,7 +1031,7 @@ pub fn code(
 
 ///|
 pub fn details(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -1069,7 +1069,7 @@ pub fn details(
 
 ///|
 pub fn summary(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -1107,7 +1107,7 @@ pub fn summary(
 
 ///|
 pub fn a(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
 
   // a specific
   href~ : String,
@@ -1164,7 +1164,7 @@ pub fn a(
 
 ///|
 pub fn iframe(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
 
   // a specific
   src~ : String,
@@ -1235,7 +1235,7 @@ pub fn iframe(
 
 ///|
 pub fn img(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
 
   // a specific
   src~ : String,
@@ -1320,7 +1320,7 @@ pub fn img(
 
 ///|
 pub fn video(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
 
   // a specific
   controls? : Bool,
@@ -1459,7 +1459,7 @@ pub fn hr(
 
 ///|
 pub fn h1(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -1497,7 +1497,7 @@ pub fn h1(
 
 ///|
 pub fn h2(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -1535,7 +1535,7 @@ pub fn h2(
 
 ///|
 pub fn h3(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -1573,7 +1573,7 @@ pub fn h3(
 
 ///|
 pub fn button(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   type_? : String,
   disabled? : Bool,
   attributes? : Map[String, @js.Value],

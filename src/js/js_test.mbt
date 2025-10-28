@@ -45,7 +45,7 @@ priv struct Params {
 }
 
 ///|
-impl ToJsValue for Params with to_js(self) -> @js.Value {
+impl ToJs for Params with to_js(self) -> @js.Value {
   let obj = @js.new_object()
   obj.set("x", self.x)
   for k, v in self.events {
@@ -94,4 +94,32 @@ test "Value::from_map" {
       #|}
     ),
   )
+}
+
+///|
+extern "js" fn test_no_error_fn() -> Value = "() => () => 1"
+
+///|
+extern "js" fn test_error_thrower_fn() -> Value = "() => () => { throw new TypeError('This is a test TypeError'); }"
+
+///|
+test {
+  let test_fn = test_no_error_fn()
+  let args : Array[Value] = []
+  let r : Result[Int, JsError] = try? test_fn.call_with_try(args)
+  match r {
+    Ok(v) => log("Function call succeeded with value: \{v}")
+    _ => fail("Function call was expected to succeed")
+  }
+}
+
+///|
+test {
+  let test_fn = test_error_thrower_fn()
+  let args : Array[Value] = []
+  let r : Result[Int, JsError] = try? test_fn.call_with_try(args)
+  match r {
+    Err(_e) => assert_true(true)
+    _ => fail("Function call was expected to fail")
+  }
 }

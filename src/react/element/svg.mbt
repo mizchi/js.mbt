@@ -1,7 +1,7 @@
 ///|
 pub fn svg(
   // common props
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   width~ : Int,
   height~ : Int,
   view_box? : String,
@@ -478,7 +478,7 @@ pub fn polyline(
 
 ///|
 pub fn g(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // common props
   stroke? : String,
   stroke_width? : Int,
@@ -530,7 +530,7 @@ pub fn g(
 
 ///|
 pub fn defs(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -568,7 +568,7 @@ pub fn defs(
 
 ///|
 pub fn text(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   // common props
   x~ : Int,
   y~ : Int,

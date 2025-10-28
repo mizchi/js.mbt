@@ -42,7 +42,7 @@ test {
         "help": { "type": "boolean", "short": "h", "description": "Show help" },
       },
     }
-    let rawjs = ToJsValue::to_js(json)
+    let rawjs = ToJs::to_js(json)
     // log(rawjs)
     let parse_args : (Value) -> Value = import_module(
         "node:util",

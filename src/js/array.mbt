@@ -22,11 +22,11 @@ pub fn JsArray::at(self : JsArray, idx : Int) -> Value {
 }
 
 ///|
-pub fn JsArray::push(self : JsArray, value : &ToJsValue) -> Unit {
+pub fn JsArray::push(self : JsArray, value : &ToJs) -> Unit {
   self.to_value().push(value)
 }
 
 ///|
-pub fn JsArray::set(self : JsArray, idx : Int, value : &ToJsValue) -> Unit {
+pub fn JsArray::set(self : JsArray, idx : Int, value : &ToJs) -> Unit {
   self.to_value().set(idx.to_string(), value)
 }

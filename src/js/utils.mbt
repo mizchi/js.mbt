@@ -73,7 +73,7 @@ pub extern "js" fn new_object() -> Value =
   #| () => ({})
 
 ///|
-pub fn Value::from_map(m : Map[String, &ToJsValue]) -> Value {
+pub fn Value::from_map(m : Map[String, &ToJs]) -> Value {
   let obj = new_object()
   for k, v in m {
     obj.set(k, v.to_js())
@@ -86,7 +86,7 @@ pub extern "js" fn new_array() -> Value =
   #| () => []
 
 ///|
-pub fn Value::from_array(a : Array[&ToJsValue]) -> Value {
+pub fn Value::from_array(a : Array[&ToJs]) -> Value {
   let arr = new_array()
   for v in a {
     arr.push(v)

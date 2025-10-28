@@ -61,7 +61,7 @@ pub type VirtualElement
 pub fn VirtualElement::from_js_value(v : @js.Value) -> Self = "%identity"
 
 ///|
-pub impl @js.ToJsValue for VirtualElement with to_js(self) -> @js.Value {
+pub impl @js.ToJs for VirtualElement with to_js(self) -> @js.Value {
   self |> @js.identity
 }
 
@@ -70,7 +70,7 @@ pub fn h(
   tag : String,
   disabled? : Bool,
   attributes? : Map[String, @js.Value],
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   id? : String,
   class? : String,
   className? : String,
@@ -138,7 +138,7 @@ pub fn h(
 pub fn[T] c(
   tag : Component[T],
   props : T,
-  children? : Array[&@js.ToJsValue],
+  children? : Array[&@js.ToJs],
   key? : String,
 ) -> VirtualElement {
   let tag = @js.Value::cast_from(tag)
@@ -152,7 +152,7 @@ pub fn[T] c(
 
 ///|
 pub fn fragment(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   key? : String,
 ) -> VirtualElement {
   let tag = @js.Value::cast_from(get_fragment())
@@ -166,7 +166,7 @@ pub fn fragment(
 
 ///|
 pub fn suspense(
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   fallback~ : VirtualElement,
 ) -> VirtualElement {
   let tag = get_suspense() |> @js.Value::cast_from
@@ -179,7 +179,7 @@ pub fn suspense(
 ///|
 pub fn[T] provider(
   tag : Context[T],
-  children : Array[&@js.ToJsValue],
+  children : Array[&@js.ToJs],
   value~ : T,
 ) -> VirtualElement {
   let tag = @js.Value::cast_from(tag)
