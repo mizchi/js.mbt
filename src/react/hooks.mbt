@@ -5,6 +5,12 @@ extern "js" fn use_state_internal(initial : @js.Value) -> @js.Value =
   #| }
 
 ///|
+extern "js" fn use_state_lazy_internal(initial : () -> @js.Value) -> @js.Value =
+  #| (initial) => {
+  #|   return __ReactApi.useState(initial);
+  #| }
+
+///|
 extern "js" fn use_callback_internal(
   initial : @js.Value,
   keys : Array[@js.Value],
@@ -22,6 +28,29 @@ extern "js" fn use_ref_internal(initial : @js.Value) -> @js.Value =
 ///|
 extern "js" fn use_context_internal(ctx : @js.Value) -> @js.Value =
   #| (ctx) => globalThis.__ReactApi.useContext(ctx)
+
+///|
+extern "js" fn lazy_internal(f: @js.Value) -> @js.Promise[@js.Value] =
+  #| (f) => globalThis.__ReactApi.lazy(f)
+
+///|
+/// wip
+/// ```nocheck
+/// extern "js" fn load_my_lazy_component() -> @js.Promise[@js.Value] =
+///   #| () => import("./MyLazyComponent")
+/// struct MyLazyComponentProps {}
+/// let my_lazy_component: (props: MyLazyComponentProps) -> Element =
+///   lazy_(load_my_lazy_component)
+/// ```
+pub fn[T] lazy_(
+  f : async () -> (T) -> Element,
+) -> (EmptyProps) -> @js.Promise[@js.Value] {
+  f
+  |> @js.to_promise_fn0
+  |> @js.to_js
+  |> lazy_internal()
+  |> @js.identity
+}
 
 ///|
 extern "js" fn create_context_internal(initial : @js.Value) -> @js.Value =
@@ -67,6 +96,16 @@ pub fn[T : @js.ToJs] use_state(initial : T) -> (T, (T) -> Unit) {
   (value, update_fn)
 }
 
+///| Lazy
+pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
+  let initial: () -> @js.Value = (initial |> @js.to_js).cast()
+  let result = use_state_lazy_internal(initial)
+  let value : T = result.at(0).cast()
+  let update_fn : (T) -> Unit = result.at(1).cast()
+  (value, update_fn)
+}
+
+
 ///|
 pub fn[F] use_callback(f : F, keys : Array[&@js.ToJs]) -> F {
   let keys = keys.map(k => k.to_js())
@@ -88,14 +127,13 @@ pub fn[T] use_memo(f : () -> T, keys : Array[@js.Value]) -> T {
 
 ///|
 pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
-  let result = use_ref_internal(
+  use_ref_internal(
     if initial is Some(v) {
       v |> @js.identity
     } else {
       @js.js_undefined()
     },
-  )
-  result.cast()
+  ).cast()
 }
 
 ///|

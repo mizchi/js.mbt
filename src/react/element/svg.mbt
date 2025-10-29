@@ -2,7 +2,7 @@ using @js { to_js }
 ///|
 pub fn svg(
   // common props
-  children : Array[&@js.ToJs],
+  children : Array[&ReactNode],
   width~ : Int,
   height~ : Int,
   view_box? : String,
@@ -480,7 +480,7 @@ pub fn polyline(
 
 ///|
 pub fn g(
-  children : Array[&@js.ToJs],
+  children : Array[&ReactNode],
   // common props
   stroke? : String,
   stroke_width? : Int,
@@ -532,7 +532,7 @@ pub fn g(
 
 ///|
 pub fn defs(
-  children : Array[&@js.ToJs],
+  children : Array[&ReactNode],
   // shared
   attributes? : Map[String, @js.Value],
   id? : String,
@@ -570,7 +570,7 @@ pub fn defs(
 
 ///|
 pub fn text(
-  children : Array[&@js.ToJs],
+  children : Array[&ReactNode],
   // common props
   x~ : Int,
   y~ : Int,

@@ -11,13 +11,15 @@ fn[T] c((T) -> Element, T, children? : Array[&@js.ToJs], key? : String) -> Eleme
 
 fn[T] create_context(T?) -> Context[T]
 
-fn create_element(String, disabled? : Bool, attributes? : Map[String, @js.Value], Array[&@js.ToJs], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Element
+fn create_element(String, Array[&@js.ToJs], disabled? : Bool, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Element
 
 fn fragment(Array[&@js.ToJs], key? : String) -> Element
 
-fn h(String, disabled? : Bool, attributes? : Map[String, @js.Value], Array[&@js.ToJs], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Element
+fn h(String, Array[&@js.ToJs], disabled? : Bool, attributes? : Map[String, @js.Value], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Element
 
 async fn init_react_client() -> ReactDOMClient
+
+fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @js.Promise[@js.Value]
 
 fn[T] provider(Context[T], Array[&@js.ToJs], value~ : T) -> Element
 
@@ -43,6 +45,8 @@ fn[T] use_ref(T?) -> ReactRef[T]
 
 fn[T : @js.ToJs] use_state(T) -> (T, (T) -> Unit)
 
+fn[T] use_state_lazy(() -> T) -> (T, (T) -> Unit)
+
 // Errors
 
 // Types and methods
@@ -57,6 +61,9 @@ pub type Element
 fn Element::from_js_value(@js.Value) -> Self
 fn Element::to_js(Self) -> @js.Value // from trait `@js.ToJs`
 impl @js.ToJs for Element
+
+pub(all) struct EmptyProps {
+}
 
 #external
 pub type ReactDOMClient

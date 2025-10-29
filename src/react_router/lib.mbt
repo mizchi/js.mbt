@@ -65,3 +65,16 @@ pub fn create_browser_router(routes: Array[Route]) -> Router {
   let rr_routes = routes.map(_.to_rr_obj())
   create_browser_router(rr_routes)
 }
+
+pub struct LinkProps {
+  to: String
+}
+
+///|
+extern "js" fn get_link() -> (LinkProps) -> @react.Element =
+  #| () => __ReactRouterApi.Link
+
+pub fn link(to~: String, children: Array[&@js.ToJs]) -> @react.Element {
+  let p = get_link()
+  @react.c(p, LinkProps::{ to, }, children~)
+}

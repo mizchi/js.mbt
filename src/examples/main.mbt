@@ -193,6 +193,7 @@ fn app(props : AppProps) -> @react.Element {
       style={ "border": "1px solid black", "padding": "10px" },
       on_click=handler,
       [
+        h2(["Counter: \{cnt}"]),
         "x = \{cnt}",
         fragment([h("h1", ["xxx"])]),
         div(id="textarea-container", [
@@ -206,6 +207,7 @@ fn app(props : AppProps) -> @react.Element {
           ),
           div(class="textarea-value", ["Textarea value: \{input_text}"]),
         ]),
+      // ]
         ul(
           props.items.mapi((idx, item) => h("li", key=idx.to_string(), [
             c(item_view, { name: item }, key=idx.to_string()),
@@ -280,7 +282,7 @@ fn main {
       ),
       Element(
         path="/about",
-        element=h("div", [ "About page" ]),
+        element=h("div", [ "About page", @react_router.link(to="/", ["Go to About"]) ]),
       ),
     ])
     

@@ -2,7 +2,7 @@
 using @js {type Value}
 
 ///|
-priv struct EmptyProps {}
+pub(all) struct EmptyProps {}
 
 ///|
 extern "js" fn create_element_raw(
@@ -42,9 +42,9 @@ pub impl @js.ToJs for Element with to_js(self) -> @js.Value {
 ///|
 pub fn create_element(
   tag : String,
+  children : Array[&@js.ToJs],
   disabled? : Bool,
   attributes? : Map[String, @js.Value],
-  children : Array[&@js.ToJs],
   id? : String,
   class? : String,
   className? : String,
