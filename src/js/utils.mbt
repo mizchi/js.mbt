@@ -1,22 +1,3 @@
-///|
-extern "js" fn stringify_no_indent(v : Value) -> String =
-  #| (self) => JSON.stringify(self)
-
-///|
-extern "js" fn stringify_with_indent(v : Value, indent : Int) -> String =
-  #| (self, indent) => JSON.stringify(self, null, indent)
-
-///|
-pub extern "js" fn structured_clone(v : Value) -> Value =
-  #| (self) => structuredClone(self)
-
-///|
-pub fn stringify(self : Value, indent? : Int) -> String {
-  match indent {
-    None => stringify_no_indent(self)
-    Some(i) => stringify_with_indent(self, i)
-  }
-}
 
 ///|
 extern "js" fn ffi_console_log(value : Value) -> Unit =
@@ -71,15 +52,6 @@ pub extern "js" fn js_undefined() -> Value = "() => undefined"
 ///|
 pub extern "js" fn new_object() -> Value =
   #| () => ({})
-
-///|
-pub fn Value::from_map(m : Map[String, &ToJs]) -> Value {
-  let obj = new_object()
-  for k, v in m {
-    obj.set(k, v.to_js())
-  }
-  obj
-}
 
 ///|
 pub extern "js" fn new_array() -> Value =

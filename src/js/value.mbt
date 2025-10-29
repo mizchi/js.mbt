@@ -74,10 +74,6 @@ pub fn[T] Value::to_option(self : Value) -> T? {
 }
 
 ///|
-pub extern "js" fn Value::keys(self : Value) -> Array[String] =
-  #| (obj) => Object.keys(obj)
-
-///|
 pub extern "js" fn Value::length(self : Value) -> Int =
   #| (obj) => obj.length
 

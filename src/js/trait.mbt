@@ -99,7 +99,7 @@ pub impl ToJson for Value with to_json(self) -> Json {
   }
   if self.is_object() {
     let out : Map[String, Json] = {}
-    let keys = self.keys()
+    let keys = self |> Object::keys()
     for k in keys {
       let v = self.get(k)
       out[k] = v.to_json()

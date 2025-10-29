@@ -42,7 +42,8 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
     None
   } else {
     let g : Map[String, String] = {}
-    for k in v.get("groups").keys() {
+    let keys = Object::keys(v.get("groups"))
+    for k in keys {
       g[k] = v.get("groups").get(k) |> identity
     }
     Some(g)
