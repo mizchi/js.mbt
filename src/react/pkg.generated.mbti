@@ -7,33 +7,31 @@ import(
 )
 
 // Values
-fn[T] c(Component[T], T, children? : Array[&@js.ToJsValue], key? : String) -> VirtualElement
-
-fn[T] component((T) -> VirtualElement, name? : String) -> Component[T]
-
-fn create_component_raw((@js.Value) -> VirtualElement, name? : String) -> @js.Value
+fn[T] c((T) -> Element, T, children? : Array[&@js.ToJs], key? : String) -> Element
 
 fn[T] create_context(T?) -> Context[T]
 
-fn fragment(Array[&@js.ToJsValue], key? : String) -> VirtualElement
+fn fragment(Array[&@js.ToJs], key? : String) -> Element
 
-fn h(String, disabled? : Bool, attributes? : Map[String, @js.Value], Array[&@js.ToJsValue], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> VirtualElement
+fn h(String, disabled? : Bool, attributes? : Map[String, @js.Value], Array[&@js.ToJs], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Element
 
 async fn init_react_client() -> ReactDOMClient
 
-fn[T] provider(Context[T], Array[&@js.ToJsValue], value~ : T) -> VirtualElement
+fn[T] provider(Context[T], Array[&@js.ToJs], value~ : T) -> Element
 
-fn render(VirtualElement, @dom.Element) -> Unit
+fn start_transition(() -> Unit) -> Unit
 
-fn suspense(Array[&@js.ToJsValue], fallback~ : VirtualElement) -> VirtualElement
+fn suspense(Array[&@js.ToJs], fallback~ : Element) -> Element
 
 fn[T] use_(@js.Promise[T]) -> T
 
-fn[F] use_callback(F, Array[&@js.ToJsValue]) -> F
+fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)
+
+fn[F] use_callback(F, Array[&@js.ToJs]) -> F
 
 fn[T] use_context(Context[T]) -> T
 
-fn use_effect(() -> () -> Unit, Array[&@js.ToJsValue]) -> Unit
+fn use_effect(() -> () -> Unit, Array[&@js.ToJs]) -> Unit
 
 fn[T] use_memo(() -> T, Array[@js.Value]) -> T
 
@@ -41,7 +39,7 @@ fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
 
 fn[T] use_ref(T?) -> ReactRef[T]
 
-fn[T : @js.ToJsValue] use_state(T) -> (T, (T) -> Unit)
+fn[T : @js.ToJs] use_state(T) -> (T, (T) -> Unit)
 
 // Errors
 
@@ -52,13 +50,11 @@ pub type Component[T]
 #external
 pub type Context[T]
 
-pub struct EmptyProps {
-}
-fn EmptyProps::equal(Self, Self) -> Bool // from trait `Eq`
-fn EmptyProps::new() -> Self
-#deprecated
-fn EmptyProps::op_equal(Self, Self) -> Bool // from trait `Eq`
-impl Eq for EmptyProps
+#external
+pub type Element
+fn Element::from_js_value(@js.Value) -> Self
+fn Element::to_js(Self) -> @js.Value // from trait `@js.ToJs`
+impl @js.ToJs for Element
 
 #external
 pub type ReactDOMClient
@@ -66,20 +62,14 @@ fn ReactDOMClient::create_root(Self, @dom.Element) -> ReactDOMRoot
 
 #external
 pub type ReactDOMRoot
-fn ReactDOMRoot::render(Self, VirtualElement) -> Unit
+fn ReactDOMRoot::render(Self, Element) -> Unit
 
 #external
 pub type ReactRef[T]
 fn[T] ReactRef::current(Self[T]) -> T?
 fn[T] ReactRef::set_current(Self[T], T) -> Unit
-fn[T] ReactRef::to_js(Self[T]) -> @js.Value // from trait `@js.ToJsValue`
-impl[T] @js.ToJsValue for ReactRef[T]
-
-#external
-pub type VirtualElement
-fn VirtualElement::from_js_value(@js.Value) -> Self
-fn VirtualElement::to_js(Self) -> @js.Value // from trait `@js.ToJsValue`
-impl @js.ToJsValue for VirtualElement
+fn[T] ReactRef::to_js(Self[T]) -> @js.Value // from trait `@js.ToJs`
+impl[T] @js.ToJs for ReactRef[T]
 
 // Type aliases
 

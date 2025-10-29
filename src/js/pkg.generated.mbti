@@ -22,15 +22,15 @@ fn import_meta() -> Value
 
 async fn import_module(String, specifier? : String) -> Value
 
-fn js_null() -> Value
-
-fn js_undefined() -> Value
-
 fn[T] log(T) -> Unit
 
 fn new_array() -> Value
 
 fn new_object() -> Value
+
+fn null_() -> Value
+
+fn[R] return_promise(async () -> R) -> Promise[R]
 
 fn run_async(async () -> Unit noraise) -> Unit
 
@@ -44,9 +44,17 @@ fn structured_clone(Value) -> Value
 
 async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 
-// Errors
-pub suberror InvalidNestedPromise SourceLoc
+fn[R] to_promise_fn0(async () -> R) -> () -> Promise[R]
 
+fn[A, R] to_promise_fn1(async (A) -> R) -> (A) -> Promise[R]
+
+fn[A, B, R] to_promise_fn2(async (A, B) -> R) -> (A, B) -> Promise[R]
+
+fn[A, B, C, R] to_promise_fn3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
+
+fn undefined() -> Value
+
+// Errors
 pub suberror JsError Value
 
 // Types and methods
@@ -57,31 +65,6 @@ fn Date::now() -> Int
 
 #external
 pub type JSTimer
-
-pub struct JsArray(Value)
-fn JsArray::at(Self, Int) -> Value
-#deprecated
-fn JsArray::inner(Self) -> Value
-fn JsArray::length(Self) -> Int
-fn JsArray::push(Self, &ToJsValue) -> Unit
-fn JsArray::set(Self, Int, &ToJsValue) -> Unit
-fn JsArray::to_value(Self) -> Value
-
-pub struct JsFunction(Value)
-fn JsFunction::call(Self, Array[Value]) -> Value
-fn[T] JsFunction::call_with_try(Self, Array[Value]) -> T raise JsError
-#deprecated
-fn JsFunction::inner(Self) -> Value
-fn JsFunction::name(Self) -> String?
-fn JsFunction::to_value(Self) -> Value
-
-pub struct JsObject(Value)
-fn JsObject::delete(Self, String) -> Unit
-fn JsObject::get(Self, String) -> Value?
-#deprecated
-fn JsObject::inner(Self) -> Value
-fn JsObject::set(Self, String, &ToJsValue) -> Unit
-fn JsObject::to_value(Self) -> Value
 
 #external
 pub type Math
@@ -110,9 +93,10 @@ fn Math::trunc(Double) -> Double
 pub type Promise[T]
 fn[A, B] Promise::bind(Self[A], (A) -> Self[B] raise, reject? : (Error) -> Self[B]) -> Self[B]
 fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
-#callsite(autofill(loc))
-fn[A] Promise::new(A, loc~ : SourceLoc) -> Self[A]
-fn[A] Promise::reject(Error) -> Self[A]
+fn[T] Promise::deferred() -> (Self[T], (T) -> Unit, (Error) -> Unit)
+fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
+fn[A] Promise::new(((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
+fn Promise::reject(Value) -> Self[Value]
 fn[A] Promise::resolve(A) -> Self[A]
 fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise, reject? : (Error) -> Self[B]) -> Self[B]
 async fn[A] Promise::wait(Self[A]) -> A
@@ -141,18 +125,15 @@ fn Response::text(Self) -> Promise[String]
 
 #external
 pub type Value
-fn Value::as_array(Self) -> JsArray
-fn Value::as_function(Self) -> JsFunction
-fn Value::as_object(Self) -> JsObject
 fn Value::at(Self, Int) -> Self
 fn Value::call(Self, Array[Self]) -> Self
 fn[T] Value::cast(Self) -> T
 fn[T] Value::cast_from(T) -> Self
 fn Value::cast_option(Self) -> Self?
 fn Value::delete(Self, String) -> Unit
-fn Value::from_array(Array[&ToJsValue]) -> Self
+fn Value::from_array(Array[&ToJs]) -> Self
 fn Value::from_js_array(Array[Self]) -> Self
-fn Value::from_map(Map[String, &ToJsValue]) -> Self
+fn Value::from_map(Map[String, &ToJs]) -> Self
 #alias("_[_]")
 fn Value::get(Self, String) -> Self
 fn Value::get_inner(Self, String) -> Self
@@ -170,29 +151,30 @@ fn Value::is_undefined(Self) -> Bool
 fn Value::keys(Self) -> Array[String]
 fn Value::length(Self) -> Int
 fn Value::output(Self, &Logger) -> Unit // from trait `Show`
-fn Value::push(Self, &ToJsValue) -> Unit
+fn Value::push(Self, &ToJs) -> Unit
 #alias("_[_]=_")
-fn Value::set(Self, String, &ToJsValue) -> Unit
+fn Value::set(Self, String, &ToJs) -> Unit
 fn Value::stringify(Self, indent? : Int) -> String
-fn Value::to_js(Self) -> Self // from trait `ToJsValue`
+fn Value::to_js(Self) -> Self // from trait `ToJs`
 fn Value::to_json(Self) -> Json // from trait `ToJson`
 fn[T] Value::to_option(Self) -> T?
 fn Value::to_string(Self) -> String
-impl ToJsValue for Value
+fn[T] Value::try_call(Self, Array[Self]) -> T raise JsError
+impl ToJs for Value
 impl Show for Value
 impl ToJson for Value
 
 // Type aliases
 
 // Traits
-pub(open) trait ToJsValue {
+pub(open) trait ToJs {
   to_js(Self) -> Value
 }
-impl ToJsValue for Bool
-impl ToJsValue for Int
-impl ToJsValue for Double
-impl ToJsValue for String
-impl ToJsValue for Array[&ToJsValue]
-impl ToJsValue for Json
-impl ToJsValue for Map[String, &ToJsValue]
+impl ToJs for Bool
+impl ToJs for Int
+impl ToJs for Double
+impl ToJs for String
+impl ToJs for Array[&ToJs]
+impl ToJs for Json
+impl ToJs for Map[String, &ToJs]
 

@@ -3,13 +3,11 @@ fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
 
 ///|
 using @react {
-  type Component,
   type Context,
   h,
   c,
   fragment,
   provider,
-  component,
   use_effect,
   use_state,
   use_callback,
@@ -59,11 +57,9 @@ struct ItemViewProps {
 }
 
 ///|
-let item_view : Component[ItemViewProps] = component(props => h(
-  "div",
-  style={ "padding": "5px", "borderBottom": "1px solid #ccc" },
-  [props.name],
-))
+fn item_view(props : ItemViewProps) -> @react.Element {
+  h("div", style={ "padding": "5px", "borderBottom": "1px solid #ccc" }, [props.name])
+}
 
 ///|
 let myctx : Ref[Context[MyContextProps]?] = { val: None }
@@ -80,12 +76,12 @@ fn use_myctx() -> MyContextProps {
 }
 
 ///|
-let ctx_consumer : Component[EmptyProps] = component(_props => {
+fn ctx_consumer(_: EmptyProps) -> @react.Element {
   let ctx_value = use_myctx()
   h("div", attributes={ "className": "context-value" |> js }, [
     "Context value: \{ctx_value.v}",
   ])
-})
+}
 
 ///|
 enum CounterAction {
@@ -93,7 +89,7 @@ enum CounterAction {
 }
 
 ///|
-let counter : Component[EmptyProps] = component(_props => {
+fn counter(_ : EmptyProps) -> @react.Element {
   let (count, dispatch) = use_reducer(
     (state : Int, action : CounterAction) => match action {
       CounterAction::Increment => state + 1
@@ -108,10 +104,10 @@ let counter : Component[EmptyProps] = component(_props => {
     [count],
   )
   h("button", attributes={ "onClick": on_click |> js }, ["Count: \{count}"])
-})
+}
 
 ///|
-let async_counter : Component[EmptyProps] = component(_props => {
+fn async_counter(_ : EmptyProps) -> @react.Element {
   let (count, dispatch, is_pending) = @react.use_action_state(
     async fn(state : Int, action : CounterAction) -> Int noraise {
       match action {
@@ -135,7 +131,7 @@ let async_counter : Component[EmptyProps] = component(_props => {
       ""
     },
   ])
-})
+}
 
 ///|
 priv struct AppProps {
@@ -144,7 +140,7 @@ priv struct AppProps {
 }
 
 ///|
-let app : Component[AppProps] = component(props => {
+fn app(props : AppProps) -> @react.Element {
   let (cnt, set_cnt) = use_state(props.x)
   let textarea_ref : @react.ReactRef[@dom.Element] = @react.use_ref(None)
   let handler = use_callback(
@@ -246,11 +242,11 @@ let app : Component[AppProps] = component(props => {
       ],
     ),
   ])
-})
+}
 
 ///|
 fn main {
-  let dom = @dom.document().query_selector("#app").unwrap()
+  let app_root = @dom.document().query_selector("#app").unwrap()
   // lazy init context
   run_async(async fn() noraise {
     let client = init_react_client() catch {
@@ -263,7 +259,7 @@ fn main {
     // TODO: use async init later
     init_myctx()
     client
-    .create_root(dom)
+    .create_root(app_root)
     .render(c(app, { x: 42, items: ["Item 1", "Item 2", "Item 3"] }))
   })
 }

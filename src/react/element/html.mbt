@@ -1,5 +1,5 @@
 ///|
-using @react {type VirtualElement, type ReactRef, h}
+using @react {type ReactRef, h}
 
 ///|
 fn common_node(
@@ -17,7 +17,7 @@ fn common_node(
   on_change~ : ((@dom.ChangeEvent) -> Unit)?,
   on_keydown~ : ((@dom.KeyboardEvent) -> Unit)?,
   on_keyup~ : ((@dom.KeyboardEvent) -> Unit)?,
-) -> VirtualElement {
+) -> @react.Element {
   let attr : Map[String, @js.Value] = {}
   for k, v in attributes {
     attr[k] = v
@@ -85,7 +85,7 @@ pub fn div(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "div",
     attributes.unwrap_or({}),
@@ -123,7 +123,7 @@ pub fn pre(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "pre",
     attributes.unwrap_or({}),
@@ -161,7 +161,7 @@ pub fn blockquote(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "blockquote",
     attributes.unwrap_or({}),
@@ -198,7 +198,7 @@ pub fn span(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "span",
     attributes.unwrap_or({}),
@@ -235,7 +235,7 @@ pub fn nav(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "nav",
     attributes.unwrap_or({}),
@@ -272,7 +272,7 @@ pub fn p(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "p",
     attributes.unwrap_or({}),
@@ -315,7 +315,7 @@ pub fn textarea(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -380,7 +380,7 @@ pub fn input(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -438,7 +438,7 @@ pub fn main_(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "main",
     attributes.unwrap_or({}),
@@ -476,7 +476,7 @@ pub fn header(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "header",
     attributes.unwrap_or({}),
@@ -514,7 +514,7 @@ pub fn footer(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "footer",
     attributes.unwrap_or({}),
@@ -552,7 +552,7 @@ pub fn ul(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "ul",
     attributes.unwrap_or({}),
@@ -590,7 +590,7 @@ pub fn ol(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "ol",
     attributes.unwrap_or({}),
@@ -627,7 +627,7 @@ pub fn article(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "article",
     attributes.unwrap_or({}),
@@ -664,7 +664,7 @@ pub fn aside(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "aside",
     attributes.unwrap_or({}),
@@ -701,7 +701,7 @@ pub fn section(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "section",
     attributes.unwrap_or({}),
@@ -755,7 +755,7 @@ pub fn form(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -823,7 +823,7 @@ pub fn select(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -878,7 +878,7 @@ pub fn option(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -927,7 +927,7 @@ pub fn label(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -972,7 +972,7 @@ pub fn li(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "li",
     attributes.unwrap_or({}),
@@ -1010,7 +1010,7 @@ pub fn code(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "code",
     attributes.unwrap_or({}),
@@ -1048,7 +1048,7 @@ pub fn details(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "details",
     attributes.unwrap_or({}),
@@ -1086,7 +1086,7 @@ pub fn summary(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "summary",
     attributes.unwrap_or({}),
@@ -1130,7 +1130,7 @@ pub fn a(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -1189,7 +1189,7 @@ pub fn iframe(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -1265,7 +1265,7 @@ pub fn img(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -1341,7 +1341,7 @@ pub fn video(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -1391,7 +1391,7 @@ pub fn source(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
@@ -1438,7 +1438,7 @@ pub fn hr(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "hr",
     attributes.unwrap_or({}),
@@ -1476,7 +1476,7 @@ pub fn h1(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "h1",
     attributes.unwrap_or({}),
@@ -1514,7 +1514,7 @@ pub fn h2(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "h2",
     attributes.unwrap_or({}),
@@ -1552,7 +1552,7 @@ pub fn h3(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   common_node(
     "h3",
     attributes.unwrap_or({}),
@@ -1588,7 +1588,7 @@ pub fn button(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let new_attributes : Map[String, @js.Value] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {

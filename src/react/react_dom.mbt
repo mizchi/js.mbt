@@ -18,12 +18,12 @@ pub fn ReactDOMClient::create_root(
 ///|
 extern "js" fn ReactDOMRoot::render_internal(
   self : ReactDOMRoot,
-  vdom : VirtualElement,
+  vdom : Element,
 ) -> Unit =
   #| (root, vdom) => root.render(vdom)
 
 ///|
-pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : VirtualElement) -> Unit {
+pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : Element) -> Unit {
   self.render_internal(vdom)
 }
 

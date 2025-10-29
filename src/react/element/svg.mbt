@@ -20,7 +20,7 @@ pub fn svg(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["width"] = width |> @js.Value::cast_from
   attrs["height"] = height |> @js.Value::cast_from
@@ -67,7 +67,7 @@ pub fn circle(
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["cx"] = cx |> @js.Value::cast_from
   attrs["cy"] = cy |> @js.Value::cast_from
@@ -125,7 +125,7 @@ pub fn ellipse(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["cx"] = cx |> @js.Value::cast_from
   attrs["cy"] = cy |> @js.Value::cast_from
@@ -184,7 +184,7 @@ pub fn rect(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["x"] = x |> @js.Value::cast_from
   attrs["y"] = y |> @js.Value::cast_from
@@ -243,7 +243,7 @@ pub fn line(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["x1"] = x1 |> @js.Value::cast_from
   attrs["y1"] = y1 |> @js.Value::cast_from
@@ -299,7 +299,7 @@ pub fn path(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["d"] = d |> @js.Value::cast_from
   if stroke is Some(stroke) {
@@ -349,7 +349,7 @@ pub fn use_(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["href"] = href |> @js.Value::cast_from
   common_node(
@@ -393,7 +393,7 @@ pub fn polygon(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["points"] = points |> @js.Value::cast_from
   if stroke is Some(stroke) {
@@ -446,7 +446,7 @@ pub fn polyline(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["points"] = points |> @js.Value::cast_from
   if stroke is Some(stroke) {
@@ -499,7 +499,7 @@ pub fn g(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   if stroke is Some(stroke) {
     attrs["stroke"] = stroke |> @js.Value::cast_from
@@ -546,7 +546,7 @@ pub fn defs(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   common_node(
     "defs",
@@ -596,7 +596,7 @@ pub fn text(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["x"] = x |> @js.Value::cast_from
   attrs["y"] = y |> @js.Value::cast_from
@@ -662,7 +662,7 @@ pub fn image(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["x"] = x |> @js.Value::cast_from
   attrs["y"] = y |> @js.Value::cast_from

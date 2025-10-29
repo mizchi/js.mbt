@@ -5,9 +5,9 @@ extern "js" fn ffi_import_module(module_name : String) -> Promise[Value] = "(mod
 pub async fn import_module(module_name : String, specifier? : String) -> Value {
   if specifier is Some(v) {
     let mod = ffi_import_module(module_name).wait()
-    return mod.get(v) |> identity
+    mod.get(v) |> identity
   } else {
-    return ffi_import_module(module_name).wait()
+    ffi_import_module(module_name).wait()
   }
 }
 
@@ -43,14 +43,12 @@ test {
       },
     }
     let rawjs = ToJs::to_js(json)
-    // log(rawjs)
     let parse_args : (Value) -> Value = import_module(
         "node:util",
         specifier="parseArgs",
       )
       |> identity
     let parsed = parse_args(rawjs)
-    // log(parsed)
     let parsed : Parsed = Parsed::{
       help: parsed.get("values").get("help") |> identity,
       out: parsed.get("values").get("out") |> identity,

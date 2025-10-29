@@ -2,7 +2,7 @@
 using @js {type Value}
 
 ///|
-priv struct EmptyProps {} derive(Eq)
+priv struct EmptyProps {}
 
 ///|
 extern "js" fn create_element_raw(
@@ -23,31 +23,19 @@ extern "js" fn get_suspense() -> @js.Value =
   #| () => __ReactApi.Suspense
 
 ///|
-pub extern "js" fn create_component_raw(
-  f : (@js.Value) -> VirtualElement,
-  name? : String,
-) -> @js.Value =
-  #| (f, name) => {
-  #|   const x = (...args) => f(...args)
-  #|   if (name) {
-  #|     Object.defineProperty(x, "name", { value: name })
-  #|   }
-  #|   return x
-  #| }
-
-///|
 #external
 pub type Component[T]
 
 ///|
+/// React.Element
 #external
-pub type VirtualElement
+pub type Element
 
 ///|
-pub fn VirtualElement::from_js_value(v : @js.Value) -> Self = "%identity"
+pub fn Element::from_js_value(v : @js.Value) -> Self = "%identity"
 
 ///|
-pub impl @js.ToJs for VirtualElement with to_js(self) -> @js.Value {
+pub impl @js.ToJs for Element with to_js(self) -> @js.Value {
   self |> @js.identity
 }
 
@@ -67,7 +55,7 @@ pub fn h(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
-) -> VirtualElement {
+) -> Element {
   let tag = @js.Value::cast_from(tag)
   let children = @js.Value::from_array(children)
   let val : @js.Value = @js.new_object()
@@ -122,11 +110,11 @@ pub fn h(
 
 ///|
 pub fn[T] c(
-  tag : Component[T],
+  tag : (T) -> Element,
   props : T,
   children? : Array[&@js.ToJs],
   key? : String,
-) -> VirtualElement {
+) -> Element {
   let tag = @js.Value::cast_from(tag)
   let children = @js.Value::from_array(children.unwrap_or([]))
   let val : @js.Value = props |> @js.identity
@@ -140,7 +128,7 @@ pub fn[T] c(
 pub fn fragment(
   children : Array[&@js.ToJs],
   key? : String,
-) -> VirtualElement {
+) -> Element {
   let tag = @js.Value::cast_from(get_fragment())
   let children = @js.Value::from_array(children)
   let val : @js.Value = @js.new_object() |> @js.identity
@@ -153,8 +141,8 @@ pub fn fragment(
 ///|
 pub fn suspense(
   children : Array[&@js.ToJs],
-  fallback~ : VirtualElement,
-) -> VirtualElement {
+  fallback~ : Element,
+) -> Element {
   let tag = get_suspense() |> @js.Value::cast_from
   let children = @js.Value::from_array(children)
   let val : @js.Value = @js.new_object() |> @js.identity
@@ -167,32 +155,11 @@ pub fn[T] provider(
   tag : Context[T],
   children : Array[&@js.ToJs],
   value~ : T,
-) -> VirtualElement {
+) -> Element {
   let tag = @js.Value::cast_from(tag)
   let children = @js.Value::from_array(children)
   let val : @js.Value = value |> @js.identity
   let props = @js.new_object()
   props["value"] = val
   create_element_raw(tag, props, children) |> @js.identity
-}
-
-///|
-/// Examples
-/// ```nocheck
-/// /// Define props
-/// struct MyProps {
-///   name : String
-/// }
-/// let my_component : Component[MyProps] = component(props => {
-///   let (cnt, set_cnt) = use_state(0)
-///   h("div", [
-///     "Hello, \{props.name}!",
-///     h("button", on_click=(_) => set_cnt(cnt + 1), [cnt.to_string()]),
-///   ])
-/// })
-/// c(my_component, MyProps::{ name: "Moonbit" })
-/// ```
-pub fn[T] component(f : (T) -> VirtualElement, name? : String) -> Component[T] {
-  let f2 = props => props |> @js.identity |> f
-  create_component_raw(f2, name?) |> @js.identity
 }

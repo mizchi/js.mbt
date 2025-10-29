@@ -15,12 +15,15 @@ extern "js" fn ffi_promise_then(
 ///|
 extern "js" fn ffi_promise_catch(x : Value, err : (Error) -> Value) -> Value = "(x,f) => x.catch(f)"
 
+///|
 extern "js" fn ffi_promise_finally(x : Value, f : () -> Unit) -> Value = "(x,f) => x.finally(f)"
 
+///|
 extern "js" fn ffi_new_promise(
-  f: ((Value) -> Unit, (Value) -> Unit) -> Unit
+  f : ((Value) -> Unit, (Value) -> Unit) -> Unit,
 ) -> Promise[Value] = "(f) => new Promise(f)"
 
+///|
 extern "js" fn Promise::deferred_internal() -> Value =
   #| () => {
   #|   let ok, err;
@@ -30,8 +33,6 @@ extern "js" fn Promise::deferred_internal() -> Value =
   #|   });
   #|   return { _0: p, _1: ok, _2: err };
   #| }
-
-
 
 ///|
 #external
@@ -183,5 +184,4 @@ test "ok" {
     let r3 : Int = f2(r2).wait() catch { _ => 0 }
     guard r3 == 247
   })
-  // let v = to_promise_fn(async fn() { 123 })
 }

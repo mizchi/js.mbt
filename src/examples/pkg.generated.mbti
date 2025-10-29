@@ -14,7 +14,7 @@ fn EmptyProps::equal(Self, Self) -> Bool // from trait `Eq`
 fn EmptyProps::op_equal(Self, Self) -> Bool // from trait `Eq`
 impl Eq for EmptyProps
 
-type ItemProps
+type ItemViewProps
 
 type MyContextProps
 
