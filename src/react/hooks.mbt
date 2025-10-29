@@ -165,3 +165,31 @@ pub fn[T, U] use_reducer(
   )
   (val.at(0).cast(), val.at(1).cast())
 }
+
+///|
+extern "js" fn use_action_state_internal(f: @js.Value, initial : @js.Value) -> @js.Value =
+  #| (f, initial) => {
+  #|   return __ReactApi.useActionState(f, initial);
+  #| }
+
+///|
+pub fn[T, U] use_action_state(
+  f : async (T, U) -> T noraise,
+  initial : T,
+) -> (T, (U) -> Unit, Bool) {
+  let w = @js.to_promise_fn2((s,a) => f(s, a))
+  let val : @js.Value = use_action_state_internal(
+    w |> @js.identity,
+    initial |> @js.identity,
+  )
+  (val.at(0).cast(), val.at(1).cast(), val.at(2).cast())
+}
+
+extern "js" fn start_transition_internal(f : () -> Unit) -> Unit =
+  #| (f) => {
+  #|   return __ReactApi.startTransition(f);
+  #| }
+
+pub fn start_transition(f : () -> Unit) -> Unit {
+  start_transition_internal(f)
+}

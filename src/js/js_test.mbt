@@ -106,7 +106,7 @@ extern "js" fn test_error_thrower_fn() -> Value = "() => () => { throw new TypeE
 test {
   let test_fn = test_no_error_fn()
   let args : Array[Value] = []
-  let r : Result[Int, JsError] = try? test_fn.call_with_try(args)
+  let r : Result[Int, JsError] = try? test_fn.try_call(args)
   match r {
     Ok(v) => log("Function call succeeded with value: \{v}")
     _ => fail("Function call was expected to succeed")
@@ -117,9 +117,28 @@ test {
 test {
   let test_fn = test_error_thrower_fn()
   let args : Array[Value] = []
-  let r : Result[Int, JsError] = try? test_fn.call_with_try(args)
+  let r : Result[Int, JsError] = try? test_fn.try_call(args)
   match r {
     Err(_e) => assert_true(true)
     _ => fail("Function call was expected to fail")
   }
+}
+
+test {
+  let f = fn() {
+    let (promise, resolve, _reject) = Promise::deferred()
+    run_async(() => {
+      @js.sleep(10)
+      resolve(42)
+    })
+    promise
+  }
+  run_async(() => {
+    @js.sleep(10)
+    let v: Int = f().wait() catch {_=>0}
+    println("Got value from promise: \{v}")
+
+    let v2 = f().then(v => v.to_string() |> Promise::resolve).wait() catch {_=>"error"}
+    println("Got value from promise then: \{v2}")
+  })
 }

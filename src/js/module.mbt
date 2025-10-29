@@ -52,9 +52,9 @@ test {
     let parsed = parse_args(rawjs)
     // log(parsed)
     let parsed : Parsed = Parsed::{
-      help: parsed.get("values").get("help").cast(),
-      out: parsed.get("values").get("out").cast(),
-      rest: parsed.get("positionals").cast(),
+      help: parsed.get("values").get("help") |> identity,
+      out: parsed.get("values").get("out") |> identity,
+      rest: parsed.get("positionals") |> identity,
     }
     assert_eq(parsed, Parsed::{ help: true, out: "output.txt", rest: ["vvv"] })
   } catch {

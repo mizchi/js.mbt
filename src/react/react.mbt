@@ -2,12 +2,7 @@
 using @js {type Value}
 
 ///|
-pub struct EmptyProps {} derive(Eq)
-
-///|
-pub fn EmptyProps::new() -> Self {
-  EmptyProps::{  }
-}
+priv struct EmptyProps {} derive(Eq)
 
 ///|
 extern "js" fn create_element_raw(
@@ -39,15 +34,6 @@ pub extern "js" fn create_component_raw(
   #|   }
   #|   return x
   #| }
-
-///|
-extern "js" fn render_internal(vdom : @js.Value, parent : @js.Value) -> Unit =
-  #| (vdom, parent) => __ReactApi.render(vdom, parent)
-
-///|
-pub fn render(vdom : VirtualElement, parent : @dom.Element) -> Unit {
-  render_internal(vdom |> @js.identity, parent.to_js_value())
-}
 
 ///|
 #external

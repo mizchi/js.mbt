@@ -103,7 +103,7 @@ extern "js" fn ffi_try_call(
   #|}
 
 ///|
-pub fn[T] Value::call_with_try(
+pub fn[T] Value::try_call(
   self : Self,
   args : Array[Value],
 ) -> T raise JsError {

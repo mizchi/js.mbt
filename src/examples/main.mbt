@@ -54,12 +54,12 @@ struct MyContextProps {
 }
 
 ///|
-struct ItemProps {
+struct ItemViewProps {
   name : String
 }
 
 ///|
-let item_view : Component[ItemProps] = component(props => h(
+let item_view : Component[ItemViewProps] = component(props => h(
   "div",
   style={ "padding": "5px", "borderBottom": "1px solid #ccc" },
   [props.name],
@@ -111,13 +111,40 @@ let counter : Component[EmptyProps] = component(_props => {
 })
 
 ///|
-priv struct FooProps {
+let async_counter : Component[EmptyProps] = component(_props => {
+  let (count, dispatch, is_pending) = @react.use_action_state(
+    async fn(state : Int, action : CounterAction) -> Int noraise {
+      match action {
+        CounterAction::Increment => state + 1
+      }
+    },
+    0,
+  )
+  let on_click = use_callback(
+    _ => run_async(async fn() noraise {
+      @js.sleep(500)
+      @react.start_transition(() => dispatch(CounterAction::Increment))
+    }),
+    [count],
+  )
+  h("button", on_click~, [
+    "Async Count: \{count}",
+    if is_pending {
+      " (Updating...)"
+    } else {
+      ""
+    },
+  ])
+})
+
+///|
+priv struct AppProps {
   x : Int
   items : Array[String]
 }
 
 ///|
-let app : Component[FooProps] = component(props => {
+let app : Component[AppProps] = component(props => {
   let (cnt, set_cnt) = use_state(props.x)
   let textarea_ref : @react.ReactRef[@dom.Element] = @react.use_ref(None)
   let handler = use_callback(
@@ -174,7 +201,8 @@ let app : Component[FooProps] = component(props => {
             on_change~,
             attributes={ "rows": js(4), "cols": js(40) },
             ref_=textarea_ref,
-            ["This is a textarea."],
+            value=input_text,
+            [],
           ),
           div(class="textarea-value", ["Textarea value: \{input_text}"]),
         ]),
@@ -185,6 +213,7 @@ let app : Component[FooProps] = component(props => {
         ),
         c(ctx_consumer, EmptyProps::{  }),
         c(counter, EmptyProps::{  }),
+        c(async_counter, EmptyProps::{  }),
         hr(),
         form(
           method_="post",

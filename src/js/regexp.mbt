@@ -34,16 +34,16 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
   if v.is_null() {
     return None
   }
-  let full : String = v.at(0).cast()
-  let index : Int = v.get("index").cast()
-  let last_index : Int = v.get("lastIndex").cast()
-  let input : String = v.get("input").cast()
+  let full : String = v.at(0) |> identity
+  let index : Int = v.get("index") |> identity
+  let last_index : Int = v.get("lastIndex") |> identity
+  let input : String = v.get("input") |> identity
   let groups : Map[String, String]? = if v.get("groups").is_undefined() {
     None
   } else {
     let g : Map[String, String] = {}
     for k in v.get("groups").keys() {
-      g[k] = v.get("groups").get(k).cast()
+      g[k] = v.get("groups").get(k) |> identity
     }
     Some(g)
   }
