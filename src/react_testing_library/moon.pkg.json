@@ -1,0 +1,7 @@
+{
+  "import": [
+    "mizchi/js/js",
+    "mizchi/js/dom",
+    "mizchi/js/react"
+  ]
+}

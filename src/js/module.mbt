@@ -2,21 +2,20 @@
 extern "js" fn ffi_import_module(module_name : String) -> Promise[Value] = "(moduleName) => import(moduleName)"
 
 ///|
-pub async fn import_module(module_name : String, specifier? : String) -> Value {
-  if specifier is Some(v) {
-    let mod = ffi_import_module(module_name).wait()
-    mod.get(v) |> identity
-  } else {
-    ffi_import_module(module_name).wait()
-  }
+pub fn import_module_promise(module_name : String) -> Promise[Value] {
+  ffi_import_module(module_name)
 }
+
+pub async fn import_module(module_name : String) -> Value {
+  ffi_import_module(module_name).wait()
+}
+
 
 ///|
 test {
   run_async(() => try {
-    let basename : (String) -> String = import_module(
-        "node:path",
-        specifier="basename",
+    let basename : (String) -> String = import_module("node:path").get(
+        "basename",
       )
       |> identity
     let x : String = basename("a/b/c.txt") |> identity
@@ -43,9 +42,8 @@ test {
       },
     }
     let rawjs = ToJs::to_js(json)
-    let parse_args : (Value) -> Value = import_module(
-        "node:util",
-        specifier="parseArgs",
+    let parse_args : (Value) -> Value = import_module("node:util").get(
+        "parseArgs",
       )
       |> identity
     let parsed = parse_args(rawjs)

@@ -102,6 +102,7 @@ extern "js" fn ffi_try_call(
   #|  }
   #|}
 
+
 ///|
 pub fn[T] Value::try_call(
   self : Self,
@@ -112,6 +113,17 @@ pub fn[T] Value::try_call(
     Ok(v) => v.cast()
   }
 }
+
+pub fn[T] try_call(
+  f: () -> T,
+) -> T raise JsError {
+  let f: Value = Value::cast_from(f)
+  match ffi_try_call(() => f.call([])) {
+    Err(e) => raise JsError(e)
+    Ok(v) => v.cast()
+  }
+}
+
 
 ///|
 pub suberror JsError Value
