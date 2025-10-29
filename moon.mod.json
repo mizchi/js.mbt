@@ -8,7 +8,7 @@
   "keywords": [],
   "description": "Misc utility library for MoonBit",
   "source": "src",
-  "warn-list": "-2-28-29",
+  "warn-list": "-2-9-28-29",
   "alert-list": "-deprecated",
   "preferred-target": "js"
 }

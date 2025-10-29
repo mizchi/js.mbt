@@ -1,0 +1,42 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/react_router"
+
+import(
+  "mizchi/js/js"
+  "mizchi/js/react"
+)
+
+// Values
+fn create_browser_router(Array[Route]) -> Router
+
+async fn init_react_router() -> Unit
+
+fn load_react_router() -> @js.Promise[@js.Value]
+
+fn router_provider(Router) -> @react.Element
+
+// Errors
+
+// Types and methods
+pub(all) enum Route {
+  Component(path~ : String, component~ : (RouteProps) -> @react.Element)
+  Element(path~ : String, element~ : @react.Element)
+}
+
+pub(all) struct RouteProps {
+  pathname : String
+  search : String
+  hash : String
+}
+
+#external
+pub type Router
+
+pub struct RouterProviderProps {
+  router : Router
+}
+
+// Type aliases
+
+// Traits
+

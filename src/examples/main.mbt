@@ -16,6 +16,10 @@ using @react {
   create_context,
   init_react_client
 }
+using @react_router {
+  init_react_router,
+  router_provider
+}
 
 ///|
 using @js {log}
@@ -189,7 +193,7 @@ fn app(props : AppProps) -> @react.Element {
       style={ "border": "1px solid black", "padding": "10px" },
       on_click=handler,
       [
-        "Foo component: x = \{cnt}",
+        "x = \{cnt}",
         fragment([h("h1", ["xxx"])]),
         div(id="textarea-container", [
           textarea(
@@ -255,11 +259,34 @@ fn main {
         return ()
       }
     }
+    let _ = init_react_router() catch {
+      _err => {
+        log("Failed to initialize React Router.")
+        return ()
+      }
+    }
+    @js.log(@js.global_this().get("__ReactRouterApi"))
     // lazy init context
     // TODO: use async init later
     init_myctx()
+
+    let index = (_props: @react_router.RouteProps) => {
+      c(app, { x: 42, items: ["Item 1", "Item 2", "Item 3"] } )
+    }
+    let routes = @react_router.create_browser_router([
+      Component(
+        path="/",
+        component=index,
+      ),
+      Element(
+        path="/about",
+        element=h("div", [ "About page" ]),
+      ),
+    ])
+    
     client
     .create_root(app_root)
-    .render(c(app, { x: 42, items: ["Item 1", "Item 2", "Item 3"] }))
+    .render(router_provider(routes))
+
   })
 }

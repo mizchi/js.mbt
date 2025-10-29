@@ -12,7 +12,9 @@ $ moon add mizchi/js
     "mizchi/js/js",
     "mizchi/js/dom",
     "mizchi/js/react",
-    "mizchi/js/react/element"
+    "mizchi/js/react/element",
+    "mizchi/js/react_router",
+    "mizchi/js/react_testing_library"
   ]
 }
 ```
@@ -60,7 +62,7 @@ struct CounterProps {
   initial: Int
 }
 
-let counter: Component[CounterProps] = component(props => {
+fn counter(props: CounterProps) -> @react.Element {
   let (cnt, set_cnt) = use_state(props.initial)
   fragment([
     // factory
@@ -72,7 +74,7 @@ let counter: Component[CounterProps] = component(props => {
       cnt.to_string()
     ])
   ])
-})
+}
 
 fn main {
   run_async(async fn() noraise {
@@ -96,6 +98,11 @@ entrypoint
 ```html
 <script type="module" src="./target/js/release/build/main/main.js"></script>
 ```
+
+TODO
+
+- React.lazy
+- ErrorBoundary
 
 ## Prior Art
 

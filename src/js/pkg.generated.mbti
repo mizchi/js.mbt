@@ -72,9 +72,6 @@ fn Date::new() -> Self
 fn Date::now() -> Int
 
 #external
-pub type JSON
-
-#external
 pub type JSTimer
 
 #external

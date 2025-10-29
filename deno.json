@@ -5,14 +5,12 @@
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
-    "@testing-library/jest-dom": "npm:@testing-library/jest-dom@^6.9.1",
     "@testing-library/react": "npm:@testing-library/react@^16.3.0",
-    "@testing-library/user-event": "npm:@testing-library/user-event@^14.6.1",
     "global-jsdom": "npm:global-jsdom@^27.0.0",
-    "jest-environment-jsdom": "npm:jest-environment-jsdom@^30.2.0",
     "jsdom": "npm:jsdom@^27.0.1",
-    "preact": "npm:preact@^10.27.2",
     "react": "npm:react@^19.2.0",
-    "react-dom": "npm:react-dom@^19.2.0"
+    "react-dom": "npm:react-dom@^19.2.0",
+    "react-router": "npm:react-router@^7.9.4",
+    "react-router-dom": "npm:react-router-dom@^7.9.4"
   }
 }

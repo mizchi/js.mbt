@@ -1,6 +1,3 @@
-#external
-pub type JSON
-
 ///|
 extern "js" fn stringify_no_indent(v : Value) -> String =
   #| (self) => JSON.stringify(self)

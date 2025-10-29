@@ -4,6 +4,7 @@
     "mizchi/js/js",
     "mizchi/js/dom",
     "mizchi/js/react",
-    "mizchi/js/react/element"
+    "mizchi/js/react/element",
+    "mizchi/js/react_router"
   ]
 }

@@ -82,7 +82,7 @@ test "Object::assign" {
   assert_eq(z, 40)
 }
 
-test "Object::from_map" {
+test "Object::from" {
   let m: Map[String, &ToJs] = {
     "x": 10,
     "y": "hello",
