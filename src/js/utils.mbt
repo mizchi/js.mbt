@@ -17,31 +17,23 @@ extern "js" fn ffi_console_info(value : Value) -> Unit =
 
 ///|
 pub fn[T] log(v : T) -> Unit {
-  v |> Value::cast_from |> ffi_console_log
+  v |> to_js |> ffi_console_log
 }
 
 ///|
 pub fn[T] console_error(v : T) -> Unit {
-  v |> identity |> ffi_console_error
+  v |> to_js |> ffi_console_error
 }
 
 ///|
 pub fn[T] console_info(v : T) -> Unit {
-  v |> identity |> ffi_console_info
+  v |> to_js |> ffi_console_info
 }
 
 ///|
 pub fn[T] console_warn(v : T) -> Unit {
   v |> identity |> ffi_console_warn
 }
-
-///|
-extern "js" fn Value::set_internal(
-  self : Value,
-  key : String,
-  value : Value,
-) -> Unit =
-  #| (obj, k, v) => obj[k] = v
 
 ///|
 pub extern "js" fn js_null() -> Value = "() => null"

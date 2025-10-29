@@ -1,10 +1,6 @@
 #external
 pub type JSON
 
-// pub fn JSON::parse(s : String) -> Value {
-//   ffi_json_parse(s) |> identity
-// }
-
 ///|
 extern "js" fn stringify_no_indent(v : Value) -> String =
   #| (self) => JSON.stringify(self)

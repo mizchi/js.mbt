@@ -11,6 +11,8 @@ fn[T] c((T) -> Element, T, children? : Array[&@js.ToJs], key? : String) -> Eleme
 
 fn[T] create_context(T?) -> Context[T]
 
+fn create_element(String, disabled? : Bool, attributes? : Map[String, @js.Value], Array[&@js.ToJs], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Element
+
 fn fragment(Array[&@js.ToJs], key? : String) -> Element
 
 fn h(String, disabled? : Bool, attributes? : Map[String, @js.Value], Array[&@js.ToJs], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Element

@@ -24,7 +24,7 @@ extern "js" fn ffi_new_promise(
 ) -> Promise[Value] = "(f) => new Promise(f)"
 
 ///|
-extern "js" fn Promise::deferred_internal() -> Value =
+extern "js" fn ffi_deferred_internal() -> Value =
   #| () => {
   #|   let ok, err;
   #|   const p = new Promise((_ok, _err) => {
@@ -100,7 +100,7 @@ pub async fn[A] Promise::wait(x : Self[A]) -> A raise {
 }
 
 pub fn[T] Promise::deferred() -> (Promise[T], (T) -> Unit, (Error) -> Unit) {
-  Promise::deferred_internal() |> identity
+  ffi_deferred_internal() |> identity
 }
 
 pub fn[R] return_promise(f: async () -> R raise) -> Promise[R] noraise {

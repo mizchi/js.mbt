@@ -23,26 +23,26 @@ fn common_node(
     attr[k] = v
   }
   if id is Some(id) {
-    attr["id"] = id |> @js.Value::cast_from
+    attr["id"] = id |> @js.to_js
   }
   if class is Some(class) {
-    attr["className"] = class |> @js.Value::cast_from
+    attr["className"] = class |> @js.to_js
   }
   if className is Some(className) {
-    attr["className"] = className |> @js.Value::cast_from
+    attr["className"] = className |> @js.to_js
   }
   if style is Some(style) {
     let style_obj : @js.Value = @js.new_object()
     for k, v in style {
-      style_obj[k] = @js.Value::cast_from(v)
+      style_obj[k] = @js.to_js(v)
     }
     attr["style"] = style_obj
   }
   if ref_ is Some(ref_) {
-    attr["ref"] = ref_ |> @js.Value::cast_from
+    attr["ref"] = ref_ |> @js.to_js
   }
   if key is Some(key) {
-    attr["key"] = key |> @js.Value::cast_from
+    attr["key"] = key |> @js.to_js
   }
   if on_click is Some(on_click) {
     let f : @js.Value = on_click |> @js.identity
@@ -61,7 +61,7 @@ fn common_node(
     attr["onKeyUp"] = f
   }
   if tab_index is Some(tab_index) {
-    attr["tabIndex"] = tab_index |> @js.Value::cast_from
+    attr["tabIndex"] = tab_index |> @js.to_js
   }
   h(tag_name, attributes=attr, children)
 }
@@ -323,22 +323,22 @@ pub fn textarea(
     }
   }
   if rows is Some(r) {
-    new_attributes["rows"] = r |> @js.Value::cast_from
+    new_attributes["rows"] = r |> @js.to_js
   }
   if columns is Some(c) {
-    new_attributes["cols"] = c |> @js.Value::cast_from
+    new_attributes["cols"] = c |> @js.to_js
   }
   if spellcheck is Some(s) {
-    new_attributes["spellCheck"] = s |> @js.Value::cast_from
+    new_attributes["spellCheck"] = s |> @js.to_js
   }
   if value is Some(v) {
-    new_attributes["value"] = v |> @js.Value::cast_from
+    new_attributes["value"] = v |> @js.to_js
   }
   if default_value is Some(dv) {
-    new_attributes["defaultValue"] = dv |> @js.Value::cast_from
+    new_attributes["defaultValue"] = dv |> @js.to_js
   }
   if placeholder is Some(p) {
-    new_attributes["placeholder"] = p |> @js.Value::cast_from
+    new_attributes["placeholder"] = p |> @js.to_js
   }
   common_node(
     "textarea",
@@ -388,19 +388,19 @@ pub fn input(
     }
   }
   if name is Some(n) {
-    new_attributes["name"] = n |> @js.Value::cast_from
+    new_attributes["name"] = n |> @js.to_js
   }
   if value is Some(v) {
-    new_attributes["value"] = v |> @js.Value::cast_from
+    new_attributes["value"] = v |> @js.to_js
   }
   if default_value is Some(dv) {
-    new_attributes["defaultValue"] = dv |> @js.Value::cast_from
+    new_attributes["defaultValue"] = dv |> @js.to_js
   }
   if type_ is Some(t) {
-    new_attributes["type"] = t |> @js.Value::cast_from
+    new_attributes["type"] = t |> @js.to_js
   }
   if placeholder is Some(p) {
-    new_attributes["placeholder"] = p |> @js.Value::cast_from
+    new_attributes["placeholder"] = p |> @js.to_js
   }
   common_node(
     "input",
@@ -763,13 +763,13 @@ pub fn form(
     }
   }
   if disabled is Some(d) {
-    new_attributes["disabled"] = d |> @js.Value::cast_from
+    new_attributes["disabled"] = d |> @js.to_js
   }
   if name is Some(n) {
-    new_attributes["name"] = n |> @js.Value::cast_from
+    new_attributes["name"] = n |> @js.to_js
   }
   if method_ is Some(m) {
-    new_attributes["method"] = m |> @js.Value::cast_from
+    new_attributes["method"] = m |> @js.to_js
   }
   if on_submit is Some(f) {
     let fn_value : @js.Value = f |> @js.identity
@@ -780,7 +780,7 @@ pub fn form(
     new_attributes["action"] = fn_value
   }
   if enc_type is Some(e) {
-    new_attributes["encType"] = e |> @js.Value::cast_from
+    new_attributes["encType"] = e |> @js.to_js
   }
   common_node(
     "form",
@@ -831,13 +831,13 @@ pub fn select(
     }
   }
   if multiple is Some(m) {
-    new_attributes["multiple"] = m |> @js.Value::cast_from
+    new_attributes["multiple"] = m |> @js.to_js
   }
   if disabled is Some(d) {
-    new_attributes["disabled"] = d |> @js.Value::cast_from
+    new_attributes["disabled"] = d |> @js.to_js
   }
   if name is Some(n) {
-    new_attributes["name"] = n |> @js.Value::cast_from
+    new_attributes["name"] = n |> @js.to_js
   }
   common_node(
     "select",
@@ -885,9 +885,9 @@ pub fn option(
       new_attributes[k] = v
     }
   }
-  new_attributes["value"] = value |> @js.Value::cast_from
+  new_attributes["value"] = value |> @js.to_js
   if selected is Some(s) {
-    new_attributes["selected"] = s |> @js.Value::cast_from
+    new_attributes["selected"] = s |> @js.to_js
   }
   common_node(
     "option",
@@ -934,7 +934,7 @@ pub fn label(
       new_attributes[k] = v
     }
   }
-  new_attributes["htmlFor"] = htmlFor |> @js.Value::cast_from
+  new_attributes["htmlFor"] = htmlFor |> @js.to_js
   common_node(
     "label",
     attributes.unwrap_or({}),
@@ -1137,12 +1137,12 @@ pub fn a(
       new_attributes[k] = v
     }
   }
-  new_attributes["href"] = href |> @js.Value::cast_from
+  new_attributes["href"] = href |> @js.to_js
   if download is Some(d) {
-    new_attributes["download"] = d |> @js.Value::cast_from
+    new_attributes["download"] = d |> @js.to_js
   }
   if target is Some(t) {
-    new_attributes["target"] = t |> @js.Value::cast_from
+    new_attributes["target"] = t |> @js.to_js
   }
   common_node(
     "a",
@@ -1196,24 +1196,24 @@ pub fn iframe(
       new_attributes[k] = v
     }
   }
-  new_attributes["src"] = src |> @js.Value::cast_from
+  new_attributes["src"] = src |> @js.to_js
   if width is Some(d) {
-    new_attributes["width"] = d |> @js.Value::cast_from
+    new_attributes["width"] = d |> @js.to_js
   }
   if height is Some(d) {
-    new_attributes["height"] = d |> @js.Value::cast_from
+    new_attributes["height"] = d |> @js.to_js
   }
   if frameborder is Some(d) {
-    new_attributes["frameborder"] = d |> @js.Value::cast_from
+    new_attributes["frameborder"] = d |> @js.to_js
   }
   if sandbox is Some(d) {
-    new_attributes["sandbox"] = d |> @js.Value::cast_from
+    new_attributes["sandbox"] = d |> @js.to_js
   }
   if allowfullscreen is Some(d) {
-    new_attributes["allowfullscreen"] = d |> @js.Value::cast_from
+    new_attributes["allowfullscreen"] = d |> @js.to_js
   }
   if loading is Some(d) {
-    new_attributes["loading"] = d |> @js.Value::cast_from
+    new_attributes["loading"] = d |> @js.to_js
   }
   common_node(
     "iframe",
@@ -1272,33 +1272,33 @@ pub fn img(
       new_attributes[k] = v
     }
   }
-  new_attributes["src"] = src |> @js.Value::cast_from
+  new_attributes["src"] = src |> @js.to_js
   if alt is Some(d) {
-    new_attributes["alt"] = d |> @js.Value::cast_from
+    new_attributes["alt"] = d |> @js.to_js
   }
   if crossorigin is Some(d) {
-    new_attributes["crossorigin"] = d |> @js.Value::cast_from
+    new_attributes["crossorigin"] = d |> @js.to_js
   }
   if decoding is Some(d) {
-    new_attributes["decoding"] = d |> @js.Value::cast_from
+    new_attributes["decoding"] = d |> @js.to_js
   }
   if width is Some(d) {
-    new_attributes["width"] = d |> @js.Value::cast_from
+    new_attributes["width"] = d |> @js.to_js
   }
   if height is Some(d) {
-    new_attributes["height"] = d |> @js.Value::cast_from
+    new_attributes["height"] = d |> @js.to_js
   }
   if fetchpriority is Some(d) {
-    new_attributes["fetchpriority"] = d |> @js.Value::cast_from
+    new_attributes["fetchpriority"] = d |> @js.to_js
   }
   if loading is Some(d) {
-    new_attributes["loading"] = d |> @js.Value::cast_from
+    new_attributes["loading"] = d |> @js.to_js
   }
   if sizes is Some(d) {
-    new_attributes["sizes"] = d |> @js.Value::cast_from
+    new_attributes["sizes"] = d |> @js.to_js
   }
   if srcset is Some(d) {
-    new_attributes["srcset"] = d |> @js.Value::cast_from
+    new_attributes["srcset"] = d |> @js.to_js
   }
   common_node(
     "img",
@@ -1349,7 +1349,7 @@ pub fn video(
     }
   }
   if controls is Some(c) {
-    new_attributes["controls"] = c |> @js.Value::cast_from
+    new_attributes["controls"] = c |> @js.to_js
   }
   common_node(
     "video",
@@ -1398,9 +1398,9 @@ pub fn source(
       new_attributes[k] = v
     }
   }
-  new_attributes["src"] = src |> @js.Value::cast_from
+  new_attributes["src"] = src |> @js.to_js
   if type_ is Some(t) {
-    new_attributes["type"] = t |> @js.Value::cast_from
+    new_attributes["type"] = t |> @js.to_js
   }
   common_node(
     "video",
@@ -1596,10 +1596,10 @@ pub fn button(
     }
   }
   if type_ is Some(t) {
-    new_attributes["type"] = t |> @js.Value::cast_from
+    new_attributes["type"] = t |> @js.to_js
   }
   if disabled is Some(d) {
-    new_attributes["disabled"] = d |> @js.Value::cast_from
+    new_attributes["disabled"] = d |> @js.to_js
   }
   common_node(
     "button",

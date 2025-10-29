@@ -1,0 +1,40 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/react_testing_library"
+
+import(
+  "mizchi/js/dom"
+  "mizchi/js/js"
+  "mizchi/js/react"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type FireEvent
+fn FireEvent::change_target_value(Self, @dom.Element, value~ : String) -> @js.Promise[Unit]
+fn FireEvent::click(Self, @dom.Element) -> Unit
+fn FireEvent::key_down(Self, @dom.Element, key? : String, code? : String, char_code? : Int) -> @js.Promise[Unit]
+fn FireEvent::key_up(Self, @dom.Element, key? : String, code? : String, char_code? : Int) -> @js.Promise[Unit]
+
+#external
+pub type ReactTestingLibrary
+fn ReactTestingLibrary::cleanup(Self) -> Unit
+fn ReactTestingLibrary::fire_event(Self) -> FireEvent
+async fn ReactTestingLibrary::load() -> Self
+fn ReactTestingLibrary::render(Self, @react.Element) -> Unit
+fn ReactTestingLibrary::screen(Self) -> Screen
+
+#external
+pub type Screen
+fn Screen::get_by_label_text(Self, String) -> @dom.Element
+fn Screen::get_by_role(Self, String) -> @dom.Element
+fn Screen::get_by_test_id(Self, String) -> @dom.Element
+fn Screen::get_by_text(Self, String) -> @dom.Element
+
+// Type aliases
+
+// Traits
+

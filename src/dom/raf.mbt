@@ -10,7 +10,7 @@ extern "js" fn ffi_request_animation_frame(f : () -> Unit) -> Unit =
 
 ///|
 pub async fn request_animation_frame(f : () -> Unit raise) -> Unit noraise {
-  suspend(fn(ok, _err) {
+  @js.suspend(fn(ok, _err) {
     ffi_request_animation_frame(() => {
       f() catch {
         _ => ()
@@ -24,14 +24,14 @@ pub async fn request_animation_frame(f : () -> Unit raise) -> Unit noraise {
 
 ///|
 pub async fn wait_animation_frames() -> Unit noraise {
-  suspend((ok, _) => ffi_request_animation_frame(() => ok(()))) catch {
+  @js.suspend((ok, _) => ffi_request_animation_frame(() => ok(()))) catch {
     _ => ()
   }
 }
 
 ///|
 test "raf" {
-  run_async(() => {
+  @js.run_async(() => {
     let mut f : (async () -> Unit noraise)? = None
     let mut cnt = 0
     f = Some(() => {
@@ -42,9 +42,9 @@ test "raf" {
           return
         }
         cnt += 1
-        run_async(next)
+        @js.run_async(next)
       })
     })
-    f.unwrap() |> run_async
+    f.unwrap() |> @js.run_async
   })
 }

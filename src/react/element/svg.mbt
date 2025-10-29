@@ -1,3 +1,4 @@
+using @js { to_js }
 ///|
 pub fn svg(
   // common props
@@ -22,10 +23,10 @@ pub fn svg(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["width"] = width |> @js.Value::cast_from
-  attrs["height"] = height |> @js.Value::cast_from
+  attrs["width"] = width |> to_js
+  attrs["height"] = height |> to_js
   if view_box is Some(view_box) {
-    attrs["viewBox"] = view_box |> @js.Value::cast_from
+    attrs["viewBox"] = view_box |> to_js
   }
   common_node(
     "svg",
@@ -69,17 +70,18 @@ pub fn circle(
   on_click? : (@dom.MouseEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["cx"] = cx |> @js.Value::cast_from
-  attrs["cy"] = cy |> @js.Value::cast_from
-  attrs["r"] = r |> @js.Value::cast_from
+  attrs["cx"] = cx |> to_js
+  attrs["cy"] = cy |> to_js
+  
+  attrs["r"] = r |> to_js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> @js.Value::cast_from
+    attrs["stroke"] = stroke |> to_js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> @js.Value::cast_from
+    attrs["strokeWidth"] = stroke_width |> to_js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> @js.Value::cast_from
+    attrs["fill"] = fill |> to_js
   }
   common_node(
     "circle",
@@ -127,18 +129,18 @@ pub fn ellipse(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["cx"] = cx |> @js.Value::cast_from
-  attrs["cy"] = cy |> @js.Value::cast_from
-  attrs["rx"] = rx |> @js.Value::cast_from
-  attrs["ry"] = ry |> @js.Value::cast_from
+  attrs["cx"] = cx |> to_js
+  attrs["cy"] = cy |> to_js
+  attrs["rx"] = rx |> to_js
+  attrs["ry"] = ry |> to_js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> @js.Value::cast_from
+    attrs["stroke"] = stroke |> to_js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> @js.Value::cast_from
+    attrs["strokeWidth"] = stroke_width |> to_js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> @js.Value::cast_from
+    attrs["fill"] = fill |> to_js
   }
   common_node(
     "circle",
@@ -186,18 +188,18 @@ pub fn rect(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> @js.Value::cast_from
-  attrs["y"] = y |> @js.Value::cast_from
-  attrs["width"] = width |> @js.Value::cast_from
-  attrs["height"] = height |> @js.Value::cast_from
+  attrs["x"] = x |> to_js
+  attrs["y"] = y |> to_js
+  attrs["width"] = width |> to_js
+  attrs["height"] = height |> to_js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> @js.Value::cast_from
+    attrs["stroke"] = stroke |> to_js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> @js.Value::cast_from
+    attrs["strokeWidth"] = stroke_width |> to_js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> @js.Value::cast_from
+    attrs["fill"] = fill |> to_js
   }
   common_node(
     "rect",
@@ -245,18 +247,18 @@ pub fn line(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x1"] = x1 |> @js.Value::cast_from
-  attrs["y1"] = y1 |> @js.Value::cast_from
-  attrs["x2"] = x2 |> @js.Value::cast_from
-  attrs["y2"] = y2 |> @js.Value::cast_from
+  attrs["x1"] = x1 |> to_js
+  attrs["y1"] = y1 |> to_js
+  attrs["x2"] = x2 |> to_js
+  attrs["y2"] = y2 |> to_js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> @js.Value::cast_from
+    attrs["stroke"] = stroke |> to_js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> @js.Value::cast_from
+    attrs["strokeWidth"] = stroke_width |> to_js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> @js.Value::cast_from
+    attrs["fill"] = fill |> to_js
   }
   common_node(
     "line",
@@ -301,15 +303,15 @@ pub fn path(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["d"] = d |> @js.Value::cast_from
+  attrs["d"] = d |> to_js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> @js.Value::cast_from
+    attrs["stroke"] = stroke |> to_js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> @js.Value::cast_from
+    attrs["strokeWidth"] = stroke_width |> to_js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> @js.Value::cast_from
+    attrs["fill"] = fill |> to_js
   }
   common_node(
     "path",
@@ -351,7 +353,7 @@ pub fn use_(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["href"] = href |> @js.Value::cast_from
+  attrs["href"] = href |> to_js
   common_node(
     "use",
     attrs,
@@ -395,15 +397,15 @@ pub fn polygon(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["points"] = points |> @js.Value::cast_from
+  attrs["points"] = points |> to_js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> @js.Value::cast_from
+    attrs["stroke"] = stroke |> to_js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> @js.Value::cast_from
+    attrs["strokeWidth"] = stroke_width |> to_js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> @js.Value::cast_from
+    attrs["fill"] = fill |> to_js
   }
   common_node(
     "points",
@@ -448,15 +450,15 @@ pub fn polyline(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["points"] = points |> @js.Value::cast_from
+  attrs["points"] = points |> to_js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> @js.Value::cast_from
+    attrs["stroke"] = stroke |> to_js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> @js.Value::cast_from
+    attrs["strokeWidth"] = stroke_width |> to_js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> @js.Value::cast_from
+    attrs["fill"] = fill |> to_js
   }
   common_node(
     "polyline",
@@ -502,13 +504,13 @@ pub fn g(
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> @js.Value::cast_from
+    attrs["stroke"] = stroke |> to_js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> @js.Value::cast_from
+    attrs["strokeWidth"] = stroke_width |> to_js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> @js.Value::cast_from
+    attrs["fill"] = fill |> to_js
   }
   common_node(
     "g",
@@ -598,31 +600,31 @@ pub fn text(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> @js.Value::cast_from
-  attrs["y"] = y |> @js.Value::cast_from
+  attrs["x"] = x |> to_js
+  attrs["y"] = y |> to_js
   if dx is Some(dx) {
-    attrs["dx"] = dx |> @js.Value::cast_from
+    attrs["dx"] = dx |> to_js
   }
   if dy is Some(dy) {
-    attrs["dy"] = dy |> @js.Value::cast_from
+    attrs["dy"] = dy |> to_js
   }
   if length_adjust is Some(length_adjust) {
-    attrs["lengthAdjust"] = length_adjust |> @js.Value::cast_from
+    attrs["lengthAdjust"] = length_adjust |> to_js
   }
   if text_length is Some(text_length) {
-    attrs["textLength"] = text_length |> @js.Value::cast_from
+    attrs["textLength"] = text_length |> to_js
   }
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> @js.Value::cast_from
+    attrs["stroke"] = stroke |> to_js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> @js.Value::cast_from
+    attrs["strokeWidth"] = stroke_width |> to_js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> @js.Value::cast_from
+    attrs["fill"] = fill |> to_js
   }
   if rotate is Some(rotate) {
-    attrs["rotate"] = rotate |> @js.Value::cast_from
+    attrs["rotate"] = rotate |> to_js
   }
   common_node(
     "text",
@@ -664,9 +666,9 @@ pub fn image(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> @js.Value::cast_from
-  attrs["y"] = y |> @js.Value::cast_from
-  attrs["href"] = href |> @js.Value::cast_from
+  attrs["x"] = x |> to_js
+  attrs["y"] = y |> to_js
+  attrs["href"] = href |> to_js
   common_node(
     "image",
     attrs,

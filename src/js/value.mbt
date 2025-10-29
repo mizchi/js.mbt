@@ -7,20 +7,15 @@ pub type Value
 pub fn[T] Value::cast(self : Value) -> T = "%identity"
 
 ///|
-pub fn Value::cast_option(self : Value) -> Value? {
-  if self.is_undefined() || self.is_null() {
-    None
-  } else {
-    Some(self.cast())
-  }
+pub fn[T] to_js(v : T) -> Value = "%identity"
+
+///|
+pub fn[A, B] identity(a : A) -> B {
+  to_js(a).cast()
 }
 
-///|
-pub fn[T] Value::cast_from(self : T) -> Value = "%identity"
-
-///|
 pub extern "js" fn Value::to_string(self : Value) -> String =
-  #| (v) => String(v)
+  #| (v) => v == null ? String(v) : v.toString()
 
 ///|
 pub impl Show for Value with output(self, logger) {
@@ -59,6 +54,14 @@ pub extern "js" fn Value::call(self : Value, args : Array[Value]) -> Value =
   #|(f, args) => f(...args)
 
 ///|
+extern "js" fn Value::set_internal(
+  self : Value,
+  key : String,
+  value : Value,
+) -> Unit =
+  #| (obj, k, v) => obj[k] = v
+
+///|
 #alias("_[_]=_")
 pub fn Value::set(self : Value, key : String, value : &ToJs) -> Unit {
   self.set_internal(key, value.to_js())
@@ -69,7 +72,7 @@ pub fn[T] Value::to_option(self : Value) -> T? {
   if self.is_undefined() || self.is_null() {
     None
   } else {
-    Some(self |> identity)
+    Some(self.cast())
   }
 }
 
@@ -82,11 +85,6 @@ pub extern "js" fn Value::is_equal(self : Value, other : Value) -> Bool =
   #| (v, o) => v === o
 
 ///|
-pub fn[A, B] identity(a : A) -> B {
-  Value::cast_from(a).cast()
-}
-
-///|
 extern "js" fn ffi_try_call(
   f : () -> Value raise,
 ) -> Result[Value, Value] noraise =
@@ -97,7 +95,6 @@ extern "js" fn ffi_try_call(
   #|    return { $tag: 0, value: e };
   #|  }
   #|}
-
 
 ///|
 pub fn[T] Value::try_call(
@@ -113,7 +110,7 @@ pub fn[T] Value::try_call(
 pub fn[T] try_call(
   f: () -> T,
 ) -> T raise JsError {
-  let f: Value = Value::cast_from(f)
+  let f: Value = to_js(f)
   match ffi_try_call(() => f.call([])) {
     Err(e) => raise JsError(e)
     Ok(v) => v.cast()

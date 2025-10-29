@@ -10,22 +10,22 @@ pub impl ToJs for Value with to_js(self) -> Value {
 
 ///|
 pub impl ToJs for String with to_js(self) -> Value {
-  Value::cast_from(self)
+  to_js(self)
 }
 
 ///|
 pub impl ToJs for Double with to_js(self) -> Value {
-  Value::cast_from(self)
+  to_js(self)
 }
 
 ///|
 pub impl ToJs for Int with to_js(self) -> Value {
-  Value::cast_from(self.to_double())
+  to_js(self.to_double())
 }
 
 ///|
 pub impl ToJs for Bool with to_js(self) -> Value {
-  Value::cast_from(self)
+  to_js(self)
 }
 
 ///|
@@ -50,10 +50,10 @@ pub impl ToJs for Array[&ToJs] with to_js(self) -> Value {
 pub impl ToJs for Json with to_js(self) -> Value {
   match self {
     Json::Null => js_null()
-    Json::String(s) => Value::cast_from(s)
-    Json::Number(n, ..) => Value::cast_from(n)
-    Json::True => Value::cast_from(true)
-    Json::False => Value::cast_from(false)
+    Json::String(s) => to_js(s)
+    Json::Number(n, ..) => to_js(n)
+    Json::True => to_js(true)
+    Json::False => to_js(false)
     Json::Object(o) => {
       let obj = new_object()
       for k, v in o {

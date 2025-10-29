@@ -60,7 +60,7 @@ impl ToJs for Params with to_js(self) -> @js.Value {
       v()
       @js.js_undefined()
     }
-    obj.set(k, @js.Value::cast_from(h))
+    obj.set(k, to_js(h))
   }
   obj
 }
@@ -73,13 +73,8 @@ test "handlers in js value" {
     "hover": fn() { called = called + 1 },
   }
   let p = Params::{ x: 123, events }
-  let js_val: @js.Value = p.to_js() |> identity
-  // js_val |> @js.JSON::stringify(indent=2)
-  // |> inspect(
-  //   content=(
-  //     #|{"x":123}
-  //   ),
-  // )
+  let js_val: @js.Value = p.to_js()
+  assert_eq(js_val.get("x").cast(), 123)
   let x = js_val.get("hover")
   x.is_function() |> assert_true
   let _ = x.call([])
@@ -132,6 +127,7 @@ test {
   }
 }
 
+///|
 test {
   let f = fn() {
     let (promise, resolve, _reject) = Promise::deferred()
@@ -143,10 +139,11 @@ test {
   }
   run_async(() => {
     @js.sleep(10)
-    let v: Int = f().wait() catch {_=>0}
+    let v : Int = f().wait() catch { _ => 0 }
     println("Got value from promise: \{v}")
-
-    let v2 = f().then(v => v.to_string() |> Promise::resolve).wait() catch {_=>"error"}
+    let v2 = f().then(v => v.to_string() |> Promise::resolve).wait() catch {
+      _ => "error"
+    }
     println("Got value from promise then: \{v2}")
   })
 }

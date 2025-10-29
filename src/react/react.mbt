@@ -40,7 +40,7 @@ pub impl @js.ToJs for Element with to_js(self) -> @js.Value {
 }
 
 ///|
-pub fn h(
+pub fn create_element(
   tag : String,
   disabled? : Bool,
   attributes? : Map[String, @js.Value],
@@ -56,7 +56,7 @@ pub fn h(
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> Element {
-  let tag = @js.Value::cast_from(tag)
+  let tag = @js.to_js(tag)
   let children = @js.Value::from_array(children)
   let val : @js.Value = @js.new_object()
   if attributes is Some(props) {
@@ -65,7 +65,7 @@ pub fn h(
     }
   }
   if ref_ is Some(ref_) {
-    val["ref"] = ref_ |> @js.Value::cast_from
+    val["ref"] = ref_ |> @js.to_js
   }
   if key is Some(key) {
     val["key"] = key
@@ -80,12 +80,12 @@ pub fn h(
     val["className"] = className
   }
   if disabled is Some(disabled) {
-    val["disabled"] = disabled |> @js.Value::cast_from
+    val["disabled"] = disabled |> @js.to_js
   }
   if style is Some(style) {
     let style_obj : @js.Value = @js.new_object()
     for k, v in style {
-      style_obj[k] = @js.Value::cast_from(v)
+      style_obj[k] = @js.to_js(v)
     }
     val["style"] = style_obj
   }
@@ -108,6 +108,8 @@ pub fn h(
   create_element_raw(tag, val, children) |> @js.identity
 }
 
+pub fnalias create_element as h
+
 ///|
 pub fn[T] c(
   tag : (T) -> Element,
@@ -115,7 +117,7 @@ pub fn[T] c(
   children? : Array[&@js.ToJs],
   key? : String,
 ) -> Element {
-  let tag = @js.Value::cast_from(tag)
+  let tag = @js.to_js(tag)
   let children = @js.Value::from_array(children.unwrap_or([]))
   let val : @js.Value = props |> @js.identity
   if key is Some(key) {
@@ -129,7 +131,7 @@ pub fn fragment(
   children : Array[&@js.ToJs],
   key? : String,
 ) -> Element {
-  let tag = @js.Value::cast_from(get_fragment())
+  let tag = @js.to_js(get_fragment())
   let children = @js.Value::from_array(children)
   let val : @js.Value = @js.new_object() |> @js.identity
   if key is Some(key) {
@@ -143,10 +145,10 @@ pub fn suspense(
   children : Array[&@js.ToJs],
   fallback~ : Element,
 ) -> Element {
-  let tag = get_suspense() |> @js.Value::cast_from
+  let tag = get_suspense() |> @js.to_js
   let children = @js.Value::from_array(children)
   let val : @js.Value = @js.new_object() |> @js.identity
-  val["fallback"] = fallback |> @js.Value::cast_from
+  val["fallback"] = fallback |> @js.to_js
   create_element_raw(tag, val, children) |> @js.identity
 }
 
@@ -156,7 +158,7 @@ pub fn[T] provider(
   children : Array[&@js.ToJs],
   value~ : T,
 ) -> Element {
-  let tag = @js.Value::cast_from(tag)
+  let tag = @js.to_js(tag)
   let children = @js.Value::from_array(children)
   let val : @js.Value = value |> @js.identity
   let props = @js.new_object()

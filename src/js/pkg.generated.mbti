@@ -20,15 +20,19 @@ fn[A, B] identity(A) -> B
 
 fn import_meta() -> Value
 
-async fn import_module(String, specifier? : String) -> Value
+async fn import_module(String) -> Value
+
+fn import_module_promise(String) -> Promise[Value]
+
+fn js_null() -> Value
+
+fn js_undefined() -> Value
 
 fn[T] log(T) -> Unit
 
 fn new_array() -> Value
 
 fn new_object() -> Value
-
-fn null_() -> Value
 
 fn[R] return_promise(async () -> R) -> Promise[R]
 
@@ -40,9 +44,13 @@ fn set_timeout(() -> Unit, Int) -> JSTimer
 
 async fn sleep(Int) -> Unit noraise
 
+fn stringify(Value, indent? : Int) -> String
+
 fn structured_clone(Value) -> Value
 
 async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
+
+fn[T] to_js(T) -> Value
 
 fn[R] to_promise_fn0(async () -> R) -> () -> Promise[R]
 
@@ -52,7 +60,7 @@ fn[A, B, R] to_promise_fn2(async (A, B) -> R) -> (A, B) -> Promise[R]
 
 fn[A, B, C, R] to_promise_fn3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
 
-fn undefined() -> Value
+fn[T] try_call(() -> T) -> T raise JsError
 
 // Errors
 pub suberror JsError Value
@@ -62,6 +70,9 @@ pub suberror JsError Value
 pub type Date
 fn Date::new() -> Self
 fn Date::now() -> Int
+
+#external
+pub type JSON
 
 #external
 pub type JSTimer
@@ -88,6 +99,24 @@ fn Math::sqrt(Double) -> Double
 fn Math::tan(Double) -> Double
 fn Math::tanh(Double) -> Double
 fn Math::trunc(Double) -> Double
+
+#external
+pub type Object
+fn Object::assign(Value, Value) -> Value
+fn Object::extend(Value, Value) -> Value
+fn Object::freeze(Value) -> Value
+fn Object::from(Map[String, &ToJs]) -> Self
+#alias("_[_]")
+fn Object::get(Self, String) -> Unit
+fn Object::has_own_property(Self, String) -> Bool
+fn Object::is_(Value, Value) -> Array[Value]
+fn Object::keys(Value) -> Array[String]
+fn Object::new() -> Self
+fn Object::seal(Value) -> Value
+#alias("_[_]=_")
+fn Object::set(Self, String, Value) -> Unit
+fn Object::to_value(Self) -> Value
+fn Object::values(Value) -> Array[Value]
 
 #external
 pub type Promise[T]
@@ -128,12 +157,9 @@ pub type Value
 fn Value::at(Self, Int) -> Self
 fn Value::call(Self, Array[Self]) -> Self
 fn[T] Value::cast(Self) -> T
-fn[T] Value::cast_from(T) -> Self
-fn Value::cast_option(Self) -> Self?
 fn Value::delete(Self, String) -> Unit
 fn Value::from_array(Array[&ToJs]) -> Self
 fn Value::from_js_array(Array[Self]) -> Self
-fn Value::from_map(Map[String, &ToJs]) -> Self
 #alias("_[_]")
 fn Value::get(Self, String) -> Self
 fn Value::get_inner(Self, String) -> Self
@@ -148,13 +174,11 @@ fn Value::is_number(Self) -> Bool
 fn Value::is_object(Self) -> Bool
 fn Value::is_string(Self) -> Bool
 fn Value::is_undefined(Self) -> Bool
-fn Value::keys(Self) -> Array[String]
 fn Value::length(Self) -> Int
 fn Value::output(Self, &Logger) -> Unit // from trait `Show`
 fn Value::push(Self, &ToJs) -> Unit
 #alias("_[_]=_")
 fn Value::set(Self, String, &ToJs) -> Unit
-fn Value::stringify(Self, indent? : Int) -> String
 fn Value::to_js(Self) -> Self // from trait `ToJs`
 fn Value::to_json(Self) -> Json // from trait `ToJson`
 fn[T] Value::to_option(Self) -> T?

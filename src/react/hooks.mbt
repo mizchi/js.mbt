@@ -81,7 +81,7 @@ pub fn use_effect(f : () -> () -> Unit, keys : Array[&@js.ToJs]) -> Unit {
 
 ///|
 pub fn[T] use_memo(f : () -> T, keys : Array[@js.Value]) -> T {
-  let f = () => f() |> @js.Value::cast_from
+  let f = () => f() |> @js.to_js
   let v : T = use_memo_internal(f, keys).cast()
   v
 }
