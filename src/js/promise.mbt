@@ -77,9 +77,10 @@ fn[A, B] Promise::bind(
 ///|
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[A] Promise::wait(self : Self[A]) -> A {
-  suspend((ok, err) => {
-    self.to_js().call_property2("then", to_js(ok), to_js(err)) |> ignore
-  })
+  suspend((ok, err) => self
+    .to_js()
+    .call_property2("then", to_js(ok), to_js(err))
+    |> ignore)
 }
 
 ///|
@@ -145,4 +146,3 @@ pub fn[A, B, C, R] to_promise_fn3(
     p
   }
 }
-

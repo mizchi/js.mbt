@@ -8,11 +8,6 @@ impl ToJs for Object with to_js(self) -> Value {
 }
 
 ///|
-pub fn to_value(self : Object) -> Value {
-  self |> identity
-}
-
-///|
 #alias("_[_]=_")
 pub extern "js" fn Object::set(self : Self, k : String, v : Value) -> Unit =
   #| (obj, k, v) => { obj[k] = v; }
@@ -26,6 +21,7 @@ pub extern "js" fn Object::get(self : Self, k : String) -> Unit =
 pub extern "js" fn Object::keys(v : Value) -> Array[String] =
   #| (obj) => Object.keys(obj)
 
+///|
 pub fn Object::assign(a : Value, b : Value) -> Value {
   ffi_object_assign(a, b)
 }

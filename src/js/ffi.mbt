@@ -33,7 +33,7 @@ pub extern "js" fn ffi_has_own_property(v : Value, k : String) -> Bool =
 ///|
 extern "js" fn ffi_safe_call(
   f : () -> Value raise?,
-  args :  Array[Value],
+  args : Array[Value],
 ) -> Result[Value, Error] noraise =
   #|(f) => {
   #|  try {

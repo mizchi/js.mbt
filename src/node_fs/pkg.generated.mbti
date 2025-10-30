@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node_fs"
+
+// Values
+async fn read_file(String) -> String
+
+async fn write_file(String, String) -> Unit
+
+// Errors
+
+// Types and methods
+#external
+pub type Fs
+
+// Type aliases
+
+// Traits
+

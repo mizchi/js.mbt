@@ -14,7 +14,7 @@ pub fn[T] Value::cast_option(self : Value) -> T? {
     None
   }
 }
- 
+
 ///|
 pub impl Show for Value with output(self, logger) {
   logger.write_string(self.to_string())
@@ -36,6 +36,7 @@ pub fn[T] get_as(self : Value, key : String) -> T {
   ffi_get(self, key).cast()
 }
 
+///|
 pub fn safe_get(self : Value, key : String) -> Value? {
   if self.is_undefined() || self.is_null() {
     None
@@ -67,15 +68,10 @@ pub fn unsafe_call(self : Value, args : Array[&ToJs]) -> Value raise {
   }
 }
 
-
 ///|
-pub fn safe_call(
-  self : Value,
-  args : Array[&ToJs],
-) -> Result[Value, Error] {
+pub fn safe_call(self : Value, args : Array[&ToJs]) -> Result[Value, Error] {
   ffi_safe_call(self |> identity, args.map(_.to_js()))
 }
-
 
 ///|
 pub fn call0(self : Value) -> Value {
@@ -102,19 +98,12 @@ pub fn Value::call_property(
 }
 
 ///|
-pub fn Value::call_property0(
-  self : Value,
-  key : String,
-) -> Value {
+pub fn Value::call_property0(self : Value, key : String) -> Value {
   ffi_call_property(self, key, [])
 }
 
 ///|
-pub fn Value::call_property1(
-  self : Value,
-  key : String,
-  arg1 : &ToJs,
-) -> Value {
+pub fn Value::call_property1(self : Value, key : String, arg1 : &ToJs) -> Value {
   ffi_call_property(self, key, [arg1.to_js()])
 }
 
@@ -185,7 +174,6 @@ pub extern "js" fn is_number(self : Value) -> Bool =
 ///|
 pub extern "js" fn is_null(self : Value) -> Bool =
   #| (v) => v === null
-
 
 ///|
 pub extern "js" fn is_undefined(self : Value) -> Bool =

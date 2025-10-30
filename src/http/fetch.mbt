@@ -1,38 +1,17 @@
 ///|
-#external
-pub type Request
-pub impl ToJs for Request with to_js(self) {
-  self |> to_js
-}
-
-///|
-#external
-pub type Response
-pub impl ToJs for Response with to_js(self) {
-  self |> to_js
-}
-
-///|
-pub extern "js" fn Response::json(self : Response) -> Promise[Value] =
-  #| (v) => v.json()
-
-///|
-pub extern "js" fn Response::text(self : Response) -> Promise[String] =
-  #| (v) => v.text()
-
-///|
 extern "js" fn ffi_fetch(url : String, init : Value) -> Promise[Response] =
   #| (url, init) => fetch(url, init)
 
 ///|
-// extern "js" fn ffi_fetch_req(request: Request) -> Promise[Response] =
-//   #| (req) => fetch(req)
+extern "js" fn ffi_fetch_request(request : Request) -> Promise[Response] =
+  #| (request) => fetch(request)
 
 ///|
 pub async fn fetch(
   url : String,
   method_~ : String,
   headers? : Map[String, String],
+  body? : String,
 ) -> Promise[Response] {
   let init_obj = new_object()
   init_obj.set("method", method_)
@@ -41,13 +20,21 @@ pub async fn fetch(
       init_obj.set(k, v)
     }
   }
+  if body is Some(body) {
+    init_obj["body"] = body
+  }
   ffi_fetch(url, init_obj)
+}
+
+///|
+pub async fn fetch_request(request : Request) -> Promise[Response] {
+  ffi_fetch_request(request)
 }
 
 ///|
 #skip("fetch test requires network")
 test "fetch" {
-  run_async(async fn() noraise {
+  run_async(() => {
     let response = fetch(
       "https://jsonplaceholder.typicode.com/todos/1",
       method_="GET",

@@ -2,6 +2,8 @@
 package "mizchi/js/js"
 
 // Values
+fn before_each(async () -> Unit) -> Unit
+
 fn clear_interval(JSTimer) -> Unit
 
 fn clear_timeout(JSTimer) -> Unit
@@ -12,9 +14,9 @@ fn[T] console_info(T) -> Unit
 
 fn[T] console_log(T) -> Unit
 
-fn[T] console_warn(T) -> Unit
+fn[T] console_table(T) -> Unit
 
-async fn fetch(String, method_~ : String, headers? : Map[String, String]) -> Promise[Response]
+fn[T] console_warn(T) -> Unit
 
 fn ffi_get(Value, String) -> Value
 
@@ -30,6 +32,8 @@ async fn import_module(String) -> Value
 
 fn import_module_promise(String) -> Promise[Value]
 
+fn it(String, skip? : String, async (TestContext) -> Unit) -> Unit
+
 fn js_null() -> Value
 
 fn js_undefined() -> Value
@@ -43,8 +47,6 @@ fn[T1, T2, T3] log3(T1, T2, T3) -> Unit
 fn new_array() -> Value
 
 fn new_object() -> Value
-
-fn[R] return_promise(async () -> R) -> Promise[R]
 
 fn run_async(async () -> Unit noraise) -> Unit
 
@@ -70,10 +72,7 @@ fn[A, B, R] to_promise_fn2(async (A, B) -> R) -> (A, B) -> Promise[R]
 
 fn[A, B, C, R] to_promise_fn3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
 
-fn[T] try_call(() -> T) -> T raise JsError
-
 // Errors
-pub suberror JsError Value
 
 // Types and methods
 #external
@@ -108,20 +107,21 @@ fn Math::tanh(Double) -> Double
 fn Math::trunc(Double) -> Double
 
 #external
+pub type NodeTest
+fn NodeTest::before_each(Self, async () -> Unit) -> Unit
+fn NodeTest::it(Self, String, async (TestContext) -> Unit, skip? : String) -> Unit
+
+#external
 pub type Object
 fn Object::assign(Value, Value) -> Value
-fn Object::extend(Value, Value) -> Value
-fn Object::freeze(Value) -> Value
 fn Object::from(Map[String, &ToJs]) -> Self
 #alias("_[_]")
 fn Object::get(Self, String) -> Unit
 fn Object::is_(Value, Value) -> Bool
 fn Object::keys(Value) -> Array[String]
 fn Object::new() -> Self
-fn Object::seal(Value) -> Value
 #alias("_[_]=_")
 fn Object::set(Self, String, Value) -> Unit
-fn Object::to_value(Self) -> Value
 fn Object::values(Value) -> Array[Value]
 
 #external
@@ -152,12 +152,10 @@ pub struct RegExpResult {
 }
 
 #external
-pub type Request
-
-#external
-pub type Response
-fn Response::json(Self) -> Promise[Value]
-fn Response::text(Self) -> Promise[String]
+pub type TestContext
+fn TestContext::to_js(Self) -> Value // from trait `ToJs`
+fn TestContext::todo(Self, String) -> Unit
+impl ToJs for TestContext
 
 #external
 pub type Value
@@ -167,7 +165,11 @@ fn Value::call0(Self) -> Self
 fn Value::call1(Self, &ToJs) -> Self
 fn Value::call2(Self, &ToJs, &ToJs) -> Self
 fn Value::call_property(Self, String, Array[&ToJs]) -> Self
+fn Value::call_property0(Self, String) -> Self
+fn Value::call_property1(Self, String, &ToJs) -> Self
+fn Value::call_property2(Self, String, &ToJs, &ToJs) -> Self
 fn[T] Value::cast(Self) -> T
+fn[T] Value::cast_option(Self) -> T?
 fn Value::delete(Self, String) -> Unit
 fn Value::equal(Self, Self) -> Bool // from trait `Eq`
 fn Value::from_array(Array[&ToJs]) -> Self
@@ -181,9 +183,11 @@ fn Value::is_boolean(Self) -> Bool
 fn Value::is_error(Self) -> Bool
 fn Value::is_function(Self) -> Bool
 fn Value::is_nan(Self) -> Bool
+fn Value::is_none(Self) -> Bool
 fn Value::is_null(Self) -> Bool
 fn Value::is_number(Self) -> Bool
 fn Value::is_object(Self) -> Bool
+fn Value::is_some(Self) -> Bool
 fn Value::is_string(Self) -> Bool
 fn Value::is_undefined(Self) -> Bool
 fn Value::length(Self) -> Int
@@ -191,13 +195,15 @@ fn Value::length(Self) -> Int
 fn Value::op_equal(Self, Self) -> Bool // from trait `Eq`
 fn Value::output(Self, &Logger) -> Unit // from trait `Show`
 fn Value::push(Self, &ToJs) -> Unit
+fn Value::safe_call(Self, Array[&ToJs]) -> Result[Self, Error]
+fn Value::safe_get(Self, String) -> Self?
 #alias("_[_]=_")
 fn Value::set(Self, String, &ToJs) -> Unit
 fn Value::to_js(Self) -> Self // from trait `ToJs`
 fn Value::to_json(Self) -> Json // from trait `ToJson`
 fn[T] Value::to_option(Self) -> T?
 fn Value::to_string(Self) -> String
-fn[T] Value::try_call(Self, Array[Self]) -> T raise JsError
+fn Value::unsafe_call(Self, Array[&ToJs]) -> Self raise
 impl ToJs for Value
 impl Eq for Value
 impl Show for Value
@@ -213,6 +219,7 @@ impl ToJs for Bool
 impl ToJs for Int
 impl ToJs for Double
 impl ToJs for String
+impl ToJs for Error
 impl ToJs for Array[&ToJs]
 impl ToJs for Json
 impl ToJs for Map[String, &ToJs]

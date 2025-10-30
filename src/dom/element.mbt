@@ -1,6 +1,7 @@
 ///|
 #external
 pub type Element
+
 ///|
 pub impl ToJs for Element with to_js(self) -> @js.Value {
   self |> to_js
@@ -32,19 +33,15 @@ pub fn get_text_content(self : Element) -> String {
 }
 
 ///|
-pub fn set_attribute(
-  self : Element,
-  name : String,
-  value : String,
-) -> Unit {
-  self.to_js().call_property("setAttribute", [name |> @js.to_js, value |> @js.to_js]) |> ignore
+pub fn set_attribute(self : Element, name : String, value : String) -> Unit {
+  self
+  .to_js()
+  .call_property("setAttribute", [name |> @js.to_js, value |> @js.to_js])
+  |> ignore
 }
 
 ///|
-pub fn get_attribute(
-  self : Element,
-  name : String,
-) -> Value? {
+pub fn get_attribute(self : Element, name : String) -> Value? {
   self.to_js().call_property("getAttribute", [name |> @js.to_js]).cast_option()
 }
 
@@ -54,24 +51,21 @@ pub fn get_value(self : Element) -> String {
 }
 
 ///|
-pub fn append_child(
-  self : Element,
-  child : Element,
-) -> Element {
+pub fn append_child(self : Element, child : Element) -> Element {
   self.to_js().call_property("appendChild", [child |> @js.to_js]).cast()
 }
 
 ///|
-pub fn insert_before(
-  self : Element,
-  child : Element,
-) -> Element {
+pub fn insert_before(self : Element, child : Element) -> Element {
   self.to_js().call_property("insertBefore", [child |> @js.to_js]).cast()
 }
 
 ///|
 pub fn query_selector(self : Element, selector : String) -> Element? {
-  self.to_js().call_property("querySelector", [selector |> @js.to_js]).cast_option()
+  self
+  .to_js()
+  .call_property("querySelector", [selector |> @js.to_js])
+  .cast_option()
 }
 
 ///|
@@ -106,7 +100,10 @@ pub fn add_event_listener(
   event : String,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.to_js().call_property("addEventListener", [event |> @js.to_js, listener |> @js.to_js]) |> ignore
+  self
+  .to_js()
+  .call_property("addEventListener", [event |> @js.to_js, listener |> @js.to_js])
+  |> ignore
 }
 
 ///|
@@ -115,5 +112,11 @@ pub fn remove_event_listener(
   event : String,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.to_js().call_property("removeEventListener", [event |> @js.to_js, listener |> @js.to_js]) |> ignore
+  self
+  .to_js()
+  .call_property("removeEventListener", [
+    event |> @js.to_js,
+    listener |> @js.to_js,
+  ])
+  |> ignore
 }

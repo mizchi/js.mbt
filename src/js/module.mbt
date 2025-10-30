@@ -13,13 +13,11 @@ pub async fn import_module(module_name : String) -> Value {
 
 ///|
 test {
-  run_async(() => try {
-    let basename : (String) -> String = import_module("node:path")
-      .get_as("basename")
-    let x : String = basename("a/b/c.txt") |> identity
-    assert_eq(x, "c.txt")
-  } catch {
-    _ => panic()
+  it("import path module", _ => {
+    let basename : (String) -> String = import_module("node:path").get_as(
+      "basename",
+    )
+    basename("a/b/c.txt") |> assert_eq("c.txt")
   })
 }
 
@@ -41,8 +39,8 @@ test {
     }
     let rawjs = ToJs::to_js(json)
     let parse_args : (Value) -> Value = import_module("node:util").get_as(
-        "parseArgs",
-      )
+      "parseArgs",
+    )
     let parsed = parse_args(rawjs)
     let parsed : Parsed = Parsed::{
       help: parsed.get("values").get("help").cast(),
@@ -55,6 +53,7 @@ test {
   })
 }
 
+///|
 pub impl ToJs for Error with to_js(self) {
   self |> to_js
 }
@@ -63,17 +62,15 @@ pub impl ToJs for Error with to_js(self) {
 test "fail import" {
   run_async(() => {
     let t = NodeTest::load() catch { _ => panic() }
-    t.it("import failure", (_) => {
-      try {
-        let _ = import_module("non-existent-module")
-        fail("unreachable")
-      } catch {
-        e => {
-          let e : Value = ToJs::to_js(e)
-          assert_eq(e.is_error(), true)
-          let m : String = e.get("message").cast()
-          assert_true(m.contains("Cannot find package 'non-existent-module'"))
-        }
+    t.it("import failure", _ => try {
+      let _ = import_module("non-existent-module")
+      fail("unreachable")
+    } catch {
+      e => {
+        let e : Value = ToJs::to_js(e)
+        assert_eq(e.is_error(), true)
+        let m : String = e.get("message").cast()
+        assert_true(m.contains("Cannot find package 'non-existent-module'"))
       }
     })
   })

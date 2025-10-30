@@ -83,9 +83,9 @@ test "handlers in js value" {
 ///|
 test "Value::from" {
   let v = @js.Object::from({ "key1": 123, "key2": "str", "key3": true })
-    |> @js.identity
   v
-  |> @js.stringify(indent=2)
+  |> identity
+  |> stringify(indent=2)
   |> inspect(
     content=(
       #|{
@@ -132,4 +132,27 @@ test "error call" {
   } catch {
     _e => assert_true(true)
   }
+}
+
+///|
+test "equal" {
+  // object equal
+  let v1 = @js.new_object()
+  let v2 = v1
+  let v3 = @js.new_object()
+  assert_true(v1 == v2)
+  assert_false(v1 == v3)
+
+  // primitive equal
+  let v4 : Value = 123 |> to_js()
+  let v5 : Value = 123 |> to_js()
+  assert_true(v4 == v5)
+}
+
+///|
+test "to_string" {
+  let v : Value = 123 |> to_js()
+  assert_eq(v.to_string(), "123")
+  let s : Value = "hello" |> to_js()
+  assert_eq(s.to_string(), "hello")
 }

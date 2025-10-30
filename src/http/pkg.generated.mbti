@@ -1,0 +1,42 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/http"
+
+import(
+  "mizchi/js/js"
+)
+
+// Values
+async fn fetch(String, method_~ : String, headers? : Map[String, String], body? : String) -> @js.Promise[Response]
+
+async fn fetch_request(Request) -> @js.Promise[Response]
+
+// Errors
+
+// Types and methods
+#external
+pub type Request
+fn Request::array_buffer(Self) -> @js.Promise[@js.Value]
+fn Request::blob(Self) -> @js.Promise[@js.Value]
+fn Request::body_used(Self) -> Bool
+fn Request::bytes(Self) -> @js.Promise[@js.Value]
+fn Request::clone(Self) -> Self
+fn Request::credentials(Self) -> String
+fn Request::json(Self) -> @js.Promise[@js.Value]
+fn Request::method_(Self) -> String
+fn Request::new(String) -> Self
+fn Request::text(Self) -> @js.Promise[String]
+fn Request::to_js(Self) -> @js.Value // from trait `@js.ToJs`
+fn Request::url(Self) -> String
+impl @js.ToJs for Request
+
+#external
+pub type Response
+fn Response::json(Self) -> @js.Promise[@js.Value]
+fn Response::text(Self) -> @js.Promise[String]
+fn Response::to_js(Self) -> @js.Value // from trait `@js.ToJs`
+impl @js.ToJs for Response
+
+// Type aliases
+
+// Traits
+

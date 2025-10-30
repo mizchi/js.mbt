@@ -6,6 +6,7 @@ pub impl[R] ToJs for Fn0[R] with to_js(self) {
   self.0 |> @js.to_js
 }
 
+///|
 test "Fn0" {
   let f = Fn0(() => 42)
   let v : Int = f.to_js().call([]) |> identity
@@ -30,15 +31,21 @@ test "Fn0" {
 //   self |> @js.to_js
 // }
 
+///|
 #external
 pub type AsyncFn0[R]
+
+///|
 pub impl[R] ToJs for AsyncFn0[R] with to_js(self) {
   self |> @js.to_js
 }
-pub fn[R] AsyncFn0::from(f : async () -> R raise) -> AsyncFn0[R] {
+
+///|
+pub fn[R] AsyncFn0::from(f : async () -> R) -> AsyncFn0[R] {
   @js.to_promise_fn0(f) |> identity
 }
 
+///|
 pub fn[R] AsyncFn0::call(self : AsyncFn0[R]) -> Promise[R] {
   self.to_js().call([]) |> identity
 }

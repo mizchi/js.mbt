@@ -4,6 +4,8 @@ using @js {to_js}
 ///|
 #external
 pub type ReactTestingLibrary
+
+///|
 impl @js.ToJs for ReactTestingLibrary with to_js(self) {
   self |> @js.to_js
 }
@@ -40,6 +42,8 @@ pub fn fire_event(self : ReactTestingLibrary) -> FireEvent {
 ///|
 #external
 pub type Screen
+
+///|
 impl @js.ToJs for Screen with to_js(self) {
   self |> @js.to_js
 }
@@ -71,6 +75,8 @@ pub fn Screen::get_by_test_id(self : Screen, text : String) -> @dom.Element {
 ///|
 #external
 pub type FireEvent
+
+///|
 impl @js.ToJs for FireEvent with to_js(self) {
   self |> @js.to_js
 }

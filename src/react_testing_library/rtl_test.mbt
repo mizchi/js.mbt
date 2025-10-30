@@ -1,5 +1,5 @@
 ///|
-priv struct AppProps {}
+priv struct AppProps {} derive(Default)
 
 ///|
 fn app(_props : AppProps) -> @react.Element {
@@ -16,14 +16,14 @@ fn app(_props : AppProps) -> @react.Element {
 
 ///|
 test {
-  @js.run_async(() => {
-    let rtl = @react_testing_library.ReactTestingLibrary::load()
+  @js.run_async(() => try {
+    let rtl = ReactTestingLibrary::load()
     @js.before_each(() => {
       let _ = @react.init_react_client()
       rtl.cleanup()
     })
     @js.it("renders app and responds to click", _ => {
-      rtl.render(@react.c(app, AppProps::{  }))
+      rtl.render(@react.c(app, AppProps::default()))
       rtl.fire_event().click(rtl.screen().get_by_text("click me"))
       let target = rtl.screen().get_by_text("Count: 1")
       assert_eq(target.get_text_content(), "Count: 1")

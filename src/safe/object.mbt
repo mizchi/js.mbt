@@ -37,4 +37,3 @@ test "Object::new" {
   let v : Int = obj.get("a") |> identity
   assert_eq(v, 1)
 }
-

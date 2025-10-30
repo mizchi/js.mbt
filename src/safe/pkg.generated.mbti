@@ -1,0 +1,62 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/safe"
+
+import(
+  "mizchi/js/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type AsyncFn0[R]
+fn[R] AsyncFn0::call(Self[R]) -> @js.Promise[R]
+fn[R] AsyncFn0::from(async () -> R) -> Self[R]
+fn[R] AsyncFn0::to_js(Self[R]) -> @js.Value // from trait `@js.ToJs`
+impl[R] @js.ToJs for AsyncFn0[R]
+
+pub struct Fn0[R](() -> R)
+#deprecated
+fn[R] Fn0::inner(Self[R]) -> () -> R
+fn[R] Fn0::to_js(Self[R]) -> @js.Value // from trait `@js.ToJs`
+impl[R] @js.ToJs for Fn0[R]
+
+#external
+pub type SafeArray[T]
+fn[T] SafeArray::new() -> Self[T]
+fn[T] SafeArray::push(Self[T], T) -> Unit
+fn[T] SafeArray::to_js(Self[T]) -> @js.Value // from trait `@js.ToJs`
+fn[T] SafeArray::unshift(Self[T], T) -> Unit
+impl[T] @js.ToJs for SafeArray[T]
+
+#external
+pub type SafeObject
+fn SafeObject::from(Map[String, &@js.ToJs]) -> Self
+#alias("_[_]")
+fn SafeObject::get(Self, String) -> SafeValue?
+fn SafeObject::new() -> Self
+#alias("_[_]=_")
+fn SafeObject::set(Self, String, @js.Value) -> Unit
+fn SafeObject::to_js(Self) -> @js.Value // from trait `@js.ToJs`
+impl @js.ToJs for SafeObject
+
+#external
+pub type SafeValue
+fn SafeValue::as_double(Self) -> Double?
+fn SafeValue::as_int(Self) -> Int?
+fn SafeValue::as_object(Self) -> SafeObject?
+fn SafeValue::as_string(Self) -> String?
+fn SafeValue::to_js(Self) -> @js.Value // from trait `@js.ToJs`
+impl @js.ToJs for SafeValue
+
+// Type aliases
+
+// Traits
+pub(open) trait ToSafeValue {
+  to_safe_value(Self) -> SafeValue
+}
+impl ToSafeValue for &@js.ToJs
+impl ToSafeValue for @js.Value
+

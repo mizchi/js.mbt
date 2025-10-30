@@ -9,4 +9,3 @@ pub fn[A, B] identity(a : A) -> B {
 ///|
 pub extern "js" fn Value::is_object(self : Value) -> Bool =
   #| (v) => typeof v === "object" && v !== null
-

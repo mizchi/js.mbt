@@ -1,0 +1,9 @@
+{
+  "is-main": true,
+  "link": {
+    "js": {
+      "exports": ["run"]
+    }
+  },
+  "import": ["mizchi/js/js", "mizchi/js/http"],
+}

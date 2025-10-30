@@ -146,8 +146,8 @@ fn app(props : AppProps) -> @react.Element {
   let handler = use_callback(_ => set_cnt(cnt + 1), [cnt])
   use_effect(
     () => {
-      log("Component mounted with x = \{props.x}")
-      () => log("Component unmounted")
+      log("mounted with x = \{props.x}")
+      () => log("unmounted")
     },
     [cnt, textarea_ref],
   )

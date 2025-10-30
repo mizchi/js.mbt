@@ -1,6 +1,8 @@
 ///|
 #external
 pub type Navigator
+
+///|
 pub impl @js.ToJs for Navigator with to_js(self) -> @js.Value {
   self |> @js.to_js
 }

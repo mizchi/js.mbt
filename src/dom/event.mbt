@@ -25,6 +25,7 @@ pub fn target(self : Event) -> Element {
 ///|
 #external
 pub type MouseEvent
+
 ///|
 pub impl @js.ToJs for MouseEvent with to_js(self) -> @js.Value {
   self |> @js.to_js
@@ -54,6 +55,8 @@ pub fn screen_y(self : MouseEvent) -> Int {
 ///|
 #external
 pub type KeyboardEvent
+
+///|
 impl @js.ToJs for KeyboardEvent with to_js(self) -> @js.Value {
   self |> @js.to_js
 }
@@ -113,6 +116,8 @@ pub fn ChangeEvent::target(self : ChangeEvent) -> Element {
 ///|
 #external
 pub type FocusEvent
+
+///|
 impl @js.ToJs for FocusEvent with to_js(self) -> @js.Value {
   self |> @js.to_js
 }
@@ -125,6 +130,8 @@ pub fn FocusEvent::target(self : FocusEvent) -> Element {
 ///|
 #external
 pub type FormEvent
+
+///|
 impl @js.ToJs for FormEvent with to_js(self) -> @js.Value {
   self |> @js.to_js
 }

@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/examples/complex"
+
+// Values
+
+// Errors
+
+// Types and methods
+type CounterAction
+
+type ItemViewProps
+
+type MyContextProps
+
+// Type aliases
+
+// Traits
+

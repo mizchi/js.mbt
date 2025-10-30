@@ -37,6 +37,8 @@ fn[T] use_context(Context[T]) -> T
 
 fn use_effect(() -> () -> Unit, Array[&@js.ToJs]) -> Unit
 
+fn use_layout_effect(() -> () -> Unit, Array[&@js.ToJs]) -> Unit
+
 fn[T] use_memo(() -> T, Array[@js.Value]) -> T
 
 fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
@@ -58,12 +60,13 @@ pub type Context[T]
 
 #external
 pub type Element
-fn Element::from_js_value(@js.Value) -> Self
 fn Element::to_js(Self) -> @js.Value // from trait `@js.ToJs`
 impl @js.ToJs for Element
 
 pub(all) struct EmptyProps {
 }
+fn EmptyProps::default() -> Self // from trait `Default`
+impl Default for EmptyProps
 
 #external
 pub type ReactDOMClient
