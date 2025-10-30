@@ -1,11 +1,7 @@
-using @js {
-  type Value,
-  type JsError,
-  type Promise,
-  trait ToJs,
-  log,
-  // identity,
-}
+///|
+using @js {type Value, type JsError, type Promise, trait ToJs, log}
+// identity,
+
 ///|
 test "moonbit to js value" {
   let obj = @js.new_object()
@@ -20,7 +16,8 @@ test "moonbit to js value" {
   let arr = @js.new_array()
   arr..push("item1")..push(2.0)..push(false)
   obj.set("array", arr)
-  obj |> @js.stringify(indent=2)
+  obj
+  |> @js.stringify(indent=2)
   |> inspect(
     content=(
       #|{
@@ -74,7 +71,7 @@ test "handlers in js value" {
     "hover": fn() { called = called + 1 },
   }
   let p = Params::{ x: 123, events }
-  let js_val: @js.Value = p.to_js()
+  let js_val : @js.Value = p.to_js()
   assert_eq(js_val.get("x").cast(), 123)
   let x = js_val.get("hover")
   x.is_function() |> assert_true
@@ -87,8 +84,9 @@ test "handlers in js value" {
 ///|
 test "Value::from" {
   let v = @js.Object::from({ "key1": 123, "key2": "str", "key3": true })
-  |> @js.identity
-  v |> @js.stringify(indent=2)
+    |> @js.identity
+  v
+  |> @js.stringify(indent=2)
   |> inspect(
     content=(
       #|{

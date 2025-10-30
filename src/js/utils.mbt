@@ -1,5 +1,3 @@
-
-
 ///|
 pub extern "js" fn js_null() -> Value = "() => null"
 

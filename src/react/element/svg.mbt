@@ -1,4 +1,6 @@
-using @js { to_js }
+///|
+using @js {to_js}
+
 ///|
 pub fn svg(
   // common props
@@ -72,7 +74,6 @@ pub fn circle(
   let attrs = attributes.unwrap_or({})
   attrs["cx"] = cx |> to_js
   attrs["cy"] = cy |> to_js
-  
   attrs["r"] = r |> to_js
   if stroke is Some(stroke) {
     attrs["stroke"] = stroke |> to_js

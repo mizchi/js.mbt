@@ -38,6 +38,7 @@ pub fn Value::call(self : Value, args : Array[&ToJs]) -> Value {
   let js_args : Array[Value] = args.map(a => a.to_js())
   ffi_call(self, js_args)
 }
+
 ///|
 pub fn Value::call0(self : Value) -> Value {
   ffi_call(self, [])
@@ -52,7 +53,6 @@ pub fn Value::call1(self : Value, arg : &ToJs) -> Value {
 pub fn Value::call2(self : Value, arg1 : &ToJs, arg2 : &ToJs) -> Value {
   ffi_call(self, [arg1.to_js(), arg2.to_js()])
 }
-
 
 ///|
 pub fn Value::call_property(
@@ -78,11 +78,13 @@ pub fn Value::push(self : Value, value : &ToJs) -> Unit {
   self.call_property("push", [value.to_js()]) |> ignore
 }
 
+///|
 pub fn Value::length(self : Value) -> Int {
   self.get_as("length")
 }
 
-pub fn Value::delete(self : Value, k: String) -> Unit {
+///|
+pub fn Value::delete(self : Value, k : String) -> Unit {
   ffi_delete(self, k)
 }
 
@@ -96,10 +98,7 @@ pub fn[T] Value::to_option(self : Value) -> T? {
 }
 
 ///|
-pub fn[T] Value::try_call(
-  self : Self,
-  args : Array[Value],
-) -> T raise JsError {
+pub fn[T] Value::try_call(self : Self, args : Array[Value]) -> T raise JsError {
   match ffi_try_call(() => ffi_call(self, args)) {
     Err(e) => raise JsError(e)
     Ok(v) => v.cast()

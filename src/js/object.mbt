@@ -1,14 +1,16 @@
+///|
 #external
 pub type Object
 
+///|
 impl ToJs for Object with to_js(self) -> Value {
   self |> identity
 }
 
-pub fn to_value(self: Object) -> Value {
+///|
+pub fn to_value(self : Object) -> Value {
   self |> identity
 }
-
 
 ///|
 #alias("_[_]=_")
@@ -25,9 +27,10 @@ pub extern "js" fn Object::keys(v : Value) -> Array[String] =
   #| (obj) => Object.keys(obj)
 
 ///|
-pub extern "js" fn Object::is_(v : Value, other: Value) -> Bool =
+pub extern "js" fn Object::is_(v : Value, other : Value) -> Bool =
   #| (obj, other) => Object.is(obj, other)
 
+///|
 /// wip
 pub extern "js" fn Object::values(v : Value) -> Array[Value] =
   #| (obj) => Object.values(obj)
@@ -41,22 +44,21 @@ pub fn Object::from(m : Map[String, &ToJs]) -> Object {
   obj
 }
 
-
 ///|
 pub extern "js" fn Object::new() -> Object =
   #| () => ({})
 
+///|
 test "Object::new" {
   let obj = Object::new()
   obj.set("a", 1 |> identity)
-  let v: Int = obj.get("a") |> identity
+  let v : Int = obj.get("a") |> identity
   assert_eq(v, 1)
-  let keys: Array[String] = Object::keys(obj |> identity)
+  let keys : Array[String] = Object::keys(obj |> identity)
   assert_eq(keys, ["a"])
-  let values: Array[Value] = Object::values(obj |> identity)
-  assert_eq(values.length(), 1);
-
-  let v0: Int = values.at(0) |> identity
+  let values : Array[Value] = Object::values(obj |> identity)
+  assert_eq(values.length(), 1)
+  let v0 : Int = values.at(0) |> identity
   assert_eq(v0, 1)
 }
 
@@ -73,23 +75,21 @@ test "Object::assign" {
   assert_eq(z, 40)
 }
 
+///|
 test "Object::from" {
-  let m: Map[String, &ToJs] = {
+  let m : Map[String, &ToJs] = {
     "x": 10,
     "y": "hello",
-    "nested": Object::from({
-      "a": 1,
-      "b": 2,
-    }),
+    "nested": Object::from({ "a": 1, "b": 2 }),
   }
   let obj = Object::from(m)
-  let x: Int = obj.get("x") |> identity
-  let y: String = obj.get("y") |> identity
+  let x : Int = obj.get("x") |> identity
+  let y : String = obj.get("y") |> identity
   assert_eq(x, 10)
   assert_eq(y, "hello")
-  let nested: Object = obj.get("nested") |> identity
-  let a: Int = nested.get("a") |> identity
-  let b: Int = nested.get("b") |> identity
+  let nested : Object = obj.get("nested") |> identity
+  let a : Int = nested.get("a") |> identity
+  let b : Int = nested.get("b") |> identity
   assert_eq(a, 1)
   assert_eq(b, 2)
 }

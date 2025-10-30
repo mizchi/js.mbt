@@ -3,11 +3,7 @@ pub extern "js" fn ffi_get(v : Value, key : String) -> Value =
   #| (obj, k) => obj[k]
 
 ///|
-extern "js" fn ffi_set(
-  obj : Value,
-  key : String,
-  value : Value,
-) -> Unit =
+extern "js" fn ffi_set(obj : Value, key : String, value : Value) -> Unit =
   #| (obj, k, v) => obj[k] = v
 
 ///|
@@ -15,7 +11,11 @@ extern "js" fn ffi_call(f : Value, args : Array[Value]) -> Value =
   #|(f, args) => f(...args)
 
 ///|
-extern "js" fn ffi_call_property(v : Value, key : String, args : Array[Value]) -> Value =
+extern "js" fn ffi_call_property(
+  v : Value,
+  key : String,
+  args : Array[Value],
+) -> Value =
   #|(obj, k, args) => obj[k](...args)
 
 ///|
@@ -26,7 +26,8 @@ extern "js" fn ffi_delete(v : Value, key : String) -> Unit =
 extern "js" fn ffi_to_string(v : Value) -> String =
   #| (v) => v == null ? String(v) : v.toString()
 
-pub extern "js" fn ffi_has_own_property(v: Value, k : String) -> Bool =
+///|
+pub extern "js" fn ffi_has_own_property(v : Value, k : String) -> Bool =
   #| (obj, k) => obj.hasOwnProperty(k)
 
 ///|
@@ -42,16 +43,20 @@ extern "js" fn ffi_try_call(
   #|}
 
 // Object
+
 ///|
 pub extern "js" fn Object::assign(a : Value, b : Value) -> Value =
   #| (target, sources) => Object.assign(target, sources)
 
+///|
 pub extern "js" fn Object::extend(a : Value, sources : Value) -> Value =
   #| (a, b) => Object.assign({}, a, b)
 
+///|
 pub extern "js" fn Object::freeze(obj : Value) -> Value =
   #| (obj) => Object.freeze(obj)
 
+///|
 pub extern "js" fn Object::seal(obj : Value) -> Value =
   #| (obj) => Object.seal(obj)
 

@@ -19,15 +19,18 @@ extern "js" fn ffi_deferred_internal() -> Value =
 ///|
 #external
 pub type Promise[T]
+
 ///|
 pub impl[T] ToJs for Promise[T] with to_js(self) -> Value {
   self |> to_js
 }
 
+///|
 pub fn[A] Promise::resolve(x : A) -> Self[A] {
   ffi_promise_resolve(identity(x)) |> identity
 }
 
+///|
 pub fn Promise::reject(x : Value) -> Self[Value] {
   ffi_promise_reject(identity(x)) |> identity
 }
@@ -43,29 +46,24 @@ pub fn[A, B] Promise::then(
 
 ///|
 pub fn[A, B] Promise::catch_(self : Self[A], f : (Error) -> Self[B]) -> Self[B] {
-  self.to_js().call_property(
-    "catch",
-    [to_js(f)],
-  ) |> identity
+  self.to_js().call_property("catch", [to_js(f)]) |> identity
 }
 
+///|
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
-  self.to_js().call_property(
-    "finally",
-    [to_js(f)],
-  ) |> identity
+  self.to_js().call_property("finally", [to_js(f)]) |> identity
 }
 
-pub fn[A] Promise::new(f: ((A) -> Unit,(Error) -> Unit) -> Unit) -> Promise[A] {
-  ffi_new_promise(
-    fn(resolve, reject) {
-      f(
-        (a) => a |> identity |> resolve,
-        (e) => e |> identity |> reject
-      )
-    }
-  ) |> identity
+///|
+pub fn[A] Promise::new(
+  f : ((A) -> Unit, (Error) -> Unit) -> Unit,
+) -> Promise[A] {
+  ffi_new_promise(fn(resolve, reject) {
+    f(a => a |> identity |> resolve, e => e |> identity |> reject)
+  })
+  |> identity
 }
+
 ///|
 fn[A, B] Promise::bind(
   x : Self[A],
@@ -85,29 +83,27 @@ fn[A, B] Promise::bind(
 }
 
 ///|
-pub async fn[A] Promise::wait(self : Self[A]) -> A raise {
+pub async fn[A] Promise::wait(self : Self[A]) -> A {
   suspend(fn(ok, err) {
-    self.to_js().call_property("then", [
-      to_js(ok),
-      to_js(err)]
-    ) |> ignore
+    self.to_js().call_property("then", [to_js(ok), to_js(err)]) |> ignore
   })
 }
 
+///|
 pub fn[T] Promise::deferred() -> (Promise[T], (T) -> Unit, (Error) -> Unit) {
   ffi_deferred_internal() |> identity
 }
 
-pub fn[R] return_promise(f: async () -> R raise) -> Promise[R] noraise {
+///|
+pub fn[R] return_promise(f : async () -> R) -> Promise[R] noraise {
   let (p, resolve, reject) = Promise::deferred()
-  run_async(() => {
-    try { f() |> resolve } catch {
-      e => reject(e)
-    }
+  run_async(() => try f() |> resolve catch {
+    e => reject(e)
   })
   p
 }
 
+///|
 pub fn[R] to_promise_fn0(f : async () -> R) -> () -> Promise[R] noraise {
   fn() {
     let (p, ok, err) = Promise::deferred()

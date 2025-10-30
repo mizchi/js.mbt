@@ -108,6 +108,7 @@ pub fn create_element(
   create_element_raw(tag, val, children) |> @js.identity
 }
 
+///|
 pub fnalias create_element as h
 
 ///|
@@ -127,10 +128,7 @@ pub fn[T] c(
 }
 
 ///|
-pub fn fragment(
-  children : Array[&@js.ToJs],
-  key? : String,
-) -> Element {
+pub fn fragment(children : Array[&@js.ToJs], key? : String) -> Element {
   let tag = @js.to_js(get_fragment())
   let children = @js.Value::from_array(children)
   let val : @js.Value = @js.new_object() |> @js.identity
@@ -141,10 +139,7 @@ pub fn fragment(
 }
 
 ///|
-pub fn suspense(
-  children : Array[&@js.ToJs],
-  fallback~ : Element,
-) -> Element {
+pub fn suspense(children : Array[&@js.ToJs], fallback~ : Element) -> Element {
   let tag = get_suspense() |> @js.to_js
   let children = @js.Value::from_array(children)
   let val : @js.Value = @js.new_object() |> @js.identity

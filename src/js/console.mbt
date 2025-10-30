@@ -41,6 +41,7 @@ pub fnalias console_log as log
 pub fn[T1, T2] log2(v1 : T1, v2 : T2) -> Unit {
   console_log([to_js(v1), to_js(v2)])
 }
+
 ///|
 pub fn[T1, T2, T3] log3(v1 : T1, v2 : T2, v3 : T3) -> Unit {
   console_log([to_js(v1), to_js(v2), to_js(v3)])

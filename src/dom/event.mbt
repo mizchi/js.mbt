@@ -2,6 +2,7 @@
 #external
 pub type Event
 
+///|
 pub impl @js.ToJs for Event with to_js(self) -> @js.Value {
   self |> @js.to_js
 }

@@ -1,23 +1,21 @@
 ///|
 priv struct AppProps {}
+
 ///|
 fn app(_props : AppProps) -> @react.Element {
   let (cnt, set_cnt) = @react.use_state(0)
-  let on_click = (_event: @dom.MouseEvent) => {
+  let on_click = (_event : @dom.MouseEvent) => {
     @js.log("App clicked!")
     set_cnt(cnt + 1)
   }
   @react.h("div", [
     "Hello RTL",
     @react.h("div", ["Count: \{cnt}"]),
-    @react.h(
-      "button",
-      attributes={ "onClick": on_click |> @js.identity },
-      ["click me"],
-    ),
+    @react.h("button", attributes={ "onClick": on_click |> @js.identity }, [
+      "click me",
+    ]),
   ])
 }
-
 
 ///|
 test {

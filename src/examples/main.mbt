@@ -16,10 +16,9 @@ using @react {
   create_context,
   init_react_client
 }
-using @react_router {
-  init_react_router,
-  router_provider
-}
+
+///|
+using @react_router {init_react_router, router_provider}
 
 ///|
 using @js {log}
@@ -62,7 +61,9 @@ struct ItemViewProps {
 
 ///|
 fn item_view(props : ItemViewProps) -> @react.Element {
-  h("div", style={ "padding": "5px", "borderBottom": "1px solid #ccc" }, [props.name])
+  h("div", style={ "padding": "5px", "borderBottom": "1px solid #ccc" }, [
+    props.name,
+  ])
 }
 
 ///|
@@ -80,7 +81,7 @@ fn use_myctx() -> MyContextProps {
 }
 
 ///|
-fn ctx_consumer(_: EmptyProps) -> @react.Element {
+fn ctx_consumer(_ : EmptyProps) -> @react.Element {
   let ctx_value = use_myctx()
   h("div", attributes={ "className": "context-value" |> js }, [
     "Context value: \{ctx_value.v}",
@@ -207,7 +208,7 @@ fn app(props : AppProps) -> @react.Element {
           ),
           div(class="textarea-value", ["Textarea value: \{input_text}"]),
         ]),
-      // ]
+        // ]
         ul(
           props.items.mapi((idx, item) => h("li", key=idx.to_string(), [
             c(item_view, { name: item }, key=idx.to_string()),
@@ -271,24 +272,20 @@ fn main {
     // lazy init context
     // TODO: use async init later
     init_myctx()
-
-    let index = (_props: @react_router.RouteProps) => {
-      c(app, { x: 42, items: ["Item 1", "Item 2", "Item 3"] } )
-    }
+    let index = (_props : @react_router.RouteProps) => c(app, {
+      x: 42,
+      items: ["Item 1", "Item 2", "Item 3"],
+    })
     let routes = @react_router.create_browser_router([
-      Component(
-        path="/",
-        component=index,
-      ),
+      Component(path="/", component=index),
       Element(
         path="/about",
-        element=h("div", [ "About page", @react_router.link(to="/", ["Go to About"]) ]),
+        element=h("div", [
+          "About page",
+          @react_router.link(to="/", ["Go to About"]),
+        ]),
       ),
     ])
-    
-    client
-    .create_root(app_root)
-    .render(router_provider(routes))
-
+    client.create_root(app_root).render(router_provider(routes))
   })
 }

@@ -52,6 +52,8 @@ pub type Event
 fn Event::prevent_default(Self) -> Unit
 fn Event::stop_propagation(Self) -> Unit
 fn Event::target(Self) -> Element
+fn Event::to_js(Self) -> @js.Value // from trait `@js.ToJs`
+impl @js.ToJs for Event
 
 #external
 pub type FocusEvent

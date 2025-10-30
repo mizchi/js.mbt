@@ -30,7 +30,7 @@ extern "js" fn use_context_internal(ctx : @js.Value) -> @js.Value =
   #| (ctx) => globalThis.__ReactApi.useContext(ctx)
 
 ///|
-extern "js" fn lazy_internal(f: @js.Value) -> @js.Promise[@js.Value] =
+extern "js" fn lazy_internal(f : @js.Value) -> @js.Promise[@js.Value] =
   #| (f) => globalThis.__ReactApi.lazy(f)
 
 ///|
@@ -45,11 +45,7 @@ extern "js" fn lazy_internal(f: @js.Value) -> @js.Promise[@js.Value] =
 pub fn[T] lazy_(
   f : async () -> (T) -> Element,
 ) -> (EmptyProps) -> @js.Promise[@js.Value] {
-  f
-  |> @js.to_promise_fn0
-  |> @js.to_js
-  |> lazy_internal()
-  |> @js.identity
+  f |> @js.to_promise_fn0 |> @js.to_js |> lazy_internal() |> @js.identity
 }
 
 ///|
@@ -96,15 +92,15 @@ pub fn[T : @js.ToJs] use_state(initial : T) -> (T, (T) -> Unit) {
   (value, update_fn)
 }
 
-///| Lazy
+///|
+/// Lazy
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
-  let initial: () -> @js.Value = (initial |> @js.to_js).cast()
+  let initial : () -> @js.Value = (initial |> @js.to_js).cast()
   let result = use_state_lazy_internal(initial)
   let value : T = result.at(0).cast()
   let update_fn : (T) -> Unit = result.at(1).cast()
   (value, update_fn)
 }
-
 
 ///|
 pub fn[F] use_callback(f : F, keys : Array[&@js.ToJs]) -> F {
@@ -205,7 +201,10 @@ pub fn[T, U] use_reducer(
 }
 
 ///|
-extern "js" fn use_action_state_internal(f: @js.Value, initial : @js.Value) -> @js.Value =
+extern "js" fn use_action_state_internal(
+  f : @js.Value,
+  initial : @js.Value,
+) -> @js.Value =
   #| (f, initial) => {
   #|   return __ReactApi.useActionState(f, initial);
   #| }
@@ -215,7 +214,7 @@ pub fn[T, U] use_action_state(
   f : async (T, U) -> T noraise,
   initial : T,
 ) -> (T, (U) -> Unit, Bool) {
-  let w = @js.to_promise_fn2((s,a) => f(s, a))
+  let w = @js.to_promise_fn2((s, a) => f(s, a))
   let val : @js.Value = use_action_state_internal(
     w |> @js.identity,
     initial |> @js.identity,
@@ -223,11 +222,13 @@ pub fn[T, U] use_action_state(
   (val.at(0).cast(), val.at(1).cast(), val.at(2).cast())
 }
 
+///|
 extern "js" fn start_transition_internal(f : () -> Unit) -> Unit =
   #| (f) => {
   #|   return __ReactApi.startTransition(f);
   #| }
 
+///|
 pub fn start_transition(f : () -> Unit) -> Unit {
   start_transition_internal(f)
 }

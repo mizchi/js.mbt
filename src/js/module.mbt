@@ -6,10 +6,10 @@ pub fn import_module_promise(module_name : String) -> Promise[Value] {
   ffi_import_module(module_name)
 }
 
+///|
 pub async fn import_module(module_name : String) -> Value {
   ffi_import_module(module_name).wait()
 }
-
 
 ///|
 test {

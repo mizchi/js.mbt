@@ -1,5 +1,7 @@
+///|
 pub extern "js" fn load_react_router() -> @js.Promise[@js.Value] =
   #| () => import("react-router")
+
 ///|
 pub async fn init_react_router() -> Unit {
   if @js.global_this().get("__ReactRouterApi").is_undefined() {
@@ -8,12 +10,15 @@ pub async fn init_react_router() -> Unit {
   }
 }
 
+///|
 #external
 pub type Router
 
+///|
 pub struct RouterProviderProps {
-  router: Router
+  router : Router
 }
+
 ///|
 extern "js" fn get_router_provider() -> (RouterProviderProps) -> @react.Element =
   #| () => __ReactRouterApi.RouterProvider
@@ -32,16 +37,12 @@ pub(all) struct RouteProps {
   hash : String
 }
 
+///|
 pub(all) enum Route {
-  Component(
-    path~: String,
-    component~: (RouteProps) -> @react.Element,
-  )
-  Element(
-    path~: String,
-    element~: @react.Element,
-  )
+  Component(path~ : String, component~ : (RouteProps) -> @react.Element)
+  Element(path~ : String, element~ : @react.Element)
 }
+
 ///|
 fn Route::to_rr_obj(self : Route) -> @js.Value {
   match self {
@@ -60,21 +61,27 @@ fn Route::to_rr_obj(self : Route) -> @js.Value {
   }
 }
 
-pub fn create_browser_router(routes: Array[Route]) -> Router {
-  let create_browser_router: (Array[@js.Value]) -> Router = @js.global_this().get("__ReactRouterApi").get("createBrowserRouter").cast()
+///|
+pub fn create_browser_router(routes : Array[Route]) -> Router {
+  let create_browser_router : (Array[@js.Value]) -> Router = @js.global_this()
+    .get("__ReactRouterApi")
+    .get("createBrowserRouter")
+    .cast()
   let rr_routes = routes.map(_.to_rr_obj())
   create_browser_router(rr_routes)
 }
 
+///|
 pub struct LinkProps {
-  to: String
+  to : String
 }
 
 ///|
 extern "js" fn get_link() -> (LinkProps) -> @react.Element =
   #| () => __ReactRouterApi.Link
 
-pub fn link(to~: String, children: Array[&@js.ToJs]) -> @react.Element {
+///|
+pub fn link(to~ : String, children : Array[&@js.ToJs]) -> @react.Element {
   let p = get_link()
   @react.c(p, LinkProps::{ to, }, children~)
 }
