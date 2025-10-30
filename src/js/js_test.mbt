@@ -1,6 +1,5 @@
 ///|
 using @js {type Value, type Promise, trait ToJs, log}
-// identity,
 
 ///|
 test "moonbit to js value" {

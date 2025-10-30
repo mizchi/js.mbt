@@ -7,10 +7,10 @@ extern "js" fn ffi_import_node_test() -> Promise[Value] = "() => import('node:te
 pub type NodeTest
 ///|
 impl ToJs for NodeTest with to_js(self) -> Value {
-  self |> identity
+  self |> to_js
 }
 ///|
-pub async fn NodeTest::load() -> NodeTest {
+async fn NodeTest::load() -> NodeTest {
   ffi_import_node_test().wait().cast()
 }
 
@@ -54,21 +54,31 @@ pub fn NodeTest::before_each(
 }
 
 ///|
-test {
-  run_async(() => {
-    let t = NodeTest::load() catch { _ => panic() }
-    t.it("t1", _ => assert_eq(1 + 1, 2))
-    t.it("t2", skip="skip this test", _ => assert_eq(1 + 1, 3))
-    t.it("todo test", ctx => {
-      ctx.todo("this test is todo")
+pub fn it(name: String, skip?: String, op : async (TestContext) -> Unit) -> Unit {
+  run_async(async fn() noraise {
+    let t = NodeTest::load() catch { _ => panic() }    
+    t.it(name, skip?, (ctx) => {
+      op(ctx)
     })
   })
 }
-test {
-  run_async(() => {
+
+///|
+pub fn before_each(op : async () -> Unit) -> Unit {
+  run_async(async fn() noraise {
     let t = NodeTest::load() catch { _ => panic() }
-    t.it("t3", _ctx => assert_eq(1 + 1, 2))
-    // t.it("t4", _ctx => assert_eq(1 + 1, 3))
-    t.it("t5", skip="skip this test", _ctx => assert_eq(1 + 1, 3))
+    t.before_each(() => op())
   })
+}
+
+///|
+test {
+  before_each(() => sleep(1))
+  it("simple test", _ => assert_eq(2 + 2, 4))
+  it("lazy test", _ => {
+    sleep(100)
+    assert_eq(2 + 2, 4)
+  })
+  it("skip test", skip="skip this test", _ => assert_eq(2 + 2, 5))
+  it("todo test", ctx => ctx.todo("this test is todo"))
 }

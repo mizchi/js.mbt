@@ -35,3 +35,31 @@ pub impl[T : ReactNode] ReactNode for T? with to_react_node(self) {
     None => @js.js_undefined()
   }
 }
+
+// pub(open) trait ToProps {
+//   to_props(Self) -> @js.Value
+// }
+
+// pub impl ToProps for &ToJson with to_props(self) -> @js.Value {
+//   self.to_json() |> @js.to_js
+// }
+
+// priv struct ExampleProps {
+//   title : String
+//   count : Int
+// } derive(ToJson)
+
+// fn get_props(t: &ToJson) -> @js.Value {
+//   @js.log(t.to_json())
+//   t.to_json() |> @js.to_js
+// }
+
+// test "to props interface test" {
+//   let ex = ExampleProps::{
+//     title : "Test",
+//     count : 42
+//   }
+//   let props = get_props(ex)
+//   assert_eq(props.get_as("title"), "Test")
+//   // assert_eq(props.get("count"), 42)
+// }

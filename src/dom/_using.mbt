@@ -1,2 +1,2 @@
 ///|
-using @js {type Value, trait ToJs}
+using @js {type Value, trait ToJs, to_js, identity}

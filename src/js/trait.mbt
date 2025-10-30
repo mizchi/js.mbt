@@ -108,7 +108,3 @@ pub impl ToJson for Value with to_json(self) -> Json {
   }
   return {}
 }
-
-pub impl ToJs for &ToJson with to_js(self) -> Value {
-  self.to_json() |> ToJs::to_js
-}

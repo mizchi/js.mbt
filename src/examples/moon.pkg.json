@@ -6,5 +6,6 @@
     "mizchi/js/react",
     "mizchi/js/react/element",
     "mizchi/js/react_router"
-  ]
+  ],
+  "warn-list": "-1"
 }

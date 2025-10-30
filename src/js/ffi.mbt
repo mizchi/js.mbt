@@ -11,10 +11,6 @@ extern "js" fn ffi_call(f : Value, args : Array[Value]) -> Value =
   #|(f, args) => f(...args)
 
 ///|
-extern "js" fn ffi_call_raise(f : Value, args : Array[Value]) -> Value raise =
-  #|(f, args) => f(...args)
-
-///|
 extern "js" fn ffi_call_property(
   v : Value,
   key : String,
@@ -50,20 +46,16 @@ extern "js" fn ffi_safe_call(
 // Object
 
 ///|
-pub extern "js" fn Object::assign(a : Value, b : Value) -> Value =
+extern "js" fn ffi_object_assign(a : Value, b : Value) -> Value =
   #| (target, sources) => Object.assign(target, sources)
 
 ///|
-pub extern "js" fn Object::extend(a : Value, sources : Value) -> Value =
-  #| (a, b) => Object.assign({}, a, b)
+// extern "js" fn ffi_object_freeze(obj : Value) -> Value =
+//   #| (obj) => Object.freeze(obj)
 
-///|
-pub extern "js" fn Object::freeze(obj : Value) -> Value =
-  #| (obj) => Object.freeze(obj)
-
-///|
-pub extern "js" fn Object::seal(obj : Value) -> Value =
-  #| (obj) => Object.seal(obj)
+// ///|
+// extern "js" fn ffi_object_seal(obj : Value) -> Value =
+//   #| (obj) => Object.seal(obj)
 
 ///|
 extern "js" fn ffi_promise_resolve(x : Value) -> Value = "(x) => Promise.resolve(x)"
@@ -77,3 +69,19 @@ extern "js" fn ffi_promise_then(
   ok : (Value) -> Value,
   err : (Value) -> Value,
 ) = "(x,f,g) => x.then(f,g)"
+
+///|
+extern "js" fn ffi_new_promise(
+  f : ((Value) -> Unit, (Value) -> Unit) -> Unit,
+) -> Promise[Value] = "(f) => new Promise(f)"
+
+///|
+extern "js" fn ffi_deferred_internal() -> Value =
+  #| () => {
+  #|   let ok, err;
+  #|   const p = new Promise((_ok, _err) => {
+  #|     ok = _ok;
+  #|     err = _err;
+  #|   });
+  #|   return { _0: p, _1: ok, _2: err };
+  #| }

@@ -1,9 +1,7 @@
 ///|
-fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
-
-///|
 using @react {
   type Context,
+  type EmptyProps,
   h,
   c,
   fragment,
@@ -21,7 +19,7 @@ using @react {
 using @react_router {init_react_router, router_provider}
 
 ///|
-using @js {log}
+using @js {log, run_async, sleep}
 
 ///|
 using @element {
@@ -45,9 +43,6 @@ using @element {
 
 ///|
 fnalias @js.identity as js
-
-///|
-struct EmptyProps {} derive(Eq)
 
 ///|
 struct MyContextProps {
@@ -148,13 +143,7 @@ priv struct AppProps {
 fn app(props : AppProps) -> @react.Element {
   let (cnt, set_cnt) = use_state(props.x)
   let textarea_ref : @react.ReactRef[@dom.Element] = @react.use_ref(None)
-  let handler = use_callback(
-    _ => {
-      set_cnt(cnt + 1)
-      @js.log("Clicked!")
-    },
-    [cnt],
-  )
+  let handler = use_callback(_ => set_cnt(cnt + 1), [cnt])
   use_effect(
     () => {
       log("Component mounted with x = \{props.x}")
@@ -214,9 +203,9 @@ fn app(props : AppProps) -> @react.Element {
             c(item_view, { name: item }, key=idx.to_string()),
           ])),
         ),
-        c(ctx_consumer, EmptyProps::{  }),
-        c(counter, EmptyProps::{  }),
-        c(async_counter, EmptyProps::{  }),
+        c(ctx_consumer, EmptyProps::default()),
+        c(counter, EmptyProps::default()),
+        c(async_counter, EmptyProps::default()),
         hr(),
         form(
           method_="post",
@@ -255,20 +244,19 @@ fn app(props : AppProps) -> @react.Element {
 fn main {
   let app_root = @dom.document().query_selector("#app").unwrap()
   // lazy init context
-  run_async(async fn() noraise {
+  run_async(() => {
     let client = init_react_client() catch {
       _err => {
         log("Failed to initialize React.")
-        return ()
+        panic()
       }
     }
     let _ = init_react_router() catch {
       _err => {
         log("Failed to initialize React Router.")
-        return ()
+        panic()
       }
     }
-    @js.log(@js.global_this().get("__ReactRouterApi"))
     // lazy init context
     // TODO: use async init later
     init_myctx()
@@ -282,7 +270,7 @@ fn main {
         path="/about",
         element=h("div", [
           "About page",
-          @react_router.link(to="/", ["Go to About"]),
+          @react_router.link(to="/", ["Go to Top"]),
         ]),
       ),
     ])

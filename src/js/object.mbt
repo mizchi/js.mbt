@@ -26,6 +26,10 @@ pub extern "js" fn Object::get(self : Self, k : String) -> Unit =
 pub extern "js" fn Object::keys(v : Value) -> Array[String] =
   #| (obj) => Object.keys(obj)
 
+pub fn Object::assign(a : Value, b : Value) -> Value {
+  ffi_object_assign(a, b)
+}
+
 ///|
 pub extern "js" fn Object::is_(v : Value, other : Value) -> Bool =
   #| (obj, other) => Object.is(obj, other)

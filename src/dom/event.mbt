@@ -8,18 +8,19 @@ pub impl ToJs for Event with to_js(self) -> @js.Value {
 }
 
 ///|
-pub fn Event::prevent_default(self : Event) -> Unit {
+pub fn prevent_default(self : Event) -> Unit {
   self.to_js().get("preventDefault").call([]) |> ignore
 }
 
 ///|
-pub fn Event::stop_propagation(self : Event) -> Unit {
+pub fn stop_propagation(self : Event) -> Unit {
   self.to_js().get("stopPropagation").call([]) |> ignore
 }
 
 ///|
-pub extern "js" fn Event::target(self : Event) -> Element =
-  #| (event) => event.target
+pub fn target(self : Event) -> Element {
+  self.to_js().get("target").cast()
+}
 
 ///|
 #external
@@ -30,21 +31,25 @@ pub impl @js.ToJs for MouseEvent with to_js(self) -> @js.Value {
 }
 
 ///|
-pub extern "js" fn MouseEvent::client_x(self : MouseEvent) -> Int =
-  #| (event) => event.clientX
+pub fn client_x(self : MouseEvent) -> Int {
+  self.to_js().get("clientX").cast()
+}
 
 ///|
-pub extern "js" fn MouseEvent::client_y(self : MouseEvent) -> Int =
-  #| (event) => event.clientY
+pub fn client_y(self : MouseEvent) -> Int {
+  self.to_js().get("clientY").cast()
+}
 
 ///|
 /// screenX
-pub extern "js" fn MouseEvent::screen_x(self : MouseEvent) -> Int =
-  #| (event) => event.screenX
+pub fn screen_x(self : MouseEvent) -> Int {
+  self.to_js().get("screenX").cast()
+}
 
 ///|
-pub extern "js" fn MouseEvent::screen_y(self : MouseEvent) -> Int =
-  #| (event) => event.screenY
+pub fn screen_y(self : MouseEvent) -> Int {
+  self.to_js().get("screenY").cast()
+}
 
 ///|
 #external
@@ -54,17 +59,17 @@ impl @js.ToJs for KeyboardEvent with to_js(self) -> @js.Value {
 }
 
 ///|
-pub fn KeyboardEvent::target(self : KeyboardEvent) -> Element {
+pub fn target(self : KeyboardEvent) -> Element {
   self.to_js().get("target").cast()
 }
 
 ///|
-pub fn KeyboardEvent::key(self : KeyboardEvent) -> String {
+pub fn key(self : KeyboardEvent) -> String {
   self.to_js().get("key").cast()
 }
 
 ///|
-pub fn KeyboardEvent::key_code(self : KeyboardEvent) -> Int {
+pub fn key_code(self : KeyboardEvent) -> Int {
   self.to_js().get("keyCode").cast()
 }
 

@@ -58,13 +58,21 @@ extern "js" fn create_context_internal(initial : @js.Value) -> @js.Value =
   #| }
 
 ///|
-extern "js" fn use_effect_internal(
+extern "js" fn ffi_use_effect(
   f : () -> () -> Unit,
   keys : Array[@js.Value],
 ) -> Unit =
   #| (f, keys) => {
   #|   return __ReactApi.useEffect(f, keys);
   #| }
+
+///|
+extern "js" fn ffi_use_layout_effect(
+  f : () -> () -> Unit,
+  keys : Array[@js.Value],
+) -> Unit =
+  #| (f, keys) => __ReactApi.useLayoutEffect(f, keys)
+
 
 ///|
 extern "js" fn use_memo_internal(
@@ -85,6 +93,13 @@ extern "js" fn use_reducer_internal(
   #| }
 
 ///|
+/// React.useState
+/// ```mbt
+/// fn my_component (props: EmptyProps) -> Element {
+///   let (count, set_count) = use_state(0)
+///   ...
+/// }
+/// ```
 pub fn[T : @js.ToJs] use_state(initial : T) -> (T, (T) -> Unit) {
   let result = use_state_internal(initial.to_js())
   let value : T = result.at(0).cast()
@@ -93,7 +108,12 @@ pub fn[T : @js.ToJs] use_state(initial : T) -> (T, (T) -> Unit) {
 }
 
 ///|
-/// Lazy
+/// React.useState(() => initial) with lazy initial value
+/// ```
+/// fn my_component(props: EmptyProps) -> Element {
+///   let (count, set_count) = use_state_lazy(() => 42)
+///   ...
+/// }
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
   let initial : () -> @js.Value = (initial |> @js.to_js).cast()
   let result = use_state_lazy_internal(initial)
@@ -103,15 +123,38 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 }
 
 ///|
+/// React.useCallback
+/// ```mbt
+/// fn my_component(props : EmptyProps) -> Element {
+///   let on_click = use_callback(() => {
+///     ()
+///   }, [])
+///   ...
+/// }
+/// ```
 pub fn[F] use_callback(f : F, keys : Array[&@js.ToJs]) -> F {
   let keys = keys.map(k => k.to_js())
   use_callback_internal(f |> @js.identity, keys).cast()
 }
 
 ///|
+/// React.useEffect
+/// ```mbt
+/// fn my_component(props : EmptyProps) -> Element {
+///   use_effect(() => {
+///     println("mounted")
+///     () => println("unmounted")
+///   }, [])
+///   create_element("div", ["Hello"])
+/// }
+/// ```
 pub fn use_effect(f : () -> () -> Unit, keys : Array[&@js.ToJs]) -> Unit {
-  let keys = keys.map(k => k |> @js.identity)
-  use_effect_internal(f, keys)
+  ffi_use_effect(f, keys.map(_.to_js()))
+}
+
+///|
+pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&@js.ToJs]) -> Unit {
+  ffi_use_layout_effect(f, keys.map(_.to_js()))
 }
 
 ///|
@@ -122,6 +165,13 @@ pub fn[T] use_memo(f : () -> T, keys : Array[@js.Value]) -> T {
 }
 
 ///|
+/// React.useRef
+/// ```mbt
+/// fn my_component(props : EmptyProps) -> Element {
+///   let my_ref : ReactRef[@dom.Element] = use_ref(None)
+///   create_element("div", ref_=my_ref, ["Hello"])
+/// }
+/// ```
 pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
   use_ref_internal(
     if initial is Some(v) {
@@ -133,6 +183,7 @@ pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
 }
 
 ///|
+/// React.Ref<T>
 #external
 pub type ReactRef[T]
 
@@ -175,6 +226,7 @@ pub fn[T] create_context(initial : T?) -> Context[T] {
 }
 
 ///|
+/// React.useContext
 pub fn[T] use_context(ctx : Context[T]) -> T {
   use_context_internal(ctx |> @js.identity).cast()
 }
@@ -189,13 +241,25 @@ pub fn[T] use_(promise : @js.Promise[T]) -> T {
 }
 
 ///|
+/// React.useReducer
+/// ```mbt
+/// enum CounterAction {
+///   Increment
+/// }
+/// fn my_component(props : EmptyProps) -> Element {
+///   let (state, dispatch) = use_reducer((s: Int, a: CounterAction) => match a {
+///     Increment => s + 1
+///   }, 0)
+///   create_element("div", [state])
+/// }
+/// ```
 pub fn[T, U] use_reducer(
   reducer : (T, U) -> T,
   initial : T,
 ) -> (T, (U) -> Unit) {
   let val = use_reducer_internal(
-    reducer |> @js.identity,
-    initial |> @js.identity,
+    reducer |> @js.to_js,
+    initial |> @js.to_js,
   )
   (val.at(0).cast(), val.at(1).cast())
 }

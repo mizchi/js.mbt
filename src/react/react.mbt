@@ -1,5 +1,5 @@
 ///|
-pub(all) struct EmptyProps {}
+pub(all) struct EmptyProps {} derive(Default)
 
 ///|
 extern "js" fn ffi_create_element(
@@ -7,9 +7,9 @@ extern "js" fn ffi_create_element(
   props : @js.Value,
   children : @js.Value,
 ) -> @js.Value =
-  #| (tag, props, children) => {
-  #|   return __ReactApi.createElement(tag, props, ...children)
-  #| }
+  #|(tag, props, children) => {
+  #|  return __ReactApi.createElement(tag, props, ...children)
+  #|}
 
 ///|
 extern "js" fn get_fragment() -> Component[EmptyProps] =
@@ -29,11 +29,8 @@ pub type Component[T]
 pub type Element
 
 ///|
-pub fn Element::from_js_value(v : @js.Value) -> Self = "%identity"
-
-///|
-pub impl @js.ToJs for Element with to_js(self) -> @js.Value {
-  self |> @js.identity
+pub impl ToJs for Element with to_js(self) -> @js.Value {
+  self |> @js.to_js
 }
 
 ///|

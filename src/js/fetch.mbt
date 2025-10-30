@@ -25,8 +25,8 @@ extern "js" fn ffi_fetch(url : String, init : Value) -> Promise[Response] =
   #| (url, init) => fetch(url, init)
 
 ///|
-extern "js" fn ffi_fetch_req(request: Request) -> Promise[Response] =
-  #| (req) => fetch(req)
+// extern "js" fn ffi_fetch_req(request: Request) -> Promise[Response] =
+//   #| (req) => fetch(req)
 
 ///|
 pub async fn fetch(
@@ -45,7 +45,7 @@ pub async fn fetch(
 }
 
 ///|
-#skip
+#skip("fetch test requires network")
 test "fetch" {
   run_async(async fn() noraise {
     let response = fetch(
