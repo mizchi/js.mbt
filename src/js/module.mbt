@@ -54,3 +54,27 @@ test {
     _ => ()
   })
 }
+
+pub impl ToJs for Error with to_js(self) {
+  self |> to_js
+}
+
+///|
+test "fail import" {
+  run_async(() => {
+    let t = NodeTest::load() catch { _ => panic() }
+    t.it("import failure", (_) => {
+      try {
+        let _ = import_module("non-existent-module")
+        fail("unreachable")
+      } catch {
+        e => {
+          let e : Value = ToJs::to_js(e)
+          assert_eq(e.is_error(), true)
+          let m : String = e.get("message").cast()
+          assert_true(m.contains("Cannot find package 'non-existent-module'"))
+        }
+      }
+    })
+  })
+}

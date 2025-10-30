@@ -1,5 +1,5 @@
 ///|
-using @js {type Value, type JsError, type Promise, trait ToJs, log}
+using @js {type Value, type Promise, trait ToJs, log}
 // identity,
 
 ///|
@@ -44,13 +44,13 @@ test "moonbit to js value" {
 }
 
 ///|
-priv struct Params {
+priv struct ParamsToCast {
   x : Int
   events : Map[String, () -> Unit]
 }
 
 ///|
-impl ToJs for Params with to_js(self) -> @js.Value {
+impl ToJs for ParamsToCast with to_js(self) -> @js.Value {
   let obj = @js.new_object()
   obj.set("x", self.x)
   for k, v in self.events {
@@ -70,7 +70,7 @@ test "handlers in js value" {
     "click": fn() { called = called + 1 },
     "hover": fn() { called = called + 1 },
   }
-  let p = Params::{ x: 123, events }
+  let p = ParamsToCast::{ x: 123, events }
   let js_val : @js.Value = p.to_js()
   assert_eq(js_val.get("x").cast(), 123)
   let x = js_val.get("hover")
@@ -99,34 +99,6 @@ test "Value::from" {
 }
 
 ///|
-extern "js" fn test_no_error_fn() -> Value = "() => () => 1"
-
-///|
-extern "js" fn test_error_thrower_fn() -> Value = "() => () => { throw new TypeError('This is a test TypeError'); }"
-
-///|
-test {
-  let test_fn = test_no_error_fn()
-  let args : Array[Value] = []
-  let r : Result[Int, JsError] = try? test_fn.try_call(args)
-  match r {
-    Ok(v) => log("Function call succeeded with value: \{v}")
-    _ => fail("Function call was expected to succeed")
-  }
-}
-
-///|
-test {
-  let test_fn = test_error_thrower_fn()
-  let args : Array[Value] = []
-  let r : Result[Int, JsError] = try? test_fn.try_call(args)
-  match r {
-    Err(_e) => assert_true(true)
-    _ => fail("Function call was expected to fail")
-  }
-}
-
-///|
 test {
   let f = fn() {
     let (promise, resolve, _reject) = Promise::deferred()
@@ -139,10 +111,26 @@ test {
   run_async(() => {
     @js.sleep(10)
     let v : Int = f().wait() catch { _ => 0 }
-    println("Got value from promise: \{v}")
+    guard v == 42
     let v2 = f().then(v => v.to_string() |> Promise::resolve).wait() catch {
       _ => "error"
     }
-    println("Got value from promise then: \{v2}")
+    guard v2 == "42"
   })
+}
+
+///|
+test "error call" {
+  let v = global_this().get("none")
+  assert_true(v.is_undefined())
+  let r = v.safe_call([])
+  assert_true(r is Err(_))
+  let rv : Int? = global_this().get("___").to_option()
+  assert_true(rv is None)
+  try {
+    let rv2 : Int = global_this().get("___").cast()
+    fail("Expected to fail casting undefined to Int, but got \{rv2}")
+  } catch {
+    _e => assert_true(true)
+  }
 }

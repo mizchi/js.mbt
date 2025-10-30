@@ -27,6 +27,17 @@ pub fn[T] Value::get_as(self : Value, key : String) -> T {
   ffi_get(self, key).cast()
 }
 
+pub fn Value::safe_get(self : Value, key : String) -> Value? {
+  if self.is_undefined() || self.is_null() {
+    None
+  } else {
+    match ffi_get(self, key).to_option() {
+      None => None
+      Some(v) => Some(v)
+    }
+  }
+}
+
 ///|
 #alias("_[_]=_")
 pub fn Value::set(self : Value, key : String, value : &ToJs) -> Unit {
@@ -35,9 +46,27 @@ pub fn Value::set(self : Value, key : String, value : &ToJs) -> Unit {
 
 ///|
 pub fn Value::call(self : Value, args : Array[&ToJs]) -> Value {
-  let js_args : Array[Value] = args.map(a => a.to_js())
-  ffi_call(self, js_args)
+  let args : Array[Value] = args.map(a => a.to_js())
+  ffi_call(self, args)
 }
+
+///|
+pub fn Value::unsafe_call(self : Value, args : Array[&ToJs]) -> Value raise {
+  match ffi_safe_call(self |> identity, args.map(_.to_js())) {
+    Err(e) => raise e
+    Ok(v) => v |> identity
+  }
+}
+
+
+///|
+pub fn Value::safe_call(
+  self : Value,
+  args : Array[&ToJs],
+) -> Result[Value, Error] {
+  ffi_safe_call(self |> identity, args.map(_.to_js()))
+}
+
 
 ///|
 pub fn Value::call0(self : Value) -> Value {
@@ -96,12 +125,3 @@ pub fn[T] Value::to_option(self : Value) -> T? {
     Some(self.cast())
   }
 }
-
-///|
-pub fn[T] Value::try_call(self : Self, args : Array[Value]) -> T raise JsError {
-  match ffi_try_call(() => ffi_call(self, args)) {
-    Err(e) => raise JsError(e)
-    Ok(v) => v.cast()
-  }
-}
-

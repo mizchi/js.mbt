@@ -35,6 +35,10 @@ pub extern "js" fn Value::is_null(self : Value) -> Bool =
   #| (v) => v === null
 
 ///|
+pub extern "js" fn Value::is_some(self : Value) -> Bool =
+  #| (v) => v !== null && v !== undefined
+
+///|
 pub extern "js" fn Value::is_undefined(self : Value) -> Bool =
   #| (v) => v === undefined
 

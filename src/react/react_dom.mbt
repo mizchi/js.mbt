@@ -1,4 +1,11 @@
 ///|
+extern "js" fn ffi_react_dom_render(
+  v: ReactDOMRoot,
+  vdom : Element,
+) -> Unit =
+  #| (root, vdom) => root.render(vdom)
+
+///|
 #external
 pub type ReactDOMClient
 
@@ -12,19 +19,13 @@ pub fn ReactDOMClient::create_root(
   container : @dom.Element,
 ) -> ReactDOMRoot {
   let v : @js.Value = self |> @js.identity
-  v.get("createRoot").call([container.to_js_value()]).cast()
+  v.get("createRoot").call1(container).cast()
 }
 
-///|
-extern "js" fn ReactDOMRoot::render_internal(
-  self : ReactDOMRoot,
-  vdom : Element,
-) -> Unit =
-  #| (root, vdom) => root.render(vdom)
 
 ///|
 pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : Element) -> Unit {
-  self.render_internal(vdom)
+  ffi_react_dom_render(self, vdom)
 }
 
 ///|

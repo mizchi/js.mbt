@@ -21,8 +21,12 @@ pub extern "js" fn Response::text(self : Response) -> Promise[String] =
   #| (v) => v.text()
 
 ///|
-extern "js" fn ffi_fetch(input : String, init : Value) -> Promise[Response] =
-  #| (input, init) => fetch(input, init)
+extern "js" fn ffi_fetch(url : String, init : Value) -> Promise[Response] =
+  #| (url, init) => fetch(url, init)
+
+///|
+extern "js" fn ffi_fetch_req(request: Request) -> Promise[Response] =
+  #| (req) => fetch(req)
 
 ///|
 pub async fn fetch(

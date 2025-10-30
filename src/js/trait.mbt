@@ -46,11 +46,6 @@ pub impl ToJs for Array[&ToJs] with to_js(self) -> Value {
   arr
 }
 
-// pub struct AsyncFn0[T](async () -> T raise)
-// impl[T] ToJs for AsyncFn0[T] with to_js(self) {
-//   to_promise_fn0(self.0) |> to_js
-// }
-
 ///|
 pub impl ToJs for Json with to_js(self) -> Value {
   match self {
@@ -112,4 +107,8 @@ pub impl ToJson for Value with to_json(self) -> Json {
     return out.to_json()
   }
   return {}
+}
+
+pub impl ToJs for &ToJson with to_js(self) -> Value {
+  self.to_json() |> ToJs::to_js
 }

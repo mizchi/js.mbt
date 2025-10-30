@@ -1,6 +1,10 @@
 ///|
 #external
 pub type Element
+///|
+pub impl @js.ToJs for Element with to_js(self) -> @js.Value {
+  self |> @js.to_js
+}
 
 ///|
 pub extern "js" fn get_tag_name(self : Element) -> String =

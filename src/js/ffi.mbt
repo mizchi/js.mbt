@@ -11,6 +11,10 @@ extern "js" fn ffi_call(f : Value, args : Array[Value]) -> Value =
   #|(f, args) => f(...args)
 
 ///|
+extern "js" fn ffi_call_raise(f : Value, args : Array[Value]) -> Value raise =
+  #|(f, args) => f(...args)
+
+///|
 extern "js" fn ffi_call_property(
   v : Value,
   key : String,
@@ -31,12 +35,13 @@ pub extern "js" fn ffi_has_own_property(v : Value, k : String) -> Bool =
   #| (obj, k) => obj.hasOwnProperty(k)
 
 ///|
-extern "js" fn ffi_try_call(
-  f : () -> Value raise,
-) -> Result[Value, Value] noraise =
+extern "js" fn ffi_safe_call(
+  f : () -> Value raise?,
+  args :  Array[Value],
+) -> Result[Value, Error] noraise =
   #|(f) => {
   #|  try {
-  #|    return { $tag: 1, value: f() };
+  #|    return { $tag: 1, value: f(...args) };
   #|  } catch (e) {
   #|    return { $tag: 0, value: e };
   #|  }
