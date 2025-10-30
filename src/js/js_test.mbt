@@ -3,6 +3,7 @@ using @js {
   type JsError,
   type Promise,
   trait ToJs,
+  log,
   // identity,
 }
 ///|

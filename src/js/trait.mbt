@@ -64,7 +64,7 @@ pub impl ToJs for Json with to_js(self) -> Value {
     Json::Array(a) => {
       let arr = new_array()
       for v in a {
-        arr.push_internal(ToJs::to_js(v))
+        arr.push(ToJs::to_js(v))
       }
       arr
     }

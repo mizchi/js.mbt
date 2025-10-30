@@ -1,24 +1,6 @@
 /// original https://github.com/moonbit-community/jmop/blob/main/promise.mbt
 
 ///|
-extern "js" fn ffi_promise_resolve(x : Value) -> Value = "(x) => Promise.resolve(x)"
-
-///|
-extern "js" fn ffi_promise_reject(e : Error) -> Value = "(x) => Promise.reject(x)"
-
-///|
-extern "js" fn ffi_promise_then(
-  x : Value,
-  ok : (Value) -> Value,
-  err : (Value) -> Value,
-) = "(x,f,g) => x.then(f,g)"
-///|
-extern "js" fn ffi_promise_catch(x : Value, err : (Error) -> Value) -> Value = "(x,f) => x.catch(f)"
-
-///|
-extern "js" fn ffi_promise_finally(x : Value, f : () -> Unit) -> Value = "(x,f) => x.finally(f)"
-
-///|
 extern "js" fn ffi_new_promise(
   f : ((Value) -> Unit, (Value) -> Unit) -> Unit,
 ) -> Promise[Value] = "(f) => new Promise(f)"
@@ -37,6 +19,10 @@ extern "js" fn ffi_deferred_internal() -> Value =
 ///|
 #external
 pub type Promise[T]
+///|
+pub impl[T] ToJs for Promise[T] with to_js(self) -> Value {
+  self |> to_js
+}
 
 pub fn[A] Promise::resolve(x : A) -> Self[A] {
   ffi_promise_resolve(identity(x)) |> identity
@@ -56,12 +42,18 @@ pub fn[A, B] Promise::then(
 }
 
 ///|
-pub fn[A, B] Promise::catch_(x : Self[A], f : (Error) -> Self[B]) -> Self[B] {
-  ffi_promise_catch(identity(x), identity(f)) |> identity
+pub fn[A, B] Promise::catch_(self : Self[A], f : (Error) -> Self[B]) -> Self[B] {
+  self.to_js().call_property(
+    "catch",
+    [to_js(f)],
+  ) |> identity
 }
 
-pub fn[A] Promise::finally_(x : Self[A], f : () -> Unit) -> Self[A] {
-  ffi_promise_finally(identity(x), identity(f)) |> identity
+pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
+  self.to_js().call_property(
+    "finally",
+    [to_js(f)],
+  ) |> identity
 }
 
 pub fn[A] Promise::new(f: ((A) -> Unit,(Error) -> Unit) -> Unit) -> Promise[A] {
@@ -75,7 +67,7 @@ pub fn[A] Promise::new(f: ((A) -> Unit,(Error) -> Unit) -> Unit) -> Promise[A] {
   ) |> identity
 }
 ///|
-pub fn[A, B] Promise::bind(
+fn[A, B] Promise::bind(
   x : Self[A],
   resolve : (A) -> Self[B] raise,
   reject? : (Error) -> Self[B],
@@ -93,9 +85,12 @@ pub fn[A, B] Promise::bind(
 }
 
 ///|
-pub async fn[A] Promise::wait(x : Self[A]) -> A raise {
+pub async fn[A] Promise::wait(self : Self[A]) -> A raise {
   suspend(fn(ok, err) {
-    ffi_promise_then(identity(x), identity(ok), identity(err))
+    self.to_js().call_property("then", [
+      to_js(ok),
+      to_js(err)]
+    ) |> ignore
   })
 }
 
@@ -160,9 +155,8 @@ pub fn[A, B, C, R] to_promise_fn3(
   }
 }
 
-
 ///|
-test "ok" {
+test "wrap promise fn" {
   run_async(() => {
     let v = return_promise(async fn() { 123 })
     let r : Int = v.wait() catch { _ => 0 }

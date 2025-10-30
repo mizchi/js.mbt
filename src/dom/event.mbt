@@ -2,13 +2,19 @@
 #external
 pub type Event
 
-///|
-pub extern "js" fn Event::prevent_default(self : Event) -> Unit =
-  #| (event) => event.preventDefault()
+pub impl @js.ToJs for Event with to_js(self) -> @js.Value {
+  self |> @js.to_js
+}
 
 ///|
-pub extern "js" fn Event::stop_propagation(self : Event) -> Unit =
-  #| (event) => event.stopPropagation()
+pub fn Event::prevent_default(self : Event) -> Unit {
+  self.to_js().get("preventDefault").call([]) |> ignore
+}
+
+///|
+pub fn Event::stop_propagation(self : Event) -> Unit {
+  self.to_js().get("stopPropagation").call([]) |> ignore
+}
 
 ///|
 pub extern "js" fn Event::target(self : Event) -> Element =

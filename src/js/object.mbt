@@ -9,14 +9,15 @@ pub fn to_value(self: Object) -> Value {
   self |> identity
 }
 
-pub extern "js" fn Object::has_own_property(self: Self, k : String) -> Bool =
-  #| (obj, k) => obj.hasOwnProperty(k)
 
+///|
 #alias("_[_]=_")
-pub extern "js" fn Object::set(self: Self, k : String, v : Value) -> Unit =
+pub extern "js" fn Object::set(self : Self, k : String, v : Value) -> Unit =
   #| (obj, k, v) => { obj[k] = v; }
+
+///|
 #alias("_[_]")
-pub extern "js" fn Object::get(self: Self, k : String) -> Unit =
+pub extern "js" fn Object::get(self : Self, k : String) -> Unit =
   #| (obj, k, v) => obj[k]
 
 ///|
@@ -24,7 +25,7 @@ pub extern "js" fn Object::keys(v : Value) -> Array[String] =
   #| (obj) => Object.keys(obj)
 
 ///|
-pub extern "js" fn Object::is_(v : Value, other: Value) -> Array[Value] =
+pub extern "js" fn Object::is_(v : Value, other: Value) -> Bool =
   #| (obj, other) => Object.is(obj, other)
 
 /// wip
@@ -40,17 +41,6 @@ pub fn Object::from(m : Map[String, &ToJs]) -> Object {
   obj
 }
 
-pub extern "js" fn Object::assign(a : Value, b : Value) -> Value =
-  #| (target, sources) => Object.assign(target, sources)
-
-pub extern "js" fn Object::extend(a : Value, sources : Value) -> Value =
-  #| (a, b) => Object.assign({}, a, b)
-
-pub extern "js" fn Object::freeze(obj : Value) -> Value =
-  #| (obj) => Object.freeze(obj)
-
-pub extern "js" fn Object::seal(obj : Value) -> Value =
-  #| (obj) => Object.seal(obj)
 
 ///|
 pub extern "js" fn Object::new() -> Object =
@@ -70,13 +60,14 @@ test "Object::new" {
   assert_eq(v0, 1)
 }
 
+///|
 test "Object::assign" {
   let obj1 = Object::from({ "x": 10, "y": 20 })
   let obj2 = Object::from({ "y": 30, "z": 40 })
   let merged = Object::assign(obj1 |> identity, obj2 |> identity)
-  let x: Int = merged.get("x") |> identity
-  let y: Int = merged.get("y") |> identity
-  let z: Int = merged.get("z") |> identity
+  let x : Int = merged.get("x") |> identity
+  let y : Int = merged.get("y") |> identity
+  let z : Int = merged.get("z") |> identity
   assert_eq(x, 10)
   assert_eq(y, 30)
   assert_eq(z, 40)

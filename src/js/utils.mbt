@@ -1,39 +1,4 @@
 
-///|
-extern "js" fn ffi_console_log(value : Value) -> Unit =
-  #| console.log
-
-///|
-extern "js" fn ffi_console_warn(value : Value) -> Unit =
-  #| console.warn
-
-///|
-extern "js" fn ffi_console_error(value : Value) -> Unit =
-  #| console.error
-
-///|
-extern "js" fn ffi_console_info(value : Value) -> Unit =
-  #| console.info
-
-///|
-pub fn[T] log(v : T) -> Unit {
-  v |> to_js |> ffi_console_log
-}
-
-///|
-pub fn[T] console_error(v : T) -> Unit {
-  v |> to_js |> ffi_console_error
-}
-
-///|
-pub fn[T] console_info(v : T) -> Unit {
-  v |> to_js |> ffi_console_info
-}
-
-///|
-pub fn[T] console_warn(v : T) -> Unit {
-  v |> identity |> ffi_console_warn
-}
 
 ///|
 pub extern "js" fn js_null() -> Value = "() => null"
@@ -66,43 +31,3 @@ pub fn Value::from_js_array(a : Array[Value]) -> Value {
   }
   arr
 }
-
-///|
-pub extern "js" fn Value::is_object(self : Value) -> Bool =
-  #| (v) => typeof v === "object" && v !== null
-
-///|
-pub extern "js" fn Value::is_array(self : Value) -> Bool =
-  #| (v) => Array.isArray(v)
-
-///|
-pub extern "js" fn Value::is_function(self : Value) -> Bool =
-  #| (v) => typeof v === "function"
-
-///|
-pub extern "js" fn Value::is_string(self : Value) -> Bool =
-  #| (v) => typeof v === "string"
-
-///|
-pub extern "js" fn Value::is_boolean(self : Value) -> Bool =
-  #| (v) => typeof v === "boolean"
-
-///|
-pub extern "js" fn Value::is_number(self : Value) -> Bool =
-  #| (v) => typeof v === "number"
-
-///|
-pub extern "js" fn Value::is_null(self : Value) -> Bool =
-  #| (v) => v === null
-
-///|
-pub extern "js" fn Value::is_undefined(self : Value) -> Bool =
-  #| (v) => v === undefined
-
-///|
-pub extern "js" fn Value::is_nan(self : Value) -> Bool =
-  #| (v) => Number.isNaN(v)
-
-///|
-pub extern "js" fn Value::instance_of(self : Value, cls : Value) -> Bool =
-  #| (v, cls) => v instanceof cls
