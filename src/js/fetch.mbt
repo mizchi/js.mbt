@@ -1,10 +1,16 @@
 ///|
 #external
 pub type Request
+pub impl ToJs for Request with to_js(self) {
+  self |> to_js
+}
 
 ///|
 #external
 pub type Response
+pub impl ToJs for Response with to_js(self) {
+  self |> to_js
+}
 
 ///|
 pub extern "js" fn Response::json(self : Response) -> Promise[Value] =

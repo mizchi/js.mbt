@@ -37,7 +37,6 @@ extern "js" fn import_react_dom_client() -> @js.Promise[ReactDOMClient] =
 
 ///|
 pub async fn init_react_client() -> ReactDOMClient {
-  println("Importing react modules...")
   if @js.global_this().get("__ReactApi").is_undefined() {
     let react : @js.Value = import_react().wait()
     @js.global_this().set("__ReactApi", react)

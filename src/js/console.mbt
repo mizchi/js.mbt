@@ -15,6 +15,11 @@ extern "js" fn ffi_console_info(value : Value) -> Unit =
   #| console.info
 
 ///|
+extern "js" fn ffi_console_table(value : Value) -> Unit =
+  #| console.table
+
+
+///|
 pub fn[T] console_log(v : T) -> Unit {
   v |> to_js |> ffi_console_log
 }
@@ -28,6 +33,12 @@ pub fn[T] console_error(v : T) -> Unit {
 pub fn[T] console_info(v : T) -> Unit {
   v |> to_js |> ffi_console_info
 }
+
+///|
+pub fn[T] console_table(v : T) -> Unit {
+  v |> to_js |> ffi_console_table
+}
+
 
 ///|
 pub fn[T] console_warn(v : T) -> Unit {

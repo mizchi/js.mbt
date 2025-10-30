@@ -1,11 +1,8 @@
 ///|
-using @js {type Value}
-
-///|
 pub(all) struct EmptyProps {}
 
 ///|
-extern "js" fn create_element_raw(
+extern "js" fn ffi_create_element(
   tag : @js.Value,
   props : @js.Value,
   children : @js.Value,
@@ -105,7 +102,7 @@ pub fn create_element(
     let f : @js.Value = on_keyup |> @js.identity
     val["onKeyUp"] = f
   }
-  create_element_raw(tag, val, children) |> @js.identity
+  ffi_create_element(tag, val, children) |> @js.identity
 }
 
 ///|
@@ -124,7 +121,7 @@ pub fn[T] c(
   if key is Some(key) {
     val["key"] = key
   }
-  create_element_raw(tag, val, children) |> @js.identity
+  ffi_create_element(tag, val, children) |> @js.identity
 }
 
 ///|
@@ -135,16 +132,16 @@ pub fn fragment(children : Array[&@js.ToJs], key? : String) -> Element {
   if key is Some(key) {
     val["key"] = key
   }
-  create_element_raw(tag, val, children) |> @js.identity
+  ffi_create_element(tag, val, children) |> @js.identity
 }
 
 ///|
 pub fn suspense(children : Array[&@js.ToJs], fallback~ : Element) -> Element {
   let tag = get_suspense() |> @js.to_js
   let children = @js.Value::from_array(children)
-  let val : @js.Value = @js.new_object() |> @js.identity
+  let val : @js.Value = @js.new_object() |> @js.to_js
   val["fallback"] = fallback |> @js.to_js
-  create_element_raw(tag, val, children) |> @js.identity
+  ffi_create_element(tag, val, children).cast()
 }
 
 ///|
@@ -155,8 +152,7 @@ pub fn[T] provider(
 ) -> Element {
   let tag = @js.to_js(tag)
   let children = @js.Value::from_array(children)
-  let val : @js.Value = value |> @js.identity
   let props = @js.new_object()
-  props["value"] = val
-  create_element_raw(tag, props, children) |> @js.identity
+  props["value"] = value |> @js.to_js
+  ffi_create_element(tag, props, children).cast()
 }

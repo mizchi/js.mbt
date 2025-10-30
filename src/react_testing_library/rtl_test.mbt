@@ -11,7 +11,7 @@ fn app(_props : AppProps) -> @react.Element {
   @react.h("div", [
     "Hello RTL",
     @react.h("div", ["Count: \{cnt}"]),
-    @react.h("button", attributes={ "onClick": on_click |> @js.identity }, [
+    @react.h("button", attributes={ "onClick": on_click |> @js.to_js }, [
       "click me",
     ]),
   ])
@@ -21,20 +21,16 @@ fn app(_props : AppProps) -> @react.Element {
 test {
   @js.run_async(() => try {
     let _ = @react.init_react_client()
-    let testing = @react_testing_library.ReactTestingLibrary::load()
-    let screen = testing.screen()
-    let fire_event = testing.fire_event()
-    defer testing.cleanup()
-
-    // render app
-    testing.render(@react.c(app, AppProps::{  }))
-    fire_event.click(screen.get_by_text("click me"))
-    let target = screen.get_by_text("Count: 1")
-    guard target.get_text_content() == "Count: 1"
+    let t = @js.NodeTest::load()
+    let rtl = @react_testing_library.ReactTestingLibrary::load()
+    t.before_each(() => rtl.cleanup())
+    t.it("renders app and responds to click", _ => {
+      rtl.render(@react.c(app, AppProps::{  }))
+      rtl.fire_event().click(rtl.screen().get_by_text("click me"))
+      let target = rtl.screen().get_by_text("Count: 1")
+      assert_eq(target.get_text_content(), "Count: 1")
+    })
   } catch {
-    _err => {
-      println("Test failed: \{_err}")
-      panic()
-    }
+    _ => panic()
   })
 }

@@ -44,7 +44,7 @@ pub(all) enum Route {
 }
 
 ///|
-fn Route::to_rr_obj(self : Route) -> @js.Value {
+impl @js.ToJs for Route with to_js(self : Route) {
   match self {
     Route::Component(path~, component~) => {
       let obj = @js.new_object()
@@ -67,8 +67,7 @@ pub fn create_browser_router(routes : Array[Route]) -> Router {
     .get("__ReactRouterApi")
     .get("createBrowserRouter")
     .cast()
-  let rr_routes = routes.map(_.to_rr_obj())
-  create_browser_router(rr_routes)
+  create_browser_router(routes.map(_.to_js()))
 }
 
 ///|

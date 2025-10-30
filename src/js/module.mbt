@@ -1,27 +1,25 @@
 ///|
-extern "js" fn ffi_import_module(module_name : String) -> Promise[Value] = "(moduleName) => import(moduleName)"
+extern "js" fn ffi_import(module_name : String) -> Promise[Value] = "(moduleName) => import(moduleName)"
 
 ///|
 pub fn import_module_promise(module_name : String) -> Promise[Value] {
-  ffi_import_module(module_name)
+  ffi_import(module_name)
 }
 
 ///|
 pub async fn import_module(module_name : String) -> Value {
-  ffi_import_module(module_name).wait()
+  ffi_import(module_name).wait()
 }
 
 ///|
 test {
   run_async(() => try {
-    let basename : (String) -> String = import_module("node:path").get(
-        "basename",
-      )
-      |> identity
+    let basename : (String) -> String = import_module("node:path")
+      .get_as("basename")
     let x : String = basename("a/b/c.txt") |> identity
     assert_eq(x, "c.txt")
   } catch {
-    _ => ()
+    _ => panic()
   })
 }
 
@@ -42,15 +40,14 @@ test {
       },
     }
     let rawjs = ToJs::to_js(json)
-    let parse_args : (Value) -> Value = import_module("node:util").get(
+    let parse_args : (Value) -> Value = import_module("node:util").get_as(
         "parseArgs",
       )
-      |> identity
     let parsed = parse_args(rawjs)
     let parsed : Parsed = Parsed::{
-      help: parsed.get("values").get("help") |> identity,
-      out: parsed.get("values").get("out") |> identity,
-      rest: parsed.get("positionals") |> identity,
+      help: parsed.get("values").get("help").cast(),
+      out: parsed.get("values").get("out").cast(),
+      rest: parsed.get("positionals").cast(),
     }
     assert_eq(parsed, Parsed::{ help: true, out: "output.txt", rest: ["vvv"] })
   } catch {

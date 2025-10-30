@@ -3,7 +3,7 @@
 pub type JSTimer
 
 ///|
-extern "js" fn ffi_set_timeout(f : () -> Unit, duration~ : Int) -> JSTimer =
+extern "js" fn ffi_set_timeout(f : () -> Unit, duration : Int) -> JSTimer =
   #| (f, duration) => setTimeout(f, duration)
 
 ///|
@@ -12,7 +12,7 @@ extern "js" fn ffi_clear_timeout(timer : JSTimer) -> Unit =
 
 ///|
 pub fn set_timeout(f : () -> Unit, duration : Int) -> JSTimer {
-  ffi_set_timeout(f, duration~)
+  ffi_set_timeout(f, duration)
 }
 
 ///|
@@ -23,13 +23,13 @@ pub fn clear_timeout(timer : JSTimer) -> Unit {
 ///|
 extern "js" fn ffi_set_interval(
   f : () -> Unit noraise,
-  duration~ : Int,
+  duration : Int,
 ) -> JSTimer =
   #| (f, duration) => setInterval(f, duration)
 
 ///|
 pub fn set_interval(f : () -> Unit noraise, duration : Int) -> JSTimer {
-  ffi_set_interval(f, duration~)
+  ffi_set_interval(f, duration)
 }
 
 ///|
@@ -40,7 +40,7 @@ pub fn clear_interval(timer : JSTimer) -> Unit {
 ///|
 pub async fn sleep(duration : Int) -> Unit noraise {
   suspend(fn(resume_ok, _resume_err) {
-    ffi_set_timeout(() => resume_ok(()), duration~) |> ignore
+    ffi_set_timeout(() => resume_ok(()), duration) |> ignore
   }) catch {
     _ => ()
   }
