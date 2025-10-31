@@ -63,7 +63,7 @@ fn common_node(
   if tab_index is Some(tab_index) {
     attr["tabIndex"] = tab_index |> js
   }
-  h(tag_name, attributes=attr, children.map(c => c.to_react_node()))
+  h(tag_name, attributes=attr, children.map(_.to_react_node()))
 }
 
 ///|

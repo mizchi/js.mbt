@@ -32,11 +32,3 @@ extern "js" fn import_react() -> Promise[Val] =
 extern "js" fn import_react_dom_client() -> Promise[ReactDOMClient] =
   #| () => import("react-dom/client")
 
-///|
-pub async fn init_react_client() -> ReactDOMClient {
-  if global_this().get("__ReactApi").is_undefined() {
-    let react : Val = import_react().unwrap()
-    global_this().set("__ReactApi", react)
-  }
-  import_react_dom_client().unwrap()
-}

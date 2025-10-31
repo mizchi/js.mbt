@@ -52,7 +52,7 @@ pub fn create_element(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> Element {
   let tag = js(tag)
-  let children = @val.from_builtin_array(children)
+  let children = children.map(_.to_js()) |> @val.from_builtin_array
   let val : Val = @val.new_object()
   if attributes is Some(props) {
     for k, v in props {
@@ -100,7 +100,7 @@ pub fn create_element(
     let f : Val = on_keyup |> js
     val["onKeyUp"] = f
   }
-  ffi_create_element(tag, val, children) |> unsafe_cast
+  ffi_create_element(tag, val, children).cast()
 }
 
 ///|
