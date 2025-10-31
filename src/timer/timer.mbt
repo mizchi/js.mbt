@@ -36,11 +36,3 @@ pub fn set_interval(f : () -> Unit noraise, duration : Int) -> JSTimer {
 pub fn clear_interval(timer : JSTimer) -> Unit {
   ffi_clear_timeout(timer)
 }
-
-///|
-/// Sleeps for the specified duration.
-pub async fn sleep(duration : Int) -> Unit noraise {
-  suspend((ok, _) => ffi_set_timeout(() => ok(()), duration) |> ignore) catch {
-    _ => ()
-  }
-}

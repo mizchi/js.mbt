@@ -1,4 +1,4 @@
 {
-  "import": ["mizchi/js/js", "mizchi/js/dom"],
+  "import": ["mizchi/js/val", "mizchi/js/promise", "mizchi/js/dom"],
   "warn-list": "-1-6"
 }

@@ -11,9 +11,9 @@ fn create_browser_router(Array[Route]) -> Router
 
 async fn init_react_router() -> Unit
 
-fn link(to~ : String, Array[&@js.ToJs]) -> @react.Element
+fn link(to~ : String, Array[&Js]) -> @react.Element
 
-fn load_react_router() -> @js.Promise[@js.Value]
+fn load_react_router() -> @js.Promise[Val]
 
 fn router_provider(Router) -> @react.Element
 

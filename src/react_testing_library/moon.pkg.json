@@ -1,7 +1,10 @@
 {
   "import": [
-    "mizchi/js/js",
+    "mizchi/js/val",
+    "mizchi/js/promise",
     "mizchi/js/dom",
-    "mizchi/js/react"
+    "mizchi/js/react",
+    "mizchi/js/module",
+    "mizchi/js/node_test"
   ]
 }

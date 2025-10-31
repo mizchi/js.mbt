@@ -3,7 +3,7 @@
 // pub type Fs
 
 // ///|
-// impl @js.ToJs for Fs with to_js(self) -> @js.Value {
+// impl Js for Fs with to_js(self) -> Val {
 //   self |> @js.to_js
 // }
 

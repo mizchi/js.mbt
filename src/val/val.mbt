@@ -73,11 +73,6 @@ pub fn Val::call_raise(self : Self, args : Array[&Js]) -> Val raise {
 }
 
 ///|
-pub fn Val::call_raise_async(self : Self, args : Array[&Js]) -> Promise[Val] raise {
-  ffi_call_raise_async(self, args.map(_.to_js()))
-}
-
-///|
 pub fn Val::call_method(
   self : Val,
   key : String,

@@ -19,7 +19,8 @@ using @react {
 using @react_router {init_react_router, router_provider}
 
 ///|
-using @js {log, run_async, sleep}
+using @val {log, js}
+using @promise {type Promise, sleep, run_async}
 
 ///|
 using @element {
@@ -40,9 +41,6 @@ using @element {
   line,
   text
 }
-
-///|
-fnalias @js.identity as js
 
 ///|
 struct MyContextProps {
@@ -118,7 +116,7 @@ fn async_counter(_ : EmptyProps) -> @react.Element {
   )
   let on_click = use_callback(
     _ => run_async(async fn() noraise {
-      @js.sleep(500)
+      sleep(500)
       @react.start_transition(() => dispatch(CounterAction::Increment))
     }),
     [count],
@@ -154,7 +152,7 @@ fn app(props : AppProps) -> @react.Element {
   use_effect(
     () => {
       run_async(async fn() noraise {
-        @js.sleep(300)
+        sleep(300)
         if textarea_ref.current() is Some(textarea) {
           textarea.focus()
         }
@@ -213,7 +211,7 @@ fn app(props : AppProps) -> @react.Element {
           enc_type="application/x-www-form-urlencoded",
           action=form => {
             log(form)
-            let v : String = form.get("username") |> js
+            let v : String = form.get("username").cast()
             log("Username: \{v}")
           },
           [

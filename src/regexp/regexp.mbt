@@ -1,3 +1,4 @@
+using @val {type Val, trait Js, js, unsafe_cast}
 ///|
 #external
 pub type RegExp
@@ -20,7 +21,7 @@ extern "js" fn ffi_regexp_test(self : RegExp, string : String) -> Bool =
   #|(re, string) => re.test(string)
 
 ///|
-extern "js" fn ffi_regexp_exec(self : RegExp, string : String) -> Value =
+extern "js" fn ffi_regexp_exec(self : RegExp, string : String) -> Val =
   #|(re, string) => re.exec(string)
 
 ///|
@@ -34,17 +35,17 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
   if v.is_null() {
     return None
   }
-  let full : String = v.at(0) |> identity
-  let index : Int = v.get("index") |> identity
-  let last_index : Int = v.get("lastIndex") |> identity
-  let input : String = v.get("input") |> identity
+  let full : String = v.get_index(0).cast()
+  let index : Int = v.get("index").cast()
+  let last_index : Int = v.get("lastIndex").cast()
+  let input : String = v.get("input").cast()
   let groups : Map[String, String]? = if v.get("groups").is_undefined() {
     None
   } else {
     let g : Map[String, String] = {}
-    let keys = Object::keys(v.get("groups"))
+    let keys = @val.object_keys(v.get("groups"))
     for k in keys {
-      g[k] = v.get("groups").get(k) |> identity
+      g[k] = v.get("groups").get(k).cast()
     }
     Some(g)
   }

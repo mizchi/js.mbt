@@ -3,10 +3,10 @@ pub(all) struct EmptyProps {} derive(Default)
 
 ///|
 extern "js" fn ffi_create_element(
-  tag : @js.Value,
-  props : @js.Value,
-  children : @js.Value,
-) -> @js.Value =
+  tag : Val,
+  props : Val,
+  children : Val,
+) -> Val =
   #|(tag, props, children) => {
   #|  return __ReactApi.createElement(tag, props, ...children)
   #|}
@@ -16,7 +16,7 @@ extern "js" fn get_fragment() -> Component[EmptyProps] =
   #| () => __ReactApi.Fragment
 
 ///|
-extern "js" fn get_suspense() -> @js.Value =
+extern "js" fn get_suspense() -> Val =
   #| () => __ReactApi.Suspense
 
 ///|
@@ -29,16 +29,17 @@ pub type Component[T]
 pub type Element
 
 ///|
-pub impl ToJs for Element with to_js(self) -> @js.Value {
-  self |> @js.to_js
+pub impl Js for Element with to_js(self) -> Val {
+  self |> js
 }
 
 ///|
+#alias(h)
 pub fn create_element(
   tag : String,
-  children : Array[&@js.ToJs],
+  children : Array[&Js],
   disabled? : Bool,
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -50,16 +51,16 @@ pub fn create_element(
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> Element {
-  let tag = @js.to_js(tag)
-  let children = @js.Value::from_array(children)
-  let val : @js.Value = @js.new_object()
+  let tag = js(tag)
+  let children = @val.from_builtin_array(children)
+  let val : Val = @val.new_object()
   if attributes is Some(props) {
     for k, v in props {
       val[k] = v
     }
   }
   if ref_ is Some(ref_) {
-    val["ref"] = ref_ |> @js.to_js
+    val["ref"] = ref_ |> js
   }
   if key is Some(key) {
     val["key"] = key
@@ -74,82 +75,79 @@ pub fn create_element(
     val["className"] = className
   }
   if disabled is Some(disabled) {
-    val["disabled"] = disabled |> @js.to_js
+    val["disabled"] = disabled |> js
   }
   if style is Some(style) {
-    let style_obj : @js.Value = @js.new_object()
+    let style_obj : Val = @val.new_object()
     for k, v in style {
-      style_obj[k] = @js.to_js(v)
+      style_obj[k] = js(v)
     }
     val["style"] = style_obj
   }
   if on_click is Some(v) {
-    let f : @js.Value = v |> @js.identity
+    let f : Val = v |> js
     val["onClick"] = f
   }
   if on_change is Some(on_change) {
-    let f : @js.Value = on_change |> @js.identity
+    let f : Val = on_change |> js
     val["onChange"] = f
   }
   if on_keydown is Some(on_keydown) {
-    let f : @js.Value = on_keydown |> @js.identity
+    let f : Val = on_keydown |> js
     val["onKeyDown"] = f
   }
   if on_keyup is Some(on_keyup) {
-    let f : @js.Value = on_keyup |> @js.identity
+    let f : Val = on_keyup |> js
     val["onKeyUp"] = f
   }
-  ffi_create_element(tag, val, children) |> @js.identity
+  ffi_create_element(tag, val, children) |> unsafe_cast
 }
-
-///|
-pub fnalias create_element as h
 
 ///|
 pub fn[T] c(
   tag : (T) -> Element,
   props : T,
-  children? : Array[&@js.ToJs],
+  children? : Array[&Js],
   key? : String,
 ) -> Element {
-  let tag = @js.to_js(tag)
-  let children = @js.Value::from_array(children.unwrap_or([]))
-  let val : @js.Value = props |> @js.identity
+  let tag = js(tag)
+  let children = @val.from_builtin_array(children.unwrap_or([]))
+  let val : Val = props |> js
   if key is Some(key) {
     val["key"] = key
   }
-  ffi_create_element(tag, val, children) |> @js.identity
+  ffi_create_element(tag, val, children) |> unsafe_cast
 }
 
 ///|
-pub fn fragment(children : Array[&@js.ToJs], key? : String) -> Element {
-  let tag = @js.to_js(get_fragment())
-  let children = @js.Value::from_array(children)
-  let val : @js.Value = @js.new_object() |> @js.identity
+pub fn fragment(children : Array[&Js], key? : String) -> Element {
+  let tag = js(get_fragment())
+  let children = @val.from_builtin_array(children)
+  let val : Val = @val.new_object()
   if key is Some(key) {
     val["key"] = key
   }
-  ffi_create_element(tag, val, children) |> @js.identity
+  ffi_create_element(tag, val, children) |> unsafe_cast
 }
 
 ///|
-pub fn suspense(children : Array[&@js.ToJs], fallback~ : Element) -> Element {
-  let tag = get_suspense() |> @js.to_js
-  let children = @js.Value::from_array(children)
-  let val : @js.Value = @js.new_object() |> @js.to_js
-  val["fallback"] = fallback |> @js.to_js
+pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
+  let tag = get_suspense() |> js
+  let children = @val.from_builtin_array(children)
+  let val : Val = @val.new_object()
+  val["fallback"] = fallback |> js
   ffi_create_element(tag, val, children).cast()
 }
 
 ///|
 pub fn[T] provider(
   tag : Context[T],
-  children : Array[&@js.ToJs],
+  children : Array[&Js],
   value~ : T,
 ) -> Element {
-  let tag = @js.to_js(tag)
-  let children = @js.Value::from_array(children)
-  let props = @js.new_object()
-  props["value"] = value |> @js.to_js
+  let tag = js(tag)
+  let children = @val.from_builtin_array(children)
+  let props = @val.new_object()
+  props["value"] = value |> js
   ffi_create_element(tag, props, children).cast()
 }

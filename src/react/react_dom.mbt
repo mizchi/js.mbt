@@ -11,12 +11,12 @@ pub type ReactDOMClient
 pub type ReactDOMRoot
 
 ///|
-pub fn create_root(
-  self : ReactDOMClient,
+pub fn ReactDOMClient::create_root(
+  self : Self,
   container : @dom.Element,
 ) -> ReactDOMRoot {
-  let v : @js.Value = self |> @js.identity
-  v.get("createRoot").call1(container).cast()
+  let v : Val = self |> js
+  v.get("createRoot").call([container]).cast()
 }
 
 ///|
@@ -25,18 +25,18 @@ pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : Element) -> Unit {
 }
 
 ///|
-extern "js" fn import_react() -> @js.Promise[@js.Value] =
+extern "js" fn import_react() -> Promise[Val] =
   #| () => import("react")
 
 ///|
-extern "js" fn import_react_dom_client() -> @js.Promise[ReactDOMClient] =
+extern "js" fn import_react_dom_client() -> Promise[ReactDOMClient] =
   #| () => import("react-dom/client")
 
 ///|
 pub async fn init_react_client() -> ReactDOMClient {
-  if @js.global_this().get("__ReactApi").is_undefined() {
-    let react : @js.Value = import_react().wait()
-    @js.global_this().set("__ReactApi", react)
+  if global_this().get("__ReactApi").is_undefined() {
+    let react : Val = import_react().unwrap()
+    global_this().set("__ReactApi", react)
   }
-  import_react_dom_client().wait()
+  import_react_dom_client().unwrap()
 }

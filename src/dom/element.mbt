@@ -3,73 +3,73 @@
 pub type Element
 
 ///|
-pub impl ToJs for Element with to_js(self) -> @js.Value {
-  self |> to_js
+pub impl Js for Element with to_js(self) -> Val {
+  self |> js
 }
 
 ///|
-pub fn get_tag_name(self : Element) -> String {
+pub fn Element::get_tag_name(self : Self) -> String {
   self.to_js().get("tagName").cast()
 }
 
 ///|
-pub fn get_inner_html(self : Element) -> String {
+pub fn Element::get_inner_html(self : Self) -> String {
   self.to_js().get("innerHTML").cast()
 }
 
 ///|
-pub fn set_text_content(self : Element, text : String) -> Unit {
-  self.to_js().set("textContent", text |> @js.to_js) |> ignore
+pub fn Element::set_text_content(self : Self, text : String) -> Unit {
+  self.to_js().set("textContent", text |> js) |> ignore
 }
 
 ///|
-pub fn set_inner_html(self : Element, html : String) -> Unit {
-  self.to_js().set("innerHTML", html |> @js.to_js) |> ignore
+pub fn Element::set_inner_html(self : Self, html : String) -> Unit {
+  self.to_js().set("innerHTML", html |> js) |> ignore
 }
 
 ///|
-pub fn get_text_content(self : Element) -> String {
+pub fn Element::get_text_content(self : Self) -> String {
   self.to_js().get("textContent").cast()
 }
 
 ///|
-pub fn set_attribute(self : Element, name : String, value : String) -> Unit {
+pub fn Element::set_attribute(self : Self, name : String, value : String) -> Unit {
   self
   .to_js()
-  .call_property("setAttribute", [name |> @js.to_js, value |> @js.to_js])
+  .call_method("setAttribute", [name |> js, value |> js])
   |> ignore
 }
 
 ///|
-pub fn get_attribute(self : Element, name : String) -> Value? {
-  self.to_js().call_property("getAttribute", [name |> @js.to_js]).cast_option()
+pub fn Element::get_attribute(self : Self, name : String) -> Val? {
+  self.to_js().call_method("getAttribute", [name |> js]).cast_option()
 }
 
 ///|
-pub fn get_value(self : Element) -> String {
+pub fn Element::get_value(self : Self) -> String {
   self.to_js().get("value").cast()
 }
 
 ///|
-pub fn append_child(self : Element, child : Element) -> Element {
-  self.to_js().call_property("appendChild", [child |> @js.to_js]).cast()
+pub fn Element::append_child(self : Self, child : Self) -> Self {
+  self.to_js().call_method("appendChild", [child |> js]).cast()
 }
 
 ///|
-pub fn insert_before(self : Element, child : Element) -> Element {
-  self.to_js().call_property("insertBefore", [child |> @js.to_js]).cast()
+pub fn Element::insert_before(self : Self, child : Self) -> Self {
+  self.to_js().call_method("insertBefore", [child |> js]).cast()
 }
 
 ///|
-pub fn query_selector(self : Element, selector : String) -> Element? {
+pub fn Element::query_selector(self : Self, selector : String) -> Self? {
   self
   .to_js()
-  .call_property("querySelector", [selector |> @js.to_js])
+  .call_method("querySelector", [selector |> js])
   .cast_option()
 }
 
 ///|
-pub fn id(self : Element) -> String? {
+pub fn Element::id(self : Self) -> String? {
   let v = self.to_js().get("id")
   if v.is_undefined() {
     None
@@ -90,33 +90,33 @@ pub extern "js" fn document() -> Element =
 pub extern "js" fn Element::focus_internal(self : Element) -> Unit = "(self) => self.focus()"
 
 ///|
-pub fn focus(self : Element) -> Unit {
-  self.to_js().call_property("focus", []) |> ignore
+pub fn Element::focus(self : Self) -> Unit {
+  self.to_js().call_method("focus", []) |> ignore
 }
 
 ///|
-pub fn add_event_listener(
-  self : Element,
+pub fn Element::add_event_listener(
+  self : Self,
   event : String,
   listener : (Event) -> Unit,
 ) -> Unit {
   self
   .to_js()
-  .call_property("addEventListener", [event |> @js.to_js, listener |> @js.to_js])
+  .call_method("addEventListener", [event |> js, listener |> js])
   |> ignore
 }
 
 ///|
-pub fn remove_event_listener(
-  self : Element,
+pub fn Element::remove_event_listener(
+  self : Self,
   event : String,
   listener : (Event) -> Unit,
 ) -> Unit {
   self
   .to_js()
-  .call_property("removeEventListener", [
-    event |> @js.to_js,
-    listener |> @js.to_js,
+  .call_method("removeEventListener", [
+    event |> js,
+    listener |> js,
   ])
   |> ignore
 }

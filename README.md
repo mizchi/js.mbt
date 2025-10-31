@@ -24,7 +24,7 @@ $ moon add mizchi/js
 ```mbt
 let obj = @js.new_object()
 obj["xxx"] = 1
-let v: Int = obj.get("xxx") |> @js.identity
+let v: Int = obj.get("xxx") |> js
 ```
 
 ## mizchi/js/dom

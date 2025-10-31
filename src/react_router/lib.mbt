@@ -1,12 +1,14 @@
+using @val {type Val, trait Js, js, new_object}
+using @promise {type Promise}
 ///|
-pub extern "js" fn load_react_router() -> @js.Promise[@js.Value] =
+pub extern "js" fn load_react_router() -> Promise[Val] =
   #| () => import("react-router")
 
 ///|
 pub async fn init_react_router() -> Unit {
-  if @js.global_this().get("__ReactRouterApi").is_undefined() {
-    let v = load_react_router().wait()
-    @js.global_this().set("__ReactRouterApi", v)
+  if @val.global_this().get("__ReactRouterApi").is_undefined() {
+    let v = load_react_router().unwrap()
+    @val.global_this().set("__ReactRouterApi", v)
   }
 }
 
@@ -44,18 +46,18 @@ pub(all) enum Route {
 }
 
 ///|
-impl @js.ToJs for Route with to_js(self : Route) {
+impl Js for Route with to_js(self : Route) {
   match self {
     Route::Component(path~, component~) => {
-      let obj = @js.new_object()
+      let obj = new_object()
       obj.set("path", path)
-      obj.set("Component", component |> @js.to_js)
+      obj.set("Component", component |> js)
       obj
     }
     Route::Element(path~, element~) => {
-      let obj = @js.new_object()
+      let obj = new_object()
       obj.set("path", path)
-      obj.set("element", element |> @js.to_js)
+      obj.set("element", element |> js)
       obj
     }
   }
@@ -63,7 +65,7 @@ impl @js.ToJs for Route with to_js(self : Route) {
 
 ///|
 pub fn create_browser_router(routes : Array[Route]) -> Router {
-  let create_browser_router : (Array[@js.Value]) -> Router = @js.global_this()
+  let create_browser_router : (Array[Val]) -> Router = @val.global_this()
     .get("__ReactRouterApi")
     .get("createBrowserRouter")
     .cast()
@@ -80,7 +82,7 @@ extern "js" fn get_link() -> (LinkProps) -> @react.Element =
   #| () => __ReactRouterApi.Link
 
 ///|
-pub fn link(to~ : String, children : Array[&@js.ToJs]) -> @react.Element {
+pub fn link(to~ : String, children : Array[&Js]) -> @react.Element {
   let p = get_link()
   @react.c(p, LinkProps::{ to, }, children~)
 }

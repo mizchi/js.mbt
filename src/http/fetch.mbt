@@ -1,5 +1,5 @@
 ///|
-extern "js" fn ffi_fetch(url : String, init : Value) -> Promise[Response] =
+extern "js" fn ffi_fetch(url : String, init : Val) -> Promise[Response] =
   #| (url, init) => fetch(url, init)
 
 ///|
@@ -41,13 +41,13 @@ test "fetch" {
       headers={ "Accept": "application/json" },
     ) catch {
       e => {
-        console_error("Fetch error: " + e.to_string())
+        log("Fetch error: " + e.to_string())
         return
       }
     }
-    let value = response.wait().json().wait() catch {
+    let value = response.unwrap().json().unwrap() catch {
       e => {
-        console_error("Error parsing JSON: " + e.to_string())
+        log("Error parsing JSON: " + e.to_string())
         return
       }
     }

@@ -1,8 +1,5 @@
 using @val {type Val}
-///|
-async fn[T, E : Error] suspend(
-  f : ((T) -> Unit, (E) -> Unit) -> Unit,
-) -> T raise E = "%async.suspend"
+using @promise {suspend}
 
 ///|
 extern "js" fn ffi_require(module_name : String) -> Val =

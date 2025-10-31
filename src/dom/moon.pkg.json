@@ -1,3 +1,6 @@
 {
-  "import": ["mizchi/js/js"]
+  "import": [
+    "mizchi/js/val",
+    "mizchi/js/promise"
+  ]
 }

@@ -28,10 +28,6 @@ extern "js" fn ffi_call(f : Val, args : Array[Val]) -> Val =
   #|(f, args) => f(...args)
 
 ///|
-extern "js" fn ffi_call_raise_async(f : Val, args : Array[Val]) -> Promise[Val] raise =
-  #|async (f, args) => { try { return await f(...args) } catch (e) { throw e } }
-
-///|
 extern "js" fn ffi_call_method(
   v : Val,
   key : String,
@@ -85,34 +81,6 @@ pub extern "js" fn ffi_has_own_property(v : Val, k : String) -> Bool =
 extern "js" fn ffi_object_is(a : Val, b : Val) -> Bool =
   #| (a, b) => Object.is(a, b)
 
-///|
-extern "js" fn ffi_promise_resolve(x : Val) -> Val = "(x) => Promise.resolve(x)"
-
-///|
-extern "js" fn ffi_promise_reject(e : Error) -> Val = "(x) => Promise.reject(x)"
-
-///|
-extern "js" fn ffi_promise_then(
-  x : Val,
-  ok : (Val) -> Val
-) = "(x,f) => x.then(f)"
-
-///|
-extern "js" fn ffi_new_promise(
-  f : ((Val) -> Unit, (Val) -> Unit) -> Unit,
-) -> Promise[Val] = "(f) => new Promise(f)"
-
-///|
-extern "js" fn ffi_deferred_internal() -> Val =
-  #| () => {
-  #|   let ok, err;
-  #|   const p = new Promise((_ok, _err) => {
-  #|     ok = _ok;
-  #|     err = _err;
-  #|   });
-  #|   return { _0: p, _1: ok, _2: err };
-  #| }
-
 extern "js" fn ffi_global_this() -> Val =
   #| () => globalThis
 
@@ -125,6 +93,9 @@ extern "js" fn ffi_null() -> Val =
 extern "js" fn ffi_object_keys(v : Val) -> Array[String] =
   #| (obj) => Object.keys(obj)
 
+extern "js" fn ffi_object_values(v : Val) -> Array[Val] =
+  #| (obj) => Object.values(obj)
+
 extern "js" fn ffi_console_log(v: Array[Val]) -> Unit =
   #| (obj) => console.log(...obj)
 
@@ -134,3 +105,7 @@ extern "js" fn ffi_json_stringify(
   space : Val,
 ) -> String =
   #| (v, replacer, space) => JSON.stringify(v, replacer, space)
+
+///|
+pub extern "js" fn structured_clone(v : Val) -> Val =
+  #| (self) => structuredClone(self)

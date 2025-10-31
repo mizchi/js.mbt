@@ -1,7 +1,4 @@
 ///|
-using @js {to_js}
-
-///|
 pub fn svg(
   // common props
   children : Array[&ReactNode],
@@ -9,7 +6,7 @@ pub fn svg(
   height~ : Int,
   view_box? : String,
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -25,10 +22,10 @@ pub fn svg(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["width"] = width |> to_js
-  attrs["height"] = height |> to_js
+  attrs["width"] = width |> js
+  attrs["height"] = height |> js
   if view_box is Some(view_box) {
-    attrs["viewBox"] = view_box |> to_js
+    attrs["viewBox"] = view_box |> js
   }
   common_node(
     "svg",
@@ -59,7 +56,7 @@ pub fn circle(
   fill? : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -72,17 +69,17 @@ pub fn circle(
   on_click? : (@dom.MouseEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["cx"] = cx |> to_js
-  attrs["cy"] = cy |> to_js
-  attrs["r"] = r |> to_js
+  attrs["cx"] = cx |> js
+  attrs["cy"] = cy |> js
+  attrs["r"] = r |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> to_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> to_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> to_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "circle",
@@ -114,7 +111,7 @@ pub fn ellipse(
   fill? : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -130,18 +127,18 @@ pub fn ellipse(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["cx"] = cx |> to_js
-  attrs["cy"] = cy |> to_js
-  attrs["rx"] = rx |> to_js
-  attrs["ry"] = ry |> to_js
+  attrs["cx"] = cx |> js
+  attrs["cy"] = cy |> js
+  attrs["rx"] = rx |> js
+  attrs["ry"] = ry |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> to_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> to_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> to_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "circle",
@@ -173,7 +170,7 @@ pub fn rect(
   fill? : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -189,18 +186,18 @@ pub fn rect(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> to_js
-  attrs["y"] = y |> to_js
-  attrs["width"] = width |> to_js
-  attrs["height"] = height |> to_js
+  attrs["x"] = x |> js
+  attrs["y"] = y |> js
+  attrs["width"] = width |> js
+  attrs["height"] = height |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> to_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> to_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> to_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "rect",
@@ -232,7 +229,7 @@ pub fn line(
   fill? : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -248,18 +245,18 @@ pub fn line(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x1"] = x1 |> to_js
-  attrs["y1"] = y1 |> to_js
-  attrs["x2"] = x2 |> to_js
-  attrs["y2"] = y2 |> to_js
+  attrs["x1"] = x1 |> js
+  attrs["y1"] = y1 |> js
+  attrs["x2"] = x2 |> js
+  attrs["y2"] = y2 |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> to_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> to_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> to_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "line",
@@ -288,7 +285,7 @@ pub fn path(
   fill? : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -304,15 +301,15 @@ pub fn path(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["d"] = d |> to_js
+  attrs["d"] = d |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> to_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> to_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> to_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "path",
@@ -338,7 +335,7 @@ pub fn use_(
   href~ : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -354,7 +351,7 @@ pub fn use_(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["href"] = href |> to_js
+  attrs["href"] = href |> js
   common_node(
     "use",
     attrs,
@@ -382,7 +379,7 @@ pub fn polygon(
   fill? : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -398,15 +395,15 @@ pub fn polygon(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["points"] = points |> to_js
+  attrs["points"] = points |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> to_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> to_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> to_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "points",
@@ -435,7 +432,7 @@ pub fn polyline(
   fill? : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -451,15 +448,15 @@ pub fn polyline(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["points"] = points |> to_js
+  attrs["points"] = points |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> to_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> to_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> to_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "polyline",
@@ -488,7 +485,7 @@ pub fn g(
   fill? : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -505,13 +502,13 @@ pub fn g(
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> to_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> to_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> to_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "g",
@@ -535,7 +532,7 @@ pub fn g(
 pub fn defs(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -585,7 +582,7 @@ pub fn text(
   fill? : String,
 
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -601,31 +598,31 @@ pub fn text(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> to_js
-  attrs["y"] = y |> to_js
+  attrs["x"] = x |> js
+  attrs["y"] = y |> js
   if dx is Some(dx) {
-    attrs["dx"] = dx |> to_js
+    attrs["dx"] = dx |> js
   }
   if dy is Some(dy) {
-    attrs["dy"] = dy |> to_js
+    attrs["dy"] = dy |> js
   }
   if length_adjust is Some(length_adjust) {
-    attrs["lengthAdjust"] = length_adjust |> to_js
+    attrs["lengthAdjust"] = length_adjust |> js
   }
   if text_length is Some(text_length) {
-    attrs["textLength"] = text_length |> to_js
+    attrs["textLength"] = text_length |> js
   }
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> to_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> to_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> to_js
+    attrs["fill"] = fill |> js
   }
   if rotate is Some(rotate) {
-    attrs["rotate"] = rotate |> to_js
+    attrs["rotate"] = rotate |> js
   }
   common_node(
     "text",
@@ -651,7 +648,7 @@ pub fn image(
   y~ : Int,
   href~ : String,
   // shared
-  attributes? : Map[String, @js.Value],
+  attributes? : Map[String, Val],
   id? : String,
   class? : String,
   className? : String,
@@ -667,9 +664,9 @@ pub fn image(
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> to_js
-  attrs["y"] = y |> to_js
-  attrs["href"] = href |> to_js
+  attrs["x"] = x |> js
+  attrs["y"] = y |> js
+  attrs["href"] = href |> js
   common_node(
     "image",
     attrs,

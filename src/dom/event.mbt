@@ -3,22 +3,22 @@
 pub type Event
 
 ///|
-pub impl ToJs for Event with to_js(self) -> @js.Value {
-  self |> @js.to_js
+pub impl Js for Event with to_js(self) -> Val {
+  self |> js
 }
 
 ///|
-pub fn prevent_default(self : Event) -> Unit {
+pub fn Event::prevent_default(self : Event) -> Unit {
   self.to_js().get("preventDefault").call([]) |> ignore
 }
 
 ///|
-pub fn stop_propagation(self : Event) -> Unit {
+pub fn Event::stop_propagation(self : Event) -> Unit {
   self.to_js().get("stopPropagation").call([]) |> ignore
 }
 
 ///|
-pub fn target(self : Event) -> Element {
+pub fn Event::target(self : Event) -> Element {
   self.to_js().get("target").cast()
 }
 
@@ -27,28 +27,28 @@ pub fn target(self : Event) -> Element {
 pub type MouseEvent
 
 ///|
-pub impl @js.ToJs for MouseEvent with to_js(self) -> @js.Value {
-  self |> @js.to_js
+pub impl Js for MouseEvent with to_js(self) -> Val {
+  self |> js
 }
 
 ///|
-pub fn client_x(self : MouseEvent) -> Int {
+pub fn MouseEvent::client_x(self : Self) -> Int {
   self.to_js().get("clientX").cast()
 }
 
 ///|
-pub fn client_y(self : MouseEvent) -> Int {
+pub fn MouseEvent::client_y(self : Self) -> Int {
   self.to_js().get("clientY").cast()
 }
 
 ///|
 /// screenX
-pub fn screen_x(self : MouseEvent) -> Int {
+pub fn MouseEvent::screen_x(self : MouseEvent) -> Int {
   self.to_js().get("screenX").cast()
 }
 
 ///|
-pub fn screen_y(self : MouseEvent) -> Int {
+pub fn MouseEvent::screen_y(self : MouseEvent) -> Int {
   self.to_js().get("screenY").cast()
 }
 
@@ -57,22 +57,22 @@ pub fn screen_y(self : MouseEvent) -> Int {
 pub type KeyboardEvent
 
 ///|
-impl @js.ToJs for KeyboardEvent with to_js(self) -> @js.Value {
-  self |> @js.to_js
+impl Js for KeyboardEvent with to_js(self) -> Val {
+  self |> js
 }
 
 ///|
-pub fn target(self : KeyboardEvent) -> Element {
+pub fn KeyboardEvent::target(self : KeyboardEvent) -> Element {
   self.to_js().get("target").cast()
 }
 
 ///|
-pub fn key(self : KeyboardEvent) -> String {
+pub fn KeyboardEvent::key(self : KeyboardEvent) -> String {
   self.to_js().get("key").cast()
 }
 
 ///|
-pub fn key_code(self : KeyboardEvent) -> Int {
+pub fn KeyboardEvent::key_code(self : KeyboardEvent) -> Int {
   self.to_js().get("keyCode").cast()
 }
 
@@ -83,13 +83,13 @@ pub fn KeyboardEvent::which(self : KeyboardEvent) -> Int {
 
 ///|
 pub fn KeyboardEvent::code(self : KeyboardEvent) -> String {
-  let value : Value = self |> @js.identity
+  let value : Val = self |> js
   value.get("code").cast()
 }
 
 ///|
 pub fn KeyboardEvent::ctrl_key(self : KeyboardEvent) -> Bool {
-  let value : Value = self |> @js.identity
+  let value : Val = self |> js
   value.get("ctrlKey").cast()
 }
 
@@ -109,7 +109,7 @@ pub type ChangeEvent
 
 ///|
 pub fn ChangeEvent::target(self : ChangeEvent) -> Element {
-  let value : Value = self |> @js.identity
+  let value : Val = self |> js
   value.get("target").cast()
 }
 
@@ -118,8 +118,8 @@ pub fn ChangeEvent::target(self : ChangeEvent) -> Element {
 pub type FocusEvent
 
 ///|
-impl @js.ToJs for FocusEvent with to_js(self) -> @js.Value {
-  self |> @js.to_js
+impl Js for FocusEvent with to_js(self) -> Val {
+  self |> js
 }
 
 ///|
@@ -132,8 +132,8 @@ pub fn FocusEvent::target(self : FocusEvent) -> Element {
 pub type FormEvent
 
 ///|
-impl @js.ToJs for FormEvent with to_js(self) -> @js.Value {
-  self |> @js.to_js
+impl Js for FormEvent with to_js(self) -> Val {
+  self |> js
 }
 
 ///|

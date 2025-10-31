@@ -1,8 +1,19 @@
-/// original https://github.com/moonbit-community/jmop/blob/main/promise.mbt
+using @val {type Val, trait Js, js, unsafe_cast}
 
-///|
 #external
 pub type Promise[T]
+
+impl[T] Js for Promise[T] with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub async fn[T, E : Error] suspend(
+  f : ((T) -> Unit, (E) -> Unit) -> Unit,
+) -> T raise E = "%async.suspend"
+
+///|
+pub fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
 
 ///|
 /// js: Promise.new((resolve, reject) => { ... })
@@ -15,71 +26,51 @@ pub fn[A] Promise::new(
   f : ((A) -> Unit, (Error) -> Unit) -> Unit,
 ) -> Promise[A] {
   ffi_new_promise(fn(resolve, reject) {
-    f(a => a |> identity |> resolve, e => e |> identity |> reject)
+    f(a => a |> unsafe_cast |> resolve, e => e |> unsafe_cast |> reject)
   })
-  |> identity
-}
-
-///|
-pub impl[T] ToJs for Promise[T] with to_js(self) -> Value {
-  self |> to_js
+  |> unsafe_cast
 }
 
 ///|
 /// js: Promise.resolve(value)
 pub fn[A] Promise::resolve(x : A) -> Self[A] {
-  ffi_promise_resolve(identity(x)) |> identity
+  ffi_promise_resolve(unsafe_cast(x)) |> unsafe_cast
 }
 
 ///|
 /// js: Promise.reject(error)
-pub fn Promise::reject(x : Value) -> Self[Value] {
-  ffi_promise_reject(identity(x)) |> identity
+pub fn Promise::reject(x : Val) -> Self[Val] {
+  ffi_promise_reject(unsafe_cast(x)) |> unsafe_cast
 }
 
 ///|
 pub fn[A, B] Promise::then(
-  x : Promise[A],
+  self : Promise[A],
   resolve : (A) -> Promise[B] raise,
-  reject? : (Error) -> Promise[B],
 ) -> Promise[B] {
-  x.bind(resolve, reject?)
+  ffi_promise_then(self.to_js(), a => (a |> unsafe_cast |> resolve |> unsafe_cast) catch {
+    e => e |> ffi_promise_reject |> unsafe_cast
+  })
+  |> unsafe_cast
 }
 
 ///|
-pub fn[A, B] catch_(self : Promise[A], f : (Error) -> Promise[B]) -> Promise[B] {
-  self.to_js().call_property1("catch", to_js(f)).cast()
+pub fn[A, B] Promise::catch_(self : Self[A], f : (Error) -> Promise[B]) -> Promise[B] {
+  self.to_js().call_method("catch", [js(f)]).cast()
 }
 
 ///|
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
-  self.to_js().call_property1("finally", to_js(f)).cast()
-}
-
-///|
-fn[A, B] Promise::bind(
-  x : Self[A],
-  resolve : (A) -> Self[B] raise,
-  reject? : (Error) -> Self[B],
-) -> Self[B] {
-  ffi_promise_then(
-    identity(x),
-    fn(a) {
-      identity(resolve(identity(a))) catch {
-        e => identity(ffi_promise_reject(e))
-      }
-    },
-    identity(reject),
-  )
-  |> identity
+  self.to_js().call_method("finally", [js(f)]).cast()
 }
 
 ///|
 /// Waits for the Promise to be resolved or rejected.
-pub async fn[A] Promise::wait(self : Self[A]) -> A {
+pub async fn[A] Promise::unwrap(self : Self[A]) -> A raise {
   suspend((ok, err) => self
     .to_js()
-    .call_property2("then", to_js(ok), to_js(err))
+    .call_method("then", [js(ok)])
+    .call_method("catch", [js(err)])
     |> ignore)
 }
 
@@ -92,11 +83,11 @@ pub async fn[A] Promise::wait(self : Self[A]) -> A {
 ///     resolve(10)
 ///   }
 ///   f()
-///   let v: Int = p.wait() catch { _ => 0 }
+///   let v: Int = p.unwrap() catch { _ => 0 }
 /// })
 /// ```
 pub fn[T] Promise::deferred() -> (Promise[T], (T) -> Unit, (Error) -> Unit) {
-  ffi_deferred_internal() |> identity
+  ffi_deferred_internal() |> unsafe_cast
 }
 
 ///|
@@ -146,3 +137,13 @@ pub fn[A, B, C, R] to_promise_fn3(
     p
   }
 }
+
+extern "js" fn ffi_sleep(ms : Int) -> Promise[Unit] =
+  #| (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+///|
+pub async fn sleep(ms : Int) -> Unit noraise {
+  ffi_sleep(ms).unwrap() catch {
+    _ => ()
+  }
+}
+

@@ -1,25 +1,19 @@
 using @val {
   type Val,
-  type Promise,
   trait Js,
   js,
   unsafe_cast,
+}
+using @promise {
+  type Promise,
   to_promise_fn0,
   to_promise_fn1,
   run_async,
+  sleep,
 }
 
 using @module {
   import_module,
-}
-
-extern "js" fn ffi_sleep(ms : Int) -> Promise[Unit] =
-  #| (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-///|
-async fn sleep(ms : Int) -> Unit {
-  ffi_sleep(ms).unwrap() catch {
-    _ => ()
-  }
 }
 
 ///|

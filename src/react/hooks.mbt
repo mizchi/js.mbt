@@ -6,10 +6,10 @@
 ///   ...
 /// }
 /// ```
-pub fn[T : @js.ToJs] use_state(initial : T) -> (T, (T) -> Unit) {
+pub fn[T : Js] use_state(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
-  let value : T = result.at(0).cast()
-  let update_fn : (T) -> Unit = result.at(1).cast()
+  let value : T = result.get_index(0).cast()
+  let update_fn : (T) -> Unit = result.get_index(1).cast()
   (value, update_fn)
 }
 
@@ -21,10 +21,10 @@ pub fn[T : @js.ToJs] use_state(initial : T) -> (T, (T) -> Unit) {
 ///   ...
 /// }
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
-  let initial : () -> @js.Value = (initial |> @js.to_js).cast()
+  let initial : () -> Val = (initial |> js).cast()
   let result = ffi_react_use_state_lazy(initial)
-  let value : T = result.at(0).cast()
-  let update_fn : (T) -> Unit = result.at(1).cast()
+  let value : T = result.get_index(0).cast()
+  let update_fn : (T) -> Unit = result.get_index(1).cast()
   (value, update_fn)
 }
 
@@ -38,9 +38,9 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 ///   ...
 /// }
 /// ```
-pub fn[F] use_callback(f : F, keys : Array[&@js.ToJs]) -> F {
+pub fn[F] use_callback(f : F, keys : Array[&Js]) -> F {
   let keys = keys.map(k => k.to_js())
-  ffi_react_use_callback(f |> @js.identity, keys).cast()
+  ffi_react_use_callback(f |> js, keys).cast()
 }
 
 ///|
@@ -54,12 +54,12 @@ pub fn[F] use_callback(f : F, keys : Array[&@js.ToJs]) -> F {
 ///   create_element("div", ["Hello"])
 /// }
 /// ```
-pub fn use_effect(f : () -> () -> Unit, keys : Array[&@js.ToJs]) -> Unit {
+pub fn use_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
   ffi_react_use_effect(f, keys.map(_.to_js()))
 }
 
 ///|
-pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&@js.ToJs]) -> Unit {
+pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
   ffi_react_use_layout_effect(f, keys.map(_.to_js()))
 }
 
@@ -73,9 +73,9 @@ pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&@js.ToJs]) -> Unit 
 ///   create_element("div", [result])
 /// }
 /// ```
-pub fn[T] use_memo(f : () -> T, keys : Array[@js.Value]) -> T {
-  let f = () => f() |> @js.to_js
-  let v : T = ffi_react_use_memo(f, keys).cast()
+pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
+  let f = () => f() |> js
+  let v : T = ffi_react_use_memo(f, keys.map(_.to_js())).cast()
   v
 }
 
@@ -90,9 +90,9 @@ pub fn[T] use_memo(f : () -> T, keys : Array[@js.Value]) -> T {
 pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
   ffi_react_use_ref(
     if initial is Some(v) {
-      v |> @js.identity
+      v |> js
     } else {
-      @js.js_undefined()
+      @val.undefined()
     },
   ).cast()
 }
@@ -103,21 +103,21 @@ pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
 pub type ReactRef[T]
 
 ///|
-pub impl[T] @js.ToJs for ReactRef[T] with to_js(self) -> @js.Value {
-  self |> @js.to_js
+pub impl[T] Js for ReactRef[T] with to_js(self) -> Val {
+  self |> js
 }
 
 ///|
-extern "js" fn current_internal(v : @js.Value) -> @js.Value =
+extern "js" fn current_internal(v : Val) -> Val =
   #| (v) => v.current
 
 ///|
-extern "js" fn set_current_internal(v : @js.Value, o : @js.Value) -> Unit =
+extern "js" fn set_current_internal(v : Val, o : Val) -> Unit =
   #| (v, o) => v.current = o
 
 ///|
 pub fn[T] ReactRef::current(v : ReactRef[T]) -> T? {
-  let v = current_internal(v |> @js.identity)
+  let v = current_internal(v |> js)
   if v.is_undefined() || v.is_null() {
     None
   } else {
@@ -127,7 +127,7 @@ pub fn[T] ReactRef::current(v : ReactRef[T]) -> T? {
 
 ///|
 pub fn[T] ReactRef::set_current(v : ReactRef[T], o : T) -> Unit {
-  set_current_internal(v |> @js.identity, o |> @js.identity)
+  set_current_internal(v |> js, o |> js)
 }
 
 ///|
@@ -136,23 +136,23 @@ pub type Context[T]
 
 ///|
 pub fn[T] create_context(initial : T?) -> Context[T] {
-  let v = ffi_react_create_context(initial |> @js.identity)
+  let v = ffi_react_create_context(initial |> js)
   v.cast()
 }
 
 ///|
 /// React.useContext
 pub fn[T] use_context(ctx : Context[T]) -> T {
-  ffi_react_use_context(ctx |> @js.identity).cast()
+  ffi_react_use_context(ctx |> js).cast()
 }
 
 ///|
-extern "js" fn ffi_react_use(v : @js.Value) -> @js.Value =
+extern "js" fn ffi_react_use(v : Val) -> Val =
   #| (v) => __ReactApi.use(v)
 
 ///|
-pub fn[T] use_(promise : @js.Promise[T]) -> T {
-  ffi_react_use(promise |> @js.identity).cast()
+pub fn[T] use_(promise : Promise[T]) -> T {
+  ffi_react_use(promise |> js).cast()
 }
 
 ///|
@@ -172,15 +172,15 @@ pub fn[T, U] use_reducer(
   reducer : (T, U) -> T,
   initial : T,
 ) -> (T, (U) -> Unit) {
-  let val = ffi_react_use_reducer(reducer |> @js.to_js, initial |> @js.to_js)
-  (val.at(0).cast(), val.at(1).cast())
+  let val = ffi_react_use_reducer(reducer |> js, initial |> js)
+  (val.get_index(0).cast(), val.get_index(1).cast())
 }
 
 ///|
 extern "js" fn use_action_state_internal(
-  f : @js.Value,
-  initial : @js.Value,
-) -> @js.Value =
+  f : Val,
+  initial : Val,
+) -> Val =
   #| (f, initial) => {
   #|   return __ReactApi.useActionState(f, initial);
   #| }
@@ -190,12 +190,12 @@ pub fn[T, U] use_action_state(
   f : async (T, U) -> T noraise,
   initial : T,
 ) -> (T, (U) -> Unit, Bool) {
-  let w = @js.to_promise_fn2((s, a) => f(s, a))
-  let val : @js.Value = use_action_state_internal(
-    w |> @js.identity,
-    initial |> @js.identity,
+  let w = @promise.to_promise_fn2((s, a) => f(s, a))
+  let val : Val = use_action_state_internal(
+    w |> js,
+    initial |> js,
   )
-  (val.at(0).cast(), val.at(1).cast(), val.at(2).cast())
+  (val.get_index(0).cast(), val.get_index(1).cast(), val.get_index(2).cast())
 }
 
 ///|
@@ -212,7 +212,7 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 ///|
 /// wip
 /// ```nocheck
-/// extern "js" fn load_my_lazy_component() -> @js.Promise[@js.Value] =
+/// extern "js" fn load_my_lazy_component() -> @js.Promise[Val] =
 ///   #| () => import("./MyLazyComponent")
 /// struct MyLazyComponentProps {}
 /// let my_lazy_component: (props: MyLazyComponentProps) -> Element =
@@ -220,6 +220,6 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 /// ```
 pub fn[T] lazy_(
   f : async () -> (T) -> Element,
-) -> (EmptyProps) -> @js.Promise[@js.Value] {
-  f |> @js.to_promise_fn0 |> @js.to_js |> ffi_react_lazy() |> @js.identity
+) -> (EmptyProps) -> Promise[Val] {
+  f |> @promise.to_promise_fn0 |> js |> ffi_react_lazy() |> unsafe_cast
 }
