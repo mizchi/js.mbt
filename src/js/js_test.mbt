@@ -127,7 +127,7 @@ test "error call" {
   let rv : Int? = global_this().get("___").to_option()
   assert_true(rv is None)
   try {
-    let rv2 : Int = global_this().get("___").cast()
+    let rv2 : Int? = global_this().get("___").cast_option()
     fail("Expected to fail casting undefined to Int, but got \{rv2}")
   } catch {
     _e => assert_true(true)

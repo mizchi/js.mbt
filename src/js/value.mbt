@@ -20,6 +20,15 @@ pub impl Show for Value with output(self, logger) {
   logger.write_string(self.to_string())
 }
 
+// pub impl Show for Value with to_string(self) {
+//   ffi_to_string(self)
+//   // self.call_property0("toString").cast()
+//   // logger.write_string(self.to_string())
+// }
+pub fn Value::to_string(self : Value) -> String {
+  ffi_to_string(self)
+}
+
 ///|
 pub impl Eq for Value with equal(self, other) -> Bool {
   Object::is_(self, other)
@@ -115,11 +124,6 @@ pub fn Value::call_property2(
   arg2 : &ToJs,
 ) -> Value {
   ffi_call_property(self, key, [arg1.to_js(), arg2.to_js()])
-}
-
-///|
-pub fn Value::to_string(self : Value) -> String {
-  ffi_to_string(self)
 }
 
 ///|

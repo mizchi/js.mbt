@@ -1,3 +1,0 @@
-# Safe JsValue
-
-WIP

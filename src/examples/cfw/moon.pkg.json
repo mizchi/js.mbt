@@ -5,5 +5,5 @@
       "exports": ["run"]
     }
   },
-  "import": ["mizchi/js/js", "mizchi/js/http"],
+  "import": ["mizchi/js/js", "mizchi/js/http"]
 }
