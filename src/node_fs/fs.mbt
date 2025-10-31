@@ -1,42 +1,31 @@
 // ///|
 // #external
 // pub type Fs
+using @val {type Val, js, unsafe_cast}
+using @module {require}
+using @promise {type Promise, run_async}
+using @node_test {it, before_each}
+pub struct NodeFs {
+  read_file: (String, String?) -> Promise[String]
+  write_file: (String, String) -> Promise[Unit]
+}
 
-// ///|
-// impl Js for Fs with to_js(self) -> Val {
-//   self |> @js.to_js
-// }
+fn load_fs() -> NodeFs {
+  let m = @module.require("node:fs/promises")
+  {
+    read_file: m.get("readFile").cast(),
+    write_file: m.get("writeFile").cast(),
+  }
+}
 
-// ///|
-// async fn init_fs() -> Fs {
-//   let fs = @js.import_module("node:fs/promises")
-//   fs.cast()
-// }
-// // WIP
+test "fs readFile and writeFile" {
+  it("fs readFile and writeFile", _ => {
+    let {read_file, write_file} = load_fs()
+    let test_path = "./fs_test.txt"
+    let content = "Hello, Moon!"
+    write_file(test_path, content).unwrap()
+    let read_content = read_file(test_path, Some("utf-8")).unwrap()
+    assert_eq(content, read_content)
+  })
+}
 
-// ///|
-// pub async fn read_file(path : String) -> String {
-//   let p : @js.Promise[String] = init_fs()
-//     .to_js()
-//     .call_property1("readFile", path)
-//     .cast()
-//   p.wait()
-// }
-
-// ///|
-// pub async fn write_file(path : String, content : String) -> Unit {
-//   let p : @js.Promise[Unit] = init_fs()
-//     .to_js()
-//     .call_property2("writeFile", path, content)
-//     .cast()
-//   p.wait()  
-// }
-
-// ///|
-// test "ok" {
-//   @js.it(
-//     "fs readFile and writeFile",
-//     // let test_path = "./fs_test.txt"
-//     _ => assert_true(true),
-//   )
-// }

@@ -174,6 +174,11 @@ fn app(props : AppProps) -> @react.Element {
     },
     [input_text],
   )
+  // h("div", [
+  //   "Hello, Moonbit React! Counter: \{cnt}",
+  // ])
+
+
   guard myctx.val is Some(myctx)
   provider(myctx, value={ v: "xxx" }, [
     h1(["Hello, Moonbit React!"]),

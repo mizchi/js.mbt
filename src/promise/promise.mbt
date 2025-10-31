@@ -101,7 +101,7 @@ pub fn[T] Promise::deferred() -> (Promise[T], (T) -> Unit, (Error) -> Unit) {
 
 ///|
 pub fn[R] to_promise_fn0(f : async () -> R) -> () -> Promise[R] noraise {
-  fn() {
+  () => {
     let (p, ok, err) = Promise::deferred()
     run_async(() => try f() |> ok catch {
       e => err(e)

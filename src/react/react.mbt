@@ -122,7 +122,7 @@ pub fn[T] c(
 ///|
 pub fn fragment(children : Array[&Js], key? : String) -> Element {
   let tag = js(get_fragment())
-  let children = @val.from_builtin_array(children)
+  let children = @val.from_builtin_array(children.map(_.to_js()))
   let val : Val = @val.new_object()
   if key is Some(key) {
     val["key"] = key
@@ -133,7 +133,7 @@ pub fn fragment(children : Array[&Js], key? : String) -> Element {
 ///|
 pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
   let tag = get_suspense() |> js
-  let children = @val.from_builtin_array(children)
+  let children = @val.from_builtin_array(children.map(_.to_js()))
   let val : Val = @val.new_object()
   val["fallback"] = fallback |> js
   ffi_create_element(tag, val, children).cast()
@@ -146,7 +146,7 @@ pub fn[T] provider(
   value~ : T,
 ) -> Element {
   let tag = js(tag)
-  let children = @val.from_builtin_array(children)
+  let children = @val.from_builtin_array(children.map(_.to_js())  )
   let props = @val.new_object()
   props["value"] = value |> js
   ffi_create_element(tag, props, children).cast()

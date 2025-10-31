@@ -8,38 +8,32 @@ using @promise {type Promise}
 #external
 pub type ReactTestingLibrary
 
+pub struct ReactTestingLibrary2 {
+  screen: Screen
+  fire_event: FireEvent
+  render: ( @react.Element ) -> Unit
+  cleanup: () -> Unit
+}
+
 ///|
 impl Js for ReactTestingLibrary with to_js(self) {
   self |> js
 }
 
-///|
-pub async fn ReactTestingLibrary::load() -> ReactTestingLibrary {
-  @module.import_module("global-jsdom/register") |> ignore
-  @module.import_module("@testing-library/react") |> unsafe_cast
+pub fn register_jsdom() -> Unit {
+  @module.require("global-jsdom/register") |> ignore
 }
 
 ///|
-pub fn ReactTestingLibrary::cleanup(self : Self) -> Unit {
-  self.to_js().get("cleanup").call([]) |> ignore
-}
-
-///|
-pub fn ReactTestingLibrary::render(
-  self : ReactTestingLibrary,
-  element : @react.Element,
-) -> Unit {
-  self.to_js().get("render").call([element]).cast()
-}
-
-///|
-pub fn ReactTestingLibrary::screen(self : Self) -> Screen {
-  self.to_js().get("screen").cast()
-}
-
-///|
-pub fn ReactTestingLibrary::fire_event(self : Self) -> FireEvent {
-  self.to_js().get("fireEvent").cast()
+pub fn ReactTestingLibrary::init() -> ReactTestingLibrary2 {
+  register_jsdom()
+  let rtl = @module.require("@testing-library/react")
+  {
+    screen: rtl.get("screen").cast(),
+    fire_event: rtl.get("fireEvent").cast(),
+    render: rtl.get("render").cast(),
+    cleanup: rtl.get("cleanup").cast(),
+  }
 }
 
 ///|
@@ -132,7 +126,7 @@ pub fn FireEvent::key_up(
 }
 
 ///|
-/// UserEvent.change(element, { target: { value: "new value" } })
+/// FireEvent.change(element, { target: { value: "new value" } })
 pub fn FireEvent::change_target_value(
   self : FireEvent,
   element : @dom.Element,
