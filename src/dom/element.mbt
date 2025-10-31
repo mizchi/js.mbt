@@ -33,11 +33,12 @@ pub fn Element::get_text_content(self : Self) -> String {
 }
 
 ///|
-pub fn Element::set_attribute(self : Self, name : String, value : String) -> Unit {
-  self
-  .to_js()
-  .call_method("setAttribute", [name |> js, value |> js])
-  |> ignore
+pub fn Element::set_attribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
+  self.to_js().call_method("setAttribute", [name |> js, value |> js]) |> ignore
 }
 
 ///|
@@ -62,10 +63,7 @@ pub fn Element::insert_before(self : Self, child : Self) -> Self {
 
 ///|
 pub fn Element::query_selector(self : Self, selector : String) -> Self? {
-  self
-  .to_js()
-  .call_method("querySelector", [selector |> js])
-  .cast_option()
+  self.to_js().call_method("querySelector", [selector |> js]).cast_option()
 }
 
 ///|
@@ -100,9 +98,7 @@ pub fn Element::add_event_listener(
   event : String,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self
-  .to_js()
-  .call_method("addEventListener", [event |> js, listener |> js])
+  self.to_js().call_method("addEventListener", [event |> js, listener |> js])
   |> ignore
 }
 
@@ -112,11 +108,6 @@ pub fn Element::remove_event_listener(
   event : String,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self
-  .to_js()
-  .call_method("removeEventListener", [
-    event |> js,
-    listener |> js,
-  ])
+  self.to_js().call_method("removeEventListener", [event |> js, listener |> js])
   |> ignore
 }

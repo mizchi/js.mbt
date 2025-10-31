@@ -22,6 +22,8 @@ pub fn[T] Val::cast_option(self : Val) -> T? {
 pub impl Show for Val with output(self, logger) {
   logger.write_string(self.to_string())
 }
+
+///|
 pub impl Show for Val with to_string(self) {
   if self.is_array() {
     return ffi_json_stringify(self, undefined(), undefined())
@@ -48,11 +50,13 @@ pub fn Val::get(self : Val, key : String) -> Val {
   ffi_get(self, key)
 }
 
-pub fn Val::get_symbol(self : Val, key: Symbol) -> Val {
+///|
+pub fn Val::get_symbol(self : Val, key : Symbol) -> Val {
   ffi_get(self, key |> unsafe_cast)
 }
 
-pub fn Val::get_index(self : Val, key: Int) -> Val {
+///|
+pub fn Val::get_index(self : Val, key : Int) -> Val {
   ffi_get(self, key |> unsafe_cast)
 }
 
@@ -73,11 +77,7 @@ pub fn Val::call_raise(self : Self, args : Array[&Js]) -> Val raise {
 }
 
 ///|
-pub fn Val::call_method(
-  self : Val,
-  key : String,
-  args : Array[&Js],
-) -> Val {
+pub fn Val::call_method(self : Val, key : String, args : Array[&Js]) -> Val {
   ffi_call_method(self, key, args.map(_.to_js()))
 }
 
@@ -142,6 +142,7 @@ pub fn Val::is_none(self : Self) -> Bool {
   self.is_undefined() || self.is_null()
 }
 
+///|
 pub fn stringify(
   v : &Js,
   replacer? : Val = undefined(),
@@ -150,15 +151,15 @@ pub fn stringify(
   ffi_json_stringify(v.to_js(), replacer, space |> js)
 }
 
+///|
 pub fn[T] unsafe_stringify(
   v : T,
   replacer? : Val = undefined(),
   space? : Int = 2,
 ) -> String {
-  let v: Val = unsafe_cast(v)
+  let v : Val = unsafe_cast(v)
   stringify(v, replacer~, space~)
 }
-
 
 ///|
 /// js: new Class(args...)
@@ -172,14 +173,18 @@ pub fn throw_(v : &Js) -> Val {
   ffi_throw(v.to_js())
 }
 
-pub fn[T] log(v: T) -> Unit {
+///|
+pub fn[T] log(v : T) -> Unit {
   ffi_console_log([v |> unsafe_cast]) |> ignore
 }
 
 // Constant Enum
+
+///|
 priv enum TestConstantEnum {
   NotFound = 404
 }
+
 ///|
 test "cast" {
   assert_eq(js(42), js(42))
@@ -187,25 +192,23 @@ test "cast" {
   let v2 = js(42)
   assert_eq(v1, v2)
   assert_eq(js(TestConstantEnum::NotFound), js(404))
-
-  let s1: String? = js("hello").cast_option()
+  let s1 : String? = js("hello").cast_option()
   assert_eq(s1, Some("hello"))
-
-  let s2: String? = undefined().cast_option()
+  let s2 : String? = undefined().cast_option()
   assert_eq(s2, None)
 }
 
+///|
 test "from struct" {
   struct Point {
-    x: Int
-    y: Int
+    x : Int
+    y : Int
   } derive(Eq, Show)
   let p = Point::{ x: 10, y: 20 }
-  let v: Val = unsafe_cast(p)
+  let v : Val = unsafe_cast(p)
   assert_eq(v.get("x").cast(), 10)
   assert_eq(v.get("y").cast(), 20)
-
-  let casted: Point = v.cast()
+  let casted : Point = v.cast()
   assert_eq(casted, p)
 }
 
@@ -213,18 +216,21 @@ test "from struct" {
 priv enum TestEnum {
   A(value~ : Int)
 } derive(Eq, Show)
-fn TestEnum::from_js(v: Val) -> Self raise {
-  let tag: String = v.get("tag").cast()
+
+///|
+fn TestEnum::from_js(v : Val) -> Self raise {
+  let tag : String = v.get("tag").cast()
   match tag {
     "A" => {
       let value = v.get("value")
       guard value.type_of() == "number"
-      A(value = value.cast())
+      A(value=value.cast())
     }
     _ => fail("unknown tag: " + tag)
   }
 }
 
+///|
 impl Js for TestEnum with to_js(self) {
   match self {
     A(value~) => {
@@ -236,16 +242,15 @@ impl Js for TestEnum with to_js(self) {
   }
 }
 
+///|
 test "from trait" {
-  let v: TestEnum = A(value=123)
-  let v: Val = v.to_js()
+  let v : TestEnum = A(value=123)
+  let v : Val = v.to_js()
   assert_eq(v.get("tag").cast(), "A")
   assert_eq(v.get("value").cast(), 123)
-
-  let recovered: TestEnum = TestEnum::from_js(v)
+  let recovered : TestEnum = TestEnum::from_js(v)
   assert_eq(recovered, A(value=123))
 }
-
 
 ///|
 test "to_string" {

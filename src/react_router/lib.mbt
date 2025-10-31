@@ -1,5 +1,9 @@
+///|
 using @val {type Val, trait Js, js, new_object}
+
+///|
 using @promise {type Promise}
+
 ///|
 pub extern "js" fn load_react_router() -> Promise[Val] =
   #| () => import("react-router")

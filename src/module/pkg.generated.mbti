@@ -1,7 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/node_fs"
+package "mizchi/js/module"
 
 // Values
+async fn[T] import_module(String) -> T
+
+fn[T] require(String) -> T
 
 // Errors
 

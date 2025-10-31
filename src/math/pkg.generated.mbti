@@ -1,0 +1,52 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/math"
+
+// Values
+fn abs(Double) -> Double
+
+fn acos(Double) -> Double
+
+fn asin(Double) -> Double
+
+fn atan(Double) -> Double
+
+fn atan2(Double, Double) -> Double
+
+fn ceil(Double) -> Int
+
+fn cos(Double) -> Double
+
+fn exp(Double) -> Double
+
+fn floor(Double) -> Int
+
+fn log(Double) -> Double
+
+fn max(Double, Double) -> Double
+
+fn min(Double, Double) -> Double
+
+fn pow(Double, Double) -> Double
+
+fn random() -> Double
+
+fn round(Double) -> Int
+
+fn sin(Double) -> Double
+
+fn sqrt(Double) -> Double
+
+fn tan(Double) -> Double
+
+fn tanh(Double) -> Double
+
+fn trunc(Double) -> Double
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

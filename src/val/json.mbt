@@ -1,6 +1,8 @@
-pub fn from_json(j: Json) -> Val {
+///|
+pub fn from_json(j : Json) -> Val {
   Js::to_js(j)
 }
+
 ///|
 pub impl ToJson for Val with to_json(self) -> Json {
   if self.is_none() {
@@ -50,7 +52,7 @@ pub impl Js for Json with to_js(self) -> Val {
     Json::Object(o) => {
       let obj = new_object()
       for k, v in o {
-        let v: Val = Js::to_js(v)
+        let v : Val = Js::to_js(v)
         obj.set(k, v)
       }
       obj
@@ -66,35 +68,30 @@ pub impl Js for Json with to_js(self) -> Val {
   }
 }
 
+///|
 test "from_json" {
-  inspect(from_json({
-    "value": null,
-    "items": [1, 2, 3],
-    "nested": {
-      "key": "value"
-    },
-  }), content=(
-    #|{"value":null,"items":[1,2,3],"nested":{"key":"value"}}
-  ))
   inspect(
     from_json({
-      "age": 30,
-      "name": "Alice",
+      "value": null,
+      "items": [1, 2, 3],
+      "nested": { "key": "value" },
     }),
+    content=(
+      #|{"value":null,"items":[1,2,3],"nested":{"key":"value"}}
+    ),
+  )
+  inspect(
+    from_json({ "age": 30, "name": "Alice" }),
     content=(
       #|{"age":30,"name":"Alice"}
     ),
   )
 }
 
+///|
 test "json::to_js" {
-  let j: Json = {
-    "items": [1, 2, 3],
-    "nested": {
-      "key": "value"
-    }
-  }
-  let v: Val = Js::to_js(j)
+  let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
+  let v : Val = Js::to_js(j)
   assert_eq(v.get("items").get("0").cast(), 1)
   assert_eq(v.get("nested").get("key").cast(), "value")
 }

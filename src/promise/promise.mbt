@@ -1,8 +1,11 @@
+///|
 using @val {type Val, trait Js, js, unsafe_cast}
 
+///|
 #external
 pub type Promise[T]
 
+///|
 impl[T] Js for Promise[T] with to_js(self) -> Val {
   self |> js
 }
@@ -48,14 +51,20 @@ pub fn[A, B] Promise::then(
   self : Promise[A],
   resolve : (A) -> Promise[B] raise,
 ) -> Promise[B] {
-  ffi_promise_then(self.to_js(), a => (a |> unsafe_cast |> resolve |> unsafe_cast) catch {
+  ffi_promise_then(self.to_js(), a => (a
+  |> unsafe_cast
+  |> resolve
+  |> unsafe_cast) catch {
     e => e |> ffi_promise_reject |> unsafe_cast
   })
   |> unsafe_cast
 }
 
 ///|
-pub fn[A, B] Promise::catch_(self : Self[A], f : (Error) -> Promise[B]) -> Promise[B] {
+pub fn[A, B] Promise::catch_(
+  self : Self[A],
+  f : (Error) -> Promise[B],
+) -> Promise[B] {
   self.to_js().call_method("catch", [js(f)]).cast()
 }
 
@@ -66,7 +75,7 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 
 ///|
 /// Waits for the Promise to be resolved or rejected.
-pub async fn[A] Promise::unwrap(self : Self[A]) -> A raise {
+pub async fn[A] Promise::unwrap(self : Self[A]) -> A {
   suspend((ok, err) => self
     .to_js()
     .call_method("then", [js(ok)])
@@ -138,12 +147,13 @@ pub fn[A, B, C, R] to_promise_fn3(
   }
 }
 
+///|
 extern "js" fn ffi_sleep(ms : Int) -> Promise[Unit] =
   #| (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
 ///|
 pub async fn sleep(ms : Int) -> Unit noraise {
   ffi_sleep(ms).unwrap() catch {
     _ => ()
   }
 }
-

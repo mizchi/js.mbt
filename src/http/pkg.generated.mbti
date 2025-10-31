@@ -2,39 +2,38 @@
 package "mizchi/js/http"
 
 import(
-  "mizchi/js/js"
+  "mizchi/js/promise"
+  "mizchi/js/val"
 )
 
 // Values
-async fn fetch(String, method_~ : String, headers? : Map[String, String], body? : String) -> @js.Promise[Response]
+async fn fetch(String, method_~ : String, headers? : Map[String, String], body? : String) -> @promise.Promise[Response]
 
-async fn fetch_request(Request) -> @js.Promise[Response]
+async fn fetch_request(Request) -> @promise.Promise[Response]
 
 // Errors
 
 // Types and methods
 #external
 pub type Request
-fn Request::array_buffer(Self) -> @js.Promise[Val]
-fn Request::blob(Self) -> @js.Promise[Val]
+fn Request::array_buffer(Self) -> @promise.Promise[@val.Val]
+fn Request::blob(Self) -> @promise.Promise[@val.Val]
 fn Request::body_used(Self) -> Bool
-fn Request::bytes(Self) -> @js.Promise[Val]
+fn Request::bytes(Self) -> @promise.Promise[@val.Val]
 fn Request::clone(Self) -> Self
 fn Request::credentials(Self) -> String
-fn Request::json(Self) -> @js.Promise[Val]
+fn Request::json(Self) -> @promise.Promise[@val.Val]
 fn Request::method_(Self) -> String
 fn Request::new(String) -> Self
-fn Request::text(Self) -> @js.Promise[String]
-fn Request::to_js(Self) -> Val // from trait `Js`
+fn Request::text(Self) -> @promise.Promise[String]
 fn Request::url(Self) -> String
-impl Js for Request
+impl @val.Js for Request
 
 #external
 pub type Response
-fn Response::json(Self) -> @js.Promise[Val]
-fn Response::text(Self) -> @js.Promise[String]
-fn Response::to_js(Self) -> Val // from trait `Js`
-impl Js for Response
+fn Response::json(Self) -> @promise.Promise[@val.Val]
+fn Response::text(Self) -> @promise.Promise[String]
+impl @val.Js for Response
 
 // Type aliases
 

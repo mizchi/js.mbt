@@ -1,0 +1,40 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/promise"
+
+import(
+  "mizchi/js/val"
+)
+
+// Values
+fn run_async(async () -> Unit noraise) -> Unit
+
+async fn sleep(Int) -> Unit noraise
+
+async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
+
+fn[R] to_promise_fn0(async () -> R) -> () -> Promise[R]
+
+fn[A, R] to_promise_fn1(async (A) -> R) -> (A) -> Promise[R]
+
+fn[A, B, R] to_promise_fn2(async (A, B) -> R) -> (A, B) -> Promise[R]
+
+fn[A, B, C, R] to_promise_fn3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
+
+// Errors
+
+// Types and methods
+#external
+pub type Promise[T]
+fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
+fn[T] Promise::deferred() -> (Self[T], (T) -> Unit, (Error) -> Unit)
+fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
+fn[A] Promise::new(((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
+fn Promise::reject(@val.Val) -> Self[@val.Val]
+fn[A] Promise::resolve(A) -> Self[A]
+fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
+async fn[A] Promise::unwrap(Self[A]) -> A
+
+// Type aliases
+
+// Traits
+

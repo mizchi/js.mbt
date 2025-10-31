@@ -3,7 +3,7 @@ package "mizchi/js/react_testing_library"
 
 import(
   "mizchi/js/dom"
-  "mizchi/js/js"
+  "mizchi/js/promise"
   "mizchi/js/react"
 )
 
@@ -14,10 +14,10 @@ import(
 // Types and methods
 #external
 pub type FireEvent
-fn FireEvent::change_target_value(Self, @dom.Element, value~ : String) -> @js.Promise[Unit]
+fn FireEvent::change_target_value(Self, @dom.Element, value~ : String) -> @promise.Promise[Unit]
 fn FireEvent::click(Self, @dom.Element) -> Unit
-fn FireEvent::key_down(Self, @dom.Element, key? : String, code? : String, char_code? : Int) -> @js.Promise[Unit]
-fn FireEvent::key_up(Self, @dom.Element, key? : String, code? : String, char_code? : Int) -> @js.Promise[Unit]
+fn FireEvent::key_down(Self, @dom.Element, key? : String, code? : String, char_code? : Int) -> @promise.Promise[Unit]
+fn FireEvent::key_up(Self, @dom.Element, key? : String, code? : String, char_code? : Int) -> @promise.Promise[Unit]
 
 #external
 pub type ReactTestingLibrary

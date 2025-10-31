@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/timer"
+
+// Values
+fn clear_interval(JSTimer) -> Unit
+
+fn clear_timeout(JSTimer) -> Unit
+
+fn set_interval(() -> Unit, Int) -> JSTimer
+
+fn set_timeout(() -> Unit, Int) -> JSTimer
+
+// Errors
+
+// Types and methods
+#external
+pub type JSTimer
+
+// Type aliases
+
+// Traits
+

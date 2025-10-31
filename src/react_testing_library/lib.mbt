@@ -1,5 +1,7 @@
 ///|
 using @val {type Val, trait Js, js, new_object, unsafe_cast}
+
+///|
 using @promise {type Promise}
 
 ///|

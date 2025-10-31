@@ -11,10 +11,7 @@ extern "js" fn ffi_react_use_state_lazy(initial : () -> Val) -> Val =
   #| }
 
 ///|
-extern "js" fn ffi_react_use_callback(
-  initial : Val,
-  keys : Array[Val],
-) -> Val =
+extern "js" fn ffi_react_use_callback(initial : Val, keys : Array[Val]) -> Val =
   #| (initial, keys) => {
   #|   return __ReactApi.useCallback(initial, keys);
   #| }
@@ -59,19 +56,13 @@ extern "js" fn ffi_react_use_layout_effect(
   #| (f, keys) => __ReactApi.useLayoutEffect(f, keys)
 
 ///|
-extern "js" fn ffi_react_use_memo(
-  f : () -> Val,
-  keys : Array[&Js],
-) -> Val =
+extern "js" fn ffi_react_use_memo(f : () -> Val, keys : Array[&Js]) -> Val =
   #| (f, keys) => {
   #|   return __ReactApi.useMemo(f, keys);
   #| }
 
 ///|
-extern "js" fn ffi_react_use_reducer(
-  reducer : Val,
-  initial : Val,
-) -> Val =
+extern "js" fn ffi_react_use_reducer(reducer : Val, initial : Val) -> Val =
   #| (reducer, initial) => {
   #|   return __ReactApi.useReducer(reducer, initial);
   #| }

@@ -12,7 +12,7 @@ using @react {
   use_context,
   use_reducer,
   create_context,
-  init_react_client
+  init_react_client,
 }
 
 ///|
@@ -20,6 +20,8 @@ using @react_router {init_react_router, router_provider}
 
 ///|
 using @val {log, js}
+
+///|
 using @promise {type Promise, sleep, run_async}
 
 ///|
@@ -39,7 +41,7 @@ using @element {
   circle,
   rect,
   line,
-  text
+  text,
 }
 
 ///|

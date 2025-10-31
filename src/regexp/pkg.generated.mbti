@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/regexp"
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type RegExp
+fn RegExp::exec(Self, String) -> RegExpResult?
+fn RegExp::new(String, flags? : String) -> Self
+fn RegExp::test_(Self, String) -> Bool
+
+pub struct RegExpResult {
+  full : String
+  input : String
+  index : Int
+  last_index : Int
+  groups : Map[String, String]?
+}
+
+// Type aliases
+
+// Traits
+

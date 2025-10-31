@@ -88,13 +88,7 @@ pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
 /// }
 /// ```
 pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
-  ffi_react_use_ref(
-    if initial is Some(v) {
-      v |> js
-    } else {
-      @val.undefined()
-    },
-  ).cast()
+  ffi_react_use_ref(if initial is Some(v) { v |> js } else { @val.undefined() }).cast()
 }
 
 ///|
@@ -177,10 +171,7 @@ pub fn[T, U] use_reducer(
 }
 
 ///|
-extern "js" fn use_action_state_internal(
-  f : Val,
-  initial : Val,
-) -> Val =
+extern "js" fn use_action_state_internal(f : Val, initial : Val) -> Val =
   #| (f, initial) => {
   #|   return __ReactApi.useActionState(f, initial);
   #| }
@@ -191,10 +182,7 @@ pub fn[T, U] use_action_state(
   initial : T,
 ) -> (T, (U) -> Unit, Bool) {
   let w = @promise.to_promise_fn2((s, a) => f(s, a))
-  let val : Val = use_action_state_internal(
-    w |> js,
-    initial |> js,
-  )
+  let val : Val = use_action_state_internal(w |> js, initial |> js)
   (val.get_index(0).cast(), val.get_index(1).cast(), val.get_index(2).cast())
 }
 
@@ -218,8 +206,6 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 /// let my_lazy_component: (props: MyLazyComponentProps) -> Element =
 ///   lazy_(load_my_lazy_component)
 /// ```
-pub fn[T] lazy_(
-  f : async () -> (T) -> Element,
-) -> (EmptyProps) -> Promise[Val] {
+pub fn[T] lazy_(f : async () -> (T) -> Element) -> (EmptyProps) -> Promise[Val] {
   f |> @promise.to_promise_fn0 |> js |> ffi_react_lazy() |> unsafe_cast
 }

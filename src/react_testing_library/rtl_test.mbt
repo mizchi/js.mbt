@@ -1,5 +1,7 @@
 ///|
 priv struct AppProps {} derive(Default)
+
+///|
 using @val {type Val, js}
 
 ///|
@@ -9,9 +11,7 @@ fn app(_props : AppProps) -> @react.Element {
   @react.h("div", [
     "Hello RTL",
     @react.h("div", ["Count: \{cnt}"]),
-    @react.h("button", attributes={ "onClick": on_click |> js }, [
-      "click me",
-    ]),
+    @react.h("button", attributes={ "onClick": on_click |> js }, ["click me"]),
   ])
 }
 
@@ -21,6 +21,7 @@ test {
     let rtl = ReactTestingLibrary::load()
     @node_test.before_each(() => {
       let _ = @react.init_react_client()
+
     })
     @node_test.it("renders app and responds to click", _ => {
       rtl.render(@react.c(app, AppProps::default()))

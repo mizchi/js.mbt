@@ -5,10 +5,7 @@ extern "js" fn ffi_promise_resolve(x : Val) -> Val = "(x) => Promise.resolve(x)"
 extern "js" fn ffi_promise_reject(e : Error) -> Val = "(x) => Promise.reject(x)"
 
 ///|
-extern "js" fn ffi_promise_then(
-  x : Val,
-  ok : (Val) -> Val
-) = "(x,f) => x.then(f)"
+extern "js" fn ffi_promise_then(x : Val, ok : (Val) -> Val) = "(x,f) => x.then(f)"
 
 ///|
 extern "js" fn ffi_new_promise(
@@ -25,5 +22,3 @@ extern "js" fn ffi_deferred_internal() -> Val =
   #|   });
   #|   return { _0: p, _1: ok, _2: err };
   #| }
-
-

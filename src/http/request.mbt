@@ -43,26 +43,26 @@ pub fn Request::clone(self : Request) -> Request {
 }
 
 ///|
-pub fn json(self : Request) -> Promise[Val] {
+pub fn Request::json(self : Request) -> Promise[Val] {
   self.to_js().call_method("json", []).cast()
 }
 
 ///|
-pub fn text(self : Request) -> Promise[String] {
+pub fn Request::text(self : Request) -> Promise[String] {
   self.to_js().call_method("text", []).cast()
 }
 
 ///|
-pub fn array_buffer(self : Request) -> Promise[Val] {
+pub fn Request::array_buffer(self : Request) -> Promise[Val] {
   self.to_js().call_method("arrayBuffer", []).cast()
 }
 
 ///|
-pub fn blob(self : Request) -> Promise[Val] {
+pub fn Request::blob(self : Request) -> Promise[Val] {
   self.to_js().call_method("blob", []).cast()
 }
 
 ///|
-pub fn bytes(self : Request) -> Promise[Val] {
+pub fn Request::bytes(self : Request) -> Promise[Val] {
   self.to_js().call_method("bytes", []).cast()
 }

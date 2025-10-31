@@ -3,9 +3,11 @@
 #external
 pub type Val
 
+///|
 #external
 pub type Symbol
 
+///|
 #external
 pub type ErrorObject
 

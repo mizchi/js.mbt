@@ -1,11 +1,15 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/node_fs"
+package "mizchi/js/date"
 
 // Values
 
 // Errors
 
 // Types and methods
+#external
+pub type Date
+fn Date::new() -> Self
+fn Date::now() -> Int
 
 // Type aliases
 

@@ -1,0 +1,147 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/val"
+
+// Values
+fn ffi_has_own_property(Val, String) -> Bool
+
+fn[T] from_builtin_array(Array[T]) -> Val
+
+fn from_builtin_map(Map[String, Val]) -> Val
+
+fn from_json(Json) -> Val
+
+fn global_this() -> Val
+
+fn[T] js(T) -> Val
+
+fn[T] log(T) -> Unit
+
+fn new_(Val, Array[&Js]) -> Val
+
+fn new_array() -> Val
+
+fn new_error(String, cause? : ErrorObject) -> ErrorObject
+
+fn new_map() -> Val
+
+fn new_object() -> Val
+
+fn new_set() -> Val
+
+fn new_weak_map() -> Val
+
+fn new_weak_set() -> Val
+
+fn null_() -> Val
+
+fn object_create() -> Val
+
+fn object_keys(&Js) -> Array[String]
+
+fn object_values(&Js) -> Array[Val]
+
+fn stringify(&Js, replacer? : Val, space? : Int) -> String
+
+fn structured_clone(Val) -> Val
+
+fn symbol(String) -> Symbol
+
+fn symbol_async_dispose() -> Symbol
+
+fn symbol_dispose() -> Symbol
+
+fn symbol_iterator() -> Symbol
+
+fn throw_(&Js) -> Val
+
+fn undefined() -> Val
+
+fn[A, B] unsafe_cast(A) -> B
+
+fn[T] unsafe_stringify(T, replacer? : Val, space? : Int) -> String
+
+// Errors
+type JsError
+impl Js for JsError
+impl Show for JsError
+
+// Types and methods
+#external
+pub type ErrorObject
+fn ErrorObject::is_error(Self) -> Bool
+fn ErrorObject::message(Self) -> String
+fn ErrorObject::stack(Self) -> String
+
+pub(all) struct Fn0[R](() -> R)
+fn[R] Fn0::call_raise(Self[R]) -> R raise
+#deprecated
+fn[R] Fn0::inner(Self[R]) -> () -> R
+impl[R] Js for Fn0[R]
+
+pub(all) struct Fn1[A, R]((A) -> R)
+fn[A, R] Fn1::call_raise(Self[A, R], A) -> R raise
+#deprecated
+fn[A, R] Fn1::inner(Self[A, R]) -> (A) -> R
+impl[A, R] Js for Fn1[A, R]
+
+pub(all) struct Fn2[A, B, R]((A, B) -> R)
+fn[A, B, R] Fn2::call_raise(Self[A, B, R], A, B) -> R raise
+#deprecated
+fn[A, B, R] Fn2::inner(Self[A, B, R]) -> (A, B) -> R
+impl[A, B, R] Js for Fn2[A, B, R]
+
+pub(all) struct Fn3[A, B, C, R]((A, B, C) -> R)
+fn[A, B, C, R] Fn3::call_raise(Self[A, B, C, R], A, B, C) -> R raise
+#deprecated
+fn[A, B, C, R] Fn3::inner(Self[A, B, C, R]) -> (A, B, C) -> R
+impl[A, B, C, R] Js for Fn3[A, B, C, R]
+
+#external
+pub type Symbol
+
+#external
+pub type Val
+fn Val::call(Self, Array[&Js]) -> Self
+fn Val::call_method(Self, String, Array[&Js]) -> Self
+fn Val::call_method_raise(Self, String, Array[&Js]) -> Self raise
+fn Val::call_raise(Self, Array[&Js]) -> Self raise
+fn[T] Val::cast(Self) -> T
+fn[T] Val::cast_option(Self) -> T?
+fn Val::delete(Self, String) -> Unit
+#alias("_[_]")
+fn Val::get(Self, String) -> Self
+fn Val::get_index(Self, Int) -> Self
+fn Val::get_symbol(Self, Symbol) -> Self
+fn Val::instance_of(Self, Self) -> Bool
+fn Val::is_array(Self) -> Bool
+fn Val::is_nan(Self) -> Bool
+fn Val::is_none(Self) -> Bool
+fn Val::is_null(Self) -> Bool
+fn Val::is_object(Self) -> Bool
+fn Val::is_some(Self) -> Bool
+fn Val::is_undefined(Self) -> Bool
+#alias("_[_]=_")
+fn Val::set(Self, String, &Js) -> Unit
+fn[T] Val::to_option(Self) -> T?
+fn Val::type_of(Self) -> String
+impl Js for Val
+impl Eq for Val
+impl Show for Val
+impl ToJson for Val
+
+// Type aliases
+
+// Traits
+pub(open) trait Js {
+  to_js(Self) -> Val
+}
+impl Js for Bool
+impl Js for Int
+impl Js for Float
+impl Js for Double
+impl Js for String
+impl Js for Array[&Js]
+impl Js for Json
+impl Js for Map[String, &Js]
+impl Eq for &Js
+

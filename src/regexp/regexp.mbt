@@ -1,4 +1,6 @@
+///|
 using @val {type Val, trait Js, js, unsafe_cast}
+
 ///|
 #external
 pub type RegExp
@@ -17,11 +19,11 @@ extern "js" fn ffi_regexp_new(s : String, flags : String) -> RegExp =
   #|(s, flags) => new RegExp(s, flags)
 
 ///|
-extern "js" fn ffi_regexp_test(self : RegExp, string : String) -> Bool =
+extern "js" fn RegExp::ffi_regexp_test(self : RegExp, string : String) -> Bool =
   #|(re, string) => re.test(string)
 
 ///|
-extern "js" fn ffi_regexp_exec(self : RegExp, string : String) -> Val =
+extern "js" fn RegExp::ffi_regexp_exec(self : RegExp, string : String) -> Val =
   #|(re, string) => re.exec(string)
 
 ///|

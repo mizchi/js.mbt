@@ -2,8 +2,9 @@
 package "mizchi/js/react_router"
 
 import(
-  "mizchi/js/js"
+  "mizchi/js/promise"
   "mizchi/js/react"
+  "mizchi/js/val"
 )
 
 // Values
@@ -11,9 +12,9 @@ fn create_browser_router(Array[Route]) -> Router
 
 async fn init_react_router() -> Unit
 
-fn link(to~ : String, Array[&Js]) -> @react.Element
+fn link(to~ : String, Array[&@val.Js]) -> @react.Element
 
-fn load_react_router() -> @js.Promise[Val]
+fn load_react_router() -> @promise.Promise[@val.Val]
 
 fn router_provider(Router) -> @react.Element
 
