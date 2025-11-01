@@ -1,0 +1,61 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/arraybuffer"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type ArrayBuffer
+impl @js.Js for ArrayBuffer
+
+#external
+pub type DataView
+
+#external
+pub type Float32Array
+
+#external
+pub type Float64Array
+
+#external
+pub type Int16Array
+
+#external
+pub type Int32Array
+
+#external
+pub type Int8Array
+
+#external
+pub type SharedArrayBuffer
+
+pub type TextDecoder
+fn TextDecoder::decode(Self, Uint8Array) -> String
+fn TextDecoder::new() -> Self
+impl @js.Js for TextDecoder
+
+#external
+pub type TextEncoder
+fn TextEncoder::encode(Self, String) -> Uint8Array
+fn TextEncoder::new() -> Self
+impl @js.Js for TextEncoder
+
+#external
+pub type Uint16Array
+
+#external
+pub type Uint32Array
+
+#external
+pub type Uint8Array
+
+// Type aliases
+
+// Traits
+

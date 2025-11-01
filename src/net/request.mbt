@@ -53,7 +53,7 @@ pub fn Request::text(self : Request) -> Promise[String] {
 }
 
 ///|
-pub fn Request::array_buffer(self : Request) -> Promise[Val] {
+pub fn Request::arraybuffer(self : Request) -> Promise[Val] {
   self.to_js().call_method("arrayBuffer", []).cast()
 }
 

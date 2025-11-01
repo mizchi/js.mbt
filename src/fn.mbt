@@ -13,6 +13,7 @@ extern "js" fn ffi_wrap_fn(
   #|}
 
 ///|
+#inline
 fn[T] wrap_fn_sync(f : () -> T) -> T raise {
   let mut v : Result[T, Val] = Err(undefined())
   let ok = r => v = Ok(r |> unsafe_cast)

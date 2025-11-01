@@ -1,0 +1,38 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/cloudflare"
+
+import(
+  "mizchi/js"
+  "mizchi/js/async"
+  "mizchi/js/net"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type CloudflareContext
+#alias(passThroughException)
+fn CloudflareContext::pass_through_exception(Self) -> Unit
+#alias(waitUntil)
+fn CloudflareContext::wait_until(Self, @async.Promise[@js.Val]) -> Unit
+
+#external
+pub type CloudflareEnv
+
+pub(all) struct CloudflareFetchHandler((@net.Request, CloudflareEnv, CloudflareContext) -> @async.Promise[@net.Response])
+#deprecated
+fn CloudflareFetchHandler::inner(Self) -> (@net.Request, CloudflareEnv, CloudflareContext) -> @async.Promise[@net.Response]
+
+#external
+pub type CloudflareRequest
+fn CloudflareRequest::cf(Self) -> CloudflareContext
+fn CloudflareRequest::url(Self) -> String
+impl @js.Js for CloudflareRequest
+
+// Type aliases
+
+// Traits
+

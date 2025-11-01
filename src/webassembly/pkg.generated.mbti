@@ -1,0 +1,21 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/webassembly"
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type WebAssemblyInstance
+
+#external
+pub type WebAssemblyMemory
+
+#external
+pub type WebAssemblyModule
+
+// Type aliases
+
+// Traits
+

@@ -4,12 +4,15 @@
 pub type Val
 
 ///|
+#inline
 pub fn[T] Val::cast(self : Val) -> T = "%identity"
 
 ///|
+#inline
 pub fn[T] js(v : T) -> Val = "%identity"
 
 ///|
+#inline
 pub fn[A, B] unsafe_cast(a : A) -> B {
   js(a).cast()
 }
@@ -62,6 +65,7 @@ pub fn Val::set(self : Val, key : String, value : &Js) -> Unit {
 }
 
 ///|
+#inline
 pub fn Val::call(self : Self, args : Array[&Js]) -> Val {
   ffi_call(self, args.map(_.to_js()))
 }
@@ -86,6 +90,7 @@ pub fn Val::call_method_raise(
 }
 
 ///|
+#inline
 pub fn Val::delete(self : Self, k : String) -> Unit {
   ffi_delete(self, k)
 }

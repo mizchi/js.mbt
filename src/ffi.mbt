@@ -143,3 +143,11 @@ pub extern "js" fn structured_clone(v : Val) -> Val =
 ///|
 extern "js" fn ffi_dynamic_import(module_name : String) -> Val =
   #| (moduleName) => import(moduleName)
+
+///|
+extern "js" fn ffi_atob(encoded_data : String) -> String =
+  #| (encodedData) => atob(encodedData)
+
+///|
+extern "js" fn ffi_btoa(data : String) -> String =
+  #| (data) => btoa(data)

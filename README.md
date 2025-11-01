@@ -1,26 +1,46 @@
 # @mizchi/js
 
-Moonbit js libraries (for my self yet)
+Moonbit js libraries (for my use)
 
 ```bash
 $ moon add mizchi/js
 ```
 
+- `mizchi/js` : Core JS Value binding
+- `mizchi/js/async` : async with `Promise`
+- `mizchi/js/dom` : DOM
+- `mizchi/js/console` : `console:*`
+- `mizchi/js/regexp` : `RegExp`
+- `mizchi/js/timer` : `setTimeout`
+- `mizchi/js/worker` : `Worker`
+- `mizchi/js/net` : Network API including `fetch`, `Request`, `Response`
+- `mizchi/js/node` : Node.js API
+- `mizchi/js/node/fs` : `node:fs`
+- `mizchi/js/node/path` : `node:path`
+- `mizchi/js/node/process` : `node:process`
+- `mizchi/js/node/util` : `node:util`
+- `mizchi/js/node/test` : `node:test`
+- `mizchi/js/node/child_process` : `node:child_process`
+- `mizchi/js/npm/react` : React
+- `mizchi/js/npm/react_router` : react-router (only BrowserRouter yet)
+- `mizchi/js/npm/react_testing_library` : react-testing-library
+
+## mizchi/js
+
+moon.pkg.json
+
 ```json
 {
-  "import": [
-    "mizchi/js",
-    "mizchi/js/async"
-  ]
+  "import": ["mizchi/js"]
 }
 ```
 
-## mizchi/js/js
-
 ```mbt
-let obj = @js.new_object()
-obj["xxx"] = 1
-let v: Int = obj.get("xxx") |> js
+fn main {
+  let obj = @js.new_empty_object()
+  obj["xxx"] = 1
+  let v: Int = obj.get("xxx").cast()
+}
 ```
 
 ## mizchi/js/dom
@@ -33,7 +53,7 @@ root.add_event_listener("click", ev => {
 });
 ```
 
-## mizchi/js/react
+## mizchi/js/npm/react
 
 We are designing the API to be intuitive for React users, even if it means compromising on some aspects of safety.
 
@@ -105,17 +125,13 @@ entrypoint
 - [x] fragment
 - [x] suspense
 - [x] render
-- [ ] hydrate
-- [ ] `lazy(() => import("<path>"))`
-- [ ] ErrorBoundary
-- [ ] use(promise)
 
-## mizchi/js/react_router
+## mizchi/js/npm/react_router
 
 - [x] create_browser_router
 - [x] router_provider
 
-## mizchi/js/react_testing_library
+## mizchi/js/npm/react_testing_library
 
 - [x] render
 - screen

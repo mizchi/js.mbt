@@ -2,6 +2,10 @@
 package "mizchi/js"
 
 // Values
+fn atob(String) -> String
+
+fn btoa(String) -> String
+
 fn dynamic_import(String) -> Val
 
 fn[T] from_builtin_array(Array[T]) -> Val

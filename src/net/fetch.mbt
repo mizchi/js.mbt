@@ -10,15 +10,14 @@ extern "js" fn ffi_fetch_request(request : Request) -> Promise[Response] =
 pub async fn fetch(
   url : String,
   method_~ : String,
-  headers? : Map[String, String],
+  headers? : Map[String, String] = {},
   body? : String,
 ) -> Promise[Response] {
   let init_obj = new_empty_object()
   init_obj.set("method", method_)
-  if headers is Some(headers) {
-    for k, v in headers {
-      init_obj.set(k, v)
-    }
+  let header_obj = @js.new_empty_object()
+  for k, v in headers {
+    header_obj.set(k, v)
   }
   if body is Some(body) {
     init_obj["body"] = body

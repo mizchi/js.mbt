@@ -1,0 +1,32 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/worker"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct MessageEvent {
+  data : @js.Val
+  origin : String
+  source : @js.Val
+}
+
+#external
+pub type Worker
+#alias(addEventListener)
+fn Worker::add_event_listener(Self, String, (MessageEvent) -> Unit) -> Unit
+fn Worker::new(String, is_module? : Bool) -> Self
+#alias(postMessage)
+fn Worker::post_message(Self, &@js.Js) -> Unit
+fn Worker::terminate(Self) -> Unit
+impl @js.Js for Worker
+
+// Type aliases
+
+// Traits
+

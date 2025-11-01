@@ -5,9 +5,7 @@ using @js {type Val, js, log}
 using @async {run_async}
 
 ///|
-using @http {type Request, type Response, fetch, fetch_request}
-
-// @js.Request
+using @net {type Request, type Response, fetch, fetch_request}
 
 ///|
 pub fn run() -> Unit {

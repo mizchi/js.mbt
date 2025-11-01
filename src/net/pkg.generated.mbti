@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/http"
+package "mizchi/js/net"
 
 import(
   "mizchi/js"
@@ -15,8 +15,11 @@ async fn fetch_request(Request) -> @async.Promise[Response]
 
 // Types and methods
 #external
+pub type Headers
+
+#external
 pub type Request
-fn Request::array_buffer(Self) -> @async.Promise[@js.Val]
+fn Request::arraybuffer(Self) -> @async.Promise[@js.Val]
 fn Request::blob(Self) -> @async.Promise[@js.Val]
 fn Request::body_used(Self) -> Bool
 fn Request::bytes(Self) -> @async.Promise[@js.Val]
