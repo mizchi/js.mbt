@@ -2,8 +2,8 @@
 package "mizchi/js/node_fs"
 
 import(
+  "mizchi/js"
   "mizchi/js/async"
-  "mizchi/js/val"
 )
 
 // Values
@@ -21,7 +21,7 @@ pub struct FsStat {
 pub struct NodeFs {
   readFile : (String, String?) -> @async.Promise[String]
   writeFile : (String, String) -> @async.Promise[Unit]
-  mkdir : (String) -> @async.Promise[@val.Val]
+  mkdir : (String) -> @async.Promise[@js.Val]
   rmdir : (String) -> @async.Promise[Unit]
   rm : (String) -> @async.Promise[Unit]
   stat : (String) -> @async.Promise[FsStat]

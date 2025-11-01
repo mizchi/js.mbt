@@ -2,7 +2,7 @@
 package "mizchi/js/node_test"
 
 import(
-  "mizchi/js/val"
+  "mizchi/js"
 )
 
 // Values
@@ -19,7 +19,7 @@ fn NodeTest::it(Self, String, async (TestContext) -> Unit, skip? : String) -> Un
 
 type TestContext
 fn TestContext::todo(Self, String) -> Unit
-impl @val.Js for TestContext
+impl @js.Js for TestContext
 
 // Type aliases
 

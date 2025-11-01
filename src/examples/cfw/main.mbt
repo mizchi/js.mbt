@@ -1,5 +1,5 @@
 ///|
-using @val {type Val, js, log}
+using @js {type Val, js, log}
 
 ///|
 using @async {run_async}

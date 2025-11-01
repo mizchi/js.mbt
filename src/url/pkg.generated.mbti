@@ -2,7 +2,7 @@
 package "mizchi/js/url"
 
 import(
-  "mizchi/js/val"
+  "mizchi/js"
 )
 
 // Values
@@ -26,7 +26,7 @@ pub(all) struct URL {
 }
 fn URL::can_parse(String, base? : String) -> Bool
 fn URL::new(String, base? : String) -> Self
-impl @val.Js for URL
+impl @js.Js for URL
 
 #external
 pub type URLSearchParams

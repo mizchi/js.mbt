@@ -1,6 +1,7 @@
 // ///|
+
 ///|
-using @val {type Val, js, unsafe_cast}
+using @js {type Val, js, unsafe_cast}
 
 ///|
 using @module {require}

@@ -2,7 +2,7 @@
 priv struct AppProps {} derive(Default)
 
 ///|
-using @val {type Val, js}
+using @js {type Val, js}
 
 ///|
 using @node_test {it, before_each}

@@ -19,7 +19,7 @@ using @react {
 using @react_router {init_react_router, router_provider}
 
 ///|
-using @val {log, js}
+using @js {log, js}
 
 ///|
 using @async {type Promise, sleep, run_async}

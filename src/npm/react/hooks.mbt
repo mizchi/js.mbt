@@ -88,7 +88,7 @@ pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
 /// }
 /// ```
 pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
-  ffi_react_use_ref(if initial is Some(v) { v |> js } else { @val.undefined() }).cast()
+  ffi_react_use_ref(if initial is Some(v) { v |> js } else { @js.undefined() }).cast()
 }
 
 ///|

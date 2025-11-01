@@ -2,7 +2,7 @@
 package "mizchi/js/dom"
 
 import(
-  "mizchi/js/val"
+  "mizchi/js"
 )
 
 // Values
@@ -29,7 +29,7 @@ fn Element::add_event_listener(Self, String, (Event) -> Unit) -> Unit
 fn Element::append_child(Self, Self) -> Self
 fn Element::focus(Self) -> Unit
 fn Element::focus_internal(Self) -> Unit
-fn Element::get_attribute(Self, String) -> @val.Val?
+fn Element::get_attribute(Self, String) -> @js.Val?
 fn Element::get_inner_html(Self) -> String
 fn Element::get_tag_name(Self) -> String
 fn Element::get_text_content(Self) -> String
@@ -41,14 +41,14 @@ fn Element::remove_event_listener(Self, String, (Event) -> Unit) -> Unit
 fn Element::set_attribute(Self, String, String) -> Unit
 fn Element::set_inner_html(Self, String) -> Unit
 fn Element::set_text_content(Self, String) -> Unit
-impl @val.Js for Element
+impl @js.Js for Element
 
 #external
 pub type Event
 fn Event::prevent_default(Self) -> Unit
 fn Event::stop_propagation(Self) -> Unit
 fn Event::target(Self) -> Element
-impl @val.Js for Event
+impl @js.Js for Event
 
 #external
 pub type FocusEvent
@@ -77,13 +77,13 @@ fn MouseEvent::client_x(Self) -> Int
 fn MouseEvent::client_y(Self) -> Int
 fn MouseEvent::screen_x(Self) -> Int
 fn MouseEvent::screen_y(Self) -> Int
-impl @val.Js for MouseEvent
+impl @js.Js for MouseEvent
 
 #external
 pub type Navigator
 fn Navigator::on_line(Self) -> Bool
 fn Navigator::user_agent(Self) -> String
-impl @val.Js for Navigator
+impl @js.Js for Navigator
 
 #external
 pub type Storage

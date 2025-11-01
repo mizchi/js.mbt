@@ -1,5 +1,5 @@
 ///|
-using @val {type Val, trait Js, js, new_empty_object}
+using @js {type Val, trait Js, js, new_empty_object}
 
 ///|
 using @async {type Promise}
@@ -10,9 +10,9 @@ pub extern "js" fn load_react_router() -> Promise[Val] =
 
 ///|
 pub async fn init_react_router() -> Unit {
-  if @val.global_this().get("__ReactRouterApi").is_undefined() {
+  if @js.global_this().get("__ReactRouterApi").is_undefined() {
     let v = load_react_router().unwrap()
-    @val.global_this().set("__ReactRouterApi", v)
+    @js.global_this().set("__ReactRouterApi", v)
   }
 }
 
@@ -69,7 +69,7 @@ impl Js for Route with to_js(self : Route) {
 
 ///|
 pub fn create_browser_router(routes : Array[Route]) -> Router {
-  let create_browser_router : (Array[Val]) -> Router = @val.global_this()
+  let create_browser_router : (Array[Val]) -> Router = @js.global_this()
     .get("__ReactRouterApi")
     .get("createBrowserRouter")
     .cast()

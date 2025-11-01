@@ -1,0 +1,4 @@
+{
+  "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/dom", "mizchi/js/module"],
+  "warn-list": "-1-6"
+}

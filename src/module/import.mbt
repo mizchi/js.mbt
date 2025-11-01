@@ -1,5 +1,5 @@
 ///|
-using @val {type Val}
+using @js {type Val}
 
 ///|
 using @async {type Promise, suspend}

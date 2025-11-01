@@ -1,5 +1,5 @@
 ///|
-using @val {type Val, trait Js, js, unsafe_cast}
+using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
 #external

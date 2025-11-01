@@ -1,6 +1,3 @@
 {
-  "import": [
-    "mizchi/js/val",
-    "mizchi/js/async"
-  ]
+  "warn-list": "-6"
 }

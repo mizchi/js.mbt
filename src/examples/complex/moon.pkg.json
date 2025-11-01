@@ -1,12 +1,12 @@
 {
   "is-main": true,
   "import": [
-    "mizchi/js/val",
+    "mizchi/js",
+    "mizchi/js/async",
     "mizchi/js/dom",
-    "mizchi/js/react",
-    "mizchi/js/react/element",
-    "mizchi/js/react_router",
-    "mizchi/js/async"
+    "mizchi/js/npm/react",
+    "mizchi/js/npm/react/element",
+    "mizchi/js/npm/react_router"
   ],
   "warn-list": "-1"
 }

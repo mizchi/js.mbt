@@ -25,10 +25,15 @@ pub impl Js for Float with to_js(self) -> Val {
 
 ///|
 pub impl Js for Int with to_js(self) -> Val {
-  js(self.to_double())
+  js(self)
 }
 
 ///|
 pub impl Js for Bool with to_js(self) -> Val {
   js(self)
 }
+
+pub impl Js for Array[&Js] with to_js(self) -> Val {
+  js(self.map(_.to_js()))
+}
+

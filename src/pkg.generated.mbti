@@ -1,50 +1,130 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js"
 
-import(
-  "mizchi/js/async"
-  "mizchi/js/val"
-)
-
 // Values
-fn[T] from_builtin_array(Array[T]) -> @val.Val
+fn[T] from_builtin_array(Array[T]) -> Val
 
-fn from_builtin_map(Map[String, @val.Val]) -> @val.Val
+fn from_builtin_map(Map[String, Val]) -> Val
 
-fn from_json(Json) -> @val.Val
+fn from_json(Json) -> Val
 
-fn[T] js(T) -> @val.Val
+fn global_this() -> Val
+
+fn[T] is_builtin(T) -> Bool
+
+fn[T] js(T) -> Val
 
 fn[T] log(T) -> Unit
 
-fn new_empty_array() -> @val.Val
+fn new_(Val, Array[&Js]) -> Val
 
-fn new_empty_object() -> @val.Val
+fn new_empty_array() -> Val
 
-fn run_async(async () -> Unit noraise) -> Unit
+fn new_empty_object() -> Val
 
-async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
+fn new_error(String, cause? : ErrorObject) -> ErrorObject
 
-fn[R] to_promise_fn0(async () -> R) -> () -> @async.Promise[R]
+fn new_map() -> Val
 
-fn[A, R] to_promise_fn1(async (A) -> R) -> (A) -> @async.Promise[R]
+fn new_set() -> Val
 
-fn[A, B, R] to_promise_fn2(async (A, B) -> R) -> (A, B) -> @async.Promise[R]
+fn new_weak_map() -> Val
 
-fn undefined() -> @val.Val
+fn new_weak_set() -> Val
+
+fn null_() -> Val
+
+fn object_create() -> Val
+
+fn object_entries(Val) -> Array[(String, Val)]
+
+fn object_keys(Val) -> Array[String]
+
+fn object_values(Val) -> Array[Val]
+
+fn stringify(&Js, replacer? : Val, space? : Int) -> String
+
+fn structured_clone(Val) -> Val
+
+fn symbol(String) -> Symbol
+
+fn symbol_async_dispose() -> Symbol
+
+fn symbol_dispose() -> Symbol
+
+fn symbol_iterator() -> Symbol
+
+fn throw_(&Js) -> Val
+
+fn undefined() -> Val
 
 fn[A, B] unsafe_cast(A) -> B
 
+fn[T] unsafe_stringify(T, replacer? : Val, space? : Int) -> String
+
 // Errors
+type JsError
+impl Js for JsError
+impl Show for JsError
 
 // Types and methods
+#external
+pub type ErrorObject
+fn ErrorObject::is_error(Self) -> Bool
+fn ErrorObject::message(Self) -> String
+fn ErrorObject::stack(Self) -> String
+
+#external
+pub type Symbol
+impl Key for Symbol
+
+#external
+pub type Val
+fn Val::call(Self, Array[&Js]) -> Self
+fn Val::call_method(Self, String, Array[&Js]) -> Self
+fn Val::call_method_raise(Self, String, Array[&Js]) -> Self raise
+fn Val::call_raise(Self, Array[&Js]) -> Self raise
+fn[T] Val::cast(Self) -> T
+fn[T] Val::cast_option(Self) -> T?
+fn Val::delete(Self, String) -> Unit
+#alias("_[_]")
+fn Val::get(Self, &Key) -> Self
+fn Val::has_own_property(Self, String) -> Bool
+fn Val::instance_of(Self, Self) -> Bool
+fn Val::is_array(Self) -> Bool
+fn Val::is_nan(Self) -> Bool
+fn Val::is_none(Self) -> Bool
+fn Val::is_null(Self) -> Bool
+fn Val::is_object(Self) -> Bool
+fn Val::is_some(Self) -> Bool
+fn Val::is_undefined(Self) -> Bool
+fn Val::property_is_enumerable(Self, String) -> Bool
+#alias("_[_]=_")
+fn Val::set(Self, String, &Js) -> Unit
+fn[T] Val::to_option(Self) -> T?
+fn Val::type_of(Self) -> String
+impl Js for Val
+impl Eq for Val
+impl Show for Val
+impl ToJson for Val
 
 // Type aliases
-pub using @async {type Promise}
-
-pub using @val {type Val}
-
-using @val {trait Js}
 
 // Traits
+pub(open) trait Js {
+  to_js(Self) -> Val
+}
+impl Js for Bool
+impl Js for Int
+impl Js for Float
+impl Js for Double
+impl Js for String
+impl Js for Json
+impl Eq for &Js
+
+pub trait Key {
+  to_key(Self) -> Val
+}
+impl Key for Int
+impl Key for String
 

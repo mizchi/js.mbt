@@ -121,6 +121,10 @@ extern "js" fn ffi_object_values(v : Val) -> Array[Val] =
   #| (obj) => Object.values(obj)
 
 ///|
+extern "js" fn ffi_object_assign(v : Val, o: Val) -> Val =
+  #| (obj, o) => Object.assign(obj, o)
+
+///|
 extern "js" fn ffi_console_log(v : Array[Val]) -> Unit =
   #| (obj) => console.log(...obj)
 

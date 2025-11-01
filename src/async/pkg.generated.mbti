@@ -2,7 +2,7 @@
 package "mizchi/js/async"
 
 import(
-  "mizchi/js/val"
+  "mizchi/js"
 )
 
 // Values
@@ -28,7 +28,7 @@ pub type Promise[T]
 fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
 fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
 fn[A] Promise::new(((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
-fn Promise::reject(@val.Val) -> Self[@val.Val]
+fn Promise::reject(@js.Val) -> Self[@js.Val]
 fn[A] Promise::resolve(A) -> Self[A]
 fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
 async fn[A] Promise::unwrap(Self[A]) -> A

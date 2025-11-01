@@ -1,5 +1,5 @@
 ///|
-using @val {type Val, trait Js, unsafe_cast, js}
+using @js {type Val, trait Js, unsafe_cast, js}
 
 ///|
 pub(all) struct URL {

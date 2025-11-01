@@ -1,5 +1,5 @@
 ///|
-suberror JsError ErrorObject
+pub suberror JsError ErrorObject
 
 ///|
 pub impl Show for JsError with output(self, logger) {

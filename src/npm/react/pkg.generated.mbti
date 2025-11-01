@@ -2,52 +2,52 @@
 package "mizchi/js/react"
 
 import(
+  "mizchi/js"
   "mizchi/js/async"
   "mizchi/js/dom"
-  "mizchi/js/val"
 )
 
 // Values
-fn[T] c((T) -> Element, T, children? : Array[&@val.Js], key? : String) -> Element
+fn[T] c((T) -> Element, T, children? : Array[&@js.Js], key? : String) -> Element
 
 fn[T] create_context(T?) -> Context[T]
 
 #alias(h)
-fn create_element(String, Array[&@val.Js], disabled? : Bool, attributes? : Map[String, @val.Val], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Element
+fn create_element(String, Array[&@js.Js], disabled? : Bool, attributes? : Map[String, @js.Val], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit) -> Element
 
-fn fragment(Array[&@val.Js], key? : String) -> Element
+fn fragment(Array[&@js.Js], key? : String) -> Element
 
 fn init_react() -> Unit
 
 async fn init_react_client() -> ReactDOMClient
 
-fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @async.Promise[@val.Val]
+fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @async.Promise[@js.Val]
 
-fn[T] provider(Context[T], Array[&@val.Js], value~ : T) -> Element
+fn[T] provider(Context[T], Array[&@js.Js], value~ : T) -> Element
 
 fn start_transition(() -> Unit) -> Unit
 
-fn suspense(Array[&@val.Js], fallback~ : Element) -> Element
+fn suspense(Array[&@js.Js], fallback~ : Element) -> Element
 
 fn[T] use_(@async.Promise[T]) -> T
 
 fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)
 
-fn[F] use_callback(F, Array[&@val.Js]) -> F
+fn[F] use_callback(F, Array[&@js.Js]) -> F
 
 fn[T] use_context(Context[T]) -> T
 
-fn use_effect(() -> () -> Unit, Array[&@val.Js]) -> Unit
+fn use_effect(() -> () -> Unit, Array[&@js.Js]) -> Unit
 
-fn use_layout_effect(() -> () -> Unit, Array[&@val.Js]) -> Unit
+fn use_layout_effect(() -> () -> Unit, Array[&@js.Js]) -> Unit
 
-fn[T] use_memo(() -> T, Array[&@val.Js]) -> T
+fn[T] use_memo(() -> T, Array[&@js.Js]) -> T
 
 fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
 
 fn[T] use_ref(T?) -> ReactRef[T]
 
-fn[T : @val.Js] use_state(T) -> (T, (T) -> Unit)
+fn[T : @js.Js] use_state(T) -> (T, (T) -> Unit)
 
 fn[T] use_state_lazy(() -> T) -> (T, (T) -> Unit)
 
@@ -62,7 +62,7 @@ pub type Context[T]
 
 #external
 pub type Element
-impl @val.Js for Element
+impl @js.Js for Element
 
 pub(all) struct EmptyProps {
 }
@@ -80,7 +80,7 @@ fn ReactDOMRoot::render(Self, Element) -> Unit
 pub type ReactRef[T]
 fn[T] ReactRef::current(Self[T]) -> T?
 fn[T] ReactRef::set_current(Self[T], T) -> Unit
-impl[T] @val.Js for ReactRef[T]
+impl[T] @js.Js for ReactRef[T]
 
 // Type aliases
 

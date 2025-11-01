@@ -1,5 +1,5 @@
 ///|
-using @val {type Val, trait Js, global_this, js, unsafe_cast, log}
+using @js {type Val, trait Js, global_this, js, unsafe_cast, log}
 
 ///|
 fn render_to_string(element : Element) -> String {

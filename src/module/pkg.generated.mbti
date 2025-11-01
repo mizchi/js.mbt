@@ -2,14 +2,14 @@
 package "mizchi/js/module"
 
 import(
+  "mizchi/js"
   "mizchi/js/async"
-  "mizchi/js/val"
 )
 
 // Values
-fn dynamic_import(String) -> @async.Promise[@val.Val]
+fn dynamic_import(String) -> @async.Promise[@js.Val]
 
-fn require(String) -> @val.Val
+fn require(String) -> @js.Val
 
 // Errors
 

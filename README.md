@@ -9,12 +9,8 @@ $ moon add mizchi/js
 ```json
 {
   "import": [
-    "mizchi/js/js",
-    "mizchi/js/dom",
-    "mizchi/js/react",
-    "mizchi/js/react/element",
-    "mizchi/js/react_router",
-    "mizchi/js/react_testing_library"
+    "mizchi/js",
+    "mizchi/js/async"
   ]
 }
 ```
