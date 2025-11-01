@@ -1,3 +1,0 @@
-{
-  "import": ["mizchi/js", "mizchi/js/module", "mizchi/js/node_test", "mizchi/js/async"],
-}

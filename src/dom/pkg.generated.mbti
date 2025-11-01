@@ -29,18 +29,15 @@ fn Element::add_event_listener(Self, String, (Event) -> Unit) -> Unit
 fn Element::append_child(Self, Self) -> Self
 fn Element::focus(Self) -> Unit
 fn Element::focus_internal(Self) -> Unit
+#alias("_[_]")
+fn Element::get(Self, String) -> @js.Val
 fn Element::get_attribute(Self, String) -> @js.Val?
-fn Element::get_inner_html(Self) -> String
-fn Element::get_tag_name(Self) -> String
-fn Element::get_text_content(Self) -> String
-fn Element::get_value(Self) -> String
-fn Element::id(Self) -> String?
 fn Element::insert_before(Self, Self) -> Self
 fn Element::query_selector(Self, String) -> Self?
 fn Element::remove_event_listener(Self, String, (Event) -> Unit) -> Unit
+#alias("_[_]=_")
+fn Element::set(Self, String, &@js.Js) -> Unit
 fn Element::set_attribute(Self, String, String) -> Unit
-fn Element::set_inner_html(Self, String) -> Unit
-fn Element::set_text_content(Self, String) -> Unit
 impl @js.Js for Element
 
 #external

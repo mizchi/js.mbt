@@ -4,13 +4,10 @@
 using @js {type Val, js, unsafe_cast}
 
 ///|
-using @module {require}
-
-///|
 using @async {type Promise, run_async}
 
 ///|
-using @node_test {it, before_each}
+using @test {it, before_each}
 
 ///|
 pub struct NodeFs {
@@ -32,7 +29,7 @@ pub struct FsStat {
 
 ///|
 pub fn NodeFs::require() -> NodeFs {
-  @module.require("node:fs/promises").cast()
+  @node.require("node:fs/promises").cast()
 }
 
 ///|

@@ -3,7 +3,7 @@ using @js {type Val, trait Js, global_this, js, unsafe_cast, log}
 
 ///|
 fn render_to_string(element : Element) -> String {
-  let react_dom_server : Val = @module.require("react-dom/server")
+  let react_dom_server : Val = @node.require("react-dom/server")
   react_dom_server.get("renderToString").call([element]).cast()
 }
 

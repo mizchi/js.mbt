@@ -33,7 +33,12 @@ pub impl Js for Bool with to_js(self) -> Val {
   js(self)
 }
 
+///|
 pub impl Js for Array[&Js] with to_js(self) -> Val {
   js(self.map(_.to_js()))
 }
 
+///|
+pub impl[T] Js for T? with to_js(self) -> Val {
+  js(self)
+}

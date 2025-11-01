@@ -24,6 +24,7 @@ pub(all) struct URL {
   hash : String
   searchParams : URLSearchParams
 }
+#alias(canParse)
 fn URL::can_parse(String, base? : String) -> Bool
 fn URL::new(String, base? : String) -> Self
 impl @js.Js for URL
@@ -31,6 +32,7 @@ impl @js.Js for URL
 #external
 pub type URLSearchParams
 fn URLSearchParams::get(Self, String) -> String?
+#alias(getAll)
 fn URLSearchParams::get_all(Self, String) -> Array[String]
 fn URLSearchParams::has(Self, String) -> Bool
 fn URLSearchParams::set(Self, String, String) -> Unit

@@ -1,10 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/react_testing_library"
+package "mizchi/js/npm/react_testing_library"
 
 import(
+  "mizchi/js"
   "mizchi/js/async"
   "mizchi/js/dom"
-  "mizchi/js/react"
+  "mizchi/js/npm/react"
 )
 
 // Values
@@ -23,6 +24,7 @@ fn FireEvent::key_up(Self, @dom.Element, key? : String, code? : String, char_cod
 #external
 pub type ReactTestingLibrary
 fn ReactTestingLibrary::init() -> ReactTestingLibrary2
+impl @js.Js for ReactTestingLibrary
 
 pub struct ReactTestingLibrary2 {
   screen : Screen

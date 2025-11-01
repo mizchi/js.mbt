@@ -1,0 +1,31 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/process"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Env
+fn Env::get(Self, String) -> String?
+fn Env::set(Self, String, String) -> Unit
+impl @js.Js for Env
+
+#external
+pub type Process
+fn Process::args(Self) -> Array[String]
+fn Process::cwd(Self) -> String
+fn Process::env() -> Env
+fn Process::exit(Self, Int) -> Unit
+fn Process::require() -> Self
+impl @js.Js for Process
+
+// Type aliases
+
+// Traits
+

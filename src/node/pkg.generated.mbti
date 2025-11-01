@@ -1,14 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/module"
+package "mizchi/js/node"
 
 import(
   "mizchi/js"
-  "mizchi/js/async"
 )
 
 // Values
-fn dynamic_import(String) -> @async.Promise[@js.Val]
-
 fn require(String) -> @js.Val
 
 // Errors

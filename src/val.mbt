@@ -1,4 +1,9 @@
 ///|
+/// unsafe js value
+#external
+pub type Val
+
+///|
 pub fn[T] Val::cast(self : Val) -> T = "%identity"
 
 ///|

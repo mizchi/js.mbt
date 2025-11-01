@@ -84,7 +84,17 @@ pub async fn[A] Promise::unwrap(self : Self[A]) -> A {
 }
 
 ///|
-pub struct Resolvers[T] {
+pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
+  ffi_promise_all(promises |> unsafe_cast) |> unsafe_cast
+}
+
+///|
+pub fn[A] Promise::race(promises : Array[Promise[A]]) -> Promise[A] {
+  ffi_promise_race(promises |> unsafe_cast) |> unsafe_cast
+}
+
+///|
+pub(all) struct Resolvers[T] {
   promise : Promise[T]
   resolve : (T) -> Unit
   reject : (Error) -> Unit
@@ -107,7 +117,7 @@ pub fn[T] Promise::with_resolvers() -> Resolvers[T] {
 }
 
 ///|
-pub fn[R] to_promise_fn0(f : async () -> R) -> () -> Promise[R] noraise {
+pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
   () => {
     let { promise, resolve, reject } = Promise::with_resolvers()
     run_async(() => try f() |> resolve catch {
@@ -118,7 +128,7 @@ pub fn[R] to_promise_fn0(f : async () -> R) -> () -> Promise[R] noraise {
 }
 
 ///|
-pub fn[A, R] to_promise_fn1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
+pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
   fn(a) {
     let { promise, resolve, reject } = Promise::with_resolvers()
     run_async(() => try f(a) |> resolve catch {
@@ -129,7 +139,7 @@ pub fn[A, R] to_promise_fn1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
 }
 
 ///|
-pub fn[A, B, R] to_promise_fn2(
+pub fn[A, B, R] promisify2(
   f : async (A, B) -> R,
 ) -> (A, B) -> Promise[R] noraise {
   (a, b) => {
@@ -142,7 +152,7 @@ pub fn[A, B, R] to_promise_fn2(
 }
 
 ///|
-pub fn[A, B, C, R] to_promise_fn3(
+pub fn[A, B, C, R] promisify3(
   f : async (A, B, C) -> R,
 ) -> (A, B, C) -> Promise[R] noraise {
   (a, b, c) => {
@@ -151,16 +161,5 @@ pub fn[A, B, C, R] to_promise_fn3(
       e => reject(e)
     })
     promise
-  }
-}
-
-///|
-extern "js" fn ffi_sleep(ms : Int) -> Promise[Unit] =
-  #| (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
-///|
-pub async fn sleep(ms : Int) -> Unit noraise {
-  ffi_sleep(ms).unwrap() catch {
-    _ => ()
   }
 }

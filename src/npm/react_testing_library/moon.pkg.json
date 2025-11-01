@@ -3,8 +3,8 @@
     "mizchi/js",
     "mizchi/js/async",
     "mizchi/js/dom",
-    "mizchi/js/module",
-    "mizchi/js/node_test",
+    "mizchi/js/node",
     "mizchi/js/npm/react"
-  ]
+  ],
+  "test-import": ["mizchi/js/node/test"]
 }

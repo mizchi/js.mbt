@@ -1,10 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/react_router"
+package "mizchi/js/npm/react_router"
 
 import(
   "mizchi/js"
   "mizchi/js/async"
-  "mizchi/js/react"
+  "mizchi/js/npm/react"
 )
 
 // Values

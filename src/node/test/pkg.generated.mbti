@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/node_test"
+package "mizchi/js/node/test"
 
 import(
   "mizchi/js"
@@ -16,6 +16,7 @@ fn it(String, skip? : String, async (TestContext) -> Unit) -> Unit
 type NodeTest
 fn NodeTest::before_each(Self, async () -> Unit) -> Unit
 fn NodeTest::it(Self, String, async (TestContext) -> Unit, skip? : String) -> Unit
+fn NodeTest::require() -> Self
 
 type TestContext
 fn TestContext::todo(Self, String) -> Unit

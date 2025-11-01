@@ -1,7 +1,7 @@
 ///|
 pub fn init_react() -> Unit {
   if global_this().get("__ReactApi").is_none() {
-    let react : Val = @module.require("react")
+    let react : Val = @node.require("react")
     global_this().set("__ReactApi", react)
   }
 }

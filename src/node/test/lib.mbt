@@ -2,12 +2,10 @@
 using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
-using @async {type Promise, to_promise_fn0, to_promise_fn1, run_async, sleep}
+using @async {type Promise, promisify0, promisify1, run_async, sleep}
 
 ///|
-using @module {dynamic_import, require}
-
-///|
+/// node:test
 #external
 type NodeTest
 
@@ -17,8 +15,8 @@ impl Js for NodeTest with to_js(self) -> Val {
 }
 
 ///|
-fn NodeTest::load() -> NodeTest {
-  @module.require("node:test").cast()
+pub fn NodeTest::require() -> NodeTest {
+  @node.require("node:test").cast()
 }
 
 ///|
@@ -42,7 +40,7 @@ pub fn NodeTest::it(
   f : async (TestContext) -> Unit,
   skip? : String,
 ) -> Unit noraise {
-  let af = to_promise_fn1(f)
+  let af = promisify1(f)
   let args : Array[&Js] = if skip is Some(skip) {
     let arg : Json = { "skip": skip }
     [name, arg, js(af)]
@@ -54,7 +52,7 @@ pub fn NodeTest::it(
 
 ///|
 pub fn NodeTest::before_each(self : Self, f : async () -> Unit) -> Unit noraise {
-  let af = to_promise_fn0(f)
+  let af = promisify0(f)
   self.to_js().call_method("beforeEach", [js(af)]) |> ignore
 }
 
@@ -65,7 +63,7 @@ pub fn it(
   op : async (TestContext) -> Unit,
 ) -> Unit {
   run_async(async fn() noraise {
-    let t = NodeTest::load()
+    let t = NodeTest::require()
     t.it(name, skip?, ctx => op(ctx))
   })
 }
@@ -73,7 +71,7 @@ pub fn it(
 ///|
 pub fn before_each(op : async () -> Unit) -> Unit {
   run_async(async fn() noraise {
-    let t = NodeTest::load()
+    let t = NodeTest::require()
     t.before_each(() => op())
   })
 }

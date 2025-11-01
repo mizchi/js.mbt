@@ -13,6 +13,7 @@ pub fn URLSearchParams::get(self : URLSearchParams, name : String) -> String? {
 }
 
 ///|
+#alias(getAll)
 pub fn URLSearchParams::get_all(
   self : URLSearchParams,
   name : String,

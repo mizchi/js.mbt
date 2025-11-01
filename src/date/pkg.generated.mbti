@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/date"
 
+import(
+  "mizchi/js"
+)
+
 // Values
 
 // Errors
@@ -10,6 +14,7 @@ package "mizchi/js/date"
 pub type Date
 fn Date::new() -> Self
 fn Date::now() -> Int
+impl @js.Js for Date
 
 // Type aliases
 

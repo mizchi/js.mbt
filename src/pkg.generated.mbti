@@ -2,11 +2,15 @@
 package "mizchi/js"
 
 // Values
+fn dynamic_import(String) -> Val
+
 fn[T] from_builtin_array(Array[T]) -> Val
 
 fn from_builtin_map(Map[String, Val]) -> Val
 
 fn from_json(Json) -> Val
+
+fn from_optional_map(Map[String, &Js?]) -> Val
 
 fn global_this() -> Val
 
@@ -33,6 +37,8 @@ fn new_weak_map() -> Val
 fn new_weak_set() -> Val
 
 fn null_() -> Val
+
+fn object_assign(Val, Val) -> Val
 
 fn object_create() -> Val
 
@@ -63,7 +69,7 @@ fn[A, B] unsafe_cast(A) -> B
 fn[T] unsafe_stringify(T, replacer? : Val, space? : Int) -> String
 
 // Errors
-type JsError
+pub suberror JsError ErrorObject
 impl Js for JsError
 impl Show for JsError
 
@@ -119,6 +125,8 @@ impl Js for Int
 impl Js for Float
 impl Js for Double
 impl Js for String
+impl[T] Js for T?
+impl Js for Array[&Js]
 impl Js for Json
 impl Eq for &Js
 

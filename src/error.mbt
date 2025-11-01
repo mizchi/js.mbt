@@ -1,4 +1,9 @@
 ///|
+/// Error
+#external
+pub type ErrorObject
+
+///|
 pub suberror JsError ErrorObject
 
 ///|

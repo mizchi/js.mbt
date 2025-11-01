@@ -107,16 +107,17 @@ pub fn create_element(
 pub fn[T] c(
   tag : (T) -> Element,
   props : T,
-  children? : Array[&Js],
+  children? : Array[&Js] = [],
   key? : String,
 ) -> Element {
   let tag = js(tag)
-  let children = @js.from_builtin_array(children.unwrap_or([]))
+  let children = children.map(_.to_js())
   let val : Val = props |> js
   if key is Some(key) {
     val["key"] = key
   }
-  ffi_create_element(tag, val, children) |> unsafe_cast
+  ffi_create_element(tag, val, children |> @js.from_builtin_array())
+  |> unsafe_cast
 }
 
 ///|

@@ -9,7 +9,7 @@ pub(all) struct NodePath {
 
 ///|
 pub fn NodePath::require() -> NodePath {
-  @module.require("node:path").cast()
+  @node.require("node:path").cast()
 }
 
 ///|

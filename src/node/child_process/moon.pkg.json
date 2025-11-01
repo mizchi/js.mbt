@@ -2,6 +2,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/async",
-    "mizchi/js/module"
+    "mizchi/js/node"
   ]
 }

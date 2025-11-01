@@ -17,19 +17,19 @@ pub struct ReactTestingLibrary2 {
 }
 
 ///|
-impl Js for ReactTestingLibrary with to_js(self) {
+pub impl Js for ReactTestingLibrary with to_js(self) {
   self |> js
 }
 
 ///|
 pub fn register_jsdom() -> Unit {
-  @module.require("global-jsdom/register") |> ignore
+  @node.require("global-jsdom/register") |> ignore
 }
 
 ///|
 pub fn ReactTestingLibrary::init() -> ReactTestingLibrary2 {
   register_jsdom()
-  let rtl = @module.require("@testing-library/react")
+  let rtl = @node.require("@testing-library/react")
   {
     screen: rtl.get("screen").cast(),
     fire_event: rtl.get("fireEvent").cast(),

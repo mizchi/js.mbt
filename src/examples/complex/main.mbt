@@ -168,7 +168,7 @@ fn app(props : AppProps) -> @react.Element {
   let on_change = use_callback(
     (e : @dom.ChangeEvent) => {
       let target = e.target()
-      let value : String = target.get_value()
+      let value : String = target["value"].cast()
       set_text(value)
       log("Textarea changed: \{value}")
     },

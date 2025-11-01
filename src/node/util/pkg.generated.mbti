@@ -1,0 +1,37 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/util"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn inspect(@js.Val, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, break_length? : Int, max_array_length? : Int, max_string_length? : Int) -> String
+
+fn parse_args(args~ : Array[String], options~ : Array[ParseArgsOption], allow_positionals? : Bool) -> ParseArgsResult
+
+// Errors
+
+// Types and methods
+pub(all) enum ParseArgsOption {
+  Boolean(key~ : String, short~ : String)
+  String(key~ : String, short~ : String, multiple~ : Bool, default~ : String?)
+}
+fn ParseArgsOption::key(Self) -> String
+
+pub(all) struct ParseArgsResult {
+  values : Map[String, @js.Val]
+  positionals : Array[String]
+  tokens : Array[@js.Val]?
+}
+
+#external
+pub type Util
+fn Util::inspect(Self, @js.Val, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, break_length? : Int, max_array_length? : Int, max_string_length? : Int) -> String
+fn Util::require() -> Self
+impl @js.Js for Util
+
+// Type aliases
+
+// Traits
+

@@ -121,7 +121,7 @@ extern "js" fn ffi_object_values(v : Val) -> Array[Val] =
   #| (obj) => Object.values(obj)
 
 ///|
-extern "js" fn ffi_object_assign(v : Val, o: Val) -> Val =
+extern "js" fn ffi_object_assign(v : Val, o : Val) -> Val =
   #| (obj, o) => Object.assign(obj, o)
 
 ///|
@@ -139,3 +139,7 @@ extern "js" fn ffi_json_stringify(
 ///|
 pub extern "js" fn structured_clone(v : Val) -> Val =
   #| (self) => structuredClone(self)
+
+///|
+extern "js" fn ffi_dynamic_import(module_name : String) -> Val =
+  #| (moduleName) => import(moduleName)

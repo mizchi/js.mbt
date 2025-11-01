@@ -36,6 +36,7 @@ pub fn URL::new(url : String, base? : String) -> URL {
 }
 
 ///|
+#alias(canParse)
 pub fn URL::can_parse(url : String, base? : String) -> Bool {
   ffi_can_parse(url, base).cast()
 }

@@ -4,6 +4,18 @@ pub fn new_empty_object() -> Val {
 }
 
 ///|
+/// Create a JS object from a built-in map where the values are optional Js references.
+pub fn from_optional_map(map : @builtin.Map[String, &Js?]) -> Val {
+  let obj = new_empty_object()
+  for k, v in map {
+    if v is Some(v) {
+      obj.set(k, v.to_js())
+    }
+  }
+  obj
+}
+
+///|
 pub fn from_builtin_map(map : @builtin.Map[String, Val]) -> Val {
   let obj = new_empty_object()
   for k, v in map {
@@ -136,4 +148,25 @@ test "is_builtin_struct" {
   assert_true(is_builtin_struct(t))
   let e = E::A(10)
   assert_true(is_builtin_struct(e))
+}
+
+///|
+test "from_optional_map" {
+  let obj = from_optional_map({
+    "a": 10 |> Some,
+    "b": None,
+    "c": "hello" |> Some,
+    "d": Some(undefined()),
+    "e": Some(null_()),
+    "f": js(fn() {  }) |> Some,
+  })
+  assert_eq(obj.get("a").cast(), 10)
+  assert_true(obj.get("b").is_undefined())
+  assert_false(obj.has_own_property("b"))
+  assert_eq(obj.get("c").cast(), "hello")
+  assert_true(obj.get("d").is_undefined())
+  assert_true(obj.has_own_property("d"))
+  assert_true(obj.get("e").is_null())
+  assert_true(obj.has_own_property("f"))
+  assert_true(obj.get("f").type_of() == "function")
 }
