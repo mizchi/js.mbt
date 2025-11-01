@@ -2,13 +2,9 @@
 pub using @val {
   trait Js,
   type Val,
-  type Fn0,
-  type Fn1,
-  type Fn2,
-  type Fn3,
   js,
-  new_object,
-  new_array,
+  new_empty_array,
+  new_empty_object,
   undefined,
   unsafe_cast,
   from_json,
@@ -18,7 +14,7 @@ pub using @val {
 }
 
 ///|
-pub using @promise {
+pub using @async {
   type Promise,
   run_async,
   suspend,
@@ -26,4 +22,3 @@ pub using @promise {
   to_promise_fn1,
   to_promise_fn2,
 }
-

@@ -2,26 +2,34 @@
 package "mizchi/js"
 
 import(
-  "mizchi/js/promise"
+  "mizchi/js/async"
   "mizchi/js/val"
 )
 
 // Values
+fn[T] from_builtin_array(Array[T]) -> @val.Val
+
+fn from_builtin_map(Map[String, @val.Val]) -> @val.Val
+
 fn from_json(Json) -> @val.Val
 
 fn[T] js(T) -> @val.Val
 
-fn new_array() -> @val.Val
+fn[T] log(T) -> Unit
 
-fn new_object() -> @val.Val
+fn new_empty_array() -> @val.Val
+
+fn new_empty_object() -> @val.Val
 
 fn run_async(async () -> Unit noraise) -> Unit
 
 async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 
-fn[R] to_promise_fn0(async () -> R) -> () -> @promise.Promise[R]
+fn[R] to_promise_fn0(async () -> R) -> () -> @async.Promise[R]
 
-fn[A, R] to_promise_fn1(async (A) -> R) -> (A) -> @promise.Promise[R]
+fn[A, R] to_promise_fn1(async (A) -> R) -> (A) -> @async.Promise[R]
+
+fn[A, B, R] to_promise_fn2(async (A, B) -> R) -> (A, B) -> @async.Promise[R]
 
 fn undefined() -> @val.Val
 
@@ -32,15 +40,7 @@ fn[A, B] unsafe_cast(A) -> B
 // Types and methods
 
 // Type aliases
-pub using @val {type Fn0}
-
-pub using @val {type Fn1}
-
-pub using @val {type Fn2}
-
-pub using @val {type Fn3}
-
-pub using @promise {type Promise}
+pub using @async {type Promise}
 
 pub using @val {type Val}
 

@@ -2,7 +2,7 @@
 package "mizchi/js/react_router"
 
 import(
-  "mizchi/js/promise"
+  "mizchi/js/async"
   "mizchi/js/react"
   "mizchi/js/val"
 )
@@ -14,7 +14,7 @@ async fn init_react_router() -> Unit
 
 fn link(to~ : String, Array[&@val.Js]) -> @react.Element
 
-fn load_react_router() -> @promise.Promise[@val.Val]
+fn load_react_router() -> @async.Promise[@val.Val]
 
 fn router_provider(Router) -> @react.Element
 

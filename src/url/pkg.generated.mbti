@@ -1,0 +1,41 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/url"
+
+import(
+  "mizchi/js/val"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct URL {
+  href : String
+  origin : String
+  protocol : String
+  username : String
+  password : String
+  host : String
+  hostname : String
+  port : String
+  pathname : String
+  search : String
+  hash : String
+  searchParams : URLSearchParams
+}
+fn URL::can_parse(String, base? : String) -> Bool
+fn URL::new(String, base? : String) -> Self
+impl @val.Js for URL
+
+#external
+pub type URLSearchParams
+fn URLSearchParams::get(Self, String) -> String?
+fn URLSearchParams::get_all(Self, String) -> Array[String]
+fn URLSearchParams::has(Self, String) -> Bool
+fn URLSearchParams::set(Self, String, String) -> Unit
+
+// Type aliases
+
+// Traits
+

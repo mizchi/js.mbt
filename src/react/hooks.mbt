@@ -8,8 +8,8 @@
 /// ```
 pub fn[T : Js] use_state(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
-  let value : T = result.get_index(0).cast()
-  let update_fn : (T) -> Unit = result.get_index(1).cast()
+  let value : T = result.get(0).cast()
+  let update_fn : (T) -> Unit = result.get(1).cast()
   (value, update_fn)
 }
 
@@ -23,8 +23,8 @@ pub fn[T : Js] use_state(initial : T) -> (T, (T) -> Unit) {
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
   let initial : () -> Val = (initial |> js).cast()
   let result = ffi_react_use_state_lazy(initial)
-  let value : T = result.get_index(0).cast()
-  let update_fn : (T) -> Unit = result.get_index(1).cast()
+  let value : T = result.get(0).cast()
+  let update_fn : (T) -> Unit = result.get(1).cast()
   (value, update_fn)
 }
 
@@ -167,7 +167,7 @@ pub fn[T, U] use_reducer(
   initial : T,
 ) -> (T, (U) -> Unit) {
   let val = ffi_react_use_reducer(reducer |> js, initial |> js)
-  (val.get_index(0).cast(), val.get_index(1).cast())
+  (val.get(0).cast(), val.get(1).cast())
 }
 
 ///|
@@ -181,9 +181,9 @@ pub fn[T, U] use_action_state(
   f : async (T, U) -> T noraise,
   initial : T,
 ) -> (T, (U) -> Unit, Bool) {
-  let w = @promise.to_promise_fn2((s, a) => f(s, a))
+  let w = @async.to_promise_fn2((s, a) => f(s, a))
   let val : Val = use_action_state_internal(w |> js, initial |> js)
-  (val.get_index(0).cast(), val.get_index(1).cast(), val.get_index(2).cast())
+  (val.get(0).cast(), val.get(1).cast(), val.get(2).cast())
 }
 
 ///|
@@ -207,5 +207,5 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 ///   lazy_(load_my_lazy_component)
 /// ```
 pub fn[T] lazy_(f : async () -> (T) -> Element) -> (EmptyProps) -> Promise[Val] {
-  f |> @promise.to_promise_fn0 |> js |> ffi_react_lazy() |> unsafe_cast
+  f |> @async.to_promise_fn0 |> js |> ffi_react_lazy() |> unsafe_cast
 }

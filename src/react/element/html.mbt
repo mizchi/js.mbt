@@ -32,7 +32,7 @@ fn common_node(
     attr["className"] = className |> js
   }
   if style is Some(style) {
-    let style_obj : Val = @val.new_object()
+    let style_obj : Val = @val.new_empty_object()
     for k, v in style {
       style_obj[k] = js(v)
     }

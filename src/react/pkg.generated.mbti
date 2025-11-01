@@ -2,8 +2,8 @@
 package "mizchi/js/react"
 
 import(
+  "mizchi/js/async"
   "mizchi/js/dom"
-  "mizchi/js/promise"
   "mizchi/js/val"
 )
 
@@ -17,9 +17,11 @@ fn create_element(String, Array[&@val.Js], disabled? : Bool, attributes? : Map[S
 
 fn fragment(Array[&@val.Js], key? : String) -> Element
 
+fn init_react() -> Unit
+
 async fn init_react_client() -> ReactDOMClient
 
-fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @promise.Promise[@val.Val]
+fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @async.Promise[@val.Val]
 
 fn[T] provider(Context[T], Array[&@val.Js], value~ : T) -> Element
 
@@ -27,7 +29,7 @@ fn start_transition(() -> Unit) -> Unit
 
 fn suspense(Array[&@val.Js], fallback~ : Element) -> Element
 
-fn[T] use_(@promise.Promise[T]) -> T
+fn[T] use_(@async.Promise[T]) -> T
 
 fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)
 

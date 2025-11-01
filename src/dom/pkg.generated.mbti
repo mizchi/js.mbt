@@ -14,10 +14,6 @@ fn get_session_storage() -> Storage
 
 fn navigator() -> Navigator
 
-async fn request_animation_frame(() -> Unit raise) -> Unit noraise
-
-async fn wait_animation_frame() -> Unit noraise
-
 fn window() -> Element
 
 // Errors

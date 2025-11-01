@@ -46,18 +46,8 @@ pub impl Eq for &Js with equal(self, other) -> Bool {
 
 ///|
 #alias("_[_]")
-pub fn Val::get(self : Val, key : String) -> Val {
-  ffi_get(self, key)
-}
-
-///|
-pub fn Val::get_symbol(self : Val, key : Symbol) -> Val {
-  ffi_get(self, key |> unsafe_cast)
-}
-
-///|
-pub fn Val::get_index(self : Val, key : Int) -> Val {
-  ffi_get(self, key |> unsafe_cast)
+pub fn Val::get(self : Val, key : &Key) -> Val {
+  ffi_get(self, key.to_key() |> unsafe_cast)
 }
 
 ///|
@@ -95,10 +85,12 @@ pub fn Val::delete(self : Self, k : String) -> Unit {
   ffi_delete(self, k)
 }
 
+///|
 pub fn Val::has_own_property(self : Self, k : String) -> Bool {
   ffi_has_own_property(self, k)
 }
 
+///|
 pub fn Val::property_is_enumerable(self : Self, k : String) -> Bool {
   ffi_property_is_enumerable(self, k)
 }
@@ -242,7 +234,7 @@ fn TestEnum::from_js(v : Val) -> Self raise {
 impl Js for TestEnum with to_js(self) {
   match self {
     A(value~) => {
-      let obj = new_object()
+      let obj = new_empty_object()
       obj.set("tag", "A")
       obj.set("value", value)
       obj
@@ -268,8 +260,8 @@ test "to_string" {
   assert_eq(js("hello").to_string(), "hello")
   assert_true(undefined().is_undefined())
   assert_true(null_().is_null())
-  assert_eq(new_object().to_string(), "{}")
-  assert_eq(new_array().to_string(), "[]")
+  assert_eq(new_empty_object().to_string(), "{}")
+  assert_eq(new_empty_array().to_string(), "[]")
   from_builtin_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
   let expected =
     #|{"a":1,"b":2}

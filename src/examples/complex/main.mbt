@@ -22,7 +22,7 @@ using @react_router {init_react_router, router_provider}
 using @val {log, js}
 
 ///|
-using @promise {type Promise, sleep, run_async}
+using @async {type Promise, sleep, run_async}
 
 ///|
 using @element {
@@ -177,7 +177,6 @@ fn app(props : AppProps) -> @react.Element {
   // h("div", [
   //   "Hello, Moonbit React! Counter: \{cnt}",
   // ])
-
 
   guard myctx.val is Some(myctx)
   provider(myctx, value={ v: "xxx" }, [

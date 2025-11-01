@@ -4,7 +4,8 @@ extern "js" fn ffi_react_use_state(initial : Val) -> Val =
   #|   return __ReactApi.useState(initial);
   #| }
 
-///|q
+///|
+///q
 extern "js" fn ffi_react_use_state_lazy(initial : () -> Val) -> Val =
   #| (initial) => {
   #|   return __ReactApi.useState(initial);

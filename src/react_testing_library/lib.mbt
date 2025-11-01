@@ -1,18 +1,19 @@
 ///|
-using @val {type Val, trait Js, js, new_object, unsafe_cast}
+using @val {type Val, trait Js, js, new_empty_object, unsafe_cast}
 
 ///|
-using @promise {type Promise}
+using @async {type Promise}
 
 ///|
 #external
 pub type ReactTestingLibrary
 
+///|
 pub struct ReactTestingLibrary2 {
-  screen: Screen
-  fire_event: FireEvent
-  render: ( @react.Element ) -> Unit
-  cleanup: () -> Unit
+  screen : Screen
+  fire_event : FireEvent
+  render : (@react.Element) -> Unit
+  cleanup : () -> Unit
 }
 
 ///|
@@ -20,6 +21,7 @@ impl Js for ReactTestingLibrary with to_js(self) {
   self |> js
 }
 
+///|
 pub fn register_jsdom() -> Unit {
   @module.require("global-jsdom/register") |> ignore
 }
@@ -91,7 +93,7 @@ pub fn FireEvent::key_down(
   code? : String,
   char_code? : Int,
 ) -> Promise[Unit] {
-  let event_obj = new_object()
+  let event_obj = new_empty_object()
   if key is Some(k) {
     event_obj["key"] = k |> js
   }
@@ -112,7 +114,7 @@ pub fn FireEvent::key_up(
   code? : String,
   char_code? : Int,
 ) -> Promise[Unit] {
-  let event_obj : Val = new_object()
+  let event_obj : Val = new_empty_object()
   if key is Some(k) {
     event_obj["key"] = k |> js
   }
@@ -132,7 +134,7 @@ pub fn FireEvent::change_target_value(
   element : @dom.Element,
   value~ : String,
 ) -> Promise[Unit] {
-  let change_obj = new_object()
+  let change_obj = new_empty_object()
   change_obj["target"] = { "value": value |> js } |> js
   self.to_js().get("change").call([element, change_obj]).cast()
 }

@@ -1,14 +1,15 @@
 ///|
-pub fn object_keys(v : &Js) -> Array[String] {
-  ffi_object_keys(v.to_js().cast())
+pub fn object_keys(v : Val) -> Array[String] {
+  ffi_object_keys(v)
 }
 
 ///|
-pub fn object_values(v : &Js) -> Array[Val] {
-  ffi_object_values(v.to_js().cast())
+pub fn object_values(v : Val) -> Array[Val] {
+  ffi_object_values(v)
 }
 
 ///|
-pub fn object_entries(v : &Js) -> Array[Val] {
-  ffi_object_entries(v.to_js().cast())
+pub fn object_entries(v : Val) -> Array[(String, Val)] {
+  let entries = ffi_object_entries(v)
+  entries.map(entry => (entry.get(0).cast(), entry.get(1).cast()))
 }

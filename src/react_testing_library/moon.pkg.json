@@ -1,7 +1,7 @@
 {
   "import": [
     "mizchi/js/val",
-    "mizchi/js/promise",
+    "mizchi/js/async",
     "mizchi/js/dom",
     "mizchi/js/react",
     "mizchi/js/module",

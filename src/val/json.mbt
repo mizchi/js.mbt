@@ -50,7 +50,7 @@ pub impl Js for Json with to_js(self) -> Val {
     Json::True => js(true)
     Json::False => js(false)
     Json::Object(o) => {
-      let obj = new_object()
+      let obj = new_empty_object()
       for k, v in o {
         let v : Val = Js::to_js(v)
         obj.set(k, v)
@@ -58,7 +58,7 @@ pub impl Js for Json with to_js(self) -> Val {
       obj
     }
     Json::Array(a) => {
-      let arr = new_array()
+      let arr = new_empty_array()
       for v in a {
         let v : Val = Js::to_js(v)
         arr.call_method("push", [v]) |> ignore

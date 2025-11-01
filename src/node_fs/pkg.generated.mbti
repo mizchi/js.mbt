@@ -1,11 +1,32 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node_fs"
 
+import(
+  "mizchi/js/async"
+  "mizchi/js/val"
+)
+
 // Values
 
 // Errors
 
 // Types and methods
+pub struct FsStat {
+  isFile : () -> Bool
+  isDirectory : () -> Bool
+  size : Int
+  mtime_ms : Float
+}
+
+pub struct NodeFs {
+  readFile : (String, String?) -> @async.Promise[String]
+  writeFile : (String, String) -> @async.Promise[Unit]
+  mkdir : (String) -> @async.Promise[@val.Val]
+  rmdir : (String) -> @async.Promise[Unit]
+  rm : (String) -> @async.Promise[Unit]
+  stat : (String) -> @async.Promise[FsStat]
+}
+fn NodeFs::require() -> Self
 
 // Type aliases
 

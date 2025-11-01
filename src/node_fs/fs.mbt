@@ -1,7 +1,14 @@
 // ///|
+///|
 using @val {type Val, js, unsafe_cast}
+
+///|
 using @module {require}
-using @promise {type Promise, run_async}
+
+///|
+using @async {type Promise, run_async}
+
+///|
 using @node_test {it, before_each}
 
 ///|
@@ -14,6 +21,7 @@ pub struct NodeFs {
   stat : (String) -> Promise[FsStat]
 }
 
+///|
 pub struct FsStat {
   isFile : () -> Bool
   isDirectory : () -> Bool
@@ -21,13 +29,15 @@ pub struct FsStat {
   mtime_ms : Float
 }
 
+///|
 pub fn NodeFs::require() -> NodeFs {
   @module.require("node:fs/promises").cast()
 }
 
+///|
 test "fs readFile and writeFile" {
   it("fs readFile and writeFile", _ => {
-    let {readFile, writeFile, ..} = NodeFs::require()
+    let { readFile, writeFile, .. } = NodeFs::require()
     let test_path = "./fs_test.txt"
     let content = "Hello, Moon!"
     writeFile(test_path, content).unwrap()
@@ -35,4 +45,3 @@ test "fs readFile and writeFile" {
     assert_eq(content, read_content)
   })
 }
-

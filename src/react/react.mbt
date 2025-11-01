@@ -53,7 +53,7 @@ pub fn create_element(
 ) -> Element {
   let tag = js(tag)
   let children = children.map(_.to_js()) |> @val.from_builtin_array
-  let val : Val = @val.new_object()
+  let val : Val = @val.new_empty_object()
   if attributes is Some(props) {
     for k, v in props {
       val[k] = v
@@ -78,7 +78,7 @@ pub fn create_element(
     val["disabled"] = disabled |> js
   }
   if style is Some(style) {
-    let style_obj : Val = @val.new_object()
+    let style_obj : Val = @val.new_empty_object()
     for k, v in style {
       style_obj[k] = js(v)
     }
@@ -123,7 +123,7 @@ pub fn[T] c(
 pub fn fragment(children : Array[&Js], key? : String) -> Element {
   let tag = js(get_fragment())
   let children = @val.from_builtin_array(children.map(_.to_js()))
-  let val : Val = @val.new_object()
+  let val : Val = @val.new_empty_object()
   if key is Some(key) {
     val["key"] = key
   }
@@ -134,7 +134,7 @@ pub fn fragment(children : Array[&Js], key? : String) -> Element {
 pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
   let tag = get_suspense() |> js
   let children = @val.from_builtin_array(children.map(_.to_js()))
-  let val : Val = @val.new_object()
+  let val : Val = @val.new_empty_object()
   val["fallback"] = fallback |> js
   ffi_create_element(tag, val, children).cast()
 }
@@ -146,8 +146,8 @@ pub fn[T] provider(
   value~ : T,
 ) -> Element {
   let tag = js(tag)
-  let children = @val.from_builtin_array(children.map(_.to_js())  )
-  let props = @val.new_object()
+  let children = @val.from_builtin_array(children.map(_.to_js()))
+  let props = @val.new_empty_object()
   props["value"] = value |> js
   ffi_create_element(tag, props, children).cast()
 }

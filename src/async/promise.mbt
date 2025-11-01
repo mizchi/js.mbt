@@ -83,8 +83,9 @@ pub async fn[A] Promise::unwrap(self : Self[A]) -> A {
     |> ignore)
 }
 
+///|
 pub struct Resolvers[T] {
-  promise: Promise[T]
+  promise : Promise[T]
   resolve : (T) -> Unit
   reject : (Error) -> Unit
 }
@@ -108,7 +109,7 @@ pub fn[T] Promise::with_resolvers() -> Resolvers[T] {
 ///|
 pub fn[R] to_promise_fn0(f : async () -> R) -> () -> Promise[R] noraise {
   () => {
-    let {promise, resolve, reject} = Promise::with_resolvers()
+    let { promise, resolve, reject } = Promise::with_resolvers()
     run_async(() => try f() |> resolve catch {
       e => reject(e)
     })
@@ -119,7 +120,7 @@ pub fn[R] to_promise_fn0(f : async () -> R) -> () -> Promise[R] noraise {
 ///|
 pub fn[A, R] to_promise_fn1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
   fn(a) {
-    let {promise, resolve, reject} = Promise::with_resolvers()
+    let { promise, resolve, reject } = Promise::with_resolvers()
     run_async(() => try f(a) |> resolve catch {
       e => reject(e)
     })
@@ -132,7 +133,7 @@ pub fn[A, B, R] to_promise_fn2(
   f : async (A, B) -> R,
 ) -> (A, B) -> Promise[R] noraise {
   (a, b) => {
-    let {promise, resolve, reject} = Promise::with_resolvers()
+    let { promise, resolve, reject } = Promise::with_resolvers()
     run_async(() => try f(a, b) |> resolve catch {
       e => reject(e)
     })
@@ -145,7 +146,7 @@ pub fn[A, B, C, R] to_promise_fn3(
   f : async (A, B, C) -> R,
 ) -> (A, B, C) -> Promise[R] noraise {
   (a, b, c) => {
-    let {promise, resolve, reject} = Promise::with_resolvers()
+    let { promise, resolve, reject } = Promise::with_resolvers()
     run_async(() => try f(a, b, c) |> resolve catch {
       e => reject(e)
     })

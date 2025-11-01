@@ -2,7 +2,7 @@
 using @val {type Val, trait Js, js, unsafe_cast}
 
 ///|
-using @promise {type Promise, to_promise_fn0, to_promise_fn1, run_async, sleep}
+using @async {type Promise, to_promise_fn0, to_promise_fn1, run_async, sleep}
 
 ///|
 using @module {dynamic_import, require}
@@ -44,9 +44,7 @@ pub fn NodeTest::it(
 ) -> Unit noraise {
   let af = to_promise_fn1(f)
   let args : Array[&Js] = if skip is Some(skip) {
-    let arg: Json = {
-      "skip": skip
-    }
+    let arg : Json = { "skip": skip }
     [name, arg, js(af)]
   } else {
     [name, js(af)]

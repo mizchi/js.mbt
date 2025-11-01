@@ -6,7 +6,7 @@
     "mizchi/js/react",
     "mizchi/js/react/element",
     "mizchi/js/react_router",
-    "mizchi/js/promise"
+    "mizchi/js/async"
   ],
   "warn-list": "-1"
 }

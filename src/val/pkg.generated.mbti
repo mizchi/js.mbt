@@ -2,8 +2,6 @@
 package "mizchi/js/val"
 
 // Values
-fn ffi_has_own_property(Val, String) -> Bool
-
 fn[T] from_builtin_array(Array[T]) -> Val
 
 fn from_builtin_map(Map[String, Val]) -> Val
@@ -12,19 +10,21 @@ fn from_json(Json) -> Val
 
 fn global_this() -> Val
 
+fn[T] is_builtin(T) -> Bool
+
 fn[T] js(T) -> Val
 
 fn[T] log(T) -> Unit
 
 fn new_(Val, Array[&Js]) -> Val
 
-fn new_array() -> Val
+fn new_empty_array() -> Val
+
+fn new_empty_object() -> Val
 
 fn new_error(String, cause? : ErrorObject) -> ErrorObject
 
 fn new_map() -> Val
-
-fn new_object() -> Val
 
 fn new_set() -> Val
 
@@ -36,9 +36,11 @@ fn null_() -> Val
 
 fn object_create() -> Val
 
-fn object_keys(&Js) -> Array[String]
+fn object_entries(Val) -> Array[(String, Val)]
 
-fn object_values(&Js) -> Array[Val]
+fn object_keys(Val) -> Array[String]
+
+fn object_values(Val) -> Array[Val]
 
 fn stringify(&Js, replacer? : Val, space? : Int) -> String
 
@@ -72,32 +74,9 @@ fn ErrorObject::is_error(Self) -> Bool
 fn ErrorObject::message(Self) -> String
 fn ErrorObject::stack(Self) -> String
 
-pub(all) struct Fn0[R](() -> R)
-fn[R] Fn0::call_raise(Self[R]) -> R raise
-#deprecated
-fn[R] Fn0::inner(Self[R]) -> () -> R
-impl[R] Js for Fn0[R]
-
-pub(all) struct Fn1[A, R]((A) -> R)
-fn[A, R] Fn1::call_raise(Self[A, R], A) -> R raise
-#deprecated
-fn[A, R] Fn1::inner(Self[A, R]) -> (A) -> R
-impl[A, R] Js for Fn1[A, R]
-
-pub(all) struct Fn2[A, B, R]((A, B) -> R)
-fn[A, B, R] Fn2::call_raise(Self[A, B, R], A, B) -> R raise
-#deprecated
-fn[A, B, R] Fn2::inner(Self[A, B, R]) -> (A, B) -> R
-impl[A, B, R] Js for Fn2[A, B, R]
-
-pub(all) struct Fn3[A, B, C, R]((A, B, C) -> R)
-fn[A, B, C, R] Fn3::call_raise(Self[A, B, C, R], A, B, C) -> R raise
-#deprecated
-fn[A, B, C, R] Fn3::inner(Self[A, B, C, R]) -> (A, B, C) -> R
-impl[A, B, C, R] Js for Fn3[A, B, C, R]
-
 #external
 pub type Symbol
+impl Key for Symbol
 
 #external
 pub type Val
@@ -109,9 +88,8 @@ fn[T] Val::cast(Self) -> T
 fn[T] Val::cast_option(Self) -> T?
 fn Val::delete(Self, String) -> Unit
 #alias("_[_]")
-fn Val::get(Self, String) -> Self
-fn Val::get_index(Self, Int) -> Self
-fn Val::get_symbol(Self, Symbol) -> Self
+fn Val::get(Self, &Key) -> Self
+fn Val::has_own_property(Self, String) -> Bool
 fn Val::instance_of(Self, Self) -> Bool
 fn Val::is_array(Self) -> Bool
 fn Val::is_nan(Self) -> Bool
@@ -120,6 +98,7 @@ fn Val::is_null(Self) -> Bool
 fn Val::is_object(Self) -> Bool
 fn Val::is_some(Self) -> Bool
 fn Val::is_undefined(Self) -> Bool
+fn Val::property_is_enumerable(Self, String) -> Bool
 #alias("_[_]=_")
 fn Val::set(Self, String, &Js) -> Unit
 fn[T] Val::to_option(Self) -> T?
@@ -140,8 +119,12 @@ impl Js for Int
 impl Js for Float
 impl Js for Double
 impl Js for String
-impl Js for Array[&Js]
 impl Js for Json
-impl Js for Map[String, &Js]
 impl Eq for &Js
+
+pub trait Key {
+  to_key(Self) -> Val
+}
+impl Key for Int
+impl Key for String
 

@@ -2,37 +2,37 @@
 package "mizchi/js/http"
 
 import(
-  "mizchi/js/promise"
+  "mizchi/js/async"
   "mizchi/js/val"
 )
 
 // Values
-async fn fetch(String, method_~ : String, headers? : Map[String, String], body? : String) -> @promise.Promise[Response]
+async fn fetch(String, method_~ : String, headers? : Map[String, String], body? : String) -> @async.Promise[Response]
 
-async fn fetch_request(Request) -> @promise.Promise[Response]
+async fn fetch_request(Request) -> @async.Promise[Response]
 
 // Errors
 
 // Types and methods
 #external
 pub type Request
-fn Request::array_buffer(Self) -> @promise.Promise[@val.Val]
-fn Request::blob(Self) -> @promise.Promise[@val.Val]
+fn Request::array_buffer(Self) -> @async.Promise[@val.Val]
+fn Request::blob(Self) -> @async.Promise[@val.Val]
 fn Request::body_used(Self) -> Bool
-fn Request::bytes(Self) -> @promise.Promise[@val.Val]
+fn Request::bytes(Self) -> @async.Promise[@val.Val]
 fn Request::clone(Self) -> Self
 fn Request::credentials(Self) -> String
-fn Request::json(Self) -> @promise.Promise[@val.Val]
+fn Request::json(Self) -> @async.Promise[@val.Val]
 fn Request::method_(Self) -> String
 fn Request::new(String) -> Self
-fn Request::text(Self) -> @promise.Promise[String]
+fn Request::text(Self) -> @async.Promise[String]
 fn Request::url(Self) -> String
 impl @val.Js for Request
 
 #external
 pub type Response
-fn Response::json(Self) -> @promise.Promise[@val.Val]
-fn Response::text(Self) -> @promise.Promise[String]
+fn Response::json(Self) -> @async.Promise[@val.Val]
+fn Response::text(Self) -> @async.Promise[String]
 impl @val.Js for Response
 
 // Type aliases

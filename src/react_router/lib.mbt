@@ -1,8 +1,8 @@
 ///|
-using @val {type Val, trait Js, js, new_object}
+using @val {type Val, trait Js, js, new_empty_object}
 
 ///|
-using @promise {type Promise}
+using @async {type Promise}
 
 ///|
 pub extern "js" fn load_react_router() -> Promise[Val] =
@@ -53,13 +53,13 @@ pub(all) enum Route {
 impl Js for Route with to_js(self : Route) {
   match self {
     Route::Component(path~, component~) => {
-      let obj = new_object()
+      let obj = new_empty_object()
       obj.set("path", path)
       obj.set("Component", component |> js)
       obj
     }
     Route::Element(path~, element~) => {
-      let obj = new_object()
+      let obj = new_empty_object()
       obj.set("path", path)
       obj.set("element", element |> js)
       obj

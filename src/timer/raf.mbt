@@ -1,4 +1,6 @@
-using @promise {suspend, run_async}
+///|
+using @async {suspend, run_async}
+
 ///|
 extern "js" fn ffi_request_animation_frame(f : () -> Unit) -> Unit =
   #|(f) => {

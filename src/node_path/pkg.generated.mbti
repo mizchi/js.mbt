@@ -1,0 +1,21 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node_path"
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct NodePath {
+  join : (String, String) -> String
+  dirname : (String) -> String
+  basename : (String) -> String
+  extname : (String) -> String
+  isAbsolute : (String) -> Bool
+}
+fn NodePath::require() -> Self
+
+// Type aliases
+
+// Traits
+

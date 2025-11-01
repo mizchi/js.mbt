@@ -13,7 +13,7 @@ pub async fn fetch(
   headers? : Map[String, String],
   body? : String,
 ) -> Promise[Response] {
-  let init_obj = new_object()
+  let init_obj = new_empty_object()
   init_obj.set("method", method_)
   if headers is Some(headers) {
     for k, v in headers {

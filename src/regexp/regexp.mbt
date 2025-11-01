@@ -37,11 +37,11 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
   if v.is_null() {
     return None
   }
-  let full : String = v.get_index(0).cast()
-  let index : Int = v.get("index").cast()
-  let last_index : Int = v.get("lastIndex").cast()
-  let input : String = v.get("input").cast()
-  let groups : Map[String, String]? = if v.get("groups").is_undefined() {
+  let full : String = v[0].cast()
+  let index : Int = v["index"].cast()
+  let last_index : Int = v["lastIndex"].cast()
+  let input : String = v["input"].cast()
+  let groups : Map[String, String]? = if v["groups"].is_undefined() {
     None
   } else {
     let g : Map[String, String] = {}

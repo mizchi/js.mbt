@@ -2,7 +2,7 @@
 using @val {type Val, js, log}
 
 ///|
-using @promise {run_async}
+using @async {run_async}
 
 ///|
 using @http {type Request, type Response, fetch, fetch_request}

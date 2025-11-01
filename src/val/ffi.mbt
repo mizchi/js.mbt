@@ -86,6 +86,7 @@ extern "js" fn ffi_delete(v : Val, key : String) -> Unit =
 extern "js" fn ffi_has_own_property(v : Val, k : String) -> Bool =
   #| (obj, k) => obj.hasOwnProperty(k)
 
+///|
 extern "js" fn ffi_property_is_enumerable(v : Val, k : String) -> Bool =
   #| (obj, k) => obj.propertyIsEnumerable(k)
 

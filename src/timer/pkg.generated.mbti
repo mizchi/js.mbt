@@ -6,9 +6,13 @@ fn clear_interval(JSTimer) -> Unit
 
 fn clear_timeout(JSTimer) -> Unit
 
+async fn request_animation_frame(() -> Unit raise) -> Unit noraise
+
 fn set_interval(() -> Unit, Int) -> JSTimer
 
 fn set_timeout(() -> Unit, Int) -> JSTimer
+
+async fn wait_animation_frame() -> Unit noraise
 
 // Errors
 

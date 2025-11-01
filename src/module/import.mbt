@@ -2,15 +2,14 @@
 using @val {type Val}
 
 ///|
-using @promise {type Promise, suspend}
+using @async {type Promise, suspend}
 
 ///|
 extern "js" fn ffi_require(module_name : String) -> Val =
   #| (moduleName) => require(moduleName)
 
 ///|
-extern "js" fn ffi_dynamic_import(
-  module_name : String) -> Promise[Val] =
+extern "js" fn ffi_dynamic_import(module_name : String) -> Promise[Val] =
   #| (moduleName) => import(moduleName)
 
 ///|

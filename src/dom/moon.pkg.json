@@ -1,6 +1,6 @@
 {
   "import": [
     "mizchi/js/val",
-    "mizchi/js/promise"
+    "mizchi/js/async"
   ]
 }
