@@ -12,6 +12,9 @@ pub using @val {
   undefined,
   unsafe_cast,
   from_json,
+  log,
+  from_builtin_array,
+  from_builtin_map,
 }
 
 ///|
@@ -21,4 +24,6 @@ pub using @promise {
   suspend,
   to_promise_fn0,
   to_promise_fn1,
+  to_promise_fn2,
 }
+

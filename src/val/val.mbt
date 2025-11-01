@@ -95,6 +95,14 @@ pub fn Val::delete(self : Self, k : String) -> Unit {
   ffi_delete(self, k)
 }
 
+pub fn Val::has_own_property(self : Self, k : String) -> Bool {
+  ffi_has_own_property(self, k)
+}
+
+pub fn Val::property_is_enumerable(self : Self, k : String) -> Bool {
+  ffi_property_is_enumerable(self, k)
+}
+
 ///|
 pub fn[T] Val::to_option(self : Self) -> T? {
   if self.is_undefined() || self.is_null() {

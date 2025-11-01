@@ -83,8 +83,11 @@ extern "js" fn ffi_delete(v : Val, key : String) -> Unit =
   #| (obj, k) => { delete obj[k]; }
 
 ///|
-pub extern "js" fn ffi_has_own_property(v : Val, k : String) -> Bool =
+extern "js" fn ffi_has_own_property(v : Val, k : String) -> Bool =
   #| (obj, k) => obj.hasOwnProperty(k)
+
+extern "js" fn ffi_property_is_enumerable(v : Val, k : String) -> Bool =
+  #| (obj, k) => obj.propertyIsEnumerable(k)
 
 // Object
 
@@ -107,6 +110,10 @@ extern "js" fn ffi_null() -> Val =
 ///|
 extern "js" fn ffi_object_keys(v : Val) -> Array[String] =
   #| (obj) => Object.keys(obj)
+
+///|
+extern "js" fn ffi_object_entries(v : Val) -> Array[Val] =
+  #| (obj) => Object.entries(obj)
 
 ///|
 extern "js" fn ffi_object_values(v : Val) -> Array[Val] =

@@ -803,7 +803,6 @@ pub fn form(
 ///|
 pub fn select(
   children : Array[&ReactNode],
-
   // xxx
   multiple? : Bool,
   disabled? : Bool,
@@ -841,7 +840,7 @@ pub fn select(
   }
   common_node(
     "select",
-    attributes.unwrap_or({}),
+    new_attributes,
     id~,
     class~,
     className~,

@@ -5,7 +5,7 @@ using @val {type Val, trait Js, js, unsafe_cast}
 using @promise {type Promise, to_promise_fn0, to_promise_fn1, run_async, sleep}
 
 ///|
-using @module {dynamic_import}
+using @module {dynamic_import, require}
 
 ///|
 #external

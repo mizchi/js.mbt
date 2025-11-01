@@ -83,41 +83,47 @@ pub async fn[A] Promise::unwrap(self : Self[A]) -> A {
     |> ignore)
 }
 
+pub struct Resolvers[T] {
+  promise: Promise[T]
+  resolve : (T) -> Unit
+  reject : (Error) -> Unit
+}
+
 ///|
 /// Creates a deferred Promise along with its resolve and reject functions.
 /// ```
 /// run_async(() => {
-///   let (p, resolve, _reject) = Promise::deferred()
+///   let {promise, resolve, reject} = Promise::with_resolvers()
 ///   let f = async fn () noraise {
 ///     resolve(10)
 ///   }
 ///   f()
-///   let v: Int = p.unwrap() catch { _ => 0 }
+///   let v: Int = promise.unwrap() catch { _ => 0 }
 /// })
 /// ```
-pub fn[T] Promise::deferred() -> (Promise[T], (T) -> Unit, (Error) -> Unit) {
-  ffi_deferred_internal() |> unsafe_cast
+pub fn[T] Promise::with_resolvers() -> Resolvers[T] {
+  ffi_promise_with_resolvers() |> unsafe_cast
 }
 
 ///|
 pub fn[R] to_promise_fn0(f : async () -> R) -> () -> Promise[R] noraise {
   () => {
-    let (p, ok, err) = Promise::deferred()
-    run_async(() => try f() |> ok catch {
-      e => err(e)
+    let {promise, resolve, reject} = Promise::with_resolvers()
+    run_async(() => try f() |> resolve catch {
+      e => reject(e)
     })
-    p
+    promise
   }
 }
 
 ///|
 pub fn[A, R] to_promise_fn1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
   fn(a) {
-    let (p, ok, err) = Promise::deferred()
-    run_async(() => try f(a) |> ok catch {
-      e => err(e)
+    let {promise, resolve, reject} = Promise::with_resolvers()
+    run_async(() => try f(a) |> resolve catch {
+      e => reject(e)
     })
-    p
+    promise
   }
 }
 
@@ -126,11 +132,11 @@ pub fn[A, B, R] to_promise_fn2(
   f : async (A, B) -> R,
 ) -> (A, B) -> Promise[R] noraise {
   (a, b) => {
-    let (p, ok, err) = Promise::deferred()
-    run_async(() => try f(a, b) |> ok catch {
-      e => err(e)
+    let {promise, resolve, reject} = Promise::with_resolvers()
+    run_async(() => try f(a, b) |> resolve catch {
+      e => reject(e)
     })
-    p
+    promise
   }
 }
 
@@ -139,11 +145,11 @@ pub fn[A, B, C, R] to_promise_fn3(
   f : async (A, B, C) -> R,
 ) -> (A, B, C) -> Promise[R] noraise {
   (a, b, c) => {
-    let (p, ok, err) = Promise::deferred()
-    run_async(() => try f(a, b, c) |> ok catch {
-      e => err(e)
+    let {promise, resolve, reject} = Promise::with_resolvers()
+    run_async(() => try f(a, b, c) |> resolve catch {
+      e => reject(e)
     })
-    p
+    promise
   }
 }
 
