@@ -1,5 +1,8 @@
 ///|
-extern "js" fn ffi_react_dom_render(v : ReactDOMRoot, vdom : @react.Element) -> Unit =
+extern "js" fn ffi_react_dom_render(
+  v : ReactDOMRoot,
+  vdom : @react.Element,
+) -> Unit =
   #| (root, vdom) => root.render(vdom)
 
 ///|

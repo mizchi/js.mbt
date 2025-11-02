@@ -7,10 +7,8 @@ pub fn json_stringify(
   ffi_json_stringify(v.to_js(), replacer, space |> js)
 }
 
-pub fn json_parse(
-  s : String,
-  reviver? : Val? = None,
-) -> Val raise JsError {
+///|
+pub fn json_parse(s : String, reviver? : Val? = None) -> Val raise JsError {
   wrap(() => ffi_json_parse(s, reviver?))
 }
 

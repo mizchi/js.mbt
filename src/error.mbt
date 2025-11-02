@@ -20,7 +20,6 @@ extern "js" fn ffi_wrap_sync(
   #|  }
   #|}
 
-
 ///|
 /// Wraps a synchronous function call, converting any thrown JS errors into JsError
 /// ```nocheck
@@ -35,15 +34,18 @@ pub fn[T] wrap(f : () -> T raise?) -> T raise JsError {
   }
 }
 
+///|
 pub fn wrap_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
   ffi_wrap_sync(unsafe_cast(f), Ok(_), Err(_))
 }
 
-pub fn throw_val(val: Val) -> Unit {
+///|
+pub fn throw_val(val : Val) -> Unit {
   ffi_throw(val |> unsafe_cast)
 }
 
-pub fn throw_error_message(message: String, obj: Val?) -> Unit {
+///|
+pub fn throw_error_message(message : String, obj : Val?) -> Unit {
   ffi_throw_message(message, obj)
 }
 

@@ -27,7 +27,7 @@ extern "js" fn ffi_throw(v : Val) -> Unit =
   #| (v) => { throw v }
 
 ///|
-extern "js" fn ffi_throw_message(v : String, obj: Val?) -> Unit =
+extern "js" fn ffi_throw_message(v : String, obj : Val?) -> Unit =
   #| (v, obj) => { throw new Error(v, obj) }
 
 ///|
@@ -141,10 +141,7 @@ extern "js" fn ffi_json_stringify(
   #| (v, replacer, space) => JSON.stringify(v, replacer, space)
 
 ///|
-extern "js" fn ffi_json_parse(
-  v : String,
-  reviver? : Val,
-) -> Val =
+extern "js" fn ffi_json_parse(v : String, reviver? : Val) -> Val =
   #| (v, reviver) => JSON.parse(v, reviver)
 
 ///|

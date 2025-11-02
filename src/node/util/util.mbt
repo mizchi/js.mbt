@@ -82,5 +82,8 @@ test "util:inspect" {
     max_array_length=10,
     max_string_length=50,
   )
-  @builtin.inspect(s, content="{ a: 1, b: [ 1, 2, 3 ], c: { d: 'hello' }, xxx: '------------------------' }")
+  @builtin.inspect(
+    s,
+    content="{ a: 1, b: [ 1, 2, 3 ], c: { d: 'hello' }, xxx: '------------------------' }",
+  )
 }

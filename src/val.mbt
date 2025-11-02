@@ -248,4 +248,3 @@ test "to_string" {
   from_builtin_map({ "a": 1 |> js, "b": 2 |> js }).to_string()
   |> assert_eq(expected)
 }
-

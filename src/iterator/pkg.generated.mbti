@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/iterator"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub(all) type AsyncGenerator[T]
+async fn[T] AsyncGenerator::next(Self[T]) -> T?
+impl[T] @js.Js for AsyncGenerator[T]
+
+#external
+pub(all) type Generator[T]
+fn[T] Generator::next(Self[T]) -> T?
+impl[T] @js.Js for Generator[T]
+
+// Type aliases
+
+// Traits
+
