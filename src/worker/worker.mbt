@@ -8,7 +8,7 @@ using @js {type Val, trait Js, js, log}
 /// fn _worker() -> Unit {
 ///   let worker = Worker::new("./worker_script.js", is_module=true)
 ///   // or: extern "js" fn get_my_worker() -> Worker = "() => new Worker('./worker_script.js', { type: 'module' })"
-///   worker.post_message(@js.from_json({
+///   worker.post_message(@js.from_builtin_json({
 ///     "type": "greeting"
 ///   }))
 ///   worker.add_event_listener("message", event => {

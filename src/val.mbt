@@ -4,18 +4,13 @@
 pub type Val
 
 ///|
-#inline
 pub fn[T] Val::cast(self : Val) -> T = "%identity"
 
 ///|
-#inline
 pub fn[T] js(v : T) -> Val = "%identity"
 
 ///|
-#inline
-pub fn[A, B] unsafe_cast(a : A) -> B {
-  js(a).cast()
-}
+pub fn[A, B] unsafe_cast(a : A) -> B = "%identity"
 
 ///|
 pub fn[T] Val::cast_option(self : Val) -> T? {
@@ -60,8 +55,8 @@ pub fn Val::get(self : Val, key : &Key) -> Val {
 
 ///|
 #alias("_[_]=_")
-pub fn Val::set(self : Val, key : String, value : &Js) -> Unit {
-  ffi_set(self, key, value.to_js())
+pub fn Val::set(self : Val, key : &Key, value : &Js) -> Unit {
+  ffi_set(self, key.to_key() |> unsafe_cast, value.to_js())
 }
 
 ///|
@@ -72,12 +67,12 @@ pub fn Val::call(self : Self, args : Array[&Js]) -> Val {
 
 ///|
 pub fn Val::call_raise(self : Self, args : Array[&Js]) -> Val raise {
-  wrap_fn_sync(() => self.call(args.map(_.to_js())))
+  wrap_sync(() => self.call(args.map(_.to_js())))
 }
 
 ///|
-pub fn Val::call_method(self : Val, key : String, args : Array[&Js]) -> Val {
-  ffi_call_method(self, key, args.map(_.to_js()))
+pub fn Val::call_method(self : Val, key : &Key, args : Array[&Js]) -> Val {
+  ffi_call_method(self, key.to_key() |> unsafe_cast, args.map(_.to_js()))
 }
 
 ///|
@@ -86,7 +81,7 @@ pub fn Val::call_method_raise(
   key : String,
   args : Array[&Js],
 ) -> Val raise {
-  wrap_fn_sync(() => ffi_call_method(self, key, args.map(_.to_js())))
+  wrap_sync(() => ffi_call_method(self, key, args.map(_.to_js())))
 }
 
 ///|
@@ -175,12 +170,6 @@ pub fn[T] unsafe_stringify(
 /// js: new Class(args...)
 pub fn new_(cls : Val, args : Array[&Js]) -> Val {
   ffi_new(cls, args.map(_.to_js()))
-}
-
-///|
-/// Throw a JavaScript value
-pub fn throw_(v : &Js) -> Val {
-  ffi_throw(v.to_js())
 }
 
 ///|

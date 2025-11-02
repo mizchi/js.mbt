@@ -23,8 +23,16 @@ extern "js" fn ffi_is_error(v : ErrorObject) -> Bool =
   #| (v) => Error.isError(v)
 
 ///|
-extern "js" fn ffi_throw(v : Val) -> Val =
-  #| (v) => throw v
+extern "js" fn ffi_throw(v : Val) -> Unit =
+  #| (v) => { throw v }
+
+///|
+extern "js" fn ffi_throw_error(error: ErrorObject) -> Unit =
+  #| (error) => { throw error }
+
+///|
+extern "js" fn ffi_throw_message(v : String, obj: Val?) -> Unit =
+  #| (v, obj) => { throw new Error(v, obj) }
 
 ///|
 extern "js" fn ffi_call(f : Val, args : Array[Val]) -> Val =

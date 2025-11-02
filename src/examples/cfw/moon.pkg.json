@@ -1,9 +1,8 @@
 {
-  "is-main": true,
   "link": {
     "js": {
-      "exports": ["run"]
+      "exports": ["get_fetch_handler"]
     }
   },
-  "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/net"]
+  "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/net", "mizchi/js/cloudflare"]
 }

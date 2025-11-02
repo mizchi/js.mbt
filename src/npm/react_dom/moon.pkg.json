@@ -1,0 +1,9 @@
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/async",
+    "mizchi/js/dom",
+    "mizchi/js/node",
+    "mizchi/js/npm/react"
+  ]
+}

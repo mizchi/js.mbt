@@ -43,6 +43,5 @@ test "render_to_string" {
   init_react()
   let el = create_element("h1", ["ssr"])
   let s = render_to_string(el)
-  log(s)
   assert_eq(s, "<h1>ssr</h1>")
 }

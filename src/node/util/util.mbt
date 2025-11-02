@@ -16,7 +16,7 @@ pub fn Util::require() -> Self {
 }
 
 ///|
-pub fn inspect(
+pub fn inspect_(
   value : Val,
   depth? : Int,
   colors? : Bool,
@@ -51,20 +51,20 @@ pub fn Util::inspect(
   max_array_length? : Int,
   max_string_length? : Int,
 ) -> String {
-  let opt = @js.from_optional_map({
-    "depth": depth |> unsafe_cast,
-    "colors": colors |> unsafe_cast,
-    "compact": compact |> unsafe_cast,
-    "sorted": sorted |> unsafe_cast,
-    "breakLength": break_length |> unsafe_cast,
-    "maxArrayLength": max_array_length |> unsafe_cast,
-    "maxStringLength": max_string_length |> unsafe_cast,
+  let opt = @js.from_builtin_map({
+    "depth": depth |> js,
+    "colors": colors |> js,
+    "compact": compact |> js,
+    "sorted": sorted |> js,
+    "breakLength": break_length |> js,
+    "maxArrayLength": max_array_length |> js,
+    "maxStringLength": max_string_length |> js,
   })
   self.to_js().get("inspect").call([value, opt]).cast()
 }
 
 ///|
-test "inspect" {
+test "util:inspect" {
   let util = Util::require()
   let obj : Json = {
     "xxx": "------------------------",
@@ -73,17 +73,14 @@ test "inspect" {
     "c": { "d": "hello" },
   }
   let s = util.inspect(
-    Js::to_js(obj),
+    @js.from_builtin_json(obj),
     depth=2,
-    colors=true,
+    colors=false,
     compact=true,
     sorted=true,
     break_length=80,
     max_array_length=10,
     max_string_length=50,
   )
-  // println(s)
-  assert_true(s.contains("a: 1"))
-  assert_true(s.contains("b: [ 1, 2, 3 ]"))
-  assert_true(s.contains("c: { d: 'hello' }"))
+  @builtin.inspect(s, content="{ a: 1, b: [ 1, 2, 3 ], c: { d: 'hello' }, xxx: '------------------------' }")
 }

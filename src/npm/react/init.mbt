@@ -7,10 +7,7 @@ pub fn init_react() -> Unit {
 }
 
 ///|
-pub async fn init_react_client() -> ReactDOMClient {
-  if global_this().get("__ReactApi").is_undefined() {
-    let react : Val = import_react().unwrap()
-    global_this().set("__ReactApi", react)
-  }
-  import_react_dom_client().unwrap()
-}
+// pub async fn init_react_client() -> ReactDOMClient {
+//   init_react()
+//   import_react_dom_client().unwrap()
+// }

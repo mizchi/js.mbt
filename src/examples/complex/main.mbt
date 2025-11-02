@@ -12,8 +12,10 @@ using @react {
   use_context,
   use_reducer,
   create_context,
-  init_react_client,
+  init_react,
 }
+
+using @react_dom {init_react_client}
 
 ///|
 using @react_router {init_react_router, router_provider}

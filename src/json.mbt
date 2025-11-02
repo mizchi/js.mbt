@@ -1,5 +1,5 @@
 ///|
-pub fn from_json(j : Json) -> Val {
+pub fn from_builtin_json(j : Json) -> Val {
   Js::to_js(j)
 }
 
@@ -69,9 +69,9 @@ pub impl Js for Json with to_js(self) -> Val {
 }
 
 ///|
-test "from_json" {
+test "from_builtin_json" {
   inspect(
-    from_json({
+    from_builtin_json({
       "value": null,
       "items": [1, 2, 3],
       "nested": { "key": "value" },
@@ -81,7 +81,7 @@ test "from_json" {
     ),
   )
   inspect(
-    from_json({ "age": 30, "name": "Alice" }),
+    from_builtin_json({ "age": 30, "name": "Alice" }),
     content=(
       #|{"age":30,"name":"Alice"}
     ),

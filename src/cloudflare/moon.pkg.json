@@ -2,7 +2,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/async",
-    "mizchi/js/url",
     "mizchi/js/net"
   ]
 }

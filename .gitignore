@@ -5,3 +5,4 @@ target
 .vite
 dist
 scratch.ts
+.wrangler

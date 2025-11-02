@@ -25,7 +25,7 @@ fn app(_props : AppProps) -> @react.Element {
 test {
   let { render, fire_event, screen, cleanup } = ReactTestingLibrary::init()
   before_each(() => {
-    @react.init_react_client() |> ignore
+    @react.init_react() |> ignore
     cleanup()
   })
   it("renders app and responds to click", _ => {

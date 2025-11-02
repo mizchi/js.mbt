@@ -7,6 +7,52 @@ pub type ErrorObject
 pub suberror JsError ErrorObject
 
 ///|
+extern "js" fn ffi_wrap_sync(
+  f : Val,
+  ok : (Val) -> Result[Val, Val],
+  err : (Val) -> Result[Val, Val],
+) -> Result[Val, Val] =
+  #|(f, ok, err) => {
+  #|  try {
+  #|    return ok(f())
+  #|  } catch(e) {
+  #|    return err(e)
+  #|  }
+  #|}
+
+
+///|
+/// Wraps a synchronous function call, converting any thrown JS errors into JsError
+/// ```nocheck
+/// let result = wrap_sync(() => {
+///   undefined().call([])
+/// })
+/// ```
+pub fn[T] wrap_sync(f : () -> T) -> T raise JsError {
+  match wrap_sync_result(f |> unsafe_cast) {
+    Ok(result) => result |> unsafe_cast
+    Err(e) => raise JsError(e |> unsafe_cast)
+  }
+}
+
+pub fn wrap_sync_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
+  ffi_wrap_sync(unsafe_cast(f), Ok(_), Err(_))
+}
+
+pub fn throw_value(val: Val) -> Unit {
+  ffi_throw(val |> unsafe_cast)
+}
+
+pub fn throw_error(val: ErrorObject) -> Unit {
+  ffi_throw_error(val)
+}
+
+pub fn throw_error_message(message: String, obj: Val?) -> Unit {
+  ffi_throw_message(message, obj)
+}
+
+
+///|
 pub impl Show for JsError with output(self, logger) {
   logger.write_string(self.to_string())
 }

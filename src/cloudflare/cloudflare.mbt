@@ -44,7 +44,7 @@ pub fn CloudflareRequest::url(self : CloudflareRequest) -> String {
 #alias(waitUntil)
 pub fn CloudflareContext::wait_until(
   self : CloudflareContext,
-  promise : Promise[Val],
+  promise : Promise[Unit],
 ) -> Unit {
   self.to_js().get("waitUntil").call([promise |> js]).cast()
 }
@@ -59,5 +59,6 @@ pub fn CloudflareContext::pass_through_exception(
 
 ///|
 pub(all) struct CloudflareFetchHandler(
-  (Request, CloudflareEnv, CloudflareContext) -> Promise[Response]
+  (CloudflareRequest, CloudflareEnv, CloudflareContext) -> Promise[Response]
 )
+
