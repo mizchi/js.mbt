@@ -1,0 +1,29 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/react_dom"
+
+import(
+  "mizchi/js/dom"
+  "mizchi/js/npm/react"
+)
+
+// Values
+async fn init_react_client() -> ReactDOMClient
+
+fn render_to_string(@react.Element) -> String
+
+// Errors
+
+// Types and methods
+#external
+pub type ReactDOMClient
+#alias(createRoot)
+fn ReactDOMClient::create_root(Self, @dom.Element) -> ReactDOMRoot
+
+#external
+pub type ReactDOMRoot
+fn ReactDOMRoot::render(Self, @react.Element) -> Unit
+
+// Type aliases
+
+// Traits
+

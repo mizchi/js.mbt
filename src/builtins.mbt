@@ -94,46 +94,13 @@ pub fn object_create() -> Val {
 }
 
 ///|
-fn[T] is_builtin_map(v : T) -> Bool {
-  let v : Val = v |> unsafe_cast
-  v.has_own_property("entries") && v.has_own_property("capacity")
-}
-
-///|
 fn[T] is_builtin_trait(v : T) -> Bool {
   let v : Val = v |> unsafe_cast
   v.has_own_property("self") && v.has_own_property("method_0")
 }
 
 ///|
-/// Check whether the value is a built-in struct like Result, Tuple, Enum, or user-defined struct.
-fn[T] is_builtin_struct(v : T) -> Bool {
-  let v : Val = v |> unsafe_cast
-  v.has_own_property("_0")
-}
-
-///|
-pub fn[T] is_builtin(v : T) -> Bool {
-  is_builtin_map(v) || is_builtin_struct(v) || is_builtin_trait(v)
-}
-
-///|
 test "is_builtin_trait" {
-  let js : Val = js({ "a": 1 }) |> unsafe_cast()
-  assert_true(is_builtin_map(js))
   let show : &Show = "hello"
   assert_true(is_builtin_trait(show))
-}
-
-///|
-test "is_builtin_struct" {
-  enum E {
-    A(Int)
-  }
-  let r1 : Result[Int, String] = Ok(10)
-  assert_true(is_builtin_struct(r1))
-  let t = (10, "hello")
-  assert_true(is_builtin_struct(t))
-  let e = E::A(10)
-  assert_true(is_builtin_struct(e))
 }

@@ -1,8 +1,12 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/examples/cfw"
 
+import(
+  "mizchi/js/cloudflare"
+)
+
 // Values
-fn run() -> Unit
+fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler
 
 // Errors
 

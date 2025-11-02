@@ -24,33 +24,28 @@ extern "js" fn ffi_wrap_sync(
 ///|
 /// Wraps a synchronous function call, converting any thrown JS errors into JsError
 /// ```nocheck
-/// let result = wrap_sync(() => {
+/// let result = wrap(() => {
 ///   undefined().call([])
 /// })
 /// ```
-pub fn[T] wrap_sync(f : () -> T) -> T raise JsError {
-  match wrap_sync_result(f |> unsafe_cast) {
+pub fn[T] wrap(f : () -> T raise?) -> T raise JsError {
+  match wrap_result(f |> unsafe_cast) {
     Ok(result) => result |> unsafe_cast
     Err(e) => raise JsError(e |> unsafe_cast)
   }
 }
 
-pub fn wrap_sync_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
+pub fn wrap_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
   ffi_wrap_sync(unsafe_cast(f), Ok(_), Err(_))
 }
 
-pub fn throw_value(val: Val) -> Unit {
+pub fn throw_val(val: Val) -> Unit {
   ffi_throw(val |> unsafe_cast)
-}
-
-pub fn throw_error(val: ErrorObject) -> Unit {
-  ffi_throw_error(val)
 }
 
 pub fn throw_error_message(message: String, obj: Val?) -> Unit {
   ffi_throw_message(message, obj)
 }
-
 
 ///|
 pub impl Show for JsError with output(self, logger) {

@@ -27,10 +27,6 @@ extern "js" fn ffi_throw(v : Val) -> Unit =
   #| (v) => { throw v }
 
 ///|
-extern "js" fn ffi_throw_error(error: ErrorObject) -> Unit =
-  #| (error) => { throw error }
-
-///|
 extern "js" fn ffi_throw_message(v : String, obj: Val?) -> Unit =
   #| (v, obj) => { throw new Error(v, obj) }
 
@@ -143,6 +139,13 @@ extern "js" fn ffi_json_stringify(
   space : Val,
 ) -> String =
   #| (v, replacer, space) => JSON.stringify(v, replacer, space)
+
+///|
+extern "js" fn ffi_json_parse(
+  v : String,
+  reviver? : Val,
+) -> Val =
+  #| (v, reviver) => JSON.parse(v, reviver)
 
 ///|
 pub extern "js" fn structured_clone(v : Val) -> Val =

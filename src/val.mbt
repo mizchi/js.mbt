@@ -67,7 +67,7 @@ pub fn Val::call(self : Self, args : Array[&Js]) -> Val {
 
 ///|
 pub fn Val::call_raise(self : Self, args : Array[&Js]) -> Val raise {
-  wrap_sync(() => self.call(args.map(_.to_js())))
+  wrap(() => self.call(args.map(_.to_js())))
 }
 
 ///|
@@ -81,7 +81,7 @@ pub fn Val::call_method_raise(
   key : String,
   args : Array[&Js],
 ) -> Val raise {
-  wrap_sync(() => ffi_call_method(self, key, args.map(_.to_js())))
+  wrap(() => ffi_call_method(self, key, args.map(_.to_js())))
 }
 
 ///|
@@ -145,25 +145,6 @@ pub fn Val::is_some(self : Self) -> Bool {
 ///|
 pub fn Val::is_none(self : Self) -> Bool {
   self.is_undefined() || self.is_null()
-}
-
-///|
-pub fn stringify(
-  v : &Js,
-  replacer? : Val = undefined(),
-  space? : Int = 2,
-) -> String {
-  ffi_json_stringify(v.to_js(), replacer, space |> js)
-}
-
-///|
-pub fn[T] unsafe_stringify(
-  v : T,
-  replacer? : Val = undefined(),
-  space? : Int = 2,
-) -> String {
-  let v : Val = unsafe_cast(v)
-  stringify(v, replacer~, space~)
 }
 
 ///|
@@ -268,31 +249,3 @@ test "to_string" {
   |> assert_eq(expected)
 }
 
-///|
-test "stringify" {
-  let arr : Array[Int] = [1] |> unsafe_cast
-  arr |> inspect(content="[1]")
-  unsafe_stringify(arr, space=2)
-  |> inspect(
-    content=(
-      #|[
-      #|  1
-      #|]
-    ),
-  )
-  let v = from_builtin_map({
-    "key1": 123 |> js,
-    "key2": 456 |> js,
-    "key3": 789 |> js,
-  })
-  stringify(v, space=2)
-  |> inspect(
-    content=(
-      #|{
-      #|  "key1": 123,
-      #|  "key2": 456,
-      #|  "key3": 789
-      #|}
-    ),
-  )
-}

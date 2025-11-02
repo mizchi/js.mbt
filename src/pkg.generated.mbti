@@ -10,17 +10,17 @@ fn dynamic_import(String) -> Val
 
 fn[T] from_builtin_array(Array[T]) -> Val
 
+fn from_builtin_json(Json) -> Val
+
 fn from_builtin_map(Map[String, Val]) -> Val
-
-fn from_json(Json) -> Val
-
-fn from_optional_map(Map[String, &Js?]) -> Val
 
 fn global_this() -> Val
 
-fn[T] is_builtin(T) -> Bool
-
 fn[T] js(T) -> Val
+
+fn json_parse(String, reviver? : Val?) -> Val raise JsError
+
+fn json_stringify(Val, replacer? : Val, space? : Int) -> String
 
 fn[T] log(T) -> Unit
 
@@ -52,8 +52,6 @@ fn object_keys(Val) -> Array[String]
 
 fn object_values(Val) -> Array[Val]
 
-fn stringify(&Js, replacer? : Val, space? : Int) -> String
-
 fn structured_clone(Val) -> Val
 
 fn symbol(String) -> Symbol
@@ -64,13 +62,17 @@ fn symbol_dispose() -> Symbol
 
 fn symbol_iterator() -> Symbol
 
-fn throw_(&Js) -> Val
+fn throw_error_message(String, Val?) -> Unit
+
+fn throw_val(Val) -> Unit
 
 fn undefined() -> Val
 
 fn[A, B] unsafe_cast(A) -> B
 
-fn[T] unsafe_stringify(T, replacer? : Val, space? : Int) -> String
+fn[T] wrap(() -> T raise?) -> T raise JsError
+
+fn wrap_result(() -> Result[Val, Val]) -> Result[Val, Val]
 
 // Errors
 pub suberror JsError ErrorObject
@@ -91,7 +93,7 @@ impl Key for Symbol
 #external
 pub type Val
 fn Val::call(Self, Array[&Js]) -> Self
-fn Val::call_method(Self, String, Array[&Js]) -> Self
+fn Val::call_method(Self, &Key, Array[&Js]) -> Self
 fn Val::call_method_raise(Self, String, Array[&Js]) -> Self raise
 fn Val::call_raise(Self, Array[&Js]) -> Self raise
 fn[T] Val::cast(Self) -> T
@@ -110,7 +112,7 @@ fn Val::is_some(Self) -> Bool
 fn Val::is_undefined(Self) -> Bool
 fn Val::property_is_enumerable(Self, String) -> Bool
 #alias("_[_]=_")
-fn Val::set(Self, String, &Js) -> Unit
+fn Val::set(Self, &Key, &Js) -> Unit
 fn[T] Val::to_option(Self) -> T?
 fn Val::type_of(Self) -> String
 impl Js for Val
