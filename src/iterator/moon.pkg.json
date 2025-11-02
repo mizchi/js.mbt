@@ -1,0 +1,6 @@
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/async"
+  ]
+}

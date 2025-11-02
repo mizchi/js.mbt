@@ -1,7 +1,7 @@
 {
   "link": {
     "js": {
-      "exports": ["get_fetch_handler"]
+      "exports": ["get_fetch_handler:default"]
     }
   },
   "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/net", "mizchi/js/cloudflare"]
