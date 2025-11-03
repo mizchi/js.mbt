@@ -84,8 +84,9 @@ fn Point::to_tuple(self: Self) -> (Int, Int) {
 
 test "struct" {
   let p1 = Point::new(10, 20)
+  assert_eq(p1, Point::{ x: 10, y: 20 })
+
   let p2: Point = { ..p1, y: 30 }
-  assert_eq(p1, p2)
 
   let {y, ..} = p2
   assert_eq(y, 30)
