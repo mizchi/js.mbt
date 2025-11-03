@@ -1,4 +1,5 @@
 ///|
+/// Object.
 pub fn object_keys(v : Val) -> Array[String] {
   ffi_object_keys(v)
 }

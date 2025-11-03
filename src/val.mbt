@@ -101,15 +101,6 @@ pub fn Val::property_is_enumerable(self : Self, k : String) -> Bool {
 }
 
 ///|
-pub fn[T] Val::to_option(self : Self) -> T? {
-  if self.is_undefined() || self.is_null() {
-    None
-  } else {
-    Some(self.cast())
-  }
-}
-
-///|
 pub extern "js" fn Val::is_array(self : Self) -> Bool =
   #| (v) => Array.isArray(v)
 

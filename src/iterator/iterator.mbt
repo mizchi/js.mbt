@@ -4,8 +4,6 @@ using @js {type Val, trait Js, js, unsafe_cast}
 ///|
 using @async {type Promise}
 
-// TODO: map to builtin iterator
-
 ///|
 #external
 pub(all) type Generator[T]
@@ -25,6 +23,10 @@ pub fn[T] Generator::next(self : Generator[T]) -> T? {
   }
 }
 
+pub fn[T] Generator::iter(self : Generator[T]) -> Iterator[T] {
+  Iterator::new(() => self.next())
+}
+
 ///|
 extern "js" fn create_test_generator() -> Generator[Int] =
   #| () => (function*() { yield 1; yield 2; yield 3; })()
@@ -34,7 +36,7 @@ test "iterator" {
   let g = create_test_generator()
   let mut called = 0
   let mut sum = 0
-  while g.next() is Some(v) {
+  for v in g.iter() {
     called += 1
     sum += v
   }

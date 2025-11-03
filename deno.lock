@@ -10,6 +10,7 @@
     "npm:react-router-dom@^7.9.4": "7.9.4_react@19.2.0_react-dom@19.2.0__react@19.2.0",
     "npm:react-router@^7.9.4": "7.9.4_react@19.2.0_react-dom@19.2.0__react@19.2.0",
     "npm:react@^19.2.0": "19.2.0",
+    "npm:typescript@^5.9.3": "5.9.3",
     "npm:vite@*": "7.1.12_picomatch@4.0.3"
   },
   "jsr": {
@@ -706,6 +707,10 @@
         "punycode"
       ]
     },
+    "typescript@5.9.3": {
+      "integrity": "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==",
+      "bin": true
+    },
     "vite@7.1.12_picomatch@4.0.3": {
       "integrity": "sha512-ZWyE8YXEXqJrrSLvYgrRP7p62OziLW7xI5HYGWFzOvupfAlrLvURSzv/FyGyy0eidogEM3ujU+kUG1zuHgb6Ug==",
       "dependencies": [
@@ -765,7 +770,8 @@
       "npm:react-dom@^19.2.0",
       "npm:react-router-dom@^7.9.4",
       "npm:react-router@^7.9.4",
-      "npm:react@^19.2.0"
+      "npm:react@^19.2.0",
+      "npm:typescript@^5.9.3"
     ]
   }
 }

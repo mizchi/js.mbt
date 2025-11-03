@@ -11,6 +11,7 @@
     "react": "npm:react@^19.2.0",
     "react-dom": "npm:react-dom@^19.2.0",
     "react-router": "npm:react-router@^7.9.4",
-    "react-router-dom": "npm:react-router-dom@^7.9.4"
+    "react-router-dom": "npm:react-router-dom@^7.9.4",
+    "typescript": "npm:typescript@^5.9.3"
   }
 }
