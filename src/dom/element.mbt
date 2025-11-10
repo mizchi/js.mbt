@@ -53,10 +53,6 @@ pub extern "js" fn window() -> Element =
   #| () => window
 
 ///|
-pub extern "js" fn document() -> Element =
-  #| () => document
-
-///|
 pub extern "js" fn Element::focus_internal(self : Element) -> Unit = "(self) => self.focus()"
 
 ///|

@@ -18,8 +18,27 @@ pub fn Event::stop_propagation(self : Event) -> Unit {
 }
 
 ///|
-pub fn Event::target(self : Event) -> Element {
+pub fn Event::target(self : Self) -> Element {
   self.to_js().get("target").cast()
+}
+
+///|
+#external
+pub type PointerEvent
+
+///|
+pub impl Js for PointerEvent with to_js(self) {
+  self |> js
+}
+
+///|
+pub fn PointerEvent::width(self : Self) -> Double {
+  self.to_js().get("width").cast()
+}
+
+///|
+pub fn PointerEvent::height(self : Self) -> Double {
+  self.to_js().get("height").cast()
 }
 
 ///|
@@ -149,4 +168,102 @@ pub fn FormEvent::current_target(self : FormEvent) -> Element {
 ///|
 pub fn FormEvent::form_data(self : FormEvent) -> Element {
   self.to_js().get("formData").cast()
+}
+
+///|
+#external
+pub type DragStartEvent
+
+///|
+pub impl Js for DragStartEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub fn DragStartEvent::target(self : Self) -> Element {
+  self.to_js().get("target").cast()
+}
+
+///|
+#external
+pub type DragEvent
+
+///|
+pub impl Js for DragEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub fn DragEvent::target(self : Self) -> Element {
+  self.to_js().get("target").cast()
+}
+
+///|
+#external
+pub type DragEnterEvent
+
+///|
+pub impl Js for DragEnterEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub fn DragEnterEvent::target(self : Self) -> Element {
+  self.to_js().get("target").cast()
+}
+
+///|
+#external
+pub type DragOverEvent
+
+///|
+pub impl Js for DragOverEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub fn DragOverEvent::target(self : Self) -> Element {
+  self.to_js().get("target").cast()
+}
+
+///|
+#external
+pub type DragLeaveEvent
+
+///|
+pub impl Js for DragLeaveEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub fn DragLeaveEvent::target(self : Self) -> Element {
+  self.to_js().get("target").cast()
+}
+
+///|
+#external
+pub type DragEndEvent
+
+///|
+pub impl Js for DragEndEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub fn DragEndEvent::target(self : Self) -> Element {
+  self.to_js().get("target").cast()
+}
+
+///|
+#external
+pub type DropEvent
+
+///|
+pub impl Js for DropEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub fn DragEvent::data_transfer(self : Self) -> Val {
+  self.to_js().get("dataTransfer")
 }

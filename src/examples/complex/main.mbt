@@ -249,7 +249,7 @@ fn app(props : AppProps) -> @react.Element {
 
 ///|
 fn main {
-  let app_root = @dom.document().query_selector("#app").unwrap()
+  let app_root = @dom.document().as_element().query_selector("#app").unwrap()
   // lazy init context
   run_async(() => {
     let client = init_react_client() catch {

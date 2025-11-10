@@ -1,5 +1,6 @@
+///|
 /// TODO: english version
-fn add(a: Int, b: Int) -> Int {
+fn add(a : Int, b : Int) -> Int {
   a + b
 }
 
@@ -9,7 +10,7 @@ fn main {
   println("Hello, \{v}!")
 
   // let mut による明示的な再代入
-  let mut sum: Int = 0
+  let mut sum : Int = 0
   for i in 1..=5 {
     sum += i
   }
@@ -43,8 +44,9 @@ fn main {
 
 }
 
+///|
 test "guard and panic" {
-  let opt_value: Int? = Some(10)
+  let opt_value : Int? = Some(10)
 
   // 早期リターンを強制する guard 文
   guard opt_value is Some(v) else {
@@ -63,38 +65,44 @@ test "guard and panic" {
   // 未実装のコードを ... で示せる
   // 呼び出すと panic する
   let _ = () => ...
+
 }
 
 // 構造体の宣言
 // derive(Eq, Show) で == の比較と to_string が自動実装される
+
+///|
 priv struct Point {
-  x: Int
-  y: Int
+  x : Int
+  y : Int
 } derive(Eq, Show)
 
 // 構造体の関連関数
-fn Point::new(x: Int, y: Int) -> Self {
+
+///|
+fn Point::new(x : Int, y : Int) -> Self {
   Point::{ x, y }
 }
 
 // 構造体のメソッド
-fn Point::to_tuple(self: Self) -> (Int, Int) {
+
+///|
+fn Point::to_tuple(self : Self) -> (Int, Int) {
   (self.x, self.y)
 }
 
+///|
 test "struct" {
   let p1 = Point::new(10, 20)
   assert_eq(p1, Point::{ x: 10, y: 20 })
-
-  let p2: Point = { ..p1, y: 30 }
-
-  let {y, ..} = p2
+  let p2 : Point = { ..p1, y: 30 }
+  let { y, .. } = p2
   assert_eq(y, 30)
-
   let (x, _y) = p2.to_tuple()
   assert_eq(x, 10)
 }
 
+///|
 test "enum" {
   enum Color {
     Red
@@ -109,14 +117,18 @@ test "enum" {
 }
 
 // builtin test
+
+///|
 test {
   assert_eq(add(2, 3), 5)
 }
 
 // error handling
+
+///|
 test "builtin error" {
   // 明示的なエラー宣言
-  let f = fn(x: Int) -> Int raise {
+  let f = fn(x : Int) -> Int raise {
     if x == 0 {
       fail("Division by zero")
     } else {
@@ -135,23 +147,27 @@ test "builtin error" {
   }
 
   // try? 式で T raise E を Result[T, E] に変換
-  let _opt: Result[Int, Error] = try? f(0)
+  let _opt : Result[Int, Error] = try? f(0)
 
   // () => {} はエラー込みで型推論される
-  let _: () -> Int raise = () => f(0)
+  let _ : () -> Int raise = () => f(0)
 
   // noraise で明示的に raise しないことを示す
   // 同期関数の場合、デフォルトは noraise
-  let _: () -> Int noraise = () => f(1) catch { _ => -1 }
+  let _ : () -> Int noraise = () => f(1) catch { _ => -1 }
+
 }
 
 // エラー型の宣言
+
+///|
 priv suberror MyError
 
+///|
 test "async function" {
   // async 関数
   // noraise はエラーが発生しないことを示す
-  let async_fn = async fn(x: Int) -> Int noraise {
+  let async_fn = async fn(x : Int) -> Int noraise {
     // moonbitcore/async
     // @async.sleep(100)
     x
@@ -159,41 +175,40 @@ test "async function" {
 
   // 明示的な raise 関数
   // Error は組み込みのエラー型で、任意のエラーを示す
-  let async_fn2 = async fn() -> Unit raise MyError {
-    raise MyError
-  }
+  let async_fn2 = async fn() -> Unit raise MyError { raise MyError }
 
   // Error は推論によって省略可能
   let _ = async fn() {
     raise MyError
     // fail(String) -> Unit raise Failure
-    fail("error")  // Failure 型
+    fail("error") // Failure 型
     ()
   }
 
   // Arrow Function の場合、async と raise 込みで推論される
-  let _: async () -> Unit raise = () => fail("error")
+  let _ : async () -> Unit = () => fail("error")
 
   // 呼び出し側
-  let _ = async fn(y: Int) -> Unit noraise {
-    let _v: Int = async_fn(y)
+  let _ = async fn(y : Int) -> Unit noraise {
+    let _v : Int = async_fn(y)
     let _ = async_fn2() catch { _ => () }
+
   }
 
   // raise の場合、エラー型は伝搬される
-  let _ = async fn() -> Unit raise {
-    async_fn2() |> ignore
-  }
+  let _ = async fn() -> Unit { async_fn2() |> ignore }
 
 }
 
 // builtin json
+
+///|
 test "builtin json and pattern match" {
-  let json: Json = { "message": "Test", "value": [10, 2, 30] }
+  let json : Json = { "message": "Test", "value": [10, 2, 30] }
   match json {
+    // enum variant のパターンマッチは、省略可能
     {
       "message": Json::String(message),
-      // enum variant のパターンマッチは、省略可能
       "value": [Json::Number(a, ..), 2, Number(c, ..), .. _rest],
       ..
     } => {
@@ -208,13 +223,13 @@ test "builtin json and pattern match" {
 ///|
 /// キーワード引数
 /// param_func(a=10, b=20)
-fn param_func(a~: Int, b~: Int) -> (Int, Int) {
+fn param_func(a~ : Int, b~ : Int) -> (Int, Int) {
   (a, b)
 }
 
 ///|
 /// オプショナルなキーワード引数と、そのデフォルト
-fn param_func2(a?: Int = 1, b?: Int) -> (Int, Int) {
+fn param_func2(a? : Int = 1, b? : Int) -> (Int, Int) {
   (a, b.unwrap_or(-1))
 }
 

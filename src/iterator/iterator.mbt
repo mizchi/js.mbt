@@ -23,6 +23,7 @@ pub fn[T] Generator::next(self : Generator[T]) -> T? {
   }
 }
 
+///|
 pub fn[T] Generator::iter(self : Generator[T]) -> Iterator[T] {
   Iterator::new(() => self.next())
 }
