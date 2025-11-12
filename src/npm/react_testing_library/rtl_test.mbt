@@ -17,7 +17,7 @@ fn app(_props : AppProps) -> @react.Element {
   h("div", [
     "Hello RTL",
     h("div", ["Count: \{cnt}"]),
-    h("button", attributes={ "onClick": on_click |> js }, ["click me"]),
+    h("button", on_click~, ["click me"]),
   ])
 }
 

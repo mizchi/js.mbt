@@ -132,6 +132,7 @@ pub fn create_element(
 
 ///|
 /// render component
+#alias(component)
 pub fn[T] c(
   tag : ComponentFn[T],
   props : T,
