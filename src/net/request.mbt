@@ -18,6 +18,7 @@ pub fn Request::new(url : String) -> Request {
 }
 
 ///|
+#alias(bodyUsed)
 pub fn Request::body_used(self : Request) -> Bool {
   self.to_js().get("bodyUsed").cast()
 }

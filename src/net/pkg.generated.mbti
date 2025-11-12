@@ -21,6 +21,7 @@ pub type Headers
 pub type Request
 fn Request::arraybuffer(Self) -> @async.Promise[@js.Val]
 fn Request::blob(Self) -> @async.Promise[@js.Val]
+#alias(bodyUsed)
 fn Request::body_used(Self) -> Bool
 fn Request::bytes(Self) -> @async.Promise[@js.Val]
 fn Request::clone(Self) -> Self

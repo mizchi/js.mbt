@@ -1,0 +1,38 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/ai"
+
+import(
+  "mizchi/js"
+  "mizchi/js/async"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Ai
+fn Ai::generate_text(Self, model~ : Model, messages~ : Array[ModelMessage]) -> @async.Promise[@js.Val]
+fn Ai::require() -> Self
+impl @js.Js for Ai
+
+pub(all) enum MessageContent {
+  Message(String)
+}
+impl @js.Js for MessageContent
+
+#external
+pub type Model
+
+pub(all) enum ModelMessage {
+  UserMessage(content~ : MessageContent)
+  AssitantMessage(content~ : MessageContent)
+  SystemMessage(content~ : MessageContent)
+}
+impl @js.Js for ModelMessage
+
+// Type aliases
+
+// Traits
+

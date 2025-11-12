@@ -10,6 +10,7 @@ import(
 // Values
 fn[T] c((T) -> Element, T, children? : Array[&@js.Js], key? : String) -> Element
 
+#alias(createContext)
 fn[T] create_context(T?) -> Context[T]
 
 #alias(h)
@@ -23,28 +24,38 @@ fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @async.Promise[@js.
 
 fn[T] provider(Context[T], Array[&@js.Js], value~ : T) -> Element
 
+#alias(startTransition)
 fn start_transition(() -> Unit) -> Unit
 
 fn suspense(Array[&@js.Js], fallback~ : Element) -> Element
 
 fn[T] use_(@async.Promise[T]) -> T
 
+#alias(useActionState)
 fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)
 
+#alias(useCallback)
 fn[F] use_callback(F, Array[&@js.Js]) -> F
 
+#alias(useContext)
 fn[T] use_context(Context[T]) -> T
 
+#alias(useEffect)
 fn use_effect(() -> () -> Unit, Array[&@js.Js]) -> Unit
 
+#alias(useLayoutEffect)
 fn use_layout_effect(() -> () -> Unit, Array[&@js.Js]) -> Unit
 
+#alias(useMemo)
 fn[T] use_memo(() -> T, Array[&@js.Js]) -> T
 
+#alias(useReducer)
 fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
 
+#alias(useRef)
 fn[T] use_ref(T?) -> ReactRef[T]
 
+#alias(useState)
 fn[T : @js.Js] use_state(T) -> (T, (T) -> Unit)
 
 fn[T] use_state_lazy(() -> T) -> (T, (T) -> Unit)
@@ -73,6 +84,7 @@ fn[T] ReactRef::set_current(Self[T], T) -> Unit
 impl[T] @js.Js for ReactRef[T]
 
 // Type aliases
+pub type ComponentFn[T] = (T) -> Element
 
 // Traits
 

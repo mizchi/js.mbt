@@ -1,0 +1,25 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/events"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type EventEmitter
+fn EventEmitter::emit(Self, String, @js.Val) -> Unit
+fn EventEmitter::new() -> Self
+fn EventEmitter::off(Self, String, () -> Unit) -> Unit
+fn EventEmitter::on(Self, String, () -> Unit) -> Unit
+fn EventEmitter::once(Self, String, () -> Unit) -> Unit
+impl @js.Js for EventEmitter
+
+// Type aliases
+
+// Traits
+
