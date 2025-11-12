@@ -8,6 +8,7 @@ import(
 )
 
 // Values
+#alias(component)
 fn[T] c((T) -> Element, T, children? : Array[&@js.Js], key? : String) -> Element
 
 #alias(createContext)
@@ -19,6 +20,8 @@ fn create_element(String, Array[&@js.Js], disabled? : Bool, attributes? : Map[St
 fn fragment(Array[&@js.Js], key? : String) -> Element
 
 fn init_react() -> Unit
+
+async fn init_react_async() -> Unit
 
 fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @async.Promise[@js.Val]
 

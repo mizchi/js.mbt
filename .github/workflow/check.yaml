@@ -1,0 +1,50 @@
+name: check
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x # Run with latest stable Deno.
+      - run: |
+          deno install
+      - name: Setup Moon
+        uses: illusory0x0/setup-moonbit@v0.1.0
+        with: 
+          version: stable
+      - name: moon version
+        run: |
+          moon version --all
+      - name: install module dependencies
+        run: |
+          moon update
+          moon install
+      - name: moon check
+        run: moon check --deny-warn
+      - name: moon info
+        run: |
+          moon info --target wasm,wasm-gc,js,native
+          git diff --exit-code
+      - name: format diff
+        run: |
+          moon fmt
+          git diff --exit-code
+      - name: Set ulimit on unix
+        run: |
+          ulimit -s 8176
+      - name: moon test
+        run: |
+          moon test --target js
+          moon test --target js --release
