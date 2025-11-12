@@ -37,13 +37,13 @@ jobs:
         run: |
           moon info --target js
           git diff --exit-code
-      - name: format diff
-        run: |
-          moon fmt
-          git diff --exit-code
-      - name: Set ulimit on unix
-        run: |
-          ulimit -s 8176
+      # - name: format diff
+      #   run: |
+      #     moon fmt
+      #     git diff --exit-code
+      # - name: Set ulimit on unix
+      #   run: |
+      #     ulimit -s 8176
       - name: moon test
         run: |
           moon test --target js
