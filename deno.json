@@ -4,8 +4,10 @@
     "dev": "deno run --watch main.ts"
   },
   "imports": {
+    "@ai-sdk/anthropic": "npm:@ai-sdk/anthropic@^2.0.43",
     "@std/assert": "jsr:@std/assert@1",
     "@testing-library/react": "npm:@testing-library/react@^16.3.0",
+    "ai": "npm:ai@^6.0.0-beta.95",
     "global-jsdom": "npm:global-jsdom@^27.0.0",
     "jsdom": "npm:jsdom@^27.0.1",
     "react": "npm:react@^19.2.0",

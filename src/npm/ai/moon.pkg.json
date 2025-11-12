@@ -1,0 +1,9 @@
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/iterator",
+    "mizchi/js/async",
+    "mizchi/js/node"
+  ],
+  "warn-list": "-4-6-7"
+}

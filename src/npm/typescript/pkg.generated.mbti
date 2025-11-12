@@ -1,0 +1,32 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/typescript"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Source
+fn Source::as_node(Self) -> TsNode
+impl @js.Js for Source
+
+#external
+pub type TsNode
+fn TsNode::for_each_child(Self, (Self) -> Unit) -> Unit
+impl @js.Js for TsNode
+
+#external
+pub type TypeScript
+fn TypeScript::create_source_file(Self, String, String, set_parent_node? : Bool, script_target? : @js.Val, script_kind? : @js.Val) -> Source
+fn TypeScript::require() -> Self
+impl @js.Js for TypeScript
+
+// Type aliases
+
+// Traits
+

@@ -17,6 +17,7 @@ impl[T] @js.Js for AsyncGenerator[T]
 
 #external
 pub(all) type Generator[T]
+fn[T] Generator::iter(Self[T]) -> Iterator[T]
 fn[T] Generator::next(Self[T]) -> T?
 impl[T] @js.Js for Generator[T]
 

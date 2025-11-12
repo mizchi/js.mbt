@@ -17,6 +17,13 @@ fn common_node(
   on_change~ : ((@dom.ChangeEvent) -> Unit)?,
   on_keydown~ : ((@dom.KeyboardEvent) -> Unit)?,
   on_keyup~ : ((@dom.KeyboardEvent) -> Unit)?,
+  on_drag~ : ((@dom.DragEvent) -> Unit)?,
+  on_dragstart~ : ((@dom.DragEvent) -> Unit)?,
+  on_dragend~ : ((@dom.DragEvent) -> Unit)?,
+  on_dragleave~ : ((@dom.DragEvent) -> Unit)?,
+  on_dragenter~ : ((@dom.DragEvent) -> Unit)?,
+  on_dragover~ : ((@dom.DragEvent) -> Unit)?,
+  on_drop~ : ((@dom.DragEvent) -> Unit)?,
 ) -> @react.Element {
   let attr : Map[String, Val] = {}
   for k, v in attributes {
@@ -60,6 +67,27 @@ fn common_node(
     let f : Val = on_keyup |> js
     attr["onKeyUp"] = f
   }
+  if on_drag is Some(v) {
+    attr["onDrag"] = js(v)
+  }
+  if on_dragstart is Some(v) {
+    attr["onDragStart"] = js(v)
+  }
+  if on_dragend is Some(v) {
+    attr["onDragEnd"] = js(v)
+  }
+  if on_dragleave is Some(v) {
+    attr["onDragLeave"] = js(v)
+  }
+  if on_dragenter is Some(v) {
+    attr["onDragEnter"] = js(v)
+  }
+  if on_dragover is Some(v) {
+    attr["onDragOver"] = js(v)
+  }
+  if on_drop is Some(v) {
+    attr["onDrop"] = js(v)
+  }
   if tab_index is Some(tab_index) {
     attr["tabIndex"] = tab_index |> js
   }
@@ -85,6 +113,13 @@ pub fn div(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "div",
@@ -101,6 +136,13 @@ pub fn div(
     on_keydown~,
     on_keyup~,
     children~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
   )
 }
 
@@ -123,6 +165,13 @@ pub fn pre(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "pre",
@@ -138,6 +187,13 @@ pub fn pre(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -161,6 +217,13 @@ pub fn blockquote(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "blockquote",
@@ -176,6 +239,13 @@ pub fn blockquote(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -198,6 +268,13 @@ pub fn span(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "span",
@@ -213,6 +290,13 @@ pub fn span(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -235,6 +319,13 @@ pub fn nav(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "nav",
@@ -250,6 +341,13 @@ pub fn nav(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -272,6 +370,13 @@ pub fn p(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "p",
@@ -287,6 +392,13 @@ pub fn p(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -315,6 +427,13 @@ pub fn textarea(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -354,6 +473,13 @@ pub fn textarea(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -380,6 +506,13 @@ pub fn input(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -416,6 +549,13 @@ pub fn input(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -438,6 +578,13 @@ pub fn main_(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "main",
@@ -453,6 +600,13 @@ pub fn main_(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -476,6 +630,13 @@ pub fn header(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "header",
@@ -491,6 +652,13 @@ pub fn header(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -514,6 +682,13 @@ pub fn footer(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "footer",
@@ -529,6 +704,13 @@ pub fn footer(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -552,6 +734,13 @@ pub fn ul(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "ul",
@@ -567,6 +756,13 @@ pub fn ul(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -590,6 +786,13 @@ pub fn ol(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "ol",
@@ -605,6 +808,13 @@ pub fn ol(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -627,6 +837,13 @@ pub fn article(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "article",
@@ -642,6 +859,13 @@ pub fn article(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -664,6 +888,13 @@ pub fn aside(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "aside",
@@ -679,6 +910,13 @@ pub fn aside(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -701,6 +939,13 @@ pub fn section(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "section",
@@ -716,6 +961,13 @@ pub fn section(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -755,6 +1007,13 @@ pub fn form(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -796,6 +1055,13 @@ pub fn form(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -822,6 +1088,13 @@ pub fn select(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -852,6 +1125,13 @@ pub fn select(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -877,6 +1157,13 @@ pub fn option(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -902,6 +1189,13 @@ pub fn option(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -926,6 +1220,13 @@ pub fn label(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -948,6 +1249,13 @@ pub fn label(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -971,6 +1279,13 @@ pub fn li(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "li",
@@ -986,6 +1301,13 @@ pub fn li(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1009,6 +1331,13 @@ pub fn code(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "code",
@@ -1024,6 +1353,13 @@ pub fn code(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1047,6 +1383,13 @@ pub fn details(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "details",
@@ -1062,6 +1405,13 @@ pub fn details(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1085,6 +1435,13 @@ pub fn summary(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "summary",
@@ -1100,6 +1457,13 @@ pub fn summary(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1129,6 +1493,13 @@ pub fn a(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -1157,6 +1528,13 @@ pub fn a(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1188,6 +1566,13 @@ pub fn iframe(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -1228,6 +1613,13 @@ pub fn iframe(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1264,6 +1656,13 @@ pub fn img(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -1313,6 +1712,13 @@ pub fn img(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1340,6 +1746,13 @@ pub fn video(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -1364,6 +1777,13 @@ pub fn video(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1390,6 +1810,13 @@ pub fn source(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -1415,6 +1842,13 @@ pub fn source(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -1437,6 +1871,13 @@ pub fn hr(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "hr",
@@ -1452,6 +1893,13 @@ pub fn hr(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -1475,6 +1923,13 @@ pub fn h1(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "h1",
@@ -1490,6 +1945,13 @@ pub fn h1(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1513,6 +1975,13 @@ pub fn h2(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "h2",
@@ -1528,6 +1997,13 @@ pub fn h2(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1551,6 +2027,13 @@ pub fn h3(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   common_node(
     "h3",
@@ -1566,6 +2049,13 @@ pub fn h3(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -1587,6 +2077,13 @@ pub fn button(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let new_attributes : Map[String, Val] = {}
   if attributes is Some(attrs) {
@@ -1614,6 +2111,13 @@ pub fn button(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }

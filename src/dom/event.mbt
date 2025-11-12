@@ -8,11 +8,13 @@ pub impl Js for Event with to_js(self) -> Val {
 }
 
 ///|
+#alias(preventDefault)
 pub fn Event::prevent_default(self : Event) -> Unit {
   self.to_js().get("preventDefault").call([]) |> ignore
 }
 
 ///|
+#alias(stopPropagation)
 pub fn Event::stop_propagation(self : Event) -> Unit {
   self.to_js().get("stopPropagation").call([]) |> ignore
 }
@@ -172,20 +174,6 @@ pub fn FormEvent::form_data(self : FormEvent) -> Element {
 
 ///|
 #external
-pub type DragStartEvent
-
-///|
-pub impl Js for DragStartEvent with to_js(self) -> Val {
-  self |> js
-}
-
-///|
-pub fn DragStartEvent::target(self : Self) -> Element {
-  self.to_js().get("target").cast()
-}
-
-///|
-#external
 pub type DragEvent
 
 ///|
@@ -196,71 +184,6 @@ pub impl Js for DragEvent with to_js(self) -> Val {
 ///|
 pub fn DragEvent::target(self : Self) -> Element {
   self.to_js().get("target").cast()
-}
-
-///|
-#external
-pub type DragEnterEvent
-
-///|
-pub impl Js for DragEnterEvent with to_js(self) -> Val {
-  self |> js
-}
-
-///|
-pub fn DragEnterEvent::target(self : Self) -> Element {
-  self.to_js().get("target").cast()
-}
-
-///|
-#external
-pub type DragOverEvent
-
-///|
-pub impl Js for DragOverEvent with to_js(self) -> Val {
-  self |> js
-}
-
-///|
-pub fn DragOverEvent::target(self : Self) -> Element {
-  self.to_js().get("target").cast()
-}
-
-///|
-#external
-pub type DragLeaveEvent
-
-///|
-pub impl Js for DragLeaveEvent with to_js(self) -> Val {
-  self |> js
-}
-
-///|
-pub fn DragLeaveEvent::target(self : Self) -> Element {
-  self.to_js().get("target").cast()
-}
-
-///|
-#external
-pub type DragEndEvent
-
-///|
-pub impl Js for DragEndEvent with to_js(self) -> Val {
-  self |> js
-}
-
-///|
-pub fn DragEndEvent::target(self : Self) -> Element {
-  self.to_js().get("target").cast()
-}
-
-///|
-#external
-pub type DropEvent
-
-///|
-pub impl Js for DropEvent with to_js(self) -> Val {
-  self |> js
 }
 
 ///|

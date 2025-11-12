@@ -20,6 +20,13 @@ pub fn svg(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["width"] = width |> js
@@ -41,6 +48,13 @@ pub fn svg(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -67,6 +81,13 @@ pub fn circle(
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["cx"] = cx |> js
@@ -95,6 +116,13 @@ pub fn circle(
     on_change=None,
     on_keydown=None,
     on_keyup=None,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -125,6 +153,13 @@ pub fn ellipse(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["cx"] = cx |> js
@@ -154,6 +189,13 @@ pub fn ellipse(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -184,6 +226,13 @@ pub fn rect(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["x"] = x |> js
@@ -213,6 +262,13 @@ pub fn rect(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -243,6 +299,13 @@ pub fn line(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["x1"] = x1 |> js
@@ -272,6 +335,13 @@ pub fn line(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -299,6 +369,13 @@ pub fn path(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["d"] = d |> js
@@ -325,6 +402,13 @@ pub fn path(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -349,6 +433,13 @@ pub fn use_(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["href"] = href |> js
@@ -366,6 +457,13 @@ pub fn use_(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -393,6 +491,13 @@ pub fn polygon(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["points"] = points |> js
@@ -419,6 +524,13 @@ pub fn polygon(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -446,6 +558,13 @@ pub fn polyline(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["points"] = points |> js
@@ -472,6 +591,13 @@ pub fn polyline(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }
@@ -499,6 +625,13 @@ pub fn g(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   if stroke is Some(stroke) {
@@ -524,6 +657,13 @@ pub fn g(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -546,6 +686,13 @@ pub fn defs(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   common_node(
@@ -562,6 +709,13 @@ pub fn defs(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -596,6 +750,13 @@ pub fn text(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["x"] = x |> js
@@ -638,6 +799,13 @@ pub fn text(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children~,
   )
 }
@@ -662,6 +830,13 @@ pub fn image(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   attrs["x"] = x |> js
@@ -681,6 +856,13 @@ pub fn image(
     on_change~,
     on_keydown~,
     on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
     children=[],
   )
 }

@@ -6,6 +6,7 @@
 ///   ...
 /// }
 /// ```
+#alias(useState)
 pub fn[T : Js] use_state(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
   let value : T = result.get(0).cast()
@@ -38,6 +39,7 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 ///   ...
 /// }
 /// ```
+#alias(useCallback)
 pub fn[F] use_callback(f : F, keys : Array[&Js]) -> F {
   let keys = keys.map(k => k.to_js())
   ffi_react_use_callback(f |> js, keys).cast()
@@ -54,11 +56,13 @@ pub fn[F] use_callback(f : F, keys : Array[&Js]) -> F {
 ///   create_element("div", ["Hello"])
 /// }
 /// ```
+#alias(useEffect)
 pub fn use_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
   ffi_react_use_effect(f, keys.map(_.to_js()))
 }
 
 ///|
+#alias(useLayoutEffect)
 pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
   ffi_react_use_layout_effect(f, keys.map(_.to_js()))
 }
@@ -73,6 +77,7 @@ pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
 ///   create_element("div", [result])
 /// }
 /// ```
+#alias(useMemo)
 pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
   let f = () => f() |> js
   let v : T = ffi_react_use_memo(f, keys.map(_.to_js())).cast()
@@ -87,6 +92,7 @@ pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
 ///   create_element("div", ref_=my_ref, ["Hello"])
 /// }
 /// ```
+#alias(useRef)
 pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
   ffi_react_use_ref(if initial is Some(v) { v |> js } else { @js.undefined() }).cast()
 }
@@ -129,6 +135,7 @@ pub fn[T] ReactRef::set_current(v : ReactRef[T], o : T) -> Unit {
 pub type Context[T]
 
 ///|
+#alias(createContext)
 pub fn[T] create_context(initial : T?) -> Context[T] {
   let v = ffi_react_create_context(initial |> js)
   v.cast()
@@ -136,6 +143,7 @@ pub fn[T] create_context(initial : T?) -> Context[T] {
 
 ///|
 /// React.useContext
+#alias(useContext)
 pub fn[T] use_context(ctx : Context[T]) -> T {
   ffi_react_use_context(ctx |> js).cast()
 }
@@ -162,6 +170,7 @@ pub fn[T] use_(promise : Promise[T]) -> T {
 ///   create_element("div", [state])
 /// }
 /// ```
+#alias(useReducer)
 pub fn[T, U] use_reducer(
   reducer : (T, U) -> T,
   initial : T,
@@ -177,6 +186,7 @@ extern "js" fn use_action_state_internal(f : Val, initial : Val) -> Val =
   #| }
 
 ///|
+#alias(useActionState)
 pub fn[T, U] use_action_state(
   f : async (T, U) -> T noraise,
   initial : T,
@@ -193,6 +203,7 @@ extern "js" fn start_transition_internal(f : () -> Unit) -> Unit =
   #| }
 
 ///|
+#alias(startTransition)
 pub fn start_transition(f : () -> Unit) -> Unit {
   start_transition_internal(f)
 }

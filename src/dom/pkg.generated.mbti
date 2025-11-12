@@ -6,7 +6,9 @@ import(
 )
 
 // Values
-fn document() -> Element
+fn document() -> Document
+
+fn get_computed_style(Element) -> @js.Val
 
 fn get_local_storage() -> Storage
 
@@ -24,25 +26,69 @@ pub type ChangeEvent
 fn ChangeEvent::target(Self) -> Element
 
 #external
+pub type Document
+#alias(activeElement)
+fn Document::active_element(Self) -> Element
+fn Document::as_element(Self) -> Element
+fn Document::body(Self) -> Element
+fn Document::cookie(Self) -> String
+#alias(createElement)
+fn Document::create_element(Self, String) -> Element
+#alias(createElementNS)
+fn Document::create_element_ns(Self, String, String) -> Element
+#alias(createTextNode)
+fn Document::create_text_node(Self, String) -> TextNode
+#alias(querySelector)
+fn Document::query_selector(Self, String) -> Self?
+#alias(readyState)
+fn Document::ready_state(Self) -> Element
+fn Document::set_cookie(Self, String) -> Unit
+impl @js.Js for Document
+
+#external
+pub type DragEvent
+fn DragEvent::data_transfer(Self) -> @js.Val
+fn DragEvent::target(Self) -> Element
+impl @js.Js for DragEvent
+
+#external
 pub type Element
 fn Element::add_event_listener(Self, String, (Event) -> Unit) -> Unit
 fn Element::append_child(Self, Self) -> Self
+#alias(firstChild)
+fn Element::first_child(Self) -> Self?
 fn Element::focus(Self) -> Unit
 fn Element::focus_internal(Self) -> Unit
 #alias("_[_]")
 fn Element::get(Self, String) -> @js.Val
 fn Element::get_attribute(Self, String) -> @js.Val?
 fn Element::insert_before(Self, Self) -> Self
+#alias(lastChild)
+fn Element::last_child(Self) -> Self?
+#alias(nextSibling)
+fn Element::next_sibling(Self) -> Self?
+#alias(nodeValue)
+fn Element::node_value(Self) -> Int
+#alias(parentElement)
+fn Element::parent_element(Self) -> Self?
+#alias(parentNode)
+fn Element::parent_node(Self) -> Self?
+#alias(previousSibling)
+fn Element::previous_sibling(Self) -> Self?
 fn Element::query_selector(Self, String) -> Self?
 fn Element::remove_event_listener(Self, String, (Event) -> Unit) -> Unit
 #alias("_[_]=_")
 fn Element::set(Self, String, &@js.Js) -> Unit
 fn Element::set_attribute(Self, String, String) -> Unit
+#alias(textContent)
+fn Element::text_content(Self) -> String
 impl @js.Js for Element
 
 #external
 pub type Event
+#alias(preventDefault)
 fn Event::prevent_default(Self) -> Unit
+#alias(stopPropagation)
 fn Event::stop_propagation(Self) -> Unit
 fn Event::target(Self) -> Element
 impl @js.Js for Event
@@ -83,10 +129,20 @@ fn Navigator::user_agent(Self) -> String
 impl @js.Js for Navigator
 
 #external
+pub type PointerEvent
+fn PointerEvent::height(Self) -> Double
+fn PointerEvent::width(Self) -> Double
+impl @js.Js for PointerEvent
+
+#external
 pub type Storage
 fn Storage::get_item(Self, String) -> String?
 fn Storage::remove_item(Self, String) -> Unit
 fn Storage::set_item(Self, String, String) -> Unit
+
+#external
+pub type TextNode
+impl @js.Js for TextNode
 
 // Type aliases
 

@@ -118,19 +118,19 @@ extern "js" fn ffi_object_keys(v : Val) -> Array[String] =
 
 ///|
 extern "js" fn ffi_object_entries(v : Val) -> Array[Val] =
-  #| (obj) => Object.entries(obj)
+  #|(v) => Object.entries(v)
 
 ///|
 extern "js" fn ffi_object_values(v : Val) -> Array[Val] =
-  #| (obj) => Object.values(obj)
+  #|(v) => Object.values(v)
 
 ///|
 extern "js" fn ffi_object_assign(v : Val, o : Val) -> Val =
-  #| (obj, o) => Object.assign(obj, o)
+  #|(obj, o) => Object.assign(obj, o)
 
 ///|
 extern "js" fn ffi_console_log(v : Array[Val]) -> Unit =
-  #| (obj) => console.log(...obj)
+  #|(obj) => console.log(...obj)
 
 ///|
 extern "js" fn ffi_json_stringify(
@@ -138,24 +138,24 @@ extern "js" fn ffi_json_stringify(
   replacer : Val,
   space : Val,
 ) -> String =
-  #| (v, replacer, space) => JSON.stringify(v, replacer, space)
+  #|(v, replacer, space) => JSON.stringify(v, replacer, space)
 
 ///|
 extern "js" fn ffi_json_parse(v : String, reviver? : Val) -> Val =
-  #| (v, reviver) => JSON.parse(v, reviver)
+  #|(v, reviver) => JSON.parse(v, reviver)
 
 ///|
 pub extern "js" fn structured_clone(v : Val) -> Val =
-  #| (self) => structuredClone(self)
+  #|(v) => structuredClone(v)
 
 ///|
 extern "js" fn ffi_dynamic_import(module_name : String) -> Val =
-  #| (moduleName) => import(moduleName)
+  #|(moduleName) => import(moduleName)
 
 ///|
 extern "js" fn ffi_atob(encoded_data : String) -> String =
-  #| (encodedData) => atob(encodedData)
+  #|(encodedData) => atob(encodedData)
 
 ///|
 extern "js" fn ffi_btoa(data : String) -> String =
-  #| (data) => btoa(data)
+  #|(data) => btoa(data)

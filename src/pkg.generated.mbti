@@ -113,7 +113,6 @@ fn Val::is_undefined(Self) -> Bool
 fn Val::property_is_enumerable(Self, String) -> Bool
 #alias("_[_]=_")
 fn Val::set(Self, &Key, &Js) -> Unit
-fn[T] Val::to_option(Self) -> T?
 fn Val::type_of(Self) -> String
 impl Js for Val
 impl Eq for Val

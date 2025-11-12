@@ -24,6 +24,9 @@ extern "js" fn get_suspense() -> Val =
 pub type Component[T]
 
 ///|
+pub type ComponentFn[T] = (T) -> Element
+
+///|
 /// React.Element
 #external
 pub type Element
@@ -50,6 +53,13 @@ pub fn create_element(
   on_change? : (@dom.ChangeEvent) -> Unit,
   on_keydown? : (@dom.KeyboardEvent) -> Unit,
   on_keyup? : (@dom.KeyboardEvent) -> Unit,
+  on_drag? : (@dom.DragEvent) -> Unit,
+  on_dragstart? : (@dom.DragEvent) -> Unit,
+  on_dragend? : (@dom.DragEvent) -> Unit,
+  on_dragleave? : (@dom.DragEvent) -> Unit,
+  on_dragenter? : (@dom.DragEvent) -> Unit,
+  on_dragover? : (@dom.DragEvent) -> Unit,
+  on_drop? : (@dom.DragEvent) -> Unit,
 ) -> Element {
   let tag = js(tag)
   let children = children.map(_.to_js()) |> @js.from_builtin_array
@@ -85,27 +95,45 @@ pub fn create_element(
     val["style"] = style_obj
   }
   if on_click is Some(v) {
-    let f : Val = v |> js
-    val["onClick"] = f
+    val["onClick"] = v |> js
   }
   if on_change is Some(on_change) {
-    let f : Val = on_change |> js
-    val["onChange"] = f
+    val["onChange"] = on_change |> js
   }
   if on_keydown is Some(on_keydown) {
-    let f : Val = on_keydown |> js
-    val["onKeyDown"] = f
+    val["onKeyDown"] = on_keydown |> js
   }
   if on_keyup is Some(on_keyup) {
-    let f : Val = on_keyup |> js
-    val["onKeyUp"] = f
+    val["onKeyUp"] = on_keyup |> js
+  }
+  if on_drag is Some(v) {
+    val["onDrag"] = v |> js
+  }
+  if on_dragstart is Some(v) {
+    val["onDragStart"] = v |> js
+  }
+  if on_dragend is Some(v) {
+    val["onDragStart"] = v |> js
+  }
+  if on_drop is Some(v) {
+    val["onDragStart"] = v |> js
+  }
+  if on_dragover is Some(v) {
+    val["onDragOver"] = v |> js
+  }
+  if on_dragleave is Some(v) {
+    val["onDragLeave"] = v |> js
+  }
+  if on_dragenter is Some(v) {
+    val["onDragEnter"] = v |> js
   }
   ffi_create_element(tag, val, children).cast()
 }
 
 ///|
+/// render component
 pub fn[T] c(
-  tag : (T) -> Element,
+  tag : ComponentFn[T],
   props : T,
   children? : Array[&Js] = [],
   key? : String,
@@ -135,9 +163,8 @@ pub fn fragment(children : Array[&Js], key? : String) -> Element {
 pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
   let tag = get_suspense() |> js
   let children = @js.from_builtin_array(children.map(_.to_js()))
-  let val : Val = @js.new_empty_object()
-  val["fallback"] = fallback |> js
-  ffi_create_element(tag, val, children).cast()
+  let props = @js.from_builtin_map({ "fallback": fallback |> js })
+  ffi_create_element(tag, props, children).cast()
 }
 
 ///|
@@ -148,7 +175,6 @@ pub fn[T] provider(
 ) -> Element {
   let tag = js(tag)
   let children = @js.from_builtin_array(children.map(_.to_js()))
-  let props = @js.new_empty_object()
-  props["value"] = value |> js
+  let props = @js.from_builtin_map({ "value": value |> js })
   ffi_create_element(tag, props, children).cast()
 }
