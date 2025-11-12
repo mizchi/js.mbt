@@ -12,7 +12,8 @@ pub impl Js for EventEmitter with to_js(self) {
 
 ///|
 pub fn EventEmitter::new() -> EventEmitter {
-  @node.require("events").get("EventEmitter").cast()
+  let ee = @node.require("events").get("EventEmitter")
+  @js.new_(ee, []).cast()
 }
 
 ///|
