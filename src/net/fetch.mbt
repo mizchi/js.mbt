@@ -7,11 +7,21 @@ extern "js" fn ffi_fetch_request(request : Request) -> Promise[Response] =
   #| (request) => fetch(request)
 
 ///|
-pub async fn fetch(
+pub fn fetch(
   url : String,
   method_~ : String,
   headers? : Map[String, String] = {},
-  body? : String,
+  cache? : String,
+  mode? : String,
+  body? : &Js, // String, ArrayBuffer, FormData, etc.
+  credentials? : String,
+  integrity? : String,
+  keepalive? : Bool,
+  priority? : String,
+  redirect? : String,
+  referrer? : String,
+  referrerPolicy? : String,
+  signal? : @async.AbortSignal,
 ) -> Promise[Response] {
   let init_obj = new_empty_object()
   init_obj.set("method", method_)
@@ -20,13 +30,67 @@ pub async fn fetch(
     header_obj.set(k, v)
   }
   if body is Some(body) {
-    init_obj["body"] = body
+    init_obj["body"] = body.to_js()
+  }
+  if cache is Some(c) {
+    init_obj.set("cache", c)
+  }
+  if mode is Some(m) {
+    init_obj.set("mode", m)
+  }
+  if credentials is Some(c) {
+    init_obj.set("credentials", c)
+  }
+  if integrity is Some(i) {
+    init_obj.set("integrity", i)
+  }
+  if keepalive is Some(k) {
+    init_obj.set("keepalive", k)
+  }
+  if priority is Some(p) {
+    init_obj.set("priority", p)
+  }
+  if redirect is Some(r) {
+    init_obj.set("redirect", r)
+  }
+  if referrer is Some(r) {
+    init_obj.set("referrer", r)
+  }
+  if referrerPolicy is Some(rp) {
+    init_obj.set("referrerPolicy", rp)
+  }
+  if signal is Some(s) {
+    init_obj.set("signal", s)
   }
   ffi_fetch(url, init_obj)
 }
 
 ///|
-pub async fn fetch_request(request : Request) -> Promise[Response] {
+#external
+pub type FormData
+
+///|
+pub impl Js for FormData with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub fn FormData::append(self : Self, name : String, value : String) -> Unit {
+  self.to_js().call_method("append", [name, value]).cast()
+}
+
+///|
+pub fn FormData::delete(self : Self, name : String) -> Unit {
+  self.to_js().call_method("delete", [name]).cast()
+}
+
+///|
+pub fn FormData::get(self : Self, name : String) -> String {
+  self.to_js().call_method("get", [name]).cast()
+}
+
+///|
+pub fn fetch_request(request : Request) -> Promise[Response] {
   ffi_fetch_request(request)
 }
 
@@ -38,18 +102,18 @@ test "fetch" {
       "https://jsonplaceholder.typicode.com/todos/1",
       method_="GET",
       headers={ "Accept": "application/json" },
-    ) catch {
+    ).unwrap() catch {
       e => {
         log("Fetch error: " + e.to_string())
         return
       }
     }
-    let value = response.unwrap().json().unwrap() catch {
-      e => {
-        log("Error parsing JSON: " + e.to_string())
-        return
+    let value = response.json().unwrap() catch {
+        e => {
+          log("Error parsing JSON: " + e.to_string())
+          return
+        }
       }
-    }
     log(value)
   })
 }
