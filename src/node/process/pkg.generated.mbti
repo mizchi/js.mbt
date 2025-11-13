@@ -3,6 +3,7 @@ package "mizchi/js/node/process"
 
 import(
   "mizchi/js"
+  "mizchi/js/node/stream"
 )
 
 // Values
@@ -19,10 +20,13 @@ impl @js.Js for Env
 #external
 pub type Process
 fn Process::args(Self) -> Array[String]
+fn Process::chdir(Self, String) -> Unit
 fn Process::cwd(Self) -> String
 fn Process::env() -> Env
 fn Process::exit(Self, Int) -> Unit
 fn Process::require() -> Self
+fn Process::stdio() -> @stream.Stream
+fn Process::stdout() -> @stream.Stream
 impl @js.Js for Process
 
 // Type aliases

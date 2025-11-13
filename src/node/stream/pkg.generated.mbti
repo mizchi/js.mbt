@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/stream"
+
+import(
+  "mizchi/js"
+  "mizchi/js/node/events"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Stream
+fn Stream::as_event_emitter(Self) -> @events.EventEmitter
+impl @js.Js for Stream
+
+// Type aliases
+
+// Traits
+

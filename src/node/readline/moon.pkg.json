@@ -1,0 +1,9 @@
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/async",
+    "mizchi/js/node",
+    "mizchi/js/node/stream",
+    "mizchi/js/node/events"
+  ]
+}

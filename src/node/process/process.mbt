@@ -2,6 +2,9 @@
 using @js {trait Js, js}
 
 ///|
+using @stream {type Stream}
+
+///|
 #external
 pub type Process
 
@@ -26,6 +29,11 @@ pub fn Process::cwd(self : Self) -> String {
 }
 
 ///|
+pub fn Process::chdir(self : Self, path : String) -> Unit {
+  self.to_js().get("chdir").call([path]).cast()
+}
+
+///|
 pub fn Process::exit(self : Self, code : Int) -> Unit {
   self.to_js().get("exit").call([code]) |> ignore
 }
@@ -33,4 +41,14 @@ pub fn Process::exit(self : Self, code : Int) -> Unit {
 ///|
 pub fn Process::env() -> Env {
   Process::require().to_js().get("env").cast()
+}
+
+///|
+pub fn Process::stdio() -> Stream {
+  Process::require().to_js().get("stdio").cast()
+}
+
+///|
+pub fn Process::stdout() -> Stream {
+  Process::require().to_js().get("stdout").cast()
 }

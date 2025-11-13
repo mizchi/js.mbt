@@ -60,6 +60,16 @@ pub fn Val::set(self : Val, key : &Key, value : &Js) -> Unit {
 }
 
 ///|
+pub fn Val::set_if_exists(self : Val, key : &Key, value : &Js?) -> Unit {
+  guard value is Some(val) else { return }
+  let val = val.to_js()
+  if val.is_undefined() {
+    return
+  }
+  ffi_set(self, key.to_key() |> unsafe_cast, val)
+}
+
+///|
 #inline
 pub fn Val::call(self : Self, args : Array[&Js]) -> Val {
   ffi_call(self, args.map(_.to_js()))

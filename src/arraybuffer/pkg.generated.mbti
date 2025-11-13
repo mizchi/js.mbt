@@ -55,6 +55,13 @@ impl @js.Js for TextEncoder
 
 #external
 pub type Uint16Array
+#alias(byteLength)
+fn Uint16Array::byte_length(Self) -> UInt
+#alias("_[_]")
+fn Uint16Array::get(Self, UInt) -> UInt
+fn Uint16Array::length(Self) -> UInt
+#alias("_[_]=_")
+fn Uint16Array::set(Self, UInt, UInt) -> Unit
 impl @js.Js for Uint16Array
 
 #external
@@ -63,6 +70,15 @@ impl @js.Js for Uint32Array
 
 #external
 pub type Uint8Array
+fn Uint8Array::byte_length(Self) -> UInt
+fn Uint8Array::from_array(Array[UInt]) -> Self
+fn Uint8Array::from_array_buffer(ArrayBuffer) -> Self
+fn Uint8Array::from_size(UInt) -> Self
+#alias("_[_]")
+fn Uint8Array::get(Self, UInt) -> UInt
+fn Uint8Array::length(Self) -> UInt
+#alias("_[_]=_")
+fn Uint8Array::set(Self, UInt, UInt) -> Unit
 impl @js.Js for Uint8Array
 
 // Type aliases

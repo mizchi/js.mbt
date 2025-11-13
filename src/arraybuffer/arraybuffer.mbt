@@ -37,6 +37,42 @@ pub impl Js for Uint8Array with to_js(self) -> Val {
 }
 
 ///|
+pub extern "js" fn Uint8Array::from_size(length : UInt) -> Uint8Array =
+  #| (len) => new Uint8Array(len)
+
+///|
+pub extern "js" fn Uint8Array::from_array(array : Array[UInt]) -> Uint8Array =
+  #| (arr) => new Uint8Array(arr)
+
+///|
+pub extern "js" fn Uint8Array::from_array_buffer(
+  buffer : ArrayBuffer,
+) -> Uint8Array =
+  #| (buf) => new Uint8Array(buf)
+
+///|
+#alias("_[_]=_")
+pub extern "js" fn Uint8Array::set(
+  self : Self,
+  index : UInt,
+  value : UInt,
+) -> Unit =
+  #| (arr, i, v) => arr[i] = v
+
+///|
+#alias("_[_]")
+pub extern "js" fn Uint8Array::get(self : Self, index : UInt) -> UInt =
+  #| (arr, i) => arr[i]
+
+///|
+pub extern "js" fn Uint8Array::length(self : Self) -> UInt =
+  #| (arr) => arr.length
+
+///|
+pub extern "js" fn Uint8Array::byte_length(self : Self) -> UInt =
+  #| (arr) => arr.byteLength
+
+///|
 #external
 pub type Uint16Array
 
@@ -44,6 +80,29 @@ pub type Uint16Array
 pub impl Js for Uint16Array with to_js(self) -> Val {
   self |> js
 }
+
+///|
+#alias("_[_]=_")
+pub extern "js" fn Uint16Array::set(
+  self : Self,
+  index : UInt,
+  value : UInt,
+) -> Unit =
+  #| (arr, i, v) => arr[i] = v
+
+///|
+#alias("_[_]")
+pub extern "js" fn Uint16Array::get(self : Self, index : UInt) -> UInt =
+  #| (arr, i) => arr[i]
+
+///|
+pub extern "js" fn Uint16Array::length(self : Self) -> UInt =
+  #| (arr) => arr.length
+
+///|
+#alias(byteLength)
+pub extern "js" fn Uint16Array::byte_length(self : Self) -> UInt =
+  #| (arr) => arr.byteLength
 
 ///|
 #external
