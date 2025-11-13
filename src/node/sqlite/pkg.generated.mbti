@@ -1,0 +1,60 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/sqlite"
+
+import(
+  "mizchi/js"
+  "mizchi/js/arraybuffer"
+  "mizchi/js/iterator"
+)
+
+// Values
+fn backup(DatabaseSync, String, rate? : Int, source? : String, target? : String, progress? : (BackupProgress) -> Unit) -> Unit
+
+// Errors
+
+// Types and methods
+pub(all) struct BackupProgress {
+  remainingPages : Int
+  totalPages : Int
+}
+
+#external
+pub type DatabaseSync
+fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T) -> Bool
+#alias(apply_changeset)
+fn DatabaseSync::applyChangeset(Self, @arraybuffer.Uint8Array, filter? : (@js.Val) -> Bool, onConflict? : (@js.Val, @js.Val) -> Bool) -> Bool
+fn DatabaseSync::close(Self) -> Bool
+#alias(create_session)
+fn DatabaseSync::createSession(Self, table? : String, db? : String) -> Session
+#alias(create_tag_store)
+fn DatabaseSync::createTagStore(Self, max_size? : Int) -> Bool
+fn DatabaseSync::exec(Self, String) -> Unit
+#alias(is_open)
+fn DatabaseSync::isOpen(Self) -> Bool
+#alias(is_transaction)
+fn DatabaseSync::isTransaction(Self) -> Bool
+fn DatabaseSync::new(String, open? : Bool, readOnly? : Bool, enableForeignKeyConstraints? : Bool, allowExtension? : Bool, timeout? : Int, readBigInts? : Bool, returnArrays? : Bool, allowBareNamedParameters? : Bool, allowUnknownNamedParameters? : Bool, defensive? : Bool) -> Self
+fn DatabaseSync::open(Self) -> Bool
+fn DatabaseSync::prepare(Self, String) -> StatementSync
+impl @js.Js for DatabaseSync
+
+#external
+pub type Session
+fn Session::changeset(Self) -> @arraybuffer.Uint8Array
+fn Session::close(Self) -> Unit
+fn Session::patchset(Self) -> @arraybuffer.Uint8Array
+impl @js.Js for Session
+
+#external
+pub type StatementSync
+fn StatementSync::all(Self) -> @js.Val
+fn StatementSync::columns(Self) -> Array[String]
+fn StatementSync::get(Self) -> @js.Val
+fn StatementSync::iterate(Self) -> @iterator.Generator[@js.Val]
+fn StatementSync::run(Self, Array[@js.Val]) -> Unit
+impl @js.Js for StatementSync
+
+// Type aliases
+
+// Traits
+
