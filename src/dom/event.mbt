@@ -671,7 +671,7 @@ pub fn AnimationEvent::pseudo_element(self : Self) -> String {
 pub type ScrollEvent
 
 ///|
-impl Js for ScrollEvent with to_js(self) -> Val {
+pub impl Js for ScrollEvent with to_js(self) -> Val {
   self |> js
 }
 
