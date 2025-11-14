@@ -267,3 +267,242 @@ test "sqlite constants" {
   // Skip for now until we can properly access node:sqlite.constants
   assert_true(true)
 }
+
+///|
+test "sqlite mixed type parameters" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec(
+    "CREATE TABLE mixed(id INTEGER, str TEXT, num REAL, flag INTEGER)",
+  )
+  let insert = database.prepare(
+    "INSERT INTO mixed (str, num, flag) VALUES (?, ?, ?)",
+  )
+  // Test with different types: String, Double, Int (SQLite uses integers for booleans)
+  insert.run(anonymous_parameters=["test", 3.14, 1]) |> ignore
+  insert.run(anonymous_parameters=["hello", 2.718, 0]) |> ignore
+  insert.run(anonymous_parameters=["world", 1.414, 1]) |> ignore
+  let select = database.prepare("SELECT * FROM mixed WHERE flag = ?")
+  let results = select.all(anonymous_parameters=[1])
+  assert_eq(results.length(), 2)
+}
+
+///|
+test "sqlite named and anonymous parameters together" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec(
+    "CREATE TABLE events(id INTEGER, name TEXT, date TEXT, priority INTEGER)",
+  )
+  let insert = database.prepare(
+    "INSERT INTO events (name, date, priority) VALUES (:name, :date, ?)",
+  )
+  // Using both named and anonymous parameters
+  insert.run(named_parameters={ "name": "Meeting", "date": "2024-01-15" }, anonymous_parameters=[
+    5,
+  ])
+  |> ignore
+  insert.run(named_parameters={ "name": "Deadline", "date": "2024-01-20" }, anonymous_parameters=[
+    10,
+  ])
+  |> ignore
+  let select = database.prepare(
+    "SELECT * FROM events WHERE priority > :min AND name LIKE ?",
+  )
+  let results = select.all(named_parameters={ "min": 7 }, anonymous_parameters=[
+    "%line%",
+  ])
+  assert_eq(results.length(), 1)
+  let event = results[0]
+  assert_eq(event.get("name").cast(), "Deadline")
+}
+
+///|
+test "sqlite iterate with type-safe parameters" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec("CREATE TABLE scores(player TEXT, score INTEGER)")
+  database.exec(
+    "INSERT INTO scores VALUES ('Alice', 100), ('Bob', 150), ('Charlie', 120)",
+  )
+  let stmt = database.prepare(
+    "SELECT * FROM scores WHERE score > ? ORDER BY score",
+  )
+  let iter = stmt.iterate(anonymous_parameters=[110])
+  let mut count = 0
+  let mut first_player = ""
+  let mut second_player = ""
+  for row in iter.iter() {
+    let player : String = row.get("player").cast()
+    if count == 0 {
+      first_player = player
+    } else if count == 1 {
+      second_player = player
+    }
+    count = count + 1
+  }
+  assert_eq(count, 2)
+  assert_eq(first_player, "Charlie")
+  assert_eq(second_player, "Bob")
+}
+
+///|
+test "sqlite get with complex named parameters" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec(
+    "CREATE TABLE employees(id INTEGER, name TEXT, salary REAL, department TEXT)",
+  )
+  let insert = database.prepare(
+    "INSERT INTO employees (name, salary, department) VALUES (?, ?, ?)",
+  )
+  insert.run(anonymous_parameters=["Alice", 50000.0, "Engineering"]) |> ignore
+  insert.run(anonymous_parameters=["Bob", 60000.0, "Sales"]) |> ignore
+  insert.run(anonymous_parameters=["Charlie", 55000.0, "Engineering"]) |> ignore
+  let stmt = database.prepare(
+    "SELECT * FROM employees WHERE department = :dept AND salary > :minSalary",
+  )
+  let result = stmt.get(named_parameters={
+    "dept": "Engineering",
+    "minSalary": 52000.0,
+  })
+  guard result is Some(row)
+  assert_eq(row.get("name").cast(), "Charlie")
+  assert_eq(row.get("salary").cast(), 55000.0)
+}
+
+///|
+test "sqlite empty parameters" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec("CREATE TABLE simple(id INTEGER PRIMARY KEY, value TEXT)")
+  database.exec("INSERT INTO simple VALUES (1, 'test')")
+  let stmt = database.prepare("SELECT * FROM simple")
+  // Test with no parameters
+  let results = stmt.all()
+  assert_eq(results.length(), 1)
+  let result = stmt.get()
+  guard result is Some(row)
+  assert_eq(row.get("value").cast(), "test")
+}
+
+///|
+test "sqlite integer types" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec("CREATE TABLE integers(small INT, medium INT, large INT)")
+  let insert = database.prepare("INSERT INTO integers VALUES (?, ?, ?)")
+  insert.run(anonymous_parameters=[1, 1000, 1000000]) |> ignore
+  insert.run(anonymous_parameters=[-5, -500, -50000]) |> ignore
+  let select = database.prepare("SELECT * FROM integers WHERE medium < ?")
+  let results = select.all(anonymous_parameters=[0])
+  assert_eq(results.length(), 1)
+  let row = results[0]
+  assert_eq(row.get("small").cast(), -5)
+}
+
+///|
+test "sqlite float types" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec("CREATE TABLE floats(val REAL)")
+  let insert = database.prepare("INSERT INTO floats VALUES (?)")
+  insert.run(anonymous_parameters=[3.14159]) |> ignore
+  insert.run(anonymous_parameters=[2.71828]) |> ignore
+  insert.run(anonymous_parameters=[1.41421]) |> ignore
+  let select = database.prepare(
+    "SELECT * FROM floats WHERE val > ? ORDER BY val",
+  )
+  let results = select.all(anonymous_parameters=[2.0])
+  assert_eq(results.length(), 2)
+}
+
+///|
+test "sqlite string escaping" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec("CREATE TABLE texts(content TEXT)")
+  let insert = database.prepare("INSERT INTO texts VALUES (?)")
+  // Test strings with special characters
+  insert.run(anonymous_parameters=["It's a test"]) |> ignore
+  insert.run(anonymous_parameters=["Quote: \"hello\""]) |> ignore
+  insert.run(anonymous_parameters=["Line\nbreak"]) |> ignore
+  let select = database.prepare("SELECT * FROM texts WHERE content LIKE ?")
+  let results = select.all(anonymous_parameters=["%test%"])
+  assert_eq(results.length(), 1)
+}
+
+///|
+test "sqlite multiple queries with same statement" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec("CREATE TABLE counter(id INTEGER PRIMARY KEY, count INTEGER)")
+  let insert = database.prepare("INSERT INTO counter (count) VALUES (?)")
+  // Execute same statement multiple times with different parameters
+  for i = 1; i <= 5; i = i + 1 {
+    insert.run(anonymous_parameters=[i * 10]) |> ignore
+  }
+  let select = database.prepare("SELECT SUM(count) as total FROM counter")
+  let result = select.get()
+  guard result is Some(row)
+  assert_eq(row.get("total").cast(), 150)
+}
+
+///|
+test "sqlite update with type-safe parameters" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec(
+    "CREATE TABLE inventory(item TEXT PRIMARY KEY, quantity INTEGER)",
+  )
+  database.exec("INSERT INTO inventory VALUES ('apple', 10), ('banana', 20)")
+  let update = database.prepare(
+    "UPDATE inventory SET quantity = quantity + ? WHERE item = ?",
+  )
+  let result = update.run(anonymous_parameters=[5, "apple"])
+  assert_eq(result.changes, 1)
+  let select = database.prepare("SELECT quantity FROM inventory WHERE item = ?")
+  let row_result = select.get(anonymous_parameters=["apple"])
+  guard row_result is Some(row)
+  assert_eq(row.get("quantity").cast(), 15)
+}
+
+///|
+test "sqlite delete with named parameters" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec(
+    "CREATE TABLE todos(id INTEGER PRIMARY KEY, task TEXT, done INTEGER)",
+  )
+  database.exec(
+    "INSERT INTO todos (task, done) VALUES ('task1', 0), ('task2', 1), ('task3', 1)",
+  )
+  let delete = database.prepare("DELETE FROM todos WHERE done = :completed")
+  let result = delete.run(named_parameters={ "completed": 1 })
+  assert_eq(result.changes, 2)
+  let count = database.prepare("SELECT COUNT(*) as cnt FROM todos").get()
+  guard count is Some(row)
+  assert_eq(row.get("cnt").cast(), 1)
+}
+
+///|
+test "sqlite null handling" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec("CREATE TABLE nullable(id INTEGER, value TEXT)")
+  let insert = database.prepare("INSERT INTO nullable (id) VALUES (?)")
+  insert.run(anonymous_parameters=[1]) |> ignore
+  let select = database.prepare("SELECT * FROM nullable WHERE id = ?")
+  let result = select.get(anonymous_parameters=[1])
+  guard result is Some(row)
+  assert_true(row.get("value").is_null())
+}
+
+///|
+test "sqlite transaction with type-safe parameters" {
+  let database = DatabaseSync::new(":memory:")
+  database.exec("CREATE TABLE accounts(id INTEGER PRIMARY KEY, balance REAL)")
+  database.exec("INSERT INTO accounts VALUES (1, 100.0), (2, 50.0)")
+  database.exec("BEGIN TRANSACTION")
+  let update = database.prepare(
+    "UPDATE accounts SET balance = balance + ? WHERE id = ?",
+  )
+  update.run(anonymous_parameters=[-30.0, 1]) |> ignore
+  update.run(anonymous_parameters=[30.0, 2]) |> ignore
+  database.exec("COMMIT")
+  let select = database.prepare("SELECT balance FROM accounts WHERE id = ?")
+  let result1 = select.get(anonymous_parameters=[1])
+  guard result1 is Some(row1)
+  assert_eq(row1.get("balance").cast(), 70.0)
+  let result2 = select.get(anonymous_parameters=[2])
+  guard result2 is Some(row2)
+  assert_eq(row2.get("balance").cast(), 80.0)
+}
