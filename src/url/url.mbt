@@ -15,7 +15,7 @@ pub(all) struct URL {
   search : String
   hash : String
   searchParams : URLSearchParams
-}
+} derive(Eq, Show)
 
 ///|
 pub impl Js for URL with to_js(self) {
@@ -39,4 +39,44 @@ pub fn URL::new(url : String, base? : String) -> URL {
 #alias(canParse)
 pub fn URL::can_parse(url : String, base? : String) -> Bool {
   ffi_can_parse(url, base).cast()
+}
+
+///|
+extern "js" fn ffi_url_parse(url : String, base : String?) -> Val =
+  #| (url, base) => URL.parse(url, base)
+
+///|
+pub fn URL::parse(url : String, base? : String) -> URL? {
+  ffi_url_parse(url, base).cast_option()
+}
+
+///|
+pub fn URL::to_string(self : URL) -> String {
+  self.href
+}
+
+///|
+#alias(toJSON)
+pub fn URL::to_json(self : URL) -> String {
+  self.href
+}
+
+///|
+extern "js" fn ffi_create_object_url(obj : Val) -> Val =
+  #| (obj) => URL.createObjectURL(obj)
+
+///|
+#alias(createObjectURL)
+pub fn URL::create_object_url(obj : Val) -> String {
+  ffi_create_object_url(obj).cast()
+}
+
+///|
+extern "js" fn ffi_revoke_object_url(url : String) -> Val =
+  #| (url) => URL.revokeObjectURL(url)
+
+///|
+#alias(revokeObjectURL)
+pub fn URL::revoke_object_url(url : String) -> Unit {
+  ffi_revoke_object_url(url) |> ignore
 }

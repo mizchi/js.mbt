@@ -26,16 +26,32 @@ pub(all) struct URL {
 }
 #alias(canParse)
 fn URL::can_parse(String, base? : String) -> Bool
+#alias(createObjectURL)
+fn URL::create_object_url(@js.Val) -> String
 fn URL::new(String, base? : String) -> Self
+fn URL::parse(String, base? : String) -> Self?
+#alias(revokeObjectURL)
+fn URL::revoke_object_url(String) -> Unit
+#alias(toJSON)
+fn URL::to_json(Self) -> String
+fn URL::to_string(Self) -> String
 impl @js.Js for URL
+impl Eq for URL
+impl Show for URL
 
 #external
 pub type URLSearchParams
+fn URLSearchParams::append(Self, String, String) -> Unit
+fn URLSearchParams::delete(Self, String) -> Unit
 fn URLSearchParams::get(Self, String) -> String?
 #alias(getAll)
 fn URLSearchParams::get_all(Self, String) -> Array[String]
 fn URLSearchParams::has(Self, String) -> Bool
 fn URLSearchParams::set(Self, String, String) -> Unit
+fn URLSearchParams::size(Self) -> Int
+fn URLSearchParams::sort(Self) -> Unit
+#alias(toString)
+fn URLSearchParams::to_string(Self) -> String
 
 // Type aliases
 
