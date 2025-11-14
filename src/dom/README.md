@@ -341,6 +341,14 @@ See the source files for detailed documentation:
 - `storage.mbt` - Web Storage
 - `navigator.mbt` - Browser information
 
+## Future Work
+
+See [TODO.md](./TODO.md) for planned features and improvements:
+- Additional event types and APIs
+- Type system enhancements
+- Browser-specific testing
+- More comprehensive examples
+
 ## Related Packages
 
 - `mizchi/js` - Core JavaScript FFI

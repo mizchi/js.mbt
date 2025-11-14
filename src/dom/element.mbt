@@ -332,3 +332,166 @@ pub fn Element::contains_class(self : Self, class_name : String) -> Bool {
   .call_method("contains", [class_name |> js])
   .cast()
 }
+
+///|
+/// HTMLElement-specific properties
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
+
+///|
+/// Returns whether the element is contentEditable
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/contentEditable
+pub fn Element::content_editable(self : Self) -> String {
+  self.to_js().get("contentEditable").cast()
+}
+
+///|
+/// Sets whether the element is contentEditable
+pub fn Element::set_content_editable(self : Self, value : String) -> Unit {
+  self.to_js().set("contentEditable", value |> js) |> ignore
+}
+
+///|
+/// Returns whether the element is editable
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/isContentEditable
+pub fn Element::is_content_editable(self : Self) -> Bool {
+  self.to_js().get("isContentEditable").cast()
+}
+
+///|
+/// Returns the element's title
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/title
+pub fn Element::title(self : Self) -> String {
+  self.to_js().get("title").cast()
+}
+
+///|
+/// Sets the element's title
+pub fn Element::set_title(self : Self, title : String) -> Unit {
+  self.to_js().set("title", title |> js) |> ignore
+}
+
+///|
+/// Returns the element's lang attribute
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/lang
+pub fn Element::lang(self : Self) -> String {
+  self.to_js().get("lang").cast()
+}
+
+///|
+/// Sets the element's lang attribute
+pub fn Element::set_lang(self : Self, lang : String) -> Unit {
+  self.to_js().set("lang", lang |> js) |> ignore
+}
+
+///|
+/// Returns the element's dir attribute (text direction)
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dir
+pub fn Element::dir(self : Self) -> String {
+  self.to_js().get("dir").cast()
+}
+
+///|
+/// Sets the element's dir attribute
+pub fn Element::set_dir(self : Self, dir : String) -> Unit {
+  self.to_js().set("dir", dir |> js) |> ignore
+}
+
+///|
+/// Returns whether the element is hidden
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden
+pub fn Element::hidden(self : Self) -> Bool {
+  self.to_js().get("hidden").cast()
+}
+
+///|
+/// Sets whether the element is hidden
+pub fn Element::set_hidden(self : Self, hidden : Bool) -> Unit {
+  self.to_js().set("hidden", hidden |> js) |> ignore
+}
+
+///|
+/// Returns the element's tabIndex
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/tabIndex
+pub fn Element::tab_index(self : Self) -> Int {
+  self.to_js().get("tabIndex").cast()
+}
+
+///|
+/// Sets the element's tabIndex
+pub fn Element::set_tab_index(self : Self, index : Int) -> Unit {
+  self.to_js().set("tabIndex", index |> js) |> ignore
+}
+
+///|
+/// Returns the element's access key
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/accessKey
+pub fn Element::access_key(self : Self) -> String {
+  self.to_js().get("accessKey").cast()
+}
+
+///|
+/// Sets the element's access key
+pub fn Element::set_access_key(self : Self, key : String) -> Unit {
+  self.to_js().set("accessKey", key |> js) |> ignore
+}
+
+///|
+/// Returns whether the element is draggable
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/draggable
+pub fn Element::draggable(self : Self) -> Bool {
+  self.to_js().get("draggable").cast()
+}
+
+///|
+/// Sets whether the element is draggable
+pub fn Element::set_draggable(self : Self, draggable : Bool) -> Unit {
+  self.to_js().set("draggable", draggable |> js) |> ignore
+}
+
+///|
+/// Returns whether the element is spellcheck enabled
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/spellcheck
+pub fn Element::spellcheck(self : Self) -> Bool {
+  self.to_js().get("spellcheck").cast()
+}
+
+///|
+/// Sets whether the element is spellcheck enabled
+pub fn Element::set_spellcheck(self : Self, spellcheck : Bool) -> Unit {
+  self.to_js().set("spellcheck", spellcheck |> js) |> ignore
+}
+
+///|
+/// Returns the element's offset parent
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
+pub fn Element::offset_parent(self : Self) -> Element? {
+  self.to_js().get("offsetParent").cast_option()
+}
+
+///|
+/// Returns the element's offset top
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+pub fn Element::offset_top(self : Self) -> Int {
+  self.to_js().get("offsetTop").cast()
+}
+
+///|
+/// Returns the element's offset left
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetLeft
+pub fn Element::offset_left(self : Self) -> Int {
+  self.to_js().get("offsetLeft").cast()
+}
+
+///|
+/// Returns the element's offset width
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetWidth
+pub fn Element::offset_width(self : Self) -> Int {
+  self.to_js().get("offsetWidth").cast()
+}
+
+///|
+/// Returns the element's offset height
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetHeight
+pub fn Element::offset_height(self : Self) -> Int {
+  self.to_js().get("offsetHeight").cast()
+}

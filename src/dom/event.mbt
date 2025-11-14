@@ -449,3 +449,263 @@ pub fn WheelEvent::delta_z(self : Self) -> Double {
 pub fn WheelEvent::delta_mode(self : Self) -> Int {
   self.to_js().get("deltaMode").cast()
 }
+
+///|
+/// TouchEvent represents a touch event
+/// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent
+#external
+pub type TouchEvent
+
+///|
+impl Js for TouchEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+/// Returns the list of all touches
+/// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/touches
+pub fn TouchEvent::touches(self : Self) -> Val {
+  self.to_js().get("touches")
+}
+
+///|
+/// Returns the list of touches that are currently in contact with the surface
+/// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/targetTouches
+pub fn TouchEvent::target_touches(self : Self) -> Val {
+  self.to_js().get("targetTouches")
+}
+
+///|
+/// Returns the list of touches that changed since the last event
+/// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/changedTouches
+pub fn TouchEvent::changed_touches(self : Self) -> Val {
+  self.to_js().get("changedTouches")
+}
+
+///|
+/// Returns whether the Alt key was pressed
+pub fn TouchEvent::alt_key(self : Self) -> Bool {
+  self.to_js().get("altKey").cast()
+}
+
+///|
+/// Returns whether the Ctrl key was pressed
+pub fn TouchEvent::ctrl_key(self : Self) -> Bool {
+  self.to_js().get("ctrlKey").cast()
+}
+
+///|
+/// Returns whether the Shift key was pressed
+pub fn TouchEvent::shift_key(self : Self) -> Bool {
+  self.to_js().get("shiftKey").cast()
+}
+
+///|
+/// Returns whether the Meta key was pressed
+pub fn TouchEvent::meta_key(self : Self) -> Bool {
+  self.to_js().get("metaKey").cast()
+}
+
+///|
+/// Touch represents a single touch point
+/// https://developer.mozilla.org/en-US/docs/Web/API/Touch
+#external
+pub type Touch
+
+///|
+impl Js for Touch with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+/// Returns the unique identifier for this touch
+pub fn Touch::identifier(self : Self) -> Int {
+  self.to_js().get("identifier").cast()
+}
+
+///|
+/// Returns the X coordinate relative to the viewport
+pub fn Touch::client_x(self : Self) -> Double {
+  self.to_js().get("clientX").cast()
+}
+
+///|
+/// Returns the Y coordinate relative to the viewport
+pub fn Touch::client_y(self : Self) -> Double {
+  self.to_js().get("clientY").cast()
+}
+
+///|
+/// Returns the X coordinate relative to the screen
+pub fn Touch::screen_x(self : Self) -> Double {
+  self.to_js().get("screenX").cast()
+}
+
+///|
+/// Returns the Y coordinate relative to the screen
+pub fn Touch::screen_y(self : Self) -> Double {
+  self.to_js().get("screenY").cast()
+}
+
+///|
+/// Returns the X coordinate relative to the page
+pub fn Touch::page_x(self : Self) -> Double {
+  self.to_js().get("pageX").cast()
+}
+
+///|
+/// Returns the Y coordinate relative to the page
+pub fn Touch::page_y(self : Self) -> Double {
+  self.to_js().get("pageY").cast()
+}
+
+///|
+/// Returns the X radius of the ellipse that approximates the touch area
+pub fn Touch::radius_x(self : Self) -> Double {
+  self.to_js().get("radiusX").cast()
+}
+
+///|
+/// Returns the Y radius of the ellipse that approximates the touch area
+pub fn Touch::radius_y(self : Self) -> Double {
+  self.to_js().get("radiusY").cast()
+}
+
+///|
+/// Returns the rotation angle of the touch area ellipse
+pub fn Touch::rotation_angle(self : Self) -> Double {
+  self.to_js().get("rotationAngle").cast()
+}
+
+///|
+/// Returns the amount of pressure applied
+pub fn Touch::force(self : Self) -> Double {
+  self.to_js().get("force").cast()
+}
+
+///|
+/// Returns the target element
+pub fn Touch::target(self : Self) -> Element {
+  self.to_js().get("target").cast()
+}
+
+///|
+/// ClipboardEvent represents a clipboard event
+/// https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent
+#external
+pub type ClipboardEvent
+
+///|
+impl Js for ClipboardEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+/// Returns the clipboard data
+/// https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
+pub fn ClipboardEvent::clipboard_data(self : Self) -> Val? {
+  self.to_js().get("clipboardData").cast_option()
+}
+
+///|
+/// TransitionEvent represents a CSS transition event
+/// https://developer.mozilla.org/en-US/docs/Web/API/TransitionEvent
+#external
+pub type TransitionEvent
+
+///|
+impl Js for TransitionEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+/// Returns the name of the CSS property associated with the transition
+pub fn TransitionEvent::property_name(self : Self) -> String {
+  self.to_js().get("propertyName").cast()
+}
+
+///|
+/// Returns the elapsed time of the transition in seconds
+pub fn TransitionEvent::elapsed_time(self : Self) -> Double {
+  self.to_js().get("elapsedTime").cast()
+}
+
+///|
+/// Returns the pseudo-element name
+pub fn TransitionEvent::pseudo_element(self : Self) -> String {
+  self.to_js().get("pseudoElement").cast()
+}
+
+///|
+/// AnimationEvent represents a CSS animation event
+/// https://developer.mozilla.org/en-US/docs/Web/API/AnimationEvent
+#external
+pub type AnimationEvent
+
+///|
+impl Js for AnimationEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+/// Returns the name of the CSS animation
+pub fn AnimationEvent::animation_name(self : Self) -> String {
+  self.to_js().get("animationName").cast()
+}
+
+///|
+/// Returns the elapsed time of the animation in seconds
+pub fn AnimationEvent::elapsed_time(self : Self) -> Double {
+  self.to_js().get("elapsedTime").cast()
+}
+
+///|
+/// Returns the pseudo-element name
+pub fn AnimationEvent::pseudo_element(self : Self) -> String {
+  self.to_js().get("pseudoElement").cast()
+}
+
+///|
+/// ScrollEvent represents a scroll event
+#external
+pub type ScrollEvent
+
+///|
+impl Js for ScrollEvent with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+/// ResizeObserverEntry represents an entry in a ResizeObserver
+/// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry
+#external
+pub type ResizeObserverEntry
+
+///|
+impl Js for ResizeObserverEntry with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+/// Returns the target element being observed
+pub fn ResizeObserverEntry::target(self : Self) -> Element {
+  self.to_js().get("target").cast()
+}
+
+///|
+/// Returns the content rect
+pub fn ResizeObserverEntry::content_rect(self : Self) -> Val {
+  self.to_js().get("contentRect")
+}
+
+///|
+/// Returns the border box size
+pub fn ResizeObserverEntry::border_box_size(self : Self) -> Val {
+  self.to_js().get("borderBoxSize")
+}
+
+///|
+/// Returns the content box size
+pub fn ResizeObserverEntry::content_box_size(self : Self) -> Val {
+  self.to_js().get("contentBoxSize")
+}
