@@ -1,3 +1,4 @@
 {
-  "is-main": true
+  "is-main": true,
+  "warn-list": "-1"
 }

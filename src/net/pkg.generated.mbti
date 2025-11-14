@@ -3,23 +3,31 @@ package "mizchi/js/net"
 
 import(
   "mizchi/js"
+  "mizchi/js/arraybuffer"
   "mizchi/js/async"
 )
 
 // Values
-async fn fetch(String, method_~ : String, headers? : Map[String, String], body? : String) -> @async.Promise[Response]
+fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.Js, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @async.AbortSignal) -> @async.Promise[Response]
 
-async fn fetch_request(Request) -> @async.Promise[Response]
+fn fetch_request(Request) -> @async.Promise[Response]
 
 // Errors
 
 // Types and methods
 #external
+pub type FormData
+fn FormData::append(Self, String, String) -> Unit
+fn FormData::delete(Self, String) -> Unit
+fn FormData::get(Self, String) -> String
+impl @js.Js for FormData
+
+#external
 pub type Headers
 
 #external
 pub type Request
-fn Request::arraybuffer(Self) -> @async.Promise[@js.Val]
+fn Request::arraybuffer(Self) -> @async.Promise[@arraybuffer.ArrayBuffer]
 fn Request::blob(Self) -> @async.Promise[@js.Val]
 #alias(bodyUsed)
 fn Request::body_used(Self) -> Bool
@@ -35,8 +43,20 @@ impl @js.Js for Request
 
 #external
 pub type Response
+fn Response::bytes(Self) -> @async.Promise[@arraybuffer.Uint8Array]
+fn Response::clone(Self) -> Self
+fn Response::error() -> Self
+fn Response::form_data(Self) -> @async.Promise[FormData]
 fn Response::json(Self) -> @async.Promise[@js.Val]
+fn Response::json_(@js.Val, options? : @js.Val) -> Self
+fn Response::ok(Self) -> Bool
+fn Response::redirect(String, status? : Int) -> Self
+fn Response::redirected(Self) -> Bool
+fn Response::status(Self) -> Int
+#alias(statusText)
+fn Response::status_text(Self) -> String
 fn Response::text(Self) -> @async.Promise[String]
+fn Response::type_(Self) -> String
 impl @js.Js for Response
 
 // Type aliases

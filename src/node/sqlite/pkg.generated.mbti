@@ -10,6 +10,94 @@ import(
 // Values
 fn backup(DatabaseSync, String, rate? : Int, source? : String, target? : String, progress? : (BackupProgress) -> Unit) -> Unit
 
+fn sqlite_alter_table() -> Int
+
+fn sqlite_analyze() -> Int
+
+fn sqlite_attach() -> Int
+
+fn sqlite_changeset_abort() -> Int
+
+fn sqlite_changeset_conflict() -> Int
+
+fn sqlite_changeset_data() -> Int
+
+fn sqlite_changeset_foreign_key() -> Int
+
+fn sqlite_changeset_notfound() -> Int
+
+fn sqlite_changeset_omit() -> Int
+
+fn sqlite_changeset_replace() -> Int
+
+fn sqlite_copy() -> Int
+
+fn sqlite_create_index() -> Int
+
+fn sqlite_create_table() -> Int
+
+fn sqlite_create_temp_index() -> Int
+
+fn sqlite_create_temp_table() -> Int
+
+fn sqlite_create_temp_trigger() -> Int
+
+fn sqlite_create_temp_view() -> Int
+
+fn sqlite_create_trigger() -> Int
+
+fn sqlite_create_view() -> Int
+
+fn sqlite_create_vtable() -> Int
+
+fn sqlite_delete() -> Int
+
+fn sqlite_deny() -> Int
+
+fn sqlite_detach() -> Int
+
+fn sqlite_drop_index() -> Int
+
+fn sqlite_drop_table() -> Int
+
+fn sqlite_drop_temp_index() -> Int
+
+fn sqlite_drop_temp_table() -> Int
+
+fn sqlite_drop_temp_trigger() -> Int
+
+fn sqlite_drop_temp_view() -> Int
+
+fn sqlite_drop_trigger() -> Int
+
+fn sqlite_drop_view() -> Int
+
+fn sqlite_drop_vtable() -> Int
+
+fn sqlite_function() -> Int
+
+fn sqlite_ignore() -> Int
+
+fn sqlite_insert() -> Int
+
+fn sqlite_ok() -> Int
+
+fn sqlite_pragma() -> Int
+
+fn sqlite_read() -> Int
+
+fn sqlite_recursive() -> Int
+
+fn sqlite_reindex() -> Int
+
+fn sqlite_savepoint() -> Int
+
+fn sqlite_select() -> Int
+
+fn sqlite_transaction() -> Int
+
+fn sqlite_update() -> Int
+
 // Errors
 
 // Types and methods
@@ -20,23 +108,39 @@ pub(all) struct BackupProgress {
 
 #external
 pub type DatabaseSync
-fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T) -> Bool
+fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T, inverse? : (T, U) -> T, result? : (T) -> @js.Val) -> Unit
 #alias(apply_changeset)
 fn DatabaseSync::applyChangeset(Self, @arraybuffer.Uint8Array, filter? : (@js.Val) -> Bool, onConflict? : (@js.Val, @js.Val) -> Bool) -> Bool
-fn DatabaseSync::close(Self) -> Bool
+fn DatabaseSync::close(Self) -> Unit
 #alias(create_session)
 fn DatabaseSync::createSession(Self, table? : String, db? : String) -> Session
 #alias(create_tag_store)
-fn DatabaseSync::createTagStore(Self, max_size? : Int) -> Bool
+fn DatabaseSync::createTagStore(Self, max_size? : Int) -> SQLTagStore
+#alias(enable_load_extension)
+fn DatabaseSync::enableLoadExtension(Self, Bool) -> Unit
 fn DatabaseSync::exec(Self, String) -> Unit
+fn DatabaseSync::function(Self, String, (Array[@js.Val]) -> @js.Val, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool) -> Unit
 #alias(is_open)
 fn DatabaseSync::isOpen(Self) -> Bool
 #alias(is_transaction)
 fn DatabaseSync::isTransaction(Self) -> Bool
+#alias(load_extension)
+fn DatabaseSync::loadExtension(Self, String) -> Unit
+fn DatabaseSync::location(Self, db_name? : String) -> String?
 fn DatabaseSync::new(String, open? : Bool, readOnly? : Bool, enableForeignKeyConstraints? : Bool, allowExtension? : Bool, timeout? : Int, readBigInts? : Bool, returnArrays? : Bool, allowBareNamedParameters? : Bool, allowUnknownNamedParameters? : Bool, defensive? : Bool) -> Self
-fn DatabaseSync::open(Self) -> Bool
+fn DatabaseSync::open(Self) -> Unit
 fn DatabaseSync::prepare(Self, String) -> StatementSync
+#alias(set_authorizer)
+fn DatabaseSync::setAuthorizer(Self, (Int, String?, String?, String?, String?) -> Int) -> Unit
 impl @js.Js for DatabaseSync
+
+#external
+pub type SQLTagStore
+fn SQLTagStore::capacity(Self) -> Int
+fn SQLTagStore::clear(Self) -> Unit
+fn SQLTagStore::db(Self) -> DatabaseSync
+fn SQLTagStore::size(Self) -> Int
+impl @js.Js for SQLTagStore
 
 #external
 pub type Session
@@ -45,13 +149,32 @@ fn Session::close(Self) -> Unit
 fn Session::patchset(Self) -> @arraybuffer.Uint8Array
 impl @js.Js for Session
 
+pub(all) struct StatementResultingChanges {
+  changes : Int
+  lastInsertRowid : Int
+}
+impl @js.Js for StatementResultingChanges
+impl Show for StatementResultingChanges
+
 #external
 pub type StatementSync
-fn StatementSync::all(Self) -> @js.Val
-fn StatementSync::columns(Self) -> Array[String]
-fn StatementSync::get(Self) -> @js.Val
-fn StatementSync::iterate(Self) -> @iterator.Generator[@js.Val]
-fn StatementSync::run(Self, Array[@js.Val]) -> Unit
+fn StatementSync::all(Self, named_parameters? : Map[String, &@js.Js], anonymous_parameters? : Array[&@js.Js]) -> Array[@js.Val]
+fn StatementSync::columns(Self) -> Array[@js.Val]
+#alias(expanded_sql)
+fn StatementSync::expandedSQL(Self) -> String
+fn StatementSync::get(Self, named_parameters? : Map[String, &@js.Js], anonymous_parameters? : Array[&@js.Js]) -> @js.Val?
+fn StatementSync::iterate(Self, named_parameters? : Map[String, &@js.Js], anonymous_parameters? : Array[&@js.Js]) -> @iterator.Generator[@js.Val]
+fn StatementSync::run(Self, named_parameters? : Map[String, &@js.Js], anonymous_parameters? : Array[&@js.Js]) -> StatementResultingChanges
+#alias(set_allow_bare_named_parameters)
+fn StatementSync::setAllowBareNamedParameters(Self, Bool) -> Unit
+#alias(set_allow_unknown_named_parameters)
+fn StatementSync::setAllowUnknownNamedParameters(Self, Bool) -> Unit
+#alias(set_read_big_ints)
+fn StatementSync::setReadBigInts(Self, Bool) -> Unit
+#alias(set_return_arrays)
+fn StatementSync::setReturnArrays(Self, Bool) -> Unit
+#alias(source_sql)
+fn StatementSync::sourceSQL(Self) -> String
 impl @js.Js for StatementSync
 
 // Type aliases

@@ -1,4 +1,48 @@
 ///|
+/// Node.js SQLite module bindings
+///
+/// This module provides comprehensive bindings for Node.js's native SQLite support.
+/// It allows for synchronous SQLite database operations with type-safe wrappers.
+///
+/// # Example
+///
+/// ```
+/// let db = DatabaseSync::new(":memory:")
+/// db.exec("CREATE TABLE users(id INTEGER PRIMARY KEY, name TEXT)")
+///
+/// let stmt = db.prepare("INSERT INTO users (name) VALUES (?)")
+/// stmt.run(anonymous_parameters=["Alice"]) |> ignore
+///
+/// let query = db.prepare("SELECT * FROM users WHERE id = ?")
+/// query.get(anonymous_parameters=[1]) |> ignore
+/// let results = query.all()
+/// ```
+///
+/// # Features
+///
+/// - **DatabaseSync**: Main database connection class
+///   - Create in-memory or file-based databases
+///   - Execute SQL statements
+///   - Prepare parameterized statements
+///   - Custom functions and aggregates
+///   - Session-based changesets for replication
+///   - Authorization callbacks
+///
+/// - **StatementSync**: Prepared statement execution
+///   - Named and anonymous parameter binding
+///   - Multiple result retrieval methods (get, all, iterate)
+///   - Metadata access
+///   - BigInt support
+///
+/// - **Session**: Track database changes
+///   - Generate changesets and patchsets
+///   - Apply changes to other databases
+///
+/// # Note
+///
+/// This module requires Node.js with SQLite support (Node.js 22.5.0+).
+/// SQLite is an experimental feature in Node.js.
+///
 using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
@@ -76,10 +120,9 @@ pub fn[T, U] DatabaseSync::aggregate(
   varargs? : Bool,
   start? : U,
   step? : (T, U) -> T,
-  // TODO
-  // inverse? : (T, U) -> T,
-  // result? : (T) -> Val,
-) -> Bool {
+  inverse? : (T, U) -> T,
+  result? : (T) -> Val,
+) -> Unit {
   let opts = @js.new_empty_object()
   if deterministic is Some(v) {
     opts["deterministic"] = v
@@ -99,7 +142,71 @@ pub fn[T, U] DatabaseSync::aggregate(
   if step is Some(v) {
     opts["step"] = v |> js
   }
-  self.to_js().call_method("aggregate", [name, opts]).cast()
+  if inverse is Some(v) {
+    opts["inverse"] = v |> js
+  }
+  if result is Some(v) {
+    opts["result"] = v |> js
+  }
+  self.to_js().call_method("aggregate", [name, opts]) |> ignore
+}
+
+///|
+pub fn DatabaseSync::function(
+  self : Self,
+  name : String,
+  func : (Array[Val]) -> Val,
+  deterministic? : Bool,
+  directOnly? : Bool,
+  useBigIntArguments? : Bool,
+  varargs? : Bool,
+) -> Unit {
+  let opts = @js.new_empty_object()
+  if deterministic is Some(v) {
+    opts["deterministic"] = v
+  }
+  if directOnly is Some(v) {
+    opts["directOnly"] = v
+  }
+  if useBigIntArguments is Some(v) {
+    opts["useBigIntArguments"] = v
+  }
+  if varargs is Some(v) {
+    opts["varargs"] = v
+  }
+  self.to_js().call_method("function", [name, opts, func |> js]) |> ignore
+}
+
+///|
+#alias(set_authorizer)
+pub fn DatabaseSync::setAuthorizer(
+  self : Self,
+  callback : (Int, String?, String?, String?, String?) -> Int,
+) -> Unit {
+  self.to_js().call_method("setAuthorizer", [callback |> js]) |> ignore
+}
+
+///|
+pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
+  let args : Array[&Js] = if db_name is Some(name) { [name] } else { [] }
+  let result = self.to_js().call_method("location", args)
+  if result.is_null() {
+    None
+  } else {
+    Some(result.cast())
+  }
+}
+
+///|
+#alias(load_extension)
+pub fn DatabaseSync::loadExtension(self : Self, path : String) -> Unit {
+  self.to_js().call_method("loadExtension", [path]) |> ignore
+}
+
+///|
+#alias(enable_load_extension)
+pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
+  self.to_js().call_method("enableLoadExtension", [allow]) |> ignore
 }
 
 ///|
@@ -115,19 +222,23 @@ pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
 }
 
 ///|
-pub fn DatabaseSync::open(self : Self) -> Bool {
-  self.to_js().call_method("open", []).cast()
+pub fn DatabaseSync::open(self : Self) -> Unit {
+  self.to_js().call_method("open", []) |> ignore
 }
 
 ///|
-pub fn DatabaseSync::close(self : Self) -> Bool {
-  self.to_js().call_method("close", []).cast()
+pub fn DatabaseSync::close(self : Self) -> Unit {
+  self.to_js().call_method("close", []) |> ignore
 }
 
 ///|
 #alias(create_tag_store)
-pub fn DatabaseSync::createTagStore(self : Self, max_size? : Int) -> Bool {
-  self.to_js().call_method("createTagStore", [max_size]).cast()
+pub fn DatabaseSync::createTagStore(
+  self : Self,
+  max_size? : Int,
+) -> SQLTagStore {
+  let args : Array[&Js] = if max_size is Some(size) { [size] } else { [] }
+  self.to_js().call_method("createTagStore", args).cast()
 }
 
 ///|
@@ -165,10 +276,13 @@ pub fn DatabaseSync::applyChangeset(
   filter? : (Val) -> Bool,
   onConflict? : (Val, Val) -> Bool,
 ) -> Bool {
-  let opts = @js.from_builtin_map({
-    "filter": filter |> js,
-    "onConflict": onConflict |> js,
-  })
+  let opts = @js.new_empty_object()
+  if filter is Some(f) {
+    opts["filter"] = f |> js
+  }
+  if onConflict is Some(oc) {
+    opts["onConflict"] = oc |> js
+  }
   self.to_js().call_method("applyChangeset", [changeset, opts]).cast()
 }
 
@@ -182,28 +296,155 @@ pub impl Js for StatementSync with to_js(self) {
 }
 
 ///|
-pub fn StatementSync::get(self : Self) -> Val {
-  self.to_js().call_method("get", []).cast()
+pub fn StatementSync::get(
+  self : Self,
+  named_parameters? : Map[String, &Js],
+  anonymous_parameters? : Array[&Js],
+) -> Val? {
+  let args : Array[&Js] = []
+  if named_parameters is Some(params) {
+    let obj = @js.new_empty_object()
+    for key, value in params {
+      obj.set(key, value.to_js())
+    }
+    args.push(obj)
+  }
+  if anonymous_parameters is Some(params_arr) {
+    for param in params_arr {
+      args.push(param)
+    }
+  }
+  let result = self.to_js().call_method("get", args)
+  if result.is_undefined() {
+    None
+  } else {
+    Some(result)
+  }
 }
 
 ///|
-pub fn StatementSync::columns(self : Self) -> Array[String] {
+pub fn StatementSync::columns(self : Self) -> Array[Val] {
   self.to_js().call_method("columns", []).cast()
 }
 
 ///|
-pub fn StatementSync::run(self : Self, args : Array[Val]) -> Unit {
-  self.to_js().call_method("run", args.map(_.to_js())).cast()
+pub fn StatementSync::run(
+  self : Self,
+  named_parameters? : Map[String, &Js],
+  anonymous_parameters? : Array[&Js],
+) -> StatementResultingChanges {
+  let args : Array[&Js] = []
+  if named_parameters is Some(params) {
+    let obj = @js.new_empty_object()
+    for key, value in params {
+      obj.set(key, value.to_js())
+    }
+    args.push(obj)
+  }
+  if anonymous_parameters is Some(params_arr) {
+    for param in params_arr {
+      args.push(param)
+    }
+  }
+  self.to_js().call_method("run", args).cast()
 }
 
 ///|
-pub fn StatementSync::all(self : Self) -> Val {
-  self.to_js().call_method("all", []).cast()
+pub fn StatementSync::all(
+  self : Self,
+  named_parameters? : Map[String, &Js],
+  anonymous_parameters? : Array[&Js],
+) -> Array[Val] {
+  let args : Array[&Js] = []
+  if named_parameters is Some(params) {
+    let obj = @js.new_empty_object()
+    for key, value in params {
+      obj.set(key, value.to_js())
+    }
+    args.push(obj)
+  }
+  if anonymous_parameters is Some(params_arr) {
+    for param in params_arr {
+      args.push(param)
+    }
+  }
+  self.to_js().call_method("all", args).cast()
 }
 
 ///|
-pub fn StatementSync::iterate(self : Self) -> Generator[Val] {
-  self.to_js().call_method("iterate", []).cast()
+pub fn StatementSync::iterate(
+  self : Self,
+  named_parameters? : Map[String, &Js],
+  anonymous_parameters? : Array[&Js],
+) -> Generator[Val] {
+  let args : Array[&Js] = []
+  if named_parameters is Some(params) {
+    let obj = @js.new_empty_object()
+    for key, value in params {
+      obj.set(key, value.to_js())
+    }
+    args.push(obj)
+  }
+  if anonymous_parameters is Some(params_arr) {
+    for param in params_arr {
+      args.push(param)
+    }
+  }
+  self.to_js().call_method("iterate", args).cast()
+}
+
+///|
+#alias(expanded_sql)
+pub fn StatementSync::expandedSQL(self : Self) -> String {
+  self.to_js().get("expandedSQL").cast()
+}
+
+///|
+#alias(source_sql)
+pub fn StatementSync::sourceSQL(self : Self) -> String {
+  self.to_js().get("sourceSQL").cast()
+}
+
+///|
+#alias(set_allow_bare_named_parameters)
+pub fn StatementSync::setAllowBareNamedParameters(
+  self : Self,
+  enabled : Bool,
+) -> Unit {
+  self.to_js().call_method("setAllowBareNamedParameters", [enabled]) |> ignore
+}
+
+///|
+#alias(set_allow_unknown_named_parameters)
+pub fn StatementSync::setAllowUnknownNamedParameters(
+  self : Self,
+  enabled : Bool,
+) -> Unit {
+  self.to_js().call_method("setAllowUnknownNamedParameters", [enabled])
+  |> ignore
+}
+
+///|
+#alias(set_return_arrays)
+pub fn StatementSync::setReturnArrays(self : Self, enabled : Bool) -> Unit {
+  self.to_js().call_method("setReturnArrays", [enabled]) |> ignore
+}
+
+///|
+#alias(set_read_big_ints)
+pub fn StatementSync::setReadBigInts(self : Self, enabled : Bool) -> Unit {
+  self.to_js().call_method("setReadBigInts", [enabled]) |> ignore
+}
+
+///|
+pub(all) struct StatementResultingChanges {
+  changes : Int
+  lastInsertRowid : Int
+} derive(Show)
+
+///|
+pub impl Js for StatementResultingChanges with to_js(self) -> Val {
+  self |> js
 }
 
 ///|
@@ -227,7 +468,36 @@ pub fn Session::patchset(self : Self) -> Uint8Array {
 
 ///|
 pub fn Session::close(self : Self) -> Unit {
-  self.to_js().call_method("close", []).cast()
+  self.to_js().call_method("close", []) |> ignore
+}
+
+///|
+#external
+pub type SQLTagStore
+
+///|
+pub impl Js for SQLTagStore with to_js(self) {
+  self |> js
+}
+
+///|
+pub fn SQLTagStore::capacity(self : Self) -> Int {
+  self.to_js().get("capacity").cast()
+}
+
+///|
+pub fn SQLTagStore::size(self : Self) -> Int {
+  self.to_js().call_method("size", []).cast()
+}
+
+///|
+pub fn SQLTagStore::clear(self : Self) -> Unit {
+  self.to_js().call_method("clear", []) |> ignore
+}
+
+///|
+pub fn SQLTagStore::db(self : Self) -> DatabaseSync {
+  self.to_js().get("db").cast()
 }
 
 ///|
@@ -260,4 +530,231 @@ pub fn backup(
   }
   let backup : Val = @node.require("node:sqlite").get("backup")
   backup.call([source_db.to_js(), db_path, opts]) |> ignore
+}
+
+///|
+/// SQLite constants accessor
+fn get_constants() -> Val {
+  let sqlite = @node.require("node:sqlite")
+  sqlite.get("constants")
+}
+
+///|
+pub fn sqlite_changeset_data() -> Int {
+  get_constants().get("SQLITE_CHANGESET_DATA").cast()
+}
+
+///|
+pub fn sqlite_changeset_notfound() -> Int {
+  get_constants().get("SQLITE_CHANGESET_NOTFOUND").cast()
+}
+
+///|
+pub fn sqlite_changeset_conflict() -> Int {
+  get_constants().get("SQLITE_CHANGESET_CONFLICT").cast()
+}
+
+///|
+pub fn sqlite_changeset_foreign_key() -> Int {
+  get_constants().get("SQLITE_CHANGESET_FOREIGN_KEY").cast()
+}
+
+///|
+pub fn sqlite_changeset_omit() -> Int {
+  get_constants().get("SQLITE_CHANGESET_OMIT").cast()
+}
+
+///|
+pub fn sqlite_changeset_replace() -> Int {
+  get_constants().get("SQLITE_CHANGESET_REPLACE").cast()
+}
+
+///|
+pub fn sqlite_changeset_abort() -> Int {
+  get_constants().get("SQLITE_CHANGESET_ABORT").cast()
+}
+
+///|
+pub fn sqlite_deny() -> Int {
+  get_constants().get("SQLITE_DENY").cast()
+}
+
+///|
+pub fn sqlite_ignore() -> Int {
+  get_constants().get("SQLITE_IGNORE").cast()
+}
+
+///|
+pub fn sqlite_ok() -> Int {
+  get_constants().get("SQLITE_OK").cast()
+}
+
+///|
+pub fn sqlite_create_index() -> Int {
+  get_constants().get("SQLITE_CREATE_INDEX").cast()
+}
+
+///|
+pub fn sqlite_create_table() -> Int {
+  get_constants().get("SQLITE_CREATE_TABLE").cast()
+}
+
+///|
+pub fn sqlite_create_temp_index() -> Int {
+  get_constants().get("SQLITE_CREATE_TEMP_INDEX").cast()
+}
+
+///|
+pub fn sqlite_create_temp_table() -> Int {
+  get_constants().get("SQLITE_CREATE_TEMP_TABLE").cast()
+}
+
+///|
+pub fn sqlite_create_temp_trigger() -> Int {
+  get_constants().get("SQLITE_CREATE_TEMP_TRIGGER").cast()
+}
+
+///|
+pub fn sqlite_create_temp_view() -> Int {
+  get_constants().get("SQLITE_CREATE_TEMP_VIEW").cast()
+}
+
+///|
+pub fn sqlite_create_trigger() -> Int {
+  get_constants().get("SQLITE_CREATE_TRIGGER").cast()
+}
+
+///|
+pub fn sqlite_create_view() -> Int {
+  get_constants().get("SQLITE_CREATE_VIEW").cast()
+}
+
+///|
+pub fn sqlite_delete() -> Int {
+  get_constants().get("SQLITE_DELETE").cast()
+}
+
+///|
+pub fn sqlite_drop_index() -> Int {
+  get_constants().get("SQLITE_DROP_INDEX").cast()
+}
+
+///|
+pub fn sqlite_drop_table() -> Int {
+  get_constants().get("SQLITE_DROP_TABLE").cast()
+}
+
+///|
+pub fn sqlite_drop_temp_index() -> Int {
+  get_constants().get("SQLITE_DROP_TEMP_INDEX").cast()
+}
+
+///|
+pub fn sqlite_drop_temp_table() -> Int {
+  get_constants().get("SQLITE_DROP_TEMP_TABLE").cast()
+}
+
+///|
+pub fn sqlite_drop_temp_trigger() -> Int {
+  get_constants().get("SQLITE_DROP_TEMP_TRIGGER").cast()
+}
+
+///|
+pub fn sqlite_drop_temp_view() -> Int {
+  get_constants().get("SQLITE_DROP_TEMP_VIEW").cast()
+}
+
+///|
+pub fn sqlite_drop_trigger() -> Int {
+  get_constants().get("SQLITE_DROP_TRIGGER").cast()
+}
+
+///|
+pub fn sqlite_drop_view() -> Int {
+  get_constants().get("SQLITE_DROP_VIEW").cast()
+}
+
+///|
+pub fn sqlite_insert() -> Int {
+  get_constants().get("SQLITE_INSERT").cast()
+}
+
+///|
+pub fn sqlite_pragma() -> Int {
+  get_constants().get("SQLITE_PRAGMA").cast()
+}
+
+///|
+pub fn sqlite_read() -> Int {
+  get_constants().get("SQLITE_READ").cast()
+}
+
+///|
+pub fn sqlite_select() -> Int {
+  get_constants().get("SQLITE_SELECT").cast()
+}
+
+///|
+pub fn sqlite_transaction() -> Int {
+  get_constants().get("SQLITE_TRANSACTION").cast()
+}
+
+///|
+pub fn sqlite_update() -> Int {
+  get_constants().get("SQLITE_UPDATE").cast()
+}
+
+///|
+pub fn sqlite_attach() -> Int {
+  get_constants().get("SQLITE_ATTACH").cast()
+}
+
+///|
+pub fn sqlite_detach() -> Int {
+  get_constants().get("SQLITE_DETACH").cast()
+}
+
+///|
+pub fn sqlite_alter_table() -> Int {
+  get_constants().get("SQLITE_ALTER_TABLE").cast()
+}
+
+///|
+pub fn sqlite_reindex() -> Int {
+  get_constants().get("SQLITE_REINDEX").cast()
+}
+
+///|
+pub fn sqlite_analyze() -> Int {
+  get_constants().get("SQLITE_ANALYZE").cast()
+}
+
+///|
+pub fn sqlite_create_vtable() -> Int {
+  get_constants().get("SQLITE_CREATE_VTABLE").cast()
+}
+
+///|
+pub fn sqlite_drop_vtable() -> Int {
+  get_constants().get("SQLITE_DROP_VTABLE").cast()
+}
+
+///|
+pub fn sqlite_function() -> Int {
+  get_constants().get("SQLITE_FUNCTION").cast()
+}
+
+///|
+pub fn sqlite_savepoint() -> Int {
+  get_constants().get("SQLITE_SAVEPOINT").cast()
+}
+
+///|
+pub fn sqlite_copy() -> Int {
+  get_constants().get("SQLITE_COPY").cast()
+}
+
+///|
+pub fn sqlite_recursive() -> Int {
+  get_constants().get("SQLITE_RECURSIVE").cast()
 }

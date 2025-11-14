@@ -77,10 +77,6 @@ extern "js" fn ffi_console_log(v : Array[JsValue]) -> Unit =
   #|(obj) => console.log(...obj)
 
 ///|
-extern "js" fn console_log(v : String) -> Unit =
-  #|(v) => console.log(v)
-
-///|
 pub fn[T] log(v : T) -> Unit {
   ffi_console_log([v |> unsafe_cast])
 }
@@ -175,21 +171,6 @@ async fn[T, E : Error] suspend(
 ) -> T raise E = "%async.suspend"
 
 ///|
-#external
-type JSTimer
-
-///|
-extern "js" fn js_set_timeout(f : () -> Unit, duration~ : Int) -> JSTimer =
-  #| (f, duration) => setTimeout(f, duration)
-
-///|
-async fn sleep(duration : Int) -> Unit {
-  suspend(fn(resume_ok, _resume_err) {
-    js_set_timeout(duration~, fn() { resume_ok(()) }) |> ignore
-  })
-}
-
-///|
 extern "js" fn ffi_wrap_call(
   op : () -> JsValue,
   on_ok : (JsValue) -> Unit,
@@ -214,12 +195,6 @@ pub fn JsValue::call_method_raise(
     Err(e) => raise JsError(e)
   }
 }
-
-// ///|
-// extern "js" fn ffi_promise_reject(e : Error) -> JsValue = "(x) => Promise.reject(x)"
-
-///|
-// extern "js" fn ffi_promise_then(x : JsValue, ok : (JsValue) -> JsValue) = "(x,f) => x.then(f)"
 
 ///|
 pub extern "js" fn ffi_promise_new(

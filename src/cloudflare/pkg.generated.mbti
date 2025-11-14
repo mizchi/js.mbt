@@ -32,6 +32,32 @@ fn CloudflareRequest::cf(Self) -> CloudflareContext
 fn CloudflareRequest::url(Self) -> String
 impl @js.Js for CloudflareRequest
 
+#external
+pub type D1Database
+fn D1Database::prepare(Self, String) -> D1PreparedStatement
+impl @js.Js for D1Database
+
+pub type D1PreparedStatement
+fn D1PreparedStatement::bind(Self, Array[@js.Val]) -> Self
+fn D1PreparedStatement::run(Self) -> @async.Promise[D1ResultSet]
+impl @js.Js for D1PreparedStatement
+
+pub(all) struct D1ResultSet {
+  results : Array[@js.Val]
+}
+
+#external
+pub type DurableObject
+impl @js.Js for DurableObject
+
+#external
+pub type KVNamespace
+impl @js.Js for KVNamespace
+
+#external
+pub type R2Bucket
+impl @js.Js for R2Bucket
+
 // Type aliases
 
 // Traits
