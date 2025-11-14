@@ -1,0 +1,26 @@
+name = "js-mbt-test"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[env.test]
+# KV Namespace for testing
+[[env.test.kv_namespaces]]
+binding = "TEST_KV"
+id = "test-kv-id"
+
+# D1 Database for testing
+[[env.test.d1_databases]]
+binding = "TEST_DB"
+database_name = "test-db"
+database_id = "test-db-id"
+
+# R2 Bucket for testing
+[[env.test.r2_buckets]]
+binding = "TEST_R2"
+bucket_name = "test-r2"
+
+# Durable Objects for testing
+[[env.test.durable_objects.bindings]]
+name = "TEST_DO"
+class_name = "TestDurableObject"
+script_name = "js-mbt-test"

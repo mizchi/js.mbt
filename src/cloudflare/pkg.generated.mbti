@@ -34,29 +34,339 @@ impl @js.Js for CloudflareRequest
 
 #external
 pub type D1Database
+fn D1Database::batch(Self, Array[D1PreparedStatement]) -> @async.Promise[Array[D1Result]]
+fn D1Database::dump(Self) -> @async.Promise[@js.Val]
+fn D1Database::exec(Self, String) -> @async.Promise[D1ExecResult]
 fn D1Database::prepare(Self, String) -> D1PreparedStatement
 impl @js.Js for D1Database
 
-pub type D1PreparedStatement
-fn D1PreparedStatement::bind(Self, Array[@js.Val]) -> Self
-fn D1PreparedStatement::run(Self) -> @async.Promise[D1ResultSet]
-impl @js.Js for D1PreparedStatement
-
-pub(all) struct D1ResultSet {
-  results : Array[@js.Val]
+pub(all) struct D1ExecResult {
+  count : Int
+  duration : Double
 }
+impl @js.Js for D1ExecResult
+
+pub(all) struct D1Meta {
+  duration : Double?
+  rows_read : Int?
+  rows_written : Int?
+  last_row_id : Int?
+  changed_db : Bool?
+  changes : Int?
+  size_after : Int?
+}
+impl @js.Js for D1Meta
 
 #external
-pub type DurableObject
-impl @js.Js for DurableObject
+pub type D1PreparedStatement
+fn D1PreparedStatement::all(Self) -> @async.Promise[D1Result]
+fn D1PreparedStatement::bind(Self, Array[@js.Val]) -> Self
+fn D1PreparedStatement::bind1(Self, @js.Val) -> Self
+fn D1PreparedStatement::bind2(Self, @js.Val, @js.Val) -> Self
+fn D1PreparedStatement::bind3(Self, @js.Val, @js.Val, @js.Val) -> Self
+fn D1PreparedStatement::first(Self) -> @async.Promise[@js.Val?]
+fn D1PreparedStatement::first_col(Self, String) -> @async.Promise[@js.Val?]
+fn D1PreparedStatement::raw(Self) -> @async.Promise[Array[@js.Val]]
+fn D1PreparedStatement::raw_with_options(Self, D1RawOptions) -> @async.Promise[Array[@js.Val]]
+fn D1PreparedStatement::run(Self) -> @async.Promise[D1Result]
+impl @js.Js for D1PreparedStatement
+
+pub(all) struct D1RawOptions {
+  column_names : Bool?
+}
+impl @js.Js for D1RawOptions
+
+#alias(D1ResultSet)
+pub(all) struct D1Result {
+  results : Array[@js.Val]?
+  success : Bool
+  meta : D1Meta?
+  error : String?
+}
+fn D1Result::get_results(Self) -> Array[@js.Val]
+impl @js.Js for D1Result
+
+pub(all) struct DurableObjectGetAlarmOptions {
+  allow_concurrency : Bool?
+}
+impl @js.Js for DurableObjectGetAlarmOptions
+
+pub(all) struct DurableObjectGetOptions {
+  allow_concurrency : Bool?
+  no_cache : Bool?
+}
+impl @js.Js for DurableObjectGetOptions
+
+#external
+pub type DurableObjectId
+fn DurableObjectId::equals(Self, Self) -> Bool
+fn DurableObjectId::name(Self) -> String?
+fn DurableObjectId::to_string(Self) -> String
+impl @js.Js for DurableObjectId
+
+pub(all) struct DurableObjectIdOptions {
+  jurisdiction : String?
+}
+impl @js.Js for DurableObjectIdOptions
+
+pub(all) struct DurableObjectListOptions {
+  start : String?
+  start_after : String?
+  end : String?
+  prefix : String?
+  reverse : Bool?
+  limit : Int?
+  allow_concurrency : Bool?
+  no_cache : Bool?
+}
+impl @js.Js for DurableObjectListOptions
+
+#external
+pub type DurableObjectNamespace
+fn DurableObjectNamespace::get(Self, DurableObjectId) -> DurableObjectStub
+fn DurableObjectNamespace::get_by_id_string(Self, String) -> DurableObjectStub
+fn DurableObjectNamespace::get_by_name(Self, String) -> DurableObjectStub
+fn DurableObjectNamespace::id_from_name(Self, String) -> DurableObjectId
+fn DurableObjectNamespace::id_from_string(Self, String) -> DurableObjectId
+fn DurableObjectNamespace::new_unique_id(Self) -> DurableObjectId
+fn DurableObjectNamespace::new_unique_id_with_options(Self, DurableObjectIdOptions) -> DurableObjectId
+impl @js.Js for DurableObjectNamespace
+
+pub(all) struct DurableObjectPutOptions {
+  allow_concurrency : Bool?
+  allow_unconfirmed : Bool?
+  no_cache : Bool?
+}
+impl @js.Js for DurableObjectPutOptions
+
+pub(all) struct DurableObjectSetAlarmOptions {
+  allow_concurrency : Bool?
+  allow_unconfirmed : Bool?
+}
+impl @js.Js for DurableObjectSetAlarmOptions
+
+#external
+pub type DurableObjectState
+fn DurableObjectState::block_concurrency_while(Self, @js.Val) -> @async.Promise[Unit]
+fn DurableObjectState::id(Self) -> DurableObjectId
+fn DurableObjectState::storage(Self) -> DurableObjectStorage
+fn DurableObjectState::wait_until(Self, @js.Val) -> Unit
+impl @js.Js for DurableObjectState
+
+#external
+pub type DurableObjectStorage
+fn DurableObjectStorage::delete(Self, String) -> @async.Promise[Bool]
+fn DurableObjectStorage::delete_alarm(Self) -> @async.Promise[Unit]
+fn DurableObjectStorage::delete_alarm_with_options(Self, DurableObjectSetAlarmOptions) -> @async.Promise[Unit]
+fn DurableObjectStorage::delete_all(Self) -> @async.Promise[Unit]
+fn DurableObjectStorage::delete_all_with_options(Self, DurableObjectPutOptions) -> @async.Promise[Unit]
+fn DurableObjectStorage::delete_multiple(Self, Array[String]) -> @async.Promise[Int]
+fn DurableObjectStorage::delete_multiple_with_options(Self, Array[String], DurableObjectPutOptions) -> @async.Promise[Int]
+fn DurableObjectStorage::delete_with_options(Self, String, DurableObjectPutOptions) -> @async.Promise[Bool]
+fn DurableObjectStorage::get(Self, String) -> @async.Promise[@js.Val?]
+fn DurableObjectStorage::get_alarm(Self) -> @async.Promise[Int?]
+fn DurableObjectStorage::get_alarm_with_options(Self, DurableObjectGetAlarmOptions) -> @async.Promise[Int?]
+fn DurableObjectStorage::get_multiple(Self, Array[String]) -> @async.Promise[@js.Val]
+fn DurableObjectStorage::get_multiple_with_options(Self, Array[String], DurableObjectGetOptions) -> @async.Promise[@js.Val]
+fn DurableObjectStorage::get_with_options(Self, String, DurableObjectGetOptions) -> @async.Promise[@js.Val?]
+fn DurableObjectStorage::list(Self) -> @async.Promise[@js.Val]
+fn DurableObjectStorage::list_with_options(Self, DurableObjectListOptions) -> @async.Promise[@js.Val]
+fn DurableObjectStorage::put(Self, String, @js.Val) -> @async.Promise[Unit]
+fn DurableObjectStorage::put_multiple(Self, @js.Val) -> @async.Promise[Unit]
+fn DurableObjectStorage::put_multiple_with_options(Self, @js.Val, DurableObjectPutOptions) -> @async.Promise[Unit]
+fn DurableObjectStorage::put_with_options(Self, String, @js.Val, DurableObjectPutOptions) -> @async.Promise[Unit]
+fn DurableObjectStorage::set_alarm(Self, Int) -> @async.Promise[Unit]
+fn DurableObjectStorage::set_alarm_with_options(Self, Int, DurableObjectSetAlarmOptions) -> @async.Promise[Unit]
+fn DurableObjectStorage::sync(Self) -> @async.Promise[Unit]
+fn DurableObjectStorage::transaction(Self, @js.Val) -> @async.Promise[@js.Val]
+impl @js.Js for DurableObjectStorage
+
+#external
+pub type DurableObjectStub
+fn DurableObjectStub::fetch(Self, @js.Val) -> @async.Promise[@js.Val]
+fn DurableObjectStub::fetch_url(Self, String) -> @async.Promise[@js.Val]
+fn DurableObjectStub::fetch_url_with_init(Self, String, @js.Val) -> @async.Promise[@js.Val]
+fn DurableObjectStub::fetch_with_init(Self, @js.Val, @js.Val) -> @async.Promise[@js.Val]
+fn DurableObjectStub::id(Self) -> DurableObjectId
+fn DurableObjectStub::name(Self) -> String?
+impl @js.Js for DurableObjectStub
+
+#external
+pub type DurableObjectTransaction
+fn DurableObjectTransaction::delete(Self, String) -> @async.Promise[Bool]
+fn DurableObjectTransaction::delete_alarm(Self) -> @async.Promise[Unit]
+fn DurableObjectTransaction::delete_all(Self) -> @async.Promise[Unit]
+fn DurableObjectTransaction::delete_multiple(Self, Array[String]) -> @async.Promise[Int]
+fn DurableObjectTransaction::get(Self, String) -> @async.Promise[@js.Val?]
+fn DurableObjectTransaction::get_alarm(Self) -> @async.Promise[Int?]
+fn DurableObjectTransaction::get_multiple(Self, Array[String]) -> @async.Promise[@js.Val]
+fn DurableObjectTransaction::list(Self) -> @async.Promise[@js.Val]
+fn DurableObjectTransaction::list_with_options(Self, DurableObjectListOptions) -> @async.Promise[@js.Val]
+fn DurableObjectTransaction::put(Self, String, @js.Val) -> @async.Promise[Unit]
+fn DurableObjectTransaction::put_multiple(Self, @js.Val) -> @async.Promise[Unit]
+fn DurableObjectTransaction::rollback(Self) -> Unit
+fn DurableObjectTransaction::set_alarm(Self, Int) -> @async.Promise[Unit]
+impl @js.Js for DurableObjectTransaction
+
+pub(all) struct KVGetOptions {
+  type_ : String?
+  cache_ttl : Int?
+}
+impl @js.Js for KVGetOptions
+
+pub(all) struct KVKey {
+  name : String
+  expiration : Int?
+  metadata : @js.Val?
+}
+impl @js.Js for KVKey
+
+pub(all) struct KVListOptions {
+  prefix : String?
+  limit : Int?
+  cursor : String?
+}
+impl @js.Js for KVListOptions
+
+pub(all) struct KVListResult {
+  keys : Array[KVKey]
+  list_complete : Bool
+  cursor : String?
+}
+impl @js.Js for KVListResult
 
 #external
 pub type KVNamespace
+fn KVNamespace::delete(Self, String) -> @async.Promise[Unit]
+fn KVNamespace::get(Self, String, KVGetOptions?) -> @async.Promise[String?]
+fn KVNamespace::get_array_buffer(Self, String) -> @async.Promise[@js.Val?]
+fn KVNamespace::get_json(Self, String) -> @async.Promise[@js.Val?]
+fn KVNamespace::get_stream(Self, String) -> @async.Promise[@js.Val?]
+fn KVNamespace::get_with_metadata(Self, String, KVGetOptions?) -> @async.Promise[KVValueWithMetadata]
+fn KVNamespace::list(Self, KVListOptions?) -> @async.Promise[KVListResult]
+fn KVNamespace::put(Self, String, String, KVPutOptions?) -> @async.Promise[Unit]
+fn KVNamespace::put_with_metadata(Self, String, String, @js.Val) -> @async.Promise[Unit]
 impl @js.Js for KVNamespace
+
+pub(all) struct KVPutOptions {
+  expiration : Int?
+  expiration_ttl : Int?
+  metadata : @js.Val?
+}
+impl @js.Js for KVPutOptions
+
+pub(all) struct KVValueWithMetadata {
+  value : @js.Val?
+  metadata : @js.Val?
+}
+impl @js.Js for KVValueWithMetadata
 
 #external
 pub type R2Bucket
+fn R2Bucket::create_multipart_upload(Self, String) -> @async.Promise[R2MultipartUpload]
+fn R2Bucket::create_multipart_upload_with_options(Self, String, R2PutOptions) -> @async.Promise[R2MultipartUpload]
+fn R2Bucket::delete(Self, String) -> @async.Promise[Unit]
+fn R2Bucket::delete_multiple(Self, Array[String]) -> @async.Promise[Unit]
+fn R2Bucket::get(Self, String) -> @async.Promise[R2Object?]
+fn R2Bucket::get_with_options(Self, String, R2GetOptions) -> @async.Promise[R2Object?]
+fn R2Bucket::head(Self, String) -> @async.Promise[R2Object?]
+fn R2Bucket::list(Self) -> @async.Promise[R2Objects]
+fn R2Bucket::list_with_options(Self, R2ListOptions) -> @async.Promise[R2Objects]
+fn R2Bucket::put(Self, String, @js.Val) -> @async.Promise[R2Object]
+fn R2Bucket::put_with_options(Self, String, @js.Val, R2PutOptions) -> @async.Promise[R2Object]
+fn R2Bucket::resume_multipart_upload(Self, String, String) -> R2MultipartUpload
 impl @js.Js for R2Bucket
+
+pub(all) struct R2Conditional {
+  etag_matches : String?
+  etag_does_not_match : String?
+  uploaded_before : @js.Val?
+  uploaded_after : @js.Val?
+}
+
+pub(all) struct R2GetOptions {
+  only_if : R2Conditional?
+  range : R2Range?
+}
+impl @js.Js for R2GetOptions
+
+pub(all) struct R2HttpMetadata {
+  content_type : String?
+  content_language : String?
+  content_disposition : String?
+  content_encoding : String?
+  cache_control : String?
+  cache_expiry : @js.Val?
+}
+impl @js.Js for R2HttpMetadata
+
+pub(all) struct R2ListOptions {
+  limit : Int?
+  prefix : String?
+  cursor : String?
+  delimiter : String?
+  start_after : String?
+  include_ : Array[String]?
+}
+impl @js.Js for R2ListOptions
+
+#external
+pub type R2MultipartUpload
+fn R2MultipartUpload::abort(Self) -> @async.Promise[Unit]
+fn R2MultipartUpload::complete(Self, Array[R2UploadedPart]) -> @async.Promise[R2Object]
+fn R2MultipartUpload::key(Self) -> String
+fn R2MultipartUpload::upload_id(Self) -> String
+fn R2MultipartUpload::upload_part(Self, Int, @js.Val) -> @async.Promise[R2UploadedPart]
+impl @js.Js for R2MultipartUpload
+
+#external
+pub type R2Object
+fn R2Object::array_buffer(Self) -> @async.Promise[@js.Val]
+fn R2Object::blob(Self) -> @async.Promise[@js.Val]
+fn R2Object::body(Self) -> @js.Val
+fn R2Object::body_used(Self) -> Bool
+fn R2Object::custom_metadata(Self) -> @js.Val
+fn R2Object::etag(Self) -> String
+fn R2Object::http_metadata(Self) -> @js.Val
+fn R2Object::json(Self) -> @async.Promise[@js.Val]
+fn R2Object::key(Self) -> String
+fn R2Object::size(Self) -> Int
+fn R2Object::text(Self) -> @async.Promise[String]
+fn R2Object::uploaded(Self) -> @js.Val
+fn R2Object::version(Self) -> String
+fn R2Object::write_http_metadata(Self, @js.Val) -> Unit
+impl @js.Js for R2Object
+
+pub(all) struct R2Objects {
+  objects : Array[R2Object]
+  truncated : Bool
+  cursor : String?
+  delimited_prefixes : Array[String]
+}
+impl @js.Js for R2Objects
+
+pub(all) struct R2PutOptions {
+  http_metadata : R2HttpMetadata?
+  custom_metadata : @js.Val?
+  md5 : String?
+  sha1 : String?
+  sha256 : String?
+  sha384 : String?
+  sha512 : String?
+}
+impl @js.Js for R2PutOptions
+
+pub(all) struct R2Range {
+  offset : Int?
+  length : Int?
+  suffix : Int?
+}
+
+pub(all) struct R2UploadedPart {
+  part_number : Int
+  etag : String
+}
+impl @js.Js for R2UploadedPart
 
 // Type aliases
 

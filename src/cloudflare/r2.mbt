@@ -1,4 +1,4 @@
-// WIP
+// Cloudflare R2 Bucket bindings
 
 ///|
 #external
@@ -7,4 +7,496 @@ pub type R2Bucket
 ///|
 pub impl Js for R2Bucket with to_js(self) {
   self |> js
+}
+
+///|
+/// Get an object from R2
+pub fn R2Bucket::get(self : Self, key : String) -> Promise[R2Object?] {
+  self.to_js().call_method("get", [key]).cast()
+}
+
+///|
+/// Get an object from R2 with options
+pub fn R2Bucket::get_with_options(
+  self : Self,
+  key : String,
+  options : R2GetOptions,
+) -> Promise[R2Object?] {
+  self.to_js().call_method("get", [key, options]).cast()
+}
+
+///|
+/// Get object metadata without body
+pub fn R2Bucket::head(self : Self, key : String) -> Promise[R2Object?] {
+  self.to_js().call_method("head", [key]).cast()
+}
+
+///|
+/// Put an object into R2
+pub fn R2Bucket::put(
+  self : Self,
+  key : String,
+  value : Val,
+) -> Promise[R2Object] {
+  self.to_js().call_method("put", [key, value]).cast()
+}
+
+///|
+/// Put an object into R2 with options
+pub fn R2Bucket::put_with_options(
+  self : Self,
+  key : String,
+  value : Val,
+  options : R2PutOptions,
+) -> Promise[R2Object] {
+  self.to_js().call_method("put", [key, value, options]).cast()
+}
+
+///|
+/// Delete an object from R2
+pub fn R2Bucket::delete(self : Self, key : String) -> Promise[Unit] {
+  self.to_js().call_method("delete", [key]).cast()
+}
+
+///|
+/// Delete multiple objects from R2
+pub fn R2Bucket::delete_multiple(
+  self : Self,
+  keys : Array[String],
+) -> Promise[Unit] {
+  let keys_js = js("[]")
+  let mut i = 0
+  while i < keys.length() {
+    keys_js.call_method("push", [keys[i]]) |> ignore
+    i = i + 1
+  }
+  self.to_js().call_method("delete", [keys_js]).cast()
+}
+
+///|
+/// List objects in the bucket
+pub fn R2Bucket::list(self : Self) -> Promise[R2Objects] {
+  self.to_js().call_method("list", []).cast()
+}
+
+///|
+/// List objects with options
+pub fn R2Bucket::list_with_options(
+  self : Self,
+  options : R2ListOptions,
+) -> Promise[R2Objects] {
+  self.to_js().call_method("list", [options]).cast()
+}
+
+///|
+/// Create a multipart upload
+pub fn R2Bucket::create_multipart_upload(
+  self : Self,
+  key : String,
+) -> Promise[R2MultipartUpload] {
+  self.to_js().call_method("createMultipartUpload", [key]).cast()
+}
+
+///|
+/// Create a multipart upload with options
+pub fn R2Bucket::create_multipart_upload_with_options(
+  self : Self,
+  key : String,
+  options : R2PutOptions,
+) -> Promise[R2MultipartUpload] {
+  self.to_js().call_method("createMultipartUpload", [key, options]).cast()
+}
+
+///|
+/// Resume a multipart upload
+pub fn R2Bucket::resume_multipart_upload(
+  self : Self,
+  key : String,
+  upload_id : String,
+) -> R2MultipartUpload {
+  self.to_js().call_method("resumeMultipartUpload", [key, upload_id]).cast()
+}
+
+///|
+/// Options for R2 get operations
+pub(all) struct R2GetOptions {
+  only_if : R2Conditional?
+  range : R2Range?
+}
+
+///|
+pub impl Js for R2GetOptions with to_js(self) {
+  let obj = js("{}")
+  match self.only_if {
+    Some(cond) => {
+      let cond_obj = js("{}")
+      match cond.etag_matches {
+        Some(etag) => cond_obj.set("etagMatches", etag)
+        None => ()
+      }
+      match cond.etag_does_not_match {
+        Some(etag) => cond_obj.set("etagDoesNotMatch", etag)
+        None => ()
+      }
+      match cond.uploaded_before {
+        Some(date) => cond_obj.set("uploadedBefore", date)
+        None => ()
+      }
+      match cond.uploaded_after {
+        Some(date) => cond_obj.set("uploadedAfter", date)
+        None => ()
+      }
+      obj.set("onlyIf", cond_obj)
+    }
+    None => ()
+  }
+  match self.range {
+    Some(r) => {
+      let range_obj = js("{}")
+      match r.offset {
+        Some(offset) => range_obj.set("offset", offset)
+        None => ()
+      }
+      match r.length {
+        Some(length) => range_obj.set("length", length)
+        None => ()
+      }
+      match r.suffix {
+        Some(suffix) => range_obj.set("suffix", suffix)
+        None => ()
+      }
+      obj.set("range", range_obj)
+    }
+    None => ()
+  }
+  obj
+}
+
+///|
+/// Conditional options for R2 operations
+pub(all) struct R2Conditional {
+  etag_matches : String?
+  etag_does_not_match : String?
+  uploaded_before : Val?
+  uploaded_after : Val?
+}
+
+///|
+/// Range options for R2 get operations
+pub(all) struct R2Range {
+  offset : Int?
+  length : Int?
+  suffix : Int?
+}
+
+///|
+/// Options for R2 put operations
+pub(all) struct R2PutOptions {
+  http_metadata : R2HttpMetadata?
+  custom_metadata : Val?
+  md5 : String?
+  sha1 : String?
+  sha256 : String?
+  sha384 : String?
+  sha512 : String?
+}
+
+///|
+pub impl Js for R2PutOptions with to_js(self) {
+  let obj = js("{}")
+  match self.http_metadata {
+    Some(meta) => obj.set("httpMetadata", meta.to_js())
+    None => ()
+  }
+  match self.custom_metadata {
+    Some(meta) => obj.set("customMetadata", meta)
+    None => ()
+  }
+  match self.md5 {
+    Some(hash) => obj.set("md5", hash)
+    None => ()
+  }
+  match self.sha1 {
+    Some(hash) => obj.set("sha1", hash)
+    None => ()
+  }
+  match self.sha256 {
+    Some(hash) => obj.set("sha256", hash)
+    None => ()
+  }
+  match self.sha384 {
+    Some(hash) => obj.set("sha384", hash)
+    None => ()
+  }
+  match self.sha512 {
+    Some(hash) => obj.set("sha512", hash)
+    None => ()
+  }
+  obj
+}
+
+///|
+/// HTTP metadata for R2 objects
+pub(all) struct R2HttpMetadata {
+  content_type : String?
+  content_language : String?
+  content_disposition : String?
+  content_encoding : String?
+  cache_control : String?
+  cache_expiry : Val?
+}
+
+///|
+pub impl Js for R2HttpMetadata with to_js(self) {
+  let obj = js("{}")
+  match self.content_type {
+    Some(val) => obj.set("contentType", val)
+    None => ()
+  }
+  match self.content_language {
+    Some(val) => obj.set("contentLanguage", val)
+    None => ()
+  }
+  match self.content_disposition {
+    Some(val) => obj.set("contentDisposition", val)
+    None => ()
+  }
+  match self.content_encoding {
+    Some(val) => obj.set("contentEncoding", val)
+    None => ()
+  }
+  match self.cache_control {
+    Some(val) => obj.set("cacheControl", val)
+    None => ()
+  }
+  match self.cache_expiry {
+    Some(val) => obj.set("cacheExpiry", val)
+    None => ()
+  }
+  obj
+}
+
+///|
+/// Options for R2 list operations
+pub(all) struct R2ListOptions {
+  limit : Int?
+  prefix : String?
+  cursor : String?
+  delimiter : String?
+  start_after : String?
+  include_ : Array[String]?
+}
+
+///|
+pub impl Js for R2ListOptions with to_js(self) {
+  let obj = js("{}")
+  match self.limit {
+    Some(l) => obj.set("limit", l)
+    None => ()
+  }
+  match self.prefix {
+    Some(p) => obj.set("prefix", p)
+    None => ()
+  }
+  match self.cursor {
+    Some(c) => obj.set("cursor", c)
+    None => ()
+  }
+  match self.delimiter {
+    Some(d) => obj.set("delimiter", d)
+    None => ()
+  }
+  match self.start_after {
+    Some(s) => obj.set("startAfter", s)
+    None => ()
+  }
+  match self.include_ {
+    Some(inc) => {
+      let arr = js("[]")
+      let mut i = 0
+      while i < inc.length() {
+        arr.call_method("push", [inc[i]]) |> ignore
+        i = i + 1
+      }
+      obj.set("include", arr)
+    }
+    None => ()
+  }
+  obj
+}
+
+///|
+/// R2 Object type
+#external
+pub type R2Object
+
+///|
+pub impl Js for R2Object with to_js(self) {
+  self |> js
+}
+
+///|
+/// Get object key
+pub fn R2Object::key(self : Self) -> String {
+  self.to_js().get("key").cast()
+}
+
+///|
+/// Get object version
+pub fn R2Object::version(self : Self) -> String {
+  self.to_js().get("version").cast()
+}
+
+///|
+/// Get object size
+pub fn R2Object::size(self : Self) -> Int {
+  self.to_js().get("size").cast()
+}
+
+///|
+/// Get object etag
+pub fn R2Object::etag(self : Self) -> String {
+  self.to_js().get("etag").cast()
+}
+
+///|
+/// Get object HTTP metadata
+pub fn R2Object::http_metadata(self : Self) -> Val {
+  self.to_js().get("httpMetadata")
+}
+
+///|
+/// Get object custom metadata
+pub fn R2Object::custom_metadata(self : Self) -> Val {
+  self.to_js().get("customMetadata")
+}
+
+///|
+/// Get object uploaded time
+pub fn R2Object::uploaded(self : Self) -> Val {
+  self.to_js().get("uploaded")
+}
+
+///|
+/// Get object body as ArrayBuffer
+pub fn R2Object::array_buffer(self : Self) -> Promise[Val] {
+  self.to_js().call_method("arrayBuffer", []).cast()
+}
+
+///|
+/// Get object body as text
+pub fn R2Object::text(self : Self) -> Promise[String] {
+  self.to_js().call_method("text", []).cast()
+}
+
+///|
+/// Get object body as JSON
+pub fn R2Object::json(self : Self) -> Promise[Val] {
+  self.to_js().call_method("json", []).cast()
+}
+
+///|
+/// Get object body as blob
+pub fn R2Object::blob(self : Self) -> Promise[Val] {
+  self.to_js().call_method("blob", []).cast()
+}
+
+///|
+/// Get object body
+pub fn R2Object::body(self : Self) -> Val {
+  self.to_js().get("body")
+}
+
+///|
+/// Get object body used status
+pub fn R2Object::body_used(self : Self) -> Bool {
+  self.to_js().get("bodyUsed").cast()
+}
+
+///|
+/// Write object to a writable stream
+pub fn R2Object::write_http_metadata(self : Self, headers : Val) -> Unit {
+  self.to_js().call_method("writeHttpMetadata", [headers]).cast()
+}
+
+///|
+/// Result of list operation
+pub(all) struct R2Objects {
+  objects : Array[R2Object]
+  truncated : Bool
+  cursor : String?
+  delimited_prefixes : Array[String]
+}
+
+///|
+pub impl Js for R2Objects with to_js(self) {
+  self |> js
+}
+
+///|
+/// R2 Multipart Upload
+#external
+pub type R2MultipartUpload
+
+///|
+pub impl Js for R2MultipartUpload with to_js(self) {
+  self |> js
+}
+
+///|
+/// Get upload key
+pub fn R2MultipartUpload::key(self : Self) -> String {
+  self.to_js().get("key").cast()
+}
+
+///|
+/// Get upload ID
+pub fn R2MultipartUpload::upload_id(self : Self) -> String {
+  self.to_js().get("uploadId").cast()
+}
+
+///|
+/// Upload a part
+pub fn R2MultipartUpload::upload_part(
+  self : Self,
+  part_number : Int,
+  value : Val,
+) -> Promise[R2UploadedPart] {
+  self.to_js().call_method("uploadPart", [part_number, value]).cast()
+}
+
+///|
+/// Abort the multipart upload
+pub fn R2MultipartUpload::abort(self : Self) -> Promise[Unit] {
+  self.to_js().call_method("abort", []).cast()
+}
+
+///|
+/// Complete the multipart upload
+pub fn R2MultipartUpload::complete(
+  self : Self,
+  parts : Array[R2UploadedPart],
+) -> Promise[R2Object] {
+  let parts_js = js("[]")
+  let mut i = 0
+  while i < parts.length() {
+    parts_js.call_method("push", [parts[i]]) |> ignore
+    i = i + 1
+  }
+  self.to_js().call_method("complete", [parts_js]).cast()
+}
+
+///|
+/// Uploaded part information
+pub(all) struct R2UploadedPart {
+  part_number : Int
+  etag : String
+}
+
+///|
+pub impl Js for R2UploadedPart with to_js(self) {
+  let obj = js("{}")
+  obj.set("partNumber", self.part_number)
+  obj.set("etag", self.etag)
+  obj
 }
