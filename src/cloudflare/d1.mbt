@@ -54,14 +54,23 @@ pub impl Js for D1PreparedStatement with to_js(self) {
 
 ///|
 /// Bind parameters to a prepared statement
+/// Note: This wraps parameters in an array and spreads them to match Cloudflare's API
 pub fn D1PreparedStatement::bind(self : Self, params : Array[Val]) -> Self {
+  // Cloudflare's bind() expects variadic arguments, not an array
+  // We need to spread the array when calling bind
+  let stmt_js = self.to_js()
+  let bind_fn = stmt_js.get("bind")
+
+  // Convert MoonBit array to JavaScript array
   let params_js = js("[]")
   let mut i = 0
   while i < params.length() {
     params_js.call_method("push", [params[i]]) |> ignore
     i = i + 1
   }
-  self.to_js().call_method("bind", [params_js]).cast()
+
+  // Use apply to spread the array as individual arguments
+  bind_fn.call_method("apply", [stmt_js, params_js]).cast()
 }
 
 ///|
