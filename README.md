@@ -46,11 +46,16 @@ fn main {
 ## mizchi/js/dom
 
 ```mbt
-let root = @dom.document().query_selector("#root").unwrap()
-root.add_event_listener("click", ev => {
-  ev.prenent_default();
-  @js.log(root)
-});
+let doc = @dom.document()
+match doc.query_selector("#root") {
+  Some(root) => {
+    root.add_event_listener("click", fn(ev) {
+      ev.prevent_default()
+      @js.log(root)
+    })
+  }
+  None => ()
+}
 ```
 
 ## mizchi/js/npm/react
@@ -99,7 +104,13 @@ fn main {
         return ()
       }
     }
-    let root = @dom.document().query_selector("#app").unwrap()
+    let root = match @dom.document().query_selector("#app") {
+      Some(el) => el
+      None => {
+        log("Root element not found")
+        return ()
+      }
+    }
 
     client
     .create_root(root)

@@ -10,6 +10,8 @@ fn document() -> Document
 
 fn get_computed_style(Element) -> @js.Val
 
+fn get_computed_style_with_pseudo(Element, String) -> @js.Val
+
 fn get_local_storage() -> Storage
 
 fn get_session_storage() -> Storage
@@ -32,17 +34,28 @@ fn Document::active_element(Self) -> Element
 fn Document::as_element(Self) -> Element
 fn Document::body(Self) -> Element
 fn Document::cookie(Self) -> String
+fn Document::create_comment(Self, String) -> Element
+fn Document::create_document_fragment(Self) -> Element
 #alias(createElement)
 fn Document::create_element(Self, String) -> Element
 #alias(createElementNS)
 fn Document::create_element_ns(Self, String, String) -> Element
 #alias(createTextNode)
 fn Document::create_text_node(Self, String) -> TextNode
+fn Document::domain(Self) -> String
+fn Document::get_element_by_id(Self, String) -> Element?
+fn Document::get_elements_by_class_name(Self, String) -> @js.Val
+fn Document::get_elements_by_tag_name(Self, String) -> @js.Val
+fn Document::head(Self) -> Element
 #alias(querySelector)
-fn Document::query_selector(Self, String) -> Self?
-#alias(readyState)
-fn Document::ready_state(Self) -> Element
+fn Document::query_selector(Self, String) -> Element?
+fn Document::query_selector_all(Self, String) -> @js.Val
+fn Document::ready_state(Self) -> String
+fn Document::referrer(Self) -> String
 fn Document::set_cookie(Self, String) -> Unit
+fn Document::set_title(Self, String) -> Unit
+fn Document::title(Self) -> String
+fn Document::url(Self) -> String
 impl @js.Js for Document
 
 #external
@@ -53,41 +66,160 @@ impl @js.Js for DragEvent
 
 #external
 pub type Element
+fn Element::add_class(Self, String) -> Unit
 fn Element::add_event_listener(Self, String, (Event) -> Unit) -> Unit
 fn Element::append_child(Self, Self) -> Self
+fn Element::base_uri(Self) -> String
+fn Element::blur(Self) -> Unit
+#alias(childElementCount)
+fn Element::child_element_count(Self) -> Int
+#alias(childNodes)
+fn Element::child_nodes(Self) -> @js.Val
+fn Element::children(Self) -> @js.Val
+fn Element::class_name(Self) -> String
+fn Element::click(Self) -> Unit
+fn Element::client_height(Self) -> Int
+fn Element::client_width(Self) -> Int
+fn Element::clone_node(Self, Bool) -> Self
+fn Element::closest(Self, String) -> Self?
+fn Element::compare_document_position(Self, Self) -> Int
+fn Element::contains(Self, Self) -> Bool
+fn Element::contains_class(Self, String) -> Bool
+fn Element::css_text(Self) -> String
 #alias(firstChild)
 fn Element::first_child(Self) -> Self?
+#alias(firstElementChild)
+fn Element::first_element_child(Self) -> Self?
 fn Element::focus(Self) -> Unit
-fn Element::focus_internal(Self) -> Unit
 #alias("_[_]")
 fn Element::get(Self, String) -> @js.Val
-fn Element::get_attribute(Self, String) -> @js.Val?
-fn Element::insert_before(Self, Self) -> Self
+fn Element::get_attribute(Self, String) -> String?
+fn Element::get_background_color(Self) -> String
+fn Element::get_bounding_client_rect(Self) -> @js.Val
+fn Element::get_color(Self) -> String
+fn Element::get_display(Self) -> String
+fn Element::get_elements_by_class_name(Self, String) -> @js.Val
+fn Element::get_elements_by_tag_name(Self, String) -> @js.Val
+fn Element::get_font_size(Self) -> String
+fn Element::get_height(Self) -> String
+fn Element::get_opacity(Self) -> String
+fn Element::get_position(Self) -> String
+fn Element::get_style_property(Self, String) -> String
+fn Element::get_style_property_priority(Self, String) -> String
+fn Element::get_visibility(Self) -> String
+fn Element::get_width(Self) -> String
+fn Element::get_z_index(Self) -> String
+fn Element::has_attribute(Self, String) -> Bool
+fn Element::has_child_nodes(Self) -> Bool
+fn Element::id(Self) -> String
+fn Element::inner_html(Self) -> String
+fn Element::insert_before(Self, Self, Self?) -> Self
+fn Element::is_equal_node(Self, Self) -> Bool
+fn Element::is_same_node(Self, Self) -> Bool
 #alias(lastChild)
 fn Element::last_child(Self) -> Self?
+#alias(lastElementChild)
+fn Element::last_element_child(Self) -> Self?
+fn Element::matches(Self, String) -> Bool
+#alias(nextElementSibling)
+fn Element::next_element_sibling(Self) -> Self?
 #alias(nextSibling)
 fn Element::next_sibling(Self) -> Self?
+#alias(nodeName)
+fn Element::node_name(Self) -> String
+#alias(nodeType)
+fn Element::node_type(Self) -> Int
 #alias(nodeValue)
-fn Element::node_value(Self) -> Int
+fn Element::node_value(Self) -> String?
+fn Element::normalize(Self) -> Unit
+fn Element::outer_html(Self) -> String
+fn Element::owner_document(Self) -> Document
 #alias(parentElement)
 fn Element::parent_element(Self) -> Self?
 #alias(parentNode)
 fn Element::parent_node(Self) -> Self?
+#alias(previousElementSibling)
+fn Element::previous_element_sibling(Self) -> Self?
 #alias(previousSibling)
 fn Element::previous_sibling(Self) -> Self?
 fn Element::query_selector(Self, String) -> Self?
+fn Element::query_selector_all(Self, String) -> @js.Val
+fn Element::remove_attribute(Self, String) -> Unit
+fn Element::remove_child(Self, Self) -> Self
+fn Element::remove_class(Self, String) -> Unit
 fn Element::remove_event_listener(Self, String, (Event) -> Unit) -> Unit
+fn Element::remove_style_property(Self, String) -> Unit
+fn Element::replace_child(Self, Self, Self) -> Self
+fn Element::scroll_height(Self) -> Int
+fn Element::scroll_left(Self) -> Double
+fn Element::scroll_top(Self) -> Double
+fn Element::scroll_width(Self) -> Int
 #alias("_[_]=_")
 fn Element::set(Self, String, &@js.Js) -> Unit
+fn Element::set_align_items(Self, String) -> Unit
+fn Element::set_animation(Self, String) -> Unit
 fn Element::set_attribute(Self, String, String) -> Unit
+fn Element::set_background(Self, String) -> Unit
+fn Element::set_background_color(Self, String) -> Unit
+fn Element::set_border(Self, String) -> Unit
+fn Element::set_bottom(Self, String) -> Unit
+fn Element::set_class_name(Self, String) -> Unit
+fn Element::set_color(Self, String) -> Unit
+fn Element::set_css_text(Self, String) -> Unit
+fn Element::set_cursor(Self, String) -> Unit
+fn Element::set_display(Self, String) -> Unit
+fn Element::set_flex(Self, String) -> Unit
+fn Element::set_flex_direction(Self, String) -> Unit
+fn Element::set_font_family(Self, String) -> Unit
+fn Element::set_font_size(Self, String) -> Unit
+fn Element::set_font_weight(Self, String) -> Unit
+fn Element::set_gap(Self, String) -> Unit
+fn Element::set_grid(Self, String) -> Unit
+fn Element::set_grid_template_columns(Self, String) -> Unit
+fn Element::set_grid_template_rows(Self, String) -> Unit
+fn Element::set_height(Self, String) -> Unit
+fn Element::set_id(Self, String) -> Unit
+fn Element::set_inner_html(Self, String) -> Unit
+fn Element::set_justify_content(Self, String) -> Unit
+fn Element::set_left(Self, String) -> Unit
+fn Element::set_margin(Self, String) -> Unit
+fn Element::set_node_value(Self, String) -> Unit
+fn Element::set_opacity(Self, Double) -> Unit
+fn Element::set_overflow(Self, String) -> Unit
+fn Element::set_padding(Self, String) -> Unit
+fn Element::set_pointer_events(Self, String) -> Unit
+fn Element::set_position(Self, String) -> Unit
+fn Element::set_right(Self, String) -> Unit
+fn Element::set_scroll_left(Self, Double) -> Unit
+fn Element::set_scroll_top(Self, Double) -> Unit
+fn Element::set_style_property(Self, String, String) -> Unit
+fn Element::set_style_property_priority(Self, String, String, String) -> Unit
+fn Element::set_text_align(Self, String) -> Unit
+fn Element::set_text_content(Self, String) -> Unit
+fn Element::set_top(Self, String) -> Unit
+fn Element::set_transform(Self, String) -> Unit
+fn Element::set_transition(Self, String) -> Unit
+fn Element::set_visibility(Self, String) -> Unit
+fn Element::set_width(Self, String) -> Unit
+fn Element::set_z_index(Self, Int) -> Unit
+fn Element::style(Self) -> @js.Val
+fn Element::style_length(Self) -> Int
+fn Element::tag_name(Self) -> String
 #alias(textContent)
 fn Element::text_content(Self) -> String
+fn Element::toggle_class(Self, String) -> Bool
 impl @js.Js for Element
 
 #external
 pub type Event
+fn Event::bubbles(Self) -> Bool
+fn Event::cancelable(Self) -> Bool
+fn Event::current_target(Self) -> Element
+fn Event::default_prevented(Self) -> Bool
+fn Event::event_type(Self) -> String
 #alias(preventDefault)
 fn Event::prevent_default(Self) -> Unit
+fn Event::stop_immediate_propagation(Self) -> Unit
 #alias(stopPropagation)
 fn Event::stop_propagation(Self) -> Unit
 fn Event::target(Self) -> Element
@@ -95,13 +227,20 @@ impl @js.Js for Event
 
 #external
 pub type FocusEvent
+fn FocusEvent::related_target(Self) -> Element?
 fn FocusEvent::target(Self) -> Element
 
 #external
 pub type FormEvent
 fn FormEvent::current_target(Self) -> Element
-fn FormEvent::form_data(Self) -> Element
+fn FormEvent::form_data(Self) -> @js.Val
 fn FormEvent::target(Self) -> Element
+
+#external
+pub type InputEvent
+fn InputEvent::data(Self) -> String?
+fn InputEvent::input_type(Self) -> String
+fn InputEvent::target(Self) -> Element
 
 #external
 pub type KeyboardEvent
@@ -110,39 +249,84 @@ fn KeyboardEvent::code(Self) -> String
 fn KeyboardEvent::ctrl_key(Self) -> Bool
 fn KeyboardEvent::key(Self) -> String
 fn KeyboardEvent::key_code(Self) -> Int
+fn KeyboardEvent::location(Self) -> Int
+fn KeyboardEvent::meta_key(Self) -> Bool
+fn KeyboardEvent::repeat(Self) -> Bool
 fn KeyboardEvent::shift_key(Self) -> Bool
 fn KeyboardEvent::target(Self) -> Element
 fn KeyboardEvent::which(Self) -> Int
 
 #external
 pub type MouseEvent
+fn MouseEvent::alt_key(Self) -> Bool
+fn MouseEvent::button(Self) -> Int
+fn MouseEvent::buttons(Self) -> Int
 fn MouseEvent::client_x(Self) -> Int
 fn MouseEvent::client_y(Self) -> Int
+fn MouseEvent::ctrl_key(Self) -> Bool
+fn MouseEvent::meta_key(Self) -> Bool
+fn MouseEvent::offset_x(Self) -> Int
+fn MouseEvent::offset_y(Self) -> Int
+fn MouseEvent::page_x(Self) -> Int
+fn MouseEvent::page_y(Self) -> Int
 fn MouseEvent::screen_x(Self) -> Int
 fn MouseEvent::screen_y(Self) -> Int
+fn MouseEvent::shift_key(Self) -> Bool
 impl @js.Js for MouseEvent
 
 #external
 pub type Navigator
+fn Navigator::clipboard(Self) -> @js.Val
+fn Navigator::connection(Self) -> @js.Val?
+fn Navigator::cookie_enabled(Self) -> Bool
+fn Navigator::device_memory(Self) -> Double?
+fn Navigator::do_not_track(Self) -> String?
+fn Navigator::geolocation(Self) -> @js.Val
+fn Navigator::hardware_concurrency(Self) -> Int
+fn Navigator::language(Self) -> String
+fn Navigator::languages(Self) -> @js.Val
+fn Navigator::max_touch_points(Self) -> Int
 fn Navigator::on_line(Self) -> Bool
+fn Navigator::permissions(Self) -> @js.Val
+fn Navigator::platform(Self) -> String
 fn Navigator::user_agent(Self) -> String
+fn Navigator::vendor(Self) -> String
+fn Navigator::vibrate(Self, Int) -> Bool
 impl @js.Js for Navigator
 
 #external
 pub type PointerEvent
 fn PointerEvent::height(Self) -> Double
+fn PointerEvent::is_primary(Self) -> Bool
+fn PointerEvent::pointer_id(Self) -> Int
+fn PointerEvent::pointer_type(Self) -> String
 fn PointerEvent::width(Self) -> Double
 impl @js.Js for PointerEvent
 
 #external
 pub type Storage
+fn Storage::clear(Self) -> Unit
+fn Storage::entries(Self) -> Array[(String, String)]
 fn Storage::get_item(Self, String) -> String?
+fn Storage::has_item(Self, String) -> Bool
+fn Storage::key(Self, Int) -> String?
+fn Storage::keys(Self) -> Array[String]
+fn Storage::length(Self) -> Int
 fn Storage::remove_item(Self, String) -> Unit
 fn Storage::set_item(Self, String, String) -> Unit
+fn Storage::values(Self) -> Array[String]
+impl @js.Js for Storage
 
 #external
 pub type TextNode
 impl @js.Js for TextNode
+
+#external
+pub type WheelEvent
+fn WheelEvent::delta_mode(Self) -> Int
+fn WheelEvent::delta_x(Self) -> Double
+fn WheelEvent::delta_y(Self) -> Double
+fn WheelEvent::delta_z(Self) -> Double
 
 // Type aliases
 

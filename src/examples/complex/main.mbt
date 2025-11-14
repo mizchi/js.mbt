@@ -249,7 +249,14 @@ fn app(props : AppProps) -> @react.Element {
 
 ///|
 fn main {
-  let app_root = @dom.document().as_element().query_selector("#app").unwrap()
+  let doc = @dom.document()
+  let app_root = match doc.query_selector("#app") {
+    Some(el) => el
+    None => {
+      log("Root element #app not found")
+      panic()
+    }
+  }
   // lazy init context
   run_async(() => {
     let client = init_react_client() catch {
