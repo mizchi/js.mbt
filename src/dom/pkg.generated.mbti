@@ -488,6 +488,7 @@ fn ResizeObserverEntry::target(Self) -> Element
 
 #external
 pub type ScrollEvent
+impl @js.Js for ScrollEvent
 
 #external
 pub type ShadowRoot
