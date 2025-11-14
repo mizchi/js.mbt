@@ -222,8 +222,8 @@ export class MyClass {
 }
 
 declare var XSLTProcessor: {
-    prototype: XSLTProcessor;
-    new(): XSLTProcessor;
+  prototype: XSLTProcessor;
+  new(): XSLTProcessor;
 };
 `;
 
