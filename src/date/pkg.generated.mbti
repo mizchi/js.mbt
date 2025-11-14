@@ -12,8 +12,76 @@ import(
 // Types and methods
 #external
 pub type Date
+fn Date::from_full(Int, Int, Int, Int, Int, Int, Int) -> Self
+fn Date::from_millis(Int) -> Self
+fn Date::from_string(String) -> Self
+fn Date::from_ymd(Int, Int, Int) -> Self
+fn Date::from_ymdhms(Int, Int, Int, Int, Int, Int) -> Self
+fn Date::get_date(Self) -> Int
+fn Date::get_day(Self) -> Int
+fn Date::get_full_year(Self) -> Int
+fn Date::get_hours(Self) -> Int
+fn Date::get_milliseconds(Self) -> Int
+fn Date::get_minutes(Self) -> Int
+fn Date::get_month(Self) -> Int
+fn Date::get_seconds(Self) -> Int
+fn Date::get_time(Self) -> Int
+fn Date::get_timezone_offset(Self) -> Int
+fn Date::get_utc_date(Self) -> Int
+fn Date::get_utc_day(Self) -> Int
+fn Date::get_utc_full_year(Self) -> Int
+fn Date::get_utc_hours(Self) -> Int
+fn Date::get_utc_milliseconds(Self) -> Int
+fn Date::get_utc_minutes(Self) -> Int
+fn Date::get_utc_month(Self) -> Int
+fn Date::get_utc_seconds(Self) -> Int
 fn Date::new() -> Self
 fn Date::now() -> Int
+fn Date::parse(String) -> Int
+fn Date::set_date(Self, Int) -> Int
+fn Date::set_full_year(Self, Int, Int, Int) -> Int
+fn Date::set_full_year_y(Self, Int) -> Int
+fn Date::set_full_year_ym(Self, Int, Int) -> Int
+fn Date::set_hours(Self, Int, Int, Int, Int) -> Int
+fn Date::set_hours_h(Self, Int) -> Int
+fn Date::set_hours_hm(Self, Int, Int) -> Int
+fn Date::set_hours_hms(Self, Int, Int, Int) -> Int
+fn Date::set_milliseconds(Self, Int) -> Int
+fn Date::set_minutes(Self, Int, Int, Int) -> Int
+fn Date::set_minutes_m(Self, Int) -> Int
+fn Date::set_minutes_ms(Self, Int, Int) -> Int
+fn Date::set_month(Self, Int, Int) -> Int
+fn Date::set_month_m(Self, Int) -> Int
+fn Date::set_seconds(Self, Int, Int) -> Int
+fn Date::set_seconds_s(Self, Int) -> Int
+fn Date::set_time(Self, Int) -> Int
+fn Date::set_utc_date(Self, Int) -> Int
+fn Date::set_utc_full_year(Self, Int, Int, Int) -> Int
+fn Date::set_utc_full_year_y(Self, Int) -> Int
+fn Date::set_utc_full_year_ym(Self, Int, Int) -> Int
+fn Date::set_utc_hours(Self, Int, Int, Int, Int) -> Int
+fn Date::set_utc_hours_h(Self, Int) -> Int
+fn Date::set_utc_hours_hm(Self, Int, Int) -> Int
+fn Date::set_utc_hours_hms(Self, Int, Int, Int) -> Int
+fn Date::set_utc_milliseconds(Self, Int) -> Int
+fn Date::set_utc_minutes(Self, Int, Int, Int) -> Int
+fn Date::set_utc_minutes_m(Self, Int) -> Int
+fn Date::set_utc_minutes_ms(Self, Int, Int) -> Int
+fn Date::set_utc_month(Self, Int, Int) -> Int
+fn Date::set_utc_month_m(Self, Int) -> Int
+fn Date::set_utc_seconds(Self, Int, Int) -> Int
+fn Date::set_utc_seconds_s(Self, Int) -> Int
+fn Date::to_date_string(Self) -> String
+fn Date::to_iso_string(Self) -> String
+fn Date::to_json(Self) -> String
+fn Date::to_locale_date_string(Self) -> String
+fn Date::to_locale_string(Self) -> String
+fn Date::to_locale_time_string(Self) -> String
+fn Date::to_string(Self) -> String
+fn Date::to_time_string(Self) -> String
+fn Date::to_utc_string(Self) -> String
+fn Date::utc(Int, Int, Int, Int, Int, Int, Int) -> Int
+fn Date::value_of(Self) -> Int
 impl @js.Js for Date
 
 // Type aliases
