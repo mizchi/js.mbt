@@ -26,8 +26,6 @@ fn[A, B] unsafe_cast(A) -> B
 type JsError
 
 // Types and methods
-type JSTimer
-
 #external
 pub type JsValue
 fn JsValue::call(Self, Array[Self]) -> Self
