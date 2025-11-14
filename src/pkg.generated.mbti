@@ -128,6 +128,7 @@ pub(open) trait Js {
 }
 impl Js for Bool
 impl Js for Int
+impl Js for UInt
 impl Js for Float
 impl Js for Double
 impl Js for String

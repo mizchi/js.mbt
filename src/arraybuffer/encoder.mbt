@@ -25,7 +25,7 @@ pub fn TextEncoder::new() -> TextEncoder {
 
 ///|
 pub fn TextEncoder::encode(self : TextEncoder, input : String) -> Uint8Array {
-  self.to_js().get("encode").call([input]).cast()
+  self.to_js().call_method("encode", [input]).cast()
 }
 
 ///|
@@ -43,5 +43,5 @@ pub fn TextDecoder::new() -> TextDecoder {
 
 ///|
 pub fn TextDecoder::decode(self : TextDecoder, input : Uint8Array) -> String {
-  self.to_js().get("decode").call([input |> unsafe_cast]).cast()
+  self.to_js().call_method("decode", [input]).cast()
 }

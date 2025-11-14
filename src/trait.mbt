@@ -114,6 +114,22 @@ pub impl Js for Bool with to_js(self) -> Val {
 }
 
 ///|
+/// Convert a MoonBit UInt to a JavaScript number value.
+///
+/// UInt is first converted to Int, then to JavaScript number.
+///
+/// # Example
+///
+/// ```moonbit
+/// let u : UInt = 42
+/// let val = Js::to_js(u)
+/// // JavaScript: 42
+/// ```
+pub impl Js for UInt with to_js(self) -> Val {
+  js(self.to_int())
+}
+
+///|
 /// Convert an Array of Js-implementing types to a JavaScript array.
 ///
 /// Each element in the array is converted using its `to_js()` implementation.

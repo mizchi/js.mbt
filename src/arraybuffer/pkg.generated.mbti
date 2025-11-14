@@ -12,34 +12,147 @@ import(
 // Types and methods
 #external
 pub type ArrayBuffer
+#alias(byteLength)
+fn ArrayBuffer::byte_length(Self) -> UInt
+#alias(isView)
+fn ArrayBuffer::is_view(@js.Val) -> Bool
+fn ArrayBuffer::new(UInt) -> Self
+fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
 impl @js.Js for ArrayBuffer
 
 #external
 pub type DataView
+fn DataView::buffer(Self) -> ArrayBuffer
+#alias(byteLength)
+fn DataView::byte_length(Self) -> UInt
+#alias(byteOffset)
+fn DataView::byte_offset(Self) -> UInt
+#alias(getFloat32)
+fn DataView::get_float32(Self, UInt, little_endian? : Bool) -> Double
+#alias(getFloat64)
+fn DataView::get_float64(Self, UInt, little_endian? : Bool) -> Double
+#alias(getInt16)
+fn DataView::get_int16(Self, UInt, little_endian? : Bool) -> Int
+#alias(getInt32)
+fn DataView::get_int32(Self, UInt, little_endian? : Bool) -> Int
+#alias(getInt8)
+fn DataView::get_int8(Self, UInt) -> Int
+#alias(getUint16)
+fn DataView::get_uint16(Self, UInt, little_endian? : Bool) -> UInt
+#alias(getUint32)
+fn DataView::get_uint32(Self, UInt, little_endian? : Bool) -> UInt
+#alias(getUint8)
+fn DataView::get_uint8(Self, UInt) -> UInt
+fn DataView::new(ArrayBuffer, byte_offset? : UInt, byte_length? : UInt) -> Self
+#alias(setFloat32)
+fn DataView::set_float32(Self, UInt, Double, little_endian? : Bool) -> Unit
+#alias(setFloat64)
+fn DataView::set_float64(Self, UInt, Double, little_endian? : Bool) -> Unit
+#alias(setInt16)
+fn DataView::set_int16(Self, UInt, Int, little_endian? : Bool) -> Unit
+#alias(setInt32)
+fn DataView::set_int32(Self, UInt, Int, little_endian? : Bool) -> Unit
+#alias(setInt8)
+fn DataView::set_int8(Self, UInt, Int) -> Unit
+#alias(setUint16)
+fn DataView::set_uint16(Self, UInt, UInt, little_endian? : Bool) -> Unit
+#alias(setUint32)
+fn DataView::set_uint32(Self, UInt, UInt, little_endian? : Bool) -> Unit
+#alias(setUint8)
+fn DataView::set_uint8(Self, UInt, UInt) -> Unit
 impl @js.Js for DataView
 
 #external
 pub type Float32Array
+fn Float32Array::buffer(Self) -> ArrayBuffer
+#alias(byteLength)
+fn Float32Array::byte_length(Self) -> UInt
+#alias(byteOffset)
+fn Float32Array::byte_offset(Self) -> UInt
+fn Float32Array::from_array(Array[Double]) -> Self
+fn Float32Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Float32Array::from_size(UInt) -> Self
+#alias("_[_]")
+fn Float32Array::get_at(Self, UInt) -> Double
+fn Float32Array::length(Self) -> UInt
+#alias("_[_]=_")
+fn Float32Array::set_at(Self, UInt, Double) -> Unit
 impl @js.Js for Float32Array
 
 #external
 pub type Float64Array
+fn Float64Array::buffer(Self) -> ArrayBuffer
+#alias(byteLength)
+fn Float64Array::byte_length(Self) -> UInt
+#alias(byteOffset)
+fn Float64Array::byte_offset(Self) -> UInt
+fn Float64Array::from_array(Array[Double]) -> Self
+fn Float64Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Float64Array::from_size(UInt) -> Self
+#alias("_[_]")
+fn Float64Array::get_at(Self, UInt) -> Double
+fn Float64Array::length(Self) -> UInt
+#alias("_[_]=_")
+fn Float64Array::set_at(Self, UInt, Double) -> Unit
 impl @js.Js for Float64Array
 
 #external
 pub type Int16Array
+fn Int16Array::buffer(Self) -> ArrayBuffer
+#alias(byteLength)
+fn Int16Array::byte_length(Self) -> UInt
+#alias(byteOffset)
+fn Int16Array::byte_offset(Self) -> UInt
+fn Int16Array::from_array(Array[Int]) -> Self
+fn Int16Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Int16Array::from_size(UInt) -> Self
+#alias("_[_]")
+fn Int16Array::get_at(Self, UInt) -> Int
+fn Int16Array::length(Self) -> UInt
+#alias("_[_]=_")
+fn Int16Array::set_at(Self, UInt, Int) -> Unit
 impl @js.Js for Int16Array
 
 #external
 pub type Int32Array
+fn Int32Array::buffer(Self) -> ArrayBuffer
+#alias(byteLength)
+fn Int32Array::byte_length(Self) -> UInt
+#alias(byteOffset)
+fn Int32Array::byte_offset(Self) -> UInt
+fn Int32Array::from_array(Array[Int]) -> Self
+fn Int32Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Int32Array::from_size(UInt) -> Self
+#alias("_[_]")
+fn Int32Array::get_at(Self, UInt) -> Int
+fn Int32Array::length(Self) -> UInt
+#alias("_[_]=_")
+fn Int32Array::set_at(Self, UInt, Int) -> Unit
 impl @js.Js for Int32Array
 
 #external
 pub type Int8Array
+fn Int8Array::buffer(Self) -> ArrayBuffer
+#alias(byteLength)
+fn Int8Array::byte_length(Self) -> UInt
+#alias(byteOffset)
+fn Int8Array::byte_offset(Self) -> UInt
+fn Int8Array::from_array(Array[Int]) -> Self
+fn Int8Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Int8Array::from_size(UInt) -> Self
+#alias("_[_]")
+fn Int8Array::get_at(Self, UInt) -> Int
+fn Int8Array::length(Self) -> UInt
+#alias("_[_]=_")
+fn Int8Array::set_at(Self, UInt, Int) -> Unit
 impl @js.Js for Int8Array
 
 #external
 pub type SharedArrayBuffer
+#alias(byteLength)
+fn SharedArrayBuffer::byte_length(Self) -> UInt
+fn SharedArrayBuffer::new(UInt) -> Self
+fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
 impl @js.Js for SharedArrayBuffer
 
 pub type TextDecoder
@@ -55,30 +168,69 @@ impl @js.Js for TextEncoder
 
 #external
 pub type Uint16Array
+fn Uint16Array::buffer(Self) -> ArrayBuffer
 #alias(byteLength)
 fn Uint16Array::byte_length(Self) -> UInt
+#alias(byteOffset)
+fn Uint16Array::byte_offset(Self) -> UInt
+fn Uint16Array::from_array(Array[UInt]) -> Self
+fn Uint16Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Uint16Array::from_size(UInt) -> Self
 #alias("_[_]")
-fn Uint16Array::get(Self, UInt) -> UInt
+fn Uint16Array::get_at(Self, UInt) -> UInt
 fn Uint16Array::length(Self) -> UInt
 #alias("_[_]=_")
-fn Uint16Array::set(Self, UInt, UInt) -> Unit
+fn Uint16Array::set_at(Self, UInt, UInt) -> Unit
 impl @js.Js for Uint16Array
 
 #external
 pub type Uint32Array
+fn Uint32Array::buffer(Self) -> ArrayBuffer
+#alias(byteLength)
+fn Uint32Array::byte_length(Self) -> UInt
+#alias(byteOffset)
+fn Uint32Array::byte_offset(Self) -> UInt
+fn Uint32Array::from_array(Array[UInt]) -> Self
+fn Uint32Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Uint32Array::from_size(UInt) -> Self
+#alias("_[_]")
+fn Uint32Array::get_at(Self, UInt) -> UInt
+fn Uint32Array::length(Self) -> UInt
+#alias("_[_]=_")
+fn Uint32Array::set_at(Self, UInt, UInt) -> Unit
 impl @js.Js for Uint32Array
 
 #external
 pub type Uint8Array
+fn Uint8Array::buffer(Self) -> ArrayBuffer
+#alias(byteLength)
 fn Uint8Array::byte_length(Self) -> UInt
+#alias(byteOffset)
+fn Uint8Array::byte_offset(Self) -> UInt
+#alias(copyWithin)
+fn Uint8Array::copy_within(Self, Int, Int, end? : Int) -> Self
+fn Uint8Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
 fn Uint8Array::from_array(Array[UInt]) -> Self
-fn Uint8Array::from_array_buffer(ArrayBuffer) -> Self
+fn Uint8Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
 fn Uint8Array::from_size(UInt) -> Self
 #alias("_[_]")
-fn Uint8Array::get(Self, UInt) -> UInt
+fn Uint8Array::get_at(Self, UInt) -> UInt
+fn Uint8Array::includes(Self, UInt, from_index? : Int) -> Bool
+#alias(indexOf)
+fn Uint8Array::index_of(Self, UInt, from_index? : Int) -> Int
+fn Uint8Array::join(Self, separator? : String) -> String
+#alias(lastIndexOf)
+fn Uint8Array::last_index_of(Self, UInt, from_index? : Int) -> Int
 fn Uint8Array::length(Self) -> UInt
+fn Uint8Array::reverse(Self) -> Self
+fn Uint8Array::set(Self, Array[UInt], offset? : UInt) -> Unit
 #alias("_[_]=_")
-fn Uint8Array::set(Self, UInt, UInt) -> Unit
+fn Uint8Array::set_at(Self, UInt, UInt) -> Unit
+fn Uint8Array::slice(Self, start? : Int, end? : Int) -> Self
+fn Uint8Array::sort(Self) -> Self
+fn Uint8Array::subarray(Self, begin? : Int, end? : Int) -> Self
+#alias(toString)
+fn Uint8Array::to_string(Self) -> String
 impl @js.Js for Uint8Array
 
 // Type aliases
