@@ -70,7 +70,6 @@ pub fn Val::set_if_exists(self : Val, key : &Key, value : &Js?) -> Unit {
 }
 
 ///|
-#inline
 pub fn Val::call(self : Self, args : Array[&Js]) -> Val {
   ffi_call(self, args.map(_.to_js()))
 }
@@ -95,7 +94,6 @@ pub fn Val::call_method_raise(
 }
 
 ///|
-#inline
 pub fn Val::delete(self : Self, k : String) -> Unit {
   ffi_delete(self, k)
 }
@@ -157,95 +155,4 @@ pub fn new_(cls : Val, args : Array[&Js]) -> Val {
 ///|
 pub fn[T] log(v : T) -> Unit {
   ffi_console_log([v |> unsafe_cast]) |> ignore
-}
-
-// Constant Enum
-
-///|
-priv enum TestConstantEnum {
-  NotFound = 404
-}
-
-///|
-test "cast" {
-  assert_eq(js(42), js(42))
-  let v1 = js(42)
-  let v2 = js(42)
-  assert_eq(v1, v2)
-  assert_eq(js(TestConstantEnum::NotFound), js(404))
-  let s1 : String? = js("hello").cast_option()
-  assert_eq(s1, Some("hello"))
-  let s2 : String? = undefined().cast_option()
-  assert_eq(s2, None)
-}
-
-///|
-test "from struct" {
-  struct Point {
-    x : Int
-    y : Int
-  } derive(Eq, Show)
-  let p = Point::{ x: 10, y: 20 }
-  let v : Val = unsafe_cast(p)
-  assert_eq(v.get("x").cast(), 10)
-  assert_eq(v.get("y").cast(), 20)
-  let casted : Point = v.cast()
-  assert_eq(casted, p)
-}
-
-///|
-priv enum TestEnum {
-  A(value~ : Int)
-} derive(Eq, Show)
-
-///|
-fn TestEnum::from_js(v : Val) -> Self raise {
-  let tag : String = v.get("tag").cast()
-  match tag {
-    "A" => {
-      let value = v.get("value")
-      guard value.type_of() == "number"
-      A(value=value.cast())
-    }
-    _ => fail("unknown tag: " + tag)
-  }
-}
-
-///|
-impl Js for TestEnum with to_js(self) {
-  match self {
-    A(value~) => {
-      let obj = new_empty_object()
-      obj.set("tag", "A")
-      obj.set("value", value)
-      obj
-    }
-  }
-}
-
-///|
-test "from trait" {
-  let v : TestEnum = A(value=123)
-  let v : Val = v.to_js()
-  assert_eq(v.get("tag").cast(), "A")
-  assert_eq(v.get("value").cast(), 123)
-  let recovered : TestEnum = TestEnum::from_js(v)
-  assert_eq(recovered, A(value=123))
-}
-
-///|
-test "to_string" {
-  assert_eq(js(42).to_string(), "42")
-  assert_eq(null_().to_string(), "null")
-  assert_eq(js(true).to_string(), "true")
-  assert_eq(js("hello").to_string(), "hello")
-  assert_true(undefined().is_undefined())
-  assert_true(null_().is_null())
-  assert_eq(new_empty_object().to_string(), "{}")
-  assert_eq(new_empty_array().to_string(), "[]")
-  from_builtin_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
-  let expected =
-    #|{"a":1,"b":2}
-  from_builtin_map({ "a": 1 |> js, "b": 2 |> js }).to_string()
-  |> assert_eq(expected)
 }
