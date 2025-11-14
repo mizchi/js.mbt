@@ -8,9 +8,36 @@ package "mizchi/js/regexp"
 // Types and methods
 #external
 pub type RegExp
+fn RegExp::dot_all(Self) -> Bool
 fn RegExp::exec(Self, String) -> RegExpResult?
+fn RegExp::flags(Self) -> String
+fn RegExp::global(Self) -> Bool
+fn RegExp::has_indices(Self) -> Bool
+fn RegExp::ignore_case(Self) -> Bool
+fn RegExp::last_index(Self) -> Int
+fn RegExp::match_(Self, String) -> RegExpMatchArray?
+fn RegExp::match_all(Self, String) -> Array[RegExpMatchArray]
+fn RegExp::multiline(Self) -> Bool
 fn RegExp::new(String, flags? : String) -> Self
+fn RegExp::replace(Self, String, String) -> String
+fn RegExp::replace_all(Self, String, String) -> String
+fn RegExp::replace_all_fn(Self, String, (String, Array[String], Int, String) -> String) -> String
+fn RegExp::replace_fn(Self, String, (String, Array[String], Int, String) -> String) -> String
+fn RegExp::search(Self, String) -> Int
+fn RegExp::set_last_index(Self, Int) -> Unit
+fn RegExp::source(Self) -> String
+fn RegExp::split(Self, String, limit? : Int) -> Array[String]
+fn RegExp::sticky(Self) -> Bool
 fn RegExp::test_(Self, String) -> Bool
+fn RegExp::to_string(Self) -> String
+fn RegExp::unicode(Self) -> Bool
+
+pub struct RegExpMatchArray {
+  matches : Array[String]
+  index : Int?
+  input : String?
+  groups : Map[String, String]?
+}
 
 pub struct RegExpResult {
   full : String
