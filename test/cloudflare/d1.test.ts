@@ -5,8 +5,9 @@ describe("D1 Database", () => {
   const TEST_DB = env.TEST_DB as D1Database;
 
   beforeEach(async () => {
-    // Create test table
-    await TEST_DB.exec(`
+    // Create test table using prepare().run() instead of exec()
+    await TEST_DB.prepare(
+      `
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
@@ -14,31 +15,35 @@ describe("D1 Database", () => {
         age INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
-    `);
+    `,
+    ).run();
   });
 
   afterEach(async () => {
-    // Clean up
-    await TEST_DB.exec("DROP TABLE IF EXISTS users");
+    // Clean up using prepare().run() instead of exec()
+    await TEST_DB.prepare("DROP TABLE IF EXISTS users").run();
   });
 
   describe("Basic Operations", () => {
     it("should execute CREATE TABLE statement", async () => {
-      const result = await TEST_DB.exec(`
+      const result = await TEST_DB.prepare(
+        `
         CREATE TABLE IF NOT EXISTS posts (
           id INTEGER PRIMARY KEY,
           title TEXT
         )
-      `);
+      `,
+      ).run();
       expect(result).toBeDefined();
-      await TEST_DB.exec("DROP TABLE IF EXISTS posts");
+      expect(result.success).toBe(true);
+      await TEST_DB.prepare("DROP TABLE IF EXISTS posts").run();
     });
 
     it("should prepare and execute INSERT statement", async () => {
       const stmt = TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       );
-      const result = await stmt.bind(["Alice", "alice@example.com", 30]).run();
+      const result = await stmt.bind("Alice", "alice@example.com", 30).run();
       expect(result.success).toBe(true);
       expect(result.meta?.last_row_id).toBeGreaterThan(0);
     });
@@ -47,11 +52,11 @@ describe("D1 Database", () => {
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Bob", "bob@example.com", 25])
+        .bind("Bob", "bob@example.com", 25)
         .run();
 
       const result = await TEST_DB.prepare("SELECT * FROM users WHERE name = ?")
-        .bind(["Bob"])
+        .bind("Bob")
         .all();
 
       expect(result.success).toBe(true);
@@ -64,13 +69,13 @@ describe("D1 Database", () => {
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Charlie", "charlie@example.com", 35])
+        .bind("Charlie", "charlie@example.com", 35)
         .run();
 
       const result = await TEST_DB.prepare(
         "UPDATE users SET age = ? WHERE name = ?",
       )
-        .bind([36, "Charlie"])
+        .bind(36, "Charlie")
         .run();
 
       expect(result.success).toBe(true);
@@ -81,11 +86,11 @@ describe("D1 Database", () => {
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Dave", "dave@example.com", 40])
+        .bind("Dave", "dave@example.com", 40)
         .run();
 
       const result = await TEST_DB.prepare("DELETE FROM users WHERE name = ?")
-        .bind(["Dave"])
+        .bind("Dave")
         .run();
 
       expect(result.success).toBe(true);
@@ -98,17 +103,17 @@ describe("D1 Database", () => {
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Alice", "alice@example.com", 30])
+        .bind("Alice", "alice@example.com", 30)
         .run();
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Bob", "bob@example.com", 25])
+        .bind("Bob", "bob@example.com", 25)
         .run();
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Charlie", "charlie@example.com", 35])
+        .bind("Charlie", "charlie@example.com", 35)
         .run();
     });
 
@@ -124,7 +129,7 @@ describe("D1 Database", () => {
 
     it("should return first row with .first()", async () => {
       const row = await TEST_DB.prepare("SELECT * FROM users WHERE name = ?")
-        .bind(["Alice"])
+        .bind("Alice")
         .first();
       expect(row).toBeDefined();
       expect(row?.name).toBe("Alice");
@@ -133,14 +138,14 @@ describe("D1 Database", () => {
 
     it("should return first column value with .first(columnName)", async () => {
       const name = await TEST_DB.prepare("SELECT name FROM users WHERE age = ?")
-        .bind([25])
+        .bind(25)
         .first("name");
       expect(name).toBe("Bob");
     });
 
     it("should return null for non-existent row", async () => {
       const row = await TEST_DB.prepare("SELECT * FROM users WHERE name = ?")
-        .bind(["NonExistent"])
+        .bind("NonExistent")
         .first();
       expect(row).toBeNull();
     });
@@ -170,7 +175,7 @@ describe("D1 Database", () => {
       const stmt = TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       );
-      const result = await stmt.bind(["Eve", "eve@example.com", 28]).run();
+      const result = await stmt.bind("Eve", "eve@example.com", 28).run();
       expect(result.success).toBe(true);
     });
 
@@ -181,15 +186,15 @@ describe("D1 Database", () => {
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Young", "young@example.com", 20])
+        .bind("Young", "young@example.com", 20)
         .run();
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Old", "old@example.com", 50])
+        .bind("Old", "old@example.com", 50)
         .run();
 
-      const result = await stmt.bind([18, 40]).all();
+      const result = await stmt.bind(18, 40).all();
       expect(result.results?.length).toBe(1);
       expect(result.results?.[0].name).toBe("Young");
     });
@@ -198,10 +203,10 @@ describe("D1 Database", () => {
       const stmt = TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       );
-      await stmt.bind(["Frank", "frank@example.com", 45]).run();
+      await stmt.bind("Frank", "frank@example.com", 45).run();
 
       const result = await TEST_DB.prepare("SELECT * FROM users WHERE name = ?")
-        .bind(["Frank"])
+        .bind("Frank")
         .first();
       expect(result?.age).toBe(45);
     });
@@ -212,13 +217,13 @@ describe("D1 Database", () => {
       const statements = [
         TEST_DB.prepare(
           "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
-        ).bind(["User1", "user1@example.com", 20]),
+        ).bind("User1", "user1@example.com", 20),
         TEST_DB.prepare(
           "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
-        ).bind(["User2", "user2@example.com", 21]),
+        ).bind("User2", "user2@example.com", 21),
         TEST_DB.prepare(
           "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
-        ).bind(["User3", "user3@example.com", 22]),
+        ).bind("User3", "user3@example.com", 22),
       ];
 
       const results = await TEST_DB.batch(statements);
@@ -230,10 +235,10 @@ describe("D1 Database", () => {
       const statements = [
         TEST_DB.prepare(
           "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
-        ).bind(["Valid", "valid@example.com", 30]),
-        TEST_DB.prepare("INSERT INTO users (invalid_column) VALUES (?)").bind([
+        ).bind("Valid", "valid@example.com", 30),
+        TEST_DB.prepare("INSERT INTO users (invalid_column) VALUES (?)").bind(
           "Invalid",
-        ]), // This will fail
+        ), // This will fail
       ];
 
       try {
@@ -254,7 +259,7 @@ describe("D1 Database", () => {
       const result = await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Meta", "meta@example.com", 33])
+        .bind("Meta", "meta@example.com", 33)
         .run();
 
       expect(result.meta).toBeDefined();
@@ -267,11 +272,11 @@ describe("D1 Database", () => {
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Reader", "reader@example.com", 27])
+        .bind("Reader", "reader@example.com", 27)
         .run();
 
       const result = await TEST_DB.prepare("SELECT * FROM users WHERE name = ?")
-        .bind(["Reader"])
+        .bind("Reader")
         .all();
 
       expect(result.meta).toBeDefined();
@@ -293,14 +298,14 @@ describe("D1 Database", () => {
       await TEST_DB.prepare(
         "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
       )
-        .bind(["Unique", "unique@example.com", 30])
+        .bind("Unique", "unique@example.com", 30)
         .run();
 
       try {
         await TEST_DB.prepare(
           "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
         )
-          .bind(["Another", "unique@example.com", 31])
+          .bind("Another", "unique@example.com", 31)
           .run();
         expect.fail("Should have thrown a unique constraint error");
       } catch (error) {
@@ -332,7 +337,7 @@ describe("D1 Database", () => {
         await TEST_DB.prepare(
           "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
         )
-          .bind([name, email, age])
+          .bind(name, email, age)
           .run();
       }
     });
@@ -389,13 +394,13 @@ describe("D1 Database", () => {
       const statements = [
         TEST_DB.prepare(
           "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
-        ).bind(["Tx1", "tx1@example.com", 40]),
+        ).bind("Tx1", "tx1@example.com", 40),
         TEST_DB.prepare(
           "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
-        ).bind(["Tx2", "tx2@example.com", 41]),
+        ).bind("Tx2", "tx2@example.com", 41),
         TEST_DB.prepare(
           "INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
-        ).bind(["Tx3", "tx3@example.com", 42]),
+        ).bind("Tx3", "tx3@example.com", 42),
       ];
 
       const results = await TEST_DB.batch(statements);
