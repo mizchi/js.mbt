@@ -15,12 +15,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - name: Install dependencies
+        run: pnpm install
       - uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
       - name: Setup Moon
         uses: illusory0x0/setup-moonbit@v0.1.0
         with:
