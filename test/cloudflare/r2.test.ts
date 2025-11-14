@@ -84,22 +84,27 @@ describe("R2 Bucket", () => {
 
   describe("HTTP Metadata", () => {
     it("should store and retrieve custom HTTP metadata", async () => {
-      const putResult = await TEST_R2.put("styled.html", "<html></html>", {
-        httpMetadata: {
-          contentType: "text/html",
-          contentLanguage: "en-US",
-          cacheControl: "max-age=3600",
-          contentEncoding: "gzip",
-        },
-      });
-      expect(putResult).toBeDefined();
+      try {
+        const putResult = await TEST_R2.put("styled.html", "<html></html>", {
+          httpMetadata: {
+            contentType: "text/html",
+            contentLanguage: "en-US",
+            cacheControl: "max-age=3600",
+            contentEncoding: "gzip",
+          },
+        });
+        expect(putResult).toBeDefined();
 
-      const obj = await TEST_R2.get("styled.html");
-      expect(obj).not.toBeNull();
-      if (obj) {
-        expect(obj.httpMetadata.contentType).toBe("text/html");
-        expect(obj.httpMetadata.contentLanguage).toBe("en-US");
-        expect(obj.httpMetadata.cacheControl).toBe("max-age=3600");
+        const obj = await TEST_R2.get("styled.html");
+        expect(obj).not.toBeNull();
+        if (obj) {
+          expect(obj.httpMetadata.contentType).toBe("text/html");
+          expect(obj.httpMetadata.contentLanguage).toBe("en-US");
+          expect(obj.httpMetadata.cacheControl).toBe("max-age=3600");
+        }
+      } finally {
+        // Ensure cleanup
+        await TEST_R2.delete("styled.html");
       }
     });
 
