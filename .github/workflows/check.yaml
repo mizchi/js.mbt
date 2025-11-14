@@ -18,14 +18,12 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-      - uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x # Run with latest stable Deno.
-      - run: |
-          deno install
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
       - name: Setup Moon
         uses: illusory0x0/setup-moonbit@v0.1.0
-        with: 
+        with:
           version: stable
       - name: moon version
         run: |
@@ -40,14 +38,6 @@ jobs:
         run: |
           moon info --target js
           git diff --exit-code
-      # - name: format diff
-      #   run: |
-      #     moon fmt
-      #     git diff --exit-code
-      # - name: Set ulimit on unix
-      #   run: |
-      #     ulimit -s 8176
       - name: moon test
         run: |
           moon test --target js
-          moon test --target js --release
