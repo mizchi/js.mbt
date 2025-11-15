@@ -13,7 +13,7 @@ pub fn svg(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -77,7 +77,7 @@ pub fn circle(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -146,7 +146,7 @@ pub fn ellipse(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -219,7 +219,7 @@ pub fn rect(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -292,7 +292,7 @@ pub fn line(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -362,7 +362,7 @@ pub fn path(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -426,7 +426,7 @@ pub fn use_(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -484,7 +484,7 @@ pub fn polygon(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -551,7 +551,7 @@ pub fn polyline(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -618,7 +618,7 @@ pub fn g(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -679,7 +679,7 @@ pub fn defs(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -743,7 +743,7 @@ pub fn text(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -823,7 +823,7 @@ pub fn image(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,

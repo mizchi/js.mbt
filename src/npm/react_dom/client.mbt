@@ -17,7 +17,7 @@ pub type ReactDOMRoot
 #alias(createRoot)
 pub fn ReactDOMClient::create_root(
   self : Self,
-  container : @dom.Element,
+  container : Val,
 ) -> ReactDOMRoot {
   let v : Val = self |> js
   v.get("createRoot").call([container]).cast()

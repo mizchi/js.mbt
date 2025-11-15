@@ -145,7 +145,7 @@ priv struct AppProps {
 ///|
 fn app(props : AppProps) -> @react.Element {
   let (cnt, set_cnt) = use_state(props.x)
-  let textarea_ref : @react.ReactRef[@dom.Element] = @react.use_ref(None)
+  let textarea_ref : @react.ReactRef[@js.Val] = @react.use_ref(None)
   let handler = use_callback(_ => set_cnt(cnt + 1), [cnt])
   use_effect(
     () => {

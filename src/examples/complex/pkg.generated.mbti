@@ -6,11 +6,6 @@ package "mizchi/js/examples/complex"
 // Errors
 
 // Types and methods
-type CounterAction
-
-type ItemViewProps
-
-type MyContextProps
 
 // Type aliases
 

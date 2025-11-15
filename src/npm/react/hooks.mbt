@@ -88,7 +88,7 @@ pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
 /// React.useRef
 /// ```mbt
 /// fn my_component(props : EmptyProps) -> Element {
-///   let my_ref : ReactRef[@dom.Element] = use_ref(None)
+///   let my_ref : ReactRef[Val] = use_ref(None)
 ///   create_element("div", ref_=my_ref, ["Hello"])
 /// }
 /// ```

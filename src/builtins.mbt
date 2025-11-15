@@ -148,6 +148,30 @@ pub fn null_() -> Val {
 }
 
 ///|
+/// Convert an array-like or iterable JavaScript object to an Array.
+///
+/// Wraps JavaScript's `Array.from()` function.
+///
+/// # Parameters
+///
+/// - `v`: An array-like or iterable object (e.g., NodeList, HTMLCollection)
+///
+/// # Returns
+///
+/// An Array[Val] containing the elements
+///
+/// # Example
+///
+/// ```moonbit no-check
+/// // Convert a NodeList to an Array
+/// let node_list = element.child_nodes()  // Returns NodeList
+/// let children = array_from(node_list)   // Returns Array[Val]
+/// ```
+pub fn array_from(v : Val) -> Array[Val] {
+  ffi_array_from(v)
+}
+
+///|
 /// Create a new JavaScript Symbol with a description.
 ///
 /// # Parameters

@@ -2,6 +2,8 @@
 package "mizchi/js"
 
 // Values
+fn array_from(Val) -> Array[Val]
+
 fn atob(String) -> String
 
 fn btoa(String) -> String
@@ -124,7 +126,7 @@ impl ToJson for Val
 
 // Traits
 pub(open) trait Js {
-  to_js(Self) -> Val
+  to_js(Self) -> Val = _
 }
 impl Js for Bool
 impl Js for Int

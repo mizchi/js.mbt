@@ -30,7 +30,7 @@ test "create_element" {
     "my-button",
   )
   let c1 = (_ : EmptyProps) => {
-    let r : ReactRef[@dom.Element] = use_ref(None)
+    let r : ReactRef[Val] = use_ref(None)
     create_element("span", ref_=r, [])
   }
   c(c1, EmptyProps::default()) |> ignore

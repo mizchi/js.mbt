@@ -1,44 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/npm/react_testing_library"
 
-import(
-  "mizchi/js"
-  "mizchi/js/async"
-  "mizchi/js/dom"
-  "mizchi/js/npm/react"
-)
-
 // Values
-fn register_jsdom() -> Unit
 
 // Errors
 
 // Types and methods
-#external
-pub type FireEvent
-fn FireEvent::change_target_value(Self, @dom.Element, value~ : String) -> @async.Promise[Unit]
-fn FireEvent::click(Self, @dom.Element) -> Unit
-fn FireEvent::key_down(Self, @dom.Element, key? : String, code? : String, char_code? : Int) -> @async.Promise[Unit]
-fn FireEvent::key_up(Self, @dom.Element, key? : String, code? : String, char_code? : Int) -> @async.Promise[Unit]
-
-#external
-pub type ReactTestingLibrary
-fn ReactTestingLibrary::init() -> ReactTestingLibrary2
-impl @js.Js for ReactTestingLibrary
-
-pub struct ReactTestingLibrary2 {
-  screen : Screen
-  fire_event : FireEvent
-  render : (@react.Element) -> Unit
-  cleanup : () -> Unit
-}
-
-#external
-pub type Screen
-fn Screen::get_by_label_text(Self, String) -> @dom.Element
-fn Screen::get_by_role(Self, String) -> @dom.Element
-fn Screen::get_by_test_id(Self, String) -> @dom.Element
-fn Screen::get_by_text(Self, String) -> @dom.Element
 
 // Type aliases
 

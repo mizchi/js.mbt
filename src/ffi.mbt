@@ -159,3 +159,7 @@ extern "js" fn ffi_atob(encoded_data : String) -> String =
 ///|
 extern "js" fn ffi_btoa(data : String) -> String =
   #|(data) => btoa(data)
+
+///|
+extern "js" fn ffi_array_from(v : Val) -> Array[Val] =
+  #|(v) => Array.from(v)

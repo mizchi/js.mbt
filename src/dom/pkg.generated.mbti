@@ -16,19 +16,7 @@ fn css_supports(String, String) -> Bool
 
 fn css_supports_condition(String) -> Bool
 
-fn custom_elements() -> @js.Val
-
-fn define_custom_element(String, @js.Val) -> Unit
-
-fn define_custom_element_with_options(String, @js.Val, @js.Val) -> Unit
-
 fn document() -> Document
-
-fn get_computed_style(Element) -> @js.Val
-
-fn get_computed_style_with_pseudo(Element, String) -> @js.Val
-
-fn get_custom_element(String) -> @js.Val?
 
 fn get_local_storage() -> Storage
 
@@ -45,12 +33,6 @@ fn new_intersection_observer_with_options((@js.Val, IntersectionObserver) -> Uni
 fn new_mutation_observer((@js.Val, MutationObserver) -> Unit) -> MutationObserver
 
 fn new_resize_observer((@js.Val, ResizeObserver) -> Unit) -> ResizeObserver
-
-fn upgrade_element(Element) -> Unit
-
-fn when_custom_element_defined(String) -> @async.Promise[Unit]
-
-fn window() -> Element
 
 // Errors
 
@@ -92,7 +74,7 @@ fn CSSStyleSheet::href(Self) -> String?
 fn CSSStyleSheet::insert_rule(Self, String) -> Int
 fn CSSStyleSheet::insert_rule_at(Self, String, Int) -> Int
 fn CSSStyleSheet::media(Self) -> @js.Val
-fn CSSStyleSheet::owner_node(Self) -> Element?
+fn CSSStyleSheet::owner_node(Self) -> @js.Val?
 fn CSSStyleSheet::set_disabled(Self, Bool) -> Unit
 fn CSSStyleSheet::title(Self) -> String?
 impl @js.Js for CSSStyleSheet
@@ -109,11 +91,11 @@ fn ClipboardEvent::clipboard_data(Self) -> @js.Val?
 pub type Document
 #alias(activeElement)
 fn Document::active_element(Self) -> Element
-fn Document::as_element(Self) -> Element
-fn Document::body(Self) -> Element
+fn Document::as_element(Self) -> @js.Val
+fn Document::body(Self) -> @js.Val
 fn Document::cookie(Self) -> String
-fn Document::create_comment(Self, String) -> Element
-fn Document::create_document_fragment(Self) -> Element
+fn Document::create_comment(Self, String) -> @js.Val
+fn Document::create_document_fragment(Self) -> @js.Val
 #alias(createElement)
 fn Document::create_element(Self, String) -> Element
 #alias(createElementNS)
@@ -122,12 +104,12 @@ fn Document::create_stylesheet(Self) -> CSSStyleSheet
 #alias(createTextNode)
 fn Document::create_text_node(Self, String) -> TextNode
 fn Document::domain(Self) -> String
-fn Document::get_element_by_id(Self, String) -> Element?
+fn Document::get_element_by_id(Self, String) -> @js.Val?
 fn Document::get_elements_by_class_name(Self, String) -> @js.Val
 fn Document::get_elements_by_tag_name(Self, String) -> @js.Val
-fn Document::head(Self) -> Element
+fn Document::head(Self) -> @js.Val
 #alias(querySelector)
-fn Document::query_selector(Self, String) -> Element?
+fn Document::query_selector(Self, String) -> @js.Val?
 fn Document::query_selector_all(Self, String) -> @js.Val
 fn Document::ready_state(Self) -> String
 fn Document::referrer(Self) -> String
@@ -146,183 +128,8 @@ impl @js.Js for DragEvent
 
 #external
 pub type Element
-fn Element::access_key(Self) -> String
-fn Element::add_class(Self, String) -> Unit
-fn Element::add_event_listener(Self, String, (Event) -> Unit) -> Unit
-fn Element::append_child(Self, Self) -> Self
-fn Element::assigned_slot(Self) -> HTMLSlotElement?
-fn Element::attach_shadow(Self, @js.Val) -> ShadowRoot
-fn Element::attach_shadow_mode(Self, String) -> ShadowRoot
-fn Element::base_uri(Self) -> String
-fn Element::blur(Self) -> Unit
-#alias(childElementCount)
-fn Element::child_element_count(Self) -> Int
-#alias(childNodes)
-fn Element::child_nodes(Self) -> @js.Val
-fn Element::children(Self) -> @js.Val
-fn Element::class_name(Self) -> String
-fn Element::click(Self) -> Unit
-fn Element::client_height(Self) -> Int
-fn Element::client_width(Self) -> Int
-fn Element::clone_node(Self, Bool) -> Self
-fn Element::closest(Self, String) -> Self?
-fn Element::compare_document_position(Self, Self) -> Int
-fn Element::contains(Self, Self) -> Bool
-fn Element::contains_class(Self, String) -> Bool
-fn Element::content_editable(Self) -> String
-fn Element::css_text(Self) -> String
-fn Element::dir(Self) -> String
-fn Element::draggable(Self) -> Bool
-#alias(firstChild)
-fn Element::first_child(Self) -> Self?
-#alias(firstElementChild)
-fn Element::first_element_child(Self) -> Self?
-fn Element::focus(Self) -> Unit
-#alias("_[_]")
-fn Element::get(Self, String) -> @js.Val
-fn Element::get_attribute(Self, String) -> String?
-fn Element::get_background_color(Self) -> String
-fn Element::get_bounding_client_rect(Self) -> @js.Val
-fn Element::get_color(Self) -> String
-fn Element::get_display(Self) -> String
-fn Element::get_elements_by_class_name(Self, String) -> @js.Val
-fn Element::get_elements_by_tag_name(Self, String) -> @js.Val
-fn Element::get_font_size(Self) -> String
-fn Element::get_height(Self) -> String
-fn Element::get_opacity(Self) -> String
-fn Element::get_position(Self) -> String
-fn Element::get_style_property(Self, String) -> String
-fn Element::get_style_property_priority(Self, String) -> String
-fn Element::get_visibility(Self) -> String
-fn Element::get_width(Self) -> String
-fn Element::get_z_index(Self) -> String
-fn Element::has_attribute(Self, String) -> Bool
-fn Element::has_child_nodes(Self) -> Bool
-fn Element::hidden(Self) -> Bool
-fn Element::id(Self) -> String
-fn Element::inner_html(Self) -> String
-fn Element::insert_before(Self, Self, Self?) -> Self
-fn Element::is_content_editable(Self) -> Bool
-fn Element::is_equal_node(Self, Self) -> Bool
-fn Element::is_same_node(Self, Self) -> Bool
-fn Element::lang(Self) -> String
-#alias(lastChild)
-fn Element::last_child(Self) -> Self?
-#alias(lastElementChild)
-fn Element::last_element_child(Self) -> Self?
-fn Element::matches(Self, String) -> Bool
-#alias(nextElementSibling)
-fn Element::next_element_sibling(Self) -> Self?
-#alias(nextSibling)
-fn Element::next_sibling(Self) -> Self?
-#alias(nodeName)
-fn Element::node_name(Self) -> String
-#alias(nodeType)
-fn Element::node_type(Self) -> Int
-#alias(nodeValue)
-fn Element::node_value(Self) -> String?
-fn Element::normalize(Self) -> Unit
-fn Element::offset_height(Self) -> Int
-fn Element::offset_left(Self) -> Int
-fn Element::offset_parent(Self) -> Self?
-fn Element::offset_top(Self) -> Int
-fn Element::offset_width(Self) -> Int
-fn Element::outer_html(Self) -> String
-fn Element::owner_document(Self) -> Document
-#alias(parentElement)
-fn Element::parent_element(Self) -> Self?
-#alias(parentNode)
-fn Element::parent_node(Self) -> Self?
-#alias(previousElementSibling)
-fn Element::previous_element_sibling(Self) -> Self?
-#alias(previousSibling)
-fn Element::previous_sibling(Self) -> Self?
-fn Element::query_selector(Self, String) -> Self?
-fn Element::query_selector_all(Self, String) -> @js.Val
-fn Element::remove_attribute(Self, String) -> Unit
-fn Element::remove_child(Self, Self) -> Self
-fn Element::remove_class(Self, String) -> Unit
-fn Element::remove_event_listener(Self, String, (Event) -> Unit) -> Unit
-fn Element::remove_style_property(Self, String) -> Unit
-fn Element::replace_child(Self, Self, Self) -> Self
-fn Element::scroll_height(Self) -> Int
-fn Element::scroll_left(Self) -> Double
-fn Element::scroll_top(Self) -> Double
-fn Element::scroll_width(Self) -> Int
-#alias("_[_]=_")
-fn Element::set(Self, String, &@js.Js) -> Unit
-fn Element::set_access_key(Self, String) -> Unit
-fn Element::set_align_items(Self, String) -> Unit
-fn Element::set_animation(Self, String) -> Unit
-fn Element::set_attribute(Self, String, String) -> Unit
-fn Element::set_background(Self, String) -> Unit
-fn Element::set_background_color(Self, String) -> Unit
-fn Element::set_border(Self, String) -> Unit
-fn Element::set_bottom(Self, String) -> Unit
-fn Element::set_class_name(Self, String) -> Unit
-fn Element::set_color(Self, String) -> Unit
-fn Element::set_content_editable(Self, String) -> Unit
-fn Element::set_css_text(Self, String) -> Unit
-fn Element::set_cursor(Self, String) -> Unit
-fn Element::set_dir(Self, String) -> Unit
-fn Element::set_display(Self, String) -> Unit
-fn Element::set_draggable(Self, Bool) -> Unit
-fn Element::set_flex(Self, String) -> Unit
-fn Element::set_flex_direction(Self, String) -> Unit
-fn Element::set_font_family(Self, String) -> Unit
-fn Element::set_font_size(Self, String) -> Unit
-fn Element::set_font_weight(Self, String) -> Unit
-fn Element::set_gap(Self, String) -> Unit
-fn Element::set_grid(Self, String) -> Unit
-fn Element::set_grid_template_columns(Self, String) -> Unit
-fn Element::set_grid_template_rows(Self, String) -> Unit
-fn Element::set_height(Self, String) -> Unit
-fn Element::set_hidden(Self, Bool) -> Unit
-fn Element::set_id(Self, String) -> Unit
-fn Element::set_inner_html(Self, String) -> Unit
-fn Element::set_justify_content(Self, String) -> Unit
-fn Element::set_lang(Self, String) -> Unit
-fn Element::set_left(Self, String) -> Unit
-fn Element::set_margin(Self, String) -> Unit
-fn Element::set_node_value(Self, String) -> Unit
-fn Element::set_opacity(Self, Double) -> Unit
-fn Element::set_overflow(Self, String) -> Unit
-fn Element::set_padding(Self, String) -> Unit
-fn Element::set_pointer_events(Self, String) -> Unit
-fn Element::set_position(Self, String) -> Unit
-fn Element::set_right(Self, String) -> Unit
-fn Element::set_scroll_left(Self, Double) -> Unit
-fn Element::set_scroll_top(Self, Double) -> Unit
-fn Element::set_slot(Self, String) -> Unit
-fn Element::set_spellcheck(Self, Bool) -> Unit
-fn Element::set_style_property(Self, String, String) -> Unit
-fn Element::set_style_property_priority(Self, String, String, String) -> Unit
-fn Element::set_tab_index(Self, Int) -> Unit
-fn Element::set_text_align(Self, String) -> Unit
-fn Element::set_text_content(Self, String) -> Unit
-fn Element::set_title(Self, String) -> Unit
-fn Element::set_top(Self, String) -> Unit
-fn Element::set_transform(Self, String) -> Unit
-fn Element::set_transition(Self, String) -> Unit
-fn Element::set_visibility(Self, String) -> Unit
-fn Element::set_width(Self, String) -> Unit
-fn Element::set_z_index(Self, Int) -> Unit
-fn Element::shadow_root(Self) -> ShadowRoot?
-fn Element::slot(Self) -> String
-fn Element::spellcheck(Self) -> Bool
-fn Element::style(Self) -> @js.Val
-fn Element::style_length(Self) -> Int
-fn Element::tab_index(Self) -> Int
-fn Element::tag_name(Self) -> String
-#alias(textContent)
-fn Element::text_content(Self) -> String
-fn Element::title(Self) -> String
-fn Element::toggle_class(Self, String) -> Bool
 impl @js.Js for Element
-impl Element_ for Element
-impl EventTarget_ for Element
-impl HTMLElement_ for Element
-impl Node_ for Element
+impl EventTargetImpl for Element
 
 #external
 pub type Event
@@ -360,17 +167,26 @@ fn HTMLCanvasElement::to_blob(Self, image_type? : String, quality? : Double) -> 
 fn HTMLCanvasElement::to_data_url(Self, image_type? : String, quality? : Double) -> String
 fn HTMLCanvasElement::width(Self) -> Int
 impl @js.Js for HTMLCanvasElement
+impl ElementImpl for HTMLCanvasElement
+impl EventTargetImpl for HTMLCanvasElement
+impl HTMLElementImpl for HTMLCanvasElement
+impl NodeImpl for HTMLCanvasElement
 
 #external
-pub type HTMLSlotElement
-fn HTMLSlotElement::assign(Self, @js.Val) -> Unit
-fn HTMLSlotElement::assigned_elements(Self) -> @js.Val
-fn HTMLSlotElement::assigned_elements_with_options(Self, @js.Val) -> @js.Val
-fn HTMLSlotElement::assigned_nodes(Self) -> @js.Val
-fn HTMLSlotElement::assigned_nodes_with_options(Self, @js.Val) -> @js.Val
-fn HTMLSlotElement::name(Self) -> String
-fn HTMLSlotElement::set_name(Self, String) -> Unit
-impl @js.Js for HTMLSlotElement
+pub type HTMLDivElement
+impl @js.Js for HTMLDivElement
+impl ElementImpl for HTMLDivElement
+impl EventTargetImpl for HTMLDivElement
+impl HTMLElementImpl for HTMLDivElement
+impl NodeImpl for HTMLDivElement
+
+#external
+pub type HTMLElement
+impl @js.Js for HTMLElement
+impl ElementImpl for HTMLElement
+impl EventTargetImpl for HTMLElement
+impl HTMLElementImpl for HTMLElement
+impl NodeImpl for HTMLElement
 
 #external
 pub type InputEvent
@@ -392,8 +208,8 @@ fn IntersectionObserverEntry::bounding_client_rect(Self) -> @js.Val
 fn IntersectionObserverEntry::intersection_ratio(Self) -> Double
 fn IntersectionObserverEntry::intersection_rect(Self) -> @js.Val
 fn IntersectionObserverEntry::is_intersecting(Self) -> Bool
-fn IntersectionObserverEntry::root_bounds(Self) -> @js.Val?
-fn IntersectionObserverEntry::target(Self) -> Element
+fn IntersectionObserverEntry::root_bounds(Self) -> Element?
+fn IntersectionObserverEntry::target(Self) -> @js.Val
 fn IntersectionObserverEntry::time(Self) -> Double
 impl @js.Js for IntersectionObserverEntry
 
@@ -455,7 +271,7 @@ fn MutationRecord::next_sibling(Self) -> Element?
 fn MutationRecord::old_value(Self) -> String?
 fn MutationRecord::previous_sibling(Self) -> Element?
 fn MutationRecord::removed_nodes(Self) -> @js.Val
-fn MutationRecord::target(Self) -> Element
+fn MutationRecord::target(Self) -> @js.Val
 impl @js.Js for MutationRecord
 
 #external
@@ -477,6 +293,12 @@ fn Navigator::user_agent(Self) -> String
 fn Navigator::vendor(Self) -> String
 fn Navigator::vibrate(Self, Int) -> Bool
 impl @js.Js for Navigator
+
+#external
+pub type Node
+impl @js.Js for Node
+impl EventTargetImpl for Node
+impl NodeImpl for Node
 
 #external
 pub type PointerEvent
@@ -505,21 +327,6 @@ fn ResizeObserverEntry::target(Self) -> Element
 #external
 pub type ScrollEvent
 impl @js.Js for ScrollEvent
-
-#external
-pub type ShadowRoot
-fn ShadowRoot::active_element(Self) -> Element?
-fn ShadowRoot::as_element(Self) -> Element
-fn ShadowRoot::delegates_focus(Self) -> Bool
-fn ShadowRoot::get_element_by_id(Self, String) -> Element?
-fn ShadowRoot::host(Self) -> Element
-fn ShadowRoot::inner_html(Self) -> String
-fn ShadowRoot::mode(Self) -> String
-fn ShadowRoot::query_selector(Self, String) -> Element?
-fn ShadowRoot::query_selector_all(Self, String) -> @js.Val
-fn ShadowRoot::set_inner_html(Self, String) -> Unit
-fn ShadowRoot::slot_assignment(Self) -> String
-impl @js.Js for ShadowRoot
 
 #external
 pub type Storage
@@ -580,54 +387,54 @@ fn WheelEvent::delta_z(Self) -> Double
 // Type aliases
 
 // Traits
-pub(open) trait Element_ : Node_ {
-  tag_name_(Self) -> String
-  class_name_(Self) -> String
-  set_class_name_(Self, String) -> Unit
-  id_(Self) -> String
-  set_id_(Self, String) -> Unit
-  get_attribute_(Self, String) -> String
-  set_attribute_(Self, String, String) -> Unit
-  remove_attribute_(Self, String) -> Unit
-  has_attribute_(Self, String) -> Bool
-  get_elements_by_tag_name_(Self, String) -> @js.Val
-  get_elements_by_class_name_(Self, String) -> @js.Val
-  query_selector_(Self, String) -> @js.Val
-  query_selector_all_(Self, String) -> @js.Val
+pub(open) trait ElementImpl : @js.Js + NodeImpl {
+  tag_name(Self) -> String = _
+  class_name(Self) -> String = _
+  set_class_name(Self, String) -> Unit = _
+  id(Self) -> String = _
+  set_id(Self, String) -> Unit = _
+  get_attribute(Self, String) -> String? = _
+  set_attribute(Self, String, String) -> Unit = _
+  remove_attribute(Self, String) -> Unit = _
+  has_attribute(Self, String) -> Bool = _
+  get_elements_by_tag_name(Self, String) -> Array[Element] = _
+  get_elements_by_class_name(Self, String) -> Array[Element] = _
+  query_selector(Self, String) -> Element? = _
+  query_selector_all(Self, String) -> Array[Element] = _
 }
 
-pub(open) trait EventTarget_ {
-  add_event_listener_(Self, String, (Event) -> Unit) -> Unit
-  remove_event_listener_(Self, String, (Event) -> Unit) -> Unit
-  dispatch_event_(Self, Event) -> Bool
+pub(open) trait EventTargetImpl : @js.Js {
+  add_event_listener(Self, String, (Event) -> Unit) -> Unit = _
+  remove_event_listener(Self, String, (Event) -> Unit) -> Unit = _
+  dispatch_event(Self, Event) -> Bool = _
 }
 
-pub(open) trait HTMLElement_ : Element_ {
-  inner_text_(Self) -> String
-  set_inner_text_(Self, String) -> Unit
-  inner_html_(Self) -> String
-  set_inner_html_(Self, String) -> Unit
-  outer_html_(Self) -> String
-  set_outer_html_(Self, String) -> Unit
+pub(open) trait HTMLElementImpl : @js.Js + ElementImpl {
+  inner_text(Self) -> String = _
+  set_inner_text(Self, String) -> Unit = _
+  inner_html(Self) -> String = _
+  set_inner_html(Self, String) -> Unit = _
+  outer_html(Self) -> String = _
+  set_outer_html(Self, String) -> Unit = _
 }
 
-pub(open) trait Node_ : EventTarget_ {
-  node_type_(Self) -> Int
-  node_name_(Self) -> String
-  parent_node_(Self) -> @js.Val
-  child_nodes_(Self) -> @js.Val
-  first_child_(Self) -> @js.Val
-  last_child_(Self) -> @js.Val
-  previous_sibling_(Self) -> @js.Val
-  next_sibling_(Self) -> @js.Val
-  append_child_(Self, @js.Val) -> @js.Val
-  remove_child_(Self, @js.Val) -> @js.Val
-  insert_before_(Self, @js.Val, @js.Val) -> @js.Val
-  replace_child_(Self, @js.Val, @js.Val) -> @js.Val
-  clone_node_(Self, Bool) -> @js.Val
-  contains_(Self, @js.Val) -> Bool
-  has_child_nodes_(Self) -> Bool
-  text_content_(Self) -> String
-  set_text_content_(Self, String) -> Unit
+pub(open) trait NodeImpl : @js.Js + EventTargetImpl {
+  node_type(Self) -> Int = _
+  node_name(Self) -> String = _
+  parent_node(Self) -> Node? = _
+  child_nodes(Self) -> Array[Node] = _
+  first_child(Self) -> Node? = _
+  last_child(Self) -> Node? = _
+  previous_sibling(Self) -> Node? = _
+  next_sibling(Self) -> Node? = _
+  append_child(Self, Node) -> Node = _
+  remove_child(Self, Node) -> Node = _
+  insert_before(Self, Node, Node?) -> Node = _
+  replace_child(Self, Node, Node) -> Node = _
+  clone_node(Self, Bool) -> Node = _
+  contains(Self, Node?) -> Bool = _
+  has_child_nodes(Self) -> Bool = _
+  text_content(Self) -> String = _
+  set_text_content(Self, String) -> Unit = _
 }
 

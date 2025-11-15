@@ -15,7 +15,7 @@ fn[T] c((T) -> Element, T, children? : Array[&@js.Js], key? : String) -> Element
 fn[T] create_context(T?) -> Context[T]
 
 #alias(h)
-fn create_element(String, Array[&@js.Js], disabled? : Bool, attributes? : Map[String, @js.Val], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit, on_drag? : (@dom.DragEvent) -> Unit, on_dragstart? : (@dom.DragEvent) -> Unit, on_dragend? : (@dom.DragEvent) -> Unit, on_dragleave? : (@dom.DragEvent) -> Unit, on_dragenter? : (@dom.DragEvent) -> Unit, on_dragover? : (@dom.DragEvent) -> Unit, on_drop? : (@dom.DragEvent) -> Unit) -> Element
+fn create_element(String, Array[&@js.Js], disabled? : Bool, attributes? : Map[String, @js.Val], id? : String, class? : String, className? : String, style? : Map[String, String], ref_? : ReactRef[@js.Val], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit, on_drag? : (@dom.DragEvent) -> Unit, on_dragstart? : (@dom.DragEvent) -> Unit, on_dragend? : (@dom.DragEvent) -> Unit, on_dragleave? : (@dom.DragEvent) -> Unit, on_dragenter? : (@dom.DragEvent) -> Unit, on_dragover? : (@dom.DragEvent) -> Unit, on_drop? : (@dom.DragEvent) -> Unit) -> Element
 
 fn fragment(Array[&@js.Js], key? : String) -> Element
 

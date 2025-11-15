@@ -11,7 +11,7 @@ fn common_node(
   className~ : String?,
   style~ : Map[String, String]?,
   tab_index~ : Int?,
-  ref_~ : ReactRef[@dom.Element]?,
+  ref_~ : ReactRef[Val]?,
   key~ : String?,
   on_click~ : ((@dom.MouseEvent) -> Unit)?,
   on_change~ : ((@dom.ChangeEvent) -> Unit)?,
@@ -106,7 +106,7 @@ pub fn div(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -158,7 +158,7 @@ pub fn pre(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -210,7 +210,7 @@ pub fn blockquote(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -261,7 +261,7 @@ pub fn span(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -312,7 +312,7 @@ pub fn nav(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -363,7 +363,7 @@ pub fn p(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -420,7 +420,7 @@ pub fn textarea(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -499,7 +499,7 @@ pub fn input(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -571,7 +571,7 @@ pub fn main_(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -623,7 +623,7 @@ pub fn header(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -675,7 +675,7 @@ pub fn footer(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -727,7 +727,7 @@ pub fn ul(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -779,7 +779,7 @@ pub fn ol(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -830,7 +830,7 @@ pub fn article(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -881,7 +881,7 @@ pub fn aside(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -932,7 +932,7 @@ pub fn section(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1000,7 +1000,7 @@ pub fn form(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1081,7 +1081,7 @@ pub fn select(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1150,7 +1150,7 @@ pub fn option(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1213,7 +1213,7 @@ pub fn label(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1272,7 +1272,7 @@ pub fn li(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1324,7 +1324,7 @@ pub fn code(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1376,7 +1376,7 @@ pub fn details(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1428,7 +1428,7 @@ pub fn summary(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1486,7 +1486,7 @@ pub fn a(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1559,7 +1559,7 @@ pub fn iframe(
   className? : String,
   style? : Map[String, String],
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1649,7 +1649,7 @@ pub fn img(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1739,7 +1739,7 @@ pub fn video(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1803,7 +1803,7 @@ pub fn source(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1864,7 +1864,7 @@ pub fn hr(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1916,7 +1916,7 @@ pub fn h1(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -1968,7 +1968,7 @@ pub fn h2(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -2020,7 +2020,7 @@ pub fn h3(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   // event handlers
   on_click? : (@dom.MouseEvent) -> Unit,
@@ -2071,7 +2071,7 @@ pub fn button(
   className? : String,
   style? : Map[String, String],
   tab_index? : Int,
-  ref_? : ReactRef[@dom.Element],
+  ref_? : ReactRef[Val],
   key? : String,
   on_click? : (@dom.MouseEvent) -> Unit,
   on_change? : (@dom.ChangeEvent) -> Unit,

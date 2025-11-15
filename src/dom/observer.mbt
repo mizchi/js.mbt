@@ -67,7 +67,7 @@ pub fn MutationRecord::mutation_type(self : Self) -> String {
 
 ///|
 /// Returns the target node
-pub fn MutationRecord::target(self : Self) -> Element {
+pub fn MutationRecord::target(self : Self) -> Val {
   self.to_js().get("target").cast()
 }
 
@@ -179,7 +179,7 @@ pub impl Js for IntersectionObserverEntry with to_js(self) -> Val {
 
 ///|
 /// Returns the target element
-pub fn IntersectionObserverEntry::target(self : Self) -> Element {
+pub fn IntersectionObserverEntry::target(self : Self) -> Val {
   self.to_js().get("target").cast()
 }
 
@@ -197,7 +197,7 @@ pub fn IntersectionObserverEntry::intersection_rect(self : Self) -> Val {
 
 ///|
 /// Returns the root bounds
-pub fn IntersectionObserverEntry::root_bounds(self : Self) -> Val? {
+pub fn IntersectionObserverEntry::root_bounds(self : Self) -> Element? {
   self.to_js().get("rootBounds").cast_option()
 }
 

@@ -35,7 +35,12 @@
 /// You can implement this trait for your own types to control
 /// how they are converted to JavaScript values.
 pub(open) trait Js {
-  to_js(Self) -> Val
+  to_js(Self) -> Val = _
+}
+
+///|
+impl Js with to_js(self) -> Val {
+  js(self)
 }
 
 ///|
@@ -126,7 +131,7 @@ pub impl Js for Bool with to_js(self) -> Val {
 /// // JavaScript: 42
 /// ```
 pub impl Js for UInt with to_js(self) -> Val {
-  js(self.to_int())
+  js(self)
 }
 
 ///|

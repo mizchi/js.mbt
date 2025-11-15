@@ -180,7 +180,7 @@ pub fn CSSStyleSheet::delete_rule(self : Self, index : Int) -> Unit {
 
 ///|
 /// Returns the owner node
-pub fn CSSStyleSheet::owner_node(self : Self) -> Element? {
+pub fn CSSStyleSheet::owner_node(self : Self) -> Val? {
   self.to_js().get("ownerNode").cast_option()
 }
 
@@ -323,6 +323,6 @@ pub fn Document::style_sheets(self : Self) -> Val {
 /// Create a new stylesheet
 pub fn Document::create_stylesheet(self : Self) -> CSSStyleSheet {
   let style = self.create_element("style")
-  self.head().append_child(style) |> ignore
+  self.head().call_method("appendChild", [style]) |> ignore
   style.to_js().get("sheet").cast()
 }

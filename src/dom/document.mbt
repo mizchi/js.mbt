@@ -5,8 +5,8 @@
 pub type Document
 
 ///|
-pub impl Js for Document with to_js(self) -> Val {
-  self |> js
+pub impl Js for Document with to_js(self) {
+  self |> unsafe_cast
 }
 
 ///|
@@ -16,7 +16,7 @@ pub extern "js" fn document() -> Document =
 
 ///|
 /// Converts Document to Element
-pub fn Document::as_element(self : Self) -> Element {
+pub fn Document::as_element(self : Self) -> Val {
   self |> unsafe_cast
 }
 
@@ -79,7 +79,7 @@ pub fn Document::ready_state(self : Self) -> String {
 /// Returns the first element matching the selector
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
 #alias(querySelector)
-pub fn Document::query_selector(self : Self, selector : String) -> Element? {
+pub fn Document::query_selector(self : Self, selector : String) -> Val? {
   self.to_js().call_method("querySelector", [selector |> js]).cast_option()
 }
 
@@ -93,7 +93,7 @@ pub fn Document::query_selector_all(self : Self, selector : String) -> Val {
 ///|
 /// Returns an element by its ID
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
-pub fn Document::get_element_by_id(self : Self, id : String) -> Element? {
+pub fn Document::get_element_by_id(self : Self, id : String) -> Val? {
   self.to_js().call_method("getElementById", [id |> js]).cast_option()
 }
 
@@ -131,14 +131,14 @@ pub extern "js" fn Document::set_cookie(self : Self, content : String) -> Unit =
 ///|
 /// Returns the document's body element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/body
-pub fn Document::body(self : Self) -> Element {
+pub fn Document::body(self : Self) -> Val {
   self.to_js().get("body").cast()
 }
 
 ///|
 /// Returns the document's head element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/head
-pub fn Document::head(self : Self) -> Element {
+pub fn Document::head(self : Self) -> Val {
   self.to_js().get("head").cast()
 }
 
@@ -179,13 +179,13 @@ pub fn Document::referrer(self : Self) -> String {
 ///|
 /// Creates a document fragment
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
-pub fn Document::create_document_fragment(self : Self) -> Element {
+pub fn Document::create_document_fragment(self : Self) -> Val {
   self.to_js().call_method("createDocumentFragment", []).cast()
 }
 
 ///|
 /// Creates a comment node
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
-pub fn Document::create_comment(self : Self, data : String) -> Element {
+pub fn Document::create_comment(self : Self, data : String) -> Val {
   self.to_js().call_method("createComment", [data |> js]).cast()
 }
