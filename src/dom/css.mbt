@@ -323,6 +323,9 @@ pub fn Document::style_sheets(self : Self) -> Val {
 /// Create a new stylesheet
 pub fn Document::create_stylesheet(self : Self) -> CSSStyleSheet {
   let style = self.create_element("style")
-  self.head().call_method("appendChild", [style]) |> ignore
+  match self.head() {
+    Some(head) => head.to_js().call_method("appendChild", [style]) |> ignore
+    None => ()
+  }
   style.to_js().get("sheet").cast()
 }

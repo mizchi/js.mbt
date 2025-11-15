@@ -10,6 +10,12 @@ pub impl Js for Document with to_js(self) {
 }
 
 ///|
+pub impl EventTargetImpl for Document
+
+///|
+pub impl NodeImpl for Document
+
+///|
 /// Returns the global document object
 pub extern "js" fn document() -> Document =
   #| () => document
@@ -131,15 +137,21 @@ pub extern "js" fn Document::set_cookie(self : Self, content : String) -> Unit =
 ///|
 /// Returns the document's body element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/body
-pub fn Document::body(self : Self) -> Val {
-  self.to_js().get("body").cast()
+pub fn Document::body(self : Self) -> HTMLBodyElement? {
+  self.to_js().get("body").cast_option()
+}
+
+///|
+/// Sets the document's body element
+pub fn Document::set_body(self : Self, body : HTMLBodyElement) -> Unit {
+  self.to_js().set("body", body.to_js()) |> ignore
 }
 
 ///|
 /// Returns the document's head element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/head
-pub fn Document::head(self : Self) -> Val {
-  self.to_js().get("head").cast()
+pub fn Document::head(self : Self) -> HTMLHeadElement? {
+  self.to_js().get("head").cast_option()
 }
 
 ///|
@@ -188,4 +200,60 @@ pub fn Document::create_document_fragment(self : Self) -> Val {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 pub fn Document::create_comment(self : Self, data : String) -> Val {
   self.to_js().call_method("createComment", [data |> js]).cast()
+}
+
+///|
+/// Returns the document element (root element)
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentElement
+pub fn Document::document_element(self : Self) -> Element {
+  self.to_js().get("documentElement").cast()
+}
+
+///|
+/// Returns the document URI
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentURI
+pub fn Document::document_uri(self : Self) -> String {
+  self.to_js().get("documentURI").cast()
+}
+
+///|
+/// Returns the character encoding of the document
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/characterSet
+pub fn Document::character_set(self : Self) -> String {
+  self.to_js().get("characterSet").cast()
+}
+
+///|
+/// Returns the content type of the document
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/contentType
+pub fn Document::content_type(self : Self) -> String {
+  self.to_js().get("contentType").cast()
+}
+
+///|
+/// Returns the document type
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
+pub fn Document::doctype(self : Self) -> Val? {
+  self.to_js().get("doctype").cast_option()
+}
+
+///|
+/// Adopts a node from an external document
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
+pub fn Document::adopt_node(self : Self, node : Node) -> Node {
+  self.to_js().call_method("adoptNode", [node.to_js()]).cast()
+}
+
+///|
+/// Imports a node from another document
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
+pub fn Document::import_node(self : Self, node : Node, deep : Bool) -> Node {
+  self.to_js().call_method("importNode", [node.to_js(), deep]).cast()
+}
+
+///|
+/// Creates an event of the specified type
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
+pub fn Document::create_event(self : Self, event_type : String) -> Event {
+  self.to_js().call_method("createEvent", [event_type]).cast()
 }

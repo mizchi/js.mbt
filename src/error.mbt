@@ -27,7 +27,7 @@ extern "js" fn ffi_wrap_sync(
 ///   undefined().call([])
 /// })
 /// ```
-pub fn[T] wrap(f : () -> T raise?) -> T raise JsError {
+pub fn[T] throwable(f : () -> T raise?) -> T raise JsError {
   match wrap_result(f |> unsafe_cast) {
     Ok(result) => result |> unsafe_cast
     Err(e) => raise JsError(e |> unsafe_cast)

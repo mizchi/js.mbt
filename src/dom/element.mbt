@@ -244,11 +244,9 @@ impl ElementImpl with query_selector(self, selector) -> Element? {
 
 ///|
 impl ElementImpl with query_selector_all(self, selector) -> Array[Element] {
-  @js.array_from(self.to_js().call_method("querySelectorAll", [selector])).map(fn(
-    v,
-  ) {
-    v.cast()
-  })
+  @js.array_from(self.to_js().call_method("querySelectorAll", [selector])).map(
+    _.cast(),
+  )
 }
 
 ///|
@@ -442,4 +440,460 @@ pub fn HTMLCanvasElement::to_blob(
     (Some(t), None) => self.to_js().call_method("toBlob", [t]).cast()
     (None, _) => self.to_js().call_method("toBlob", []).cast()
   }
+}
+
+///|
+#external
+pub type HTMLBodyElement
+
+///|
+pub impl Js for HTMLBodyElement with to_js(self) {
+  self |> js
+}
+
+///|
+pub impl EventTargetImpl for HTMLBodyElement
+
+///|
+pub impl NodeImpl for HTMLBodyElement
+
+///|
+pub impl ElementImpl for HTMLBodyElement
+
+///|
+pub impl HTMLElementImpl for HTMLBodyElement
+
+///|
+#external
+pub type HTMLHeadElement
+
+///|
+pub impl Js for HTMLHeadElement with to_js(self) {
+  self |> js
+}
+
+///|
+pub impl EventTargetImpl for HTMLHeadElement
+
+///|
+pub impl NodeImpl for HTMLHeadElement
+
+///|
+pub impl ElementImpl for HTMLHeadElement
+
+///|
+pub impl HTMLElementImpl for HTMLHeadElement
+
+///|
+#external
+pub type HTMLHtmlElement
+
+///|
+pub impl Js for HTMLHtmlElement with to_js(self) {
+  self |> js
+}
+
+///|
+pub impl EventTargetImpl for HTMLHtmlElement
+
+///|
+pub impl NodeImpl for HTMLHtmlElement
+
+///|
+pub impl ElementImpl for HTMLHtmlElement
+
+///|
+pub impl HTMLElementImpl for HTMLHtmlElement
+
+///|
+#external
+pub type HTMLSpanElement
+
+///|
+pub impl Js for HTMLSpanElement with to_js(self) {
+  self |> js
+}
+
+///|
+pub impl EventTargetImpl for HTMLSpanElement
+
+///|
+pub impl NodeImpl for HTMLSpanElement
+
+///|
+pub impl ElementImpl for HTMLSpanElement
+
+///|
+pub impl HTMLElementImpl for HTMLSpanElement
+
+///|
+#external
+pub type HTMLAnchorElement
+
+///|
+pub impl Js for HTMLAnchorElement with to_js(self) {
+  self |> js
+}
+
+///|
+pub impl EventTargetImpl for HTMLAnchorElement
+
+///|
+pub impl NodeImpl for HTMLAnchorElement
+
+///|
+pub impl ElementImpl for HTMLAnchorElement
+
+///|
+pub impl HTMLElementImpl for HTMLAnchorElement
+
+///|
+/// Returns the href attribute
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/href
+pub fn HTMLAnchorElement::href(self : Self) -> String {
+  self.to_js().get("href").cast()
+}
+
+///|
+/// Sets the href attribute
+pub fn HTMLAnchorElement::set_href(self : Self, href : String) -> Unit {
+  self.to_js().set("href", href)
+}
+
+///|
+/// Returns the target attribute
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/target
+pub fn HTMLAnchorElement::target(self : Self) -> String {
+  self.to_js().get("target").cast()
+}
+
+///|
+/// Sets the target attribute
+pub fn HTMLAnchorElement::set_target(self : Self, target : String) -> Unit {
+  self.to_js().set("target", target)
+}
+
+///|
+#external
+pub type HTMLButtonElement
+
+///|
+pub impl Js for HTMLButtonElement with to_js(self) {
+  self |> js
+}
+
+///|
+pub impl EventTargetImpl for HTMLButtonElement
+
+///|
+pub impl NodeImpl for HTMLButtonElement
+
+///|
+pub impl ElementImpl for HTMLButtonElement
+
+///|
+pub impl HTMLElementImpl for HTMLButtonElement
+
+///|
+/// Returns whether the button is disabled
+pub fn HTMLButtonElement::disabled(self : Self) -> Bool {
+  self.to_js().get("disabled").cast()
+}
+
+///|
+/// Sets whether the button is disabled
+pub fn HTMLButtonElement::set_disabled(self : Self, disabled : Bool) -> Unit {
+  self.to_js().set("disabled", disabled)
+}
+
+///|
+#external
+pub type HTMLInputElement
+
+///|
+pub impl Js for HTMLInputElement with to_js(self) {
+  self |> js
+}
+
+///|
+pub impl EventTargetImpl for HTMLInputElement
+
+///|
+pub impl NodeImpl for HTMLInputElement
+
+///|
+pub impl ElementImpl for HTMLInputElement
+
+///|
+pub impl HTMLElementImpl for HTMLInputElement
+
+///|
+/// Returns the value of the input
+pub fn HTMLInputElement::value(self : Self) -> String {
+  self.to_js().get("value").cast()
+}
+
+///|
+/// Sets the value of the input
+pub fn HTMLInputElement::set_value(self : Self, value : String) -> Unit {
+  self.to_js().set("value", value)
+}
+
+///|
+/// Returns the type of the input
+pub fn HTMLInputElement::input_type(self : Self) -> String {
+  self.to_js().get("type").cast()
+}
+
+///|
+/// Sets the type of the input
+pub fn HTMLInputElement::set_input_type(
+  self : Self,
+  input_type : String,
+) -> Unit {
+  self.to_js().set("type", input_type)
+}
+
+///|
+/// Returns whether the input is disabled
+pub fn HTMLInputElement::disabled(self : Self) -> Bool {
+  self.to_js().get("disabled").cast()
+}
+
+///|
+/// Sets whether the input is disabled
+pub fn HTMLInputElement::set_disabled(self : Self, disabled : Bool) -> Unit {
+  self.to_js().set("disabled", disabled)
+}
+
+///|
+/// Returns whether the input is checked (for checkbox/radio)
+pub fn HTMLInputElement::checked(self : Self) -> Bool {
+  self.to_js().get("checked").cast()
+}
+
+///|
+/// Sets whether the input is checked (for checkbox/radio)
+pub fn HTMLInputElement::set_checked(self : Self, checked : Bool) -> Unit {
+  self.to_js().set("checked", checked)
+}
+
+///|
+/// Returns the placeholder text
+pub fn HTMLInputElement::placeholder(self : Self) -> String {
+  self.to_js().get("placeholder").cast()
+}
+
+///|
+/// Sets the placeholder text
+pub fn HTMLInputElement::set_placeholder(
+  self : Self,
+  placeholder : String,
+) -> Unit {
+  self.to_js().set("placeholder", placeholder)
+}
+
+///|
+#external
+pub type HTMLTextAreaElement
+
+///|
+pub impl Js for HTMLTextAreaElement with to_js(self) {
+  self |> js
+}
+
+///|
+pub impl EventTargetImpl for HTMLTextAreaElement
+
+///|
+pub impl NodeImpl for HTMLTextAreaElement
+
+///|
+pub impl ElementImpl for HTMLTextAreaElement
+
+///|
+pub impl HTMLElementImpl for HTMLTextAreaElement
+
+///|
+/// Returns the value of the textarea
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/value
+pub fn HTMLTextAreaElement::value(self : Self) -> String {
+  self.to_js().get("value").cast()
+}
+
+///|
+/// Sets the value of the textarea
+pub fn HTMLTextAreaElement::set_value(self : Self, value : String) -> Unit {
+  self.to_js().set("value", value)
+}
+
+///|
+/// Returns the placeholder text
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/placeholder
+pub fn HTMLTextAreaElement::placeholder(self : Self) -> String {
+  self.to_js().get("placeholder").cast()
+}
+
+///|
+/// Sets the placeholder text
+pub fn HTMLTextAreaElement::set_placeholder(
+  self : Self,
+  placeholder : String,
+) -> Unit {
+  self.to_js().set("placeholder", placeholder)
+}
+
+///|
+/// Returns whether the textarea is disabled
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/disabled
+pub fn HTMLTextAreaElement::disabled(self : Self) -> Bool {
+  self.to_js().get("disabled").cast()
+}
+
+///|
+/// Sets whether the textarea is disabled
+pub fn HTMLTextAreaElement::set_disabled(self : Self, disabled : Bool) -> Unit {
+  self.to_js().set("disabled", disabled)
+}
+
+///|
+/// Returns the number of visible text lines
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/rows
+pub fn HTMLTextAreaElement::rows(self : Self) -> Int {
+  self.to_js().get("rows").cast()
+}
+
+///|
+/// Sets the number of visible text lines
+pub fn HTMLTextAreaElement::set_rows(self : Self, rows : Int) -> Unit {
+  self.to_js().set("rows", rows)
+}
+
+///|
+/// Returns the visible width of the text control
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/cols
+pub fn HTMLTextAreaElement::cols(self : Self) -> Int {
+  self.to_js().get("cols").cast()
+}
+
+///|
+/// Sets the visible width of the text control
+pub fn HTMLTextAreaElement::set_cols(self : Self, cols : Int) -> Unit {
+  self.to_js().set("cols", cols)
+}
+
+///|
+/// Returns whether the textarea is read-only
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/readOnly
+pub fn HTMLTextAreaElement::read_only(self : Self) -> Bool {
+  self.to_js().get("readOnly").cast()
+}
+
+///|
+/// Sets whether the textarea is read-only
+pub fn HTMLTextAreaElement::set_read_only(
+  self : Self,
+  read_only : Bool,
+) -> Unit {
+  self.to_js().set("readOnly", read_only)
+}
+
+///|
+#external
+pub type HTMLIFrameElement
+
+///|
+pub impl Js for HTMLIFrameElement with to_js(self) {
+  self |> js
+}
+
+///|
+pub impl EventTargetImpl for HTMLIFrameElement
+
+///|
+pub impl NodeImpl for HTMLIFrameElement
+
+///|
+pub impl ElementImpl for HTMLIFrameElement
+
+///|
+pub impl HTMLElementImpl for HTMLIFrameElement
+
+///|
+/// Returns the src attribute
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/src
+pub fn HTMLIFrameElement::src(self : Self) -> String {
+  self.to_js().get("src").cast()
+}
+
+///|
+/// Sets the src attribute
+pub fn HTMLIFrameElement::set_src(self : Self, src : String) -> Unit {
+  self.to_js().set("src", src)
+}
+
+///|
+/// Returns the content window
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
+pub fn HTMLIFrameElement::content_window(self : Self) -> Window? {
+  self.to_js().get("contentWindow").cast_option()
+}
+
+///|
+/// Returns the content document
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
+pub fn HTMLIFrameElement::content_document(self : Self) -> Document? {
+  self.to_js().get("contentDocument").cast_option()
+}
+
+///|
+/// Returns the width attribute
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/width
+pub fn HTMLIFrameElement::width(self : Self) -> String {
+  self.to_js().get("width").cast()
+}
+
+///|
+/// Sets the width attribute
+pub fn HTMLIFrameElement::set_width(self : Self, width : String) -> Unit {
+  self.to_js().set("width", width)
+}
+
+///|
+/// Returns the height attribute
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/height
+pub fn HTMLIFrameElement::height(self : Self) -> String {
+  self.to_js().get("height").cast()
+}
+
+///|
+/// Sets the height attribute
+pub fn HTMLIFrameElement::set_height(self : Self, height : String) -> Unit {
+  self.to_js().set("height", height)
+}
+
+///|
+/// Returns the name attribute
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/name
+pub fn HTMLIFrameElement::name(self : Self) -> String {
+  self.to_js().get("name").cast()
+}
+
+///|
+/// Sets the name attribute
+pub fn HTMLIFrameElement::set_name(self : Self, name : String) -> Unit {
+  self.to_js().set("name", name)
+}
+
+///|
+/// Returns the sandbox attribute
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/sandbox
+pub fn HTMLIFrameElement::sandbox(self : Self) -> String {
+  self.to_js().get("sandbox").cast()
+}
+
+///|
+/// Sets the sandbox attribute
+pub fn HTMLIFrameElement::set_sandbox(self : Self, sandbox : String) -> Unit {
+  self.to_js().set("sandbox", sandbox)
 }

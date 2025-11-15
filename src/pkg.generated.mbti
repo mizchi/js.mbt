@@ -68,11 +68,11 @@ fn throw_error_message(String, Val?) -> Unit
 
 fn throw_val(Val) -> Unit
 
+fn[T] throwable(() -> T raise?) -> T raise JsError
+
 fn undefined() -> Val
 
 fn[A, B] unsafe_cast(A) -> B
-
-fn[T] wrap(() -> T raise?) -> T raise JsError
 
 fn wrap_result(() -> Result[Val, Val]) -> Result[Val, Val]
 

@@ -9,7 +9,7 @@ pub fn json_stringify(
 
 ///|
 pub fn json_parse(s : String, reviver? : Val? = None) -> Val raise JsError {
-  wrap(() => ffi_json_parse(s, reviver?))
+  throwable(() => ffi_json_parse(s, reviver?))
 }
 
 ///|

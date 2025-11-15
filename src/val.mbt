@@ -333,7 +333,7 @@ pub fn Val::call(self : Self, args : Array[&Js]) -> Val {
 /// let result = func.call_raise(["arg1", "arg2"])!  // Handle with !
 /// ```
 pub fn Val::call_raise(self : Self, args : Array[&Js]) -> Val raise {
-  wrap(() => self.call(args.map(_.to_js())))
+  throwable(() => self.call(args.map(_.to_js())))
 }
 
 ///|
@@ -368,7 +368,7 @@ pub fn Val::call_method_raise(
   key : String,
   args : Array[&Js],
 ) -> Val raise {
-  wrap(() => ffi_call_method(self, key, args.map(_.to_js())))
+  throwable(() => ffi_call_method(self, key, args.map(_.to_js())))
 }
 
 ///|

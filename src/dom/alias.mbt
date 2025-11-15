@@ -6,3 +6,6 @@ using @async {type Promise, suspend, run_async}
 
 ///|
 using @blob {type Blob}
+
+///|
+using @worker {trait Transferable}

@@ -1,4 +1,63 @@
 ///|
+/// EventImpl trait - base interface for all DOM events
+pub(open) trait EventImpl: Js {
+  prevent_default(Self) -> Unit = _
+  stop_propagation(Self) -> Unit = _
+  stop_immediate_propagation(Self) -> Unit = _
+  target(Self) -> Element = _
+  current_target(Self) -> Element = _
+  event_type(Self) -> String = _
+  bubbles(Self) -> Bool = _
+  cancelable(Self) -> Bool = _
+  default_prevented(Self) -> Bool = _
+}
+
+///|
+impl EventImpl with prevent_default(self) -> Unit {
+  ignore(self.to_js().call_method("preventDefault", []))
+}
+
+///|
+impl EventImpl with stop_propagation(self) -> Unit {
+  ignore(self.to_js().call_method("stopPropagation", []))
+}
+
+///|
+impl EventImpl with stop_immediate_propagation(self) -> Unit {
+  ignore(self.to_js().call_method("stopImmediatePropagation", []))
+}
+
+///|
+impl EventImpl with target(self) -> Element {
+  self.to_js().get("target").cast()
+}
+
+///|
+impl EventImpl with current_target(self) -> Element {
+  self.to_js().get("currentTarget").cast()
+}
+
+///|
+impl EventImpl with event_type(self) -> String {
+  self.to_js().get("type").cast()
+}
+
+///|
+impl EventImpl with bubbles(self) -> Bool {
+  self.to_js().get("bubbles").cast()
+}
+
+///|
+impl EventImpl with cancelable(self) -> Bool {
+  self.to_js().get("cancelable").cast()
+}
+
+///|
+impl EventImpl with default_prevented(self) -> Bool {
+  self.to_js().get("defaultPrevented").cast()
+}
+
+///|
 /// Event represents a DOM event
 /// https://developer.mozilla.org/en-US/docs/Web/API/Event
 #external
@@ -10,69 +69,7 @@ pub impl Js for Event with to_js(self) -> Val {
 }
 
 ///|
-/// Prevents the default action of the event
-/// https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
-#alias(preventDefault)
-pub fn Event::prevent_default(self : Event) -> Unit {
-  self.to_js().call_method("preventDefault", []) |> ignore
-}
-
-///|
-/// Stops the propagation of the event
-/// https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation
-#alias(stopPropagation)
-pub fn Event::stop_propagation(self : Event) -> Unit {
-  self.to_js().call_method("stopPropagation", []) |> ignore
-}
-
-///|
-/// Stops immediate propagation of the event
-/// https://developer.mozilla.org/en-US/docs/Web/API/Event/stopImmediatePropagation
-pub fn Event::stop_immediate_propagation(self : Event) -> Unit {
-  self.to_js().call_method("stopImmediatePropagation", []) |> ignore
-}
-
-///|
-/// Returns the event target
-/// https://developer.mozilla.org/en-US/docs/Web/API/Event/target
-pub fn Event::target(self : Self) -> Element {
-  self.to_js().get("target").cast()
-}
-
-///|
-/// Returns the current event target
-/// https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget
-pub fn Event::current_target(self : Self) -> Element {
-  self.to_js().get("currentTarget").cast()
-}
-
-///|
-/// Returns the event type
-/// https://developer.mozilla.org/en-US/docs/Web/API/Event/type
-pub fn Event::event_type(self : Self) -> String {
-  self.to_js().get("type").cast()
-}
-
-///|
-/// Returns whether the event bubbles
-/// https://developer.mozilla.org/en-US/docs/Web/API/Event/bubbles
-pub fn Event::bubbles(self : Self) -> Bool {
-  self.to_js().get("bubbles").cast()
-}
-
-///|
-/// Returns whether the event is cancelable
-/// https://developer.mozilla.org/en-US/docs/Web/API/Event/cancelable
-pub fn Event::cancelable(self : Self) -> Bool {
-  self.to_js().get("cancelable").cast()
-}
-
-///|
-/// Returns whether preventDefault was called
-/// https://developer.mozilla.org/en-US/docs/Web/API/Event/defaultPrevented
-pub fn Event::default_prevented(self : Self) -> Bool {
-  self.to_js().get("defaultPrevented").cast()
-}
+pub impl EventImpl for Event
 
 ///|
 /// PointerEvent represents a pointer event
@@ -84,6 +81,9 @@ pub type PointerEvent
 pub impl Js for PointerEvent with to_js(self) {
   self |> js
 }
+
+///|
+pub impl EventImpl for PointerEvent
 
 ///|
 /// Returns the width of the pointer contact
@@ -125,6 +125,9 @@ pub type MouseEvent
 pub impl Js for MouseEvent with to_js(self) -> Val {
   self |> js
 }
+
+///|
+pub impl EventImpl for MouseEvent
 
 ///|
 /// Returns the X coordinate relative to the viewport
@@ -232,10 +235,7 @@ impl Js for KeyboardEvent with to_js(self) -> Val {
 }
 
 ///|
-/// Returns the event target
-pub fn KeyboardEvent::target(self : KeyboardEvent) -> Element {
-  self.to_js().get("target").cast()
-}
+pub impl EventImpl for KeyboardEvent
 
 ///|
 /// Returns the key value
@@ -306,10 +306,12 @@ pub fn KeyboardEvent::location(self : KeyboardEvent) -> Int {
 pub type ChangeEvent
 
 ///|
-pub fn ChangeEvent::target(self : ChangeEvent) -> Element {
-  let value : Val = self |> js
-  value.get("target").cast()
+pub impl Js for ChangeEvent with to_js(self) -> Val {
+  self |> js
 }
+
+///|
+pub impl EventImpl for ChangeEvent
 
 ///|
 /// FocusEvent represents a focus event
@@ -323,10 +325,7 @@ impl Js for FocusEvent with to_js(self) -> Val {
 }
 
 ///|
-/// Returns the event target
-pub fn FocusEvent::target(self : FocusEvent) -> Element {
-  self.to_js().get("target").cast()
-}
+pub impl EventImpl for FocusEvent
 
 ///|
 /// Returns the related target (element losing/gaining focus)
@@ -345,16 +344,7 @@ impl Js for FormEvent with to_js(self) -> Val {
 }
 
 ///|
-/// Returns the event target
-pub fn FormEvent::target(self : FormEvent) -> Element {
-  self.to_js().get("target").cast()
-}
-
-///|
-/// Returns the current event target
-pub fn FormEvent::current_target(self : FormEvent) -> Element {
-  self.to_js().get("currentTarget").cast()
-}
+pub impl EventImpl for FormEvent
 
 ///|
 /// Returns the form data
@@ -374,10 +364,7 @@ pub impl Js for DragEvent with to_js(self) -> Val {
 }
 
 ///|
-/// Returns the event target
-pub fn DragEvent::target(self : Self) -> Element {
-  self.to_js().get("target").cast()
-}
+pub impl EventImpl for DragEvent
 
 ///|
 /// Returns the data transfer object
@@ -398,10 +385,7 @@ impl Js for InputEvent with to_js(self) -> Val {
 }
 
 ///|
-/// Returns the event target
-pub fn InputEvent::target(self : Self) -> Element {
-  self.to_js().get("target").cast()
-}
+pub impl EventImpl for InputEvent
 
 ///|
 /// Returns the input data
@@ -425,6 +409,9 @@ pub type WheelEvent
 impl Js for WheelEvent with to_js(self) -> Val {
   self |> js
 }
+
+///|
+pub impl EventImpl for WheelEvent
 
 ///|
 /// Returns the horizontal scroll amount
@@ -460,6 +447,9 @@ pub type TouchEvent
 impl Js for TouchEvent with to_js(self) -> Val {
   self |> js
 }
+
+///|
+pub impl EventImpl for TouchEvent
 
 ///|
 /// Returns the list of all touches
@@ -601,6 +591,9 @@ impl Js for ClipboardEvent with to_js(self) -> Val {
 }
 
 ///|
+pub impl EventImpl for ClipboardEvent
+
+///|
 /// Returns the clipboard data
 /// https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
 pub fn ClipboardEvent::clipboard_data(self : Self) -> Val? {
@@ -617,6 +610,9 @@ pub type TransitionEvent
 impl Js for TransitionEvent with to_js(self) -> Val {
   self |> js
 }
+
+///|
+pub impl EventImpl for TransitionEvent
 
 ///|
 /// Returns the name of the CSS property associated with the transition
@@ -648,6 +644,9 @@ impl Js for AnimationEvent with to_js(self) -> Val {
 }
 
 ///|
+pub impl EventImpl for AnimationEvent
+
+///|
 /// Returns the name of the CSS animation
 pub fn AnimationEvent::animation_name(self : Self) -> String {
   self.to_js().get("animationName").cast()
@@ -671,8 +670,102 @@ pub fn AnimationEvent::pseudo_element(self : Self) -> String {
 pub type ScrollEvent
 
 ///|
-pub impl Js for ScrollEvent with to_js(self) -> Val {
+pub impl Js for ScrollEvent
+
+///|
+pub impl EventImpl for ScrollEvent
+
+///|
+/// MessageEvent is fired when a message is received from another browsing context
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
+#external
+pub type MessageEvent
+
+///|
+pub impl Js for MessageEvent with to_js(self) -> Val {
   self |> js
+}
+
+///|
+pub impl EventImpl for MessageEvent
+
+///|
+/// Returns the data sent by the message emitter
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/data
+pub fn MessageEvent::data(self : Self) -> Val {
+  self.to_js().get("data").cast()
+}
+
+///|
+/// Returns the origin of the message emitter
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/origin
+pub fn MessageEvent::origin(self : Self) -> String {
+  self.to_js().get("origin").cast()
+}
+
+///|
+/// Returns the source window of the message
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/source
+pub fn MessageEvent::source(self : Self) -> Window? {
+  self.to_js().get("source").cast_option()
+}
+
+///|
+/// Returns the array of MessagePort objects
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/ports
+pub fn MessageEvent::ports(self : Self) -> Array[Val] {
+  @js.array_from(self.to_js().get("ports")).map(fn(v) { v.cast() })
+}
+
+///|
+/// DOMRectReadOnly represents a read-only rectangle
+/// https://developer.mozilla.org/en-US/docs/Web/API/DOMRectReadOnly
+#external
+pub type DOMRectReadOnly
+
+///|
+pub impl Js for DOMRectReadOnly with to_js(self) -> Val {
+  self |> js
+}
+
+///|
+pub fn DOMRectReadOnly::x(self : Self) -> Double {
+  self.to_js().get("x").cast()
+}
+
+///|
+pub fn DOMRectReadOnly::y(self : Self) -> Double {
+  self.to_js().get("y").cast()
+}
+
+///|
+pub fn DOMRectReadOnly::width(self : Self) -> Double {
+  self.to_js().get("width").cast()
+}
+
+///|
+pub fn DOMRectReadOnly::height(self : Self) -> Double {
+  self.to_js().get("height").cast()
+}
+
+///|
+pub fn DOMRectReadOnly::top(self : Self) -> Double {
+  self.to_js().get("top").cast()
+}
+
+///|
+pub fn DOMRectReadOnly::right(self : Self) -> Double {
+  self.to_js().get("right").cast()
+}
+
+///|
+pub fn DOMRectReadOnly::bottom(self : Self) -> Double {
+  self.to_js().get("bottom").cast()
+}
+
+///|
+pub fn DOMRectReadOnly::left(self : Self) -> Double {
+  self.to_js().get("left").cast()
 }
 
 ///|
@@ -682,9 +775,7 @@ pub impl Js for ScrollEvent with to_js(self) -> Val {
 pub type ResizeObserverEntry
 
 ///|
-impl Js for ResizeObserverEntry with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for ResizeObserverEntry
 
 ///|
 /// Returns the target element being observed
@@ -694,8 +785,8 @@ pub fn ResizeObserverEntry::target(self : Self) -> Element {
 
 ///|
 /// Returns the content rect
-pub fn ResizeObserverEntry::content_rect(self : Self) -> Val {
-  self.to_js().get("contentRect")
+pub fn ResizeObserverEntry::content_rect(self : Self) -> DOMRectReadOnly {
+  self.to_js().get("contentRect").cast()
 }
 
 ///|

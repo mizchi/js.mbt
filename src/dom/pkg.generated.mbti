@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/async"
   "mizchi/js/blob"
+  "mizchi/js/worker"
 )
 
 // Values
@@ -34,6 +35,8 @@ fn new_mutation_observer((@js.Val, MutationObserver) -> Unit) -> MutationObserve
 
 fn new_resize_observer((@js.Val, ResizeObserver) -> Unit) -> ResizeObserver
 
+fn window() -> Window
+
 // Errors
 
 // Types and methods
@@ -42,6 +45,7 @@ pub type AnimationEvent
 fn AnimationEvent::animation_name(Self) -> String
 fn AnimationEvent::elapsed_time(Self) -> Double
 fn AnimationEvent::pseudo_element(Self) -> String
+impl EventImpl for AnimationEvent
 
 #external
 pub type CSSRule
@@ -81,18 +85,35 @@ impl @js.Js for CSSStyleSheet
 
 #external
 pub type ChangeEvent
-fn ChangeEvent::target(Self) -> Element
+impl @js.Js for ChangeEvent
+impl EventImpl for ChangeEvent
 
 #external
 pub type ClipboardEvent
 fn ClipboardEvent::clipboard_data(Self) -> @js.Val?
+impl EventImpl for ClipboardEvent
+
+#external
+pub type DOMRectReadOnly
+fn DOMRectReadOnly::bottom(Self) -> Double
+fn DOMRectReadOnly::height(Self) -> Double
+fn DOMRectReadOnly::left(Self) -> Double
+fn DOMRectReadOnly::right(Self) -> Double
+fn DOMRectReadOnly::top(Self) -> Double
+fn DOMRectReadOnly::width(Self) -> Double
+fn DOMRectReadOnly::x(Self) -> Double
+fn DOMRectReadOnly::y(Self) -> Double
+impl @js.Js for DOMRectReadOnly
 
 #external
 pub type Document
 #alias(activeElement)
 fn Document::active_element(Self) -> Element
+fn Document::adopt_node(Self, Node) -> Node
 fn Document::as_element(Self) -> @js.Val
-fn Document::body(Self) -> @js.Val
+fn Document::body(Self) -> HTMLBodyElement?
+fn Document::character_set(Self) -> String
+fn Document::content_type(Self) -> String
 fn Document::cookie(Self) -> String
 fn Document::create_comment(Self, String) -> @js.Val
 fn Document::create_document_fragment(Self) -> @js.Val
@@ -100,31 +121,39 @@ fn Document::create_document_fragment(Self) -> @js.Val
 fn Document::create_element(Self, String) -> Element
 #alias(createElementNS)
 fn Document::create_element_ns(Self, String, String) -> Element
+fn Document::create_event(Self, String) -> Event
 fn Document::create_stylesheet(Self) -> CSSStyleSheet
 #alias(createTextNode)
 fn Document::create_text_node(Self, String) -> TextNode
+fn Document::doctype(Self) -> @js.Val?
+fn Document::document_element(Self) -> Element
+fn Document::document_uri(Self) -> String
 fn Document::domain(Self) -> String
 fn Document::get_element_by_id(Self, String) -> @js.Val?
 fn Document::get_elements_by_class_name(Self, String) -> @js.Val
 fn Document::get_elements_by_tag_name(Self, String) -> @js.Val
-fn Document::head(Self) -> @js.Val
+fn Document::head(Self) -> HTMLHeadElement?
+fn Document::import_node(Self, Node, Bool) -> Node
 #alias(querySelector)
 fn Document::query_selector(Self, String) -> @js.Val?
 fn Document::query_selector_all(Self, String) -> @js.Val
 fn Document::ready_state(Self) -> String
 fn Document::referrer(Self) -> String
+fn Document::set_body(Self, HTMLBodyElement) -> Unit
 fn Document::set_cookie(Self, String) -> Unit
 fn Document::set_title(Self, String) -> Unit
 fn Document::style_sheets(Self) -> @js.Val
 fn Document::title(Self) -> String
 fn Document::url(Self) -> String
 impl @js.Js for Document
+impl EventTargetImpl for Document
+impl NodeImpl for Document
 
 #external
 pub type DragEvent
 fn DragEvent::data_transfer(Self) -> @js.Val
-fn DragEvent::target(Self) -> Element
 impl @js.Js for DragEvent
+impl EventImpl for DragEvent
 
 #external
 pub type Element
@@ -133,29 +162,48 @@ impl EventTargetImpl for Element
 
 #external
 pub type Event
-fn Event::bubbles(Self) -> Bool
-fn Event::cancelable(Self) -> Bool
-fn Event::current_target(Self) -> Element
-fn Event::default_prevented(Self) -> Bool
-fn Event::event_type(Self) -> String
-#alias(preventDefault)
-fn Event::prevent_default(Self) -> Unit
-fn Event::stop_immediate_propagation(Self) -> Unit
-#alias(stopPropagation)
-fn Event::stop_propagation(Self) -> Unit
-fn Event::target(Self) -> Element
 impl @js.Js for Event
+impl EventImpl for Event
 
 #external
 pub type FocusEvent
 fn FocusEvent::related_target(Self) -> Element?
-fn FocusEvent::target(Self) -> Element
+impl EventImpl for FocusEvent
 
 #external
 pub type FormEvent
-fn FormEvent::current_target(Self) -> Element
 fn FormEvent::form_data(Self) -> @js.Val
-fn FormEvent::target(Self) -> Element
+impl EventImpl for FormEvent
+
+#external
+pub type HTMLAnchorElement
+fn HTMLAnchorElement::href(Self) -> String
+fn HTMLAnchorElement::set_href(Self, String) -> Unit
+fn HTMLAnchorElement::set_target(Self, String) -> Unit
+fn HTMLAnchorElement::target(Self) -> String
+impl @js.Js for HTMLAnchorElement
+impl ElementImpl for HTMLAnchorElement
+impl EventTargetImpl for HTMLAnchorElement
+impl HTMLElementImpl for HTMLAnchorElement
+impl NodeImpl for HTMLAnchorElement
+
+#external
+pub type HTMLBodyElement
+impl @js.Js for HTMLBodyElement
+impl ElementImpl for HTMLBodyElement
+impl EventTargetImpl for HTMLBodyElement
+impl HTMLElementImpl for HTMLBodyElement
+impl NodeImpl for HTMLBodyElement
+
+#external
+pub type HTMLButtonElement
+fn HTMLButtonElement::disabled(Self) -> Bool
+fn HTMLButtonElement::set_disabled(Self, Bool) -> Unit
+impl @js.Js for HTMLButtonElement
+impl ElementImpl for HTMLButtonElement
+impl EventTargetImpl for HTMLButtonElement
+impl HTMLElementImpl for HTMLButtonElement
+impl NodeImpl for HTMLButtonElement
 
 #external
 pub type HTMLCanvasElement
@@ -189,10 +237,92 @@ impl HTMLElementImpl for HTMLElement
 impl NodeImpl for HTMLElement
 
 #external
+pub type HTMLHeadElement
+impl @js.Js for HTMLHeadElement
+impl ElementImpl for HTMLHeadElement
+impl EventTargetImpl for HTMLHeadElement
+impl HTMLElementImpl for HTMLHeadElement
+impl NodeImpl for HTMLHeadElement
+
+#external
+pub type HTMLHtmlElement
+impl @js.Js for HTMLHtmlElement
+impl ElementImpl for HTMLHtmlElement
+impl EventTargetImpl for HTMLHtmlElement
+impl HTMLElementImpl for HTMLHtmlElement
+impl NodeImpl for HTMLHtmlElement
+
+#external
+pub type HTMLIFrameElement
+fn HTMLIFrameElement::content_document(Self) -> Document?
+fn HTMLIFrameElement::content_window(Self) -> Window?
+fn HTMLIFrameElement::height(Self) -> String
+fn HTMLIFrameElement::name(Self) -> String
+fn HTMLIFrameElement::sandbox(Self) -> String
+fn HTMLIFrameElement::set_height(Self, String) -> Unit
+fn HTMLIFrameElement::set_name(Self, String) -> Unit
+fn HTMLIFrameElement::set_sandbox(Self, String) -> Unit
+fn HTMLIFrameElement::set_src(Self, String) -> Unit
+fn HTMLIFrameElement::set_width(Self, String) -> Unit
+fn HTMLIFrameElement::src(Self) -> String
+fn HTMLIFrameElement::width(Self) -> String
+impl @js.Js for HTMLIFrameElement
+impl ElementImpl for HTMLIFrameElement
+impl EventTargetImpl for HTMLIFrameElement
+impl HTMLElementImpl for HTMLIFrameElement
+impl NodeImpl for HTMLIFrameElement
+
+#external
+pub type HTMLInputElement
+fn HTMLInputElement::checked(Self) -> Bool
+fn HTMLInputElement::disabled(Self) -> Bool
+fn HTMLInputElement::input_type(Self) -> String
+fn HTMLInputElement::placeholder(Self) -> String
+fn HTMLInputElement::set_checked(Self, Bool) -> Unit
+fn HTMLInputElement::set_disabled(Self, Bool) -> Unit
+fn HTMLInputElement::set_input_type(Self, String) -> Unit
+fn HTMLInputElement::set_placeholder(Self, String) -> Unit
+fn HTMLInputElement::set_value(Self, String) -> Unit
+fn HTMLInputElement::value(Self) -> String
+impl @js.Js for HTMLInputElement
+impl ElementImpl for HTMLInputElement
+impl EventTargetImpl for HTMLInputElement
+impl HTMLElementImpl for HTMLInputElement
+impl NodeImpl for HTMLInputElement
+
+#external
+pub type HTMLSpanElement
+impl @js.Js for HTMLSpanElement
+impl ElementImpl for HTMLSpanElement
+impl EventTargetImpl for HTMLSpanElement
+impl HTMLElementImpl for HTMLSpanElement
+impl NodeImpl for HTMLSpanElement
+
+#external
+pub type HTMLTextAreaElement
+fn HTMLTextAreaElement::cols(Self) -> Int
+fn HTMLTextAreaElement::disabled(Self) -> Bool
+fn HTMLTextAreaElement::placeholder(Self) -> String
+fn HTMLTextAreaElement::read_only(Self) -> Bool
+fn HTMLTextAreaElement::rows(Self) -> Int
+fn HTMLTextAreaElement::set_cols(Self, Int) -> Unit
+fn HTMLTextAreaElement::set_disabled(Self, Bool) -> Unit
+fn HTMLTextAreaElement::set_placeholder(Self, String) -> Unit
+fn HTMLTextAreaElement::set_read_only(Self, Bool) -> Unit
+fn HTMLTextAreaElement::set_rows(Self, Int) -> Unit
+fn HTMLTextAreaElement::set_value(Self, String) -> Unit
+fn HTMLTextAreaElement::value(Self) -> String
+impl @js.Js for HTMLTextAreaElement
+impl ElementImpl for HTMLTextAreaElement
+impl EventTargetImpl for HTMLTextAreaElement
+impl HTMLElementImpl for HTMLTextAreaElement
+impl NodeImpl for HTMLTextAreaElement
+
+#external
 pub type InputEvent
 fn InputEvent::data(Self) -> String?
 fn InputEvent::input_type(Self) -> String
-fn InputEvent::target(Self) -> Element
+impl EventImpl for InputEvent
 
 #external
 pub type IntersectionObserver
@@ -224,8 +354,8 @@ fn KeyboardEvent::location(Self) -> Int
 fn KeyboardEvent::meta_key(Self) -> Bool
 fn KeyboardEvent::repeat(Self) -> Bool
 fn KeyboardEvent::shift_key(Self) -> Bool
-fn KeyboardEvent::target(Self) -> Element
 fn KeyboardEvent::which(Self) -> Int
+impl EventImpl for KeyboardEvent
 
 #external
 pub type MediaQueryList
@@ -236,6 +366,15 @@ fn MediaQueryList::media(Self) -> String
 fn MediaQueryList::remove_change_listener(Self, (Event) -> Unit) -> Unit
 fn MediaQueryList::remove_listener(Self, (Self) -> Unit) -> Unit
 impl @js.Js for MediaQueryList
+
+#external
+pub type MessageEvent
+fn MessageEvent::data(Self) -> @js.Val
+fn MessageEvent::origin(Self) -> String
+fn MessageEvent::ports(Self) -> Array[@js.Val]
+fn MessageEvent::source(Self) -> Window?
+impl @js.Js for MessageEvent
+impl EventImpl for MessageEvent
 
 #external
 pub type MouseEvent
@@ -254,6 +393,7 @@ fn MouseEvent::screen_x(Self) -> Int
 fn MouseEvent::screen_y(Self) -> Int
 fn MouseEvent::shift_key(Self) -> Bool
 impl @js.Js for MouseEvent
+impl EventImpl for MouseEvent
 
 #external
 pub type MutationObserver
@@ -308,6 +448,7 @@ fn PointerEvent::pointer_id(Self) -> Int
 fn PointerEvent::pointer_type(Self) -> String
 fn PointerEvent::width(Self) -> Double
 impl @js.Js for PointerEvent
+impl EventImpl for PointerEvent
 
 #external
 pub type ResizeObserver
@@ -321,12 +462,14 @@ impl @js.Js for ResizeObserver
 pub type ResizeObserverEntry
 fn ResizeObserverEntry::border_box_size(Self) -> @js.Val
 fn ResizeObserverEntry::content_box_size(Self) -> @js.Val
-fn ResizeObserverEntry::content_rect(Self) -> @js.Val
+fn ResizeObserverEntry::content_rect(Self) -> DOMRectReadOnly
 fn ResizeObserverEntry::target(Self) -> Element
+impl @js.Js for ResizeObserverEntry
 
 #external
 pub type ScrollEvent
 impl @js.Js for ScrollEvent
+impl EventImpl for ScrollEvent
 
 #external
 pub type Storage
@@ -370,12 +513,14 @@ fn TouchEvent::meta_key(Self) -> Bool
 fn TouchEvent::shift_key(Self) -> Bool
 fn TouchEvent::target_touches(Self) -> @js.Val
 fn TouchEvent::touches(Self) -> @js.Val
+impl EventImpl for TouchEvent
 
 #external
 pub type TransitionEvent
 fn TransitionEvent::elapsed_time(Self) -> Double
 fn TransitionEvent::property_name(Self) -> String
 fn TransitionEvent::pseudo_element(Self) -> String
+impl EventImpl for TransitionEvent
 
 #external
 pub type WheelEvent
@@ -383,6 +528,46 @@ fn WheelEvent::delta_mode(Self) -> Int
 fn WheelEvent::delta_x(Self) -> Double
 fn WheelEvent::delta_y(Self) -> Double
 fn WheelEvent::delta_z(Self) -> Double
+impl EventImpl for WheelEvent
+
+#external
+pub type Window
+fn Window::alert(Self, String) -> Unit
+fn Window::cancel_animation_frame(Self, Int) -> Unit
+fn Window::clear_interval(Self, Int) -> Unit
+fn Window::clear_timeout(Self, Int) -> Unit
+fn Window::close(Self) -> Unit
+fn Window::confirm(Self, String) -> Bool
+fn Window::console(Self) -> @js.Val
+fn Window::device_pixel_ratio(Self) -> Double
+fn Window::document(Self) -> Document
+fn Window::fetch(Self, String, init? : @js.Val) -> @async.Promise[@js.Val]
+fn Window::get_computed_style(Self, Element, pseudo_elt? : String) -> @js.Val
+fn Window::get_selection(Self) -> @js.Val?
+fn Window::history(Self) -> @js.Val
+fn Window::inner_height(Self) -> Int
+fn Window::inner_width(Self) -> Int
+fn Window::local_storage(Self) -> @js.Val
+fn Window::location(Self) -> @js.Val
+fn Window::match_media(Self, String) -> @js.Val
+fn Window::navigator(Self) -> @js.Val
+fn Window::open(Self, url? : String, target? : String, features? : String) -> Self?
+fn Window::outer_height(Self) -> Int
+fn Window::outer_width(Self) -> Int
+fn Window::post_message(Self, @js.Val, String) -> Unit
+fn[T : @worker.Transferable] Window::post_message_with_transfer(Self, @js.Val, String, Array[T]) -> Unit
+fn Window::prompt(Self, String, default? : String) -> String?
+fn Window::request_animation_frame(Self, (Double) -> Unit) -> Int
+fn Window::screen(Self) -> @js.Val
+fn Window::scroll_by(Self, Int, Int) -> Unit
+fn Window::scroll_to(Self, Int, Int) -> Unit
+fn Window::scroll_x(Self) -> Double
+fn Window::scroll_y(Self) -> Double
+fn Window::session_storage(Self) -> @js.Val
+fn Window::set_interval(Self, () -> Unit, Int) -> Int
+fn Window::set_timeout(Self, () -> Unit, Int) -> Int
+impl @js.Js for Window
+impl EventTargetImpl for Window
 
 // Type aliases
 
@@ -401,6 +586,18 @@ pub(open) trait ElementImpl : @js.Js + NodeImpl {
   get_elements_by_class_name(Self, String) -> Array[Element] = _
   query_selector(Self, String) -> Element? = _
   query_selector_all(Self, String) -> Array[Element] = _
+}
+
+pub(open) trait EventImpl : @js.Js {
+  prevent_default(Self) -> Unit = _
+  stop_propagation(Self) -> Unit = _
+  stop_immediate_propagation(Self) -> Unit = _
+  target(Self) -> Element = _
+  current_target(Self) -> Element = _
+  event_type(Self) -> String = _
+  bubbles(Self) -> Bool = _
+  cancelable(Self) -> Bool = _
+  default_prevented(Self) -> Bool = _
 }
 
 pub(open) trait EventTargetImpl : @js.Js {
