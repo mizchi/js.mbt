@@ -36,6 +36,12 @@
 /// how they are converted to JavaScript values.
 pub(open) trait Js {
   to_js(Self) -> Val = _
+  get(Self, &PropertyKey) -> Val = _
+  set(Self, &PropertyKey, &Js) -> Unit = _
+  invoke(Self, &PropertyKey, Array[&Js]) -> Val = _
+  invoke_throwable(Self, &PropertyKey, Array[&Js]) -> Val raise JsError = _
+  invoke_self(Self, Array[&Js]) -> Val = _
+  invoke_self_throwable(Self, Array[&Js]) -> Val raise JsError = _
 }
 
 ///|
@@ -44,12 +50,49 @@ impl Js with to_js(self) -> Val {
 }
 
 ///|
+impl Js with get(self, key : &PropertyKey) -> Val {
+  ffi_get(self.to_js(), key.to_key() |> unsafe_cast)
+}
+
+///|
+impl Js with set(self, key : &PropertyKey, val : &Js) -> Unit {
+  ffi_set(self.to_js(), key.to_key() |> unsafe_cast, val.to_js())
+}
+
+///|
+impl Js with invoke(self, key, args) -> Val {
+  ffi_call_method(
+    self.to_js(),
+    key.to_key() |> unsafe_cast,
+    args.map(_.to_js()),
+  )
+}
+
+///|
+impl Js with invoke_throwable(self, key, args) -> Val raise JsError {
+  throwable(() => ffi_call_method(
+    self.to_js(),
+    key.to_key() |> unsafe_cast,
+    args.map(_.to_js()),
+  ))
+}
+
+///|
+/// Invoke a method on the JavaScript value with no arguments.
+impl Js with invoke_self(self, args) -> Val {
+  ffi_call(self.to_js(), args.map(_.to_js()))
+}
+
+///|
+impl Js with invoke_self_throwable(self, args) -> Val raise JsError {
+  throwable(() => ffi_call(self.to_js(), args.map(_.to_js())))
+}
+
+///|
 /// Identity implementation for Val.
 ///
 /// Since Val already represents a JavaScript value, this just returns itself.
-pub impl Js for Val with to_js(self) -> Val {
-  self
-}
+pub impl Js for Val
 
 ///|
 /// Convert a MoonBit String to a JavaScript string value.
@@ -60,9 +103,7 @@ pub impl Js for Val with to_js(self) -> Val {
 /// let val = Js::to_js("hello")
 /// // JavaScript: "hello"
 /// ```
-pub impl Js for String with to_js(self) -> Val {
-  js(self)
-}
+pub impl Js for String
 
 ///|
 /// Convert a MoonBit Double to a JavaScript number value.
@@ -73,9 +114,7 @@ pub impl Js for String with to_js(self) -> Val {
 /// let val = Js::to_js(3.14)
 /// // JavaScript: 3.14
 /// ```
-pub impl Js for Double with to_js(self) -> Val {
-  js(self)
-}
+pub impl Js for Double
 
 ///|
 /// Convert a MoonBit Float to a JavaScript number value.
@@ -88,9 +127,7 @@ pub impl Js for Double with to_js(self) -> Val {
 /// let val = Js::to_js(2.5)
 /// // JavaScript: 2.5
 /// ```
-pub impl Js for Float with to_js(self) -> Val {
-  js(self.to_double())
-}
+pub impl Js for Float
 
 ///|
 /// Convert a MoonBit Int to a JavaScript number value.
@@ -101,9 +138,7 @@ pub impl Js for Float with to_js(self) -> Val {
 /// let val = Js::to_js(42)
 /// // JavaScript: 42
 /// ```
-pub impl Js for Int with to_js(self) -> Val {
-  js(self)
-}
+pub impl Js for Int
 
 ///|
 /// Convert a MoonBit Bool to a JavaScript boolean value.
@@ -114,9 +149,7 @@ pub impl Js for Int with to_js(self) -> Val {
 /// let val = Js::to_js(true)
 /// // JavaScript: true
 /// ```
-pub impl Js for Bool with to_js(self) -> Val {
-  js(self)
-}
+pub impl Js for Bool
 
 ///|
 /// Convert a MoonBit UInt to a JavaScript number value.
@@ -130,9 +163,7 @@ pub impl Js for Bool with to_js(self) -> Val {
 /// let val = Js::to_js(u)
 /// // JavaScript: 42
 /// ```
-pub impl Js for UInt with to_js(self) -> Val {
-  js(self)
-}
+pub impl Js for UInt
 
 ///|
 /// Convert an Array of Js-implementing types to a JavaScript array.
@@ -151,7 +182,7 @@ pub impl Js for UInt with to_js(self) -> Val {
 ///
 /// This is more type-safe than using `from_builtin_array()` because
 /// it ensures each element can be safely converted to JavaScript.
-pub impl Js for Array[&Js] with to_js(self) -> Val {
+pub impl[T : Js] Js for Array[T] with to_js(self) -> Val {
   js(self.map(_.to_js()))
 }
 

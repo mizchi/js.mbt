@@ -300,7 +300,7 @@ pub fn CanvasRenderingContext2D::measure_text(
   self : Self,
   text : String,
 ) -> TextMetrics {
-  self.to_js().invoke("measureText", [text]).cast()
+  self.invoke("measureText", [text]) |> unsafe_cast
 }
 
 ///|
@@ -420,7 +420,7 @@ pub fn CanvasRenderingContext2D::get_image_data(
   sw : Double,
   sh : Double,
 ) -> ImageData {
-  self.to_js().invoke("getImageData", [sx, sy, sw, sh]).cast()
+  self.invoke("getImageData", [sx, sy, sw, sh]) |> unsafe_cast
 }
 
 ///|
@@ -439,7 +439,7 @@ pub fn CanvasRenderingContext2D::create_image_data(
   width : Int,
   height : Int,
 ) -> ImageData {
-  self.to_js().invoke("createImageData", [width, height]).cast()
+  self.invoke("createImageData", [width, height]) |> unsafe_cast
 }
 
 ///|
@@ -635,7 +635,7 @@ pub fn OffscreenCanvas::get_context(
   self : Self,
   context_type : String,
 ) -> CanvasRenderingContext2D {
-  self.to_js().invoke("getContext", [context_type]).cast()
+  self.invoke("getContext", [context_type]) |> unsafe_cast
 }
 
 ///|
@@ -644,12 +644,12 @@ pub fn OffscreenCanvas::convert_to_blob(
   options? : String,
 ) -> Promise[Blob] {
   match options {
-    Some(opts) => self.to_js().invoke("convertToBlob", [opts]).cast()
-    None => self.to_js().invoke("convertToBlob", []).cast()
+    Some(opts) => self.invoke("convertToBlob", [opts]) |> unsafe_cast
+    None => self.invoke("convertToBlob", []) |> unsafe_cast
   }
 }
 
 ///|
 pub fn OffscreenCanvas::transfer_to_image_bitmap(self : Self) -> ImageBitmap {
-  self.to_js().invoke("transferToImageBitmap", []).cast()
+  self.invoke("transferToImageBitmap", []) |> unsafe_cast
 }

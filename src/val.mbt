@@ -194,11 +194,6 @@ pub impl Eq for Val with equal(self, other) -> Bool {
 }
 
 ///|
-pub impl Eq for &Js with equal(self, other) -> Bool {
-  ffi_object_is(self.to_js(), other.to_js())
-}
-
-///|
 /// Get a property value from a JavaScript object.
 ///
 /// Equivalent to JavaScript's `obj[key]` or `obj.key` syntax.
@@ -221,7 +216,7 @@ pub impl Eq for &Js with equal(self, other) -> Bool {
 /// let age = obj.get("age")          // Returns undefined
 /// ```
 #alias("_[_]")
-pub fn Val::get(self : Val, key : &Key) -> Val {
+pub fn Val::get(self : Val, key : &PropertyKey) -> Val {
   ffi_get(self, key.to_key() |> unsafe_cast)
 }
 
@@ -245,7 +240,7 @@ pub fn Val::get(self : Val, key : &Key) -> Val {
 /// obj.set(0, "first")               // Array index access
 /// ```
 #alias("_[_]=_")
-pub fn Val::set(self : Val, key : &Key, value : &Js) -> Unit {
+pub fn Val::set(self : Val, key : &PropertyKey, value : &Js) -> Unit {
   ffi_set(self, key.to_key() |> unsafe_cast, value.to_js())
 }
 
@@ -271,16 +266,36 @@ pub fn Val::set(self : Val, key : &Key, value : &Js) -> Unit {
 /// ```moonbit
 /// let obj = new_empty_object()
 /// obj.set_if_exists("name", Some("Alice"))     // Sets property
-/// obj.set_if_exists("age", None)               // Does nothing
 /// obj.set_if_exists("city", Some(undefined())) // Does nothing
 /// ```
-pub fn Val::set_if_exists(self : Val, key : &Key, value : &Js?) -> Unit {
+pub fn[T : Js] Val::set_if_exists(
+  self : Val,
+  key : &PropertyKey,
+  value : T?,
+) -> Unit {
   guard value is Some(val) else { return }
   let val = val.to_js()
   if val.is_undefined() {
     return
   }
-  ffi_set(self, key.to_key() |> unsafe_cast, val)
+  ffi_set(self, key.to_key() |> unsafe_cast, val.to_js())
+}
+
+///|
+test {
+  let obj = new_empty_object()
+  let undef : Val? = Some(undefined())
+  obj.set_if_exists("a", undef)
+  let none_val : Val? = None
+  obj.set_if_exists("b", none_val)
+  obj.set_if_exists("c", Some(js(42)))
+  assert_true(obj.get("a").is_undefined())
+
+  // assert_eq(obj.get("a").cast(), 42)
+  // obj.set_if_exists("b", None)
+  // assert_true(obj.get("b").is_undefined())
+  // obj.set_if_exists("c", Some(undefined()))
+  // assert_true(obj.get("c").is_undefined())
 }
 
 ///|
@@ -332,6 +347,7 @@ pub fn Val::invoke_self(self : Self, args : Array[&Js]) -> Val {
 /// let func = js(some_js_function)
 /// let result = func.call_raise(["arg1", "arg2"])!  // Handle with !
 /// ```
+#deprecated("Use impl Js::invoke_self_throwable instead")
 pub fn Val::invoke_self_with_raise(self : Self, args : Array[&Js]) -> Val raise {
   throwable(() => self.invoke_self(args.map(_.to_js())))
 }
@@ -358,18 +374,19 @@ pub fn Val::invoke_self_with_raise(self : Self, args : Array[&Js]) -> Val raise 
 /// let result = arr.invoke("push", [4])
 /// // arr is now [1, 2, 3, 4]
 /// ```
-pub fn Val::invoke(self : Val, key : &Key, args : Array[&Js]) -> Val {
-  ffi_call_method(self, key.to_key() |> unsafe_cast, args.map(_.to_js()))
-}
+// pub fn Val::invoke(self : Val, key : &PropertyKey, args : Array[&Js]) -> Val {
+//   ffi_call_method(self, key.to_key() |> unsafe_cast, args.map(_.to_js()))
+// }
 
 ///|
-pub fn Val::invoke_with_raise(
-  self : Val,
-  key : String,
-  args : Array[&Js],
-) -> Val raise {
-  throwable(() => ffi_call_method(self, key, args.map(_.to_js())))
-}
+// #deprecated("Use impl Js::invoke_throwable instead")
+// pub fn Val::invoke_with_raise(
+//   self : Val,
+//   key : String,
+//   args : Array[&Js],
+// ) -> Val raise {
+//   throwable(() => ffi_call_method(self, key, args.map(_.to_js())))
+// }
 
 ///|
 /// Delete a property from a JavaScript object.

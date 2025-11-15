@@ -159,7 +159,8 @@ test "Val set_if_exists" {
   assert_eq(obj.get("key1").cast(), "value1")
 
   // Set with None should not add property
-  obj.set_if_exists("key2", None)
+  let v : Int? = None
+  obj.set_if_exists("key2", v)
   assert_true(obj.get("key2").is_undefined())
 
   // Set with undefined value should not add property

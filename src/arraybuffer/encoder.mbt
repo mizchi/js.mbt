@@ -25,7 +25,7 @@ pub fn TextEncoder::new() -> TextEncoder {
 
 ///|
 pub fn TextEncoder::encode(self : TextEncoder, input : String) -> Uint8Array {
-  self.to_js().invoke("encode", [input]).cast()
+  self.invoke("encode", [input]) |> unsafe_cast
 }
 
 ///|
@@ -43,5 +43,5 @@ pub fn TextDecoder::new() -> TextDecoder {
 
 ///|
 pub fn TextDecoder::decode(self : TextDecoder, input : Uint8Array) -> String {
-  self.to_js().invoke("decode", [input]).cast()
+  self.invoke("decode", [input]) |> unsafe_cast
 }

@@ -40,16 +40,6 @@ pub fn wrap_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
 }
 
 ///|
-pub fn throw_val(val : Val) -> Unit {
-  ffi_throw(val |> unsafe_cast)
-}
-
-///|
-pub fn throw_error_message(message : String, obj : Val?) -> Unit {
-  ffi_throw_message(message, obj)
-}
-
-///|
 pub impl Show for JsError with output(self, logger) {
   logger.write_string(self.to_string())
 }
@@ -98,7 +88,7 @@ test "is_error" {
 
 ///|
 test "call_method_raise" {
-  let v = try? global_this().invoke_with_raise("nonexistentMethod", [])
+  let v = try? global_this().invoke_throwable("nonexistentMethod", [])
   guard v is Err(JsError(e))
   assert_true(e.is_error())
 }

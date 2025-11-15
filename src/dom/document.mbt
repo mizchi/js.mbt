@@ -5,9 +5,7 @@
 pub type Document
 
 ///|
-pub impl Js for Document with to_js(self) {
-  self |> unsafe_cast
-}
+pub impl Js for Document
 
 ///|
 pub impl EventTargetImpl for Document

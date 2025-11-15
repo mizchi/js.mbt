@@ -17,7 +17,7 @@ pub fn ArrayBuffer::new(byte_length : UInt) -> ArrayBuffer {
 ///|
 #alias(byteLength)
 pub fn ArrayBuffer::byte_length(self : ArrayBuffer) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength").cast()
 }
 
 ///|
@@ -27,8 +27,8 @@ pub fn ArrayBuffer::slice(
   end? : Int,
 ) -> ArrayBuffer {
   match end {
-    Some(e) => self.to_js().invoke("slice", [begin, e]).cast()
-    None => self.to_js().invoke("slice", [begin]).cast()
+    Some(e) => self.invoke("slice", [begin, e]) |> unsafe_cast
+    None => self.invoke("slice", [begin]) |> unsafe_cast
   }
 }
 
@@ -61,7 +61,7 @@ pub fn SharedArrayBuffer::new(byte_length : UInt) -> SharedArrayBuffer {
 ///|
 #alias(byteLength)
 pub fn SharedArrayBuffer::byte_length(self : SharedArrayBuffer) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength").cast()
 }
 
 ///|
@@ -71,8 +71,8 @@ pub fn SharedArrayBuffer::slice(
   end? : Int,
 ) -> SharedArrayBuffer {
   match end {
-    Some(e) => self.to_js().invoke("slice", [begin, e]).cast()
-    None => self.to_js().invoke("slice", [begin]).cast()
+    Some(e) => self.invoke("slice", [begin, e]).cast()
+    None => self.invoke("slice", [begin]).cast()
   }
 }
 
@@ -81,9 +81,7 @@ pub fn SharedArrayBuffer::slice(
 pub type DataView
 
 ///|
-pub impl Js for DataView with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for DataView
 
 ///|
 extern "js" fn ffi_new_dataview(
@@ -104,31 +102,31 @@ pub fn DataView::new(
 
 ///|
 pub fn DataView::buffer(self : DataView) -> ArrayBuffer {
-  self.to_js().get("buffer").cast()
+  self.get("buffer").cast()
 }
 
 ///|
 #alias(byteLength)
 pub fn DataView::byte_length(self : DataView) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength").cast()
 }
 
 ///|
 #alias(byteOffset)
 pub fn DataView::byte_offset(self : DataView) -> UInt {
-  self.to_js().get("byteOffset").cast()
+  self.get("byteOffset").cast()
 }
 
 ///|
 #alias(getInt8)
 pub fn DataView::get_int8(self : DataView, byte_offset : UInt) -> Int {
-  self.to_js().invoke("getInt8", [byte_offset]).cast()
+  self.invoke("getInt8", [byte_offset]) |> unsafe_cast
 }
 
 ///|
 #alias(getUint8)
 pub fn DataView::get_uint8(self : DataView, byte_offset : UInt) -> UInt {
-  self.to_js().invoke("getUint8", [byte_offset]).cast()
+  self.invoke("getUint8", [byte_offset]) |> unsafe_cast
 }
 
 ///|
@@ -138,7 +136,7 @@ pub fn DataView::get_int16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.to_js().invoke("getInt16", [byte_offset, little_endian]).cast()
+  self.invoke("getInt16", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -148,7 +146,7 @@ pub fn DataView::get_uint16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.to_js().invoke("getUint16", [byte_offset, little_endian]).cast()
+  self.invoke("getUint16", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -158,7 +156,7 @@ pub fn DataView::get_int32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.to_js().invoke("getInt32", [byte_offset, little_endian]).cast()
+  self.invoke("getInt32", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -168,7 +166,7 @@ pub fn DataView::get_uint32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.to_js().invoke("getUint32", [byte_offset, little_endian]).cast()
+  self.invoke("getUint32", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -178,7 +176,7 @@ pub fn DataView::get_float32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.to_js().invoke("getFloat32", [byte_offset, little_endian]).cast()
+  self.invoke("getFloat32", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -188,7 +186,7 @@ pub fn DataView::get_float64(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.to_js().invoke("getFloat64", [byte_offset, little_endian]).cast()
+  self.invoke("getFloat64", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -339,24 +337,24 @@ pub extern "js" fn Uint8Array::get_at(self : Self, index : UInt) -> UInt =
 
 ///|
 pub fn Uint8Array::length(self : Self) -> UInt {
-  self.to_js().get("length").cast()
+  self.get("length") |> unsafe_cast
 }
 
 ///|
 #alias(byteLength)
 pub fn Uint8Array::byte_length(self : Self) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
 #alias(byteOffset)
 pub fn Uint8Array::byte_offset(self : Self) -> UInt {
-  self.to_js().get("byteOffset").cast()
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|
 pub fn Uint8Array::buffer(self : Self) -> ArrayBuffer {
-  self.to_js().get("buffer").cast()
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
@@ -371,16 +369,16 @@ pub fn Uint8Array::set(
 ///|
 pub fn Uint8Array::slice(self : Self, start? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.to_js().invoke("slice", [start, e]).cast()
-    None => self.to_js().invoke("slice", [start]).cast()
+    Some(e) => self.invoke("slice", [start, e]) |> unsafe_cast
+    None => self.invoke("slice", [start]) |> unsafe_cast
   }
 }
 
 ///|
 pub fn Uint8Array::subarray(self : Self, begin? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.to_js().invoke("subarray", [begin, e]).cast()
-    None => self.to_js().invoke("subarray", [begin]).cast()
+    Some(e) => self.invoke("subarray", [begin, e]) |> unsafe_cast
+    None => self.invoke("subarray", [begin]) |> unsafe_cast
   }
 }
 
@@ -392,8 +390,8 @@ pub fn Uint8Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.to_js().invoke("fill", [value, start, e]).cast()
-    None => self.to_js().invoke("fill", [value, start]).cast()
+    Some(e) => self.invoke("fill", [value, start, e]) |> unsafe_cast
+    None => self.invoke("fill", [value, start]) |> unsafe_cast
   }
 }
 
@@ -406,19 +404,19 @@ pub fn Uint8Array::copy_within(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.to_js().invoke("copyWithin", [target, start, e]).cast()
-    None => self.to_js().invoke("copyWithin", [target, start]).cast()
+    Some(e) => self.invoke("copyWithin", [target, start, e]) |> unsafe_cast
+    None => self.invoke("copyWithin", [target, start]) |> unsafe_cast
   }
 }
 
 ///|
 pub fn Uint8Array::reverse(self : Self) -> Self {
-  self.to_js().invoke("reverse", []).cast()
+  self.invoke("reverse", []) |> unsafe_cast
 }
 
 ///|
 pub fn Uint8Array::sort(self : Self) -> Self {
-  self.to_js().invoke("sort", []).cast()
+  self.invoke("sort", []) |> unsafe_cast
 }
 
 ///|
@@ -428,7 +426,7 @@ pub fn Uint8Array::index_of(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.to_js().invoke("indexOf", [search_element, from_index]).cast()
+  self.invoke("indexOf", [search_element, from_index]) |> unsafe_cast
 }
 
 ///|
@@ -439,8 +437,8 @@ pub fn Uint8Array::last_index_of(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.to_js().invoke("lastIndexOf", [search_element, i]).cast()
-    None => self.to_js().invoke("lastIndexOf", [search_element]).cast()
+    Some(i) => self.invoke("lastIndexOf", [search_element, i]) |> unsafe_cast
+    None => self.invoke("lastIndexOf", [search_element]) |> unsafe_cast
   }
 }
 
@@ -450,18 +448,18 @@ pub fn Uint8Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.to_js().invoke("includes", [search_element, from_index]).cast()
+  self.invoke("includes", [search_element, from_index]) |> unsafe_cast
 }
 
 ///|
 pub fn Uint8Array::join(self : Self, separator? : String = ",") -> String {
-  self.to_js().invoke("join", [separator]).cast()
+  self.invoke("join", [separator]) |> unsafe_cast
 }
 
 ///|
 #alias(toString)
 pub fn Uint8Array::to_string(self : Self) -> String {
-  self.to_js().invoke("toString", []).cast()
+  self.invoke("toString", []) |> unsafe_cast
 }
 
 ///|
@@ -522,24 +520,24 @@ pub extern "js" fn Uint16Array::get_at(self : Self, index : UInt) -> UInt =
 
 ///|
 pub fn Uint16Array::length(self : Self) -> UInt {
-  self.to_js().get("length").cast()
+  self.get("length") |> unsafe_cast
 }
 
 ///|
 #alias(byteLength)
 pub fn Uint16Array::byte_length(self : Self) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
 #alias(byteOffset)
 pub fn Uint16Array::byte_offset(self : Self) -> UInt {
-  self.to_js().get("byteOffset").cast()
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|
 pub fn Uint16Array::buffer(self : Self) -> ArrayBuffer {
-  self.to_js().get("buffer").cast()
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
@@ -602,24 +600,24 @@ pub extern "js" fn Uint32Array::get_at(self : Self, index : UInt) -> UInt =
 
 ///|
 pub fn Uint32Array::length(self : Self) -> UInt {
-  self.to_js().get("length").cast()
+  self.get("length") |> unsafe_cast
 }
 
 ///|
 #alias(byteLength)
 pub fn Uint32Array::byte_length(self : Self) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
 #alias(byteOffset)
 pub fn Uint32Array::byte_offset(self : Self) -> UInt {
-  self.to_js().get("byteOffset").cast()
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|
 pub fn Uint32Array::buffer(self : Self) -> ArrayBuffer {
-  self.to_js().get("buffer").cast()
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
@@ -682,24 +680,24 @@ pub extern "js" fn Int8Array::get_at(self : Self, index : UInt) -> Int =
 
 ///|
 pub fn Int8Array::length(self : Self) -> UInt {
-  self.to_js().get("length").cast()
+  self.get("length") |> unsafe_cast
 }
 
 ///|
 #alias(byteLength)
 pub fn Int8Array::byte_length(self : Self) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
 #alias(byteOffset)
 pub fn Int8Array::byte_offset(self : Self) -> UInt {
-  self.to_js().get("byteOffset").cast()
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|
 pub fn Int8Array::buffer(self : Self) -> ArrayBuffer {
-  self.to_js().get("buffer").cast()
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
@@ -762,7 +760,7 @@ pub extern "js" fn Int16Array::get_at(self : Self, index : UInt) -> Int =
 
 ///|
 pub fn Int16Array::length(self : Self) -> UInt {
-  self.to_js().get("length").cast()
+  self.get("length") |> unsafe_cast
 }
 
 ///|

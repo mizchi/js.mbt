@@ -60,13 +60,13 @@ pub fn Blob::content_type(self : Self) -> String {
 /// Get the Blob contents as ArrayBuffer
 #alias(arrayBuffer)
 pub fn Blob::array_buffer(self : Self) -> Promise[ArrayBuffer] {
-  self.to_js().invoke("arrayBuffer", []).cast()
+  self.invoke("arrayBuffer", []) |> unsafe_cast
 }
 
 ///|
 /// Get the Blob contents as text
 pub fn Blob::text(self : Self) -> Promise[String] {
-  self.to_js().invoke("text", []).cast()
+  self.invoke("text", []) |> unsafe_cast
 }
 
 ///|
@@ -78,25 +78,25 @@ pub fn Blob::slice(
   content_type? : String,
 ) -> Blob {
   match (start, end, content_type) {
-    (None, None, None) => self.to_js().invoke("slice", []).cast()
-    (Some(s), None, None) => self.to_js().invoke("slice", [s |> js]).cast()
+    (None, None, None) => self.invoke("slice", []) |> unsafe_cast
+    (Some(s), None, None) => self.invoke("slice", [s |> js]) |> unsafe_cast
     (Some(s), Some(e), None) =>
-      self.to_js().invoke("slice", [s |> js, e |> js]).cast()
+      self.invoke("slice", [s |> js, e |> js]) |> unsafe_cast
     (Some(s), Some(e), Some(ct)) =>
-      self.to_js().invoke("slice", [s |> js, e |> js, ct |> js]).cast()
+      self.invoke("slice", [s |> js, e |> js, ct |> js]) |> unsafe_cast
     (None, Some(e), ct) =>
       match ct {
         Some(t) =>
-          self.to_js().invoke("slice", [0 |> js, e |> js, t |> js]).cast()
-        None => self.to_js().invoke("slice", [0 |> js, e |> js]).cast()
+          self.invoke("slice", [0 |> js, e |> js, t |> js]) |> unsafe_cast
+        None => self.invoke("slice", [0 |> js, e |> js]) |> unsafe_cast
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size()
-      self.to_js().invoke("slice", [s |> js, size |> js, ct |> js]).cast()
+      self.invoke("slice", [s |> js, size |> js, ct |> js]) |> unsafe_cast
     }
     (None, None, Some(ct)) => {
       let size = self.size()
-      self.to_js().invoke("slice", [0 |> js, size |> js, ct |> js]).cast()
+      self.invoke("slice", [0 |> js, size |> js, ct |> js]) |> unsafe_cast
     }
   }
 }
@@ -104,5 +104,5 @@ pub fn Blob::slice(
 ///|
 /// Get a ReadableStream for the Blob contents
 pub fn Blob::stream(self : Self) -> ReadableStream {
-  self.to_js().invoke("stream", []).cast()
+  self.invoke("stream", []) |> unsafe_cast
 }

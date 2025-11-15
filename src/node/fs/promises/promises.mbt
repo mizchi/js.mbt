@@ -7,7 +7,7 @@ using @js {trait Js, type Val, js, unsafe_cast}
 using @async {type Promise, type AbortSignal, run_async}
 
 ///|
-using @iterator {type AsyncGenerator}
+using @iterator {type AsyncIterator}
 
 ///|
 pub(all) struct FsStat {
@@ -45,7 +45,7 @@ pub fn glob(
   cwd? : String,
   exclude? : Array[String],
   exclude_fn? : (String) -> Bool,
-) -> AsyncGenerator[String] {
+) -> AsyncIterator[String] {
   let fs = @node.require("node:fs/promises")
   let opts = @js.new_empty_object()
   if cwd is Some(c) {
@@ -92,7 +92,7 @@ pub fn glob_with_filetype(
   cwd? : String,
   exclude? : Array[String],
   exclude_fn? : (String) -> Bool,
-) -> AsyncGenerator[Dirent] {
+) -> AsyncIterator[Dirent] {
   let fs = @node.require("node:fs/promises")
   let opts = @js.new_empty_object()
   opts["withFileTypes"] = true

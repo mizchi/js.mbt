@@ -46,7 +46,7 @@
 using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
-using @iterator {type Generator}
+using @iterator {type JsIterator}
 
 ///|
 using @arraybuffer {type Uint8Array}
@@ -376,7 +376,7 @@ pub fn StatementSync::iterate(
   self : Self,
   named_parameters? : Map[String, &Js],
   anonymous_parameters? : Array[&Js],
-) -> Generator[Val] {
+) -> JsIterator[Val] {
   let args : Array[&Js] = []
   if named_parameters is Some(params) {
     let obj = @js.new_empty_object()

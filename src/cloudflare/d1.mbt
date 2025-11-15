@@ -12,7 +12,7 @@ pub impl Js for D1Database with to_js(self) {
 ///|
 /// Prepare a SQL statement
 pub fn D1Database::prepare(self : Self, query : String) -> D1PreparedStatement {
-  self.to_js().invoke("prepare", [query]).cast()
+  self.invoke("prepare", [query]) |> unsafe_cast
 }
 
 ///|
