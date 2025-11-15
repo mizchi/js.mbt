@@ -35,7 +35,7 @@ pub fn CSSStyleDeclaration::set_property(
   property : String,
   value : String,
 ) -> Unit {
-  self.to_js().invoke("setProperty", [property |> js, value |> js]) |> ignore
+  self.invoke("setProperty", [property |> js, value |> js]) |> ignore
 }
 
 ///|
@@ -46,10 +46,7 @@ pub fn CSSStyleDeclaration::set_property_priority(
   value : String,
   priority : String,
 ) -> Unit {
-  self
-  .to_js()
-  .invoke("setProperty", [property |> js, value |> js, priority |> js])
-  |> ignore
+  self.invoke("setProperty", [property, value, priority]) |> ignore
 }
 
 ///|
@@ -174,13 +171,13 @@ pub fn CSSStyleSheet::insert_rule_at(
 /// Deletes a CSS rule at index
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/deleteRule
 pub fn CSSStyleSheet::delete_rule(self : Self, index : Int) -> Unit {
-  self.to_js().invoke("deleteRule", [index |> js]) |> ignore
+  self.invoke("deleteRule", [index]) |> ignore
 }
 
 ///|
 /// Returns the owner node
 pub fn CSSStyleSheet::owner_node(self : Self) -> Val? {
-  self.to_js().get("ownerNode") |> to_option()
+  self.get("ownerNode") |> to_option()
 }
 
 ///|
@@ -192,25 +189,25 @@ pub fn CSSStyleSheet::disabled(self : Self) -> Bool {
 ///|
 /// Sets whether the stylesheet is disabled
 pub fn CSSStyleSheet::set_disabled(self : Self, disabled : Bool) -> Unit {
-  self.to_js().set("disabled", disabled |> js) |> ignore
+  self.set("disabled", disabled |> js) |> ignore
 }
 
 ///|
 /// Returns the stylesheet's href
 pub fn CSSStyleSheet::href(self : Self) -> String? {
-  self.to_js().get("href") |> to_option()
+  self.get("href") |> to_option()
 }
 
 ///|
 /// Returns the stylesheet's title
 pub fn CSSStyleSheet::title(self : Self) -> String? {
-  self.to_js().get("title") |> to_option()
+  self.get("title") |> to_option()
 }
 
 ///|
 /// Returns the stylesheet's media
 pub fn CSSStyleSheet::media(self : Self) -> Val {
-  self.to_js().get("media")
+  self.get("media")
 }
 
 ///|
@@ -234,13 +231,13 @@ pub fn match_media(query : String) -> MediaQueryList {
 ///|
 /// Returns the media query string
 pub fn MediaQueryList::media(self : Self) -> String {
-  unsafe_cast(self.to_js().get("media"))
+  unsafe_cast(self.get("media"))
 }
 
 ///|
 /// Returns whether the media query matches
 pub fn MediaQueryList::matches(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("matches"))
+  unsafe_cast(self.get("matches"))
 }
 
 ///|
@@ -250,7 +247,7 @@ pub fn MediaQueryList::add_listener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.to_js().invoke("addListener", [listener |> js]) |> ignore
+  self.invoke("addListener", [listener |> js]) |> ignore
 }
 
 ///|
@@ -260,7 +257,7 @@ pub fn MediaQueryList::remove_listener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.to_js().invoke("removeListener", [listener |> js]) |> ignore
+  self.invoke("removeListener", [listener |> js]) |> ignore
 }
 
 ///|
@@ -269,8 +266,7 @@ pub fn MediaQueryList::add_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.to_js().invoke("addEventListener", ["change" |> js, listener |> js])
-  |> ignore
+  self.invoke("addEventListener", ["change" |> js, listener |> js]) |> ignore
 }
 
 ///|
@@ -279,8 +275,7 @@ pub fn MediaQueryList::remove_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.to_js().invoke("removeEventListener", ["change" |> js, listener |> js])
-  |> ignore
+  self.invoke("removeEventListener", ["change" |> js, listener |> js]) |> ignore
 }
 
 ///|
@@ -321,7 +316,7 @@ pub fn Document::style_sheets(self : Self) -> Val {
 pub fn Document::create_stylesheet(self : Self) -> CSSStyleSheet {
   let style = self.create_element("style")
   match self.head() {
-    Some(head) => head.to_js().invoke("appendChild", [style]) |> ignore
+    Some(head) => head.invoke("appendChild", [style]) |> ignore
     None => ()
   }
   unsafe_cast(style.to_js().get("sheet"))

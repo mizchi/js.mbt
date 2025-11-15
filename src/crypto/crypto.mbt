@@ -46,7 +46,7 @@ pub fn SubtleCrypto::sign(
   data : &Js,
 ) -> Promise[Val] {
   unsafe_cast(
-    self.to_js().invoke("sign", [algorithm.to_js(), key.to_js(), data.to_js()]),
+    self.invoke("sign", [algorithm.to_js(), key.to_js(), data.to_js()]),
   )
 }
 
