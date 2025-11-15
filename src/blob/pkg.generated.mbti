@@ -1,0 +1,30 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/blob"
+
+import(
+  "mizchi/js"
+  "mizchi/js/arraybuffer"
+  "mizchi/js/async"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Blob
+#alias(arrayBuffer)
+fn Blob::array_buffer(Self) -> @async.Promise[@arraybuffer.ArrayBuffer]
+fn Blob::content_type(Self) -> String
+fn Blob::new(Array[&@js.Js], content_type? : String) -> Self
+fn Blob::size(Self) -> Int
+fn Blob::slice(Self, start? : Int, end? : Int, content_type? : String) -> Self
+fn Blob::stream(Self) -> @js.Val
+fn Blob::text(Self) -> @async.Promise[String]
+impl @js.Js for Blob
+
+// Type aliases
+
+// Traits
+
