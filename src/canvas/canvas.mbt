@@ -111,7 +111,7 @@ pub fn CanvasRenderingContext2D::fill_rect(
   width : Double,
   height : Double,
 ) -> Unit {
-  self.to_js().invoke("fillRect", [x, y, width, height]) |> ignore
+  self.invoke("fillRect", [x, y, width, height]) |> ignore
 }
 
 ///|
@@ -122,7 +122,7 @@ pub fn CanvasRenderingContext2D::stroke_rect(
   width : Double,
   height : Double,
 ) -> Unit {
-  self.to_js().invoke("strokeRect", [x, y, width, height]) |> ignore
+  self.invoke("strokeRect", [x, y, width, height]) |> ignore
 }
 
 ///|
@@ -133,18 +133,18 @@ pub fn CanvasRenderingContext2D::clear_rect(
   width : Double,
   height : Double,
 ) -> Unit {
-  self.to_js().invoke("clearRect", [x, y, width, height]) |> ignore
+  self.invoke("clearRect", [x, y, width, height]) |> ignore
 }
 
 ///|
 /// Drawing paths
 pub fn CanvasRenderingContext2D::begin_path(self : Self) -> Unit {
-  self.to_js().invoke("beginPath", []) |> ignore
+  self.invoke("beginPath", []) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::close_path(self : Self) -> Unit {
-  self.to_js().invoke("closePath", []) |> ignore
+  self.invoke("closePath", []) |> ignore
 }
 
 ///|
@@ -153,7 +153,7 @@ pub fn CanvasRenderingContext2D::move_to(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.to_js().invoke("moveTo", [x, y]) |> ignore
+  self.invoke("moveTo", [x, y]) |> ignore
 }
 
 ///|
@@ -162,7 +162,7 @@ pub fn CanvasRenderingContext2D::line_to(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.to_js().invoke("lineTo", [x, y]) |> ignore
+  self.invoke("lineTo", [x, y]) |> ignore
 }
 
 ///|
@@ -177,11 +177,8 @@ pub fn CanvasRenderingContext2D::arc(
 ) -> Unit {
   match counterclockwise {
     Some(ccw) =>
-      self.to_js().invoke("arc", [x, y, radius, start_angle, end_angle, ccw])
-      |> ignore
-    None =>
-      self.to_js().invoke("arc", [x, y, radius, start_angle, end_angle])
-      |> ignore
+      self.invoke("arc", [x, y, radius, start_angle, end_angle, ccw]) |> ignore
+    None => self.invoke("arc", [x, y, radius, start_angle, end_angle]) |> ignore
   }
 }
 
@@ -194,7 +191,7 @@ pub fn CanvasRenderingContext2D::arc_to(
   y2 : Double,
   radius : Double,
 ) -> Unit {
-  self.to_js().invoke("arcTo", [x1 |> js, y1 |> js, x2 |> js, y2 |> js, radius])
+  self.invoke("arcTo", [x1 |> js, y1 |> js, x2 |> js, y2 |> js, radius])
   |> ignore
 }
 
@@ -208,7 +205,7 @@ pub fn CanvasRenderingContext2D::bezier_curve_to(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.to_js().invoke("bezierCurveTo", [cp1x, cp1y, cp2x, cp2y, x, y]) |> ignore
+  self.invoke("bezierCurveTo", [cp1x, cp1y, cp2x, cp2y, x, y]) |> ignore
 }
 
 ///|
@@ -219,7 +216,7 @@ pub fn CanvasRenderingContext2D::quadratic_curve_to(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.to_js().invoke("quadraticCurveTo", [cpx, cpy, x, y]) |> ignore
+  self.invoke("quadraticCurveTo", [cpx, cpy, x, y]) |> ignore
 }
 
 ///|
@@ -230,22 +227,22 @@ pub fn CanvasRenderingContext2D::rect(
   width : Double,
   height : Double,
 ) -> Unit {
-  self.to_js().invoke("rect", [x, y, width, height]) |> ignore
+  self.invoke("rect", [x, y, width, height]) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::fill(self : Self) -> Unit {
-  self.to_js().invoke("fill", []) |> ignore
+  self.invoke("fill", []) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::stroke(self : Self) -> Unit {
-  self.to_js().invoke("stroke", []) |> ignore
+  self.invoke("stroke", []) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::clip(self : Self) -> Unit {
-  self.to_js().invoke("clip", []) |> ignore
+  self.invoke("clip", []) |> ignore
 }
 
 ///|
@@ -258,8 +255,8 @@ pub fn CanvasRenderingContext2D::fill_text(
   max_width? : Double,
 ) -> Unit {
   match max_width {
-    Some(w) => self.to_js().invoke("fillText", [text, x, y, w]) |> ignore
-    None => self.to_js().invoke("fillText", [text, x, y]) |> ignore
+    Some(w) => self.invoke("fillText", [text, x, y, w]) |> ignore
+    None => self.invoke("fillText", [text, x, y]) |> ignore
   }
 }
 
@@ -272,8 +269,8 @@ pub fn CanvasRenderingContext2D::stroke_text(
   max_width? : Double,
 ) -> Unit {
   match max_width {
-    Some(w) => self.to_js().invoke("strokeText", [text, x, y, w]) |> ignore
-    None => self.to_js().invoke("strokeText", [text, x, y]) |> ignore
+    Some(w) => self.invoke("strokeText", [text, x, y, w]) |> ignore
+    None => self.invoke("strokeText", [text, x, y]) |> ignore
   }
 }
 
@@ -292,12 +289,12 @@ pub fn CanvasRenderingContext2D::scale(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.to_js().invoke("scale", [x, y]) |> ignore
+  self.invoke("scale", [x, y]) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::rotate(self : Self, angle : Double) -> Unit {
-  self.to_js().invoke("rotate", [angle]) |> ignore
+  self.invoke("rotate", [angle]) |> ignore
 }
 
 ///|
@@ -306,7 +303,7 @@ pub fn CanvasRenderingContext2D::translate(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.to_js().invoke("translate", [x, y]) |> ignore
+  self.invoke("translate", [x, y]) |> ignore
 }
 
 ///|
@@ -319,7 +316,7 @@ pub fn CanvasRenderingContext2D::transform(
   e : Double,
   f : Double,
 ) -> Unit {
-  self.to_js().invoke("transform", [a, b, c, d, e, f]) |> ignore
+  self.invoke("transform", [a, b, c, d, e, f]) |> ignore
 }
 
 ///|
@@ -332,12 +329,12 @@ pub fn CanvasRenderingContext2D::set_transform(
   e : Double,
   f : Double,
 ) -> Unit {
-  self.to_js().invoke("setTransform", [a, b, c, d, e, f]) |> ignore
+  self.invoke("setTransform", [a, b, c, d, e, f]) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::reset_transform(self : Self) -> Unit {
-  self.to_js().invoke("resetTransform", []) |> ignore
+  self.invoke("resetTransform", []) |> ignore
 }
 
 ///|
@@ -348,7 +345,7 @@ pub fn CanvasRenderingContext2D::draw_image(
   dx : Double,
   dy : Double,
 ) -> Unit {
-  self.to_js().invoke("drawImage", [image.to_js(), dx, dy]) |> ignore
+  self.invoke("drawImage", [image.to_js(), dx, dy]) |> ignore
 }
 
 ///|
@@ -360,8 +357,7 @@ pub fn CanvasRenderingContext2D::draw_image_scaled(
   d_width : Double,
   d_height : Double,
 ) -> Unit {
-  self.to_js().invoke("drawImage", [image.to_js(), dx, dy, d_width, d_height])
-  |> ignore
+  self.invoke("drawImage", [image.to_js(), dx, dy, d_width, d_height]) |> ignore
 }
 
 ///|
@@ -412,7 +408,7 @@ pub fn CanvasRenderingContext2D::put_image_data(
   dx : Double,
   dy : Double,
 ) -> Unit {
-  self.to_js().invoke("putImageData", [image_data.to_js(), dx, dy]) |> ignore
+  self.invoke("putImageData", [image_data.to_js(), dx, dy]) |> ignore
 }
 
 ///|
@@ -427,12 +423,12 @@ pub fn CanvasRenderingContext2D::create_image_data(
 ///|
 /// State
 pub fn CanvasRenderingContext2D::save(self : Self) -> Unit {
-  self.to_js().invoke("save", []) |> ignore
+  self.invoke("save", []) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::restore(self : Self) -> Unit {
-  self.to_js().invoke("restore", []) |> ignore
+  self.invoke("restore", []) |> ignore
 }
 
 ///|
@@ -525,12 +521,12 @@ pub fn ImageBitmap::width(self : Self) -> Int {
 
 ///|
 pub fn ImageBitmap::height(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("height"))
+  unsafe_cast(self.get("height"))
 }
 
 ///|
 pub fn ImageBitmap::close(self : Self) -> Unit {
-  self.to_js().invoke("close", []) |> ignore
+  self.invoke("close", []) |> ignore
 }
 
 ///|

@@ -39,7 +39,7 @@ extern "js" fn ffi_is_view(arg : Val) -> Val =
 ///|
 #alias(isView)
 pub fn ArrayBuffer::is_view(arg : Val) -> Bool {
-  unsafe_cast(ffi_is_view(arg))
+  ffi_is_view(arg) |> unsafe_cast
 }
 
 ///|
@@ -196,7 +196,7 @@ pub fn DataView::set_int8(
   byte_offset : UInt,
   value : Int,
 ) -> Unit {
-  self.to_js().invoke("setInt8", [byte_offset, value]) |> ignore
+  self.invoke("setInt8", [byte_offset, value]) |> ignore
 }
 
 ///|
@@ -206,7 +206,7 @@ pub fn DataView::set_uint8(
   byte_offset : UInt,
   value : UInt,
 ) -> Unit {
-  self.to_js().invoke("setUint8", [byte_offset, value]) |> ignore
+  self.invoke("setUint8", [byte_offset, value]) |> ignore
 }
 
 ///|
@@ -217,7 +217,7 @@ pub fn DataView::set_int16(
   value : Int,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().invoke("setInt16", [byte_offset, value, little_endian]) |> ignore
+  self.invoke("setInt16", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -228,8 +228,7 @@ pub fn DataView::set_uint16(
   value : UInt,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().invoke("setUint16", [byte_offset, value, little_endian])
-  |> ignore
+  self.invoke("setUint16", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -240,7 +239,7 @@ pub fn DataView::set_int32(
   value : Int,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().invoke("setInt32", [byte_offset, value, little_endian]) |> ignore
+  self.invoke("setInt32", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -251,8 +250,7 @@ pub fn DataView::set_uint32(
   value : UInt,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().invoke("setUint32", [byte_offset, value, little_endian])
-  |> ignore
+  self.invoke("setUint32", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -263,8 +261,7 @@ pub fn DataView::set_float32(
   value : Double,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().invoke("setFloat32", [byte_offset, value, little_endian])
-  |> ignore
+  self.invoke("setFloat32", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -275,8 +272,7 @@ pub fn DataView::set_float64(
   value : Double,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().invoke("setFloat64", [byte_offset, value, little_endian])
-  |> ignore
+  self.invoke("setFloat64", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -363,7 +359,7 @@ pub fn Uint8Array::set(
   array : Array[UInt],
   offset? : UInt = 0,
 ) -> Unit {
-  self.to_js().invoke("set", [@js.from_builtin_array(array), offset]) |> ignore
+  self.invoke("set", [@js.from_builtin_array(array), offset]) |> ignore
 }
 
 ///|
@@ -625,9 +621,7 @@ pub fn Uint32Array::buffer(self : Self) -> ArrayBuffer {
 pub type Int8Array
 
 ///|
-pub impl Js for Int8Array with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Int8Array
 
 ///|
 pub fn Int8Array::from_size(length : UInt) -> Int8Array {
