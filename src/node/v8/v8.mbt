@@ -94,9 +94,7 @@ pub fn deserialize(buffer : Buffer) -> Val {
 pub type Serializer
 
 ///|
-pub impl Js for Serializer with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Serializer
 
 ///|
 extern "js" fn ffi_new_serializer() -> Val =
@@ -168,9 +166,7 @@ pub fn Serializer::write_raw_bytes(self : Self, buffer : &Js) -> Unit {
 pub type Deserializer
 
 ///|
-pub impl Js for Deserializer with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Deserializer
 
 ///|
 extern "js" fn ffi_new_deserializer(buffer : Val) -> Val =

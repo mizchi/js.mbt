@@ -119,9 +119,7 @@ pub fn strip_typescript_types(
 pub type SourceMap
 
 ///|
-pub impl Js for SourceMap with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for SourceMap
 
 ///|
 /// Get the payload (the actual source map data)
@@ -149,9 +147,7 @@ pub fn SourceMap::find_entry(
 pub type SourceMapEntry
 
 ///|
-pub impl Js for SourceMapEntry with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for SourceMapEntry
 
 ///|
 /// Get the original line number

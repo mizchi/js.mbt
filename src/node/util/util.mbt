@@ -3,9 +3,7 @@
 pub type Util
 
 ///|
-pub impl Js for Util with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Util
 
 ///|
 pub fn Util::require() -> Self {

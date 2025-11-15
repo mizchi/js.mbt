@@ -16,9 +16,7 @@ pub(open) trait EventEmitter {
 pub type EventEmitterClass
 
 ///|
-pub impl Js for EventEmitterClass with to_js(self) {
-  self |> js
-}
+pub impl Js for EventEmitterClass
 
 ///|
 /// Create a new standalone EventEmitter instance

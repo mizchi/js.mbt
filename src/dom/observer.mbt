@@ -9,9 +9,7 @@
 pub type MutationObserver
 
 ///|
-pub impl Js for MutationObserver with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for MutationObserver
 
 ///|
 /// Creates a new MutationObserver
@@ -55,9 +53,7 @@ pub fn MutationObserver::take_records(self : Self) -> Val {
 pub type MutationRecord
 
 ///|
-pub impl Js for MutationRecord with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for MutationRecord
 
 ///|
 /// Returns the type of mutation
@@ -114,9 +110,7 @@ pub fn MutationRecord::old_value(self : Self) -> String? {
 pub type IntersectionObserver
 
 ///|
-pub impl Js for IntersectionObserver with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for IntersectionObserver
 
 ///|
 /// Creates a new IntersectionObserver
@@ -173,9 +167,7 @@ pub fn IntersectionObserver::take_records(self : Self) -> Val {
 pub type IntersectionObserverEntry
 
 ///|
-pub impl Js for IntersectionObserverEntry with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for IntersectionObserverEntry
 
 ///|
 /// Returns the target element
@@ -226,9 +218,7 @@ pub fn IntersectionObserverEntry::time(self : Self) -> Double {
 pub type ResizeObserver
 
 ///|
-pub impl Js for ResizeObserver with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for ResizeObserver
 
 ///|
 /// Creates a new ResizeObserver

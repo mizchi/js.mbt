@@ -9,9 +9,7 @@
 pub type ShadowRoot
 
 ///|
-pub impl Js for ShadowRoot with to_js(self) {
-  self |> js
-}
+pub impl Js for ShadowRoot
 
 ///|
 pub impl EventTargetImpl for ShadowRoot

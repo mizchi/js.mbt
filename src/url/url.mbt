@@ -15,9 +15,7 @@ pub(all) struct URL {
 } derive(Eq, Show)
 
 ///|
-pub impl Js for URL with to_js(self) {
-  self |> js
-}
+pub impl Js for URL
 
 ///|
 extern "js" fn ffi_url_new(url : String, base : String?) -> Val =

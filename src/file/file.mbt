@@ -7,9 +7,7 @@
 pub type File
 
 ///|
-pub impl Js for File with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for File
 
 ///|
 /// Create a new File from FFI
@@ -106,9 +104,7 @@ pub fn File::slice(self : Self, start? : Int, end? : Int) -> Blob {
 pub type FileReader
 
 ///|
-pub impl Js for FileReader with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for FileReader
 
 ///|
 /// Create a new FileReader

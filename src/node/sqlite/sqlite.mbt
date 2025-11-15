@@ -47,9 +47,7 @@
 pub type DatabaseSync
 
 ///|
-pub impl Js for DatabaseSync with to_js(self) {
-  self |> js
-}
+pub impl Js for DatabaseSync
 
 ///|
 pub fn DatabaseSync::new(
@@ -433,18 +431,14 @@ pub(all) struct StatementResultingChanges {
 } derive(Show)
 
 ///|
-pub impl Js for StatementResultingChanges with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for StatementResultingChanges
 
 ///|
 #external
 pub type Session
 
 ///|
-pub impl Js for Session with to_js(self) {
-  self |> js
-}
+pub impl Js for Session
 
 ///|
 pub fn Session::changeset(self : Self) -> Uint8Array {
@@ -466,9 +460,7 @@ pub fn Session::close(self : Self) -> Unit {
 pub type SQLTagStore
 
 ///|
-pub impl Js for SQLTagStore with to_js(self) {
-  self |> js
-}
+pub impl Js for SQLTagStore
 
 ///|
 pub fn SQLTagStore::capacity(self : Self) -> Int {

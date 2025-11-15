@@ -4,9 +4,7 @@
 pub type ReadableStream
 
 ///|
-pub impl Js for ReadableStream with to_js(self) {
-  self |> js
-}
+pub impl Js for ReadableStream
 
 ///|
 /// Create a new ReadableStream (typically constructed from JavaScript)
@@ -88,9 +86,7 @@ pub fn ReadableStream::tee(self : Self) -> (ReadableStream, ReadableStream) {
 pub type ReadableStreamDefaultReader
 
 ///|
-pub impl Js for ReadableStreamDefaultReader with to_js(self) {
-  self |> js
-}
+pub impl Js for ReadableStreamDefaultReader
 
 ///|
 /// Read a chunk from the stream
@@ -129,9 +125,7 @@ pub fn ReadableStreamDefaultReader::closed(self : Self) -> Promise[Unit] {
 pub type WritableStream
 
 ///|
-pub impl Js for WritableStream with to_js(self) {
-  self |> js
-}
+pub impl Js for WritableStream
 
 ///|
 /// Create a new WritableStream
@@ -178,9 +172,7 @@ pub fn WritableStream::get_writer(self : Self) -> WritableStreamDefaultWriter {
 pub type WritableStreamDefaultWriter
 
 ///|
-pub impl Js for WritableStreamDefaultWriter with to_js(self) {
-  self |> js
-}
+pub impl Js for WritableStreamDefaultWriter
 
 ///|
 /// Write a chunk to the stream
@@ -241,9 +233,7 @@ pub fn WritableStreamDefaultWriter::desired_size(self : Self) -> Int? {
 pub type TransformStream
 
 ///|
-pub impl Js for TransformStream with to_js(self) {
-  self |> js
-}
+pub impl Js for TransformStream
 
 ///|
 /// Create a new TransformStream

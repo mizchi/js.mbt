@@ -3,9 +3,7 @@
 pub type Process
 
 ///|
-pub impl Js for Process with to_js(self) {
-  self |> js
-}
+pub impl Js for Process
 
 ///|
 pub fn Process::require() -> Process {

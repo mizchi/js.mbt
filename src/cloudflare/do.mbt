@@ -573,9 +573,7 @@ pub impl Js for DurableObjectSetAlarmOptions with to_js(self) {
 pub type DurableObjectTransaction
 
 ///|
-pub impl Js for DurableObjectTransaction with to_js(self) {
-  self |> js
-}
+pub impl Js for DurableObjectTransaction
 
 ///|
 /// Get a value in transaction

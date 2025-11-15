@@ -64,9 +64,7 @@ impl EventImpl with default_prevented(self) -> Bool {
 pub type Event
 
 ///|
-pub impl Js for Event with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Event
 
 ///|
 pub impl EventImpl for Event
@@ -78,9 +76,7 @@ pub impl EventImpl for Event
 pub type PointerEvent
 
 ///|
-pub impl Js for PointerEvent with to_js(self) {
-  self |> js
-}
+pub impl Js for PointerEvent
 
 ///|
 pub impl EventImpl for PointerEvent
@@ -122,9 +118,7 @@ pub fn PointerEvent::is_primary(self : Self) -> Bool {
 pub type MouseEvent
 
 ///|
-pub impl Js for MouseEvent with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for MouseEvent
 
 ///|
 pub impl EventImpl for MouseEvent
@@ -230,9 +224,7 @@ pub fn MouseEvent::meta_key(self : Self) -> Bool {
 pub type KeyboardEvent
 
 ///|
-impl Js for KeyboardEvent with to_js(self) -> Val {
-  self |> js
-}
+impl Js for KeyboardEvent
 
 ///|
 pub impl EventImpl for KeyboardEvent
@@ -306,9 +298,7 @@ pub fn KeyboardEvent::location(self : KeyboardEvent) -> Int {
 pub type ChangeEvent
 
 ///|
-pub impl Js for ChangeEvent with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for ChangeEvent
 
 ///|
 pub impl EventImpl for ChangeEvent
@@ -320,9 +310,7 @@ pub impl EventImpl for ChangeEvent
 pub type FocusEvent
 
 ///|
-impl Js for FocusEvent with to_js(self) -> Val {
-  self |> js
-}
+impl Js for FocusEvent
 
 ///|
 pub impl EventImpl for FocusEvent
@@ -339,9 +327,7 @@ pub fn FocusEvent::related_target(self : FocusEvent) -> Element? {
 pub type FormEvent
 
 ///|
-impl Js for FormEvent with to_js(self) -> Val {
-  self |> js
-}
+impl Js for FormEvent
 
 ///|
 pub impl EventImpl for FormEvent
@@ -359,9 +345,7 @@ pub fn FormEvent::form_data(self : FormEvent) -> Val {
 pub type DragEvent
 
 ///|
-pub impl Js for DragEvent with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for DragEvent
 
 ///|
 pub impl EventImpl for DragEvent
@@ -380,9 +364,7 @@ pub fn DragEvent::data_transfer(self : Self) -> Val {
 pub type InputEvent
 
 ///|
-impl Js for InputEvent with to_js(self) -> Val {
-  self |> js
-}
+impl Js for InputEvent
 
 ///|
 pub impl EventImpl for InputEvent
@@ -406,9 +388,7 @@ pub fn InputEvent::input_type(self : Self) -> String {
 pub type WheelEvent
 
 ///|
-impl Js for WheelEvent with to_js(self) -> Val {
-  self |> js
-}
+impl Js for WheelEvent
 
 ///|
 pub impl EventImpl for WheelEvent
@@ -444,9 +424,7 @@ pub fn WheelEvent::delta_mode(self : Self) -> Int {
 pub type TouchEvent
 
 ///|
-impl Js for TouchEvent with to_js(self) -> Val {
-  self |> js
-}
+impl Js for TouchEvent
 
 ///|
 pub impl EventImpl for TouchEvent
@@ -503,9 +481,7 @@ pub fn TouchEvent::meta_key(self : Self) -> Bool {
 pub type Touch
 
 ///|
-impl Js for Touch with to_js(self) -> Val {
-  self |> js
-}
+impl Js for Touch
 
 ///|
 /// Returns the unique identifier for this touch
@@ -586,9 +562,7 @@ pub fn Touch::target(self : Self) -> Element {
 pub type ClipboardEvent
 
 ///|
-impl Js for ClipboardEvent with to_js(self) -> Val {
-  self |> js
-}
+impl Js for ClipboardEvent
 
 ///|
 pub impl EventImpl for ClipboardEvent
@@ -607,9 +581,7 @@ pub fn ClipboardEvent::clipboard_data(self : Self) -> Val? {
 pub type TransitionEvent
 
 ///|
-impl Js for TransitionEvent with to_js(self) -> Val {
-  self |> js
-}
+impl Js for TransitionEvent
 
 ///|
 pub impl EventImpl for TransitionEvent
@@ -639,9 +611,7 @@ pub fn TransitionEvent::pseudo_element(self : Self) -> String {
 pub type AnimationEvent
 
 ///|
-impl Js for AnimationEvent with to_js(self) -> Val {
-  self |> js
-}
+impl Js for AnimationEvent
 
 ///|
 pub impl EventImpl for AnimationEvent
@@ -682,9 +652,7 @@ pub impl EventImpl for ScrollEvent
 pub type MessageEvent
 
 ///|
-pub impl Js for MessageEvent with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for MessageEvent
 
 ///|
 pub impl EventImpl for MessageEvent
@@ -724,9 +692,7 @@ pub fn MessageEvent::ports(self : Self) -> Array[Val] {
 pub type DOMRectReadOnly
 
 ///|
-pub impl Js for DOMRectReadOnly with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for DOMRectReadOnly
 
 ///|
 pub fn DOMRectReadOnly::x(self : Self) -> Double {

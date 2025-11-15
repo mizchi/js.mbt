@@ -10,9 +10,7 @@ using @async {type Promise, promisify0, promisify1, run_async, sleep}
 type NodeTest
 
 ///|
-impl Js for NodeTest with to_js(self) -> Val {
-  self |> js
-}
+impl Js for NodeTest
 
 ///|
 pub fn NodeTest::require() -> NodeTest {

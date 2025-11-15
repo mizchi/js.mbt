@@ -65,9 +65,7 @@ pub fn glob(
 pub type Dirent
 
 ///|
-pub impl Js for Dirent with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Dirent
 
 ///|
 #alias(isFile)

@@ -12,9 +12,7 @@ using @events {trait EventEmitter}
 pub type Interface
 
 ///|
-impl Js for Interface with to_js(self) {
-  self |> js
-}
+impl Js for Interface
 
 ///|
 /// Implement EventEmitter trait for Interface

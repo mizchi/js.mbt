@@ -89,9 +89,7 @@ pub fn format(path_obj : ParsedPath) -> String {
 pub type ParsedPath
 
 ///|
-pub impl Js for ParsedPath with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for ParsedPath
 
 ///|
 pub fn ParsedPath::root(self : Self) -> String {

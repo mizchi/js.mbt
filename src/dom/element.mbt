@@ -281,9 +281,7 @@ impl HTMLElementImpl with set_outer_html(self, html) -> Unit {
 pub type Node
 
 ///|
-pub impl Js for Node with to_js(self) {
-  self |> js
-}
+pub impl Js for Node
 
 ///|
 pub impl EventTargetImpl for Node
@@ -296,9 +294,7 @@ pub impl NodeImpl for Node
 pub type Element
 
 ///|
-pub impl Js for Element with to_js(self) {
-  self |> js
-}
+pub impl Js for Element
 
 ///|
 pub impl EventTargetImpl for Element
@@ -308,9 +304,7 @@ pub impl EventTargetImpl for Element
 pub type HTMLElement
 
 ///|
-pub impl Js for HTMLElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLElement
 
 ///|
 pub impl EventTargetImpl for HTMLElement
@@ -335,9 +329,7 @@ pub impl HTMLElementImpl for HTMLElement
 pub type HTMLDivElement
 
 ///|
-pub impl Js for HTMLDivElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLDivElement
 
 ///|
 pub impl EventTargetImpl for HTMLDivElement
@@ -356,9 +348,7 @@ pub impl HTMLElementImpl for HTMLDivElement
 pub type HTMLCanvasElement
 
 ///|
-pub impl Js for HTMLCanvasElement with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for HTMLCanvasElement
 
 ///|
 pub impl EventTargetImpl for HTMLCanvasElement
@@ -433,9 +423,7 @@ pub fn HTMLCanvasElement::to_blob(
 pub type HTMLBodyElement
 
 ///|
-pub impl Js for HTMLBodyElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLBodyElement
 
 ///|
 pub impl EventTargetImpl for HTMLBodyElement
@@ -454,9 +442,7 @@ pub impl HTMLElementImpl for HTMLBodyElement
 pub type HTMLHeadElement
 
 ///|
-pub impl Js for HTMLHeadElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLHeadElement
 
 ///|
 pub impl EventTargetImpl for HTMLHeadElement
@@ -475,9 +461,7 @@ pub impl HTMLElementImpl for HTMLHeadElement
 pub type HTMLHtmlElement
 
 ///|
-pub impl Js for HTMLHtmlElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLHtmlElement
 
 ///|
 pub impl EventTargetImpl for HTMLHtmlElement
@@ -496,9 +480,7 @@ pub impl HTMLElementImpl for HTMLHtmlElement
 pub type HTMLSpanElement
 
 ///|
-pub impl Js for HTMLSpanElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLSpanElement
 
 ///|
 pub impl EventTargetImpl for HTMLSpanElement
@@ -517,9 +499,7 @@ pub impl HTMLElementImpl for HTMLSpanElement
 pub type HTMLAnchorElement
 
 ///|
-pub impl Js for HTMLAnchorElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLAnchorElement
 
 ///|
 pub impl EventTargetImpl for HTMLAnchorElement
@@ -564,9 +544,7 @@ pub fn HTMLAnchorElement::set_target(self : Self, target : String) -> Unit {
 pub type HTMLButtonElement
 
 ///|
-pub impl Js for HTMLButtonElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLButtonElement
 
 ///|
 pub impl EventTargetImpl for HTMLButtonElement
@@ -597,9 +575,7 @@ pub fn HTMLButtonElement::set_disabled(self : Self, disabled : Bool) -> Unit {
 pub type HTMLInputElement
 
 ///|
-pub impl Js for HTMLInputElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLInputElement
 
 ///|
 pub impl EventTargetImpl for HTMLInputElement
@@ -684,9 +660,7 @@ pub fn HTMLInputElement::set_placeholder(
 pub type HTMLTextAreaElement
 
 ///|
-pub impl Js for HTMLTextAreaElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLTextAreaElement
 
 ///|
 pub impl EventTargetImpl for HTMLTextAreaElement
@@ -789,9 +763,7 @@ pub fn HTMLTextAreaElement::set_read_only(
 pub type HTMLIFrameElement
 
 ///|
-pub impl Js for HTMLIFrameElement with to_js(self) {
-  self |> js
-}
+pub impl Js for HTMLIFrameElement
 
 ///|
 pub impl EventTargetImpl for HTMLIFrameElement

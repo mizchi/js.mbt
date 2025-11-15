@@ -28,9 +28,7 @@ pub(open) trait Transferable {
 pub type Worker
 
 ///|
-pub impl Js for Worker with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Worker
 
 ///|
 extern "js" fn ffi_new_worker(script_url : String, option : Val) -> Worker =

@@ -7,9 +7,7 @@ extern "js" fn ffi_request_new(url : String) -> Val =
 pub type Request
 
 ///|
-pub impl Js for Request with to_js(self) {
-  self |> js
-}
+pub impl Js for Request
 
 ///|
 pub fn Request::new(url : String) -> Request {

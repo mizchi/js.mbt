@@ -47,9 +47,7 @@ pub type Ai
 pub type Model
 
 ///|
-pub impl Js for Ai with to_js(self) {
-  self |> js
-}
+pub impl Js for Ai
 
 ///|
 pub fn Ai::require() -> Self {

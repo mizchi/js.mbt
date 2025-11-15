@@ -8,9 +8,7 @@
 pub type WebAssemblyModule
 
 ///|
-pub impl Js for WebAssemblyModule with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for WebAssemblyModule
 
 ///|
 /// WebAssembly.Instance represents an instantiated WebAssembly module
@@ -18,9 +16,7 @@ pub impl Js for WebAssemblyModule with to_js(self) -> Val {
 pub type WebAssemblyInstance
 
 ///|
-pub impl Js for WebAssemblyInstance with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for WebAssemblyInstance
 
 ///|
 /// Get the exports object from a WebAssembly instance
@@ -34,9 +30,7 @@ pub fn WebAssemblyInstance::exports(self : Self) -> Val {
 pub type WebAssemblyMemory
 
 ///|
-pub impl Js for WebAssemblyMemory with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for WebAssemblyMemory
 
 ///|
 /// Get the buffer from WebAssembly memory
@@ -83,9 +77,7 @@ pub fn WebAssemblyMemory::new(
 pub type WebAssemblyTable
 
 ///|
-pub impl Js for WebAssemblyTable with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for WebAssemblyTable
 
 ///|
 /// Get the length of the table
@@ -142,9 +134,7 @@ pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
 pub type WebAssemblyGlobal
 
 ///|
-pub impl Js for WebAssemblyGlobal with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for WebAssemblyGlobal
 
 ///|
 /// Get the value of the global

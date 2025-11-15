@@ -9,9 +9,7 @@
 pub type ChildProcess
 
 ///|
-pub impl Js for ChildProcess with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for ChildProcess
 
 ///|
 /// Implement EventEmitter trait for ChildProcess
@@ -409,9 +407,7 @@ pub fn fork(
 pub type SpawnSyncResult
 
 ///|
-pub impl Js for SpawnSyncResult with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for SpawnSyncResult
 
 ///|
 pub fn SpawnSyncResult::pid(self : Self) -> Int {

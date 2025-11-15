@@ -34,18 +34,14 @@ extern "js" fn ffi_is_null(v : Val) -> Bool =
 pub type URL
 
 ///|
-pub impl Js for URL with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for URL
 
 ///|
 #external
 pub type URLSearchParams
 
 ///|
-pub impl Js for URLSearchParams with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for URLSearchParams
 
 ///|
 /// Get the URL constructor

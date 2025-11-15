@@ -10,9 +10,7 @@ pub(all) type JsIterator[T]
 
 ///|
 /// Js Iterator
-pub impl[T] Js for JsIterator[T] with to_js(self) {
-  self |> js
-}
+pub impl[T] Js for JsIterator[T]
 
 ///|
 pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
@@ -52,9 +50,7 @@ test "iterator" {
 pub(all) type AsyncIterator[T]
 
 ///|
-pub impl[T] Js for AsyncIterator[T] with to_js(self) {
-  self |> js
-}
+pub impl[T] Js for AsyncIterator[T]
 
 ///|
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {

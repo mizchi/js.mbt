@@ -111,9 +111,7 @@ pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
 pub type ReactRef[T]
 
 ///|
-pub impl[T] Js for ReactRef[T] with to_js(self) -> Val {
-  self |> js
-}
+pub impl[T] Js for ReactRef[T]
 
 ///|
 extern "js" fn current_internal(v : Val) -> Val =

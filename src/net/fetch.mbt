@@ -70,9 +70,7 @@ pub fn fetch(
 pub type FormData
 
 ///|
-pub impl Js for FormData with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for FormData
 
 ///|
 pub fn FormData::append(self : Self, name : String, value : String) -> Unit {

@@ -50,9 +50,7 @@ pub impl Js for JsError with to_js(self) {
 }
 
 ///|
-impl Js for ErrorObject with to_js(self) -> Val {
-  self |> js
-}
+impl Js for ErrorObject
 
 ///|
 impl Show for ErrorObject with output(self, logger) {

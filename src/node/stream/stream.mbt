@@ -9,9 +9,7 @@ using @events {trait EventEmitter}
 pub type Stream
 
 ///|
-pub impl Js for Stream with to_js(self) {
-  self |> js
-}
+pub impl Js for Stream
 
 ///|
 /// Implement EventEmitter trait for Stream

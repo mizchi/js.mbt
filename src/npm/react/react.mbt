@@ -32,9 +32,7 @@ pub type ComponentFn[T] = (T) -> Element
 pub type Element
 
 ///|
-pub impl Js for Element with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Element
 
 ///|
 #alias(h)

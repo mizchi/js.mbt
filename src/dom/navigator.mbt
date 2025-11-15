@@ -5,9 +5,7 @@
 pub type Navigator
 
 ///|
-pub impl Js for Navigator with to_js(self) {
-  self |> js
-}
+pub impl Js for Navigator
 
 ///|
 /// Returns the global navigator object
