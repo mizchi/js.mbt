@@ -163,3 +163,35 @@ pub fn[A, B, C, R] promisify3(
     promise
   }
 }
+
+///|
+/// Converts an async raise function to a Promise.
+///
+/// Executes the provided async function and returns a Promise that:
+/// - Resolves with the function's return value if it succeeds
+/// - Rejects with the error if the function raises an error
+///
+/// # Parameters
+///
+/// - `f`: An async function that may raise an error
+///
+/// # Returns
+///
+/// A Promise that represents the result of the async operation
+///
+/// # Example
+///
+/// ```moonbit
+/// let p = Promise::try_(async fn () { 42 })
+/// // Promise resolves to 42
+///
+/// let p2 = Promise::try_(async fn () { fail("error") })
+/// // Promise rejects with error
+/// ```
+pub fn[R] Promise::try_(f : async () -> R) -> Promise[R] noraise {
+  let { promise, resolve, reject } = Promise::with_resolvers()
+  run_async(() => try f() |> resolve catch {
+    e => reject(e)
+  })
+  promise
+}
