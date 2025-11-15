@@ -1,0 +1,46 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/crypto"
+
+import(
+  "mizchi/js"
+  "mizchi/js/async"
+)
+
+// Values
+fn get_crypto() -> Crypto
+
+// Errors
+
+// Types and methods
+#external
+pub type Crypto
+fn Crypto::subtle(Self) -> SubtleCrypto
+impl @js.Js for Crypto
+
+#external
+pub type SubtleCrypto
+fn SubtleCrypto::decrypt(Self, &@js.Js, &@js.Js, &@js.Js) -> @async.Promise[@js.Val]
+#alias(deriveBits)
+fn SubtleCrypto::derive_bits(Self, &@js.Js, &@js.Js, Int) -> @async.Promise[@js.Val]
+#alias(deriveKey)
+fn SubtleCrypto::derive_key(Self, &@js.Js, &@js.Js, &@js.Js, Bool, Array[String]) -> @async.Promise[@js.Val]
+fn SubtleCrypto::digest(Self, String, &@js.Js) -> @async.Promise[@js.Val]
+fn SubtleCrypto::encrypt(Self, &@js.Js, &@js.Js, &@js.Js) -> @async.Promise[@js.Val]
+#alias(exportKey)
+fn SubtleCrypto::export_key(Self, String, &@js.Js) -> @async.Promise[@js.Val]
+#alias(generateKey)
+fn SubtleCrypto::generate_key(Self, &@js.Js, Bool, Array[String]) -> @async.Promise[@js.Val]
+#alias(importKey)
+fn SubtleCrypto::import_key(Self, String, &@js.Js, &@js.Js, Bool, Array[String]) -> @async.Promise[@js.Val]
+fn SubtleCrypto::sign(Self, &@js.Js, &@js.Js, &@js.Js) -> @async.Promise[@js.Val]
+#alias(unwrapKey)
+fn SubtleCrypto::unwrap_key(Self, String, &@js.Js, &@js.Js, &@js.Js, &@js.Js, Bool, Array[String]) -> @async.Promise[@js.Val]
+fn SubtleCrypto::verify(Self, &@js.Js, &@js.Js, &@js.Js, &@js.Js) -> @async.Promise[Bool]
+#alias(wrapKey)
+fn SubtleCrypto::wrap_key(Self, String, &@js.Js, &@js.Js, &@js.Js) -> @async.Promise[@js.Val]
+impl @js.Js for SubtleCrypto
+
+// Type aliases
+
+// Traits
+
