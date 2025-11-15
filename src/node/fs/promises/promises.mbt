@@ -10,9 +10,6 @@ using @async {type Promise, type AbortSignal, run_async}
 using @iterator {type AsyncGenerator}
 
 ///|
-using @test {it, before_each}
-
-///|
 pub(all) struct FsStat {
   isFile : () -> Bool
   isDirectory : () -> Bool
@@ -171,16 +168,4 @@ pub fn cp(path : String, dest : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   let promise = fs.call_method("cp", [path, dest])
   promise.cast()
-}
-
-///|
-test "fs readFile and writeFile" {
-  it("fs readFile and writeFile", _ => {
-    // let { readFile, writeFile, .. } = NodeFs::require()
-    let test_path = "./fs_test.txt"
-    let content = "Hello, Moon!"
-    writeFile(test_path, content).unwrap()
-    let read_content = readFile(test_path).unwrap()
-    assert_eq(content, read_content)
-  })
 }

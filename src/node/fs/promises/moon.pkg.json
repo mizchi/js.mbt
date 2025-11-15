@@ -3,7 +3,7 @@
     "mizchi/js",
     "mizchi/js/iterator",
     "mizchi/js/node",
-    "mizchi/js/async",
-    "mizchi/js/node/test"
-  ]
+    "mizchi/js/async"
+  ],
+  "test-import": ["mizchi/js/node/test"]
 }
