@@ -297,11 +297,11 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
   if v.is_null() {
     return None
   }
-  let full : String = unsafe_cast(v[0])
-  let index : Int = unsafe_cast(v["index"])
-  let last_index : Int = unsafe_cast(v["lastIndex"])
-  let input : String = unsafe_cast(v["input"])
-  let groups : Map[String, String]? = if v["groups"].is_undefined() {
+  let full : String = unsafe_cast(v.get(0))
+  let index : Int = unsafe_cast(v.get("index"))
+  let last_index : Int = unsafe_cast(v.get("lastIndex"))
+  let input : String = unsafe_cast(v.get("input"))
+  let groups : Map[String, String]? = if v.get("groups").is_undefined() {
     None
   } else {
     let g : Map[String, String] = {}
@@ -337,22 +337,22 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
   if v.is_null() {
     return None
   }
-  let len : Int = unsafe_cast(v["length"])
+  let len : Int = unsafe_cast(v.get("length"))
   let matches : Array[String] = Array::new(capacity=len)
   for i = 0; i < len; i = i + 1 {
-    matches.push(unsafe_cast(v[i]))
+    matches.push(unsafe_cast(v.get(i)))
   }
-  let index : Int? = if v["index"].is_undefined() {
+  let index : Int? = if v.get("index").is_undefined() {
     None
   } else {
-    Some(unsafe_cast(v["index"]))
+    Some(unsafe_cast(v.get("index")))
   }
-  let input : String? = if v["input"].is_undefined() {
+  let input : String? = if v.get("input").is_undefined() {
     None
   } else {
-    Some(unsafe_cast(v["input"]))
+    Some(unsafe_cast(v.get("input")))
   }
-  let groups : Map[String, String]? = if v["groups"].is_undefined() {
+  let groups : Map[String, String]? = if v.get("groups").is_undefined() {
     None
   } else {
     let g : Map[String, String] = {}
@@ -375,26 +375,26 @@ pub fn RegExp::match_all(
   string : String,
 ) -> Array[RegExpMatchArray] {
   let v = ffi_string_match_all(string, self)
-  let len : Int = unsafe_cast(v["length"])
+  let len : Int = unsafe_cast(v.get("length"))
   let results : Array[RegExpMatchArray] = []
   for i = 0; i < len; i = i + 1 {
-    let item = v[i]
-    let match_len : Int = unsafe_cast(item["length"])
+    let item = v.get(i)
+    let match_len : Int = unsafe_cast(item.get("length"))
     let matches : Array[String] = Array::new(capacity=match_len)
     for j = 0; j < match_len; j = j + 1 {
-      matches.push(unsafe_cast(item[j]))
+      matches.push(unsafe_cast(item.get(j)))
     }
-    let index : Int? = if item["index"].is_undefined() {
+    let index : Int? = if item.get("index").is_undefined() {
       None
     } else {
-      Some(unsafe_cast(item["index"]))
+      Some(unsafe_cast(item.get("index")))
     }
-    let input : String? = if item["input"].is_undefined() {
+    let input : String? = if item.get("input").is_undefined() {
       None
     } else {
-      Some(unsafe_cast(item["input"]))
+      Some(unsafe_cast(item.get("input")))
     }
-    let groups : Map[String, String]? = if item["groups"].is_undefined() {
+    let groups : Map[String, String]? = if item.get("groups").is_undefined() {
       None
     } else {
       let g : Map[String, String] = {}
@@ -451,10 +451,10 @@ pub fn RegExp::replace_fn(
     offset : Int,
     input : String,
   ) -> String {
-    let groups_len : Int = unsafe_cast(groups_val["length"])
+    let groups_len : Int = unsafe_cast(groups_val.get("length"))
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
-      let item = groups_val[i]
+      let item = groups_val.get(i)
       if item.is_undefined() {
         groups.push("")
       } else {
@@ -482,10 +482,10 @@ pub fn RegExp::replace_all_fn(
     offset : Int,
     input : String,
   ) -> String {
-    let groups_len : Int = unsafe_cast(groups_val["length"])
+    let groups_len : Int = unsafe_cast(groups_val.get("length"))
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
-      let item = groups_val[i]
+      let item = groups_val.get(i)
       if item.is_undefined() {
         groups.push("")
       } else {

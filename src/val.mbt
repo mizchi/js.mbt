@@ -163,32 +163,32 @@ pub impl Eq for Val with equal(self, other) -> Bool {
   ffi_object_is(self, other)
 }
 
-///|
-/// Get a property value from a JavaScript object.
-///
-/// Equivalent to JavaScript's `obj[key]` or `obj.key` syntax.
-///
-/// # Parameters
-///
-/// - `self`: The object to get the property from
-/// - `key`: The property key (String, Int, or Symbol)
-///
-/// # Returns
-///
-/// The property value as a Val, or `undefined` if the property doesn't exist
-///
-/// # Example
-///
-/// ```moonbit
-/// let obj = new_empty_object()
-/// obj.set("name", "Alice")
-/// let name = obj.get("name")        // Using alias syntax: obj["name"]
-/// let age = obj.get("age")          // Returns undefined
-/// ```
-#alias("_[_]")
-pub fn Val::get(self : Val, key : &PropertyKey) -> Val {
-  ffi_get(self, key.to_key() |> unsafe_cast)
-}
+// ///|
+// /// Get a property value from a JavaScript object.
+// ///
+// /// Equivalent to JavaScript's `obj[key]` or `obj.key` syntax.
+// ///
+// /// # Parameters
+// ///
+// /// - `self`: The object to get the property from
+// /// - `key`: The property key (String, Int, or Symbol)
+// ///
+// /// # Returns
+// ///
+// /// The property value as a Val, or `undefined` if the property doesn't exist
+// ///
+// /// # Example
+// ///
+// /// ```moonbit
+// /// let obj = new_empty_object()
+// /// obj.set("name", "Alice")
+// /// let name = obj.get("name")        // Using alias syntax: obj["name"]
+// /// let age = obj.get("age")          // Returns undefined
+// /// ```
+// #alias("_[_]")
+// pub fn Val::get(self : Val, key : &PropertyKey) -> Val {
+//   ffi_get(self, key.to_key() |> unsafe_cast)
+// }
 
 ///|
 /// Set a property value on a JavaScript object.

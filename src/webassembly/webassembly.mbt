@@ -36,7 +36,7 @@ pub impl Js for WebAssemblyInstance with to_js(self) -> Val {
 ///|
 /// Get the exports object from a WebAssembly instance
 pub fn WebAssemblyInstance::exports(self : Self) -> Val {
-  self.to_js()["exports"]
+  self.to_js().get("exports")
 }
 
 ///|
@@ -52,13 +52,13 @@ pub impl Js for WebAssemblyMemory with to_js(self) -> Val {
 ///|
 /// Get the buffer from WebAssembly memory
 pub fn WebAssemblyMemory::buffer(self : Self) -> ArrayBuffer {
-  self.to_js()["buffer"] |> unsafe_cast
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
 /// Grow the memory by delta pages
 pub fn WebAssemblyMemory::grow(self : Self, delta : Int) -> Int {
-  self.to_js().invoke("grow", [js(delta)]) |> unsafe_cast
+  self.invoke("grow", [js(delta)]) |> unsafe_cast
 }
 
 ///|
@@ -101,7 +101,7 @@ pub impl Js for WebAssemblyTable with to_js(self) -> Val {
 ///|
 /// Get the length of the table
 pub fn WebAssemblyTable::length(self : Self) -> Int {
-  self.to_js()["length"] |> unsafe_cast
+  self.to_js().get("length") |> unsafe_cast
 }
 
 ///|
@@ -160,7 +160,7 @@ pub impl Js for WebAssemblyGlobal with to_js(self) -> Val {
 ///|
 /// Get the value of the global
 pub fn WebAssemblyGlobal::value(self : Self) -> Val {
-  self.to_js()["value"]
+  self.get("value")
 }
 
 ///|
@@ -249,8 +249,8 @@ pub fn instantiate_bytes(
     None => @js.undefined()
   }
   let result = ffi_instantiate(bytes.to_js(), imports)
-  let wasm_module : WebAssemblyModule = result["module"] |> unsafe_cast
-  let instance : WebAssemblyInstance = result["instance"] |> unsafe_cast
+  let wasm_module : WebAssemblyModule = result.get("module") |> unsafe_cast
+  let instance : WebAssemblyInstance = result.get("instance") |> unsafe_cast
   (wasm_module, instance)
 }
 
