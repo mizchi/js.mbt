@@ -51,38 +51,38 @@ pub fn File::new(
     Some(lm) => options.set("lastModified", lm)
     None => ()
   }
-  ffi_new_file(arr, filename |> js, options).cast()
+  unsafe_cast(ffi_new_file(arr, filename |> js, options))
 }
 
 ///|
 /// Get the filename
 pub fn File::name(self : Self) -> String {
-  self.to_js().get("name").cast()
+  unsafe_cast(self.to_js().get("name"))
 }
 
 ///|
 /// Get the last modified timestamp in milliseconds
 #alias(lastModified)
 pub fn File::last_modified(self : Self) -> Int {
-  self.to_js().get("lastModified").cast()
+  unsafe_cast(self.to_js().get("lastModified"))
 }
 
 ///|
 /// Get the size of the file in bytes (inherited from Blob)
 pub fn File::size(self : Self) -> Int {
-  self.to_js().get("size").cast()
+  unsafe_cast(self.to_js().get("size"))
 }
 
 ///|
 /// Get the MIME type of the file (inherited from Blob)
 pub fn File::content_type(self : Self) -> String {
-  self.to_js().get("type").cast()
+  unsafe_cast(self.to_js().get("type"))
 }
 
 ///|
 /// Cast File to Blob
 pub fn File::as_blob(self : Self) -> Blob {
-  self.to_js().cast()
+  unsafe_cast(self.to_js())
 }
 
 ///|
@@ -130,14 +130,14 @@ extern "js" fn ffi_new_file_reader() -> Val =
 ///|
 /// Create a new FileReader
 pub fn FileReader::new() -> FileReader {
-  ffi_new_file_reader().cast()
+  unsafe_cast(ffi_new_file_reader())
 }
 
 ///|
 /// Get the ready state (0=EMPTY, 1=LOADING, 2=DONE)
 #alias(readyState)
 pub fn FileReader::ready_state(self : Self) -> Int {
-  self.to_js().get("readyState").cast()
+  unsafe_cast(self.to_js().get("readyState"))
 }
 
 ///|

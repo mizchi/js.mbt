@@ -127,7 +127,7 @@ pub fn create_element(
   if on_dragenter is Some(v) {
     val["onDragEnter"] = v |> js
   }
-  ffi_create_element(tag, val, children).cast()
+  unsafe_cast(ffi_create_element(tag, val, children))
 }
 
 ///|
@@ -165,7 +165,7 @@ pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
   let tag = get_suspense() |> js
   let children = @js.from_builtin_array(children.map(_.to_js()))
   let props = @js.from_builtin_map({ "fallback": fallback |> js })
-  ffi_create_element(tag, props, children).cast()
+  unsafe_cast(ffi_create_element(tag, props, children))
 }
 
 ///|
@@ -177,5 +177,5 @@ pub fn[T] provider(
   let tag = js(tag)
   let children = @js.from_builtin_array(children.map(_.to_js()))
   let props = @js.from_builtin_map({ "value": value |> js })
-  ffi_create_element(tag, props, children).cast()
+  unsafe_cast(ffi_create_element(tag, props, children))
 }

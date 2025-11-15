@@ -1,4 +1,7 @@
 ///|
+using @js {unsafe_cast}
+
+///|
 test "URL constructor with absolute URL" {
   let url = URL::new("https://example.com/path?query=value#hash")
   assert_eq(url.protocol(), "https:")
@@ -228,13 +231,13 @@ test "format URL" {
 test "urlToHttpOptions" {
   let url = URL::new("https://example.com:8080/path?query=value")
   let options = urlToHttpOptions(url)
-  let protocol : String = options.get("protocol").cast()
+  let protocol : String = unsafe_cast(options.get("protocol"))
   assert_eq(protocol, "https:")
-  let hostname : String = options.get("hostname").cast()
+  let hostname : String = unsafe_cast(options.get("hostname"))
   assert_eq(hostname, "example.com")
   // port is returned as a number in the options object
-  let port : Int = options.get("port").cast()
+  let port : Int = unsafe_cast(options.get("port"))
   assert_eq(port, 8080)
-  let pathname : String = options.get("pathname").cast()
+  let pathname : String = unsafe_cast(options.get("pathname"))
   assert_eq(pathname, "/path")
 }

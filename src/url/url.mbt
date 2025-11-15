@@ -32,13 +32,13 @@ extern "js" fn ffi_can_parse(url : String, base : String?) -> Val =
 
 ///|
 pub fn URL::new(url : String, base? : String) -> URL {
-  ffi_url_new(url, base).cast()
+  unsafe_cast(ffi_url_new(url, base))
 }
 
 ///|
 #alias(canParse)
 pub fn URL::can_parse(url : String, base? : String) -> Bool {
-  ffi_can_parse(url, base).cast()
+  unsafe_cast(ffi_can_parse(url, base))
 }
 
 ///|
@@ -68,7 +68,7 @@ extern "js" fn ffi_create_object_url(obj : Val) -> Val =
 ///|
 #alias(createObjectURL)
 pub fn URL::create_object_url(obj : Val) -> String {
-  ffi_create_object_url(obj).cast()
+  unsafe_cast(ffi_create_object_url(obj))
 }
 
 ///|

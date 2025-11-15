@@ -61,7 +61,7 @@ pub fn Storage::clear(self : Storage) -> Unit {
 /// Returns the number of items in storage
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/length
 pub fn Storage::length(self : Storage) -> Int {
-  self.to_js().get("length").cast()
+  unsafe_cast(self.to_js().get("length"))
 }
 
 ///|

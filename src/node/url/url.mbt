@@ -61,8 +61,8 @@ fn url_constructor() -> Val {
 pub fn URL::new(input : String, base? : String) -> URL {
   let ctor = url_constructor()
   match base {
-    Some(b) => ffi_new_url_with_base(ctor, input, b).cast()
-    None => ffi_new_url(ctor, input).cast()
+    Some(b) => unsafe_cast(ffi_new_url_with_base(ctor, input, b))
+    None => unsafe_cast(ffi_new_url(ctor, input))
   }
 }
 
@@ -72,8 +72,8 @@ pub fn URL::new(input : String, base? : String) -> URL {
 pub fn URL::canParse(input : String, base? : String) -> Bool {
   let ctor = url_constructor()
   match base {
-    Some(b) => ctor.invoke("canParse", [input, b]).cast()
-    None => ctor.invoke("canParse", [input]).cast()
+    Some(b) => unsafe_cast(ctor.invoke("canParse", [input, b]))
+    None => unsafe_cast(ctor.invoke("canParse", [input]))
   }
 }
 
@@ -89,14 +89,14 @@ pub fn URL::parse(input : String, base? : String) -> URL? {
   if ffi_is_null(result) {
     None
   } else {
-    Some(result.cast())
+    Some(unsafe_cast(result))
   }
 }
 
 ///|
 /// Get the full URL string
 pub fn URL::href(self : Self) -> String {
-  self.to_js().get("href").cast()
+  unsafe_cast(self.to_js().get("href"))
 }
 
 ///|
@@ -109,13 +109,13 @@ pub fn URL::setHref(self : Self, value : String) -> Unit {
 ///|
 /// Get the origin (read-only)
 pub fn URL::origin(self : Self) -> String {
-  self.to_js().get("origin").cast()
+  unsafe_cast(self.to_js().get("origin"))
 }
 
 ///|
 /// Get the protocol
 pub fn URL::protocol(self : Self) -> String {
-  self.to_js().get("protocol").cast()
+  unsafe_cast(self.to_js().get("protocol"))
 }
 
 ///|
@@ -128,7 +128,7 @@ pub fn URL::setProtocol(self : Self, value : String) -> Unit {
 ///|
 /// Get the username
 pub fn URL::username(self : Self) -> String {
-  self.to_js().get("username").cast()
+  unsafe_cast(self.to_js().get("username"))
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn URL::setUsername(self : Self, value : String) -> Unit {
 ///|
 /// Get the password
 pub fn URL::password(self : Self) -> String {
-  self.to_js().get("password").cast()
+  unsafe_cast(self.to_js().get("password"))
 }
 
 ///|
@@ -154,7 +154,7 @@ pub fn URL::setPassword(self : Self, value : String) -> Unit {
 ///|
 /// Get the host (hostname + port)
 pub fn URL::host(self : Self) -> String {
-  self.to_js().get("host").cast()
+  unsafe_cast(self.to_js().get("host"))
 }
 
 ///|
@@ -167,7 +167,7 @@ pub fn URL::setHost(self : Self, value : String) -> Unit {
 ///|
 /// Get the hostname (without port)
 pub fn URL::hostname(self : Self) -> String {
-  self.to_js().get("hostname").cast()
+  unsafe_cast(self.to_js().get("hostname"))
 }
 
 ///|
@@ -180,7 +180,7 @@ pub fn URL::setHostname(self : Self, value : String) -> Unit {
 ///|
 /// Get the port
 pub fn URL::port(self : Self) -> String {
-  self.to_js().get("port").cast()
+  unsafe_cast(self.to_js().get("port"))
 }
 
 ///|
@@ -193,7 +193,7 @@ pub fn URL::setPort(self : Self, value : String) -> Unit {
 ///|
 /// Get the pathname
 pub fn URL::pathname(self : Self) -> String {
-  self.to_js().get("pathname").cast()
+  unsafe_cast(self.to_js().get("pathname"))
 }
 
 ///|
@@ -206,7 +206,7 @@ pub fn URL::setPathname(self : Self, value : String) -> Unit {
 ///|
 /// Get the search string (including '?')
 pub fn URL::search(self : Self) -> String {
-  self.to_js().get("search").cast()
+  unsafe_cast(self.to_js().get("search"))
 }
 
 ///|
@@ -219,7 +219,7 @@ pub fn URL::setSearch(self : Self, value : String) -> Unit {
 ///|
 /// Get the hash (including '#')
 pub fn URL::hash(self : Self) -> String {
-  self.to_js().get("hash").cast()
+  unsafe_cast(self.to_js().get("hash"))
 }
 
 ///|
@@ -233,7 +233,7 @@ pub fn URL::setHash(self : Self, value : String) -> Unit {
 /// Get the URLSearchParams object
 #alias(search_params)
 pub fn URL::searchParams(self : Self) -> URLSearchParams {
-  self.to_js().get("searchParams").cast()
+  unsafe_cast(self.to_js().get("searchParams"))
 }
 
 ///|
@@ -255,8 +255,8 @@ pub fn URL::toJSON(self : Self) -> String {
 pub fn URLSearchParams::new(init? : String) -> URLSearchParams {
   let ctor = @node.require("node:url").get("URLSearchParams")
   match init {
-    Some(s) => ffi_new_search_params_with_init(ctor, s).cast()
-    None => ffi_new_search_params(ctor).cast()
+    Some(s) => unsafe_cast(ffi_new_search_params_with_init(ctor, s))
+    None => unsafe_cast(ffi_new_search_params(ctor))
   }
 }
 
@@ -288,7 +288,7 @@ pub fn URLSearchParams::delete(
 pub fn URLSearchParams::get(self : Self, name : String) -> String? {
   let result = self.to_js().invoke("get", [name])
   if ffi_typeof(result) == "string" {
-    Some(result.cast())
+    Some(unsafe_cast(result))
   } else {
     None
   }
@@ -301,10 +301,10 @@ pub fn URLSearchParams::getAll(self : Self, name : String) -> Array[String] {
   let result = self.to_js().invoke("getAll", [name])
   // Convert JS array to MoonBit array
   let arr : Array[String] = []
-  let length : Int = result.get("length").cast()
+  let length : Int = unsafe_cast(result.get("length"))
   let mut i = 0
   while i < length {
-    arr.push(result.invoke("at", [i]).cast())
+    arr.push(unsafe_cast(result.invoke("at", [i])))
     i = i + 1
   }
   arr
@@ -345,7 +345,7 @@ pub fn URLSearchParams::toString(self : Self) -> String {
 ///|
 /// Get the size (number of parameters)
 pub fn URLSearchParams::size(self : Self) -> Int {
-  self.to_js().get("size").cast()
+  unsafe_cast(self.to_js().get("size"))
 }
 
 ///|
@@ -357,9 +357,9 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
     Some(w) => {
       let options = @js.new_empty_object()
       options.set("windows", w)
-      url_module.invoke("fileURLToPath", [url, options]).cast()
+      unsafe_cast(url_module.invoke("fileURLToPath", [url, options]))
     }
-    None => url_module.invoke("fileURLToPath", [url]).cast()
+    None => unsafe_cast(url_module.invoke("fileURLToPath", [url]))
   }
 }
 
@@ -372,9 +372,9 @@ pub fn fileURLToPathFromURL(url : URL, windows? : Bool) -> String {
     Some(w) => {
       let options = @js.new_empty_object()
       options.set("windows", w)
-      url_module.invoke("fileURLToPath", [url, options]).cast()
+      unsafe_cast(url_module.invoke("fileURLToPath", [url, options]))
     }
-    None => url_module.invoke("fileURLToPath", [url]).cast()
+    None => unsafe_cast(url_module.invoke("fileURLToPath", [url]))
   }
 }
 
@@ -387,9 +387,9 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
     Some(w) => {
       let options = @js.new_empty_object()
       options.set("windows", w)
-      url_module.invoke("pathToFileURL", [path, options]).cast()
+      unsafe_cast(url_module.invoke("pathToFileURL", [path, options]))
     }
-    None => url_module.invoke("pathToFileURL", [path]).cast()
+    None => unsafe_cast(url_module.invoke("pathToFileURL", [path]))
   }
 }
 
@@ -405,5 +405,5 @@ pub fn urlToHttpOptions(url : URL) -> Val {
 /// Format a URL object to string (legacy API)
 pub fn format(url : URL) -> String {
   let url_module = @node.require("node:url")
-  url_module.invoke("format", [url]).cast()
+  unsafe_cast(url_module.invoke("format", [url]))
 }

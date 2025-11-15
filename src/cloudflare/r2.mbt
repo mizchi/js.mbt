@@ -338,25 +338,25 @@ pub impl Js for R2Object with to_js(self) {
 ///|
 /// Get object key
 pub fn R2Object::key(self : Self) -> String {
-  self.to_js().get("key").cast()
+  unsafe_cast(self.to_js().get("key"))
 }
 
 ///|
 /// Get object version
 pub fn R2Object::version(self : Self) -> String {
-  self.to_js().get("version").cast()
+  unsafe_cast(self.to_js().get("version"))
 }
 
 ///|
 /// Get object size
 pub fn R2Object::size(self : Self) -> Int {
-  self.to_js().get("size").cast()
+  unsafe_cast(self.to_js().get("size"))
 }
 
 ///|
 /// Get object etag
 pub fn R2Object::etag(self : Self) -> String {
-  self.to_js().get("etag").cast()
+  unsafe_cast(self.to_js().get("etag"))
 }
 
 ///|
@@ -410,7 +410,7 @@ pub fn R2Object::body(self : Self) -> Val {
 ///|
 /// Get object body used status
 pub fn R2Object::body_used(self : Self) -> Bool {
-  self.to_js().get("bodyUsed").cast()
+  unsafe_cast(self.to_js().get("bodyUsed"))
 }
 
 ///|
@@ -446,13 +446,13 @@ pub impl Js for R2MultipartUpload with to_js(self) {
 ///|
 /// Get upload key
 pub fn R2MultipartUpload::key(self : Self) -> String {
-  self.to_js().get("key").cast()
+  unsafe_cast(self.to_js().get("key"))
 }
 
 ///|
 /// Get upload ID
 pub fn R2MultipartUpload::upload_id(self : Self) -> String {
-  self.to_js().get("uploadId").cast()
+  unsafe_cast(self.to_js().get("uploadId"))
 }
 
 ///|

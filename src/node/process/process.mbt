@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, js}
+using @js {trait Js, js, unsafe_cast}
 
 ///|
 using @stream {type Stream}
@@ -15,22 +15,22 @@ pub impl Js for Process with to_js(self) {
 
 ///|
 pub fn Process::require() -> Process {
-  @node.require("node:process").cast()
+  unsafe_cast(@node.require("node:process"))
 }
 
 ///|
 pub fn Process::args(self : Self) -> Array[String] {
-  self.to_js().get("argv").cast()
+  unsafe_cast(self.to_js().get("argv"))
 }
 
 ///|
 pub fn Process::cwd(self : Self) -> String {
-  self.to_js().get("cwd").invoke_self([]).cast()
+  unsafe_cast(self.to_js().get("cwd").invoke_self([]))
 }
 
 ///|
 pub fn Process::chdir(self : Self, path : String) -> Unit {
-  self.to_js().get("chdir").invoke_self([path]).cast()
+  unsafe_cast(self.to_js().get("chdir").invoke_self([path]))
 }
 
 ///|
@@ -40,15 +40,15 @@ pub fn Process::exit(self : Self, code : Int) -> Unit {
 
 ///|
 pub fn Process::env() -> Env {
-  Process::require().to_js().get("env").cast()
+  unsafe_cast(Process::require().to_js().get("env"))
 }
 
 ///|
 pub fn Process::stdio() -> Stream {
-  Process::require().to_js().get("stdio").cast()
+  unsafe_cast(Process::require().to_js().get("stdio"))
 }
 
 ///|
 pub fn Process::stdout() -> Stream {
-  Process::require().to_js().get("stdout").cast()
+  unsafe_cast(Process::require().to_js().get("stdout"))
 }

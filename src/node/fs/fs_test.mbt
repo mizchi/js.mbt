@@ -2,7 +2,7 @@
 /// Synchronous File System API Tests
 
 ///|
-using @js {js}
+using @js {js, unsafe_cast}
 
 ///| File Reading Tests
 
@@ -10,7 +10,7 @@ using @js {js}
 /// Test read_file_sync reads buffer
 test "read_file_sync reads package.json" {
   let content = read_file_sync("package.json")
-  inspect(content.to_js().get("length").cast() > 0, content="true")
+  inspect(unsafe_cast(content.to_js().get("length")) > 0, content="true")
 }
 
 ///|

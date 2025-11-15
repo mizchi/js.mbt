@@ -20,7 +20,7 @@ pub fn ReactDOMClient::create_root(
   container : Val,
 ) -> ReactDOMRoot {
   let v : Val = self |> js
-  v.get("createRoot").invoke_self([container]).cast()
+  unsafe_cast(v.get("createRoot").invoke_self([container]))
 }
 
 ///|

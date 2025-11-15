@@ -17,10 +17,10 @@ pub impl[T] Js for JsIterator[T] with to_js(self) {
 ///|
 pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
   let v : Val = self.invoke("next", []) |> unsafe_cast
-  if v.get("done").cast() {
+  if unsafe_cast(v.get("done")) {
     None
   } else {
-    Some(v.get("value").cast())
+    Some(unsafe_cast(v.get("value")))
   }
 }
 
@@ -58,12 +58,12 @@ pub impl[T] Js for AsyncIterator[T] with to_js(self) {
 
 ///|
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
-  let v : Promise[Val] = self.invoke("next", []).cast()
+  let v : Promise[Val] = unsafe_cast(self.invoke("next", []))
   let v : Val = v.unwrap()
-  if v.get("done").cast() {
+  if unsafe_cast(v.get("done")) {
     None
   } else {
-    Some(v.get("value").cast())
+    Some(unsafe_cast(v.get("value")))
   }
 }
 

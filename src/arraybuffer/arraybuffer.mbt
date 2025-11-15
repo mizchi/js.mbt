@@ -11,13 +11,13 @@ extern "js" fn ffi_new_array_buffer(byte_length : UInt) -> Val =
 
 ///|
 pub fn ArrayBuffer::new(byte_length : UInt) -> ArrayBuffer {
-  ffi_new_array_buffer(byte_length).cast()
+  unsafe_cast(ffi_new_array_buffer(byte_length))
 }
 
 ///|
 #alias(byteLength)
 pub fn ArrayBuffer::byte_length(self : ArrayBuffer) -> UInt {
-  self.get("byteLength").cast()
+  unsafe_cast(self.get("byteLength"))
 }
 
 ///|
@@ -39,7 +39,7 @@ extern "js" fn ffi_is_view(arg : Val) -> Val =
 ///|
 #alias(isView)
 pub fn ArrayBuffer::is_view(arg : Val) -> Bool {
-  ffi_is_view(arg).cast()
+  unsafe_cast(ffi_is_view(arg))
 }
 
 ///|
@@ -55,13 +55,13 @@ extern "js" fn ffi_new_shared_array_buffer(byte_length : UInt) -> Val =
 
 ///|
 pub fn SharedArrayBuffer::new(byte_length : UInt) -> SharedArrayBuffer {
-  ffi_new_shared_array_buffer(byte_length).cast()
+  unsafe_cast(ffi_new_shared_array_buffer(byte_length))
 }
 
 ///|
 #alias(byteLength)
 pub fn SharedArrayBuffer::byte_length(self : SharedArrayBuffer) -> UInt {
-  self.get("byteLength").cast()
+  unsafe_cast(self.get("byteLength"))
 }
 
 ///|
@@ -71,8 +71,8 @@ pub fn SharedArrayBuffer::slice(
   end? : Int,
 ) -> SharedArrayBuffer {
   match end {
-    Some(e) => self.invoke("slice", [begin, e]).cast()
-    None => self.invoke("slice", [begin]).cast()
+    Some(e) => unsafe_cast(self.invoke("slice", [begin, e]))
+    None => unsafe_cast(self.invoke("slice", [begin]))
   }
 }
 
@@ -97,24 +97,24 @@ pub fn DataView::new(
   byte_offset? : UInt = 0,
   byte_length? : UInt,
 ) -> DataView {
-  ffi_new_dataview(buffer.to_js(), byte_offset, byte_length).cast()
+  unsafe_cast(ffi_new_dataview(buffer.to_js(), byte_offset, byte_length))
 }
 
 ///|
 pub fn DataView::buffer(self : DataView) -> ArrayBuffer {
-  self.get("buffer").cast()
+  unsafe_cast(self.get("buffer"))
 }
 
 ///|
 #alias(byteLength)
 pub fn DataView::byte_length(self : DataView) -> UInt {
-  self.get("byteLength").cast()
+  unsafe_cast(self.get("byteLength"))
 }
 
 ///|
 #alias(byteOffset)
 pub fn DataView::byte_offset(self : DataView) -> UInt {
-  self.get("byteOffset").cast()
+  unsafe_cast(self.get("byteOffset"))
 }
 
 ///|
@@ -292,7 +292,7 @@ extern "js" fn ffi_uint8array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Uint8Array::from_size(length : UInt) -> Uint8Array {
-  ffi_uint8array_from_size(length).cast()
+  unsafe_cast(ffi_uint8array_from_size(length))
 }
 
 ///|
@@ -301,7 +301,7 @@ extern "js" fn ffi_uint8array_from_array(array : Val) -> Val =
 
 ///|
 pub fn Uint8Array::from_array(array : Array[UInt]) -> Uint8Array {
-  ffi_uint8array_from_array(@js.from_builtin_array(array)).cast()
+  unsafe_cast(ffi_uint8array_from_array(@js.from_builtin_array(array)))
 }
 
 ///|
@@ -318,7 +318,7 @@ pub fn Uint8Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint8Array {
-  ffi_uint8array_from_buffer(buffer.to_js(), byte_offset, length).cast()
+  unsafe_cast(ffi_uint8array_from_buffer(buffer.to_js(), byte_offset, length))
 }
 
 ///|
@@ -471,7 +471,7 @@ pub impl Js for Uint16Array
 
 ///|
 pub fn Uint16Array::from_size(length : UInt) -> Uint16Array {
-  ffi_uint16array_from_size(length).cast()
+  unsafe_cast(ffi_uint16array_from_size(length))
 }
 
 ///|
@@ -480,7 +480,7 @@ extern "js" fn ffi_uint16array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Uint16Array::from_array(array : Array[UInt]) -> Uint16Array {
-  ffi_uint16array_from_array(@js.from_builtin_array(array)).cast()
+  unsafe_cast(ffi_uint16array_from_array(@js.from_builtin_array(array)))
 }
 
 ///|
@@ -493,7 +493,7 @@ pub fn Uint16Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint16Array {
-  ffi_uint16array_from_buffer(buffer.to_js(), byte_offset, length).cast()
+  unsafe_cast(ffi_uint16array_from_buffer(buffer.to_js(), byte_offset, length))
 }
 
 ///|
@@ -551,7 +551,7 @@ pub impl Js for Uint32Array with to_js(self) -> Val {
 
 ///|
 pub fn Uint32Array::from_size(length : UInt) -> Uint32Array {
-  ffi_uint32array_from_size(length).cast()
+  unsafe_cast(ffi_uint32array_from_size(length))
 }
 
 ///|
@@ -560,7 +560,7 @@ extern "js" fn ffi_uint32array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Uint32Array::from_array(array : Array[UInt]) -> Uint32Array {
-  ffi_uint32array_from_array(@js.from_builtin_array(array)).cast()
+  unsafe_cast(ffi_uint32array_from_array(@js.from_builtin_array(array)))
 }
 
 ///|
@@ -573,7 +573,7 @@ pub fn Uint32Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint32Array {
-  ffi_uint32array_from_buffer(buffer.to_js(), byte_offset, length).cast()
+  unsafe_cast(ffi_uint32array_from_buffer(buffer.to_js(), byte_offset, length))
 }
 
 ///|
@@ -631,7 +631,7 @@ pub impl Js for Int8Array with to_js(self) -> Val {
 
 ///|
 pub fn Int8Array::from_size(length : UInt) -> Int8Array {
-  ffi_int8array_from_size(length).cast()
+  unsafe_cast(ffi_int8array_from_size(length))
 }
 
 ///|
@@ -640,7 +640,7 @@ extern "js" fn ffi_int8array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Int8Array::from_array(array : Array[Int]) -> Int8Array {
-  ffi_int8array_from_array(@js.from_builtin_array(array)).cast()
+  unsafe_cast(ffi_int8array_from_array(@js.from_builtin_array(array)))
 }
 
 ///|
@@ -653,7 +653,7 @@ pub fn Int8Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Int8Array {
-  ffi_int8array_from_buffer(buffer.to_js(), byte_offset, length).cast()
+  unsafe_cast(ffi_int8array_from_buffer(buffer.to_js(), byte_offset, length))
 }
 
 ///|
@@ -711,7 +711,7 @@ pub impl Js for Int16Array with to_js(self) -> Val {
 
 ///|
 pub fn Int16Array::from_size(length : UInt) -> Int16Array {
-  ffi_int16array_from_size(length).cast()
+  unsafe_cast(ffi_int16array_from_size(length))
 }
 
 ///|
@@ -720,7 +720,7 @@ extern "js" fn ffi_int16array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Int16Array::from_array(array : Array[Int]) -> Int16Array {
-  ffi_int16array_from_array(@js.from_builtin_array(array)).cast()
+  unsafe_cast(ffi_int16array_from_array(@js.from_builtin_array(array)))
 }
 
 ///|
@@ -733,7 +733,7 @@ pub fn Int16Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Int16Array {
-  ffi_int16array_from_buffer(buffer.to_js(), byte_offset, length).cast()
+  unsafe_cast(ffi_int16array_from_buffer(buffer.to_js(), byte_offset, length))
 }
 
 ///|
@@ -791,7 +791,7 @@ pub impl Js for Int32Array with to_js(self) -> Val {
 
 ///|
 pub fn Int32Array::from_size(length : UInt) -> Int32Array {
-  ffi_int32array_from_size(length).cast()
+  unsafe_cast(ffi_int32array_from_size(length))
 }
 
 ///|
@@ -800,7 +800,7 @@ extern "js" fn ffi_int32array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Int32Array::from_array(array : Array[Int]) -> Int32Array {
-  ffi_int32array_from_array(@js.from_builtin_array(array)).cast()
+  unsafe_cast(ffi_int32array_from_array(@js.from_builtin_array(array)))
 }
 
 ///|
@@ -813,7 +813,7 @@ pub fn Int32Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Int32Array {
-  ffi_int32array_from_buffer(buffer.to_js(), byte_offset, length).cast()
+  unsafe_cast(ffi_int32array_from_buffer(buffer.to_js(), byte_offset, length))
 }
 
 ///|
@@ -871,7 +871,7 @@ pub impl Js for Float32Array with to_js(self) -> Val {
 
 ///|
 pub fn Float32Array::from_size(length : UInt) -> Float32Array {
-  ffi_float32array_from_size(length).cast()
+  unsafe_cast(ffi_float32array_from_size(length))
 }
 
 ///|
@@ -880,7 +880,7 @@ extern "js" fn ffi_float32array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Float32Array::from_array(array : Array[Double]) -> Float32Array {
-  ffi_float32array_from_array(@js.from_builtin_array(array)).cast()
+  unsafe_cast(ffi_float32array_from_array(@js.from_builtin_array(array)))
 }
 
 ///|
@@ -893,7 +893,7 @@ pub fn Float32Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Float32Array {
-  ffi_float32array_from_buffer(buffer.to_js(), byte_offset, length).cast()
+  unsafe_cast(ffi_float32array_from_buffer(buffer.to_js(), byte_offset, length))
 }
 
 ///|
@@ -937,7 +937,7 @@ pub fn Float32Array::byte_offset(self : Self) -> UInt {
 
 ///|
 pub fn Float32Array::buffer(self : Self) -> ArrayBuffer {
-  self.to_js().get("buffer").cast()
+  unsafe_cast(self.to_js().get("buffer"))
 }
 
 ///|
@@ -951,7 +951,7 @@ pub impl Js for Float64Array with to_js(self) -> Val {
 
 ///|
 pub fn Float64Array::from_size(length : UInt) -> Float64Array {
-  ffi_float64array_from_size(length).cast()
+  unsafe_cast(ffi_float64array_from_size(length))
 }
 
 ///|
@@ -960,7 +960,7 @@ extern "js" fn ffi_float64array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Float64Array::from_array(array : Array[Double]) -> Float64Array {
-  ffi_float64array_from_array(@js.from_builtin_array(array)).cast()
+  unsafe_cast(ffi_float64array_from_array(@js.from_builtin_array(array)))
 }
 
 ///|
@@ -973,7 +973,7 @@ pub fn Float64Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Float64Array {
-  ffi_float64array_from_buffer(buffer.to_js(), byte_offset, length).cast()
+  unsafe_cast(ffi_float64array_from_buffer(buffer.to_js(), byte_offset, length))
 }
 
 ///|
@@ -1000,22 +1000,22 @@ pub extern "js" fn Float64Array::get_at(self : Self, index : UInt) -> Double =
 
 ///|
 pub fn Float64Array::length(self : Self) -> UInt {
-  self.to_js().get("length").cast()
+  unsafe_cast(self.to_js().get("length"))
 }
 
 ///|
 #alias(byteLength)
 pub fn Float64Array::byte_length(self : Self) -> UInt {
-  self.to_js().get("byteLength").cast()
+  unsafe_cast(self.to_js().get("byteLength"))
 }
 
 ///|
 #alias(byteOffset)
 pub fn Float64Array::byte_offset(self : Self) -> UInt {
-  self.to_js().get("byteOffset").cast()
+  unsafe_cast(self.to_js().get("byteOffset"))
 }
 
 ///|
 pub fn Float64Array::buffer(self : Self) -> ArrayBuffer {
-  self.to_js().get("buffer").cast()
+  unsafe_cast(self.to_js().get("buffer"))
 }

@@ -22,13 +22,13 @@ extern "js" fn ffi_new_readable_stream(underlying_source : Val) -> Val =
 ///|
 /// Create a new ReadableStream with an underlying source
 pub fn ReadableStream::new(underlying_source : Val) -> ReadableStream {
-  ffi_new_readable_stream(underlying_source).cast()
+  unsafe_cast(ffi_new_readable_stream(underlying_source))
 }
 
 ///|
 /// Returns whether the stream is locked to a reader
 pub fn ReadableStream::locked(self : Self) -> Bool {
-  self.to_js().get("locked").cast()
+  unsafe_cast(self.to_js().get("locked"))
 }
 
 ///|
@@ -83,8 +83,8 @@ extern "js" fn ffi_array_get(arr : Val, index : Int) -> Val =
 /// Tee this stream into two branches
 pub fn ReadableStream::tee(self : Self) -> (ReadableStream, ReadableStream) {
   let result = self.to_js().invoke("tee", [])
-  let first : ReadableStream = ffi_array_get(result, 0).cast()
-  let second : ReadableStream = ffi_array_get(result, 1).cast()
+  let first : ReadableStream = unsafe_cast(ffi_array_get(result, 0))
+  let second : ReadableStream = unsafe_cast(ffi_array_get(result, 1))
   (first, second)
 }
 
@@ -126,7 +126,7 @@ pub fn ReadableStreamDefaultReader::cancel(
 ///|
 /// Get the closed promise
 pub fn ReadableStreamDefaultReader::closed(self : Self) -> Promise[Unit] {
-  self.to_js().get("closed").cast()
+  unsafe_cast(self.to_js().get("closed"))
 }
 
 ///|
@@ -147,13 +147,13 @@ extern "js" fn ffi_new_writable_stream(underlying_sink : Val) -> Val =
 ///|
 /// Create a new WritableStream with an underlying sink
 pub fn WritableStream::new(underlying_sink : Val) -> WritableStream {
-  ffi_new_writable_stream(underlying_sink).cast()
+  unsafe_cast(ffi_new_writable_stream(underlying_sink))
 }
 
 ///|
 /// Returns whether the stream is locked to a writer
 pub fn WritableStream::locked(self : Self) -> Bool {
-  self.to_js().get("locked").cast()
+  unsafe_cast(self.to_js().get("locked"))
 }
 
 ///|
@@ -225,13 +225,13 @@ pub fn WritableStreamDefaultWriter::release_lock(self : Self) -> Unit {
 ///|
 /// Get the closed promise
 pub fn WritableStreamDefaultWriter::closed(self : Self) -> Promise[Unit] {
-  self.to_js().get("closed").cast()
+  unsafe_cast(self.to_js().get("closed"))
 }
 
 ///|
 /// Get the ready promise
 pub fn WritableStreamDefaultWriter::ready(self : Self) -> Promise[Unit] {
-  self.to_js().get("ready").cast()
+  unsafe_cast(self.to_js().get("ready"))
 }
 
 ///|
@@ -259,7 +259,7 @@ extern "js" fn ffi_new_transform_stream(transformer : Val) -> Val =
 ///|
 /// Create a new TransformStream with a transformer
 pub fn TransformStream::new(transformer : Val) -> TransformStream {
-  ffi_new_transform_stream(transformer).cast()
+  unsafe_cast(ffi_new_transform_stream(transformer))
 }
 
 ///|
@@ -271,17 +271,17 @@ extern "js" fn ffi_new_identity_transform_stream() -> Val =
 /// Create a new identity TransformStream
 #alias(newIdentity)
 pub fn TransformStream::new_identity() -> TransformStream {
-  ffi_new_identity_transform_stream().cast()
+  unsafe_cast(ffi_new_identity_transform_stream())
 }
 
 ///|
 /// Get the readable side of the transform stream
 pub fn TransformStream::readable(self : Self) -> ReadableStream {
-  self.to_js().get("readable").cast()
+  unsafe_cast(self.to_js().get("readable"))
 }
 
 ///|
 /// Get the writable side of the transform stream
 pub fn TransformStream::writable(self : Self) -> WritableStream {
-  self.to_js().get("writable").cast()
+  unsafe_cast(self.to_js().get("writable"))
 }

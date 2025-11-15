@@ -41,19 +41,19 @@ pub fn Blob::new(data : Array[&Js], content_type? : String) -> Blob {
     Some(t) => options.set("type", t)
     None => ()
   }
-  ffi_new_blob(arr, options).cast()
+  unsafe_cast(ffi_new_blob(arr, options))
 }
 
 ///|
 /// Get the size of the Blob in bytes
 pub fn Blob::size(self : Self) -> Int {
-  self.to_js().get("size").cast()
+  unsafe_cast(self.to_js().get("size"))
 }
 
 ///|
 /// Get the MIME type of the Blob
 pub fn Blob::content_type(self : Self) -> String {
-  self.to_js().get("type").cast()
+  unsafe_cast(self.to_js().get("type"))
 }
 
 ///|

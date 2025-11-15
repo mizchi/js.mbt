@@ -22,7 +22,7 @@ using @react_dom {init_react_client}
 using @react_router {init_react_router, router_provider}
 
 ///|
-using @js {log, js}
+using @js {log, js, unsafe_cast}
 
 ///|
 using @async {type Promise, sleep, run_async}
@@ -170,7 +170,7 @@ fn app(props : AppProps) -> @react.Element {
   let (input_text, set_text) = use_state("")
   let on_change = use_callback(
     (e : @dom.ChangeEvent) => {
-      let target : @dom.HTMLTextAreaElement = e.target().to_js().cast()
+      let target : @dom.HTMLTextAreaElement = unsafe_cast(e.target().to_js())
       let value : String = target.value()
       set_text(value)
       log("Textarea changed: \{value}")
@@ -216,7 +216,7 @@ fn app(props : AppProps) -> @react.Element {
           enc_type="application/x-www-form-urlencoded",
           action=form => {
             log(form)
-            let v : String = form.get("username").cast()
+            let v : String = unsafe_cast(form.get("username"))
             log("Username: \{v}")
           },
           [

@@ -22,10 +22,11 @@ pub fn SubtleCrypto::encrypt(
   key : &Js,
   data : &Js,
 ) -> Promise[Val] {
-  self
-  .to_js()
-  .invoke("encrypt", [algorithm.to_js(), key.to_js(), data.to_js()])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .invoke("encrypt", [algorithm.to_js(), key.to_js(), data.to_js()]),
+  )
 }
 
 ///|
@@ -35,10 +36,11 @@ pub fn SubtleCrypto::decrypt(
   key : &Js,
   data : &Js,
 ) -> Promise[Val] {
-  self
-  .to_js()
-  .invoke("decrypt", [algorithm.to_js(), key.to_js(), data.to_js()])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .invoke("decrypt", [algorithm.to_js(), key.to_js(), data.to_js()]),
+  )
 }
 
 ///|
@@ -49,10 +51,9 @@ pub fn SubtleCrypto::sign(
   key : &Js,
   data : &Js,
 ) -> Promise[Val] {
-  self
-  .to_js()
-  .invoke("sign", [algorithm.to_js(), key.to_js(), data.to_js()])
-  .cast()
+  unsafe_cast(
+    self.to_js().invoke("sign", [algorithm.to_js(), key.to_js(), data.to_js()]),
+  )
 }
 
 ///|
@@ -63,15 +64,16 @@ pub fn SubtleCrypto::verify(
   signature : &Js,
   data : &Js,
 ) -> Promise[Bool] {
-  self
-  .to_js()
-  .invoke("verify", [
-    algorithm.to_js(),
-    key.to_js(),
-    signature.to_js(),
-    data.to_js(),
-  ])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .invoke("verify", [
+      algorithm.to_js(),
+      key.to_js(),
+      signature.to_js(),
+      data.to_js(),
+    ]),
+  )
 }
 
 ///|
@@ -93,14 +95,15 @@ pub fn SubtleCrypto::generate_key(
   extractable : Bool,
   key_usages : Array[String],
 ) -> Promise[Val] {
-  self
-  .to_js()
-  .invoke("generateKey", [
-    algorithm.to_js(),
-    extractable |> js,
-    key_usages |> js,
-  ])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .invoke("generateKey", [
+      algorithm.to_js(),
+      extractable |> js,
+      key_usages |> js,
+    ]),
+  )
 }
 
 ///|
@@ -113,16 +116,17 @@ pub fn SubtleCrypto::derive_key(
   extractable : Bool,
   key_usages : Array[String],
 ) -> Promise[Val] {
-  self
-  .to_js()
-  .invoke("deriveKey", [
-    algorithm.to_js(),
-    base_key.to_js(),
-    derived_key_type.to_js(),
-    extractable |> js,
-    key_usages |> js,
-  ])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .invoke("deriveKey", [
+      algorithm.to_js(),
+      base_key.to_js(),
+      derived_key_type.to_js(),
+      extractable |> js,
+      key_usages |> js,
+    ]),
+  )
 }
 
 ///|
@@ -133,10 +137,11 @@ pub fn SubtleCrypto::derive_bits(
   base_key : &Js,
   length : Int,
 ) -> Promise[Val] {
-  self
-  .to_js()
-  .invoke("deriveBits", [algorithm.to_js(), base_key.to_js(), length |> js])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .invoke("deriveBits", [algorithm.to_js(), base_key.to_js(), length |> js]),
+  )
 }
 
 ///|
@@ -150,16 +155,17 @@ pub fn SubtleCrypto::import_key(
   extractable : Bool,
   key_usages : Array[String],
 ) -> Promise[Val] {
-  self
-  .to_js()
-  .invoke("importKey", [
-    format |> js,
-    key_data.to_js(),
-    algorithm.to_js(),
-    extractable |> js,
-    key_usages |> js,
-  ])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .invoke("importKey", [
+      format |> js,
+      key_data.to_js(),
+      algorithm.to_js(),
+      extractable |> js,
+      key_usages |> js,
+    ]),
+  )
 }
 
 ///|
@@ -182,15 +188,16 @@ pub fn SubtleCrypto::wrap_key(
   wrapping_key : &Js,
   wrap_algorithm : &Js,
 ) -> Promise[Val] {
-  self
-  .to_js()
-  .invoke("wrapKey", [
-    format |> js,
-    key.to_js(),
-    wrapping_key.to_js(),
-    wrap_algorithm.to_js(),
-  ])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .invoke("wrapKey", [
+      format |> js,
+      key.to_js(),
+      wrapping_key.to_js(),
+      wrap_algorithm.to_js(),
+    ]),
+  )
 }
 
 ///|
@@ -205,18 +212,19 @@ pub fn SubtleCrypto::unwrap_key(
   extractable : Bool,
   key_usages : Array[String],
 ) -> Promise[Val] {
-  self
-  .to_js()
-  .invoke("unwrapKey", [
-    format |> js,
-    wrapped_key.to_js(),
-    unwrapping_key.to_js(),
-    unwrap_algorithm.to_js(),
-    unwrapped_key_algorithm.to_js(),
-    extractable |> js,
-    key_usages |> js,
-  ])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .invoke("unwrapKey", [
+      format |> js,
+      wrapped_key.to_js(),
+      unwrapping_key.to_js(),
+      unwrap_algorithm.to_js(),
+      unwrapped_key_algorithm.to_js(),
+      extractable |> js,
+      key_usages |> js,
+    ]),
+  )
 }
 
 ///|
@@ -231,7 +239,7 @@ pub impl Js for Crypto with to_js(self) {
 
 ///|
 pub fn Crypto::subtle(self : Self) -> SubtleCrypto {
-  self.to_js().get("subtle").cast()
+  unsafe_cast(self.to_js().get("subtle"))
 }
 
 ///|
@@ -241,5 +249,5 @@ extern "js" fn ffi_get_crypto() -> Val =
 
 ///|
 pub fn get_crypto() -> Crypto {
-  ffi_get_crypto().cast()
+  unsafe_cast(ffi_get_crypto())
 }

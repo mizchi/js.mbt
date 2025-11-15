@@ -1,4 +1,7 @@
 ///|
+using @js {unsafe_cast}
+
+///|
 test "URLPattern constructor with string pattern" {
   let pattern = URLPattern::new("https://example.com/books/:id")
   assert_eq(pattern.protocol(), "https")
@@ -23,7 +26,7 @@ test "URLPattern exec method" {
       let input = get_component_input(pathname_comp)
       assert_eq(input, "/books/123")
       let groups = get_component_groups(pathname_comp)
-      let id : String = groups.get("id").cast()
+      let id : String = unsafe_cast(groups.get("id"))
       assert_eq(id, "123")
     }
     None => fail("Should match the URL")
@@ -60,7 +63,7 @@ test "URLPattern with search parameter" {
     Some(result) => {
       let search_comp = result.search()
       let groups = get_component_groups(search_comp)
-      let query : String = groups.get("query").cast()
+      let query : String = unsafe_cast(groups.get("query"))
       assert_eq(query, "moonbit")
     }
     None => fail("Should match the URL")
@@ -75,7 +78,7 @@ test "URLPattern with hash" {
     Some(result) => {
       let hash_comp = result.hash()
       let groups = get_component_groups(hash_comp)
-      let section : String = groups.get("section").cast()
+      let section : String = unsafe_cast(groups.get("section"))
       assert_eq(section, "intro")
     }
     None => fail("Should match the URL")
@@ -111,8 +114,8 @@ test "URLPattern multiple path parameters" {
     Some(result) => {
       let pathname_comp = result.pathname()
       let groups = get_component_groups(pathname_comp)
-      let book_id : String = groups.get("bookId").cast()
-      let chapter_id : String = groups.get("chapterId").cast()
+      let book_id : String = unsafe_cast(groups.get("bookId"))
+      let chapter_id : String = unsafe_cast(groups.get("chapterId"))
       assert_eq(book_id, "42")
       assert_eq(chapter_id, "3")
     }

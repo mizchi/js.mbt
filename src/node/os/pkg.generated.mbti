@@ -18,7 +18,7 @@ fn endianness() -> String
 
 fn eol() -> String
 
-fn freemem() -> Int64
+fn freemem() -> Double
 
 fn get_priority(Int) -> Int
 
@@ -44,11 +44,11 @@ fn set_priority_with_pid(Int, Int) -> Unit
 
 fn tmpdir() -> String
 
-fn totalmem() -> Int64
+fn totalmem() -> Double
 
 fn type_() -> String
 
-fn uptime() -> Int64
+fn uptime() -> Double
 
 fn userinfo() -> @js.Val
 

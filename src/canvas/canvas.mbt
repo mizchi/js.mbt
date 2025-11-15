@@ -29,12 +29,12 @@ pub impl Js for CanvasRenderingContext2D with to_js(self) -> Val {
 ///|
 /// Context properties
 pub fn CanvasRenderingContext2D::canvas(self : Self) -> HTMLCanvasElement {
-  self.to_js().get("canvas").cast()
+  unsafe_cast(self.to_js().get("canvas"))
 }
 
 ///|
 pub fn CanvasRenderingContext2D::fill_style(self : Self) -> String {
-  self.to_js().get("fillStyle").cast()
+  unsafe_cast(self.to_js().get("fillStyle"))
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn CanvasRenderingContext2D::set_fill_style(
 
 ///|
 pub fn CanvasRenderingContext2D::stroke_style(self : Self) -> String {
-  self.to_js().get("strokeStyle").cast()
+  unsafe_cast(self.to_js().get("strokeStyle"))
 }
 
 ///|
@@ -60,7 +60,7 @@ pub fn CanvasRenderingContext2D::set_stroke_style(
 
 ///|
 pub fn CanvasRenderingContext2D::line_width(self : Self) -> Double {
-  self.to_js().get("lineWidth").cast()
+  unsafe_cast(self.to_js().get("lineWidth"))
 }
 
 ///|
@@ -73,7 +73,7 @@ pub fn CanvasRenderingContext2D::set_line_width(
 
 ///|
 pub fn CanvasRenderingContext2D::font(self : Self) -> String {
-  self.to_js().get("font").cast()
+  unsafe_cast(self.to_js().get("font"))
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn CanvasRenderingContext2D::set_font(self : Self, value : String) -> Unit {
 
 ///|
 pub fn CanvasRenderingContext2D::text_align(self : Self) -> String {
-  self.to_js().get("textAlign").cast()
+  unsafe_cast(self.to_js().get("textAlign"))
 }
 
 ///|
@@ -96,7 +96,7 @@ pub fn CanvasRenderingContext2D::set_text_align(
 
 ///|
 pub fn CanvasRenderingContext2D::text_baseline(self : Self) -> String {
-  self.to_js().get("textBaseline").cast()
+  unsafe_cast(self.to_js().get("textBaseline"))
 }
 
 ///|
@@ -109,7 +109,7 @@ pub fn CanvasRenderingContext2D::set_text_baseline(
 
 ///|
 pub fn CanvasRenderingContext2D::global_alpha(self : Self) -> Double {
-  self.to_js().get("globalAlpha").cast()
+  unsafe_cast(self.to_js().get("globalAlpha"))
 }
 
 ///|
@@ -465,7 +465,7 @@ pub impl Js for TextMetrics with to_js(self) -> Val {
 
 ///|
 pub fn TextMetrics::width(self : Self) -> Double {
-  self.to_js().get("width").cast()
+  unsafe_cast(self.to_js().get("width"))
 }
 
 ///|
@@ -492,7 +492,7 @@ extern "js" fn ffi_new_image_data_with_data(
 
 ///|
 pub fn ImageData::new(width : Int, height : Int) -> ImageData {
-  ffi_new_image_data(width |> js, height |> js).cast()
+  unsafe_cast(ffi_new_image_data(width |> js, height |> js))
 }
 
 ///|
@@ -501,22 +501,24 @@ pub fn ImageData::from_data(
   width : Int,
   height : Int,
 ) -> ImageData {
-  ffi_new_image_data_with_data(data.to_js(), width |> js, height |> js).cast()
+  unsafe_cast(
+    ffi_new_image_data_with_data(data.to_js(), width |> js, height |> js),
+  )
 }
 
 ///|
 pub fn ImageData::width(self : Self) -> Int {
-  self.to_js().get("width").cast()
+  unsafe_cast(self.to_js().get("width"))
 }
 
 ///|
 pub fn ImageData::height(self : Self) -> Int {
-  self.to_js().get("height").cast()
+  unsafe_cast(self.to_js().get("height"))
 }
 
 ///|
 pub fn ImageData::data(self : Self) -> Uint8Array {
-  self.to_js().get("data").cast()
+  unsafe_cast(self.to_js().get("data"))
 }
 
 ///|
@@ -536,12 +538,12 @@ pub impl Transferable for ImageBitmap with to_transferable(self) -> Val {
 
 ///|
 pub fn ImageBitmap::width(self : Self) -> Int {
-  self.to_js().get("width").cast()
+  unsafe_cast(self.to_js().get("width"))
 }
 
 ///|
 pub fn ImageBitmap::height(self : Self) -> Int {
-  self.to_js().get("height").cast()
+  unsafe_cast(self.to_js().get("height"))
 }
 
 ///|
@@ -566,7 +568,7 @@ extern "js" fn ffi_create_image_bitmap_with_rect(
 
 ///|
 pub fn create_image_bitmap(image : &Js) -> Promise[ImageBitmap] {
-  ffi_create_image_bitmap(image.to_js()).cast()
+  unsafe_cast(ffi_create_image_bitmap(image.to_js()))
 }
 
 ///|
@@ -577,13 +579,15 @@ pub fn create_image_bitmap_rect(
   sw : Int,
   sh : Int,
 ) -> Promise[ImageBitmap] {
-  ffi_create_image_bitmap_with_rect(
-    image.to_js(),
-    sx |> js,
-    sy |> js,
-    sw |> js,
-    sh |> js,
-  ).cast()
+  unsafe_cast(
+    ffi_create_image_bitmap_with_rect(
+      image.to_js(),
+      sx |> js,
+      sy |> js,
+      sw |> js,
+      sh |> js,
+    ),
+  )
 }
 
 ///|
@@ -607,12 +611,12 @@ extern "js" fn ffi_new_offscreen_canvas(width : Val, height : Val) -> Val =
 
 ///|
 pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
-  ffi_new_offscreen_canvas(width |> js, height |> js).cast()
+  unsafe_cast(ffi_new_offscreen_canvas(width |> js, height |> js))
 }
 
 ///|
 pub fn OffscreenCanvas::width(self : Self) -> Int {
-  self.to_js().get("width").cast()
+  unsafe_cast(self.to_js().get("width"))
 }
 
 ///|
@@ -622,7 +626,7 @@ pub fn OffscreenCanvas::set_width(self : Self, value : Int) -> Unit {
 
 ///|
 pub fn OffscreenCanvas::height(self : Self) -> Int {
-  self.to_js().get("height").cast()
+  unsafe_cast(self.to_js().get("height"))
 }
 
 ///|

@@ -4,7 +4,7 @@ using @js {type Val, trait Js, global_this, js, unsafe_cast, log}
 ///|
 fn render_to_string(element : Element) -> String {
   let react_dom_server : Val = @node.require("react-dom/server")
-  react_dom_server.get("renderToString").invoke_self([element]).cast()
+  unsafe_cast(react_dom_server.get("renderToString").invoke_self([element]))
 }
 
 ///|
@@ -16,7 +16,7 @@ priv struct TestProps {
 test "create_element" {
   init_react()
   let el = create_element("div", [])
-  assert_eq(el.to_js().get("type").cast(), "div")
+  assert_eq(unsafe_cast(el.to_js().get("type")), "div")
   let with_attrs = create_element(
     "button",
     attributes={
@@ -26,7 +26,7 @@ test "create_element" {
     [],
   )
   assert_eq(
-    with_attrs.to_js().get("props").get("className").cast(),
+    unsafe_cast(with_attrs.to_js().get("props").get("className")),
     "my-button",
   )
   let c1 = (_ : EmptyProps) => {

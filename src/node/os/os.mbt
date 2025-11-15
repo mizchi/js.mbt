@@ -3,7 +3,7 @@
 // https://nodejs.org/api/os.html
 
 ///|
-using @js {type Val, trait Js, js}
+using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
 /// Get os module
@@ -20,7 +20,7 @@ fn os_module() -> Val {
 ///
 /// The CPU architecture: 'arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 's390', 's390x', 'x64'
 pub fn arch() -> String {
-  os_module().invoke("arch", []).cast()
+  unsafe_cast(os_module().invoke("arch", []))
 }
 
 ///|
@@ -30,7 +30,7 @@ pub fn arch() -> String {
 ///
 /// An array of CPU information objects
 pub fn cpus() -> Array[Val] {
-  os_module().invoke("cpus", []).cast()
+  unsafe_cast(os_module().invoke("cpus", []))
 }
 
 ///|
@@ -40,25 +40,25 @@ pub fn cpus() -> Array[Val] {
 ///
 /// 'BE' for big endian or 'LE' for little endian
 pub fn endianness() -> String {
-  os_module().invoke("endianness", []).cast()
+  unsafe_cast(os_module().invoke("endianness", []))
 }
 
 ///|
 /// Returns the amount of free system memory in bytes
 pub fn freemem() -> Double {
-  os_module().invoke("freemem", []).cast()
+  unsafe_cast(os_module().invoke("freemem", []))
 }
 
 ///|
 /// Returns the home directory of the current user
 pub fn homedir() -> String {
-  os_module().invoke("homedir", []).cast()
+  unsafe_cast(os_module().invoke("homedir", []))
 }
 
 ///|
 /// Returns the host name of the operating system
 pub fn hostname() -> String {
-  os_module().invoke("hostname", []).cast()
+  unsafe_cast(os_module().invoke("hostname", []))
 }
 
 ///|
@@ -68,7 +68,7 @@ pub fn hostname() -> String {
 ///
 /// Load averages [1min, 5min, 15min]
 pub fn loadavg() -> Array[Double] {
-  os_module().invoke("loadavg", []).cast()
+  unsafe_cast(os_module().invoke("loadavg", []))
 }
 
 ///|
@@ -88,25 +88,25 @@ pub fn network_interfaces() -> Val {
 ///
 /// Platform: 'aix', 'darwin', 'freebsd', 'linux', 'openbsd', 'sunos', 'win32'
 pub fn platform() -> String {
-  os_module().invoke("platform", []).cast()
+  unsafe_cast(os_module().invoke("platform", []))
 }
 
 ///|
 /// Returns the operating system release
 pub fn release() -> String {
-  os_module().invoke("release", []).cast()
+  unsafe_cast(os_module().invoke("release", []))
 }
 
 ///|
 /// Returns the operating system's default directory for temporary files
 pub fn tmpdir() -> String {
-  os_module().invoke("tmpdir", []).cast()
+  unsafe_cast(os_module().invoke("tmpdir", []))
 }
 
 ///|
 /// Returns the total amount of system memory in bytes
 pub fn totalmem() -> Double {
-  os_module().invoke("totalmem", []).cast()
+  unsafe_cast(os_module().invoke("totalmem", []))
 }
 
 ///|
@@ -116,13 +116,13 @@ pub fn totalmem() -> Double {
 ///
 /// OS name (e.g., 'Linux', 'Darwin', 'Windows_NT')
 pub fn type_() -> String {
-  os_module().invoke("type", []).cast()
+  unsafe_cast(os_module().invoke("type", []))
 }
 
 ///|
 /// Returns the system uptime in seconds
 pub fn uptime() -> Double {
-  os_module().invoke("uptime", []).cast()
+  unsafe_cast(os_module().invoke("uptime", []))
 }
 
 ///|
@@ -150,7 +150,7 @@ pub fn userinfo_with_encoding(encoding : String) -> Val {
 ///|
 /// Returns the operating system version
 pub fn version() -> String {
-  os_module().invoke("version", []).cast()
+  unsafe_cast(os_module().invoke("version", []))
 }
 
 ///| OS Constants
@@ -162,19 +162,19 @@ pub fn version() -> String {
 ///
 /// '\r\n' on Windows, '\n' on POSIX
 pub fn eol() -> String {
-  os_module().get("EOL").cast()
+  unsafe_cast(os_module().get("EOL"))
 }
 
 ///|
 /// Returns the operating system's default priority for processes
 pub fn priority() -> Int {
-  os_module().invoke("getPriority", []).cast()
+  unsafe_cast(os_module().invoke("getPriority", []))
 }
 
 ///|
 /// Returns the priority of the process specified by pid
 pub fn get_priority(pid : Int) -> Int {
-  os_module().invoke("getPriority", [pid]).cast()
+  unsafe_cast(os_module().invoke("getPriority", [pid]))
 }
 
 ///|
@@ -192,7 +192,7 @@ pub fn set_priority_with_pid(pid : Int, priority : Int) -> Unit {
 ///|
 /// Returns the number of logical CPU cores available
 pub fn available_parallelism() -> Int {
-  os_module().invoke("availableParallelism", []).cast()
+  unsafe_cast(os_module().invoke("availableParallelism", []))
 }
 
 ///|
@@ -202,7 +202,7 @@ pub fn available_parallelism() -> Int {
 ///
 /// Machine type (e.g., 'x86_64', 'arm64')
 pub fn machine() -> String {
-  os_module().invoke("machine", []).cast()
+  unsafe_cast(os_module().invoke("machine", []))
 }
 
 ///|
@@ -216,5 +216,5 @@ pub fn machine() -> String {
 ///
 /// Device name or empty string if not a TTY
 pub fn devNull() -> String {
-  os_module().get("devNull").cast()
+  unsafe_cast(os_module().get("devNull"))
 }

@@ -7,7 +7,7 @@
 /// TODO: Rewrite these tests when MoonBit's JS backend supports async tests natively.
 
 ///|
-using @js {type Val, js}
+using @js {type Val, js, unsafe_cast}
 
 ///|
 using @async {run_async}
@@ -129,7 +129,7 @@ test "SubtleCrypto generateKey AES-GCM" {
       let key_usages = ["encrypt", "decrypt"]
       let key_promise = subtle.generate_key(algorithm, true, key_usages)
       let key = key_promise.unwrap()
-      let key_type : String = key.get("type").cast()
+      let key_type : String = unsafe_cast(key.get("type"))
       inspect(key_type, content="secret")
     } catch {
       e => println("Error: \{e}")
@@ -149,7 +149,7 @@ test "SubtleCrypto generateKey HMAC" {
       let key_usages = ["sign", "verify"]
       let key_promise = subtle.generate_key(algorithm, true, key_usages)
       let key = key_promise.unwrap()
-      let key_type : String = key.get("type").cast()
+      let key_type : String = unsafe_cast(key.get("type"))
       inspect(key_type, content="secret")
     } catch {
       e => println("Error: \{e}")
@@ -225,7 +225,7 @@ test "SubtleCrypto exportKey and importKey with AES-GCM" {
       let imported_key = subtle
         .import_key("raw", exported, algorithm, true, key_usages)
         .unwrap()
-      let key_type : String = imported_key.get("type").cast()
+      let key_type : String = unsafe_cast(imported_key.get("type"))
       inspect(key_type, content="secret")
     } catch {
       e => println("Error: \{e}")

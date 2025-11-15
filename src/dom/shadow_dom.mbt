@@ -23,35 +23,35 @@ pub impl NodeImpl for ShadowRoot
 /// Returns the mode of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/mode
 pub fn ShadowRoot::mode(self : Self) -> String {
-  self.to_js().get("mode").cast()
+  unsafe_cast(self.to_js().get("mode"))
 }
 
 ///|
 /// Returns the host element of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/host
 pub fn ShadowRoot::host(self : Self) -> Element {
-  self.to_js().get("host").cast()
+  unsafe_cast(self.to_js().get("host"))
 }
 
 ///|
 /// Returns whether the shadow root delegates focus
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/delegatesFocus
 pub fn ShadowRoot::delegates_focus(self : Self) -> Bool {
-  self.to_js().get("delegatesFocus").cast()
+  unsafe_cast(self.to_js().get("delegatesFocus"))
 }
 
 ///|
 /// Returns the shadow root's slot assignment mode
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/slotAssignment
 pub fn ShadowRoot::slot_assignment(self : Self) -> String {
-  self.to_js().get("slotAssignment").cast()
+  unsafe_cast(self.to_js().get("slotAssignment"))
 }
 
 ///|
 /// Returns the inner HTML of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/innerHTML
 pub fn ShadowRoot::inner_html(self : Self) -> String {
-  self.to_js().get("innerHTML").cast()
+  unsafe_cast(self.to_js().get("innerHTML"))
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn ShadowRoot::elements_from_point(
   y : Double,
 ) -> Array[Element] {
   @js.array_from(self.to_js().invoke("elementsFromPoint", [x, y])).map(fn(v) {
-    v.cast()
+    unsafe_cast(v)
   })
 }
 

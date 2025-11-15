@@ -30,7 +30,7 @@ pub extern "js" fn Navigator::on_line(self : Self) -> Bool =
 /// Returns the browser's language
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/language
 pub fn Navigator::language(self : Self) -> String {
-  self.to_js().get("language").cast()
+  unsafe_cast(self.to_js().get("language"))
 }
 
 ///|
@@ -44,14 +44,14 @@ pub fn Navigator::languages(self : Self) -> Val {
 /// Returns the platform string
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/platform
 pub fn Navigator::platform(self : Self) -> String {
-  self.to_js().get("platform").cast()
+  unsafe_cast(self.to_js().get("platform"))
 }
 
 ///|
 /// Returns the number of logical processors
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/hardwareConcurrency
 pub fn Navigator::hardware_concurrency(self : Self) -> Int {
-  self.to_js().get("hardwareConcurrency").cast()
+  unsafe_cast(self.to_js().get("hardwareConcurrency"))
 }
 
 ///|
@@ -65,21 +65,21 @@ pub fn Navigator::device_memory(self : Self) -> Double? {
 /// Returns the maximum touch points
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/maxTouchPoints
 pub fn Navigator::max_touch_points(self : Self) -> Int {
-  self.to_js().get("maxTouchPoints").cast()
+  unsafe_cast(self.to_js().get("maxTouchPoints"))
 }
 
 ///|
 /// Returns the vendor name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vendor
 pub fn Navigator::vendor(self : Self) -> String {
-  self.to_js().get("vendor").cast()
+  unsafe_cast(self.to_js().get("vendor"))
 }
 
 ///|
 /// Returns whether cookies are enabled
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/cookieEnabled
 pub fn Navigator::cookie_enabled(self : Self) -> Bool {
-  self.to_js().get("cookieEnabled").cast()
+  unsafe_cast(self.to_js().get("cookieEnabled"))
 }
 
 ///|

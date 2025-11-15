@@ -21,91 +21,91 @@ pub extern "js" fn window() -> Window =
 /// Returns the document contained in the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/document
 pub fn Window::document(self : Self) -> Document {
-  self.to_js().get("document").cast()
+  unsafe_cast(self.to_js().get("document"))
 }
 
 ///|
 /// Returns the navigator object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
 pub fn Window::navigator(self : Self) -> Val {
-  self.to_js().get("navigator").cast()
+  unsafe_cast(self.to_js().get("navigator"))
 }
 
 ///|
 /// Returns the location object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/location
 pub fn Window::location(self : Self) -> Val {
-  self.to_js().get("location").cast()
+  unsafe_cast(self.to_js().get("location"))
 }
 
 ///|
 /// Returns the localStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 pub fn Window::local_storage(self : Self) -> Val {
-  self.to_js().get("localStorage").cast()
+  unsafe_cast(self.to_js().get("localStorage"))
 }
 
 ///|
 /// Returns the sessionStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 pub fn Window::session_storage(self : Self) -> Val {
-  self.to_js().get("sessionStorage").cast()
+  unsafe_cast(self.to_js().get("sessionStorage"))
 }
 
 ///|
 /// Returns the console object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/console
 pub fn Window::console(self : Self) -> Val {
-  self.to_js().get("console").cast()
+  unsafe_cast(self.to_js().get("console"))
 }
 
 ///|
 /// Returns the history object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/history
 pub fn Window::history(self : Self) -> Val {
-  self.to_js().get("history").cast()
+  unsafe_cast(self.to_js().get("history"))
 }
 
 ///|
 /// Returns the inner width of the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
 pub fn Window::inner_width(self : Self) -> Int {
-  self.to_js().get("innerWidth").cast()
+  unsafe_cast(self.to_js().get("innerWidth"))
 }
 
 ///|
 /// Returns the inner height of the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
 pub fn Window::inner_height(self : Self) -> Int {
-  self.to_js().get("innerHeight").cast()
+  unsafe_cast(self.to_js().get("innerHeight"))
 }
 
 ///|
 /// Returns the outer width of the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerWidth
 pub fn Window::outer_width(self : Self) -> Int {
-  self.to_js().get("outerWidth").cast()
+  unsafe_cast(self.to_js().get("outerWidth"))
 }
 
 ///|
 /// Returns the outer height of the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerHeight
 pub fn Window::outer_height(self : Self) -> Int {
-  self.to_js().get("outerHeight").cast()
+  unsafe_cast(self.to_js().get("outerHeight"))
 }
 
 ///|
 /// Returns the screen object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/screen
 pub fn Window::screen(self : Self) -> Val {
-  self.to_js().get("screen").cast()
+  unsafe_cast(self.to_js().get("screen"))
 }
 
 ///|
 /// Returns the device pixel ratio
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
 pub fn Window::device_pixel_ratio(self : Self) -> Double {
-  self.to_js().get("devicePixelRatio").cast()
+  unsafe_cast(self.to_js().get("devicePixelRatio"))
 }
 
 ///|
@@ -180,14 +180,14 @@ pub fn Window::scroll_by(self : Self, x : Int, y : Int) -> Unit {
 /// Returns the horizontal scroll position
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
 pub fn Window::scroll_x(self : Self) -> Double {
-  self.to_js().get("scrollX").cast()
+  unsafe_cast(self.to_js().get("scrollX"))
 }
 
 ///|
 /// Returns the vertical scroll position
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY
 pub fn Window::scroll_y(self : Self) -> Double {
-  self.to_js().get("scrollY").cast()
+  unsafe_cast(self.to_js().get("scrollY"))
 }
 
 ///|

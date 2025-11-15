@@ -51,42 +51,42 @@ pub(open) trait NodeImpl: Js + EventTargetImpl {
 
 ///|
 impl NodeImpl with node_type(self) -> Int {
-  self.to_js().get("nodeType").cast()
+  unsafe_cast(self.to_js().get("nodeType"))
 }
 
 ///|
 impl NodeImpl with node_name(self) -> String {
-  self.to_js().get("nodeName").cast()
+  unsafe_cast(self.to_js().get("nodeName"))
 }
 
 ///|
 impl NodeImpl with parent_node(self) -> Node? {
-  self.to_js().get("parentNode").cast()
+  unsafe_cast(self.to_js().get("parentNode"))
 }
 
 ///|
 impl NodeImpl with child_nodes(self) -> Array[Node] {
-  @js.array_from(self.to_js().get("childNodes")).map(fn(v) { v.cast() })
+  @js.array_from(self.to_js().get("childNodes")).map(fn(v) { unsafe_cast(v) })
 }
 
 ///|
 impl NodeImpl with first_child(self) -> Node? {
-  self.to_js().get("firstChild").cast()
+  unsafe_cast(self.to_js().get("firstChild"))
 }
 
 ///|
 impl NodeImpl with last_child(self) -> Node? {
-  self.to_js().get("lastChild").cast()
+  unsafe_cast(self.to_js().get("lastChild"))
 }
 
 ///|
 impl NodeImpl with previous_sibling(self) -> Node? {
-  self.to_js().get("previousSibling").cast()
+  unsafe_cast(self.to_js().get("previousSibling"))
 }
 
 ///|
 impl NodeImpl with next_sibling(self) -> Node? {
-  self.to_js().get("nextSibling").cast()
+  unsafe_cast(self.to_js().get("nextSibling"))
 }
 
 ///|
@@ -103,24 +103,21 @@ impl NodeImpl with remove_child(self, child) -> Node {
 impl NodeImpl with insert_before(self, new_node, ref_node) -> Node {
   match ref_node {
     Some(node) =>
-      self
-      .to_js()
-      .invoke("insertBefore", [new_node.to_js(), node.to_js()])
-      .cast()
+      unsafe_cast(
+        self.to_js().invoke("insertBefore", [new_node.to_js(), node.to_js()]),
+      )
     None =>
-      self
-      .to_js()
-      .invoke("insertBefore", [new_node.to_js(), @js.null_()])
-      .cast()
+      unsafe_cast(
+        self.to_js().invoke("insertBefore", [new_node.to_js(), @js.null_()]),
+      )
   }
 }
 
 ///|
 impl NodeImpl with replace_child(self, new_child, old_child) -> Node {
-  self
-  .to_js()
-  .invoke("replaceChild", [new_child.to_js(), old_child.to_js()])
-  .cast()
+  unsafe_cast(
+    self.to_js().invoke("replaceChild", [new_child.to_js(), old_child.to_js()]),
+  )
 }
 
 ///|
@@ -143,7 +140,7 @@ impl NodeImpl with has_child_nodes(self) -> Bool {
 
 ///|
 impl NodeImpl with text_content(self) -> String {
-  self.to_js().get("textContent").cast()
+  unsafe_cast(self.to_js().get("textContent"))
 }
 
 ///|
@@ -171,12 +168,12 @@ pub(open) trait ElementImpl: Js + NodeImpl {
 
 ///|
 impl ElementImpl with tag_name(self) -> String {
-  self.to_js().get("tagName").cast()
+  unsafe_cast(self.to_js().get("tagName"))
 }
 
 ///|
 impl ElementImpl with class_name(self) -> String {
-  self.to_js().get("className").cast()
+  unsafe_cast(self.to_js().get("className"))
 }
 
 ///|
@@ -186,7 +183,7 @@ impl ElementImpl with set_class_name(self, class_name) -> Unit {
 
 ///|
 impl ElementImpl with id(self) -> String {
-  self.to_js().get("id").cast()
+  unsafe_cast(self.to_js().get("id"))
 }
 
 ///|
@@ -219,7 +216,7 @@ impl ElementImpl with get_elements_by_tag_name(self, tag_name) -> Array[Element]
   @js.array_from(self.to_js().invoke("getElementsByTagName", [tag_name])).map(fn(
     v,
   ) {
-    v.cast()
+    unsafe_cast(v)
   })
 }
 
@@ -230,7 +227,7 @@ impl ElementImpl with get_elements_by_class_name(self, class_name) -> Array[
   @js.array_from(self.to_js().invoke("getElementsByClassName", [class_name])).map(fn(
       v,
     ) {
-      v.cast()
+      unsafe_cast(v)
     },
   )
 }
@@ -243,7 +240,7 @@ impl ElementImpl with query_selector(self, selector) -> Element? {
 ///|
 impl ElementImpl with query_selector_all(self, selector) -> Array[Element] {
   @js.array_from(self.to_js().invoke("querySelectorAll", [selector])).map(
-    _.cast(),
+    unsafe_cast(_),
   )
 }
 
@@ -260,7 +257,7 @@ pub(open) trait HTMLElementImpl: Js + ElementImpl {
 
 ///|
 impl HTMLElementImpl with inner_text(self) -> String {
-  self.to_js().get("innerText").cast()
+  unsafe_cast(self.to_js().get("innerText"))
 }
 
 ///|
@@ -270,7 +267,7 @@ impl HTMLElementImpl with set_inner_text(self, text) -> Unit {
 
 ///|
 impl HTMLElementImpl with inner_html(self) -> String {
-  self.to_js().get("innerHTML").cast()
+  unsafe_cast(self.to_js().get("innerHTML"))
 }
 
 ///|
@@ -280,7 +277,7 @@ impl HTMLElementImpl with set_inner_html(self, html) -> Unit {
 
 ///|
 impl HTMLElementImpl with outer_html(self) -> String {
-  self.to_js().get("outerHTML").cast()
+  unsafe_cast(self.to_js().get("outerHTML"))
 }
 
 ///|
@@ -387,7 +384,7 @@ pub impl HTMLElementImpl for HTMLCanvasElement
 ///|
 /// Canvas properties
 pub fn HTMLCanvasElement::width(self : Self) -> Int {
-  self.to_js().get("width").cast()
+  unsafe_cast(self.to_js().get("width"))
 }
 
 ///|
@@ -397,7 +394,7 @@ pub fn HTMLCanvasElement::set_width(self : Self, value : Int) -> Unit {
 
 ///|
 pub fn HTMLCanvasElement::height(self : Self) -> Int {
-  self.to_js().get("height").cast()
+  unsafe_cast(self.to_js().get("height"))
 }
 
 ///|
@@ -549,7 +546,7 @@ pub impl HTMLElementImpl for HTMLAnchorElement
 /// Returns the href attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/href
 pub fn HTMLAnchorElement::href(self : Self) -> String {
-  self.to_js().get("href").cast()
+  unsafe_cast(self.to_js().get("href"))
 }
 
 ///|
@@ -562,7 +559,7 @@ pub fn HTMLAnchorElement::set_href(self : Self, href : String) -> Unit {
 /// Returns the target attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/target
 pub fn HTMLAnchorElement::target(self : Self) -> String {
-  self.to_js().get("target").cast()
+  unsafe_cast(self.to_js().get("target"))
 }
 
 ///|
@@ -595,7 +592,7 @@ pub impl HTMLElementImpl for HTMLButtonElement
 ///|
 /// Returns whether the button is disabled
 pub fn HTMLButtonElement::disabled(self : Self) -> Bool {
-  self.to_js().get("disabled").cast()
+  unsafe_cast(self.to_js().get("disabled"))
 }
 
 ///|
@@ -628,7 +625,7 @@ pub impl HTMLElementImpl for HTMLInputElement
 ///|
 /// Returns the value of the input
 pub fn HTMLInputElement::value(self : Self) -> String {
-  self.to_js().get("value").cast()
+  unsafe_cast(self.to_js().get("value"))
 }
 
 ///|
@@ -640,7 +637,7 @@ pub fn HTMLInputElement::set_value(self : Self, value : String) -> Unit {
 ///|
 /// Returns the type of the input
 pub fn HTMLInputElement::input_type(self : Self) -> String {
-  self.to_js().get("type").cast()
+  unsafe_cast(self.to_js().get("type"))
 }
 
 ///|
@@ -655,7 +652,7 @@ pub fn HTMLInputElement::set_input_type(
 ///|
 /// Returns whether the input is disabled
 pub fn HTMLInputElement::disabled(self : Self) -> Bool {
-  self.to_js().get("disabled").cast()
+  unsafe_cast(self.to_js().get("disabled"))
 }
 
 ///|
@@ -667,7 +664,7 @@ pub fn HTMLInputElement::set_disabled(self : Self, disabled : Bool) -> Unit {
 ///|
 /// Returns whether the input is checked (for checkbox/radio)
 pub fn HTMLInputElement::checked(self : Self) -> Bool {
-  self.to_js().get("checked").cast()
+  unsafe_cast(self.to_js().get("checked"))
 }
 
 ///|
@@ -679,7 +676,7 @@ pub fn HTMLInputElement::set_checked(self : Self, checked : Bool) -> Unit {
 ///|
 /// Returns the placeholder text
 pub fn HTMLInputElement::placeholder(self : Self) -> String {
-  self.to_js().get("placeholder").cast()
+  unsafe_cast(self.to_js().get("placeholder"))
 }
 
 ///|
@@ -716,7 +713,7 @@ pub impl HTMLElementImpl for HTMLTextAreaElement
 /// Returns the value of the textarea
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/value
 pub fn HTMLTextAreaElement::value(self : Self) -> String {
-  self.to_js().get("value").cast()
+  unsafe_cast(self.to_js().get("value"))
 }
 
 ///|
@@ -729,7 +726,7 @@ pub fn HTMLTextAreaElement::set_value(self : Self, value : String) -> Unit {
 /// Returns the placeholder text
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/placeholder
 pub fn HTMLTextAreaElement::placeholder(self : Self) -> String {
-  self.to_js().get("placeholder").cast()
+  unsafe_cast(self.to_js().get("placeholder"))
 }
 
 ///|
@@ -745,7 +742,7 @@ pub fn HTMLTextAreaElement::set_placeholder(
 /// Returns whether the textarea is disabled
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/disabled
 pub fn HTMLTextAreaElement::disabled(self : Self) -> Bool {
-  self.to_js().get("disabled").cast()
+  unsafe_cast(self.to_js().get("disabled"))
 }
 
 ///|
@@ -758,7 +755,7 @@ pub fn HTMLTextAreaElement::set_disabled(self : Self, disabled : Bool) -> Unit {
 /// Returns the number of visible text lines
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/rows
 pub fn HTMLTextAreaElement::rows(self : Self) -> Int {
-  self.to_js().get("rows").cast()
+  unsafe_cast(self.to_js().get("rows"))
 }
 
 ///|
@@ -771,7 +768,7 @@ pub fn HTMLTextAreaElement::set_rows(self : Self, rows : Int) -> Unit {
 /// Returns the visible width of the text control
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/cols
 pub fn HTMLTextAreaElement::cols(self : Self) -> Int {
-  self.to_js().get("cols").cast()
+  unsafe_cast(self.to_js().get("cols"))
 }
 
 ///|
@@ -784,7 +781,7 @@ pub fn HTMLTextAreaElement::set_cols(self : Self, cols : Int) -> Unit {
 /// Returns whether the textarea is read-only
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/readOnly
 pub fn HTMLTextAreaElement::read_only(self : Self) -> Bool {
-  self.to_js().get("readOnly").cast()
+  unsafe_cast(self.to_js().get("readOnly"))
 }
 
 ///|
@@ -821,7 +818,7 @@ pub impl HTMLElementImpl for HTMLIFrameElement
 /// Returns the src attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/src
 pub fn HTMLIFrameElement::src(self : Self) -> String {
-  self.to_js().get("src").cast()
+  unsafe_cast(self.to_js().get("src"))
 }
 
 ///|
@@ -848,7 +845,7 @@ pub fn HTMLIFrameElement::content_document(self : Self) -> Document? {
 /// Returns the width attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/width
 pub fn HTMLIFrameElement::width(self : Self) -> String {
-  self.to_js().get("width").cast()
+  unsafe_cast(self.to_js().get("width"))
 }
 
 ///|
@@ -861,7 +858,7 @@ pub fn HTMLIFrameElement::set_width(self : Self, width : String) -> Unit {
 /// Returns the height attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/height
 pub fn HTMLIFrameElement::height(self : Self) -> String {
-  self.to_js().get("height").cast()
+  unsafe_cast(self.to_js().get("height"))
 }
 
 ///|
@@ -874,7 +871,7 @@ pub fn HTMLIFrameElement::set_height(self : Self, height : String) -> Unit {
 /// Returns the name attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/name
 pub fn HTMLIFrameElement::name(self : Self) -> String {
-  self.to_js().get("name").cast()
+  unsafe_cast(self.to_js().get("name"))
 }
 
 ///|
@@ -887,7 +884,7 @@ pub fn HTMLIFrameElement::set_name(self : Self, name : String) -> Unit {
 /// Returns the sandbox attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/sandbox
 pub fn HTMLIFrameElement::sandbox(self : Self) -> String {
-  self.to_js().get("sandbox").cast()
+  unsafe_cast(self.to_js().get("sandbox"))
 }
 
 ///|

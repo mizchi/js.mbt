@@ -2,7 +2,7 @@
 /// Node.js v8 API Tests
 
 ///|
-using @js {js}
+using @js {js, unsafe_cast}
 
 ///|
 using @buffer {type Buffer}
@@ -91,7 +91,7 @@ test "serialize and deserialize number" {
   let original = 42 |> js
   let serialized = serialize(original)
   let deserialized = deserialize(serialized)
-  inspect(deserialized.cast() == 42, content="true")
+  inspect(unsafe_cast(deserialized) == 42, content="true")
 }
 
 ///|
@@ -99,7 +99,7 @@ test "serialize and deserialize number" {
 test "serialize and deserialize string" {
   let original = "Hello, V8!" |> js
   let serialized = serialize(original)
-  let deserialized : String = deserialize(serialized).cast()
+  let deserialized : String = unsafe_cast(deserialize(serialized))
   inspect(deserialized == "Hello, V8!", content="true")
 }
 
@@ -111,8 +111,8 @@ test "serialize and deserialize object" {
   obj.set("value", 123)
   let serialized = serialize(obj)
   let deserialized = deserialize(serialized)
-  inspect(deserialized.get("name").cast() == "test", content="true")
-  inspect(deserialized.get("value").cast() == 123, content="true")
+  inspect(unsafe_cast(deserialized.get("name")) == "test", content="true")
+  inspect(unsafe_cast(deserialized.get("value")) == 123, content="true")
 }
 
 ///| Serializer Tests
@@ -125,7 +125,7 @@ test "Serializer write and release" {
   let success = serializer.write_value(42 |> js)
   inspect(success, content="true")
   let buffer = serializer.release_buffer()
-  inspect(buffer.to_js().get("length").cast() > 0, content="true")
+  inspect(unsafe_cast(buffer.to_js().get("length")) > 0, content="true")
 }
 
 ///|
@@ -135,7 +135,7 @@ test "Serializer write_uint32" {
   serializer.write_header()
   serializer.write_uint32(42)
   let buffer = serializer.release_buffer()
-  inspect(buffer.to_js().get("length").cast() > 0, content="true")
+  inspect(unsafe_cast(buffer.to_js().get("length")) > 0, content="true")
 }
 
 ///|
@@ -145,7 +145,7 @@ test "Serializer write_double" {
   serializer.write_header()
   serializer.write_double(3.14)
   let buffer = serializer.release_buffer()
-  inspect(buffer.to_js().get("length").cast() > 0, content="true")
+  inspect(unsafe_cast(buffer.to_js().get("length")) > 0, content="true")
 }
 
 ///| Deserializer Tests
@@ -158,7 +158,7 @@ test "Deserializer read value" {
   let deserializer = Deserializer::new(serialized)
   deserializer.read_header() |> ignore
   let value = deserializer.read_value()
-  inspect(value.cast() == 42, content="true")
+  inspect(unsafe_cast(value) == 42, content="true")
 }
 
 ///|

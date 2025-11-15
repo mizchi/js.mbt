@@ -13,7 +13,7 @@ extern "js" fn ffi_require_module() -> Val =
 /// Get the builtin modules list
 pub fn builtin_modules() -> Array[String] {
   let mod = ffi_require_module()
-  mod.get("builtinModules").cast()
+  unsafe_cast(mod.get("builtinModules"))
 }
 
 ///|
@@ -29,7 +29,7 @@ pub fn create_require(filename : String) -> Val {
 /// Returns true if the module is a built-in Node.js module
 pub fn is_builtin(module_name : String) -> Bool {
   let mod = ffi_require_module()
-  mod.invoke("isBuiltin", [module_name |> js]).cast()
+  unsafe_cast(mod.invoke("isBuiltin", [module_name |> js]))
 }
 
 ///|
@@ -94,7 +94,7 @@ pub fn strip_typescript_types(
   let mod = ffi_require_module()
   match (mode, source_map, source_url) {
     (None, None, None) =>
-      mod.invoke("stripTypeScriptTypes", [code |> js]).cast()
+      unsafe_cast(mod.invoke("stripTypeScriptTypes", [code |> js]))
     _ => {
       let options = @js.new_empty_object()
       match mode {
@@ -109,7 +109,7 @@ pub fn strip_typescript_types(
         Some(url) => options.set("sourceUrl", url)
         None => ()
       }
-      mod.invoke("stripTypeScriptTypes", [code |> js, options]).cast()
+      unsafe_cast(mod.invoke("stripTypeScriptTypes", [code |> js, options]))
     }
   }
 }
@@ -161,31 +161,31 @@ pub impl Js for SourceMapEntry with to_js(self) -> Val {
 ///|
 /// Get the original line number
 pub fn SourceMapEntry::original_line(self : Self) -> Int {
-  self.to_js().get("originalLine").cast()
+  unsafe_cast(self.to_js().get("originalLine"))
 }
 
 ///|
 /// Get the original column number
 pub fn SourceMapEntry::original_column(self : Self) -> Int {
-  self.to_js().get("originalColumn").cast()
+  unsafe_cast(self.to_js().get("originalColumn"))
 }
 
 ///|
 /// Get the original source file name
 pub fn SourceMapEntry::original_source(self : Self) -> String {
-  self.to_js().get("originalSource").cast()
+  unsafe_cast(self.to_js().get("originalSource"))
 }
 
 ///|
 /// Get the generated line number
 pub fn SourceMapEntry::generated_line(self : Self) -> Int {
-  self.to_js().get("generatedLine").cast()
+  unsafe_cast(self.to_js().get("generatedLine"))
 }
 
 ///|
 /// Get the generated column number
 pub fn SourceMapEntry::generated_column(self : Self) -> Int {
-  self.to_js().get("generatedColumn").cast()
+  unsafe_cast(self.to_js().get("generatedColumn"))
 }
 
 ///|

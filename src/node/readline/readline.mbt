@@ -101,10 +101,11 @@ pub fn create_interface(
   if signal is Some(v) {
     opts.set("signal", v)
   }
-  @node.require("node:readline/promises")
-  .get("createInterface")
-  .invoke_self([opts])
-  .cast()
+  unsafe_cast(
+    @node.require("node:readline/promises")
+    .get("createInterface")
+    .invoke_self([opts]),
+  )
 }
 
 ///|
@@ -150,8 +151,8 @@ pub fn Interface::clearScreenDown(self : Self, dir : Int) -> Self {
 /// TODO: impl after async test support
 // test "readline promises interface" {
 //   let rl = create_interface(
-//     input=@node.require("node:process").get("stdin").cast(),
-//     output=@node.require("node:process").get("stdout").cast(),
+//     input=unsafe_cast(@node.require("node:process").get("stdin")),
+//     output=unsafe_cast(@node.require("node:process").get("stdout")),
 //   )
 //   // let x = rl.question("What is your name? ")
 // }

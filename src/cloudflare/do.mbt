@@ -110,7 +110,7 @@ pub fn DurableObjectId::equals(self : Self, other : DurableObjectId) -> Bool {
 ///|
 /// Get ID name (if created from name)
 pub fn DurableObjectId::name(self : Self) -> String? {
-  self.to_js().get("name").cast()
+  unsafe_cast(self.to_js().get("name"))
 }
 
 ///|
@@ -126,13 +126,13 @@ pub impl Js for DurableObjectStub with to_js(self) {
 ///|
 /// Get the ID of this stub
 pub fn DurableObjectStub::id(self : Self) -> DurableObjectId {
-  self.to_js().get("id").cast()
+  unsafe_cast(self.to_js().get("id"))
 }
 
 ///|
 /// Get the name of this stub
 pub fn DurableObjectStub::name(self : Self) -> String? {
-  self.to_js().get("name").cast()
+  unsafe_cast(self.to_js().get("name"))
 }
 
 ///|
@@ -180,13 +180,13 @@ pub impl Js for DurableObjectState with to_js(self) {
 ///|
 /// Get the ID of this Durable Object
 pub fn DurableObjectState::id(self : Self) -> DurableObjectId {
-  self.to_js().get("id").cast()
+  unsafe_cast(self.to_js().get("id"))
 }
 
 ///|
 /// Get the storage interface
 pub fn DurableObjectState::storage(self : Self) -> DurableObjectStorage {
-  self.to_js().get("storage").cast()
+  unsafe_cast(self.to_js().get("storage"))
 }
 
 ///|

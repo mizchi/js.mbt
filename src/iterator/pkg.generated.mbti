@@ -11,15 +11,15 @@ import(
 
 // Types and methods
 #external
-pub(all) type AsyncGenerator[T]
-async fn[T] AsyncGenerator::next(Self[T]) -> T?
-impl[T] @js.Js for AsyncGenerator[T]
+pub(all) type AsyncIterator[T]
+async fn[T] AsyncIterator::next(Self[T]) -> T?
+impl[T] @js.Js for AsyncIterator[T]
 
 #external
-pub(all) type Generator[T]
-fn[T] Generator::iter(Self[T]) -> Iterator[T]
-fn[T] Generator::next(Self[T]) -> T?
-impl[T] @js.Js for Generator[T]
+pub(all) type JsIterator[T]
+fn[T] JsIterator::iter(Self[T]) -> Iterator[T]
+fn[T] JsIterator::next(Self[T]) -> T?
+impl[T] @js.Js for JsIterator[T]
 
 // Type aliases
 

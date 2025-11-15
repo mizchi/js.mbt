@@ -63,26 +63,28 @@ pub fn Ai::generate_text(
   messages~ : Array[ModelMessage],
   // prompt?: String
 ) -> @async.Promise[Val] {
-  self
-  .to_js()
-  .get("generateText")
-  .invoke_self([
-    from_builtin_map({
-      "model": model |> js,
-      "messages": messages.map(_.to_js()) |> js,
-    }),
-  ])
-  .cast()
+  unsafe_cast(
+    self
+    .to_js()
+    .get("generateText")
+    .invoke_self([
+      from_builtin_map({
+        "model": model |> js,
+        "messages": messages.map(_.to_js()) |> js,
+      }),
+    ]),
+  )
 }
 
 ///|
 #skip
 test "ai" {
-  let ai : Ai = @node.require("ai").cast()
-  let model : Model = @node.require("@ai-sdk/anthropic")
+  let ai : Ai = unsafe_cast(@node.require("ai"))
+  let model : Model = unsafe_cast(
+    @node.require("@ai-sdk/anthropic")
     .get("anthropic")
-    .invoke_self(["claude-sonnet-4-20250514"])
-    .cast()
+    .invoke_self(["claude-sonnet-4-20250514"]),
+  )
   let messages : Array[ModelMessage] = [UserMessage(content=Message("hello"))]
   @async.run_async(() => try {
     let result = ai.generate_text(model~, messages~).unwrap()

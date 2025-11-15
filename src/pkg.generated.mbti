@@ -68,10 +68,6 @@ fn symbol_dispose() -> Symbol
 
 fn symbol_iterator() -> Symbol
 
-fn throw_error_message(String, Val?) -> Unit
-
-fn throw_val(Val) -> Unit
-
 fn[T] throwable(() -> T raise?) -> T raise JsError
 
 fn undefined() -> Val
@@ -94,21 +90,19 @@ fn ErrorObject::stack(Self) -> String
 
 #external
 pub type Symbol
-impl Key for Symbol
+impl PropertyKey for Symbol
 
 #external
 pub type Val
-fn[T] Val::cast(Self) -> T
 fn[T] Val::cast_option(Self) -> T?
 fn Val::delete(Self, String) -> Unit
 #alias("_[_]")
-fn Val::get(Self, &Key) -> Self
+fn Val::get(Self, &PropertyKey) -> Self
 fn Val::has_own_property(Self, String) -> Bool
 fn Val::instance_of(Self, Self) -> Bool
-fn Val::invoke(Self, &Key, Array[&Js]) -> Self
 fn Val::invoke_self(Self, Array[&Js]) -> Self
+#deprecated
 fn Val::invoke_self_with_raise(Self, Array[&Js]) -> Self raise
-fn Val::invoke_with_raise(Self, String, Array[&Js]) -> Self raise
 fn Val::is_array(Self) -> Bool
 fn Val::is_nan(Self) -> Bool
 fn Val::is_none(Self) -> Bool
@@ -118,8 +112,8 @@ fn Val::is_some(Self) -> Bool
 fn Val::is_undefined(Self) -> Bool
 fn Val::property_is_enumerable(Self, String) -> Bool
 #alias("_[_]=_")
-fn Val::set(Self, &Key, &Js) -> Unit
-fn Val::set_if_exists(Self, &Key, &Js?) -> Unit
+fn Val::set(Self, &PropertyKey, &Js) -> Unit
+fn[T : Js] Val::set_if_exists(Self, &PropertyKey, T?) -> Unit
 fn Val::type_of(Self) -> String
 impl Js for Val
 impl Eq for Val
@@ -131,6 +125,12 @@ impl ToJson for Val
 // Traits
 pub(open) trait Js {
   to_js(Self) -> Val = _
+  get(Self, &PropertyKey) -> Val = _
+  set(Self, &PropertyKey, &Js) -> Unit = _
+  invoke(Self, &PropertyKey, Array[&Js]) -> Val = _
+  invoke_throwable(Self, &PropertyKey, Array[&Js]) -> Val raise JsError = _
+  invoke_self(Self, Array[&Js]) -> Val = _
+  invoke_self_throwable(Self, Array[&Js]) -> Val raise JsError = _
 }
 impl Js for Bool
 impl Js for Int
@@ -139,13 +139,12 @@ impl Js for Float
 impl Js for Double
 impl Js for String
 impl[T] Js for T?
-impl Js for Array[&Js]
+impl[T : Js] Js for Array[T]
 impl Js for Json
-impl Eq for &Js
 
-pub trait Key {
+pub trait PropertyKey {
   to_key(Self) -> Val
 }
-impl Key for Int
-impl Key for String
+impl PropertyKey for Int
+impl PropertyKey for String
 

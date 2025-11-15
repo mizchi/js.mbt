@@ -20,7 +20,7 @@ pub fn new_mutation_observer(
   callback : (Val, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @js.global_this().get("MutationObserver")
-  @js.new_(ctor, [callback |> js]).cast()
+  unsafe_cast(@js.new_(ctor, [callback |> js]))
 }
 
 ///|
@@ -62,13 +62,13 @@ pub impl Js for MutationRecord with to_js(self) -> Val {
 ///|
 /// Returns the type of mutation
 pub fn MutationRecord::mutation_type(self : Self) -> String {
-  self.to_js().get("type").cast()
+  unsafe_cast(self.to_js().get("type"))
 }
 
 ///|
 /// Returns the target node
 pub fn MutationRecord::target(self : Self) -> Val {
-  self.to_js().get("target").cast()
+  unsafe_cast(self.to_js().get("target"))
 }
 
 ///|
@@ -125,7 +125,7 @@ pub fn new_intersection_observer(
   callback : (Val, IntersectionObserver) -> Unit,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
-  @js.new_(ctor, [callback |> js]).cast()
+  unsafe_cast(@js.new_(ctor, [callback |> js]))
 }
 
 ///|
@@ -135,7 +135,7 @@ pub fn new_intersection_observer_with_options(
   options : Val,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
-  @js.new_(ctor, [callback |> js, options]).cast()
+  unsafe_cast(@js.new_(ctor, [callback |> js, options]))
 }
 
 ///|
@@ -180,7 +180,7 @@ pub impl Js for IntersectionObserverEntry with to_js(self) -> Val {
 ///|
 /// Returns the target element
 pub fn IntersectionObserverEntry::target(self : Self) -> Val {
-  self.to_js().get("target").cast()
+  unsafe_cast(self.to_js().get("target"))
 }
 
 ///|
@@ -204,19 +204,19 @@ pub fn IntersectionObserverEntry::root_bounds(self : Self) -> Element? {
 ///|
 /// Returns the intersection ratio
 pub fn IntersectionObserverEntry::intersection_ratio(self : Self) -> Double {
-  self.to_js().get("intersectionRatio").cast()
+  unsafe_cast(self.to_js().get("intersectionRatio"))
 }
 
 ///|
 /// Returns whether the target is intersecting
 pub fn IntersectionObserverEntry::is_intersecting(self : Self) -> Bool {
-  self.to_js().get("isIntersecting").cast()
+  unsafe_cast(self.to_js().get("isIntersecting"))
 }
 
 ///|
 /// Returns the time of the intersection
 pub fn IntersectionObserverEntry::time(self : Self) -> Double {
-  self.to_js().get("time").cast()
+  unsafe_cast(self.to_js().get("time"))
 }
 
 ///|
@@ -237,7 +237,7 @@ pub fn new_resize_observer(
   callback : (Val, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @js.global_this().get("ResizeObserver")
-  @js.new_(ctor, [callback |> js]).cast()
+  unsafe_cast(@js.new_(ctor, [callback |> js]))
 }
 
 ///|

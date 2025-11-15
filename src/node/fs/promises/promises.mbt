@@ -20,7 +20,7 @@ pub(all) struct FsStat {
 ///|
 pub fn stat(path : String) -> Promise[FsStat] {
   let fs = @node.require("node:fs/promises")
-  fs.invoke("stat", [path]).cast()
+  unsafe_cast(fs.invoke("stat", [path]))
 }
 
 ///|
@@ -30,13 +30,13 @@ pub fn mkdir(path : String, recursive? : Bool) -> Promise[Unit] {
   if recursive is Some(r) {
     options.set("recursive", r)
   }
-  fs.invoke("mkdir", [path, options]).cast()
+  unsafe_cast(fs.invoke("mkdir", [path, options]))
 }
 
 ///|
 pub fn rmdir(path : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.invoke("rmdir", [path]).cast()
+  unsafe_cast(fs.invoke("rmdir", [path]))
 }
 
 ///|
@@ -57,7 +57,7 @@ pub fn glob(
   if exclude_fn is Some(f) {
     opts.set("exclude", f |> js)
   }
-  fs.invoke("glob", [path]).cast()
+  unsafe_cast(fs.invoke("glob", [path]))
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn Dirent::is_directory(self : Self) -> Bool {
 
 ///|
 pub fn Dirent::name(self : Self) -> String {
-  self.to_js().get("name").cast()
+  unsafe_cast(self.to_js().get("name"))
 }
 
 ///|
@@ -105,7 +105,7 @@ pub fn glob_with_filetype(
   if exclude_fn is Some(f) {
     opts.set("exclude", f |> js)
   }
-  fs.invoke("glob", [path]).cast()
+  unsafe_cast(fs.invoke("glob", [path]))
 }
 
 ///|
@@ -116,14 +116,14 @@ pub type FileHandle
 ///|
 pub fn open(path : String) -> Promise[FileHandle] {
   let fs = @node.require("node:fs/promises")
-  fs.invoke("open", [path]).cast()
+  unsafe_cast(fs.invoke("open", [path]))
 }
 
 ///|
 #alias(read_file)
 pub fn readFile(path : String, encoding? : String = "utf-8") -> Promise[String] {
   let fs = @node.require("node:fs/promises")
-  fs.invoke("readFile", [path, encoding]).cast()
+  unsafe_cast(fs.invoke("readFile", [path, encoding]))
 }
 
 ///|
@@ -147,25 +147,25 @@ pub fn writeFile(
     opts.set("signal", s)
   }
   let promise = fs.invoke("writeFile", [path, content, opts])
-  promise.cast()
+  unsafe_cast(promise)
 }
 
 ///|
 pub fn rename(path : String, dest : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.invoke("rename", [path, dest]).cast()
+  unsafe_cast(fs.invoke("rename", [path, dest]))
 }
 
 ///|
 pub fn rm(path : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   let promise = fs.invoke("rm", [path])
-  promise.cast()
+  unsafe_cast(promise)
 }
 
 ///|
 pub fn cp(path : String, dest : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   let promise = fs.invoke("cp", [path, dest])
-  promise.cast()
+  unsafe_cast(promise)
 }

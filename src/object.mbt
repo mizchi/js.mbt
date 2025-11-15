@@ -79,7 +79,7 @@ pub fn object_values(v : Val) -> Array[Val] {
 /// ```
 pub fn object_entries(v : Val) -> Array[(String, Val)] {
   let entries = ffi_object_entries(v)
-  entries.map(entry => (entry.get(0).cast(), entry.get(1).cast()))
+  entries.map(entry => (unsafe_cast(entry.get(0)), unsafe_cast(entry.get(1))))
 }
 
 ///|

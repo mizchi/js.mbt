@@ -26,9 +26,9 @@ test "from struct" {
   } derive(Eq, Show)
   let p = Point::{ x: 10, y: 20 }
   let v : Val = unsafe_cast(p)
-  assert_eq(v.get("x").cast(), 10)
-  assert_eq(v.get("y").cast(), 20)
-  let casted : Point = v.cast()
+  assert_eq(unsafe_cast(v.get("x")), 10)
+  assert_eq(unsafe_cast(v.get("y")), 20)
+  let casted : Point = unsafe_cast(v)
   assert_eq(casted, p)
 }
 
@@ -39,12 +39,12 @@ priv enum TestEnum {
 
 ///|
 fn TestEnum::from_js(v : Val) -> Self raise {
-  let tag : String = v.get("tag").cast()
+  let tag : String = unsafe_cast(v.get("tag"))
   match tag {
     "A" => {
       let value = v.get("value")
       guard value.type_of() == "number"
-      A(value=value.cast())
+      A(value=unsafe_cast(value))
     }
     _ => fail("unknown tag: " + tag)
   }
@@ -66,8 +66,8 @@ impl Js for TestEnum with to_js(self) {
 test "from trait" {
   let v : TestEnum = A(value=123)
   let v : Val = v.to_js()
-  assert_eq(v.get("tag").cast(), "A")
-  assert_eq(v.get("value").cast(), 123)
+  assert_eq(unsafe_cast(v.get("tag")), "A")
+  assert_eq(unsafe_cast(v.get("value")), 123)
   let recovered : TestEnum = TestEnum::from_js(v)
   assert_eq(recovered, A(value=123))
 }
@@ -139,15 +139,15 @@ test "Val get and set" {
   obj.set("name", "Alice")
   obj.set("age", 30)
   obj.set("active", true)
-  assert_eq(obj.get("name").cast(), "Alice")
-  assert_eq(obj.get("age").cast(), 30)
-  assert_eq(obj.get("active").cast(), true)
+  assert_eq(unsafe_cast(obj.get("name")), "Alice")
+  assert_eq(unsafe_cast(obj.get("age")), 30)
+  assert_eq(unsafe_cast(obj.get("active")), true)
 
   // Test nested objects
   let nested = new_empty_object()
   nested.set("inner", "value")
   obj.set("nested", nested)
-  assert_eq(obj.get("nested").get("inner").cast(), "value")
+  assert_eq(unsafe_cast(obj.get("nested").get("inner")), "value")
 }
 
 ///|
@@ -156,7 +156,7 @@ test "Val set_if_exists" {
 
   // Set with Some value
   obj.set_if_exists("key1", Some("value1"))
-  assert_eq(obj.get("key1").cast(), "value1")
+  assert_eq(unsafe_cast(obj.get("key1")), "value1")
 
   // Set with None should not add property
   let v : Int? = None
@@ -185,22 +185,22 @@ test "Val delete and has_own_property" {
 test "Val cast primitive types" {
   // Integer
   let int_val = js(42)
-  let int_result : Int = int_val.cast()
+  let int_result : Int = unsafe_cast(int_val)
   assert_eq(int_result, 42)
 
   // Double
   let double_val = js(3.14)
-  let double_result : Double = double_val.cast()
+  let double_result : Double = unsafe_cast(double_val)
   assert_eq(double_result, 3.14)
 
   // String
   let str_val = js("hello")
-  let str_result : String = str_val.cast()
+  let str_result : String = unsafe_cast(str_val)
   assert_eq(str_result, "hello")
 
   // Boolean
   let bool_val = js(true)
-  let bool_result : Bool = bool_val.cast()
+  let bool_result : Bool = unsafe_cast(bool_val)
   assert_eq(bool_result, true)
 }
 
@@ -266,7 +266,9 @@ test "object_values" {
   let values = object_values(obj)
   assert_eq(values.length(), 3)
   // Values should be present (order not guaranteed)
-  let sum : Int = values[0].cast() + values[1].cast() + values[2].cast()
+  let sum : Int = unsafe_cast(values[0]) +
+    unsafe_cast(values[1]) +
+    unsafe_cast(values[2])
   assert_eq(sum, 6)
 }
 
@@ -282,10 +284,10 @@ test "object_entries" {
   for entry in entries {
     let (key, value) = entry
     if key == "name" {
-      assert_eq(value.cast(), "Alice")
+      assert_eq(unsafe_cast(value), "Alice")
       found_name = true
     } else if key == "age" {
-      assert_eq(value.cast(), 30)
+      assert_eq(unsafe_cast(value), 30)
       found_age = true
     }
   }
@@ -304,9 +306,9 @@ test "object_assign" {
   let result = object_assign(target, source)
 
   // b should be overwritten, c should be added
-  assert_eq(result.get("a").cast(), 1)
-  assert_eq(result.get("b").cast(), 3)
-  assert_eq(result.get("c").cast(), 4)
+  assert_eq(unsafe_cast(result.get("a")), 1)
+  assert_eq(unsafe_cast(result.get("b")), 3)
+  assert_eq(unsafe_cast(result.get("c")), 4)
 }
 
 ///|
@@ -317,9 +319,9 @@ test "from_builtin_map" {
     "active": js(true),
   }
   let obj = from_builtin_map(map)
-  assert_eq(obj.get("name").cast(), "Alice")
-  assert_eq(obj.get("age").cast(), 30)
-  assert_eq(obj.get("active").cast(), true)
+  assert_eq(unsafe_cast(obj.get("name")), "Alice")
+  assert_eq(unsafe_cast(obj.get("age")), 30)
+  assert_eq(unsafe_cast(obj.get("active")), true)
 }
 
 ///|
@@ -327,9 +329,9 @@ test "from_builtin_array" {
   let arr = [1, 2, 3, 4, 5]
   let val = from_builtin_array(arr)
   assert_true(val.is_array())
-  assert_eq(val.get(0).cast(), 1)
-  assert_eq(val.get(2).cast(), 3)
-  assert_eq(val.get(4).cast(), 5)
+  assert_eq(unsafe_cast(val.get(0)), 1)
+  assert_eq(unsafe_cast(val.get(2)), 3)
+  assert_eq(unsafe_cast(val.get(4)), 5)
 }
 
 ///|
@@ -380,13 +382,13 @@ test "new_error" {
   let error = new_error("Test error")
   let error_val : Val = unsafe_cast(error)
   assert_true(error_val.is_object())
-  assert_eq(error_val.get("message").cast(), "Test error")
+  assert_eq(unsafe_cast(error_val.get("message")), "Test error")
 
   // Error with cause
   let cause_error = new_error("Cause error")
   let error_with_cause = new_error("Main error", cause=cause_error)
   let error_with_cause_val : Val = unsafe_cast(error_with_cause)
-  assert_eq(error_with_cause_val.get("message").cast(), "Main error")
+  assert_eq(unsafe_cast(error_with_cause_val.get("message")), "Main error")
 }
 
 ///|
@@ -399,13 +401,13 @@ test "object_create" {
 test "Val with arrays" {
   let arr = from_builtin_array([1, 2, 3])
   assert_true(arr.is_array())
-  assert_eq(arr.get(0).cast(), 1)
-  assert_eq(arr.get(1).cast(), 2)
-  assert_eq(arr.get(2).cast(), 3)
+  assert_eq(unsafe_cast(arr.get(0)), 1)
+  assert_eq(unsafe_cast(arr.get(1)), 2)
+  assert_eq(unsafe_cast(arr.get(2)), 3)
 
   // Modify array
   arr.set(1, 10)
-  assert_eq(arr.get(1).cast(), 10)
+  assert_eq(unsafe_cast(arr.get(1)), 10)
 }
 
 ///|
@@ -421,10 +423,13 @@ test "Val with nested structures" {
   root.set("user", user)
 
   // Access nested values
-  assert_eq(root.get("user").get("name").cast(), "Alice")
-  assert_eq(root.get("user").get("age").cast(), 30)
-  assert_eq(root.get("user").get("address").get("city").cast(), "Tokyo")
-  assert_eq(root.get("user").get("address").get("country").cast(), "Japan")
+  assert_eq(unsafe_cast(root.get("user").get("name")), "Alice")
+  assert_eq(unsafe_cast(root.get("user").get("age")), 30)
+  assert_eq(unsafe_cast(root.get("user").get("address").get("city")), "Tokyo")
+  assert_eq(
+    unsafe_cast(root.get("user").get("address").get("country")),
+    "Japan",
+  )
 }
 
 ///|
@@ -470,19 +475,19 @@ test "Val property_is_enumerable" {
 test "Js trait for primitives" {
   // String
   let str_js : Val = Js::to_js("hello")
-  assert_eq(str_js.cast(), "hello")
+  assert_eq(unsafe_cast(str_js), "hello")
 
   // Int
   let int_js : Val = Js::to_js(42)
-  assert_eq(int_js.cast(), 42)
+  assert_eq(unsafe_cast(int_js), 42)
 
   // Double
   let double_js : Val = Js::to_js(3.14)
-  assert_eq(double_js.cast(), 3.14)
+  assert_eq(unsafe_cast(double_js), 3.14)
 
   // Bool
   let bool_js : Val = Js::to_js(true)
-  assert_eq(bool_js.cast(), true)
+  assert_eq(unsafe_cast(bool_js), true)
 
   // Val (identity)
   let val = js(100)
@@ -495,10 +500,10 @@ test "Js trait for Array[&Js]" {
   let arr : Array[&Js] = ["hello", 42, 3.14, true]
   let val = Js::to_js(arr)
   assert_true(val.is_array())
-  assert_eq(val.get(0).cast(), "hello")
-  assert_eq(val.get(1).cast(), 42)
-  assert_eq(val.get(2).cast(), 3.14)
-  assert_eq(val.get(3).cast(), true)
+  assert_eq(unsafe_cast(val.get(0)), "hello")
+  assert_eq(unsafe_cast(val.get(1)), 42)
+  assert_eq(unsafe_cast(val.get(2)), 3.14)
+  assert_eq(unsafe_cast(val.get(3)), true)
 }
 
 ///|
@@ -506,7 +511,7 @@ test "Js trait for Option" {
   // Some value
   let some_val : Int? = Some(42)
   let some_js = Js::to_js(some_val)
-  assert_eq(some_js.cast(), 42)
+  assert_eq(unsafe_cast(some_js), 42)
 
   // None value - represented as undefined in MoonBit
   let none_val : Int? = None
@@ -518,7 +523,7 @@ test "Js trait for Option" {
 test "Val with empty strings" {
   let obj = new_empty_object()
   obj.set("empty", "")
-  assert_eq(obj.get("empty").cast(), "")
+  assert_eq(unsafe_cast(obj.get("empty")), "")
   assert_true(obj.has_own_property("empty"))
 }
 
@@ -527,8 +532,8 @@ test "Val with zero values" {
   let obj = new_empty_object()
   obj.set("zero", 0)
   obj.set("zero_float", 0.0)
-  assert_eq(obj.get("zero").cast(), 0)
-  assert_eq(obj.get("zero_float").cast(), 0.0)
+  assert_eq(unsafe_cast(obj.get("zero")), 0)
+  assert_eq(unsafe_cast(obj.get("zero_float")), 0.0)
   assert_true(obj.has_own_property("zero"))
 }
 
@@ -536,7 +541,7 @@ test "Val with zero values" {
 test "Val with false boolean" {
   let obj = new_empty_object()
   obj.set("flag", false)
-  assert_eq(obj.get("flag").cast(), false)
+  assert_eq(unsafe_cast(obj.get("flag")), false)
   assert_true(obj.has_own_property("flag"))
 }
 
@@ -544,15 +549,15 @@ test "Val with false boolean" {
 test "Val numeric edge cases" {
   // Large integers
   let large = js(1000000)
-  assert_eq(large.cast(), 1000000)
+  assert_eq(unsafe_cast(large), 1000000)
 
   // Negative numbers
   let negative = js(-42)
-  assert_eq(negative.cast(), -42)
+  assert_eq(unsafe_cast(negative), -42)
 
   // Very small float
   let small = js(0.0001)
-  assert_eq(small.cast(), 0.0001)
+  assert_eq(unsafe_cast(small), 0.0001)
 }
 
 ///|

@@ -1,5 +1,5 @@
 ///|
-using @js {js}
+using @js {js, unsafe_cast}
 
 ///|
 test "Buffer.from_string" {
@@ -161,11 +161,11 @@ test "Buffer toJSON" {
   let json = buf.toJSON()
 
   // JSON representation has type and data fields
-  let json_type : String = json.get("type").cast()
+  let json_type : String = unsafe_cast(json.get("type"))
   assert_eq(json_type, "Buffer")
   // The data field is an array, verify it has the correct length
   let data = json.get("data")
-  let data_length : Int = data.get("length").cast()
+  let data_length : Int = unsafe_cast(data.get("length"))
   assert_eq(data_length, 5)
 }
 

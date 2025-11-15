@@ -14,7 +14,7 @@ extern "js" fn ffi_new_weakmap() -> Val =
 
 ///|
 pub fn[K : Js, V : Js] WeakMap::new() -> WeakMap[K, V] {
-  ffi_new_weakmap().cast()
+  unsafe_cast(ffi_new_weakmap())
 }
 
 ///|
@@ -28,7 +28,7 @@ pub fn[K : Js, V : Js] WeakMap::get(self : WeakMap[K, V], key : K) -> V? {
   if result.is_undefined() {
     None
   } else {
-    Some(result.cast())
+    Some(unsafe_cast(result))
   }
 }
 
@@ -59,7 +59,7 @@ extern "js" fn ffi_new_weakset() -> Val =
 
 ///|
 pub fn[T : Js] WeakSet::new() -> WeakSet[T] {
-  ffi_new_weakset().cast()
+  unsafe_cast(ffi_new_weakset())
 }
 
 ///|
@@ -90,7 +90,7 @@ extern "js" fn ffi_new_weakref(target : Val) -> Val =
 
 ///|
 pub fn[T : Js] WeakRef::new(target : T) -> WeakRef[T] {
-  ffi_new_weakref(target.to_js()).cast()
+  unsafe_cast(ffi_new_weakref(target.to_js()))
 }
 
 ///|
@@ -99,7 +99,7 @@ pub fn[T] WeakRef::deref(self : WeakRef[T]) -> T? {
   if result.is_undefined() {
     None
   } else {
-    Some(result.cast())
+    Some(unsafe_cast(result))
   }
 }
 
@@ -120,7 +120,9 @@ extern "js" fn ffi_new_finalization_registry(
 pub fn[T : Js] FinalizationRegistry::new(
   cleanup_callback : (T) -> Unit,
 ) -> FinalizationRegistry[T] {
-  ffi_new_finalization_registry(fn(val) { cleanup_callback(val.cast()) }).cast()
+  unsafe_cast(
+    ffi_new_finalization_registry(fn(val) { cleanup_callback(unsafe_cast(val)) }),
+  )
 }
 
 ///|

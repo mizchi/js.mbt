@@ -66,12 +66,12 @@ impl Show for ErrorObject with to_string(self) {
 
 ///|
 pub fn ErrorObject::message(self : Self) -> String {
-  self.to_js().get("message").cast()
+  unsafe_cast(self.to_js().get("message"))
 }
 
 ///|
 pub fn ErrorObject::stack(self : Self) -> String {
-  self.to_js().get("stack").cast()
+  unsafe_cast(self.to_js().get("stack"))
 }
 
 ///|

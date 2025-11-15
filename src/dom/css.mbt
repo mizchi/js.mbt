@@ -16,7 +16,7 @@ pub impl Js for CSSStyleDeclaration with to_js(self) -> Val {
 ///|
 /// Returns a CSS style declaration from a Val
 pub fn css_style_from_val(val : Val) -> CSSStyleDeclaration {
-  val.cast()
+  unsafe_cast(val)
 }
 
 ///|
@@ -73,7 +73,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
 ///|
 /// Returns the CSS text
 pub fn CSSStyleDeclaration::css_text(self : Self) -> String {
-  self.to_js().get("cssText").cast()
+  unsafe_cast(self.to_js().get("cssText"))
 }
 
 ///|
@@ -85,7 +85,7 @@ pub fn CSSStyleDeclaration::set_css_text(self : Self, text : String) -> Unit {
 ///|
 /// Returns the number of CSS properties
 pub fn CSSStyleDeclaration::length(self : Self) -> Int {
-  self.to_js().get("length").cast()
+  unsafe_cast(self.to_js().get("length"))
 }
 
 ///|
@@ -108,7 +108,7 @@ pub impl Js for CSSRule with to_js(self) -> Val {
 ///|
 /// Returns the CSS text of the rule
 pub fn CSSRule::css_text(self : Self) -> String {
-  self.to_js().get("cssText").cast()
+  unsafe_cast(self.to_js().get("cssText"))
 }
 
 ///|
@@ -132,7 +132,7 @@ pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
 ///|
 /// Returns the rule type
 pub fn CSSRule::rule_type(self : Self) -> Int {
-  self.to_js().get("type").cast()
+  unsafe_cast(self.to_js().get("type"))
 }
 
 ///|
@@ -186,7 +186,7 @@ pub fn CSSStyleSheet::owner_node(self : Self) -> Val? {
 ///|
 /// Returns whether the stylesheet is disabled
 pub fn CSSStyleSheet::disabled(self : Self) -> Bool {
-  self.to_js().get("disabled").cast()
+  unsafe_cast(self.to_js().get("disabled"))
 }
 
 ///|
@@ -228,19 +228,19 @@ pub impl Js for MediaQueryList with to_js(self) -> Val {
 /// Creates a MediaQueryList from window.matchMedia
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 pub fn match_media(query : String) -> MediaQueryList {
-  @js.global_this().invoke("matchMedia", [query |> js]).cast()
+  unsafe_cast(@js.global_this().invoke("matchMedia", [query |> js]))
 }
 
 ///|
 /// Returns the media query string
 pub fn MediaQueryList::media(self : Self) -> String {
-  self.to_js().get("media").cast()
+  unsafe_cast(self.to_js().get("media"))
 }
 
 ///|
 /// Returns whether the media query matches
 pub fn MediaQueryList::matches(self : Self) -> Bool {
-  self.to_js().get("matches").cast()
+  unsafe_cast(self.to_js().get("matches"))
 }
 
 ///|
@@ -291,7 +291,7 @@ pub fn MediaQueryList::remove_change_listener(
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSS/escape
 pub fn css_escape(value : String) -> String {
   let css_obj = @js.global_this().get("CSS")
-  css_obj.invoke("escape", [value |> js]).cast()
+  unsafe_cast(css_obj.invoke("escape", [value |> js]))
 }
 
 ///|
@@ -299,14 +299,14 @@ pub fn css_escape(value : String) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSS/supports
 pub fn css_supports(property : String, value : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  css_obj.invoke("supports", [property |> js, value |> js]).cast()
+  unsafe_cast(css_obj.invoke("supports", [property |> js, value |> js]))
 }
 
 ///|
 /// Checks if a CSS condition is supported
 pub fn css_supports_condition(condition : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  css_obj.invoke("supports", [condition |> js]).cast()
+  unsafe_cast(css_obj.invoke("supports", [condition |> js]))
 }
 
 ///|
@@ -324,5 +324,5 @@ pub fn Document::create_stylesheet(self : Self) -> CSSStyleSheet {
     Some(head) => head.to_js().invoke("appendChild", [style]) |> ignore
     None => ()
   }
-  style.to_js().get("sheet").cast()
+  unsafe_cast(style.to_js().get("sheet"))
 }

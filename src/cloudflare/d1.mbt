@@ -70,7 +70,7 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[Val]) -> Self {
   }
 
   // Use apply to spread the array as individual arguments
-  bind_fn.invoke("apply", [stmt_js, params_js]).cast()
+  unsafe_cast(bind_fn.invoke("apply", [stmt_js, params_js]))
 }
 
 ///|

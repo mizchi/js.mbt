@@ -181,13 +181,13 @@ pub fn ChildProcess::on_stderr_data(
 ///|
 /// The process identifier (PID)
 pub fn ChildProcess::pid(self : Self) -> Int {
-  self.to_js().get("pid").cast()
+  unsafe_cast(self.to_js().get("pid"))
 }
 
 ///|
 /// Whether the process has been killed
 pub fn ChildProcess::killed(self : Self) -> Bool {
-  self.to_js().get("killed").cast()
+  unsafe_cast(self.to_js().get("killed"))
 }
 
 ///|
@@ -293,8 +293,9 @@ pub fn spawn(
     options.set("signal", sig.to_js())
   }
   match args {
-    Some(a) => cp.invoke("spawn", [command |> js, a |> js, options]).cast()
-    None => cp.invoke("spawn", [command |> js, options]).cast()
+    Some(a) =>
+      unsafe_cast(cp.invoke("spawn", [command |> js, a |> js, options]))
+    None => unsafe_cast(cp.invoke("spawn", [command |> js, options]))
   }
 }
 
@@ -331,7 +332,9 @@ pub fn exec(
   if signal is Some(sig) {
     options.set("signal", sig.to_js())
   }
-  cp.invoke("exec", [command |> js, options, unsafe_cast(callback)]).cast()
+  unsafe_cast(
+    cp.invoke("exec", [command |> js, options, unsafe_cast(callback)]),
+  )
 }
 
 ///|
@@ -364,9 +367,14 @@ pub fn exec_file(
   if signal is Some(sig) {
     options.set("signal", sig.to_js())
   }
-  cp
-  .invoke("execFile", [file |> js, args |> js, options, unsafe_cast(callback)])
-  .cast()
+  unsafe_cast(
+    cp.invoke("execFile", [
+      file |> js,
+      args |> js,
+      options,
+      unsafe_cast(callback),
+    ]),
+  )
 }
 
 ///|
@@ -399,8 +407,9 @@ pub fn fork(
     options.set("signal", sig.to_js())
   }
   match args {
-    Some(a) => cp.invoke("fork", [module_path |> js, a |> js, options]).cast()
-    None => cp.invoke("fork", [module_path |> js, options]).cast()
+    Some(a) =>
+      unsafe_cast(cp.invoke("fork", [module_path |> js, a |> js, options]))
+    None => unsafe_cast(cp.invoke("fork", [module_path |> js, options]))
   }
 }
 
@@ -418,7 +427,7 @@ pub impl Js for SpawnSyncResult with to_js(self) -> Val {
 
 ///|
 pub fn SpawnSyncResult::pid(self : Self) -> Int {
-  self.to_js().get("pid").cast()
+  unsafe_cast(self.to_js().get("pid"))
 }
 
 ///|
@@ -476,8 +485,9 @@ pub fn spawn_sync(
     options.set("input", i)
   }
   match args {
-    Some(a) => cp.invoke("spawnSync", [command |> js, a |> js, options]).cast()
-    None => cp.invoke("spawnSync", [command |> js, options]).cast()
+    Some(a) =>
+      unsafe_cast(cp.invoke("spawnSync", [command |> js, a |> js, options]))
+    None => unsafe_cast(cp.invoke("spawnSync", [command |> js, options]))
   }
 }
 
@@ -519,7 +529,7 @@ pub fn exec_sync(
   } else {
     options.set("encoding", "utf8")
   }
-  cp.invoke("execSync", [command |> js, options]).cast()
+  unsafe_cast(cp.invoke("execSync", [command |> js, options]))
 }
 
 ///|
@@ -558,7 +568,8 @@ pub fn exec_file_sync(
     options.set("encoding", "utf8")
   }
   match args {
-    Some(a) => cp.invoke("execFileSync", [file |> js, a |> js, options]).cast()
-    None => cp.invoke("execFileSync", [file |> js, options]).cast()
+    Some(a) =>
+      unsafe_cast(cp.invoke("execFileSync", [file |> js, a |> js, options]))
+    None => unsafe_cast(cp.invoke("execFileSync", [file |> js, options]))
   }
 }

@@ -22,5 +22,5 @@ pub impl Js for AbortSignal with to_js(self) -> Val {
 
 ///|
 pub fn AbortController::signal(self : Self) -> AbortSignal {
-  self.to_js().get("signal").cast()
+  unsafe_cast(self.to_js().get("signal"))
 }

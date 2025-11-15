@@ -16,7 +16,7 @@ impl Js for NodeTest with to_js(self) -> Val {
 
 ///|
 pub fn NodeTest::require() -> NodeTest {
-  @node.require("node:test").cast()
+  unsafe_cast(@node.require("node:test"))
 }
 
 ///|

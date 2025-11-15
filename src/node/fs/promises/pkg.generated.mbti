@@ -10,9 +10,9 @@ import(
 // Values
 fn cp(String, String) -> @async.Promise[Unit]
 
-fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncGenerator[String]
+fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[String]
 
-fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncGenerator[Dirent]
+fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[Dirent]
 
 fn mkdir(String, recursive? : Bool) -> @async.Promise[Unit]
 

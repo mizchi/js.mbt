@@ -33,12 +33,12 @@ pub impl Js for CloudflareRequest with to_js(self) {
 
 ///|
 pub fn CloudflareRequest::cf(self : CloudflareRequest) -> CloudflareContext {
-  self.to_js().get("cf").cast()
+  unsafe_cast(self.to_js().get("cf"))
 }
 
 ///|
 pub fn CloudflareRequest::url(self : CloudflareRequest) -> String {
-  self.to_js().get("url").cast()
+  unsafe_cast(self.to_js().get("url"))
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn CloudflareContext::wait_until(
   self : CloudflareContext,
   promise : Promise[Unit],
 ) -> Unit {
-  self.to_js().get("waitUntil").invoke_self([promise |> js]).cast()
+  unsafe_cast(self.to_js().get("waitUntil").invoke_self([promise |> js]))
 }
 
 ///|

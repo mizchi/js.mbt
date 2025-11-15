@@ -1,4 +1,7 @@
 ///|
+using @js {unsafe_cast}
+
+///|
 extern "js" fn ffi_request_new(url : String) -> Val =
   #| (url) => new Request(url)
 
@@ -14,28 +17,28 @@ pub impl Js for Request with to_js(self) {
 ///|
 pub fn Request::new(url : String) -> Request {
   let req = ffi_request_new(url)
-  req.cast()
+  unsafe_cast(req)
 }
 
 ///|
 #alias(bodyUsed)
 pub fn Request::body_used(self : Request) -> Bool {
-  self.to_js().get("bodyUsed").cast()
+  unsafe_cast(self.to_js().get("bodyUsed"))
 }
 
 ///|
 pub fn Request::url(self : Request) -> String {
-  self.to_js().get("url").cast()
+  unsafe_cast(self.to_js().get("url"))
 }
 
 ///|
 pub fn Request::method_(self : Request) -> String {
-  self.to_js().get("method").cast()
+  unsafe_cast(self.to_js().get("method"))
 }
 
 ///|
 pub fn Request::credentials(self : Request) -> String {
-  self.to_js().get("credentials").cast()
+  unsafe_cast(self.to_js().get("credentials"))
 }
 
 ///|

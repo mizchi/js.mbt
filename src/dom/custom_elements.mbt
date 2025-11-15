@@ -17,7 +17,7 @@ pub impl Js for CustomElementRegistry with to_js(self) {
 /// Returns the custom elements registry
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements
 pub fn custom_elements() -> CustomElementRegistry {
-  @js.global_this().get("customElements").cast()
+  unsafe_cast(@js.global_this().get("customElements"))
 }
 
 ///|

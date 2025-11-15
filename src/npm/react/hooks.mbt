@@ -9,8 +9,8 @@
 #alias(useState)
 pub fn[T : Js] use_state(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
-  let value : T = result.get(0).cast()
-  let update_fn : (T) -> Unit = result.get(1).cast()
+  let value : T = unsafe_cast(result.get(0))
+  let update_fn : (T) -> Unit = unsafe_cast(result.get(1))
   (value, update_fn)
 }
 
@@ -22,10 +22,10 @@ pub fn[T : Js] use_state(initial : T) -> (T, (T) -> Unit) {
 ///   ...
 /// }
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
-  let initial : () -> Val = (initial |> js).cast()
+  let initial : () -> Val = unsafe_cast(initial |> js)
   let result = ffi_react_use_state_lazy(initial)
-  let value : T = result.get(0).cast()
-  let update_fn : (T) -> Unit = result.get(1).cast()
+  let value : T = unsafe_cast(result.get(0))
+  let update_fn : (T) -> Unit = unsafe_cast(result.get(1))
   (value, update_fn)
 }
 
@@ -42,7 +42,7 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 #alias(useCallback)
 pub fn[F] use_callback(f : F, keys : Array[&Js]) -> F {
   let keys = keys.map(k => k.to_js())
-  ffi_react_use_callback(f |> js, keys).cast()
+  unsafe_cast(ffi_react_use_callback(f |> js, keys))
 }
 
 ///|
@@ -80,7 +80,7 @@ pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
 #alias(useMemo)
 pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
   let f = () => f() |> js
-  let v : T = ffi_react_use_memo(f, keys.map(_.to_js())).cast()
+  let v : T = unsafe_cast(ffi_react_use_memo(f, keys.map(_.to_js())))
   v
 }
 
@@ -94,7 +94,15 @@ pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
 /// ```
 #alias(useRef)
 pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
-  ffi_react_use_ref(if initial is Some(v) { v |> js } else { @js.undefined() }).cast()
+  unsafe_cast(
+    ffi_react_use_ref(
+      if initial is Some(v) {
+        v |> js
+      } else {
+        @js.undefined()
+      },
+    ),
+  )
 }
 
 ///|
@@ -121,7 +129,7 @@ pub fn[T] ReactRef::current(v : ReactRef[T]) -> T? {
   if v.is_undefined() || v.is_null() {
     None
   } else {
-    Some(v.cast())
+    Some(unsafe_cast(v))
   }
 }
 
@@ -138,14 +146,14 @@ pub type Context[T]
 #alias(createContext)
 pub fn[T] create_context(initial : T?) -> Context[T] {
   let v = ffi_react_create_context(initial |> js)
-  v.cast()
+  unsafe_cast(v)
 }
 
 ///|
 /// React.useContext
 #alias(useContext)
 pub fn[T] use_context(ctx : Context[T]) -> T {
-  ffi_react_use_context(ctx |> js).cast()
+  unsafe_cast(ffi_react_use_context(ctx |> js))
 }
 
 ///|
@@ -154,7 +162,7 @@ extern "js" fn ffi_react_use(v : Val) -> Val =
 
 ///|
 pub fn[T] use_(promise : Promise[T]) -> T {
-  ffi_react_use(promise |> js).cast()
+  unsafe_cast(ffi_react_use(promise |> js))
 }
 
 ///|
@@ -176,7 +184,7 @@ pub fn[T, U] use_reducer(
   initial : T,
 ) -> (T, (U) -> Unit) {
   let val = ffi_react_use_reducer(reducer |> js, initial |> js)
-  (val.get(0).cast(), val.get(1).cast())
+  (unsafe_cast(val.get(0)), unsafe_cast(val.get(1)))
 }
 
 ///|
@@ -193,7 +201,7 @@ pub fn[T, U] use_action_state(
 ) -> (T, (U) -> Unit, Bool) {
   let w = @async.promisify2((s, a) => f(s, a))
   let val : Val = use_action_state_internal(w |> js, initial |> js)
-  (val.get(0).cast(), val.get(1).cast(), val.get(2).cast())
+  (unsafe_cast(val.get(0)), unsafe_cast(val.get(1)), unsafe_cast(val.get(2)))
 }
 
 ///|

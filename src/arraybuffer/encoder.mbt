@@ -20,7 +20,7 @@ pub impl Js for TextEncoder with to_js(self) -> Val {
 
 ///|
 pub fn TextEncoder::new() -> TextEncoder {
-  ffi_new_text_encoder().cast()
+  unsafe_cast(ffi_new_text_encoder())
 }
 
 ///|
@@ -38,7 +38,7 @@ pub impl Js for TextDecoder with to_js(self) -> Val {
 
 ///|
 pub fn TextDecoder::new() -> TextDecoder {
-  ffi_new_text_decoder().cast()
+  unsafe_cast(ffi_new_text_decoder())
 }
 
 ///|

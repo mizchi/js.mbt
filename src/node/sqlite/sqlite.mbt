@@ -107,7 +107,7 @@ pub fn DatabaseSync::new(
   }
   let v = @node.require("node:sqlite").get("DatabaseSync")
     |> @js.new_([path, opts])
-  v.cast()
+  unsafe_cast(v)
 }
 
 ///|
@@ -193,7 +193,7 @@ pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
   if result.is_null() {
     None
   } else {
-    Some(result.cast())
+    Some(unsafe_cast(result))
   }
 }
 
@@ -212,13 +212,13 @@ pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
 ///|
 #alias(is_open)
 pub fn DatabaseSync::isOpen(self : Self) -> Bool {
-  self.to_js().get("isOpen").cast()
+  unsafe_cast(self.to_js().get("isOpen"))
 }
 
 ///|
 #alias(is_transaction)
 pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
-  self.to_js().get("isTransaction").cast()
+  unsafe_cast(self.to_js().get("isTransaction"))
 }
 
 ///|
@@ -396,13 +396,13 @@ pub fn StatementSync::iterate(
 ///|
 #alias(expanded_sql)
 pub fn StatementSync::expandedSQL(self : Self) -> String {
-  self.to_js().get("expandedSQL").cast()
+  unsafe_cast(self.to_js().get("expandedSQL"))
 }
 
 ///|
 #alias(source_sql)
 pub fn StatementSync::sourceSQL(self : Self) -> String {
-  self.to_js().get("sourceSQL").cast()
+  unsafe_cast(self.to_js().get("sourceSQL"))
 }
 
 ///|
@@ -481,7 +481,7 @@ pub impl Js for SQLTagStore with to_js(self) {
 
 ///|
 pub fn SQLTagStore::capacity(self : Self) -> Int {
-  self.to_js().get("capacity").cast()
+  unsafe_cast(self.to_js().get("capacity"))
 }
 
 ///|
@@ -496,7 +496,7 @@ pub fn SQLTagStore::clear(self : Self) -> Unit {
 
 ///|
 pub fn SQLTagStore::db(self : Self) -> DatabaseSync {
-  self.to_js().get("db").cast()
+  unsafe_cast(self.to_js().get("db"))
 }
 
 ///|
@@ -540,220 +540,220 @@ fn get_constants() -> Val {
 
 ///|
 pub fn sqlite_changeset_data() -> Int {
-  get_constants().get("SQLITE_CHANGESET_DATA").cast()
+  unsafe_cast(get_constants().get("SQLITE_CHANGESET_DATA"))
 }
 
 ///|
 pub fn sqlite_changeset_notfound() -> Int {
-  get_constants().get("SQLITE_CHANGESET_NOTFOUND").cast()
+  unsafe_cast(get_constants().get("SQLITE_CHANGESET_NOTFOUND"))
 }
 
 ///|
 pub fn sqlite_changeset_conflict() -> Int {
-  get_constants().get("SQLITE_CHANGESET_CONFLICT").cast()
+  unsafe_cast(get_constants().get("SQLITE_CHANGESET_CONFLICT"))
 }
 
 ///|
 pub fn sqlite_changeset_foreign_key() -> Int {
-  get_constants().get("SQLITE_CHANGESET_FOREIGN_KEY").cast()
+  unsafe_cast(get_constants().get("SQLITE_CHANGESET_FOREIGN_KEY"))
 }
 
 ///|
 pub fn sqlite_changeset_omit() -> Int {
-  get_constants().get("SQLITE_CHANGESET_OMIT").cast()
+  unsafe_cast(get_constants().get("SQLITE_CHANGESET_OMIT"))
 }
 
 ///|
 pub fn sqlite_changeset_replace() -> Int {
-  get_constants().get("SQLITE_CHANGESET_REPLACE").cast()
+  unsafe_cast(get_constants().get("SQLITE_CHANGESET_REPLACE"))
 }
 
 ///|
 pub fn sqlite_changeset_abort() -> Int {
-  get_constants().get("SQLITE_CHANGESET_ABORT").cast()
+  unsafe_cast(get_constants().get("SQLITE_CHANGESET_ABORT"))
 }
 
 ///|
 pub fn sqlite_deny() -> Int {
-  get_constants().get("SQLITE_DENY").cast()
+  unsafe_cast(get_constants().get("SQLITE_DENY"))
 }
 
 ///|
 pub fn sqlite_ignore() -> Int {
-  get_constants().get("SQLITE_IGNORE").cast()
+  unsafe_cast(get_constants().get("SQLITE_IGNORE"))
 }
 
 ///|
 pub fn sqlite_ok() -> Int {
-  get_constants().get("SQLITE_OK").cast()
+  unsafe_cast(get_constants().get("SQLITE_OK"))
 }
 
 ///|
 pub fn sqlite_create_index() -> Int {
-  get_constants().get("SQLITE_CREATE_INDEX").cast()
+  unsafe_cast(get_constants().get("SQLITE_CREATE_INDEX"))
 }
 
 ///|
 pub fn sqlite_create_table() -> Int {
-  get_constants().get("SQLITE_CREATE_TABLE").cast()
+  unsafe_cast(get_constants().get("SQLITE_CREATE_TABLE"))
 }
 
 ///|
 pub fn sqlite_create_temp_index() -> Int {
-  get_constants().get("SQLITE_CREATE_TEMP_INDEX").cast()
+  unsafe_cast(get_constants().get("SQLITE_CREATE_TEMP_INDEX"))
 }
 
 ///|
 pub fn sqlite_create_temp_table() -> Int {
-  get_constants().get("SQLITE_CREATE_TEMP_TABLE").cast()
+  unsafe_cast(get_constants().get("SQLITE_CREATE_TEMP_TABLE"))
 }
 
 ///|
 pub fn sqlite_create_temp_trigger() -> Int {
-  get_constants().get("SQLITE_CREATE_TEMP_TRIGGER").cast()
+  unsafe_cast(get_constants().get("SQLITE_CREATE_TEMP_TRIGGER"))
 }
 
 ///|
 pub fn sqlite_create_temp_view() -> Int {
-  get_constants().get("SQLITE_CREATE_TEMP_VIEW").cast()
+  unsafe_cast(get_constants().get("SQLITE_CREATE_TEMP_VIEW"))
 }
 
 ///|
 pub fn sqlite_create_trigger() -> Int {
-  get_constants().get("SQLITE_CREATE_TRIGGER").cast()
+  unsafe_cast(get_constants().get("SQLITE_CREATE_TRIGGER"))
 }
 
 ///|
 pub fn sqlite_create_view() -> Int {
-  get_constants().get("SQLITE_CREATE_VIEW").cast()
+  unsafe_cast(get_constants().get("SQLITE_CREATE_VIEW"))
 }
 
 ///|
 pub fn sqlite_delete() -> Int {
-  get_constants().get("SQLITE_DELETE").cast()
+  unsafe_cast(get_constants().get("SQLITE_DELETE"))
 }
 
 ///|
 pub fn sqlite_drop_index() -> Int {
-  get_constants().get("SQLITE_DROP_INDEX").cast()
+  unsafe_cast(get_constants().get("SQLITE_DROP_INDEX"))
 }
 
 ///|
 pub fn sqlite_drop_table() -> Int {
-  get_constants().get("SQLITE_DROP_TABLE").cast()
+  unsafe_cast(get_constants().get("SQLITE_DROP_TABLE"))
 }
 
 ///|
 pub fn sqlite_drop_temp_index() -> Int {
-  get_constants().get("SQLITE_DROP_TEMP_INDEX").cast()
+  unsafe_cast(get_constants().get("SQLITE_DROP_TEMP_INDEX"))
 }
 
 ///|
 pub fn sqlite_drop_temp_table() -> Int {
-  get_constants().get("SQLITE_DROP_TEMP_TABLE").cast()
+  unsafe_cast(get_constants().get("SQLITE_DROP_TEMP_TABLE"))
 }
 
 ///|
 pub fn sqlite_drop_temp_trigger() -> Int {
-  get_constants().get("SQLITE_DROP_TEMP_TRIGGER").cast()
+  unsafe_cast(get_constants().get("SQLITE_DROP_TEMP_TRIGGER"))
 }
 
 ///|
 pub fn sqlite_drop_temp_view() -> Int {
-  get_constants().get("SQLITE_DROP_TEMP_VIEW").cast()
+  unsafe_cast(get_constants().get("SQLITE_DROP_TEMP_VIEW"))
 }
 
 ///|
 pub fn sqlite_drop_trigger() -> Int {
-  get_constants().get("SQLITE_DROP_TRIGGER").cast()
+  unsafe_cast(get_constants().get("SQLITE_DROP_TRIGGER"))
 }
 
 ///|
 pub fn sqlite_drop_view() -> Int {
-  get_constants().get("SQLITE_DROP_VIEW").cast()
+  unsafe_cast(get_constants().get("SQLITE_DROP_VIEW"))
 }
 
 ///|
 pub fn sqlite_insert() -> Int {
-  get_constants().get("SQLITE_INSERT").cast()
+  unsafe_cast(get_constants().get("SQLITE_INSERT"))
 }
 
 ///|
 pub fn sqlite_pragma() -> Int {
-  get_constants().get("SQLITE_PRAGMA").cast()
+  unsafe_cast(get_constants().get("SQLITE_PRAGMA"))
 }
 
 ///|
 pub fn sqlite_read() -> Int {
-  get_constants().get("SQLITE_READ").cast()
+  unsafe_cast(get_constants().get("SQLITE_READ"))
 }
 
 ///|
 pub fn sqlite_select() -> Int {
-  get_constants().get("SQLITE_SELECT").cast()
+  unsafe_cast(get_constants().get("SQLITE_SELECT"))
 }
 
 ///|
 pub fn sqlite_transaction() -> Int {
-  get_constants().get("SQLITE_TRANSACTION").cast()
+  unsafe_cast(get_constants().get("SQLITE_TRANSACTION"))
 }
 
 ///|
 pub fn sqlite_update() -> Int {
-  get_constants().get("SQLITE_UPDATE").cast()
+  unsafe_cast(get_constants().get("SQLITE_UPDATE"))
 }
 
 ///|
 pub fn sqlite_attach() -> Int {
-  get_constants().get("SQLITE_ATTACH").cast()
+  unsafe_cast(get_constants().get("SQLITE_ATTACH"))
 }
 
 ///|
 pub fn sqlite_detach() -> Int {
-  get_constants().get("SQLITE_DETACH").cast()
+  unsafe_cast(get_constants().get("SQLITE_DETACH"))
 }
 
 ///|
 pub fn sqlite_alter_table() -> Int {
-  get_constants().get("SQLITE_ALTER_TABLE").cast()
+  unsafe_cast(get_constants().get("SQLITE_ALTER_TABLE"))
 }
 
 ///|
 pub fn sqlite_reindex() -> Int {
-  get_constants().get("SQLITE_REINDEX").cast()
+  unsafe_cast(get_constants().get("SQLITE_REINDEX"))
 }
 
 ///|
 pub fn sqlite_analyze() -> Int {
-  get_constants().get("SQLITE_ANALYZE").cast()
+  unsafe_cast(get_constants().get("SQLITE_ANALYZE"))
 }
 
 ///|
 pub fn sqlite_create_vtable() -> Int {
-  get_constants().get("SQLITE_CREATE_VTABLE").cast()
+  unsafe_cast(get_constants().get("SQLITE_CREATE_VTABLE"))
 }
 
 ///|
 pub fn sqlite_drop_vtable() -> Int {
-  get_constants().get("SQLITE_DROP_VTABLE").cast()
+  unsafe_cast(get_constants().get("SQLITE_DROP_VTABLE"))
 }
 
 ///|
 pub fn sqlite_function() -> Int {
-  get_constants().get("SQLITE_FUNCTION").cast()
+  unsafe_cast(get_constants().get("SQLITE_FUNCTION"))
 }
 
 ///|
 pub fn sqlite_savepoint() -> Int {
-  get_constants().get("SQLITE_SAVEPOINT").cast()
+  unsafe_cast(get_constants().get("SQLITE_SAVEPOINT"))
 }
 
 ///|
 pub fn sqlite_copy() -> Int {
-  get_constants().get("SQLITE_COPY").cast()
+  unsafe_cast(get_constants().get("SQLITE_COPY"))
 }
 
 ///|
 pub fn sqlite_recursive() -> Int {
-  get_constants().get("SQLITE_RECURSIVE").cast()
+  unsafe_cast(get_constants().get("SQLITE_RECURSIVE"))
 }

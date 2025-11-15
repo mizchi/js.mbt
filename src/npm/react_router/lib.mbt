@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, js, new_empty_object}
+using @js {type Val, trait Js, js, new_empty_object, unsafe_cast}
 
 ///|
 using @async {type Promise}
@@ -69,10 +69,9 @@ impl Js for Route with to_js(self : Route) {
 
 ///|
 pub fn create_browser_router(routes : Array[Route]) -> Router {
-  let create_browser_router : (Array[Val]) -> Router = @js.global_this()
-    .get("__ReactRouterApi")
-    .get("createBrowserRouter")
-    .cast()
+  let create_browser_router : (Array[Val]) -> Router = unsafe_cast(
+    @js.global_this().get("__ReactRouterApi").get("createBrowserRouter"),
+  )
   create_browser_router(routes.map(_.to_js()))
 }
 

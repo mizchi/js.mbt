@@ -24,7 +24,7 @@ pub impl Js for EventEmitterClass with to_js(self) {
 /// Create a new standalone EventEmitter instance
 pub fn new_event_emitter() -> EventEmitterClass {
   let ee = @node.require("events").get("EventEmitter")
-  @js.new_(ee, []).cast()
+  unsafe_cast(@js.new_(ee, []))
 }
 
 ///|

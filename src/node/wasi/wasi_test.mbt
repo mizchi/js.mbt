@@ -2,7 +2,7 @@
 /// WASI API Tests
 
 ///|
-using @js {js}
+using @js {js, unsafe_cast}
 
 ///| WASI Constructor Tests
 
@@ -190,7 +190,7 @@ test "WASI can run hello-wasi.wasm" {
   // Instantiate WASM module with WASI imports
   let import_obj = wasi.get_import_object()
   let wasm_module = @webassembly.WebAssemblyModule::from_buffer(
-    wasm_bytes.cast(),
+    unsafe_cast(wasm_bytes),
   )
   let instance = @webassembly.WebAssemblyInstance::from_module(
     wasm_module,

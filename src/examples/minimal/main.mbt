@@ -30,7 +30,7 @@ pub impl Show for JsValue with to_string(self) {
   if self == undefined() {
     "undefined"
   } else {
-    self.call_method("toString", []).cast()
+    unsafe_cast(self.call_method("toString", []))
   }
 }
 
@@ -71,12 +71,12 @@ test {
   let v1 : JsValue = js(42)
   let v2 : JsValue = js(42)
   assert_eq(v1, v2)
-  let v : Int = v1.cast()
+  let v : Int = unsafe_cast(v1)
   assert_eq(v, 42)
   let obj = new_object()
   obj.set("key", js("value"))
-  obj.call_method("hasOwnProperty", [js("key")]).cast() |> assert_true
-  let val : String = obj.get("key").cast()
+  unsafe_cast(obj.call_method("hasOwnProperty", [js("key")])) |> assert_true
+  let val : String = unsafe_cast(obj.get("key"))
   assert_eq(val, "value")
 }
 

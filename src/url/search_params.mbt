@@ -66,7 +66,7 @@ pub fn URLSearchParams::sort(self : URLSearchParams) -> Unit {
 
 ///|
 pub fn URLSearchParams::size(self : URLSearchParams) -> Int {
-  self.to_js().get("size").cast()
+  unsafe_cast(self.to_js().get("size"))
 }
 
 ///|

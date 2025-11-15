@@ -28,7 +28,7 @@ pub fn get_heap_statistics() -> Val {
 /// Get heap space statistics
 pub fn get_heap_space_statistics() -> Array[Val] {
   let v8 = ffi_require_v8()
-  v8.invoke("getHeapSpaceStatistics", []).cast()
+  unsafe_cast(v8.invoke("getHeapSpaceStatistics", []))
 }
 
 ///|
@@ -67,8 +67,8 @@ pub fn get_heap_snapshot(
 pub fn write_heap_snapshot(filename? : String) -> String {
   let v8 = ffi_require_v8()
   match filename {
-    Some(f) => v8.invoke("writeHeapSnapshot", [f |> js]).cast()
-    None => v8.invoke("writeHeapSnapshot", []).cast()
+    Some(f) => unsafe_cast(v8.invoke("writeHeapSnapshot", [f |> js]))
+    None => unsafe_cast(v8.invoke("writeHeapSnapshot", []))
   }
 }
 
@@ -86,7 +86,7 @@ pub fn set_heap_snapshot_near_heap_limit(limit : Int) -> Unit {
 /// Serialize a value to a Buffer
 pub fn serialize(value : &Js) -> Buffer {
   let v8 = ffi_require_v8()
-  v8.invoke("serialize", [value.to_js()]).cast()
+  unsafe_cast(v8.invoke("serialize", [value.to_js()]))
 }
 
 ///|
@@ -114,7 +114,7 @@ extern "js" fn ffi_new_serializer() -> Val =
 ///|
 /// Create a new Serializer
 pub fn Serializer::new() -> Serializer {
-  ffi_new_serializer().cast()
+  unsafe_cast(ffi_new_serializer())
 }
 
 ///|
@@ -189,7 +189,7 @@ extern "js" fn ffi_new_deserializer(buffer : Val) -> Val =
 ///|
 /// Create a new Deserializer
 pub fn Deserializer::new(buffer : Buffer) -> Deserializer {
-  ffi_new_deserializer(buffer.to_js()).cast()
+  unsafe_cast(ffi_new_deserializer(buffer.to_js()))
 }
 
 ///|
@@ -253,7 +253,7 @@ pub fn Deserializer::read_raw_bytes(self : Self, length : Int) -> Buffer {
 #alias(cachedDataVersionTag)
 pub fn cached_data_version_tag() -> Int {
   let v8 = ffi_require_v8()
-  v8.invoke("cachedDataVersionTag", []).cast()
+  unsafe_cast(v8.invoke("cachedDataVersionTag", []))
 }
 
 ///|

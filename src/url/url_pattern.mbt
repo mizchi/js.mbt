@@ -32,8 +32,8 @@ pub impl @js.Js for URLPatternResult with to_js(self) -> @js.Val {
 pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
   let pattern_val = @js.js(pattern)
   match base {
-    Some(b) => ffi_new_url_pattern_with_base(pattern_val, b).cast()
-    None => ffi_new_url_pattern(pattern_val).cast()
+    Some(b) => unsafe_cast(ffi_new_url_pattern_with_base(pattern_val, b))
+    None => unsafe_cast(ffi_new_url_pattern(pattern_val))
   }
 }
 
@@ -45,64 +45,64 @@ pub fn URLPattern::newFromObject(
   base? : String,
 ) -> URLPattern {
   match base {
-    Some(b) => ffi_new_url_pattern_with_base(pattern, b).cast()
-    None => ffi_new_url_pattern(pattern).cast()
+    Some(b) => unsafe_cast(ffi_new_url_pattern_with_base(pattern, b))
+    None => unsafe_cast(ffi_new_url_pattern(pattern))
   }
 }
 
 ///|
 /// Get the protocol pattern
 pub fn URLPattern::protocol(self : Self) -> String {
-  self.to_js().get("protocol").cast()
+  unsafe_cast(self.to_js().get("protocol"))
 }
 
 ///|
 /// Get the username pattern
 pub fn URLPattern::username(self : Self) -> String {
-  self.to_js().get("username").cast()
+  unsafe_cast(self.to_js().get("username"))
 }
 
 ///|
 /// Get the password pattern
 pub fn URLPattern::password(self : Self) -> String {
-  self.to_js().get("password").cast()
+  unsafe_cast(self.to_js().get("password"))
 }
 
 ///|
 /// Get the hostname pattern
 pub fn URLPattern::hostname(self : Self) -> String {
-  self.to_js().get("hostname").cast()
+  unsafe_cast(self.to_js().get("hostname"))
 }
 
 ///|
 /// Get the port pattern
 pub fn URLPattern::port(self : Self) -> String {
-  self.to_js().get("port").cast()
+  unsafe_cast(self.to_js().get("port"))
 }
 
 ///|
 /// Get the pathname pattern
 pub fn URLPattern::pathname(self : Self) -> String {
-  self.to_js().get("pathname").cast()
+  unsafe_cast(self.to_js().get("pathname"))
 }
 
 ///|
 /// Get the search pattern
 pub fn URLPattern::search(self : Self) -> String {
-  self.to_js().get("search").cast()
+  unsafe_cast(self.to_js().get("search"))
 }
 
 ///|
 /// Get the hash pattern
 pub fn URLPattern::hash(self : Self) -> String {
-  self.to_js().get("hash").cast()
+  unsafe_cast(self.to_js().get("hash"))
 }
 
 ///|
 /// Check if the pattern has regular expression groups
 #alias(has_regexp_groups)
 pub fn URLPattern::hasRegExpGroups(self : Self) -> Bool {
-  self.to_js().get("hasRegExpGroups").cast()
+  unsafe_cast(self.to_js().get("hasRegExpGroups"))
 }
 
 ///|
@@ -135,7 +135,7 @@ pub fn URLPattern::exec(self : Self, input : String) -> URLPatternResult? {
   if ffi_is_null(result) {
     None
   } else {
-    Some(result.cast())
+    Some(unsafe_cast(result))
   }
 }
 
@@ -154,7 +154,7 @@ pub fn URLPattern::execWithBase(
   if ffi_is_null(result) {
     None
   } else {
-    Some(result.cast())
+    Some(unsafe_cast(result))
   }
 }
 
@@ -224,7 +224,7 @@ pub fn URLPatternResult::hash(self : Self) -> @js.Val {
 ///|
 /// Get the input value from a component result
 pub fn get_component_input(component : @js.Val) -> String {
-  component.get("input").cast()
+  unsafe_cast(component.get("input"))
 }
 
 ///|

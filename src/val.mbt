@@ -12,43 +12,12 @@
 /// # Example
 ///
 /// ```moonbit
-/// let num = js(42)           // MoonBit Int -> Val
-/// let str = js("hello")      // MoonBit String -> Val
-/// let val : Int = num.cast() // Val -> MoonBit Int (unsafe)
+/// let num = js(42)                 // MoonBit Int -> Val
+/// let str = js("hello")            // MoonBit String -> Val
+/// let val : Int = unsafe_cast(num) // Val -> MoonBit Int (unsafe)
 /// ```
 #external
 pub type Val
-
-///|
-/// Unsafely cast a JavaScript value to any MoonBit type.
-///
-/// # Safety
-///
-/// This function performs **no runtime type checking**. It's a direct identity cast
-/// that assumes the Val contains a value compatible with the target type T.
-/// Incorrect usage will lead to undefined behavior or runtime errors.
-///
-/// # Parameters
-///
-/// - `self`: The Val to cast
-///
-/// # Returns
-///
-/// A value of type T (without any validation)
-///
-/// # Example
-///
-/// ```moonbit
-/// let val = js(42)
-/// let num : Int = val.cast()     // Safe: Val contains Int
-/// let str : String = val.cast()  // Unsafe: Val contains Int, not String!
-/// ```
-///
-/// # See Also
-///
-/// - `cast_option` - For safer casting that returns Option
-#deprecated("Use unsafe_cast instead for clarity")
-pub fn[T] Val::cast(self : Val) -> T = "%identity"
 
 ///|
 /// Convert any MoonBit value to a JavaScript Val.
@@ -167,7 +136,7 @@ pub fn[A, B] unsafe_cast(a : A) -> B = "%identity"
 /// handles the null/undefined cases safely.
 pub fn[T] Val::cast_option(self : Val) -> T? {
   if self.is_some() {
-    Some(self.cast())
+    Some(unsafe_cast(self))
   } else {
     None
   }
@@ -292,7 +261,7 @@ test {
   obj.set_if_exists("c", Some(js(42)))
   assert_true(obj.get("a").is_undefined())
 
-  // assert_eq(obj.get("a").cast(), 42)
+  // assert_eq(unsafe_cast(obj.get("a")), 42)
   // obj.set_if_exists("b", None)
   // assert_true(obj.get("b").is_undefined())
   // obj.set_if_exists("c", Some(undefined()))
@@ -318,7 +287,7 @@ test {
 /// ```moonbit
 /// let parse_int = global_this().get("parseInt")
 /// let result = parse_int.invoke_self(["42"])
-/// let num : Int = result.cast()  // 42
+/// let num : Int = unsafe_cast(result)  // 42
 /// ```
 pub fn Val::invoke_self(self : Self, args : Array[&Js]) -> Val {
   ffi_call(self, args.map(_.to_js()))
