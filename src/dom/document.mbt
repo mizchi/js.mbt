@@ -84,21 +84,21 @@ pub fn Document::ready_state(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
 #alias(querySelector)
 pub fn Document::query_selector(self : Self, selector : String) -> Val? {
-  self.to_js().invoke("querySelector", [selector |> js]) |> to_option()
+  self.invoke("querySelector", [selector |> js]) |> to_option()
 }
 
 ///|
 /// Returns all elements matching the selector
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
 pub fn Document::query_selector_all(self : Self, selector : String) -> Val {
-  self.to_js().invoke("querySelectorAll", [selector |> js])
+  self.invoke("querySelectorAll", [selector |> js])
 }
 
 ///|
 /// Returns an element by its ID
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 pub fn Document::get_element_by_id(self : Self, id : String) -> Val? {
-  self.to_js().invoke("getElementById", [id |> js]) |> to_option()
+  self.invoke("getElementById", [id |> js]) |> to_option()
 }
 
 ///|
@@ -108,7 +108,7 @@ pub fn Document::get_elements_by_class_name(
   self : Self,
   class_name : String,
 ) -> Val {
-  self.to_js().invoke("getElementsByClassName", [class_name |> js])
+  self.invoke("getElementsByClassName", [class_name |> js])
 }
 
 ///|
@@ -118,7 +118,7 @@ pub fn Document::get_elements_by_tag_name(
   self : Self,
   tag_name : String,
 ) -> Val {
-  self.to_js().invoke("getElementsByTagName", [tag_name |> js])
+  self.invoke("getElementsByTagName", [tag_name |> js])
 }
 
 ///|
@@ -136,20 +136,20 @@ pub extern "js" fn Document::set_cookie(self : Self, content : String) -> Unit =
 /// Returns the document's body element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/body
 pub fn Document::body(self : Self) -> HTMLBodyElement? {
-  self.to_js().get("body") |> to_option()
+  self.get("body") |> to_option()
 }
 
 ///|
 /// Sets the document's body element
 pub fn Document::set_body(self : Self, body : HTMLBodyElement) -> Unit {
-  self.to_js().set("body", body.to_js()) |> ignore
+  self.set("body", body) |> ignore
 }
 
 ///|
 /// Returns the document's head element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/head
 pub fn Document::head(self : Self) -> HTMLHeadElement? {
-  self.to_js().get("head") |> to_option()
+  self.get("head") |> to_option()
 }
 
 ///|
