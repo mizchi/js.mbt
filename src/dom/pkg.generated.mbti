@@ -250,6 +250,8 @@ impl NodeImpl for HTMLDivElement
 
 #external
 pub type HTMLElement
+fn HTMLElement::attach_shadow(Self, ShadowRootInit) -> ShadowRoot
+fn HTMLElement::shadow_root(Self) -> ShadowRoot?
 impl @js.Js for HTMLElement
 impl ElementImpl for HTMLElement
 impl EventTargetImpl for HTMLElement
@@ -490,6 +492,28 @@ impl @js.Js for ResizeObserverEntry
 pub type ScrollEvent
 impl @js.Js for ScrollEvent
 impl EventImpl for ScrollEvent
+
+#external
+pub type ShadowRoot
+fn ShadowRoot::active_element(Self) -> Element?
+fn ShadowRoot::delegates_focus(Self) -> Bool
+fn ShadowRoot::element_from_point(Self, Double, Double) -> Element?
+fn ShadowRoot::elements_from_point(Self, Double, Double) -> Array[Element]
+fn ShadowRoot::host(Self) -> Element
+fn ShadowRoot::inner_html(Self) -> String
+fn ShadowRoot::mode(Self) -> String
+fn ShadowRoot::set_inner_html(Self, String) -> Unit
+fn ShadowRoot::slot_assignment(Self) -> String
+impl @js.Js for ShadowRoot
+impl EventTargetImpl for ShadowRoot
+impl NodeImpl for ShadowRoot
+
+pub struct ShadowRootInit {
+  mode : String
+  delegates_focus : Bool
+  slot_assignment : String
+}
+fn ShadowRootInit::new(String, delegates_focus? : Bool, slot_assignment? : String) -> Self
 
 #external
 pub type Storage
