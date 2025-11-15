@@ -1,0 +1,9 @@
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/iterator",
+    "mizchi/js/node",
+    "mizchi/js/async",
+    "mizchi/js/node/test"
+  ]
+}

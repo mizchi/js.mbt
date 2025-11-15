@@ -11,7 +11,7 @@ using @buffer {type Buffer}
 using @async {run_async}
 
 ///|
-using @fs {rm}
+using @promises {rm}
 
 ///| Heap Statistics Tests
 

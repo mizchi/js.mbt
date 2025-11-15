@@ -3,56 +3,48 @@ package "mizchi/js/node/fs"
 
 import(
   "mizchi/js"
-  "mizchi/js/async"
-  "mizchi/js/iterator"
+  "mizchi/js/node/buffer"
 )
 
 // Values
-fn cp(String, String) -> @async.Promise[Unit]
+#alias(appendFileSync)
+fn append_file_sync(String, &@js.Js) -> Unit
 
-fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncGenerator[String]
+#alias(copyFileSync)
+fn copy_file_sync(String, String) -> Unit
 
-fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncGenerator[Dirent]
+#alias(existsSync)
+fn exists_sync(String) -> Bool
 
-fn mkdir(String, recursive? : Bool) -> @async.Promise[Unit]
+#alias(mkdirSync)
+fn mkdir_sync(String, recursive? : Bool) -> Unit
 
-fn open(String) -> @async.Promise[FileHandle]
+#alias(readFileSync)
+fn read_file_sync(String) -> @buffer.Buffer
 
-#alias(read_file)
-fn readFile(String, encoding? : String) -> @async.Promise[String]
+fn read_file_sync_string(String, String) -> String
 
-fn rename(String, String) -> @async.Promise[Unit]
+#alias(readdirSync)
+fn readdir_sync(String) -> Array[String]
 
-fn rm(String) -> @async.Promise[Unit]
+#alias(renameSync)
+fn rename_sync(String, String) -> Unit
 
-fn rmdir(String) -> @async.Promise[Unit]
+#alias(rmdirSync)
+fn rmdir_sync(String, recursive? : Bool) -> Unit
 
-fn stat(String) -> @async.Promise[FsStat]
+#alias(statSync)
+fn stat_sync(String) -> @js.Val
 
-#alias(write_file)
-fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @async.AbortSignal) -> @async.Promise[Unit]
+#alias(unlinkSync)
+fn unlink_sync(String) -> Unit
+
+#alias(writeFileSync)
+fn write_file_sync(String, &@js.Js) -> Unit
 
 // Errors
 
 // Types and methods
-#external
-pub type Dirent
-#alias(isDirectory)
-fn Dirent::is_directory(Self) -> Bool
-#alias(isFile)
-fn Dirent::is_file(Self) -> Bool
-fn Dirent::name(Self) -> String
-impl @js.Js for Dirent
-
-#external
-pub type FileHandle
-
-pub(all) struct FsStat {
-  isFile : () -> Bool
-  isDirectory : () -> Bool
-  size : Int
-  mtime_ms : Float
-}
 
 // Type aliases
 

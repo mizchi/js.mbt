@@ -6,6 +6,6 @@
     "mizchi/js/arraybuffer",
     "mizchi/js/node/buffer",
     "mizchi/js/async",
-    "mizchi/js/node/fs"
+    "mizchi/js/node/fs/promises"
   ]
 }

@@ -1,0 +1,60 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/fs/promises"
+
+import(
+  "mizchi/js"
+  "mizchi/js/async"
+  "mizchi/js/iterator"
+)
+
+// Values
+fn cp(String, String) -> @async.Promise[Unit]
+
+fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncGenerator[String]
+
+fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncGenerator[Dirent]
+
+fn mkdir(String, recursive? : Bool) -> @async.Promise[Unit]
+
+fn open(String) -> @async.Promise[FileHandle]
+
+#alias(read_file)
+fn readFile(String, encoding? : String) -> @async.Promise[String]
+
+fn rename(String, String) -> @async.Promise[Unit]
+
+fn rm(String) -> @async.Promise[Unit]
+
+fn rmdir(String) -> @async.Promise[Unit]
+
+fn stat(String) -> @async.Promise[FsStat]
+
+#alias(write_file)
+fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @async.AbortSignal) -> @async.Promise[Unit]
+
+// Errors
+
+// Types and methods
+#external
+pub type Dirent
+#alias(isDirectory)
+fn Dirent::is_directory(Self) -> Bool
+#alias(isFile)
+fn Dirent::is_file(Self) -> Bool
+fn Dirent::name(Self) -> String
+impl @js.Js for Dirent
+
+#external
+pub type FileHandle
+
+pub(all) struct FsStat {
+  isFile : () -> Bool
+  isDirectory : () -> Bool
+  size : Int
+  mtime_ms : Float
+}
+
+// Type aliases
+
+// Traits
+
