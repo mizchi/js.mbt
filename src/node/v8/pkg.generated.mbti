@@ -1,0 +1,84 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/v8"
+
+import(
+  "mizchi/js"
+  "mizchi/js/arraybuffer"
+  "mizchi/js/node/buffer"
+)
+
+// Values
+#alias(cachedDataVersionTag)
+fn cached_data_version_tag() -> Int
+
+fn deserialize(@buffer.Buffer) -> @js.Val
+
+fn get_heap_code_statistics() -> @js.Val
+
+fn get_heap_snapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @js.Val
+
+fn get_heap_space_statistics() -> Array[@js.Val]
+
+fn get_heap_statistics() -> @js.Val
+
+fn serialize(&@js.Js) -> @buffer.Buffer
+
+#alias(setFlagsFromString)
+fn set_flags_from_string(String) -> Unit
+
+#alias(setHeapSnapshotNearHeapLimit)
+fn set_heap_snapshot_near_heap_limit(Int) -> Unit
+
+#alias(stopCoverage)
+fn stop_coverage() -> Unit
+
+#alias(takeCoverage)
+fn take_coverage() -> Unit
+
+fn write_heap_snapshot(filename? : String) -> String
+
+// Errors
+
+// Types and methods
+#external
+pub type Deserializer
+#alias(getWireFormatVersion)
+fn Deserializer::get_wire_format_version(Self) -> Int
+fn Deserializer::new(@buffer.Buffer) -> Self
+#alias(readDouble)
+fn Deserializer::read_double(Self) -> Double
+#alias(readHeader)
+fn Deserializer::read_header(Self) -> Bool
+#alias(readRawBytes)
+fn Deserializer::read_raw_bytes(Self, Int) -> @buffer.Buffer
+#alias(readUint32)
+fn Deserializer::read_uint32(Self) -> Int
+#alias(readValue)
+fn Deserializer::read_value(Self) -> @js.Val
+#alias(transferArrayBuffer)
+fn Deserializer::transfer_array_buffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
+impl @js.Js for Deserializer
+
+#external
+pub type Serializer
+fn Serializer::new() -> Self
+#alias(releaseBuffer)
+fn Serializer::release_buffer(Self) -> @buffer.Buffer
+#alias(transferArrayBuffer)
+fn Serializer::transfer_array_buffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
+#alias(writeDouble)
+fn Serializer::write_double(Self, Double) -> Unit
+#alias(writeHeader)
+fn Serializer::write_header(Self) -> Unit
+#alias(writeRawBytes)
+fn Serializer::write_raw_bytes(Self, &@js.Js) -> Unit
+#alias(writeUint32)
+fn Serializer::write_uint32(Self, Int) -> Unit
+#alias(writeValue)
+fn Serializer::write_value(Self, &@js.Js) -> Bool
+impl @js.Js for Serializer
+
+// Type aliases
+
+// Traits
+

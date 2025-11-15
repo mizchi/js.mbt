@@ -1,0 +1,11 @@
+{
+  "is_main": false,
+  "import": [
+    "mizchi/js",
+    "mizchi/js/node",
+    "mizchi/js/arraybuffer",
+    "mizchi/js/node/buffer",
+    "mizchi/js/async",
+    "mizchi/js/node/fs"
+  ]
+}
