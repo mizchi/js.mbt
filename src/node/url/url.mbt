@@ -72,8 +72,8 @@ pub fn URL::new(input : String, base? : String) -> URL {
 pub fn URL::canParse(input : String, base? : String) -> Bool {
   let ctor = url_constructor()
   match base {
-    Some(b) => ctor.call_method("canParse", [input, b]).cast()
-    None => ctor.call_method("canParse", [input]).cast()
+    Some(b) => ctor.invoke("canParse", [input, b]).cast()
+    None => ctor.invoke("canParse", [input]).cast()
   }
 }
 
@@ -82,8 +82,8 @@ pub fn URL::canParse(input : String, base? : String) -> Bool {
 pub fn URL::parse(input : String, base? : String) -> URL? {
   let ctor = url_constructor()
   let result = match base {
-    Some(b) => ctor.call_method("parse", [input, b])
-    None => ctor.call_method("parse", [input])
+    Some(b) => ctor.invoke("parse", [input, b])
+    None => ctor.invoke("parse", [input])
   }
   // parse returns null on failure
   if ffi_is_null(result) {
@@ -240,14 +240,14 @@ pub fn URL::searchParams(self : Self) -> URLSearchParams {
 /// Convert URL to string
 #alias(to_string)
 pub fn URL::toString(self : Self) -> String {
-  self.to_js().call_method("toString", []).cast()
+  self.to_js().invoke("toString", []).cast()
 }
 
 ///|
 /// Convert URL to JSON (same as toString)
 #alias(to_json)
 pub fn URL::toJSON(self : Self) -> String {
-  self.to_js().call_method("toJSON", []).cast()
+  self.to_js().invoke("toJSON", []).cast()
 }
 
 ///|
@@ -267,7 +267,7 @@ pub fn URLSearchParams::append(
   name : String,
   value : String,
 ) -> Unit {
-  self.to_js().call_method("append", [name, value]) |> ignore
+  self.to_js().invoke("append", [name, value]) |> ignore
 }
 
 ///|
@@ -278,15 +278,15 @@ pub fn URLSearchParams::delete(
   value? : String,
 ) -> Unit {
   match value {
-    Some(v) => self.to_js().call_method("delete", [name, v]) |> ignore
-    None => self.to_js().call_method("delete", [name]) |> ignore
+    Some(v) => self.to_js().invoke("delete", [name, v]) |> ignore
+    None => self.to_js().invoke("delete", [name]) |> ignore
   }
 }
 
 ///|
 /// Get the first value for a parameter
 pub fn URLSearchParams::get(self : Self, name : String) -> String? {
-  let result = self.to_js().call_method("get", [name])
+  let result = self.to_js().invoke("get", [name])
   if ffi_typeof(result) == "string" {
     Some(result.cast())
   } else {
@@ -298,13 +298,13 @@ pub fn URLSearchParams::get(self : Self, name : String) -> String? {
 /// Get all values for a parameter
 #alias(get_all)
 pub fn URLSearchParams::getAll(self : Self, name : String) -> Array[String] {
-  let result = self.to_js().call_method("getAll", [name])
+  let result = self.to_js().invoke("getAll", [name])
   // Convert JS array to MoonBit array
   let arr : Array[String] = []
   let length : Int = result.get("length").cast()
   let mut i = 0
   while i < length {
-    arr.push(result.call_method("at", [i]).cast())
+    arr.push(result.invoke("at", [i]).cast())
     i = i + 1
   }
   arr
@@ -318,28 +318,28 @@ pub fn URLSearchParams::has(
   value? : String,
 ) -> Bool {
   match value {
-    Some(v) => self.to_js().call_method("has", [name, v]).cast()
-    None => self.to_js().call_method("has", [name]).cast()
+    Some(v) => self.to_js().invoke("has", [name, v]).cast()
+    None => self.to_js().invoke("has", [name]).cast()
   }
 }
 
 ///|
 /// Set a parameter (replaces all existing values)
 pub fn URLSearchParams::set(self : Self, name : String, value : String) -> Unit {
-  self.to_js().call_method("set", [name, value]) |> ignore
+  self.to_js().invoke("set", [name, value]) |> ignore
 }
 
 ///|
 /// Sort all parameters by name
 pub fn URLSearchParams::sort(self : Self) -> Unit {
-  self.to_js().call_method("sort", []) |> ignore
+  self.to_js().invoke("sort", []) |> ignore
 }
 
 ///|
 /// Convert to query string
 #alias(to_string)
 pub fn URLSearchParams::toString(self : Self) -> String {
-  self.to_js().call_method("toString", []).cast()
+  self.to_js().invoke("toString", []).cast()
 }
 
 ///|
@@ -357,9 +357,9 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
     Some(w) => {
       let options = @js.new_empty_object()
       options.set("windows", w)
-      url_module.call_method("fileURLToPath", [url, options]).cast()
+      url_module.invoke("fileURLToPath", [url, options]).cast()
     }
-    None => url_module.call_method("fileURLToPath", [url]).cast()
+    None => url_module.invoke("fileURLToPath", [url]).cast()
   }
 }
 
@@ -372,9 +372,9 @@ pub fn fileURLToPathFromURL(url : URL, windows? : Bool) -> String {
     Some(w) => {
       let options = @js.new_empty_object()
       options.set("windows", w)
-      url_module.call_method("fileURLToPath", [url, options]).cast()
+      url_module.invoke("fileURLToPath", [url, options]).cast()
     }
-    None => url_module.call_method("fileURLToPath", [url]).cast()
+    None => url_module.invoke("fileURLToPath", [url]).cast()
   }
 }
 
@@ -387,9 +387,9 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
     Some(w) => {
       let options = @js.new_empty_object()
       options.set("windows", w)
-      url_module.call_method("pathToFileURL", [path, options]).cast()
+      url_module.invoke("pathToFileURL", [path, options]).cast()
     }
-    None => url_module.call_method("pathToFileURL", [path]).cast()
+    None => url_module.invoke("pathToFileURL", [path]).cast()
   }
 }
 
@@ -398,12 +398,12 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
 #alias(url_to_http_options)
 pub fn urlToHttpOptions(url : URL) -> Val {
   let url_module = @node.require("node:url")
-  url_module.call_method("urlToHttpOptions", [url])
+  url_module.invoke("urlToHttpOptions", [url])
 }
 
 ///|
 /// Format a URL object to string (legacy API)
 pub fn format(url : URL) -> String {
   let url_module = @node.require("node:url")
-  url_module.call_method("format", [url]).cast()
+  url_module.invoke("format", [url]).cast()
 }

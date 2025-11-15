@@ -65,12 +65,12 @@ pub fn[A, B] Promise::catch_(
   self : Self[A],
   f : (Error) -> Promise[B],
 ) -> Promise[B] {
-  self.to_js().call_method("catch", [js(f)]).cast()
+  self.to_js().invoke("catch", [js(f)]).cast()
 }
 
 ///|
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
-  self.to_js().call_method("finally", [js(f)]).cast()
+  self.to_js().invoke("finally", [js(f)]).cast()
 }
 
 ///|
@@ -78,8 +78,8 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 pub async fn[A] Promise::unwrap(self : Self[A]) -> A {
   suspend((ok, err) => self
     .to_js()
-    .call_method("then", [js(ok)])
-    .call_method("catch", [js(err)])
+    .invoke("then", [js(ok)])
+    .invoke("catch", [js(err)])
     |> ignore)
 }
 

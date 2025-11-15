@@ -25,17 +25,17 @@ pub fn Process::args(self : Self) -> Array[String] {
 
 ///|
 pub fn Process::cwd(self : Self) -> String {
-  self.to_js().get("cwd").call([]).cast()
+  self.to_js().get("cwd").invoke_self([]).cast()
 }
 
 ///|
 pub fn Process::chdir(self : Self, path : String) -> Unit {
-  self.to_js().get("chdir").call([path]).cast()
+  self.to_js().get("chdir").invoke_self([path]).cast()
 }
 
 ///|
 pub fn Process::exit(self : Self, code : Int) -> Unit {
-  self.to_js().get("exit").call([code]) |> ignore
+  self.to_js().get("exit").invoke_self([code]) |> ignore
 }
 
 ///|

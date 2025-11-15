@@ -301,10 +301,10 @@ pub fn Val::set_if_exists(self : Val, key : &Key, value : &Js?) -> Unit {
 ///
 /// ```moonbit
 /// let parse_int = global_this().get("parseInt")
-/// let result = parse_int.call(["42"])
+/// let result = parse_int.invoke_self(["42"])
 /// let num : Int = result.cast()  // 42
 /// ```
-pub fn Val::call(self : Self, args : Array[&Js]) -> Val {
+pub fn Val::invoke_self(self : Self, args : Array[&Js]) -> Val {
   ffi_call(self, args.map(_.to_js()))
 }
 
@@ -332,8 +332,8 @@ pub fn Val::call(self : Self, args : Array[&Js]) -> Val {
 /// let func = js(some_js_function)
 /// let result = func.call_raise(["arg1", "arg2"])!  // Handle with !
 /// ```
-pub fn Val::call_raise(self : Self, args : Array[&Js]) -> Val raise {
-  throwable(() => self.call(args.map(_.to_js())))
+pub fn Val::invoke_self_with_raise(self : Self, args : Array[&Js]) -> Val raise {
+  throwable(() => self.invoke_self(args.map(_.to_js())))
 }
 
 ///|
@@ -355,15 +355,15 @@ pub fn Val::call_raise(self : Self, args : Array[&Js]) -> Val raise {
 ///
 /// ```moonbit
 /// let arr = from_builtin_array([1, 2, 3])
-/// let result = arr.call_method("push", [4])
+/// let result = arr.invoke("push", [4])
 /// // arr is now [1, 2, 3, 4]
 /// ```
-pub fn Val::call_method(self : Val, key : &Key, args : Array[&Js]) -> Val {
+pub fn Val::invoke(self : Val, key : &Key, args : Array[&Js]) -> Val {
   ffi_call_method(self, key.to_key() |> unsafe_cast, args.map(_.to_js()))
 }
 
 ///|
-pub fn Val::call_method_raise(
+pub fn Val::invoke_with_raise(
   self : Val,
   key : String,
   args : Array[&Js],

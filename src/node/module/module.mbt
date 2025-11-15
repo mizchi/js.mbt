@@ -21,7 +21,7 @@ pub fn builtin_modules() -> Array[String] {
 /// Create a require function from a file URL or path
 pub fn create_require(filename : String) -> Val {
   let mod = ffi_require_module()
-  mod.call_method("createRequire", [filename |> js])
+  mod.invoke("createRequire", [filename |> js])
 }
 
 ///|
@@ -29,7 +29,7 @@ pub fn create_require(filename : String) -> Val {
 /// Returns true if the module is a built-in Node.js module
 pub fn is_builtin(module_name : String) -> Bool {
   let mod = ffi_require_module()
-  mod.call_method("isBuiltin", [module_name |> js]).cast()
+  mod.invoke("isBuiltin", [module_name |> js]).cast()
 }
 
 ///|
@@ -37,7 +37,7 @@ pub fn is_builtin(module_name : String) -> Bool {
 /// Updates the CommonJS exports to match the ES module exports
 pub fn sync_builtin_esm_exports() -> Unit {
   let mod = ffi_require_module()
-  mod.call_method("syncBuiltinESMExports", []) |> ignore
+  mod.invoke("syncBuiltinESMExports", []) |> ignore
 }
 
 ///|
@@ -45,7 +45,7 @@ pub fn sync_builtin_esm_exports() -> Unit {
 /// Returns the source map for the given path if it exists
 pub fn find_source_map(path : String) -> SourceMap? {
   let mod = ffi_require_module()
-  mod.call_method("findSourceMap", [path |> js]).cast_option()
+  mod.invoke("findSourceMap", [path |> js]).cast_option()
 }
 
 ///|
@@ -57,9 +57,9 @@ pub fn enable_compile_cache(cache_dir? : String) -> Unit {
     Some(dir) => {
       let options = @js.new_empty_object()
       options.set("cacheDir", dir)
-      mod.call_method("enableCompileCache", [options]) |> ignore
+      mod.invoke("enableCompileCache", [options]) |> ignore
     }
-    None => mod.call_method("enableCompileCache", []) |> ignore
+    None => mod.invoke("enableCompileCache", []) |> ignore
   }
 }
 
@@ -68,7 +68,7 @@ pub fn enable_compile_cache(cache_dir? : String) -> Unit {
 /// Flush the compile cache to disk
 pub fn flush_compile_cache() -> Unit {
   let mod = ffi_require_module()
-  mod.call_method("flushCompileCache", []) |> ignore
+  mod.invoke("flushCompileCache", []) |> ignore
 }
 
 ///|
@@ -76,7 +76,7 @@ pub fn flush_compile_cache() -> Unit {
 /// Get the compile cache directory path
 pub fn get_compile_cache_dir() -> String? {
   let mod = ffi_require_module()
-  mod.call_method("getCompileCacheDir", []).cast_option()
+  mod.invoke("getCompileCacheDir", []).cast_option()
 }
 
 ///|
@@ -94,7 +94,7 @@ pub fn strip_typescript_types(
   let mod = ffi_require_module()
   match (mode, source_map, source_url) {
     (None, None, None) =>
-      mod.call_method("stripTypeScriptTypes", [code |> js]).cast()
+      mod.invoke("stripTypeScriptTypes", [code |> js]).cast()
     _ => {
       let options = @js.new_empty_object()
       match mode {
@@ -109,7 +109,7 @@ pub fn strip_typescript_types(
         Some(url) => options.set("sourceUrl", url)
         None => ()
       }
-      mod.call_method("stripTypeScriptTypes", [code |> js, options]).cast()
+      mod.invoke("stripTypeScriptTypes", [code |> js, options]).cast()
     }
   }
 }
@@ -142,7 +142,7 @@ pub fn SourceMap::find_entry(
 ) -> SourceMapEntry? {
   self
   .to_js()
-  .call_method("findEntry", [line_number |> js, column_number |> js])
+  .invoke("findEntry", [line_number |> js, column_number |> js])
   .cast_option()
 }
 

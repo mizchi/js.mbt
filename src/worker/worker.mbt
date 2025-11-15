@@ -48,7 +48,7 @@ pub fn Worker::new(script_url : String, is_module? : Bool = false) -> Worker {
 
 ///|
 pub fn Worker::terminate(worker : Worker) -> Unit {
-  worker.to_js().call_method("terminate", []) |> ignore
+  worker.to_js().invoke("terminate", []) |> ignore
 }
 
 ///|
@@ -74,7 +74,7 @@ pub fn Worker::post_message_with_transfer(
   let arr = @js.new_empty_array()
   let mut i = 0
   while i < transfer.length() {
-    arr.call_method("push", [transfer[i]]) |> ignore
+    arr.invoke("push", [transfer[i]]) |> ignore
     i = i + 1
   }
   ffi_worker_post_message(worker, message.to_js(), arr)
@@ -94,6 +94,6 @@ pub fn Worker::add_event_listener(
   event : String,
   listener : (MessageEvent) -> Unit,
 ) -> Unit {
-  worker.to_js().call_method("addEventListener", [js(event), listener |> js])
+  worker.to_js().invoke("addEventListener", [js(event), listener |> js])
   |> ignore
 }

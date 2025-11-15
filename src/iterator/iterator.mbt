@@ -15,7 +15,7 @@ pub impl[T] Js for Generator[T] with to_js(self) {
 
 ///|
 pub fn[T] Generator::next(self : Generator[T]) -> T? {
-  let v : Val = self.to_js().call_method("next", []).cast()
+  let v : Val = self.to_js().invoke("next", []).cast()
   if v.get("done").cast() {
     None
   } else {
@@ -56,7 +56,7 @@ pub impl[T] Js for AsyncGenerator[T] with to_js(self) {
 
 ///|
 pub async fn[T] AsyncGenerator::next(self : AsyncGenerator[T]) -> T? {
-  let v : Promise[Val] = self.to_js().call_method("next", []).cast()
+  let v : Promise[Val] = self.to_js().invoke("next", []).cast()
   let v : Val = v.unwrap()
   if v.get("done").cast() {
     None

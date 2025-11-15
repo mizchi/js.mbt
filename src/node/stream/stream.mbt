@@ -20,7 +20,7 @@ pub impl EventEmitter for Stream with on(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().call_method("on", [name, callback |> js]).cast()
+  self.to_js().invoke("on", [name, callback |> js]).cast()
 }
 
 ///|
@@ -29,7 +29,7 @@ pub impl EventEmitter for Stream with once(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().call_method("once", [name, callback |> js]).cast()
+  self.to_js().invoke("once", [name, callback |> js]).cast()
 }
 
 ///|
@@ -38,7 +38,7 @@ pub impl EventEmitter for Stream with off(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().call_method("off", [name, callback |> js]).cast()
+  self.to_js().invoke("off", [name, callback |> js]).cast()
 }
 
 ///|
@@ -47,5 +47,5 @@ pub impl EventEmitter for Stream with emit(
   name : String,
   payload : Val,
 ) -> Unit {
-  self.to_js().call_method("emit", [name, payload]).cast()
+  self.to_js().invoke("emit", [name, payload]).cast()
 }

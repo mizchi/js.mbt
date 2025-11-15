@@ -145,7 +145,7 @@ priv struct AppProps {
 ///|
 fn app(props : AppProps) -> @react.Element {
   let (cnt, set_cnt) = use_state(props.x)
-  let textarea_ref : @react.ReactRef[@js.Val] = @react.use_ref(None)
+  let textarea_ref : @react.ReactRef[@dom.Element] = @react.use_ref(None)
   let handler = use_callback(_ => set_cnt(cnt + 1), [cnt])
   use_effect(
     () => {
@@ -159,7 +159,7 @@ fn app(props : AppProps) -> @react.Element {
       run_async(async fn() noraise {
         sleep(300)
         if textarea_ref.current() is Some(textarea) {
-          textarea.focus()
+          textarea.to_js().invoke("focus", []) |> ignore
         }
         log("Starting async operation...")
       })
@@ -170,17 +170,13 @@ fn app(props : AppProps) -> @react.Element {
   let (input_text, set_text) = use_state("")
   let on_change = use_callback(
     (e : @dom.ChangeEvent) => {
-      let target = e.target()
-      let value : String = target["value"].cast()
+      let target : @dom.HTMLTextAreaElement = e.target().to_js().cast()
+      let value : String = target.value()
       set_text(value)
       log("Textarea changed: \{value}")
     },
     [input_text],
   )
-  // h("div", [
-  //   "Hello, Moonbit React! Counter: \{cnt}",
-  // ])
-
   guard myctx.val is Some(myctx)
   provider(myctx, value={ v: "xxx" }, [
     h1(["Hello, Moonbit React!"]),

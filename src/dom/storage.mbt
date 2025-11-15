@@ -54,7 +54,7 @@ pub extern "js" fn Storage::remove_item(self : Storage, key : String) -> Unit =
 /// Clears all items from storage
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear
 pub fn Storage::clear(self : Storage) -> Unit {
-  self.to_js().call_method("clear", []) |> ignore
+  self.to_js().invoke("clear", []) |> ignore
 }
 
 ///|
@@ -68,7 +68,7 @@ pub fn Storage::length(self : Storage) -> Int {
 /// Returns the key at the specified index
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/key
 pub fn Storage::key(self : Storage, index : Int) -> String? {
-  self.to_js().call_method("key", [index |> js]).cast_option()
+  self.to_js().invoke("key", [index |> js]).cast_option()
 }
 
 ///|

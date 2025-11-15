@@ -112,14 +112,14 @@ pub fn Window::device_pixel_ratio(self : Self) -> Double {
 /// Displays an alert dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
 pub fn Window::alert(self : Self, message : String) -> Unit {
-  ignore(self.to_js().call_method("alert", [message]))
+  ignore(self.to_js().invoke("alert", [message]))
 }
 
 ///|
 /// Displays a confirm dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
 pub fn Window::confirm(self : Self, message : String) -> Bool {
-  self.to_js().call_method("confirm", [message]).cast()
+  self.to_js().invoke("confirm", [message]).cast()
 }
 
 ///|
@@ -131,8 +131,8 @@ pub fn Window::prompt(
   default? : String,
 ) -> String? {
   match default {
-    Some(d) => self.to_js().call_method("prompt", [message, d]).cast_option()
-    None => self.to_js().call_method("prompt", [message]).cast_option()
+    Some(d) => self.to_js().invoke("prompt", [message, d]).cast_option()
+    None => self.to_js().invoke("prompt", [message]).cast_option()
   }
 }
 
@@ -147,11 +147,11 @@ pub fn Window::open(
 ) -> Window? {
   match (url, target, features) {
     (Some(u), Some(t), Some(f)) =>
-      self.to_js().call_method("open", [u, t, f]).cast_option()
+      self.to_js().invoke("open", [u, t, f]).cast_option()
     (Some(u), Some(t), None) =>
-      self.to_js().call_method("open", [u, t]).cast_option()
-    (Some(u), None, _) => self.to_js().call_method("open", [u]).cast_option()
-    (None, _, _) => self.to_js().call_method("open", []).cast_option()
+      self.to_js().invoke("open", [u, t]).cast_option()
+    (Some(u), None, _) => self.to_js().invoke("open", [u]).cast_option()
+    (None, _, _) => self.to_js().invoke("open", []).cast_option()
   }
 }
 
@@ -159,21 +159,21 @@ pub fn Window::open(
 /// Closes the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/close
 pub fn Window::close(self : Self) -> Unit {
-  ignore(self.to_js().call_method("close", []))
+  ignore(self.to_js().invoke("close", []))
 }
 
 ///|
 /// Scrolls to a particular set of coordinates
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
 pub fn Window::scroll_to(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.to_js().call_method("scrollTo", [x, y]))
+  ignore(self.to_js().invoke("scrollTo", [x, y]))
 }
 
 ///|
 /// Scrolls by a particular amount
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollBy
 pub fn Window::scroll_by(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.to_js().call_method("scrollBy", [x, y]))
+  ignore(self.to_js().invoke("scrollBy", [x, y]))
 }
 
 ///|
@@ -198,14 +198,14 @@ pub fn Window::set_timeout(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.to_js().call_method("setTimeout", [@js.js(handler), delay]).cast()
+  self.to_js().invoke("setTimeout", [@js.js(handler), delay]).cast()
 }
 
 ///|
 /// Cancels a timeout previously established by setTimeout
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
 pub fn Window::clear_timeout(self : Self, id : Int) -> Unit {
-  ignore(self.to_js().call_method("clearTimeout", [id]))
+  ignore(self.to_js().invoke("clearTimeout", [id]))
 }
 
 ///|
@@ -216,14 +216,14 @@ pub fn Window::set_interval(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.to_js().call_method("setInterval", [@js.js(handler), delay]).cast()
+  self.to_js().invoke("setInterval", [@js.js(handler), delay]).cast()
 }
 
 ///|
 /// Cancels a timed, repeating action established by setInterval
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
 pub fn Window::clear_interval(self : Self, id : Int) -> Unit {
-  ignore(self.to_js().call_method("clearInterval", [id]))
+  ignore(self.to_js().invoke("clearInterval", [id]))
 }
 
 ///|
@@ -233,14 +233,14 @@ pub fn Window::request_animation_frame(
   self : Self,
   callback : (Double) -> Unit,
 ) -> Int {
-  self.to_js().call_method("requestAnimationFrame", [@js.js(callback)]).cast()
+  self.to_js().invoke("requestAnimationFrame", [@js.js(callback)]).cast()
 }
 
 ///|
 /// Cancels an animation frame request
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame
 pub fn Window::cancel_animation_frame(self : Self, id : Int) -> Unit {
-  ignore(self.to_js().call_method("cancelAnimationFrame", [id]))
+  ignore(self.to_js().invoke("cancelAnimationFrame", [id]))
 }
 
 ///|
@@ -248,8 +248,8 @@ pub fn Window::cancel_animation_frame(self : Self, id : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
 pub fn Window::fetch(self : Self, input : String, init? : Val) -> Promise[Val] {
   match init {
-    Some(i) => self.to_js().call_method("fetch", [input, i]).cast()
-    None => self.to_js().call_method("fetch", [input]).cast()
+    Some(i) => self.to_js().invoke("fetch", [input, i]).cast()
+    None => self.to_js().invoke("fetch", [input]).cast()
   }
 }
 
@@ -257,7 +257,7 @@ pub fn Window::fetch(self : Self, input : String, init? : Val) -> Promise[Val] {
 /// Returns a selection object representing selected text
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 pub fn Window::get_selection(self : Self) -> Val? {
-  self.to_js().call_method("getSelection", []).cast_option()
+  self.to_js().invoke("getSelection", []).cast_option()
 }
 
 ///|
@@ -270,9 +270,9 @@ pub fn Window::get_computed_style(
 ) -> Val {
   match pseudo_elt {
     Some(p) =>
-      self.to_js().call_method("getComputedStyle", [element.to_js(), p]).cast()
+      self.to_js().invoke("getComputedStyle", [element.to_js(), p]).cast()
     None =>
-      self.to_js().call_method("getComputedStyle", [element.to_js()]).cast()
+      self.to_js().invoke("getComputedStyle", [element.to_js()]).cast()
   }
 }
 
@@ -280,7 +280,7 @@ pub fn Window::get_computed_style(
 /// Returns a media query list
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 pub fn Window::match_media(self : Self, query : String) -> Val {
-  self.to_js().call_method("matchMedia", [query]).cast()
+  self.to_js().invoke("matchMedia", [query]).cast()
 }
 
 ///|
@@ -291,7 +291,7 @@ pub fn Window::post_message(
   message : Val,
   target_origin : String,
 ) -> Unit {
-  ignore(self.to_js().call_method("postMessage", [message, target_origin]))
+  ignore(self.to_js().invoke("postMessage", [message, target_origin]))
 }
 
 ///|
@@ -307,6 +307,6 @@ pub fn[T : Transferable] Window::post_message_with_transfer(
   ignore(
     self
     .to_js()
-    .call_method("postMessage", [message, target_origin, @js.js(transfer_vals)]),
+    .invoke("postMessage", [message, target_origin, @js.js(transfer_vals)]),
   )
 }

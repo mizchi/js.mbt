@@ -32,7 +32,7 @@ pub impl EventEmitter for ChildProcess with on(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().call_method("on", [name, callback |> js]).cast()
+  self.to_js().invoke("on", [name, callback |> js]).cast()
 }
 
 ///|
@@ -41,7 +41,7 @@ pub impl EventEmitter for ChildProcess with once(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().call_method("once", [name, callback |> js]).cast()
+  self.to_js().invoke("once", [name, callback |> js]).cast()
 }
 
 ///|
@@ -50,7 +50,7 @@ pub impl EventEmitter for ChildProcess with off(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().call_method("off", [name, callback |> js]).cast()
+  self.to_js().invoke("off", [name, callback |> js]).cast()
 }
 
 ///|
@@ -59,7 +59,7 @@ pub impl EventEmitter for ChildProcess with emit(
   name : String,
   payload : Val,
 ) -> Unit {
-  self.to_js().call_method("emit", [name, payload]).cast()
+  self.to_js().invoke("emit", [name, payload]).cast()
 }
 
 ///| ChildProcess Typed Event Handlers
@@ -73,7 +73,7 @@ pub fn ChildProcess::on_exit(
 ) -> Unit {
   self
   .to_js()
-  .call_method("on", [
+  .invoke("on", [
     "exit",
     unsafe_cast(fn(code : Val, signal : Val) {
       callback(code.cast_option(), signal.cast_option())
@@ -91,7 +91,7 @@ pub fn ChildProcess::on_close(
 ) -> Unit {
   self
   .to_js()
-  .call_method("on", [
+  .invoke("on", [
     "close",
     unsafe_cast(fn(code : Val, signal : Val) {
       callback(code.cast_option(), signal.cast_option())
@@ -107,7 +107,7 @@ pub fn ChildProcess::on_error(
   self : Self,
   callback : (Val) -> Unit noraise,
 ) -> Unit {
-  self.to_js().call_method("on", ["error", unsafe_cast(callback)]) |> ignore
+  self.to_js().invoke("on", ["error", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn ChildProcess::on_message(
 ) -> Unit {
   self
   .to_js()
-  .call_method("on", [
+  .invoke("on", [
     "message",
     unsafe_cast(fn(message : Val, sendHandle : Val) {
       callback(message, sendHandle.cast_option())
@@ -135,7 +135,7 @@ pub fn ChildProcess::on_disconnect(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.to_js().call_method("on", ["disconnect", unsafe_cast(callback)])
+  self.to_js().invoke("on", ["disconnect", unsafe_cast(callback)])
   |> ignore
 }
 
@@ -146,7 +146,7 @@ pub fn ChildProcess::on_spawn(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.to_js().call_method("on", ["spawn", unsafe_cast(callback)]) |> ignore
+  self.to_js().invoke("on", ["spawn", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
@@ -158,7 +158,7 @@ pub fn ChildProcess::on_stdout_data(
 ) -> Unit {
   match self.stdout() {
     Some(stream) =>
-      stream.to_js().call_method("on", ["data", unsafe_cast(callback)])
+      stream.to_js().invoke("on", ["data", unsafe_cast(callback)])
       |> ignore
     None => ()
   }
@@ -173,7 +173,7 @@ pub fn ChildProcess::on_stderr_data(
 ) -> Unit {
   match self.stderr() {
     Some(stream) =>
-      stream.to_js().call_method("on", ["data", unsafe_cast(callback)])
+      stream.to_js().invoke("on", ["data", unsafe_cast(callback)])
       |> ignore
     None => ()
   }
@@ -229,33 +229,33 @@ pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
 /// Send a signal to the child process
 pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
   match signal {
-    Some(sig) => self.to_js().call_method("kill", [sig |> js]).cast()
-    None => self.to_js().call_method("kill", []).cast()
+    Some(sig) => self.to_js().invoke("kill", [sig |> js]).cast()
+    None => self.to_js().invoke("kill", []).cast()
   }
 }
 
 ///|
 /// Send a message to the child process (for IPC)
 pub fn ChildProcess::send(self : Self, message : &Js) -> Bool {
-  self.to_js().call_method("send", [message.to_js()]).cast()
+  self.to_js().invoke("send", [message.to_js()]).cast()
 }
 
 ///|
 /// Close the IPC channel between parent and child
 pub fn ChildProcess::disconnect(self : Self) -> Unit {
-  self.to_js().call_method("disconnect", []) |> ignore
+  self.to_js().invoke("disconnect", []) |> ignore
 }
 
 ///|
 /// Prevent the parent process from waiting for this child
 pub fn ChildProcess::unref(self : Self) -> Unit {
-  self.to_js().call_method("unref", []) |> ignore
+  self.to_js().invoke("unref", []) |> ignore
 }
 
 ///|
 /// Require the parent process to wait for this child
 pub fn ChildProcess::ref_(self : Self) -> Unit {
-  self.to_js().call_method("ref", []) |> ignore
+  self.to_js().invoke("ref", []) |> ignore
 }
 
 ///|
@@ -296,8 +296,8 @@ pub fn spawn(
     options.set("signal", sig.to_js())
   }
   match args {
-    Some(a) => cp.call_method("spawn", [command |> js, a |> js, options]).cast()
-    None => cp.call_method("spawn", [command |> js, options]).cast()
+    Some(a) => cp.invoke("spawn", [command |> js, a |> js, options]).cast()
+    None => cp.invoke("spawn", [command |> js, options]).cast()
   }
 }
 
@@ -334,7 +334,7 @@ pub fn exec(
   if signal is Some(sig) {
     options.set("signal", sig.to_js())
   }
-  cp.call_method("exec", [command |> js, options, unsafe_cast(callback)]).cast()
+  cp.invoke("exec", [command |> js, options, unsafe_cast(callback)]).cast()
 }
 
 ///|
@@ -368,7 +368,7 @@ pub fn exec_file(
     options.set("signal", sig.to_js())
   }
   cp
-  .call_method("execFile", [
+  .invoke("execFile", [
     file |> js,
     args |> js,
     options,
@@ -408,8 +408,8 @@ pub fn fork(
   }
   match args {
     Some(a) =>
-      cp.call_method("fork", [module_path |> js, a |> js, options]).cast()
-    None => cp.call_method("fork", [module_path |> js, options]).cast()
+      cp.invoke("fork", [module_path |> js, a |> js, options]).cast()
+    None => cp.invoke("fork", [module_path |> js, options]).cast()
   }
 }
 
@@ -486,8 +486,8 @@ pub fn spawn_sync(
   }
   match args {
     Some(a) =>
-      cp.call_method("spawnSync", [command |> js, a |> js, options]).cast()
-    None => cp.call_method("spawnSync", [command |> js, options]).cast()
+      cp.invoke("spawnSync", [command |> js, a |> js, options]).cast()
+    None => cp.invoke("spawnSync", [command |> js, options]).cast()
   }
 }
 
@@ -529,7 +529,7 @@ pub fn exec_sync(
   } else {
     options.set("encoding", "utf8")
   }
-  cp.call_method("execSync", [command |> js, options]).cast()
+  cp.invoke("execSync", [command |> js, options]).cast()
 }
 
 ///|
@@ -569,7 +569,7 @@ pub fn exec_file_sync(
   }
   match args {
     Some(a) =>
-      cp.call_method("execFileSync", [file |> js, a |> js, options]).cast()
-    None => cp.call_method("execFileSync", [file |> js, options]).cast()
+      cp.invoke("execFileSync", [file |> js, a |> js, options]).cast()
+    None => cp.invoke("execFileSync", [file |> js, options]).cast()
   }
 }

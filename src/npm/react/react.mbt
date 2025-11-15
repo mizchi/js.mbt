@@ -47,7 +47,7 @@ pub fn create_element(
   class? : String,
   className? : String,
   style? : Map[String, String],
-  ref_? : ReactRef[Val],
+  ref_? : ReactRef[@dom.Element],
   key? : String,
   on_click? : (@dom.MouseEvent) -> Unit,
   on_change? : (@dom.ChangeEvent) -> Unit,

@@ -20,14 +20,14 @@ fn fs_module() -> Val {
 #alias(readFileSync)
 pub fn read_file_sync(path : String) -> Buffer {
   let fs = fs_module()
-  fs.call_method("readFileSync", [path |> js]).cast()
+  fs.invoke("readFileSync", [path |> js]).cast()
 }
 
 ///|
 /// Read file synchronously as string with encoding
 pub fn read_file_sync_string(path : String, encoding : String) -> String {
   let fs = fs_module()
-  fs.call_method("readFileSync", [path |> js, encoding |> js]).cast()
+  fs.invoke("readFileSync", [path |> js, encoding |> js]).cast()
 }
 
 ///| File Writing
@@ -37,7 +37,7 @@ pub fn read_file_sync_string(path : String, encoding : String) -> String {
 #alias(writeFileSync)
 pub fn write_file_sync(path : String, data : &Js) -> Unit {
   let fs = fs_module()
-  fs.call_method("writeFileSync", [path |> js, data.to_js()]) |> ignore
+  fs.invoke("writeFileSync", [path |> js, data.to_js()]) |> ignore
 }
 
 ///|
@@ -45,7 +45,7 @@ pub fn write_file_sync(path : String, data : &Js) -> Unit {
 #alias(appendFileSync)
 pub fn append_file_sync(path : String, data : &Js) -> Unit {
   let fs = fs_module()
-  fs.call_method("appendFileSync", [path |> js, data.to_js()]) |> ignore
+  fs.invoke("appendFileSync", [path |> js, data.to_js()]) |> ignore
 }
 
 ///| File/Directory Operations
@@ -55,7 +55,7 @@ pub fn append_file_sync(path : String, data : &Js) -> Unit {
 #alias(existsSync)
 pub fn exists_sync(path : String) -> Bool {
   let fs = fs_module()
-  fs.call_method("existsSync", [path |> js]).cast()
+  fs.invoke("existsSync", [path |> js]).cast()
 }
 
 ///|
@@ -63,7 +63,7 @@ pub fn exists_sync(path : String) -> Bool {
 #alias(statSync)
 pub fn stat_sync(path : String) -> Val {
   let fs = fs_module()
-  fs.call_method("statSync", [path |> js])
+  fs.invoke("statSync", [path |> js])
 }
 
 ///|
@@ -75,9 +75,9 @@ pub fn mkdir_sync(path : String, recursive? : Bool) -> Unit {
     Some(r) => {
       let options = @js.new_empty_object()
       options.set("recursive", r)
-      fs.call_method("mkdirSync", [path |> js, options]) |> ignore
+      fs.invoke("mkdirSync", [path |> js, options]) |> ignore
     }
-    None => fs.call_method("mkdirSync", [path |> js]) |> ignore
+    None => fs.invoke("mkdirSync", [path |> js]) |> ignore
   }
 }
 
@@ -86,7 +86,7 @@ pub fn mkdir_sync(path : String, recursive? : Bool) -> Unit {
 #alias(unlinkSync)
 pub fn unlink_sync(path : String) -> Unit {
   let fs = fs_module()
-  fs.call_method("unlinkSync", [path |> js]) |> ignore
+  fs.invoke("unlinkSync", [path |> js]) |> ignore
 }
 
 ///|
@@ -94,7 +94,7 @@ pub fn unlink_sync(path : String) -> Unit {
 #alias(renameSync)
 pub fn rename_sync(old_path : String, new_path : String) -> Unit {
   let fs = fs_module()
-  fs.call_method("renameSync", [old_path |> js, new_path |> js]) |> ignore
+  fs.invoke("renameSync", [old_path |> js, new_path |> js]) |> ignore
 }
 
 ///|
@@ -102,7 +102,7 @@ pub fn rename_sync(old_path : String, new_path : String) -> Unit {
 #alias(copyFileSync)
 pub fn copy_file_sync(src : String, dest : String) -> Unit {
   let fs = fs_module()
-  fs.call_method("copyFileSync", [src |> js, dest |> js]) |> ignore
+  fs.invoke("copyFileSync", [src |> js, dest |> js]) |> ignore
 }
 
 ///|
@@ -110,7 +110,7 @@ pub fn copy_file_sync(src : String, dest : String) -> Unit {
 #alias(readdirSync)
 pub fn readdir_sync(path : String) -> Array[String] {
   let fs = fs_module()
-  fs.call_method("readdirSync", [path |> js]).cast()
+  fs.invoke("readdirSync", [path |> js]).cast()
 }
 
 ///|
@@ -123,18 +123,18 @@ pub fn rm_sync(path : String, recursive? : Bool, force? : Bool) -> Unit {
       let options = @js.new_empty_object()
       options.set("recursive", r)
       options.set("force", f)
-      fs.call_method("rmSync", [path |> js, options]) |> ignore
+      fs.invoke("rmSync", [path |> js, options]) |> ignore
     }
     (Some(r), None) => {
       let options = @js.new_empty_object()
       options.set("recursive", r)
-      fs.call_method("rmSync", [path |> js, options]) |> ignore
+      fs.invoke("rmSync", [path |> js, options]) |> ignore
     }
     (None, Some(f)) => {
       let options = @js.new_empty_object()
       options.set("force", f)
-      fs.call_method("rmSync", [path |> js, options]) |> ignore
+      fs.invoke("rmSync", [path |> js, options]) |> ignore
     }
-    (None, None) => fs.call_method("rmSync", [path |> js]) |> ignore
+    (None, None) => fs.invoke("rmSync", [path |> js]) |> ignore
   }
 }

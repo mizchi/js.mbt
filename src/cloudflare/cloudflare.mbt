@@ -47,7 +47,7 @@ pub fn CloudflareContext::wait_until(
   self : CloudflareContext,
   promise : Promise[Unit],
 ) -> Unit {
-  self.to_js().get("waitUntil").call([promise |> js]).cast()
+  self.to_js().get("waitUntil").invoke_self([promise |> js]).cast()
 }
 
 ///|
@@ -55,7 +55,7 @@ pub fn CloudflareContext::wait_until(
 pub fn CloudflareContext::pass_through_exception(
   self : CloudflareContext,
 ) -> Unit {
-  self.to_js().get("passThroughException").call([]) |> ignore
+  self.to_js().get("passThroughException").invoke_self([]) |> ignore
 }
 
 ///|

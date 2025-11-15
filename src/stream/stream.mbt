@@ -35,8 +35,8 @@ pub fn ReadableStream::locked(self : Self) -> Bool {
 /// Cancel the stream
 pub fn ReadableStream::cancel(self : Self, reason? : Val) -> Promise[Unit] {
   match reason {
-    Some(r) => self.to_js().call_method("cancel", [r]).cast()
-    None => self.to_js().call_method("cancel", []).cast()
+    Some(r) => self.to_js().invoke("cancel", [r]).cast()
+    None => self.to_js().invoke("cancel", []).cast()
   }
 }
 
@@ -44,7 +44,7 @@ pub fn ReadableStream::cancel(self : Self, reason? : Val) -> Promise[Unit] {
 /// Get a reader for this stream
 #alias(getReader)
 pub fn ReadableStream::get_reader(self : Self) -> ReadableStreamDefaultReader {
-  self.to_js().call_method("getReader", []).cast()
+  self.to_js().invoke("getReader", []).cast()
 }
 
 ///|
@@ -56,8 +56,8 @@ pub fn ReadableStream::pipe_to(
   options? : Val,
 ) -> Promise[Unit] {
   match options {
-    Some(opts) => self.to_js().call_method("pipeTo", [destination, opts]).cast()
-    None => self.to_js().call_method("pipeTo", [destination]).cast()
+    Some(opts) => self.to_js().invoke("pipeTo", [destination, opts]).cast()
+    None => self.to_js().invoke("pipeTo", [destination]).cast()
   }
 }
 
@@ -71,8 +71,8 @@ pub fn ReadableStream::pipe_through(
 ) -> ReadableStream {
   match options {
     Some(opts) =>
-      self.to_js().call_method("pipeThrough", [transform, opts]).cast()
-    None => self.to_js().call_method("pipeThrough", [transform]).cast()
+      self.to_js().invoke("pipeThrough", [transform, opts]).cast()
+    None => self.to_js().invoke("pipeThrough", [transform]).cast()
   }
 }
 
@@ -83,7 +83,7 @@ extern "js" fn ffi_array_get(arr : Val, index : Int) -> Val =
 ///|
 /// Tee this stream into two branches
 pub fn ReadableStream::tee(self : Self) -> (ReadableStream, ReadableStream) {
-  let result = self.to_js().call_method("tee", [])
+  let result = self.to_js().invoke("tee", [])
   let first : ReadableStream = ffi_array_get(result, 0).cast()
   let second : ReadableStream = ffi_array_get(result, 1).cast()
   (first, second)
@@ -102,14 +102,14 @@ pub impl Js for ReadableStreamDefaultReader with to_js(self) {
 ///|
 /// Read a chunk from the stream
 pub fn ReadableStreamDefaultReader::read(self : Self) -> Promise[Val] {
-  self.to_js().call_method("read", []).cast()
+  self.to_js().invoke("read", []).cast()
 }
 
 ///|
 /// Release the reader's lock on the stream
 #alias(releaseLock)
 pub fn ReadableStreamDefaultReader::release_lock(self : Self) -> Unit {
-  self.to_js().call_method("releaseLock", []) |> ignore
+  self.to_js().invoke("releaseLock", []) |> ignore
 }
 
 ///|
@@ -119,8 +119,8 @@ pub fn ReadableStreamDefaultReader::cancel(
   reason? : Val,
 ) -> Promise[Unit] {
   match reason {
-    Some(r) => self.to_js().call_method("cancel", [r]).cast()
-    None => self.to_js().call_method("cancel", []).cast()
+    Some(r) => self.to_js().invoke("cancel", [r]).cast()
+    None => self.to_js().invoke("cancel", []).cast()
   }
 }
 
@@ -161,22 +161,22 @@ pub fn WritableStream::locked(self : Self) -> Bool {
 /// Abort the stream
 pub fn WritableStream::abort(self : Self, reason? : Val) -> Promise[Unit] {
   match reason {
-    Some(r) => self.to_js().call_method("abort", [r]).cast()
-    None => self.to_js().call_method("abort", []).cast()
+    Some(r) => self.to_js().invoke("abort", [r]).cast()
+    None => self.to_js().invoke("abort", []).cast()
   }
 }
 
 ///|
 /// Close the stream
 pub fn WritableStream::close(self : Self) -> Promise[Unit] {
-  self.to_js().call_method("close", []).cast()
+  self.to_js().invoke("close", []).cast()
 }
 
 ///|
 /// Get a writer for this stream
 #alias(getWriter)
 pub fn WritableStream::get_writer(self : Self) -> WritableStreamDefaultWriter {
-  self.to_js().call_method("getWriter", []).cast()
+  self.to_js().invoke("getWriter", []).cast()
 }
 
 ///|
@@ -195,13 +195,13 @@ pub fn WritableStreamDefaultWriter::write(
   self : Self,
   chunk : Val,
 ) -> Promise[Unit] {
-  self.to_js().call_method("write", [chunk]).cast()
+  self.to_js().invoke("write", [chunk]).cast()
 }
 
 ///|
 /// Close the writer
 pub fn WritableStreamDefaultWriter::close(self : Self) -> Promise[Unit] {
-  self.to_js().call_method("close", []).cast()
+  self.to_js().invoke("close", []).cast()
 }
 
 ///|
@@ -211,8 +211,8 @@ pub fn WritableStreamDefaultWriter::abort(
   reason? : Val,
 ) -> Promise[Unit] {
   match reason {
-    Some(r) => self.to_js().call_method("abort", [r]).cast()
-    None => self.to_js().call_method("abort", []).cast()
+    Some(r) => self.to_js().invoke("abort", [r]).cast()
+    None => self.to_js().invoke("abort", []).cast()
   }
 }
 
@@ -220,7 +220,7 @@ pub fn WritableStreamDefaultWriter::abort(
 /// Release the writer's lock on the stream
 #alias(releaseLock)
 pub fn WritableStreamDefaultWriter::release_lock(self : Self) -> Unit {
-  self.to_js().call_method("releaseLock", []) |> ignore
+  self.to_js().invoke("releaseLock", []) |> ignore
 }
 
 ///|

@@ -66,7 +66,7 @@ pub fn Ai::generate_text(
   self
   .to_js()
   .get("generateText")
-  .call([
+  .invoke_self([
     from_builtin_map({
       "model": model |> js,
       "messages": messages.map(_.to_js()) |> js,
@@ -81,7 +81,7 @@ test "ai" {
   let ai : Ai = @node.require("ai").cast()
   let model : Model = @node.require("@ai-sdk/anthropic")
     .get("anthropic")
-    .call(["claude-sonnet-4-20250514"])
+    .invoke_self(["claude-sonnet-4-20250514"])
     .cast()
   let messages : Array[ModelMessage] = [UserMessage(content=Message("hello"))]
   @async.run_async(() => try {

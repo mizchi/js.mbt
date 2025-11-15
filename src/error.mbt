@@ -98,7 +98,7 @@ test "is_error" {
 
 ///|
 test "call_method_raise" {
-  let v = try? global_this().call_method_raise("nonexistentMethod", [])
+  let v = try? global_this().invoke_with_raise("nonexistentMethod", [])
   guard v is Err(JsError(e))
   assert_true(e.is_error())
 }

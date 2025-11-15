@@ -23,7 +23,7 @@ pub impl EventEmitter for Interface with on(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().call_method("on", [name, callback |> js]).cast()
+  self.to_js().invoke("on", [name, callback |> js]).cast()
 }
 
 ///|
@@ -32,7 +32,7 @@ pub impl EventEmitter for Interface with once(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().call_method("once", [name, callback |> js]).cast()
+  self.to_js().invoke("once", [name, callback |> js]).cast()
 }
 
 ///|
@@ -41,7 +41,7 @@ pub impl EventEmitter for Interface with off(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().call_method("off", [name, callback |> js]).cast()
+  self.to_js().invoke("off", [name, callback |> js]).cast()
 }
 
 ///|
@@ -50,7 +50,7 @@ pub impl EventEmitter for Interface with emit(
   name : String,
   payload : Val,
 ) -> Unit {
-  self.to_js().call_method("emit", [name, payload]).cast()
+  self.to_js().invoke("emit", [name, payload]).cast()
 }
 
 ///|
@@ -103,47 +103,47 @@ pub fn create_interface(
   }
   @node.require("node:readline/promises")
   .get("createInterface")
-  .call([opts])
+  .invoke_self([opts])
   .cast()
 }
 
 ///|
 pub fn Interface::question(self : Self, query : String) -> Promise[String] {
-  self.to_js().call_method("question", [query]).cast()
+  self.to_js().invoke("question", [query]).cast()
 }
 
 ///|
 pub fn Interface::commit(self : Self) -> Promise[Unit] {
-  self.to_js().call_method("commit", []).cast()
+  self.to_js().invoke("commit", []).cast()
 }
 
 ///|
 pub fn Interface::rollback(self : Self) -> Self {
-  self.to_js().call_method("rollback", []).cast()
+  self.to_js().invoke("rollback", []).cast()
 }
 
 ///|
 #alias(cursor_to)
 pub fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Promise[Unit] {
-  self.to_js().call_method("cursorTo", [x, y]).cast()
+  self.to_js().invoke("cursorTo", [x, y]).cast()
 }
 
 ///|
 #alias(move_cursor)
 pub fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Promise[Unit] {
-  self.to_js().call_method("moveCursor", [dx, dy]).cast()
+  self.to_js().invoke("moveCursor", [dx, dy]).cast()
 }
 
 ///|
 #alias(clear_line)
 pub fn Interface::clearLine(self : Self, dir : Int) -> Self {
-  self.to_js().call_method("clearLine", [dir]).cast()
+  self.to_js().invoke("clearLine", [dir]).cast()
 }
 
 ///|
 #alias(clear_screen_down)
 pub fn Interface::clearScreenDown(self : Self, dir : Int) -> Self {
-  self.to_js().call_method("clearScreenDown", [dir]).cast()
+  self.to_js().invoke("clearScreenDown", [dir]).cast()
 }
 
 ///|

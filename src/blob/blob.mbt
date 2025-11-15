@@ -33,7 +33,7 @@ pub fn Blob::new(data : Array[&Js], content_type? : String) -> Blob {
   let arr = @js.new_empty_array()
   let mut i = 0
   while i < data.length() {
-    arr.call_method("push", [data[i].to_js()]) |> ignore
+    arr.invoke("push", [data[i].to_js()]) |> ignore
     i = i + 1
   }
   let options = @js.new_empty_object()
@@ -60,13 +60,13 @@ pub fn Blob::content_type(self : Self) -> String {
 /// Get the Blob contents as ArrayBuffer
 #alias(arrayBuffer)
 pub fn Blob::array_buffer(self : Self) -> Promise[ArrayBuffer] {
-  self.to_js().call_method("arrayBuffer", []).cast()
+  self.to_js().invoke("arrayBuffer", []).cast()
 }
 
 ///|
 /// Get the Blob contents as text
 pub fn Blob::text(self : Self) -> Promise[String] {
-  self.to_js().call_method("text", []).cast()
+  self.to_js().invoke("text", []).cast()
 }
 
 ///|
@@ -78,25 +78,25 @@ pub fn Blob::slice(
   content_type? : String,
 ) -> Blob {
   match (start, end, content_type) {
-    (None, None, None) => self.to_js().call_method("slice", []).cast()
-    (Some(s), None, None) => self.to_js().call_method("slice", [s |> js]).cast()
+    (None, None, None) => self.to_js().invoke("slice", []).cast()
+    (Some(s), None, None) => self.to_js().invoke("slice", [s |> js]).cast()
     (Some(s), Some(e), None) =>
-      self.to_js().call_method("slice", [s |> js, e |> js]).cast()
+      self.to_js().invoke("slice", [s |> js, e |> js]).cast()
     (Some(s), Some(e), Some(ct)) =>
-      self.to_js().call_method("slice", [s |> js, e |> js, ct |> js]).cast()
+      self.to_js().invoke("slice", [s |> js, e |> js, ct |> js]).cast()
     (None, Some(e), ct) =>
       match ct {
         Some(t) =>
-          self.to_js().call_method("slice", [0 |> js, e |> js, t |> js]).cast()
-        None => self.to_js().call_method("slice", [0 |> js, e |> js]).cast()
+          self.to_js().invoke("slice", [0 |> js, e |> js, t |> js]).cast()
+        None => self.to_js().invoke("slice", [0 |> js, e |> js]).cast()
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size()
-      self.to_js().call_method("slice", [s |> js, size |> js, ct |> js]).cast()
+      self.to_js().invoke("slice", [s |> js, size |> js, ct |> js]).cast()
     }
     (None, None, Some(ct)) => {
       let size = self.size()
-      self.to_js().call_method("slice", [0 |> js, size |> js, ct |> js]).cast()
+      self.to_js().invoke("slice", [0 |> js, size |> js, ct |> js]).cast()
     }
   }
 }
@@ -104,5 +104,5 @@ pub fn Blob::slice(
 ///|
 /// Get a ReadableStream for the Blob contents
 pub fn Blob::stream(self : Self) -> ReadableStream {
-  self.to_js().call_method("stream", []).cast()
+  self.to_js().invoke("stream", []).cast()
 }

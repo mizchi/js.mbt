@@ -75,7 +75,7 @@ pub fn ShadowRoot::element_from_point(
   x : Double,
   y : Double,
 ) -> Element? {
-  self.to_js().call_method("elementFromPoint", [x, y]).cast_option()
+  self.to_js().invoke("elementFromPoint", [x, y]).cast_option()
 }
 
 ///|
@@ -86,7 +86,7 @@ pub fn ShadowRoot::elements_from_point(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  @js.array_from(self.to_js().call_method("elementsFromPoint", [x, y])).map(fn(
+  @js.array_from(self.to_js().invoke("elementsFromPoint", [x, y])).map(fn(
     v,
   ) {
     v.cast()
@@ -123,7 +123,7 @@ pub fn HTMLElement::attach_shadow(
     "delegatesFocus": js(init.delegates_focus),
     "slotAssignment": js(init.slot_assignment),
   })
-  self.to_js().call_method("attachShadow", [options]).cast()
+  self.to_js().invoke("attachShadow", [options]).cast()
 }
 
 ///|

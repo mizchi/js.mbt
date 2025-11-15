@@ -24,7 +24,7 @@ pub fn SubtleCrypto::encrypt(
 ) -> Promise[Val] {
   self
   .to_js()
-  .call_method("encrypt", [algorithm.to_js(), key.to_js(), data.to_js()])
+  .invoke("encrypt", [algorithm.to_js(), key.to_js(), data.to_js()])
   .cast()
 }
 
@@ -37,7 +37,7 @@ pub fn SubtleCrypto::decrypt(
 ) -> Promise[Val] {
   self
   .to_js()
-  .call_method("decrypt", [algorithm.to_js(), key.to_js(), data.to_js()])
+  .invoke("decrypt", [algorithm.to_js(), key.to_js(), data.to_js()])
   .cast()
 }
 
@@ -51,7 +51,7 @@ pub fn SubtleCrypto::sign(
 ) -> Promise[Val] {
   self
   .to_js()
-  .call_method("sign", [algorithm.to_js(), key.to_js(), data.to_js()])
+  .invoke("sign", [algorithm.to_js(), key.to_js(), data.to_js()])
   .cast()
 }
 
@@ -65,7 +65,7 @@ pub fn SubtleCrypto::verify(
 ) -> Promise[Bool] {
   self
   .to_js()
-  .call_method("verify", [
+  .invoke("verify", [
     algorithm.to_js(),
     key.to_js(),
     signature.to_js(),
@@ -81,7 +81,7 @@ pub fn SubtleCrypto::digest(
   algorithm : String,
   data : &Js,
 ) -> Promise[Val] {
-  self.to_js().call_method("digest", [algorithm |> js, data.to_js()]).cast()
+  self.to_js().invoke("digest", [algorithm |> js, data.to_js()]).cast()
 }
 
 ///|
@@ -95,7 +95,7 @@ pub fn SubtleCrypto::generate_key(
 ) -> Promise[Val] {
   self
   .to_js()
-  .call_method("generateKey", [
+  .invoke("generateKey", [
     algorithm.to_js(),
     extractable |> js,
     key_usages |> js,
@@ -115,7 +115,7 @@ pub fn SubtleCrypto::derive_key(
 ) -> Promise[Val] {
   self
   .to_js()
-  .call_method("deriveKey", [
+  .invoke("deriveKey", [
     algorithm.to_js(),
     base_key.to_js(),
     derived_key_type.to_js(),
@@ -135,7 +135,7 @@ pub fn SubtleCrypto::derive_bits(
 ) -> Promise[Val] {
   self
   .to_js()
-  .call_method("deriveBits", [algorithm.to_js(), base_key.to_js(), length |> js])
+  .invoke("deriveBits", [algorithm.to_js(), base_key.to_js(), length |> js])
   .cast()
 }
 
@@ -152,7 +152,7 @@ pub fn SubtleCrypto::import_key(
 ) -> Promise[Val] {
   self
   .to_js()
-  .call_method("importKey", [
+  .invoke("importKey", [
     format |> js,
     key_data.to_js(),
     algorithm.to_js(),
@@ -169,7 +169,7 @@ pub fn SubtleCrypto::export_key(
   format : String,
   key : &Js,
 ) -> Promise[Val] {
-  self.to_js().call_method("exportKey", [format |> js, key.to_js()]).cast()
+  self.to_js().invoke("exportKey", [format |> js, key.to_js()]).cast()
 }
 
 ///|
@@ -184,7 +184,7 @@ pub fn SubtleCrypto::wrap_key(
 ) -> Promise[Val] {
   self
   .to_js()
-  .call_method("wrapKey", [
+  .invoke("wrapKey", [
     format |> js,
     key.to_js(),
     wrapping_key.to_js(),
@@ -207,7 +207,7 @@ pub fn SubtleCrypto::unwrap_key(
 ) -> Promise[Val] {
   self
   .to_js()
-  .call_method("unwrapKey", [
+  .invoke("unwrapKey", [
     format |> js,
     wrapped_key.to_js(),
     unwrapping_key.to_js(),

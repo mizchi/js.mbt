@@ -20,7 +20,7 @@ pub(all) struct FsStat {
 ///|
 pub fn stat(path : String) -> Promise[FsStat] {
   let fs = @node.require("node:fs/promises")
-  fs.call_method("stat", [path]).cast()
+  fs.invoke("stat", [path]).cast()
 }
 
 ///|
@@ -30,13 +30,13 @@ pub fn mkdir(path : String, recursive? : Bool) -> Promise[Unit] {
   if recursive is Some(r) {
     options.set("recursive", r)
   }
-  fs.call_method("mkdir", [path, options]).cast()
+  fs.invoke("mkdir", [path, options]).cast()
 }
 
 ///|
 pub fn rmdir(path : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.call_method("rmdir", [path]).cast()
+  fs.invoke("rmdir", [path]).cast()
 }
 
 ///|
@@ -57,7 +57,7 @@ pub fn glob(
   if exclude_fn is Some(f) {
     opts.set("exclude", f |> js)
   }
-  fs.call_method("glob", [path]).cast()
+  fs.invoke("glob", [path]).cast()
 }
 
 ///|
@@ -72,13 +72,13 @@ pub impl Js for Dirent with to_js(self) -> Val {
 ///|
 #alias(isFile)
 pub fn Dirent::is_file(self : Self) -> Bool {
-  self.to_js().call_method("isFile", []).cast()
+  self.to_js().invoke("isFile", []).cast()
 }
 
 ///|
 #alias(isDirectory)
 pub fn Dirent::is_directory(self : Self) -> Bool {
-  self.to_js().call_method("isDirectory", []).cast()
+  self.to_js().invoke("isDirectory", []).cast()
 }
 
 ///|
@@ -105,7 +105,7 @@ pub fn glob_with_filetype(
   if exclude_fn is Some(f) {
     opts.set("exclude", f |> js)
   }
-  fs.call_method("glob", [path]).cast()
+  fs.invoke("glob", [path]).cast()
 }
 
 ///|
@@ -116,14 +116,14 @@ pub type FileHandle
 ///|
 pub fn open(path : String) -> Promise[FileHandle] {
   let fs = @node.require("node:fs/promises")
-  fs.call_method("open", [path]).cast()
+  fs.invoke("open", [path]).cast()
 }
 
 ///|
 #alias(read_file)
 pub fn readFile(path : String, encoding? : String = "utf-8") -> Promise[String] {
   let fs = @node.require("node:fs/promises")
-  fs.call_method("readFile", [path, encoding]).cast()
+  fs.invoke("readFile", [path, encoding]).cast()
 }
 
 ///|
@@ -146,26 +146,26 @@ pub fn writeFile(
   if signal is Some(s) {
     opts.set("signal", s)
   }
-  let promise = fs.call_method("writeFile", [path, content, opts])
+  let promise = fs.invoke("writeFile", [path, content, opts])
   promise.cast()
 }
 
 ///|
 pub fn rename(path : String, dest : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.call_method("rename", [path, dest]).cast()
+  fs.invoke("rename", [path, dest]).cast()
 }
 
 ///|
 pub fn rm(path : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let promise = fs.call_method("rm", [path])
+  let promise = fs.invoke("rm", [path])
   promise.cast()
 }
 
 ///|
 pub fn cp(path : String, dest : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let promise = fs.call_method("cp", [path, dest])
+  let promise = fs.invoke("cp", [path, dest])
   promise.cast()
 }

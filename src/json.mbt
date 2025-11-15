@@ -64,7 +64,7 @@ pub impl ToJson for Val with to_json(self) -> Json {
     return v.to_json()
   }
   if self.is_array() {
-    let len : Int = self.call_method("length", []).cast()
+    let len : Int = self.invoke("length", []).cast()
     let arr : Array[Json] = []
     for i = 0; i < len; i = i + 1 {
       let v = self.get(i.to_string())
@@ -104,7 +104,7 @@ pub impl Js for Json with to_js(self) -> Val {
       let arr = new_empty_array()
       for v in a {
         let v : Val = Js::to_js(v)
-        arr.call_method("push", [v]) |> ignore
+        arr.invoke("push", [v]) |> ignore
       }
       arr
     }

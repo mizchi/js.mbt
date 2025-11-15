@@ -76,17 +76,17 @@ pub impl Js for FormData with to_js(self) -> Val {
 
 ///|
 pub fn FormData::append(self : Self, name : String, value : String) -> Unit {
-  self.to_js().call_method("append", [name, value]).cast()
+  self.to_js().invoke("append", [name, value]).cast()
 }
 
 ///|
 pub fn FormData::delete(self : Self, name : String) -> Unit {
-  self.to_js().call_method("delete", [name]).cast()
+  self.to_js().invoke("delete", [name]).cast()
 }
 
 ///|
 pub fn FormData::get(self : Self, name : String) -> String {
-  self.to_js().call_method("get", [name]).cast()
+  self.to_js().invoke("get", [name]).cast()
 }
 
 ///|

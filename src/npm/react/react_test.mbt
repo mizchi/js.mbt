@@ -4,7 +4,7 @@ using @js {type Val, trait Js, global_this, js, unsafe_cast, log}
 ///|
 fn render_to_string(element : Element) -> String {
   let react_dom_server : Val = @node.require("react-dom/server")
-  react_dom_server.get("renderToString").call([element]).cast()
+  react_dom_server.get("renderToString").invoke_self([element]).cast()
 }
 
 ///|
@@ -30,7 +30,7 @@ test "create_element" {
     "my-button",
   )
   let c1 = (_ : EmptyProps) => {
-    let r : ReactRef[Val] = use_ref(None)
+    let r : ReactRef[@dom.Element] = use_ref(None)
     create_element("span", ref_=r, [])
   }
   c(c1, EmptyProps::default()) |> ignore

@@ -16,7 +16,7 @@ pub fn join(paths : Array[String]) -> String {
   let paths_js = @js.new_empty_array()
   let mut i = 0
   while i < paths.length() {
-    paths_js.call_method("push", [paths[i]]) |> ignore
+    paths_js.invoke("push", [paths[i]]) |> ignore
     i = i + 1
   }
   ffi_apply_variadic(join_fn, path_module, paths_js).cast()
@@ -25,35 +25,35 @@ pub fn join(paths : Array[String]) -> String {
 ///|
 pub fn dirname(path : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call_method("dirname", [path]).cast()
+  path_module.invoke("dirname", [path]).cast()
 }
 
 ///|
 pub fn basename(path : String, suffix? : String) -> String {
   let path_module = @node.require("node:path")
   match suffix {
-    Some(s) => path_module.call_method("basename", [path, s]).cast()
-    None => path_module.call_method("basename", [path]).cast()
+    Some(s) => path_module.invoke("basename", [path, s]).cast()
+    None => path_module.invoke("basename", [path]).cast()
   }
 }
 
 ///|
 pub fn extname(path : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call_method("extname", [path]).cast()
+  path_module.invoke("extname", [path]).cast()
 }
 
 ///|
 #alias(is_absolute)
 pub fn isAbsolute(path : String) -> Bool {
   let path_module = @node.require("node:path")
-  path_module.call_method("isAbsolute", [path]).cast()
+  path_module.invoke("isAbsolute", [path]).cast()
 }
 
 ///|
 pub fn normalize(path : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call_method("normalize", [path]).cast()
+  path_module.invoke("normalize", [path]).cast()
 }
 
 ///|
@@ -63,7 +63,7 @@ pub fn resolve(paths : Array[String]) -> String {
   let paths_js = @js.new_empty_array()
   let mut i = 0
   while i < paths.length() {
-    paths_js.call_method("push", [paths[i]]) |> ignore
+    paths_js.invoke("push", [paths[i]]) |> ignore
     i = i + 1
   }
   ffi_apply_variadic(resolve_fn, path_module, paths_js).cast()
@@ -72,19 +72,19 @@ pub fn resolve(paths : Array[String]) -> String {
 ///|
 pub fn relative(from : String, to : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call_method("relative", [from, to]).cast()
+  path_module.invoke("relative", [from, to]).cast()
 }
 
 ///|
 pub fn parse(path : String) -> ParsedPath {
   let path_module = @node.require("node:path")
-  path_module.call_method("parse", [path]).cast()
+  path_module.invoke("parse", [path]).cast()
 }
 
 ///|
 pub fn format(path_obj : ParsedPath) -> String {
   let path_module = @node.require("node:path")
-  path_module.call_method("format", [path_obj]).cast()
+  path_module.invoke("format", [path_obj]).cast()
 }
 
 ///|
@@ -154,12 +154,12 @@ pub fn sep() -> String {
 #alias(to_namespaced_path)
 pub fn toNamespacedPath(path : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call_method("toNamespacedPath", [path]).cast()
+  path_module.invoke("toNamespacedPath", [path]).cast()
 }
 
 ///|
 #alias(matches_glob)
 pub fn matchesGlob(path : String, pattern : String) -> Bool {
   let path_module = @node.require("node:path")
-  path_module.call_method("matchesGlob", [path, pattern]).cast()
+  path_module.invoke("matchesGlob", [path, pattern]).cast()
 }

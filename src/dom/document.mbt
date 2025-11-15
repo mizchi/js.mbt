@@ -86,21 +86,21 @@ pub fn Document::ready_state(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
 #alias(querySelector)
 pub fn Document::query_selector(self : Self, selector : String) -> Val? {
-  self.to_js().call_method("querySelector", [selector |> js]).cast_option()
+  self.to_js().invoke("querySelector", [selector |> js]).cast_option()
 }
 
 ///|
 /// Returns all elements matching the selector
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
 pub fn Document::query_selector_all(self : Self, selector : String) -> Val {
-  self.to_js().call_method("querySelectorAll", [selector |> js])
+  self.to_js().invoke("querySelectorAll", [selector |> js])
 }
 
 ///|
 /// Returns an element by its ID
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 pub fn Document::get_element_by_id(self : Self, id : String) -> Val? {
-  self.to_js().call_method("getElementById", [id |> js]).cast_option()
+  self.to_js().invoke("getElementById", [id |> js]).cast_option()
 }
 
 ///|
@@ -110,7 +110,7 @@ pub fn Document::get_elements_by_class_name(
   self : Self,
   class_name : String,
 ) -> Val {
-  self.to_js().call_method("getElementsByClassName", [class_name |> js])
+  self.to_js().invoke("getElementsByClassName", [class_name |> js])
 }
 
 ///|
@@ -120,7 +120,7 @@ pub fn Document::get_elements_by_tag_name(
   self : Self,
   tag_name : String,
 ) -> Val {
-  self.to_js().call_method("getElementsByTagName", [tag_name |> js])
+  self.to_js().invoke("getElementsByTagName", [tag_name |> js])
 }
 
 ///|
@@ -192,14 +192,14 @@ pub fn Document::referrer(self : Self) -> String {
 /// Creates a document fragment
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 pub fn Document::create_document_fragment(self : Self) -> Val {
-  self.to_js().call_method("createDocumentFragment", []).cast()
+  self.to_js().invoke("createDocumentFragment", []).cast()
 }
 
 ///|
 /// Creates a comment node
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 pub fn Document::create_comment(self : Self, data : String) -> Val {
-  self.to_js().call_method("createComment", [data |> js]).cast()
+  self.to_js().invoke("createComment", [data |> js]).cast()
 }
 
 ///|
@@ -241,19 +241,19 @@ pub fn Document::doctype(self : Self) -> Val? {
 /// Adopts a node from an external document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
 pub fn Document::adopt_node(self : Self, node : Node) -> Node {
-  self.to_js().call_method("adoptNode", [node.to_js()]).cast()
+  self.to_js().invoke("adoptNode", [node.to_js()]).cast()
 }
 
 ///|
 /// Imports a node from another document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
 pub fn Document::import_node(self : Self, node : Node, deep : Bool) -> Node {
-  self.to_js().call_method("importNode", [node.to_js(), deep]).cast()
+  self.to_js().invoke("importNode", [node.to_js(), deep]).cast()
 }
 
 ///|
 /// Creates an event of the specified type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
 pub fn Document::create_event(self : Self, event_type : String) -> Event {
-  self.to_js().call_method("createEvent", [event_type]).cast()
+  self.to_js().invoke("createEvent", [event_type]).cast()
 }

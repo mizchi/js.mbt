@@ -249,7 +249,7 @@ pub fn symbol_async_dispose() -> Symbol {
 ///
 /// ```moonbit
 /// let map = new_map()
-/// map.call_method("set", ["key", "value"]) |> ignore
+/// map.invoke("set", ["key", "value"]) |> ignore
 /// ```
 pub fn new_map() -> Val {
   ffi_new_map()
@@ -280,8 +280,8 @@ pub fn new_weak_map() -> Val {
 ///
 /// ```moonbit
 /// let set = new_set()
-/// set.call_method("add", [1]) |> ignore
-/// set.call_method("add", [2]) |> ignore
+/// set.invoke("add", [1]) |> ignore
+/// set.invoke("add", [2]) |> ignore
 /// ```
 pub fn new_set() -> Val {
   ffi_new_set()

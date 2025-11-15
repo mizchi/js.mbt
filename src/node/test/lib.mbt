@@ -30,7 +30,7 @@ pub impl Js for TestContext with to_js(self) -> Val {
 
 ///|
 pub fn TestContext::todo(self : Self, description : String) -> Unit {
-  self.to_js().call_method("todo", [js(description)]) |> ignore
+  self.to_js().invoke("todo", [js(description)]) |> ignore
 }
 
 ///|
@@ -47,13 +47,13 @@ pub fn NodeTest::it(
   } else {
     [name, js(af)]
   }
-  self.to_js().call_method("it", args) |> ignore
+  self.to_js().invoke("it", args) |> ignore
 }
 
 ///|
 pub fn NodeTest::before_each(self : Self, f : async () -> Unit) -> Unit noraise {
   let af = promisify0(f)
-  self.to_js().call_method("beforeEach", [js(af)]) |> ignore
+  self.to_js().invoke("beforeEach", [js(af)]) |> ignore
 }
 
 ///|

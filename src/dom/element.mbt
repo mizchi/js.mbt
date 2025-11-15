@@ -13,7 +13,7 @@ pub(open) trait EventTargetImpl: Js {
 ///|
 impl EventTargetImpl with add_event_listener(self, event_type, handler) -> Unit {
   ignore(
-    self.to_js().call_method("addEventListener", [event_type, @js.js(handler)]),
+    self.to_js().invoke("addEventListener", [event_type, @js.js(handler)]),
   )
 }
 
@@ -22,13 +22,13 @@ impl EventTargetImpl with remove_event_listener(self, event_type, handler) -> Un
   ignore(
     self
     .to_js()
-    .call_method("removeEventListener", [event_type, @js.js(handler)]),
+    .invoke("removeEventListener", [event_type, @js.js(handler)]),
   )
 }
 
 ///|
 impl EventTargetImpl with dispatch_event(self, event) -> Bool {
-  self.to_js().call_method("dispatchEvent", [event]).cast()
+  self.to_js().invoke("dispatchEvent", [event]).cast()
 }
 
 ///|
@@ -95,12 +95,12 @@ impl NodeImpl with next_sibling(self) -> Node? {
 
 ///|
 impl NodeImpl with append_child(self, child) -> Node {
-  self.to_js().call_method("appendChild", [child.to_js()]).cast()
+  self.to_js().invoke("appendChild", [child.to_js()]).cast()
 }
 
 ///|
 impl NodeImpl with remove_child(self, child) -> Node {
-  self.to_js().call_method("removeChild", [child.to_js()]).cast()
+  self.to_js().invoke("removeChild", [child.to_js()]).cast()
 }
 
 ///|
@@ -109,12 +109,12 @@ impl NodeImpl with insert_before(self, new_node, ref_node) -> Node {
     Some(node) =>
       self
       .to_js()
-      .call_method("insertBefore", [new_node.to_js(), node.to_js()])
+      .invoke("insertBefore", [new_node.to_js(), node.to_js()])
       .cast()
     None =>
       self
       .to_js()
-      .call_method("insertBefore", [new_node.to_js(), @js.null_()])
+      .invoke("insertBefore", [new_node.to_js(), @js.null_()])
       .cast()
   }
 }
@@ -123,26 +123,26 @@ impl NodeImpl with insert_before(self, new_node, ref_node) -> Node {
 impl NodeImpl with replace_child(self, new_child, old_child) -> Node {
   self
   .to_js()
-  .call_method("replaceChild", [new_child.to_js(), old_child.to_js()])
+  .invoke("replaceChild", [new_child.to_js(), old_child.to_js()])
   .cast()
 }
 
 ///|
 impl NodeImpl with clone_node(self, deep) -> Node {
-  self.to_js().call_method("cloneNode", [deep]).cast()
+  self.to_js().invoke("cloneNode", [deep]).cast()
 }
 
 ///|
 impl NodeImpl with contains(self, other) -> Bool {
   match other {
-    Some(node) => self.to_js().call_method("contains", [node.to_js()]).cast()
-    None => self.to_js().call_method("contains", [@js.null_()]).cast()
+    Some(node) => self.to_js().invoke("contains", [node.to_js()]).cast()
+    None => self.to_js().invoke("contains", [@js.null_()]).cast()
   }
 }
 
 ///|
 impl NodeImpl with has_child_nodes(self) -> Bool {
-  self.to_js().call_method("hasChildNodes", []).cast()
+  self.to_js().invoke("hasChildNodes", []).cast()
 }
 
 ///|
@@ -200,27 +200,27 @@ impl ElementImpl with set_id(self, id) -> Unit {
 
 ///|
 impl ElementImpl with get_attribute(self, name) -> String? {
-  self.to_js().call_method("getAttribute", [name]).cast()
+  self.to_js().invoke("getAttribute", [name]).cast()
 }
 
 ///|
 impl ElementImpl with set_attribute(self, name, value) -> Unit {
-  ignore(self.to_js().call_method("setAttribute", [name, value]))
+  ignore(self.to_js().invoke("setAttribute", [name, value]))
 }
 
 ///|
 impl ElementImpl with remove_attribute(self, name) -> Unit {
-  ignore(self.to_js().call_method("removeAttribute", [name]))
+  ignore(self.to_js().invoke("removeAttribute", [name]))
 }
 
 ///|
 impl ElementImpl with has_attribute(self, name) -> Bool {
-  self.to_js().call_method("hasAttribute", [name]).cast()
+  self.to_js().invoke("hasAttribute", [name]).cast()
 }
 
 ///|
 impl ElementImpl with get_elements_by_tag_name(self, tag_name) -> Array[Element] {
-  @js.array_from(self.to_js().call_method("getElementsByTagName", [tag_name])).map(fn(
+  @js.array_from(self.to_js().invoke("getElementsByTagName", [tag_name])).map(fn(
       v,
     ) {
       v.cast()
@@ -233,18 +233,18 @@ impl ElementImpl with get_elements_by_class_name(self, class_name) -> Array[
   Element,
 ] {
   @js.array_from(
-    self.to_js().call_method("getElementsByClassName", [class_name]),
+    self.to_js().invoke("getElementsByClassName", [class_name]),
   ).map(fn(v) { v.cast() })
 }
 
 ///|
 impl ElementImpl with query_selector(self, selector) -> Element? {
-  self.to_js().call_method("querySelector", [selector]).cast()
+  self.to_js().invoke("querySelector", [selector]).cast()
 }
 
 ///|
 impl ElementImpl with query_selector_all(self, selector) -> Array[Element] {
-  @js.array_from(self.to_js().call_method("querySelectorAll", [selector])).map(
+  @js.array_from(self.to_js().invoke("querySelectorAll", [selector])).map(
     _.cast(),
   )
 }
@@ -413,7 +413,7 @@ pub fn HTMLCanvasElement::get_context(
   self : Self,
   context_type : String,
 ) -> Val {
-  self.to_js().call_method("getContext", [context_type])
+  self.to_js().invoke("getContext", [context_type])
 }
 
 ///|
@@ -423,9 +423,9 @@ pub fn HTMLCanvasElement::to_data_url(
   quality? : Double,
 ) -> String {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.to_js().call_method("toDataURL", [t, q]).cast()
-    (Some(t), None) => self.to_js().call_method("toDataURL", [t]).cast()
-    (None, _) => self.to_js().call_method("toDataURL", []).cast()
+    (Some(t), Some(q)) => self.to_js().invoke("toDataURL", [t, q]).cast()
+    (Some(t), None) => self.to_js().invoke("toDataURL", [t]).cast()
+    (None, _) => self.to_js().invoke("toDataURL", []).cast()
   }
 }
 
@@ -436,9 +436,9 @@ pub fn HTMLCanvasElement::to_blob(
   quality? : Double,
 ) -> Promise[Blob] {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.to_js().call_method("toBlob", [t, q]).cast()
-    (Some(t), None) => self.to_js().call_method("toBlob", [t]).cast()
-    (None, _) => self.to_js().call_method("toBlob", []).cast()
+    (Some(t), Some(q)) => self.to_js().invoke("toBlob", [t, q]).cast()
+    (Some(t), None) => self.to_js().invoke("toBlob", [t]).cast()
+    (None, _) => self.to_js().invoke("toBlob", []).cast()
   }
 }
 

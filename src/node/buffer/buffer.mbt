@@ -26,7 +26,7 @@ pub fn Buffer::from_string(
   encoding? : String = "utf-8",
 ) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call_method("from", [str, encoding]).cast()
+  ctor.invoke("from", [str, encoding]).cast()
 }
 
 ///|
@@ -36,10 +36,10 @@ pub fn Buffer::from_array(arr : Array[Int]) -> Buffer {
   let arr_js = @js.new_empty_array()
   let mut i = 0
   while i < arr.length() {
-    arr_js.call_method("push", [arr[i]]) |> ignore
+    arr_js.invoke("push", [arr[i]]) |> ignore
     i = i + 1
   }
-  ctor.call_method("from", [arr_js]).cast()
+  ctor.invoke("from", [arr_js]).cast()
 }
 
 ///|
@@ -51,8 +51,8 @@ pub fn Buffer::from_arraybuffer(
 ) -> Buffer {
   let ctor = buffer_constructor()
   match length {
-    Some(len) => ctor.call_method("from", [ab, byte_offset, len]).cast()
-    None => ctor.call_method("from", [ab, byte_offset]).cast()
+    Some(len) => ctor.invoke("from", [ab, byte_offset, len]).cast()
+    None => ctor.invoke("from", [ab, byte_offset]).cast()
   }
 }
 
@@ -60,7 +60,7 @@ pub fn Buffer::from_arraybuffer(
 /// Create a Buffer by copying another buffer
 pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call_method("from", [buf]).cast()
+  ctor.invoke("from", [buf]).cast()
 }
 
 ///|
@@ -72,8 +72,8 @@ pub fn Buffer::alloc(
 ) -> Buffer {
   let ctor = buffer_constructor()
   match fill {
-    Some(f) => ctor.call_method("alloc", [size, f, encoding]).cast()
-    None => ctor.call_method("alloc", [size]).cast()
+    Some(f) => ctor.invoke("alloc", [size, f, encoding]).cast()
+    None => ctor.invoke("alloc", [size]).cast()
   }
 }
 
@@ -82,7 +82,7 @@ pub fn Buffer::alloc(
 #alias(alloc_unsafe)
 pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call_method("allocUnsafe", [size]).cast()
+  ctor.invoke("allocUnsafe", [size]).cast()
 }
 
 ///|
@@ -90,7 +90,7 @@ pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
 #alias(is_buffer)
 pub fn Buffer::isBuffer(obj : Val) -> Bool {
   let ctor = buffer_constructor()
-  ctor.call_method("isBuffer", [obj]).cast()
+  ctor.invoke("isBuffer", [obj]).cast()
 }
 
 ///|
@@ -98,14 +98,14 @@ pub fn Buffer::isBuffer(obj : Val) -> Bool {
 #alias(is_encoding)
 pub fn Buffer::isEncoding(encoding : String) -> Bool {
   let ctor = buffer_constructor()
-  ctor.call_method("isEncoding", [encoding]).cast()
+  ctor.invoke("isEncoding", [encoding]).cast()
 }
 
 ///|
 /// Compare two buffers
 pub fn Buffer::compare(buf1 : Buffer, buf2 : Buffer) -> Int {
   let ctor = buffer_constructor()
-  ctor.call_method("compare", [buf1, buf2]).cast()
+  ctor.invoke("compare", [buf1, buf2]).cast()
 }
 
 ///|
@@ -115,12 +115,12 @@ pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
   let list_js = @js.new_empty_array()
   let mut i = 0
   while i < list.length() {
-    list_js.call_method("push", [list[i]]) |> ignore
+    list_js.invoke("push", [list[i]]) |> ignore
     i = i + 1
   }
   match total_length {
-    Some(len) => ctor.call_method("concat", [list_js, len]).cast()
-    None => ctor.call_method("concat", [list_js]).cast()
+    Some(len) => ctor.invoke("concat", [list_js, len]).cast()
+    None => ctor.invoke("concat", [list_js]).cast()
   }
 }
 
@@ -129,7 +129,7 @@ pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
 #alias(byte_length)
 pub fn Buffer::byteLength(str : String, encoding? : String = "utf-8") -> Int {
   let ctor = buffer_constructor()
-  ctor.call_method("byteLength", [str, encoding]).cast()
+  ctor.invoke("byteLength", [str, encoding]).cast()
 }
 
 ///|
@@ -148,8 +148,8 @@ pub fn Buffer::toString(
   end? : Int,
 ) -> String {
   match end {
-    Some(e) => self.to_js().call_method("toString", [encoding, start, e]).cast()
-    None => self.to_js().call_method("toString", [encoding, start]).cast()
+    Some(e) => self.to_js().invoke("toString", [encoding, start, e]).cast()
+    None => self.to_js().invoke("toString", [encoding, start]).cast()
   }
 }
 
@@ -165,8 +165,8 @@ pub fn Buffer::write(
   let buf_js = self.to_js()
   match length {
     Some(len) =>
-      buf_js.call_method("write", [str, offset, len, encoding]).cast()
-    None => buf_js.call_method("write", [str, offset, encoding]).cast()
+      buf_js.invoke("write", [str, offset, len, encoding]).cast()
+    None => buf_js.invoke("write", [str, offset, encoding]).cast()
   }
 }
 
@@ -175,8 +175,8 @@ pub fn Buffer::write(
 pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.to_js()
   match end {
-    Some(e) => buf_js.call_method("slice", [start, e]).cast()
-    None => buf_js.call_method("slice", [start]).cast()
+    Some(e) => buf_js.invoke("slice", [start, e]).cast()
+    None => buf_js.invoke("slice", [start]).cast()
   }
 }
 
@@ -185,8 +185,8 @@ pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
 pub fn Buffer::subarray(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.to_js()
   match end {
-    Some(e) => buf_js.call_method("subarray", [start, e]).cast()
-    None => buf_js.call_method("subarray", [start]).cast()
+    Some(e) => buf_js.invoke("subarray", [start, e]).cast()
+    None => buf_js.invoke("subarray", [start]).cast()
   }
 }
 
@@ -203,10 +203,10 @@ pub fn Buffer::copy(
   match source_end {
     Some(se) =>
       buf_js
-      .call_method("copy", [target, target_start, source_start, se])
+      .invoke("copy", [target, target_start, source_start, se])
       .cast()
     None =>
-      buf_js.call_method("copy", [target, target_start, source_start]).cast()
+      buf_js.invoke("copy", [target, target_start, source_start]).cast()
   }
 }
 
@@ -221,15 +221,15 @@ pub fn Buffer::fill(
 ) -> Buffer {
   let buf_js = self.to_js()
   match end {
-    Some(e) => buf_js.call_method("fill", [value, offset, e, encoding]).cast()
-    None => buf_js.call_method("fill", [value, offset]).cast()
+    Some(e) => buf_js.invoke("fill", [value, offset, e, encoding]).cast()
+    None => buf_js.invoke("fill", [value, offset]).cast()
   }
 }
 
 ///|
 /// Test if this buffer equals another buffer
 pub fn Buffer::equals(self : Self, other : Buffer) -> Bool {
-  self.to_js().call_method("equals", [other]).cast()
+  self.to_js().invoke("equals", [other]).cast()
 }
 
 ///|
@@ -244,20 +244,20 @@ pub fn Buffer::compare_with(
 ) -> Int {
   let buf_js = self.to_js()
   let args = @js.new_empty_array()
-  args.call_method("push", [target]) |> ignore
-  args.call_method("push", [target_start]) |> ignore
+  args.invoke("push", [target]) |> ignore
+  args.invoke("push", [target_start]) |> ignore
   match target_end {
-    Some(te) => args.call_method("push", [te]) |> ignore
+    Some(te) => args.invoke("push", [te]) |> ignore
     None => ()
   }
-  args.call_method("push", [source_start]) |> ignore
+  args.invoke("push", [source_start]) |> ignore
   match source_end {
-    Some(se) => args.call_method("push", [se]) |> ignore
+    Some(se) => args.invoke("push", [se]) |> ignore
     None => ()
   }
   let compare_fn = buf_js.get("compare")
   let apply = compare_fn.get("apply")
-  apply.call_method("call", [compare_fn, buf_js, args]).cast()
+  apply.invoke("call", [compare_fn, buf_js, args]).cast()
 }
 
 ///|
@@ -268,7 +268,7 @@ pub fn Buffer::includes(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Bool {
-  self.to_js().call_method("includes", [value, byte_offset, encoding]).cast()
+  self.to_js().invoke("includes", [value, byte_offset, encoding]).cast()
 }
 
 ///|
@@ -280,7 +280,7 @@ pub fn Buffer::indexOf(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Int {
-  self.to_js().call_method("indexOf", [value, byte_offset, encoding]).cast()
+  self.to_js().invoke("indexOf", [value, byte_offset, encoding]).cast()
 }
 
 ///|
@@ -295,8 +295,8 @@ pub fn Buffer::lastIndexOf(
   let buf_js = self.to_js()
   match byte_offset {
     Some(offset) =>
-      buf_js.call_method("lastIndexOf", [value, offset, encoding]).cast()
-    None => buf_js.call_method("lastIndexOf", [value, encoding]).cast()
+      buf_js.invoke("lastIndexOf", [value, offset, encoding]).cast()
+    None => buf_js.invoke("lastIndexOf", [value, encoding]).cast()
   }
 }
 
@@ -337,5 +337,5 @@ pub fn Buffer::byteOffset(self : Self) -> Int {
 /// Convert buffer to JSON representation
 #alias(to_json)
 pub fn Buffer::toJSON(self : Self) -> Val {
-  self.to_js().call_method("toJSON", [])
+  self.to_js().invoke("toJSON", [])
 }

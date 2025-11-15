@@ -29,8 +29,8 @@ pub fn ArrayBuffer::slice(
   end? : Int,
 ) -> ArrayBuffer {
   match end {
-    Some(e) => self.to_js().call_method("slice", [begin, e]).cast()
-    None => self.to_js().call_method("slice", [begin]).cast()
+    Some(e) => self.to_js().invoke("slice", [begin, e]).cast()
+    None => self.to_js().invoke("slice", [begin]).cast()
   }
 }
 
@@ -75,8 +75,8 @@ pub fn SharedArrayBuffer::slice(
   end? : Int,
 ) -> SharedArrayBuffer {
   match end {
-    Some(e) => self.to_js().call_method("slice", [begin, e]).cast()
-    None => self.to_js().call_method("slice", [begin]).cast()
+    Some(e) => self.to_js().invoke("slice", [begin, e]).cast()
+    None => self.to_js().invoke("slice", [begin]).cast()
   }
 }
 
@@ -126,13 +126,13 @@ pub fn DataView::byte_offset(self : DataView) -> UInt {
 ///|
 #alias(getInt8)
 pub fn DataView::get_int8(self : DataView, byte_offset : UInt) -> Int {
-  self.to_js().call_method("getInt8", [byte_offset]).cast()
+  self.to_js().invoke("getInt8", [byte_offset]).cast()
 }
 
 ///|
 #alias(getUint8)
 pub fn DataView::get_uint8(self : DataView, byte_offset : UInt) -> UInt {
-  self.to_js().call_method("getUint8", [byte_offset]).cast()
+  self.to_js().invoke("getUint8", [byte_offset]).cast()
 }
 
 ///|
@@ -142,7 +142,7 @@ pub fn DataView::get_int16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.to_js().call_method("getInt16", [byte_offset, little_endian]).cast()
+  self.to_js().invoke("getInt16", [byte_offset, little_endian]).cast()
 }
 
 ///|
@@ -152,7 +152,7 @@ pub fn DataView::get_uint16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.to_js().call_method("getUint16", [byte_offset, little_endian]).cast()
+  self.to_js().invoke("getUint16", [byte_offset, little_endian]).cast()
 }
 
 ///|
@@ -162,7 +162,7 @@ pub fn DataView::get_int32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.to_js().call_method("getInt32", [byte_offset, little_endian]).cast()
+  self.to_js().invoke("getInt32", [byte_offset, little_endian]).cast()
 }
 
 ///|
@@ -172,7 +172,7 @@ pub fn DataView::get_uint32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.to_js().call_method("getUint32", [byte_offset, little_endian]).cast()
+  self.to_js().invoke("getUint32", [byte_offset, little_endian]).cast()
 }
 
 ///|
@@ -182,7 +182,7 @@ pub fn DataView::get_float32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.to_js().call_method("getFloat32", [byte_offset, little_endian]).cast()
+  self.to_js().invoke("getFloat32", [byte_offset, little_endian]).cast()
 }
 
 ///|
@@ -192,7 +192,7 @@ pub fn DataView::get_float64(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.to_js().call_method("getFloat64", [byte_offset, little_endian]).cast()
+  self.to_js().invoke("getFloat64", [byte_offset, little_endian]).cast()
 }
 
 ///|
@@ -202,7 +202,7 @@ pub fn DataView::set_int8(
   byte_offset : UInt,
   value : Int,
 ) -> Unit {
-  self.to_js().call_method("setInt8", [byte_offset, value]) |> ignore
+  self.to_js().invoke("setInt8", [byte_offset, value]) |> ignore
 }
 
 ///|
@@ -212,7 +212,7 @@ pub fn DataView::set_uint8(
   byte_offset : UInt,
   value : UInt,
 ) -> Unit {
-  self.to_js().call_method("setUint8", [byte_offset, value]) |> ignore
+  self.to_js().invoke("setUint8", [byte_offset, value]) |> ignore
 }
 
 ///|
@@ -223,8 +223,7 @@ pub fn DataView::set_int16(
   value : Int,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().call_method("setInt16", [byte_offset, value, little_endian])
-  |> ignore
+  self.to_js().invoke("setInt16", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -235,7 +234,7 @@ pub fn DataView::set_uint16(
   value : UInt,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().call_method("setUint16", [byte_offset, value, little_endian])
+  self.to_js().invoke("setUint16", [byte_offset, value, little_endian])
   |> ignore
 }
 
@@ -247,8 +246,7 @@ pub fn DataView::set_int32(
   value : Int,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().call_method("setInt32", [byte_offset, value, little_endian])
-  |> ignore
+  self.to_js().invoke("setInt32", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -259,7 +257,7 @@ pub fn DataView::set_uint32(
   value : UInt,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().call_method("setUint32", [byte_offset, value, little_endian])
+  self.to_js().invoke("setUint32", [byte_offset, value, little_endian])
   |> ignore
 }
 
@@ -271,7 +269,7 @@ pub fn DataView::set_float32(
   value : Double,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().call_method("setFloat32", [byte_offset, value, little_endian])
+  self.to_js().invoke("setFloat32", [byte_offset, value, little_endian])
   |> ignore
 }
 
@@ -283,7 +281,7 @@ pub fn DataView::set_float64(
   value : Double,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.to_js().call_method("setFloat64", [byte_offset, value, little_endian])
+  self.to_js().invoke("setFloat64", [byte_offset, value, little_endian])
   |> ignore
 }
 
@@ -373,23 +371,22 @@ pub fn Uint8Array::set(
   array : Array[UInt],
   offset? : UInt = 0,
 ) -> Unit {
-  self.to_js().call_method("set", [@js.from_builtin_array(array), offset])
-  |> ignore
+  self.to_js().invoke("set", [@js.from_builtin_array(array), offset]) |> ignore
 }
 
 ///|
 pub fn Uint8Array::slice(self : Self, start? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.to_js().call_method("slice", [start, e]).cast()
-    None => self.to_js().call_method("slice", [start]).cast()
+    Some(e) => self.to_js().invoke("slice", [start, e]).cast()
+    None => self.to_js().invoke("slice", [start]).cast()
   }
 }
 
 ///|
 pub fn Uint8Array::subarray(self : Self, begin? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.to_js().call_method("subarray", [begin, e]).cast()
-    None => self.to_js().call_method("subarray", [begin]).cast()
+    Some(e) => self.to_js().invoke("subarray", [begin, e]).cast()
+    None => self.to_js().invoke("subarray", [begin]).cast()
   }
 }
 
@@ -401,8 +398,8 @@ pub fn Uint8Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.to_js().call_method("fill", [value, start, e]).cast()
-    None => self.to_js().call_method("fill", [value, start]).cast()
+    Some(e) => self.to_js().invoke("fill", [value, start, e]).cast()
+    None => self.to_js().invoke("fill", [value, start]).cast()
   }
 }
 
@@ -415,19 +412,19 @@ pub fn Uint8Array::copy_within(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.to_js().call_method("copyWithin", [target, start, e]).cast()
-    None => self.to_js().call_method("copyWithin", [target, start]).cast()
+    Some(e) => self.to_js().invoke("copyWithin", [target, start, e]).cast()
+    None => self.to_js().invoke("copyWithin", [target, start]).cast()
   }
 }
 
 ///|
 pub fn Uint8Array::reverse(self : Self) -> Self {
-  self.to_js().call_method("reverse", []).cast()
+  self.to_js().invoke("reverse", []).cast()
 }
 
 ///|
 pub fn Uint8Array::sort(self : Self) -> Self {
-  self.to_js().call_method("sort", []).cast()
+  self.to_js().invoke("sort", []).cast()
 }
 
 ///|
@@ -437,7 +434,7 @@ pub fn Uint8Array::index_of(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.to_js().call_method("indexOf", [search_element, from_index]).cast()
+  self.to_js().invoke("indexOf", [search_element, from_index]).cast()
 }
 
 ///|
@@ -448,9 +445,8 @@ pub fn Uint8Array::last_index_of(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) =>
-      self.to_js().call_method("lastIndexOf", [search_element, i]).cast()
-    None => self.to_js().call_method("lastIndexOf", [search_element]).cast()
+    Some(i) => self.to_js().invoke("lastIndexOf", [search_element, i]).cast()
+    None => self.to_js().invoke("lastIndexOf", [search_element]).cast()
   }
 }
 
@@ -460,18 +456,18 @@ pub fn Uint8Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.to_js().call_method("includes", [search_element, from_index]).cast()
+  self.to_js().invoke("includes", [search_element, from_index]).cast()
 }
 
 ///|
 pub fn Uint8Array::join(self : Self, separator? : String = ",") -> String {
-  self.to_js().call_method("join", [separator]).cast()
+  self.to_js().invoke("join", [separator]).cast()
 }
 
 ///|
 #alias(toString)
 pub fn Uint8Array::to_string(self : Self) -> String {
-  self.to_js().call_method("toString", []).cast()
+  self.to_js().invoke("toString", []).cast()
 }
 
 ///|

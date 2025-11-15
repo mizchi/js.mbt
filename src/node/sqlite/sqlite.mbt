@@ -148,7 +148,7 @@ pub fn[T, U] DatabaseSync::aggregate(
   if result is Some(v) {
     opts["result"] = v |> js
   }
-  self.to_js().call_method("aggregate", [name, opts]) |> ignore
+  self.to_js().invoke("aggregate", [name, opts]) |> ignore
 }
 
 ///|
@@ -174,7 +174,7 @@ pub fn DatabaseSync::function(
   if varargs is Some(v) {
     opts["varargs"] = v
   }
-  self.to_js().call_method("function", [name, opts, func |> js]) |> ignore
+  self.to_js().invoke("function", [name, opts, func |> js]) |> ignore
 }
 
 ///|
@@ -183,13 +183,13 @@ pub fn DatabaseSync::setAuthorizer(
   self : Self,
   callback : (Int, String?, String?, String?, String?) -> Int,
 ) -> Unit {
-  self.to_js().call_method("setAuthorizer", [callback |> js]) |> ignore
+  self.to_js().invoke("setAuthorizer", [callback |> js]) |> ignore
 }
 
 ///|
 pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
   let args : Array[&Js] = if db_name is Some(name) { [name] } else { [] }
-  let result = self.to_js().call_method("location", args)
+  let result = self.to_js().invoke("location", args)
   if result.is_null() {
     None
   } else {
@@ -200,13 +200,13 @@ pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
 ///|
 #alias(load_extension)
 pub fn DatabaseSync::loadExtension(self : Self, path : String) -> Unit {
-  self.to_js().call_method("loadExtension", [path]) |> ignore
+  self.to_js().invoke("loadExtension", [path]) |> ignore
 }
 
 ///|
 #alias(enable_load_extension)
 pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
-  self.to_js().call_method("enableLoadExtension", [allow]) |> ignore
+  self.to_js().invoke("enableLoadExtension", [allow]) |> ignore
 }
 
 ///|
@@ -223,12 +223,12 @@ pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
 
 ///|
 pub fn DatabaseSync::open(self : Self) -> Unit {
-  self.to_js().call_method("open", []) |> ignore
+  self.to_js().invoke("open", []) |> ignore
 }
 
 ///|
 pub fn DatabaseSync::close(self : Self) -> Unit {
-  self.to_js().call_method("close", []) |> ignore
+  self.to_js().invoke("close", []) |> ignore
 }
 
 ///|
@@ -238,7 +238,7 @@ pub fn DatabaseSync::createTagStore(
   max_size? : Int,
 ) -> SQLTagStore {
   let args : Array[&Js] = if max_size is Some(size) { [size] } else { [] }
-  self.to_js().call_method("createTagStore", args).cast()
+  self.to_js().invoke("createTagStore", args).cast()
 }
 
 ///|
@@ -255,17 +255,17 @@ pub fn DatabaseSync::createSession(
   if db is Some(d) {
     v["db"] = d
   }
-  self.to_js().call_method("createSession", [v]).cast()
+  self.to_js().invoke("createSession", [v]).cast()
 }
 
 ///|
 pub fn DatabaseSync::exec(self : Self, query : String) -> Unit {
-  self.to_js().call_method("exec", [query]).cast()
+  self.to_js().invoke("exec", [query]).cast()
 }
 
 ///|
 pub fn DatabaseSync::prepare(self : Self, query : String) -> StatementSync {
-  self.to_js().call_method("prepare", [query]).cast()
+  self.to_js().invoke("prepare", [query]).cast()
 }
 
 ///|
@@ -283,7 +283,7 @@ pub fn DatabaseSync::applyChangeset(
   if onConflict is Some(oc) {
     opts["onConflict"] = oc |> js
   }
-  self.to_js().call_method("applyChangeset", [changeset, opts]).cast()
+  self.to_js().invoke("applyChangeset", [changeset, opts]).cast()
 }
 
 ///|
@@ -314,7 +314,7 @@ pub fn StatementSync::get(
       args.push(param)
     }
   }
-  let result = self.to_js().call_method("get", args)
+  let result = self.to_js().invoke("get", args)
   if result.is_undefined() {
     None
   } else {
@@ -324,7 +324,7 @@ pub fn StatementSync::get(
 
 ///|
 pub fn StatementSync::columns(self : Self) -> Array[Val] {
-  self.to_js().call_method("columns", []).cast()
+  self.to_js().invoke("columns", []).cast()
 }
 
 ///|
@@ -346,7 +346,7 @@ pub fn StatementSync::run(
       args.push(param)
     }
   }
-  self.to_js().call_method("run", args).cast()
+  self.to_js().invoke("run", args).cast()
 }
 
 ///|
@@ -368,7 +368,7 @@ pub fn StatementSync::all(
       args.push(param)
     }
   }
-  self.to_js().call_method("all", args).cast()
+  self.to_js().invoke("all", args).cast()
 }
 
 ///|
@@ -390,7 +390,7 @@ pub fn StatementSync::iterate(
       args.push(param)
     }
   }
-  self.to_js().call_method("iterate", args).cast()
+  self.to_js().invoke("iterate", args).cast()
 }
 
 ///|
@@ -411,7 +411,7 @@ pub fn StatementSync::setAllowBareNamedParameters(
   self : Self,
   enabled : Bool,
 ) -> Unit {
-  self.to_js().call_method("setAllowBareNamedParameters", [enabled]) |> ignore
+  self.to_js().invoke("setAllowBareNamedParameters", [enabled]) |> ignore
 }
 
 ///|
@@ -420,20 +420,20 @@ pub fn StatementSync::setAllowUnknownNamedParameters(
   self : Self,
   enabled : Bool,
 ) -> Unit {
-  self.to_js().call_method("setAllowUnknownNamedParameters", [enabled])
+  self.to_js().invoke("setAllowUnknownNamedParameters", [enabled])
   |> ignore
 }
 
 ///|
 #alias(set_return_arrays)
 pub fn StatementSync::setReturnArrays(self : Self, enabled : Bool) -> Unit {
-  self.to_js().call_method("setReturnArrays", [enabled]) |> ignore
+  self.to_js().invoke("setReturnArrays", [enabled]) |> ignore
 }
 
 ///|
 #alias(set_read_big_ints)
 pub fn StatementSync::setReadBigInts(self : Self, enabled : Bool) -> Unit {
-  self.to_js().call_method("setReadBigInts", [enabled]) |> ignore
+  self.to_js().invoke("setReadBigInts", [enabled]) |> ignore
 }
 
 ///|
@@ -458,17 +458,17 @@ pub impl Js for Session with to_js(self) {
 
 ///|
 pub fn Session::changeset(self : Self) -> Uint8Array {
-  self.to_js().call_method("changeset", []).cast()
+  self.to_js().invoke("changeset", []).cast()
 }
 
 ///|
 pub fn Session::patchset(self : Self) -> Uint8Array {
-  self.to_js().call_method("patchset", []).cast()
+  self.to_js().invoke("patchset", []).cast()
 }
 
 ///|
 pub fn Session::close(self : Self) -> Unit {
-  self.to_js().call_method("close", []) |> ignore
+  self.to_js().invoke("close", []) |> ignore
 }
 
 ///|
@@ -487,12 +487,12 @@ pub fn SQLTagStore::capacity(self : Self) -> Int {
 
 ///|
 pub fn SQLTagStore::size(self : Self) -> Int {
-  self.to_js().call_method("size", []).cast()
+  self.to_js().invoke("size", []).cast()
 }
 
 ///|
 pub fn SQLTagStore::clear(self : Self) -> Unit {
-  self.to_js().call_method("clear", []) |> ignore
+  self.to_js().invoke("clear", []) |> ignore
 }
 
 ///|
@@ -529,7 +529,7 @@ pub fn backup(
     opts["progress"] = f |> js
   }
   let backup : Val = @node.require("node:sqlite").get("backup")
-  backup.call([source_db.to_js(), db_path, opts]) |> ignore
+  backup.invoke_self([source_db.to_js(), db_path, opts]) |> ignore
 }
 
 ///|

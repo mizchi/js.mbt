@@ -14,17 +14,17 @@ pub(open) trait EventImpl: Js {
 
 ///|
 impl EventImpl with prevent_default(self) -> Unit {
-  ignore(self.to_js().call_method("preventDefault", []))
+  ignore(self.to_js().invoke("preventDefault", []))
 }
 
 ///|
 impl EventImpl with stop_propagation(self) -> Unit {
-  ignore(self.to_js().call_method("stopPropagation", []))
+  ignore(self.to_js().invoke("stopPropagation", []))
 }
 
 ///|
 impl EventImpl with stop_immediate_propagation(self) -> Unit {
-  ignore(self.to_js().call_method("stopImmediatePropagation", []))
+  ignore(self.to_js().invoke("stopImmediatePropagation", []))
 }
 
 ///|

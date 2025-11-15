@@ -61,7 +61,7 @@ pub fn CustomElementRegistry::define_element(
   callbacks : CustomElementCallbacks,
 ) -> Unit {
   let element_class = create_custom_element_class(callbacks)
-  ignore(self.to_js().call_method("define", [name, element_class]))
+  ignore(self.to_js().invoke("define", [name, element_class]))
 }
 
 ///|
@@ -102,14 +102,14 @@ pub fn CustomElementRegistry::define_element_with_attributes(
   let element_class = create_custom_element_class_with_attributes(
     callbacks, observed_attributes,
   )
-  ignore(self.to_js().call_method("define", [name, element_class]))
+  ignore(self.to_js().invoke("define", [name, element_class]))
 }
 
 ///|
 /// Returns the constructor for the custom element with the given name
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
 pub fn CustomElementRegistry::get(self : Self, name : String) -> Val? {
-  self.to_js().call_method("get", [name]).cast_option()
+  self.to_js().invoke("get", [name]).cast_option()
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn CustomElementRegistry::get_name(
   self : Self,
   element_constructor : Val,
 ) -> String? {
-  self.to_js().call_method("getName", [element_constructor]).cast_option()
+  self.to_js().invoke("getName", [element_constructor]).cast_option()
 }
 
 ///|
@@ -129,14 +129,14 @@ pub fn CustomElementRegistry::when_defined(
   self : Self,
   name : String,
 ) -> Promise[Unit] {
-  self.to_js().call_method("whenDefined", [name]).cast()
+  self.to_js().invoke("whenDefined", [name]).cast()
 }
 
 ///|
 /// Upgrades a custom element in the shadow root before it is connected
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/upgrade
 pub fn CustomElementRegistry::upgrade(self : Self, root : Node) -> Unit {
-  ignore(self.to_js().call_method("upgrade", [root.to_js()]))
+  ignore(self.to_js().invoke("upgrade", [root.to_js()]))
 }
 
 ///|
