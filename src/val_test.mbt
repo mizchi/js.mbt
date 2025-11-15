@@ -367,17 +367,6 @@ test "symbols" {
 }
 
 ///|
-test "new collections" {
-  // Map
-  let map = new_map()
-  assert_true(map.is_object())
-
-  // Set
-  let set = new_set()
-  assert_true(set.is_object())
-}
-
-///|
 test "new_error" {
   let error = new_error("Test error")
   let error_val : Val = unsafe_cast(error)
@@ -467,8 +456,8 @@ test "Val with mixed types in object" {
 test "Val property_is_enumerable" {
   let obj = new_empty_object()
   obj.set("enumerable", "value")
-  assert_true(obj.property_is_enumerable("enumerable"))
-  assert_false(obj.property_is_enumerable("nonexistent"))
+  assert_true(@js.property_is_enumerable(obj, "enumerable"))
+  assert_false(@js.property_is_enumerable(obj, "nonexistent"))
 }
 
 ///|
@@ -499,7 +488,7 @@ test "Js trait for primitives" {
 test "Js trait for Array[&Js]" {
   let arr : Array[&Js] = ["hello", 42, 3.14, true]
   let val = Js::to_js(arr)
-  assert_true(val.is_array())
+  assert_true(@js.is_array(val))
   assert_eq(unsafe_cast(val.get(0)), "hello")
   assert_eq(unsafe_cast(val.get(1)), 42)
   assert_eq(unsafe_cast(val.get(2)), 3.14)

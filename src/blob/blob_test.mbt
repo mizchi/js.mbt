@@ -2,7 +2,7 @@
 /// Blob API Tests
 
 ///|
-using @js {js}
+using @js {js, type_of}
 
 ///|
 using @async {run_async}
@@ -116,7 +116,7 @@ test "Blob slice with content_type sets MIME type" {
 test "Blob stream returns ReadableStream" {
   let blob = Blob::new(["test" |> js])
   let stream = blob.stream()
-  inspect(stream.to_js().type_of() == "object", content="true")
+  inspect(@js.type_of(stream.to_js()) == "object", content="true")
 }
 
 ///| Integration Tests

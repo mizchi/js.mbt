@@ -19,7 +19,7 @@ using @promises {rm}
 /// Test get_heap_statistics returns object
 test "get_heap_statistics returns object" {
   let stats = get_heap_statistics()
-  inspect(stats.type_of() == "object", content="true")
+  inspect(@js.type_of(stats) == "object", content="true")
 }
 
 ///|
@@ -35,7 +35,7 @@ test "heap statistics has total_heap_size" {
 test "heap statistics has used_heap_size" {
   let stats = get_heap_statistics()
   let used = stats.get("used_heap_size")
-  inspect(used.type_of() == "number", content="true")
+  inspect(@js.type_of(used) == "number", content="true")
 }
 
 ///|
@@ -51,14 +51,14 @@ test "heap space has space_name" {
   let spaces = get_heap_space_statistics()
   let first = spaces[0]
   let name = first.get("space_name")
-  inspect(name.type_of() == "string", content="true")
+  inspect(@js.type_of(name) == "string", content="true")
 }
 
 ///|
 /// Test get_heap_code_statistics returns object
 test "get_heap_code_statistics returns object" {
   let stats = get_heap_code_statistics()
-  inspect(stats.type_of() == "object", content="true")
+  inspect(@js.type_of(stats) == "object", content="true")
 }
 
 ///| Heap Snapshot Tests
@@ -80,7 +80,7 @@ test "write_heap_snapshot returns filename" {
 /// Test get_heap_snapshot returns stream
 test "get_heap_snapshot returns stream" {
   let stream = get_heap_snapshot()
-  inspect(stream.type_of() == "object", content="true")
+  inspect(@js.type_of(stream) == "object", content="true")
 }
 
 ///| Serialization Tests

@@ -126,7 +126,7 @@ extern "js" fn set_current_internal(v : Val, o : Val) -> Unit =
 ///|
 pub fn[T] ReactRef::current(v : ReactRef[T]) -> T? {
   let v = current_internal(v |> js)
-  if v.is_undefined() || v.is_null() {
+  if @js.is_undefined(v) || @js.is_null(v) {
     None
   } else {
     Some(unsafe_cast(v))

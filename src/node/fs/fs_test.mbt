@@ -65,7 +65,7 @@ test "exists_sync returns false for non-existing file" {
 /// Test stat_sync returns file stats
 test "stat_sync returns stats for package.json" {
   let stats = stat_sync("package.json")
-  inspect(stats.type_of() == "object", content="true")
+  inspect(@js.type_of(stats) == "object", content="true")
 }
 
 ///|

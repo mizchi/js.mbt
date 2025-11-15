@@ -98,7 +98,7 @@ test "uptime returns positive number" {
 ///|
 test "userinfo returns object" {
   let info = userinfo()
-  assert_true(info.type_of() == "object")
+  assert_true(@js.type_of(info) == "object")
 }
 
 ///|
@@ -134,7 +134,7 @@ test "devNull returns device path" {
 ///|
 test "network_interfaces returns object" {
   let interfaces = network_interfaces()
-  assert_true(interfaces.type_of() == "object")
+  assert_true(@js.type_of(interfaces) == "object")
 }
 
 ///|

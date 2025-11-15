@@ -190,7 +190,7 @@ pub fn DatabaseSync::setAuthorizer(
 pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
   let args : Array[&Js] = if db_name is Some(name) { [name] } else { [] }
   let result = self.to_js().invoke("location", args)
-  if result.is_null() {
+  if @js.is_null(result) {
     None
   } else {
     Some(unsafe_cast(result))
@@ -315,7 +315,7 @@ pub fn StatementSync::get(
     }
   }
   let result = self.to_js().invoke("get", args)
-  if result.is_undefined() {
+  if @js.is_undefined(result) {
     None
   } else {
     Some(result)

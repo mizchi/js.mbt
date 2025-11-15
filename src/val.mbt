@@ -121,10 +121,10 @@ pub impl Show for Val with output(self, logger) {
 
 ///|
 pub impl Show for Val with to_string(self) {
-  if self.is_array() {
+  if is_array(self) {
     return ffi_json_stringify(self, undefined(), undefined())
   }
-  if self.is_object() {
+  if is_object(self) {
     return ffi_json_stringify(self, undefined(), undefined())
   }
   ffi_to_string(self)
@@ -166,75 +166,79 @@ pub fn[T : Js] Val::set_if_exists(
 ) -> Unit {
   guard value is Some(val) else { return }
   let val = val.to_js()
-  if val.is_undefined() {
+  if is_undefined(val) {
     return
   }
   ffi_set(self, key.to_key() |> unsafe_cast, val.to_js())
 }
 
 ///|
-pub fn Val::delete(self : Self, k : String) -> Unit {
-  ffi_delete(self, k)
+pub fn[T : Js] property_is_enumerable(v : T, k : String) -> Bool {
+  ffi_property_is_enumerable(v.to_js(), k)
 }
 
 ///|
-/// Check if an object has a property as its own (not inherited).
-///
-/// Equivalent to JavaScript's `obj.hasOwnProperty(k)`.
-///
-/// # Parameters
-///
-/// - `self`: The object to check
-/// - `k`: The property key
-///
-/// # Returns
-///
-/// `true` if the object has the property as its own, `false` otherwise
-///
-/// # Example
-///
-/// ```moonbit
-/// let obj = new_empty_object()
-/// obj.set("name", "Alice")
-/// assert_true(obj.has_own_property("name"))      // true
-/// assert_false(obj.has_own_property("toString"))  // false (inherited)
-/// ```
-pub fn Val::has_own_property(self : Self, k : String) -> Bool {
-  ffi_has_own_property(self, k)
-}
-
-///|
-pub fn Val::property_is_enumerable(self : Self, k : String) -> Bool {
-  ffi_property_is_enumerable(self, k)
-}
-
-///|
-pub extern "js" fn Val::is_array(self : Self) -> Bool =
+extern "js" fn ffi_is_array(v : Val) -> Bool =
   #| (v) => Array.isArray(v)
 
 ///|
-pub extern "js" fn Val::is_object(self : Self) -> Bool =
+pub fn[T : Js] is_array(v : T) -> Bool {
+  ffi_is_array(v.to_js())
+}
+
+///|
+extern "js" fn ffi_is_object(v : Val) -> Bool =
   #| (v) => typeof v === "object" && v !== null
 
 ///|
-pub extern "js" fn Val::is_null(self : Self) -> Bool =
+pub fn[T : Js] is_object(v : T) -> Bool {
+  ffi_is_object(v.to_js())
+}
+
+///|
+extern "js" fn ffi_is_null(v : Val) -> Bool =
   #| (v) => v === null
 
 ///|
-pub extern "js" fn Val::is_undefined(self : Self) -> Bool =
+pub fn[T : Js] is_null(v : T) -> Bool {
+  ffi_is_null(v.to_js())
+}
+
+///|
+pub extern "js" fn ffi_is_undefined(v : Val) -> Bool =
   #| (v) => v === undefined
 
 ///|
-pub extern "js" fn Val::is_nan(self : Self) -> Bool =
+pub fn[T : Js] is_undefined(v : T) -> Bool {
+  ffi_is_undefined(v.to_js())
+}
+
+///|
+pub extern "js" fn ffi_is_nan(v : Val) -> Bool =
   #| (v) => Number.isNaN(v)
 
 ///|
-pub extern "js" fn Val::instance_of(self : Self, cls : Val) -> Bool =
+pub fn[T : Js] is_nan(v : T) -> Bool {
+  ffi_is_nan(v.to_js())
+}
+
+///|
+extern "js" fn ffi_instance_of(v : Val, cls : Val) -> Bool =
   #| (v, cls) => v instanceof cls
 
 ///|
-pub extern "js" fn Val::type_of(self : Val) -> String =
+pub fn[T : Js] instance_of(v : T, cls : T) -> Bool {
+  ffi_instance_of(v.to_js(), cls.to_js())
+}
+
+///|
+extern "js" fn ffi_type_of(v : Val) -> String =
   #| (v) => typeof v
+
+///|
+pub fn[T : Js] type_of(v : T) -> String {
+  ffi_type_of(v.to_js())
+}
 
 ///|
 /// Check if a value is neither undefined nor null.
@@ -252,7 +256,7 @@ pub extern "js" fn Val::type_of(self : Val) -> String =
 /// assert_false(null_().is_some())       // false
 /// ```
 pub fn Val::is_some(self : Self) -> Bool {
-  !self.is_undefined() && !self.is_null()
+  !is_undefined(self) && !is_null(self)
 }
 
 ///|
@@ -271,7 +275,7 @@ pub fn Val::is_some(self : Self) -> Bool {
 /// assert_false(js("hello").is_none())   // false
 /// ```
 pub fn Val::is_none(self : Self) -> Bool {
-  self.is_undefined() || self.is_null()
+  is_undefined(self) || is_null(self)
 }
 
 ///|

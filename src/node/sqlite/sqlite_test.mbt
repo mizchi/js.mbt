@@ -486,7 +486,7 @@ test "sqlite null handling" {
   let select = database.prepare("SELECT * FROM nullable WHERE id = ?")
   let result = select.get(anonymous_parameters=[1])
   guard result is Some(row)
-  assert_true(row.get("value").is_null())
+  assert_true(row.get("value") |> @js.is_null())
 }
 
 ///|

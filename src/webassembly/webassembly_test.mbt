@@ -22,11 +22,11 @@ test "WebAssembly module from bytes" {
 
   // Compile module
   let wasm_module = WebAssemblyModule::from_bytes(bytes)
-  inspect(wasm_module.to_js().type_of(), content="object")
+  inspect(wasm_module.to_js() |> @js.type_of(), content="object")
 
   // Instantiate
   let instance = WebAssemblyInstance::from_module(wasm_module, None)
-  inspect(instance.to_js().type_of(), content="object")
+  inspect(instance.to_js() |> @js.type_of(), content="object")
 
   // Get exports and call add function
   let exports = instance.exports()
@@ -44,7 +44,7 @@ test "WebAssembly Memory" {
     maximum: Some(10),
     shared: false,
   })
-  inspect(memory.to_js().type_of(), content="object")
+  inspect(@js.type_of(memory.to_js()), content="object")
 
   // Get the buffer
   let buffer = memory.buffer()
@@ -70,7 +70,7 @@ test "WebAssembly Table" {
     initial: 2,
     maximum: Some(10),
   })
-  inspect(table.to_js().type_of(), content="object")
+  inspect(table.to_js() |> @js.type_of(), content="object")
 
   // Check initial length
   let length = table.length()
@@ -85,7 +85,7 @@ test "WebAssembly Global" {
     { value: "i32", mutable: true },
     @js.js(42),
   )
-  inspect(global.to_js().type_of(), content="object")
+  inspect(global.to_js() |> @js.type_of(), content="object")
 
   // Get the value
   let value : Int = global.value() |> unsafe_cast
@@ -105,7 +105,7 @@ test "WebAssembly Global immutable" {
     { value: "f64", mutable: false },
     @js.js(3.14),
   )
-  inspect(global.to_js().type_of(), content="object")
+  inspect(@js.type_of(global.to_js()), content="object")
 
   // Get the value
   let value : Double = global.value() |> unsafe_cast

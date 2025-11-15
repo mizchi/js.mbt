@@ -31,24 +31,16 @@ extern "js" fn ffi_call(f : Val, args : Array[Val]) -> Val =
   #|(f, args) => f(...args)
 
 ///|
-extern "js" fn ffi_call_method(v : Val, key : String, args : Array[Val]) -> Val =
+extern "js" fn ffi_invoke(v : Val, key : String, args : Array[Val]) -> Val =
   #|(obj, k, args) => obj[k](...args)
 
 ///|
-extern "js" fn ffi_new_object() -> Val =
+extern "js" fn ffi_new_empty_object() -> Val =
   #|() => ({})
 
 ///|
 extern "js" fn ffi_new_empty_array() -> Val =
   #|() => ([])
-
-///|
-extern "js" fn ffi_new_set() -> Val =
-  #|() => new Set()
-
-///|
-extern "js" fn ffi_new_map() -> Val =
-  #|() => new Map()
 
 ///|
 extern "js" fn ffi_object_create() -> Val =

@@ -90,7 +90,7 @@ test "WASI constructor accepts preopens" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(import_obj.type_of() == "object", content="true")
+  inspect(@js.type_of(import_obj) == "object", content="true")
 }
 
 ///|
@@ -124,7 +124,7 @@ test "WASI constructor accepts fd options" {
     stderr: Some(2),
   })
   let import_obj = wasi.get_import_object()
-  inspect(import_obj.type_of() == "object", content="true")
+  inspect((import_obj |> @js.type_of) == "object", content="true")
 }
 
 ///| WASI Methods Tests
@@ -143,9 +143,9 @@ test "get_import_object returns object" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(import_obj.type_of() == "object", content="true")
+  inspect(@js.type_of(import_obj) == "object", content="true")
   // Check that it has wasi_snapshot_preview1 key
-  let has_preview1 = import_obj.get("wasi_snapshot_preview1").type_of() !=
+  let has_preview1 = @js.type_of(import_obj.get("wasi_snapshot_preview1")) !=
     "undefined"
   inspect(has_preview1, content="true")
 }
@@ -164,7 +164,7 @@ test "wasi_import returns object" {
     stderr: None,
   })
   let wasi_import = wasi.wasi_import()
-  inspect(wasi_import.type_of() == "object", content="true")
+  inspect(@js.type_of(wasi_import) == "object", content="true")
 }
 
 ///| WASI Integration Tests

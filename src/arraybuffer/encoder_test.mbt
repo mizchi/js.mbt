@@ -1,7 +1,7 @@
 ///|
 test "TextEncoder::new - create encoder" {
   let encoder = TextEncoder::new()
-  assert_true(encoder.to_js().is_object())
+  assert_true(encoder.to_js() |> @js.is_object())
 }
 
 ///|
@@ -55,7 +55,7 @@ test "TextEncoder::encode - special characters" {
 ///|
 test "TextDecoder::new - create decoder" {
   let decoder = TextDecoder::new()
-  assert_true(decoder.to_js().is_object())
+  assert_true(decoder.to_js() |> @js.is_object())
 }
 
 ///|

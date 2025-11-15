@@ -15,7 +15,7 @@
 /// obj.set("age", 30)
 /// ```
 pub fn new_empty_object() -> Val {
-  ffi_new_object()
+  ffi_new_empty_object()
 }
 
 ///|
@@ -234,45 +234,6 @@ pub fn symbol_dispose() -> Symbol {
 /// The Symbol.asyncDispose symbol
 pub fn symbol_async_dispose() -> Symbol {
   ffi_symbol_async_dispose()
-}
-
-///|
-/// Create a new JavaScript Map.
-///
-/// Equivalent to JavaScript's `new Map()`.
-///
-/// # Returns
-///
-/// A new Map as a Val
-///
-/// # Example
-///
-/// ```moonbit
-/// let map = new_map()
-/// map.invoke("set", ["key", "value"]) |> ignore
-/// ```
-pub fn new_map() -> Val {
-  ffi_new_map()
-}
-
-///|
-/// Create a new JavaScript Set.
-///
-/// Equivalent to JavaScript's `new Set()`.
-///
-/// # Returns
-///
-/// A new Set as a Val
-///
-/// # Example
-///
-/// ```moonbit
-/// let set = new_set()
-/// set.invoke("add", [1]) |> ignore
-/// set.invoke("add", [2]) |> ignore
-/// ```
-pub fn new_set() -> Val {
-  ffi_new_set()
 }
 
 ///|

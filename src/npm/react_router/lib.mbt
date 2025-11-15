@@ -10,7 +10,7 @@ pub extern "js" fn load_react_router() -> Promise[Val] =
 
 ///|
 pub async fn init_react_router() -> Unit {
-  if @js.global_this().get("__ReactRouterApi").is_undefined() {
+  if @js.is_undefined(@js.global_this().get("__ReactRouterApi")) {
     let v = load_react_router().unwrap()
     @js.global_this().set("__ReactRouterApi", v)
   }
