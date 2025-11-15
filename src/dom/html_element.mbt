@@ -1,4 +1,7 @@
 ///|
+using @blob {type Blob}
+
+///|
 #external
 pub type HTMLCanvasElement
 
@@ -55,7 +58,7 @@ pub fn HTMLCanvasElement::to_blob(
   self : Self,
   image_type? : String,
   quality? : Double,
-) -> Promise[Val] {
+) -> Promise[Blob] {
   match (image_type, quality) {
     (Some(t), Some(q)) => self.to_js().call_method("toBlob", [t, q]).cast()
     (Some(t), None) => self.to_js().call_method("toBlob", [t]).cast()

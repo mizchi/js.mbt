@@ -495,3 +495,130 @@ pub fn Element::offset_width(self : Self) -> Int {
 pub fn Element::offset_height(self : Self) -> Int {
   self.to_js().get("offsetHeight").cast()
 }
+
+///|
+/// Trait implementations
+
+///|
+/// EventTarget_ trait implementation for Element
+pub impl EventTarget_ for Element with add_event_listener_(
+  self,
+  event,
+  listener,
+) {
+  self.add_event_listener(event, listener)
+}
+
+///|
+pub impl EventTarget_ for Element with remove_event_listener_(
+  self,
+  event,
+  listener,
+) {
+  self.remove_event_listener(event, listener)
+}
+
+///|
+pub impl EventTarget_ for Element with dispatch_event_(self, event) {
+  self.to_js().call_method("dispatchEvent", [event.to_js()]).cast()
+}
+
+///|
+/// Element_ trait implementation for Element
+pub impl Element_ for Element with tag_name_(self) {
+  self.tag_name()
+}
+
+///|
+pub impl Element_ for Element with class_name_(self) {
+  self.class_name()
+}
+
+///|
+pub impl Element_ for Element with set_class_name_(self, name) {
+  self.set_class_name(name)
+}
+
+///|
+pub impl Element_ for Element with id_(self) {
+  self.id()
+}
+
+///|
+pub impl Element_ for Element with set_id_(self, id) {
+  self.set_id(id)
+}
+
+///|
+pub impl Element_ for Element with get_attribute_(self, name) {
+  match self.get_attribute(name) {
+    Some(value) => value
+    None => ""
+  }
+}
+
+///|
+pub impl Element_ for Element with set_attribute_(self, name, value) {
+  self.set_attribute(name, value)
+}
+
+///|
+pub impl Element_ for Element with remove_attribute_(self, name) {
+  self.remove_attribute(name)
+}
+
+///|
+pub impl Element_ for Element with has_attribute_(self, name) {
+  self.has_attribute(name)
+}
+
+///|
+pub impl Element_ for Element with get_elements_by_tag_name_(self, name) {
+  self.get_elements_by_tag_name(name)
+}
+
+///|
+pub impl Element_ for Element with get_elements_by_class_name_(self, name) {
+  self.get_elements_by_class_name(name)
+}
+
+///|
+pub impl Element_ for Element with query_selector_(self, selector) {
+  self.to_js().call_method("querySelector", [selector]).cast()
+}
+
+///|
+pub impl Element_ for Element with query_selector_all_(self, selector) {
+  self.to_js().call_method("querySelectorAll", [selector])
+}
+
+///|
+/// HTMLElement_ trait implementation for Element
+pub impl HTMLElement_ for Element with inner_text_(self) {
+  self.to_js().get("innerText").cast()
+}
+
+///|
+pub impl HTMLElement_ for Element with set_inner_text_(self, text) {
+  self.to_js().set("innerText", text)
+}
+
+///|
+pub impl HTMLElement_ for Element with inner_html_(self) {
+  self.inner_html()
+}
+
+///|
+pub impl HTMLElement_ for Element with set_inner_html_(self, html) {
+  self.to_js().set("innerHTML", html)
+}
+
+///|
+pub impl HTMLElement_ for Element with outer_html_(self) {
+  self.outer_html()
+}
+
+///|
+pub impl HTMLElement_ for Element with set_outer_html_(self, html) {
+  self.to_js().set("outerHTML", html)
+}

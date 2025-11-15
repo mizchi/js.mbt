@@ -214,3 +214,107 @@ pub fn Element::base_uri(self : Self) -> String {
 pub fn Element::owner_document(self : Self) -> Document {
   self.to_js().get("ownerDocument").cast()
 }
+
+///|
+/// Node_ trait implementation for Element
+pub impl Node_ for Element with node_type_(self) {
+  self.node_type()
+}
+
+///|
+pub impl Node_ for Element with node_name_(self) {
+  self.node_name()
+}
+
+///|
+pub impl Node_ for Element with parent_node_(self) {
+  match self.parent_node() {
+    Some(node) => node.to_js()
+    None => @js.null_()
+  }
+}
+
+///|
+pub impl Node_ for Element with child_nodes_(self) {
+  self.child_nodes()
+}
+
+///|
+pub impl Node_ for Element with first_child_(self) {
+  match self.first_child() {
+    Some(node) => node.to_js()
+    None => @js.null_()
+  }
+}
+
+///|
+pub impl Node_ for Element with last_child_(self) {
+  match self.last_child() {
+    Some(node) => node.to_js()
+    None => @js.null_()
+  }
+}
+
+///|
+pub impl Node_ for Element with previous_sibling_(self) {
+  match self.previous_sibling() {
+    Some(node) => node.to_js()
+    None => @js.null_()
+  }
+}
+
+///|
+pub impl Node_ for Element with next_sibling_(self) {
+  match self.next_sibling() {
+    Some(node) => node.to_js()
+    None => @js.null_()
+  }
+}
+
+///|
+pub impl Node_ for Element with append_child_(self, child) {
+  let result = self.to_js().call_method("appendChild", [child])
+  result
+}
+
+///|
+pub impl Node_ for Element with remove_child_(self, child) {
+  self.to_js().call_method("removeChild", [child])
+}
+
+///|
+pub impl Node_ for Element with insert_before_(self, new_node, ref_node) {
+  self.to_js().call_method("insertBefore", [new_node, ref_node])
+}
+
+///|
+pub impl Node_ for Element with replace_child_(self, new_child, old_child) {
+  self.to_js().call_method("replaceChild", [new_child, old_child])
+}
+
+///|
+pub impl Node_ for Element with clone_node_(self, deep) {
+  self.clone_node(deep).to_js()
+}
+
+///|
+pub impl Node_ for Element with contains_(self, other) {
+  // containsはElement型を要求するが、Valを受け取るのでcastが必要
+  let elem : Element = other.cast()
+  self.contains(elem)
+}
+
+///|
+pub impl Node_ for Element with has_child_nodes_(self) {
+  self.has_child_nodes()
+}
+
+///|
+pub impl Node_ for Element with text_content_(self) {
+  self.text_content()
+}
+
+///|
+pub impl Node_ for Element with set_text_content_(self, text) {
+  self.set_text_content(text)
+}
