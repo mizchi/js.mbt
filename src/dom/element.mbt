@@ -12,17 +12,13 @@ pub(open) trait EventTargetImpl: Js {
 
 ///|
 impl EventTargetImpl with add_event_listener(self, event_type, handler) -> Unit {
-  ignore(
-    self.to_js().invoke("addEventListener", [event_type, @js.js(handler)]),
-  )
+  ignore(self.to_js().invoke("addEventListener", [event_type, @js.js(handler)]))
 }
 
 ///|
 impl EventTargetImpl with remove_event_listener(self, event_type, handler) -> Unit {
   ignore(
-    self
-    .to_js()
-    .invoke("removeEventListener", [event_type, @js.js(handler)]),
+    self.to_js().invoke("removeEventListener", [event_type, @js.js(handler)]),
   )
 }
 
@@ -221,20 +217,22 @@ impl ElementImpl with has_attribute(self, name) -> Bool {
 ///|
 impl ElementImpl with get_elements_by_tag_name(self, tag_name) -> Array[Element] {
   @js.array_from(self.to_js().invoke("getElementsByTagName", [tag_name])).map(fn(
-      v,
-    ) {
-      v.cast()
-    },
-  )
+    v,
+  ) {
+    v.cast()
+  })
 }
 
 ///|
 impl ElementImpl with get_elements_by_class_name(self, class_name) -> Array[
   Element,
 ] {
-  @js.array_from(
-    self.to_js().invoke("getElementsByClassName", [class_name]),
-  ).map(fn(v) { v.cast() })
+  @js.array_from(self.to_js().invoke("getElementsByClassName", [class_name])).map(fn(
+      v,
+    ) {
+      v.cast()
+    },
+  )
 }
 
 ///|

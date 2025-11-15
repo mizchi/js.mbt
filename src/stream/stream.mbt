@@ -70,8 +70,7 @@ pub fn ReadableStream::pipe_through(
   options? : Val,
 ) -> ReadableStream {
   match options {
-    Some(opts) =>
-      self.to_js().invoke("pipeThrough", [transform, opts]).cast()
+    Some(opts) => self.to_js().invoke("pipeThrough", [transform, opts]).cast()
     None => self.to_js().invoke("pipeThrough", [transform]).cast()
   }
 }

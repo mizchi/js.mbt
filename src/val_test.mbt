@@ -372,14 +372,6 @@ test "new collections" {
   // Set
   let set = new_set()
   assert_true(set.is_object())
-
-  // WeakMap
-  let weak_map = new_weak_map()
-  assert_true(weak_map.is_object())
-
-  // WeakSet
-  let weak_set = new_weak_set()
-  assert_true(weak_set.is_object())
 }
 
 ///|

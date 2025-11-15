@@ -35,8 +35,7 @@ pub fn CSSStyleDeclaration::set_property(
   property : String,
   value : String,
 ) -> Unit {
-  self.to_js().invoke("setProperty", [property |> js, value |> js])
-  |> ignore
+  self.to_js().invoke("setProperty", [property |> js, value |> js]) |> ignore
 }
 
 ///|
@@ -280,9 +279,7 @@ pub fn MediaQueryList::remove_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self
-  .to_js()
-  .invoke("removeEventListener", ["change" |> js, listener |> js])
+  self.to_js().invoke("removeEventListener", ["change" |> js, listener |> js])
   |> ignore
 }
 

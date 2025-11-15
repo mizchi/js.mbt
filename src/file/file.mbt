@@ -106,8 +106,7 @@ pub fn File::slice(self : Self, start? : Int, end? : Int) -> Blob {
     (Some(s), None) => self.to_js().invoke("slice", [s |> js]).cast()
     (Some(s), Some(e)) =>
       self.to_js().invoke("slice", [s |> js, e |> js]).cast()
-    (None, Some(e)) =>
-      self.to_js().invoke("slice", [0 |> js, e |> js]).cast()
+    (None, Some(e)) => self.to_js().invoke("slice", [0 |> js, e |> js]).cast()
   }
 }
 
@@ -170,8 +169,7 @@ pub fn FileReader::read_as_text(
 ) -> Unit {
   match encoding {
     Some(enc) =>
-      self.to_js().invoke("readAsText", [blob.to_js(), enc |> js])
-      |> ignore
+      self.to_js().invoke("readAsText", [blob.to_js(), enc |> js]) |> ignore
     None => self.to_js().invoke("readAsText", [blob.to_js()]) |> ignore
   }
 }

@@ -256,18 +256,6 @@ pub fn new_map() -> Val {
 }
 
 ///|
-/// Create a new JavaScript WeakMap.
-///
-/// Equivalent to JavaScript's `new WeakMap()`.
-///
-/// # Returns
-///
-/// A new WeakMap as a Val
-pub fn new_weak_map() -> Val {
-  ffi_new_weak_map()
-}
-
-///|
 /// Create a new JavaScript Set.
 ///
 /// Equivalent to JavaScript's `new Set()`.
@@ -285,18 +273,6 @@ pub fn new_weak_map() -> Val {
 /// ```
 pub fn new_set() -> Val {
   ffi_new_set()
-}
-
-///|
-/// Create a new JavaScript WeakSet.
-///
-/// Equivalent to JavaScript's `new WeakSet()`.
-///
-/// # Returns
-///
-/// A new WeakSet as a Val
-pub fn new_weak_set() -> Val {
-  ffi_new_weak_set()
 }
 
 ///|

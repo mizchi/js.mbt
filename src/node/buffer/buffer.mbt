@@ -164,8 +164,7 @@ pub fn Buffer::write(
 ) -> Int {
   let buf_js = self.to_js()
   match length {
-    Some(len) =>
-      buf_js.invoke("write", [str, offset, len, encoding]).cast()
+    Some(len) => buf_js.invoke("write", [str, offset, len, encoding]).cast()
     None => buf_js.invoke("write", [str, offset, encoding]).cast()
   }
 }
@@ -202,11 +201,8 @@ pub fn Buffer::copy(
   let buf_js = self.to_js()
   match source_end {
     Some(se) =>
-      buf_js
-      .invoke("copy", [target, target_start, source_start, se])
-      .cast()
-    None =>
-      buf_js.invoke("copy", [target, target_start, source_start]).cast()
+      buf_js.invoke("copy", [target, target_start, source_start, se]).cast()
+    None => buf_js.invoke("copy", [target, target_start, source_start]).cast()
   }
 }
 

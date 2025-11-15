@@ -17,7 +17,7 @@
   ],
   "description": "ffi for js primitives / node.js / browser / react and etc.",
   "source": "src",
-  "warn-list": "-2-9-28-29",
+  "warn-list": "-2-9-28-29-53",
   "alert-list": "-deprecated",
   "preferred-target": "js"
 }

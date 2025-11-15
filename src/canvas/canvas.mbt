@@ -195,9 +195,7 @@ pub fn CanvasRenderingContext2D::arc(
 ) -> Unit {
   match counterclockwise {
     Some(ccw) =>
-      self
-      .to_js()
-      .invoke("arc", [x, y, radius, start_angle, end_angle, ccw])
+      self.to_js().invoke("arc", [x, y, radius, start_angle, end_angle, ccw])
       |> ignore
     None =>
       self.to_js().invoke("arc", [x, y, radius, start_angle, end_angle])
@@ -214,9 +212,7 @@ pub fn CanvasRenderingContext2D::arc_to(
   y2 : Double,
   radius : Double,
 ) -> Unit {
-  self
-  .to_js()
-  .invoke("arcTo", [x1 |> js, y1 |> js, x2 |> js, y2 |> js, radius])
+  self.to_js().invoke("arcTo", [x1 |> js, y1 |> js, x2 |> js, y2 |> js, radius])
   |> ignore
 }
 
@@ -230,8 +226,7 @@ pub fn CanvasRenderingContext2D::bezier_curve_to(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.to_js().invoke("bezierCurveTo", [cp1x, cp1y, cp2x, cp2y, x, y])
-  |> ignore
+  self.to_js().invoke("bezierCurveTo", [cp1x, cp1y, cp2x, cp2y, x, y]) |> ignore
 }
 
 ///|
@@ -383,9 +378,7 @@ pub fn CanvasRenderingContext2D::draw_image_scaled(
   d_width : Double,
   d_height : Double,
 ) -> Unit {
-  self
-  .to_js()
-  .invoke("drawImage", [image.to_js(), dx, dy, d_width, d_height])
+  self.to_js().invoke("drawImage", [image.to_js(), dx, dy, d_width, d_height])
   |> ignore
 }
 
@@ -437,8 +430,7 @@ pub fn CanvasRenderingContext2D::put_image_data(
   dx : Double,
   dy : Double,
 ) -> Unit {
-  self.to_js().invoke("putImageData", [image_data.to_js(), dx, dy])
-  |> ignore
+  self.to_js().invoke("putImageData", [image_data.to_js(), dx, dy]) |> ignore
 }
 
 ///|

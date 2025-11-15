@@ -51,14 +51,6 @@ extern "js" fn ffi_new_set() -> Val =
   #|() => new Set()
 
 ///|
-extern "js" fn ffi_new_weak_set() -> Val =
-  #|() => new WeakSet()
-
-///|
-extern "js" fn ffi_new_weak_map() -> Val =
-  #|() => new WeakMap()
-
-///|
 extern "js" fn ffi_new_map() -> Val =
   #|() => new Map()
 

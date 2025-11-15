@@ -86,9 +86,7 @@ pub fn ShadowRoot::elements_from_point(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  @js.array_from(self.to_js().invoke("elementsFromPoint", [x, y])).map(fn(
-    v,
-  ) {
+  @js.array_from(self.to_js().invoke("elementsFromPoint", [x, y])).map(fn(v) {
     v.cast()
   })
 }

@@ -135,8 +135,7 @@ pub fn ChildProcess::on_disconnect(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.to_js().invoke("on", ["disconnect", unsafe_cast(callback)])
-  |> ignore
+  self.to_js().invoke("on", ["disconnect", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
@@ -158,8 +157,7 @@ pub fn ChildProcess::on_stdout_data(
 ) -> Unit {
   match self.stdout() {
     Some(stream) =>
-      stream.to_js().invoke("on", ["data", unsafe_cast(callback)])
-      |> ignore
+      stream.to_js().invoke("on", ["data", unsafe_cast(callback)]) |> ignore
     None => ()
   }
 }
@@ -173,8 +171,7 @@ pub fn ChildProcess::on_stderr_data(
 ) -> Unit {
   match self.stderr() {
     Some(stream) =>
-      stream.to_js().invoke("on", ["data", unsafe_cast(callback)])
-      |> ignore
+      stream.to_js().invoke("on", ["data", unsafe_cast(callback)]) |> ignore
     None => ()
   }
 }
@@ -368,12 +365,7 @@ pub fn exec_file(
     options.set("signal", sig.to_js())
   }
   cp
-  .invoke("execFile", [
-    file |> js,
-    args |> js,
-    options,
-    unsafe_cast(callback),
-  ])
+  .invoke("execFile", [file |> js, args |> js, options, unsafe_cast(callback)])
   .cast()
 }
 
@@ -407,8 +399,7 @@ pub fn fork(
     options.set("signal", sig.to_js())
   }
   match args {
-    Some(a) =>
-      cp.invoke("fork", [module_path |> js, a |> js, options]).cast()
+    Some(a) => cp.invoke("fork", [module_path |> js, a |> js, options]).cast()
     None => cp.invoke("fork", [module_path |> js, options]).cast()
   }
 }
@@ -485,8 +476,7 @@ pub fn spawn_sync(
     options.set("input", i)
   }
   match args {
-    Some(a) =>
-      cp.invoke("spawnSync", [command |> js, a |> js, options]).cast()
+    Some(a) => cp.invoke("spawnSync", [command |> js, a |> js, options]).cast()
     None => cp.invoke("spawnSync", [command |> js, options]).cast()
   }
 }
@@ -568,8 +558,7 @@ pub fn exec_file_sync(
     options.set("encoding", "utf8")
   }
   match args {
-    Some(a) =>
-      cp.invoke("execFileSync", [file |> js, a |> js, options]).cast()
+    Some(a) => cp.invoke("execFileSync", [file |> js, a |> js, options]).cast()
     None => cp.invoke("execFileSync", [file |> js, options]).cast()
   }
 }

@@ -420,8 +420,7 @@ pub fn StatementSync::setAllowUnknownNamedParameters(
   self : Self,
   enabled : Bool,
 ) -> Unit {
-  self.to_js().invoke("setAllowUnknownNamedParameters", [enabled])
-  |> ignore
+  self.to_js().invoke("setAllowUnknownNamedParameters", [enabled]) |> ignore
 }
 
 ///|

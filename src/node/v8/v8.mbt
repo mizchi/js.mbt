@@ -146,9 +146,7 @@ pub fn Serializer::transfer_array_buffer(
   id : Int,
   array_buffer : ArrayBuffer,
 ) -> Unit {
-  self
-  .to_js()
-  .invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
+  self.to_js().invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
   |> ignore
 }
 
@@ -216,9 +214,7 @@ pub fn Deserializer::transfer_array_buffer(
   id : Int,
   array_buffer : ArrayBuffer,
 ) -> Unit {
-  self
-  .to_js()
-  .invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
+  self.to_js().invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
   |> ignore
 }
 

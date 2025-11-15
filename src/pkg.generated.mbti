@@ -38,10 +38,6 @@ fn new_map() -> Val
 
 fn new_set() -> Val
 
-fn new_weak_map() -> Val
-
-fn new_weak_set() -> Val
-
 fn null_() -> Val
 
 fn object_assign(Val, Val) -> Val
@@ -94,10 +90,6 @@ impl Key for Symbol
 
 #external
 pub type Val
-fn Val::call(Self, Array[&Js]) -> Self
-fn Val::call_method(Self, &Key, Array[&Js]) -> Self
-fn Val::call_method_raise(Self, String, Array[&Js]) -> Self raise
-fn Val::call_raise(Self, Array[&Js]) -> Self raise
 fn[T] Val::cast(Self) -> T
 fn[T] Val::cast_option(Self) -> T?
 fn Val::delete(Self, String) -> Unit
@@ -105,6 +97,10 @@ fn Val::delete(Self, String) -> Unit
 fn Val::get(Self, &Key) -> Self
 fn Val::has_own_property(Self, String) -> Bool
 fn Val::instance_of(Self, Self) -> Bool
+fn Val::invoke(Self, &Key, Array[&Js]) -> Self
+fn Val::invoke_self(Self, Array[&Js]) -> Self
+fn Val::invoke_self_with_raise(Self, Array[&Js]) -> Self raise
+fn Val::invoke_with_raise(Self, String, Array[&Js]) -> Self raise
 fn Val::is_array(Self) -> Bool
 fn Val::is_nan(Self) -> Bool
 fn Val::is_none(Self) -> Bool

@@ -271,8 +271,7 @@ pub fn Window::get_computed_style(
   match pseudo_elt {
     Some(p) =>
       self.to_js().invoke("getComputedStyle", [element.to_js(), p]).cast()
-    None =>
-      self.to_js().invoke("getComputedStyle", [element.to_js()]).cast()
+    None => self.to_js().invoke("getComputedStyle", [element.to_js()]).cast()
   }
 }
 
