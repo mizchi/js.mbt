@@ -104,6 +104,15 @@ pub fn[T] js(v : T) -> Val = "%identity"
 pub fn[A, B] unsafe_cast(a : A) -> B = "%identity"
 
 ///|
+pub fn[A] unsafe_cast_option(v : Val) -> A? {
+  if v.is_some() {
+    Some(unsafe_cast(v))
+  } else {
+    None
+  }
+}
+
+///|
 /// Safely cast a JavaScript value to an Option type.
 ///
 /// This is a safer alternative to `cast()` that checks if the value is `null`
@@ -134,13 +143,13 @@ pub fn[A, B] unsafe_cast(a : A) -> B = "%identity"
 ///
 /// This still performs an unsafe cast for the inner value, but at least
 /// handles the null/undefined cases safely.
-pub fn[T] Val::cast_option(self : Val) -> T? {
-  if self.is_some() {
-    Some(unsafe_cast(self))
-  } else {
-    None
-  }
-}
+// pub fn[T] Val::cast_option(self : Val) -> T? {
+//   if self.is_some() {
+//     Some(unsafe_cast(self))
+//   } else {
+//     None
+//   }
+// }
 
 ///|
 pub impl Show for Val with output(self, logger) {

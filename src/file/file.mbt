@@ -2,7 +2,7 @@
 // Web File API
 
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
+using @js {type Val, trait Js, js, unsafe_cast, unsafe_cast_option}
 
 ///|
 using @blob {type Blob}
@@ -143,13 +143,13 @@ pub fn FileReader::ready_state(self : Self) -> Int {
 ///|
 /// Get the result after reading completes
 pub fn FileReader::result(self : Self) -> Val? {
-  self.to_js().get("result").cast_option()
+  self.to_js().get("result") |> unsafe_cast_option()
 }
 
 ///|
 /// Get the error if read failed
 pub fn FileReader::error(self : Self) -> Val? {
-  self.to_js().get("error").cast_option()
+  self.to_js().get("error") |> unsafe_cast_option()
 }
 
 ///|

@@ -64,7 +64,7 @@ pub fn ShadowRoot::set_inner_html(self : Self, html : String) -> Unit {
 /// Returns the active element within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/activeElement
 pub fn ShadowRoot::active_element(self : Self) -> Element? {
-  self.to_js().get("activeElement").cast_option()
+  self.to_js().get("activeElement") |> unsafe_cast_option()
 }
 
 ///|
@@ -75,7 +75,7 @@ pub fn ShadowRoot::element_from_point(
   x : Double,
   y : Double,
 ) -> Element? {
-  self.to_js().invoke("elementFromPoint", [x, y]).cast_option()
+  self.to_js().invoke("elementFromPoint", [x, y]) |> unsafe_cast_option()
 }
 
 ///|
@@ -128,5 +128,5 @@ pub fn HTMLElement::attach_shadow(
 /// Returns the shadow root of the element if it exists
 /// https://developer.mozilla.org/en-US/docs/Web/API/Element/shadowRoot
 pub fn HTMLElement::shadow_root(self : Self) -> ShadowRoot? {
-  self.to_js().get("shadowRoot").cast_option()
+  self.to_js().get("shadowRoot") |> unsafe_cast_option()
 }

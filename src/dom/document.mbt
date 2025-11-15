@@ -84,7 +84,7 @@ pub fn Document::ready_state(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
 #alias(querySelector)
 pub fn Document::query_selector(self : Self, selector : String) -> Val? {
-  self.to_js().invoke("querySelector", [selector |> js]).cast_option()
+  self.to_js().invoke("querySelector", [selector |> js]) |> unsafe_cast_option()
 }
 
 ///|
@@ -98,7 +98,7 @@ pub fn Document::query_selector_all(self : Self, selector : String) -> Val {
 /// Returns an element by its ID
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 pub fn Document::get_element_by_id(self : Self, id : String) -> Val? {
-  self.to_js().invoke("getElementById", [id |> js]).cast_option()
+  self.to_js().invoke("getElementById", [id |> js]) |> unsafe_cast_option()
 }
 
 ///|
@@ -136,7 +136,7 @@ pub extern "js" fn Document::set_cookie(self : Self, content : String) -> Unit =
 /// Returns the document's body element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/body
 pub fn Document::body(self : Self) -> HTMLBodyElement? {
-  self.to_js().get("body").cast_option()
+  self.to_js().get("body") |> unsafe_cast_option()
 }
 
 ///|
@@ -149,7 +149,7 @@ pub fn Document::set_body(self : Self, body : HTMLBodyElement) -> Unit {
 /// Returns the document's head element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/head
 pub fn Document::head(self : Self) -> HTMLHeadElement? {
-  self.to_js().get("head").cast_option()
+  self.to_js().get("head") |> unsafe_cast_option()
 }
 
 ///|
@@ -232,7 +232,7 @@ pub fn Document::content_type(self : Self) -> String {
 /// Returns the document type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
 pub fn Document::doctype(self : Self) -> Val? {
-  self.to_js().get("doctype").cast_option()
+  self.to_js().get("doctype") |> unsafe_cast_option()
 }
 
 ///|

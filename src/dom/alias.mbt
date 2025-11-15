@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
+using @js {type Val, trait Js, js, unsafe_cast, unsafe_cast_option}
 
 ///|
 using @async {type Promise, suspend, run_async}

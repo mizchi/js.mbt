@@ -91,7 +91,7 @@ pub fn CSSStyleDeclaration::length(self : Self) -> Int {
 ///|
 /// Returns the parent CSS rule
 pub fn CSSStyleDeclaration::parent_rule(self : Self) -> CSSRule? {
-  self.to_js().get("parentRule").cast_option()
+  self.to_js().get("parentRule") |> unsafe_cast_option
 }
 
 ///|
@@ -120,13 +120,13 @@ pub fn CSSRule::set_css_text(self : Self, text : String) -> Unit {
 ///|
 /// Returns the parent rule
 pub fn CSSRule::parent_rule(self : Self) -> CSSRule? {
-  self.to_js().get("parentRule").cast_option()
+  self.to_js().get("parentRule") |> unsafe_cast_option()
 }
 
 ///|
 /// Returns the parent stylesheet
 pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
-  self.to_js().get("parentStyleSheet").cast_option()
+  self.to_js().get("parentStyleSheet") |> unsafe_cast_option()
 }
 
 ///|
@@ -180,7 +180,7 @@ pub fn CSSStyleSheet::delete_rule(self : Self, index : Int) -> Unit {
 ///|
 /// Returns the owner node
 pub fn CSSStyleSheet::owner_node(self : Self) -> Val? {
-  self.to_js().get("ownerNode").cast_option()
+  self.to_js().get("ownerNode") |> unsafe_cast_option()
 }
 
 ///|
@@ -198,13 +198,13 @@ pub fn CSSStyleSheet::set_disabled(self : Self, disabled : Bool) -> Unit {
 ///|
 /// Returns the stylesheet's href
 pub fn CSSStyleSheet::href(self : Self) -> String? {
-  self.to_js().get("href").cast_option()
+  self.to_js().get("href") |> unsafe_cast_option()
 }
 
 ///|
 /// Returns the stylesheet's title
 pub fn CSSStyleSheet::title(self : Self) -> String? {
-  self.to_js().get("title").cast_option()
+  self.to_js().get("title") |> unsafe_cast_option()
 }
 
 ///|

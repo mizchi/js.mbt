@@ -86,25 +86,25 @@ pub fn MutationRecord::removed_nodes(self : Self) -> Val {
 ///|
 /// Returns the previous sibling
 pub fn MutationRecord::previous_sibling(self : Self) -> Element? {
-  self.to_js().get("previousSibling").cast_option()
+  self.to_js().get("previousSibling") |> unsafe_cast_option()
 }
 
 ///|
 /// Returns the next sibling
 pub fn MutationRecord::next_sibling(self : Self) -> Element? {
-  self.to_js().get("nextSibling").cast_option()
+  self.to_js().get("nextSibling") |> unsafe_cast_option()
 }
 
 ///|
 /// Returns the attribute name
 pub fn MutationRecord::attribute_name(self : Self) -> String? {
-  self.to_js().get("attributeName").cast_option()
+  self.to_js().get("attributeName") |> unsafe_cast_option()
 }
 
 ///|
 /// Returns the old value
 pub fn MutationRecord::old_value(self : Self) -> String? {
-  self.to_js().get("oldValue").cast_option()
+  self.to_js().get("oldValue") |> unsafe_cast_option()
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn IntersectionObserverEntry::intersection_rect(self : Self) -> Val {
 ///|
 /// Returns the root bounds
 pub fn IntersectionObserverEntry::root_bounds(self : Self) -> Element? {
-  self.to_js().get("rootBounds").cast_option()
+  self.to_js().get("rootBounds") |> unsafe_cast_option()
 }
 
 ///|

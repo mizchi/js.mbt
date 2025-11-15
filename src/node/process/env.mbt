@@ -9,7 +9,7 @@ pub impl Js for Env with to_js(self) {
 
 ///|
 pub fn Env::get(self : Self, key : String) -> String? {
-  self.to_js().get(key).cast_option()
+  self.to_js().get(key) |> unsafe_cast_option
 }
 
 ///|

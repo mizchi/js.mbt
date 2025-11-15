@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, type Val, js, unsafe_cast}
+using @js {trait Js, type Val, js, unsafe_cast, unsafe_cast_option}
 
 ///|
 using @async {type Promise}
@@ -238,7 +238,7 @@ pub fn WritableStreamDefaultWriter::ready(self : Self) -> Promise[Unit] {
 /// Get the desired size
 #alias(desiredSize)
 pub fn WritableStreamDefaultWriter::desired_size(self : Self) -> Int? {
-  self.to_js().get("desiredSize").cast_option()
+  self.to_js().get("desiredSize") |> unsafe_cast_option
 }
 
 ///|

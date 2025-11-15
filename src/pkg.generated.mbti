@@ -74,6 +74,8 @@ fn undefined() -> Val
 
 fn[A, B] unsafe_cast(A) -> B
 
+fn[A] unsafe_cast_option(Val) -> A?
+
 fn wrap_result(() -> Result[Val, Val]) -> Result[Val, Val]
 
 // Errors
@@ -96,13 +98,8 @@ impl PropertyKey for Symbol
 pub type Val
 fn[T] Val::cast_option(Self) -> T?
 fn Val::delete(Self, String) -> Unit
-#alias("_[_]")
-fn Val::get(Self, &PropertyKey) -> Self
 fn Val::has_own_property(Self, String) -> Bool
 fn Val::instance_of(Self, Self) -> Bool
-fn Val::invoke_self(Self, Array[&Js]) -> Self
-#deprecated
-fn Val::invoke_self_with_raise(Self, Array[&Js]) -> Self raise
 fn Val::is_array(Self) -> Bool
 fn Val::is_nan(Self) -> Bool
 fn Val::is_none(Self) -> Bool
@@ -111,8 +108,6 @@ fn Val::is_object(Self) -> Bool
 fn Val::is_some(Self) -> Bool
 fn Val::is_undefined(Self) -> Bool
 fn Val::property_is_enumerable(Self, String) -> Bool
-#alias("_[_]=_")
-fn Val::set(Self, &PropertyKey, &Js) -> Unit
 fn[T : Js] Val::set_if_exists(Self, &PropertyKey, T?) -> Unit
 fn Val::type_of(Self) -> String
 impl Js for Val

@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, js, unsafe_cast}
+using @js {trait Js, js, unsafe_cast, unsafe_cast_option}
 
 ///|
 using @stream {type Stream}
