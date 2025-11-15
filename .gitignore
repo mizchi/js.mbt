@@ -6,3 +6,4 @@ target
 dist
 scratch.ts
 .wrangler
+fs_test.txt
