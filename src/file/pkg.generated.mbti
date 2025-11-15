@@ -1,0 +1,53 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/file"
+
+import(
+  "mizchi/js"
+  "mizchi/js/arraybuffer"
+  "mizchi/js/async"
+  "mizchi/js/blob"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type File
+#alias(arrayBuffer)
+fn File::array_buffer(Self) -> @async.Promise[@arraybuffer.ArrayBuffer]
+fn File::as_blob(Self) -> @blob.Blob
+fn File::content_type(Self) -> String
+#alias(lastModified)
+fn File::last_modified(Self) -> Int
+fn File::name(Self) -> String
+fn File::new(Array[&@js.Js], String, content_type? : String, last_modified? : Int) -> Self
+fn File::size(Self) -> Int
+fn File::slice(Self, start? : Int, end? : Int) -> @blob.Blob
+fn File::text(Self) -> @async.Promise[String]
+impl @js.Js for File
+
+#external
+pub type FileReader
+fn FileReader::abort(Self) -> Unit
+fn FileReader::error(Self) -> @js.Val?
+fn FileReader::new() -> Self
+#alias(readAsArrayBuffer)
+fn FileReader::read_as_array_buffer(Self, @blob.Blob) -> Unit
+#alias(readAsDataURL)
+fn FileReader::read_as_data_url(Self, @blob.Blob) -> Unit
+#alias(readAsText)
+fn FileReader::read_as_text(Self, @blob.Blob, encoding? : String) -> Unit
+#alias(readyState)
+fn FileReader::ready_state(Self) -> Int
+fn FileReader::result(Self) -> @js.Val?
+fn FileReader::set_onerror(Self, (@js.Val) -> Unit) -> Unit
+fn FileReader::set_onload(Self, (@js.Val) -> Unit) -> Unit
+fn FileReader::set_onloadend(Self, (@js.Val) -> Unit) -> Unit
+impl @js.Js for FileReader
+
+// Type aliases
+
+// Traits
+

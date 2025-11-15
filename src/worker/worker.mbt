@@ -49,14 +49,29 @@ pub fn Worker::terminate(worker : Worker) -> Unit {
 extern "js" fn ffi_worker_post_message(
   worker : Worker,
   message : Val,
-  transfer? : Val,
-) =
+  transfer : Val,
+) -> Unit =
   #| (worker, message, transfer) => worker.postMessage(message, transfer)
 
 ///|
 #alias(postMessage)
 pub fn Worker::post_message(worker : Worker, message : &Js) -> Unit {
-  ffi_worker_post_message(worker, message.to_js())
+  ffi_worker_post_message(worker, message.to_js(), @js.undefined())
+}
+
+///|
+pub fn Worker::post_message_with_transfer(
+  worker : Worker,
+  message : &Js,
+  transfer : Array[Val],
+) -> Unit {
+  let arr = @js.new_empty_array()
+  let mut i = 0
+  while i < transfer.length() {
+    arr.call_method("push", [transfer[i]]) |> ignore
+    i = i + 1
+  }
+  ffi_worker_post_message(worker, message.to_js(), arr)
 }
 
 ///|

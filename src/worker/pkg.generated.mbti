@@ -23,6 +23,7 @@ fn Worker::add_event_listener(Self, String, (MessageEvent) -> Unit) -> Unit
 fn Worker::new(String, is_module? : Bool) -> Self
 #alias(postMessage)
 fn Worker::post_message(Self, &@js.Js) -> Unit
+fn Worker::post_message_with_transfer(Self, &@js.Js, Array[@js.Val]) -> Unit
 fn Worker::terminate(Self) -> Unit
 impl @js.Js for Worker
 

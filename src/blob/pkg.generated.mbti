@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
   "mizchi/js/async"
+  "mizchi/js/stream"
 )
 
 // Values
@@ -20,7 +21,7 @@ fn Blob::content_type(Self) -> String
 fn Blob::new(Array[&@js.Js], content_type? : String) -> Self
 fn Blob::size(Self) -> Int
 fn Blob::slice(Self, start? : Int, end? : Int, content_type? : String) -> Self
-fn Blob::stream(Self) -> @js.Val
+fn Blob::stream(Self) -> @stream.ReadableStream
 fn Blob::text(Self) -> @async.Promise[String]
 impl @js.Js for Blob
 

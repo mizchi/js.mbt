@@ -12,18 +12,18 @@ using @async {run_async}
 ///|
 /// Test File constructor with basic data
 test "File new creates file from string" {
-  let file = File::new(["Hello, File!" |> js], "test.txt", content_type="text/plain")
+  let file = File::new(
+    ["Hello, File!" |> js],
+    "test.txt",
+    content_type="text/plain",
+  )
   inspect(file.name() == "test.txt", content="true")
 }
 
 ///|
 /// Test File constructor with last_modified
 test "File new with last_modified" {
-  let file = File::new(
-    ["test" |> js],
-    "test.txt",
-    last_modified=1234567890,
-  )
+  let file = File::new(["test" |> js], "test.txt", last_modified=1234567890)
   inspect(file.last_modified() == 1234567890, content="true")
 }
 

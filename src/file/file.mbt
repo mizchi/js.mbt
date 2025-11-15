@@ -34,7 +34,7 @@ pub fn File::new(
   data : Array[&Js],
   filename : String,
   content_type? : String,
-  last_modified? : Int
+  last_modified? : Int,
 ) -> File {
   let arr = @js.new_empty_array()
   let mut i = 0
@@ -106,7 +106,8 @@ pub fn File::slice(self : Self, start? : Int, end? : Int) -> Blob {
     (Some(s), None) => self.to_js().call_method("slice", [s |> js]).cast()
     (Some(s), Some(e)) =>
       self.to_js().call_method("slice", [s |> js, e |> js]).cast()
-    (None, Some(e)) => self.to_js().call_method("slice", [0 |> js, e |> js]).cast()
+    (None, Some(e)) =>
+      self.to_js().call_method("slice", [0 |> js, e |> js]).cast()
   }
 }
 
@@ -165,11 +166,12 @@ pub fn FileReader::read_as_array_buffer(self : Self, blob : Blob) -> Unit {
 pub fn FileReader::read_as_text(
   self : Self,
   blob : Blob,
-  encoding? : String
+  encoding? : String,
 ) -> Unit {
   match encoding {
     Some(enc) =>
-      self.to_js().call_method("readAsText", [blob.to_js(), enc |> js]) |> ignore
+      self.to_js().call_method("readAsText", [blob.to_js(), enc |> js])
+      |> ignore
     None => self.to_js().call_method("readAsText", [blob.to_js()]) |> ignore
   }
 }
@@ -191,7 +193,7 @@ pub fn FileReader::abort(self : Self) -> Unit {
 /// Set onload event handler
 pub fn FileReader::set_onload(
   self : Self,
-  callback : (Val) -> Unit noraise
+  callback : (Val) -> Unit noraise,
 ) -> Unit {
   self.to_js().set("onload", @js.unsafe_cast(callback))
 }
@@ -200,7 +202,7 @@ pub fn FileReader::set_onload(
 /// Set onerror event handler
 pub fn FileReader::set_onerror(
   self : Self,
-  callback : (Val) -> Unit noraise
+  callback : (Val) -> Unit noraise,
 ) -> Unit {
   self.to_js().set("onerror", @js.unsafe_cast(callback))
 }
@@ -209,7 +211,7 @@ pub fn FileReader::set_onerror(
 /// Set onloadend event handler
 pub fn FileReader::set_onloadend(
   self : Self,
-  callback : (Val) -> Unit noraise
+  callback : (Val) -> Unit noraise,
 ) -> Unit {
   self.to_js().set("onloadend", @js.unsafe_cast(callback))
 }
