@@ -1,0 +1,49 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/module"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn builtin_modules() -> Array[String]
+
+fn create_require(String) -> @js.Val
+
+fn enable_compile_cache(cache_dir? : String) -> Unit
+
+fn find_source_map(String) -> SourceMap?
+
+fn flush_compile_cache() -> Unit
+
+fn get_compile_cache_dir() -> String?
+
+fn is_builtin(String) -> Bool
+
+fn strip_typescript_types(String, mode? : String, source_map? : Bool, source_url? : String) -> String
+
+fn sync_builtin_esm_exports() -> Unit
+
+// Errors
+
+// Types and methods
+#external
+pub type SourceMap
+fn SourceMap::find_entry(Self, Int, Int) -> SourceMapEntry?
+fn SourceMap::payload(Self) -> @js.Val
+impl @js.Js for SourceMap
+
+#external
+pub type SourceMapEntry
+fn SourceMapEntry::generated_column(Self) -> Int
+fn SourceMapEntry::generated_line(Self) -> Int
+fn SourceMapEntry::name(Self) -> String?
+fn SourceMapEntry::original_column(Self) -> Int
+fn SourceMapEntry::original_line(Self) -> Int
+fn SourceMapEntry::original_source(Self) -> String
+impl @js.Js for SourceMapEntry
+
+// Type aliases
+
+// Traits
+
