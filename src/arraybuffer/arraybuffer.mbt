@@ -766,18 +766,18 @@ pub fn Int16Array::length(self : Self) -> UInt {
 ///|
 #alias(byteLength)
 pub fn Int16Array::byte_length(self : Self) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
 #alias(byteOffset)
 pub fn Int16Array::byte_offset(self : Self) -> UInt {
-  self.to_js().get("byteOffset").cast()
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|
 pub fn Int16Array::buffer(self : Self) -> ArrayBuffer {
-  self.to_js().get("buffer").cast()
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
@@ -840,24 +840,24 @@ pub extern "js" fn Int32Array::get_at(self : Self, index : UInt) -> Int =
 
 ///|
 pub fn Int32Array::length(self : Self) -> UInt {
-  self.to_js().get("length").cast()
+  self.get("length") |> unsafe_cast
 }
 
 ///|
 #alias(byteLength)
 pub fn Int32Array::byte_length(self : Self) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
 #alias(byteOffset)
 pub fn Int32Array::byte_offset(self : Self) -> UInt {
-  self.to_js().get("byteOffset").cast()
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|
 pub fn Int32Array::buffer(self : Self) -> ArrayBuffer {
-  self.to_js().get("buffer").cast()
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
@@ -920,19 +920,19 @@ pub extern "js" fn Float32Array::get_at(self : Self, index : UInt) -> Double =
 
 ///|
 pub fn Float32Array::length(self : Self) -> UInt {
-  self.to_js().get("length").cast()
+  self.get("length") |> unsafe_cast
 }
 
 ///|
 #alias(byteLength)
 pub fn Float32Array::byte_length(self : Self) -> UInt {
-  self.to_js().get("byteLength").cast()
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
 #alias(byteOffset)
 pub fn Float32Array::byte_offset(self : Self) -> UInt {
-  self.to_js().get("byteOffset").cast()
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|
