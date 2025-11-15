@@ -129,7 +129,7 @@ pub fn CustomElementRegistry::when_defined(
   self : Self,
   name : String,
 ) -> Promise[Unit] {
-  self.to_js().invoke("whenDefined", [name]).cast()
+  self.invoke("whenDefined", [name]) |> unsafe_cast
 }
 
 ///|

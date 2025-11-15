@@ -121,7 +121,7 @@ pub fn HTMLElement::attach_shadow(
     "delegatesFocus": js(init.delegates_focus),
     "slotAssignment": js(init.slot_assignment),
   })
-  self.to_js().invoke("attachShadow", [options]).cast()
+  self.invoke("attachShadow", [options]) |> unsafe_cast
 }
 
 ///|

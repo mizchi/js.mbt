@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, type Val, js}
+using @js {trait Js, type Val, js, unsafe_cast}
 
 ///|
 #external
@@ -19,7 +19,7 @@ pub fn[K : Js, V : Js] WeakMap::new() -> WeakMap[K, V] {
 
 ///|
 pub fn[K : Js, V : Js] WeakMap::delete(self : WeakMap[K, V], key : K) -> Bool {
-  self.to_js().invoke("delete", [key]).cast()
+  self.invoke("delete", [key]) |> unsafe_cast
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn[K : Js, V : Js] WeakMap::get(self : WeakMap[K, V], key : K) -> V? {
 
 ///|
 pub fn[K : Js, V : Js] WeakMap::has(self : WeakMap[K, V], key : K) -> Bool {
-  self.to_js().invoke("has", [key]).cast()
+  self.invoke("has", [key]) |> unsafe_cast
 }
 
 ///|
@@ -43,7 +43,7 @@ pub fn[K : Js, V : Js] WeakMap::set(
   key : K,
   value : V,
 ) -> WeakMap[K, V] {
-  self.to_js().invoke("set", [key, value]).cast()
+  self.invoke("set", [key, value]) |> unsafe_cast
 }
 
 ///|
@@ -64,17 +64,17 @@ pub fn[T : Js] WeakSet::new() -> WeakSet[T] {
 
 ///|
 pub fn[T : Js] WeakSet::add(self : WeakSet[T], value : T) -> WeakSet[T] {
-  self.to_js().invoke("add", [value]).cast()
+  self.invoke("add", [value]) |> unsafe_cast
 }
 
 ///|
 pub fn[T : Js] WeakSet::delete(self : WeakSet[T], value : T) -> Bool {
-  self.to_js().invoke("delete", [value]).cast()
+  self.invoke("delete", [value]) |> unsafe_cast
 }
 
 ///|
 pub fn[T : Js] WeakSet::has(self : WeakSet[T], value : T) -> Bool {
-  self.to_js().invoke("has", [value]).cast()
+  self.invoke("has", [value]) |> unsafe_cast
 }
 
 ///|
@@ -142,5 +142,5 @@ pub fn[T] FinalizationRegistry::unregister(
   self : FinalizationRegistry[T],
   unregister_token : Val,
 ) -> Bool {
-  self.to_js().invoke("unregister", [unregister_token]).cast()
+  self.invoke("unregister", [unregister_token]) |> unsafe_cast
 }

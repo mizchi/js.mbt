@@ -1,5 +1,5 @@
 ///|
-using @js {js, trait Js, type Val}
+using @js {js, trait Js, type Val, unsafe_cast}
 
 ///|
 using @events {trait EventEmitter}
@@ -20,7 +20,7 @@ pub impl EventEmitter for Stream with on(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("on", [name, callback |> js]).cast()
+  self.invoke("on", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -29,7 +29,7 @@ pub impl EventEmitter for Stream with once(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("once", [name, callback |> js]).cast()
+  self.invoke("once", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -38,7 +38,7 @@ pub impl EventEmitter for Stream with off(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("off", [name, callback |> js]).cast()
+  self.invoke("off", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -47,5 +47,5 @@ pub impl EventEmitter for Stream with emit(
   name : String,
   payload : Val,
 ) -> Unit {
-  self.to_js().invoke("emit", [name, payload]).cast()
+  self.invoke("emit", [name, payload]) |> unsafe_cast
 }

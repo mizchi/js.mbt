@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, js, trait Js}
+using @js {type Val, js, trait Js, unsafe_cast}
 
 ///|
 using @arraybuffer {type ArrayBuffer, type Uint8Array}
@@ -148,8 +148,8 @@ pub fn Buffer::toString(
   end? : Int,
 ) -> String {
   match end {
-    Some(e) => self.to_js().invoke("toString", [encoding, start, e]).cast()
-    None => self.to_js().invoke("toString", [encoding, start]).cast()
+    Some(e) => self.invoke("toString", [encoding, start, e]) |> unsafe_cast
+    None => self.invoke("toString", [encoding, start]) |> unsafe_cast
   }
 }
 
@@ -225,7 +225,7 @@ pub fn Buffer::fill(
 ///|
 /// Test if this buffer equals another buffer
 pub fn Buffer::equals(self : Self, other : Buffer) -> Bool {
-  self.to_js().invoke("equals", [other]).cast()
+  self.invoke("equals", [other]) |> unsafe_cast
 }
 
 ///|
@@ -264,7 +264,7 @@ pub fn Buffer::includes(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Bool {
-  self.to_js().invoke("includes", [value, byte_offset, encoding]).cast()
+  self.invoke("includes", [value, byte_offset, encoding]) |> unsafe_cast
 }
 
 ///|
@@ -276,7 +276,7 @@ pub fn Buffer::indexOf(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Int {
-  self.to_js().invoke("indexOf", [value, byte_offset, encoding]).cast()
+  self.invoke("indexOf", [value, byte_offset, encoding]) |> unsafe_cast
 }
 
 ///|

@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, js, type Val}
+using @js {trait Js, js, type Val, unsafe_cast}
 
 ///|
 using @async {type Promise, type AbortSignal}
@@ -23,7 +23,7 @@ pub impl EventEmitter for Interface with on(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("on", [name, callback |> js]).cast()
+  self.invoke("on", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -32,7 +32,7 @@ pub impl EventEmitter for Interface with once(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("once", [name, callback |> js]).cast()
+  self.invoke("once", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -41,7 +41,7 @@ pub impl EventEmitter for Interface with off(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("off", [name, callback |> js]).cast()
+  self.invoke("off", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -50,7 +50,7 @@ pub impl EventEmitter for Interface with emit(
   name : String,
   payload : Val,
 ) -> Unit {
-  self.to_js().invoke("emit", [name, payload]).cast()
+  self.invoke("emit", [name, payload]) |> unsafe_cast
 }
 
 ///|
@@ -109,41 +109,41 @@ pub fn create_interface(
 
 ///|
 pub fn Interface::question(self : Self, query : String) -> Promise[String] {
-  self.to_js().invoke("question", [query]).cast()
+  self.invoke("question", [query]) |> unsafe_cast
 }
 
 ///|
 pub fn Interface::commit(self : Self) -> Promise[Unit] {
-  self.to_js().invoke("commit", []).cast()
+  self.invoke("commit", []) |> unsafe_cast
 }
 
 ///|
 pub fn Interface::rollback(self : Self) -> Self {
-  self.to_js().invoke("rollback", []).cast()
+  self.invoke("rollback", []) |> unsafe_cast
 }
 
 ///|
 #alias(cursor_to)
 pub fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Promise[Unit] {
-  self.to_js().invoke("cursorTo", [x, y]).cast()
+  self.invoke("cursorTo", [x, y]) |> unsafe_cast
 }
 
 ///|
 #alias(move_cursor)
 pub fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Promise[Unit] {
-  self.to_js().invoke("moveCursor", [dx, dy]).cast()
+  self.invoke("moveCursor", [dx, dy]) |> unsafe_cast
 }
 
 ///|
 #alias(clear_line)
 pub fn Interface::clearLine(self : Self, dir : Int) -> Self {
-  self.to_js().invoke("clearLine", [dir]).cast()
+  self.invoke("clearLine", [dir]) |> unsafe_cast
 }
 
 ///|
 #alias(clear_screen_down)
 pub fn Interface::clearScreenDown(self : Self, dir : Int) -> Self {
-  self.to_js().invoke("clearScreenDown", [dir]).cast()
+  self.invoke("clearScreenDown", [dir]) |> unsafe_cast
 }
 
 ///|

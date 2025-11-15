@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, type Val, js}
+using @js {trait Js, type Val, js, unsafe_cast}
 
 ///|
 using @async {type Promise}
@@ -35,8 +35,8 @@ pub fn ReadableStream::locked(self : Self) -> Bool {
 /// Cancel the stream
 pub fn ReadableStream::cancel(self : Self, reason? : Val) -> Promise[Unit] {
   match reason {
-    Some(r) => self.to_js().invoke("cancel", [r]).cast()
-    None => self.to_js().invoke("cancel", []).cast()
+    Some(r) => self.invoke("cancel", [r]) |> unsafe_cast
+    None => self.invoke("cancel", []) |> unsafe_cast
   }
 }
 
@@ -44,7 +44,7 @@ pub fn ReadableStream::cancel(self : Self, reason? : Val) -> Promise[Unit] {
 /// Get a reader for this stream
 #alias(getReader)
 pub fn ReadableStream::get_reader(self : Self) -> ReadableStreamDefaultReader {
-  self.to_js().invoke("getReader", []).cast()
+  self.invoke("getReader", []) |> unsafe_cast
 }
 
 ///|
@@ -56,8 +56,8 @@ pub fn ReadableStream::pipe_to(
   options? : Val,
 ) -> Promise[Unit] {
   match options {
-    Some(opts) => self.to_js().invoke("pipeTo", [destination, opts]).cast()
-    None => self.to_js().invoke("pipeTo", [destination]).cast()
+    Some(opts) => self.invoke("pipeTo", [destination, opts]) |> unsafe_cast
+    None => self.invoke("pipeTo", [destination]) |> unsafe_cast
   }
 }
 
@@ -70,8 +70,8 @@ pub fn ReadableStream::pipe_through(
   options? : Val,
 ) -> ReadableStream {
   match options {
-    Some(opts) => self.to_js().invoke("pipeThrough", [transform, opts]).cast()
-    None => self.to_js().invoke("pipeThrough", [transform]).cast()
+    Some(opts) => self.invoke("pipeThrough", [transform, opts]) |> unsafe_cast
+    None => self.invoke("pipeThrough", [transform]) |> unsafe_cast
   }
 }
 
@@ -101,7 +101,7 @@ pub impl Js for ReadableStreamDefaultReader with to_js(self) {
 ///|
 /// Read a chunk from the stream
 pub fn ReadableStreamDefaultReader::read(self : Self) -> Promise[Val] {
-  self.to_js().invoke("read", []).cast()
+  self.invoke("read", []) |> unsafe_cast
 }
 
 ///|
@@ -118,8 +118,8 @@ pub fn ReadableStreamDefaultReader::cancel(
   reason? : Val,
 ) -> Promise[Unit] {
   match reason {
-    Some(r) => self.to_js().invoke("cancel", [r]).cast()
-    None => self.to_js().invoke("cancel", []).cast()
+    Some(r) => self.invoke("cancel", [r]) |> unsafe_cast
+    None => self.invoke("cancel", []) |> unsafe_cast
   }
 }
 
@@ -160,22 +160,22 @@ pub fn WritableStream::locked(self : Self) -> Bool {
 /// Abort the stream
 pub fn WritableStream::abort(self : Self, reason? : Val) -> Promise[Unit] {
   match reason {
-    Some(r) => self.to_js().invoke("abort", [r]).cast()
-    None => self.to_js().invoke("abort", []).cast()
+    Some(r) => self.invoke("abort", [r]) |> unsafe_cast
+    None => self.invoke("abort", []) |> unsafe_cast
   }
 }
 
 ///|
 /// Close the stream
 pub fn WritableStream::close(self : Self) -> Promise[Unit] {
-  self.to_js().invoke("close", []).cast()
+  self.invoke("close", []) |> unsafe_cast
 }
 
 ///|
 /// Get a writer for this stream
 #alias(getWriter)
 pub fn WritableStream::get_writer(self : Self) -> WritableStreamDefaultWriter {
-  self.to_js().invoke("getWriter", []).cast()
+  self.invoke("getWriter", []) |> unsafe_cast
 }
 
 ///|
@@ -194,13 +194,13 @@ pub fn WritableStreamDefaultWriter::write(
   self : Self,
   chunk : Val,
 ) -> Promise[Unit] {
-  self.to_js().invoke("write", [chunk]).cast()
+  self.invoke("write", [chunk]) |> unsafe_cast
 }
 
 ///|
 /// Close the writer
 pub fn WritableStreamDefaultWriter::close(self : Self) -> Promise[Unit] {
-  self.to_js().invoke("close", []).cast()
+  self.invoke("close", []) |> unsafe_cast
 }
 
 ///|
@@ -210,8 +210,8 @@ pub fn WritableStreamDefaultWriter::abort(
   reason? : Val,
 ) -> Promise[Unit] {
   match reason {
-    Some(r) => self.to_js().invoke("abort", [r]).cast()
-    None => self.to_js().invoke("abort", []).cast()
+    Some(r) => self.invoke("abort", [r]) |> unsafe_cast
+    None => self.invoke("abort", []) |> unsafe_cast
   }
 }
 

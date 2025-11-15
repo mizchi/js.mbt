@@ -2,7 +2,7 @@
 // Web File API
 
 ///|
-using @js {type Val, trait Js, js}
+using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
 using @blob {type Blob}
@@ -89,24 +89,24 @@ pub fn File::as_blob(self : Self) -> Blob {
 /// Get the file contents as ArrayBuffer (inherited from Blob)
 #alias(arrayBuffer)
 pub fn File::array_buffer(self : Self) -> Promise[ArrayBuffer] {
-  self.to_js().invoke("arrayBuffer", []).cast()
+  self.invoke("arrayBuffer", []) |> unsafe_cast
 }
 
 ///|
 /// Get the file contents as text (inherited from Blob)
 pub fn File::text(self : Self) -> Promise[String] {
-  self.to_js().invoke("text", []).cast()
+  self.invoke("text", []) |> unsafe_cast
 }
 
 ///|
 /// Create a new File containing a slice of this File (inherited from Blob)
 pub fn File::slice(self : Self, start? : Int, end? : Int) -> Blob {
   match (start, end) {
-    (None, None) => self.to_js().invoke("slice", []).cast()
-    (Some(s), None) => self.to_js().invoke("slice", [s |> js]).cast()
+    (None, None) => self.invoke("slice", []) |> unsafe_cast
+    (Some(s), None) => self.invoke("slice", [s |> js]) |> unsafe_cast
     (Some(s), Some(e)) =>
-      self.to_js().invoke("slice", [s |> js, e |> js]).cast()
-    (None, Some(e)) => self.to_js().invoke("slice", [0 |> js, e |> js]).cast()
+      self.invoke("slice", [s |> js, e |> js]) |> unsafe_cast
+    (None, Some(e)) => self.invoke("slice", [0 |> js, e |> js]) |> unsafe_cast
   }
 }
 

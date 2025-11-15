@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, type Val, js}
+using @js {trait Js, type Val, js, unsafe_cast}
 
 ///|
 using @async {type Promise}
@@ -81,7 +81,7 @@ pub fn SubtleCrypto::digest(
   algorithm : String,
   data : &Js,
 ) -> Promise[Val] {
-  self.to_js().invoke("digest", [algorithm |> js, data.to_js()]).cast()
+  self.invoke("digest", [algorithm |> js, data.to_js()]) |> unsafe_cast
 }
 
 ///|
@@ -169,7 +169,7 @@ pub fn SubtleCrypto::export_key(
   format : String,
   key : &Js,
 ) -> Promise[Val] {
-  self.to_js().invoke("exportKey", [format |> js, key.to_js()]).cast()
+  self.invoke("exportKey", [format |> js, key.to_js()]) |> unsafe_cast
 }
 
 ///|

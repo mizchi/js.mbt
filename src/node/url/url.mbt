@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, js, trait Js}
+using @js {type Val, js, trait Js, unsafe_cast}
 
 ///|
 extern "js" fn ffi_typeof(v : Val) -> String =
@@ -240,14 +240,14 @@ pub fn URL::searchParams(self : Self) -> URLSearchParams {
 /// Convert URL to string
 #alias(to_string)
 pub fn URL::toString(self : Self) -> String {
-  self.to_js().invoke("toString", []).cast()
+  self.invoke("toString", []) |> unsafe_cast
 }
 
 ///|
 /// Convert URL to JSON (same as toString)
 #alias(to_json)
 pub fn URL::toJSON(self : Self) -> String {
-  self.to_js().invoke("toJSON", []).cast()
+  self.invoke("toJSON", []) |> unsafe_cast
 }
 
 ///|
@@ -318,8 +318,8 @@ pub fn URLSearchParams::has(
   value? : String,
 ) -> Bool {
   match value {
-    Some(v) => self.to_js().invoke("has", [name, v]).cast()
-    None => self.to_js().invoke("has", [name]).cast()
+    Some(v) => self.invoke("has", [name, v]) |> unsafe_cast
+    None => self.invoke("has", [name]) |> unsafe_cast
   }
 }
 
@@ -339,7 +339,7 @@ pub fn URLSearchParams::sort(self : Self) -> Unit {
 /// Convert to query string
 #alias(to_string)
 pub fn URLSearchParams::toString(self : Self) -> String {
-  self.to_js().invoke("toString", []).cast()
+  self.invoke("toString", []) |> unsafe_cast
 }
 
 ///|

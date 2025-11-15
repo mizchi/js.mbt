@@ -24,7 +24,7 @@ impl EventTargetImpl with remove_event_listener(self, event_type, handler) -> Un
 
 ///|
 impl EventTargetImpl with dispatch_event(self, event) -> Bool {
-  self.to_js().invoke("dispatchEvent", [event]).cast()
+  self.invoke("dispatchEvent", [event]) |> unsafe_cast
 }
 
 ///|
@@ -91,12 +91,12 @@ impl NodeImpl with next_sibling(self) -> Node? {
 
 ///|
 impl NodeImpl with append_child(self, child) -> Node {
-  self.to_js().invoke("appendChild", [child.to_js()]).cast()
+  self.invoke("appendChild", [child.to_js()]) |> unsafe_cast
 }
 
 ///|
 impl NodeImpl with remove_child(self, child) -> Node {
-  self.to_js().invoke("removeChild", [child.to_js()]).cast()
+  self.invoke("removeChild", [child.to_js()]) |> unsafe_cast
 }
 
 ///|
@@ -125,20 +125,20 @@ impl NodeImpl with replace_child(self, new_child, old_child) -> Node {
 
 ///|
 impl NodeImpl with clone_node(self, deep) -> Node {
-  self.to_js().invoke("cloneNode", [deep]).cast()
+  self.invoke("cloneNode", [deep]) |> unsafe_cast
 }
 
 ///|
 impl NodeImpl with contains(self, other) -> Bool {
   match other {
-    Some(node) => self.to_js().invoke("contains", [node.to_js()]).cast()
-    None => self.to_js().invoke("contains", [@js.null_()]).cast()
+    Some(node) => self.invoke("contains", [node.to_js()]) |> unsafe_cast
+    None => self.invoke("contains", [@js.null_()]) |> unsafe_cast
   }
 }
 
 ///|
 impl NodeImpl with has_child_nodes(self) -> Bool {
-  self.to_js().invoke("hasChildNodes", []).cast()
+  self.invoke("hasChildNodes", []) |> unsafe_cast
 }
 
 ///|
@@ -196,7 +196,7 @@ impl ElementImpl with set_id(self, id) -> Unit {
 
 ///|
 impl ElementImpl with get_attribute(self, name) -> String? {
-  self.to_js().invoke("getAttribute", [name]).cast()
+  self.invoke("getAttribute", [name]) |> unsafe_cast
 }
 
 ///|
@@ -211,7 +211,7 @@ impl ElementImpl with remove_attribute(self, name) -> Unit {
 
 ///|
 impl ElementImpl with has_attribute(self, name) -> Bool {
-  self.to_js().invoke("hasAttribute", [name]).cast()
+  self.invoke("hasAttribute", [name]) |> unsafe_cast
 }
 
 ///|
@@ -237,7 +237,7 @@ impl ElementImpl with get_elements_by_class_name(self, class_name) -> Array[
 
 ///|
 impl ElementImpl with query_selector(self, selector) -> Element? {
-  self.to_js().invoke("querySelector", [selector]).cast()
+  self.invoke("querySelector", [selector]) |> unsafe_cast
 }
 
 ///|
@@ -421,9 +421,9 @@ pub fn HTMLCanvasElement::to_data_url(
   quality? : Double,
 ) -> String {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.to_js().invoke("toDataURL", [t, q]).cast()
-    (Some(t), None) => self.to_js().invoke("toDataURL", [t]).cast()
-    (None, _) => self.to_js().invoke("toDataURL", []).cast()
+    (Some(t), Some(q)) => self.invoke("toDataURL", [t, q]) |> unsafe_cast
+    (Some(t), None) => self.invoke("toDataURL", [t]) |> unsafe_cast
+    (None, _) => self.invoke("toDataURL", []) |> unsafe_cast
   }
 }
 
@@ -434,9 +434,9 @@ pub fn HTMLCanvasElement::to_blob(
   quality? : Double,
 ) -> Promise[Blob] {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.to_js().invoke("toBlob", [t, q]).cast()
-    (Some(t), None) => self.to_js().invoke("toBlob", [t]).cast()
-    (None, _) => self.to_js().invoke("toBlob", []).cast()
+    (Some(t), Some(q)) => self.invoke("toBlob", [t, q]) |> unsafe_cast
+    (Some(t), None) => self.invoke("toBlob", [t]) |> unsafe_cast
+    (None, _) => self.invoke("toBlob", []) |> unsafe_cast
   }
 }
 

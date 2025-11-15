@@ -108,7 +108,7 @@ pub fn URLPattern::hasRegExpGroups(self : Self) -> Bool {
 ///|
 /// Test if a URL string matches the pattern
 pub fn URLPattern::test_url(self : Self, input : String) -> Bool {
-  self.to_js().invoke("test", [input]).cast()
+  self.invoke("test", [input]) |> unsafe_cast
 }
 
 ///|
@@ -119,8 +119,8 @@ pub fn URLPattern::test_url_with_base(
   base? : String,
 ) -> Bool {
   match base {
-    Some(b) => self.to_js().invoke("test", [input, b]).cast()
-    None => self.to_js().invoke("test", [input]).cast()
+    Some(b) => self.invoke("test", [input, b]) |> unsafe_cast
+    None => self.invoke("test", [input]) |> unsafe_cast
   }
 }
 

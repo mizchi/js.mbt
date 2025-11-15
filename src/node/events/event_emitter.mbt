@@ -34,7 +34,7 @@ pub impl EventEmitter for EventEmitterClass with on(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("on", [name, callback |> js]).cast()
+  self.invoke("on", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -43,7 +43,7 @@ pub impl EventEmitter for EventEmitterClass with once(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("once", [name, callback |> js]).cast()
+  self.invoke("once", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -52,7 +52,7 @@ pub impl EventEmitter for EventEmitterClass with off(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("off", [name, callback |> js]).cast()
+  self.invoke("off", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -61,5 +61,5 @@ pub impl EventEmitter for EventEmitterClass with emit(
   name : String,
   payload : Val,
 ) -> Unit {
-  self.to_js().invoke("emit", [name, payload]).cast()
+  self.invoke("emit", [name, payload]) |> unsafe_cast
 }

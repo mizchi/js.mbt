@@ -18,7 +18,7 @@ pub fn D1Database::prepare(self : Self, query : String) -> D1PreparedStatement {
 ///|
 /// Execute a SQL statement directly (for statements that don't return data)
 pub fn D1Database::exec(self : Self, query : String) -> Promise[D1ExecResult] {
-  self.to_js().invoke("exec", [query]).cast()
+  self.invoke("exec", [query]) |> unsafe_cast
 }
 
 ///|
@@ -33,13 +33,13 @@ pub fn D1Database::batch(
     stmts_js.invoke("push", [statements[i]]) |> ignore
     i = i + 1
   }
-  self.to_js().invoke("batch", [stmts_js]).cast()
+  self.invoke("batch", [stmts_js]) |> unsafe_cast
 }
 
 ///|
 /// Dump the entire database
 pub fn D1Database::dump(self : Self) -> Promise[Val] {
-  self.to_js().invoke("dump", []).cast()
+  self.invoke("dump", []) |> unsafe_cast
 }
 
 ///|
@@ -99,7 +99,7 @@ pub fn D1PreparedStatement::bind3(
 ///|
 /// Execute the statement and return first row
 pub fn D1PreparedStatement::first(self : Self) -> Promise[Val?] {
-  self.to_js().invoke("first", []).cast()
+  self.invoke("first", []) |> unsafe_cast
 }
 
 ///|
@@ -108,25 +108,25 @@ pub fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
 ) -> Promise[Val?] {
-  self.to_js().invoke("first", [col_name]).cast()
+  self.invoke("first", [col_name]) |> unsafe_cast
 }
 
 ///|
 /// Execute the statement and return all rows
 pub fn D1PreparedStatement::all(self : Self) -> Promise[D1Result] {
-  self.to_js().invoke("all", []).cast()
+  self.invoke("all", []) |> unsafe_cast
 }
 
 ///|
 /// Execute the statement (for INSERT, UPDATE, DELETE)
 pub fn D1PreparedStatement::run(self : Self) -> Promise[D1Result] {
-  self.to_js().invoke("run", []).cast()
+  self.invoke("run", []) |> unsafe_cast
 }
 
 ///|
 /// Execute and return raw results
 pub fn D1PreparedStatement::raw(self : Self) -> Promise[Array[Val]] {
-  self.to_js().invoke("raw", []).cast()
+  self.invoke("raw", []) |> unsafe_cast
 }
 
 ///|
@@ -135,7 +135,7 @@ pub fn D1PreparedStatement::raw_with_options(
   self : Self,
   options : D1RawOptions,
 ) -> Promise[Array[Val]] {
-  self.to_js().invoke("raw", [options.to_js()]).cast()
+  self.invoke("raw", [options.to_js()]) |> unsafe_cast
 }
 
 ///|

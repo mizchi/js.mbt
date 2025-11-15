@@ -121,5 +121,5 @@ pub fn Navigator::geolocation(self : Self) -> Val {
 /// Vibrates the device
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate
 pub fn Navigator::vibrate(self : Self, pattern : Int) -> Bool {
-  self.to_js().invoke("vibrate", [pattern |> js]).cast()
+  self.invoke("vibrate", [pattern |> js]) |> unsafe_cast
 }

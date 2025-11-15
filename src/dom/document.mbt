@@ -190,14 +190,14 @@ pub fn Document::referrer(self : Self) -> String {
 /// Creates a document fragment
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 pub fn Document::create_document_fragment(self : Self) -> Val {
-  self.to_js().invoke("createDocumentFragment", []).cast()
+  self.invoke("createDocumentFragment", []) |> unsafe_cast
 }
 
 ///|
 /// Creates a comment node
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 pub fn Document::create_comment(self : Self, data : String) -> Val {
-  self.to_js().invoke("createComment", [data |> js]).cast()
+  self.invoke("createComment", [data |> js]) |> unsafe_cast
 }
 
 ///|
@@ -239,19 +239,19 @@ pub fn Document::doctype(self : Self) -> Val? {
 /// Adopts a node from an external document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
 pub fn Document::adopt_node(self : Self, node : Node) -> Node {
-  self.to_js().invoke("adoptNode", [node.to_js()]).cast()
+  self.invoke("adoptNode", [node.to_js()]) |> unsafe_cast
 }
 
 ///|
 /// Imports a node from another document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
 pub fn Document::import_node(self : Self, node : Node, deep : Bool) -> Node {
-  self.to_js().invoke("importNode", [node.to_js(), deep]).cast()
+  self.invoke("importNode", [node.to_js(), deep]) |> unsafe_cast
 }
 
 ///|
 /// Creates an event of the specified type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
 pub fn Document::create_event(self : Self, event_type : String) -> Event {
-  self.to_js().invoke("createEvent", [event_type]).cast()
+  self.invoke("createEvent", [event_type]) |> unsafe_cast
 }

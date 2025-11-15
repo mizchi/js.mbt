@@ -12,7 +12,7 @@ pub impl Js for R2Bucket with to_js(self) {
 ///|
 /// Get an object from R2
 pub fn R2Bucket::get(self : Self, key : String) -> Promise[R2Object?] {
-  self.to_js().invoke("get", [key]).cast()
+  self.invoke("get", [key]) |> unsafe_cast
 }
 
 ///|
@@ -22,13 +22,13 @@ pub fn R2Bucket::get_with_options(
   key : String,
   options : R2GetOptions,
 ) -> Promise[R2Object?] {
-  self.to_js().invoke("get", [key, options]).cast()
+  self.invoke("get", [key, options]) |> unsafe_cast
 }
 
 ///|
 /// Get object metadata without body
 pub fn R2Bucket::head(self : Self, key : String) -> Promise[R2Object?] {
-  self.to_js().invoke("head", [key]).cast()
+  self.invoke("head", [key]) |> unsafe_cast
 }
 
 ///|
@@ -38,7 +38,7 @@ pub fn R2Bucket::put(
   key : String,
   value : Val,
 ) -> Promise[R2Object] {
-  self.to_js().invoke("put", [key, value]).cast()
+  self.invoke("put", [key, value]) |> unsafe_cast
 }
 
 ///|
@@ -49,13 +49,13 @@ pub fn R2Bucket::put_with_options(
   value : Val,
   options : R2PutOptions,
 ) -> Promise[R2Object] {
-  self.to_js().invoke("put", [key, value, options]).cast()
+  self.invoke("put", [key, value, options]) |> unsafe_cast
 }
 
 ///|
 /// Delete an object from R2
 pub fn R2Bucket::delete(self : Self, key : String) -> Promise[Unit] {
-  self.to_js().invoke("delete", [key]).cast()
+  self.invoke("delete", [key]) |> unsafe_cast
 }
 
 ///|
@@ -70,13 +70,13 @@ pub fn R2Bucket::delete_multiple(
     keys_js.invoke("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.to_js().invoke("delete", [keys_js]).cast()
+  self.invoke("delete", [keys_js]) |> unsafe_cast
 }
 
 ///|
 /// List objects in the bucket
 pub fn R2Bucket::list(self : Self) -> Promise[R2Objects] {
-  self.to_js().invoke("list", []).cast()
+  self.invoke("list", []) |> unsafe_cast
 }
 
 ///|
@@ -85,7 +85,7 @@ pub fn R2Bucket::list_with_options(
   self : Self,
   options : R2ListOptions,
 ) -> Promise[R2Objects] {
-  self.to_js().invoke("list", [options]).cast()
+  self.invoke("list", [options]) |> unsafe_cast
 }
 
 ///|
@@ -94,7 +94,7 @@ pub fn R2Bucket::create_multipart_upload(
   self : Self,
   key : String,
 ) -> Promise[R2MultipartUpload] {
-  self.to_js().invoke("createMultipartUpload", [key]).cast()
+  self.invoke("createMultipartUpload", [key]) |> unsafe_cast
 }
 
 ///|
@@ -104,7 +104,7 @@ pub fn R2Bucket::create_multipart_upload_with_options(
   key : String,
   options : R2PutOptions,
 ) -> Promise[R2MultipartUpload] {
-  self.to_js().invoke("createMultipartUpload", [key, options]).cast()
+  self.invoke("createMultipartUpload", [key, options]) |> unsafe_cast
 }
 
 ///|
@@ -114,7 +114,7 @@ pub fn R2Bucket::resume_multipart_upload(
   key : String,
   upload_id : String,
 ) -> R2MultipartUpload {
-  self.to_js().invoke("resumeMultipartUpload", [key, upload_id]).cast()
+  self.invoke("resumeMultipartUpload", [key, upload_id]) |> unsafe_cast
 }
 
 ///|
@@ -380,25 +380,25 @@ pub fn R2Object::uploaded(self : Self) -> Val {
 ///|
 /// Get object body as ArrayBuffer
 pub fn R2Object::array_buffer(self : Self) -> Promise[Val] {
-  self.to_js().invoke("arrayBuffer", []).cast()
+  self.invoke("arrayBuffer", []) |> unsafe_cast
 }
 
 ///|
 /// Get object body as text
 pub fn R2Object::text(self : Self) -> Promise[String] {
-  self.to_js().invoke("text", []).cast()
+  self.invoke("text", []) |> unsafe_cast
 }
 
 ///|
 /// Get object body as JSON
 pub fn R2Object::json(self : Self) -> Promise[Val] {
-  self.to_js().invoke("json", []).cast()
+  self.invoke("json", []) |> unsafe_cast
 }
 
 ///|
 /// Get object body as blob
 pub fn R2Object::blob(self : Self) -> Promise[Val] {
-  self.to_js().invoke("blob", []).cast()
+  self.invoke("blob", []) |> unsafe_cast
 }
 
 ///|
@@ -416,7 +416,7 @@ pub fn R2Object::body_used(self : Self) -> Bool {
 ///|
 /// Write object to a writable stream
 pub fn R2Object::write_http_metadata(self : Self, headers : Val) -> Unit {
-  self.to_js().invoke("writeHttpMetadata", [headers]).cast()
+  self.invoke("writeHttpMetadata", [headers]) |> unsafe_cast
 }
 
 ///|
@@ -462,13 +462,13 @@ pub fn R2MultipartUpload::upload_part(
   part_number : Int,
   value : Val,
 ) -> Promise[R2UploadedPart] {
-  self.to_js().invoke("uploadPart", [part_number, value]).cast()
+  self.invoke("uploadPart", [part_number, value]) |> unsafe_cast
 }
 
 ///|
 /// Abort the multipart upload
 pub fn R2MultipartUpload::abort(self : Self) -> Promise[Unit] {
-  self.to_js().invoke("abort", []).cast()
+  self.invoke("abort", []) |> unsafe_cast
 }
 
 ///|
@@ -483,7 +483,7 @@ pub fn R2MultipartUpload::complete(
     parts_js.invoke("push", [parts[i]]) |> ignore
     i = i + 1
   }
-  self.to_js().invoke("complete", [parts_js]).cast()
+  self.invoke("complete", [parts_js]) |> unsafe_cast
 }
 
 ///|

@@ -40,32 +40,32 @@ pub fn Request::credentials(self : Request) -> String {
 
 ///|
 pub fn Request::clone(self : Request) -> Request {
-  self.to_js().invoke("clone", []).cast()
+  self.invoke("clone", []) |> unsafe_cast
 }
 
 ///|
 pub fn Request::json(self : Request) -> Promise[Val] {
-  self.to_js().invoke("json", []).cast()
+  self.invoke("json", []) |> unsafe_cast
 }
 
 ///|
 pub fn Request::text(self : Request) -> Promise[String] {
-  self.to_js().invoke("text", []).cast()
+  self.invoke("text", []) |> unsafe_cast
 }
 
 ///|
 pub fn Request::arraybuffer(
   self : Request,
 ) -> Promise[@arraybuffer.ArrayBuffer] {
-  self.to_js().invoke("arrayBuffer", []).cast()
+  self.invoke("arrayBuffer", []) |> unsafe_cast
 }
 
 ///|
 pub fn Request::blob(self : Request) -> Promise[Val] {
-  self.to_js().invoke("blob", []).cast()
+  self.invoke("blob", []) |> unsafe_cast
 }
 
 ///|
 pub fn Request::bytes(self : Request) -> Promise[Val] {
-  self.to_js().invoke("bytes", []).cast()
+  self.invoke("bytes", []) |> unsafe_cast
 }

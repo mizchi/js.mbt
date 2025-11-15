@@ -32,7 +32,7 @@ pub impl EventEmitter for ChildProcess with on(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("on", [name, callback |> js]).cast()
+  self.invoke("on", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -41,7 +41,7 @@ pub impl EventEmitter for ChildProcess with once(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("once", [name, callback |> js]).cast()
+  self.invoke("once", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -50,7 +50,7 @@ pub impl EventEmitter for ChildProcess with off(
   name : String,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_js().invoke("off", [name, callback |> js]).cast()
+  self.invoke("off", [name, callback |> js]) |> unsafe_cast
 }
 
 ///|
@@ -59,7 +59,7 @@ pub impl EventEmitter for ChildProcess with emit(
   name : String,
   payload : Val,
 ) -> Unit {
-  self.to_js().invoke("emit", [name, payload]).cast()
+  self.invoke("emit", [name, payload]) |> unsafe_cast
 }
 
 ///| ChildProcess Typed Event Handlers
@@ -226,15 +226,15 @@ pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
 /// Send a signal to the child process
 pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
   match signal {
-    Some(sig) => self.to_js().invoke("kill", [sig |> js]).cast()
-    None => self.to_js().invoke("kill", []).cast()
+    Some(sig) => self.invoke("kill", [sig |> js]) |> unsafe_cast
+    None => self.invoke("kill", []) |> unsafe_cast
   }
 }
 
 ///|
 /// Send a message to the child process (for IPC)
 pub fn ChildProcess::send(self : Self, message : &Js) -> Bool {
-  self.to_js().invoke("send", [message.to_js()]).cast()
+  self.invoke("send", [message.to_js()]) |> unsafe_cast
 }
 
 ///|

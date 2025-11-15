@@ -238,7 +238,7 @@ pub fn DatabaseSync::createTagStore(
   max_size? : Int,
 ) -> SQLTagStore {
   let args : Array[&Js] = if max_size is Some(size) { [size] } else { [] }
-  self.to_js().invoke("createTagStore", args).cast()
+  self.invoke("createTagStore", args) |> unsafe_cast
 }
 
 ///|
@@ -255,17 +255,17 @@ pub fn DatabaseSync::createSession(
   if db is Some(d) {
     v["db"] = d
   }
-  self.to_js().invoke("createSession", [v]).cast()
+  self.invoke("createSession", [v]) |> unsafe_cast
 }
 
 ///|
 pub fn DatabaseSync::exec(self : Self, query : String) -> Unit {
-  self.to_js().invoke("exec", [query]).cast()
+  self.invoke("exec", [query]) |> unsafe_cast
 }
 
 ///|
 pub fn DatabaseSync::prepare(self : Self, query : String) -> StatementSync {
-  self.to_js().invoke("prepare", [query]).cast()
+  self.invoke("prepare", [query]) |> unsafe_cast
 }
 
 ///|
@@ -283,7 +283,7 @@ pub fn DatabaseSync::applyChangeset(
   if onConflict is Some(oc) {
     opts["onConflict"] = oc |> js
   }
-  self.to_js().invoke("applyChangeset", [changeset, opts]).cast()
+  self.invoke("applyChangeset", [changeset, opts]) |> unsafe_cast
 }
 
 ///|
@@ -324,7 +324,7 @@ pub fn StatementSync::get(
 
 ///|
 pub fn StatementSync::columns(self : Self) -> Array[Val] {
-  self.to_js().invoke("columns", []).cast()
+  self.invoke("columns", []) |> unsafe_cast
 }
 
 ///|
@@ -346,7 +346,7 @@ pub fn StatementSync::run(
       args.push(param)
     }
   }
-  self.to_js().invoke("run", args).cast()
+  self.invoke("run", args) |> unsafe_cast
 }
 
 ///|
@@ -368,7 +368,7 @@ pub fn StatementSync::all(
       args.push(param)
     }
   }
-  self.to_js().invoke("all", args).cast()
+  self.invoke("all", args) |> unsafe_cast
 }
 
 ///|
@@ -390,7 +390,7 @@ pub fn StatementSync::iterate(
       args.push(param)
     }
   }
-  self.to_js().invoke("iterate", args).cast()
+  self.invoke("iterate", args) |> unsafe_cast
 }
 
 ///|
@@ -457,12 +457,12 @@ pub impl Js for Session with to_js(self) {
 
 ///|
 pub fn Session::changeset(self : Self) -> Uint8Array {
-  self.to_js().invoke("changeset", []).cast()
+  self.invoke("changeset", []) |> unsafe_cast
 }
 
 ///|
 pub fn Session::patchset(self : Self) -> Uint8Array {
-  self.to_js().invoke("patchset", []).cast()
+  self.invoke("patchset", []) |> unsafe_cast
 }
 
 ///|
@@ -486,7 +486,7 @@ pub fn SQLTagStore::capacity(self : Self) -> Int {
 
 ///|
 pub fn SQLTagStore::size(self : Self) -> Int {
-  self.to_js().invoke("size", []).cast()
+  self.invoke("size", []) |> unsafe_cast
 }
 
 ///|

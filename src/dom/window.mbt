@@ -119,7 +119,7 @@ pub fn Window::alert(self : Self, message : String) -> Unit {
 /// Displays a confirm dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
 pub fn Window::confirm(self : Self, message : String) -> Bool {
-  self.to_js().invoke("confirm", [message]).cast()
+  self.invoke("confirm", [message]) |> unsafe_cast
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn Window::set_timeout(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.to_js().invoke("setTimeout", [@js.js(handler), delay]).cast()
+  self.invoke("setTimeout", [@js.js(handler), delay]) |> unsafe_cast
 }
 
 ///|
@@ -216,7 +216,7 @@ pub fn Window::set_interval(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.to_js().invoke("setInterval", [@js.js(handler), delay]).cast()
+  self.invoke("setInterval", [@js.js(handler), delay]) |> unsafe_cast
 }
 
 ///|
@@ -233,7 +233,7 @@ pub fn Window::request_animation_frame(
   self : Self,
   callback : (Double) -> Unit,
 ) -> Int {
-  self.to_js().invoke("requestAnimationFrame", [@js.js(callback)]).cast()
+  self.invoke("requestAnimationFrame", [@js.js(callback)]) |> unsafe_cast
 }
 
 ///|
@@ -248,8 +248,8 @@ pub fn Window::cancel_animation_frame(self : Self, id : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
 pub fn Window::fetch(self : Self, input : String, init? : Val) -> Promise[Val] {
   match init {
-    Some(i) => self.to_js().invoke("fetch", [input, i]).cast()
-    None => self.to_js().invoke("fetch", [input]).cast()
+    Some(i) => self.invoke("fetch", [input, i]) |> unsafe_cast
+    None => self.invoke("fetch", [input]) |> unsafe_cast
   }
 }
 
@@ -270,8 +270,8 @@ pub fn Window::get_computed_style(
 ) -> Val {
   match pseudo_elt {
     Some(p) =>
-      self.to_js().invoke("getComputedStyle", [element.to_js(), p]).cast()
-    None => self.to_js().invoke("getComputedStyle", [element.to_js()]).cast()
+      self.invoke("getComputedStyle", [element.to_js(), p]) |> unsafe_cast
+    None => self.invoke("getComputedStyle", [element.to_js()]) |> unsafe_cast
   }
 }
 
@@ -279,7 +279,7 @@ pub fn Window::get_computed_style(
 /// Returns a media query list
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 pub fn Window::match_media(self : Self, query : String) -> Val {
-  self.to_js().invoke("matchMedia", [query]).cast()
+  self.invoke("matchMedia", [query]) |> unsafe_cast
 }
 
 ///|

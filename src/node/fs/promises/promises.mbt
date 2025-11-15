@@ -72,13 +72,13 @@ pub impl Js for Dirent with to_js(self) -> Val {
 ///|
 #alias(isFile)
 pub fn Dirent::is_file(self : Self) -> Bool {
-  self.to_js().invoke("isFile", []).cast()
+  self.invoke("isFile", []) |> unsafe_cast
 }
 
 ///|
 #alias(isDirectory)
 pub fn Dirent::is_directory(self : Self) -> Bool {
-  self.to_js().invoke("isDirectory", []).cast()
+  self.invoke("isDirectory", []) |> unsafe_cast
 }
 
 ///|

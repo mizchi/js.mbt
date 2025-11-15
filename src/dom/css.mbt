@@ -25,7 +25,7 @@ pub fn CSSStyleDeclaration::get_property_value(
   self : Self,
   property : String,
 ) -> String {
-  self.to_js().invoke("getPropertyValue", [property |> js]).cast()
+  self.invoke("getPropertyValue", [property |> js]) |> unsafe_cast
 }
 
 ///|
@@ -58,7 +58,7 @@ pub fn CSSStyleDeclaration::remove_property(
   self : Self,
   property : String,
 ) -> String {
-  self.to_js().invoke("removeProperty", [property |> js]).cast()
+  self.invoke("removeProperty", [property |> js]) |> unsafe_cast
 }
 
 ///|
@@ -67,7 +67,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
   self : Self,
   property : String,
 ) -> String {
-  self.to_js().invoke("getPropertyPriority", [property |> js]).cast()
+  self.invoke("getPropertyPriority", [property |> js]) |> unsafe_cast
 }
 
 ///|
@@ -157,7 +157,7 @@ pub fn CSSStyleSheet::css_rules(self : Self) -> Val {
 /// Inserts a CSS rule
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
 pub fn CSSStyleSheet::insert_rule(self : Self, rule : String) -> Int {
-  self.to_js().invoke("insertRule", [rule |> js]).cast()
+  self.invoke("insertRule", [rule |> js]) |> unsafe_cast
 }
 
 ///|
@@ -167,7 +167,7 @@ pub fn CSSStyleSheet::insert_rule_at(
   rule : String,
   index : Int,
 ) -> Int {
-  self.to_js().invoke("insertRule", [rule |> js, index |> js]).cast()
+  self.invoke("insertRule", [rule |> js, index |> js]) |> unsafe_cast
 }
 
 ///|
