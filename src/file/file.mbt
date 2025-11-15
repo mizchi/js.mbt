@@ -43,26 +43,26 @@ pub fn File::new(
 ///|
 /// Get the filename
 pub fn File::name(self : Self) -> String {
-  unsafe_cast(self.to_js().get("name"))
+  unsafe_cast(self.get("name"))
 }
 
 ///|
 /// Get the last modified timestamp in milliseconds
 #alias(lastModified)
 pub fn File::last_modified(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("lastModified"))
+  unsafe_cast(self.get("lastModified"))
 }
 
 ///|
 /// Get the size of the file in bytes (inherited from Blob)
 pub fn File::size(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("size"))
+  unsafe_cast(self.get("size"))
 }
 
 ///|
 /// Get the MIME type of the file (inherited from Blob)
 pub fn File::content_type(self : Self) -> String {
-  unsafe_cast(self.to_js().get("type"))
+  unsafe_cast(self.get("type"))
 }
 
 ///|
@@ -121,19 +121,19 @@ pub fn FileReader::new() -> FileReader {
 /// Get the ready state (0=EMPTY, 1=LOADING, 2=DONE)
 #alias(readyState)
 pub fn FileReader::ready_state(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("readyState"))
+  unsafe_cast(self.get("readyState"))
 }
 
 ///|
 /// Get the result after reading completes
 pub fn FileReader::result(self : Self) -> Val? {
-  self.to_js().get("result") |> to_option()
+  self.get("result") |> to_option()
 }
 
 ///|
 /// Get the error if read failed
 pub fn FileReader::error(self : Self) -> Val? {
-  self.to_js().get("error") |> to_option()
+  self.get("error") |> to_option()
 }
 
 ///|

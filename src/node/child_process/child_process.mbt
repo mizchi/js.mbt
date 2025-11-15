@@ -57,9 +57,7 @@ pub fn ChildProcess::on_exit(
   self : Self,
   callback : (Int?, String?) -> Unit noraise,
 ) -> Unit {
-  self
-  .to_js()
-  .invoke("on", [
+  self.invoke("on", [
     "exit",
     unsafe_cast(fn(code : Val, signal : Val) {
       callback(code |> to_option(), signal |> to_option())
@@ -75,9 +73,7 @@ pub fn ChildProcess::on_close(
   self : Self,
   callback : (Int?, String?) -> Unit noraise,
 ) -> Unit {
-  self
-  .to_js()
-  .invoke("on", [
+  self.invoke("on", [
     "close",
     unsafe_cast(fn(code : Val, signal : Val) {
       callback(code |> to_option(), signal |> to_option())
@@ -103,9 +99,7 @@ pub fn ChildProcess::on_message(
   self : Self,
   callback : (Val, Val?) -> Unit noraise,
 ) -> Unit {
-  self
-  .to_js()
-  .invoke("on", [
+  self.invoke("on", [
     "message",
     unsafe_cast(fn(message : Val, sendHandle : Val) {
       callback(message, sendHandle |> to_option())
@@ -167,43 +161,43 @@ pub fn ChildProcess::on_stderr_data(
 ///|
 /// The process identifier (PID)
 pub fn ChildProcess::pid(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("pid"))
+  unsafe_cast(self.get("pid"))
 }
 
 ///|
 /// Whether the process has been killed
 pub fn ChildProcess::killed(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("killed"))
+  unsafe_cast(self.get("killed"))
 }
 
 ///|
 /// The exit code of the child process, or null if still running
 pub fn ChildProcess::exit_code(self : Self) -> Int? {
-  self.to_js().get("exitCode") |> to_option()
+  self.get("exitCode") |> to_option()
 }
 
 ///|
 /// The signal that terminated the child process, or null
 pub fn ChildProcess::signal_code(self : Self) -> String? {
-  self.to_js().get("signalCode") |> to_option()
+  self.get("signalCode") |> to_option()
 }
 
 ///|
 /// A readable stream representing the child process's stdin
 pub fn ChildProcess::stdin(self : Self) -> WritableStream? {
-  self.to_js().get("stdin") |> to_option()
+  self.get("stdin") |> to_option()
 }
 
 ///|
 /// A writable stream representing the child process's stdout
 pub fn ChildProcess::stdout(self : Self) -> ReadableStream? {
-  self.to_js().get("stdout") |> to_option()
+  self.get("stdout") |> to_option()
 }
 
 ///|
 /// A writable stream representing the child process's stderr
 pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
-  self.to_js().get("stderr") |> to_option()
+  self.get("stderr") |> to_option()
 }
 
 ///| ChildProcess Methods
@@ -411,32 +405,32 @@ pub impl Js for SpawnSyncResult
 
 ///|
 pub fn SpawnSyncResult::pid(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("pid"))
+  unsafe_cast(self.get("pid"))
 }
 
 ///|
 pub fn SpawnSyncResult::status(self : Self) -> Int? {
-  self.to_js().get("status") |> to_option()
+  self.get("status") |> to_option()
 }
 
 ///|
 pub fn SpawnSyncResult::signal(self : Self) -> String? {
-  self.to_js().get("signal") |> to_option()
+  self.get("signal") |> to_option()
 }
 
 ///|
 pub fn SpawnSyncResult::stdout(self : Self) -> Val {
-  self.to_js().get("stdout")
+  self.get("stdout")
 }
 
 ///|
 pub fn SpawnSyncResult::stderr(self : Self) -> Val {
-  self.to_js().get("stderr")
+  self.get("stderr")
 }
 
 ///|
 pub fn SpawnSyncResult::error(self : Self) -> Val? {
-  self.to_js().get("error") |> to_option()
+  self.get("error") |> to_option()
 }
 
 ///|

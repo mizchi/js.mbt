@@ -21,35 +21,35 @@ pub impl NodeImpl for ShadowRoot
 /// Returns the mode of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/mode
 pub fn ShadowRoot::mode(self : Self) -> String {
-  unsafe_cast(self.to_js().get("mode"))
+  unsafe_cast(self.get("mode"))
 }
 
 ///|
 /// Returns the host element of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/host
 pub fn ShadowRoot::host(self : Self) -> Element {
-  unsafe_cast(self.to_js().get("host"))
+  unsafe_cast(self.get("host"))
 }
 
 ///|
 /// Returns whether the shadow root delegates focus
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/delegatesFocus
 pub fn ShadowRoot::delegates_focus(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("delegatesFocus"))
+  unsafe_cast(self.get("delegatesFocus"))
 }
 
 ///|
 /// Returns the shadow root's slot assignment mode
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/slotAssignment
 pub fn ShadowRoot::slot_assignment(self : Self) -> String {
-  unsafe_cast(self.to_js().get("slotAssignment"))
+  unsafe_cast(self.get("slotAssignment"))
 }
 
 ///|
 /// Returns the inner HTML of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/innerHTML
 pub fn ShadowRoot::inner_html(self : Self) -> String {
-  unsafe_cast(self.to_js().get("innerHTML"))
+  unsafe_cast(self.get("innerHTML"))
 }
 
 ///|
@@ -62,7 +62,7 @@ pub fn ShadowRoot::set_inner_html(self : Self, html : String) -> Unit {
 /// Returns the active element within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/activeElement
 pub fn ShadowRoot::active_element(self : Self) -> Element? {
-  self.to_js().get("activeElement") |> to_option()
+  self.get("activeElement") |> to_option()
 }
 
 ///|
@@ -126,5 +126,5 @@ pub fn HTMLElement::attach_shadow(
 /// Returns the shadow root of the element if it exists
 /// https://developer.mozilla.org/en-US/docs/Web/API/Element/shadowRoot
 pub fn HTMLElement::shadow_root(self : Self) -> ShadowRoot? {
-  self.to_js().get("shadowRoot") |> to_option()
+  self.get("shadowRoot") |> to_option()
 }

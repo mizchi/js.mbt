@@ -58,49 +58,49 @@ pub impl Js for MutationRecord
 ///|
 /// Returns the type of mutation
 pub fn MutationRecord::mutation_type(self : Self) -> String {
-  unsafe_cast(self.to_js().get("type"))
+  unsafe_cast(self.get("type"))
 }
 
 ///|
 /// Returns the target node
 pub fn MutationRecord::target(self : Self) -> Val {
-  unsafe_cast(self.to_js().get("target"))
+  unsafe_cast(self.get("target"))
 }
 
 ///|
 /// Returns the added nodes
 pub fn MutationRecord::added_nodes(self : Self) -> Val {
-  self.to_js().get("addedNodes")
+  self.get("addedNodes")
 }
 
 ///|
 /// Returns the removed nodes
 pub fn MutationRecord::removed_nodes(self : Self) -> Val {
-  self.to_js().get("removedNodes")
+  self.get("removedNodes")
 }
 
 ///|
 /// Returns the previous sibling
 pub fn MutationRecord::previous_sibling(self : Self) -> Element? {
-  self.to_js().get("previousSibling") |> to_option()
+  self.get("previousSibling") |> to_option()
 }
 
 ///|
 /// Returns the next sibling
 pub fn MutationRecord::next_sibling(self : Self) -> Element? {
-  self.to_js().get("nextSibling") |> to_option()
+  self.get("nextSibling") |> to_option()
 }
 
 ///|
 /// Returns the attribute name
 pub fn MutationRecord::attribute_name(self : Self) -> String? {
-  self.to_js().get("attributeName") |> to_option()
+  self.get("attributeName") |> to_option()
 }
 
 ///|
 /// Returns the old value
 pub fn MutationRecord::old_value(self : Self) -> String? {
-  self.to_js().get("oldValue") |> to_option()
+  self.get("oldValue") |> to_option()
 }
 
 ///|
@@ -172,43 +172,43 @@ pub impl Js for IntersectionObserverEntry
 ///|
 /// Returns the target element
 pub fn IntersectionObserverEntry::target(self : Self) -> Val {
-  unsafe_cast(self.to_js().get("target"))
+  unsafe_cast(self.get("target"))
 }
 
 ///|
 /// Returns the bounding rect of the target
 pub fn IntersectionObserverEntry::bounding_client_rect(self : Self) -> Val {
-  self.to_js().get("boundingClientRect")
+  self.get("boundingClientRect")
 }
 
 ///|
 /// Returns the intersection rect
 pub fn IntersectionObserverEntry::intersection_rect(self : Self) -> Val {
-  self.to_js().get("intersectionRect")
+  self.get("intersectionRect")
 }
 
 ///|
 /// Returns the root bounds
 pub fn IntersectionObserverEntry::root_bounds(self : Self) -> Element? {
-  self.to_js().get("rootBounds") |> to_option()
+  self.get("rootBounds") |> to_option()
 }
 
 ///|
 /// Returns the intersection ratio
 pub fn IntersectionObserverEntry::intersection_ratio(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("intersectionRatio"))
+  unsafe_cast(self.get("intersectionRatio"))
 }
 
 ///|
 /// Returns whether the target is intersecting
 pub fn IntersectionObserverEntry::is_intersecting(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("isIntersecting"))
+  unsafe_cast(self.get("isIntersecting"))
 }
 
 ///|
 /// Returns the time of the intersection
 pub fn IntersectionObserverEntry::time(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("time"))
+  unsafe_cast(self.get("time"))
 }
 
 ///|

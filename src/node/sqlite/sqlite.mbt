@@ -201,13 +201,13 @@ pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
 ///|
 #alias(is_open)
 pub fn DatabaseSync::isOpen(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("isOpen"))
+  unsafe_cast(self.get("isOpen"))
 }
 
 ///|
 #alias(is_transaction)
 pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("isTransaction"))
+  unsafe_cast(self.get("isTransaction"))
 }
 
 ///|
@@ -464,7 +464,7 @@ pub impl Js for SQLTagStore
 
 ///|
 pub fn SQLTagStore::capacity(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("capacity"))
+  unsafe_cast(self.get("capacity"))
 }
 
 ///|
@@ -479,7 +479,7 @@ pub fn SQLTagStore::clear(self : Self) -> Unit {
 
 ///|
 pub fn SQLTagStore::db(self : Self) -> DatabaseSync {
-  unsafe_cast(self.to_js().get("db"))
+  unsafe_cast(self.get("db"))
 }
 
 ///|

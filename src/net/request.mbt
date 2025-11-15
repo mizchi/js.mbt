@@ -18,22 +18,22 @@ pub fn Request::new(url : String) -> Request {
 ///|
 #alias(bodyUsed)
 pub fn Request::body_used(self : Request) -> Bool {
-  unsafe_cast(self.to_js().get("bodyUsed"))
+  unsafe_cast(self.get("bodyUsed"))
 }
 
 ///|
 pub fn Request::url(self : Request) -> String {
-  unsafe_cast(self.to_js().get("url"))
+  unsafe_cast(self.get("url"))
 }
 
 ///|
 pub fn Request::method_(self : Request) -> String {
-  unsafe_cast(self.to_js().get("method"))
+  unsafe_cast(self.get("method"))
 }
 
 ///|
 pub fn Request::credentials(self : Request) -> String {
-  unsafe_cast(self.to_js().get("credentials"))
+  unsafe_cast(self.get("credentials"))
 }
 
 ///|

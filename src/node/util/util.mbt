@@ -55,7 +55,7 @@ pub fn Util::inspect(
     "maxArrayLength": max_array_length |> js,
     "maxStringLength": max_string_length |> js,
   })
-  unsafe_cast(self.to_js().get("inspect").invoke_self([value, opt]))
+  unsafe_cast(self.get("inspect").invoke_self([value, opt]))
 }
 
 ///|

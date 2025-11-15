@@ -124,7 +124,7 @@ pub impl Js for SourceMap
 ///|
 /// Get the payload (the actual source map data)
 pub fn SourceMap::payload(self : Self) -> Val {
-  self.to_js().get("payload")
+  self.get("payload")
 }
 
 ///|
@@ -152,35 +152,35 @@ pub impl Js for SourceMapEntry
 ///|
 /// Get the original line number
 pub fn SourceMapEntry::original_line(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("originalLine"))
+  unsafe_cast(self.get("originalLine"))
 }
 
 ///|
 /// Get the original column number
 pub fn SourceMapEntry::original_column(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("originalColumn"))
+  unsafe_cast(self.get("originalColumn"))
 }
 
 ///|
 /// Get the original source file name
 pub fn SourceMapEntry::original_source(self : Self) -> String {
-  unsafe_cast(self.to_js().get("originalSource"))
+  unsafe_cast(self.get("originalSource"))
 }
 
 ///|
 /// Get the generated line number
 pub fn SourceMapEntry::generated_line(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("generatedLine"))
+  unsafe_cast(self.get("generatedLine"))
 }
 
 ///|
 /// Get the generated column number
 pub fn SourceMapEntry::generated_column(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("generatedColumn"))
+  unsafe_cast(self.get("generatedColumn"))
 }
 
 ///|
 /// Get the name (if available)
 pub fn SourceMapEntry::name(self : Self) -> String? {
-  self.to_js().get("name") |> to_option()
+  self.get("name") |> to_option()
 }

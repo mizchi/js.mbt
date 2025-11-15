@@ -498,61 +498,61 @@ pub fn Touch::client_x(self : Self) -> Double {
 ///|
 /// Returns the Y coordinate relative to the viewport
 pub fn Touch::client_y(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("clientY"))
+  unsafe_cast(self.get("clientY"))
 }
 
 ///|
 /// Returns the X coordinate relative to the screen
 pub fn Touch::screen_x(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("screenX"))
+  unsafe_cast(self.get("screenX"))
 }
 
 ///|
 /// Returns the Y coordinate relative to the screen
 pub fn Touch::screen_y(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("screenY"))
+  unsafe_cast(self.get("screenY"))
 }
 
 ///|
 /// Returns the X coordinate relative to the page
 pub fn Touch::page_x(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("pageX"))
+  unsafe_cast(self.get("pageX"))
 }
 
 ///|
 /// Returns the Y coordinate relative to the page
 pub fn Touch::page_y(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("pageY"))
+  unsafe_cast(self.get("pageY"))
 }
 
 ///|
 /// Returns the X radius of the ellipse that approximates the touch area
 pub fn Touch::radius_x(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("radiusX"))
+  unsafe_cast(self.get("radiusX"))
 }
 
 ///|
 /// Returns the Y radius of the ellipse that approximates the touch area
 pub fn Touch::radius_y(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("radiusY"))
+  unsafe_cast(self.get("radiusY"))
 }
 
 ///|
 /// Returns the rotation angle of the touch area ellipse
 pub fn Touch::rotation_angle(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("rotationAngle"))
+  unsafe_cast(self.get("rotationAngle"))
 }
 
 ///|
 /// Returns the amount of pressure applied
 pub fn Touch::force(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("force"))
+  unsafe_cast(self.get("force"))
 }
 
 ///|
 /// Returns the target element
 pub fn Touch::target(self : Self) -> Element {
-  unsafe_cast(self.to_js().get("target"))
+  unsafe_cast(self.get("target"))
 }
 
 ///|
@@ -571,7 +571,7 @@ pub impl EventImpl for ClipboardEvent
 /// Returns the clipboard data
 /// https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
 pub fn ClipboardEvent::clipboard_data(self : Self) -> Val? {
-  self.to_js().get("clipboardData") |> to_option()
+  self.get("clipboardData") |> to_option()
 }
 
 ///|
@@ -589,19 +589,19 @@ pub impl EventImpl for TransitionEvent
 ///|
 /// Returns the name of the CSS property associated with the transition
 pub fn TransitionEvent::property_name(self : Self) -> String {
-  unsafe_cast(self.to_js().get("propertyName"))
+  unsafe_cast(self.get("propertyName"))
 }
 
 ///|
 /// Returns the elapsed time of the transition in seconds
 pub fn TransitionEvent::elapsed_time(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("elapsedTime"))
+  unsafe_cast(self.get("elapsedTime"))
 }
 
 ///|
 /// Returns the pseudo-element name
 pub fn TransitionEvent::pseudo_element(self : Self) -> String {
-  unsafe_cast(self.to_js().get("pseudoElement"))
+  unsafe_cast(self.get("pseudoElement"))
 }
 
 ///|
@@ -619,19 +619,19 @@ pub impl EventImpl for AnimationEvent
 ///|
 /// Returns the name of the CSS animation
 pub fn AnimationEvent::animation_name(self : Self) -> String {
-  unsafe_cast(self.to_js().get("animationName"))
+  unsafe_cast(self.get("animationName"))
 }
 
 ///|
 /// Returns the elapsed time of the animation in seconds
 pub fn AnimationEvent::elapsed_time(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("elapsedTime"))
+  unsafe_cast(self.get("elapsedTime"))
 }
 
 ///|
 /// Returns the pseudo-element name
 pub fn AnimationEvent::pseudo_element(self : Self) -> String {
-  unsafe_cast(self.to_js().get("pseudoElement"))
+  unsafe_cast(self.get("pseudoElement"))
 }
 
 ///|
@@ -661,28 +661,28 @@ pub impl EventImpl for MessageEvent
 /// Returns the data sent by the message emitter
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/data
 pub fn MessageEvent::data(self : Self) -> Val {
-  unsafe_cast(self.to_js().get("data"))
+  unsafe_cast(self.get("data"))
 }
 
 ///|
 /// Returns the origin of the message emitter
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/origin
 pub fn MessageEvent::origin(self : Self) -> String {
-  unsafe_cast(self.to_js().get("origin"))
+  unsafe_cast(self.get("origin"))
 }
 
 ///|
 /// Returns the source window of the message
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/source
 pub fn MessageEvent::source(self : Self) -> Window? {
-  self.to_js().get("source") |> to_option()
+  self.get("source") |> to_option()
 }
 
 ///|
 /// Returns the array of MessagePort objects
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/ports
 pub fn MessageEvent::ports(self : Self) -> Array[Val] {
-  @js.array_from(self.to_js().get("ports")).map(fn(v) { unsafe_cast(v) })
+  @js.array_from(self.get("ports")).map(fn(v) { unsafe_cast(v) })
 }
 
 ///|
@@ -696,42 +696,42 @@ pub impl Js for DOMRectReadOnly
 
 ///|
 pub fn DOMRectReadOnly::x(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("x"))
+  unsafe_cast(self.get("x"))
 }
 
 ///|
 pub fn DOMRectReadOnly::y(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("y"))
+  unsafe_cast(self.get("y"))
 }
 
 ///|
 pub fn DOMRectReadOnly::width(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("width"))
+  unsafe_cast(self.get("width"))
 }
 
 ///|
 pub fn DOMRectReadOnly::height(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("height"))
+  unsafe_cast(self.get("height"))
 }
 
 ///|
 pub fn DOMRectReadOnly::top(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("top"))
+  unsafe_cast(self.get("top"))
 }
 
 ///|
 pub fn DOMRectReadOnly::right(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("right"))
+  unsafe_cast(self.get("right"))
 }
 
 ///|
 pub fn DOMRectReadOnly::bottom(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("bottom"))
+  unsafe_cast(self.get("bottom"))
 }
 
 ///|
 pub fn DOMRectReadOnly::left(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("left"))
+  unsafe_cast(self.get("left"))
 }
 
 ///|
@@ -746,23 +746,23 @@ pub impl Js for ResizeObserverEntry
 ///|
 /// Returns the target element being observed
 pub fn ResizeObserverEntry::target(self : Self) -> Element {
-  unsafe_cast(self.to_js().get("target"))
+  unsafe_cast(self.get("target"))
 }
 
 ///|
 /// Returns the content rect
 pub fn ResizeObserverEntry::content_rect(self : Self) -> DOMRectReadOnly {
-  unsafe_cast(self.to_js().get("contentRect"))
+  unsafe_cast(self.get("contentRect"))
 }
 
 ///|
 /// Returns the border box size
 pub fn ResizeObserverEntry::border_box_size(self : Self) -> Val {
-  self.to_js().get("borderBoxSize")
+  self.get("borderBoxSize")
 }
 
 ///|
 /// Returns the content box size
 pub fn ResizeObserverEntry::content_box_size(self : Self) -> Val {
-  self.to_js().get("contentBoxSize")
+  self.get("contentBoxSize")
 }

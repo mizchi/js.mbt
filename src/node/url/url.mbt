@@ -89,26 +89,26 @@ pub fn URL::parse(input : String, base? : String) -> URL? {
 ///|
 /// Get the full URL string
 pub fn URL::href(self : Self) -> String {
-  unsafe_cast(self.to_js().get("href"))
+  unsafe_cast(self.get("href"))
 }
 
 ///|
 /// Set the full URL string
 #alias(set_href)
 pub fn URL::setHref(self : Self, value : String) -> Unit {
-  self.to_js().set("href", value)
+  self.set("href", value)
 }
 
 ///|
 /// Get the origin (read-only)
 pub fn URL::origin(self : Self) -> String {
-  unsafe_cast(self.to_js().get("origin"))
+  unsafe_cast(self.get("origin"))
 }
 
 ///|
 /// Get the protocol
 pub fn URL::protocol(self : Self) -> String {
-  unsafe_cast(self.to_js().get("protocol"))
+  unsafe_cast(self.get("protocol"))
 }
 
 ///|
@@ -121,7 +121,7 @@ pub fn URL::setProtocol(self : Self, value : String) -> Unit {
 ///|
 /// Get the username
 pub fn URL::username(self : Self) -> String {
-  unsafe_cast(self.to_js().get("username"))
+  unsafe_cast(self.get("username"))
 }
 
 ///|
@@ -134,7 +134,7 @@ pub fn URL::setUsername(self : Self, value : String) -> Unit {
 ///|
 /// Get the password
 pub fn URL::password(self : Self) -> String {
-  unsafe_cast(self.to_js().get("password"))
+  unsafe_cast(self.get("password"))
 }
 
 ///|
@@ -147,7 +147,7 @@ pub fn URL::setPassword(self : Self, value : String) -> Unit {
 ///|
 /// Get the host (hostname + port)
 pub fn URL::host(self : Self) -> String {
-  unsafe_cast(self.to_js().get("host"))
+  unsafe_cast(self.get("host"))
 }
 
 ///|
@@ -160,7 +160,7 @@ pub fn URL::setHost(self : Self, value : String) -> Unit {
 ///|
 /// Get the hostname (without port)
 pub fn URL::hostname(self : Self) -> String {
-  unsafe_cast(self.to_js().get("hostname"))
+  unsafe_cast(self.get("hostname"))
 }
 
 ///|
@@ -173,7 +173,7 @@ pub fn URL::setHostname(self : Self, value : String) -> Unit {
 ///|
 /// Get the port
 pub fn URL::port(self : Self) -> String {
-  unsafe_cast(self.to_js().get("port"))
+  unsafe_cast(self.get("port"))
 }
 
 ///|
@@ -186,7 +186,7 @@ pub fn URL::setPort(self : Self, value : String) -> Unit {
 ///|
 /// Get the pathname
 pub fn URL::pathname(self : Self) -> String {
-  unsafe_cast(self.to_js().get("pathname"))
+  unsafe_cast(self.get("pathname"))
 }
 
 ///|
@@ -199,7 +199,7 @@ pub fn URL::setPathname(self : Self, value : String) -> Unit {
 ///|
 /// Get the search string (including '?')
 pub fn URL::search(self : Self) -> String {
-  unsafe_cast(self.to_js().get("search"))
+  unsafe_cast(self.get("search"))
 }
 
 ///|
@@ -212,7 +212,7 @@ pub fn URL::setSearch(self : Self, value : String) -> Unit {
 ///|
 /// Get the hash (including '#')
 pub fn URL::hash(self : Self) -> String {
-  unsafe_cast(self.to_js().get("hash"))
+  unsafe_cast(self.get("hash"))
 }
 
 ///|
@@ -226,7 +226,7 @@ pub fn URL::setHash(self : Self, value : String) -> Unit {
 /// Get the URLSearchParams object
 #alias(search_params)
 pub fn URL::searchParams(self : Self) -> URLSearchParams {
-  unsafe_cast(self.to_js().get("searchParams"))
+  unsafe_cast(self.get("searchParams"))
 }
 
 ///|
@@ -338,6 +338,7 @@ pub fn URLSearchParams::toString(self : Self) -> String {
 ///|
 /// Get the size (number of parameters)
 pub fn URLSearchParams::size(self : Self) -> Int {
+  // avoid original get
   unsafe_cast(self.to_js().get("size"))
 }
 

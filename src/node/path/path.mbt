@@ -93,27 +93,27 @@ pub impl Js for ParsedPath
 
 ///|
 pub fn ParsedPath::root(self : Self) -> String {
-  unsafe_cast(self.to_js().get("root"))
+  unsafe_cast(self.get("root"))
 }
 
 ///|
 pub fn ParsedPath::dir(self : Self) -> String {
-  unsafe_cast(self.to_js().get("dir"))
+  unsafe_cast(self.get("dir"))
 }
 
 ///|
 pub fn ParsedPath::base(self : Self) -> String {
-  unsafe_cast(self.to_js().get("base"))
+  unsafe_cast(self.get("base"))
 }
 
 ///|
 pub fn ParsedPath::ext(self : Self) -> String {
-  unsafe_cast(self.to_js().get("ext"))
+  unsafe_cast(self.get("ext"))
 }
 
 ///|
 pub fn ParsedPath::name(self : Self) -> String {
-  unsafe_cast(self.to_js().get("name"))
+  unsafe_cast(self.get("name"))
 }
 
 ///|

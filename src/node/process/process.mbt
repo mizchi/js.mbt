@@ -12,22 +12,22 @@ pub fn Process::require() -> Process {
 
 ///|
 pub fn Process::args(self : Self) -> Array[String] {
-  unsafe_cast(self.to_js().get("argv"))
+  unsafe_cast(self.get("argv"))
 }
 
 ///|
 pub fn Process::cwd(self : Self) -> String {
-  unsafe_cast(self.to_js().get("cwd").invoke_self([]))
+  unsafe_cast(self.get("cwd").invoke_self([]))
 }
 
 ///|
 pub fn Process::chdir(self : Self, path : String) -> Unit {
-  unsafe_cast(self.to_js().get("chdir").invoke_self([path]))
+  unsafe_cast(self.get("chdir").invoke_self([path]))
 }
 
 ///|
 pub fn Process::exit(self : Self, code : Int) -> Unit {
-  self.to_js().get("exit").invoke_self([code]) |> ignore
+  self.get("exit").invoke_self([code]) |> ignore
 }
 
 ///|

@@ -81,7 +81,7 @@ pub fn Dirent::is_directory(self : Self) -> Bool {
 
 ///|
 pub fn Dirent::name(self : Self) -> String {
-  unsafe_cast(self.to_js().get("name"))
+  unsafe_cast(self.get("name"))
 }
 
 ///|
