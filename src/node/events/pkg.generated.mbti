@@ -6,20 +6,23 @@ import(
 )
 
 // Values
+fn new_event_emitter() -> EventEmitterClass
 
 // Errors
 
 // Types and methods
 #external
-pub type EventEmitter
-fn EventEmitter::emit(Self, String, @js.Val) -> Unit
-fn EventEmitter::new() -> Self
-fn EventEmitter::off(Self, String, () -> Unit) -> Unit
-fn EventEmitter::on(Self, String, () -> Unit) -> Unit
-fn EventEmitter::once(Self, String, () -> Unit) -> Unit
-impl @js.Js for EventEmitter
+pub type EventEmitterClass
+impl @js.Js for EventEmitterClass
+impl EventEmitter for EventEmitterClass
 
 // Type aliases
 
 // Traits
+pub(open) trait EventEmitter {
+  on(Self, String, () -> Unit) -> Unit
+  once(Self, String, () -> Unit) -> Unit
+  off(Self, String, () -> Unit) -> Unit
+  emit(Self, String, @js.Val) -> Unit
+}
 

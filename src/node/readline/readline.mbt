@@ -5,7 +5,7 @@ using @js {trait Js, js, type Val}
 using @async {type Promise, type AbortSignal}
 
 ///|
-using @events {type EventEmitter}
+using @events {trait EventEmitter}
 
 ///|
 #external
@@ -17,8 +17,40 @@ impl Js for Interface with to_js(self) {
 }
 
 ///|
-pub fn Interface::as_event_emitter(self : Self) -> EventEmitter {
-  self.to_js().cast()
+/// Implement EventEmitter trait for Interface
+pub impl EventEmitter for Interface with on(
+  self : Interface,
+  name : String,
+  callback : () -> Unit,
+) -> Unit {
+  self.to_js().call_method("on", [name, callback |> js]).cast()
+}
+
+///|
+pub impl EventEmitter for Interface with once(
+  self : Interface,
+  name : String,
+  callback : () -> Unit,
+) -> Unit {
+  self.to_js().call_method("once", [name, callback |> js]).cast()
+}
+
+///|
+pub impl EventEmitter for Interface with off(
+  self : Interface,
+  name : String,
+  callback : () -> Unit,
+) -> Unit {
+  self.to_js().call_method("off", [name, callback |> js]).cast()
+}
+
+///|
+pub impl EventEmitter for Interface with emit(
+  self : Interface,
+  name : String,
+  payload : Val,
+) -> Unit {
+  self.to_js().call_method("emit", [name, payload]).cast()
 }
 
 ///|

@@ -2,23 +2,35 @@
 using @js {trait Js, type Val, unsafe_cast, js}
 
 ///|
-#external
-pub type EventEmitter
+/// EventEmitter trait for Node.js event emitter pattern
+pub(open) trait EventEmitter {
+  on(Self, String, () -> Unit) -> Unit
+  once(Self, String, () -> Unit) -> Unit
+  off(Self, String, () -> Unit) -> Unit
+  emit(Self, String, Val) -> Unit
+}
 
 ///|
-pub impl Js for EventEmitter with to_js(self) {
+/// Concrete EventEmitter type for standalone use
+#external
+pub type EventEmitterClass
+
+///|
+pub impl Js for EventEmitterClass with to_js(self) {
   self |> js
 }
 
 ///|
-pub fn EventEmitter::new() -> EventEmitter {
+/// Create a new standalone EventEmitter instance
+pub fn new_event_emitter() -> EventEmitterClass {
   let ee = @node.require("events").get("EventEmitter")
   @js.new_(ee, []).cast()
 }
 
 ///|
-pub fn EventEmitter::on(
-  self : Self,
+/// Implement EventEmitter trait for EventEmitterClass
+pub impl EventEmitter for EventEmitterClass with on(
+  self : EventEmitterClass,
   name : String,
   callback : () -> Unit,
 ) -> Unit {
@@ -26,8 +38,8 @@ pub fn EventEmitter::on(
 }
 
 ///|
-pub fn EventEmitter::once(
-  self : Self,
+pub impl EventEmitter for EventEmitterClass with once(
+  self : EventEmitterClass,
   name : String,
   callback : () -> Unit,
 ) -> Unit {
@@ -35,8 +47,8 @@ pub fn EventEmitter::once(
 }
 
 ///|
-pub fn EventEmitter::off(
-  self : Self,
+pub impl EventEmitter for EventEmitterClass with off(
+  self : EventEmitterClass,
   name : String,
   callback : () -> Unit,
 ) -> Unit {
@@ -44,6 +56,10 @@ pub fn EventEmitter::off(
 }
 
 ///|
-pub fn EventEmitter::emit(self : Self, name : String, payload : Val) -> Unit {
+pub impl EventEmitter for EventEmitterClass with emit(
+  self : EventEmitterClass,
+  name : String,
+  payload : Val,
+) -> Unit {
   self.to_js().call_method("emit", [name, payload]).cast()
 }

@@ -13,8 +13,8 @@ import(
 // Types and methods
 #external
 pub type Stream
-fn Stream::as_event_emitter(Self) -> @events.EventEmitter
 impl @js.Js for Stream
+impl @events.EventEmitter for Stream
 
 // Type aliases
 
