@@ -27,10 +27,6 @@ extern "js" fn ffi_throw(v : Val) -> Unit =
   #| (v) => { throw v }
 
 ///|
-extern "js" fn ffi_throw_message(v : String, obj : Val?) -> Unit =
-  #| (v, obj) => { throw new Error(v, obj) }
-
-///|
 extern "js" fn ffi_call(f : Val, args : Array[Val]) -> Val =
   #|(f, args) => f(...args)
 

@@ -47,6 +47,7 @@ pub type Val
 /// # See Also
 ///
 /// - `cast_option` - For safer casting that returns Option
+#deprecated("Use unsafe_cast instead for clarity")
 pub fn[T] Val::cast(self : Val) -> T = "%identity"
 
 ///|
