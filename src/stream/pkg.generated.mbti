@@ -1,0 +1,63 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/stream"
+
+import(
+  "mizchi/js"
+  "mizchi/js/async"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type ReadableStream
+fn ReadableStream::cancel(Self, reason? : @js.Val) -> @async.Promise[Unit]
+#alias(getReader)
+fn ReadableStream::get_reader(Self) -> ReadableStreamDefaultReader
+fn ReadableStream::locked(Self) -> Bool
+fn ReadableStream::new(@js.Val) -> Self
+#alias(pipeThrough)
+fn ReadableStream::pipe_through(Self, @js.Val, options? : @js.Val) -> Self
+#alias(pipeTo)
+fn ReadableStream::pipe_to(Self, WritableStream, options? : @js.Val) -> @async.Promise[Unit]
+fn ReadableStream::tee(Self) -> (Self, Self)
+impl @js.Js for ReadableStream
+
+#external
+pub type ReadableStreamDefaultReader
+fn ReadableStreamDefaultReader::cancel(Self, reason? : @js.Val) -> @async.Promise[Unit]
+fn ReadableStreamDefaultReader::closed(Self) -> @async.Promise[Unit]
+fn ReadableStreamDefaultReader::read(Self) -> @async.Promise[@js.Val]
+#alias(releaseLock)
+fn ReadableStreamDefaultReader::release_lock(Self) -> Unit
+impl @js.Js for ReadableStreamDefaultReader
+
+#external
+pub type WritableStream
+fn WritableStream::abort(Self, reason? : @js.Val) -> @async.Promise[Unit]
+fn WritableStream::close(Self) -> @async.Promise[Unit]
+#alias(getWriter)
+fn WritableStream::get_writer(Self) -> WritableStreamDefaultWriter
+fn WritableStream::locked(Self) -> Bool
+fn WritableStream::new(@js.Val) -> Self
+impl @js.Js for WritableStream
+
+#external
+pub type WritableStreamDefaultWriter
+fn WritableStreamDefaultWriter::abort(Self, reason? : @js.Val) -> @async.Promise[Unit]
+fn WritableStreamDefaultWriter::close(Self) -> @async.Promise[Unit]
+fn WritableStreamDefaultWriter::closed(Self) -> @async.Promise[Unit]
+#alias(desiredSize)
+fn WritableStreamDefaultWriter::desired_size(Self) -> Int?
+fn WritableStreamDefaultWriter::ready(Self) -> @async.Promise[Unit]
+#alias(releaseLock)
+fn WritableStreamDefaultWriter::release_lock(Self) -> Unit
+fn WritableStreamDefaultWriter::write(Self, @js.Val) -> @async.Promise[Unit]
+impl @js.Js for WritableStreamDefaultWriter
+
+// Type aliases
+
+// Traits
+
