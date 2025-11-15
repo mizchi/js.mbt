@@ -30,8 +30,8 @@ fn readdir_sync(String) -> Array[String]
 #alias(renameSync)
 fn rename_sync(String, String) -> Unit
 
-#alias(rmdirSync)
-fn rmdir_sync(String, recursive? : Bool) -> Unit
+#alias(rmSync)
+fn rm_sync(String, recursive? : Bool, force? : Bool) -> Unit
 
 #alias(statSync)
 fn stat_sync(String) -> @js.Val

@@ -82,21 +82,6 @@ pub fn mkdir_sync(path : String, recursive? : Bool) -> Unit {
 }
 
 ///|
-/// Remove directory synchronously
-#alias(rmdirSync)
-pub fn rmdir_sync(path : String, recursive? : Bool) -> Unit {
-  let fs = fs_module()
-  match recursive {
-    Some(r) => {
-      let options = @js.new_empty_object()
-      options.set("recursive", r)
-      fs.call_method("rmdirSync", [path |> js, options]) |> ignore
-    }
-    None => fs.call_method("rmdirSync", [path |> js]) |> ignore
-  }
-}
-
-///|
 /// Delete file synchronously
 #alias(unlinkSync)
 pub fn unlink_sync(path : String) -> Unit {
@@ -126,4 +111,30 @@ pub fn copy_file_sync(src : String, dest : String) -> Unit {
 pub fn readdir_sync(path : String) -> Array[String] {
   let fs = fs_module()
   fs.call_method("readdirSync", [path |> js]).cast()
+}
+
+///|
+/// Remove file or directory synchronously
+#alias(rmSync)
+pub fn rm_sync(path : String, recursive? : Bool, force? : Bool) -> Unit {
+  let fs = fs_module()
+  match (recursive, force) {
+    (Some(r), Some(f)) => {
+      let options = @js.new_empty_object()
+      options.set("recursive", r)
+      options.set("force", f)
+      fs.call_method("rmSync", [path |> js, options]) |> ignore
+    }
+    (Some(r), None) => {
+      let options = @js.new_empty_object()
+      options.set("recursive", r)
+      fs.call_method("rmSync", [path |> js, options]) |> ignore
+    }
+    (None, Some(f)) => {
+      let options = @js.new_empty_object()
+      options.set("force", f)
+      fs.call_method("rmSync", [path |> js, options]) |> ignore
+    }
+    (None, None) => fs.call_method("rmSync", [path |> js]) |> ignore
+  }
 }

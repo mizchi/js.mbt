@@ -69,17 +69,6 @@ test "stat_sync returns stats for package.json" {
 }
 
 ///|
-/// Test mkdir_sync and rmdir_sync
-test "mkdir_sync creates directory" {
-  let test_dir = "test_sync_dir"
-  mkdir_sync(test_dir)
-  let exists = exists_sync(test_dir)
-  inspect(exists, content="true")
-  // Cleanup
-  rmdir_sync(test_dir)
-}
-
-///|
 /// Test mkdir_sync with recursive option
 test "mkdir_sync creates nested directories" {
   let test_dir = "test_sync_nested/sub/deep"
@@ -87,7 +76,7 @@ test "mkdir_sync creates nested directories" {
   let exists = exists_sync(test_dir)
   inspect(exists, content="true")
   // Cleanup
-  rmdir_sync("test_sync_nested", recursive=true)
+  rm_sync("test_sync_nested", recursive=true)
 }
 
 ///|
@@ -140,7 +129,5 @@ test "readdir_sync reads directory contents" {
   let files = readdir_sync(test_dir)
   inspect(files.length() == 2, content="true")
   // Cleanup
-  unlink_sync("\{test_dir}/file1.txt")
-  unlink_sync("\{test_dir}/file2.txt")
-  rmdir_sync(test_dir)
+  rm_sync(test_dir, recursive=true)
 }

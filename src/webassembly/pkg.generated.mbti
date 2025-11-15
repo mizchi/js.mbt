@@ -1,19 +1,74 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/webassembly"
 
+import(
+  "mizchi/js"
+  "mizchi/js/arraybuffer"
+)
+
 // Values
+fn compile(@arraybuffer.Uint8Array) -> @js.Val
+
+fn instantiate_bytes(@arraybuffer.Uint8Array, @js.Val?) -> (WebAssemblyModule, WebAssemblyInstance)
+
+fn instantiate_module(WebAssemblyModule, @js.Val?) -> WebAssemblyInstance
+
+fn validate(@arraybuffer.Uint8Array) -> Bool
 
 // Errors
 
 // Types and methods
+pub(all) struct GlobalDescriptor {
+  value : String
+  mutable : Bool
+}
+
+pub(all) struct MemoryDescriptor {
+  initial : Int
+  maximum : Int?
+  shared : Bool
+}
+
+pub(all) struct TableDescriptor {
+  element : String
+  initial : Int
+  maximum : Int?
+}
+
+#external
+pub type WebAssemblyGlobal
+fn WebAssemblyGlobal::new(GlobalDescriptor, @js.Val) -> Self
+fn WebAssemblyGlobal::set_value(Self, @js.Val) -> Unit
+fn WebAssemblyGlobal::value(Self) -> @js.Val
+impl @js.Js for WebAssemblyGlobal
+
 #external
 pub type WebAssemblyInstance
+fn WebAssemblyInstance::exports(Self) -> @js.Val
+fn WebAssemblyInstance::from_module(WebAssemblyModule, @js.Val?) -> Self
+impl @js.Js for WebAssemblyInstance
 
 #external
 pub type WebAssemblyMemory
+fn WebAssemblyMemory::buffer(Self) -> @arraybuffer.ArrayBuffer
+fn WebAssemblyMemory::grow(Self, Int) -> Int
+fn WebAssemblyMemory::new(MemoryDescriptor) -> Self
+impl @js.Js for WebAssemblyMemory
 
 #external
 pub type WebAssemblyModule
+fn WebAssemblyModule::from_buffer(@arraybuffer.ArrayBuffer) -> Self
+fn WebAssemblyModule::from_bytes(@arraybuffer.Uint8Array) -> Self
+impl @js.Js for WebAssemblyModule
+
+#external
+pub type WebAssemblyTable
+fn WebAssemblyTable::get(Self, Int) -> @js.Val
+fn WebAssemblyTable::grow(Self, Int, @js.Val) -> Int
+fn WebAssemblyTable::length(Self) -> Int
+fn WebAssemblyTable::new(TableDescriptor) -> Self
+fn WebAssemblyTable::set(Self, Int, @js.Val) -> Unit
+impl @js.Js for WebAssemblyTable
 
 // Type aliases
 
