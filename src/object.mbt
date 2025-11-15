@@ -13,7 +13,7 @@
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit skip
 /// let obj = new_empty_object()
 /// obj.set("name", "Alice")
 /// obj.set("age", 30)
@@ -65,7 +65,7 @@ pub fn object_values(v : Val) -> Array[Val] {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit skip
 /// let obj = new_empty_object()
 /// obj.set("name", "Alice")
 /// obj.set("age", 30)

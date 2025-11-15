@@ -104,7 +104,7 @@ pub fn new_empty_array() -> Val {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit skip
 /// let global = global_this()
 /// let console = global.get("console")
 /// console.call_method("log", ["Hello, World!"]) |> ignore

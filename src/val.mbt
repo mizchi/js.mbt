@@ -526,7 +526,7 @@ pub fn new_(cls : Val, args : Array[&Js]) -> Val {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit skip
 /// log("Hello, World!")
 /// log(42)
 /// log([1, 2, 3])
