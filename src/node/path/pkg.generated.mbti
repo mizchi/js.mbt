@@ -8,6 +8,8 @@ import(
 // Values
 fn basename(String, suffix? : String) -> String
 
+fn delimiter() -> String
+
 fn dirname(String) -> String
 
 fn extname(String) -> String
@@ -17,7 +19,10 @@ fn format(ParsedPath) -> String
 #alias(is_absolute)
 fn isAbsolute(String) -> Bool
 
-fn join(String, String) -> String
+fn join(Array[String]) -> String
+
+#alias(matches_glob)
+fn matchesGlob(String, String) -> Bool
 
 fn normalize(String) -> String
 
@@ -26,6 +31,11 @@ fn parse(String) -> ParsedPath
 fn relative(String, String) -> String
 
 fn resolve(Array[String]) -> String
+
+fn sep() -> String
+
+#alias(to_namespaced_path)
+fn toNamespacedPath(String) -> String
 
 // Errors
 

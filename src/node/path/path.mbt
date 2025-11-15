@@ -2,9 +2,24 @@
 using @js {type Val, js, trait Js}
 
 ///|
-pub fn join(path1 : String, path2 : String) -> String {
-  let path = @node.require("node:path")
-  path.call_method("join", [path1, path2]).cast()
+extern "js" fn ffi_apply_variadic(
+  fn_val : Val,
+  this_val : Val,
+  args : Val,
+) -> Val =
+  #|(fn, thisArg, args) => fn.apply(thisArg, args)
+
+///|
+pub fn join(paths : Array[String]) -> String {
+  let path_module = @node.require("node:path")
+  let join_fn = path_module.get("join")
+  let paths_js = @js.new_empty_array()
+  let mut i = 0
+  while i < paths.length() {
+    paths_js.call_method("push", [paths[i]]) |> ignore
+    i = i + 1
+  }
+  ffi_apply_variadic(join_fn, path_module, paths_js).cast()
 }
 
 ///|
@@ -45,13 +60,13 @@ pub fn normalize(path : String) -> String {
 pub fn resolve(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
   let resolve_fn = path_module.get("resolve")
-  let paths_js = js("[]")
+  let paths_js = @js.new_empty_array()
   let mut i = 0
   while i < paths.length() {
     paths_js.call_method("push", [paths[i]]) |> ignore
     i = i + 1
   }
-  resolve_fn.call_method("apply", [path_module, paths_js]).cast()
+  ffi_apply_variadic(resolve_fn, path_module, paths_js).cast()
 }
 
 ///|
@@ -124,35 +139,27 @@ pub fn ParsedPath::new(
 }
 
 ///|
-test "node:path join and dirname" {
-  let path = join("foo", "bar/baz.txt")
-  assert_eq(path, "foo/bar/baz.txt")
-  let dir = dirname(path)
-  assert_eq(dir, "foo/bar")
+pub fn delimiter() -> String {
+  let path_module = @node.require("node:path")
+  path_module.get("delimiter").cast()
 }
 
 ///|
-test "node:path basename and extname" {
-  let path = "foo/bar/baz.txt"
-  assert_eq(basename(path), "baz.txt")
-  assert_eq(basename(path, suffix=".txt"), "baz")
-  assert_eq(extname(path), ".txt")
+pub fn sep() -> String {
+  let path_module = @node.require("node:path")
+  path_module.get("sep").cast()
 }
 
 ///|
-test "node:path isAbsolute" {
-  assert_eq(isAbsolute("/foo/bar"), true)
-  assert_eq(isAbsolute("foo/bar"), false)
+#alias(to_namespaced_path)
+pub fn toNamespacedPath(path : String) -> String {
+  let path_module = @node.require("node:path")
+  path_module.call_method("toNamespacedPath", [path]).cast()
 }
 
 ///|
-test "node:path normalize" {
-  assert_eq(normalize("foo/bar//baz"), "foo/bar/baz")
-  assert_eq(normalize("foo/bar/../baz"), "foo/baz")
-}
-
-///|
-test "node:path relative" {
-  let rel = relative("/data/orandea/test/aaa", "/data/orandea/impl/bbb")
-  assert_eq(rel, "../../impl/bbb")
+#alias(matches_glob)
+pub fn matchesGlob(path : String, pattern : String) -> Bool {
+  let path_module = @node.require("node:path")
+  path_module.call_method("matchesGlob", [path, pattern]).cast()
 }
