@@ -1,19 +1,44 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/path"
 
+import(
+  "mizchi/js"
+)
+
 // Values
+fn basename(String, suffix? : String) -> String
+
+fn dirname(String) -> String
+
+fn extname(String) -> String
+
+fn format(ParsedPath) -> String
+
+#alias(is_absolute)
+fn isAbsolute(String) -> Bool
+
+fn join(String, String) -> String
+
+fn normalize(String) -> String
+
+fn parse(String) -> ParsedPath
+
+fn relative(String, String) -> String
+
+fn resolve(Array[String]) -> String
 
 // Errors
 
 // Types and methods
-pub(all) struct NodePath {
-  join : (String, String) -> String
-  dirname : (String) -> String
-  basename : (String) -> String
-  extname : (String) -> String
-  isAbsolute : (String) -> Bool
-}
-fn NodePath::require() -> Self
+#external
+pub type ParsedPath
+fn ParsedPath::base(Self) -> String
+fn ParsedPath::dir(Self) -> String
+fn ParsedPath::ext(Self) -> String
+fn ParsedPath::name(Self) -> String
+fn ParsedPath::new(root? : String, dir? : String, base? : String, ext? : String, name? : String) -> Self
+fn ParsedPath::root(Self) -> String
+impl @js.Js for ParsedPath
 
 // Type aliases
 
