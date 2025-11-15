@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
   "mizchi/js/async"
+  "mizchi/js/stream"
 )
 
 // Values
@@ -43,6 +44,7 @@ impl @js.Js for Request
 
 #external
 pub type Response
+fn Response::body(Self) -> @stream.ReadableStream?
 fn Response::bytes(Self) -> @async.Promise[@arraybuffer.Uint8Array]
 fn Response::clone(Self) -> Self
 fn Response::error() -> Self

@@ -61,3 +61,9 @@ pub extern "js" fn Response::redirected(self : Self) -> Bool =
 ///|
 pub extern "js" fn Response::type_(self : Self) -> String =
   #| (v) => v.type
+
+///|
+/// Get the body as a ReadableStream
+pub fn Response::body(self : Self) -> @stream.ReadableStream? {
+  self.to_js().get("body").cast_option()
+}

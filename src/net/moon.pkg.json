@@ -1,3 +1,8 @@
 {
-  "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/arraybuffer"]
+  "import": [
+    "mizchi/js",
+    "mizchi/js/async",
+    "mizchi/js/arraybuffer",
+    "mizchi/js/stream"
+  ]
 }
