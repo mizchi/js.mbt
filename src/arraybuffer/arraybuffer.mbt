@@ -3,9 +3,7 @@
 pub type ArrayBuffer
 
 ///|
-pub impl Js for ArrayBuffer with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for ArrayBuffer
 
 ///|
 extern "js" fn ffi_new_array_buffer(byte_length : UInt) -> Val =
@@ -49,9 +47,7 @@ pub fn ArrayBuffer::is_view(arg : Val) -> Bool {
 pub type SharedArrayBuffer
 
 ///|
-pub impl Js for SharedArrayBuffer with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for SharedArrayBuffer
 
 ///|
 extern "js" fn ffi_new_shared_array_buffer(byte_length : UInt) -> Val =
@@ -290,9 +286,7 @@ pub fn DataView::set_float64(
 pub type Uint8Array
 
 ///|
-pub impl Js for Uint8Array with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Uint8Array
 
 ///|
 extern "js" fn ffi_uint8array_from_size(length : UInt) -> Val =
@@ -475,9 +469,7 @@ pub fn Uint8Array::to_string(self : Self) -> String {
 pub type Uint16Array
 
 ///|
-pub impl Js for Uint16Array with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Uint16Array
 
 ///|
 pub fn Uint16Array::from_size(length : UInt) -> Uint16Array {

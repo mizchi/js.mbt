@@ -5,9 +5,7 @@
 pub type KVNamespace
 
 ///|
-pub impl Js for KVNamespace with to_js(self) {
-  self |> js
-}
+pub impl Js for KVNamespace
 
 ///|
 /// Get a value from KV store
@@ -63,8 +61,7 @@ pub fn KVNamespace::get_with_metadata(
       opts_js.set("type", "text")
       self.to_js().invoke("getWithMetadata", [key, opts_js]).cast()
     }
-    Some(opts) =>
-      self.to_js().invoke("getWithMetadata", [key, opts]).cast()
+    Some(opts) => self.to_js().invoke("getWithMetadata", [key, opts]).cast()
   }
 }
 
