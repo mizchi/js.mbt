@@ -30,66 +30,66 @@ fn common_node(
     attr[k] = v
   }
   if id is Some(id) {
-    attr["id"] = id |> js
+    attr.set("id", id |> js)
   }
   if class is Some(class) {
-    attr["className"] = class |> js
+    attr.set("className", class |> js)
   }
   if className is Some(className) {
-    attr["className"] = className |> js
+    attr.set("className", className |> js)
   }
   if style is Some(style) {
     let style_obj : Val = @js.new_empty_object()
     for k, v in style {
-      style_obj[k] = js(v)
+      style_obj.set(k, v)
     }
-    attr["style"] = style_obj
+    attr.set("style", style_obj)
   }
   if ref_ is Some(ref_) {
-    attr["ref"] = ref_ |> js
+    attr.set("ref", ref_ |> js)
   }
   if key is Some(key) {
-    attr["key"] = key |> js
+    attr.set("key", key |> js)
   }
   if on_click is Some(on_click) {
     let f : Val = on_click |> js
-    attr["onClick"] = f
+    attr.set("onClick", f)
   }
   if on_change is Some(on_change) {
     let f : Val = on_change |> js
-    attr["onChange"] = f
+    attr.set("onChange", f)
   }
   if on_keydown is Some(on_keydown) {
     let f : Val = on_keydown |> js
-    attr["onKeyDown"] = f
+    attr.set("onKeyDown", f)
   }
   if on_keyup is Some(on_keyup) {
     let f : Val = on_keyup |> js
-    attr["onKeyUp"] = f
+    attr.set("onKeyUp", f)
   }
   if on_drag is Some(v) {
-    attr["onDrag"] = js(v)
+    attr.set("onDrag", js(v))
   }
   if on_dragstart is Some(v) {
-    attr["onDragStart"] = js(v)
+    attr.set("onDragStart", js(v))
   }
   if on_dragend is Some(v) {
-    attr["onDragEnd"] = js(v)
+    attr.set("onDragEnd", js(v))
   }
   if on_dragleave is Some(v) {
-    attr["onDragLeave"] = js(v)
+    attr.set("onDragLeave", js(v))
   }
   if on_dragenter is Some(v) {
-    attr["onDragEnter"] = js(v)
+    attr.set("onDragEnter", js(v))
   }
   if on_dragover is Some(v) {
-    attr["onDragOver"] = js(v)
+    attr.set("onDragOver", js(v))
   }
   if on_drop is Some(v) {
-    attr["onDrop"] = js(v)
+    attr.set("onDrop", js(v))
   }
   if tab_index is Some(tab_index) {
-    attr["tabIndex"] = tab_index |> js
+    attr.set("tabIndex", tab_index |> js)
   }
   h(tag_name, attributes=attr, children.map(_.to_react_node()))
 }
@@ -442,22 +442,22 @@ pub fn textarea(
     }
   }
   if rows is Some(r) {
-    new_attributes["rows"] = r |> js
+    new_attributes.set("rows", r |> js)
   }
   if columns is Some(c) {
-    new_attributes["cols"] = c |> js
+    new_attributes.set("cols", c |> js)
   }
   if spellcheck is Some(s) {
-    new_attributes["spellCheck"] = s |> js
+    new_attributes.set("spellCheck", s |> js)
   }
   if value is Some(v) {
-    new_attributes["value"] = v |> js
+    new_attributes.set("value", v |> js)
   }
   if default_value is Some(dv) {
-    new_attributes["defaultValue"] = dv |> js
+    new_attributes.set("defaultValue", dv |> js)
   }
   if placeholder is Some(p) {
-    new_attributes["placeholder"] = p |> js
+    new_attributes.set("placeholder", p |> js)
   }
   common_node(
     "textarea",
@@ -521,19 +521,19 @@ pub fn input(
     }
   }
   if name is Some(n) {
-    new_attributes["name"] = n |> js
+    new_attributes.set("name", n |> js)
   }
   if value is Some(v) {
-    new_attributes["value"] = v |> js
+    new_attributes.set("value", v |> js)
   }
   if default_value is Some(dv) {
-    new_attributes["defaultValue"] = dv |> js
+    new_attributes.set("defaultValue", dv |> js)
   }
   if type_ is Some(t) {
-    new_attributes["type"] = t |> js
+    new_attributes.set("type", t |> js)
   }
   if placeholder is Some(p) {
-    new_attributes["placeholder"] = p |> js
+    new_attributes.set("placeholder", p |> js)
   }
   common_node(
     "input",
@@ -1022,24 +1022,24 @@ pub fn form(
     }
   }
   if disabled is Some(d) {
-    new_attributes["disabled"] = d |> js
+    new_attributes.set("disabled", d |> js)
   }
   if name is Some(n) {
-    new_attributes["name"] = n |> js
+    new_attributes.set("name", n |> js)
   }
   if method_ is Some(m) {
-    new_attributes["method"] = m |> js
+    new_attributes.set("method", m |> js)
   }
   if on_submit is Some(f) {
     let fn_value : Val = f |> js
-    new_attributes["onSubmit"] = fn_value
+    new_attributes.set("onSubmit", fn_value)
   }
   if action is Some(f) {
     let fn_value : Val = f |> js
-    new_attributes["action"] = fn_value
+    new_attributes.set("action", fn_value)
   }
   if enc_type is Some(e) {
-    new_attributes["encType"] = e |> js
+    new_attributes.set("encType", e |> js)
   }
   common_node(
     "form",
@@ -1103,13 +1103,13 @@ pub fn select(
     }
   }
   if multiple is Some(m) {
-    new_attributes["multiple"] = m |> js
+    new_attributes.set("multiple", m |> js)
   }
   if disabled is Some(d) {
-    new_attributes["disabled"] = d |> js
+    new_attributes.set("disabled", d |> js)
   }
   if name is Some(n) {
-    new_attributes["name"] = n |> js
+    new_attributes.set("name", n |> js)
   }
   common_node(
     "select",
@@ -1171,9 +1171,9 @@ pub fn option(
       new_attributes[k] = v
     }
   }
-  new_attributes["value"] = value |> js
+  new_attributes.set("value", value |> js)
   if selected is Some(s) {
-    new_attributes["selected"] = s |> js
+    new_attributes.set("selected", s |> js)
   }
   common_node(
     "option",
@@ -1234,7 +1234,7 @@ pub fn label(
       new_attributes[k] = v
     }
   }
-  new_attributes["htmlFor"] = htmlFor |> js
+  new_attributes.set("htmlFor", htmlFor |> js)
   common_node(
     "label",
     attributes.unwrap_or({}),
@@ -1507,12 +1507,12 @@ pub fn a(
       new_attributes[k] = v
     }
   }
-  new_attributes["href"] = href |> js
+  new_attributes.set("href", href |> js)
   if download is Some(d) {
-    new_attributes["download"] = d |> js
+    new_attributes.set("download", d |> js)
   }
   if target is Some(t) {
-    new_attributes["target"] = t |> js
+    new_attributes.set("target", t |> js)
   }
   common_node(
     "a",
@@ -1580,24 +1580,24 @@ pub fn iframe(
       new_attributes[k] = v
     }
   }
-  new_attributes["src"] = src |> js
+  new_attributes.set("src", src |> js)
   if width is Some(d) {
-    new_attributes["width"] = d |> js
+    new_attributes.set("width", d |> js)
   }
   if height is Some(d) {
-    new_attributes["height"] = d |> js
+    new_attributes.set("height", d |> js)
   }
   if frameborder is Some(d) {
-    new_attributes["frameborder"] = d |> js
+    new_attributes.set("frameborder", d |> js)
   }
   if sandbox is Some(d) {
-    new_attributes["sandbox"] = d |> js
+    new_attributes.set("sandbox", d |> js)
   }
   if allowfullscreen is Some(d) {
-    new_attributes["allowfullscreen"] = d |> js
+    new_attributes.set("allowfullscreen", d |> js)
   }
   if loading is Some(d) {
-    new_attributes["loading"] = d |> js
+    new_attributes.set("loading", d |> js)
   }
   common_node(
     "iframe",
@@ -1670,33 +1670,33 @@ pub fn img(
       new_attributes[k] = v
     }
   }
-  new_attributes["src"] = src |> js
+  new_attributes.set("src", src |> js)
   if alt is Some(d) {
-    new_attributes["alt"] = d |> js
+    new_attributes.set("alt", d |> js)
   }
   if crossorigin is Some(d) {
-    new_attributes["crossorigin"] = d |> js
+    new_attributes.set("crossorigin", d |> js)
   }
   if decoding is Some(d) {
-    new_attributes["decoding"] = d |> js
+    new_attributes.set("decoding", d |> js)
   }
   if width is Some(d) {
-    new_attributes["width"] = d |> js
+    new_attributes.set("width", d |> js)
   }
   if height is Some(d) {
-    new_attributes["height"] = d |> js
+    new_attributes.set("height", d |> js)
   }
   if fetchpriority is Some(d) {
-    new_attributes["fetchpriority"] = d |> js
+    new_attributes.set("fetchpriority", d |> js)
   }
   if loading is Some(d) {
-    new_attributes["loading"] = d |> js
+    new_attributes.set("loading", d |> js)
   }
   if sizes is Some(d) {
-    new_attributes["sizes"] = d |> js
+    new_attributes.set("sizes", d |> js)
   }
   if srcset is Some(d) {
-    new_attributes["srcset"] = d |> js
+    new_attributes.set("srcset", d |> js)
   }
   common_node(
     "img",
@@ -1761,7 +1761,7 @@ pub fn video(
     }
   }
   if controls is Some(c) {
-    new_attributes["controls"] = c |> js
+    new_attributes.set("controls", c |> js)
   }
   common_node(
     "video",
@@ -1824,9 +1824,9 @@ pub fn source(
       new_attributes[k] = v
     }
   }
-  new_attributes["src"] = src |> js
+  new_attributes.set("src", src |> js)
   if type_ is Some(t) {
-    new_attributes["type"] = t |> js
+    new_attributes.set("type", t |> js)
   }
   common_node(
     "video",
@@ -2092,10 +2092,10 @@ pub fn button(
     }
   }
   if type_ is Some(t) {
-    new_attributes["type"] = t |> js
+    new_attributes.set("type", t |> js)
   }
   if disabled is Some(d) {
-    new_attributes["disabled"] = d |> js
+    new_attributes.set("disabled", d |> js)
   }
   common_node(
     "button",

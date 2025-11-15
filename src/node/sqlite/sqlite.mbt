@@ -76,34 +76,34 @@ pub fn DatabaseSync::new(
 ) -> DatabaseSync {
   let opts = @js.new_empty_object()
   if open is Some(v) {
-    opts["open"] = v
+    opts.set("open", v)
   }
   if readOnly is Some(v) {
-    opts["readOnly"] = v
+    opts.set("readOnly", v)
   }
   if allowExtension is Some(v) {
-    opts["allowExtension"] = v
+    opts.set("allowExtension", v)
   }
   if enableForeignKeyConstraints is Some(v) {
-    opts["enableForeignKeyConstraints"] = v
+    opts.set("enableForeignKeyConstraints", v)
   }
   if timeout is Some(v) {
-    opts["timeout"] = v
+    opts.set("timeout", v)
   }
   if readBigInts is Some(v) {
-    opts["readBigInts"] = v
+    opts.set("readBigInts", v)
   }
   if returnArrays is Some(v) {
-    opts["returnArrays"] = v
+    opts.set("returnArrays", v)
   }
   if allowBareNamedParameters is Some(v) {
-    opts["allowBareNamedParameters"] = v
+    opts.set("allowBareNamedParameters", v)
   }
   if allowUnknownNamedParameters is Some(v) {
-    opts["allowUnknownNamedParameters"] = v
+    opts.set("allowUnknownNamedParameters", v)
   }
   if defensive is Some(v) {
-    opts["defensive"] = v
+    opts.set("defensive", v)
   }
   let v = @node.require("node:sqlite").get("DatabaseSync")
     |> @js.new_([path, opts])
@@ -125,28 +125,28 @@ pub fn[T, U] DatabaseSync::aggregate(
 ) -> Unit {
   let opts = @js.new_empty_object()
   if deterministic is Some(v) {
-    opts["deterministic"] = v
+    opts.set("deterministic", v)
   }
   if directOnly is Some(v) {
-    opts["directOnly"] = v
+    opts.set("directOnly", v)
   }
   if useBigIntArguments is Some(v) {
-    opts["useBigIntArguments"] = v
+    opts.set("useBigIntArguments", v)
   }
   if varargs is Some(v) {
-    opts["varargs"] = v
+    opts.set("varargs", v)
   }
   if start is Some(v) {
-    opts["start"] = v |> js
+    opts.set("start", v |> js)
   }
   if step is Some(v) {
-    opts["step"] = v |> js
+    opts.set("step", v |> js)
   }
   if inverse is Some(v) {
-    opts["inverse"] = v |> js
+    opts.set("inverse", v |> js)
   }
   if result is Some(v) {
-    opts["result"] = v |> js
+    opts.set("result", v |> js)
   }
   self.to_js().invoke("aggregate", [name, opts]) |> ignore
 }
@@ -163,16 +163,16 @@ pub fn DatabaseSync::function(
 ) -> Unit {
   let opts = @js.new_empty_object()
   if deterministic is Some(v) {
-    opts["deterministic"] = v
+    opts.set("deterministic", v)
   }
   if directOnly is Some(v) {
-    opts["directOnly"] = v
+    opts.set("directOnly", v)
   }
   if useBigIntArguments is Some(v) {
-    opts["useBigIntArguments"] = v
+    opts.set("useBigIntArguments", v)
   }
   if varargs is Some(v) {
-    opts["varargs"] = v
+    opts.set("varargs", v)
   }
   self.to_js().invoke("function", [name, opts, func |> js]) |> ignore
 }
@@ -250,10 +250,10 @@ pub fn DatabaseSync::createSession(
 ) -> Session {
   let v = @js.new_empty_object()
   if table is Some(t) {
-    v["table"] = t
+    v.set("table", t)
   }
   if db is Some(d) {
-    v["db"] = d
+    v.set("db", d)
   }
   self.invoke("createSession", [v]) |> unsafe_cast
 }
@@ -278,10 +278,10 @@ pub fn DatabaseSync::applyChangeset(
 ) -> Bool {
   let opts = @js.new_empty_object()
   if filter is Some(f) {
-    opts["filter"] = f |> js
+    opts.set("filter", f |> js)
   }
   if onConflict is Some(oc) {
-    opts["onConflict"] = oc |> js
+    opts.set("onConflict", oc |> js)
   }
   self.invoke("applyChangeset", [changeset, opts]) |> unsafe_cast
 }
@@ -516,16 +516,16 @@ pub fn backup(
 ) -> Unit {
   let opts = @js.new_empty_object()
   if rate is Some(v) {
-    opts["rate"] = v
+    opts.set("rate", v)
   }
   if source is Some(v) {
-    opts["source"] = v
+    opts.set("source", v)
   }
   if target is Some(v) {
-    opts["target"] = v
+    opts.set("target", v)
   }
   if progress is Some(f) {
-    opts["progress"] = f |> js
+    opts.set("progress", f |> js)
   }
   let backup : Val = @node.require("node:sqlite").get("backup")
   backup.invoke_self([source_db.to_js(), db_path, opts]) |> ignore

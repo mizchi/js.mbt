@@ -66,66 +66,66 @@ pub fn create_element(
   let val : Val = @js.new_empty_object()
   if attributes is Some(props) {
     for k, v in props {
-      val[k] = v
+      val.set(k, v)
     }
   }
   if ref_ is Some(ref_) {
-    val["ref"] = ref_ |> js
+    val.set("ref", ref_ |> js)
   }
   if key is Some(key) {
-    val["key"] = key
+    val.set("key", key)
   }
   if id is Some(id) {
-    val["id"] = id
+    val.set("id", id)
   }
   if class is Some(class) {
-    val["className"] = class
+    val.set("className", class)
   }
   if className is Some(className) {
-    val["className"] = className
+    val.set("className", className)
   }
   if disabled is Some(disabled) {
-    val["disabled"] = disabled |> js
+    val.set("disabled", disabled |> js)
   }
   if style is Some(style) {
     let style_obj : Val = @js.new_empty_object()
     for k, v in style {
-      style_obj[k] = js(v)
+      style_obj.set(k, js(v))
     }
-    val["style"] = style_obj
+    val.set("style", style_obj)
   }
   if on_click is Some(v) {
-    val["onClick"] = v |> js
+    val.set("onClick", v |> js)
   }
   if on_change is Some(on_change) {
-    val["onChange"] = on_change |> js
+    val.set("onChange", on_change |> js)
   }
   if on_keydown is Some(on_keydown) {
-    val["onKeyDown"] = on_keydown |> js
+    val.set("onKeyDown", on_keydown |> js)
   }
   if on_keyup is Some(on_keyup) {
-    val["onKeyUp"] = on_keyup |> js
+    val.set("onKeyUp", on_keyup |> js)
   }
   if on_drag is Some(v) {
-    val["onDrag"] = v |> js
+    val.set("onDrag", v |> js)
   }
   if on_dragstart is Some(v) {
-    val["onDragStart"] = v |> js
+    val.set("onDragStart", v |> js)
   }
   if on_dragend is Some(v) {
-    val["onDragStart"] = v |> js
+    val.set("onDragStart", v |> js)
   }
   if on_drop is Some(v) {
-    val["onDragStart"] = v |> js
+    val.set("onDragStart", v |> js)
   }
   if on_dragover is Some(v) {
-    val["onDragOver"] = v |> js
+    val.set("onDragOver", v |> js)
   }
   if on_dragleave is Some(v) {
-    val["onDragLeave"] = v |> js
+    val.set("onDragLeave", v |> js)
   }
   if on_dragenter is Some(v) {
-    val["onDragEnter"] = v |> js
+    val.set("onDragEnter", v |> js)
   }
   unsafe_cast(ffi_create_element(tag, val, children))
 }
@@ -143,7 +143,7 @@ pub fn[T] c(
   let children = children.map(_.to_js())
   let val : Val = props |> js
   if key is Some(key) {
-    val["key"] = key
+    val.set("key", key)
   }
   ffi_create_element(tag, val, children |> @js.from_builtin_array())
   |> unsafe_cast
@@ -155,7 +155,7 @@ pub fn fragment(children : Array[&Js], key? : String) -> Element {
   let children = @js.from_builtin_array(children.map(_.to_js()))
   let val : Val = @js.new_empty_object()
   if key is Some(key) {
-    val["key"] = key
+    val.set("key", key)
   }
   ffi_create_element(tag, val, children) |> unsafe_cast
 }

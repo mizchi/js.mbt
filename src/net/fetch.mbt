@@ -30,7 +30,7 @@ pub fn fetch(
     header_obj.set(k, v)
   }
   if body is Some(body) {
-    init_obj["body"] = body.to_js()
+    init_obj.set("body", body)
   }
   if cache is Some(c) {
     init_obj.set("cache", c)

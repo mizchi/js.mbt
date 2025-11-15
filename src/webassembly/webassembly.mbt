@@ -79,12 +79,12 @@ pub fn WebAssemblyMemory::new(
   descriptor : MemoryDescriptor,
 ) -> WebAssemblyMemory {
   let obj = new_empty_object()
-  obj["initial"] = js(descriptor.initial)
+  obj.set("initial", js(descriptor.initial))
   match descriptor.maximum {
-    Some(max) => obj["maximum"] = js(max)
+    Some(max) => obj.set("maximum", js(max))
     None => ()
   }
-  obj["shared"] = js(descriptor.shared)
+  obj.set("shared", js(descriptor.shared))
   ffi_new_memory(obj)
 }
 
@@ -138,10 +138,10 @@ extern "js" fn ffi_new_table(descriptor : Val) -> WebAssemblyTable =
 /// Create a new WebAssembly table
 pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
   let obj = new_empty_object()
-  obj["element"] = js(descriptor.element)
-  obj["initial"] = js(descriptor.initial)
+  obj.set("element", js(descriptor.element))
+  obj.set("initial", js(descriptor.initial))
   match descriptor.maximum {
-    Some(max) => obj["maximum"] = js(max)
+    Some(max) => obj.set("maximum", js(max))
     None => ()
   }
   ffi_new_table(obj)
@@ -166,7 +166,7 @@ pub fn WebAssemblyGlobal::value(self : Self) -> Val {
 ///|
 /// Set the value of the global (only for mutable globals)
 pub fn WebAssemblyGlobal::set_value(self : Self, value : Val) -> Unit {
-  self.to_js()["value"] = value
+  self.set("value", value)
 }
 
 ///|

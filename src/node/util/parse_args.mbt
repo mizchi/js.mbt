@@ -47,17 +47,20 @@ pub fn parse_args(
   // tokens?: Bool = false,
 ) -> ParseArgsResult {
   let result = @js.new_empty_array()
-  result["args"] = args |> js
-  result["options"] = if options.is_empty() {
-    @js.new_empty_object()
-  } else {
-    let o = @js.new_empty_object()
-    for opt in options {
-      o.set(opt.key(), opt.to_js())
-    }
-    o
-  }
-  result["allowPositionals"] = allow_positionals
+  result.set("args", args |> js)
+  result.set(
+    "options",
+    if options.is_empty() {
+      @js.new_empty_object()
+    } else {
+      let o = @js.new_empty_object()
+      for opt in options {
+        o.set(opt.key(), opt.to_js())
+      }
+      o
+    },
+  )
+  result.set("allowPositionals", allow_positionals)
   // result["tokens"] = tokens
   let r : Val = unsafe_cast(
     Util::require().to_js().get("parseArgs").invoke_self([result]),

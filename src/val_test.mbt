@@ -599,3 +599,19 @@ test "encode_uri_component and decode_uri_component" {
   let decoded_component = decode_uri_component(encoded_component)
   assert_eq(decoded_component, original)
 }
+
+///|
+test {
+  let obj = new_empty_object()
+  let undef : Val? = Some(undefined())
+  obj.set_if_exists("a", undef)
+  let none_val : Val? = None
+  obj.set_if_exists("b", none_val)
+  obj.set_if_exists("c", Some(js(42)))
+  assert_true(obj.get("a").is_undefined())
+  // assert_eq(unsafe_cast(obj.get("a")), 42)
+  // obj.set_if_exists("b", None)
+  // assert_true(obj.get("b").is_undefined())
+  // obj.set_if_exists("c", Some(undefined()))
+  // assert_true(obj.get("c").is_undefined())
+}

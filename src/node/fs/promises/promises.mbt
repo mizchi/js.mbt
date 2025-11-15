@@ -95,7 +95,7 @@ pub fn glob_with_filetype(
 ) -> AsyncIterator[Dirent] {
   let fs = @node.require("node:fs/promises")
   let opts = @js.new_empty_object()
-  opts["withFileTypes"] = true
+  opts.set("withFileTypes", true)
   if cwd is Some(c) {
     opts.set("cwd", c)
   }
