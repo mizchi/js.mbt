@@ -32,6 +32,14 @@ fn ChildProcess::disconnect(Self) -> Unit
 fn ChildProcess::exit_code(Self) -> Int?
 fn ChildProcess::kill(Self, signal? : String) -> Bool
 fn ChildProcess::killed(Self) -> Bool
+fn ChildProcess::on_close(Self, (Int?, String?) -> Unit) -> Unit
+fn ChildProcess::on_disconnect(Self, () -> Unit) -> Unit
+fn ChildProcess::on_error(Self, (@js.Val) -> Unit) -> Unit
+fn ChildProcess::on_exit(Self, (Int?, String?) -> Unit) -> Unit
+fn ChildProcess::on_message(Self, (@js.Val, @js.Val?) -> Unit) -> Unit
+fn ChildProcess::on_spawn(Self, () -> Unit) -> Unit
+fn ChildProcess::on_stderr_data(Self, (@js.Val) -> Unit) -> Unit
+fn ChildProcess::on_stdout_data(Self, (@js.Val) -> Unit) -> Unit
 fn ChildProcess::pid(Self) -> Int
 fn ChildProcess::ref_(Self) -> Unit
 fn ChildProcess::send(Self, &@js.Js) -> Bool

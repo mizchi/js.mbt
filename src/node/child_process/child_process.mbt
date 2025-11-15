@@ -62,6 +62,123 @@ pub impl EventEmitter for ChildProcess with emit(
   self.to_js().call_method("emit", [name, payload]).cast()
 }
 
+///| ChildProcess Typed Event Handlers
+
+///|
+/// Listen for 'exit' event with typed callback
+/// Callback receives: code (Int?), signal (String?)
+pub fn ChildProcess::on_exit(
+  self : Self,
+  callback : (Int?, String?) -> Unit noraise,
+) -> Unit {
+  self
+  .to_js()
+  .call_method("on", [
+    "exit",
+    unsafe_cast(fn(code : Val, signal : Val) {
+      callback(code.cast_option(), signal.cast_option())
+    }),
+  ])
+  |> ignore
+}
+
+///|
+/// Listen for 'close' event with typed callback
+/// Callback receives: code (Int?), signal (String?)
+pub fn ChildProcess::on_close(
+  self : Self,
+  callback : (Int?, String?) -> Unit noraise,
+) -> Unit {
+  self
+  .to_js()
+  .call_method("on", [
+    "close",
+    unsafe_cast(fn(code : Val, signal : Val) {
+      callback(code.cast_option(), signal.cast_option())
+    }),
+  ])
+  |> ignore
+}
+
+///|
+/// Listen for 'error' event with typed callback
+/// Callback receives: error (Val)
+pub fn ChildProcess::on_error(
+  self : Self,
+  callback : (Val) -> Unit noraise,
+) -> Unit {
+  self.to_js().call_method("on", ["error", unsafe_cast(callback)]) |> ignore
+}
+
+///|
+/// Listen for 'message' event with typed callback
+/// Callback receives: message (Val), sendHandle (Val?)
+pub fn ChildProcess::on_message(
+  self : Self,
+  callback : (Val, Val?) -> Unit noraise,
+) -> Unit {
+  self
+  .to_js()
+  .call_method("on", [
+    "message",
+    unsafe_cast(fn(message : Val, sendHandle : Val) {
+      callback(message, sendHandle.cast_option())
+    }),
+  ])
+  |> ignore
+}
+
+///|
+/// Listen for 'disconnect' event with typed callback
+/// No parameters
+pub fn ChildProcess::on_disconnect(
+  self : Self,
+  callback : () -> Unit noraise,
+) -> Unit {
+  self.to_js().call_method("on", ["disconnect", unsafe_cast(callback)])
+  |> ignore
+}
+
+///|
+/// Listen for 'spawn' event with typed callback
+/// No parameters
+pub fn ChildProcess::on_spawn(
+  self : Self,
+  callback : () -> Unit noraise,
+) -> Unit {
+  self.to_js().call_method("on", ["spawn", unsafe_cast(callback)]) |> ignore
+}
+
+///|
+/// Listen for stdout 'data' event with typed callback
+/// Callback receives: data (Val) - typically Buffer or String
+pub fn ChildProcess::on_stdout_data(
+  self : Self,
+  callback : (Val) -> Unit noraise,
+) -> Unit {
+  match self.stdout() {
+    Some(stream) =>
+      stream.to_js().call_method("on", ["data", unsafe_cast(callback)])
+      |> ignore
+    None => ()
+  }
+}
+
+///|
+/// Listen for stderr 'data' event with typed callback
+/// Callback receives: data (Val) - typically Buffer or String
+pub fn ChildProcess::on_stderr_data(
+  self : Self,
+  callback : (Val) -> Unit noraise,
+) -> Unit {
+  match self.stderr() {
+    Some(stream) =>
+      stream.to_js().call_method("on", ["data", unsafe_cast(callback)])
+      |> ignore
+    None => ()
+  }
+}
+
 ///| ChildProcess Properties
 
 ///|
