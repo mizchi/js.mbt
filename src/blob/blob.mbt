@@ -11,6 +11,9 @@ using @async {type Promise}
 using @arraybuffer {type ArrayBuffer}
 
 ///|
+using @stream {type ReadableStream}
+
+///|
 #external
 pub type Blob
 
@@ -100,6 +103,6 @@ pub fn Blob::slice(
 
 ///|
 /// Get a ReadableStream for the Blob contents
-pub fn Blob::stream(self : Self) -> Val {
-  self.to_js().call_method("stream", [])
+pub fn Blob::stream(self : Self) -> ReadableStream {
+  self.to_js().call_method("stream", []).cast()
 }

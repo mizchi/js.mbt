@@ -2,8 +2,8 @@
   "is_main": false,
   "import": [
     "mizchi/js",
+    "mizchi/js/blob",
     "mizchi/js/async",
-    "mizchi/js/arraybuffer",
-    "mizchi/js/stream"
+    "mizchi/js/arraybuffer"
   ]
 }
