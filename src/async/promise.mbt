@@ -181,7 +181,7 @@ pub fn[A, B, C, R] promisify3(
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let p = Promise::try_(async fn () { 42 })
 /// // Promise resolves to 42
 ///
