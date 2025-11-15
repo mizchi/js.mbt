@@ -347,3 +347,63 @@ pub fn URLSearchParams::toString(self : Self) -> String {
 pub fn URLSearchParams::size(self : Self) -> Int {
   self.to_js().get("size").cast()
 }
+
+///|
+/// Convert a file URL to a file path
+#alias(file_url_to_path)
+pub fn fileURLToPath(url : String, windows? : Bool) -> String {
+  let url_module = @node.require("node:url")
+  match windows {
+    Some(w) => {
+      let options = @js.new_empty_object()
+      options.set("windows", w)
+      url_module.call_method("fileURLToPath", [url, options]).cast()
+    }
+    None => url_module.call_method("fileURLToPath", [url]).cast()
+  }
+}
+
+///|
+/// Convert a file URL object to a file path
+#alias(file_url_to_path_from_url)
+pub fn fileURLToPathFromURL(url : URL, windows? : Bool) -> String {
+  let url_module = @node.require("node:url")
+  match windows {
+    Some(w) => {
+      let options = @js.new_empty_object()
+      options.set("windows", w)
+      url_module.call_method("fileURLToPath", [url, options]).cast()
+    }
+    None => url_module.call_method("fileURLToPath", [url]).cast()
+  }
+}
+
+///|
+/// Convert a file path to a file URL
+#alias(path_to_file_url)
+pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
+  let url_module = @node.require("node:url")
+  match windows {
+    Some(w) => {
+      let options = @js.new_empty_object()
+      options.set("windows", w)
+      url_module.call_method("pathToFileURL", [path, options]).cast()
+    }
+    None => url_module.call_method("pathToFileURL", [path]).cast()
+  }
+}
+
+///|
+/// Convert URL to HTTP options object
+#alias(url_to_http_options)
+pub fn urlToHttpOptions(url : URL) -> Val {
+  let url_module = @node.require("node:url")
+  url_module.call_method("urlToHttpOptions", [url])
+}
+
+///|
+/// Format a URL object to string (legacy API)
+pub fn format(url : URL) -> String {
+  let url_module = @node.require("node:url")
+  url_module.call_method("format", [url]).cast()
+}

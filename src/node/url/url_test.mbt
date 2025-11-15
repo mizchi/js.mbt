@@ -193,3 +193,48 @@ test "URL special characters encoding" {
   url.setSearch("?key=value with spaces")
   assert_eq(url.search().contains("value%20with%20spaces"), true)
 }
+
+///|
+test "fileURLToPath" {
+  let file_url = "file:///home/user/file.txt"
+  let path = fileURLToPath(file_url)
+  assert_eq(path, "/home/user/file.txt")
+}
+
+///|
+test "pathToFileURL" {
+  let path = "/home/user/file.txt"
+  let url = pathToFileURL(path)
+  assert_eq(url.protocol(), "file:")
+  assert_eq(url.pathname(), "/home/user/file.txt")
+}
+
+///|
+test "fileURLToPath and pathToFileURL roundtrip" {
+  let original_path = "/tmp/test.txt"
+  let url = pathToFileURL(original_path)
+  let path = fileURLToPathFromURL(url)
+  assert_eq(path, original_path)
+}
+
+///|
+test "format URL" {
+  let url = URL::new("https://example.com/path?query=value#hash")
+  let formatted = format(url)
+  assert_eq(formatted, "https://example.com/path?query=value#hash")
+}
+
+///|
+test "urlToHttpOptions" {
+  let url = URL::new("https://example.com:8080/path?query=value")
+  let options = urlToHttpOptions(url)
+  let protocol : String = options.get("protocol").cast()
+  assert_eq(protocol, "https:")
+  let hostname : String = options.get("hostname").cast()
+  assert_eq(hostname, "example.com")
+  // port is returned as a number in the options object
+  let port : Int = options.get("port").cast()
+  assert_eq(port, 8080)
+  let pathname : String = options.get("pathname").cast()
+  assert_eq(pathname, "/path")
+}

@@ -6,6 +6,19 @@ import(
 )
 
 // Values
+#alias(file_url_to_path)
+fn fileURLToPath(String, windows? : Bool) -> String
+
+#alias(file_url_to_path_from_url)
+fn fileURLToPathFromURL(URL, windows? : Bool) -> String
+
+fn format(URL) -> String
+
+#alias(path_to_file_url)
+fn pathToFileURL(String, windows? : Bool) -> URL
+
+#alias(url_to_http_options)
+fn urlToHttpOptions(URL) -> @js.Val
 
 // Errors
 
