@@ -74,7 +74,7 @@ fn undefined() -> Val
 
 fn[A, B] unsafe_cast(A) -> B
 
-fn[A] unsafe_cast_option(Val) -> A?
+fn[A] to_option(Val) -> A?
 
 fn wrap_result(() -> Result[Val, Val]) -> Result[Val, Val]
 
@@ -142,4 +142,3 @@ pub trait PropertyKey {
 }
 impl PropertyKey for Int
 impl PropertyKey for String
-

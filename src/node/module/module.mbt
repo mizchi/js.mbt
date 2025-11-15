@@ -2,7 +2,7 @@
 // Based on @types/node module definitions
 
 ///|
-using @js {js, unsafe_cast, unsafe_cast_option, type Val, trait Js}
+using @js {js, unsafe_cast, to_option, type Val, trait Js}
 
 ///|
 /// Module Functions
@@ -45,7 +45,7 @@ pub fn sync_builtin_esm_exports() -> Unit {
 /// Returns the source map for the given path if it exists
 pub fn find_source_map(path : String) -> SourceMap? {
   let mod = ffi_require_module()
-  mod.invoke("findSourceMap", [path |> js]) |> unsafe_cast_option()
+  mod.invoke("findSourceMap", [path |> js]) |> to_option()
 }
 
 ///|
@@ -76,7 +76,7 @@ pub fn flush_compile_cache() -> Unit {
 /// Get the compile cache directory path
 pub fn get_compile_cache_dir() -> String? {
   let mod = ffi_require_module()
-  mod.invoke("getCompileCacheDir", []) |> unsafe_cast_option()
+  mod.invoke("getCompileCacheDir", []) |> to_option()
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn SourceMap::find_entry(
   column_number : Int,
 ) -> SourceMapEntry? {
   self.to_js().invoke("findEntry", [line_number |> js, column_number |> js])
-  |> unsafe_cast_option()
+  |> to_option()
 }
 
 ///| SourceMapEntry Type
@@ -189,5 +189,5 @@ pub fn SourceMapEntry::generated_column(self : Self) -> Int {
 ///|
 /// Get the name (if available)
 pub fn SourceMapEntry::name(self : Self) -> String? {
-  self.to_js().get("name") |> unsafe_cast_option()
+  self.to_js().get("name") |> to_option()
 }

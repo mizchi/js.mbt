@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, unsafe_cast, js, unsafe_cast_option}
+using @js {type Val, trait Js, unsafe_cast, js, to_option}
 
 ///|
 pub(all) struct URL {
@@ -47,7 +47,7 @@ extern "js" fn ffi_url_parse(url : String, base : String?) -> Val =
 
 ///|
 pub fn URL::parse(url : String, base? : String) -> URL? {
-  ffi_url_parse(url, base) |> unsafe_cast_option()
+  ffi_url_parse(url, base) |> to_option()
 }
 
 ///|

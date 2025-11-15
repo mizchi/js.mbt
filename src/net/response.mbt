@@ -65,5 +65,5 @@ pub extern "js" fn Response::type_(self : Self) -> String =
 ///|
 /// Get the body as a ReadableStream
 pub fn Response::body(self : Self) -> @stream.ReadableStream? {
-  self.to_js().get("body") |> unsafe_cast_option()
+  self.to_js().get("body") |> to_option()
 }

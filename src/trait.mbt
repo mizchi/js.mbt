@@ -42,6 +42,7 @@ pub(open) trait Js {
   invoke_throwable(Self, &PropertyKey, Array[&Js]) -> Val raise JsError = _
   invoke_self(Self, Array[&Js]) -> Val = _
   invoke_self_throwable(Self, Array[&Js]) -> Val raise JsError = _
+  delete(Self, &PropertyKey) -> Unit = _
 }
 
 ///|
@@ -86,6 +87,11 @@ impl Js with invoke_self(self, args) -> Val {
 ///|
 impl Js with invoke_self_throwable(self, args) -> Val raise JsError {
   throwable(() => ffi_call(self.to_js(), args.map(_.to_js())))
+}
+
+///|
+impl Js with delete(self, key : &PropertyKey) -> Unit {
+  ffi_delete(self.to_js(), key.to_key() |> unsafe_cast)
 }
 
 ///|

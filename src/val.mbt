@@ -104,52 +104,15 @@ pub fn[T] js(v : T) -> Val = "%identity"
 pub fn[A, B] unsafe_cast(a : A) -> B = "%identity"
 
 ///|
-pub fn[A] unsafe_cast_option(v : Val) -> A? {
+/// Safely convert a JavaScript Val to an Option type.
+/// Without check, Moonbit FFI will touch (null).toString() and crash.
+pub fn[A] to_option(v : Val) -> A? {
   if v.is_some() {
     Some(unsafe_cast(v))
   } else {
     None
   }
 }
-
-///|
-/// Safely cast a JavaScript value to an Option type.
-///
-/// This is a safer alternative to `cast()` that checks if the value is `null`
-/// or `undefined` before casting.
-///
-/// # Parameters
-///
-/// - `self`: The Val to cast
-///
-/// # Returns
-///
-/// - `Some(value)` if the Val is not null or undefined
-/// - `None` if the Val is null or undefined
-///
-/// # Example
-///
-/// ```moonbit
-/// let some_val = js("hello")
-/// let result : String? = some_val.cast_option()
-/// // result == Some("hello")
-///
-/// let none_val = undefined()
-/// let result : String? = none_val.cast_option()
-/// // result == None
-/// ```
-///
-/// # Note
-///
-/// This still performs an unsafe cast for the inner value, but at least
-/// handles the null/undefined cases safely.
-// pub fn[T] Val::cast_option(self : Val) -> T? {
-//   if self.is_some() {
-//     Some(unsafe_cast(self))
-//   } else {
-//     None
-//   }
-// }
 
 ///|
 pub impl Show for Val with output(self, logger) {

@@ -131,9 +131,8 @@ pub fn Window::prompt(
   default? : String,
 ) -> String? {
   match default {
-    Some(d) =>
-      self.to_js().invoke("prompt", [message, d]) |> unsafe_cast_option()
-    None => self.to_js().invoke("prompt", [message]) |> unsafe_cast_option()
+    Some(d) => self.to_js().invoke("prompt", [message, d]) |> to_option()
+    None => self.to_js().invoke("prompt", [message]) |> to_option()
   }
 }
 
@@ -148,11 +147,10 @@ pub fn Window::open(
 ) -> Window? {
   match (url, target, features) {
     (Some(u), Some(t), Some(f)) =>
-      self.to_js().invoke("open", [u, t, f]) |> unsafe_cast_option
-    (Some(u), Some(t), None) =>
-      self.to_js().invoke("open", [u, t]) |> unsafe_cast_option
-    (Some(u), None, _) => self.to_js().invoke("open", [u]) |> unsafe_cast_option
-    (None, _, _) => self.to_js().invoke("open", []) |> unsafe_cast_option
+      self.to_js().invoke("open", [u, t, f]) |> to_option
+    (Some(u), Some(t), None) => self.to_js().invoke("open", [u, t]) |> to_option
+    (Some(u), None, _) => self.to_js().invoke("open", [u]) |> to_option
+    (None, _, _) => self.to_js().invoke("open", []) |> to_option
   }
 }
 
@@ -258,7 +256,7 @@ pub fn Window::fetch(self : Self, input : String, init? : Val) -> Promise[Val] {
 /// Returns a selection object representing selected text
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 pub fn Window::get_selection(self : Self) -> Val? {
-  self.to_js().invoke("getSelection", []) |> unsafe_cast_option
+  self.to_js().invoke("getSelection", []) |> to_option
 }
 
 ///|

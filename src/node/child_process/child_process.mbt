@@ -2,7 +2,7 @@
 // Based on @types/node child_process definitions
 
 ///|
-using @js {js, unsafe_cast, type Val, trait Js, unsafe_cast_option}
+using @js {js, unsafe_cast, to_option, type Val, trait Js}
 
 ///|
 using @async {type AbortSignal}
@@ -76,7 +76,7 @@ pub fn ChildProcess::on_exit(
   .invoke("on", [
     "exit",
     unsafe_cast(fn(code : Val, signal : Val) {
-      callback(code |> unsafe_cast_option(), signal |> unsafe_cast_option())
+      callback(code |> to_option(), signal |> to_option())
     }),
   ])
   |> ignore
@@ -94,7 +94,7 @@ pub fn ChildProcess::on_close(
   .invoke("on", [
     "close",
     unsafe_cast(fn(code : Val, signal : Val) {
-      callback(code |> unsafe_cast_option(), signal |> unsafe_cast_option())
+      callback(code |> to_option(), signal |> to_option())
     }),
   ])
   |> ignore
@@ -122,7 +122,7 @@ pub fn ChildProcess::on_message(
   .invoke("on", [
     "message",
     unsafe_cast(fn(message : Val, sendHandle : Val) {
-      callback(message, sendHandle |> unsafe_cast_option())
+      callback(message, sendHandle |> to_option())
     }),
   ])
   |> ignore
@@ -193,31 +193,31 @@ pub fn ChildProcess::killed(self : Self) -> Bool {
 ///|
 /// The exit code of the child process, or null if still running
 pub fn ChildProcess::exit_code(self : Self) -> Int? {
-  self.to_js().get("exitCode") |> unsafe_cast_option()
+  self.to_js().get("exitCode") |> to_option()
 }
 
 ///|
 /// The signal that terminated the child process, or null
 pub fn ChildProcess::signal_code(self : Self) -> String? {
-  self.to_js().get("signalCode") |> unsafe_cast_option()
+  self.to_js().get("signalCode") |> to_option()
 }
 
 ///|
 /// A readable stream representing the child process's stdin
 pub fn ChildProcess::stdin(self : Self) -> WritableStream? {
-  self.to_js().get("stdin") |> unsafe_cast_option()
+  self.to_js().get("stdin") |> to_option()
 }
 
 ///|
 /// A writable stream representing the child process's stdout
 pub fn ChildProcess::stdout(self : Self) -> ReadableStream? {
-  self.to_js().get("stdout") |> unsafe_cast_option()
+  self.to_js().get("stdout") |> to_option()
 }
 
 ///|
 /// A writable stream representing the child process's stderr
 pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
-  self.to_js().get("stderr") |> unsafe_cast_option()
+  self.to_js().get("stderr") |> to_option()
 }
 
 ///| ChildProcess Methods
@@ -432,12 +432,12 @@ pub fn SpawnSyncResult::pid(self : Self) -> Int {
 
 ///|
 pub fn SpawnSyncResult::status(self : Self) -> Int? {
-  self.to_js().get("status") |> unsafe_cast_option()
+  self.to_js().get("status") |> to_option()
 }
 
 ///|
 pub fn SpawnSyncResult::signal(self : Self) -> String? {
-  self.to_js().get("signal") |> unsafe_cast_option()
+  self.to_js().get("signal") |> to_option()
 }
 
 ///|
@@ -452,7 +452,7 @@ pub fn SpawnSyncResult::stderr(self : Self) -> Val {
 
 ///|
 pub fn SpawnSyncResult::error(self : Self) -> Val? {
-  self.to_js().get("error") |> unsafe_cast_option()
+  self.to_js().get("error") |> to_option()
 }
 
 ///|

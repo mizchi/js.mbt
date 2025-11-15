@@ -831,14 +831,14 @@ pub fn HTMLIFrameElement::set_src(self : Self, src : String) -> Unit {
 /// Returns the content window
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
 pub fn HTMLIFrameElement::content_window(self : Self) -> Window? {
-  self.to_js().get("contentWindow") |> unsafe_cast_option()
+  self.to_js().get("contentWindow") |> to_option()
 }
 
 ///|
 /// Returns the content document
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
 pub fn HTMLIFrameElement::content_document(self : Self) -> Document? {
-  self.to_js().get("contentDocument") |> unsafe_cast_option()
+  self.to_js().get("contentDocument") |> to_option()
 }
 
 ///|

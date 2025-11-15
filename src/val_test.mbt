@@ -12,9 +12,9 @@ test "cast" {
   let v2 = js(42)
   assert_eq(v1, v2)
   assert_eq(js(TestConstantEnum::NotFound), js(404))
-  let s1 : String? = js("hello") |> unsafe_cast_option()
+  let s1 : String? = js("hello") |> to_option()
   assert_eq(s1, Some("hello"))
-  let s2 : String? = undefined() |> unsafe_cast_option()
+  let s2 : String? = undefined() |> to_option()
   assert_eq(s2, None)
 }
 
@@ -207,15 +207,15 @@ test "Val cast primitive types" {
 ///|
 test "Val cast_option" {
   // Some cases
-  let some_str : String? = js("hello") |> unsafe_cast_option()
+  let some_str : String? = js("hello") |> to_option()
   assert_eq(some_str, Some("hello"))
-  let some_int : Int? = js(42) |> unsafe_cast_option()
+  let some_int : Int? = js(42) |> to_option()
   assert_eq(some_int, Some(42))
 
   // None cases
-  let none_str : String? = undefined() |> unsafe_cast_option()
+  let none_str : String? = undefined() |> to_option()
   assert_eq(none_str, None)
-  let none_int : Int? = null_() |> unsafe_cast_option()
+  let none_int : Int? = null_() |> to_option()
   assert_eq(none_int, None)
 }
 
