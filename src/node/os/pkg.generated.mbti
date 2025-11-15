@@ -1,0 +1,66 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/os"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn arch() -> String
+
+fn available_parallelism() -> Int
+
+fn cpus() -> Array[@js.Val]
+
+fn devNull() -> String
+
+fn endianness() -> String
+
+fn eol() -> String
+
+fn freemem() -> Int64
+
+fn get_priority(Int) -> Int
+
+fn homedir() -> String
+
+fn hostname() -> String
+
+fn loadavg() -> Array[Double]
+
+fn machine() -> String
+
+fn network_interfaces() -> @js.Val
+
+fn platform() -> String
+
+fn priority() -> Int
+
+fn release() -> String
+
+fn set_priority(Int) -> Unit
+
+fn set_priority_with_pid(Int, Int) -> Unit
+
+fn tmpdir() -> String
+
+fn totalmem() -> Int64
+
+fn type_() -> String
+
+fn uptime() -> Int64
+
+fn userinfo() -> @js.Val
+
+fn userinfo_with_encoding(String) -> @js.Val
+
+fn version() -> String
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
