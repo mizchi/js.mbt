@@ -6,9 +6,7 @@ using @js {type Val, trait Js, js, unsafe_cast}
 pub type Promise[T]
 
 ///|
-impl[T] Js for Promise[T] with to_js(self) -> Val {
-  self |> js
-}
+impl[T] Js for Promise[T]
 
 ///|
 pub async fn[T, E : Error] suspend(
@@ -76,10 +74,7 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 ///|
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[A] Promise::unwrap(self : Self[A]) -> A {
-  suspend((ok, err) => self
-    .to_js()
-    .invoke("then", [js(ok)])
-    .invoke("catch", [js(err)])
+  suspend((ok, err) => self.invoke("then", [js(ok)]).invoke("catch", [js(err)])
     |> ignore)
 }
 
