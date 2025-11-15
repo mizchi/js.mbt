@@ -264,7 +264,7 @@ pub fn URLSearchParams::append(
   name : String,
   value : String,
 ) -> Unit {
-  self.to_js().invoke("append", [name, value]) |> ignore
+  self.invoke("append", [name, value]) |> ignore
 }
 
 ///|
@@ -275,15 +275,15 @@ pub fn URLSearchParams::delete(
   value? : String,
 ) -> Unit {
   match value {
-    Some(v) => self.to_js().invoke("delete", [name, v]) |> ignore
-    None => self.to_js().invoke("delete", [name]) |> ignore
+    Some(v) => self.invoke("delete", [name, v]) |> ignore
+    None => self.invoke("delete", [name]) |> ignore
   }
 }
 
 ///|
 /// Get the first value for a parameter
 pub fn URLSearchParams::get(self : Self, name : String) -> String? {
-  let result = self.to_js().invoke("get", [name])
+  let result = self.invoke("get", [name])
   if ffi_typeof(result) == "string" {
     Some(unsafe_cast(result))
   } else {
@@ -295,7 +295,7 @@ pub fn URLSearchParams::get(self : Self, name : String) -> String? {
 /// Get all values for a parameter
 #alias(get_all)
 pub fn URLSearchParams::getAll(self : Self, name : String) -> Array[String] {
-  let result = self.to_js().invoke("getAll", [name])
+  let result = self.invoke("getAll", [name])
   // Convert JS array to MoonBit array
   let arr : Array[String] = []
   let length : Int = unsafe_cast(result.get("length"))
@@ -323,13 +323,13 @@ pub fn URLSearchParams::has(
 ///|
 /// Set a parameter (replaces all existing values)
 pub fn URLSearchParams::set(self : Self, name : String, value : String) -> Unit {
-  self.to_js().invoke("set", [name, value]) |> ignore
+  self.invoke("set", [name, value]) |> ignore
 }
 
 ///|
 /// Sort all parameters by name
 pub fn URLSearchParams::sort(self : Self) -> Unit {
-  self.to_js().invoke("sort", []) |> ignore
+  self.invoke("sort", []) |> ignore
 }
 
 ///|

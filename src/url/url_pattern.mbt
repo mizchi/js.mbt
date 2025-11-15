@@ -131,7 +131,7 @@ extern "js" fn ffi_is_null(v : @js.Val) -> Bool =
 ///|
 /// Execute the pattern against a URL and return match result
 pub fn URLPattern::exec(self : Self, input : String) -> URLPatternResult? {
-  let result = self.to_js().invoke("exec", [input])
+  let result = self.invoke("exec", [input])
   if ffi_is_null(result) {
     None
   } else {
@@ -148,8 +148,8 @@ pub fn URLPattern::execWithBase(
   base? : String,
 ) -> URLPatternResult? {
   let result = match base {
-    Some(b) => self.to_js().invoke("exec", [input, b])
-    None => self.to_js().invoke("exec", [input])
+    Some(b) => self.invoke("exec", [input, b])
+    None => self.invoke("exec", [input])
   }
   if ffi_is_null(result) {
     None

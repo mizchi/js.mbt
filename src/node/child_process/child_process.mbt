@@ -95,7 +95,7 @@ pub fn ChildProcess::on_error(
   self : Self,
   callback : (Val) -> Unit noraise,
 ) -> Unit {
-  self.to_js().invoke("on", ["error", unsafe_cast(callback)]) |> ignore
+  self.invoke("on", ["error", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
@@ -123,7 +123,7 @@ pub fn ChildProcess::on_disconnect(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.to_js().invoke("on", ["disconnect", unsafe_cast(callback)]) |> ignore
+  self.invoke("on", ["disconnect", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
@@ -133,7 +133,7 @@ pub fn ChildProcess::on_spawn(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.to_js().invoke("on", ["spawn", unsafe_cast(callback)]) |> ignore
+  self.invoke("on", ["spawn", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
@@ -145,7 +145,7 @@ pub fn ChildProcess::on_stdout_data(
 ) -> Unit {
   match self.stdout() {
     Some(stream) =>
-      stream.to_js().invoke("on", ["data", unsafe_cast(callback)]) |> ignore
+      stream.invoke("on", ["data", unsafe_cast(callback)]) |> ignore
     None => ()
   }
 }
@@ -159,7 +159,7 @@ pub fn ChildProcess::on_stderr_data(
 ) -> Unit {
   match self.stderr() {
     Some(stream) =>
-      stream.to_js().invoke("on", ["data", unsafe_cast(callback)]) |> ignore
+      stream.invoke("on", ["data", unsafe_cast(callback)]) |> ignore
     None => ()
   }
 }
@@ -228,19 +228,19 @@ pub fn ChildProcess::send(self : Self, message : &Js) -> Bool {
 ///|
 /// Close the IPC channel between parent and child
 pub fn ChildProcess::disconnect(self : Self) -> Unit {
-  self.to_js().invoke("disconnect", []) |> ignore
+  self.invoke("disconnect", []) |> ignore
 }
 
 ///|
 /// Prevent the parent process from waiting for this child
 pub fn ChildProcess::unref(self : Self) -> Unit {
-  self.to_js().invoke("unref", []) |> ignore
+  self.invoke("unref", []) |> ignore
 }
 
 ///|
 /// Require the parent process to wait for this child
 pub fn ChildProcess::ref_(self : Self) -> Unit {
-  self.to_js().invoke("ref", []) |> ignore
+  self.invoke("ref", []) |> ignore
 }
 
 ///|

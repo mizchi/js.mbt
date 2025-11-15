@@ -329,5 +329,5 @@ pub fn Buffer::byteOffset(self : Self) -> Int {
 /// Convert buffer to JSON representation
 #alias(to_json)
 pub fn Buffer::toJSON(self : Self) -> Val {
-  self.to_js().invoke("toJSON", [])
+  self.invoke("toJSON", [])
 }

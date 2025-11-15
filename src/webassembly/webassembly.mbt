@@ -96,19 +96,19 @@ pub fn WebAssemblyTable::length(self : Self) -> Int {
 ///|
 /// Get a value from the table at the given index
 pub fn WebAssemblyTable::get(self : Self, index : Int) -> Val {
-  self.to_js().invoke("get", [js(index)])
+  self.invoke("get", [js(index)])
 }
 
 ///|
 /// Set a value in the table at the given index
 pub fn WebAssemblyTable::set(self : Self, index : Int, value : Val) -> Unit {
-  ignore(self.to_js().invoke("set", [js(index), value]))
+  ignore(self.invoke("set", [js(index), value]))
 }
 
 ///|
 /// Grow the table by delta elements
 pub fn WebAssemblyTable::grow(self : Self, delta : Int, value : Val) -> Int {
-  self.to_js().invoke("grow", [js(delta), value]) |> unsafe_cast
+  self.invoke("grow", [js(delta), value]) |> unsafe_cast
 }
 
 ///|

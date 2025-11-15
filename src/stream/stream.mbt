@@ -76,7 +76,7 @@ extern "js" fn ffi_array_get(arr : Val, index : Int) -> Val =
 ///|
 /// Tee this stream into two branches
 pub fn ReadableStream::tee(self : Self) -> (ReadableStream, ReadableStream) {
-  let result = self.to_js().invoke("tee", [])
+  let result = self.invoke("tee", [])
   let first : ReadableStream = unsafe_cast(ffi_array_get(result, 0))
   let second : ReadableStream = unsafe_cast(ffi_array_get(result, 1))
   (first, second)
@@ -102,7 +102,7 @@ pub fn ReadableStreamDefaultReader::read(self : Self) -> Promise[Val] {
 /// Release the reader's lock on the stream
 #alias(releaseLock)
 pub fn ReadableStreamDefaultReader::release_lock(self : Self) -> Unit {
-  self.to_js().invoke("releaseLock", []) |> ignore
+  self.invoke("releaseLock", []) |> ignore
 }
 
 ///|
@@ -213,7 +213,7 @@ pub fn WritableStreamDefaultWriter::abort(
 /// Release the writer's lock on the stream
 #alias(releaseLock)
 pub fn WritableStreamDefaultWriter::release_lock(self : Self) -> Unit {
-  self.to_js().invoke("releaseLock", []) |> ignore
+  self.invoke("releaseLock", []) |> ignore
 }
 
 ///|

@@ -112,7 +112,7 @@ pub fn Serializer::new() -> Serializer {
 /// Write header
 #alias(writeHeader)
 pub fn Serializer::write_header(self : Self) -> Unit {
-  self.to_js().invoke("writeHeader", []) |> ignore
+  self.invoke("writeHeader", []) |> ignore
 }
 
 ///|
@@ -137,29 +137,28 @@ pub fn Serializer::transfer_array_buffer(
   id : Int,
   array_buffer : ArrayBuffer,
 ) -> Unit {
-  self.to_js().invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
-  |> ignore
+  self.invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()]) |> ignore
 }
 
 ///|
 /// Write uint32
 #alias(writeUint32)
 pub fn Serializer::write_uint32(self : Self, value : Int) -> Unit {
-  self.to_js().invoke("writeUint32", [value |> js]) |> ignore
+  self.invoke("writeUint32", [value |> js]) |> ignore
 }
 
 ///|
 /// Write double
 #alias(writeDouble)
 pub fn Serializer::write_double(self : Self, value : Double) -> Unit {
-  self.to_js().invoke("writeDouble", [value |> js]) |> ignore
+  self.invoke("writeDouble", [value |> js]) |> ignore
 }
 
 ///|
 /// Write raw bytes
 #alias(writeRawBytes)
 pub fn Serializer::write_raw_bytes(self : Self, buffer : &Js) -> Unit {
-  self.to_js().invoke("writeRawBytes", [buffer.to_js()]) |> ignore
+  self.invoke("writeRawBytes", [buffer.to_js()]) |> ignore
 }
 
 ///| Deserializer Class
@@ -194,7 +193,7 @@ pub fn Deserializer::read_header(self : Self) -> Bool {
 /// Read a value
 #alias(readValue)
 pub fn Deserializer::read_value(self : Self) -> Val {
-  self.to_js().invoke("readValue", [])
+  self.invoke("readValue", [])
 }
 
 ///|
@@ -205,8 +204,7 @@ pub fn Deserializer::transfer_array_buffer(
   id : Int,
   array_buffer : ArrayBuffer,
 ) -> Unit {
-  self.to_js().invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
-  |> ignore
+  self.invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()]) |> ignore
 }
 
 ///|

@@ -19,7 +19,7 @@ impl Show for URLSearchParams with output(self, logger) {
 
 ///|
 pub fn URLSearchParams::get(self : URLSearchParams, name : String) -> String? {
-  self.to_js().invoke("get", [name]) |> to_option
+  self.invoke("get", [name]) |> to_option
 }
 
 ///|

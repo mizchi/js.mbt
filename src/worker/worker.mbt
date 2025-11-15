@@ -48,7 +48,7 @@ pub fn Worker::new(script_url : String, is_module? : Bool = false) -> Worker {
 
 ///|
 pub fn Worker::terminate(worker : Worker) -> Unit {
-  worker.to_js().invoke("terminate", []) |> ignore
+  worker.invoke("terminate", []) |> ignore
 }
 
 ///|
@@ -94,6 +94,5 @@ pub fn Worker::add_event_listener(
   event : String,
   listener : (MessageEvent) -> Unit,
 ) -> Unit {
-  worker.to_js().invoke("addEventListener", [js(event), listener |> js])
-  |> ignore
+  worker.invoke("addEventListener", [js(event), listener |> js]) |> ignore
 }

@@ -541,9 +541,7 @@ pub fn Uint16Array::buffer(self : Self) -> ArrayBuffer {
 pub type Uint32Array
 
 ///|
-pub impl Js for Uint32Array with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Uint32Array
 
 ///|
 pub fn Uint32Array::from_size(length : UInt) -> Uint32Array {
@@ -699,9 +697,7 @@ pub fn Int8Array::buffer(self : Self) -> ArrayBuffer {
 pub type Int16Array
 
 ///|
-pub impl Js for Int16Array with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Int16Array
 
 ///|
 pub fn Int16Array::from_size(length : UInt) -> Int16Array {
@@ -779,9 +775,7 @@ pub fn Int16Array::buffer(self : Self) -> ArrayBuffer {
 pub type Int32Array
 
 ///|
-pub impl Js for Int32Array with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Int32Array
 
 ///|
 pub fn Int32Array::from_size(length : UInt) -> Int32Array {
@@ -859,9 +853,7 @@ pub fn Int32Array::buffer(self : Self) -> ArrayBuffer {
 pub type Float32Array
 
 ///|
-pub impl Js for Float32Array with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Float32Array
 
 ///|
 pub fn Float32Array::from_size(length : UInt) -> Float32Array {
@@ -939,9 +931,7 @@ pub fn Float32Array::buffer(self : Self) -> ArrayBuffer {
 pub type Float64Array
 
 ///|
-pub impl Js for Float64Array with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Float64Array
 
 ///|
 pub fn Float64Array::from_size(length : UInt) -> Float64Array {

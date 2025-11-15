@@ -573,7 +573,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   width : Double,
     |   height : Double,
     | ) -> Unit {
-114 |   self.to_js().invoke("fillRect", [x, y, width, height]) |> ignore
+114 |   self.invoke("fillRect", [x, y, width, height]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -585,7 +585,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   width : Double,
     |   height : Double,
     | ) -> Unit {
-125 |   self.to_js().invoke("strokeRect", [x, y, width, height]) |> ignore
+125 |   self.invoke("strokeRect", [x, y, width, height]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -597,19 +597,19 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   width : Double,
     |   height : Double,
     | ) -> Unit {
-136 |   self.to_js().invoke("clearRect", [x, y, width, height]) |> ignore
+136 |   self.invoke("clearRect", [x, y, width, height]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn CanvasRenderingContext2D::begin_path(self : Self) -> Unit {
-142 |   self.to_js().invoke("beginPath", []) |> ignore
+142 |   self.invoke("beginPath", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn CanvasRenderingContext2D::close_path(self : Self) -> Unit {
-147 |   self.to_js().invoke("closePath", []) |> ignore
+147 |   self.invoke("closePath", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -619,7 +619,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   x : Double,
     |   y : Double,
     | ) -> Unit {
-156 |   self.to_js().invoke("moveTo", [x, y]) |> ignore
+156 |   self.invoke("moveTo", [x, y]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -629,7 +629,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   x : Double,
     |   y : Double,
     | ) -> Unit {
-165 |   self.to_js().invoke("lineTo", [x, y]) |> ignore
+165 |   self.invoke("lineTo", [x, y]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -646,11 +646,11 @@ Total: 1554 uncovered line(s) in 77 file(s)
 178 |   match counterclockwise {
     |   ^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     Some(ccw) =>
-180 |       self.to_js().invoke("arc", [x, y, radius, start_angle, end_angle, ccw])
+180 |       self.invoke("arc", [x, y, radius, start_angle, end_angle, ccw])
     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |       |> ignore
     |     None =>
-183 |       self.to_js().invoke("arc", [x, y, radius, start_angle, end_angle])
+183 |       self.invoke("arc", [x, y, radius, start_angle, end_angle])
     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |       |> ignore
     |   }
@@ -665,7 +665,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   y2 : Double,
     |   radius : Double,
     | ) -> Unit {
-197 |   self.to_js().invoke("arcTo", [x1 |> js, y1 |> js, x2 |> js, y2 |> js, radius])
+197 |   self.invoke("arcTo", [x1 |> js, y1 |> js, x2 |> js, y2 |> js, radius])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   |> ignore
     | }
@@ -680,7 +680,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   x : Double,
     |   y : Double,
     | ) -> Unit {
-211 |   self.to_js().invoke("bezierCurveTo", [cp1x, cp1y, cp2x, cp2y, x, y]) |> ignore
+211 |   self.invoke("bezierCurveTo", [cp1x, cp1y, cp2x, cp2y, x, y]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -692,7 +692,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   x : Double,
     |   y : Double,
     | ) -> Unit {
-222 |   self.to_js().invoke("quadraticCurveTo", [cpx, cpy, x, y]) |> ignore
+222 |   self.invoke("quadraticCurveTo", [cpx, cpy, x, y]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -704,25 +704,25 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   width : Double,
     |   height : Double,
     | ) -> Unit {
-233 |   self.to_js().invoke("rect", [x, y, width, height]) |> ignore
+233 |   self.invoke("rect", [x, y, width, height]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn CanvasRenderingContext2D::fill(self : Self) -> Unit {
-238 |   self.to_js().invoke("fill", []) |> ignore
+238 |   self.invoke("fill", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn CanvasRenderingContext2D::stroke(self : Self) -> Unit {
-243 |   self.to_js().invoke("stroke", []) |> ignore
+243 |   self.invoke("stroke", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn CanvasRenderingContext2D::clip(self : Self) -> Unit {
-248 |   self.to_js().invoke("clip", []) |> ignore
+248 |   self.invoke("clip", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -736,8 +736,8 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | ) -> Unit {
 260 |   match max_width {
     |   ^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
-    |     Some(w) => self.to_js().invoke("fillText", [text, x, y, w]) |> ignore
-    |     None => self.to_js().invoke("fillText", [text, x, y]) |> ignore
+    |     Some(w) => self.invoke("fillText", [text, x, y, w]) |> ignore
+    |     None => self.invoke("fillText", [text, x, y]) |> ignore
     |   }
     | }
     …
@@ -751,8 +751,8 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | ) -> Unit {
 274 |   match max_width {
     |   ^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
-    |     Some(w) => self.to_js().invoke("strokeText", [text, x, y, w]) |> ignore
-    |     None => self.to_js().invoke("strokeText", [text, x, y]) |> ignore
+    |     Some(w) => self.invoke("strokeText", [text, x, y, w]) |> ignore
+    |     None => self.invoke("strokeText", [text, x, y]) |> ignore
     |   }
     | }
     …
@@ -771,13 +771,13 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   x : Double,
     |   y : Double,
     | ) -> Unit {
-295 |   self.to_js().invoke("scale", [x, y]) |> ignore
+295 |   self.invoke("scale", [x, y]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn CanvasRenderingContext2D::rotate(self : Self, angle : Double) -> Unit {
-300 |   self.to_js().invoke("rotate", [angle]) |> ignore
+300 |   self.invoke("rotate", [angle]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -787,7 +787,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   x : Double,
     |   y : Double,
     | ) -> Unit {
-309 |   self.to_js().invoke("translate", [x, y]) |> ignore
+309 |   self.invoke("translate", [x, y]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -801,7 +801,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   e : Double,
     |   f : Double,
     | ) -> Unit {
-322 |   self.to_js().invoke("transform", [a, b, c, d, e, f]) |> ignore
+322 |   self.invoke("transform", [a, b, c, d, e, f]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -815,13 +815,13 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   e : Double,
     |   f : Double,
     | ) -> Unit {
-335 |   self.to_js().invoke("setTransform", [a, b, c, d, e, f]) |> ignore
+335 |   self.invoke("setTransform", [a, b, c, d, e, f]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn CanvasRenderingContext2D::reset_transform(self : Self) -> Unit {
-340 |   self.to_js().invoke("resetTransform", []) |> ignore
+340 |   self.invoke("resetTransform", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -832,7 +832,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   dx : Double,
     |   dy : Double,
     | ) -> Unit {
-351 |   self.to_js().invoke("drawImage", [image.to_js(), dx, dy]) |> ignore
+351 |   self.invoke("drawImage", [image.to_js(), dx, dy]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -845,7 +845,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   d_width : Double,
     |   d_height : Double,
     | ) -> Unit {
-363 |   self.to_js().invoke("drawImage", [image.to_js(), dx, dy, d_width, d_height])
+363 |   self.invoke("drawImage", [image.to_js(), dx, dy, d_width, d_height])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   |> ignore
     | }
@@ -900,7 +900,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   dx : Double,
     |   dy : Double,
     | ) -> Unit {
-415 |   self.to_js().invoke("putImageData", [image_data.to_js(), dx, dy]) |> ignore
+415 |   self.invoke("putImageData", [image_data.to_js(), dx, dy]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -916,13 +916,13 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn CanvasRenderingContext2D::save(self : Self) -> Unit {
-430 |   self.to_js().invoke("save", []) |> ignore
+430 |   self.invoke("save", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn CanvasRenderingContext2D::restore(self : Self) -> Unit {
-435 |   self.to_js().invoke("restore", []) |> ignore
+435 |   self.invoke("restore", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -1006,7 +1006,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn ImageBitmap::close(self : Self) -> Unit {
-533 |   self.to_js().invoke("close", []) |> ignore
+533 |   self.invoke("close", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -1206,7 +1206,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
  61 |   let stmt_js = self.to_js()
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   let bind_fn = stmt_js.get("bind")
-    | 
+    |
     |   // Convert MoonBit array to JavaScript array
  65 |   let params_js = js("[]")
     |   ^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
@@ -1216,7 +1216,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     i = i + 1
     |   }
-    | 
+    |
     |   // Use apply to spread the array as individual arguments
  73 |   unsafe_cast(bind_fn.invoke("apply", [stmt_js, params_js]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
@@ -2669,7 +2669,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | ) -> Promise[Val] {
  48 |   unsafe_cast(
     |   ^^^^^^^^^^^^ 	<-- UNCOVERED
-    |     self.to_js().invoke("sign", [algorithm.to_js(), key.to_js(), data.to_js()]),
+    |     self.invoke("sign", [algorithm.to_js(), key.to_js(), data.to_js()]),
     |   )
     | }
     …
@@ -2854,7 +2854,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   property : String,
     |   value : String,
     | ) -> Unit {
- 38 |   self.to_js().invoke("setProperty", [property |> js, value |> js]) |> ignore
+ 38 |   self.invoke("setProperty", [property |> js, value |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -2980,7 +2980,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn CSSStyleSheet::delete_rule(self : Self, index : Int) -> Unit {
-177 |   self.to_js().invoke("deleteRule", [index |> js]) |> ignore
+177 |   self.invoke("deleteRule", [index |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3049,7 +3049,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   listener : (MediaQueryList) -> Unit,
     | ) -> Unit {
-253 |   self.to_js().invoke("addListener", [listener |> js]) |> ignore
+253 |   self.invoke("addListener", [listener |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3058,7 +3058,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   listener : (MediaQueryList) -> Unit,
     | ) -> Unit {
-263 |   self.to_js().invoke("removeListener", [listener |> js]) |> ignore
+263 |   self.invoke("removeListener", [listener |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3067,7 +3067,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   listener : (Event) -> Unit,
     | ) -> Unit {
-272 |   self.to_js().invoke("addEventListener", ["change" |> js, listener |> js])
+272 |   self.invoke("addEventListener", ["change" |> js, listener |> js])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   |> ignore
     | }
@@ -3077,7 +3077,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   listener : (Event) -> Unit,
     | ) -> Unit {
-282 |   self.to_js().invoke("removeEventListener", ["change" |> js, listener |> js])
+282 |   self.invoke("removeEventListener", ["change" |> js, listener |> js])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   |> ignore
     | }
@@ -3114,7 +3114,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 322 |   let style = self.create_element("style")
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   match self.head() {
-    |     Some(head) => head.to_js().invoke("appendChild", [style]) |> ignore
+    |     Some(head) => head.invoke("appendChild", [style]) |> ignore
     |     None => ()
     |   }
 327 |   unsafe_cast(style.to_js().get("sheet"))
@@ -3143,7 +3143,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | ) -> Unit {
  63 |   let element_class = create_custom_element_class(callbacks)
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
-    |   ignore(self.to_js().invoke("define", [name, element_class]))
+    |   ignore(self.invoke("define", [name, element_class]))
     | }
     …
 
@@ -3157,13 +3157,13 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     callbacks, observed_attributes,
     |   )
-105 |   ignore(self.to_js().invoke("define", [name, element_class]))
+105 |   ignore(self.invoke("define", [name, element_class]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn CustomElementRegistry::get(self : Self, name : String) -> Val? {
-112 |   self.to_js().invoke("get", [name]) |> to_option
+112 |   self.invoke("get", [name]) |> to_option
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3172,7 +3172,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   element_constructor : Val,
     | ) -> String? {
-122 |   self.to_js().invoke("getName", [element_constructor]) |> to_option
+122 |   self.invoke("getName", [element_constructor]) |> to_option
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3187,7 +3187,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn CustomElementRegistry::upgrade(self : Self, root : Node) -> Unit {
-139 |   ignore(self.to_js().invoke("upgrade", [root.to_js()]))
+139 |   ignore(self.invoke("upgrade", [root.to_js()]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3232,19 +3232,19 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
     | #alias(querySelector)
     | pub fn Document::query_selector(self : Self, selector : String) -> Val? {
- 87 |   self.to_js().invoke("querySelector", [selector |> js]) |> to_option()
+ 87 |   self.invoke("querySelector", [selector |> js]) |> to_option()
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn Document::query_selector_all(self : Self, selector : String) -> Val {
- 94 |   self.to_js().invoke("querySelectorAll", [selector |> js])
+ 94 |   self.invoke("querySelectorAll", [selector |> js])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn Document::get_element_by_id(self : Self, id : String) -> Val? {
-101 |   self.to_js().invoke("getElementById", [id |> js]) |> to_option()
+101 |   self.invoke("getElementById", [id |> js]) |> to_option()
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3253,7 +3253,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   class_name : String,
     | ) -> Val {
-111 |   self.to_js().invoke("getElementsByClassName", [class_name |> js])
+111 |   self.invoke("getElementsByClassName", [class_name |> js])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3262,7 +3262,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   tag_name : String,
     | ) -> Val {
-121 |   self.to_js().invoke("getElementsByTagName", [tag_name |> js])
+121 |   self.invoke("getElementsByTagName", [tag_name |> js])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3378,7 +3378,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 104 uncovered line(s) in src/dom/element.mbt:
 
     | impl EventTargetImpl with add_event_listener(self, event_type, handler) -> Unit {
- 15 |   ignore(self.to_js().invoke("addEventListener", [event_type, @js.js(handler)]))
+ 15 |   ignore(self.invoke("addEventListener", [event_type, @js.js(handler)]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3386,7 +3386,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | impl EventTargetImpl with remove_event_listener(self, event_type, handler) -> Unit {
  20 |   ignore(
     |   ^^^^^^^ 	<-- UNCOVERED
-    |     self.to_js().invoke("removeEventListener", [event_type, @js.js(handler)]),
+    |     self.invoke("removeEventListener", [event_type, @js.js(handler)]),
     |   )
     | }
     …
@@ -3463,12 +3463,12 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |     Some(node) =>
 106 |       unsafe_cast(
     |       ^^^^^^^^^^^^ 	<-- UNCOVERED
-    |         self.to_js().invoke("insertBefore", [new_node.to_js(), node.to_js()]),
+    |         self.invoke("insertBefore", [new_node.to_js(), node.to_js()]),
     |       )
     |     None =>
 110 |       unsafe_cast(
     |       ^^^^^^^^^^^^ 	<-- UNCOVERED
-    |         self.to_js().invoke("insertBefore", [new_node.to_js(), @js.null_()]),
+    |         self.invoke("insertBefore", [new_node.to_js(), @js.null_()]),
     |       )
     |   }
     | }
@@ -3477,7 +3477,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | impl NodeImpl with replace_child(self, new_child, old_child) -> Node {
 118 |   unsafe_cast(
     |   ^^^^^^^^^^^^ 	<-- UNCOVERED
-    |     self.to_js().invoke("replaceChild", [new_child.to_js(), old_child.to_js()]),
+    |     self.invoke("replaceChild", [new_child.to_js(), old_child.to_js()]),
     |   )
     | }
     …
@@ -3552,13 +3552,13 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | impl ElementImpl with set_attribute(self, name, value) -> Unit {
-201 |   ignore(self.to_js().invoke("setAttribute", [name, value]))
+201 |   ignore(self.invoke("setAttribute", [name, value]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | impl ElementImpl with remove_attribute(self, name) -> Unit {
-206 |   ignore(self.to_js().invoke("removeAttribute", [name]))
+206 |   ignore(self.invoke("removeAttribute", [name]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -3570,7 +3570,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | impl ElementImpl with get_elements_by_tag_name(self, tag_name) -> Array[Element] {
-216 |   @js.array_from(self.to_js().invoke("getElementsByTagName", [tag_name])).map(fn(
+216 |   @js.array_from(self.invoke("getElementsByTagName", [tag_name])).map(fn(
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     v,
     |   ) {
@@ -3583,7 +3583,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | impl ElementImpl with get_elements_by_class_name(self, class_name) -> Array[
     |   Element,
     | ] {
-227 |   @js.array_from(self.to_js().invoke("getElementsByClassName", [class_name])).map(fn(
+227 |   @js.array_from(self.invoke("getElementsByClassName", [class_name])).map(fn(
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |       v,
     |     ) {
@@ -3601,7 +3601,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | impl ElementImpl with query_selector_all(self, selector) -> Array[Element] {
-242 |   @js.array_from(self.to_js().invoke("querySelectorAll", [selector])).map(
+242 |   @js.array_from(self.invoke("querySelectorAll", [selector])).map(
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     unsafe_cast(_),
     |   )
@@ -3702,7 +3702,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   context_type : String,
     | ) -> Val {
-411 |   self.to_js().invoke("getContext", [context_type])
+411 |   self.invoke("getContext", [context_type])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -4044,19 +4044,19 @@ Total: 1554 uncovered line(s) in 77 file(s)
 106 uncovered line(s) in src/dom/event.mbt:
 
     | impl EventImpl with prevent_default(self) -> Unit {
- 17 |   ignore(self.to_js().invoke("preventDefault", []))
+ 17 |   ignore(self.invoke("preventDefault", []))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | impl EventImpl with stop_propagation(self) -> Unit {
- 22 |   ignore(self.to_js().invoke("stopPropagation", []))
+ 22 |   ignore(self.invoke("stopPropagation", []))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | impl EventImpl with stop_immediate_propagation(self) -> Unit {
- 27 |   ignore(self.to_js().invoke("stopImmediatePropagation", []))
+ 27 |   ignore(self.invoke("stopImmediatePropagation", []))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -4793,19 +4793,19 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   target : Element,
     |   options : Val,
     | ) -> Unit {
- 34 |   self.to_js().invoke("observe", [target |> js, options]) |> ignore
+ 34 |   self.invoke("observe", [target |> js, options]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn MutationObserver::disconnect(self : Self) -> Unit {
- 41 |   self.to_js().invoke("disconnect", []) |> ignore
+ 41 |   self.invoke("disconnect", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn MutationObserver::take_records(self : Self) -> Val {
- 48 |   self.to_js().invoke("takeRecords", [])
+ 48 |   self.invoke("takeRecords", [])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -4890,25 +4890,25 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn IntersectionObserver::observe(self : Self, target : Element) -> Unit {
-145 |   self.to_js().invoke("observe", [target |> js]) |> ignore
+145 |   self.invoke("observe", [target |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn IntersectionObserver::unobserve(self : Self, target : Element) -> Unit {
-152 |   self.to_js().invoke("unobserve", [target |> js]) |> ignore
+152 |   self.invoke("unobserve", [target |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
-159 |   self.to_js().invoke("disconnect", []) |> ignore
+159 |   self.invoke("disconnect", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn IntersectionObserver::take_records(self : Self) -> Val {
-166 |   self.to_js().invoke("takeRecords", [])
+166 |   self.invoke("takeRecords", [])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -4977,7 +4977,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn ResizeObserver::observe(self : Self, target : Element) -> Unit {
-247 |   self.to_js().invoke("observe", [target |> js]) |> ignore
+247 |   self.invoke("observe", [target |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -4987,19 +4987,19 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   target : Element,
     |   options : Val,
     | ) -> Unit {
-257 |   self.to_js().invoke("observe", [target |> js, options]) |> ignore
+257 |   self.invoke("observe", [target |> js, options]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn ResizeObserver::unobserve(self : Self, target : Element) -> Unit {
-264 |   self.to_js().invoke("unobserve", [target |> js]) |> ignore
+264 |   self.invoke("unobserve", [target |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn ResizeObserver::disconnect(self : Self) -> Unit {
-271 |   self.to_js().invoke("disconnect", []) |> ignore
+271 |   self.invoke("disconnect", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5059,7 +5059,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   x : Double,
     |   y : Double,
     | ) -> Element? {
- 78 |   self.to_js().invoke("elementFromPoint", [x, y]) |> to_option()
+ 78 |   self.invoke("elementFromPoint", [x, y]) |> to_option()
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5069,7 +5069,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   x : Double,
     |   y : Double,
     | ) -> Array[Element] {
- 89 |   @js.array_from(self.to_js().invoke("elementsFromPoint", [x, y])).map(fn(v) {
+ 89 |   @js.array_from(self.invoke("elementsFromPoint", [x, y])).map(fn(v) {
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     unsafe_cast(v)
     |   })
@@ -5116,7 +5116,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn Storage::clear(self : Storage) -> Unit {
- 57 |   self.to_js().invoke("clear", []) |> ignore
+ 57 |   self.invoke("clear", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5128,7 +5128,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn Storage::key(self : Storage, index : Int) -> String? {
- 71 |   self.to_js().invoke("key", [index |> js]) |> to_option()
+ 71 |   self.invoke("key", [index |> js]) |> to_option()
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5286,7 +5286,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn Window::alert(self : Self, message : String) -> Unit {
-115 |   ignore(self.to_js().invoke("alert", [message]))
+115 |   ignore(self.invoke("alert", [message]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5304,8 +5304,8 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | ) -> String? {
 133 |   match default {
     |   ^^^^^^^^^^^^^^^ 	<-- UNCOVERED
-    |     Some(d) => self.to_js().invoke("prompt", [message, d]) |> to_option()
-    |     None => self.to_js().invoke("prompt", [message]) |> to_option()
+    |     Some(d) => self.invoke("prompt", [message, d]) |> to_option()
+    |     None => self.invoke("prompt", [message]) |> to_option()
     |   }
     | }
     …
@@ -5319,29 +5319,29 @@ Total: 1554 uncovered line(s) in 77 file(s)
 148 |   match (url, target, features) {
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     (Some(u), Some(t), Some(f)) =>
-150 |       self.to_js().invoke("open", [u, t, f]) |> to_option
+150 |       self.invoke("open", [u, t, f]) |> to_option
     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
-    |     (Some(u), Some(t), None) => self.to_js().invoke("open", [u, t]) |> to_option
-    |     (Some(u), None, _) => self.to_js().invoke("open", [u]) |> to_option
-    |     (None, _, _) => self.to_js().invoke("open", []) |> to_option
+    |     (Some(u), Some(t), None) => self.invoke("open", [u, t]) |> to_option
+    |     (Some(u), None, _) => self.invoke("open", [u]) |> to_option
+    |     (None, _, _) => self.invoke("open", []) |> to_option
     |   }
     | }
     …
 
     | pub fn Window::close(self : Self) -> Unit {
-161 |   ignore(self.to_js().invoke("close", []))
+161 |   ignore(self.invoke("close", []))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn Window::scroll_to(self : Self, x : Int, y : Int) -> Unit {
-168 |   ignore(self.to_js().invoke("scrollTo", [x, y]))
+168 |   ignore(self.invoke("scrollTo", [x, y]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn Window::scroll_by(self : Self, x : Int, y : Int) -> Unit {
-175 |   ignore(self.to_js().invoke("scrollBy", [x, y]))
+175 |   ignore(self.invoke("scrollBy", [x, y]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5369,7 +5369,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn Window::clear_timeout(self : Self, id : Int) -> Unit {
-207 |   ignore(self.to_js().invoke("clearTimeout", [id]))
+207 |   ignore(self.invoke("clearTimeout", [id]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5385,7 +5385,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn Window::clear_interval(self : Self, id : Int) -> Unit {
-225 |   ignore(self.to_js().invoke("clearInterval", [id]))
+225 |   ignore(self.invoke("clearInterval", [id]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5400,7 +5400,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn Window::cancel_animation_frame(self : Self, id : Int) -> Unit {
-242 |   ignore(self.to_js().invoke("cancelAnimationFrame", [id]))
+242 |   ignore(self.invoke("cancelAnimationFrame", [id]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5415,7 +5415,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn Window::get_selection(self : Self) -> Val? {
-259 |   self.to_js().invoke("getSelection", []) |> to_option
+259 |   self.invoke("getSelection", []) |> to_option
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5446,7 +5446,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   message : Val,
     |   target_origin : String,
     | ) -> Unit {
-292 |   ignore(self.to_js().invoke("postMessage", [message, target_origin]))
+292 |   ignore(self.invoke("postMessage", [message, target_origin]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5641,7 +5641,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |       run_async(async fn() noraise {
     |         sleep(300)
     |         if textarea_ref.current() is Some(textarea) {
-162 |           textarea.to_js().invoke("focus", []) |> ignore
+162 |           textarea.invoke("focus", []) |> ignore
     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |         }
 164 |         log("Starting async operation...")
@@ -5798,7 +5798,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
   8 | fn main {
     | ^^^^^^^^^ 	<-- UNCOVERED
-    | 
+    |
     | }
     …
 
@@ -5835,7 +5835,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
 84 | fn main {
    | ^^^^^^^^^ 	<-- UNCOVERED
-   | 
+   |
    | }
    …
 
@@ -5887,7 +5887,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
     | #alias(readAsArrayBuffer)
     | pub fn FileReader::read_as_array_buffer(self : Self, blob : Blob) -> Unit {
-147 |   self.to_js().invoke("readAsArrayBuffer", [blob.to_js()]) |> ignore
+147 |   self.invoke("readAsArrayBuffer", [blob.to_js()]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -5901,22 +5901,22 @@ Total: 1554 uncovered line(s) in 77 file(s)
 158 |   match encoding {
     |   ^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     Some(enc) =>
-160 |       self.to_js().invoke("readAsText", [blob.to_js(), enc |> js]) |> ignore
+160 |       self.invoke("readAsText", [blob.to_js(), enc |> js]) |> ignore
     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
-    |     None => self.to_js().invoke("readAsText", [blob.to_js()]) |> ignore
+    |     None => self.invoke("readAsText", [blob.to_js()]) |> ignore
     |   }
     | }
     …
 
     | #alias(readAsDataURL)
     | pub fn FileReader::read_as_data_url(self : Self, blob : Blob) -> Unit {
-169 |   self.to_js().invoke("readAsDataURL", [blob.to_js()]) |> ignore
+169 |   self.invoke("readAsDataURL", [blob.to_js()]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn FileReader::abort(self : Self) -> Unit {
-175 |   self.to_js().invoke("abort", []) |> ignore
+175 |   self.invoke("abort", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -6448,7 +6448,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   callback : (Val) -> Unit noraise,
     | ) -> Unit {
- 98 |   self.to_js().invoke("on", ["error", unsafe_cast(callback)]) |> ignore
+ 98 |   self.invoke("on", ["error", unsafe_cast(callback)]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -6476,7 +6476,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   callback : () -> Unit noraise,
     | ) -> Unit {
-126 |   self.to_js().invoke("on", ["disconnect", unsafe_cast(callback)]) |> ignore
+126 |   self.invoke("on", ["disconnect", unsafe_cast(callback)]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -6485,7 +6485,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   callback : () -> Unit noraise,
     | ) -> Unit {
-136 |   self.to_js().invoke("on", ["spawn", unsafe_cast(callback)]) |> ignore
+136 |   self.invoke("on", ["spawn", unsafe_cast(callback)]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -6497,7 +6497,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 146 |   match self.stdout() {
     |   ^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     Some(stream) =>
-148 |       stream.to_js().invoke("on", ["data", unsafe_cast(callback)]) |> ignore
+148 |       stream.invoke("on", ["data", unsafe_cast(callback)]) |> ignore
     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     None => ()
     |   }
@@ -6511,7 +6511,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 160 |   match self.stderr() {
     |   ^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     Some(stream) =>
-162 |       stream.to_js().invoke("on", ["data", unsafe_cast(callback)]) |> ignore
+162 |       stream.invoke("on", ["data", unsafe_cast(callback)]) |> ignore
     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |     None => ()
     |   }
@@ -6564,7 +6564,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn ChildProcess::disconnect(self : Self) -> Unit {
-231 |   self.to_js().invoke("disconnect", []) |> ignore
+231 |   self.invoke("disconnect", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -7204,7 +7204,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   line_number : Int,
     |   column_number : Int,
     | ) -> SourceMapEntry? {
-140 |   self.to_js().invoke("findEntry", [line_number |> js, column_number |> js])
+140 |   self.invoke("findEntry", [line_number |> js, column_number |> js])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   |> to_option()
     | }
@@ -7602,7 +7602,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   if result is Some(v) {
     |     opts.set("result", v |> js)
     |   }
-    |   self.to_js().invoke("aggregate", [name, opts]) |> ignore
+    |   self.invoke("aggregate", [name, opts]) |> ignore
     | }
     …
 
@@ -7633,7 +7633,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 166 |     opts.set("varargs", v)
     |     ^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   }
-168 |   self.to_js().invoke("function", [name, opts, func |> js]) |> ignore
+168 |   self.invoke("function", [name, opts, func |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -7643,14 +7643,14 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   callback : (Int, String?, String?, String?, String?) -> Int,
     | ) -> Unit {
-177 |   self.to_js().invoke("setAuthorizer", [callback |> js]) |> ignore
+177 |   self.invoke("setAuthorizer", [callback |> js]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
     |   let args : Array[&Js] = if db_name is Some(name) { [name] } else { [] }
-    |   let result = self.to_js().invoke("location", args)
+    |   let result = self.invoke("location", args)
     |   if @js.is_null(result) {
     |     None
     |   } else {
@@ -7662,20 +7662,20 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
     | #alias(load_extension)
     | pub fn DatabaseSync::loadExtension(self : Self, path : String) -> Unit {
-194 |   self.to_js().invoke("loadExtension", [path]) |> ignore
+194 |   self.invoke("loadExtension", [path]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | #alias(enable_load_extension)
     | pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
-200 |   self.to_js().invoke("enableLoadExtension", [allow]) |> ignore
+200 |   self.invoke("enableLoadExtension", [allow]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn DatabaseSync::open(self : Self) -> Unit {
-217 |   self.to_js().invoke("open", []) |> ignore
+217 |   self.invoke("open", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -7767,7 +7767,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   enabled : Bool,
     | ) -> Unit {
-405 |   self.to_js().invoke("setAllowBareNamedParameters", [enabled]) |> ignore
+405 |   self.invoke("setAllowBareNamedParameters", [enabled]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -7777,21 +7777,21 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   self : Self,
     |   enabled : Bool,
     | ) -> Unit {
-414 |   self.to_js().invoke("setAllowUnknownNamedParameters", [enabled]) |> ignore
+414 |   self.invoke("setAllowUnknownNamedParameters", [enabled]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | #alias(set_return_arrays)
     | pub fn StatementSync::setReturnArrays(self : Self, enabled : Bool) -> Unit {
-420 |   self.to_js().invoke("setReturnArrays", [enabled]) |> ignore
+420 |   self.invoke("setReturnArrays", [enabled]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | #alias(set_read_big_ints)
     | pub fn StatementSync::setReadBigInts(self : Self, enabled : Bool) -> Unit {
-426 |   self.to_js().invoke("setReadBigInts", [enabled]) |> ignore
+426 |   self.invoke("setReadBigInts", [enabled]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -7827,7 +7827,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn SQLTagStore::clear(self : Self) -> Unit {
-485 |   self.to_js().invoke("clear", []) |> ignore
+485 |   self.invoke("clear", []) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -8198,7 +8198,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
    …
 
    | pub fn TestContext::todo(self : Self, description : String) -> Unit {
-33 |   self.to_js().invoke("todo", [js(description)]) |> ignore
+33 |   self.invoke("todo", [js(description)]) |> ignore
    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
    | }
    …
@@ -8241,15 +8241,15 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   value? : String,
     | ) -> Unit {
     |   match value {
-278 |     Some(v) => self.to_js().invoke("delete", [name, v]) |> ignore
+278 |     Some(v) => self.invoke("delete", [name, v]) |> ignore
     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
-    |     None => self.to_js().invoke("delete", [name]) |> ignore
+    |     None => self.invoke("delete", [name]) |> ignore
     |   }
     | }
     …
 
     | pub fn URLSearchParams::get(self : Self, name : String) -> String? {
-    |   let result = self.to_js().invoke("get", [name])
+    |   let result = self.invoke("get", [name])
     |   if ffi_typeof(result) == "string" {
     |     Some(unsafe_cast(result))
     |   } else {
@@ -8437,7 +8437,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   id : Int,
     |   array_buffer : ArrayBuffer,
     | ) -> Unit {
-140 |   self.to_js().invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
+140 |   self.invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   |> ignore
     | }
@@ -8445,7 +8445,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
     | #alias(writeRawBytes)
     | pub fn Serializer::write_raw_bytes(self : Self, buffer : &Js) -> Unit {
-162 |   self.to_js().invoke("writeRawBytes", [buffer.to_js()]) |> ignore
+162 |   self.invoke("writeRawBytes", [buffer.to_js()]) |> ignore
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -8456,7 +8456,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   id : Int,
     |   array_buffer : ArrayBuffer,
     | ) -> Unit {
-208 |   self.to_js().invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
+208 |   self.invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     |   |> ignore
     | }
@@ -9237,7 +9237,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -9291,7 +9291,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -9345,7 +9345,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -9399,7 +9399,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -9605,7 +9605,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
      | pub fn form(
      |   children : Array[&ReactNode],
-     | 
+     |
      |   // xxx
      |   method_? : String,
      |   disabled? : Bool,
@@ -9620,7 +9620,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -9785,7 +9785,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -9854,7 +9854,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -9917,7 +9917,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -9971,7 +9971,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10025,7 +10025,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10079,7 +10079,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10126,12 +10126,12 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
      | pub fn a(
      |   children : Array[&ReactNode],
-     | 
+     |
      |   // a specific
      |   href~ : String,
      |   download? : String,
      |   target? : String,
-     | 
+     |
      |   // shared
      |   attributes? : Map[String, Val],
      |   id? : String,
@@ -10139,7 +10139,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10203,7 +10203,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
      | pub fn iframe(
      |   children : Array[&ReactNode],
-     | 
+     |
      |   // a specific
      |   src~ : String,
      |   width? : Int,
@@ -10298,7 +10298,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
      | pub fn img(
      |   children : Array[&ReactNode],
-     | 
+     |
      |   // a specific
      |   src~ : String,
      |   srcset? : String,
@@ -10310,7 +10310,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   fetchpriority? : String,
      |   loading? : String,
      |   sizes? : String,
-     | 
+     |
      |   // shared
      |   attributes? : Map[String, Val],
      |   id? : String,
@@ -10318,7 +10318,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10410,10 +10410,10 @@ Total: 1554 uncovered line(s) in 77 file(s)
 
      | pub fn video(
      |   children : Array[&ReactNode],
-     | 
+     |
      |   // a specific
      |   controls? : Bool,
-     | 
+     |
      |   // shared
      |   attributes? : Map[String, Val],
      |   id? : String,
@@ -10421,7 +10421,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10481,7 +10481,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   // a specific
      |   src~ : String,
      |   type_? : String,
-     | 
+     |
      |   // shared
      |   attributes? : Map[String, Val],
      |   id? : String,
@@ -10489,7 +10489,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10555,7 +10555,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10609,7 +10609,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10663,7 +10663,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10717,7 +10717,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
      |   className? : String,
      |   style? : Map[String, String],
      |   tab_index? : Int,
-     | 
+     |
      |   // react
      |   ref_? : ReactRef[@dom.Element],
      |   key? : String,
@@ -10903,7 +10903,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   stroke? : String,
     |   stroke_width? : Int,
     |   fill? : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -10977,7 +10977,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   stroke? : String,
     |   stroke_width? : Int,
     |   fill? : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -11055,7 +11055,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   stroke? : String,
     |   stroke_width? : Int,
     |   fill? : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -11133,7 +11133,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   stroke? : String,
     |   stroke_width? : Int,
     |   fill? : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -11208,7 +11208,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   stroke? : String,
     |   stroke_width? : Int,
     |   fill? : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -11277,7 +11277,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | pub fn use_(
     |   // common props
     |   href~ : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -11336,7 +11336,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   stroke? : String,
     |   stroke_width? : Int,
     |   fill? : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -11408,7 +11408,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   stroke? : String,
     |   stroke_width? : Int,
     |   fill? : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -11480,7 +11480,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   stroke? : String,
     |   stroke_width? : Int,
     |   fill? : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -11611,7 +11611,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
     |   stroke? : String,
     |   stroke_width? : Int,
     |   fill? : String,
-    | 
+    |
     |   // shared
     |   attributes? : Map[String, Val],
     |   id? : String,
@@ -12698,8 +12698,8 @@ Total: 1554 uncovered line(s) in 77 file(s)
     | ) -> URLPatternResult? {
 150 |   let result = match base {
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
-    |     Some(b) => self.to_js().invoke("exec", [input, b])
-    |     None => self.to_js().invoke("exec", [input])
+    |     Some(b) => self.invoke("exec", [input, b])
+    |     None => self.invoke("exec", [input])
     |   }
     |   if ffi_is_null(result) {
 155 |     None
@@ -12770,7 +12770,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
 2 uncovered line(s) in src/weak/weak.mbt:
 
     | pub fn[T] WeakRef::deref(self : WeakRef[T]) -> T? {
-    |   let result = self.to_js().invoke("deref", [])
+    |   let result = self.invoke("deref", [])
     |   if is_undefined(result) {
  97 |     None
     |     ^^^^ 	<-- UNCOVERED
@@ -12808,19 +12808,19 @@ Total: 1554 uncovered line(s) in 77 file(s)
     …
 
     | pub fn WebAssemblyTable::get(self : Self, index : Int) -> Val {
- 99 |   self.to_js().invoke("get", [js(index)])
+ 99 |   self.invoke("get", [js(index)])
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn WebAssemblyTable::set(self : Self, index : Int, value : Val) -> Unit {
-105 |   ignore(self.to_js().invoke("set", [js(index), value]))
+105 |   ignore(self.invoke("set", [js(index), value]))
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
 
     | pub fn WebAssemblyTable::grow(self : Self, delta : Int, value : Val) -> Int {
-111 |   self.to_js().invoke("grow", [js(delta), value]) |> unsafe_cast
+111 |   self.invoke("grow", [js(delta), value]) |> unsafe_cast
     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
     | }
     …
@@ -12897,7 +12897,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
    …
 
    | pub fn Worker::terminate(worker : Worker) -> Unit {
-51 |   worker.to_js().invoke("terminate", []) |> ignore
+51 |   worker.invoke("terminate", []) |> ignore
    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
    | }
    …
@@ -12933,7 +12933,7 @@ Total: 1554 uncovered line(s) in 77 file(s)
    |   event : String,
    |   listener : (MessageEvent) -> Unit,
    | ) -> Unit {
-97 |   worker.to_js().invoke("addEventListener", [js(event), listener |> js])
+97 |   worker.invoke("addEventListener", [js(event), listener |> js])
    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
    |   |> ignore
    | }

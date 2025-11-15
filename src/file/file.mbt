@@ -144,7 +144,7 @@ pub fn FileReader::error(self : Self) -> Val? {
 /// Read file as ArrayBuffer
 #alias(readAsArrayBuffer)
 pub fn FileReader::read_as_array_buffer(self : Self, blob : Blob) -> Unit {
-  self.to_js().invoke("readAsArrayBuffer", [blob.to_js()]) |> ignore
+  self.invoke("readAsArrayBuffer", [blob.to_js()]) |> ignore
 }
 
 ///|
@@ -156,9 +156,8 @@ pub fn FileReader::read_as_text(
   encoding? : String,
 ) -> Unit {
   match encoding {
-    Some(enc) =>
-      self.to_js().invoke("readAsText", [blob.to_js(), enc |> js]) |> ignore
-    None => self.to_js().invoke("readAsText", [blob.to_js()]) |> ignore
+    Some(enc) => self.invoke("readAsText", [blob.to_js(), enc |> js]) |> ignore
+    None => self.invoke("readAsText", [blob.to_js()]) |> ignore
   }
 }
 
@@ -166,13 +165,13 @@ pub fn FileReader::read_as_text(
 /// Read file as Data URL
 #alias(readAsDataURL)
 pub fn FileReader::read_as_data_url(self : Self, blob : Blob) -> Unit {
-  self.to_js().invoke("readAsDataURL", [blob.to_js()]) |> ignore
+  self.invoke("readAsDataURL", [blob.to_js()]) |> ignore
 }
 
 ///|
 /// Abort the read operation
 pub fn FileReader::abort(self : Self) -> Unit {
-  self.to_js().invoke("abort", []) |> ignore
+  self.invoke("abort", []) |> ignore
 }
 
 ///|

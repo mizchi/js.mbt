@@ -12,14 +12,12 @@ pub(open) trait EventTargetImpl: Js {
 
 ///|
 impl EventTargetImpl with add_event_listener(self, event_type, handler) -> Unit {
-  ignore(self.to_js().invoke("addEventListener", [event_type, @js.js(handler)]))
+  ignore(self.invoke("addEventListener", [event_type, @js.js(handler)]))
 }
 
 ///|
 impl EventTargetImpl with remove_event_listener(self, event_type, handler) -> Unit {
-  ignore(
-    self.to_js().invoke("removeEventListener", [event_type, @js.js(handler)]),
-  )
+  ignore(self.invoke("removeEventListener", [event_type, @js.js(handler)]))
 }
 
 ///|
@@ -103,20 +101,16 @@ impl NodeImpl with remove_child(self, child) -> Node {
 impl NodeImpl with insert_before(self, new_node, ref_node) -> Node {
   match ref_node {
     Some(node) =>
-      unsafe_cast(
-        self.to_js().invoke("insertBefore", [new_node.to_js(), node.to_js()]),
-      )
+      unsafe_cast(self.invoke("insertBefore", [new_node.to_js(), node.to_js()]))
     None =>
-      unsafe_cast(
-        self.to_js().invoke("insertBefore", [new_node.to_js(), @js.null_()]),
-      )
+      unsafe_cast(self.invoke("insertBefore", [new_node.to_js(), @js.null_()]))
   }
 }
 
 ///|
 impl NodeImpl with replace_child(self, new_child, old_child) -> Node {
   unsafe_cast(
-    self.to_js().invoke("replaceChild", [new_child.to_js(), old_child.to_js()]),
+    self.invoke("replaceChild", [new_child.to_js(), old_child.to_js()]),
   )
 }
 
@@ -198,12 +192,12 @@ impl ElementImpl with get_attribute(self, name) -> String? {
 
 ///|
 impl ElementImpl with set_attribute(self, name, value) -> Unit {
-  ignore(self.to_js().invoke("setAttribute", [name, value]))
+  ignore(self.invoke("setAttribute", [name, value]))
 }
 
 ///|
 impl ElementImpl with remove_attribute(self, name) -> Unit {
-  ignore(self.to_js().invoke("removeAttribute", [name]))
+  ignore(self.invoke("removeAttribute", [name]))
 }
 
 ///|
@@ -213,9 +207,7 @@ impl ElementImpl with has_attribute(self, name) -> Bool {
 
 ///|
 impl ElementImpl with get_elements_by_tag_name(self, tag_name) -> Array[Element] {
-  @js.array_from(self.to_js().invoke("getElementsByTagName", [tag_name])).map(fn(
-    v,
-  ) {
+  @js.array_from(self.invoke("getElementsByTagName", [tag_name])).map(fn(v) {
     unsafe_cast(v)
   })
 }
@@ -224,12 +216,11 @@ impl ElementImpl with get_elements_by_tag_name(self, tag_name) -> Array[Element]
 impl ElementImpl with get_elements_by_class_name(self, class_name) -> Array[
   Element,
 ] {
-  @js.array_from(self.to_js().invoke("getElementsByClassName", [class_name])).map(fn(
-      v,
-    ) {
-      unsafe_cast(v)
-    },
-  )
+  @js.array_from(self.invoke("getElementsByClassName", [class_name])).map(fn(
+    v,
+  ) {
+    unsafe_cast(v)
+  })
 }
 
 ///|
@@ -239,7 +230,7 @@ impl ElementImpl with query_selector(self, selector) -> Element? {
 
 ///|
 impl ElementImpl with query_selector_all(self, selector) -> Array[Element] {
-  @js.array_from(self.to_js().invoke("querySelectorAll", [selector])).map(
+  @js.array_from(self.invoke("querySelectorAll", [selector])).map(
     unsafe_cast(_),
   )
 }
@@ -408,7 +399,7 @@ pub fn HTMLCanvasElement::get_context(
   self : Self,
   context_type : String,
 ) -> Val {
-  self.to_js().invoke("getContext", [context_type])
+  self.invoke("getContext", [context_type])
 }
 
 ///|

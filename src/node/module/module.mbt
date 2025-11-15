@@ -137,7 +137,7 @@ pub fn SourceMap::find_entry(
   line_number : Int,
   column_number : Int,
 ) -> SourceMapEntry? {
-  self.to_js().invoke("findEntry", [line_number |> js, column_number |> js])
+  self.invoke("findEntry", [line_number |> js, column_number |> js])
   |> to_option()
 }
 

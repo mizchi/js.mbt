@@ -21,7 +21,7 @@ pub fn[K : Js, V : Js] WeakMap::delete(self : WeakMap[K, V], key : K) -> Bool {
 
 ///|
 pub fn[K : Js, V : Js] WeakMap::get(self : WeakMap[K, V], key : K) -> V? {
-  let result = self.to_js().invoke("get", [key])
+  let result = self.invoke("get", [key])
   if is_undefined(result) {
     None
   } else {
@@ -92,7 +92,7 @@ pub fn[T : Js] WeakRef::new(target : T) -> WeakRef[T] {
 
 ///|
 pub fn[T] WeakRef::deref(self : WeakRef[T]) -> T? {
-  let result = self.to_js().invoke("deref", [])
+  let result = self.invoke("deref", [])
   if is_undefined(result) {
     None
   } else {
@@ -131,8 +131,8 @@ pub fn[T : Js, U : Js] FinalizationRegistry::register(
 ) -> Unit {
   match unregister_token {
     Some(token) =>
-      self.to_js().invoke("register", [target, held_value, token]) |> ignore
-    None => self.to_js().invoke("register", [target, held_value]) |> ignore
+      self.invoke("register", [target, held_value, token]) |> ignore
+    None => self.invoke("register", [target, held_value]) |> ignore
   }
 }
 

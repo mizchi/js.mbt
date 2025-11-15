@@ -75,7 +75,7 @@ pub fn ShadowRoot::element_from_point(
   x : Double,
   y : Double,
 ) -> Element? {
-  self.to_js().invoke("elementFromPoint", [x, y]) |> to_option()
+  self.invoke("elementFromPoint", [x, y]) |> to_option()
 }
 
 ///|
@@ -86,7 +86,7 @@ pub fn ShadowRoot::elements_from_point(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  @js.array_from(self.to_js().invoke("elementsFromPoint", [x, y])).map(fn(v) {
+  @js.array_from(self.invoke("elementsFromPoint", [x, y])).map(fn(v) {
     unsafe_cast(v)
   })
 }

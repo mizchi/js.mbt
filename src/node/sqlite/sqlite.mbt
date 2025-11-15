@@ -139,7 +139,7 @@ pub fn[T, U] DatabaseSync::aggregate(
   if result is Some(v) {
     opts.set("result", v |> js)
   }
-  self.to_js().invoke("aggregate", [name, opts]) |> ignore
+  self.invoke("aggregate", [name, opts]) |> ignore
 }
 
 ///|
@@ -165,7 +165,7 @@ pub fn DatabaseSync::function(
   if varargs is Some(v) {
     opts.set("varargs", v)
   }
-  self.to_js().invoke("function", [name, opts, func |> js]) |> ignore
+  self.invoke("function", [name, opts, func |> js]) |> ignore
 }
 
 ///|
@@ -174,13 +174,13 @@ pub fn DatabaseSync::setAuthorizer(
   self : Self,
   callback : (Int, String?, String?, String?, String?) -> Int,
 ) -> Unit {
-  self.to_js().invoke("setAuthorizer", [callback |> js]) |> ignore
+  self.invoke("setAuthorizer", [callback |> js]) |> ignore
 }
 
 ///|
 pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
   let args : Array[&Js] = if db_name is Some(name) { [name] } else { [] }
-  let result = self.to_js().invoke("location", args)
+  let result = self.invoke("location", args)
   if @js.is_null(result) {
     None
   } else {
@@ -191,13 +191,13 @@ pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
 ///|
 #alias(load_extension)
 pub fn DatabaseSync::loadExtension(self : Self, path : String) -> Unit {
-  self.to_js().invoke("loadExtension", [path]) |> ignore
+  self.invoke("loadExtension", [path]) |> ignore
 }
 
 ///|
 #alias(enable_load_extension)
 pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
-  self.to_js().invoke("enableLoadExtension", [allow]) |> ignore
+  self.invoke("enableLoadExtension", [allow]) |> ignore
 }
 
 ///|
@@ -214,12 +214,12 @@ pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
 
 ///|
 pub fn DatabaseSync::open(self : Self) -> Unit {
-  self.to_js().invoke("open", []) |> ignore
+  self.invoke("open", []) |> ignore
 }
 
 ///|
 pub fn DatabaseSync::close(self : Self) -> Unit {
-  self.to_js().invoke("close", []) |> ignore
+  self.invoke("close", []) |> ignore
 }
 
 ///|
@@ -305,7 +305,7 @@ pub fn StatementSync::get(
       args.push(param)
     }
   }
-  let result = self.to_js().invoke("get", args)
+  let result = self.invoke("get", args)
   if @js.is_undefined(result) {
     None
   } else {
@@ -402,7 +402,7 @@ pub fn StatementSync::setAllowBareNamedParameters(
   self : Self,
   enabled : Bool,
 ) -> Unit {
-  self.to_js().invoke("setAllowBareNamedParameters", [enabled]) |> ignore
+  self.invoke("setAllowBareNamedParameters", [enabled]) |> ignore
 }
 
 ///|
@@ -411,19 +411,19 @@ pub fn StatementSync::setAllowUnknownNamedParameters(
   self : Self,
   enabled : Bool,
 ) -> Unit {
-  self.to_js().invoke("setAllowUnknownNamedParameters", [enabled]) |> ignore
+  self.invoke("setAllowUnknownNamedParameters", [enabled]) |> ignore
 }
 
 ///|
 #alias(set_return_arrays)
 pub fn StatementSync::setReturnArrays(self : Self, enabled : Bool) -> Unit {
-  self.to_js().invoke("setReturnArrays", [enabled]) |> ignore
+  self.invoke("setReturnArrays", [enabled]) |> ignore
 }
 
 ///|
 #alias(set_read_big_ints)
 pub fn StatementSync::setReadBigInts(self : Self, enabled : Bool) -> Unit {
-  self.to_js().invoke("setReadBigInts", [enabled]) |> ignore
+  self.invoke("setReadBigInts", [enabled]) |> ignore
 }
 
 ///|
@@ -458,7 +458,7 @@ pub fn Session::patchset(self : Self) -> Uint8Array {
 
 ///|
 pub fn Session::close(self : Self) -> Unit {
-  self.to_js().invoke("close", []) |> ignore
+  self.invoke("close", []) |> ignore
 }
 
 ///|
@@ -482,7 +482,7 @@ pub fn SQLTagStore::size(self : Self) -> Int {
 
 ///|
 pub fn SQLTagStore::clear(self : Self) -> Unit {
-  self.to_js().invoke("clear", []) |> ignore
+  self.invoke("clear", []) |> ignore
 }
 
 ///|

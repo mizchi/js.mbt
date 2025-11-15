@@ -112,7 +112,7 @@ pub fn Window::device_pixel_ratio(self : Self) -> Double {
 /// Displays an alert dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
 pub fn Window::alert(self : Self, message : String) -> Unit {
-  ignore(self.to_js().invoke("alert", [message]))
+  ignore(self.invoke("alert", [message]))
 }
 
 ///|
@@ -131,8 +131,8 @@ pub fn Window::prompt(
   default? : String,
 ) -> String? {
   match default {
-    Some(d) => self.to_js().invoke("prompt", [message, d]) |> to_option()
-    None => self.to_js().invoke("prompt", [message]) |> to_option()
+    Some(d) => self.invoke("prompt", [message, d]) |> to_option()
+    None => self.invoke("prompt", [message]) |> to_option()
   }
 }
 
@@ -146,11 +146,10 @@ pub fn Window::open(
   features? : String,
 ) -> Window? {
   match (url, target, features) {
-    (Some(u), Some(t), Some(f)) =>
-      self.to_js().invoke("open", [u, t, f]) |> to_option
-    (Some(u), Some(t), None) => self.to_js().invoke("open", [u, t]) |> to_option
-    (Some(u), None, _) => self.to_js().invoke("open", [u]) |> to_option
-    (None, _, _) => self.to_js().invoke("open", []) |> to_option
+    (Some(u), Some(t), Some(f)) => self.invoke("open", [u, t, f]) |> to_option
+    (Some(u), Some(t), None) => self.invoke("open", [u, t]) |> to_option
+    (Some(u), None, _) => self.invoke("open", [u]) |> to_option
+    (None, _, _) => self.invoke("open", []) |> to_option
   }
 }
 
@@ -158,21 +157,21 @@ pub fn Window::open(
 /// Closes the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/close
 pub fn Window::close(self : Self) -> Unit {
-  ignore(self.to_js().invoke("close", []))
+  ignore(self.invoke("close", []))
 }
 
 ///|
 /// Scrolls to a particular set of coordinates
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
 pub fn Window::scroll_to(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.to_js().invoke("scrollTo", [x, y]))
+  ignore(self.invoke("scrollTo", [x, y]))
 }
 
 ///|
 /// Scrolls by a particular amount
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollBy
 pub fn Window::scroll_by(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.to_js().invoke("scrollBy", [x, y]))
+  ignore(self.invoke("scrollBy", [x, y]))
 }
 
 ///|
@@ -204,7 +203,7 @@ pub fn Window::set_timeout(
 /// Cancels a timeout previously established by setTimeout
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
 pub fn Window::clear_timeout(self : Self, id : Int) -> Unit {
-  ignore(self.to_js().invoke("clearTimeout", [id]))
+  ignore(self.invoke("clearTimeout", [id]))
 }
 
 ///|
@@ -222,7 +221,7 @@ pub fn Window::set_interval(
 /// Cancels a timed, repeating action established by setInterval
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
 pub fn Window::clear_interval(self : Self, id : Int) -> Unit {
-  ignore(self.to_js().invoke("clearInterval", [id]))
+  ignore(self.invoke("clearInterval", [id]))
 }
 
 ///|
@@ -239,7 +238,7 @@ pub fn Window::request_animation_frame(
 /// Cancels an animation frame request
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame
 pub fn Window::cancel_animation_frame(self : Self, id : Int) -> Unit {
-  ignore(self.to_js().invoke("cancelAnimationFrame", [id]))
+  ignore(self.invoke("cancelAnimationFrame", [id]))
 }
 
 ///|
@@ -256,7 +255,7 @@ pub fn Window::fetch(self : Self, input : String, init? : Val) -> Promise[Val] {
 /// Returns a selection object representing selected text
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 pub fn Window::get_selection(self : Self) -> Val? {
-  self.to_js().invoke("getSelection", []) |> to_option
+  self.invoke("getSelection", []) |> to_option
 }
 
 ///|
@@ -289,7 +288,7 @@ pub fn Window::post_message(
   message : Val,
   target_origin : String,
 ) -> Unit {
-  ignore(self.to_js().invoke("postMessage", [message, target_origin]))
+  ignore(self.invoke("postMessage", [message, target_origin]))
 }
 
 ///|
