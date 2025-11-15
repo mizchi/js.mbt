@@ -6,6 +6,8 @@ import(
   "mizchi/js/arraybuffer"
   "mizchi/js/async"
   "mizchi/js/blob"
+  "mizchi/js/dom"
+  "mizchi/js/worker"
 )
 
 // Values
@@ -22,7 +24,7 @@ fn CanvasRenderingContext2D::arc(Self, Double, Double, Double, Double, Double, c
 fn CanvasRenderingContext2D::arc_to(Self, Double, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::begin_path(Self) -> Unit
 fn CanvasRenderingContext2D::bezier_curve_to(Self, Double, Double, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::canvas(Self) -> HTMLCanvasElement
+fn CanvasRenderingContext2D::canvas(Self) -> @dom.HTMLCanvasElement
 fn CanvasRenderingContext2D::clear_rect(Self, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::clip(Self) -> Unit
 fn CanvasRenderingContext2D::close_path(Self) -> Unit
@@ -68,23 +70,12 @@ fn CanvasRenderingContext2D::translate(Self, Double, Double) -> Unit
 impl @js.Js for CanvasRenderingContext2D
 
 #external
-pub type HTMLCanvasElement
-fn HTMLCanvasElement::get_context(Self, String) -> CanvasRenderingContext2D
-fn HTMLCanvasElement::height(Self) -> Int
-fn HTMLCanvasElement::set_height(Self, Int) -> Unit
-fn HTMLCanvasElement::set_width(Self, Int) -> Unit
-fn HTMLCanvasElement::to_blob(Self, image_type? : String, quality? : Double) -> @async.Promise[@blob.Blob]
-fn HTMLCanvasElement::to_data_url(Self, image_type? : String, quality? : Double) -> String
-fn HTMLCanvasElement::width(Self) -> Int
-impl @js.Js for HTMLCanvasElement
-
-#external
 pub type ImageBitmap
 fn ImageBitmap::close(Self) -> Unit
 fn ImageBitmap::height(Self) -> Int
 fn ImageBitmap::width(Self) -> Int
 impl @js.Js for ImageBitmap
-impl Transferable for ImageBitmap
+impl @worker.Transferable for ImageBitmap
 
 #external
 pub type ImageData
@@ -106,7 +97,7 @@ fn OffscreenCanvas::set_width(Self, Int) -> Unit
 fn OffscreenCanvas::transfer_to_image_bitmap(Self) -> ImageBitmap
 fn OffscreenCanvas::width(Self) -> Int
 impl @js.Js for OffscreenCanvas
-impl Transferable for OffscreenCanvas
+impl @worker.Transferable for OffscreenCanvas
 
 #external
 pub type TextMetrics
@@ -116,7 +107,4 @@ impl @js.Js for TextMetrics
 // Type aliases
 
 // Traits
-pub trait Transferable {
-  to_transferable(Self) -> @js.Val
-}
 

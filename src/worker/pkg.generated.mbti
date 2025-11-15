@@ -30,4 +30,7 @@ impl @js.Js for Worker
 // Type aliases
 
 // Traits
+pub(open) trait Transferable {
+  to_transferable(Self) -> @js.Val
+}
 

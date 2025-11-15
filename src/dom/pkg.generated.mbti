@@ -346,6 +346,17 @@ fn FormEvent::form_data(Self) -> @js.Val
 fn FormEvent::target(Self) -> Element
 
 #external
+pub type HTMLCanvasElement
+fn HTMLCanvasElement::get_context(Self, String) -> @js.Val
+fn HTMLCanvasElement::height(Self) -> Int
+fn HTMLCanvasElement::set_height(Self, Int) -> Unit
+fn HTMLCanvasElement::set_width(Self, Int) -> Unit
+fn HTMLCanvasElement::to_blob(Self, image_type? : String, quality? : Double) -> @async.Promise[@js.Val]
+fn HTMLCanvasElement::to_data_url(Self, image_type? : String, quality? : Double) -> String
+fn HTMLCanvasElement::width(Self) -> Int
+impl @js.Js for HTMLCanvasElement
+
+#external
 pub type HTMLSlotElement
 fn HTMLSlotElement::assign(Self, @js.Val) -> Unit
 fn HTMLSlotElement::assigned_elements(Self) -> @js.Val

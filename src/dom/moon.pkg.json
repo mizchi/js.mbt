@@ -1,5 +1,5 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/async"],
+  "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/blob"],
   "test-import": ["mizchi/js/node"]
 }

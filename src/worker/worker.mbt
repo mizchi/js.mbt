@@ -2,6 +2,12 @@
 using @js {type Val, trait Js, js, log}
 
 ///|
+/// Transferable trait for objects that can be transferred via postMessage
+pub(open) trait Transferable {
+  to_transferable(Self) -> Val
+}
+
+///|
 /// JavaScript Worker API
 /// cast extern or prebuilt js
 /// ```

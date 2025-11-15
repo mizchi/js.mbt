@@ -4,6 +4,8 @@
     "mizchi/js",
     "mizchi/js/async",
     "mizchi/js/blob",
-    "mizchi/js/arraybuffer"
+    "mizchi/js/arraybuffer",
+    "mizchi/js/worker",
+    "mizchi/js/dom"
   ]
 }
