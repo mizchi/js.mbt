@@ -35,6 +35,15 @@ fn ReadableStreamDefaultReader::release_lock(Self) -> Unit
 impl @js.Js for ReadableStreamDefaultReader
 
 #external
+pub type TransformStream
+fn TransformStream::new(@js.Val) -> Self
+#alias(newIdentity)
+fn TransformStream::new_identity() -> Self
+fn TransformStream::readable(Self) -> ReadableStream
+fn TransformStream::writable(Self) -> WritableStream
+impl @js.Js for TransformStream
+
+#external
 pub type WritableStream
 fn WritableStream::abort(Self, reason? : @js.Val) -> @async.Promise[Unit]
 fn WritableStream::close(Self) -> @async.Promise[Unit]

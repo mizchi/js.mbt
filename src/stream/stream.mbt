@@ -241,3 +241,48 @@ pub fn WritableStreamDefaultWriter::ready(self : Self) -> Promise[Unit] {
 pub fn WritableStreamDefaultWriter::desired_size(self : Self) -> Int? {
   self.to_js().get("desiredSize").cast_option()
 }
+
+///|
+/// TransformStream represents a transform stream for piping data through a transformation
+#external
+pub type TransformStream
+
+///|
+pub impl Js for TransformStream with to_js(self) {
+  self |> js
+}
+
+///|
+/// Create a new TransformStream
+extern "js" fn ffi_new_transform_stream(transformer : Val) -> Val =
+  #|(transformer) => new TransformStream(transformer)
+
+///|
+/// Create a new TransformStream with a transformer
+pub fn TransformStream::new(transformer : Val) -> TransformStream {
+  ffi_new_transform_stream(transformer).cast()
+}
+
+///|
+/// Create a new identity TransformStream (passes data through unmodified)
+extern "js" fn ffi_new_identity_transform_stream() -> Val =
+  #|() => new TransformStream()
+
+///|
+/// Create a new identity TransformStream
+#alias(newIdentity)
+pub fn TransformStream::new_identity() -> TransformStream {
+  ffi_new_identity_transform_stream().cast()
+}
+
+///|
+/// Get the readable side of the transform stream
+pub fn TransformStream::readable(self : Self) -> ReadableStream {
+  self.to_js().get("readable").cast()
+}
+
+///|
+/// Get the writable side of the transform stream
+pub fn TransformStream::writable(self : Self) -> WritableStream {
+  self.to_js().get("writable").cast()
+}
