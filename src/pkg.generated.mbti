@@ -8,7 +8,15 @@ fn atob(String) -> String
 
 fn btoa(String) -> String
 
+fn decode_uri(String) -> String
+
+fn decode_uri_component(String) -> String
+
 fn dynamic_import(String) -> Val
+
+fn encode_uri(String) -> String
+
+fn encode_uri_component(String) -> String
 
 fn[T] from_builtin_array(Array[T]) -> Val
 

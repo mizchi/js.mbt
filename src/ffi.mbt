@@ -155,3 +155,19 @@ extern "js" fn ffi_btoa(data : String) -> String =
 ///|
 extern "js" fn ffi_array_from(v : Val) -> Array[Val] =
   #|(v) => Array.from(v)
+
+///|
+extern "js" fn ffi_encode_uri(uri : String) -> String =
+  #|(uri) => encodeURI(uri)
+
+///|
+extern "js" fn ffi_decode_uri(encoded_uri : String) -> String =
+  #|(encodedURI) => decodeURI(encodedURI)
+
+///|
+extern "js" fn ffi_encode_uri_component(str : String) -> String =
+  #|(str) => encodeURIComponent(str)
+
+///|
+extern "js" fn ffi_decode_uri_component(encoded_str : String) -> String =
+  #|(encodedStr) => decodeURIComponent(encodedStr)
