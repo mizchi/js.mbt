@@ -4,19 +4,17 @@
 pub type CanvasRenderingContext2D
 
 ///|
-pub impl Js for CanvasRenderingContext2D with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for CanvasRenderingContext2D
 
 ///|
 /// Context properties
 pub fn CanvasRenderingContext2D::canvas(self : Self) -> HTMLCanvasElement {
-  unsafe_cast(self.to_js().get("canvas"))
+  unsafe_cast(self.get("canvas"))
 }
 
 ///|
 pub fn CanvasRenderingContext2D::fill_style(self : Self) -> String {
-  unsafe_cast(self.to_js().get("fillStyle"))
+  unsafe_cast(self.get("fillStyle"))
 }
 
 ///|
@@ -24,12 +22,12 @@ pub fn CanvasRenderingContext2D::set_fill_style(
   self : Self,
   value : String,
 ) -> Unit {
-  self.to_js().set("fillStyle", value)
+  self.set("fillStyle", value)
 }
 
 ///|
 pub fn CanvasRenderingContext2D::stroke_style(self : Self) -> String {
-  unsafe_cast(self.to_js().get("strokeStyle"))
+  unsafe_cast(self.get("strokeStyle"))
 }
 
 ///|
@@ -37,12 +35,12 @@ pub fn CanvasRenderingContext2D::set_stroke_style(
   self : Self,
   value : String,
 ) -> Unit {
-  self.to_js().set("strokeStyle", value)
+  self.set("strokeStyle", value)
 }
 
 ///|
 pub fn CanvasRenderingContext2D::line_width(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("lineWidth"))
+  unsafe_cast(self.get("lineWidth"))
 }
 
 ///|
@@ -50,22 +48,22 @@ pub fn CanvasRenderingContext2D::set_line_width(
   self : Self,
   value : Double,
 ) -> Unit {
-  self.to_js().set("lineWidth", value)
+  self.set("lineWidth", value)
 }
 
 ///|
 pub fn CanvasRenderingContext2D::font(self : Self) -> String {
-  unsafe_cast(self.to_js().get("font"))
+  unsafe_cast(self.get("font"))
 }
 
 ///|
 pub fn CanvasRenderingContext2D::set_font(self : Self, value : String) -> Unit {
-  self.to_js().set("font", value)
+  self.set("font", value)
 }
 
 ///|
 pub fn CanvasRenderingContext2D::text_align(self : Self) -> String {
-  unsafe_cast(self.to_js().get("textAlign"))
+  unsafe_cast(self.get("textAlign"))
 }
 
 ///|
@@ -73,12 +71,12 @@ pub fn CanvasRenderingContext2D::set_text_align(
   self : Self,
   value : String,
 ) -> Unit {
-  self.to_js().set("textAlign", value)
+  self.set("textAlign", value)
 }
 
 ///|
 pub fn CanvasRenderingContext2D::text_baseline(self : Self) -> String {
-  unsafe_cast(self.to_js().get("textBaseline"))
+  unsafe_cast(self.get("textBaseline"))
 }
 
 ///|
@@ -86,7 +84,7 @@ pub fn CanvasRenderingContext2D::set_text_baseline(
   self : Self,
   value : String,
 ) -> Unit {
-  self.to_js().set("textBaseline", value)
+  self.set("textBaseline", value)
 }
 
 ///|
@@ -437,9 +435,7 @@ pub fn CanvasRenderingContext2D::restore(self : Self) -> Unit {
 pub type TextMetrics
 
 ///|
-pub impl Js for TextMetrics with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for TextMetrics
 
 ///|
 pub fn TextMetrics::width(self : Self) -> Double {

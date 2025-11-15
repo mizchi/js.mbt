@@ -5,9 +5,7 @@
 pub type D1Database
 
 ///|
-pub impl Js for D1Database with to_js(self) {
-  self |> js
-}
+pub impl Js for D1Database
 
 ///|
 /// Prepare a SQL statement
@@ -48,9 +46,7 @@ pub fn D1Database::dump(self : Self) -> Promise[Val] {
 pub type D1PreparedStatement
 
 ///|
-pub impl Js for D1PreparedStatement with to_js(self) {
-  self |> js
-}
+pub impl Js for D1PreparedStatement
 
 ///|
 /// Bind parameters to a prepared statement
@@ -146,7 +142,7 @@ pub(all) struct D1RawOptions {
 
 ///|
 pub impl Js for D1RawOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.column_names {
     Some(val) => obj.set("columnNames", val)
     None => ()

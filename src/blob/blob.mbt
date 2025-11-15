@@ -6,9 +6,7 @@
 pub type Blob
 
 ///|
-pub impl Js for Blob with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Blob
 
 ///|
 /// Create a new Blob from array of data
