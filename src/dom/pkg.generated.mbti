@@ -17,6 +17,8 @@ fn css_supports(String, String) -> Bool
 
 fn css_supports_condition(String) -> Bool
 
+fn custom_elements() -> CustomElementRegistry
+
 fn document() -> Document
 
 fn get_local_storage() -> Storage
@@ -92,6 +94,24 @@ impl EventImpl for ChangeEvent
 pub type ClipboardEvent
 fn ClipboardEvent::clipboard_data(Self) -> @js.Val?
 impl EventImpl for ClipboardEvent
+
+pub struct CustomElementCallbacks {
+  on_connected : () -> Unit
+  on_disconnected : () -> Unit
+  on_adopted : () -> Unit
+  on_attribute_changed : (String, String?, String?, String?) -> Unit
+}
+fn CustomElementCallbacks::new(on_connected? : () -> Unit, on_disconnected? : () -> Unit, on_adopted? : () -> Unit, on_attribute_changed? : (String, String?, String?, String?) -> Unit) -> Self
+
+#external
+pub type CustomElementRegistry
+fn CustomElementRegistry::define_element(Self, String, CustomElementCallbacks) -> Unit
+fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomElementCallbacks, Array[String]) -> Unit
+fn CustomElementRegistry::get(Self, String) -> @js.Val?
+fn CustomElementRegistry::get_name(Self, @js.Val) -> String?
+fn CustomElementRegistry::upgrade(Self, Node) -> Unit
+fn CustomElementRegistry::when_defined(Self, String) -> @async.Promise[Unit]
+impl @js.Js for CustomElementRegistry
 
 #external
 pub type DOMRectReadOnly
