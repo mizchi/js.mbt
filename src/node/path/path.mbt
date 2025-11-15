@@ -1,7 +1,4 @@
 ///|
-using @js {type Val, js, trait Js, unsafe_cast}
-
-///|
 extern "js" fn ffi_apply_variadic(
   fn_val : Val,
   this_val : Val,

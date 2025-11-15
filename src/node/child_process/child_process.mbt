@@ -1,18 +1,6 @@
 // https://nodejs.org/api/child_process.html
 // Based on @types/node child_process definitions
 
-///|
-using @js {js, unsafe_cast, to_option, type Val, trait Js}
-
-///|
-using @async {type AbortSignal}
-
-///|
-using @events {trait EventEmitter}
-
-///|
-using @stream {type ReadableStream, type WritableStream}
-
 ///| ChildProcess Type
 
 ///|

@@ -262,7 +262,7 @@ test "Date.value_of() returns milliseconds" {
 test "Date can be converted to Val" {
   let date = Date::new()
   let val : @js.Val = date.to_js()
-  inspect(val.is_null(), content="false")
+  inspect(@js.is_null(val), content="false")
 }
 
 ///|

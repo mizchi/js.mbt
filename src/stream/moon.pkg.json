@@ -1,7 +1,5 @@
 {
+  "supported-targets": ["js"],
   "is_main": false,
-  "import": [
-    "mizchi/js",
-    "mizchi/js/async"
-  ]
+  "import": ["mizchi/js", "mizchi/js/async"]
 }

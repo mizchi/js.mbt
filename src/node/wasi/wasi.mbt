@@ -1,12 +1,6 @@
 // https://nodejs.org/api/wasi.html
 // WebAssembly System Interface (WASI) API
 
-///|
-using @js {type Val, trait Js, js}
-
-///|
-using @webassembly {type WebAssemblyInstance}
-
 ///| WASI Module
 
 ///|

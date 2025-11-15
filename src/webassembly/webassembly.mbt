@@ -1,17 +1,6 @@
 ///|
 /// WebAssembly API for JavaScript environments
 /// Based on WebAssembly JavaScript API specification
-using @js {
-  type Val,
-  trait Js,
-  js,
-  unsafe_cast,
-  new_empty_object,
-  from_builtin_map,
-}
-
-///|
-using @arraybuffer {type ArrayBuffer, type Uint8Array}
 
 ///|
 /// WebAssembly.Module represents a compiled WebAssembly module

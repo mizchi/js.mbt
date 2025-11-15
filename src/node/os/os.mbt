@@ -3,9 +3,6 @@
 // https://nodejs.org/api/os.html
 
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
-
-///|
 /// Get os module
 fn os_module() -> Val {
   @node.require("node:os")

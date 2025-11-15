@@ -1,8 +1,14 @@
 {
+  "supported-targets": ["js"],
   "link": {
     "js": {
       "exports": ["get_fetch_handler"]
     }
   },
-  "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/net", "mizchi/js/cloudflare"]
+  "import": [
+    "mizchi/js",
+    "mizchi/js/async",
+    "mizchi/js/net",
+    "mizchi/js/cloudflare"
+  ]
 }

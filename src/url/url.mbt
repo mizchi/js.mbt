@@ -1,7 +1,4 @@
 ///|
-using @js {type Val, trait Js, unsafe_cast, js, to_option}
-
-///|
 pub(all) struct URL {
   href : String
   origin : String

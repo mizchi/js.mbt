@@ -2,15 +2,6 @@
 // Based on @types/node v8 definitions
 
 ///|
-using @js {js, unsafe_cast, type Val, trait Js}
-
-///|
-using @arraybuffer {type ArrayBuffer}
-
-///|
-using @buffer {type Buffer}
-
-///|
 /// V8 Module FFI
 extern "js" fn ffi_require_v8() -> Val =
   #|() => require("node:v8")

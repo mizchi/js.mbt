@@ -1,7 +1,4 @@
 ///|
-using @react {type ReactRef, h}
-
-///|
 fn common_node(
   tag_name : String,
   attributes : Map[String, Val],

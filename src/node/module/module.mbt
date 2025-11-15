@@ -2,9 +2,6 @@
 // Based on @types/node module definitions
 
 ///|
-using @js {js, unsafe_cast, to_option, type Val, trait Js}
-
-///|
 /// Module Functions
 extern "js" fn ffi_require_module() -> Val =
   #|() => require("node:module")

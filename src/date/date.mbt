@@ -1,7 +1,4 @@
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
-
-///|
 /// JavaScript Date object wrapper.
 ///
 /// Represents a single moment in time in a platform-independent format.

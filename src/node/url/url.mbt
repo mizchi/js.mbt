@@ -1,7 +1,4 @@
 ///|
-using @js {type Val, js, trait Js, unsafe_cast}
-
-///|
 extern "js" fn ffi_typeof(v : Val) -> String =
   #|(v) => typeof v
 

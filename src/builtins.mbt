@@ -124,7 +124,7 @@ pub fn global_this() -> Val {
 ///
 /// ```moonbit
 /// let undef = undefined()
-/// assert_true(undef.is_undefined())
+/// assert_true(@js.is_undefined(undef))
 /// ```
 pub fn undefined() -> Val {
   ffi_undefined()
@@ -141,7 +141,7 @@ pub fn undefined() -> Val {
 ///
 /// ```moonbit
 /// let n = null_()
-/// assert_true(n.is_null())
+/// assert_true(@js.is_null(n))
 /// ```
 pub fn null_() -> Val {
   ffi_null()

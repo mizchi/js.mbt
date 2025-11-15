@@ -107,8 +107,8 @@ test "Date integrates with Js trait properly" {
   let val = date.to_js()
 
   // Should convert to Val without being null or undefined
-  inspect(val.is_null(), content="false")
-  inspect(val.is_undefined(), content="false")
+  inspect(@js.is_null(val), content="false")
+  inspect(@js.is_undefined(val), content="false")
 }
 
 ///|

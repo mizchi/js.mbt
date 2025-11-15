@@ -43,7 +43,7 @@ fn TestEnum::from_js(v : Val) -> Self raise {
   match tag {
     "A" => {
       let value = v.get("value")
-      guard value.type_of() == "number"
+      guard @js.type_of(value) == "number"
       A(value=unsafe_cast(value))
     }
     _ => fail("unknown tag: " + tag)
@@ -78,8 +78,8 @@ test "to_string" {
   assert_eq(null_().to_string(), "null")
   assert_eq(js(true).to_string(), "true")
   assert_eq(js("hello").to_string(), "hello")
-  assert_true(undefined().is_undefined())
-  assert_true(null_().is_null())
+  assert_true(@js.is_undefined(undefined()))
+  assert_true(@js.is_null(null_()))
   assert_eq(new_empty_object().to_string(), "{}")
   assert_eq(new_empty_array().to_string(), "[]")
   from_builtin_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
@@ -93,24 +93,24 @@ test "to_string" {
 test "Val type checking" {
   // Test is_array
   let arr = new_empty_array()
-  assert_true(arr.is_array())
-  assert_false(js(42).is_array())
+  assert_true(@js.is_array(arr))
+  assert_false(@js.is_array(js(42)))
 
   // Test is_object
   let obj = new_empty_object()
-  assert_true(obj.is_object())
-  assert_false(js(42).is_object())
-  assert_false(null_().is_object())
+  assert_true(@js.is_object(obj))
+  assert_false(@js.is_object(js(42)))
+  assert_false(@js.is_object(null_()))
 
   // Test is_null
-  assert_true(null_().is_null())
-  assert_false(undefined().is_null())
-  assert_false(js(42).is_null())
+  assert_true(@js.is_null(null_()))
+  assert_false(@js.is_null(undefined()))
+  assert_false(@js.is_null(js(42)))
 
   // Test is_undefined
-  assert_true(undefined().is_undefined())
-  assert_false(null_().is_undefined())
-  assert_false(js(42).is_undefined())
+  assert_true(@js.is_undefined(undefined()))
+  assert_false(@js.is_undefined(null_()))
+  assert_false(@js.is_undefined(js(42)))
 
   // Test is_some and is_none
   assert_true(js(42).is_some())
@@ -123,14 +123,14 @@ test "Val type checking" {
 
 ///|
 test "Val type_of" {
-  assert_eq(js(42).type_of(), "number")
-  assert_eq(js(3.14).type_of(), "number")
-  assert_eq(js("hello").type_of(), "string")
-  assert_eq(js(true).type_of(), "boolean")
-  assert_eq(undefined().type_of(), "undefined")
-  assert_eq(new_empty_object().type_of(), "object")
-  assert_eq(new_empty_array().type_of(), "object")
-  assert_eq(null_().type_of(), "object") // JavaScript quirk
+  assert_eq(@js.type_of(js(42)), "number")
+  assert_eq(@js.type_of(js(3.14)), "number")
+  assert_eq(@js.type_of(js("hello")), "string")
+  assert_eq(@js.type_of(js(true)), "boolean")
+  assert_eq(@js.type_of(undefined()), "undefined")
+  assert_eq(@js.type_of(new_empty_object()), "object")
+  assert_eq(@js.type_of(new_empty_array()), "object")
+  assert_eq(@js.type_of(null_()), "object") // JavaScript quirk
 }
 
 ///|
@@ -161,11 +161,11 @@ test "Val set_if_exists" {
   // Set with None should not add property
   let v : Int? = None
   obj.set_if_exists("key2", v)
-  assert_true(obj.get("key2").is_undefined())
+  assert_true(@js.is_undefined(obj.get("key2")))
 
   // Set with undefined value should not add property
   obj.set_if_exists("key3", Some(undefined()))
-  assert_true(obj.get("key3").is_undefined())
+  assert_true(@js.is_undefined(obj.get("key3")))
 }
 
 ///|
@@ -239,9 +239,9 @@ test "Val equality" {
 ///|
 test "Val is_nan" {
   let nan_val = js(0.0 / 0.0)
-  assert_true(nan_val.is_nan())
-  assert_false(js(42).is_nan())
-  assert_false(js(3.14).is_nan())
+  assert_true(@js.is_nan(nan_val))
+  assert_false(@js.is_nan(js(42)))
+  assert_false(@js.is_nan(js(3.14)))
 }
 
 ///|
@@ -328,7 +328,7 @@ test "from_builtin_map" {
 test "from_builtin_array" {
   let arr = [1, 2, 3, 4, 5]
   let val = from_builtin_array(arr)
-  assert_true(val.is_array())
+  assert_true(@js.is_array(val))
   assert_eq(unsafe_cast(val.get(0)), 1)
   assert_eq(unsafe_cast(val.get(2)), 3)
   assert_eq(unsafe_cast(val.get(4)), 5)
@@ -337,15 +337,15 @@ test "from_builtin_array" {
 ///|
 test "new_empty_array" {
   let arr = new_empty_array()
-  assert_true(arr.is_array())
-  assert_true(arr.is_object())
+  assert_true(@js.is_array(arr))
+  assert_true(@js.is_object(arr))
 }
 
 ///|
 test "global_this" {
   let global = global_this()
-  assert_true(global.is_object())
-  assert_false(global.is_null())
+  assert_true(@js.is_object(global))
+  assert_false(@js.is_null(global))
 }
 
 ///|
@@ -360,17 +360,17 @@ test "symbols" {
   let iter_val : Val = unsafe_cast(iter_sym)
   let dispose_val : Val = unsafe_cast(dispose_sym)
   let async_dispose_val : Val = unsafe_cast(async_dispose_sym)
-  assert_eq(sym_val.type_of(), "symbol")
-  assert_eq(iter_val.type_of(), "symbol")
-  assert_eq(dispose_val.type_of(), "symbol")
-  assert_eq(async_dispose_val.type_of(), "symbol")
+  assert_eq(@js.type_of(sym_val), "symbol")
+  assert_eq(@js.type_of(iter_val), "symbol")
+  assert_eq(@js.type_of(dispose_val), "symbol")
+  assert_eq(@js.type_of(async_dispose_val), "symbol")
 }
 
 ///|
 test "new_error" {
   let error = new_error("Test error")
   let error_val : Val = unsafe_cast(error)
-  assert_true(error_val.is_object())
+  assert_true(@js.is_object(error_val))
   assert_eq(unsafe_cast(error_val.get("message")), "Test error")
 
   // Error with cause
@@ -383,13 +383,13 @@ test "new_error" {
 ///|
 test "object_create" {
   let obj = object_create()
-  assert_true(obj.is_object())
+  assert_true(@js.is_object(obj))
 }
 
 ///|
 test "Val with arrays" {
   let arr = from_builtin_array([1, 2, 3])
-  assert_true(arr.is_array())
+  assert_true(@js.is_array(arr))
   assert_eq(unsafe_cast(arr.get(0)), 1)
   assert_eq(unsafe_cast(arr.get(1)), 2)
   assert_eq(unsafe_cast(arr.get(2)), 3)
@@ -443,13 +443,13 @@ test "Val with mixed types in object" {
   obj.set("null", null_())
   obj.set("array", from_builtin_array([1, 2, 3]))
   obj.set("object", new_empty_object())
-  assert_eq(obj.get("string").type_of(), "string")
-  assert_eq(obj.get("number").type_of(), "number")
-  assert_eq(obj.get("float").type_of(), "number")
-  assert_eq(obj.get("boolean").type_of(), "boolean")
-  assert_eq(obj.get("null").type_of(), "object")
-  assert_true(obj.get("array").is_array())
-  assert_true(obj.get("object").is_object())
+  assert_eq(@js.type_of(obj.get("string")), "string")
+  assert_eq(@js.type_of(obj.get("number")), "number")
+  assert_eq(@js.type_of(obj.get("float")), "number")
+  assert_eq(@js.type_of(obj.get("boolean")), "boolean")
+  assert_eq(@js.type_of(obj.get("null")), "object")
+  assert_true(@js.is_array(obj.get("array")))
+  assert_true(@js.is_object(obj.get("object")))
 }
 
 ///|
@@ -505,7 +505,7 @@ test "Js trait for Option" {
   // None value - represented as undefined in MoonBit
   let none_val : Int? = None
   let none_js = Js::to_js(none_val)
-  assert_true(none_js.is_undefined())
+  assert_true(@js.is_undefined(none_js))
 }
 
 ///|
@@ -597,7 +597,7 @@ test {
   let none_val : Val? = None
   obj.set_if_exists("b", none_val)
   obj.set_if_exists("c", Some(js(42)))
-  assert_true(obj.get("a").is_undefined())
+  assert_true(@js.is_undefined(obj.get("a")))
   // assert_eq(unsafe_cast(obj.get("a")), 42)
   // obj.set_if_exists("b", None)
   // assert_true(obj.get("b").is_undefined())

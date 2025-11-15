@@ -1,8 +1,11 @@
 ///|
-/// Synchronous File System API Tests
+using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
-using @js {js, unsafe_cast}
+using @buffer {type Buffer}
+
+///|
+/// Synchronous File System API Tests
 
 ///| File Reading Tests
 

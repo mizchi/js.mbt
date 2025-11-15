@@ -1,7 +1,4 @@
 ///|
-using @js {trait Js, type Val, js, unsafe_cast}
-
-///|
 #external
 pub type WeakMap[K, V]
 
@@ -25,7 +22,7 @@ pub fn[K : Js, V : Js] WeakMap::delete(self : WeakMap[K, V], key : K) -> Bool {
 ///|
 pub fn[K : Js, V : Js] WeakMap::get(self : WeakMap[K, V], key : K) -> V? {
   let result = self.to_js().invoke("get", [key])
-  if result.is_undefined() {
+  if is_undefined(result) {
     None
   } else {
     Some(unsafe_cast(result))
@@ -96,7 +93,7 @@ pub fn[T : Js] WeakRef::new(target : T) -> WeakRef[T] {
 ///|
 pub fn[T] WeakRef::deref(self : WeakRef[T]) -> T? {
   let result = self.to_js().invoke("deref", [])
-  if result.is_undefined() {
+  if is_undefined(result) {
     None
   } else {
     Some(unsafe_cast(result))

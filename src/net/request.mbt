@@ -1,7 +1,4 @@
 ///|
-using @js {unsafe_cast}
-
-///|
 extern "js" fn ffi_request_new(url : String) -> Val =
   #| (url) => new Request(url)
 

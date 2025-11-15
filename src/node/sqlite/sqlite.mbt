@@ -43,15 +43,6 @@
 /// This module requires Node.js with SQLite support (Node.js 22.5.0+).
 /// SQLite is an experimental feature in Node.js.
 ///
-using @js {type Val, trait Js, js, unsafe_cast}
-
-///|
-using @iterator {type JsIterator}
-
-///|
-using @arraybuffer {type Uint8Array}
-
-///|
 #external
 pub type DatabaseSync
 

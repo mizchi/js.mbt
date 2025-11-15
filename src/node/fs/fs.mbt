@@ -2,12 +2,6 @@
 // Synchronous File System API
 
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
-
-///|
-using @buffer {type Buffer}
-
-///|
 /// Get fs module
 fn fs_module() -> Val {
   @node.require("node:fs")

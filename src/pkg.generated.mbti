@@ -18,6 +18,10 @@ fn encode_uri(String) -> String
 
 fn encode_uri_component(String) -> String
 
+fn ffi_is_nan(Val) -> Bool
+
+fn ffi_is_undefined(Val) -> Bool
+
 fn[T] from_builtin_array(Array[T]) -> Val
 
 fn from_builtin_json(Json) -> Val
@@ -25,6 +29,18 @@ fn from_builtin_json(Json) -> Val
 fn from_builtin_map(Map[String, Val]) -> Val
 
 fn global_this() -> Val
+
+fn[T : Js] instance_of(T, T) -> Bool
+
+fn[T : Js] is_array(T) -> Bool
+
+fn[T : Js] is_nan(T) -> Bool
+
+fn[T : Js] is_null(T) -> Bool
+
+fn[T : Js] is_object(T) -> Bool
+
+fn[T : Js] is_undefined(T) -> Bool
 
 fn[T] js(T) -> Val
 
@@ -42,10 +58,6 @@ fn new_empty_object() -> Val
 
 fn new_error(String, cause? : ErrorObject) -> ErrorObject
 
-fn new_map() -> Val
-
-fn new_set() -> Val
-
 fn null_() -> Val
 
 fn object_assign(Val, Val) -> Val
@@ -57,6 +69,8 @@ fn object_entries(Val) -> Array[(String, Val)]
 fn object_keys(Val) -> Array[String]
 
 fn object_values(Val) -> Array[Val]
+
+fn[T : Js] property_is_enumerable(T, String) -> Bool
 
 fn structured_clone(Val) -> Val
 
@@ -70,11 +84,13 @@ fn symbol_iterator() -> Symbol
 
 fn[T] throwable(() -> T raise?) -> T raise JsError
 
+fn[A] to_option(Val) -> A?
+
+fn[T : Js] type_of(T) -> String
+
 fn undefined() -> Val
 
 fn[A, B] unsafe_cast(A) -> B
-
-fn[A] to_option(Val) -> A?
 
 fn wrap_result(() -> Result[Val, Val]) -> Result[Val, Val]
 
@@ -96,20 +112,9 @@ impl PropertyKey for Symbol
 
 #external
 pub type Val
-fn[T] Val::cast_option(Self) -> T?
-fn Val::delete(Self, String) -> Unit
-fn Val::has_own_property(Self, String) -> Bool
-fn Val::instance_of(Self, Self) -> Bool
-fn Val::is_array(Self) -> Bool
-fn Val::is_nan(Self) -> Bool
 fn Val::is_none(Self) -> Bool
-fn Val::is_null(Self) -> Bool
-fn Val::is_object(Self) -> Bool
 fn Val::is_some(Self) -> Bool
-fn Val::is_undefined(Self) -> Bool
-fn Val::property_is_enumerable(Self, String) -> Bool
 fn[T : Js] Val::set_if_exists(Self, &PropertyKey, T?) -> Unit
-fn Val::type_of(Self) -> String
 impl Js for Val
 impl Eq for Val
 impl Show for Val
@@ -126,6 +131,8 @@ pub(open) trait Js {
   invoke_throwable(Self, &PropertyKey, Array[&Js]) -> Val raise JsError = _
   invoke_self(Self, Array[&Js]) -> Val = _
   invoke_self_throwable(Self, Array[&Js]) -> Val raise JsError = _
+  delete(Self, &PropertyKey) -> Unit = _
+  has_own_property(Self, &PropertyKey) -> Bool = _
 }
 impl Js for Bool
 impl Js for Int
@@ -142,3 +149,4 @@ pub trait PropertyKey {
 }
 impl PropertyKey for Int
 impl PropertyKey for String
+

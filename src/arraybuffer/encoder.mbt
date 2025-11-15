@@ -1,7 +1,4 @@
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
-
-///|
 extern "js" fn ffi_new_text_encoder() -> Val =
   #| () => new TextEncoder()
 

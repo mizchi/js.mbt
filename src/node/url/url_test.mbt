@@ -1,5 +1,5 @@
 ///|
-using @js {unsafe_cast}
+using @js {type Val, js, trait Js, unsafe_cast}
 
 ///|
 test "URL constructor with absolute URL" {

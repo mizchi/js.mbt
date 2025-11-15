@@ -1,7 +1,4 @@
 {
-  "import": [
-    "mizchi/js",
-    "mizchi/js/node",
-    "mizchi/js/arraybuffer"
-  ]
+  "supported-targets": ["js"],
+  "import": ["mizchi/js", "mizchi/js/node", "mizchi/js/arraybuffer"]
 }

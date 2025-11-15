@@ -27,7 +27,7 @@ test "get_heap_statistics returns object" {
 test "heap statistics has total_heap_size" {
   let stats = get_heap_statistics()
   let total = stats.get("total_heap_size")
-  inspect(total.type_of() == "number", content="true")
+  inspect(@js.type_of(total) == "number", content="true")
 }
 
 ///|

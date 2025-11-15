@@ -3,9 +3,6 @@
 ///
 /// Tests for Node.js child_process module with @types/node compatible API
 
-///|
-using @events {trait EventEmitter}
-
 ///| Synchronous Functions Tests
 
 ///|

@@ -1,3 +1,4 @@
 {
+  "supported-targets": ["js"],
   "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/npm/react"]
 }

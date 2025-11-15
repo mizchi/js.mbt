@@ -1,7 +1,4 @@
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
-
-///|
 /// JavaScript RegExp object wrapper.
 ///
 /// Corresponds to JavaScript's `RegExp` constructor and object.
@@ -294,14 +291,14 @@ pub fn RegExp::test_(self : RegExp, string : String) -> Bool {
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
 pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
   let v = RegExp::ffi_regexp_exec(self, s)
-  if v.is_null() {
+  if is_null(v) {
     return None
   }
   let full : String = unsafe_cast(v.get(0))
   let index : Int = unsafe_cast(v.get("index"))
   let last_index : Int = unsafe_cast(v.get("lastIndex"))
   let input : String = unsafe_cast(v.get("input"))
-  let groups : Map[String, String]? = if v.get("groups").is_undefined() {
+  let groups : Map[String, String]? = if is_undefined(v.get("groups")) {
     None
   } else {
     let g : Map[String, String] = {}
@@ -334,7 +331,7 @@ pub fn RegExp::new(pattern : String, flags? : String) -> RegExp {
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match
 pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
   let v = ffi_string_match(string, self)
-  if v.is_null() {
+  if is_null(v) {
     return None
   }
   let len : Int = unsafe_cast(v.get("length"))
@@ -342,17 +339,17 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
   for i = 0; i < len; i = i + 1 {
     matches.push(unsafe_cast(v.get(i)))
   }
-  let index : Int? = if v.get("index").is_undefined() {
+  let index : Int? = if is_undefined(v.get("index")) {
     None
   } else {
     Some(unsafe_cast(v.get("index")))
   }
-  let input : String? = if v.get("input").is_undefined() {
+  let input : String? = if is_undefined(v.get("input")) {
     None
   } else {
     Some(unsafe_cast(v.get("input")))
   }
-  let groups : Map[String, String]? = if v.get("groups").is_undefined() {
+  let groups : Map[String, String]? = if is_undefined(v.get("groups")) {
     None
   } else {
     let g : Map[String, String] = {}
@@ -384,17 +381,17 @@ pub fn RegExp::match_all(
     for j = 0; j < match_len; j = j + 1 {
       matches.push(unsafe_cast(item.get(j)))
     }
-    let index : Int? = if item.get("index").is_undefined() {
+    let index : Int? = if is_undefined(item.get("index")) {
       None
     } else {
       Some(unsafe_cast(item.get("index")))
     }
-    let input : String? = if item.get("input").is_undefined() {
+    let input : String? = if is_undefined(item.get("input")) {
       None
     } else {
       Some(unsafe_cast(item.get("input")))
     }
-    let groups : Map[String, String]? = if item.get("groups").is_undefined() {
+    let groups : Map[String, String]? = if is_undefined(item.get("groups")) {
       None
     } else {
       let g : Map[String, String] = {}
@@ -455,7 +452,7 @@ pub fn RegExp::replace_fn(
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = groups_val.get(i)
-      if item.is_undefined() {
+      if is_undefined(item) {
         groups.push("")
       } else {
         groups.push(unsafe_cast(item))
@@ -486,7 +483,7 @@ pub fn RegExp::replace_all_fn(
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = groups_val.get(i)
-      if item.is_undefined() {
+      if is_undefined(item) {
         groups.push("")
       } else {
         groups.push(unsafe_cast(item))

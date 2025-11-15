@@ -20,7 +20,7 @@ test "WASI constructor creates instance with preview1" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(import_obj.type_of() == "object", content="true")
+  inspect(@js.type_of(import_obj) == "object", content="true")
 }
 
 ///|
@@ -37,7 +37,7 @@ test "WASI constructor creates instance with unstable" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(import_obj.type_of() == "object", content="true")
+  inspect(@js.type_of(import_obj) == "object", content="true")
 }
 
 ///|
@@ -54,7 +54,7 @@ test "WASI constructor accepts args" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(import_obj.type_of() == "object", content="true")
+  inspect(@js.type_of(import_obj) == "object", content="true")
 }
 
 ///|
@@ -72,7 +72,7 @@ test "WASI constructor accepts env" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(import_obj.type_of() == "object", content="true")
+  inspect(@js.type_of(import_obj) == "object", content="true")
 }
 
 ///|
@@ -107,7 +107,7 @@ test "WASI constructor accepts return_on_exit" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(import_obj.type_of() == "object", content="true")
+  inspect(@js.type_of(import_obj) == "object", content="true")
 }
 
 ///|
