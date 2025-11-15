@@ -923,7 +923,7 @@ pub fn Float32Array::byte_offset(self : Self) -> UInt {
 
 ///|
 pub fn Float32Array::buffer(self : Self) -> ArrayBuffer {
-  unsafe_cast(self.to_js().get("buffer"))
+  unsafe_cast(self.get("buffer"))
 }
 
 ///|
@@ -984,22 +984,22 @@ pub extern "js" fn Float64Array::get_at(self : Self, index : UInt) -> Double =
 
 ///|
 pub fn Float64Array::length(self : Self) -> UInt {
-  unsafe_cast(self.to_js().get("length"))
+  unsafe_cast(self.get("length"))
 }
 
 ///|
 #alias(byteLength)
 pub fn Float64Array::byte_length(self : Self) -> UInt {
-  unsafe_cast(self.to_js().get("byteLength"))
+  unsafe_cast(self.get("byteLength"))
 }
 
 ///|
 #alias(byteOffset)
 pub fn Float64Array::byte_offset(self : Self) -> UInt {
-  unsafe_cast(self.to_js().get("byteOffset"))
+  unsafe_cast(self.get("byteOffset"))
 }
 
 ///|
 pub fn Float64Array::buffer(self : Self) -> ArrayBuffer {
-  unsafe_cast(self.to_js().get("buffer"))
+  unsafe_cast(self.get("buffer"))
 }

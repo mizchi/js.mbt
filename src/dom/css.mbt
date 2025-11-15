@@ -68,7 +68,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
 ///|
 /// Returns the CSS text
 pub fn CSSStyleDeclaration::css_text(self : Self) -> String {
-  unsafe_cast(self.to_js().get("cssText"))
+  unsafe_cast(self.get("cssText"))
 }
 
 ///|
@@ -80,13 +80,13 @@ pub fn CSSStyleDeclaration::set_css_text(self : Self, text : String) -> Unit {
 ///|
 /// Returns the number of CSS properties
 pub fn CSSStyleDeclaration::length(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("length"))
+  unsafe_cast(self.get("length"))
 }
 
 ///|
 /// Returns the parent CSS rule
 pub fn CSSStyleDeclaration::parent_rule(self : Self) -> CSSRule? {
-  self.to_js().get("parentRule") |> to_option
+  self.get("parentRule") |> to_option
 }
 
 ///|
@@ -101,7 +101,7 @@ pub impl Js for CSSRule
 ///|
 /// Returns the CSS text of the rule
 pub fn CSSRule::css_text(self : Self) -> String {
-  unsafe_cast(self.to_js().get("cssText"))
+  unsafe_cast(self.get("cssText"))
 }
 
 ///|
@@ -113,19 +113,19 @@ pub fn CSSRule::set_css_text(self : Self, text : String) -> Unit {
 ///|
 /// Returns the parent rule
 pub fn CSSRule::parent_rule(self : Self) -> CSSRule? {
-  self.to_js().get("parentRule") |> to_option()
+  self.get("parentRule") |> to_option()
 }
 
 ///|
 /// Returns the parent stylesheet
 pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
-  self.to_js().get("parentStyleSheet") |> to_option()
+  self.get("parentStyleSheet") |> to_option()
 }
 
 ///|
 /// Returns the rule type
 pub fn CSSRule::rule_type(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("type"))
+  unsafe_cast(self.get("type"))
 }
 
 ///|
@@ -141,7 +141,7 @@ pub impl Js for CSSStyleSheet
 /// Returns the CSS rules
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/cssRules
 pub fn CSSStyleSheet::css_rules(self : Self) -> Val {
-  self.to_js().get("cssRules")
+  self.get("cssRules")
 }
 
 ///|
@@ -177,7 +177,7 @@ pub fn CSSStyleSheet::owner_node(self : Self) -> Val? {
 ///|
 /// Returns whether the stylesheet is disabled
 pub fn CSSStyleSheet::disabled(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("disabled"))
+  unsafe_cast(self.get("disabled"))
 }
 
 ///|
@@ -300,7 +300,7 @@ pub fn css_supports_condition(condition : String) -> Bool {
 /// Access document stylesheets
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/styleSheets
 pub fn Document::style_sheets(self : Self) -> Val {
-  self.to_js().get("styleSheets")
+  self.get("styleSheets")
 }
 
 ///|

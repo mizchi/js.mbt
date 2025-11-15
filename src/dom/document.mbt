@@ -76,7 +76,7 @@ pub extern "js" fn Document::create_text_node(
 /// Returns the document's ready state
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
 pub fn Document::ready_state(self : Self) -> String {
-  unsafe_cast(self.to_js().get("readyState"))
+  unsafe_cast(self.get("readyState"))
 }
 
 ///|
@@ -156,7 +156,7 @@ pub fn Document::head(self : Self) -> HTMLHeadElement? {
 /// Returns the document's title
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/title
 pub fn Document::title(self : Self) -> String {
-  unsafe_cast(self.to_js().get("title"))
+  unsafe_cast(self.get("title"))
 }
 
 ///|
@@ -169,21 +169,21 @@ pub fn Document::set_title(self : Self, title : String) -> Unit {
 /// Returns the document's URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/URL
 pub fn Document::url(self : Self) -> String {
-  unsafe_cast(self.to_js().get("URL"))
+  unsafe_cast(self.get("URL"))
 }
 
 ///|
 /// Returns the document's domain
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/domain
 pub fn Document::domain(self : Self) -> String {
-  unsafe_cast(self.to_js().get("domain"))
+  unsafe_cast(self.get("domain"))
 }
 
 ///|
 /// Returns the document's referrer
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/referrer
 pub fn Document::referrer(self : Self) -> String {
-  unsafe_cast(self.to_js().get("referrer"))
+  unsafe_cast(self.get("referrer"))
 }
 
 ///|
@@ -204,35 +204,35 @@ pub fn Document::create_comment(self : Self, data : String) -> Val {
 /// Returns the document element (root element)
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentElement
 pub fn Document::document_element(self : Self) -> Element {
-  unsafe_cast(self.to_js().get("documentElement"))
+  unsafe_cast(self.get("documentElement"))
 }
 
 ///|
 /// Returns the document URI
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentURI
 pub fn Document::document_uri(self : Self) -> String {
-  unsafe_cast(self.to_js().get("documentURI"))
+  unsafe_cast(self.get("documentURI"))
 }
 
 ///|
 /// Returns the character encoding of the document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/characterSet
 pub fn Document::character_set(self : Self) -> String {
-  unsafe_cast(self.to_js().get("characterSet"))
+  unsafe_cast(self.get("characterSet"))
 }
 
 ///|
 /// Returns the content type of the document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/contentType
 pub fn Document::content_type(self : Self) -> String {
-  unsafe_cast(self.to_js().get("contentType"))
+  unsafe_cast(self.get("contentType"))
 }
 
 ///|
 /// Returns the document type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
 pub fn Document::doctype(self : Self) -> Val? {
-  self.to_js().get("doctype") |> to_option()
+  self.get("doctype") |> to_option()
 }
 
 ///|

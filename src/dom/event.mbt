@@ -29,32 +29,32 @@ impl EventImpl with stop_immediate_propagation(self) -> Unit {
 
 ///|
 impl EventImpl with target(self) -> Element {
-  unsafe_cast(self.to_js().get("target"))
+  unsafe_cast(self.get("target"))
 }
 
 ///|
 impl EventImpl with current_target(self) -> Element {
-  unsafe_cast(self.to_js().get("currentTarget"))
+  unsafe_cast(self.get("currentTarget"))
 }
 
 ///|
 impl EventImpl with event_type(self) -> String {
-  unsafe_cast(self.to_js().get("type"))
+  unsafe_cast(self.get("type"))
 }
 
 ///|
 impl EventImpl with bubbles(self) -> Bool {
-  unsafe_cast(self.to_js().get("bubbles"))
+  unsafe_cast(self.get("bubbles"))
 }
 
 ///|
 impl EventImpl with cancelable(self) -> Bool {
-  unsafe_cast(self.to_js().get("cancelable"))
+  unsafe_cast(self.get("cancelable"))
 }
 
 ///|
 impl EventImpl with default_prevented(self) -> Bool {
-  unsafe_cast(self.to_js().get("defaultPrevented"))
+  unsafe_cast(self.get("defaultPrevented"))
 }
 
 ///|
@@ -84,31 +84,31 @@ pub impl EventImpl for PointerEvent
 ///|
 /// Returns the width of the pointer contact
 pub fn PointerEvent::width(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("width"))
+  unsafe_cast(self.get("width"))
 }
 
 ///|
 /// Returns the height of the pointer contact
 pub fn PointerEvent::height(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("height"))
+  unsafe_cast(self.get("height"))
 }
 
 ///|
 /// Returns the pointer ID
 pub fn PointerEvent::pointer_id(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("pointerId"))
+  unsafe_cast(self.get("pointerId"))
 }
 
 ///|
 /// Returns the pointer type (mouse, pen, touch)
 pub fn PointerEvent::pointer_type(self : Self) -> String {
-  unsafe_cast(self.to_js().get("pointerType"))
+  unsafe_cast(self.get("pointerType"))
 }
 
 ///|
 /// Returns whether the pointer is primary
 pub fn PointerEvent::is_primary(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("isPrimary"))
+  unsafe_cast(self.get("isPrimary"))
 }
 
 ///|
@@ -127,94 +127,94 @@ pub impl EventImpl for MouseEvent
 /// Returns the X coordinate relative to the viewport
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX
 pub fn MouseEvent::client_x(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("clientX"))
+  unsafe_cast(self.get("clientX"))
 }
 
 ///|
 /// Returns the Y coordinate relative to the viewport
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientY
 pub fn MouseEvent::client_y(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("clientY"))
+  unsafe_cast(self.get("clientY"))
 }
 
 ///|
 /// Returns the X coordinate relative to the screen
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/screenX
 pub fn MouseEvent::screen_x(self : MouseEvent) -> Int {
-  unsafe_cast(self.to_js().get("screenX"))
+  unsafe_cast(self.get("screenX"))
 }
 
 ///|
 /// Returns the Y coordinate relative to the screen
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/screenY
 pub fn MouseEvent::screen_y(self : MouseEvent) -> Int {
-  unsafe_cast(self.to_js().get("screenY"))
+  unsafe_cast(self.get("screenY"))
 }
 
 ///|
 /// Returns the X coordinate relative to the target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetX
 pub fn MouseEvent::offset_x(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("offsetX"))
+  unsafe_cast(self.get("offsetX"))
 }
 
 ///|
 /// Returns the Y coordinate relative to the target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetY
 pub fn MouseEvent::offset_y(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("offsetY"))
+  unsafe_cast(self.get("offsetY"))
 }
 
 ///|
 /// Returns the X coordinate relative to the page
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX
 pub fn MouseEvent::page_x(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("pageX"))
+  unsafe_cast(self.get("pageX"))
 }
 
 ///|
 /// Returns the Y coordinate relative to the page
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageY
 pub fn MouseEvent::page_y(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("pageY"))
+  unsafe_cast(self.get("pageY"))
 }
 
 ///|
 /// Returns which mouse button was pressed
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 pub fn MouseEvent::button(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("button"))
+  unsafe_cast(self.get("button"))
 }
 
 ///|
 /// Returns which mouse buttons were pressed
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
 pub fn MouseEvent::buttons(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("buttons"))
+  unsafe_cast(self.get("buttons"))
 }
 
 ///|
 /// Returns whether the Ctrl key was pressed
 pub fn MouseEvent::ctrl_key(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("ctrlKey"))
+  unsafe_cast(self.get("ctrlKey"))
 }
 
 ///|
 /// Returns whether the Shift key was pressed
 pub fn MouseEvent::shift_key(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("shiftKey"))
+  unsafe_cast(self.get("shiftKey"))
 }
 
 ///|
 /// Returns whether the Alt key was pressed
 pub fn MouseEvent::alt_key(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("altKey"))
+  unsafe_cast(self.get("altKey"))
 }
 
 ///|
 /// Returns whether the Meta key was pressed
 pub fn MouseEvent::meta_key(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("metaKey"))
+  unsafe_cast(self.get("metaKey"))
 }
 
 ///|
@@ -233,63 +233,63 @@ pub impl EventImpl for KeyboardEvent
 /// Returns the key value
 /// https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
 pub fn KeyboardEvent::key(self : KeyboardEvent) -> String {
-  unsafe_cast(self.to_js().get("key"))
+  unsafe_cast(self.get("key"))
 }
 
 ///|
 /// Returns the key code (deprecated)
 /// https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
 pub fn KeyboardEvent::key_code(self : KeyboardEvent) -> Int {
-  unsafe_cast(self.to_js().get("keyCode"))
+  unsafe_cast(self.get("keyCode"))
 }
 
 ///|
 /// Returns which key was pressed (deprecated)
 pub fn KeyboardEvent::which(self : KeyboardEvent) -> Int {
-  unsafe_cast(self.to_js().get("which"))
+  unsafe_cast(self.get("which"))
 }
 
 ///|
 /// Returns the physical key code
 /// https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
 pub fn KeyboardEvent::code(self : KeyboardEvent) -> String {
-  unsafe_cast(self.to_js().get("code"))
+  unsafe_cast(self.get("code"))
 }
 
 ///|
 /// Returns whether the Ctrl key was pressed
 pub fn KeyboardEvent::ctrl_key(self : KeyboardEvent) -> Bool {
-  unsafe_cast(self.to_js().get("ctrlKey"))
+  unsafe_cast(self.get("ctrlKey"))
 }
 
 ///|
 /// Returns whether the Alt key was pressed
 pub fn KeyboardEvent::alt_key(self : KeyboardEvent) -> Bool {
-  unsafe_cast(self.to_js().get("altKey"))
+  unsafe_cast(self.get("altKey"))
 }
 
 ///|
 /// Returns whether the Shift key was pressed
 pub fn KeyboardEvent::shift_key(self : KeyboardEvent) -> Bool {
-  unsafe_cast(self.to_js().get("shiftKey"))
+  unsafe_cast(self.get("shiftKey"))
 }
 
 ///|
 /// Returns whether the Meta key was pressed
 pub fn KeyboardEvent::meta_key(self : KeyboardEvent) -> Bool {
-  unsafe_cast(self.to_js().get("metaKey"))
+  unsafe_cast(self.get("metaKey"))
 }
 
 ///|
 /// Returns whether the key is being held down
 pub fn KeyboardEvent::repeat(self : KeyboardEvent) -> Bool {
-  unsafe_cast(self.to_js().get("repeat"))
+  unsafe_cast(self.get("repeat"))
 }
 
 ///|
 /// Returns the location of the key on the keyboard
 pub fn KeyboardEvent::location(self : KeyboardEvent) -> Int {
-  unsafe_cast(self.to_js().get("location"))
+  unsafe_cast(self.get("location"))
 }
 
 ///|
@@ -318,7 +318,7 @@ pub impl EventImpl for FocusEvent
 ///|
 /// Returns the related target (element losing/gaining focus)
 pub fn FocusEvent::related_target(self : FocusEvent) -> Element? {
-  self.to_js().get("relatedTarget") |> to_option()
+  self.get("relatedTarget") |> to_option()
 }
 
 ///|
@@ -335,7 +335,7 @@ pub impl EventImpl for FormEvent
 ///|
 /// Returns the form data
 pub fn FormEvent::form_data(self : FormEvent) -> Val {
-  self.to_js().get("formData")
+  self.get("formData")
 }
 
 ///|
@@ -354,7 +354,7 @@ pub impl EventImpl for DragEvent
 /// Returns the data transfer object
 /// https://developer.mozilla.org/en-US/docs/Web/API/DragEvent/dataTransfer
 pub fn DragEvent::data_transfer(self : Self) -> Val {
-  self.to_js().get("dataTransfer")
+  self.get("dataTransfer")
 }
 
 ///|
@@ -372,13 +372,13 @@ pub impl EventImpl for InputEvent
 ///|
 /// Returns the input data
 pub fn InputEvent::data(self : Self) -> String? {
-  self.to_js().get("data") |> to_option()
+  self.get("data") |> to_option()
 }
 
 ///|
 /// Returns the input type
 pub fn InputEvent::input_type(self : Self) -> String {
-  unsafe_cast(self.to_js().get("inputType"))
+  unsafe_cast(self.get("inputType"))
 }
 
 ///|
@@ -396,25 +396,25 @@ pub impl EventImpl for WheelEvent
 ///|
 /// Returns the horizontal scroll amount
 pub fn WheelEvent::delta_x(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("deltaX"))
+  unsafe_cast(self.get("deltaX"))
 }
 
 ///|
 /// Returns the vertical scroll amount
 pub fn WheelEvent::delta_y(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("deltaY"))
+  unsafe_cast(self.get("deltaY"))
 }
 
 ///|
 /// Returns the Z-axis scroll amount
 pub fn WheelEvent::delta_z(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("deltaZ"))
+  unsafe_cast(self.get("deltaZ"))
 }
 
 ///|
 /// Returns the delta mode (pixel, line, or page)
 pub fn WheelEvent::delta_mode(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("deltaMode"))
+  unsafe_cast(self.get("deltaMode"))
 }
 
 ///|
@@ -433,45 +433,45 @@ pub impl EventImpl for TouchEvent
 /// Returns the list of all touches
 /// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/touches
 pub fn TouchEvent::touches(self : Self) -> Val {
-  self.to_js().get("touches")
+  self.get("touches")
 }
 
 ///|
 /// Returns the list of touches that are currently in contact with the surface
 /// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/targetTouches
 pub fn TouchEvent::target_touches(self : Self) -> Val {
-  self.to_js().get("targetTouches")
+  self.get("targetTouches")
 }
 
 ///|
 /// Returns the list of touches that changed since the last event
 /// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/changedTouches
 pub fn TouchEvent::changed_touches(self : Self) -> Val {
-  self.to_js().get("changedTouches")
+  self.get("changedTouches")
 }
 
 ///|
 /// Returns whether the Alt key was pressed
 pub fn TouchEvent::alt_key(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("altKey"))
+  unsafe_cast(self.get("altKey"))
 }
 
 ///|
 /// Returns whether the Ctrl key was pressed
 pub fn TouchEvent::ctrl_key(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("ctrlKey"))
+  unsafe_cast(self.get("ctrlKey"))
 }
 
 ///|
 /// Returns whether the Shift key was pressed
 pub fn TouchEvent::shift_key(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("shiftKey"))
+  unsafe_cast(self.get("shiftKey"))
 }
 
 ///|
 /// Returns whether the Meta key was pressed
 pub fn TouchEvent::meta_key(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("metaKey"))
+  unsafe_cast(self.get("metaKey"))
 }
 
 ///|
@@ -486,13 +486,13 @@ impl Js for Touch
 ///|
 /// Returns the unique identifier for this touch
 pub fn Touch::identifier(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("identifier"))
+  unsafe_cast(self.get("identifier"))
 }
 
 ///|
 /// Returns the X coordinate relative to the viewport
 pub fn Touch::client_x(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("clientX"))
+  unsafe_cast(self.get("clientX"))
 }
 
 ///|

@@ -89,7 +89,7 @@ pub fn CanvasRenderingContext2D::set_text_baseline(
 
 ///|
 pub fn CanvasRenderingContext2D::global_alpha(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("globalAlpha"))
+  unsafe_cast(self.get("globalAlpha"))
 }
 
 ///|
@@ -439,7 +439,7 @@ pub impl Js for TextMetrics
 
 ///|
 pub fn TextMetrics::width(self : Self) -> Double {
-  unsafe_cast(self.to_js().get("width"))
+  unsafe_cast(self.get("width"))
 }
 
 ///|
@@ -584,7 +584,7 @@ pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
 
 ///|
 pub fn OffscreenCanvas::width(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("width"))
+  unsafe_cast(self.get("width"))
 }
 
 ///|
@@ -594,7 +594,7 @@ pub fn OffscreenCanvas::set_width(self : Self, value : Int) -> Unit {
 
 ///|
 pub fn OffscreenCanvas::height(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("height"))
+  unsafe_cast(self.get("height"))
 }
 
 ///|

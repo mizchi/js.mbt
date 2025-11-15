@@ -75,7 +75,7 @@ pub(all) struct DurableObjectIdOptions {
 
 ///|
 pub impl Js for DurableObjectIdOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.jurisdiction {
     Some(j) => obj.set("jurisdiction", j)
     None => ()
@@ -106,7 +106,7 @@ pub fn DurableObjectId::equals(self : Self, other : DurableObjectId) -> Bool {
 ///|
 /// Get ID name (if created from name)
 pub fn DurableObjectId::name(self : Self) -> String? {
-  unsafe_cast(self.to_js().get("name"))
+  unsafe_cast(self.get("name"))
 }
 
 ///|
@@ -120,13 +120,13 @@ pub impl Js for DurableObjectStub
 ///|
 /// Get the ID of this stub
 pub fn DurableObjectStub::id(self : Self) -> DurableObjectId {
-  unsafe_cast(self.to_js().get("id"))
+  unsafe_cast(self.get("id"))
 }
 
 ///|
 /// Get the name of this stub
 pub fn DurableObjectStub::name(self : Self) -> String? {
-  unsafe_cast(self.to_js().get("name"))
+  unsafe_cast(self.get("name"))
 }
 
 ///|
@@ -172,13 +172,13 @@ pub impl Js for DurableObjectState
 ///|
 /// Get the ID of this Durable Object
 pub fn DurableObjectState::id(self : Self) -> DurableObjectId {
-  unsafe_cast(self.to_js().get("id"))
+  unsafe_cast(self.get("id"))
 }
 
 ///|
 /// Get the storage interface
 pub fn DurableObjectState::storage(self : Self) -> DurableObjectStorage {
-  unsafe_cast(self.to_js().get("storage"))
+  unsafe_cast(self.get("storage"))
 }
 
 ///|
@@ -226,7 +226,7 @@ pub fn DurableObjectStorage::get_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Val] {
-  let keys_js = js("[]")
+  let keys_js = @js.new_empty_array()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -242,7 +242,7 @@ pub fn DurableObjectStorage::get_multiple_with_options(
   keys : Array[String],
   options : DurableObjectGetOptions,
 ) -> Promise[Val] {
-  let keys_js = js("[]")
+  let keys_js = @js.new_empty_array()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -313,7 +313,7 @@ pub fn DurableObjectStorage::delete_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Int] {
-  let keys_js = js("[]")
+  let keys_js = @js.new_empty_array()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -329,7 +329,7 @@ pub fn DurableObjectStorage::delete_multiple_with_options(
   keys : Array[String],
   options : DurableObjectPutOptions,
 ) -> Promise[Int] {
-  let keys_js = js("[]")
+  let keys_js = @js.new_empty_array()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -441,7 +441,7 @@ pub(all) struct DurableObjectGetOptions {
 
 ///|
 pub impl Js for DurableObjectGetOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
     None => ()
@@ -463,7 +463,7 @@ pub(all) struct DurableObjectPutOptions {
 
 ///|
 pub impl Js for DurableObjectPutOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
     None => ()
@@ -494,7 +494,7 @@ pub(all) struct DurableObjectListOptions {
 
 ///|
 pub impl Js for DurableObjectListOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.start {
     Some(val) => obj.set("start", val)
     None => ()
@@ -538,7 +538,7 @@ pub(all) struct DurableObjectGetAlarmOptions {
 
 ///|
 pub impl Js for DurableObjectGetAlarmOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
     None => ()
@@ -555,7 +555,7 @@ pub(all) struct DurableObjectSetAlarmOptions {
 
 ///|
 pub impl Js for DurableObjectSetAlarmOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
     None => ()
@@ -590,7 +590,7 @@ pub fn DurableObjectTransaction::get_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Val] {
-  let keys_js = js("[]")
+  let keys_js = @js.new_empty_array()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -633,7 +633,7 @@ pub fn DurableObjectTransaction::delete_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Int] {
-  let keys_js = js("[]")
+  let keys_js = @js.new_empty_array()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore

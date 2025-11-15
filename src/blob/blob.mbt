@@ -33,13 +33,13 @@ pub fn Blob::new(data : Array[&Js], content_type? : String) -> Blob {
 ///|
 /// Get the size of the Blob in bytes
 pub fn Blob::size(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("size"))
+  unsafe_cast(self.get("size"))
 }
 
 ///|
 /// Get the MIME type of the Blob
 pub fn Blob::content_type(self : Self) -> String {
-  unsafe_cast(self.to_js().get("type"))
+  unsafe_cast(self.get("type"))
 }
 
 ///|

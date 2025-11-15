@@ -229,7 +229,7 @@ pub impl Js for Crypto
 
 ///|
 pub fn Crypto::subtle(self : Self) -> SubtleCrypto {
-  unsafe_cast(self.to_js().get("subtle"))
+  unsafe_cast(self.get("subtle"))
 }
 
 ///|

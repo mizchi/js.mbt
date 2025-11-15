@@ -62,7 +62,7 @@ pub fn R2Bucket::delete_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Unit] {
-  let keys_js = js("[]")
+  let keys_js = @js.new_empty_array()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -124,10 +124,10 @@ pub(all) struct R2GetOptions {
 
 ///|
 pub impl Js for R2GetOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.only_if {
     Some(cond) => {
-      let cond_obj = js("{}")
+      let cond_obj = @js.new_empty_object()
       match cond.etag_matches {
         Some(etag) => cond_obj.set("etagMatches", etag)
         None => ()
@@ -150,7 +150,7 @@ pub impl Js for R2GetOptions with to_js(self) {
   }
   match self.range {
     Some(r) => {
-      let range_obj = js("{}")
+      let range_obj = @js.new_empty_object()
       match r.offset {
         Some(offset) => range_obj.set("offset", offset)
         None => ()
@@ -201,7 +201,7 @@ pub(all) struct R2PutOptions {
 
 ///|
 pub impl Js for R2PutOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.http_metadata {
     Some(meta) => obj.set("httpMetadata", meta.to_js())
     None => ()
@@ -246,7 +246,7 @@ pub(all) struct R2HttpMetadata {
 
 ///|
 pub impl Js for R2HttpMetadata with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.content_type {
     Some(val) => obj.set("contentType", val)
     None => ()
@@ -287,7 +287,7 @@ pub(all) struct R2ListOptions {
 
 ///|
 pub impl Js for R2ListOptions with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   match self.limit {
     Some(l) => obj.set("limit", l)
     None => ()
@@ -310,7 +310,7 @@ pub impl Js for R2ListOptions with to_js(self) {
   }
   match self.include_ {
     Some(inc) => {
-      let arr = js("[]")
+      let arr = @js.new_empty_array()
       let mut i = 0
       while i < inc.length() {
         arr.invoke("push", [inc[i]]) |> ignore
@@ -334,43 +334,43 @@ pub impl Js for R2Object
 ///|
 /// Get object key
 pub fn R2Object::key(self : Self) -> String {
-  unsafe_cast(self.to_js().get("key"))
+  unsafe_cast(self.get("key"))
 }
 
 ///|
 /// Get object version
 pub fn R2Object::version(self : Self) -> String {
-  unsafe_cast(self.to_js().get("version"))
+  unsafe_cast(self.get("version"))
 }
 
 ///|
 /// Get object size
 pub fn R2Object::size(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("size"))
+  unsafe_cast(self.get("size"))
 }
 
 ///|
 /// Get object etag
 pub fn R2Object::etag(self : Self) -> String {
-  unsafe_cast(self.to_js().get("etag"))
+  unsafe_cast(self.get("etag"))
 }
 
 ///|
 /// Get object HTTP metadata
 pub fn R2Object::http_metadata(self : Self) -> Val {
-  self.to_js().get("httpMetadata")
+  self.get("httpMetadata")
 }
 
 ///|
 /// Get object custom metadata
 pub fn R2Object::custom_metadata(self : Self) -> Val {
-  self.to_js().get("customMetadata")
+  self.get("customMetadata")
 }
 
 ///|
 /// Get object uploaded time
 pub fn R2Object::uploaded(self : Self) -> Val {
-  self.to_js().get("uploaded")
+  self.get("uploaded")
 }
 
 ///|
@@ -400,13 +400,13 @@ pub fn R2Object::blob(self : Self) -> Promise[Val] {
 ///|
 /// Get object body
 pub fn R2Object::body(self : Self) -> Val {
-  self.to_js().get("body")
+  self.get("body")
 }
 
 ///|
 /// Get object body used status
 pub fn R2Object::body_used(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("bodyUsed"))
+  unsafe_cast(self.get("bodyUsed"))
 }
 
 ///|
@@ -438,13 +438,13 @@ pub impl Js for R2MultipartUpload
 ///|
 /// Get upload key
 pub fn R2MultipartUpload::key(self : Self) -> String {
-  unsafe_cast(self.to_js().get("key"))
+  unsafe_cast(self.get("key"))
 }
 
 ///|
 /// Get upload ID
 pub fn R2MultipartUpload::upload_id(self : Self) -> String {
-  unsafe_cast(self.to_js().get("uploadId"))
+  unsafe_cast(self.get("uploadId"))
 }
 
 ///|
@@ -469,7 +469,7 @@ pub fn R2MultipartUpload::complete(
   self : Self,
   parts : Array[R2UploadedPart],
 ) -> Promise[R2Object] {
-  let parts_js = js("[]")
+  let parts_js = @js.new_empty_array()
   let mut i = 0
   while i < parts.length() {
     parts_js.invoke("push", [parts[i]]) |> ignore
@@ -487,7 +487,7 @@ pub(all) struct R2UploadedPart {
 
 ///|
 pub impl Js for R2UploadedPart with to_js(self) {
-  let obj = js("{}")
+  let obj = @js.new_empty_object()
   obj.set("partNumber", self.part_number)
   obj.set("etag", self.etag)
   obj
