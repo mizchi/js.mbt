@@ -4,25 +4,54 @@ package "mizchi/js/node/child_process"
 import(
   "mizchi/js"
   "mizchi/js/async"
+  "mizchi/js/node/events"
+  "mizchi/js/stream"
 )
 
 // Values
+fn exec(String, (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @async.AbortSignal) -> ChildProcess
+
+fn exec_file(String, Array[String], (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, signal? : @async.AbortSignal) -> ChildProcess
+
+fn exec_file_sync(String, args? : Array[String], cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
+
+fn exec_sync(String, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
+
+fn fork(String, args? : Array[String], cwd? : String, env? : @js.Val, silent? : Bool, timeout? : Int, signal? : @async.AbortSignal) -> ChildProcess
+
+fn spawn(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, signal? : @async.AbortSignal) -> ChildProcess
+
+fn spawn_sync(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, input? : String) -> SpawnSyncResult
 
 // Errors
 
 // Types and methods
 #external
 pub type ChildProcess
-fn ChildProcess::exec(Self, String, Array[String], (@js.Val, String, String) -> Unit, cwd? : String, signal? : @async.AbortSignal) -> Unit
-fn ChildProcess::exec_sync(Self, String, cwd? : String, signal? : @async.AbortSignal) -> SubProcess
-fn ChildProcess::require() -> Self
-fn ChildProcess::spawn(Self, String, Array[String], cwd? : String, signal? : @async.AbortSignal) -> SubProcess
+fn ChildProcess::disconnect(Self) -> Unit
+fn ChildProcess::exit_code(Self) -> Int?
+fn ChildProcess::kill(Self, signal? : String) -> Bool
+fn ChildProcess::killed(Self) -> Bool
+fn ChildProcess::pid(Self) -> Int
+fn ChildProcess::ref_(Self) -> Unit
+fn ChildProcess::send(Self, &@js.Js) -> Bool
+fn ChildProcess::signal_code(Self) -> String?
+fn ChildProcess::stderr(Self) -> @stream.ReadableStream?
+fn ChildProcess::stdin(Self) -> @stream.WritableStream?
+fn ChildProcess::stdout(Self) -> @stream.ReadableStream?
+fn ChildProcess::unref(Self) -> Unit
 impl @js.Js for ChildProcess
+impl @events.EventEmitter for ChildProcess
 
 #external
-pub type SubProcess
-fn SubProcess::off(Self, String, (@js.Val) -> Unit) -> Unit
-fn SubProcess::on(Self, String, (@js.Val) -> Unit) -> Unit
+pub type SpawnSyncResult
+fn SpawnSyncResult::error(Self) -> @js.Val?
+fn SpawnSyncResult::pid(Self) -> Int
+fn SpawnSyncResult::signal(Self) -> String?
+fn SpawnSyncResult::status(Self) -> Int?
+fn SpawnSyncResult::stderr(Self) -> @js.Val
+fn SpawnSyncResult::stdout(Self) -> @js.Val
+impl @js.Js for SpawnSyncResult
 
 // Type aliases
 

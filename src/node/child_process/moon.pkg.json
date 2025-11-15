@@ -2,6 +2,8 @@
   "import": [
     "mizchi/js",
     "mizchi/js/async",
-    "mizchi/js/node"
+    "mizchi/js/node",
+    "mizchi/js/node/events",
+    "mizchi/js/stream"
   ]
 }

@@ -1,4 +1,5 @@
 // https://nodejs.org/api/child_process.html
+// Based on @types/node child_process definitions
 
 ///|
 using @js {js, unsafe_cast, type Val, trait Js}
@@ -7,6 +8,15 @@ using @js {js, unsafe_cast, type Val, trait Js}
 using @async {type AbortSignal}
 
 ///|
+using @events {trait EventEmitter}
+
+///|
+using @stream {type ReadableStream, type WritableStream}
+
+///| ChildProcess Type
+
+///|
+/// The ChildProcess class extends EventEmitter and represents a spawned child process
 #external
 pub type ChildProcess
 
@@ -16,91 +26,433 @@ pub impl Js for ChildProcess with to_js(self) -> Val {
 }
 
 ///|
-pub fn ChildProcess::require() -> ChildProcess {
-  @node.require("node:child_process") |> unsafe_cast()
+/// Implement EventEmitter trait for ChildProcess
+pub impl EventEmitter for ChildProcess with on(
+  self : ChildProcess,
+  name : String,
+  callback : () -> Unit,
+) -> Unit {
+  self.to_js().call_method("on", [name, callback |> js]).cast()
 }
 
 ///|
-pub fn ChildProcess::exec_sync(
-  self : Self,
+pub impl EventEmitter for ChildProcess with once(
+  self : ChildProcess,
+  name : String,
+  callback : () -> Unit,
+) -> Unit {
+  self.to_js().call_method("once", [name, callback |> js]).cast()
+}
+
+///|
+pub impl EventEmitter for ChildProcess with off(
+  self : ChildProcess,
+  name : String,
+  callback : () -> Unit,
+) -> Unit {
+  self.to_js().call_method("off", [name, callback |> js]).cast()
+}
+
+///|
+pub impl EventEmitter for ChildProcess with emit(
+  self : ChildProcess,
+  name : String,
+  payload : Val,
+) -> Unit {
+  self.to_js().call_method("emit", [name, payload]).cast()
+}
+
+///| ChildProcess Properties
+
+///|
+/// The process identifier (PID)
+pub fn ChildProcess::pid(self : Self) -> Int {
+  self.to_js().get("pid").cast()
+}
+
+///|
+/// Whether the process has been killed
+pub fn ChildProcess::killed(self : Self) -> Bool {
+  self.to_js().get("killed").cast()
+}
+
+///|
+/// The exit code of the child process, or null if still running
+pub fn ChildProcess::exit_code(self : Self) -> Int? {
+  self.to_js().get("exitCode").cast_option()
+}
+
+///|
+/// The signal that terminated the child process, or null
+pub fn ChildProcess::signal_code(self : Self) -> String? {
+  self.to_js().get("signalCode").cast_option()
+}
+
+///|
+/// A readable stream representing the child process's stdin
+pub fn ChildProcess::stdin(self : Self) -> WritableStream? {
+  self.to_js().get("stdin").cast_option()
+}
+
+///|
+/// A writable stream representing the child process's stdout
+pub fn ChildProcess::stdout(self : Self) -> ReadableStream? {
+  self.to_js().get("stdout").cast_option()
+}
+
+///|
+/// A writable stream representing the child process's stderr
+pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
+  self.to_js().get("stderr").cast_option()
+}
+
+///| ChildProcess Methods
+
+///|
+/// Send a signal to the child process
+pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
+  match signal {
+    Some(sig) => self.to_js().call_method("kill", [sig |> js]).cast()
+    None => self.to_js().call_method("kill", []).cast()
+  }
+}
+
+///|
+/// Send a message to the child process (for IPC)
+pub fn ChildProcess::send(self : Self, message : &Js) -> Bool {
+  self.to_js().call_method("send", [message.to_js()]).cast()
+}
+
+///|
+/// Close the IPC channel between parent and child
+pub fn ChildProcess::disconnect(self : Self) -> Unit {
+  self.to_js().call_method("disconnect", []) |> ignore
+}
+
+///|
+/// Prevent the parent process from waiting for this child
+pub fn ChildProcess::unref(self : Self) -> Unit {
+  self.to_js().call_method("unref", []) |> ignore
+}
+
+///|
+/// Require the parent process to wait for this child
+pub fn ChildProcess::ref_(self : Self) -> Unit {
+  self.to_js().call_method("ref", []) |> ignore
+}
+
+///|
+/// Module Functions
+extern "js" fn ffi_require_child_process() -> Val =
+  #|() => require("node:child_process")
+
+///|
+/// spawn(command[, args][, options])
+/// Spawns a new process using the given command
+pub fn spawn(
   command : String,
+  args? : Array[String],
   cwd? : String,
+  env? : Val,
+  shell? : Bool,
+  timeout? : Int,
   signal? : AbortSignal,
-) -> SubProcess {
+) -> ChildProcess {
+  let cp = ffi_require_child_process()
   let options = @js.new_empty_object()
-  if cwd is Some(cwd) {
-    options.set("cwd", cwd)
+  if args is Some(_) {
+    // args will be passed separately
   }
-  if signal is Some(signal) {
-    options.set("signal", signal.to_js())
+  if cwd is Some(c) {
+    options.set("cwd", c)
   }
-  self.to_js().get("exec_sync").call([command, options]).cast()
+  if env is Some(e) {
+    options.set("env", e)
+  }
+  if shell is Some(s) {
+    options.set("shell", s)
+  }
+  if timeout is Some(t) {
+    options.set("timeout", t)
+  }
+  if signal is Some(sig) {
+    options.set("signal", sig.to_js())
+  }
+  match args {
+    Some(a) => cp.call_method("spawn", [command |> js, a |> js, options]).cast()
+    None => cp.call_method("spawn", [command |> js, options]).cast()
+  }
 }
 
 ///|
-pub fn ChildProcess::exec(
-  self : Self,
+/// exec(command[, options][, callback])
+/// Spawns a shell and executes a command, buffering the output
+pub fn exec(
   command : String,
+  callback : (Val, String, String) -> Unit noraise,
+  cwd? : String,
+  env? : Val,
+  shell? : String,
+  timeout? : Int,
+  max_buffer? : Int,
+  signal? : AbortSignal,
+) -> ChildProcess {
+  let cp = ffi_require_child_process()
+  let options = @js.new_empty_object()
+  if cwd is Some(c) {
+    options.set("cwd", c)
+  }
+  if env is Some(e) {
+    options.set("env", e)
+  }
+  if shell is Some(s) {
+    options.set("shell", s)
+  }
+  if timeout is Some(t) {
+    options.set("timeout", t)
+  }
+  if max_buffer is Some(mb) {
+    options.set("maxBuffer", mb)
+  }
+  if signal is Some(sig) {
+    options.set("signal", sig.to_js())
+  }
+  cp.call_method("exec", [command |> js, options, unsafe_cast(callback)]).cast()
+}
+
+///|
+/// execFile(file[, args][, options][, callback])
+/// Executes a file directly without spawning a shell
+pub fn exec_file(
+  file : String,
   args : Array[String],
   callback : (Val, String, String) -> Unit noraise,
   cwd? : String,
+  env? : Val,
+  timeout? : Int,
+  max_buffer? : Int,
   signal? : AbortSignal,
-) -> Unit {
+) -> ChildProcess {
+  let cp = ffi_require_child_process()
   let options = @js.new_empty_object()
-  if cwd is Some(cwd) {
-    options.set("cwd", cwd)
+  if cwd is Some(c) {
+    options.set("cwd", c)
   }
-  if signal is Some(signal) {
-    options.set("signal", signal.to_js())
+  if env is Some(e) {
+    options.set("env", e)
   }
-  self
-  .to_js()
-  .get("exec")
-  .call([command, args |> js, options, unsafe_cast(callback)])
+  if timeout is Some(t) {
+    options.set("timeout", t)
+  }
+  if max_buffer is Some(mb) {
+    options.set("maxBuffer", mb)
+  }
+  if signal is Some(sig) {
+    options.set("signal", sig.to_js())
+  }
+  cp
+  .call_method("execFile", [
+    file |> js,
+    args |> js,
+    options,
+    unsafe_cast(callback),
+  ])
   .cast()
 }
 
 ///|
-pub fn ChildProcess::spawn(
-  self : Self,
-  command : String,
-  args : Array[String],
+/// fork(modulePath[, args][, options])
+/// Spawns a new Node.js process with IPC communication channel
+pub fn fork(
+  module_path : String,
+  args? : Array[String],
   cwd? : String,
+  env? : Val,
+  silent? : Bool,
+  timeout? : Int,
   signal? : AbortSignal,
-) -> SubProcess {
+) -> ChildProcess {
+  let cp = ffi_require_child_process()
   let options = @js.new_empty_object()
-  if cwd is Some(cwd) {
-    options.set("cwd", cwd)
+  if cwd is Some(c) {
+    options.set("cwd", c)
   }
-  if signal is Some(signal) {
-    options.set("signal", signal.to_js())
+  if env is Some(e) {
+    options.set("env", e)
   }
-  self.to_js().get("spawn").call([command, args |> js, options]).cast()
+  if silent is Some(s) {
+    options.set("silent", s)
+  }
+  if timeout is Some(t) {
+    options.set("timeout", t)
+  }
+  if signal is Some(sig) {
+    options.set("signal", sig.to_js())
+  }
+  match args {
+    Some(a) =>
+      cp.call_method("fork", [module_path |> js, a |> js, options]).cast()
+    None => cp.call_method("fork", [module_path |> js, options]).cast()
+  }
 }
 
-///|
-#external
-pub type SubProcess
+///| Synchronous Functions
 
 ///|
-impl Js for SubProcess with to_js(self) -> Val {
+/// SpawnSyncResult type for synchronous spawn operations
+#external
+pub type SpawnSyncResult
+
+///|
+pub impl Js for SpawnSyncResult with to_js(self) -> Val {
   self |> js
 }
 
 ///|
-pub fn SubProcess::on(
-  self : Self,
-  event : String,
-  callback : (Val) -> Unit noraise,
-) -> Unit {
-  self.to_js().call_method("on", [event, unsafe_cast(callback)]) |> ignore
+pub fn SpawnSyncResult::pid(self : Self) -> Int {
+  self.to_js().get("pid").cast()
 }
 
 ///|
-pub fn SubProcess::off(
-  self : Self,
-  event : String,
-  callback : (Val) -> Unit noraise,
-) -> Unit {
-  self.to_js().call_method("off", [event, unsafe_cast(callback)]) |> ignore
+pub fn SpawnSyncResult::status(self : Self) -> Int? {
+  self.to_js().get("status").cast_option()
+}
+
+///|
+pub fn SpawnSyncResult::signal(self : Self) -> String? {
+  self.to_js().get("signal").cast_option()
+}
+
+///|
+pub fn SpawnSyncResult::stdout(self : Self) -> Val {
+  self.to_js().get("stdout")
+}
+
+///|
+pub fn SpawnSyncResult::stderr(self : Self) -> Val {
+  self.to_js().get("stderr")
+}
+
+///|
+pub fn SpawnSyncResult::error(self : Self) -> Val? {
+  self.to_js().get("error").cast_option()
+}
+
+///|
+/// spawnSync(command[, args][, options])
+/// Synchronous version of spawn - blocks until process exits
+pub fn spawn_sync(
+  command : String,
+  args? : Array[String],
+  cwd? : String,
+  env? : Val,
+  shell? : Bool,
+  timeout? : Int,
+  input? : String,
+) -> SpawnSyncResult {
+  let cp = ffi_require_child_process()
+  let options = @js.new_empty_object()
+  if cwd is Some(c) {
+    options.set("cwd", c)
+  }
+  if env is Some(e) {
+    options.set("env", e)
+  }
+  if shell is Some(s) {
+    options.set("shell", s)
+  }
+  if timeout is Some(t) {
+    options.set("timeout", t)
+  }
+  if input is Some(i) {
+    options.set("input", i)
+  }
+  match args {
+    Some(a) =>
+      cp.call_method("spawnSync", [command |> js, a |> js, options]).cast()
+    None => cp.call_method("spawnSync", [command |> js, options]).cast()
+  }
+}
+
+///|
+/// execSync(command[, options])
+/// Synchronous version of exec - blocks until completion
+pub fn exec_sync(
+  command : String,
+  cwd? : String,
+  env? : Val,
+  shell? : String,
+  timeout? : Int,
+  max_buffer? : Int,
+  input? : String,
+  encoding? : String,
+) -> String {
+  let cp = ffi_require_child_process()
+  let options = @js.new_empty_object()
+  if cwd is Some(c) {
+    options.set("cwd", c)
+  }
+  if env is Some(e) {
+    options.set("env", e)
+  }
+  if shell is Some(s) {
+    options.set("shell", s)
+  }
+  if timeout is Some(t) {
+    options.set("timeout", t)
+  }
+  if max_buffer is Some(mb) {
+    options.set("maxBuffer", mb)
+  }
+  if input is Some(i) {
+    options.set("input", i)
+  }
+  if encoding is Some(enc) {
+    options.set("encoding", enc)
+  } else {
+    options.set("encoding", "utf8")
+  }
+  cp.call_method("execSync", [command |> js, options]).cast()
+}
+
+///|
+/// execFileSync(file[, args][, options])
+/// Synchronous version of execFile
+pub fn exec_file_sync(
+  file : String,
+  args? : Array[String],
+  cwd? : String,
+  env? : Val,
+  timeout? : Int,
+  max_buffer? : Int,
+  input? : String,
+  encoding? : String,
+) -> String {
+  let cp = ffi_require_child_process()
+  let options = @js.new_empty_object()
+  if cwd is Some(c) {
+    options.set("cwd", c)
+  }
+  if env is Some(e) {
+    options.set("env", e)
+  }
+  if timeout is Some(t) {
+    options.set("timeout", t)
+  }
+  if max_buffer is Some(mb) {
+    options.set("maxBuffer", mb)
+  }
+  if input is Some(i) {
+    options.set("input", i)
+  }
+  if encoding is Some(enc) {
+    options.set("encoding", enc)
+  } else {
+    options.set("encoding", "utf8")
+  }
+  match args {
+    Some(a) =>
+      cp.call_method("execFileSync", [file |> js, a |> js, options]).cast()
+    None => cp.call_method("execFileSync", [file |> js, options]).cast()
+  }
 }
