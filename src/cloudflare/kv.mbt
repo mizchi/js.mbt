@@ -192,9 +192,7 @@ pub(all) struct KVListResult {
 }
 
 ///|
-pub impl Js for KVListResult with to_js(self) {
-  self |> js
-}
+pub impl Js for KVListResult
 
 ///|
 /// Key information in list result
@@ -205,9 +203,7 @@ pub(all) struct KVKey {
 }
 
 ///|
-pub impl Js for KVKey with to_js(self) {
-  self |> js
-}
+pub impl Js for KVKey
 
 ///|
 /// Value with metadata from getWithMetadata
@@ -217,6 +213,4 @@ pub(all) struct KVValueWithMetadata {
 }
 
 ///|
-pub impl Js for KVValueWithMetadata with to_js(self) {
-  self |> js
-}
+pub impl Js for KVValueWithMetadata

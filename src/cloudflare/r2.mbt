@@ -5,9 +5,7 @@
 pub type R2Bucket
 
 ///|
-pub impl Js for R2Bucket with to_js(self) {
-  self |> js
-}
+pub impl Js for R2Bucket
 
 ///|
 /// Get an object from R2
@@ -331,9 +329,7 @@ pub impl Js for R2ListOptions with to_js(self) {
 pub type R2Object
 
 ///|
-pub impl Js for R2Object with to_js(self) {
-  self |> js
-}
+pub impl Js for R2Object
 
 ///|
 /// Get object key
@@ -429,9 +425,7 @@ pub(all) struct R2Objects {
 }
 
 ///|
-pub impl Js for R2Objects with to_js(self) {
-  self |> js
-}
+pub impl Js for R2Objects
 
 ///|
 /// R2 Multipart Upload
@@ -439,9 +433,7 @@ pub impl Js for R2Objects with to_js(self) {
 pub type R2MultipartUpload
 
 ///|
-pub impl Js for R2MultipartUpload with to_js(self) {
-  self |> js
-}
+pub impl Js for R2MultipartUpload
 
 ///|
 /// Get upload key

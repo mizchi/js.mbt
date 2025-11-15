@@ -160,9 +160,7 @@ pub(all) struct D1Result {
 }
 
 ///|
-pub impl Js for D1Result with to_js(self) {
-  self |> js
-}
+pub impl Js for D1Result
 
 ///|
 /// Get results from D1Result
@@ -186,9 +184,7 @@ pub(all) struct D1Meta {
 }
 
 ///|
-pub impl Js for D1Meta with to_js(self) {
-  self |> js
-}
+pub impl Js for D1Meta
 
 ///|
 /// Result of exec operation
@@ -198,9 +194,7 @@ pub(all) struct D1ExecResult {
 }
 
 ///|
-pub impl Js for D1ExecResult with to_js(self) {
-  self |> js
-}
+pub impl Js for D1ExecResult
 
 ///|
 /// Legacy type alias for compatibility

@@ -8,9 +8,7 @@
 pub type Date
 
 ///|
-pub impl Js for Date with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for Date
 
 ///|
 /// Get the current time in milliseconds since Unix epoch (January 1, 1970, 00:00:00 UTC).

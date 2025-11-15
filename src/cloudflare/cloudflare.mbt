@@ -9,18 +9,14 @@ pub type CloudflareEnv
 pub type CloudflareContext
 
 ///|
-impl Js for CloudflareContext with to_js(self) {
-  self |> js
-}
+impl Js for CloudflareContext
 
 ///|
 #external
 pub type CloudflareRequest
 
 ///|
-pub impl Js for CloudflareRequest with to_js(self) {
-  self |> js
-}
+pub impl Js for CloudflareRequest
 
 ///|
 pub fn CloudflareRequest::cf(self : CloudflareRequest) -> CloudflareContext {

@@ -4,9 +4,7 @@
 pub type SubtleCrypto
 
 ///|
-pub impl Js for SubtleCrypto with to_js(self) {
-  self |> js
-}
+pub impl Js for SubtleCrypto
 
 ///|
 /// SubtleCrypto - Encryption/Decryption
@@ -227,9 +225,7 @@ pub fn SubtleCrypto::unwrap_key(
 pub type Crypto
 
 ///|
-pub impl Js for Crypto with to_js(self) {
-  self |> js
-}
+pub impl Js for Crypto
 
 ///|
 pub fn Crypto::subtle(self : Self) -> SubtleCrypto {

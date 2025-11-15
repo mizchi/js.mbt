@@ -448,9 +448,7 @@ pub fn TextMetrics::width(self : Self) -> Double {
 pub type ImageData
 
 ///|
-pub impl Js for ImageData with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for ImageData
 
 ///|
 extern "js" fn ffi_new_image_data(width : Val, height : Val) -> Val =
@@ -482,17 +480,17 @@ pub fn ImageData::from_data(
 
 ///|
 pub fn ImageData::width(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("width"))
+  unsafe_cast(self.get("width"))
 }
 
 ///|
 pub fn ImageData::height(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("height"))
+  unsafe_cast(self.get("height"))
 }
 
 ///|
 pub fn ImageData::data(self : Self) -> Uint8Array {
-  unsafe_cast(self.to_js().get("data"))
+  unsafe_cast(self.get("data"))
 }
 
 ///|
@@ -501,9 +499,7 @@ pub fn ImageData::data(self : Self) -> Uint8Array {
 pub type ImageBitmap
 
 ///|
-pub impl Js for ImageBitmap with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for ImageBitmap
 
 ///|
 pub impl Transferable for ImageBitmap with to_transferable(self) -> Val {
@@ -512,7 +508,7 @@ pub impl Transferable for ImageBitmap with to_transferable(self) -> Val {
 
 ///|
 pub fn ImageBitmap::width(self : Self) -> Int {
-  unsafe_cast(self.to_js().get("width"))
+  unsafe_cast(self.get("width"))
 }
 
 ///|
@@ -570,9 +566,7 @@ pub fn create_image_bitmap_rect(
 pub type OffscreenCanvas
 
 ///|
-pub impl Js for OffscreenCanvas with to_js(self) -> Val {
-  self |> js
-}
+pub impl Js for OffscreenCanvas
 
 ///|
 pub impl Transferable for OffscreenCanvas with to_transferable(self) -> Val {

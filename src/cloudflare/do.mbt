@@ -5,9 +5,7 @@
 pub type DurableObjectNamespace
 
 ///|
-pub impl Js for DurableObjectNamespace with to_js(self) {
-  self |> js
-}
+pub impl Js for DurableObjectNamespace
 
 ///|
 /// Get a Durable Object stub by ID
@@ -91,9 +89,7 @@ pub impl Js for DurableObjectIdOptions with to_js(self) {
 pub type DurableObjectId
 
 ///|
-pub impl Js for DurableObjectId with to_js(self) {
-  self |> js
-}
+pub impl Js for DurableObjectId
 
 ///|
 /// Convert ID to string
@@ -119,9 +115,7 @@ pub fn DurableObjectId::name(self : Self) -> String? {
 pub type DurableObjectStub
 
 ///|
-pub impl Js for DurableObjectStub with to_js(self) {
-  self |> js
-}
+pub impl Js for DurableObjectStub
 
 ///|
 /// Get the ID of this stub
@@ -173,9 +167,7 @@ pub fn DurableObjectStub::fetch_url_with_init(
 pub type DurableObjectState
 
 ///|
-pub impl Js for DurableObjectState with to_js(self) {
-  self |> js
-}
+pub impl Js for DurableObjectState
 
 ///|
 /// Get the ID of this Durable Object
@@ -210,9 +202,7 @@ pub fn DurableObjectState::block_concurrency_while(
 pub type DurableObjectStorage
 
 ///|
-pub impl Js for DurableObjectStorage with to_js(self) {
-  self |> js
-}
+pub impl Js for DurableObjectStorage
 
 ///|
 /// Get a value from storage

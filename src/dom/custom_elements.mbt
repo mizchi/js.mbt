@@ -9,9 +9,7 @@
 pub type CustomElementRegistry
 
 ///|
-pub impl Js for CustomElementRegistry with to_js(self) {
-  self |> js
-}
+pub impl Js for CustomElementRegistry
 
 ///|
 /// Returns the custom elements registry
