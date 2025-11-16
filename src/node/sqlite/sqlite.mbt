@@ -63,7 +63,7 @@ pub fn DatabaseSync::new(
   allowUnknownNamedParameters? : Bool,
   defensive? : Bool,
 ) -> DatabaseSync {
-  let opts = @js.new_empty_object()
+  let opts = @js.Object::new()
   if open is Some(v) {
     opts.set("open", v)
   }
@@ -112,7 +112,7 @@ pub fn[T, U] DatabaseSync::aggregate(
   inverse? : (T, U) -> T,
   result? : (T) -> Val,
 ) -> Unit {
-  let opts = @js.new_empty_object()
+  let opts = @js.Object::new()
   if deterministic is Some(v) {
     opts.set("deterministic", v)
   }
@@ -150,7 +150,7 @@ pub fn DatabaseSync::function(
   useBigIntArguments? : Bool,
   varargs? : Bool,
 ) -> Unit {
-  let opts = @js.new_empty_object()
+  let opts = @js.Object::new()
   if deterministic is Some(v) {
     opts.set("deterministic", v)
   }
@@ -237,7 +237,7 @@ pub fn DatabaseSync::createSession(
   table? : String,
   db? : String,
 ) -> Session {
-  let v = @js.new_empty_object()
+  let v = @js.Object::new()
   if table is Some(t) {
     v.set("table", t)
   }
@@ -265,7 +265,7 @@ pub fn DatabaseSync::applyChangeset(
   filter? : (Val) -> Bool,
   onConflict? : (Val, Val) -> Bool,
 ) -> Bool {
-  let opts = @js.new_empty_object()
+  let opts = @js.Object::new()
   if filter is Some(f) {
     opts.set("filter", f |> js)
   }
@@ -292,7 +292,7 @@ pub fn StatementSync::get_(
 ) -> Val? {
   let args : Array[&Js] = []
   if named_parameters is Some(params) {
-    let obj = @js.new_empty_object()
+    let obj = @js.Object::new()
     for key, value in params {
       obj.set(key, value.to_js())
     }
@@ -324,7 +324,7 @@ pub fn StatementSync::run(
 ) -> StatementResultingChanges {
   let args : Array[&Js] = []
   if named_parameters is Some(params) {
-    let obj = @js.new_empty_object()
+    let obj = @js.Object::new()
     for key, value in params {
       obj.set(key, value.to_js())
     }
@@ -346,7 +346,7 @@ pub fn StatementSync::all(
 ) -> Array[Val] {
   let args : Array[&Js] = []
   if named_parameters is Some(params) {
-    let obj = @js.new_empty_object()
+    let obj = @js.Object::new()
     for key, value in params {
       obj.set(key, value.to_js())
     }
@@ -368,7 +368,7 @@ pub fn StatementSync::iterate(
 ) -> JsIterator[Val] {
   let args : Array[&Js] = []
   if named_parameters is Some(params) {
-    let obj = @js.new_empty_object()
+    let obj = @js.Object::new()
     for key, value in params {
       obj.set(key, value.to_js())
     }
@@ -497,7 +497,7 @@ pub fn backup(
   target? : String,
   progress? : (BackupProgress) -> Unit,
 ) -> Unit {
-  let opts = @js.new_empty_object()
+  let opts = @js.Object::new()
   if rate is Some(v) {
     opts.set("rate", v)
   }

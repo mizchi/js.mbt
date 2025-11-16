@@ -1,10 +1,10 @@
 ///|
-using @js {trait Js, type Val, js, unsafe_cast, is_undefined, new_empty_object}
+using @js {trait Js, type Val, js, unsafe_cast, is_undefined}
 
 ///|
 test "WeakMap::set and get - store and retrieve values" {
   let wm : WeakMap[Val, Val] = WeakMap::new()
-  let key = new_empty_object()
+  let key = @js.Object::new().to_js()
   let value = js("test value")
   wm.set(key, value) |> ignore
   let result = wm.get(key)
@@ -14,7 +14,7 @@ test "WeakMap::set and get - store and retrieve values" {
 ///|
 test "WeakMap::has - check if key exists" {
   let wm : WeakMap[Val, Val] = WeakMap::new()
-  let key = new_empty_object()
+  let key = @js.Object::new().to_js()
   let value = js("test")
   let has_before = wm.has(key)
   wm.set(key, value) |> ignore
@@ -26,7 +26,7 @@ test "WeakMap::has - check if key exists" {
 ///|
 test "WeakMap::delete - remove a key-value pair" {
   let wm : WeakMap[Val, Val] = WeakMap::new()
-  let key = new_empty_object()
+  let key = @js.Object::new().to_js()
   let value = js("test")
   wm.set(key, value) |> ignore
   let deleted = wm.delete(key)
@@ -38,18 +38,18 @@ test "WeakMap::delete - remove a key-value pair" {
 ///|
 test "WeakMap::get - return None for non-existent key" {
   let wm : WeakMap[Val, Val] = WeakMap::new()
-  let key = new_empty_object()
-  let result = wm.get(key)
+  let key = @js.Object::new()
+  let result = wm.get(key.to_js())
   assert_true(result.is_empty())
 }
 
 ///|
 test "WeakSet::add and has - add and check values" {
   let ws : WeakSet[Val] = WeakSet::new()
-  let value = new_empty_object()
-  let has_before = ws.has(value)
-  ws.add(value) |> ignore
-  let has_after = ws.has(value)
+  let value = @js.Object::new()
+  let has_before = ws.has(value.to_js())
+  ws.add(value.to_js()) |> ignore
+  let has_after = ws.has(value.to_js())
   assert_false(has_before)
   assert_true(has_after)
 }
@@ -57,10 +57,10 @@ test "WeakSet::add and has - add and check values" {
 ///|
 test "WeakSet::delete - remove a value" {
   let ws : WeakSet[Val] = WeakSet::new()
-  let value = new_empty_object()
-  ws.add(value) |> ignore
-  let deleted = ws.delete(value)
-  let has_after = ws.has(value)
+  let value = @js.Object::new()
+  ws.add(value.to_js()) |> ignore
+  let deleted = ws.delete(value.to_js())
+  let has_after = ws.has(value.to_js())
   assert_true(deleted)
   assert_false(has_after)
 }
@@ -68,15 +68,15 @@ test "WeakSet::delete - remove a value" {
 ///|
 test "WeakSet::has - return false for non-existent value" {
   let ws : WeakSet[Val] = WeakSet::new()
-  let value = new_empty_object()
-  let has = ws.has(value)
+  let value = @js.Object::new()
+  let has = ws.has(value.to_js())
   assert_false(has)
 }
 
 ///|
 test "WeakRef::new and deref - create and dereference" {
-  let target = new_empty_object()
-  let wr : WeakRef[Val] = WeakRef::new(target)
+  let target = @js.Object::new()
+  let wr : WeakRef[Val] = WeakRef::new(target.to_js())
   let result = wr.deref()
   assert_false(result.is_empty())
 }
@@ -88,7 +88,7 @@ test "FinalizationRegistry::register - register an object" {
   ) {
     ()
   })
-  let target = new_empty_object()
+  let target = @js.Object::new()
   let held_value = js("cleanup info")
   registry.register(target, held_value)
   // Registry was created successfully
@@ -102,10 +102,10 @@ test "FinalizationRegistry::unregister - unregister with token" {
   ) {
     ()
   })
-  let target = new_empty_object()
+  let target = @js.Object::new()
   let held_value = js("cleanup info")
-  let token = new_empty_object()
-  registry.register(target, held_value, unregister_token=token)
-  let unregistered = registry.unregister(token)
+  let token = @js.Object::new()
+  registry.register(target, held_value, unregister_token=token.to_js())
+  let unregistered = registry.unregister(token.to_js())
   assert_true(unregistered)
 }

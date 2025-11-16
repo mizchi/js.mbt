@@ -124,10 +124,10 @@ pub(all) struct R2GetOptions {
 
 ///|
 pub impl Js for R2GetOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.only_if {
     Some(cond) => {
-      let cond_obj = @js.new_empty_object()
+      let cond_obj = @js.Object::new()
       match cond.etag_matches {
         Some(etag) => cond_obj.set("etagMatches", etag)
         None => ()
@@ -150,7 +150,7 @@ pub impl Js for R2GetOptions with to_js(self) {
   }
   match self.range {
     Some(r) => {
-      let range_obj = @js.new_empty_object()
+      let range_obj = @js.Object::new()
       match r.offset {
         Some(offset) => range_obj.set("offset", offset)
         None => ()
@@ -167,7 +167,7 @@ pub impl Js for R2GetOptions with to_js(self) {
     }
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -201,7 +201,7 @@ pub(all) struct R2PutOptions {
 
 ///|
 pub impl Js for R2PutOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.http_metadata {
     Some(meta) => obj.set("httpMetadata", meta.to_js())
     None => ()
@@ -230,7 +230,7 @@ pub impl Js for R2PutOptions with to_js(self) {
     Some(hash) => obj.set("sha512", hash)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -246,7 +246,7 @@ pub(all) struct R2HttpMetadata {
 
 ///|
 pub impl Js for R2HttpMetadata with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.content_type {
     Some(val) => obj.set("contentType", val)
     None => ()
@@ -271,7 +271,7 @@ pub impl Js for R2HttpMetadata with to_js(self) {
     Some(val) => obj.set("cacheExpiry", val)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -287,7 +287,7 @@ pub(all) struct R2ListOptions {
 
 ///|
 pub impl Js for R2ListOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.limit {
     Some(l) => obj.set("limit", l)
     None => ()
@@ -320,7 +320,7 @@ pub impl Js for R2ListOptions with to_js(self) {
     }
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -487,8 +487,8 @@ pub(all) struct R2UploadedPart {
 
 ///|
 pub impl Js for R2UploadedPart with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   obj.set("partNumber", self.part_number)
   obj.set("etag", self.etag)
-  obj
+  obj.to_js()
 }

@@ -60,17 +60,17 @@ pub fn[T : Js] WeakSet::new() -> WeakSet[T] {
 }
 
 ///|
-pub fn[T : Js] WeakSet::add(self : WeakSet[T], value : T) -> WeakSet[T] {
+pub fn[T : Js] WeakSet::add(self : Self[T], value : T) -> WeakSet[T] {
   self.invoke("add", [value]) |> unsafe_cast
 }
 
 ///|
-pub fn[T : Js] WeakSet::delete(self : WeakSet[T], value : T) -> Bool {
+pub fn[T : Js] WeakSet::delete(self : Self[T], value : T) -> Bool {
   self.invoke("delete", [value]) |> unsafe_cast
 }
 
 ///|
-pub fn[T : Js] WeakSet::has(self : WeakSet[T], value : T) -> Bool {
+pub fn[T : Js] WeakSet::has(self : Self[T], value : T) -> Bool {
   self.invoke("has", [value]) |> unsafe_cast
 }
 

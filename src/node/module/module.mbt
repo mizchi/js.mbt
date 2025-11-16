@@ -52,7 +52,7 @@ pub fn enable_compile_cache(cache_dir? : String) -> Unit {
   let mod = ffi_require_module()
   match cache_dir {
     Some(dir) => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       options.set("cacheDir", dir)
       mod.invoke("enableCompileCache", [options]) |> ignore
     }
@@ -93,7 +93,7 @@ pub fn strip_typescript_types(
     (None, None, None) =>
       unsafe_cast(mod.invoke("stripTypeScriptTypes", [code |> js]))
     _ => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       match mode {
         Some(m) => options.set("mode", m)
         None => ()

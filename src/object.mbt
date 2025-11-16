@@ -22,14 +22,14 @@ pub fn Object::new() -> Self {
 /// # Example
 ///
 /// ```moonbit
-/// let obj = new_empty_object()
+/// let obj = @js.Object::new()
 /// obj.set("name", "Alice")
 /// obj.set("age", 30)
 /// ```
-#deprecated("Use Object::new() instead")
-pub fn new_empty_object() -> Val {
-  ffi_new_empty_object()
-}
+// #deprecated("Use Object::new() instead")
+// pub fn new_empty_object() -> Val {
+//   ffi_new_empty_object()
+// }
 
 ///|
 /// Get all own enumerable property names of a JavaScript object.
@@ -47,7 +47,7 @@ pub fn new_empty_object() -> Val {
 /// # Example
 ///
 /// ```moonbit skip
-/// let obj = new_empty_object()
+/// let obj = @js.Object::new()
 /// obj.set("name", "Alice")
 /// obj.set("age", 30)
 /// let keys = object_keys(obj)
@@ -73,10 +73,10 @@ pub fn object_keys(v : Val) -> Array[String] {
 /// # Example
 ///
 /// ```moonbit
-/// let obj = new_empty_object()
+/// let obj = @js.Object::new()
 /// obj.set("name", "Alice")
 /// obj.set("age", 30)
-/// let values = object_values(obj)
+/// let values = object_values(obj.to_js())
 /// // values contains [Val("Alice"), Val(30)] (order not guaranteed)
 /// ```
 pub fn object_values(v : Val) -> Array[Val] {
@@ -99,7 +99,7 @@ pub fn object_values(v : Val) -> Array[Val] {
 /// # Example
 ///
 /// ```moonbit skip
-/// let obj = new_empty_object()
+/// let obj = @js.Object::new()
 /// obj.set("name", "Alice")
 /// obj.set("age", 30)
 /// let entries = object_entries(obj)
@@ -132,12 +132,12 @@ pub fn object_entries(v : Val) -> Array[(String, Val)] {
 /// # Example
 ///
 /// ```moonbit
-/// let target = new_empty_object()
+/// let target = @js.Object::new()
 /// target.set("a", 1)
-/// let source = new_empty_object()
+/// let source = @js.Object::new()
 /// source.set("b", 2)
 /// source.set("c", 3)
-/// let result = object_assign(target, source)
+/// let result = object_assign(target.to_js(), source.to_js())
 /// // result.a == 1, result.b == 2, result.c == 3
 /// ```
 ///

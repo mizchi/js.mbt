@@ -219,7 +219,7 @@ pub fn spawn(
   signal? : AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   if args is Some(_) {
     // args will be passed separately
   }
@@ -259,7 +259,7 @@ pub fn exec(
   signal? : AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   if cwd is Some(c) {
     options.set("cwd", c)
   }
@@ -297,7 +297,7 @@ pub fn exec_file(
   signal? : AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   if cwd is Some(c) {
     options.set("cwd", c)
   }
@@ -336,7 +336,7 @@ pub fn fork(
   signal? : AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   if cwd is Some(c) {
     options.set("cwd", c)
   }
@@ -412,7 +412,7 @@ pub fn spawn_sync(
   input? : String,
 ) -> SpawnSyncResult {
   let cp = ffi_require_child_process()
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   if cwd is Some(c) {
     options.set("cwd", c)
   }
@@ -449,7 +449,7 @@ pub fn exec_sync(
   encoding? : String,
 ) -> String {
   let cp = ffi_require_child_process()
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   if cwd is Some(c) {
     options.set("cwd", c)
   }
@@ -490,7 +490,7 @@ pub fn exec_file_sync(
   encoding? : String,
 ) -> String {
   let cp = ffi_require_child_process()
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   if cwd is Some(c) {
     options.set("cwd", c)
   }

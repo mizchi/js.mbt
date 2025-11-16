@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, js, unsafe_cast, new_empty_object}
+using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
 using @arraybuffer {type ArrayBuffer, type Uint8Array}

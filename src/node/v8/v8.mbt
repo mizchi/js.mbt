@@ -39,7 +39,7 @@ pub fn get_heap_snapshot(
   match (expose_internals, expose_numeric_values) {
     (None, None) => v8.invoke("getHeapSnapshot", [])
     _ => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       match expose_internals {
         Some(ei) => options.set("exposeInternals", ei)
         None => ()

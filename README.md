@@ -37,7 +37,7 @@ moon.pkg.json
 
 ```mbt
 fn main {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   obj["xxx"] = 1
   let v: Int = obj.get("xxx").cast()
 }

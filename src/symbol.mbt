@@ -20,7 +20,7 @@ pub impl Js for Symbol
 ///
 /// ```moonbit
 /// let sym = symbol("mySymbol")
-/// let obj = new_empty_object()
+/// let obj = @js.Object::new()
 /// obj.set(sym, "value")
 /// ```
 pub fn symbol(name : String) -> Symbol {

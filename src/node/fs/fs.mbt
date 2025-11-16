@@ -67,7 +67,7 @@ pub fn mkdir_sync(path : String, recursive? : Bool) -> Unit {
   let fs = fs_module()
   match recursive {
     Some(r) => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       options.set("recursive", r)
       fs.invoke("mkdirSync", [path, options]) |> ignore
     }
@@ -114,18 +114,18 @@ pub fn rm_sync(path : String, recursive? : Bool, force? : Bool) -> Unit {
   let fs = fs_module()
   match (recursive, force) {
     (Some(r), Some(f)) => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       options.set("recursive", r)
       options.set("force", f)
       fs.invoke("rmSync", [path, options]) |> ignore
     }
     (Some(r), None) => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       options.set("recursive", r)
       fs.invoke("rmSync", [path, options]) |> ignore
     }
     (None, Some(f)) => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       options.set("force", f)
       fs.invoke("rmSync", [path, options]) |> ignore
     }

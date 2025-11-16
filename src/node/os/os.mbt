@@ -139,7 +139,7 @@ pub fn userinfo() -> Val {
 ///
 /// - `encoding`: The character encoding to use (default: 'utf8')
 pub fn userinfo_with_encoding(encoding : String) -> Val {
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   options.set("encoding", encoding)
   os_module().invoke("userInfo", [options])
 }

@@ -23,9 +23,9 @@ pub fn fetch(
   referrerPolicy? : String,
   signal? : AbortSignal,
 ) -> Promise[Response] {
-  let init_obj = new_empty_object()
+  let init_obj = @js.Object::new()
   init_obj.set("method", method_)
-  let header_obj = @js.new_empty_object()
+  let header_obj = @js.Object::new()
   for k, v in headers {
     header_obj.set(k, v)
   }
@@ -62,7 +62,7 @@ pub fn fetch(
   if signal is Some(s) {
     init_obj.set("signal", s)
   }
-  ffi_fetch(url, init_obj)
+  ffi_fetch(url, init_obj.to_js())
 }
 
 ///|

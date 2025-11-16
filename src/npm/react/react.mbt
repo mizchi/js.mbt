@@ -61,7 +61,7 @@ pub fn create_element(
 ) -> Element {
   let tag = js(tag)
   let children = children.map(_.to_js()) |> @js.from_array
-  let val : Val = @js.new_empty_object()
+  let val = @js.Object::new()
   if attributes is Some(props) {
     for k, v in props {
       val.set(k, v)
@@ -86,7 +86,7 @@ pub fn create_element(
     val.set("disabled", disabled |> js)
   }
   if style is Some(style) {
-    let style_obj : Val = @js.new_empty_object()
+    let style_obj = @js.Object::new()
     for k, v in style {
       style_obj.set(k, v)
     }
@@ -125,7 +125,7 @@ pub fn create_element(
   if on_dragenter is Some(v) {
     val.set("onDragEnter", v |> @js.from_fn1)
   }
-  unsafe_cast(ffi_create_element(tag, val, children))
+  unsafe_cast(ffi_create_element(tag, val.to_js(), children))
 }
 
 ///|
@@ -150,11 +150,11 @@ pub fn[T] c(
 pub fn fragment(children : Array[&Js], key? : String) -> Element {
   let tag = js(get_fragment())
   let children = @js.from_array(children)
-  let val : Val = @js.new_empty_object()
+  let val = @js.Object::new()
   if key is Some(key) {
     val.set("key", key)
   }
-  ffi_create_element(tag, val, children) |> unsafe_cast
+  ffi_create_element(tag, val.to_js(), children) |> unsafe_cast
 }
 
 ///|

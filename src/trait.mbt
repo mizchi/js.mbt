@@ -22,10 +22,10 @@
 ///
 /// // Using with polymorphic functions
 /// fn create_object(name : &Js, age : &Js) -> Val {
-///   let obj = new_empty_object()
+///   let obj = @js.Object::new()
 ///   obj.set("name", name)
 ///   obj.set("age", age)
-///   obj
+///   obj.to_js()
 /// }
 /// let obj = create_object("Alice", 30)  // Strings and Ints implement Js
 /// ```

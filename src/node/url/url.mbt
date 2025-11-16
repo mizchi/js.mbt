@@ -349,7 +349,7 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
   let url_module = @node.require("node:url")
   match windows {
     Some(w) => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       options.set("windows", w)
       unsafe_cast(url_module.invoke("fileURLToPath", [url, options]))
     }
@@ -364,7 +364,7 @@ pub fn fileURLToPathFromURL(url : URL, windows? : Bool) -> String {
   let url_module = @node.require("node:url")
   match windows {
     Some(w) => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       options.set("windows", w)
       unsafe_cast(url_module.invoke("fileURLToPath", [url, options]))
     }
@@ -379,7 +379,7 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
   let url_module = @node.require("node:url")
   match windows {
     Some(w) => {
-      let options = @js.new_empty_object()
+      let options = @js.Object::new()
       options.set("windows", w)
       unsafe_cast(url_module.invoke("pathToFileURL", [path, options]))
     }

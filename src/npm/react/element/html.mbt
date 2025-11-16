@@ -36,11 +36,11 @@ fn common_node(
     attr.set("className", className |> js)
   }
   if style is Some(style) {
-    let style_obj : Val = @js.new_empty_object()
+    let style_obj = @js.Object::new()
     for k, v in style {
       style_obj.set(k, v)
     }
-    attr.set("style", style_obj)
+    attr.set("style", style_obj.to_js())
   }
   if ref_ is Some(ref_) {
     attr.set("ref", ref_ |> js)

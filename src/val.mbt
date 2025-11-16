@@ -60,9 +60,9 @@ pub impl Eq for Val with equal(self, other) -> Bool {
 /// # Example
 ///
 /// ```moonbit
-/// let obj = new_empty_object()
-/// obj.set_if_exists("name", Some("Alice"))     // Sets property
-/// obj.set_if_exists("city", Some(undefined())) // Does nothing
+/// let obj = @js.Object::new()
+/// obj.to_js().set_if_exists("name", Some("Alice"))     // Sets property
+/// obj.to_js().set_if_exists("city", Some(undefined())) // Does nothing
 /// ```
 pub fn[T : Js] Val::set_if_exists(
   self : Val,

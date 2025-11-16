@@ -27,7 +27,7 @@ pub fn KVNamespace::get_array_buffer(
   self : Self,
   key : String,
 ) -> Promise[Val?] {
-  let opts_js = @js.new_empty_object()
+  let opts_js = @js.Object::new()
   opts_js.set("type", "arrayBuffer")
   self.invoke("get", [key, opts_js]) |> unsafe_cast
 }
@@ -35,7 +35,7 @@ pub fn KVNamespace::get_array_buffer(
 ///|
 /// Get a value as JSON
 pub fn KVNamespace::get_json(self : Self, key : String) -> Promise[Val?] {
-  let opts_js = @js.new_empty_object()
+  let opts_js = @js.Object::new()
   opts_js.set("type", "json")
   self.invoke("get", [key, opts_js]) |> unsafe_cast
 }
@@ -43,7 +43,7 @@ pub fn KVNamespace::get_json(self : Self, key : String) -> Promise[Val?] {
 ///|
 /// Get a value as stream
 pub fn KVNamespace::get_stream(self : Self, key : String) -> Promise[Val?] {
-  let opts_js = @js.new_empty_object()
+  let opts_js = @js.Object::new()
   opts_js.set("type", "stream")
   self.invoke("get", [key, opts_js]) |> unsafe_cast
 }
@@ -57,7 +57,7 @@ pub fn KVNamespace::get_with_metadata(
 ) -> Promise[KVValueWithMetadata] {
   match options {
     None => {
-      let opts_js = @js.new_empty_object()
+      let opts_js = @js.Object::new()
       opts_js.set("type", "text")
       self.invoke("getWithMetadata", [key, opts_js]) |> unsafe_cast
     }
@@ -87,7 +87,7 @@ pub fn KVNamespace::put_with_metadata(
   value : String,
   metadata : Val,
 ) -> Promise[Unit] {
-  let opts_js = @js.new_empty_object()
+  let opts_js = @js.Object::new()
   opts_js.set("metadata", metadata)
   self.invoke("put", [key, value, opts_js]) |> unsafe_cast
 }
@@ -119,7 +119,7 @@ pub(all) struct KVGetOptions {
 
 ///|
 pub impl Js for KVGetOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.type_ {
     Some(t) => obj.set("type", t)
     None => ()
@@ -128,7 +128,7 @@ pub impl Js for KVGetOptions with to_js(self) {
     Some(ttl) => obj.set("cacheTtl", ttl)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -141,7 +141,7 @@ pub(all) struct KVPutOptions {
 
 ///|
 pub impl Js for KVPutOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.expiration {
     Some(exp) => obj.set("expiration", exp)
     None => ()
@@ -154,7 +154,7 @@ pub impl Js for KVPutOptions with to_js(self) {
     Some(meta) => obj.set("metadata", meta)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -167,7 +167,7 @@ pub(all) struct KVListOptions {
 
 ///|
 pub impl Js for KVListOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.prefix {
     Some(p) => obj.set("prefix", p)
     None => ()
@@ -180,7 +180,7 @@ pub impl Js for KVListOptions with to_js(self) {
     Some(c) => obj.set("cursor", c)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|

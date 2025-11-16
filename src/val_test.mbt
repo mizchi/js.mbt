@@ -54,10 +54,10 @@ fn TestEnum::from_js(v : Val) -> Self raise {
 impl Js for TestEnum with to_js(self) {
   match self {
     A(value~) => {
-      let obj = new_empty_object()
+      let obj = @js.Object::new()
       obj.set("tag", "A")
       obj.set("value", value)
-      obj
+      obj.to_js()
     }
   }
 }
@@ -80,7 +80,7 @@ test "to_string" {
   assert_eq(js("hello").to_string(), "hello")
   assert_true(@js.is_undefined(undefined()))
   assert_true(@js.is_null(null_()))
-  assert_eq(new_empty_object().to_string(), "{}")
+  assert_eq(@js.Object::new().to_js().to_string(), "{}")
   assert_eq(new_empty_array().to_string(), "[]")
   from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
   let expected =
@@ -127,14 +127,14 @@ test "Val type_of" {
   assert_eq(@js.type_of(js("hello")), "string")
   assert_eq(@js.type_of(js(true)), "boolean")
   assert_eq(@js.type_of(undefined()), "undefined")
-  assert_eq(@js.type_of(new_empty_object()), "object")
-  assert_eq(@js.type_of(new_empty_array()), "object")
+  assert_eq(@js.type_of(Object::new()), "object")
+  assert_eq(@js.type_of(JsArray::new()), "object")
   assert_eq(@js.type_of(null_()), "object") // JavaScript quirk
 }
 
 ///|
 test "Val get and set" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
   obj.set("active", true)
@@ -143,7 +143,7 @@ test "Val get and set" {
   assert_eq(unsafe_cast(obj.get("active")), true)
 
   // Test nested objects
-  let nested = new_empty_object()
+  let nested = @js.Object::new()
   nested.set("inner", "value")
   obj.set("nested", nested)
   assert_eq(unsafe_cast(obj.get("nested").get("inner")), "value")
@@ -151,25 +151,25 @@ test "Val get and set" {
 
 ///|
 test "Val set_if_exists" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
 
   // Set with Some value
-  obj.set_if_exists("key1", Some("value1"))
+  obj.to_js().set_if_exists("key1", Some("value1"))
   assert_eq(unsafe_cast(obj.get("key1")), "value1")
 
   // Set with None should not add property
   let v : Int? = None
-  obj.set_if_exists("key2", v)
+  obj.to_js().set_if_exists("key2", v)
   assert_true(@js.is_undefined(obj.get("key2")))
 
   // Set with undefined value should not add property
-  obj.set_if_exists("key3", Some(undefined()))
+  obj.to_js().set_if_exists("key3", Some(undefined()))
   assert_true(@js.is_undefined(obj.get("key3")))
 }
 
 ///|
 test "Val delete and has_own_property" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("key1", "value1")
   obj.set("key2", "value2")
   assert_true(obj.has_own_property("key1"))
@@ -245,11 +245,11 @@ test "Val is_nan" {
 
 ///|
 test "object_keys" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
   obj.set("city", "Tokyo")
-  let keys = object_keys(obj)
+  let keys = object_keys(obj.to_js())
   assert_eq(keys.length(), 3)
   assert_true(keys.contains("name"))
   assert_true(keys.contains("age"))
@@ -258,11 +258,11 @@ test "object_keys" {
 
 ///|
 test "object_values" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("a", 1)
   obj.set("b", 2)
   obj.set("c", 3)
-  let values = object_values(obj)
+  let values = object_values(obj.to_js())
   assert_eq(values.length(), 3)
   // Values should be present (order not guaranteed)
   let sum : Int = unsafe_cast(values[0]) +
@@ -273,10 +273,10 @@ test "object_values" {
 
 ///|
 test "object_entries" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
-  let entries = object_entries(obj)
+  let entries = object_entries(obj.to_js())
   assert_eq(entries.length(), 2)
   let mut found_name = false
   let mut found_age = false
@@ -296,13 +296,13 @@ test "object_entries" {
 
 ///|
 test "object_assign" {
-  let target = new_empty_object()
+  let target = @js.Object::new()
   target.set("a", 1)
   target.set("b", 2)
-  let source = new_empty_object()
+  let source = @js.Object::new()
   source.set("b", 3)
   source.set("c", 4)
-  let result = object_assign(target, source)
+  let result = object_assign(target.to_js(), source.to_js())
 
   // b should be overwritten, c should be added
   assert_eq(unsafe_cast(result.get("a")), 1)
@@ -400,11 +400,11 @@ test "Val with arrays" {
 
 ///|
 test "Val with nested structures" {
-  let root = new_empty_object()
-  let user = new_empty_object()
+  let root = @js.Object::new()
+  let user = @js.Object::new()
   user.set("name", "Alice")
   user.set("age", 30)
-  let address = new_empty_object()
+  let address = @js.Object::new()
   address.set("city", "Tokyo")
   address.set("country", "Japan")
   user.set("address", address)
@@ -428,20 +428,20 @@ test "Val Show trait" {
   assert_eq(js(true).to_string(), "true")
   assert_eq(js(false).to_string(), "false")
   assert_eq(null_().to_string(), "null")
-  assert_eq(new_empty_object().to_string(), "{}")
+  assert_eq(@js.Object::new().to_js().to_string(), "{}")
   assert_eq(new_empty_array().to_string(), "[]")
 }
 
 ///|
 test "Val with mixed types in object" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("string", "text")
   obj.set("number", 42)
   obj.set("float", 3.14)
   obj.set("boolean", true)
   obj.set("null", null_())
   obj.set("array", from_array([1, 2, 3]))
-  obj.set("object", new_empty_object())
+  obj.set("object", @js.Object::new())
   assert_eq(@js.type_of(obj.get("string")), "string")
   assert_eq(@js.type_of(obj.get("number")), "number")
   assert_eq(@js.type_of(obj.get("float")), "number")
@@ -453,7 +453,7 @@ test "Val with mixed types in object" {
 
 ///|
 test "Val property_is_enumerable" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("enumerable", "value")
   assert_true(@js.property_is_enumerable(obj, "enumerable"))
   assert_false(@js.property_is_enumerable(obj, "nonexistent"))
@@ -509,7 +509,7 @@ test "Js trait for Option" {
 
 ///|
 test "Val with empty strings" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("empty", "")
   assert_eq(unsafe_cast(obj.get("empty")), "")
   assert_true(obj.has_own_property("empty"))
@@ -517,7 +517,7 @@ test "Val with empty strings" {
 
 ///|
 test "Val with zero values" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("zero", 0)
   obj.set("zero_float", 0.0)
   assert_eq(unsafe_cast(obj.get("zero")), 0)
@@ -527,7 +527,7 @@ test "Val with zero values" {
 
 ///|
 test "Val with false boolean" {
-  let obj = new_empty_object()
+  let obj = @js.Object::new()
   obj.set("flag", false)
   assert_eq(unsafe_cast(obj.get("flag")), false)
   assert_true(obj.has_own_property("flag"))
@@ -590,7 +590,7 @@ test "encode_uri_component and decode_uri_component" {
 
 ///|
 test {
-  let obj = new_empty_object()
+  let obj = @js.Object::new().to_js()
   let undef : Val? = Some(undefined())
   obj.set_if_exists("a", undef)
   let none_val : Val? = None

@@ -124,7 +124,7 @@ pub fn ParsedPath::new(
   ext? : String = "",
   name? : String = "",
 ) -> ParsedPath {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   obj.set("root", root)
   obj.set("dir", dir)
   obj.set("base", base)

@@ -28,7 +28,7 @@ pub fn File::new(
     arr.invoke("push", [data[i].to_js()]) |> ignore
     i = i + 1
   }
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   match content_type {
     Some(t) => options.set("type", t)
     None => ()
@@ -37,7 +37,7 @@ pub fn File::new(
     Some(lm) => options.set("lastModified", lm)
     None => ()
   }
-  unsafe_cast(ffi_new_file(arr, filename |> js, options))
+  unsafe_cast(ffi_new_file(arr, filename |> js, options.to_js()))
 }
 
 ///|

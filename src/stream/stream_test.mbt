@@ -1,22 +1,22 @@
 ///|
 test "ReadableStream basic properties" {
-  let source = @js.new_empty_object()
-  let stream = ReadableStream::new(source)
+  let source = @js.Object::new()
+  let stream = ReadableStream::new(source.to_js())
   assert_eq(stream.locked(), false)
 }
 
 ///|
 test "ReadableStream get_reader locks stream" {
-  let source = @js.new_empty_object()
-  let stream = ReadableStream::new(source)
+  let source = @js.Object::new()
+  let stream = ReadableStream::new(source.to_js())
   let _reader = stream.get_reader()
   assert_eq(stream.locked(), true)
 }
 
 ///|
 test "ReadableStream tee creates two branches" {
-  let source = @js.new_empty_object()
-  let stream = ReadableStream::new(source)
+  let source = @js.Object::new()
+  let stream = ReadableStream::new(source.to_js())
   let (branch1, branch2) = stream.tee()
   assert_eq(branch1.locked(), false)
   assert_eq(branch2.locked(), false)
@@ -24,23 +24,23 @@ test "ReadableStream tee creates two branches" {
 
 ///|
 test "WritableStream basic properties" {
-  let sink = @js.new_empty_object()
-  let stream = WritableStream::new(sink)
+  let sink = @js.Object::new()
+  let stream = WritableStream::new(sink.to_js())
   assert_eq(stream.locked(), false)
 }
 
 ///|
 test "WritableStream get_writer locks stream" {
-  let sink = @js.new_empty_object()
-  let stream = WritableStream::new(sink)
+  let sink = @js.Object::new()
+  let stream = WritableStream::new(sink.to_js())
   let _writer = stream.get_writer()
   assert_eq(stream.locked(), true)
 }
 
 ///|
 test "ReadableStreamDefaultReader releaseLock unlocks stream" {
-  let source = @js.new_empty_object()
-  let stream = ReadableStream::new(source)
+  let source = @js.Object::new()
+  let stream = ReadableStream::new(source.to_js())
   let reader = stream.get_reader()
   assert_eq(stream.locked(), true)
   reader.release_lock()
@@ -49,8 +49,8 @@ test "ReadableStreamDefaultReader releaseLock unlocks stream" {
 
 ///|
 test "WritableStreamDefaultWriter releaseLock unlocks stream" {
-  let sink = @js.new_empty_object()
-  let stream = WritableStream::new(sink)
+  let sink = @js.Object::new()
+  let stream = WritableStream::new(sink.to_js())
   let writer = stream.get_writer()
   assert_eq(stream.locked(), true)
   writer.release_lock()
@@ -59,24 +59,24 @@ test "WritableStreamDefaultWriter releaseLock unlocks stream" {
 
 ///|
 test "ReadableStream getReader alias" {
-  let source = @js.new_empty_object()
-  let stream = ReadableStream::new(source)
+  let source = @js.Object::new()
+  let stream = ReadableStream::new(source.to_js())
   let _reader = stream.getReader()
   assert_eq(stream.locked(), true)
 }
 
 ///|
 test "WritableStream getWriter alias" {
-  let sink = @js.new_empty_object()
-  let stream = WritableStream::new(sink)
+  let sink = @js.Object::new()
+  let stream = WritableStream::new(sink.to_js())
   let _writer = stream.getWriter()
   assert_eq(stream.locked(), true)
 }
 
 ///|
 test "ReadableStreamDefaultReader releaseLock alias" {
-  let source = @js.new_empty_object()
-  let stream = ReadableStream::new(source)
+  let source = @js.Object::new()
+  let stream = ReadableStream::new(source.to_js())
   let reader = stream.get_reader()
   reader.releaseLock()
   assert_eq(stream.locked(), false)
@@ -84,8 +84,8 @@ test "ReadableStreamDefaultReader releaseLock alias" {
 
 ///|
 test "WritableStreamDefaultWriter releaseLock alias" {
-  let sink = @js.new_empty_object()
-  let stream = WritableStream::new(sink)
+  let sink = @js.Object::new()
+  let stream = WritableStream::new(sink.to_js())
   let writer = stream.get_writer()
   writer.releaseLock()
   assert_eq(stream.locked(), false)
@@ -102,8 +102,8 @@ test "TransformStream identity creates readable and writable" {
 
 ///|
 test "TransformStream with transformer" {
-  let transformer = @js.new_empty_object()
-  let transform = TransformStream::new(transformer)
+  let transformer = @js.Object::new()
+  let transform = TransformStream::new(transformer.to_js())
   let readable = transform.readable()
   let writable = transform.writable()
   assert_eq(readable.locked(), false)

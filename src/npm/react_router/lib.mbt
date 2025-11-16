@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, js, new_empty_object, unsafe_cast}
+using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
 using @async {type Promise}
@@ -53,16 +53,16 @@ pub(all) enum Route {
 impl Js for Route with to_js(self : Route) {
   match self {
     Route::Component(path~, component~) => {
-      let obj = new_empty_object()
+      let obj = @js.Object::new()
       obj.set("path", path)
       obj.set("Component", component |> js)
-      obj
+      obj.to_js()
     }
     Route::Element(path~, element~) => {
-      let obj = new_empty_object()
+      let obj = @js.Object::new()
       obj.set("path", path)
       obj.set("element", element |> js)
-      obj
+      obj.to_js()
     }
   }
 }

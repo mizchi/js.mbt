@@ -33,7 +33,7 @@ pub fn create_interface(
   tabSize? : Int,
   signal? : AbortSignal,
 ) -> Interface {
-  let opts = @js.new_empty_object()
+  let opts = @js.Object::new()
   opts.set("input", input.to_js())
   if output is Some(v) {
     opts.set("output", v)

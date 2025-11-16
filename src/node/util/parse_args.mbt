@@ -16,18 +16,18 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 impl Js for ParseArgsOption with to_js(self) -> Val {
   match self {
     Boolean(short~, ..) => {
-      let obj = @js.new_empty_object()
+      let obj = @js.Object::new()
       obj.set("type", "boolean")
       obj.set("short", short)
-      obj
+      obj.to_js()
     }
     String(short~, multiple~, default~, ..) => {
-      let obj = @js.new_empty_object()
+      let obj = @js.Object::new()
       obj.set("type", "string")
       obj.set("short", short)
       obj.set("multiple", multiple)
       obj.set("default", default)
-      obj
+      obj.to_js()
     }
   }
 }
@@ -51,9 +51,9 @@ pub fn parse_args(
   result.set(
     "options",
     if options.is_empty() {
-      @js.new_empty_object()
+      @js.Object::new()
     } else {
-      let o = @js.new_empty_object()
+      let o = @js.Object::new()
       for opt in options {
         o.set(opt.key(), opt.to_js())
       }

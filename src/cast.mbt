@@ -179,11 +179,11 @@ pub impl[T : Js] Js for Array[T] with to_js(self) -> Val {
 
 ///|
 pub impl[T : Js] Js for Map[String, T] with to_js(self) -> Val {
-  let v = new_empty_object()
+  let v = Object::new()
   for k, val in self {
     v.set(k, val.to_js())
   }
-  v
+  v.to_js()
 }
 
 ///|

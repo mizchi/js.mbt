@@ -35,7 +35,7 @@ pub(all) struct WasiOptions {
 ///|
 /// Convert WasiOptions to JS object
 fn WasiOptions::to_js(self : WasiOptions) -> Val {
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
 
   // Set version (required)
   options.set("version", self.version)
@@ -49,7 +49,7 @@ fn WasiOptions::to_js(self : WasiOptions) -> Val {
   // Set optional env
   match self.env {
     Some(env) => {
-      let env_obj = @js.new_empty_object()
+      let env_obj = @js.Object::new()
       env.each(fn(key, value) { env_obj.set(key, value) })
       options.set("env", env_obj)
     }
@@ -59,7 +59,7 @@ fn WasiOptions::to_js(self : WasiOptions) -> Val {
   // Set optional preopens
   match self.preopens {
     Some(preopens) => {
-      let preopens_obj = @js.new_empty_object()
+      let preopens_obj = @js.Object::new()
       preopens.each(fn(key, value) { preopens_obj.set(key, value) })
       options.set("preopens", preopens_obj)
     }
@@ -89,7 +89,7 @@ fn WasiOptions::to_js(self : WasiOptions) -> Val {
     Some(value) => options.set("stderr", value)
     None => ()
   }
-  options
+  options.to_js()
 }
 
 ///| WASI Class

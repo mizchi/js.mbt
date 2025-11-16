@@ -441,7 +441,7 @@ pub(all) struct DurableObjectGetOptions {
 
 ///|
 pub impl Js for DurableObjectGetOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
     None => ()
@@ -450,7 +450,7 @@ pub impl Js for DurableObjectGetOptions with to_js(self) {
     Some(val) => obj.set("noCache", val)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -463,7 +463,7 @@ pub(all) struct DurableObjectPutOptions {
 
 ///|
 pub impl Js for DurableObjectPutOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
     None => ()
@@ -476,7 +476,7 @@ pub impl Js for DurableObjectPutOptions with to_js(self) {
     Some(val) => obj.set("noCache", val)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -494,7 +494,7 @@ pub(all) struct DurableObjectListOptions {
 
 ///|
 pub impl Js for DurableObjectListOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.start {
     Some(val) => obj.set("start", val)
     None => ()
@@ -527,7 +527,7 @@ pub impl Js for DurableObjectListOptions with to_js(self) {
     Some(val) => obj.set("noCache", val)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -538,12 +538,12 @@ pub(all) struct DurableObjectGetAlarmOptions {
 
 ///|
 pub impl Js for DurableObjectGetAlarmOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|
@@ -555,7 +555,7 @@ pub(all) struct DurableObjectSetAlarmOptions {
 
 ///|
 pub impl Js for DurableObjectSetAlarmOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
     None => ()
@@ -564,7 +564,7 @@ pub impl Js for DurableObjectSetAlarmOptions with to_js(self) {
     Some(val) => obj.set("allowUnconfirmed", val)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|

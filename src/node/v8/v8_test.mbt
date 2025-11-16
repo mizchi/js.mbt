@@ -106,7 +106,7 @@ test "serialize and deserialize string" {
 ///|
 /// Test serialize and deserialize object
 test "serialize and deserialize object" {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   obj.set("name", "test")
   obj.set("value", 123)
   let serialized = serialize(obj)

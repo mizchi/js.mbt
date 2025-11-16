@@ -26,7 +26,7 @@ pub fn stat(path : String) -> Promise[FsStat] {
 ///|
 pub fn mkdir(path : String, recursive? : Bool) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   if recursive is Some(r) {
     options.set("recursive", r)
   }
@@ -47,7 +47,7 @@ pub fn glob(
   exclude_fn? : (String) -> Bool,
 ) -> AsyncIterator[String] {
   let fs = @node.require("node:fs/promises")
-  let opts = @js.new_empty_object()
+  let opts = @js.Object::new()
   if cwd is Some(c) {
     opts.set("cwd", c)
   }
@@ -92,7 +92,7 @@ pub fn glob_with_filetype(
   exclude_fn? : (String) -> Bool,
 ) -> AsyncIterator[Dirent] {
   let fs = @node.require("node:fs/promises")
-  let opts = @js.new_empty_object()
+  let opts = @js.Object::new()
   opts.set("withFileTypes", true)
   if cwd is Some(c) {
     opts.set("cwd", c)
@@ -136,7 +136,7 @@ pub fn writeFile(
   signal? : AbortSignal,
 ) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let opts = @js.new_empty_object()
+  let opts = @js.Object::new()
   opts.set("encoding", encoding)
   opts.set("mode", mode)
   opts.set("flag", flag)
