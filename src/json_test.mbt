@@ -1,0 +1,24 @@
+///|
+test "json_stringify" {
+  let arr : Array[Int] = [1] |> unsafe_cast
+  arr |> inspect(content="[1]")
+  JSON::stringify(arr |> from_array, space=2)
+  |> inspect(
+    content=(
+      #|[
+      #|  1
+      #|]
+    ),
+  )
+  let v = from_map({ "key1": 123 |> js, "key2": 456 |> js, "key3": 789 |> js })
+  JSON::stringify(v, space=2)
+  |> inspect(
+    content=(
+      #|{
+      #|  "key1": 123,
+      #|  "key2": 456,
+      #|  "key3": 789
+      #|}
+    ),
+  )
+}

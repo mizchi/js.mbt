@@ -99,20 +99,6 @@ pub fn throw_(v : &Js) -> Unit {
 }
 
 ///|
-test "JsError::isError" {
-  let e = new_error("myerr")
-  assert_eq(e.message(), "myerr")
-  assert_true(JsError::isError(e))
-}
-
-///|
-test "invoke_throwable" {
-  let v = try? global_this().invoke_throwable("nonexistentMethod", [])
-  guard v is Err(JsThrowError::Error(e))
-  assert_true(JsError::isError(e))
-}
-
-///|
 /// Create a new JavaScript Error object.
 ///
 /// Equivalent to JavaScript's `new Error(message, { cause })`.
