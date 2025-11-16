@@ -1,4 +1,24 @@
 ///|
+/// Create a new empty JavaScript object.
+///
+/// Equivalent to JavaScript's `{}` or `new Object()`.
+///
+/// # Returns
+///
+/// A new empty object as a Val
+///
+/// # Example
+///
+/// ```moonbit
+/// let obj = new_empty_object()
+/// obj.set("name", "Alice")
+/// obj.set("age", 30)
+/// ```
+pub fn new_empty_object() -> Val {
+  ffi_new_empty_object()
+}
+
+///|
 /// Get all own enumerable property names of a JavaScript object.
 ///
 /// Equivalent to JavaScript's `Object.keys(obj)`.

@@ -120,7 +120,7 @@ test "call_method_raise" {
 /// ```
 pub fn new_error(message : String, cause? : ErrorObject) -> ErrorObject {
   let args : Array[Val] = if cause is Some(cause) {
-    [js(message), from_builtin_map({ "cause": cause |> unsafe_cast() })]
+    [js(message), from_map({ "cause": cause |> unsafe_cast() })]
   } else {
     [js(message)]
   }

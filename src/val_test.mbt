@@ -82,11 +82,10 @@ test "to_string" {
   assert_true(@js.is_null(null_()))
   assert_eq(new_empty_object().to_string(), "{}")
   assert_eq(new_empty_array().to_string(), "[]")
-  from_builtin_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
+  from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
   let expected =
     #|{"a":1,"b":2}
-  from_builtin_map({ "a": 1 |> js, "b": 2 |> js }).to_string()
-  |> assert_eq(expected)
+  from_map({ "a": 1 |> js, "b": 2 |> js }).to_string() |> assert_eq(expected)
 }
 
 ///|
@@ -318,16 +317,16 @@ test "from_builtin_map" {
     "age": js(30),
     "active": js(true),
   }
-  let obj = from_builtin_map(map)
+  let obj = from_map(map)
   assert_eq(unsafe_cast(obj.get("name")), "Alice")
   assert_eq(unsafe_cast(obj.get("age")), 30)
   assert_eq(unsafe_cast(obj.get("active")), true)
 }
 
 ///|
-test "from_builtin_array" {
+test "from_array" {
   let arr = [1, 2, 3, 4, 5]
-  let val = from_builtin_array(arr)
+  let val = from_array(arr)
   assert_true(@js.is_array(val))
   assert_eq(unsafe_cast(val.get(0)), 1)
   assert_eq(unsafe_cast(val.get(2)), 3)
@@ -388,7 +387,7 @@ test "object_create" {
 
 ///|
 test "Val with arrays" {
-  let arr = from_builtin_array([1, 2, 3])
+  let arr = from_array([1, 2, 3])
   assert_true(@js.is_array(arr))
   assert_eq(unsafe_cast(arr.get(0)), 1)
   assert_eq(unsafe_cast(arr.get(1)), 2)
@@ -441,7 +440,7 @@ test "Val with mixed types in object" {
   obj.set("float", 3.14)
   obj.set("boolean", true)
   obj.set("null", null_())
-  obj.set("array", from_builtin_array([1, 2, 3]))
+  obj.set("array", from_array([1, 2, 3]))
   obj.set("object", new_empty_object())
   assert_eq(@js.type_of(obj.get("string")), "string")
   assert_eq(@js.type_of(obj.get("number")), "number")

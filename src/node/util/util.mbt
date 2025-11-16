@@ -46,7 +46,7 @@ pub fn Util::inspect(
   max_array_length? : Int,
   max_string_length? : Int,
 ) -> String {
-  let opt = @js.from_builtin_map({
+  let opt = @js.from_map({
     "depth": depth |> js,
     "colors": colors |> js,
     "compact": compact |> js,

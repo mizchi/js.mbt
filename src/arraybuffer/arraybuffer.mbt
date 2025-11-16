@@ -297,7 +297,7 @@ extern "js" fn ffi_uint8array_from_array(array : Val) -> Val =
 
 ///|
 pub fn Uint8Array::from_array(array : Array[UInt]) -> Uint8Array {
-  unsafe_cast(ffi_uint8array_from_array(@js.from_builtin_array(array)))
+  unsafe_cast(ffi_uint8array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -359,7 +359,7 @@ pub fn Uint8Array::set(
   array : Array[UInt],
   offset? : UInt = 0,
 ) -> Unit {
-  self.invoke("set", [@js.from_builtin_array(array), offset]) |> ignore
+  self.invoke("set", [@js.from_array(array), offset]) |> ignore
 }
 
 ///|
@@ -476,7 +476,7 @@ extern "js" fn ffi_uint16array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Uint16Array::from_array(array : Array[UInt]) -> Uint16Array {
-  unsafe_cast(ffi_uint16array_from_array(@js.from_builtin_array(array)))
+  unsafe_cast(ffi_uint16array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -554,7 +554,7 @@ extern "js" fn ffi_uint32array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Uint32Array::from_array(array : Array[UInt]) -> Uint32Array {
-  unsafe_cast(ffi_uint32array_from_array(@js.from_builtin_array(array)))
+  unsafe_cast(ffi_uint32array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -632,7 +632,7 @@ extern "js" fn ffi_int8array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Int8Array::from_array(array : Array[Int]) -> Int8Array {
-  unsafe_cast(ffi_int8array_from_array(@js.from_builtin_array(array)))
+  unsafe_cast(ffi_int8array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -710,7 +710,7 @@ extern "js" fn ffi_int16array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Int16Array::from_array(array : Array[Int]) -> Int16Array {
-  unsafe_cast(ffi_int16array_from_array(@js.from_builtin_array(array)))
+  unsafe_cast(ffi_int16array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -788,7 +788,7 @@ extern "js" fn ffi_int32array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Int32Array::from_array(array : Array[Int]) -> Int32Array {
-  unsafe_cast(ffi_int32array_from_array(@js.from_builtin_array(array)))
+  unsafe_cast(ffi_int32array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -866,7 +866,7 @@ extern "js" fn ffi_float32array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Float32Array::from_array(array : Array[Double]) -> Float32Array {
-  unsafe_cast(ffi_float32array_from_array(@js.from_builtin_array(array)))
+  unsafe_cast(ffi_float32array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -944,7 +944,7 @@ extern "js" fn ffi_float64array_from_size(length : UInt) -> Val =
 
 ///|
 pub fn Float64Array::from_array(array : Array[Double]) -> Float64Array {
-  unsafe_cast(ffi_float64array_from_array(@js.from_builtin_array(array)))
+  unsafe_cast(ffi_float64array_from_array(@js.from_array(array)))
 }
 
 ///|

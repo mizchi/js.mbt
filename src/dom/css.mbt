@@ -239,7 +239,7 @@ pub fn MediaQueryList::add_listener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.invoke("addListener", [listener |> @js.cast_fn1]) |> ignore
+  self.invoke("addListener", [listener |> @js.from_fn1]) |> ignore
 }
 
 ///|
@@ -249,7 +249,7 @@ pub fn MediaQueryList::remove_listener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.invoke("removeListener", [listener |> @js.cast_fn1]) |> ignore
+  self.invoke("removeListener", [listener |> @js.from_fn1]) |> ignore
 }
 
 ///|
@@ -258,7 +258,7 @@ pub fn MediaQueryList::add_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.invoke("addEventListener", ["change" |> js, listener |> @js.cast_fn1])
+  self.invoke("addEventListener", ["change" |> js, listener |> @js.from_fn1])
   |> ignore
 }
 
@@ -268,7 +268,7 @@ pub fn MediaQueryList::remove_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.invoke("removeEventListener", ["change" |> js, listener |> @js.cast_fn1])
+  self.invoke("removeEventListener", ["change" |> js, listener |> @js.from_fn1])
   |> ignore
 }
 

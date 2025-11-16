@@ -1,7 +1,7 @@
 // WIP
 
 ///|
-using @js {type Val, trait Js, js, unsafe_cast, from_builtin_map}
+using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
 pub(all) enum MessageContent {
@@ -26,14 +26,11 @@ pub(all) enum ModelMessage {
 pub impl Js for ModelMessage with to_js(self) {
   match self {
     AssitantMessage(content~) =>
-      from_builtin_map({
-        "type": "assitant" |> js,
-        "content": Js::to_js(content),
-      })
+      @js.from_map({ "type": "assitant" |> js, "content": Js::to_js(content) })
     UserMessage(content~) =>
-      from_builtin_map({ "role": "user" |> js, "content": Js::to_js(content) })
+      @js.from_map({ "role": "user" |> js, "content": Js::to_js(content) })
     SystemMessage(content~) =>
-      from_builtin_map({ "role": "system" |> js, "content": Js::to_js(content) })
+      @js.from_map({ "role": "system" |> js, "content": Js::to_js(content) })
   }
 }
 
@@ -66,7 +63,7 @@ pub fn Ai::generate_text(
     .to_js()
     .get("generateText")
     .invoke_self([
-      from_builtin_map({
+      @js.from_map({
         "model": model |> js,
         "messages": messages.map(_.to_js()) |> js,
       }),

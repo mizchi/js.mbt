@@ -35,7 +35,7 @@ impl EventEmitterImpl with once(self, name : String, callback : (Val) -> Unit) -
 
 ///|
 impl EventEmitterImpl with off(self, name : String, callback : (Val) -> Unit) -> Unit {
-  self.invoke("off", [name, callback |> js]) |> unsafe_cast
+  self.invoke("off", [name, callback |> @js.from_fn1]) |> unsafe_cast
 }
 
 ///|
@@ -44,7 +44,7 @@ impl EventEmitterImpl with remove_listener(
   name : String,
   callback : (Val) -> Unit,
 ) -> Unit {
-  self.invoke("removeListener", [name, callback |> js]) |> unsafe_cast
+  self.invoke("removeListener", [name, callback |> unsafe_cast]) |> unsafe_cast
 }
 
 ///|

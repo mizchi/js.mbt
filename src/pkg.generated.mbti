@@ -32,7 +32,7 @@ fn ffi_is_nan(Val) -> Bool
 
 fn ffi_is_undefined(Val) -> Bool
 
-fn[T] from_builtin_array(Array[T]) -> Val
+fn[T] from_array(Array[T]) -> Val
 
 fn from_builtin_json(Json) -> Val
 
@@ -54,9 +54,7 @@ fn[T : Js] is_undefined(T) -> Bool
 
 fn[T] js(T) -> Val
 
-fn json_parse(String, reviver? : Val?) -> Val raise JsError
-
-fn json_stringify(Val, replacer? : Val, space? : Int) -> String
+fn[T : Js] js_safe(T) -> Val
 
 fn[T] log(T) -> Unit
 
@@ -129,6 +127,11 @@ fn ErrorObject::message(Self) -> String
 fn ErrorObject::stack(Self) -> String
 
 #external
+pub type JSON
+fn JSON::parse(String, reviver? : Val?) -> Val raise JsError
+fn JSON::stringify(Val, replacer? : Val, space? : Int) -> String
+
+#external
 pub type Symbol
 impl PropertyKey for Symbol
 
@@ -171,4 +174,3 @@ pub trait PropertyKey {
 }
 impl PropertyKey for Int
 impl PropertyKey for String
-

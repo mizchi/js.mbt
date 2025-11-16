@@ -3,15 +3,15 @@
 pub type AbortController
 
 ///|
-#external
-pub type AbortSignal
+pub impl Js for AbortController
 
 ///|
 pub extern "js" fn AbortController::new() -> AbortController =
   #| () => new AbortController()
 
 ///|
-pub impl Js for AbortController
+#external
+pub type AbortSignal
 
 ///|
 pub impl Js for AbortSignal

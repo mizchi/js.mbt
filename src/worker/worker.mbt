@@ -37,7 +37,7 @@ extern "js" fn ffi_new_worker(script_url : String, option : Val) -> Worker =
 ///|
 pub fn Worker::new(script_url : String, is_module? : Bool = false) -> Worker {
   let option = if is_module {
-    @js.from_builtin_map({ "type": js("module") })
+    @js.from_map({ "type": js("module") })
   } else {
     @js.undefined()
   }

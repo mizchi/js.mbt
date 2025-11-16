@@ -1,4 +1,24 @@
 ///|
+/// Get the global object (globalThis in JavaScript).
+///
+/// In browsers, this is `window`. In Node.js, this is `global`.
+///
+/// # Returns
+///
+/// The global object as a Val
+///
+/// # Example
+///
+/// ```moonbit skip
+/// let global = global_this()
+/// let console = global.get("console")
+/// console.call_method("log", ["Hello, World!"]) |> ignore
+/// ```
+pub fn global_this() -> Val {
+  ffi_global_this()
+}
+
+///|
 /// Get the JavaScript `undefined` value.
 ///
 /// # Returns
@@ -13,6 +33,23 @@
 /// ```
 pub fn undefined() -> Val {
   ffi_undefined()
+}
+
+///|
+/// Get the JavaScript `null` value.
+///
+/// # Returns
+///
+/// The null value as a Val
+///
+/// # Example
+///
+/// ```moonbit
+/// let n = null_()
+/// assert_true(@js.is_null(n))
+/// ```
+pub fn null_() -> Val {
+  ffi_null()
 }
 
 ///|

@@ -17,7 +17,7 @@ test "sqlite exec and prepare" {
   let prepared = database.prepare("SELECT * from t3;")
   let result = prepared.all()
   inspect(
-    result |> @js.from_builtin_array |> @js.json_stringify,
+    result |> @js.from_array |> @js.JSON::stringify,
     content=(
       #|[
       #|  {
@@ -44,7 +44,7 @@ test "node:sqlite aggregate" {
   let result = database.prepare("SELECT sumint(y) as total FROM t3").get_() // { total: 9 }
   guard result is Some(r)
   inspect(
-    r |> @js.json_stringify,
+    r |> @js.JSON::stringify,
     content=(
       #|{
       #|  "total": 9

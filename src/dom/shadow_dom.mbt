@@ -114,7 +114,7 @@ pub fn HTMLElement::attach_shadow(
   self : Self,
   init : ShadowRootInit,
 ) -> ShadowRoot {
-  let options = @js.from_builtin_map({
+  let options = @js.from_map({
     "mode": js(init.mode),
     "delegatesFocus": js(init.delegates_focus),
     "slotAssignment": js(init.slot_assignment),

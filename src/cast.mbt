@@ -32,54 +32,20 @@
 /// # Note
 ///
 /// For type-safe conversion, prefer using the `Js` trait via `to_js()`.
-pub fn[T] js(v : T) -> Val = "%identity"
+// pub fn[T : Js] js(v : T) -> Val {
+//   unsafe_cast(v.to_js())
+// }
+
+pub fn[T] js(v : T) -> Val {
+  unsafe_cast(v)
+}
 
 ///|
-/// Unsafely cast between any two types without validation.
-///
-/// # Safety
-///
-/// This is the most dangerous cast function. It performs **absolutely no type checking**
-/// and will blindly reinterpret type A as type B. This can lead to:
-/// - Memory corruption
-/// - Segmentation faults
-/// - Undefined behavior
-/// - Silent data corruption
-///
-/// **Use this only when you are absolutely certain about the type compatibility.**
-///
-/// # Parameters
-///
-/// - `a`: The value to cast from type A
-///
-/// # Returns
-///
-/// The value reinterpreted as type B (without any validation)
-///
-/// # Example
-///
-/// ```moonbit
-/// // Converting between compatible FFI types
-/// let val : Val = js(42)
-/// let sym : Symbol = unsafe_cast(symbol("test"))
-/// let sym_val : Val = unsafe_cast(sym)  // Symbol -> Val
-///
-/// // Dangerous: converting between incompatible types
-/// let num = 42
-/// let str : String = unsafe_cast(num)  // UNSAFE! Will cause errors
-/// ```
-///
-/// # When to Use
-///
-/// - Converting between known-compatible FFI types (e.g., ErrorObject -> Val)
-/// - Working with trait objects where the underlying type is known
-/// - Performance-critical code where type safety is guaranteed by other means
-///
-/// # Alternatives
-///
-/// - Use `cast()` for Val to MoonBit type conversion
-/// - Use `js()` for MoonBit to Val conversion
-/// - Use `Js` trait's `to_js()` for type-safe conversion
+/// Safely convert a MoonBit value that implements the Js trait to a JavaScript Val.
+// pub fn[T : Js] js_safe(v : T) -> Val = "%identity"
+
+///|
+/// Unsafely cast a value from one type to another.
 pub fn[A, B] unsafe_cast(a : A) -> B = "%identity"
 
 ///|
@@ -94,19 +60,58 @@ pub fn[A] to_option(v : Val) -> A? {
 }
 
 ///|
-pub fn[T : Js] cast_array(a : Array[T]) -> Val = "%identity"
+pub fn[T : Js] from_array(v : Array[T]) -> Val {
+  unsafe_cast(v.map(_.to_js()))
+}
 
 ///|
-pub fn[R] cast_fn0(f : () -> R) -> Val = "%identity"
+/// Convert a MoonBit Map to a JavaScript object.
+///
+/// Each key-value pair in the map becomes a property on the resulting object.
+///
+/// # Parameters
+///
+/// - `map`: A MoonBit Map with String keys and Val values
+///
+/// # Returns
+///
+/// A JavaScript object with the same properties
+///
+/// # Example
+///
+/// ```moonbit
+/// let map = { "name": js("Alice"), "age": js(30) }
+/// let obj = from_map(map)
+/// // JavaScript: { name: "Alice", age: 30 }
+/// ```
+pub fn from_map(map : Map[String, Val]) -> Val {
+  let obj = new_empty_object()
+  for k, v in map {
+    let v : Val = Js::to_js(v)
+    obj.set(k, v)
+  }
+  obj
+}
 
 ///|
-pub fn[A, R] cast_fn1(f : (A) -> R) -> Val = "%identity"
+pub fn[R] from_fn0(f : () -> R) -> Val {
+  unsafe_cast(f)
+}
 
 ///|
-pub fn[A, B, R] cast_fn2(f : (A, B) -> R) -> Val = "%identity"
+pub fn[A, R] from_fn1(f : (A) -> R) -> Val {
+  unsafe_cast(f)
+}
 
 ///|
-pub fn[A, B, C, R] cast_fn3(f : (A, B, C) -> R) -> Val = "%identity"
+pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Val {
+  unsafe_cast(f)
+}
+
+///|
+pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Val {
+  unsafe_cast(f)
+}
 
 ///|
 /// Identity implementation for Val.
@@ -166,10 +171,19 @@ pub impl Js for UInt
 ///
 /// # Type Safety
 ///
-/// This is more type-safe than using `from_builtin_array()` because
+/// This is more type-safe than using `from_array()` because
 /// it ensures each element can be safely converted to JavaScript.
 pub impl[T : Js] Js for Array[T] with to_js(self) -> Val {
   js(self.map(_.to_js()))
+}
+
+///|
+pub impl[T : Js] Js for Map[String, T] with to_js(self) -> Val {
+  let v = new_empty_object()
+  for k, val in self {
+    v.set(k, val.to_js())
+  }
+  v
 }
 
 ///|

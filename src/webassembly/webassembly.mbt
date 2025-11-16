@@ -162,7 +162,7 @@ pub fn WebAssemblyGlobal::new(
   descriptor : GlobalDescriptor,
   value : Val,
 ) -> WebAssemblyGlobal {
-  let obj = from_builtin_map({
+  let obj = @js.from_map({
     "value": js(descriptor.value),
     "mutable": js(descriptor.mutable),
   })

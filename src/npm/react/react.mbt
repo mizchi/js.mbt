@@ -60,7 +60,7 @@ pub fn create_element(
   on_drop? : (@dom.DragEvent) -> Unit,
 ) -> Element {
   let tag = js(tag)
-  let children = children.map(_.to_js()) |> @js.from_builtin_array
+  let children = children.map(_.to_js()) |> @js.from_array
   let val : Val = @js.new_empty_object()
   if attributes is Some(props) {
     for k, v in props {
@@ -88,42 +88,42 @@ pub fn create_element(
   if style is Some(style) {
     let style_obj : Val = @js.new_empty_object()
     for k, v in style {
-      style_obj.set(k, js(v))
+      style_obj.set(k, v)
     }
     val.set("style", style_obj)
   }
   if on_click is Some(v) {
-    val.set("onClick", v |> js)
+    val.set("onClick", v |> @js.from_fn1)
   }
   if on_change is Some(on_change) {
-    val.set("onChange", on_change |> js)
+    val.set("onChange", on_change |> @js.from_fn1)
   }
   if on_keydown is Some(on_keydown) {
-    val.set("onKeyDown", on_keydown |> js)
+    val.set("onKeyDown", on_keydown |> @js.from_fn1)
   }
   if on_keyup is Some(on_keyup) {
-    val.set("onKeyUp", on_keyup |> js)
+    val.set("onKeyUp", on_keyup |> @js.from_fn1)
   }
   if on_drag is Some(v) {
-    val.set("onDrag", v |> js)
+    val.set("onDrag", v |> @js.from_fn1)
   }
   if on_dragstart is Some(v) {
-    val.set("onDragStart", v |> js)
+    val.set("onDragStart", v |> @js.from_fn1)
   }
   if on_dragend is Some(v) {
-    val.set("onDragStart", v |> js)
+    val.set("onDragStart", v |> @js.from_fn1)
   }
   if on_drop is Some(v) {
-    val.set("onDragStart", v |> js)
+    val.set("onDragStart", v |> @js.from_fn1)
   }
   if on_dragover is Some(v) {
-    val.set("onDragOver", v |> js)
+    val.set("onDragOver", v |> @js.from_fn1)
   }
   if on_dragleave is Some(v) {
-    val.set("onDragLeave", v |> js)
+    val.set("onDragLeave", v |> @js.from_fn1)
   }
   if on_dragenter is Some(v) {
-    val.set("onDragEnter", v |> js)
+    val.set("onDragEnter", v |> @js.from_fn1)
   }
   unsafe_cast(ffi_create_element(tag, val, children))
 }
@@ -138,19 +138,18 @@ pub fn[T] c(
   key? : String,
 ) -> Element {
   let tag = js(tag)
-  let children = children.map(_.to_js())
+  let children = @js.from_array(children)
   let val : Val = props |> js
   if key is Some(key) {
     val.set("key", key)
   }
-  ffi_create_element(tag, val, children |> @js.from_builtin_array())
-  |> unsafe_cast
+  ffi_create_element(tag, val, children) |> unsafe_cast
 }
 
 ///|
 pub fn fragment(children : Array[&Js], key? : String) -> Element {
   let tag = js(get_fragment())
-  let children = @js.from_builtin_array(children.map(_.to_js()))
+  let children = @js.from_array(children)
   let val : Val = @js.new_empty_object()
   if key is Some(key) {
     val.set("key", key)
@@ -161,8 +160,8 @@ pub fn fragment(children : Array[&Js], key? : String) -> Element {
 ///|
 pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
   let tag = get_suspense() |> js
-  let children = @js.from_builtin_array(children.map(_.to_js()))
-  let props = @js.from_builtin_map({ "fallback": fallback |> js })
+  let children = @js.from_array(children)
+  let props = @js.from_map({ "fallback": fallback |> js })
   unsafe_cast(ffi_create_element(tag, props, children))
 }
 
@@ -172,8 +171,7 @@ pub fn[T] provider(
   children : Array[&Js],
   value~ : T,
 ) -> Element {
-  let tag = js(tag)
-  let children = @js.from_builtin_array(children.map(_.to_js()))
-  let props = @js.from_builtin_map({ "value": value |> js })
-  unsafe_cast(ffi_create_element(tag, props, children))
+  let children = @js.from_array(children)
+  let props = @js.from_map({ "value": value |> unsafe_cast })
+  unsafe_cast(ffi_create_element(tag |> unsafe_cast, props, children))
 }
