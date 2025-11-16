@@ -115,7 +115,7 @@ pub fn URL::protocol(self : Self) -> String {
 /// Set the protocol
 #alias(set_protocol)
 pub fn URL::setProtocol(self : Self, value : String) -> Unit {
-  self.to_js().set("protocol", value)
+  self.set("protocol", value)
 }
 
 ///|
@@ -128,7 +128,7 @@ pub fn URL::username(self : Self) -> String {
 /// Set the username
 #alias(set_username)
 pub fn URL::setUsername(self : Self, value : String) -> Unit {
-  self.to_js().set("username", value)
+  self.set("username", value)
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn URL::password(self : Self) -> String {
 /// Set the password
 #alias(set_password)
 pub fn URL::setPassword(self : Self, value : String) -> Unit {
-  self.to_js().set("password", value)
+  self.set("password", value)
 }
 
 ///|
@@ -154,7 +154,7 @@ pub fn URL::host(self : Self) -> String {
 /// Set the host
 #alias(set_host)
 pub fn URL::setHost(self : Self, value : String) -> Unit {
-  self.to_js().set("host", value)
+  self.set("host", value)
 }
 
 ///|
@@ -167,7 +167,7 @@ pub fn URL::hostname(self : Self) -> String {
 /// Set the hostname
 #alias(set_hostname)
 pub fn URL::setHostname(self : Self, value : String) -> Unit {
-  self.to_js().set("hostname", value)
+  self.set("hostname", value)
 }
 
 ///|
@@ -180,7 +180,7 @@ pub fn URL::port(self : Self) -> String {
 /// Set the port
 #alias(set_port)
 pub fn URL::setPort(self : Self, value : String) -> Unit {
-  self.to_js().set("port", value)
+  self.set("port", value)
 }
 
 ///|
@@ -193,7 +193,7 @@ pub fn URL::pathname(self : Self) -> String {
 /// Set the pathname
 #alias(set_pathname)
 pub fn URL::setPathname(self : Self, value : String) -> Unit {
-  self.to_js().set("pathname", value)
+  self.set("pathname", value)
 }
 
 ///|
@@ -206,7 +206,7 @@ pub fn URL::search(self : Self) -> String {
 /// Set the search string
 #alias(set_search)
 pub fn URL::setSearch(self : Self, value : String) -> Unit {
-  self.to_js().set("search", value)
+  self.set("search", value)
 }
 
 ///|
@@ -219,7 +219,7 @@ pub fn URL::hash(self : Self) -> String {
 /// Set the hash
 #alias(set_hash)
 pub fn URL::setHash(self : Self, value : String) -> Unit {
-  self.to_js().set("hash", value)
+  self.set("hash", value)
 }
 
 ///|

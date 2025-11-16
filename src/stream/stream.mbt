@@ -20,7 +20,7 @@ pub fn ReadableStream::new(underlying_source : Val) -> ReadableStream {
 ///|
 /// Returns whether the stream is locked to a reader
 pub fn ReadableStream::locked(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("locked"))
+  unsafe_cast(self.get("locked"))
 }
 
 ///|
@@ -116,7 +116,7 @@ pub fn ReadableStreamDefaultReader::cancel(
 ///|
 /// Get the closed promise
 pub fn ReadableStreamDefaultReader::closed(self : Self) -> Promise[Unit] {
-  unsafe_cast(self.to_js().get("closed"))
+  unsafe_cast(self.get("closed"))
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn WritableStream::new(underlying_sink : Val) -> WritableStream {
 ///|
 /// Returns whether the stream is locked to a writer
 pub fn WritableStream::locked(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("locked"))
+  unsafe_cast(self.get("locked"))
 }
 
 ///|
@@ -211,20 +211,20 @@ pub fn WritableStreamDefaultWriter::release_lock(self : Self) -> Unit {
 ///|
 /// Get the closed promise
 pub fn WritableStreamDefaultWriter::closed(self : Self) -> Promise[Unit] {
-  unsafe_cast(self.to_js().get("closed"))
+  unsafe_cast(self.get("closed"))
 }
 
 ///|
 /// Get the ready promise
 pub fn WritableStreamDefaultWriter::ready(self : Self) -> Promise[Unit] {
-  unsafe_cast(self.to_js().get("ready"))
+  unsafe_cast(self.get("ready"))
 }
 
 ///|
 /// Get the desired size
 #alias(desiredSize)
 pub fn WritableStreamDefaultWriter::desired_size(self : Self) -> Int? {
-  self.to_js().get("desiredSize") |> to_option
+  self.get("desiredSize") |> to_option
 }
 
 ///|
@@ -261,7 +261,7 @@ pub fn TransformStream::new_identity() -> TransformStream {
 ///|
 /// Get the readable side of the transform stream
 pub fn TransformStream::readable(self : Self) -> ReadableStream {
-  unsafe_cast(self.to_js().get("readable"))
+  unsafe_cast(self.get("readable"))
 }
 
 ///|

@@ -16,7 +16,7 @@ priv struct TestProps {
 test "create_element" {
   init_react()
   let el = create_element("div", [])
-  assert_eq(unsafe_cast(el.to_js().get("type")), "div")
+  assert_eq(unsafe_cast(el.get("type")), "div")
   let with_attrs = create_element(
     "button",
     attributes={
@@ -25,10 +25,7 @@ test "create_element" {
     },
     [],
   )
-  assert_eq(
-    unsafe_cast(with_attrs.to_js().get("props").get("className")),
-    "my-button",
-  )
+  assert_eq(unsafe_cast(with_attrs.get("props").get("className")), "my-button")
   let c1 = (_ : EmptyProps) => {
     let r : ReactRef[@dom.Element] = use_ref(None)
     create_element("span", ref_=r, [])

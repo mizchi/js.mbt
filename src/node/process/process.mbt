@@ -32,15 +32,15 @@ pub fn Process::exit(self : Self, code : Int) -> Unit {
 
 ///|
 pub fn Process::env() -> Env {
-  unsafe_cast(Process::require().to_js().get("env"))
+  unsafe_cast(Process::require().get("env"))
 }
 
 ///|
 pub fn Process::stdio() -> Stream {
-  unsafe_cast(Process::require().to_js().get("stdio"))
+  unsafe_cast(Process::require().get("stdio"))
 }
 
 ///|
 pub fn Process::stdout() -> Stream {
-  unsafe_cast(Process::require().to_js().get("stdout"))
+  unsafe_cast(Process::require().get("stdout"))
 }

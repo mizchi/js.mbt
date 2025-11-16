@@ -125,7 +125,7 @@ test "Serializer write and release" {
   let success = serializer.write_value(42 |> js)
   inspect(success, content="true")
   let buffer = serializer.release_buffer()
-  inspect(unsafe_cast(buffer.to_js().get("length")) > 0, content="true")
+  inspect(unsafe_cast(buffer.get("length")) > 0, content="true")
 }
 
 ///|
@@ -135,7 +135,7 @@ test "Serializer write_uint32" {
   serializer.write_header()
   serializer.write_uint32(42)
   let buffer = serializer.release_buffer()
-  inspect(unsafe_cast(buffer.to_js().get("length")) > 0, content="true")
+  inspect(unsafe_cast(buffer.get("length")) > 0, content="true")
 }
 
 ///|
@@ -145,7 +145,7 @@ test "Serializer write_double" {
   serializer.write_header()
   serializer.write_double(3.14)
   let buffer = serializer.release_buffer()
-  inspect(unsafe_cast(buffer.to_js().get("length")) > 0, content="true")
+  inspect(unsafe_cast(buffer.get("length")) > 0, content="true")
 }
 
 ///| Deserializer Tests

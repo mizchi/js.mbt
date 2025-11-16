@@ -127,7 +127,7 @@ pub fn Buffer::byteLength(str : String, encoding? : String = "utf-8") -> Int {
 ///|
 /// Get the length of the buffer in bytes
 pub fn Buffer::length(self : Self) -> Int {
-  self.to_js().get("length") |> unsafe_cast
+  self.get("length") |> unsafe_cast
 }
 
 ///|
@@ -315,14 +315,14 @@ pub fn Buffer::lastIndexOf(
 ///|
 /// Get the underlying ArrayBuffer
 pub fn Buffer::buffer(self : Self) -> ArrayBuffer {
-  self.to_js().get("buffer") |> unsafe_cast
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
 /// Get the byte offset in the underlying ArrayBuffer
 #alias(byte_offset)
 pub fn Buffer::byteOffset(self : Self) -> Int {
-  self.to_js().get("byteOffset") |> unsafe_cast
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|

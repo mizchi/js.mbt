@@ -311,5 +311,5 @@ pub fn Document::create_stylesheet(self : Self) -> CSSStyleSheet {
     Some(head) => head.invoke("appendChild", [style]) |> ignore
     None => ()
   }
-  unsafe_cast(style.to_js().get("sheet"))
+  unsafe_cast(style.get("sheet"))
 }

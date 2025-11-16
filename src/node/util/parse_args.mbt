@@ -63,7 +63,7 @@ pub fn parse_args(
   result.set("allowPositionals", allow_positionals)
   // result["tokens"] = tokens
   let r : Val = unsafe_cast(
-    Util::require().to_js().get("parseArgs").invoke_self([result]),
+    Util::require().get("parseArgs").invoke_self([result]),
   )
   let values : Map[String, Val] = {}
   let result_keys = r.get("values") |> @js.object_keys()

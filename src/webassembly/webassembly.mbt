@@ -21,7 +21,7 @@ pub impl Js for WebAssemblyInstance
 ///|
 /// Get the exports object from a WebAssembly instance
 pub fn WebAssemblyInstance::exports(self : Self) -> Val {
-  self.to_js().get("exports")
+  self.get("exports")
 }
 
 ///|

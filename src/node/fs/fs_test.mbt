@@ -13,7 +13,7 @@ using @buffer {type Buffer}
 /// Test read_file_sync reads buffer
 test "read_file_sync reads package.json" {
   let content = read_file_sync("package.json")
-  inspect(unsafe_cast(content.to_js().get("length")) > 0, content="true")
+  inspect(unsafe_cast(content.get("length")) > 0, content="true")
 }
 
 ///|
