@@ -267,5 +267,5 @@ pub fn TransformStream::readable(self : Self) -> ReadableStream {
 ///|
 /// Get the writable side of the transform stream
 pub fn TransformStream::writable(self : Self) -> WritableStream {
-  unsafe_cast(self.to_js().get("writable"))
+  unsafe_cast(self.get("writable"))
 }

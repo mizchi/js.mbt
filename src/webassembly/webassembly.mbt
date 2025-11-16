@@ -82,13 +82,7 @@ pub impl Js for WebAssemblyTable
 ///|
 /// Get the length of the table
 pub fn WebAssemblyTable::length(self : Self) -> Int {
-  self.to_js().get("length") |> unsafe_cast
-}
-
-///|
-/// Get a value from the table at the given index
-pub fn WebAssemblyTable::get(self : Self, index : Int) -> Val {
-  self.invoke("get", [js(index)])
+  self.get("length") |> unsafe_cast
 }
 
 ///|
