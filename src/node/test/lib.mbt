@@ -67,7 +67,8 @@ pub fn it(
 }
 
 ///|
-pub fn before_each(op : async () -> Unit) -> Unit {
+#alias(before_each)
+pub fn beforeEach(op : async () -> Unit) -> Unit {
   run_async(async fn() noraise {
     let t = NodeTest::require()
     t.before_each(() => op())
@@ -76,7 +77,7 @@ pub fn before_each(op : async () -> Unit) -> Unit {
 
 ///|
 test {
-  before_each(() => sleep(1))
+  beforeEach(() => sleep(1))
   it("simple test", _ => assert_eq(2 + 2, 4))
   it("lazy test", _ => {
     sleep(100)

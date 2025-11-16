@@ -8,21 +8,21 @@
 ///|
 /// Test execSync executes command and returns output
 test "execSync returns command output" {
-  let output = exec_sync("echo hello")
+  let output = execSync("echo hello")
   inspect(output.contains("hello"), content="true")
 }
 
 ///|
 /// Test execSync with cwd option
 test "execSync with cwd option" {
-  let output = exec_sync("pwd", cwd="/tmp")
+  let output = execSync("pwd", cwd="/tmp")
   inspect(output.contains("tmp"), content="true")
 }
 
 ///|
 /// Test spawnSync executes command synchronously
 test "spawnSync returns SpawnSyncResult" {
-  let result = spawn_sync("echo", args=["test"])
+  let result = spawnSync("echo", args=["test"])
   let pid = result.pid()
   inspect(pid > 0, content="true")
 }
@@ -30,7 +30,7 @@ test "spawnSync returns SpawnSyncResult" {
 ///|
 /// Test execFileSync executes file
 test "execFileSync returns output" {
-  let output = exec_file_sync("echo", args=["hello"])
+  let output = execFileSync("echo", args=["hello"])
   inspect(output.contains("hello"), content="true")
 }
 
@@ -128,7 +128,7 @@ test "ChildProcess ref_ method exists" {
 ///|
 /// Test SpawnSyncResult has status property
 test "SpawnSyncResult has status property" {
-  let result = spawn_sync("echo", args=["test"])
+  let result = spawnSync("echo", args=["test"])
   let _status = result.status()
   inspect(true, content="true")
 }
@@ -136,7 +136,7 @@ test "SpawnSyncResult has status property" {
 ///|
 /// Test SpawnSyncResult has stdout/stderr
 test "SpawnSyncResult has stdout and stderr" {
-  let result = spawn_sync("echo", args=["test"])
+  let result = spawnSync("echo", args=["test"])
   let _stdout = result.stdout()
   let _stderr = result.stderr()
   inspect(true, content="true")

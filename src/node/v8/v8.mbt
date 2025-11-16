@@ -70,8 +70,8 @@ pub fn writeHeapSnapshot(filename? : String) -> String {
 
 ///|
 /// Set heap snapshot near heap limit
-#alias(setHeapSnapshotNearHeapLimit)
-pub fn set_heap_snapshot_near_heap_limit(limit : Int) -> Unit {
+#alias(set_heap_snapshot_near_heap_limit)
+pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
   let v8 = ffi_require_v8()
   v8.invoke("setHeapSnapshotNearHeapLimit", [limit |> js]) |> ignore
 }
@@ -240,32 +240,32 @@ pub fn Deserializer::read_raw_bytes(self : Self, length : Int) -> Buffer {
 
 ///|
 /// Get cached data version tag
-#alias(cachedDataVersionTag)
-pub fn cached_data_version_tag() -> Int {
+#alias(cached_data_version_tag)
+pub fn cachedDataVersionTag() -> Int {
   let v8 = ffi_require_v8()
   unsafe_cast(v8.invoke("cachedDataVersionTag", []))
 }
 
 ///|
 /// Set V8 flags from string
-#alias(setFlagsFromString)
-pub fn set_flags_from_string(flags : String) -> Unit {
+#alias(set_flags_from_string)
+pub fn setFlagsFromString(flags : String) -> Unit {
   let v8 = ffi_require_v8()
   v8.invoke("setFlagsFromString", [flags |> js]) |> ignore
 }
 
 ///|
 /// Stop code coverage collection
-#alias(stopCoverage)
-pub fn stop_coverage() -> Unit {
+#alias(stop_coverage)
+pub fn stopCoverage() -> Unit {
   let v8 = ffi_require_v8()
   v8.invoke("stopCoverage", []) |> ignore
 }
 
 ///|
 /// Take code coverage snapshot
-#alias(takeCoverage)
-pub fn take_coverage() -> Unit {
+#alias(take_coverage)
+pub fn takeCoverage() -> Unit {
   let v8 = ffi_require_v8()
   v8.invoke("takeCoverage", []) |> ignore
 }

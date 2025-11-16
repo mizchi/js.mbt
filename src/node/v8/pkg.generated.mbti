@@ -8,8 +8,8 @@ import(
 )
 
 // Values
-#alias(cachedDataVersionTag)
-fn cached_data_version_tag() -> Int
+#alias(cached_data_version_tag)
+fn cachedDataVersionTag() -> Int
 
 fn deserialize(@buffer.Buffer) -> @js.Val
 
@@ -27,17 +27,17 @@ fn getHeapStatistics() -> @js.Val
 
 fn serialize(&@js.Js) -> @buffer.Buffer
 
-#alias(setFlagsFromString)
-fn set_flags_from_string(String) -> Unit
+#alias(set_flags_from_string)
+fn setFlagsFromString(String) -> Unit
 
-#alias(setHeapSnapshotNearHeapLimit)
-fn set_heap_snapshot_near_heap_limit(Int) -> Unit
+#alias(set_heap_snapshot_near_heap_limit)
+fn setHeapSnapshotNearHeapLimit(Int) -> Unit
 
-#alias(stopCoverage)
-fn stop_coverage() -> Unit
+#alias(stop_coverage)
+fn stopCoverage() -> Unit
 
-#alias(takeCoverage)
-fn take_coverage() -> Unit
+#alias(take_coverage)
+fn takeCoverage() -> Unit
 
 #alias(write_heap_snapshot)
 fn writeHeapSnapshot(filename? : String) -> String

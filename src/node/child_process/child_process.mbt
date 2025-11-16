@@ -286,7 +286,8 @@ pub fn exec(
 ///|
 /// execFile(file[, args][, options][, callback])
 /// Executes a file directly without spawning a shell
-pub fn exec_file(
+#alias(exec_file)
+pub fn execFile(
   file : String,
   args : Array[String],
   callback : (Val, String, String) -> Unit noraise,
@@ -402,7 +403,8 @@ pub fn SpawnSyncResult::error(self : Self) -> Val? {
 ///|
 /// spawnSync(command[, args][, options])
 /// Synchronous version of spawn - blocks until process exits
-pub fn spawn_sync(
+#alias(spawn_sync)
+pub fn spawnSync(
   command : String,
   args? : Array[String],
   cwd? : String,
@@ -438,7 +440,8 @@ pub fn spawn_sync(
 ///|
 /// execSync(command[, options])
 /// Synchronous version of exec - blocks until completion
-pub fn exec_sync(
+#alias(exec_sync)
+pub fn execSync(
   command : String,
   cwd? : String,
   env? : Val,
@@ -479,7 +482,8 @@ pub fn exec_sync(
 ///|
 /// execFileSync(file[, args][, options])
 /// Synchronous version of execFile
-pub fn exec_file_sync(
+#alias(exec_file_sync)
+pub fn execFileSync(
   file : String,
   args? : Array[String],
   cwd? : String,

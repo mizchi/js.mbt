@@ -8,7 +8,8 @@ import(
 // Values
 fn inspect_(@js.Val, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, break_length? : Int, max_array_length? : Int, max_string_length? : Int) -> String
 
-fn parse_args(args~ : Array[String], options~ : Array[ParseArgsOption], allow_positionals? : Bool) -> ParseArgsResult
+#alias(parse_args)
+fn parseArgs(args~ : Array[String], options~ : Array[ParseArgsOption], allow_positionals? : Bool) -> ParseArgsResult
 
 // Errors
 

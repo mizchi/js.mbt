@@ -40,7 +40,8 @@ pub(all) struct ParseArgsResult {
 }
 
 ///|
-pub fn parse_args(
+#alias(parse_args)
+pub fn parseArgs(
   args~ : Array[String],
   options~ : Array[ParseArgsOption],
   allow_positionals? : Bool = false,
@@ -79,7 +80,7 @@ pub fn parse_args(
 
 ///|
 test "parse_args" {
-  let res = parse_args(
+  let res = parseArgs(
     args=[
       "--name", "alice", "--verbose", "-k", "v", "-h", "file1.txt", "file2.txt",
     ],

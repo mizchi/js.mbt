@@ -9,7 +9,8 @@ import(
 // Values
 async fn init_react_client() -> ReactDOMClient
 
-fn render_to_string(@react.Element) -> String
+#alias(render_to_string)
+fn renderToString(@react.Element) -> String
 
 // Errors
 

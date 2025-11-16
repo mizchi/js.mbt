@@ -10,17 +10,21 @@ import(
 // Values
 fn exec(String, (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
-fn exec_file(String, Array[String], (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
+#alias(exec_file)
+fn execFile(String, Array[String], (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
-fn exec_file_sync(String, args? : Array[String], cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
+#alias(exec_file_sync)
+fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
 
-fn exec_sync(String, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
+#alias(exec_sync)
+fn execSync(String, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
 
 fn fork(String, args? : Array[String], cwd? : String, env? : @js.Val, silent? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 fn spawn(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
-fn spawn_sync(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, input? : String) -> SpawnSyncResult
+#alias(spawn_sync)
+fn spawnSync(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, input? : String) -> SpawnSyncResult
 
 // Errors
 

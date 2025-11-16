@@ -8,7 +8,8 @@ import(
 )
 
 // Values
-fn create_browser_router(Array[Route]) -> Router
+#alias(create_browser_router)
+fn createBrowserRouter(Array[Route]) -> Router
 
 async fn init_react_router() -> Unit
 
@@ -16,7 +17,8 @@ fn link(to~ : String, Array[&@js.Js]) -> @react.Element
 
 fn load_react_router() -> @async.Promise[@js.Val]
 
-fn router_provider(Router) -> @react.Element
+#alias(router_provider)
+fn routerProvider(Router) -> @react.Element
 
 // Errors
 

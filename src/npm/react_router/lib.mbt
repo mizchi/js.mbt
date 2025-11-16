@@ -30,7 +30,8 @@ extern "js" fn get_router_provider() -> (RouterProviderProps) -> @react.Element 
   #| () => __ReactRouterApi.RouterProvider
 
 ///|
-pub fn router_provider(router : Router) -> @react.Element {
+#alias(router_provider)
+pub fn routerProvider(router : Router) -> @react.Element {
   let p = get_router_provider()
   @react.c(p, RouterProviderProps::{ router, })
 }
@@ -68,7 +69,8 @@ impl Js for Route with to_js(self : Route) {
 }
 
 ///|
-pub fn create_browser_router(routes : Array[Route]) -> Router {
+#alias(create_browser_router)
+pub fn createBrowserRouter(routes : Array[Route]) -> Router {
   let create_browser_router : (Array[Val]) -> Router = unsafe_cast(
     @js.global_this().get("__ReactRouterApi").get("createBrowserRouter"),
   )

@@ -6,7 +6,8 @@ import(
 )
 
 // Values
-fn before_each(async () -> Unit) -> Unit
+#alias(before_each)
+fn beforeEach(async () -> Unit) -> Unit
 
 fn it(String, skip? : String, async (TestContext) -> Unit) -> Unit
 
