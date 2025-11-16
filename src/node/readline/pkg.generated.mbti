@@ -2,7 +2,6 @@
 package "mizchi/js/node/readline"
 
 import(
-  "mizchi/js"
   "mizchi/js/async"
   "mizchi/js/node/events"
   "mizchi/js/node/stream"
@@ -28,7 +27,7 @@ fn Interface::cursorTo(Self, Int, y? : Int) -> @async.Promise[Unit]
 fn Interface::moveCursor(Self, Int, dy? : Int) -> @async.Promise[Unit]
 fn Interface::question(Self, String) -> @async.Promise[String]
 fn Interface::rollback(Self) -> Self
-impl @events.EventEmitter for Interface
+impl @events.EventEmitterImpl for Interface
 
 // Type aliases
 

@@ -14,7 +14,7 @@ import(
 #external
 pub type Stream
 impl @js.Js for Stream
-impl @events.EventEmitter for Stream
+impl @events.EventEmitterImpl for Stream
 
 // Type aliases
 

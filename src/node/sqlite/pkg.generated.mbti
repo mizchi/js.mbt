@@ -162,7 +162,7 @@ fn StatementSync::all(Self, named_parameters? : Map[String, &@js.Js], anonymous_
 fn StatementSync::columns(Self) -> Array[@js.Val]
 #alias(expanded_sql)
 fn StatementSync::expandedSQL(Self) -> String
-fn StatementSync::get(Self, named_parameters? : Map[String, &@js.Js], anonymous_parameters? : Array[&@js.Js]) -> @js.Val?
+fn StatementSync::get_(Self, named_parameters? : Map[String, &@js.Js], anonymous_parameters? : Array[&@js.Js]) -> @js.Val?
 fn StatementSync::iterate(Self, named_parameters? : Map[String, &@js.Js], anonymous_parameters? : Array[&@js.Js]) -> @iterator.JsIterator[@js.Val]
 fn StatementSync::run(Self, named_parameters? : Map[String, &@js.Js], anonymous_parameters? : Array[&@js.Js]) -> StatementResultingChanges
 #alias(set_allow_bare_named_parameters)

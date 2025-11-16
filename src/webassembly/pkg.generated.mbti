@@ -63,7 +63,6 @@ impl @js.Js for WebAssemblyModule
 
 #external
 pub type WebAssemblyTable
-fn WebAssemblyTable::get(Self, Int) -> @js.Val
 fn WebAssemblyTable::grow(Self, Int, @js.Val) -> Int
 fn WebAssemblyTable::length(Self) -> Int
 fn WebAssemblyTable::new(TableDescriptor) -> Self

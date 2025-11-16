@@ -31,7 +31,6 @@ fn Buffer::from_array(Array[Int]) -> Self
 fn Buffer::from_arraybuffer(@arraybuffer.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 fn Buffer::from_buffer(Self) -> Self
 fn Buffer::from_string(String, encoding? : String) -> Self
-fn Buffer::get(Self, Int) -> Int
 fn Buffer::includes(Self, @js.Val, byte_offset? : Int, encoding? : String) -> Bool
 #alias(index_of)
 fn Buffer::indexOf(Self, @js.Val, byte_offset? : Int, encoding? : String) -> Int
@@ -42,7 +41,6 @@ fn Buffer::isEncoding(String) -> Bool
 #alias(last_index_of)
 fn Buffer::lastIndexOf(Self, @js.Val, byte_offset? : Int, encoding? : String) -> Int
 fn Buffer::length(Self) -> Int
-fn Buffer::set(Self, Int, Int) -> Unit
 fn Buffer::slice(Self, start? : Int, end? : Int) -> Self
 fn Buffer::subarray(Self, start? : Int, end? : Int) -> Self
 #alias(to_json)

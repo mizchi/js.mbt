@@ -49,7 +49,7 @@ fn ChildProcess::stdin(Self) -> @stream.WritableStream?
 fn ChildProcess::stdout(Self) -> @stream.ReadableStream?
 fn ChildProcess::unref(Self) -> Unit
 impl @js.Js for ChildProcess
-impl @events.EventEmitter for ChildProcess
+impl @events.EventEmitterImpl for ChildProcess
 
 #external
 pub type SpawnSyncResult

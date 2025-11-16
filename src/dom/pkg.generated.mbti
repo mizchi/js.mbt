@@ -144,7 +144,7 @@ fn Document::create_element_ns(Self, String, String) -> Element
 fn Document::create_event(Self, String) -> Event
 fn Document::create_stylesheet(Self) -> CSSStyleSheet
 #alias(createTextNode)
-fn Document::create_text_node(Self, String) -> TextNode
+fn Document::create_text_node(Self, String) -> Text
 fn Document::doctype(Self) -> @js.Val?
 fn Document::document_element(Self) -> Element
 fn Document::document_uri(Self) -> String
@@ -530,8 +530,10 @@ fn Storage::values(Self) -> Array[String]
 impl @js.Js for Storage
 
 #external
-pub type TextNode
-impl @js.Js for TextNode
+pub type Text
+impl @js.Js for Text
+impl EventTargetImpl for Text
+impl NodeImpl for Text
 
 #external
 pub type Touch
@@ -657,6 +659,8 @@ pub(open) trait HTMLElementImpl : @js.Js + ElementImpl {
   set_inner_html(Self, String) -> Unit = _
   outer_html(Self) -> String = _
   set_outer_html(Self, String) -> Unit = _
+  focus(Self) -> Unit = _
+  click(Self) -> Unit = _
 }
 
 pub(open) trait NodeImpl : @js.Js + EventTargetImpl {

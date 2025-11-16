@@ -13,8 +13,8 @@ import(
 // Types and methods
 #external
 pub type Env
-fn Env::get(Self, String) -> String?
-fn Env::set(Self, String, String) -> Unit
+fn Env::get_(Self, String) -> String?
+fn Env::set_(Self, String, String) -> Unit
 impl @js.Js for Env
 
 #external

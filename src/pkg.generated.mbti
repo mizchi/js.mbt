@@ -82,6 +82,8 @@ fn symbol_dispose() -> Symbol
 
 fn symbol_iterator() -> Symbol
 
+fn throw_js(Val) -> Unit
+
 fn[T] throwable(() -> T raise?) -> T raise JsError
 
 fn[A] to_option(Val) -> A?
