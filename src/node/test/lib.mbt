@@ -22,9 +22,7 @@ pub fn NodeTest::require() -> NodeTest {
 type TestContext
 
 ///|
-pub impl Js for TestContext with to_js(self) -> Val {
-  self |> unsafe_cast
-}
+pub impl Js for TestContext
 
 ///|
 pub fn TestContext::todo(self : Self, description : String) -> Unit {
