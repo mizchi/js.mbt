@@ -8,7 +8,8 @@ extern "js" fn ffi_require_module() -> Val =
 
 ///|
 /// Get the builtin modules list
-pub fn builtin_modules() -> Array[String] {
+#alias(builtin_modules)
+pub fn builtinModules() -> Array[String] {
   let mod = ffi_require_module()
   unsafe_cast(mod.get("builtinModules"))
 }
@@ -16,7 +17,8 @@ pub fn builtin_modules() -> Array[String] {
 ///|
 /// createRequire(filename)
 /// Create a require function from a file URL or path
-pub fn create_require(filename : String) -> Val {
+#alias(create_require)
+pub fn createRequire(filename : String) -> Val {
   let mod = ffi_require_module()
   mod.invoke("createRequire", [filename |> js])
 }
@@ -24,7 +26,8 @@ pub fn create_require(filename : String) -> Val {
 ///|
 /// isBuiltin(moduleName)
 /// Returns true if the module is a built-in Node.js module
-pub fn is_builtin(module_name : String) -> Bool {
+#alias(is_builtin)
+pub fn isBuiltin(module_name : String) -> Bool {
   let mod = ffi_require_module()
   unsafe_cast(mod.invoke("isBuiltin", [module_name |> js]))
 }
@@ -32,7 +35,8 @@ pub fn is_builtin(module_name : String) -> Bool {
 ///|
 /// syncBuiltinESMExports()
 /// Updates the CommonJS exports to match the ES module exports
-pub fn sync_builtin_esm_exports() -> Unit {
+#alias(sync_builtin_esm_exports)
+pub fn syncBuiltinESMExports() -> Unit {
   let mod = ffi_require_module()
   mod.invoke("syncBuiltinESMExports", []) |> ignore
 }
@@ -40,7 +44,8 @@ pub fn sync_builtin_esm_exports() -> Unit {
 ///|
 /// findSourceMap(path)
 /// Returns the source map for the given path if it exists
-pub fn find_source_map(path : String) -> SourceMap? {
+#alias(find_source_map)
+pub fn findSourceMap(path : String) -> SourceMap? {
   let mod = ffi_require_module()
   mod.invoke("findSourceMap", [path |> js]) |> to_option()
 }
@@ -48,7 +53,8 @@ pub fn find_source_map(path : String) -> SourceMap? {
 ///|
 /// enableCompileCache(options?)
 /// Enable compile cache for faster module loading
-pub fn enable_compile_cache(cache_dir? : String) -> Unit {
+#alias(enable_compile_cache)
+pub fn enableCompileCache(cache_dir? : String) -> Unit {
   let mod = ffi_require_module()
   match cache_dir {
     Some(dir) => {
@@ -63,7 +69,8 @@ pub fn enable_compile_cache(cache_dir? : String) -> Unit {
 ///|
 /// flushCompileCache()
 /// Flush the compile cache to disk
-pub fn flush_compile_cache() -> Unit {
+#alias(flush_compile_cache)
+pub fn flushCompileCache() -> Unit {
   let mod = ffi_require_module()
   mod.invoke("flushCompileCache", []) |> ignore
 }
@@ -71,7 +78,8 @@ pub fn flush_compile_cache() -> Unit {
 ///|
 /// getCompileCacheDir()
 /// Get the compile cache directory path
-pub fn get_compile_cache_dir() -> String? {
+#alias(get_compile_cache_dir)
+pub fn getCompileCacheDir() -> String? {
   let mod = ffi_require_module()
   mod.invoke("getCompileCacheDir", []) |> to_option()
 }
@@ -82,7 +90,8 @@ pub fn get_compile_cache_dir() -> String? {
 /// mode: 'strip' (default) or 'transform'
 /// source_map: true to generate source map (only with mode='transform')
 /// source_url: URL to include in source map
-pub fn strip_typescript_types(
+#alias(strip_typescript_types)
+pub fn stripTypeScriptTypes(
   code : String,
   mode? : String,
   source_map? : Bool,
@@ -130,7 +139,8 @@ pub fn SourceMap::payload(self : Self) -> Val {
 ///|
 /// findEntry(lineNumber, columnNumber)
 /// Find the original source location for a generated position
-pub fn SourceMap::find_entry(
+#alias(find_entry)
+pub fn SourceMap::findEntry(
   self : Self,
   line_number : Int,
   column_number : Int,
@@ -151,31 +161,36 @@ pub impl Js for SourceMapEntry
 
 ///|
 /// Get the original line number
-pub fn SourceMapEntry::original_line(self : Self) -> Int {
+#alias(original_line)
+pub fn SourceMapEntry::originalLine(self : Self) -> Int {
   unsafe_cast(self.get("originalLine"))
 }
 
 ///|
 /// Get the original column number
-pub fn SourceMapEntry::original_column(self : Self) -> Int {
+#alias(original_column)
+pub fn SourceMapEntry::originalColumn(self : Self) -> Int {
   unsafe_cast(self.get("originalColumn"))
 }
 
 ///|
 /// Get the original source file name
-pub fn SourceMapEntry::original_source(self : Self) -> String {
+#alias(original_source)
+pub fn SourceMapEntry::originalSource(self : Self) -> String {
   unsafe_cast(self.get("originalSource"))
 }
 
 ///|
 /// Get the generated line number
-pub fn SourceMapEntry::generated_line(self : Self) -> Int {
+#alias(generated_line)
+pub fn SourceMapEntry::generatedLine(self : Self) -> Int {
   unsafe_cast(self.get("generatedLine"))
 }
 
 ///|
 /// Get the generated column number
-pub fn SourceMapEntry::generated_column(self : Self) -> Int {
+#alias(generated_column)
+pub fn SourceMapEntry::generatedColumn(self : Self) -> Int {
   unsafe_cast(self.get("generatedColumn"))
 }
 

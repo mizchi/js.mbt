@@ -8,10 +8,12 @@ import(
 // Values
 fn arch() -> String
 
-fn available_parallelism() -> Int
+#alias(available_parallelism)
+fn availableParallelism() -> Int
 
 fn cpus() -> Array[@js.Val]
 
+#alias(dev_null)
 fn devNull() -> String
 
 fn endianness() -> String
@@ -20,7 +22,8 @@ fn eol() -> String
 
 fn freemem() -> Double
 
-fn get_priority(Int) -> Int
+#alias(get_priority)
+fn getPriority(pid~ : Int?) -> Int
 
 fn homedir() -> String
 
@@ -30,17 +33,15 @@ fn loadavg() -> Array[Double]
 
 fn machine() -> String
 
-fn network_interfaces() -> @js.Val
+#alias(network_interfaces)
+fn networkInterfaces() -> @js.Val
 
 fn platform() -> String
 
-fn priority() -> Int
-
 fn release() -> String
 
-fn set_priority(Int) -> Unit
-
-fn set_priority_with_pid(Int, Int) -> Unit
+#alias(set_priority)
+fn setPriority(Int, pid~ : Int?) -> Unit
 
 fn tmpdir() -> String
 
@@ -50,9 +51,11 @@ fn type_() -> String
 
 fn uptime() -> Double
 
-fn userinfo() -> @js.Val
+#alias(userinfo)
+fn userInfo() -> @js.Val
 
-fn userinfo_with_encoding(String) -> @js.Val
+#alias(userinfo_with_encoding)
+fn userInfoWithEncoding(String) -> @js.Val
 
 fn version() -> String
 

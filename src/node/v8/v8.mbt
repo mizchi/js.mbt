@@ -10,28 +10,32 @@ extern "js" fn ffi_require_v8() -> Val =
 
 ///|
 /// Get heap statistics
-pub fn get_heap_statistics() -> Val {
+#alias(get_heap_statistics)
+pub fn getHeapStatistics() -> Val {
   let v8 = ffi_require_v8()
   v8.invoke("getHeapStatistics", [])
 }
 
 ///|
 /// Get heap space statistics
-pub fn get_heap_space_statistics() -> Array[Val] {
+#alias(get_heap_space_statistics)
+pub fn getHeapSpaceStatistics() -> Array[Val] {
   let v8 = ffi_require_v8()
   unsafe_cast(v8.invoke("getHeapSpaceStatistics", []))
 }
 
 ///|
 /// Get heap code statistics
-pub fn get_heap_code_statistics() -> Val {
+#alias(get_heap_code_statistics)
+pub fn getHeapCodeStatistics() -> Val {
   let v8 = ffi_require_v8()
   v8.invoke("getHeapCodeStatistics", [])
 }
 
 ///|
 /// Get heap snapshot as a readable stream
-pub fn get_heap_snapshot(
+#alias(get_heap_snapshot)
+pub fn getHeapSnapshot(
   expose_internals? : Bool,
   expose_numeric_values? : Bool,
 ) -> Val {
@@ -55,7 +59,8 @@ pub fn get_heap_snapshot(
 
 ///|
 /// Write heap snapshot to file
-pub fn write_heap_snapshot(filename? : String) -> String {
+#alias(write_heap_snapshot)
+pub fn writeHeapSnapshot(filename? : String) -> String {
   let v8 = ffi_require_v8()
   match filename {
     Some(f) => unsafe_cast(v8.invoke("writeHeapSnapshot", [f |> js]))

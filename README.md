@@ -6,14 +6,28 @@ Moonbit js libraries (for my use)
 $ moon add mizchi/js
 ```
 
-- `mizchi/js` : Core JS Value binding
+### JS bindings for Moonbit.
+
+- `mizchi/js` : Core JS bindings
+  - get(), set(), unsafe_cast(), invoke(), instanceof(), etc.
+  - All Api uses `#external type @js.Val` and `trait @js.Js`
 - `mizchi/js/async` : async with `Promise`
-- `mizchi/js/dom` : DOM
-- `mizchi/js/console` : `console:*`
+- `mizchi/js/dom` : DOM and Browser API
+  - `Document`, `Element`, `Event`, `Node`, `Window`, etc.
+- `mizchi/js/console` :
+  - `console:*`
 - `mizchi/js/regexp` : `RegExp`
-- `mizchi/js/timer` : `setTimeout`
-- `mizchi/js/worker` : `Worker`
-- `mizchi/js/http` : Network API including `fetch`, `Request`, `Response`
+- `mizchi/js/timer` : `setTimeout`, `setInterval`, `clearTimeout`, `clearInterval`, etc
+- `mizchi/js/worker` : Worker and MessageChannel API
+- `mizchi/js/http` : Network API
+  - `fetch`, `Request`, `Response`
+- `mizchi/js/weak`:
+  - `WeakMap`, `WeakSet`, `FinalizationRegistry`
+- `mizchi/js/url` :
+  - `URL`, `URLSearchParams`, `URLPattern`
+
+### Node.js binding
+
 - `mizchi/js/node` : Node.js API
 - `mizchi/js/node/fs` : `node:fs`
 - `mizchi/js/node/path` : `node:path`
@@ -21,6 +35,9 @@ $ moon add mizchi/js
 - `mizchi/js/node/util` : `node:util`
 - `mizchi/js/node/test` : `node:test`
 - `mizchi/js/node/child_process` : `node:child_process`
+
+### Node.js Library bindings
+
 - `mizchi/js/npm/react` : React
 - `mizchi/js/npm/react_router` : react-router (only BrowserRouter yet)
 - `mizchi/js/npm/react_testing_library` : react-testing-library
@@ -38,8 +55,8 @@ moon.pkg.json
 ```mbt
 fn main {
   let obj = @js.Object::new()
-  obj["xxx"] = 1
-  let v: Int = obj.get("xxx").cast()
+  obj.set("xxx", js(42))
+  let v: Int = obj.get("xxx") |> @js.unsafe_cast
 }
 ```
 
@@ -139,21 +156,7 @@ entrypoint
 
 ## mizchi/js/npm/react_router
 
-- [x] create_browser_router
-- [x] router_provider
-
 ## mizchi/js/npm/react_testing_library
-
-- [x] render
-- screen
-  - [x] get_by_text
-  - [x] get_by_label_text
-  - [x] get_by_role
-- fire_event
-  - [x] click
-  - [x] change
-  - [x] keydown
-  - [x] keyup
 
 ## Prior Art
 

@@ -6,14 +6,14 @@
 ///|
 /// Test builtin_modules returns array of module names
 test "builtin_modules returns array" {
-  let modules = builtin_modules()
+  let modules = builtinModules()
   inspect(modules.length() > 0, content="true")
 }
 
 ///|
 /// Test builtin_modules contains known core modules
 test "builtin_modules contains fs" {
-  let modules = builtin_modules()
+  let modules = builtinModules()
   let has_fs = modules.contains("fs")
   inspect(has_fs, content="true")
 }
@@ -23,21 +23,21 @@ test "builtin_modules contains fs" {
 ///|
 /// Test is_builtin returns true for core modules
 test "is_builtin returns true for fs" {
-  let result = is_builtin("fs")
+  let result = isBuiltin("fs")
   inspect(result, content="true")
 }
 
 ///|
 /// Test is_builtin returns true for node: prefixed modules
 test "is_builtin returns true for node:fs" {
-  let result = is_builtin("node:fs")
+  let result = isBuiltin("node:fs")
   inspect(result, content="true")
 }
 
 ///|
 /// Test is_builtin returns false for non-core modules
 test "is_builtin returns false for non-core modules" {
-  let result = is_builtin("express")
+  let result = isBuiltin("express")
   inspect(result == false, content="true")
 }
 
@@ -46,7 +46,7 @@ test "is_builtin returns false for non-core modules" {
 ///|
 /// Test createRequire creates a require function
 test "createRequire returns function" {
-  let require_fn = create_require("/tmp/test.js")
+  let require_fn = createRequire("/tmp/test.js")
   let type_of = require_fn |> @js.typeof_()
   inspect(type_of == "function", content="true")
 }
@@ -56,21 +56,21 @@ test "createRequire returns function" {
 ///|
 /// Test enableCompileCache can be called
 test "enableCompileCache API exists" {
-  enable_compile_cache()
+  enableCompileCache()
   inspect(true, content="true")
 }
 
 ///|
 /// Test flushCompileCache can be called
 test "flushCompileCache API exists" {
-  flush_compile_cache()
+  flushCompileCache()
   inspect(true, content="true")
 }
 
 ///|
 /// Test getCompileCacheDir returns optional string
 test "getCompileCacheDir API exists" {
-  let _dir = get_compile_cache_dir()
+  let _dir = getCompileCacheDir()
   inspect(true, content="true")
 }
 
@@ -79,7 +79,7 @@ test "getCompileCacheDir API exists" {
 ///|
 /// Test syncBuiltinESMExports can be called
 test "syncBuiltinESMExports API exists" {
-  sync_builtin_esm_exports()
+  syncBuiltinESMExports()
   inspect(true, content="true")
 }
 
@@ -88,7 +88,7 @@ test "syncBuiltinESMExports API exists" {
 ///|
 /// Test findSourceMap returns optional SourceMap
 test "findSourceMap API exists" {
-  let _source_map = find_source_map("/nonexistent.js")
+  let _source_map = findSourceMap("/nonexistent.js")
   inspect(true, content="true")
 }
 
@@ -98,7 +98,7 @@ test "findSourceMap API exists" {
 /// Test stripTypeScriptTypes removes type annotations (default strip mode)
 test "stripTypeScriptTypes basic strip" {
   let ts_code = "const x: number = 42;"
-  let js_code = strip_typescript_types(ts_code)
+  let js_code = stripTypeScriptTypes(ts_code)
   inspect(js_code.contains(": number") == false, content="true")
 }
 
@@ -106,7 +106,7 @@ test "stripTypeScriptTypes basic strip" {
 /// Test stripTypeScriptTypes with interface
 test "stripTypeScriptTypes removes interface" {
   let ts_code = "interface Foo { name: string; }"
-  let js_code = strip_typescript_types(ts_code)
+  let js_code = stripTypeScriptTypes(ts_code)
   inspect(js_code.contains("interface") == false, content="true")
 }
 
@@ -114,7 +114,7 @@ test "stripTypeScriptTypes removes interface" {
 /// Test stripTypeScriptTypes with explicit strip mode
 test "stripTypeScriptTypes with strip mode" {
   let ts_code = "function greet(name: string): void { console.log(name); }"
-  let js_code = strip_typescript_types(ts_code, mode="strip")
+  let js_code = stripTypeScriptTypes(ts_code, mode="strip")
   inspect(js_code.contains(": string") == false, content="true")
   inspect(js_code.contains(": void") == false, content="true")
 }
@@ -123,7 +123,7 @@ test "stripTypeScriptTypes with strip mode" {
 /// Test stripTypeScriptTypes with transform mode
 test "stripTypeScriptTypes with transform mode" {
   let ts_code = "enum Color { Red, Green, Blue }"
-  let js_code = strip_typescript_types(ts_code, mode="transform")
+  let js_code = stripTypeScriptTypes(ts_code, mode="transform")
   // transform mode should convert enum to JavaScript
   inspect(js_code.length() > 0, content="true")
 }
@@ -132,7 +132,7 @@ test "stripTypeScriptTypes with transform mode" {
 /// Test stripTypeScriptTypes preserves runtime code
 test "stripTypeScriptTypes preserves code" {
   let ts_code = "const x: number = 42; console.log(x);"
-  let js_code = strip_typescript_types(ts_code)
+  let js_code = stripTypeScriptTypes(ts_code)
   inspect(js_code.contains("42"), content="true")
   inspect(js_code.contains("console.log"), content="true")
 }

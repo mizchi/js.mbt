@@ -74,7 +74,8 @@ pub fn loadavg() -> Array[Double] {
 /// # Returns
 ///
 /// An object with interface names as keys
-pub fn network_interfaces() -> Val {
+#alias(network_interfaces)
+pub fn networkInterfaces() -> Val {
   os_module().invoke("networkInterfaces", [])
 }
 
@@ -128,7 +129,8 @@ pub fn uptime() -> Double {
 /// # Returns
 ///
 /// An object containing uid, gid, username, homedir, shell
-pub fn userinfo() -> Val {
+#alias(userinfo)
+pub fn userInfo() -> Val {
   os_module().invoke("userInfo", [])
 }
 
@@ -138,7 +140,8 @@ pub fn userinfo() -> Val {
 /// # Parameters
 ///
 /// - `encoding`: The character encoding to use (default: 'utf8')
-pub fn userinfo_with_encoding(encoding : String) -> Val {
+#alias(userinfo_with_encoding)
+pub fn userInfoWithEncoding(encoding : String) -> Val {
   let options = @js.Object::new()
   options.set("encoding", encoding)
   os_module().invoke("userInfo", [options])
@@ -163,32 +166,29 @@ pub fn eol() -> String {
 }
 
 ///|
-/// Returns the operating system's default priority for processes
-pub fn priority() -> Int {
-  unsafe_cast(os_module().invoke("getPriority", []))
-}
-
-///|
 /// Returns the priority of the process specified by pid
-pub fn get_priority(pid : Int) -> Int {
-  unsafe_cast(os_module().invoke("getPriority", [pid]))
+#alias(get_priority)
+pub fn getPriority(pid~ : Int?) -> Int {
+  match pid {
+    Some(p) => unsafe_cast(os_module().invoke("getPriority", [p]))
+    None => unsafe_cast(os_module().invoke("getPriority", []))
+  }
 }
 
 ///|
 /// Sets the scheduling priority for the process
-pub fn set_priority(priority : Int) -> Unit {
-  os_module().invoke("setPriority", [priority]) |> ignore
-}
-
-///|
-/// Sets the scheduling priority for the process specified by pid
-pub fn set_priority_with_pid(pid : Int, priority : Int) -> Unit {
-  os_module().invoke("setPriority", [pid, priority]) |> ignore
+#alias(set_priority)
+pub fn setPriority(priority : Int, pid~ : Int?) -> Unit {
+  match pid {
+    Some(p) => os_module().invoke("setPriority", [p, priority]) |> ignore
+    None => os_module().invoke("setPriority", [priority]) |> ignore
+  }
 }
 
 ///|
 /// Returns the number of logical CPU cores available
-pub fn available_parallelism() -> Int {
+#alias(available_parallelism)
+pub fn availableParallelism() -> Int {
   unsafe_cast(os_module().invoke("availableParallelism", []))
 }
 
@@ -212,6 +212,7 @@ pub fn machine() -> String {
 /// # Returns
 ///
 /// Device name or empty string if not a TTY
+#alias(dev_null)
 pub fn devNull() -> String {
   unsafe_cast(os_module().get("devNull"))
 }

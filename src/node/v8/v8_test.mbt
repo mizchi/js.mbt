@@ -13,19 +13,22 @@ using @async {run_async}
 ///|
 using @promises {rm}
 
+///|
+using @v8 {serialize, deserialize, type Serializer, type Deserializer}
+
 ///| Heap Statistics Tests
 
 ///|
 /// Test get_heap_statistics returns object
 test "get_heap_statistics returns object" {
-  let stats = get_heap_statistics()
+  let stats = @v8.getHeapStatistics()
   inspect(@js.typeof_(stats) == "object", content="true")
 }
 
 ///|
 /// Test heap statistics has total_heap_size
 test "heap statistics has total_heap_size" {
-  let stats = get_heap_statistics()
+  let stats = @v8.getHeapStatistics()
   let total = stats.get("total_heap_size")
   inspect(@js.typeof_(total) == "number", content="true")
 }
@@ -33,7 +36,7 @@ test "heap statistics has total_heap_size" {
 ///|
 /// Test heap statistics has used_heap_size
 test "heap statistics has used_heap_size" {
-  let stats = get_heap_statistics()
+  let stats = @v8.getHeapStatistics()
   let used = stats.get("used_heap_size")
   inspect(@js.typeof_(used) == "number", content="true")
 }
@@ -41,14 +44,14 @@ test "heap statistics has used_heap_size" {
 ///|
 /// Test get_heap_space_statistics returns array
 test "get_heap_space_statistics returns array" {
-  let spaces = get_heap_space_statistics()
+  let spaces = @v8.getHeapSpaceStatistics()
   inspect(spaces.length() > 0, content="true")
 }
 
 ///|
 /// Test heap space has space_name
 test "heap space has space_name" {
-  let spaces = get_heap_space_statistics()
+  let spaces = @v8.getHeapSpaceStatistics()
   let first = spaces[0]
   let name = first.get("space_name")
   inspect(@js.typeof_(name) == "string", content="true")
@@ -57,7 +60,7 @@ test "heap space has space_name" {
 ///|
 /// Test get_heap_code_statistics returns object
 test "get_heap_code_statistics returns object" {
-  let stats = get_heap_code_statistics()
+  let stats = @v8.getHeapCodeStatistics()
   inspect(@js.typeof_(stats) == "object", content="true")
 }
 
@@ -66,7 +69,7 @@ test "get_heap_code_statistics returns object" {
 ///|
 /// Test write_heap_snapshot returns filename
 test "write_heap_snapshot returns filename" {
-  let filename = write_heap_snapshot()
+  let filename = @v8.writeHeapSnapshot()
   inspect(filename.length() > 0, content="true")
   // Clean up snapshot file
   run_async(async fn() noraise {
@@ -79,7 +82,7 @@ test "write_heap_snapshot returns filename" {
 ///|
 /// Test get_heap_snapshot returns stream
 test "get_heap_snapshot returns stream" {
-  let stream = get_heap_snapshot()
+  let stream = @v8.getHeapSnapshot()
   inspect(@js.typeof_(stream) == "object", content="true")
 }
 
@@ -175,7 +178,7 @@ test "Deserializer get_wire_format_version" {
 ///|
 /// Test cached_data_version_tag returns number
 test "cached_data_version_tag returns number" {
-  let tag = cached_data_version_tag()
+  let tag = @v8.cached_data_version_tag()
   inspect(tag > 0, content="true")
 }
 
@@ -189,13 +192,13 @@ test "set_flags_from_string API exists" {
 ///|
 /// Test stop_coverage API exists
 test "stop_coverage API exists" {
-  stop_coverage()
+  @v8.stop_coverage()
   inspect(true, content="true")
 }
 
 ///|
 /// Test take_coverage API exists
 test "take_coverage API exists" {
-  take_coverage()
+  @v8.take_coverage()
   inspect(true, content="true")
 }

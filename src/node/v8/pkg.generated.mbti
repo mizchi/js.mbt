@@ -13,13 +13,17 @@ fn cached_data_version_tag() -> Int
 
 fn deserialize(@buffer.Buffer) -> @js.Val
 
-fn get_heap_code_statistics() -> @js.Val
+#alias(get_heap_code_statistics)
+fn getHeapCodeStatistics() -> @js.Val
 
-fn get_heap_snapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @js.Val
+#alias(get_heap_snapshot)
+fn getHeapSnapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @js.Val
 
-fn get_heap_space_statistics() -> Array[@js.Val]
+#alias(get_heap_space_statistics)
+fn getHeapSpaceStatistics() -> Array[@js.Val]
 
-fn get_heap_statistics() -> @js.Val
+#alias(get_heap_statistics)
+fn getHeapStatistics() -> @js.Val
 
 fn serialize(&@js.Js) -> @buffer.Buffer
 
@@ -35,7 +39,8 @@ fn stop_coverage() -> Unit
 #alias(takeCoverage)
 fn take_coverage() -> Unit
 
-fn write_heap_snapshot(filename? : String) -> String
+#alias(write_heap_snapshot)
+fn writeHeapSnapshot(filename? : String) -> String
 
 // Errors
 

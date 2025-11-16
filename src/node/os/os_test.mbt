@@ -2,6 +2,26 @@
 /// Node.js OS Module Tests
 
 ///|
+using @os {
+  arch,
+  cpus,
+  endianness,
+  freemem,
+  homedir,
+  hostname,
+  loadavg,
+  platform,
+  release,
+  tmpdir,
+  totalmem,
+  type_,
+  uptime,
+  version,
+  eol,
+  machine,
+}
+
+///|
 test "arch returns valid architecture" {
   let architecture = arch()
   // Should be one of the valid architectures
@@ -97,7 +117,7 @@ test "uptime returns positive number" {
 
 ///|
 test "userinfo returns object" {
-  let info = userinfo()
+  let info = @os.userInfo()
   assert_true(@js.typeof_(info) == "object")
 }
 
@@ -115,7 +135,7 @@ test "eol returns valid line ending" {
 
 ///|
 test "available_parallelism returns positive number" {
-  let cores = available_parallelism()
+  let cores = @os.availableParallelism()
   assert_true(cores > 0)
 }
 
@@ -127,18 +147,18 @@ test "machine returns non-empty string" {
 
 ///|
 test "devNull returns device path" {
-  let dev = devNull()
+  let dev = @os.devNull()
   assert_true(dev.length() > 0)
 }
 
 ///|
 test "network_interfaces returns object" {
-  let interfaces = network_interfaces()
+  let interfaces = @os.networkInterfaces()
   assert_true(@js.typeof_(interfaces) == "object")
 }
 
 ///|
 test "priority returns number" {
-  let prio = priority()
+  let prio = @os.getPriority(pid=None)
   assert_true(prio >= -20 && prio <= 19)
 }
