@@ -1,8 +1,8 @@
 ///|
-using @js {trait Js, js, type Val, unsafe_cast}
+using @js {trait Js, js, type Val, unsafe_cast, type AbortSignal}
 
 ///|
-using @async {type Promise, type AbortSignal}
+using @async {type Promise}
 
 ///|
 using @events {trait EventEmitterImpl}

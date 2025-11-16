@@ -1,10 +1,10 @@
 // ///|
 
 ///|
-using @js {trait Js, type Val, js, unsafe_cast}
+using @js {trait Js, type Val, type AbortSignal, js, unsafe_cast}
 
 ///|
-using @async {type Promise, type AbortSignal, run_async}
+using @async {type Promise, run_async}
 
 ///|
 using @iterator {type AsyncIterator}

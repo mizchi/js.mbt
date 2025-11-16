@@ -21,7 +21,7 @@ pub fn fetch(
   redirect? : String,
   referrer? : String,
   referrerPolicy? : String,
-  signal? : @async.AbortSignal,
+  signal? : AbortSignal,
 ) -> Promise[Response] {
   let init_obj = new_empty_object()
   init_obj.set("method", method_)
