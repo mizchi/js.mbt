@@ -116,12 +116,12 @@ pub fn[T : Js] is_nan(v : T) -> Bool {
 }
 
 ///|
-pub fn[T : Js] instance_of(v : T, cls : T) -> Bool {
+pub fn[T : Js] instanceof_(v : T, cls : T) -> Bool {
   ffi_instance_of(v.to_js(), cls.to_js())
 }
 
 ///|
-pub fn[T : Js] type_of(v : T) -> String {
+pub fn[T : Js] typeof_(v : T) -> String {
   ffi_type_of(v.to_js())
 }
 

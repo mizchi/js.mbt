@@ -302,7 +302,7 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
     None
   } else {
     let g : Map[String, String] = {}
-    let keys = @js.object_keys(v.get("groups"))
+    let keys = @js.Object::keys(v.get("groups"))
     for k in keys {
       g[k] = unsafe_cast(v.get("groups").get(k))
     }
@@ -353,7 +353,7 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
     None
   } else {
     let g : Map[String, String] = {}
-    let keys = @js.object_keys(v.get("groups"))
+    let keys = @js.Object::keys(v.get("groups"))
     for k in keys {
       g[k] = unsafe_cast(v.get("groups").get(k))
     }
@@ -395,7 +395,7 @@ pub fn RegExp::match_all(
       None
     } else {
       let g : Map[String, String] = {}
-      let keys = @js.object_keys(item.get("groups"))
+      let keys = @js.Object::keys(item.get("groups"))
       for k in keys {
         g[k] = unsafe_cast(item.get("groups").get(k))
       }

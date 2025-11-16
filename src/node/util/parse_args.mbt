@@ -66,7 +66,7 @@ pub fn parse_args(
     Util::require().get("parseArgs").invoke_self([result]),
   )
   let values : Map[String, Val] = {}
-  let result_keys = r.get("values") |> @js.object_keys()
+  let result_keys = r.get("values") |> @js.Object::keys
   for k in result_keys {
     values[k] = unsafe_cast(r.get("values").get(k))
   }

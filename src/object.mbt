@@ -53,8 +53,8 @@ pub fn Object::new() -> Self {
 /// let keys = object_keys(obj)
 /// // keys == ["name", "age"] (order not guaranteed)
 /// ```
-pub fn object_keys(v : Val) -> Array[String] {
-  ffi_object_keys(v)
+pub fn Object::keys(v : &Js) -> Array[String] {
+  ffi_object_keys(v.to_js())
 }
 
 ///|
@@ -76,11 +76,11 @@ pub fn object_keys(v : Val) -> Array[String] {
 /// let obj = @js.Object::new()
 /// obj.set("name", "Alice")
 /// obj.set("age", 30)
-/// let values = object_values(obj.to_js())
+/// let values = Object::values(obj.to_js())
 /// // values contains [Val("Alice"), Val(30)] (order not guaranteed)
 /// ```
-pub fn object_values(v : Val) -> Array[Val] {
-  ffi_object_values(v)
+pub fn Object::values(v : &Js) -> Array[Val] {
+  ffi_object_values(v.to_js())
 }
 
 ///|
@@ -110,8 +110,8 @@ pub fn object_values(v : Val) -> Array[Val] {
 ///   log(value)
 /// }
 /// ```
-pub fn object_entries(v : Val) -> Array[(String, Val)] {
-  let entries = ffi_object_entries(v)
+pub fn Object::entries(v : &Js) -> Array[(String, Val)] {
+  let entries = ffi_object_entries(v.to_js())
   entries.map(entry => (unsafe_cast(entry.get(0)), unsafe_cast(entry.get(1))))
 }
 
@@ -137,13 +137,13 @@ pub fn object_entries(v : Val) -> Array[(String, Val)] {
 /// let source = @js.Object::new()
 /// source.set("b", 2)
 /// source.set("c", 3)
-/// let result = object_assign(target.to_js(), source.to_js())
+/// let result = Object::assign(target, source)
 /// // result.a == 1, result.b == 2, result.c == 3
 /// ```
 ///
 /// # Note
 ///
 /// This mutates the target object and returns it.
-pub fn object_assign(target : Val, source : Val) -> Val {
-  ffi_object_assign(target, source)
+pub fn Object::assign(target : &Js, source : &Js) -> Val {
+  ffi_object_assign(target.to_js(), source.to_js())
 }

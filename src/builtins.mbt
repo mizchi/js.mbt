@@ -34,15 +34,15 @@ pub impl ToJson for Val with to_json(self) -> Json {
   if self.is_none() {
     return null
   }
-  if type_of(self) == "boolean" {
+  if typeof_(self) == "boolean" {
     let v : Bool = unsafe_cast(self)
     return v.to_json()
   }
-  if type_of(self) == "number" {
+  if typeof_(self) == "number" {
     let v : Double = unsafe_cast(self)
     return v.to_json()
   }
-  if type_of(self) == "string" {
+  if typeof_(self) == "string" {
     let v : String = unsafe_cast(self)
     return v.to_json()
   }
@@ -55,7 +55,7 @@ pub impl ToJson for Val with to_json(self) -> Json {
     }
     return arr.to_json()
   }
-  if type_of(self) == "object" {
+  if typeof_(self) == "object" {
     let out : Map[String, Json] = {}
     let keys = self |> ffi_object_keys()
     for k in keys {

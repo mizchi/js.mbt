@@ -20,7 +20,7 @@ test "WASI constructor creates instance with preview1" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(@js.type_of(import_obj) == "object", content="true")
+  inspect(@js.typeof_(import_obj) == "object", content="true")
 }
 
 ///|
@@ -37,7 +37,7 @@ test "WASI constructor creates instance with unstable" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(@js.type_of(import_obj) == "object", content="true")
+  inspect(@js.typeof_(import_obj) == "object", content="true")
 }
 
 ///|
@@ -54,7 +54,7 @@ test "WASI constructor accepts args" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(@js.type_of(import_obj) == "object", content="true")
+  inspect(@js.typeof_(import_obj) == "object", content="true")
 }
 
 ///|
@@ -72,7 +72,7 @@ test "WASI constructor accepts env" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(@js.type_of(import_obj) == "object", content="true")
+  inspect(@js.typeof_(import_obj) == "object", content="true")
 }
 
 ///|
@@ -90,7 +90,7 @@ test "WASI constructor accepts preopens" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(@js.type_of(import_obj) == "object", content="true")
+  inspect(@js.typeof_(import_obj) == "object", content="true")
 }
 
 ///|
@@ -107,7 +107,7 @@ test "WASI constructor accepts return_on_exit" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(@js.type_of(import_obj) == "object", content="true")
+  inspect(@js.typeof_(import_obj) == "object", content="true")
 }
 
 ///|
@@ -124,7 +124,7 @@ test "WASI constructor accepts fd options" {
     stderr: Some(2),
   })
   let import_obj = wasi.get_import_object()
-  inspect((import_obj |> @js.type_of) == "object", content="true")
+  inspect((import_obj |> @js.typeof_) == "object", content="true")
 }
 
 ///| WASI Methods Tests
@@ -143,9 +143,9 @@ test "get_import_object returns object" {
     stderr: None,
   })
   let import_obj = wasi.get_import_object()
-  inspect(@js.type_of(import_obj) == "object", content="true")
+  inspect(@js.typeof_(import_obj) == "object", content="true")
   // Check that it has wasi_snapshot_preview1 key
-  let has_preview1 = @js.type_of(import_obj.get("wasi_snapshot_preview1")) !=
+  let has_preview1 = @js.typeof_(import_obj.get("wasi_snapshot_preview1")) !=
     "undefined"
   inspect(has_preview1, content="true")
 }
@@ -164,7 +164,7 @@ test "wasi_import returns object" {
     stderr: None,
   })
   let wasi_import = wasi.wasi_import()
-  inspect(@js.type_of(wasi_import) == "object", content="true")
+  inspect(@js.typeof_(wasi_import) == "object", content="true")
 }
 
 ///| WASI Integration Tests

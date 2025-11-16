@@ -43,7 +43,7 @@ fn TestEnum::from_js(v : Val) -> Self raise {
   match tag {
     "A" => {
       let value = v.get("value")
-      guard @js.type_of(value) == "number"
+      guard @js.typeof_(value) == "number"
       A(value=unsafe_cast(value))
     }
     _ => fail("unknown tag: " + tag)
@@ -122,14 +122,14 @@ test "Val type checking" {
 
 ///|
 test "Val type_of" {
-  assert_eq(@js.type_of(js(42)), "number")
-  assert_eq(@js.type_of(js(3.14)), "number")
-  assert_eq(@js.type_of(js("hello")), "string")
-  assert_eq(@js.type_of(js(true)), "boolean")
-  assert_eq(@js.type_of(undefined()), "undefined")
-  assert_eq(@js.type_of(Object::new()), "object")
-  assert_eq(@js.type_of(JsArray::new()), "object")
-  assert_eq(@js.type_of(null_()), "object") // JavaScript quirk
+  assert_eq(@js.typeof_(js(42)), "number")
+  assert_eq(@js.typeof_(js(3.14)), "number")
+  assert_eq(@js.typeof_(js("hello")), "string")
+  assert_eq(@js.typeof_(js(true)), "boolean")
+  assert_eq(@js.typeof_(undefined()), "undefined")
+  assert_eq(@js.typeof_(Object::new()), "object")
+  assert_eq(@js.typeof_(JsArray::new()), "object")
+  assert_eq(@js.typeof_(null_()), "object") // JavaScript quirk
 }
 
 ///|
@@ -249,7 +249,7 @@ test "object_keys" {
   obj.set("name", "Alice")
   obj.set("age", 30)
   obj.set("city", "Tokyo")
-  let keys = object_keys(obj.to_js())
+  let keys = Object::keys(obj.to_js())
   assert_eq(keys.length(), 3)
   assert_true(keys.contains("name"))
   assert_true(keys.contains("age"))
@@ -262,7 +262,7 @@ test "object_values" {
   obj.set("a", 1)
   obj.set("b", 2)
   obj.set("c", 3)
-  let values = object_values(obj.to_js())
+  let values = Object::values(obj)
   assert_eq(values.length(), 3)
   // Values should be present (order not guaranteed)
   let sum : Int = unsafe_cast(values[0]) +
@@ -276,7 +276,7 @@ test "object_entries" {
   let obj = @js.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
-  let entries = object_entries(obj.to_js())
+  let entries = Object::entries(obj)
   assert_eq(entries.length(), 2)
   let mut found_name = false
   let mut found_age = false
@@ -302,7 +302,7 @@ test "object_assign" {
   let source = @js.Object::new()
   source.set("b", 3)
   source.set("c", 4)
-  let result = object_assign(target.to_js(), source.to_js())
+  let result = Object::assign(target, source)
 
   // b should be overwritten, c should be added
   assert_eq(unsafe_cast(result.get("a")), 1)
@@ -361,10 +361,10 @@ test "symbols" {
   let iter_val : Val = unsafe_cast(iter_sym)
   let dispose_val : Val = unsafe_cast(dispose_sym)
   let async_dispose_val : Val = unsafe_cast(async_dispose_sym)
-  assert_eq(@js.type_of(sym_val), "symbol")
-  assert_eq(@js.type_of(iter_val), "symbol")
-  assert_eq(@js.type_of(dispose_val), "symbol")
-  assert_eq(@js.type_of(async_dispose_val), "symbol")
+  assert_eq(@js.typeof_(sym_val), "symbol")
+  assert_eq(@js.typeof_(iter_val), "symbol")
+  assert_eq(@js.typeof_(dispose_val), "symbol")
+  assert_eq(@js.typeof_(async_dispose_val), "symbol")
 }
 
 ///|
@@ -444,11 +444,11 @@ test "Val with mixed types in object" {
   obj.set("null", null_())
   obj.set("array", from_array([1, 2, 3]))
   obj.set("object", @js.Object::new())
-  assert_eq(@js.type_of(obj.get("string")), "string")
-  assert_eq(@js.type_of(obj.get("number")), "number")
-  assert_eq(@js.type_of(obj.get("float")), "number")
-  assert_eq(@js.type_of(obj.get("boolean")), "boolean")
-  assert_eq(@js.type_of(obj.get("null")), "object")
+  assert_eq(@js.typeof_(obj.get("string")), "string")
+  assert_eq(@js.typeof_(obj.get("number")), "number")
+  assert_eq(@js.typeof_(obj.get("float")), "number")
+  assert_eq(@js.typeof_(obj.get("boolean")), "boolean")
+  assert_eq(@js.typeof_(obj.get("null")), "object")
   assert_true(@js.is_array(obj.get("array")))
   assert_true(@js.is_object(obj.get("object")))
 }
