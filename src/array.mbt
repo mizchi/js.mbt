@@ -6,6 +6,11 @@ pub type JsArray
 pub impl Js for JsArray
 
 ///|
+pub fn JsArray::to_string(self : Self) -> String {
+  ffi_json_stringify(self.to_js(), undefined(), undefined())
+}
+
+///|
 pub fn[T] JsArray::from(items : Array[T]) -> JsArray {
   ffi_array_from(items |> unsafe_cast) |> unsafe_cast
 }

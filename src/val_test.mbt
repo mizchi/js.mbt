@@ -80,8 +80,8 @@ test "to_string" {
   assert_eq(js("hello").to_string(), "hello")
   assert_true(@js.is_undefined(undefined()))
   assert_true(@js.is_null(null_()))
-  assert_eq(@js.Object::new().to_js().to_string(), "{}")
-  assert_eq(@js.JsArray::new().to_js().to_string(), "[]")
+  assert_eq(@js.Object::new().to_string(), "{}")
+  assert_eq(@js.JsArray::new().to_string(), "[]")
   from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
   let expected =
     #|{"a":1,"b":2}
@@ -382,8 +382,8 @@ test "new_error" {
 }
 
 ///|
-test "object_create" {
-  let obj = object_create()
+test "Object::create" {
+  let obj = Object::create()
   assert_true(@js.is_object(obj))
 }
 

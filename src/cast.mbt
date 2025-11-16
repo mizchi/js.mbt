@@ -35,7 +35,7 @@
 // pub fn[T : Js] js(v : T) -> Val {
 //   unsafe_cast(v.to_js())
 // }
-
+#deprecated
 pub fn[T] js(v : T) -> Val {
   unsafe_cast(v)
 }

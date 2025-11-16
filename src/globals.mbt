@@ -63,18 +63,6 @@ pub fn btoa(data : String) -> String {
 }
 
 ///|
-/// Create a new object using Object.create().
-///
-/// Creates an object with an empty prototype chain.
-///
-/// # Returns
-///
-/// A new object created with Object.create({})
-pub fn object_create() -> Val {
-  ffi_object_create()
-}
-
-///|
 /// Encode a URI by escaping special characters.
 ///
 /// Equivalent to JavaScript's `encodeURI()` function.

@@ -31,6 +31,11 @@ pub fn Object::new() -> Self {
 }
 
 ///|
+pub fn Object::to_string(self : Self) -> String {
+  ffi_json_stringify(self.to_js(), undefined(), undefined())
+}
+
+///|
 /// Create a new empty JavaScript object.
 ///
 /// Equivalent to JavaScript's `{}` or `new Object()`.
@@ -166,4 +171,16 @@ pub fn Object::entries(v : &Js) -> Array[(String, Val)] {
 /// This mutates the target object and returns it.
 pub fn Object::assign(target : &Js, source : &Js) -> Val {
   ffi_object_assign(target.to_js(), source.to_js())
+}
+
+///|
+/// Create a new object using Object.create().
+///
+/// Creates an object with an empty prototype chain.
+///
+/// # Returns
+///
+/// A new object created with Object.create({})
+pub fn Object::create() -> Val {
+  ffi_object_create()
 }

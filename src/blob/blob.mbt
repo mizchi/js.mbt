@@ -19,7 +19,7 @@ pub fn Blob::new(data : Array[&Js], content_type? : String) -> Blob {
   let arr = @js.JsArray::new()
   let mut i = 0
   while i < data.length() {
-    arr.invoke("push", [data[i].to_js()]) |> ignore
+    arr.invoke("push", [data[i]]) |> ignore
     i = i + 1
   }
   let options = @js.Object::new()
@@ -65,24 +65,22 @@ pub fn Blob::slice(
 ) -> Blob {
   match (start, end, content_type) {
     (None, None, None) => self.invoke("slice", []) |> unsafe_cast
-    (Some(s), None, None) => self.invoke("slice", [s |> js]) |> unsafe_cast
-    (Some(s), Some(e), None) =>
-      self.invoke("slice", [s |> js, e |> js]) |> unsafe_cast
+    (Some(s), None, None) => self.invoke("slice", [s]) |> unsafe_cast
+    (Some(s), Some(e), None) => self.invoke("slice", [s, e]) |> unsafe_cast
     (Some(s), Some(e), Some(ct)) =>
-      self.invoke("slice", [s |> js, e |> js, ct |> js]) |> unsafe_cast
+      self.invoke("slice", [s, e, ct]) |> unsafe_cast
     (None, Some(e), ct) =>
       match ct {
-        Some(t) =>
-          self.invoke("slice", [0 |> js, e |> js, t |> js]) |> unsafe_cast
-        None => self.invoke("slice", [0 |> js, e |> js]) |> unsafe_cast
+        Some(t) => self.invoke("slice", [0, e, t]) |> unsafe_cast
+        None => self.invoke("slice", [0, e]) |> unsafe_cast
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size()
-      self.invoke("slice", [s |> js, size |> js, ct |> js]) |> unsafe_cast
+      self.invoke("slice", [s, size, ct]) |> unsafe_cast
     }
     (None, None, Some(ct)) => {
       let size = self.size()
-      self.invoke("slice", [0 |> js, size |> js, ct |> js]) |> unsafe_cast
+      self.invoke("slice", [0, size, ct]) |> unsafe_cast
     }
   }
 }

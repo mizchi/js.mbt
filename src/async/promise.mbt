@@ -60,18 +60,20 @@ pub fn[A, B] Promise::catch_(
   self : Self[A],
   f : (Error) -> Promise[B],
 ) -> Promise[B] {
-  self.invoke("catch", [js(f)]) |> unsafe_cast
+  self.invoke("catch", [@js.from_fn1(f)]) |> unsafe_cast
 }
 
 ///|
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
-  self.invoke("finally", [js(f)]) |> unsafe_cast
+  self.invoke("finally", [@js.from_fn0(f)]) |> unsafe_cast
 }
 
 ///|
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[A] Promise::unwrap(self : Self[A]) -> A {
-  suspend((ok, err) => self.invoke("then", [js(ok)]).invoke("catch", [js(err)])
+  suspend((ok, err) => self
+    .invoke("then", [@js.from_fn1(ok)])
+    .invoke("catch", [@js.from_fn1(err)])
     |> ignore)
 }
 
@@ -121,7 +123,7 @@ pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
 
 ///|
 pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
-  fn(a) {
+  a => {
     let { promise, resolve, reject } = Promise::with_resolvers()
     run_async(() => try f(a) |> resolve catch {
       e => reject(e)
