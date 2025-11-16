@@ -4,7 +4,13 @@
 pub type ErrorObject
 
 ///|
+pub impl Js for ErrorObject
+
+///|
 pub suberror JsError ErrorObject
+
+///|
+pub impl Js for JsError
 
 ///|
 extern "js" fn ffi_wrap_sync(
@@ -35,7 +41,7 @@ pub fn[T] throwable(f : () -> T raise?) -> T raise JsError {
 }
 
 ///|
-pub fn wrap_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
+fn wrap_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
   ffi_wrap_sync(unsafe_cast(f), Ok(_), Err(_))
 }
 
@@ -43,12 +49,6 @@ pub fn wrap_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
 pub impl Show for JsError with output(self, logger) {
   logger.write_string(self.to_string())
 }
-
-///|
-pub impl Js for JsError
-
-///|
-impl Js for ErrorObject
 
 ///|
 impl Show for ErrorObject with output(self, logger) {

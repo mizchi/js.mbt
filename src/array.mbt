@@ -16,8 +16,18 @@ pub fn JsArray::new() -> JsArray {
 }
 
 ///|
+pub fn JsArray::push(self : JsArray, item : &Js) -> Unit {
+  self.as_builtin_array().push(item.to_js())
+}
+
+///|
 pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
   self |> unsafe_cast
+}
+
+///|
+pub fn[T : Js] JsArray::isArray(v : T) -> Bool {
+  ffi_is_array(v.to_js())
 }
 
 ///|

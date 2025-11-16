@@ -34,17 +34,21 @@ pub impl ToJson for Val with to_json(self) -> Json {
   if self.is_none() {
     return null
   }
-  if typeof_(self) == "boolean" {
-    let v : Bool = unsafe_cast(self)
-    return v.to_json()
-  }
-  if typeof_(self) == "number" {
-    let v : Double = unsafe_cast(self)
-    return v.to_json()
-  }
-  if typeof_(self) == "string" {
-    let v : String = unsafe_cast(self)
-    return v.to_json()
+  match typeof_(self) {
+    "boolean" => {
+      // let v : Bool = unsafe_cast(self)
+      let v : Bool = unsafe_cast(self)
+      return v.to_json()
+    }
+    "number" => {
+      let v : Double = unsafe_cast(self)
+      return v.to_json()
+    }
+    "string" => {
+      let v : String = unsafe_cast(self)
+      return v.to_json()
+    }
+    _ => ()
   }
   if is_array(self) {
     let len : Int = unsafe_cast(self.invoke("length", []))
