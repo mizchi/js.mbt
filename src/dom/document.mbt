@@ -53,23 +53,13 @@ pub extern "js" fn Document::create_element_ns(
   #|(self, namespaceURI, qualifiedName) => self.createElementNS(namespaceURI, qualifiedName)
 
 ///|
-/// TextNode represents a text node in the DOM
-#external
-pub type TextNode
-
-///|
-pub impl Js for TextNode with to_js(self) {
-  self |> unsafe_cast
-}
-
-///|
 /// Creates a text node with the given data
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createTextNode
 #alias(createTextNode)
 pub extern "js" fn Document::create_text_node(
   self : Self,
   data : String,
-) -> TextNode =
+) -> Text =
   #|(self, data) => self.createTextNode(data)
 
 ///|
