@@ -1,5 +1,8 @@
 # Cloudflare Worker Example
 
+See `/src/examples/cfw/*`
+
 ```
-npx -y wrangler dev worker.js
+moon build
+npx -y wrangler dev examples/cloudflare-worker/worker.js
 ```
