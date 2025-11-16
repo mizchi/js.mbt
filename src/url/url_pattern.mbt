@@ -53,19 +53,19 @@ pub fn URLPattern::newFromObject(
 ///|
 /// Get the protocol pattern
 pub fn URLPattern::protocol(self : Self) -> String {
-  unsafe_cast(self.to_js().get("protocol"))
+  unsafe_cast(self.get("protocol"))
 }
 
 ///|
 /// Get the username pattern
 pub fn URLPattern::username(self : Self) -> String {
-  unsafe_cast(self.to_js().get("username"))
+  unsafe_cast(self.get("username"))
 }
 
 ///|
 /// Get the password pattern
 pub fn URLPattern::password(self : Self) -> String {
-  unsafe_cast(self.to_js().get("password"))
+  unsafe_cast(self.get("password"))
 }
 
 ///|
