@@ -1,3 +1,7 @@
+**Not Tested Yet**
+
+---
+
 # Cloudflare Workers Bindings for MoonBit
 
 This package provides type-safe MoonBit bindings for Cloudflare Workers platform services.

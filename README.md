@@ -13,7 +13,7 @@ $ moon add mizchi/js
 - `mizchi/js/regexp` : `RegExp`
 - `mizchi/js/timer` : `setTimeout`
 - `mizchi/js/worker` : `Worker`
-- `mizchi/js/net` : Network API including `fetch`, `Request`, `Response`
+- `mizchi/js/http` : Network API including `fetch`, `Request`, `Response`
 - `mizchi/js/node` : Node.js API
 - `mizchi/js/node/fs` : `node:fs`
 - `mizchi/js/node/path` : `node:path`

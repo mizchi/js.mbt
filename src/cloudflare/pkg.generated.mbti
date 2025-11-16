@@ -4,7 +4,7 @@ package "mizchi/js/cloudflare"
 import(
   "mizchi/js"
   "mizchi/js/async"
-  "mizchi/js/net"
+  "mizchi/js/http"
 )
 
 // Values
@@ -371,4 +371,3 @@ impl @js.Js for R2UploadedPart
 // Type aliases
 
 // Traits
-

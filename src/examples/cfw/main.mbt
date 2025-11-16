@@ -5,7 +5,7 @@ using @js {type Val, js, log}
 using @async {run_async}
 
 ///|
-using @net {type Request, type Response, fetch, fetch_request}
+using @http {type Request, type Response, fetch, fetch_request}
 
 ///|
 pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {

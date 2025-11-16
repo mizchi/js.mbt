@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/net"
+package "mizchi/js/http"
 
 import(
   "mizchi/js"
@@ -64,4 +64,3 @@ impl @js.Js for Response
 // Type aliases
 
 // Traits
-
