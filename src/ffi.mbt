@@ -43,12 +43,20 @@ extern "js" fn ffi_new_empty_array() -> Val =
   #|() => ([])
 
 ///|
+extern "js" fn ffi_symbol_for(name : String) -> Symbol =
+  #| (name) => Symbol.for(name)
+
+///|
 extern "js" fn ffi_object_create() -> Val =
   #| () => Object.create({})
 
 ///|
 extern "js" fn ffi_symbol_iterator() -> Symbol =
   #| () => Symbol.iterator
+
+///|
+extern "js" fn ffi_symbol_async_iterator() -> Symbol =
+  #| () => Symbol.asyncIterator
 
 ///|
 extern "js" fn ffi_symbol_dispose() -> Symbol =
@@ -167,3 +175,15 @@ extern "js" fn ffi_type_of(v : Val) -> String =
 ///|
 extern "js" fn ffi_instance_of(v : Val, cls : Val) -> Bool =
   #| (v, cls) => v instanceof cls
+
+///|
+extern "js" fn ffi_is_array(v : Val) -> Bool =
+  #| (v) => Array.isArray(v)
+
+///|
+extern "js" fn ffi_is_object(v : Val) -> Bool =
+  #| (v) => typeof v === "object" && v !== null
+
+///|
+extern "js" fn ffi_is_nan(v : Val) -> Bool =
+  #| (v) => Number.isNaN(v)

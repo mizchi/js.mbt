@@ -1,8 +1,4 @@
 ///|
-#external
-pub type Symbol
-
-///|
 /// key for js object access
 pub trait PropertyKey {
   to_key(Self) -> Val = _

@@ -350,9 +350,9 @@ test "global_this" {
 ///|
 test "symbols" {
   let sym = symbol("test")
-  let iter_sym = symbol_iterator()
-  let dispose_sym = symbol_dispose()
-  let async_dispose_sym = symbol_async_dispose()
+  let iter_sym = Symbol::iterator()
+  let dispose_sym = Symbol::dispose()
+  let async_dispose_sym = Symbol::asyncDispose()
 
   // Symbols should have symbol type
   let sym_val : Val = unsafe_cast(sym)

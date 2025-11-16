@@ -83,17 +83,9 @@ pub fn[T : Js] property_is_enumerable(v : T, k : String) -> Bool {
 }
 
 ///|
-extern "js" fn ffi_is_array(v : Val) -> Bool =
-  #| (v) => Array.isArray(v)
-
-///|
 pub fn[T : Js] is_array(v : T) -> Bool {
   ffi_is_array(v.to_js())
 }
-
-///|
-extern "js" fn ffi_is_object(v : Val) -> Bool =
-  #| (v) => typeof v === "object" && v !== null
 
 ///|
 pub fn[T : Js] is_object(v : T) -> Bool {
@@ -117,10 +109,6 @@ pub extern "js" fn ffi_is_undefined(v : Val) -> Bool =
 pub fn[T : Js] is_undefined(v : T) -> Bool {
   ffi_is_undefined(v.to_js())
 }
-
-///|
-pub extern "js" fn ffi_is_nan(v : Val) -> Bool =
-  #| (v) => Number.isNaN(v)
 
 ///|
 pub fn[T : Js] is_nan(v : T) -> Bool {
@@ -152,6 +140,7 @@ pub fn[T : Js] type_of(v : T) -> String {
 /// assert_false(undefined().is_some())   // false
 /// assert_false(null_().is_some())       // false
 /// ```
+#deprecated
 pub fn Val::is_some(self : Self) -> Bool {
   !is_undefined(self) && !is_null(self)
 }
