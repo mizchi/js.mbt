@@ -128,3 +128,95 @@ pub fn[A, B, R] cast_fn2(f : (A, B) -> R) -> Val = "%identity"
 
 ///|
 pub fn[A, B, C, R] cast_fn3(f : (A, B, C) -> R) -> Val = "%identity"
+
+///|
+/// Identity implementation for Val.
+///
+/// Since Val already represents a JavaScript value, this just returns itself.
+pub impl Js for Val
+
+///|
+pub impl Js for String
+
+///|
+pub impl Js for Double
+
+///|
+pub impl Js for Float
+
+///|
+pub impl Js for Int
+
+///|
+/// Convert a MoonBit Bool to a JavaScript boolean value.
+///
+/// # Example
+///
+/// ```moonbit
+/// let val = Js::to_js(true)
+/// // JavaScript: true
+/// ```
+pub impl Js for Bool
+
+///|
+/// Convert a MoonBit UInt to a JavaScript number value.
+///
+/// UInt is first converted to Int, then to JavaScript number.
+///
+/// # Example
+///
+/// ```moonbit
+/// let u : UInt = 42
+/// let val = Js::to_js(u)
+/// // JavaScript: 42
+/// ```
+pub impl Js for UInt
+
+///|
+/// Convert an Array of Js-implementing types to a JavaScript array.
+///
+/// Each element in the array is converted using its `to_js()` implementation.
+///
+/// # Example
+///
+/// ```moonbit
+/// let arr : Array[&Js] = ["hello", 42, true, 3.14]
+/// let val = Js::to_js(arr)
+/// // JavaScript: ["hello", 42, true, 3.14]
+/// ```
+///
+/// # Type Safety
+///
+/// This is more type-safe than using `from_builtin_array()` because
+/// it ensures each element can be safely converted to JavaScript.
+pub impl[T : Js] Js for Array[T] with to_js(self) -> Val {
+  js(self.map(_.to_js()))
+}
+
+///|
+/// Convert an Option to a JavaScript value.
+///
+/// # Behavior
+///
+/// - `Some(value)` is converted to the JavaScript representation of the value
+/// - `None` is converted to JavaScript `undefined`
+///
+/// # Example
+///
+/// ```moonbit
+/// let some_val : Int? = Some(42)
+/// let val1 = Js::to_js(some_val)
+/// // JavaScript: 42
+///
+/// let none_val : Int? = None
+/// let val2 = Js::to_js(none_val)
+/// // JavaScript: undefined
+/// ```
+///
+/// # Note
+///
+/// This is different from JavaScript's `null`. If you need `null`,
+/// use `null_()` explicitly.
+pub impl[T] Js for T? with to_js(self) -> Val {
+  js(self)
+}

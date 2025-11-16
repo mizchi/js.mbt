@@ -3,23 +3,22 @@ package "mizchi/js/node/child_process"
 
 import(
   "mizchi/js"
-  "mizchi/js/async"
   "mizchi/js/node/events"
   "mizchi/js/stream"
 )
 
 // Values
-fn exec(String, (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @async.AbortSignal) -> ChildProcess
+fn exec(String, (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
-fn exec_file(String, Array[String], (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, signal? : @async.AbortSignal) -> ChildProcess
+fn exec_file(String, Array[String], (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 fn exec_file_sync(String, args? : Array[String], cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
 
 fn exec_sync(String, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
 
-fn fork(String, args? : Array[String], cwd? : String, env? : @js.Val, silent? : Bool, timeout? : Int, signal? : @async.AbortSignal) -> ChildProcess
+fn fork(String, args? : Array[String], cwd? : String, env? : @js.Val, silent? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
-fn spawn(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, signal? : @async.AbortSignal) -> ChildProcess
+fn spawn(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 fn spawn_sync(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, input? : String) -> SpawnSyncResult
 

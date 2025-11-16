@@ -116,10 +116,6 @@ pub fn[T : Js] instance_of(v : T, cls : T) -> Bool {
 }
 
 ///|
-extern "js" fn ffi_type_of(v : Val) -> String =
-  #| (v) => typeof v
-
-///|
 pub fn[T : Js] type_of(v : T) -> String {
   ffi_type_of(v.to_js())
 }

@@ -9,7 +9,7 @@ import(
 )
 
 // Values
-fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.Js, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @async.AbortSignal) -> @async.Promise[Response]
+fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.Js, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js.AbortSignal) -> @async.Promise[Response]
 
 fn fetch_request(Request) -> @async.Promise[Response]
 

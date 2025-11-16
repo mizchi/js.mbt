@@ -30,7 +30,7 @@ fn rmdir(String) -> @async.Promise[Unit]
 fn stat(String) -> @async.Promise[FsStat]
 
 #alias(write_file)
-fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @async.AbortSignal) -> @async.Promise[Unit]
+fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js.AbortSignal) -> @async.Promise[Unit]
 
 // Errors
 

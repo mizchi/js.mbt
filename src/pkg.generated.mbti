@@ -8,6 +8,16 @@ fn atob(String) -> String
 
 fn btoa(String) -> String
 
+fn[T : Js] cast_array(Array[T]) -> Val
+
+fn[R] cast_fn0(() -> R) -> Val
+
+fn[A, R] cast_fn1((A) -> R) -> Val
+
+fn[A, B, R] cast_fn2((A, B) -> R) -> Val
+
+fn[A, B, C, R] cast_fn3((A, B, C) -> R) -> Val
+
 fn decode_uri(String) -> String
 
 fn decode_uri_component(String) -> String
@@ -102,6 +112,16 @@ impl Js for JsError
 impl Show for JsError
 
 // Types and methods
+#external
+pub type AbortController
+fn AbortController::new() -> Self
+fn AbortController::signal(Self) -> AbortSignal
+impl Js for AbortController
+
+#external
+pub type AbortSignal
+impl Js for AbortSignal
+
 #external
 pub type ErrorObject
 fn ErrorObject::is_error(Self) -> Bool
