@@ -78,6 +78,15 @@ pub fn ErrorObject::is_error(self : Self) -> Bool {
 }
 
 ///|
+/// Throws a JavaScript error/value
+/// ```nocheck
+/// throw_js(new_error("Something went wrong"))
+/// ```
+pub fn throw_js(v : Val) -> Unit {
+  ffi_throw(v)
+}
+
+///|
 test "is_error" {
   let e = new_error("myerr")
   assert_eq(e.message(), "myerr")

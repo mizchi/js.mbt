@@ -97,7 +97,7 @@ pub fn CanvasRenderingContext2D::set_global_alpha(
   self : Self,
   value : Double,
 ) -> Unit {
-  self.to_js().set("globalAlpha", value)
+  self.set("globalAlpha", value)
 }
 
 ///|
@@ -589,7 +589,7 @@ pub fn OffscreenCanvas::width(self : Self) -> Int {
 
 ///|
 pub fn OffscreenCanvas::set_width(self : Self, value : Int) -> Unit {
-  self.to_js().set("width", value)
+  self.set("width", value)
 }
 
 ///|
@@ -599,7 +599,7 @@ pub fn OffscreenCanvas::height(self : Self) -> Int {
 
 ///|
 pub fn OffscreenCanvas::set_height(self : Self, value : Int) -> Unit {
-  self.to_js().set("height", value)
+  self.set("height", value)
 }
 
 ///|

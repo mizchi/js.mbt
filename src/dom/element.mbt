@@ -523,7 +523,7 @@ pub fn HTMLAnchorElement::href(self : Self) -> String {
 ///|
 /// Sets the href attribute
 pub fn HTMLAnchorElement::set_href(self : Self, href : String) -> Unit {
-  self.to_js().set("href", href)
+  self.set("href", href)
 }
 
 ///|
@@ -567,7 +567,7 @@ pub fn HTMLButtonElement::disabled(self : Self) -> Bool {
 ///|
 /// Sets whether the button is disabled
 pub fn HTMLButtonElement::set_disabled(self : Self, disabled : Bool) -> Unit {
-  self.to_js().set("disabled", disabled)
+  self.set("disabled", disabled)
 }
 
 ///|
@@ -598,7 +598,7 @@ pub fn HTMLInputElement::value(self : Self) -> String {
 ///|
 /// Sets the value of the input
 pub fn HTMLInputElement::set_value(self : Self, value : String) -> Unit {
-  self.to_js().set("value", value)
+  self.set("value", value)
 }
 
 ///|
@@ -613,7 +613,7 @@ pub fn HTMLInputElement::set_input_type(
   self : Self,
   input_type : String,
 ) -> Unit {
-  self.to_js().set("type", input_type)
+  self.set("type", input_type)
 }
 
 ///|
@@ -625,7 +625,7 @@ pub fn HTMLInputElement::disabled(self : Self) -> Bool {
 ///|
 /// Sets whether the input is disabled
 pub fn HTMLInputElement::set_disabled(self : Self, disabled : Bool) -> Unit {
-  self.to_js().set("disabled", disabled)
+  self.set("disabled", disabled)
 }
 
 ///|
@@ -637,7 +637,7 @@ pub fn HTMLInputElement::checked(self : Self) -> Bool {
 ///|
 /// Sets whether the input is checked (for checkbox/radio)
 pub fn HTMLInputElement::set_checked(self : Self, checked : Bool) -> Unit {
-  self.to_js().set("checked", checked)
+  self.set("checked", checked)
 }
 
 ///|
@@ -652,7 +652,7 @@ pub fn HTMLInputElement::set_placeholder(
   self : Self,
   placeholder : String,
 ) -> Unit {
-  self.to_js().set("placeholder", placeholder)
+  self.set("placeholder", placeholder)
 }
 
 ///|
@@ -684,7 +684,7 @@ pub fn HTMLTextAreaElement::value(self : Self) -> String {
 ///|
 /// Sets the value of the textarea
 pub fn HTMLTextAreaElement::set_value(self : Self, value : String) -> Unit {
-  self.to_js().set("value", value)
+  self.set("value", value)
 }
 
 ///|
@@ -700,7 +700,7 @@ pub fn HTMLTextAreaElement::set_placeholder(
   self : Self,
   placeholder : String,
 ) -> Unit {
-  self.to_js().set("placeholder", placeholder)
+  self.set("placeholder", placeholder)
 }
 
 ///|
@@ -739,7 +739,7 @@ pub fn HTMLTextAreaElement::cols(self : Self) -> Int {
 ///|
 /// Sets the visible width of the text control
 pub fn HTMLTextAreaElement::set_cols(self : Self, cols : Int) -> Unit {
-  self.to_js().set("cols", cols)
+  self.set("cols", cols)
 }
 
 ///|
@@ -755,7 +755,7 @@ pub fn HTMLTextAreaElement::set_read_only(
   self : Self,
   read_only : Bool,
 ) -> Unit {
-  self.to_js().set("readOnly", read_only)
+  self.set("readOnly", read_only)
 }
 
 ///|
@@ -787,7 +787,7 @@ pub fn HTMLIFrameElement::src(self : Self) -> String {
 ///|
 /// Sets the src attribute
 pub fn HTMLIFrameElement::set_src(self : Self, src : String) -> Unit {
-  self.to_js().set("src", src)
+  self.set("src", src)
 }
 
 ///|
@@ -814,7 +814,7 @@ pub fn HTMLIFrameElement::width(self : Self) -> String {
 ///|
 /// Sets the width attribute
 pub fn HTMLIFrameElement::set_width(self : Self, width : String) -> Unit {
-  self.to_js().set("width", width)
+  self.set("width", width)
 }
 
 ///|
@@ -827,7 +827,7 @@ pub fn HTMLIFrameElement::height(self : Self) -> String {
 ///|
 /// Sets the height attribute
 pub fn HTMLIFrameElement::set_height(self : Self, height : String) -> Unit {
-  self.to_js().set("height", height)
+  self.set("height", height)
 }
 
 ///|
@@ -840,7 +840,7 @@ pub fn HTMLIFrameElement::name(self : Self) -> String {
 ///|
 /// Sets the name attribute
 pub fn HTMLIFrameElement::set_name(self : Self, name : String) -> Unit {
-  self.to_js().set("name", name)
+  self.set("name", name)
 }
 
 ///|
@@ -853,5 +853,5 @@ pub fn HTMLIFrameElement::sandbox(self : Self) -> String {
 ///|
 /// Sets the sandbox attribute
 pub fn HTMLIFrameElement::set_sandbox(self : Self, sandbox : String) -> Unit {
-  self.to_js().set("sandbox", sandbox)
+  self.set("sandbox", sandbox)
 }
