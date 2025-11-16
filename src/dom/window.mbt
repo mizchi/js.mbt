@@ -41,14 +41,16 @@ pub fn Window::location(self : Self) -> Val {
 ///|
 /// Returns the localStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
-pub fn Window::local_storage(self : Self) -> Val {
+#alias(local_storage)
+pub fn Window::localStorage(self : Self) -> Val {
   unsafe_cast(self.get("localStorage"))
 }
 
 ///|
 /// Returns the sessionStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
-pub fn Window::session_storage(self : Self) -> Val {
+#alias(session_storage)
+pub fn Window::sessionStorage(self : Self) -> Val {
   unsafe_cast(self.get("sessionStorage"))
 }
 
@@ -69,28 +71,32 @@ pub fn Window::history(self : Self) -> Val {
 ///|
 /// Returns the inner width of the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
-pub fn Window::inner_width(self : Self) -> Int {
+#alias(inner_width)
+pub fn Window::innerWidth(self : Self) -> Int {
   unsafe_cast(self.get("innerWidth"))
 }
 
 ///|
 /// Returns the inner height of the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
-pub fn Window::inner_height(self : Self) -> Int {
+#alias(inner_height)
+pub fn Window::innerHeight(self : Self) -> Int {
   unsafe_cast(self.get("innerHeight"))
 }
 
 ///|
 /// Returns the outer width of the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerWidth
-pub fn Window::outer_width(self : Self) -> Int {
+#alias(outer_width)
+pub fn Window::outerWidth(self : Self) -> Int {
   unsafe_cast(self.get("outerWidth"))
 }
 
 ///|
 /// Returns the outer height of the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerHeight
-pub fn Window::outer_height(self : Self) -> Int {
+#alias(outer_height)
+pub fn Window::outerHeight(self : Self) -> Int {
   unsafe_cast(self.get("outerHeight"))
 }
 
@@ -104,7 +110,8 @@ pub fn Window::screen(self : Self) -> Val {
 ///|
 /// Returns the device pixel ratio
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
-pub fn Window::device_pixel_ratio(self : Self) -> Double {
+#alias(device_pixel_ratio)
+pub fn Window::devicePixelRatio(self : Self) -> Double {
   unsafe_cast(self.get("devicePixelRatio"))
 }
 
@@ -163,35 +170,40 @@ pub fn Window::close(self : Self) -> Unit {
 ///|
 /// Scrolls to a particular set of coordinates
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
-pub fn Window::scroll_to(self : Self, x : Int, y : Int) -> Unit {
+#alias(scroll_to)
+pub fn Window::scrollTo(self : Self, x : Int, y : Int) -> Unit {
   ignore(self.invoke("scrollTo", [x, y]))
 }
 
 ///|
 /// Scrolls by a particular amount
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollBy
-pub fn Window::scroll_by(self : Self, x : Int, y : Int) -> Unit {
+#alias(scroll_by)
+pub fn Window::scrollBy(self : Self, x : Int, y : Int) -> Unit {
   ignore(self.invoke("scrollBy", [x, y]))
 }
 
 ///|
 /// Returns the horizontal scroll position
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
-pub fn Window::scroll_x(self : Self) -> Double {
+#alias(scroll_x)
+pub fn Window::scrollX(self : Self) -> Double {
   unsafe_cast(self.get("scrollX"))
 }
 
 ///|
 /// Returns the vertical scroll position
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY
-pub fn Window::scroll_y(self : Self) -> Double {
+#alias(scroll_y)
+pub fn Window::scrollY(self : Self) -> Double {
   unsafe_cast(self.get("scrollY"))
 }
 
 ///|
 /// Calls a function after a specified delay
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout
-pub fn Window::set_timeout(
+#alias(set_timeout)
+pub fn Window::setTimeout(
   self : Self,
   handler : () -> Unit,
   delay : Int,
@@ -202,14 +214,16 @@ pub fn Window::set_timeout(
 ///|
 /// Cancels a timeout previously established by setTimeout
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
-pub fn Window::clear_timeout(self : Self, id : Int) -> Unit {
+#alias(clear_timeout)
+pub fn Window::clearTimeout(self : Self, id : Int) -> Unit {
   ignore(self.invoke("clearTimeout", [id]))
 }
 
 ///|
 /// Repeatedly calls a function with a fixed time delay between each call
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval
-pub fn Window::set_interval(
+#alias(set_interval)
+pub fn Window::setInterval(
   self : Self,
   handler : () -> Unit,
   delay : Int,
@@ -220,14 +234,16 @@ pub fn Window::set_interval(
 ///|
 /// Cancels a timed, repeating action established by setInterval
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
-pub fn Window::clear_interval(self : Self, id : Int) -> Unit {
+#alias(clear_interval)
+pub fn Window::clearInterval(self : Self, id : Int) -> Unit {
   ignore(self.invoke("clearInterval", [id]))
 }
 
 ///|
 /// Requests the browser to call a function to update an animation
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
-pub fn Window::request_animation_frame(
+#alias(request_animation_frame)
+pub fn Window::requestAnimationFrame(
   self : Self,
   callback : (Double) -> Unit,
 ) -> Int {
@@ -237,7 +253,8 @@ pub fn Window::request_animation_frame(
 ///|
 /// Cancels an animation frame request
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame
-pub fn Window::cancel_animation_frame(self : Self, id : Int) -> Unit {
+#alias(cancel_animation_frame)
+pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
   ignore(self.invoke("cancelAnimationFrame", [id]))
 }
 
@@ -254,14 +271,16 @@ pub fn Window::fetch(self : Self, input : String, init? : Val) -> Promise[Val] {
 ///|
 /// Returns a selection object representing selected text
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
-pub fn Window::get_selection(self : Self) -> Val? {
+#alias(get_selection)
+pub fn Window::getSelection(self : Self) -> Val? {
   self.invoke("getSelection", []) |> to_option
 }
 
 ///|
 /// Returns computed style of an element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
-pub fn Window::get_computed_style(
+#alias(get_computed_style)
+pub fn Window::getComputedStyle(
   self : Self,
   element : Element,
   pseudo_elt? : String,
@@ -276,14 +295,16 @@ pub fn Window::get_computed_style(
 ///|
 /// Returns a media query list
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
-pub fn Window::match_media(self : Self, query : String) -> Val {
+#alias(match_media)
+pub fn Window::matchMedia(self : Self, query : String) -> Val {
   self.invoke("matchMedia", [query]) |> unsafe_cast
 }
 
 ///|
 /// Posts a message to the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
-pub fn Window::post_message(
+#alias(post_message)
+pub fn Window::postMessage(
   self : Self,
   message : Val,
   target_origin : String,

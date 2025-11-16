@@ -18,7 +18,8 @@ pub type File
 #alias(arrayBuffer)
 fn File::array_buffer(Self) -> @async.Promise[@arraybuffer.ArrayBuffer]
 fn File::as_blob(Self) -> @blob.Blob
-fn File::content_type(Self) -> String
+#alias(content_type)
+fn File::contentType(Self) -> String
 #alias(lastModified)
 fn File::last_modified(Self) -> Int
 fn File::name(Self) -> String

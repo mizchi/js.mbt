@@ -238,6 +238,7 @@ extern "js" fn ffi_get_crypto() -> Val =
   #|() => globalThis.crypto
 
 ///|
-pub fn get_crypto() -> Crypto {
+#alias(get_crypto)
+pub fn getCrypto() -> Crypto {
   unsafe_cast(ffi_get_crypto())
 }

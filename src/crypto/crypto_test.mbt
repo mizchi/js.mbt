@@ -51,7 +51,7 @@ extern "js" fn ffi_random_values(length : Int) -> Val =
 test "SubtleCrypto digest SHA-256" {
   run_async(async fn() noraise {
     try {
-      let crypto = get_crypto()
+      let crypto = getCrypto()
       let subtle = crypto.subtle()
       let data = ffi_text_encoder_encode("Hello, World!")
       let digest_promise = subtle.digest("SHA-256", data)
@@ -75,7 +75,7 @@ test "SubtleCrypto digest SHA-256" {
 test "SubtleCrypto digest SHA-384" {
   run_async(async fn() noraise {
     try {
-      let crypto = get_crypto()
+      let crypto = getCrypto()
       let subtle = crypto.subtle()
       let data = ffi_text_encoder_encode("Hello, World!")
       let digest_promise = subtle.digest("SHA-384", data)
@@ -99,7 +99,7 @@ test "SubtleCrypto digest SHA-384" {
 test "SubtleCrypto digest SHA-512" {
   run_async(async fn() noraise {
     try {
-      let crypto = get_crypto()
+      let crypto = getCrypto()
       let subtle = crypto.subtle()
       let data = ffi_text_encoder_encode("Hello, World!")
       let digest_promise = subtle.digest("SHA-512", data)
@@ -123,7 +123,7 @@ test "SubtleCrypto digest SHA-512" {
 test "SubtleCrypto generateKey AES-GCM" {
   run_async(async fn() noraise {
     try {
-      let crypto = get_crypto()
+      let crypto = getCrypto()
       let subtle = crypto.subtle()
       let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
       let key_usages = ["encrypt", "decrypt"]
@@ -143,7 +143,7 @@ test "SubtleCrypto generateKey AES-GCM" {
 test "SubtleCrypto generateKey HMAC" {
   run_async(async fn() noraise {
     try {
-      let crypto = get_crypto()
+      let crypto = getCrypto()
       let subtle = crypto.subtle()
       let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
       let key_usages = ["sign", "verify"]
@@ -165,7 +165,7 @@ test "SubtleCrypto generateKey HMAC" {
 test "SubtleCrypto encrypt and decrypt with AES-GCM" {
   run_async(async fn() noraise {
     try {
-      let crypto = get_crypto()
+      let crypto = getCrypto()
       let subtle = crypto.subtle()
       let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
       let key_usages = ["encrypt", "decrypt"]
@@ -191,7 +191,7 @@ test "SubtleCrypto encrypt and decrypt with AES-GCM" {
 test "SubtleCrypto sign and verify with HMAC" {
   run_async(async fn() noraise {
     try {
-      let crypto = get_crypto()
+      let crypto = getCrypto()
       let subtle = crypto.subtle()
       let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
       let key_usages = ["sign", "verify"]
@@ -214,7 +214,7 @@ test "SubtleCrypto sign and verify with HMAC" {
 test "SubtleCrypto exportKey and importKey with AES-GCM" {
   run_async(async fn() noraise {
     try {
-      let crypto = get_crypto()
+      let crypto = getCrypto()
       let subtle = crypto.subtle()
       let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
       let key_usages = ["encrypt", "decrypt"]
@@ -241,7 +241,7 @@ test "SubtleCrypto exportKey and importKey with AES-GCM" {
 test "get_crypto returns Crypto instance" {
   run_async(async fn() noraise {
     try {
-      let crypto = get_crypto()
+      let crypto = getCrypto()
       let subtle = crypto.subtle()
       let data = ffi_text_encoder_encode("test")
       let digest = subtle.digest("SHA-256", data).unwrap()

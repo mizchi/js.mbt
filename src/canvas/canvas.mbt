@@ -102,7 +102,8 @@ pub fn CanvasRenderingContext2D::set_global_alpha(
 
 ///|
 /// Drawing rectangles
-pub fn CanvasRenderingContext2D::fill_rect(
+#alias(fill_rect)
+pub fn CanvasRenderingContext2D::fillRect(
   self : Self,
   x : Double,
   y : Double,
@@ -113,7 +114,8 @@ pub fn CanvasRenderingContext2D::fill_rect(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::stroke_rect(
+#alias(stroke_rect)
+pub fn CanvasRenderingContext2D::strokeRect(
   self : Self,
   x : Double,
   y : Double,
@@ -124,7 +126,8 @@ pub fn CanvasRenderingContext2D::stroke_rect(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::clear_rect(
+#alias(clear_rect)
+pub fn CanvasRenderingContext2D::clearRect(
   self : Self,
   x : Double,
   y : Double,
@@ -136,17 +139,20 @@ pub fn CanvasRenderingContext2D::clear_rect(
 
 ///|
 /// Drawing paths
-pub fn CanvasRenderingContext2D::begin_path(self : Self) -> Unit {
+#alias(begin_path)
+pub fn CanvasRenderingContext2D::beginPath(self : Self) -> Unit {
   self.invoke("beginPath", []) |> ignore
 }
 
 ///|
-pub fn CanvasRenderingContext2D::close_path(self : Self) -> Unit {
+#alias(close_path)
+pub fn CanvasRenderingContext2D::closePath(self : Self) -> Unit {
   self.invoke("closePath", []) |> ignore
 }
 
 ///|
-pub fn CanvasRenderingContext2D::move_to(
+#alias(move_to)
+pub fn CanvasRenderingContext2D::moveTo(
   self : Self,
   x : Double,
   y : Double,
@@ -155,7 +161,8 @@ pub fn CanvasRenderingContext2D::move_to(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::line_to(
+#alias(line_to)
+pub fn CanvasRenderingContext2D::lineTo(
   self : Self,
   x : Double,
   y : Double,
@@ -537,12 +544,14 @@ extern "js" fn ffi_create_image_bitmap_with_rect(
   #|(image, sx, sy, sw, sh) => createImageBitmap(image, sx, sy, sw, sh)
 
 ///|
-pub fn create_image_bitmap(image : &Js) -> Promise[ImageBitmap] {
+#alias(create_image_bitmap)
+pub fn createImageBitmap(image : &Js) -> Promise[ImageBitmap] {
   unsafe_cast(ffi_create_image_bitmap(image.to_js()))
 }
 
 ///|
-pub fn create_image_bitmap_rect(
+#alias(create_image_bitmap_rect)
+pub fn createImageBitmapRect(
   image : &Js,
   sx : Int,
   sy : Int,

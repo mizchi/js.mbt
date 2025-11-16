@@ -61,7 +61,8 @@ pub fn File::size(self : Self) -> Int {
 
 ///|
 /// Get the MIME type of the file (inherited from Blob)
-pub fn File::content_type(self : Self) -> String {
+#alias(content_type)
+pub fn File::contentType(self : Self) -> String {
   unsafe_cast(self.get("type"))
 }
 

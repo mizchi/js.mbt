@@ -8,39 +8,41 @@ fn atob(String) -> String
 
 fn btoa(String) -> String
 
-fn[T : Js] cast_array(Array[T]) -> Val
+#alias(decode_uri)
+fn decodeURI(String) -> String
 
-fn[R] cast_fn0(() -> R) -> Val
+#alias(decode_uri_component)
+fn decodeURIComponent(String) -> String
 
-fn[A, R] cast_fn1((A) -> R) -> Val
+#alias(dynamic_import)
+fn dynamicImport(String) -> Val
 
-fn[A, B, R] cast_fn2((A, B) -> R) -> Val
+#alias(encode_uri)
+fn encodeURI(String) -> String
 
-fn[A, B, C, R] cast_fn3((A, B, C) -> R) -> Val
-
-fn decode_uri(String) -> String
-
-fn decode_uri_component(String) -> String
-
-fn dynamic_import(String) -> Val
-
-fn encode_uri(String) -> String
-
-fn encode_uri_component(String) -> String
-
-fn ffi_is_nan(Val) -> Bool
+#alias(encode_uri_component)
+fn encodeURIComponent(String) -> String
 
 fn ffi_is_undefined(Val) -> Bool
 
-fn[T] from_array(Array[T]) -> Val
+fn[T : Js] from_array(Array[T]) -> Val
 
 fn from_builtin_json(Json) -> Val
 
-fn from_builtin_map(Map[String, Val]) -> Val
+fn[R] from_fn0(() -> R) -> Val
 
-fn global_this() -> Val
+fn[A, R] from_fn1((A) -> R) -> Val
 
-fn[T : Js] instance_of(T, T) -> Bool
+fn[A, B, R] from_fn2((A, B) -> R) -> Val
+
+fn[A, B, C, R] from_fn3((A, B, C) -> R) -> Val
+
+fn from_map(Map[String, Val]) -> Val
+
+#alias(global_this)
+fn globalThis() -> Val
+
+fn[T : Js] instanceof_(T, T) -> Bool
 
 fn[T : Js] is_array(T) -> Bool
 
@@ -52,31 +54,16 @@ fn[T : Js] is_object(T) -> Bool
 
 fn[T : Js] is_undefined(T) -> Bool
 
+#deprecated
 fn[T] js(T) -> Val
-
-fn[T : Js] js_safe(T) -> Val
 
 fn[T] log(T) -> Unit
 
 fn new_(Val, Array[&Js]) -> Val
 
-fn new_empty_array() -> Val
-
-fn new_empty_object() -> Val
-
-fn new_error(String, cause? : ErrorObject) -> ErrorObject
+fn new_error(String, cause? : JsError) -> JsError
 
 fn null_() -> Val
-
-fn object_assign(Val, Val) -> Val
-
-fn object_create() -> Val
-
-fn object_entries(Val) -> Array[(String, Val)]
-
-fn object_keys(Val) -> Array[String]
-
-fn object_values(Val) -> Array[Val]
 
 fn[T : Js] property_is_enumerable(T, String) -> Bool
 
@@ -84,30 +71,25 @@ fn structured_clone(Val) -> Val
 
 fn symbol(String) -> Symbol
 
-fn symbol_async_dispose() -> Symbol
+fn throw_(&Js) -> Unit
 
-fn symbol_dispose() -> Symbol
-
-fn symbol_iterator() -> Symbol
-
-fn throw_js(Val) -> Unit
-
-fn[T] throwable(() -> T raise?) -> T raise JsError
+fn[T] throwable(() -> T raise?) -> T raise JsThrowError
 
 fn[A] to_option(Val) -> A?
 
-fn[T : Js] type_of(T) -> String
+fn[T : Js] typeof_(T) -> String
 
 fn undefined() -> Val
 
 fn[A, B] unsafe_cast(A) -> B
 
-fn wrap_result(() -> Result[Val, Val]) -> Result[Val, Val]
-
 // Errors
-pub suberror JsError ErrorObject
-impl Js for JsError
-impl Show for JsError
+pub suberror JsThrowError {
+  Error(JsError)
+  Value(Val)
+}
+impl Js for JsThrowError
+impl Show for JsThrowError
 
 // Types and methods
 #external
@@ -121,23 +103,52 @@ pub type AbortSignal
 impl Js for AbortSignal
 
 #external
-pub type ErrorObject
-fn ErrorObject::is_error(Self) -> Bool
-fn ErrorObject::message(Self) -> String
-fn ErrorObject::stack(Self) -> String
-
-#external
 pub type JSON
-fn JSON::parse(String, reviver? : Val?) -> Val raise JsError
+fn JSON::parse(String, reviver? : Val?) -> Val raise JsThrowError
 fn JSON::stringify(Val, replacer? : Val, space? : Int) -> String
 
 #external
+pub type JsArray
+fn[T] JsArray::as_builtin_array(Self) -> Array[T]
+fn[T] JsArray::from(Array[T]) -> Self
+fn[T : Js] JsArray::isArray(T) -> Bool
+fn JsArray::new() -> Self
+fn JsArray::push(Self, &Js) -> Unit
+fn JsArray::to_string(Self) -> String
+impl Js for JsArray
+
+#external
+pub type JsError
+fn JsError::isError(&Js) -> Bool
+fn JsError::message(Self) -> String
+fn JsError::stack(Self) -> String
+impl Js for JsError
+
+#external
+pub type Object
+fn Object::assign(&Js, &Js) -> Val
+fn Object::create() -> Val
+fn Object::entries(&Js) -> Array[(String, Val)]
+fn Object::keys(&Js) -> Array[String]
+fn Object::new() -> Self
+fn Object::to_string(Self) -> String
+fn Object::values(&Js) -> Array[Val]
+impl Js for Object
+
+#external
 pub type Symbol
+fn Symbol::asyncDispose() -> Self
+fn Symbol::asyncIterator() -> Self
+fn Symbol::dispose() -> Self
+fn Symbol::for_(String) -> Self
+fn Symbol::iterator() -> Self
+impl Js for Symbol
 impl PropertyKey for Symbol
 
 #external
 pub type Val
 fn Val::is_none(Self) -> Bool
+#deprecated
 fn Val::is_some(Self) -> Bool
 fn[T : Js] Val::set_if_exists(Self, &PropertyKey, T?) -> Unit
 impl Js for Val
@@ -153,9 +164,9 @@ pub(open) trait Js {
   get(Self, &PropertyKey) -> Val = _
   set(Self, &PropertyKey, &Js) -> Unit = _
   invoke(Self, &PropertyKey, Array[&Js]) -> Val = _
-  invoke_throwable(Self, &PropertyKey, Array[&Js]) -> Val raise JsError = _
+  invoke_throwable(Self, &PropertyKey, Array[&Js]) -> Val raise JsThrowError = _
   invoke_self(Self, Array[&Js]) -> Val = _
-  invoke_self_throwable(Self, Array[&Js]) -> Val raise JsError = _
+  invoke_self_throwable(Self, Array[&Js]) -> Val raise JsThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   has_own_property(Self, &PropertyKey) -> Bool = _
 }
@@ -168,9 +179,11 @@ impl Js for String
 impl[T] Js for T?
 impl[T : Js] Js for Array[T]
 impl Js for Json
+impl[T : Js] Js for Map[String, T]
 
 pub trait PropertyKey {
   to_key(Self) -> Val
 }
 impl PropertyKey for Int
 impl PropertyKey for String
+

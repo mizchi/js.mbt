@@ -7,7 +7,7 @@ test "JsError::isError" {
 
 ///|
 test "invoke_throwable" {
-  let v = try? global_this().invoke_throwable("nonexistentMethod", [])
+  let v = try? globalThis().invoke_throwable("nonexistentMethod", [])
   guard v is Err(JsThrowError::Error(e))
   assert_true(JsError::isError(e))
 }

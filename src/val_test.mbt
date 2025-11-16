@@ -344,7 +344,7 @@ test "JsArray::new" {
 
 ///|
 test "global_this" {
-  let global = global_this()
+  let global = globalThis()
   assert_true(@js.is_object(global))
   assert_false(@js.is_null(global))
 }
@@ -553,40 +553,40 @@ test "Val numeric edge cases" {
 ///|
 test "encode_uri and decode_uri" {
   // Encode complete URI
-  let uri = encode_uri("https://example.com/path?name=John Doe")
+  let uri = encodeURI("https://example.com/path?name=John Doe")
   assert_eq(uri, "https://example.com/path?name=John%20Doe")
 
   // Decode URI
-  let decoded = decode_uri("https://example.com/path?name=John%20Doe")
+  let decoded = decodeURI("https://example.com/path?name=John%20Doe")
   assert_eq(decoded, "https://example.com/path?name=John Doe")
 
   // Round trip
   let original_uri = "https://example.com/path with spaces?query=value"
-  let encoded_uri = encode_uri(original_uri)
-  let decoded_uri = decode_uri(encoded_uri)
+  let encoded_uri = encodeURI(original_uri)
+  let decoded_uri = decodeURI(encoded_uri)
   assert_eq(decoded_uri, original_uri)
 }
 
 ///|
 test "encode_uri_component and decode_uri_component" {
   // Encode URI component
-  let encoded = encode_uri_component("Hello World & Friends")
+  let encoded = encodeURIComponent("Hello World & Friends")
   assert_eq(encoded, "Hello%20World%20%26%20Friends")
 
   // Decode URI component
-  let decoded = decode_uri_component("Hello%20World%20%26%20Friends")
+  let decoded = decodeURIComponent("Hello%20World%20%26%20Friends")
   assert_eq(decoded, "Hello World & Friends")
 
   // Special characters
-  let special = encode_uri_component("key=value&foo=bar")
+  let special = encodeURIComponent("key=value&foo=bar")
   assert_eq(special, "key%3Dvalue%26foo%3Dbar")
-  let decoded_special = decode_uri_component("key%3Dvalue%26foo%3Dbar")
+  let decoded_special = decodeURIComponent("key%3Dvalue%26foo%3Dbar")
   assert_eq(decoded_special, "key=value&foo=bar")
 
   // Round trip with various characters
   let original = "Test: @#$%^&*()+={}[]|\\:;\"'<>,.?/"
-  let encoded_component = encode_uri_component(original)
-  let decoded_component = decode_uri_component(encoded_component)
+  let encoded_component = encodeURIComponent(original)
+  let decoded_component = decodeURIComponent(encoded_component)
   assert_eq(decoded_component, original)
 }
 

@@ -11,12 +11,14 @@ extern "js" fn ffi_clear_timeout(timer : JsTimer) -> Unit =
   #| (timer) => clearTimeout(timer)
 
 ///|
-pub fn set_timeout(f : () -> Unit, duration : Int) -> JsTimer {
+#alias(set_timeout)
+pub fn setTimeout(f : () -> Unit, duration : Int) -> JsTimer {
   ffi_set_timeout(f, duration)
 }
 
 ///|
-pub fn clear_timeout(timer : JsTimer) -> Unit {
+#alias(clear_timeout)
+pub fn clearTimeout(timer : JsTimer) -> Unit {
   ffi_clear_timeout(timer)
 }
 
@@ -28,11 +30,13 @@ extern "js" fn ffi_set_interval(
   #| (f, duration) => setInterval(f, duration)
 
 ///|
-pub fn set_interval(f : () -> Unit noraise, duration : Int) -> JsTimer {
+#alias(set_interval)
+pub fn setInterval(f : () -> Unit noraise, duration : Int) -> JsTimer {
   ffi_set_interval(f, duration)
 }
 
 ///|
-pub fn clear_interval(timer : JsTimer) -> Unit {
+#alias(clear_interval)
+pub fn clearInterval(timer : JsTimer) -> Unit {
   ffi_clear_timeout(timer)
 }

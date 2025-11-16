@@ -65,7 +65,8 @@ pub extern "js" fn Document::create_text_node(
 ///|
 /// Returns the document's ready state
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
-pub fn Document::ready_state(self : Self) -> String {
+#alias(ready_state)
+pub fn Document::readyState(self : Self) -> String {
   unsafe_cast(self.get("readyState"))
 }
 
@@ -80,21 +81,24 @@ pub fn Document::query_selector(self : Self, selector : String) -> Val? {
 ///|
 /// Returns all elements matching the selector
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
-pub fn Document::query_selector_all(self : Self, selector : String) -> Val {
+#alias(query_selector_all)
+pub fn Document::querySelectorAll(self : Self, selector : String) -> Val {
   self.invoke("querySelectorAll", [selector |> js])
 }
 
 ///|
 /// Returns an element by its ID
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
-pub fn Document::get_element_by_id(self : Self, id : String) -> Val? {
+#alias(get_element_by_id)
+pub fn Document::getElementById(self : Self, id : String) -> Val? {
   self.invoke("getElementById", [id |> js]) |> to_option()
 }
 
 ///|
 /// Returns elements with the specified class name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
-pub fn Document::get_elements_by_class_name(
+#alias(get_elements_by_class_name)
+pub fn Document::getElementsByClassName(
   self : Self,
   class_name : String,
 ) -> Val {
@@ -104,10 +108,8 @@ pub fn Document::get_elements_by_class_name(
 ///|
 /// Returns elements with the specified tag name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByTagName
-pub fn Document::get_elements_by_tag_name(
-  self : Self,
-  tag_name : String,
-) -> Val {
+#alias(get_elements_by_tag_name)
+pub fn Document::getElementsByTagName(self : Self, tag_name : String) -> Val {
   self.invoke("getElementsByTagName", [tag_name |> js])
 }
 
@@ -131,7 +133,8 @@ pub fn Document::body(self : Self) -> HTMLBodyElement? {
 
 ///|
 /// Sets the document's body element
-pub fn Document::set_body(self : Self, body : HTMLBodyElement) -> Unit {
+#alias(set_body)
+pub fn Document::setBody(self : Self, body : HTMLBodyElement) -> Unit {
   self.set("body", body) |> ignore
 }
 
@@ -151,7 +154,8 @@ pub fn Document::title(self : Self) -> String {
 
 ///|
 /// Sets the document's title
-pub fn Document::set_title(self : Self, title : String) -> Unit {
+#alias(set_title)
+pub fn Document::setTitle(self : Self, title : String) -> Unit {
   self.set("title", title |> js) |> ignore
 }
 
@@ -179,42 +183,48 @@ pub fn Document::referrer(self : Self) -> String {
 ///|
 /// Creates a document fragment
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
-pub fn Document::create_document_fragment(self : Self) -> Val {
+#alias(create_document_fragment)
+pub fn Document::createDocumentFragment(self : Self) -> Val {
   self.invoke("createDocumentFragment", []) |> unsafe_cast
 }
 
 ///|
 /// Creates a comment node
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
-pub fn Document::create_comment(self : Self, data : String) -> Val {
+#alias(create_comment)
+pub fn Document::createComment(self : Self, data : String) -> Val {
   self.invoke("createComment", [data |> js]) |> unsafe_cast
 }
 
 ///|
 /// Returns the document element (root element)
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentElement
-pub fn Document::document_element(self : Self) -> Element {
+#alias(document_element)
+pub fn Document::documentElement(self : Self) -> Element {
   unsafe_cast(self.get("documentElement"))
 }
 
 ///|
 /// Returns the document URI
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentURI
-pub fn Document::document_uri(self : Self) -> String {
+#alias(document_uri)
+pub fn Document::documentURI(self : Self) -> String {
   unsafe_cast(self.get("documentURI"))
 }
 
 ///|
 /// Returns the character encoding of the document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/characterSet
-pub fn Document::character_set(self : Self) -> String {
+#alias(character_set)
+pub fn Document::characterSet(self : Self) -> String {
   unsafe_cast(self.get("characterSet"))
 }
 
 ///|
 /// Returns the content type of the document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/contentType
-pub fn Document::content_type(self : Self) -> String {
+#alias(content_type)
+pub fn Document::contentType(self : Self) -> String {
   unsafe_cast(self.get("contentType"))
 }
 
@@ -228,20 +238,23 @@ pub fn Document::doctype(self : Self) -> Val? {
 ///|
 /// Adopts a node from an external document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
-pub fn Document::adopt_node(self : Self, node : Node) -> Node {
+#alias(adopt_node)
+pub fn Document::adoptNode(self : Self, node : Node) -> Node {
   self.invoke("adoptNode", [node.to_js()]) |> unsafe_cast
 }
 
 ///|
 /// Imports a node from another document
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
-pub fn Document::import_node(self : Self, node : Node, deep : Bool) -> Node {
+#alias(import_node)
+pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
   self.invoke("importNode", [node.to_js(), deep]) |> unsafe_cast
 }
 
 ///|
 /// Creates an event of the specified type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
-pub fn Document::create_event(self : Self, event_type : String) -> Event {
+#alias(create_event)
+pub fn Document::createEvent(self : Self, event_type : String) -> Event {
   self.invoke("createEvent", [event_type]) |> unsafe_cast
 }

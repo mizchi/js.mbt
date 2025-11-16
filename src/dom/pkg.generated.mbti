@@ -9,15 +9,19 @@ import(
 )
 
 // Values
-fn css_escape(String) -> String
+#alias(css_escape)
+fn cssEscape(String) -> String
+
+#alias(css_supports)
+fn cssSupports(String, String) -> Bool
+
+#alias(css_supports_condition)
+fn cssSupportsCondition(String) -> Bool
 
 fn css_style_from_val(@js.Val) -> CSSStyleDeclaration
 
-fn css_supports(String, String) -> Bool
-
-fn css_supports_condition(String) -> Bool
-
-fn custom_elements() -> CustomElementRegistry
+#alias(custom_elements)
+fn customElements() -> CustomElementRegistry
 
 fn document() -> Document
 
@@ -25,7 +29,8 @@ fn get_local_storage() -> Storage
 
 fn get_session_storage() -> Storage
 
-fn match_media(String) -> MediaQueryList
+#alias(match_media)
+fn matchMedia(String) -> MediaQueryList
 
 fn navigator() -> Navigator
 
@@ -129,39 +134,55 @@ impl @js.Js for DOMRectReadOnly
 pub type Document
 #alias(activeElement)
 fn Document::active_element(Self) -> Element
-fn Document::adopt_node(Self, Node) -> Node
+#alias(adopt_node)
+fn Document::adoptNode(Self, Node) -> Node
 fn Document::as_element(Self) -> @js.Val
 fn Document::body(Self) -> HTMLBodyElement?
-fn Document::character_set(Self) -> String
-fn Document::content_type(Self) -> String
+#alias(character_set)
+fn Document::characterSet(Self) -> String
+#alias(content_type)
+fn Document::contentType(Self) -> String
 fn Document::cookie(Self) -> String
-fn Document::create_comment(Self, String) -> @js.Val
-fn Document::create_document_fragment(Self) -> @js.Val
+#alias(create_comment)
+fn Document::createComment(Self, String) -> @js.Val
+#alias(create_document_fragment)
+fn Document::createDocumentFragment(Self) -> @js.Val
+#alias(create_event)
+fn Document::createEvent(Self, String) -> Event
 #alias(createElement)
 fn Document::create_element(Self, String) -> Element
 #alias(createElementNS)
 fn Document::create_element_ns(Self, String, String) -> Element
-fn Document::create_event(Self, String) -> Event
 fn Document::create_stylesheet(Self) -> CSSStyleSheet
 #alias(createTextNode)
 fn Document::create_text_node(Self, String) -> Text
 fn Document::doctype(Self) -> @js.Val?
-fn Document::document_element(Self) -> Element
-fn Document::document_uri(Self) -> String
+#alias(document_element)
+fn Document::documentElement(Self) -> Element
+#alias(document_uri)
+fn Document::documentURI(Self) -> String
 fn Document::domain(Self) -> String
-fn Document::get_element_by_id(Self, String) -> @js.Val?
-fn Document::get_elements_by_class_name(Self, String) -> @js.Val
-fn Document::get_elements_by_tag_name(Self, String) -> @js.Val
+#alias(get_element_by_id)
+fn Document::getElementById(Self, String) -> @js.Val?
+#alias(get_elements_by_class_name)
+fn Document::getElementsByClassName(Self, String) -> @js.Val
+#alias(get_elements_by_tag_name)
+fn Document::getElementsByTagName(Self, String) -> @js.Val
 fn Document::head(Self) -> HTMLHeadElement?
-fn Document::import_node(Self, Node, Bool) -> Node
+#alias(import_node)
+fn Document::importNode(Self, Node, Bool) -> Node
+#alias(query_selector_all)
+fn Document::querySelectorAll(Self, String) -> @js.Val
 #alias(querySelector)
 fn Document::query_selector(Self, String) -> @js.Val?
-fn Document::query_selector_all(Self, String) -> @js.Val
-fn Document::ready_state(Self) -> String
+#alias(ready_state)
+fn Document::readyState(Self) -> String
 fn Document::referrer(Self) -> String
-fn Document::set_body(Self, HTMLBodyElement) -> Unit
+#alias(set_body)
+fn Document::setBody(Self, HTMLBodyElement) -> Unit
+#alias(set_title)
+fn Document::setTitle(Self, String) -> Unit
 fn Document::set_cookie(Self, String) -> Unit
-fn Document::set_title(Self, String) -> Unit
 fn Document::style_sheets(Self) -> @js.Val
 fn Document::title(Self) -> String
 fn Document::url(Self) -> String
@@ -579,39 +600,60 @@ impl EventImpl for WheelEvent
 #external
 pub type Window
 fn Window::alert(Self, String) -> Unit
-fn Window::cancel_animation_frame(Self, Int) -> Unit
-fn Window::clear_interval(Self, Int) -> Unit
-fn Window::clear_timeout(Self, Int) -> Unit
+#alias(cancel_animation_frame)
+fn Window::cancelAnimationFrame(Self, Int) -> Unit
+#alias(clear_interval)
+fn Window::clearInterval(Self, Int) -> Unit
+#alias(clear_timeout)
+fn Window::clearTimeout(Self, Int) -> Unit
 fn Window::close(Self) -> Unit
 fn Window::confirm(Self, String) -> Bool
 fn Window::console(Self) -> @js.Val
-fn Window::device_pixel_ratio(Self) -> Double
+#alias(device_pixel_ratio)
+fn Window::devicePixelRatio(Self) -> Double
 fn Window::document(Self) -> Document
 fn Window::fetch(Self, String, init? : @js.Val) -> @async.Promise[@js.Val]
-fn Window::get_computed_style(Self, Element, pseudo_elt? : String) -> @js.Val
-fn Window::get_selection(Self) -> @js.Val?
+#alias(get_computed_style)
+fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @js.Val
+#alias(get_selection)
+fn Window::getSelection(Self) -> @js.Val?
 fn Window::history(Self) -> @js.Val
-fn Window::inner_height(Self) -> Int
-fn Window::inner_width(Self) -> Int
-fn Window::local_storage(Self) -> @js.Val
+#alias(inner_height)
+fn Window::innerHeight(Self) -> Int
+#alias(inner_width)
+fn Window::innerWidth(Self) -> Int
+#alias(local_storage)
+fn Window::localStorage(Self) -> @js.Val
 fn Window::location(Self) -> @js.Val
-fn Window::match_media(Self, String) -> @js.Val
+#alias(match_media)
+fn Window::matchMedia(Self, String) -> @js.Val
 fn Window::navigator(Self) -> @js.Val
 fn Window::open(Self, url? : String, target? : String, features? : String) -> Self?
-fn Window::outer_height(Self) -> Int
-fn Window::outer_width(Self) -> Int
-fn Window::post_message(Self, @js.Val, String) -> Unit
+#alias(outer_height)
+fn Window::outerHeight(Self) -> Int
+#alias(outer_width)
+fn Window::outerWidth(Self) -> Int
+#alias(post_message)
+fn Window::postMessage(Self, @js.Val, String) -> Unit
 fn[T : @worker.Transferable] Window::post_message_with_transfer(Self, @js.Val, String, Array[T]) -> Unit
 fn Window::prompt(Self, String, default? : String) -> String?
-fn Window::request_animation_frame(Self, (Double) -> Unit) -> Int
+#alias(request_animation_frame)
+fn Window::requestAnimationFrame(Self, (Double) -> Unit) -> Int
 fn Window::screen(Self) -> @js.Val
-fn Window::scroll_by(Self, Int, Int) -> Unit
-fn Window::scroll_to(Self, Int, Int) -> Unit
-fn Window::scroll_x(Self) -> Double
-fn Window::scroll_y(Self) -> Double
-fn Window::session_storage(Self) -> @js.Val
-fn Window::set_interval(Self, () -> Unit, Int) -> Int
-fn Window::set_timeout(Self, () -> Unit, Int) -> Int
+#alias(scroll_by)
+fn Window::scrollBy(Self, Int, Int) -> Unit
+#alias(scroll_to)
+fn Window::scrollTo(Self, Int, Int) -> Unit
+#alias(scroll_x)
+fn Window::scrollX(Self) -> Double
+#alias(scroll_y)
+fn Window::scrollY(Self) -> Double
+#alias(session_storage)
+fn Window::sessionStorage(Self) -> @js.Val
+#alias(set_interval)
+fn Window::setInterval(Self, () -> Unit, Int) -> Int
+#alias(set_timeout)
+fn Window::setTimeout(Self, () -> Unit, Int) -> Int
 impl @js.Js for Window
 impl EventTargetImpl for Window
 

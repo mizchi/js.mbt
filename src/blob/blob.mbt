@@ -38,7 +38,8 @@ pub fn Blob::size(self : Self) -> Int {
 
 ///|
 /// Get the MIME type of the Blob
-pub fn Blob::content_type(self : Self) -> String {
+#alias(content_type)
+pub fn Blob::contentType(self : Self) -> String {
   unsafe_cast(self.get("type"))
 }
 

@@ -14,7 +14,8 @@
 /// let console = global.get("console")
 /// console.call_method("log", ["Hello, World!"]) |> ignore
 /// ```
-pub fn global_this() -> Val {
+#alias(global_this)
+pub fn globalThis() -> Val {
   ffi_global_this()
 }
 
@@ -80,10 +81,11 @@ pub fn btoa(data : String) -> String {
 /// # Example
 ///
 /// ```moonbit
-/// let uri = encode_uri("https://example.com/path?name=John Doe")
+/// let uri = encodeURI("https://example.com/path?name=John Doe")
 /// // Returns: "https://example.com/path?name=John%20Doe"
 /// ```
-pub fn encode_uri(uri : String) -> String {
+#alias(encode_uri)
+pub fn encodeURI(uri : String) -> String {
   ffi_encode_uri(uri)
 }
 
@@ -103,10 +105,11 @@ pub fn encode_uri(uri : String) -> String {
 /// # Example
 ///
 /// ```moonbit
-/// let uri = decode_uri("https://example.com/path?name=John%20Doe")
+/// let uri = decodeURI("https://example.com/path?name=John%20Doe")
 /// // Returns: "https://example.com/path?name=John Doe"
 /// ```
-pub fn decode_uri(encoded_uri : String) -> String {
+#alias(decode_uri)
+pub fn decodeURI(encoded_uri : String) -> String {
   ffi_decode_uri(encoded_uri)
 }
 
@@ -128,10 +131,11 @@ pub fn decode_uri(encoded_uri : String) -> String {
 /// # Example
 ///
 /// ```moonbit
-/// let param = encode_uri_component("Hello World & Friends")
+/// let param = encodeURIComponent("Hello World & Friends")
 /// // Returns: "Hello%20World%20%26%20Friends"
 /// ```
-pub fn encode_uri_component(str : String) -> String {
+#alias(encode_uri_component)
+pub fn encodeURIComponent(str : String) -> String {
   ffi_encode_uri_component(str)
 }
 
@@ -151,15 +155,17 @@ pub fn encode_uri_component(str : String) -> String {
 /// # Example
 ///
 /// ```moonbit
-/// let param = decode_uri_component("Hello%20World%20%26%20Friends")
+/// let param = decodeURIComponent("Hello%20World%20%26%20Friends")
 /// // Returns: "Hello World & Friends"
 /// ```
-pub fn decode_uri_component(encoded_str : String) -> String {
+#alias(decode_uri_component)
+pub fn decodeURIComponent(encoded_str : String) -> String {
   ffi_decode_uri_component(encoded_str)
 }
 
 ///|
 /// Do not use vite env
-pub fn dynamic_import(module_name : String) -> Val {
+#alias(dynamic_import)
+pub fn dynamicImport(module_name : String) -> Val {
   ffi_dynamic_import(module_name)
 }

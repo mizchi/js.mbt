@@ -2,15 +2,19 @@
 package "mizchi/js/timer"
 
 // Values
-fn clear_interval(JSTimer) -> Unit
+#alias(clear_interval)
+fn clearInterval(JsTimer) -> Unit
 
-fn clear_timeout(JSTimer) -> Unit
+#alias(clear_timeout)
+fn clearTimeout(JsTimer) -> Unit
 
 async fn request_animation_frame(() -> Unit raise) -> Unit noraise
 
-fn set_interval(() -> Unit, Int) -> JSTimer
+#alias(set_interval)
+fn setInterval(() -> Unit, Int) -> JsTimer
 
-fn set_timeout(() -> Unit, Int) -> JSTimer
+#alias(set_timeout)
+fn setTimeout(() -> Unit, Int) -> JsTimer
 
 async fn wait_animation_frame() -> Unit noraise
 
@@ -18,7 +22,7 @@ async fn wait_animation_frame() -> Unit noraise
 
 // Types and methods
 #external
-pub type JSTimer
+pub type JsTimer
 
 // Type aliases
 

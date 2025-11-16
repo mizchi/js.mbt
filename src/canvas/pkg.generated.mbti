@@ -11,9 +11,11 @@ import(
 )
 
 // Values
-fn create_image_bitmap(&@js.Js) -> @async.Promise[ImageBitmap]
+#alias(create_image_bitmap)
+fn createImageBitmap(&@js.Js) -> @async.Promise[ImageBitmap]
 
-fn create_image_bitmap_rect(&@js.Js, Int, Int, Int, Int) -> @async.Promise[ImageBitmap]
+#alias(create_image_bitmap_rect)
+fn createImageBitmapRect(&@js.Js, Int, Int, Int, Int) -> @async.Promise[ImageBitmap]
 
 // Errors
 
@@ -22,27 +24,33 @@ fn create_image_bitmap_rect(&@js.Js, Int, Int, Int, Int) -> @async.Promise[Image
 pub type CanvasRenderingContext2D
 fn CanvasRenderingContext2D::arc(Self, Double, Double, Double, Double, Double, counterclockwise? : Bool) -> Unit
 fn CanvasRenderingContext2D::arc_to(Self, Double, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::begin_path(Self) -> Unit
+#alias(begin_path)
+fn CanvasRenderingContext2D::beginPath(Self) -> Unit
 fn CanvasRenderingContext2D::bezier_curve_to(Self, Double, Double, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::canvas(Self) -> @dom.HTMLCanvasElement
-fn CanvasRenderingContext2D::clear_rect(Self, Double, Double, Double, Double) -> Unit
+#alias(clear_rect)
+fn CanvasRenderingContext2D::clearRect(Self, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::clip(Self) -> Unit
-fn CanvasRenderingContext2D::close_path(Self) -> Unit
+#alias(close_path)
+fn CanvasRenderingContext2D::closePath(Self) -> Unit
 fn CanvasRenderingContext2D::create_image_data(Self, Int, Int) -> ImageData
 fn CanvasRenderingContext2D::draw_image(Self, &@js.Js, Double, Double) -> Unit
 fn CanvasRenderingContext2D::draw_image_scaled(Self, &@js.Js, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::draw_image_sub(Self, &@js.Js, Double, Double, Double, Double, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::fill(Self) -> Unit
-fn CanvasRenderingContext2D::fill_rect(Self, Double, Double, Double, Double) -> Unit
+#alias(fill_rect)
+fn CanvasRenderingContext2D::fillRect(Self, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::fill_style(Self) -> String
 fn CanvasRenderingContext2D::fill_text(Self, String, Double, Double, max_width? : Double) -> Unit
 fn CanvasRenderingContext2D::font(Self) -> String
 fn CanvasRenderingContext2D::get_image_data(Self, Double, Double, Double, Double) -> ImageData
 fn CanvasRenderingContext2D::global_alpha(Self) -> Double
-fn CanvasRenderingContext2D::line_to(Self, Double, Double) -> Unit
+#alias(line_to)
+fn CanvasRenderingContext2D::lineTo(Self, Double, Double) -> Unit
 fn CanvasRenderingContext2D::line_width(Self) -> Double
 fn CanvasRenderingContext2D::measure_text(Self, String) -> TextMetrics
-fn CanvasRenderingContext2D::move_to(Self, Double, Double) -> Unit
+#alias(move_to)
+fn CanvasRenderingContext2D::moveTo(Self, Double, Double) -> Unit
 fn CanvasRenderingContext2D::put_image_data(Self, ImageData, Double, Double) -> Unit
 fn CanvasRenderingContext2D::quadratic_curve_to(Self, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::rect(Self, Double, Double, Double, Double) -> Unit
@@ -60,7 +68,8 @@ fn CanvasRenderingContext2D::set_text_align(Self, String) -> Unit
 fn CanvasRenderingContext2D::set_text_baseline(Self, String) -> Unit
 fn CanvasRenderingContext2D::set_transform(Self, Double, Double, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::stroke(Self) -> Unit
-fn CanvasRenderingContext2D::stroke_rect(Self, Double, Double, Double, Double) -> Unit
+#alias(stroke_rect)
+fn CanvasRenderingContext2D::strokeRect(Self, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::stroke_style(Self) -> String
 fn CanvasRenderingContext2D::stroke_text(Self, String, Double, Double, max_width? : Double) -> Unit
 fn CanvasRenderingContext2D::text_align(Self) -> String

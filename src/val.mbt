@@ -181,7 +181,7 @@ pub fn Val::is_none(self : Self) -> Bool {
 /// # Example
 ///
 /// ```moonbit
-/// let date_constructor = global_this().get("Date")
+/// let date_constructor = globalThis().get("Date")
 /// let date = new_(date_constructor, [2024, 0, 1])
 /// // Creates: new Date(2024, 0, 1)
 /// ```
