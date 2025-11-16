@@ -14,11 +14,10 @@ pub fn join(paths : Array[String]) -> String {
 
 ///|
 /// Join two path segments
-pub fn join2(a: String, b: String) -> String {
+pub fn join2(a : String, b : String) -> String {
   let path_module = @node.require("node:path")
   path_module.invoke("join", [a, b]) |> unsafe_cast
 }
-
 
 ///|
 pub fn dirname(path : String) -> String {
@@ -38,14 +37,14 @@ pub fn basename(path : String, suffix? : String) -> String {
 ///|
 pub fn extname(path : String) -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("extname", [path]))
+  path_module.invoke("extname", [path]) |> unsafe_cast
 }
 
 ///|
 #alias(is_absolute)
 pub fn isAbsolute(path : String) -> Bool {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("isAbsolute", [path]))
+  path_module.invoke("isAbsolute", [path]) |> unsafe_cast
 }
 
 ///|
