@@ -115,6 +115,21 @@ pub fn[A] to_option(v : Val) -> A? {
 }
 
 ///|
+pub fn[T : Js] cast_array(a : Array[T]) -> Val = "%identity"
+
+///|
+pub fn[R] cast_fn0(f : () -> R) -> Val = "%identity"
+
+///|
+pub fn[A, R] cast_fn1(f : (A) -> R) -> Val = "%identity"
+
+///|
+pub fn[A, B, R] cast_fn2(f : (A, B) -> R) -> Val = "%identity"
+
+///|
+pub fn[A, B, C, R] cast_fn3(f : (A, B, C) -> R) -> Val = "%identity"
+
+///|
 pub impl Show for Val with output(self, logger) {
   logger.write_string(self.to_string())
 }

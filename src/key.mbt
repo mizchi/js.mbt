@@ -5,20 +5,19 @@ pub type Symbol
 ///|
 /// key for js object access
 pub trait PropertyKey {
-  to_key(Self) -> Val
+  to_key(Self) -> Val = _
 }
 
 ///|
-pub impl PropertyKey for String with to_key(self) -> Val {
-  Js::to_js(self)
+impl PropertyKey with to_key(self) -> Val {
+  self |> unsafe_cast
 }
 
 ///|
-pub impl PropertyKey for Int with to_key(self) -> Val {
-  Js::to_js(self)
-}
+pub impl PropertyKey for String
 
 ///|
-pub impl PropertyKey for Symbol with to_key(self) -> Val {
-  self |> js
-}
+pub impl PropertyKey for Int
+
+///|
+pub impl PropertyKey for Symbol

@@ -103,49 +103,15 @@ impl Js with has_own_property(self, key : &PropertyKey) -> Bool {
 pub impl Js for Val
 
 ///|
-/// Convert a MoonBit String to a JavaScript string value.
-///
-/// # Example
-///
-/// ```moonbit
-/// let val = Js::to_js("hello")
-/// // JavaScript: "hello"
-/// ```
 pub impl Js for String
 
 ///|
-/// Convert a MoonBit Double to a JavaScript number value.
-///
-/// # Example
-///
-/// ```moonbit
-/// let val = Js::to_js(3.14)
-/// // JavaScript: 3.14
-/// ```
 pub impl Js for Double
 
 ///|
-/// Convert a MoonBit Float to a JavaScript number value.
-///
-/// Float is first converted to Double, then to JavaScript number.
-///
-/// # Example
-///
-/// ```moonbit
-/// let val = Js::to_js(2.5)
-/// // JavaScript: 2.5
-/// ```
 pub impl Js for Float
 
 ///|
-/// Convert a MoonBit Int to a JavaScript number value.
-///
-/// # Example
-///
-/// ```moonbit
-/// let val = Js::to_js(42)
-/// // JavaScript: 42
-/// ```
 pub impl Js for Int
 
 ///|

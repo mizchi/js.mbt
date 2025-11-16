@@ -18,5 +18,5 @@ pub impl Js for AbortSignal
 
 ///|
 pub fn AbortController::signal(self : Self) -> AbortSignal {
-  unsafe_cast(self.get("signal"))
+  self.get("signal") |> unsafe_cast
 }
