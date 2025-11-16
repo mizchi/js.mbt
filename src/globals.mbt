@@ -132,3 +132,9 @@ pub fn encode_uri_component(str : String) -> String {
 pub fn decode_uri_component(encoded_str : String) -> String {
   ffi_decode_uri_component(encoded_str)
 }
+
+///|
+/// Do not use vite env
+pub fn dynamic_import(module_name : String) -> Val {
+  ffi_dynamic_import(module_name)
+}

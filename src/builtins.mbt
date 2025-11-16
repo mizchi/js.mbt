@@ -38,7 +38,7 @@ pub fn new_empty_object() -> Val {
 /// let obj = from_builtin_map(map)
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
-pub fn from_builtin_map(map : @builtin.Map[String, Val]) -> Val {
+pub fn from_builtin_map(map : Map[String, Val]) -> Val {
   let obj = new_empty_object()
   for k, v in map {
     let v : Val = Js::to_js(v)
@@ -69,7 +69,7 @@ pub fn from_builtin_map(map : @builtin.Map[String, Val]) -> Val {
 /// let js_arr = from_builtin_array(arr)
 /// // JavaScript: [1, 2, 3, 4, 5]
 /// ```
-pub fn[T] from_builtin_array(arr : @builtin.Array[T]) -> Val {
+pub fn[T] from_builtin_array(arr : Array[T]) -> Val {
   arr |> unsafe_cast
 }
 
@@ -217,35 +217,6 @@ pub fn symbol_dispose() -> Symbol {
 /// The Symbol.asyncDispose symbol
 pub fn symbol_async_dispose() -> Symbol {
   ffi_symbol_async_dispose()
-}
-
-///|
-/// Create a new JavaScript Error object.
-///
-/// Equivalent to JavaScript's `new Error(message, { cause })`.
-///
-/// # Parameters
-///
-/// - `message`: The error message
-/// - `cause`: Optional cause of the error (another ErrorObject)
-///
-/// # Returns
-///
-/// A new ErrorObject
-///
-/// # Example
-///
-/// ```moonbit
-/// let error = new_error("Something went wrong")
-/// let caused_error = new_error("Failed operation", cause=error)
-/// ```
-pub fn new_error(message : String, cause? : ErrorObject) -> ErrorObject {
-  let args : Array[Val] = if cause is Some(cause) {
-    [js(message), from_builtin_map({ "cause": cause |> unsafe_cast() })]
-  } else {
-    [js(message)]
-  }
-  ffi_new_error(args)
 }
 
 ///|

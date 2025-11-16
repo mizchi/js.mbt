@@ -97,3 +97,32 @@ test "call_method_raise" {
   guard v is Err(JsError(e))
   assert_true(e.is_error())
 }
+
+///|
+/// Create a new JavaScript Error object.
+///
+/// Equivalent to JavaScript's `new Error(message, { cause })`.
+///
+/// # Parameters
+///
+/// - `message`: The error message
+/// - `cause`: Optional cause of the error (another ErrorObject)
+///
+/// # Returns
+///
+/// A new ErrorObject
+///
+/// # Example
+///
+/// ```moonbit
+/// let error = new_error("Something went wrong")
+/// let caused_error = new_error("Failed operation", cause=error)
+/// ```
+pub fn new_error(message : String, cause? : ErrorObject) -> ErrorObject {
+  let args : Array[Val] = if cause is Some(cause) {
+    [js(message), from_builtin_map({ "cause": cause |> unsafe_cast() })]
+  } else {
+    [js(message)]
+  }
+  ffi_new_error(args)
+}

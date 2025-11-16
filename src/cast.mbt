@@ -1,25 +1,4 @@
 ///|
-/// Represents an unsafe JavaScript value.
-///
-/// `Val` is the core type for FFI operations between MoonBit and JavaScript.
-/// It can hold any JavaScript value including primitives, objects, arrays, functions, etc.
-///
-/// # Safety
-///
-/// This type bypasses MoonBit's type system when converting to/from JavaScript values.
-/// Users must ensure type correctness manually.
-///
-/// # Example
-///
-/// ```moonbit
-/// let num = js(42)                 // MoonBit Int -> Val
-/// let str = js("hello")            // MoonBit String -> Val
-/// let val : Int = unsafe_cast(num) // Val -> MoonBit Int (unsafe)
-/// ```
-#external
-pub type Val
-
-///|
 /// Convert any MoonBit value to a JavaScript Val.
 ///
 /// # Safety

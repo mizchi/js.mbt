@@ -7,3 +7,4 @@ dist
 scratch.ts
 .wrangler
 fs_test.txt
+.DS_Store

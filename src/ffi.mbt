@@ -163,3 +163,7 @@ extern "js" fn ffi_decode_uri_component(encoded_str : String) -> String =
 ///|
 extern "js" fn ffi_type_of(v : Val) -> String =
   #| (v) => typeof v
+
+///|
+extern "js" fn ffi_instance_of(v : Val, cls : Val) -> Bool =
+  #| (v, cls) => v instanceof cls

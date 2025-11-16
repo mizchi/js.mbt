@@ -1,4 +1,25 @@
 ///|
+/// Represents an unsafe JavaScript value.
+///
+/// `Val` is the core type for FFI operations between MoonBit and JavaScript.
+/// It can hold any JavaScript value including primitives, objects, arrays, functions, etc.
+///
+/// # Safety
+///
+/// This type bypasses MoonBit's type system when converting to/from JavaScript values.
+/// Users must ensure type correctness manually.
+///
+/// # Example
+///
+/// ```moonbit
+/// let num = js(42)                 // MoonBit Int -> Val
+/// let str = js("hello")            // MoonBit String -> Val
+/// let val : Int = unsafe_cast(num) // Val -> MoonBit Int (unsafe)
+/// ```
+#external
+pub type Val
+
+///|
 pub impl Show for Val with output(self, logger) {
   logger.write_string(self.to_string())
 }
@@ -105,10 +126,6 @@ pub extern "js" fn ffi_is_nan(v : Val) -> Bool =
 pub fn[T : Js] is_nan(v : T) -> Bool {
   ffi_is_nan(v.to_js())
 }
-
-///|
-extern "js" fn ffi_instance_of(v : Val, cls : Val) -> Bool =
-  #| (v, cls) => v instanceof cls
 
 ///|
 pub fn[T : Js] instance_of(v : T, cls : T) -> Bool {
