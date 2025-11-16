@@ -12,7 +12,7 @@ pub fn JSON::stringify(
 }
 
 ///|
-pub fn JSON::parse(s : String, reviver? : Val? = None) -> Val raise JsError {
+pub fn JSON::parse(s : String, reviver? : Val? = None) -> Val raise JsThrowError {
   throwable(() => ffi_json_parse(s, reviver?))
 }
 

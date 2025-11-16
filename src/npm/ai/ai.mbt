@@ -85,7 +85,7 @@ test "ai" {
     let result = ai.generate_text(model~, messages~).unwrap()
     @js.log(result)
   } catch {
-    @js.JsError(e) => @js.log(e)
+    @js.JsThrowError::Error(e) => @js.log(e)
     e => @js.log(e)
   })
 }

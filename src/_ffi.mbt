@@ -15,11 +15,11 @@ extern "js" fn ffi_new(v : Val, args : Array[Val]) -> Val =
   #| (obj, args) => new obj(...args)
 
 ///|
-extern "js" fn ffi_new_error(args : Array[Val]) -> ErrorObject =
+extern "js" fn ffi_new_error(args : Array[Val]) -> JsError =
   #| (args) => new Error(...args)
 
 ///|
-extern "js" fn ffi_is_error(v : ErrorObject) -> Bool =
+extern "js" fn ffi_is_error(v : Val) -> Bool =
   #| (v) => Error.isError(v)
 
 ///|

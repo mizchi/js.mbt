@@ -1,16 +1,25 @@
 ///|
-/// Error
+/// JavaScript Error
 #external
-pub type ErrorObject
-
-///|
-pub impl Js for ErrorObject
-
-///|
-pub suberror JsError ErrorObject
+pub type JsError
 
 ///|
 pub impl Js for JsError
+
+///|
+pub suberror JsThrowError {
+  // TODO: Differentiate error types
+  // TypeError
+  // ReferenceError
+  // SyntaxError
+  // RangeError
+  // etc.
+  Error(JsError)
+  Value(Val)
+}
+
+///|
+pub impl Js for JsThrowError
 
 ///|
 extern "js" fn ffi_wrap_sync(
@@ -33,10 +42,15 @@ extern "js" fn ffi_wrap_sync(
 ///   undefined().call([])
 /// })
 /// ```
-pub fn[T] throwable(f : () -> T raise?) -> T raise JsError {
+pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError {
   match wrap_result(f |> unsafe_cast) {
     Ok(result) => result |> unsafe_cast
-    Err(e) => raise JsError(e |> unsafe_cast)
+    Err(e) => {
+      if ffi_is_error(e) {
+        raise JsThrowError::Error(unsafe_cast(e))
+      }
+      raise JsThrowError::Value(e |> unsafe_cast)
+    }
   }
 }
 
@@ -46,33 +60,33 @@ fn wrap_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
 }
 
 ///|
-pub impl Show for JsError with output(self, logger) {
+pub impl Show for JsThrowError with output(self, logger) {
   logger.write_string(self.to_string())
 }
 
 ///|
-impl Show for ErrorObject with output(self, logger) {
+impl Show for JsError with output(self, logger) {
   logger.write_string(self.to_string())
 }
 
 ///|
-impl Show for ErrorObject with to_string(self) {
+impl Show for JsError with to_string(self) {
   self.message()
 }
 
 ///|
-pub fn ErrorObject::message(self : Self) -> String {
+pub fn JsError::message(self : Self) -> String {
   unsafe_cast(self.get("message"))
 }
 
 ///|
-pub fn ErrorObject::stack(self : Self) -> String {
+pub fn JsError::stack(self : Self) -> String {
   unsafe_cast(self.get("stack"))
 }
 
 ///|
-pub fn ErrorObject::is_error(self : Self) -> Bool {
-  self |> ffi_is_error
+pub fn JsError::isError(val : &Js) -> Bool {
+  ffi_is_error(val.to_js())
 }
 
 ///|
@@ -80,22 +94,22 @@ pub fn ErrorObject::is_error(self : Self) -> Bool {
 /// ```nocheck
 /// throw_js(new_error("Something went wrong"))
 /// ```
-pub fn throw_js(v : Val) -> Unit {
-  ffi_throw(v)
+pub fn throw_(v : &Js) -> Unit {
+  ffi_throw(v.to_js())
 }
 
 ///|
-test "is_error" {
+test "JsError::isError" {
   let e = new_error("myerr")
   assert_eq(e.message(), "myerr")
-  assert_true(e.is_error())
+  assert_true(JsError::isError(e))
 }
 
 ///|
-test "call_method_raise" {
+test "invoke_throwable" {
   let v = try? global_this().invoke_throwable("nonexistentMethod", [])
-  guard v is Err(JsError(e))
-  assert_true(e.is_error())
+  guard v is Err(JsThrowError::Error(e))
+  assert_true(JsError::isError(e))
 }
 
 ///|
@@ -118,7 +132,7 @@ test "call_method_raise" {
 /// let error = new_error("Something went wrong")
 /// let caused_error = new_error("Failed operation", cause=error)
 /// ```
-pub fn new_error(message : String, cause? : ErrorObject) -> ErrorObject {
+pub fn new_error(message : String, cause? : JsError) -> JsError {
   let args : Array[Val] = if cause is Some(cause) {
     [js(message), from_map({ "cause": cause |> unsafe_cast() })]
   } else {
