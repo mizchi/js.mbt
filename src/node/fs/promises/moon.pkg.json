@@ -2,9 +2,10 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
+    "mizchi/js/async",
     "mizchi/js/iterator",
     "mizchi/js/node",
-    "mizchi/js/async"
+    "mizchi/js/node/fs"
   ],
   "test-import": ["mizchi/js/node/test"]
 }

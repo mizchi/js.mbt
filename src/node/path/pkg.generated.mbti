@@ -21,6 +21,8 @@ fn isAbsolute(String) -> Bool
 
 fn join(Array[String]) -> String
 
+fn join2(String, String) -> String
+
 #alias(matches_glob)
 fn matchesGlob(String, String) -> Bool
 

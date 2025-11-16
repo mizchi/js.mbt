@@ -9,15 +9,16 @@ extern "js" fn ffi_apply_variadic(
 ///|
 pub fn join(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  let join_fn = path_module.get("join")
-  let paths_js = @js.JsArray::new()
-  let mut i = 0
-  while i < paths.length() {
-    paths_js.invoke("push", [paths[i]]) |> ignore
-    i = i + 1
-  }
-  unsafe_cast(ffi_apply_variadic(join_fn, path_module, paths_js.to_js()))
+  path_module.invoke("join", paths.map(p => p |> @js.js)) |> unsafe_cast
 }
+
+///|
+/// Join two path segments
+pub fn join2(a: String, b: String) -> String {
+  let path_module = @node.require("node:path")
+  path_module.invoke("join", [a, b]) |> unsafe_cast
+}
+
 
 ///|
 pub fn dirname(path : String) -> String {

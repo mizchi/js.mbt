@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/async"
   "mizchi/js/iterator"
+  "mizchi/js/node/fs"
 )
 
 // Values
@@ -25,9 +26,7 @@ fn rename(String, String) -> @async.Promise[Unit]
 
 fn rm(String) -> @async.Promise[Unit]
 
-fn rmdir(String) -> @async.Promise[Unit]
-
-fn stat(String) -> @async.Promise[FsStat]
+fn stat(String) -> @async.Promise[@fs.Stat]
 
 #alias(write_file)
 fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js.AbortSignal) -> @async.Promise[Unit]
@@ -46,13 +45,6 @@ impl @js.Js for Dirent
 
 #external
 pub type FileHandle
-
-pub(all) struct FsStat {
-  isFile : () -> Bool
-  isDirectory : () -> Bool
-  size : Int
-  mtime_ms : Float
-}
 
 // Type aliases
 

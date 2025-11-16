@@ -45,6 +45,13 @@ fn write_file_sync(String, &@js.Js) -> Unit
 // Errors
 
 // Types and methods
+#external
+pub type Stat
+fn Stat::isDirectory(Self) -> Bool
+fn Stat::isFile(Self) -> Bool
+fn Stat::mtime_ms(Self) -> Float
+fn Stat::size(Self) -> Int
+impl @js.Js for Stat
 
 // Type aliases
 

@@ -1,0 +1,18 @@
+{
+  "is-main": true,
+  "supported-targets": ["js"],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/async",
+    "mizchi/js/node/path",
+    "mizchi/js/node/os",
+    {
+      "path": "mizchi/js/node/fs",
+      "alias": "fs_sync"
+    },
+    {
+      "path": "mizchi/js/node/fs/promises",
+      "alias": "fs"
+    }
+  ]
+}

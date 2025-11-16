@@ -1,5 +1,3 @@
-// ///|
-
 ///|
 using @js {trait Js, type Val, type AbortSignal, js, unsafe_cast}
 
@@ -9,16 +7,10 @@ using @async {type Promise, run_async}
 ///|
 using @iterator {type AsyncIterator}
 
-///|
-pub(all) struct FsStat {
-  isFile : () -> Bool
-  isDirectory : () -> Bool
-  size : Int
-  mtime_ms : Float
-}
+using @fs {type Stat}
 
 ///|
-pub fn stat(path : String) -> Promise[FsStat] {
+pub fn stat(path : String) -> Promise[Stat] {
   let fs = @node.require("node:fs/promises")
   unsafe_cast(fs.invoke("stat", [path]))
 }
@@ -31,12 +23,6 @@ pub fn mkdir(path : String, recursive? : Bool) -> Promise[Unit] {
     options.set("recursive", r)
   }
   unsafe_cast(fs.invoke("mkdir", [path, options]))
-}
-
-///|
-pub fn rmdir(path : String) -> Promise[Unit] {
-  let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.invoke("rmdir", [path]))
 }
 
 ///|

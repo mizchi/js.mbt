@@ -28,8 +28,8 @@ pub fn read_file_sync_string(path : String, encoding : String) -> String {
 
 ///|
 /// Write file synchronously
-#alias(writeFileSync)
-pub fn write_file_sync(path : String, data : &Js) -> Unit {
+#alias(write_file_sync)
+pub fn writeFileSync(path : String, data : &Js) -> Unit {
   let fs = fs_module()
   fs.invoke("writeFileSync", [path, data.to_js()]) |> ignore
 }
@@ -46,30 +46,29 @@ pub fn append_file_sync(path : String, data : &Js) -> Unit {
 
 ///|
 /// Check if path exists
-#alias(existsSync)
-pub fn exists_sync(path : String) -> Bool {
+#alias(exists_sync)
+pub fn existsSync(path : String) -> Bool {
   let fs = fs_module()
   fs.invoke("existsSync", [path]) |> unsafe_cast
 }
 
 ///|
 /// Get file statistics
-#alias(statSync)
-pub fn stat_sync(path : String) -> Val {
+#alias(stat_sync)
+pub fn statSync(path : String) -> Val {
   let fs = fs_module()
   fs.invoke("statSync", [path])
 }
 
 ///|
 /// Create directory synchronously
-#alias(mkdirSync)
-pub fn mkdir_sync(path : String, recursive? : Bool) -> Unit {
+#alias(mkdir_sync)
+pub fn mkdirSync(path : String, recursive? : Bool) -> Unit {
   let fs = fs_module()
   match recursive {
     Some(r) => {
-      let options = @js.Object::new()
-      options.set("recursive", r)
-      fs.invoke("mkdirSync", [path, options]) |> ignore
+      let opts = @js.from_map({ "recursive": r |> unsafe_cast })
+      fs.invoke("mkdirSync", [path, opts]) |> ignore
     }
     None => fs.invoke("mkdirSync", [path]) |> ignore
   }
@@ -77,40 +76,40 @@ pub fn mkdir_sync(path : String, recursive? : Bool) -> Unit {
 
 ///|
 /// Delete file synchronously
-#alias(unlinkSync)
-pub fn unlink_sync(path : String) -> Unit {
+#alias(unlink_sync)
+pub fn unlinkSync(path : String) -> Unit {
   let fs = fs_module()
   fs.invoke("unlinkSync", [path]) |> ignore
 }
 
 ///|
 /// Rename/move file or directory synchronously
-#alias(renameSync)
-pub fn rename_sync(old_path : String, new_path : String) -> Unit {
+#alias(rename_sync)
+pub fn renameSync(old_path : String, new_path : String) -> Unit {
   let fs = fs_module()
   fs.invoke("renameSync", [old_path, new_path]) |> ignore
 }
 
 ///|
 /// Copy file synchronously
-#alias(copyFileSync)
-pub fn copy_file_sync(src : String, dest : String) -> Unit {
+// #alias(copyFileSync)
+pub fn copyFileSync(src : String, dest : String) -> Unit {
   let fs = fs_module()
-  fs.invoke("copyFileSync", [src |> js, dest |> js]) |> ignore
+  fs.invoke("copyFileSync", [src, dest]) |> ignore
 }
 
 ///|
 /// Read directory contents synchronously
-#alias(readdirSync)
-pub fn readdir_sync(path : String) -> Array[String] {
+#alias(readdir_sync)
+pub fn readdirSync(path : String) -> Array[String] {
   let fs = fs_module()
   fs.invoke("readdirSync", [path]) |> unsafe_cast
 }
 
 ///|
 /// Remove file or directory synchronously
-#alias(rmSync)
-pub fn rm_sync(path : String, recursive? : Bool, force? : Bool) -> Unit {
+#alias(rm_sync)
+pub fn rmSync(path : String, recursive? : Bool, force? : Bool) -> Unit {
   let fs = fs_module()
   match (recursive, force) {
     (Some(r), Some(f)) => {
