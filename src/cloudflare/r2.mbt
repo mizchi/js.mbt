@@ -62,7 +62,7 @@ pub fn R2Bucket::delete_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Unit] {
-  let keys_js = @js.new_empty_array()
+  let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -310,7 +310,7 @@ pub impl Js for R2ListOptions with to_js(self) {
   }
   match self.include_ {
     Some(inc) => {
-      let arr = @js.new_empty_array()
+      let arr = @js.JsArray::new()
       let mut i = 0
       while i < inc.length() {
         arr.invoke("push", [inc[i]]) |> ignore
@@ -469,7 +469,7 @@ pub fn R2MultipartUpload::complete(
   self : Self,
   parts : Array[R2UploadedPart],
 ) -> Promise[R2Object] {
-  let parts_js = @js.new_empty_array()
+  let parts_js = @js.JsArray::new()
   let mut i = 0
   while i < parts.length() {
     parts_js.invoke("push", [parts[i]]) |> ignore

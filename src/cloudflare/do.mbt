@@ -226,7 +226,7 @@ pub fn DurableObjectStorage::get_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Val] {
-  let keys_js = @js.new_empty_array()
+  let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -242,7 +242,7 @@ pub fn DurableObjectStorage::get_multiple_with_options(
   keys : Array[String],
   options : DurableObjectGetOptions,
 ) -> Promise[Val] {
-  let keys_js = @js.new_empty_array()
+  let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -313,7 +313,7 @@ pub fn DurableObjectStorage::delete_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Int] {
-  let keys_js = @js.new_empty_array()
+  let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -329,7 +329,7 @@ pub fn DurableObjectStorage::delete_multiple_with_options(
   keys : Array[String],
   options : DurableObjectPutOptions,
 ) -> Promise[Int] {
-  let keys_js = @js.new_empty_array()
+  let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -590,7 +590,7 @@ pub fn DurableObjectTransaction::get_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Val] {
-  let keys_js = @js.new_empty_array()
+  let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore
@@ -633,7 +633,7 @@ pub fn DurableObjectTransaction::delete_multiple(
   self : Self,
   keys : Array[String],
 ) -> Promise[Int] {
-  let keys_js = @js.new_empty_array()
+  let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.invoke("push", [keys[i]]) |> ignore

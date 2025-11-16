@@ -69,13 +69,13 @@ pub fn Worker::post_message_with_transfer(
   message : &Js,
   transfer : Array[Val],
 ) -> Unit {
-  let arr = @js.new_empty_array()
+  let arr = @js.JsArray::new()
   let mut i = 0
   while i < transfer.length() {
     arr.invoke("push", [transfer[i]]) |> ignore
     i = i + 1
   }
-  ffi_worker_post_message(worker, message.to_js(), arr)
+  ffi_worker_post_message(worker, message.to_js(), arr.to_js())
 }
 
 ///|

@@ -10,13 +10,13 @@ extern "js" fn ffi_apply_variadic(
 pub fn join(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
   let join_fn = path_module.get("join")
-  let paths_js = @js.new_empty_array()
+  let paths_js = @js.JsArray::new()
   let mut i = 0
   while i < paths.length() {
     paths_js.invoke("push", [paths[i]]) |> ignore
     i = i + 1
   }
-  unsafe_cast(ffi_apply_variadic(join_fn, path_module, paths_js))
+  unsafe_cast(ffi_apply_variadic(join_fn, path_module, paths_js.to_js()))
 }
 
 ///|
@@ -57,13 +57,13 @@ pub fn normalize(path : String) -> String {
 pub fn resolve(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
   let resolve_fn = path_module.get("resolve")
-  let paths_js = @js.new_empty_array()
+  let paths_js = @js.JsArray::new()
   let mut i = 0
   while i < paths.length() {
     paths_js.invoke("push", [paths[i]]) |> ignore
     i = i + 1
   }
-  unsafe_cast(ffi_apply_variadic(resolve_fn, path_module, paths_js))
+  unsafe_cast(ffi_apply_variadic(resolve_fn, path_module, paths_js.to_js()))
 }
 
 ///|

@@ -81,7 +81,7 @@ test "to_string" {
   assert_true(@js.is_undefined(undefined()))
   assert_true(@js.is_null(null_()))
   assert_eq(@js.Object::new().to_js().to_string(), "{}")
-  assert_eq(new_empty_array().to_string(), "[]")
+  assert_eq(@js.JsArray::new().to_js().to_string(), "[]")
   from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
   let expected =
     #|{"a":1,"b":2}
@@ -334,10 +334,12 @@ test "from_array" {
 }
 
 ///|
-test "new_empty_array" {
-  let arr = new_empty_array()
+test "JsArray::new" {
+  let arr = JsArray::new()
   assert_true(@js.is_array(arr))
   assert_true(@js.is_object(arr))
+  // native array is also js array
+  assert_true(@js.is_array([1] |> js))
 }
 
 ///|
@@ -429,7 +431,7 @@ test "Val Show trait" {
   assert_eq(js(false).to_string(), "false")
   assert_eq(null_().to_string(), "null")
   assert_eq(@js.Object::new().to_js().to_string(), "{}")
-  assert_eq(new_empty_array().to_string(), "[]")
+  assert_eq(@js.JsArray::new().to_js().to_string(), "[]")
 }
 
 ///|

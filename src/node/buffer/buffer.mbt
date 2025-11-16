@@ -25,7 +25,7 @@ pub fn Buffer::from_string(
 /// Create a Buffer from an array of bytes
 pub fn Buffer::from_array(arr : Array[Int]) -> Buffer {
   let ctor = buffer_constructor()
-  let arr_js = @js.new_empty_array()
+  let arr_js = @js.JsArray::new()
   let mut i = 0
   while i < arr.length() {
     arr_js.invoke("push", [arr[i]]) |> ignore
@@ -104,7 +104,7 @@ pub fn Buffer::compare(buf1 : Buffer, buf2 : Buffer) -> Int {
 /// Concatenate an array of buffers
 pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
   let ctor = buffer_constructor()
-  let list_js = @js.new_empty_array()
+  let list_js = @js.JsArray::new()
   let mut i = 0
   while i < list.length() {
     list_js.invoke("push", [list[i]]) |> ignore
@@ -235,7 +235,7 @@ pub fn Buffer::compare_with(
   source_end? : Int,
 ) -> Int {
   let buf_js = self.to_js()
-  let args = @js.new_empty_array()
+  let args = @js.JsArray::new()
   args.invoke("push", [target]) |> ignore
   args.invoke("push", [target_start]) |> ignore
   match target_end {

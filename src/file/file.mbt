@@ -22,7 +22,7 @@ pub fn File::new(
   content_type? : String,
   last_modified? : Int,
 ) -> File {
-  let arr = @js.new_empty_array()
+  let arr = @js.JsArray::new()
   let mut i = 0
   while i < data.length() {
     arr.invoke("push", [data[i].to_js()]) |> ignore
@@ -37,7 +37,7 @@ pub fn File::new(
     Some(lm) => options.set("lastModified", lm)
     None => ()
   }
-  unsafe_cast(ffi_new_file(arr, filename |> js, options.to_js()))
+  unsafe_cast(ffi_new_file(arr.to_js(), filename |> js, options.to_js()))
 }
 
 ///|

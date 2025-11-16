@@ -46,7 +46,7 @@ pub fn parse_args(
   allow_positionals? : Bool = false,
   // tokens?: Bool = false,
 ) -> ParseArgsResult {
-  let result = @js.new_empty_array()
+  let result = @js.JsArray::new()
   result.set("args", args |> js)
   result.set(
     "options",
