@@ -91,14 +91,14 @@ test "to_string" {
 ///|
 test "Val type checking" {
   // Test is_array
-  let arr = new_empty_array()
+  let arr = JsArray::new()
   assert_true(@js.is_array(arr))
-  assert_false(@js.is_array(js(42)))
+  assert_false(@js.is_array(42))
 
   // Test is_object
-  let obj = new_empty_object()
+  let obj = Object::new()
   assert_true(@js.is_object(obj))
-  assert_false(@js.is_object(js(42)))
+  assert_false(@js.is_object(42))
   assert_false(@js.is_object(null_()))
 
   // Test is_null

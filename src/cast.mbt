@@ -85,12 +85,12 @@ pub fn[T : Js] from_array(v : Array[T]) -> Val {
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
 pub fn from_map(map : Map[String, Val]) -> Val {
-  let obj = new_empty_object()
+  let obj = Object::new()
   for k, v in map {
     let v : Val = Js::to_js(v)
     obj.set(k, v)
   }
-  obj
+  obj.to_js()
 }
 
 ///|

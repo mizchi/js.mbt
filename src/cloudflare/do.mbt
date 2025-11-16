@@ -75,12 +75,12 @@ pub(all) struct DurableObjectIdOptions {
 
 ///|
 pub impl Js for DurableObjectIdOptions with to_js(self) {
-  let obj = @js.new_empty_object()
+  let obj = @js.Object::new()
   match self.jurisdiction {
     Some(j) => obj.set("jurisdiction", j)
     None => ()
   }
-  obj
+  obj.to_js()
 }
 
 ///|

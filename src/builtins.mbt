@@ -25,26 +25,6 @@
 // }
 
 ///|
-/// Create a new empty JavaScript array.
-///
-/// Equivalent to JavaScript's `[]` or `new Array()`.
-///
-/// # Returns
-///
-/// A new empty array as a Val
-///
-/// # Example
-///
-/// ```moonbit
-/// let arr = new_empty_array()
-/// arr.set(0, "first")
-/// arr.set(1, "second")
-/// ```
-pub fn new_empty_array() -> Val {
-  ffi_new_empty_array()
-}
-
-///|
 pub fn from_builtin_json(j : Json) -> Val {
   Js::to_js(j)
 }
@@ -96,20 +76,20 @@ pub impl Js for Json with to_js(self) -> Val {
     Json::True => js(true)
     Json::False => js(false)
     Json::Object(o) => {
-      let obj = new_empty_object()
+      let obj = Object::new()
       for k, v in o {
         let v : Val = Js::to_js(v)
         obj.set(k, v)
       }
-      obj
+      obj.to_js()
     }
     Json::Array(a) => {
-      let arr = new_empty_array()
+      let arr = JsArray::new()
       for v in a {
         let v : Val = Js::to_js(v)
         arr.invoke("push", [v]) |> ignore
       }
-      arr
+      arr.to_js()
     }
   }
 }

@@ -16,24 +16,24 @@ extern "js" fn ffi_new_blob(data : Val, options : Val) -> Val =
 ///|
 /// Create a new Blob
 pub fn Blob::new(data : Array[&Js], content_type? : String) -> Blob {
-  let arr = @js.new_empty_array()
+  let arr = @js.JsArray::new()
   let mut i = 0
   while i < data.length() {
     arr.invoke("push", [data[i].to_js()]) |> ignore
     i = i + 1
   }
-  let options = @js.new_empty_object()
+  let options = @js.Object::new()
   match content_type {
     Some(t) => options.set("type", t)
     None => ()
   }
-  unsafe_cast(ffi_new_blob(arr, options))
+  ffi_new_blob(arr.to_js(), options.to_js()) |> unsafe_cast
 }
 
 ///|
 /// Get the size of the Blob in bytes
 pub fn Blob::size(self : Self) -> Int {
-  unsafe_cast(self.get("size"))
+  self.get("size") |> unsafe_cast
 }
 
 ///|

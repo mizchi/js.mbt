@@ -1,4 +1,16 @@
 ///|
+#external
+pub type Object
+
+///|
+pub impl Js for Object
+
+///|
+pub fn Object::new() -> Self {
+  ffi_new_empty_object() |> unsafe_cast
+}
+
+///|
 /// Create a new empty JavaScript object.
 ///
 /// Equivalent to JavaScript's `{}` or `new Object()`.
@@ -14,6 +26,7 @@
 /// obj.set("name", "Alice")
 /// obj.set("age", 30)
 /// ```
+#deprecated("Use Object::new() instead")
 pub fn new_empty_object() -> Val {
   ffi_new_empty_object()
 }
