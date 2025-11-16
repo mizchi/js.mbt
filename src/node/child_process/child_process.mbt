@@ -12,41 +12,7 @@ pub type ChildProcess
 pub impl Js for ChildProcess
 
 ///|
-/// Implement EventEmitter trait for ChildProcess
-pub impl EventEmitter for ChildProcess with on(
-  self : ChildProcess,
-  name : String,
-  callback : () -> Unit,
-) -> Unit {
-  self.invoke("on", [name, callback |> js]) |> unsafe_cast
-}
-
-///|
-pub impl EventEmitter for ChildProcess with once(
-  self : ChildProcess,
-  name : String,
-  callback : () -> Unit,
-) -> Unit {
-  self.invoke("once", [name, callback |> js]) |> unsafe_cast
-}
-
-///|
-pub impl EventEmitter for ChildProcess with off(
-  self : ChildProcess,
-  name : String,
-  callback : () -> Unit,
-) -> Unit {
-  self.invoke("off", [name, callback |> js]) |> unsafe_cast
-}
-
-///|
-pub impl EventEmitter for ChildProcess with emit(
-  self : ChildProcess,
-  name : String,
-  payload : Val,
-) -> Unit {
-  self.invoke("emit", [name, payload]) |> unsafe_cast
-}
+pub impl EventEmitterImpl for ChildProcess
 
 ///| ChildProcess Typed Event Handlers
 

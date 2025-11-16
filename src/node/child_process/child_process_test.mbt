@@ -84,8 +84,8 @@ test "ChildProcess implements EventEmitter trait" {
   let proc = spawn("echo", args=["test"])
 
   // Test that we can use EventEmitter trait methods
-  proc.on("close", fn() { () })
-  proc.once("exit", fn() { () })
+  proc.on("close", _ => ())
+  proc.once("exit", _ => ())
   inspect(true, content="true")
 }
 
