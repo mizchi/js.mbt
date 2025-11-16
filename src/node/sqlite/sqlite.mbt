@@ -14,7 +14,7 @@
 /// stmt.run(anonymous_parameters=["Alice"]) |> ignore
 ///
 /// let query = db.prepare("SELECT * FROM users WHERE id = ?")
-/// query.get(anonymous_parameters=[1]) |> ignore
+/// query.get_(anonymous_parameters=[1]) |> ignore
 /// let results = query.all()
 /// ```
 ///
@@ -285,7 +285,7 @@ pub impl Js for StatementSync with to_js(self) {
 }
 
 ///|
-pub fn StatementSync::get(
+pub fn StatementSync::get_(
   self : Self,
   named_parameters? : Map[String, &Js],
   anonymous_parameters? : Array[&Js],
@@ -385,13 +385,13 @@ pub fn StatementSync::iterate(
 ///|
 #alias(expanded_sql)
 pub fn StatementSync::expandedSQL(self : Self) -> String {
-  unsafe_cast(self.to_js().get("expandedSQL"))
+  unsafe_cast(self.get("expandedSQL"))
 }
 
 ///|
 #alias(source_sql)
 pub fn StatementSync::sourceSQL(self : Self) -> String {
-  unsafe_cast(self.to_js().get("sourceSQL"))
+  unsafe_cast(self.get("sourceSQL"))
 }
 
 ///|

@@ -176,7 +176,7 @@ pub fn FileReader::set_onload(
   self : Self,
   callback : (Val) -> Unit noraise,
 ) -> Unit {
-  self.to_js().set("onload", @js.unsafe_cast(callback))
+  self.set("onload", @js.unsafe_cast(callback))
 }
 
 ///|
@@ -185,7 +185,7 @@ pub fn FileReader::set_onerror(
   self : Self,
   callback : (Val) -> Unit noraise,
 ) -> Unit {
-  self.to_js().set("onerror", @js.unsafe_cast(callback))
+  self.set("onerror", @js.unsafe_cast(callback))
 }
 
 ///|
@@ -194,5 +194,5 @@ pub fn FileReader::set_onloadend(
   self : Self,
   callback : (Val) -> Unit noraise,
 ) -> Unit {
-  self.to_js().set("onloadend", @js.unsafe_cast(callback))
+  self.set("onloadend", @js.unsafe_cast(callback))
 }

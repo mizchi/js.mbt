@@ -41,7 +41,7 @@ test "node:sqlite aggregate" {
     #|INSERT INTO t3 VALUES ('a', 4), ('b', 5);
   database.exec(query)
   let _ = database.aggregate("sumint", start=0, step=(acc, value) => acc + value)
-  let result = database.prepare("SELECT sumint(y) as total FROM t3").get() // { total: 9 }
+  let result = database.prepare("SELECT sumint(y) as total FROM t3").get_() // { total: 9 }
   guard result is Some(r)
   inspect(
     r |> @js.json_stringify,
@@ -93,10 +93,10 @@ test "sqlite get single row" {
   database.exec("CREATE TABLE settings(key TEXT PRIMARY KEY, value TEXT)")
   database.exec("INSERT INTO settings VALUES ('theme', 'dark'), ('lang', 'en')")
   let stmt = database.prepare("SELECT value FROM settings WHERE key = ?")
-  let result = stmt.get(anonymous_parameters=[@js.js("theme")])
+  let result = stmt.get_(anonymous_parameters=[@js.js("theme")])
   guard result is Some(row)
   assert_eq(unsafe_cast(row.get("value")), "dark")
-  let no_result = stmt.get(anonymous_parameters=[@js.js("nonexistent")])
+  let no_result = stmt.get_(anonymous_parameters=[@js.js("nonexistent")])
   assert_eq(no_result, None)
 }
 
@@ -179,7 +179,7 @@ test "sqlite session and changeset" {
   let changeset = session.changeset()
   assert_true(changeset.byte_length() > 0)
   target_db.applyChangeset(changeset) |> ignore
-  let result = target_db.prepare("SELECT COUNT(*) as count FROM data").get()
+  let result = target_db.prepare("SELECT COUNT(*) as count FROM data").get_()
   guard result is Some(row)
   assert_eq(unsafe_cast(row.get("count")), 2)
   session.close()
@@ -232,7 +232,7 @@ test "sqlite type-safe anonymous parameters" {
   let get_stmt = database.prepare(
     "SELECT name, price FROM products WHERE id = ?",
   )
-  let result = get_stmt.get(anonymous_parameters=[2])
+  let result = get_stmt.get_(anonymous_parameters=[2])
   guard result is Some(row)
   assert_eq(unsafe_cast(row.get("name")), "Banana")
   assert_eq(unsafe_cast(row.get("price")), 0.8)
@@ -263,7 +263,7 @@ test "sqlite with readBigInts option" {
   database.exec("CREATE TABLE big_numbers(value INTEGER)")
   database.exec("INSERT INTO big_numbers VALUES (9007199254740991)")
   let stmt = database.prepare("SELECT value FROM big_numbers")
-  let result = stmt.get()
+  let result = stmt.get_()
   guard result is Some(row)
   // BigInt is represented as Val
   assert_true(row.get("value").is_some())
@@ -367,7 +367,7 @@ test "sqlite get with complex named parameters" {
   let stmt = database.prepare(
     "SELECT * FROM employees WHERE department = :dept AND salary > :minSalary",
   )
-  let result = stmt.get(named_parameters={
+  let result = stmt.get_(named_parameters={
     "dept": "Engineering",
     "minSalary": 52000.0,
   })
@@ -385,7 +385,7 @@ test "sqlite empty parameters" {
   // Test with no parameters
   let results = stmt.all()
   assert_eq(results.length(), 1)
-  let result = stmt.get()
+  let result = stmt.get_()
   guard result is Some(row)
   assert_eq(unsafe_cast(row.get("value")), "test")
 }
@@ -443,7 +443,7 @@ test "sqlite multiple queries with same statement" {
     insert.run(anonymous_parameters=[i * 10]) |> ignore
   }
   let select = database.prepare("SELECT SUM(count) as total FROM counter")
-  let result = select.get()
+  let result = select.get_()
   guard result is Some(row)
   assert_eq(unsafe_cast(row.get("total")), 150)
 }
@@ -461,7 +461,7 @@ test "sqlite update with type-safe parameters" {
   let result = update.run(anonymous_parameters=[5, "apple"])
   assert_eq(result.changes, 1)
   let select = database.prepare("SELECT quantity FROM inventory WHERE item = ?")
-  let row_result = select.get(anonymous_parameters=["apple"])
+  let row_result = select.get_(anonymous_parameters=["apple"])
   guard row_result is Some(row)
   assert_eq(unsafe_cast(row.get("quantity")), 15)
 }
@@ -478,7 +478,7 @@ test "sqlite delete with named parameters" {
   let delete = database.prepare("DELETE FROM todos WHERE done = :completed")
   let result = delete.run(named_parameters={ "completed": 1 })
   assert_eq(result.changes, 2)
-  let count = database.prepare("SELECT COUNT(*) as cnt FROM todos").get()
+  let count = database.prepare("SELECT COUNT(*) as cnt FROM todos").get_()
   guard count is Some(row)
   assert_eq(unsafe_cast(row.get("cnt")), 1)
 }
@@ -490,7 +490,7 @@ test "sqlite null handling" {
   let insert = database.prepare("INSERT INTO nullable (id) VALUES (?)")
   insert.run(anonymous_parameters=[1]) |> ignore
   let select = database.prepare("SELECT * FROM nullable WHERE id = ?")
-  let result = select.get(anonymous_parameters=[1])
+  let result = select.get_(anonymous_parameters=[1])
   guard result is Some(row)
   assert_true(row.get("value") |> @js.is_null())
 }
@@ -508,10 +508,10 @@ test "sqlite transaction with type-safe parameters" {
   update.run(anonymous_parameters=[30.0, 2]) |> ignore
   database.exec("COMMIT")
   let select = database.prepare("SELECT balance FROM accounts WHERE id = ?")
-  let result1 = select.get(anonymous_parameters=[1])
+  let result1 = select.get_(anonymous_parameters=[1])
   guard result1 is Some(row1)
   assert_eq(unsafe_cast(row1.get("balance")), 70.0)
-  let result2 = select.get(anonymous_parameters=[2])
+  let result2 = select.get_(anonymous_parameters=[2])
   guard result2 is Some(row2)
   assert_eq(unsafe_cast(row2.get("balance")), 80.0)
 }

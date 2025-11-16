@@ -45,9 +45,7 @@ pub impl Show for JsError with output(self, logger) {
 }
 
 ///|
-pub impl Js for JsError with to_js(self) {
-  self.to_js()
-}
+pub impl Js for JsError
 
 ///|
 impl Js for ErrorObject
@@ -64,12 +62,12 @@ impl Show for ErrorObject with to_string(self) {
 
 ///|
 pub fn ErrorObject::message(self : Self) -> String {
-  unsafe_cast(self.to_js().get("message"))
+  unsafe_cast(self.get("message"))
 }
 
 ///|
 pub fn ErrorObject::stack(self : Self) -> String {
-  unsafe_cast(self.to_js().get("stack"))
+  unsafe_cast(self.get("stack"))
 }
 
 ///|

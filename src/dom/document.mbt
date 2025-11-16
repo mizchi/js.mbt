@@ -162,7 +162,7 @@ pub fn Document::title(self : Self) -> String {
 ///|
 /// Sets the document's title
 pub fn Document::set_title(self : Self, title : String) -> Unit {
-  self.to_js().set("title", title |> js) |> ignore
+  self.set("title", title |> js) |> ignore
 }
 
 ///|

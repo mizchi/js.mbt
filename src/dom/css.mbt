@@ -74,7 +74,7 @@ pub fn CSSStyleDeclaration::css_text(self : Self) -> String {
 ///|
 /// Sets the CSS text
 pub fn CSSStyleDeclaration::set_css_text(self : Self, text : String) -> Unit {
-  self.to_js().set("cssText", text |> js) |> ignore
+  self.set("cssText", text |> js) |> ignore
 }
 
 ///|
@@ -107,7 +107,7 @@ pub fn CSSRule::css_text(self : Self) -> String {
 ///|
 /// Sets the CSS text of the rule
 pub fn CSSRule::set_css_text(self : Self, text : String) -> Unit {
-  self.to_js().set("cssText", text |> js) |> ignore
+  self.set("cssText", text |> js) |> ignore
 }
 
 ///|

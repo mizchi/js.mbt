@@ -55,7 +55,7 @@ pub fn ShadowRoot::inner_html(self : Self) -> String {
 ///|
 /// Sets the inner HTML of the shadow root
 pub fn ShadowRoot::set_inner_html(self : Self, html : String) -> Unit {
-  self.to_js().set("innerHTML", html)
+  self.set("innerHTML", html)
 }
 
 ///|

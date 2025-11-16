@@ -139,7 +139,7 @@ impl NodeImpl with text_content(self) -> String {
 
 ///|
 impl NodeImpl with set_text_content(self, content) -> Unit {
-  self.to_js().set("textContent", content)
+  self.set("textContent", content)
 }
 
 ///|
@@ -172,7 +172,7 @@ impl ElementImpl with class_name(self) -> String {
 
 ///|
 impl ElementImpl with set_class_name(self, class_name) -> Unit {
-  self.to_js().set("className", class_name)
+  self.set("className", class_name)
 }
 
 ///|
@@ -182,7 +182,7 @@ impl ElementImpl with id(self) -> String {
 
 ///|
 impl ElementImpl with set_id(self, id) -> Unit {
-  self.to_js().set("id", id)
+  self.set("id", id)
 }
 
 ///|
@@ -253,7 +253,7 @@ impl HTMLElementImpl with inner_text(self) -> String {
 
 ///|
 impl HTMLElementImpl with set_inner_text(self, text) -> Unit {
-  self.to_js().set("innerText", text)
+  self.set("innerText", text)
 }
 
 ///|
@@ -263,7 +263,7 @@ impl HTMLElementImpl with inner_html(self) -> String {
 
 ///|
 impl HTMLElementImpl with set_inner_html(self, html) -> Unit {
-  self.to_js().set("innerHTML", html)
+  self.set("innerHTML", html)
 }
 
 ///|
@@ -273,7 +273,7 @@ impl HTMLElementImpl with outer_html(self) -> String {
 
 ///|
 impl HTMLElementImpl with set_outer_html(self, html) -> Unit {
-  self.to_js().set("outerHTML", html)
+  self.set("outerHTML", html)
 }
 
 ///|
@@ -370,7 +370,7 @@ pub fn HTMLCanvasElement::width(self : Self) -> Int {
 
 ///|
 pub fn HTMLCanvasElement::set_width(self : Self, value : Int) -> Unit {
-  self.to_js().set("width", value)
+  self.set("width", value)
 }
 
 ///|
@@ -380,7 +380,7 @@ pub fn HTMLCanvasElement::height(self : Self) -> Int {
 
 ///|
 pub fn HTMLCanvasElement::set_height(self : Self, value : Int) -> Unit {
-  self.to_js().set("height", value)
+  self.set("height", value)
 }
 
 ///|
@@ -536,7 +536,7 @@ pub fn HTMLAnchorElement::target(self : Self) -> String {
 ///|
 /// Sets the target attribute
 pub fn HTMLAnchorElement::set_target(self : Self, target : String) -> Unit {
-  self.to_js().set("target", target)
+  self.set("target", target)
 }
 
 ///|
@@ -713,7 +713,7 @@ pub fn HTMLTextAreaElement::disabled(self : Self) -> Bool {
 ///|
 /// Sets whether the textarea is disabled
 pub fn HTMLTextAreaElement::set_disabled(self : Self, disabled : Bool) -> Unit {
-  self.to_js().set("disabled", disabled)
+  self.set("disabled", disabled)
 }
 
 ///|
@@ -726,7 +726,7 @@ pub fn HTMLTextAreaElement::rows(self : Self) -> Int {
 ///|
 /// Sets the number of visible text lines
 pub fn HTMLTextAreaElement::set_rows(self : Self, rows : Int) -> Unit {
-  self.to_js().set("rows", rows)
+  self.set("rows", rows)
 }
 
 ///|

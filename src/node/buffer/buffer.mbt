@@ -293,24 +293,24 @@ pub fn Buffer::lastIndexOf(
 }
 
 ///|
-extern "js" fn ffi_get_index(obj : Val, index : Int) -> Val =
-  #|(obj, i) => obj[i]
+// extern "js" fn ffi_get_index(obj : Val, index : Int) -> Val =
+//   #|(obj, i) => obj[i]
 
-///|
-extern "js" fn ffi_set_index(obj : Val, index : Int, value : Val) -> Unit =
-  #|(obj, i, v) => { obj[i] = v }
+// ///|
+// extern "js" fn ffi_set_index(obj : Val, index : Int, value : Val) -> Unit =
+//   #|(obj, i, v) => { obj[i] = v }
 
 ///|
 /// Get a byte at a specific index
-pub fn Buffer::get(self : Self, index : Int) -> Int {
-  ffi_get_index(self.to_js(), index) |> unsafe_cast
-}
+// pub fn Buffer::get(self : Self, index : Int) -> Int {
+//   ffi_get_index(self.to_js(), index) |> unsafe_cast
+// }
 
-///|
-/// Set a byte at a specific index
-pub fn Buffer::set(self : Self, index : Int, value : Int) -> Unit {
-  ffi_set_index(self.to_js(), index, js(value))
-}
+// ///|
+// /// Set a byte at a specific index
+// pub fn Buffer::set(self : Self, index : Int, value : Int) -> Unit {
+//   ffi_set_index(self.to_js(), index, js(value))
+// }
 
 ///|
 /// Get the underlying ArrayBuffer
