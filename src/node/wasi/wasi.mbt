@@ -1,12 +1,18 @@
 // https://nodejs.org/api/wasi.html
 // WebAssembly System Interface (WASI) API
 
-///| WASI Module
+///|
+/// WASI Module
+#external
+pub type WASI
+
+///|
+pub impl Js for WASI
 
 ///|
 /// Get wasi module
-fn wasi_module() -> Val {
-  @node.require("node:wasi")
+fn wasi_module() -> WASI {
+  @node.require("node:wasi") |> unsafe_cast
 }
 
 ///| WASI Options
@@ -21,7 +27,7 @@ pub(all) struct WasiOptions {
   /// Maps virtual directories to real host paths
   preopens : Map[String, String]?
   /// When true, start() returns the exit code instead of terminating the process
-  return_on_exit : Bool?
+  returnOnExit : Bool?
   /// File descriptor for standard input
   stdin : Int?
   /// File descriptor for standard output
@@ -67,7 +73,7 @@ fn WasiOptions::to_js(self : WasiOptions) -> Val {
   }
 
   // Set optional return_on_exit
-  match self.return_on_exit {
+  match self.returnOnExit {
     Some(value) => options.set("returnOnExit", value)
     None => ()
   }
@@ -92,47 +98,49 @@ fn WasiOptions::to_js(self : WasiOptions) -> Val {
   options.to_js()
 }
 
-///| WASI Class
-
-///|
-/// WASI class wrapper
-pub struct WASI {
-  instance : Val
-}
-
 ///|
 extern "js" fn ffi_new_wasi(wasi_class : Val, options : Val) -> Val =
   #| (WasiClass, options) => new WasiClass(options)
 
 ///|
+#external
+pub type WasiInstance
+
+///|
+pub impl Js for WasiInstance
+
+///|
 /// Create a new WASI instance
-pub fn WASI::new(options : WasiOptions) -> WASI {
+pub fn WasiInstance::new(options : WasiOptions) -> WasiInstance {
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.get("WASI")
   let instance = ffi_new_wasi(wasi_class, options.to_js())
-  { instance, }
+  instance |> unsafe_cast
 }
 
 ///|
 /// Get import object for WebAssembly.instantiate()
-pub fn WASI::get_import_object(self : WASI) -> Val {
-  self.instance.invoke("getImportObject", [])
+pub fn WasiInstance::getImportObject(self : Self) -> Val {
+  self.invoke("getImportObject", [])
 }
 
 ///|
 /// Start a WASI command by invoking _start() export
-pub fn WASI::start(self : WASI, instance : WebAssemblyInstance) -> Unit {
-  self.instance.invoke("start", [instance.to_js()]) |> ignore
+pub fn WasiInstance::start(self : Self, instance : WebAssemblyInstance) -> Unit {
+  self.invoke("start", [instance.to_js()]) |> ignore
 }
 
 ///|
 /// Initialize a WASI reactor by invoking _initialize() export
-pub fn WASI::initialize(self : WASI, instance : WebAssemblyInstance) -> Unit {
-  self.instance.invoke("initialize", [instance.to_js()]) |> ignore
+pub fn WasiInstance::initialize(
+  self : WasiInstance,
+  instance : WebAssemblyInstance,
+) -> Unit {
+  self.invoke("initialize", [instance.to_js()]) |> ignore
 }
 
 ///|
 /// Get the wasiImport property
-pub fn WASI::wasi_import(self : WASI) -> Val {
-  self.instance.get("wasiImport")
+pub fn WasiInstance::wasiImport(self : Self) -> Val {
+  self.get("wasiImport")
 }

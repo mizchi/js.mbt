@@ -47,28 +47,41 @@ pub fn NodeTest::it(
 }
 
 ///|
-pub fn NodeTest::beforeEach(self : Self, f : async () -> Unit) -> Unit noraise {
+// pub fn NodeTest::beforeEach(self : Self, f : async () -> Unit) -> Unit noraise {
+//   self.invoke("beforeEach", [f |> promisify0 |> @js.from_fn0]) |> ignore
+// }
+
+///|
+pub fn NodeTest::afterEach(self : Self, f : async () -> Unit) -> Unit noraise {
   let af = promisify0(f)
-  self.invoke("beforeEach", [js(af)]) |> ignore
+  self.invoke("afterEach", [@js.from_fn0(af)]) |> ignore
 }
 
 ///|
 pub fn it(
   name : String,
   skip? : String,
-  op : async (TestContext) -> Unit,
+  f : async (TestContext) -> Unit,
 ) -> Unit {
-  run_async(async fn() noraise {
-    let t = NodeTest::require()
-    t.it(name, skip?, ctx => op(ctx))
-  })
+  let args : Array[&Js] = if skip is Some(skip) {
+    let arg : Json = { "skip": skip }
+    [name, arg, promisify1(f) |> @js.from_fn1]
+  } else {
+    [name, promisify1(f) |> @js.from_fn1]
+  }
+  NodeTest::require().invoke("it", args) |> ignore
 }
 
 ///|
 #alias(before_each)
-pub fn beforeEach(op : async () -> Unit) -> Unit {
-  run_async(async fn() noraise {
-    let t = NodeTest::require()
-    t.beforeEach(() => op())
-  })
+pub fn beforeEach(f : async () -> Unit) -> Unit {
+  NodeTest::require().invoke("beforeEach", [f |> promisify0 |> @js.from_fn0])
+  |> ignore
+}
+
+///|
+#alias(after_each)
+pub fn afterEach(f : async () -> Unit) -> Unit {
+  NodeTest::require().invoke("afterEach", [f |> promisify0 |> @js.from_fn0])
+  |> ignore
 }

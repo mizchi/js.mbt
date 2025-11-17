@@ -91,6 +91,18 @@ pub(all) struct Resolvers[T] {
 }
 
 ///|
+/// JS: resolver.resolve(value)
+pub fn[T] Resolvers::resolve(self : Self[T], value : T) -> Unit {
+  (self.resolve)(value)
+}
+
+///|
+/// JS: resolver.reject(error)
+pub fn[T] Resolvers::reject(self : Self[T], error : Error) -> Unit {
+  (self.reject)(error)
+}
+
+///|
 /// JS: Promise.withResolvers()
 pub fn[T] Promise::withResolvers() -> Resolvers[T] {
   ffi_promise_with_resolvers() |> unsafe_cast

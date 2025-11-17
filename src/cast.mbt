@@ -137,6 +137,9 @@ pub impl Js for Bool
 pub impl Js for UInt
 
 ///|
+pub impl Js for Unit
+
+///|
 /// Convert an Array of Js-implementing types to a JavaScript array.
 pub impl Js for Array[&Js] with to_js(self) -> Val {
   from_array(self)
