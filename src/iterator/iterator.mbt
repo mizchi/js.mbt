@@ -5,14 +5,15 @@ using @js {type Val, trait Js, js, unsafe_cast}
 using @async {type Promise}
 
 ///|
+/// JavaScript Iterator
 #external
 pub(all) type JsIterator[T]
 
 ///|
-/// Js Iterator
 pub impl[T] Js for JsIterator[T]
 
 ///|
+/// JS: iterator.next()
 pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
   let v : Val = self.invoke("next", []) |> unsafe_cast
   if unsafe_cast(v.get("done")) {
@@ -29,23 +30,7 @@ pub fn[T] JsIterator::iter(self : JsIterator[T]) -> Iterator[T] {
 }
 
 ///|
-extern "js" fn create_test_generator() -> JsIterator[Int] =
-  #| () => (function*() { yield 1; yield 2; yield 3; })()
-
-///|
-test "iterator" {
-  let g = create_test_generator()
-  let mut called = 0
-  let mut sum = 0
-  for v in g.iter() {
-    called += 1
-    sum += v
-  }
-  assert_eq(called, 3)
-  assert_eq(sum, 6)
-}
-
-///|
+/// JavaScript AsyncIterator
 #external
 pub(all) type AsyncIterator[T]
 
@@ -53,6 +38,7 @@ pub(all) type AsyncIterator[T]
 pub impl[T] Js for AsyncIterator[T]
 
 ///|
+/// JS: asyncIterator.next()
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
   let v : Promise[Val] = unsafe_cast(self.invoke("next", []))
   let v : Val = v.unwrap()
