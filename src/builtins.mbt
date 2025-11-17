@@ -74,12 +74,12 @@ pub impl ToJson for Val with to_json(self) -> Json {
 ///|
 pub impl Js for Json with to_js(self) -> Val {
   match self {
-    Json::Null => null_()
-    Json::String(s) => js(s)
-    Json::Number(n, ..) => js(n)
-    Json::True => js(true)
-    Json::False => js(false)
-    Json::Object(o) => {
+    Null => null_()
+    String(s) => js(s)
+    Number(n, ..) => js(n)
+    True => js(true)
+    False => js(false)
+    Object(o) => {
       let obj = Object::new()
       for k, v in o {
         let v : Val = Js::to_js(v)
@@ -87,7 +87,7 @@ pub impl Js for Json with to_js(self) -> Val {
       }
       obj.to_js()
     }
-    Json::Array(a) => {
+    Array(a) => {
       let arr = JsArray::new()
       for v in a {
         let v : Val = Js::to_js(v)
@@ -96,4 +96,10 @@ pub impl Js for Json with to_js(self) -> Val {
       arr.to_js()
     }
   }
+}
+
+///|
+pub fn[T] is_builtin_trait(v : T) -> Bool {
+  let v : Val = v |> unsafe_cast
+  v.has_own_property("self") && v.has_own_property("method_0")
 }

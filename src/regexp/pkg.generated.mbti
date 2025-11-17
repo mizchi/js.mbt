@@ -8,15 +8,15 @@ package "mizchi/js/regexp"
 // Types and methods
 #external
 pub type RegExp
-fn RegExp::dot_all(Self) -> Bool
+fn RegExp::dotAll(Self) -> Bool
 fn RegExp::exec(Self, String) -> RegExpResult?
 fn RegExp::flags(Self) -> String
 fn RegExp::global(Self) -> Bool
-fn RegExp::has_indices(Self) -> Bool
+fn RegExp::hasIndices(Self) -> Bool
 fn RegExp::ignore_case(Self) -> Bool
-fn RegExp::last_index(Self) -> Int
+fn RegExp::lastIndex(Self) -> Int
+fn RegExp::matchAll(Self, String) -> Array[RegExpMatchArray]
 fn RegExp::match_(Self, String) -> RegExpMatchArray?
-fn RegExp::match_all(Self, String) -> Array[RegExpMatchArray]
 fn RegExp::multiline(Self) -> Bool
 fn RegExp::new(String, flags? : String) -> Self
 fn RegExp::replace(Self, String, String) -> String
@@ -43,7 +43,7 @@ pub struct RegExpResult {
   full : String
   input : String
   index : Int
-  last_index : Int
+  lastIndex : Int
   groups : Map[String, String]?
 }
 

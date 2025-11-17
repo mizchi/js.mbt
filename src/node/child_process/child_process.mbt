@@ -138,13 +138,13 @@ pub fn ChildProcess::killed(self : Self) -> Bool {
 
 ///|
 /// The exit code of the child process, or null if still running
-pub fn ChildProcess::exit_code(self : Self) -> Int? {
+pub fn ChildProcess::exitCode(self : Self) -> Int? {
   self.get("exitCode") |> to_option()
 }
 
 ///|
 /// The signal that terminated the child process, or null
-pub fn ChildProcess::signal_code(self : Self) -> String? {
+pub fn ChildProcess::signalCode(self : Self) -> String? {
   self.get("signalCode") |> to_option()
 }
 

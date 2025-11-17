@@ -8,8 +8,8 @@ pub(open) trait EventEmitterImpl: Js {
   on2(Self, String, (Val, Val) -> Unit) -> Unit = _
   once(Self, String, (Val) -> Unit) -> Unit = _
   off(Self, String, (Val) -> Unit) -> Unit = _
-  remove_listener(Self, String, (Val) -> Unit) -> Unit = _
-  remove_all_listeners(Self, String?) -> Unit = _
+  removeListener(Self, String, (Val) -> Unit) -> Unit = _
+  removeAllListeners(Self, String?) -> Unit = _
   emit(Self, String, Val) -> Unit = _
 }
 
@@ -39,7 +39,7 @@ impl EventEmitterImpl with off(self, name : String, callback : (Val) -> Unit) ->
 }
 
 ///|
-impl EventEmitterImpl with remove_listener(
+impl EventEmitterImpl with removeListener(
   self,
   name : String,
   callback : (Val) -> Unit,
@@ -49,7 +49,7 @@ impl EventEmitterImpl with remove_listener(
 
 ///|
 /// implement remove_all_listeners
-impl EventEmitterImpl with remove_all_listeners(self, name : String?) -> Unit {
+impl EventEmitterImpl with removeAllListeners(self, name : String?) -> Unit {
   match name {
     Some(n) => self.invoke("removeAllListeners", [n]) |> unsafe_cast
     None => self.invoke("removeAllListeners", []) |> unsafe_cast
@@ -69,9 +69,7 @@ pub type EventEmitter
 ///|
 pub impl Js for EventEmitter
 
-///|
-/// Create a new standalone EventEmitter instance
-pub fn new_event_emitter() -> EventEmitter {
+pub fn EventEmitter::new() -> EventEmitter {
   let ee = @node.require("events").get("EventEmitter")
   unsafe_cast(@js.new_(ee, []))
 }

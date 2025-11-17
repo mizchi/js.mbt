@@ -7,12 +7,6 @@ test "json::to_js" {
 }
 
 ///|
-fn[T] is_builtin_trait(v : T) -> Bool {
-  let v : Val = v |> unsafe_cast
-  v.has_own_property("self") && v.has_own_property("method_0")
-}
-
-///|
 test "is_builtin_trait" {
   let show : &Show = "hello"
   assert_true(is_builtin_trait(show))

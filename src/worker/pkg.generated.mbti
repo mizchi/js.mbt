@@ -37,9 +37,9 @@ impl Show for MessagePort
 
 #external
 pub type Worker
-fn Worker::new(String, is_module? : Bool) -> Self
-#alias(postMessage)
-fn Worker::post_message(Self, &@js.Js) -> Unit
+fn Worker::new(String, type_? : String) -> Self
+#alias(post_message)
+fn Worker::postMessage(Self, &@js.Js) -> Unit
 fn Worker::post_message_with_transfer(Self, &@js.Js, Array[@js.Val]) -> Unit
 fn Worker::terminate(Self) -> Unit
 impl @js.EventTarget for Worker

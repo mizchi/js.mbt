@@ -15,7 +15,7 @@ pub struct RegExpResult {
   full : String
   input : String
   index : Int
-  last_index : Int
+  lastIndex : Int
   groups : Map[String, String]?
 }
 
@@ -235,7 +235,7 @@ pub fn RegExp::unicode(self : RegExp) -> Bool {
 ///
 /// JavaScript API: `RegExp.prototype.dotAll`
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/dotAll
-pub fn RegExp::dot_all(self : RegExp) -> Bool {
+pub fn RegExp::dotAll(self : RegExp) -> Bool {
   RegExp::ffi_regexp_dot_all(self)
 }
 
@@ -244,7 +244,7 @@ pub fn RegExp::dot_all(self : RegExp) -> Bool {
 ///
 /// JavaScript API: `RegExp.prototype.hasIndices`
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/hasIndices
-pub fn RegExp::has_indices(self : RegExp) -> Bool {
+pub fn RegExp::hasIndices(self : RegExp) -> Bool {
   RegExp::ffi_regexp_has_indices(self)
 }
 
@@ -253,7 +253,7 @@ pub fn RegExp::has_indices(self : RegExp) -> Bool {
 ///
 /// JavaScript API: `RegExp.prototype.lastIndex` (getter)
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/lastIndex
-pub fn RegExp::last_index(self : RegExp) -> Int {
+pub fn RegExp::lastIndex(self : RegExp) -> Int {
   RegExp::ffi_regexp_get_last_index(self)
 }
 
@@ -308,7 +308,7 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
     }
     Some(g)
   }
-  { full, input, index, last_index, groups } |> Some
+  { full, input, index, lastIndex: last_index, groups } |> Some
 }
 
 ///|
@@ -367,7 +367,7 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
 ///
 /// JavaScript API: `String.prototype.matchAll()`
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll
-pub fn RegExp::match_all(
+pub fn RegExp::matchAll(
   self : RegExp,
   string : String,
 ) -> Array[RegExpMatchArray] {

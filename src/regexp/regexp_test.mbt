@@ -40,9 +40,9 @@ test "RegExp properties" {
 ///|
 test "RegExp.lastIndex" {
   let re = RegExp::new("test", flags="g")
-  assert_eq(re.last_index(), 0)
+  assert_eq(re.lastIndex(), 0)
   re.set_last_index(5)
-  assert_eq(re.last_index(), 5)
+  assert_eq(re.lastIndex(), 5)
 }
 
 ///|
@@ -64,7 +64,7 @@ test "RegExp.match_" {
 ///|
 test "RegExp.match_all" {
   let re = RegExp::new("test\\d", flags="g")
-  let results = re.match_all("test1 test2 test3")
+  let results = re.matchAll("test1 test2 test3")
   assert_eq(results.length(), 3)
   assert_eq(results[0].matches[0], "test1")
   assert_eq(results[1].matches[0], "test2")

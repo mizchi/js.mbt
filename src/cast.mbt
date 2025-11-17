@@ -12,14 +12,6 @@
 /// - Arrays become JS arrays
 /// - Functions become JS functions
 ///
-/// # Parameters
-///
-/// - `v`: The MoonBit value to convert
-///
-/// # Returns
-///
-/// A Val representing the JavaScript value
-///
 /// # Example
 ///
 /// ```moonbit
@@ -29,20 +21,10 @@
 /// let arr = js([1, 2, 3])     // Array -> Val
 /// ```
 ///
-/// # Note
-///
-/// For type-safe conversion, prefer using the `Js` trait via `to_js()`.
-// pub fn[T : Js] js(v : T) -> Val {
-//   unsafe_cast(v.to_js())
-// }
 #deprecated
 pub fn[T] js(v : T) -> Val {
   unsafe_cast(v)
 }
-
-///|
-/// Safely convert a MoonBit value that implements the Js trait to a JavaScript Val.
-// pub fn[T : Js] js_safe(v : T) -> Val = "%identity"
 
 ///|
 /// Unsafely cast a value from one type to another.
@@ -67,16 +49,6 @@ pub fn[T : Js] from_array(v : Array[T]) -> Val {
 ///|
 /// Convert a MoonBit Map to a JavaScript object.
 ///
-/// Each key-value pair in the map becomes a property on the resulting object.
-///
-/// # Parameters
-///
-/// - `map`: A MoonBit Map with String keys and Val values
-///
-/// # Returns
-///
-/// A JavaScript object with the same properties
-///
 /// # Example
 ///
 /// ```moonbit
@@ -94,21 +66,25 @@ pub fn from_map(map : Map[String, Val]) -> Val {
 }
 
 ///|
+/// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
 pub fn[R] from_fn0(f : () -> R) -> Val {
   unsafe_cast(f)
 }
 
 ///|
+/// Cast a MoonBit function with 1 argument to a JavaScript function Val.
 pub fn[A, R] from_fn1(f : (A) -> R) -> Val {
   unsafe_cast(f)
 }
 
 ///|
+/// Cast a MoonBit function with 2 arguments to a JavaScript function Val.
 pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Val {
   unsafe_cast(f)
 }
 
 ///|
+/// Cast a MoonBit function with 3 arguments to a JavaScript function Val.
 pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Val {
   unsafe_cast(f)
 }

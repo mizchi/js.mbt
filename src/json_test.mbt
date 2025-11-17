@@ -1,5 +1,5 @@
 ///|
-test "json_stringify" {
+test "JSON::stringify" {
   let arr : Array[Int] = [1] |> unsafe_cast
   arr |> inspect(content="[1]")
   JSON::stringify(arr |> from_array, space=2)

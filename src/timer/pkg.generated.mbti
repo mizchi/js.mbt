@@ -8,7 +8,7 @@ fn clearInterval(JsTimer) -> Unit
 #alias(clear_timeout)
 fn clearTimeout(JsTimer) -> Unit
 
-async fn request_animation_frame(() -> Unit raise) -> Unit noraise
+async fn requestAnimationFrame(() -> Unit raise) -> Unit noraise
 
 #alias(set_interval)
 fn setInterval(() -> Unit, Int) -> JsTimer

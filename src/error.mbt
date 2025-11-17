@@ -37,13 +37,13 @@ extern "js" fn ffi_wrap_sync(
 
 ///|
 /// Wraps a synchronous function call, converting any thrown JS errors into JsError
-/// ```nocheck
-/// let result = wrap(() => {
-///   undefined().call([])
+/// ```moonbit skip
+/// let result = throwable(() => {
+///   undefined().invoke_self([])
 /// })
 /// ```
 pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError {
-  match wrap_result(f |> unsafe_cast) {
+  match throwable_result(f |> unsafe_cast) {
     Ok(result) => result |> unsafe_cast
     Err(e) => {
       if ffi_is_error(e) {
@@ -55,7 +55,7 @@ pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError {
 }
 
 ///|
-fn wrap_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
+fn throwable_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
   ffi_wrap_sync(unsafe_cast(f), Ok(_), Err(_))
 }
 

@@ -47,7 +47,7 @@ pub fn NodeTest::it(
 }
 
 ///|
-pub fn NodeTest::before_each(self : Self, f : async () -> Unit) -> Unit noraise {
+pub fn NodeTest::beforeEach(self : Self, f : async () -> Unit) -> Unit noraise {
   let af = promisify0(f)
   self.invoke("beforeEach", [js(af)]) |> ignore
 }
@@ -69,18 +69,6 @@ pub fn it(
 pub fn beforeEach(op : async () -> Unit) -> Unit {
   run_async(async fn() noraise {
     let t = NodeTest::require()
-    t.before_each(() => op())
+    t.beforeEach(() => op())
   })
-}
-
-///|
-test {
-  beforeEach(() => sleep(1))
-  it("simple test", _ => assert_eq(2 + 2, 4))
-  it("lazy test", _ => {
-    sleep(100)
-    assert_eq(2 + 2, 4)
-  })
-  it("skip test", skip="skip this test", _ => assert_eq(2 + 2, 5))
-  it("todo test", ctx => ctx.todo("this test is todo"))
 }

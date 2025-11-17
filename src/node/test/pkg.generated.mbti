@@ -15,7 +15,7 @@ fn it(String, skip? : String, async (TestContext) -> Unit) -> Unit
 
 // Types and methods
 type NodeTest
-fn NodeTest::before_each(Self, async () -> Unit) -> Unit
+fn NodeTest::beforeEach(Self, async () -> Unit) -> Unit
 fn NodeTest::it(Self, String, async (TestContext) -> Unit, skip? : String) -> Unit
 fn NodeTest::require() -> Self
 

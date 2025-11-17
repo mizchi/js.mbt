@@ -724,3 +724,4 @@ pub(open) trait NodeImpl : @js.Js + EventTargetImpl {
   text_content(Self) -> String = _
   set_text_content(Self, String) -> Unit = _
 }
+

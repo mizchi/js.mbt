@@ -39,8 +39,6 @@ pub fn undefined() -> Val {
 ///|
 /// Get the JavaScript `null` value.
 ///
-/// # Returns
-///
 /// The null value as a Val
 ///
 /// # Example

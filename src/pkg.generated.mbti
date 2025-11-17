@@ -46,6 +46,8 @@ fn[T : Js] instanceof_(T, T) -> Bool
 
 fn[T : Js] is_array(T) -> Bool
 
+fn[T] is_builtin_trait(T) -> Bool
+
 fn[T : Js] is_nan(T) -> Bool
 
 fn[T : Js] is_null(T) -> Bool

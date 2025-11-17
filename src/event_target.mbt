@@ -27,12 +27,12 @@ pub(open) trait EventTarget: Js {
 ///|
 /// Default implementation using JavaScript's addEventListener/removeEventListener
 impl EventTarget with addEventListener(self, event_type, handler) -> Unit {
-  ignore(self.invoke("addEventListener", [event_type, js(handler)]))
+  self.invoke("addEventListener", [event_type, js(handler)]) |> ignore
 }
 
 ///|
 impl EventTarget with removeEventListener(self, event_type, handler) -> Unit {
-  ignore(self.invoke("removeEventListener", [event_type, js(handler)]))
+  self.invoke("removeEventListener", [event_type, js(handler)]) |> ignore
 }
 
 ///|

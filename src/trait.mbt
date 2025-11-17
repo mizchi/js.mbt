@@ -1,18 +1,6 @@
 ///|
 /// Trait for types that can be safely converted to JavaScript values.
 ///
-/// This trait provides a type-safe way to convert MoonBit values to JavaScript
-/// values (Val). Unlike the unsafe `js()` function, implementations of this trait
-/// should ensure the conversion is well-defined and safe.
-///
-/// # Implementations
-///
-/// The trait is implemented for:
-/// - Primitive types: `Int`, `Double`, `Float`, `Bool`, `String`
-/// - `Val` itself (identity conversion)
-/// - `Array[&Js]` (recursively converts elements)
-/// - `Option[T]` where T implements Js (None becomes undefined)
-///
 /// # Example
 ///
 /// ```moonbit
@@ -29,11 +17,6 @@
 /// }
 /// let obj = create_object("Alice", 30)  // Strings and Ints implement Js
 /// ```
-///
-/// # Custom Implementations
-///
-/// You can implement this trait for your own types to control
-/// how they are converted to JavaScript values.
 pub(open) trait Js {
   to_js(Self) -> Val = _
   get(Self, &PropertyKey) -> Val = _

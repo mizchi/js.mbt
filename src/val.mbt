@@ -4,11 +4,6 @@
 /// `Val` is the core type for FFI operations between MoonBit and JavaScript.
 /// It can hold any JavaScript value including primitives, objects, arrays, functions, etc.
 ///
-/// # Safety
-///
-/// This type bypasses MoonBit's type system when converting to/from JavaScript values.
-/// Users must ensure type correctness manually.
-///
 /// # Example
 ///
 /// ```moonbit
@@ -42,20 +37,6 @@ pub impl Eq for Val with equal(self, other) -> Bool {
 
 ///|
 /// Conditionally set a property value if the value exists and is not undefined.
-///
-/// This is useful for optional parameters or conditional property assignment.
-///
-/// # Parameters
-///
-/// - `self`: The object to set the property on
-/// - `key`: The property key
-/// - `value`: Optional value to set
-///
-/// # Behavior
-///
-/// - Does nothing if `value` is `None`
-/// - Does nothing if `value` is `Some(undefined())`
-/// - Sets the property if `value` is `Some(v)` where v is defined
 ///
 /// # Example
 ///
@@ -187,24 +168,4 @@ pub fn Val::is_none(self : Self) -> Bool {
 /// ```
 pub fn new_(cls : Val, args : Array[&Js]) -> Val {
   ffi_new(cls, args.map(_.to_js()))
-}
-
-///|
-/// Log a value to the console (JavaScript console.log).
-///
-/// This is a convenience function for debugging.
-///
-/// # Parameters
-///
-/// - `v`: The value to log (any type)
-///
-/// # Example
-///
-/// ```moonbit skip
-/// log("Hello, World!")
-/// log(42)
-/// log([1, 2, 3])
-/// ```
-pub fn[T] log(v : T) -> Unit {
-  ffi_console_log([v |> unsafe_cast]) |> ignore
 }

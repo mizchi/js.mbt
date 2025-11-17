@@ -32,7 +32,7 @@ fn spawnSync(String, args? : Array[String], cwd? : String, env? : @js.Val, shell
 #external
 pub type ChildProcess
 fn ChildProcess::disconnect(Self) -> Unit
-fn ChildProcess::exit_code(Self) -> Int?
+fn ChildProcess::exitCode(Self) -> Int?
 fn ChildProcess::kill(Self, signal? : String) -> Bool
 fn ChildProcess::killed(Self) -> Bool
 fn ChildProcess::on_close(Self, (Int?, String?) -> Unit) -> Unit
@@ -46,7 +46,7 @@ fn ChildProcess::on_stdout_data(Self, (@js.Val) -> Unit) -> Unit
 fn ChildProcess::pid(Self) -> Int
 fn ChildProcess::ref_(Self) -> Unit
 fn ChildProcess::send(Self, &@js.Js) -> Bool
-fn ChildProcess::signal_code(Self) -> String?
+fn ChildProcess::signalCode(Self) -> String?
 fn ChildProcess::stderr(Self) -> @stream.ReadableStream?
 fn ChildProcess::stdin(Self) -> @stream.WritableStream?
 fn ChildProcess::stdout(Self) -> @stream.ReadableStream?

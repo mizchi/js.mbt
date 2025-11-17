@@ -12,7 +12,7 @@ pub(open) trait Transferable {
 /// cast extern or prebuilt js
 /// ```
 /// fn _worker() -> Unit {
-///   let worker = Worker::new("./worker_script.js", is_module=true)
+///   let worker = Worker::new("./worker_script.js", type_="module")
 ///   // or: extern "js" fn get_my_worker() -> Worker = "() => new Worker('./worker_script.js', { type: 'module' })"
 ///   worker.post_message(@js.from_builtin_json({
 ///     "type": "greeting"
@@ -37,9 +37,9 @@ extern "js" fn ffi_new_worker(script_url : String, option : Val) -> Worker =
   #| (script_url) => new Worker(script_url)
 
 ///|
-pub fn Worker::new(script_url : String, is_module? : Bool = false) -> Worker {
-  let option = if is_module {
-    @js.from_map({ "type": js("module") })
+pub fn Worker::new(script_url : String, type_? : String) -> Worker {
+  let option = if type_ is Some(v) {
+    @js.from_map({ "type": js(v) })
   } else {
     @js.undefined()
   }
@@ -60,8 +60,8 @@ extern "js" fn ffi_worker_post_message(
   #| (worker, message, transfer) => worker.postMessage(message, transfer)
 
 ///|
-#alias(postMessage)
-pub fn Worker::post_message(worker : Worker, message : &Js) -> Unit {
+#alias(post_message)
+pub fn Worker::postMessage(worker : Worker, message : &Js) -> Unit {
   ffi_worker_post_message(worker, message.to_js(), @js.undefined())
 }
 

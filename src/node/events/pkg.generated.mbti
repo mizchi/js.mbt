@@ -6,13 +6,13 @@ import(
 )
 
 // Values
-fn new_event_emitter() -> EventEmitter
 
 // Errors
 
 // Types and methods
 #external
 pub type EventEmitter
+fn EventEmitter::new() -> Self
 impl @js.Js for EventEmitter
 
 // Type aliases
@@ -23,8 +23,8 @@ pub(open) trait EventEmitterImpl : @js.Js {
   on2(Self, String, (@js.Val, @js.Val) -> Unit) -> Unit = _
   once(Self, String, (@js.Val) -> Unit) -> Unit = _
   off(Self, String, (@js.Val) -> Unit) -> Unit = _
-  remove_listener(Self, String, (@js.Val) -> Unit) -> Unit = _
-  remove_all_listeners(Self, String?) -> Unit = _
+  removeListener(Self, String, (@js.Val) -> Unit) -> Unit = _
+  removeAllListeners(Self, String?) -> Unit = _
   emit(Self, String, @js.Val) -> Unit = _
 }
 
