@@ -2,30 +2,27 @@
 using @react {
   type Context,
   type EmptyProps,
-  h,
-  c,
+  createElement,
+  component,
   fragment,
   provider,
-  use_effect,
-  use_state,
-  use_callback,
-  use_context,
-  use_reducer,
-  create_context,
-  init_react,
+  useEffect,
+  useActionState,
+  useState,
+  useCallback,
+  useContext,
+  useReducer,
+  createContext,
 }
 
 ///|
-using @react_dom {init_react_client}
-
-///|
-using @react_router {init_react_router, router_provider}
+using @react_router {router_provider}
 
 ///|
 using @js {log, js, safe_js, unsafe_cast}
 
 ///|
-using @async {type Promise, sleep, run_async}
+using @async {sleep, run_async}
 
 ///|
 using @element {
@@ -59,10 +56,12 @@ struct ItemViewProps {
 }
 
 ///|
-fn item_view(props : ItemViewProps) -> @react.Element {
-  h("div", style={ "padding": "5px", "borderBottom": "1px solid #ccc" }, [
-    props.name,
-  ])
+fn item_component(props : ItemViewProps) -> @react.Element {
+  createElement(
+    "div",
+    style={ "padding": "5px", "borderBottom": "1px solid #ccc" },
+    [props.name],
+  )
 }
 
 ///|
@@ -70,19 +69,19 @@ let myctx : Ref[Context[MyContextProps]?] = { val: None }
 
 ///|
 fn init_myctx() -> Unit {
-  myctx.val = Some(create_context(None))
+  myctx.val = Some(createContext(None))
 }
 
 ///|
 fn use_myctx() -> MyContextProps {
   guard myctx.val is Some(ctx)
-  use_context(ctx)
+  useContext(ctx)
 }
 
 ///|
 fn ctx_consumer(_ : EmptyProps) -> @react.Element {
   let ctx_value = use_myctx()
-  h("div", props={ "className": "context-value" |> safe_js }, [
+  createElement("div", props={ "className": "context-value" |> safe_js }, [
     "Context value: \{ctx_value.v}",
   ])
 }
@@ -94,36 +93,38 @@ enum CounterAction {
 
 ///|
 fn counter(_ : EmptyProps) -> @react.Element {
-  let (count, dispatch) = use_reducer(
+  let (count, dispatch) = useReducer(
     (state : Int, action : CounterAction) => match action {
       CounterAction::Increment => state + 1
     },
     0,
   )
-  let on_click = use_callback(
+  let on_click = useCallback(
     () => {
       dispatch(CounterAction::Increment)
       log("Counter clicked: \{count + 1}")
     },
     [count],
   )
-  h("button", props={ "onClick": on_click |> js }, ["Count: \{count}"])
+  createElement("button", props={ "onClick": on_click |> unsafe_cast }, [
+    "Count: \{count}",
+  ])
 }
 
 ///|
 fn async_counter(_ : EmptyProps) -> @react.Element {
-  let (count, dispatch, is_pending) = @react.use_action_state(
+  let (count, dispatch, is_pending) = useActionState(
     async fn(state : Int, action : CounterAction) -> Int noraise {
       match action {
-        CounterAction::Increment => state + 1
+        Increment => state + 1
       }
     },
     0,
   )
-  let on_click = use_callback(
+  let on_click = useCallback(
     _ => run_async(async fn() noraise {
       sleep(500)
-      @react.start_transition(() => dispatch(CounterAction::Increment))
+      @react.startTransition(() => dispatch(Increment))
     }),
     [count],
   )
@@ -145,17 +146,17 @@ priv struct AppProps {
 
 ///|
 fn app(props : AppProps) -> @react.Element {
-  let (cnt, set_cnt) = use_state(props.x)
-  let textarea_ref : @react.ReactRef[@dom.Element] = @react.use_ref(None)
-  let handler = use_callback(_ => set_cnt(cnt + 1), [cnt])
-  use_effect(
+  let (cnt, set_cnt) = useState(props.x)
+  let textarea_ref : @react.ReactRef[@dom.Element] = @react.useRef(None)
+  let handler = useCallback(_ => set_cnt(cnt + 1), [cnt])
+  useEffect(
     () => {
       log("mounted with x = \{props.x}")
       () => log("unmounted")
     },
     [cnt, textarea_ref],
   )
-  use_effect(
+  useEffect(
     () => {
       run_async(async fn() noraise {
         sleep(300)
@@ -168,10 +169,10 @@ fn app(props : AppProps) -> @react.Element {
     },
     [],
   )
-  let (input_text, set_text) = use_state("")
-  let on_change = use_callback(
-    (e : @dom.ChangeEvent) => {
-      let target : @dom.HTMLTextAreaElement = unsafe_cast(e.target().to_js())
+  let (input_text, set_text) = useState("")
+  let on_change : @dom.ChangeEventHandler = useCallback(
+    ev => {
+      let target : @dom.HTMLTextAreaElement = unsafe_cast(ev.target().to_js())
       let value : String = target.value()
       set_text(value)
       log("Textarea changed: \{value}")
@@ -189,12 +190,12 @@ fn app(props : AppProps) -> @react.Element {
       [
         h2(["Counter: \{cnt}"]),
         "x = \{cnt}",
-        fragment([h("h1", ["xxx"])]),
+        fragment([createElement("h1", ["xxx"])]),
         div(id="textarea-container", [
           textarea(
             id="my-textarea",
             on_change~,
-            attributes={ "rows": js(4), "cols": js(40) },
+            attributes={ "rows": safe_js(4), "cols": safe_js(40) },
             ref_=textarea_ref,
             value=input_text,
             [],
@@ -203,13 +204,15 @@ fn app(props : AppProps) -> @react.Element {
         ]),
         // ]
         ul(
-          props.items.mapi((idx, item) => h("li", key=idx.to_string(), [
-            c(item_view, { name: item }, key=idx.to_string()),
-          ])),
+          props.items.mapi((idx, item) => createElement(
+            "li",
+            key=idx.to_string(),
+            [component(item_component, { name: item }, key=idx.to_string())],
+          )),
         ),
-        c(ctx_consumer, EmptyProps::default()),
-        c(counter, EmptyProps::default()),
-        c(async_counter, EmptyProps::default()),
+        component(ctx_consumer, EmptyProps::default()),
+        component(counter, EmptyProps::default()),
+        component(async_counter, EmptyProps::default()),
         hr(),
         form(
           method_="post",
@@ -246,32 +249,14 @@ fn app(props : AppProps) -> @react.Element {
 
 ///|
 fn main {
-  let doc = @dom.document()
-  let app_root = match doc.query_selector("#app") {
-    Some(el) => el
-    None => {
-      log("Root element #app not found")
-      panic()
-    }
-  }
   // lazy init context
-  run_async(() => {
-    let client = init_react_client() catch {
-      _err => {
-        log("Failed to initialize React.")
-        panic()
-      }
-    }
-    let _ = init_react_router() catch {
-      _err => {
-        log("Failed to initialize React Router.")
-        panic()
-      }
-    }
-    // lazy init context
-    // TODO: use async init later
+  run_async(() => try {
+    @react.init_react_async()
+    @react_router.init_react_router_async()
+    let client = @react_dom.import_react_dom_client().unwrap()
+    guard @dom.document().querySelector("#app") is Some(app_root)
     init_myctx()
-    let index = (_props : @react_router.RouteProps) => c(app, {
+    let index = (_props : @react_router.RouteProps) => component(app, {
       x: 42,
       items: ["Item 1", "Item 2", "Item 3"],
     })
@@ -279,12 +264,14 @@ fn main {
       Component(path="/", component=index),
       Element(
         path="/about",
-        element=h("div", [
+        element=createElement("div", [
           "About page",
           @react_router.link(to="/", ["Go to Top"]),
         ]),
       ),
     ])
     client.create_root(app_root).render(router_provider(routes))
+  } catch {
+    err => log("Error during React initialization: \{err}")
   })
 }

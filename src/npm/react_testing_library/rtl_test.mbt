@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, js, safe_js, unsafe_cast}
+using @js {unsafe_cast}
 
 ///|
 using @react {component}
@@ -20,7 +20,7 @@ fn app(_props : AppProps) -> @react.Element {
 ///|
 test "testing-library/react" {
   @node.require("global-jsdom/register") |> ignore
-  @react.init_react() |> ignore
+  @react.init_react_api(@node.require("react"))
   cleanup()
   render(component(app, AppProps::default()))
   fireEvent().click(screen().getByText("click me"))

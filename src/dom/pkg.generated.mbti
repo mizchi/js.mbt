@@ -658,6 +658,13 @@ impl @js.Js for Window
 impl EventTargetImpl for Window
 
 // Type aliases
+pub type ChangeEventHandler = (ChangeEvent) -> Unit
+
+pub type DragEventHandler = (DragEvent) -> Unit
+
+pub type KeyboardEventHandler = (KeyboardEvent) -> Unit
+
+pub type MouseEventHandler = (MouseEvent) -> Unit
 
 // Traits
 pub(open) trait ElementImpl : @js.Js + NodeImpl {

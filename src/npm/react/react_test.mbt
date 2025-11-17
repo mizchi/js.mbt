@@ -14,7 +14,7 @@ priv struct TestProps {
 
 ///|
 test "React createElement" {
-  init_react()
+  init_react_api(@node.require("react"))
   let el = createElement("div", [])
   assert_eq(unsafe_cast(el.get("type")), "div")
   let with_attrs = createElement(
@@ -37,7 +37,7 @@ test "React createElement" {
 
 ///|
 test "render_to_string" {
-  init_react()
+  init_react_api(@node.require("react"))
   let el = createElement("h1", ["ssr"])
   let s = render_to_string(el)
   assert_eq(s, "<h1>ssr</h1>")

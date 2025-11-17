@@ -6,10 +6,6 @@ import(
 )
 
 // Values
-fn import_(String) -> Promise[@js.Val]
-
-async fn import_async(String) -> @js.Val
-
 fn[R] promisify0(async () -> R) -> () -> Promise[R]
 
 fn[A, R] promisify1(async (A) -> R) -> (A) -> Promise[R]
@@ -33,13 +29,13 @@ fn[A] Promise::all(Array[Self[A]]) -> Self[Array[A]]
 fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
 fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
 fn[A] Promise::new(((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
-fn[A] Promise::race(Array[Self[A]]) -> Self[A]
+fn[T] Promise::race(Array[Self[T]]) -> Self[T]
 fn Promise::reject(@js.Val) -> Self[@js.Val]
 fn[A] Promise::resolve(A) -> Self[A]
 fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
 fn[R] Promise::try_(async () -> R) -> Self[R]
-async fn[A] Promise::unwrap(Self[A]) -> A
-fn[T] Promise::with_resolvers() -> Resolvers[T]
+async fn[T] Promise::unwrap(Self[T]) -> T
+fn[T] Promise::withResolvers() -> Resolvers[T]
 
 pub(all) struct Resolvers[T] {
   promise : Promise[T]

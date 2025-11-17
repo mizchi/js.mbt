@@ -39,6 +39,10 @@ fn[A, B, C, R] from_fn3((A, B, C) -> R) -> Val
 
 fn from_map(Map[String, Val]) -> Val
 
+fn[A, B] from_tuple2((A, B)) -> Val
+
+fn[A, B, C] from_tuple3((A, B, C)) -> Val
+
 #alias(global_this)
 fn globalThis() -> Val
 
@@ -46,7 +50,7 @@ fn[T : Js] instanceof_(T, T) -> Bool
 
 fn[T : Js] is_array(T) -> Bool
 
-fn[T] is_builtin_trait(T) -> Bool
+fn[T : Js] is_builtin_trait(T) -> Bool
 
 fn[T : Js] is_nan(T) -> Bool
 
@@ -67,7 +71,11 @@ fn new_error(String, cause? : JsError) -> JsError
 
 fn null_() -> Val
 
-fn[T : Js] property_is_enumerable(T, String) -> Bool
+fn[T : Js] propertyIsEnumerable(T, String) -> Bool
+
+fn safe_js(&Js) -> Val
+
+fn[O : Js, V : Js] set_if_exists(O, &PropertyKey, V?) -> Unit
 
 fn structured_clone(Val) -> Val
 
@@ -152,7 +160,6 @@ pub type Val
 fn Val::is_none(Self) -> Bool
 #deprecated
 fn Val::is_some(Self) -> Bool
-fn[T : Js] Val::set_if_exists(Self, &PropertyKey, T?) -> Unit
 impl Js for Val
 impl Eq for Val
 impl Show for Val
@@ -176,7 +183,7 @@ pub(open) trait Js {
   invoke_self(Self, Array[&Js]) -> Val = _
   invoke_self_throwable(Self, Array[&Js]) -> Val raise JsThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
-  has_own_property(Self, &PropertyKey) -> Bool = _
+  hasOwnProperty(Self, &PropertyKey) -> Bool = _
 }
 impl Js for Bool
 impl Js for Int
@@ -185,9 +192,9 @@ impl Js for Float
 impl Js for Double
 impl Js for String
 impl[T] Js for T?
-impl[T : Js] Js for Array[T]
+impl Js for Array[&Js]
 impl Js for Json
-impl[T : Js] Js for Map[String, T]
+impl Js for Map[String, &Js]
 
 pub trait PropertyKey {
   to_key(Self) -> Val

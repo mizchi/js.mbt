@@ -1,32 +1,4 @@
 ///|
-pub(all) struct EmptyProps {} derive(Default)
-
-///|
-extern "js" fn ffi_create_element(
-  tag : Val,
-  props : Val,
-  children : Val,
-) -> Val =
-  #|(tag, props, children) => {
-  #|  return __ReactApi.createElement(tag, props, ...children)
-  #|}
-
-///|
-extern "js" fn get_fragment() -> Component[EmptyProps] =
-  #| () => __ReactApi.Fragment
-
-///|
-extern "js" fn get_suspense() -> Val =
-  #| () => __ReactApi.Suspense
-
-///|
-#external
-pub type Component[T]
-
-///|
-pub type ComponentFn[T] = (T) -> Element
-
-///|
 /// React.Element
 #external
 pub type Element
@@ -66,52 +38,4 @@ pub fn createElement(
     val.set("style", style_obj)
   }
   unsafe_cast(ffi_create_element(tag, val.to_js(), children))
-}
-
-///|
-/// render component
-#alias(c)
-pub fn[T] component(
-  tag : ComponentFn[T],
-  props : T,
-  children? : Array[&Js] = [],
-  key? : String,
-) -> Element {
-  let tag = unsafe_cast(tag)
-  let children = @js.from_array(children)
-  let val : Val = props |> unsafe_cast
-  if key is Some(key) {
-    val.set("key", key)
-  }
-  ffi_create_element(tag, val, children) |> unsafe_cast
-}
-
-///|
-pub fn fragment(children : Array[&Js], key? : String) -> Element {
-  let tag = unsafe_cast(get_fragment())
-  let children = @js.from_array(children)
-  let val = @js.Object::new()
-  if key is Some(key) {
-    val.set("key", key)
-  }
-  ffi_create_element(tag, val.to_js(), children) |> unsafe_cast
-}
-
-///|
-pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
-  let tag = get_suspense() |> unsafe_cast
-  let children = @js.from_array(children)
-  let props = @js.from_map({ "fallback": fallback |> unsafe_cast })
-  unsafe_cast(ffi_create_element(tag, props, children))
-}
-
-///|
-pub fn[T] provider(
-  tag : Context[T],
-  children : Array[&Js],
-  value~ : T,
-) -> Element {
-  let children = @js.from_array(children)
-  let props = @js.from_map({ "value": value |> unsafe_cast })
-  unsafe_cast(ffi_create_element(tag |> unsafe_cast, props, children))
 }

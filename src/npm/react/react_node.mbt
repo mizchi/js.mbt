@@ -1,4 +1,6 @@
 ///|
+/// Renderable React node types.
+/// Int, Double, Bool, String, ReactElement
 pub(open) trait ReactNode {
   to_react_node(Self) -> Val
 }
@@ -9,7 +11,7 @@ pub impl ReactNode for String with to_react_node(self) {
 }
 
 ///|
-pub impl ReactNode for @react.Element with to_react_node(self) {
+pub impl ReactNode for Element with to_react_node(self) {
   self |> js
 }
 

@@ -5,14 +5,14 @@ using @js {type Val, trait Js, js, unsafe_cast}
 using @async {type Promise}
 
 ///|
-pub extern "js" fn load_react_router() -> Promise[Val] =
-  #| () => import("react-router")
+extern "js" fn import_react_router() -> Promise[Val] =
+  #|() => import("react-router")
 
 ///|
-pub async fn init_react_router() -> Unit {
-  if @js.is_undefined(@js.global_this().get("__ReactRouterApi")) {
-    let v = load_react_router().unwrap()
-    @js.global_this().set("__ReactRouterApi", v)
+pub async fn init_react_router_async() -> Unit {
+  if @js.is_undefined(@js.globalThis().get("__ReactRouterApi")) {
+    let v = import_react_router().unwrap()
+    @js.globalThis().set("__ReactRouterApi", v)
   }
 }
 

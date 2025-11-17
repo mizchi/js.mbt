@@ -1,4 +1,14 @@
 ///|
+extern "js" fn ffi_create_element(
+  tag : Val,
+  props : Val,
+  children : Val,
+) -> Val =
+  #|(tag, props, children) => {
+  #|  return __ReactApi.createElement(tag, props, ...children)
+  #|}
+
+///|
 extern "js" fn ffi_react_use_state(initial : Val) -> Val =
   #| (initial) => {
   #|   return __ReactApi.useState(initial);
@@ -70,3 +80,11 @@ extern "js" fn ffi_react_use_reducer(reducer : Val, initial : Val) -> Val =
 ///|
 extern "js" fn ffi_react_use(v : Val) -> Val =
   #| (v) => __ReactApi.use(v)
+
+///|
+extern "js" fn get_fragment() -> Component[EmptyProps] =
+  #| () => __ReactApi.Fragment
+
+///|
+extern "js" fn get_suspense() -> Val =
+  #| () => __ReactApi.Suspense

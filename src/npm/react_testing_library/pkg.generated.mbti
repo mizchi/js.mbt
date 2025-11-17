@@ -1,11 +1,38 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/npm/react_testing_library"
 
+import(
+  "mizchi/js"
+  "mizchi/js/npm/react"
+)
+
 // Values
+fn cleanup() -> Unit
+
+#alias(fire_event)
+fn fireEvent() -> FireEvent
+
+fn render(@react.Element) -> Unit
+
+fn screen() -> Screen
 
 // Errors
 
 // Types and methods
+#external
+pub type FireEvent
+fn FireEvent::click(Self, @js.Val) -> Unit
+impl @js.Js for FireEvent
+
+#external
+pub type ReactTestingLibrary
+
+#external
+pub type Screen
+fn Screen::debug(Self) -> Unit
+fn Screen::getByRole(Self, String) -> @js.Val
+fn Screen::getByText(Self, String) -> @js.Val
+impl @js.Js for Screen
 
 // Type aliases
 

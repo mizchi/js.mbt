@@ -2,7 +2,7 @@
 package "mizchi/js/math"
 
 // Values
-fn abs(Double) -> Double
+fn abs(Double) -> Int
 
 fn acos(Double) -> Double
 
@@ -22,9 +22,9 @@ fn floor(Double) -> Int
 
 fn log(Double) -> Double
 
-fn max(Double, Double) -> Double
+fn max(Array[Double]) -> Double
 
-fn min(Double, Double) -> Double
+fn min(Array[Double]) -> Double
 
 fn pow(Double, Double) -> Double
 

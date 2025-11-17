@@ -2,7 +2,7 @@
 using @js {type Val, unsafe_cast, safe_js, js}
 
 ///|
-using @react {type ReactRef, h}
+using @react {type ReactRef, trait ReactNode, h}
 
 ///|
 using @dom {

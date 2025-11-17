@@ -6,37 +6,37 @@ import(
 )
 
 // Values
-fn console_assert(Bool, @js.Val) -> Unit
+fn assert_(Bool, @js.Val) -> Unit
 
-fn console_clear() -> Unit
+fn clear() -> Unit
 
-fn console_count(String) -> Unit
+fn count(String) -> Unit
 
-fn console_count_reset(String) -> Unit
+fn countReset(String) -> Unit
 
-fn console_debug(@js.Val) -> Unit
+fn debug(@js.Val) -> Unit
 
-fn console_dir(@js.Val) -> Unit
+fn dir(@js.Val) -> Unit
 
-fn console_error(@js.Val) -> Unit
+fn error(@js.Val) -> Unit
 
-fn console_group(String) -> Unit
+fn group(String) -> Unit
 
-fn console_group_end() -> Unit
+fn groupEnd() -> Unit
 
-fn console_info(@js.Val) -> Unit
+fn info(@js.Val) -> Unit
 
-fn console_log(@js.Val) -> Unit
+fn log(@js.Val) -> Unit
 
-fn console_table(@js.Val, Array[String]) -> Unit
+fn table(@js.Val, Array[String]) -> Unit
 
-fn console_time(String) -> Unit
+fn time(String) -> Unit
 
-fn console_time_end(String) -> Unit
+fn timeEnd(String) -> Unit
 
-fn console_trace(@js.Val) -> Unit
+fn trace(@js.Val) -> Unit
 
-fn console_warn(@js.Val) -> Unit
+fn warn(@js.Val) -> Unit
 
 // Errors
 

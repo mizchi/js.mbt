@@ -10,5 +10,5 @@
     "mizchi/js/npm/react_dom",
     "mizchi/js/npm/react_router"
   ],
-  "warn-list": "-1"
+  "warn-list": "-1-2"
 }

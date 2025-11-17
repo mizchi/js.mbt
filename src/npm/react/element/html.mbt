@@ -1977,6 +1977,106 @@ pub fn h3(
 }
 
 ///|
+pub fn h4(
+  children : Array[&ReactNode],
+  // shared
+  attributes? : Map[String, Val],
+  id? : String,
+  class? : String,
+  style? : Map[String, String],
+  tab_index? : Int,
+
+  // react
+  ref_? : ReactRef[@dom.Element],
+  key? : String,
+  // event handlers
+  on_click? : MouseEventHandler,
+  on_change? : ChangeEventHandler,
+  on_keydown? : KeyboardEventHandler,
+  on_keyup? : KeyboardEventHandler,
+  on_drag? : DragEventHandler,
+  on_dragstart? : DragEventHandler,
+  on_dragend? : DragEventHandler,
+  on_dragleave? : DragEventHandler,
+  on_dragenter? : DragEventHandler,
+  on_dragover? : DragEventHandler,
+  on_drop? : DragEventHandler,
+) -> @react.Element {
+  common_node(
+    "h3",
+    attributes.unwrap_or({}),
+    id~,
+    class~,
+    style~,
+    tab_index~,
+    ref_~,
+    key~,
+    on_click~,
+    on_change~,
+    on_keydown~,
+    on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
+    children~,
+  )
+}
+
+///|
+pub fn h5(
+  children : Array[&ReactNode],
+  // shared
+  attributes? : Map[String, Val],
+  id? : String,
+  class? : String,
+  style? : Map[String, String],
+  tab_index? : Int,
+
+  // react
+  ref_? : ReactRef[@dom.Element],
+  key? : String,
+  // event handlers
+  on_click? : MouseEventHandler,
+  on_change? : ChangeEventHandler,
+  on_keydown? : KeyboardEventHandler,
+  on_keyup? : KeyboardEventHandler,
+  on_drag? : DragEventHandler,
+  on_dragstart? : DragEventHandler,
+  on_dragend? : DragEventHandler,
+  on_dragleave? : DragEventHandler,
+  on_dragenter? : DragEventHandler,
+  on_dragover? : DragEventHandler,
+  on_drop? : DragEventHandler,
+) -> @react.Element {
+  common_node(
+    "h3",
+    attributes.unwrap_or({}),
+    id~,
+    class~,
+    style~,
+    tab_index~,
+    ref_~,
+    key~,
+    on_click~,
+    on_change~,
+    on_keydown~,
+    on_keyup~,
+    on_drag~,
+    on_dragend~,
+    on_dragenter~,
+    on_dragleave~,
+    on_dragover~,
+    on_dragstart~,
+    on_drop~,
+    children~,
+  )
+}
+
+///|
 pub fn button(
   children : Array[&ReactNode],
   type_? : String,
