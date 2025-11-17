@@ -127,7 +127,7 @@ test "SubtleCrypto generateKey AES-GCM" {
       let subtle = crypto.subtle()
       let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
       let key_usages = ["encrypt", "decrypt"]
-      let key_promise = subtle.generate_key(algorithm, true, key_usages)
+      let key_promise = subtle.generateKey(algorithm, true, key_usages)
       let key = key_promise.unwrap()
       let key_type : String = unsafe_cast(key.get("type"))
       inspect(key_type, content="secret")
@@ -147,7 +147,7 @@ test "SubtleCrypto generateKey HMAC" {
       let subtle = crypto.subtle()
       let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
       let key_usages = ["sign", "verify"]
-      let key_promise = subtle.generate_key(algorithm, true, key_usages)
+      let key_promise = subtle.generateKey(algorithm, true, key_usages)
       let key = key_promise.unwrap()
       let key_type : String = unsafe_cast(key.get("type"))
       inspect(key_type, content="secret")
@@ -169,7 +169,7 @@ test "SubtleCrypto encrypt and decrypt with AES-GCM" {
       let subtle = crypto.subtle()
       let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
       let key_usages = ["encrypt", "decrypt"]
-      let key = subtle.generate_key(algorithm, true, key_usages).unwrap()
+      let key = subtle.generateKey(algorithm, true, key_usages).unwrap()
       let iv = ffi_random_values(12)
       let plaintext = ffi_text_encoder_encode("Secret message")
       let enc_algorithm = ffi_create_aes_gcm_params("AES-GCM", iv)
@@ -195,7 +195,7 @@ test "SubtleCrypto sign and verify with HMAC" {
       let subtle = crypto.subtle()
       let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
       let key_usages = ["sign", "verify"]
-      let key = subtle.generate_key(algorithm, true, key_usages).unwrap()
+      let key = subtle.generateKey(algorithm, true, key_usages).unwrap()
       let data = ffi_text_encoder_encode("Message to sign")
       let signature = subtle.sign(algorithm, key, data).unwrap()
       let is_valid = subtle.verify(algorithm, key, signature, data).unwrap()
@@ -219,11 +219,11 @@ test "SubtleCrypto exportKey and importKey with AES-GCM" {
       let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
       let key_usages = ["encrypt", "decrypt"]
       let original_key = subtle
-        .generate_key(algorithm, true, key_usages)
+        .generateKey(algorithm, true, key_usages)
         .unwrap()
-      let exported = subtle.export_key("raw", original_key).unwrap()
+      let exported = subtle.exportKey("raw", original_key).unwrap()
       let imported_key = subtle
-        .import_key("raw", exported, algorithm, true, key_usages)
+        .importKey("raw", exported, algorithm, true, key_usages)
         .unwrap()
       let key_type : String = unsafe_cast(imported_key.get("type"))
       inspect(key_type, content="secret")

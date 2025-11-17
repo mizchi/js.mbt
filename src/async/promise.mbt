@@ -7,14 +7,6 @@ pub type Promise[T]
 impl[T] Js for Promise[T]
 
 ///|
-pub async fn[T, E : Error] suspend(
-  f : ((T) -> Unit, (E) -> Unit) -> Unit,
-) -> T raise E = "%async.suspend"
-
-///|
-pub fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
-
-///|
 /// js: Promise.new((resolve, reject) => { ... })
 /// ```
 /// let p: Promise[Int] = Promise::new((resolve, reject) => {
@@ -71,7 +63,7 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 
 ///|
 /// Waits for the Promise to be resolved or rejected.
-pub async fn[A] Promise::unwrap(self : Self[A]) -> A {
+pub async fn[T] Promise::unwrap(self : Self[T]) -> T {
   suspend((ok, err) => self
     .invoke("then", [@js.from_fn1(ok)])
     .invoke("catch", [@js.from_fn1(err)])
@@ -86,7 +78,7 @@ pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
 
 ///|
 /// JS: Promise.race(promises)
-pub fn[A] Promise::race(promises : Array[Promise[A]]) -> Promise[A] {
+pub fn[T] Promise::race(promises : Array[Promise[T]]) -> Promise[T] {
   ffi_promise_race(promises |> unsafe_cast) |> unsafe_cast
 }
 
@@ -105,70 +97,7 @@ pub fn[T] Promise::withResolvers() -> Resolvers[T] {
 }
 
 ///|
-pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
-  () => {
-    let { promise, resolve, reject } = Promise::withResolvers()
-    run_async(() => try f() |> resolve catch {
-      e => reject(e)
-    })
-    promise
-  }
-}
-
-///|
-pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
-  a => {
-    let { promise, resolve, reject } = Promise::withResolvers()
-    run_async(() => try f(a) |> resolve catch {
-      e => reject(e)
-    })
-    promise
-  }
-}
-
-///|
-pub fn[A, B, R] promisify2(
-  f : async (A, B) -> R,
-) -> (A, B) -> Promise[R] noraise {
-  (a, b) => {
-    let { promise, resolve, reject } = Promise::withResolvers()
-    run_async(() => try f(a, b) |> resolve catch {
-      e => reject(e)
-    })
-    promise
-  }
-}
-
-///|
-pub fn[A, B, C, R] promisify3(
-  f : async (A, B, C) -> R,
-) -> (A, B, C) -> Promise[R] noraise {
-  (a, b, c) => {
-    let { promise, resolve, reject } = Promise::withResolvers()
-    run_async(() => try f(a, b, c) |> resolve catch {
-      e => reject(e)
-    })
-    promise
-  }
-}
-
-///|
 /// Converts an async raise function to a Promise.
-///
-/// Executes the provided async function and returns a Promise that:
-/// - Resolves with the function's return value if it succeeds
-/// - Rejects with the error if the function raises an error
-///
-/// # Parameters
-///
-/// - `f`: An async function that may raise an error
-///
-/// # Returns
-///
-/// A Promise that represents the result of the async operation
-///
-/// # Example
-///
 /// ```moonbit nocheck
 /// let p = Promise::try_(async fn () { 42 })
 /// // Promise resolves to 42

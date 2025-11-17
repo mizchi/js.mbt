@@ -1,66 +1,82 @@
 ///|
-using @js {type Val, js, unsafe_cast}
+using @js {type Val}
 
 ///|
-pub extern "js" fn console_log(value : Val) -> Unit =
+/// JS: console.log(value)
+pub extern "js" fn log(value : Val) -> Unit =
   #| (value) => console.log(value)
 
 ///|
-pub extern "js" fn console_warn(value : Val) -> Unit =
+/// JS: console.warn(value)
+pub extern "js" fn warn(value : Val) -> Unit =
   #| (value) => console.warn(value)
 
 ///|
-pub extern "js" fn console_error(value : Val) -> Unit =
+/// JS: console.error(value)
+pub extern "js" fn error(value : Val) -> Unit =
   #| (value) => console.error(value)
 
 ///|
-pub extern "js" fn console_info(value : Val) -> Unit =
+/// JS: console.info(value)
+pub extern "js" fn info(value : Val) -> Unit =
   #| (value) => console.info(value)
 
 ///|
-pub extern "js" fn console_debug(value : Val) -> Unit =
+/// JS: console.debug(value)
+pub extern "js" fn debug(value : Val) -> Unit =
   #| (value) => console.debug(value)
 
 ///|
-pub extern "js" fn console_trace(value : Val) -> Unit =
+/// JS: console.trace(value)
+pub extern "js" fn trace(value : Val) -> Unit =
   #| (value) => console.trace(value)
 
 ///|
-pub extern "js" fn console_dir(value : Val) -> Unit =
+/// JS: console.dir(value)
+pub extern "js" fn dir(value : Val) -> Unit =
   #| (value) => console.dir(value)
 
 ///|
-pub extern "js" fn console_table(value : Val, keys : Array[String]) -> Unit =
+/// JS: console.table(value, keys)
+pub extern "js" fn table(value : Val, keys : Array[String]) -> Unit =
   #| (value, keys) => console.table(value, keys)
 
 ///|
-pub extern "js" fn console_assert(condition : Bool, value : Val) -> Unit =
+/// JS: console.assert(condition, value)
+pub extern "js" fn assert_(condition : Bool, value : Val) -> Unit =
   #| (condition, value) => console.assert(condition, value)
 
 ///|
-pub extern "js" fn console_clear() -> Unit =
+/// JS: console.clear()
+pub extern "js" fn clear() -> Unit =
   #| () => console.clear()
 
 ///|
-pub extern "js" fn console_count(label : String) -> Unit =
+/// JS: console.count(label)
+pub extern "js" fn count(label : String) -> Unit =
   #| (label) => console.count(label)
 
 ///|
-pub extern "js" fn console_count_reset(label : String) -> Unit =
+/// JS: console.countReset(label)
+pub extern "js" fn countReset(label : String) -> Unit =
   #| (label) => console.countReset(label)
 
 ///|
-pub extern "js" fn console_group(label : String) -> Unit =
+/// JS: console.group(label)
+pub extern "js" fn group(label : String) -> Unit =
   #| (label) => console.group(label)
 
 ///|
-pub extern "js" fn console_group_end() -> Unit =
+/// JS: console.groupEnd()
+pub extern "js" fn groupEnd() -> Unit =
   #| () => console.groupEnd()
 
 ///|
-pub extern "js" fn console_time(label : String) -> Unit =
+/// JS: console.time(label)
+pub extern "js" fn time(label : String) -> Unit =
   #| (label) => console.time(label)
 
 ///|
-pub extern "js" fn console_time_end(label : String) -> Unit =
+/// JS: console.timeEnd(label)
+pub extern "js" fn timeEnd(label : String) -> Unit =
   #| (label) => console.timeEnd(label)

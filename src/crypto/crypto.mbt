@@ -80,8 +80,8 @@ pub fn SubtleCrypto::digest(
 
 ///|
 /// SubtleCrypto - Key Generation
-#alias(generateKey)
-pub fn SubtleCrypto::generate_key(
+#alias(generate_key)
+pub fn SubtleCrypto::generateKey(
   self : Self,
   algorithm : &Js,
   extractable : Bool,
@@ -99,8 +99,8 @@ pub fn SubtleCrypto::generate_key(
 }
 
 ///|
-#alias(deriveKey)
-pub fn SubtleCrypto::derive_key(
+#alias(derive_key)
+pub fn SubtleCrypto::deriveKey(
   self : Self,
   algorithm : &Js,
   base_key : &Js,
@@ -122,8 +122,8 @@ pub fn SubtleCrypto::derive_key(
 }
 
 ///|
-#alias(deriveBits)
-pub fn SubtleCrypto::derive_bits(
+#alias(derive_bits)
+pub fn SubtleCrypto::deriveBits(
   self : Self,
   algorithm : &Js,
   base_key : &Js,
@@ -138,8 +138,8 @@ pub fn SubtleCrypto::derive_bits(
 
 ///|
 /// SubtleCrypto - Key Import/Export
-#alias(importKey)
-pub fn SubtleCrypto::import_key(
+#alias(import_key)
+pub fn SubtleCrypto::importKey(
   self : Self,
   format : String,
   key_data : &Js,
@@ -161,8 +161,8 @@ pub fn SubtleCrypto::import_key(
 }
 
 ///|
-#alias(exportKey)
-pub fn SubtleCrypto::export_key(
+#alias(export_key)
+pub fn SubtleCrypto::exportKey(
   self : Self,
   format : String,
   key : &Js,
@@ -172,8 +172,8 @@ pub fn SubtleCrypto::export_key(
 
 ///|
 /// SubtleCrypto - Key Wrapping
-#alias(wrapKey)
-pub fn SubtleCrypto::wrap_key(
+#alias(wrap_key)
+pub fn SubtleCrypto::wrapKey(
   self : Self,
   format : String,
   key : &Js,
@@ -193,8 +193,8 @@ pub fn SubtleCrypto::wrap_key(
 }
 
 ///|
-#alias(unwrapKey)
-pub fn SubtleCrypto::unwrap_key(
+#alias(unwrap_key)
+pub fn SubtleCrypto::unwrapKey(
   self : Self,
   format : String,
   wrapped_key : &Js,
@@ -220,7 +220,8 @@ pub fn SubtleCrypto::unwrap_key(
 }
 
 ///|
-/// Crypto Type
+/// WebCrypto
+/// JS: Crypto
 #external
 pub type Crypto
 
