@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, unsafe_cast, log}
+using @js {type Val, unsafe_cast, log}
 
 ///|
 fn render_to_string(element : Element) -> String {
@@ -27,7 +27,7 @@ test "React createElement" {
   )
   assert_eq(unsafe_cast(with_attrs.get("props").get("className")), "my-button")
   let c1 = (_ : EmptyProps) => {
-    let r : ReactRef[@dom.Element] = use_ref(None)
+    let r : ReactRef[@dom.Element] = useRef(None)
     createElement("span", ref_=r, [])
   }
   component(c1, EmptyProps::default()) |> ignore

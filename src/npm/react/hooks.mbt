@@ -2,12 +2,12 @@
 /// React.useState
 /// ```mbt
 /// fn my_component (props: EmptyProps) -> Element {
-///   let (count, set_count) = use_state(0)
+///   let (count, set_count) = useState(0)
 ///   ...
 /// }
 /// ```
-#alias(useState)
-pub fn[T : Js] use_state(initial : T) -> (T, (T) -> Unit) {
+#alias(use_state)
+pub fn[T : Js] useState(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
   let value : T = unsafe_cast(result.get(0))
   let update_fn : (T) -> Unit = unsafe_cast(result.get(1))
@@ -15,7 +15,7 @@ pub fn[T : Js] use_state(initial : T) -> (T, (T) -> Unit) {
 }
 
 ///|
-/// React.useState(() => initial) with lazy initial value
+/// JS: React.useState(() => initial)
 /// ```
 /// fn my_component(props: EmptyProps) -> Element {
 ///   let (count, set_count) = use_state_lazy(() => 42)
@@ -33,37 +33,37 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 /// React.useCallback
 /// ```mbt
 /// fn my_component(props : EmptyProps) -> Element {
-///   let on_click = use_callback(() => {
+///   let on_click = useCallback(() => {
 ///     ()
 ///   }, [])
 ///   ...
 /// }
 /// ```
-#alias(useCallback)
-pub fn[F] use_callback(f : F, keys : Array[&Js]) -> F {
+#alias(use_callback)
+pub fn[F] useCallback(f : F, keys : Array[&Js]) -> F {
   let keys = keys.map(k => k.to_js())
   unsafe_cast(ffi_react_use_callback(f |> js, keys))
 }
 
 ///|
-/// React.useEffect
+/// JS: React.useEffect
 /// ```mbt
 /// fn my_component(props : EmptyProps) -> Element {
-///   use_effect(() => {
+///   useEffect(() => {
 ///     println("mounted")
 ///     () => println("unmounted")
 ///   }, [])
 ///   createElement("div", ["Hello"])
 /// }
 /// ```
-#alias(useEffect)
-pub fn use_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
+#alias(use_effect)
+pub fn useEffect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
   ffi_react_use_effect(f, keys.map(_.to_js()))
 }
 
 ///|
-#alias(useLayoutEffect)
-pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
+#alias(use_layout_effect)
+pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
   ffi_react_use_layout_effect(f, keys.map(_.to_js()))
 }
 
@@ -71,33 +71,33 @@ pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
 /// React.useMemo
 /// ```mbt
 /// fn my_component(props : EmptyProps) -> Element {
-///   let result = use_memo(() => {
+///   let result = useMemo(() => {
 ///     42
 ///   }, [])
 ///   createElement("div", [result])
 /// }
 /// ```
-#alias(useMemo)
-pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
-  let f = () => f() |> js
+#alias(use_memo)
+pub fn[T] useMemo(f : () -> T, keys : Array[&Js]) -> T {
+  let f = () => f() |> unsafe_cast
   let v : T = unsafe_cast(ffi_react_use_memo(f, keys.map(_.to_js())))
   v
 }
 
 ///|
-/// React.useRef
+/// JS: React.useRef
 /// ```mbt
 /// fn my_component(props : EmptyProps) -> Element {
-///   let my_ref : ReactRef[@dom.Element] = use_ref(None)
+///   let my_ref : ReactRef[@dom.Element] = useRef(None)
 ///   createElement("div", ref_=my_ref, ["Hello"])
 /// }
 /// ```
-#alias(useRef)
-pub fn[T] use_ref(initial : T?) -> ReactRef[T] {
+#alias(use_ref)
+pub fn[T] useRef(initial : T?) -> ReactRef[T] {
   unsafe_cast(
     ffi_react_use_ref(
       if initial is Some(v) {
-        v |> js
+        v |> unsafe_cast
       } else {
         @js.undefined()
       },
@@ -133,7 +133,7 @@ pub fn[T] ReactRef::current(v : ReactRef[T]) -> T? {
 
 ///|
 pub fn[T] ReactRef::set_current(v : ReactRef[T], o : T) -> Unit {
-  set_current_internal(v |> js, o |> js)
+  set_current_internal(v |> unsafe_cast, o |> unsafe_cast)
 }
 
 ///|
@@ -151,16 +151,13 @@ pub fn[T] create_context(initial : T?) -> Context[T] {
 /// React.useContext
 #alias(useContext)
 pub fn[T] use_context(ctx : Context[T]) -> T {
-  unsafe_cast(ffi_react_use_context(ctx |> js))
+  unsafe_cast(ffi_react_use_context(ctx |> unsafe_cast))
 }
 
 ///|
-extern "js" fn ffi_react_use(v : Val) -> Val =
-  #| (v) => __ReactApi.use(v)
-
-///|
+/// React.use
 pub fn[T] use_(promise : Promise[T]) -> T {
-  unsafe_cast(ffi_react_use(promise |> js))
+  unsafe_cast(ffi_react_use(promise |> unsafe_cast))
 }
 
 ///|
@@ -216,7 +213,7 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 
 ///|
 /// wip
-/// ```nocheck
+/// ```moonbit skip
 /// extern "js" fn load_my_lazy_component() -> @js.Promise[Val] =
 ///   #| () => import("./MyLazyComponent")
 /// struct MyLazyComponentProps {}

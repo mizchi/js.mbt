@@ -66,3 +66,7 @@ extern "js" fn ffi_react_use_reducer(reducer : Val, initial : Val) -> Val =
   #| (reducer, initial) => {
   #|   return __ReactApi.useReducer(reducer, initial);
   #| }
+
+///|
+extern "js" fn ffi_react_use(v : Val) -> Val =
+  #| (v) => __ReactApi.use(v)

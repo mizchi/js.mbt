@@ -91,6 +91,22 @@ pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Val {
 }
 
 ///|
+pub fn[A, B] from_tuple2(t : (A, B)) -> Val {
+  let arr : Array[Val] = [t.0 |> unsafe_cast, t.1 |> unsafe_cast]
+  unsafe_cast(arr)
+}
+
+///|
+pub fn[A, B, C] from_tuple3(t : (A, B, C)) -> Val {
+  let arr : Array[Val] = [
+    t.0 |> unsafe_cast,
+    t.1 |> unsafe_cast,
+    t.2 |> unsafe_cast,
+  ]
+  unsafe_cast(arr)
+}
+
+///|
 /// Cast a MoonBit function with 3 arguments to a JavaScript function Val.
 pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Val {
   unsafe_cast(f)
