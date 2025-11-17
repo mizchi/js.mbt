@@ -9,7 +9,7 @@ using @js {js, unsafe_cast}
 ///|
 /// Test WASI constructor with preview1
 test "WASI constructor creates instance with preview1" {
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "preview1",
     args: Some(["test"]),
     env: Some(Map::from_array([("TEST_VAR", "test_value")])),
@@ -26,7 +26,7 @@ test "WASI constructor creates instance with preview1" {
 ///|
 /// Test WASI constructor with unstable version
 test "WASI constructor creates instance with unstable" {
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "unstable",
     args: None,
     env: None,
@@ -43,7 +43,7 @@ test "WASI constructor creates instance with unstable" {
 ///|
 /// Test WASI with args option
 test "WASI constructor accepts args" {
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "preview1",
     args: Some(["arg1", "arg2", "arg3"]),
     env: None,
@@ -61,7 +61,7 @@ test "WASI constructor accepts args" {
 /// Test WASI with env option
 test "WASI constructor accepts env" {
   let env_map = Map::from_array([("HOME", "/home/user"), ("PATH", "/usr/bin")])
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "preview1",
     args: None,
     env: Some(env_map),
@@ -79,7 +79,7 @@ test "WASI constructor accepts env" {
 /// Test WASI with preopens option
 test "WASI constructor accepts preopens" {
   let preopens_map = Map::from_array([("/tmp", "/tmp")])
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "preview1",
     args: None,
     env: None,
@@ -96,7 +96,7 @@ test "WASI constructor accepts preopens" {
 ///|
 /// Test WASI with return_on_exit option
 test "WASI constructor accepts return_on_exit" {
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "preview1",
     args: None,
     env: None,
@@ -113,7 +113,7 @@ test "WASI constructor accepts return_on_exit" {
 ///|
 /// Test WASI with file descriptor options
 test "WASI constructor accepts fd options" {
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "preview1",
     args: None,
     env: None,
@@ -132,7 +132,7 @@ test "WASI constructor accepts fd options" {
 ///|
 /// Test get_import_object returns valid object
 test "get_import_object returns object" {
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "preview1",
     args: None,
     env: None,
@@ -153,7 +153,7 @@ test "get_import_object returns object" {
 ///|
 /// Test wasi_import property
 test "wasi_import returns object" {
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "preview1",
     args: None,
     env: None,
@@ -172,7 +172,7 @@ test "wasi_import returns object" {
 ///|
 /// Test WASI with actual WASM module
 test "WASI can run hello-wasi.wasm" {
-  let wasi = WasiInstance::new({
+  let wasi = WASI::new({
     version: "preview1",
     args: Some(["hello-wasi"]),
     env: None,
