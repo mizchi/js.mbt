@@ -4,6 +4,12 @@
     "mizchi/js",
     "mizchi/js/promise",
     "mizchi/js/node/events",
-    "mizchi/js/node/test"
+    "mizchi/js/node/path",
+    "mizchi/js/node/os",
+    "mizchi/js/node/test",
+    {
+      "path": "mizchi/js/node/fs/promises",
+      "alias": "fs"
+    }
   ]
 }

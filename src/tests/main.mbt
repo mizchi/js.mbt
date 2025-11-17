@@ -85,3 +85,20 @@ test {
     assert_eq(received, 6)
   })
 }
+
+///|
+test {
+  it("fs writeFile/readFile/stat", _ => run_async(() => try {
+    let tmpdir = @os.tmpdir()
+    let outpath = @path.join([tmpdir, "moonbit_example.txt"])
+    let content =
+      #|This is an example file created by Moonbit.
+    @fs.writeFile(outpath, content).unwrap()
+    let read_content = @fs.readFile(outpath).unwrap()
+    assert_eq(content, read_content)
+    let _ = @fs.stat(outpath).unwrap()
+    // assert_true(stat.isFile())
+  } catch {
+    e => @js.log(e)
+  }))
+}
