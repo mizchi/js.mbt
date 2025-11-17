@@ -4,8 +4,8 @@ package "mizchi/js/file"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/promise"
   "mizchi/js/blob"
+  "mizchi/js/promise"
 )
 
 // Values
@@ -51,3 +51,4 @@ impl @js.Js for FileReader
 // Type aliases
 
 // Traits
+

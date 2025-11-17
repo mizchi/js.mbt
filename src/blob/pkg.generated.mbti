@@ -29,3 +29,4 @@ impl @js.Js for Blob
 // Type aliases
 
 // Traits
+

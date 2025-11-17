@@ -35,3 +35,4 @@ impl @js.Js for ModelMessage
 // Type aliases
 
 // Traits
+

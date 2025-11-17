@@ -3,8 +3,8 @@ package "mizchi/js/dom"
 
 import(
   "mizchi/js"
-  "mizchi/js/promise"
   "mizchi/js/blob"
+  "mizchi/js/promise"
   "mizchi/js/worker"
 )
 
@@ -25,9 +25,7 @@ fn customElements() -> CustomElementRegistry
 
 fn document() -> Document
 
-fn get_local_storage() -> Storage
-
-fn get_session_storage() -> Storage
+fn localStorage() -> Storage
 
 #alias(match_media)
 fn matchMedia(String) -> MediaQueryList
@@ -41,6 +39,8 @@ fn new_intersection_observer_with_options((@js.Val, IntersectionObserver) -> Uni
 fn new_mutation_observer((@js.Val, MutationObserver) -> Unit) -> MutationObserver
 
 fn new_resize_observer((@js.Val, ResizeObserver) -> Unit) -> ResizeObserver
+
+fn sessionStorage() -> Storage
 
 fn window() -> Window
 
@@ -271,8 +271,8 @@ impl NodeImpl for HTMLDivElement
 
 #external
 pub type HTMLElement
-fn HTMLElement::attach_shadow(Self, ShadowRootInit) -> ShadowRoot
-fn HTMLElement::shadow_root(Self) -> ShadowRoot?
+fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
+fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
 impl @js.Js for HTMLElement
 impl ElementImpl for HTMLElement
 impl EventTargetImpl for HTMLElement
@@ -516,37 +516,37 @@ impl EventImpl for ScrollEvent
 
 #external
 pub type ShadowRoot
-fn ShadowRoot::active_element(Self) -> Element?
-fn ShadowRoot::delegates_focus(Self) -> Bool
-fn ShadowRoot::element_from_point(Self, Double, Double) -> Element?
-fn ShadowRoot::elements_from_point(Self, Double, Double) -> Array[Element]
+fn ShadowRoot::activeElement(Self) -> Element?
+fn ShadowRoot::delegatesFocus(Self) -> Bool
+fn ShadowRoot::elementFromPoint(Self, Double, Double) -> Element?
+fn ShadowRoot::elementsFromPoint(Self, Double, Double) -> Array[Element]
 fn ShadowRoot::host(Self) -> Element
-fn ShadowRoot::inner_html(Self) -> String
+fn ShadowRoot::innerHTML(Self) -> String
 fn ShadowRoot::mode(Self) -> String
-fn ShadowRoot::set_inner_html(Self, String) -> Unit
-fn ShadowRoot::slot_assignment(Self) -> String
+fn ShadowRoot::setInnerHTML(Self, String) -> Unit
+fn ShadowRoot::slotAssignment(Self) -> String
 impl @js.Js for ShadowRoot
 impl EventTargetImpl for ShadowRoot
 impl NodeImpl for ShadowRoot
 
 pub struct ShadowRootInit {
   mode : String
-  delegates_focus : Bool
-  slot_assignment : String
+  delegatesFocus : Bool
+  slotAssignment : String
 }
-fn ShadowRootInit::new(String, delegates_focus? : Bool, slot_assignment? : String) -> Self
+fn ShadowRootInit::new(String, delegatesFocus? : Bool, slotAssignment? : String) -> Self
 
 #external
 pub type Storage
 fn Storage::clear(Self) -> Unit
 fn Storage::entries(Self) -> Array[(String, String)]
-fn Storage::get_item(Self, String) -> String?
-fn Storage::has_item(Self, String) -> Bool
+fn Storage::getItem(Self, String) -> String?
+fn Storage::hasItem(Self, String) -> Bool
 fn Storage::key(Self, Int) -> String?
 fn Storage::keys(Self) -> Array[String]
 fn Storage::length(Self) -> Int
-fn Storage::remove_item(Self, String) -> Unit
-fn Storage::set_item(Self, String, String) -> Unit
+fn Storage::removeItem(Self, String) -> Unit
+fn Storage::setItem(Self, String, String) -> Unit
 fn Storage::values(Self) -> Array[String]
 impl @js.Js for Storage
 
@@ -731,3 +731,4 @@ pub(open) trait NodeImpl : @js.Js + EventTargetImpl {
   text_content(Self) -> String = _
   set_text_content(Self, String) -> Unit = _
 }
+

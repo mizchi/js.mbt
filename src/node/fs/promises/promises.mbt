@@ -142,9 +142,16 @@ pub fn rename(path : String, dest : String) -> Promise[Unit] {
 }
 
 ///|
-pub fn rm(path : String) -> Promise[Unit] {
+pub fn rm(path : String, recursive? : Bool, force? : Bool) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let promise = fs.invoke("rm", [path])
+  let opts = @js.Object::new()
+  if recursive is Some(r) {
+    opts.set("recursive", r)
+  }
+  if force is Some(f) {
+    opts.set("force", f)
+  }
+  let promise = fs.invoke("rm", [path, opts])
   unsafe_cast(promise)
 }
 

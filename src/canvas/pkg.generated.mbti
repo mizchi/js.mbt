@@ -4,9 +4,9 @@ package "mizchi/js/canvas"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/promise"
   "mizchi/js/blob"
   "mizchi/js/dom"
+  "mizchi/js/promise"
   "mizchi/js/worker"
 )
 
@@ -116,3 +116,4 @@ impl @js.Js for TextMetrics
 // Type aliases
 
 // Traits
+

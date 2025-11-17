@@ -22,17 +22,17 @@ pub fn[T : Js] is_null(v : T) -> Bool {
   ffi_is_null(v.to_js())
 }
 
-///| JS: v === undefined
+///|
+/// JS: v === undefined
 pub fn[T : Js] is_undefined(v : T) -> Bool {
   ffi_is_undefined(v.to_js())
 }
 
 ///|
-pub fn[T: Js] is_builtin_trait(v : T) -> Bool {
+pub fn[T : Js] is_builtin_trait(v : T) -> Bool {
   let v : Val = v |> unsafe_cast
   v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
 }
-
 
 ///|
 /// Conditionally set a property value if the value exists and is not undefined.

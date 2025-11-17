@@ -14,6 +14,7 @@ import(
 pub type EventEmitter
 fn EventEmitter::new() -> Self
 impl @js.Js for EventEmitter
+impl EventEmitterImpl for EventEmitter
 
 // Type aliases
 
@@ -22,9 +23,12 @@ pub(open) trait EventEmitterImpl : @js.Js {
   on(Self, String, (@js.Val) -> Unit) -> Unit = _
   on2(Self, String, (@js.Val, @js.Val) -> Unit) -> Unit = _
   once(Self, String, (@js.Val) -> Unit) -> Unit = _
+  eventNames(Self) -> Array[String] = _
+  listenerCount(Self, String) -> Int = _
+  listeners(Self, event? : String) -> Array[(@js.Val) -> Unit] = _
   off(Self, String, (@js.Val) -> Unit) -> Unit = _
   removeListener(Self, String, (@js.Val) -> Unit) -> Unit = _
-  removeAllListeners(Self, String?) -> Unit = _
+  removeAllListeners(Self) -> Unit = _
   emit(Self, String, @js.Val) -> Unit = _
 }
 

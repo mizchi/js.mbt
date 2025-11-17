@@ -185,6 +185,7 @@ pub(open) trait Js {
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
 }
+impl Js for Unit
 impl Js for Bool
 impl Js for Int
 impl Js for UInt

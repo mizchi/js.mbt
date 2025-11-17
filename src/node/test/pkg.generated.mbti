@@ -3,25 +3,38 @@ package "mizchi/js/node/test"
 
 import(
   "mizchi/js"
+  "mizchi/js/node/stream"
 )
 
 // Values
+#alias(after_all)
+fn afterAll(async () -> Unit) -> Unit
+
+#alias(after_each)
+fn afterEach(async () -> Unit) -> Unit
+
+#alias(before_all)
+fn beforeAll(async () -> Unit) -> Unit
+
 #alias(before_each)
 fn beforeEach(async () -> Unit) -> Unit
 
 fn it(String, skip? : String, async (TestContext) -> Unit) -> Unit
 
+fn run(files? : Array[String], cwd? : String, forceExit? : Bool, inspectPort? : Int, only? : Bool, concurrency? : Int, globPatterns? : Array[String], isolation? : Bool, execArgv? : Array[String], argv? : Array[String], watch? : Bool, shard? : TestShard, signal? : @js.AbortSignal, testNamePatterns? : Array[String], testSkipPatterns? : Array[String], timeout? : Int, rerunFailuresFilePath? : String, setup? : () -> Unit, coverage? : Bool, lineCoverage? : Bool, functionCoverage? : Bool, branchCoverage? : Bool, coverageIncludeGlobs? : Array[String], coverageExcludeGlobs? : Array[String]) -> @stream.Stream
+
 // Errors
 
 // Types and methods
-type NodeTest
-fn NodeTest::beforeEach(Self, async () -> Unit) -> Unit
-fn NodeTest::it(Self, String, async (TestContext) -> Unit, skip? : String) -> Unit
-fn NodeTest::require() -> Self
-
 type TestContext
 fn TestContext::todo(Self, String) -> Unit
 impl @js.Js for TestContext
+
+pub(all) struct TestShard {
+  total : Int
+  index : Int
+}
+impl @js.Js for TestShard
 
 // Type aliases
 

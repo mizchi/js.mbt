@@ -3,8 +3,8 @@ package "mizchi/js/npm/react_dom"
 
 import(
   "mizchi/js"
-  "mizchi/js/promise"
   "mizchi/js/npm/react"
+  "mizchi/js/promise"
 )
 
 // Values
@@ -30,3 +30,4 @@ impl @js.Js for ReactDOMRoot
 // Type aliases
 
 // Traits
+

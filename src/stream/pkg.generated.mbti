@@ -69,3 +69,4 @@ impl @js.Js for WritableStreamDefaultWriter
 // Type aliases
 
 // Traits
+

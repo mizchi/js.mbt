@@ -46,6 +46,8 @@ test "MessagePort::close disconnects the port" {
 // }
 
 // ///|
+
+///|
 /// Test MessagePort::post_message can send a number
 test "MessagePort::post_message sends a number" {
   let channel = MessageChannel::new()

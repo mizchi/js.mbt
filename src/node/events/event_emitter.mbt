@@ -11,7 +11,7 @@ pub(open) trait EventEmitterImpl: Js {
   once(Self, String, (Val) -> Unit) -> Unit = _
   eventNames(Self) -> Array[String] = _
   listenerCount(Self, String) -> Int = _
-  listeners(Self, event?: String) -> Array[(Val) -> Unit] = _
+  listeners(Self, event? : String) -> Array[(Val) -> Unit] = _
   off(Self, String, (Val) -> Unit) -> Unit = _
   removeListener(Self, String, (Val) -> Unit) -> Unit = _
   removeAllListeners(Self) -> Unit = _
@@ -49,7 +49,7 @@ impl EventEmitterImpl with listenerCount(self, eventName) {
 }
 
 ///|
-impl EventEmitterImpl with listeners(self, event?: String) {
+impl EventEmitterImpl with listeners(self, event? : String) {
   match event {
     Some(name) => self.invoke("listenerCount", [name]) |> unsafe_cast
     None => self.invoke("listenerCount", []) |> unsafe_cast

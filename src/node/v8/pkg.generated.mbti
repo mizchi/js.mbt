@@ -47,19 +47,19 @@ fn writeHeapSnapshot(filename? : String) -> String
 // Types and methods
 #external
 pub type Deserializer
-#alias(getWireFormatVersion)
-fn Deserializer::get_wire_format_version(Self) -> Int
+#alias(get_wire_format_version)
+fn Deserializer::getWireFormatVersion(Self) -> Int
 fn Deserializer::new(@buffer.Buffer) -> Self
-#alias(readDouble)
-fn Deserializer::read_double(Self) -> Double
-#alias(readHeader)
-fn Deserializer::read_header(Self) -> Bool
-#alias(readRawBytes)
-fn Deserializer::read_raw_bytes(Self, Int) -> @buffer.Buffer
-#alias(readUint32)
-fn Deserializer::read_uint32(Self) -> Int
-#alias(readValue)
-fn Deserializer::read_value(Self) -> @js.Val
+#alias(read_double)
+fn Deserializer::readDouble(Self) -> Double
+#alias(read_header)
+fn Deserializer::readHeader(Self) -> Bool
+#alias(read_raw_bytes)
+fn Deserializer::readRawBytes(Self, Int) -> @buffer.Buffer
+#alias(read_uint32)
+fn Deserializer::readUint32(Self) -> Int
+#alias(read_value)
+fn Deserializer::readValue(Self) -> @js.Val
 #alias(transferArrayBuffer)
 fn Deserializer::transfer_array_buffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
 impl @js.Js for Deserializer
@@ -67,20 +67,20 @@ impl @js.Js for Deserializer
 #external
 pub type Serializer
 fn Serializer::new() -> Self
-#alias(releaseBuffer)
-fn Serializer::release_buffer(Self) -> @buffer.Buffer
-#alias(transferArrayBuffer)
-fn Serializer::transfer_array_buffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
+#alias(release_buffer)
+fn Serializer::releaseBuffer(Self) -> @buffer.Buffer
+#alias(transfer_array_buffer)
+fn Serializer::transferArrayBuffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
+#alias(write_header)
+fn Serializer::writeHeader(Self) -> Unit
+#alias(write_value)
+fn Serializer::writeValue(Self, &@js.Js) -> Bool
 #alias(writeDouble)
 fn Serializer::write_double(Self, Double) -> Unit
-#alias(writeHeader)
-fn Serializer::write_header(Self) -> Unit
 #alias(writeRawBytes)
 fn Serializer::write_raw_bytes(Self, &@js.Js) -> Unit
 #alias(writeUint32)
 fn Serializer::write_uint32(Self, Int) -> Unit
-#alias(writeValue)
-fn Serializer::write_value(Self, &@js.Js) -> Bool
 impl @js.Js for Serializer
 
 // Type aliases

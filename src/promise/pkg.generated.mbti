@@ -42,7 +42,10 @@ pub(all) struct Resolvers[T] {
   resolve : (T) -> Unit
   reject : (Error) -> Unit
 }
+fn[T] Resolvers::reject(Self[T], Error) -> Unit
+fn[T] Resolvers::resolve(Self[T], T) -> Unit
 
 // Type aliases
 
 // Traits
+
