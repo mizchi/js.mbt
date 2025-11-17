@@ -15,27 +15,27 @@
 pub(open) trait EventTarget: Js {
   /// Add an event listener for the specified event type
   /// The listener receives a generic Val which should be cast to the appropriate event type
-  add_event_listener(Self, String, (Val) -> Unit) -> Unit = _
+  addEventListener(Self, String, (Val) -> Unit) -> Unit = _
 
   /// Remove a previously registered event listener
-  remove_event_listener(Self, String, (Val) -> Unit) -> Unit = _
+  removeEventListener(Self, String, (Val) -> Unit) -> Unit = _
 
   /// Dispatch an event to this target
-  dispatch_event(Self, Val) -> Bool = _
+  dispatchEvent(Self, Val) -> Bool = _
 }
 
 ///|
 /// Default implementation using JavaScript's addEventListener/removeEventListener
-impl EventTarget with add_event_listener(self, event_type, handler) -> Unit {
+impl EventTarget with addEventListener(self, event_type, handler) -> Unit {
   ignore(self.invoke("addEventListener", [event_type, js(handler)]))
 }
 
 ///|
-impl EventTarget with remove_event_listener(self, event_type, handler) -> Unit {
+impl EventTarget with removeEventListener(self, event_type, handler) -> Unit {
   ignore(self.invoke("removeEventListener", [event_type, js(handler)]))
 }
 
 ///|
-impl EventTarget with dispatch_event(self, event) -> Bool {
+impl EventTarget with dispatchEvent(self, event) -> Bool {
   self.invoke("dispatchEvent", [event]) |> unsafe_cast
 }

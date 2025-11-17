@@ -160,9 +160,9 @@ impl ToJson for Val
 
 // Traits
 pub(open) trait EventTarget : Js {
-  add_event_listener(Self, String, (Val) -> Unit) -> Unit = _
-  remove_event_listener(Self, String, (Val) -> Unit) -> Unit = _
-  dispatch_event(Self, Val) -> Bool = _
+  addEventListener(Self, String, (Val) -> Unit) -> Unit = _
+  removeEventListener(Self, String, (Val) -> Unit) -> Unit = _
+  dispatchEvent(Self, Val) -> Bool = _
 }
 
 pub(open) trait Js {

@@ -112,10 +112,10 @@ fn handle_click(event : @dom.Event) -> Unit {
   target.set_text_content("Clicked!")
 }
 
-element.add_event_listener("click", handle_click)
+element.addEventListener("click", handle_click)
 
 // Remove listener
-element.remove_event_listener("click", handle_click)
+element.removeEventListener("click", handle_click)
 ```
 
 ### Mouse Events
@@ -131,7 +131,7 @@ fn handle_mouse(event : @dom.MouseEvent) -> Unit {
   }
 }
 
-element.add_event_listener("click", fn(e) { 
+element.addEventListener("click", fn(e) { 
   handle_mouse(e |> @js.unsafe_cast) 
 })
 ```

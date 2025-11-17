@@ -689,9 +689,9 @@ pub(open) trait EventImpl : @js.Js {
 }
 
 pub(open) trait EventTargetImpl : @js.Js {
-  add_event_listener(Self, String, (Event) -> Unit) -> Unit = _
-  remove_event_listener(Self, String, (Event) -> Unit) -> Unit = _
-  dispatch_event(Self, Event) -> Bool = _
+  addEventListener(Self, String, (Event) -> Unit) -> Unit = _
+  removeEventListener(Self, String, (Event) -> Unit) -> Unit = _
+  dispatchEvent(Self, Event) -> Bool = _
 }
 
 pub(open) trait HTMLElementImpl : @js.Js + ElementImpl {
@@ -724,4 +724,3 @@ pub(open) trait NodeImpl : @js.Js + EventTargetImpl {
   text_content(Self) -> String = _
   set_text_content(Self, String) -> Unit = _
 }
-
