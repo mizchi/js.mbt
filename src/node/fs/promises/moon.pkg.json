@@ -2,7 +2,7 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/async",
+    "mizchi/js/promise",
     "mizchi/js/iterator",
     "mizchi/js/node",
     "mizchi/js/node/fs"

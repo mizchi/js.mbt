@@ -4,7 +4,7 @@ package "mizchi/js/file"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/async"
+  "mizchi/js/promise"
   "mizchi/js/blob"
 )
 
@@ -16,7 +16,7 @@ import(
 #external
 pub type File
 #alias(arrayBuffer)
-fn File::array_buffer(Self) -> @async.Promise[@arraybuffer.ArrayBuffer]
+fn File::array_buffer(Self) -> @promise.Promise[@arraybuffer.ArrayBuffer]
 fn File::as_blob(Self) -> @blob.Blob
 #alias(content_type)
 fn File::contentType(Self) -> String
@@ -26,7 +26,7 @@ fn File::name(Self) -> String
 fn File::new(Array[&@js.Js], String, content_type? : String, last_modified? : Int) -> Self
 fn File::size(Self) -> Int
 fn File::slice(Self, start? : Int, end? : Int) -> @blob.Blob
-fn File::text(Self) -> @async.Promise[String]
+fn File::text(Self) -> @promise.Promise[String]
 impl @js.Js for File
 
 #external
@@ -51,4 +51,3 @@ impl @js.Js for FileReader
 // Type aliases
 
 // Traits
-

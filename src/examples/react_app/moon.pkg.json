@@ -3,7 +3,7 @@
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/async",
+    "mizchi/js/promise",
     "mizchi/js/dom",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react/element",

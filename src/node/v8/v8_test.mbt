@@ -8,7 +8,7 @@ using @js {js, unsafe_cast}
 using @buffer {type Buffer}
 
 ///|
-using @async {run_async}
+using @promise {run_async}
 
 ///|
 using @promises {rm}

@@ -2,7 +2,7 @@
 using @js {type Val, js, log}
 
 ///|
-using @async {run_async}
+using @promise {run_async}
 
 ///|
 using @http {type Request, type Response, fetch, fetch_request}
@@ -26,5 +26,5 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
     }
     res
   }
-  @async.promisify3(async_handler)
+  @promise.promisify3(async_handler)
 }

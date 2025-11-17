@@ -1,6 +1,6 @@
 ///|
 fn main {
-  @async.run_async(() => try {
+  @promise.run_async(() => try {
     let tmpdir = @os.tmpdir()
     let outpath = @path.join([tmpdir, "moonbit_example.txt"])
     let content =

@@ -3,7 +3,7 @@ package "mizchi/js/node/readline"
 
 import(
   "mizchi/js"
-  "mizchi/js/async"
+  "mizchi/js/promise"
   "mizchi/js/node/events"
   "mizchi/js/node/stream"
 )
@@ -21,16 +21,15 @@ pub type Interface
 fn Interface::clearLine(Self, Int) -> Self
 #alias(clear_screen_down)
 fn Interface::clearScreenDown(Self, Int) -> Self
-fn Interface::commit(Self) -> @async.Promise[Unit]
+fn Interface::commit(Self) -> @promise.Promise[Unit]
 #alias(cursor_to)
-fn Interface::cursorTo(Self, Int, y? : Int) -> @async.Promise[Unit]
+fn Interface::cursorTo(Self, Int, y? : Int) -> @promise.Promise[Unit]
 #alias(move_cursor)
-fn Interface::moveCursor(Self, Int, dy? : Int) -> @async.Promise[Unit]
-fn Interface::question(Self, String) -> @async.Promise[String]
+fn Interface::moveCursor(Self, Int, dy? : Int) -> @promise.Promise[Unit]
+fn Interface::question(Self, String) -> @promise.Promise[String]
 fn Interface::rollback(Self) -> Self
 impl @events.EventEmitterImpl for Interface
 
 // Type aliases
 
 // Traits
-

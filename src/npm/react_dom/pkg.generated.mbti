@@ -3,12 +3,12 @@ package "mizchi/js/npm/react_dom"
 
 import(
   "mizchi/js"
-  "mizchi/js/async"
+  "mizchi/js/promise"
   "mizchi/js/npm/react"
 )
 
 // Values
-fn import_react_dom_client() -> @async.Promise[ReactDOMClient]
+fn import_react_dom_client() -> @promise.Promise[ReactDOMClient]
 
 #alias(render_to_string)
 fn renderToString(@react.Element) -> String
@@ -30,4 +30,3 @@ impl @js.Js for ReactDOMRoot
 // Type aliases
 
 // Traits
-

@@ -2,7 +2,7 @@
 using @js {trait Js, type Val, type AbortSignal, js, unsafe_cast}
 
 ///|
-using @async {type Promise, run_async}
+using @promise {type Promise, run_async}
 
 ///|
 using @iterator {type AsyncIterator}

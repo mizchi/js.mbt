@@ -57,7 +57,7 @@ pub fn Ai::generate_text(
   model~ : Model,
   messages~ : Array[ModelMessage],
   // prompt?: String
-) -> @async.Promise[Val] {
+) -> @promise.Promise[Val] {
   unsafe_cast(
     self
     .to_js()
@@ -81,7 +81,7 @@ test "ai" {
     .invoke_self(["claude-sonnet-4-20250514"]),
   )
   let messages : Array[ModelMessage] = [UserMessage(content=Message("hello"))]
-  @async.run_async(() => try {
+  @promise.run_async(() => try {
     let result = ai.generate_text(model~, messages~).unwrap()
     @js.log(result)
   } catch {

@@ -4,7 +4,7 @@ package "mizchi/js/canvas"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/async"
+  "mizchi/js/promise"
   "mizchi/js/blob"
   "mizchi/js/dom"
   "mizchi/js/worker"
@@ -12,10 +12,10 @@ import(
 
 // Values
 #alias(create_image_bitmap)
-fn createImageBitmap(&@js.Js) -> @async.Promise[ImageBitmap]
+fn createImageBitmap(&@js.Js) -> @promise.Promise[ImageBitmap]
 
 #alias(create_image_bitmap_rect)
-fn createImageBitmapRect(&@js.Js, Int, Int, Int, Int) -> @async.Promise[ImageBitmap]
+fn createImageBitmapRect(&@js.Js, Int, Int, Int, Int) -> @promise.Promise[ImageBitmap]
 
 // Errors
 
@@ -97,7 +97,7 @@ impl @js.Js for ImageData
 
 #external
 pub type OffscreenCanvas
-fn OffscreenCanvas::convert_to_blob(Self, options? : String) -> @async.Promise[@blob.Blob]
+fn OffscreenCanvas::convert_to_blob(Self, options? : String) -> @promise.Promise[@blob.Blob]
 fn OffscreenCanvas::get_context(Self, String) -> CanvasRenderingContext2D
 fn OffscreenCanvas::height(Self) -> Int
 fn OffscreenCanvas::new(Int, Int) -> Self
@@ -116,4 +116,3 @@ impl @js.Js for TextMetrics
 // Type aliases
 
 // Traits
-

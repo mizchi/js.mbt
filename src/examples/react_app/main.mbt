@@ -22,7 +22,7 @@ using @react_router {router_provider}
 using @js {log, js, safe_js, unsafe_cast}
 
 ///|
-using @async {sleep, run_async}
+using @promise {sleep, run_async}
 
 ///|
 using @element {

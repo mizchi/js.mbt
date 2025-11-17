@@ -3,7 +3,7 @@ package "mizchi/js/dom"
 
 import(
   "mizchi/js"
-  "mizchi/js/async"
+  "mizchi/js/promise"
   "mizchi/js/blob"
   "mizchi/js/worker"
 )
@@ -115,7 +115,7 @@ fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomEle
 fn CustomElementRegistry::get(Self, String) -> @js.Val?
 fn CustomElementRegistry::get_name(Self, @js.Val) -> String?
 fn CustomElementRegistry::upgrade(Self, Node) -> Unit
-fn CustomElementRegistry::when_defined(Self, String) -> @async.Promise[Unit]
+fn CustomElementRegistry::when_defined(Self, String) -> @promise.Promise[Unit]
 impl @js.Js for CustomElementRegistry
 
 #external
@@ -252,7 +252,7 @@ fn HTMLCanvasElement::get_context(Self, String) -> @js.Val
 fn HTMLCanvasElement::height(Self) -> Int
 fn HTMLCanvasElement::set_height(Self, Int) -> Unit
 fn HTMLCanvasElement::set_width(Self, Int) -> Unit
-fn HTMLCanvasElement::to_blob(Self, image_type? : String, quality? : Double) -> @async.Promise[@blob.Blob]
+fn HTMLCanvasElement::to_blob(Self, image_type? : String, quality? : Double) -> @promise.Promise[@blob.Blob]
 fn HTMLCanvasElement::to_data_url(Self, image_type? : String, quality? : Double) -> String
 fn HTMLCanvasElement::width(Self) -> Int
 impl @js.Js for HTMLCanvasElement
@@ -612,7 +612,7 @@ fn Window::console(Self) -> @js.Val
 #alias(device_pixel_ratio)
 fn Window::devicePixelRatio(Self) -> Double
 fn Window::document(Self) -> Document
-fn Window::fetch(Self, String, init? : @js.Val) -> @async.Promise[@js.Val]
+fn Window::fetch(Self, String, init? : @js.Val) -> @promise.Promise[@js.Val]
 #alias(get_computed_style)
 fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @js.Val
 #alias(get_selection)
@@ -731,4 +731,3 @@ pub(open) trait NodeImpl : @js.Js + EventTargetImpl {
   text_content(Self) -> String = _
   set_text_content(Self, String) -> Unit = _
 }
-

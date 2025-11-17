@@ -5,7 +5,7 @@
 using @js {js}
 
 ///|
-using @async {run_async}
+using @promise {run_async}
 
 ///| File Constructor Tests
 

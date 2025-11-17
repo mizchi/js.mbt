@@ -1,4 +1,4 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/node"]
+  "import": ["mizchi/js", "mizchi/js/promise", "mizchi/js/node"]
 }

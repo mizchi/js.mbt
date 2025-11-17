@@ -2,7 +2,7 @@
 using @js {type Val, trait Js, js, unsafe_cast}
 
 ///|
-using @async {type Promise}
+using @promise {type Promise}
 
 ///|
 extern "js" fn import_react_router() -> Promise[Val] =

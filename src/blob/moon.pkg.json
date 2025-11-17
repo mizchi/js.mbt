@@ -3,7 +3,7 @@
   "is_main": false,
   "import": [
     "mizchi/js",
-    "mizchi/js/async",
+    "mizchi/js/promise",
     "mizchi/js/arraybuffer",
     "mizchi/js/stream"
   ]

@@ -10,7 +10,7 @@
 using @js {type Val, js, unsafe_cast}
 
 ///|
-using @async {run_async}
+using @promise {run_async}
 
 ///|
 /// Helper Functions

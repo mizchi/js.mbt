@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/async"
+package "mizchi/js/promise"
 
 import(
   "mizchi/js"
@@ -46,4 +46,3 @@ pub(all) struct Resolvers[T] {
 // Type aliases
 
 // Traits
-

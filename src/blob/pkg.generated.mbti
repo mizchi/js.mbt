@@ -4,7 +4,7 @@ package "mizchi/js/blob"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/async"
+  "mizchi/js/promise"
   "mizchi/js/stream"
 )
 
@@ -16,17 +16,16 @@ import(
 #external
 pub type Blob
 #alias(arrayBuffer)
-fn Blob::array_buffer(Self) -> @async.Promise[@arraybuffer.ArrayBuffer]
+fn Blob::array_buffer(Self) -> @promise.Promise[@arraybuffer.ArrayBuffer]
 #alias(content_type)
 fn Blob::contentType(Self) -> String
 fn Blob::new(Array[&@js.Js], content_type? : String) -> Self
 fn Blob::size(Self) -> Int
 fn Blob::slice(Self, start? : Int, end? : Int, content_type? : String) -> Self
 fn Blob::stream(Self) -> @stream.ReadableStream
-fn Blob::text(Self) -> @async.Promise[String]
+fn Blob::text(Self) -> @promise.Promise[String]
 impl @js.Js for Blob
 
 // Type aliases
 
 // Traits
-

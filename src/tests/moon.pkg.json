@@ -1,4 +1,4 @@
 {
   "is-main": true,
-  "import": ["mizchi/js", "mizchi/js/async", "mizchi/js/node/test"]
+  "import": ["mizchi/js", "mizchi/js/promise", "mizchi/js/node/test"]
 }

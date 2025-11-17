@@ -80,7 +80,7 @@ Modules
 - `mizchi/js` : Core JS bindings
   - get(), set(), unsafe_cast(), invoke(), instanceof(), etc.
   - All Api uses `#external type @js.Val` and `trait @js.Js`
-- `mizchi/js/async` : async bindings with Moonbit async
+- `mizchi/js/promise` : async bindings with Moonbit async
   - `Promise`
 - `mizchi/js/arraybuffer`
   - `ArrayBuffer`, `SharedArrayBuffer`, `DataView`, and TypedArrays

@@ -3,7 +3,7 @@ package "mizchi/js/npm/react"
 
 import(
   "mizchi/js"
-  "mizchi/js/async"
+  "mizchi/js/promise"
   "mizchi/js/dom"
 )
 
@@ -23,7 +23,7 @@ fn init_react_api(@js.Val, global_key? : String) -> Unit
 
 async fn init_react_async() -> Unit
 
-fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @async.Promise[@js.Val]
+fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @promise.Promise[@js.Val]
 
 fn[T] provider(Context[T], Array[&@js.Js], value~ : T) -> Element
 
@@ -50,7 +50,7 @@ fn[T] useRef(T?) -> ReactRef[T]
 #alias(use_state)
 fn[T : @js.Js] useState(T) -> (T, (T) -> Unit)
 
-fn[T] use_(@async.Promise[T]) -> T
+fn[T] use_(@promise.Promise[T]) -> T
 
 #alias(useActionState)
 fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)
@@ -99,4 +99,3 @@ impl ReactNode for Int
 impl ReactNode for Double
 impl ReactNode for String
 impl[T : ReactNode] ReactNode for T?
-

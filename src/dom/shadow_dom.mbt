@@ -34,41 +34,41 @@ pub fn ShadowRoot::host(self : Self) -> Element {
 ///|
 /// Returns whether the shadow root delegates focus
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/delegatesFocus
-pub fn ShadowRoot::delegates_focus(self : Self) -> Bool {
+pub fn ShadowRoot::delegatesFocus(self : Self) -> Bool {
   unsafe_cast(self.get("delegatesFocus"))
 }
 
 ///|
 /// Returns the shadow root's slot assignment mode
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/slotAssignment
-pub fn ShadowRoot::slot_assignment(self : Self) -> String {
+pub fn ShadowRoot::slotAssignment(self : Self) -> String {
   unsafe_cast(self.get("slotAssignment"))
 }
 
 ///|
 /// Returns the inner HTML of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/innerHTML
-pub fn ShadowRoot::inner_html(self : Self) -> String {
+pub fn ShadowRoot::innerHTML(self : Self) -> String {
   unsafe_cast(self.get("innerHTML"))
 }
 
 ///|
 /// Sets the inner HTML of the shadow root
-pub fn ShadowRoot::set_inner_html(self : Self, html : String) -> Unit {
+pub fn ShadowRoot::setInnerHTML(self : Self, html : String) -> Unit {
   self.set("innerHTML", html)
 }
 
 ///|
 /// Returns the active element within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/activeElement
-pub fn ShadowRoot::active_element(self : Self) -> Element? {
+pub fn ShadowRoot::activeElement(self : Self) -> Element? {
   self.get("activeElement") |> to_option()
 }
 
 ///|
 /// Returns the element from point within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/elementFromPoint
-pub fn ShadowRoot::element_from_point(
+pub fn ShadowRoot::elementFromPoint(
   self : Self,
   x : Double,
   y : Double,
@@ -79,7 +79,7 @@ pub fn ShadowRoot::element_from_point(
 ///|
 /// Returns elements from point within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/elementsFromPoint
-pub fn ShadowRoot::elements_from_point(
+pub fn ShadowRoot::elementsFromPoint(
   self : Self,
   x : Double,
   y : Double,
@@ -93,31 +93,31 @@ pub fn ShadowRoot::elements_from_point(
 /// ShadowRootInit options for attachShadow
 pub struct ShadowRootInit {
   mode : String
-  delegates_focus : Bool
-  slot_assignment : String
+  delegatesFocus : Bool
+  slotAssignment : String
 }
 
 ///|
 /// Creates a new ShadowRootInit with default values
 pub fn ShadowRootInit::new(
   mode : String,
-  delegates_focus? : Bool = false,
-  slot_assignment? : String = "named",
+  delegatesFocus? : Bool = false,
+  slotAssignment? : String = "named",
 ) -> ShadowRootInit {
-  { mode, delegates_focus, slot_assignment }
+  { mode, delegatesFocus, slotAssignment }
 }
 
 ///|
 /// Attaches a shadow root to the element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow
-pub fn HTMLElement::attach_shadow(
+pub fn HTMLElement::attachShadow(
   self : Self,
   init : ShadowRootInit,
 ) -> ShadowRoot {
   let options = @js.from_map({
     "mode": js(init.mode),
-    "delegatesFocus": js(init.delegates_focus),
-    "slotAssignment": js(init.slot_assignment),
+    "delegatesFocus": js(init.delegatesFocus),
+    "slotAssignment": js(init.slotAssignment),
   })
   self.invoke("attachShadow", [options]) |> unsafe_cast
 }
@@ -125,6 +125,6 @@ pub fn HTMLElement::attach_shadow(
 ///|
 /// Returns the shadow root of the element if it exists
 /// https://developer.mozilla.org/en-US/docs/Web/API/Element/shadowRoot
-pub fn HTMLElement::shadow_root(self : Self) -> ShadowRoot? {
+pub fn HTMLElement::shadowRoot(self : Self) -> ShadowRoot? {
   self.get("shadowRoot") |> to_option()
 }

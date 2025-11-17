@@ -10,19 +10,19 @@ pub impl Js for Storage
 ///|
 /// Returns the localStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
-pub extern "js" fn get_local_storage() -> Storage =
+pub extern "js" fn localStorage() -> Storage =
   #| () => localStorage
 
 ///|
 /// Returns the sessionStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
-pub extern "js" fn get_session_storage() -> Storage =
+pub extern "js" fn sessionStorage() -> Storage =
   #| () => sessionStorage
 
 ///|
 /// Gets an item from storage by key
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
-pub extern "js" fn Storage::get_item(self : Storage, key : String) -> String? =
+pub extern "js" fn Storage::getItem(self : Storage, key : String) -> String? =
   #|(storage, key) => {
   #|  const value = storage.getItem(key);
   #|  return value === null ? null : value;
@@ -31,7 +31,7 @@ pub extern "js" fn Storage::get_item(self : Storage, key : String) -> String? =
 ///|
 /// Sets an item in storage
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem
-pub extern "js" fn Storage::set_item(
+pub extern "js" fn Storage::setItem(
   self : Storage,
   key : String,
   value : String,
@@ -43,7 +43,7 @@ pub extern "js" fn Storage::set_item(
 ///|
 /// Removes an item from storage by key
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/removeItem
-pub extern "js" fn Storage::remove_item(self : Storage, key : String) -> Unit =
+pub extern "js" fn Storage::removeItem(self : Storage, key : String) -> Unit =
   #|(storage, key) => {
   #|  storage.removeItem(key);
   #|}
@@ -66,13 +66,13 @@ pub fn Storage::length(self : Storage) -> Int {
 /// Returns the key at the specified index
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/key
 pub fn Storage::key(self : Storage, index : Int) -> String? {
-  self.invoke("key", [index |> js]) |> to_option()
+  self.invoke("key", [index |> safe_js]) |> to_option()
 }
 
 ///|
 /// Checks if a key exists in storage
-pub fn Storage::has_item(self : Storage, key : String) -> Bool {
-  match self.get_item(key) {
+pub fn Storage::hasItem(self : Storage, key : String) -> Bool {
+  match self.getItem(key) {
     Some(_) => true
     None => false
   }
@@ -100,7 +100,7 @@ pub fn Storage::values(self : Storage) -> Array[String] {
   for i = 0; i < len; i = i + 1 {
     match self.key(i) {
       Some(k) =>
-        match self.get_item(k) {
+        match self.getItem(k) {
           Some(v) => result.push(v)
           None => ()
         }
@@ -118,7 +118,7 @@ pub fn Storage::entries(self : Storage) -> Array[(String, String)] {
   for i = 0; i < len; i = i + 1 {
     match self.key(i) {
       Some(k) =>
-        match self.get_item(k) {
+        match self.getItem(k) {
           Some(v) => result.push((k, v))
           None => ()
         }

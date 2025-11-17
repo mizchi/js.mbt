@@ -1,2 +1,2 @@
 ///|
-using @async {suspend, run_async}
+using @promise {suspend, run_async}

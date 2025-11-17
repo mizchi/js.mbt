@@ -1,5 +1,5 @@
 ///|
-using @async {type Promise, run_async}
+using @promise {type Promise, run_async}
 
 ///|
 using @js {

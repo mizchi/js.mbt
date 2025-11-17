@@ -352,7 +352,7 @@ See [TODO.md](./TODO.md) for planned features and improvements:
 ## Related Packages
 
 - `mizchi/js` - Core JavaScript FFI
-- `mizchi/js/async` - Async/Promise support
+- `mizchi/js/promise` - Async/Promise support
 - `mizchi/js/console` - Console logging
 
 ## License

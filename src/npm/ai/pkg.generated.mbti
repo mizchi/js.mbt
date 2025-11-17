@@ -3,7 +3,7 @@ package "mizchi/js/npm/ai"
 
 import(
   "mizchi/js"
-  "mizchi/js/async"
+  "mizchi/js/promise"
 )
 
 // Values
@@ -13,7 +13,7 @@ import(
 // Types and methods
 #external
 pub type Ai
-fn Ai::generate_text(Self, model~ : Model, messages~ : Array[ModelMessage]) -> @async.Promise[@js.Val]
+fn Ai::generate_text(Self, model~ : Model, messages~ : Array[ModelMessage]) -> @promise.Promise[@js.Val]
 fn Ai::require() -> Self
 impl @js.Js for Ai
 
@@ -35,4 +35,3 @@ impl @js.Js for ModelMessage
 // Type aliases
 
 // Traits
-

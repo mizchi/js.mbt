@@ -2,4 +2,4 @@
 using @js {type Val, trait Js, unsafe_cast}
 
 ///|
-using @async {type Promise, suspend}
+using @promise {type Promise, suspend}

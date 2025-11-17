@@ -139,7 +139,7 @@ test "async function" {
   // noraise はエラーが発生しないことを示す
   let async_fn = async fn(x : Int) -> Int noraise {
     // moonbitcore/async
-    // @async.sleep(100)
+    // @promise.sleep(100)
     x
   }
 

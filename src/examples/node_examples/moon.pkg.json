@@ -3,7 +3,7 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/async",
+    "mizchi/js/promise",
     "mizchi/js/node/path",
     "mizchi/js/node/os",
     {
