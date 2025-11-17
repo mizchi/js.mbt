@@ -113,29 +113,29 @@ pub fn Serializer::new() -> Serializer {
 
 ///|
 /// Write header
-#alias(writeHeader)
-pub fn Serializer::write_header(self : Self) -> Unit {
+#alias(write_header)
+pub fn Serializer::writeHeader(self : Self) -> Unit {
   self.invoke("writeHeader", []) |> ignore
 }
 
 ///|
 /// Write a value
-#alias(writeValue)
-pub fn Serializer::write_value(self : Self, value : &Js) -> Bool {
+#alias(write_value)
+pub fn Serializer::writeValue(self : Self, value : &Js) -> Bool {
   self.invoke("writeValue", [value.to_js()]) |> unsafe_cast
 }
 
 ///|
 /// Release buffer
-#alias(releaseBuffer)
-pub fn Serializer::release_buffer(self : Self) -> Buffer {
+#alias(release_buffer)
+pub fn Serializer::releaseBuffer(self : Self) -> Buffer {
   self.invoke("releaseBuffer", []) |> unsafe_cast
 }
 
 ///|
 /// Transfer ArrayBuffer
-#alias(transferArrayBuffer)
-pub fn Serializer::transfer_array_buffer(
+#alias(transfer_array_buffer)
+pub fn Serializer::transferArrayBuffer(
   self : Self,
   id : Int,
   array_buffer : ArrayBuffer,
@@ -185,15 +185,15 @@ pub fn Deserializer::new(buffer : Buffer) -> Deserializer {
 
 ///|
 /// Read header
-#alias(readHeader)
-pub fn Deserializer::read_header(self : Self) -> Bool {
+#alias(read_header)
+pub fn Deserializer::readHeader(self : Self) -> Bool {
   self.invoke("readHeader", []) |> unsafe_cast
 }
 
 ///|
 /// Read a value
-#alias(readValue)
-pub fn Deserializer::read_value(self : Self) -> Val {
+#alias(read_value)
+pub fn Deserializer::readValue(self : Self) -> Val {
   self.invoke("readValue", [])
 }
 
@@ -210,29 +210,29 @@ pub fn Deserializer::transfer_array_buffer(
 
 ///|
 /// Get wire format version
-#alias(getWireFormatVersion)
-pub fn Deserializer::get_wire_format_version(self : Self) -> Int {
+#alias(get_wire_format_version)
+pub fn Deserializer::getWireFormatVersion(self : Self) -> Int {
   self.invoke("getWireFormatVersion", []) |> unsafe_cast
 }
 
 ///|
 /// Read uint32
-#alias(readUint32)
-pub fn Deserializer::read_uint32(self : Self) -> Int {
+#alias(read_uint32)
+pub fn Deserializer::readUint32(self : Self) -> Int {
   self.invoke("readUint32", []) |> unsafe_cast
 }
 
 ///|
 /// Read double
-#alias(readDouble)
-pub fn Deserializer::read_double(self : Self) -> Double {
+#alias(read_double)
+pub fn Deserializer::readDouble(self : Self) -> Double {
   self.invoke("readDouble", []) |> unsafe_cast
 }
 
 ///|
 /// Read raw bytes
-#alias(readRawBytes)
-pub fn Deserializer::read_raw_bytes(self : Self, length : Int) -> Buffer {
+#alias(read_raw_bytes)
+pub fn Deserializer::readRawBytes(self : Self, length : Int) -> Buffer {
   self.invoke("readRawBytes", [length |> js]) |> unsafe_cast
 }
 
