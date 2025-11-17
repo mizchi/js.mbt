@@ -454,7 +454,7 @@ test "Val with mixed types in object" {
 }
 
 ///|
-test "Val property_is_enumerable" {
+test "PropertyIsEnumerable" {
   let obj = @js.Object::new()
   obj.set("enumerable", "value")
   assert_true(@js.propertyIsEnumerable(obj, "enumerable"))

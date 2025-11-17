@@ -122,12 +122,12 @@ pub impl Js for UInt
 
 ///|
 /// Convert an Array of Js-implementing types to a JavaScript array.
-pub impl[T : Js] Js for Array[T] with to_js(self) -> Val {
-  js(self.map(_.to_js()))
+pub impl Js for Array[&Js] with to_js(self) -> Val {
+  from_array(self)
 }
 
 ///|
-pub impl[T : Js] Js for Map[String, T] with to_js(self) -> Val {
+pub impl Js for Map[String, &Js] with to_js(self) -> Val {
   let v = Object::new()
   for k, val in self {
     v.set(k, val.to_js())
@@ -138,5 +138,5 @@ pub impl[T : Js] Js for Map[String, T] with to_js(self) -> Val {
 ///|
 /// Convert an Option to a JavaScript value.
 pub impl[T] Js for T? with to_js(self) -> Val {
-  js(self)
+  unsafe_cast(self)
 }
