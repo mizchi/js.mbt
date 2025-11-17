@@ -1,16 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/examples/react_app"
+package "mizchi/js/examples/js_examples"
 
 // Values
 
 // Errors
 
 // Types and methods
-type CounterAction
-
-type ItemViewProps
-
-type MyContextProps
 
 // Type aliases
 

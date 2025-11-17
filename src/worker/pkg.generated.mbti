@@ -10,11 +10,34 @@ import(
 // Errors
 
 // Types and methods
+#external
+pub type MessageChannel
+fn MessageChannel::new() -> Self
+fn MessageChannel::port1(Self) -> MessagePort
+fn MessageChannel::port2(Self) -> MessagePort
+impl @js.Js for MessageChannel
+impl Show for MessageChannel
+
 pub(all) struct MessageEvent {
   data : @js.Val
   origin : String
   source : @js.Val
 }
+
+#external
+pub type MessagePort
+#alias(addEventListener)
+fn MessagePort::add_event_listener(Self, String, (MessageEvent) -> Unit) -> Unit
+fn MessagePort::close(Self) -> Unit
+fn MessagePort::get_onmessage(Self) -> @js.Val
+#alias(postMessage)
+fn MessagePort::post_message(Self, &@js.Js) -> Unit
+fn MessagePort::post_message_with_transfer(Self, &@js.Js, Array[@js.Val]) -> Unit
+fn MessagePort::set_onmessage(Self, (MessageEvent) -> Unit) -> Unit
+fn MessagePort::set_onmessageerror(Self, (MessageEvent) -> Unit) -> Unit
+fn MessagePort::start(Self) -> Unit
+impl @js.Js for MessagePort
+impl Show for MessagePort
 
 #external
 pub type Worker

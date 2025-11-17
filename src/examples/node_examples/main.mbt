@@ -10,13 +10,10 @@ fn main {
     let read_content = @fs.readFile(outpath).unwrap()
     @js.log("Read content: " + read_content)
     assert_eq(content, read_content)
-
     let stat = @fs.stat(outpath).unwrap()
     @js.log(stat.size())
     assert_true(stat.isFile())
   } catch {
-    e => {
-      @js.log(e)
-    }
+    e => @js.log(e)
   })
 }

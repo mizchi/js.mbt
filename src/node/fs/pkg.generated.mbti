@@ -10,37 +10,36 @@ import(
 #alias(appendFileSync)
 fn append_file_sync(String, &@js.Js) -> Unit
 
-#alias(copyFileSync)
-fn copy_file_sync(String, String) -> Unit
+fn copyFileSync(String, String) -> Unit
 
-#alias(existsSync)
-fn exists_sync(String) -> Bool
+#alias(exists_sync)
+fn existsSync(String) -> Bool
 
-#alias(mkdirSync)
-fn mkdir_sync(String, recursive? : Bool) -> Unit
+#alias(mkdir_sync)
+fn mkdirSync(String, recursive? : Bool) -> Unit
 
 #alias(readFileSync)
 fn read_file_sync(String) -> @buffer.Buffer
 
 fn read_file_sync_string(String, String) -> String
 
-#alias(readdirSync)
-fn readdir_sync(String) -> Array[String]
+#alias(readdir_sync)
+fn readdirSync(String) -> Array[String]
 
-#alias(renameSync)
-fn rename_sync(String, String) -> Unit
+#alias(rename_sync)
+fn renameSync(String, String) -> Unit
 
-#alias(rmSync)
-fn rm_sync(String, recursive? : Bool, force? : Bool) -> Unit
+#alias(rm_sync)
+fn rmSync(String, recursive? : Bool, force? : Bool) -> Unit
 
-#alias(statSync)
-fn stat_sync(String) -> @js.Val
+#alias(stat_sync)
+fn statSync(String) -> @js.Val
 
-#alias(unlinkSync)
-fn unlink_sync(String) -> Unit
+#alias(unlink_sync)
+fn unlinkSync(String) -> Unit
 
-#alias(writeFileSync)
-fn write_file_sync(String, &@js.Js) -> Unit
+#alias(write_file_sync)
+fn writeFileSync(String, &@js.Js) -> Unit
 
 // Errors
 
