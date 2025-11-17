@@ -36,30 +36,6 @@ extern "js" fn ffi_wrap_sync(
   #|}
 
 ///|
-/// Wraps a synchronous function call, converting any thrown JS errors into JsError
-/// ```moonbit skip
-/// let result = throwable(() => {
-///   undefined().invoke_self([])
-/// })
-/// ```
-pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError {
-  match throwable_result(f |> unsafe_cast) {
-    Ok(result) => result |> unsafe_cast
-    Err(e) => {
-      if ffi_is_error(e) {
-        raise JsThrowError::Error(unsafe_cast(e))
-      }
-      raise JsThrowError::Value(e |> unsafe_cast)
-    }
-  }
-}
-
-///|
-fn throwable_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
-  ffi_wrap_sync(unsafe_cast(f), Ok(_), Err(_))
-}
-
-///|
 pub impl Show for JsThrowError with output(self, logger) {
   logger.write_string(self.to_string())
 }
@@ -75,16 +51,19 @@ impl Show for JsError with to_string(self) {
 }
 
 ///|
+/// JS: error.message
 pub fn JsError::message(self : Self) -> String {
   unsafe_cast(self.get("message"))
 }
 
 ///|
+/// JS: error.stack
 pub fn JsError::stack(self : Self) -> String {
   unsafe_cast(self.get("stack"))
 }
 
 ///|
+/// JS: Error.isError(value)
 pub fn JsError::isError(val : &Js) -> Bool {
   ffi_is_error(val.to_js())
 }
@@ -102,15 +81,6 @@ pub fn throw_(v : &Js) -> Unit {
 /// Create a new JavaScript Error object.
 ///
 /// Equivalent to JavaScript's `new Error(message, { cause })`.
-///
-/// # Parameters
-///
-/// - `message`: The error message
-/// - `cause`: Optional cause of the error (another ErrorObject)
-///
-/// # Returns
-///
-/// A new ErrorObject
 ///
 /// # Example
 ///

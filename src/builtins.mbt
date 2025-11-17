@@ -1,30 +1,4 @@
 ///|
-/// Convert a MoonBit Array to a JavaScript array.
-///
-/// # Safety
-///
-/// This uses `unsafe_cast` to directly convert the array representation.
-///
-/// # Parameters
-///
-/// - `arr`: A MoonBit Array of any type
-///
-/// # Returns
-///
-/// A JavaScript array with the same elements
-///
-/// # Example
-///
-/// ```moonbit
-/// let arr = [1, 2, 3, 4, 5]
-/// let js_arr = from_array(arr)
-/// // JavaScript: [1, 2, 3, 4, 5]
-/// ```
-// pub fn[T] from_array(arr : Array[T]) -> Val {
-//   arr |> unsafe_cast
-// }
-
-///|
 pub fn from_builtin_json(j : Json) -> Val {
   Js::to_js(j)
 }
@@ -101,5 +75,5 @@ pub impl Js for Json with to_js(self) -> Val {
 ///|
 pub fn[T] is_builtin_trait(v : T) -> Bool {
   let v : Val = v |> unsafe_cast
-  v.has_own_property("self") && v.has_own_property("method_0")
+  v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
 }

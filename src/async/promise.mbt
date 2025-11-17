@@ -1,4 +1,5 @@
 ///|
+/// JavaScript Promise[T]
 #external
 pub type Promise[T]
 
@@ -78,16 +79,19 @@ pub async fn[A] Promise::unwrap(self : Self[A]) -> A {
 }
 
 ///|
+/// JS: Promise.all(promises)
 pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
   ffi_promise_all(promises |> unsafe_cast) |> unsafe_cast
 }
 
 ///|
+/// JS: Promise.race(promises)
 pub fn[A] Promise::race(promises : Array[Promise[A]]) -> Promise[A] {
   ffi_promise_race(promises |> unsafe_cast) |> unsafe_cast
 }
 
 ///|
+/// JS: Promise.withResolvers()
 pub(all) struct Resolvers[T] {
   promise : Promise[T]
   resolve : (T) -> Unit
@@ -95,25 +99,15 @@ pub(all) struct Resolvers[T] {
 }
 
 ///|
-/// Creates a deferred Promise along with its resolve and reject functions.
-/// ```
-/// run_async(() => {
-///   let {promise, resolve, reject} = Promise::with_resolvers()
-///   let f = async fn () noraise {
-///     resolve(10)
-///   }
-///   f()
-///   let v: Int = promise.unwrap() catch { _ => 0 }
-/// })
-/// ```
-pub fn[T] Promise::with_resolvers() -> Resolvers[T] {
+/// JS: Promise.withResolvers()
+pub fn[T] Promise::withResolvers() -> Resolvers[T] {
   ffi_promise_with_resolvers() |> unsafe_cast
 }
 
 ///|
 pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
   () => {
-    let { promise, resolve, reject } = Promise::with_resolvers()
+    let { promise, resolve, reject } = Promise::withResolvers()
     run_async(() => try f() |> resolve catch {
       e => reject(e)
     })
@@ -124,7 +118,7 @@ pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
 ///|
 pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
   a => {
-    let { promise, resolve, reject } = Promise::with_resolvers()
+    let { promise, resolve, reject } = Promise::withResolvers()
     run_async(() => try f(a) |> resolve catch {
       e => reject(e)
     })
@@ -137,7 +131,7 @@ pub fn[A, B, R] promisify2(
   f : async (A, B) -> R,
 ) -> (A, B) -> Promise[R] noraise {
   (a, b) => {
-    let { promise, resolve, reject } = Promise::with_resolvers()
+    let { promise, resolve, reject } = Promise::withResolvers()
     run_async(() => try f(a, b) |> resolve catch {
       e => reject(e)
     })
@@ -150,7 +144,7 @@ pub fn[A, B, C, R] promisify3(
   f : async (A, B, C) -> R,
 ) -> (A, B, C) -> Promise[R] noraise {
   (a, b, c) => {
-    let { promise, resolve, reject } = Promise::with_resolvers()
+    let { promise, resolve, reject } = Promise::withResolvers()
     run_async(() => try f(a, b, c) |> resolve catch {
       e => reject(e)
     })
@@ -183,7 +177,7 @@ pub fn[A, B, C, R] promisify3(
 /// // Promise rejects with error
 /// ```
 pub fn[R] Promise::try_(f : async () -> R) -> Promise[R] noraise {
-  let { promise, resolve, reject } = Promise::with_resolvers()
+  let { promise, resolve, reject } = Promise::withResolvers()
   run_async(() => try f() |> resolve catch {
     e => reject(e)
   })

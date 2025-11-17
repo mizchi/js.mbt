@@ -92,11 +92,6 @@ pub fn[T : Js] is_undefined(v : T) -> Bool {
 }
 
 ///|
-pub fn[T : Js] is_nan(v : T) -> Bool {
-  ffi_is_nan(v.to_js())
-}
-
-///|
 pub fn[T : Js] instanceof_(v : T, cls : T) -> Bool {
   ffi_instance_of(v.to_js(), cls.to_js())
 }
@@ -146,26 +141,94 @@ pub fn Val::is_none(self : Self) -> Bool {
 }
 
 ///|
-/// Create a new instance of a JavaScript class.
-///
-/// Equivalent to JavaScript's `new Class(...args)` syntax.
-///
-/// # Parameters
-///
-/// - `cls`: The constructor function/class
-/// - `args`: Array of constructor arguments
-///
-/// # Returns
-///
-/// A new instance of the class as a Val
+/// JS: new cls(...args)
+pub fn new_(cls : Val, args : Array[&Js]) -> Val {
+  ffi_new(cls, args.map(_.to_js()))
+}
+
+///|
+/// Trait for types that can be safely converted to JavaScript values.
 ///
 /// # Example
 ///
 /// ```moonbit
-/// let date_constructor = globalThis().get("Date")
-/// let date = new_(date_constructor, [2024, 0, 1])
-/// // Creates: new Date(2024, 0, 1)
+/// // Using the trait explicitly
+/// let val : Val = Js::to_js("hello")
+/// let num : Val = Js::to_js(42)
+///
+/// // Using with polymorphic functions
+/// fn create_object(name : &Js, age : &Js) -> Val {
+///   let obj = @js.Object::new()
+///   obj.set("name", name)
+///   obj.set("age", age)
+///   obj.to_js()
+/// }
+/// let obj = create_object("Alice", 30)  // Strings and Ints implement Js
 /// ```
-pub fn new_(cls : Val, args : Array[&Js]) -> Val {
-  ffi_new(cls, args.map(_.to_js()))
+pub(open) trait Js {
+  to_js(Self) -> Val = _
+  get(Self, &PropertyKey) -> Val = _
+  set(Self, &PropertyKey, &Js) -> Unit = _
+  invoke(Self, &PropertyKey, Array[&Js]) -> Val = _
+  invoke_throwable(Self, &PropertyKey, Array[&Js]) -> Val raise JsThrowError = _
+  invoke_self(Self, Array[&Js]) -> Val = _
+  invoke_self_throwable(Self, Array[&Js]) -> Val raise JsThrowError = _
+  delete(Self, &PropertyKey) -> Unit = _
+  hasOwnProperty(Self, &PropertyKey) -> Bool = _
+}
+
+///|
+impl Js with to_js(self) -> Val {
+  js(self)
+}
+
+///|
+/// JS: self[key]
+impl Js with get(self, key : &PropertyKey) -> Val {
+  ffi_get(self.to_js(), key.to_key() |> unsafe_cast)
+}
+
+///|
+/// JS: self[key] = val
+impl Js with set(self, key : &PropertyKey, val : &Js) -> Unit {
+  ffi_set(self.to_js(), key.to_key() |> unsafe_cast, val.to_js())
+}
+
+///|
+/// Invoke a method on the JavaScript value.
+/// JS: self[key](...args)
+impl Js with invoke(self, key, args) -> Val {
+  ffi_invoke(self.to_js(), key.to_key() |> unsafe_cast, args.map(_.to_js()))
+}
+
+///|
+/// JS: try { self[key](...args) } catch (e) { throw new JsThrowError(e); }
+impl Js with invoke_throwable(self, key, args) -> Val raise JsThrowError {
+  throwable(() => ffi_invoke(
+    self.to_js(),
+    key.to_key() |> unsafe_cast,
+    args.map(_.to_js()),
+  ))
+}
+
+///|
+/// Invoke a method on the JavaScript value with no arguments.
+/// JS: self(...args)
+impl Js with invoke_self(self, args) -> Val {
+  ffi_call(self.to_js(), args.map(_.to_js()))
+}
+
+///|
+impl Js with invoke_self_throwable(self, args) -> Val raise JsThrowError {
+  throwable(() => ffi_call(self.to_js(), args.map(_.to_js())))
+}
+
+///|
+impl Js with delete(self, key : &PropertyKey) -> Unit {
+  ffi_delete(self.to_js(), key.to_key() |> unsafe_cast)
+}
+
+///|
+impl Js with hasOwnProperty(self, key : &PropertyKey) -> Bool {
+  ffi_has_own_property(self.to_js(), key.to_key() |> unsafe_cast)
 }

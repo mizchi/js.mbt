@@ -172,12 +172,12 @@ test "Val delete and has_own_property" {
   let obj = @js.Object::new()
   obj.set("key1", "value1")
   obj.set("key2", "value2")
-  assert_true(obj.has_own_property("key1"))
-  assert_true(obj.has_own_property("key2"))
-  assert_false(obj.has_own_property("key3"))
+  assert_true(obj.hasOwnProperty("key1"))
+  assert_true(obj.hasOwnProperty("key2"))
+  assert_false(obj.hasOwnProperty("key3"))
   obj.delete("key1")
-  assert_false(obj.has_own_property("key1"))
-  assert_true(obj.has_own_property("key2"))
+  assert_false(obj.hasOwnProperty("key1"))
+  assert_true(obj.hasOwnProperty("key2"))
 }
 
 ///|
@@ -514,7 +514,7 @@ test "Val with empty strings" {
   let obj = @js.Object::new()
   obj.set("empty", "")
   assert_eq(unsafe_cast(obj.get("empty")), "")
-  assert_true(obj.has_own_property("empty"))
+  assert_true(obj.hasOwnProperty("empty"))
 }
 
 ///|
@@ -524,7 +524,7 @@ test "Val with zero values" {
   obj.set("zero_float", 0.0)
   assert_eq(unsafe_cast(obj.get("zero")), 0)
   assert_eq(unsafe_cast(obj.get("zero_float")), 0.0)
-  assert_true(obj.has_own_property("zero"))
+  assert_true(obj.hasOwnProperty("zero"))
 }
 
 ///|
@@ -532,7 +532,7 @@ test "Val with false boolean" {
   let obj = @js.Object::new()
   obj.set("flag", false)
   assert_eq(unsafe_cast(obj.get("flag")), false)
-  assert_true(obj.has_own_property("flag"))
+  assert_true(obj.hasOwnProperty("flag"))
 }
 
 ///|

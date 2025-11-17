@@ -167,3 +167,8 @@ pub fn decodeURIComponent(encoded_str : String) -> String {
 pub fn dynamicImport(module_name : String) -> Val {
   ffi_dynamic_import(module_name)
 }
+
+///|
+pub fn[T : Js] is_nan(v : T) -> Bool {
+  ffi_is_nan(v.to_js())
+}
