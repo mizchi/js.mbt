@@ -5,7 +5,8 @@
     "mizchi/js/async",
     "mizchi/js/dom",
     "mizchi/js/node",
-    "mizchi/js/npm/react"
+    "mizchi/js/npm/react",
+    "mizchi/js/npm/react/element"
   ],
   "test-import": ["mizchi/js/node/test"]
 }
