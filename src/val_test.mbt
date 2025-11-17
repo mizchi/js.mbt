@@ -154,16 +154,16 @@ test "Val set_if_exists" {
   let obj = @js.Object::new()
 
   // Set with Some value
-  obj.to_js().set_if_exists("key1", Some("value1"))
+  set_if_exists(obj, "key1", Some("value1"))
   assert_eq(unsafe_cast(obj.get("key1")), "value1")
 
   // Set with None should not add property
   let v : Int? = None
-  obj.to_js().set_if_exists("key2", v)
+  set_if_exists(obj, "key2", v)
   assert_true(@js.is_undefined(obj.get("key2")))
 
   // Set with undefined value should not add property
-  obj.to_js().set_if_exists("key3", Some(undefined()))
+  set_if_exists(obj, "key3", Some(undefined()))
   assert_true(@js.is_undefined(obj.get("key3")))
 }
 
@@ -457,8 +457,8 @@ test "Val with mixed types in object" {
 test "Val property_is_enumerable" {
   let obj = @js.Object::new()
   obj.set("enumerable", "value")
-  assert_true(@js.property_is_enumerable(obj, "enumerable"))
-  assert_false(@js.property_is_enumerable(obj, "nonexistent"))
+  assert_true(@js.propertyIsEnumerable(obj, "enumerable"))
+  assert_false(@js.propertyIsEnumerable(obj, "nonexistent"))
 }
 
 ///|
@@ -594,10 +594,10 @@ test "encode_uri_component and decode_uri_component" {
 test {
   let obj = @js.Object::new().to_js()
   let undef : Val? = Some(undefined())
-  obj.set_if_exists("a", undef)
+  set_if_exists(obj, "a", undef)
   let none_val : Val? = None
-  obj.set_if_exists("b", none_val)
-  obj.set_if_exists("c", Some(js(42)))
+  set_if_exists(obj, "b", none_val)
+  set_if_exists(obj, "c", Some(js(42)))
   assert_true(@js.is_undefined(obj.get("a")))
   // assert_eq(unsafe_cast(obj.get("a")), 42)
   // obj.set_if_exists("b", None)

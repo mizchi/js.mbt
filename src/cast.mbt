@@ -27,6 +27,12 @@ pub fn[T] js(v : T) -> Val {
 }
 
 ///|
+/// Cast any MoonBit Js-implementing type to a JavaScript Val safely.
+pub fn safe_js(a : &Js) -> Val {
+  unsafe_cast(a.to_js())
+}
+
+///|
 /// Unsafely cast a value from one type to another.
 pub fn[A, B] unsafe_cast(a : A) -> B = "%identity"
 
@@ -42,6 +48,7 @@ pub fn[A] to_option(v : Val) -> A? {
 }
 
 ///|
+/// Cast a MoonBit Array to a JavaScript array.
 pub fn[T : Js] from_array(v : Array[T]) -> Val {
   unsafe_cast(v.map(_.to_js()))
 }

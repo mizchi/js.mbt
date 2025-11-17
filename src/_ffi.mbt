@@ -3,6 +3,15 @@ extern "js" fn ffi_to_string(v : Val) -> String =
   #| (v) => v == null ? String(null) : v.toString()
 
 ///|
+extern "js" fn ffi_is_null(v : Val) -> Bool =
+  #| (v) => v === null
+
+///|
+/// JS:
+pub extern "js" fn ffi_is_undefined(v : Val) -> Bool =
+  #| (v) => v === undefined
+
+///|
 extern "js" fn ffi_get(v : Val, key : String) -> Val =
   #| (obj, k) => obj[k]
 

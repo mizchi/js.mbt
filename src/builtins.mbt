@@ -71,9 +71,3 @@ pub impl Js for Json with to_js(self) -> Val {
     }
   }
 }
-
-///|
-pub fn[T] is_builtin_trait(v : T) -> Bool {
-  let v : Val = v |> unsafe_cast
-  v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
-}

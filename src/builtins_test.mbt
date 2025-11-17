@@ -9,7 +9,8 @@ test "json::to_js" {
 ///|
 test "is_builtin_trait" {
   let show : &Show = "hello"
-  assert_true(is_builtin_trait(show))
+  let v: Val = unsafe_cast(show)
+  assert_true(is_builtin_trait(v))
 }
 
 ///|

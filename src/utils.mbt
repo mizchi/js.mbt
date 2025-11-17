@@ -1,3 +1,62 @@
+///|
+/// JS: v.propertyIsEnumerable(k)
+pub fn[T : Js] propertyIsEnumerable(v : T, k : String) -> Bool {
+  ffi_property_is_enumerable(v.to_js(), k)
+}
+
+///|
+/// JS: Array.isArray(v)
+pub fn[T : Js] is_array(v : T) -> Bool {
+  ffi_is_array(v.to_js())
+}
+
+///|
+/// JS: typeof v === "object" && v !== null && !Array.isArray(v)
+pub fn[T : Js] is_object(v : T) -> Bool {
+  ffi_is_object(v.to_js())
+}
+
+///|
+/// JS: v === null
+pub fn[T : Js] is_null(v : T) -> Bool {
+  ffi_is_null(v.to_js())
+}
+
+///| JS: v === undefined
+pub fn[T : Js] is_undefined(v : T) -> Bool {
+  ffi_is_undefined(v.to_js())
+}
+
+///|
+pub fn[T: Js] is_builtin_trait(v : T) -> Bool {
+  let v : Val = v |> unsafe_cast
+  v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
+}
+
+
+///|
+/// Conditionally set a property value if the value exists and is not undefined.
+/// JS: if (value !== undefined) { o[key] = value; }
+///
+/// # Example
+///
+/// ```moonbit
+/// let obj = @js.Object::new()
+/// set_if_exists(obj, "name", Some("Alice"))     // Sets property
+/// set_if_exists(obj, "city", Some(undefined())) // Does nothing
+/// ```
+pub fn[O : Js, V : Js] set_if_exists(
+  o : O,
+  key : &PropertyKey,
+  value : V?,
+) -> Unit {
+  guard value is Some(val) else { return }
+  let val = val.to_js()
+  if is_undefined(val) {
+    return
+  }
+  ffi_set(o.to_js(), key.to_key() |> unsafe_cast, val.to_js())
+}
 
 ///|
 /// Wraps a synchronous function call, converting any thrown JS errors into JsError

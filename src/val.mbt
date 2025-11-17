@@ -36,67 +36,13 @@ pub impl Eq for Val with equal(self, other) -> Bool {
 }
 
 ///|
-/// Conditionally set a property value if the value exists and is not undefined.
-///
-/// # Example
-///
-/// ```moonbit
-/// let obj = @js.Object::new()
-/// obj.to_js().set_if_exists("name", Some("Alice"))     // Sets property
-/// obj.to_js().set_if_exists("city", Some(undefined())) // Does nothing
-/// ```
-pub fn[T : Js] Val::set_if_exists(
-  self : Val,
-  key : &PropertyKey,
-  value : T?,
-) -> Unit {
-  guard value is Some(val) else { return }
-  let val = val.to_js()
-  if is_undefined(val) {
-    return
-  }
-  ffi_set(self, key.to_key() |> unsafe_cast, val.to_js())
-}
-
-///|
-pub fn[T : Js] property_is_enumerable(v : T, k : String) -> Bool {
-  ffi_property_is_enumerable(v.to_js(), k)
-}
-
-///|
-pub fn[T : Js] is_array(v : T) -> Bool {
-  ffi_is_array(v.to_js())
-}
-
-///|
-pub fn[T : Js] is_object(v : T) -> Bool {
-  ffi_is_object(v.to_js())
-}
-
-///|
-extern "js" fn ffi_is_null(v : Val) -> Bool =
-  #| (v) => v === null
-
-///|
-pub fn[T : Js] is_null(v : T) -> Bool {
-  ffi_is_null(v.to_js())
-}
-
-///|
-pub extern "js" fn ffi_is_undefined(v : Val) -> Bool =
-  #| (v) => v === undefined
-
-///|
-pub fn[T : Js] is_undefined(v : T) -> Bool {
-  ffi_is_undefined(v.to_js())
-}
-
-///|
+/// JS: v instanceof cls
 pub fn[T : Js] instanceof_(v : T, cls : T) -> Bool {
   ffi_instance_of(v.to_js(), cls.to_js())
 }
 
 ///|
+/// JS: typeof v
 pub fn[T : Js] typeof_(v : T) -> String {
   ffi_type_of(v.to_js())
 }
