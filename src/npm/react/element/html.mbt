@@ -27,13 +27,16 @@ fn common_node(
     attr[k] = v
   }
   if id is Some(id) {
-    attr.set("id", id |> js)
+    attr.set("id", id |> safe_js)
   }
   if class is Some(class) {
-    attr.set("className", class |> js)
+    attr.set("className", class |> safe_js)
   }
   if className is Some(className) {
-    attr.set("className", className |> js)
+    attr.set("className", className |> safe_js)
+  }
+  if tab_index is Some(tab_index) {
+    attr.set("tabIndex", tab_index |> safe_js)
   }
   if style is Some(style) {
     let style_obj = @js.Object::new()
@@ -43,50 +46,36 @@ fn common_node(
     attr.set("style", style_obj.to_js())
   }
   if ref_ is Some(ref_) {
-    attr.set("ref", ref_ |> js)
+    attr.set("ref", ref_ |> safe_js)
   }
   if key is Some(key) {
-    attr.set("key", key |> js)
+    attr.set("key", key |> safe_js)
   }
-  if on_click is Some(on_click) {
-    let f : Val = on_click |> js
-    attr.set("onClick", f)
+  if on_click is Some(f) {
+    attr.set("onClick", f |> @js.from_fn1)
   }
-  if on_change is Some(on_change) {
-    let f : Val = on_change |> js
-    attr.set("onChange", f)
+  if on_change is Some(f) {
+    attr.set("onChange", f |> @js.from_fn1)
   }
-  if on_keydown is Some(on_keydown) {
-    let f : Val = on_keydown |> js
-    attr.set("onKeyDown", f)
+  if on_keydown is Some(f) {
+    attr.set("onKeyDown", f |> @js.from_fn1)
   }
-  if on_keyup is Some(on_keyup) {
-    let f : Val = on_keyup |> js
-    attr.set("onKeyUp", f)
+  if on_keyup is Some(f) {
+    attr.set("onKeyUp", f |> @js.from_fn1)
   }
-  if on_drag is Some(v) {
-    attr.set("onDrag", js(v))
-  }
-  if on_dragstart is Some(v) {
-    attr.set("onDragStart", js(v))
-  }
-  if on_dragend is Some(v) {
-    attr.set("onDragEnd", js(v))
-  }
-  if on_dragleave is Some(v) {
-    attr.set("onDragLeave", js(v))
-  }
-  if on_dragenter is Some(v) {
-    attr.set("onDragEnter", js(v))
-  }
-  if on_dragover is Some(v) {
-    attr.set("onDragOver", js(v))
-  }
-  if on_drop is Some(v) {
-    attr.set("onDrop", js(v))
-  }
-  if tab_index is Some(tab_index) {
-    attr.set("tabIndex", tab_index |> js)
+  let drag_handlers : Array[(String, DragEventHandler?)] = [
+    ("onDrag", on_drag),
+    ("onDragStart", on_dragstart),
+    ("onDragEnd", on_dragend),
+    ("onDragLeave", on_dragleave),
+    ("onDragEnter", on_dragenter),
+    ("onDragOver", on_dragover),
+    ("onDrop", on_drop),
+  ]
+  for h in drag_handlers {
+    if h.1 is Some(f) {
+      attr.set(h.0, f |> @js.from_fn1)
+    }
   }
   h(tag_name, attributes=attr, children.map(_.to_react_node()))
 }

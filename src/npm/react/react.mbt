@@ -36,7 +36,7 @@ pub impl Js for Element
 
 ///|
 #alias(h)
-pub fn create_element(
+pub fn createElement(
   tag : String,
   children : Array[&Js],
   disabled? : Bool,
@@ -59,7 +59,7 @@ pub fn create_element(
   on_dragover? : (@dom.DragEvent) -> Unit,
   on_drop? : (@dom.DragEvent) -> Unit,
 ) -> Element {
-  let tag = js(tag)
+  let tag = safe_js(tag)
   let children = children.map(_.to_js()) |> @js.from_array
   let val = @js.Object::new()
   if attributes is Some(props) {
@@ -68,7 +68,7 @@ pub fn create_element(
     }
   }
   if ref_ is Some(ref_) {
-    val.set("ref", ref_ |> js)
+    val.set("ref", ref_ |> safe_js)
   }
   if key is Some(key) {
     val.set("key", key)
@@ -148,7 +148,7 @@ pub fn[T] c(
 
 ///|
 pub fn fragment(children : Array[&Js], key? : String) -> Element {
-  let tag = js(get_fragment())
+  let tag = unsafe_cast(get_fragment())
   let children = @js.from_array(children)
   let val = @js.Object::new()
   if key is Some(key) {
@@ -159,9 +159,9 @@ pub fn fragment(children : Array[&Js], key? : String) -> Element {
 
 ///|
 pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
-  let tag = get_suspense() |> js
+  let tag = get_suspense() |> unsafe_cast
   let children = @js.from_array(children)
-  let props = @js.from_map({ "fallback": fallback |> js })
+  let props = @js.from_map({ "fallback": fallback |> unsafe_cast })
   unsafe_cast(ffi_create_element(tag, props, children))
 }
 

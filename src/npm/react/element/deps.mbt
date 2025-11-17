@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, unsafe_cast, js}
+using @js {type Val, unsafe_cast, safe_js, js}
 
 ///|
 using @react {type ReactRef, h}

@@ -22,7 +22,7 @@ pub fn[T : Js] use_state(initial : T) -> (T, (T) -> Unit) {
 ///   ...
 /// }
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
-  let initial : () -> Val = unsafe_cast(initial |> js)
+  let initial : () -> Val = unsafe_cast(initial)
   let result = ffi_react_use_state_lazy(initial)
   let value : T = unsafe_cast(result.get(0))
   let update_fn : (T) -> Unit = unsafe_cast(result.get(1))
@@ -53,7 +53,7 @@ pub fn[F] use_callback(f : F, keys : Array[&Js]) -> F {
 ///     println("mounted")
 ///     () => println("unmounted")
 ///   }, [])
-///   create_element("div", ["Hello"])
+///   createElement("div", ["Hello"])
 /// }
 /// ```
 #alias(useEffect)
@@ -74,7 +74,7 @@ pub fn use_layout_effect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
 ///   let result = use_memo(() => {
 ///     42
 ///   }, [])
-///   create_element("div", [result])
+///   createElement("div", [result])
 /// }
 /// ```
 #alias(useMemo)
@@ -89,7 +89,7 @@ pub fn[T] use_memo(f : () -> T, keys : Array[&Js]) -> T {
 /// ```mbt
 /// fn my_component(props : EmptyProps) -> Element {
 ///   let my_ref : ReactRef[@dom.Element] = use_ref(None)
-///   create_element("div", ref_=my_ref, ["Hello"])
+///   createElement("div", ref_=my_ref, ["Hello"])
 /// }
 /// ```
 #alias(useRef)
@@ -173,7 +173,7 @@ pub fn[T] use_(promise : Promise[T]) -> T {
 ///   let (state, dispatch) = use_reducer((s: Int, a: CounterAction) => match a {
 ///     Increment => s + 1
 ///   }, 0)
-///   create_element("div", [state])
+///   createElement("div", [state])
 /// }
 /// ```
 #alias(useReducer)
