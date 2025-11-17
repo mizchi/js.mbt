@@ -5,7 +5,6 @@ fn common_node(
   children~ : Array[&ReactNode],
   id~ : String?,
   class~ : String?,
-  className~ : String?,
   style~ : Map[String, String]?,
   tab_index~ : Int?,
   ref_~ : ReactRef[@dom.Element]?,
@@ -31,9 +30,6 @@ fn common_node(
   }
   if class is Some(class) {
     attr.set("className", class |> safe_js)
-  }
-  if className is Some(className) {
-    attr.set("className", className |> safe_js)
   }
   if tab_index is Some(tab_index) {
     attr.set("tabIndex", tab_index |> safe_js)
@@ -77,7 +73,7 @@ fn common_node(
       attr.set(h.0, f |> @js.from_fn1)
     }
   }
-  h(tag_name, attributes=attr, children.map(_.to_react_node()))
+  h(tag_name, props=attr, children.map(_.to_react_node()))
 }
 
 ///|
@@ -88,7 +84,6 @@ pub fn div(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -113,7 +108,6 @@ pub fn div(
     id~,
     class~,
     tab_index~,
-    className~,
     style~,
     ref_~,
     key~,
@@ -140,7 +134,6 @@ pub fn pre(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -165,7 +158,6 @@ pub fn pre(
     id~,
     tab_index~,
     class~,
-    className~,
     style~,
     ref_~,
     key~,
@@ -192,7 +184,6 @@ pub fn blockquote(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -216,7 +207,6 @@ pub fn blockquote(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -243,7 +233,6 @@ pub fn span(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -267,7 +256,6 @@ pub fn span(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     ref_~,
     tab_index~,
@@ -294,7 +282,6 @@ pub fn nav(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -318,7 +305,6 @@ pub fn nav(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     ref_~,
     tab_index~,
@@ -345,7 +331,6 @@ pub fn p(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -369,7 +354,6 @@ pub fn p(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -402,7 +386,6 @@ pub fn textarea(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -450,7 +433,6 @@ pub fn textarea(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -476,7 +458,6 @@ pub fn input(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   name? : String,
   type_? : String,
   value? : String,
@@ -526,7 +507,6 @@ pub fn input(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -553,7 +533,6 @@ pub fn main_(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -577,7 +556,6 @@ pub fn main_(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -604,7 +582,6 @@ pub fn header(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -629,7 +606,6 @@ pub fn header(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -656,7 +632,6 @@ pub fn footer(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -681,7 +656,6 @@ pub fn footer(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -708,7 +682,6 @@ pub fn ul(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -733,7 +706,6 @@ pub fn ul(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -760,7 +732,6 @@ pub fn ol(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -785,7 +756,6 @@ pub fn ol(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -812,7 +782,6 @@ pub fn article(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -836,7 +805,6 @@ pub fn article(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -863,7 +831,6 @@ pub fn aside(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -887,7 +854,6 @@ pub fn aside(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -914,7 +880,6 @@ pub fn section(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -938,7 +903,6 @@ pub fn section(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -981,7 +945,6 @@ pub fn form(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1032,7 +995,6 @@ pub fn form(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1063,7 +1025,6 @@ pub fn select(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   // react
@@ -1102,7 +1063,6 @@ pub fn select(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1131,7 +1091,6 @@ pub fn option(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1166,7 +1125,6 @@ pub fn option(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1194,7 +1152,6 @@ pub fn label(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1226,7 +1183,6 @@ pub fn label(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1253,7 +1209,6 @@ pub fn li(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1278,7 +1233,6 @@ pub fn li(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1305,7 +1259,6 @@ pub fn code(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1330,7 +1283,6 @@ pub fn code(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1357,7 +1309,6 @@ pub fn details(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1382,7 +1333,6 @@ pub fn details(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1409,7 +1359,6 @@ pub fn summary(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1434,7 +1383,6 @@ pub fn summary(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1467,7 +1415,6 @@ pub fn a(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1505,7 +1452,6 @@ pub fn a(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1542,7 +1488,6 @@ pub fn iframe(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   // react
   ref_? : ReactRef[@dom.Element],
@@ -1590,7 +1535,6 @@ pub fn iframe(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1630,7 +1574,6 @@ pub fn img(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1689,7 +1632,6 @@ pub fn img(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1720,7 +1662,6 @@ pub fn video(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1754,7 +1695,6 @@ pub fn video(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1784,7 +1724,6 @@ pub fn source(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1819,7 +1758,6 @@ pub fn source(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1845,7 +1783,6 @@ pub fn hr(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1870,7 +1807,6 @@ pub fn hr(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1897,7 +1833,6 @@ pub fn h1(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1922,7 +1857,6 @@ pub fn h1(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -1949,7 +1883,6 @@ pub fn h2(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -1974,7 +1907,6 @@ pub fn h2(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -2001,7 +1933,6 @@ pub fn h3(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
 
@@ -2026,7 +1957,6 @@ pub fn h3(
     attributes.unwrap_or({}),
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,
@@ -2054,7 +1984,6 @@ pub fn button(
   attributes? : Map[String, Val],
   id? : String,
   class? : String,
-  className? : String,
   style? : Map[String, String],
   tab_index? : Int,
   ref_? : ReactRef[@dom.Element],
@@ -2088,7 +2017,6 @@ pub fn button(
     new_attributes,
     id~,
     class~,
-    className~,
     style~,
     tab_index~,
     ref_~,

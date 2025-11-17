@@ -22,7 +22,7 @@ using @react_dom {init_react_client}
 using @react_router {init_react_router, router_provider}
 
 ///|
-using @js {log, js, unsafe_cast}
+using @js {log, js, safe_js, unsafe_cast}
 
 ///|
 using @async {type Promise, sleep, run_async}
@@ -34,6 +34,7 @@ using @element {
   hr,
   ul,
   li,
+  button,
   form,
   input,
   main_,
@@ -81,7 +82,7 @@ fn use_myctx() -> MyContextProps {
 ///|
 fn ctx_consumer(_ : EmptyProps) -> @react.Element {
   let ctx_value = use_myctx()
-  h("div", attributes={ "className": "context-value" |> js }, [
+  h("div", props={ "className": "context-value" |> safe_js }, [
     "Context value: \{ctx_value.v}",
   ])
 }
@@ -106,7 +107,7 @@ fn counter(_ : EmptyProps) -> @react.Element {
     },
     [count],
   )
-  h("button", attributes={ "onClick": on_click |> js }, ["Count: \{count}"])
+  h("button", props={ "onClick": on_click |> js }, ["Count: \{count}"])
 }
 
 ///|
@@ -126,7 +127,7 @@ fn async_counter(_ : EmptyProps) -> @react.Element {
     }),
     [count],
   )
-  h("button", on_click~, [
+  button(on_click~, [
     "Async Count: \{count}",
     if is_pending {
       " (Updating...)"

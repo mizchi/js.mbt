@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, global_this, js, unsafe_cast, log}
+using @js {type Val, trait Js, unsafe_cast, log}
 
 ///|
 fn render_to_string(element : Element) -> String {
@@ -13,15 +13,15 @@ priv struct TestProps {
 }
 
 ///|
-test "create_element" {
+test "React createElement" {
   init_react()
   let el = createElement("div", [])
   assert_eq(unsafe_cast(el.get("type")), "div")
   let with_attrs = createElement(
     "button",
-    attributes={
-      "className": "my-button" |> js,
-      "onClick": js(fn() { log("Button clicked") }),
+    props={
+      "className": "my-button" |> unsafe_cast,
+      "onClick": @js.from_fn0(fn() { log("Button clicked") }),
     },
     [],
   )
@@ -30,9 +30,9 @@ test "create_element" {
     let r : ReactRef[@dom.Element] = use_ref(None)
     createElement("span", ref_=r, [])
   }
-  c(c1, EmptyProps::default()) |> ignore
+  component(c1, EmptyProps::default()) |> ignore
   let c2 = (props : TestProps) => createElement("p", [props.v])
-  c(c2, { v: "Hello, World!" }) |> ignore
+  component(c2, { v: "Hello, World!" }) |> ignore
 }
 
 ///|
