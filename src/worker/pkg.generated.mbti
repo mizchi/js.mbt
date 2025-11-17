@@ -26,28 +26,23 @@ pub(all) struct MessageEvent {
 
 #external
 pub type MessagePort
-#alias(addEventListener)
-fn MessagePort::add_event_listener(Self, String, (MessageEvent) -> Unit) -> Unit
 fn MessagePort::close(Self) -> Unit
-fn MessagePort::get_onmessage(Self) -> @js.Val
 #alias(postMessage)
 fn MessagePort::post_message(Self, &@js.Js) -> Unit
 fn MessagePort::post_message_with_transfer(Self, &@js.Js, Array[@js.Val]) -> Unit
-fn MessagePort::set_onmessage(Self, (MessageEvent) -> Unit) -> Unit
-fn MessagePort::set_onmessageerror(Self, (MessageEvent) -> Unit) -> Unit
 fn MessagePort::start(Self) -> Unit
+impl @js.EventTarget for MessagePort
 impl @js.Js for MessagePort
 impl Show for MessagePort
 
 #external
 pub type Worker
-#alias(addEventListener)
-fn Worker::add_event_listener(Self, String, (MessageEvent) -> Unit) -> Unit
 fn Worker::new(String, is_module? : Bool) -> Self
 #alias(postMessage)
 fn Worker::post_message(Self, &@js.Js) -> Unit
 fn Worker::post_message_with_transfer(Self, &@js.Js, Array[@js.Val]) -> Unit
 fn Worker::terminate(Self) -> Unit
+impl @js.EventTarget for Worker
 impl @js.Js for Worker
 
 // Type aliases

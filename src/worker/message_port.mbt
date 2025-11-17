@@ -1,11 +1,19 @@
 ///|
+using @js {trait EventTarget}
+
+///|
 /// MessagePort represents one end of a message channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort
+///
+/// MessagePort implements the EventTarget trait for event handling.
 #external
 pub type MessagePort
 
 ///|
 pub impl Js for MessagePort
+
+///|
+pub impl EventTarget for MessagePort
 
 ///|
 pub impl Show for MessagePort with output(self, logger) {
@@ -53,41 +61,6 @@ pub fn MessagePort::start(port : MessagePort) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/close
 pub fn MessagePort::close(port : MessagePort) -> Unit {
   port.invoke("close", []) |> ignore
-}
-
-///|
-/// Adds an event listener for the message event
-#alias(addEventListener)
-pub fn MessagePort::add_event_listener(
-  port : MessagePort,
-  event : String,
-  listener : (MessageEvent) -> Unit,
-) -> Unit {
-  port.invoke("addEventListener", [js(event), listener |> js]) |> ignore
-}
-
-///|
-/// Sets the onmessage event handler
-pub fn MessagePort::set_onmessage(
-  port : MessagePort,
-  handler : (MessageEvent) -> Unit,
-) -> Unit {
-  port.set("onmessage", handler |> js)
-}
-
-///|
-/// Gets the onmessage event handler
-pub fn MessagePort::get_onmessage(port : MessagePort) -> Val {
-  port.get("onmessage")
-}
-
-///|
-/// Sets the onmessageerror event handler
-pub fn MessagePort::set_onmessageerror(
-  port : MessagePort,
-  handler : (MessageEvent) -> Unit,
-) -> Unit {
-  port.set("onmessageerror", handler |> js)
 }
 
 ///|

@@ -159,6 +159,12 @@ impl ToJson for Val
 // Type aliases
 
 // Traits
+pub(open) trait EventTarget : Js {
+  add_event_listener(Self, String, (Val) -> Unit) -> Unit = _
+  remove_event_listener(Self, String, (Val) -> Unit) -> Unit = _
+  dispatch_event(Self, Val) -> Bool = _
+}
+
 pub(open) trait Js {
   to_js(Self) -> Val = _
   get(Self, &PropertyKey) -> Val = _

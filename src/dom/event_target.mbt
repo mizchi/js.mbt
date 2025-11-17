@@ -1,9 +1,10 @@
 ///|
-/// DOM trait hierarchy following TypeScript/Web IDL standards
-/// EventTarget_ -> Node_ -> Element_ -> HTMLElement_
+/// DOM-specific EventTarget trait hierarchy following TypeScript/Web IDL standards
+/// EventTarget -> Node -> Element -> HTMLElement
 
 ///|
-/// EventTarget_ trait - base interface for objects that can receive events
+/// DOM-specific EventTarget trait - interface for DOM objects that can receive events
+/// This trait uses the DOM Event type, unlike the generic EventTarget trait
 pub(open) trait EventTargetImpl: Js {
   add_event_listener(Self, String, (Event) -> Unit) -> Unit = _
   remove_event_listener(Self, String, (Event) -> Unit) -> Unit = _
@@ -22,5 +23,5 @@ impl EventTargetImpl with remove_event_listener(self, event_type, handler) -> Un
 
 ///|
 impl EventTargetImpl with dispatch_event(self, event) -> Bool {
-  self.invoke("dispatchEvent", [event]) |> unsafe_cast
+  self.invoke("dispatchEvent", [event]) |> @js.unsafe_cast
 }
