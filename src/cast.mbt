@@ -95,22 +95,6 @@ pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Js {
 }
 
 ///|
-pub fn[A, B] from_tuple2(t : (A, B)) -> Js {
-  let arr : Array[Js] = [t.0 |> unsafe_cast, t.1 |> unsafe_cast]
-  unsafe_cast(arr)
-}
-
-///|
-pub fn[A, B, C] from_tuple3(t : (A, B, C)) -> Js {
-  let arr : Array[Js] = [
-    t.0 |> unsafe_cast,
-    t.1 |> unsafe_cast,
-    t.2 |> unsafe_cast,
-  ]
-  unsafe_cast(arr)
-}
-
-///|
 /// Cast a MoonBit function with 3 arguments to a JavaScript function Val.
 pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
   unsafe_cast(f)
@@ -145,12 +129,12 @@ pub impl JsImpl for Unit
 
 ///|
 /// Convert an Array of Js-implementing types to a JavaScript array.
-pub impl JsImpl for Array[&JsImpl] with to_js(self) -> Js {
+pub impl JsImpl for Array[&JsImpl] with to_js(self) {
   from_array(self)
 }
 
 ///|
-pub impl JsImpl for Map[String, &JsImpl] with to_js(self) -> Js {
+pub impl JsImpl for Map[String, &JsImpl] with to_js(self) {
   let v = Object::new()
   for k, val in self {
     v.set(k, val.to_js())
@@ -160,6 +144,6 @@ pub impl JsImpl for Map[String, &JsImpl] with to_js(self) -> Js {
 
 ///|
 /// Convert an Option to a JavaScript value.
-pub impl[T] JsImpl for T? with to_js(self) -> Js {
+pub impl[T] JsImpl for T? with to_js(self) {
   unsafe_cast(self)
 }
