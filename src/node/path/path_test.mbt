@@ -82,25 +82,24 @@ test "node:path relative" {
 ///|
 test "node:path parse and format" {
   let parsed = parse("/home/user/dir/file.txt")
-  assert_eq(parsed.root(), "/")
-  assert_eq(parsed.dir(), "/home/user/dir")
-  assert_eq(parsed.base(), "file.txt")
-  assert_eq(parsed.ext(), ".txt")
-  assert_eq(parsed.name(), "file")
+  assert_eq(parsed.root, "/")
+  assert_eq(parsed.dir, "/home/user/dir")
+  assert_eq(parsed.base, "file.txt")
+  assert_eq(parsed.ext, ".txt")
+  assert_eq(parsed.name, "file")
   let formatted = format(parsed)
   assert_eq(formatted, "/home/user/dir/file.txt")
 }
 
 ///|
 test "node:path ParsedPath::new" {
-  let path_obj = ParsedPath::new(
-    root="/",
-    dir="/home/user",
-    base="file.txt",
-    ext=".txt",
-    name="file",
-  )
-  let formatted = format(path_obj)
+  let formatted = format({
+    root: "/",
+    dir: "/home/user",
+    base: "file.txt",
+    ext: ".txt",
+    name: "file",
+  })
   assert_eq(formatted, "/home/user/file.txt")
 }
 
@@ -144,6 +143,6 @@ test "node:path complex scenarios" {
   let normalized = normalize(join(["foo", "./bar", "../baz"]))
   assert_eq(normalized, "foo/baz")
   let parsed = parse("/home/user/file.min.js")
-  assert_eq(parsed.name(), "file.min")
-  assert_eq(parsed.ext(), ".js")
+  assert_eq(parsed.name, "file.min")
+  assert_eq(parsed.ext, ".js")
 }

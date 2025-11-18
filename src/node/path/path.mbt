@@ -1,31 +1,27 @@
 ///|
-extern "js" fn ffi_apply_variadic(
-  fn_val : Val,
-  this_val : Val,
-  args : Val,
-) -> Val =
-  #|(fn, thisArg, args) => fn.apply(thisArg, args)
-
-///|
+/// path.join(...paths)
 pub fn join(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  path_module.invoke("join", paths.map(p => p |> @js.js)) |> unsafe_cast
+  path_module.invoke("join", paths.map(p => p)) |> unsafe_cast
 }
 
 ///|
 /// Join two path segments
+/// JS: path.join(a, b)
 pub fn join2(a : String, b : String) -> String {
   let path_module = @node.require("node:path")
   path_module.invoke("join", [a, b]) |> unsafe_cast
 }
 
 ///|
+/// JS: path.dirname(path)
 pub fn dirname(path : String) -> String {
   let path_module = @node.require("node:path")
   unsafe_cast(path_module.invoke("dirname", [path]))
 }
 
 ///|
+/// JS: path.basename(path, suffix)
 pub fn basename(path : String, suffix? : String) -> String {
   let path_module = @node.require("node:path")
   match suffix {
@@ -35,12 +31,14 @@ pub fn basename(path : String, suffix? : String) -> String {
 }
 
 ///|
+/// JS: path.extname(path)
 pub fn extname(path : String) -> String {
   let path_module = @node.require("node:path")
   path_module.invoke("extname", [path]) |> unsafe_cast
 }
 
 ///|
+/// JS: path.isAbsolute(path)
 #alias(is_absolute)
 pub fn isAbsolute(path : String) -> Bool {
   let path_module = @node.require("node:path")
@@ -48,101 +46,63 @@ pub fn isAbsolute(path : String) -> Bool {
 }
 
 ///|
+/// JS: path.normalize(path)
 pub fn normalize(path : String) -> String {
   let path_module = @node.require("node:path")
   unsafe_cast(path_module.invoke("normalize", [path]))
 }
 
 ///|
+/// JS: path.resolve(...paths)
 pub fn resolve(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  let resolve_fn = path_module.get("resolve")
-  let paths_js = @js.JsArray::new()
-  let mut i = 0
-  while i < paths.length() {
-    paths_js.invoke("push", [paths[i]]) |> ignore
-    i = i + 1
-  }
-  unsafe_cast(ffi_apply_variadic(resolve_fn, path_module, paths_js.to_js()))
+  path_module.invoke("resolve", paths.map(p => @js.safe_js(p))) |> unsafe_cast
 }
 
 ///|
+/// JS: path.relative(from, to)
 pub fn relative(from : String, to : String) -> String {
   let path_module = @node.require("node:path")
   unsafe_cast(path_module.invoke("relative", [from, to]))
 }
 
 ///|
+/// JS: path.parse(path)
 pub fn parse(path : String) -> ParsedPath {
   let path_module = @node.require("node:path")
   unsafe_cast(path_module.invoke("parse", [path]))
 }
 
 ///|
-pub fn format(path_obj : ParsedPath) -> String {
+/// JS: path.format(parsed)
+pub fn format(parsed : ParsedPath) -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("format", [path_obj]))
+  unsafe_cast(path_module.invoke("format", [parsed.to_js()]))
 }
 
 ///|
-#external
-pub type ParsedPath
+// #external
+pub(all) struct ParsedPath {
+  root : String
+  dir : String
+  base : String
+  ext : String
+  name : String
+}
 
 ///|
 pub impl Js for ParsedPath
 
 ///|
-pub fn ParsedPath::root(self : Self) -> String {
-  unsafe_cast(self.get("root"))
-}
-
-///|
-pub fn ParsedPath::dir(self : Self) -> String {
-  unsafe_cast(self.get("dir"))
-}
-
-///|
-pub fn ParsedPath::base(self : Self) -> String {
-  unsafe_cast(self.get("base"))
-}
-
-///|
-pub fn ParsedPath::ext(self : Self) -> String {
-  unsafe_cast(self.get("ext"))
-}
-
-///|
-pub fn ParsedPath::name(self : Self) -> String {
-  unsafe_cast(self.get("name"))
-}
-
-///|
-pub fn ParsedPath::new(
-  root? : String = "",
-  dir? : String = "",
-  base? : String = "",
-  ext? : String = "",
-  name? : String = "",
-) -> ParsedPath {
-  let obj = @js.Object::new()
-  obj.set("root", root)
-  obj.set("dir", dir)
-  obj.set("base", base)
-  obj.set("ext", ext)
-  obj.set("name", name)
-  unsafe_cast(obj)
-}
-
-///|
 pub fn delimiter() -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.get("delimiter"))
+  path_module.get("delimiter") |> unsafe_cast
 }
 
 ///|
 pub fn sep() -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.get("sep"))
+  path_module.get("sep") |> unsafe_cast
 }
 
 ///|

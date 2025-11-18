@@ -3,7 +3,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/promise",
-    "mizchi/js/node",
     "mizchi/js/node/events",
     "mizchi/js/stream"
   ]
