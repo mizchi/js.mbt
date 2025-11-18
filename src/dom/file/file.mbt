@@ -90,10 +90,9 @@ pub fn File::text(self : Self) -> Promise[String] {
 pub fn File::slice(self : Self, start? : Int, end? : Int) -> Blob {
   match (start, end) {
     (None, None) => self.invoke("slice", []) |> unsafe_cast
-    (Some(s), None) => self.invoke("slice", [s |> js]) |> unsafe_cast
-    (Some(s), Some(e)) =>
-      self.invoke("slice", [s |> js, e |> js]) |> unsafe_cast
-    (None, Some(e)) => self.invoke("slice", [0 |> js, e |> js]) |> unsafe_cast
+    (Some(s), None) => self.invoke("slice", [s]) |> unsafe_cast
+    (Some(s), Some(e)) => self.invoke("slice", [s, e]) |> unsafe_cast
+    (None, Some(e)) => self.invoke("slice", [0, e]) |> unsafe_cast
   }
 }
 
@@ -153,7 +152,7 @@ pub fn FileReader::read_as_text(
   encoding? : String,
 ) -> Unit {
   match encoding {
-    Some(enc) => self.invoke("readAsText", [blob.to_js(), enc |> js]) |> ignore
+    Some(enc) => self.invoke("readAsText", [blob, enc]) |> ignore
     None => self.invoke("readAsText", [blob.to_js()]) |> ignore
   }
 }

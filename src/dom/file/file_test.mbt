@@ -12,18 +12,14 @@ using @promise {run_async}
 ///|
 /// Test File constructor with basic data
 test "File new creates file from string" {
-  let file = File::new(
-    ["Hello, File!" |> js],
-    "test.txt",
-    content_type="text/plain",
-  )
+  let file = File::new(["Hello, File!"], "test.txt", content_type="text/plain")
   inspect(file.name() == "test.txt", content="true")
 }
 
 ///|
 /// Test File constructor with last_modified
 test "File new with last_modified" {
-  let file = File::new(["test" |> js], "test.txt", last_modified=1234567890)
+  let file = File::new(["test"], "test.txt", last_modified=1234567890)
   inspect(file.last_modified() == 1234567890, content="true")
 }
 
@@ -32,21 +28,21 @@ test "File new with last_modified" {
 ///|
 /// Test File name property
 test "File name returns filename" {
-  let file = File::new(["data" |> js], "myfile.txt")
+  let file = File::new(["data"], "myfile.txt")
   inspect(file.name() == "myfile.txt", content="true")
 }
 
 ///|
 /// Test File size property
 test "File size returns correct size" {
-  let file = File::new(["Hello" |> js], "test.txt")
+  let file = File::new(["Hello"], "test.txt")
   inspect(file.size() == 5, content="true")
 }
 
 ///|
 /// Test File content_type property
 test "File content_type returns MIME type" {
-  let file = File::new(["test" |> js], "test.txt", content_type="text/plain")
+  let file = File::new(["test"], "test.txt", content_type="text/plain")
   inspect(file.content_type() == "text/plain", content="true")
 }
 
@@ -55,7 +51,7 @@ test "File content_type returns MIME type" {
 ///|
 /// Test File as_blob conversion
 test "File as_blob returns Blob" {
-  let file = File::new(["test" |> js], "test.txt")
+  let file = File::new(["test"], "test.txt")
   let blob = file.as_blob()
   inspect(blob.size() == 4, content="true")
 }
@@ -67,7 +63,7 @@ test "File as_blob returns Blob" {
 test "File text returns content as string" {
   run_async(async fn() noraise {
     try {
-      let file = File::new(["Hello, File!" |> js], "test.txt")
+      let file = File::new(["Hello, File!"], "test.txt")
       let text = file.text().unwrap()
       inspect(text == "Hello, File!", content="true")
     } catch {
@@ -81,7 +77,7 @@ test "File text returns content as string" {
 test "File array_buffer returns ArrayBuffer" {
   run_async(async fn() noraise {
     try {
-      let file = File::new(["test" |> js], "test.txt")
+      let file = File::new(["test"], "test.txt")
       let buffer = file.array_buffer().unwrap()
       inspect(buffer.byte_length() > 0, content="true")
     } catch {

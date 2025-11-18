@@ -65,7 +65,7 @@ impl ElementImpl with setId(self, id) -> Unit {
 
 ///|
 impl ElementImpl with getAttribute(self, name) -> String? {
-  self.invoke("getAttribute", [name]) |> unsafe_cast
+  self.invoke("getAttribute", [name]) |> unsafe_option
 }
 
 ///|
@@ -101,8 +101,14 @@ impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element]
 
 ///|
 impl ElementImpl with querySelector(self, selector) -> Element? {
-  self.invoke("querySelector", [selector]) |> unsafe_cast
+  self.invoke("querySelector", [selector]) |> unsafe_option
 }
+
+///|
+/// TODO: endless loop error occurs in some cases
+// impl ElementImpl with querySelector_endless_error(self, selector) -> Element? {
+//   self.invoke("querySelector", [selector]) |> safe_js
+// }
 
 ///|
 impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
