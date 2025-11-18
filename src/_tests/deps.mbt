@@ -1,7 +1,4 @@
 ///|
-using @js {}
-
-///|
 using @promise {sleep, run_async}
 
 ///|
