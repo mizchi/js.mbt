@@ -100,7 +100,7 @@ test "serialize and deserialize number" {
 ///|
 /// Test serialize and deserialize string
 test "serialize and deserialize string" {
-  let original = "Hello, V8!" |> js
+  let original = "Hello, V8!"
   let serialized = serialize(original)
   let deserialized : String = unsafe_cast(deserialize(serialized))
   inspect(deserialized == "Hello, V8!", content="true")

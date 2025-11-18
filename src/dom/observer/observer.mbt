@@ -18,7 +18,7 @@ pub fn new_mutation_observer(
   callback : (Js?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @js.global_this().get("MutationObserver")
-  unsafe_cast(@js.new_(ctor, [callback |> js]))
+  unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
 }
 
 ///|
@@ -29,7 +29,7 @@ pub fn MutationObserver::observe(
   target : Element,
   options : Js,
 ) -> Unit {
-  self.invoke("observe", [target |> js, options]) |> ignore
+  self.invoke("observe", [target |> safe_js, options]) |> ignore
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn new_intersection_observer(
   callback : (Js?, IntersectionObserver) -> Unit,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
-  unsafe_cast(@js.new_(ctor, [callback |> js]))
+  unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
 }
 
 ///|
@@ -129,21 +129,21 @@ pub fn new_intersection_observer_with_options(
   options : Js,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
-  unsafe_cast(@js.new_(ctor, [callback |> js, options]))
+  unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2, options]))
 }
 
 ///|
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/observe
 pub fn IntersectionObserver::observe(self : Self, target : Element) -> Unit {
-  self.invoke("observe", [target |> js]) |> ignore
+  self.invoke("observe", [target]) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/unobserve
 pub fn IntersectionObserver::unobserve(self : Self, target : Element) -> Unit {
-  self.invoke("unobserve", [target |> js]) |> ignore
+  self.invoke("unobserve", [target]) |> ignore
 }
 
 ///|

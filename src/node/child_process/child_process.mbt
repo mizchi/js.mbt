@@ -224,8 +224,8 @@ pub fn execFile(
   }
   unsafe_cast(
     cp.invoke("execFile", [
-      file |> js,
-      args |> js,
+      file,
+      args |> @js.from_array,
       options,
       unsafe_cast(callback),
     ]),
@@ -343,7 +343,7 @@ pub fn spawnSync(
   match args {
     Some(a) =>
       unsafe_cast(
-        cp.invoke("spawnSync", [command |> safe_js, a |> js, options]),
+        cp.invoke("spawnSync", [command, a |> @js.from_array, options]),
       )
     None => unsafe_cast(cp.invoke("spawnSync", [command |> safe_js, options]))
   }

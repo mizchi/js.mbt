@@ -89,7 +89,7 @@ test "File array_buffer returns ArrayBuffer" {
 ///|
 /// Test File slice method
 test "File slice returns Blob" {
-  let file = File::new(["Hello, World!" |> js], "test.txt")
+  let file = File::new(["Hello, World!"], "test.txt")
   let sliced = file.slice(start=0, end=5)
   inspect(sliced.size() == 5, content="true")
 }

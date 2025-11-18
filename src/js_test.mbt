@@ -340,7 +340,7 @@ test "JsArray::new" {
   assert_true(@js.is_array(arr))
   assert_true(@js.is_object(arr))
   // native array is also js array
-  assert_true(@js.is_array([1] |> js))
+  assert_true(@js.is_array([1] |> @js.from_array))
 }
 
 ///|

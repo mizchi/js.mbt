@@ -88,10 +88,10 @@ pub fn glob_with_filetype(
     opts.set("cwd", c)
   }
   if exclude is Some(e) {
-    opts.set("exclude", e |> js)
+    opts.set("exclude", e |> @js.from_array)
   }
   if exclude_fn is Some(f) {
-    opts.set("exclude", f |> js)
+    opts.set("exclude", f |> @js.from_fn1)
   }
   unsafe_cast(fs.invoke("glob", [path]))
 }

@@ -20,7 +20,7 @@ pub fn builtinModules() -> Array[String] {
 #alias(create_require)
 pub fn createRequire(filename : String) -> Js {
   let mod = ffi_require_module()
-  mod.invoke("createRequire", [filename |> js])
+  mod.invoke("createRequire", [filename])
 }
 
 ///|
@@ -29,7 +29,7 @@ pub fn createRequire(filename : String) -> Js {
 #alias(is_builtin)
 pub fn isBuiltin(module_name : String) -> Bool {
   let mod = ffi_require_module()
-  unsafe_cast(mod.invoke("isBuiltin", [module_name |> js]))
+  unsafe_cast(mod.invoke("isBuiltin", [module_name]))
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn syncBuiltinESMExports() -> Unit {
 #alias(find_source_map)
 pub fn findSourceMap(path : String) -> SourceMap? {
   let mod = ffi_require_module()
-  mod.invoke("findSourceMap", [path |> js]) |> unsafe_option()
+  mod.invoke("findSourceMap", [path]) |> unsafe_option()
 }
 
 ///|
@@ -100,7 +100,7 @@ pub fn stripTypeScriptTypes(
   let mod = ffi_require_module()
   match (mode, source_map, source_url) {
     (None, None, None) =>
-      unsafe_cast(mod.invoke("stripTypeScriptTypes", [code |> js]))
+      unsafe_cast(mod.invoke("stripTypeScriptTypes", [code]))
     _ => {
       let options = @js.Object::new()
       match mode {
@@ -115,7 +115,7 @@ pub fn stripTypeScriptTypes(
         Some(url) => options.set("sourceUrl", url)
         None => ()
       }
-      unsafe_cast(mod.invoke("stripTypeScriptTypes", [code |> js, options]))
+      unsafe_cast(mod.invoke("stripTypeScriptTypes", [code, options]))
     }
   }
 }
@@ -145,8 +145,7 @@ pub fn SourceMap::findEntry(
   line_number : Int,
   column_number : Int,
 ) -> SourceMapEntry? {
-  self.invoke("findEntry", [line_number |> js, column_number |> js])
-  |> unsafe_option()
+  self.invoke("findEntry", [line_number, column_number]) |> unsafe_option()
 }
 
 ///| SourceMapEntry Type

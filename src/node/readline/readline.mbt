@@ -40,28 +40,28 @@ pub fn createInterface(
   }
   // opts.set("output", output.to_js())
   if completer is Some(v) {
-    opts.set("completer", v |> js)
+    opts.set("completer", v |> @js.from_fn1)
   }
   if terminator is Some(v) {
-    opts.set("terminator", v |> js)
+    opts.set("terminator", v)
   }
   if history is Some(v) {
-    opts.set("history", v |> js)
+    opts.set("history", v |> @js.from_array)
   }
   if removeHistoryDuplicates is Some(v) {
-    opts.set("removeHistoryDuplicates", v |> js)
+    opts.set("removeHistoryDuplicates", v)
   }
   if prompt is Some(v) {
-    opts.set("prompt", v |> js)
+    opts.set("prompt", v)
   }
   if crlfDelay is Some(v) {
-    opts.set("crlfDelay", v |> js)
+    opts.set("crlfDelay", v)
   }
   if escapeCodeTimeout is Some(v) {
-    opts.set("escapeCodeTimeout", v |> js)
+    opts.set("escapeCodeTimeout", v)
   }
   if tabSize is Some(v) {
-    opts.set("tabSize", v |> js)
+    opts.set("tabSize", v)
   }
   if signal is Some(v) {
     opts.set("signal", v)
