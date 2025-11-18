@@ -1,7 +1,7 @@
 ///|
 
 ///|
-using @js {type Js, trait JsImpl, unsafe_cast, js}
+using @js {type Js, unsafe_cast}
 
 ///|
 using @promise {type Promise, sleep, run_async, promisify0, promisify1}
