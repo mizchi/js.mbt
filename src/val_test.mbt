@@ -238,9 +238,9 @@ test "Val equality" {
 ///|
 test "Val is_nan" {
   let nan_val = js(0.0 / 0.0)
-  assert_true(@js.is_nan(nan_val))
-  assert_false(@js.is_nan(js(42)))
-  assert_false(@js.is_nan(js(3.14)))
+  assert_true(@js.isNaN(nan_val))
+  assert_false(@js.isNaN(js(42)))
+  assert_false(@js.isNaN(js(3.14)))
 }
 
 ///|

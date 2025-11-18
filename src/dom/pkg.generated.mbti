@@ -187,7 +187,7 @@ fn Document::style_sheets(Self) -> @js.Val
 fn Document::title(Self) -> String
 fn Document::url(Self) -> String
 impl @js.Js for Document
-impl EventTargetImpl for Document
+impl EventTarget for Document
 impl NodeImpl for Document
 
 #external
@@ -199,7 +199,7 @@ impl EventImpl for DragEvent
 #external
 pub type Element
 impl @js.Js for Element
-impl EventTargetImpl for Element
+impl EventTarget for Element
 
 #external
 pub type Event
@@ -224,7 +224,7 @@ fn HTMLAnchorElement::set_target(Self, String) -> Unit
 fn HTMLAnchorElement::target(Self) -> String
 impl @js.Js for HTMLAnchorElement
 impl ElementImpl for HTMLAnchorElement
-impl EventTargetImpl for HTMLAnchorElement
+impl EventTarget for HTMLAnchorElement
 impl HTMLElementImpl for HTMLAnchorElement
 impl NodeImpl for HTMLAnchorElement
 
@@ -232,7 +232,7 @@ impl NodeImpl for HTMLAnchorElement
 pub type HTMLBodyElement
 impl @js.Js for HTMLBodyElement
 impl ElementImpl for HTMLBodyElement
-impl EventTargetImpl for HTMLBodyElement
+impl EventTarget for HTMLBodyElement
 impl HTMLElementImpl for HTMLBodyElement
 impl NodeImpl for HTMLBodyElement
 
@@ -242,7 +242,7 @@ fn HTMLButtonElement::disabled(Self) -> Bool
 fn HTMLButtonElement::set_disabled(Self, Bool) -> Unit
 impl @js.Js for HTMLButtonElement
 impl ElementImpl for HTMLButtonElement
-impl EventTargetImpl for HTMLButtonElement
+impl EventTarget for HTMLButtonElement
 impl HTMLElementImpl for HTMLButtonElement
 impl NodeImpl for HTMLButtonElement
 
@@ -257,7 +257,7 @@ fn HTMLCanvasElement::to_data_url(Self, image_type? : String, quality? : Double)
 fn HTMLCanvasElement::width(Self) -> Int
 impl @js.Js for HTMLCanvasElement
 impl ElementImpl for HTMLCanvasElement
-impl EventTargetImpl for HTMLCanvasElement
+impl EventTarget for HTMLCanvasElement
 impl HTMLElementImpl for HTMLCanvasElement
 impl NodeImpl for HTMLCanvasElement
 
@@ -265,7 +265,7 @@ impl NodeImpl for HTMLCanvasElement
 pub type HTMLDivElement
 impl @js.Js for HTMLDivElement
 impl ElementImpl for HTMLDivElement
-impl EventTargetImpl for HTMLDivElement
+impl EventTarget for HTMLDivElement
 impl HTMLElementImpl for HTMLDivElement
 impl NodeImpl for HTMLDivElement
 
@@ -275,7 +275,7 @@ fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
 fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
 impl @js.Js for HTMLElement
 impl ElementImpl for HTMLElement
-impl EventTargetImpl for HTMLElement
+impl EventTarget for HTMLElement
 impl HTMLElementImpl for HTMLElement
 impl NodeImpl for HTMLElement
 
@@ -283,7 +283,7 @@ impl NodeImpl for HTMLElement
 pub type HTMLHeadElement
 impl @js.Js for HTMLHeadElement
 impl ElementImpl for HTMLHeadElement
-impl EventTargetImpl for HTMLHeadElement
+impl EventTarget for HTMLHeadElement
 impl HTMLElementImpl for HTMLHeadElement
 impl NodeImpl for HTMLHeadElement
 
@@ -291,7 +291,7 @@ impl NodeImpl for HTMLHeadElement
 pub type HTMLHtmlElement
 impl @js.Js for HTMLHtmlElement
 impl ElementImpl for HTMLHtmlElement
-impl EventTargetImpl for HTMLHtmlElement
+impl EventTarget for HTMLHtmlElement
 impl HTMLElementImpl for HTMLHtmlElement
 impl NodeImpl for HTMLHtmlElement
 
@@ -311,7 +311,7 @@ fn HTMLIFrameElement::src(Self) -> String
 fn HTMLIFrameElement::width(Self) -> String
 impl @js.Js for HTMLIFrameElement
 impl ElementImpl for HTMLIFrameElement
-impl EventTargetImpl for HTMLIFrameElement
+impl EventTarget for HTMLIFrameElement
 impl HTMLElementImpl for HTMLIFrameElement
 impl NodeImpl for HTMLIFrameElement
 
@@ -329,7 +329,7 @@ fn HTMLInputElement::set_value(Self, String) -> Unit
 fn HTMLInputElement::value(Self) -> String
 impl @js.Js for HTMLInputElement
 impl ElementImpl for HTMLInputElement
-impl EventTargetImpl for HTMLInputElement
+impl EventTarget for HTMLInputElement
 impl HTMLElementImpl for HTMLInputElement
 impl NodeImpl for HTMLInputElement
 
@@ -337,7 +337,7 @@ impl NodeImpl for HTMLInputElement
 pub type HTMLSpanElement
 impl @js.Js for HTMLSpanElement
 impl ElementImpl for HTMLSpanElement
-impl EventTargetImpl for HTMLSpanElement
+impl EventTarget for HTMLSpanElement
 impl HTMLElementImpl for HTMLSpanElement
 impl NodeImpl for HTMLSpanElement
 
@@ -357,7 +357,7 @@ fn HTMLTextAreaElement::set_value(Self, String) -> Unit
 fn HTMLTextAreaElement::value(Self) -> String
 impl @js.Js for HTMLTextAreaElement
 impl ElementImpl for HTMLTextAreaElement
-impl EventTargetImpl for HTMLTextAreaElement
+impl EventTarget for HTMLTextAreaElement
 impl HTMLElementImpl for HTMLTextAreaElement
 impl NodeImpl for HTMLTextAreaElement
 
@@ -480,7 +480,7 @@ impl @js.Js for Navigator
 #external
 pub type Node
 impl @js.Js for Node
-impl EventTargetImpl for Node
+impl EventTarget for Node
 impl NodeImpl for Node
 
 #external
@@ -526,7 +526,7 @@ fn ShadowRoot::mode(Self) -> String
 fn ShadowRoot::setInnerHTML(Self, String) -> Unit
 fn ShadowRoot::slotAssignment(Self) -> String
 impl @js.Js for ShadowRoot
-impl EventTargetImpl for ShadowRoot
+impl EventTarget for ShadowRoot
 impl NodeImpl for ShadowRoot
 
 pub struct ShadowRootInit {
@@ -553,7 +553,7 @@ impl @js.Js for Storage
 #external
 pub type Text
 impl @js.Js for Text
-impl EventTargetImpl for Text
+impl EventTarget for Text
 impl NodeImpl for Text
 
 #external
@@ -655,7 +655,7 @@ fn Window::setInterval(Self, () -> Unit, Int) -> Int
 #alias(set_timeout)
 fn Window::setTimeout(Self, () -> Unit, Int) -> Int
 impl @js.Js for Window
-impl EventTargetImpl for Window
+impl EventTarget for Window
 
 // Type aliases
 pub type ChangeEventHandler = (ChangeEvent) -> Unit
@@ -695,7 +695,7 @@ pub(open) trait EventImpl : @js.Js {
   default_prevented(Self) -> Bool = _
 }
 
-pub(open) trait EventTargetImpl : @js.Js {
+pub(open) trait EventTarget : @js.Js {
   addEventListener(Self, String, (Event) -> Unit) -> Unit = _
   removeEventListener(Self, String, (Event) -> Unit) -> Unit = _
   dispatchEvent(Self, Event) -> Bool = _
@@ -712,7 +712,7 @@ pub(open) trait HTMLElementImpl : @js.Js + ElementImpl {
   click(Self) -> Unit = _
 }
 
-pub(open) trait NodeImpl : @js.Js + EventTargetImpl {
+pub(open) trait NodeImpl : @js.Js + EventTarget {
   node_type(Self) -> Int = _
   node_name(Self) -> String = _
   parent_node(Self) -> Node? = _
@@ -731,4 +731,3 @@ pub(open) trait NodeImpl : @js.Js + EventTargetImpl {
   text_content(Self) -> String = _
   set_text_content(Self, String) -> Unit = _
 }
-

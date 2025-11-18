@@ -78,36 +78,78 @@ Modules
 ## Moonbit JS bindings
 
 - `mizchi/js` : Core JS bindings
-  - get(), set(), unsafe_cast(), invoke(), instanceof(), etc.
+  - Primitive API Binding
+    - `value.get(key)`
+    - `value.set(key, val)`
+    - `value.invoke(key, args)`
+    - etc
+  - JS Global APIs
+    - `setTimeout`, `globalThis`, etc.
   - All Api uses `#external type @js.Val` and `trait @js.Js`
 - `mizchi/js/promise` : async bindings with Moonbit async
   - `Promise`
+  - Moonbit async helpers: `run_async`, `suspend`, `sleep`, `promisify0`
 - `mizchi/js/arraybuffer`
-  - `ArrayBuffer`, `SharedArrayBuffer`, `DataView`, and TypedArrays
-- `mizchi/js/regexp` : `RegExp`
+  - `ArrayBuffer`
+  - `SharedArrayBuffer`
+  - `DataView`
+  - `Uint8Array` and TypedArrays
+- `mizchi/js/regexp`
+  - `RegExp`
+- `mizchi/js/iterator`
+  - `JsIterator` => Js Iterator
+  - `AsyncIterator`
 - `mizchi/js/worker` : Worker and MessageChannel API
-- `mizchi/js/console` :
-  - `console:*`
-- `mizchi/js/webassembly` : `WebAssembly` API
+  - `Worker`
+  - `MessageChannel`
+  - `MessagePort`
+  - `Transferable` trait
+- `mizchi/js/webassembly`
+  - `WebAssembly`
+  - `WebAssemblyModule`
+  - `WebAssemblyInstance`
+  - `WebAssemblyMemory`
+  - `WebAssemblyTable`
 - `mizchi/js/weak`:
-  - `WeakMap`, `WeakSet`, `WeakRef`, `FinalizationRegistry`
-- `mizchi/js/url` :
-  - `URL`, `URLSearchParams`, `URLPattern`
-- `mizchi/js/http` : Network API
-  - `fetch`, `Request`, `Response`
+  - `WeakMap`
+  - `WeakSet`
+  - `WeakRef`
+  - `FinalizationRegistry`
+- `mizchi/js/url`
+  - `URL`
+  - `URLSearchParams`
+  - `URLPattern`
+- `mizchi/js/http` : HTTP API
+  - `fetch`
+  - `Request`
+  - `Response`
 
 Not yet
 
 - [ ] `Performance` API
+- [ ] `DisposableStack`, `AsyncDisposableStack`
+  - Moonbit js has no way to generate `using`
 
 ## DOM bindings
 
 - `mizchi/js/dom`
-  - `Document`, `Element`, `Event`, `Node`, `Window`, etc.
-  - [ ] indexed db
-  - [ ] ServiceWorker
-  - [ ] WebSocket
-  - [ ] SSE
+  - `Element`
+  - `HTMLElement`
+  - `Event`
+  - `Node`
+  - `Window`
+  - etc.
+- `mizchi/js/dom/canvas`
+  - `CanvasRenderingContext2D`
+  - `ImageData`
+- `mizchi/js/dom/brob`
+- `mizchi/js/dom/file`
+- [ ] indexedDB
+- [ ] ServiceWorker
+- [ ] WebSocket
+- [ ] FileSystem
+- [ ] WebGL
+- [ ] AudioContext
 
 ## Node.js binding
 
@@ -128,8 +170,8 @@ Caution: Node.js bindings are not fully tested yet. In near future, we split Nod
 - [x] `mizchi/js/node/events` : `node:events`
   - [x] `EventEmitter`
 - [x] `mizchi/js/node/util` : `node:util`
-  - [x] `util.inspect`
-  - [x] `util.parseArgs`
+  - [x] `inspect`
+  - [x] `parseArgs`
 - [x] `mizchi/js/node/child_process` : `node:child_process`
 - [x] `mizchi/js/node/test` : `node:test`
   - We use async testing instead of `async test` in Moonbit

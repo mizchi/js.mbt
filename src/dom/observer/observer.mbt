@@ -227,14 +227,14 @@ pub fn new_resize_observer(
   callback : (Val, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @js.global_this().get("ResizeObserver")
-  unsafe_cast(@js.new_(ctor, [callback |> js]))
+  unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
 }
 
 ///|
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
 pub fn ResizeObserver::observe(self : Self, target : Element) -> Unit {
-  self.invoke("observe", [target |> js]) |> ignore
+  self.invoke("observe", [target |> safe_js]) |> ignore
 }
 
 ///|
@@ -244,14 +244,14 @@ pub fn ResizeObserver::observe_with_options(
   target : Element,
   options : Val,
 ) -> Unit {
-  self.invoke("observe", [target |> js, options]) |> ignore
+  self.invoke("observe", [target |> safe_js, options]) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve
 pub fn ResizeObserver::unobserve(self : Self, target : Element) -> Unit {
-  self.invoke("unobserve", [target |> js]) |> ignore
+  self.invoke("unobserve", [target |> safe_js]) |> ignore
 }
 
 ///|

@@ -8,7 +8,7 @@ pub type Document
 pub impl Js for Document
 
 ///|
-pub impl EventTargetImpl for Document
+pub impl EventTarget for Document
 
 ///|
 pub impl NodeImpl for Document

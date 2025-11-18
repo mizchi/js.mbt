@@ -171,7 +171,7 @@ pub fn dynamicImport(module_name : String) -> Val {
 }
 
 ///|
-pub fn[T : Js] is_nan(v : T) -> Bool {
+pub fn[T : Js] isNaN(v : T) -> Bool {
   ffi_is_nan(v.to_js())
 }
 

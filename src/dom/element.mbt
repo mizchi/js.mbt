@@ -6,7 +6,7 @@ pub type Element
 pub impl Js for Element
 
 ///|
-pub impl EventTargetImpl for Element
+pub impl EventTarget for Element
 
 ///|
 /// Element trait - base interface for element nodes

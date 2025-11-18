@@ -63,35 +63,11 @@ None
   - Message sending/receiving
   - Event handlers
 
-- [ ] **File API** - File handling
-  - File object
-  - FileReader
-  - Blob operations
-  - URL.createObjectURL
-
 - [ ] **IndexedDB API** - Client-side storage
   - IDBFactory
   - IDBDatabase
   - IDBTransaction
   - IDBObjectStore
-
-- [ ] **Fetch enhancements** - More complete fetch API
-  - Request/Response types
-  - Headers manipulation
-  - Stream handling
-  - AbortController
-
-### Low Priority
-
-- [ ] **Notification API** - Push notifications
-  - Notification constructor
-  - Permission requests
-  - Notification events
-
-- [ ] **Geolocation API** - Location services
-  - getCurrentPosition
-  - watchPosition
-  - Position object
 
 - [ ] **Web Audio API** - Audio processing
   - AudioContext
@@ -108,27 +84,12 @@ None
   - Cache API
   - Background sync
 
-- [ ] **Web Workers** - Background threads
-  - Worker constructor
-  - Message passing
-  - Shared workers
-
 ## Type System Improvements 🔧
 
 - [ ] **Stricter Event Types** - Better event type checking
   - Event type discrimination
   - Type-safe event listeners
   - Generic event handlers
-
-- [ ] **CSS Type Safety** - Type-safe CSS manipulation
-  - CSS property enums
-  - CSS value types
-  - CSS unit types
-
-- [ ] **DOM Type Hierarchy** - Proper type inheritance
-  - EventTarget base type
-  - Node inheritance chain
-  - Element specializations (HTMLElement, SVGElement)
 
 ## Testing Improvements 🧪
 

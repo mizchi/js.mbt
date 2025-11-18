@@ -2,7 +2,7 @@
 /// Generic EventTarget trait for objects that can receive events
 /// This is a base trait used by DOM, Worker, WebSocket, and other Web APIs
 ///
-/// Unlike the DOM-specific EventTargetImpl, this trait uses generic Val for events
+/// Unlike the DOM-specific EventTarget, this trait uses generic Val for events
 /// to support various event types across different APIs.
 
 ///|

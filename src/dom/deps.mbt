@@ -1,5 +1,13 @@
 ///|
-using @js {type Val, trait Js, js, unsafe_cast, safe_js, to_option}
+using @js {
+  type Val,
+  trait Js,
+  trait EventTarget,
+  js,
+  unsafe_cast,
+  safe_js,
+  to_option,
+}
 
 ///|
 using @promise {type Promise, suspend, run_async}

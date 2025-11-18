@@ -10,7 +10,7 @@ pub impl Js for Window with to_js(self) {
 }
 
 ///|
-pub impl EventTargetImpl for Window
+pub impl EventTarget for Window
 
 ///|
 /// Returns the global window object

@@ -6,7 +6,7 @@ pub type HTMLElement
 pub impl Js for HTMLElement
 
 ///|
-pub impl EventTargetImpl for HTMLElement
+pub impl EventTarget for HTMLElement
 
 ///|
 pub impl ElementImpl for HTMLElement

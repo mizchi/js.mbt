@@ -11,7 +11,6 @@ This package provides comprehensive bindings to the Web DOM API, including:
 - **Event**: Event handling (Mouse, Keyboard, Pointer, Focus, etc.)
 - **Node**: Node interface operations
 - **Navigator**: Browser information and capabilities
-- **Storage**: localStorage and sessionStorage
 - **Style**: CSS style manipulation
 
 All APIs are aligned with TypeScript's standard DOM type definitions and include MDN documentation links.
@@ -34,11 +33,11 @@ Add to your `moon.pkg.json`:
 
 ```moonbit
 let doc = @dom.document()
-let div = doc.create_element("div")
+let div = doc.createElement("div")
 div.set_attribute("id", "app")
 div.set_attribute("class", "container")
 
-let text = doc.create_text_node("Hello, World!")
+let text = doc.createTextNode("Hello, World!")
 div.append_child(text.as_element()) |> ignore
 ```
 
@@ -51,19 +50,19 @@ let content = div.get("innerHTML")
 
 // Attributes
 div.set_attribute("data-value", "123")
-let value = div.get_attribute("data-value") // Some("123")
-div.remove_attribute("data-value")
+let value = div.getAttribute("data-value") // Some("123")
+div.removeAttribute("data-value")
 
 // Class manipulation
-div.add_class("active")
-div.remove_class("inactive")
-div.toggle_class("hidden")
-inspect(div.contains_class("active")) // true
+div.addClass("active")
+div.removeClass("inactive")
+div.toggleClass("hidden")
+inspect(div.containsClass("active")) // true
 
 // DOM properties
-div.set_id("main")
-div.set_class_name("app container")
-div.set_inner_html("<span>Content</span>")
+div.setId("main")
+div.setClassName("app container")
+div.setInnerHTML("<span>Content</span>")
 ```
 
 ### DOM Traversal
