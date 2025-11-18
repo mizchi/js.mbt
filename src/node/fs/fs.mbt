@@ -133,9 +133,13 @@ pub fn rmSync(path : String, recursive? : Bool, force? : Bool) -> Unit {
 }
 
 ///|
-/// Read directory contents synchronously
-// #alias(readdir_sync)
-pub fn createReadStream(path : String) -> @stream.ReadableStream {
+pub fn createReadStream(path : String) -> @stream.Readable {
   let fs = fs_module()
-  fs.invoke("readdirSync", [path]) |> unsafe_cast
+  fs.invoke("createReadStream", [path]) |> unsafe_cast
+}
+
+///|
+pub fn createWriteStream(path : String) -> @stream.Writable {
+  let fs = fs_module()
+  fs.invoke("createWriteStream", [path]) |> unsafe_cast
 }
