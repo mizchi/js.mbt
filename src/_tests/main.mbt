@@ -1,0 +1,158 @@
+///|
+fn main {
+  beforeEach(() => println("before each test"))
+  it("sample test", fn(_) { assert_true(true) })
+  it("sample test", fn(_) { assert_true(false) })
+  // beforeEach(() => @promise.sleep(1))
+  it("simple test", _ => assert_eq(2 + 2, 4))
+  it("lazy test", _ => {
+    @promise.sleep(100)
+    assert_eq(2 + 2, 4)
+  })
+  it("skip test", skip="skip this test", _ => assert_eq(2 + 2, 5))
+  it("todo test", ctx => ctx.todo("this test is todo"))
+}
+
+///|
+test {
+  it("setTimeout", _ => {
+    let mut executed = false
+    let timer = @timer.setTimeout(() => executed = true, 10)
+    @promise.sleep(20)
+    assert_true(executed)
+  })
+}
+
+///|
+test {
+  it("clearTimeout", _ => {
+    let mut executed = false
+    let timer = @timer.setTimeout(() => executed = true, 10)
+    @timer.clearTimeout(timer)
+    @promise.sleep(20)
+    assert_false(executed)
+  })
+}
+
+///|
+test {
+  it("setInterval/clearInterval", _ => {
+    let mut count = 0
+    let timer = @timer.setInterval(() => count += 1, 5)
+    @promise.sleep(25)
+    @timer.clearInterval(timer)
+    let final_count = count
+    assert_true(final_count >= 3)
+    @promise.sleep(20)
+    // count should not increase after clear
+    assert_eq(count, final_count)
+  })
+}
+
+///|
+test {
+  it("sleep multiple times", _ => {
+    let mut count = 0
+    sleep(5)
+    count += 1
+    sleep(5)
+    count += 1
+    sleep(5)
+    count += 1
+    assert_eq(count, 3)
+  })
+}
+
+///|
+test {
+  it("nested run_async", _ => {
+    let mut outer = false
+    let mut inner = false
+    run_async(() => {
+      sleep(5)
+      outer = true
+      run_async(() => {
+        sleep(5)
+        inner = true
+      })
+    })
+    sleep(20)
+    assert_true(outer)
+    assert_true(inner)
+  })
+}
+
+///|
+test {
+  it("setTimeout with zero delay", _ => {
+    let mut executed = false
+    let _ = @timer.setTimeout(() => executed = true, 0)
+    @promise.sleep(1)
+    assert_true(executed)
+  })
+}
+
+///|
+test {
+  it("multiple setTimeouts", _ => {
+    let order = []
+    let _ = @timer.setTimeout(() => order.push(1), 10)
+    let _ = @timer.setTimeout(() => order.push(2), 5)
+    let _ = @timer.setTimeout(() => order.push(3), 15)
+    @promise.sleep(25)
+    assert_eq(order.length(), 3)
+    assert_eq(order[0], 2) // 5ms
+    assert_eq(order[1], 1) // 10ms
+    assert_eq(order[2], 3) // 15ms
+  })
+}
+
+///|
+test {
+  it("run_async with multiple sleep calls", _ => {
+    let checkpoints = []
+    run_async(() => {
+      checkpoints.push(1)
+      sleep(5)
+      checkpoints.push(2)
+      sleep(5)
+      checkpoints.push(3)
+    })
+    sleep(15)
+    assert_eq(checkpoints.length(), 3)
+    assert_eq(checkpoints[0], 1)
+    assert_eq(checkpoints[1], 2)
+    assert_eq(checkpoints[2], 3)
+  })
+}
+
+///|
+test {
+  it("EventEmitter listenerCount for non-existent event", _ => {
+    let emitter = @events.EventEmitter::new()
+    assert_eq(emitter.listenerCount("nonexistent"), 0)
+  })
+}
+
+///|
+test {
+  it("setInterval immediate execution", _ => {
+    let mut first_execution = false
+    let timer = @timer.setInterval(
+      () => if not(first_execution) { first_execution = true },
+      5,
+    )
+    @promise.sleep(10)
+    @timer.clearInterval(timer)
+    assert_true(first_execution)
+  })
+}
+
+///|
+test {
+  it("sleep with very short duration", _ => {
+    sleep(1)
+    // Just verify sleep completes without error
+    assert_true(true)
+  })
+}

@@ -7,6 +7,9 @@
 pub type RegExp
 
 ///|
+pub impl Js for RegExp
+
+///|
 /// Result of RegExp.exec() method.
 ///
 /// Corresponds to the return value of JavaScript's `RegExp.prototype.exec()`.
@@ -20,6 +23,9 @@ pub struct RegExpResult {
 }
 
 ///|
+pub impl Js for RegExpResult
+
+///|
 /// Result of String.match() or String.matchAll() methods.
 ///
 /// Corresponds to the return value of JavaScript's `String.prototype.match()` and `String.prototype.matchAll()`.
@@ -31,6 +37,9 @@ pub struct RegExpMatchArray {
   input : String?
   groups : Map[String, String]?
 }
+
+///|
+pub impl Js for RegExpMatchArray
 
 ///|
 extern "js" fn ffi_regexp_new(s : String, flags : String) -> RegExp =
@@ -515,7 +524,7 @@ pub fn RegExp::split(
 ) -> Array[String] {
   let limit_val = match limit {
     None => @js.null_()
-    Some(n) => @js.js(n)
+    Some(n) => safe_js(n)
   }
   ffi_string_split(string, self, limit_val)
 }
