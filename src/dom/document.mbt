@@ -76,10 +76,7 @@ pub fn Document::getElementById(self : Self, id : String) -> Js? {
 /// Returns elements with the specified class name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
 #alias(get_elements_by_class_name)
-pub fn Document::getElementsByClassName(
-  self : Self,
-  class_name : String,
-) -> Js {
+pub fn Document::getElementsByClassName(self : Self, class_name : String) -> Js {
   self.invoke("getElementsByClassName", [class_name])
 }
 
@@ -134,7 +131,7 @@ pub fn Document::title(self : Self) -> String {
 /// Sets the document's title
 #alias(set_title)
 pub fn Document::setTitle(self : Self, title : String) -> Unit {
-  self.set("title", title |> js) |> ignore
+  self.set("title", title) |> ignore
 }
 
 ///|

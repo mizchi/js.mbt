@@ -30,10 +30,10 @@ fn example(doc: Document) {
   let title: String = unsafe_cast(doc.get("title"))
   
   // Set property
-  doc.set("title", "New Title" |> js)
+  doc.set("title", "New Title")
   
   // Call method
-  let element = doc.invoke("createElement", ["div" |> js])
+  let element = doc.invoke("createElement", ["div"])
 }
 ```
 
@@ -95,7 +95,7 @@ pub fn Document::title(self: Self) -> String {
 // Setter
 #alias(set_title)
 pub fn Document::setTitle(self: Self, title: String) -> Unit {
-  self.set("title", title |> js) |> ignore
+  self.set("title", title) |> ignore
 }
 ```
 

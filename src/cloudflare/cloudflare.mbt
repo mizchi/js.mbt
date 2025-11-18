@@ -34,7 +34,7 @@ pub fn CloudflareContext::wait_until(
   self : CloudflareContext,
   promise : Promise[Unit],
 ) -> Unit {
-  unsafe_cast(self.get("waitUntil").invoke_self([promise |> js]))
+  unsafe_cast(self.get("waitUntil").invoke_self([promise |> unsafe_cast]))
 }
 
 ///|

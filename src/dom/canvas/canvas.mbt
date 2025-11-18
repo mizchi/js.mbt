@@ -480,7 +480,11 @@ pub fn ImageData::from_data(
   height : Int,
 ) -> ImageData {
   unsafe_cast(
-    ffi_new_image_data_with_data(data.to_js(), width |> js, height |> js),
+    ffi_new_image_data_with_data(
+      data.to_js(),
+      width |> safe_js,
+      height |> safe_js,
+    ),
   )
 }
 

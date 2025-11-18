@@ -23,7 +23,7 @@ pub fn CSSStyleDeclaration::get_property_value(
   self : Self,
   property : String,
 ) -> String {
-  self.invoke("getPropertyValue", [property |> js]) |> unsafe_cast
+  self.invoke("getPropertyValue", [property]) |> unsafe_cast
 }
 
 ///|
@@ -33,7 +33,7 @@ pub fn CSSStyleDeclaration::set_property(
   property : String,
   value : String,
 ) -> Unit {
-  self.invoke("setProperty", [property |> js, value |> js]) |> ignore
+  self.invoke("setProperty", [property, value]) |> ignore
 }
 
 ///|
@@ -53,7 +53,7 @@ pub fn CSSStyleDeclaration::remove_property(
   self : Self,
   property : String,
 ) -> String {
-  self.invoke("removeProperty", [property |> js]) |> unsafe_cast
+  self.invoke("removeProperty", [property]) |> unsafe_cast
 }
 
 ///|
@@ -62,7 +62,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
   self : Self,
   property : String,
 ) -> String {
-  self.invoke("getPropertyPriority", [property |> js]) |> unsafe_cast
+  self.invoke("getPropertyPriority", [property]) |> unsafe_cast
 }
 
 ///|
@@ -74,7 +74,7 @@ pub fn CSSStyleDeclaration::css_text(self : Self) -> String {
 ///|
 /// Sets the CSS text
 pub fn CSSStyleDeclaration::set_css_text(self : Self, text : String) -> Unit {
-  self.set("cssText", text |> js) |> ignore
+  self.set("cssText", text) |> ignore
 }
 
 ///|
@@ -107,7 +107,7 @@ pub fn CSSRule::css_text(self : Self) -> String {
 ///|
 /// Sets the CSS text of the rule
 pub fn CSSRule::set_css_text(self : Self, text : String) -> Unit {
-  self.set("cssText", text |> js) |> ignore
+  self.set("cssText", text) |> ignore
 }
 
 ///|
@@ -148,7 +148,7 @@ pub fn CSSStyleSheet::css_rules(self : Self) -> Js {
 /// Inserts a CSS rule
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
 pub fn CSSStyleSheet::insert_rule(self : Self, rule : String) -> Int {
-  self.invoke("insertRule", [rule |> js]) |> unsafe_cast
+  self.invoke("insertRule", [rule]) |> unsafe_cast
 }
 
 ///|
@@ -158,7 +158,7 @@ pub fn CSSStyleSheet::insert_rule_at(
   rule : String,
   index : Int,
 ) -> Int {
-  self.invoke("insertRule", [rule |> js, index |> js]) |> unsafe_cast
+  self.invoke("insertRule", [rule, index]) |> unsafe_cast
 }
 
 ///|
@@ -183,7 +183,7 @@ pub fn CSSStyleSheet::disabled(self : Self) -> Bool {
 ///|
 /// Sets whether the stylesheet is disabled
 pub fn CSSStyleSheet::set_disabled(self : Self, disabled : Bool) -> Unit {
-  self.set("disabled", disabled |> js) |> ignore
+  self.set("disabled", disabled) |> ignore
 }
 
 ///|
@@ -218,7 +218,7 @@ pub impl JsImpl for MediaQueryList
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
-  unsafe_cast(@js.global_this().invoke("matchMedia", [query |> js]))
+  unsafe_cast(@js.global_this().invoke("matchMedia", [query]))
 }
 
 ///|
@@ -259,7 +259,7 @@ pub fn MediaQueryList::add_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.invoke("addEventListener", ["change" |> js, listener |> @js.from_fn1])
+  self.invoke("addEventListener", ["change", listener |> @js.from_fn1])
   |> ignore
 }
 
@@ -269,7 +269,7 @@ pub fn MediaQueryList::remove_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.invoke("removeEventListener", ["change" |> js, listener |> @js.from_fn1])
+  self.invoke("removeEventListener", ["change", listener |> @js.from_fn1])
   |> ignore
 }
 
@@ -282,7 +282,7 @@ pub fn MediaQueryList::remove_change_listener(
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
   let css_obj = @js.global_this().get("CSS")
-  unsafe_cast(css_obj.invoke("escape", [value |> js]))
+  unsafe_cast(css_obj.invoke("escape", [value]))
 }
 
 ///|
@@ -291,7 +291,7 @@ pub fn cssEscape(value : String) -> String {
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  unsafe_cast(css_obj.invoke("supports", [property |> js, value |> js]))
+  unsafe_cast(css_obj.invoke("supports", [property, value]))
 }
 
 ///|
@@ -299,7 +299,7 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  unsafe_cast(css_obj.invoke("supports", [condition |> js]))
+  unsafe_cast(css_obj.invoke("supports", [condition]))
 }
 
 ///|

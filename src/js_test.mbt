@@ -11,7 +11,7 @@ test "cast" {
   let v1 = safe_js(42)
   let v2 = safe_js(42)
   assert_eq(v1, v2)
-  assert_eq(js(TestConstantEnum::NotFound), safe_js(404))
+  assert_eq(unsafe_cast(TestConstantEnum::NotFound), safe_js(404))
   let s1 : String? = safe_js("hello") |> unsafe_option()
   assert_eq(s1, Some("hello"))
   let s2 : String? = undefined() |> unsafe_option()
