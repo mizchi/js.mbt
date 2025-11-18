@@ -19,8 +19,8 @@ impl Js for Interface
 pub impl EventEmitterImpl for Interface
 
 ///|
-#alias(createInterface)
-pub fn create_interface(
+#alias(create_interface)
+pub fn createInterface(
   input~ : @stream.Stream,
   output? : @stream.Stream,
   completer? : (String) -> Array[String],
