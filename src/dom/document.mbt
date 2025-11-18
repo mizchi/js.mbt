@@ -69,7 +69,7 @@ pub fn Document::readyState(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
 pub fn Document::getElementById(self : Self, id : String) -> Val? {
-  self.invoke("getElementById", [id |> safe_js]) |> to_option()
+  self.invoke("getElementById", [id |> safe_js]) |> unsafe_option()
 }
 
 ///|
@@ -106,7 +106,7 @@ pub extern "js" fn Document::set_cookie(self : Self, content : String) -> Unit =
 /// Returns the document's body element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/body
 pub fn Document::body(self : Self) -> HTMLBodyElement? {
-  self.get("body") |> to_option()
+  self.get("body") |> unsafe_option()
 }
 
 ///|
@@ -120,7 +120,7 @@ pub fn Document::setBody(self : Self, body : HTMLBodyElement) -> Unit {
 /// Returns the document's head element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/head
 pub fn Document::head(self : Self) -> HTMLHeadElement? {
-  self.get("head") |> to_option()
+  self.get("head") |> unsafe_option()
 }
 
 ///|
@@ -210,7 +210,7 @@ pub fn Document::contentType(self : Self) -> String {
 /// Returns the document type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
 pub fn Document::doctype(self : Self) -> Val? {
-  self.get("doctype") |> to_option()
+  self.get("doctype") |> unsafe_option()
 }
 
 ///|
@@ -245,7 +245,7 @@ pub fn Document::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  self.invoke("elementFromPoint", [x, y]) |> to_option()
+  self.invoke("elementFromPoint", [x, y]) |> unsafe_option()
 }
 
 ///|

@@ -62,7 +62,7 @@ pub fn ShadowRoot::setInnerHTML(self : Self, html : String) -> Unit {
 /// Returns the active element within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/activeElement
 pub fn ShadowRoot::activeElement(self : Self) -> Element? {
-  self.get("activeElement") |> to_option()
+  self.get("activeElement") |> unsafe_option()
 }
 
 ///|
@@ -73,7 +73,7 @@ pub fn ShadowRoot::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  self.invoke("elementFromPoint", [x, y]) |> to_option()
+  self.invoke("elementFromPoint", [x, y]) |> unsafe_option()
 }
 
 ///|
@@ -126,5 +126,5 @@ pub fn HTMLElement::attachShadow(
 /// Returns the shadow root of the element if it exists
 /// https://developer.mozilla.org/en-US/docs/Web/API/Element/shadowRoot
 pub fn HTMLElement::shadowRoot(self : Self) -> ShadowRoot? {
-  self.get("shadowRoot") |> to_option()
+  self.get("shadowRoot") |> unsafe_option()
 }

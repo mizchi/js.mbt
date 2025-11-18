@@ -80,7 +80,7 @@ pub extern "js" fn Document::createElement(self: Self, tag: String) -> Element =
 // Method via invoke
 #alias(query_selector)
 pub fn Document::querySelector(self: Self, selector: String) -> Element? {
-  self.invoke("querySelector", [selector |> js]) |> to_option()
+  self.invoke("querySelector", [selector |> js]) |> unsafe_option()
 }
 ```
 
@@ -170,7 +170,7 @@ pub fn Array::new() -> JsArray {
 ### Pattern 7: Handling Null/Undefined
 
 ```moonbit
-fn to_option(val: Val) -> Val? {
+fn unsafe_option(val: Val) -> Val? {
   if is_null(val) || is_undefined(val) {
     None
   } else {
@@ -180,7 +180,7 @@ fn to_option(val: Val) -> Val? {
 
 #alias(get_element_by_id)
 pub fn getElementById(id: String) -> Element? {
-  document().invoke("getElementById", [id |> js]) |> to_option()
+  document().invoke("getElementById", [id |> js]) |> unsafe_option()
 }
 
 // Usage

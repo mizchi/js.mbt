@@ -224,7 +224,7 @@ pub fn WritableStreamDefaultWriter::ready(self : Self) -> Promise[Unit] {
 /// Get the desired size
 #alias(desiredSize)
 pub fn WritableStreamDefaultWriter::desired_size(self : Self) -> Int? {
-  self.get("desiredSize") |> to_option
+  self.get("desiredSize") |> unsafe_option
 }
 
 ///|

@@ -128,13 +128,13 @@ pub fn FileReader::ready_state(self : Self) -> Int {
 ///|
 /// Get the result after reading completes
 pub fn FileReader::result(self : Self) -> Val? {
-  self.get("result") |> to_option()
+  self.get("result") |> unsafe_option()
 }
 
 ///|
 /// Get the error if read failed
 pub fn FileReader::error(self : Self) -> Val? {
-  self.get("error") |> to_option()
+  self.get("error") |> unsafe_option()
 }
 
 ///|

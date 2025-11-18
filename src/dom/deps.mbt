@@ -6,7 +6,7 @@ using @js {
   js,
   unsafe_cast,
   safe_js,
-  to_option,
+  unsafe_option,
 }
 
 ///|

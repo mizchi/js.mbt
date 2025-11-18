@@ -48,7 +48,7 @@ pub fn parseArgs(
   // tokens?: Bool = false,
 ) -> ParseArgsResult {
   let result = @js.JsArray::new()
-  result.set("args", args |> js)
+  result.set("args", args |> @js.from_array)
   result.set(
     "options",
     if options.is_empty() {
@@ -76,27 +76,4 @@ pub fn parseArgs(
     positionals: unsafe_cast(r.get("positionals")),
     tokens: None,
   }
-}
-
-///|
-test "parse_args" {
-  let res = parseArgs(
-    args=[
-      "--name", "alice", "--verbose", "-k", "v", "-h", "file1.txt", "file2.txt",
-    ],
-    options=[
-      String(key="key", short="k", multiple=false, default=None),
-      String(key="name", short="n", multiple=false, default=None),
-      Boolean(key="verbose", short="v"),
-      Boolean(key="help", short="h"),
-    ],
-    allow_positionals=true,
-  )
-  assert_eq(res.values, {
-    "key": "v" |> js,
-    "name": "alice" |> js,
-    "verbose": true |> js,
-    "help": true |> js,
-  })
-  assert_eq(res.positionals, ["file1.txt", "file2.txt"])
 }

@@ -138,8 +138,8 @@ pub fn Window::prompt(
   default? : String,
 ) -> String? {
   match default {
-    Some(d) => self.invoke("prompt", [message, d]) |> to_option()
-    None => self.invoke("prompt", [message]) |> to_option()
+    Some(d) => self.invoke("prompt", [message, d]) |> unsafe_option()
+    None => self.invoke("prompt", [message]) |> unsafe_option()
   }
 }
 
@@ -153,10 +153,11 @@ pub fn Window::open(
   features? : String,
 ) -> Window? {
   match (url, target, features) {
-    (Some(u), Some(t), Some(f)) => self.invoke("open", [u, t, f]) |> to_option
-    (Some(u), Some(t), None) => self.invoke("open", [u, t]) |> to_option
-    (Some(u), None, _) => self.invoke("open", [u]) |> to_option
-    (None, _, _) => self.invoke("open", []) |> to_option
+    (Some(u), Some(t), Some(f)) =>
+      self.invoke("open", [u, t, f]) |> unsafe_option
+    (Some(u), Some(t), None) => self.invoke("open", [u, t]) |> unsafe_option
+    (Some(u), None, _) => self.invoke("open", [u]) |> unsafe_option
+    (None, _, _) => self.invoke("open", []) |> unsafe_option
   }
 }
 
@@ -273,7 +274,7 @@ pub fn Window::fetch(self : Self, input : String, init? : Val) -> Promise[Val] {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 #alias(get_selection)
 pub fn Window::getSelection(self : Self) -> Val? {
-  self.invoke("getSelection", []) |> to_option
+  self.invoke("getSelection", []) |> unsafe_option
 }
 
 ///|

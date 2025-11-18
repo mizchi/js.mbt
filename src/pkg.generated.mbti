@@ -99,7 +99,7 @@ fn throw_(&Js) -> Unit
 
 fn[T] throwable(() -> T raise?) -> T raise JsThrowError
 
-fn[A] to_option(Val) -> A?
+fn[A] unsafe_option(Val) -> A?
 
 fn[T : Js] typeof_(T) -> String
 
@@ -225,4 +225,3 @@ pub trait PropertyKey {
 }
 impl PropertyKey for Int
 impl PropertyKey for String
-

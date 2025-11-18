@@ -125,7 +125,7 @@ pub(open) trait Js {
 
 ///|
 impl Js with to_js(self) -> Val {
-  js(self)
+  unsafe_cast(self)
 }
 
 ///|

@@ -39,7 +39,7 @@ pub fn[A, B] unsafe_cast(a : A) -> B = "%identity"
 ///|
 /// Safely convert a JavaScript Val to an Option type.
 /// Without check, Moonbit FFI will touch (null).toString() and crash.
-pub fn[A] to_option(v : Val) -> A? {
+pub fn[A] unsafe_option(v : Val) -> A? {
   if v.is_some() {
     Some(unsafe_cast(v))
   } else {

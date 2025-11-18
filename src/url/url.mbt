@@ -42,7 +42,7 @@ extern "js" fn ffi_url_parse(url : String, base : String?) -> Val =
 
 ///|
 pub fn URL::parse(url : String, base? : String) -> URL? {
-  ffi_url_parse(url, base) |> to_option()
+  ffi_url_parse(url, base) |> unsafe_option()
 }
 
 ///|

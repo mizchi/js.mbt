@@ -56,7 +56,7 @@ pub fn Navigator::hardwareConcurrency(self : Self) -> Int {
 /// Returns the device memory in GB
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/deviceMemory
 pub fn Navigator::deviceMemory(self : Self) -> Double? {
-  self.get("deviceMemory") |> to_option()
+  self.get("deviceMemory") |> unsafe_option()
 }
 
 ///|
@@ -84,14 +84,14 @@ pub fn Navigator::cookieEnabled(self : Self) -> Bool {
 /// Returns whether Do Not Track is enabled
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/doNotTrack
 pub fn Navigator::doNotTrack(self : Self) -> String? {
-  self.get("doNotTrack") |> to_option()
+  self.get("doNotTrack") |> unsafe_option()
 }
 
 ///|
 /// Returns the connection information
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/connection
 pub fn Navigator::connection(self : Self) -> Val? {
-  self.get("connection") |> to_option()
+  self.get("connection") |> unsafe_option()
 }
 
 ///|

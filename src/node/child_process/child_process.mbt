@@ -14,100 +14,6 @@ pub impl Js for ChildProcess
 ///|
 pub impl EventEmitterImpl for ChildProcess
 
-///| ChildProcess Typed Event Handlers
-
-///|
-/// Listen for 'exit' event with typed callback
-/// Callback receives: code (Int?), signal (String?)
-pub fn ChildProcess::on_exit(
-  self : Self,
-  callback : (Int?, String?) -> Unit noraise,
-) -> Unit {
-  self.invoke("on", [
-    "exit",
-    unsafe_cast(fn(code : Val, signal : Val) {
-      callback(code |> to_option(), signal |> to_option())
-    }),
-  ])
-  |> ignore
-}
-
-///|
-/// Listen for 'close' event with typed callback
-/// Callback receives: code (Int?), signal (String?)
-pub fn ChildProcess::on_close(
-  self : Self,
-  callback : (Int?, String?) -> Unit noraise,
-) -> Unit {
-  self.invoke("on", [
-    "close",
-    unsafe_cast(fn(code : Val, signal : Val) {
-      callback(code |> to_option(), signal |> to_option())
-    }),
-  ])
-  |> ignore
-}
-
-///|
-/// Listen for 'error' event with typed callback
-/// Callback receives: error (Val)
-pub fn ChildProcess::on_error(
-  self : Self,
-  callback : (Val) -> Unit noraise,
-) -> Unit {
-  self.invoke("on", ["error", unsafe_cast(callback)]) |> ignore
-}
-
-///|
-/// Listen for 'message' event with typed callback
-/// Callback receives: message (Val), sendHandle (Val?)
-pub fn ChildProcess::on_message(
-  self : Self,
-  callback : (Val, Val?) -> Unit noraise,
-) -> Unit {
-  self.invoke("on", [
-    "message",
-    unsafe_cast(fn(message : Val, sendHandle : Val) {
-      callback(message, sendHandle |> to_option())
-    }),
-  ])
-  |> ignore
-}
-
-///|
-/// Listen for 'disconnect' event with typed callback
-/// No parameters
-pub fn ChildProcess::on_disconnect(
-  self : Self,
-  callback : () -> Unit noraise,
-) -> Unit {
-  self.invoke("on", ["disconnect", unsafe_cast(callback)]) |> ignore
-}
-
-///|
-/// Listen for 'spawn' event with typed callback
-/// No parameters
-pub fn ChildProcess::on_spawn(
-  self : Self,
-  callback : () -> Unit noraise,
-) -> Unit {
-  self.invoke("on", ["spawn", unsafe_cast(callback)]) |> ignore
-}
-
-///|
-/// Listen for stdout 'data' event with typed callback
-/// Callback receives: data (Val) - typically Buffer or String
-pub fn ChildProcess::on_stdout_data(
-  self : Self,
-  callback : (Val) -> Unit noraise,
-) -> Unit {
-  match self.stdout() {
-    Some(stream) =>
-      stream.invoke("on", ["data", unsafe_cast(callback)]) |> ignore
-    None => ()
-  }
-}
-
 ///|
 /// Listen for stderr 'data' event with typed callback
 /// Callback receives: data (Val) - typically Buffer or String
@@ -117,7 +23,7 @@ pub fn ChildProcess::on_stderr_data(
 ) -> Unit {
   match self.stderr() {
     Some(stream) =>
-      stream.invoke("on", ["data", unsafe_cast(callback)]) |> ignore
+      stream.invoke("on", ["data", @js.from_fn1(callback)]) |> ignore
     None => ()
   }
 }
@@ -139,31 +45,31 @@ pub fn ChildProcess::killed(self : Self) -> Bool {
 ///|
 /// The exit code of the child process, or null if still running
 pub fn ChildProcess::exitCode(self : Self) -> Int? {
-  self.get("exitCode") |> to_option()
+  self.get("exitCode") |> unsafe_option()
 }
 
 ///|
 /// The signal that terminated the child process, or null
 pub fn ChildProcess::signalCode(self : Self) -> String? {
-  self.get("signalCode") |> to_option()
+  self.get("signalCode") |> unsafe_option()
 }
 
 ///|
 /// A readable stream representing the child process's stdin
 pub fn ChildProcess::stdin(self : Self) -> WritableStream? {
-  self.get("stdin") |> to_option()
+  self.get("stdin") |> unsafe_option()
 }
 
 ///|
 /// A writable stream representing the child process's stdout
 pub fn ChildProcess::stdout(self : Self) -> ReadableStream? {
-  self.get("stdout") |> to_option()
+  self.get("stdout") |> unsafe_option()
 }
 
 ///|
 /// A writable stream representing the child process's stderr
 pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
-  self.get("stderr") |> to_option()
+  self.get("stderr") |> unsafe_option()
 }
 
 ///| ChildProcess Methods
@@ -381,27 +287,27 @@ pub fn SpawnSyncResult::pid(self : Self) -> Int {
 
 ///|
 pub fn SpawnSyncResult::status(self : Self) -> Int? {
-  self.get("status") |> to_option()
+  self.get("status") |> unsafe_option()
 }
 
 ///|
 pub fn SpawnSyncResult::signal(self : Self) -> String? {
-  self.get("signal") |> to_option()
+  self.get("signal") |> unsafe_option()
 }
 
 ///|
-pub fn SpawnSyncResult::stdout(self : Self) -> Val {
-  self.get("stdout")
+pub fn SpawnSyncResult::stdout(self : Self) -> @stream.ReadableStream {
+  self.get("stdout") |> unsafe_cast
 }
 
 ///|
-pub fn SpawnSyncResult::stderr(self : Self) -> Val {
-  self.get("stderr")
+pub fn SpawnSyncResult::stderr(self : Self) -> @stream.ReadableStream {
+  self.get("stderr") |> unsafe_cast
 }
 
 ///|
 pub fn SpawnSyncResult::error(self : Self) -> Val? {
-  self.get("error") |> to_option()
+  self.get("error") |> unsafe_option()
 }
 
 ///|
@@ -436,8 +342,10 @@ pub fn spawnSync(
   }
   match args {
     Some(a) =>
-      unsafe_cast(cp.invoke("spawnSync", [command |> js, a |> js, options]))
-    None => unsafe_cast(cp.invoke("spawnSync", [command |> js, options]))
+      unsafe_cast(
+        cp.invoke("spawnSync", [command |> safe_js, a |> js, options]),
+      )
+    None => unsafe_cast(cp.invoke("spawnSync", [command |> safe_js, options]))
   }
 }
 
@@ -480,7 +388,7 @@ pub fn execSync(
   } else {
     options.set("encoding", "utf8")
   }
-  unsafe_cast(cp.invoke("execSync", [command |> js, options]))
+  unsafe_cast(cp.invoke("execSync", [command |> safe_js, options]))
 }
 
 ///|

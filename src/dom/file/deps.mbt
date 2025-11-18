@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, js, unsafe_cast, to_option}
+using @js {type Val, trait Js, js, unsafe_cast, unsafe_option}
 
 ///|
 using @blob {type Blob}

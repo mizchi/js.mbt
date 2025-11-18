@@ -47,7 +47,7 @@ pub fn syncBuiltinESMExports() -> Unit {
 #alias(find_source_map)
 pub fn findSourceMap(path : String) -> SourceMap? {
   let mod = ffi_require_module()
-  mod.invoke("findSourceMap", [path |> js]) |> to_option()
+  mod.invoke("findSourceMap", [path |> js]) |> unsafe_option()
 }
 
 ///|
@@ -81,7 +81,7 @@ pub fn flushCompileCache() -> Unit {
 #alias(get_compile_cache_dir)
 pub fn getCompileCacheDir() -> String? {
   let mod = ffi_require_module()
-  mod.invoke("getCompileCacheDir", []) |> to_option()
+  mod.invoke("getCompileCacheDir", []) |> unsafe_option()
 }
 
 ///|
@@ -146,7 +146,7 @@ pub fn SourceMap::findEntry(
   column_number : Int,
 ) -> SourceMapEntry? {
   self.invoke("findEntry", [line_number |> js, column_number |> js])
-  |> to_option()
+  |> unsafe_option()
 }
 
 ///| SourceMapEntry Type
@@ -197,5 +197,5 @@ pub fn SourceMapEntry::generatedColumn(self : Self) -> Int {
 ///|
 /// Get the name (if available)
 pub fn SourceMapEntry::name(self : Self) -> String? {
-  self.get("name") |> to_option()
+  self.get("name") |> unsafe_option()
 }
