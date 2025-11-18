@@ -1,4 +1,5 @@
 ///|
+/// JavaScript: AbortController
 #external
 pub type AbortController
 
@@ -6,8 +7,15 @@ pub type AbortController
 pub impl Js for AbortController
 
 ///|
+/// JS: new AbortController()
 pub extern "js" fn AbortController::new() -> AbortController =
   #| () => new AbortController()
+
+///|
+/// JS: abortController.abort()
+pub fn AbortController::abort(self : Self) -> AbortController {
+  self.invoke("abort", []) |> unsafe_cast
+}
 
 ///|
 #external
