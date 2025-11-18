@@ -219,3 +219,14 @@ extern "js" fn ffi_set_interval(
   duration : Int,
 ) -> JsTimer =
   #| (f, duration) => setInterval(f, duration)
+
+///|
+extern "js" fn ffi_set_timeout(
+  f : () -> Unit noraise,
+  duration : Int,
+) -> JsTimer =
+  #| (f, duration) => setTimeout(f, duration)
+
+///|
+extern "js" fn ffi_clear_timeout(timer : JsTimer) -> Unit =
+  #| (timer) => clearTimeout(timer)

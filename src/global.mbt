@@ -1,3 +1,5 @@
+// EcmaScript global APIs
+
 ///|
 /// Get the global object (globalThis in JavaScript).
 ///
@@ -171,4 +173,16 @@ pub fn dynamicImport(module_name : String) -> Val {
 ///|
 pub fn[T : Js] is_nan(v : T) -> Bool {
   ffi_is_nan(v.to_js())
+}
+
+///|
+#alias(set_interval)
+pub fn setInterval(f : () -> Unit noraise, duration : Int) -> JsTimer {
+  ffi_set_interval(f, duration)
+}
+
+///|
+#alias(clear_interval)
+pub fn clearInterval(timer : JsTimer) -> Unit {
+  ffi_clear_timeout(timer)
 }

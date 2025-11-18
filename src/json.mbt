@@ -8,7 +8,7 @@ pub fn JSON::stringify(
   replacer? : Val = undefined(),
   space? : Int = 2,
 ) -> String {
-  ffi_json_stringify(v.to_js(), replacer, space |> js)
+  ffi_json_stringify(v.to_js(), replacer, space |> safe_js)
 }
 
 ///|
