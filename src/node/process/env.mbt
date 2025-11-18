@@ -1,16 +1,11 @@
 ///|
 #external
-pub type Env
+pub type ProcessEnv
 
 ///|
-pub impl Js for Env
+pub extern "js" fn ProcessEnv::get(e : ProcessEnv, key : String) -> String? =
+  #| (env, key) => env[key]
 
 ///|
-pub fn Env::get_(self : Self, key : String) -> String? {
-  self.get(key) |> to_option
-}
-
-///|
-pub fn Env::set_(self : Self, key : String, value : String) -> Unit {
-  self.set(key, value) |> ignore
-}
+pub extern "js" fn ProcessEnv::has(e : ProcessEnv, key : String) -> Bool =
+  #| (env, key) => !!env[key]

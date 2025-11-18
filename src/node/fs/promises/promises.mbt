@@ -1,8 +1,8 @@
 ///|
-using @js {trait Js, type Val, type AbortSignal, js, unsafe_cast}
+using @js {trait Js, type AbortSignal, js, unsafe_cast}
 
 ///|
-using @promise {type Promise, run_async}
+using @promise {type Promise}
 
 ///|
 using @iterator {type AsyncIterator}
@@ -11,12 +11,14 @@ using @iterator {type AsyncIterator}
 using @fs {type Stat}
 
 ///|
+/// node:fs/promises.stat
 pub fn stat(path : String) -> Promise[Stat] {
   let fs = @node.require("node:fs/promises")
   unsafe_cast(fs.invoke("stat", [path]))
 }
 
 ///|
+/// node:fs/promises.mkdir
 pub fn mkdir(path : String, recursive? : Bool) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   let options = @js.Object::new()
@@ -27,6 +29,7 @@ pub fn mkdir(path : String, recursive? : Bool) -> Promise[Unit] {
 }
 
 ///|
+/// node:fs/promises.glob
 pub fn glob(
   path : String,
   cwd? : String,
@@ -39,10 +42,10 @@ pub fn glob(
     opts.set("cwd", c)
   }
   if exclude is Some(e) {
-    opts.set("exclude", e |> js)
+    opts.set("exclude", e |> @js.from_array)
   }
   if exclude_fn is Some(f) {
-    opts.set("exclude", f |> js)
+    opts.set("exclude", f |> @js.from_fn1)
   }
   unsafe_cast(fs.invoke("glob", [path]))
 }
@@ -55,14 +58,14 @@ pub type Dirent
 pub impl Js for Dirent
 
 ///|
-#alias(isFile)
-pub fn Dirent::is_file(self : Self) -> Bool {
+#alias(is_file)
+pub fn Dirent::isFile(self : Self) -> Bool {
   self.invoke("isFile", []) |> unsafe_cast
 }
 
 ///|
-#alias(isDirectory)
-pub fn Dirent::is_directory(self : Self) -> Bool {
+#alias(is_directory)
+pub fn Dirent::isDirectory(self : Self) -> Bool {
   self.invoke("isDirectory", []) |> unsafe_cast
 }
 

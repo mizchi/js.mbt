@@ -6,46 +6,81 @@ pub type Process
 pub impl Js for Process
 
 ///|
-pub fn node_process() -> Process {
+pub fn process() -> Process {
   unsafe_cast(@node.require("node:process"))
 }
 
 ///|
-pub fn Process::argv(self : Self) -> Array[String] {
-  unsafe_cast(self.get("argv"))
+/// JS: process.env
+pub fn env() -> ProcessEnv {
+  @node.require("node:process").get("env") |> unsafe_cast
 }
 
 ///|
-pub fn Process::cwd(self : Self) -> String {
-  unsafe_cast(self.get("cwd").invoke_self([]))
+/// JS: process.argv
+pub fn argv() -> Array[String] {
+  unsafe_cast(process().get("argv"))
 }
 
 ///|
-pub fn Process::isTTY(self : Self) -> Bool {
-  unsafe_cast(self.get("isTTY"))
+/// JS: process.cwd()
+pub fn cwd() -> String {
+  unsafe_cast(process().get("cwd").invoke_self([]))
 }
 
 ///|
-pub fn Process::chdir(self : Self, path : String) -> Unit {
-  unsafe_cast(self.get("chdir").invoke_self([path]))
+/// JS: process.version
+pub fn version() -> String {
+  unsafe_cast(process().get("version"))
 }
 
 ///|
-pub fn Process::exit(self : Self, code : Int) -> Unit {
-  self.get("exit").invoke_self([code]) |> ignore
+/// JS: process.versions
+pub fn versions() -> @js.Object {
+  unsafe_cast(process().get("version"))
 }
 
 ///|
-pub fn Process::env() -> Env {
-  unsafe_cast(node_process().get("env"))
+/// JS: process.isTTY
+pub fn isTTY() -> Bool {
+  unsafe_cast(process().get("isTTY"))
 }
 
 ///|
-pub fn stdio() -> @stream.Stream {
-  unsafe_cast(node_process().get("stdio"))
+/// JS: process.chdir(path)
+pub fn chdir(path : String) -> Unit {
+  unsafe_cast(process().get("chdir").invoke_self([path]))
+}
+
+///|
+/// JS: process.exit(code)
+pub fn exit(code : Int) -> Unit {
+  process().get("exit").invoke_self([code]) |> ignore
+}
+
+///|
+/// JS: process.exitCode
+pub fn exitCode() -> Int {
+  process().get("exitCode") |> unsafe_cast
+}
+
+///|
+pub fn stdin() -> @stream.Stream {
+  unsafe_cast(process().get("stdin"))
 }
 
 ///|
 pub fn stdout() -> @stream.Stream {
-  unsafe_cast(node_process().get("stdout"))
+  unsafe_cast(process().get("stdout"))
+}
+
+///|
+pub fn stderr() -> @stream.Stream {
+  unsafe_cast(process().get("stderr"))
+}
+
+///|
+/// JS: process.on(sig, listener)
+pub fn on(sig : String, listener : () -> Unit) -> Unit {
+  unsafe_cast(process().invoke("on", [sig, @js.from_fn0(listener)]))
 }
