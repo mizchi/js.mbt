@@ -1,21 +1,7 @@
 // EcmaScript global APIs
 
 ///|
-/// Get the global object (globalThis in JavaScript).
-///
-/// In browsers, this is `window`. In Node.js, this is `global`.
-///
-/// # Returns
-///
-/// The global object as a Val
-///
-/// # Example
-///
-/// ```moonbit skip
-/// let global = global_this()
-/// let console = global.get("console")
-/// console.call_method("log", ["Hello, World!"]) |> ignore
-/// ```
+/// JS: globalThis
 #alias(global_this)
 pub fn globalThis() -> Val {
   ffi_global_this()
@@ -173,6 +159,18 @@ pub fn dynamicImport(module_name : String) -> Val {
 ///|
 pub fn[T : Js] isNaN(v : T) -> Bool {
   ffi_is_nan(v.to_js())
+}
+
+///|
+#alias(set_timeout)
+pub fn setTimeout(f : () -> Unit, duration : Int) -> JsTimer {
+  ffi_set_timeout(f, duration)
+}
+
+///|
+#alias(clear_timeout)
+pub fn clearTimeout(timer : JsTimer) -> Unit {
+  ffi_clear_timeout(timer)
 }
 
 ///|

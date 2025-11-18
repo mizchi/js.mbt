@@ -202,18 +202,6 @@ extern "js" fn ffi_is_nan(v : Val) -> Bool =
   #| (v) => Number.isNaN(v)
 
 ///|
-#alias(set_timeout)
-pub fn setTimeout(f : () -> Unit, duration : Int) -> JsTimer {
-  ffi_set_timeout(f, duration)
-}
-
-///|
-#alias(clear_timeout)
-pub fn clearTimeout(timer : JsTimer) -> Unit {
-  ffi_clear_timeout(timer)
-}
-
-///|
 extern "js" fn ffi_set_interval(
   f : () -> Unit noraise,
   duration : Int,
