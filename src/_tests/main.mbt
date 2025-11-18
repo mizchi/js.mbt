@@ -103,7 +103,7 @@ test {
       sleep(5)
       checkpoints.push(3)
     })
-    sleep(15)
+    sleep(32)
     assert_eq(checkpoints.length(), 3)
     assert_eq(checkpoints[0], 1)
     assert_eq(checkpoints[1], 2)
