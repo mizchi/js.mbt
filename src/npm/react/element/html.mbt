@@ -1688,7 +1688,7 @@ pub fn video(
     }
   }
   if controls is Some(c) {
-    new_attributes.set("controls", c |> js)
+    new_attributes.set("controls", c |> @js.unsafe_js)
   }
   common_node(
     "video",
@@ -1749,9 +1749,9 @@ pub fn source(
       new_attributes[k] = v
     }
   }
-  new_attributes.set("src", src |> js)
+  new_attributes.set("src", src |> @js.unsafe_js)
   if type_ is Some(t) {
-    new_attributes.set("type", t |> js)
+    new_attributes.set("type", t |> @js.unsafe_js)
   }
   common_node(
     "video",
@@ -2107,10 +2107,10 @@ pub fn button(
     }
   }
   if type_ is Some(t) {
-    new_attributes.set("type", t |> js)
+    new_attributes.set("type", t |> @js.unsafe_js)
   }
   if disabled is Some(d) {
-    new_attributes.set("disabled", d |> js)
+    new_attributes.set("disabled", d |> @js.unsafe_js)
   }
   common_node(
     "button",

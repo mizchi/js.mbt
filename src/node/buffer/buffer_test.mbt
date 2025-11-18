@@ -1,5 +1,5 @@
 ///|
-using @js {js, unsafe_cast}
+using @js {unsafe_cast, safe_js}
 
 ///|
 test "Buffer.from_string" {
@@ -24,7 +24,7 @@ test "Buffer.alloc" {
   // Zero-filled buffer
   assert_eq(buf.get(0) |> unsafe_cast, 0)
   assert_eq(buf.get(9) |> unsafe_cast, 0)
-  let buf_filled = Buffer::alloc(5, fill=js(0x41)) // Fill with 'A'
+  let buf_filled = Buffer::alloc(5, fill=safe_js(0x41)) // Fill with 'A'
   assert_eq(buf_filled.toString(), "AAAAA")
 }
 
@@ -38,7 +38,7 @@ test "Buffer.allocUnsafe" {
 test "Buffer.isBuffer" {
   let buf = Buffer::from_string("test")
   assert_eq(Buffer::isBuffer(buf.to_js()), true)
-  assert_eq(Buffer::isBuffer(js("hello")), false)
+  assert_eq(Buffer::isBuffer(safe_js("hello")), false)
 }
 
 ///|
@@ -114,10 +114,10 @@ test "Buffer copy" {
 ///|
 test "Buffer fill" {
   let buf = Buffer::alloc(5)
-  buf.fill(js(0x41)) |> ignore // Fill with 'A'
+  buf.fill(safe_js(0x41)) |> ignore // Fill with 'A'
   assert_eq(buf.toString(), "AAAAA")
   let buf2 = Buffer::alloc(10)
-  buf2.fill(js(0x42), offset=2, end=7) |> ignore // Fill with 'B'
+  buf2.fill(safe_js(0x42), offset=2, end=7) |> ignore // Fill with 'B'
   assert_eq(buf2.get(1) |> unsafe_cast, 0)
   assert_eq(buf2.get(2) |> unsafe_cast, 0x42) // 'B'
   assert_eq(buf2.get(6) |> unsafe_cast, 0x42) // 'B'
@@ -136,11 +136,11 @@ test "Buffer equals" {
 ///|
 test "Buffer includes and indexOf" {
   let buf = Buffer::from_string("Hello World")
-  assert_eq(buf.includes(js("World")), true)
-  assert_eq(buf.includes(js("Foo")), false)
-  assert_eq(buf.indexOf(js("World")), 6)
-  assert_eq(buf.indexOf(js("Foo")), -1)
-  assert_eq(buf.indexOf(js("o")), 4)
+  assert_eq(buf.includes(safe_js("World")), true)
+  assert_eq(buf.includes(safe_js("Foo")), false)
+  assert_eq(buf.indexOf(safe_js("World")), 6)
+  assert_eq(buf.indexOf(safe_js("Foo")), -1)
+  assert_eq(buf.indexOf(safe_js("o")), 4)
 }
 
 ///|

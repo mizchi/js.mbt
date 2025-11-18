@@ -1,7 +1,7 @@
 /// https://nodejs.org/api/events.html#emittereventnames
 
 ///|
-using @js {trait JsImpl, type Js, unsafe_cast, js}
+using @js {trait JsImpl, type Js, unsafe_cast}
 
 ///|
 /// EventEmitter trait for Node.js event emitter pattern

@@ -42,7 +42,7 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 #alias(use_callback)
 pub fn[F] useCallback(f : F, keys : Array[&JsImpl]) -> F {
   let keys = keys.map(k => k.to_js())
-  unsafe_cast(ffi_react_use_callback(f |> js, keys))
+  unsafe_cast(ffi_react_use_callback(f |> @js.unsafe_js, keys))
 }
 
 ///|
@@ -123,7 +123,7 @@ extern "js" fn set_current_internal(v : Js, o : Js) -> Unit =
 
 ///|
 pub fn[T] ReactRef::current(v : ReactRef[T]) -> T? {
-  let v = current_internal(v |> js)
+  let v = current_internal(v |> @js.unsafe_js)
   if @js.is_undefined(v) || @js.is_null(v) {
     None
   } else {
@@ -143,7 +143,7 @@ pub type Context[T]
 ///|
 #alias(createContext)
 pub fn[T] create_context(initial : T?) -> Context[T] {
-  let v = ffi_react_create_context(initial |> js)
+  let v = ffi_react_create_context(initial |> @js.unsafe_js)
   unsafe_cast(v)
 }
 
@@ -178,7 +178,10 @@ pub fn[T, U] use_reducer(
   reducer : (T, U) -> T,
   initial : T,
 ) -> (T, (U) -> Unit) {
-  let val = ffi_react_use_reducer(reducer |> js, initial |> js)
+  let val = ffi_react_use_reducer(
+    reducer |> @js.unsafe_js,
+    initial |> @js.unsafe_cast,
+  )
   (unsafe_cast(val.get(0)), unsafe_cast(val.get(1)))
 }
 
@@ -195,7 +198,10 @@ pub fn[T, U] use_action_state(
   initial : T,
 ) -> (T, (U) -> Unit, Bool) {
   let w = @promise.promisify2((s, a) => f(s, a))
-  let val : Js = use_action_state_internal(w |> js, initial |> js)
+  let val : Js = use_action_state_internal(
+    w |> @js.unsafe_js,
+    initial |> @js.unsafe_js,
+  )
   (unsafe_cast(val.get(0)), unsafe_cast(val.get(1)), unsafe_cast(val.get(2)))
 }
 
@@ -221,5 +227,5 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 ///   lazy_(load_my_lazy_component)
 /// ```
 pub fn[T] lazy_(f : async () -> (T) -> Element) -> (EmptyProps) -> Promise[Js] {
-  f |> @promise.promisify0 |> js |> ffi_react_lazy() |> unsafe_cast
+  f |> @promise.promisify0 |> @js.unsafe_js |> ffi_react_lazy() |> unsafe_cast
 }

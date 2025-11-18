@@ -126,16 +126,16 @@ pub fn[T, U] DatabaseSync::aggregate(
     opts.set("varargs", v)
   }
   if start is Some(v) {
-    opts.set("start", v |> js)
+    opts.set("start", v |> @js.unsafe_js)
   }
   if step is Some(v) {
-    opts.set("step", v |> js)
+    opts.set("step", v |> @js.unsafe_js)
   }
   if inverse is Some(v) {
-    opts.set("inverse", v |> js)
+    opts.set("inverse", v |> @js.unsafe_js)
   }
   if result is Some(v) {
-    opts.set("result", v |> js)
+    opts.set("result", v |> @js.unsafe_js)
   }
   self.invoke("aggregate", [name, opts]) |> ignore
 }
@@ -163,7 +163,7 @@ pub fn DatabaseSync::function(
   if varargs is Some(v) {
     opts.set("varargs", v)
   }
-  self.invoke("function", [name, opts, func |> js]) |> ignore
+  self.invoke("function", [name, opts, func |> unsafe_cast]) |> ignore
 }
 
 ///|
@@ -172,7 +172,7 @@ pub fn DatabaseSync::setAuthorizer(
   self : Self,
   callback : (Int, String?, String?, String?, String?) -> Int,
 ) -> Unit {
-  self.invoke("setAuthorizer", [callback |> js]) |> ignore
+  self.invoke("setAuthorizer", [callback |> @js.unsafe_js]) |> ignore
 }
 
 ///|

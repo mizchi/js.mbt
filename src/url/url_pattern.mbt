@@ -15,7 +15,7 @@ pub type URLPattern
 
 ///|
 pub impl @js.JsImpl for URLPattern with to_js(self) -> @js.Js {
-  self |> @js.js
+  self |> @js.unsafe_js
 }
 
 ///|
@@ -24,13 +24,13 @@ pub type URLPatternResult
 
 ///|
 pub impl @js.JsImpl for URLPatternResult with to_js(self) -> @js.Js {
-  self |> @js.js
+  self |> @js.unsafe_js
 }
 
 ///|
 /// Create a new URLPattern from a pattern string
 pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
-  let pattern_val = @js.js(pattern)
+  let pattern_val = @js.unsafe_js(pattern)
   match base {
     Some(b) => unsafe_cast(ffi_new_url_pattern_with_base(pattern_val, b))
     None => unsafe_cast(ffi_new_url_pattern(pattern_val))

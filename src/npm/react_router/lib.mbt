@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, js, unsafe_cast}
+using @js {type Js, trait JsImpl, unsafe_cast}
 
 ///|
 using @promise {type Promise}
@@ -56,13 +56,13 @@ impl JsImpl for Route with to_js(self : Route) {
     Route::Component(path~, component~) => {
       let obj = @js.Object::new()
       obj.set("path", path)
-      obj.set("Component", component |> js)
+      obj.set("Component", component |> @js.unsafe_js)
       obj.to_js()
     }
     Route::Element(path~, element~) => {
       let obj = @js.Object::new()
       obj.set("path", path)
-      obj.set("element", element |> js)
+      obj.set("element", element |> @js.unsafe_js)
       obj.to_js()
     }
   }

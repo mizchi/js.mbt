@@ -2,7 +2,7 @@
 /// Node.js v8 API Tests
 
 ///|
-using @js {js, unsafe_cast}
+using @js {unsafe_cast}
 
 ///|
 using @buffer {type Buffer}

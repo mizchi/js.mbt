@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, js, safe_js, unsafe_cast}
+using @js {type Js, trait JsImpl, safe_js, unsafe_cast}
 
 ///|
 using @promise {type Promise}

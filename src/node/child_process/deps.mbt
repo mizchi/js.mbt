@@ -1,6 +1,5 @@
 ///|
 using @js {
-  js,
   safe_js,
   unsafe_cast,
   unsafe_option,

@@ -7,8 +7,8 @@
 /// # Example
 ///
 /// ```moonbit
-/// let num = js(42)                 // MoonBit Int -> Js
-/// let str = js("hello")            // MoonBit String -> Js
+/// let num = safe_js(42)                 // MoonBit Int -> Js
+/// let str = safe_js("hello")            // MoonBit String -> Js
 /// let val : Int = unsafe_cast(num) // Val -> MoonBit Int (unsafe)
 /// ```
 #external
@@ -37,13 +37,13 @@ pub impl Eq for Js with equal(self, other) -> Bool {
 
 ///|
 /// JS: v instanceof cls
-pub fn[T: JsImpl] instanceof_(v : T, cls : T) -> Bool {
+pub fn[T : JsImpl] instanceof_(v : T, cls : T) -> Bool {
   ffi_instance_of(v.to_js(), cls.to_js())
 }
 
 ///|
 /// JS: typeof v
-pub fn[T: JsImpl] typeof_(v : T) -> String {
+pub fn[T : JsImpl] typeof_(v : T) -> String {
   ffi_type_of(v.to_js())
 }
 
@@ -57,8 +57,8 @@ pub fn[T: JsImpl] typeof_(v : T) -> String {
 /// # Example
 ///
 /// ```moonbit
-/// assert_true(js(42).is_some())        // true
-/// assert_true(js("hello").is_some())   // true
+/// assert_true(safe_js(42).is_some())        // true
+/// assert_true(safe_js("hello").is_some())   // true
 /// assert_false(undefined().is_some())   // false
 /// assert_false(null_().is_some())       // false
 /// ```
@@ -79,8 +79,8 @@ pub fn Js::is_some(self : Self) -> Bool {
 /// ```moonbit
 /// assert_true(undefined().is_none())   // true
 /// assert_true(null_().is_none())       // true
-/// assert_false(js(42).is_none())        // false
-/// assert_false(js("hello").is_none())   // false
+/// assert_false(safe_js(42).is_none())        // false
+/// assert_false(safe_js("hello").is_none())   // false
 /// ```
 pub fn Js::is_none(self : Self) -> Bool {
   is_undefined(self) || is_null(self)

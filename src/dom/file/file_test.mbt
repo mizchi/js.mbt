@@ -2,9 +2,6 @@
 /// File and FileReader API Tests
 
 ///|
-using @js {js}
-
-///|
 using @promise {run_async}
 
 ///| File Constructor Tests

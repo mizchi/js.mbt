@@ -3,7 +3,6 @@ using @js {
   type Js,
   trait JsImpl,
   trait EventTargetImpl,
-  js,
   unsafe_cast,
   safe_js,
   unsafe_option,

@@ -105,28 +105,28 @@ test "Val type checking" {
   // Test is_null
   assert_true(@js.is_null(null_()))
   assert_false(@js.is_null(undefined()))
-  assert_false(@js.is_null(js(42)))
+  assert_false(@js.is_null(safe_js(42)))
 
   // Test is_undefined
   assert_true(@js.is_undefined(undefined()))
   assert_false(@js.is_undefined(null_()))
-  assert_false(@js.is_undefined(js(42)))
+  assert_false(@js.is_undefined(safe_js(42)))
 
   // Test is_some and is_none
-  assert_true(js(42).is_some())
+  assert_true(safe_js(42).is_some())
   assert_false(undefined().is_some())
   assert_false(null_().is_some())
-  assert_false(js(42).is_none())
+  assert_false(safe_js(42).is_none())
   assert_true(undefined().is_none())
   assert_true(null_().is_none())
 }
 
 ///|
 test "Val type_of" {
-  assert_eq(@js.typeof_(js(42)), "number")
-  assert_eq(@js.typeof_(js(3.14)), "number")
-  assert_eq(@js.typeof_(js("hello")), "string")
-  assert_eq(@js.typeof_(js(true)), "boolean")
+  assert_eq(@js.typeof_(safe_js(42)), "number")
+  assert_eq(@js.typeof_(safe_js(3.14)), "number")
+  assert_eq(@js.typeof_(safe_js("hello")), "string")
+  assert_eq(@js.typeof_(safe_js(true)), "boolean")
   assert_eq(@js.typeof_(undefined()), "undefined")
   assert_eq(@js.typeof_(Object::new()), "object")
   assert_eq(@js.typeof_(JsArray::new()), "object")
@@ -184,22 +184,22 @@ test "Val delete and has_own_property" {
 ///|
 test "Val cast primitive types" {
   // Integer
-  let int_val = js(42)
+  let int_val = safe_js(42)
   let int_result : Int = unsafe_cast(int_val)
   assert_eq(int_result, 42)
 
   // Double
-  let double_val = js(3.14)
+  let double_val = safe_js(3.14)
   let double_result : Double = unsafe_cast(double_val)
   assert_eq(double_result, 3.14)
 
   // String
-  let str_val = js("hello")
+  let str_val = safe_js("hello")
   let str_result : String = unsafe_cast(str_val)
   assert_eq(str_result, "hello")
 
   // Boolean
-  let bool_val = js(true)
+  let bool_val = safe_js(true)
   let bool_result : Bool = unsafe_cast(bool_val)
   assert_eq(bool_result, true)
 }
@@ -207,9 +207,9 @@ test "Val cast primitive types" {
 ///|
 test "Val cast_option" {
   // Some cases
-  let some_str : String? = js("hello") |> unsafe_option()
+  let some_str : String? = safe_js("hello") |> unsafe_option()
   assert_eq(some_str, Some("hello"))
-  let some_int : Int? = js(42) |> unsafe_option()
+  let some_int : Int? = safe_js(42) |> unsafe_option()
   assert_eq(some_int, Some(42))
 
   // None cases
@@ -222,13 +222,13 @@ test "Val cast_option" {
 ///|
 test "Val equality" {
   // Same values should be equal
-  assert_eq(js(42), js(42))
-  assert_eq(js("hello"), js("hello"))
-  assert_eq(js(true), js(true))
+  assert_eq(safe_js(42), safe_js(42))
+  assert_eq(safe_js("hello"), safe_js("hello"))
+  assert_eq(safe_js(true), safe_js(true))
 
   // Different values should not be equal
-  assert_false(js(42) == js(43))
-  assert_false(js("hello") == js("world"))
+  assert_false(safe_js(42) == safe_js(43))
+  assert_false(safe_js("hello") == safe_js("world"))
 
   // Special values
   assert_eq(null_(), null_())
@@ -238,10 +238,10 @@ test "Val equality" {
 
 ///|
 test "Val is_nan" {
-  let nan_val = js(0.0 / 0.0)
+  let nan_val = @js.safe_js(0.0 / 0.0)
   assert_true(@js.isNaN(nan_val))
-  assert_false(@js.isNaN(js(42)))
-  assert_false(@js.isNaN(js(3.14)))
+  assert_false(@js.isNaN(42))
+  assert_false(@js.isNaN(3.14))
 }
 
 ///|
@@ -314,9 +314,9 @@ test "object_assign" {
 ///|
 test "from_builtin_map" {
   let map : Map[String, Js] = {
-    "name": js("Alice"),
-    "age": js(30),
-    "active": js(true),
+    "name": safe_js("Alice"),
+    "age": safe_js(30),
+    "active": safe_js(true),
   }
   let obj = from_map(map)
   assert_eq(unsafe_cast(obj.get("name")), "Alice")
@@ -425,11 +425,11 @@ test "Val with nested structures" {
 
 ///|
 test "Val Show trait" {
-  assert_eq(js(42).to_string(), "42")
-  assert_eq(js(3.14).to_string(), "3.14")
-  assert_eq(js("hello").to_string(), "hello")
-  assert_eq(js(true).to_string(), "true")
-  assert_eq(js(false).to_string(), "false")
+  assert_eq(safe_js(42).to_string(), "42")
+  assert_eq(safe_js(3.14).to_string(), "3.14")
+  assert_eq(safe_js("hello").to_string(), "hello")
+  assert_eq(safe_js(true).to_string(), "true")
+  assert_eq(safe_js(false).to_string(), "false")
   assert_eq(null_().to_string(), "null")
   assert_eq(@js.Object::new().to_js().to_string(), "{}")
   assert_eq(@js.JsArray::new().to_js().to_string(), "[]")
@@ -481,7 +481,7 @@ test "Js trait for primitives" {
   assert_eq(unsafe_cast(bool_js), true)
 
   // Val (identity)
-  let val = js(100)
+  let val = @js.safe_js(100)
   let val_js : Js = JsImpl::to_js(val)
   assert_eq(val_js, val)
 }
@@ -539,15 +539,15 @@ test "Val with false boolean" {
 ///|
 test "Val numeric edge cases" {
   // Large integers
-  let large = js(1000000)
+  let large = safe_js(1000000)
   assert_eq(unsafe_cast(large), 1000000)
 
   // Negative numbers
-  let negative = js(-42)
+  let negative = safe_js(-42)
   assert_eq(unsafe_cast(negative), -42)
 
   // Very small float
-  let small = js(0.0001)
+  let small = safe_js(0.0001)
   assert_eq(unsafe_cast(small), 0.0001)
 }
 
@@ -598,7 +598,7 @@ test {
   set_if_exists(obj, "a", undef)
   let none_val : Js? = None
   set_if_exists(obj, "b", none_val)
-  set_if_exists(obj, "c", Some(js(42)))
+  set_if_exists(obj, "c", Some(42))
   assert_true(@js.is_undefined(obj.get("a")))
   // assert_eq(unsafe_cast(obj.get("a")), 42)
   // obj.set_if_exists("b", None)

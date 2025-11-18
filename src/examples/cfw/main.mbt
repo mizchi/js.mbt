@@ -1,8 +1,5 @@
 ///|
-using @js {type Js, js, log}
-
-///|
-using @promise {run_async}
+using @js {log}
 
 ///|
 using @http {type Request, type Response, fetch, fetch_request}

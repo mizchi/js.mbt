@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, js, unsafe_cast}
+using @js {type Js, trait JsImpl, unsafe_cast}
 
 ///|
 using @iterator {type JsIterator}
@@ -60,12 +60,12 @@ test "sqlite prepared statement with parameters" {
     "CREATE TABLE users(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)",
   )
   let insert = database.prepare("INSERT INTO users (name, age) VALUES (?, ?)")
-  let result1 = insert.run(anonymous_parameters=[@js.js("Alice"), @js.js(30)])
+  let result1 = insert.run(anonymous_parameters=["Alice", 30])
   assert_eq(result1.changes, 1)
-  let result2 = insert.run(anonymous_parameters=[@js.js("Bob"), @js.js(25)])
+  let result2 = insert.run(anonymous_parameters=["Bob", 25])
   assert_eq(result2.changes, 1)
   let select = database.prepare("SELECT * FROM users WHERE age > ?")
-  let users = select.all(anonymous_parameters=[@js.js(26)])
+  let users = select.all(anonymous_parameters=[26])
   assert_eq(users.length(), 1)
 }
 
@@ -93,10 +93,10 @@ test "sqlite get single row" {
   database.exec("CREATE TABLE settings(key TEXT PRIMARY KEY, value TEXT)")
   database.exec("INSERT INTO settings VALUES ('theme', 'dark'), ('lang', 'en')")
   let stmt = database.prepare("SELECT value FROM settings WHERE key = ?")
-  let result = stmt.get_(anonymous_parameters=[@js.js("theme")])
+  let result = stmt.get_(anonymous_parameters=["theme"])
   guard result is Some(row)
   assert_eq(unsafe_cast(row.get("value")), "dark")
-  let no_result = stmt.get_(anonymous_parameters=[@js.js("nonexistent")])
+  let no_result = stmt.get_(anonymous_parameters=["nonexistent"])
   assert_eq(no_result, None)
 }
 
@@ -126,10 +126,10 @@ test "sqlite custom function" {
     "double",
     fn(args) {
       if args.length() == 0 {
-        return @js.js(0)
+        return @js.safe_js(0)
       }
       let value : Int = unsafe_cast(args[0])
-      @js.js(value * 2)
+      @js.safe_js(value * 2)
     },
     varargs=true,
   )
@@ -174,8 +174,8 @@ test "sqlite session and changeset" {
   target_db.exec("CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)")
   let session = source_db.createSession()
   let insert = source_db.prepare("INSERT INTO data (key, value) VALUES (?, ?)")
-  insert.run(anonymous_parameters=[@js.js(1), @js.js("hello")]) |> ignore
-  insert.run(anonymous_parameters=[@js.js(2), @js.js("world")]) |> ignore
+  insert.run(anonymous_parameters=[1, "hello"]) |> ignore
+  insert.run(anonymous_parameters=[2, "world"]) |> ignore
   let changeset = session.changeset()
   assert_true(changeset.byte_length() > 0)
   target_db.applyChangeset(changeset) |> ignore
@@ -198,7 +198,7 @@ test "sqlite aggregate with window function" {
     "running_total",
     start=0,
     step=fn(acc, value) { acc + value },
-    result=fn(acc) { @js.js(acc) },
+    result=fn(acc) { @js.unsafe_js(acc) },
   )
   let stmt = database.prepare(
     "SELECT product, running_total(amount) as total FROM sales GROUP BY product",

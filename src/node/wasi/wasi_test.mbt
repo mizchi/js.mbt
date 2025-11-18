@@ -2,7 +2,7 @@
 /// WASI API Tests
 
 ///|
-using @js {js, unsafe_cast}
+using @js {unsafe_cast}
 
 ///| WASI Constructor Tests
 

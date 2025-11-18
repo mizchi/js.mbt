@@ -209,7 +209,7 @@ pub fn Window::setTimeout(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.invoke("setTimeout", [@js.js(handler), delay]) |> unsafe_cast
+  self.invoke("setTimeout", [@js.from_fn0(handler), delay]) |> unsafe_cast
 }
 
 ///|
@@ -229,7 +229,7 @@ pub fn Window::setInterval(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.invoke("setInterval", [@js.js(handler), delay]) |> unsafe_cast
+  self.invoke("setInterval", [@js.from_fn0(handler), delay]) |> unsafe_cast
 }
 
 ///|
@@ -248,7 +248,7 @@ pub fn Window::requestAnimationFrame(
   self : Self,
   callback : (Double) -> Unit,
 ) -> Int {
-  self.invoke("requestAnimationFrame", [@js.js(callback)]) |> unsafe_cast
+  self.invoke("requestAnimationFrame", [@js.unsafe_js(callback)]) |> unsafe_cast
 }
 
 ///|
@@ -326,6 +326,10 @@ pub fn[T : Transferable] Window::post_message_with_transfer(
   ignore(
     self
     .to_js()
-    .invoke("postMessage", [message, target_origin, @js.js(transfer_vals)]),
+    .invoke("postMessage", [
+      message,
+      target_origin,
+      @js.unsafe_js(transfer_vals),
+    ]),
   )
 }

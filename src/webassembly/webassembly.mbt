@@ -41,7 +41,7 @@ pub fn WebAssemblyMemory::buffer(self : Self) -> ArrayBuffer {
 ///|
 /// Grow the memory by delta pages
 pub fn WebAssemblyMemory::grow(self : Self, delta : Int) -> Int {
-  self.invoke("grow", [js(delta)]) |> unsafe_cast
+  self.invoke("grow", [delta]) |> unsafe_cast
 }
 
 ///|
@@ -62,12 +62,12 @@ pub fn WebAssemblyMemory::new(
   descriptor : MemoryDescriptor,
 ) -> WebAssemblyMemory {
   let obj = @js.Object::new()
-  obj.set("initial", js(descriptor.initial))
+  obj.set("initial", descriptor.initial)
   match descriptor.maximum {
-    Some(max) => obj.set("maximum", js(max))
+    Some(max) => obj.set("maximum", max)
     None => ()
   }
-  obj.set("shared", js(descriptor.shared))
+  obj.set("shared", descriptor.shared)
   ffi_new_memory(obj.to_js())
 }
 
@@ -88,13 +88,13 @@ pub fn WebAssemblyTable::length(self : Self) -> Int {
 ///|
 /// Set a value in the table at the given index
 pub fn WebAssemblyTable::set(self : Self, index : Int, value : Js) -> Unit {
-  ignore(self.invoke("set", [js(index), value]))
+  ignore(self.invoke("set", [index, value]))
 }
 
 ///|
 /// Grow the table by delta elements
 pub fn WebAssemblyTable::grow(self : Self, delta : Int, value : Js) -> Int {
-  self.invoke("grow", [js(delta), value]) |> unsafe_cast
+  self.invoke("grow", [delta, value]) |> unsafe_cast
 }
 
 ///|
@@ -113,10 +113,10 @@ extern "js" fn ffi_new_table(descriptor : Js) -> WebAssemblyTable =
 /// Create a new WebAssembly table
 pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
   let obj = @js.Object::new()
-  obj.set("element", js(descriptor.element))
-  obj.set("initial", js(descriptor.initial))
+  obj.set("element", descriptor.element)
+  obj.set("initial", descriptor.initial)
   match descriptor.maximum {
-    Some(max) => obj.set("maximum", js(max))
+    Some(max) => obj.set("maximum", max)
     None => ()
   }
   ffi_new_table(obj.to_js())
@@ -150,10 +150,7 @@ pub(all) struct GlobalDescriptor {
 }
 
 ///|
-extern "js" fn ffi_new_global(
-  descriptor : Js,
-  value : Js,
-) -> WebAssemblyGlobal =
+extern "js" fn ffi_new_global(descriptor : Js, value : Js) -> WebAssemblyGlobal =
   #| (descriptor, value) => new WebAssembly.Global(descriptor, value)
 
 ///|
@@ -163,8 +160,8 @@ pub fn WebAssemblyGlobal::new(
   value : Js,
 ) -> WebAssemblyGlobal {
   let obj = @js.from_map({
-    "value": js(descriptor.value),
-    "mutable": js(descriptor.mutable),
+    "value": safe_js(descriptor.value),
+    "mutable": safe_js(descriptor.mutable),
   })
   ffi_new_global(obj, value)
 }

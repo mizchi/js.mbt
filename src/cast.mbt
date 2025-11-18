@@ -15,14 +15,18 @@
 /// # Example
 ///
 /// ```moonbit
-/// let num = js(42)            // Int -> Js
-/// let str = js("hello")       // String -> Js
-/// let bool = js(true)         // Bool -> Js
-/// let arr = js([1, 2, 3])     // Array -> Js
+/// let num = safe_js(42)            // Int -> Js
+/// let str = safe_js("hello")       // String -> Js
+/// let bool = safe_js(true)         // Bool -> Js
+/// let arr = from_array([1, 2, 3])     // Array -> Js
 /// ```
 ///
-#deprecated
-pub fn[T] js(v : T) -> Js {
+// #deprecated
+// pub fn[T] js(v : T) -> Js {
+//   unsafe_cast(v)
+// }
+
+pub fn[T] unsafe_js(v : T) -> Js {
   unsafe_cast(v)
 }
 
@@ -59,7 +63,7 @@ pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
 /// # Example
 ///
 /// ```moonbit
-/// let map = { "name": js("Alice"), "age": js(30) }
+/// let map = { "name": safe_js("Alice"), "age": safe_js(30) }
 /// let obj = from_map(map)
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
