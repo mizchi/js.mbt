@@ -22,10 +22,10 @@ pub(open) trait NodeImpl: Js + EventTarget {
   lastChild(Self) -> Node? = _
   previousSibling(Self) -> Node? = _
   nextSibling(Self) -> Node? = _
-  appendChild(Self, Node) -> Node = _
-  removeChild(Self, Node) -> Node = _
-  insertBefore(Self, Node, Node?) -> Node = _
-  replaceChild(Self, Node, Node) -> Node = _
+  appendChild(Self, &NodeImpl) -> Node = _
+  removeChild(Self, &NodeImpl) -> Node = _
+  insertBefore(Self, &NodeImpl, &NodeImpl?) -> Node = _
+  replaceChild(Self, &NodeImpl, &NodeImpl) -> Node = _
   cloneNode(Self, Bool) -> Node = _
   contains(Self, &NodeImpl?) -> Bool = _
   hasChildNodes(Self) -> Bool = _

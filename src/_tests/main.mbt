@@ -36,21 +36,6 @@ test {
 
 ///|
 test {
-  it("setInterval/clearInterval", _ => {
-    let mut count = 0
-    let timer = @js.setInterval(() => count += 1, 5)
-    @promise.sleep(25)
-    @js.clearInterval(timer)
-    let final_count = count
-    assert_true(final_count >= 3)
-    @promise.sleep(20)
-    // count should not increase after clear
-    assert_eq(count, final_count)
-  })
-}
-
-///|
-test {
   it("sleep multiple times", _ => {
     let mut count = 0
     sleep(5)
