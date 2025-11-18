@@ -13,6 +13,9 @@ pub(all) struct DOMRect {
 }
 
 ///|
+pub impl Js for DOMRect
+
+///|
 /// DOMRectReadOnly represents a read-only rectangle
 /// https://developer.mozilla.org/en-US/docs/Web/API/DOMRectReadOnly
 pub(all) struct DOMRectReadOnly {
@@ -25,3 +28,6 @@ pub(all) struct DOMRectReadOnly {
   bottom : Double
   left : Double
 }
+
+///|
+pub impl Js for DOMRectReadOnly
