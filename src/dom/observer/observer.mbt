@@ -29,7 +29,7 @@ pub fn MutationObserver::observe(
   target : Element,
   options : Js,
 ) -> Unit {
-  self.invoke("observe", [target |> safe_js, options]) |> ignore
+  self.invoke("observe", [target |> js, options]) |> ignore
 }
 
 ///|
@@ -234,7 +234,7 @@ pub fn new_resize_observer(
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
 pub fn ResizeObserver::observe(self : Self, target : Element) -> Unit {
-  self.invoke("observe", [target |> safe_js]) |> ignore
+  self.invoke("observe", [target |> js]) |> ignore
 }
 
 ///|
@@ -244,14 +244,14 @@ pub fn ResizeObserver::observe_with_options(
   target : Element,
   options : Js,
 ) -> Unit {
-  self.invoke("observe", [target |> safe_js, options]) |> ignore
+  self.invoke("observe", [target |> js, options]) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve
 pub fn ResizeObserver::unobserve(self : Self, target : Element) -> Unit {
-  self.invoke("unobserve", [target |> safe_js]) |> ignore
+  self.invoke("unobserve", [target |> js]) |> ignore
 }
 
 ///|

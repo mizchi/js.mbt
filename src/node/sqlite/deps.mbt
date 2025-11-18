@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, unsafe_js, safe_js, unsafe_cast}
+using @js {type Js, trait JsImpl, unsafe_js, js, unsafe_cast}
 
 ///|
 using @iterator {type JsIterator}

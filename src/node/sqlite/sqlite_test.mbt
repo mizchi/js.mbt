@@ -126,10 +126,10 @@ test "sqlite custom function" {
     "double",
     fn(args) {
       if args.length() == 0 {
-        return @js.safe_js(0)
+        return @js.js(0)
       }
       let value : Int = unsafe_cast(args[0])
-      @js.safe_js(value * 2)
+      @js.js(value * 2)
     },
     varargs=true,
   )

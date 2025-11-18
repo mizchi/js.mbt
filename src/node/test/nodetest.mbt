@@ -12,7 +12,7 @@ pub impl JsImpl for TestContext
 
 ///|
 pub fn TestContext::todo(self : Self, description : String) -> Unit {
-  self.invoke("todo", [@js.safe_js(description)]) |> ignore
+  self.invoke("todo", [@js.js(description)]) |> ignore
 }
 
 ///|

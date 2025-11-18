@@ -470,7 +470,7 @@ extern "js" fn ffi_new_image_data_with_data(
 
 ///|
 pub fn ImageData::new(width : Int, height : Int) -> ImageData {
-  unsafe_cast(ffi_new_image_data(width |> safe_js, height |> safe_js))
+  unsafe_cast(ffi_new_image_data(width |> js, height |> js))
 }
 
 ///|
@@ -480,11 +480,7 @@ pub fn ImageData::from_data(
   height : Int,
 ) -> ImageData {
   unsafe_cast(
-    ffi_new_image_data_with_data(
-      data.to_js(),
-      width |> safe_js,
-      height |> safe_js,
-    ),
+    ffi_new_image_data_with_data(data.to_js(), width |> js, height |> js),
   )
 }
 
@@ -564,10 +560,10 @@ pub fn createImageBitmapRect(
   unsafe_cast(
     ffi_create_image_bitmap_with_rect(
       image.to_js(),
-      sx |> safe_js,
-      sy |> safe_js,
-      sw |> safe_js,
-      sh |> safe_js,
+      sx |> js,
+      sy |> js,
+      sw |> js,
+      sh |> js,
     ),
   )
 }

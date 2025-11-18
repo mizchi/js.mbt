@@ -147,9 +147,9 @@ pub fn spawn(
   match args {
     Some(a) =>
       unsafe_cast(
-        cp.invoke("spawn", [command |> safe_js, a |> @js.from_array, options]),
+        cp.invoke("spawn", [command |> js, a |> @js.from_array, options]),
       )
-    None => unsafe_cast(cp.invoke("spawn", [command |> safe_js, options]))
+    None => unsafe_cast(cp.invoke("spawn", [command |> js, options]))
   }
 }
 
@@ -187,7 +187,7 @@ pub fn exec(
     options.set("signal", sig.to_js())
   }
   unsafe_cast(
-    cp.invoke("exec", [command |> safe_js, options, unsafe_cast(callback)]),
+    cp.invoke("exec", [command |> js, options, unsafe_cast(callback)]),
   )
 }
 
@@ -264,9 +264,9 @@ pub fn fork(
   match args {
     Some(a) =>
       unsafe_cast(
-        cp.invoke("fork", [module_path |> safe_js, a |> @js.from_array, options]),
+        cp.invoke("fork", [module_path |> js, a |> @js.from_array, options]),
       )
-    None => unsafe_cast(cp.invoke("fork", [module_path |> safe_js, options]))
+    None => unsafe_cast(cp.invoke("fork", [module_path |> js, options]))
   }
 }
 
@@ -345,7 +345,7 @@ pub fn spawnSync(
       unsafe_cast(
         cp.invoke("spawnSync", [command, a |> @js.from_array, options]),
       )
-    None => unsafe_cast(cp.invoke("spawnSync", [command |> safe_js, options]))
+    None => unsafe_cast(cp.invoke("spawnSync", [command |> js, options]))
   }
 }
 
@@ -388,7 +388,7 @@ pub fn execSync(
   } else {
     options.set("encoding", "utf8")
   }
-  unsafe_cast(cp.invoke("execSync", [command |> safe_js, options]))
+  unsafe_cast(cp.invoke("execSync", [command |> js, options]))
 }
 
 ///|

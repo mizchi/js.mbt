@@ -37,7 +37,7 @@ pub fn File::new(
     Some(lm) => options.set("lastModified", lm)
     None => ()
   }
-  unsafe_cast(ffi_new_file(arr.to_js(), filename |> safe_js, options.to_js()))
+  unsafe_cast(ffi_new_file(arr.to_js(), filename |> js, options.to_js()))
 }
 
 ///|

@@ -115,9 +115,9 @@ pub fn HTMLElement::attachShadow(
   init : ShadowRootInit,
 ) -> ShadowRoot {
   let options = @js.from_map({
-    "mode": safe_js(init.mode),
-    "delegatesFocus": safe_js(init.delegatesFocus),
-    "slotAssignment": safe_js(init.slotAssignment),
+    "mode": js(init.mode),
+    "delegatesFocus": js(init.delegatesFocus),
+    "slotAssignment": js(init.slotAssignment),
   })
   self.invoke("attachShadow", [options]) |> unsafe_cast
 }

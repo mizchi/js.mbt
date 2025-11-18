@@ -524,7 +524,7 @@ pub fn RegExp::split(
 ) -> Array[String] {
   let limit_val = match limit {
     None => @js.null_()
-    Some(n) => safe_js(n)
+    Some(n) => js(n)
   }
   ffi_string_split(string, self, limit_val)
 }

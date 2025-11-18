@@ -16,7 +16,7 @@ pub fn createElement(
   ref_? : ReactRef[@dom.Element],
   key? : String,
 ) -> Element {
-  let tag = safe_js(tag)
+  let tag = js(tag)
   let children = children.map(_.to_js()) |> @js.from_array
   let val = @js.Object::new()
   if props is Some(props) {
@@ -25,7 +25,7 @@ pub fn createElement(
     }
   }
   if ref_ is Some(ref_) {
-    val.set("ref", ref_ |> safe_js)
+    val.set("ref", ref_ |> js)
   }
   if key is Some(key) {
     val.set("key", key)

@@ -160,8 +160,8 @@ pub fn WebAssemblyGlobal::new(
   value : Js,
 ) -> WebAssemblyGlobal {
   let obj = @js.from_map({
-    "value": safe_js(descriptor.value),
-    "mutable": safe_js(descriptor.mutable),
+    "value": js(descriptor.value),
+    "mutable": js(descriptor.mutable),
   })
   ffi_new_global(obj, value)
 }

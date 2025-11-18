@@ -66,7 +66,7 @@ pub fn Storage::length(self : Storage) -> Int {
 /// Returns the key at the specified index
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/key
 pub fn Storage::key(self : Storage, index : Int) -> String? {
-  self.invoke("key", [index |> safe_js]) |> unsafe_option()
+  self.invoke("key", [index |> js]) |> unsafe_option()
 }
 
 ///|

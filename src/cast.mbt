@@ -15,9 +15,9 @@
 /// # Example
 ///
 /// ```moonbit
-/// let num = safe_js(42)            // Int -> Js
-/// let str = safe_js("hello")       // String -> Js
-/// let bool = safe_js(true)         // Bool -> Js
+/// let num = js(42)            // Int -> Js
+/// let str = js("hello")       // String -> Js
+/// let bool = js(true)         // Bool -> Js
 /// let arr = from_array([1, 2, 3])     // Array -> Js
 /// ```
 ///
@@ -32,7 +32,7 @@ pub fn[T] unsafe_js(v : T) -> Js {
 
 ///|
 /// Cast any MoonBit Js-implementing type to a JavaScript Val safely.
-pub fn safe_js(a : &JsImpl) -> Js {
+pub fn js(a : &JsImpl) -> Js {
   unsafe_cast(a.to_js())
 }
 
@@ -63,7 +63,7 @@ pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
 /// # Example
 ///
 /// ```moonbit
-/// let map = { "name": safe_js("Alice"), "age": safe_js(30) }
+/// let map = { "name": js("Alice"), "age": js(30) }
 /// let obj = from_map(map)
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```

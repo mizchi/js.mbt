@@ -107,7 +107,7 @@ impl ElementImpl with querySelector(self, selector) -> Element? {
 ///|
 /// TODO: endless loop error occurs in some cases
 // impl ElementImpl with querySelector_endless_error(self, selector) -> Element? {
-//   self.invoke("querySelector", [selector]) |> safe_js
+//   self.invoke("querySelector", [selector]) |> js
 // }
 
 ///|

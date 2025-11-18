@@ -90,9 +90,9 @@ pub fn throw_(v : &JsImpl) -> Unit {
 /// ```
 pub fn new_error(message : String, cause? : JsError) -> JsError {
   let args : Array[Js] = if cause is Some(cause) {
-    [message |> safe_js, from_map({ "cause": cause |> unsafe_cast() })]
+    [message |> js, from_map({ "cause": cause |> unsafe_cast() })]
   } else {
-    [message |> safe_js]
+    [message |> js]
   }
   ffi_new_error(args)
 }

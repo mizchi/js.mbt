@@ -10,11 +10,7 @@ test "JSON::stringify" {
       #|]
     ),
   )
-  let v = from_map({
-    "key1": 123 |> safe_js,
-    "key2": 456 |> safe_js,
-    "key3": 789 |> safe_js,
-  })
+  let v = from_map({ "key1": 123 |> js, "key2": 456 |> js, "key3": 789 |> js })
   JSON::stringify(v, space=2)
   |> inspect(
     content=(

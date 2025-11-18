@@ -43,37 +43,37 @@ pub fn run(
     obj.set("files", @js.from_array(files))
   }
   if cwd is Some(cwd) {
-    obj.set("cwd", @js.safe_js(cwd))
+    obj.set("cwd", @js.js(cwd))
   }
   if forceExit is Some(forceExit) {
-    obj.set("forceExit", @js.safe_js(forceExit))
+    obj.set("forceExit", @js.js(forceExit))
   }
   if only is Some(only) {
-    obj.set("only", @js.safe_js(only))
+    obj.set("only", @js.js(only))
   }
   if inspectPort is Some(inspectPort) {
-    obj.set("inspectPort", @js.safe_js(inspectPort))
+    obj.set("inspectPort", @js.js(inspectPort))
   }
   if concurrency is Some(concurrency) {
-    obj.set("concurrency", @js.safe_js(concurrency))
+    obj.set("concurrency", @js.js(concurrency))
   }
   if globPatterns is Some(globPatterns) {
     obj.set("globPatterns", @js.from_array(globPatterns))
   }
   if isolation is Some(isolation) {
-    obj.set("isolation", @js.safe_js(isolation))
+    obj.set("isolation", @js.js(isolation))
   }
   if execArgv is Some(execArgv) {
     obj.set("execArgv", @js.from_array(execArgv))
   }
   if coverage is Some(coverage) {
-    obj.set("coverage", @js.safe_js(coverage))
+    obj.set("coverage", @js.js(coverage))
   }
   if watch is Some(watch) {
-    obj.set("watch", @js.safe_js(watch))
+    obj.set("watch", @js.js(watch))
   }
   if signal is Some(signal) {
-    obj.set("signal", @js.safe_js(signal))
+    obj.set("signal", @js.js(signal))
   }
   if testNamePatterns is Some(testNamePatterns) {
     obj.set("testNamePatterns", @js.from_array(testNamePatterns))
@@ -82,13 +82,13 @@ pub fn run(
     obj.set("testSkipPatterns", @js.from_array(testSkipPatterns))
   }
   if timeout is Some(timeout) {
-    obj.set("timeout", @js.safe_js(timeout))
+    obj.set("timeout", @js.js(timeout))
   }
   if shard is Some(shard) {
-    obj.set("shard", @js.safe_js(shard))
+    obj.set("shard", @js.js(shard))
   }
   if rerunFailuresFilePath is Some(rerunFailuresFilePath) {
-    obj.set("rerunFailuresFilePath", @js.safe_js(rerunFailuresFilePath))
+    obj.set("rerunFailuresFilePath", @js.js(rerunFailuresFilePath))
   }
   if setup is Some(setup) {
     obj.set("setup", @js.from_fn0(setup))

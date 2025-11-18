@@ -69,7 +69,7 @@ pub fn Document::readyState(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
 pub fn Document::getElementById(self : Self, id : String) -> Js? {
-  self.invoke("getElementById", [id |> safe_js]) |> unsafe_option()
+  self.invoke("getElementById", [id |> js]) |> unsafe_option()
 }
 
 ///|

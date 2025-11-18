@@ -49,10 +49,10 @@ pub impl ToJson for Js with to_json(self) -> Json {
 pub impl JsImpl for Json with to_js(self) -> Js {
   match self {
     Null => null_()
-    String(s) => safe_js(s)
-    Number(n, ..) => safe_js(n)
-    True => safe_js(true)
-    False => safe_js(false)
+    String(s) => js(s)
+    Number(n, ..) => js(n)
+    True => js(true)
+    False => js(false)
     Object(o) => {
       let obj = Object::new()
       for k, v in o {

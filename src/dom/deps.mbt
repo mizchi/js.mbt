@@ -4,7 +4,7 @@ using @js {
   trait JsImpl,
   trait EventTargetImpl,
   unsafe_cast,
-  safe_js,
+  js,
   unsafe_option,
 }
 

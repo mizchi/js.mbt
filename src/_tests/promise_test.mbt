@@ -1,7 +1,7 @@
 ///|
 
 ///|
-using @js {type Js, trait JsImpl, unsafe_cast, safe_js}
+using @js {type Js, trait JsImpl, unsafe_cast, js}
 
 ///|
 using @promise {type Promise, sleep, run_async, promisify0, promisify1}
@@ -33,7 +33,7 @@ test {
   it("Promise::catch_", _ => {
     let err_val : Js = @js.unsafe_cast(@js.Object::new())
     let p = @promise.Promise::reject(err_val)
-    let recovered = p.catch_(_ => @promise.Promise::resolve(42 |> @js.safe_js))
+    let recovered = p.catch_(_ => @promise.Promise::resolve(42 |> @js.js))
     let result : Js = recovered.unwrap()
     let v : Int = unsafe_cast(result)
     assert_eq(v, 42)
@@ -499,7 +499,7 @@ test {
   it("Promise chain with error recovery", _ => {
     let err_val : Js = @js.unsafe_cast(@js.Object::new())
     let p = @promise.Promise::reject(err_val)
-      .catch_(_ => @promise.Promise::resolve(10 |> @js.safe_js))
+      .catch_(_ => @promise.Promise::resolve(10 |> @js.js))
       .then(v => {
         let i : Int = unsafe_cast(v)
         @promise.Promise::resolve(i * 2)

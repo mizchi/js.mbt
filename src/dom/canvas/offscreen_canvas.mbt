@@ -17,7 +17,7 @@ extern "js" fn ffi_new_offscreen_canvas(width : Js, height : Js) -> Js =
 
 ///|
 pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
-  unsafe_cast(ffi_new_offscreen_canvas(width |> safe_js, height |> safe_js))
+  unsafe_cast(ffi_new_offscreen_canvas(width |> js, height |> js))
 }
 
 ///|

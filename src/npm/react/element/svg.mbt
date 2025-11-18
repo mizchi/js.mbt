@@ -28,10 +28,10 @@ pub fn svg(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["width"] = width |> safe_js
-  attrs["height"] = height |> safe_js
+  attrs["width"] = width |> js
+  attrs["height"] = height |> js
   if view_box is Some(view_box) {
-    attrs["viewBox"] = view_box |> safe_js
+    attrs["viewBox"] = view_box |> js
   }
   common_node(
     "svg",
@@ -87,17 +87,17 @@ pub fn circle(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["cx"] = cx |> safe_js
-  attrs["cy"] = cy |> safe_js
-  attrs["r"] = r |> safe_js
+  attrs["cx"] = cx |> js
+  attrs["cy"] = cy |> js
+  attrs["r"] = r |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> safe_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> safe_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> safe_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "circle",
@@ -157,18 +157,18 @@ pub fn ellipse(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["cx"] = cx |> safe_js
-  attrs["cy"] = cy |> safe_js
-  attrs["rx"] = rx |> safe_js
-  attrs["ry"] = ry |> safe_js
+  attrs["cx"] = cx |> js
+  attrs["cy"] = cy |> js
+  attrs["rx"] = rx |> js
+  attrs["ry"] = ry |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> safe_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> safe_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> safe_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "circle",
@@ -228,18 +228,18 @@ pub fn rect(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> safe_js
-  attrs["y"] = y |> safe_js
-  attrs["width"] = width |> safe_js
-  attrs["height"] = height |> safe_js
+  attrs["x"] = x |> js
+  attrs["y"] = y |> js
+  attrs["width"] = width |> js
+  attrs["height"] = height |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> safe_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> safe_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> safe_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "rect",
@@ -299,18 +299,18 @@ pub fn line(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x1"] = x1 |> safe_js
-  attrs["y1"] = y1 |> safe_js
-  attrs["x2"] = x2 |> safe_js
-  attrs["y2"] = y2 |> safe_js
+  attrs["x1"] = x1 |> js
+  attrs["y1"] = y1 |> js
+  attrs["x2"] = x2 |> js
+  attrs["y2"] = y2 |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> safe_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> safe_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> safe_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "line",
@@ -367,15 +367,15 @@ pub fn path(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["d"] = d |> safe_js
+  attrs["d"] = d |> js
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> safe_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> safe_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> safe_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "path",
@@ -429,7 +429,7 @@ pub fn use_(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["href"] = href |> safe_js
+  attrs["href"] = href |> js
   common_node(
     "use",
     attrs,
@@ -487,13 +487,13 @@ pub fn polygon(
   let attrs = attributes.unwrap_or({})
   attrs["points"] = points |> unsafe_cast
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> safe_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> safe_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> safe_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "points",
@@ -552,13 +552,13 @@ pub fn polyline(
   let attrs = attributes.unwrap_or({})
   attrs["points"] = points |> unsafe_cast
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> safe_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> safe_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> safe_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "polyline",
@@ -616,13 +616,13 @@ pub fn g(
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> safe_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> safe_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> safe_js
+    attrs["fill"] = fill |> js
   }
   common_node(
     "g",
@@ -736,31 +736,31 @@ pub fn text(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> safe_js
-  attrs["y"] = y |> safe_js
+  attrs["x"] = x |> js
+  attrs["y"] = y |> js
   if dx is Some(dx) {
-    attrs["dx"] = dx |> safe_js
+    attrs["dx"] = dx |> js
   }
   if dy is Some(dy) {
-    attrs["dy"] = dy |> safe_js
+    attrs["dy"] = dy |> js
   }
   if length_adjust is Some(length_adjust) {
-    attrs["lengthAdjust"] = length_adjust |> safe_js
+    attrs["lengthAdjust"] = length_adjust |> js
   }
   if text_length is Some(text_length) {
-    attrs["textLength"] = text_length |> safe_js
+    attrs["textLength"] = text_length |> js
   }
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> safe_js
+    attrs["stroke"] = stroke |> js
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> safe_js
+    attrs["strokeWidth"] = stroke_width |> js
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> safe_js
+    attrs["fill"] = fill |> js
   }
   if rotate is Some(rotate) {
-    attrs["rotate"] = rotate |> safe_js
+    attrs["rotate"] = rotate |> js
   }
   common_node(
     "text",
@@ -814,9 +814,9 @@ pub fn image(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> safe_js
-  attrs["y"] = y |> safe_js
-  attrs["href"] = href |> safe_js
+  attrs["x"] = x |> js
+  attrs["y"] = y |> js
+  attrs["href"] = href |> js
   common_node(
     "image",
     attrs,

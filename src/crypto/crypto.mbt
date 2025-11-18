@@ -75,7 +75,7 @@ pub fn SubtleCrypto::digest(
   algorithm : String,
   data : &JsImpl,
 ) -> Promise[Js] {
-  self.invoke("digest", [algorithm |> safe_js, data.to_js()]) |> unsafe_cast
+  self.invoke("digest", [algorithm |> js, data.to_js()]) |> unsafe_cast
 }
 
 ///|

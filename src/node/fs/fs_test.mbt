@@ -1,5 +1,5 @@
 ///|
-using @js {safe_js, unsafe_cast}
+using @js {js, unsafe_cast}
 
 ///|
 /// Synchronous File System API Tests
@@ -37,8 +37,8 @@ test "write_file_sync creates file" {
 /// Test append_file_sync
 test "append_file_sync appends to file" {
   let test_file = "test_append_sync.txt"
-  writeFileSync(test_file, "Hello" |> safe_js)
-  append_file_sync(test_file, ", World!" |> safe_js)
+  writeFileSync(test_file, "Hello" |> js)
+  append_file_sync(test_file, ", World!" |> js)
   let content = read_file_sync_string(test_file, "utf8")
   inspect(content == "Hello, World!", content="true")
   // Cleanup
@@ -83,7 +83,7 @@ test "mkdir_sync creates nested directories" {
 /// Test unlink_sync deletes file
 test "unlink_sync deletes file" {
   let test_file = "test_unlink_sync.txt"
-  writeFileSync(test_file, "delete me" |> safe_js)
+  writeFileSync(test_file, "delete me" |> js)
   unlinkSync(test_file)
   let exists = existsSync(test_file)
   inspect(exists == false, content="true")
@@ -94,7 +94,7 @@ test "unlink_sync deletes file" {
 test "rename_sync renames file" {
   let old_name = "test_rename_old.txt"
   let new_name = "test_rename_new.txt"
-  writeFileSync(old_name, "rename test" |> safe_js)
+  writeFileSync(old_name, "rename test" |> js)
   renameSync(old_name, new_name)
   let old_exists = existsSync(old_name)
   let new_exists = existsSync(new_name)
@@ -109,7 +109,7 @@ test "rename_sync renames file" {
 test "copy_file_sync copies file" {
   let src = "test_copy_src.txt"
   let dest = "test_copy_dest.txt"
-  writeFileSync(src, "copy test" |> safe_js)
+  writeFileSync(src, "copy test" |> js)
   copyFileSync(src, dest)
   let src_content = read_file_sync_string(src, "utf8")
   let dest_content = read_file_sync_string(dest, "utf8")
@@ -124,8 +124,8 @@ test "copy_file_sync copies file" {
 test "readdir_sync reads directory contents" {
   let test_dir = "test_readdir_sync"
   mkdirSync(test_dir)
-  writeFileSync("\{test_dir}/file1.txt", "test" |> safe_js)
-  writeFileSync("\{test_dir}/file2.txt", "test" |> safe_js)
+  writeFileSync("\{test_dir}/file1.txt", "test" |> js)
+  writeFileSync("\{test_dir}/file2.txt", "test" |> js)
   let files = readdirSync(test_dir)
   inspect(files.length() == 2, content="true")
   // Cleanup

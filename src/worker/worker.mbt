@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, safe_js, log, trait EventTargetImpl}
+using @js {type Js, trait JsImpl, js, log, trait EventTargetImpl}
 
 ///|
 /// Transferable trait for objects that can be transferred via postMessage
@@ -39,7 +39,7 @@ extern "js" fn ffi_new_worker(script_url : String, option : Js) -> Worker =
 ///|
 pub fn Worker::new(script_url : String, type_? : String) -> Worker {
   let option = if type_ is Some(v) {
-    @js.from_map({ "type": safe_js(v) })
+    @js.from_map({ "type": js(v) })
   } else {
     @js.undefined()
   }

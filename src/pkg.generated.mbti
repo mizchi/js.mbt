@@ -81,7 +81,7 @@ fn null_() -> Val
 
 fn[T: JsImpl] propertyIsEnumerable(T, String) -> Bool
 
-fn safe_js(&JsImpl) -> Val
+fn js(&JsImpl) -> Val
 
 #alias(set_interval)
 fn setInterval(() -> Unit, Int) -> JsTimer

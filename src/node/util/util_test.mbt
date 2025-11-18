@@ -1,5 +1,5 @@
 ///|
-using @js {safe_js}
+using @js {js}
 
 ///|
 test "util:inspect" {
@@ -82,10 +82,10 @@ test "parse_args" {
     allow_positionals=true,
   )
   assert_eq(res.values, {
-    "key": "v" |> safe_js,
-    "name": "alice" |> safe_js,
-    "verbose": true |> safe_js,
-    "help": true |> safe_js,
+    "key": "v" |> js,
+    "name": "alice" |> js,
+    "verbose": true |> js,
+    "help": true |> js,
   })
   assert_eq(res.positionals, ["file1.txt", "file2.txt"])
 }

@@ -47,13 +47,13 @@ pub fn Util::inspect(
   maxStringLength? : Int,
 ) -> String {
   let opt = @js.from_map({
-    "depth": depth |> safe_js,
-    "colors": colors |> safe_js,
-    "compact": compact |> safe_js,
-    "sorted": sorted |> safe_js,
-    "breakLength": breakLength |> safe_js,
-    "maxArrayLength": maxArrayLength |> safe_js,
-    "maxStringLength": maxStringLength |> safe_js,
+    "depth": depth |> js,
+    "colors": colors |> js,
+    "compact": compact |> js,
+    "sorted": sorted |> js,
+    "breakLength": breakLength |> js,
+    "maxArrayLength": maxArrayLength |> js,
+    "maxStringLength": maxStringLength |> js,
   })
   unsafe_cast(self.get("inspect").invoke_self([value, opt]))
 }

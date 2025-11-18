@@ -82,7 +82,7 @@ test "WebAssembly Global" {
   // Create a mutable i32 global
   let global = WebAssemblyGlobal::new(
     { value: "i32", mutable: true },
-    @js.safe_js(42),
+    @js.js(42),
   )
   inspect(global.to_js() |> @js.typeof_(), content="object")
 
@@ -91,7 +91,7 @@ test "WebAssembly Global" {
   inspect(value, content="42")
 
   // Set a new value
-  global.set_value(100 |> @js.safe_js())
+  global.set_value(100 |> @js.js())
   let new_value : Int = global.value() |> unsafe_cast
   inspect(new_value, content="100")
 }
@@ -102,7 +102,7 @@ test "WebAssembly Global immutable" {
   // Create an immutable f64 global
   let global = WebAssemblyGlobal::new(
     { value: "f64", mutable: false },
-    @js.safe_js(3.14),
+    @js.js(3.14),
   )
   inspect(@js.typeof_(global.to_js()), content="object")
 

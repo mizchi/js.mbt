@@ -19,7 +19,7 @@ using @react {
 using @react_router {router_provider}
 
 ///|
-using @js {log, safe_js, unsafe_cast}
+using @js {log, js, unsafe_cast}
 
 ///|
 using @promise {sleep, run_async}
@@ -81,7 +81,7 @@ fn use_myctx() -> MyContextProps {
 ///|
 fn ctx_consumer(_ : EmptyProps) -> @react.Element {
   let ctx_value = use_myctx()
-  createElement("div", props={ "className": "context-value" |> safe_js }, [
+  createElement("div", props={ "className": "context-value" |> js }, [
     "Context value: \{ctx_value.v}",
   ])
 }
@@ -195,7 +195,7 @@ fn app(props : AppProps) -> @react.Element {
           textarea(
             id="my-textarea",
             on_change~,
-            attributes={ "rows": safe_js(4), "cols": safe_js(40) },
+            attributes={ "rows": js(4), "cols": js(40) },
             ref_=textarea_ref,
             value=input_text,
             [],

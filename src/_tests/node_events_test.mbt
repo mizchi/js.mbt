@@ -9,9 +9,9 @@ test {
       received += v
     })
     emitter.on("vvv", callback)
-    emitter.emit("vvv", 1 |> @js.safe_js)
-    emitter.emit("vvv", 2 |> @js.safe_js)
-    emitter.emit("vvv", 3 |> @js.safe_js)
+    emitter.emit("vvv", 1 |> @js.js)
+    emitter.emit("vvv", 2 |> @js.js)
+    emitter.emit("vvv", 3 |> @js.js)
     sleep(16)
     assert_eq(received, 6)
     assert_eq(emitter.listenerCount("vvv"), 1)
@@ -19,7 +19,7 @@ test {
     // off and emit again
     emitter.off("vvv", callback)
     assert_eq(emitter.listenerCount("vvv"), 0)
-    emitter.emit("vvv", () |> @js.safe_js)
+    emitter.emit("vvv", () |> @js.js)
     sleep(16)
     // not called
     assert_eq(received, 6)
@@ -29,7 +29,7 @@ test {
     assert_eq(emitter.listenerCount("bbb"), 1)
     emitter.removeAllListeners()
     assert_eq(emitter.listenerCount("vvv"), 0)
-    emitter.emit("vvv", 10 |> @js.safe_js)
+    emitter.emit("vvv", 10 |> @js.js)
     sleep(16)
     // not called
     assert_eq(received, 6)
@@ -45,8 +45,8 @@ test {
       sleep(1)
       count += 1
     }))
-    emitter.emit("test", 1 |> @js.safe_js)
-    emitter.emit("test", 2 |> @js.safe_js)
+    emitter.emit("test", 1 |> @js.js)
+    emitter.emit("test", 2 |> @js.js)
     sleep(10)
     assert_eq(count, 1)
   })
@@ -78,7 +78,7 @@ test {
       count2 += 1
     }))
     assert_eq(emitter.listenerCount("test"), 2)
-    emitter.emit("test", () |> @js.safe_js)
+    emitter.emit("test", () |> @js.js)
     sleep(10)
     assert_eq(count1, 1)
     assert_eq(count2, 1)
@@ -95,8 +95,8 @@ test {
       let v : Int = unsafe_cast(data)
       results.push(v * 2)
     }))
-    emitter.emit("async", 10 |> @js.safe_js)
-    emitter.emit("async", 20 |> @js.safe_js)
+    emitter.emit("async", 10 |> @js.js)
+    emitter.emit("async", 20 |> @js.js)
     sleep(20)
     assert_eq(results.length(), 2)
     assert_eq(results[0], 20)
@@ -159,7 +159,7 @@ test {
       total += v
     }))
     for i = 0; i < 10; i = i + 1 {
-      emitter.emit("data", i |> @js.safe_js)
+      emitter.emit("data", i |> @js.js)
     }
     sleep(20)
     assert_eq(total, 45) // 0+1+2+...+9 = 45
@@ -181,8 +181,8 @@ test {
       sleep(1)
       count2 += 1
     }))
-    emitter1.emit("test", () |> @js.safe_js)
-    emitter2.emit("test", () |> @js.safe_js)
+    emitter1.emit("test", () |> @js.js)
+    emitter2.emit("test", () |> @js.js)
     sleep(10)
     assert_eq(count1, 1)
     assert_eq(count2, 1)
@@ -203,8 +203,8 @@ test {
       let v : String = unsafe_cast(data)
       str_val = v
     }))
-    emitter.emit("int", 42 |> @js.safe_js)
-    emitter.emit("string", "hello" |> @js.safe_js)
+    emitter.emit("int", 42 |> @js.js)
+    emitter.emit("string", "hello" |> @js.js)
     sleep(10)
     assert_eq(int_val, 42)
     assert_eq(str_val, "hello")
@@ -219,8 +219,8 @@ test {
     emitter.on("event1", _ => run_async(() => count += 1))
     emitter.on("event2", _ => run_async(() => count += 10))
     emitter.removeAllListeners()
-    emitter.emit("event1", () |> @js.safe_js)
-    emitter.emit("event2", () |> @js.safe_js)
+    emitter.emit("event1", () |> @js.js)
+    emitter.emit("event2", () |> @js.js)
     sleep(10)
     assert_eq(count, 0)
   })
