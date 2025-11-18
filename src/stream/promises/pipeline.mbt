@@ -1,11 +1,11 @@
 ///|
-using @js {type Val, unsafe_cast}
+using @js {type Js, unsafe_cast}
 
 ///|
 using @stream {type Readable, type Stream, type Writable, trait StreamImpl}
 
 ///|
-pub fn readable_promises() -> @js.Val {
+pub fn readable_promises() -> @js.Js {
   @node.require("stream/promises")
 }
 

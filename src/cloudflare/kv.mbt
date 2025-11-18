@@ -26,7 +26,7 @@ pub fn KVNamespace::get(
 pub fn KVNamespace::get_array_buffer(
   self : Self,
   key : String,
-) -> Promise[Val?] {
+) -> Promise[Js?] {
   let opts_js = @js.Object::new()
   opts_js.set("type", "arrayBuffer")
   self.invoke("get", [key, opts_js]) |> unsafe_cast
@@ -34,7 +34,7 @@ pub fn KVNamespace::get_array_buffer(
 
 ///|
 /// Get a value as JSON
-pub fn KVNamespace::get_json(self : Self, key : String) -> Promise[Val?] {
+pub fn KVNamespace::get_json(self : Self, key : String) -> Promise[Js?] {
   let opts_js = @js.Object::new()
   opts_js.set("type", "json")
   self.invoke("get", [key, opts_js]) |> unsafe_cast
@@ -42,7 +42,7 @@ pub fn KVNamespace::get_json(self : Self, key : String) -> Promise[Val?] {
 
 ///|
 /// Get a value as stream
-pub fn KVNamespace::get_stream(self : Self, key : String) -> Promise[Val?] {
+pub fn KVNamespace::get_stream(self : Self, key : String) -> Promise[Js?] {
   let opts_js = @js.Object::new()
   opts_js.set("type", "stream")
   self.invoke("get", [key, opts_js]) |> unsafe_cast
@@ -85,7 +85,7 @@ pub fn KVNamespace::put_with_metadata(
   self : Self,
   key : String,
   value : String,
-  metadata : Val,
+  metadata : Js,
 ) -> Promise[Unit] {
   let opts_js = @js.Object::new()
   opts_js.set("metadata", metadata)
@@ -136,7 +136,7 @@ pub impl JsImpl for KVGetOptions with to_js(self) {
 pub(all) struct KVPutOptions {
   expiration : Int? // Absolute expiration time (unix timestamp)
   expiration_ttl : Int? // TTL in seconds
-  metadata : Val? // Custom metadata
+  metadata : Js? // Custom metadata
 }
 
 ///|
@@ -199,7 +199,7 @@ pub impl JsImpl for KVListResult
 pub(all) struct KVKey {
   name : String
   expiration : Int?
-  metadata : Val?
+  metadata : Js?
 }
 
 ///|
@@ -208,8 +208,8 @@ pub impl JsImpl for KVKey
 ///|
 /// Value with metadata from getWithMetadata
 pub(all) struct KVValueWithMetadata {
-  value : Val?
-  metadata : Val?
+  value : Js?
+  metadata : Js?
 }
 
 ///|

@@ -9,7 +9,7 @@ pub fn ChildProcess::on_exit(
 ) -> Unit {
   self.invoke("on", [
     "exit",
-    unsafe_cast(fn(code : Val, signal : Val) {
+    unsafe_cast(fn(code : Js, signal : Js) {
       callback(code |> unsafe_option(), signal |> unsafe_option())
     }),
   ])
@@ -25,7 +25,7 @@ pub fn ChildProcess::on_close(
 ) -> Unit {
   self.invoke("on", [
     "close",
-    unsafe_cast(fn(code : Val, signal : Val) {
+    unsafe_cast(fn(code : Js, signal : Js) {
       callback(code |> unsafe_option(), signal |> unsafe_option())
     }),
   ])
@@ -34,24 +34,24 @@ pub fn ChildProcess::on_close(
 
 ///|
 /// Listen for 'error' event with typed callback
-/// Callback receives: error (Val)
+/// Callback receives: error (Js)
 pub fn ChildProcess::on_error(
   self : Self,
-  callback : (Val) -> Unit noraise,
+  callback : (Js) -> Unit noraise,
 ) -> Unit {
   self.invoke("on", ["error", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
 /// Listen for 'message' event with typed callback
-/// Callback receives: message (Val), sendHandle (Val?)
+/// Callback receives: message (Js), sendHandle (Js?)
 pub fn ChildProcess::on_message(
   self : Self,
-  callback : (Val, Val?) -> Unit noraise,
+  callback : (Js, Js?) -> Unit noraise,
 ) -> Unit {
   self.invoke("on", [
     "message",
-    unsafe_cast(fn(message : Val, sendHandle : Val) {
+    unsafe_cast(fn(message : Js, sendHandle : Js) {
       callback(message, sendHandle |> unsafe_option())
     }),
   ])
@@ -80,10 +80,10 @@ pub fn ChildProcess::on_spawn(
 
 ///|
 /// Listen for stdout 'data' event with typed callback
-/// Callback receives: data (Val) - typically Buffer or String
+/// Callback receives: data (Js) - typically Buffer or String
 pub fn ChildProcess::on_stdout_data(
   self : Self,
-  callback : (Val) -> Unit noraise,
+  callback : (Js) -> Unit noraise,
 ) -> Unit {
   match self.stdout() {
     Some(stream) =>

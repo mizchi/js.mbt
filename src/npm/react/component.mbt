@@ -20,7 +20,7 @@ pub fn[T] component(
 ) -> Element {
   let tag = unsafe_cast(tag)
   let children = @js.from_array(children)
-  let val : Val = props |> unsafe_cast
+  let val : Js = props |> unsafe_cast
   if key is Some(key) {
     val.set("key", key)
   }

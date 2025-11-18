@@ -261,7 +261,7 @@ test "Date.value_of() returns milliseconds" {
 /// Test Date implements Js trait
 test "Date can be converted to Val" {
   let date = Date::new()
-  let val : @js.Val = date.to_js()
+  let val : @js.Js = date.to_js()
   inspect(@js.is_null(val), content="false")
 }
 

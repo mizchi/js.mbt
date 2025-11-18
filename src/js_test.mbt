@@ -25,7 +25,7 @@ test "from struct" {
     y : Int
   } derive(Eq, Show)
   let p = Point::{ x: 10, y: 20 }
-  let v : Val = unsafe_cast(p)
+  let v : Js = unsafe_cast(p)
   assert_eq(unsafe_cast(v.get("x")), 10)
   assert_eq(unsafe_cast(v.get("y")), 20)
   let casted : Point = unsafe_cast(v)
@@ -38,7 +38,7 @@ priv enum TestEnum {
 } derive(Eq, Show)
 
 ///|
-fn TestEnum::from_js(v : Val) -> Self raise {
+fn TestEnum::from_js(v : Js) -> Self raise {
   let tag : String = unsafe_cast(v.get("tag"))
   match tag {
     "A" => {
@@ -65,7 +65,7 @@ impl JsImpl for TestEnum with to_js(self) {
 ///|
 test "from trait" {
   let v : TestEnum = A(value=123)
-  let v : Val = v.to_js()
+  let v : Js = v.to_js()
   assert_eq(unsafe_cast(v.get("tag")), "A")
   assert_eq(unsafe_cast(v.get("value")), 123)
   let recovered : TestEnum = TestEnum::from_js(v)
@@ -313,7 +313,7 @@ test "object_assign" {
 
 ///|
 test "from_builtin_map" {
-  let map : Map[String, Val] = {
+  let map : Map[String, Js] = {
     "name": js("Alice"),
     "age": js(30),
     "active": js(true),
@@ -358,10 +358,10 @@ test "symbols" {
   let async_dispose_sym = Symbol::asyncDispose()
 
   // Symbols should have symbol type
-  let sym_val : Val = unsafe_cast(sym)
-  let iter_val : Val = unsafe_cast(iter_sym)
-  let dispose_val : Val = unsafe_cast(dispose_sym)
-  let async_dispose_val : Val = unsafe_cast(async_dispose_sym)
+  let sym_val : Js = unsafe_cast(sym)
+  let iter_val : Js = unsafe_cast(iter_sym)
+  let dispose_val : Js = unsafe_cast(dispose_sym)
+  let async_dispose_val : Js = unsafe_cast(async_dispose_sym)
   assert_eq(@js.typeof_(sym_val), "symbol")
   assert_eq(@js.typeof_(iter_val), "symbol")
   assert_eq(@js.typeof_(dispose_val), "symbol")
@@ -371,14 +371,14 @@ test "symbols" {
 ///|
 test "new_error" {
   let error = new_error("Test error")
-  let error_val : Val = unsafe_cast(error)
+  let error_val : Js = unsafe_cast(error)
   assert_true(@js.is_object(error_val))
   assert_eq(unsafe_cast(error_val.get("message")), "Test error")
 
   // Error with cause
   let cause_error = new_error("Cause error")
   let error_with_cause = new_error("Main error", cause=cause_error)
-  let error_with_cause_val : Val = unsafe_cast(error_with_cause)
+  let error_with_cause_val : Js = unsafe_cast(error_with_cause)
   assert_eq(unsafe_cast(error_with_cause_val.get("message")), "Main error")
 }
 
@@ -465,24 +465,24 @@ test "PropertyIsEnumerable" {
 ///|
 test "Js trait for primitives" {
   // String
-  let str_js : Val = JsImpl::to_js("hello")
+  let str_js : Js = JsImpl::to_js("hello")
   assert_eq(unsafe_cast(str_js), "hello")
 
   // Int
-  let int_js : Val = JsImpl::to_js(42)
+  let int_js : Js = JsImpl::to_js(42)
   assert_eq(unsafe_cast(int_js), 42)
 
   // Double
-  let double_js : Val = JsImpl::to_js(3.14)
+  let double_js : Js = JsImpl::to_js(3.14)
   assert_eq(unsafe_cast(double_js), 3.14)
 
   // Bool
-  let bool_js : Val = JsImpl::to_js(true)
+  let bool_js : Js = JsImpl::to_js(true)
   assert_eq(unsafe_cast(bool_js), true)
 
   // Val (identity)
   let val = js(100)
-  let val_js : Val = JsImpl::to_js(val)
+  let val_js : Js = JsImpl::to_js(val)
   assert_eq(val_js, val)
 }
 
@@ -594,9 +594,9 @@ test "encode_uri_component and decode_uri_component" {
 ///|
 test {
   let obj = @js.Object::new().to_js()
-  let undef : Val? = Some(undefined())
+  let undef : Js? = Some(undefined())
   set_if_exists(obj, "a", undef)
-  let none_val : Val? = None
+  let none_val : Js? = None
   set_if_exists(obj, "b", none_val)
   set_if_exists(obj, "c", Some(js(42)))
   assert_true(@js.is_undefined(obj.get("a")))

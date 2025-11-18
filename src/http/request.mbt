@@ -1,5 +1,5 @@
 ///|
-extern "js" fn ffi_request_new(url : String) -> Val =
+extern "js" fn ffi_request_new(url : String) -> Js =
   #| (url) => new Request(url)
 
 ///|
@@ -42,7 +42,7 @@ pub fn Request::clone(self : Request) -> Request {
 }
 
 ///|
-pub fn Request::json(self : Request) -> Promise[Val] {
+pub fn Request::json(self : Request) -> Promise[Js] {
   self.invoke("json", []) |> unsafe_cast
 }
 
@@ -59,11 +59,11 @@ pub fn Request::arraybuffer(
 }
 
 ///|
-pub fn Request::blob(self : Request) -> Promise[Val] {
+pub fn Request::blob(self : Request) -> Promise[Js] {
   self.invoke("blob", []) |> unsafe_cast
 }
 
 ///|
-pub fn Request::bytes(self : Request) -> Promise[Val] {
+pub fn Request::bytes(self : Request) -> Promise[Js] {
   self.invoke("bytes", []) |> unsafe_cast
 }

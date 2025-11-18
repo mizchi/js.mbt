@@ -1,11 +1,11 @@
 ///|
-using @js {type Val, trait JsImpl, js, unsafe_cast}
+using @js {type Js, trait JsImpl, js, unsafe_cast}
 
 ///|
 using @promise {type Promise}
 
 ///|
-extern "js" fn import_react_router() -> Promise[Val] =
+extern "js" fn import_react_router() -> Promise[Js] =
   #|() => import("react-router")
 
 ///|
@@ -71,7 +71,7 @@ impl JsImpl for Route with to_js(self : Route) {
 ///|
 #alias(create_browser_router)
 pub fn createBrowserRouter(routes : Array[Route]) -> Router {
-  let create_browser_router : (Array[Val]) -> Router = unsafe_cast(
+  let create_browser_router : (Array[Js]) -> Router = unsafe_cast(
     @js.global_this().get("__ReactRouterApi").get("createBrowserRouter"),
   )
   create_browser_router(routes.map(_.to_js()))

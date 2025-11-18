@@ -42,6 +42,6 @@ pub fn[T: JsImpl] JsArray::isArray(v : T) -> Bool {
 }
 
 ///|
-pub fn array_from(v : Val) -> Array[Val] {
+pub fn array_from(v : Js) -> Array[Js] {
   ffi_array_from(v)
 }

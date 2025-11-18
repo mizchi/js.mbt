@@ -3,7 +3,7 @@ using @promise {type Promise, run_async}
 
 ///|
 using @js {
-  type Val,
+  type Js,
   type AbortSignal,
   trait JsImpl,
   log,

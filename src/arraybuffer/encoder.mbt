@@ -1,9 +1,9 @@
 ///|
-extern "js" fn ffi_new_text_encoder() -> Val =
+extern "js" fn ffi_new_text_encoder() -> Js =
   #| () => new TextEncoder()
 
 ///|
-extern "js" fn ffi_new_text_decoder() -> Val =
+extern "js" fn ffi_new_text_decoder() -> Js =
   #| () => new TextDecoder()
 
 ///|

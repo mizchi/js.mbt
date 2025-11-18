@@ -4,7 +4,7 @@
 
 ///|
 /// Get os module
-fn os_module() -> Val {
+fn os_module() -> Js {
   @node.require("node:os")
 }
 
@@ -26,7 +26,7 @@ pub fn arch() -> String {
 /// # Returns
 ///
 /// An array of CPU information objects
-pub fn cpus() -> Array[Val] {
+pub fn cpus() -> Array[Js] {
   unsafe_cast(os_module().invoke("cpus", []))
 }
 
@@ -75,7 +75,7 @@ pub fn loadavg() -> Array[Double] {
 ///
 /// An object with interface names as keys
 #alias(network_interfaces)
-pub fn networkInterfaces() -> Val {
+pub fn networkInterfaces() -> Js {
   os_module().invoke("networkInterfaces", [])
 }
 
@@ -130,7 +130,7 @@ pub fn uptime() -> Double {
 ///
 /// An object containing uid, gid, username, homedir, shell
 #alias(userinfo)
-pub fn userInfo() -> Val {
+pub fn userInfo() -> Js {
   os_module().invoke("userInfo", [])
 }
 
@@ -141,7 +141,7 @@ pub fn userInfo() -> Val {
 ///
 /// - `encoding`: The character encoding to use (default: 'utf8')
 #alias(userinfo_with_encoding)
-pub fn userInfoWithEncoding(encoding : String) -> Val {
+pub fn userInfoWithEncoding(encoding : String) -> Js {
   let options = @js.Object::new()
   options.set("encoding", encoding)
   os_module().invoke("userInfo", [options])

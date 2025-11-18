@@ -15,7 +15,7 @@ pub suberror JsThrowError {
   // RangeError
   // etc.
   Error(JsError)
-  Value(Val)
+  Value(Js)
 }
 
 ///|
@@ -23,10 +23,10 @@ pub impl JsImpl for JsThrowError
 
 ///|
 extern "js" fn ffi_wrap_sync(
-  f : Val,
-  ok : (Val) -> Result[Val, Val],
-  err : (Val) -> Result[Val, Val],
-) -> Result[Val, Val] =
+  f : Js,
+  ok : (Js) -> Result[Js, Js],
+  err : (Js) -> Result[Js, Js],
+) -> Result[Js, Js] =
   #|(f, ok, err) => {
   #|  try {
   #|    return ok(f())
@@ -89,7 +89,7 @@ pub fn throw_(v : &JsImpl) -> Unit {
 /// let caused_error = new_error("Failed operation", cause=error)
 /// ```
 pub fn new_error(message : String, cause? : JsError) -> JsError {
-  let args : Array[Val] = if cause is Some(cause) {
+  let args : Array[Js] = if cause is Some(cause) {
     [js(message), from_map({ "cause": cause |> unsafe_cast() })]
   } else {
     [js(message)]

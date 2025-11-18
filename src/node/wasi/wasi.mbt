@@ -40,7 +40,7 @@ pub(all) struct WasiOptions {
 
 ///|
 /// Convert WasiOptions to JS object
-fn WasiOptions::to_js(self : WasiOptions) -> Val {
+fn WasiOptions::to_js(self : WasiOptions) -> Js {
   let options = @js.Object::new()
 
   // Set version (required)
@@ -99,7 +99,7 @@ fn WasiOptions::to_js(self : WasiOptions) -> Val {
 }
 
 ///|
-extern "js" fn ffi_new_wasi(wasi_class : Val, options : Val) -> Val =
+extern "js" fn ffi_new_wasi(wasi_class : Js, options : Js) -> Js =
   #| (WasiClass, options) => new WasiClass(options)
 
 ///|
@@ -120,7 +120,7 @@ pub fn WASI::new(options : WasiOptions) -> WASI {
 
 ///|
 /// Get import object for WebAssembly.instantiate()
-pub fn WASI::getImportObject(self : Self) -> Val {
+pub fn WASI::getImportObject(self : Self) -> Js {
   self.invoke("getImportObject", [])
 }
 
@@ -138,6 +138,6 @@ pub fn WASI::initialize(self : WASI, instance : WebAssemblyInstance) -> Unit {
 
 ///|
 /// Get the wasiImport property
-pub fn WASI::wasiImport(self : Self) -> Val {
+pub fn WASI::wasiImport(self : Self) -> Js {
   self.get("wasiImport")
 }

@@ -15,13 +15,13 @@
 pub(open) trait EventTargetImpl: JsImpl {
   /// Add an event listener for the specified event type
   /// The listener receives a generic Val which should be cast to the appropriate event type
-  addEventListener(Self, String, (Val) -> Unit) -> Unit = _
+  addEventListener(Self, String, (Js) -> Unit) -> Unit = _
 
   /// Remove a previously registered event listener
-  removeEventListener(Self, String, (Val) -> Unit) -> Unit = _
+  removeEventListener(Self, String, (Js) -> Unit) -> Unit = _
 
   /// Dispatch an event to this target
-  dispatchEvent(Self, Val) -> Bool = _
+  dispatchEvent(Self, Js) -> Bool = _
 }
 
 ///|

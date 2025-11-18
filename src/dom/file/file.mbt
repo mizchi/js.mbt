@@ -11,7 +11,7 @@ pub impl JsImpl for File
 
 ///|
 /// Create a new File from FFI
-extern "js" fn ffi_new_file(data : Val, filename : Val, options : Val) -> Val =
+extern "js" fn ffi_new_file(data : Js, filename : Js, options : Js) -> Js =
   #|(data, filename, options) => new File(data, filename, options)
 
 ///|
@@ -109,7 +109,7 @@ pub impl JsImpl for FileReader
 
 ///|
 /// Create a new FileReader
-extern "js" fn ffi_new_file_reader() -> Val =
+extern "js" fn ffi_new_file_reader() -> Js =
   #|() => new FileReader()
 
 ///|
@@ -127,13 +127,13 @@ pub fn FileReader::ready_state(self : Self) -> Int {
 
 ///|
 /// Get the result after reading completes
-pub fn FileReader::result(self : Self) -> Val? {
+pub fn FileReader::result(self : Self) -> Js? {
   self.get("result") |> unsafe_option()
 }
 
 ///|
 /// Get the error if read failed
-pub fn FileReader::error(self : Self) -> Val? {
+pub fn FileReader::error(self : Self) -> Js? {
   self.get("error") |> unsafe_option()
 }
 
@@ -175,7 +175,7 @@ pub fn FileReader::abort(self : Self) -> Unit {
 /// Set onload event handler
 pub fn FileReader::set_onload(
   self : Self,
-  callback : (Val) -> Unit noraise,
+  callback : (Js) -> Unit noraise,
 ) -> Unit {
   self.set("onload", @js.unsafe_cast(callback))
 }
@@ -184,7 +184,7 @@ pub fn FileReader::set_onload(
 /// Set onerror event handler
 pub fn FileReader::set_onerror(
   self : Self,
-  callback : (Val) -> Unit noraise,
+  callback : (Js) -> Unit noraise,
 ) -> Unit {
   self.set("onerror", @js.unsafe_cast(callback))
 }
@@ -193,7 +193,7 @@ pub fn FileReader::set_onerror(
 /// Set onloadend event handler
 pub fn FileReader::set_onloadend(
   self : Self,
-  callback : (Val) -> Unit noraise,
+  callback : (Js) -> Unit noraise,
 ) -> Unit {
   self.set("onloadend", @js.unsafe_cast(callback))
 }

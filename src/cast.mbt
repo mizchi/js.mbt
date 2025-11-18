@@ -15,20 +15,20 @@
 /// # Example
 ///
 /// ```moonbit
-/// let num = js(42)            // Int -> Val
-/// let str = js("hello")       // String -> Val
-/// let bool = js(true)         // Bool -> Val
-/// let arr = js([1, 2, 3])     // Array -> Val
+/// let num = js(42)            // Int -> Js
+/// let str = js("hello")       // String -> Js
+/// let bool = js(true)         // Bool -> Js
+/// let arr = js([1, 2, 3])     // Array -> Js
 /// ```
 ///
 #deprecated
-pub fn[T] js(v : T) -> Val {
+pub fn[T] js(v : T) -> Js {
   unsafe_cast(v)
 }
 
 ///|
 /// Cast any MoonBit Js-implementing type to a JavaScript Val safely.
-pub fn safe_js(a : &JsImpl) -> Val {
+pub fn safe_js(a : &JsImpl) -> Js {
   unsafe_cast(a.to_js())
 }
 
@@ -39,7 +39,7 @@ pub fn[A, B] unsafe_cast(a : A) -> B = "%identity"
 ///|
 /// Safely convert a JavaScript Val to an Option type.
 /// Without check, Moonbit FFI will touch (null).toString() and crash.
-pub fn[A] unsafe_option(v : Val) -> A? {
+pub fn[A] unsafe_option(v : Js) -> A? {
   if v.is_some() {
     Some(unsafe_cast(v))
   } else {
@@ -49,7 +49,7 @@ pub fn[A] unsafe_option(v : Val) -> A? {
 
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
-pub fn[T : JsImpl] from_array(v : Array[T]) -> Val {
+pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
   unsafe_cast(v.map(_.to_js()))
 }
 
@@ -63,10 +63,10 @@ pub fn[T : JsImpl] from_array(v : Array[T]) -> Val {
 /// let obj = from_map(map)
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
-pub fn from_map(map : Map[String, Val]) -> Val {
+pub fn from_map(map : Map[String, Js]) -> Js {
   let obj = Object::new()
   for k, v in map {
-    let v : Val = JsImpl::to_js(v)
+    let v : Js = JsImpl::to_js(v)
     obj.set(k, v)
   }
   obj.to_js()
@@ -74,31 +74,31 @@ pub fn from_map(map : Map[String, Val]) -> Val {
 
 ///|
 /// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
-pub fn[R] from_fn0(f : () -> R) -> Val {
+pub fn[R] from_fn0(f : () -> R) -> Js {
   unsafe_cast(f)
 }
 
 ///|
 /// Cast a MoonBit function with 1 argument to a JavaScript function Val.
-pub fn[A, R] from_fn1(f : (A) -> R) -> Val {
+pub fn[A, R] from_fn1(f : (A) -> R) -> Js {
   unsafe_cast(f)
 }
 
 ///|
 /// Cast a MoonBit function with 2 arguments to a JavaScript function Val.
-pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Val {
+pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Js {
   unsafe_cast(f)
 }
 
 ///|
-pub fn[A, B] from_tuple2(t : (A, B)) -> Val {
-  let arr : Array[Val] = [t.0 |> unsafe_cast, t.1 |> unsafe_cast]
+pub fn[A, B] from_tuple2(t : (A, B)) -> Js {
+  let arr : Array[Js] = [t.0 |> unsafe_cast, t.1 |> unsafe_cast]
   unsafe_cast(arr)
 }
 
 ///|
-pub fn[A, B, C] from_tuple3(t : (A, B, C)) -> Val {
-  let arr : Array[Val] = [
+pub fn[A, B, C] from_tuple3(t : (A, B, C)) -> Js {
+  let arr : Array[Js] = [
     t.0 |> unsafe_cast,
     t.1 |> unsafe_cast,
     t.2 |> unsafe_cast,
@@ -108,13 +108,13 @@ pub fn[A, B, C] from_tuple3(t : (A, B, C)) -> Val {
 
 ///|
 /// Cast a MoonBit function with 3 arguments to a JavaScript function Val.
-pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Val {
+pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
   unsafe_cast(f)
 }
 
 ///|
-/// Identity implementation for Val.
-pub impl JsImpl for Val
+/// Identity implementation for Js.
+pub impl JsImpl for Js
 
 ///|
 pub impl JsImpl for String
@@ -141,12 +141,12 @@ pub impl JsImpl for Unit
 
 ///|
 /// Convert an Array of Js-implementing types to a JavaScript array.
-pub impl JsImpl for Array[&JsImpl] with to_js(self) -> Val {
+pub impl JsImpl for Array[&JsImpl] with to_js(self) -> Js {
   from_array(self)
 }
 
 ///|
-pub impl JsImpl for Map[String, &JsImpl] with to_js(self) -> Val {
+pub impl JsImpl for Map[String, &JsImpl] with to_js(self) -> Js {
   let v = Object::new()
   for k, val in self {
     v.set(k, val.to_js())
@@ -156,6 +156,6 @@ pub impl JsImpl for Map[String, &JsImpl] with to_js(self) -> Val {
 
 ///|
 /// Convert an Option to a JavaScript value.
-pub impl[T] JsImpl for T? with to_js(self) -> Val {
+pub impl[T] JsImpl for T? with to_js(self) -> Js {
   unsafe_cast(self)
 }

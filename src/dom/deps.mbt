@@ -1,6 +1,6 @@
 ///|
 using @js {
-  type Val,
+  type Js,
   trait JsImpl,
   trait EventTargetImpl,
   js,

@@ -15,7 +15,7 @@ pub impl JsImpl for MutationObserver
 /// Creates a new MutationObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
 pub fn new_mutation_observer(
-  callback : (Val, MutationObserver) -> Unit,
+  callback : (Js?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @js.global_this().get("MutationObserver")
   unsafe_cast(@js.new_(ctor, [callback |> js]))
@@ -27,7 +27,7 @@ pub fn new_mutation_observer(
 pub fn MutationObserver::observe(
   self : Self,
   target : Element,
-  options : Val,
+  options : Js,
 ) -> Unit {
   self.invoke("observe", [target |> js, options]) |> ignore
 }
@@ -42,7 +42,7 @@ pub fn MutationObserver::disconnect(self : Self) -> Unit {
 ///|
 /// Returns all pending mutation records
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/takeRecords
-pub fn MutationObserver::take_records(self : Self) -> Val {
+pub fn MutationObserver::take_records(self : Self) -> Js {
   self.invoke("takeRecords", [])
 }
 
@@ -63,19 +63,19 @@ pub fn MutationRecord::mutation_type(self : Self) -> String {
 
 ///|
 /// Returns the target node
-pub fn MutationRecord::target(self : Self) -> Val {
+pub fn MutationRecord::target(self : Self) -> Js {
   unsafe_cast(self.get("target"))
 }
 
 ///|
 /// Returns the added nodes
-pub fn MutationRecord::added_nodes(self : Self) -> Val {
+pub fn MutationRecord::added_nodes(self : Self) -> Js {
   self.get("addedNodes")
 }
 
 ///|
 /// Returns the removed nodes
-pub fn MutationRecord::removed_nodes(self : Self) -> Val {
+pub fn MutationRecord::removed_nodes(self : Self) -> Js {
   self.get("removedNodes")
 }
 
@@ -116,7 +116,7 @@ pub impl JsImpl for IntersectionObserver
 /// Creates a new IntersectionObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
 pub fn new_intersection_observer(
-  callback : (Val, IntersectionObserver) -> Unit,
+  callback : (Js?, IntersectionObserver) -> Unit,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
   unsafe_cast(@js.new_(ctor, [callback |> js]))
@@ -125,8 +125,8 @@ pub fn new_intersection_observer(
 ///|
 /// Creates a new IntersectionObserver with options
 pub fn new_intersection_observer_with_options(
-  callback : (Val, IntersectionObserver) -> Unit,
-  options : Val,
+  callback : (Js?, IntersectionObserver) -> Unit,
+  options : Js,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
   unsafe_cast(@js.new_(ctor, [callback |> js, options]))
@@ -156,7 +156,7 @@ pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
 ///|
 /// Returns all pending intersection records
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords
-pub fn IntersectionObserver::take_records(self : Self) -> Val {
+pub fn IntersectionObserver::take_records(self : Self) -> Js {
   self.invoke("takeRecords", [])
 }
 
@@ -171,19 +171,19 @@ pub impl JsImpl for IntersectionObserverEntry
 
 ///|
 /// Returns the target element
-pub fn IntersectionObserverEntry::target(self : Self) -> Val {
+pub fn IntersectionObserverEntry::target(self : Self) -> Js {
   unsafe_cast(self.get("target"))
 }
 
 ///|
 /// Returns the bounding rect of the target
-pub fn IntersectionObserverEntry::bounding_client_rect(self : Self) -> Val {
+pub fn IntersectionObserverEntry::bounding_client_rect(self : Self) -> Js {
   self.get("boundingClientRect")
 }
 
 ///|
 /// Returns the intersection rect
-pub fn IntersectionObserverEntry::intersection_rect(self : Self) -> Val {
+pub fn IntersectionObserverEntry::intersection_rect(self : Self) -> Js {
   self.get("intersectionRect")
 }
 
@@ -224,7 +224,7 @@ pub impl JsImpl for ResizeObserver
 /// Creates a new ResizeObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/ResizeObserver
 pub fn new_resize_observer(
-  callback : (Val, ResizeObserver) -> Unit,
+  callback : (Js?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @js.global_this().get("ResizeObserver")
   unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
@@ -242,7 +242,7 @@ pub fn ResizeObserver::observe(self : Self, target : Element) -> Unit {
 pub fn ResizeObserver::observe_with_options(
   self : Self,
   target : Element,
-  options : Val,
+  options : Js,
 ) -> Unit {
   self.invoke("observe", [target |> safe_js, options]) |> ignore
 }
@@ -284,12 +284,12 @@ pub fn ResizeObserverEntry::contentRect(self : Self) -> @dom.DOMRectReadOnly {
 
 ///|
 /// Returns the border box size
-pub fn ResizeObserverEntry::borderBoxSize(self : Self) -> Val {
+pub fn ResizeObserverEntry::borderBoxSize(self : Self) -> Js {
   self.get("borderBoxSize")
 }
 
 ///|
 /// Returns the content box size
-pub fn ResizeObserverEntry::contentBoxSize(self : Self) -> Val {
+pub fn ResizeObserverEntry::contentBoxSize(self : Self) -> Js {
   self.get("contentBoxSize")
 }

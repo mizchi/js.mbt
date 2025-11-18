@@ -3,7 +3,7 @@
 ///|
 /// JS: globalThis
 #alias(global_this)
-pub fn globalThis() -> Val {
+pub fn globalThis() -> Js {
   ffi_global_this()
 }
 
@@ -20,7 +20,7 @@ pub fn globalThis() -> Val {
 /// let undef = undefined()
 /// assert_true(@js.is_undefined(undef))
 /// ```
-pub fn undefined() -> Val {
+pub fn undefined() -> Js {
   ffi_undefined()
 }
 
@@ -35,7 +35,7 @@ pub fn undefined() -> Val {
 /// let n = null_()
 /// assert_true(@js.is_null(n))
 /// ```
-pub fn null_() -> Val {
+pub fn null_() -> Js {
   ffi_null()
 }
 
@@ -152,7 +152,7 @@ pub fn decodeURIComponent(encoded_str : String) -> String {
 ///|
 /// Do not use vite env
 #alias(dynamic_import)
-pub fn dynamicImport(module_name : String) -> Val {
+pub fn dynamicImport(module_name : String) -> Js {
   ffi_dynamic_import(module_name)
 }
 

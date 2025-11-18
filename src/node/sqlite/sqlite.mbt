@@ -110,7 +110,7 @@ pub fn[T, U] DatabaseSync::aggregate(
   start? : U,
   step? : (T, U) -> T,
   inverse? : (T, U) -> T,
-  result? : (T) -> Val,
+  result? : (T) -> Js,
 ) -> Unit {
   let opts = @js.Object::new()
   if deterministic is Some(v) {
@@ -144,7 +144,7 @@ pub fn[T, U] DatabaseSync::aggregate(
 pub fn DatabaseSync::function(
   self : Self,
   name : String,
-  func : (Array[Val]) -> Val,
+  func : (Array[Js]) -> Js,
   deterministic? : Bool,
   directOnly? : Bool,
   useBigIntArguments? : Bool,
@@ -262,8 +262,8 @@ pub fn DatabaseSync::prepare(self : Self, query : String) -> StatementSync {
 pub fn DatabaseSync::applyChangeset(
   self : Self,
   changeset : Uint8Array,
-  filter? : (Val) -> Bool,
-  onConflict? : (Val, Val) -> Bool,
+  filter? : (Js) -> Bool,
+  onConflict? : (Js?, Js) -> Bool,
 ) -> Bool {
   let opts = @js.Object::new()
   if filter is Some(f) {
@@ -289,7 +289,7 @@ pub fn StatementSync::get_(
   self : Self,
   named_parameters? : Map[String, &JsImpl],
   anonymous_parameters? : Array[&JsImpl],
-) -> Val? {
+) -> Js? {
   let args : Array[&JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
@@ -312,7 +312,7 @@ pub fn StatementSync::get_(
 }
 
 ///|
-pub fn StatementSync::columns(self : Self) -> Array[Val] {
+pub fn StatementSync::columns(self : Self) -> Array[Js] {
   self.invoke("columns", []) |> unsafe_cast
 }
 
@@ -343,7 +343,7 @@ pub fn StatementSync::all(
   self : Self,
   named_parameters? : Map[String, &JsImpl],
   anonymous_parameters? : Array[&JsImpl],
-) -> Array[Val] {
+) -> Array[Js] {
   let args : Array[&JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
@@ -365,7 +365,7 @@ pub fn StatementSync::iterate(
   self : Self,
   named_parameters? : Map[String, &JsImpl],
   anonymous_parameters? : Array[&JsImpl],
-) -> JsIterator[Val] {
+) -> JsIterator[Js] {
   let args : Array[&JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
@@ -510,13 +510,13 @@ pub fn backup(
   if progress is Some(f) {
     opts.set("progress", f |> js)
   }
-  let backup : Val = @node.require("node:sqlite").get("backup")
+  let backup : Js = @node.require("node:sqlite").get("backup")
   backup.invoke_self([source_db.to_js(), db_path, opts]) |> ignore
 }
 
 ///|
 /// SQLite constants accessor
-fn get_constants() -> Val {
+fn get_constants() -> Js {
   let sqlite = @node.require("node:sqlite")
   sqlite.get("constants")
 }

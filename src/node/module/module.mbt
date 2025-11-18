@@ -3,7 +3,7 @@
 
 ///|
 /// Module Functions
-extern "js" fn ffi_require_module() -> Val =
+extern "js" fn ffi_require_module() -> Js =
   #|() => require("node:module")
 
 ///|
@@ -18,7 +18,7 @@ pub fn builtinModules() -> Array[String] {
 /// createRequire(filename)
 /// Create a require function from a file URL or path
 #alias(create_require)
-pub fn createRequire(filename : String) -> Val {
+pub fn createRequire(filename : String) -> Js {
   let mod = ffi_require_module()
   mod.invoke("createRequire", [filename |> js])
 }
@@ -132,7 +132,7 @@ pub impl JsImpl for SourceMap
 
 ///|
 /// Get the payload (the actual source map data)
-pub fn SourceMap::payload(self : Self) -> Val {
+pub fn SourceMap::payload(self : Self) -> Js {
   self.get("payload")
 }
 

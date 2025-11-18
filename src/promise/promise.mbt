@@ -30,7 +30,7 @@ pub fn[A] Promise::resolve(x : A) -> Self[A] {
 
 ///|
 /// js: Promise.reject(error)
-pub fn Promise::reject(x : Val) -> Self[Val] {
+pub fn Promise::reject(x : Js) -> Self[Js] {
   ffi_promise_reject(unsafe_cast(x)) |> unsafe_cast
 }
 

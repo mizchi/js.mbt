@@ -11,7 +11,7 @@ pub impl JsImpl for Element
 pub fn createElement(
   tag : String,
   children : Array[&JsImpl],
-  props? : Map[String, Val],
+  props? : Map[String, Js],
   style? : Map[String, String],
   ref_? : ReactRef[@dom.Element],
   key? : String,

@@ -1,5 +1,5 @@
 ///|
-fn nodetest() -> Val {
+fn nodetest() -> Js {
   unsafe_cast(@node.require("node:test"))
 }
 

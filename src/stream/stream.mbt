@@ -8,12 +8,12 @@ pub impl JsImpl for ReadableStream
 
 ///|
 /// Create a new ReadableStream (typically constructed from JavaScript)
-extern "js" fn ffi_new_readable_stream(underlying_source : Val) -> Val =
+extern "js" fn ffi_new_readable_stream(underlying_source : Js) -> Js =
   #|(source) => new ReadableStream(source)
 
 ///|
 /// Create a new ReadableStream with an underlying source
-pub fn ReadableStream::new(underlying_source : Val) -> ReadableStream {
+pub fn ReadableStream::new(underlying_source : Js) -> ReadableStream {
   unsafe_cast(ffi_new_readable_stream(underlying_source))
 }
 
@@ -25,7 +25,7 @@ pub fn ReadableStream::locked(self : Self) -> Bool {
 
 ///|
 /// Cancel the stream
-pub fn ReadableStream::cancel(self : Self, reason? : Val) -> Promise[Unit] {
+pub fn ReadableStream::cancel(self : Self, reason? : Js) -> Promise[Unit] {
   match reason {
     Some(r) => self.invoke("cancel", [r]) |> unsafe_cast
     None => self.invoke("cancel", []) |> unsafe_cast
@@ -45,7 +45,7 @@ pub fn ReadableStream::get_reader(self : Self) -> ReadableStreamDefaultReader {
 pub fn ReadableStream::pipe_to(
   self : Self,
   destination : WritableStream,
-  options? : Val,
+  options? : Js,
 ) -> Promise[Unit] {
   match options {
     Some(opts) => self.invoke("pipeTo", [destination, opts]) |> unsafe_cast
@@ -58,8 +58,8 @@ pub fn ReadableStream::pipe_to(
 #alias(pipeThrough)
 pub fn ReadableStream::pipe_through(
   self : Self,
-  transform : Val,
-  options? : Val,
+  transform : Js,
+  options? : Js,
 ) -> ReadableStream {
   match options {
     Some(opts) => self.invoke("pipeThrough", [transform, opts]) |> unsafe_cast
@@ -68,7 +68,7 @@ pub fn ReadableStream::pipe_through(
 }
 
 ///|
-extern "js" fn ffi_array_get(arr : Val, index : Int) -> Val =
+extern "js" fn ffi_array_get(arr : Js, index : Int) -> Js =
   #|(arr, i) => arr[i]
 
 ///|
@@ -90,7 +90,7 @@ pub impl JsImpl for ReadableStreamDefaultReader
 
 ///|
 /// Read a chunk from the stream
-pub fn ReadableStreamDefaultReader::read(self : Self) -> Promise[Val] {
+pub fn ReadableStreamDefaultReader::read(self : Self) -> Promise[Js] {
   self.invoke("read", []) |> unsafe_cast
 }
 
@@ -105,7 +105,7 @@ pub fn ReadableStreamDefaultReader::release_lock(self : Self) -> Unit {
 /// Cancel the stream
 pub fn ReadableStreamDefaultReader::cancel(
   self : Self,
-  reason? : Val,
+  reason? : Js,
 ) -> Promise[Unit] {
   match reason {
     Some(r) => self.invoke("cancel", [r]) |> unsafe_cast
@@ -129,12 +129,12 @@ pub impl JsImpl for WritableStream
 
 ///|
 /// Create a new WritableStream
-extern "js" fn ffi_new_writable_stream(underlying_sink : Val) -> Val =
+extern "js" fn ffi_new_writable_stream(underlying_sink : Js) -> Js =
   #|(sink) => new WritableStream(sink)
 
 ///|
 /// Create a new WritableStream with an underlying sink
-pub fn WritableStream::new(underlying_sink : Val) -> WritableStream {
+pub fn WritableStream::new(underlying_sink : Js) -> WritableStream {
   unsafe_cast(ffi_new_writable_stream(underlying_sink))
 }
 
@@ -146,7 +146,7 @@ pub fn WritableStream::locked(self : Self) -> Bool {
 
 ///|
 /// Abort the stream
-pub fn WritableStream::abort(self : Self, reason? : Val) -> Promise[Unit] {
+pub fn WritableStream::abort(self : Self, reason? : Js) -> Promise[Unit] {
   match reason {
     Some(r) => self.invoke("abort", [r]) |> unsafe_cast
     None => self.invoke("abort", []) |> unsafe_cast
@@ -178,7 +178,7 @@ pub impl JsImpl for WritableStreamDefaultWriter
 /// Write a chunk to the stream
 pub fn WritableStreamDefaultWriter::write(
   self : Self,
-  chunk : Val,
+  chunk : Js,
 ) -> Promise[Unit] {
   self.invoke("write", [chunk]) |> unsafe_cast
 }
@@ -193,7 +193,7 @@ pub fn WritableStreamDefaultWriter::close(self : Self) -> Promise[Unit] {
 /// Abort the writer
 pub fn WritableStreamDefaultWriter::abort(
   self : Self,
-  reason? : Val,
+  reason? : Js,
 ) -> Promise[Unit] {
   match reason {
     Some(r) => self.invoke("abort", [r]) |> unsafe_cast
@@ -237,18 +237,18 @@ pub impl JsImpl for TransformStream
 
 ///|
 /// Create a new TransformStream
-extern "js" fn ffi_new_transform_stream(transformer : Val) -> Val =
+extern "js" fn ffi_new_transform_stream(transformer : Js) -> Js =
   #|(transformer) => new TransformStream(transformer)
 
 ///|
 /// Create a new TransformStream with a transformer
-pub fn TransformStream::new(transformer : Val) -> TransformStream {
+pub fn TransformStream::new(transformer : Js) -> TransformStream {
   unsafe_cast(ffi_new_transform_stream(transformer))
 }
 
 ///|
 /// Create a new identity TransformStream (passes data through unmodified)
-extern "js" fn ffi_new_identity_transform_stream() -> Val =
+extern "js" fn ffi_new_identity_transform_stream() -> Js =
   #|() => new TransformStream()
 
 ///|

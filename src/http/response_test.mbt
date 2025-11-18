@@ -2,10 +2,10 @@
 using @promise {type Promise, run_async}
 
 ///|
-using @js {type Val, trait JsImpl, js, log, unsafe_option, unsafe_cast}
+using @js {type Js, trait JsImpl, js, log, unsafe_option, unsafe_cast}
 
 ///|
-extern "js" fn ffi_new_response(content : String) -> @js.Val =
+extern "js" fn ffi_new_response(content : String) -> Js =
   #|(content) => new Response(content)
 
 ///|

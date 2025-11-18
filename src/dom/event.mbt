@@ -334,7 +334,7 @@ pub impl EventImpl for FormEvent
 
 ///|
 /// Returns the form data
-pub fn FormEvent::formData(self : FormEvent) -> Val {
+pub fn FormEvent::formData(self : FormEvent) -> Js {
   self.get("formData")
 }
 
@@ -353,7 +353,7 @@ pub impl EventImpl for DragEvent
 ///|
 /// Returns the data transfer object
 /// https://developer.mozilla.org/en-US/docs/Web/API/DragEvent/dataTransfer
-pub fn DragEvent::dataTransfer(self : Self) -> Val {
+pub fn DragEvent::dataTransfer(self : Self) -> Js {
   self.get("dataTransfer")
 }
 
@@ -432,21 +432,21 @@ pub impl EventImpl for TouchEvent
 ///|
 /// Returns the list of all touches
 /// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/touches
-pub fn TouchEvent::touches(self : Self) -> Val {
+pub fn TouchEvent::touches(self : Self) -> Js {
   self.get("touches")
 }
 
 ///|
 /// Returns the list of touches that are currently in contact with the surface
 /// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/targetTouches
-pub fn TouchEvent::targetTouches(self : Self) -> Val {
+pub fn TouchEvent::targetTouches(self : Self) -> Js {
   self.get("targetTouches")
 }
 
 ///|
 /// Returns the list of touches that changed since the last event
 /// https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/changedTouches
-pub fn TouchEvent::changedTouches(self : Self) -> Val {
+pub fn TouchEvent::changedTouches(self : Self) -> Js {
   self.get("changedTouches")
 }
 
@@ -570,7 +570,7 @@ pub impl EventImpl for ClipboardEvent
 ///|
 /// Returns the clipboard data
 /// https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
-pub fn ClipboardEvent::clipboardData(self : Self) -> Val? {
+pub fn ClipboardEvent::clipboardData(self : Self) -> Js? {
   self.get("clipboardData") |> unsafe_option()
 }
 
@@ -660,7 +660,7 @@ pub impl EventImpl for MessageEvent
 ///|
 /// Returns the data sent by the message emitter
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/data
-pub fn MessageEvent::data(self : Self) -> Val {
+pub fn MessageEvent::data(self : Self) -> Js {
   unsafe_cast(self.get("data"))
 }
 
@@ -681,6 +681,6 @@ pub fn MessageEvent::source(self : Self) -> Window? {
 ///|
 /// Returns the array of MessagePort objects
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/ports
-pub fn MessageEvent::ports(self : Self) -> Array[Val] {
+pub fn MessageEvent::ports(self : Self) -> Array[Js] {
   @js.array_from(self.get("ports")).map(fn(v) { unsafe_cast(v) })
 }

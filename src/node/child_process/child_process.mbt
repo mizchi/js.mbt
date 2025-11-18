@@ -16,10 +16,10 @@ pub impl EventEmitterImpl for ChildProcess
 
 ///|
 /// Listen for stderr 'data' event with typed callback
-/// Callback receives: data (Val) - typically Buffer or String
+/// Callback receives: data (Js) - typically Buffer or String
 pub fn ChildProcess::on_stderr_data(
   self : Self,
-  callback : (Val) -> Unit noraise,
+  callback : (Js) -> Unit noraise,
 ) -> Unit {
   match self.stderr() {
     Some(stream) =>
@@ -109,7 +109,7 @@ pub fn ChildProcess::ref_(self : Self) -> Unit {
 
 ///|
 /// Module Functions
-extern "js" fn ffi_require_child_process() -> Val =
+extern "js" fn ffi_require_child_process() -> Js =
   #|() => require("node:child_process")
 
 ///|
@@ -119,7 +119,7 @@ pub fn spawn(
   command : String,
   args? : Array[String],
   cwd? : String,
-  env? : Val,
+  env? : Js,
   shell? : Bool,
   timeout? : Int,
   signal? : AbortSignal,
@@ -158,9 +158,9 @@ pub fn spawn(
 /// Spawns a shell and executes a command, buffering the output
 pub fn exec(
   command : String,
-  callback : (Val, String, String) -> Unit noraise,
+  callback : (Js?, String, String) -> Unit noraise,
   cwd? : String,
-  env? : Val,
+  env? : Js,
   shell? : String,
   timeout? : Int,
   max_buffer? : Int,
@@ -198,9 +198,9 @@ pub fn exec(
 pub fn execFile(
   file : String,
   args : Array[String],
-  callback : (Val, String, String) -> Unit noraise,
+  callback : (Js?, String, String) -> Unit noraise,
   cwd? : String,
-  env? : Val,
+  env? : Js,
   timeout? : Int,
   max_buffer? : Int,
   signal? : AbortSignal,
@@ -239,7 +239,7 @@ pub fn fork(
   module_path : String,
   args? : Array[String],
   cwd? : String,
-  env? : Val,
+  env? : Js,
   silent? : Bool,
   timeout? : Int,
   signal? : AbortSignal,
@@ -306,7 +306,7 @@ pub fn SpawnSyncResult::stderr(self : Self) -> @stream.ReadableStream {
 }
 
 ///|
-pub fn SpawnSyncResult::error(self : Self) -> Val? {
+pub fn SpawnSyncResult::error(self : Self) -> Js? {
   self.get("error") |> unsafe_option()
 }
 
@@ -318,7 +318,7 @@ pub fn spawnSync(
   command : String,
   args? : Array[String],
   cwd? : String,
-  env? : Val,
+  env? : Js,
   shell? : Bool,
   timeout? : Int,
   input? : String,
@@ -356,7 +356,7 @@ pub fn spawnSync(
 pub fn execSync(
   command : String,
   cwd? : String,
-  env? : Val,
+  env? : Js,
   shell? : String,
   timeout? : Int,
   maxBuffer? : Int,
@@ -399,7 +399,7 @@ pub fn execFileSync(
   file : String,
   args? : Array[String],
   cwd? : String,
-  env? : Val,
+  env? : Js,
   timeout? : Int,
   maxBuffer? : Int,
   input? : String,

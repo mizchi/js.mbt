@@ -6,7 +6,7 @@ pub type WeakMap[K, V]
 pub impl[K, V] JsImpl for WeakMap[K, V]
 
 ///|
-extern "js" fn ffi_new_weakmap() -> Val =
+extern "js" fn ffi_new_weakmap() -> Js =
   #| () => new WeakMap()
 
 ///|
@@ -51,7 +51,7 @@ pub type WeakSet[T]
 pub impl[T] JsImpl for WeakSet[T]
 
 ///|
-extern "js" fn ffi_new_weakset() -> Val =
+extern "js" fn ffi_new_weakset() -> Js =
   #| () => new WeakSet()
 
 ///|
@@ -82,7 +82,7 @@ pub type WeakRef[T]
 pub impl[T] JsImpl for WeakRef[T]
 
 ///|
-extern "js" fn ffi_new_weakref(target : Val) -> Val =
+extern "js" fn ffi_new_weakref(target : Js) -> Js =
   #| (target) => new WeakRef(target)
 
 ///|
@@ -109,8 +109,8 @@ pub impl[T] JsImpl for FinalizationRegistry[T]
 
 ///|
 extern "js" fn ffi_new_finalization_registry(
-  cleanup_callback : (Val) -> Unit,
-) -> Val =
+  cleanup_callback : (Js) -> Unit,
+) -> Js =
   #| (callback) => new FinalizationRegistry(callback)
 
 ///|
@@ -127,7 +127,7 @@ pub fn[T : JsImpl, U : JsImpl] FinalizationRegistry::register(
   self : FinalizationRegistry[T],
   target : U,
   held_value : T,
-  unregister_token? : Val,
+  unregister_token? : Js,
 ) -> Unit {
   match unregister_token {
     Some(token) =>
@@ -139,7 +139,7 @@ pub fn[T : JsImpl, U : JsImpl] FinalizationRegistry::register(
 ///|
 pub fn[T] FinalizationRegistry::unregister(
   self : FinalizationRegistry[T],
-  unregister_token : Val,
+  unregister_token : Js,
 ) -> Bool {
   self.invoke("unregister", [unregister_token]) |> unsafe_cast
 }

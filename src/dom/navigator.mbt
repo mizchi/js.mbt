@@ -34,7 +34,7 @@ pub fn Navigator::language(self : Self) -> String {
 ///|
 /// Returns the browser's preferred languages
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/languages
-pub fn Navigator::languages(self : Self) -> Val {
+pub fn Navigator::languages(self : Self) -> Js {
   self.get("languages")
 }
 
@@ -90,28 +90,28 @@ pub fn Navigator::doNotTrack(self : Self) -> String? {
 ///|
 /// Returns the connection information
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/connection
-pub fn Navigator::connection(self : Self) -> Val? {
+pub fn Navigator::connection(self : Self) -> Js? {
   self.get("connection") |> unsafe_option()
 }
 
 ///|
 /// Requests permission for a feature
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/permissions
-pub fn Navigator::permissions(self : Self) -> Val {
+pub fn Navigator::permissions(self : Self) -> Js {
   self.get("permissions")
 }
 
 ///|
 /// Returns the clipboard API
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/clipboard
-pub fn Navigator::clipboard(self : Self) -> Val {
+pub fn Navigator::clipboard(self : Self) -> Js {
   self.get("clipboard")
 }
 
 ///|
 /// Returns the geolocation API
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation
-pub fn Navigator::geolocation(self : Self) -> Val {
+pub fn Navigator::geolocation(self : Self) -> Js {
   self.get("geolocation")
 }
 

@@ -68,7 +68,7 @@ pub fn Document::readyState(self : Self) -> String {
 /// Returns an element by its ID
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
-pub fn Document::getElementById(self : Self, id : String) -> Val? {
+pub fn Document::getElementById(self : Self, id : String) -> Js? {
   self.invoke("getElementById", [id |> safe_js]) |> unsafe_option()
 }
 
@@ -79,7 +79,7 @@ pub fn Document::getElementById(self : Self, id : String) -> Val? {
 pub fn Document::getElementsByClassName(
   self : Self,
   class_name : String,
-) -> Val {
+) -> Js {
   self.invoke("getElementsByClassName", [class_name])
 }
 
@@ -87,7 +87,7 @@ pub fn Document::getElementsByClassName(
 /// Returns elements with the specified tag name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByTagName
 #alias(get_elements_by_tag_name)
-pub fn Document::getElementsByTagName(self : Self, tagName : String) -> Val {
+pub fn Document::getElementsByTagName(self : Self, tagName : String) -> Js {
   self.invoke("getElementsByTagName", [tagName])
 }
 
@@ -162,7 +162,7 @@ pub fn Document::referrer(self : Self) -> String {
 /// Creates a document fragment
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 #alias(create_document_fragment)
-pub fn Document::createDocumentFragment(self : Self) -> Val {
+pub fn Document::createDocumentFragment(self : Self) -> Js {
   self.invoke("createDocumentFragment", []) |> unsafe_cast
 }
 
@@ -170,7 +170,7 @@ pub fn Document::createDocumentFragment(self : Self) -> Val {
 /// Creates a comment node
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 #alias(create_comment)
-pub fn Document::createComment(self : Self, data : String) -> Val {
+pub fn Document::createComment(self : Self, data : String) -> Js {
   self.invoke("createComment", [data]) |> unsafe_cast
 }
 
@@ -209,7 +209,7 @@ pub fn Document::contentType(self : Self) -> String {
 ///|
 /// Returns the document type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
-pub fn Document::doctype(self : Self) -> Val? {
+pub fn Document::doctype(self : Self) -> Js? {
   self.get("doctype") |> unsafe_option()
 }
 

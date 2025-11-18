@@ -30,7 +30,7 @@ pub fn[T: JsImpl] is_undefined(v : T) -> Bool {
 
 ///|
 pub fn[T: JsImpl] is_builtin_trait(v : T) -> Bool {
-  let v : Val = v |> unsafe_cast
+  let v : Js = v |> unsafe_cast
   v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
 }
 
@@ -79,6 +79,6 @@ pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError {
 
 ///|
 /// Wraps a synchronous function call that returns Result, converting any thrown JS errors into JsError
-fn throwable_result(f : () -> Result[Val, Val]) -> Result[Val, Val] {
+fn throwable_result(f : () -> Result[Js, Js]) -> Result[Js, Js] {
   ffi_wrap_sync(unsafe_cast(f), Ok(_), Err(_))
 }

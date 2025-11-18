@@ -3,56 +3,56 @@
 pub type JsTimer
 
 ///|
-extern "js" fn ffi_to_string(v : Val) -> String =
+extern "js" fn ffi_to_string(v : Js) -> String =
   #| (v) => v == null ? String(null) : v.toString()
 
 ///|
-extern "js" fn ffi_is_null(v : Val) -> Bool =
+extern "js" fn ffi_is_null(v : Js) -> Bool =
   #| (v) => v === null
 
 ///|
 /// JS:
-pub extern "js" fn ffi_is_undefined(v : Val) -> Bool =
+pub extern "js" fn ffi_is_undefined(v : Js) -> Bool =
   #| (v) => v === undefined
 
 ///|
-extern "js" fn ffi_get(v : Val, key : String) -> Val =
+extern "js" fn ffi_get(v : Js, key : String) -> Js =
   #| (obj, k) => obj[k]
 
 ///|
-extern "js" fn ffi_set(obj : Val, key : String, value : Val) -> Unit =
+extern "js" fn ffi_set(obj : Js, key : String, value : Js) -> Unit =
   #| (obj, k, v) => obj[k] = v
 
 ///|
-extern "js" fn ffi_new(v : Val, args : Array[Val]) -> Val =
+extern "js" fn ffi_new(v : Js, args : Array[Js]) -> Js =
   #| (obj, args) => new obj(...args)
 
 ///|
-extern "js" fn ffi_new_error(args : Array[Val]) -> JsError =
+extern "js" fn ffi_new_error(args : Array[Js]) -> JsError =
   #| (args) => new Error(...args)
 
 ///|
-extern "js" fn ffi_is_error(v : Val) -> Bool =
+extern "js" fn ffi_is_error(v : Js) -> Bool =
   #| (v) => Error.isError(v)
 
 ///|
-extern "js" fn ffi_throw(v : Val) -> Unit =
+extern "js" fn ffi_throw(v : Js) -> Unit =
   #| (v) => { throw v }
 
 ///|
-extern "js" fn ffi_call(f : Val, args : Array[Val]) -> Val =
+extern "js" fn ffi_call(f : Js, args : Array[Js]) -> Js =
   #|(f, args) => f(...args)
 
 ///|
-extern "js" fn ffi_invoke(v : Val, key : String, args : Array[Val]) -> Val =
+extern "js" fn ffi_invoke(v : Js, key : String, args : Array[Js]) -> Js =
   #|(obj, k, args) => obj[k](...args)
 
 ///|
-extern "js" fn ffi_new_empty_object() -> Val =
+extern "js" fn ffi_new_empty_object() -> Js =
   #|() => ({})
 
 ///|
-extern "js" fn ffi_new_empty_array() -> Val =
+extern "js" fn ffi_new_empty_array() -> Js =
   #|() => ([])
 
 ///|
@@ -60,7 +60,7 @@ extern "js" fn ffi_symbol_for(name : String) -> Symbol =
   #| (name) => Symbol.for(name)
 
 ///|
-extern "js" fn ffi_object_create() -> Val =
+extern "js" fn ffi_object_create() -> Js =
   #| () => Object.create({})
 
 ///|
@@ -84,73 +84,73 @@ extern "js" fn ffi_symbol(name : String) -> Symbol =
   #| (name) => Symbol(name)
 
 ///|
-extern "js" fn ffi_delete(v : Val, key : String) -> Unit =
+extern "js" fn ffi_delete(v : Js, key : String) -> Unit =
   #| (obj, k) => { delete obj[k]; }
 
 ///|
-extern "js" fn ffi_has_own_property(v : Val, k : String) -> Bool =
+extern "js" fn ffi_has_own_property(v : Js, k : String) -> Bool =
   #| (obj, k) => obj.hasOwnProperty(k)
 
 ///|
-extern "js" fn ffi_property_is_enumerable(v : Val, k : String) -> Bool =
+extern "js" fn ffi_property_is_enumerable(v : Js, k : String) -> Bool =
   #| (obj, k) => obj.propertyIsEnumerable(k)
 
 // Object
 
 ///|
-extern "js" fn ffi_object_is(a : Val, b : Val) -> Bool =
+extern "js" fn ffi_object_is(a : Js, b : Js) -> Bool =
   #| (a, b) => Object.is(a, b)
 
 ///|
-extern "js" fn ffi_global_this() -> Val =
+extern "js" fn ffi_global_this() -> Js =
   #| () => globalThis
 
 ///|
-extern "js" fn ffi_undefined() -> Val =
+extern "js" fn ffi_undefined() -> Js =
   #| () => undefined
 
 ///|
-extern "js" fn ffi_null() -> Val =
+extern "js" fn ffi_null() -> Js =
   #| () => null
 
 ///|
-extern "js" fn ffi_object_keys(v : Val) -> Array[String] =
+extern "js" fn ffi_object_keys(v : Js) -> Array[String] =
   #| (obj) => Object.keys(obj)
 
 ///|
-extern "js" fn ffi_object_entries(v : Val) -> Array[Val] =
+extern "js" fn ffi_object_entries(v : Js) -> Array[Js] =
   #|(v) => Object.entries(v)
 
 ///|
-extern "js" fn ffi_object_values(v : Val) -> Array[Val] =
+extern "js" fn ffi_object_values(v : Js) -> Array[Js] =
   #|(v) => Object.values(v)
 
 ///|
-extern "js" fn ffi_object_assign(v : Val, o : Val) -> Val =
+extern "js" fn ffi_object_assign(v : Js, o : Js) -> Js =
   #|(obj, o) => Object.assign(obj, o)
 
 ///|
-extern "js" fn ffi_console_log(v : Array[Val]) -> Unit =
+extern "js" fn ffi_console_log(v : Array[Js]) -> Unit =
   #|(obj) => console.log(...obj)
 
 ///|
 extern "js" fn ffi_json_stringify(
-  v : Val,
-  replacer : Val,
-  space : Val,
+  v : Js,
+  replacer : Js,
+  space : Js,
 ) -> String =
   #|(v, replacer, space) => JSON.stringify(v, replacer, space)
 
 ///|
-extern "js" fn ffi_json_parse(v : String, reviver? : Val) -> Val =
+extern "js" fn ffi_json_parse(v : String, reviver? : Js) -> Js =
   #|(v, reviver) => JSON.parse(v, reviver)
 
 ///|
-pub extern "js" fn structured_clone(v : Val) -> Val =
+pub extern "js" fn structured_clone(v : Js) -> Js =
   #|(v) => structuredClone(v)
 
 ///|
-extern "js" fn ffi_dynamic_import(module_name : String) -> Val =
+extern "js" fn ffi_dynamic_import(module_name : String) -> Js =
   #|(moduleName) => import(moduleName)
 
 ///|
@@ -162,7 +162,7 @@ extern "js" fn ffi_btoa(data : String) -> String =
   #|(data) => btoa(data)
 
 ///|
-extern "js" fn ffi_array_from(v : Val) -> Array[Val] =
+extern "js" fn ffi_array_from(v : Js) -> Array[Js] =
   #|(v) => Array.from(v)
 
 ///|
@@ -182,23 +182,23 @@ extern "js" fn ffi_decode_uri_component(encoded_str : String) -> String =
   #|(encodedStr) => decodeURIComponent(encodedStr)
 
 ///|
-extern "js" fn ffi_type_of(v : Val) -> String =
+extern "js" fn ffi_type_of(v : Js) -> String =
   #| (v) => typeof v
 
 ///|
-extern "js" fn ffi_instance_of(v : Val, cls : Val) -> Bool =
+extern "js" fn ffi_instance_of(v : Js, cls : Js) -> Bool =
   #| (v, cls) => v instanceof cls
 
 ///|
-extern "js" fn ffi_is_array(v : Val) -> Bool =
+extern "js" fn ffi_is_array(v : Js) -> Bool =
   #| (v) => Array.isArray(v)
 
 ///|
-extern "js" fn ffi_is_object(v : Val) -> Bool =
+extern "js" fn ffi_is_object(v : Js) -> Bool =
   #| (v) => typeof v === "object" && v !== null
 
 ///|
-extern "js" fn ffi_is_nan(v : Val) -> Bool =
+extern "js" fn ffi_is_nan(v : Js) -> Bool =
   #| (v) => Number.isNaN(v)
 
 ///|

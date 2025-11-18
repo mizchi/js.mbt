@@ -18,11 +18,11 @@ pub(all) struct URL {
 pub impl JsImpl for URL
 
 ///|
-extern "js" fn ffi_url_new(url : String, base : String?) -> Val =
+extern "js" fn ffi_url_new(url : String, base : String?) -> Js =
   #| (url, base) => new URL(url, base)
 
 ///|
-extern "js" fn ffi_can_parse(url : String, base : String?) -> Val =
+extern "js" fn ffi_can_parse(url : String, base : String?) -> Js =
   #| (url, base) => URL.canParse(url, base)
 
 ///|
@@ -37,7 +37,7 @@ pub fn URL::can_parse(url : String, base? : String) -> Bool {
 }
 
 ///|
-extern "js" fn ffi_url_parse(url : String, base : String?) -> Val =
+extern "js" fn ffi_url_parse(url : String, base : String?) -> Js =
   #| (url, base) => URL.parse(url, base)
 
 ///|
@@ -57,17 +57,17 @@ pub fn URL::to_json(self : URL) -> String {
 }
 
 ///|
-extern "js" fn ffi_create_object_url(obj : Val) -> Val =
+extern "js" fn ffi_create_object_url(obj : Js) -> Js =
   #| (obj) => URL.createObjectURL(obj)
 
 ///|
 #alias(createObjectURL)
-pub fn URL::create_object_url(obj : Val) -> String {
+pub fn URL::create_object_url(obj : Js) -> String {
   unsafe_cast(ffi_create_object_url(obj))
 }
 
 ///|
-extern "js" fn ffi_revoke_object_url(url : String) -> Val =
+extern "js" fn ffi_revoke_object_url(url : String) -> Js =
   #| (url) => URL.revokeObjectURL(url)
 
 ///|

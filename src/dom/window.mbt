@@ -27,14 +27,14 @@ pub fn Window::document(self : Self) -> Document {
 ///|
 /// Returns the navigator object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
-pub fn Window::navigator(self : Self) -> Val {
+pub fn Window::navigator(self : Self) -> Js {
   unsafe_cast(self.get("navigator"))
 }
 
 ///|
 /// Returns the location object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/location
-pub fn Window::location(self : Self) -> Val {
+pub fn Window::location(self : Self) -> Js {
   unsafe_cast(self.get("location"))
 }
 
@@ -42,7 +42,7 @@ pub fn Window::location(self : Self) -> Val {
 /// Returns the localStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 #alias(local_storage)
-pub fn Window::localStorage(self : Self) -> Val {
+pub fn Window::localStorage(self : Self) -> Js {
   unsafe_cast(self.get("localStorage"))
 }
 
@@ -50,21 +50,21 @@ pub fn Window::localStorage(self : Self) -> Val {
 /// Returns the sessionStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 #alias(session_storage)
-pub fn Window::sessionStorage(self : Self) -> Val {
+pub fn Window::sessionStorage(self : Self) -> Js {
   unsafe_cast(self.get("sessionStorage"))
 }
 
 ///|
 /// Returns the console object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/console
-pub fn Window::console(self : Self) -> Val {
+pub fn Window::console(self : Self) -> Js {
   unsafe_cast(self.get("console"))
 }
 
 ///|
 /// Returns the history object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/history
-pub fn Window::history(self : Self) -> Val {
+pub fn Window::history(self : Self) -> Js {
   unsafe_cast(self.get("history"))
 }
 
@@ -103,7 +103,7 @@ pub fn Window::outerHeight(self : Self) -> Int {
 ///|
 /// Returns the screen object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/screen
-pub fn Window::screen(self : Self) -> Val {
+pub fn Window::screen(self : Self) -> Js {
   unsafe_cast(self.get("screen"))
 }
 
@@ -262,7 +262,7 @@ pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
 ///|
 /// Starts the process of fetching a resource from the network
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
-pub fn Window::fetch(self : Self, input : String, init? : Val) -> Promise[Val] {
+pub fn Window::fetch(self : Self, input : String, init? : Js) -> Promise[Js] {
   match init {
     Some(i) => self.invoke("fetch", [input, i]) |> unsafe_cast
     None => self.invoke("fetch", [input]) |> unsafe_cast
@@ -273,7 +273,7 @@ pub fn Window::fetch(self : Self, input : String, init? : Val) -> Promise[Val] {
 /// Returns a selection object representing selected text
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 #alias(get_selection)
-pub fn Window::getSelection(self : Self) -> Val? {
+pub fn Window::getSelection(self : Self) -> Js? {
   self.invoke("getSelection", []) |> unsafe_option
 }
 
@@ -285,7 +285,7 @@ pub fn Window::getComputedStyle(
   self : Self,
   element : Element,
   pseudo_elt? : String,
-) -> Val {
+) -> Js {
   match pseudo_elt {
     Some(p) =>
       self.invoke("getComputedStyle", [element.to_js(), p]) |> unsafe_cast
@@ -297,7 +297,7 @@ pub fn Window::getComputedStyle(
 /// Returns a media query list
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
-pub fn Window::matchMedia(self : Self, query : String) -> Val {
+pub fn Window::matchMedia(self : Self, query : String) -> Js {
   self.invoke("matchMedia", [query]) |> unsafe_cast
 }
 
@@ -307,7 +307,7 @@ pub fn Window::matchMedia(self : Self, query : String) -> Val {
 #alias(post_message)
 pub fn Window::postMessage(
   self : Self,
-  message : Val,
+  message : Js,
   target_origin : String,
 ) -> Unit {
   ignore(self.invoke("postMessage", [message, target_origin]))
@@ -318,7 +318,7 @@ pub fn Window::postMessage(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
 pub fn[T : Transferable] Window::post_message_with_transfer(
   self : Self,
-  message : Val,
+  message : Js,
   target_origin : String,
   transfer : Array[T],
 ) -> Unit {

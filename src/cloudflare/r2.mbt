@@ -34,7 +34,7 @@ pub fn R2Bucket::head(self : Self, key : String) -> Promise[R2Object?] {
 pub fn R2Bucket::put(
   self : Self,
   key : String,
-  value : Val,
+  value : Js,
 ) -> Promise[R2Object] {
   self.invoke("put", [key, value]) |> unsafe_cast
 }
@@ -44,7 +44,7 @@ pub fn R2Bucket::put(
 pub fn R2Bucket::put_with_options(
   self : Self,
   key : String,
-  value : Val,
+  value : Js,
   options : R2PutOptions,
 ) -> Promise[R2Object] {
   self.invoke("put", [key, value, options]) |> unsafe_cast
@@ -175,8 +175,8 @@ pub impl JsImpl for R2GetOptions with to_js(self) {
 pub(all) struct R2Conditional {
   etag_matches : String?
   etag_does_not_match : String?
-  uploaded_before : Val?
-  uploaded_after : Val?
+  uploaded_before : Js?
+  uploaded_after : Js?
 }
 
 ///|
@@ -191,7 +191,7 @@ pub(all) struct R2Range {
 /// Options for R2 put operations
 pub(all) struct R2PutOptions {
   http_metadata : R2HttpMetadata?
-  custom_metadata : Val?
+  custom_metadata : Js?
   md5 : String?
   sha1 : String?
   sha256 : String?
@@ -241,7 +241,7 @@ pub(all) struct R2HttpMetadata {
   content_disposition : String?
   content_encoding : String?
   cache_control : String?
-  cache_expiry : Val?
+  cache_expiry : Js?
 }
 
 ///|
@@ -357,25 +357,25 @@ pub fn R2Object::etag(self : Self) -> String {
 
 ///|
 /// Get object HTTP metadata
-pub fn R2Object::http_metadata(self : Self) -> Val {
+pub fn R2Object::http_metadata(self : Self) -> Js {
   self.get("httpMetadata")
 }
 
 ///|
 /// Get object custom metadata
-pub fn R2Object::custom_metadata(self : Self) -> Val {
+pub fn R2Object::custom_metadata(self : Self) -> Js {
   self.get("customMetadata")
 }
 
 ///|
 /// Get object uploaded time
-pub fn R2Object::uploaded(self : Self) -> Val {
+pub fn R2Object::uploaded(self : Self) -> Js {
   self.get("uploaded")
 }
 
 ///|
 /// Get object body as ArrayBuffer
-pub fn R2Object::array_buffer(self : Self) -> Promise[Val] {
+pub fn R2Object::array_buffer(self : Self) -> Promise[Js] {
   self.invoke("arrayBuffer", []) |> unsafe_cast
 }
 
@@ -387,19 +387,19 @@ pub fn R2Object::text(self : Self) -> Promise[String] {
 
 ///|
 /// Get object body as JSON
-pub fn R2Object::json(self : Self) -> Promise[Val] {
+pub fn R2Object::json(self : Self) -> Promise[Js] {
   self.invoke("json", []) |> unsafe_cast
 }
 
 ///|
 /// Get object body as blob
-pub fn R2Object::blob(self : Self) -> Promise[Val] {
+pub fn R2Object::blob(self : Self) -> Promise[Js] {
   self.invoke("blob", []) |> unsafe_cast
 }
 
 ///|
 /// Get object body
-pub fn R2Object::body(self : Self) -> Val {
+pub fn R2Object::body(self : Self) -> Js {
   self.get("body")
 }
 
@@ -411,7 +411,7 @@ pub fn R2Object::body_used(self : Self) -> Bool {
 
 ///|
 /// Write object to a writable stream
-pub fn R2Object::write_http_metadata(self : Self, headers : Val) -> Unit {
+pub fn R2Object::write_http_metadata(self : Self, headers : Js) -> Unit {
   self.invoke("writeHttpMetadata", [headers]) |> unsafe_cast
 }
 
@@ -452,7 +452,7 @@ pub fn R2MultipartUpload::upload_id(self : Self) -> String {
 pub fn R2MultipartUpload::upload_part(
   self : Self,
   part_number : Int,
-  value : Val,
+  value : Js,
 ) -> Promise[R2UploadedPart] {
   self.invoke("uploadPart", [part_number, value]) |> unsafe_cast
 }

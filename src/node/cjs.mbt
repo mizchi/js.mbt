@@ -1,6 +1,6 @@
 ///|
 /// Node.js: require(moduleName)
-pub extern "js" fn require(module_name : String) -> @js.Val =
+pub extern "js" fn require(module_name : String) -> @js.Js =
   #| (moduleName) => require(moduleName)
 
 ///|

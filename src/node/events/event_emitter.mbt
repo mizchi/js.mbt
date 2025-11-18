@@ -1,26 +1,26 @@
 /// https://nodejs.org/api/events.html#emittereventnames
 
 ///|
-using @js {trait JsImpl, type Val, unsafe_cast, js}
+using @js {trait JsImpl, type Js, unsafe_cast, js}
 
 ///|
 /// EventEmitter trait for Node.js event emitter pattern
 pub(open) trait EventEmitterImpl: JsImpl {
-  on(Self, String, (Val) -> Unit) -> Unit = _
-  on2(Self, String, (Val, Val) -> Unit) -> Unit = _
-  once(Self, String, (Val) -> Unit) -> Unit = _
+  on(Self, String, (Js) -> Unit) -> Unit = _
+  on2(Self, String, (Js?, Js) -> Unit) -> Unit = _
+  once(Self, String, (Js) -> Unit) -> Unit = _
   eventNames(Self) -> Array[String] = _
   listenerCount(Self, String) -> Int = _
-  listeners(Self, event? : String) -> Array[(Val) -> Unit] = _
-  off(Self, String, (Val) -> Unit) -> Unit = _
-  removeListener(Self, String, (Val) -> Unit) -> Unit = _
+  listeners(Self, event? : String) -> Array[(Js) -> Unit] = _
+  off(Self, String, (Js) -> Unit) -> Unit = _
+  removeListener(Self, String, (Js) -> Unit) -> Unit = _
   removeAllListeners(Self) -> Unit = _
-  emit(Self, String, Val) -> Unit = _
+  emit(Self, String, Js) -> Unit = _
 }
 
 ///|
 /// Implement EventEmitter trait for EventEmitterClass
-impl EventEmitterImpl with on(self, name : String, callback : (Val) -> Unit) -> Unit {
+impl EventEmitterImpl with on(self, name : String, callback : (Js) -> Unit) -> Unit {
   self.invoke("on", [name, callback |> @js.from_fn1]) |> unsafe_cast
 }
 
@@ -28,13 +28,13 @@ impl EventEmitterImpl with on(self, name : String, callback : (Val) -> Unit) -> 
 impl EventEmitterImpl with on2(
   self,
   name : String,
-  callback : (Val, Val) -> Unit,
+  callback : (Js?, Js) -> Unit,
 ) -> Unit {
   self.invoke("on", [name, callback |> @js.from_fn2]) |> unsafe_cast
 }
 
 ///|
-impl EventEmitterImpl with once(self, name : String, callback : (Val) -> Unit) -> Unit {
+impl EventEmitterImpl with once(self, name : String, callback : (Js) -> Unit) -> Unit {
   self.invoke("once", [name, callback |> @js.from_fn1]) |> unsafe_cast
 }
 
@@ -57,7 +57,7 @@ impl EventEmitterImpl with listeners(self, event? : String) {
 }
 
 ///|
-impl EventEmitterImpl with off(self, name : String, callback : (Val) -> Unit) -> Unit {
+impl EventEmitterImpl with off(self, name : String, callback : (Js) -> Unit) -> Unit {
   self.invoke("off", [name, callback |> @js.from_fn1]) |> unsafe_cast
 }
 
@@ -65,7 +65,7 @@ impl EventEmitterImpl with off(self, name : String, callback : (Val) -> Unit) ->
 impl EventEmitterImpl with removeListener(
   self,
   name : String,
-  callback : (Val) -> Unit,
+  callback : (Js) -> Unit,
 ) -> Unit {
   self.invoke("removeListener", [name, callback |> unsafe_cast]) |> unsafe_cast
 }
@@ -77,7 +77,7 @@ impl EventEmitterImpl with removeAllListeners(self) -> Unit {
 }
 
 ///|
-impl EventEmitterImpl with emit(self, name : String, payload : Val) -> Unit {
+impl EventEmitterImpl with emit(self, name : String, payload : Js) -> Unit {
   self.invoke("emit", [name, payload]) |> unsafe_cast
 }
 

@@ -1,7 +1,7 @@
 // WIP
 
 ///|
-using @js {type Val, trait JsImpl, js, unsafe_cast}
+using @js {type Js, trait JsImpl, js, unsafe_cast}
 
 ///|
 pub(all) enum MessageContent {
@@ -57,7 +57,7 @@ pub fn Ai::generate_text(
   model~ : Model,
   messages~ : Array[ModelMessage],
   // prompt?: String
-) -> @promise.Promise[Val] {
+) -> @promise.Promise[Js] {
   unsafe_cast(
     self
     .to_js()

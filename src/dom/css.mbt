@@ -13,7 +13,7 @@ pub impl JsImpl for CSSStyleDeclaration
 
 ///|
 /// Returns a CSS style declaration from a Val
-pub fn css_style_from_val(val : Val) -> CSSStyleDeclaration {
+pub fn css_style_from_val(val : Js) -> CSSStyleDeclaration {
   unsafe_cast(val)
 }
 
@@ -140,7 +140,7 @@ pub impl JsImpl for CSSStyleSheet
 ///|
 /// Returns the CSS rules
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/cssRules
-pub fn CSSStyleSheet::css_rules(self : Self) -> Val {
+pub fn CSSStyleSheet::css_rules(self : Self) -> Js {
   self.get("cssRules")
 }
 
@@ -170,7 +170,7 @@ pub fn CSSStyleSheet::delete_rule(self : Self, index : Int) -> Unit {
 
 ///|
 /// Returns the owner node
-pub fn CSSStyleSheet::owner_node(self : Self) -> Val? {
+pub fn CSSStyleSheet::owner_node(self : Self) -> Js? {
   self.get("ownerNode") |> unsafe_option()
 }
 
@@ -200,7 +200,7 @@ pub fn CSSStyleSheet::title(self : Self) -> String? {
 
 ///|
 /// Returns the stylesheet's media
-pub fn CSSStyleSheet::media(self : Self) -> Val {
+pub fn CSSStyleSheet::media(self : Self) -> Js {
   self.get("media")
 }
 
@@ -305,7 +305,7 @@ pub fn cssSupportsCondition(condition : String) -> Bool {
 ///|
 /// Access document stylesheets
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/styleSheets
-pub fn Document::style_sheets(self : Self) -> Val {
+pub fn Document::style_sheets(self : Self) -> Js {
   self.get("styleSheets")
 }
 

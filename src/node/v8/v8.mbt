@@ -3,7 +3,7 @@
 
 ///|
 /// V8 Module FFI
-extern "js" fn ffi_require_v8() -> Val =
+extern "js" fn ffi_require_v8() -> Js =
   #|() => require("node:v8")
 
 ///| Heap Statistics Functions
@@ -11,7 +11,7 @@ extern "js" fn ffi_require_v8() -> Val =
 ///|
 /// Get heap statistics
 #alias(get_heap_statistics)
-pub fn getHeapStatistics() -> Val {
+pub fn getHeapStatistics() -> Js {
   let v8 = ffi_require_v8()
   v8.invoke("getHeapStatistics", [])
 }
@@ -19,7 +19,7 @@ pub fn getHeapStatistics() -> Val {
 ///|
 /// Get heap space statistics
 #alias(get_heap_space_statistics)
-pub fn getHeapSpaceStatistics() -> Array[Val] {
+pub fn getHeapSpaceStatistics() -> Array[Js] {
   let v8 = ffi_require_v8()
   unsafe_cast(v8.invoke("getHeapSpaceStatistics", []))
 }
@@ -27,7 +27,7 @@ pub fn getHeapSpaceStatistics() -> Array[Val] {
 ///|
 /// Get heap code statistics
 #alias(get_heap_code_statistics)
-pub fn getHeapCodeStatistics() -> Val {
+pub fn getHeapCodeStatistics() -> Js {
   let v8 = ffi_require_v8()
   v8.invoke("getHeapCodeStatistics", [])
 }
@@ -38,7 +38,7 @@ pub fn getHeapCodeStatistics() -> Val {
 pub fn getHeapSnapshot(
   expose_internals? : Bool,
   expose_numeric_values? : Bool,
-) -> Val {
+) -> Js {
   let v8 = ffi_require_v8()
   match (expose_internals, expose_numeric_values) {
     (None, None) => v8.invoke("getHeapSnapshot", [])
@@ -87,7 +87,7 @@ pub fn serialize(value : &JsImpl) -> Buffer {
 
 ///|
 /// Deserialize a Buffer to a value
-pub fn deserialize(buffer : Buffer) -> Val {
+pub fn deserialize(buffer : Buffer) -> Js {
   let v8 = ffi_require_v8()
   v8.invoke("deserialize", [buffer.to_js()])
 }
@@ -102,7 +102,7 @@ pub type Serializer
 pub impl JsImpl for Serializer
 
 ///|
-extern "js" fn ffi_new_serializer() -> Val =
+extern "js" fn ffi_new_serializer() -> Js =
   #|() => { const v8 = require("node:v8"); return new v8.Serializer(); }
 
 ///|
@@ -174,7 +174,7 @@ pub type Deserializer
 pub impl JsImpl for Deserializer
 
 ///|
-extern "js" fn ffi_new_deserializer(buffer : Val) -> Val =
+extern "js" fn ffi_new_deserializer(buffer : Js) -> Js =
   #|(buffer) => { const v8 = require("node:v8"); return new v8.Deserializer(buffer); }
 
 ///|
@@ -193,7 +193,7 @@ pub fn Deserializer::readHeader(self : Self) -> Bool {
 ///|
 /// Read a value
 #alias(read_value)
-pub fn Deserializer::readValue(self : Self) -> Val {
+pub fn Deserializer::readValue(self : Self) -> Js {
   self.invoke("readValue", [])
 }
 

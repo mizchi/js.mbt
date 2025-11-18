@@ -1,12 +1,12 @@
 ///|
-extern "js" fn ffi_new_url_pattern(pattern : @js.Val) -> @js.Val =
+extern "js" fn ffi_new_url_pattern(pattern : @js.Js) -> @js.Js =
   #|(pattern) => new URLPattern(pattern)
 
 ///|
 extern "js" fn ffi_new_url_pattern_with_base(
-  pattern : @js.Val,
+  pattern : @js.Js,
   base : String,
-) -> @js.Val =
+) -> @js.Js =
   #|(pattern, base) => new URLPattern(pattern, base)
 
 ///|
@@ -14,7 +14,7 @@ extern "js" fn ffi_new_url_pattern_with_base(
 pub type URLPattern
 
 ///|
-pub impl @js.JsImpl for URLPattern with to_js(self) -> @js.Val {
+pub impl @js.JsImpl for URLPattern with to_js(self) -> @js.Js {
   self |> @js.js
 }
 
@@ -23,7 +23,7 @@ pub impl @js.JsImpl for URLPattern with to_js(self) -> @js.Val {
 pub type URLPatternResult
 
 ///|
-pub impl @js.JsImpl for URLPatternResult with to_js(self) -> @js.Val {
+pub impl @js.JsImpl for URLPatternResult with to_js(self) -> @js.Js {
   self |> @js.js
 }
 
@@ -41,7 +41,7 @@ pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
 /// Create a new URLPattern from a pattern object
 #alias(new_from_object)
 pub fn URLPattern::newFromObject(
-  pattern : @js.Val,
+  pattern : @js.Js,
   base? : String,
 ) -> URLPattern {
   match base {
@@ -125,7 +125,7 @@ pub fn URLPattern::test_url_with_base(
 }
 
 ///|
-extern "js" fn ffi_is_null(v : @js.Val) -> Bool =
+extern "js" fn ffi_is_null(v : @js.Js) -> Bool =
   #|(v) => v === null
 
 ///|
@@ -160,7 +160,7 @@ pub fn URLPattern::execWithBase(
 
 ///|
 /// Get the inputs from the pattern result
-pub fn URLPatternResult::inputs(self : Self) -> @js.Val {
+pub fn URLPatternResult::inputs(self : Self) -> @js.Js {
   self.to_js().get("inputs")
 }
 
@@ -169,66 +169,66 @@ pub fn URLPatternResult::inputs(self : Self) -> @js.Val {
 fn get_component_result(
   result : URLPatternResult,
   component : String,
-) -> @js.Val {
+) -> @js.Js {
   result.to_js().get(component)
 }
 
 ///|
 /// Get the protocol component result
-pub fn URLPatternResult::protocol(self : Self) -> @js.Val {
+pub fn URLPatternResult::protocol(self : Self) -> @js.Js {
   get_component_result(self, "protocol")
 }
 
 ///|
 /// Get the username component result
-pub fn URLPatternResult::username(self : Self) -> @js.Val {
+pub fn URLPatternResult::username(self : Self) -> @js.Js {
   get_component_result(self, "username")
 }
 
 ///|
 /// Get the password component result
-pub fn URLPatternResult::password(self : Self) -> @js.Val {
+pub fn URLPatternResult::password(self : Self) -> @js.Js {
   get_component_result(self, "password")
 }
 
 ///|
 /// Get the hostname component result
-pub fn URLPatternResult::hostname(self : Self) -> @js.Val {
+pub fn URLPatternResult::hostname(self : Self) -> @js.Js {
   get_component_result(self, "hostname")
 }
 
 ///|
 /// Get the port component result
-pub fn URLPatternResult::port(self : Self) -> @js.Val {
+pub fn URLPatternResult::port(self : Self) -> @js.Js {
   get_component_result(self, "port")
 }
 
 ///|
 /// Get the pathname component result
-pub fn URLPatternResult::pathname(self : Self) -> @js.Val {
+pub fn URLPatternResult::pathname(self : Self) -> @js.Js {
   get_component_result(self, "pathname")
 }
 
 ///|
 /// Get the search component result
-pub fn URLPatternResult::search(self : Self) -> @js.Val {
+pub fn URLPatternResult::search(self : Self) -> @js.Js {
   get_component_result(self, "search")
 }
 
 ///|
 /// Get the hash component result
-pub fn URLPatternResult::hash(self : Self) -> @js.Val {
+pub fn URLPatternResult::hash(self : Self) -> @js.Js {
   get_component_result(self, "hash")
 }
 
 ///|
 /// Get the input value from a component result
-pub fn get_component_input(component : @js.Val) -> String {
+pub fn get_component_input(component : @js.Js) -> String {
   unsafe_cast(component.get("input"))
 }
 
 ///|
 /// Get the groups from a component result
-pub fn get_component_groups(component : @js.Val) -> @js.Val {
+pub fn get_component_groups(component : @js.Js) -> @js.Js {
   component.get("groups")
 }

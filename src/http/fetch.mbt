@@ -1,5 +1,5 @@
 ///|
-extern "js" fn ffi_fetch(url : String, init : Val) -> Promise[Response] =
+extern "js" fn ffi_fetch(url : String, init : Js) -> Promise[Response] =
   #| (url, init) => fetch(url, init)
 
 ///|

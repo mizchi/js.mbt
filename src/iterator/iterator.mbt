@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait JsImpl, js, unsafe_cast}
+using @js {type Js, trait JsImpl, js, unsafe_cast}
 
 ///|
 using @promise {type Promise}
@@ -15,7 +15,7 @@ pub impl[T] JsImpl for JsIterator[T]
 ///|
 /// JS: iterator.next()
 pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
-  let v : Val = self.invoke("next", []) |> unsafe_cast
+  let v : Js = self.invoke("next", []) |> unsafe_cast
   if unsafe_cast(v.get("done")) {
     None
   } else {
@@ -40,8 +40,8 @@ pub impl[T] JsImpl for AsyncIterator[T]
 ///|
 /// JS: asyncIterator.next()
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
-  let v : Promise[Val] = unsafe_cast(self.invoke("next", []))
-  let v : Val = v.unwrap()
+  let v : Promise[Js] = unsafe_cast(self.invoke("next", []))
+  let v : Js = v.unwrap()
   if unsafe_cast(v.get("done")) {
     None
   } else {

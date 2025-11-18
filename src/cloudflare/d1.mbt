@@ -36,7 +36,7 @@ pub fn D1Database::batch(
 
 ///|
 /// Dump the entire database
-pub fn D1Database::dump(self : Self) -> Promise[Val] {
+pub fn D1Database::dump(self : Self) -> Promise[Js] {
   self.invoke("dump", []) |> unsafe_cast
 }
 
@@ -51,7 +51,7 @@ pub impl JsImpl for D1PreparedStatement
 ///|
 /// Bind parameters to a prepared statement
 /// Note: This wraps parameters in an array and spreads them to match Cloudflare's API
-pub fn D1PreparedStatement::bind(self : Self, params : Array[Val]) -> Self {
+pub fn D1PreparedStatement::bind(self : Self, params : Array[Js]) -> Self {
   // Cloudflare's bind() expects variadic arguments, not an array
   // We need to spread the array when calling bind
   let stmt_js = self.to_js()
@@ -71,13 +71,13 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[Val]) -> Self {
 
 ///|
 /// Bind a single parameter
-pub fn D1PreparedStatement::bind1(self : Self, param : Val) -> Self {
+pub fn D1PreparedStatement::bind1(self : Self, param : Js) -> Self {
   self.bind([param])
 }
 
 ///|
 /// Bind two parameters
-pub fn D1PreparedStatement::bind2(self : Self, p1 : Val, p2 : Val) -> Self {
+pub fn D1PreparedStatement::bind2(self : Self, p1 : Js, p2 : Js) -> Self {
   self.bind([p1, p2])
 }
 
@@ -85,16 +85,16 @@ pub fn D1PreparedStatement::bind2(self : Self, p1 : Val, p2 : Val) -> Self {
 /// Bind three parameters
 pub fn D1PreparedStatement::bind3(
   self : Self,
-  p1 : Val,
-  p2 : Val,
-  p3 : Val,
+  p1 : Js,
+  p2 : Js,
+  p3 : Js,
 ) -> Self {
   self.bind([p1, p2, p3])
 }
 
 ///|
 /// Execute the statement and return first row
-pub fn D1PreparedStatement::first(self : Self) -> Promise[Val?] {
+pub fn D1PreparedStatement::first(self : Self) -> Promise[Js?] {
   self.invoke("first", []) |> unsafe_cast
 }
 
@@ -103,7 +103,7 @@ pub fn D1PreparedStatement::first(self : Self) -> Promise[Val?] {
 pub fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
-) -> Promise[Val?] {
+) -> Promise[Js?] {
   self.invoke("first", [col_name]) |> unsafe_cast
 }
 
@@ -121,7 +121,7 @@ pub fn D1PreparedStatement::run(self : Self) -> Promise[D1Result] {
 
 ///|
 /// Execute and return raw results
-pub fn D1PreparedStatement::raw(self : Self) -> Promise[Array[Val]] {
+pub fn D1PreparedStatement::raw(self : Self) -> Promise[Array[Js]] {
   self.invoke("raw", []) |> unsafe_cast
 }
 
@@ -130,7 +130,7 @@ pub fn D1PreparedStatement::raw(self : Self) -> Promise[Array[Val]] {
 pub fn D1PreparedStatement::raw_with_options(
   self : Self,
   options : D1RawOptions,
-) -> Promise[Array[Val]] {
+) -> Promise[Array[Js]] {
   self.invoke("raw", [options.to_js()]) |> unsafe_cast
 }
 
@@ -153,7 +153,7 @@ pub impl JsImpl for D1RawOptions with to_js(self) {
 ///|
 /// Result of a D1 query
 pub(all) struct D1Result {
-  results : Array[Val]?
+  results : Array[Js]?
   success : Bool
   meta : D1Meta?
   error : String?
@@ -164,7 +164,7 @@ pub impl JsImpl for D1Result
 
 ///|
 /// Get results from D1Result
-pub fn D1Result::get_results(self : Self) -> Array[Val] {
+pub fn D1Result::get_results(self : Self) -> Array[Js] {
   match self.results {
     Some(r) => r
     None => []

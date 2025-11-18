@@ -20,7 +20,7 @@ pub impl JsImpl for WebAssemblyInstance
 
 ///|
 /// Get the exports object from a WebAssembly instance
-pub fn WebAssemblyInstance::exports(self : Self) -> Val {
+pub fn WebAssemblyInstance::exports(self : Self) -> Js {
   self.get("exports")
 }
 
@@ -53,7 +53,7 @@ pub(all) struct MemoryDescriptor {
 }
 
 ///|
-extern "js" fn ffi_new_memory(descriptor : Val) -> WebAssemblyMemory =
+extern "js" fn ffi_new_memory(descriptor : Js) -> WebAssemblyMemory =
   #| (descriptor) => new WebAssembly.Memory(descriptor)
 
 ///|
@@ -87,13 +87,13 @@ pub fn WebAssemblyTable::length(self : Self) -> Int {
 
 ///|
 /// Set a value in the table at the given index
-pub fn WebAssemblyTable::set(self : Self, index : Int, value : Val) -> Unit {
+pub fn WebAssemblyTable::set(self : Self, index : Int, value : Js) -> Unit {
   ignore(self.invoke("set", [js(index), value]))
 }
 
 ///|
 /// Grow the table by delta elements
-pub fn WebAssemblyTable::grow(self : Self, delta : Int, value : Val) -> Int {
+pub fn WebAssemblyTable::grow(self : Self, delta : Int, value : Js) -> Int {
   self.invoke("grow", [js(delta), value]) |> unsafe_cast
 }
 
@@ -106,7 +106,7 @@ pub(all) struct TableDescriptor {
 }
 
 ///|
-extern "js" fn ffi_new_table(descriptor : Val) -> WebAssemblyTable =
+extern "js" fn ffi_new_table(descriptor : Js) -> WebAssemblyTable =
   #| (descriptor) => new WebAssembly.Table(descriptor)
 
 ///|
@@ -132,13 +132,13 @@ pub impl JsImpl for WebAssemblyGlobal
 
 ///|
 /// Get the value of the global
-pub fn WebAssemblyGlobal::value(self : Self) -> Val {
+pub fn WebAssemblyGlobal::value(self : Self) -> Js {
   self.get("value")
 }
 
 ///|
 /// Set the value of the global (only for mutable globals)
-pub fn WebAssemblyGlobal::set_value(self : Self, value : Val) -> Unit {
+pub fn WebAssemblyGlobal::set_value(self : Self, value : Js) -> Unit {
   self.set("value", value)
 }
 
@@ -151,8 +151,8 @@ pub(all) struct GlobalDescriptor {
 
 ///|
 extern "js" fn ffi_new_global(
-  descriptor : Val,
-  value : Val,
+  descriptor : Js,
+  value : Js,
 ) -> WebAssemblyGlobal =
   #| (descriptor, value) => new WebAssembly.Global(descriptor, value)
 
@@ -160,7 +160,7 @@ extern "js" fn ffi_new_global(
 /// Create a new WebAssembly global
 pub fn WebAssemblyGlobal::new(
   descriptor : GlobalDescriptor,
-  value : Val,
+  value : Js,
 ) -> WebAssemblyGlobal {
   let obj = @js.from_map({
     "value": js(descriptor.value),
@@ -170,7 +170,7 @@ pub fn WebAssemblyGlobal::new(
 }
 
 ///|
-extern "js" fn ffi_new_module(bytes : Val) -> WebAssemblyModule =
+extern "js" fn ffi_new_module(bytes : Js) -> WebAssemblyModule =
   #| (bytes) => new WebAssembly.Module(bytes)
 
 ///|
@@ -190,7 +190,7 @@ pub fn WebAssemblyModule::from_buffer(
 ///|
 extern "js" fn ffi_new_instance(
   wasm_module : WebAssemblyModule,
-  import_object : Val,
+  import_object : Js,
 ) -> WebAssemblyInstance =
   #| (module, importObject) => new WebAssembly.Instance(module, importObject)
 
@@ -198,7 +198,7 @@ extern "js" fn ffi_new_instance(
 /// Instantiate a WebAssembly module
 pub fn WebAssemblyInstance::from_module(
   wasm_module : WebAssemblyModule,
-  import_object : Val?,
+  import_object : Js?,
 ) -> WebAssemblyInstance {
   let imports = match import_object {
     Some(obj) => obj
@@ -208,14 +208,14 @@ pub fn WebAssemblyInstance::from_module(
 }
 
 ///|
-extern "js" fn ffi_instantiate(bytes : Val, import_object : Val) -> Val =
+extern "js" fn ffi_instantiate(bytes : Js, import_object : Js) -> Js =
   #| async (bytes, importObject) => await WebAssembly.instantiate(bytes, importObject)
 
 ///|
 /// Compile and instantiate a WebAssembly module from bytes
 pub fn instantiate_bytes(
   bytes : Uint8Array,
-  import_object : Val?,
+  import_object : Js?,
 ) -> (WebAssemblyModule, WebAssemblyInstance) {
   let imports = match import_object {
     Some(obj) => obj
@@ -231,7 +231,7 @@ pub fn instantiate_bytes(
 /// Compile and instantiate a WebAssembly module from a module
 pub fn instantiate_module(
   wasm_module : WebAssemblyModule,
-  import_object : Val?,
+  import_object : Js?,
 ) -> WebAssemblyInstance {
   let imports = match import_object {
     Some(obj) => obj
@@ -241,7 +241,7 @@ pub fn instantiate_module(
 }
 
 ///|
-extern "js" fn ffi_validate(bytes : Val) -> Bool =
+extern "js" fn ffi_validate(bytes : Js) -> Bool =
   #| (bytes) => WebAssembly.validate(bytes)
 
 ///|
@@ -251,11 +251,11 @@ pub fn validate(bytes : Uint8Array) -> Bool {
 }
 
 ///|
-extern "js" fn ffi_compile(bytes : Val) -> Val =
+extern "js" fn ffi_compile(bytes : Js) -> Js =
   #| async (bytes) => await WebAssembly.compile(bytes)
 
 ///|
 /// Compile a WebAssembly module (async)
-pub fn compile(bytes : Uint8Array) -> Val {
+pub fn compile(bytes : Uint8Array) -> Js {
   ffi_compile(bytes.to_js())
 }

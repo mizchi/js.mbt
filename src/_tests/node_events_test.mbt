@@ -3,7 +3,7 @@ test {
   it("EventEmitter on/emit/off", _ => {
     let emitter = @events.EventEmitter::new()
     let mut received = 0
-    let callback = (_data : Val) => run_async(() => {
+    let callback = (_data : Js) => run_async(() => {
       sleep(1)
       let v : Int = unsafe_cast(_data)
       received += v

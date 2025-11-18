@@ -59,7 +59,7 @@ pub fn HTMLCanvasElement::setHeight(self : Self, value : Int) -> Unit {
 
 ///|
 /// Canvas methods
-pub fn HTMLCanvasElement::getContext(self : Self, context_type : String) -> Val {
+pub fn HTMLCanvasElement::getContext(self : Self, context_type : String) -> Js {
   self.invoke("getContext", [context_type])
 }
 

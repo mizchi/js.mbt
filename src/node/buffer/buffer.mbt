@@ -7,7 +7,7 @@ pub impl JsImpl for Buffer
 
 ///|
 /// Get the Buffer constructor
-fn buffer_constructor() -> Val {
+fn buffer_constructor() -> Js {
   @node.require("node:buffer").get("Buffer")
 }
 
@@ -59,7 +59,7 @@ pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
 /// Allocate a new zero-filled buffer
 pub fn Buffer::alloc(
   size : Int,
-  fill? : Val,
+  fill? : Js,
   encoding? : String = "utf-8",
 ) -> Buffer {
   let ctor = buffer_constructor()
@@ -205,7 +205,7 @@ pub fn Buffer::copy(
 /// Fill the buffer with a value
 pub fn Buffer::fill(
   self : Self,
-  value : Val,
+  value : Js,
   offset? : Int = 0,
   end? : Int,
   encoding? : String = "utf-8",
@@ -256,7 +256,7 @@ pub fn Buffer::compare_with(
 /// Check if the buffer includes a value
 pub fn Buffer::includes(
   self : Self,
-  value : Val,
+  value : Js,
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Bool {
@@ -268,7 +268,7 @@ pub fn Buffer::includes(
 #alias(index_of)
 pub fn Buffer::indexOf(
   self : Self,
-  value : Val,
+  value : Js,
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Int {
@@ -280,7 +280,7 @@ pub fn Buffer::indexOf(
 #alias(last_index_of)
 pub fn Buffer::lastIndexOf(
   self : Self,
-  value : Val,
+  value : Js,
   byte_offset? : Int,
   encoding? : String = "utf-8",
 ) -> Int {
@@ -293,11 +293,11 @@ pub fn Buffer::lastIndexOf(
 }
 
 ///|
-// extern "js" fn ffi_get_index(obj : Val, index : Int) -> Val =
+// extern "js" fn ffi_get_index(obj : Js, index : Int) -> Js =
 //   #|(obj, i) => obj[i]
 
 // ///|
-// extern "js" fn ffi_set_index(obj : Val, index : Int, value : Val) -> Unit =
+// extern "js" fn ffi_set_index(obj : Js, index : Int, value : Js) -> Unit =
 //   #|(obj, i, v) => { obj[i] = v }
 
 ///|
@@ -328,6 +328,6 @@ pub fn Buffer::byteOffset(self : Self) -> Int {
 ///|
 /// Convert buffer to JSON representation
 #alias(to_json)
-pub fn Buffer::toJSON(self : Self) -> Val {
+pub fn Buffer::toJSON(self : Self) -> Js {
   self.invoke("toJSON", [])
 }

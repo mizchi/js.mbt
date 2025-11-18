@@ -2,7 +2,7 @@
 //
 
 ///|
-using @js {trait JsImpl, type Val, unsafe_cast}
+using @js {trait JsImpl, type Js, unsafe_cast}
 
 ///|
 #external
@@ -46,7 +46,7 @@ pub fn fireEvent() -> FireEvent {
 
 ///|
 /// JS: fireEvent.click(target)
-pub fn FireEvent::click(self : FireEvent, target : Val) -> Unit {
+pub fn FireEvent::click(self : FireEvent, target : Js) -> Unit {
   self.invoke("click", [target]) |> ignore
 }
 
@@ -72,12 +72,12 @@ pub fn Screen::debug(self : Self) -> Unit {
 
 ///|
 /// JS: screen.getByText(text)
-pub fn Screen::getByText(self : Screen, text : String) -> Val {
+pub fn Screen::getByText(self : Screen, text : String) -> Js {
   self.invoke("getByText", [text]) |> unsafe_cast
 }
 
 ///|
 /// JS: screen.getByRole(role)
-pub fn Screen::getByRole(self : Screen, role : String) -> Val {
+pub fn Screen::getByRole(self : Screen, role : String) -> Js {
   self.invoke("getByRole", [role]) |> unsafe_cast
 }

@@ -1,2 +1,2 @@
 ///|
-using @js {trait JsImpl, type Val, js, unsafe_cast, is_undefined}
+using @js {trait JsImpl, type Js, js, unsafe_cast, is_undefined}

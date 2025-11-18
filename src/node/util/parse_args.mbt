@@ -13,7 +13,7 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 }
 
 ///|
-impl JsImpl for ParseArgsOption with to_js(self) -> Val {
+impl JsImpl for ParseArgsOption with to_js(self) -> Js {
   match self {
     Boolean(short~, ..) => {
       let obj = @js.Object::new()
@@ -34,9 +34,9 @@ impl JsImpl for ParseArgsOption with to_js(self) -> Val {
 
 ///|
 pub(all) struct ParseArgsResult {
-  values : Map[String, Val]
+  values : Map[String, Js]
   positionals : Array[String]
-  tokens : Array[Val]?
+  tokens : Array[Js]?
 }
 
 ///|
@@ -63,10 +63,10 @@ pub fn parseArgs(
   )
   result.set("allowPositionals", allow_positionals)
   // result["tokens"] = tokens
-  let r : Val = unsafe_cast(
+  let r : Js = unsafe_cast(
     Util::require().get("parseArgs").invoke_self([result]),
   )
-  let values : Map[String, Val] = {}
+  let values : Map[String, Js] = {}
   let result_keys = r.get("values") |> @js.Object::keys
   for k in result_keys {
     values[k] = unsafe_cast(r.get("values").get(k))

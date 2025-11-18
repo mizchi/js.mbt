@@ -1,12 +1,12 @@
 ///|
-using @js {trait JsImpl, type Val, unsafe_cast}
+using @js {trait JsImpl, type Js, unsafe_cast}
 
 ///|
 using @events {trait EventEmitterImpl}
 
 ///|
 /// node:stream
-fn stream_module() -> Val {
+fn stream_module() -> Js {
   @node.require("node:stream")
 }
 

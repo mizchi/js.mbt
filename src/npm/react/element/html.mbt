@@ -1,7 +1,7 @@
 ///|
 fn common_node(
   tag_name : String,
-  attributes : Map[String, Val],
+  attributes : Map[String, Js],
   children~ : Array[&ReactNode],
   id~ : String?,
   class~ : String?,
@@ -21,7 +21,7 @@ fn common_node(
   on_dragover~ : DragEventHandler?,
   on_drop~ : DragEventHandler?,
 ) -> @react.Element {
-  let attr : Map[String, Val] = {}
+  let attr : Map[String, Js] = {}
   for k, v in attributes {
     attr[k] = v
   }
@@ -81,7 +81,7 @@ pub fn div(
   // common props
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -131,7 +131,7 @@ pub fn pre(
   // common props
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -181,7 +181,7 @@ pub fn blockquote(
   // common props
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -230,7 +230,7 @@ pub fn blockquote(
 pub fn span(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -279,7 +279,7 @@ pub fn span(
 pub fn nav(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -328,7 +328,7 @@ pub fn nav(
 pub fn p(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -383,7 +383,7 @@ pub fn textarea(
   default_value? : String,
   placeholder? : String,
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -404,7 +404,7 @@ pub fn textarea(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -455,7 +455,7 @@ pub fn textarea(
 ///|
 pub fn input(
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   name? : String,
@@ -481,7 +481,7 @@ pub fn input(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -530,7 +530,7 @@ pub fn input(
 pub fn main_(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -579,7 +579,7 @@ pub fn main_(
 pub fn header(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -629,7 +629,7 @@ pub fn header(
 pub fn footer(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -679,7 +679,7 @@ pub fn footer(
 pub fn ul(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -729,7 +729,7 @@ pub fn ul(
 pub fn ol(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -779,7 +779,7 @@ pub fn ol(
 pub fn article(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -828,7 +828,7 @@ pub fn article(
 pub fn aside(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -877,7 +877,7 @@ pub fn aside(
 pub fn section(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -927,7 +927,7 @@ pub fn section(
 pub type FormData
 
 ///|
-pub extern "js" fn FormData::get(self : FormData, key : String) -> Val =
+pub extern "js" fn FormData::get(self : FormData, key : String) -> Js =
   #| (formData, key) => formData.get(key)
 
 ///|
@@ -942,7 +942,7 @@ pub fn form(
   action? : (FormData) -> Unit,
   on_submit? : (@dom.FormEvent) -> Unit,
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -964,7 +964,7 @@ pub fn form(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -980,11 +980,11 @@ pub fn form(
     new_attributes.set("method", m |> js)
   }
   if on_submit is Some(f) {
-    let fn_value : Val = f |> js
+    let fn_value : Js = f |> js
     new_attributes.set("onSubmit", fn_value)
   }
   if action is Some(f) {
-    let fn_value : Val = f |> js
+    let fn_value : Js = f |> js
     new_attributes.set("action", fn_value)
   }
   if enc_type is Some(e) {
@@ -1022,7 +1022,7 @@ pub fn select(
   disabled? : Bool,
   name? : String,
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1043,7 +1043,7 @@ pub fn select(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -1088,7 +1088,7 @@ pub fn option(
   value~ : String,
   selected? : Bool,
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1110,7 +1110,7 @@ pub fn option(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -1149,7 +1149,7 @@ pub fn label(
   children : Array[&ReactNode],
   htmlFor : String,
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1171,7 +1171,7 @@ pub fn label(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -1206,7 +1206,7 @@ pub fn label(
 pub fn li(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1256,7 +1256,7 @@ pub fn li(
 pub fn code(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1306,7 +1306,7 @@ pub fn code(
 pub fn details(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1356,7 +1356,7 @@ pub fn details(
 pub fn summary(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1412,7 +1412,7 @@ pub fn a(
   target? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1434,7 +1434,7 @@ pub fn a(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -1485,7 +1485,7 @@ pub fn iframe(
   allowfullscreen? : Bool,
   loading? : String,
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1505,7 +1505,7 @@ pub fn iframe(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -1571,7 +1571,7 @@ pub fn img(
   sizes? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1593,7 +1593,7 @@ pub fn img(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -1659,7 +1659,7 @@ pub fn video(
   controls? : Bool,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1681,7 +1681,7 @@ pub fn video(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -1721,7 +1721,7 @@ pub fn source(
   type_? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1743,7 +1743,7 @@ pub fn source(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v
@@ -1780,7 +1780,7 @@ pub fn source(
 ///|
 pub fn hr(
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1830,7 +1830,7 @@ pub fn hr(
 pub fn h1(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1880,7 +1880,7 @@ pub fn h1(
 pub fn h2(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1930,7 +1930,7 @@ pub fn h2(
 pub fn h3(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1980,7 +1980,7 @@ pub fn h3(
 pub fn h4(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2030,7 +2030,7 @@ pub fn h4(
 pub fn h5(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2081,7 +2081,7 @@ pub fn button(
   children : Array[&ReactNode],
   type_? : String,
   disabled? : Bool,
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2100,7 +2100,7 @@ pub fn button(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Val] = {}
+  let new_attributes : Map[String, Js] = {}
   if attributes is Some(attrs) {
     for k, v in attrs {
       new_attributes[k] = v

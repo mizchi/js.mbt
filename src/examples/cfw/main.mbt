@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, js, log}
+using @js {type Js, js, log}
 
 ///|
 using @promise {run_async}

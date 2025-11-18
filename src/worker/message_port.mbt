@@ -38,7 +38,7 @@ pub fn MessagePort::post_message(port : MessagePort, message : &JsImpl) -> Unit 
 pub fn MessagePort::post_message_with_transfer(
   port : MessagePort,
   message : &JsImpl,
-  transfer : Array[Val],
+  transfer : Array[Js],
 ) -> Unit {
   let arr = @js.JsArray::new()
   let mut i = 0

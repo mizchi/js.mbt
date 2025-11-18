@@ -457,15 +457,15 @@ pub type ImageData
 pub impl JsImpl for ImageData
 
 ///|
-extern "js" fn ffi_new_image_data(width : Val, height : Val) -> Val =
+extern "js" fn ffi_new_image_data(width : Js, height : Js) -> Js =
   #|(width, height) => new ImageData(width, height)
 
 ///|
 extern "js" fn ffi_new_image_data_with_data(
-  data : Val,
-  width : Val,
-  height : Val,
-) -> Val =
+  data : Js,
+  width : Js,
+  height : Js,
+) -> Js =
   #|(data, width, height) => new ImageData(data, width, height)
 
 ///|
@@ -508,7 +508,7 @@ pub type ImageBitmap
 pub impl JsImpl for ImageBitmap
 
 ///|
-pub impl Transferable for ImageBitmap with to_transferable(self) -> Val {
+pub impl Transferable for ImageBitmap with to_transferable(self) -> Js {
   self.to_js()
 }
 
@@ -529,17 +529,17 @@ pub fn ImageBitmap::close(self : Self) -> Unit {
 
 ///|
 /// createImageBitmap
-extern "js" fn ffi_create_image_bitmap(image : Val) -> Val =
+extern "js" fn ffi_create_image_bitmap(image : Js) -> Js =
   #|(image) => createImageBitmap(image)
 
 ///|
 extern "js" fn ffi_create_image_bitmap_with_rect(
-  image : Val,
-  sx : Val,
-  sy : Val,
-  sw : Val,
-  sh : Val,
-) -> Val =
+  image : Js,
+  sx : Js,
+  sy : Js,
+  sw : Js,
+  sh : Js,
+) -> Js =
   #|(image, sx, sy, sw, sh) => createImageBitmap(image, sx, sy, sw, sh)
 
 ///|

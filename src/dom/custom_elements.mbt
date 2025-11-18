@@ -33,7 +33,7 @@ pub struct CustomElementCallbacks {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements
 extern "js" fn create_custom_element_class(
   callbacks : CustomElementCallbacks,
-) -> Val =
+) -> Js =
   #|(callbacks) => {
   #|  return class extends HTMLElement {
   #|    connectedCallback() {
@@ -69,7 +69,7 @@ pub fn CustomElementRegistry::define_(
 extern "js" fn create_custom_element_class_with_attributes(
   callbacks : CustomElementCallbacks,
   observedAttributes : Array[String],
-) -> Val =
+) -> Js =
   #|(callbacks, observedAttributes) => {
   #|  return class extends HTMLElement {
   #|    static get observedAttributes() {
@@ -107,7 +107,7 @@ pub fn CustomElementRegistry::define_element_with_attributes(
 ///|
 /// Returns the constructor for the custom element with the given name
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
-pub fn CustomElementRegistry::get(self : Self, name : String) -> Val? {
+pub fn CustomElementRegistry::get(self : Self, name : String) -> Js? {
   self.invoke("get", [name]) |> unsafe_option
 }
 
@@ -116,7 +116,7 @@ pub fn CustomElementRegistry::get(self : Self, name : String) -> Val? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/getName
 pub fn CustomElementRegistry::getName(
   self : Self,
-  element_constructor : Val,
+  element_constructor : Js,
 ) -> String? {
   self.invoke("getName", [element_constructor]) |> unsafe_option
 }

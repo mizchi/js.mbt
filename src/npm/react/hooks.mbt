@@ -22,7 +22,7 @@ pub fn[T: JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
 ///   ...
 /// }
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
-  let initial : () -> Val = unsafe_cast(initial)
+  let initial : () -> Js = unsafe_cast(initial)
   let result = ffi_react_use_state_lazy(initial)
   let value : T = unsafe_cast(result.get(0))
   let update_fn : (T) -> Unit = unsafe_cast(result.get(1))
@@ -114,11 +114,11 @@ pub type ReactRef[T]
 pub impl[T] JsImpl for ReactRef[T]
 
 ///|
-extern "js" fn current_internal(v : Val) -> Val =
+extern "js" fn current_internal(v : Js) -> Js =
   #| (v) => v.current
 
 ///|
-extern "js" fn set_current_internal(v : Val, o : Val) -> Unit =
+extern "js" fn set_current_internal(v : Js, o : Js) -> Unit =
   #| (v, o) => v.current = o
 
 ///|
@@ -183,7 +183,7 @@ pub fn[T, U] use_reducer(
 }
 
 ///|
-extern "js" fn use_action_state_internal(f : Val, initial : Val) -> Val =
+extern "js" fn use_action_state_internal(f : Js, initial : Js) -> Js =
   #| (f, initial) => {
   #|   return __ReactApi.useActionState(f, initial);
   #| }
@@ -195,7 +195,7 @@ pub fn[T, U] use_action_state(
   initial : T,
 ) -> (T, (U) -> Unit, Bool) {
   let w = @promise.promisify2((s, a) => f(s, a))
-  let val : Val = use_action_state_internal(w |> js, initial |> js)
+  let val : Js = use_action_state_internal(w |> js, initial |> js)
   (unsafe_cast(val.get(0)), unsafe_cast(val.get(1)), unsafe_cast(val.get(2)))
 }
 
@@ -214,12 +214,12 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 ///|
 /// wip
 /// ```moonbit skip
-/// extern "js" fn load_my_lazy_component() -> @js.Promise[Val] =
+/// extern "js" fn load_my_lazy_component() -> @js.Promise[Js] =
 ///   #| () => import("./MyLazyComponent")
 /// struct MyLazyComponentProps {}
 /// let my_lazy_component: (props: MyLazyComponentProps) -> Element =
 ///   lazy_(load_my_lazy_component)
 /// ```
-pub fn[T] lazy_(f : async () -> (T) -> Element) -> (EmptyProps) -> Promise[Val] {
+pub fn[T] lazy_(f : async () -> (T) -> Element) -> (EmptyProps) -> Promise[Js] {
   f |> @promise.promisify0 |> js |> ffi_react_lazy() |> unsafe_cast
 }

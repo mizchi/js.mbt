@@ -10,7 +10,7 @@ pub extern "js" fn Response::redirect(url : String, status? : Int) -> Response =
   #| (url, status) => Response
 
 ///|
-pub extern "js" fn Response::json_(data : Val, options? : Val) -> Response =
+pub extern "js" fn Response::json_(data : Js, options? : Js) -> Response =
   #| (data, options) => Response.json(data, options)
 
 ///|
@@ -18,7 +18,7 @@ pub extern "js" fn Response::error() -> Response =
   #| () => Response.error()
 
 ///|
-pub extern "js" fn Response::json(self : Self) -> Promise[Val] =
+pub extern "js" fn Response::json(self : Self) -> Promise[Js] =
   #| (v) => v.json()
 
 ///|

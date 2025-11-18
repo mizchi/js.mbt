@@ -12,7 +12,7 @@ pub fn Util::require() -> Self {
 
 ///|
 pub fn inspect_(
-  value : Val,
+  value : Js,
   depth? : Int,
   colors? : Bool,
   compact? : Bool,
@@ -37,7 +37,7 @@ pub fn inspect_(
 ///|
 pub fn Util::inspect(
   self : Self,
-  value : Val,
+  value : Js,
   depth? : Int,
   colors? : Bool,
   compact? : Bool,

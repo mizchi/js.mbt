@@ -6,7 +6,7 @@ pub fn svg(
   height~ : Int,
   view_box? : String,
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -68,7 +68,7 @@ pub fn circle(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -135,7 +135,7 @@ pub fn ellipse(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -206,7 +206,7 @@ pub fn rect(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -277,7 +277,7 @@ pub fn line(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -345,7 +345,7 @@ pub fn path(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -407,7 +407,7 @@ pub fn use_(
   href~ : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -463,7 +463,7 @@ pub fn polygon(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -528,7 +528,7 @@ pub fn polyline(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -593,7 +593,7 @@ pub fn g(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -652,7 +652,7 @@ pub fn g(
 pub fn defs(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -714,7 +714,7 @@ pub fn text(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -792,7 +792,7 @@ pub fn image(
   y~ : Int,
   href~ : String,
   // shared
-  attributes? : Map[String, Val],
+  attributes? : Map[String, Js],
   id? : String,
   class? : String,
   style? : Map[String, String],

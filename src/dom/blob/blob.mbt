@@ -10,7 +10,7 @@ pub impl JsImpl for Blob
 
 ///|
 /// Create a new Blob from array of data
-extern "js" fn ffi_new_blob(data : Val, options : Val) -> Val =
+extern "js" fn ffi_new_blob(data : Js, options : Js) -> Js =
   #|(data, options) => new Blob(data, options)
 
 ///|

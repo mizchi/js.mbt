@@ -1,10 +1,10 @@
 ///|
-using @js {type Val, trait JsImpl, js, log, trait EventTargetImpl}
+using @js {type Js, trait JsImpl, js, log, trait EventTargetImpl}
 
 ///|
 /// Transferable trait for objects that can be transferred via postMessage
 pub(open) trait Transferable {
-  to_transferable(Self) -> Val
+  to_transferable(Self) -> Js
 }
 
 ///|
@@ -33,7 +33,7 @@ pub impl JsImpl for Worker
 pub impl EventTargetImpl for Worker
 
 ///|
-extern "js" fn ffi_new_worker(script_url : String, option : Val) -> Worker =
+extern "js" fn ffi_new_worker(script_url : String, option : Js) -> Worker =
   #| (script_url) => new Worker(script_url)
 
 ///|
@@ -54,8 +54,8 @@ pub fn Worker::terminate(worker : Worker) -> Unit {
 ///|
 extern "js" fn ffi_worker_post_message(
   worker : Worker,
-  message : Val,
-  transfer : Val,
+  message : Js,
+  transfer : Js,
 ) -> Unit =
   #| (worker, message, transfer) => worker.postMessage(message, transfer)
 
@@ -69,7 +69,7 @@ pub fn Worker::postMessage(worker : Worker, message : &JsImpl) -> Unit {
 pub fn Worker::post_message_with_transfer(
   worker : Worker,
   message : &JsImpl,
-  transfer : Array[Val],
+  transfer : Array[Js],
 ) -> Unit {
   let arr = @js.JsArray::new()
   let mut i = 0
@@ -84,7 +84,7 @@ pub fn Worker::post_message_with_transfer(
 /// MessageEvent structure for Worker message events
 /// Access via Val from EventTarget trait's event listener
 pub(all) struct MessageEvent {
-  data : Val
+  data : Js
   origin : String
-  source : Val
+  source : Js
 }

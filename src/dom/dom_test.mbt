@@ -1,5 +1,5 @@
 ///|
-using @js {type Val}
+using @js {type Js}
 
 ///|
 test "dom test" {
