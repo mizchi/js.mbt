@@ -14,10 +14,10 @@ fn exec(String, (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val
 fn execFile(String, Array[String], (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 #alias(exec_file_sync)
-fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
+fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Val, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String
 
 #alias(exec_sync)
-fn execSync(String, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, input? : String, encoding? : String) -> String
+fn execSync(String, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String
 
 fn fork(String, args? : Array[String], cwd? : String, env? : @js.Val, silent? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
 

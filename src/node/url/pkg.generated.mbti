@@ -10,79 +10,19 @@ import(
 fn fileURLToPath(String, windows? : Bool) -> String
 
 #alias(file_url_to_path_from_url)
-fn fileURLToPathFromURL(URL, windows? : Bool) -> String
+fn fileURLToPathFromURL(@mizchi/js/url.URL, windows? : Bool) -> String
 
-fn format(URL) -> String
+fn format(@mizchi/js/url.URL) -> String
 
 #alias(path_to_file_url)
-fn pathToFileURL(String, windows? : Bool) -> URL
+fn pathToFileURL(String, windows? : Bool) -> @mizchi/js/url.URL
 
 #alias(url_to_http_options)
-fn urlToHttpOptions(URL) -> @js.Val
+fn urlToHttpOptions(@mizchi/js/url.URL) -> @js.Val
 
 // Errors
 
 // Types and methods
-#external
-pub type URL
-#alias(can_parse)
-fn URL::canParse(String, base? : String) -> Bool
-fn URL::hash(Self) -> String
-fn URL::host(Self) -> String
-fn URL::hostname(Self) -> String
-fn URL::href(Self) -> String
-fn URL::new(String, base? : String) -> Self
-fn URL::origin(Self) -> String
-fn URL::parse(String, base? : String) -> Self?
-fn URL::password(Self) -> String
-fn URL::pathname(Self) -> String
-fn URL::port(Self) -> String
-fn URL::protocol(Self) -> String
-fn URL::search(Self) -> String
-#alias(search_params)
-fn URL::searchParams(Self) -> URLSearchParams
-#alias(set_hash)
-fn URL::setHash(Self, String) -> Unit
-#alias(set_host)
-fn URL::setHost(Self, String) -> Unit
-#alias(set_hostname)
-fn URL::setHostname(Self, String) -> Unit
-#alias(set_href)
-fn URL::setHref(Self, String) -> Unit
-#alias(set_password)
-fn URL::setPassword(Self, String) -> Unit
-#alias(set_pathname)
-fn URL::setPathname(Self, String) -> Unit
-#alias(set_port)
-fn URL::setPort(Self, String) -> Unit
-#alias(set_protocol)
-fn URL::setProtocol(Self, String) -> Unit
-#alias(set_search)
-fn URL::setSearch(Self, String) -> Unit
-#alias(set_username)
-fn URL::setUsername(Self, String) -> Unit
-#alias(to_json)
-fn URL::toJSON(Self) -> String
-#alias(to_string)
-fn URL::toString(Self) -> String
-fn URL::username(Self) -> String
-impl @js.Js for URL
-
-#external
-pub type URLSearchParams
-fn URLSearchParams::append(Self, String, String) -> Unit
-fn URLSearchParams::delete(Self, String, value? : String) -> Unit
-fn URLSearchParams::get(Self, String) -> String?
-#alias(get_all)
-fn URLSearchParams::getAll(Self, String) -> Array[String]
-fn URLSearchParams::has(Self, String, value? : String) -> Bool
-fn URLSearchParams::new(init? : String) -> Self
-fn URLSearchParams::set(Self, String, String) -> Unit
-fn URLSearchParams::size(Self) -> Int
-fn URLSearchParams::sort(Self) -> Unit
-#alias(to_string)
-fn URLSearchParams::toString(Self) -> String
-impl @js.Js for URLSearchParams
 
 // Type aliases
 

@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/blob"
+package "mizchi/js/dom/blob"
 
 import(
   "mizchi/js"

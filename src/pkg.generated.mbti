@@ -8,6 +8,12 @@ fn atob(String) -> String
 
 fn btoa(String) -> String
 
+#alias(clear_interval)
+fn clearInterval(JsTimer) -> Unit
+
+#alias(clear_timeout)
+fn clearTimeout(JsTimer) -> Unit
+
 #alias(decode_uri)
 fn decodeURI(String) -> String
 
@@ -48,11 +54,11 @@ fn globalThis() -> Val
 
 fn[T : Js] instanceof_(T, T) -> Bool
 
+fn[T : Js] isNaN(T) -> Bool
+
 fn[T : Js] is_array(T) -> Bool
 
 fn[T : Js] is_builtin_trait(T) -> Bool
-
-fn[T : Js] is_nan(T) -> Bool
 
 fn[T : Js] is_null(T) -> Bool
 
@@ -65,6 +71,8 @@ fn[T] js(T) -> Val
 
 fn[T] log(T) -> Unit
 
+fn[T, U] log2(T, U) -> Unit
+
 fn new_(Val, Array[&Js]) -> Val
 
 fn new_error(String, cause? : JsError) -> JsError
@@ -74,6 +82,12 @@ fn null_() -> Val
 fn[T : Js] propertyIsEnumerable(T, String) -> Bool
 
 fn safe_js(&Js) -> Val
+
+#alias(set_interval)
+fn setInterval(() -> Unit, Int) -> JsTimer
+
+#alias(set_timeout)
+fn setTimeout(() -> Unit, Int) -> JsTimer
 
 fn[O : Js, V : Js] set_if_exists(O, &PropertyKey, V?) -> Unit
 
@@ -133,6 +147,15 @@ fn JsError::isError(&Js) -> Bool
 fn JsError::message(Self) -> String
 fn JsError::stack(Self) -> String
 impl Js for JsError
+
+#external
+pub type JsString
+fn JsString::fromCharCode(Array[Int]) -> String
+fn JsString::fromCodePoint(Array[Int]) -> String
+impl Js for JsString
+
+#external
+pub type JsTimer
 
 #external
 pub type Object

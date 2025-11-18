@@ -6,7 +6,21 @@ import(
 )
 
 // Values
+fn import_meta_dirname() -> String
+
+fn import_meta_filename() -> String
+
+fn import_meta_resolve(String) -> Unit
+
+fn import_meta_url() -> String
+
 fn require(String) -> @js.Val
+
+fn require_cache() -> @js.Object
+
+fn require_main() -> String
+
+fn require_resolve(String) -> Unit
 
 // Errors
 

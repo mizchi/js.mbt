@@ -3,7 +3,7 @@ package "mizchi/js/dom"
 
 import(
   "mizchi/js"
-  "mizchi/js/blob"
+  "mizchi/js/dom/blob"
   "mizchi/js/promise"
   "mizchi/js/worker"
 )
@@ -25,22 +25,14 @@ fn customElements() -> CustomElementRegistry
 
 fn document() -> Document
 
-fn localStorage() -> Storage
-
 #alias(match_media)
 fn matchMedia(String) -> MediaQueryList
 
 fn navigator() -> Navigator
 
-fn new_intersection_observer((@js.Val, IntersectionObserver) -> Unit) -> IntersectionObserver
+async fn requestAnimationFrame(() -> Unit raise) -> Unit noraise
 
-fn new_intersection_observer_with_options((@js.Val, IntersectionObserver) -> Unit, @js.Val) -> IntersectionObserver
-
-fn new_mutation_observer((@js.Val, MutationObserver) -> Unit) -> MutationObserver
-
-fn new_resize_observer((@js.Val, ResizeObserver) -> Unit) -> ResizeObserver
-
-fn sessionStorage() -> Storage
+async fn wait_animation_frame() -> Unit noraise
 
 fn window() -> Window
 
@@ -49,9 +41,9 @@ fn window() -> Window
 // Types and methods
 #external
 pub type AnimationEvent
-fn AnimationEvent::animation_name(Self) -> String
-fn AnimationEvent::elapsed_time(Self) -> Double
-fn AnimationEvent::pseudo_element(Self) -> String
+fn AnimationEvent::animationName(Self) -> String
+fn AnimationEvent::elapsedTime(Self) -> Double
+fn AnimationEvent::pseudoElement(Self) -> String
 impl EventImpl for AnimationEvent
 
 #external
@@ -97,46 +89,55 @@ impl EventImpl for ChangeEvent
 
 #external
 pub type ClipboardEvent
-fn ClipboardEvent::clipboard_data(Self) -> @js.Val?
+fn ClipboardEvent::clipboardData(Self) -> @js.Val?
 impl EventImpl for ClipboardEvent
 
 pub struct CustomElementCallbacks {
-  on_connected : () -> Unit
-  on_disconnected : () -> Unit
-  on_adopted : () -> Unit
-  on_attribute_changed : (String, String?, String?, String?) -> Unit
+  onConnected : () -> Unit
+  onDisconnected : () -> Unit
+  onAdopted : () -> Unit
+  onAttributeChanged : (String, String?, String?, String?) -> Unit
 }
-fn CustomElementCallbacks::new(on_connected? : () -> Unit, on_disconnected? : () -> Unit, on_adopted? : () -> Unit, on_attribute_changed? : (String, String?, String?, String?) -> Unit) -> Self
+fn CustomElementCallbacks::new(onConnected? : () -> Unit, onDisconnected? : () -> Unit, onAdopted? : () -> Unit, onAttributeChanged? : (String, String?, String?, String?) -> Unit) -> Self
 
 #external
 pub type CustomElementRegistry
-fn CustomElementRegistry::define_element(Self, String, CustomElementCallbacks) -> Unit
+fn CustomElementRegistry::define_(Self, String, CustomElementCallbacks) -> Unit
 fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomElementCallbacks, Array[String]) -> Unit
 fn CustomElementRegistry::get(Self, String) -> @js.Val?
-fn CustomElementRegistry::get_name(Self, @js.Val) -> String?
+fn CustomElementRegistry::getName(Self, @js.Val) -> String?
 fn CustomElementRegistry::upgrade(Self, Node) -> Unit
-fn CustomElementRegistry::when_defined(Self, String) -> @promise.Promise[Unit]
+fn CustomElementRegistry::whenDefined(Self, String) -> @promise.Promise[Unit]
 impl @js.Js for CustomElementRegistry
 
-#external
-pub type DOMRectReadOnly
-fn DOMRectReadOnly::bottom(Self) -> Double
-fn DOMRectReadOnly::height(Self) -> Double
-fn DOMRectReadOnly::left(Self) -> Double
-fn DOMRectReadOnly::right(Self) -> Double
-fn DOMRectReadOnly::top(Self) -> Double
-fn DOMRectReadOnly::width(Self) -> Double
-fn DOMRectReadOnly::x(Self) -> Double
-fn DOMRectReadOnly::y(Self) -> Double
-impl @js.Js for DOMRectReadOnly
+pub(all) struct DOMRect {
+  x : Double
+  y : Double
+  width : Double
+  height : Double
+  top : Double
+  right : Double
+  bottom : Double
+  left : Double
+}
+
+pub(all) struct DOMRectReadOnly {
+  x : Double
+  y : Double
+  width : Double
+  height : Double
+  top : Double
+  right : Double
+  bottom : Double
+  left : Double
+}
 
 #external
 pub type Document
-#alias(activeElement)
-fn Document::active_element(Self) -> Element
+#alias(active_element)
+fn Document::activeElement(Self) -> Element
 #alias(adopt_node)
 fn Document::adoptNode(Self, Node) -> Node
-fn Document::as_element(Self) -> @js.Val
 fn Document::body(Self) -> HTMLBodyElement?
 #alias(character_set)
 fn Document::characterSet(Self) -> String
@@ -147,21 +148,23 @@ fn Document::cookie(Self) -> String
 fn Document::createComment(Self, String) -> @js.Val
 #alias(create_document_fragment)
 fn Document::createDocumentFragment(Self) -> @js.Val
+#alias(create_element)
+fn Document::createElement(Self, String) -> Element
+#alias(create_element_ns)
+fn Document::createElementNs(Self, String, String) -> Element
 #alias(create_event)
 fn Document::createEvent(Self, String) -> Event
-#alias(createElement)
-fn Document::create_element(Self, String) -> Element
-#alias(createElementNS)
-fn Document::create_element_ns(Self, String, String) -> Element
+#alias(create_text_node)
+fn Document::createTextNode(Self, String) -> Text
 fn Document::create_stylesheet(Self) -> CSSStyleSheet
-#alias(createTextNode)
-fn Document::create_text_node(Self, String) -> Text
 fn Document::doctype(Self) -> @js.Val?
 #alias(document_element)
 fn Document::documentElement(Self) -> Element
 #alias(document_uri)
 fn Document::documentURI(Self) -> String
 fn Document::domain(Self) -> String
+fn Document::elementFromPoint(Self, Double, Double) -> Element?
+fn Document::elementsFromPoint(Self, Double, Double) -> Array[Element]
 #alias(get_element_by_id)
 fn Document::getElementById(Self, String) -> @js.Val?
 #alias(get_elements_by_class_name)
@@ -171,10 +174,6 @@ fn Document::getElementsByTagName(Self, String) -> @js.Val
 fn Document::head(Self) -> HTMLHeadElement?
 #alias(import_node)
 fn Document::importNode(Self, Node, Bool) -> Node
-#alias(query_selector_all)
-fn Document::querySelectorAll(Self, String) -> @js.Val
-#alias(querySelector)
-fn Document::query_selector(Self, String) -> @js.Val?
 #alias(ready_state)
 fn Document::readyState(Self) -> String
 fn Document::referrer(Self) -> String
@@ -186,20 +185,29 @@ fn Document::set_cookie(Self, String) -> Unit
 fn Document::style_sheets(Self) -> @js.Val
 fn Document::title(Self) -> String
 fn Document::url(Self) -> String
+impl @js.EventTarget for Document
 impl @js.Js for Document
-impl EventTarget for Document
+impl ElementImpl for Document
 impl NodeImpl for Document
 
 #external
+pub type DocumentFragment
+impl @js.EventTarget for DocumentFragment
+impl @js.Js for DocumentFragment
+impl NodeImpl for DocumentFragment
+
+#external
 pub type DragEvent
-fn DragEvent::data_transfer(Self) -> @js.Val
+fn DragEvent::dataTransfer(Self) -> @js.Val
 impl @js.Js for DragEvent
 impl EventImpl for DragEvent
 
 #external
 pub type Element
+impl @js.EventTarget for Element
 impl @js.Js for Element
-impl EventTarget for Element
+impl ElementImpl for Element
+impl NodeImpl for Element
 
 #external
 pub type Event
@@ -208,64 +216,64 @@ impl EventImpl for Event
 
 #external
 pub type FocusEvent
-fn FocusEvent::related_target(Self) -> Element?
+fn FocusEvent::relatedTarget(Self) -> Element?
 impl EventImpl for FocusEvent
 
 #external
 pub type FormEvent
-fn FormEvent::form_data(Self) -> @js.Val
+fn FormEvent::formData(Self) -> @js.Val
 impl EventImpl for FormEvent
 
 #external
 pub type HTMLAnchorElement
 fn HTMLAnchorElement::href(Self) -> String
-fn HTMLAnchorElement::set_href(Self, String) -> Unit
-fn HTMLAnchorElement::set_target(Self, String) -> Unit
+fn HTMLAnchorElement::setHref(Self, String) -> Unit
+fn HTMLAnchorElement::setTarget(Self, String) -> Unit
 fn HTMLAnchorElement::target(Self) -> String
+impl @js.EventTarget for HTMLAnchorElement
 impl @js.Js for HTMLAnchorElement
 impl ElementImpl for HTMLAnchorElement
-impl EventTarget for HTMLAnchorElement
 impl HTMLElementImpl for HTMLAnchorElement
 impl NodeImpl for HTMLAnchorElement
 
 #external
 pub type HTMLBodyElement
+impl @js.EventTarget for HTMLBodyElement
 impl @js.Js for HTMLBodyElement
 impl ElementImpl for HTMLBodyElement
-impl EventTarget for HTMLBodyElement
 impl HTMLElementImpl for HTMLBodyElement
 impl NodeImpl for HTMLBodyElement
 
 #external
 pub type HTMLButtonElement
 fn HTMLButtonElement::disabled(Self) -> Bool
-fn HTMLButtonElement::set_disabled(Self, Bool) -> Unit
+fn HTMLButtonElement::setDisabled(Self, Bool) -> Unit
+impl @js.EventTarget for HTMLButtonElement
 impl @js.Js for HTMLButtonElement
 impl ElementImpl for HTMLButtonElement
-impl EventTarget for HTMLButtonElement
 impl HTMLElementImpl for HTMLButtonElement
 impl NodeImpl for HTMLButtonElement
 
 #external
 pub type HTMLCanvasElement
-fn HTMLCanvasElement::get_context(Self, String) -> @js.Val
+fn HTMLCanvasElement::getContext(Self, String) -> @js.Val
 fn HTMLCanvasElement::height(Self) -> Int
-fn HTMLCanvasElement::set_height(Self, Int) -> Unit
-fn HTMLCanvasElement::set_width(Self, Int) -> Unit
-fn HTMLCanvasElement::to_blob(Self, image_type? : String, quality? : Double) -> @promise.Promise[@blob.Blob]
-fn HTMLCanvasElement::to_data_url(Self, image_type? : String, quality? : Double) -> String
+fn HTMLCanvasElement::setHeight(Self, Int) -> Unit
+fn HTMLCanvasElement::setWidth(Self, Int) -> Unit
+fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @promise.Promise[@blob.Blob]
+fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
 fn HTMLCanvasElement::width(Self) -> Int
+impl @js.EventTarget for HTMLCanvasElement
 impl @js.Js for HTMLCanvasElement
 impl ElementImpl for HTMLCanvasElement
-impl EventTarget for HTMLCanvasElement
 impl HTMLElementImpl for HTMLCanvasElement
 impl NodeImpl for HTMLCanvasElement
 
 #external
 pub type HTMLDivElement
+impl @js.EventTarget for HTMLDivElement
 impl @js.Js for HTMLDivElement
 impl ElementImpl for HTMLDivElement
-impl EventTarget for HTMLDivElement
 impl HTMLElementImpl for HTMLDivElement
 impl NodeImpl for HTMLDivElement
 
@@ -273,45 +281,45 @@ impl NodeImpl for HTMLDivElement
 pub type HTMLElement
 fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
 fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
+impl @js.EventTarget for HTMLElement
 impl @js.Js for HTMLElement
 impl ElementImpl for HTMLElement
-impl EventTarget for HTMLElement
 impl HTMLElementImpl for HTMLElement
 impl NodeImpl for HTMLElement
 
 #external
 pub type HTMLHeadElement
+impl @js.EventTarget for HTMLHeadElement
 impl @js.Js for HTMLHeadElement
 impl ElementImpl for HTMLHeadElement
-impl EventTarget for HTMLHeadElement
 impl HTMLElementImpl for HTMLHeadElement
 impl NodeImpl for HTMLHeadElement
 
 #external
 pub type HTMLHtmlElement
+impl @js.EventTarget for HTMLHtmlElement
 impl @js.Js for HTMLHtmlElement
 impl ElementImpl for HTMLHtmlElement
-impl EventTarget for HTMLHtmlElement
 impl HTMLElementImpl for HTMLHtmlElement
 impl NodeImpl for HTMLHtmlElement
 
 #external
 pub type HTMLIFrameElement
-fn HTMLIFrameElement::content_document(Self) -> Document?
-fn HTMLIFrameElement::content_window(Self) -> Window?
+fn HTMLIFrameElement::contentDocument(Self) -> Document?
+fn HTMLIFrameElement::contentWindow(Self) -> Window?
 fn HTMLIFrameElement::height(Self) -> String
 fn HTMLIFrameElement::name(Self) -> String
 fn HTMLIFrameElement::sandbox(Self) -> String
-fn HTMLIFrameElement::set_height(Self, String) -> Unit
-fn HTMLIFrameElement::set_name(Self, String) -> Unit
-fn HTMLIFrameElement::set_sandbox(Self, String) -> Unit
-fn HTMLIFrameElement::set_src(Self, String) -> Unit
-fn HTMLIFrameElement::set_width(Self, String) -> Unit
+fn HTMLIFrameElement::setHeight(Self, String) -> Unit
+fn HTMLIFrameElement::setName(Self, String) -> Unit
+fn HTMLIFrameElement::setSandbox(Self, String) -> Unit
+fn HTMLIFrameElement::setSrc(Self, String) -> Unit
+fn HTMLIFrameElement::setWidth(Self, String) -> Unit
 fn HTMLIFrameElement::src(Self) -> String
 fn HTMLIFrameElement::width(Self) -> String
+impl @js.EventTarget for HTMLIFrameElement
 impl @js.Js for HTMLIFrameElement
 impl ElementImpl for HTMLIFrameElement
-impl EventTarget for HTMLIFrameElement
 impl HTMLElementImpl for HTMLIFrameElement
 impl NodeImpl for HTMLIFrameElement
 
@@ -319,25 +327,25 @@ impl NodeImpl for HTMLIFrameElement
 pub type HTMLInputElement
 fn HTMLInputElement::checked(Self) -> Bool
 fn HTMLInputElement::disabled(Self) -> Bool
-fn HTMLInputElement::input_type(Self) -> String
 fn HTMLInputElement::placeholder(Self) -> String
-fn HTMLInputElement::set_checked(Self, Bool) -> Unit
-fn HTMLInputElement::set_disabled(Self, Bool) -> Unit
-fn HTMLInputElement::set_input_type(Self, String) -> Unit
-fn HTMLInputElement::set_placeholder(Self, String) -> Unit
-fn HTMLInputElement::set_value(Self, String) -> Unit
+fn HTMLInputElement::setChecked(Self, Bool) -> Unit
+fn HTMLInputElement::setDisabled(Self, Bool) -> Unit
+fn HTMLInputElement::setPlaceholder(Self, String) -> Unit
+fn HTMLInputElement::setType(Self, String) -> Unit
+fn HTMLInputElement::setValue(Self, String) -> Unit
+fn HTMLInputElement::type_(Self) -> String
 fn HTMLInputElement::value(Self) -> String
+impl @js.EventTarget for HTMLInputElement
 impl @js.Js for HTMLInputElement
 impl ElementImpl for HTMLInputElement
-impl EventTarget for HTMLInputElement
 impl HTMLElementImpl for HTMLInputElement
 impl NodeImpl for HTMLInputElement
 
 #external
 pub type HTMLSpanElement
+impl @js.EventTarget for HTMLSpanElement
 impl @js.Js for HTMLSpanElement
 impl ElementImpl for HTMLSpanElement
-impl EventTarget for HTMLSpanElement
 impl HTMLElementImpl for HTMLSpanElement
 impl NodeImpl for HTMLSpanElement
 
@@ -346,57 +354,38 @@ pub type HTMLTextAreaElement
 fn HTMLTextAreaElement::cols(Self) -> Int
 fn HTMLTextAreaElement::disabled(Self) -> Bool
 fn HTMLTextAreaElement::placeholder(Self) -> String
-fn HTMLTextAreaElement::read_only(Self) -> Bool
+fn HTMLTextAreaElement::readOnly(Self) -> Bool
 fn HTMLTextAreaElement::rows(Self) -> Int
-fn HTMLTextAreaElement::set_cols(Self, Int) -> Unit
-fn HTMLTextAreaElement::set_disabled(Self, Bool) -> Unit
-fn HTMLTextAreaElement::set_placeholder(Self, String) -> Unit
-fn HTMLTextAreaElement::set_read_only(Self, Bool) -> Unit
-fn HTMLTextAreaElement::set_rows(Self, Int) -> Unit
-fn HTMLTextAreaElement::set_value(Self, String) -> Unit
+fn HTMLTextAreaElement::setCols(Self, Int) -> Unit
+fn HTMLTextAreaElement::setDisabled(Self, Bool) -> Unit
+fn HTMLTextAreaElement::setPlaceholder(Self, String) -> Unit
+fn HTMLTextAreaElement::setReadOnly(Self, Bool) -> Unit
+fn HTMLTextAreaElement::setRows(Self, Int) -> Unit
+fn HTMLTextAreaElement::setValue(Self, String) -> Unit
 fn HTMLTextAreaElement::value(Self) -> String
+impl @js.EventTarget for HTMLTextAreaElement
 impl @js.Js for HTMLTextAreaElement
 impl ElementImpl for HTMLTextAreaElement
-impl EventTarget for HTMLTextAreaElement
 impl HTMLElementImpl for HTMLTextAreaElement
 impl NodeImpl for HTMLTextAreaElement
 
 #external
 pub type InputEvent
 fn InputEvent::data(Self) -> String?
-fn InputEvent::input_type(Self) -> String
+fn InputEvent::inputType(Self) -> String
 impl EventImpl for InputEvent
 
 #external
-pub type IntersectionObserver
-fn IntersectionObserver::disconnect(Self) -> Unit
-fn IntersectionObserver::observe(Self, Element) -> Unit
-fn IntersectionObserver::take_records(Self) -> @js.Val
-fn IntersectionObserver::unobserve(Self, Element) -> Unit
-impl @js.Js for IntersectionObserver
-
-#external
-pub type IntersectionObserverEntry
-fn IntersectionObserverEntry::bounding_client_rect(Self) -> @js.Val
-fn IntersectionObserverEntry::intersection_ratio(Self) -> Double
-fn IntersectionObserverEntry::intersection_rect(Self) -> @js.Val
-fn IntersectionObserverEntry::is_intersecting(Self) -> Bool
-fn IntersectionObserverEntry::root_bounds(Self) -> Element?
-fn IntersectionObserverEntry::target(Self) -> @js.Val
-fn IntersectionObserverEntry::time(Self) -> Double
-impl @js.Js for IntersectionObserverEntry
-
-#external
 pub type KeyboardEvent
-fn KeyboardEvent::alt_key(Self) -> Bool
+fn KeyboardEvent::altKey(Self) -> Bool
 fn KeyboardEvent::code(Self) -> String
 fn KeyboardEvent::ctrl_key(Self) -> Bool
 fn KeyboardEvent::key(Self) -> String
-fn KeyboardEvent::key_code(Self) -> Int
+fn KeyboardEvent::keyCode(Self) -> Int
 fn KeyboardEvent::location(Self) -> Int
-fn KeyboardEvent::meta_key(Self) -> Bool
+fn KeyboardEvent::metaKey(Self) -> Bool
 fn KeyboardEvent::repeat(Self) -> Bool
-fn KeyboardEvent::shift_key(Self) -> Bool
+fn KeyboardEvent::shiftKey(Self) -> Bool
 fn KeyboardEvent::which(Self) -> Int
 impl EventImpl for KeyboardEvent
 
@@ -421,66 +410,47 @@ impl EventImpl for MessageEvent
 
 #external
 pub type MouseEvent
-fn MouseEvent::alt_key(Self) -> Bool
+fn MouseEvent::altKey(Self) -> Bool
 fn MouseEvent::button(Self) -> Int
 fn MouseEvent::buttons(Self) -> Int
-fn MouseEvent::client_x(Self) -> Int
-fn MouseEvent::client_y(Self) -> Int
-fn MouseEvent::ctrl_key(Self) -> Bool
-fn MouseEvent::meta_key(Self) -> Bool
-fn MouseEvent::offset_x(Self) -> Int
-fn MouseEvent::offset_y(Self) -> Int
-fn MouseEvent::page_x(Self) -> Int
+fn MouseEvent::clientX(Self) -> Int
+fn MouseEvent::clientY(Self) -> Int
+fn MouseEvent::ctrlKey(Self) -> Bool
+fn MouseEvent::metaKey(Self) -> Bool
+fn MouseEvent::offsetX(Self) -> Int
+fn MouseEvent::offsetY(Self) -> Int
+fn MouseEvent::pageX(Self) -> Int
 fn MouseEvent::pageY(Self) -> Int
-fn MouseEvent::screen_x(Self) -> Int
-fn MouseEvent::screen_y(Self) -> Int
-fn MouseEvent::shift_key(Self) -> Bool
+fn MouseEvent::screenX(Self) -> Int
+fn MouseEvent::screenY(Self) -> Int
+fn MouseEvent::shiftKey(Self) -> Bool
 impl @js.Js for MouseEvent
 impl EventImpl for MouseEvent
-
-#external
-pub type MutationObserver
-fn MutationObserver::disconnect(Self) -> Unit
-fn MutationObserver::observe(Self, Element, @js.Val) -> Unit
-fn MutationObserver::take_records(Self) -> @js.Val
-impl @js.Js for MutationObserver
-
-#external
-pub type MutationRecord
-fn MutationRecord::added_nodes(Self) -> @js.Val
-fn MutationRecord::attribute_name(Self) -> String?
-fn MutationRecord::mutation_type(Self) -> String
-fn MutationRecord::next_sibling(Self) -> Element?
-fn MutationRecord::old_value(Self) -> String?
-fn MutationRecord::previous_sibling(Self) -> Element?
-fn MutationRecord::removed_nodes(Self) -> @js.Val
-fn MutationRecord::target(Self) -> @js.Val
-impl @js.Js for MutationRecord
 
 #external
 pub type Navigator
 fn Navigator::clipboard(Self) -> @js.Val
 fn Navigator::connection(Self) -> @js.Val?
-fn Navigator::cookie_enabled(Self) -> Bool
-fn Navigator::device_memory(Self) -> Double?
-fn Navigator::do_not_track(Self) -> String?
+fn Navigator::cookieEnabled(Self) -> Bool
+fn Navigator::deviceMemory(Self) -> Double?
+fn Navigator::doNotTrack(Self) -> String?
 fn Navigator::geolocation(Self) -> @js.Val
-fn Navigator::hardware_concurrency(Self) -> Int
+fn Navigator::hardwareConcurrency(Self) -> Int
 fn Navigator::language(Self) -> String
 fn Navigator::languages(Self) -> @js.Val
-fn Navigator::max_touch_points(Self) -> Int
-fn Navigator::on_line(Self) -> Bool
+fn Navigator::maxTouchPoints(Self) -> Int
+fn Navigator::onLine(Self) -> Bool
 fn Navigator::permissions(Self) -> @js.Val
 fn Navigator::platform(Self) -> String
-fn Navigator::user_agent(Self) -> String
+fn Navigator::userAgent(Self) -> String
 fn Navigator::vendor(Self) -> String
 fn Navigator::vibrate(Self, Int) -> Bool
 impl @js.Js for Navigator
 
 #external
 pub type Node
+impl @js.EventTarget for Node
 impl @js.Js for Node
-impl EventTarget for Node
 impl NodeImpl for Node
 
 #external
@@ -492,22 +462,6 @@ fn PointerEvent::pointer_type(Self) -> String
 fn PointerEvent::width(Self) -> Double
 impl @js.Js for PointerEvent
 impl EventImpl for PointerEvent
-
-#external
-pub type ResizeObserver
-fn ResizeObserver::disconnect(Self) -> Unit
-fn ResizeObserver::observe(Self, Element) -> Unit
-fn ResizeObserver::observe_with_options(Self, Element, @js.Val) -> Unit
-fn ResizeObserver::unobserve(Self, Element) -> Unit
-impl @js.Js for ResizeObserver
-
-#external
-pub type ResizeObserverEntry
-fn ResizeObserverEntry::border_box_size(Self) -> @js.Val
-fn ResizeObserverEntry::content_box_size(Self) -> @js.Val
-fn ResizeObserverEntry::content_rect(Self) -> DOMRectReadOnly
-fn ResizeObserverEntry::target(Self) -> Element
-impl @js.Js for ResizeObserverEntry
 
 #external
 pub type ScrollEvent
@@ -525,8 +479,8 @@ fn ShadowRoot::innerHTML(Self) -> String
 fn ShadowRoot::mode(Self) -> String
 fn ShadowRoot::setInnerHTML(Self, String) -> Unit
 fn ShadowRoot::slotAssignment(Self) -> String
+impl @js.EventTarget for ShadowRoot
 impl @js.Js for ShadowRoot
-impl EventTarget for ShadowRoot
 impl NodeImpl for ShadowRoot
 
 pub struct ShadowRootInit {
@@ -537,56 +491,42 @@ pub struct ShadowRootInit {
 fn ShadowRootInit::new(String, delegatesFocus? : Bool, slotAssignment? : String) -> Self
 
 #external
-pub type Storage
-fn Storage::clear(Self) -> Unit
-fn Storage::entries(Self) -> Array[(String, String)]
-fn Storage::getItem(Self, String) -> String?
-fn Storage::hasItem(Self, String) -> Bool
-fn Storage::key(Self, Int) -> String?
-fn Storage::keys(Self) -> Array[String]
-fn Storage::length(Self) -> Int
-fn Storage::removeItem(Self, String) -> Unit
-fn Storage::setItem(Self, String, String) -> Unit
-fn Storage::values(Self) -> Array[String]
-impl @js.Js for Storage
-
-#external
 pub type Text
+impl @js.EventTarget for Text
 impl @js.Js for Text
-impl EventTarget for Text
 impl NodeImpl for Text
 
 #external
 pub type Touch
-fn Touch::client_x(Self) -> Double
-fn Touch::client_y(Self) -> Double
+fn Touch::clientX(Self) -> Double
+fn Touch::clientY(Self) -> Double
 fn Touch::force(Self) -> Double
 fn Touch::identifier(Self) -> Int
-fn Touch::page_x(Self) -> Double
+fn Touch::pageX(Self) -> Double
 fn Touch::pageY(Self) -> Double
 fn Touch::radiusX(Self) -> Double
 fn Touch::radiusY(Self) -> Double
-fn Touch::rotation_angle(Self) -> Double
-fn Touch::screen_x(Self) -> Double
-fn Touch::screen_y(Self) -> Double
+fn Touch::rotationAngle(Self) -> Double
+fn Touch::screenX(Self) -> Double
+fn Touch::screenY(Self) -> Double
 fn Touch::target(Self) -> Element
 
 #external
 pub type TouchEvent
-fn TouchEvent::alt_key(Self) -> Bool
-fn TouchEvent::changed_touches(Self) -> @js.Val
-fn TouchEvent::ctrl_key(Self) -> Bool
-fn TouchEvent::meta_key(Self) -> Bool
-fn TouchEvent::shift_key(Self) -> Bool
-fn TouchEvent::target_touches(Self) -> @js.Val
+fn TouchEvent::altKey(Self) -> Bool
+fn TouchEvent::changedTouches(Self) -> @js.Val
+fn TouchEvent::ctrlKey(Self) -> Bool
+fn TouchEvent::metaKey(Self) -> Bool
+fn TouchEvent::shiftKey(Self) -> Bool
+fn TouchEvent::targetTouches(Self) -> @js.Val
 fn TouchEvent::touches(Self) -> @js.Val
 impl EventImpl for TouchEvent
 
 #external
 pub type TransitionEvent
-fn TransitionEvent::elapsed_time(Self) -> Double
-fn TransitionEvent::property_name(Self) -> String
-fn TransitionEvent::pseudo_element(Self) -> String
+fn TransitionEvent::elapsedTime(Self) -> Double
+fn TransitionEvent::propertyName(Self) -> String
+fn TransitionEvent::pseudoElement(Self) -> String
 impl EventImpl for TransitionEvent
 
 #external
@@ -654,8 +594,8 @@ fn Window::sessionStorage(Self) -> @js.Val
 fn Window::setInterval(Self, () -> Unit, Int) -> Int
 #alias(set_timeout)
 fn Window::setTimeout(Self, () -> Unit, Int) -> Int
+impl @js.EventTarget for Window
 impl @js.Js for Window
-impl EventTarget for Window
 
 // Type aliases
 pub type ChangeEventHandler = (ChangeEvent) -> Unit
@@ -668,66 +608,62 @@ pub type MouseEventHandler = (MouseEvent) -> Unit
 
 // Traits
 pub(open) trait ElementImpl : @js.Js + NodeImpl {
-  tag_name(Self) -> String = _
-  class_name(Self) -> String = _
-  set_class_name(Self, String) -> Unit = _
+  tagName(Self) -> String = _
+  className(Self) -> String = _
+  setClassName(Self, String) -> Unit = _
   id(Self) -> String = _
-  set_id(Self, String) -> Unit = _
-  get_attribute(Self, String) -> String? = _
-  set_attribute(Self, String, String) -> Unit = _
-  remove_attribute(Self, String) -> Unit = _
-  has_attribute(Self, String) -> Bool = _
-  get_elements_by_tag_name(Self, String) -> Array[Element] = _
-  get_elements_by_class_name(Self, String) -> Array[Element] = _
-  query_selector(Self, String) -> Element? = _
-  query_selector_all(Self, String) -> Array[Element] = _
+  setId(Self, String) -> Unit = _
+  getAttribute(Self, String) -> String? = _
+  setAttribute(Self, String, String) -> Unit = _
+  removeAttribute(Self, String) -> Unit = _
+  hasAttribute(Self, String) -> Bool = _
+  getElementsByTagName(Self, String) -> Array[Element] = _
+  getElementsByClassName(Self, String) -> Array[Element] = _
+  querySelector(Self, String) -> Element? = _
+  querySelectorAll(Self, String) -> Array[Element] = _
+  append(Self, &NodeImpl) -> Unit = _
 }
 
 pub(open) trait EventImpl : @js.Js {
-  prevent_default(Self) -> Unit = _
-  stop_propagation(Self) -> Unit = _
-  stop_immediate_propagation(Self) -> Unit = _
+  preventDefault(Self) -> Unit = _
+  stopPropagation(Self) -> Unit = _
+  stopImmediatePropagation(Self) -> Unit = _
   target(Self) -> Element = _
-  current_target(Self) -> Element = _
-  event_type(Self) -> String = _
+  currentTarget(Self) -> Element = _
+  eventType(Self) -> String = _
   bubbles(Self) -> Bool = _
   cancelable(Self) -> Bool = _
-  default_prevented(Self) -> Bool = _
-}
-
-pub(open) trait EventTarget : @js.Js {
-  addEventListener(Self, String, (Event) -> Unit) -> Unit = _
-  removeEventListener(Self, String, (Event) -> Unit) -> Unit = _
-  dispatchEvent(Self, Event) -> Bool = _
+  defaultPrevented(Self) -> Bool = _
 }
 
 pub(open) trait HTMLElementImpl : @js.Js + ElementImpl {
-  inner_text(Self) -> String = _
-  set_inner_text(Self, String) -> Unit = _
-  inner_html(Self) -> String = _
-  set_inner_html(Self, String) -> Unit = _
-  outer_html(Self) -> String = _
-  set_outer_html(Self, String) -> Unit = _
+  innerText(Self) -> String = _
+  setInnerText(Self, String) -> Unit = _
+  innerHTML(Self) -> String = _
+  setInnerHTML(Self, String) -> Unit = _
+  outerHTML(Self) -> String = _
+  setOuterHTML(Self, String) -> Unit = _
   focus(Self) -> Unit = _
   click(Self) -> Unit = _
 }
 
-pub(open) trait NodeImpl : @js.Js + EventTarget {
-  node_type(Self) -> Int = _
-  node_name(Self) -> String = _
-  parent_node(Self) -> Node? = _
-  child_nodes(Self) -> Array[Node] = _
-  first_child(Self) -> Node? = _
-  last_child(Self) -> Node? = _
-  previous_sibling(Self) -> Node? = _
-  next_sibling(Self) -> Node? = _
-  append_child(Self, Node) -> Node = _
-  remove_child(Self, Node) -> Node = _
-  insert_before(Self, Node, Node?) -> Node = _
-  replace_child(Self, Node, Node) -> Node = _
-  clone_node(Self, Bool) -> Node = _
-  contains(Self, Node?) -> Bool = _
-  has_child_nodes(Self) -> Bool = _
-  text_content(Self) -> String = _
-  set_text_content(Self, String) -> Unit = _
+pub(open) trait NodeImpl : @js.Js + @js.EventTarget {
+  nodeType(Self) -> Int = _
+  nodeName(Self) -> String = _
+  parentNode(Self) -> Node? = _
+  childNodes(Self) -> Array[Node] = _
+  firstChild(Self) -> Node? = _
+  lastChild(Self) -> Node? = _
+  previousSibling(Self) -> Node? = _
+  nextSibling(Self) -> Node? = _
+  appendChild(Self, &NodeImpl) -> Node = _
+  removeChild(Self, &NodeImpl) -> Node = _
+  insertBefore(Self, &NodeImpl, &NodeImpl?) -> Node = _
+  replaceChild(Self, &NodeImpl, &NodeImpl) -> Node = _
+  cloneNode(Self, Bool) -> Node = _
+  contains(Self, &NodeImpl?) -> Bool = _
+  hasChildNodes(Self) -> Bool = _
+  textContent(Self) -> String = _
+  setTextContent(Self, String) -> Unit = _
 }
+

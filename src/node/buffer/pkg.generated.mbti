@@ -35,7 +35,7 @@ fn Buffer::includes(Self, @js.Val, byte_offset? : Int, encoding? : String) -> Bo
 #alias(index_of)
 fn Buffer::indexOf(Self, @js.Val, byte_offset? : Int, encoding? : String) -> Int
 #alias(is_buffer)
-fn Buffer::isBuffer(@js.Val) -> Bool
+fn Buffer::isBuffer(&@js.Js) -> Bool
 #alias(is_encoding)
 fn Buffer::isEncoding(String) -> Bool
 #alias(last_index_of)

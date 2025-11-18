@@ -42,14 +42,13 @@ fn toNamespacedPath(String) -> String
 // Errors
 
 // Types and methods
-#external
-pub type ParsedPath
-fn ParsedPath::base(Self) -> String
-fn ParsedPath::dir(Self) -> String
-fn ParsedPath::ext(Self) -> String
-fn ParsedPath::name(Self) -> String
-fn ParsedPath::new(root? : String, dir? : String, base? : String, ext? : String, name? : String) -> Self
-fn ParsedPath::root(Self) -> String
+pub(all) struct ParsedPath {
+  root : String
+  dir : String
+  base : String
+  ext : String
+  name : String
+}
 impl @js.Js for ParsedPath
 
 // Type aliases

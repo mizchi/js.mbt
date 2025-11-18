@@ -3,6 +3,7 @@ package "mizchi/js/npm/react_dom"
 
 import(
   "mizchi/js"
+  "mizchi/js/dom"
   "mizchi/js/npm/react"
   "mizchi/js/promise"
 )
@@ -19,7 +20,7 @@ fn renderToString(@react.Element) -> String
 #external
 pub type ReactDOMClient
 #alias(create_root)
-fn ReactDOMClient::createRoot(Self, @js.Val) -> ReactDOMRoot
+fn ReactDOMClient::createRoot(Self, &@dom.ElementImpl) -> ReactDOMRoot
 impl @js.Js for ReactDOMClient
 
 #external
