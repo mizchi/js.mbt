@@ -18,7 +18,7 @@ fn format(@mizchi/js/url.URL) -> String
 fn pathToFileURL(String, windows? : Bool) -> @mizchi/js/url.URL
 
 #alias(url_to_http_options)
-fn urlToHttpOptions(@mizchi/js/url.URL) -> @js.Val
+fn urlToHttpOptions(@mizchi/js/url.URL) -> @js.Js
 
 // Errors
 

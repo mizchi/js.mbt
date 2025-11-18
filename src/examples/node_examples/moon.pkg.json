@@ -8,7 +8,7 @@
     "mizchi/js/node/os",
     {
       "path": "mizchi/js/node/fs",
-      "alias": "fs_sync"
+      "alias": "_fs_sync"
     },
     {
       "path": "mizchi/js/node/fs/promises",

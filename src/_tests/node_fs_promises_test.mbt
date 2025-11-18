@@ -35,6 +35,7 @@ test {
     @fs.mkdir(testdir, recursive=true).unwrap()
     let stat = @fs.stat(testdir).unwrap()
     @fs.rm(testdir, recursive=true).unwrap()
+    ignore(stat)
   })
 }
 

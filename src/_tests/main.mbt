@@ -17,7 +17,7 @@ fn main {
 test {
   it("setTimeout", _ => {
     let mut executed = false
-    let timer = @js.setTimeout(() => executed = true, 10)
+    let _timer = @js.setTimeout(() => executed = true, 10)
     @promise.sleep(20)
     assert_true(executed)
   })

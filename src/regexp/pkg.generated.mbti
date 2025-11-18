@@ -35,7 +35,7 @@ fn RegExp::sticky(Self) -> Bool
 fn RegExp::test_(Self, String) -> Bool
 fn RegExp::to_string(Self) -> String
 fn RegExp::unicode(Self) -> Bool
-impl @js.Js for RegExp
+impl @js.JsImpl for RegExp
 
 pub struct RegExpMatchArray {
   matches : Array[String]
@@ -43,7 +43,7 @@ pub struct RegExpMatchArray {
   input : String?
   groups : Map[String, String]?
 }
-impl @js.Js for RegExpMatchArray
+impl @js.JsImpl for RegExpMatchArray
 
 pub struct RegExpResult {
   full : String
@@ -52,7 +52,7 @@ pub struct RegExpResult {
   lastIndex : Int
   groups : Map[String, String]?
 }
-impl @js.Js for RegExpResult
+impl @js.JsImpl for RegExpResult
 
 // Type aliases
 

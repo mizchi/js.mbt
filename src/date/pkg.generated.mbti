@@ -82,7 +82,7 @@ fn Date::to_time_string(Self) -> String
 fn Date::to_utc_string(Self) -> String
 fn Date::utc(Int, Int, Int, Int, Int, Int, Int) -> Int
 fn Date::value_of(Self) -> Int
-impl @js.Js for Date
+impl @js.JsImpl for Date
 
 // Type aliases
 

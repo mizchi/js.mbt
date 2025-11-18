@@ -2,7 +2,7 @@
 package "mizchi/js"
 
 // Values
-fn array_from(Val) -> Array[Val]
+fn array_from(Js) -> Array[Js]
 
 fn atob(String) -> String
 
@@ -21,7 +21,7 @@ fn decodeURI(String) -> String
 fn decodeURIComponent(String) -> String
 
 #alias(dynamic_import)
-fn dynamicImport(String) -> Val
+fn dynamicImport(String) -> Js
 
 #alias(encode_uri)
 fn encodeURI(String) -> String
@@ -29,59 +29,52 @@ fn encodeURI(String) -> String
 #alias(encode_uri_component)
 fn encodeURIComponent(String) -> String
 
-fn ffi_is_undefined(Val) -> Bool
+fn ffi_is_undefined(Js) -> Bool
 
-fn[T: JsImpl] from_array(Array[T]) -> Val
+fn[T : JsImpl] from_array(Array[T]) -> Js
 
-fn from_builtin_json(Json) -> Val
+fn from_builtin_json(Json) -> Js
 
-fn[R] from_fn0(() -> R) -> Val
+fn[R] from_fn0(() -> R) -> Js
 
-fn[A, R] from_fn1((A) -> R) -> Val
+fn[A, R] from_fn1((A) -> R) -> Js
 
-fn[A, B, R] from_fn2((A, B) -> R) -> Val
+fn[A, B, R] from_fn2((A, B) -> R) -> Js
 
-fn[A, B, C, R] from_fn3((A, B, C) -> R) -> Val
+fn[A, B, C, R] from_fn3((A, B, C) -> R) -> Js
 
-fn from_map(Map[String, Val]) -> Val
-
-fn[A, B] from_tuple2((A, B)) -> Val
-
-fn[A, B, C] from_tuple3((A, B, C)) -> Val
+fn from_map(Map[String, Js]) -> Js
 
 #alias(global_this)
-fn globalThis() -> Val
+fn globalThis() -> Js
 
-fn[T: JsImpl] instanceof_(T, T) -> Bool
+fn[T : JsImpl] instanceof_(T, T) -> Bool
 
-fn[T: JsImpl] isNaN(T) -> Bool
+fn[T : JsImpl] isNaN(T) -> Bool
 
-fn[T: JsImpl] is_array(T) -> Bool
+fn[T : JsImpl] is_array(T) -> Bool
 
-fn[T: JsImpl] is_builtin_trait(T) -> Bool
+fn[T : JsImpl] is_builtin_trait(T) -> Bool
 
-fn[T: JsImpl] is_null(T) -> Bool
+fn[T : JsImpl] is_null(T) -> Bool
 
-fn[T: JsImpl] is_object(T) -> Bool
+fn[T : JsImpl] is_object(T) -> Bool
 
-fn[T: JsImpl] is_undefined(T) -> Bool
+fn[T : JsImpl] is_undefined(T) -> Bool
 
-#deprecated
-fn[T] js(T) -> Val
+fn js(&JsImpl) -> Js
 
 fn[T] log(T) -> Unit
 
 fn[T, U] log2(T, U) -> Unit
 
-fn new_(Val, Array[&JsImpl]) -> Val
+fn new_(Js, Array[&JsImpl]) -> Js
 
 fn new_error(String, cause? : JsError) -> JsError
 
-fn null_() -> Val
+fn null_() -> Js
 
-fn[T: JsImpl] propertyIsEnumerable(T, String) -> Bool
-
-fn js(&JsImpl) -> Val
+fn[T : JsImpl] propertyIsEnumerable(T, String) -> Bool
 
 #alias(set_interval)
 fn setInterval(() -> Unit, Int) -> JsTimer
@@ -89,9 +82,9 @@ fn setInterval(() -> Unit, Int) -> JsTimer
 #alias(set_timeout)
 fn setTimeout(() -> Unit, Int) -> JsTimer
 
-fn[O : Js, V : Js] set_if_exists(O, &PropertyKey, V?) -> Unit
+fn[O : JsImpl, V : JsImpl] set_if_exists(O, &PropertyKey, V?) -> Unit
 
-fn structured_clone(Val) -> Val
+fn structured_clone(Js) -> Js
 
 fn symbol(String) -> Symbol
 
@@ -99,18 +92,20 @@ fn throw_(&JsImpl) -> Unit
 
 fn[T] throwable(() -> T raise?) -> T raise JsThrowError
 
-fn[A] unsafe_option(Val) -> A?
+fn[T : JsImpl] typeof_(T) -> String
 
-fn[T: JsImpl] typeof_(T) -> String
-
-fn undefined() -> Val
+fn undefined() -> Js
 
 fn[A, B] unsafe_cast(A) -> B
+
+fn[T] unsafe_js(T) -> Js
+
+fn[A] unsafe_option(Js) -> A?
 
 // Errors
 pub suberror JsThrowError {
   Error(JsError)
-  Value(Val)
+  Value(Js)
 }
 impl JsImpl for JsThrowError
 impl Show for JsThrowError
@@ -118,6 +113,7 @@ impl Show for JsThrowError
 // Types and methods
 #external
 pub type AbortController
+fn AbortController::abort(Self) -> Self
 fn AbortController::new() -> Self
 fn AbortController::signal(Self) -> AbortSignal
 impl JsImpl for AbortController
@@ -128,14 +124,24 @@ impl JsImpl for AbortSignal
 
 #external
 pub type JSON
-fn JSON::parse(String, reviver? : Val?) -> Val raise JsThrowError
-fn JSON::stringify(Val, replacer? : Val, space? : Int) -> String
+fn JSON::parse(String, reviver? : Js?) -> Js raise JsThrowError
+fn JSON::stringify(Js, replacer? : Js, space? : Int) -> String
+
+#external
+pub type Js
+fn Js::is_none(Self) -> Bool
+#deprecated
+fn Js::is_some(Self) -> Bool
+impl JsImpl for Js
+impl Eq for Js
+impl Show for Js
+impl ToJson for Js
 
 #external
 pub type JsArray
 fn[T] JsArray::as_builtin_array(Self) -> Array[T]
 fn[T] JsArray::from(Array[T]) -> Self
-fn[T: JsImpl] JsArray::isArray(T) -> Bool
+fn[T : JsImpl] JsArray::isArray(T) -> Bool
 fn JsArray::new() -> Self
 fn JsArray::push(Self, &JsImpl) -> Unit
 fn JsArray::to_string(Self) -> String
@@ -159,13 +165,13 @@ pub type JsTimer
 
 #external
 pub type Object
-fn Object::assign(&JsImpl, &JsImpl) -> Val
-fn Object::create() -> Val
-fn Object::entries(&JsImpl) -> Array[(String, Val)]
+fn Object::assign(&JsImpl, &JsImpl) -> Js
+fn Object::create() -> Js
+fn Object::entries(&JsImpl) -> Array[(String, Js)]
 fn Object::keys(&JsImpl) -> Array[String]
 fn Object::new() -> Self
 fn Object::to_string(Self) -> String
-fn Object::values(&JsImpl) -> Array[Val]
+fn Object::values(&JsImpl) -> Array[Js]
 impl JsImpl for Object
 
 #external
@@ -178,33 +184,23 @@ fn Symbol::iterator() -> Self
 impl JsImpl for Symbol
 impl PropertyKey for Symbol
 
-#external
-pub type Val
-fn Val::is_none(Self) -> Bool
-#deprecated
-fn Val::is_some(Self) -> Bool
-impl JsImpl for Val
-impl Eq for Val
-impl Show for Val
-impl ToJson for Val
-
 // Type aliases
 
 // Traits
-pub(open) trait EventTarget : Js {
-  addEventListener(Self, String, (Val) -> Unit) -> Unit = _
-  removeEventListener(Self, String, (Val) -> Unit) -> Unit = _
-  dispatchEvent(Self, Val) -> Bool = _
+pub(open) trait EventTargetImpl : JsImpl {
+  addEventListener(Self, String, (Js) -> Unit) -> Unit = _
+  removeEventListener(Self, String, (Js) -> Unit) -> Unit = _
+  dispatchEvent(Self, Js) -> Bool = _
 }
 
 pub(open) trait JsImpl {
-  to_js(Self) -> Val = _
-  get(Self, &PropertyKey) -> Val = _
+  to_js(Self) -> Js = _
+  get(Self, &PropertyKey) -> Js = _
   set(Self, &PropertyKey, &JsImpl) -> Unit = _
-  invoke(Self, &PropertyKey, Array[&JsImpl]) -> Val = _
-  invoke_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Val raise JsThrowError = _
-  invoke_self(Self, Array[&JsImpl]) -> Val = _
-  invoke_self_throwable(Self, Array[&JsImpl]) -> Val raise JsThrowError = _
+  invoke(Self, &PropertyKey, Array[&JsImpl]) -> Js = _
+  invoke_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise JsThrowError = _
+  invoke_self(Self, Array[&JsImpl]) -> Js = _
+  invoke_self_throwable(Self, Array[&JsImpl]) -> Js raise JsThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
 }
@@ -215,13 +211,14 @@ impl JsImpl for UInt
 impl JsImpl for Float
 impl JsImpl for Double
 impl JsImpl for String
-impl[T] Js for T?
+impl[T] JsImpl for T?
 impl JsImpl for Array[&JsImpl]
 impl JsImpl for Json
 impl JsImpl for Map[String, &JsImpl]
 
 pub trait PropertyKey {
-  to_key(Self) -> Val
+  to_key(Self) -> Js
 }
 impl PropertyKey for Int
 impl PropertyKey for String
+

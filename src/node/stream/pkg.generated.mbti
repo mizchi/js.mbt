@@ -12,11 +12,42 @@ import(
 
 // Types and methods
 #external
+pub type Duplex
+impl @js.JsImpl for Duplex
+impl @events.EventEmitterImpl for Duplex
+impl StreamImpl for Duplex
+
+#external
+pub type Readable
+fn Readable::fromWeb(@mizchi/js/stream.ReadableStream) -> Self
+fn Readable::toWeb(Self) -> @mizchi/js/stream.ReadableStream
+impl @js.JsImpl for Readable
+impl @events.EventEmitterImpl for Readable
+impl StreamImpl for Readable
+
+#external
 pub type Stream
-impl @js.Js for Stream
+impl @js.JsImpl for Stream
 impl @events.EventEmitterImpl for Stream
+impl StreamImpl for Stream
+
+#external
+pub type Transform
+impl @js.JsImpl for Transform
+impl @events.EventEmitterImpl for Transform
+impl StreamImpl for Transform
+
+#external
+pub type Writable
+fn Writable::fromWeb(@mizchi/js/stream.WritableStream) -> Self
+fn Writable::toWeb(Self) -> @mizchi/js/stream.WritableStream
+impl @js.JsImpl for Writable
+impl @events.EventEmitterImpl for Writable
+impl StreamImpl for Writable
 
 // Type aliases
 
 // Traits
+pub(open) trait StreamImpl : @js.JsImpl + @events.EventEmitterImpl {
+}
 

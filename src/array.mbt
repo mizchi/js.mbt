@@ -37,7 +37,7 @@ pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
 
 ///|
 /// JS: Array.isArray(v)
-pub fn[T: JsImpl] JsArray::isArray(v : T) -> Bool {
+pub fn[T : JsImpl] JsArray::isArray(v : T) -> Bool {
   ffi_is_array(v.to_js())
 }
 

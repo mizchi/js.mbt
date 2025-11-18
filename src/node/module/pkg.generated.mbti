@@ -10,7 +10,7 @@ import(
 fn builtinModules() -> Array[String]
 
 #alias(create_require)
-fn createRequire(String) -> @js.Val
+fn createRequire(String) -> @js.Js
 
 #alias(enable_compile_cache)
 fn enableCompileCache(cache_dir? : String) -> Unit
@@ -40,8 +40,8 @@ fn syncBuiltinESMExports() -> Unit
 pub type SourceMap
 #alias(find_entry)
 fn SourceMap::findEntry(Self, Int, Int) -> SourceMapEntry?
-fn SourceMap::payload(Self) -> @js.Val
-impl @js.Js for SourceMap
+fn SourceMap::payload(Self) -> @js.Js
+impl @js.JsImpl for SourceMap
 
 #external
 pub type SourceMapEntry
@@ -56,7 +56,7 @@ fn SourceMapEntry::originalColumn(Self) -> Int
 fn SourceMapEntry::originalLine(Self) -> Int
 #alias(original_source)
 fn SourceMapEntry::originalSource(Self) -> String
-impl @js.Js for SourceMapEntry
+impl @js.JsImpl for SourceMapEntry
 
 // Type aliases
 

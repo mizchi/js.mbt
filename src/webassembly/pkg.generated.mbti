@@ -7,11 +7,11 @@ import(
 )
 
 // Values
-fn compile(@arraybuffer.Uint8Array) -> @js.Val
+fn compile(@arraybuffer.Uint8Array) -> @js.Js
 
-fn instantiate_bytes(@arraybuffer.Uint8Array, @js.Val?) -> (WebAssemblyModule, WebAssemblyInstance)
+fn instantiate_bytes(@arraybuffer.Uint8Array, @js.Js?) -> (WebAssemblyModule, WebAssemblyInstance)
 
-fn instantiate_module(WebAssemblyModule, @js.Val?) -> WebAssemblyInstance
+fn instantiate_module(WebAssemblyModule, @js.Js?) -> WebAssemblyInstance
 
 fn validate(@arraybuffer.Uint8Array) -> Bool
 
@@ -37,37 +37,37 @@ pub(all) struct TableDescriptor {
 
 #external
 pub type WebAssemblyGlobal
-fn WebAssemblyGlobal::new(GlobalDescriptor, @js.Val) -> Self
-fn WebAssemblyGlobal::set_value(Self, @js.Val) -> Unit
-fn WebAssemblyGlobal::value(Self) -> @js.Val
-impl @js.Js for WebAssemblyGlobal
+fn WebAssemblyGlobal::new(GlobalDescriptor, @js.Js) -> Self
+fn WebAssemblyGlobal::set_value(Self, @js.Js) -> Unit
+fn WebAssemblyGlobal::value(Self) -> @js.Js
+impl @js.JsImpl for WebAssemblyGlobal
 
 #external
 pub type WebAssemblyInstance
-fn WebAssemblyInstance::exports(Self) -> @js.Val
-fn WebAssemblyInstance::from_module(WebAssemblyModule, @js.Val?) -> Self
-impl @js.Js for WebAssemblyInstance
+fn WebAssemblyInstance::exports(Self) -> @js.Js
+fn WebAssemblyInstance::from_module(WebAssemblyModule, @js.Js?) -> Self
+impl @js.JsImpl for WebAssemblyInstance
 
 #external
 pub type WebAssemblyMemory
 fn WebAssemblyMemory::buffer(Self) -> @arraybuffer.ArrayBuffer
 fn WebAssemblyMemory::grow(Self, Int) -> Int
 fn WebAssemblyMemory::new(MemoryDescriptor) -> Self
-impl @js.Js for WebAssemblyMemory
+impl @js.JsImpl for WebAssemblyMemory
 
 #external
 pub type WebAssemblyModule
 fn WebAssemblyModule::from_buffer(@arraybuffer.ArrayBuffer) -> Self
 fn WebAssemblyModule::from_bytes(@arraybuffer.Uint8Array) -> Self
-impl @js.Js for WebAssemblyModule
+impl @js.JsImpl for WebAssemblyModule
 
 #external
 pub type WebAssemblyTable
-fn WebAssemblyTable::grow(Self, Int, @js.Val) -> Int
+fn WebAssemblyTable::grow(Self, Int, @js.Js) -> Int
 fn WebAssemblyTable::length(Self) -> Int
 fn WebAssemblyTable::new(TableDescriptor) -> Self
-fn WebAssemblyTable::set(Self, Int, @js.Val) -> Unit
-impl @js.Js for WebAssemblyTable
+fn WebAssemblyTable::set(Self, Int, @js.Js) -> Unit
+impl @js.JsImpl for WebAssemblyTable
 
 // Type aliases
 

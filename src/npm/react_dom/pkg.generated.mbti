@@ -21,12 +21,12 @@ fn renderToString(@react.Element) -> String
 pub type ReactDOMClient
 #alias(create_root)
 fn ReactDOMClient::createRoot(Self, &@dom.ElementImpl) -> ReactDOMRoot
-impl @js.Js for ReactDOMClient
+impl @js.JsImpl for ReactDOMClient
 
 #external
 pub type ReactDOMRoot
 fn ReactDOMRoot::render(Self, @react.Element) -> Unit
-impl @js.Js for ReactDOMRoot
+impl @js.JsImpl for ReactDOMRoot
 
 // Type aliases
 

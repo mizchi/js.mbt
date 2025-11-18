@@ -13,49 +13,49 @@ import(
 // Types and methods
 #external
 pub type ReadableStream
-fn ReadableStream::cancel(Self, reason? : @js.Val) -> @promise.Promise[Unit]
+fn ReadableStream::cancel(Self, reason? : @js.Js) -> @promise.Promise[Unit]
 #alias(getReader)
 fn ReadableStream::get_reader(Self) -> ReadableStreamDefaultReader
 fn ReadableStream::locked(Self) -> Bool
-fn ReadableStream::new(@js.Val) -> Self
+fn ReadableStream::new(@js.Js) -> Self
 #alias(pipeThrough)
-fn ReadableStream::pipe_through(Self, @js.Val, options? : @js.Val) -> Self
+fn ReadableStream::pipe_through(Self, @js.Js, options? : @js.Js) -> Self
 #alias(pipeTo)
-fn ReadableStream::pipe_to(Self, WritableStream, options? : @js.Val) -> @promise.Promise[Unit]
+fn ReadableStream::pipe_to(Self, WritableStream, options? : @js.Js) -> @promise.Promise[Unit]
 fn ReadableStream::tee(Self) -> (Self, Self)
-impl @js.Js for ReadableStream
+impl @js.JsImpl for ReadableStream
 
 #external
 pub type ReadableStreamDefaultReader
-fn ReadableStreamDefaultReader::cancel(Self, reason? : @js.Val) -> @promise.Promise[Unit]
+fn ReadableStreamDefaultReader::cancel(Self, reason? : @js.Js) -> @promise.Promise[Unit]
 fn ReadableStreamDefaultReader::closed(Self) -> @promise.Promise[Unit]
-fn ReadableStreamDefaultReader::read(Self) -> @promise.Promise[@js.Val]
+fn ReadableStreamDefaultReader::read(Self) -> @promise.Promise[@js.Js]
 #alias(releaseLock)
 fn ReadableStreamDefaultReader::release_lock(Self) -> Unit
-impl @js.Js for ReadableStreamDefaultReader
+impl @js.JsImpl for ReadableStreamDefaultReader
 
 #external
 pub type TransformStream
-fn TransformStream::new(@js.Val) -> Self
+fn TransformStream::new(@js.Js) -> Self
 #alias(newIdentity)
 fn TransformStream::new_identity() -> Self
 fn TransformStream::readable(Self) -> ReadableStream
 fn TransformStream::writable(Self) -> WritableStream
-impl @js.Js for TransformStream
+impl @js.JsImpl for TransformStream
 
 #external
 pub type WritableStream
-fn WritableStream::abort(Self, reason? : @js.Val) -> @promise.Promise[Unit]
+fn WritableStream::abort(Self, reason? : @js.Js) -> @promise.Promise[Unit]
 fn WritableStream::close(Self) -> @promise.Promise[Unit]
 #alias(getWriter)
 fn WritableStream::get_writer(Self) -> WritableStreamDefaultWriter
 fn WritableStream::locked(Self) -> Bool
-fn WritableStream::new(@js.Val) -> Self
-impl @js.Js for WritableStream
+fn WritableStream::new(@js.Js) -> Self
+impl @js.JsImpl for WritableStream
 
 #external
 pub type WritableStreamDefaultWriter
-fn WritableStreamDefaultWriter::abort(Self, reason? : @js.Val) -> @promise.Promise[Unit]
+fn WritableStreamDefaultWriter::abort(Self, reason? : @js.Js) -> @promise.Promise[Unit]
 fn WritableStreamDefaultWriter::close(Self) -> @promise.Promise[Unit]
 fn WritableStreamDefaultWriter::closed(Self) -> @promise.Promise[Unit]
 #alias(desiredSize)
@@ -63,8 +63,8 @@ fn WritableStreamDefaultWriter::desired_size(Self) -> Int?
 fn WritableStreamDefaultWriter::ready(Self) -> @promise.Promise[Unit]
 #alias(releaseLock)
 fn WritableStreamDefaultWriter::release_lock(Self) -> Unit
-fn WritableStreamDefaultWriter::write(Self, @js.Val) -> @promise.Promise[Unit]
-impl @js.Js for WritableStreamDefaultWriter
+fn WritableStreamDefaultWriter::write(Self, @js.Js) -> @promise.Promise[Unit]
+impl @js.JsImpl for WritableStreamDefaultWriter
 
 // Type aliases
 

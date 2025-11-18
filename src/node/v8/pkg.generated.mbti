@@ -11,21 +11,21 @@ import(
 #alias(cached_data_version_tag)
 fn cachedDataVersionTag() -> Int
 
-fn deserialize(@buffer.Buffer) -> @js.Val
+fn deserialize(@buffer.Buffer) -> @js.Js
 
 #alias(get_heap_code_statistics)
-fn getHeapCodeStatistics() -> @js.Val
+fn getHeapCodeStatistics() -> @js.Js
 
 #alias(get_heap_snapshot)
-fn getHeapSnapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @js.Val
+fn getHeapSnapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @js.Js
 
 #alias(get_heap_space_statistics)
-fn getHeapSpaceStatistics() -> Array[@js.Val]
+fn getHeapSpaceStatistics() -> Array[@js.Js]
 
 #alias(get_heap_statistics)
-fn getHeapStatistics() -> @js.Val
+fn getHeapStatistics() -> @js.Js
 
-fn serialize(&@js.Js) -> @buffer.Buffer
+fn serialize(&@js.JsImpl) -> @buffer.Buffer
 
 #alias(set_flags_from_string)
 fn setFlagsFromString(String) -> Unit
@@ -59,10 +59,10 @@ fn Deserializer::readRawBytes(Self, Int) -> @buffer.Buffer
 #alias(read_uint32)
 fn Deserializer::readUint32(Self) -> Int
 #alias(read_value)
-fn Deserializer::readValue(Self) -> @js.Val
+fn Deserializer::readValue(Self) -> @js.Js
 #alias(transferArrayBuffer)
 fn Deserializer::transfer_array_buffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
-impl @js.Js for Deserializer
+impl @js.JsImpl for Deserializer
 
 #external
 pub type Serializer
@@ -74,14 +74,14 @@ fn Serializer::transferArrayBuffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
 #alias(write_header)
 fn Serializer::writeHeader(Self) -> Unit
 #alias(write_value)
-fn Serializer::writeValue(Self, &@js.Js) -> Bool
+fn Serializer::writeValue(Self, &@js.JsImpl) -> Bool
 #alias(writeDouble)
 fn Serializer::write_double(Self, Double) -> Unit
 #alias(writeRawBytes)
-fn Serializer::write_raw_bytes(Self, &@js.Js) -> Unit
+fn Serializer::write_raw_bytes(Self, &@js.JsImpl) -> Unit
 #alias(writeUint32)
 fn Serializer::write_uint32(Self, Int) -> Unit
-impl @js.Js for Serializer
+impl @js.JsImpl for Serializer
 
 // Type aliases
 

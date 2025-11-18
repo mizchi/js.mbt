@@ -28,13 +28,13 @@ fn run(files? : Array[String], cwd? : String, forceExit? : Bool, inspectPort? : 
 // Types and methods
 type TestContext
 fn TestContext::todo(Self, String) -> Unit
-impl @js.Js for TestContext
+impl @js.JsImpl for TestContext
 
 pub(all) struct TestShard {
   total : Int
   index : Int
 }
-impl @js.Js for TestShard
+impl @js.JsImpl for TestShard
 
 // Type aliases
 

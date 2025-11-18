@@ -7,27 +7,45 @@ import(
 )
 
 // Values
+fn argv() -> Array[String]
+
+fn chdir(String) -> Unit
+
+fn cwd() -> String
+
+fn env() -> ProcessEnv
+
+fn exit(Int) -> Unit
+
+fn exitCode() -> Int
+
+fn isTTY() -> Bool
+
+fn on(String, () -> Unit) -> Unit
+
+fn process() -> Process
+
+fn stderr() -> @stream.Stream
+
+fn stdin() -> @stream.Stream
+
+fn stdout() -> @stream.Stream
+
+fn version() -> String
+
+fn versions() -> @js.Object
 
 // Errors
 
 // Types and methods
 #external
-pub type Env
-fn Env::get_(Self, String) -> String?
-fn Env::set_(Self, String, String) -> Unit
-impl @js.Js for Env
+pub type Process
+impl @js.JsImpl for Process
 
 #external
-pub type Process
-fn Process::args(Self) -> Array[String]
-fn Process::chdir(Self, String) -> Unit
-fn Process::cwd(Self) -> String
-fn Process::env() -> Env
-fn Process::exit(Self, Int) -> Unit
-fn Process::require() -> Self
-fn Process::stdio() -> @stream.Stream
-fn Process::stdout() -> @stream.Stream
-impl @js.Js for Process
+pub type ProcessEnv
+fn ProcessEnv::get(Self, String) -> String?
+fn ProcessEnv::has(Self, String) -> Bool
 
 // Type aliases
 

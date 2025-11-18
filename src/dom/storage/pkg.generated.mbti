@@ -25,7 +25,7 @@ fn Storage::length(Self) -> Int
 fn Storage::removeItem(Self, String) -> Unit
 fn Storage::setItem(Self, String, String) -> Unit
 fn Storage::values(Self) -> Array[String]
-impl @js.Js for Storage
+impl @js.JsImpl for Storage
 
 // Type aliases
 

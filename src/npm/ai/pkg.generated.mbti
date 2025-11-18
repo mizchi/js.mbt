@@ -13,14 +13,14 @@ import(
 // Types and methods
 #external
 pub type Ai
-fn Ai::generate_text(Self, model~ : Model, messages~ : Array[ModelMessage]) -> @promise.Promise[@js.Val]
+fn Ai::generate_text(Self, model~ : Model, messages~ : Array[ModelMessage]) -> @promise.Promise[@js.Js]
 fn Ai::require() -> Self
-impl @js.Js for Ai
+impl @js.JsImpl for Ai
 
 pub(all) enum MessageContent {
   Message(String)
 }
-impl @js.Js for MessageContent
+impl @js.JsImpl for MessageContent
 
 #external
 pub type Model
@@ -30,7 +30,7 @@ pub(all) enum ModelMessage {
   AssitantMessage(content~ : MessageContent)
   SystemMessage(content~ : MessageContent)
 }
-impl @js.Js for ModelMessage
+impl @js.JsImpl for ModelMessage
 
 // Type aliases
 

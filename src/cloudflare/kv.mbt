@@ -23,10 +23,7 @@ pub fn KVNamespace::get(
 
 ///|
 /// Get a value as ArrayBuffer
-pub fn KVNamespace::get_array_buffer(
-  self : Self,
-  key : String,
-) -> Promise[Js?] {
+pub fn KVNamespace::get_array_buffer(self : Self, key : String) -> Promise[Js?] {
   let opts_js = @js.Object::new()
   opts_js.set("type", "arrayBuffer")
   self.invoke("get", [key, opts_js]) |> unsafe_cast

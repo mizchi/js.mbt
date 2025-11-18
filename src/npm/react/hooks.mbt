@@ -2,7 +2,7 @@
 /// React.useState
 /// ```mbt
 /// fn my_component (props: EmptyProps) -> Element {
-///   let (count, set_count) = useState(0)
+///   let (_count, set_count) = useState(0)
 ///   ...
 /// }
 /// ```
@@ -166,7 +166,7 @@ pub fn[T] use_(promise : Promise[T]) -> T {
 /// enum CounterAction {
 ///   Increment
 /// }
-/// fn my_component(props : EmptyProps) -> Element {
+/// fn my_component(_props : EmptyProps) -> Element {
 ///   let (state, dispatch) = use_reducer((s: Int, a: CounterAction) => match a {
 ///     Increment => s + 1
 ///   }, 0)

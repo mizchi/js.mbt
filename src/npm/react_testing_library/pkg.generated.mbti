@@ -21,8 +21,8 @@ fn screen() -> Screen
 // Types and methods
 #external
 pub type FireEvent
-fn FireEvent::click(Self, @js.Val) -> Unit
-impl @js.Js for FireEvent
+fn FireEvent::click(Self, @js.Js) -> Unit
+impl @js.JsImpl for FireEvent
 
 #external
 pub type ReactTestingLibrary
@@ -30,9 +30,9 @@ pub type ReactTestingLibrary
 #external
 pub type Screen
 fn Screen::debug(Self) -> Unit
-fn Screen::getByRole(Self, String) -> @js.Val
-fn Screen::getByText(Self, String) -> @js.Val
-impl @js.Js for Screen
+fn Screen::getByRole(Self, String) -> @js.Js
+fn Screen::getByText(Self, String) -> @js.Js
+impl @js.JsImpl for Screen
 
 // Type aliases
 

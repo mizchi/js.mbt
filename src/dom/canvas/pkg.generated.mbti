@@ -12,10 +12,10 @@ import(
 
 // Values
 #alias(create_image_bitmap)
-fn createImageBitmap(&@js.Js) -> ImageBitmap
+fn createImageBitmap(&@js.JsImpl) -> ImageBitmap
 
 #alias(create_image_bitmap_rect)
-fn createImageBitmapRect(&@js.Js, Int, Int, Int, Int) -> @promise.Promise[ImageBitmap]
+fn createImageBitmapRect(&@js.JsImpl, Int, Int, Int, Int) -> @promise.Promise[ImageBitmap]
 
 // Errors
 
@@ -34,9 +34,9 @@ fn CanvasRenderingContext2D::clip(Self) -> Unit
 #alias(close_path)
 fn CanvasRenderingContext2D::closePath(Self) -> Unit
 fn CanvasRenderingContext2D::createImageData(Self, Int, Int) -> ImageData
-fn CanvasRenderingContext2D::drawImage(Self, &@js.Js, Double, Double) -> Unit
-fn CanvasRenderingContext2D::drawImageScaled(Self, &@js.Js, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::drawImageSub(Self, &@js.Js, Double, Double, Double, Double, Double, Double, Double, Double) -> Unit
+fn CanvasRenderingContext2D::drawImage(Self, &@js.JsImpl, Double, Double) -> Unit
+fn CanvasRenderingContext2D::drawImageScaled(Self, &@js.JsImpl, Double, Double, Double, Double) -> Unit
+fn CanvasRenderingContext2D::drawImageSub(Self, &@js.JsImpl, Double, Double, Double, Double, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::fill(Self) -> Unit
 #alias(fill_rect)
 fn CanvasRenderingContext2D::fillRect(Self, Double, Double, Double, Double) -> Unit
@@ -76,14 +76,14 @@ fn CanvasRenderingContext2D::textAlign(Self) -> String
 fn CanvasRenderingContext2D::textBaseline(Self) -> String
 fn CanvasRenderingContext2D::transform(Self, Double, Double, Double, Double, Double, Double) -> Unit
 fn CanvasRenderingContext2D::translate(Self, Double, Double) -> Unit
-impl @js.Js for CanvasRenderingContext2D
+impl @js.JsImpl for CanvasRenderingContext2D
 
 #external
 pub type ImageBitmap
 fn ImageBitmap::close(Self) -> Unit
 fn ImageBitmap::height(Self) -> Int
 fn ImageBitmap::width(Self) -> Int
-impl @js.Js for ImageBitmap
+impl @js.JsImpl for ImageBitmap
 impl @worker.Transferable for ImageBitmap
 
 #external
@@ -93,7 +93,7 @@ fn ImageData::from_data(@arraybuffer.Uint8Array, Int, Int) -> Self
 fn ImageData::height(Self) -> Int
 fn ImageData::new(Int, Int) -> Self
 fn ImageData::width(Self) -> Int
-impl @js.Js for ImageData
+impl @js.JsImpl for ImageData
 
 #external
 pub type OffscreenCanvas
@@ -105,13 +105,13 @@ fn OffscreenCanvas::setHeight(Self, Int) -> Unit
 fn OffscreenCanvas::setWidth(Self, Int) -> Unit
 fn OffscreenCanvas::transferToImage_bitmap(Self) -> ImageBitmap
 fn OffscreenCanvas::width(Self) -> Int
-impl @js.Js for OffscreenCanvas
+impl @js.JsImpl for OffscreenCanvas
 impl @worker.Transferable for OffscreenCanvas
 
 #external
 pub type TextMetrics
 fn TextMetrics::width(Self) -> Double
-impl @js.Js for TextMetrics
+impl @js.JsImpl for TextMetrics
 
 // Type aliases
 

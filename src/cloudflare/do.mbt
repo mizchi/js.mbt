@@ -577,10 +577,7 @@ pub impl JsImpl for DurableObjectTransaction
 
 ///|
 /// Get a value in transaction
-pub fn DurableObjectTransaction::get(
-  self : Self,
-  key : String,
-) -> Promise[Js?] {
+pub fn DurableObjectTransaction::get(self : Self, key : String) -> Promise[Js?] {
   self.invoke("get", [key]) |> unsafe_cast
 }
 

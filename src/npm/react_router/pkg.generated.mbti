@@ -12,7 +12,7 @@ fn createBrowserRouter(Array[Route]) -> Router
 
 async fn init_react_router_async() -> Unit
 
-fn link(to~ : String, Array[&@js.Js]) -> @react.Element
+fn link(to~ : String, Array[&@js.JsImpl]) -> @react.Element
 
 #alias(router_provider)
 fn routerProvider(Router) -> @react.Element

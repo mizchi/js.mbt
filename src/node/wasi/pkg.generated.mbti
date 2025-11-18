@@ -13,16 +13,16 @@ import(
 // Types and methods
 #external
 pub type WASI
-fn WASI::getImportObject(Self) -> @js.Val
+fn WASI::getImportObject(Self) -> @js.Js
 fn WASI::initialize(Self, @webassembly.WebAssemblyInstance) -> Unit
 fn WASI::new(WasiOptions) -> Self
 fn WASI::start(Self, @webassembly.WebAssemblyInstance) -> Unit
-fn WASI::wasiImport(Self) -> @js.Val
-impl @js.Js for WASI
+fn WASI::wasiImport(Self) -> @js.Js
+impl @js.JsImpl for WASI
 
 #external
 pub type WasiModule
-impl @js.Js for WasiModule
+impl @js.JsImpl for WasiModule
 
 pub(all) struct WasiOptions {
   args : Array[String]?

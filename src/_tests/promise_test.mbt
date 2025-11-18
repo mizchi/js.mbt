@@ -92,7 +92,7 @@ test {
 ///|
 test {
   it("Promise::new", _ => {
-    let p : @promise.Promise[Int] = @promise.Promise::new((resolve, reject) => run_async(() => {
+    let p : @promise.Promise[Int] = @promise.Promise::new((resolve, _reject) => run_async(() => {
         sleep(1)
         resolve(42)
       },

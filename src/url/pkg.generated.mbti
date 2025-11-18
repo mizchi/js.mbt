@@ -6,9 +6,9 @@ import(
 )
 
 // Values
-fn get_component_groups(@js.Val) -> @js.Val
+fn get_component_groups(@js.Js) -> @js.Js
 
-fn get_component_input(@js.Val) -> String
+fn get_component_input(@js.Js) -> String
 
 // Errors
 
@@ -30,7 +30,7 @@ pub(all) struct URL {
 #alias(canParse)
 fn URL::can_parse(String, base? : String) -> Bool
 #alias(createObjectURL)
-fn URL::create_object_url(@js.Val) -> String
+fn URL::create_object_url(@js.Js) -> String
 fn URL::new(String, base? : String) -> Self
 fn URL::parse(String, base? : String) -> Self?
 #alias(revokeObjectURL)
@@ -38,7 +38,7 @@ fn URL::revoke_object_url(String) -> Unit
 #alias(toJSON)
 fn URL::to_json(Self) -> String
 fn URL::to_string(Self) -> String
-impl @js.Js for URL
+impl @js.JsImpl for URL
 impl Eq for URL
 impl Show for URL
 
@@ -53,7 +53,7 @@ fn URLPattern::hash(Self) -> String
 fn URLPattern::hostname(Self) -> String
 fn URLPattern::new(String, base? : String) -> Self
 #alias(new_from_object)
-fn URLPattern::newFromObject(@js.Val, base? : String) -> Self
+fn URLPattern::newFromObject(@js.Js, base? : String) -> Self
 fn URLPattern::password(Self) -> String
 fn URLPattern::pathname(Self) -> String
 fn URLPattern::port(Self) -> String
@@ -62,20 +62,20 @@ fn URLPattern::search(Self) -> String
 fn URLPattern::test_url(Self, String) -> Bool
 fn URLPattern::test_url_with_base(Self, String, base? : String) -> Bool
 fn URLPattern::username(Self) -> String
-impl @js.Js for URLPattern
+impl @js.JsImpl for URLPattern
 
 #external
 pub type URLPatternResult
-fn URLPatternResult::hash(Self) -> @js.Val
-fn URLPatternResult::hostname(Self) -> @js.Val
-fn URLPatternResult::inputs(Self) -> @js.Val
-fn URLPatternResult::password(Self) -> @js.Val
-fn URLPatternResult::pathname(Self) -> @js.Val
-fn URLPatternResult::port(Self) -> @js.Val
-fn URLPatternResult::protocol(Self) -> @js.Val
-fn URLPatternResult::search(Self) -> @js.Val
-fn URLPatternResult::username(Self) -> @js.Val
-impl @js.Js for URLPatternResult
+fn URLPatternResult::hash(Self) -> @js.Js
+fn URLPatternResult::hostname(Self) -> @js.Js
+fn URLPatternResult::inputs(Self) -> @js.Js
+fn URLPatternResult::password(Self) -> @js.Js
+fn URLPatternResult::pathname(Self) -> @js.Js
+fn URLPatternResult::port(Self) -> @js.Js
+fn URLPatternResult::protocol(Self) -> @js.Js
+fn URLPatternResult::search(Self) -> @js.Js
+fn URLPatternResult::username(Self) -> @js.Js
+impl @js.JsImpl for URLPatternResult
 
 #external
 pub type URLSearchParams

@@ -134,11 +134,7 @@ extern "js" fn ffi_console_log(v : Array[Js]) -> Unit =
   #|(obj) => console.log(...obj)
 
 ///|
-extern "js" fn ffi_json_stringify(
-  v : Js,
-  replacer : Js,
-  space : Js,
-) -> String =
+extern "js" fn ffi_json_stringify(v : Js, replacer : Js, space : Js) -> String =
   #|(v, replacer, space) => JSON.stringify(v, replacer, space)
 
 ///|

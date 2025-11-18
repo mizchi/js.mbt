@@ -36,12 +36,12 @@ fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, fl
 // Types and methods
 #external
 pub type Dirent
-#alias(isDirectory)
-fn Dirent::is_directory(Self) -> Bool
-#alias(isFile)
-fn Dirent::is_file(Self) -> Bool
+#alias(is_directory)
+fn Dirent::isDirectory(Self) -> Bool
+#alias(is_file)
+fn Dirent::isFile(Self) -> Bool
 fn Dirent::name(Self) -> String
-impl @js.Js for Dirent
+impl @js.JsImpl for Dirent
 
 #external
 pub type FileHandle

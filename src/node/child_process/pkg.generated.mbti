@@ -8,23 +8,23 @@ import(
 )
 
 // Values
-fn exec(String, (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
+fn exec(String, (@js.Js?, String, String) -> Unit, cwd? : String, env? : @js.Js, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 #alias(exec_file)
-fn execFile(String, Array[String], (@js.Val, String, String) -> Unit, cwd? : String, env? : @js.Val, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
+fn execFile(String, Array[String], (@js.Js?, String, String) -> Unit, cwd? : String, env? : @js.Js, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 #alias(exec_file_sync)
-fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Val, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String
+fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Js, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String
 
 #alias(exec_sync)
-fn execSync(String, cwd? : String, env? : @js.Val, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String
+fn execSync(String, cwd? : String, env? : @js.Js, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String
 
-fn fork(String, args? : Array[String], cwd? : String, env? : @js.Val, silent? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
+fn fork(String, args? : Array[String], cwd? : String, env? : @js.Js, silent? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
-fn spawn(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
+fn spawn(String, args? : Array[String], cwd? : String, env? : @js.Js, shell? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 #alias(spawn_sync)
-fn spawnSync(String, args? : Array[String], cwd? : String, env? : @js.Val, shell? : Bool, timeout? : Int, input? : String) -> SpawnSyncResult
+fn spawnSync(String, args? : Array[String], cwd? : String, env? : @js.Js, shell? : Bool, timeout? : Int, input? : String) -> SpawnSyncResult
 
 // Errors
 
@@ -37,32 +37,32 @@ fn ChildProcess::kill(Self, signal? : String) -> Bool
 fn ChildProcess::killed(Self) -> Bool
 fn ChildProcess::on_close(Self, (Int?, String?) -> Unit) -> Unit
 fn ChildProcess::on_disconnect(Self, () -> Unit) -> Unit
-fn ChildProcess::on_error(Self, (@js.Val) -> Unit) -> Unit
+fn ChildProcess::on_error(Self, (@js.Js) -> Unit) -> Unit
 fn ChildProcess::on_exit(Self, (Int?, String?) -> Unit) -> Unit
-fn ChildProcess::on_message(Self, (@js.Val, @js.Val?) -> Unit) -> Unit
+fn ChildProcess::on_message(Self, (@js.Js, @js.Js?) -> Unit) -> Unit
 fn ChildProcess::on_spawn(Self, () -> Unit) -> Unit
-fn ChildProcess::on_stderr_data(Self, (@js.Val) -> Unit) -> Unit
-fn ChildProcess::on_stdout_data(Self, (@js.Val) -> Unit) -> Unit
+fn ChildProcess::on_stderr_data(Self, (@js.Js) -> Unit) -> Unit
+fn ChildProcess::on_stdout_data(Self, (@js.Js) -> Unit) -> Unit
 fn ChildProcess::pid(Self) -> Int
 fn ChildProcess::ref_(Self) -> Unit
-fn ChildProcess::send(Self, &@js.Js) -> Bool
+fn ChildProcess::send(Self, &@js.JsImpl) -> Bool
 fn ChildProcess::signalCode(Self) -> String?
 fn ChildProcess::stderr(Self) -> @stream.ReadableStream?
 fn ChildProcess::stdin(Self) -> @stream.WritableStream?
 fn ChildProcess::stdout(Self) -> @stream.ReadableStream?
 fn ChildProcess::unref(Self) -> Unit
-impl @js.Js for ChildProcess
+impl @js.JsImpl for ChildProcess
 impl @events.EventEmitterImpl for ChildProcess
 
 #external
 pub type SpawnSyncResult
-fn SpawnSyncResult::error(Self) -> @js.Val?
+fn SpawnSyncResult::error(Self) -> @js.Js?
 fn SpawnSyncResult::pid(Self) -> Int
 fn SpawnSyncResult::signal(Self) -> String?
 fn SpawnSyncResult::status(Self) -> Int?
-fn SpawnSyncResult::stderr(Self) -> @js.Val
-fn SpawnSyncResult::stdout(Self) -> @js.Val
-impl @js.Js for SpawnSyncResult
+fn SpawnSyncResult::stderr(Self) -> @stream.ReadableStream
+fn SpawnSyncResult::stdout(Self) -> @stream.ReadableStream
+impl @js.JsImpl for SpawnSyncResult
 
 // Type aliases
 

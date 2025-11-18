@@ -4,13 +4,18 @@ package "mizchi/js/node/fs"
 import(
   "mizchi/js"
   "mizchi/js/node/buffer"
+  "mizchi/js/node/stream"
 )
 
 // Values
 #alias(appendFileSync)
-fn append_file_sync(String, &@js.Js) -> Unit
+fn append_file_sync(String, &@js.JsImpl) -> Unit
 
 fn copyFileSync(String, String) -> Unit
+
+fn createReadStream(String) -> @stream.Readable
+
+fn createWriteStream(String) -> @stream.Writable
 
 #alias(exists_sync)
 fn existsSync(String) -> Bool
@@ -33,13 +38,13 @@ fn renameSync(String, String) -> Unit
 fn rmSync(String, recursive? : Bool, force? : Bool) -> Unit
 
 #alias(stat_sync)
-fn statSync(String) -> @js.Val
+fn statSync(String) -> @js.Js
 
 #alias(unlink_sync)
 fn unlinkSync(String) -> Unit
 
 #alias(write_file_sync)
-fn writeFileSync(String, &@js.Js) -> Unit
+fn writeFileSync(String, &@js.JsImpl) -> Unit
 
 // Errors
 
@@ -50,7 +55,7 @@ fn Stat::isDirectory(Self) -> Bool
 fn Stat::isFile(Self) -> Bool
 fn Stat::mtime_ms(Self) -> Float
 fn Stat::size(Self) -> Int
-impl @js.Js for Stat
+impl @js.JsImpl for Stat
 
 // Type aliases
 

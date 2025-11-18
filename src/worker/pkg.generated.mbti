@@ -15,40 +15,40 @@ pub type MessageChannel
 fn MessageChannel::new() -> Self
 fn MessageChannel::port1(Self) -> MessagePort
 fn MessageChannel::port2(Self) -> MessagePort
-impl @js.Js for MessageChannel
+impl @js.JsImpl for MessageChannel
 impl Show for MessageChannel
 
 pub(all) struct MessageEvent {
-  data : @js.Val
+  data : @js.Js
   origin : String
-  source : @js.Val
+  source : @js.Js
 }
 
 #external
 pub type MessagePort
 fn MessagePort::close(Self) -> Unit
 #alias(postMessage)
-fn MessagePort::post_message(Self, &@js.Js) -> Unit
-fn MessagePort::post_message_with_transfer(Self, &@js.Js, Array[@js.Val]) -> Unit
+fn MessagePort::post_message(Self, &@js.JsImpl) -> Unit
+fn MessagePort::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Js]) -> Unit
 fn MessagePort::start(Self) -> Unit
-impl @js.EventTarget for MessagePort
-impl @js.Js for MessagePort
+impl @js.EventTargetImpl for MessagePort
+impl @js.JsImpl for MessagePort
 impl Show for MessagePort
 
 #external
 pub type Worker
 fn Worker::new(String, type_? : String) -> Self
 #alias(post_message)
-fn Worker::postMessage(Self, &@js.Js) -> Unit
-fn Worker::post_message_with_transfer(Self, &@js.Js, Array[@js.Val]) -> Unit
+fn Worker::postMessage(Self, &@js.JsImpl) -> Unit
+fn Worker::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Js]) -> Unit
 fn Worker::terminate(Self) -> Unit
-impl @js.EventTarget for Worker
-impl @js.Js for Worker
+impl @js.EventTargetImpl for Worker
+impl @js.JsImpl for Worker
 
 // Type aliases
 
 // Traits
 pub(open) trait Transferable {
-  to_transferable(Self) -> @js.Val
+  to_transferable(Self) -> @js.Js
 }
 

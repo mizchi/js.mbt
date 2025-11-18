@@ -9,46 +9,46 @@ import(
 
 // Values
 #alias(c)
-fn[T] component((T) -> Element, T, children? : Array[&@js.Js], key? : String) -> Element
+fn[T] component((T) -> Element, T, children? : Array[&@js.JsImpl], key? : String) -> Element
 
 #alias(h)
-fn createElement(String, Array[&@js.Js], props? : Map[String, @js.Val], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
+fn createElement(String, Array[&@js.JsImpl], props? : Map[String, @js.Js], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
 
 #alias(createContext)
 fn[T] create_context(T?) -> Context[T]
 
-fn fragment(Array[&@js.Js], key? : String) -> Element
+fn fragment(Array[&@js.JsImpl], key? : String) -> Element
 
-fn init_react_api(@js.Val, global_key? : String) -> Unit
+fn init_react_api(@js.Js, global_key? : String) -> Unit
 
 async fn init_react_async() -> Unit
 
-fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @promise.Promise[@js.Val]
+fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @promise.Promise[@js.Js]
 
-fn[T] provider(Context[T], Array[&@js.Js], value~ : T) -> Element
+fn[T] provider(Context[T], Array[&@js.JsImpl], value~ : T) -> Element
 
 #alias(startTransition)
 fn start_transition(() -> Unit) -> Unit
 
-fn suspense(Array[&@js.Js], fallback~ : Element) -> Element
+fn suspense(Array[&@js.JsImpl], fallback~ : Element) -> Element
 
 #alias(use_callback)
-fn[F] useCallback(F, Array[&@js.Js]) -> F
+fn[F] useCallback(F, Array[&@js.JsImpl]) -> F
 
 #alias(use_effect)
-fn useEffect(() -> () -> Unit, Array[&@js.Js]) -> Unit
+fn useEffect(() -> () -> Unit, Array[&@js.JsImpl]) -> Unit
 
 #alias(use_layout_effect)
-fn useLayoutEffect(() -> () -> Unit, Array[&@js.Js]) -> Unit
+fn useLayoutEffect(() -> () -> Unit, Array[&@js.JsImpl]) -> Unit
 
 #alias(use_memo)
-fn[T] useMemo(() -> T, Array[&@js.Js]) -> T
+fn[T] useMemo(() -> T, Array[&@js.JsImpl]) -> T
 
 #alias(use_ref)
 fn[T] useRef(T?) -> ReactRef[T]
 
 #alias(use_state)
-fn[T : @js.Js] useState(T) -> (T, (T) -> Unit)
+fn[T : @js.JsImpl] useState(T) -> (T, (T) -> Unit)
 
 fn[T] use_(@promise.Promise[T]) -> T
 
@@ -74,7 +74,7 @@ pub type Context[T]
 
 #external
 pub type Element
-impl @js.Js for Element
+impl @js.JsImpl for Element
 impl ReactNode for Element
 
 pub(all) struct EmptyProps {
@@ -85,14 +85,14 @@ impl Default for EmptyProps
 pub type ReactRef[T]
 fn[T] ReactRef::current(Self[T]) -> T?
 fn[T] ReactRef::set_current(Self[T], T) -> Unit
-impl[T] @js.Js for ReactRef[T]
+impl[T] @js.JsImpl for ReactRef[T]
 
 // Type aliases
 pub type ComponentFn[T] = (T) -> Element
 
 // Traits
 pub(open) trait ReactNode {
-  to_react_node(Self) -> @js.Val
+  to_react_node(Self) -> @js.Js
 }
 impl ReactNode for Bool
 impl ReactNode for Int

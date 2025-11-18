@@ -15,12 +15,18 @@ pub fn[K : JsImpl, V : JsImpl] WeakMap::new() -> WeakMap[K, V] {
 }
 
 ///|
-pub fn[K : JsImpl, V : JsImpl] WeakMap::delete(self : WeakMap[K, V], key : K) -> Bool {
+pub fn[K : JsImpl, V : JsImpl] WeakMap::delete(
+  self : WeakMap[K, V],
+  key : K,
+) -> Bool {
   self.invoke("delete", [key]) |> unsafe_cast
 }
 
 ///|
-pub fn[K : JsImpl, V : JsImpl] WeakMap::get(self : WeakMap[K, V], key : K) -> V? {
+pub fn[K : JsImpl, V : JsImpl] WeakMap::get(
+  self : WeakMap[K, V],
+  key : K,
+) -> V? {
   let result = self.invoke("get", [key])
   if is_undefined(result) {
     None
@@ -30,7 +36,10 @@ pub fn[K : JsImpl, V : JsImpl] WeakMap::get(self : WeakMap[K, V], key : K) -> V?
 }
 
 ///|
-pub fn[K : JsImpl, V : JsImpl] WeakMap::has(self : WeakMap[K, V], key : K) -> Bool {
+pub fn[K : JsImpl, V : JsImpl] WeakMap::has(
+  self : WeakMap[K, V],
+  key : K,
+) -> Bool {
   self.invoke("has", [key]) |> unsafe_cast
 }
 
@@ -55,22 +64,22 @@ extern "js" fn ffi_new_weakset() -> Js =
   #| () => new WeakSet()
 
 ///|
-pub fn[T: JsImpl] WeakSet::new() -> WeakSet[T] {
+pub fn[T : JsImpl] WeakSet::new() -> WeakSet[T] {
   unsafe_cast(ffi_new_weakset())
 }
 
 ///|
-pub fn[T: JsImpl] WeakSet::add(self : Self[T], value : T) -> WeakSet[T] {
+pub fn[T : JsImpl] WeakSet::add(self : Self[T], value : T) -> WeakSet[T] {
   self.invoke("add", [value]) |> unsafe_cast
 }
 
 ///|
-pub fn[T: JsImpl] WeakSet::delete(self : Self[T], value : T) -> Bool {
+pub fn[T : JsImpl] WeakSet::delete(self : Self[T], value : T) -> Bool {
   self.invoke("delete", [value]) |> unsafe_cast
 }
 
 ///|
-pub fn[T: JsImpl] WeakSet::has(self : Self[T], value : T) -> Bool {
+pub fn[T : JsImpl] WeakSet::has(self : Self[T], value : T) -> Bool {
   self.invoke("has", [value]) |> unsafe_cast
 }
 
@@ -86,7 +95,7 @@ extern "js" fn ffi_new_weakref(target : Js) -> Js =
   #| (target) => new WeakRef(target)
 
 ///|
-pub fn[T: JsImpl] WeakRef::new(target : T) -> WeakRef[T] {
+pub fn[T : JsImpl] WeakRef::new(target : T) -> WeakRef[T] {
   unsafe_cast(ffi_new_weakref(target.to_js()))
 }
 
@@ -114,7 +123,7 @@ extern "js" fn ffi_new_finalization_registry(
   #| (callback) => new FinalizationRegistry(callback)
 
 ///|
-pub fn[T: JsImpl] FinalizationRegistry::new(
+pub fn[T : JsImpl] FinalizationRegistry::new(
   cleanup_callback : (T) -> Unit,
 ) -> FinalizationRegistry[T] {
   unsafe_cast(

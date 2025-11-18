@@ -15,10 +15,10 @@ pub type ArrayBuffer
 #alias(byteLength)
 fn ArrayBuffer::byte_length(Self) -> UInt
 #alias(isView)
-fn ArrayBuffer::is_view(@js.Val) -> Bool
+fn ArrayBuffer::is_view(@js.Js) -> Bool
 fn ArrayBuffer::new(UInt) -> Self
 fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-impl @js.Js for ArrayBuffer
+impl @js.JsImpl for ArrayBuffer
 
 #external
 pub type DataView
@@ -60,7 +60,7 @@ fn DataView::set_uint16(Self, UInt, UInt, little_endian? : Bool) -> Unit
 fn DataView::set_uint32(Self, UInt, UInt, little_endian? : Bool) -> Unit
 #alias(setUint8)
 fn DataView::set_uint8(Self, UInt, UInt) -> Unit
-impl @js.Js for DataView
+impl @js.JsImpl for DataView
 
 #external
 pub type Float32Array
@@ -77,7 +77,7 @@ fn Float32Array::get_at(Self, UInt) -> Double
 fn Float32Array::length(Self) -> UInt
 #alias("_[_]=_")
 fn Float32Array::set_at(Self, UInt, Double) -> Unit
-impl @js.Js for Float32Array
+impl @js.JsImpl for Float32Array
 
 #external
 pub type Float64Array
@@ -94,7 +94,7 @@ fn Float64Array::get_at(Self, UInt) -> Double
 fn Float64Array::length(Self) -> UInt
 #alias("_[_]=_")
 fn Float64Array::set_at(Self, UInt, Double) -> Unit
-impl @js.Js for Float64Array
+impl @js.JsImpl for Float64Array
 
 #external
 pub type Int16Array
@@ -111,7 +111,7 @@ fn Int16Array::get_at(Self, UInt) -> Int
 fn Int16Array::length(Self) -> UInt
 #alias("_[_]=_")
 fn Int16Array::set_at(Self, UInt, Int) -> Unit
-impl @js.Js for Int16Array
+impl @js.JsImpl for Int16Array
 
 #external
 pub type Int32Array
@@ -128,7 +128,7 @@ fn Int32Array::get_at(Self, UInt) -> Int
 fn Int32Array::length(Self) -> UInt
 #alias("_[_]=_")
 fn Int32Array::set_at(Self, UInt, Int) -> Unit
-impl @js.Js for Int32Array
+impl @js.JsImpl for Int32Array
 
 #external
 pub type Int8Array
@@ -145,7 +145,7 @@ fn Int8Array::get_at(Self, UInt) -> Int
 fn Int8Array::length(Self) -> UInt
 #alias("_[_]=_")
 fn Int8Array::set_at(Self, UInt, Int) -> Unit
-impl @js.Js for Int8Array
+impl @js.JsImpl for Int8Array
 
 #external
 pub type SharedArrayBuffer
@@ -153,18 +153,18 @@ pub type SharedArrayBuffer
 fn SharedArrayBuffer::byte_length(Self) -> UInt
 fn SharedArrayBuffer::new(UInt) -> Self
 fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-impl @js.Js for SharedArrayBuffer
+impl @js.JsImpl for SharedArrayBuffer
 
 pub type TextDecoder
 fn TextDecoder::decode(Self, Uint8Array) -> String
 fn TextDecoder::new() -> Self
-impl @js.Js for TextDecoder
+impl @js.JsImpl for TextDecoder
 
 #external
 pub type TextEncoder
 fn TextEncoder::encode(Self, String) -> Uint8Array
 fn TextEncoder::new() -> Self
-impl @js.Js for TextEncoder
+impl @js.JsImpl for TextEncoder
 
 #external
 pub type Uint16Array
@@ -181,7 +181,7 @@ fn Uint16Array::get_at(Self, UInt) -> UInt
 fn Uint16Array::length(Self) -> UInt
 #alias("_[_]=_")
 fn Uint16Array::set_at(Self, UInt, UInt) -> Unit
-impl @js.Js for Uint16Array
+impl @js.JsImpl for Uint16Array
 
 #external
 pub type Uint32Array
@@ -198,7 +198,7 @@ fn Uint32Array::get_at(Self, UInt) -> UInt
 fn Uint32Array::length(Self) -> UInt
 #alias("_[_]=_")
 fn Uint32Array::set_at(Self, UInt, UInt) -> Unit
-impl @js.Js for Uint32Array
+impl @js.JsImpl for Uint32Array
 
 #external
 pub type Uint8Array
@@ -231,7 +231,7 @@ fn Uint8Array::sort(Self) -> Self
 fn Uint8Array::subarray(Self, begin? : Int, end? : Int) -> Self
 #alias(toString)
 fn Uint8Array::to_string(Self) -> String
-impl @js.Js for Uint8Array
+impl @js.JsImpl for Uint8Array
 
 // Type aliases
 

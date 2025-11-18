@@ -1,9 +1,5 @@
 ///|
-extern "js" fn ffi_create_element(
-  tag : Js,
-  props : Js,
-  children : Js,
-) -> Js =
+extern "js" fn ffi_create_element(tag : Js, props : Js, children : Js) -> Js =
   #|(tag, props, children) => {
   #|  return __ReactApi.createElement(tag, props, ...children)
   #|}

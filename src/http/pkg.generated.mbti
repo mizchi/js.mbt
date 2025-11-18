@@ -9,7 +9,7 @@ import(
 )
 
 // Values
-fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.Js, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js.AbortSignal) -> @promise.Promise[Response]
+fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.JsImpl, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js.AbortSignal) -> @promise.Promise[Response]
 
 fn fetch_request(Request) -> @promise.Promise[Response]
 
@@ -21,7 +21,7 @@ pub type FormData
 fn FormData::append(Self, String, String) -> Unit
 fn FormData::delete(Self, String) -> Unit
 fn FormData::get(Self, String) -> String
-impl @js.Js for FormData
+impl @js.JsImpl for FormData
 
 #external
 pub type Headers
@@ -29,18 +29,18 @@ pub type Headers
 #external
 pub type Request
 fn Request::arraybuffer(Self) -> @promise.Promise[@arraybuffer.ArrayBuffer]
-fn Request::blob(Self) -> @promise.Promise[@js.Val]
+fn Request::blob(Self) -> @promise.Promise[@js.Js]
 #alias(bodyUsed)
 fn Request::body_used(Self) -> Bool
-fn Request::bytes(Self) -> @promise.Promise[@js.Val]
+fn Request::bytes(Self) -> @promise.Promise[@js.Js]
 fn Request::clone(Self) -> Self
 fn Request::credentials(Self) -> String
-fn Request::json(Self) -> @promise.Promise[@js.Val]
+fn Request::json(Self) -> @promise.Promise[@js.Js]
 fn Request::method_(Self) -> String
 fn Request::new(String) -> Self
 fn Request::text(Self) -> @promise.Promise[String]
 fn Request::url(Self) -> String
-impl @js.Js for Request
+impl @js.JsImpl for Request
 
 #external
 pub type Response
@@ -49,8 +49,8 @@ fn Response::bytes(Self) -> @promise.Promise[@arraybuffer.Uint8Array]
 fn Response::clone(Self) -> Self
 fn Response::error() -> Self
 fn Response::form_data(Self) -> @promise.Promise[FormData]
-fn Response::json(Self) -> @promise.Promise[@js.Val]
-fn Response::json_(@js.Val, options? : @js.Val) -> Self
+fn Response::json(Self) -> @promise.Promise[@js.Js]
+fn Response::json_(@js.Js, options? : @js.Js) -> Self
 fn Response::ok(Self) -> Bool
 fn Response::redirect(String, status? : Int) -> Self
 fn Response::redirected(Self) -> Bool
@@ -59,7 +59,7 @@ fn Response::status(Self) -> Int
 fn Response::status_text(Self) -> String
 fn Response::text(Self) -> @promise.Promise[String]
 fn Response::type_(Self) -> String
-impl @js.Js for Response
+impl @js.JsImpl for Response
 
 // Type aliases
 
