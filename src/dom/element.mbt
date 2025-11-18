@@ -3,10 +3,10 @@
 pub type Element
 
 ///|
-pub impl Js for Element
+pub impl JsImpl for Element
 
 ///|
-pub impl EventTarget for Element
+pub impl EventTargetImpl for Element
 
 ///|
 pub impl NodeImpl for Element
@@ -16,7 +16,7 @@ pub impl ElementImpl for Element
 
 ///|
 /// Element trait - base interface for element nodes
-pub(open) trait ElementImpl: Js + NodeImpl {
+pub(open) trait ElementImpl: JsImpl + NodeImpl {
   tagName(Self) -> String = _
   className(Self) -> String = _
   setClassName(Self, String) -> Unit = _

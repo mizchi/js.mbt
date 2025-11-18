@@ -4,7 +4,7 @@
 pub type JsError
 
 ///|
-pub impl Js for JsError
+pub impl JsImpl for JsError
 
 ///|
 pub suberror JsThrowError {
@@ -19,7 +19,7 @@ pub suberror JsThrowError {
 }
 
 ///|
-pub impl Js for JsThrowError
+pub impl JsImpl for JsThrowError
 
 ///|
 extern "js" fn ffi_wrap_sync(
@@ -64,7 +64,7 @@ pub fn JsError::stack(self : Self) -> String {
 
 ///|
 /// JS: Error.isError(value)
-pub fn JsError::isError(val : &Js) -> Bool {
+pub fn JsError::isError(val : &JsImpl) -> Bool {
   ffi_is_error(val.to_js())
 }
 
@@ -73,7 +73,7 @@ pub fn JsError::isError(val : &Js) -> Bool {
 /// ```nocheck
 /// throw_js(new_error("Something went wrong"))
 /// ```
-pub fn throw_(v : &Js) -> Unit {
+pub fn throw_(v : &JsImpl) -> Unit {
   ffi_throw(v.to_js())
 }
 

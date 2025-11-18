@@ -55,14 +55,14 @@ fn main {
 
 ```mbt
 using @js {
-  type Js,
+  trait JsImpl,
   unsafe_cast,
 }
 
 #external
 pub type MyType
 
-impl Js for MyType
+impl JsImpl for MyType
 
 pub fn MyType::myMethod(self: Self, arg: String) -> Int {
   self.invoke("myMethod", [arg]) |> unsafe_cast

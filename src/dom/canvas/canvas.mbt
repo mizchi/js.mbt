@@ -4,7 +4,7 @@
 pub type CanvasRenderingContext2D
 
 ///|
-pub impl Js for CanvasRenderingContext2D
+pub impl JsImpl for CanvasRenderingContext2D
 
 ///|
 /// Context properties
@@ -345,7 +345,7 @@ pub fn CanvasRenderingContext2D::resetTransform(self : Self) -> Unit {
 /// Drawing images
 pub fn CanvasRenderingContext2D::drawImage(
   self : Self,
-  image : &Js,
+  image : &JsImpl,
   dx : Double,
   dy : Double,
 ) -> Unit {
@@ -355,7 +355,7 @@ pub fn CanvasRenderingContext2D::drawImage(
 ///|
 pub fn CanvasRenderingContext2D::drawImageScaled(
   self : Self,
-  image : &Js,
+  image : &JsImpl,
   dx : Double,
   dy : Double,
   d_width : Double,
@@ -367,7 +367,7 @@ pub fn CanvasRenderingContext2D::drawImageScaled(
 ///|
 pub fn CanvasRenderingContext2D::drawImageSub(
   self : Self,
-  image : &Js,
+  image : &JsImpl,
   sx : Double,
   sy : Double,
   s_width : Double,
@@ -441,7 +441,7 @@ pub fn CanvasRenderingContext2D::restore(self : Self) -> Unit {
 pub type TextMetrics
 
 ///|
-pub impl Js for TextMetrics
+pub impl JsImpl for TextMetrics
 
 ///|
 pub fn TextMetrics::width(self : Self) -> Double {
@@ -454,7 +454,7 @@ pub fn TextMetrics::width(self : Self) -> Double {
 pub type ImageData
 
 ///|
-pub impl Js for ImageData
+pub impl JsImpl for ImageData
 
 ///|
 extern "js" fn ffi_new_image_data(width : Val, height : Val) -> Val =
@@ -505,7 +505,7 @@ pub fn ImageData::data(self : Self) -> Uint8Array {
 pub type ImageBitmap
 
 ///|
-pub impl Js for ImageBitmap
+pub impl JsImpl for ImageBitmap
 
 ///|
 pub impl Transferable for ImageBitmap with to_transferable(self) -> Val {
@@ -544,14 +544,14 @@ extern "js" fn ffi_create_image_bitmap_with_rect(
 
 ///|
 #alias(create_image_bitmap)
-pub fn createImageBitmap(image : &Js) -> ImageBitmap {
+pub fn createImageBitmap(image : &JsImpl) -> ImageBitmap {
   unsafe_cast(ffi_create_image_bitmap(image.to_js()))
 }
 
 ///|
 #alias(create_image_bitmap_rect)
 pub fn createImageBitmapRect(
-  image : &Js,
+  image : &JsImpl,
   sx : Int,
   sy : Int,
   sw : Int,

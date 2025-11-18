@@ -5,7 +5,7 @@
 pub type Storage
 
 ///|
-pub impl Js for Storage
+pub impl JsImpl for Storage
 
 ///|
 /// Returns the localStorage object

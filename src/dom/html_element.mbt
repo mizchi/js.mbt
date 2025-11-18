@@ -1,6 +1,6 @@
 ///|
 /// HTMLElement trait - base interface for HTML elements
-pub(open) trait HTMLElementImpl: Js + ElementImpl {
+pub(open) trait HTMLElementImpl: JsImpl + ElementImpl {
   innerText(Self) -> String = _
   setInnerText(Self, String) -> Unit = _
   innerHTML(Self) -> String = _
@@ -16,10 +16,10 @@ pub(open) trait HTMLElementImpl: Js + ElementImpl {
 pub type HTMLElement
 
 ///|
-pub impl Js for HTMLElement
+pub impl JsImpl for HTMLElement
 
 ///|
-pub impl EventTarget for HTMLElement
+pub impl EventTargetImpl for HTMLElement
 
 ///|
 pub impl ElementImpl for HTMLElement
@@ -31,7 +31,7 @@ pub impl NodeImpl for HTMLElement
 pub impl HTMLElementImpl for HTMLElement
 
 ///|
-pub impl Js for HTMLElement
+pub impl JsImpl for HTMLElement
 
 ///|
 pub impl HTMLElementImpl for HTMLElement

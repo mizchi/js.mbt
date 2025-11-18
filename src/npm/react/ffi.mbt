@@ -61,12 +61,12 @@ extern "js" fn ffi_react_use_effect(
 ///|
 extern "js" fn ffi_react_use_layout_effect(
   f : () -> () -> Unit,
-  keys : Array[&Js],
+  keys : Array[&JsImpl],
 ) -> Unit =
   #| (f, keys) => __ReactApi.useLayoutEffect(f, keys)
 
 ///|
-extern "js" fn ffi_react_use_memo(f : () -> Val, keys : Array[&Js]) -> Val =
+extern "js" fn ffi_react_use_memo(f : () -> Val, keys : Array[&JsImpl]) -> Val =
   #| (f, keys) => {
   #|   return __ReactApi.useMemo(f, keys);
   #| }

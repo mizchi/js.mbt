@@ -3,7 +3,7 @@
 pub type Stat
 
 ///|
-pub impl Js for Stat
+pub impl JsImpl for Stat
 
 ///|
 pub fn Stat::isFile(self : Self) -> Bool {

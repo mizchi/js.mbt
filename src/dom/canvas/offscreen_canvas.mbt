@@ -4,7 +4,7 @@
 pub type OffscreenCanvas
 
 ///|
-pub impl Js for OffscreenCanvas
+pub impl JsImpl for OffscreenCanvas
 
 ///|
 pub impl Transferable for OffscreenCanvas with to_transferable(self) -> Val {

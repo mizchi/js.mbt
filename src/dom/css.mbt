@@ -9,7 +9,7 @@
 pub type CSSStyleDeclaration
 
 ///|
-pub impl Js for CSSStyleDeclaration
+pub impl JsImpl for CSSStyleDeclaration
 
 ///|
 /// Returns a CSS style declaration from a Val
@@ -96,7 +96,7 @@ pub fn CSSStyleDeclaration::parent_rule(self : Self) -> CSSRule? {
 pub type CSSRule
 
 ///|
-pub impl Js for CSSRule
+pub impl JsImpl for CSSRule
 
 ///|
 /// Returns the CSS text of the rule
@@ -135,7 +135,7 @@ pub fn CSSRule::rule_type(self : Self) -> Int {
 pub type CSSStyleSheet
 
 ///|
-pub impl Js for CSSStyleSheet
+pub impl JsImpl for CSSStyleSheet
 
 ///|
 /// Returns the CSS rules
@@ -211,7 +211,7 @@ pub fn CSSStyleSheet::media(self : Self) -> Val {
 pub type MediaQueryList
 
 ///|
-pub impl Js for MediaQueryList
+pub impl JsImpl for MediaQueryList
 
 ///|
 /// Creates a MediaQueryList from window.matchMedia

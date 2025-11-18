@@ -8,7 +8,7 @@ fn nodetest() -> Val {
 type TestContext
 
 ///|
-pub impl Js for TestContext
+pub impl JsImpl for TestContext
 
 ///|
 pub fn TestContext::todo(self : Self, description : String) -> Unit {
@@ -21,7 +21,7 @@ pub fn it(
   skip? : String,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let args : Array[&Js] = if skip is Some(skip) {
+  let args : Array[&JsImpl] = if skip is Some(skip) {
     let arg : Json = { "skip": skip }
     [name, arg, promisify1(f) |> @js.from_fn1]
   } else {

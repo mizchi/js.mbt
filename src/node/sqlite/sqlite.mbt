@@ -47,7 +47,7 @@
 pub type DatabaseSync
 
 ///|
-pub impl Js for DatabaseSync
+pub impl JsImpl for DatabaseSync
 
 ///|
 pub fn DatabaseSync::new(
@@ -177,7 +177,7 @@ pub fn DatabaseSync::setAuthorizer(
 
 ///|
 pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
-  let args : Array[&Js] = if db_name is Some(name) { [name] } else { [] }
+  let args : Array[&JsImpl] = if db_name is Some(name) { [name] } else { [] }
   let result = self.invoke("location", args)
   if @js.is_null(result) {
     None
@@ -226,7 +226,7 @@ pub fn DatabaseSync::createTagStore(
   self : Self,
   max_size? : Int,
 ) -> SQLTagStore {
-  let args : Array[&Js] = if max_size is Some(size) { [size] } else { [] }
+  let args : Array[&JsImpl] = if max_size is Some(size) { [size] } else { [] }
   self.invoke("createTagStore", args) |> unsafe_cast
 }
 
@@ -280,17 +280,17 @@ pub fn DatabaseSync::applyChangeset(
 pub type StatementSync
 
 ///|
-pub impl Js for StatementSync with to_js(self) {
+pub impl JsImpl for StatementSync with to_js(self) {
   self |> unsafe_cast
 }
 
 ///|
 pub fn StatementSync::get_(
   self : Self,
-  named_parameters? : Map[String, &Js],
-  anonymous_parameters? : Array[&Js],
+  named_parameters? : Map[String, &JsImpl],
+  anonymous_parameters? : Array[&JsImpl],
 ) -> Val? {
-  let args : Array[&Js] = []
+  let args : Array[&JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
     for key, value in params {
@@ -319,10 +319,10 @@ pub fn StatementSync::columns(self : Self) -> Array[Val] {
 ///|
 pub fn StatementSync::run(
   self : Self,
-  named_parameters? : Map[String, &Js],
-  anonymous_parameters? : Array[&Js],
+  named_parameters? : Map[String, &JsImpl],
+  anonymous_parameters? : Array[&JsImpl],
 ) -> StatementResultingChanges {
-  let args : Array[&Js] = []
+  let args : Array[&JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
     for key, value in params {
@@ -341,10 +341,10 @@ pub fn StatementSync::run(
 ///|
 pub fn StatementSync::all(
   self : Self,
-  named_parameters? : Map[String, &Js],
-  anonymous_parameters? : Array[&Js],
+  named_parameters? : Map[String, &JsImpl],
+  anonymous_parameters? : Array[&JsImpl],
 ) -> Array[Val] {
-  let args : Array[&Js] = []
+  let args : Array[&JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
     for key, value in params {
@@ -363,10 +363,10 @@ pub fn StatementSync::all(
 ///|
 pub fn StatementSync::iterate(
   self : Self,
-  named_parameters? : Map[String, &Js],
-  anonymous_parameters? : Array[&Js],
+  named_parameters? : Map[String, &JsImpl],
+  anonymous_parameters? : Array[&JsImpl],
 ) -> JsIterator[Val] {
-  let args : Array[&Js] = []
+  let args : Array[&JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
     for key, value in params {
@@ -431,14 +431,14 @@ pub(all) struct StatementResultingChanges {
 } derive(Show)
 
 ///|
-pub impl Js for StatementResultingChanges
+pub impl JsImpl for StatementResultingChanges
 
 ///|
 #external
 pub type Session
 
 ///|
-pub impl Js for Session
+pub impl JsImpl for Session
 
 ///|
 pub fn Session::changeset(self : Self) -> Uint8Array {
@@ -460,7 +460,7 @@ pub fn Session::close(self : Self) -> Unit {
 pub type SQLTagStore
 
 ///|
-pub impl Js for SQLTagStore
+pub impl JsImpl for SQLTagStore
 
 ///|
 pub fn SQLTagStore::capacity(self : Self) -> Int {

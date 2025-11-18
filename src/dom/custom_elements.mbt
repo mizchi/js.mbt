@@ -9,7 +9,7 @@
 pub type CustomElementRegistry
 
 ///|
-pub impl Js for CustomElementRegistry
+pub impl JsImpl for CustomElementRegistry
 
 ///|
 /// Returns the custom elements registry

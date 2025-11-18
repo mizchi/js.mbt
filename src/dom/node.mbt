@@ -3,17 +3,17 @@
 pub type Node
 
 ///|
-pub impl Js for Node
+pub impl JsImpl for Node
 
 ///|
-pub impl EventTarget for Node
+pub impl EventTargetImpl for Node
 
 ///|
 pub impl NodeImpl for Node
 
 ///|
 /// Node_ trait - base interface for DOM tree nodes
-pub(open) trait NodeImpl: Js + EventTarget {
+pub(open) trait NodeImpl: JsImpl + EventTargetImpl {
   nodeType(Self) -> Int = _
   nodeName(Self) -> String = _
   parentNode(Self) -> Node? = _

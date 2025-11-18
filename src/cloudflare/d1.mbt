@@ -5,7 +5,7 @@
 pub type D1Database
 
 ///|
-pub impl Js for D1Database
+pub impl JsImpl for D1Database
 
 ///|
 /// Prepare a SQL statement
@@ -46,7 +46,7 @@ pub fn D1Database::dump(self : Self) -> Promise[Val] {
 pub type D1PreparedStatement
 
 ///|
-pub impl Js for D1PreparedStatement
+pub impl JsImpl for D1PreparedStatement
 
 ///|
 /// Bind parameters to a prepared statement
@@ -141,7 +141,7 @@ pub(all) struct D1RawOptions {
 }
 
 ///|
-pub impl Js for D1RawOptions with to_js(self) {
+pub impl JsImpl for D1RawOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.column_names {
     Some(val) => obj.set("columnNames", val)
@@ -160,7 +160,7 @@ pub(all) struct D1Result {
 }
 
 ///|
-pub impl Js for D1Result
+pub impl JsImpl for D1Result
 
 ///|
 /// Get results from D1Result
@@ -184,7 +184,7 @@ pub(all) struct D1Meta {
 }
 
 ///|
-pub impl Js for D1Meta
+pub impl JsImpl for D1Meta
 
 ///|
 /// Result of exec operation
@@ -194,7 +194,7 @@ pub(all) struct D1ExecResult {
 }
 
 ///|
-pub impl Js for D1ExecResult
+pub impl JsImpl for D1ExecResult
 
 ///|
 /// Legacy type alias for compatibility

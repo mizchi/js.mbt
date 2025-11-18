@@ -3,7 +3,7 @@
 pub type Process
 
 ///|
-pub impl Js for Process
+pub impl JsImpl for Process
 
 ///|
 pub fn process() -> Process {

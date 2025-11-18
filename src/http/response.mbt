@@ -3,7 +3,7 @@
 pub type Response
 
 ///|
-pub impl Js for Response
+pub impl JsImpl for Response
 
 ///|
 pub extern "js" fn Response::redirect(url : String, status? : Int) -> Response =

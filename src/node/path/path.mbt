@@ -91,7 +91,7 @@ pub(all) struct ParsedPath {
 }
 
 ///|
-pub impl Js for ParsedPath
+pub impl JsImpl for ParsedPath
 
 ///|
 pub fn delimiter() -> String {

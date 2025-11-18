@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, type Val, js, unsafe_cast, is_undefined}
+using @js {trait JsImpl, type Val, js, unsafe_cast, is_undefined}
 
 ///|
 test "WeakMap::set and get - store and retrieve values" {

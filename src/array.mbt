@@ -4,7 +4,7 @@
 pub type JsArray
 
 ///|
-pub impl Js for JsArray
+pub impl JsImpl for JsArray
 
 ///|
 pub fn JsArray::to_string(self : Self) -> String {
@@ -25,7 +25,7 @@ pub fn JsArray::new() -> JsArray {
 
 ///|
 /// JS: array.push(item)
-pub fn JsArray::push(self : JsArray, item : &Js) -> Unit {
+pub fn JsArray::push(self : JsArray, item : &JsImpl) -> Unit {
   self.as_builtin_array().push(item.to_js())
 }
 
@@ -37,7 +37,7 @@ pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
 
 ///|
 /// JS: Array.isArray(v)
-pub fn[T : Js] JsArray::isArray(v : T) -> Bool {
+pub fn[T: JsImpl] JsArray::isArray(v : T) -> Bool {
   ffi_is_array(v.to_js())
 }
 

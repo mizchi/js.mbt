@@ -5,7 +5,7 @@ pub(all) struct TestShard {
 }
 
 ///|
-pub impl Js for TestShard
+pub impl JsImpl for TestShard
 
 ///|
 /// https://nodejs.org/api/test.html#runoptions

@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, js, type Val, unsafe_cast, type AbortSignal}
+using @js {trait JsImpl, js, type Val, unsafe_cast, type AbortSignal}
 
 ///|
 using @promise {type Promise}
@@ -12,7 +12,7 @@ using @events {trait EventEmitterImpl}
 pub type Interface
 
 ///|
-impl Js for Interface
+impl JsImpl for Interface
 
 ///|
 /// Implement EventEmitter trait for Interface

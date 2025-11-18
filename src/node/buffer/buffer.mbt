@@ -3,7 +3,7 @@
 pub type Buffer
 
 ///|
-pub impl Js for Buffer
+pub impl JsImpl for Buffer
 
 ///|
 /// Get the Buffer constructor
@@ -80,7 +80,7 @@ pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
 ///|
 /// Check if an object is a Buffer
 #alias(is_buffer)
-pub fn Buffer::isBuffer(obj : &Js) -> Bool {
+pub fn Buffer::isBuffer(obj : &JsImpl) -> Bool {
   let ctor = buffer_constructor()
   ctor.invoke("isBuffer", [obj.to_js()]) |> unsafe_cast
 }

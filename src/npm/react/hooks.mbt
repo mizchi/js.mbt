@@ -7,7 +7,7 @@
 /// }
 /// ```
 #alias(use_state)
-pub fn[T : Js] useState(initial : T) -> (T, (T) -> Unit) {
+pub fn[T: JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
   let value : T = unsafe_cast(result.get(0))
   let update_fn : (T) -> Unit = unsafe_cast(result.get(1))
@@ -40,7 +40,7 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 /// }
 /// ```
 #alias(use_callback)
-pub fn[F] useCallback(f : F, keys : Array[&Js]) -> F {
+pub fn[F] useCallback(f : F, keys : Array[&JsImpl]) -> F {
   let keys = keys.map(k => k.to_js())
   unsafe_cast(ffi_react_use_callback(f |> js, keys))
 }
@@ -57,13 +57,13 @@ pub fn[F] useCallback(f : F, keys : Array[&Js]) -> F {
 /// }
 /// ```
 #alias(use_effect)
-pub fn useEffect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
+pub fn useEffect(f : () -> () -> Unit, keys : Array[&JsImpl]) -> Unit {
   ffi_react_use_effect(f, keys.map(_.to_js()))
 }
 
 ///|
 #alias(use_layout_effect)
-pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
+pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[&JsImpl]) -> Unit {
   ffi_react_use_layout_effect(f, keys.map(_.to_js()))
 }
 
@@ -78,7 +78,7 @@ pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[&Js]) -> Unit {
 /// }
 /// ```
 #alias(use_memo)
-pub fn[T] useMemo(f : () -> T, keys : Array[&Js]) -> T {
+pub fn[T] useMemo(f : () -> T, keys : Array[&JsImpl]) -> T {
   let f = () => f() |> unsafe_cast
   let v : T = unsafe_cast(ffi_react_use_memo(f, keys.map(_.to_js())))
   v
@@ -111,7 +111,7 @@ pub fn[T] useRef(initial : T?) -> ReactRef[T] {
 pub type ReactRef[T]
 
 ///|
-pub impl[T] Js for ReactRef[T]
+pub impl[T] JsImpl for ReactRef[T]
 
 ///|
 extern "js" fn current_internal(v : Val) -> Val =

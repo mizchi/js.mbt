@@ -3,7 +3,7 @@
 pub type URLSearchParams
 
 ///|
-impl Js for URLSearchParams
+impl JsImpl for URLSearchParams
 
 ///|
 impl Eq for URLSearchParams with op_equal(self, other) {

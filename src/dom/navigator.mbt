@@ -5,7 +5,7 @@
 pub type Navigator
 
 ///|
-pub impl Js for Navigator
+pub impl JsImpl for Navigator
 
 ///|
 /// Returns the global navigator object

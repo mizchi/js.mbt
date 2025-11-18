@@ -128,7 +128,7 @@ pub fn stripTypeScriptTypes(
 pub type SourceMap
 
 ///|
-pub impl Js for SourceMap
+pub impl JsImpl for SourceMap
 
 ///|
 /// Get the payload (the actual source map data)
@@ -157,7 +157,7 @@ pub fn SourceMap::findEntry(
 pub type SourceMapEntry
 
 ///|
-pub impl Js for SourceMapEntry
+pub impl JsImpl for SourceMapEntry
 
 ///|
 /// Get the original line number

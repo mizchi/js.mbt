@@ -4,7 +4,7 @@
 pub type Symbol
 
 ///|
-pub impl Js for Symbol
+pub impl JsImpl for Symbol
 
 ///|
 /// JS: Symbol(name)

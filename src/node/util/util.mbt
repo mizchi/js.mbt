@@ -3,7 +3,7 @@
 pub type Util
 
 ///|
-pub impl Js for Util
+pub impl JsImpl for Util
 
 ///|
 pub fn Util::require() -> Self {

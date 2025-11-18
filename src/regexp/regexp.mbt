@@ -7,7 +7,7 @@
 pub type RegExp
 
 ///|
-pub impl Js for RegExp
+pub impl JsImpl for RegExp
 
 ///|
 /// Result of RegExp.exec() method.
@@ -23,7 +23,7 @@ pub struct RegExpResult {
 }
 
 ///|
-pub impl Js for RegExpResult
+pub impl JsImpl for RegExpResult
 
 ///|
 /// Result of String.match() or String.matchAll() methods.
@@ -39,7 +39,7 @@ pub struct RegExpMatchArray {
 }
 
 ///|
-pub impl Js for RegExpMatchArray
+pub impl JsImpl for RegExpMatchArray
 
 ///|
 extern "js" fn ffi_regexp_new(s : String, flags : String) -> RegExp =

@@ -4,7 +4,7 @@
 pub type AbortController
 
 ///|
-pub impl Js for AbortController
+pub impl JsImpl for AbortController
 
 ///|
 /// JS: new AbortController()
@@ -22,7 +22,7 @@ pub fn AbortController::abort(self : Self) -> AbortController {
 pub type AbortSignal
 
 ///|
-pub impl Js for AbortSignal
+pub impl JsImpl for AbortSignal
 
 ///|
 pub fn AbortController::signal(self : Self) -> AbortSignal {

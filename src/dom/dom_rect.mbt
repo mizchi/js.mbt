@@ -13,7 +13,7 @@ pub(all) struct DOMRect {
 }
 
 ///|
-pub impl Js for DOMRect
+pub impl JsImpl for DOMRect
 
 ///|
 /// DOMRectReadOnly represents a read-only rectangle
@@ -30,4 +30,4 @@ pub(all) struct DOMRectReadOnly {
 }
 
 ///|
-pub impl Js for DOMRectReadOnly
+pub impl JsImpl for DOMRectReadOnly

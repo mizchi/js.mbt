@@ -1,8 +1,8 @@
 ///|
 using @js {
   type Val,
-  trait Js,
-  trait EventTarget,
+  trait JsImpl,
+  trait EventTargetImpl,
   js,
   unsafe_cast,
   safe_js,

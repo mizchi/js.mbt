@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
+using @js {type Val, trait JsImpl, js, unsafe_cast}
 
 ///|
 using @promise {type Promise}
@@ -10,7 +10,7 @@ using @promise {type Promise}
 pub(all) type JsIterator[T]
 
 ///|
-pub impl[T] Js for JsIterator[T]
+pub impl[T] JsImpl for JsIterator[T]
 
 ///|
 /// JS: iterator.next()
@@ -35,7 +35,7 @@ pub fn[T] JsIterator::iter(self : JsIterator[T]) -> Iterator[T] {
 pub(all) type AsyncIterator[T]
 
 ///|
-pub impl[T] Js for AsyncIterator[T]
+pub impl[T] JsImpl for AsyncIterator[T]
 
 ///|
 /// JS: asyncIterator.next()

@@ -7,7 +7,7 @@
 pub type JsString
 
 ///|
-pub impl Js for JsString
+pub impl JsImpl for JsString
 
 ///|
 fn string_instance() -> JsString {

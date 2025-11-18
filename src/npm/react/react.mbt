@@ -4,13 +4,13 @@
 pub type Element
 
 ///|
-pub impl Js for Element
+pub impl JsImpl for Element
 
 ///|
 #alias(h)
 pub fn createElement(
   tag : String,
-  children : Array[&Js],
+  children : Array[&JsImpl],
   props? : Map[String, Val],
   style? : Map[String, String],
   ref_? : ReactRef[@dom.Element],

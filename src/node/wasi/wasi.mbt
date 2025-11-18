@@ -7,7 +7,7 @@
 pub type WasiModule
 
 ///|
-pub impl Js for WasiModule
+pub impl JsImpl for WasiModule
 
 ///|
 /// Get wasi module
@@ -107,7 +107,7 @@ extern "js" fn ffi_new_wasi(wasi_class : Val, options : Val) -> Val =
 pub type WASI
 
 ///|
-pub impl Js for WASI
+pub impl JsImpl for WASI
 
 ///|
 /// Create a new WASI instance

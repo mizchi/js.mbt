@@ -1,2 +1,2 @@
 ///|
-using @js {trait Js, unsafe_cast}
+using @js {trait JsImpl, unsafe_cast}

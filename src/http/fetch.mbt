@@ -13,7 +13,7 @@ pub fn fetch(
   headers? : Map[String, String] = {},
   cache? : String,
   mode? : String,
-  body? : &Js, // String, ArrayBuffer, FormData, etc.
+  body? : &JsImpl, // String, ArrayBuffer, FormData, etc.
   credentials? : String,
   integrity? : String,
   keepalive? : Bool,
@@ -70,7 +70,7 @@ pub fn fetch(
 pub type FormData
 
 ///|
-pub impl Js for FormData
+pub impl JsImpl for FormData
 
 ///|
 pub fn FormData::append(self : Self, name : String, value : String) -> Unit {

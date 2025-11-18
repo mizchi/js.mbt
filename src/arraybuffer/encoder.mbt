@@ -11,7 +11,7 @@ extern "js" fn ffi_new_text_decoder() -> Val =
 pub type TextEncoder
 
 ///|
-pub impl Js for TextEncoder
+pub impl JsImpl for TextEncoder
 
 ///|
 pub fn TextEncoder::new() -> TextEncoder {
@@ -27,7 +27,7 @@ pub fn TextEncoder::encode(self : TextEncoder, input : String) -> Uint8Array {
 pub type TextDecoder
 
 ///|
-pub impl Js for TextDecoder
+pub impl JsImpl for TextDecoder
 
 ///|
 pub fn TextDecoder::new() -> TextDecoder {

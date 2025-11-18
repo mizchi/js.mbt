@@ -51,7 +51,7 @@ fn TestEnum::from_js(v : Val) -> Self raise {
 }
 
 ///|
-impl Js for TestEnum with to_js(self) {
+impl JsImpl for TestEnum with to_js(self) {
   match self {
     A(value~) => {
       let obj = @js.Object::new()
@@ -465,31 +465,31 @@ test "PropertyIsEnumerable" {
 ///|
 test "Js trait for primitives" {
   // String
-  let str_js : Val = Js::to_js("hello")
+  let str_js : Val = JsImpl::to_js("hello")
   assert_eq(unsafe_cast(str_js), "hello")
 
   // Int
-  let int_js : Val = Js::to_js(42)
+  let int_js : Val = JsImpl::to_js(42)
   assert_eq(unsafe_cast(int_js), 42)
 
   // Double
-  let double_js : Val = Js::to_js(3.14)
+  let double_js : Val = JsImpl::to_js(3.14)
   assert_eq(unsafe_cast(double_js), 3.14)
 
   // Bool
-  let bool_js : Val = Js::to_js(true)
+  let bool_js : Val = JsImpl::to_js(true)
   assert_eq(unsafe_cast(bool_js), true)
 
   // Val (identity)
   let val = js(100)
-  let val_js : Val = Js::to_js(val)
+  let val_js : Val = JsImpl::to_js(val)
   assert_eq(val_js, val)
 }
 
 ///|
-test "Js trait for Array[&Js]" {
-  let arr : Array[&Js] = ["hello", 42, 3.14, true]
-  let val = Js::to_js(arr)
+test "Js trait for Array[&JsImpl]" {
+  let arr : Array[&JsImpl] = ["hello", 42, 3.14, true]
+  let val = JsImpl::to_js(arr)
   assert_true(@js.is_array(val))
   assert_eq(unsafe_cast(val.get(0)), "hello")
   assert_eq(unsafe_cast(val.get(1)), 42)
@@ -501,12 +501,12 @@ test "Js trait for Array[&Js]" {
 test "Js trait for Option" {
   // Some value
   let some_val : Int? = Some(42)
-  let some_js = Js::to_js(some_val)
+  let some_js = JsImpl::to_js(some_val)
   assert_eq(unsafe_cast(some_js), 42)
 
   // None value - represented as undefined in MoonBit
   let none_val : Int? = None
-  let none_js = Js::to_js(none_val)
+  let none_js = JsImpl::to_js(none_val)
   assert_true(@js.is_undefined(none_js))
 }
 

@@ -29,7 +29,7 @@ pub fn read_file_sync_string(path : String, encoding : String) -> String {
 ///|
 /// Write file synchronously
 #alias(write_file_sync)
-pub fn writeFileSync(path : String, data : &Js) -> Unit {
+pub fn writeFileSync(path : String, data : &JsImpl) -> Unit {
   let fs = fs_module()
   fs.invoke("writeFileSync", [path, data.to_js()]) |> ignore
 }
@@ -37,7 +37,7 @@ pub fn writeFileSync(path : String, data : &Js) -> Unit {
 ///|
 /// Append to file synchronously
 #alias(appendFileSync)
-pub fn append_file_sync(path : String, data : &Js) -> Unit {
+pub fn append_file_sync(path : String, data : &JsImpl) -> Unit {
   let fs = fs_module()
   fs.invoke("appendFileSync", [path, data.to_js()]) |> ignore
 }

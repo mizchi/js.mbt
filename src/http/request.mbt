@@ -7,7 +7,7 @@ extern "js" fn ffi_request_new(url : String) -> Val =
 pub type Request
 
 ///|
-pub impl Js for Request
+pub impl JsImpl for Request
 
 ///|
 pub fn Request::new(url : String) -> Request {

@@ -13,7 +13,7 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 }
 
 ///|
-impl Js for ParseArgsOption with to_js(self) -> Val {
+impl JsImpl for ParseArgsOption with to_js(self) -> Val {
   match self {
     Boolean(short~, ..) => {
       let obj = @js.Object::new()

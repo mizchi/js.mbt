@@ -2,14 +2,14 @@
 //
 
 ///|
-using @js {trait Js, type Val, unsafe_cast}
+using @js {trait JsImpl, type Val, unsafe_cast}
 
 ///|
 #external
 pub type ReactTestingLibrary
 
 ///|
-impl Js for ReactTestingLibrary
+impl JsImpl for ReactTestingLibrary
 
 ///|
 fn testing_library() -> ReactTestingLibrary {
@@ -35,7 +35,7 @@ pub fn cleanup() -> Unit {
 pub type FireEvent
 
 ///|
-pub impl Js for FireEvent
+pub impl JsImpl for FireEvent
 
 ///|
 #alias(fire_event)
@@ -55,7 +55,7 @@ pub fn FireEvent::click(self : FireEvent, target : Val) -> Unit {
 pub type Screen
 
 ///|
-pub impl Js for Screen
+pub impl JsImpl for Screen
 
 ///|
 /// @testing_library/react.screen

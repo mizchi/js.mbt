@@ -1,35 +1,35 @@
 ///|
 /// JS: v.propertyIsEnumerable(k)
-pub fn[T : Js] propertyIsEnumerable(v : T, k : String) -> Bool {
+pub fn[T: JsImpl] propertyIsEnumerable(v : T, k : String) -> Bool {
   ffi_property_is_enumerable(v.to_js(), k)
 }
 
 ///|
 /// JS: Array.isArray(v)
-pub fn[T : Js] is_array(v : T) -> Bool {
+pub fn[T: JsImpl] is_array(v : T) -> Bool {
   ffi_is_array(v.to_js())
 }
 
 ///|
 /// JS: typeof v === "object" && v !== null && !Array.isArray(v)
-pub fn[T : Js] is_object(v : T) -> Bool {
+pub fn[T: JsImpl] is_object(v : T) -> Bool {
   ffi_is_object(v.to_js())
 }
 
 ///|
 /// JS: v === null
-pub fn[T : Js] is_null(v : T) -> Bool {
+pub fn[T: JsImpl] is_null(v : T) -> Bool {
   ffi_is_null(v.to_js())
 }
 
 ///|
 /// JS: v === undefined
-pub fn[T : Js] is_undefined(v : T) -> Bool {
+pub fn[T: JsImpl] is_undefined(v : T) -> Bool {
   ffi_is_undefined(v.to_js())
 }
 
 ///|
-pub fn[T : Js] is_builtin_trait(v : T) -> Bool {
+pub fn[T: JsImpl] is_builtin_trait(v : T) -> Bool {
   let v : Val = v |> unsafe_cast
   v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
 }
@@ -45,7 +45,7 @@ pub fn[T : Js] is_builtin_trait(v : T) -> Bool {
 /// set_if_exists(obj, "name", Some("Alice"))     // Sets property
 /// set_if_exists(obj, "city", Some(undefined())) // Does nothing
 /// ```
-pub fn[O : Js, V : Js] set_if_exists(
+pub fn[O : JsImpl, V : JsImpl] set_if_exists(
   o : O,
   key : &PropertyKey,
   value : V?,

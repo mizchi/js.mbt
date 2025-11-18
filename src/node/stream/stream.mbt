@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, type Val, unsafe_cast}
+using @js {trait JsImpl, type Val, unsafe_cast}
 
 ///|
 using @events {trait EventEmitterImpl}
@@ -12,7 +12,7 @@ fn stream_module() -> Val {
 
 ///|
 /// WIP
-pub(open) trait StreamImpl: Js + EventEmitterImpl {
+pub(open) trait StreamImpl: JsImpl + EventEmitterImpl {
   // Define stream-specific methods here if needed
 }
 
@@ -21,7 +21,7 @@ pub(open) trait StreamImpl: Js + EventEmitterImpl {
 pub type Stream
 
 ///|
-pub impl Js for Stream
+pub impl JsImpl for Stream
 
 ///|
 pub impl EventEmitterImpl for Stream
@@ -34,7 +34,7 @@ pub impl StreamImpl for Stream
 pub type Readable
 
 ///|
-pub impl Js for Readable
+pub impl JsImpl for Readable
 
 ///|
 pub impl EventEmitterImpl for Readable
@@ -57,7 +57,7 @@ pub fn Readable::fromWeb(s : @web.ReadableStream) -> Readable {
 pub type Writable
 
 ///|
-pub impl Js for Writable
+pub impl JsImpl for Writable
 
 ///|
 pub impl EventEmitterImpl for Writable
@@ -80,7 +80,7 @@ pub fn Writable::fromWeb(s : @web.WritableStream) -> Writable {
 pub type Duplex
 
 ///|
-pub impl Js for Duplex
+pub impl JsImpl for Duplex
 
 ///|
 pub impl EventEmitterImpl for Duplex
@@ -93,7 +93,7 @@ pub impl StreamImpl for Duplex
 pub type Transform
 
 ///|
-pub impl Js for Transform
+pub impl JsImpl for Transform
 
 ///|
 pub impl EventEmitterImpl for Transform

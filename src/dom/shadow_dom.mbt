@@ -9,10 +9,10 @@
 pub type ShadowRoot
 
 ///|
-pub impl Js for ShadowRoot
+pub impl JsImpl for ShadowRoot
 
 ///|
-pub impl EventTarget for ShadowRoot
+pub impl EventTargetImpl for ShadowRoot
 
 ///|
 pub impl NodeImpl for ShadowRoot

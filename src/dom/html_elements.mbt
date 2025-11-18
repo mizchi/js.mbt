@@ -3,10 +3,10 @@
 pub type HTMLDivElement
 
 ///|
-pub impl Js for HTMLDivElement
+pub impl JsImpl for HTMLDivElement
 
 ///|
-pub impl EventTarget for HTMLDivElement
+pub impl EventTargetImpl for HTMLDivElement
 
 ///|
 pub impl NodeImpl for HTMLDivElement
@@ -22,10 +22,10 @@ pub impl HTMLElementImpl for HTMLDivElement
 pub type HTMLCanvasElement
 
 ///|
-pub impl Js for HTMLCanvasElement
+pub impl JsImpl for HTMLCanvasElement
 
 ///|
-pub impl EventTarget for HTMLCanvasElement
+pub impl EventTargetImpl for HTMLCanvasElement
 
 ///|
 pub impl NodeImpl for HTMLCanvasElement
@@ -94,10 +94,10 @@ pub fn HTMLCanvasElement::toBlob(
 pub type HTMLBodyElement
 
 ///|
-pub impl Js for HTMLBodyElement
+pub impl JsImpl for HTMLBodyElement
 
 ///|
-pub impl EventTarget for HTMLBodyElement
+pub impl EventTargetImpl for HTMLBodyElement
 
 ///|
 pub impl NodeImpl for HTMLBodyElement
@@ -113,10 +113,10 @@ pub impl HTMLElementImpl for HTMLBodyElement
 pub type HTMLHeadElement
 
 ///|
-pub impl Js for HTMLHeadElement
+pub impl JsImpl for HTMLHeadElement
 
 ///|
-pub impl EventTarget for HTMLHeadElement
+pub impl EventTargetImpl for HTMLHeadElement
 
 ///|
 pub impl NodeImpl for HTMLHeadElement
@@ -132,10 +132,10 @@ pub impl HTMLElementImpl for HTMLHeadElement
 pub type HTMLHtmlElement
 
 ///|
-pub impl Js for HTMLHtmlElement
+pub impl JsImpl for HTMLHtmlElement
 
 ///|
-pub impl EventTarget for HTMLHtmlElement
+pub impl EventTargetImpl for HTMLHtmlElement
 
 ///|
 pub impl NodeImpl for HTMLHtmlElement
@@ -151,10 +151,10 @@ pub impl HTMLElementImpl for HTMLHtmlElement
 pub type HTMLSpanElement
 
 ///|
-pub impl Js for HTMLSpanElement
+pub impl JsImpl for HTMLSpanElement
 
 ///|
-pub impl EventTarget for HTMLSpanElement
+pub impl EventTargetImpl for HTMLSpanElement
 
 ///|
 pub impl NodeImpl for HTMLSpanElement
@@ -170,10 +170,10 @@ pub impl HTMLElementImpl for HTMLSpanElement
 pub type HTMLAnchorElement
 
 ///|
-pub impl Js for HTMLAnchorElement
+pub impl JsImpl for HTMLAnchorElement
 
 ///|
-pub impl EventTarget for HTMLAnchorElement
+pub impl EventTargetImpl for HTMLAnchorElement
 
 ///|
 pub impl NodeImpl for HTMLAnchorElement
@@ -215,10 +215,10 @@ pub fn HTMLAnchorElement::setTarget(self : Self, target : String) -> Unit {
 pub type HTMLButtonElement
 
 ///|
-pub impl Js for HTMLButtonElement
+pub impl JsImpl for HTMLButtonElement
 
 ///|
-pub impl EventTarget for HTMLButtonElement
+pub impl EventTargetImpl for HTMLButtonElement
 
 ///|
 pub impl NodeImpl for HTMLButtonElement
@@ -246,10 +246,10 @@ pub fn HTMLButtonElement::setDisabled(self : Self, disabled : Bool) -> Unit {
 pub type HTMLInputElement
 
 ///|
-pub impl Js for HTMLInputElement
+pub impl JsImpl for HTMLInputElement
 
 ///|
-pub impl EventTarget for HTMLInputElement
+pub impl EventTargetImpl for HTMLInputElement
 
 ///|
 pub impl NodeImpl for HTMLInputElement
@@ -328,10 +328,10 @@ pub fn HTMLInputElement::setPlaceholder(
 pub type HTMLTextAreaElement
 
 ///|
-pub impl Js for HTMLTextAreaElement
+pub impl JsImpl for HTMLTextAreaElement
 
 ///|
-pub impl EventTarget for HTMLTextAreaElement
+pub impl EventTargetImpl for HTMLTextAreaElement
 
 ///|
 pub impl NodeImpl for HTMLTextAreaElement
@@ -428,10 +428,10 @@ pub fn HTMLTextAreaElement::setReadOnly(self : Self, read_only : Bool) -> Unit {
 pub type HTMLIFrameElement
 
 ///|
-pub impl Js for HTMLIFrameElement
+pub impl JsImpl for HTMLIFrameElement
 
 ///|
-pub impl EventTarget for HTMLIFrameElement
+pub impl EventTargetImpl for HTMLIFrameElement
 
 ///|
 pub impl NodeImpl for HTMLIFrameElement

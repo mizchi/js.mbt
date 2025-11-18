@@ -15,7 +15,7 @@ pub type ComponentFn[T] = (T) -> Element
 pub fn[T] component(
   tag : ComponentFn[T],
   props : T,
-  children? : Array[&Js] = [],
+  children? : Array[&JsImpl] = [],
   key? : String,
 ) -> Element {
   let tag = unsafe_cast(tag)
@@ -29,7 +29,7 @@ pub fn[T] component(
 
 ///|
 /// React.Fragment
-pub fn fragment(children : Array[&Js], key? : String) -> Element {
+pub fn fragment(children : Array[&JsImpl], key? : String) -> Element {
   let tag = unsafe_cast(get_fragment())
   let children = @js.from_array(children)
   let val = @js.Object::new()
@@ -41,7 +41,7 @@ pub fn fragment(children : Array[&Js], key? : String) -> Element {
 
 ///|
 /// React.Suspense
-pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
+pub fn suspense(children : Array[&JsImpl], fallback~ : Element) -> Element {
   let tag = get_suspense() |> unsafe_cast
   let children = @js.from_array(children)
   let props = @js.from_map({ "fallback": fallback |> unsafe_cast })
@@ -52,7 +52,7 @@ pub fn suspense(children : Array[&Js], fallback~ : Element) -> Element {
 /// React.Provider
 pub fn[T] provider(
   tag : Context[T],
-  children : Array[&Js],
+  children : Array[&JsImpl],
   value~ : T,
 ) -> Element {
   let children = @js.from_array(children)

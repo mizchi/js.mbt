@@ -5,7 +5,7 @@
 pub type R2Bucket
 
 ///|
-pub impl Js for R2Bucket
+pub impl JsImpl for R2Bucket
 
 ///|
 /// Get an object from R2
@@ -123,7 +123,7 @@ pub(all) struct R2GetOptions {
 }
 
 ///|
-pub impl Js for R2GetOptions with to_js(self) {
+pub impl JsImpl for R2GetOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.only_if {
     Some(cond) => {
@@ -200,7 +200,7 @@ pub(all) struct R2PutOptions {
 }
 
 ///|
-pub impl Js for R2PutOptions with to_js(self) {
+pub impl JsImpl for R2PutOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.http_metadata {
     Some(meta) => obj.set("httpMetadata", meta.to_js())
@@ -245,7 +245,7 @@ pub(all) struct R2HttpMetadata {
 }
 
 ///|
-pub impl Js for R2HttpMetadata with to_js(self) {
+pub impl JsImpl for R2HttpMetadata with to_js(self) {
   let obj = @js.Object::new()
   match self.content_type {
     Some(val) => obj.set("contentType", val)
@@ -286,7 +286,7 @@ pub(all) struct R2ListOptions {
 }
 
 ///|
-pub impl Js for R2ListOptions with to_js(self) {
+pub impl JsImpl for R2ListOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.limit {
     Some(l) => obj.set("limit", l)
@@ -329,7 +329,7 @@ pub impl Js for R2ListOptions with to_js(self) {
 pub type R2Object
 
 ///|
-pub impl Js for R2Object
+pub impl JsImpl for R2Object
 
 ///|
 /// Get object key
@@ -425,7 +425,7 @@ pub(all) struct R2Objects {
 }
 
 ///|
-pub impl Js for R2Objects
+pub impl JsImpl for R2Objects
 
 ///|
 /// R2 Multipart Upload
@@ -433,7 +433,7 @@ pub impl Js for R2Objects
 pub type R2MultipartUpload
 
 ///|
-pub impl Js for R2MultipartUpload
+pub impl JsImpl for R2MultipartUpload
 
 ///|
 /// Get upload key
@@ -486,7 +486,7 @@ pub(all) struct R2UploadedPart {
 }
 
 ///|
-pub impl Js for R2UploadedPart with to_js(self) {
+pub impl JsImpl for R2UploadedPart with to_js(self) {
   let obj = @js.Object::new()
   obj.set("partNumber", self.part_number)
   obj.set("etag", self.etag)

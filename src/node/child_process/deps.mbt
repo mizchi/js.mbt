@@ -5,7 +5,7 @@ using @js {
   unsafe_cast,
   unsafe_option,
   type Val,
-  trait Js,
+  trait JsImpl,
   type AbortSignal,
 }
 

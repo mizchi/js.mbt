@@ -5,7 +5,7 @@
 pub type KVNamespace
 
 ///|
-pub impl Js for KVNamespace
+pub impl JsImpl for KVNamespace
 
 ///|
 /// Get a value from KV store
@@ -118,7 +118,7 @@ pub(all) struct KVGetOptions {
 }
 
 ///|
-pub impl Js for KVGetOptions with to_js(self) {
+pub impl JsImpl for KVGetOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.type_ {
     Some(t) => obj.set("type", t)
@@ -140,7 +140,7 @@ pub(all) struct KVPutOptions {
 }
 
 ///|
-pub impl Js for KVPutOptions with to_js(self) {
+pub impl JsImpl for KVPutOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.expiration {
     Some(exp) => obj.set("expiration", exp)
@@ -166,7 +166,7 @@ pub(all) struct KVListOptions {
 }
 
 ///|
-pub impl Js for KVListOptions with to_js(self) {
+pub impl JsImpl for KVListOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.prefix {
     Some(p) => obj.set("prefix", p)
@@ -192,7 +192,7 @@ pub(all) struct KVListResult {
 }
 
 ///|
-pub impl Js for KVListResult
+pub impl JsImpl for KVListResult
 
 ///|
 /// Key information in list result
@@ -203,7 +203,7 @@ pub(all) struct KVKey {
 }
 
 ///|
-pub impl Js for KVKey
+pub impl JsImpl for KVKey
 
 ///|
 /// Value with metadata from getWithMetadata
@@ -213,4 +213,4 @@ pub(all) struct KVValueWithMetadata {
 }
 
 ///|
-pub impl Js for KVValueWithMetadata
+pub impl JsImpl for KVValueWithMetadata

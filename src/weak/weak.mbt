@@ -3,24 +3,24 @@
 pub type WeakMap[K, V]
 
 ///|
-pub impl[K, V] Js for WeakMap[K, V]
+pub impl[K, V] JsImpl for WeakMap[K, V]
 
 ///|
 extern "js" fn ffi_new_weakmap() -> Val =
   #| () => new WeakMap()
 
 ///|
-pub fn[K : Js, V : Js] WeakMap::new() -> WeakMap[K, V] {
+pub fn[K : JsImpl, V : JsImpl] WeakMap::new() -> WeakMap[K, V] {
   unsafe_cast(ffi_new_weakmap())
 }
 
 ///|
-pub fn[K : Js, V : Js] WeakMap::delete(self : WeakMap[K, V], key : K) -> Bool {
+pub fn[K : JsImpl, V : JsImpl] WeakMap::delete(self : WeakMap[K, V], key : K) -> Bool {
   self.invoke("delete", [key]) |> unsafe_cast
 }
 
 ///|
-pub fn[K : Js, V : Js] WeakMap::get(self : WeakMap[K, V], key : K) -> V? {
+pub fn[K : JsImpl, V : JsImpl] WeakMap::get(self : WeakMap[K, V], key : K) -> V? {
   let result = self.invoke("get", [key])
   if is_undefined(result) {
     None
@@ -30,12 +30,12 @@ pub fn[K : Js, V : Js] WeakMap::get(self : WeakMap[K, V], key : K) -> V? {
 }
 
 ///|
-pub fn[K : Js, V : Js] WeakMap::has(self : WeakMap[K, V], key : K) -> Bool {
+pub fn[K : JsImpl, V : JsImpl] WeakMap::has(self : WeakMap[K, V], key : K) -> Bool {
   self.invoke("has", [key]) |> unsafe_cast
 }
 
 ///|
-pub fn[K : Js, V : Js] WeakMap::set(
+pub fn[K : JsImpl, V : JsImpl] WeakMap::set(
   self : WeakMap[K, V],
   key : K,
   value : V,
@@ -48,29 +48,29 @@ pub fn[K : Js, V : Js] WeakMap::set(
 pub type WeakSet[T]
 
 ///|
-pub impl[T] Js for WeakSet[T]
+pub impl[T] JsImpl for WeakSet[T]
 
 ///|
 extern "js" fn ffi_new_weakset() -> Val =
   #| () => new WeakSet()
 
 ///|
-pub fn[T : Js] WeakSet::new() -> WeakSet[T] {
+pub fn[T: JsImpl] WeakSet::new() -> WeakSet[T] {
   unsafe_cast(ffi_new_weakset())
 }
 
 ///|
-pub fn[T : Js] WeakSet::add(self : Self[T], value : T) -> WeakSet[T] {
+pub fn[T: JsImpl] WeakSet::add(self : Self[T], value : T) -> WeakSet[T] {
   self.invoke("add", [value]) |> unsafe_cast
 }
 
 ///|
-pub fn[T : Js] WeakSet::delete(self : Self[T], value : T) -> Bool {
+pub fn[T: JsImpl] WeakSet::delete(self : Self[T], value : T) -> Bool {
   self.invoke("delete", [value]) |> unsafe_cast
 }
 
 ///|
-pub fn[T : Js] WeakSet::has(self : Self[T], value : T) -> Bool {
+pub fn[T: JsImpl] WeakSet::has(self : Self[T], value : T) -> Bool {
   self.invoke("has", [value]) |> unsafe_cast
 }
 
@@ -79,14 +79,14 @@ pub fn[T : Js] WeakSet::has(self : Self[T], value : T) -> Bool {
 pub type WeakRef[T]
 
 ///|
-pub impl[T] Js for WeakRef[T]
+pub impl[T] JsImpl for WeakRef[T]
 
 ///|
 extern "js" fn ffi_new_weakref(target : Val) -> Val =
   #| (target) => new WeakRef(target)
 
 ///|
-pub fn[T : Js] WeakRef::new(target : T) -> WeakRef[T] {
+pub fn[T: JsImpl] WeakRef::new(target : T) -> WeakRef[T] {
   unsafe_cast(ffi_new_weakref(target.to_js()))
 }
 
@@ -105,7 +105,7 @@ pub fn[T] WeakRef::deref(self : WeakRef[T]) -> T? {
 pub type FinalizationRegistry[T]
 
 ///|
-pub impl[T] Js for FinalizationRegistry[T]
+pub impl[T] JsImpl for FinalizationRegistry[T]
 
 ///|
 extern "js" fn ffi_new_finalization_registry(
@@ -114,7 +114,7 @@ extern "js" fn ffi_new_finalization_registry(
   #| (callback) => new FinalizationRegistry(callback)
 
 ///|
-pub fn[T : Js] FinalizationRegistry::new(
+pub fn[T: JsImpl] FinalizationRegistry::new(
   cleanup_callback : (T) -> Unit,
 ) -> FinalizationRegistry[T] {
   unsafe_cast(
@@ -123,7 +123,7 @@ pub fn[T : Js] FinalizationRegistry::new(
 }
 
 ///|
-pub fn[T : Js, U : Js] FinalizationRegistry::register(
+pub fn[T : JsImpl, U : JsImpl] FinalizationRegistry::register(
   self : FinalizationRegistry[T],
   target : U,
   held_value : T,

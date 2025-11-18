@@ -28,7 +28,7 @@ pub fn[T] js(v : T) -> Val {
 
 ///|
 /// Cast any MoonBit Js-implementing type to a JavaScript Val safely.
-pub fn safe_js(a : &Js) -> Val {
+pub fn safe_js(a : &JsImpl) -> Val {
   unsafe_cast(a.to_js())
 }
 
@@ -49,7 +49,7 @@ pub fn[A] unsafe_option(v : Val) -> A? {
 
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
-pub fn[T : Js] from_array(v : Array[T]) -> Val {
+pub fn[T : JsImpl] from_array(v : Array[T]) -> Val {
   unsafe_cast(v.map(_.to_js()))
 }
 
@@ -66,7 +66,7 @@ pub fn[T : Js] from_array(v : Array[T]) -> Val {
 pub fn from_map(map : Map[String, Val]) -> Val {
   let obj = Object::new()
   for k, v in map {
-    let v : Val = Js::to_js(v)
+    let v : Val = JsImpl::to_js(v)
     obj.set(k, v)
   }
   obj.to_js()
@@ -114,39 +114,39 @@ pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Val {
 
 ///|
 /// Identity implementation for Val.
-pub impl Js for Val
+pub impl JsImpl for Val
 
 ///|
-pub impl Js for String
+pub impl JsImpl for String
 
 ///|
-pub impl Js for Double
+pub impl JsImpl for Double
 
 ///|
-pub impl Js for Float
+pub impl JsImpl for Float
 
 ///|
-pub impl Js for Int
+pub impl JsImpl for Int
 
 ///|
 /// Convert a MoonBit Bool to a JavaScript boolean value.
-pub impl Js for Bool
+pub impl JsImpl for Bool
 
 ///|
 /// Convert a MoonBit UInt to a JavaScript number value.
-pub impl Js for UInt
+pub impl JsImpl for UInt
 
 ///|
-pub impl Js for Unit
+pub impl JsImpl for Unit
 
 ///|
 /// Convert an Array of Js-implementing types to a JavaScript array.
-pub impl Js for Array[&Js] with to_js(self) -> Val {
+pub impl JsImpl for Array[&JsImpl] with to_js(self) -> Val {
   from_array(self)
 }
 
 ///|
-pub impl Js for Map[String, &Js] with to_js(self) -> Val {
+pub impl JsImpl for Map[String, &JsImpl] with to_js(self) -> Val {
   let v = Object::new()
   for k, val in self {
     v.set(k, val.to_js())
@@ -156,6 +156,6 @@ pub impl Js for Map[String, &Js] with to_js(self) -> Val {
 
 ///|
 /// Convert an Option to a JavaScript value.
-pub impl[T] Js for T? with to_js(self) -> Val {
+pub impl[T] JsImpl for T? with to_js(self) -> Val {
   unsafe_cast(self)
 }

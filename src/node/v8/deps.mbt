@@ -1,5 +1,5 @@
 ///|
-using @js {js, unsafe_cast, type Val, trait Js}
+using @js {js, unsafe_cast, type Val, trait JsImpl}
 
 ///|
 using @arraybuffer {type ArrayBuffer}

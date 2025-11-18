@@ -5,10 +5,10 @@
 pub type DocumentFragment
 
 ///|
-pub impl Js for DocumentFragment
+pub impl JsImpl for DocumentFragment
 
 ///|
-pub impl EventTarget for DocumentFragment
+pub impl EventTargetImpl for DocumentFragment
 
 ///|
 pub impl NodeImpl for DocumentFragment

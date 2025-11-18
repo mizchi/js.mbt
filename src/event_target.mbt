@@ -12,7 +12,7 @@
 /// - Worker API (Worker, MessagePort, BroadcastChannel)
 /// - Network APIs (WebSocket, EventSource, XMLHttpRequest)
 /// - Media APIs (MediaStream, AudioContext, etc.)
-pub(open) trait EventTarget: Js {
+pub(open) trait EventTargetImpl: JsImpl {
   /// Add an event listener for the specified event type
   /// The listener receives a generic Val which should be cast to the appropriate event type
   addEventListener(Self, String, (Val) -> Unit) -> Unit = _
@@ -26,16 +26,16 @@ pub(open) trait EventTarget: Js {
 
 ///|
 /// Default implementation using JavaScript's addEventListener/removeEventListener
-impl EventTarget with addEventListener(self, event_type, handler) -> Unit {
+impl EventTargetImpl with addEventListener(self, event_type, handler) -> Unit {
   self.invoke("addEventListener", [event_type, from_fn1(handler)]) |> ignore
 }
 
 ///|
-impl EventTarget with removeEventListener(self, event_type, handler) -> Unit {
+impl EventTargetImpl with removeEventListener(self, event_type, handler) -> Unit {
   self.invoke("removeEventListener", [event_type, from_fn1(handler)]) |> ignore
 }
 
 ///|
-impl EventTarget with dispatchEvent(self, event) -> Bool {
+impl EventTargetImpl with dispatchEvent(self, event) -> Bool {
   self.invoke("dispatchEvent", [event]) |> unsafe_cast
 }

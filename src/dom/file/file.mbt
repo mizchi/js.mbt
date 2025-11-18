@@ -7,7 +7,7 @@
 pub type File
 
 ///|
-pub impl Js for File
+pub impl JsImpl for File
 
 ///|
 /// Create a new File from FFI
@@ -17,7 +17,7 @@ extern "js" fn ffi_new_file(data : Val, filename : Val, options : Val) -> Val =
 ///|
 /// Create a new File
 pub fn File::new(
-  data : Array[&Js],
+  data : Array[&JsImpl],
   filename : String,
   content_type? : String,
   last_modified? : Int,
@@ -105,7 +105,7 @@ pub fn File::slice(self : Self, start? : Int, end? : Int) -> Blob {
 pub type FileReader
 
 ///|
-pub impl Js for FileReader
+pub impl JsImpl for FileReader
 
 ///|
 /// Create a new FileReader

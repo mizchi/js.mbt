@@ -7,10 +7,10 @@ pub type ReactDOMClient
 pub type ReactDOMRoot
 
 ///|
-pub impl Js for ReactDOMRoot
+pub impl JsImpl for ReactDOMRoot
 
 ///|
-pub impl Js for ReactDOMClient
+pub impl JsImpl for ReactDOMClient
 
 ///|
 #alias(create_root)

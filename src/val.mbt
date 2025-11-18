@@ -37,13 +37,13 @@ pub impl Eq for Val with equal(self, other) -> Bool {
 
 ///|
 /// JS: v instanceof cls
-pub fn[T : Js] instanceof_(v : T, cls : T) -> Bool {
+pub fn[T: JsImpl] instanceof_(v : T, cls : T) -> Bool {
   ffi_instance_of(v.to_js(), cls.to_js())
 }
 
 ///|
 /// JS: typeof v
-pub fn[T : Js] typeof_(v : T) -> String {
+pub fn[T: JsImpl] typeof_(v : T) -> String {
   ffi_type_of(v.to_js())
 }
 
@@ -88,7 +88,7 @@ pub fn Val::is_none(self : Self) -> Bool {
 
 ///|
 /// JS: new cls(...args)
-pub fn new_(cls : Val, args : Array[&Js]) -> Val {
+pub fn new_(cls : Val, args : Array[&JsImpl]) -> Val {
   ffi_new(cls, args.map(_.to_js()))
 }
 
@@ -99,11 +99,11 @@ pub fn new_(cls : Val, args : Array[&Js]) -> Val {
 ///
 /// ```moonbit
 /// // Using the trait explicitly
-/// let val : Val = Js::to_js("hello")
-/// let num : Val = Js::to_js(42)
+/// let val : Val = JsImpl::to_js("hello")
+/// let num : Val = JsImpl::to_js(42)
 ///
 /// // Using with polymorphic functions
-/// fn create_object(name : &Js, age : &Js) -> Val {
+/// fn create_object(name : &JsImpl, age : &JsImpl) -> Val {
 ///   let obj = @js.Object::new()
 ///   obj.set("name", name)
 ///   obj.set("age", age)
@@ -111,45 +111,45 @@ pub fn new_(cls : Val, args : Array[&Js]) -> Val {
 /// }
 /// let obj = create_object("Alice", 30)  // Strings and Ints implement Js
 /// ```
-pub(open) trait Js {
+pub(open) trait JsImpl {
   to_js(Self) -> Val = _
   get(Self, &PropertyKey) -> Val = _
-  set(Self, &PropertyKey, &Js) -> Unit = _
-  invoke(Self, &PropertyKey, Array[&Js]) -> Val = _
-  invoke_throwable(Self, &PropertyKey, Array[&Js]) -> Val raise JsThrowError = _
-  invoke_self(Self, Array[&Js]) -> Val = _
-  invoke_self_throwable(Self, Array[&Js]) -> Val raise JsThrowError = _
+  set(Self, &PropertyKey, &JsImpl) -> Unit = _
+  invoke(Self, &PropertyKey, Array[&JsImpl]) -> Val = _
+  invoke_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Val raise JsThrowError = _
+  invoke_self(Self, Array[&JsImpl]) -> Val = _
+  invoke_self_throwable(Self, Array[&JsImpl]) -> Val raise JsThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
 }
 
 ///|
-impl Js with to_js(self) -> Val {
+impl JsImpl with to_js(self) -> Val {
   unsafe_cast(self)
 }
 
 ///|
 /// JS: self[key]
-impl Js with get(self, key : &PropertyKey) -> Val {
+impl JsImpl with get(self, key : &PropertyKey) -> Val {
   ffi_get(self.to_js(), key.to_key() |> unsafe_cast)
 }
 
 ///|
 /// JS: self[key] = val
-impl Js with set(self, key : &PropertyKey, val : &Js) -> Unit {
+impl JsImpl with set(self, key : &PropertyKey, val : &JsImpl) -> Unit {
   ffi_set(self.to_js(), key.to_key() |> unsafe_cast, val.to_js())
 }
 
 ///|
 /// Invoke a method on the JavaScript value.
 /// JS: self[key](...args)
-impl Js with invoke(self, key, args) -> Val {
+impl JsImpl with invoke(self, key, args) -> Val {
   ffi_invoke(self.to_js(), key.to_key() |> unsafe_cast, args.map(_.to_js()))
 }
 
 ///|
 /// JS: try { self[key](...args) } catch (e) { throw new JsThrowError(e); }
-impl Js with invoke_throwable(self, key, args) -> Val raise JsThrowError {
+impl JsImpl with invoke_throwable(self, key, args) -> Val raise JsThrowError {
   throwable(() => ffi_invoke(
     self.to_js(),
     key.to_key() |> unsafe_cast,
@@ -160,21 +160,21 @@ impl Js with invoke_throwable(self, key, args) -> Val raise JsThrowError {
 ///|
 /// Invoke a method on the JavaScript value with no arguments.
 /// JS: self(...args)
-impl Js with invoke_self(self, args) -> Val {
+impl JsImpl with invoke_self(self, args) -> Val {
   ffi_call(self.to_js(), args.map(_.to_js()))
 }
 
 ///|
-impl Js with invoke_self_throwable(self, args) -> Val raise JsThrowError {
+impl JsImpl with invoke_self_throwable(self, args) -> Val raise JsThrowError {
   throwable(() => ffi_call(self.to_js(), args.map(_.to_js())))
 }
 
 ///|
-impl Js with delete(self, key : &PropertyKey) -> Unit {
+impl JsImpl with delete(self, key : &PropertyKey) -> Unit {
   ffi_delete(self.to_js(), key.to_key() |> unsafe_cast)
 }
 
 ///|
-impl Js with hasOwnProperty(self, key : &PropertyKey) -> Bool {
+impl JsImpl with hasOwnProperty(self, key : &PropertyKey) -> Bool {
   ffi_has_own_property(self.to_js(), key.to_key() |> unsafe_cast)
 }

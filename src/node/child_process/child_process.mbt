@@ -9,7 +9,7 @@
 pub type ChildProcess
 
 ///|
-pub impl Js for ChildProcess
+pub impl JsImpl for ChildProcess
 
 ///|
 pub impl EventEmitterImpl for ChildProcess
@@ -85,7 +85,7 @@ pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
 
 ///|
 /// Send a message to the child process (for IPC)
-pub fn ChildProcess::send(self : Self, message : &Js) -> Bool {
+pub fn ChildProcess::send(self : Self, message : &JsImpl) -> Bool {
   self.invoke("send", [message.to_js()]) |> unsafe_cast
 }
 
@@ -278,7 +278,7 @@ pub fn fork(
 pub type SpawnSyncResult
 
 ///|
-pub impl Js for SpawnSyncResult
+pub impl JsImpl for SpawnSyncResult
 
 ///|
 pub fn SpawnSyncResult::pid(self : Self) -> Int {

@@ -1,5 +1,5 @@
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
+using @js {type Val, trait JsImpl, js, unsafe_cast}
 
 ///|
 using @promise {type Promise}
@@ -51,7 +51,7 @@ pub(all) enum Route {
 }
 
 ///|
-impl Js for Route with to_js(self : Route) {
+impl JsImpl for Route with to_js(self : Route) {
   match self {
     Route::Component(path~, component~) => {
       let obj = @js.Object::new()
@@ -87,7 +87,7 @@ extern "js" fn get_link() -> (LinkProps) -> @react.Element =
   #| () => __ReactRouterApi.Link
 
 ///|
-pub fn link(to~ : String, children : Array[&Js]) -> @react.Element {
+pub fn link(to~ : String, children : Array[&JsImpl]) -> @react.Element {
   let p = get_link()
   @react.c(p, LinkProps::{ to, }, children~)
 }

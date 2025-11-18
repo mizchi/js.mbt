@@ -4,10 +4,10 @@
 pub type Text
 
 ///|
-pub impl Js for Text
+pub impl JsImpl for Text
 
 ///|
-pub impl EventTarget for Text
+pub impl EventTargetImpl for Text
 
 ///|
 pub impl NodeImpl for Text

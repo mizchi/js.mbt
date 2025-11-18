@@ -4,7 +4,7 @@
 pub type Promise[T]
 
 ///|
-impl[T] Js for Promise[T]
+impl[T] JsImpl for Promise[T]
 
 ///|
 /// js: Promise.new((resolve, reject) => { ... })

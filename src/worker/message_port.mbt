@@ -1,5 +1,5 @@
 ///|
-using @js {trait EventTarget}
+using @js {trait EventTargetImpl}
 
 ///|
 /// MessagePort represents one end of a message channel
@@ -10,10 +10,10 @@ using @js {trait EventTarget}
 pub type MessagePort
 
 ///|
-pub impl Js for MessagePort
+pub impl JsImpl for MessagePort
 
 ///|
-pub impl EventTarget for MessagePort
+pub impl EventTargetImpl for MessagePort
 
 ///|
 pub impl Show for MessagePort with output(self, logger) {
@@ -29,7 +29,7 @@ pub impl Show for MessagePort with to_string(self) {
 /// Sends a message through the port
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/postMessage
 #alias(postMessage)
-pub fn MessagePort::post_message(port : MessagePort, message : &Js) -> Unit {
+pub fn MessagePort::post_message(port : MessagePort, message : &JsImpl) -> Unit {
   port.invoke("postMessage", [message.to_js()]) |> ignore
 }
 
@@ -37,7 +37,7 @@ pub fn MessagePort::post_message(port : MessagePort, message : &Js) -> Unit {
 /// Sends a message with transferable objects through the port
 pub fn MessagePort::post_message_with_transfer(
   port : MessagePort,
-  message : &Js,
+  message : &JsImpl,
   transfer : Array[Val],
 ) -> Unit {
   let arr = @js.JsArray::new()
@@ -70,7 +70,7 @@ pub fn MessagePort::close(port : MessagePort) -> Unit {
 pub type MessageChannel
 
 ///|
-pub impl Js for MessageChannel
+pub impl JsImpl for MessageChannel
 
 ///|
 pub impl Show for MessageChannel with output(self, logger) {

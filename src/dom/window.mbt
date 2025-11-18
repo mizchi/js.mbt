@@ -5,12 +5,12 @@
 pub type Window
 
 ///|
-pub impl Js for Window with to_js(self) {
+pub impl JsImpl for Window with to_js(self) {
   self |> unsafe_cast
 }
 
 ///|
-pub impl EventTarget for Window
+pub impl EventTargetImpl for Window
 
 ///|
 /// Returns the global window object

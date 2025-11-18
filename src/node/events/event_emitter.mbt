@@ -1,11 +1,11 @@
 /// https://nodejs.org/api/events.html#emittereventnames
 
 ///|
-using @js {trait Js, type Val, unsafe_cast, js}
+using @js {trait JsImpl, type Val, unsafe_cast, js}
 
 ///|
 /// EventEmitter trait for Node.js event emitter pattern
-pub(open) trait EventEmitterImpl: Js {
+pub(open) trait EventEmitterImpl: JsImpl {
   on(Self, String, (Val) -> Unit) -> Unit = _
   on2(Self, String, (Val, Val) -> Unit) -> Unit = _
   once(Self, String, (Val) -> Unit) -> Unit = _
@@ -87,7 +87,7 @@ impl EventEmitterImpl with emit(self, name : String, payload : Val) -> Unit {
 pub type EventEmitter
 
 ///|
-pub impl Js for EventEmitter
+pub impl JsImpl for EventEmitter
 
 ///|
 pub impl EventEmitterImpl for EventEmitter

@@ -1,5 +1,5 @@
 ///|
-using @js {trait Js, type AbortSignal, js, unsafe_cast}
+using @js {trait JsImpl, type AbortSignal, js, unsafe_cast}
 
 ///|
 using @promise {type Promise}
@@ -55,7 +55,7 @@ pub fn glob(
 pub type Dirent
 
 ///|
-pub impl Js for Dirent
+pub impl JsImpl for Dirent
 
 ///|
 #alias(is_file)

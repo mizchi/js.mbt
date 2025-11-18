@@ -1,7 +1,7 @@
 // WIP
 
 ///|
-using @js {type Val, trait Js, js, unsafe_cast}
+using @js {type Val, trait JsImpl, js, unsafe_cast}
 
 ///|
 pub(all) enum MessageContent {
@@ -9,7 +9,7 @@ pub(all) enum MessageContent {
 }
 
 ///|
-pub impl Js for MessageContent with to_js(self) {
+pub impl JsImpl for MessageContent with to_js(self) {
   match self {
     Message(m) => m |> js
   }
@@ -23,14 +23,14 @@ pub(all) enum ModelMessage {
 }
 
 ///|
-pub impl Js for ModelMessage with to_js(self) {
+pub impl JsImpl for ModelMessage with to_js(self) {
   match self {
     AssitantMessage(content~) =>
-      @js.from_map({ "type": "assitant" |> js, "content": Js::to_js(content) })
+      @js.from_map({ "type": "assitant" |> js, "content": JsImpl::to_js(content) })
     UserMessage(content~) =>
-      @js.from_map({ "role": "user" |> js, "content": Js::to_js(content) })
+      @js.from_map({ "role": "user" |> js, "content": JsImpl::to_js(content) })
     SystemMessage(content~) =>
-      @js.from_map({ "role": "system" |> js, "content": Js::to_js(content) })
+      @js.from_map({ "role": "system" |> js, "content": JsImpl::to_js(content) })
   }
 }
 
@@ -44,7 +44,7 @@ pub type Ai
 pub type Model
 
 ///|
-pub impl Js for Ai
+pub impl JsImpl for Ai
 
 ///|
 pub fn Ai::require() -> Self {

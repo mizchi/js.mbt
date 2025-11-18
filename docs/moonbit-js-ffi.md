@@ -22,7 +22,7 @@ When you implement `Js` for a type, you can:
 pub type Document
 
 // Implement Js trait
-pub impl Js for Document
+pub impl JsImpl for Document
 
 // Now you can use it
 fn example(doc: Document) {
@@ -70,7 +70,7 @@ pub extern "js" fn encodeURI(uri: String) -> String =
 ```moonbit
 #external
 pub type Document
-pub impl Js for Document
+pub impl JsImpl for Document
 
 // Method via extern
 #alias(create_element)
@@ -127,7 +127,7 @@ pub fn fetch(
   url: String,
   method_~: String,           // Required named parameter
   headers?: Map[String, String] = {},  // Optional with default
-  body?: &Js
+  body?: &JsImpl
 ) -> Promise[Response] {
   let init = @js.Object::new()
   init.set("method", method_)
@@ -234,7 +234,7 @@ pub fn readFileSync(path: String) -> Buffer {
 }
 
 #alias(write_file_sync)
-pub fn writeFileSync(path: String, data: &Js) -> Unit {
+pub fn writeFileSync(path: String, data: &JsImpl) -> Unit {
   let fs = fs_module()
   fs.invoke("writeFileSync", [path, data.to_js()]) |> ignore
 }
@@ -379,7 +379,7 @@ pub async fn fetch(url: String) -> Response raise
 // Type definition
 #external
 pub type MyType
-pub impl Js for MyType
+pub impl JsImpl for MyType
 
 // Property access
 value.get("prop")              // Get property

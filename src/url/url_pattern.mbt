@@ -14,7 +14,7 @@ extern "js" fn ffi_new_url_pattern_with_base(
 pub type URLPattern
 
 ///|
-pub impl @js.Js for URLPattern with to_js(self) -> @js.Val {
+pub impl @js.JsImpl for URLPattern with to_js(self) -> @js.Val {
   self |> @js.js
 }
 
@@ -23,7 +23,7 @@ pub impl @js.Js for URLPattern with to_js(self) -> @js.Val {
 pub type URLPatternResult
 
 ///|
-pub impl @js.Js for URLPatternResult with to_js(self) -> @js.Val {
+pub impl @js.JsImpl for URLPatternResult with to_js(self) -> @js.Val {
   self |> @js.js
 }
 

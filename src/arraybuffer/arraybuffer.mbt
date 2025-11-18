@@ -3,7 +3,7 @@
 pub type ArrayBuffer
 
 ///|
-pub impl Js for ArrayBuffer
+pub impl JsImpl for ArrayBuffer
 
 ///|
 extern "js" fn ffi_new_array_buffer(byte_length : UInt) -> Val =
@@ -47,7 +47,7 @@ pub fn ArrayBuffer::is_view(arg : Val) -> Bool {
 pub type SharedArrayBuffer
 
 ///|
-pub impl Js for SharedArrayBuffer
+pub impl JsImpl for SharedArrayBuffer
 
 ///|
 extern "js" fn ffi_new_shared_array_buffer(byte_length : UInt) -> Val =
@@ -81,7 +81,7 @@ pub fn SharedArrayBuffer::slice(
 pub type DataView
 
 ///|
-pub impl Js for DataView
+pub impl JsImpl for DataView
 
 ///|
 extern "js" fn ffi_new_dataview(
@@ -280,7 +280,7 @@ pub fn DataView::set_float64(
 pub type Uint8Array
 
 ///|
-pub impl Js for Uint8Array
+pub impl JsImpl for Uint8Array
 
 ///|
 extern "js" fn ffi_uint8array_from_size(length : UInt) -> Val =
@@ -463,7 +463,7 @@ pub fn Uint8Array::to_string(self : Self) -> String {
 pub type Uint16Array
 
 ///|
-pub impl Js for Uint16Array
+pub impl JsImpl for Uint16Array
 
 ///|
 pub fn Uint16Array::from_size(length : UInt) -> Uint16Array {
@@ -541,7 +541,7 @@ pub fn Uint16Array::buffer(self : Self) -> ArrayBuffer {
 pub type Uint32Array
 
 ///|
-pub impl Js for Uint32Array
+pub impl JsImpl for Uint32Array
 
 ///|
 pub fn Uint32Array::from_size(length : UInt) -> Uint32Array {
@@ -619,7 +619,7 @@ pub fn Uint32Array::buffer(self : Self) -> ArrayBuffer {
 pub type Int8Array
 
 ///|
-pub impl Js for Int8Array
+pub impl JsImpl for Int8Array
 
 ///|
 pub fn Int8Array::from_size(length : UInt) -> Int8Array {
@@ -697,7 +697,7 @@ pub fn Int8Array::buffer(self : Self) -> ArrayBuffer {
 pub type Int16Array
 
 ///|
-pub impl Js for Int16Array
+pub impl JsImpl for Int16Array
 
 ///|
 pub fn Int16Array::from_size(length : UInt) -> Int16Array {
@@ -775,7 +775,7 @@ pub fn Int16Array::buffer(self : Self) -> ArrayBuffer {
 pub type Int32Array
 
 ///|
-pub impl Js for Int32Array
+pub impl JsImpl for Int32Array
 
 ///|
 pub fn Int32Array::from_size(length : UInt) -> Int32Array {
@@ -853,7 +853,7 @@ pub fn Int32Array::buffer(self : Self) -> ArrayBuffer {
 pub type Float32Array
 
 ///|
-pub impl Js for Float32Array
+pub impl JsImpl for Float32Array
 
 ///|
 pub fn Float32Array::from_size(length : UInt) -> Float32Array {
@@ -931,7 +931,7 @@ pub fn Float32Array::buffer(self : Self) -> ArrayBuffer {
 pub type Float64Array
 
 ///|
-pub impl Js for Float64Array
+pub impl JsImpl for Float64Array
 
 ///|
 pub fn Float64Array::from_size(length : UInt) -> Float64Array {

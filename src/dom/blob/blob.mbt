@@ -6,7 +6,7 @@
 pub type Blob
 
 ///|
-pub impl Js for Blob
+pub impl JsImpl for Blob
 
 ///|
 /// Create a new Blob from array of data
@@ -15,7 +15,7 @@ extern "js" fn ffi_new_blob(data : Val, options : Val) -> Val =
 
 ///|
 /// Create a new Blob
-pub fn Blob::new(data : Array[&Js], content_type? : String) -> Blob {
+pub fn Blob::new(data : Array[&JsImpl], content_type? : String) -> Blob {
   let arr = @js.JsArray::new()
   let mut i = 0
   while i < data.length() {

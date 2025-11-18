@@ -5,7 +5,7 @@
 pub type DurableObjectNamespace
 
 ///|
-pub impl Js for DurableObjectNamespace
+pub impl JsImpl for DurableObjectNamespace
 
 ///|
 /// Get a Durable Object stub by ID
@@ -74,7 +74,7 @@ pub(all) struct DurableObjectIdOptions {
 }
 
 ///|
-pub impl Js for DurableObjectIdOptions with to_js(self) {
+pub impl JsImpl for DurableObjectIdOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.jurisdiction {
     Some(j) => obj.set("jurisdiction", j)
@@ -89,7 +89,7 @@ pub impl Js for DurableObjectIdOptions with to_js(self) {
 pub type DurableObjectId
 
 ///|
-pub impl Js for DurableObjectId
+pub impl JsImpl for DurableObjectId
 
 ///|
 /// Convert ID to string
@@ -115,7 +115,7 @@ pub fn DurableObjectId::name(self : Self) -> String? {
 pub type DurableObjectStub
 
 ///|
-pub impl Js for DurableObjectStub
+pub impl JsImpl for DurableObjectStub
 
 ///|
 /// Get the ID of this stub
@@ -167,7 +167,7 @@ pub fn DurableObjectStub::fetch_url_with_init(
 pub type DurableObjectState
 
 ///|
-pub impl Js for DurableObjectState
+pub impl JsImpl for DurableObjectState
 
 ///|
 /// Get the ID of this Durable Object
@@ -202,7 +202,7 @@ pub fn DurableObjectState::block_concurrency_while(
 pub type DurableObjectStorage
 
 ///|
-pub impl Js for DurableObjectStorage
+pub impl JsImpl for DurableObjectStorage
 
 ///|
 /// Get a value from storage
@@ -440,7 +440,7 @@ pub(all) struct DurableObjectGetOptions {
 }
 
 ///|
-pub impl Js for DurableObjectGetOptions with to_js(self) {
+pub impl JsImpl for DurableObjectGetOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
@@ -462,7 +462,7 @@ pub(all) struct DurableObjectPutOptions {
 }
 
 ///|
-pub impl Js for DurableObjectPutOptions with to_js(self) {
+pub impl JsImpl for DurableObjectPutOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
@@ -493,7 +493,7 @@ pub(all) struct DurableObjectListOptions {
 }
 
 ///|
-pub impl Js for DurableObjectListOptions with to_js(self) {
+pub impl JsImpl for DurableObjectListOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.start {
     Some(val) => obj.set("start", val)
@@ -537,7 +537,7 @@ pub(all) struct DurableObjectGetAlarmOptions {
 }
 
 ///|
-pub impl Js for DurableObjectGetAlarmOptions with to_js(self) {
+pub impl JsImpl for DurableObjectGetAlarmOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
@@ -554,7 +554,7 @@ pub(all) struct DurableObjectSetAlarmOptions {
 }
 
 ///|
-pub impl Js for DurableObjectSetAlarmOptions with to_js(self) {
+pub impl JsImpl for DurableObjectSetAlarmOptions with to_js(self) {
   let obj = @js.Object::new()
   match self.allow_concurrency {
     Some(val) => obj.set("allowConcurrency", val)
@@ -573,7 +573,7 @@ pub impl Js for DurableObjectSetAlarmOptions with to_js(self) {
 pub type DurableObjectTransaction
 
 ///|
-pub impl Js for DurableObjectTransaction
+pub impl JsImpl for DurableObjectTransaction
 
 ///|
 /// Get a value in transaction

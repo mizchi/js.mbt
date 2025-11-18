@@ -1,6 +1,6 @@
 ///|
 /// EventImpl trait - base interface for all DOM events
-pub(open) trait EventImpl: Js {
+pub(open) trait EventImpl: JsImpl {
   preventDefault(Self) -> Unit = _
   stopPropagation(Self) -> Unit = _
   stopImmediatePropagation(Self) -> Unit = _
@@ -64,7 +64,7 @@ impl EventImpl with defaultPrevented(self) -> Bool {
 pub type Event
 
 ///|
-pub impl Js for Event
+pub impl JsImpl for Event
 
 ///|
 pub impl EventImpl for Event
@@ -76,7 +76,7 @@ pub impl EventImpl for Event
 pub type PointerEvent
 
 ///|
-pub impl Js for PointerEvent
+pub impl JsImpl for PointerEvent
 
 ///|
 pub impl EventImpl for PointerEvent
@@ -118,7 +118,7 @@ pub fn PointerEvent::is_primary(self : Self) -> Bool {
 pub type MouseEvent
 
 ///|
-pub impl Js for MouseEvent
+pub impl JsImpl for MouseEvent
 
 ///|
 pub impl EventImpl for MouseEvent
@@ -224,7 +224,7 @@ pub fn MouseEvent::metaKey(self : Self) -> Bool {
 pub type KeyboardEvent
 
 ///|
-impl Js for KeyboardEvent
+impl JsImpl for KeyboardEvent
 
 ///|
 pub impl EventImpl for KeyboardEvent
@@ -298,7 +298,7 @@ pub fn KeyboardEvent::location(self : KeyboardEvent) -> Int {
 pub type ChangeEvent
 
 ///|
-pub impl Js for ChangeEvent
+pub impl JsImpl for ChangeEvent
 
 ///|
 pub impl EventImpl for ChangeEvent
@@ -310,7 +310,7 @@ pub impl EventImpl for ChangeEvent
 pub type FocusEvent
 
 ///|
-impl Js for FocusEvent
+impl JsImpl for FocusEvent
 
 ///|
 pub impl EventImpl for FocusEvent
@@ -327,7 +327,7 @@ pub fn FocusEvent::relatedTarget(self : FocusEvent) -> Element? {
 pub type FormEvent
 
 ///|
-impl Js for FormEvent
+impl JsImpl for FormEvent
 
 ///|
 pub impl EventImpl for FormEvent
@@ -345,7 +345,7 @@ pub fn FormEvent::formData(self : FormEvent) -> Val {
 pub type DragEvent
 
 ///|
-pub impl Js for DragEvent
+pub impl JsImpl for DragEvent
 
 ///|
 pub impl EventImpl for DragEvent
@@ -364,7 +364,7 @@ pub fn DragEvent::dataTransfer(self : Self) -> Val {
 pub type InputEvent
 
 ///|
-impl Js for InputEvent
+impl JsImpl for InputEvent
 
 ///|
 pub impl EventImpl for InputEvent
@@ -388,7 +388,7 @@ pub fn InputEvent::inputType(self : Self) -> String {
 pub type WheelEvent
 
 ///|
-impl Js for WheelEvent
+impl JsImpl for WheelEvent
 
 ///|
 pub impl EventImpl for WheelEvent
@@ -424,7 +424,7 @@ pub fn WheelEvent::delta_mode(self : Self) -> Int {
 pub type TouchEvent
 
 ///|
-impl Js for TouchEvent
+impl JsImpl for TouchEvent
 
 ///|
 pub impl EventImpl for TouchEvent
@@ -481,7 +481,7 @@ pub fn TouchEvent::metaKey(self : Self) -> Bool {
 pub type Touch
 
 ///|
-impl Js for Touch
+impl JsImpl for Touch
 
 ///|
 /// Returns the unique identifier for this touch
@@ -562,7 +562,7 @@ pub fn Touch::target(self : Self) -> Element {
 pub type ClipboardEvent
 
 ///|
-impl Js for ClipboardEvent
+impl JsImpl for ClipboardEvent
 
 ///|
 pub impl EventImpl for ClipboardEvent
@@ -581,7 +581,7 @@ pub fn ClipboardEvent::clipboardData(self : Self) -> Val? {
 pub type TransitionEvent
 
 ///|
-impl Js for TransitionEvent
+impl JsImpl for TransitionEvent
 
 ///|
 pub impl EventImpl for TransitionEvent
@@ -611,7 +611,7 @@ pub fn TransitionEvent::pseudoElement(self : Self) -> String {
 pub type AnimationEvent
 
 ///|
-impl Js for AnimationEvent
+impl JsImpl for AnimationEvent
 
 ///|
 pub impl EventImpl for AnimationEvent
@@ -640,7 +640,7 @@ pub fn AnimationEvent::pseudoElement(self : Self) -> String {
 pub type ScrollEvent
 
 ///|
-pub impl Js for ScrollEvent
+pub impl JsImpl for ScrollEvent
 
 ///|
 pub impl EventImpl for ScrollEvent
@@ -652,7 +652,7 @@ pub impl EventImpl for ScrollEvent
 pub type MessageEvent
 
 ///|
-pub impl Js for MessageEvent
+pub impl JsImpl for MessageEvent
 
 ///|
 pub impl EventImpl for MessageEvent

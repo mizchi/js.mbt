@@ -25,7 +25,7 @@ pub impl PropertyKey for Symbol
 pub type Object
 
 ///|
-pub impl Js for Object
+pub impl JsImpl for Object
 
 ///|
 /// JS: new Object()
@@ -40,26 +40,26 @@ pub fn Object::to_string(self : Self) -> String {
 
 ///|
 /// JS: Object.keys(v)
-pub fn Object::keys(v : &Js) -> Array[String] {
+pub fn Object::keys(v : &JsImpl) -> Array[String] {
   ffi_object_keys(v.to_js())
 }
 
 ///|
 /// JS: Object.values(v)
-pub fn Object::values(v : &Js) -> Array[Val] {
+pub fn Object::values(v : &JsImpl) -> Array[Val] {
   ffi_object_values(v.to_js())
 }
 
 ///|
 /// JS: Object.entries(v)
-pub fn Object::entries(v : &Js) -> Array[(String, Val)] {
+pub fn Object::entries(v : &JsImpl) -> Array[(String, Val)] {
   let entries = ffi_object_entries(v.to_js())
   entries.map(entry => (unsafe_cast(entry.get(0)), unsafe_cast(entry.get(1))))
 }
 
 ///|
 /// JS: Object.assign(target, source)
-pub fn Object::assign(target : &Js, source : &Js) -> Val {
+pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Val {
   ffi_object_assign(target.to_js(), source.to_js())
 }
 

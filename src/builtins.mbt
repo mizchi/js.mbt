@@ -1,6 +1,6 @@
 ///|
 pub fn from_builtin_json(j : Json) -> Val {
-  Js::to_js(j)
+  JsImpl::to_js(j)
 }
 
 ///|
@@ -46,7 +46,7 @@ pub impl ToJson for Val with to_json(self) -> Json {
 }
 
 ///|
-pub impl Js for Json with to_js(self) -> Val {
+pub impl JsImpl for Json with to_js(self) -> Val {
   match self {
     Null => null_()
     String(s) => js(s)
@@ -56,7 +56,7 @@ pub impl Js for Json with to_js(self) -> Val {
     Object(o) => {
       let obj = Object::new()
       for k, v in o {
-        let v : Val = Js::to_js(v)
+        let v : Val = JsImpl::to_js(v)
         obj.set(k, v)
       }
       obj.to_js()
@@ -64,7 +64,7 @@ pub impl Js for Json with to_js(self) -> Val {
     Array(a) => {
       let arr = JsArray::new()
       for v in a {
-        let v : Val = Js::to_js(v)
+        let v : Val = JsImpl::to_js(v)
         arr.invoke("push", [v]) |> ignore
       }
       arr.to_js()
