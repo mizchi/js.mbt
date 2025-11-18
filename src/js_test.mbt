@@ -7,12 +7,12 @@ priv enum TestConstantEnum {
 
 ///|
 test "cast" {
-  assert_eq(js(42), js(42))
-  let v1 = js(42)
-  let v2 = js(42)
+  assert_eq(safe_js(42), safe_js(42))
+  let v1 = safe_js(42)
+  let v2 = safe_js(42)
   assert_eq(v1, v2)
-  assert_eq(js(TestConstantEnum::NotFound), js(404))
-  let s1 : String? = js("hello") |> to_option()
+  assert_eq(js(TestConstantEnum::NotFound), safe_js(404))
+  let s1 : String? = safe_js("hello") |> to_option()
   assert_eq(s1, Some("hello"))
   let s2 : String? = undefined() |> to_option()
   assert_eq(s2, None)
@@ -74,10 +74,10 @@ test "from trait" {
 
 ///|
 test "to_string" {
-  assert_eq(js(42).to_string(), "42")
+  assert_eq(safe_js(42).to_string(), "42")
   assert_eq(null_().to_string(), "null")
-  assert_eq(js(true).to_string(), "true")
-  assert_eq(js("hello").to_string(), "hello")
+  assert_eq(safe_js(true).to_string(), "true")
+  assert_eq(safe_js("hello").to_string(), "hello")
   assert_true(@js.is_undefined(undefined()))
   assert_true(@js.is_null(null_()))
   assert_eq(@js.Object::new().to_string(), "{}")
@@ -85,7 +85,8 @@ test "to_string" {
   from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
   let expected =
     #|{"a":1,"b":2}
-  from_map({ "a": 1 |> js, "b": 2 |> js }).to_string() |> assert_eq(expected)
+  from_map({ "a": 1 |> safe_js, "b": 2 |> safe_js }).to_string()
+  |> assert_eq(expected)
 }
 
 ///|
