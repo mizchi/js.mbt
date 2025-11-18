@@ -7,27 +7,27 @@ pub(open) trait ReactNode {
 
 ///|
 pub impl ReactNode for String with to_react_node(self) {
-  self |> js
+  self |> safe_js
 }
 
 ///|
 pub impl ReactNode for Element with to_react_node(self) {
-  self |> js
+  self |> safe_js
 }
 
 ///|
 pub impl ReactNode for Int with to_react_node(self) {
-  self |> js
+  self |> safe_js
 }
 
 ///|
 pub impl ReactNode for Double with to_react_node(self) {
-  self |> js
+  self |> safe_js
 }
 
 ///|
 pub impl ReactNode for Bool with to_react_node(self) {
-  self |> js
+  self |> safe_js
 }
 
 ///|

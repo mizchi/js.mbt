@@ -7,7 +7,7 @@
 /// }
 /// ```
 #alias(use_state)
-pub fn[T: JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
+pub fn[T : JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
   let value : T = unsafe_cast(result.get(0))
   let update_fn : (T) -> Unit = unsafe_cast(result.get(1))

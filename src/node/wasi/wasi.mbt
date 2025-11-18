@@ -48,7 +48,7 @@ fn WasiOptions::to_js(self : WasiOptions) -> Js {
 
   // Set optional args
   match self.args {
-    Some(args) => options.set("args", args |> js)
+    Some(args) => options.set("args", args |> @js.from_array)
     None => ()
   }
 

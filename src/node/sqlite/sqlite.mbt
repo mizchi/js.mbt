@@ -267,10 +267,10 @@ pub fn DatabaseSync::applyChangeset(
 ) -> Bool {
   let opts = @js.Object::new()
   if filter is Some(f) {
-    opts.set("filter", f |> js)
+    opts.set("filter", f |> @js.from_fn1)
   }
   if onConflict is Some(oc) {
-    opts.set("onConflict", oc |> js)
+    opts.set("onConflict", oc |> @js.from_fn2)
   }
   self.invoke("applyChangeset", [changeset, opts]) |> unsafe_cast
 }
@@ -508,7 +508,7 @@ pub fn backup(
     opts.set("target", v)
   }
   if progress is Some(f) {
-    opts.set("progress", f |> js)
+    opts.set("progress", f |> @js.from_fn1)
   }
   let backup : Js = @node.require("node:sqlite").get("backup")
   backup.invoke_self([source_db.to_js(), db_path, opts]) |> ignore

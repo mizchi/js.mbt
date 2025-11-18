@@ -91,7 +91,7 @@ test "get_heap_snapshot returns stream" {
 ///|
 /// Test serialize and deserialize number
 test "serialize and deserialize number" {
-  let original = 42 |> js
+  let original = 42
   let serialized = serialize(original)
   let deserialized = deserialize(serialized)
   inspect(unsafe_cast(deserialized) == 42, content="true")
@@ -125,7 +125,7 @@ test "serialize and deserialize object" {
 test "Serializer write and release" {
   let serializer = Serializer::new()
   serializer.write_header()
-  let success = serializer.write_value(42 |> js)
+  let success = serializer.write_value(42)
   inspect(success, content="true")
   let buffer = serializer.releaseBuffer()
   inspect(unsafe_cast(buffer.get("length")) > 0, content="true")
@@ -156,7 +156,7 @@ test "Serializer write_double" {
 ///|
 /// Test Deserializer read value
 test "Deserializer read value" {
-  let original = 42 |> js
+  let original = 42
   let serialized = serialize(original)
   let deserializer = Deserializer::new(serialized)
   deserializer.read_header() |> ignore
@@ -167,7 +167,7 @@ test "Deserializer read value" {
 ///|
 /// Test Deserializer get wire format version
 test "Deserializer get_wire_format_version" {
-  let serialized = serialize(42 |> js)
+  let serialized = serialize(42)
   let deserializer = Deserializer::new(serialized)
   let version = deserializer.get_wire_format_version()
   inspect(version >= 0, content="true")

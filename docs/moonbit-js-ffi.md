@@ -80,7 +80,7 @@ pub extern "js" fn Document::createElement(self: Self, tag: String) -> Element =
 // Method via invoke
 #alias(query_selector)
 pub fn Document::querySelector(self: Self, selector: String) -> Element? {
-  self.invoke("querySelector", [selector |> js]) |> unsafe_option()
+  self.invoke("querySelector", [selector]) |> unsafe_option()
 }
 ```
 
@@ -180,7 +180,7 @@ fn unsafe_option(val: Val) -> Val? {
 
 #alias(get_element_by_id)
 pub fn getElementById(id: String) -> Element? {
-  document().invoke("getElementById", [id |> js]) |> unsafe_option()
+  document().invoke("getElementById", [id]) |> unsafe_option()
 }
 
 // Usage
@@ -241,7 +241,7 @@ pub fn writeFileSync(path: String, data: &JsImpl) -> Unit {
 
 // Usage
 let content = readFileSync("package.json")
-writeFileSync("output.txt", "Hello World" |> js)
+writeFileSync("output.txt", "Hello World")
 ```
 
 ## Real-World Examples
@@ -254,8 +254,8 @@ fn init {
   
   // Create element
   let div = doc.createElement("div")
-  div.set("className", "container" |> js)
-  div.set("textContent", "Hello, World!" |> js)
+  div.set("className", "container")
+  div.set("textContent", "Hello, World!")
   
   // Query and append
   match doc.getElementById("app") {
@@ -306,7 +306,7 @@ fn main {
   let processed = lines.map(fn(line) { line.trim() })
   
   // Write file
-  writeFileSync("output.txt", processed.join("\n") |> js)
+  writeFileSync("output.txt", processed.join("\n"))
   
   console.log("Processing complete")
 }

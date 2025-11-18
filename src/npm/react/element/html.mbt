@@ -411,22 +411,22 @@ pub fn textarea(
     }
   }
   if rows is Some(r) {
-    new_attributes.set("rows", r |> js)
+    new_attributes.set("rows", r |> safe_js)
   }
   if columns is Some(c) {
-    new_attributes.set("cols", c |> js)
+    new_attributes.set("cols", c |> safe_js)
   }
   if spellcheck is Some(s) {
-    new_attributes.set("spellCheck", s |> js)
+    new_attributes.set("spellCheck", s |> safe_js)
   }
   if value is Some(v) {
-    new_attributes.set("value", v |> js)
+    new_attributes.set("value", v |> safe_js)
   }
   if default_value is Some(dv) {
-    new_attributes.set("defaultValue", dv |> js)
+    new_attributes.set("defaultValue", dv |> safe_js)
   }
   if placeholder is Some(p) {
-    new_attributes.set("placeholder", p |> js)
+    new_attributes.set("placeholder", p |> safe_js)
   }
   common_node(
     "textarea",
@@ -488,19 +488,19 @@ pub fn input(
     }
   }
   if name is Some(n) {
-    new_attributes.set("name", n |> js)
+    new_attributes.set("name", n |> safe_js)
   }
   if value is Some(v) {
-    new_attributes.set("value", v |> js)
+    new_attributes.set("value", v |> safe_js)
   }
   if default_value is Some(dv) {
-    new_attributes.set("defaultValue", dv |> js)
+    new_attributes.set("defaultValue", dv |> safe_js)
   }
   if type_ is Some(t) {
-    new_attributes.set("type", t |> js)
+    new_attributes.set("type", t |> safe_js)
   }
   if placeholder is Some(p) {
-    new_attributes.set("placeholder", p |> js)
+    new_attributes.set("placeholder", p |> safe_js)
   }
   common_node(
     "input",
@@ -971,24 +971,24 @@ pub fn form(
     }
   }
   if disabled is Some(d) {
-    new_attributes.set("disabled", d |> js)
+    new_attributes.set("disabled", d |> safe_js)
   }
   if name is Some(n) {
-    new_attributes.set("name", n |> js)
+    new_attributes.set("name", n |> safe_js)
   }
   if method_ is Some(m) {
-    new_attributes.set("method", m |> js)
+    new_attributes.set("method", m |> safe_js)
   }
   if on_submit is Some(f) {
-    let fn_value : Js = f |> js
+    let fn_value : Js = f |> @js.from_fn1
     new_attributes.set("onSubmit", fn_value)
   }
   if action is Some(f) {
-    let fn_value : Js = f |> js
+    let fn_value : Js = f |> @js.from_fn1
     new_attributes.set("action", fn_value)
   }
   if enc_type is Some(e) {
-    new_attributes.set("encType", e |> js)
+    new_attributes.set("encType", e |> safe_js)
   }
   common_node(
     "form",
@@ -1050,13 +1050,13 @@ pub fn select(
     }
   }
   if multiple is Some(m) {
-    new_attributes.set("multiple", m |> js)
+    new_attributes.set("multiple", m |> safe_js)
   }
   if disabled is Some(d) {
-    new_attributes.set("disabled", d |> js)
+    new_attributes.set("disabled", d |> safe_js)
   }
   if name is Some(n) {
-    new_attributes.set("name", n |> js)
+    new_attributes.set("name", n |> safe_js)
   }
   common_node(
     "select",
@@ -1116,9 +1116,9 @@ pub fn option(
       new_attributes[k] = v
     }
   }
-  new_attributes.set("value", value |> js)
+  new_attributes.set("value", value |> safe_js)
   if selected is Some(s) {
-    new_attributes.set("selected", s |> js)
+    new_attributes.set("selected", s |> safe_js)
   }
   common_node(
     "option",
@@ -1177,7 +1177,7 @@ pub fn label(
       new_attributes[k] = v
     }
   }
-  new_attributes.set("htmlFor", htmlFor |> js)
+  new_attributes.set("htmlFor", htmlFor |> safe_js)
   common_node(
     "label",
     attributes.unwrap_or({}),
@@ -1440,12 +1440,12 @@ pub fn a(
       new_attributes[k] = v
     }
   }
-  new_attributes.set("href", href |> js)
+  new_attributes.set("href", href |> safe_js)
   if download is Some(d) {
-    new_attributes.set("download", d |> js)
+    new_attributes.set("download", d |> safe_js)
   }
   if target is Some(t) {
-    new_attributes.set("target", t |> js)
+    new_attributes.set("target", t |> safe_js)
   }
   common_node(
     "a",
@@ -1511,24 +1511,24 @@ pub fn iframe(
       new_attributes[k] = v
     }
   }
-  new_attributes.set("src", src |> js)
+  new_attributes.set("src", src |> safe_js)
   if width is Some(d) {
-    new_attributes.set("width", d |> js)
+    new_attributes.set("width", d |> safe_js)
   }
   if height is Some(d) {
-    new_attributes.set("height", d |> js)
+    new_attributes.set("height", d |> safe_js)
   }
   if frameborder is Some(d) {
-    new_attributes.set("frameborder", d |> js)
+    new_attributes.set("frameborder", d |> safe_js)
   }
   if sandbox is Some(d) {
-    new_attributes.set("sandbox", d |> js)
+    new_attributes.set("sandbox", d |> safe_js)
   }
   if allowfullscreen is Some(d) {
-    new_attributes.set("allowfullscreen", d |> js)
+    new_attributes.set("allowfullscreen", d |> safe_js)
   }
   if loading is Some(d) {
-    new_attributes.set("loading", d |> js)
+    new_attributes.set("loading", d |> safe_js)
   }
   common_node(
     "iframe",
@@ -1599,33 +1599,33 @@ pub fn img(
       new_attributes[k] = v
     }
   }
-  new_attributes.set("src", src |> js)
+  new_attributes.set("src", src |> safe_js)
   if alt is Some(d) {
-    new_attributes.set("alt", d |> js)
+    new_attributes.set("alt", d |> safe_js)
   }
   if crossorigin is Some(d) {
-    new_attributes.set("crossorigin", d |> js)
+    new_attributes.set("crossorigin", d |> safe_js)
   }
   if decoding is Some(d) {
-    new_attributes.set("decoding", d |> js)
+    new_attributes.set("decoding", d |> safe_js)
   }
   if width is Some(d) {
-    new_attributes.set("width", d |> js)
+    new_attributes.set("width", d |> safe_js)
   }
   if height is Some(d) {
-    new_attributes.set("height", d |> js)
+    new_attributes.set("height", d |> safe_js)
   }
   if fetchpriority is Some(d) {
-    new_attributes.set("fetchpriority", d |> js)
+    new_attributes.set("fetchpriority", d |> safe_js)
   }
   if loading is Some(d) {
-    new_attributes.set("loading", d |> js)
+    new_attributes.set("loading", d |> safe_js)
   }
   if sizes is Some(d) {
-    new_attributes.set("sizes", d |> js)
+    new_attributes.set("sizes", d |> safe_js)
   }
   if srcset is Some(d) {
-    new_attributes.set("srcset", d |> js)
+    new_attributes.set("srcset", d |> safe_js)
   }
   common_node(
     "img",

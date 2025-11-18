@@ -11,7 +11,7 @@ pub(all) enum MessageContent {
 ///|
 pub impl JsImpl for MessageContent with to_js(self) {
   match self {
-    Message(m) => m |> js
+    Message(m) => m |> safe_js
   }
 }
 

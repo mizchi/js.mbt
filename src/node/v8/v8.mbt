@@ -63,7 +63,7 @@ pub fn getHeapSnapshot(
 pub fn writeHeapSnapshot(filename? : String) -> String {
   let v8 = ffi_require_v8()
   match filename {
-    Some(f) => unsafe_cast(v8.invoke("writeHeapSnapshot", [f |> js]))
+    Some(f) => unsafe_cast(v8.invoke("writeHeapSnapshot", [f]))
     None => unsafe_cast(v8.invoke("writeHeapSnapshot", []))
   }
 }
@@ -73,7 +73,7 @@ pub fn writeHeapSnapshot(filename? : String) -> String {
 #alias(set_heap_snapshot_near_heap_limit)
 pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
   let v8 = ffi_require_v8()
-  v8.invoke("setHeapSnapshotNearHeapLimit", [limit |> js]) |> ignore
+  v8.invoke("setHeapSnapshotNearHeapLimit", [limit]) |> ignore
 }
 
 ///| Serialization Functions
@@ -140,21 +140,21 @@ pub fn Serializer::transferArrayBuffer(
   id : Int,
   array_buffer : ArrayBuffer,
 ) -> Unit {
-  self.invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()]) |> ignore
+  self.invoke("transferArrayBuffer", [id, array_buffer]) |> ignore
 }
 
 ///|
 /// Write uint32
 #alias(writeUint32)
 pub fn Serializer::write_uint32(self : Self, value : Int) -> Unit {
-  self.invoke("writeUint32", [value |> js]) |> ignore
+  self.invoke("writeUint32", [value]) |> ignore
 }
 
 ///|
 /// Write double
 #alias(writeDouble)
 pub fn Serializer::write_double(self : Self, value : Double) -> Unit {
-  self.invoke("writeDouble", [value |> js]) |> ignore
+  self.invoke("writeDouble", [value]) |> ignore
 }
 
 ///|
@@ -205,7 +205,7 @@ pub fn Deserializer::transfer_array_buffer(
   id : Int,
   array_buffer : ArrayBuffer,
 ) -> Unit {
-  self.invoke("transferArrayBuffer", [id |> js, array_buffer.to_js()]) |> ignore
+  self.invoke("transferArrayBuffer", [id, array_buffer]) |> ignore
 }
 
 ///|
@@ -233,7 +233,7 @@ pub fn Deserializer::readDouble(self : Self) -> Double {
 /// Read raw bytes
 #alias(read_raw_bytes)
 pub fn Deserializer::readRawBytes(self : Self, length : Int) -> Buffer {
-  self.invoke("readRawBytes", [length |> js]) |> unsafe_cast
+  self.invoke("readRawBytes", [length]) |> unsafe_cast
 }
 
 ///| Utility Functions
@@ -251,7 +251,7 @@ pub fn cachedDataVersionTag() -> Int {
 #alias(set_flags_from_string)
 pub fn setFlagsFromString(flags : String) -> Unit {
   let v8 = ffi_require_v8()
-  v8.invoke("setFlagsFromString", [flags |> js]) |> ignore
+  v8.invoke("setFlagsFromString", [flags]) |> ignore
 }
 
 ///|
