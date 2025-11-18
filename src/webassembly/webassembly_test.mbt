@@ -9,7 +9,7 @@ using @arraybuffer {type Uint8Array}
 /// Test basic WebAssembly module compilation and instantiation
 test "WebAssembly module from bytes" {
   // Read the add.wasm file from project root using Node.js APIs
-  let process = @process.Process::require()
+  let process = @process.node_process()
   let cwd = process.cwd()
   let wasm_path = @path.join([cwd, "fixtures/add.wasm"])
   let buffer = @fs.read_file_sync(wasm_path)
