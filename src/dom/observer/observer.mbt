@@ -278,7 +278,7 @@ pub fn ResizeObserverEntry::target(self : Self) -> Element {
 
 ///|
 /// Returns the content rect
-pub fn ResizeObserverEntry::contentRect(self : Self) -> DOMRectReadOnly {
+pub fn ResizeObserverEntry::contentRect(self : Self) -> @dom.DOMRectReadOnly {
   unsafe_cast(self.get("contentRect"))
 }
 

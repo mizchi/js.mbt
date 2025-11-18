@@ -1,4 +1,17 @@
 ///|
+/// HTMLElement trait - base interface for HTML elements
+pub(open) trait HTMLElementImpl: Js + ElementImpl {
+  innerText(Self) -> String = _
+  setInnerText(Self, String) -> Unit = _
+  innerHTML(Self) -> String = _
+  setInnerHTML(Self, String) -> Unit = _
+  outerHTML(Self) -> String = _
+  setOuterHTML(Self, String) -> Unit = _
+  focus(Self) -> Unit = _
+  click(Self) -> Unit = _
+}
+
+///|
 #external
 pub type HTMLElement
 
@@ -24,20 +37,7 @@ pub impl Js for HTMLElement
 pub impl HTMLElementImpl for HTMLElement
 
 ///|
-/// HTMLElement trait - base interface for HTML elements
-pub(open) trait HTMLElementImpl: Js + ElementImpl {
-  inner_text(Self) -> String = _
-  setInnerText(Self, String) -> Unit = _
-  innerHTML(Self) -> String = _
-  setInnerHTML(Self, String) -> Unit = _
-  outerHTML(Self) -> String = _
-  setOuterHTML(Self, String) -> Unit = _
-  focus(Self) -> Unit = _
-  click(Self) -> Unit = _
-}
-
-///|
-impl HTMLElementImpl with inner_text(self) -> String {
+impl HTMLElementImpl with innerText(self) -> String {
   unsafe_cast(self.get("innerText"))
 }
 

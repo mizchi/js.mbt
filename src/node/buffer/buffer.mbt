@@ -80,9 +80,9 @@ pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
 ///|
 /// Check if an object is a Buffer
 #alias(is_buffer)
-pub fn Buffer::isBuffer(obj : Val) -> Bool {
+pub fn Buffer::isBuffer(obj : &Js) -> Bool {
   let ctor = buffer_constructor()
-  ctor.invoke("isBuffer", [obj]) |> unsafe_cast
+  ctor.invoke("isBuffer", [obj.to_js()]) |> unsafe_cast
 }
 
 ///|

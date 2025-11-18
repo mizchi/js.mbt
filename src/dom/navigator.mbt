@@ -15,13 +15,13 @@ pub extern "js" fn navigator() -> Navigator =
 ///|
 /// Returns the user agent string
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/userAgent
-pub extern "js" fn Navigator::user_agent(self : Self) -> String =
+pub extern "js" fn Navigator::userAgent(self : Self) -> String =
   #| (nav) => nav.userAgent
 
 ///|
 /// Returns whether the browser is online
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/onLine
-pub extern "js" fn Navigator::on_line(self : Self) -> Bool =
+pub extern "js" fn Navigator::onLine(self : Self) -> Bool =
   #| (nav) => nav.onLine
 
 ///|
@@ -48,21 +48,21 @@ pub fn Navigator::platform(self : Self) -> String {
 ///|
 /// Returns the number of logical processors
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/hardwareConcurrency
-pub fn Navigator::hardware_concurrency(self : Self) -> Int {
+pub fn Navigator::hardwareConcurrency(self : Self) -> Int {
   unsafe_cast(self.get("hardwareConcurrency"))
 }
 
 ///|
 /// Returns the device memory in GB
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/deviceMemory
-pub fn Navigator::device_memory(self : Self) -> Double? {
+pub fn Navigator::deviceMemory(self : Self) -> Double? {
   self.get("deviceMemory") |> to_option()
 }
 
 ///|
 /// Returns the maximum touch points
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/maxTouchPoints
-pub fn Navigator::max_touch_points(self : Self) -> Int {
+pub fn Navigator::maxTouchPoints(self : Self) -> Int {
   unsafe_cast(self.get("maxTouchPoints"))
 }
 
@@ -76,14 +76,14 @@ pub fn Navigator::vendor(self : Self) -> String {
 ///|
 /// Returns whether cookies are enabled
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/cookieEnabled
-pub fn Navigator::cookie_enabled(self : Self) -> Bool {
+pub fn Navigator::cookieEnabled(self : Self) -> Bool {
   unsafe_cast(self.get("cookieEnabled"))
 }
 
 ///|
 /// Returns whether Do Not Track is enabled
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/doNotTrack
-pub fn Navigator::do_not_track(self : Self) -> String? {
+pub fn Navigator::doNotTrack(self : Self) -> String? {
   self.get("doNotTrack") |> to_option()
 }
 
@@ -119,5 +119,5 @@ pub fn Navigator::geolocation(self : Self) -> Val {
 /// Vibrates the device
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate
 pub fn Navigator::vibrate(self : Self, pattern : Int) -> Bool {
-  self.invoke("vibrate", [pattern |> js]) |> unsafe_cast
+  self.invoke("vibrate", [pattern]) |> unsafe_cast
 }

@@ -14,8 +14,11 @@ pub impl Js for ReactDOMClient
 
 ///|
 #alias(create_root)
-pub fn ReactDOMClient::createRoot(self : Self, container : Val) -> ReactDOMRoot {
-  self.invoke("createRoot", [container]) |> unsafe_cast
+pub fn ReactDOMClient::createRoot(
+  self : Self,
+  container : &@dom.ElementImpl,
+) -> ReactDOMRoot {
+  self.invoke("createRoot", [container.to_js()]) |> unsafe_cast
 }
 
 ///|

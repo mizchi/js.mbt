@@ -236,3 +236,27 @@ pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
 pub fn Document::createEvent(self : Self, event_type : String) -> Event {
   self.invoke("createEvent", [event_type]) |> unsafe_cast
 }
+
+///|
+/// Returns the element from point within the shadow root
+/// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/elementFromPoint
+pub fn Document::elementFromPoint(
+  self : Self,
+  x : Double,
+  y : Double,
+) -> Element? {
+  self.invoke("elementFromPoint", [x, y]) |> to_option()
+}
+
+///|
+/// Returns elements from point within the shadow root
+/// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/elementsFromPoint
+pub fn Document::elementsFromPoint(
+  self : Self,
+  x : Double,
+  y : Double,
+) -> Array[Element] {
+  @js.array_from(self.invoke("elementsFromPoint", [x, y])).map(fn(v) {
+    unsafe_cast(v)
+  })
+}

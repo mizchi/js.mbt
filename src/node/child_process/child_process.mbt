@@ -172,7 +172,7 @@ pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
 /// Send a signal to the child process
 pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
   match signal {
-    Some(sig) => self.invoke("kill", [sig |> js]) |> unsafe_cast
+    Some(sig) => self.invoke("kill", [sig]) |> unsafe_cast
     None => self.invoke("kill", []) |> unsafe_cast
   }
 }
@@ -447,7 +447,7 @@ pub fn execSync(
   env? : Val,
   shell? : String,
   timeout? : Int,
-  max_buffer? : Int,
+  maxBuffer? : Int,
   input? : String,
   encoding? : String,
 ) -> String {
@@ -465,7 +465,7 @@ pub fn execSync(
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  if max_buffer is Some(mb) {
+  if maxBuffer is Some(mb) {
     options.set("maxBuffer", mb)
   }
   if input is Some(i) {
@@ -489,7 +489,7 @@ pub fn execFileSync(
   cwd? : String,
   env? : Val,
   timeout? : Int,
-  max_buffer? : Int,
+  maxBuffer? : Int,
   input? : String,
   encoding? : String,
 ) -> String {
@@ -504,7 +504,7 @@ pub fn execFileSync(
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  if max_buffer is Some(mb) {
+  if maxBuffer is Some(mb) {
     options.set("maxBuffer", mb)
   }
   if input is Some(i) {
@@ -517,7 +517,9 @@ pub fn execFileSync(
   }
   match args {
     Some(a) =>
-      unsafe_cast(cp.invoke("execFileSync", [file |> js, a |> js, options]))
-    None => unsafe_cast(cp.invoke("execFileSync", [file |> js, options]))
+      unsafe_cast(
+        cp.invoke("execFileSync", [file, a |> @js.from_array, options]),
+      )
+    None => unsafe_cast(cp.invoke("execFileSync", [file, options]))
   }
 }
