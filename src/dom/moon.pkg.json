@@ -3,7 +3,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/promise",
-    "mizchi/js/blob",
+    "mizchi/js/dom/blob",
     "mizchi/js/worker"
   ],
   "test-import": ["mizchi/js/node"]

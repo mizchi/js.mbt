@@ -3,7 +3,7 @@
   "is_main": false,
   "import": [
     "mizchi/js",
-    "mizchi/js/blob",
+    "mizchi/js/dom/blob",
     "mizchi/js/promise",
     "mizchi/js/arraybuffer"
   ]
