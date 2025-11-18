@@ -2,13 +2,8 @@
 using @js {type Val}
 
 ///|
-fn init_jsdom_env() -> Unit {
-  @node.require("global-jsdom/register") |> ignore
-}
-
-///|
-test {
-  init_jsdom_env()
+test "dom test" {
+  @global_jsdom.register()
   let doc = document()
   let div = doc.createElement("div")
   div.setAttribute("id", "test-div")

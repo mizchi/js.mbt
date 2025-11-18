@@ -6,5 +6,5 @@
     "mizchi/js/dom/blob",
     "mizchi/js/worker"
   ],
-  "test-import": ["mizchi/js/node"]
+  "test-import": ["mizchi/js/node", "mizchi/js/npm/global_jsdom"]
 }
