@@ -260,3 +260,36 @@ pub fn ResizeObserver::unobserve(self : Self, target : Element) -> Unit {
 pub fn ResizeObserver::disconnect(self : Self) -> Unit {
   self.invoke("disconnect", []) |> ignore
 }
+
+///|
+/// ResizeObserverEntry represents an entry in a ResizeObserver
+/// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry
+#external
+pub type ResizeObserverEntry
+
+///|
+pub impl Js for ResizeObserverEntry
+
+///|
+/// Returns the target element being observed
+pub fn ResizeObserverEntry::target(self : Self) -> Element {
+  unsafe_cast(self.get("target"))
+}
+
+///|
+/// Returns the content rect
+pub fn ResizeObserverEntry::contentRect(self : Self) -> DOMRectReadOnly {
+  unsafe_cast(self.get("contentRect"))
+}
+
+///|
+/// Returns the border box size
+pub fn ResizeObserverEntry::borderBoxSize(self : Self) -> Val {
+  self.get("borderBoxSize")
+}
+
+///|
+/// Returns the content box size
+pub fn ResizeObserverEntry::contentBoxSize(self : Self) -> Val {
+  self.get("contentBoxSize")
+}

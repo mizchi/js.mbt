@@ -431,7 +431,7 @@ fn MouseEvent::meta_key(Self) -> Bool
 fn MouseEvent::offset_x(Self) -> Int
 fn MouseEvent::offset_y(Self) -> Int
 fn MouseEvent::page_x(Self) -> Int
-fn MouseEvent::page_y(Self) -> Int
+fn MouseEvent::pageY(Self) -> Int
 fn MouseEvent::screen_x(Self) -> Int
 fn MouseEvent::screen_y(Self) -> Int
 fn MouseEvent::shift_key(Self) -> Bool
@@ -563,9 +563,9 @@ fn Touch::client_y(Self) -> Double
 fn Touch::force(Self) -> Double
 fn Touch::identifier(Self) -> Int
 fn Touch::page_x(Self) -> Double
-fn Touch::page_y(Self) -> Double
-fn Touch::radius_x(Self) -> Double
-fn Touch::radius_y(Self) -> Double
+fn Touch::pageY(Self) -> Double
+fn Touch::radiusX(Self) -> Double
+fn Touch::radiusY(Self) -> Double
 fn Touch::rotation_angle(Self) -> Double
 fn Touch::screen_x(Self) -> Double
 fn Touch::screen_y(Self) -> Double

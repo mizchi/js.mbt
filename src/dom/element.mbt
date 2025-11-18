@@ -9,35 +9,47 @@ pub impl Js for Element
 pub impl EventTarget for Element
 
 ///|
+pub impl NodeImpl for Element
+
+///|
+pub impl ElementImpl for Element
+
+///|
 /// Element trait - base interface for element nodes
 pub(open) trait ElementImpl: Js + NodeImpl {
-  tag_name(Self) -> String = _
-  class_name(Self) -> String = _
-  set_class_name(Self, String) -> Unit = _
+  tagName(Self) -> String = _
+  className(Self) -> String = _
+  setClassName(Self, String) -> Unit = _
   id(Self) -> String = _
-  set_id(Self, String) -> Unit = _
-  get_attribute(Self, String) -> String? = _
-  set_attribute(Self, String, String) -> Unit = _
-  remove_attribute(Self, String) -> Unit = _
-  has_attribute(Self, String) -> Bool = _
-  get_elements_by_tag_name(Self, String) -> Array[Element] = _
-  get_elements_by_class_name(Self, String) -> Array[Element] = _
-  query_selector(Self, String) -> Element? = _
-  query_selector_all(Self, String) -> Array[Element] = _
+  setId(Self, String) -> Unit = _
+  getAttribute(Self, String) -> String? = _
+  setAttribute(Self, String, String) -> Unit = _
+  removeAttribute(Self, String) -> Unit = _
+  hasAttribute(Self, String) -> Bool = _
+  getElementsByTagName(Self, String) -> Array[Element] = _
+  getElementsByClassName(Self, String) -> Array[Element] = _
+  querySelector(Self, String) -> Element? = _
+  querySelectorAll(Self, String) -> Array[Element] = _
+  append(Self, &NodeImpl) -> Unit = _
 }
 
 ///|
-impl ElementImpl with tag_name(self) -> String {
-  unsafe_cast(self.get("tagName"))
+impl ElementImpl with tagName(self) {
+  self.get("tagName") |> unsafe_cast
 }
 
 ///|
-impl ElementImpl with class_name(self) -> String {
+impl ElementImpl with append(self, child) {
+  self.invoke("append", [child.to_js()]) |> unsafe_cast
+}
+
+///|
+impl ElementImpl with className(self) -> String {
   unsafe_cast(self.get("className"))
 }
 
 ///|
-impl ElementImpl with set_class_name(self, class_name) -> Unit {
+impl ElementImpl with setClassName(self, class_name) -> Unit {
   self.set("className", class_name)
 }
 
@@ -47,41 +59,39 @@ impl ElementImpl with id(self) -> String {
 }
 
 ///|
-impl ElementImpl with set_id(self, id) -> Unit {
+impl ElementImpl with setId(self, id) -> Unit {
   self.set("id", id)
 }
 
 ///|
-impl ElementImpl with get_attribute(self, name) -> String? {
+impl ElementImpl with getAttribute(self, name) -> String? {
   self.invoke("getAttribute", [name]) |> unsafe_cast
 }
 
 ///|
-impl ElementImpl with set_attribute(self, name, value) -> Unit {
+impl ElementImpl with setAttribute(self, name, value) -> Unit {
   ignore(self.invoke("setAttribute", [name, value]))
 }
 
 ///|
-impl ElementImpl with remove_attribute(self, name) -> Unit {
+impl ElementImpl with removeAttribute(self, name) -> Unit {
   ignore(self.invoke("removeAttribute", [name]))
 }
 
 ///|
-impl ElementImpl with has_attribute(self, name) -> Bool {
+impl ElementImpl with hasAttribute(self, name) -> Bool {
   self.invoke("hasAttribute", [name]) |> unsafe_cast
 }
 
 ///|
-impl ElementImpl with get_elements_by_tag_name(self, tag_name) -> Array[Element] {
+impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
   @js.array_from(self.invoke("getElementsByTagName", [tag_name])).map(fn(v) {
     unsafe_cast(v)
   })
 }
 
 ///|
-impl ElementImpl with get_elements_by_class_name(self, class_name) -> Array[
-  Element,
-] {
+impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element] {
   @js.array_from(self.invoke("getElementsByClassName", [class_name])).map(fn(
     v,
   ) {
@@ -90,12 +100,12 @@ impl ElementImpl with get_elements_by_class_name(self, class_name) -> Array[
 }
 
 ///|
-impl ElementImpl with query_selector(self, selector) -> Element? {
+impl ElementImpl with querySelector(self, selector) -> Element? {
   self.invoke("querySelector", [selector]) |> unsafe_cast
 }
 
 ///|
-impl ElementImpl with query_selector_all(self, selector) -> Array[Element] {
+impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
   @js.array_from(self.invoke("querySelectorAll", [selector])).map(
     unsafe_cast(_),
   )

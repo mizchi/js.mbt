@@ -22,10 +22,10 @@ pub fn customElements() -> CustomElementRegistry {
 ///|
 /// Lifecycle callbacks for custom elements
 pub struct CustomElementCallbacks {
-  on_connected : () -> Unit
-  on_disconnected : () -> Unit
-  on_adopted : () -> Unit
-  on_attribute_changed : (String, String?, String?, String?) -> Unit
+  onConnected : () -> Unit
+  onDisconnected : () -> Unit
+  onAdopted : () -> Unit
+  onAttributeChanged : (String, String?, String?, String?) -> Unit
 }
 
 ///|
@@ -37,16 +37,16 @@ extern "js" fn create_custom_element_class(
   #|(callbacks) => {
   #|  return class extends HTMLElement {
   #|    connectedCallback() {
-  #|      callbacks.on_connected();
+  #|      callbacks.onConnected();
   #|    }
   #|    disconnectedCallback() {
-  #|      callbacks.on_disconnected();
+  #|      callbacks.onDisconnected();
   #|    }
   #|    adoptedCallback() {
-  #|      callbacks.on_adopted();
+  #|      callbacks.onAdopted();
   #|    }
   #|    attributeChangedCallback(name, oldValue, newValue, namespace) {
-  #|      callbacks.on_attribute_changed(name, oldValue, newValue, namespace);
+  #|      callbacks.onAttribute_changed(name, oldValue, newValue, namespace);
   #|    }
   #|  };
   #|}
@@ -54,7 +54,7 @@ extern "js" fn create_custom_element_class(
 ///|
 /// Defines a custom element with the given name and callbacks
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define
-pub fn CustomElementRegistry::define_element(
+pub fn CustomElementRegistry::define_(
   self : Self,
   name : String,
   callbacks : CustomElementCallbacks,
@@ -68,7 +68,7 @@ pub fn CustomElementRegistry::define_element(
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define
 extern "js" fn create_custom_element_class_with_attributes(
   callbacks : CustomElementCallbacks,
-  observed_attributes : Array[String],
+  observedAttributes : Array[String],
 ) -> Val =
   #|(callbacks, observedAttributes) => {
   #|  return class extends HTMLElement {
@@ -114,7 +114,7 @@ pub fn CustomElementRegistry::get(self : Self, name : String) -> Val? {
 ///|
 /// Returns the name of the custom element for the given constructor
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/getName
-pub fn CustomElementRegistry::get_name(
+pub fn CustomElementRegistry::getName(
   self : Self,
   element_constructor : Val,
 ) -> String? {
@@ -124,7 +124,7 @@ pub fn CustomElementRegistry::get_name(
 ///|
 /// Returns a promise that resolves when the custom element is defined
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/whenDefined
-pub fn CustomElementRegistry::when_defined(
+pub fn CustomElementRegistry::whenDefined(
   self : Self,
   name : String,
 ) -> Promise[Unit] {
@@ -141,10 +141,10 @@ pub fn CustomElementRegistry::upgrade(self : Self, root : Node) -> Unit {
 ///|
 /// Helper function to create default callbacks
 pub fn CustomElementCallbacks::new(
-  on_connected? : () -> Unit = fn() { () },
-  on_disconnected? : () -> Unit = fn() { () },
-  on_adopted? : () -> Unit = fn() { () },
-  on_attribute_changed? : (String, String?, String?, String?) -> Unit = fn(
+  onConnected? : () -> Unit = fn() { () },
+  onDisconnected? : () -> Unit = fn() { () },
+  onAdopted? : () -> Unit = fn() { () },
+  onAttributeChanged? : (String, String?, String?, String?) -> Unit = fn(
     _,
     _,
     _,
@@ -153,5 +153,5 @@ pub fn CustomElementCallbacks::new(
     ()
   },
 ) -> CustomElementCallbacks {
-  { on_connected, on_disconnected, on_adopted, on_attribute_changed }
+  { onConnected, onDisconnected, onAdopted, onAttributeChanged }
 }

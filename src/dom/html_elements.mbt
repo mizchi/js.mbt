@@ -43,7 +43,7 @@ pub fn HTMLCanvasElement::width(self : Self) -> Int {
 }
 
 ///|
-pub fn HTMLCanvasElement::set_width(self : Self, value : Int) -> Unit {
+pub fn HTMLCanvasElement::setWidth(self : Self, value : Int) -> Unit {
   self.set("width", value)
 }
 
@@ -53,21 +53,18 @@ pub fn HTMLCanvasElement::height(self : Self) -> Int {
 }
 
 ///|
-pub fn HTMLCanvasElement::set_height(self : Self, value : Int) -> Unit {
+pub fn HTMLCanvasElement::setHeight(self : Self, value : Int) -> Unit {
   self.set("height", value)
 }
 
 ///|
 /// Canvas methods
-pub fn HTMLCanvasElement::get_context(
-  self : Self,
-  context_type : String,
-) -> Val {
+pub fn HTMLCanvasElement::getContext(self : Self, context_type : String) -> Val {
   self.invoke("getContext", [context_type])
 }
 
 ///|
-pub fn HTMLCanvasElement::to_data_url(
+pub fn HTMLCanvasElement::toDataURL(
   self : Self,
   image_type? : String,
   quality? : Double,
@@ -80,7 +77,7 @@ pub fn HTMLCanvasElement::to_data_url(
 }
 
 ///|
-pub fn HTMLCanvasElement::to_blob(
+pub fn HTMLCanvasElement::toBlob(
   self : Self,
   image_type? : String,
   quality? : Double,
@@ -196,7 +193,7 @@ pub fn HTMLAnchorElement::href(self : Self) -> String {
 
 ///|
 /// Sets the href attribute
-pub fn HTMLAnchorElement::set_href(self : Self, href : String) -> Unit {
+pub fn HTMLAnchorElement::setHref(self : Self, href : String) -> Unit {
   self.set("href", href)
 }
 
@@ -209,7 +206,7 @@ pub fn HTMLAnchorElement::target(self : Self) -> String {
 
 ///|
 /// Sets the target attribute
-pub fn HTMLAnchorElement::set_target(self : Self, target : String) -> Unit {
+pub fn HTMLAnchorElement::setTarget(self : Self, target : String) -> Unit {
   self.set("target", target)
 }
 
@@ -240,7 +237,7 @@ pub fn HTMLButtonElement::disabled(self : Self) -> Bool {
 
 ///|
 /// Sets whether the button is disabled
-pub fn HTMLButtonElement::set_disabled(self : Self, disabled : Bool) -> Unit {
+pub fn HTMLButtonElement::setDisabled(self : Self, disabled : Bool) -> Unit {
   self.set("disabled", disabled)
 }
 
@@ -271,22 +268,19 @@ pub fn HTMLInputElement::value(self : Self) -> String {
 
 ///|
 /// Sets the value of the input
-pub fn HTMLInputElement::set_value(self : Self, value : String) -> Unit {
+pub fn HTMLInputElement::setValue(self : Self, value : String) -> Unit {
   self.set("value", value)
 }
 
 ///|
 /// Returns the type of the input
-pub fn HTMLInputElement::input_type(self : Self) -> String {
+pub fn HTMLInputElement::type_(self : Self) -> String {
   unsafe_cast(self.get("type"))
 }
 
 ///|
 /// Sets the type of the input
-pub fn HTMLInputElement::set_input_type(
-  self : Self,
-  input_type : String,
-) -> Unit {
+pub fn HTMLInputElement::setType(self : Self, input_type : String) -> Unit {
   self.set("type", input_type)
 }
 
@@ -298,7 +292,7 @@ pub fn HTMLInputElement::disabled(self : Self) -> Bool {
 
 ///|
 /// Sets whether the input is disabled
-pub fn HTMLInputElement::set_disabled(self : Self, disabled : Bool) -> Unit {
+pub fn HTMLInputElement::setDisabled(self : Self, disabled : Bool) -> Unit {
   self.set("disabled", disabled)
 }
 
@@ -310,7 +304,7 @@ pub fn HTMLInputElement::checked(self : Self) -> Bool {
 
 ///|
 /// Sets whether the input is checked (for checkbox/radio)
-pub fn HTMLInputElement::set_checked(self : Self, checked : Bool) -> Unit {
+pub fn HTMLInputElement::setChecked(self : Self, checked : Bool) -> Unit {
   self.set("checked", checked)
 }
 
@@ -322,7 +316,7 @@ pub fn HTMLInputElement::placeholder(self : Self) -> String {
 
 ///|
 /// Sets the placeholder text
-pub fn HTMLInputElement::set_placeholder(
+pub fn HTMLInputElement::setPlaceholder(
   self : Self,
   placeholder : String,
 ) -> Unit {
@@ -357,7 +351,7 @@ pub fn HTMLTextAreaElement::value(self : Self) -> String {
 
 ///|
 /// Sets the value of the textarea
-pub fn HTMLTextAreaElement::set_value(self : Self, value : String) -> Unit {
+pub fn HTMLTextAreaElement::setValue(self : Self, value : String) -> Unit {
   self.set("value", value)
 }
 
@@ -370,7 +364,7 @@ pub fn HTMLTextAreaElement::placeholder(self : Self) -> String {
 
 ///|
 /// Sets the placeholder text
-pub fn HTMLTextAreaElement::set_placeholder(
+pub fn HTMLTextAreaElement::setPlaceholder(
   self : Self,
   placeholder : String,
 ) -> Unit {
@@ -386,7 +380,7 @@ pub fn HTMLTextAreaElement::disabled(self : Self) -> Bool {
 
 ///|
 /// Sets whether the textarea is disabled
-pub fn HTMLTextAreaElement::set_disabled(self : Self, disabled : Bool) -> Unit {
+pub fn HTMLTextAreaElement::setDisabled(self : Self, disabled : Bool) -> Unit {
   self.set("disabled", disabled)
 }
 
@@ -399,7 +393,7 @@ pub fn HTMLTextAreaElement::rows(self : Self) -> Int {
 
 ///|
 /// Sets the number of visible text lines
-pub fn HTMLTextAreaElement::set_rows(self : Self, rows : Int) -> Unit {
+pub fn HTMLTextAreaElement::setRows(self : Self, rows : Int) -> Unit {
   self.set("rows", rows)
 }
 
@@ -412,23 +406,20 @@ pub fn HTMLTextAreaElement::cols(self : Self) -> Int {
 
 ///|
 /// Sets the visible width of the text control
-pub fn HTMLTextAreaElement::set_cols(self : Self, cols : Int) -> Unit {
+pub fn HTMLTextAreaElement::setCols(self : Self, cols : Int) -> Unit {
   self.set("cols", cols)
 }
 
 ///|
 /// Returns whether the textarea is read-only
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/readOnly
-pub fn HTMLTextAreaElement::read_only(self : Self) -> Bool {
+pub fn HTMLTextAreaElement::readOnly(self : Self) -> Bool {
   unsafe_cast(self.get("readOnly"))
 }
 
 ///|
 /// Sets whether the textarea is read-only
-pub fn HTMLTextAreaElement::set_read_only(
-  self : Self,
-  read_only : Bool,
-) -> Unit {
+pub fn HTMLTextAreaElement::setReadOnly(self : Self, read_only : Bool) -> Unit {
   self.set("readOnly", read_only)
 }
 
@@ -460,21 +451,21 @@ pub fn HTMLIFrameElement::src(self : Self) -> String {
 
 ///|
 /// Sets the src attribute
-pub fn HTMLIFrameElement::set_src(self : Self, src : String) -> Unit {
+pub fn HTMLIFrameElement::setSrc(self : Self, src : String) -> Unit {
   self.set("src", src)
 }
 
 ///|
 /// Returns the content window
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
-pub fn HTMLIFrameElement::content_window(self : Self) -> Window? {
+pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
   self.get("contentWindow") |> to_option()
 }
 
 ///|
 /// Returns the content document
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
-pub fn HTMLIFrameElement::content_document(self : Self) -> Document? {
+pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
   self.get("contentDocument") |> to_option()
 }
 
@@ -487,7 +478,7 @@ pub fn HTMLIFrameElement::width(self : Self) -> String {
 
 ///|
 /// Sets the width attribute
-pub fn HTMLIFrameElement::set_width(self : Self, width : String) -> Unit {
+pub fn HTMLIFrameElement::setWidth(self : Self, width : String) -> Unit {
   self.set("width", width)
 }
 
@@ -500,7 +491,7 @@ pub fn HTMLIFrameElement::height(self : Self) -> String {
 
 ///|
 /// Sets the height attribute
-pub fn HTMLIFrameElement::set_height(self : Self, height : String) -> Unit {
+pub fn HTMLIFrameElement::setHeight(self : Self, height : String) -> Unit {
   self.set("height", height)
 }
 
@@ -513,7 +504,7 @@ pub fn HTMLIFrameElement::name(self : Self) -> String {
 
 ///|
 /// Sets the name attribute
-pub fn HTMLIFrameElement::set_name(self : Self, name : String) -> Unit {
+pub fn HTMLIFrameElement::setName(self : Self, name : String) -> Unit {
   self.set("name", name)
 }
 
@@ -526,6 +517,6 @@ pub fn HTMLIFrameElement::sandbox(self : Self) -> String {
 
 ///|
 /// Sets the sandbox attribute
-pub fn HTMLIFrameElement::set_sandbox(self : Self, sandbox : String) -> Unit {
+pub fn HTMLIFrameElement::setSandbox(self : Self, sandbox : String) -> Unit {
   self.set("sandbox", sandbox)
 }

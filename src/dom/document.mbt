@@ -14,28 +14,25 @@ pub impl EventTarget for Document
 pub impl NodeImpl for Document
 
 ///|
+pub impl ElementImpl for Document
+
+///|
 /// Returns the global document object
 pub extern "js" fn document() -> Document =
   #| () => document
 
 ///|
-/// Converts Document to Element
-pub fn Document::as_element(self : Self) -> Val {
-  self |> unsafe_cast
-}
-
-///|
 /// Returns the currently focused element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement
-#alias(activeElement)
-pub extern "js" fn Document::active_element(self : Self) -> Element =
+#alias(active_element)
+pub extern "js" fn Document::activeElement(self : Self) -> Element =
   #|(self) => self.activeElement
 
 ///|
 /// Creates a new element with the given tag name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
-#alias(createElement)
-pub extern "js" fn Document::create_element(
+#alias(create_element)
+pub extern "js" fn Document::createElement(
   self : Self,
   tag_name : String,
 ) -> Element =
@@ -44,8 +41,8 @@ pub extern "js" fn Document::create_element(
 ///|
 /// Creates a new element with namespace
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createElementNS
-#alias(createElementNS)
-pub extern "js" fn Document::create_element_ns(
+#alias(create_element_ns)
+pub extern "js" fn Document::createElementNs(
   self : Self,
   namespace_uri : String,
   qualified_name : String,
@@ -55,11 +52,8 @@ pub extern "js" fn Document::create_element_ns(
 ///|
 /// Creates a text node with the given data
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createTextNode
-#alias(createTextNode)
-pub extern "js" fn Document::create_text_node(
-  self : Self,
-  data : String,
-) -> Text =
+#alias(create_text_node)
+pub extern "js" fn Document::createTextNode(self : Self, data : String) -> Text =
   #|(self, data) => self.createTextNode(data)
 
 ///|
@@ -71,27 +65,11 @@ pub fn Document::readyState(self : Self) -> String {
 }
 
 ///|
-/// Returns the first element matching the selector
-/// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
-#alias(querySelector)
-pub fn Document::query_selector(self : Self, selector : String) -> Val? {
-  self.invoke("querySelector", [selector |> js]) |> to_option()
-}
-
-///|
-/// Returns all elements matching the selector
-/// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
-#alias(query_selector_all)
-pub fn Document::querySelectorAll(self : Self, selector : String) -> Val {
-  self.invoke("querySelectorAll", [selector |> js])
-}
-
-///|
 /// Returns an element by its ID
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
 pub fn Document::getElementById(self : Self, id : String) -> Val? {
-  self.invoke("getElementById", [id |> js]) |> to_option()
+  self.invoke("getElementById", [id |> safe_js]) |> to_option()
 }
 
 ///|
@@ -102,15 +80,15 @@ pub fn Document::getElementsByClassName(
   self : Self,
   class_name : String,
 ) -> Val {
-  self.invoke("getElementsByClassName", [class_name |> js])
+  self.invoke("getElementsByClassName", [class_name])
 }
 
 ///|
 /// Returns elements with the specified tag name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByTagName
 #alias(get_elements_by_tag_name)
-pub fn Document::getElementsByTagName(self : Self, tag_name : String) -> Val {
-  self.invoke("getElementsByTagName", [tag_name |> js])
+pub fn Document::getElementsByTagName(self : Self, tagName : String) -> Val {
+  self.invoke("getElementsByTagName", [tagName])
 }
 
 ///|
@@ -193,7 +171,7 @@ pub fn Document::createDocumentFragment(self : Self) -> Val {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 #alias(create_comment)
 pub fn Document::createComment(self : Self, data : String) -> Val {
-  self.invoke("createComment", [data |> js]) |> unsafe_cast
+  self.invoke("createComment", [data]) |> unsafe_cast
 }
 
 ///|
