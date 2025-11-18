@@ -21,6 +21,7 @@ pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
 }
 
 ///|
+/// Moonbit Async Function to JS Promise Function
 pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
   a => {
     let { promise, resolve, reject } = Promise::withResolvers()
@@ -32,6 +33,7 @@ pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
 }
 
 ///|
+/// Moonbit Async Function to JS Promise Function
 pub fn[A, B, R] promisify2(
   f : async (A, B) -> R,
 ) -> (A, B) -> Promise[R] noraise {
@@ -45,6 +47,7 @@ pub fn[A, B, R] promisify2(
 }
 
 ///|
+/// Moonbit Async Function to JS Promise Function
 pub fn[A, B, C, R] promisify3(
   f : async (A, B, C) -> R,
 ) -> (A, B, C) -> Promise[R] noraise {
@@ -58,6 +61,7 @@ pub fn[A, B, C, R] promisify3(
 }
 
 ///|
+/// Sleep for given milliseconds
 extern "js" fn ffi_sleep(ms : Int) -> Promise[Unit] =
   #| (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 

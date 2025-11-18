@@ -135,7 +135,7 @@ test {
     let mut timer_fired = false
     let mut promise_resolved = false
     let resolver : @promise.Resolvers[Unit] = @promise.Promise::withResolvers()
-    let _ = @timer.setTimeout(
+    let _ = @js.setTimeout(
       () => {
         timer_fired = true
         resolver.resolve(())

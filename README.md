@@ -85,7 +85,6 @@ Modules
 - `mizchi/js/arraybuffer`
   - `ArrayBuffer`, `SharedArrayBuffer`, `DataView`, and TypedArrays
 - `mizchi/js/regexp` : `RegExp`
-- `mizchi/js/timer` : `setTimeout`, `setInterval`, `clearTimeout`, `clearInterval`, etc
 - `mizchi/js/worker` : Worker and MessageChannel API
 - `mizchi/js/console` :
   - `console:*`

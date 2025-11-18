@@ -17,7 +17,7 @@ fn main {
 test {
   it("setTimeout", _ => {
     let mut executed = false
-    let timer = @timer.setTimeout(() => executed = true, 10)
+    let timer = @js.setTimeout(() => executed = true, 10)
     @promise.sleep(20)
     assert_true(executed)
   })
@@ -27,8 +27,8 @@ test {
 test {
   it("clearTimeout", _ => {
     let mut executed = false
-    let timer = @timer.setTimeout(() => executed = true, 10)
-    @timer.clearTimeout(timer)
+    let timer = @js.setTimeout(() => executed = true, 10)
+    @js.clearTimeout(timer)
     @promise.sleep(20)
     assert_false(executed)
   })
@@ -38,9 +38,9 @@ test {
 test {
   it("setInterval/clearInterval", _ => {
     let mut count = 0
-    let timer = @timer.setInterval(() => count += 1, 5)
+    let timer = @js.setInterval(() => count += 1, 5)
     @promise.sleep(25)
-    @timer.clearInterval(timer)
+    @js.clearInterval(timer)
     let final_count = count
     assert_true(final_count >= 3)
     @promise.sleep(20)
@@ -86,7 +86,7 @@ test {
 test {
   it("setTimeout with zero delay", _ => {
     let mut executed = false
-    let _ = @timer.setTimeout(() => executed = true, 0)
+    let _ = @js.setTimeout(() => executed = true, 0)
     @promise.sleep(1)
     assert_true(executed)
   })
@@ -96,9 +96,9 @@ test {
 test {
   it("multiple setTimeouts", _ => {
     let order = []
-    let _ = @timer.setTimeout(() => order.push(1), 10)
-    let _ = @timer.setTimeout(() => order.push(2), 5)
-    let _ = @timer.setTimeout(() => order.push(3), 15)
+    let _ = @js.setTimeout(() => order.push(1), 10)
+    let _ = @js.setTimeout(() => order.push(2), 5)
+    let _ = @js.setTimeout(() => order.push(3), 15)
     @promise.sleep(25)
     assert_eq(order.length(), 3)
     assert_eq(order[0], 2) // 5ms
@@ -138,12 +138,12 @@ test {
 test {
   it("setInterval immediate execution", _ => {
     let mut first_execution = false
-    let timer = @timer.setInterval(
+    let timer = @js.setInterval(
       () => if not(first_execution) { first_execution = true },
       5,
     )
     @promise.sleep(10)
-    @timer.clearInterval(timer)
+    @js.clearInterval(timer)
     assert_true(first_execution)
   })
 }

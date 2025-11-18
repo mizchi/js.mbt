@@ -13,12 +13,12 @@ pub fn CanvasRenderingContext2D::canvas(self : Self) -> HTMLCanvasElement {
 }
 
 ///|
-pub fn CanvasRenderingContext2D::fill_style(self : Self) -> String {
+pub fn CanvasRenderingContext2D::fillStyle(self : Self) -> String {
   unsafe_cast(self.get("fillStyle"))
 }
 
 ///|
-pub fn CanvasRenderingContext2D::set_fill_style(
+pub fn CanvasRenderingContext2D::setFillStyle(
   self : Self,
   value : String,
 ) -> Unit {
@@ -26,12 +26,12 @@ pub fn CanvasRenderingContext2D::set_fill_style(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::stroke_style(self : Self) -> String {
+pub fn CanvasRenderingContext2D::strokeStyle(self : Self) -> String {
   unsafe_cast(self.get("strokeStyle"))
 }
 
 ///|
-pub fn CanvasRenderingContext2D::set_stroke_style(
+pub fn CanvasRenderingContext2D::setStrokeStyle(
   self : Self,
   value : String,
 ) -> Unit {
@@ -39,12 +39,12 @@ pub fn CanvasRenderingContext2D::set_stroke_style(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::line_width(self : Self) -> Double {
+pub fn CanvasRenderingContext2D::lineWidth(self : Self) -> Double {
   unsafe_cast(self.get("lineWidth"))
 }
 
 ///|
-pub fn CanvasRenderingContext2D::set_line_width(
+pub fn CanvasRenderingContext2D::setLineWidth(
   self : Self,
   value : Double,
 ) -> Unit {
@@ -57,17 +57,17 @@ pub fn CanvasRenderingContext2D::font(self : Self) -> String {
 }
 
 ///|
-pub fn CanvasRenderingContext2D::set_font(self : Self, value : String) -> Unit {
+pub fn CanvasRenderingContext2D::setFont(self : Self, value : String) -> Unit {
   self.set("font", value)
 }
 
 ///|
-pub fn CanvasRenderingContext2D::text_align(self : Self) -> String {
+pub fn CanvasRenderingContext2D::textAlign(self : Self) -> String {
   unsafe_cast(self.get("textAlign"))
 }
 
 ///|
-pub fn CanvasRenderingContext2D::set_text_align(
+pub fn CanvasRenderingContext2D::setTextAlign(
   self : Self,
   value : String,
 ) -> Unit {
@@ -75,12 +75,12 @@ pub fn CanvasRenderingContext2D::set_text_align(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::text_baseline(self : Self) -> String {
+pub fn CanvasRenderingContext2D::textBaseline(self : Self) -> String {
   unsafe_cast(self.get("textBaseline"))
 }
 
 ///|
-pub fn CanvasRenderingContext2D::set_text_baseline(
+pub fn CanvasRenderingContext2D::setTextBaseline(
   self : Self,
   value : String,
 ) -> Unit {
@@ -88,12 +88,12 @@ pub fn CanvasRenderingContext2D::set_text_baseline(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::global_alpha(self : Self) -> Double {
+pub fn CanvasRenderingContext2D::globalAlpha(self : Self) -> Double {
   unsafe_cast(self.get("globalAlpha"))
 }
 
 ///|
-pub fn CanvasRenderingContext2D::set_global_alpha(
+pub fn CanvasRenderingContext2D::setGlobalAlpha(
   self : Self,
   value : Double,
 ) -> Unit {
@@ -188,7 +188,7 @@ pub fn CanvasRenderingContext2D::arc(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::arc_to(
+pub fn CanvasRenderingContext2D::arcTo(
   self : Self,
   x1 : Double,
   y1 : Double,
@@ -196,12 +196,11 @@ pub fn CanvasRenderingContext2D::arc_to(
   y2 : Double,
   radius : Double,
 ) -> Unit {
-  self.invoke("arcTo", [x1 |> js, y1 |> js, x2 |> js, y2 |> js, radius])
-  |> ignore
+  self.invoke("arcTo", [x1, y1, x2, y2, radius]) |> ignore
 }
 
 ///|
-pub fn CanvasRenderingContext2D::bezier_curve_to(
+pub fn CanvasRenderingContext2D::bezierCurveTo(
   self : Self,
   cp1x : Double,
   cp1y : Double,
@@ -214,7 +213,7 @@ pub fn CanvasRenderingContext2D::bezier_curve_to(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::quadratic_curve_to(
+pub fn CanvasRenderingContext2D::quadraticCurveTo(
   self : Self,
   cpx : Double,
   cpy : Double,
@@ -252,7 +251,7 @@ pub fn CanvasRenderingContext2D::clip(self : Self) -> Unit {
 
 ///|
 /// Drawing text
-pub fn CanvasRenderingContext2D::fill_text(
+pub fn CanvasRenderingContext2D::fillText(
   self : Self,
   text : String,
   x : Double,
@@ -266,7 +265,7 @@ pub fn CanvasRenderingContext2D::fill_text(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::stroke_text(
+pub fn CanvasRenderingContext2D::strokeText(
   self : Self,
   text : String,
   x : Double,
@@ -280,7 +279,7 @@ pub fn CanvasRenderingContext2D::stroke_text(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::measure_text(
+pub fn CanvasRenderingContext2D::measureText(
   self : Self,
   text : String,
 ) -> TextMetrics {
@@ -325,7 +324,7 @@ pub fn CanvasRenderingContext2D::transform(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::set_transform(
+pub fn CanvasRenderingContext2D::setTransform(
   self : Self,
   a : Double,
   b : Double,
@@ -338,13 +337,13 @@ pub fn CanvasRenderingContext2D::set_transform(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::reset_transform(self : Self) -> Unit {
+pub fn CanvasRenderingContext2D::resetTransform(self : Self) -> Unit {
   self.invoke("resetTransform", []) |> ignore
 }
 
 ///|
 /// Drawing images
-pub fn CanvasRenderingContext2D::draw_image(
+pub fn CanvasRenderingContext2D::drawImage(
   self : Self,
   image : &Js,
   dx : Double,
@@ -354,7 +353,7 @@ pub fn CanvasRenderingContext2D::draw_image(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::draw_image_scaled(
+pub fn CanvasRenderingContext2D::drawImageScaled(
   self : Self,
   image : &Js,
   dx : Double,
@@ -366,7 +365,7 @@ pub fn CanvasRenderingContext2D::draw_image_scaled(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::draw_image_sub(
+pub fn CanvasRenderingContext2D::drawImageSub(
   self : Self,
   image : &Js,
   sx : Double,
@@ -396,7 +395,7 @@ pub fn CanvasRenderingContext2D::draw_image_sub(
 
 ///|
 /// Pixel manipulation
-pub fn CanvasRenderingContext2D::get_image_data(
+pub fn CanvasRenderingContext2D::getImageData(
   self : Self,
   sx : Double,
   sy : Double,
@@ -407,7 +406,7 @@ pub fn CanvasRenderingContext2D::get_image_data(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::put_image_data(
+pub fn CanvasRenderingContext2D::putImageData(
   self : Self,
   image_data : ImageData,
   dx : Double,
@@ -417,7 +416,7 @@ pub fn CanvasRenderingContext2D::put_image_data(
 }
 
 ///|
-pub fn CanvasRenderingContext2D::create_image_data(
+pub fn CanvasRenderingContext2D::createImageData(
   self : Self,
   width : Int,
   height : Int,
@@ -471,7 +470,7 @@ extern "js" fn ffi_new_image_data_with_data(
 
 ///|
 pub fn ImageData::new(width : Int, height : Int) -> ImageData {
-  unsafe_cast(ffi_new_image_data(width |> js, height |> js))
+  unsafe_cast(ffi_new_image_data(width |> safe_js, height |> safe_js))
 }
 
 ///|
@@ -545,7 +544,7 @@ extern "js" fn ffi_create_image_bitmap_with_rect(
 
 ///|
 #alias(create_image_bitmap)
-pub fn createImageBitmap(image : &Js) -> Promise[ImageBitmap] {
+pub fn createImageBitmap(image : &Js) -> ImageBitmap {
   unsafe_cast(ffi_create_image_bitmap(image.to_js()))
 }
 
@@ -561,76 +560,10 @@ pub fn createImageBitmapRect(
   unsafe_cast(
     ffi_create_image_bitmap_with_rect(
       image.to_js(),
-      sx |> js,
-      sy |> js,
-      sw |> js,
-      sh |> js,
+      sx |> safe_js,
+      sy |> safe_js,
+      sw |> safe_js,
+      sh |> safe_js,
     ),
   )
-}
-
-///|
-/// OffscreenCanvas
-#external
-pub type OffscreenCanvas
-
-///|
-pub impl Js for OffscreenCanvas
-
-///|
-pub impl Transferable for OffscreenCanvas with to_transferable(self) -> Val {
-  self.to_js()
-}
-
-///|
-extern "js" fn ffi_new_offscreen_canvas(width : Val, height : Val) -> Val =
-  #|(width, height) => new OffscreenCanvas(width, height)
-
-///|
-pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
-  unsafe_cast(ffi_new_offscreen_canvas(width |> js, height |> js))
-}
-
-///|
-pub fn OffscreenCanvas::width(self : Self) -> Int {
-  unsafe_cast(self.get("width"))
-}
-
-///|
-pub fn OffscreenCanvas::set_width(self : Self, value : Int) -> Unit {
-  self.set("width", value)
-}
-
-///|
-pub fn OffscreenCanvas::height(self : Self) -> Int {
-  unsafe_cast(self.get("height"))
-}
-
-///|
-pub fn OffscreenCanvas::set_height(self : Self, value : Int) -> Unit {
-  self.set("height", value)
-}
-
-///|
-pub fn OffscreenCanvas::get_context(
-  self : Self,
-  context_type : String,
-) -> CanvasRenderingContext2D {
-  self.invoke("getContext", [context_type]) |> unsafe_cast
-}
-
-///|
-pub fn OffscreenCanvas::convert_to_blob(
-  self : Self,
-  options? : String,
-) -> Promise[Blob] {
-  match options {
-    Some(opts) => self.invoke("convertToBlob", [opts]) |> unsafe_cast
-    None => self.invoke("convertToBlob", []) |> unsafe_cast
-  }
-}
-
-///|
-pub fn OffscreenCanvas::transfer_to_image_bitmap(self : Self) -> ImageBitmap {
-  self.invoke("transferToImageBitmap", []) |> unsafe_cast
 }
