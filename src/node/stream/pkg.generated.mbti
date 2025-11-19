@@ -7,20 +7,66 @@ import(
 )
 
 // Values
+fn addAbortSignal(@js.Js, @js.Js) -> @js.Js
+
+fn compose(Array[@js.Js]) -> @js.Js
+
+fn finished(@js.Js, callback? : @js.Js) -> @js.Js
+
+fn getDefaultHighWaterMark(Bool) -> Int
+
+fn isErrored(@js.Js) -> Bool
+
+fn isReadable(@js.Js) -> Bool
+
+fn isWritable(@js.Js) -> Bool
+
+fn pipeline(Array[@js.Js], callback? : @js.Js) -> @js.Js
+
+fn setDefaultHighWaterMark(Bool, Int) -> Unit
 
 // Errors
 
 // Types and methods
 #external
 pub type Duplex
+fn Duplex::allowHalfOpen(Self) -> Bool
+fn Duplex::from(@js.Js) -> Self
+fn Duplex::fromWeb(@js.Js) -> Self
+fn Duplex::toWeb(Self) -> @js.Js
 impl @js.JsImpl for Duplex
 impl @events.EventEmitterImpl for Duplex
 impl StreamImpl for Duplex
 
 #external
+pub type PassThrough
+impl @js.JsImpl for PassThrough
+impl @events.EventEmitterImpl for PassThrough
+impl StreamImpl for PassThrough
+
+#external
 pub type Readable
+fn Readable::closed(Self) -> Bool
+fn Readable::destroy(Self, error? : @js.Js) -> Self
+fn Readable::errored(Self) -> @js.Js
+fn Readable::from(@js.Js) -> Self
 fn Readable::fromWeb(@mizchi/js/stream.ReadableStream) -> Self
+fn Readable::isPaused(Self) -> Bool
+fn Readable::pause(Self) -> Self
+fn Readable::pipe(Self, Writable) -> Writable
+fn Readable::read(Self, size? : Int) -> @js.Js
+fn Readable::readable(Self) -> Bool
+fn Readable::readableEncoding(Self) -> @js.Js
+fn Readable::readableEnded(Self) -> Bool
+fn Readable::readableFlowing(Self) -> @js.Js
+fn Readable::readableHighWaterMark(Self) -> Int
+fn Readable::readableLength(Self) -> Int
+fn Readable::readableObjectMode(Self) -> Bool
+fn Readable::resume(Self) -> Self
+fn Readable::setEncoding(Self, String) -> Self
 fn Readable::toWeb(Self) -> @mizchi/js/stream.ReadableStream
+fn Readable::unpipe(Self, destination? : Writable) -> Self
+fn Readable::unshift(Self, @js.Js, encoding? : String) -> Unit
 impl @js.JsImpl for Readable
 impl @events.EventEmitterImpl for Readable
 impl StreamImpl for Readable
@@ -39,8 +85,23 @@ impl StreamImpl for Transform
 
 #external
 pub type Writable
+fn Writable::closed(Self) -> Bool
+fn Writable::cork(Self) -> Unit
+fn Writable::destroy(Self, error? : @js.Js) -> Self
+fn Writable::end(Self, chunk? : @js.Js, encoding? : String, callback? : @js.Js) -> Self
+fn Writable::errored(Self) -> @js.Js
 fn Writable::fromWeb(@mizchi/js/stream.WritableStream) -> Self
+fn Writable::setDefaultEncoding(Self, String) -> Self
 fn Writable::toWeb(Self) -> @mizchi/js/stream.WritableStream
+fn Writable::uncork(Self) -> Unit
+fn Writable::writable(Self) -> Bool
+fn Writable::writableCorked(Self) -> Int
+fn Writable::writableEnded(Self) -> Bool
+fn Writable::writableFinished(Self) -> Bool
+fn Writable::writableHighWaterMark(Self) -> Int
+fn Writable::writableLength(Self) -> Int
+fn Writable::writableObjectMode(Self) -> Bool
+fn Writable::write(Self, @js.Js, encoding? : String, callback? : @js.Js) -> Bool
 impl @js.JsImpl for Writable
 impl @events.EventEmitterImpl for Writable
 impl StreamImpl for Writable

@@ -13,6 +13,10 @@
     {
       "path": "mizchi/js/node/fs/promises",
       "alias": "fs"
+    },
+    {
+      "path": "mizchi/js/node/stream",
+      "alias": "node_stream"
     }
   ]
 }
