@@ -45,96 +45,57 @@ pub fn Proxy::new(
   defineProperty? : (@js.Js, @js.Js, @js.Js) -> Bool,
 ) -> Proxy {
   let handler = @js.Object::new()
-  match get {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("get", js_fn)
-    }
-    None => ()
+  if get is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("get", js_fn)
   }
-  match set {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("set", js_fn)
-    }
-    None => ()
+  if set is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("set", js_fn)
   }
-  match has {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("has", js_fn)
-    }
-    None => ()
+  if has is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("has", js_fn)
   }
-  match deleteProperty {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("deleteProperty", js_fn)
-    }
-    None => ()
+  if deleteProperty is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("deleteProperty", js_fn)
   }
-  match apply {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("apply", js_fn)
-    }
-    None => ()
+  if apply is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("apply", js_fn)
   }
-  match construct {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("construct", js_fn)
-    }
-    None => ()
+  if construct is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("construct", js_fn)
   }
-  match ownKeys {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("ownKeys", js_fn)
-    }
-    None => ()
+  if ownKeys is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("ownKeys", js_fn)
   }
-  match getPrototypeOf {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("getPrototypeOf", js_fn)
-    }
-    None => ()
+  if getPrototypeOf is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("getPrototypeOf", js_fn)
   }
-  match setPrototypeOf {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("setPrototypeOf", js_fn)
-    }
-    None => ()
+  if setPrototypeOf is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("setPrototypeOf", js_fn)
   }
-  match isExtensible {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("isExtensible", js_fn)
-    }
-    None => ()
+  if isExtensible is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("isExtensible", js_fn)
   }
-  match preventExtensions {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("preventExtensions", js_fn)
-    }
-    None => ()
+  if preventExtensions is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("preventExtensions", js_fn)
   }
-  match getOwnPropertyDescriptor {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("getOwnPropertyDescriptor", js_fn)
-    }
-    None => ()
+  if getOwnPropertyDescriptor is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("getOwnPropertyDescriptor", js_fn)
   }
-  match defineProperty {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("defineProperty", js_fn)
-    }
-    None => ()
+  if defineProperty is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("defineProperty", js_fn)
   }
   @js.new_(proxy_class(), [target.to_js(), handler.to_js()]) |> @js.unsafe_cast
 }
@@ -160,96 +121,57 @@ pub fn Proxy::revocable(
   defineProperty? : (@js.Js, @js.Js, @js.Js) -> Bool,
 ) -> @js.Js {
   let handler = @js.Object::new()
-  match get {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("get", js_fn)
-    }
-    None => ()
+  if get is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("get", js_fn)
   }
-  match set {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("set", js_fn)
-    }
-    None => ()
+  if set is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("set", js_fn)
   }
-  match has {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("has", js_fn)
-    }
-    None => ()
+  if has is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("has", js_fn)
   }
-  match deleteProperty {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("deleteProperty", js_fn)
-    }
-    None => ()
+  if deleteProperty is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("deleteProperty", js_fn)
   }
-  match apply {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("apply", js_fn)
-    }
-    None => ()
+  if apply is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("apply", js_fn)
   }
-  match construct {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("construct", js_fn)
-    }
-    None => ()
+  if construct is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("construct", js_fn)
   }
-  match ownKeys {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("ownKeys", js_fn)
-    }
-    None => ()
+  if ownKeys is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("ownKeys", js_fn)
   }
-  match getPrototypeOf {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("getPrototypeOf", js_fn)
-    }
-    None => ()
+  if getPrototypeOf is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("getPrototypeOf", js_fn)
   }
-  match setPrototypeOf {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("setPrototypeOf", js_fn)
-    }
-    None => ()
+  if setPrototypeOf is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("setPrototypeOf", js_fn)
   }
-  match isExtensible {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("isExtensible", js_fn)
-    }
-    None => ()
+  if isExtensible is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("isExtensible", js_fn)
   }
-  match preventExtensions {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("preventExtensions", js_fn)
-    }
-    None => ()
+  if preventExtensions is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("preventExtensions", js_fn)
   }
-  match getOwnPropertyDescriptor {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("getOwnPropertyDescriptor", js_fn)
-    }
-    None => ()
+  if getOwnPropertyDescriptor is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("getOwnPropertyDescriptor", js_fn)
   }
-  match defineProperty {
-    Some(trap) => {
-      let js_fn : @js.Js = @js.unsafe_cast(trap)
-      handler.set("defineProperty", js_fn)
-    }
-    None => ()
+  if defineProperty is Some(trap) {
+    let js_fn : @js.Js = @js.unsafe_cast(trap)
+    handler.set("defineProperty", js_fn)
   }
   proxy_class().call("revocable", [target.to_js(), handler.to_js()])
 }
