@@ -1,0 +1,70 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/net"
+
+import(
+  "mizchi/js"
+  "mizchi/js/node/events"
+  "mizchi/js/node/stream"
+)
+
+// Values
+fn connect(Int, host? : String, callback? : () -> Unit) -> Socket
+
+fn connect_with_options(@js.Js, callback? : () -> Unit) -> Socket
+
+fn createConnection(Int, host? : String, callback? : () -> Unit) -> Socket
+
+fn createConnection_with_options(@js.Js, callback? : () -> Unit) -> Socket
+
+fn createServer(options? : @js.Js, connectionListener? : (Socket) -> Unit) -> Server
+
+fn isIP(String) -> Int
+
+fn isIPv4(String) -> Bool
+
+fn isIPv6(String) -> Bool
+
+// Errors
+
+// Types and methods
+#external
+pub type Server
+fn Server::address(Self) -> @js.Js?
+fn Server::close(Self, callback? : (@js.Js?) -> Unit) -> Self
+fn Server::getConnections(Self, (@js.Js?, Int?) -> Unit) -> Unit
+fn Server::listen(Self, Int, host? : String, backlog? : Int, callback? : () -> Unit) -> Self
+fn Server::listen_with_options(Self, @js.Js, callback? : () -> Unit) -> Self
+fn Server::listening(Self) -> Bool
+fn Server::maxConnections(Self) -> Int?
+fn Server::set_maxConnections(Self, Int) -> Unit
+impl @js.JsImpl for Server
+impl @events.EventEmitterImpl for Server
+
+#external
+pub type Socket
+fn Socket::as_duplex(Self) -> @stream.Duplex
+fn Socket::bytesRead(Self) -> Int
+fn Socket::bytesWritten(Self) -> Int
+fn Socket::connect(Self, Int, host? : String, callback? : () -> Unit) -> Self
+fn Socket::connect_with_options(Self, @js.Js, callback? : () -> Unit) -> Self
+fn Socket::destroy(Self, error? : @js.Js) -> Self
+fn Socket::destroyed(Self) -> Bool
+fn Socket::end(Self, data? : String, encoding? : String, callback? : () -> Unit) -> Self
+fn Socket::localAddress(Self) -> String?
+fn Socket::localPort(Self) -> Int?
+fn Socket::pause(Self) -> Self
+fn Socket::remoteAddress(Self) -> String?
+fn Socket::remotePort(Self) -> Int?
+fn Socket::resume_(Self) -> Self
+fn Socket::setEncoding(Self, String) -> Self
+fn Socket::setKeepAlive(Self, Bool, initialDelay? : Int) -> Self
+fn Socket::setNoDelay(Self, Bool) -> Self
+fn Socket::setTimeout(Self, Int, callback? : () -> Unit) -> Self
+fn Socket::write(Self, String, encoding? : String, callback? : (@js.Js?) -> Unit) -> Bool
+impl @js.JsImpl for Socket
+impl @events.EventEmitterImpl for Socket
+
+// Type aliases
+
+// Traits
+
