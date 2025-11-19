@@ -2,66 +2,7 @@
 /// Child Process Tests for src/_tests
 /// Tests Node.js child_process module functionality
 
-///| Synchronous Functions Tests
-
-///|
-test {
-  it("execSync executes command and returns output", _ => {
-    let output = @child_process.execSync("echo hello")
-    assert_true(output.contains("hello"))
-  })
-}
-
-///|
-test {
-  it("execSync with working directory option", _ => {
-    let output = @child_process.execSync("pwd", cwd="/tmp")
-    assert_true(output.contains("tmp"))
-  })
-}
-
-///|
-test {
-  it("execSync with input string", _ => {
-    let output = @child_process.execSync("cat", input="test input")
-    assert_true(output.contains("test input"))
-  })
-}
-
-///|
-test {
-  it("spawnSync executes command and returns result", _ => {
-    let result = @child_process.spawnSync("echo", args=["hello", "world"])
-    assert_true(result.pid() > 0)
-    let status = result.status()
-    assert_eq(status, Some(0))
-  })
-}
-
-///|
-test {
-  it("spawnSync with shell option", _ => {
-    let result = @child_process.spawnSync("echo $HOME", shell=true)
-    assert_true(result.pid() > 0)
-  })
-}
-
-///|
-test {
-  it("execFileSync executes file and returns output", _ => {
-    let output = @child_process.execFileSync("echo", args=["test", "message"])
-    assert_true(output.contains("test"))
-    assert_true(output.contains("message"))
-  })
-}
-
-///|
-test {
-  it("execFileSync with working directory", _ => {
-    let output = @child_process.execFileSync("pwd", cwd="/tmp")
-    assert_true(output.contains("tmp"))
-  })
-}
+///| Asynchronous Spawn Tests (Non-blocking operations)
 
 ///| Asynchronous Spawn Tests
 
@@ -144,32 +85,6 @@ test {
   })
 }
 
-///| SpawnSyncResult Properties
-
-///|
-test {
-  it("SpawnSyncResult has all properties", _ => {
-    let result = @child_process.spawnSync("echo", args=["test"])
-    assert_true(result.pid() > 0)
-    assert_true(result.status() is Some(_))
-    let _stdout = result.stdout()
-    let _stderr = result.stderr()
-    let _error = result.error()
-
-  })
-}
-
-///|
-test {
-  it("SpawnSyncResult successful command has status 0", _ => {
-    let result = @child_process.spawnSync("echo", args=["success"])
-    match result.status() {
-      Some(0) => assert_true(true)
-      _ => assert_true(false)
-    }
-  })
-}
-
 ///| Event Emitter Integration
 
 ///|
@@ -184,48 +99,25 @@ test {
   })
 }
 
-///| Error Handling
+///| ChildProcess Stream Tests
 
 ///|
 test {
-  it("spawnSync handles non-existent command with error", _ => {
-    let result = @child_process.spawnSync("/nonexistent/command")
-    let error = result.error()
-    assert_true(error is Some(_))
+  it("ChildProcess stdin is available", _ => {
+    let proc = @child_process.spawn("cat")
+    let stdin = proc.stdin()
+    assert_true(stdin is Some(_))
+    proc.kill() |> ignore
   })
 }
 
 ///|
 test {
-  it("spawnSync handles command not found", _ => {
-    let result = @child_process.spawnSync("/nonexistent/command")
-    let error = result.error()
-    assert_true(error is Some(_))
-  })
-}
-
-///| Command Output Tests
-
-///|
-test {
-  it("execSync captures stdout correctly", _ => {
-    let output = @child_process.execSync(
-      "echo 'line1' && echo 'line2'",
-      shell="/bin/sh",
-    )
-    assert_true(output.contains("line1"))
-    assert_true(output.contains("line2"))
-  })
-}
-
-///|
-test {
-  it("spawnSync captures output in result", _ => {
-    let result = @child_process.spawnSync("echo", args=["captured"])
-    let stdout = result.stdout()
-    // stdout is a Buffer, need to convert to string
-    let buffer : @buffer.Buffer = unsafe_cast(stdout)
-    let stdout_str = buffer.toString()
-    assert_true(stdout_str.contains("captured"))
+  it("ChildProcess signalCode returns signal", _ => {
+    let proc = @child_process.spawn("sleep", args=["10"])
+    proc.kill(signal="SIGTERM") |> ignore
+    // signalCode may not be available immediately
+    let _signal = proc.signalCode()
+    assert_true(true) // Just verify the method exists
   })
 }

@@ -163,7 +163,7 @@ pub fn DatabaseSync::function(
   if varargs is Some(v) {
     opts.set("varargs", v)
   }
-  self.call("function", [name, opts, func |> unsafe_cast]) |> ignore
+  self.call("function", [name, func |> unsafe_cast, opts]) |> ignore
 }
 
 ///|

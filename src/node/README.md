@@ -2,6 +2,8 @@
 
 Node.js global objects and variables.
 
+This package will move to `mizchi/node` in future.
+
 ## Supported
 
 - cjs

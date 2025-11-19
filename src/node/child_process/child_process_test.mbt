@@ -20,6 +20,32 @@ test "execSync with cwd option" {
 }
 
 ///|
+test "execSync with input string" {
+  let output = execSync("cat", input="test input")
+  assert_true(output.contains("test input"))
+}
+
+///|
+test "execSync with env option" {
+  let env_obj = @js.from_map({ "TEST_VAR": @js.js("custom_value") })
+  let output = execSync("echo $TEST_VAR", shell="/bin/sh", env=env_obj)
+  assert_true(output.contains("custom_value"))
+}
+
+///|
+test "execSync with timeout option" {
+  let output = execSync("echo quick", timeout=5000)
+  assert_true(output.contains("quick"))
+}
+
+///|
+test "execSync captures stdout correctly" {
+  let output = execSync("echo 'line1' && echo 'line2'", shell="/bin/sh")
+  assert_true(output.contains("line1"))
+  assert_true(output.contains("line2"))
+}
+
+///|
 /// Test spawnSync executes command synchronously
 test "spawnSync returns SpawnSyncResult" {
   let result = spawnSync("echo", args=["test"])
@@ -28,10 +54,89 @@ test "spawnSync returns SpawnSyncResult" {
 }
 
 ///|
+test "spawnSync executes command and returns result" {
+  let result = spawnSync("echo", args=["hello", "world"])
+  assert_true(result.pid() > 0)
+  let status = result.status()
+  assert_eq(status, Some(0))
+}
+
+///|
+test "spawnSync with shell option" {
+  let result = spawnSync("echo $HOME", shell=true)
+  assert_true(result.pid() > 0)
+}
+
+///|
+test "spawnSync with env option" {
+  let env_obj = @js.from_map({ "TEST_VAR": @js.js("test_value") })
+  let result = spawnSync("echo", args=["$TEST_VAR"], shell=true, env=env_obj)
+  let stdout = result.stdout()
+  let buffer : @buffer.Buffer = @js.unsafe_cast(stdout)
+  let stdout_str = buffer.toString()
+  assert_true(stdout_str.contains("test_value"))
+}
+
+///|
+test "spawnSync with timeout option" {
+  let result = spawnSync("echo", args=["test"], timeout=5000)
+  assert_true(result.pid() > 0)
+}
+
+///|
+test "spawnSync handles non-existent command with error" {
+  let result = spawnSync("/nonexistent/command")
+  let error = result.error()
+  assert_true(error is Some(_))
+}
+
+///|
+test "spawnSync handles command not found" {
+  let result = spawnSync("/nonexistent/command")
+  let error = result.error()
+  assert_true(error is Some(_))
+}
+
+///|
+test "spawnSync captures output in result" {
+  let result = spawnSync("echo", args=["captured"])
+  let stdout = result.stdout()
+  let buffer : @buffer.Buffer = @js.unsafe_cast(stdout)
+  let stdout_str = buffer.toString()
+  assert_true(stdout_str.contains("captured"))
+}
+
+///|
 /// Test execFileSync executes file
 test "execFileSync returns output" {
   let output = execFileSync("echo", args=["hello"])
   inspect(output.contains("hello"), content="true")
+}
+
+///|
+test "execFileSync executes file and returns output" {
+  let output = execFileSync("echo", args=["test", "message"])
+  assert_true(output.contains("test"))
+  assert_true(output.contains("message"))
+}
+
+///|
+test "execFileSync with working directory" {
+  let output = execFileSync("pwd", cwd="/tmp")
+  assert_true(output.contains("tmp"))
+}
+
+///|
+test "execFileSync with env option" {
+  let env_obj = @js.from_map({ "MY_VAR": @js.js("file_value") })
+  let output = execFileSync("sh", args=["-c", "echo $MY_VAR"], env=env_obj)
+  assert_true(output.contains("file_value"))
+}
+
+///|
+test "execFileSync with timeout option" {
+  let output = execFileSync("echo", args=["fast"], timeout=5000)
+  assert_true(output.contains("fast"))
 }
 
 ///| Asynchronous Functions Tests
@@ -42,14 +147,6 @@ test "spawn returns ChildProcess" {
   let proc = spawn("echo", args=["test"])
   let pid = proc.pid()
   inspect(pid > 0, content="true")
-}
-
-///|
-/// Test exec API exists
-test "exec API exists" {
-  // exec requires callback and runs asynchronously
-  // We just verify the API is available
-  inspect(true, content="true")
 }
 
 ///|
@@ -89,22 +186,12 @@ test "ChildProcess implements EventEmitter trait" {
   inspect(true, content="true")
 }
 
-///| ChildProcess Methods Tests
-
 ///|
 /// Test ChildProcess kill method
 test "ChildProcess kill method exists" {
   let proc = spawn("sleep", args=["10"])
   let killed = proc.kill()
   inspect(killed || !killed, content="true")
-}
-
-///|
-/// Test ChildProcess disconnect API exists
-test "ChildProcess disconnect API exists" {
-  // disconnect() is only available for forked processes with IPC
-  // We just verify the API is available
-  inspect(true, content="true")
 }
 
 ///|
@@ -139,57 +226,5 @@ test "SpawnSyncResult has stdout and stderr" {
   let result = spawnSync("echo", args=["test"])
   let _stdout = result.stdout()
   let _stderr = result.stderr()
-  inspect(true, content="true")
-}
-
-///| Typed Event Handler API Tests
-
-///|
-/// Test on_exit typed event handler API
-test "ChildProcess on_exit API exists" {
-  // These typed event handlers require Node.js event loop
-  // We verify the API signatures are correct at compile time
-  inspect(true, content="true")
-}
-
-///|
-/// Test on_close typed event handler API
-test "ChildProcess on_close API exists" {
-  inspect(true, content="true")
-}
-
-///|
-/// Test on_error typed event handler API
-test "ChildProcess on_error API exists" {
-  inspect(true, content="true")
-}
-
-///|
-/// Test on_message typed event handler API
-test "ChildProcess on_message API exists" {
-  inspect(true, content="true")
-}
-
-///|
-/// Test on_disconnect typed event handler API
-test "ChildProcess on_disconnect API exists" {
-  inspect(true, content="true")
-}
-
-///|
-/// Test on_spawn typed event handler API
-test "ChildProcess on_spawn API exists" {
-  inspect(true, content="true")
-}
-
-///|
-/// Test on_stdout_data typed event handler API
-test "ChildProcess on_stdout_data API exists" {
-  inspect(true, content="true")
-}
-
-///|
-/// Test on_stderr_data typed event handler API
-test "ChildProcess on_stderr_data API exists" {
   inspect(true, content="true")
 }

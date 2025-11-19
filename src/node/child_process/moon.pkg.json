@@ -4,6 +4,7 @@
     "mizchi/js",
     "mizchi/js/promise",
     "mizchi/js/node/events",
+    "mizchi/js/node/buffer",
     "mizchi/js/stream"
   ]
 }
