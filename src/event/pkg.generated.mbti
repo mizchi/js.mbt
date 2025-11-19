@@ -15,8 +15,8 @@ import(
 
 // Traits
 pub(open) trait EventTargetImpl : @js.JsImpl {
-  addEventListener(Self, String, (@js.Js) -> Unit) -> Unit = _
-  removeEventListener(Self, String, (@js.Js) -> Unit) -> Unit = _
+  addEventListener(Self, String, (@js.Js) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js.AbortSignal) -> Unit = _
+  removeEventListener(Self, String, (@js.Js) -> Unit, capture? : Bool) -> Unit = _
   dispatchEvent(Self, @js.Js) -> Bool = _
 }
 

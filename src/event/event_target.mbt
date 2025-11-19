@@ -15,10 +15,25 @@
 pub(open) trait EventTargetImpl: @js.JsImpl {
   /// Add an event listener for the specified event type
   /// The listener receives a generic Val which should be cast to the appropriate event type
-  addEventListener(Self, String, (@js.Js) -> Unit) -> Unit = _
+  /// Options:
+  /// - capture: if true, the listener will be triggered during the capture phase
+  /// - once: if true, the listener will be automatically removed after being invoked once
+  /// - passive: if true, indicates that the listener will never call preventDefault()
+  /// - signal: an AbortSignal to remove the listener when aborted
+  addEventListener(
+    Self,
+    String,
+    (@js.Js) -> Unit,
+    capture? : Bool,
+    once? : Bool,
+    passive? : Bool,
+    signal? : AbortSignal,
+  ) -> Unit = _
 
   /// Remove a previously registered event listener
-  removeEventListener(Self, String, (@js.Js) -> Unit) -> Unit = _
+  /// Options:
+  /// - capture: must match the capture value used when adding the listener
+  removeEventListener(Self, String, (@js.Js) -> Unit, capture? : Bool) -> Unit = _
 
   /// Dispatch an event to this target
   dispatchEvent(Self, @js.Js) -> Bool = _
@@ -26,13 +41,36 @@ pub(open) trait EventTargetImpl: @js.JsImpl {
 
 ///|
 /// Default implementation using JavaScript's addEventListener/removeEventListener
-impl EventTargetImpl with addEventListener(self, event_type, handler) -> Unit {
-  self.call("addEventListener", [event_type, @js.from_fn1(handler)]) |> ignore
+impl EventTargetImpl with addEventListener(
+  self,
+  event_type,
+  handler,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : AbortSignal,
+) -> Unit {
+  let options = @js.Object::new()
+  options.set("capture", capture)
+  options.set("once", once)
+  options.set("passive", passive)
+  if signal is Some(sig) {
+    options.set("signal", sig)
+  }
+  self.call("addEventListener", [event_type, @js.from_fn1(handler), options])
+  |> ignore
 }
 
 ///|
-impl EventTargetImpl with removeEventListener(self, event_type, handler) -> Unit {
-  self.call("removeEventListener", [event_type, @js.from_fn1(handler)])
+impl EventTargetImpl with removeEventListener(
+  self,
+  event_type,
+  handler,
+  capture? : Bool = false,
+) -> Unit {
+  let options = @js.Object::new()
+  options.set("capture", capture)
+  self.call("removeEventListener", [event_type, @js.from_fn1(handler), options])
   |> ignore
 }
 

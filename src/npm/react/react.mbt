@@ -10,14 +10,14 @@ pub impl JsImpl for Element
 #alias(h)
 pub fn createElement(
   tag : String,
-  children : Array[&JsImpl],
+  children : Array[&ReactNode],
   props? : Map[String, Js],
   style? : Map[String, String],
   ref_? : ReactRef[@dom.Element],
   key? : String,
 ) -> Element {
   let tag = js(tag)
-  let children = children.map(_.to_js()) |> @js.from_array
+  let children = children.map(_.to_react_node()) |> @js.from_array
   let val = @js.Object::new()
   if props is Some(props) {
     for k, v in props {

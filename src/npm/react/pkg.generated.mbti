@@ -12,7 +12,7 @@ import(
 fn[T] component((T) -> Element, T, children? : Array[&@js.JsImpl], key? : String) -> Element
 
 #alias(h)
-fn createElement(String, Array[&@js.JsImpl], props? : Map[String, @js.Js], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
+fn createElement(String, Array[&ReactNode], props? : Map[String, @js.Js], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
 
 fn createElementDirect(String, @js.Js, @js.Js) -> Element
 
@@ -31,6 +31,8 @@ fn[T] provider(Context[T], Array[&@js.JsImpl], value~ : T) -> Element
 
 #alias(startTransition)
 fn start_transition(() -> Unit) -> Unit
+
+fn strict_mode(Array[&@js.JsImpl]) -> Element
 
 fn suspense(Array[&@js.JsImpl], fallback~ : Element) -> Element
 
