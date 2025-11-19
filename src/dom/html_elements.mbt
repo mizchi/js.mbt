@@ -60,7 +60,7 @@ pub fn HTMLCanvasElement::setHeight(self : Self, value : Int) -> Unit {
 ///|
 /// Canvas methods
 pub fn HTMLCanvasElement::getContext(self : Self, context_type : String) -> Js {
-  self.invoke("getContext", [context_type])
+  self.call("getContext", [context_type])
 }
 
 ///|
@@ -70,9 +70,9 @@ pub fn HTMLCanvasElement::toDataURL(
   quality? : Double,
 ) -> String {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.invoke("toDataURL", [t, q]) |> unsafe_cast
-    (Some(t), None) => self.invoke("toDataURL", [t]) |> unsafe_cast
-    (None, _) => self.invoke("toDataURL", []) |> unsafe_cast
+    (Some(t), Some(q)) => self.call("toDataURL", [t, q]) |> unsafe_cast
+    (Some(t), None) => self.call("toDataURL", [t]) |> unsafe_cast
+    (None, _) => self.call("toDataURL", []) |> unsafe_cast
   }
 }
 
@@ -83,9 +83,9 @@ pub fn HTMLCanvasElement::toBlob(
   quality? : Double,
 ) -> Promise[Blob] {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.invoke("toBlob", [t, q]) |> unsafe_cast
-    (Some(t), None) => self.invoke("toBlob", [t]) |> unsafe_cast
-    (None, _) => self.invoke("toBlob", []) |> unsafe_cast
+    (Some(t), Some(q)) => self.call("toBlob", [t, q]) |> unsafe_cast
+    (Some(t), None) => self.call("toBlob", [t]) |> unsafe_cast
+    (None, _) => self.call("toBlob", []) |> unsafe_cast
   }
 }
 

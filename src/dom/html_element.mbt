@@ -68,10 +68,10 @@ impl HTMLElementImpl with setOuterHTML(self, html) -> Unit {
 
 ///|
 impl HTMLElementImpl with focus(self) -> Unit {
-  ignore(self.invoke("focus", []))
+  ignore(self.call("focus", []))
 }
 
 ///|
 impl HTMLElementImpl with click(self) -> Unit {
-  ignore(self.invoke("click", []))
+  ignore(self.call("click", []))
 }

@@ -27,11 +27,11 @@ value.set("propertyName", jsValue)
 // JS: value.propertyName = jsValue or value["propertyName"] = jsValue
 
 // Call method
-value.invoke("methodName", [arg1, arg2]) -> Val
+value.call("methodName", [arg1, arg2]) -> Val
 // JS: value.methodName(arg1, arg2)
 
 // Call as function
-value.invoke_self([arg1, arg2]) -> Val
+value.call_self([arg1, arg2]) -> Val
 // JS: value(arg1, arg2)
 
 // Delete property
@@ -77,12 +77,12 @@ When a method isn't wrapped:
 fn clear_local_storage() {
   let storage = @js.globalThis().get("localStorage")
   // JS: localStorage.clear()
-  storage.invoke("clear", []) |> ignore
+  storage.call("clear", []) |> ignore
 }
 
 // Example: Calling element.scrollIntoView()
 fn scroll_element_into_view(element: Element) {
-  element.invoke("scrollIntoView", [@js.js(true)]) |> ignore
+  element.call("scrollIntoView", [@js.js(true)]) |> ignore
 }
 
 // Example: Using Intl.DateTimeFormat
@@ -92,7 +92,7 @@ fn format_date(date: Val) -> String {
   // JS: new Intl.DateTimeFormat("en-US")
   let instance = @js.new_(formatter, ["en-US"])
   // JS: instance.format(date)
-  unsafe_cast(instance.invoke("format", [date]))
+  unsafe_cast(instance.call("format", [date]))
 }
 ```
 
@@ -121,7 +121,7 @@ fn fetch_with_custom_options(url: String) -> Promise[Response] {
   
   // JS: fetch(url, options)
   let fetch_fn = @js.globalThis().get("fetch")
-  unsafe_cast(fetch_fn.invoke_self([url, options]))
+  unsafe_cast(fetch_fn.call_self([url, options]))
 }
 
 // Example: Creating a WebSocket with protocols
@@ -143,7 +143,7 @@ fn use_lodash() {
   
   let array = @js.from_array([1, 2, 3, 4, 5])
   // JS: _.chunk(array, 2)
-  let result = _.invoke("chunk", [array, @js.js(2)])
+  let result = _.call("chunk", [array, @js.js(2)])
   // result: [[1,2], [3,4], [5]]
   
   @js.log(result)
@@ -153,9 +153,9 @@ fn use_lodash() {
 fn format_with_moment() -> String {
   let moment = @js.globalThis().get("moment")
   // JS: moment()
-  let now = moment.invoke_self([])
+  let now = moment.call_self([])
   // JS: now.format("YYYY-MM-DD")
-  unsafe_cast(now.invoke("format", ["YYYY-MM-DD"]))
+  unsafe_cast(now.call("format", ["YYYY-MM-DD"]))
 }
 
 // Example: Using chart.js
@@ -187,14 +187,14 @@ fn create_chart(canvas_id: String) {
 fn generate_random_uuid() -> String {
   let crypto = @node.require("node:crypto")
   // JS: crypto.randomUUID()
-  unsafe_cast(crypto.invoke("randomUUID", []))
+  unsafe_cast(crypto.call("randomUUID", []))
 }
 
 // Example: Using 'zlib' module
 fn compress_data(data: String) {
   let zlib = @node.require("node:zlib")
   let buffer = @node.Buffer::from_string(data)
-  let compressed = zlib.invoke("gzipSync", [buffer])
+  let compressed = zlib.call("gzipSync", [buffer])
   @js.log(compressed)
 }
 
@@ -202,7 +202,7 @@ fn compress_data(data: String) {
 fn lookup_hostname(hostname: String) {
   let dns = @node.require("node:dns")
   let promises = dns.get("promises")
-  let result = promises.invoke("lookup", [hostname])
+  let result = promises.call("lookup", [hostname])
   @js.log(result)
 }
 ```
@@ -218,7 +218,7 @@ fn add_custom_listener(element: Element, event_name: String) {
   }
   
   // JS: element.addEventListener(event_name, callback)
-  element.invoke("addEventListener", [event_name, @js.from_fn1(callback)]) |> ignore
+  element.call("addEventListener", [event_name, @js.from_fn1(callback)]) |> ignore
 }
 
 // Example: Window resize handler
@@ -231,7 +231,7 @@ fn on_window_resize(handler: (Int, Int) -> Unit) {
     handler(width, height)
   }
   
-  window.invoke("addEventListener", ["resize", @js.from_fn1(callback)]) |> ignore
+  window.call("addEventListener", ["resize", @js.from_fn1(callback)]) |> ignore
 }
 ```
 
@@ -248,7 +248,7 @@ fn use_array_methods() {
     num > 2
   }
   // JS: arr.filter(x => x > 2)
-  let filtered = arr.invoke("filter", [@js.from_fn1(filter_fn)])
+  let filtered = arr.call("filter", [@js.from_fn1(filter_fn)])
   @js.log(filtered)  // [3, 4, 5]
   
   // Map
@@ -257,7 +257,7 @@ fn use_array_methods() {
     @js.js(num * 2)
   }
   // JS: arr.map(x => x * 2)
-  let mapped = arr.invoke("map", [@js.from_fn1(map_fn)])
+  let mapped = arr.call("map", [@js.from_fn1(map_fn)])
   @js.log(mapped)  // [2, 4, 6, 8, 10]
 }
 
@@ -268,16 +268,16 @@ fn use_set() {
   let set = @js.new_(set_class, [])
   
   // JS: set.add(1), set.add(2), set.add(1)
-  set.invoke("add", [1]) |> ignore
-  set.invoke("add", [2]) |> ignore
-  set.invoke("add", [1]) |> ignore  // Duplicate
+  set.call("add", [1]) |> ignore
+  set.call("add", [2]) |> ignore
+  set.call("add", [1]) |> ignore  // Duplicate
   
   // JS: set.size
   let size: Int = unsafe_cast(set.get("size"))
   @js.log(size)  // 2
   
   // JS: set.has(1)
-  let has_one: Bool = unsafe_cast(set.invoke("has", [1]))
+  let has_one: Bool = unsafe_cast(set.call("has", [1]))
   @js.log(has_one)  // true
 }
 ```
@@ -304,11 +304,11 @@ fn get_performance_now() -> Double {
   if @js.is_undefined(performance) {
     // Fallback to Date.now()
     let date_class = @js.globalThis().get("Date")
-    let now: Double = unsafe_cast(date_class.invoke("now", []))
+    let now: Double = unsafe_cast(date_class.call("now", []))
     return now
   }
   
-  unsafe_cast(performance.invoke("now", []))
+  unsafe_cast(performance.call("now", []))
 }
 ```
 
@@ -362,7 +362,7 @@ fn call_risky_api() {
   let result = @js.throwable(fn() {
     let api = @js.globalThis().get("riskyAPI")
     // JS: riskyAPI.doSomething()
-    api.invoke("doSomething", [])
+    api.call("doSomething", [])
   }) catch {
     @js.JsThrowError::Error(e) => {
       // Handle JavaScript Error objects
@@ -379,10 +379,10 @@ fn call_risky_api() {
   @js.log(result)
 }
 
-// Example: Using invoke_throwable
+// Example: Using call_throwable
 fn call_method_safely(obj: Val, method_name: String) {
   // JS: obj.methodName() with try-catch
-  let result = obj.invoke_throwable(method_name, []) catch {
+  let result = obj.call_throwable(method_name, []) catch {
     @js.JsThrowError::Error(e) => {
       @js.log("Method call failed: " + e.message())
       return @js.undefined()
@@ -397,7 +397,7 @@ fn call_method_safely(obj: Val, method_name: String) {
 
 // Example: Calling undefined methods safely
 fn try_call_method(obj: Val) {
-  let result = try? obj.invoke_throwable("nonexistentMethod", [])
+  let result = try? obj.call_throwable("nonexistentMethod", [])
   
   match result {
     Ok(value) => @js.log("Success: " + value.to_string())
@@ -413,7 +413,7 @@ fn parse_json_safely(json_string: String) -> Val? {
   let result = @js.throwable(fn() {
     let json = @js.globalThis().get("JSON")
     // JS: JSON.parse(json_string)
-    json.invoke("parse", [json_string])
+    json.call("parse", [json_string])
   }) catch {
     @js.JsThrowError::Error(e) => {
       @js.log("Invalid JSON: " + e.message())
@@ -451,7 +451,7 @@ let result = @js.throwable(fn() { risky_operation() }) catch {
 }
 
 // Good: Use try? for optional results
-let maybe_result = try? obj.invoke_throwable("method", [])
+let maybe_result = try? obj.call_throwable("method", [])
 match maybe_result {
   Ok(val) => use_value(val)
   Err(e) => handle_error(e)
@@ -498,7 +498,7 @@ Create your own wrapper functions:
 ```moonbit
 // Create a reusable wrapper
 fn scroll_to_top(element: Element) {
-  element.invoke("scrollTo", [@js.js(0), @js.js(0)]) |> ignore
+  element.call("scrollTo", [@js.js(0), @js.js(0)]) |> ignore
 }
 
 // Use it cleanly
@@ -519,7 +519,7 @@ fn share_content(title: String, text: String, url: String) {
   data.set("text", text)
   data.set("url", url)
   
-  navigator.invoke("share", [data]) |> ignore
+  navigator.call("share", [data]) |> ignore
 }
 ```
 

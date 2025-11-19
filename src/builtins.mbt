@@ -25,7 +25,7 @@ pub fn symbol(name : String) -> Symbol {
 ///|
 /// JS: Symbol.for(name)
 pub fn Symbol::for_(name : String) -> Symbol {
-  symbol_class().invoke("for", [name]) |> unsafe_cast
+  symbol_class().call("for", [name]) |> unsafe_cast
 }
 
 ///|
@@ -94,14 +94,14 @@ fn string_instance() -> JsString {
 ///|
 /// JS: String.fromCharCode(...values)
 pub fn JsString::fromCharCode(values : Array[Int]) -> String {
-  string_instance().invoke("fromCharCode", values |> from_array |> unsafe_cast)
+  string_instance().call("fromCharCode", values |> from_array |> unsafe_cast)
   |> unsafe_cast
 }
 
 ///|
 /// JS: String.fromCharCode(...values)
 pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
-  string_instance().invoke("fromCodePoint", values |> from_array |> unsafe_cast)
+  string_instance().call("fromCodePoint", values |> from_array |> unsafe_cast)
   |> unsafe_cast
 }
 
@@ -128,13 +128,13 @@ fn object_class() -> Js {
 ///|
 /// JS: Object.keys(v)
 pub fn Object::keys(v : &JsImpl) -> Array[String] {
-  object_class().invoke("keys", [v.to_js()]) |> unsafe_cast
+  object_class().call("keys", [v.to_js()]) |> unsafe_cast
 }
 
 ///|
 /// JS: Object.values(v)
 pub fn Object::values(v : &JsImpl) -> Array[Js] {
-  object_class().invoke("values", [v.to_js()]) |> unsafe_cast
+  object_class().call("values", [v.to_js()]) |> unsafe_cast
 }
 
 ///|
@@ -147,14 +147,13 @@ pub fn Object::entries(v : &JsImpl) -> Array[(String, Js)] {
 ///|
 /// JS: Object.assign(target, source)
 pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Js {
-  object_class().invoke("assign", [target.to_js(), source.to_js()])
-  |> unsafe_cast
+  object_class().call("assign", [target.to_js(), source.to_js()]) |> unsafe_cast
 }
 
 ///|
 /// JS: Object.create(v)
 pub fn Object::create(v : Js) -> Js {
-  object_class().invoke("create", [v]) |> unsafe_cast
+  object_class().call("create", [v]) |> unsafe_cast
 }
 
 ///|
@@ -176,7 +175,7 @@ pub fn Object::hasOwnProperty(self : Self, key : &PropertyKey) -> Bool {
 
 ///|
 pub fn Object::isExtensible(self : Self) -> Bool {
-  self.invoke("isExtensible", []) |> unsafe_cast
+  self.call("isExtensible", []) |> unsafe_cast
 }
 
 ///|

@@ -27,8 +27,8 @@ pub fn ReadableStream::locked(self : Self) -> Bool {
 /// Cancel the stream
 pub fn ReadableStream::cancel(self : Self, reason? : Js) -> Promise[Unit] {
   match reason {
-    Some(r) => self.invoke("cancel", [r]) |> unsafe_cast
-    None => self.invoke("cancel", []) |> unsafe_cast
+    Some(r) => self.call("cancel", [r]) |> unsafe_cast
+    None => self.call("cancel", []) |> unsafe_cast
   }
 }
 
@@ -36,7 +36,7 @@ pub fn ReadableStream::cancel(self : Self, reason? : Js) -> Promise[Unit] {
 /// Get a reader for this stream
 #alias(get_reader)
 pub fn ReadableStream::getReader(self : Self) -> ReadableStreamDefaultReader {
-  self.invoke("getReader", []) |> unsafe_cast
+  self.call("getReader", []) |> unsafe_cast
 }
 
 ///|
@@ -48,8 +48,8 @@ pub fn ReadableStream::pipeTo(
   options? : Js,
 ) -> Promise[Unit] {
   match options {
-    Some(opts) => self.invoke("pipeTo", [destination, opts]) |> unsafe_cast
-    None => self.invoke("pipeTo", [destination]) |> unsafe_cast
+    Some(opts) => self.call("pipeTo", [destination, opts]) |> unsafe_cast
+    None => self.call("pipeTo", [destination]) |> unsafe_cast
   }
 }
 
@@ -62,8 +62,8 @@ pub fn ReadableStream::pipeThrough(
   options? : Js,
 ) -> ReadableStream {
   match options {
-    Some(opts) => self.invoke("pipeThrough", [transform, opts]) |> unsafe_cast
-    None => self.invoke("pipeThrough", [transform]) |> unsafe_cast
+    Some(opts) => self.call("pipeThrough", [transform, opts]) |> unsafe_cast
+    None => self.call("pipeThrough", [transform]) |> unsafe_cast
   }
 }
 
@@ -74,7 +74,7 @@ extern "js" fn ffi_array_get(arr : Js, index : Int) -> Js =
 ///|
 /// Tee this stream into two branches
 pub fn ReadableStream::tee(self : Self) -> (ReadableStream, ReadableStream) {
-  let result = self.invoke("tee", [])
+  let result = self.call("tee", [])
   let first : ReadableStream = unsafe_cast(ffi_array_get(result, 0))
   let second : ReadableStream = unsafe_cast(ffi_array_get(result, 1))
   (first, second)
@@ -91,14 +91,14 @@ pub impl JsImpl for ReadableStreamDefaultReader
 ///|
 /// Read a chunk from the stream
 pub fn ReadableStreamDefaultReader::read(self : Self) -> Promise[Js] {
-  self.invoke("read", []) |> unsafe_cast
+  self.call("read", []) |> unsafe_cast
 }
 
 ///|
 /// Release the reader's lock on the stream
 #alias(release_lock)
 pub fn ReadableStreamDefaultReader::releaseLock(self : Self) -> Unit {
-  self.invoke("releaseLock", []) |> ignore
+  self.call("releaseLock", []) |> ignore
 }
 
 ///|
@@ -108,8 +108,8 @@ pub fn ReadableStreamDefaultReader::cancel(
   reason? : Js,
 ) -> Promise[Unit] {
   match reason {
-    Some(r) => self.invoke("cancel", [r]) |> unsafe_cast
-    None => self.invoke("cancel", []) |> unsafe_cast
+    Some(r) => self.call("cancel", [r]) |> unsafe_cast
+    None => self.call("cancel", []) |> unsafe_cast
   }
 }
 
@@ -148,22 +148,22 @@ pub fn WritableStream::locked(self : Self) -> Bool {
 /// Abort the stream
 pub fn WritableStream::abort(self : Self, reason? : Js) -> Promise[Unit] {
   match reason {
-    Some(r) => self.invoke("abort", [r]) |> unsafe_cast
-    None => self.invoke("abort", []) |> unsafe_cast
+    Some(r) => self.call("abort", [r]) |> unsafe_cast
+    None => self.call("abort", []) |> unsafe_cast
   }
 }
 
 ///|
 /// Close the stream
 pub fn WritableStream::close(self : Self) -> Promise[Unit] {
-  self.invoke("close", []) |> unsafe_cast
+  self.call("close", []) |> unsafe_cast
 }
 
 ///|
 /// Get a writer for this stream
 #alias(get_writer)
 pub fn WritableStream::getWriter(self : Self) -> WritableStreamDefaultWriter {
-  self.invoke("getWriter", []) |> unsafe_cast
+  self.call("getWriter", []) |> unsafe_cast
 }
 
 ///|
@@ -180,13 +180,13 @@ pub fn WritableStreamDefaultWriter::write(
   self : Self,
   chunk : Js,
 ) -> Promise[Unit] {
-  self.invoke("write", [chunk]) |> unsafe_cast
+  self.call("write", [chunk]) |> unsafe_cast
 }
 
 ///|
 /// Close the writer
 pub fn WritableStreamDefaultWriter::close(self : Self) -> Promise[Unit] {
-  self.invoke("close", []) |> unsafe_cast
+  self.call("close", []) |> unsafe_cast
 }
 
 ///|
@@ -196,8 +196,8 @@ pub fn WritableStreamDefaultWriter::abort(
   reason? : Js,
 ) -> Promise[Unit] {
   match reason {
-    Some(r) => self.invoke("abort", [r]) |> unsafe_cast
-    None => self.invoke("abort", []) |> unsafe_cast
+    Some(r) => self.call("abort", [r]) |> unsafe_cast
+    None => self.call("abort", []) |> unsafe_cast
   }
 }
 
@@ -205,7 +205,7 @@ pub fn WritableStreamDefaultWriter::abort(
 /// Release the writer's lock on the stream
 #alias(release_lock)
 pub fn WritableStreamDefaultWriter::releaseLock(self : Self) -> Unit {
-  self.invoke("releaseLock", []) |> ignore
+  self.call("releaseLock", []) |> ignore
 }
 
 ///|

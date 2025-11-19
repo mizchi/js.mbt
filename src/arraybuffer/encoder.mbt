@@ -20,7 +20,7 @@ pub fn TextEncoder::new() -> TextEncoder {
 
 ///|
 pub fn TextEncoder::encode(self : TextEncoder, input : String) -> Uint8Array {
-  self.invoke("encode", [input]) |> unsafe_cast
+  self.call("encode", [input]) |> unsafe_cast
 }
 
 ///|
@@ -36,5 +36,5 @@ pub fn TextDecoder::new() -> TextDecoder {
 
 ///|
 pub fn TextDecoder::decode(self : TextDecoder, input : Uint8Array) -> String {
-  self.invoke("decode", [input]) |> unsafe_cast
+  self.call("decode", [input]) |> unsafe_cast
 }

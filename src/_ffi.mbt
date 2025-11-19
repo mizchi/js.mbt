@@ -44,7 +44,7 @@ extern "js" fn ffi_call(f : Js, args : Array[Js]) -> Js =
   #|(f, args) => f(...args)
 
 ///|
-extern "js" fn ffi_invoke(v : Js, key : String, args : Array[Js]) -> Js =
+extern "js" fn ffi_call(v : Js, key : String, args : Array[Js]) -> Js =
   #|(obj, k, args) => obj[k](...args)
 
 ///|

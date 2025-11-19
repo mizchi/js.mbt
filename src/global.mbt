@@ -131,7 +131,7 @@ pub extern "js" fn AbortController::new() -> AbortController =
 ///|
 /// JS: abortController.abort()
 pub fn AbortController::abort(self : Self) -> AbortController {
-  self.invoke("abort", []) |> unsafe_cast
+  self.call("abort", []) |> unsafe_cast
 }
 
 ///|

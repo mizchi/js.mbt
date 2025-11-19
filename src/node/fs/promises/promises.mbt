@@ -14,7 +14,7 @@ using @fs {type Stat}
 /// node:fs/promises.stat
 pub fn stat(path : String) -> Promise[Stat] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.invoke("stat", [path]))
+  unsafe_cast(fs.call("stat", [path]))
 }
 
 ///|
@@ -25,7 +25,7 @@ pub fn mkdir(path : String, recursive? : Bool) -> Promise[Unit] {
   if recursive is Some(r) {
     options.set("recursive", r)
   }
-  unsafe_cast(fs.invoke("mkdir", [path, options]))
+  unsafe_cast(fs.call("mkdir", [path, options]))
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn glob(
   if exclude_fn is Some(f) {
     opts.set("exclude", f |> @js.from_fn1)
   }
-  unsafe_cast(fs.invoke("glob", [path]))
+  unsafe_cast(fs.call("glob", [path]))
 }
 
 ///|
@@ -60,13 +60,13 @@ pub impl JsImpl for Dirent
 ///|
 #alias(is_file)
 pub fn Dirent::isFile(self : Self) -> Bool {
-  self.invoke("isFile", []) |> unsafe_cast
+  self.call("isFile", []) |> unsafe_cast
 }
 
 ///|
 #alias(is_directory)
 pub fn Dirent::isDirectory(self : Self) -> Bool {
-  self.invoke("isDirectory", []) |> unsafe_cast
+  self.call("isDirectory", []) |> unsafe_cast
 }
 
 ///|
@@ -93,7 +93,7 @@ pub fn glob_with_filetype(
   if exclude_fn is Some(f) {
     opts.set("exclude", f |> @js.from_fn1)
   }
-  unsafe_cast(fs.invoke("glob", [path]))
+  unsafe_cast(fs.call("glob", [path]))
 }
 
 ///|
@@ -104,14 +104,14 @@ pub type FileHandle
 ///|
 pub fn open(path : String) -> Promise[FileHandle] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.invoke("open", [path]))
+  unsafe_cast(fs.call("open", [path]))
 }
 
 ///|
 #alias(read_file)
 pub fn readFile(path : String, encoding? : String = "utf-8") -> Promise[String] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.invoke("readFile", [path, encoding]))
+  unsafe_cast(fs.call("readFile", [path, encoding]))
 }
 
 ///|
@@ -134,14 +134,14 @@ pub fn writeFile(
   if signal is Some(s) {
     opts.set("signal", s)
   }
-  let promise = fs.invoke("writeFile", [path, content, opts])
+  let promise = fs.call("writeFile", [path, content, opts])
   unsafe_cast(promise)
 }
 
 ///|
 pub fn rename(path : String, dest : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.invoke("rename", [path, dest]))
+  unsafe_cast(fs.call("rename", [path, dest]))
 }
 
 ///|
@@ -154,13 +154,13 @@ pub fn rm(path : String, recursive? : Bool, force? : Bool) -> Promise[Unit] {
   if force is Some(f) {
     opts.set("force", f)
   }
-  let promise = fs.invoke("rm", [path, opts])
+  let promise = fs.call("rm", [path, opts])
   unsafe_cast(promise)
 }
 
 ///|
 pub fn cp(path : String, dest : String) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let promise = fs.invoke("cp", [path, dest])
+  let promise = fs.call("cp", [path, dest])
   unsafe_cast(promise)
 }

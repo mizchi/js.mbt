@@ -41,7 +41,7 @@ pub fn WebAssemblyMemory::buffer(self : Self) -> ArrayBuffer {
 ///|
 /// Grow the memory by delta pages
 pub fn WebAssemblyMemory::grow(self : Self, delta : Int) -> Int {
-  self.invoke("grow", [delta]) |> unsafe_cast
+  self.call("grow", [delta]) |> unsafe_cast
 }
 
 ///|
@@ -88,13 +88,13 @@ pub fn WebAssemblyTable::length(self : Self) -> Int {
 ///|
 /// Set a value in the table at the given index
 pub fn WebAssemblyTable::set(self : Self, index : Int, value : Js) -> Unit {
-  ignore(self.invoke("set", [index, value]))
+  ignore(self.call("set", [index, value]))
 }
 
 ///|
 /// Grow the table by delta elements
 pub fn WebAssemblyTable::grow(self : Self, delta : Int, value : Js) -> Int {
-  self.invoke("grow", [delta, value]) |> unsafe_cast
+  self.call("grow", [delta, value]) |> unsafe_cast
 }
 
 ///|

@@ -48,7 +48,7 @@ pub fn Worker::new(script_url : String, type_? : String) -> Worker {
 
 ///|
 pub fn Worker::terminate(worker : Worker) -> Unit {
-  worker.invoke("terminate", []) |> ignore
+  worker.call("terminate", []) |> ignore
 }
 
 ///|
@@ -74,7 +74,7 @@ pub fn Worker::post_message_with_transfer(
   let arr = @js.JsArray::new()
   let mut i = 0
   while i < transfer.length() {
-    arr.invoke("push", [transfer[i]]) |> ignore
+    arr.call("push", [transfer[i]]) |> ignore
     i = i + 1
   }
   ffi_worker_post_message(worker, message.to_js(), arr.to_js())

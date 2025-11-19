@@ -25,7 +25,7 @@ pub fn File::new(
   let arr = @js.JsArray::new()
   let mut i = 0
   while i < data.length() {
-    arr.invoke("push", [data[i].to_js()]) |> ignore
+    arr.call("push", [data[i].to_js()]) |> ignore
     i = i + 1
   }
   let options = @js.Object::new()
@@ -76,23 +76,23 @@ pub fn File::as_blob(self : Self) -> Blob {
 /// Get the file contents as ArrayBuffer (inherited from Blob)
 #alias(arrayBuffer)
 pub fn File::array_buffer(self : Self) -> Promise[ArrayBuffer] {
-  self.invoke("arrayBuffer", []) |> unsafe_cast
+  self.call("arrayBuffer", []) |> unsafe_cast
 }
 
 ///|
 /// Get the file contents as text (inherited from Blob)
 pub fn File::text(self : Self) -> Promise[String] {
-  self.invoke("text", []) |> unsafe_cast
+  self.call("text", []) |> unsafe_cast
 }
 
 ///|
 /// Create a new File containing a slice of this File (inherited from Blob)
 pub fn File::slice(self : Self, start? : Int, end? : Int) -> Blob {
   match (start, end) {
-    (None, None) => self.invoke("slice", []) |> unsafe_cast
-    (Some(s), None) => self.invoke("slice", [s]) |> unsafe_cast
-    (Some(s), Some(e)) => self.invoke("slice", [s, e]) |> unsafe_cast
-    (None, Some(e)) => self.invoke("slice", [0, e]) |> unsafe_cast
+    (None, None) => self.call("slice", []) |> unsafe_cast
+    (Some(s), None) => self.call("slice", [s]) |> unsafe_cast
+    (Some(s), Some(e)) => self.call("slice", [s, e]) |> unsafe_cast
+    (None, Some(e)) => self.call("slice", [0, e]) |> unsafe_cast
   }
 }
 
@@ -140,7 +140,7 @@ pub fn FileReader::error(self : Self) -> Js? {
 /// Read file as ArrayBuffer
 #alias(readAsArrayBuffer)
 pub fn FileReader::read_as_array_buffer(self : Self, blob : Blob) -> Unit {
-  self.invoke("readAsArrayBuffer", [blob.to_js()]) |> ignore
+  self.call("readAsArrayBuffer", [blob.to_js()]) |> ignore
 }
 
 ///|
@@ -152,8 +152,8 @@ pub fn FileReader::read_as_text(
   encoding? : String,
 ) -> Unit {
   match encoding {
-    Some(enc) => self.invoke("readAsText", [blob, enc]) |> ignore
-    None => self.invoke("readAsText", [blob.to_js()]) |> ignore
+    Some(enc) => self.call("readAsText", [blob, enc]) |> ignore
+    None => self.call("readAsText", [blob.to_js()]) |> ignore
   }
 }
 
@@ -161,13 +161,13 @@ pub fn FileReader::read_as_text(
 /// Read file as Data URL
 #alias(readAsDataURL)
 pub fn FileReader::read_as_data_url(self : Self, blob : Blob) -> Unit {
-  self.invoke("readAsDataURL", [blob.to_js()]) |> ignore
+  self.call("readAsDataURL", [blob.to_js()]) |> ignore
 }
 
 ///|
 /// Abort the read operation
 pub fn FileReader::abort(self : Self) -> Unit {
-  self.invoke("abort", []) |> ignore
+  self.call("abort", []) |> ignore
 }
 
 ///|

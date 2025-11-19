@@ -65,7 +65,7 @@ pub fn Ai::generate_text(
     self
     .to_js()
     .get("generateText")
-    .invoke_self([
+    .call_self([
       @js.from_map({
         "model": model |> unsafe_cast,
         "messages": messages.map(_.to_js()) |> @js.from_array,
@@ -81,7 +81,7 @@ test "ai" {
   let model : Model = unsafe_cast(
     @node.require("@ai-sdk/anthropic")
     .get("anthropic")
-    .invoke_self(["claude-sonnet-4-20250514"]),
+    .call_self(["claude-sonnet-4-20250514"]),
   )
   let messages : Array[ModelMessage] = [UserMessage(content=Message("hello"))]
   @promise.run_async(() => try {

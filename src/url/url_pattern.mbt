@@ -108,7 +108,7 @@ pub fn URLPattern::hasRegExpGroups(self : Self) -> Bool {
 ///|
 /// Test if a URL string matches the pattern
 pub fn URLPattern::test_url(self : Self, input : String) -> Bool {
-  self.invoke("test", [input]) |> unsafe_cast
+  self.call("test", [input]) |> unsafe_cast
 }
 
 ///|
@@ -119,8 +119,8 @@ pub fn URLPattern::test_url_with_base(
   base? : String,
 ) -> Bool {
   match base {
-    Some(b) => self.invoke("test", [input, b]) |> unsafe_cast
-    None => self.invoke("test", [input]) |> unsafe_cast
+    Some(b) => self.call("test", [input, b]) |> unsafe_cast
+    None => self.call("test", [input]) |> unsafe_cast
   }
 }
 
@@ -131,7 +131,7 @@ extern "js" fn ffi_is_null(v : @js.Js) -> Bool =
 ///|
 /// Execute the pattern against a URL and return match result
 pub fn URLPattern::exec(self : Self, input : String) -> URLPatternResult? {
-  let result = self.invoke("exec", [input])
+  let result = self.call("exec", [input])
   if ffi_is_null(result) {
     None
   } else {
@@ -148,8 +148,8 @@ pub fn URLPattern::execWithBase(
   base? : String,
 ) -> URLPatternResult? {
   let result = match base {
-    Some(b) => self.invoke("exec", [input, b])
-    None => self.invoke("exec", [input])
+    Some(b) => self.call("exec", [input, b])
+    None => self.call("exec", [input])
   }
   if ffi_is_null(result) {
     None

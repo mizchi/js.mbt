@@ -34,7 +34,7 @@ pub fn CloudflareContext::wait_until(
   self : CloudflareContext,
   promise : Promise[Unit],
 ) -> Unit {
-  unsafe_cast(self.get("waitUntil").invoke_self([promise |> unsafe_cast]))
+  unsafe_cast(self.get("waitUntil").call_self([promise |> unsafe_cast]))
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn CloudflareContext::wait_until(
 pub fn CloudflareContext::pass_through_exception(
   self : CloudflareContext,
 ) -> Unit {
-  self.get("passThroughException").invoke_self([]) |> ignore
+  self.get("passThroughException").call_self([]) |> ignore
 }
 
 ///|

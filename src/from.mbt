@@ -74,7 +74,7 @@ pub impl ToJson for Js with to_json(self) -> Json {
     _ => ()
   }
   if is_array(self) {
-    let len : Int = unsafe_cast(self.invoke("length", []))
+    let len : Int = unsafe_cast(self.call("length", []))
     let arr : Array[Json] = []
     for i = 0; i < len; i = i + 1 {
       let v = self.get(i.to_string())
@@ -114,7 +114,7 @@ pub impl JsImpl for Json with to_js(self) -> Js {
       let arr = JsArray::new()
       for v in a {
         let v : Js = JsImpl::to_js(v)
-        arr.invoke("push", [v]) |> ignore
+        arr.call("push", [v]) |> ignore
       }
       arr.to_js()
     }

@@ -29,21 +29,21 @@ pub fn MutationObserver::observe(
   target : Element,
   options : Js,
 ) -> Unit {
-  self.invoke("observe", [target |> js, options]) |> ignore
+  self.call("observe", [target |> js, options]) |> ignore
 }
 
 ///|
 /// Stops observing
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/disconnect
 pub fn MutationObserver::disconnect(self : Self) -> Unit {
-  self.invoke("disconnect", []) |> ignore
+  self.call("disconnect", []) |> ignore
 }
 
 ///|
 /// Returns all pending mutation records
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/takeRecords
 pub fn MutationObserver::take_records(self : Self) -> Js {
-  self.invoke("takeRecords", [])
+  self.call("takeRecords", [])
 }
 
 ///|
@@ -136,28 +136,28 @@ pub fn new_intersection_observer_with_options(
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/observe
 pub fn IntersectionObserver::observe(self : Self, target : Element) -> Unit {
-  self.invoke("observe", [target]) |> ignore
+  self.call("observe", [target]) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/unobserve
 pub fn IntersectionObserver::unobserve(self : Self, target : Element) -> Unit {
-  self.invoke("unobserve", [target]) |> ignore
+  self.call("unobserve", [target]) |> ignore
 }
 
 ///|
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/disconnect
 pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
-  self.invoke("disconnect", []) |> ignore
+  self.call("disconnect", []) |> ignore
 }
 
 ///|
 /// Returns all pending intersection records
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords
 pub fn IntersectionObserver::take_records(self : Self) -> Js {
-  self.invoke("takeRecords", [])
+  self.call("takeRecords", [])
 }
 
 ///|
@@ -234,7 +234,7 @@ pub fn new_resize_observer(
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
 pub fn ResizeObserver::observe(self : Self, target : Element) -> Unit {
-  self.invoke("observe", [target |> js]) |> ignore
+  self.call("observe", [target |> js]) |> ignore
 }
 
 ///|
@@ -244,21 +244,21 @@ pub fn ResizeObserver::observe_with_options(
   target : Element,
   options : Js,
 ) -> Unit {
-  self.invoke("observe", [target |> js, options]) |> ignore
+  self.call("observe", [target |> js, options]) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve
 pub fn ResizeObserver::unobserve(self : Self, target : Element) -> Unit {
-  self.invoke("unobserve", [target |> js]) |> ignore
+  self.call("unobserve", [target |> js]) |> ignore
 }
 
 ///|
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/disconnect
 pub fn ResizeObserver::disconnect(self : Self) -> Unit {
-  self.invoke("disconnect", []) |> ignore
+  self.call("disconnect", []) |> ignore
 }
 
 ///|

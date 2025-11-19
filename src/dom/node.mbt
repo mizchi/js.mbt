@@ -75,47 +75,45 @@ impl NodeImpl with nextSibling(self) -> Node? {
 
 ///|
 impl NodeImpl with appendChild(self, child) -> Node {
-  self.invoke("appendChild", [child.to_js()]) |> unsafe_cast
+  self.call("appendChild", [child.to_js()]) |> unsafe_cast
 }
 
 ///|
 impl NodeImpl with removeChild(self, child) -> Node {
-  self.invoke("removeChild", [child.to_js()]) |> unsafe_cast
+  self.call("removeChild", [child.to_js()]) |> unsafe_cast
 }
 
 ///|
 impl NodeImpl with insertBefore(self, new_node, ref_node) -> Node {
   match ref_node {
     Some(node) =>
-      unsafe_cast(self.invoke("insertBefore", [new_node.to_js(), node.to_js()]))
+      unsafe_cast(self.call("insertBefore", [new_node.to_js(), node.to_js()]))
     None =>
-      unsafe_cast(self.invoke("insertBefore", [new_node.to_js(), @js.null_()]))
+      unsafe_cast(self.call("insertBefore", [new_node.to_js(), @js.null_()]))
   }
 }
 
 ///|
 impl NodeImpl with replaceChild(self, new_child, old_child) -> Node {
-  unsafe_cast(
-    self.invoke("replaceChild", [new_child.to_js(), old_child.to_js()]),
-  )
+  unsafe_cast(self.call("replaceChild", [new_child.to_js(), old_child.to_js()]))
 }
 
 ///|
 impl NodeImpl with cloneNode(self, deep) {
-  self.invoke("cloneNode", [deep]) |> unsafe_cast
+  self.call("cloneNode", [deep]) |> unsafe_cast
 }
 
 ///|
 impl NodeImpl with contains(self, other) {
   match other {
-    Some(node) => self.invoke("contains", [node.to_js()]) |> unsafe_cast
-    None => self.invoke("contains", [@js.null_()]) |> unsafe_cast
+    Some(node) => self.call("contains", [node.to_js()]) |> unsafe_cast
+    None => self.call("contains", [@js.null_()]) |> unsafe_cast
   }
 }
 
 ///|
 impl NodeImpl with hasChildNodes(self) -> Bool {
-  self.invoke("hasChildNodes", []) |> unsafe_cast
+  self.call("hasChildNodes", []) |> unsafe_cast
 }
 
 ///|

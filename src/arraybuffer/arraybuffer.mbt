@@ -27,8 +27,8 @@ pub fn ArrayBuffer::slice(
   end? : Int,
 ) -> ArrayBuffer {
   match end {
-    Some(e) => self.invoke("slice", [begin, e]) |> unsafe_cast
-    None => self.invoke("slice", [begin]) |> unsafe_cast
+    Some(e) => self.call("slice", [begin, e]) |> unsafe_cast
+    None => self.call("slice", [begin]) |> unsafe_cast
   }
 }
 
@@ -71,8 +71,8 @@ pub fn SharedArrayBuffer::slice(
   end? : Int,
 ) -> SharedArrayBuffer {
   match end {
-    Some(e) => unsafe_cast(self.invoke("slice", [begin, e]))
-    None => unsafe_cast(self.invoke("slice", [begin]))
+    Some(e) => unsafe_cast(self.call("slice", [begin, e]))
+    None => unsafe_cast(self.call("slice", [begin]))
   }
 }
 
@@ -120,13 +120,13 @@ pub fn DataView::byte_offset(self : DataView) -> UInt {
 ///|
 #alias(getInt8)
 pub fn DataView::get_int8(self : DataView, byte_offset : UInt) -> Int {
-  self.invoke("getInt8", [byte_offset]) |> unsafe_cast
+  self.call("getInt8", [byte_offset]) |> unsafe_cast
 }
 
 ///|
 #alias(getUint8)
 pub fn DataView::get_uint8(self : DataView, byte_offset : UInt) -> UInt {
-  self.invoke("getUint8", [byte_offset]) |> unsafe_cast
+  self.call("getUint8", [byte_offset]) |> unsafe_cast
 }
 
 ///|
@@ -136,7 +136,7 @@ pub fn DataView::get_int16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.invoke("getInt16", [byte_offset, little_endian]) |> unsafe_cast
+  self.call("getInt16", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -146,7 +146,7 @@ pub fn DataView::get_uint16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.invoke("getUint16", [byte_offset, little_endian]) |> unsafe_cast
+  self.call("getUint16", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -156,7 +156,7 @@ pub fn DataView::get_int32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.invoke("getInt32", [byte_offset, little_endian]) |> unsafe_cast
+  self.call("getInt32", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -166,7 +166,7 @@ pub fn DataView::get_uint32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.invoke("getUint32", [byte_offset, little_endian]) |> unsafe_cast
+  self.call("getUint32", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -176,7 +176,7 @@ pub fn DataView::get_float32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.invoke("getFloat32", [byte_offset, little_endian]) |> unsafe_cast
+  self.call("getFloat32", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -186,7 +186,7 @@ pub fn DataView::get_float64(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.invoke("getFloat64", [byte_offset, little_endian]) |> unsafe_cast
+  self.call("getFloat64", [byte_offset, little_endian]) |> unsafe_cast
 }
 
 ///|
@@ -196,7 +196,7 @@ pub fn DataView::set_int8(
   byte_offset : UInt,
   value : Int,
 ) -> Unit {
-  self.invoke("setInt8", [byte_offset, value]) |> ignore
+  self.call("setInt8", [byte_offset, value]) |> ignore
 }
 
 ///|
@@ -206,7 +206,7 @@ pub fn DataView::set_uint8(
   byte_offset : UInt,
   value : UInt,
 ) -> Unit {
-  self.invoke("setUint8", [byte_offset, value]) |> ignore
+  self.call("setUint8", [byte_offset, value]) |> ignore
 }
 
 ///|
@@ -217,7 +217,7 @@ pub fn DataView::set_int16(
   value : Int,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.invoke("setInt16", [byte_offset, value, little_endian]) |> ignore
+  self.call("setInt16", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -228,7 +228,7 @@ pub fn DataView::set_uint16(
   value : UInt,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.invoke("setUint16", [byte_offset, value, little_endian]) |> ignore
+  self.call("setUint16", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -239,7 +239,7 @@ pub fn DataView::set_int32(
   value : Int,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.invoke("setInt32", [byte_offset, value, little_endian]) |> ignore
+  self.call("setInt32", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -250,7 +250,7 @@ pub fn DataView::set_uint32(
   value : UInt,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.invoke("setUint32", [byte_offset, value, little_endian]) |> ignore
+  self.call("setUint32", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -261,7 +261,7 @@ pub fn DataView::set_float32(
   value : Double,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.invoke("setFloat32", [byte_offset, value, little_endian]) |> ignore
+  self.call("setFloat32", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -272,7 +272,7 @@ pub fn DataView::set_float64(
   value : Double,
   little_endian? : Bool = false,
 ) -> Unit {
-  self.invoke("setFloat64", [byte_offset, value, little_endian]) |> ignore
+  self.call("setFloat64", [byte_offset, value, little_endian]) |> ignore
 }
 
 ///|
@@ -359,22 +359,22 @@ pub fn Uint8Array::set(
   array : Array[UInt],
   offset? : UInt = 0,
 ) -> Unit {
-  self.invoke("set", [@js.from_array(array), offset]) |> ignore
+  self.call("set", [@js.from_array(array), offset]) |> ignore
 }
 
 ///|
 pub fn Uint8Array::slice(self : Self, start? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.invoke("slice", [start, e]) |> unsafe_cast
-    None => self.invoke("slice", [start]) |> unsafe_cast
+    Some(e) => self.call("slice", [start, e]) |> unsafe_cast
+    None => self.call("slice", [start]) |> unsafe_cast
   }
 }
 
 ///|
 pub fn Uint8Array::subarray(self : Self, begin? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.invoke("subarray", [begin, e]) |> unsafe_cast
-    None => self.invoke("subarray", [begin]) |> unsafe_cast
+    Some(e) => self.call("subarray", [begin, e]) |> unsafe_cast
+    None => self.call("subarray", [begin]) |> unsafe_cast
   }
 }
 
@@ -386,8 +386,8 @@ pub fn Uint8Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.invoke("fill", [value, start, e]) |> unsafe_cast
-    None => self.invoke("fill", [value, start]) |> unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> unsafe_cast
+    None => self.call("fill", [value, start]) |> unsafe_cast
   }
 }
 
@@ -400,19 +400,19 @@ pub fn Uint8Array::copy_within(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.invoke("copyWithin", [target, start, e]) |> unsafe_cast
-    None => self.invoke("copyWithin", [target, start]) |> unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> unsafe_cast
+    None => self.call("copyWithin", [target, start]) |> unsafe_cast
   }
 }
 
 ///|
 pub fn Uint8Array::reverse(self : Self) -> Self {
-  self.invoke("reverse", []) |> unsafe_cast
+  self.call("reverse", []) |> unsafe_cast
 }
 
 ///|
 pub fn Uint8Array::sort(self : Self) -> Self {
-  self.invoke("sort", []) |> unsafe_cast
+  self.call("sort", []) |> unsafe_cast
 }
 
 ///|
@@ -422,7 +422,7 @@ pub fn Uint8Array::index_of(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.invoke("indexOf", [search_element, from_index]) |> unsafe_cast
+  self.call("indexOf", [search_element, from_index]) |> unsafe_cast
 }
 
 ///|
@@ -433,8 +433,8 @@ pub fn Uint8Array::last_index_of(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.invoke("lastIndexOf", [search_element, i]) |> unsafe_cast
-    None => self.invoke("lastIndexOf", [search_element]) |> unsafe_cast
+    Some(i) => self.call("lastIndexOf", [search_element, i]) |> unsafe_cast
+    None => self.call("lastIndexOf", [search_element]) |> unsafe_cast
   }
 }
 
@@ -444,18 +444,18 @@ pub fn Uint8Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.invoke("includes", [search_element, from_index]) |> unsafe_cast
+  self.call("includes", [search_element, from_index]) |> unsafe_cast
 }
 
 ///|
 pub fn Uint8Array::join(self : Self, separator? : String = ",") -> String {
-  self.invoke("join", [separator]) |> unsafe_cast
+  self.call("join", [separator]) |> unsafe_cast
 }
 
 ///|
 #alias(toString)
 pub fn Uint8Array::to_string(self : Self) -> String {
-  self.invoke("toString", []) |> unsafe_cast
+  self.call("toString", []) |> unsafe_cast
 }
 
 ///|

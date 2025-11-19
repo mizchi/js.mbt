@@ -18,10 +18,10 @@ pub fn ReactDOMClient::createRoot(
   self : Self,
   container : &@dom.ElementImpl,
 ) -> ReactDOMRoot {
-  self.invoke("createRoot", [container.to_js()]) |> unsafe_cast
+  self.call("createRoot", [container.to_js()]) |> unsafe_cast
 }
 
 ///|
 pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : @react.Element) -> Unit {
-  self.invoke("render", [vdom]) |> ignore
+  self.call("render", [vdom]) |> ignore
 }

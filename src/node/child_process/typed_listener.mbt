@@ -7,10 +7,13 @@ pub fn ChildProcess::on_exit(
   self : Self,
   callback : (Int?, String?) -> Unit noraise,
 ) -> Unit {
-  self.invoke("on", [
+  self.call("on", [
     "exit",
     unsafe_cast(fn(code : Js, signal : Js) {
-      callback(code |> @js.unsafe_cast_option(), signal |> @js.unsafe_cast_option())
+      callback(
+        code |> @js.unsafe_cast_option(),
+        signal |> @js.unsafe_cast_option(),
+      )
     }),
   ])
   |> ignore
@@ -23,10 +26,13 @@ pub fn ChildProcess::on_close(
   self : Self,
   callback : (Int?, String?) -> Unit noraise,
 ) -> Unit {
-  self.invoke("on", [
+  self.call("on", [
     "close",
     unsafe_cast(fn(code : Js, signal : Js) {
-      callback(code |> @js.unsafe_cast_option(), signal |> @js.unsafe_cast_option())
+      callback(
+        code |> @js.unsafe_cast_option(),
+        signal |> @js.unsafe_cast_option(),
+      )
     }),
   ])
   |> ignore
@@ -39,7 +45,7 @@ pub fn ChildProcess::on_error(
   self : Self,
   callback : (Js) -> Unit noraise,
 ) -> Unit {
-  self.invoke("on", ["error", unsafe_cast(callback)]) |> ignore
+  self.call("on", ["error", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
@@ -49,7 +55,7 @@ pub fn ChildProcess::on_message(
   self : Self,
   callback : (Js, Js?) -> Unit noraise,
 ) -> Unit {
-  self.invoke("on", [
+  self.call("on", [
     "message",
     unsafe_cast(fn(message : Js, sendHandle : Js) {
       callback(message, sendHandle |> @js.unsafe_cast_option())
@@ -65,7 +71,7 @@ pub fn ChildProcess::on_disconnect(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.invoke("on", ["disconnect", unsafe_cast(callback)]) |> ignore
+  self.call("on", ["disconnect", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
@@ -75,7 +81,7 @@ pub fn ChildProcess::on_spawn(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.invoke("on", ["spawn", unsafe_cast(callback)]) |> ignore
+  self.call("on", ["spawn", unsafe_cast(callback)]) |> ignore
 }
 
 ///|
@@ -86,8 +92,7 @@ pub fn ChildProcess::on_stdout_data(
   callback : (Js) -> Unit noraise,
 ) -> Unit {
   match self.stdout() {
-    Some(stream) =>
-      stream.invoke("on", ["data", unsafe_cast(callback)]) |> ignore
+    Some(stream) => stream.call("on", ["data", unsafe_cast(callback)]) |> ignore
     None => ()
   }
 }

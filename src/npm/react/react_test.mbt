@@ -4,7 +4,7 @@ using @js {type Js, unsafe_cast, log}
 ///|
 fn render_to_string(element : Element) -> String {
   let react_dom_server : Js = @node.require("react-dom/server")
-  unsafe_cast(react_dom_server.get("renderToString").invoke_self([element]))
+  unsafe_cast(react_dom_server.get("renderToString").call_self([element]))
 }
 
 ///|

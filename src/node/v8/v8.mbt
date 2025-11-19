@@ -13,7 +13,7 @@ extern "js" fn ffi_require_v8() -> Js =
 #alias(get_heap_statistics)
 pub fn getHeapStatistics() -> Js {
   let v8 = ffi_require_v8()
-  v8.invoke("getHeapStatistics", [])
+  v8.call("getHeapStatistics", [])
 }
 
 ///|
@@ -21,7 +21,7 @@ pub fn getHeapStatistics() -> Js {
 #alias(get_heap_space_statistics)
 pub fn getHeapSpaceStatistics() -> Array[Js] {
   let v8 = ffi_require_v8()
-  unsafe_cast(v8.invoke("getHeapSpaceStatistics", []))
+  unsafe_cast(v8.call("getHeapSpaceStatistics", []))
 }
 
 ///|
@@ -29,7 +29,7 @@ pub fn getHeapSpaceStatistics() -> Array[Js] {
 #alias(get_heap_code_statistics)
 pub fn getHeapCodeStatistics() -> Js {
   let v8 = ffi_require_v8()
-  v8.invoke("getHeapCodeStatistics", [])
+  v8.call("getHeapCodeStatistics", [])
 }
 
 ///|
@@ -41,7 +41,7 @@ pub fn getHeapSnapshot(
 ) -> Js {
   let v8 = ffi_require_v8()
   match (expose_internals, expose_numeric_values) {
-    (None, None) => v8.invoke("getHeapSnapshot", [])
+    (None, None) => v8.call("getHeapSnapshot", [])
     _ => {
       let options = @js.Object::new()
       match expose_internals {
@@ -52,7 +52,7 @@ pub fn getHeapSnapshot(
         Some(env) => options.set("exposeNumericValues", env)
         None => ()
       }
-      v8.invoke("getHeapSnapshot", [options])
+      v8.call("getHeapSnapshot", [options])
     }
   }
 }
@@ -63,8 +63,8 @@ pub fn getHeapSnapshot(
 pub fn writeHeapSnapshot(filename? : String) -> String {
   let v8 = ffi_require_v8()
   match filename {
-    Some(f) => unsafe_cast(v8.invoke("writeHeapSnapshot", [f]))
-    None => unsafe_cast(v8.invoke("writeHeapSnapshot", []))
+    Some(f) => unsafe_cast(v8.call("writeHeapSnapshot", [f]))
+    None => unsafe_cast(v8.call("writeHeapSnapshot", []))
   }
 }
 
@@ -73,7 +73,7 @@ pub fn writeHeapSnapshot(filename? : String) -> String {
 #alias(set_heap_snapshot_near_heap_limit)
 pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
   let v8 = ffi_require_v8()
-  v8.invoke("setHeapSnapshotNearHeapLimit", [limit]) |> ignore
+  v8.call("setHeapSnapshotNearHeapLimit", [limit]) |> ignore
 }
 
 ///| Serialization Functions
@@ -82,14 +82,14 @@ pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
 /// Serialize a value to a Buffer
 pub fn serialize(value : &JsImpl) -> Buffer {
   let v8 = ffi_require_v8()
-  unsafe_cast(v8.invoke("serialize", [value.to_js()]))
+  unsafe_cast(v8.call("serialize", [value.to_js()]))
 }
 
 ///|
 /// Deserialize a Buffer to a value
 pub fn deserialize(buffer : Buffer) -> Js {
   let v8 = ffi_require_v8()
-  v8.invoke("deserialize", [buffer.to_js()])
+  v8.call("deserialize", [buffer.to_js()])
 }
 
 ///| Serializer Class
@@ -115,21 +115,21 @@ pub fn Serializer::new() -> Serializer {
 /// Write header
 #alias(write_header)
 pub fn Serializer::writeHeader(self : Self) -> Unit {
-  self.invoke("writeHeader", []) |> ignore
+  self.call("writeHeader", []) |> ignore
 }
 
 ///|
 /// Write a value
 #alias(write_value)
 pub fn Serializer::writeValue(self : Self, value : &JsImpl) -> Bool {
-  self.invoke("writeValue", [value.to_js()]) |> unsafe_cast
+  self.call("writeValue", [value.to_js()]) |> unsafe_cast
 }
 
 ///|
 /// Release buffer
 #alias(release_buffer)
 pub fn Serializer::releaseBuffer(self : Self) -> Buffer {
-  self.invoke("releaseBuffer", []) |> unsafe_cast
+  self.call("releaseBuffer", []) |> unsafe_cast
 }
 
 ///|
@@ -140,28 +140,28 @@ pub fn Serializer::transferArrayBuffer(
   id : Int,
   array_buffer : ArrayBuffer,
 ) -> Unit {
-  self.invoke("transferArrayBuffer", [id, array_buffer]) |> ignore
+  self.call("transferArrayBuffer", [id, array_buffer]) |> ignore
 }
 
 ///|
 /// Write uint32
 #alias(writeUint32)
 pub fn Serializer::write_uint32(self : Self, value : Int) -> Unit {
-  self.invoke("writeUint32", [value]) |> ignore
+  self.call("writeUint32", [value]) |> ignore
 }
 
 ///|
 /// Write double
 #alias(writeDouble)
 pub fn Serializer::write_double(self : Self, value : Double) -> Unit {
-  self.invoke("writeDouble", [value]) |> ignore
+  self.call("writeDouble", [value]) |> ignore
 }
 
 ///|
 /// Write raw bytes
 #alias(writeRawBytes)
 pub fn Serializer::write_raw_bytes(self : Self, buffer : &JsImpl) -> Unit {
-  self.invoke("writeRawBytes", [buffer.to_js()]) |> ignore
+  self.call("writeRawBytes", [buffer.to_js()]) |> ignore
 }
 
 ///| Deserializer Class
@@ -187,14 +187,14 @@ pub fn Deserializer::new(buffer : Buffer) -> Deserializer {
 /// Read header
 #alias(read_header)
 pub fn Deserializer::readHeader(self : Self) -> Bool {
-  self.invoke("readHeader", []) |> unsafe_cast
+  self.call("readHeader", []) |> unsafe_cast
 }
 
 ///|
 /// Read a value
 #alias(read_value)
 pub fn Deserializer::readValue(self : Self) -> Js {
-  self.invoke("readValue", [])
+  self.call("readValue", [])
 }
 
 ///|
@@ -205,35 +205,35 @@ pub fn Deserializer::transfer_array_buffer(
   id : Int,
   array_buffer : ArrayBuffer,
 ) -> Unit {
-  self.invoke("transferArrayBuffer", [id, array_buffer]) |> ignore
+  self.call("transferArrayBuffer", [id, array_buffer]) |> ignore
 }
 
 ///|
 /// Get wire format version
 #alias(get_wire_format_version)
 pub fn Deserializer::getWireFormatVersion(self : Self) -> Int {
-  self.invoke("getWireFormatVersion", []) |> unsafe_cast
+  self.call("getWireFormatVersion", []) |> unsafe_cast
 }
 
 ///|
 /// Read uint32
 #alias(read_uint32)
 pub fn Deserializer::readUint32(self : Self) -> Int {
-  self.invoke("readUint32", []) |> unsafe_cast
+  self.call("readUint32", []) |> unsafe_cast
 }
 
 ///|
 /// Read double
 #alias(read_double)
 pub fn Deserializer::readDouble(self : Self) -> Double {
-  self.invoke("readDouble", []) |> unsafe_cast
+  self.call("readDouble", []) |> unsafe_cast
 }
 
 ///|
 /// Read raw bytes
 #alias(read_raw_bytes)
 pub fn Deserializer::readRawBytes(self : Self, length : Int) -> Buffer {
-  self.invoke("readRawBytes", [length]) |> unsafe_cast
+  self.call("readRawBytes", [length]) |> unsafe_cast
 }
 
 ///| Utility Functions
@@ -243,7 +243,7 @@ pub fn Deserializer::readRawBytes(self : Self, length : Int) -> Buffer {
 #alias(cached_data_version_tag)
 pub fn cachedDataVersionTag() -> Int {
   let v8 = ffi_require_v8()
-  unsafe_cast(v8.invoke("cachedDataVersionTag", []))
+  unsafe_cast(v8.call("cachedDataVersionTag", []))
 }
 
 ///|
@@ -251,7 +251,7 @@ pub fn cachedDataVersionTag() -> Int {
 #alias(set_flags_from_string)
 pub fn setFlagsFromString(flags : String) -> Unit {
   let v8 = ffi_require_v8()
-  v8.invoke("setFlagsFromString", [flags]) |> ignore
+  v8.call("setFlagsFromString", [flags]) |> ignore
 }
 
 ///|
@@ -259,7 +259,7 @@ pub fn setFlagsFromString(flags : String) -> Unit {
 #alias(stop_coverage)
 pub fn stopCoverage() -> Unit {
   let v8 = ffi_require_v8()
-  v8.invoke("stopCoverage", []) |> ignore
+  v8.call("stopCoverage", []) |> ignore
 }
 
 ///|
@@ -267,5 +267,5 @@ pub fn stopCoverage() -> Unit {
 #alias(take_coverage)
 pub fn takeCoverage() -> Unit {
   let v8 = ffi_require_v8()
-  v8.invoke("takeCoverage", []) |> ignore
+  v8.call("takeCoverage", []) |> ignore
 }

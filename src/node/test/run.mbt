@@ -93,5 +93,5 @@ pub fn run(
   if setup is Some(setup) {
     obj.set("setup", @js.from_fn0(setup))
   }
-  nodetest().invoke("run", [obj]) |> unsafe_cast
+  nodetest().call("run", [obj]) |> unsafe_cast
 }

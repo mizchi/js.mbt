@@ -21,7 +21,7 @@ pub fn js(a : &JsImpl) -> Js {
 
 ///|
 /// Safe cast JsImpl -> Option[Js].
-pub fn[T: JsImpl] option_js(a: T) -> Js? {
+pub fn[T : JsImpl] option_js(a : T) -> Js? {
   if ffi_is_nullish(a |> unsafe_cast) {
     None
   } else {
@@ -105,7 +105,7 @@ pub fn[O : JsImpl, V : JsImpl] set_if_exists(
 /// Wraps a synchronous function call, converting any thrown JS errors into JsError
 /// ```moonbit skip
 /// let result = throwable(() => {
-///   undefined().invoke_self([])
+///   undefined().call_self([])
 /// })
 /// ```
 pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError {

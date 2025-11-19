@@ -4,5 +4,5 @@ fn main {
   obj.set("name", "MoonBit")
   @js.log(obj)
   obj.hasOwnProperty("name") |> @js.log
-  obj.invoke("hasOwnProperty", ["nothing"]) |> @js.log
+  obj.call("hasOwnProperty", ["nothing"]) |> @js.log
 }

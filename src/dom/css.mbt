@@ -23,7 +23,7 @@ pub fn CSSStyleDeclaration::get_property_value(
   self : Self,
   property : String,
 ) -> String {
-  self.invoke("getPropertyValue", [property]) |> unsafe_cast
+  self.call("getPropertyValue", [property]) |> unsafe_cast
 }
 
 ///|
@@ -33,7 +33,7 @@ pub fn CSSStyleDeclaration::set_property(
   property : String,
   value : String,
 ) -> Unit {
-  self.invoke("setProperty", [property, value]) |> ignore
+  self.call("setProperty", [property, value]) |> ignore
 }
 
 ///|
@@ -44,7 +44,7 @@ pub fn CSSStyleDeclaration::set_property_priority(
   value : String,
   priority : String,
 ) -> Unit {
-  self.invoke("setProperty", [property, value, priority]) |> ignore
+  self.call("setProperty", [property, value, priority]) |> ignore
 }
 
 ///|
@@ -53,7 +53,7 @@ pub fn CSSStyleDeclaration::remove_property(
   self : Self,
   property : String,
 ) -> String {
-  self.invoke("removeProperty", [property]) |> unsafe_cast
+  self.call("removeProperty", [property]) |> unsafe_cast
 }
 
 ///|
@@ -62,7 +62,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
   self : Self,
   property : String,
 ) -> String {
-  self.invoke("getPropertyPriority", [property]) |> unsafe_cast
+  self.call("getPropertyPriority", [property]) |> unsafe_cast
 }
 
 ///|
@@ -148,7 +148,7 @@ pub fn CSSStyleSheet::css_rules(self : Self) -> Js {
 /// Inserts a CSS rule
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
 pub fn CSSStyleSheet::insert_rule(self : Self, rule : String) -> Int {
-  self.invoke("insertRule", [rule]) |> unsafe_cast
+  self.call("insertRule", [rule]) |> unsafe_cast
 }
 
 ///|
@@ -158,14 +158,14 @@ pub fn CSSStyleSheet::insert_rule_at(
   rule : String,
   index : Int,
 ) -> Int {
-  self.invoke("insertRule", [rule, index]) |> unsafe_cast
+  self.call("insertRule", [rule, index]) |> unsafe_cast
 }
 
 ///|
 /// Deletes a CSS rule at index
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/deleteRule
 pub fn CSSStyleSheet::delete_rule(self : Self, index : Int) -> Unit {
-  self.invoke("deleteRule", [index]) |> ignore
+  self.call("deleteRule", [index]) |> ignore
 }
 
 ///|
@@ -218,7 +218,7 @@ pub impl JsImpl for MediaQueryList
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
-  unsafe_cast(@js.global_this().invoke("matchMedia", [query]))
+  unsafe_cast(@js.global_this().call("matchMedia", [query]))
 }
 
 ///|
@@ -240,7 +240,7 @@ pub fn MediaQueryList::add_listener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.invoke("addListener", [listener |> @js.from_fn1]) |> ignore
+  self.call("addListener", [listener |> @js.from_fn1]) |> ignore
 }
 
 ///|
@@ -250,7 +250,7 @@ pub fn MediaQueryList::remove_listener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.invoke("removeListener", [listener |> @js.from_fn1]) |> ignore
+  self.call("removeListener", [listener |> @js.from_fn1]) |> ignore
 }
 
 ///|
@@ -259,8 +259,7 @@ pub fn MediaQueryList::add_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.invoke("addEventListener", ["change", listener |> @js.from_fn1])
-  |> ignore
+  self.call("addEventListener", ["change", listener |> @js.from_fn1]) |> ignore
 }
 
 ///|
@@ -269,7 +268,7 @@ pub fn MediaQueryList::remove_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.invoke("removeEventListener", ["change", listener |> @js.from_fn1])
+  self.call("removeEventListener", ["change", listener |> @js.from_fn1])
   |> ignore
 }
 
@@ -282,7 +281,7 @@ pub fn MediaQueryList::remove_change_listener(
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
   let css_obj = @js.global_this().get("CSS")
-  unsafe_cast(css_obj.invoke("escape", [value]))
+  unsafe_cast(css_obj.call("escape", [value]))
 }
 
 ///|
@@ -291,7 +290,7 @@ pub fn cssEscape(value : String) -> String {
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  unsafe_cast(css_obj.invoke("supports", [property, value]))
+  unsafe_cast(css_obj.call("supports", [property, value]))
 }
 
 ///|
@@ -299,7 +298,7 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  unsafe_cast(css_obj.invoke("supports", [condition]))
+  unsafe_cast(css_obj.call("supports", [condition]))
 }
 
 ///|
@@ -314,7 +313,7 @@ pub fn Document::style_sheets(self : Self) -> Js {
 pub fn Document::create_stylesheet(self : Self) -> CSSStyleSheet {
   let style = self.create_element("style")
   match self.head() {
-    Some(head) => head.invoke("appendChild", [style]) |> ignore
+    Some(head) => head.call("appendChild", [style]) |> ignore
     None => ()
   }
   unsafe_cast(style.get("sheet"))

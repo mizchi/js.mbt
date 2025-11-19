@@ -69,7 +69,7 @@ pub fn Document::readyState(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
 pub fn Document::getElementById(self : Self, id : String) -> Js? {
-  self.invoke("getElementById", [id |> js]) |> @js.unsafe_cast_option()
+  self.call("getElementById", [id |> js]) |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -77,7 +77,7 @@ pub fn Document::getElementById(self : Self, id : String) -> Js? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
 #alias(get_elements_by_class_name)
 pub fn Document::getElementsByClassName(self : Self, class_name : String) -> Js {
-  self.invoke("getElementsByClassName", [class_name])
+  self.call("getElementsByClassName", [class_name])
 }
 
 ///|
@@ -85,7 +85,7 @@ pub fn Document::getElementsByClassName(self : Self, class_name : String) -> Js 
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByTagName
 #alias(get_elements_by_tag_name)
 pub fn Document::getElementsByTagName(self : Self, tagName : String) -> Js {
-  self.invoke("getElementsByTagName", [tagName])
+  self.call("getElementsByTagName", [tagName])
 }
 
 ///|
@@ -160,7 +160,7 @@ pub fn Document::referrer(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 #alias(create_document_fragment)
 pub fn Document::createDocumentFragment(self : Self) -> Js {
-  self.invoke("createDocumentFragment", []) |> unsafe_cast
+  self.call("createDocumentFragment", []) |> unsafe_cast
 }
 
 ///|
@@ -168,7 +168,7 @@ pub fn Document::createDocumentFragment(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 #alias(create_comment)
 pub fn Document::createComment(self : Self, data : String) -> Js {
-  self.invoke("createComment", [data]) |> unsafe_cast
+  self.call("createComment", [data]) |> unsafe_cast
 }
 
 ///|
@@ -215,7 +215,7 @@ pub fn Document::doctype(self : Self) -> Js? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
 #alias(adopt_node)
 pub fn Document::adoptNode(self : Self, node : Node) -> Node {
-  self.invoke("adoptNode", [node.to_js()]) |> unsafe_cast
+  self.call("adoptNode", [node.to_js()]) |> unsafe_cast
 }
 
 ///|
@@ -223,7 +223,7 @@ pub fn Document::adoptNode(self : Self, node : Node) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
 #alias(import_node)
 pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
-  self.invoke("importNode", [node.to_js(), deep]) |> unsafe_cast
+  self.call("importNode", [node.to_js(), deep]) |> unsafe_cast
 }
 
 ///|
@@ -231,7 +231,7 @@ pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
 #alias(create_event)
 pub fn Document::createEvent(self : Self, event_type : String) -> Event {
-  self.invoke("createEvent", [event_type]) |> unsafe_cast
+  self.call("createEvent", [event_type]) |> unsafe_cast
 }
 
 ///|
@@ -242,7 +242,7 @@ pub fn Document::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  self.invoke("elementFromPoint", [x, y]) |> @js.unsafe_cast_option()
+  self.call("elementFromPoint", [x, y]) |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -253,7 +253,7 @@ pub fn Document::elementsFromPoint(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  @js.array_from(self.invoke("elementsFromPoint", [x, y])).map(fn(v) {
+  @js.array_from(self.call("elementsFromPoint", [x, y])).map(fn(v) {
     unsafe_cast(v)
   })
 }

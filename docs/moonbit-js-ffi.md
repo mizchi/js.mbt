@@ -11,7 +11,7 @@ When you implement `Js` for a type, you can:
 - **Convert to JavaScript**: `value.to_js() -> Val`
 - **Access properties**: `value.get("propertyName") -> Val`
 - **Set properties**: `value.set("propertyName", jsValue)`
-- **Call methods**: `value.invoke("methodName", [arg1, arg2])`
+- **Call methods**: `value.call("methodName", [arg1, arg2])`
 - **Cast types**: `unsafe_cast(value) -> T`
 
 ### Basic Type Usage
@@ -33,7 +33,7 @@ fn example(doc: Document) {
   doc.set("title", "New Title")
   
   // Call method
-  let element = doc.invoke("createElement", ["div"])
+  let element = doc.call("createElement", ["div"])
 }
 ```
 
@@ -77,10 +77,10 @@ pub impl JsImpl for Document
 pub extern "js" fn Document::createElement(self: Self, tag: String) -> Element =
   #|(self, tag) => self.createElement(tag)
 
-// Method via invoke
+// Method via call
 #alias(query_selector)
 pub fn Document::querySelector(self: Self, selector: String) -> Element? {
-  self.invoke("querySelector", [selector]) |> @js.unsafe_cast_option()
+  self.call("querySelector", [selector]) |> @js.unsafe_cast_option()
 }
 ```
 
@@ -109,9 +109,9 @@ pub fn mkdirSync(path: String, recursive?: Bool) -> Unit {
     Some(r) => {
       let opts = @js.Object::new()
       opts.set("recursive", r)
-      fs.invoke("mkdirSync", [path, opts]) |> ignore
+      fs.call("mkdirSync", [path, opts]) |> ignore
     }
-    None => fs.invoke("mkdirSync", [path]) |> ignore
+    None => fs.call("mkdirSync", [path]) |> ignore
   }
 }
 
@@ -180,7 +180,7 @@ fn unsafe_cast_option(val: Val) -> Val? {
 
 #alias(get_element_by_id)
 pub fn getElementById(id: String) -> Element? {
-  document().invoke("getElementById", [id]) |> @js.unsafe_cast_option()
+  document().call("getElementById", [id]) |> @js.unsafe_cast_option()
 }
 
 // Usage
@@ -230,13 +230,13 @@ fn fs_module() -> Val {
 #alias(read_file_sync)
 pub fn readFileSync(path: String) -> Buffer {
   let fs = fs_module()
-  fs.invoke("readFileSync", [path]) |> unsafe_cast
+  fs.call("readFileSync", [path]) |> unsafe_cast
 }
 
 #alias(write_file_sync)
 pub fn writeFileSync(path: String, data: &JsImpl) -> Unit {
   let fs = fs_module()
-  fs.invoke("writeFileSync", [path, data.to_js()]) |> ignore
+  fs.call("writeFileSync", [path, data.to_js()]) |> ignore
 }
 
 // Usage
@@ -259,7 +259,7 @@ fn init {
   
   // Query and append
   match doc.getElementById("app") {
-    Some(app) => app.invoke("appendChild", [div]) |> ignore
+    Some(app) => app.call("appendChild", [div]) |> ignore
     None => console.log("App element not found")
   }
 }
@@ -386,8 +386,8 @@ value.get("prop")              // Get property
 value.set("prop", val)         // Set property
 
 // Method calls
-value.invoke("method", [arg1, arg2])     // Call method
-value.invoke_self([arg1, arg2])          // Call as function
+value.call("method", [arg1, arg2])     // Call method
+value.call_self([arg1, arg2])          // Call as function
 
 // Type conversion
 unsafe_cast(value)             // Cast to target type

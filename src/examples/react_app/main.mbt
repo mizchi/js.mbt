@@ -161,7 +161,7 @@ fn app(props : AppProps) -> @react.Element {
       run_async(async fn() noraise {
         sleep(300)
         if textarea_ref.current() is Some(textarea) {
-          textarea.invoke("focus", []) |> ignore
+          textarea.call("focus", []) |> ignore
         }
         log("Starting async operation...")
       })

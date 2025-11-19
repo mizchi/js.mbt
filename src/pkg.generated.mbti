@@ -197,10 +197,10 @@ pub(open) trait JsImpl {
   to_js(Self) -> Js = _
   get(Self, &PropertyKey) -> Js = _
   set(Self, &PropertyKey, &JsImpl) -> Unit = _
-  invoke(Self, &PropertyKey, Array[&JsImpl]) -> Js = _
-  invoke_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise JsThrowError = _
-  invoke_self(Self, Array[&JsImpl]) -> Js = _
-  invoke_self_throwable(Self, Array[&JsImpl]) -> Js raise JsThrowError = _
+  call(Self, &PropertyKey, Array[&JsImpl]) -> Js = _
+  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise JsThrowError = _
+  call_self(Self, Array[&JsImpl]) -> Js = _
+  call_self_throwable(Self, Array[&JsImpl]) -> Js raise JsThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
 }
@@ -221,4 +221,3 @@ pub trait PropertyKey {
 }
 impl PropertyKey for Int
 impl PropertyKey for String
-

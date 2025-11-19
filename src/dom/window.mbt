@@ -119,14 +119,14 @@ pub fn Window::devicePixelRatio(self : Self) -> Double {
 /// Displays an alert dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
 pub fn Window::alert(self : Self, message : String) -> Unit {
-  ignore(self.invoke("alert", [message]))
+  ignore(self.call("alert", [message]))
 }
 
 ///|
 /// Displays a confirm dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
 pub fn Window::confirm(self : Self, message : String) -> Bool {
-  self.invoke("confirm", [message]) |> unsafe_cast
+  self.call("confirm", [message]) |> unsafe_cast
 }
 
 ///|
@@ -138,8 +138,8 @@ pub fn Window::prompt(
   default? : String,
 ) -> String? {
   match default {
-    Some(d) => self.invoke("prompt", [message, d]) |> @js.unsafe_cast_option()
-    None => self.invoke("prompt", [message]) |> @js.unsafe_cast_option()
+    Some(d) => self.call("prompt", [message, d]) |> @js.unsafe_cast_option()
+    None => self.call("prompt", [message]) |> @js.unsafe_cast_option()
   }
 }
 
@@ -154,10 +154,11 @@ pub fn Window::open(
 ) -> Window? {
   match (url, target, features) {
     (Some(u), Some(t), Some(f)) =>
-      self.invoke("open", [u, t, f]) |> @js.unsafe_cast_option
-    (Some(u), Some(t), None) => self.invoke("open", [u, t]) |> @js.unsafe_cast_option
-    (Some(u), None, _) => self.invoke("open", [u]) |> @js.unsafe_cast_option
-    (None, _, _) => self.invoke("open", []) |> @js.unsafe_cast_option
+      self.call("open", [u, t, f]) |> @js.unsafe_cast_option
+    (Some(u), Some(t), None) =>
+      self.call("open", [u, t]) |> @js.unsafe_cast_option
+    (Some(u), None, _) => self.call("open", [u]) |> @js.unsafe_cast_option
+    (None, _, _) => self.call("open", []) |> @js.unsafe_cast_option
   }
 }
 
@@ -165,7 +166,7 @@ pub fn Window::open(
 /// Closes the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/close
 pub fn Window::close(self : Self) -> Unit {
-  ignore(self.invoke("close", []))
+  ignore(self.call("close", []))
 }
 
 ///|
@@ -173,7 +174,7 @@ pub fn Window::close(self : Self) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
 #alias(scroll_to)
 pub fn Window::scrollTo(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.invoke("scrollTo", [x, y]))
+  ignore(self.call("scrollTo", [x, y]))
 }
 
 ///|
@@ -181,7 +182,7 @@ pub fn Window::scrollTo(self : Self, x : Int, y : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollBy
 #alias(scroll_by)
 pub fn Window::scrollBy(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.invoke("scrollBy", [x, y]))
+  ignore(self.call("scrollBy", [x, y]))
 }
 
 ///|
@@ -209,7 +210,7 @@ pub fn Window::setTimeout(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.invoke("setTimeout", [@js.from_fn0(handler), delay]) |> unsafe_cast
+  self.call("setTimeout", [@js.from_fn0(handler), delay]) |> unsafe_cast
 }
 
 ///|
@@ -217,7 +218,7 @@ pub fn Window::setTimeout(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
 #alias(clear_timeout)
 pub fn Window::clearTimeout(self : Self, id : Int) -> Unit {
-  ignore(self.invoke("clearTimeout", [id]))
+  ignore(self.call("clearTimeout", [id]))
 }
 
 ///|
@@ -229,7 +230,7 @@ pub fn Window::setInterval(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.invoke("setInterval", [@js.from_fn0(handler), delay]) |> unsafe_cast
+  self.call("setInterval", [@js.from_fn0(handler), delay]) |> unsafe_cast
 }
 
 ///|
@@ -237,7 +238,7 @@ pub fn Window::setInterval(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
 #alias(clear_interval)
 pub fn Window::clearInterval(self : Self, id : Int) -> Unit {
-  ignore(self.invoke("clearInterval", [id]))
+  ignore(self.call("clearInterval", [id]))
 }
 
 ///|
@@ -248,7 +249,7 @@ pub fn Window::requestAnimationFrame(
   self : Self,
   callback : (Double) -> Unit,
 ) -> Int {
-  self.invoke("requestAnimationFrame", [@js.unsafe_js(callback)]) |> unsafe_cast
+  self.call("requestAnimationFrame", [@js.unsafe_js(callback)]) |> unsafe_cast
 }
 
 ///|
@@ -256,7 +257,7 @@ pub fn Window::requestAnimationFrame(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame
 #alias(cancel_animation_frame)
 pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
-  ignore(self.invoke("cancelAnimationFrame", [id]))
+  ignore(self.call("cancelAnimationFrame", [id]))
 }
 
 ///|
@@ -264,8 +265,8 @@ pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
 pub fn Window::fetch(self : Self, input : String, init? : Js) -> Promise[Js] {
   match init {
-    Some(i) => self.invoke("fetch", [input, i]) |> unsafe_cast
-    None => self.invoke("fetch", [input]) |> unsafe_cast
+    Some(i) => self.call("fetch", [input, i]) |> unsafe_cast
+    None => self.call("fetch", [input]) |> unsafe_cast
   }
 }
 
@@ -274,7 +275,7 @@ pub fn Window::fetch(self : Self, input : String, init? : Js) -> Promise[Js] {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 #alias(get_selection)
 pub fn Window::getSelection(self : Self) -> Js? {
-  self.invoke("getSelection", []) |> @js.unsafe_cast_option
+  self.call("getSelection", []) |> @js.unsafe_cast_option
 }
 
 ///|
@@ -288,8 +289,8 @@ pub fn Window::getComputedStyle(
 ) -> Js {
   match pseudo_elt {
     Some(p) =>
-      self.invoke("getComputedStyle", [element.to_js(), p]) |> unsafe_cast
-    None => self.invoke("getComputedStyle", [element.to_js()]) |> unsafe_cast
+      self.call("getComputedStyle", [element.to_js(), p]) |> unsafe_cast
+    None => self.call("getComputedStyle", [element.to_js()]) |> unsafe_cast
   }
 }
 
@@ -298,7 +299,7 @@ pub fn Window::getComputedStyle(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn Window::matchMedia(self : Self, query : String) -> Js {
-  self.invoke("matchMedia", [query]) |> unsafe_cast
+  self.call("matchMedia", [query]) |> unsafe_cast
 }
 
 ///|
@@ -310,7 +311,7 @@ pub fn Window::postMessage(
   message : Js,
   target_origin : String,
 ) -> Unit {
-  ignore(self.invoke("postMessage", [message, target_origin]))
+  ignore(self.call("postMessage", [message, target_origin]))
 }
 
 ///|
@@ -326,10 +327,6 @@ pub fn[T : Transferable] Window::post_message_with_transfer(
   ignore(
     self
     .to_js()
-    .invoke("postMessage", [
-      message,
-      target_origin,
-      @js.unsafe_js(transfer_vals),
-    ]),
+    .call("postMessage", [message, target_origin, @js.unsafe_js(transfer_vals)]),
   )
 }

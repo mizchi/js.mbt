@@ -63,9 +63,7 @@ pub fn parseArgs(
   )
   result.set("allowPositionals", allow_positionals)
   // result["tokens"] = tokens
-  let r : Js = unsafe_cast(
-    Util::require().get("parseArgs").invoke_self([result]),
-  )
+  let r : Js = unsafe_cast(Util::require().get("parseArgs").call_self([result]))
   let values : Map[String, Js] = {}
   let result_keys = r.get("values") |> @js.Object::keys
   for k in result_keys {

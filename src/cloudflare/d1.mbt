@@ -10,13 +10,13 @@ pub impl JsImpl for D1Database
 ///|
 /// Prepare a SQL statement
 pub fn D1Database::prepare(self : Self, query : String) -> D1PreparedStatement {
-  self.invoke("prepare", [query]) |> unsafe_cast
+  self.call("prepare", [query]) |> unsafe_cast
 }
 
 ///|
 /// Execute a SQL statement directly (for statements that don't return data)
 pub fn D1Database::exec(self : Self, query : String) -> Promise[D1ExecResult] {
-  self.invoke("exec", [query]) |> unsafe_cast
+  self.call("exec", [query]) |> unsafe_cast
 }
 
 ///|
@@ -28,16 +28,16 @@ pub fn D1Database::batch(
   let stmts_js = @js.JsArray::new()
   let mut i = 0
   while i < statements.length() {
-    stmts_js.invoke("push", [statements[i]]) |> ignore
+    stmts_js.call("push", [statements[i]]) |> ignore
     i = i + 1
   }
-  self.invoke("batch", [stmts_js]) |> unsafe_cast
+  self.call("batch", [stmts_js]) |> unsafe_cast
 }
 
 ///|
 /// Dump the entire database
 pub fn D1Database::dump(self : Self) -> Promise[Js] {
-  self.invoke("dump", []) |> unsafe_cast
+  self.call("dump", []) |> unsafe_cast
 }
 
 ///|
@@ -61,12 +61,12 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[Js]) -> Self {
   let params_js = @js.JsArray::new()
   let mut i = 0
   while i < params.length() {
-    params_js.invoke("push", [params[i]]) |> ignore
+    params_js.call("push", [params[i]]) |> ignore
     i = i + 1
   }
 
   // Use apply to spread the array as individual arguments
-  unsafe_cast(bind_fn.invoke("apply", [stmt_js, params_js]))
+  unsafe_cast(bind_fn.call("apply", [stmt_js, params_js]))
 }
 
 ///|
@@ -95,7 +95,7 @@ pub fn D1PreparedStatement::bind3(
 ///|
 /// Execute the statement and return first row
 pub fn D1PreparedStatement::first(self : Self) -> Promise[Js?] {
-  self.invoke("first", []) |> unsafe_cast
+  self.call("first", []) |> unsafe_cast
 }
 
 ///|
@@ -104,25 +104,25 @@ pub fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
 ) -> Promise[Js?] {
-  self.invoke("first", [col_name]) |> unsafe_cast
+  self.call("first", [col_name]) |> unsafe_cast
 }
 
 ///|
 /// Execute the statement and return all rows
 pub fn D1PreparedStatement::all(self : Self) -> Promise[D1Result] {
-  self.invoke("all", []) |> unsafe_cast
+  self.call("all", []) |> unsafe_cast
 }
 
 ///|
 /// Execute the statement (for INSERT, UPDATE, DELETE)
 pub fn D1PreparedStatement::run(self : Self) -> Promise[D1Result] {
-  self.invoke("run", []) |> unsafe_cast
+  self.call("run", []) |> unsafe_cast
 }
 
 ///|
 /// Execute and return raw results
 pub fn D1PreparedStatement::raw(self : Self) -> Promise[Array[Js]] {
-  self.invoke("raw", []) |> unsafe_cast
+  self.call("raw", []) |> unsafe_cast
 }
 
 ///|
@@ -131,7 +131,7 @@ pub fn D1PreparedStatement::raw_with_options(
   self : Self,
   options : D1RawOptions,
 ) -> Promise[Array[Js]] {
-  self.invoke("raw", [options.to_js()]) |> unsafe_cast
+  self.call("raw", [options.to_js()]) |> unsafe_cast
 }
 
 ///|

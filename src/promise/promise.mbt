@@ -53,13 +53,13 @@ pub fn[A, B] Promise::catch_(
   self : Self[A],
   f : (Error) -> Promise[B],
 ) -> Promise[B] {
-  self.invoke("catch", [@js.from_fn1(f)]) |> unsafe_cast
+  self.call("catch", [@js.from_fn1(f)]) |> unsafe_cast
 }
 
 ///|
 /// JS: promise.finally(() => { ... })
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
-  self.invoke("finally", [@js.from_fn0(f)]) |> unsafe_cast
+  self.call("finally", [@js.from_fn0(f)]) |> unsafe_cast
 }
 
 ///|
@@ -67,8 +67,8 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[T] Promise::unwrap(self : Self[T]) -> T {
   suspend((ok, err) => self
-    .invoke("then", [@js.from_fn1(ok)])
-    .invoke("catch", [@js.from_fn1(err)])
+    .call("then", [@js.from_fn1(ok)])
+    .call("catch", [@js.from_fn1(err)])
     |> ignore)
 }
 
@@ -90,7 +90,6 @@ pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
   ffi_promise_any(promises |> unsafe_cast) |> unsafe_cast
 }
 
-
 ///|
 /// Result type for Promise.allSettled
 pub(all) struct SettledResult[T] {
@@ -99,11 +98,13 @@ pub(all) struct SettledResult[T] {
   reason : Js?
 }
 
+///|
 /// JS: Promise.all(promises)
-pub fn[A] Promise::allSettled(promises : Array[Promise[A]]) -> Promise[Array[SettledResult[A]]] {
+pub fn[A] Promise::allSettled(
+  promises : Array[Promise[A]],
+) -> Promise[Array[SettledResult[A]]] {
   ffi_promise_all(promises |> unsafe_cast) |> unsafe_cast
 }
-
 
 ///|
 /// Converts an async raise function to a Promise.

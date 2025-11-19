@@ -69,47 +69,47 @@ pub fn createInterface(
   unsafe_cast(
     @node.require("node:readline/promises")
     .get("createInterface")
-    .invoke_self([opts]),
+    .call_self([opts]),
   )
 }
 
 ///|
 pub fn Interface::question(self : Self, query : String) -> Promise[String] {
-  self.invoke("question", [query]) |> unsafe_cast
+  self.call("question", [query]) |> unsafe_cast
 }
 
 ///|
 pub fn Interface::commit(self : Self) -> Promise[Unit] {
-  self.invoke("commit", []) |> unsafe_cast
+  self.call("commit", []) |> unsafe_cast
 }
 
 ///|
 pub fn Interface::rollback(self : Self) -> Self {
-  self.invoke("rollback", []) |> unsafe_cast
+  self.call("rollback", []) |> unsafe_cast
 }
 
 ///|
 #alias(cursor_to)
 pub fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Promise[Unit] {
-  self.invoke("cursorTo", [x, y]) |> unsafe_cast
+  self.call("cursorTo", [x, y]) |> unsafe_cast
 }
 
 ///|
 #alias(move_cursor)
 pub fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Promise[Unit] {
-  self.invoke("moveCursor", [dx, dy]) |> unsafe_cast
+  self.call("moveCursor", [dx, dy]) |> unsafe_cast
 }
 
 ///|
 #alias(clear_line)
 pub fn Interface::clearLine(self : Self, dir : Int) -> Self {
-  self.invoke("clearLine", [dir]) |> unsafe_cast
+  self.call("clearLine", [dir]) |> unsafe_cast
 }
 
 ///|
 #alias(clear_screen_down)
 pub fn Interface::clearScreenDown(self : Self, dir : Int) -> Self {
-  self.invoke("clearScreenDown", [dir]) |> unsafe_cast
+  self.call("clearScreenDown", [dir]) |> unsafe_cast
 }
 
 ///|

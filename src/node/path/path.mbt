@@ -2,7 +2,7 @@
 /// path.join(...paths)
 pub fn join(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  path_module.invoke("join", paths.map(p => p)) |> unsafe_cast
+  path_module.call("join", paths.map(p => p)) |> unsafe_cast
 }
 
 ///|
@@ -10,14 +10,14 @@ pub fn join(paths : Array[String]) -> String {
 /// JS: path.join(a, b)
 pub fn join2(a : String, b : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.invoke("join", [a, b]) |> unsafe_cast
+  path_module.call("join", [a, b]) |> unsafe_cast
 }
 
 ///|
 /// JS: path.dirname(path)
 pub fn dirname(path : String) -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("dirname", [path]))
+  unsafe_cast(path_module.call("dirname", [path]))
 }
 
 ///|
@@ -25,8 +25,8 @@ pub fn dirname(path : String) -> String {
 pub fn basename(path : String, suffix? : String) -> String {
   let path_module = @node.require("node:path")
   match suffix {
-    Some(s) => unsafe_cast(path_module.invoke("basename", [path, s]))
-    None => unsafe_cast(path_module.invoke("basename", [path]))
+    Some(s) => unsafe_cast(path_module.call("basename", [path, s]))
+    None => unsafe_cast(path_module.call("basename", [path]))
   }
 }
 
@@ -34,7 +34,7 @@ pub fn basename(path : String, suffix? : String) -> String {
 /// JS: path.extname(path)
 pub fn extname(path : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.invoke("extname", [path]) |> unsafe_cast
+  path_module.call("extname", [path]) |> unsafe_cast
 }
 
 ///|
@@ -42,42 +42,42 @@ pub fn extname(path : String) -> String {
 #alias(is_absolute)
 pub fn isAbsolute(path : String) -> Bool {
   let path_module = @node.require("node:path")
-  path_module.invoke("isAbsolute", [path]) |> unsafe_cast
+  path_module.call("isAbsolute", [path]) |> unsafe_cast
 }
 
 ///|
 /// JS: path.normalize(path)
 pub fn normalize(path : String) -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("normalize", [path]))
+  unsafe_cast(path_module.call("normalize", [path]))
 }
 
 ///|
 /// JS: path.resolve(...paths)
 pub fn resolve(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  path_module.invoke("resolve", paths.map(p => @js.js(p))) |> unsafe_cast
+  path_module.call("resolve", paths.map(p => @js.js(p))) |> unsafe_cast
 }
 
 ///|
 /// JS: path.relative(from, to)
 pub fn relative(from : String, to : String) -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("relative", [from, to]))
+  unsafe_cast(path_module.call("relative", [from, to]))
 }
 
 ///|
 /// JS: path.parse(path)
 pub fn parse(path : String) -> ParsedPath {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("parse", [path]))
+  unsafe_cast(path_module.call("parse", [path]))
 }
 
 ///|
 /// JS: path.format(parsed)
 pub fn format(parsed : ParsedPath) -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("format", [parsed.to_js()]))
+  unsafe_cast(path_module.call("format", [parsed.to_js()]))
 }
 
 ///|
@@ -109,12 +109,12 @@ pub fn sep() -> String {
 #alias(to_namespaced_path)
 pub fn toNamespacedPath(path : String) -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("toNamespacedPath", [path]))
+  unsafe_cast(path_module.call("toNamespacedPath", [path]))
 }
 
 ///|
 #alias(matches_glob)
 pub fn matchesGlob(path : String, pattern : String) -> Bool {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.invoke("matchesGlob", [path, pattern]))
+  unsafe_cast(path_module.call("matchesGlob", [path, pattern]))
 }

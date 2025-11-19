@@ -45,7 +45,7 @@ pub fn OffscreenCanvas::getContext(
   self : Self,
   context_type : String,
 ) -> CanvasRenderingContext2D {
-  self.invoke("getContext", [context_type]) |> unsafe_cast
+  self.call("getContext", [context_type]) |> unsafe_cast
 }
 
 ///|
@@ -54,12 +54,12 @@ pub fn OffscreenCanvas::convertToBlob(
   options? : String,
 ) -> Promise[Blob] {
   match options {
-    Some(opts) => self.invoke("convertToBlob", [opts]) |> unsafe_cast
-    None => self.invoke("convertToBlob", []) |> unsafe_cast
+    Some(opts) => self.call("convertToBlob", [opts]) |> unsafe_cast
+    None => self.call("convertToBlob", []) |> unsafe_cast
   }
 }
 
 ///|
 pub fn OffscreenCanvas::transferToImage_bitmap(self : Self) -> ImageBitmap {
-  self.invoke("transferToImageBitmap", []) |> unsafe_cast
+  self.call("transferToImageBitmap", []) |> unsafe_cast
 }

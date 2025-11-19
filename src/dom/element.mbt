@@ -40,7 +40,7 @@ impl ElementImpl with tagName(self) {
 
 ///|
 impl ElementImpl with append(self, child) {
-  self.invoke("append", [child.to_js()]) |> unsafe_cast
+  self.call("append", [child.to_js()]) |> unsafe_cast
 }
 
 ///|
@@ -65,54 +65,50 @@ impl ElementImpl with setId(self, id) -> Unit {
 
 ///|
 impl ElementImpl with getAttribute(self, name) -> String? {
-  self.invoke("getAttribute", [name]) |> @js.unsafe_cast_option
+  self.call("getAttribute", [name]) |> @js.unsafe_cast_option
 }
 
 ///|
 impl ElementImpl with setAttribute(self, name, value) -> Unit {
-  ignore(self.invoke("setAttribute", [name, value]))
+  ignore(self.call("setAttribute", [name, value]))
 }
 
 ///|
 impl ElementImpl with removeAttribute(self, name) -> Unit {
-  ignore(self.invoke("removeAttribute", [name]))
+  ignore(self.call("removeAttribute", [name]))
 }
 
 ///|
 impl ElementImpl with hasAttribute(self, name) -> Bool {
-  self.invoke("hasAttribute", [name]) |> unsafe_cast
+  self.call("hasAttribute", [name]) |> unsafe_cast
 }
 
 ///|
 impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
-  @js.array_from(self.invoke("getElementsByTagName", [tag_name])).map(fn(v) {
+  @js.array_from(self.call("getElementsByTagName", [tag_name])).map(fn(v) {
     unsafe_cast(v)
   })
 }
 
 ///|
 impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element] {
-  @js.array_from(self.invoke("getElementsByClassName", [class_name])).map(fn(
-    v,
-  ) {
+  @js.array_from(self.call("getElementsByClassName", [class_name])).map(fn(v) {
     unsafe_cast(v)
   })
 }
 
 ///|
 impl ElementImpl with querySelector(self, selector) -> Element? {
-  self.invoke("querySelector", [selector]) |> @js.unsafe_cast_option
+  self.call("querySelector", [selector]) |> @js.unsafe_cast_option
 }
 
 ///|
 /// TODO: endless loop error occurs in some cases
 // impl ElementImpl with querySelector_endless_error(self, selector) -> Element? {
-//   self.invoke("querySelector", [selector]) |> js
+//   self.call("querySelector", [selector]) |> js
 // }
 
 ///|
 impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
-  @js.array_from(self.invoke("querySelectorAll", [selector])).map(
-    unsafe_cast(_),
-  )
+  @js.array_from(self.call("querySelectorAll", [selector])).map(unsafe_cast(_))
 }

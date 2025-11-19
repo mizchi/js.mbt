@@ -16,8 +16,8 @@ pub fn KVNamespace::get(
   options : KVGetOptions?,
 ) -> Promise[String?] {
   match options {
-    None => self.invoke("get", [key]) |> unsafe_cast
-    Some(opts) => self.invoke("get", [key, opts]) |> unsafe_cast
+    None => self.call("get", [key]) |> unsafe_cast
+    Some(opts) => self.call("get", [key, opts]) |> unsafe_cast
   }
 }
 
@@ -26,7 +26,7 @@ pub fn KVNamespace::get(
 pub fn KVNamespace::get_array_buffer(self : Self, key : String) -> Promise[Js?] {
   let opts_js = @js.Object::new()
   opts_js.set("type", "arrayBuffer")
-  self.invoke("get", [key, opts_js]) |> unsafe_cast
+  self.call("get", [key, opts_js]) |> unsafe_cast
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn KVNamespace::get_array_buffer(self : Self, key : String) -> Promise[Js?] 
 pub fn KVNamespace::get_json(self : Self, key : String) -> Promise[Js?] {
   let opts_js = @js.Object::new()
   opts_js.set("type", "json")
-  self.invoke("get", [key, opts_js]) |> unsafe_cast
+  self.call("get", [key, opts_js]) |> unsafe_cast
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn KVNamespace::get_json(self : Self, key : String) -> Promise[Js?] {
 pub fn KVNamespace::get_stream(self : Self, key : String) -> Promise[Js?] {
   let opts_js = @js.Object::new()
   opts_js.set("type", "stream")
-  self.invoke("get", [key, opts_js]) |> unsafe_cast
+  self.call("get", [key, opts_js]) |> unsafe_cast
 }
 
 ///|
@@ -56,9 +56,9 @@ pub fn KVNamespace::get_with_metadata(
     None => {
       let opts_js = @js.Object::new()
       opts_js.set("type", "text")
-      self.invoke("getWithMetadata", [key, opts_js]) |> unsafe_cast
+      self.call("getWithMetadata", [key, opts_js]) |> unsafe_cast
     }
-    Some(opts) => self.invoke("getWithMetadata", [key, opts]) |> unsafe_cast
+    Some(opts) => self.call("getWithMetadata", [key, opts]) |> unsafe_cast
   }
 }
 
@@ -71,8 +71,8 @@ pub fn KVNamespace::put(
   options : KVPutOptions?,
 ) -> Promise[Unit] {
   match options {
-    None => self.invoke("put", [key, value]) |> unsafe_cast
-    Some(opts) => self.invoke("put", [key, value, opts]) |> unsafe_cast
+    None => self.call("put", [key, value]) |> unsafe_cast
+    Some(opts) => self.call("put", [key, value, opts]) |> unsafe_cast
   }
 }
 
@@ -86,13 +86,13 @@ pub fn KVNamespace::put_with_metadata(
 ) -> Promise[Unit] {
   let opts_js = @js.Object::new()
   opts_js.set("metadata", metadata)
-  self.invoke("put", [key, value, opts_js]) |> unsafe_cast
+  self.call("put", [key, value, opts_js]) |> unsafe_cast
 }
 
 ///|
 /// Delete a key from KV store
 pub fn KVNamespace::delete(self : Self, key : String) -> Promise[Unit] {
-  self.invoke("delete", [key]) |> unsafe_cast
+  self.call("delete", [key]) |> unsafe_cast
 }
 
 ///|
@@ -102,8 +102,8 @@ pub fn KVNamespace::list(
   options : KVListOptions?,
 ) -> Promise[KVListResult] {
   match options {
-    None => self.invoke("list", []) |> unsafe_cast
-    Some(opts) => self.invoke("list", [opts.to_js()]) |> unsafe_cast
+    None => self.call("list", []) |> unsafe_cast
+    Some(opts) => self.call("list", [opts.to_js()]) |> unsafe_cast
   }
 }
 

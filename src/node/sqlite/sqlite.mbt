@@ -137,7 +137,7 @@ pub fn[T, U] DatabaseSync::aggregate(
   if result is Some(v) {
     opts.set("result", v |> @js.unsafe_js)
   }
-  self.invoke("aggregate", [name, opts]) |> ignore
+  self.call("aggregate", [name, opts]) |> ignore
 }
 
 ///|
@@ -163,7 +163,7 @@ pub fn DatabaseSync::function(
   if varargs is Some(v) {
     opts.set("varargs", v)
   }
-  self.invoke("function", [name, opts, func |> unsafe_cast]) |> ignore
+  self.call("function", [name, opts, func |> unsafe_cast]) |> ignore
 }
 
 ///|
@@ -172,13 +172,13 @@ pub fn DatabaseSync::setAuthorizer(
   self : Self,
   callback : (Int, String?, String?, String?, String?) -> Int,
 ) -> Unit {
-  self.invoke("setAuthorizer", [callback |> @js.unsafe_js]) |> ignore
+  self.call("setAuthorizer", [callback |> @js.unsafe_js]) |> ignore
 }
 
 ///|
 pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
   let args : Array[&JsImpl] = if db_name is Some(name) { [name] } else { [] }
-  let result = self.invoke("location", args)
+  let result = self.call("location", args)
   if @js.is_null(result) {
     None
   } else {
@@ -189,13 +189,13 @@ pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
 ///|
 #alias(load_extension)
 pub fn DatabaseSync::loadExtension(self : Self, path : String) -> Unit {
-  self.invoke("loadExtension", [path]) |> ignore
+  self.call("loadExtension", [path]) |> ignore
 }
 
 ///|
 #alias(enable_load_extension)
 pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
-  self.invoke("enableLoadExtension", [allow]) |> ignore
+  self.call("enableLoadExtension", [allow]) |> ignore
 }
 
 ///|
@@ -212,12 +212,12 @@ pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
 
 ///|
 pub fn DatabaseSync::open(self : Self) -> Unit {
-  self.invoke("open", []) |> ignore
+  self.call("open", []) |> ignore
 }
 
 ///|
 pub fn DatabaseSync::close(self : Self) -> Unit {
-  self.invoke("close", []) |> ignore
+  self.call("close", []) |> ignore
 }
 
 ///|
@@ -227,7 +227,7 @@ pub fn DatabaseSync::createTagStore(
   max_size? : Int,
 ) -> SQLTagStore {
   let args : Array[&JsImpl] = if max_size is Some(size) { [size] } else { [] }
-  self.invoke("createTagStore", args) |> unsafe_cast
+  self.call("createTagStore", args) |> unsafe_cast
 }
 
 ///|
@@ -244,17 +244,17 @@ pub fn DatabaseSync::createSession(
   if db is Some(d) {
     v.set("db", d)
   }
-  self.invoke("createSession", [v]) |> unsafe_cast
+  self.call("createSession", [v]) |> unsafe_cast
 }
 
 ///|
 pub fn DatabaseSync::exec(self : Self, query : String) -> Unit {
-  self.invoke("exec", [query]) |> unsafe_cast
+  self.call("exec", [query]) |> unsafe_cast
 }
 
 ///|
 pub fn DatabaseSync::prepare(self : Self, query : String) -> StatementSync {
-  self.invoke("prepare", [query]) |> unsafe_cast
+  self.call("prepare", [query]) |> unsafe_cast
 }
 
 ///|
@@ -272,7 +272,7 @@ pub fn DatabaseSync::applyChangeset(
   if onConflict is Some(oc) {
     opts.set("onConflict", oc |> @js.from_fn2)
   }
-  self.invoke("applyChangeset", [changeset, opts]) |> unsafe_cast
+  self.call("applyChangeset", [changeset, opts]) |> unsafe_cast
 }
 
 ///|
@@ -303,7 +303,7 @@ pub fn StatementSync::get_(
       args.push(param)
     }
   }
-  let result = self.invoke("get", args)
+  let result = self.call("get", args)
   if @js.is_undefined(result) {
     None
   } else {
@@ -313,7 +313,7 @@ pub fn StatementSync::get_(
 
 ///|
 pub fn StatementSync::columns(self : Self) -> Array[Js] {
-  self.invoke("columns", []) |> unsafe_cast
+  self.call("columns", []) |> unsafe_cast
 }
 
 ///|
@@ -335,7 +335,7 @@ pub fn StatementSync::run(
       args.push(param)
     }
   }
-  self.invoke("run", args) |> unsafe_cast
+  self.call("run", args) |> unsafe_cast
 }
 
 ///|
@@ -357,7 +357,7 @@ pub fn StatementSync::all(
       args.push(param)
     }
   }
-  self.invoke("all", args) |> unsafe_cast
+  self.call("all", args) |> unsafe_cast
 }
 
 ///|
@@ -379,7 +379,7 @@ pub fn StatementSync::iterate(
       args.push(param)
     }
   }
-  self.invoke("iterate", args) |> unsafe_cast
+  self.call("iterate", args) |> unsafe_cast
 }
 
 ///|
@@ -400,7 +400,7 @@ pub fn StatementSync::setAllowBareNamedParameters(
   self : Self,
   enabled : Bool,
 ) -> Unit {
-  self.invoke("setAllowBareNamedParameters", [enabled]) |> ignore
+  self.call("setAllowBareNamedParameters", [enabled]) |> ignore
 }
 
 ///|
@@ -409,19 +409,19 @@ pub fn StatementSync::setAllowUnknownNamedParameters(
   self : Self,
   enabled : Bool,
 ) -> Unit {
-  self.invoke("setAllowUnknownNamedParameters", [enabled]) |> ignore
+  self.call("setAllowUnknownNamedParameters", [enabled]) |> ignore
 }
 
 ///|
 #alias(set_return_arrays)
 pub fn StatementSync::setReturnArrays(self : Self, enabled : Bool) -> Unit {
-  self.invoke("setReturnArrays", [enabled]) |> ignore
+  self.call("setReturnArrays", [enabled]) |> ignore
 }
 
 ///|
 #alias(set_read_big_ints)
 pub fn StatementSync::setReadBigInts(self : Self, enabled : Bool) -> Unit {
-  self.invoke("setReadBigInts", [enabled]) |> ignore
+  self.call("setReadBigInts", [enabled]) |> ignore
 }
 
 ///|
@@ -442,17 +442,17 @@ pub impl JsImpl for Session
 
 ///|
 pub fn Session::changeset(self : Self) -> Uint8Array {
-  self.invoke("changeset", []) |> unsafe_cast
+  self.call("changeset", []) |> unsafe_cast
 }
 
 ///|
 pub fn Session::patchset(self : Self) -> Uint8Array {
-  self.invoke("patchset", []) |> unsafe_cast
+  self.call("patchset", []) |> unsafe_cast
 }
 
 ///|
 pub fn Session::close(self : Self) -> Unit {
-  self.invoke("close", []) |> ignore
+  self.call("close", []) |> ignore
 }
 
 ///|
@@ -469,12 +469,12 @@ pub fn SQLTagStore::capacity(self : Self) -> Int {
 
 ///|
 pub fn SQLTagStore::size(self : Self) -> Int {
-  self.invoke("size", []) |> unsafe_cast
+  self.call("size", []) |> unsafe_cast
 }
 
 ///|
 pub fn SQLTagStore::clear(self : Self) -> Unit {
-  self.invoke("clear", []) |> ignore
+  self.call("clear", []) |> ignore
 }
 
 ///|
@@ -511,7 +511,7 @@ pub fn backup(
     opts.set("progress", f |> @js.from_fn1)
   }
   let backup : Js = @node.require("node:sqlite").get("backup")
-  backup.invoke_self([source_db.to_js(), db_path, opts]) |> ignore
+  backup.call_self([source_db.to_js(), db_path, opts]) |> ignore
 }
 
 ///|

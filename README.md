@@ -45,9 +45,9 @@ fn main {
   // JS: const v = obj.xxx
   let v: Int = obj.get("xxx") |> @js.unsafe_cast
   
-  // invoke method
+  // call method
   // JS: const has_world = obj.hasOwnProperty("world")
-  let has_world: Bool = obj.invoke("hasOwnProperty", ["world"]) |> @js.unsafe_cast
+  let has_world: Bool = obj.call("hasOwnProperty", ["world"]) |> @js.unsafe_cast
 }
 ```
 
@@ -65,7 +65,7 @@ pub type MyType
 impl JsImpl for MyType
 
 pub fn MyType::myMethod(self: Self, arg: String) -> Int {
-  self.invoke("myMethod", [arg]) |> unsafe_cast
+  self.call("myMethod", [arg]) |> unsafe_cast
 }
 ```
 
@@ -81,7 +81,7 @@ Modules
   - Primitive API Binding
     - `value.get(key)`
     - `value.set(key, val)`
-    - `value.invoke(key, args)`
+    - `value.call(key, args)`
     - etc
   - JS Global APIs
     - `setTimeout`, `globalThis`, etc.

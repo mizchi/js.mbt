@@ -27,15 +27,16 @@ pub(open) trait EventTargetImpl: @js.JsImpl {
 ///|
 /// Default implementation using JavaScript's addEventListener/removeEventListener
 impl EventTargetImpl with addEventListener(self, event_type, handler) -> Unit {
-  self.invoke("addEventListener", [event_type, @js.from_fn1(handler)]) |> ignore
+  self.call("addEventListener", [event_type, @js.from_fn1(handler)]) |> ignore
 }
 
 ///|
 impl EventTargetImpl with removeEventListener(self, event_type, handler) -> Unit {
-  self.invoke("removeEventListener", [event_type, @js.from_fn1(handler)]) |> ignore
+  self.call("removeEventListener", [event_type, @js.from_fn1(handler)])
+  |> ignore
 }
 
 ///|
 impl EventTargetImpl with dispatchEvent(self, event) -> Bool {
-  self.invoke("dispatchEvent", [event]) |> @js.unsafe_cast
+  self.call("dispatchEvent", [event]) |> @js.unsafe_cast
 }

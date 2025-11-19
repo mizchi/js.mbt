@@ -17,7 +17,7 @@ impl Show for URLSearchParams with output(self, logger) {
 
 ///|
 pub fn URLSearchParams::get(self : URLSearchParams, name : String) -> String? {
-  self.invoke("get", [name]) |> @js.unsafe_cast_option
+  self.call("get", [name]) |> @js.unsafe_cast_option
 }
 
 ///|
@@ -26,12 +26,12 @@ pub fn URLSearchParams::get_all(
   self : URLSearchParams,
   name : String,
 ) -> Array[String] {
-  self.invoke("getAll", [name]) |> unsafe_cast
+  self.call("getAll", [name]) |> unsafe_cast
 }
 
 ///|
 pub fn URLSearchParams::has(self : URLSearchParams, name : String) -> Bool {
-  self.invoke("has", [name]) |> unsafe_cast
+  self.call("has", [name]) |> unsafe_cast
 }
 
 ///|
@@ -40,7 +40,7 @@ pub fn URLSearchParams::set(
   name : String,
   value : String,
 ) -> Unit {
-  self.invoke("set", [name, value]) |> unsafe_cast
+  self.call("set", [name, value]) |> unsafe_cast
 }
 
 ///|
@@ -49,17 +49,17 @@ pub fn URLSearchParams::append(
   name : String,
   value : String,
 ) -> Unit {
-  self.invoke("append", [name, value]) |> unsafe_cast
+  self.call("append", [name, value]) |> unsafe_cast
 }
 
 ///|
 pub fn URLSearchParams::delete(self : URLSearchParams, name : String) -> Unit {
-  self.invoke("delete", [name]) |> unsafe_cast
+  self.call("delete", [name]) |> unsafe_cast
 }
 
 ///|
 pub fn URLSearchParams::sort(self : URLSearchParams) -> Unit {
-  self.invoke("sort", []) |> unsafe_cast
+  self.call("sort", []) |> unsafe_cast
 }
 
 ///|
@@ -70,5 +70,5 @@ pub fn URLSearchParams::size(self : URLSearchParams) -> Int {
 ///|
 #alias(toString)
 pub fn URLSearchParams::to_string(self : URLSearchParams) -> String {
-  self.invoke("toString", []) |> unsafe_cast
+  self.call("toString", []) |> unsafe_cast
 }

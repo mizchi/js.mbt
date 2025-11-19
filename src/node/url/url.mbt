@@ -7,9 +7,9 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
     Some(w) => {
       let options = @js.Object::new()
       options.set("windows", w)
-      unsafe_cast(url_module.invoke("fileURLToPath", [url, options]))
+      unsafe_cast(url_module.call("fileURLToPath", [url, options]))
     }
-    None => unsafe_cast(url_module.invoke("fileURLToPath", [url]))
+    None => unsafe_cast(url_module.call("fileURLToPath", [url]))
   }
 }
 
@@ -22,9 +22,9 @@ pub fn fileURLToPathFromURL(url : URL, windows? : Bool) -> String {
     Some(w) => {
       let options = @js.Object::new()
       options.set("windows", w)
-      unsafe_cast(url_module.invoke("fileURLToPath", [url, options]))
+      unsafe_cast(url_module.call("fileURLToPath", [url, options]))
     }
-    None => unsafe_cast(url_module.invoke("fileURLToPath", [url]))
+    None => unsafe_cast(url_module.call("fileURLToPath", [url]))
   }
 }
 
@@ -37,9 +37,9 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
     Some(w) => {
       let options = @js.Object::new()
       options.set("windows", w)
-      unsafe_cast(url_module.invoke("pathToFileURL", [path, options]))
+      unsafe_cast(url_module.call("pathToFileURL", [path, options]))
     }
-    None => unsafe_cast(url_module.invoke("pathToFileURL", [path]))
+    None => unsafe_cast(url_module.call("pathToFileURL", [path]))
   }
 }
 
@@ -48,12 +48,12 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
 #alias(url_to_http_options)
 pub fn urlToHttpOptions(url : URL) -> Js {
   let url_module = @node.require("node:url")
-  url_module.invoke("urlToHttpOptions", [url])
+  url_module.call("urlToHttpOptions", [url])
 }
 
 ///|
 /// Format a URL object to string (legacy API)
 pub fn format(url : URL) -> String {
   let url_module = @node.require("node:url")
-  unsafe_cast(url_module.invoke("format", [url]))
+  unsafe_cast(url_module.call("format", [url]))
 }

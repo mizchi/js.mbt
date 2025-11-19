@@ -30,7 +30,7 @@ test "WebAssembly module from bytes" {
   // Get exports and call add function
   let exports = instance.exports()
   let add_func = exports.get("add")
-  let result : Int = add_func.invoke_self([5, 3]) |> unsafe_cast
+  let result : Int = add_func.call_self([5, 3]) |> unsafe_cast
   inspect(result, content="8")
 }
 

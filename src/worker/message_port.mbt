@@ -27,7 +27,7 @@ pub impl Show for MessagePort with to_string(self) {
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/postMessage
 #alias(postMessage)
 pub fn MessagePort::post_message(port : MessagePort, message : &JsImpl) -> Unit {
-  port.invoke("postMessage", [message.to_js()]) |> ignore
+  port.call("postMessage", [message.to_js()]) |> ignore
 }
 
 ///|
@@ -40,24 +40,24 @@ pub fn MessagePort::post_message_with_transfer(
   let arr = @js.JsArray::new()
   let mut i = 0
   while i < transfer.length() {
-    arr.invoke("push", [transfer[i]]) |> ignore
+    arr.call("push", [transfer[i]]) |> ignore
     i = i + 1
   }
-  port.invoke("postMessage", [message.to_js(), arr.to_js()]) |> ignore
+  port.call("postMessage", [message.to_js(), arr.to_js()]) |> ignore
 }
 
 ///|
 /// Starts the sending of messages queued on the port
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/start
 pub fn MessagePort::start(port : MessagePort) -> Unit {
-  port.invoke("start", []) |> ignore
+  port.call("start", []) |> ignore
 }
 
 ///|
 /// Disconnects the port, so it is no longer active
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/close
 pub fn MessagePort::close(port : MessagePort) -> Unit {
-  port.invoke("close", []) |> ignore
+  port.call("close", []) |> ignore
 }
 
 ///|

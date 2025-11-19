@@ -19,7 +19,7 @@ pub fn[K : JsImpl, V : JsImpl] WeakMap::delete(
   self : WeakMap[K, V],
   key : K,
 ) -> Bool {
-  self.invoke("delete", [key]) |> unsafe_cast
+  self.call("delete", [key]) |> unsafe_cast
 }
 
 ///|
@@ -27,7 +27,7 @@ pub fn[K : JsImpl, V : JsImpl] WeakMap::get(
   self : WeakMap[K, V],
   key : K,
 ) -> V? {
-  let result = self.invoke("get", [key])
+  let result = self.call("get", [key])
   if is_undefined(result) {
     None
   } else {
@@ -40,7 +40,7 @@ pub fn[K : JsImpl, V : JsImpl] WeakMap::has(
   self : WeakMap[K, V],
   key : K,
 ) -> Bool {
-  self.invoke("has", [key]) |> unsafe_cast
+  self.call("has", [key]) |> unsafe_cast
 }
 
 ///|
@@ -49,7 +49,7 @@ pub fn[K : JsImpl, V : JsImpl] WeakMap::set(
   key : K,
   value : V,
 ) -> WeakMap[K, V] {
-  self.invoke("set", [key, value]) |> unsafe_cast
+  self.call("set", [key, value]) |> unsafe_cast
 }
 
 ///|
@@ -70,17 +70,17 @@ pub fn[T : JsImpl] WeakSet::new() -> WeakSet[T] {
 
 ///|
 pub fn[T : JsImpl] WeakSet::add(self : Self[T], value : T) -> WeakSet[T] {
-  self.invoke("add", [value]) |> unsafe_cast
+  self.call("add", [value]) |> unsafe_cast
 }
 
 ///|
 pub fn[T : JsImpl] WeakSet::delete(self : Self[T], value : T) -> Bool {
-  self.invoke("delete", [value]) |> unsafe_cast
+  self.call("delete", [value]) |> unsafe_cast
 }
 
 ///|
 pub fn[T : JsImpl] WeakSet::has(self : Self[T], value : T) -> Bool {
-  self.invoke("has", [value]) |> unsafe_cast
+  self.call("has", [value]) |> unsafe_cast
 }
 
 ///|
@@ -102,7 +102,7 @@ pub fn[T : JsImpl] WeakRef::new(target : T) -> WeakRef[T] {
 
 ///|
 pub fn[T] WeakRef::deref(self : WeakRef[T]) -> T? {
-  let result = self.invoke("deref", [])
+  let result = self.call("deref", [])
   if is_undefined(result) {
     None
   } else {
@@ -140,9 +140,8 @@ pub fn[T : JsImpl, U : JsImpl] FinalizationRegistry::register(
   unregister_token? : Js,
 ) -> Unit {
   match unregister_token {
-    Some(token) =>
-      self.invoke("register", [target, held_value, token]) |> ignore
-    None => self.invoke("register", [target, held_value]) |> ignore
+    Some(token) => self.call("register", [target, held_value, token]) |> ignore
+    None => self.call("register", [target, held_value]) |> ignore
   }
 }
 
@@ -151,5 +150,5 @@ pub fn[T] FinalizationRegistry::unregister(
   self : FinalizationRegistry[T],
   unregister_token : Js,
 ) -> Bool {
-  self.invoke("unregister", [unregister_token]) |> unsafe_cast
+  self.call("unregister", [unregister_token]) |> unsafe_cast
 }

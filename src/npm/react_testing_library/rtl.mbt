@@ -20,14 +20,14 @@ fn testing_library() -> ReactTestingLibrary {
 /// JS: render(element)
 pub fn render(element : @react.Element) -> Unit {
   let rtl = testing_library()
-  rtl.invoke("render", [element]) |> ignore
+  rtl.call("render", [element]) |> ignore
 }
 
 ///|
 /// JS: cleanup()
 pub fn cleanup() -> Unit {
   let rtl = testing_library()
-  rtl.invoke("cleanup", []) |> ignore
+  rtl.call("cleanup", []) |> ignore
 }
 
 ///|
@@ -49,7 +49,7 @@ pub fn fireEvent() -> FireEvent {
 ///|
 /// JS: fireEvent.click(target)
 pub fn FireEvent::click(self : FireEvent, target : Js) -> Unit {
-  self.invoke("click", [target]) |> ignore
+  self.call("click", [target]) |> ignore
 }
 
 ///|
@@ -70,17 +70,17 @@ pub fn screen() -> Screen {
 ///|
 /// JS: screen.debug()
 pub fn Screen::debug(self : Self) -> Unit {
-  self.invoke("debug", []) |> ignore
+  self.call("debug", []) |> ignore
 }
 
 ///|
 /// JS: screen.getByText(text)
 pub fn Screen::getByText(self : Screen, text : String) -> Js {
-  self.invoke("getByText", [text]) |> @js.unsafe_cast
+  self.call("getByText", [text]) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: screen.getByRole(role)
 pub fn Screen::getByRole(self : Screen, role : String) -> Js {
-  self.invoke("getByRole", [role]) |> unsafe_cast
+  self.call("getByRole", [role]) |> unsafe_cast
 }

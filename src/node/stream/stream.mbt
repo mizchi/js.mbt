@@ -45,42 +45,42 @@ pub impl StreamImpl for Readable
 ///|
 /// Readable stream methods
 pub fn Readable::read(self : Readable, size? : Int) -> Js {
-  self.invoke("read", [size])
+  self.call("read", [size])
 }
 
 ///|
 pub fn Readable::pause(self : Readable) -> Readable {
-  self.invoke("pause", []) |> unsafe_cast
+  self.call("pause", []) |> unsafe_cast
 }
 
 ///|
 pub fn Readable::resume_(self : Readable) -> Readable {
-  self.invoke("resume", []) |> unsafe_cast
+  self.call("resume", []) |> unsafe_cast
 }
 
 ///|
 pub fn Readable::isPaused(self : Readable) -> Bool {
-  self.invoke("isPaused", []) |> unsafe_cast
+  self.call("isPaused", []) |> unsafe_cast
 }
 
 ///|
 pub fn Readable::pipe(self : Readable, destination : Writable) -> Writable {
-  self.invoke("pipe", [destination]) |> unsafe_cast
+  self.call("pipe", [destination]) |> unsafe_cast
 }
 
 ///|
 pub fn Readable::unpipe(self : Readable, destination? : Writable) -> Readable {
-  self.invoke("unpipe", [destination]) |> unsafe_cast
+  self.call("unpipe", [destination]) |> unsafe_cast
 }
 
 ///|
 pub fn Readable::setEncoding(self : Readable, encoding : String) -> Readable {
-  self.invoke("setEncoding", [encoding]) |> unsafe_cast
+  self.call("setEncoding", [encoding]) |> unsafe_cast
 }
 
 ///|
 pub fn Readable::destroy(self : Readable, error? : Js) -> Readable {
-  self.invoke("destroy", [error]) |> unsafe_cast
+  self.call("destroy", [error]) |> unsafe_cast
 }
 
 ///|
@@ -89,7 +89,7 @@ pub fn Readable::unshift(
   chunk : Js,
   encoding? : String,
 ) -> Unit {
-  ignore(self.invoke("unshift", [chunk, encoding]))
+  ignore(self.call("unshift", [chunk, encoding]))
 }
 
 ///|
@@ -141,17 +141,17 @@ pub fn Readable::errored(self : Readable) -> Js {
 ///|
 /// Web Stream conversion
 pub fn Readable::toWeb(self : Readable) -> @web.ReadableStream {
-  stream_module().get("Readable").invoke("toWeb", [self]) |> unsafe_cast
+  stream_module().get("Readable").call("toWeb", [self]) |> unsafe_cast
 }
 
 ///|
 pub fn Readable::fromWeb(s : @web.ReadableStream) -> Readable {
-  stream_module().get("Readable").invoke("fromWeb", [s]) |> unsafe_cast
+  stream_module().get("Readable").call("fromWeb", [s]) |> unsafe_cast
 }
 
 ///|
 pub fn Readable::from(iterable : Js) -> Readable {
-  stream_module().get("Readable").invoke("from", [iterable]) |> unsafe_cast
+  stream_module().get("Readable").call("from", [iterable]) |> unsafe_cast
 }
 
 ///|
@@ -175,7 +175,7 @@ pub fn Writable::write(
   encoding? : String,
   callback? : Js,
 ) -> Bool {
-  self.invoke("write", [chunk, encoding, callback]) |> unsafe_cast
+  self.call("write", [chunk, encoding, callback]) |> unsafe_cast
 }
 
 ///|
@@ -185,22 +185,22 @@ pub fn Writable::end(
   encoding? : String,
   callback? : Js,
 ) -> Writable {
-  self.invoke("end", [chunk, encoding, callback]) |> unsafe_cast
+  self.call("end", [chunk, encoding, callback]) |> unsafe_cast
 }
 
 ///|
 pub fn Writable::cork(self : Writable) -> Unit {
-  ignore(self.invoke("cork", []))
+  ignore(self.call("cork", []))
 }
 
 ///|
 pub fn Writable::uncork(self : Writable) -> Unit {
-  ignore(self.invoke("uncork", []))
+  ignore(self.call("uncork", []))
 }
 
 ///|
 pub fn Writable::destroy(self : Writable, error? : Js) -> Writable {
-  self.invoke("destroy", [error]) |> unsafe_cast
+  self.call("destroy", [error]) |> unsafe_cast
 }
 
 ///|
@@ -208,7 +208,7 @@ pub fn Writable::setDefaultEncoding(
   self : Writable,
   encoding : String,
 ) -> Writable {
-  self.invoke("setDefaultEncoding", [encoding]) |> unsafe_cast
+  self.call("setDefaultEncoding", [encoding]) |> unsafe_cast
 }
 
 ///|
@@ -260,12 +260,12 @@ pub fn Writable::errored(self : Writable) -> Js {
 ///|
 /// Web Stream conversion
 pub fn Writable::toWeb(self : Self) -> @web.WritableStream {
-  stream_module().get("Writable").invoke("toWeb", [self]) |> unsafe_cast
+  stream_module().get("Writable").call("toWeb", [self]) |> unsafe_cast
 }
 
 ///|
 pub fn Writable::fromWeb(s : @web.WritableStream) -> Writable {
-  stream_module().get("Writable").invoke("fromWeb", [s]) |> unsafe_cast
+  stream_module().get("Writable").call("fromWeb", [s]) |> unsafe_cast
 }
 
 ///|
@@ -290,17 +290,17 @@ pub fn Duplex::allowHalfOpen(self : Duplex) -> Bool {
 ///|
 /// Web Stream conversion
 pub fn Duplex::toWeb(self : Duplex) -> Js {
-  stream_module().get("Duplex").invoke("toWeb", [self])
+  stream_module().get("Duplex").call("toWeb", [self])
 }
 
 ///|
 pub fn Duplex::fromWeb(pair : Js) -> Duplex {
-  stream_module().get("Duplex").invoke("fromWeb", [pair]) |> unsafe_cast
+  stream_module().get("Duplex").call("fromWeb", [pair]) |> unsafe_cast
 }
 
 ///|
 pub fn Duplex::from(src : Js) -> Duplex {
-  stream_module().get("Duplex").invoke("from", [src]) |> unsafe_cast
+  stream_module().get("Duplex").call("from", [src]) |> unsafe_cast
 }
 
 ///|
@@ -378,30 +378,30 @@ pub fn compose(streams : Array[Js]) -> Js {
 
 ///|
 pub fn addAbortSignal(signal : Js, stream : Js) -> Js {
-  stream_module().invoke("addAbortSignal", [signal, stream])
+  stream_module().call("addAbortSignal", [signal, stream])
 }
 
 ///|
 pub fn isErrored(stream : Js) -> Bool {
-  stream_module().invoke("isErrored", [stream]) |> unsafe_cast
+  stream_module().call("isErrored", [stream]) |> unsafe_cast
 }
 
 ///|
 pub fn isReadable(stream : Js) -> Bool {
-  stream_module().invoke("isReadable", [stream]) |> unsafe_cast
+  stream_module().call("isReadable", [stream]) |> unsafe_cast
 }
 
 ///|
 pub fn isWritable(stream : Js) -> Bool {
-  stream_module().invoke("isWritable", [stream]) |> unsafe_cast
+  stream_module().call("isWritable", [stream]) |> unsafe_cast
 }
 
 ///|
 pub fn getDefaultHighWaterMark(objectMode : Bool) -> Int {
-  stream_module().invoke("getDefaultHighWaterMark", [objectMode]) |> unsafe_cast
+  stream_module().call("getDefaultHighWaterMark", [objectMode]) |> unsafe_cast
 }
 
 ///|
 pub fn setDefaultHighWaterMark(objectMode : Bool, value : Int) -> Unit {
-  ignore(stream_module().invoke("setDefaultHighWaterMark", [objectMode, value]))
+  ignore(stream_module().call("setDefaultHighWaterMark", [objectMode, value]))
 }
