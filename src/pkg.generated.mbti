@@ -100,7 +100,7 @@ fn[A, B] unsafe_cast(A) -> B
 
 fn[T] unsafe_js(T) -> Js
 
-fn[A] unsafe_option(Js) -> A?
+fn[A] @js.unsafe_cast_option(Js) -> A?
 
 // Errors
 pub suberror JsThrowError {

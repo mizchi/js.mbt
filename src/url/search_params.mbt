@@ -17,7 +17,7 @@ impl Show for URLSearchParams with output(self, logger) {
 
 ///|
 pub fn URLSearchParams::get(self : URLSearchParams, name : String) -> String? {
-  self.invoke("get", [name]) |> unsafe_option
+  self.invoke("get", [name]) |> @js.unsafe_cast_option
 }
 
 ///|

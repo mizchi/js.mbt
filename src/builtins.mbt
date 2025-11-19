@@ -1,3 +1,10 @@
+
+///|
+/// JS: null
+pub fn null_() -> Js {
+  ffi_null()
+}
+
 ///|
 /// property key for js object access
 /// obj[0], obj["name"], obj[symbol]
@@ -143,6 +150,7 @@ pub fn[T : JsImpl] JsArray::isArray(v : T) -> Bool {
 }
 
 ///|
+/// Array.from(v)
 pub fn array_from(v : Js) -> Array[Js] {
   ffi_array_from(v)
 }

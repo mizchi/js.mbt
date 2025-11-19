@@ -65,7 +65,7 @@ impl ElementImpl with setId(self, id) -> Unit {
 
 ///|
 impl ElementImpl with getAttribute(self, name) -> String? {
-  self.invoke("getAttribute", [name]) |> unsafe_option
+  self.invoke("getAttribute", [name]) |> @js.unsafe_cast_option
 }
 
 ///|
@@ -101,7 +101,7 @@ impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element]
 
 ///|
 impl ElementImpl with querySelector(self, selector) -> Element? {
-  self.invoke("querySelector", [selector]) |> unsafe_option
+  self.invoke("querySelector", [selector]) |> @js.unsafe_cast_option
 }
 
 ///|

@@ -2,7 +2,7 @@
 using @js {
   js,
   unsafe_cast,
-  unsafe_option,
+  unsafe_cast_option,
   type Js,
   trait JsImpl,
   type AbortSignal,

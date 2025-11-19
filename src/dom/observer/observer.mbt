@@ -18,7 +18,7 @@ pub fn new_mutation_observer(
   callback : (Js?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @js.global_this().get("MutationObserver")
-  unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
+  @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
 }
 
 ///|
@@ -58,13 +58,13 @@ pub impl JsImpl for MutationRecord
 ///|
 /// Returns the type of mutation
 pub fn MutationRecord::mutation_type(self : Self) -> String {
-  unsafe_cast(self.get("type"))
+  @js.unsafe_cast(self.get("type"))
 }
 
 ///|
 /// Returns the target node
 pub fn MutationRecord::target(self : Self) -> Js {
-  unsafe_cast(self.get("target"))
+  self.get("target")
 }
 
 ///|
@@ -82,25 +82,25 @@ pub fn MutationRecord::removed_nodes(self : Self) -> Js {
 ///|
 /// Returns the previous sibling
 pub fn MutationRecord::previous_sibling(self : Self) -> Element? {
-  self.get("previousSibling") |> unsafe_option()
+  self.get("previousSibling") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// Returns the next sibling
 pub fn MutationRecord::next_sibling(self : Self) -> Element? {
-  self.get("nextSibling") |> unsafe_option()
+  self.get("nextSibling") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// Returns the attribute name
 pub fn MutationRecord::attribute_name(self : Self) -> String? {
-  self.get("attributeName") |> unsafe_option()
+  self.get("attributeName") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// Returns the old value
 pub fn MutationRecord::old_value(self : Self) -> String? {
-  self.get("oldValue") |> unsafe_option()
+  self.get("oldValue") |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn new_intersection_observer(
   callback : (Js?, IntersectionObserver) -> Unit,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
-  unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
+  @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
 }
 
 ///|
@@ -129,7 +129,7 @@ pub fn new_intersection_observer_with_options(
   options : Js,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
-  unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2, options]))
+  @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2, options]))
 }
 
 ///|
@@ -172,7 +172,7 @@ pub impl JsImpl for IntersectionObserverEntry
 ///|
 /// Returns the target element
 pub fn IntersectionObserverEntry::target(self : Self) -> Js {
-  unsafe_cast(self.get("target"))
+  @js.unsafe_cast(self.get("target"))
 }
 
 ///|
@@ -190,25 +190,25 @@ pub fn IntersectionObserverEntry::intersection_rect(self : Self) -> Js {
 ///|
 /// Returns the root bounds
 pub fn IntersectionObserverEntry::root_bounds(self : Self) -> Element? {
-  self.get("rootBounds") |> unsafe_option()
+  self.get("rootBounds") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// Returns the intersection ratio
 pub fn IntersectionObserverEntry::intersection_ratio(self : Self) -> Double {
-  unsafe_cast(self.get("intersectionRatio"))
+  @js.unsafe_cast(self.get("intersectionRatio"))
 }
 
 ///|
 /// Returns whether the target is intersecting
 pub fn IntersectionObserverEntry::is_intersecting(self : Self) -> Bool {
-  unsafe_cast(self.get("isIntersecting"))
+  @js.unsafe_cast(self.get("isIntersecting"))
 }
 
 ///|
 /// Returns the time of the intersection
 pub fn IntersectionObserverEntry::time(self : Self) -> Double {
-  unsafe_cast(self.get("time"))
+  @js.unsafe_cast(self.get("time"))
 }
 
 ///|
@@ -227,7 +227,7 @@ pub fn new_resize_observer(
   callback : (Js?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @js.global_this().get("ResizeObserver")
-  unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
+  @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
 }
 
 ///|
@@ -273,13 +273,13 @@ pub impl JsImpl for ResizeObserverEntry
 ///|
 /// Returns the target element being observed
 pub fn ResizeObserverEntry::target(self : Self) -> Element {
-  unsafe_cast(self.get("target"))
+  @js.unsafe_cast(self.get("target"))
 }
 
 ///|
 /// Returns the content rect
 pub fn ResizeObserverEntry::contentRect(self : Self) -> @dom.DOMRectReadOnly {
-  unsafe_cast(self.get("contentRect"))
+  @js.unsafe_cast(self.get("contentRect"))
 }
 
 ///|

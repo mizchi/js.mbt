@@ -8,142 +8,46 @@ pub fn globalThis() -> Js {
 }
 
 ///|
-/// Get the JavaScript `undefined` value.
-///
-/// # Returns
-///
-/// The undefined value as a Val
-///
-/// # Example
-///
-/// ```moonbit
-/// let undef = undefined()
-/// assert_true(@js.is_undefined(undef))
-/// ```
+/// JS: undefined
 pub fn undefined() -> Js {
   ffi_undefined()
 }
 
 ///|
-/// Get the JavaScript `null` value.
-///
-/// The null value as a Val
-///
-/// # Example
-///
-/// ```moonbit
-/// let n = null_()
-/// assert_true(@js.is_null(n))
-/// ```
-pub fn null_() -> Js {
-  ffi_null()
-}
-
-///|
+/// JS: atob(encodedData)
 pub fn atob(encoded_data : String) -> String {
   ffi_atob(encoded_data)
 }
 
 ///|
+/// JS: btoa(data)
 pub fn btoa(data : String) -> String {
   ffi_btoa(data)
 }
 
 ///|
-/// Encode a URI by escaping special characters.
-///
-/// Equivalent to JavaScript's `encodeURI()` function.
-/// Encodes a URI by replacing certain characters with escape sequences.
-/// Does not encode: A-Z a-z 0-9 ; , / ? : @ & = + $ - _ . ! ~ * ' ( ) #
-///
-/// # Parameters
-///
-/// - `uri`: The complete URI to encode
-///
-/// # Returns
-///
-/// The encoded URI
-///
-/// # Example
-///
-/// ```moonbit
-/// let uri = encodeURI("https://example.com/path?name=John Doe")
-/// // Returns: "https://example.com/path?name=John%20Doe"
-/// ```
+/// JS: encodeURI(uri)
 #alias(encode_uri)
 pub fn encodeURI(uri : String) -> String {
   ffi_encode_uri(uri)
 }
 
 ///|
-/// Decode a URI that was encoded using encodeURI().
-///
-/// Equivalent to JavaScript's `decodeURI()` function.
-///
-/// # Parameters
-///
-/// - `encoded_uri`: The encoded URI to decode
-///
-/// # Returns
-///
-/// The decoded URI
-///
-/// # Example
-///
-/// ```moonbit
-/// let uri = decodeURI("https://example.com/path?name=John%20Doe")
-/// // Returns: "https://example.com/path?name=John Doe"
-/// ```
+/// JS: decodeURI(encodedURI)
 #alias(decode_uri)
 pub fn decodeURI(encoded_uri : String) -> String {
   ffi_decode_uri(encoded_uri)
 }
 
 ///|
-/// Encode a URI component by escaping special characters.
-///
-/// Equivalent to JavaScript's `encodeURIComponent()` function.
-/// Encodes all characters except: A-Z a-z 0-9 - _ . ! ~ * ' ( )
-/// Use this for encoding query string parameters or path segments.
-///
-/// # Parameters
-///
-/// - `str`: The string to encode as a URI component
-///
-/// # Returns
-///
-/// The encoded string
-///
-/// # Example
-///
-/// ```moonbit
-/// let param = encodeURIComponent("Hello World & Friends")
-/// // Returns: "Hello%20World%20%26%20Friends"
-/// ```
+/// JS: encodeURIComponent(str)
 #alias(encode_uri_component)
 pub fn encodeURIComponent(str : String) -> String {
   ffi_encode_uri_component(str)
 }
 
 ///|
-/// Decode a URI component that was encoded using encodeURIComponent().
-///
-/// Equivalent to JavaScript's `decodeURIComponent()` function.
-///
-/// # Parameters
-///
-/// - `encoded_str`: The encoded string to decode
-///
-/// # Returns
-///
-/// The decoded string
-///
-/// # Example
-///
-/// ```moonbit
-/// let param = decodeURIComponent("Hello%20World%20%26%20Friends")
-/// // Returns: "Hello World & Friends"
-/// ```
+/// JS: decodeURIComponent(encodedStr)
 #alias(decode_uri_component)
 pub fn decodeURIComponent(encoded_str : String) -> String {
   ffi_decode_uri_component(encoded_str)
@@ -157,39 +61,46 @@ pub fn dynamicImport(module_name : String) -> Js {
 }
 
 ///|
+/// JS: isNaN(v)
 pub fn[T : JsImpl] isNaN(v : T) -> Bool {
   ffi_is_nan(v.to_js())
 }
 
 ///|
+/// JS: setTimeout(f, duration)
 #alias(set_timeout)
 pub fn setTimeout(f : () -> Unit, duration : Int) -> JsTimer {
   ffi_set_timeout(f, duration)
 }
 
 ///|
+/// JS: clearTimeout(timer)
 #alias(clear_timeout)
 pub fn clearTimeout(timer : JsTimer) -> Unit {
   ffi_clear_timeout(timer)
 }
 
 ///|
+/// JS: setInterval(f, duration)
 #alias(set_interval)
 pub fn setInterval(f : () -> Unit noraise, duration : Int) -> JsTimer {
   ffi_set_interval(f, duration)
 }
 
 ///|
+/// JS: clearInterval(timer)
 #alias(clear_interval)
 pub fn clearInterval(timer : JsTimer) -> Unit {
   ffi_clear_timeout(timer)
 }
 
 ///|
+/// JavaScript: JSON
 #external
 pub type JSON
 
 ///|
+/// JS: JSON.stringify(v, replacer, space)
 pub fn JSON::stringify(
   v : Js,
   replacer? : Js = undefined(),
@@ -199,6 +110,7 @@ pub fn JSON::stringify(
 }
 
 ///|
+/// JS: JSON.parse(s, reviver)
 pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise JsThrowError {
   throwable(() => ffi_json_parse(s, reviver?))
 }
@@ -223,6 +135,7 @@ pub fn AbortController::abort(self : Self) -> AbortController {
 }
 
 ///|
+/// JavaScript: AbortSignal
 #external
 pub type AbortSignal
 
@@ -230,6 +143,7 @@ pub type AbortSignal
 pub impl JsImpl for AbortSignal
 
 ///|
+/// JS: abortController.signal
 pub fn AbortController::signal(self : Self) -> AbortSignal {
   self.get("signal") |> unsafe_cast
 }

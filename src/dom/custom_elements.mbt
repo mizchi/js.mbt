@@ -108,7 +108,7 @@ pub fn CustomElementRegistry::define_element_with_attributes(
 /// Returns the constructor for the custom element with the given name
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
 pub fn CustomElementRegistry::get(self : Self, name : String) -> Js? {
-  self.invoke("get", [name]) |> unsafe_option
+  self.invoke("get", [name]) |> @js.unsafe_cast_option
 }
 
 ///|
@@ -118,7 +118,7 @@ pub fn CustomElementRegistry::getName(
   self : Self,
   element_constructor : Js,
 ) -> String? {
-  self.invoke("getName", [element_constructor]) |> unsafe_option
+  self.invoke("getName", [element_constructor]) |> @js.unsafe_cast_option
 }
 
 ///|

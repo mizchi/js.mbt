@@ -45,31 +45,31 @@ pub fn ChildProcess::killed(self : Self) -> Bool {
 ///|
 /// The exit code of the child process, or null if still running
 pub fn ChildProcess::exitCode(self : Self) -> Int? {
-  self.get("exitCode") |> unsafe_option()
+  self.get("exitCode") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// The signal that terminated the child process, or null
 pub fn ChildProcess::signalCode(self : Self) -> String? {
-  self.get("signalCode") |> unsafe_option()
+  self.get("signalCode") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// A readable stream representing the child process's stdin
 pub fn ChildProcess::stdin(self : Self) -> WritableStream? {
-  self.get("stdin") |> unsafe_option()
+  self.get("stdin") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// A writable stream representing the child process's stdout
 pub fn ChildProcess::stdout(self : Self) -> ReadableStream? {
-  self.get("stdout") |> unsafe_option()
+  self.get("stdout") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// A writable stream representing the child process's stderr
 pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
-  self.get("stderr") |> unsafe_option()
+  self.get("stderr") |> @js.unsafe_cast_option()
 }
 
 ///| ChildProcess Methods
@@ -287,12 +287,12 @@ pub fn SpawnSyncResult::pid(self : Self) -> Int {
 
 ///|
 pub fn SpawnSyncResult::status(self : Self) -> Int? {
-  self.get("status") |> unsafe_option()
+  self.get("status") |> @js.unsafe_cast_option()
 }
 
 ///|
 pub fn SpawnSyncResult::signal(self : Self) -> String? {
-  self.get("signal") |> unsafe_option()
+  self.get("signal") |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -307,7 +307,7 @@ pub fn SpawnSyncResult::stderr(self : Self) -> @stream.ReadableStream {
 
 ///|
 pub fn SpawnSyncResult::error(self : Self) -> Js? {
-  self.get("error") |> unsafe_option()
+  self.get("error") |> @js.unsafe_cast_option()
 }
 
 ///|

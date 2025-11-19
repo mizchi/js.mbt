@@ -127,13 +127,13 @@ pub fn FileReader::ready_state(self : Self) -> Int {
 ///|
 /// Get the result after reading completes
 pub fn FileReader::result(self : Self) -> Js? {
-  self.get("result") |> unsafe_option()
+  self.get("result") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// Get the error if read failed
 pub fn FileReader::error(self : Self) -> Js? {
-  self.get("error") |> unsafe_option()
+  self.get("error") |> @js.unsafe_cast_option()
 }
 
 ///|

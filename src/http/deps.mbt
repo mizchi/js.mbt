@@ -7,6 +7,5 @@ using @js {
   type AbortSignal,
   trait JsImpl,
   log,
-  unsafe_option,
   unsafe_cast,
 }

@@ -459,14 +459,14 @@ pub fn HTMLIFrameElement::setSrc(self : Self, src : String) -> Unit {
 /// Returns the content window
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
 pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
-  self.get("contentWindow") |> unsafe_option()
+  self.get("contentWindow") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// Returns the content document
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
 pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
-  self.get("contentDocument") |> unsafe_option()
+  self.get("contentDocument") |> @js.unsafe_cast_option()
 }
 
 ///|

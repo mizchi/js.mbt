@@ -10,7 +10,7 @@ pub fn ChildProcess::on_exit(
   self.invoke("on", [
     "exit",
     unsafe_cast(fn(code : Js, signal : Js) {
-      callback(code |> unsafe_option(), signal |> unsafe_option())
+      callback(code |> @js.unsafe_cast_option(), signal |> @js.unsafe_cast_option())
     }),
   ])
   |> ignore
@@ -26,7 +26,7 @@ pub fn ChildProcess::on_close(
   self.invoke("on", [
     "close",
     unsafe_cast(fn(code : Js, signal : Js) {
-      callback(code |> unsafe_option(), signal |> unsafe_option())
+      callback(code |> @js.unsafe_cast_option(), signal |> @js.unsafe_cast_option())
     }),
   ])
   |> ignore
@@ -52,7 +52,7 @@ pub fn ChildProcess::on_message(
   self.invoke("on", [
     "message",
     unsafe_cast(fn(message : Js, sendHandle : Js) {
-      callback(message, sendHandle |> unsafe_option())
+      callback(message, sendHandle |> @js.unsafe_cast_option())
     }),
   ])
   |> ignore

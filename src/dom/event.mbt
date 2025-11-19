@@ -318,7 +318,7 @@ pub impl EventImpl for FocusEvent
 ///|
 /// Returns the related target (element losing/gaining focus)
 pub fn FocusEvent::relatedTarget(self : FocusEvent) -> Element? {
-  self.get("relatedTarget") |> unsafe_option()
+  self.get("relatedTarget") |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -372,7 +372,7 @@ pub impl EventImpl for InputEvent
 ///|
 /// Returns the input data
 pub fn InputEvent::data(self : Self) -> String? {
-  self.get("data") |> unsafe_option()
+  self.get("data") |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -571,7 +571,7 @@ pub impl EventImpl for ClipboardEvent
 /// Returns the clipboard data
 /// https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
 pub fn ClipboardEvent::clipboardData(self : Self) -> Js? {
-  self.get("clipboardData") |> unsafe_option()
+  self.get("clipboardData") |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -675,7 +675,7 @@ pub fn MessageEvent::origin(self : Self) -> String {
 /// Returns the source window of the message
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/source
 pub fn MessageEvent::source(self : Self) -> Window? {
-  self.get("source") |> unsafe_option()
+  self.get("source") |> @js.unsafe_cast_option()
 }
 
 ///|

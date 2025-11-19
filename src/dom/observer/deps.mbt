@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, unsafe_cast, js, unsafe_option}
+using @js {type Js, trait JsImpl, js}
 
 ///|
 using @dom {type Element}

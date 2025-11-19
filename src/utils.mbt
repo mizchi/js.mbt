@@ -1,4 +1,53 @@
 ///|
+extern "js" fn ffi_is_nullish(v : Js) -> Bool =
+  #|(v) => v === null || v === undefined
+
+///|
+pub fn[T : JsImpl] is_nullish(v : T) -> Bool {
+  ffi_is_nullish(v.to_js())
+}
+
+///|
+/// Unsafely cast a value from one type to another.
+/// When you cast to `Js`, use `js(v)` or `unsafe_js(v)` instead.
+pub fn[A, B] unsafe_cast(v : A) -> B = "%identity"
+
+///|
+/// Cast any JsImpl type to a JavaScript Val safely.
+/// When you can not, use `unsafe_js()`.
+pub fn js(a : &JsImpl) -> Js {
+  unsafe_cast(a.to_js())
+}
+
+///|
+/// Cast any JsImpl type to a JavaScript Val safely.
+pub fn[T: JsImpl] option_js(a: T) -> Js? {
+  if ffi_is_nullish(a |> unsafe_cast) {
+    None
+  } else {
+    Some(unsafe_cast(a))
+  }
+}
+
+///|
+/// Convert any MoonBit value to a JavaScript Val.
+/// Use `unsafe_js()` if you can
+pub fn[T] unsafe_js(v : T) -> Js {
+  unsafe_cast(v)
+}
+
+///|
+/// Safely convert a JavaScript Val to an Option type.
+/// Without check, Moonbit FFI will touch (null).toString() and crash.
+pub fn[A] unsafe_cast_option(v : Js) -> A? {
+  if ffi_is_nullish(v) {
+    None
+  } else {
+    Some(unsafe_cast(v))
+  }
+}
+
+///|
 /// JS: v.propertyIsEnumerable(k)
 pub fn[T : JsImpl] propertyIsEnumerable(v : T, k : String) -> Bool {
   ffi_property_is_enumerable(v.to_js(), k)
@@ -84,22 +133,13 @@ fn throwable_result(f : () -> Result[Js, Js]) -> Result[Js, Js] {
 }
 
 ///|
-/// Log a value to the console (JavaScript console.log).
-///
-/// This is a convenience function for debugging.
-///
-/// # Example
-///
-/// ```moonbit skip
-/// log("Hello, World!")
-/// log(42)
-/// log([1, 2, 3])
-/// ```
+/// JS: console.log(v)
 pub fn[T] log(v : T) -> Unit {
   ffi_console_log([v |> unsafe_cast]) |> ignore
 }
 
 ///|
-pub fn[T, U] log2(v : T, u : U) -> Unit {
-  ffi_console_log([v |> unsafe_cast, u |> unsafe_cast]) |> ignore
+/// JS: console.log(a, b)
+pub fn[T, U] log2(a : T, b : U) -> Unit {
+  ffi_console_log([a |> unsafe_cast, b |> unsafe_cast]) |> ignore
 }

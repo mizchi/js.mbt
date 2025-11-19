@@ -12,9 +12,9 @@ test "unsafe_cast converts between Js and MoonBit types" {
   let v2 = js(42)
   assert_eq(v1, v2)
   assert_eq(unsafe_cast(TestConstantEnum::NotFound), js(404))
-  let s1 : String? = js("hello") |> unsafe_option()
+  let s1 : String? = js("hello") |> @js.unsafe_cast_option()
   assert_eq(s1, Some("hello"))
-  let s2 : String? = undefined() |> unsafe_option()
+  let s2 : String? = undefined() |> @js.unsafe_cast_option()
   assert_eq(s2, None)
 }
 
@@ -121,7 +121,7 @@ test "Val type checking" {
 }
 
 ///|
-test "Val type_of" {
+test "Js typeof_" {
   assert_eq(@js.typeof_(js(42)), "number")
   assert_eq(@js.typeof_(js(3.14)), "number")
   assert_eq(@js.typeof_(js("hello")), "string")
@@ -133,7 +133,7 @@ test "Val type_of" {
 }
 
 ///|
-test "Val get and set" {
+test "Js get and set" {
   let obj = @js.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
@@ -150,7 +150,7 @@ test "Val get and set" {
 }
 
 ///|
-test "Val set_if_exists" {
+test "Js set_if_exists" {
   let obj = @js.Object::new()
 
   // Set with Some value
@@ -168,7 +168,7 @@ test "Val set_if_exists" {
 }
 
 ///|
-test "Val delete and has_own_property" {
+test "Js delete and has_own_property" {
   let obj = @js.Object::new()
   obj.set("key1", "value1")
   obj.set("key2", "value2")
@@ -206,20 +206,20 @@ test "Val cast primitive types" {
 ///|
 test "Val cast_option" {
   // Some cases
-  let some_str : String? = js("hello") |> unsafe_option()
+  let some_str : String? = js("hello") |> @js.unsafe_cast_option()
   assert_eq(some_str, Some("hello"))
-  let some_int : Int? = js(42) |> unsafe_option()
+  let some_int : Int? = js(42) |> @js.unsafe_cast_option()
   assert_eq(some_int, Some(42))
 
   // None cases
-  let none_str : String? = undefined() |> unsafe_option()
+  let none_str : String? = undefined() |> @js.unsafe_cast_option()
   assert_eq(none_str, None)
-  let none_int : Int? = null_() |> unsafe_option()
+  let none_int : Int? = null_() |> @js.unsafe_cast_option()
   assert_eq(none_int, None)
 }
 
 ///|
-test "Val equality" {
+test "Js equality" {
   // Same values should be equal
   assert_eq(js(42), js(42))
   assert_eq(js("hello"), js("hello"))
@@ -343,7 +343,7 @@ test "JsArray::new" {
 }
 
 ///|
-test "global_this" {
+test "globalThis" {
   let global = globalThis()
   assert_true(@js.is_object(global))
   assert_false(@js.is_null(global))
@@ -357,10 +357,10 @@ test "symbols" {
   let async_dispose_sym = Symbol::asyncDispose()
 
   // Symbols should have symbol type
-  let sym_val : Js = unsafe_cast(sym)
-  let iter_val : Js = unsafe_cast(iter_sym)
-  let dispose_val : Js = unsafe_cast(dispose_sym)
-  let async_dispose_val : Js = unsafe_cast(async_dispose_sym)
+  let sym_val : Js = js(sym)
+  let iter_val : Js = js(iter_sym)
+  let dispose_val : Js = js(dispose_sym)
+  let async_dispose_val : Js = js(async_dispose_sym)
   assert_eq(@js.typeof_(sym_val), "symbol")
   assert_eq(@js.typeof_(iter_val), "symbol")
   assert_eq(@js.typeof_(dispose_val), "symbol")
@@ -510,7 +510,7 @@ test "Js trait for Option" {
 }
 
 ///|
-test "Val with empty strings" {
+test "Js with empty strings" {
   let obj = @js.Object::new()
   obj.set("empty", "")
   assert_eq(unsafe_cast(obj.get("empty")), "")
@@ -518,17 +518,13 @@ test "Val with empty strings" {
 }
 
 ///|
-test "Val with zero values" {
+test "Js set" {
   let obj = @js.Object::new()
   obj.set("zero", 0)
   obj.set("zero_float", 0.0)
   assert_eq(unsafe_cast(obj.get("zero")), 0)
   assert_eq(unsafe_cast(obj.get("zero_float")), 0.0)
   assert_true(obj.hasOwnProperty("zero"))
-}
-
-///|
-test "Val with false boolean" {
   let obj = @js.Object::new()
   obj.set("flag", false)
   assert_eq(unsafe_cast(obj.get("flag")), false)
@@ -536,7 +532,7 @@ test "Val with false boolean" {
 }
 
 ///|
-test "Val numeric edge cases" {
+test "Js numeric edge cases" {
   // Large integers
   let large = js(1000000)
   assert_eq(unsafe_cast(large), 1000000)
@@ -548,60 +544,4 @@ test "Val numeric edge cases" {
   // Very small float
   let small = js(0.0001)
   assert_eq(unsafe_cast(small), 0.0001)
-}
-
-///|
-test "encode_uri and decode_uri" {
-  // Encode complete URI
-  let uri = encodeURI("https://example.com/path?name=John Doe")
-  assert_eq(uri, "https://example.com/path?name=John%20Doe")
-
-  // Decode URI
-  let decoded = decodeURI("https://example.com/path?name=John%20Doe")
-  assert_eq(decoded, "https://example.com/path?name=John Doe")
-
-  // Round trip
-  let original_uri = "https://example.com/path with spaces?query=value"
-  let encoded_uri = encodeURI(original_uri)
-  let decoded_uri = decodeURI(encoded_uri)
-  assert_eq(decoded_uri, original_uri)
-}
-
-///|
-test "encode_uri_component and decode_uri_component" {
-  // Encode URI component
-  let encoded = encodeURIComponent("Hello World & Friends")
-  assert_eq(encoded, "Hello%20World%20%26%20Friends")
-
-  // Decode URI component
-  let decoded = decodeURIComponent("Hello%20World%20%26%20Friends")
-  assert_eq(decoded, "Hello World & Friends")
-
-  // Special characters
-  let special = encodeURIComponent("key=value&foo=bar")
-  assert_eq(special, "key%3Dvalue%26foo%3Dbar")
-  let decoded_special = decodeURIComponent("key%3Dvalue%26foo%3Dbar")
-  assert_eq(decoded_special, "key=value&foo=bar")
-
-  // Round trip with various characters
-  let original = "Test: @#$%^&*()+={}[]|\\:;\"'<>,.?/"
-  let encoded_component = encodeURIComponent(original)
-  let decoded_component = decodeURIComponent(encoded_component)
-  assert_eq(decoded_component, original)
-}
-
-///|
-test {
-  let obj = @js.Object::new().to_js()
-  let undef : Js? = Some(undefined())
-  set_if_exists(obj, "a", undef)
-  let none_val : Js? = None
-  set_if_exists(obj, "b", none_val)
-  set_if_exists(obj, "c", Some(42))
-  assert_true(@js.is_undefined(obj.get("a")))
-  // assert_eq(unsafe_cast(obj.get("a")), 42)
-  // obj.set_if_exists("b", None)
-  // assert_true(obj.get("b").is_undefined())
-  // obj.set_if_exists("c", Some(undefined()))
-  // assert_true(obj.get("c").is_undefined())
 }

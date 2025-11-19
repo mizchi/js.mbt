@@ -45,7 +45,7 @@ impl NodeImpl with nodeName(self) -> String {
 
 ///|
 impl NodeImpl with parentNode(self) -> Node? {
-  unsafe_option(self.get("parentNode"))
+  @js.unsafe_cast_option(self.get("parentNode"))
 }
 
 ///|
@@ -55,22 +55,22 @@ impl NodeImpl with childNodes(self) -> Array[Node] {
 
 ///|
 impl NodeImpl with firstChild(self) -> Node? {
-  unsafe_option(self.get("firstChild"))
+  @js.unsafe_cast_option(self.get("firstChild"))
 }
 
 ///|
 impl NodeImpl with lastChild(self) -> Node? {
-  unsafe_option(self.get("lastChild"))
+  @js.unsafe_cast_option(self.get("lastChild"))
 }
 
 ///|
 impl NodeImpl with previousSibling(self) -> Node? {
-  unsafe_option(self.get("previousSibling"))
+  @js.unsafe_cast_option(self.get("previousSibling"))
 }
 
 ///|
 impl NodeImpl with nextSibling(self) -> Node? {
-  unsafe_option(self.get("nextSibling"))
+  @js.unsafe_cast_option(self.get("nextSibling"))
 }
 
 ///|
