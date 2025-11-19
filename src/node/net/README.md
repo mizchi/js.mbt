@@ -6,33 +6,40 @@ TCP/IPC server and socket APIs
 
 ### Server
 - [x] Server type (extends EventEmitter)
-- [x] Server::new(options?, connectionListener?) - Create server
-- [x] listen(port?, host?, backlog?, callback?) - Start listening
-- [x] listen_path(path, backlog?, callback?) - Listen on Unix socket
-- [x] close(callback?) - Stop accepting connections
+- [x] listen(port, host?) - Start listening
+- [x] close() - Stop accepting connections
 - [x] address() - Get server address information
-- [x] getConnections(callback) - Get connection count
-- [x] Events: 'connection', 'listening', 'close', 'error'
+- [x] listening() - Check if server is listening
+- [x] maxConnections() - Get max connections
+- [x] set_maxConnections(max) - Set max connections
+- [x] Events: 'connection', 'listening', 'close', 'error' (via EventEmitterImpl)
 
 ### Socket
-- [x] Socket type (extends Duplex stream)
-- [x] Socket::new(options?) - Create socket
-- [x] connect(port, host?, connectListener?) - Connect to server
-- [x] connect_path(path, connectListener?) - Connect to Unix socket
-- [x] write(data, encoding?, callback?) - Write data
-- [x] end(data?, encoding?, callback?) - End connection
-- [x] destroy(error?) - Destroy socket
+- [x] Socket type (extends Duplex stream, EventEmitter)
+- [x] as_duplex() - Cast to Duplex stream
+- [x] connect(port, host?) - Connect to server
+- [x] write(data) - Write data (returns Bool)
+- [x] end() - End connection
+- [x] destroy() - Destroy socket
 - [x] pause() - Pause reading
-- [x] resume() - Resume reading
-- [x] setTimeout(timeout, callback?) - Set timeout
-- [x] setKeepAlive(enable?, initialDelay?) - Configure keep-alive
-- [x] setNoDelay(noDelay?) - Configure Nagle algorithm
-- [x] Properties: remoteAddress, remotePort, localAddress, localPort
-- [x] Events: 'connect', 'data', 'end', 'error', 'close', 'timeout'
+- [x] resume_() - Resume reading
+- [x] setEncoding(encoding) - Set encoding
+- [x] setKeepAlive(enable) - Configure keep-alive
+- [x] setNoDelay(noDelay) - Configure Nagle algorithm
+- [x] setTimeout(timeout) - Set timeout
+- [x] remoteAddress() - Get remote address
+- [x] remotePort() - Get remote port
+- [x] localAddress() - Get local address
+- [x] localPort() - Get local port
+- [x] destroyed() - Check if socket is destroyed
+- [x] bytesRead() - Get bytes read
+- [x] bytesWritten() - Get bytes written
+- [x] Events: 'connect', 'data', 'end', 'error', 'close', 'timeout' (via EventEmitterImpl)
 
 ### Utility Functions
-- [x] createServer(options?, connectionListener?) - Create TCP server
-- [x] createConnection(port, host?, connectListener?) - Create client connection
+- [x] createServer(connectionListener?) - Create TCP server
+- [x] createConnection(port, host?) - Create client connection (alias: connect)
+- [x] connect(port, host?) - Alias for createConnection
 - [x] isIP(input) - Check if valid IP address (returns 0, 4, or 6)
 - [x] isIPv4(input) - Check if valid IPv4 address
 - [x] isIPv6(input) - Check if valid IPv6 address
