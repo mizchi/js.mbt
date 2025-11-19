@@ -84,6 +84,7 @@ pub fn[T : JsImpl] WeakSet::has(self : Self[T], value : T) -> Bool {
 }
 
 ///|
+/// JavaScript WeakRef
 #external
 pub type WeakRef[T]
 

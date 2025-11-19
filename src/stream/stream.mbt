@@ -34,15 +34,15 @@ pub fn ReadableStream::cancel(self : Self, reason? : Js) -> Promise[Unit] {
 
 ///|
 /// Get a reader for this stream
-#alias(getReader)
-pub fn ReadableStream::get_reader(self : Self) -> ReadableStreamDefaultReader {
+#alias(get_reader)
+pub fn ReadableStream::getReader(self : Self) -> ReadableStreamDefaultReader {
   self.invoke("getReader", []) |> unsafe_cast
 }
 
 ///|
 /// Pipe this stream to a WritableStream
-#alias(pipeTo)
-pub fn ReadableStream::pipe_to(
+#alias(pipe_to)
+pub fn ReadableStream::pipeTo(
   self : Self,
   destination : WritableStream,
   options? : Js,
@@ -55,8 +55,8 @@ pub fn ReadableStream::pipe_to(
 
 ///|
 /// Pipe through a transform stream
-#alias(pipeThrough)
-pub fn ReadableStream::pipe_through(
+#alias(pipe_through)
+pub fn ReadableStream::pipeThrough(
   self : Self,
   transform : Js,
   options? : Js,
@@ -96,8 +96,8 @@ pub fn ReadableStreamDefaultReader::read(self : Self) -> Promise[Js] {
 
 ///|
 /// Release the reader's lock on the stream
-#alias(releaseLock)
-pub fn ReadableStreamDefaultReader::release_lock(self : Self) -> Unit {
+#alias(release_lock)
+pub fn ReadableStreamDefaultReader::releaseLock(self : Self) -> Unit {
   self.invoke("releaseLock", []) |> ignore
 }
 
@@ -161,8 +161,8 @@ pub fn WritableStream::close(self : Self) -> Promise[Unit] {
 
 ///|
 /// Get a writer for this stream
-#alias(getWriter)
-pub fn WritableStream::get_writer(self : Self) -> WritableStreamDefaultWriter {
+#alias(get_writer)
+pub fn WritableStream::getWriter(self : Self) -> WritableStreamDefaultWriter {
   self.invoke("getWriter", []) |> unsafe_cast
 }
 
@@ -203,8 +203,8 @@ pub fn WritableStreamDefaultWriter::abort(
 
 ///|
 /// Release the writer's lock on the stream
-#alias(releaseLock)
-pub fn WritableStreamDefaultWriter::release_lock(self : Self) -> Unit {
+#alias(release_lock)
+pub fn WritableStreamDefaultWriter::releaseLock(self : Self) -> Unit {
   self.invoke("releaseLock", []) |> ignore
 }
 
