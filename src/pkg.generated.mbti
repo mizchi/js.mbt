@@ -58,6 +58,8 @@ fn[T : JsImpl] is_builtin_trait(T) -> Bool
 
 fn[T : JsImpl] is_null(T) -> Bool
 
+fn[T : JsImpl] is_nullish(T) -> Bool
+
 fn[T : JsImpl] is_object(T) -> Bool
 
 fn[T : JsImpl] is_undefined(T) -> Bool
@@ -70,11 +72,9 @@ fn[T, U] log2(T, U) -> Unit
 
 fn new_(Js, Array[&JsImpl]) -> Js
 
-fn new_error(String, cause? : JsError) -> JsError
-
 fn null_() -> Js
 
-fn[T : JsImpl] propertyIsEnumerable(T, String) -> Bool
+fn[T : JsImpl] option_js(T) -> Js?
 
 #alias(set_interval)
 fn setInterval(() -> Unit, Int) -> JsTimer
@@ -98,9 +98,9 @@ fn undefined() -> Js
 
 fn[A, B] unsafe_cast(A) -> B
 
-fn[T] unsafe_js(T) -> Js
+fn[A] unsafe_cast_option(Js) -> A?
 
-fn[A] @js.unsafe_cast_option(Js) -> A?
+fn[T] unsafe_js(T) -> Js
 
 // Errors
 pub suberror JsThrowError {
@@ -123,15 +123,28 @@ pub type AbortSignal
 impl JsImpl for AbortSignal
 
 #external
+pub type FinalizationRegistry[T]
+fn[T : JsImpl] FinalizationRegistry::new((T) -> Unit) -> Self[T]
+fn[T : JsImpl, U : JsImpl] FinalizationRegistry::register(Self[T], U, T, unregister_token? : Js) -> Unit
+fn[T] FinalizationRegistry::unregister(Self[T], Js) -> Bool
+impl[T] JsImpl for FinalizationRegistry[T]
+
+#external
+pub type Function
+fn Function::apply(Self, Js, Array[Js]) -> Js
+fn Function::bind(Self, Js) -> Js
+fn Function::length(Self) -> Js
+fn Function::name(Self) -> String
+fn Function::to_string(Self) -> String
+impl JsImpl for Function
+
+#external
 pub type JSON
 fn JSON::parse(String, reviver? : Js?) -> Js raise JsThrowError
 fn JSON::stringify(Js, replacer? : Js, space? : Int) -> String
 
 #external
 pub type Js
-fn Js::is_none(Self) -> Bool
-#deprecated
-fn Js::is_some(Self) -> Bool
 impl JsImpl for Js
 impl Eq for Js
 impl Show for Js
@@ -148,9 +161,39 @@ fn JsArray::to_string(Self) -> String
 impl JsImpl for JsArray
 
 #external
+pub type JsBigInt
+fn JsBigInt::add(Self, Self) -> Self
+fn JsBigInt::asIntN(Int, Self) -> Self
+fn JsBigInt::asUintN(Int, Self) -> Self
+fn JsBigInt::bitand(Self, Self) -> Self
+fn JsBigInt::bitnot(Self) -> Self
+fn JsBigInt::bitor(Self, Self) -> Self
+fn JsBigInt::bitxor(Self, Self) -> Self
+fn JsBigInt::div(Self, Self) -> Self
+fn JsBigInt::equal(Self, Self) -> Bool
+fn JsBigInt::from_int(Int) -> Self
+fn JsBigInt::from_string(String) -> Self
+fn JsBigInt::ge(Self, Self) -> Bool
+fn JsBigInt::gt(Self, Self) -> Bool
+fn JsBigInt::le(Self, Self) -> Bool
+fn JsBigInt::lt(Self, Self) -> Bool
+fn JsBigInt::mod(Self, Self) -> Self
+fn JsBigInt::mul(Self, Self) -> Self
+fn JsBigInt::neg(Self) -> Self
+fn JsBigInt::pow(Self, Self) -> Self
+fn JsBigInt::shl(Self, Self) -> Self
+fn JsBigInt::shr(Self, Self) -> Self
+fn JsBigInt::sub(Self, Self) -> Self
+fn JsBigInt::to_string(Self) -> String
+fn JsBigInt::to_string_radix(Self, Int) -> String
+fn JsBigInt::valueOf(Self) -> Self
+impl JsImpl for JsBigInt
+
+#external
 pub type JsError
 fn JsError::isError(&JsImpl) -> Bool
 fn JsError::message(Self) -> String
+fn JsError::new(String, cause? : Self) -> Self
 fn JsError::stack(Self) -> String
 impl JsImpl for JsError
 
@@ -166,10 +209,15 @@ pub type JsTimer
 #external
 pub type Object
 fn Object::assign(&JsImpl, &JsImpl) -> Js
-fn Object::create() -> Js
+fn Object::create(&JsImpl) -> Js
 fn Object::entries(&JsImpl) -> Array[(String, Js)]
+fn Object::hasOwnProperty(Self, &PropertyKey) -> Bool
+fn Object::isExtensible(Self) -> Bool
+fn Object::isPrototypeOf(Self, Js) -> Bool
+fn Object::is_(&JsImpl, &JsImpl) -> Js
 fn Object::keys(&JsImpl) -> Array[String]
 fn Object::new() -> Self
+fn Object::propertyIsEnumerable(Self, &PropertyKey) -> Bool
 fn Object::to_string(Self) -> String
 fn Object::values(&JsImpl) -> Array[Js]
 impl JsImpl for Object
@@ -181,25 +229,47 @@ fn Symbol::asyncIterator() -> Self
 fn Symbol::dispose() -> Self
 fn Symbol::for_(String) -> Self
 fn Symbol::iterator() -> Self
+fn Symbol::toStringTag() -> Self
 impl JsImpl for Symbol
 impl PropertyKey for Symbol
+
+#external
+pub type WeakMap[K, V]
+fn[K : JsImpl, V : JsImpl] WeakMap::delete(Self[K, V], K) -> Bool
+fn[K : JsImpl, V : JsImpl] WeakMap::get(Self[K, V], K) -> V?
+fn[K : JsImpl, V : JsImpl] WeakMap::has(Self[K, V], K) -> Bool
+fn[K : JsImpl, V : JsImpl] WeakMap::new() -> Self[K, V]
+fn[K : JsImpl, V : JsImpl] WeakMap::set(Self[K, V], K, V) -> Self[K, V]
+impl[K, V] JsImpl for WeakMap[K, V]
+
+#external
+pub type WeakRef[T]
+fn[T] WeakRef::deref(Self[T]) -> T?
+fn[T : JsImpl] WeakRef::new(T) -> Self[T]
+impl[T] JsImpl for WeakRef[T]
+
+#external
+pub type WeakSet[T]
+fn[T : JsImpl] WeakSet::add(Self[T], T) -> Self[T]
+fn[T : JsImpl] WeakSet::delete(Self[T], T) -> Bool
+fn[T : JsImpl] WeakSet::has(Self[T], T) -> Bool
+fn[T : JsImpl] WeakSet::new() -> Self[T]
+impl[T] JsImpl for WeakSet[T]
 
 // Type aliases
 
 // Traits
-pub(open) trait EventTargetImpl : JsImpl {
-  addEventListener(Self, String, (Js) -> Unit) -> Unit = _
-  removeEventListener(Self, String, (Js) -> Unit) -> Unit = _
-  dispatchEvent(Self, Js) -> Bool = _
-}
-
 pub(open) trait JsImpl {
   to_js(Self) -> Js = _
   get(Self, &PropertyKey) -> Js = _
   set(Self, &PropertyKey, &JsImpl) -> Unit = _
   call(Self, &PropertyKey, Array[&JsImpl]) -> Js = _
+  call0(Self, &PropertyKey) -> Js = _
+  call1(Self, &PropertyKey, &JsImpl) -> Js = _
+  call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Js = _
   call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise JsThrowError = _
   call_self(Self, Array[&JsImpl]) -> Js = _
+  call_self0(Self) -> Js = _
   call_self_throwable(Self, Array[&JsImpl]) -> Js raise JsThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
@@ -221,3 +291,4 @@ pub trait PropertyKey {
 }
 impl PropertyKey for Int
 impl PropertyKey for String
+
