@@ -1,0 +1,198 @@
+///|
+#external
+pub type DataView
+
+///|
+pub impl JsImpl for DataView
+
+///|
+extern "js" fn ffi_new_dataview(
+  buffer : Js,
+  byte_offset : UInt,
+  byte_length : UInt?,
+) -> Js =
+  #| (buf, offset, len) => len !== undefined ? new DataView(buf, offset, len) : new DataView(buf, offset)
+
+///|
+pub fn DataView::new(
+  buffer : ArrayBuffer,
+  byte_offset? : UInt = 0,
+  byte_length? : UInt,
+) -> DataView {
+  unsafe_cast(ffi_new_dataview(buffer.to_js(), byte_offset, byte_length))
+}
+
+///|
+pub fn DataView::buffer(self : DataView) -> ArrayBuffer {
+  unsafe_cast(self.get("buffer"))
+}
+
+///|
+#alias(byteLength)
+pub fn DataView::byte_length(self : DataView) -> UInt {
+  unsafe_cast(self.get("byteLength"))
+}
+
+///|
+#alias(byteOffset)
+pub fn DataView::byte_offset(self : DataView) -> UInt {
+  unsafe_cast(self.get("byteOffset"))
+}
+
+///|
+#alias(getInt8)
+pub fn DataView::get_int8(self : DataView, byte_offset : UInt) -> Int {
+  self.call("getInt8", [byte_offset]) |> unsafe_cast
+}
+
+///|
+#alias(getUint8)
+pub fn DataView::get_uint8(self : DataView, byte_offset : UInt) -> UInt {
+  self.call1("getUint8", byte_offset) |> unsafe_cast
+}
+
+///|
+#alias(getInt16)
+pub fn DataView::get_int16(
+  self : DataView,
+  byte_offset : UInt,
+  little_endian? : Bool = false,
+) -> Int {
+  self.call2("getInt16", byte_offset, little_endian) |> unsafe_cast
+}
+
+///|
+#alias(getUint16)
+pub fn DataView::get_uint16(
+  self : DataView,
+  byte_offset : UInt,
+  little_endian? : Bool = false,
+) -> UInt {
+  self.call2("getUint16", byte_offset, little_endian) |> unsafe_cast
+}
+
+///|
+#alias(getInt32)
+pub fn DataView::get_int32(
+  self : DataView,
+  byte_offset : UInt,
+  little_endian? : Bool = false,
+) -> Int {
+  self.call("getInt32", [byte_offset, little_endian]) |> unsafe_cast
+}
+
+///|
+#alias(getUint32)
+pub fn DataView::get_uint32(
+  self : DataView,
+  byte_offset : UInt,
+  little_endian? : Bool = false,
+) -> UInt {
+  self.call("getUint32", [byte_offset, little_endian]) |> unsafe_cast
+}
+
+///|
+#alias(getFloat32)
+pub fn DataView::get_float32(
+  self : DataView,
+  byte_offset : UInt,
+  little_endian? : Bool = false,
+) -> Double {
+  self.call("getFloat32", [byte_offset, little_endian]) |> unsafe_cast
+}
+
+///|
+#alias(getFloat64)
+pub fn DataView::get_float64(
+  self : DataView,
+  byte_offset : UInt,
+  little_endian? : Bool = false,
+) -> Double {
+  self.call("getFloat64", [byte_offset, little_endian]) |> unsafe_cast
+}
+
+///|
+#alias(setInt8)
+pub fn DataView::set_int8(
+  self : DataView,
+  byte_offset : UInt,
+  value : Int,
+) -> Unit {
+  self.call("setInt8", [byte_offset, value]) |> ignore
+}
+
+///|
+#alias(setUint8)
+pub fn DataView::set_uint8(
+  self : DataView,
+  byte_offset : UInt,
+  value : UInt,
+) -> Unit {
+  self.call("setUint8", [byte_offset, value]) |> ignore
+}
+
+///|
+#alias(setInt16)
+pub fn DataView::set_int16(
+  self : DataView,
+  byte_offset : UInt,
+  value : Int,
+  little_endian? : Bool = false,
+) -> Unit {
+  self.call("setInt16", [byte_offset, value, little_endian]) |> ignore
+}
+
+///|
+#alias(setUint16)
+pub fn DataView::set_uint16(
+  self : DataView,
+  byte_offset : UInt,
+  value : UInt,
+  little_endian? : Bool = false,
+) -> Unit {
+  self.call("setUint16", [byte_offset, value, little_endian]) |> ignore
+}
+
+///|
+#alias(setInt32)
+pub fn DataView::set_int32(
+  self : DataView,
+  byte_offset : UInt,
+  value : Int,
+  little_endian? : Bool = false,
+) -> Unit {
+  self.call("setInt32", [byte_offset, value, little_endian]) |> ignore
+}
+
+///|
+#alias(setUint32)
+pub fn DataView::set_uint32(
+  self : DataView,
+  byte_offset : UInt,
+  value : UInt,
+  little_endian? : Bool = false,
+) -> Unit {
+  self.call("setUint32", [byte_offset, value, little_endian]) |> ignore
+}
+
+///|
+#alias(setFloat32)
+pub fn DataView::set_float32(
+  self : DataView,
+  byte_offset : UInt,
+  value : Double,
+  little_endian? : Bool = false,
+) -> Unit {
+  self.call("setFloat32", [byte_offset, value, little_endian]) |> ignore
+}
+
+///|
+#alias(setFloat64)
+pub fn DataView::set_float64(
+  self : DataView,
+  byte_offset : UInt,
+  value : Double,
+  little_endian? : Bool = false,
+) -> Unit {
+  self.call("setFloat64", [byte_offset, value, little_endian]) |> ignore
+}
