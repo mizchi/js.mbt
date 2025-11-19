@@ -2,10 +2,8 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/dom",
     "mizchi/js/promise",
-    "mizchi/js/node",
-    "mizchi/js/stream",
+    "mizchi/js/dom",
     "mizchi/js/npm/react"
   ]
 }

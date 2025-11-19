@@ -15,7 +15,14 @@
     "mizchi/js/node/child_process",
     "mizchi/js/node/net",
     "mizchi/js/npm/react",
-    "mizchi/js/npm/react_dom",
+    {
+      "path": "mizchi/js/npm/react_dom_client",
+      "alias": "react_dom_client"
+    },
+    {
+      "path": "mizchi/js/npm/react_dom_server",
+      "alias": "react_dom_server"
+    },
     "mizchi/js/node/fs",
     {
       "path": "mizchi/js/node/fs_promises",

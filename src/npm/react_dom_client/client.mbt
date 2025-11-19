@@ -13,6 +13,10 @@ pub impl JsImpl for ReactDOMRoot
 pub impl JsImpl for ReactDOMClient
 
 ///|
+pub extern "js" fn import_react_dom_client() -> Promise[ReactDOMClient] =
+  #| () => import("react-dom/client")
+
+///|
 #alias(create_root)
 pub fn ReactDOMClient::createRoot(
   self : Self,

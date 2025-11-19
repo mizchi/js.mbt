@@ -4,7 +4,7 @@
 using @react {createElement, init_react_api}
 
 ///|
-using @react_dom {renderToReadableStream, renderToString}
+using @react_dom_server {renderToReadableStream, renderToString}
 
 ///|
 fn init_react() -> Unit {
