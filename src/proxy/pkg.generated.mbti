@@ -12,8 +12,8 @@ import(
 // Types and methods
 #external
 pub type Proxy
-fn Proxy::new(&@js.JsImpl, &@js.JsImpl) -> Self
-fn Proxy::revocable(&@js.JsImpl, &@js.JsImpl) -> @js.Js
+fn Proxy::new(&@js.JsImpl, get? : (@js.Js, @js.Js, @js.Js) -> @js.Js, set? : (@js.Js, @js.Js, @js.Js, @js.Js) -> Bool, has? : (@js.Js, @js.Js) -> Bool, deleteProperty? : (@js.Js, @js.Js) -> Bool, apply? : (@js.Js, @js.Js, @js.Js) -> @js.Js, construct? : (@js.Js, @js.Js, @js.Js) -> @js.Js, ownKeys? : (@js.Js) -> @js.Js, getPrototypeOf? : (@js.Js) -> @js.Js, setPrototypeOf? : (@js.Js, @js.Js) -> Bool, isExtensible? : (@js.Js) -> Bool, preventExtensions? : (@js.Js) -> Bool, getOwnPropertyDescriptor? : (@js.Js, @js.Js) -> @js.Js, defineProperty? : (@js.Js, @js.Js, @js.Js) -> Bool) -> Self
+fn Proxy::revocable(&@js.JsImpl, get? : (@js.Js, @js.Js, @js.Js) -> @js.Js, set? : (@js.Js, @js.Js, @js.Js, @js.Js) -> Bool, has? : (@js.Js, @js.Js) -> Bool, deleteProperty? : (@js.Js, @js.Js) -> Bool, apply? : (@js.Js, @js.Js, @js.Js) -> @js.Js, construct? : (@js.Js, @js.Js, @js.Js) -> @js.Js, ownKeys? : (@js.Js) -> @js.Js, getPrototypeOf? : (@js.Js) -> @js.Js, setPrototypeOf? : (@js.Js, @js.Js) -> Bool, isExtensible? : (@js.Js) -> Bool, preventExtensions? : (@js.Js) -> Bool, getOwnPropertyDescriptor? : (@js.Js, @js.Js) -> @js.Js, defineProperty? : (@js.Js, @js.Js, @js.Js) -> Bool) -> @js.Js
 impl @js.JsImpl for Proxy
 
 // Type aliases
