@@ -4,6 +4,18 @@
 
 WebAssembly System Interface (WASI) support
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/wasi"
+  ]
+}
+```
+
 ### WASI
 - [x] WASI type
 - [x] WASI::new(options) - Create WASI instance

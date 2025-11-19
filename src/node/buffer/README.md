@@ -4,6 +4,18 @@
 
 Buffer type for binary data manipulation
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/buffer"
+  ]
+}
+```
+
 ### Buffer Creation
 - [x] Buffer::from_string(str, encoding?) - Create from string
 - [x] Buffer::from_array(arr) - Create from byte array

@@ -4,6 +4,18 @@
 
 Utility functions
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/util"
+  ]
+}
+```
+
 ### Implemented APIs
 
 #### Text Formatting

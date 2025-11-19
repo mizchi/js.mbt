@@ -4,6 +4,18 @@
 
 Process information and control
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/process"
+  ]
+}
+```
+
 ### Process Information
 - [x] argv - Command line arguments
 - [x] execArgv - Node-specific command line options

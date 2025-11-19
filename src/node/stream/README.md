@@ -4,6 +4,18 @@
 
 Stream APIs for working with streaming data
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/stream"
+  ]
+}
+```
+
 ### Stream Types
 - [x] Readable - Readable stream
 - [x] Writable - Writable stream

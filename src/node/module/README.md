@@ -4,6 +4,18 @@
 
 Module system APIs
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/module"
+  ]
+}
+```
+
 ### Module
 - [x] Module type
 - [x] createRequire(filename) - Create require function

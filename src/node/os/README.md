@@ -4,6 +4,18 @@
 
 Operating system utilities
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/os"
+  ]
+}
+```
+
 ### System Information
 - [x] arch() - CPU architecture
 - [x] cpus() - CPU information array

@@ -4,6 +4,18 @@
 
 Promise-based readline interface for interactive input
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/readline_promises"
+  ]
+}
+```
+
 ### Interface
 - [x] Interface type
 - [x] createInterface(options) - Create readline interface

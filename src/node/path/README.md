@@ -4,6 +4,18 @@
 
 File path manipulation utilities
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/path"
+  ]
+}
+```
+
 ### Functions
 - [x] basename(path, ext?) - Get filename from path
 - [x] dirname(path) - Get directory name

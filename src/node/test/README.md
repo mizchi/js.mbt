@@ -4,6 +4,18 @@
 
 Node.js native test runner APIs
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/test"
+  ]
+}
+```
+
 ### Implemented APIs
 
 #### Test Functions

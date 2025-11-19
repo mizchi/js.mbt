@@ -4,6 +4,18 @@
 
 Child process creation and management APIs
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/child_process"
+  ]
+}
+```
+
 ### Asynchronous Process Creation
 - [x] spawn (with options: cwd, env, stdio, shell, detached, uid, gid, timeout, killSignal)
 - [x] exec (with options: cwd, env, shell, timeout, maxBuffer, killSignal, uid, gid)

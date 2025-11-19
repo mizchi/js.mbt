@@ -4,6 +4,18 @@
 
 TCP/IPC server and socket APIs
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/net"
+  ]
+}
+```
+
 ### Server
 - [x] Server type (extends EventEmitter)
 - [x] listen(port, host?) - Start listening

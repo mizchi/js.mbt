@@ -4,6 +4,18 @@
 
 Synchronous file system APIs
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/fs"
+  ]
+}
+```
+
 ### File Reading/Writing
 - [x] readFileSync (as Buffer)
 - [x] read_file_sync_string (with encoding)

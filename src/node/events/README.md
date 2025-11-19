@@ -4,6 +4,18 @@
 
 Event emitter implementation
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/events"
+  ]
+}
+```
+
 ### EventEmitter Class
 - [x] EventEmitter type
 - [x] EventEmitter::new() - Create new emitter

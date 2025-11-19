@@ -4,6 +4,18 @@
 
 Promise-based stream utilities
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/stream_promises"
+  ]
+}
+```
+
 ### Functions
 - [x] pipeline(streams) -> Promise[Unit] - Pipe streams together with Promise API
 - [x] finished(stream, options?) -> Promise[Unit] - Wait for stream to finish

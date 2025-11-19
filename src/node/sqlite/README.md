@@ -4,6 +4,18 @@
 
 SQLite database bindings for Node.js (requires Node.js 22.5.0+)
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/sqlite"
+  ]
+}
+```
+
 ### DatabaseSync
 - [x] DatabaseSync::new(path, options?) - Create/open database
   - Options: readOnly, timeout, returnArrays, enableForeignKeyConstraints, defensive, allowBareNamedParameters, allowUnknownNamedParameters, allowExtension

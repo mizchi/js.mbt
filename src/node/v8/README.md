@@ -4,6 +4,18 @@
 
 V8 engine specific APIs
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/v8"
+  ]
+}
+```
+
 ### Heap Statistics
 - [x] getHeapStatistics() - Get heap statistics
 - [x] getHeapSpaceStatistics() - Get heap space statistics

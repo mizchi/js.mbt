@@ -4,6 +4,18 @@
 
 Promise-based asynchronous file system APIs
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js/node/fs_promises"
+  ]
+}
+```
+
 ### File Reading/Writing
 - [x] readFile (with encoding)
 - [x] writeFile (with options: encoding, mode, flag, flush, signal)
