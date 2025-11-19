@@ -6,35 +6,6 @@ import(
 )
 
 // Values
-fn create_handler_with_apply((@js.Js, @js.Js, @js.Js) -> @js.Js) -> @js.Object
-
-fn create_handler_with_construct((@js.Js, @js.Js, @js.Js) -> @js.Js) -> @js.Object
-
-fn create_handler_with_delete((@js.Js, @js.Js) -> Bool) -> @js.Object
-
-fn create_handler_with_get((@js.Js, @js.Js, @js.Js) -> @js.Js) -> @js.Object
-
-fn create_handler_with_has((@js.Js, @js.Js) -> Bool) -> @js.Object
-
-fn create_handler_with_ownKeys((@js.Js) -> @js.Js) -> @js.Object
-
-fn create_handler_with_set((@js.Js, @js.Js, @js.Js, @js.Js) -> Bool) -> @js.Object
-
-fn handler_add_apply_trap(@js.Object, (@js.Js, @js.Js, @js.Js) -> @js.Js) -> Unit
-
-fn handler_add_construct_trap(@js.Object, (@js.Js, @js.Js, @js.Js) -> @js.Js) -> Unit
-
-fn handler_add_delete_trap(@js.Object, (@js.Js, @js.Js) -> Bool) -> Unit
-
-fn handler_add_get_trap(@js.Object, (@js.Js, @js.Js, @js.Js) -> @js.Js) -> Unit
-
-fn handler_add_has_trap(@js.Object, (@js.Js, @js.Js) -> Bool) -> Unit
-
-fn handler_add_ownKeys_trap(@js.Object, (@js.Js) -> @js.Js) -> Unit
-
-fn handler_add_set_trap(@js.Object, (@js.Js, @js.Js, @js.Js, @js.Js) -> Bool) -> Unit
-
-fn new_handler() -> @js.Object
 
 // Errors
 
