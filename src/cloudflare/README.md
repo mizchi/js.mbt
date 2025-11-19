@@ -6,6 +6,22 @@
 
 This package provides type-safe MoonBit bindings for Cloudflare Workers platform services.
 
+## Installation
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/promise",
+    "mizchi/js/http",
+    "mizchi/js/worker",
+    "mizchi/js/cloudflare"
+  ]
+}
+```
+
 ## Supported Services
 
 ### KV (Key-Value Storage)
