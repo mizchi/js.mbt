@@ -1,0 +1,53 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/performance"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn performance() -> Performance
+
+// Errors
+
+// Types and methods
+#external
+pub type Performance
+fn Performance::clearMarks(Self, name? : String) -> Unit
+fn Performance::clearMeasures(Self, name? : String) -> Unit
+fn Performance::getEntries(Self) -> Array[PerformanceEntry]
+fn Performance::getEntriesByName(Self, String) -> Array[PerformanceEntry]
+fn Performance::getEntriesByType(Self, String) -> Array[PerformanceEntry]
+fn Performance::mark(Self, String) -> PerformanceEntry
+fn Performance::measure(Self, String, startMark? : String, endMark? : String) -> PerformanceEntry
+fn Performance::now(Self) -> Double
+fn Performance::timeOrigin(Self) -> Double
+impl @js.JsImpl for Performance
+
+#external
+pub type PerformanceEntry
+fn PerformanceEntry::duration(Self) -> Double
+fn PerformanceEntry::entryType(Self) -> String
+fn PerformanceEntry::name(Self) -> String
+fn PerformanceEntry::startTime(Self) -> Double
+impl @js.JsImpl for PerformanceEntry
+
+#external
+pub type PerformanceObserver
+fn PerformanceObserver::disconnect(Self) -> Unit
+fn PerformanceObserver::new((PerformanceObserverEntryList, Self) -> Unit) -> Self
+fn PerformanceObserver::observe(Self, @js.Object) -> Unit
+fn PerformanceObserver::takeRecords(Self) -> Array[PerformanceEntry]
+impl @js.JsImpl for PerformanceObserver
+
+#external
+pub type PerformanceObserverEntryList
+fn PerformanceObserverEntryList::getEntries(Self) -> Array[PerformanceEntry]
+fn PerformanceObserverEntryList::getEntriesByName(Self, String) -> Array[PerformanceEntry]
+fn PerformanceObserverEntryList::getEntriesByType(Self, String) -> Array[PerformanceEntry]
+impl @js.JsImpl for PerformanceObserverEntryList
+
+// Type aliases
+
+// Traits
+
