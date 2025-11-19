@@ -157,13 +157,14 @@ test {
     let readable = create_readable_from_string("callback test")
     let writable_js = create_writable_to_array()
     let writable : Writable = unsafe_cast(writable_js)
-    let callback : @js.Js = @js.unsafe_cast(
-      fn(err : @js.Js) -> Unit {
-        callback_called = true
-        ignore(err)
-      },
+    let callback : @js.Js = @js.unsafe_cast(fn(err : @js.Js) -> Unit {
+      callback_called = true
+      ignore(err)
+    })
+    let _ = pipeline(
+      [@js.unsafe_cast(readable), @js.unsafe_cast(writable)],
+      callback~,
     )
-    let _ = pipeline([@js.unsafe_cast(readable), @js.unsafe_cast(writable)], callback=callback)
     sleep(20)
     assert_eq(callback_called, true)
     let chunks = get_chunks(writable_js)
@@ -178,14 +179,12 @@ test {
     let readable = create_readable_from_string("finished test")
     let writable_js = create_writable_to_array()
     let writable : Writable = unsafe_cast(writable_js)
-    let callback : @js.Js = @js.unsafe_cast(
-      fn(err : @js.Js) -> Unit {
-        finished_called = true
-        ignore(err)
-      },
-    )
+    let callback : @js.Js = @js.unsafe_cast(fn(err : @js.Js) -> Unit {
+      finished_called = true
+      ignore(err)
+    })
     let _ = readable.pipe(writable)
-    let _ = finished(@js.unsafe_cast(writable), callback=callback)
+    let _ = finished(@js.unsafe_cast(writable), callback~)
     sleep(20)
     assert_eq(finished_called, true)
   })
@@ -233,26 +232,27 @@ test {
 test {
   it("async pipeline with Promise", _ => {
     let resolver : @promise.Resolvers[Bool] = @promise.Promise::withResolvers()
-    run_async(
-      fn() {
-        let readable = create_readable_from_string("async test")
-        let transform = create_transform_uppercase()
-        let writable_js = create_writable_to_array()
-        let writable : Writable = unsafe_cast(writable_js)
-        let callback : @js.Js = @js.unsafe_cast(
-          fn(err : @js.Js) -> Unit {
-            ignore(err)
-            let chunks = get_chunks(writable_js)
-            let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"
-            resolver.resolve(success)
-          },
-        )
-        let _ = pipeline(
-          [@js.unsafe_cast(readable), @js.unsafe_cast(transform), @js.unsafe_cast(writable)],
-          callback=callback,
-        )
-      },
-    )
+    run_async(fn() {
+      let readable = create_readable_from_string("async test")
+      let transform = create_transform_uppercase()
+      let writable_js = create_writable_to_array()
+      let writable : Writable = unsafe_cast(writable_js)
+      let callback : @js.Js = @js.unsafe_cast(fn(err : @js.Js) -> Unit {
+        ignore(err)
+        let chunks = get_chunks(writable_js)
+        let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"
+        resolver.resolve(success)
+      })
+      let _ = pipeline(
+        [
+          @js.unsafe_cast(readable),
+          @js.unsafe_cast(transform),
+          @js.unsafe_cast(writable),
+        ],
+        callback~,
+      )
+
+    })
     let result = resolver.promise.unwrap()
     assert_eq(result, true)
   })

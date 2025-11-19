@@ -17,6 +17,10 @@
     {
       "path": "mizchi/js/node/stream",
       "alias": "node_stream"
+    },
+    {
+      "path": "mizchi/js/node/stream/promises",
+      "alias": "stream_promises"
     }
   ]
 }

@@ -8,9 +8,9 @@ import(
 )
 
 // Values
-fn pipeline(Array[&@stream.StreamImpl]) -> @promise.Promise[@stream.Stream]
+fn finished(@js.Js) -> @promise.Promise[Unit]
 
-fn readable_promises() -> @js.Js
+fn pipeline(Array[@js.Js]) -> @promise.Promise[@stream.Stream]
 
 // Errors
 
