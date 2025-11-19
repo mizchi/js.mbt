@@ -1,0 +1,42 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/reflect"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn apply(&@js.JsImpl, &@js.JsImpl, Array[@js.Js]) -> @js.Js
+
+fn construct(&@js.JsImpl, Array[@js.Js], @js.Js?) -> @js.Js
+
+fn defineProperty(&@js.JsImpl, &@js.PropertyKey, &@js.JsImpl) -> Bool
+
+fn deleteProperty(&@js.JsImpl, &@js.PropertyKey) -> Bool
+
+fn get(&@js.JsImpl, &@js.PropertyKey, @js.Js?) -> @js.Js
+
+fn getOwnPropertyDescriptor(&@js.JsImpl, &@js.PropertyKey) -> @js.Js
+
+fn getPrototypeOf(&@js.JsImpl) -> @js.Js
+
+fn has(&@js.JsImpl, &@js.PropertyKey) -> Bool
+
+fn isExtensible(&@js.JsImpl) -> Bool
+
+fn ownKeys(&@js.JsImpl) -> Array[@js.Js]
+
+fn preventExtensions(&@js.JsImpl) -> Bool
+
+fn set(&@js.JsImpl, &@js.PropertyKey, &@js.JsImpl, @js.Js?) -> Bool
+
+fn setPrototypeOf(&@js.JsImpl, &@js.JsImpl) -> Bool
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
