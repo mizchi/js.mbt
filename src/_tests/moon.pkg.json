@@ -16,9 +16,10 @@
     "mizchi/js/node/net",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react_dom",
+    "mizchi/js/node/fs",
     {
       "path": "mizchi/js/node/fs_promises",
-      "alias": "fs"
+      "alias": "fs_promises"
     },
     {
       "path": "mizchi/js/node/stream",

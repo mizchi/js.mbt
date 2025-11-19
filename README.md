@@ -75,26 +75,6 @@ See escape hatch pattern in [docs/moonbit-js-ffi.md](./docs/moonbit-js-ffi.md)
 
 Modules
 
-## DOM bindings
-
-- `mizchi/js/dom`
-  - `Element`
-  - `HTMLElement`
-  - `Event`
-  - `Node`
-  - `Window`
-  - etc.
-- `mizchi/js/dom/canvas`
-  - `CanvasRenderingContext2D`
-  - `ImageData`
-- `mizchi/js/dom/blob`
-- `mizchi/js/dom/file`
-- [ ] indexedDB
-- [ ] ServiceWorker
-- [ ] WebSocket
-- [ ] FileSystem
-- [ ] WebGL
-- [ ] AudioContext
 
 ## NPM Library bindings
 
@@ -110,10 +90,6 @@ In near future, we split these bindings into a separate package.
   - Only `BrowserRouter` related api
 - `mizchi/js/npm/react_testing_library`
   - react-testing-library
-
-### Deno binding
-
-Not yet. Use node compatible bindings instead.
 
 ### Cloudflare Workers binding
 

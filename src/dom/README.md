@@ -2,6 +2,36 @@
 
 DOM API bindings for MoonBit, providing type-safe access to browser DOM operations.
 
+## DOM bindings
+
+- `mizchi/js/dom`
+  - `Node`
+  - `Element`
+  - `HTMLElement`
+  - `HTML*Element`
+  - `Event`
+  - `MouseEvent`
+  - `KeyboardEvent`
+  - `PointerEvent`
+  - `FocusEvent`
+  - `Document`
+  - `Text`
+  - `Window`
+  - etc.
+- `mizchi/js/dom/canvas`
+  - `CanvasRenderingContext2D`
+  - `ImageData`
+- `mizchi/js/dom/blob`
+  - `Blob`
+- `mizchi/js/dom/file`
+  - `File`
+- [ ] indexedDB
+- [ ] ServiceWorker
+- [ ] WebSocket
+- [ ] FileSystem
+- [ ] WebGL
+- [ ] AudioContext
+
 ## Overview
 
 This package provides comprehensive bindings to the Web DOM API, including:
@@ -14,6 +44,7 @@ This package provides comprehensive bindings to the Web DOM API, including:
 - **Style**: CSS style manipulation
 
 All APIs are aligned with TypeScript's standard DOM type definitions and include MDN documentation links.
+
 
 ## Installation
 

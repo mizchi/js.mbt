@@ -29,7 +29,7 @@
   - `Worker`
   - `MessageChannel`
   - `MessagePort`
-  - `Transferable` trait
+  - `Transferable`
 - `mizchi/js/webassembly`
   - `WebAssembly`
   - `WebAssemblyModule`
@@ -45,9 +45,9 @@
   - `Request`
   - `Response`
   - `FormData`
+- `Performance` API
 
 Not yet
 
-- [ ] `Performance` API
 - [ ] `DisposableStack`, `AsyncDisposableStack`
-  - Moonbit js has no way to generate `using`
+  - Moonbit js has no way to generate `using`, `await using`

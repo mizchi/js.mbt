@@ -12,7 +12,7 @@ pub fn Stat::isFile(self : Self) -> Bool {
 
 ///|
 pub fn Stat::isDirectory(self : Self) -> Bool {
-  self.call("isFile", []) |> unsafe_cast
+  self.call("isDirectory", []) |> unsafe_cast
 }
 
 ///|

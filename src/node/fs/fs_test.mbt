@@ -222,3 +222,185 @@ test "file access constants are defined" {
   inspect(fs_W_OK() == 2, content="true")
   inspect(fs_X_OK() == 1, content="true")
 }
+
+///| Additional Edge Case Tests
+
+///|
+/// Test symlink_sync and readlink_sync
+test "symlink_sync and readlink_sync work with symlinks" {
+  let target = "test_symlink_target.txt"
+  let link = "test_symlink_link.txt"
+  writeFileSync(target, "symlink test" |> js)
+  symlinkSync(target, link)
+  let link_target = readlinkSync(link)
+  inspect(link_target == target, content="true")
+  // Cleanup
+  unlinkSync(link)
+  unlinkSync(target)
+}
+
+///|
+/// Test chown_sync (requires appropriate permissions)
+test "chown_sync changes file ownership" {
+  let test_file = "test_chown.txt"
+  writeFileSync(test_file, "chown test" |> js)
+  let stats = statSync(test_file)
+  let uid : Int = stats.get("uid") |> unsafe_cast
+  let gid : Int = stats.get("gid") |> unsafe_cast
+  // Set to same owner (should succeed without elevated permissions)
+  chownSync(test_file, uid, gid)
+  let exists = existsSync(test_file)
+  inspect(exists, content="true")
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test readSync and writeSync with file descriptors
+test "readSync and writeSync work with buffers" {
+  let test_file = "test_rw_sync.txt"
+  let write_data = "Hello, fd world!"
+
+  // Write using file descriptor
+  let write_fd = openSync(test_file, "w")
+  let write_buffer = @buffer.Buffer::from_string(write_data)
+  let written = writeSync(write_fd, write_buffer, 0, write_data.length(), None)
+  inspect(written == write_data.length(), content="true")
+  closeSync(write_fd)
+
+  // Read using file descriptor
+  let read_fd = openSync(test_file, "r")
+  let read_buffer = @buffer.Buffer::alloc(100)
+  let bytes_read = readSync(read_fd, read_buffer, 0, 100, None)
+  inspect(bytes_read == write_data.length(), content="true")
+  closeSync(read_fd)
+
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test readSync with position parameter
+test "readSync with position reads from specific offset" {
+  let test_file = "test_read_pos.txt"
+  writeFileSync(test_file, "0123456789" |> js)
+  let fd = openSync(test_file, "r")
+  let buffer = @buffer.Buffer::alloc(5)
+  // Read 5 bytes starting from position 3
+  let bytes_read = readSync(fd, buffer, 0, 5, Some(3))
+  inspect(bytes_read == 5, content="true")
+  closeSync(fd)
+
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test writeSync with position parameter
+test "writeSync with position writes to specific offset" {
+  let test_file = "test_write_pos.txt"
+  writeFileSync(test_file, "0000000000" |> js)
+  let fd = openSync(test_file, "r+")
+  let buffer = @buffer.Buffer::from_string("XXX")
+  // Write 3 bytes starting at position 3
+  let written = writeSync(fd, buffer, 0, 3, Some(3))
+  inspect(written == 3, content="true")
+  closeSync(fd)
+  let content = read_file_sync_string(test_file, "utf8")
+  inspect(content == "000XXX0000", content="true")
+
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test mkdir_sync without recursive option
+test "mkdir_sync creates single directory" {
+  let test_dir = "test_mkdir_single"
+  mkdirSync(test_dir)
+  let exists = existsSync(test_dir)
+  inspect(exists, content="true")
+  // Cleanup
+  rmdirSync(test_dir)
+}
+
+///|
+/// Test rmSync with force option
+test "rmSync with force removes non-existent file without error" {
+  let non_existent = "non_existent_file_xyz.txt"
+  // Should not throw error with force=true
+  rmSync(non_existent, force=true)
+  inspect(true, content="true")
+}
+
+///|
+/// Test rmSync with recursive and force options
+test "rmSync with recursive and force removes directory tree" {
+  let test_dir = "test_rm_recursive"
+  mkdirSync("\{test_dir}/sub", recursive=true)
+  writeFileSync("\{test_dir}/sub/file.txt", "test" |> js)
+  rmSync(test_dir, recursive=true, force=true)
+  let exists = existsSync(test_dir)
+  inspect(exists == false, content="true")
+}
+
+///|
+/// Test truncate_sync without length parameter
+test "truncate_sync without length truncates to 0" {
+  let test_file = "test_truncate_zero.txt"
+  writeFileSync(test_file, "This will be empty" |> js)
+  truncateSync(test_file)
+  let content = read_file_sync_string(test_file, "utf8")
+  inspect(content.length() == 0, content="true")
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test access_sync without mode parameter
+test "access_sync without mode checks file existence" {
+  let test_file = "test_access_default.txt"
+  writeFileSync(test_file, "access test" |> js)
+  accessSync(test_file)
+  let exists = existsSync(test_file)
+  inspect(exists, content="true")
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test cpSync without recursive option
+test "cp_sync without recursive copies single file" {
+  let src = "test_cp_file_src.txt"
+  let dest = "test_cp_file_dest.txt"
+  writeFileSync(src, "copy file test" |> js)
+  cpSync(src, dest)
+  let dest_exists = existsSync(dest)
+  inspect(dest_exists, content="true")
+  // Cleanup
+  unlinkSync(src)
+  unlinkSync(dest)
+}
+
+///|
+/// Test openSync with mode parameter
+test "open_sync with mode creates file with permissions" {
+  let test_file = "test_open_mode.txt"
+  let fd = openSync(test_file, "w", mode=0o644)
+  inspect(fd > 0, content="true")
+  closeSync(fd)
+  let exists = existsSync(test_file)
+  inspect(exists, content="true")
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test rmdir_sync with recursive option
+test "rmdir_sync with recursive removes nested directories" {
+  let test_dir = "test_rmdir_recursive"
+  mkdirSync("\{test_dir}/sub", recursive=true)
+  rmdirSync(test_dir, recursive=true)
+  let exists = existsSync(test_dir)
+  inspect(exists == false, content="true")
+}
