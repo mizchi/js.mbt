@@ -152,8 +152,14 @@ pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Js {
 
 ///|
 /// JS: Object.create(v)
-pub fn Object::create(v : Js) -> Js {
-  object_class().call("create", [v]) |> unsafe_cast
+pub fn Object::create(v : &JsImpl) -> Js {
+  object_class().call1("create", v) |> unsafe_cast
+}
+
+///|
+/// JS: Object.create(v)
+pub fn Object::is_(a : &JsImpl, b : &JsImpl) -> Js {
+  object_class().call2("create", a, b) |> unsafe_cast
 }
 
 ///|
@@ -261,3 +267,13 @@ pub extern "js" fn Function::apply(
   args : Array[Js],
 ) -> Js =
   #|(self, args) => self.apply(caller, args)
+
+///|
+/// JS: function.bind(caller)
+pub extern "js" fn Function::bind(self : Self, caller : Js) -> Js =
+  #|(self, caller) => self.bind(caller)
+
+///|
+/// JS: function.length
+pub extern "js" fn Function::length(self : Self) -> Js =
+  #|(self) => self.length
