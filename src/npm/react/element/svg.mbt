@@ -6,7 +6,7 @@ pub fn svg(
   height~ : Int,
   view_box? : String,
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -27,11 +27,14 @@ pub fn svg(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["width"] = width |> js
-  attrs["height"] = height |> js
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("width", width)
+  attrs.set("height", height)
   if view_box is Some(view_box) {
-    attrs["viewBox"] = view_box |> js
+    attrs.set("viewBox", view_box)
   }
   common_node(
     "svg",
@@ -68,7 +71,7 @@ pub fn circle(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -86,18 +89,21 @@ pub fn circle(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["cx"] = cx |> js
-  attrs["cy"] = cy |> js
-  attrs["r"] = r |> js
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("cx", cx)
+  attrs.set("cy", cy)
+  attrs.set("r", r)
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> js
+    attrs.set("stroke", stroke)
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> js
+    attrs.set("strokeWidth", stroke_width)
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> js
+    attrs.set("fill", fill)
   }
   common_node(
     "circle",
@@ -135,7 +141,7 @@ pub fn ellipse(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -156,19 +162,22 @@ pub fn ellipse(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["cx"] = cx |> js
-  attrs["cy"] = cy |> js
-  attrs["rx"] = rx |> js
-  attrs["ry"] = ry |> js
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("cx", cx)
+  attrs.set("cy", cy)
+  attrs.set("rx", rx)
+  attrs.set("ry", ry)
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> js
+    attrs.set("stroke", stroke)
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> js
+    attrs.set("strokeWidth", stroke_width)
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> js
+    attrs.set("fill", fill)
   }
   common_node(
     "circle",
@@ -206,7 +215,7 @@ pub fn rect(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -227,19 +236,22 @@ pub fn rect(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> js
-  attrs["y"] = y |> js
-  attrs["width"] = width |> js
-  attrs["height"] = height |> js
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("x", x)
+  attrs.set("y", y)
+  attrs.set("width", width)
+  attrs.set("height", height)
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> js
+    attrs.set("stroke", stroke)
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> js
+    attrs.set("strokeWidth", stroke_width)
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> js
+    attrs.set("fill", fill)
   }
   common_node(
     "rect",
@@ -277,7 +289,7 @@ pub fn line(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -298,19 +310,22 @@ pub fn line(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["x1"] = x1 |> js
-  attrs["y1"] = y1 |> js
-  attrs["x2"] = x2 |> js
-  attrs["y2"] = y2 |> js
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("x1", x1)
+  attrs.set("y1", y1)
+  attrs.set("x2", x2)
+  attrs.set("y2", y2)
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> js
+    attrs.set("stroke", stroke)
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> js
+    attrs.set("strokeWidth", stroke_width)
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> js
+    attrs.set("fill", fill)
   }
   common_node(
     "line",
@@ -345,7 +360,7 @@ pub fn path(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -366,16 +381,19 @@ pub fn path(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["d"] = d |> js
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("d", d)
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> js
+    attrs.set("stroke", stroke)
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> js
+    attrs.set("strokeWidth", stroke_width)
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> js
+    attrs.set("fill", fill)
   }
   common_node(
     "path",
@@ -407,7 +425,7 @@ pub fn use_(
   href~ : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -428,8 +446,11 @@ pub fn use_(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["href"] = href |> js
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("href", href)
   common_node(
     "use",
     attrs,
@@ -463,7 +484,7 @@ pub fn polygon(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -484,16 +505,19 @@ pub fn polygon(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["points"] = points |> unsafe_cast
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("points", points |> unsafe_cast)
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> js
+    attrs.set("stroke", stroke)
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> js
+    attrs.set("strokeWidth", stroke_width)
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> js
+    attrs.set("fill", fill)
   }
   common_node(
     "points",
@@ -528,7 +552,7 @@ pub fn polyline(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -549,16 +573,19 @@ pub fn polyline(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["points"] = points |> unsafe_cast
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("points", points |> unsafe_cast)
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> js
+    attrs.set("stroke", stroke)
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> js
+    attrs.set("strokeWidth", stroke_width)
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> js
+    attrs.set("fill", fill)
   }
   common_node(
     "polyline",
@@ -593,7 +620,7 @@ pub fn g(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -614,15 +641,18 @@ pub fn g(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> js
+    attrs.set("stroke", stroke)
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> js
+    attrs.set("strokeWidth", stroke_width)
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> js
+    attrs.set("fill", fill)
   }
   common_node(
     "g",
@@ -652,7 +682,7 @@ pub fn g(
 pub fn defs(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -673,7 +703,10 @@ pub fn defs(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
   common_node(
     "defs",
     attrs,
@@ -714,7 +747,7 @@ pub fn text(
   fill? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -735,32 +768,35 @@ pub fn text(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> js
-  attrs["y"] = y |> js
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("x", x)
+  attrs.set("y", y)
   if dx is Some(dx) {
-    attrs["dx"] = dx |> js
+    attrs.set("dx", dx)
   }
   if dy is Some(dy) {
-    attrs["dy"] = dy |> js
+    attrs.set("dy", dy)
   }
   if length_adjust is Some(length_adjust) {
-    attrs["lengthAdjust"] = length_adjust |> js
+    attrs.set("lengthAdjust", length_adjust)
   }
   if text_length is Some(text_length) {
-    attrs["textLength"] = text_length |> js
+    attrs.set("textLength", text_length)
   }
   if stroke is Some(stroke) {
-    attrs["stroke"] = stroke |> js
+    attrs.set("stroke", stroke)
   }
   if stroke_width is Some(stroke_width) {
-    attrs["strokeWidth"] = stroke_width |> js
+    attrs.set("strokeWidth", stroke_width)
   }
   if fill is Some(fill) {
-    attrs["fill"] = fill |> js
+    attrs.set("fill", fill)
   }
   if rotate is Some(rotate) {
-    attrs["rotate"] = rotate |> js
+    attrs.set("rotate", rotate)
   }
   common_node(
     "text",
@@ -792,7 +828,7 @@ pub fn image(
   y~ : Int,
   href~ : String,
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -813,10 +849,13 @@ pub fn image(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let attrs = attributes.unwrap_or({})
-  attrs["x"] = x |> js
-  attrs["y"] = y |> js
-  attrs["href"] = href |> js
+  let attrs : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
+  }
+  attrs.set("x", x)
+  attrs.set("y", y)
+  attrs.set("href", href)
   common_node(
     "image",
     attrs,

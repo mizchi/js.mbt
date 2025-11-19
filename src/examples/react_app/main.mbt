@@ -195,7 +195,12 @@ fn app(props : AppProps) -> @react.Element {
           textarea(
             id="my-textarea",
             on_change~,
-            attributes={ "rows": js(4), "cols": js(40) },
+            props={
+              let obj = @js.Object::new()
+              obj.set("rows", 4)
+              obj.set("cols", 40)
+              obj
+            },
             ref_=textarea_ref,
             value=input_text,
             [],

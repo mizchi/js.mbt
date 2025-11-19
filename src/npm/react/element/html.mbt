@@ -1,7 +1,7 @@
 ///|
 fn common_node(
   tag_name : String,
-  attributes : Map[String, Js],
+  props : @js.Object,
   children~ : Array[&ReactNode],
   id~ : String?,
   class~ : String?,
@@ -21,43 +21,41 @@ fn common_node(
   on_dragover~ : DragEventHandler?,
   on_drop~ : DragEventHandler?,
 ) -> @react.Element {
-  let attr : Map[String, Js] = {}
-  for k, v in attributes {
-    attr[k] = v
-  }
+  let merged_props : @js.Object = @js.Object::assign(@js.Object::new(), props)
+    |> unsafe_cast
   if id is Some(id) {
-    attr.set("id", id |> js)
+    merged_props.set("id", id)
   }
   if class is Some(class) {
-    attr.set("className", class |> js)
+    merged_props.set("className", class)
   }
   if tab_index is Some(tab_index) {
-    attr.set("tabIndex", tab_index |> js)
+    merged_props.set("tabIndex", tab_index)
   }
   if style is Some(style) {
     let style_obj = @js.Object::new()
     for k, v in style {
       style_obj.set(k, v)
     }
-    attr.set("style", style_obj.to_js())
+    merged_props.set("style", style_obj.to_js())
   }
   if ref_ is Some(ref_) {
-    attr.set("ref", ref_ |> js)
+    merged_props.set("ref", ref_ |> js)
   }
   if key is Some(key) {
-    attr.set("key", key |> js)
+    merged_props.set("key", key)
   }
   if on_click is Some(f) {
-    attr.set("onClick", f |> @js.from_fn1)
+    merged_props.set("onClick", f |> @js.from_fn1)
   }
   if on_change is Some(f) {
-    attr.set("onChange", f |> @js.from_fn1)
+    merged_props.set("onChange", f |> @js.from_fn1)
   }
   if on_keydown is Some(f) {
-    attr.set("onKeyDown", f |> @js.from_fn1)
+    merged_props.set("onKeyDown", f |> @js.from_fn1)
   }
   if on_keyup is Some(f) {
-    attr.set("onKeyUp", f |> @js.from_fn1)
+    merged_props.set("onKeyUp", f |> @js.from_fn1)
   }
   let drag_handlers : Array[(String, DragEventHandler?)] = [
     ("onDrag", on_drag),
@@ -70,10 +68,11 @@ fn common_node(
   ]
   for h in drag_handlers {
     if h.1 is Some(f) {
-      attr.set(h.0, f |> @js.from_fn1)
+      merged_props.set(h.0, f |> @js.from_fn1)
     }
   }
-  h(tag_name, props=attr, children.map(_.to_react_node()))
+  let children_js = children.map(_.to_react_node()) |> @js.from_array
+  @react.createElementDirect(tag_name, merged_props.to_js(), children_js)
 }
 
 ///|
@@ -81,7 +80,7 @@ pub fn div(
   // common props
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -104,7 +103,10 @@ pub fn div(
 ) -> @react.Element {
   common_node(
     "div",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     tab_index~,
@@ -131,7 +133,7 @@ pub fn pre(
   // common props
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -154,7 +156,10 @@ pub fn pre(
 ) -> @react.Element {
   common_node(
     "pre",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     tab_index~,
     class~,
@@ -181,7 +186,7 @@ pub fn blockquote(
   // common props
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -204,7 +209,10 @@ pub fn blockquote(
 ) -> @react.Element {
   common_node(
     "blockquote",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -230,7 +238,7 @@ pub fn blockquote(
 pub fn span(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -253,7 +261,10 @@ pub fn span(
 ) -> @react.Element {
   common_node(
     "span",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -279,7 +290,7 @@ pub fn span(
 pub fn nav(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -302,7 +313,10 @@ pub fn nav(
 ) -> @react.Element {
   common_node(
     "nav",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -328,7 +342,7 @@ pub fn nav(
 pub fn p(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -351,7 +365,10 @@ pub fn p(
 ) -> @react.Element {
   common_node(
     "p",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -383,7 +400,7 @@ pub fn textarea(
   default_value? : String,
   placeholder? : String,
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -404,33 +421,31 @@ pub fn textarea(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
   if rows is Some(r) {
-    new_attributes.set("rows", r |> js)
+    custom_props.set("rows", r)
   }
   if columns is Some(c) {
-    new_attributes.set("cols", c |> js)
+    custom_props.set("cols", c)
   }
   if spellcheck is Some(s) {
-    new_attributes.set("spellCheck", s |> js)
+    custom_props.set("spellCheck", s)
   }
   if value is Some(v) {
-    new_attributes.set("value", v |> js)
+    custom_props.set("value", v)
   }
   if default_value is Some(dv) {
-    new_attributes.set("defaultValue", dv |> js)
+    custom_props.set("defaultValue", dv)
   }
-  if placeholder is Some(p) {
-    new_attributes.set("placeholder", p |> js)
+  if placeholder is Some(ph) {
+    custom_props.set("placeholder", ph)
   }
   common_node(
     "textarea",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,
@@ -455,7 +470,7 @@ pub fn textarea(
 ///|
 pub fn input(
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   name? : String,
@@ -481,30 +496,28 @@ pub fn input(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
   if name is Some(n) {
-    new_attributes.set("name", n |> js)
+    custom_props.set("name", n)
   }
   if value is Some(v) {
-    new_attributes.set("value", v |> js)
+    custom_props.set("value", v)
   }
   if default_value is Some(dv) {
-    new_attributes.set("defaultValue", dv |> js)
+    custom_props.set("defaultValue", dv)
   }
   if type_ is Some(t) {
-    new_attributes.set("type", t |> js)
+    custom_props.set("type", t)
   }
-  if placeholder is Some(p) {
-    new_attributes.set("placeholder", p |> js)
+  if placeholder is Some(ph) {
+    custom_props.set("placeholder", ph)
   }
   common_node(
     "input",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,
@@ -530,7 +543,7 @@ pub fn input(
 pub fn main_(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -553,7 +566,10 @@ pub fn main_(
 ) -> @react.Element {
   common_node(
     "main",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -579,7 +595,7 @@ pub fn main_(
 pub fn header(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -603,7 +619,10 @@ pub fn header(
 ) -> @react.Element {
   common_node(
     "header",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -629,7 +648,7 @@ pub fn header(
 pub fn footer(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -653,7 +672,10 @@ pub fn footer(
 ) -> @react.Element {
   common_node(
     "footer",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -679,7 +701,7 @@ pub fn footer(
 pub fn ul(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -703,7 +725,10 @@ pub fn ul(
 ) -> @react.Element {
   common_node(
     "ul",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -729,7 +754,7 @@ pub fn ul(
 pub fn ol(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -753,7 +778,10 @@ pub fn ol(
 ) -> @react.Element {
   common_node(
     "ol",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -779,7 +807,7 @@ pub fn ol(
 pub fn article(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -802,7 +830,10 @@ pub fn article(
 ) -> @react.Element {
   common_node(
     "article",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -828,7 +859,7 @@ pub fn article(
 pub fn aside(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -851,7 +882,10 @@ pub fn aside(
 ) -> @react.Element {
   common_node(
     "aside",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -877,7 +911,7 @@ pub fn aside(
 pub fn section(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -900,7 +934,10 @@ pub fn section(
 ) -> @react.Element {
   common_node(
     "section",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -942,7 +979,7 @@ pub fn form(
   action? : (FormData) -> Unit,
   on_submit? : (@dom.FormEvent) -> Unit,
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -964,35 +1001,33 @@ pub fn form(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
   if disabled is Some(d) {
-    new_attributes.set("disabled", d |> js)
+    custom_props.set("disabled", d)
   }
   if name is Some(n) {
-    new_attributes.set("name", n |> js)
+    custom_props.set("name", n)
   }
   if method_ is Some(m) {
-    new_attributes.set("method", m |> js)
+    custom_props.set("method", m)
   }
   if on_submit is Some(f) {
     let fn_value : Js = f |> @js.from_fn1
-    new_attributes.set("onSubmit", fn_value)
+    custom_props.set("onSubmit", fn_value)
   }
   if action is Some(f) {
     let fn_value : Js = f |> @js.from_fn1
-    new_attributes.set("action", fn_value)
+    custom_props.set("action", fn_value)
   }
   if enc_type is Some(e) {
-    new_attributes.set("encType", e |> js)
+    custom_props.set("encType", e)
   }
   common_node(
     "form",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,
@@ -1022,7 +1057,7 @@ pub fn select(
   disabled? : Bool,
   name? : String,
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1043,24 +1078,22 @@ pub fn select(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
   if multiple is Some(m) {
-    new_attributes.set("multiple", m |> js)
+    custom_props.set("multiple", m)
   }
   if disabled is Some(d) {
-    new_attributes.set("disabled", d |> js)
+    custom_props.set("disabled", d)
   }
   if name is Some(n) {
-    new_attributes.set("name", n |> js)
+    custom_props.set("name", n)
   }
   common_node(
     "select",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,
@@ -1088,7 +1121,7 @@ pub fn option(
   value~ : String,
   selected? : Bool,
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1110,19 +1143,17 @@ pub fn option(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
-  new_attributes.set("value", value |> js)
+  custom_props.set("value", value)
   if selected is Some(s) {
-    new_attributes.set("selected", s |> js)
+    custom_props.set("selected", s)
   }
   common_node(
     "option",
-    attributes.unwrap_or({}),
+    custom_props,
     id~,
     class~,
     style~,
@@ -1149,7 +1180,7 @@ pub fn label(
   children : Array[&ReactNode],
   htmlFor : String,
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1171,16 +1202,14 @@ pub fn label(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
-  new_attributes.set("htmlFor", htmlFor |> js)
+  custom_props.set("htmlFor", htmlFor)
   common_node(
     "label",
-    attributes.unwrap_or({}),
+    custom_props,
     id~,
     class~,
     style~,
@@ -1206,7 +1235,7 @@ pub fn label(
 pub fn li(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1230,7 +1259,10 @@ pub fn li(
 ) -> @react.Element {
   common_node(
     "li",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -1256,7 +1288,7 @@ pub fn li(
 pub fn code(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1280,7 +1312,10 @@ pub fn code(
 ) -> @react.Element {
   common_node(
     "code",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -1306,7 +1341,7 @@ pub fn code(
 pub fn details(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1330,7 +1365,10 @@ pub fn details(
 ) -> @react.Element {
   common_node(
     "details",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -1356,7 +1394,7 @@ pub fn details(
 pub fn summary(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1380,7 +1418,10 @@ pub fn summary(
 ) -> @react.Element {
   common_node(
     "summary",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -1412,7 +1453,7 @@ pub fn a(
   target? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1434,22 +1475,20 @@ pub fn a(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
-  new_attributes.set("href", href |> js)
+  custom_props.set("href", href)
   if download is Some(d) {
-    new_attributes.set("download", d |> js)
+    custom_props.set("download", d)
   }
   if target is Some(t) {
-    new_attributes.set("target", t |> js)
+    custom_props.set("target", t)
   }
   common_node(
     "a",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,
@@ -1485,7 +1524,7 @@ pub fn iframe(
   allowfullscreen? : Bool,
   loading? : String,
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1505,34 +1544,32 @@ pub fn iframe(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
-  new_attributes.set("src", src |> js)
+  custom_props.set("src", src)
   if width is Some(d) {
-    new_attributes.set("width", d |> js)
+    custom_props.set("width", d)
   }
   if height is Some(d) {
-    new_attributes.set("height", d |> js)
+    custom_props.set("height", d)
   }
   if frameborder is Some(d) {
-    new_attributes.set("frameborder", d |> js)
+    custom_props.set("frameborder", d)
   }
   if sandbox is Some(d) {
-    new_attributes.set("sandbox", d |> js)
+    custom_props.set("sandbox", d)
   }
   if allowfullscreen is Some(d) {
-    new_attributes.set("allowfullscreen", d |> js)
+    custom_props.set("allowfullscreen", d)
   }
   if loading is Some(d) {
-    new_attributes.set("loading", d |> js)
+    custom_props.set("loading", d)
   }
   common_node(
     "iframe",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,
@@ -1571,7 +1608,7 @@ pub fn img(
   sizes? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1593,43 +1630,41 @@ pub fn img(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
-  new_attributes.set("src", src |> js)
+  custom_props.set("src", src)
   if alt is Some(d) {
-    new_attributes.set("alt", d |> js)
+    custom_props.set("alt", d)
   }
   if crossorigin is Some(d) {
-    new_attributes.set("crossorigin", d |> js)
+    custom_props.set("crossorigin", d)
   }
   if decoding is Some(d) {
-    new_attributes.set("decoding", d |> js)
+    custom_props.set("decoding", d)
   }
   if width is Some(d) {
-    new_attributes.set("width", d |> js)
+    custom_props.set("width", d)
   }
   if height is Some(d) {
-    new_attributes.set("height", d |> js)
+    custom_props.set("height", d)
   }
   if fetchpriority is Some(d) {
-    new_attributes.set("fetchpriority", d |> js)
+    custom_props.set("fetchpriority", d)
   }
   if loading is Some(d) {
-    new_attributes.set("loading", d |> js)
+    custom_props.set("loading", d)
   }
   if sizes is Some(d) {
-    new_attributes.set("sizes", d |> js)
+    custom_props.set("sizes", d)
   }
   if srcset is Some(d) {
-    new_attributes.set("srcset", d |> js)
+    custom_props.set("srcset", d)
   }
   common_node(
     "img",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,
@@ -1659,7 +1694,7 @@ pub fn video(
   controls? : Bool,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1681,18 +1716,16 @@ pub fn video(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
   if controls is Some(c) {
-    new_attributes.set("controls", c |> @js.unsafe_js)
+    custom_props.set("controls", c |> @js.unsafe_js)
   }
   common_node(
     "video",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,
@@ -1721,7 +1754,7 @@ pub fn source(
   type_? : String,
 
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1743,19 +1776,17 @@ pub fn source(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
-  new_attributes.set("src", src |> @js.unsafe_js)
+  custom_props.set("src", src |> @js.unsafe_js)
   if type_ is Some(t) {
-    new_attributes.set("type", t |> @js.unsafe_js)
+    custom_props.set("type", t |> @js.unsafe_js)
   }
   common_node(
     "video",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,
@@ -1780,7 +1811,7 @@ pub fn source(
 ///|
 pub fn hr(
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1804,7 +1835,10 @@ pub fn hr(
 ) -> @react.Element {
   common_node(
     "hr",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -1830,7 +1864,7 @@ pub fn hr(
 pub fn h1(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1854,7 +1888,10 @@ pub fn h1(
 ) -> @react.Element {
   common_node(
     "h1",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -1880,7 +1917,7 @@ pub fn h1(
 pub fn h2(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1904,7 +1941,10 @@ pub fn h2(
 ) -> @react.Element {
   common_node(
     "h2",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -1930,7 +1970,7 @@ pub fn h2(
 pub fn h3(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1954,7 +1994,10 @@ pub fn h3(
 ) -> @react.Element {
   common_node(
     "h3",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -1980,7 +2023,7 @@ pub fn h3(
 pub fn h4(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2004,7 +2047,10 @@ pub fn h4(
 ) -> @react.Element {
   common_node(
     "h3",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -2030,7 +2076,7 @@ pub fn h4(
 pub fn h5(
   children : Array[&ReactNode],
   // shared
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2054,7 +2100,10 @@ pub fn h5(
 ) -> @react.Element {
   common_node(
     "h3",
-    attributes.unwrap_or({}),
+    match props {
+      Some(p) => p
+      None => @js.Object::new()
+    },
     id~,
     class~,
     style~,
@@ -2081,7 +2130,7 @@ pub fn button(
   children : Array[&ReactNode],
   type_? : String,
   disabled? : Bool,
-  attributes? : Map[String, Js],
+  props? : @js.Object,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2100,21 +2149,19 @@ pub fn button(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
-  let new_attributes : Map[String, Js] = {}
-  if attributes is Some(attrs) {
-    for k, v in attrs {
-      new_attributes[k] = v
-    }
+  let custom_props : @js.Object = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    None => @js.Object::new()
   }
   if type_ is Some(t) {
-    new_attributes.set("type", t |> @js.unsafe_js)
+    custom_props.set("type", t)
   }
   if disabled is Some(d) {
-    new_attributes.set("disabled", d |> @js.unsafe_js)
+    custom_props.set("disabled", d)
   }
   common_node(
     "button",
-    new_attributes,
+    custom_props,
     id~,
     class~,
     style~,

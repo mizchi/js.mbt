@@ -39,3 +39,10 @@ pub fn createElement(
   }
   unsafe_cast(ffi_create_element(tag, val.to_js(), children))
 }
+
+///|
+/// Intenal FFI to create React element
+/// Directly create a React element with given tag, props, and children.
+pub fn createElementDirect(tag : String, props : Js, children : Js) -> Element {
+  unsafe_cast(ffi_create_element(tag |> js, props, children))
+}

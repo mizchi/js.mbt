@@ -14,6 +14,8 @@ fn[T] component((T) -> Element, T, children? : Array[&@js.JsImpl], key? : String
 #alias(h)
 fn createElement(String, Array[&@js.JsImpl], props? : Map[String, @js.Js], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
 
+fn createElementDirect(String, @js.Js, @js.Js) -> Element
+
 #alias(createContext)
 fn[T] create_context(T?) -> Context[T]
 
