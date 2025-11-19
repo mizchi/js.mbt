@@ -48,40 +48,12 @@ extern "js" fn ffi_invoke(v : Js, key : String, args : Array[Js]) -> Js =
   #|(obj, k, args) => obj[k](...args)
 
 ///|
-extern "js" fn ffi_new_empty_object() -> Js =
+extern "js" fn ffi_new_object() -> Js =
   #|() => ({})
 
 ///|
 extern "js" fn ffi_new_empty_array() -> Js =
   #|() => ([])
-
-///|
-extern "js" fn ffi_symbol_for(name : String) -> Symbol =
-  #| (name) => Symbol.for(name)
-
-///|
-extern "js" fn ffi_object_create(v: Js) -> Js =
-  #| (v) => Object.create(v)
-
-///|
-extern "js" fn ffi_symbol_iterator() -> Symbol =
-  #| () => Symbol.iterator
-
-///|
-extern "js" fn ffi_symbol_async_iterator() -> Symbol =
-  #| () => Symbol.asyncIterator
-
-///|
-extern "js" fn ffi_symbol_dispose() -> Symbol =
-  #| () => Symbol.dispose
-
-///|
-extern "js" fn ffi_symbol_async_dispose() -> Symbol =
-  #| () => Symbol.asyncDispose
-
-///|
-extern "js" fn ffi_symbol_to_string_tag() -> Symbol =
-  #| () => Symbol.toStringTag
 
 ///|
 extern "js" fn ffi_symbol(name : String) -> Symbol =
@@ -100,7 +72,7 @@ extern "js" fn ffi_property_is_enumerable(v : Js, k : String) -> Bool =
   #| (obj, k) => obj.propertyIsEnumerable(k)
 
 ///|
-extern "js" fn ffi_is_prototype_of(v : Js, target: Js) -> Bool =
+extern "js" fn ffi_is_prototype_of(v : Js, target : Js) -> Bool =
   #| (obj, target) => obj.isPrototypeOf(target)
 
 // Object
@@ -128,14 +100,6 @@ extern "js" fn ffi_object_keys(v : Js) -> Array[String] =
 ///|
 extern "js" fn ffi_object_entries(v : Js) -> Array[Js] =
   #|(v) => Object.entries(v)
-
-///|
-extern "js" fn ffi_object_values(v : Js) -> Array[Js] =
-  #|(v) => Object.values(v)
-
-///|
-extern "js" fn ffi_object_assign(v : Js, o : Js) -> Js =
-  #|(obj, o) => Object.assign(obj, o)
 
 ///|
 extern "js" fn ffi_console_log(v : Array[Js]) -> Unit =
