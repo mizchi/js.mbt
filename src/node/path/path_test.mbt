@@ -9,6 +9,16 @@ test "node:path join" {
 }
 
 ///|
+test "node:path join2" {
+  let path = join2("foo", "bar")
+  assert_eq(path, "foo/bar")
+  let path2 = join2("foo", "/bar")
+  assert_eq(path2, "foo/bar")
+  let path3 = join2("/foo", "bar")
+  assert_eq(path3, "/foo/bar")
+}
+
+///|
 test "node:path dirname" {
   let dir = dirname("foo/bar/baz.txt")
   assert_eq(dir, "foo/bar")

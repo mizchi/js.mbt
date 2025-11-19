@@ -80,10 +80,55 @@ test "write_heap_snapshot returns filename" {
 }
 
 ///|
+/// Test write_heap_snapshot with custom filename
+test "write_heap_snapshot with custom filename" {
+  let custom_name = "/tmp/test-heap-snapshot.heapsnapshot"
+  let filename = @v8.writeHeapSnapshot(filename=custom_name)
+  inspect(filename == custom_name, content="true")
+  // Clean up snapshot file
+  run_async(async fn() noraise {
+    try rm(filename).unwrap() |> ignore catch {
+      _ => ()
+    }
+  })
+}
+
+///|
 /// Test get_heap_snapshot returns stream
 test "get_heap_snapshot returns stream" {
   let stream = @v8.getHeapSnapshot()
   inspect(@js.typeof_(stream) == "object", content="true")
+}
+
+///|
+/// Test get_heap_snapshot with options
+test "get_heap_snapshot with expose_internals" {
+  let stream = @v8.getHeapSnapshot(expose_internals=true)
+  inspect(@js.typeof_(stream) == "object", content="true")
+}
+
+///|
+/// Test get_heap_snapshot with expose_numeric_values
+test "get_heap_snapshot with expose_numeric_values" {
+  let stream = @v8.getHeapSnapshot(expose_numeric_values=true)
+  inspect(@js.typeof_(stream) == "object", content="true")
+}
+
+///|
+/// Test get_heap_snapshot with both options
+test "get_heap_snapshot with both options" {
+  let stream = @v8.getHeapSnapshot(
+    expose_internals=true,
+    expose_numeric_values=true,
+  )
+  inspect(@js.typeof_(stream) == "object", content="true")
+}
+
+///|
+/// Test set_heap_snapshot_near_heap_limit
+test "set_heap_snapshot_near_heap_limit" {
+  @v8.setHeapSnapshotNearHeapLimit(10)
+  inspect(true, content="true")
 }
 
 ///| Serialization Tests
@@ -151,6 +196,28 @@ test "Serializer write_double" {
   inspect(unsafe_cast(buffer.get("length")) > 0, content="true")
 }
 
+///|
+/// Test Serializer transfer_array_buffer
+test "Serializer transfer_array_buffer" {
+  let serializer = Serializer::new()
+  serializer.write_header()
+  let ab = @arraybuffer.ArrayBuffer::new(16)
+  serializer.transferArrayBuffer(1, ab)
+  let buffer = serializer.releaseBuffer()
+  inspect(unsafe_cast(buffer.get("length")) > 0, content="true")
+}
+
+///|
+/// Test Serializer write_raw_bytes
+test "Serializer write_raw_bytes" {
+  let serializer = Serializer::new()
+  serializer.write_header()
+  let buffer = @buffer.Buffer::from_string("test")
+  serializer.write_raw_bytes(buffer)
+  let released = serializer.releaseBuffer()
+  inspect(unsafe_cast(released.get("length")) > 0, content="true")
+}
+
 ///| Deserializer Tests
 
 ///|
@@ -173,6 +240,58 @@ test "Deserializer get_wire_format_version" {
   inspect(version >= 0, content="true")
 }
 
+///|
+/// Test Deserializer transfer_array_buffer
+test "Deserializer transfer_array_buffer" {
+  let ab = @arraybuffer.ArrayBuffer::new(16)
+  let serialized = serialize(ab)
+  let deserializer = Deserializer::new(serialized)
+  deserializer.read_header() |> ignore
+  let new_ab = @arraybuffer.ArrayBuffer::new(16)
+  deserializer.transfer_array_buffer(1, new_ab)
+  inspect(true, content="true")
+}
+
+///|
+/// Test Deserializer read_uint32
+test "Deserializer read_uint32" {
+  let serializer = Serializer::new()
+  serializer.write_header()
+  serializer.write_uint32(12345)
+  let buffer = serializer.releaseBuffer()
+  let deserializer = Deserializer::new(buffer)
+  deserializer.read_header() |> ignore
+  let value = deserializer.readUint32()
+  inspect(value == 12345, content="true")
+}
+
+///|
+/// Test Deserializer read_double
+test "Deserializer read_double" {
+  let serializer = Serializer::new()
+  serializer.write_header()
+  serializer.write_double(3.14159)
+  let buffer = serializer.releaseBuffer()
+  let deserializer = Deserializer::new(buffer)
+  deserializer.read_header() |> ignore
+  let value = deserializer.readDouble()
+  inspect(value > 3.14 && value < 3.15, content="true")
+}
+
+///|
+/// Test Deserializer read_raw_bytes
+test "Deserializer read_raw_bytes" {
+  let serializer = Serializer::new()
+  serializer.write_header()
+  let test_buffer = @buffer.Buffer::from_string("test data")
+  serializer.write_raw_bytes(test_buffer)
+  let buffer = serializer.releaseBuffer()
+  let deserializer = Deserializer::new(buffer)
+  deserializer.read_header() |> ignore
+  let read_buffer = deserializer.readRawBytes(9)
+  inspect(unsafe_cast(read_buffer.get("length")) == 9, content="true")
+}
+
 ///| Utility Function Tests
 
 ///|
@@ -184,8 +303,9 @@ test "cached_data_version_tag returns number" {
 
 ///|
 /// Test set_flags_from_string API exists
-test "set_flags_from_string API exists" {
-  // Just verify the API exists without setting dangerous flags
+test "set_flags_from_string" {
+  // Set a harmless flag to verify the API works
+  @v8.setFlagsFromString("--expose-gc")
   inspect(true, content="true")
 }
 

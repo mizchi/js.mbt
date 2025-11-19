@@ -89,3 +89,14 @@ test "parse_args" {
   })
   assert_eq(res.positionals, ["file1.txt", "file2.txt"])
 }
+
+///|
+test "parse_args with empty options" {
+  let res = parseArgs(
+    args=["file1.txt", "file2.txt"],
+    options=[],
+    allow_positionals=true,
+  )
+  assert_eq(res.values.is_empty(), true)
+  assert_eq(res.positionals, ["file1.txt", "file2.txt"])
+}
