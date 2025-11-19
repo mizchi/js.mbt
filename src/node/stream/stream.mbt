@@ -54,7 +54,7 @@ pub fn Readable::pause(self : Readable) -> Readable {
 }
 
 ///|
-pub fn Readable::resume(self : Readable) -> Readable {
+pub fn Readable::resume_(self : Readable) -> Readable {
   self.invoke("resume", []) |> unsafe_cast
 }
 

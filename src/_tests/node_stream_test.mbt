@@ -61,7 +61,7 @@ test {
     assert_eq(readable.isPaused(), false)
     let _ = readable.pause()
     assert_eq(readable.isPaused(), true)
-    let _ = readable.resume()
+    let _ = readable.resume_()
     assert_eq(readable.isPaused(), false)
   })
 }

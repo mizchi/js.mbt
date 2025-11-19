@@ -1,4 +1,4 @@
-# async tests
+# async tests directory
 
 This directory contains asynchronous test cases for the `js.mbt` project. Each test case is designed to validate the functionality of asynchronous operations within the codebase.
 
