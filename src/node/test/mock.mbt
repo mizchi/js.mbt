@@ -86,6 +86,40 @@ pub fn MockTracker::setter_(
 }
 
 ///|
+/// Mock a module import
+/// mock.module(specifier[, options])
+pub fn MockTracker::module_(
+  self : MockTracker,
+  specifier : String,
+  defaultExport? : Js,
+  namedExports? : Js,
+) -> Unit {
+  let options = @js.Object::new()
+  if defaultExport is Some(exp) {
+    options.set("defaultExport", exp)
+  }
+  if namedExports is Some(exp) {
+    options.set("namedExports", exp)
+  }
+  self.call("module", [@js.js(specifier), options]) |> ignore
+}
+
+///|
+/// Mock a property value
+/// mock.property(object, propertyName[, value])
+pub fn MockTracker::property_(
+  self : MockTracker,
+  object : Js,
+  propertyName : String,
+  value? : Js,
+) -> Js {
+  match value {
+    Some(val) => self.call("property", [object, propertyName, val])
+    None => self.call("property", [object, propertyName])
+  }
+}
+
+///|
 /// Reset all mocks (clear call tracking without restoration)
 pub fn MockTracker::reset(self : MockTracker) -> Unit {
   self.call("reset", []) |> ignore

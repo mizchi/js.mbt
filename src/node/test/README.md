@@ -1,8 +1,6 @@
-# mizchi/js/node/test
+# @mizchi/js/node/test
 
-## node:test
-
-Node.js native test runner APIs
+MoonBit bindings for Node.js `node:test` module - the native test runner.
 
 ## Installation
 
@@ -18,50 +16,133 @@ Add to your `moon.pkg.json`:
 }
 ```
 
-### Implemented APIs
+## API
 
-#### Test Functions
-- [x] it(name, fn) - Define a test (BDD style)
-- [x] beforeAll(fn) - Run before all tests
-- [x] afterAll(fn) - Run after all tests
-- [x] beforeEach(fn) - Run before each test
-- [x] afterEach(fn) - Run after each test
+### Test Definition Functions
 
-#### Test Context
-- [x] TestContext type
-- [x] todo(message) - Mark test as TODO
+#### Core Test Functions
+- `test_(name, skip?, todo?, only?, timeout?, fn)` - Define a test case (note: `test` is reserved keyword in MoonBit)
+- `test_skip(name, fn)` - Skip a test
+- `test_todo(name, fn?)` - Mark test as TODO
+- `test_only(name, fn)` - Run only this test
 
-#### Test Runner
-- [x] run(options?) - Run tests programmatically
-  - Options: files, testNamePatterns, timeout, concurrency, watch
+#### BDD-Style Aliases
+- `it(name, skip?, fn)` - Alias for test() with BDD style
+- `describe(name, skip?, todo?, only?, fn)` - Group related tests
+- `describe_skip(name, fn)` - Skip a test suite
+- `describe_todo(name, fn?)` - Mark suite as TODO
+- `describe_only(name, fn)` - Run only this suite
 
-#### Mock APIs
-- [x] MockTracker type
-- [x] mock() - Create mock tracker
-- [x] fn_(original?, options?) - Create mock function
-- [x] method_(object, methodName, implementation?, options?) - Mock method
-- [x] getter_(object, propertyName, implementation?, options?) - Mock getter
-- [x] setter_(object, propertyName, implementation?, options?) - Mock setter
-- [x] reset() - Reset all mocks
-- [x] restoreAll() - Restore all mocked functions
+### Lifecycle Hooks
 
-#### Mock Function Context
-- [x] MockFunctionContext type
-- [x] calls() - Get array of call records
-- [x] callCount() - Get number of calls
-- [x] mockImplementation(fn) - Set implementation
-- [x] mockImplementationOnce(fn) - Set one-time implementation
-- [x] resetCalls() - Reset call history
-- [x] restore() - Restore original function
+- `before(fn, timeout?)` - Run once before suite tests
+- `after(fn, timeout?)` - Run once after suite completion
+- `beforeEach(fn, timeout?)` - Run before each test
+- `afterEach(fn, timeout?)` - Run after each test
 
-### Types
-- [x] TestContext - Test execution context
-- [x] MockTracker - Mock management
-- [x] MockFunctionContext - Mock function control
+#### Aliases
+- `beforeAll(fn)` - Alias for `before()`
+- `afterAll(fn)` - Alias for `after()`
+
+### TestContext Methods
+
+- `skip(message?)` - Skip the current test
+- `todo(message?)` - Mark current test as TODO
+- `diagnostic(message)` - Output diagnostic information
+- `plan(count)` - Declare expected assertion count
+- `runOnly(shouldRunOnlyTests)` - Toggle execution of only-marked subtests
+
+### Snapshot Testing
+
+- `TestContext::assert_snapshot(value, message?)` - Compare value against stored snapshot
+- `TestContext::assert_fileSnapshot(value, path, message?)` - File-based snapshot comparison
+- `setDefaultSnapshotSerializers(serializers)` - Customize snapshot serialization
+- `setResolveSnapshotPath(fn)` - Custom snapshot file location
+
+### Mock APIs
+
+#### MockTracker
+- `mock()` - Get the global mock tracker
+- `MockTracker::fn_(original?, implementation?)` - Create spy/mock function
+- `MockTracker::method_(object, methodName, implementation?)` - Mock object method
+- `MockTracker::getter_(object, methodName, implementation?)` - Mock property getter
+- `MockTracker::setter_(object, methodName, implementation?)` - Mock property setter
+- `MockTracker::module_(specifier, defaultExport?, namedExports?)` - Mock module imports
+- `MockTracker::property_(object, propertyName, value?)` - Mock property value
+- `MockTracker::reset()` - Clear all tracked mock calls
+- `MockTracker::restoreAll()` - Restore original implementations
+
+#### MockFunctionContext
+- `MockFunctionContext::calls()` - Get array of call records
+- `MockFunctionContext::callCount()` - Get invocation count
+- `MockFunctionContext::mockImplementation(implementation)` - Change mock behavior
+- `MockFunctionContext::mockImplementationOnce(implementation, onCall?)` - Set behavior for single call
+- `MockFunctionContext::resetCalls()` - Clear call history
+- `MockFunctionContext::restore()` - Revert to original implementation
+- `get_mock_context(func)` - Get mock context from mocked function
+
+### Timer Mocking
+
+- `mock_timers()` - Get the mock.timers object
+- `MockTimers::enable(apis?, now?)` - Enable timer mocking
+- `MockTimers::tick(milliseconds)` - Advance mocked time
+- `MockTimers::runAll()` - Execute all queued timers
+- `MockTimers::reset()` - Clear timer queue
+- `MockTimers::setTime(milliseconds)` - Set absolute time
+
+### Test Runner
+
+- `run(files?, cwd?, forceExit?, ...)` - Run tests programmatically with extensive options
+
+## Types
+
+- `TestContext` - Test execution context
+- `SuiteContext` - Suite execution context
+- `MockTracker` - Mock management
+- `MockFunctionContext` - Mock function control
+- `MockTimers` - Timer mocking control
+
+## Example
+
+```moonbit
+test "basic test" {
+  @test.it("addition works", _ => {
+    assert_eq(2 + 2, 4)
+  })
+  
+  @test.it("todo test", ctx => {
+    ctx.todo(message="implement later")
+  })
+}
+
+test "with hooks" {
+  @test.before(() => {
+    println("setup")
+  })
+  
+  @test.afterEach(() => {
+    println("cleanup")
+  })
+  
+  @test.describe("math operations", _ => {
+    @test.it("multiplication", _ => {
+      assert_eq(3 * 4, 12)
+    })
+  })
+}
+
+test "mocking example" {
+  @test.it("mock function", _ => {
+    let m = @test.mock()
+    let fn = m.fn_()
+    let ctx = @test.get_mock_context(fn)
+    
+    fn.call_self([])
+    assert_eq(ctx.callCount(), 1)
+  })
+}
+```
 
 ## Usage
-This package is used extensively in test files under `src/_tests/`
 
-## Test Coverage
-- Tests in src/node/test/mock_test.mbt
-- Used in all async test files in src/_tests/
+This package is used extensively in test files under `src/_tests/`. It provides a complete implementation of Node.js's native test runner for MoonBit.

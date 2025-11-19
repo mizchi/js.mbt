@@ -7,17 +7,27 @@ import(
 )
 
 // Values
+fn after(async () -> Unit, timeout? : Int) -> Unit
+
 #alias(after_all)
 fn afterAll(async () -> Unit) -> Unit
 
-#alias(after_each)
-fn afterEach(async () -> Unit) -> Unit
+fn afterEach(async () -> Unit, timeout? : Int) -> Unit
+
+fn before(async () -> Unit, timeout? : Int) -> Unit
 
 #alias(before_all)
 fn beforeAll(async () -> Unit) -> Unit
 
-#alias(before_each)
-fn beforeEach(async () -> Unit) -> Unit
+fn beforeEach(async () -> Unit, timeout? : Int) -> Unit
+
+fn describe(String, skip? : Bool, todo? : Bool, only? : Bool, async (SuiteContext) -> Unit) -> Unit
+
+fn describe_only(String, async (SuiteContext) -> Unit) -> Unit
+
+fn describe_skip(String, async (SuiteContext) -> Unit) -> Unit
+
+fn describe_todo(String, f? : async (SuiteContext) -> Unit) -> Unit
 
 fn get_mock_context(@js.Js) -> MockFunctionContext
 
@@ -25,7 +35,21 @@ fn it(String, skip? : String, async (TestContext) -> Unit) -> Unit
 
 fn mock() -> MockTracker
 
+fn mock_timers() -> MockTimers
+
 fn run(files? : Array[String], cwd? : String, forceExit? : Bool, inspectPort? : Int, only? : Bool, concurrency? : Int, globPatterns? : Array[String], isolation? : Bool, execArgv? : Array[String], argv? : Array[String], watch? : Bool, shard? : TestShard, signal? : @js.AbortSignal, testNamePatterns? : Array[String], testSkipPatterns? : Array[String], timeout? : Int, rerunFailuresFilePath? : String, setup? : () -> Unit, coverage? : Bool, lineCoverage? : Bool, functionCoverage? : Bool, branchCoverage? : Bool, coverageIncludeGlobs? : Array[String], coverageExcludeGlobs? : Array[String]) -> @stream.Stream
+
+fn setDefaultSnapshotSerializers(Array[&@js.JsImpl]) -> Unit
+
+fn setResolveSnapshotPath((String) -> String) -> Unit
+
+fn test_(String, skip? : Bool, todo? : Bool, only? : Bool, timeout? : Int, async (TestContext) -> Unit) -> Unit
+
+fn test_only(String, async (TestContext) -> Unit) -> Unit
+
+fn test_skip(String, async (TestContext) -> Unit) -> Unit
+
+fn test_todo(String, f? : async (TestContext) -> Unit) -> Unit
 
 // Errors
 
@@ -41,17 +65,39 @@ fn MockFunctionContext::restore(Self) -> Unit
 impl @js.JsImpl for MockFunctionContext
 
 #external
+pub type MockTimers
+fn MockTimers::enable(Self, apis? : Array[String], now? : Int) -> Unit
+fn MockTimers::reset(Self) -> Unit
+fn MockTimers::runAll(Self) -> Unit
+fn MockTimers::setTime(Self, Int) -> Unit
+fn MockTimers::tick(Self, Int) -> Unit
+impl @js.JsImpl for MockTimers
+
+#external
 pub type MockTracker
 fn MockTracker::fn_(Self, original? : @js.Js, implementation? : @js.Js) -> @js.Js
 fn MockTracker::getter_(Self, @js.Js, String, implementation? : @js.Js) -> @js.Js
 fn MockTracker::method_(Self, @js.Js, String, implementation? : @js.Js) -> @js.Js
+fn MockTracker::module_(Self, String, defaultExport? : @js.Js, namedExports? : @js.Js) -> Unit
+fn MockTracker::property_(Self, @js.Js, String, value? : @js.Js) -> @js.Js
 fn MockTracker::reset(Self) -> Unit
 fn MockTracker::restoreAll(Self) -> Unit
 fn MockTracker::setter_(Self, @js.Js, String, implementation? : @js.Js) -> @js.Js
 impl @js.JsImpl for MockTracker
 
-type TestContext
-fn TestContext::todo(Self, String) -> Unit
+#external
+pub type SuiteContext
+impl @js.JsImpl for SuiteContext
+
+#external
+pub type TestContext
+fn TestContext::assert_fileSnapshot(Self, &@js.JsImpl, String, message? : String) -> Unit
+fn TestContext::assert_snapshot(Self, &@js.JsImpl, message? : String) -> Unit
+fn TestContext::diagnostic(Self, String) -> Unit
+fn TestContext::plan(Self, Int) -> Unit
+fn TestContext::runOnly(Self, Bool) -> Unit
+fn TestContext::skip(Self, message? : String) -> Unit
+fn TestContext::todo(Self, message? : String) -> Unit
 impl @js.JsImpl for TestContext
 
 pub(all) struct TestShard {
