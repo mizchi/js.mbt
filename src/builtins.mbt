@@ -1,4 +1,53 @@
 ///|
+/// Cast a MoonBit Array to a JavaScript array.
+pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
+  unsafe_cast(v.map(_.to_js()))
+}
+
+///|
+/// Convert a MoonBit Map to a JavaScript object.
+///
+/// # Example
+///
+/// ```moonbit
+/// let map = { "name": js("Alice"), "age": js(30) }
+/// let obj = from_map(map)
+/// // JavaScript: { name: "Alice", age: 30 }
+/// ```
+pub fn from_map(map : Map[String, Js]) -> Js {
+  let obj = Object::new()
+  for k, v in map {
+    let v : Js = JsImpl::to_js(v)
+    obj.set(k, v)
+  }
+  obj.to_js()
+}
+
+///|
+/// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
+pub fn[R] from_fn0(f : () -> R) -> Js {
+  unsafe_cast(f)
+}
+
+///|
+/// Cast a MoonBit function with 1 argument to a JavaScript function Val.
+pub fn[A, R] from_fn1(f : (A) -> R) -> Js {
+  unsafe_cast(f)
+}
+
+///|
+/// Cast a MoonBit function with 2 arguments to a JavaScript function Val.
+pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Js {
+  unsafe_cast(f)
+}
+
+///|
+/// Cast a MoonBit function with 3 arguments to a JavaScript function Val.
+pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
+  unsafe_cast(f)
+}
+
+///|
 pub fn from_builtin_json(j : Json) -> Js {
   JsImpl::to_js(j)
 }

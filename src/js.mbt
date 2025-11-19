@@ -178,3 +178,51 @@ impl JsImpl with delete(self, key : &PropertyKey) -> Unit {
 impl JsImpl with hasOwnProperty(self, key : &PropertyKey) -> Bool {
   ffi_has_own_property(self.to_js(), key.to_key() |> unsafe_cast)
 }
+
+///|
+/// Identity implementation for Js.
+pub impl JsImpl for Js
+
+///|
+pub impl JsImpl for String
+
+///|
+pub impl JsImpl for Double
+
+///|
+pub impl JsImpl for Float
+
+///|
+pub impl JsImpl for Int
+
+///|
+/// Convert a MoonBit Bool to a JavaScript boolean value.
+pub impl JsImpl for Bool
+
+///|
+/// Convert a MoonBit UInt to a JavaScript number value.
+pub impl JsImpl for UInt
+
+///|
+pub impl JsImpl for Unit
+
+///|
+/// Convert an Array of Js-implementing types to a JavaScript array.
+pub impl JsImpl for Array[&JsImpl] with to_js(self) {
+  from_array(self)
+}
+
+///|
+pub impl JsImpl for Map[String, &JsImpl] with to_js(self) {
+  let v = Object::new()
+  for k, val in self {
+    v.set(k, val.to_js())
+  }
+  v.to_js()
+}
+
+///|
+/// Convert an Option to a JavaScript value.
+pub impl[T] JsImpl for T? with to_js(self) {
+  unsafe_cast(self)
+}
