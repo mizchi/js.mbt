@@ -451,8 +451,40 @@ test "SVG line element" {
 }
 
 ///|
+test "SVG polyline element" {
+  let render_to_string = get_render_to_string()
+  let points : Array[(Int, Int)] = [(0, 0), (100, 50), (200, 0)]
+  let element = svg(width=200, height=100, [
+    polyline(points~, stroke="blue", fill="none"),
+  ])
+  let html = render_to_string(element)
+  inspect(
+    html,
+    content=(
+      #|<svg width="200" height="100"><polyline points="0,0 100,50 200,0" stroke="blue" fill="none"></polyline></svg>
+    ),
+  )
+}
 
 ///|
+test "SVG polygon element" {
+  let render_to_string = get_render_to_string()
+  let points : Array[(Int, Int)] = [
+    (100, 10),
+    (40, 180),
+    (190, 60),
+    (10, 60),
+    (160, 180),
+  ]
+  let element = svg(width=200, height=100, [polygon(points~, fill="lime")])
+  let html = render_to_string(element)
+  inspect(
+    html,
+    content=(
+      #|<svg width="200" height="100"><polygon points="100,10 40,180 190,60 10,60 160,180" fill="lime"></polygon></svg>
+    ),
+  )
+}
 
 ///|
 test "SVG g (group) element" {
