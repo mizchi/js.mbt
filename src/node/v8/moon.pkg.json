@@ -7,5 +7,11 @@
     "mizchi/js/arraybuffer",
     "mizchi/js/node/buffer"
   ],
-  "test-import": ["mizchi/js/promise", "mizchi/js/node/fs/promises"]
+  "test-import": [
+    "mizchi/js/promise",
+    {
+      "path": "mizchi/js/node/fs_promises",
+      "alias": "promises"
+    }
+  ]
 }

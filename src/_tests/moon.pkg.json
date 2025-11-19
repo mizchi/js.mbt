@@ -17,7 +17,7 @@
     "mizchi/js/npm/react",
     "mizchi/js/npm/react_dom",
     {
-      "path": "mizchi/js/node/fs/promises",
+      "path": "mizchi/js/node/fs_promises",
       "alias": "fs"
     },
     {

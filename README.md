@@ -159,7 +159,7 @@ Caution: Node.js bindings are not fully tested yet. In near future, we split Nod
   - `require`, etc.
 - [x] `mizchi/js/node/buffer` : `Buffer`
 - [x] `mizchi/js/node/fs` : `node:fs`
-- [x] `mizchi/js/node/fs/promises` : `node:fs/promises`
+- [x] `mizchi/js/node/fs_promises` : `node:fs/promises`
 - [x] `mizchi/js/node/path` : `node:path`
 - [x] `mizchi/js/node/util` : `node:fs/util`
 - [x] `mizchi/js/node/os` : `node:os`

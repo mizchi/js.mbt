@@ -11,7 +11,7 @@
       "alias": "_fs_sync"
     },
     {
-      "path": "mizchi/js/node/fs/promises",
+      "path": "mizchi/js/node/fs_promises",
       "alias": "fs"
     }
   ]
