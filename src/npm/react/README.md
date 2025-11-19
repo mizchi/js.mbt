@@ -2,6 +2,16 @@
 
 We are designing the API to be intuitive for React users, even if it means compromising on some aspects of safety.
 
+```js
+fn main {
+  // Initialize React API
+  @react.init_react_api(@node.require("react"))
+}
+```
+
+
+## Example
+
 ```mbt
 using @react {
   type Context,
@@ -44,17 +54,16 @@ fn main {
         return ()
       }
     }
-    let root = match @dom.document().query_selector("#app") {
+    let root = match @dom.document().querySelector("#app") {
       Some(el) => el
       None => {
         log("Root element not found")
         return ()
       }
     }
-
     client
     .create_root(root)
-    .render(c(counter, CounterProps::{ initial: 42 }))
+    .render(c(counter, { initial: 42 }))
   })
 }
 ```

@@ -25,7 +25,7 @@ pub fn[T: JsImpl] option_js(a: T) -> Js? {
   if ffi_is_nullish(a |> unsafe_cast) {
     None
   } else {
-    Some(unsafe_cast(a))
+    Some(unsafe_cast(a.to_js()))
   }
 }
 

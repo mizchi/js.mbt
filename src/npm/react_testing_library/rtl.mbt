@@ -31,6 +31,7 @@ pub fn cleanup() -> Unit {
 }
 
 ///|
+/// ReactTestingLibrary.FireEvent
 #external
 pub type FireEvent
 
@@ -38,6 +39,7 @@ pub type FireEvent
 pub impl JsImpl for FireEvent
 
 ///|
+/// JS: import { fireEvent } from '@testing-library/react'
 #alias(fire_event)
 pub fn fireEvent() -> FireEvent {
   let rtl = testing_library()
@@ -51,6 +53,7 @@ pub fn FireEvent::click(self : FireEvent, target : Js) -> Unit {
 }
 
 ///|
+/// ReactTestingLibrary.Screen
 #external
 pub type Screen
 
@@ -58,7 +61,7 @@ pub type Screen
 pub impl JsImpl for Screen
 
 ///|
-/// @testing_library/react.screen
+/// JS: import { screen } from '@testing-library/react'
 pub fn screen() -> Screen {
   let rtl = testing_library()
   unsafe_cast(rtl.get("screen"))

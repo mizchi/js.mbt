@@ -2,7 +2,7 @@
 using @js {type Js, unsafe_cast}
 
 ///|
-using @stream {type Readable, type Stream, type Writable, trait StreamImpl}
+using @stream {type Stream}
 
 ///|
 extern "js" fn ffi_stream_promises_pipeline(streams : Js) -> Js =

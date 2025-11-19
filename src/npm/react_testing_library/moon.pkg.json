@@ -8,5 +8,5 @@
     "mizchi/js/npm/react",
     "mizchi/js/npm/react/element"
   ],
-  "test-import": []
+  "test-import": ["mizchi/js/npm/global_jsdom"]
 }
