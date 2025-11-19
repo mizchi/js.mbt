@@ -57,19 +57,27 @@ fn common_node(
   if on_keyup is Some(f) {
     merged_props.set("onKeyUp", f |> @js.from_fn1)
   }
-  let drag_handlers : Array[(String, DragEventHandler?)] = [
-    ("onDrag", on_drag),
-    ("onDragStart", on_dragstart),
-    ("onDragEnd", on_dragend),
-    ("onDragLeave", on_dragleave),
-    ("onDragEnter", on_dragenter),
-    ("onDragOver", on_dragover),
-    ("onDrop", on_drop),
-  ]
-  for h in drag_handlers {
-    if h.1 is Some(f) {
-      merged_props.set(h.0, f |> @js.from_fn1)
-    }
+  // Optimize: avoid array allocation, handle drag handlers directly
+  if on_drag is Some(f) {
+    merged_props.set("onDrag", f |> @js.from_fn1)
+  }
+  if on_dragstart is Some(f) {
+    merged_props.set("onDragStart", f |> @js.from_fn1)
+  }
+  if on_dragend is Some(f) {
+    merged_props.set("onDragEnd", f |> @js.from_fn1)
+  }
+  if on_dragleave is Some(f) {
+    merged_props.set("onDragLeave", f |> @js.from_fn1)
+  }
+  if on_dragenter is Some(f) {
+    merged_props.set("onDragEnter", f |> @js.from_fn1)
+  }
+  if on_dragover is Some(f) {
+    merged_props.set("onDragOver", f |> @js.from_fn1)
+  }
+  if on_drop is Some(f) {
+    merged_props.set("onDrop", f |> @js.from_fn1)
   }
   let children_js = children.map(_.to_react_node()) |> @js.from_array
   @react.createElementDirect(tag_name, merged_props.to_js(), children_js)

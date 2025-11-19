@@ -27,8 +27,14 @@ pub fn svg(
   on_dragover? : DragEventHandler,
   on_drop? : DragEventHandler,
 ) -> @react.Element {
+  // Optimize: avoid Object.assign when props is provided but reuse if empty
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("width", width)
@@ -90,7 +96,12 @@ pub fn circle(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("cx", cx)
@@ -163,7 +174,12 @@ pub fn ellipse(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("cx", cx)
@@ -237,7 +253,12 @@ pub fn rect(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("x", x)
@@ -311,7 +332,12 @@ pub fn line(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("x1", x1)
@@ -382,7 +408,12 @@ pub fn path(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("d", d)
@@ -447,7 +478,12 @@ pub fn use_(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("href", href)
@@ -506,7 +542,12 @@ pub fn polygon(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("points", points |> unsafe_cast)
@@ -574,7 +615,12 @@ pub fn polyline(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("points", points |> unsafe_cast)
@@ -642,7 +688,12 @@ pub fn g(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   if stroke is Some(stroke) {
@@ -704,7 +755,12 @@ pub fn defs(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   common_node(
@@ -769,7 +825,12 @@ pub fn text(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("x", x)
@@ -850,7 +911,12 @@ pub fn image(
   on_drop? : DragEventHandler,
 ) -> @react.Element {
   let attrs : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) =>
+      if @js.Object::keys(p).length() > 0 {
+        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+      } else {
+        p
+      }
     None => @js.Object::new()
   }
   attrs.set("x", x)
