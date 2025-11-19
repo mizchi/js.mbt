@@ -23,81 +23,42 @@ pub fn Socket::as_duplex(self : Socket) -> Duplex {
 }
 
 ///|
-/// Connect the socket to a port and host
-pub fn Socket::connect(
-  self : Socket,
-  port : Int,
-  host? : String,
-  callback? : () -> Unit,
-) -> Socket {
-  (match (host, callback) {
-    (Some(h), Some(cb)) => self.call("connect", [port, h, unsafe_cast(cb)])
-    (Some(h), None) => self.call("connect", [port, h])
-    (None, Some(cb)) => self.call("connect", [port, unsafe_cast(cb)])
-    (None, None) => self.call("connect", [port])
-  })
-  |> unsafe_cast
+/// Connect options for Socket
+pub struct ConnectOptions {
+  port : Int
+  host : String?
 }
 
 ///|
-/// Connect the socket with options
-pub fn Socket::connect_with_options(
-  self : Socket,
-  options : Js,
-  callback? : () -> Unit,
-) -> Socket {
-  (match callback {
-    Some(cb) => self.call("connect", [options, unsafe_cast(cb)])
-    None => self.call("connect", [options])
-  })
-  |> unsafe_cast
+pub fn ConnectOptions::new(port : Int, host : String?) -> ConnectOptions {
+  { port, host }
+}
+
+///|
+/// Connect the socket to a port and host
+pub fn Socket::connect(self : Socket, options : ConnectOptions) -> Socket {
+  match options.host {
+    Some(h) => self.call("connect", [options.port, h]) |> unsafe_cast
+    None => self.call("connect", [options.port]) |> unsafe_cast
+  }
 }
 
 ///|
 /// Write data to the socket
-pub fn Socket::write(
-  self : Socket,
-  data : String,
-  encoding? : String,
-  callback? : (Js?) -> Unit,
-) -> Bool {
-  (match (encoding, callback) {
-    (Some(enc), Some(cb)) => self.call("write", [data, enc, unsafe_cast(cb)])
-    (Some(enc), None) => self.call("write", [data, enc])
-    (None, Some(cb)) => self.call("write", [data, unsafe_cast(cb)])
-    (None, None) => self.call("write", [data])
-  })
-  |> unsafe_cast
+pub fn Socket::write(self : Socket, data : String) -> Bool {
+  self.call("write", [data]) |> unsafe_cast
 }
 
 ///|
 /// End the socket connection
-pub fn Socket::end(
-  self : Socket,
-  data? : String,
-  encoding? : String,
-  callback? : () -> Unit,
-) -> Socket {
-  (match (data, encoding, callback) {
-    (Some(d), Some(enc), Some(cb)) =>
-      self.call("end", [d, enc, unsafe_cast(cb)])
-    (Some(d), Some(enc), None) => self.call("end", [d, enc])
-    (Some(d), None, Some(cb)) => self.call("end", [d, unsafe_cast(cb)])
-    (Some(d), None, None) => self.call("end", [d])
-    (None, _, Some(cb)) => self.call("end", [unsafe_cast(cb)])
-    (None, _, None) => self.call("end", [])
-  })
-  |> unsafe_cast
+pub fn Socket::end(self : Socket) -> Socket {
+  self.call("end", []) |> unsafe_cast
 }
 
 ///|
 /// Destroy the socket
-pub fn Socket::destroy(self : Socket, error? : Js) -> Socket {
-  (match error {
-    Some(err) => self.call("destroy", [err])
-    None => self.call("destroy", [])
-  })
-  |> unsafe_cast
+pub fn Socket::destroy(self : Socket) -> Socket {
+  self.call("destroy", []) |> unsafe_cast
 }
 
 ///|
@@ -120,16 +81,8 @@ pub fn Socket::setEncoding(self : Socket, encoding : String) -> Socket {
 
 ///|
 /// Set keep alive
-pub fn Socket::setKeepAlive(
-  self : Socket,
-  enable : Bool,
-  initialDelay? : Int,
-) -> Socket {
-  (match initialDelay {
-    Some(delay) => self.call("setKeepAlive", [enable, delay])
-    None => self.call("setKeepAlive", [enable])
-  })
-  |> unsafe_cast
+pub fn Socket::setKeepAlive(self : Socket, enable : Bool) -> Socket {
+  self.call("setKeepAlive", [enable]) |> unsafe_cast
 }
 
 ///|
@@ -140,16 +93,8 @@ pub fn Socket::setNoDelay(self : Socket, noDelay : Bool) -> Socket {
 
 ///|
 /// Set timeout
-pub fn Socket::setTimeout(
-  self : Socket,
-  timeout : Int,
-  callback? : () -> Unit,
-) -> Socket {
-  (match callback {
-    Some(cb) => self.call("setTimeout", [timeout, unsafe_cast(cb)])
-    None => self.call("setTimeout", [timeout])
-  })
-  |> unsafe_cast
+pub fn Socket::setTimeout(self : Socket, timeout : Int) -> Socket {
+  self.call("setTimeout", [timeout]) |> unsafe_cast
 }
 
 ///|
@@ -207,65 +152,44 @@ pub impl JsImpl for Server
 pub impl EventEmitterImpl for Server
 
 ///|
-/// Listen on a port and host
-pub fn Server::listen(
-  self : Server,
-  port : Int,
-  host? : String,
-  backlog? : Int,
-  callback? : () -> Unit,
-) -> Server {
-  (match (host, backlog, callback) {
-    (Some(h), Some(b), Some(cb)) =>
-      self.call("listen", [port, h, b, unsafe_cast(cb)])
-    (Some(h), Some(b), None) => self.call("listen", [port, h, b])
-    (Some(h), None, Some(cb)) => self.call("listen", [port, h, unsafe_cast(cb)])
-    (Some(h), None, None) => self.call("listen", [port, h])
-    (None, Some(b), Some(cb)) => self.call("listen", [port, b, unsafe_cast(cb)])
-    (None, Some(b), None) => self.call("listen", [port, b])
-    (None, None, Some(cb)) => self.call("listen", [port, unsafe_cast(cb)])
-    (None, None, None) => self.call("listen", [port])
-  })
-  |> unsafe_cast
+/// Listen options for Server
+pub struct ListenOptions {
+  port : Int
+  host : String?
+  backlog : Int?
 }
 
 ///|
-/// Listen with options
-pub fn Server::listen_with_options(
-  self : Server,
-  options : Js,
-  callback? : () -> Unit,
-) -> Server {
-  (match callback {
-    Some(cb) => self.call("listen", [options, unsafe_cast(cb)])
-    None => self.call("listen", [options])
-  })
-  |> unsafe_cast
+pub fn ListenOptions::new(
+  port : Int,
+  host : String?,
+  backlog : Int?,
+) -> ListenOptions {
+  { port, host, backlog }
+}
+
+///|
+/// Listen on a port and host
+pub fn Server::listen(self : Server, options : ListenOptions) -> Server {
+  match (options.host, options.backlog) {
+    (Some(h), Some(b)) =>
+      self.call("listen", [options.port, h, b]) |> unsafe_cast
+    (Some(h), None) => self.call("listen", [options.port, h]) |> unsafe_cast
+    (None, Some(b)) => self.call("listen", [options.port, b]) |> unsafe_cast
+    (None, None) => self.call("listen", [options.port]) |> unsafe_cast
+  }
 }
 
 ///|
 /// Close the server
-pub fn Server::close(self : Server, callback? : (Js?) -> Unit) -> Server {
-  (match callback {
-    Some(cb) => self.call("close", [unsafe_cast(cb)])
-    None => self.call("close", [])
-  })
-  |> unsafe_cast
+pub fn Server::close(self : Server) -> Server {
+  self.call("close", []) |> unsafe_cast
 }
 
 ///|
 /// Get the server address
 pub fn Server::address(self : Server) -> Js? {
   self.call("address", []) |> @js.unsafe_cast_option
-}
-
-///|
-/// Get connections count
-pub fn Server::getConnections(
-  self : Server,
-  callback : (Js?, Int?) -> Unit,
-) -> Unit {
-  ignore(self.call("getConnections", [unsafe_cast(callback)]))
 }
 
 ///|
@@ -289,64 +213,25 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 ///| Module functions
 
 ///|
-/// Create a new Socket
-pub fn createConnection(
-  port : Int,
-  host? : String,
-  callback? : () -> Unit,
-) -> Socket {
-  (match (host, callback) {
-    (Some(h), Some(cb)) =>
-      net_module().call("createConnection", [port, h, unsafe_cast(cb)])
-    (Some(h), None) => net_module().call("createConnection", [port, h])
-    (None, Some(cb)) =>
-      net_module().call("createConnection", [port, unsafe_cast(cb)])
-    (None, None) => net_module().call("createConnection", [port])
-  })
-  |> unsafe_cast
-}
-
-///|
-/// Create a new Socket with options
-pub fn createConnection_with_options(
-  options : Js,
-  callback? : () -> Unit,
-) -> Socket {
-  (match callback {
-    Some(cb) =>
-      net_module().call("createConnection", [options, unsafe_cast(cb)])
-    None => net_module().call("createConnection", [options])
-  })
-  |> unsafe_cast
+/// Create a new Socket and connect
+pub fn createConnection(options : ConnectOptions) -> Socket {
+  match options.host {
+    Some(h) =>
+      net_module().call("createConnection", [options.port, h]) |> unsafe_cast
+    None => net_module().call("createConnection", [options.port]) |> unsafe_cast
+  }
 }
 
 ///|
 /// Alias for createConnection
-pub fn connect(port : Int, host? : String, callback? : () -> Unit) -> Socket {
-  createConnection(port, host?, callback?)
-}
-
-///|
-/// Alias for createConnection with options
-pub fn connect_with_options(options : Js, callback? : () -> Unit) -> Socket {
-  createConnection_with_options(options, callback?)
+pub fn connect(options : ConnectOptions) -> Socket {
+  createConnection(options)
 }
 
 ///|
 /// Create a new Server
-pub fn createServer(
-  options? : Js,
-  connectionListener? : (Socket) -> Unit,
-) -> Server {
-  (match (options, connectionListener) {
-    (Some(opts), Some(listener)) =>
-      net_module().call("createServer", [opts, unsafe_cast(listener)])
-    (Some(opts), None) => net_module().call("createServer", [opts])
-    (None, Some(listener)) =>
-      net_module().call("createServer", [unsafe_cast(listener)])
-    (None, None) => net_module().call("createServer", [])
-  })
-  |> unsafe_cast
+pub fn createServer() -> Server {
+  net_module().call("createServer", []) |> unsafe_cast
 }
 
 ///|
