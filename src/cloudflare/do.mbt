@@ -13,7 +13,7 @@ pub fn DurableObjectNamespace::get(
   self : Self,
   id : DurableObjectId,
 ) -> DurableObjectStub {
-  self.call("get", [id.to_js()]) |> unsafe_cast
+  self.call1("get", id) |> unsafe_cast
 }
 
 ///|
@@ -22,7 +22,7 @@ pub fn DurableObjectNamespace::get_by_id_string(
   self : Self,
   id : String,
 ) -> DurableObjectStub {
-  self.call("get", [id]) |> unsafe_cast
+  self.call1("get", id) |> unsafe_cast
 }
 
 ///|
@@ -356,7 +356,7 @@ pub fn DurableObjectStorage::delete_all_with_options(
 ///|
 /// List keys in storage
 pub fn DurableObjectStorage::list(self : Self) -> Promise[Js] {
-  self.call("list", []) |> unsafe_cast
+  self.call0("list") |> unsafe_cast
 }
 
 ///|
@@ -380,7 +380,7 @@ pub fn DurableObjectStorage::transaction(
 ///|
 /// Get current alarm time
 pub fn DurableObjectStorage::get_alarm(self : Self) -> Promise[Int?] {
-  self.call("getAlarm", []) |> unsafe_cast
+  self.call0("getAlarm") |> unsafe_cast
 }
 
 ///|
@@ -414,7 +414,7 @@ pub fn DurableObjectStorage::set_alarm_with_options(
 ///|
 /// Delete the alarm
 pub fn DurableObjectStorage::delete_alarm(self : Self) -> Promise[Unit] {
-  self.call("deleteAlarm", []) |> unsafe_cast
+  self.call0("deleteAlarm") |> unsafe_cast
 }
 
 ///|
@@ -429,7 +429,7 @@ pub fn DurableObjectStorage::delete_alarm_with_options(
 ///|
 /// Sync storage to disk
 pub fn DurableObjectStorage::sync(self : Self) -> Promise[Unit] {
-  self.call("sync", []) |> unsafe_cast
+  self.call0("sync") |> unsafe_cast
 }
 
 ///|
@@ -642,7 +642,7 @@ pub fn DurableObjectTransaction::delete_multiple(
 ///|
 /// Delete all keys in transaction
 pub fn DurableObjectTransaction::delete_all(self : Self) -> Promise[Unit] {
-  self.call("deleteAll", []) |> unsafe_cast
+  self.call0("deleteAll") |> unsafe_cast
 }
 
 ///|
@@ -684,5 +684,5 @@ pub fn DurableObjectTransaction::set_alarm(
 ///|
 /// Delete alarm in transaction
 pub fn DurableObjectTransaction::delete_alarm(self : Self) -> Promise[Unit] {
-  self.call("deleteAlarm", []) |> unsafe_cast
+  self.call0("deleteAlarm") |> unsafe_cast
 }

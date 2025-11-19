@@ -263,7 +263,7 @@ test {
   it("Readable destroy", _ => {
     let readable = create_readable_from_string("destroy test")
     // Destroy without error - stream will handle it
-    ignore(readable.to_js().call("destroy", []))
+    ignore(readable.to_js().call0("destroy"))
     sleep(5)
     // After destroy, stream should be closed
     assert_eq(readable.closed(), true)
@@ -275,7 +275,7 @@ test {
   it("Writable destroy", _ => {
     let writable : Writable = unsafe_cast(create_writable_to_array())
     // Destroy without error - stream will handle it
-    ignore(writable.to_js().call("destroy", []))
+    ignore(writable.to_js().call0("destroy"))
     sleep(5)
     assert_eq(writable.closed(), true)
   })
@@ -286,7 +286,7 @@ test {
   it("Writable end", _ => {
     let writable : Writable = unsafe_cast(create_writable_to_array())
     // Call end without chunk - use call directly
-    ignore(writable.to_js().call("end", []))
+    ignore(writable.to_js().call0("end"))
     sleep(5)
     assert_eq(writable.writableEnded(), true)
   })

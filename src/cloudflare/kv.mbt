@@ -102,7 +102,7 @@ pub fn KVNamespace::list(
   options : KVListOptions?,
 ) -> Promise[KVListResult] {
   match options {
-    None => self.call("list", []) |> unsafe_cast
+    None => self.call0("list") |> unsafe_cast
     Some(opts) => self.call("list", [opts.to_js()]) |> unsafe_cast
   }
 }

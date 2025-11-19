@@ -27,8 +27,8 @@ pub fn ArrayBuffer::slice(
   end? : Int,
 ) -> ArrayBuffer {
   match end {
-    Some(e) => self.call("slice", [begin, e]) |> unsafe_cast
-    None => self.call("slice", [begin]) |> unsafe_cast
+    Some(e) => self.call2("slice", begin, e) |> unsafe_cast
+    None => self.call1("slice", begin) |> unsafe_cast
   }
 }
 
@@ -126,7 +126,7 @@ pub fn DataView::get_int8(self : DataView, byte_offset : UInt) -> Int {
 ///|
 #alias(getUint8)
 pub fn DataView::get_uint8(self : DataView, byte_offset : UInt) -> UInt {
-  self.call("getUint8", [byte_offset]) |> unsafe_cast
+  self.call1("getUint8", byte_offset) |> unsafe_cast
 }
 
 ///|
@@ -136,7 +136,7 @@ pub fn DataView::get_int16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.call("getInt16", [byte_offset, little_endian]) |> unsafe_cast
+  self.call2("getInt16", byte_offset, little_endian) |> unsafe_cast
 }
 
 ///|
@@ -146,7 +146,7 @@ pub fn DataView::get_uint16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.call("getUint16", [byte_offset, little_endian]) |> unsafe_cast
+  self.call2("getUint16", byte_offset, little_endian) |> unsafe_cast
 }
 
 ///|
@@ -455,7 +455,7 @@ pub fn Uint8Array::join(self : Self, separator? : String = ",") -> String {
 ///|
 #alias(toString)
 pub fn Uint8Array::to_string(self : Self) -> String {
-  self.call("toString", []) |> unsafe_cast
+  self.call0("toString") |> unsafe_cast
 }
 
 ///|

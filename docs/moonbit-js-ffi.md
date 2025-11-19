@@ -80,7 +80,7 @@ pub extern "js" fn Document::createElement(self: Self, tag: String) -> Element =
 // Method via call
 #alias(query_selector)
 pub fn Document::querySelector(self: Self, selector: String) -> Element? {
-  self.call("querySelector", [selector]) |> @js.unsafe_cast_option()
+  self.call1("querySelector", selector) |> @js.unsafe_cast_option()
 }
 ```
 
@@ -109,9 +109,9 @@ pub fn mkdirSync(path: String, recursive?: Bool) -> Unit {
     Some(r) => {
       let opts = @js.Object::new()
       opts.set("recursive", r)
-      fs.call("mkdirSync", [path, opts]) |> ignore
+      fs.call2("mkdirSync", path, opts) |> ignore
     }
-    None => fs.call("mkdirSync", [path]) |> ignore
+    None => fs.call1("mkdirSync", path) |> ignore
   }
 }
 
@@ -180,7 +180,7 @@ fn unsafe_cast_option(val: Val) -> Val? {
 
 #alias(get_element_by_id)
 pub fn getElementById(id: String) -> Element? {
-  document().call("getElementById", [id]) |> @js.unsafe_cast_option()
+  document().call1("getElementById", id) |> @js.unsafe_cast_option()
 }
 
 // Usage
@@ -230,13 +230,13 @@ fn fs_module() -> Val {
 #alias(read_file_sync)
 pub fn readFileSync(path: String) -> Buffer {
   let fs = fs_module()
-  fs.call("readFileSync", [path]) |> unsafe_cast
+  fs.call1("readFileSync", path) |> unsafe_cast
 }
 
 #alias(write_file_sync)
 pub fn writeFileSync(path: String, data: &JsImpl) -> Unit {
   let fs = fs_module()
-  fs.call("writeFileSync", [path, data.to_js()]) |> ignore
+  fs.call2("writeFileSync", path, data) |> ignore
 }
 
 // Usage
@@ -259,7 +259,7 @@ fn init {
   
   // Query and append
   match doc.getElementById("app") {
-    Some(app) => app.call("appendChild", [div]) |> ignore
+    Some(app) => app.call1("appendChild", div) |> ignore
     None => console.log("App element not found")
   }
 }

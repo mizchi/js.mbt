@@ -187,7 +187,7 @@ fn create_chart(canvas_id: String) {
 fn generate_random_uuid() -> String {
   let crypto = @node.require("node:crypto")
   // JS: crypto.randomUUID()
-  unsafe_cast(crypto.call("randomUUID", []))
+  unsafe_cast(crypto.call0("randomUUID"))
 }
 
 // Example: Using 'zlib' module
@@ -304,11 +304,11 @@ fn get_performance_now() -> Double {
   if @js.is_undefined(performance) {
     // Fallback to Date.now()
     let date_class = @js.globalThis().get("Date")
-    let now: Double = unsafe_cast(date_class.call("now", []))
+    let now: Double = unsafe_cast(date_class.call0("now"))
     return now
   }
   
-  unsafe_cast(performance.call("now", []))
+  unsafe_cast(performance.call0("now"))
 }
 ```
 

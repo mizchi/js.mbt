@@ -104,25 +104,25 @@ pub fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
 ) -> Promise[Js?] {
-  self.call("first", [col_name]) |> unsafe_cast
+  self.call1("first", col_name) |> unsafe_cast
 }
 
 ///|
 /// Execute the statement and return all rows
 pub fn D1PreparedStatement::all(self : Self) -> Promise[D1Result] {
-  self.call("all", []) |> unsafe_cast
+  self.call0("all") |> unsafe_cast
 }
 
 ///|
 /// Execute the statement (for INSERT, UPDATE, DELETE)
 pub fn D1PreparedStatement::run(self : Self) -> Promise[D1Result] {
-  self.call("run", []) |> unsafe_cast
+  self.call0("run") |> unsafe_cast
 }
 
 ///|
 /// Execute and return raw results
 pub fn D1PreparedStatement::raw(self : Self) -> Promise[Array[Js]] {
-  self.call("raw", []) |> unsafe_cast
+  self.call0("raw") |> unsafe_cast
 }
 
 ///|
@@ -131,7 +131,7 @@ pub fn D1PreparedStatement::raw_with_options(
   self : Self,
   options : D1RawOptions,
 ) -> Promise[Array[Js]] {
-  self.call("raw", [options.to_js()]) |> unsafe_cast
+  self.call1("raw", options) |> unsafe_cast
 }
 
 ///|

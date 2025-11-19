@@ -175,7 +175,7 @@ pub fn Object::hasOwnProperty(self : Self, key : &PropertyKey) -> Bool {
 
 ///|
 pub fn Object::isExtensible(self : Self) -> Bool {
-  self.call("isExtensible", []) |> unsafe_cast
+  self.call0("isExtensible") |> unsafe_cast
 }
 
 ///|

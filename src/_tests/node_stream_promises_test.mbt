@@ -116,7 +116,7 @@ test {
     // Write some data
     let _ = writable.write(@js.unsafe_cast("test"))
     // End the stream
-    ignore(writable.to_js().call("end", []))
+    ignore(writable.to_js().call0("end"))
     // Wait for finish
     let promise = promises_finished(writable_js)
     promise.unwrap()
@@ -206,8 +206,8 @@ test {
     let writable2_js = create_writable_to_array_promises()
     let writable2 : @node_stream.Writable = @js.unsafe_cast(writable2_js)
     // End both streams
-    ignore(writable1.to_js().call("end", []))
-    ignore(writable2.to_js().call("end", []))
+    ignore(writable1.to_js().call0("end"))
+    ignore(writable2.to_js().call0("end"))
     // Wait for both to finish
     let promise1 = promises_finished(writable1_js)
     let promise2 = promises_finished(writable2_js)
