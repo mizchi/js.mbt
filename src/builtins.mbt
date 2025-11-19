@@ -183,12 +183,10 @@ pub fn Object::to_string(self : Self) -> String {
   ffi_json_stringify(self.to_js(), undefined(), undefined())
 }
 
-// JavaScript String
-// In this file, we impl only static methods of String.*
-// Use builtin String as instance methods.
-
 ///|
 /// JavaScript Array
+/// NonGeneric Array only for Array[Js]
+/// Use builtin Array[T] for generic array and JsArray::from(array)
 #external
 pub type JsArray
 
@@ -235,3 +233,31 @@ pub fn[T : JsImpl] JsArray::isArray(v : T) -> Bool {
 pub fn array_from(v : Js) -> Array[Js] {
   ffi_array_from(v)
 }
+
+///|
+/// JavaScript Function
+#external
+pub type Function
+
+///|
+pub impl JsImpl for Function
+
+///|
+pub fn Function::to_string(self : Self) -> String {
+  ffi_json_stringify(self.to_js(), undefined(), undefined())
+}
+
+///|
+/// JS: function.name
+pub fn Function::name(self : Self) -> String {
+  self.get("name") |> unsafe_cast
+}
+
+///|
+/// JS: function.apply
+pub extern "js" fn Function::apply(
+  self : Self,
+  caller : Js,
+  args : Array[Js],
+) -> Js =
+  #|(self, args) => self.apply(caller, args)

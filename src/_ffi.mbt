@@ -40,12 +40,20 @@ extern "js" fn ffi_throw(v : Js) -> Unit =
   #|(v) => { throw v }
 
 ///|
-extern "js" fn ffi_call(f : Js, args : Array[Js]) -> Js =
+extern "js" fn ffi_call_self(f : Js, args : Array[Js]) -> Js =
   #|(f, args) => f(...args)
+
+///|
+extern "js" fn ffi_call_self0(f : Js) -> Js =
+  #|f => f()
 
 ///|
 extern "js" fn ffi_call(v : Js, key : String, args : Array[Js]) -> Js =
   #|(obj, k, args) => obj[k](...args)
+
+///|
+extern "js" fn ffi_call0(v : Js, key : String) -> Js =
+  #|(obj, k) => obj[k]()
 
 ///|
 extern "js" fn ffi_new_object() -> Js =

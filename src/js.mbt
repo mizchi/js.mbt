@@ -116,8 +116,12 @@ pub(open) trait JsImpl {
   get(Self, &PropertyKey) -> Js = _
   set(Self, &PropertyKey, &JsImpl) -> Unit = _
   call(Self, &PropertyKey, Array[&JsImpl]) -> Js = _
+  call0(Self, &PropertyKey) -> Js = _
+  call1(Self, &PropertyKey, &JsImpl) -> Js = _
+  call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Js = _
   call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise JsThrowError = _
   call_self(Self, Array[&JsImpl]) -> Js = _
+  call_self0(Self) -> Js = _
   call_self_throwable(Self, Array[&JsImpl]) -> Js raise JsThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
@@ -148,6 +152,30 @@ impl JsImpl with call(self, key, args) -> Js {
 }
 
 ///|
+/// call a method on the JavaScript value.
+/// JS: self[key](...args)
+impl JsImpl with call0(self, key) -> Js {
+  ffi_call0(self.to_js(), key.to_key() |> unsafe_cast)
+}
+
+///|
+/// call a method on the JavaScript value.
+/// JS: self[key](...args)
+impl JsImpl with call1(self, key, arg1) -> Js {
+  ffi_call(self.to_js(), key.to_key() |> unsafe_cast, [arg1.to_js()])
+}
+
+///|
+/// call a method on the JavaScript value.
+/// JS: self[key](...args)
+impl JsImpl with call2(self, key, arg1, arg2) -> Js {
+  ffi_call(self.to_js(), key.to_key() |> unsafe_cast, [
+    arg1.to_js(),
+    arg2.to_js(),
+  ])
+}
+
+///|
 /// JS: try { self[key](...args) } catch (e) { throw new JsThrowError(e); }
 impl JsImpl with call_throwable(self, key, args) -> Js raise JsThrowError {
   throwable(() => ffi_call(
@@ -161,12 +189,19 @@ impl JsImpl with call_throwable(self, key, args) -> Js raise JsThrowError {
 /// call a method on the JavaScript value with no arguments.
 /// JS: self(...args)
 impl JsImpl with call_self(self, args) -> Js {
-  ffi_call(self.to_js(), args.map(_.to_js()))
+  ffi_call_self(self.to_js(), args.map(_.to_js()))
+}
+
+///|
+/// call a method on the JavaScript value with no arguments.
+/// JS: self()
+impl JsImpl with call_self0(self) -> Js {
+  ffi_call_self0(self.to_js())
 }
 
 ///|
 impl JsImpl with call_self_throwable(self, args) -> Js raise JsThrowError {
-  throwable(() => ffi_call(self.to_js(), args.map(_.to_js())))
+  throwable(() => ffi_call_self(self.to_js(), args.map(_.to_js())))
 }
 
 ///|

@@ -290,7 +290,7 @@ extern "js" fn require(module_name : String) -> @js.Val =
 
 fn setup_jsdom() -> Unit {
   let jsdom = require("global-jsdom")
-  jsdom.call([]) |> ignore
+  jsdom.call("register", []) |> ignore
 }
 
 // Run tests
