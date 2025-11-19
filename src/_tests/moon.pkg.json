@@ -5,12 +5,16 @@
     "mizchi/js/promise",
     "mizchi/js/crypto",
     "mizchi/js/iterator",
+    "mizchi/js/stream",
+    "mizchi/js/node",
     "mizchi/js/node/events",
     "mizchi/js/node/path",
     "mizchi/js/node/os",
     "mizchi/js/node/test",
     "mizchi/js/node/buffer",
     "mizchi/js/node/child_process",
+    "mizchi/js/npm/react",
+    "mizchi/js/npm/react_dom",
     {
       "path": "mizchi/js/node/fs/promises",
       "alias": "fs"

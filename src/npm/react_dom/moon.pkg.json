@@ -5,6 +5,7 @@
     "mizchi/js/dom",
     "mizchi/js/promise",
     "mizchi/js/node",
+    "mizchi/js/stream",
     "mizchi/js/npm/react"
   ]
 }
