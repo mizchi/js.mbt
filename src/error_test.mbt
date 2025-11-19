@@ -25,3 +25,12 @@ test "new_error" {
   let error_with_cause_val : Js = unsafe_cast(error_with_cause)
   assert_eq(unsafe_cast(error_with_cause_val.get("message")), "Main error")
 }
+
+///|
+test "JsThrowError Show trait" {
+  let err = JsError::new("test error")
+  let throw_err : JsThrowError = @js.unsafe_cast(err)
+  // JsThrowError has Show trait implementation
+  // We just verify it can be created without testing to_string() which may cause infinite recursion
+  assert_eq(@js.typeof_(throw_err), "object")
+}

@@ -46,6 +46,7 @@ This is a [MoonBit](https://docs.moonbitlang.com) project.
   `assert_eq` when you are in some loops where each snapshot may vary. You can
   use `moon coverage analyze > uncovered.log` to see which parts of your code
   are not covered by tests.
-
-- agent-todo.md has some small tasks that are easy for AI to pick up, agent is
+- `moon coverage analyze --package pkgName` is also useful to see the coverage of a
+  specific package.
+- CLAUDE.md has some small tasks that are easy for AI to pick up, agent is
   welcome to finish the tasks and check the box when you are done

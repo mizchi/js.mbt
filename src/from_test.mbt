@@ -112,3 +112,12 @@ test "from_array" {
   assert_eq(unsafe_cast(val.get(2)), 3)
   assert_eq(unsafe_cast(val.get(4)), 5)
 }
+
+///|
+test "from_fn2 converts 2-arg function to Js" {
+  let add = fn(a : Int, b : Int) -> Int { a + b }
+  let js_add : Js = from_fn2(add)
+  assert_eq(@js.typeof_(js_add), "function")
+  let result = js_add.call_self([js(5), js(3)])
+  assert_eq(unsafe_cast(result), 8)
+}

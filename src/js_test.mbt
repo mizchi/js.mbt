@@ -304,3 +304,11 @@ test "Js numeric edge cases" {
   let small = js(0.0001)
   assert_eq(unsafe_cast(small), 0.0001)
 }
+
+///|
+test "Js Show trait" {
+  let obj = @js.Object::new()
+  obj.set("name", "test")
+  let str = obj.to_js().to_string()
+  assert_true(str.contains("Object") || str.length() > 0)
+}

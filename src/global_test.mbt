@@ -77,3 +77,23 @@ test "globalThis" {
   assert_true(@js.is_object(global))
   assert_false(@js.is_null(global))
 }
+
+///|
+test "btoa encodes string to base64" {
+  let encoded = btoa("Hello World")
+  assert_eq(encoded, "SGVsbG8gV29ybGQ=")
+}
+
+///|
+test "atob decodes base64 to string" {
+  let decoded = atob("SGVsbG8gV29ybGQ=")
+  assert_eq(decoded, "Hello World")
+}
+
+///|
+test "btoa and atob round trip" {
+  let original = "MoonBit is great!"
+  let encoded = btoa(original)
+  let decoded = atob(encoded)
+  assert_eq(decoded, original)
+}

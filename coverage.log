@@ -1,0 +1,514 @@
+Hello, WASI!
+✔ Promise::then (5.744625ms)
+✔ Promise::catch_ (0.696334ms)
+✔ Promise::finally_ (2.310875ms)
+✔ Promise::all (0.434291ms)
+✔ Promise::race (1.361667ms)
+✔ Promise::new (3.437834ms)
+✔ Promise::try_ success (0.400083ms)
+✔ Promise::try_ failure (0.471833ms)
+✔ async function to Promise and back (0.281541ms)
+✔ Promise.resolve to async unwrap (0.272333ms)
+✔ promisify0 converts async function to Promise function (3.281792ms)
+✔ promisify1 converts async function to Promise function (0.640708ms)
+✔ Promise.then with async unwrap (0.164125ms)
+✔ unwrap Promise inside async function (0.392583ms)
+✔ Promise.all with async unwrap (0.211875ms)
+✔ async function with error converts to rejected Promise (0.214375ms)
+✔ Promise.new to async unwrap (0.106084ms)
+✔ chaining async and Promise operations (0.1825ms)
+✔ Promise and async are interchangeable (0.133458ms)
+✔ Promise.race returns first resolved Promise (2.085875ms)
+✔ Promise.finally_ always executes (0.43825ms)
+✔ Promise.finally_ always executes (0.429125ms)
+✔ promisify0 (0.285917ms)
+✔ promisify1 (0.116167ms)
+✔ promisify2 (0.194417ms)
+✔ promisify3 (0.198833ms)
+✔ suspend with resolve (0.125084ms)
+✔ suspend with reject (0.089833ms)
+✔ Promise chain (1.075625ms)
+✔ Promise::resolve with different types (0.344709ms)
+✔ Promise::all with empty array (0.194792ms)
+✔ Promise::race with single promise (0.09025ms)
+✔ nested promises (4.956084ms)
+✔ Promise::all with mixed resolution times (16.429125ms)
+✔ Promise::withResolvers multiple resolve calls (0.2415ms)
+✔ Promise chain with error recovery (0.250833ms)
+✔ Readable stream - read and pause/resume (0.3815ms)
+✔ Readable stream - properties (0.158541ms)
+✔ Writable stream - write and properties (0.314833ms)
+✔ pipe - Readable to Writable (10.700916ms)
+✔ Transform stream - uppercase (11.643ms)
+✔ PassThrough stream (11.747917ms)
+✔ pipeline - multiple streams (12.041208ms)
+✔ pipeline with callback (23.572708ms)
+✔ finished - stream completion (22.359834ms)
+✔ Readable setEncoding (0.450875ms)
+✔ Writable cork/uncork (11.993333ms)
+✔ Readable unpipe (0.63875ms)
+✔ async pipeline with Promise (3.138042ms)
+✔ Readable destroy (6.125542ms)
+✔ Writable destroy (6.687083ms)
+✔ Writable end (6.008958ms)
+✔ multiple transforms in pipeline (16.684708ms)
+✔ stream properties after operations (11.664667ms)
+✔ pipeline with promises - basic (1.507875ms)
+✔ pipeline with promises - with transform (0.910167ms)
+✔ pipeline with promises - multiple transforms (2.396875ms)
+✔ finished with promises - writable (0.348125ms)
+✔ finished with promises - readable (0.2235ms)
+✔ pipeline with promises - async operations (0.845375ms)
+✔ pipeline with promises - successful completion (0.472625ms)
+✔ pipeline with promises - then chain (0.72775ms)
+✔ finished with promises - multiple streams (0.468625ms)
+✔ pipeline with promises - large data (1.471584ms)
+✔ Promise::withResolvers resolve (1.780459ms)
+✔ fs writeFile/readFile/stat (3.320667ms)
+✔ fs mkdir/rm (2.392625ms)
+✔ fs rename (2.032625ms)
+✔ fs cp (4.558834ms)
+✔ fs operations sequence (15.438792ms)
+✔ concurrent file operations (2.623625ms)
+✔ fs readFile non-existent file (0.491625ms)
+✔ EventEmitter on/emit/off (51.748625ms)
+✔ EventEmitter once (10.828375ms)
+✔ EventEmitter eventNames (0.231958ms)
+✔ EventEmitter multiple listeners (11.763958ms)
+✔ EventEmitter with async handlers (21.439542ms)
+✔ multiple promises concurrent (6.244333ms)
+✔ timer and promise coordination (11.449875ms)
+✔ EventEmitter stress test (21.918959ms)
+✔ multiple EventEmitters (10.807792ms)
+✔ EventEmitter with different payload types (11.464958ms)
+✔ EventEmitter removeAllListeners specific event (10.584166ms)
+✔ execSync executes command and returns output (32.361ms)
+✔ execSync with working directory option (29.830666ms)
+✔ execSync with input string (37.984458ms)
+✔ spawnSync executes command and returns result (21.552541ms)
+✔ spawnSync with shell option (28.677958ms)
+✔ execFileSync executes file and returns output (20.90975ms)
+✔ execFileSync with working directory (21.323666ms)
+✔ spawn creates child process with valid PID (1.778958ms)
+✔ spawn with shell option (0.681584ms)
+✔ spawn with working directory (0.942834ms)
+✔ ChildProcess has stdout and stderr streams (1.656917ms)
+✔ ChildProcess exitCode is None for running process (2.666ms)
+✔ ChildProcess kill terminates process (2.71575ms)
+✔ ChildProcess kill with signal (1.429208ms)
+✔ ChildProcess unref and ref methods (2.472333ms)
+✔ SpawnSyncResult has all properties (28.648459ms)
+✔ SpawnSyncResult successful command has status 0 (21.000541ms)
+✔ ChildProcess has EventEmitter methods (1.809333ms)
+✔ spawnSync handles non-existent command with error (0.536541ms)
+✔ spawnSync handles command not found (0.240292ms)
+✔ execSync captures stdout correctly (28.452667ms)
+✔ spawnSync captures output in result (21.258833ms)
+✔ setTimeout (21.363125ms)
+✔ clearTimeout (21.431833ms)
+✔ sleep multiple times (16.173ms)
+✔ nested run_async (21.682958ms)
+✔ setTimeout with zero delay (1.37475ms)
+✔ multiple setTimeouts (26.2675ms)
+✔ run_async with multiple sleep calls (33.626292ms)
+✔ EventEmitter listenerCount for non-existent event (0.408ms)
+✔ setInterval immediate execution (10.872291ms)
+✔ sleep with very short duration (1.445417ms)
+✔ SubtleCrypto digest SHA-256 (1.400959ms)
+✔ SubtleCrypto digest SHA-384 (0.306208ms)
+✔ SubtleCrypto digest SHA-512 (0.273542ms)
+✔ SubtleCrypto generateKey AES-GCM (1.38375ms)
+✔ SubtleCrypto generateKey HMAC (1.118084ms)
+✔ SubtleCrypto encrypt and decrypt with AES-GCM (1.894708ms)
+✔ SubtleCrypto sign and verify with HMAC (1.079291ms)
+✔ SubtleCrypto exportKey and importKey with AES-GCM (1.042208ms)
+✔ getCrypto returns Crypto instance (0.342667ms)
+ℹ tests 124
+ℹ suites 0
+ℹ pass 124
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1019.054542
+Total: 58 uncovered line(s) in 7 file(s)
+
+13 uncovered line(s) in src/builtins.mbt:
+
+    | pub fn Symbol::for_(name : String) -> Symbol {
+ 28 |   symbol_class().call("for", [name]) |> unsafe_cast
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn Symbol::asyncIterator() -> Symbol {
+ 40 |   symbol_class().get("asyncIterator") |> unsafe_cast
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn Symbol::toStringTag() -> Symbol {
+ 58 |   symbol_class().get("toStringTag") |> unsafe_cast
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | fn string_instance() -> JsString {
+ 91 |   unsafe_cast(globalThis().get("String"))
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn JsString::fromCharCode(values : Array[Int]) -> String {
+ 97 |   string_instance().call("fromCharCode", values |> from_array |> unsafe_cast)
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |   |> unsafe_cast
+    | }
+    …
+
+    | pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
+104 |   string_instance().call("fromCodePoint", values |> from_array |> unsafe_cast)
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |   |> unsafe_cast
+    | }
+    …
+
+    | pub fn Object::is_(a : &JsImpl, b : &JsImpl) -> Js {
+162 |   object_class().call2("create", a, b) |> unsafe_cast
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn Object::isPrototypeOf(self : Self, target : Js) -> Bool {
+216 |   ffi_is_prototype_of(self.to_js(), target)
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn Object::isExtensible(self : Self) -> Bool {
+226 |   self.call0("isExtensible") |> unsafe_cast
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn[T] JsArray::from(items : Array[T]) -> JsArray {
+252 |   ffi_array_from(items |> unsafe_cast) |> unsafe_cast
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn[T : JsImpl] JsArray::isArray(v : T) -> Bool {
+276 |   ffi_is_array(v.to_js())
+    |   ^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn Function::to_string(self : Self) -> String {
+295 |   ffi_json_stringify(self.to_js(), undefined(), undefined())
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn Function::name(self : Self) -> String {
+301 |   self.get("name") |> unsafe_cast
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+5 uncovered line(s) in src/error.mbt:
+
+   | pub impl Show for JsThrowError with output(self, logger) {
+40 |   logger.write_string(self.to_string())
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+   | }
+   …
+
+   | impl Show for JsError with output(self, logger) {
+45 |   logger.write_string(self.to_string())
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+   | }
+   …
+
+   | impl Show for JsError with to_string(self) {
+50 |   self.message()
+   |   ^^^^^^^^^^^^^^ 	<-- UNCOVERED
+   | }
+   …
+
+   | pub fn JsError::stack(self : Self) -> String {
+62 |   unsafe_cast(self.get("stack"))
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+   | }
+   …
+
+   | pub fn throw_(v : &JsImpl) -> Unit {
+77 |   ffi_throw(v.to_js())
+   |   ^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+   | }
+   …
+
+15 uncovered line(s) in src/from.mbt:
+
+    | pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Js {
+ 41 |   unsafe_cast(f)
+    |   ^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
+ 47 |   unsafe_cast(f)
+    |   ^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub impl ToJson for Js with to_json(self) -> Json {
+ 57 |   if is_nullish(self) {
+    |   ^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |     return null
+    |   }
+ 60 |   match typeof_(self) {
+    |   ^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |     "boolean" => {
+    |       // let v : Bool = unsafe_cast(self)
+ 63 |       let v : Bool = unsafe_cast(self)
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |       return v.to_json()
+    |     }
+ 66 |     "number" => {
+    |     ^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |       let v : Double = unsafe_cast(self)
+    |       return v.to_json()
+    |     }
+ 70 |     "string" => {
+    |     ^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |       let v : String = unsafe_cast(self)
+    |       return v.to_json()
+    |     }
+ 74 |     _ => ()
+    |     ^^^^^^^ 	<-- UNCOVERED
+    |   }
+    |   if is_array(self) {
+ 77 |     let len : Int = unsafe_cast(self.call("length", []))
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |     let arr : Array[Json] = []
+ 79 |     for i = 0; i < len; i = i + 1 {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |       let v = self.get(i.to_string())
+    |       arr.push(v.to_json())
+    |     }
+ 83 |     return arr.to_json()
+    |     ^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |   }
+    |   if typeof_(self) == "object" {
+ 86 |     let out : Map[String, Json] = {}
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |     let keys = self |> ffi_object_keys()
+    |     for k in keys {
+ 89 |       let v = self.get(k)
+    |       ^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |       out[k] = v.to_json()
+    |     }
+ 92 |     return out.to_json()
+    |     ^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |   }
+    |   return {}
+    | }
+    …
+
+    | pub impl JsImpl for Json with to_js(self) -> Js {
+    |   match self {
+    |     Null => null_()
+    |     String(s) => js(s)
+    |     Number(n, ..) => js(n)
+103 |     True => js(true)
+    |     ^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |     False => js(false)
+    |     Object(o) => {
+    |       let obj = Object::new()
+    |       for k, v in o {
+    |         let v : Js = JsImpl::to_js(v)
+    |         obj.set(k, v)
+    |       }
+    |       obj.to_js()
+    |     }
+    |     Array(a) => {
+    |       let arr = JsArray::new()
+    |       for v in a {
+    |         let v : Js = JsImpl::to_js(v)
+    |         arr.call("push", [v]) |> ignore
+    |       }
+    |       arr.to_js()
+    |     }
+    |   }
+    | }
+    …
+
+10 uncovered line(s) in src/global.mbt:
+
+    | pub fn atob(encoded_data : String) -> String {
+ 19 |   ffi_atob(encoded_data)
+    |   ^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn btoa(data : String) -> String {
+ 25 |   ffi_btoa(data)
+    |   ^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | #alias(dynamic_import)
+    | pub fn dynamicImport(module_name : String) -> Js {
+ 60 |   ffi_dynamic_import(module_name)
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | #alias(set_timeout)
+    | pub fn setTimeout(f : () -> Unit, duration : Int) -> JsTimer {
+ 73 |   ffi_set_timeout(f, duration)
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | #alias(clear_timeout)
+    | pub fn clearTimeout(timer : JsTimer) -> Unit {
+ 80 |   ffi_clear_timeout(timer)
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | #alias(set_interval)
+    | pub fn setInterval(f : () -> Unit noraise, duration : Int) -> JsTimer {
+ 87 |   ffi_set_interval(f, duration)
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | #alias(clear_interval)
+    | pub fn clearInterval(timer : JsTimer) -> Unit {
+ 94 |   ffi_clear_timeout(timer)
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise JsThrowError {
+115 |   throwable(() => ffi_json_parse(s, reviver?))
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn AbortController::abort(self : Self) -> AbortController {
+134 |   self.call("abort", []) |> unsafe_cast
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn AbortController::signal(self : Self) -> AbortSignal {
+148 |   self.get("signal") |> unsafe_cast
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+7 uncovered line(s) in src/js.mbt:
+
+    | pub impl Show for Js with output(self, logger) {
+ 19 |   logger.write_string(self.to_string())
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn[T : JsImpl] instanceof_(v : T, cls : T) -> Bool {
+ 41 |   ffi_instance_of(v.to_js(), cls.to_js())
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | impl JsImpl with call_self0(self) -> Js {
+160 |   ffi_call_self0(self.to_js())
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | impl JsImpl with call_self_throwable(self, args) -> Js raise JsThrowError {
+165 |   throwable(() => ffi_call_self(self.to_js(), args.map(_.to_js())))
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub impl JsImpl for Map[String, &JsImpl] with to_js(self) {
+216 |   let v = Object::new()
+    |   ^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |   for k, val in self {
+218 |     v.set(k, val.to_js())
+    |     ^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |   }
+220 |   v.to_js()
+    |   ^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+6 uncovered line(s) in src/utils.mbt:
+
+    | pub fn[T : JsImpl] option_js(a : T) -> Js? {
+ 25 |   if ffi_is_nullish(a |> unsafe_cast) {
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |     None
+    |   } else {
+ 28 |     Some(unsafe_cast(a.to_js()))
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |   }
+    | }
+    …
+
+    | pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError {
+    |   match throwable_result(f |> unsafe_cast) {
+113 |     Ok(result) => result |> unsafe_cast
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |     Err(e) => {
+    |       if ffi_is_error(e) {
+    |         raise JsThrowError::Error(unsafe_cast(e))
+    |       }
+118 |       raise JsThrowError::Value(e |> unsafe_cast)
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |     }
+    |   }
+    | }
+    …
+
+    | pub fn[T] log(v : T) -> Unit {
+132 |   ffi_console_log([v |> unsafe_cast]) |> ignore
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+    | pub fn[T, U] log2(a : T, b : U) -> Unit {
+138 |   ffi_console_log([a |> unsafe_cast, b |> unsafe_cast]) |> ignore
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    | }
+    …
+
+2 uncovered line(s) in src/weak.mbt:
+
+    | pub fn[T] WeakRef::deref(self : WeakRef[T]) -> T? {
+    |   let result = self.call("deref", [])
+    |   if is_undefined(result) {
+107 |     None
+    |     ^^^^ 	<-- UNCOVERED
+    |   } else {
+    |     Some(unsafe_cast(result))
+    |   }
+    | }
+    …
+
+    | pub fn[T : JsImpl] FinalizationRegistry::new(
+    |   cleanup_callback : (T) -> Unit,
+    | ) -> FinalizationRegistry[T] {
+    |   unsafe_cast(
+131 |     ffi_new_finalization_registry(fn(val) { cleanup_callback(unsafe_cast(val)) }),
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 	<-- UNCOVERED
+    |   )
+    | }
+    …
+
+Total: 58 uncovered line(s) in 7 file(s)

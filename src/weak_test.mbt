@@ -109,3 +109,14 @@ test "FinalizationRegistry::unregister - unregister with token" {
   let unregistered = registry.unregister(token.to_js())
   assert_true(unregistered)
 }
+
+///|
+test "WeakRef::deref returns None when target is collected" {
+  // Create a mock WeakRef that returns undefined to simulate collected object
+  let undef_ref : Js = @js.undefined()
+  let mock_weakref = @js.Object::new()
+  mock_weakref.set("deref", @js.from_fn0(fn() { undef_ref }))
+  let wr : WeakRef[Js] = @js.unsafe_cast(mock_weakref.to_js())
+  let result = wr.deref()
+  assert_true(result.is_empty())
+}

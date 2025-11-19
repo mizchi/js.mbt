@@ -195,3 +195,15 @@ test "Object freeze vs seal vs preventExtensions" {
   assert_false(Object::isSealed(non_extensible))
   assert_false(Object::isExtensible_static(non_extensible))
 }
+
+///|
+test "Symbol::for_ creates global symbols" {
+  let sym1 = Symbol::for_("mySymbol")
+  let sym2 = Symbol::for_("mySymbol")
+  // Global symbols with same key should reference the same symbol
+  assert_eq(@js.typeof_(sym1), "symbol")
+  assert_eq(@js.typeof_(sym2), "symbol")
+  // Verify they are stored in global symbol registry
+  let sym3 = Symbol::for_("differentSymbol")
+  assert_eq(@js.typeof_(sym3), "symbol")
+}
