@@ -1,3 +1,4 @@
+// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/take
 ///|
 using @js {type Js, trait JsImpl, unsafe_cast}
 
@@ -12,6 +13,16 @@ pub(all) type JsIterator[T]
 ///|
 pub impl[T] JsImpl for JsIterator[T]
 
+extern "js" fn ffi_iterator_from(v : Js) -> Js =
+  #|(v) => Iterator.from(v)
+
+///|
+/// JS: Iterator.from(v)
+pub fn[T] JsIterator::from(v: Js) -> JsIterator[T] {
+  ffi_iterator_from(v) |> unsafe_cast
+}
+
+
 ///|
 /// JS: iterator.next()
 pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
@@ -24,29 +35,27 @@ pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
 }
 
 ///|
+/// JS: iterator.drop(limit)
+pub fn[T] JsIterator::drop(self : Self[T], limit: Int) -> Self[T] {
+  self.invoke("drop", [limit]) |> unsafe_cast
+}
+
+
+///|
+/// JS: iterator.take(limit)
+pub fn[T] JsIterator::take(self : Self[T], limit: Int) -> Self[T] {
+  self.invoke("take", [limit]) |> unsafe_cast
+}
+
+///|
+/// JS: iterator.toArray()
+pub fn[T] JsIterator::toArray(self : Self[T]) -> Array[T] {
+  self.invoke("toArray", []) |> unsafe_cast
+}
+
+
+///|
 /// to Moonbit Iterator
 pub fn[T] JsIterator::iter(self : JsIterator[T]) -> Iterator[T] {
   Iterator::new(() => self.next())
 }
-
-///|
-/// JavaScript AsyncIterator
-#external
-pub(all) type AsyncIterator[T]
-
-///|
-pub impl[T] JsImpl for AsyncIterator[T]
-
-///|
-/// JS: asyncIterator.next()
-pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
-  let v : Promise[Js] = unsafe_cast(self.invoke("next", []))
-  let v : Js = v.unwrap()
-  if unsafe_cast(v.get("done")) {
-    None
-  } else {
-    Some(unsafe_cast(v.get("value")))
-  }
-}
-
-// TODO: test with async test {}

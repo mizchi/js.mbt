@@ -12,14 +12,15 @@ priv struct AppProps {} derive(Default)
 
 ///|
 fn app(_props : AppProps) -> @react.Element {
-  let (cnt, set_cnt) = @react.useState(0)
+  let (cnt, set_cnt) = @react.use_state(0)
   let on_click : @dom.MouseEventHandler = _ => set_cnt(cnt + 1) |> ignore
   div(["Hello RTL", div(["Count: \{cnt}"]), button(on_click~, ["click me"])])
 }
 
 ///|
 test "testing-library/react" {
-  @global_jsdom.register()
+  // @global_jsdom.register()
+  @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   cleanup()
   render(component(app, AppProps::default()))

@@ -20,7 +20,7 @@ pub fn js(a : &JsImpl) -> Js {
 }
 
 ///|
-/// Cast any JsImpl type to a JavaScript Val safely.
+/// Safe cast JsImpl -> Option[Js].
 pub fn[T: JsImpl] option_js(a: T) -> Js? {
   if ffi_is_nullish(a |> unsafe_cast) {
     None
@@ -45,12 +45,6 @@ pub fn[A] unsafe_cast_option(v : Js) -> A? {
   } else {
     Some(unsafe_cast(v))
   }
-}
-
-///|
-/// JS: v.propertyIsEnumerable(k)
-pub fn[T : JsImpl] propertyIsEnumerable(v : T, k : String) -> Bool {
-  ffi_property_is_enumerable(v.to_js(), k)
 }
 
 ///|

@@ -76,7 +76,7 @@ pub fn Screen::debug(self : Self) -> Unit {
 ///|
 /// JS: screen.getByText(text)
 pub fn Screen::getByText(self : Screen, text : String) -> Js {
-  self.invoke("getByText", [text]) |> unsafe_cast
+  self.invoke("getByText", [text]) |> @js.unsafe_cast
 }
 
 ///|

@@ -90,3 +90,26 @@ test "from_map and to_string" {
     #|{"name":"Alice","age":30}
   ))
 }
+
+///|
+test "from_map" {
+  let map : Map[String, Js] = {
+    "name": js("Alice"),
+    "age": js(30),
+    "active": js(true),
+  }
+  let obj = from_map(map)
+  assert_eq(unsafe_cast(obj.get("name")), "Alice")
+  assert_eq(unsafe_cast(obj.get("age")), 30)
+  assert_eq(unsafe_cast(obj.get("active")), true)
+}
+
+///|
+test "from_array" {
+  let arr = [1, 2, 3, 4, 5]
+  let val = from_array(arr)
+  assert_true(@js.is_array(val))
+  assert_eq(unsafe_cast(val.get(0)), 1)
+  assert_eq(unsafe_cast(val.get(2)), 3)
+  assert_eq(unsafe_cast(val.get(4)), 5)
+}

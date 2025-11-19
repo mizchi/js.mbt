@@ -41,11 +41,6 @@ pub fn Object::new() -> Self {
 }
 
 ///|
-pub fn Object::to_string(self : Self) -> String {
-  ffi_json_stringify(self.to_js(), undefined(), undefined())
-}
-
-///|
 /// JS: Object.keys(v)
 pub fn Object::keys(v : &JsImpl) -> Array[String] {
   ffi_object_keys(v.to_js())
@@ -71,10 +66,29 @@ pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Js {
 }
 
 ///|
-/// Object.create({}).
-pub fn Object::create() -> Js {
-  ffi_object_create()
+/// Object.create(v).
+pub fn Object::create(v: Js) -> Js {
+  ffi_object_create(v)
 }
+
+///|
+/// JS: object.propertyIsEnumerable(k)
+pub fn Object::propertyIsEnumerable(self: Self, key : &PropertyKey) -> Bool {
+  ffi_property_is_enumerable(self.to_js(), key.to_key() |> unsafe_cast)
+}
+
+///|
+/// JS: object.isPrototypeOf(k)
+pub fn Object::isPrototypeOf(self: Self, target : Js) -> Bool {
+  ffi_is_prototype_of(self.to_js(), target)
+}
+
+
+///|
+pub fn Object::to_string(self : Self) -> String {
+  ffi_json_stringify(self.to_js(), undefined(), undefined())
+}
+
 
 // JavaScript String
 // In this file, we impl only static methods of String.*
@@ -197,4 +211,10 @@ pub fn Symbol::dispose() -> Symbol {
 /// JS: Symbol.asyncDispose
 pub fn Symbol::asyncDispose() -> Symbol {
   ffi_symbol_async_dispose()
+}
+
+///|
+/// JS: Symbol.asyncDispose
+pub fn Symbol::toStringTag() -> Symbol {
+  ffi_symbol_to_string_tag()
 }

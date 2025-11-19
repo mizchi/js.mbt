@@ -7,7 +7,7 @@ pub type Promise[T]
 impl[T] JsImpl for Promise[T]
 
 ///|
-/// js: Promise.new((resolve, reject) => { ... })
+/// JS: Promise.new((resolve, reject) => { ... })
 /// ```
 /// let p: Promise[Int] = Promise::new((resolve, reject) => {
 ///    resolve(10)
@@ -36,8 +36,8 @@ pub fn Promise::reject(x : Js) -> Self[Js] {
 
 ///|
 pub fn[A, B] Promise::then(
-  self : Promise[A],
-  resolve : (A) -> Promise[B] raise,
+  self : Self[A],
+  resolve : (A) -> Self[B] raise,
 ) -> Promise[B] {
   ffi_promise_then(self.to_js(), a => (a
   |> unsafe_cast
@@ -57,11 +57,13 @@ pub fn[A, B] Promise::catch_(
 }
 
 ///|
+/// JS: promise.finally(() => { ... })
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
   self.invoke("finally", [@js.from_fn0(f)]) |> unsafe_cast
 }
 
 ///|
+/// JS: await promise
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[T] Promise::unwrap(self : Self[T]) -> T {
   suspend((ok, err) => self
@@ -83,30 +85,25 @@ pub fn[T] Promise::race(promises : Array[Promise[T]]) -> Promise[T] {
 }
 
 ///|
-/// JS: Promise.withResolvers()
-pub(all) struct Resolvers[T] {
-  promise : Promise[T]
-  resolve : (T) -> Unit
-  reject : (Error) -> Unit
+/// JS: Promise.any(promises)
+pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
+  ffi_promise_any(promises |> unsafe_cast) |> unsafe_cast
 }
 
-///|
-/// JS: resolver.resolve(value)
-pub fn[T] Resolvers::resolve(self : Self[T], value : T) -> Unit {
-  (self.resolve)(value)
-}
 
 ///|
-/// JS: resolver.reject(error)
-pub fn[T] Resolvers::reject(self : Self[T], error : Error) -> Unit {
-  (self.reject)(error)
+/// Result type for Promise.allSettled
+pub(all) struct SettledResult[T] {
+  status : String // "fulfilled" | "rejected"
+  value : T?
+  reason : Js?
 }
 
-///|
-/// JS: Promise.withResolvers()
-pub fn[T] Promise::withResolvers() -> Resolvers[T] {
-  ffi_promise_with_resolvers() |> unsafe_cast
+/// JS: Promise.all(promises)
+pub fn[A] Promise::allSettled(promises : Array[Promise[A]]) -> Promise[Array[SettledResult[A]]] {
+  ffi_promise_all(promises |> unsafe_cast) |> unsafe_cast
 }
+
 
 ///|
 /// Converts an async raise function to a Promise.
@@ -123,4 +120,30 @@ pub fn[R] Promise::try_(f : async () -> R) -> Promise[R] noraise {
     e => reject(e)
   })
   promise
+}
+
+///|
+/// JS: Promise.withResolvers()
+pub(all) struct Resolvers[T] {
+  promise : Promise[T]
+  resolve : (T) -> Unit
+  reject : (Error) -> Unit
+}
+
+///|
+/// JS: Promise.withResolvers()
+pub fn[T] Promise::withResolvers() -> Resolvers[T] {
+  ffi_promise_with_resolvers() |> unsafe_cast
+}
+
+///|
+/// JS: resolvers.resolve(value)
+pub fn[T] Resolvers::resolve(self : Self[T], value : T) -> Unit {
+  (self.resolve)(value)
+}
+
+///|
+/// JS: resolvers.reject(error)
+pub fn[T] Resolvers::reject(self : Self[T], error : Error) -> Unit {
+  (self.reject)(error)
 }

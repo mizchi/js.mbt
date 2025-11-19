@@ -1,4 +1,32 @@
-// Constant Enum
+///|
+priv enum TestEnum {
+  A(value~ : Int)
+} derive(Eq, Show)
+
+///|
+fn TestEnum::from_js(v : Js) -> Self raise {
+  let tag : String = unsafe_cast(v.get("tag"))
+  match tag {
+    "A" => {
+      let value = v.get("value")
+      guard @js.typeof_(value) == "number"
+      A(value=unsafe_cast(value))
+    }
+    _ => fail("unknown tag: " + tag)
+  }
+}
+
+///|
+impl JsImpl for TestEnum with to_js(self) {
+  match self {
+    A(value~) => {
+      let obj = @js.Object::new()
+      obj.set("tag", "A")
+      obj.set("value", value)
+      obj.to_js()
+    }
+  }
+}
 
 ///|
 priv enum TestConstantEnum {
@@ -32,35 +60,6 @@ test "unsafe_cast converts struct to Js object" {
   assert_eq(casted, p)
 }
 
-///|
-priv enum TestEnum {
-  A(value~ : Int)
-} derive(Eq, Show)
-
-///|
-fn TestEnum::from_js(v : Js) -> Self raise {
-  let tag : String = unsafe_cast(v.get("tag"))
-  match tag {
-    "A" => {
-      let value = v.get("value")
-      guard @js.typeof_(value) == "number"
-      A(value=unsafe_cast(value))
-    }
-    _ => fail("unknown tag: " + tag)
-  }
-}
-
-///|
-impl JsImpl for TestEnum with to_js(self) {
-  match self {
-    A(value~) => {
-      let obj = @js.Object::new()
-      obj.set("tag", "A")
-      obj.set("value", value)
-      obj.to_js()
-    }
-  }
-}
 
 ///|
 test "JsImpl trait converts enum to Js and back" {
@@ -73,7 +72,7 @@ test "JsImpl trait converts enum to Js and back" {
 }
 
 ///|
-test "to_string" {
+test "JsImpl::to_string" {
   assert_eq(js(42).to_string(), "42")
   assert_eq(null_().to_string(), "null")
   assert_eq(js(true).to_string(), "true")
@@ -89,7 +88,7 @@ test "to_string" {
 }
 
 ///|
-test "Val type checking" {
+test "type checking" {
   // Test is_array
   let arr = JsArray::new()
   assert_true(@js.is_array(arr))
@@ -112,12 +111,11 @@ test "Val type checking" {
   assert_false(@js.is_undefined(js(42)))
 
   // Test is_some and is_none
-  assert_true(js(42).is_some())
-  assert_false(undefined().is_some())
-  assert_false(null_().is_some())
-  assert_false(js(42).is_none())
-  assert_true(undefined().is_none())
-  assert_true(null_().is_none())
+  assert_false(js(42) |> @js.is_nullish())
+  assert_true(undefined() |> @js.is_nullish())
+  assert_false(js(42) |> @js.is_nullish())
+  assert_true(undefined() |> @js.is_nullish())
+  assert_true(null_() |> @js.is_nullish())
 }
 
 ///|
@@ -133,7 +131,7 @@ test "Js typeof_" {
 }
 
 ///|
-test "Js get and set" {
+test "JsImpl get/set" {
   let obj = @js.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
@@ -150,25 +148,7 @@ test "Js get and set" {
 }
 
 ///|
-test "Js set_if_exists" {
-  let obj = @js.Object::new()
-
-  // Set with Some value
-  set_if_exists(obj, "key1", Some("value1"))
-  assert_eq(unsafe_cast(obj.get("key1")), "value1")
-
-  // Set with None should not add property
-  let v : Int? = None
-  set_if_exists(obj, "key2", v)
-  assert_true(@js.is_undefined(obj.get("key2")))
-
-  // Set with undefined value should not add property
-  set_if_exists(obj, "key3", Some(undefined()))
-  assert_true(@js.is_undefined(obj.get("key3")))
-}
-
-///|
-test "Js delete and has_own_property" {
+test "JsImpl::delete and hasOwnProperty" {
   let obj = @js.Object::new()
   obj.set("key1", "value1")
   obj.set("key2", "value2")
@@ -181,45 +161,7 @@ test "Js delete and has_own_property" {
 }
 
 ///|
-test "Val cast primitive types" {
-  // Integer
-  let int_val = js(42)
-  let int_result : Int = unsafe_cast(int_val)
-  assert_eq(int_result, 42)
-
-  // Double
-  let double_val = js(3.14)
-  let double_result : Double = unsafe_cast(double_val)
-  assert_eq(double_result, 3.14)
-
-  // String
-  let str_val = js("hello")
-  let str_result : String = unsafe_cast(str_val)
-  assert_eq(str_result, "hello")
-
-  // Boolean
-  let bool_val = js(true)
-  let bool_result : Bool = unsafe_cast(bool_val)
-  assert_eq(bool_result, true)
-}
-
-///|
-test "Val cast_option" {
-  // Some cases
-  let some_str : String? = js("hello") |> @js.unsafe_cast_option()
-  assert_eq(some_str, Some("hello"))
-  let some_int : Int? = js(42) |> @js.unsafe_cast_option()
-  assert_eq(some_int, Some(42))
-
-  // None cases
-  let none_str : String? = undefined() |> @js.unsafe_cast_option()
-  assert_eq(none_str, None)
-  let none_int : Int? = null_() |> @js.unsafe_cast_option()
-  assert_eq(none_int, None)
-}
-
-///|
-test "Js equality" {
+test "JsImpl::equal" {
   // Same values should be equal
   assert_eq(js(42), js(42))
   assert_eq(js("hello"), js("hello"))
@@ -236,159 +178,7 @@ test "Js equality" {
 }
 
 ///|
-test "Val is_nan" {
-  let nan_val = @js.js(0.0 / 0.0)
-  assert_true(@js.isNaN(nan_val))
-  assert_false(@js.isNaN(42))
-  assert_false(@js.isNaN(3.14))
-}
-
-///|
-test "object_keys" {
-  let obj = @js.Object::new()
-  obj.set("name", "Alice")
-  obj.set("age", 30)
-  obj.set("city", "Tokyo")
-  let keys = Object::keys(obj.to_js())
-  assert_eq(keys.length(), 3)
-  assert_true(keys.contains("name"))
-  assert_true(keys.contains("age"))
-  assert_true(keys.contains("city"))
-}
-
-///|
-test "object_values" {
-  let obj = @js.Object::new()
-  obj.set("a", 1)
-  obj.set("b", 2)
-  obj.set("c", 3)
-  let values = Object::values(obj)
-  assert_eq(values.length(), 3)
-  // Values should be present (order not guaranteed)
-  let sum : Int = unsafe_cast(values[0]) +
-    unsafe_cast(values[1]) +
-    unsafe_cast(values[2])
-  assert_eq(sum, 6)
-}
-
-///|
-test "object_entries" {
-  let obj = @js.Object::new()
-  obj.set("name", "Alice")
-  obj.set("age", 30)
-  let entries = Object::entries(obj)
-  assert_eq(entries.length(), 2)
-  let mut found_name = false
-  let mut found_age = false
-  for entry in entries {
-    let (key, value) = entry
-    if key == "name" {
-      assert_eq(unsafe_cast(value), "Alice")
-      found_name = true
-    } else if key == "age" {
-      assert_eq(unsafe_cast(value), 30)
-      found_age = true
-    }
-  }
-  assert_true(found_name)
-  assert_true(found_age)
-}
-
-///|
-test "object_assign" {
-  let target = @js.Object::new()
-  target.set("a", 1)
-  target.set("b", 2)
-  let source = @js.Object::new()
-  source.set("b", 3)
-  source.set("c", 4)
-  let result = Object::assign(target, source)
-
-  // b should be overwritten, c should be added
-  assert_eq(unsafe_cast(result.get("a")), 1)
-  assert_eq(unsafe_cast(result.get("b")), 3)
-  assert_eq(unsafe_cast(result.get("c")), 4)
-}
-
-///|
-test "from_builtin_map" {
-  let map : Map[String, Js] = {
-    "name": js("Alice"),
-    "age": js(30),
-    "active": js(true),
-  }
-  let obj = from_map(map)
-  assert_eq(unsafe_cast(obj.get("name")), "Alice")
-  assert_eq(unsafe_cast(obj.get("age")), 30)
-  assert_eq(unsafe_cast(obj.get("active")), true)
-}
-
-///|
-test "from_array" {
-  let arr = [1, 2, 3, 4, 5]
-  let val = from_array(arr)
-  assert_true(@js.is_array(val))
-  assert_eq(unsafe_cast(val.get(0)), 1)
-  assert_eq(unsafe_cast(val.get(2)), 3)
-  assert_eq(unsafe_cast(val.get(4)), 5)
-}
-
-///|
-test "JsArray::new" {
-  let arr = JsArray::new()
-  assert_true(@js.is_array(arr))
-  assert_true(@js.is_object(arr))
-  // native array is also js array
-  assert_true(@js.is_array([1] |> @js.from_array))
-}
-
-///|
-test "globalThis" {
-  let global = globalThis()
-  assert_true(@js.is_object(global))
-  assert_false(@js.is_null(global))
-}
-
-///|
-test "symbols" {
-  let sym = symbol("test")
-  let iter_sym = Symbol::iterator()
-  let dispose_sym = Symbol::dispose()
-  let async_dispose_sym = Symbol::asyncDispose()
-
-  // Symbols should have symbol type
-  let sym_val : Js = js(sym)
-  let iter_val : Js = js(iter_sym)
-  let dispose_val : Js = js(dispose_sym)
-  let async_dispose_val : Js = js(async_dispose_sym)
-  assert_eq(@js.typeof_(sym_val), "symbol")
-  assert_eq(@js.typeof_(iter_val), "symbol")
-  assert_eq(@js.typeof_(dispose_val), "symbol")
-  assert_eq(@js.typeof_(async_dispose_val), "symbol")
-}
-
-///|
-test "new_error" {
-  let error = JsError::new("Test error")
-  let error_val : Js = unsafe_cast(error)
-  assert_true(@js.is_object(error_val))
-  assert_eq(unsafe_cast(error_val.get("message")), "Test error")
-
-  // Error with cause
-  let cause_error = JsError::new("Cause error")
-  let error_with_cause = JsError::new("Main error", cause=cause_error)
-  let error_with_cause_val : Js = unsafe_cast(error_with_cause)
-  assert_eq(unsafe_cast(error_with_cause_val.get("message")), "Main error")
-}
-
-///|
-test "Object::create" {
-  let obj = Object::create()
-  assert_true(@js.is_object(obj))
-}
-
-///|
-test "Val with arrays" {
+test "Js with arrays" {
   let arr = from_array([1, 2, 3])
   assert_true(@js.is_array(arr))
   assert_eq(unsafe_cast(arr.get(0)), 1)
@@ -401,7 +191,7 @@ test "Val with arrays" {
 }
 
 ///|
-test "Val with nested structures" {
+test "Js with nested structures" {
   let root = @js.Object::new()
   let user = @js.Object::new()
   user.set("name", "Alice")
@@ -430,8 +220,8 @@ test "Val Show trait" {
   assert_eq(js(true).to_string(), "true")
   assert_eq(js(false).to_string(), "false")
   assert_eq(null_().to_string(), "null")
-  assert_eq(@js.Object::new().to_js().to_string(), "{}")
-  assert_eq(@js.JsArray::new().to_js().to_string(), "[]")
+  assert_eq(Object::new().to_js().to_string(), "{}")
+  assert_eq(JsArray::new().to_js().to_string(), "[]")
 }
 
 ///|
@@ -443,7 +233,7 @@ test "Val with mixed types in object" {
   obj.set("boolean", true)
   obj.set("null", null_())
   obj.set("array", from_array([1, 2, 3]))
-  obj.set("object", @js.Object::new())
+  obj.set("object", Object::new())
   assert_eq(@js.typeof_(obj.get("string")), "string")
   assert_eq(@js.typeof_(obj.get("number")), "number")
   assert_eq(@js.typeof_(obj.get("float")), "number")
@@ -451,14 +241,6 @@ test "Val with mixed types in object" {
   assert_eq(@js.typeof_(obj.get("null")), "object")
   assert_true(@js.is_array(obj.get("array")))
   assert_true(@js.is_object(obj.get("object")))
-}
-
-///|
-test "PropertyIsEnumerable" {
-  let obj = @js.Object::new()
-  obj.set("enumerable", "value")
-  assert_true(@js.propertyIsEnumerable(obj, "enumerable"))
-  assert_false(@js.propertyIsEnumerable(obj, "nonexistent"))
 }
 
 ///|
@@ -486,7 +268,7 @@ test "Js trait for primitives" {
 }
 
 ///|
-test "Js trait for Array[&JsImpl]" {
+test "JsImpl for Array[&JsImpl]" {
   let arr : Array[&JsImpl] = ["hello", 42, 3.14, true]
   let val = JsImpl::to_js(arr)
   assert_true(@js.is_array(val))
@@ -497,7 +279,7 @@ test "Js trait for Array[&JsImpl]" {
 }
 
 ///|
-test "Js trait for Option" {
+test "JsImpl for Option[T]" {
   // Some value
   let some_val : Int? = Some(42)
   let some_js = JsImpl::to_js(some_val)
@@ -507,28 +289,6 @@ test "Js trait for Option" {
   let none_val : Int? = None
   let none_js = JsImpl::to_js(none_val)
   assert_true(@js.is_undefined(none_js))
-}
-
-///|
-test "Js with empty strings" {
-  let obj = @js.Object::new()
-  obj.set("empty", "")
-  assert_eq(unsafe_cast(obj.get("empty")), "")
-  assert_true(obj.hasOwnProperty("empty"))
-}
-
-///|
-test "Js set" {
-  let obj = @js.Object::new()
-  obj.set("zero", 0)
-  obj.set("zero_float", 0.0)
-  assert_eq(unsafe_cast(obj.get("zero")), 0)
-  assert_eq(unsafe_cast(obj.get("zero_float")), 0.0)
-  assert_true(obj.hasOwnProperty("zero"))
-  let obj = @js.Object::new()
-  obj.set("flag", false)
-  assert_eq(unsafe_cast(obj.get("flag")), false)
-  assert_true(obj.hasOwnProperty("flag"))
 }
 
 ///|

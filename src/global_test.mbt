@@ -62,3 +62,18 @@ test "encode_uri_component and decode_uri_component" {
   let decoded_component = decodeURIComponent(encoded_component)
   assert_eq(decoded_component, original)
 }
+
+///|
+test "global isNaN" {
+  let nan_val = @js.js(0.0 / 0.0)
+  assert_true(@js.isNaN(nan_val))
+  assert_false(@js.isNaN(42))
+  assert_false(@js.isNaN(3.14))
+}
+
+///|
+test "globalThis" {
+  let global = globalThis()
+  assert_true(@js.is_object(global))
+  assert_false(@js.is_null(global))
+}

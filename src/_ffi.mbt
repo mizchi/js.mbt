@@ -60,8 +60,8 @@ extern "js" fn ffi_symbol_for(name : String) -> Symbol =
   #| (name) => Symbol.for(name)
 
 ///|
-extern "js" fn ffi_object_create() -> Js =
-  #| () => Object.create({})
+extern "js" fn ffi_object_create(v: Js) -> Js =
+  #| (v) => Object.create(v)
 
 ///|
 extern "js" fn ffi_symbol_iterator() -> Symbol =
@@ -80,6 +80,10 @@ extern "js" fn ffi_symbol_async_dispose() -> Symbol =
   #| () => Symbol.asyncDispose
 
 ///|
+extern "js" fn ffi_symbol_to_string_tag() -> Symbol =
+  #| () => Symbol.toStringTag
+
+///|
 extern "js" fn ffi_symbol(name : String) -> Symbol =
   #| (name) => Symbol(name)
 
@@ -94,6 +98,10 @@ extern "js" fn ffi_has_own_property(v : Js, k : String) -> Bool =
 ///|
 extern "js" fn ffi_property_is_enumerable(v : Js, k : String) -> Bool =
   #| (obj, k) => obj.propertyIsEnumerable(k)
+
+///|
+extern "js" fn ffi_is_prototype_of(v : Js, target: Js) -> Bool =
+  #| (obj, target) => obj.isPrototypeOf(target)
 
 // Object
 

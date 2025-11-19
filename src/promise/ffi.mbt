@@ -14,6 +14,9 @@ extern "js" fn ffi_promise_all(f : Array[Promise[Js]]) -> Promise[Js] = "(values
 extern "js" fn ffi_promise_race(f : Array[Promise[Js]]) -> Promise[Js] = "(values) => Promise.race(values)"
 
 ///|
+extern "js" fn ffi_promise_any(f : Array[Promise[Js]]) -> Promise[Js] = "(values) => Promise.any(values)"
+
+///|
 extern "js" fn ffi_new_promise(
   f : ((Js) -> Unit, (Js) -> Unit) -> Unit,
 ) -> Promise[Js] = "(f) => new Promise(f)"
