@@ -78,6 +78,25 @@ test {
 
 ///|
 test {
+  it("Server listen and get address", _ => {
+    let server = createServer()
+    server.listen(0, host="127.0.0.1") |> ignore
+    @promise.sleep(50)
+    let address = server.address()
+    inspect(address.is_empty(), content="false")
+    match address {
+      Some(addr) => {
+        let port : Int = @js.unsafe_cast(addr.get("port"))
+        inspect(port > 0, content="true")
+      }
+      None => ()
+    }
+    server.close() |> ignore
+  })
+}
+
+///|
+test {
   it("Socket can be created", _ => {
     let socket = createConnection(8080, host="127.0.0.1")
     // Just check that socket was created without connecting
