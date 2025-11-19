@@ -1,5 +1,5 @@
 name = "js-mbt-test"
-main = "src/index.ts"
+main = "examples/cloudflare-worker/worker.js"
 compatibility_date = "2024-01-01"
 
 [env.test]

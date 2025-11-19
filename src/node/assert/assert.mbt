@@ -1,0 +1,225 @@
+///|
+/// node:assert module
+fn assert_module() -> Js {
+  @node.require("node:assert")
+}
+
+///| Basic Assertions
+
+///|
+/// Assert that a value is truthy
+pub fn ok(value : Bool, message? : String) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) => a.call("ok", [value, msg]) |> ignore
+    None => a.call("ok", [value]) |> ignore
+  }
+}
+
+///|
+/// Assert equality (==)
+pub fn equal(actual : &JsImpl, expected : &JsImpl, message? : String) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) =>
+      a.call("equal", [actual.to_js(), expected.to_js(), msg]) |> ignore
+    None => a.call("equal", [actual.to_js(), expected.to_js()]) |> ignore
+  }
+}
+
+///|
+/// Assert inequality (!=)
+pub fn notEqual(
+  actual : &JsImpl,
+  expected : &JsImpl,
+  message? : String,
+) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) =>
+      a.call("notEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
+    None => a.call("notEqual", [actual.to_js(), expected.to_js()]) |> ignore
+  }
+}
+
+///|
+/// Assert deep equality
+pub fn deepEqual(
+  actual : &JsImpl,
+  expected : &JsImpl,
+  message? : String,
+) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) =>
+      a.call("deepEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
+    None => a.call("deepEqual", [actual.to_js(), expected.to_js()]) |> ignore
+  }
+}
+
+///|
+/// Assert deep inequality
+pub fn notDeepEqual(
+  actual : &JsImpl,
+  expected : &JsImpl,
+  message? : String,
+) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) =>
+      a.call("notDeepEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
+    None => a.call("notDeepEqual", [actual.to_js(), expected.to_js()]) |> ignore
+  }
+}
+
+///|
+/// Assert strict equality (===)
+pub fn strictEqual(
+  actual : &JsImpl,
+  expected : &JsImpl,
+  message? : String,
+) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) =>
+      a.call("strictEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
+    None => a.call("strictEqual", [actual.to_js(), expected.to_js()]) |> ignore
+  }
+}
+
+///|
+/// Assert strict inequality (!==)
+pub fn notStrictEqual(
+  actual : &JsImpl,
+  expected : &JsImpl,
+  message? : String,
+) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) =>
+      a.call("notStrictEqual", [actual.to_js(), expected.to_js(), msg])
+      |> ignore
+    None =>
+      a.call("notStrictEqual", [actual.to_js(), expected.to_js()]) |> ignore
+  }
+}
+
+///| Error Assertions
+
+///|
+/// Assert that a function throws
+pub fn throws(fn_ : () -> Unit, message? : String) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) => a.call("throws", [@js.from_fn0(fn_), msg]) |> ignore
+    None => a.call("throws", [@js.from_fn0(fn_)]) |> ignore
+  }
+}
+
+///|
+/// Assert that a function does not throw
+pub fn doesNotThrow(fn_ : () -> Unit, message? : String) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) => a.call("doesNotThrow", [@js.from_fn0(fn_), msg]) |> ignore
+    None => a.call("doesNotThrow", [@js.from_fn0(fn_)]) |> ignore
+  }
+}
+
+///|
+/// Assert that a promise rejects
+pub fn rejects(
+  promise : &JsImpl,
+  error? : &JsImpl,
+  message? : String,
+) -> Promise[Unit] {
+  let a = assert_module()
+  match (error, message) {
+    (Some(err), Some(msg)) =>
+      a.call("rejects", [promise.to_js(), err.to_js(), msg]) |> unsafe_cast
+    (Some(err), None) =>
+      a.call("rejects", [promise.to_js(), err.to_js()]) |> unsafe_cast
+    (None, Some(msg)) =>
+      a.call("rejects", [promise.to_js(), msg]) |> unsafe_cast
+    (None, None) => a.call("rejects", [promise.to_js()]) |> unsafe_cast
+  }
+}
+
+///|
+/// Assert that a promise does not reject
+pub fn doesNotReject(promise : &JsImpl, message? : String) -> Promise[Unit] {
+  let a = assert_module()
+  match message {
+    Some(msg) => a.call("doesNotReject", [promise.to_js(), msg]) |> unsafe_cast
+    None => a.call("doesNotReject", [promise.to_js()]) |> unsafe_cast
+  }
+}
+
+///| Other Assertions
+
+///|
+/// Always fails
+pub fn fail(message? : String) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) => a.call("fail", [msg]) |> ignore
+    None => a.call("fail", []) |> ignore
+  }
+}
+
+///|
+/// Create RegExp from string
+extern "js" fn create_regexp(pattern : String) -> Js =
+  #|(pattern) => new RegExp(pattern)
+
+///|
+/// Assert regex match
+pub fn match_(actual : String, regexp : String, message? : String) -> Unit {
+  let a = assert_module()
+  let regex = create_regexp(regexp)
+  match message {
+    Some(msg) => a.call("match", [actual, regex, msg]) |> ignore
+    None => a.call("match", [actual, regex]) |> ignore
+  }
+}
+
+///|
+/// Assert regex does not match
+pub fn doesNotMatch(
+  actual : String,
+  regexp : String,
+  message? : String,
+) -> Unit {
+  let a = assert_module()
+  let regex = create_regexp(regexp)
+  match message {
+    Some(msg) => a.call("doesNotMatch", [actual, regex, msg]) |> ignore
+    None => a.call("doesNotMatch", [actual, regex]) |> ignore
+  }
+}
+
+///|
+/// Assert that value is instance of constructor
+pub fn instanceOf(value : &JsImpl, ctor : &JsImpl, message? : String) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) =>
+      a.call("instanceOf", [value.to_js(), ctor.to_js(), msg]) |> ignore
+    None => a.call("instanceOf", [value.to_js(), ctor.to_js()]) |> ignore
+  }
+}
+
+///|
+/// Assert that value is not instance of constructor
+pub fn notInstanceOf(
+  value : &JsImpl,
+  ctor : &JsImpl,
+  message? : String,
+) -> Unit {
+  let a = assert_module()
+  match message {
+    Some(msg) =>
+      a.call("notInstanceOf", [value.to_js(), ctor.to_js(), msg]) |> ignore
+    None => a.call("notInstanceOf", [value.to_js(), ctor.to_js()]) |> ignore
+  }
+}

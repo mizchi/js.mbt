@@ -8,10 +8,25 @@ import(
 )
 
 // Values
+#alias(access_sync)
+fn accessSync(String, mode? : Int) -> Unit
+
 #alias(appendFileSync)
 fn append_file_sync(String, &@js.JsImpl) -> Unit
 
+#alias(chmod_sync)
+fn chmodSync(String, Int) -> Unit
+
+#alias(chown_sync)
+fn chownSync(String, Int, Int) -> Unit
+
+#alias(close_sync)
+fn closeSync(Int) -> Unit
+
 fn copyFileSync(String, String) -> Unit
+
+#alias(cp_sync)
+fn cpSync(String, String, recursive? : Bool) -> Unit
 
 fn createReadStream(String) -> @stream.Readable
 
@@ -20,8 +35,22 @@ fn createWriteStream(String) -> @stream.Writable
 #alias(exists_sync)
 fn existsSync(String) -> Bool
 
+fn fs_F_OK() -> Int
+
+fn fs_R_OK() -> Int
+
+fn fs_W_OK() -> Int
+
+fn fs_X_OK() -> Int
+
 #alias(mkdir_sync)
 fn mkdirSync(String, recursive? : Bool) -> Unit
+
+#alias(open_sync)
+fn openSync(String, String, mode? : Int) -> Int
+
+#alias(read_sync)
+fn readSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int
 
 #alias(readFileSync)
 fn read_file_sync(String) -> @buffer.Buffer
@@ -31,20 +60,38 @@ fn read_file_sync_string(String, String) -> String
 #alias(readdir_sync)
 fn readdirSync(String) -> Array[String]
 
+#alias(readlink_sync)
+fn readlinkSync(String) -> String
+
+#alias(realpath_sync)
+fn realpathSync(String) -> String
+
 #alias(rename_sync)
 fn renameSync(String, String) -> Unit
 
 #alias(rm_sync)
 fn rmSync(String, recursive? : Bool, force? : Bool) -> Unit
 
+#alias(rmdir_sync)
+fn rmdirSync(String, recursive? : Bool) -> Unit
+
 #alias(stat_sync)
 fn statSync(String) -> @js.Js
+
+#alias(symlink_sync)
+fn symlinkSync(String, String, type_? : String) -> Unit
+
+#alias(truncate_sync)
+fn truncateSync(String, len? : Int) -> Unit
 
 #alias(unlink_sync)
 fn unlinkSync(String) -> Unit
 
 #alias(write_file_sync)
 fn writeFileSync(String, &@js.JsImpl) -> Unit
+
+#alias(write_sync)
+fn writeSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int
 
 // Errors
 

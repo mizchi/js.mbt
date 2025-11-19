@@ -15,6 +15,7 @@ Add to your `moon.pkg.json`:
   "import": [
     "mizchi/js",
     "mizchi/js/promise",
+    "mizchi/js/url",
     "mizchi/js/http",
     "mizchi/js/worker",
     "mizchi/js/cloudflare"
@@ -93,17 +94,17 @@ let results = db.batch(stmts).await()
 
 ```moonbit
 // Get first row
-let first = stmt.first().await()
+let first = stmt.first().unwrap()
 
 // Get specific column from first row
 let name = stmt.first_col("name").await()
 
 // Get all rows
-let result = stmt.all().await()
+let result = stmt.all().unwrap()
 let rows = result.get_results()
 
 // Raw results as arrays
-let raw = stmt.raw().await()
+let raw = stmt.raw().unwrap()
 ```
 
 ### R2 (Object Storage)

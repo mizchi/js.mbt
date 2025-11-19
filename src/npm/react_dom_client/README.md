@@ -6,6 +6,10 @@ React DOM client-side rendering APIs
 
 ## Installation
 
+```bash
+npm add react react-dom
+```
+
 Add to your `moon.pkg.json`:
 
 ```json

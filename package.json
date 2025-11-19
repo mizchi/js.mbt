@@ -1,9 +1,7 @@
 {
   "scripts": {
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:cloudflare": "vitest run test/cloudflare",
-    "test:cloudflare:watch": "vitest test/cloudflare"
+    "dev:cloudflare": "wrangler dev fixtures/cf-worker.js",
+    "test:cloudflare": "vite"
   },
   "devDependencies": {
     "@ai-sdk/anthropic": "2.0.43",

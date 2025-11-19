@@ -1,0 +1,49 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/assert"
+
+import(
+  "mizchi/js"
+  "mizchi/js/promise"
+)
+
+// Values
+fn deepEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+
+fn doesNotMatch(String, String, message? : String) -> Unit
+
+fn doesNotReject(&@js.JsImpl, message? : String) -> @promise.Promise[Unit]
+
+fn doesNotThrow(() -> Unit, message? : String) -> Unit
+
+fn equal(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+
+fn fail(message? : String) -> Unit
+
+fn instanceOf(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+
+fn match_(String, String, message? : String) -> Unit
+
+fn notDeepEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+
+fn notEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+
+fn notInstanceOf(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+
+fn notStrictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+
+fn ok(Bool, message? : String) -> Unit
+
+fn rejects(&@js.JsImpl, error? : &@js.JsImpl, message? : String) -> @promise.Promise[Unit]
+
+fn strictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+
+fn throws(() -> Unit, message? : String) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

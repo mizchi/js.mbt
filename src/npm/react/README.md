@@ -1,11 +1,37 @@
 ## mizchi/js/npm/react
 
+```bash
+npm add react
+```
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/promise",
+    "mizchi/js/dom",
+    "mizchi/js/npm/react"
+  ]
+}
+```
+
 We are designing the API to be intuitive for React users, even if it means compromising on some aspects of safety.
 
 ```js
 fn main {
   // Initialize React API
-  @react.init_react_api(@node.require("react"))
+  @async.run_async(() => {
+    @react.init_react_async() catch {
+      _err => {
+        @js.log("Failed to initialize React.")
+        panic()
+      }
+    }
+    // React is ready to use
+    ()
+  })
 }
 ```
 

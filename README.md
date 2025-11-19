@@ -6,6 +6,24 @@ js/browser/node.js bindings for Moonbit.
 $ moon add mizchi/js
 ```
 
+## How to use
+
+moon.pkg.json
+
+```json
+{
+  "import": ["mizchi/js"]
+}
+```
+
+## Modules
+
+- [mizchi/js](./mizchi/js/README.md) : JavaScript Builtin API
+- [mizchi/js/node](./mizchi/js/node/README.md) : Node.js API
+- [mizchi/js/dom](./mizchi/js/dom/README.md) : Browser & DOM API
+- [mizchi/js/cloudflare](./mizchi/js/cloudflare/README.md) : Cloudflare Worker API
+- [mizchi/js/npm/*](./mizchi/js/npm/README.md) : NPM Library bindings
+
 ## Project Status
 
 - I use some parts of this package in my production projects.
@@ -21,16 +39,6 @@ $ moon add mizchi/js
   - Full Browser + React Support for frontend
   - Full Cloudflare Worker Support
   - MCP server/client support
-
-## How to use
-
-moon.pkg.json
-
-```json
-{
-  "import": ["mizchi/js"]
-}
-```
 
 ### Basic Usages
 
@@ -70,38 +78,6 @@ pub fn MyType::myMethod(self: Self, arg: String) -> Int {
 ```
 
 See escape hatch pattern in [docs/moonbit-js-ffi.md](./docs/moonbit-js-ffi.md)
-
----
-
-Modules
-
-
-## NPM Library bindings
-
-In near future, we split these bindings into a separate package.
-
-- `mizchi/js/npm/react`
-  - React
-  - `mizchi/js/npm/react/element`
-    - Typed HTML elements binding for Moonbit + React`
-- `mizchi/js/npm/react_dom`
-  - ReactDOM
-- `mizchi/js/npm/react_router`
-  - Only `BrowserRouter` related api
-- `mizchi/js/npm/react_testing_library`
-  - react-testing-library
-
-### Cloudflare Workers binding
-
-In near future, we split these bindings into a separate package.
-
-- `mizchi/js/cloudflare` : Cloudflare Workers API
-  - [ ] Not tested yet
-
-## Prior Art
-
-- https://mooncakes.io/docs/rami3l/js-ffi
-- https://github.com/moonbit-community/jmop
 
 ## LICENSE
 
