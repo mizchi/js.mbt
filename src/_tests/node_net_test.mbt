@@ -48,6 +48,7 @@ test {
     let mut server_started = false
     let mut client_connected = false
     let mut data_received = ""
+    let mut cleanup_done = false
 
     // Create server
     let server = createServer(connectionListener=fn(socket) {
@@ -80,22 +81,27 @@ test {
       client.on("end", fn(_) {
         client.destroy() |> ignore
         server.close() |> ignore
+        cleanup_done = true
       })
     })
     |> ignore
 
-    // Wait for async operations
-    @promise.sleep(100)
+    // Wait for async operations and cleanup
+    @promise.sleep(200)
     inspect(server_started, content="true")
     inspect(client_connected, content="true")
     inspect(data_received, content="Hello")
+    inspect(cleanup_done, content="true")
   })
 }
 
 ///|
 test {
   it("Socket should have correct properties", _ => {
-    let server = createServer()
+    let server = createServer(connectionListener=fn(socket) {
+      // Close server socket immediately
+      socket.destroy() |> ignore
+    })
     server.listen(0, host="127.0.0.1") |> ignore
     let address = server.address()
     let port : Int = match address {
@@ -119,12 +125,14 @@ test {
 test {
   it("Socket should support pause and resume", _ => {
     let mut data_count = 0
+    let mut server_ref : Server? = None
     let server = createServer(connectionListener=fn(socket) {
       socket.write("data1") |> ignore
       socket.write("data2") |> ignore
       socket.write("data3") |> ignore
       socket.end() |> ignore
     })
+    server_ref = Some(server)
     server.listen(0, host="127.0.0.1") |> ignore
     let address = server.address()
     let port : Int = match address {
@@ -144,9 +152,14 @@ test {
         |> ignore
       }
     })
-    client.on("end", fn(_) { client.destroy() |> ignore })
+    client.on("end", fn(_) {
+      client.destroy() |> ignore
+      match server_ref {
+        Some(s) => s.close() |> ignore
+        None => ()
+      }
+    })
     @promise.sleep(200)
-    server.close() |> ignore
 
     // Should receive all data chunks
     assert_eq(data_count >= 1, true)
@@ -157,10 +170,12 @@ test {
 test {
   it("Socket should support setEncoding", _ => {
     let mut received = ""
+    let mut server_ref : Server? = None
     let server = createServer(connectionListener=fn(socket) {
       socket.write("こんにちは") |> ignore
       socket.end() |> ignore
     })
+    server_ref = Some(server)
     server.listen(0, host="127.0.0.1") |> ignore
     let address = server.address()
     let port : Int = match address {
@@ -170,10 +185,15 @@ test {
     let client = createConnection(port, host="127.0.0.1")
     client.setEncoding("utf8") |> ignore
     client.on("data", fn(chunk) { received = @js.unsafe_cast(chunk) })
-    client.on("end", fn(_) { client.destroy() |> ignore })
+    client.on("end", fn(_) {
+      client.destroy() |> ignore
+      match server_ref {
+        Some(s) => s.close() |> ignore
+        None => ()
+      }
+    })
     @promise.sleep(50)
     inspect(received, content="こんにちは")
-    server.close() |> ignore
   })
 }
 
@@ -201,10 +221,12 @@ test {
 test {
   it("Socket should support timeout", _ => {
     let mut timeout_called = false
+    let mut server_ref : Server? = None
     let server = createServer(connectionListener=fn(socket) {
       // Don't send anything, just keep connection open
       socket.on("timeout", fn(_) { socket.end() |> ignore })
     })
+    server_ref = Some(server)
     server.listen(0, host="127.0.0.1") |> ignore
     let address = server.address()
     let port : Int = match address {
@@ -213,9 +235,14 @@ test {
     }
     let client = createConnection(port, host="127.0.0.1")
     client.setTimeout(50, callback=fn() { timeout_called = true }) |> ignore
-    client.on("timeout", fn(_) { client.destroy() |> ignore })
+    client.on("timeout", fn(_) {
+      client.destroy() |> ignore
+      match server_ref {
+        Some(s) => s.close() |> ignore
+        None => ()
+      }
+    })
     @promise.sleep(100)
     inspect(timeout_called, content="true")
-    server.close() |> ignore
   })
 }
