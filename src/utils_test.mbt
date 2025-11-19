@@ -68,3 +68,55 @@ test "option_js returns None for nullish values" {
   let undef_result = option_js(undef_obj)
   assert_true(undef_result.is_empty())
 }
+
+///|
+test "unsafe_cast_option with Show types" {
+  // Test that unsafe_cast_option properly handles types with Show trait
+  let num_val = @js.js(42)
+  let num_opt : Int? = @js.unsafe_cast_option(num_val)
+  assert_eq(num_opt, Some(42))
+  let str_val = @js.js("hello")
+  let str_opt : String? = @js.unsafe_cast_option(str_val)
+  assert_eq(str_opt, Some("hello"))
+
+  // Test with null - should not cause infinite loop
+  let null_val = @js.null_()
+  let null_opt : String? = @js.unsafe_cast_option(null_val)
+  assert_eq(null_opt, None)
+
+  // Test with undefined - should not cause infinite loop
+  let undef_val = @js.undefined()
+  let undef_opt : String? = @js.unsafe_cast_option(undef_val)
+  assert_eq(undef_opt, None)
+}
+
+///|
+test "Js Show trait with different types" {
+  // Test Show trait for numbers
+  let num = @js.js(123)
+  let num_str = num.to_string()
+  assert_eq(num_str, "123")
+
+  // Test Show trait for strings
+  let str = @js.js("test")
+  let str_str = str.to_string()
+  assert_eq(str_str, "test")
+
+  // Test Show trait for booleans
+  let bool_val = @js.js(true)
+  let bool_str = bool_val.to_string()
+  assert_eq(bool_str, "true")
+
+  // Test Show trait for arrays
+  let arr = @js.JsArray::new()
+  arr.push(1)
+  arr.push(2)
+  let arr_str = arr.to_js().to_string()
+  assert_true(arr_str.contains("1") && arr_str.contains("2"))
+
+  // Test Show trait for objects
+  let obj = @js.Object::new()
+  obj.set("key", "value")
+  let obj_str = obj.to_js().to_string()
+  assert_true(obj_str.contains("key") && obj_str.contains("value"))
+}

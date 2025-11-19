@@ -200,6 +200,7 @@ fn JsError::message(Self) -> String
 fn JsError::new(String, cause? : Self) -> Self
 fn JsError::stack(Self) -> String
 impl JsImpl for JsError
+impl Show for JsError
 
 #external
 pub type JsString

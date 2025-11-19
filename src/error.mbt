@@ -41,12 +41,20 @@ pub impl Show for JsThrowError with output(self, logger) {
 }
 
 ///|
-impl Show for JsError with output(self, logger) {
+pub impl Show for JsThrowError with to_string(self) {
+  match self {
+    Error(err) => err.message()
+    Value(val) => val.to_string()
+  }
+}
+
+///|
+pub impl Show for JsError with output(self, logger) {
   logger.write_string(self.to_string())
 }
 
 ///|
-impl Show for JsError with to_string(self) {
+pub impl Show for JsError with to_string(self) {
   self.message()
 }
 

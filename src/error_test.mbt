@@ -27,10 +27,30 @@ test "new_error" {
 }
 
 ///|
-test "JsThrowError Show trait" {
-  let err = JsError::new("test error")
-  let throw_err : JsThrowError = @js.unsafe_cast(err)
-  // JsThrowError has Show trait implementation
-  // We just verify it can be created without testing to_string() which may cause infinite recursion
-  assert_eq(@js.typeof_(throw_err), "object")
+test "JsThrowError Show trait with Error variant" {
+  // Test that JsThrowError.to_string() doesn't cause infinite recursion
+  // We create a JsThrowError by calling a method that doesn't exist
+  let result = try? globalThis().call_throwable("nonexistentMethod", [])
+  match result {
+    Err(throw_err) => {
+      // This should not cause infinite recursion
+      let str = throw_err.to_string()
+      assert_true(str.length() > 0)
+    }
+    Ok(_) => fail("Expected error")
+  }
+}
+
+///|
+test "JsError Show trait" {
+  let err = JsError::new("error message")
+  // JsError has Show trait implementation
+  inspect(err, content="error message")
+}
+
+///|
+test "JsError message method" {
+  let err = JsError::new("error message")
+  let str = err.message()
+  assert_eq(str, "error message")
 }
