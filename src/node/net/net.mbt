@@ -23,23 +23,11 @@ pub fn Socket::as_duplex(self : Socket) -> Duplex {
 }
 
 ///|
-/// Connect options for Socket
-pub struct ConnectOptions {
-  port : Int
-  host : String?
-}
-
-///|
-pub fn ConnectOptions::new(port : Int, host : String?) -> ConnectOptions {
-  { port, host }
-}
-
-///|
 /// Connect the socket to a port and host
-pub fn Socket::connect(self : Socket, options : ConnectOptions) -> Socket {
-  match options.host {
-    Some(h) => self.call("connect", [options.port, h]) |> unsafe_cast
-    None => self.call("connect", [options.port]) |> unsafe_cast
+pub fn Socket::connect(self : Socket, port : Int, host? : String) -> Socket {
+  match host {
+    Some(h) => self.call("connect", [port, h]) |> unsafe_cast
+    None => self.call("connect", [port]) |> unsafe_cast
   }
 }
 
@@ -152,31 +140,18 @@ pub impl JsImpl for Server
 pub impl EventEmitterImpl for Server
 
 ///|
-/// Listen options for Server
-pub struct ListenOptions {
-  port : Int
-  host : String?
-  backlog : Int?
-}
-
-///|
-pub fn ListenOptions::new(
-  port : Int,
-  host : String?,
-  backlog : Int?,
-) -> ListenOptions {
-  { port, host, backlog }
-}
-
-///|
 /// Listen on a port and host
-pub fn Server::listen(self : Server, options : ListenOptions) -> Server {
-  match (options.host, options.backlog) {
-    (Some(h), Some(b)) =>
-      self.call("listen", [options.port, h, b]) |> unsafe_cast
-    (Some(h), None) => self.call("listen", [options.port, h]) |> unsafe_cast
-    (None, Some(b)) => self.call("listen", [options.port, b]) |> unsafe_cast
-    (None, None) => self.call("listen", [options.port]) |> unsafe_cast
+pub fn Server::listen(
+  self : Server,
+  port : Int,
+  host? : String,
+  backlog? : Int,
+) -> Server {
+  match (host, backlog) {
+    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> unsafe_cast
+    (Some(h), None) => self.call("listen", [port, h]) |> unsafe_cast
+    (None, Some(b)) => self.call("listen", [port, b]) |> unsafe_cast
+    (None, None) => self.call("listen", [port]) |> unsafe_cast
   }
 }
 
@@ -214,18 +189,17 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 
 ///|
 /// Create a new Socket and connect
-pub fn createConnection(options : ConnectOptions) -> Socket {
-  match options.host {
-    Some(h) =>
-      net_module().call("createConnection", [options.port, h]) |> unsafe_cast
-    None => net_module().call("createConnection", [options.port]) |> unsafe_cast
+pub fn createConnection(port : Int, host? : String) -> Socket {
+  match host {
+    Some(h) => net_module().call("createConnection", [port, h]) |> unsafe_cast
+    None => net_module().call("createConnection", [port]) |> unsafe_cast
   }
 }
 
 ///|
 /// Alias for createConnection
-pub fn connect(options : ConnectOptions) -> Socket {
-  createConnection(options)
+pub fn connect(port : Int, host? : String) -> Socket {
+  createConnection(port, host?)
 }
 
 ///|

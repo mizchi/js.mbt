@@ -2,8 +2,6 @@
 using @net {
   type Socket,
   type Server,
-  type ConnectOptions,
-  type ListenOptions,
   createServer,
   createConnection,
   isIP,
@@ -53,7 +51,7 @@ test {
 ///|
 test {
   it("Socket can be created", _ => {
-    let socket = createConnection(ConnectOptions::new(8080, Some("127.0.0.1")))
+    let socket = createConnection(8080, host="127.0.0.1")
     // Just check that socket was created without connecting
     inspect(socket.destroyed(), content="false")
     socket.destroy() |> ignore
