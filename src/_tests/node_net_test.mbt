@@ -64,6 +64,20 @@ test {
 
 ///|
 test {
+  it("Server listen with callback", _ => {
+    let mut callback_called = false
+    let server = createServer()
+    server.listen(0, host="127.0.0.1", callback=fn() { callback_called = true })
+    |> ignore
+    @promise.sleep(100)
+    inspect(callback_called, content="true")
+    inspect(server.listening(), content="true")
+    server.close() |> ignore
+  })
+}
+
+///|
+test {
   it("Socket can be created", _ => {
     let socket = createConnection(8080, host="127.0.0.1")
     // Just check that socket was created without connecting

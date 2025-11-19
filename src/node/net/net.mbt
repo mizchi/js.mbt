@@ -146,7 +146,15 @@ pub fn Server::listen(
   port : Int,
   host? : String,
   backlog? : Int,
+  callback? : () -> Unit,
 ) -> Server {
+  // Register callback as 'listening' event listener if provided
+  match callback {
+    Some(cb) => self.once("listening", fn(_) { cb() })
+    None => ()
+  }
+
+  // Call listen with port, host, and backlog
   match (host, backlog) {
     (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> unsafe_cast
     (Some(h), None) => self.call("listen", [port, h]) |> unsafe_cast
