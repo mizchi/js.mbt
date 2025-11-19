@@ -333,3 +333,52 @@ test "Document - createDocumentFragment and createComment" {
   let _ = comment
 
 }
+
+///|
+test "EventTarget - addEventListener and dispatchEvent" {
+  @global_jsdom.register()
+  let doc = document()
+  let div = doc.createElement("div")
+  let mut event_fired = false
+
+  // addEventListener test
+  div.addEventListener("click", fn(event) { event_fired = true })
+
+  // Create and dispatch custom event
+  let event = doc.createEvent("Event")
+  event.call("initEvent", ["click", false, false]) |> ignore
+
+  // dispatchEvent test
+  let result = div.dispatchEvent(event.to_js())
+  assert_eq(result, true)
+  assert_eq(event_fired, true)
+}
+
+///|
+test "EventTarget - removeEventListener" {
+  @global_jsdom.register()
+  let doc = document()
+  let div = doc.createElement("div")
+  let mut call_count = 0
+  let handler = fn(event) { call_count = call_count + 1 }
+
+  // Add event listener
+  div.addEventListener("test-event", handler)
+
+  // Create and dispatch event
+  let event = doc.createEvent("Event")
+  event.call("initEvent", ["test-event", false, false]) |> ignore
+  div.dispatchEvent(event.to_js()) |> ignore
+  assert_eq(call_count, 1)
+
+  // Remove event listener
+  div.removeEventListener("test-event", handler)
+
+  // Dispatch event again - should not fire
+  let event2 = doc.createEvent("Event")
+  event2.call("initEvent", ["test-event", false, false]) |> ignore
+  div.dispatchEvent(event2.to_js()) |> ignore
+
+  // Count should still be 1
+  assert_eq(call_count, 1)
+}

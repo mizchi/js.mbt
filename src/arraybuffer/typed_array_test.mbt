@@ -379,3 +379,85 @@ test "TypedArray - byte offset alignment" {
   assert_eq(arr1.get_at(0), 1)
   assert_eq(arr2.get_at(0), 2)
 }
+
+///|
+test "Uint32Array::buffer - get underlying buffer" {
+  let arr = Uint32Array::from_size(10)
+  let buffer = arr.buffer()
+  assert_eq(buffer.byte_length(), 40)
+}
+
+///|
+test "Int8Array::from_array_buffer - with offset and length" {
+  let buffer = ArrayBuffer::new(16)
+  let arr = Int8Array::from_array_buffer(buffer, byte_offset=4, length=8)
+  assert_eq(arr.length(), 8)
+  assert_eq(arr.byte_offset(), 4)
+}
+
+///|
+test "Int8Array::buffer - get underlying buffer" {
+  let arr = Int8Array::from_size(10)
+  let buffer = arr.buffer()
+  assert_eq(buffer.byte_length(), 10)
+}
+
+///|
+test "Int16Array::from_array_buffer - with offset and length" {
+  let buffer = ArrayBuffer::new(32)
+  let arr = Int16Array::from_array_buffer(buffer, byte_offset=4, length=8)
+  assert_eq(arr.length(), 8)
+  assert_eq(arr.byte_offset(), 4)
+}
+
+///|
+test "Int16Array::buffer - get underlying buffer" {
+  let arr = Int16Array::from_size(10)
+  let buffer = arr.buffer()
+  assert_eq(buffer.byte_length(), 20)
+}
+
+///|
+test "Int32Array::from_array_buffer - with offset and length" {
+  let buffer = ArrayBuffer::new(64)
+  let arr = Int32Array::from_array_buffer(buffer, byte_offset=8, length=10)
+  assert_eq(arr.length(), 10)
+  assert_eq(arr.byte_offset(), 8)
+}
+
+///|
+test "Int32Array::buffer - get underlying buffer" {
+  let arr = Int32Array::from_size(10)
+  let buffer = arr.buffer()
+  assert_eq(buffer.byte_length(), 40)
+}
+
+///|
+test "Float32Array::from_array_buffer - with offset and length" {
+  let buffer = ArrayBuffer::new(64)
+  let arr = Float32Array::from_array_buffer(buffer, byte_offset=8, length=10)
+  assert_eq(arr.length(), 10)
+  assert_eq(arr.byte_offset(), 8)
+}
+
+///|
+test "Float32Array::buffer - get underlying buffer" {
+  let arr = Float32Array::from_size(10)
+  let buffer = arr.buffer()
+  assert_eq(buffer.byte_length(), 40)
+}
+
+///|
+test "Float64Array::from_array_buffer - with offset and length" {
+  let buffer = ArrayBuffer::new(128)
+  let arr = Float64Array::from_array_buffer(buffer, byte_offset=16, length=10)
+  assert_eq(arr.length(), 10)
+  assert_eq(arr.byte_offset(), 16)
+}
+
+///|
+test "Float64Array::buffer - get underlying buffer" {
+  let arr = Float64Array::from_size(10)
+  let buffer = arr.buffer()
+  assert_eq(buffer.byte_length(), 80)
+}
