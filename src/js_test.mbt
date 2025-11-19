@@ -6,7 +6,7 @@ priv enum TestConstantEnum {
 }
 
 ///|
-test "cast" {
+test "unsafe_cast converts between Js and MoonBit types" {
   assert_eq(js(42), js(42))
   let v1 = js(42)
   let v2 = js(42)
@@ -19,7 +19,7 @@ test "cast" {
 }
 
 ///|
-test "from struct" {
+test "unsafe_cast converts struct to Js object" {
   struct Point {
     x : Int
     y : Int
@@ -63,7 +63,7 @@ impl JsImpl for TestEnum with to_js(self) {
 }
 
 ///|
-test "from trait" {
+test "JsImpl trait converts enum to Js and back" {
   let v : TestEnum = A(value=123)
   let v : Js = v.to_js()
   assert_eq(unsafe_cast(v.get("tag")), "A")

@@ -3,7 +3,7 @@ extern "js" fn create_test_generator() -> JsIterator[Int] =
   #| () => (function*() { yield 1; yield 2; yield 3; })()
 
 ///|
-test "iterator" {
+test "JsIterator.iter() iterates over generator values" {
   let g = create_test_generator()
   let mut called = 0
   let mut sum = 0

@@ -20,6 +20,6 @@ Node.js global objects and variables.
 ## Not Supported
 
 - `process`
-  - Use `mizchi/js/process`
+  - Use `mizchi/js/node/process`
 - `Buffer`
-  - Use `mizchi/js/buffer`
+  - Use `mizchi/js/node/buffer`
