@@ -11,6 +11,8 @@ Add to your `moon.pkg.json`:
 ```json
 {
   "import": [
+    "mizchi/js",
+    "mizchi/js/node/buffer",
     "mizchi/js/node/fs"
   ]
 }

@@ -11,6 +11,9 @@ Add to your `moon.pkg.json`:
 ```json
 {
   "import": [
+    "mizchi/js",
+    "mizchi/js/promise",
+    "mizchi/js/stream",
     "mizchi/js/node/stream_promises"
   ]
 }

@@ -11,6 +11,9 @@ Add to your `moon.pkg.json`:
 ```json
 {
   "import": [
+    "mizchi/js",
+    "mizchi/js/node/events",
+    "mizchi/js/stream",
     "mizchi/js/node/net"
   ]
 }

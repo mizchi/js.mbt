@@ -11,10 +11,13 @@ Add to your `moon.pkg.json`:
 ```json
 {
   "import": [
+    "mizchi/js",
     "mizchi/js/node/sqlite"
   ]
 }
 ```
+
+**Requirements**: Node.js 22.5.0 or higher
 
 ### DatabaseSync
 - [x] DatabaseSync::new(path, options?) - Create/open database
