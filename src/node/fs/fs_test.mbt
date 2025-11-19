@@ -131,3 +131,94 @@ test "readdir_sync reads directory contents" {
   // Cleanup
   rmSync(test_dir, recursive=true)
 }
+
+///| Additional File Operations Tests
+
+///|
+/// Test chmod_sync changes file permissions
+test "chmod_sync changes permissions" {
+  let test_file = "test_chmod.txt"
+  writeFileSync(test_file, "chmod test" |> js)
+  chmodSync(test_file, 0o644)
+  let exists = existsSync(test_file)
+  inspect(exists, content="true")
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test realpath_sync resolves path
+test "realpath_sync resolves current directory" {
+  let real = realpathSync(".")
+  inspect(real.length() > 0, content="true")
+}
+
+///|
+/// Test truncate_sync
+test "truncate_sync truncates file" {
+  let test_file = "test_truncate.txt"
+  writeFileSync(test_file, "Hello, World!" |> js)
+  truncateSync(test_file, len=5)
+  let content = read_file_sync_string(test_file, "utf8")
+  inspect(content.length() == 5, content="true")
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test rmdir_sync
+test "rmdir_sync removes directory" {
+  let test_dir = "test_rmdir"
+  mkdirSync(test_dir)
+  rmdirSync(test_dir)
+  let exists = existsSync(test_dir)
+  inspect(exists == false, content="true")
+}
+
+///|
+/// Test access_sync
+test "access_sync checks file access" {
+  let test_file = "test_access.txt"
+  writeFileSync(test_file, "access test" |> js)
+  accessSync(test_file, mode=fs_R_OK())
+  let exists = existsSync(test_file)
+  inspect(exists, content="true")
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test cp_sync
+test "cp_sync copies directory" {
+  let src_dir = "test_cp_src"
+  let dest_dir = "test_cp_dest"
+  mkdirSync(src_dir)
+  writeFileSync("\{src_dir}/file.txt", "test" |> js)
+  cpSync(src_dir, dest_dir, recursive=true)
+  let dest_exists = existsSync("\{dest_dir}/file.txt")
+  inspect(dest_exists, content="true")
+  // Cleanup
+  rmSync(src_dir, recursive=true)
+  rmSync(dest_dir, recursive=true)
+}
+
+///|
+/// Test open_sync and close_sync
+test "open_sync and close_sync work with file descriptor" {
+  let test_file = "test_fd.txt"
+  writeFileSync(test_file, "fd test" |> js)
+  let fd = openSync(test_file, "r")
+  inspect(fd > 0, content="true")
+  closeSync(fd)
+  // Cleanup
+  unlinkSync(test_file)
+}
+
+///|
+/// Test file access constants
+test "file access constants are defined" {
+  inspect(fs_F_OK() == 0, content="true")
+  inspect(fs_R_OK() == 4, content="true")
+  inspect(fs_W_OK() == 2, content="true")
+  inspect(fs_X_OK() == 1, content="true")
+}

@@ -1,0 +1,53 @@
+## Moonbit JS bindings
+
+- `mizchi/js` : Core JS bindings
+  - Primitive API Binding
+    - `value.get(key)`
+    - `value.set(key, val)`
+    - `value.call(key, args)`
+    - etc
+  - JS Global APIs
+    - `setTimeout`, `globalThis`, etc.
+    - `WeakMap`
+    - `WeakSet`
+    - `WeakRef`
+    - `FinalizationRegistry`
+- `mizchi/js/promise` : async bindings with Moonbit async
+  - `Promise`
+  - Moonbit async helpers: `run_async`, `suspend`, `sleep`, `promisify0`
+- `mizchi/js/arraybuffer`
+  - `ArrayBuffer`
+  - `SharedArrayBuffer`
+  - `DataView`
+  - `Uint8Array` and TypedArrays
+- `mizchi/js/regexp`
+  - `RegExp`
+- `mizchi/js/iterator`
+  - `JsIterator` => Js Iterator
+  - `AsyncIterator`
+- `mizchi/js/worker` : Worker and MessageChannel API
+  - `Worker`
+  - `MessageChannel`
+  - `MessagePort`
+  - `Transferable` trait
+- `mizchi/js/webassembly`
+  - `WebAssembly`
+  - `WebAssemblyModule`
+  - `WebAssemblyInstance`
+  - `WebAssemblyMemory`
+  - `WebAssemblyTable`
+- `mizchi/js/url`
+  - `URL`
+  - `URLSearchParams`
+  - `URLPattern`
+- `mizchi/js/http` : HTTP API
+  - `fetch`
+  - `Request`
+  - `Response`
+  - `FormData`
+
+Not yet
+
+- [ ] `Performance` API
+- [ ] `DisposableStack`, `AsyncDisposableStack`
+  - Moonbit js has no way to generate `using`

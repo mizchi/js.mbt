@@ -75,61 +75,6 @@ See escape hatch pattern in [docs/moonbit-js-ffi.md](./docs/moonbit-js-ffi.md)
 
 Modules
 
-## Moonbit JS bindings
-
-- `mizchi/js` : Core JS bindings
-  - Primitive API Binding
-    - `value.get(key)`
-    - `value.set(key, val)`
-    - `value.call(key, args)`
-    - etc
-  - JS Global APIs
-    - `setTimeout`, `globalThis`, etc.
-  - All Api uses `#external type @js.Val` and `trait @js.Js`
-- `mizchi/js/promise` : async bindings with Moonbit async
-  - `Promise`
-  - Moonbit async helpers: `run_async`, `suspend`, `sleep`, `promisify0`
-- `mizchi/js/arraybuffer`
-  - `ArrayBuffer`
-  - `SharedArrayBuffer`
-  - `DataView`
-  - `Uint8Array` and TypedArrays
-- `mizchi/js/regexp`
-  - `RegExp`
-- `mizchi/js/iterator`
-  - `JsIterator` => Js Iterator
-  - `AsyncIterator`
-- `mizchi/js/worker` : Worker and MessageChannel API
-  - `Worker`
-  - `MessageChannel`
-  - `MessagePort`
-  - `Transferable` trait
-- `mizchi/js/webassembly`
-  - `WebAssembly`
-  - `WebAssemblyModule`
-  - `WebAssemblyInstance`
-  - `WebAssemblyMemory`
-  - `WebAssemblyTable`
-- `mizchi/js/weak`:
-  - `WeakMap`
-  - `WeakSet`
-  - `WeakRef`
-  - `FinalizationRegistry`
-- `mizchi/js/url`
-  - `URL`
-  - `URLSearchParams`
-  - `URLPattern`
-- `mizchi/js/http` : HTTP API
-  - `fetch`
-  - `Request`
-  - `Response`
-
-Not yet
-
-- [ ] `Performance` API
-- [ ] `DisposableStack`, `AsyncDisposableStack`
-  - Moonbit js has no way to generate `using`
-
 ## DOM bindings
 
 - `mizchi/js/dom`
@@ -142,7 +87,7 @@ Not yet
 - `mizchi/js/dom/canvas`
   - `CanvasRenderingContext2D`
   - `ImageData`
-- `mizchi/js/dom/brob`
+- `mizchi/js/dom/blob`
 - `mizchi/js/dom/file`
 - [ ] indexedDB
 - [ ] ServiceWorker

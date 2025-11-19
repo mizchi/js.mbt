@@ -143,3 +143,176 @@ pub fn createWriteStream(path : String) -> @stream.Writable {
   let fs = fs_module()
   fs.call("createWriteStream", [path]) |> unsafe_cast
 }
+
+///| Additional File Operations
+
+///|
+/// Change file permissions synchronously
+#alias(chmod_sync)
+pub fn chmodSync(path : String, mode : Int) -> Unit {
+  let fs = fs_module()
+  fs.call("chmodSync", [path, mode]) |> ignore
+}
+
+///|
+/// Change file owner synchronously
+#alias(chown_sync)
+pub fn chownSync(path : String, uid : Int, gid : Int) -> Unit {
+  let fs = fs_module()
+  fs.call("chownSync", [path, uid, gid]) |> ignore
+}
+
+///|
+/// Create symbolic link synchronously
+#alias(symlink_sync)
+pub fn symlinkSync(target : String, path : String, type_? : String) -> Unit {
+  let fs = fs_module()
+  match type_ {
+    Some(t) => fs.call("symlinkSync", [target, path, t]) |> ignore
+    None => fs.call("symlinkSync", [target, path]) |> ignore
+  }
+}
+
+///|
+/// Read symbolic link synchronously
+#alias(readlink_sync)
+pub fn readlinkSync(path : String) -> String {
+  let fs = fs_module()
+  fs.call("readlinkSync", [path]) |> unsafe_cast
+}
+
+///|
+/// Get real path synchronously
+#alias(realpath_sync)
+pub fn realpathSync(path : String) -> String {
+  let fs = fs_module()
+  fs.call("realpathSync", [path]) |> unsafe_cast
+}
+
+///|
+/// Truncate file synchronously
+#alias(truncate_sync)
+pub fn truncateSync(path : String, len? : Int) -> Unit {
+  let fs = fs_module()
+  match len {
+    Some(l) => fs.call("truncateSync", [path, l]) |> ignore
+    None => fs.call("truncateSync", [path]) |> ignore
+  }
+}
+
+///|
+/// Remove directory synchronously
+#alias(rmdir_sync)
+pub fn rmdirSync(path : String, recursive? : Bool) -> Unit {
+  let fs = fs_module()
+  match recursive {
+    Some(r) => {
+      let opts = @js.from_map({ "recursive": r |> unsafe_cast })
+      fs.call("rmdirSync", [path, opts]) |> ignore
+    }
+    None => fs.call("rmdirSync", [path]) |> ignore
+  }
+}
+
+///|
+/// Check file access synchronously
+#alias(access_sync)
+pub fn accessSync(path : String, mode? : Int) -> Unit {
+  let fs = fs_module()
+  match mode {
+    Some(m) => fs.call("accessSync", [path, m]) |> ignore
+    None => fs.call("accessSync", [path]) |> ignore
+  }
+}
+
+///|
+/// Copy file or directory synchronously
+#alias(cp_sync)
+pub fn cpSync(src : String, dest : String, recursive? : Bool) -> Unit {
+  let fs = fs_module()
+  match recursive {
+    Some(r) => {
+      let opts = @js.from_map({ "recursive": r |> unsafe_cast })
+      fs.call("cpSync", [src, dest, opts]) |> ignore
+    }
+    None => fs.call("cpSync", [src, dest]) |> ignore
+  }
+}
+
+///|
+/// Open file descriptor synchronously
+#alias(open_sync)
+pub fn openSync(path : String, flags : String, mode? : Int) -> Int {
+  let fs = fs_module()
+  match mode {
+    Some(m) => fs.call("openSync", [path, flags, m]) |> unsafe_cast
+    None => fs.call("openSync", [path, flags]) |> unsafe_cast
+  }
+}
+
+///|
+/// Close file descriptor synchronously
+#alias(close_sync)
+pub fn closeSync(fd : Int) -> Unit {
+  let fs = fs_module()
+  fs.call("closeSync", [fd]) |> ignore
+}
+
+///|
+/// Read from file descriptor synchronously
+#alias(read_sync)
+pub fn readSync(
+  fd : Int,
+  buffer : Buffer,
+  offset : Int,
+  length : Int,
+  position : Int?,
+) -> Int {
+  let fs = fs_module()
+  match position {
+    Some(pos) =>
+      fs.call("readSync", [fd, buffer, offset, length, pos]) |> unsafe_cast
+    None => fs.call("readSync", [fd, buffer, offset, length]) |> unsafe_cast
+  }
+}
+
+///|
+/// Write to file descriptor synchronously
+#alias(write_sync)
+pub fn writeSync(
+  fd : Int,
+  buffer : Buffer,
+  offset : Int,
+  length : Int,
+  position : Int?,
+) -> Int {
+  let fs = fs_module()
+  match position {
+    Some(pos) =>
+      fs.call("writeSync", [fd, buffer, offset, length, pos]) |> unsafe_cast
+    None => fs.call("writeSync", [fd, buffer, offset, length]) |> unsafe_cast
+  }
+}
+
+///| File System Constants
+
+///|
+/// File access constants
+pub fn fs_F_OK() -> Int {
+  0
+}
+
+///|
+pub fn fs_R_OK() -> Int {
+  4
+}
+
+///|
+pub fn fs_W_OK() -> Int {
+  2
+}
+
+///|
+pub fn fs_X_OK() -> Int {
+  1
+}

@@ -159,8 +159,126 @@ pub fn rm(path : String, recursive? : Bool, force? : Bool) -> Promise[Unit] {
 }
 
 ///|
-pub fn cp(path : String, dest : String) -> Promise[Unit] {
+pub fn cp(path : String, dest : String, recursive? : Bool) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let promise = fs.call("cp", [path, dest])
+  let opts = @js.Object::new()
+  if recursive is Some(r) {
+    opts.set("recursive", r)
+  }
+  let promise = fs.call("cp", [path, dest, opts])
   unsafe_cast(promise)
+}
+
+///| Additional File Operations
+
+///|
+/// Change file permissions
+pub fn chmod(path : String, mode : Int) -> Promise[Unit] {
+  let fs = @node.require("node:fs/promises")
+  unsafe_cast(fs.call("chmod", [path, mode]))
+}
+
+///|
+/// Change file owner
+pub fn chown(path : String, uid : Int, gid : Int) -> Promise[Unit] {
+  let fs = @node.require("node:fs/promises")
+  unsafe_cast(fs.call("chown", [path, uid, gid]))
+}
+
+///|
+/// Create symbolic link
+pub fn symlink(
+  target : String,
+  path : String,
+  type_? : String,
+) -> Promise[Unit] {
+  let fs = @node.require("node:fs/promises")
+  match type_ {
+    Some(t) => unsafe_cast(fs.call("symlink", [target, path, t]))
+    None => unsafe_cast(fs.call("symlink", [target, path]))
+  }
+}
+
+///|
+/// Read symbolic link
+pub fn readlink(path : String) -> Promise[String] {
+  let fs = @node.require("node:fs/promises")
+  unsafe_cast(fs.call("readlink", [path]))
+}
+
+///|
+/// Get real path
+pub fn realpath(path : String) -> Promise[String] {
+  let fs = @node.require("node:fs/promises")
+  unsafe_cast(fs.call("realpath", [path]))
+}
+
+///|
+/// Truncate file
+pub fn truncate(path : String, len? : Int) -> Promise[Unit] {
+  let fs = @node.require("node:fs/promises")
+  match len {
+    Some(l) => unsafe_cast(fs.call("truncate", [path, l]))
+    None => unsafe_cast(fs.call("truncate", [path]))
+  }
+}
+
+///|
+/// Remove directory
+pub fn rmdir(path : String, recursive? : Bool) -> Promise[Unit] {
+  let fs = @node.require("node:fs/promises")
+  let opts = @js.Object::new()
+  if recursive is Some(r) {
+    opts.set("recursive", r)
+  }
+  unsafe_cast(fs.call("rmdir", [path, opts]))
+}
+
+///|
+/// Check file access
+pub fn access(path : String, mode? : Int) -> Promise[Unit] {
+  let fs = @node.require("node:fs/promises")
+  match mode {
+    Some(m) => unsafe_cast(fs.call("access", [path, m]))
+    None => unsafe_cast(fs.call("access", [path]))
+  }
+}
+
+///|
+/// Append to file
+pub fn appendFile(
+  path : String,
+  data : String,
+  encoding? : String,
+) -> Promise[Unit] {
+  let fs = @node.require("node:fs/promises")
+  match encoding {
+    Some(enc) => {
+      let opts = @js.Object::new()
+      opts.set("encoding", enc)
+      unsafe_cast(fs.call("appendFile", [path, data, opts]))
+    }
+    None => unsafe_cast(fs.call("appendFile", [path, data]))
+  }
+}
+
+///|
+/// Copy file
+pub fn copyFile(src : String, dest : String) -> Promise[Unit] {
+  let fs = @node.require("node:fs/promises")
+  unsafe_cast(fs.call("copyFile", [src, dest]))
+}
+
+///|
+/// Read directory contents
+pub fn readdir(path : String) -> Promise[Array[String]] {
+  let fs = @node.require("node:fs/promises")
+  unsafe_cast(fs.call("readdir", [path]))
+}
+
+///|
+/// Unlink (delete) file
+pub fn unlink(path : String) -> Promise[Unit] {
+  let fs = @node.require("node:fs/promises")
+  unsafe_cast(fs.call("unlink", [path]))
 }
