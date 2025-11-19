@@ -31,10 +31,7 @@ Add to your `moon.pkg.json`:
 
 ### EventEmitterImpl Trait
 - [x] EventEmitterImpl trait for types that wrap EventEmitter
-  - Provides: on, once, off, emit, removeAllListeners, listenerCount, eventNames
-
-### Helper Functions
-- [x] once(emitter, event) - Wait for single event (returns Promise)
+  - Provides: on, on2, once, off, removeListener, emit, removeAllListeners, listenerCount, listeners, eventNames
 
 ## Usage
 Types can implement EventEmitterImpl to get event emitter functionality:

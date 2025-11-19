@@ -52,12 +52,15 @@ Add to your `moon.pkg.json`:
 - [x] Events: 'connect', 'data', 'end', 'error', 'close', 'timeout' (via EventEmitterImpl)
 
 ### Utility Functions
-- [x] createServer(connectionListener?) - Create TCP server
+- [x] createServer(allowHalfOpen?, pauseOnConnect?, noDelay?, keepAlive?, keepAliveInitialDelay?) - Create TCP server
 - [x] createConnection(port, host?) - Create client connection (alias: connect)
 - [x] connect(port, host?) - Alias for createConnection
 - [x] isIP(input) - Check if valid IP address (returns 0, 4, or 6)
 - [x] isIPv4(input) - Check if valid IPv4 address
 - [x] isIPv6(input) - Check if valid IPv6 address
+
+### Notes
+- `createServer()` does not support `connectionListener` parameter. Use `server.on("connection", listener)` instead.
 
 ## Test Coverage
 Tests in src/_tests/node_net_test.mbt
