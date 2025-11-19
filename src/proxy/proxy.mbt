@@ -110,15 +110,15 @@ pub fn create_handler_with_ownKeys(
 }
 
 ///|
-/// Helper function to create an empty handler object
-/// You can manually add traps using handler.set()
-pub fn create_empty_handler() -> @js.Object {
+/// Create an empty proxy handler object
+/// You can manually add traps using handler.set() or handler_add_*_trap functions
+pub fn new_handler() -> @js.Object {
   @js.Object::new()
 }
 
 ///|
-/// Helper to add a get trap to an existing handler
-pub fn add_get_trap(
+/// Add a get trap to an existing proxy handler
+pub fn handler_add_get_trap(
   handler : @js.Object,
   get_fn : (@js.Js, @js.Js, @js.Js) -> @js.Js,
 ) -> Unit {
@@ -127,8 +127,8 @@ pub fn add_get_trap(
 }
 
 ///|
-/// Helper to add a set trap to an existing handler
-pub fn add_set_trap(
+/// Add a set trap to an existing proxy handler
+pub fn handler_add_set_trap(
   handler : @js.Object,
   set_fn : (@js.Js, @js.Js, @js.Js, @js.Js) -> Bool,
 ) -> Unit {
@@ -137,8 +137,8 @@ pub fn add_set_trap(
 }
 
 ///|
-/// Helper to add a has trap to an existing handler
-pub fn add_has_trap(
+/// Add a has trap to an existing proxy handler
+pub fn handler_add_has_trap(
   handler : @js.Object,
   has_fn : (@js.Js, @js.Js) -> Bool,
 ) -> Unit {
@@ -147,8 +147,8 @@ pub fn add_has_trap(
 }
 
 ///|
-/// Helper to add a deleteProperty trap to an existing handler
-pub fn add_delete_trap(
+/// Add a deleteProperty trap to an existing proxy handler
+pub fn handler_add_delete_trap(
   handler : @js.Object,
   delete_fn : (@js.Js, @js.Js) -> Bool,
 ) -> Unit {
@@ -157,8 +157,8 @@ pub fn add_delete_trap(
 }
 
 ///|
-/// Helper to add an apply trap to an existing handler
-pub fn add_apply_trap(
+/// Add an apply trap to an existing proxy handler
+pub fn handler_add_apply_trap(
   handler : @js.Object,
   apply_fn : (@js.Js, @js.Js, @js.Js) -> @js.Js,
 ) -> Unit {
@@ -167,8 +167,8 @@ pub fn add_apply_trap(
 }
 
 ///|
-/// Helper to add a construct trap to an existing handler
-pub fn add_construct_trap(
+/// Add a construct trap to an existing proxy handler
+pub fn handler_add_construct_trap(
   handler : @js.Object,
   construct_fn : (@js.Js, @js.Js, @js.Js) -> @js.Js,
 ) -> Unit {
@@ -177,8 +177,8 @@ pub fn add_construct_trap(
 }
 
 ///|
-/// Helper to add an ownKeys trap to an existing handler
-pub fn add_ownKeys_trap(
+/// Add an ownKeys trap to an existing proxy handler
+pub fn handler_add_ownKeys_trap(
   handler : @js.Object,
   ownKeys_fn : (@js.Js) -> @js.Js,
 ) -> Unit {

@@ -78,9 +78,9 @@ test "Proxy deleteProperty trap" {
 ///|
 test "Proxy with multiple traps" {
   let target = @js.Object::new()
-  let handler = create_empty_handler()
-  add_get_trap(handler, fn(_target, _prop, _receiver) { @js.js(100) })
-  add_set_trap(handler, fn(_target, _prop, _value, _receiver) { true })
+  let handler = new_handler()
+  handler_add_get_trap(handler, fn(_target, _prop, _receiver) { @js.js(100) })
+  handler_add_set_trap(handler, fn(_target, _prop, _value, _receiver) { true })
   let proxy = Proxy::new(target, handler)
   proxy.set("x", 100)
   assert_eq(@js.unsafe_cast(proxy.get("x")), 100)
