@@ -6,7 +6,8 @@ pub type Deno
 impl @js.JsImpl for Deno
 
 ///|
-extern "js" fn deno() -> Deno =
+/// Deno global object
+pub extern "js" fn deno() -> Deno =
   #| () => Deno
 
 ///|
@@ -23,5 +24,5 @@ pub fn Deno::test_(
   name : String,
   f : (TestContext) -> Unit,
 ) -> Unit {
-  deno().call("test", [name, @js.from_fn1(f)]) |> ignore
+  self.call("test", [name, @js.from_fn1(f)]) |> ignore
 }

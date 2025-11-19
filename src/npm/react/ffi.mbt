@@ -82,5 +82,9 @@ extern "js" fn get_fragment() -> Component[EmptyProps] =
   #| () => __ReactApi.Fragment
 
 ///|
+extern "js" fn get_strict_mode() -> Component[EmptyProps] =
+  #| () => __ReactApi.StrictMode
+
+///|
 extern "js" fn get_suspense() -> Js =
   #| () => __ReactApi.Suspense

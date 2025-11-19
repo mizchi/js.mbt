@@ -520,3 +520,277 @@ pub fn HTMLIFrameElement::sandbox(self : Self) -> String {
 pub fn HTMLIFrameElement::setSandbox(self : Self, sandbox : String) -> Unit {
   self.set("sandbox", sandbox)
 }
+
+///|
+#external
+pub type HTMLFormElement
+
+///|
+pub impl JsImpl for HTMLFormElement
+
+///|
+pub impl EventTargetImpl for HTMLFormElement
+
+///|
+pub impl NodeImpl for HTMLFormElement
+
+///|
+pub impl ElementImpl for HTMLFormElement
+
+///|
+pub impl HTMLElementImpl for HTMLFormElement
+
+///|
+#external
+pub type HTMLSelectElement
+
+///|
+pub impl JsImpl for HTMLSelectElement
+
+///|
+pub impl EventTargetImpl for HTMLSelectElement
+
+///|
+pub impl NodeImpl for HTMLSelectElement
+
+///|
+pub impl ElementImpl for HTMLSelectElement
+
+///|
+pub impl HTMLElementImpl for HTMLSelectElement
+
+///|
+/// Returns the value of the select element
+pub fn HTMLSelectElement::value(self : Self) -> String {
+  unsafe_cast(self.get("value"))
+}
+
+///|
+/// Sets the value of the select element
+pub fn HTMLSelectElement::setValue(self : Self, value : String) -> Unit {
+  self.set("value", value)
+}
+
+///|
+/// Returns whether the select is disabled
+pub fn HTMLSelectElement::disabled(self : Self) -> Bool {
+  unsafe_cast(self.get("disabled"))
+}
+
+///|
+/// Sets whether the select is disabled
+pub fn HTMLSelectElement::setDisabled(self : Self, disabled : Bool) -> Unit {
+  self.set("disabled", disabled)
+}
+
+///|
+#external
+pub type HTMLOptionElement
+
+///|
+pub impl JsImpl for HTMLOptionElement
+
+///|
+pub impl EventTargetImpl for HTMLOptionElement
+
+///|
+pub impl NodeImpl for HTMLOptionElement
+
+///|
+pub impl ElementImpl for HTMLOptionElement
+
+///|
+pub impl HTMLElementImpl for HTMLOptionElement
+
+///|
+/// Returns the value of the option
+pub fn HTMLOptionElement::value(self : Self) -> String {
+  unsafe_cast(self.get("value"))
+}
+
+///|
+/// Sets the value of the option
+pub fn HTMLOptionElement::setValue(self : Self, value : String) -> Unit {
+  self.set("value", value)
+}
+
+///|
+/// Returns whether the option is selected
+pub fn HTMLOptionElement::selected(self : Self) -> Bool {
+  unsafe_cast(self.get("selected"))
+}
+
+///|
+/// Sets whether the option is selected
+pub fn HTMLOptionElement::setSelected(self : Self, selected : Bool) -> Unit {
+  self.set("selected", selected)
+}
+
+///|
+#external
+pub type HTMLLabelElement
+
+///|
+pub impl JsImpl for HTMLLabelElement
+
+///|
+pub impl EventTargetImpl for HTMLLabelElement
+
+///|
+pub impl NodeImpl for HTMLLabelElement
+
+///|
+pub impl ElementImpl for HTMLLabelElement
+
+///|
+pub impl HTMLElementImpl for HTMLLabelElement
+
+///|
+/// Returns the htmlFor attribute (references an input id)
+pub fn HTMLLabelElement::htmlFor(self : Self) -> String {
+  unsafe_cast(self.get("htmlFor"))
+}
+
+///|
+/// Sets the htmlFor attribute
+pub fn HTMLLabelElement::setHtmlFor(self : Self, html_for : String) -> Unit {
+  self.set("htmlFor", html_for)
+}
+
+///|
+#external
+pub type HTMLImageElement
+
+///|
+pub impl JsImpl for HTMLImageElement
+
+///|
+pub impl EventTargetImpl for HTMLImageElement
+
+///|
+pub impl NodeImpl for HTMLImageElement
+
+///|
+pub impl ElementImpl for HTMLImageElement
+
+///|
+pub impl HTMLElementImpl for HTMLImageElement
+
+///|
+/// Returns the src attribute
+pub fn HTMLImageElement::src(self : Self) -> String {
+  unsafe_cast(self.get("src"))
+}
+
+///|
+/// Sets the src attribute
+pub fn HTMLImageElement::setSrc(self : Self, src : String) -> Unit {
+  self.set("src", src)
+}
+
+///|
+/// Returns the alt attribute
+pub fn HTMLImageElement::alt(self : Self) -> String {
+  unsafe_cast(self.get("alt"))
+}
+
+///|
+/// Sets the alt attribute
+pub fn HTMLImageElement::setAlt(self : Self, alt : String) -> Unit {
+  self.set("alt", alt)
+}
+
+///|
+#external
+pub type HTMLParagraphElement
+
+///|
+pub impl JsImpl for HTMLParagraphElement
+
+///|
+pub impl EventTargetImpl for HTMLParagraphElement
+
+///|
+pub impl NodeImpl for HTMLParagraphElement
+
+///|
+pub impl ElementImpl for HTMLParagraphElement
+
+///|
+pub impl HTMLElementImpl for HTMLParagraphElement
+
+///|
+#external
+pub type HTMLHeadingElement
+
+///|
+pub impl JsImpl for HTMLHeadingElement
+
+///|
+pub impl EventTargetImpl for HTMLHeadingElement
+
+///|
+pub impl NodeImpl for HTMLHeadingElement
+
+///|
+pub impl ElementImpl for HTMLHeadingElement
+
+///|
+pub impl HTMLElementImpl for HTMLHeadingElement
+
+///|
+#external
+pub type HTMLUListElement
+
+///|
+pub impl JsImpl for HTMLUListElement
+
+///|
+pub impl EventTargetImpl for HTMLUListElement
+
+///|
+pub impl NodeImpl for HTMLUListElement
+
+///|
+pub impl ElementImpl for HTMLUListElement
+
+///|
+pub impl HTMLElementImpl for HTMLUListElement
+
+///|
+#external
+pub type HTMLOListElement
+
+///|
+pub impl JsImpl for HTMLOListElement
+
+///|
+pub impl EventTargetImpl for HTMLOListElement
+
+///|
+pub impl NodeImpl for HTMLOListElement
+
+///|
+pub impl ElementImpl for HTMLOListElement
+
+///|
+pub impl HTMLElementImpl for HTMLOListElement
+
+///|
+#external
+pub type HTMLLIElement
+
+///|
+pub impl JsImpl for HTMLLIElement
+
+///|
+pub impl EventTargetImpl for HTMLLIElement
+
+///|
+pub impl NodeImpl for HTMLLIElement
+
+///|
+pub impl ElementImpl for HTMLLIElement
+
+///|
+pub impl HTMLElementImpl for HTMLLIElement

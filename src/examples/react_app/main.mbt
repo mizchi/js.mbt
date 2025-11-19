@@ -147,7 +147,9 @@ priv struct AppProps {
 ///|
 fn app(props : AppProps) -> @react.Element {
   let (cnt, set_cnt) = useState(props.x)
-  let textarea_ref : @react.ReactRef[@dom.Element] = @react.useRef(None)
+  let textarea_ref : @react.ReactRef[@dom.HTMLTextAreaElement] = @react.useRef(
+    None,
+  )
   let handler = useCallback(_ => set_cnt(cnt + 1), [cnt])
   useEffect(
     () => {
@@ -161,7 +163,7 @@ fn app(props : AppProps) -> @react.Element {
       run_async(async fn() noraise {
         sleep(300)
         if textarea_ref.current() is Some(textarea) {
-          textarea.call("focus", []) |> ignore
+          textarea.focus()
         }
         log("Starting async operation...")
       })

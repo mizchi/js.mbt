@@ -6,6 +6,7 @@ import(
 )
 
 // Values
+fn deno() -> Deno
 
 // Errors
 

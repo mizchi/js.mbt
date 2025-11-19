@@ -28,7 +28,15 @@ pub fn[T] component(
 }
 
 ///|
-/// React.Fragment
+/// JS: <React.Fragment key=...>{children}</React.Fragment>
+pub fn strict_mode(children : Array[&JsImpl]) -> Element {
+  let tag = unsafe_cast(get_strict_mode())
+  let children = @js.from_array(children)
+  ffi_create_element(tag, @js.undefined(), children) |> unsafe_cast
+}
+
+///|
+/// JS: <React.Fragment key=...>{children}</React.Fragment>
 pub fn fragment(children : Array[&JsImpl], key? : String) -> Element {
   let tag = unsafe_cast(get_fragment())
   let children = @js.from_array(children)
@@ -40,7 +48,7 @@ pub fn fragment(children : Array[&JsImpl], key? : String) -> Element {
 }
 
 ///|
-/// React.Suspense
+/// JS: <React.Suspense fallback=...>{children}</React.Suspense>
 pub fn suspense(children : Array[&JsImpl], fallback~ : Element) -> Element {
   let tag = get_suspense() |> unsafe_cast
   let children = @js.from_array(children)
@@ -50,6 +58,7 @@ pub fn suspense(children : Array[&JsImpl], fallback~ : Element) -> Element {
 
 ///|
 /// React.Provider
+/// JS: <Context.Provider value=...>{children}</Context.Provider>
 pub fn[T] provider(
   tag : Context[T],
   children : Array[&JsImpl],

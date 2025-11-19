@@ -291,12 +291,28 @@ impl NodeImpl for HTMLElement
 impl @event.EventTargetImpl for HTMLElement
 
 #external
+pub type HTMLFormElement
+impl @js.JsImpl for HTMLFormElement
+impl ElementImpl for HTMLFormElement
+impl HTMLElementImpl for HTMLFormElement
+impl NodeImpl for HTMLFormElement
+impl @event.EventTargetImpl for HTMLFormElement
+
+#external
 pub type HTMLHeadElement
 impl @js.JsImpl for HTMLHeadElement
 impl ElementImpl for HTMLHeadElement
 impl HTMLElementImpl for HTMLHeadElement
 impl NodeImpl for HTMLHeadElement
 impl @event.EventTargetImpl for HTMLHeadElement
+
+#external
+pub type HTMLHeadingElement
+impl @js.JsImpl for HTMLHeadingElement
+impl ElementImpl for HTMLHeadingElement
+impl HTMLElementImpl for HTMLHeadingElement
+impl NodeImpl for HTMLHeadingElement
+impl @event.EventTargetImpl for HTMLHeadingElement
 
 #external
 pub type HTMLHtmlElement
@@ -327,6 +343,18 @@ impl NodeImpl for HTMLIFrameElement
 impl @event.EventTargetImpl for HTMLIFrameElement
 
 #external
+pub type HTMLImageElement
+fn HTMLImageElement::alt(Self) -> String
+fn HTMLImageElement::setAlt(Self, String) -> Unit
+fn HTMLImageElement::setSrc(Self, String) -> Unit
+fn HTMLImageElement::src(Self) -> String
+impl @js.JsImpl for HTMLImageElement
+impl ElementImpl for HTMLImageElement
+impl HTMLElementImpl for HTMLImageElement
+impl NodeImpl for HTMLImageElement
+impl @event.EventTargetImpl for HTMLImageElement
+
+#external
 pub type HTMLInputElement
 fn HTMLInputElement::checked(Self) -> Bool
 fn HTMLInputElement::disabled(Self) -> Bool
@@ -343,6 +371,64 @@ impl ElementImpl for HTMLInputElement
 impl HTMLElementImpl for HTMLInputElement
 impl NodeImpl for HTMLInputElement
 impl @event.EventTargetImpl for HTMLInputElement
+
+#external
+pub type HTMLLIElement
+impl @js.JsImpl for HTMLLIElement
+impl ElementImpl for HTMLLIElement
+impl HTMLElementImpl for HTMLLIElement
+impl NodeImpl for HTMLLIElement
+impl @event.EventTargetImpl for HTMLLIElement
+
+#external
+pub type HTMLLabelElement
+fn HTMLLabelElement::htmlFor(Self) -> String
+fn HTMLLabelElement::setHtmlFor(Self, String) -> Unit
+impl @js.JsImpl for HTMLLabelElement
+impl ElementImpl for HTMLLabelElement
+impl HTMLElementImpl for HTMLLabelElement
+impl NodeImpl for HTMLLabelElement
+impl @event.EventTargetImpl for HTMLLabelElement
+
+#external
+pub type HTMLOListElement
+impl @js.JsImpl for HTMLOListElement
+impl ElementImpl for HTMLOListElement
+impl HTMLElementImpl for HTMLOListElement
+impl NodeImpl for HTMLOListElement
+impl @event.EventTargetImpl for HTMLOListElement
+
+#external
+pub type HTMLOptionElement
+fn HTMLOptionElement::selected(Self) -> Bool
+fn HTMLOptionElement::setSelected(Self, Bool) -> Unit
+fn HTMLOptionElement::setValue(Self, String) -> Unit
+fn HTMLOptionElement::value(Self) -> String
+impl @js.JsImpl for HTMLOptionElement
+impl ElementImpl for HTMLOptionElement
+impl HTMLElementImpl for HTMLOptionElement
+impl NodeImpl for HTMLOptionElement
+impl @event.EventTargetImpl for HTMLOptionElement
+
+#external
+pub type HTMLParagraphElement
+impl @js.JsImpl for HTMLParagraphElement
+impl ElementImpl for HTMLParagraphElement
+impl HTMLElementImpl for HTMLParagraphElement
+impl NodeImpl for HTMLParagraphElement
+impl @event.EventTargetImpl for HTMLParagraphElement
+
+#external
+pub type HTMLSelectElement
+fn HTMLSelectElement::disabled(Self) -> Bool
+fn HTMLSelectElement::setDisabled(Self, Bool) -> Unit
+fn HTMLSelectElement::setValue(Self, String) -> Unit
+fn HTMLSelectElement::value(Self) -> String
+impl @js.JsImpl for HTMLSelectElement
+impl ElementImpl for HTMLSelectElement
+impl HTMLElementImpl for HTMLSelectElement
+impl NodeImpl for HTMLSelectElement
+impl @event.EventTargetImpl for HTMLSelectElement
 
 #external
 pub type HTMLSpanElement
@@ -371,6 +457,14 @@ impl ElementImpl for HTMLTextAreaElement
 impl HTMLElementImpl for HTMLTextAreaElement
 impl NodeImpl for HTMLTextAreaElement
 impl @event.EventTargetImpl for HTMLTextAreaElement
+
+#external
+pub type HTMLUListElement
+impl @js.JsImpl for HTMLUListElement
+impl ElementImpl for HTMLUListElement
+impl HTMLElementImpl for HTMLUListElement
+impl NodeImpl for HTMLUListElement
+impl @event.EventTargetImpl for HTMLUListElement
 
 #external
 pub type InputEvent

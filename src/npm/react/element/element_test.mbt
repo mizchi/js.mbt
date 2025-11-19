@@ -472,8 +472,8 @@ test "h4 and h5 elements" {
   let h5_element = h5(["Heading 5"])
   let h4_html = render_to_string(h4_element)
   let h5_html = render_to_string(h5_element)
-  inspect(h4_html, content="<h3>Heading 4</h3>")
-  inspect(h5_html, content="<h3>Heading 5</h3>")
+  inspect(h4_html, content="<h4>Heading 4</h4>")
+  inspect(h5_html, content="<h5>Heading 5</h5>")
 }
 
 ///|

@@ -90,7 +90,31 @@ fn[T] ReactRef::set_current(Self[T], T) -> Unit
 impl[T] @js.JsImpl for ReactRef[T]
 
 // Type aliases
+pub type AnimationEventHandler[T] = (@dom.AnimationEvent) -> Unit
+
+pub type ChangeEventHandler[T] = (@dom.ChangeEvent) -> Unit
+
+pub type ClipboardEventHandler[T] = (@dom.ClipboardEvent) -> Unit
+
 pub type ComponentFn[T] = (T) -> Element
+
+pub type DragEventHandler[T] = (@dom.DragEvent) -> Unit
+
+pub type FocusEventHandler[T] = (@dom.FocusEvent) -> Unit
+
+pub type FormEventHandler[T] = (@dom.Event) -> Unit
+
+pub type KeyboardEventHandler[T] = (@dom.KeyboardEvent) -> Unit
+
+pub type MouseEventHandler[T] = (@dom.MouseEvent) -> Unit
+
+pub type PointerEventHandler[T] = (@dom.PointerEvent) -> Unit
+
+pub type TouchEventHandler[T] = (@dom.TouchEvent) -> Unit
+
+pub type TransitionEventHandler[T] = (@dom.TransitionEvent) -> Unit
+
+pub type WheelEventHandler[T] = (@dom.WheelEvent) -> Unit
 
 // Traits
 pub(open) trait ReactNode {

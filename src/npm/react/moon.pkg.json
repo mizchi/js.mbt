@@ -1,6 +1,10 @@
 {
   "supported-targets": ["js"],
   "import": ["mizchi/js", "mizchi/js/promise", "mizchi/js/dom"],
-  "test-import": ["mizchi/js/node"],
-  "warn-list": "-1-6"
+  "test-import": [
+    "mizchi/js/node",
+    "mizchi/js/npm/react_testing_library",
+    "mizchi/js/npm/react/element"
+  ],
+  "warn-list": "-1-5-6"
 }
