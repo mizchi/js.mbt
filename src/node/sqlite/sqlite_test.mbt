@@ -266,7 +266,7 @@ test "sqlite with readBigInts option" {
   let result = stmt.get_()
   guard result is Some(row)
   // BigInt is represented as Val
-  assert_true(row.get("value").is_some())
+  assert_false(row.get("value") |> @js.is_nullish())
 }
 
 ///|

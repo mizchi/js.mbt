@@ -54,7 +54,7 @@ pub fn from_builtin_json(j : Json) -> Js {
 
 ///|
 pub impl ToJson for Js with to_json(self) -> Json {
-  if self.is_none() {
+  if is_nullish(self) {
     return null
   }
   match typeof_(self) {

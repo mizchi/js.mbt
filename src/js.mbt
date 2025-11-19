@@ -48,45 +48,6 @@ pub fn[T : JsImpl] typeof_(v : T) -> String {
 }
 
 ///|
-/// Check if a value is neither undefined nor null.
-///
-/// # Returns
-///
-/// `true` if the value is defined and not null, `false` otherwise
-///
-/// # Example
-///
-/// ```moonbit
-/// assert_true(js(42).is_some())        // true
-/// assert_true(js("hello").is_some())   // true
-/// assert_false(undefined().is_some())   // false
-/// assert_false(null_().is_some())       // false
-/// ```
-#deprecated
-pub fn Js::is_some(self : Self) -> Bool {
-  !is_undefined(self) && !is_null(self)
-}
-
-///|
-/// Check if a value is undefined or null.
-///
-/// # Returns
-///
-/// `true` if the value is undefined or null, `false` otherwise
-///
-/// # Example
-///
-/// ```moonbit
-/// assert_true(undefined().is_none())   // true
-/// assert_true(null_().is_none())       // true
-/// assert_false(js(42).is_none())        // false
-/// assert_false(js("hello").is_none())   // false
-/// ```
-pub fn Js::is_none(self : Self) -> Bool {
-  is_undefined(self) || is_null(self)
-}
-
-///|
 /// JS: new cls(...args)
 pub fn new_(cls : Js, args : Array[&JsImpl]) -> Js {
   ffi_new(cls, args.map(_.to_js()))
