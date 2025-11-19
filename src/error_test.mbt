@@ -1,6 +1,6 @@
 ///|
 test "JsError::isError" {
-  let e = new_error("myerr")
+  let e = JsError::new("myerr")
   assert_eq(e.message(), "myerr")
   assert_true(JsError::isError(e))
 }

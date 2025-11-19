@@ -1,122 +1,192 @@
 ///|
-/// Cast a MoonBit Array to a JavaScript array.
-pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
-  unsafe_cast(v.map(_.to_js()))
+/// property key for js object access
+/// obj[0], obj["name"], obj[symbol]
+pub trait PropertyKey {
+  to_key(Self) -> Js = _
 }
 
 ///|
-/// Convert a MoonBit Map to a JavaScript object.
-///
-/// # Example
-///
-/// ```moonbit
-/// let map = { "name": js("Alice"), "age": js(30) }
-/// let obj = from_map(map)
-/// // JavaScript: { name: "Alice", age: 30 }
-/// ```
-pub fn from_map(map : Map[String, Js]) -> Js {
-  let obj = Object::new()
-  for k, v in map {
-    let v : Js = JsImpl::to_js(v)
-    obj.set(k, v)
-  }
-  obj.to_js()
+impl PropertyKey with to_key(self) -> Js {
+  self |> unsafe_cast
 }
 
 ///|
-/// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
-pub fn[R] from_fn0(f : () -> R) -> Js {
-  unsafe_cast(f)
+pub impl PropertyKey for String
+
+///|
+pub impl PropertyKey for Int
+
+///|
+pub impl PropertyKey for Symbol
+
+///|
+/// JavaScript Object
+#external
+pub type Object
+
+///|
+pub impl JsImpl for Object
+
+///|
+/// JS: new Object()
+pub fn Object::new() -> Self {
+  ffi_new_empty_object() |> unsafe_cast
 }
 
 ///|
-/// Cast a MoonBit function with 1 argument to a JavaScript function Val.
-pub fn[A, R] from_fn1(f : (A) -> R) -> Js {
-  unsafe_cast(f)
+pub fn Object::to_string(self : Self) -> String {
+  ffi_json_stringify(self.to_js(), undefined(), undefined())
 }
 
 ///|
-/// Cast a MoonBit function with 2 arguments to a JavaScript function Val.
-pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Js {
-  unsafe_cast(f)
+/// JS: Object.keys(v)
+pub fn Object::keys(v : &JsImpl) -> Array[String] {
+  ffi_object_keys(v.to_js())
 }
 
 ///|
-/// Cast a MoonBit function with 3 arguments to a JavaScript function Val.
-pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
-  unsafe_cast(f)
+/// JS: Object.values(v)
+pub fn Object::values(v : &JsImpl) -> Array[Js] {
+  ffi_object_values(v.to_js())
 }
 
 ///|
-pub fn from_builtin_json(j : Json) -> Js {
-  JsImpl::to_js(j)
+/// JS: Object.entries(v)
+pub fn Object::entries(v : &JsImpl) -> Array[(String, Js)] {
+  let entries = ffi_object_entries(v.to_js())
+  entries.map(entry => (unsafe_cast(entry.get(0)), unsafe_cast(entry.get(1))))
 }
 
 ///|
-pub impl ToJson for Js with to_json(self) -> Json {
-  if self.is_none() {
-    return null
-  }
-  match typeof_(self) {
-    "boolean" => {
-      // let v : Bool = unsafe_cast(self)
-      let v : Bool = unsafe_cast(self)
-      return v.to_json()
-    }
-    "number" => {
-      let v : Double = unsafe_cast(self)
-      return v.to_json()
-    }
-    "string" => {
-      let v : String = unsafe_cast(self)
-      return v.to_json()
-    }
-    _ => ()
-  }
-  if is_array(self) {
-    let len : Int = unsafe_cast(self.invoke("length", []))
-    let arr : Array[Json] = []
-    for i = 0; i < len; i = i + 1 {
-      let v = self.get(i.to_string())
-      arr.push(v.to_json())
-    }
-    return arr.to_json()
-  }
-  if typeof_(self) == "object" {
-    let out : Map[String, Json] = {}
-    let keys = self |> ffi_object_keys()
-    for k in keys {
-      let v = self.get(k)
-      out[k] = v.to_json()
-    }
-    return out.to_json()
-  }
-  return {}
+/// JS: Object.assign(target, source)
+pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Js {
+  ffi_object_assign(target.to_js(), source.to_js())
 }
 
 ///|
-pub impl JsImpl for Json with to_js(self) -> Js {
-  match self {
-    Null => null_()
-    String(s) => js(s)
-    Number(n, ..) => js(n)
-    True => js(true)
-    False => js(false)
-    Object(o) => {
-      let obj = Object::new()
-      for k, v in o {
-        let v : Js = JsImpl::to_js(v)
-        obj.set(k, v)
-      }
-      obj.to_js()
-    }
-    Array(a) => {
-      let arr = JsArray::new()
-      for v in a {
-        let v : Js = JsImpl::to_js(v)
-        arr.invoke("push", [v]) |> ignore
-      }
-      arr.to_js()
-    }
-  }
+/// Object.create({}).
+pub fn Object::create() -> Js {
+  ffi_object_create()
+}
+
+// JavaScript String
+// In this file, we impl only static methods of String.*
+// Use builtin String as instance methods.
+
+///|
+#external
+pub type JsString
+
+///|
+pub impl JsImpl for JsString
+
+///|
+fn string_instance() -> JsString {
+  unsafe_cast(globalThis().get("String"))
+}
+
+///|
+/// JS: String.fromCharCode(...values)
+pub fn JsString::fromCharCode(values : Array[Int]) -> String {
+  string_instance().invoke("fromCharCode", values |> from_array |> unsafe_cast)
+  |> unsafe_cast
+}
+
+///|
+/// JS: String.fromCharCode(...values)
+pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
+  string_instance().invoke("fromCodePoint", values |> from_array |> unsafe_cast)
+  |> unsafe_cast
+}
+
+///|
+/// JavaScript Array
+#external
+pub type JsArray
+
+///|
+pub impl JsImpl for JsArray
+
+///|
+pub fn JsArray::to_string(self : Self) -> String {
+  ffi_json_stringify(self.to_js(), undefined(), undefined())
+}
+
+///|
+/// JS: Array.from(items)
+pub fn[T] JsArray::from(items : Array[T]) -> JsArray {
+  ffi_array_from(items |> unsafe_cast) |> unsafe_cast
+}
+
+///|
+/// JS: new Array()
+pub fn JsArray::new() -> JsArray {
+  ffi_new_empty_array() |> unsafe_cast
+}
+
+///|
+/// JS: array.push(item)
+pub fn JsArray::push(self : JsArray, item : &JsImpl) -> Unit {
+  self.as_builtin_array().push(item.to_js())
+}
+
+///|
+/// cast to builtin Array
+pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
+  self |> unsafe_cast
+}
+
+///|
+/// JS: Array.isArray(v)
+pub fn[T : JsImpl] JsArray::isArray(v : T) -> Bool {
+  ffi_is_array(v.to_js())
+}
+
+///|
+pub fn array_from(v : Js) -> Array[Js] {
+  ffi_array_from(v)
+}
+
+///|
+/// JavaScript Symbol
+#external
+pub type Symbol
+
+///|
+pub impl JsImpl for Symbol
+
+///|
+/// JS: Symbol(name)
+pub fn symbol(name : String) -> Symbol {
+  ffi_symbol(name)
+}
+
+///|
+/// JS: Symbol.for(name)
+pub fn Symbol::for_(name : String) -> Symbol {
+  ffi_symbol_for(name)
+}
+
+///|
+/// JS: Symbol.iterator
+pub fn Symbol::iterator() -> Symbol {
+  ffi_symbol_iterator()
+}
+
+///|
+/// JS: Symbol.asyncIterator
+pub fn Symbol::asyncIterator() -> Symbol {
+  ffi_symbol_async_iterator()
+}
+
+///|
+/// JS: Symbol.dispose
+pub fn Symbol::dispose() -> Symbol {
+  ffi_symbol_dispose()
+}
+
+///|
+/// JS: Symbol.asyncDispose
+pub fn Symbol::asyncDispose() -> Symbol {
+  ffi_symbol_async_dispose()
 }

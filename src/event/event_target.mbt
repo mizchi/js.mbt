@@ -12,30 +12,30 @@
 /// - Worker API (Worker, MessagePort, BroadcastChannel)
 /// - Network APIs (WebSocket, EventSource, XMLHttpRequest)
 /// - Media APIs (MediaStream, AudioContext, etc.)
-pub(open) trait EventTargetImpl: JsImpl {
+pub(open) trait EventTargetImpl: @js.JsImpl {
   /// Add an event listener for the specified event type
   /// The listener receives a generic Val which should be cast to the appropriate event type
-  addEventListener(Self, String, (Js) -> Unit) -> Unit = _
+  addEventListener(Self, String, (@js.Js) -> Unit) -> Unit = _
 
   /// Remove a previously registered event listener
-  removeEventListener(Self, String, (Js) -> Unit) -> Unit = _
+  removeEventListener(Self, String, (@js.Js) -> Unit) -> Unit = _
 
   /// Dispatch an event to this target
-  dispatchEvent(Self, Js) -> Bool = _
+  dispatchEvent(Self, @js.Js) -> Bool = _
 }
 
 ///|
 /// Default implementation using JavaScript's addEventListener/removeEventListener
 impl EventTargetImpl with addEventListener(self, event_type, handler) -> Unit {
-  self.invoke("addEventListener", [event_type, from_fn1(handler)]) |> ignore
+  self.invoke("addEventListener", [event_type, @js.from_fn1(handler)]) |> ignore
 }
 
 ///|
 impl EventTargetImpl with removeEventListener(self, event_type, handler) -> Unit {
-  self.invoke("removeEventListener", [event_type, from_fn1(handler)]) |> ignore
+  self.invoke("removeEventListener", [event_type, @js.from_fn1(handler)]) |> ignore
 }
 
 ///|
 impl EventTargetImpl with dispatchEvent(self, event) -> Bool {
-  self.invoke("dispatchEvent", [event]) |> unsafe_cast
+  self.invoke("dispatchEvent", [event]) |> @js.unsafe_cast
 }

@@ -1,7 +1,4 @@
 ///|
-using @js {trait EventTargetImpl}
-
-///|
 /// MessagePort represents one end of a message channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort
 ///
@@ -13,7 +10,7 @@ pub type MessagePort
 pub impl JsImpl for MessagePort
 
 ///|
-pub impl EventTargetImpl for MessagePort
+pub impl @event.EventTargetImpl for MessagePort
 
 ///|
 pub impl Show for MessagePort with output(self, logger) {

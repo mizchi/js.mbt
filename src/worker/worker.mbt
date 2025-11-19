@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, js, log, trait EventTargetImpl}
+using @js {type Js, trait JsImpl, js}
 
 ///|
 /// Transferable trait for objects that can be transferred via postMessage
@@ -30,7 +30,7 @@ pub type Worker
 pub impl JsImpl for Worker
 
 ///|
-pub impl EventTargetImpl for Worker
+pub impl @event.EventTargetImpl for Worker
 
 ///|
 extern "js" fn ffi_new_worker(script_url : String, option : Js) -> Worker =

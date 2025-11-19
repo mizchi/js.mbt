@@ -184,3 +184,52 @@ pub fn setInterval(f : () -> Unit noraise, duration : Int) -> JsTimer {
 pub fn clearInterval(timer : JsTimer) -> Unit {
   ffi_clear_timeout(timer)
 }
+
+///|
+#external
+pub type JSON
+
+///|
+pub fn JSON::stringify(
+  v : Js,
+  replacer? : Js = undefined(),
+  space? : Int = 2,
+) -> String {
+  ffi_json_stringify(v.to_js(), replacer, space |> js)
+}
+
+///|
+pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise JsThrowError {
+  throwable(() => ffi_json_parse(s, reviver?))
+}
+
+///|
+/// JavaScript: AbortController
+#external
+pub type AbortController
+
+///|
+pub impl JsImpl for AbortController
+
+///|
+/// JS: new AbortController()
+pub extern "js" fn AbortController::new() -> AbortController =
+  #| () => new AbortController()
+
+///|
+/// JS: abortController.abort()
+pub fn AbortController::abort(self : Self) -> AbortController {
+  self.invoke("abort", []) |> unsafe_cast
+}
+
+///|
+#external
+pub type AbortSignal
+
+///|
+pub impl JsImpl for AbortSignal
+
+///|
+pub fn AbortController::signal(self : Self) -> AbortSignal {
+  self.get("signal") |> unsafe_cast
+}

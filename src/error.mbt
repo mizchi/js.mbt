@@ -85,10 +85,10 @@ pub fn throw_(v : &JsImpl) -> Unit {
 /// # Example
 ///
 /// ```moonbit
-/// let error = new_error("Something went wrong")
-/// let caused_error = new_error("Failed operation", cause=error)
+/// let error = JsError::new("Something went wrong")
+/// let caused_error = JsError::new("Failed operation", cause=error)
 /// ```
-pub fn new_error(message : String, cause? : JsError) -> JsError {
+pub fn JsError::new(message : String, cause? : JsError) -> JsError {
   let args : Array[Js] = if cause is Some(cause) {
     [message |> js, from_map({ "cause": cause |> unsafe_cast() })]
   } else {
