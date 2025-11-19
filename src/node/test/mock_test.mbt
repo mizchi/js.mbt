@@ -1,0 +1,49 @@
+///|
+using @test {mock, get_mock_context}
+
+///|
+using @js {type Js}
+
+///|
+test "mock.fn creates spy function" {
+  let m = mock()
+  let spy = m.fn_()
+
+  // Call the spy
+  spy.call_self([1, 2, 3]) |> ignore
+  spy.call_self(["test"]) |> ignore
+
+  // Check call count
+  let ctx = get_mock_context(spy)
+  inspect(ctx.callCount(), content="2")
+}
+
+///|
+test "mock.method mocks object method" {
+  let m = mock()
+  let obj = @js.Object::new()
+  obj.set("getValue", @js.from_fn0(fn() { 42 }))
+
+  // Mock the method to return different value
+  let obj_js : Js = @js.unsafe_cast(obj)
+  m.method_(obj_js, "getValue", implementation=@js.from_fn0(fn() { 100 }))
+  |> ignore
+  let result : Int = @js.unsafe_cast(obj.call("getValue", []))
+  inspect(result, content="100")
+  m.restoreAll()
+}
+
+///|
+test "mock.fn with implementation" {
+  let m = mock()
+  let spy = m.fn_(
+    implementation=@js.from_fn1(fn(x : Js) {
+      let n : Int = @js.unsafe_cast(x)
+      n * 2
+    }),
+  )
+  let result : Int = @js.unsafe_cast(spy.call_self([5]))
+  inspect(result, content="10")
+  let ctx = get_mock_context(spy)
+  inspect(ctx.callCount(), content="1")
+}
