@@ -4,57 +4,50 @@
 
 Node.js native test runner APIs
 
-### Test Functions
-- [x] test(name, options?, fn) - Define a test
-- [x] it(name, options?, fn) - Alias for test (BDD style)
-- [x] describe(name, options?, fn) - Group tests (suite)
-- [x] before(fn, options?) - Run before all tests
-- [x] after(fn, options?) - Run after all tests
-- [x] beforeEach(fn, options?) - Run before each test
-- [x] afterEach(fn, options?) - Run after each test
+### Implemented APIs
 
-### Test Context
+#### Test Functions
+- [x] it(name, fn) - Define a test (BDD style)
+- [x] beforeAll(fn) - Run before all tests
+- [x] afterAll(fn) - Run after all tests
+- [x] beforeEach(fn) - Run before each test
+- [x] afterEach(fn) - Run after each test
+
+#### Test Context
 - [x] TestContext type
-- [x] name - Test name
-- [x] skip(message?) - Skip test
-- [x] todo(message?) - Mark as TODO
-- [x] diagnostic(message) - Output diagnostic info
+- [x] todo(message) - Mark test as TODO
 
-### Assertions (from node:assert)
-- [x] ok(value, message?) - Assert truthy
-- [x] equal(actual, expected, message?) - Shallow equality
-- [x] notEqual(actual, expected, message?) - Shallow inequality
-- [x] deepEqual(actual, expected, message?) - Deep equality
-- [x] notDeepEqual(actual, expected, message?) - Deep inequality
-- [x] strictEqual(actual, expected, message?) - Strict equality
-- [x] notStrictEqual(actual, expected, message?) - Strict inequality
-- [x] throws(fn, error?, message?) - Assert throws
-- [x] doesNotThrow(fn, message?) - Assert doesn't throw
-- [x] rejects(promise, error?, message?) - Assert promise rejects
-- [x] doesNotReject(promise, message?) - Assert promise doesn't reject
-- [x] fail(message?) - Force failure
-- [x] match(actual, regexp, message?) - Assert regex match
-- [x] doesNotMatch(actual, regexp, message?) - Assert regex doesn't match
+#### Test Runner
+- [x] run(options?) - Run tests programmatically
+  - Options: files, testNamePatterns, timeout, concurrency, watch
 
-### Mock APIs (Experimental)
+#### Mock APIs
 - [x] MockTracker type
-- [x] mock(fn) - Create mock function
-- [x] method(object, methodName, implementation?, options?) - Mock method
-- [x] getter(object, propertyName, implementation?, options?) - Mock getter
-- [x] setter(object, propertyName, implementation?, options?) - Mock setter
+- [x] mock() - Create mock tracker
+- [x] fn_(original?, options?) - Create mock function
+- [x] method_(object, methodName, implementation?, options?) - Mock method
+- [x] getter_(object, propertyName, implementation?, options?) - Mock getter
+- [x] setter_(object, propertyName, implementation?, options?) - Mock setter
 - [x] reset() - Reset all mocks
 - [x] restoreAll() - Restore all mocked functions
 
-### Mock Function
-- [x] MockFunction type
-- [x] mock.calls - Array of call records
-- [x] mock.callCount() - Number of calls
-- [x] mock.mockImplementation(fn) - Set implementation
-- [x] mock.mockImplementationOnce(fn) - Set one-time implementation
-- [x] mock.restore() - Restore original
+#### Mock Function Context
+- [x] MockFunctionContext type
+- [x] calls() - Get array of call records
+- [x] callCount() - Get number of calls
+- [x] mockImplementation(fn) - Set implementation
+- [x] mockImplementationOnce(fn) - Set one-time implementation
+- [x] resetCalls() - Reset call history
+- [x] restore() - Restore original function
+
+### Types
+- [x] TestContext - Test execution context
+- [x] MockTracker - Mock management
+- [x] MockFunctionContext - Mock function control
 
 ## Usage
 This package is used extensively in test files under `src/_tests/`
 
 ## Test Coverage
-Used in all async test files in src/_tests/
+- Tests in src/node/test/mock_test.mbt
+- Used in all async test files in src/_tests/
