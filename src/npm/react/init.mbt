@@ -1,6 +1,6 @@
 ///|
 // Initialize the React API and store it in globalThis.__ReactApi
-// Node.js: init_react_api(@node.require('react'))
+// Node.js: globalThis.__ReactApi = require('react')
 pub fn init_react_api(val : Js, global_key? : String = "__ReactApi") -> Unit {
   if @js.is_nullish(global_this().get(global_key)) {
     global_this().set(global_key, val)

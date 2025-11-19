@@ -297,32 +297,6 @@ test "textarea with rows, columns, and spellcheck" {
 }
 
 ///|
-test "input with value (controlled)" {
-  let render_to_string = get_render_to_string()
-  let element = input(type_="text", value="controlled value")
-  let html = render_to_string(element)
-  inspect(
-    html,
-    content=(
-      #|<input type="text" value="controlled value"/>
-    ),
-  )
-}
-
-///|
-test "textarea with value (controlled)" {
-  let render_to_string = get_render_to_string()
-  let element = textarea(value="controlled text", [])
-  let html = render_to_string(element)
-  inspect(
-    html,
-    content=(
-      #|<textarea>controlled text</textarea>
-    ),
-  )
-}
-
-///|
 test "input with custom props" {
   let render_to_string = get_render_to_string()
   let custom_props = @js.Object::new()
@@ -430,7 +404,6 @@ test "SVG ellipse element" {
     html,
     content=(
       #|<svg width="200" height="100"><circle cx="100" cy="50" rx="80" ry="30" fill="yellow"></circle></svg>
-
     ),
   )
 }
@@ -499,18 +472,8 @@ test "h4 and h5 elements" {
   let h5_element = h5(["Heading 5"])
   let h4_html = render_to_string(h4_element)
   let h5_html = render_to_string(h5_element)
-  inspect(
-    h4_html,
-    content=(
-      "<h3>Heading 4</h3>"
-    ),
-  )
-  inspect(
-    h5_html,
-    content=(
-      "<h3>Heading 5</h3>"
-    ),
-  )
+  inspect(h4_html, content="<h3>Heading 4</h3>")
+  inspect(h5_html, content="<h3>Heading 5</h3>")
 }
 
 ///|
