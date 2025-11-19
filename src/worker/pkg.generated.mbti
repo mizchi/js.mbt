@@ -3,6 +3,7 @@ package "mizchi/js/worker"
 
 import(
   "mizchi/js"
+  "mizchi/js/event"
 )
 
 // Values
@@ -31,8 +32,8 @@ fn MessagePort::close(Self) -> Unit
 fn MessagePort::post_message(Self, &@js.JsImpl) -> Unit
 fn MessagePort::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Js]) -> Unit
 fn MessagePort::start(Self) -> Unit
-impl @js.EventTargetImpl for MessagePort
 impl @js.JsImpl for MessagePort
+impl @event.EventTargetImpl for MessagePort
 impl Show for MessagePort
 
 #external
@@ -42,8 +43,8 @@ fn Worker::new(String, type_? : String) -> Self
 fn Worker::postMessage(Self, &@js.JsImpl) -> Unit
 fn Worker::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Js]) -> Unit
 fn Worker::terminate(Self) -> Unit
-impl @js.EventTargetImpl for Worker
 impl @js.JsImpl for Worker
+impl @event.EventTargetImpl for Worker
 
 // Type aliases
 

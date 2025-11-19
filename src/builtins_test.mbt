@@ -4,7 +4,6 @@ test "Object::create" {
   assert_true(@js.is_object(obj))
 }
 
-
 ///|
 test "Object::propertyIsEnumerable" {
   let obj = @js.Object::new()
@@ -113,4 +112,86 @@ test "Js with empty strings" {
   obj.set("empty", "")
   assert_eq(unsafe_cast(obj.get("empty")), "")
   assert_true(obj.hasOwnProperty("empty"))
+}
+
+///|
+test "Object::freeze" {
+  let obj = @js.Object::new()
+  obj.set("name", "Alice")
+  obj.set("age", 30)
+
+  // Before freeze, object is extensible
+  assert_false(Object::isFrozen(obj))
+
+  // Freeze the object
+  Object::freeze(obj) |> ignore
+
+  // After freeze, object is frozen
+  assert_true(Object::isFrozen(obj))
+  assert_false(Object::isExtensible_static(obj))
+
+  // Existing properties are still accessible
+  assert_eq(unsafe_cast(obj.get("name")), "Alice")
+  assert_eq(unsafe_cast(obj.get("age")), 30)
+}
+
+///|
+test "Object::seal" {
+  let obj = @js.Object::new()
+  obj.set("x", 10)
+  obj.set("y", 20)
+
+  // Before seal, object is not sealed
+  assert_false(Object::isSealed(obj))
+
+  // Seal the object
+  Object::seal(obj) |> ignore
+
+  // After seal, object is sealed
+  assert_true(Object::isSealed(obj))
+  assert_false(Object::isExtensible_static(obj))
+
+  // Existing properties are still accessible
+  assert_eq(unsafe_cast(obj.get("x")), 10)
+  assert_eq(unsafe_cast(obj.get("y")), 20)
+}
+
+///|
+test "Object::preventExtensions" {
+  let obj = @js.Object::new()
+  obj.set("prop", "value")
+
+  // Before preventExtensions, object is extensible
+  assert_true(Object::isExtensible_static(obj))
+
+  // Prevent extensions
+  Object::preventExtensions(obj) |> ignore
+
+  // After preventExtensions, object is not extensible
+  assert_false(Object::isExtensible_static(obj))
+
+  // Existing properties are still accessible
+  assert_eq(unsafe_cast(obj.get("prop")), "value")
+}
+
+///|
+test "Object freeze vs seal vs preventExtensions" {
+  let frozen = @js.Object::new()
+  frozen.set("a", 1)
+  Object::freeze(frozen) |> ignore
+  assert_true(Object::isFrozen(frozen))
+  assert_true(Object::isSealed(frozen))
+  assert_false(Object::isExtensible_static(frozen))
+  let sealed_obj = @js.Object::new()
+  sealed_obj.set("b", 2)
+  Object::seal(sealed_obj) |> ignore
+  assert_false(Object::isFrozen(sealed_obj))
+  assert_true(Object::isSealed(sealed_obj))
+  assert_false(Object::isExtensible_static(sealed_obj))
+  let non_extensible = @js.Object::new()
+  non_extensible.set("c", 3)
+  Object::preventExtensions(non_extensible) |> ignore
+  assert_false(Object::isFrozen(non_extensible))
+  assert_false(Object::isSealed(non_extensible))
+  assert_false(Object::isExtensible_static(non_extensible))
 }

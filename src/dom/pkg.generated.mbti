@@ -4,6 +4,7 @@ package "mizchi/js/dom"
 import(
   "mizchi/js"
   "mizchi/js/dom/blob"
+  "mizchi/js/event"
   "mizchi/js/promise"
   "mizchi/js/worker"
 )
@@ -187,16 +188,16 @@ fn Document::set_cookie(Self, String) -> Unit
 fn Document::style_sheets(Self) -> @js.Js
 fn Document::title(Self) -> String
 fn Document::url(Self) -> String
-impl @js.EventTargetImpl for Document
 impl @js.JsImpl for Document
 impl ElementImpl for Document
 impl NodeImpl for Document
+impl @event.EventTargetImpl for Document
 
 #external
 pub type DocumentFragment
-impl @js.EventTargetImpl for DocumentFragment
 impl @js.JsImpl for DocumentFragment
 impl NodeImpl for DocumentFragment
+impl @event.EventTargetImpl for DocumentFragment
 
 #external
 pub type DragEvent
@@ -206,10 +207,10 @@ impl EventImpl for DragEvent
 
 #external
 pub type Element
-impl @js.EventTargetImpl for Element
 impl @js.JsImpl for Element
 impl ElementImpl for Element
 impl NodeImpl for Element
+impl @event.EventTargetImpl for Element
 
 #external
 pub type Event
@@ -232,29 +233,29 @@ fn HTMLAnchorElement::href(Self) -> String
 fn HTMLAnchorElement::setHref(Self, String) -> Unit
 fn HTMLAnchorElement::setTarget(Self, String) -> Unit
 fn HTMLAnchorElement::target(Self) -> String
-impl @js.EventTargetImpl for HTMLAnchorElement
 impl @js.JsImpl for HTMLAnchorElement
 impl ElementImpl for HTMLAnchorElement
 impl HTMLElementImpl for HTMLAnchorElement
 impl NodeImpl for HTMLAnchorElement
+impl @event.EventTargetImpl for HTMLAnchorElement
 
 #external
 pub type HTMLBodyElement
-impl @js.EventTargetImpl for HTMLBodyElement
 impl @js.JsImpl for HTMLBodyElement
 impl ElementImpl for HTMLBodyElement
 impl HTMLElementImpl for HTMLBodyElement
 impl NodeImpl for HTMLBodyElement
+impl @event.EventTargetImpl for HTMLBodyElement
 
 #external
 pub type HTMLButtonElement
 fn HTMLButtonElement::disabled(Self) -> Bool
 fn HTMLButtonElement::setDisabled(Self, Bool) -> Unit
-impl @js.EventTargetImpl for HTMLButtonElement
 impl @js.JsImpl for HTMLButtonElement
 impl ElementImpl for HTMLButtonElement
 impl HTMLElementImpl for HTMLButtonElement
 impl NodeImpl for HTMLButtonElement
+impl @event.EventTargetImpl for HTMLButtonElement
 
 #external
 pub type HTMLCanvasElement
@@ -265,45 +266,45 @@ fn HTMLCanvasElement::setWidth(Self, Int) -> Unit
 fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @promise.Promise[@blob.Blob]
 fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
 fn HTMLCanvasElement::width(Self) -> Int
-impl @js.EventTargetImpl for HTMLCanvasElement
 impl @js.JsImpl for HTMLCanvasElement
 impl ElementImpl for HTMLCanvasElement
 impl HTMLElementImpl for HTMLCanvasElement
 impl NodeImpl for HTMLCanvasElement
+impl @event.EventTargetImpl for HTMLCanvasElement
 
 #external
 pub type HTMLDivElement
-impl @js.EventTargetImpl for HTMLDivElement
 impl @js.JsImpl for HTMLDivElement
 impl ElementImpl for HTMLDivElement
 impl HTMLElementImpl for HTMLDivElement
 impl NodeImpl for HTMLDivElement
+impl @event.EventTargetImpl for HTMLDivElement
 
 #external
 pub type HTMLElement
 fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
 fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
-impl @js.EventTargetImpl for HTMLElement
 impl @js.JsImpl for HTMLElement
 impl ElementImpl for HTMLElement
 impl HTMLElementImpl for HTMLElement
 impl NodeImpl for HTMLElement
+impl @event.EventTargetImpl for HTMLElement
 
 #external
 pub type HTMLHeadElement
-impl @js.EventTargetImpl for HTMLHeadElement
 impl @js.JsImpl for HTMLHeadElement
 impl ElementImpl for HTMLHeadElement
 impl HTMLElementImpl for HTMLHeadElement
 impl NodeImpl for HTMLHeadElement
+impl @event.EventTargetImpl for HTMLHeadElement
 
 #external
 pub type HTMLHtmlElement
-impl @js.EventTargetImpl for HTMLHtmlElement
 impl @js.JsImpl for HTMLHtmlElement
 impl ElementImpl for HTMLHtmlElement
 impl HTMLElementImpl for HTMLHtmlElement
 impl NodeImpl for HTMLHtmlElement
+impl @event.EventTargetImpl for HTMLHtmlElement
 
 #external
 pub type HTMLIFrameElement
@@ -319,11 +320,11 @@ fn HTMLIFrameElement::setSrc(Self, String) -> Unit
 fn HTMLIFrameElement::setWidth(Self, String) -> Unit
 fn HTMLIFrameElement::src(Self) -> String
 fn HTMLIFrameElement::width(Self) -> String
-impl @js.EventTargetImpl for HTMLIFrameElement
 impl @js.JsImpl for HTMLIFrameElement
 impl ElementImpl for HTMLIFrameElement
 impl HTMLElementImpl for HTMLIFrameElement
 impl NodeImpl for HTMLIFrameElement
+impl @event.EventTargetImpl for HTMLIFrameElement
 
 #external
 pub type HTMLInputElement
@@ -337,19 +338,19 @@ fn HTMLInputElement::setType(Self, String) -> Unit
 fn HTMLInputElement::setValue(Self, String) -> Unit
 fn HTMLInputElement::type_(Self) -> String
 fn HTMLInputElement::value(Self) -> String
-impl @js.EventTargetImpl for HTMLInputElement
 impl @js.JsImpl for HTMLInputElement
 impl ElementImpl for HTMLInputElement
 impl HTMLElementImpl for HTMLInputElement
 impl NodeImpl for HTMLInputElement
+impl @event.EventTargetImpl for HTMLInputElement
 
 #external
 pub type HTMLSpanElement
-impl @js.EventTargetImpl for HTMLSpanElement
 impl @js.JsImpl for HTMLSpanElement
 impl ElementImpl for HTMLSpanElement
 impl HTMLElementImpl for HTMLSpanElement
 impl NodeImpl for HTMLSpanElement
+impl @event.EventTargetImpl for HTMLSpanElement
 
 #external
 pub type HTMLTextAreaElement
@@ -365,11 +366,11 @@ fn HTMLTextAreaElement::setReadOnly(Self, Bool) -> Unit
 fn HTMLTextAreaElement::setRows(Self, Int) -> Unit
 fn HTMLTextAreaElement::setValue(Self, String) -> Unit
 fn HTMLTextAreaElement::value(Self) -> String
-impl @js.EventTargetImpl for HTMLTextAreaElement
 impl @js.JsImpl for HTMLTextAreaElement
 impl ElementImpl for HTMLTextAreaElement
 impl HTMLElementImpl for HTMLTextAreaElement
 impl NodeImpl for HTMLTextAreaElement
+impl @event.EventTargetImpl for HTMLTextAreaElement
 
 #external
 pub type InputEvent
@@ -451,9 +452,9 @@ impl @js.JsImpl for Navigator
 
 #external
 pub type Node
-impl @js.EventTargetImpl for Node
 impl @js.JsImpl for Node
 impl NodeImpl for Node
+impl @event.EventTargetImpl for Node
 
 #external
 pub type PointerEvent
@@ -481,9 +482,9 @@ fn ShadowRoot::innerHTML(Self) -> String
 fn ShadowRoot::mode(Self) -> String
 fn ShadowRoot::setInnerHTML(Self, String) -> Unit
 fn ShadowRoot::slotAssignment(Self) -> String
-impl @js.EventTargetImpl for ShadowRoot
 impl @js.JsImpl for ShadowRoot
 impl NodeImpl for ShadowRoot
+impl @event.EventTargetImpl for ShadowRoot
 
 pub struct ShadowRootInit {
   mode : String
@@ -494,9 +495,9 @@ fn ShadowRootInit::new(String, delegatesFocus? : Bool, slotAssignment? : String)
 
 #external
 pub type Text
-impl @js.EventTargetImpl for Text
 impl @js.JsImpl for Text
 impl NodeImpl for Text
+impl @event.EventTargetImpl for Text
 
 #external
 pub type Touch
@@ -596,8 +597,8 @@ fn Window::sessionStorage(Self) -> @js.Js
 fn Window::setInterval(Self, () -> Unit, Int) -> Int
 #alias(set_timeout)
 fn Window::setTimeout(Self, () -> Unit, Int) -> Int
-impl @js.EventTargetImpl for Window
 impl @js.JsImpl for Window
+impl @event.EventTargetImpl for Window
 
 // Type aliases
 pub type ChangeEventHandler = (ChangeEvent) -> Unit
@@ -649,7 +650,7 @@ pub(open) trait HTMLElementImpl : @js.JsImpl + ElementImpl {
   click(Self) -> Unit = _
 }
 
-pub(open) trait NodeImpl : @js.JsImpl + @js.EventTargetImpl {
+pub(open) trait NodeImpl : @js.JsImpl + @event.EventTargetImpl {
   nodeType(Self) -> Int = _
   nodeName(Self) -> String = _
   parentNode(Self) -> Node? = _

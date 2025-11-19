@@ -203,6 +203,9 @@ pub impl JsImpl for UInt
 pub impl JsImpl for Unit
 
 ///|
+pub impl JsImpl for BigInt
+
+///|
 /// Convert an Array of Js-implementing types to a JavaScript array.
 pub impl JsImpl for Array[&JsImpl] with to_js(self) {
   from_array(self)

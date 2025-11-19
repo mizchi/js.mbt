@@ -57,9 +57,7 @@ test "from builtin struct" {
   let v : Js = JsImpl::to_js(p)
   assert_eq(unsafe_cast(v.get("x")), 10)
   assert_eq(unsafe_cast(v.get("y")), 20)
-  inspect(p, content=(
-    "{x: 10, y: 20}"
-  ))
+  inspect(p, content="{x: 10, y: 20}")
 }
 
 ///|
@@ -69,9 +67,7 @@ test "unsafe_cast to struct" {
   assert_eq(p.x, 5)
   assert_eq(p.y, 15)
   assert_eq(p.x2(), 10)
-  inspect(p, content=(
-    "{x: 5, y: 15}"
-  ))
+  inspect(p, content="{x: 5, y: 15}")
 }
 
 ///|
@@ -86,9 +82,12 @@ test "from_map converts MoonBit Map to Js object" {
 test "from_map and to_string" {
   let map : Map[String, Js] = { "name": js("Alice"), "age": js(30) }
   let obj : Js = from_map(map)
-  inspect(obj.to_string(), content=(
-    #|{"name":"Alice","age":30}
-  ))
+  inspect(
+    obj.to_string(),
+    content=(
+      #|{"name":"Alice","age":30}
+    ),
+  )
 }
 
 ///|

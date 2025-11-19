@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js"
 
+import(
+  "moonbitlang/core/bigint"
+)
+
 // Values
 fn array_from(Js) -> Array[Js]
 
@@ -211,13 +215,19 @@ pub type Object
 fn Object::assign(&JsImpl, &JsImpl) -> Js
 fn Object::create(&JsImpl) -> Js
 fn Object::entries(&JsImpl) -> Array[(String, Js)]
+fn Object::freeze(&JsImpl) -> Js
 fn Object::hasOwnProperty(Self, &PropertyKey) -> Bool
 fn Object::isExtensible(Self) -> Bool
+fn Object::isExtensible_static(&JsImpl) -> Bool
+fn Object::isFrozen(&JsImpl) -> Bool
 fn Object::isPrototypeOf(Self, Js) -> Bool
+fn Object::isSealed(&JsImpl) -> Bool
 fn Object::is_(&JsImpl, &JsImpl) -> Js
 fn Object::keys(&JsImpl) -> Array[String]
 fn Object::new() -> Self
+fn Object::preventExtensions(&JsImpl) -> Js
 fn Object::propertyIsEnumerable(Self, &PropertyKey) -> Bool
+fn Object::seal(&JsImpl) -> Js
 fn Object::to_string(Self) -> String
 fn Object::values(&JsImpl) -> Array[Js]
 impl JsImpl for Object
@@ -282,6 +292,7 @@ impl JsImpl for Float
 impl JsImpl for Double
 impl JsImpl for String
 impl[T] JsImpl for T?
+impl JsImpl for @bigint.BigInt
 impl JsImpl for Array[&JsImpl]
 impl JsImpl for Json
 impl JsImpl for Map[String, &JsImpl]

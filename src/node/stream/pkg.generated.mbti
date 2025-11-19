@@ -62,7 +62,7 @@ fn Readable::readableFlowing(Self) -> @js.Js
 fn Readable::readableHighWaterMark(Self) -> Int
 fn Readable::readableLength(Self) -> Int
 fn Readable::readableObjectMode(Self) -> Bool
-fn Readable::resume(Self) -> Self
+fn Readable::resume_(Self) -> Self
 fn Readable::setEncoding(Self, String) -> Self
 fn Readable::toWeb(Self) -> @mizchi/js/stream.ReadableStream
 fn Readable::unpipe(Self, destination? : Writable) -> Self

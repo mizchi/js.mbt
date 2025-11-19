@@ -26,6 +26,8 @@ async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 #external
 pub type Promise[T]
 fn[A] Promise::all(Array[Self[A]]) -> Self[Array[A]]
+fn[A] Promise::allSettled(Array[Self[A]]) -> Self[Array[SettledResult[A]]]
+fn[T] Promise::any(Array[Self[T]]) -> Self[T]
 fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
 fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
 fn[A] Promise::new(((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
@@ -44,6 +46,12 @@ pub(all) struct Resolvers[T] {
 }
 fn[T] Resolvers::reject(Self[T], Error) -> Unit
 fn[T] Resolvers::resolve(Self[T], T) -> Unit
+
+pub(all) struct SettledResult[T] {
+  status : String
+  value : T?
+  reason : @js.Js?
+}
 
 // Type aliases
 

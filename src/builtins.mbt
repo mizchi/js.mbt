@@ -163,6 +163,48 @@ pub fn Object::is_(a : &JsImpl, b : &JsImpl) -> Js {
 }
 
 ///|
+/// JS: Object.freeze(obj)
+/// Freezes an object, preventing new properties from being added and existing properties from being removed or changed
+pub fn Object::freeze(obj : &JsImpl) -> Js {
+  object_class().call1("freeze", obj) |> unsafe_cast
+}
+
+///|
+/// JS: Object.seal(obj)
+/// Seals an object, preventing new properties from being added and marking all existing properties as non-configurable
+pub fn Object::seal(obj : &JsImpl) -> Js {
+  object_class().call1("seal", obj) |> unsafe_cast
+}
+
+///|
+/// JS: Object.isFrozen(obj)
+/// Determines if an object is frozen
+pub fn Object::isFrozen(obj : &JsImpl) -> Bool {
+  object_class().call1("isFrozen", obj) |> unsafe_cast
+}
+
+///|
+/// JS: Object.isSealed(obj)
+/// Determines if an object is sealed
+pub fn Object::isSealed(obj : &JsImpl) -> Bool {
+  object_class().call1("isSealed", obj) |> unsafe_cast
+}
+
+///|
+/// JS: Object.preventExtensions(obj)
+/// Prevents new properties from being added to an object
+pub fn Object::preventExtensions(obj : &JsImpl) -> Js {
+  object_class().call1("preventExtensions", obj) |> unsafe_cast
+}
+
+///|
+/// JS: Object.isExtensible(obj)
+/// Determines if an object is extensible
+pub fn Object::isExtensible_static(obj : &JsImpl) -> Bool {
+  object_class().call1("isExtensible", obj) |> unsafe_cast
+}
+
+///|
 /// JS: object.propertyIsEnumerable(k)
 pub fn Object::propertyIsEnumerable(self : Self, key : &PropertyKey) -> Bool {
   ffi_property_is_enumerable(self.to_js(), key.to_key() |> unsafe_cast)

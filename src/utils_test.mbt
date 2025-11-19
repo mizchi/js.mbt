@@ -36,7 +36,6 @@ test "Val cast_option" {
   assert_eq(none_int, None)
 }
 
-
 ///|
 test "set_if_exists" {
   let obj = @js.Object::new()

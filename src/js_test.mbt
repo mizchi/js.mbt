@@ -60,7 +60,6 @@ test "unsafe_cast converts struct to Js object" {
   assert_eq(casted, p)
 }
 
-
 ///|
 test "JsImpl trait converts enum to Js and back" {
   let v : TestEnum = A(value=123)

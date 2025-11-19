@@ -17,8 +17,12 @@ impl[T] @js.JsImpl for AsyncIterator[T]
 
 #external
 pub(all) type JsIterator[T]
+fn[T] JsIterator::drop(Self[T], Int) -> Self[T]
+fn[T] JsIterator::from(@js.Js) -> Self[T]
 fn[T] JsIterator::iter(Self[T]) -> Iterator[T]
 fn[T] JsIterator::next(Self[T]) -> T?
+fn[T] JsIterator::take(Self[T], Int) -> Self[T]
+fn[T] JsIterator::toArray(Self[T]) -> Array[T]
 impl[T] @js.JsImpl for JsIterator[T]
 
 // Type aliases
