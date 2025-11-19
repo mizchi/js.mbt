@@ -8,3 +8,6 @@ scratch.ts
 .wrangler
 fs_test.txt
 .DS_Store
+# Test files
+test_*.txt
+test_*
