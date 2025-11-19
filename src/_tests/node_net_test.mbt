@@ -50,6 +50,20 @@ test {
 
 ///|
 test {
+  it("Server can be created with options", _ => {
+    let server = createServer(
+      allowHalfOpen=true,
+      pauseOnConnect=false,
+      noDelay=true,
+      keepAlive=true,
+      keepAliveInitialDelay=1000,
+    )
+    inspect(server.listening(), content="false")
+  })
+}
+
+///|
+test {
   it("Socket can be created", _ => {
     let socket = createConnection(8080, host="127.0.0.1")
     // Just check that socket was created without connecting
