@@ -1,0 +1,51 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/proxy"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn add_apply_trap(@js.Object, (@js.Js, @js.Js, @js.Js) -> @js.Js) -> Unit
+
+fn add_construct_trap(@js.Object, (@js.Js, @js.Js, @js.Js) -> @js.Js) -> Unit
+
+fn add_delete_trap(@js.Object, (@js.Js, @js.Js) -> Bool) -> Unit
+
+fn add_get_trap(@js.Object, (@js.Js, @js.Js, @js.Js) -> @js.Js) -> Unit
+
+fn add_has_trap(@js.Object, (@js.Js, @js.Js) -> Bool) -> Unit
+
+fn add_ownKeys_trap(@js.Object, (@js.Js) -> @js.Js) -> Unit
+
+fn add_set_trap(@js.Object, (@js.Js, @js.Js, @js.Js, @js.Js) -> Bool) -> Unit
+
+fn create_empty_handler() -> @js.Object
+
+fn create_handler_with_apply((@js.Js, @js.Js, @js.Js) -> @js.Js) -> @js.Object
+
+fn create_handler_with_construct((@js.Js, @js.Js, @js.Js) -> @js.Js) -> @js.Object
+
+fn create_handler_with_delete((@js.Js, @js.Js) -> Bool) -> @js.Object
+
+fn create_handler_with_get((@js.Js, @js.Js, @js.Js) -> @js.Js) -> @js.Object
+
+fn create_handler_with_has((@js.Js, @js.Js) -> Bool) -> @js.Object
+
+fn create_handler_with_ownKeys((@js.Js) -> @js.Js) -> @js.Object
+
+fn create_handler_with_set((@js.Js, @js.Js, @js.Js, @js.Js) -> Bool) -> @js.Object
+
+// Errors
+
+// Types and methods
+#external
+pub type Proxy
+fn Proxy::new(&@js.JsImpl, &@js.JsImpl) -> Self
+fn Proxy::revocable(&@js.JsImpl, &@js.JsImpl) -> @js.Js
+impl @js.JsImpl for Proxy
+
+// Type aliases
+
+// Traits
+
