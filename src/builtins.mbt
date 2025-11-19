@@ -210,7 +210,7 @@ pub fn[T] JsArray::from(items : Array[T]) -> JsArray {
 ///|
 /// JS: new Array()
 pub fn JsArray::new() -> JsArray {
-  ffi_new_empty_array() |> unsafe_cast
+  ffi_new_array() |> unsafe_cast
 }
 
 ///|

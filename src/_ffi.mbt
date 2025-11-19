@@ -4,40 +4,40 @@ pub type JsTimer
 
 ///|
 extern "js" fn ffi_to_string(v : Js) -> String =
-  #| (v) => v == null ? String(null) : v.toString()
+  #|(v) => v == null ? String(null) : v.toString()
 
 ///|
 extern "js" fn ffi_is_null(v : Js) -> Bool =
-  #| (v) => v === null
+  #|(v) => v === null
 
 ///|
 /// JS:
 pub extern "js" fn ffi_is_undefined(v : Js) -> Bool =
-  #| (v) => v === undefined
+  #|(v) => v === undefined
 
 ///|
 extern "js" fn ffi_get(v : Js, key : String) -> Js =
-  #| (obj, k) => obj[k]
+  #|(obj, k) => obj[k]
 
 ///|
 extern "js" fn ffi_set(obj : Js, key : String, value : Js) -> Unit =
-  #| (obj, k, v) => obj[k] = v
+  #|(obj, k, v) => { obj[k] = v }
 
 ///|
 extern "js" fn ffi_new(v : Js, args : Array[Js]) -> Js =
-  #| (obj, args) => new obj(...args)
+  #|(v, args) => new v(...args)
 
 ///|
 extern "js" fn ffi_new_error(args : Array[Js]) -> JsError =
-  #| (args) => new Error(...args)
+  #|(args) => new Error(...args)
 
 ///|
 extern "js" fn ffi_is_error(v : Js) -> Bool =
-  #| (v) => Error.isError(v)
+  #|(v) => Error.isError(v)
 
 ///|
 extern "js" fn ffi_throw(v : Js) -> Unit =
-  #| (v) => { throw v }
+  #|(v) => { throw v }
 
 ///|
 extern "js" fn ffi_call(f : Js, args : Array[Js]) -> Js =
@@ -52,7 +52,7 @@ extern "js" fn ffi_new_object() -> Js =
   #|() => ({})
 
 ///|
-extern "js" fn ffi_new_empty_array() -> Js =
+extern "js" fn ffi_new_array() -> Js =
   #|() => ([])
 
 ///|
