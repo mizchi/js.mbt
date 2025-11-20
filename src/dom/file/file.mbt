@@ -28,16 +28,16 @@ pub fn File::new(
     arr.call("push", [data[i].to_js()]) |> ignore
     i = i + 1
   }
-  let options = @js.Object::new()
-  match content_type {
-    Some(t) => options.set("type", t)
-    None => ()
-  }
-  match last_modified {
-    Some(lm) => options.set("lastModified", lm)
-    None => ()
-  }
-  unsafe_cast(ffi_new_file(arr.to_js(), filename |> js, options.to_js()))
+  unsafe_cast(
+    ffi_new_file(
+      arr.to_js(),
+      filename |> js,
+      @js.from_entries_option([
+        ("type", content_type.map(fn(x) { x })),
+        ("lastModified", last_modified.map(fn(x) { x })),
+      ]),
+    ),
+  )
 }
 
 ///|

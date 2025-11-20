@@ -42,18 +42,13 @@ pub fn getHeapSnapshot(
   let v8 = ffi_require_v8()
   match (expose_internals, expose_numeric_values) {
     (None, None) => v8.call("getHeapSnapshot", [])
-    _ => {
-      let options = @js.Object::new()
-      match expose_internals {
-        Some(ei) => options.set("exposeInternals", ei)
-        None => ()
-      }
-      match expose_numeric_values {
-        Some(env) => options.set("exposeNumericValues", env)
-        None => ()
-      }
-      v8.call("getHeapSnapshot", [options])
-    }
+    _ =>
+      v8.call("getHeapSnapshot", [
+        @js.from_entries_option_cast([
+          ("exposeInternals", expose_internals),
+          ("exposeNumericValues", expose_numeric_values),
+        ]),
+      ])
   }
 }
 

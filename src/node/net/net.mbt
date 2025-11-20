@@ -225,28 +225,16 @@ pub fn createServer(
     not(keepAlive.is_empty()) ||
     not(keepAliveInitialDelay.is_empty())
   if has_options {
-    let options = @js.Object::new()
-    match allowHalfOpen {
-      Some(v) => options.set("allowHalfOpen", v)
-      None => ()
-    }
-    match pauseOnConnect {
-      Some(v) => options.set("pauseOnConnect", v)
-      None => ()
-    }
-    match noDelay {
-      Some(v) => options.set("noDelay", v)
-      None => ()
-    }
-    match keepAlive {
-      Some(v) => options.set("keepAlive", v)
-      None => ()
-    }
-    match keepAliveInitialDelay {
-      Some(v) => options.set("keepAliveInitialDelay", v)
-      None => ()
-    }
-    net_module().call("createServer", [options]) |> unsafe_cast
+    net_module().call("createServer", [
+      @js.from_entries_option([
+        ("allowHalfOpen", allowHalfOpen.map(fn(x) { x })),
+        ("pauseOnConnect", pauseOnConnect.map(fn(x) { x })),
+        ("noDelay", noDelay.map(fn(x) { x })),
+        ("keepAlive", keepAlive.map(fn(x) { x })),
+        ("keepAliveInitialDelay", keepAliveInitialDelay.map(fn(x) { x })),
+      ]),
+    ])
+    |> unsafe_cast
   } else {
     net_module().call("createServer", []) |> unsafe_cast
   }

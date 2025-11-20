@@ -22,12 +22,11 @@ pub fn Blob::new(data : Array[&JsImpl], content_type? : String) -> Blob {
     arr.call("push", [data[i]]) |> ignore
     i = i + 1
   }
-  let options = @js.Object::new()
-  match content_type {
-    Some(t) => options.set("type", t)
-    None => ()
-  }
-  ffi_new_blob(arr.to_js(), options.to_js()) |> unsafe_cast
+  ffi_new_blob(
+    arr.to_js(),
+    @js.from_entries_option_cast([("type", content_type)]),
+  )
+  |> unsafe_cast
 }
 
 ///|

@@ -35,12 +35,13 @@ pub fn Deno::permissions_query(
   path? : String,
 ) -> Promise[PermissionStatus] {
   let perms = self.permissions()
-  let desc = @js.Object::new()
-  desc.set("name", name)
-  if path is Some(p) {
-    desc.set("path", p)
-  }
-  perms.call("query", [desc]) |> @js.unsafe_cast
+  perms.call("query", [
+    @js.from_entries_option([
+      ("name", Some(name)),
+      ("path", path.map(fn(x) { x })),
+    ]),
+  ])
+  |> @js.unsafe_cast
 }
 
 ///|
@@ -51,12 +52,13 @@ pub fn Deno::permissions_request(
   path? : String,
 ) -> Promise[PermissionStatus] {
   let perms = self.permissions()
-  let desc = @js.Object::new()
-  desc.set("name", name)
-  if path is Some(p) {
-    desc.set("path", p)
-  }
-  perms.call("request", [desc]) |> @js.unsafe_cast
+  perms.call("request", [
+    @js.from_entries_option([
+      ("name", Some(name)),
+      ("path", path.map(fn(x) { x })),
+    ]),
+  ])
+  |> @js.unsafe_cast
 }
 
 ///|
@@ -67,10 +69,11 @@ pub fn Deno::permissions_revoke(
   path? : String,
 ) -> Promise[PermissionStatus] {
   let perms = self.permissions()
-  let desc = @js.Object::new()
-  desc.set("name", name)
-  if path is Some(p) {
-    desc.set("path", p)
-  }
-  perms.call("revoke", [desc]) |> @js.unsafe_cast
+  perms.call("revoke", [
+    @js.from_entries_option([
+      ("name", Some(name)),
+      ("path", path.map(fn(x) { x })),
+    ]),
+  ])
+  |> @js.unsafe_cast
 }
