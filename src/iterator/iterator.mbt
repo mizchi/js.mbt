@@ -1,10 +1,7 @@
 // https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/take
 
 ///|
-using @js {type Js, trait JsImpl, unsafe_cast}
-
-///|
-using @promise {type Promise}
+using @js {type Js, trait JsImpl, unsafe_cast, type Promise}
 
 ///|
 /// JavaScript Iterator

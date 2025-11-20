@@ -197,7 +197,7 @@ pub fn[T, U] use_action_state(
   f : async (T, U) -> T noraise,
   initial : T,
 ) -> (T, (U) -> Unit, Bool) {
-  let w = @promise.promisify2((s, a) => f(s, a))
+  let w = promisify2((s, a) => f(s, a))
   let val : Js = use_action_state_internal(
     w |> @js.unsafe_js,
     initial |> @js.unsafe_js,
@@ -227,5 +227,5 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 ///   lazy_(load_my_lazy_component)
 /// ```
 pub fn[T] lazy_(f : async () -> (T) -> Element) -> (EmptyProps) -> Promise[Js] {
-  f |> @promise.promisify0 |> @js.unsafe_js |> ffi_react_lazy() |> unsafe_cast
+  f |> promisify0 |> @js.unsafe_js |> ffi_react_lazy() |> unsafe_cast
 }

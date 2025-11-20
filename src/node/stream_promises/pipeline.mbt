@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, unsafe_cast}
+using @js {type Js, type Promise, unsafe_cast}
 
 ///|
 using @stream {type Stream}
@@ -19,11 +19,11 @@ extern "js" fn ffi_stream_promises_finished(stream : Js) -> Js =
   #| }
 
 ///|
-pub fn pipeline(streams : Array[Js]) -> @promise.Promise[Stream] {
+pub fn pipeline(streams : Array[Js]) -> Promise[Stream] {
   ffi_stream_promises_pipeline(unsafe_cast(streams)) |> unsafe_cast
 }
 
 ///|
-pub fn finished(stream : Js) -> @promise.Promise[Unit] {
+pub fn finished(stream : Js) -> Promise[Unit] {
   ffi_stream_promises_finished(stream) |> unsafe_cast
 }

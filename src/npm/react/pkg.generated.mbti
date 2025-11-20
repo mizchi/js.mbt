@@ -4,7 +4,6 @@ package "mizchi/js/npm/react"
 import(
   "mizchi/js"
   "mizchi/js/dom"
-  "mizchi/js/promise"
 )
 
 // Values
@@ -25,7 +24,7 @@ fn init_react_api(@js.Js, global_key? : String) -> Unit
 
 async fn init_react_async() -> Unit
 
-fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @promise.Promise[@js.Js]
+fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @js.Promise[@js.Js]
 
 fn[T] provider(Context[T], Array[&@js.JsImpl], value~ : T) -> Element
 
@@ -54,7 +53,7 @@ fn[T] useRef(T?) -> ReactRef[T]
 #alias(use_state)
 fn[T : @js.JsImpl] useState(T) -> (T, (T) -> Unit)
 
-fn[T] use_(@promise.Promise[T]) -> T
+fn[T] use_(@js.Promise[T]) -> T
 
 #alias(useActionState)
 fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)

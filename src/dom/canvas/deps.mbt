@@ -1,8 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, js, unsafe_cast}
-
-///|
-using @promise {type Promise}
+using @js {type Js, trait JsImpl, js, unsafe_cast, type Promise}
 
 ///|
 using @arraybuffer {type Uint8Array}

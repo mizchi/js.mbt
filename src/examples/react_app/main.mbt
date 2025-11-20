@@ -19,10 +19,7 @@ using @react {
 using @react_router {router_provider}
 
 ///|
-using @js {log, js, unsafe_cast}
-
-///|
-using @promise {sleep, run_async}
+using @js {log, js, unsafe_cast, sleep, run_async}
 
 ///|
 using @element {

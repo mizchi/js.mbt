@@ -141,7 +141,7 @@ test {
 ///|
 test {
   it("pipeline with promises - async operations", _ => {
-    let resolver : @promise.Resolvers[Bool] = @promise.Promise::withResolvers()
+    let resolver : Resolvers[Bool] = Promise::withResolvers()
     run_async(fn() {
       let readable = create_readable_from_array(["async", "test"])
       let transform = create_transform_uppercase_promises()
@@ -174,7 +174,7 @@ test {
     let streams : Array[@js.Js] = [readable.to_js(), writable_js]
     let promise = promises_pipeline(streams)
     // Use then to verify completion
-    let resolved = promise.then(fn(_) { @promise.Promise::resolve(true) })
+    let resolved = promise.then(fn(_) { Promise::resolve(true) })
     let success = resolved.unwrap()
     assert_eq(success, true)
     let chunks = get_chunks_promises(writable_js)
@@ -191,7 +191,7 @@ test {
     let promise = promises_pipeline(streams)
     let result_promise = promise.then(fn(_) {
       let chunks = get_chunks_promises(writable_js)
-      @promise.Promise::resolve(chunks.length())
+      Promise::resolve(chunks.length())
     })
     let count = result_promise.unwrap()
     assert_eq(count, 2)

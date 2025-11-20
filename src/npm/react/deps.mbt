@@ -1,5 +1,11 @@
 ///|
-using @js {type Js, trait JsImpl, global_this, js, unsafe_cast}
-
-///|
-using @promise {type Promise}
+using @js {
+  type Js,
+  type Promise,
+  trait JsImpl,
+  global_this,
+  js,
+  unsafe_cast,
+  promisify0,
+  promisify2,
+}

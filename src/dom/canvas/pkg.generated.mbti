@@ -6,7 +6,6 @@ import(
   "mizchi/js/arraybuffer"
   "mizchi/js/dom"
   "mizchi/js/dom/blob"
-  "mizchi/js/promise"
   "mizchi/js/worker"
 )
 
@@ -15,7 +14,7 @@ import(
 fn createImageBitmap(&@js.JsImpl) -> ImageBitmap
 
 #alias(create_image_bitmap_rect)
-fn createImageBitmapRect(&@js.JsImpl, Int, Int, Int, Int) -> @promise.Promise[ImageBitmap]
+fn createImageBitmapRect(&@js.JsImpl, Int, Int, Int, Int) -> @js.Promise[ImageBitmap]
 
 // Errors
 
@@ -97,7 +96,7 @@ impl @js.JsImpl for ImageData
 
 #external
 pub type OffscreenCanvas
-fn OffscreenCanvas::convertToBlob(Self, options? : String) -> @promise.Promise[@blob.Blob]
+fn OffscreenCanvas::convertToBlob(Self, options? : String) -> @js.Promise[@blob.Blob]
 fn OffscreenCanvas::getContext(Self, String) -> CanvasRenderingContext2D
 fn OffscreenCanvas::height(Self) -> Int
 fn OffscreenCanvas::new(Int, Int) -> Self

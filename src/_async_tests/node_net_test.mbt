@@ -69,7 +69,7 @@ test {
     let server = createServer()
     server.listen(0, host="127.0.0.1", callback=fn() { callback_called = true })
     |> ignore
-    @promise.sleep(100)
+    sleep(100)
     inspect(callback_called, content="true")
     inspect(server.listening(), content="true")
     server.close() |> ignore
@@ -81,7 +81,7 @@ test {
   it("Server listen and get address", _ => {
     let server = createServer()
     server.listen(0, host="127.0.0.1") |> ignore
-    @promise.sleep(50)
+    sleep(50)
     let address = server.address()
     inspect(address.is_empty(), content="false")
     match address {

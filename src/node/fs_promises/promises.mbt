@@ -1,8 +1,5 @@
 ///|
-using @js {trait JsImpl, type AbortSignal, unsafe_cast}
-
-///|
-using @promise {type Promise}
+using @js {trait JsImpl, type AbortSignal, type Promise, unsafe_cast}
 
 ///|
 using @iterator {type AsyncIterator}

@@ -2,14 +2,14 @@
 package "mizchi/js/npm/react_dom_server"
 
 import(
+  "mizchi/js"
   "mizchi/js/npm/react"
-  "mizchi/js/promise"
   "mizchi/js/stream"
 )
 
 // Values
 #alias(render_to_readable_stream)
-fn renderToReadableStream(@react.Element) -> @promise.Promise[@stream.ReadableStream]
+fn renderToReadableStream(@react.Element) -> @js.Promise[@stream.ReadableStream]
 
 #alias(render_to_string)
 fn renderToString(@react.Element) -> String

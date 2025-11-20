@@ -1,11 +1,8 @@
 ///|
-using @js {type Js, trait JsImpl, js, unsafe_cast}
+using @js {type Js, trait JsImpl, js, unsafe_cast, type Promise}
 
 ///|
 using @blob {type Blob}
-
-///|
-using @promise {type Promise}
 
 ///|
 using @arraybuffer {type ArrayBuffer}

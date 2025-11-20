@@ -2,7 +2,7 @@
 /// Blob API Tests
 
 ///|
-using @promise {run_async}
+using @js {run_async}
 
 ///| Constructor Tests
 

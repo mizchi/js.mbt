@@ -1,6 +1,3 @@
 ///|
 /// Dependencies for Deno package
-using @js {type Js, trait JsImpl, unsafe_cast}
-
-///|
-using @promise {type Promise}
+using @js {type Js, type Promise, trait JsImpl, unsafe_cast, promisify1}

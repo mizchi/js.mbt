@@ -33,7 +33,7 @@ pub fn Deno::permissions_query(
   self : Deno,
   name : String,
   path? : String,
-) -> @promise.Promise[PermissionStatus] {
+) -> Promise[PermissionStatus] {
   let perms = self.permissions()
   let desc = @js.Object::new()
   desc.set("name", name)
@@ -49,7 +49,7 @@ pub fn Deno::permissions_request(
   self : Deno,
   name : String,
   path? : String,
-) -> @promise.Promise[PermissionStatus] {
+) -> Promise[PermissionStatus] {
   let perms = self.permissions()
   let desc = @js.Object::new()
   desc.set("name", name)
@@ -65,7 +65,7 @@ pub fn Deno::permissions_revoke(
   self : Deno,
   name : String,
   path? : String,
-) -> @promise.Promise[PermissionStatus] {
+) -> Promise[PermissionStatus] {
   let perms = self.permissions()
   let desc = @js.Object::new()
   desc.set("name", name)

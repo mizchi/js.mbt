@@ -4,13 +4,12 @@ package "mizchi/js/node/stream_promises"
 import(
   "mizchi/js"
   "mizchi/js/node/stream"
-  "mizchi/js/promise"
 )
 
 // Values
-fn finished(@js.Js) -> @promise.Promise[Unit]
+fn finished(@js.Js) -> @js.Promise[Unit]
 
-fn pipeline(Array[@js.Js]) -> @promise.Promise[@stream.Stream]
+fn pipeline(Array[@js.Js]) -> @js.Promise[@stream.Stream]
 
 // Errors
 

@@ -4,56 +4,54 @@ package "mizchi/js/node/fs_promises"
 import(
   "mizchi/js"
   "mizchi/js/iterator"
-  "mizchi/js/node/fs"
-  "mizchi/js/promise"
 )
 
 // Values
-fn access(String, mode? : Int) -> @promise.Promise[Unit]
+fn access(String, mode? : Int) -> @js.Promise[Unit]
 
-fn appendFile(String, String, encoding? : String) -> @promise.Promise[Unit]
+fn appendFile(String, String, encoding? : String) -> @js.Promise[Unit]
 
-fn chmod(String, Int) -> @promise.Promise[Unit]
+fn chmod(String, Int) -> @js.Promise[Unit]
 
-fn chown(String, Int, Int) -> @promise.Promise[Unit]
+fn chown(String, Int, Int) -> @js.Promise[Unit]
 
-fn copyFile(String, String) -> @promise.Promise[Unit]
+fn copyFile(String, String) -> @js.Promise[Unit]
 
-fn cp(String, String, recursive? : Bool) -> @promise.Promise[Unit]
+fn cp(String, String, recursive? : Bool) -> @js.Promise[Unit]
 
 fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[String]
 
 fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[Dirent]
 
-fn mkdir(String, recursive? : Bool) -> @promise.Promise[Unit]
+fn mkdir(String, recursive? : Bool) -> @js.Promise[Unit]
 
-fn open(String) -> @promise.Promise[FileHandle]
+fn open(String) -> @js.Promise[FileHandle]
 
 #alias(read_file)
-fn readFile(String, encoding? : String) -> @promise.Promise[String]
+fn readFile(String, encoding? : String) -> @js.Promise[String]
 
-fn readdir(String) -> @promise.Promise[Array[String]]
+fn readdir(String) -> @js.Promise[Array[String]]
 
-fn readlink(String) -> @promise.Promise[String]
+fn readlink(String) -> @js.Promise[String]
 
-fn realpath(String) -> @promise.Promise[String]
+fn realpath(String) -> @js.Promise[String]
 
-fn rename(String, String) -> @promise.Promise[Unit]
+fn rename(String, String) -> @js.Promise[Unit]
 
-fn rm(String, recursive? : Bool, force? : Bool) -> @promise.Promise[Unit]
+fn rm(String, recursive? : Bool, force? : Bool) -> @js.Promise[Unit]
 
-fn rmdir(String, recursive? : Bool) -> @promise.Promise[Unit]
+fn rmdir(String, recursive? : Bool) -> @js.Promise[Unit]
 
-fn stat(String) -> @promise.Promise[@fs.Stat]
+fn stat(String) -> @js.Promise[Stat]
 
-fn symlink(String, String, type_? : String) -> @promise.Promise[Unit]
+fn symlink(String, String, type_? : String) -> @js.Promise[Unit]
 
-fn truncate(String, len? : Int) -> @promise.Promise[Unit]
+fn truncate(String, len? : Int) -> @js.Promise[Unit]
 
-fn unlink(String) -> @promise.Promise[Unit]
+fn unlink(String) -> @js.Promise[Unit]
 
 #alias(write_file)
-fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js.AbortSignal) -> @promise.Promise[Unit]
+fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js.AbortSignal) -> @js.Promise[Unit]
 
 // Errors
 
@@ -69,6 +67,14 @@ impl @js.JsImpl for Dirent
 
 #external
 pub type FileHandle
+
+#external
+pub type Stat
+fn Stat::isDirectory(Self) -> Bool
+fn Stat::isFile(Self) -> Bool
+fn Stat::mtime_ms(Self) -> Float
+fn Stat::size(Self) -> Int
+impl @js.JsImpl for Stat
 
 // Type aliases
 

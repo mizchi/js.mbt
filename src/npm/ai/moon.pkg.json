@@ -1,9 +1,10 @@
 {
-  "supported-targets": ["js"],
+  "supported-targets": [
+    "js"
+  ],
   "import": [
     "mizchi/js",
     "mizchi/js/iterator",
-    "mizchi/js/promise",
     "mizchi/js/node"
   ],
   "warn-list": "-4-6-7"

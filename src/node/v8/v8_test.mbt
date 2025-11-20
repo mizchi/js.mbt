@@ -2,13 +2,10 @@
 /// Node.js v8 API Tests
 
 ///|
-using @js {unsafe_cast}
+using @js {unsafe_cast, run_async}
 
 ///|
 using @buffer {type Buffer}
-
-///|
-using @promise {run_async}
 
 ///|
 using @promises {rm}

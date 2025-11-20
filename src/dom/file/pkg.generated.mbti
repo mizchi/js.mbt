@@ -5,7 +5,6 @@ import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
   "mizchi/js/dom/blob"
-  "mizchi/js/promise"
 )
 
 // Values
@@ -16,7 +15,7 @@ import(
 #external
 pub type File
 #alias(arrayBuffer)
-fn File::array_buffer(Self) -> @promise.Promise[@arraybuffer.ArrayBuffer]
+fn File::array_buffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
 fn File::as_blob(Self) -> @blob.Blob
 #alias(content_type)
 fn File::contentType(Self) -> String
@@ -26,7 +25,7 @@ fn File::name(Self) -> String
 fn File::new(Array[&@js.JsImpl], String, content_type? : String, last_modified? : Int) -> Self
 fn File::size(Self) -> Int
 fn File::slice(Self, start? : Int, end? : Int) -> @blob.Blob
-fn File::text(Self) -> @promise.Promise[String]
+fn File::text(Self) -> @js.Promise[String]
 impl @js.JsImpl for File
 
 #external

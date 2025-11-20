@@ -53,13 +53,13 @@ pub fn[A, B] Promise::catch_(
   self : Self[A],
   f : (Error) -> Promise[B],
 ) -> Promise[B] {
-  self.call("catch", [@js.from_fn1(f)]) |> unsafe_cast
+  self.call("catch", [from_fn1(f)]) |> unsafe_cast
 }
 
 ///|
 /// JS: promise.finally(() => { ... })
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
-  self.call("finally", [@js.from_fn0(f)]) |> unsafe_cast
+  self.call("finally", [from_fn0(f)]) |> unsafe_cast
 }
 
 ///|
@@ -67,8 +67,8 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[T] Promise::unwrap(self : Self[T]) -> T {
   suspend((ok, err) => self
-    .call("then", [@js.from_fn1(ok)])
-    .call("catch", [@js.from_fn1(err)])
+    .call("then", [from_fn1(ok)])
+    .call("catch", [from_fn1(err)])
     |> ignore)
 }
 

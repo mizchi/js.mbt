@@ -60,7 +60,7 @@ test {
     let promise = @fs_promises.mkdir("\{test_dir}/sub", recursive=true)
       .then(fn(_) { @fs_promises.writeFile("\{test_dir}/sub/file.txt", "test") })
       .then(fn(_) { @fs_promises.rm(test_dir, recursive=true, force=true) })
-      .then(fn(_) { @promise.Promise::resolve(()) })
+      .then(fn(_) { Promise::resolve(()) })
     ignore(promise.unwrap())
   })
 }
@@ -149,7 +149,7 @@ test {
   it("realpath resolves path", _ => {
     let promise = @fs_promises.realpath(".").then(fn(real) {
       assert_true(real.length() > 0)
-      @promise.Promise::resolve(())
+      Promise::resolve(())
     })
     ignore(promise.unwrap())
   })
@@ -179,7 +179,7 @@ test {
     let test_dir = "test_async_rmdir"
     let promise = @fs_promises.mkdir(test_dir)
       .then(fn(_) { @fs_promises.rmdir(test_dir) })
-      .then(fn(_) { @promise.Promise::resolve(()) })
+      .then(fn(_) { Promise::resolve(()) })
     ignore(promise.unwrap())
   })
 }
@@ -311,7 +311,7 @@ test {
     let test_dir = "test_async_rmdir_recursive"
     let promise = @fs_promises.mkdir("\{test_dir}/sub", recursive=true)
       .then(fn(_) { @fs_promises.rmdir(test_dir, recursive=true) })
-      .then(fn(_) { @promise.Promise::resolve(()) })
+      .then(fn(_) { Promise::resolve(()) })
     ignore(promise.unwrap())
   })
 }

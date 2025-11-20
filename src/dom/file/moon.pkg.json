@@ -1,10 +1,11 @@
 {
-  "supported-targets": ["js"],
+  "supported-targets": [
+    "js"
+  ],
   "is_main": false,
   "import": [
     "mizchi/js",
     "mizchi/js/dom/blob",
-    "mizchi/js/promise",
     "mizchi/js/arraybuffer"
   ]
 }

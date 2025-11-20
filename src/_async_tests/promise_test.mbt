@@ -1,10 +1,19 @@
 ///|
 
 ///|
-using @js {type Js, unsafe_cast}
-
-///|
-using @promise {type Promise, sleep, run_async, promisify0, promisify1}
+using @js {
+  type Js,
+  unsafe_cast,
+  type Promise,
+  type Resolvers,
+  sleep,
+  run_async,
+  promisify0,
+  promisify1,
+  promisify2,
+  promisify3,
+  suspend,
+}
 
 ///|
 using @test {it}
@@ -17,12 +26,12 @@ using @test {it}
 ///|
 test {
   it("Promise::then", _ => {
-    let resolver : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
+    let resolver : Resolvers[Int] = Promise::withResolvers()
     run_async(() => {
       sleep(1)
       resolver.resolve(10)
     })
-    let p = resolver.promise.then(v => @promise.Promise::resolve(v * 2))
+    let p = resolver.promise.then(v => Promise::resolve(v * 2))
     let result = p.unwrap()
     assert_eq(result, 20)
   })
@@ -32,8 +41,8 @@ test {
 test {
   it("Promise::catch_", _ => {
     let err_val : Js = @js.unsafe_cast(@js.Object::new())
-    let p = @promise.Promise::reject(err_val)
-    let recovered = p.catch_(_ => @promise.Promise::resolve(42 |> @js.js))
+    let p = Promise::reject(err_val)
+    let recovered = p.catch_(_ => Promise::resolve(42 |> @js.js))
     let result : Js = recovered.unwrap()
     let v : Int = unsafe_cast(result)
     assert_eq(v, 42)
@@ -44,7 +53,7 @@ test {
 test {
   it("Promise::finally_", _ => {
     let mut finalized = false
-    let resolver : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
+    let resolver : Resolvers[Int] = Promise::withResolvers()
     run_async(() => {
       sleep(1)
       resolver.resolve(100)
@@ -59,10 +68,10 @@ test {
 ///|
 test {
   it("Promise::all", _ => {
-    let p1 = @promise.Promise::resolve(1)
-    let p2 = @promise.Promise::resolve(2)
-    let p3 = @promise.Promise::resolve(3)
-    let all = @promise.Promise::all([p1, p2, p3])
+    let p1 = Promise::resolve(1)
+    let p2 = Promise::resolve(2)
+    let p3 = Promise::resolve(3)
+    let all = Promise::all([p1, p2, p3])
     let results = all.unwrap()
     assert_eq(results[0], 1)
     assert_eq(results[1], 2)
@@ -73,8 +82,8 @@ test {
 ///|
 test {
   it("Promise::race", _ => {
-    let resolver1 : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
-    let resolver2 : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
+    let resolver1 : Resolvers[Int] = Promise::withResolvers()
+    let resolver2 : Resolvers[Int] = Promise::withResolvers()
     run_async(() => {
       sleep(1)
       resolver1.resolve(100)
@@ -83,7 +92,7 @@ test {
       sleep(10)
       resolver2.resolve(200)
     })
-    let race = @promise.Promise::race([resolver1.promise, resolver2.promise])
+    let race = Promise::race([resolver1.promise, resolver2.promise])
     let result = race.unwrap()
     assert_eq(result, 100)
   })
@@ -92,11 +101,10 @@ test {
 ///|
 test {
   it("Promise::new", _ => {
-    let p : @promise.Promise[Int] = @promise.Promise::new((resolve, _reject) => run_async(() => {
-        sleep(1)
-        resolve(42)
-      },
-    ))
+    let p : Promise[Int] = Promise::new((resolve, _reject) => run_async(() => {
+      sleep(1)
+      resolve(42)
+    }))
     let result = p.unwrap()
     assert_eq(result, 42)
   })
@@ -105,7 +113,7 @@ test {
 ///|
 test {
   it("Promise::try_ success", _ => {
-    let p = @promise.Promise::try_(async fn() { 123 })
+    let p = Promise::try_(async fn() { 123 })
     let result = p.unwrap()
     assert_eq(result, 123)
   })
@@ -114,9 +122,7 @@ test {
 ///|
 test {
   it("Promise::try_ failure", _ => {
-    let p : @promise.Promise[Unit] = @promise.Promise::try_(async fn() {
-      fail("error")
-    })
+    let p : Promise[Unit] = Promise::try_(async fn() { fail("error") })
     let result = try? p.unwrap()
     assert_true(result is Err(_))
   })
@@ -315,7 +321,7 @@ test {
 test {
   it("promisify0", _ => {
     let async_fn = async fn() { 42 }
-    let promise_fn = @promise.promisify0(async_fn)
+    let promise_fn = promisify0(async_fn)
     let p = promise_fn()
     let result = p.unwrap()
     assert_eq(result, 42)
@@ -326,7 +332,7 @@ test {
 test {
   it("promisify1", _ => {
     let async_fn = async fn(x : Int) { x * 2 }
-    let promise_fn = @promise.promisify1(async_fn)
+    let promise_fn = promisify1(async_fn)
     let p = promise_fn(21)
     let result = p.unwrap()
     assert_eq(result, 42)
@@ -337,7 +343,7 @@ test {
 test {
   it("promisify2", _ => {
     let async_fn = async fn(x : Int, y : Int) { x + y }
-    let promise_fn = @promise.promisify2(async_fn)
+    let promise_fn = promisify2(async_fn)
     let p = promise_fn(20, 22)
     let result = p.unwrap()
     assert_eq(result, 42)
@@ -348,7 +354,7 @@ test {
 test {
   it("promisify3", _ => {
     let async_fn = async fn(x : Int, y : Int, z : Int) { x + y + z }
-    let promise_fn = @promise.promisify3(async_fn)
+    let promise_fn = promisify3(async_fn)
     let p = promise_fn(10, 20, 12)
     let result = p.unwrap()
     assert_eq(result, 42)
@@ -358,7 +364,7 @@ test {
 ///|
 test {
   it("suspend with resolve", _ => run_async(() => try {
-    let value = @promise.suspend((ok, _err) => run_async(() => {
+    let value = suspend((ok, _err) => run_async(() => {
       sleep(5)
       ok(42)
     }))
@@ -371,11 +377,10 @@ test {
 ///|
 test {
   it("suspend with reject", _ => run_async(() => try {
-    let result : Result[Unit, Failure] = try? @promise.suspend((ok, err) => run_async(() => {
-        sleep(5)
-        err(Failure("test error"))
-      },
-    ))
+    let result : Result[Unit, Failure] = try? suspend((ok, err) => run_async(() => {
+      sleep(5)
+      err(Failure("test error"))
+    }))
     assert_true(result is Err(_))
   } catch {
     _ => ()
@@ -385,15 +390,15 @@ test {
 ///|
 test {
   it("Promise chain", _ => {
-    let resolver : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
+    let resolver : Resolvers[Int] = Promise::withResolvers()
     run_async(() => {
       sleep(1)
       resolver.resolve(1)
     })
     let p = resolver.promise
-      .then(v => @promise.Promise::resolve(v + 1))
-      .then(v => @promise.Promise::resolve(v * 2))
-      .then(v => @promise.Promise::resolve(v + 10))
+      .then(v => Promise::resolve(v + 1))
+      .then(v => Promise::resolve(v * 2))
+      .then(v => Promise::resolve(v + 10))
     let result = p.unwrap()
     assert_eq(result, 14)
   })
@@ -402,9 +407,9 @@ test {
 ///|
 test {
   it("Promise::resolve with different types", _ => {
-    let p1 = @promise.Promise::resolve(42)
-    let p2 = @promise.Promise::resolve("hello")
-    let p3 = @promise.Promise::resolve(true)
+    let p1 = Promise::resolve(42)
+    let p2 = Promise::resolve("hello")
+    let p3 = Promise::resolve(true)
     assert_eq(p1.unwrap(), 42)
     assert_eq(p2.unwrap(), "hello")
     assert_eq(p3.unwrap(), true)
@@ -414,7 +419,7 @@ test {
 ///|
 test {
   it("Promise::all with empty array", _ => {
-    let all : @promise.Promise[Array[Int]] = @promise.Promise::all([])
+    let all : Promise[Array[Int]] = Promise::all([])
     let results = all.unwrap()
     assert_eq(results.length(), 0)
   })
@@ -423,8 +428,8 @@ test {
 ///|
 test {
   it("Promise::race with single promise", _ => {
-    let p = @promise.Promise::resolve(100)
-    let race = @promise.Promise::race([p])
+    let p = Promise::resolve(100)
+    let race = Promise::race([p])
     let result = race.unwrap()
     assert_eq(result, 100)
   })
@@ -433,13 +438,13 @@ test {
 ///|
 test {
   it("nested promises", _ => {
-    let resolver : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
+    let resolver : Resolvers[Int] = Promise::withResolvers()
     run_async(() => {
       sleep(1)
       resolver.resolve(10)
     })
     let p1 = resolver.promise.then(v => {
-      let inner_resolver : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
+      let inner_resolver : Resolvers[Int] = Promise::withResolvers()
       run_async(() => {
         sleep(1)
         inner_resolver.resolve(v * 2)
@@ -454,9 +459,9 @@ test {
 ///|
 test {
   it("Promise::all with mixed resolution times", _ => {
-    let resolver1 : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
-    let resolver2 : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
-    let resolver3 : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
+    let resolver1 : Resolvers[Int] = Promise::withResolvers()
+    let resolver2 : Resolvers[Int] = Promise::withResolvers()
+    let resolver3 : Resolvers[Int] = Promise::withResolvers()
     run_async(() => {
       sleep(10)
       resolver1.resolve(1)
@@ -469,7 +474,7 @@ test {
       sleep(15)
       resolver3.resolve(3)
     })
-    let all = @promise.Promise::all([
+    let all = Promise::all([
       resolver1.promise,
       resolver2.promise,
       resolver3.promise,
@@ -484,7 +489,7 @@ test {
 ///|
 test {
   it("Promise::withResolvers multiple resolve calls", _ => {
-    let resolver : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
+    let resolver : Resolvers[Int] = Promise::withResolvers()
     run_async(() => {
       resolver.resolve(1)
       resolver.resolve(2) // second call should be ignored
@@ -498,11 +503,11 @@ test {
 test {
   it("Promise chain with error recovery", _ => {
     let err_val : Js = @js.unsafe_cast(@js.Object::new())
-    let p = @promise.Promise::reject(err_val)
-      .catch_(_ => @promise.Promise::resolve(10 |> @js.js))
+    let p = Promise::reject(err_val)
+      .catch_(_ => Promise::resolve(10 |> @js.js))
       .then(v => {
         let i : Int = unsafe_cast(v)
-        @promise.Promise::resolve(i * 2)
+        Promise::resolve(i * 2)
       })
     let result = p.unwrap()
     assert_eq(result, 20)

@@ -87,19 +87,19 @@ pub fn Deno::build_arch(self : Deno) -> String {
 
 ///|
 /// Read all data from stdin
-pub fn Deno::stdin_read(self : Deno) -> @promise.Promise[Js] {
+pub fn Deno::stdin_read(self : Deno) -> Promise[Js] {
   self.get("stdin").call("read", []) |> @js.unsafe_cast
 }
 
 ///|
 /// Write to stdout
-pub fn Deno::stdout_write(self : Deno, data : Js) -> @promise.Promise[Int] {
+pub fn Deno::stdout_write(self : Deno, data : Js) -> Promise[Int] {
   self.get("stdout").call("write", [data]) |> @js.unsafe_cast
 }
 
 ///|
 /// Write to stderr
-pub fn Deno::stderr_write(self : Deno, data : Js) -> @promise.Promise[Int] {
+pub fn Deno::stderr_write(self : Deno, data : Js) -> Promise[Int] {
   self.get("stderr").call("write", [data]) |> @js.unsafe_cast
 }
 
@@ -107,10 +107,7 @@ pub fn Deno::stderr_write(self : Deno, data : Js) -> @promise.Promise[Int] {
 
 ///|
 /// Read text file
-pub fn Deno::readTextFile(
-  self : Deno,
-  path : String,
-) -> @promise.Promise[String] {
+pub fn Deno::readTextFile(self : Deno, path : String) -> Promise[String] {
   self.call("readTextFile", [@js.js(path)]) |> @js.unsafe_cast
 }
 
@@ -120,23 +117,19 @@ pub fn Deno::writeTextFile(
   self : Deno,
   path : String,
   data : String,
-) -> @promise.Promise[Unit] {
+) -> Promise[Unit] {
   self.call("writeTextFile", [@js.js(path), @js.js(data)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Read file as Uint8Array
-pub fn Deno::readFile(self : Deno, path : String) -> @promise.Promise[Js] {
+pub fn Deno::readFile(self : Deno, path : String) -> Promise[Js] {
   self.call("readFile", [@js.js(path)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Write file from Uint8Array
-pub fn Deno::writeFile(
-  self : Deno,
-  path : String,
-  data : Js,
-) -> @promise.Promise[Unit] {
+pub fn Deno::writeFile(self : Deno, path : String, data : Js) -> Promise[Unit] {
   self.call("writeFile", [@js.js(path), data]) |> @js.unsafe_cast
 }
 
@@ -146,7 +139,7 @@ pub fn Deno::remove(
   self : Deno,
   path : String,
   recursive? : Bool,
-) -> @promise.Promise[Unit] {
+) -> Promise[Unit] {
   match recursive {
     Some(r) => {
       let opts = @js.Object::new()
@@ -163,7 +156,7 @@ pub fn Deno::mkdir(
   self : Deno,
   path : String,
   recursive? : Bool,
-) -> @promise.Promise[Unit] {
+) -> Promise[Unit] {
   match recursive {
     Some(r) => {
       let opts = @js.Object::new()
@@ -186,35 +179,31 @@ pub fn Deno::rename(
   self : Deno,
   oldpath : String,
   newpath : String,
-) -> @promise.Promise[Unit] {
+) -> Promise[Unit] {
   self.call("rename", [@js.js(oldpath), @js.js(newpath)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Copy file
-pub fn Deno::copyFile(
-  self : Deno,
-  from : String,
-  to : String,
-) -> @promise.Promise[Unit] {
+pub fn Deno::copyFile(self : Deno, from : String, to : String) -> Promise[Unit] {
   self.call("copyFile", [@js.js(from), @js.js(to)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Check if path exists
-pub fn Deno::stat(self : Deno, path : String) -> @promise.Promise[Js] {
+pub fn Deno::stat(self : Deno, path : String) -> Promise[Js] {
   self.call("stat", [@js.js(path)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Check if path exists (returns null if not found instead of throwing)
-pub fn Deno::lstat(self : Deno, path : String) -> @promise.Promise[Js] {
+pub fn Deno::lstat(self : Deno, path : String) -> Promise[Js] {
   self.call("lstat", [@js.js(path)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Read link target
-pub fn Deno::readLink(self : Deno, path : String) -> @promise.Promise[String] {
+pub fn Deno::readLink(self : Deno, path : String) -> Promise[String] {
   self.call("readLink", [@js.js(path)]) |> @js.unsafe_cast
 }
 
@@ -224,42 +213,31 @@ pub fn Deno::symlink(
   self : Deno,
   target : String,
   path : String,
-) -> @promise.Promise[Unit] {
+) -> Promise[Unit] {
   self.call("symlink", [@js.js(target), @js.js(path)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Change file permissions (Unix only)
-pub fn Deno::chmod(
-  self : Deno,
-  path : String,
-  mode : Int,
-) -> @promise.Promise[Unit] {
+pub fn Deno::chmod(self : Deno, path : String, mode : Int) -> Promise[Unit] {
   self.call("chmod", [@js.js(path), @js.js(mode)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Get real path (resolves symlinks)
-pub fn Deno::realPath(self : Deno, path : String) -> @promise.Promise[String] {
+pub fn Deno::realPath(self : Deno, path : String) -> Promise[String] {
   self.call("realPath", [@js.js(path)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Truncate or extend a file to specified length
-pub fn Deno::truncate(
-  self : Deno,
-  name : String,
-  len : Int,
-) -> @promise.Promise[Unit] {
+pub fn Deno::truncate(self : Deno, name : String, len : Int) -> Promise[Unit] {
   self.call("truncate", [@js.js(name), @js.js(len)]) |> @js.unsafe_cast
 }
 
 ///|
 /// Make temporary directory
-pub fn Deno::makeTempDir(
-  self : Deno,
-  prefix? : String,
-) -> @promise.Promise[String] {
+pub fn Deno::makeTempDir(self : Deno, prefix? : String) -> Promise[String] {
   match prefix {
     Some(p) => {
       let opts = @js.Object::new()
@@ -272,10 +250,7 @@ pub fn Deno::makeTempDir(
 
 ///|
 /// Make temporary file
-pub fn Deno::makeTempFile(
-  self : Deno,
-  prefix? : String,
-) -> @promise.Promise[String] {
+pub fn Deno::makeTempFile(self : Deno, prefix? : String) -> Promise[String] {
   match prefix {
     Some(p) => {
       let opts = @js.Object::new()
@@ -338,11 +313,7 @@ pub fn Deno::gid(self : Deno) -> Int? {
 
 ///|
 /// Open a network connection (TCP)
-pub fn Deno::connect(
-  self : Self,
-  hostname : String,
-  port : Int,
-) -> @promise.Promise[Js] {
+pub fn Deno::connect(self : Self, hostname : String, port : Int) -> Promise[Js] {
   let opts = @js.Object::new()
   opts.set("hostname", hostname)
   opts.set("port", port)
@@ -364,7 +335,7 @@ pub fn Deno::resolveDns(
   self : Deno,
   query : String,
   recordType : String,
-) -> @promise.Promise[Js] {
+) -> Promise[Js] {
   self.call("resolveDns", [@js.js(query), @js.js(recordType)])
   |> @js.unsafe_cast
 }
@@ -384,10 +355,7 @@ pub fn Deno::serve(self : Deno, port : Int, handler : Js) -> Js {
 
 ///|
 /// Request permission
-pub fn Deno::request_permission(
-  self : Self,
-  name : String,
-) -> @promise.Promise[Js] {
+pub fn Deno::request_permission(self : Self, name : String) -> Promise[Js] {
   let desc = @js.Object::new()
   desc.set("name", name)
   self.get("permissions").call("request", [desc]) |> @js.unsafe_cast
@@ -395,10 +363,7 @@ pub fn Deno::request_permission(
 
 ///|
 /// Query permission status
-pub fn Deno::query_permission(
-  self : Deno,
-  name : String,
-) -> @promise.Promise[Js] {
+pub fn Deno::query_permission(self : Deno, name : String) -> Promise[Js] {
   let desc = @js.Object::new()
   desc.set("name", name)
   self.get("permissions").call("query", [desc]) |> @js.unsafe_cast
@@ -406,10 +371,7 @@ pub fn Deno::query_permission(
 
 ///|
 /// Revoke permission
-pub fn Deno::revoke_permission(
-  self : Deno,
-  name : String,
-) -> @promise.Promise[Js] {
+pub fn Deno::revoke_permission(self : Deno, name : String) -> Promise[Js] {
   let desc = @js.Object::new()
   desc.set("name", name)
   self.get("permissions").call("revoke", [desc]) |> @js.unsafe_cast
@@ -439,7 +401,7 @@ pub fn Deno::open(
   create? : Bool,
   write? : Bool,
   read? : Bool,
-) -> @promise.Promise[FsFile] {
+) -> Promise[FsFile] {
   let opts = @js.Object::new()
   match create {
     Some(c) => opts.set("create", c)
@@ -458,7 +420,7 @@ pub fn Deno::open(
 
 ///|
 /// Create a file
-pub fn Deno::create(self : Deno, path : String) -> @promise.Promise[FsFile] {
+pub fn Deno::create(self : Deno, path : String) -> Promise[FsFile] {
   self.call("create", [@js.js(path)]) |> @js.unsafe_cast
 }
 
@@ -470,23 +432,19 @@ pub fn FsFile::close(self : FsFile) -> Unit {
 
 ///|
 /// Read from file
-pub fn FsFile::read(self : FsFile, buffer : Js) -> @promise.Promise[Int] {
+pub fn FsFile::read(self : FsFile, buffer : Js) -> Promise[Int] {
   self.call("read", [buffer]) |> @js.unsafe_cast
 }
 
 ///|
 /// Write to file
-pub fn FsFile::write(self : FsFile, data : Js) -> @promise.Promise[Int] {
+pub fn FsFile::write(self : FsFile, data : Js) -> Promise[Int] {
   self.call("write", [data]) |> @js.unsafe_cast
 }
 
 ///|
 /// Seek file position
-pub fn FsFile::seek(
-  self : FsFile,
-  offset : Int,
-  whence : Int,
-) -> @promise.Promise[Int] {
+pub fn FsFile::seek(self : FsFile, offset : Int, whence : Int) -> Promise[Int] {
   self.call("seek", [@js.js(offset), @js.js(whence)]) |> @js.unsafe_cast
 }
 
@@ -516,8 +474,7 @@ pub fn Deno::test_async(
   name : String,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  self.call("test", [@js.js(name), @promise.promisify1(f) |> @js.from_fn1])
-  |> ignore
+  self.call("test", [@js.js(name), promisify1(f) |> @js.from_fn1]) |> ignore
 }
 
 ///|
@@ -530,6 +487,6 @@ pub fn Deno::test_only(
   let opts : @js.Object = @js.Object::new()
   opts.set("name", name)
   opts.set("only", true)
-  opts.set("fn", @promise.promisify1(f) |> @js.from_fn1)
+  opts.set("fn", promisify1(f) |> @js.from_fn1)
   self.call("test", [opts.to_js()]) |> ignore
 }

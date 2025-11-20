@@ -1,5 +1,5 @@
 ///|
-using @js {log}
+using @js {log, promisify3}
 
 ///|
 using @http {type Request, type Response, fetch, fetch_request, new_response}
@@ -86,5 +86,5 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
       Response::json_with_error("Route not found", 404)
     }
   }
-  @promise.promisify3(async_handler)
+  promisify3(async_handler)
 }

@@ -80,6 +80,16 @@ fn null_() -> Js
 
 fn[T : JsImpl] option_js(T) -> Js?
 
+fn[R] promisify0(async () -> R) -> () -> Promise[R]
+
+fn[A, R] promisify1(async (A) -> R) -> (A) -> Promise[R]
+
+fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> Promise[R]
+
+fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
+
+fn run_async(async () -> Unit noraise) -> Unit
+
 #alias(set_interval)
 fn setInterval(() -> Unit, Int) -> JsTimer
 
@@ -88,7 +98,11 @@ fn setTimeout(() -> Unit, Int) -> JsTimer
 
 fn[O : JsImpl, V : JsImpl] set_if_exists(O, &PropertyKey, V?) -> Unit
 
+async fn sleep(Int) -> Unit noraise
+
 fn structured_clone(Js) -> Js
+
+async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 
 fn symbol(String) -> Symbol
 
@@ -232,6 +246,36 @@ fn Object::seal(&JsImpl) -> Js
 fn Object::to_string(Self) -> String
 fn Object::values(&JsImpl) -> Array[Js]
 impl JsImpl for Object
+
+#external
+pub type Promise[T]
+fn[A] Promise::all(Array[Self[A]]) -> Self[Array[A]]
+fn[A] Promise::allSettled(Array[Self[A]]) -> Self[Array[SettledResult[A]]]
+fn[T] Promise::any(Array[Self[T]]) -> Self[T]
+fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
+fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
+fn[A] Promise::new(((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
+fn[T] Promise::race(Array[Self[T]]) -> Self[T]
+fn Promise::reject(Js) -> Self[Js]
+fn[A] Promise::resolve(A) -> Self[A]
+fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
+fn[R] Promise::try_(async () -> R) -> Self[R]
+async fn[T] Promise::unwrap(Self[T]) -> T
+fn[T] Promise::withResolvers() -> Resolvers[T]
+
+pub(all) struct Resolvers[T] {
+  promise : Promise[T]
+  resolve : (T) -> Unit
+  reject : (Error) -> Unit
+}
+fn[T] Resolvers::reject(Self[T], Error) -> Unit
+fn[T] Resolvers::resolve(Self[T], T) -> Unit
+
+pub(all) struct SettledResult[T] {
+  status : String
+  value : T?
+  reason : Js?
+}
 
 #external
 pub type Symbol

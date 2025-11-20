@@ -2,7 +2,6 @@
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/promise",
     "mizchi/js/crypto",
     "mizchi/js/iterator",
     "mizchi/js/stream",

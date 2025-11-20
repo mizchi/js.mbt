@@ -1,8 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, unsafe_cast}
-
-///|
-using @promise {type Promise}
+using @js {type Js, trait JsImpl, unsafe_cast, type Promise}
 
 ///|
 using @stream {type ReadableStream}

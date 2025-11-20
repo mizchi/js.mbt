@@ -3,7 +3,7 @@ test {
   it("setTimeout", _ => {
     let mut executed = false
     let _timer = @js.setTimeout(() => executed = true, 10)
-    @promise.sleep(20)
+    sleep(20)
     assert_true(executed)
   })
 }
@@ -14,7 +14,7 @@ test {
     let mut executed = false
     let timer = @js.setTimeout(() => executed = true, 10)
     @js.clearTimeout(timer)
-    @promise.sleep(20)
+    sleep(20)
     assert_false(executed)
   })
 }
@@ -57,7 +57,7 @@ test {
   it("setTimeout with zero delay", _ => {
     let mut executed = false
     let _ = @js.setTimeout(() => executed = true, 0)
-    @promise.sleep(1)
+    sleep(1)
     assert_true(executed)
   })
 }
@@ -69,7 +69,7 @@ test {
     let _ = @js.setTimeout(() => order.push(1), 10)
     let _ = @js.setTimeout(() => order.push(2), 5)
     let _ = @js.setTimeout(() => order.push(3), 15)
-    @promise.sleep(25)
+    sleep(25)
     assert_eq(order.length(), 3)
     assert_eq(order[0], 2) // 5ms
     assert_eq(order[1], 1) // 10ms
@@ -112,7 +112,7 @@ test {
       () => if not(first_execution) { first_execution = true },
       5,
     )
-    @promise.sleep(10)
+    sleep(10)
     @js.clearInterval(timer)
     assert_true(first_execution)
   })

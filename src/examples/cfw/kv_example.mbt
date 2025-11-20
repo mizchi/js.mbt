@@ -167,5 +167,5 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       kv_json_response(help, 200)
     }
   }
-  @promise.promisify3(async_handler)
+  promisify3(async_handler)
 }

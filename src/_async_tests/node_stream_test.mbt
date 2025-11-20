@@ -231,7 +231,7 @@ test {
 ///|
 test {
   it("async pipeline with Promise", _ => {
-    let resolver : @promise.Resolvers[Bool] = @promise.Promise::withResolvers()
+    let resolver : Resolvers[Bool] = Promise::withResolvers()
     run_async(fn() {
       let readable = create_readable_from_string("async test")
       let transform = create_transform_uppercase()

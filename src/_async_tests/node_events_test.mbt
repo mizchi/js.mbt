@@ -107,9 +107,9 @@ test {
 ///|
 test {
   it("multiple promises concurrent", _ => {
-    let resolver1 : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
-    let resolver2 : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
-    let resolver3 : @promise.Resolvers[Int] = @promise.Promise::withResolvers()
+    let resolver1 : Resolvers[Int] = Promise::withResolvers()
+    let resolver2 : Resolvers[Int] = Promise::withResolvers()
+    let resolver3 : Resolvers[Int] = Promise::withResolvers()
     run_async(() => {
       sleep(5)
       resolver1.resolve(1)
@@ -134,7 +134,7 @@ test {
   it("timer and promise coordination", _ => {
     let mut timer_fired = false
     let mut promise_resolved = false
-    let resolver : @promise.Resolvers[Unit] = @promise.Promise::withResolvers()
+    let resolver : Resolvers[Unit] = Promise::withResolvers()
     let _ = @js.setTimeout(
       () => {
         timer_fired = true

@@ -1,7 +1,7 @@
 // WIP
 
 ///|
-using @js {type Js, trait JsImpl, js, unsafe_cast}
+using @js {type Js, type Promise, trait JsImpl, js, unsafe_cast, run_async}
 
 ///|
 pub(all) enum MessageContent {
@@ -60,7 +60,7 @@ pub fn Ai::generate_text(
   model~ : Model,
   messages~ : Array[ModelMessage],
   // prompt?: String
-) -> @promise.Promise[Js] {
+) -> Promise[Js] {
   unsafe_cast(
     self
     .to_js()
@@ -84,7 +84,7 @@ test "ai" {
     .call_self(["claude-sonnet-4-20250514"]),
   )
   let messages : Array[ModelMessage] = [UserMessage(content=Message("hello"))]
-  @promise.run_async(() => try {
+  run_async(() => try {
     let result = ai.generate_text(model~, messages~).unwrap()
     @js.log(result)
   } catch {

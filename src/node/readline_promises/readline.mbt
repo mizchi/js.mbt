@@ -1,8 +1,5 @@
 ///|
-using @js {trait JsImpl, type Js, unsafe_cast, type AbortSignal}
-
-///|
-using @promise {type Promise}
+using @js {trait JsImpl, type Js, type Promise, unsafe_cast, type AbortSignal}
 
 ///|
 using @events {trait EventEmitterImpl}

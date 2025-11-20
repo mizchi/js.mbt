@@ -8,7 +8,7 @@
     "mizchi/js/node/buffer"
   ],
   "test-import": [
-    "mizchi/js/promise",
+    "mizchi/js",
     {
       "path": "mizchi/js/node/fs_promises",
       "alias": "promises"

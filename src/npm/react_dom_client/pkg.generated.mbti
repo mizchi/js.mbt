@@ -5,11 +5,10 @@ import(
   "mizchi/js"
   "mizchi/js/dom"
   "mizchi/js/npm/react"
-  "mizchi/js/promise"
 )
 
 // Values
-fn import_react_dom_client() -> @promise.Promise[ReactDOMClient]
+fn import_react_dom_client() -> @js.Promise[ReactDOMClient]
 
 // Errors
 

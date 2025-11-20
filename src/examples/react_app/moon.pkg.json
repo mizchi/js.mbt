@@ -1,9 +1,10 @@
 {
-  "supported-targets": ["js"],
+  "supported-targets": [
+    "js"
+  ],
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/promise",
     "mizchi/js/dom",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react/element",

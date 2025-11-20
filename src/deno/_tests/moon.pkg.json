@@ -1,10 +1,11 @@
 {
   "is-main": true,
-  "supported-targets": ["js"],
+  "supported-targets": [
+    "js"
+  ],
   "import": [
     "mizchi/js",
     "mizchi/js/arraybuffer",
-    "mizchi/js/promise",
     "mizchi/js/deno"
   ]
 }
