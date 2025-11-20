@@ -339,7 +339,7 @@ pub fn Deno::gid(self : Deno) -> Int? {
 ///|
 /// Open a network connection (TCP)
 pub fn Deno::connect(
-  self : Deno,
+  self : Self,
   hostname : String,
   port : Int,
 ) -> @promise.Promise[Js] {
@@ -385,7 +385,7 @@ pub fn Deno::serve(self : Deno, port : Int, handler : Js) -> Js {
 ///|
 /// Request permission
 pub fn Deno::request_permission(
-  self : Deno,
+  self : Self,
   name : String,
 ) -> @promise.Promise[Js] {
   let desc = @js.Object::new()
@@ -531,6 +531,5 @@ pub fn Deno::test_only(
   opts.set("name", name)
   opts.set("only", true)
   opts.set("fn", @promise.promisify1(f) |> @js.from_fn1)
-  let test_fn = self.get("test")
-  test_fn.call_self([opts.to_js()]) |> ignore
+  self.call("test", [opts.to_js()]) |> ignore
 }

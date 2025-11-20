@@ -1,7 +1,8 @@
 {
   "scripts": {
+    "dev:spa": "pnpm vite dev",
     "dev:cloudflare": "wrangler dev fixtures/cf-worker.js",
-    "test:cloudflare": "vitest run test/cloudflare e2e/cloudflare/moonbit-*.test.ts"
+    "test:cloudflare": "moon build && vitest run e2e/cloudflare/moonbit-*.test.ts"
   },
   "devDependencies": {
     "@ai-sdk/anthropic": "2.0.43",

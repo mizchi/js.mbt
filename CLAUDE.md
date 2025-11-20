@@ -57,5 +57,5 @@ This is a [MoonBit](https://docs.moonbitlang.com) project.
 moon test
 moon build
 pnpm test:cloudflare
-deno test -A target/js/release/build/deno/_tests/_tests.js
+deno test -A
 ```
