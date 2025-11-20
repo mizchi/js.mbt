@@ -1,5 +1,0 @@
-{
-  "supported-targets": ["js"],
-  "is-main": true,
-  "warn-list": "-1-6-12-13-19-28"
-}
