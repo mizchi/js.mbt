@@ -1,3 +1,10 @@
 {
-  "import": ["mizchi/js"]
+  "import": [
+    "mizchi/js",
+    "mizchi/js/promise",
+    "mizchi/js/node/path",
+    "mizchi/js/node/os",
+    "mizchi/js/node/fs",
+    "mizchi/js/node/fs_promises"
+  ]
 }
