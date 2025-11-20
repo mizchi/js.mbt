@@ -1,6 +1,8 @@
 # Escape Hatch: Working with Missing APIs
 
-This library is still evolving. If you encounter missing APIs, you can directly use the `Val` type and the `Js` trait methods to interact with any JavaScript API.
+This library is still evolving. If you encounter missing APIs, you can directly use the `Js` type and the `JsImpl` trait methods to interact with any JavaScript API.
+
+> **See also**: [Executable escape hatch examples](../src/examples/escape_hatch.mbt.md) - Runnable test cases demonstrating these patterns.
 
 ## Why You Might Need This
 

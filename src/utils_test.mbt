@@ -58,15 +58,15 @@ test "set_if_exists" {
 test "option_js returns None for nullish values" {
   let obj = @js.Object::new()
   let result = option_js(obj)
-  assert_false(result.is_empty())
+  assert_false(result is None)
 
   // Test with null/undefined values
   let null_obj : @js.Object = @js.unsafe_cast(@js.null_())
   let null_result = option_js(null_obj)
-  assert_true(null_result.is_empty())
+  assert_true(null_result is None)
   let undef_obj : @js.Object = @js.unsafe_cast(@js.undefined())
   let undef_result = option_js(undef_obj)
-  assert_true(undef_result.is_empty())
+  assert_true(undef_result is None)
 }
 
 ///|
