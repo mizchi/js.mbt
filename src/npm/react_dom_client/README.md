@@ -16,7 +16,7 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/promise",
+    "mizchi/js",
     "mizchi/js/dom",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react_dom_client"

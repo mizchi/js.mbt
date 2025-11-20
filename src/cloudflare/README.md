@@ -14,7 +14,7 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/promise",
+    "mizchi/js",
     "mizchi/js/url",
     "mizchi/js/http",
     "mizchi/js/worker",

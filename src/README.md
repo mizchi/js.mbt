@@ -12,7 +12,7 @@
     - `WeakSet`
     - `WeakRef`
     - `FinalizationRegistry`
-- `mizchi/js/promise` : async bindings with Moonbit async
+- `mizchi/js` : async bindings with Moonbit async
   - `Promise`
   - Moonbit async helpers: `run_async`, `suspend`, `sleep`, `promisify0`
 - `mizchi/js/arraybuffer`
