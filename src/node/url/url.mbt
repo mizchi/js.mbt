@@ -4,11 +4,13 @@
 pub fn fileURLToPath(url : String, windows? : Bool) -> String {
   let url_module = @node.require("node:url")
   match windows {
-    Some(w) => {
-      let options = @js.Object::new()
-      options.set("windows", w)
-      unsafe_cast(url_module.call("fileURLToPath", [url, options]))
-    }
+    Some(w) =>
+      unsafe_cast(
+        url_module.call("fileURLToPath", [
+          url,
+          @js.from_entries_option_cast([("windows", Some(w))]),
+        ]),
+      )
     None => unsafe_cast(url_module.call("fileURLToPath", [url]))
   }
 }
@@ -19,11 +21,13 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
 pub fn fileURLToPathFromURL(url : URL, windows? : Bool) -> String {
   let url_module = @node.require("node:url")
   match windows {
-    Some(w) => {
-      let options = @js.Object::new()
-      options.set("windows", w)
-      unsafe_cast(url_module.call("fileURLToPath", [url, options]))
-    }
+    Some(w) =>
+      unsafe_cast(
+        url_module.call("fileURLToPath", [
+          url,
+          @js.from_entries_option_cast([("windows", Some(w))]),
+        ]),
+      )
     None => unsafe_cast(url_module.call("fileURLToPath", [url]))
   }
 }

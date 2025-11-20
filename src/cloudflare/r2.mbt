@@ -422,8 +422,5 @@ pub(all) struct R2UploadedPart {
 
 ///|
 pub impl JsImpl for R2UploadedPart with to_js(self) {
-  let obj = @js.Object::new()
-  obj.set("partNumber", self.partNumber)
-  obj.set("etag", self.etag)
-  obj.to_js()
+  @js.from_entries([("partNumber", self.partNumber), ("etag", self.etag)])
 }
