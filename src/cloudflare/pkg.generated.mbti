@@ -306,7 +306,7 @@ pub(all) struct R2ListOptions {
   cursor : String?
   delimiter : String?
   startAfter : String?
-  include : Array[String]?
+  include_ : Array[String]?
 }
 impl @js.JsImpl for R2ListOptions
 

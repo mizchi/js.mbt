@@ -282,7 +282,7 @@ pub(all) struct R2ListOptions {
   cursor : String?
   delimiter : String?
   startAfter : String?
-  include : Array[String]?
+  include_ : Array[String]?
 }
 
 ///|
@@ -308,7 +308,7 @@ pub impl JsImpl for R2ListOptions with to_js(self) {
     Some(s) => obj.set("startAfter", s)
     None => ()
   }
-  match self.include {
+  match self.include_ {
     Some(inc) => {
       let arr = @js.JsArray::new()
       let mut i = 0

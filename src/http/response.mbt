@@ -72,34 +72,99 @@ pub fn Response::body(self : Self) -> @stream.ReadableStream? {
 }
 
 ///|
-/// Helper function to create response with content type
-pub fn Response::with_content_type(
-  body : String,
-  status : Int,
-  content_type : String,
-) -> Response {
-  let headers = @js.Object::new()
-  headers.set("Content-Type", content_type)
-  let options = @js.Object::new()
-  options.set("status", status)
-  options.set("headers", headers.to_js())
-  new_response(body~, options=options.to_js())
-}
-
-///|
-/// Create a JSON response
-pub fn Response::json_response(body : String, status : Int) -> Response {
-  Response::with_content_type(body, status, "application/json")
-}
+/// Create an HTML response
+pub extern "js" fn Response::html(body : String, status : Int) -> Response =
+  #| (body, status) => new Response(body, { status, headers: { "Content-Type": "text/html" } })
 
 ///|
 /// Create a text response
-pub fn Response::text_response(body : String, status : Int) -> Response {
-  Response::with_content_type(body, status, "text/plain")
-}
+pub extern "js" fn Response::text_(body : String, status : Int) -> Response =
+  #| (body, status) => new Response(body, { status, headers: { "Content-Type": "text/plain" } })
 
 ///|
-/// Create an HTML response
-pub fn Response::html_response(body : String, status : Int) -> Response {
-  Response::with_content_type(body, status, "text/html")
-}
+/// Create a JSON response with message
+pub extern "js" fn Response::json_with_message(
+  message : String,
+  status : Int,
+) -> Response =
+  #| (message, status) => Response.json({ message }, { status })
+
+///|
+/// Create a JSON response with url
+pub extern "js" fn Response::json_with_url(
+  url : String,
+  status : Int,
+) -> Response =
+  #| (url, status) => Response.json({ url }, { status })
+
+///|
+/// Create a JSON response with error
+pub extern "js" fn Response::json_with_error(
+  error : String,
+  status : Int,
+) -> Response =
+  #| (error, status) => Response.json({ error }, { status })
+
+///|
+/// Create a JSON response with greeting
+pub extern "js" fn Response::json_with_greeting(
+  greeting : String,
+  status : Int,
+) -> Response =
+  #| (greeting, status) => Response.json({ greeting }, { status })
+
+///|
+/// Create a JSON response with timestamp
+pub extern "js" fn Response::json_with_timestamp(
+  timestamp : Int,
+  status : Int,
+) -> Response =
+  #| (timestamp, status) => Response.json({ timestamp }, { status })
+
+///|
+/// Create a JSON response with user agent
+pub extern "js" fn Response::json_with_user_agent(
+  userAgent : String,
+  status : Int,
+) -> Response =
+  #| (userAgent, status) => Response.json({ userAgent }, { status })
+
+///|
+/// Create a JSON response with method
+pub extern "js" fn Response::json_with_method(
+  method_ : String,
+  status : Int,
+) -> Response =
+  #| (method_, status) => Response.json({ method: method_ }, { status })
+
+///|
+/// Create a JSON response with health status
+pub extern "js" fn Response::json_with_health(
+  status_str : String,
+  service : String,
+  status : Int,
+) -> Response =
+  #| (status_str, service, status) => Response.json({ status: status_str, service }, { status })
+
+///|
+/// Create a JSON response with result
+pub extern "js" fn Response::json_with_result(
+  result : String,
+  status : Int,
+) -> Response =
+  #| (result, status) => Response.json({ result }, { status })
+
+///|
+/// Create a response with custom headers
+pub extern "js" fn Response::with_custom_headers(
+  body : String,
+  status : Int,
+  customHeader : String,
+  poweredBy : String,
+) -> Response =
+  #| (body, status, customHeader, poweredBy) => new Response(body, { status, headers: { "Content-Type": "application/json", "X-Custom-Header": customHeader, "X-Powered-By": poweredBy } })
+
+///|
+/// Create a complex JSON response
+pub extern "js" fn Response::json_complex() -> Response =
+  #| () => Response.json({ status: "ok", data: { foo: "bar", num: 42 }, timestamp: 1234567890 }, { status: 200 })
