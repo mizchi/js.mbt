@@ -194,10 +194,6 @@ extern "js" fn ffi_console_log(values : Array[Js]) -> Unit =
 extern "js" fn ffi_dynamic_import(module_name : String) -> Js =
   #| (module_name) => import(module_name)
 
-///|
-pub extern "js" fn structured_clone(value : Js) -> Js =
-  #| (value) => structuredClone(value)
-
 ///| String and Encoding
 
 ///|
@@ -261,3 +257,7 @@ extern "js" fn ffi_set_timeout(
 ///|
 extern "js" fn ffi_clear_timeout(timer : JsTimer) -> Unit =
   #| (timer) => clearTimeout(timer)
+
+///|
+pub extern "js" fn structuredCclone(value : Js) -> Js =
+  #| (value) => structuredClone(value)

@@ -1,9 +1,18 @@
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/node/path",
-    "mizchi/js/node/os",
-    "mizchi/js/node/fs_promises"
+    {
+      "path": "mizchi/js/node/path",
+      "alias": "path"
+    },
+    {
+      "path": "mizchi/js/node/os",
+      "alias": "os"
+    },
+    {
+      "path": "mizchi/js/node/fs_promises",
+      "alias": "fs_promises"
+    }
   ],
   "warn-list": "-6"
 }

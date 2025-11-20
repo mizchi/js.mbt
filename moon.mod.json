@@ -15,9 +15,9 @@
     "cloudflare",
     "deno"
   ],
-  "description": "ffi for js primitives / node.js / browser / react and etc.",
+  "description": "js/browser/node/deno/cloudfare/react and etc.",
   "source": "src",
-  "warn-list": "-2-3-28-29-53",
+  "warn-list": "",
   "alert-list": "-deprecated",
   "preferred-target": "js"
 }

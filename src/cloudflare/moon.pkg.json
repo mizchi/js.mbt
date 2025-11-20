@@ -1,10 +1,4 @@
 {
-  "supported-targets": [
-    "js"
-  ],
-  "import": [
-    "mizchi/js",
-    "mizchi/js/http",
-    "mizchi/js/worker"
-  ]
+  "supported-targets": ["js"],
+  "import": ["mizchi/js", "mizchi/js/http"]
 }

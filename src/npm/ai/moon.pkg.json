@@ -1,11 +1,5 @@
 {
-  "supported-targets": [
-    "js"
-  ],
-  "import": [
-    "mizchi/js",
-    "mizchi/js/iterator",
-    "mizchi/js/node"
-  ],
+  "supported-targets": ["js"],
+  "import": ["mizchi/js", "mizchi/js/node"],
   "warn-list": "-4-6-7"
 }

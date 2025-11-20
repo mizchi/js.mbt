@@ -2,27 +2,17 @@
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/crypto",
-    "mizchi/js/iterator",
-    "mizchi/js/stream",
     "mizchi/js/node",
-    "mizchi/js/node/events",
-    "mizchi/js/node/path",
-    "mizchi/js/node/os",
     "mizchi/js/node/test",
-    "mizchi/js/node/buffer",
+    "mizchi/js/crypto",
+    "mizchi/js/node/events",
     "mizchi/js/node/child_process",
     "mizchi/js/node/net",
+    "mizchi/js/stream",
     "mizchi/js/npm/react",
-    {
-      "path": "mizchi/js/npm/react_dom_client",
-      "alias": "react_dom_client"
-    },
-    {
-      "path": "mizchi/js/npm/react_dom_server",
-      "alias": "react_dom_server"
-    },
-    "mizchi/js/node/fs",
+    "mizchi/js/npm/react/element",
+    "mizchi/js/npm/react_dom_server",
+    "mizchi/js/dom",
     {
       "path": "mizchi/js/node/fs_promises",
       "alias": "fs_promises"

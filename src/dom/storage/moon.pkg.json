@@ -1,5 +1,4 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js"],
-  "test-import": ["mizchi/js/node"]
+  "import": ["mizchi/js"]
 }
