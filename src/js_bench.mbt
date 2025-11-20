@@ -151,6 +151,72 @@ test "bench: from_map (5 entries)" (b : @bench.T) {
 }
 
 ///|
+/// Benchmark: Object creation comparison - Object::new() with FFI set
+test "bench: Object::new() + set (5 properties, FFI)" (b : @bench.T) {
+  b.bench(fn() {
+    let obj = Object::new()
+    obj.set("a", js(1))
+    obj.set("b", js(2))
+    obj.set("c", js(3))
+    obj.set("d", js(4))
+    obj.set("e", js(5))
+    b.keep(obj.to_js())
+  })
+}
+
+///|
+/// Benchmark: Object creation from Map (goes through MoonBit iteration)
+test "bench: from_map vs Object::new (5 properties)" (b : @bench.T) {
+  let map : Map[String, Js] = {
+    "a": js(1),
+    "b": js(2),
+    "c": js(3),
+    "d": js(4),
+    "e": js(5),
+  }
+  b.bench(fn() { b.keep(from_map(map)) })
+}
+
+///|
+/// Benchmark: Object creation from tuple array
+test "bench: from_entries (5 tuples)" (b : @bench.T) {
+  let entries : Array[(String, &JsImpl)] = [
+    ("a", 1),
+    ("b", 2),
+    ("c", 3),
+    ("d", 4),
+    ("e", 5),
+  ]
+  b.bench(fn() { b.keep(from_entries(entries)) })
+}
+
+///|
+/// Benchmark: Object creation from optional tuple array (all Some)
+test "bench: from_entries_option (5 Some)" (b : @bench.T) {
+  let entries : Array[(String, &JsImpl?)] = [
+    ("a", Some(1)),
+    ("b", Some(2)),
+    ("c", Some(3)),
+    ("d", Some(4)),
+    ("e", Some(5)),
+  ]
+  b.bench(fn() { b.keep(from_entries_option(entries)) })
+}
+
+///|
+/// Benchmark: Object creation from optional tuple array (mixed)
+test "bench: from_entries_option (3 Some, 2 None)" (b : @bench.T) {
+  let entries : Array[(String, &JsImpl?)] = [
+    ("a", Some(1)),
+    ("b", None),
+    ("c", Some(3)),
+    ("d", None),
+    ("e", Some(5)),
+  ]
+  b.bench(fn() { b.keep(from_entries_option(entries)) })
+}
+
+///|
 /// Benchmark: typeof_ operation
 test "bench: typeof_ check" (b : @bench.T) {
   let val = js(42)

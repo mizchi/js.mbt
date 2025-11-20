@@ -121,3 +121,108 @@ test "from_fn2 converts 2-arg function to Js" {
   let result = js_add.call_self([js(5), js(3)])
   assert_eq(unsafe_cast(result), 8)
 }
+
+///|
+test "from_entries converts tuple array to Js object" {
+  let entries : Array[(String, &JsImpl)] = [
+    ("name", "Alice"),
+    ("age", 30),
+    ("active", true),
+  ]
+  let obj = from_entries(entries)
+  assert_eq(unsafe_cast(obj.get("name")), "Alice")
+  assert_eq(unsafe_cast(obj.get("age")), 30)
+  assert_eq(unsafe_cast(obj.get("active")), true)
+}
+
+///|
+test "from_entries with mixed types" {
+  let entries : Array[(String, &JsImpl)] = [
+    ("str", "hello"),
+    ("num", 42),
+    ("bool", false),
+    ("float", 3.14),
+  ]
+  let obj = from_entries(entries)
+  assert_eq(unsafe_cast(obj.get("str")), "hello")
+  assert_eq(unsafe_cast(obj.get("num")), 42)
+  assert_eq(unsafe_cast(obj.get("bool")), false)
+  assert_eq(unsafe_cast(obj.get("float")), 3.14)
+}
+
+///|
+test "from_entries with empty array" {
+  let entries : Array[(String, &JsImpl)] = []
+  let obj = from_entries(entries)
+  inspect(obj.to_string(), content="{}")
+}
+
+///|
+test "from_entries_option filters None values" {
+  let entries : Array[(String, &JsImpl?)] = [
+    ("name", Some("Alice")),
+    ("age", Some(30)),
+    ("email", None),
+    ("active", Some(true)),
+    ("address", None),
+  ]
+  let obj = from_entries_option(entries)
+  assert_eq(unsafe_cast(obj.get("name")), "Alice")
+  assert_eq(unsafe_cast(obj.get("age")), 30)
+  assert_eq(unsafe_cast(obj.get("active")), true)
+  // None values should not be set
+  assert_true(is_undefined(obj.get("email")))
+  assert_true(is_undefined(obj.get("address")))
+}
+
+///|
+test "from_entries_option with all Some" {
+  let entries : Array[(String, &JsImpl?)] = [
+    ("a", Some(1)),
+    ("b", Some(2)),
+    ("c", Some(3)),
+  ]
+  let obj = from_entries_option(entries)
+  assert_eq(unsafe_cast(obj.get("a")), 1)
+  assert_eq(unsafe_cast(obj.get("b")), 2)
+  assert_eq(unsafe_cast(obj.get("c")), 3)
+}
+
+///|
+test "from_entries_option with all None" {
+  let entries : Array[(String, &JsImpl?)] = [
+    ("a", None),
+    ("b", None),
+    ("c", None),
+  ]
+  let obj = from_entries_option(entries)
+  inspect(obj.to_string(), content="{}")
+}
+
+///|
+test "from_entries_option with empty array" {
+  let entries : Array[(String, &JsImpl?)] = []
+  let obj = from_entries_option(entries)
+  inspect(obj.to_string(), content="{}")
+}
+
+///|
+test "from_entries with direct array (type inference)" {
+  // 直接配列を渡した場合、型推論が効くかテスト
+  let obj = from_entries([("name", "Bob"), ("age", 25)])
+  assert_eq(unsafe_cast(obj.get("name")), "Bob")
+  assert_eq(unsafe_cast(obj.get("age")), 25)
+}
+
+///|
+test "from_entries_option with direct array (type inference)" {
+  // 直接配列を渡した場合、型推論が効くかテスト
+  let obj = from_entries_option([
+    ("name", Some("Charlie")),
+    ("age", Some(40)),
+    ("email", None),
+  ])
+  assert_eq(unsafe_cast(obj.get("name")), "Charlie")
+  assert_eq(unsafe_cast(obj.get("age")), 40)
+  assert_true(is_undefined(obj.get("email")))
+}

@@ -8,6 +8,7 @@ Functions in MoonBit are similar to TypeScript but with explicit type annotation
 
 ```moonbit
 // MoonBit function
+
 ///|
 fn add(a : Int, b : Int) -> Int {
   a + b
@@ -187,6 +188,7 @@ MoonBit supports named parameters with `~` and optional parameters with `?`:
 
 ```moonbit
 // Named parameters (required)
+
 ///|
 fn param_func(a~ : Int, b~ : Int) -> (Int, Int) {
   (a, b)

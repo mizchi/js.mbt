@@ -24,6 +24,53 @@ pub fn from_map(map : Map[String, Js]) -> Js {
 }
 
 ///|
+/// Convert an array of tuples to a JavaScript object.
+///
+/// # Example
+///
+/// ```moonbit
+/// let entries : Array[(String, &JsImpl)] = [("name", "Alice"), ("age", 30)]
+/// let obj = from_entries(entries)
+/// // JavaScript: { name: "Alice", age: 30 }
+/// ```
+pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Js {
+  let obj = Object::new()
+  for entry in entries {
+    let (k, v) = entry
+    obj.set(k, v.to_js())
+  }
+  obj.to_js()
+}
+
+///|
+/// Convert an array of tuples with optional values to a JavaScript object.
+/// Only sets properties where the value is Some.
+///
+/// # Example
+///
+/// ```moonbit
+/// let entries : Array[(String, &JsImpl?)] = [
+///   ("name", Some("Alice")),
+///   ("age", Some(30)),
+///   ("email", None)
+/// ]
+/// let obj = from_entries_option(entries)
+/// // JavaScript: { name: "Alice", age: 30 }
+/// // Note: "email" is not included because it was None
+/// ```
+pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Js {
+  let obj = Object::new()
+  for entry in entries {
+    let (k, v) = entry
+    match v {
+      Some(val) => obj.set(k, val.to_js())
+      None => ()
+    }
+  }
+  obj.to_js()
+}
+
+///|
 /// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
 pub fn[R] from_fn0(f : () -> R) -> Js {
   unsafe_cast(f)
