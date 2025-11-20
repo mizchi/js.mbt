@@ -61,6 +61,48 @@ pub fn Deno::args(self : Deno) -> Array[String] {
   self.get("args") |> @js.unsafe_cast
 }
 
+///|
+/// Get process ID
+pub fn Deno::pid(self : Deno) -> Int {
+  self.get("pid") |> @js.unsafe_cast
+}
+
+///|
+/// Get parent process ID
+pub fn Deno::ppid(self : Deno) -> Int {
+  self.get("ppid") |> @js.unsafe_cast
+}
+
+///|
+/// Get operating system
+pub fn Deno::build_os(self : Deno) -> String {
+  self.get("build").get("os") |> @js.unsafe_cast
+}
+
+///|
+/// Get architecture
+pub fn Deno::build_arch(self : Deno) -> String {
+  self.get("build").get("arch") |> @js.unsafe_cast
+}
+
+///|
+/// Read all data from stdin
+pub fn Deno::stdin_read(self : Deno) -> @promise.Promise[Js] {
+  self.get("stdin").call("read", []) |> @js.unsafe_cast
+}
+
+///|
+/// Write to stdout
+pub fn Deno::stdout_write(self : Deno, data : Js) -> @promise.Promise[Int] {
+  self.get("stdout").call("write", [data]) |> @js.unsafe_cast
+}
+
+///|
+/// Write to stderr
+pub fn Deno::stderr_write(self : Deno, data : Js) -> @promise.Promise[Int] {
+  self.get("stderr").call("write", [data]) |> @js.unsafe_cast
+}
+
 ///| File System APIs
 
 ///|
@@ -136,6 +178,70 @@ pub fn Deno::mkdir(
 /// Read directory entries
 pub fn Deno::readDir(self : Deno, path : String) -> Js {
   self.call("readDir", [@js.js(path)])
+}
+
+///|
+/// Rename/move file or directory
+pub fn Deno::rename(
+  self : Deno,
+  oldpath : String,
+  newpath : String,
+) -> @promise.Promise[Unit] {
+  self.call("rename", [@js.js(oldpath), @js.js(newpath)]) |> @js.unsafe_cast
+}
+
+///|
+/// Copy file
+pub fn Deno::copyFile(
+  self : Deno,
+  from : String,
+  to : String,
+) -> @promise.Promise[Unit] {
+  self.call("copyFile", [@js.js(from), @js.js(to)]) |> @js.unsafe_cast
+}
+
+///|
+/// Check if path exists
+pub fn Deno::stat(self : Deno, path : String) -> @promise.Promise[Js] {
+  self.call("stat", [@js.js(path)]) |> @js.unsafe_cast
+}
+
+///|
+/// Check if path exists (returns null if not found instead of throwing)
+pub fn Deno::lstat(self : Deno, path : String) -> @promise.Promise[Js] {
+  self.call("lstat", [@js.js(path)]) |> @js.unsafe_cast
+}
+
+///|
+/// Read link target
+pub fn Deno::readLink(self : Deno, path : String) -> @promise.Promise[String] {
+  self.call("readLink", [@js.js(path)]) |> @js.unsafe_cast
+}
+
+///|
+/// Create symbolic link
+pub fn Deno::symlink(
+  self : Deno,
+  target : String,
+  path : String,
+) -> @promise.Promise[Unit] {
+  self.call("symlink", [@js.js(target), @js.js(path)]) |> @js.unsafe_cast
+}
+
+///|
+/// Change file permissions (Unix only)
+pub fn Deno::chmod(
+  self : Deno,
+  path : String,
+  mode : Int,
+) -> @promise.Promise[Unit] {
+  self.call("chmod", [@js.js(path), @js.js(mode)]) |> @js.unsafe_cast
+}
+
+///|
+/// Get real path (resolves symlinks)
+pub fn Deno::realPath(self : Deno, path : String) -> @promise.Promise[String] {
+  self.call("realPath", [@js.js(path)]) |> @js.unsafe_cast
 }
 
 ///| Test APIs
