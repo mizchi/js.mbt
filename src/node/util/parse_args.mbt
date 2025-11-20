@@ -42,21 +42,20 @@ pub fn parseArgs(
   allow_positionals? : Bool = false,
   // tokens?: Bool = false,
 ) -> ParseArgsResult {
-  let result = @js.JsArray::new()
-  result.set("args", args |> @js.from_array)
-  result.set(
-    "options",
-    if options.is_empty() {
-      @js.Object::new()
-    } else {
-      let o = @js.Object::new()
-      for opt in options {
-        o.set(opt.key(), opt.to_js())
-      }
-      o
-    },
-  )
-  result.set("allowPositionals", allow_positionals)
+  let opts_obj = if options.is_empty() {
+    @js.Object::new()
+  } else {
+    let o = @js.Object::new()
+    for opt in options {
+      o.set(opt.key(), opt.to_js())
+    }
+    o
+  }
+  let result = @js.from_entries([
+    ("args", args |> @js.from_array),
+    ("options", opts_obj),
+    ("allowPositionals", allow_positionals),
+  ])
   // result["tokens"] = tokens
   let r : Js = unsafe_cast(util().get("parseArgs").call_self([result]))
   let values : Map[String, Js] = {}
