@@ -7,10 +7,7 @@ pub impl JsImpl for Response
 
 ///|
 /// Create a new Response
-pub extern "js" fn new_response(
-  body? : String,
-  options? : Js
-) -> Response =
+pub extern "js" fn new_response(body? : String, options? : Js) -> Response =
   #| (body, options) => new Response(body, options)
 
 ///|

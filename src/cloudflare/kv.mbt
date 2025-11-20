@@ -10,16 +10,15 @@ pub impl JsImpl for KVNamespace
 ///|
 /// Get a value from KV store
 /// Returns null if key doesn't exist
-pub fn KVNamespace::get(
+pub extern "js" fn KVNamespace::get(
   self : Self,
   key : String,
   options : KVGetOptions?,
-) -> Promise[String?] {
-  match options {
-    None => self.call("get", [key]) |> unsafe_cast
-    Some(opts) => self.call("get", [key, opts]) |> unsafe_cast
-  }
-}
+) -> Promise[String?] =
+  #| async (self, key, options) => {
+  #|   const result = options === undefined ? await self.get(key) : await self.get(key, options);
+  #|   return result === null ? undefined : result;
+  #| }
 
 ///|
 /// Get a value as ArrayBuffer

@@ -50,3 +50,12 @@ This is a [MoonBit](https://docs.moonbitlang.com) project.
   specific package.
 - CLAUDE.md has some small tasks that are easy for AI to pick up, agent is
   welcome to finish the tasks and check the box when you are done
+
+## Testings
+
+```bash
+moon test
+moon build
+pnpm test:cloudflare
+deno test -A target/js/release/build/deno/_tests/_tests.js
+```

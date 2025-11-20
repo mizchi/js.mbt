@@ -9,6 +9,7 @@
     "mizchi/js",
     "mizchi/js/promise",
     "mizchi/js/http",
-    "mizchi/js/cloudflare"
+    "mizchi/js/cloudflare",
+    "mizchi/js/url"
   ]
 }

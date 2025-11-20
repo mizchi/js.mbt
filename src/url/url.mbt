@@ -1,77 +1,149 @@
 ///|
+/// Web URL API
+/// https://developer.mozilla.org/en-US/docs/Web/API/URL
+
+///|
 pub(all) struct URL {
-  href : String
-  origin : String
-  protocol : String
-  username : String
-  password : String
-  host : String
-  hostname : String
-  port : String
-  pathname : String
-  search : String
-  hash : String
-  searchParams : URLSearchParams
+  mut href : String
+  mut origin : String
+  mut protocol : String
+  mut username : String
+  mut password : String
+  mut host : String
+  mut hostname : String
+  mut port : String
+  mut pathname : String
+  mut search : String
+  mut hash : String
+  mut searchParams : URLSearchParams
 } derive(Eq, Show)
 
 ///|
-pub impl JsImpl for URL
+pub impl @js.JsImpl for URL
 
 ///|
-extern "js" fn ffi_url_new(url : String, base : String?) -> Js =
+/// Create a new URL
+pub extern "js" fn URL::new(url : String, base? : String) -> URL =
   #| (url, base) => new URL(url, base)
 
 ///|
-extern "js" fn ffi_can_parse(url : String, base : String?) -> Js =
-  #| (url, base) => URL.canParse(url, base)
-
-///|
-pub fn URL::new(url : String, base? : String) -> URL {
-  unsafe_cast(ffi_url_new(url, base))
+/// Get the href property
+pub fn URL::href(self : URL) -> String {
+  @js.unsafe_cast(self.get("href"))
 }
 
 ///|
-#alias(canParse)
-pub fn URL::can_parse(url : String, base? : String) -> Bool {
-  unsafe_cast(ffi_can_parse(url, base))
+/// Set the href property
+pub fn URL::set_href(self : URL, value : String) -> Unit {
+  self.set("href", value)
 }
 
 ///|
-extern "js" fn ffi_url_parse(url : String, base : String?) -> Js =
-  #| (url, base) => URL.parse(url, base)
-
-///|
-pub fn URL::parse(url : String, base? : String) -> URL? {
-  ffi_url_parse(url, base) |> @js.unsafe_cast_option()
+/// Get the origin property (read-only)
+pub fn URL::origin(self : URL) -> String {
+  @js.unsafe_cast(self.get("origin"))
 }
 
 ///|
+/// Get the protocol property
+pub fn URL::protocol(self : URL) -> String {
+  @js.unsafe_cast(self.get("protocol"))
+}
+
+///|
+/// Set the protocol property
+pub fn URL::set_protocol(self : URL, value : String) -> Unit {
+  self.set("protocol", value)
+}
+
+///|
+/// Get the host property
+pub fn URL::host(self : URL) -> String {
+  @js.unsafe_cast(self.get("host"))
+}
+
+///|
+/// Set the host property
+pub fn URL::set_host(self : URL, value : String) -> Unit {
+  self.set("host", value)
+}
+
+///|
+/// Get the hostname property
+pub fn URL::hostname(self : URL) -> String {
+  @js.unsafe_cast(self.get("hostname"))
+}
+
+///|
+/// Set the hostname property
+pub fn URL::set_hostname(self : URL, value : String) -> Unit {
+  self.set("hostname", value)
+}
+
+///|
+/// Get the port property
+pub fn URL::port(self : URL) -> String {
+  @js.unsafe_cast(self.get("port"))
+}
+
+///|
+/// Set the port property
+pub fn URL::set_port(self : URL, value : String) -> Unit {
+  self.set("port", value)
+}
+
+///|
+/// Get the pathname property
+pub fn URL::pathname(self : URL) -> String {
+  @js.unsafe_cast(self.get("pathname"))
+}
+
+///|
+/// Set the pathname property
+pub fn URL::set_pathname(self : URL, value : String) -> Unit {
+  self.set("pathname", value)
+}
+
+///|
+/// Get the search property
+pub fn URL::search(self : URL) -> String {
+  @js.unsafe_cast(self.get("search"))
+}
+
+///|
+/// Set the search property
+pub fn URL::set_search(self : URL, value : String) -> Unit {
+  self.set("search", value)
+}
+
+///|
+/// Get the hash property
+pub fn URL::hash(self : URL) -> String {
+  @js.unsafe_cast(self.get("hash"))
+}
+
+///|
+/// Set the hash property
+pub fn URL::set_hash(self : URL, value : String) -> Unit {
+  self.set("hash", value)
+}
+
+///|
+/// Get the searchParams property
+pub fn URL::searchParams(self : URL) -> URLSearchParams {
+  @js.unsafe_cast(self.get("searchParams"))
+}
+
+///|
+/// Convert URL to string
+#alias(toString)
 pub fn URL::to_string(self : URL) -> String {
-  self.href
+  @js.unsafe_cast(self.call("toString", []))
 }
 
 ///|
+/// Convert URL to JSON
 #alias(toJSON)
 pub fn URL::to_json(self : URL) -> String {
-  self.href
-}
-
-///|
-extern "js" fn ffi_create_object_url(obj : Js) -> Js =
-  #| (obj) => URL.createObjectURL(obj)
-
-///|
-#alias(createObjectURL)
-pub fn URL::create_object_url(obj : Js) -> String {
-  unsafe_cast(ffi_create_object_url(obj))
-}
-
-///|
-extern "js" fn ffi_revoke_object_url(url : String) -> Js =
-  #| (url) => URL.revokeObjectURL(url)
-
-///|
-#alias(revokeObjectURL)
-pub fn URL::revoke_object_url(url : String) -> Unit {
-  ffi_revoke_object_url(url) |> ignore
+  @js.unsafe_cast(self.call("toJSON", []))
 }

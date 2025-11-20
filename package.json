@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev:cloudflare": "wrangler dev fixtures/cf-worker.js",
-    "test:cloudflare": "vite"
+    "test:cloudflare": "vitest run test/cloudflare e2e/cloudflare/moonbit-*.test.ts"
   },
   "devDependencies": {
     "@ai-sdk/anthropic": "2.0.43",

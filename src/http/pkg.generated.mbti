@@ -13,6 +13,8 @@ fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : Str
 
 fn fetch_request(Request) -> @promise.Promise[Response]
 
+fn new_response(body? : String, options? : @js.Js) -> Response
+
 // Errors
 
 // Types and methods

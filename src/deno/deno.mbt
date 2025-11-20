@@ -334,6 +334,162 @@ pub fn Deno::gid(self : Deno) -> Int? {
   self.call("gid", []) |> @js.unsafe_cast_option
 }
 
+///| Network APIs
+
+///|
+/// Open a network connection (TCP)
+pub fn Deno::connect(
+  self : Deno,
+  hostname : String,
+  port : Int,
+) -> @promise.Promise[Js] {
+  let opts = @js.Object::new()
+  opts.set("hostname", hostname)
+  opts.set("port", port)
+  self.call("connect", [opts]) |> @js.unsafe_cast
+}
+
+///|
+/// Listen on a network address (TCP server)
+pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> Js {
+  let opts = @js.Object::new()
+  opts.set("hostname", hostname)
+  opts.set("port", port)
+  self.call("listen", [opts])
+}
+
+///|
+/// Resolve DNS hostname to IP addresses
+pub fn Deno::resolveDns(
+  self : Deno,
+  query : String,
+  recordType : String,
+) -> @promise.Promise[Js] {
+  self.call("resolveDns", [@js.js(query), @js.js(recordType)])
+  |> @js.unsafe_cast
+}
+
+///| HTTP Server APIs
+
+///|
+/// Serve HTTP requests (simplified version)
+pub fn Deno::serve(self : Deno, port : Int, handler : Js) -> Js {
+  let opts = @js.Object::new()
+  opts.set("port", port)
+  opts.set("handler", handler)
+  self.call("serve", [opts])
+}
+
+///| Permissions APIs
+
+///|
+/// Request permission
+pub fn Deno::request_permission(
+  self : Deno,
+  name : String,
+) -> @promise.Promise[Js] {
+  let desc = @js.Object::new()
+  desc.set("name", name)
+  self.get("permissions").call("request", [desc]) |> @js.unsafe_cast
+}
+
+///|
+/// Query permission status
+pub fn Deno::query_permission(
+  self : Deno,
+  name : String,
+) -> @promise.Promise[Js] {
+  let desc = @js.Object::new()
+  desc.set("name", name)
+  self.get("permissions").call("query", [desc]) |> @js.unsafe_cast
+}
+
+///|
+/// Revoke permission
+pub fn Deno::revoke_permission(
+  self : Deno,
+  name : String,
+) -> @promise.Promise[Js] {
+  let desc = @js.Object::new()
+  desc.set("name", name)
+  self.get("permissions").call("revoke", [desc]) |> @js.unsafe_cast
+}
+
+///| Time and Performance APIs
+
+///|
+/// Get high resolution time (uses performance.now())
+pub extern "js" fn Deno::now(self : Deno) -> Double =
+  #| (self) => performance.now()
+
+///| File Handle APIs
+
+///|
+#external
+pub type FsFile
+
+///|
+impl @js.JsImpl for FsFile
+
+///|
+/// Open a file
+pub fn Deno::open(
+  self : Deno,
+  path : String,
+  create? : Bool,
+  write? : Bool,
+  read? : Bool,
+) -> @promise.Promise[FsFile] {
+  let opts = @js.Object::new()
+  match create {
+    Some(c) => opts.set("create", c)
+    None => ()
+  }
+  match write {
+    Some(w) => opts.set("write", w)
+    None => ()
+  }
+  match read {
+    Some(r) => opts.set("read", r)
+    None => ()
+  }
+  self.call("open", [@js.js(path), opts]) |> @js.unsafe_cast
+}
+
+///|
+/// Create a file
+pub fn Deno::create(self : Deno, path : String) -> @promise.Promise[FsFile] {
+  self.call("create", [@js.js(path)]) |> @js.unsafe_cast
+}
+
+///|
+/// Close file handle
+pub fn FsFile::close(self : FsFile) -> Unit {
+  self.call("close", []) |> ignore
+}
+
+///|
+/// Read from file
+pub fn FsFile::read(self : FsFile, buffer : Js) -> @promise.Promise[Int] {
+  self.call("read", [buffer]) |> @js.unsafe_cast
+}
+
+///|
+/// Write to file
+pub fn FsFile::write(self : FsFile, data : Js) -> @promise.Promise[Int] {
+  self.call("write", [data]) |> @js.unsafe_cast
+}
+
+///|
+/// Seek file position
+pub fn FsFile::seek(
+  self : FsFile,
+  offset : Int,
+  whence : Int,
+) -> @promise.Promise[Int] {
+  self.call("seek", [@js.js(offset), @js.js(whence)]) |> @js.unsafe_cast
+}
+
 ///| Test APIs
 
 ///|

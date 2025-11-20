@@ -14,29 +14,41 @@ fn get_component_input(@js.Js) -> String
 
 // Types and methods
 pub(all) struct URL {
-  href : String
-  origin : String
-  protocol : String
-  username : String
-  password : String
-  host : String
-  hostname : String
-  port : String
-  pathname : String
-  search : String
-  hash : String
-  searchParams : URLSearchParams
+  mut href : String
+  mut origin : String
+  mut protocol : String
+  mut username : String
+  mut password : String
+  mut host : String
+  mut hostname : String
+  mut port : String
+  mut pathname : String
+  mut search : String
+  mut hash : String
+  mut searchParams : URLSearchParams
 }
-#alias(canParse)
-fn URL::can_parse(String, base? : String) -> Bool
-#alias(createObjectURL)
-fn URL::create_object_url(@js.Js) -> String
+fn URL::hash(Self) -> String
+fn URL::host(Self) -> String
+fn URL::hostname(Self) -> String
+fn URL::href(Self) -> String
 fn URL::new(String, base? : String) -> Self
-fn URL::parse(String, base? : String) -> Self?
-#alias(revokeObjectURL)
-fn URL::revoke_object_url(String) -> Unit
+fn URL::origin(Self) -> String
+fn URL::pathname(Self) -> String
+fn URL::port(Self) -> String
+fn URL::protocol(Self) -> String
+fn URL::search(Self) -> String
+fn URL::searchParams(Self) -> URLSearchParams
+fn URL::set_hash(Self, String) -> Unit
+fn URL::set_host(Self, String) -> Unit
+fn URL::set_hostname(Self, String) -> Unit
+fn URL::set_href(Self, String) -> Unit
+fn URL::set_pathname(Self, String) -> Unit
+fn URL::set_port(Self, String) -> Unit
+fn URL::set_protocol(Self, String) -> Unit
+fn URL::set_search(Self, String) -> Unit
 #alias(toJSON)
 fn URL::to_json(Self) -> String
+#alias(toString)
 fn URL::to_string(Self) -> String
 impl @js.JsImpl for URL
 impl Eq for URL

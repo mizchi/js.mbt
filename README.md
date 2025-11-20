@@ -1,6 +1,6 @@
 # @mizchi/js
 
-js/browser/node.js bindings for Moonbit. 
+js/browser/node.js/cloudflare bindings for Moonbit. 
 
 ```bash
 $ moon add mizchi/js

@@ -1,7 +1,7 @@
 /*
 # Cloudflare Worker Example
 
-See `/src/examples/cfw/*`
+See `src/examples/cfw/*`
 
 ```
 moon build

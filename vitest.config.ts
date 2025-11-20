@@ -1,3 +1,4 @@
+// For Cloudflare Workers testing with Vitest and vitest-pool-workers
 import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
 
 export default defineWorkersConfig({

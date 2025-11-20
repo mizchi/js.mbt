@@ -8,6 +8,8 @@ import(
 // Values
 fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler
 
+fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler
+
 // Errors
 
 // Types and methods
