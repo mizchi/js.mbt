@@ -43,6 +43,8 @@ fn from_entries(Array[(String, &JsImpl)]) -> Js
 
 fn from_entries_option(Array[(String, &JsImpl?)]) -> Js
 
+fn[T : JsImpl] from_entries_option_cast(Array[(String, T?)]) -> Js
+
 fn[R] from_fn0(() -> R) -> Js
 
 fn[A, R] from_fn1((A) -> R) -> Js

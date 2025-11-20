@@ -63,37 +63,24 @@ pub fn DatabaseSync::new(
   allowUnknownNamedParameters? : Bool,
   defensive? : Bool,
 ) -> DatabaseSync {
-  let opts = @js.Object::new()
-  if open is Some(v) {
-    opts.set("open", v)
-  }
-  if readOnly is Some(v) {
-    opts.set("readOnly", v)
-  }
-  if allowExtension is Some(v) {
-    opts.set("allowExtension", v)
-  }
-  if enableForeignKeyConstraints is Some(v) {
-    opts.set("enableForeignKeyConstraints", v)
-  }
-  if timeout is Some(v) {
-    opts.set("timeout", v)
-  }
-  if readBigInts is Some(v) {
-    opts.set("readBigInts", v)
-  }
-  if returnArrays is Some(v) {
-    opts.set("returnArrays", v)
-  }
-  if allowBareNamedParameters is Some(v) {
-    opts.set("allowBareNamedParameters", v)
-  }
-  if allowUnknownNamedParameters is Some(v) {
-    opts.set("allowUnknownNamedParameters", v)
-  }
-  if defensive is Some(v) {
-    opts.set("defensive", v)
-  }
+  let opts = @js.from_entries_option([
+    ("open", open.map(fn(x) { x })),
+    ("readOnly", readOnly.map(fn(x) { x })),
+    ("allowExtension", allowExtension.map(fn(x) { x })),
+    (
+      "enableForeignKeyConstraints",
+      enableForeignKeyConstraints.map(fn(x) { x }),
+    ),
+    ("timeout", timeout.map(fn(x) { x })),
+    ("readBigInts", readBigInts.map(fn(x) { x })),
+    ("returnArrays", returnArrays.map(fn(x) { x })),
+    ("allowBareNamedParameters", allowBareNamedParameters.map(fn(x) { x })),
+    (
+      "allowUnknownNamedParameters",
+      allowUnknownNamedParameters.map(fn(x) { x }),
+    ),
+    ("defensive", defensive.map(fn(x) { x })),
+  ])
   let v = @node.require("node:sqlite").get("DatabaseSync")
     |> @js.new_([path, opts])
   unsafe_cast(v)
@@ -112,31 +99,16 @@ pub fn[T, U] DatabaseSync::aggregate(
   inverse? : (T, U) -> T,
   result? : (T) -> Js,
 ) -> Unit {
-  let opts = @js.Object::new()
-  if deterministic is Some(v) {
-    opts.set("deterministic", v)
-  }
-  if directOnly is Some(v) {
-    opts.set("directOnly", v)
-  }
-  if useBigIntArguments is Some(v) {
-    opts.set("useBigIntArguments", v)
-  }
-  if varargs is Some(v) {
-    opts.set("varargs", v)
-  }
-  if start is Some(v) {
-    opts.set("start", v |> @js.unsafe_js)
-  }
-  if step is Some(v) {
-    opts.set("step", v |> @js.unsafe_js)
-  }
-  if inverse is Some(v) {
-    opts.set("inverse", v |> @js.unsafe_js)
-  }
-  if result is Some(v) {
-    opts.set("result", v |> @js.unsafe_js)
-  }
+  let opts = @js.from_entries_option([
+    ("deterministic", deterministic.map(fn(x) { x })),
+    ("directOnly", directOnly.map(fn(x) { x })),
+    ("useBigIntArguments", useBigIntArguments.map(fn(x) { x })),
+    ("varargs", varargs.map(fn(x) { x })),
+    ("start", start.map(fn(x) { x |> @js.unsafe_js })),
+    ("step", step.map(fn(x) { x |> @js.unsafe_js })),
+    ("inverse", inverse.map(fn(x) { x |> @js.unsafe_js })),
+    ("result", result.map(fn(x) { x |> @js.unsafe_js })),
+  ])
   self.call("aggregate", [name, opts]) |> ignore
 }
 
@@ -150,19 +122,12 @@ pub fn DatabaseSync::function(
   useBigIntArguments? : Bool,
   varargs? : Bool,
 ) -> Unit {
-  let opts = @js.Object::new()
-  if deterministic is Some(v) {
-    opts.set("deterministic", v)
-  }
-  if directOnly is Some(v) {
-    opts.set("directOnly", v)
-  }
-  if useBigIntArguments is Some(v) {
-    opts.set("useBigIntArguments", v)
-  }
-  if varargs is Some(v) {
-    opts.set("varargs", v)
-  }
+  let opts = @js.from_entries_option_cast([
+    ("deterministic", deterministic),
+    ("directOnly", directOnly),
+    ("useBigIntArguments", useBigIntArguments),
+    ("varargs", varargs),
+  ])
   self.call("function", [name, func |> unsafe_cast, opts]) |> ignore
 }
 
@@ -237,13 +202,7 @@ pub fn DatabaseSync::createSession(
   table? : String,
   db? : String,
 ) -> Session {
-  let v = @js.Object::new()
-  if table is Some(t) {
-    v.set("table", t)
-  }
-  if db is Some(d) {
-    v.set("db", d)
-  }
+  let v = @js.from_entries_option_cast([("table", table), ("db", db)])
   self.call("createSession", [v]) |> unsafe_cast
 }
 
@@ -265,13 +224,10 @@ pub fn DatabaseSync::applyChangeset(
   filter? : (Js) -> Bool,
   onConflict? : (Js?, Js) -> Bool,
 ) -> Bool {
-  let opts = @js.Object::new()
-  if filter is Some(f) {
-    opts.set("filter", f |> @js.from_fn1)
-  }
-  if onConflict is Some(oc) {
-    opts.set("onConflict", oc |> @js.from_fn2)
-  }
+  let opts = @js.from_entries_option_cast([
+    ("filter", filter.map(fn(f) { f |> @js.from_fn1 })),
+    ("onConflict", onConflict.map(fn(oc) { oc |> @js.from_fn2 })),
+  ])
   self.call("applyChangeset", [changeset, opts]) |> unsafe_cast
 }
 

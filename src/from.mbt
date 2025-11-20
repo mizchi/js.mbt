@@ -71,6 +71,35 @@ pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Js {
 }
 
 ///|
+/// Convert an array of tuples with optional JsImpl values to a JavaScript object.
+/// Accepts Option[T] where T: JsImpl directly without requiring .map().
+/// Only sets properties where the value is Some.
+///
+/// # Example
+///
+/// ```moonbit
+/// let obj = from_entries_option_cast([
+///   ("open", Some(true)),
+///   ("readOnly", Some(false)),
+///   ("timeout", None)
+/// ])
+/// // JavaScript: { open: true, readOnly: false }
+/// ```
+pub fn[T : JsImpl] from_entries_option_cast(
+  entries : Array[(String, T?)],
+) -> Js {
+  let obj = Object::new()
+  for entry in entries {
+    let (k, v) = entry
+    match v {
+      Some(val) => obj.set(k, val.to_js())
+      None => ()
+    }
+  }
+  obj.to_js()
+}
+
+///|
 /// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
 pub fn[R] from_fn0(f : () -> R) -> Js {
   unsafe_cast(f)
