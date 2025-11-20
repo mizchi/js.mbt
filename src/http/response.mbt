@@ -6,6 +6,14 @@ pub type Response
 pub impl JsImpl for Response
 
 ///|
+/// Create a new Response
+pub extern "js" fn new_response(
+  body? : String,
+  options? : Js
+) -> Response =
+  #| (body, options) => new Response(body, options)
+
+///|
 pub extern "js" fn Response::redirect(url : String, status? : Int) -> Response =
   #| (url, status) => Response
 
