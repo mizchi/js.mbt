@@ -219,11 +219,11 @@ pub fn createServer(
   keepAlive? : Bool,
   keepAliveInitialDelay? : Int,
 ) -> Server {
-  let has_options = not(allowHalfOpen.is_empty()) ||
-    not(pauseOnConnect.is_empty()) ||
-    not(noDelay.is_empty()) ||
-    not(keepAlive.is_empty()) ||
-    not(keepAliveInitialDelay.is_empty())
+  let has_options = allowHalfOpen is Some(_) ||
+    pauseOnConnect is Some(_) ||
+    noDelay is Some(_) ||
+    keepAlive is Some(_) ||
+    keepAliveInitialDelay is Some(_)
   if has_options {
     net_module().call("createServer", [
       @js.from_entries_option([
