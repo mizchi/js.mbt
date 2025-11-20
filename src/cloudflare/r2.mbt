@@ -124,50 +124,39 @@ pub(all) struct R2GetOptions {
 
 ///|
 pub impl JsImpl for R2GetOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.onlyIf {
-    Some(cond) => {
-      let cond_obj = @js.Object::new()
-      match cond.etagMatches {
-        Some(etag) => cond_obj.set("etagMatches", etag)
-        None => ()
-      }
-      match cond.etagDoesNotMatch {
-        Some(etag) => cond_obj.set("etagDoesNotMatch", etag)
-        None => ()
-      }
-      match cond.uploadedBefore {
-        Some(date) => cond_obj.set("uploadedBefore", date)
-        None => ()
-      }
-      match cond.uploadedAfter {
-        Some(date) => cond_obj.set("uploadedAfter", date)
-        None => ()
-      }
-      obj.set("onlyIf", cond_obj)
-    }
-    None => ()
+  let onlyIf_js : @js.Js? = match self.onlyIf {
+    Some(cond) =>
+      Some(
+        @js.from_entries_option([
+          ("etagMatches", cond.etagMatches.map(fn(x) { x as &@js.JsImpl })),
+          (
+            "etagDoesNotMatch",
+            cond.etagDoesNotMatch.map(fn(x) { x as &@js.JsImpl }),
+          ),
+          (
+            "uploadedBefore",
+            cond.uploadedBefore.map(fn(x) { x as &@js.JsImpl }),
+          ),
+          ("uploadedAfter", cond.uploadedAfter.map(fn(x) { x as &@js.JsImpl })),
+        ]),
+      )
+    None => None
   }
-  match self.range {
-    Some(r) => {
-      let range_obj = @js.Object::new()
-      match r.offset {
-        Some(offset) => range_obj.set("offset", offset)
-        None => ()
-      }
-      match r.length {
-        Some(length) => range_obj.set("length", length)
-        None => ()
-      }
-      match r.suffix {
-        Some(suffix) => range_obj.set("suffix", suffix)
-        None => ()
-      }
-      obj.set("range", range_obj)
-    }
-    None => ()
+  let range_js : @js.Js? = match self.range {
+    Some(r) =>
+      Some(
+        @js.from_entries_option([
+          ("offset", r.offset.map(fn(x) { x as &@js.JsImpl })),
+          ("length", r.length.map(fn(x) { x as &@js.JsImpl })),
+          ("suffix", r.suffix.map(fn(x) { x as &@js.JsImpl })),
+        ]),
+      )
+    None => None
   }
-  obj.to_js()
+  @js.from_entries_option([
+    ("onlyIf", onlyIf_js.map(fn(x) { x as &@js.JsImpl })),
+    ("range", range_js.map(fn(x) { x as &@js.JsImpl })),
+  ])
 }
 
 ///|
@@ -201,36 +190,19 @@ pub(all) struct R2PutOptions {
 
 ///|
 pub impl JsImpl for R2PutOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.httpMetadata {
-    Some(meta) => obj.set("httpMetadata", meta.to_js())
-    None => ()
+  let httpMetadata_js : @js.Js? = match self.httpMetadata {
+    Some(meta) => Some(meta.to_js())
+    None => None
   }
-  match self.customMetadata {
-    Some(meta) => obj.set("customMetadata", meta)
-    None => ()
-  }
-  match self.md5 {
-    Some(hash) => obj.set("md5", hash)
-    None => ()
-  }
-  match self.sha1 {
-    Some(hash) => obj.set("sha1", hash)
-    None => ()
-  }
-  match self.sha256 {
-    Some(hash) => obj.set("sha256", hash)
-    None => ()
-  }
-  match self.sha384 {
-    Some(hash) => obj.set("sha384", hash)
-    None => ()
-  }
-  match self.sha512 {
-    Some(hash) => obj.set("sha512", hash)
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option([
+    ("httpMetadata", httpMetadata_js.map(fn(x) { x as &@js.JsImpl })),
+    ("customMetadata", self.customMetadata.map(fn(x) { x as &@js.JsImpl })),
+    ("md5", self.md5.map(fn(x) { x as &@js.JsImpl })),
+    ("sha1", self.sha1.map(fn(x) { x as &@js.JsImpl })),
+    ("sha256", self.sha256.map(fn(x) { x as &@js.JsImpl })),
+    ("sha384", self.sha384.map(fn(x) { x as &@js.JsImpl })),
+    ("sha512", self.sha512.map(fn(x) { x as &@js.JsImpl })),
+  ])
 }
 
 ///|
@@ -246,32 +218,17 @@ pub(all) struct R2HttpMetadata {
 
 ///|
 pub impl JsImpl for R2HttpMetadata with to_js(self) {
-  let obj = @js.Object::new()
-  match self.contentType {
-    Some(val) => obj.set("contentType", val)
-    None => ()
-  }
-  match self.contentLanguage {
-    Some(val) => obj.set("contentLanguage", val)
-    None => ()
-  }
-  match self.contentDisposition {
-    Some(val) => obj.set("contentDisposition", val)
-    None => ()
-  }
-  match self.contentEncoding {
-    Some(val) => obj.set("contentEncoding", val)
-    None => ()
-  }
-  match self.cacheControl {
-    Some(val) => obj.set("cacheControl", val)
-    None => ()
-  }
-  match self.cacheExpiry {
-    Some(val) => obj.set("cacheExpiry", val)
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option([
+    ("contentType", self.contentType.map(fn(x) { x as &@js.JsImpl })),
+    ("contentLanguage", self.contentLanguage.map(fn(x) { x as &@js.JsImpl })),
+    (
+      "contentDisposition",
+      self.contentDisposition.map(fn(x) { x as &@js.JsImpl }),
+    ),
+    ("contentEncoding", self.contentEncoding.map(fn(x) { x as &@js.JsImpl })),
+    ("cacheControl", self.cacheControl.map(fn(x) { x as &@js.JsImpl })),
+    ("cacheExpiry", self.cacheExpiry.map(fn(x) { x as &@js.JsImpl })),
+  ])
 }
 
 ///|
@@ -287,40 +244,18 @@ pub(all) struct R2ListOptions {
 
 ///|
 pub impl JsImpl for R2ListOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.limit {
-    Some(l) => obj.set("limit", l)
-    None => ()
+  let include_js : @js.Js? = match self.include_ {
+    Some(inc) => Some(@js.from_array(inc))
+    None => None
   }
-  match self.prefix {
-    Some(p) => obj.set("prefix", p)
-    None => ()
-  }
-  match self.cursor {
-    Some(c) => obj.set("cursor", c)
-    None => ()
-  }
-  match self.delimiter {
-    Some(d) => obj.set("delimiter", d)
-    None => ()
-  }
-  match self.startAfter {
-    Some(s) => obj.set("startAfter", s)
-    None => ()
-  }
-  match self.include_ {
-    Some(inc) => {
-      let arr = @js.JsArray::new()
-      let mut i = 0
-      while i < inc.length() {
-        arr.call("push", [inc[i]]) |> ignore
-        i = i + 1
-      }
-      obj.set("include", arr)
-    }
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option([
+    ("limit", self.limit.map(fn(x) { x as &@js.JsImpl })),
+    ("prefix", self.prefix.map(fn(x) { x as &@js.JsImpl })),
+    ("cursor", self.cursor.map(fn(x) { x as &@js.JsImpl })),
+    ("delimiter", self.delimiter.map(fn(x) { x as &@js.JsImpl })),
+    ("startAfter", self.startAfter.map(fn(x) { x as &@js.JsImpl })),
+    ("include", include_js.map(fn(x) { x as &@js.JsImpl })),
+  ])
 }
 
 ///|
