@@ -5,7 +5,6 @@ using @js {type Js, unsafe_cast, js}
 using @react {
   type ReactRef,
   trait ReactNode,
-  createElementDirect,
   type MouseEventHandler,
   type ChangeEventHandler,
   type KeyboardEventHandler,

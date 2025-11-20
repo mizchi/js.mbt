@@ -1,13 +1,5 @@
 ///|
-using @js {
-  type Js,
-  trait JsImpl,
-  unsafe_cast,
-  js,
-  type Promise,
-  suspend,
-  run_async,
-}
+using @js {type Js, trait JsImpl, unsafe_cast, js, type Promise, suspend}
 
 ///|
 using @event {trait EventTargetImpl}
