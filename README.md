@@ -26,9 +26,9 @@ moon.pkg.json
 
 ## Project Status
 
-- I use some parts of this package in my production projects.
-  - React SPA works
-  - `node:fs` and `node:sqlite` work
+- [x] React SPA works
+- [x] `node:fs` and `node:sqlite` work
+- [x] Cloudflare Worker works
 - Many APIs are generated automatically from TypeScript definition files with AI.
 
 ## Goals

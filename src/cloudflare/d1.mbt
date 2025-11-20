@@ -137,13 +137,13 @@ pub fn D1PreparedStatement::raw_with_options(
 ///|
 /// Options for raw query
 pub(all) struct D1RawOptions {
-  column_names : Bool? // Include column names as first row
+  columnNames : Bool? // Include column names as first row
 }
 
 ///|
 pub impl JsImpl for D1RawOptions with to_js(self) {
   let obj = @js.Object::new()
-  match self.column_names {
+  match self.columnNames {
     Some(val) => obj.set("columnNames", val)
     None => ()
   }

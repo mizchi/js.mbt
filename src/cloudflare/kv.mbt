@@ -110,7 +110,7 @@ pub fn KVNamespace::list(
 /// Options for KV get operations
 pub(all) struct KVGetOptions {
   type_ : String? // "text" | "json" | "arrayBuffer" | "stream"
-  cache_ttl : Int? // Cache TTL in seconds
+  cacheTtl : Int? // Cache TTL in seconds
 }
 
 ///|
@@ -120,7 +120,7 @@ pub impl JsImpl for KVGetOptions with to_js(self) {
     Some(t) => obj.set("type", t)
     None => ()
   }
-  match self.cache_ttl {
+  match self.cacheTtl {
     Some(ttl) => obj.set("cacheTtl", ttl)
     None => ()
   }
@@ -131,7 +131,7 @@ pub impl JsImpl for KVGetOptions with to_js(self) {
 /// Options for KV put operations
 pub(all) struct KVPutOptions {
   expiration : Int? // Absolute expiration time (unix timestamp)
-  expiration_ttl : Int? // TTL in seconds
+  expirationTtl : Int? // TTL in seconds
   metadata : Js? // Custom metadata
 }
 
@@ -142,7 +142,7 @@ pub impl JsImpl for KVPutOptions with to_js(self) {
     Some(exp) => obj.set("expiration", exp)
     None => ()
   }
-  match self.expiration_ttl {
+  match self.expirationTtl {
     Some(ttl) => obj.set("expirationTtl", ttl)
     None => ()
   }
@@ -183,7 +183,7 @@ pub impl JsImpl for KVListOptions with to_js(self) {
 /// Result of KV list operation
 pub(all) struct KVListResult {
   keys : Array[KVKey]
-  list_complete : Bool
+  list_complete : Bool // Note: JS uses 'list_complete' not 'listComplete'
   cursor : String?
 }
 

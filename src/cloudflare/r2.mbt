@@ -118,29 +118,29 @@ pub fn R2Bucket::resume_multipart_upload(
 ///|
 /// Options for R2 get operations
 pub(all) struct R2GetOptions {
-  only_if : R2Conditional?
+  onlyIf : R2Conditional?
   range : R2Range?
 }
 
 ///|
 pub impl JsImpl for R2GetOptions with to_js(self) {
   let obj = @js.Object::new()
-  match self.only_if {
+  match self.onlyIf {
     Some(cond) => {
       let cond_obj = @js.Object::new()
-      match cond.etag_matches {
+      match cond.etagMatches {
         Some(etag) => cond_obj.set("etagMatches", etag)
         None => ()
       }
-      match cond.etag_does_not_match {
+      match cond.etagDoesNotMatch {
         Some(etag) => cond_obj.set("etagDoesNotMatch", etag)
         None => ()
       }
-      match cond.uploaded_before {
+      match cond.uploadedBefore {
         Some(date) => cond_obj.set("uploadedBefore", date)
         None => ()
       }
-      match cond.uploaded_after {
+      match cond.uploadedAfter {
         Some(date) => cond_obj.set("uploadedAfter", date)
         None => ()
       }
@@ -173,10 +173,10 @@ pub impl JsImpl for R2GetOptions with to_js(self) {
 ///|
 /// Conditional options for R2 operations
 pub(all) struct R2Conditional {
-  etag_matches : String?
-  etag_does_not_match : String?
-  uploaded_before : Js?
-  uploaded_after : Js?
+  etagMatches : String?
+  etagDoesNotMatch : String?
+  uploadedBefore : Js?
+  uploadedAfter : Js?
 }
 
 ///|
@@ -190,8 +190,8 @@ pub(all) struct R2Range {
 ///|
 /// Options for R2 put operations
 pub(all) struct R2PutOptions {
-  http_metadata : R2HttpMetadata?
-  custom_metadata : Js?
+  httpMetadata : R2HttpMetadata?
+  customMetadata : Js?
   md5 : String?
   sha1 : String?
   sha256 : String?
@@ -202,11 +202,11 @@ pub(all) struct R2PutOptions {
 ///|
 pub impl JsImpl for R2PutOptions with to_js(self) {
   let obj = @js.Object::new()
-  match self.http_metadata {
+  match self.httpMetadata {
     Some(meta) => obj.set("httpMetadata", meta.to_js())
     None => ()
   }
-  match self.custom_metadata {
+  match self.customMetadata {
     Some(meta) => obj.set("customMetadata", meta)
     None => ()
   }
@@ -236,38 +236,38 @@ pub impl JsImpl for R2PutOptions with to_js(self) {
 ///|
 /// HTTP metadata for R2 objects
 pub(all) struct R2HttpMetadata {
-  content_type : String?
-  content_language : String?
-  content_disposition : String?
-  content_encoding : String?
-  cache_control : String?
-  cache_expiry : Js?
+  contentType : String?
+  contentLanguage : String?
+  contentDisposition : String?
+  contentEncoding : String?
+  cacheControl : String?
+  cacheExpiry : Js?
 }
 
 ///|
 pub impl JsImpl for R2HttpMetadata with to_js(self) {
   let obj = @js.Object::new()
-  match self.content_type {
+  match self.contentType {
     Some(val) => obj.set("contentType", val)
     None => ()
   }
-  match self.content_language {
+  match self.contentLanguage {
     Some(val) => obj.set("contentLanguage", val)
     None => ()
   }
-  match self.content_disposition {
+  match self.contentDisposition {
     Some(val) => obj.set("contentDisposition", val)
     None => ()
   }
-  match self.content_encoding {
+  match self.contentEncoding {
     Some(val) => obj.set("contentEncoding", val)
     None => ()
   }
-  match self.cache_control {
+  match self.cacheControl {
     Some(val) => obj.set("cacheControl", val)
     None => ()
   }
-  match self.cache_expiry {
+  match self.cacheExpiry {
     Some(val) => obj.set("cacheExpiry", val)
     None => ()
   }
@@ -281,8 +281,8 @@ pub(all) struct R2ListOptions {
   prefix : String?
   cursor : String?
   delimiter : String?
-  start_after : String?
-  include_ : Array[String]?
+  startAfter : String?
+  include : Array[String]?
 }
 
 ///|
@@ -304,11 +304,11 @@ pub impl JsImpl for R2ListOptions with to_js(self) {
     Some(d) => obj.set("delimiter", d)
     None => ()
   }
-  match self.start_after {
+  match self.startAfter {
     Some(s) => obj.set("startAfter", s)
     None => ()
   }
-  match self.include_ {
+  match self.include {
     Some(inc) => {
       let arr = @js.JsArray::new()
       let mut i = 0
@@ -421,7 +421,7 @@ pub(all) struct R2Objects {
   objects : Array[R2Object]
   truncated : Bool
   cursor : String?
-  delimited_prefixes : Array[String]
+  delimitedPrefixes : Array[String]
 }
 
 ///|
@@ -443,7 +443,7 @@ pub fn R2MultipartUpload::key(self : Self) -> String {
 
 ///|
 /// Get upload ID
-pub fn R2MultipartUpload::upload_id(self : Self) -> String {
+pub fn R2MultipartUpload::uploadId(self : Self) -> String {
   unsafe_cast(self.get("uploadId"))
 }
 
@@ -481,14 +481,14 @@ pub fn R2MultipartUpload::complete(
 ///|
 /// Uploaded part information
 pub(all) struct R2UploadedPart {
-  part_number : Int
+  partNumber : Int
   etag : String
 }
 
 ///|
 pub impl JsImpl for R2UploadedPart with to_js(self) {
   let obj = @js.Object::new()
-  obj.set("partNumber", self.part_number)
+  obj.set("partNumber", self.partNumber)
   obj.set("etag", self.etag)
   obj.to_js()
 }

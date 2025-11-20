@@ -72,7 +72,7 @@ fn D1PreparedStatement::run(Self) -> @promise.Promise[D1Result]
 impl @js.JsImpl for D1PreparedStatement
 
 pub(all) struct D1RawOptions {
-  column_names : Bool?
+  columnNames : Bool?
 }
 impl @js.JsImpl for D1RawOptions
 
@@ -87,13 +87,13 @@ fn D1Result::get_results(Self) -> Array[@js.Js]
 impl @js.JsImpl for D1Result
 
 pub(all) struct DurableObjectGetAlarmOptions {
-  allow_concurrency : Bool?
+  allowConcurrency : Bool?
 }
 impl @js.JsImpl for DurableObjectGetAlarmOptions
 
 pub(all) struct DurableObjectGetOptions {
-  allow_concurrency : Bool?
-  no_cache : Bool?
+  allowConcurrency : Bool?
+  noCache : Bool?
 }
 impl @js.JsImpl for DurableObjectGetOptions
 
@@ -111,13 +111,13 @@ impl @js.JsImpl for DurableObjectIdOptions
 
 pub(all) struct DurableObjectListOptions {
   start : String?
-  start_after : String?
+  startAfter : String?
   end : String?
   prefix : String?
   reverse : Bool?
   limit : Int?
-  allow_concurrency : Bool?
-  no_cache : Bool?
+  allowConcurrency : Bool?
+  noCache : Bool?
 }
 impl @js.JsImpl for DurableObjectListOptions
 
@@ -133,15 +133,15 @@ fn DurableObjectNamespace::new_unique_id_with_options(Self, DurableObjectIdOptio
 impl @js.JsImpl for DurableObjectNamespace
 
 pub(all) struct DurableObjectPutOptions {
-  allow_concurrency : Bool?
-  allow_unconfirmed : Bool?
-  no_cache : Bool?
+  allowConcurrency : Bool?
+  allowUnconfirmed : Bool?
+  noCache : Bool?
 }
 impl @js.JsImpl for DurableObjectPutOptions
 
 pub(all) struct DurableObjectSetAlarmOptions {
-  allow_concurrency : Bool?
-  allow_unconfirmed : Bool?
+  allowConcurrency : Bool?
+  allowUnconfirmed : Bool?
 }
 impl @js.JsImpl for DurableObjectSetAlarmOptions
 
@@ -210,7 +210,7 @@ impl @js.JsImpl for DurableObjectTransaction
 
 pub(all) struct KVGetOptions {
   type_ : String?
-  cache_ttl : Int?
+  cacheTtl : Int?
 }
 impl @js.JsImpl for KVGetOptions
 
@@ -250,7 +250,7 @@ impl @js.JsImpl for KVNamespace
 
 pub(all) struct KVPutOptions {
   expiration : Int?
-  expiration_ttl : Int?
+  expirationTtl : Int?
   metadata : @js.Js?
 }
 impl @js.JsImpl for KVPutOptions
@@ -278,25 +278,25 @@ fn R2Bucket::resume_multipart_upload(Self, String, String) -> R2MultipartUpload
 impl @js.JsImpl for R2Bucket
 
 pub(all) struct R2Conditional {
-  etag_matches : String?
-  etag_does_not_match : String?
-  uploaded_before : @js.Js?
-  uploaded_after : @js.Js?
+  etagMatches : String?
+  etagDoesNotMatch : String?
+  uploadedBefore : @js.Js?
+  uploadedAfter : @js.Js?
 }
 
 pub(all) struct R2GetOptions {
-  only_if : R2Conditional?
+  onlyIf : R2Conditional?
   range : R2Range?
 }
 impl @js.JsImpl for R2GetOptions
 
 pub(all) struct R2HttpMetadata {
-  content_type : String?
-  content_language : String?
-  content_disposition : String?
-  content_encoding : String?
-  cache_control : String?
-  cache_expiry : @js.Js?
+  contentType : String?
+  contentLanguage : String?
+  contentDisposition : String?
+  contentEncoding : String?
+  cacheControl : String?
+  cacheExpiry : @js.Js?
 }
 impl @js.JsImpl for R2HttpMetadata
 
@@ -305,8 +305,8 @@ pub(all) struct R2ListOptions {
   prefix : String?
   cursor : String?
   delimiter : String?
-  start_after : String?
-  include_ : Array[String]?
+  startAfter : String?
+  include : Array[String]?
 }
 impl @js.JsImpl for R2ListOptions
 
@@ -315,7 +315,7 @@ pub type R2MultipartUpload
 fn R2MultipartUpload::abort(Self) -> @promise.Promise[Unit]
 fn R2MultipartUpload::complete(Self, Array[R2UploadedPart]) -> @promise.Promise[R2Object]
 fn R2MultipartUpload::key(Self) -> String
-fn R2MultipartUpload::upload_id(Self) -> String
+fn R2MultipartUpload::uploadId(Self) -> String
 fn R2MultipartUpload::upload_part(Self, Int, @js.Js) -> @promise.Promise[R2UploadedPart]
 impl @js.JsImpl for R2MultipartUpload
 
@@ -341,13 +341,13 @@ pub(all) struct R2Objects {
   objects : Array[R2Object]
   truncated : Bool
   cursor : String?
-  delimited_prefixes : Array[String]
+  delimitedPrefixes : Array[String]
 }
 impl @js.JsImpl for R2Objects
 
 pub(all) struct R2PutOptions {
-  http_metadata : R2HttpMetadata?
-  custom_metadata : @js.Js?
+  httpMetadata : R2HttpMetadata?
+  customMetadata : @js.Js?
   md5 : String?
   sha1 : String?
   sha256 : String?
@@ -363,7 +363,7 @@ pub(all) struct R2Range {
 }
 
 pub(all) struct R2UploadedPart {
-  part_number : Int
+  partNumber : Int
   etag : String
 }
 impl @js.JsImpl for R2UploadedPart
