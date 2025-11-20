@@ -43,11 +43,12 @@ pub fn stat(path : String) -> Promise[Stat] {
 /// node:fs/promises.mkdir
 pub fn mkdir(path : String, recursive? : Bool) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let options = @js.Object::new()
-  if recursive is Some(r) {
-    options.set("recursive", r)
-  }
-  unsafe_cast(fs.call("mkdir", [path, options]))
+  unsafe_cast(
+    fs.call("mkdir", [
+      path,
+      @js.from_entries_option_cast([("recursive", recursive)]),
+    ]),
+  )
 }
 
 ///|
@@ -59,17 +60,16 @@ pub fn glob(
   exclude_fn? : (String) -> Bool,
 ) -> AsyncIterator[String] {
   let fs = @node.require("node:fs/promises")
-  let opts = @js.Object::new()
-  if cwd is Some(c) {
-    opts.set("cwd", c)
-  }
-  if exclude is Some(e) {
-    opts.set("exclude", e |> @js.from_array)
-  }
-  if exclude_fn is Some(f) {
-    opts.set("exclude", f |> @js.from_fn1)
-  }
-  unsafe_cast(fs.call("glob", [path]))
+  unsafe_cast(
+    fs.call("glob", [
+      path,
+      @js.from_entries_option([
+        ("cwd", cwd.map(fn(x) { x })),
+        ("exclude", exclude.map(fn(x) { x |> @js.from_array })),
+        ("exclude", exclude_fn.map(fn(x) { x |> @js.from_fn1 })),
+      ]),
+    ]),
+  )
 }
 
 ///|
@@ -104,18 +104,17 @@ pub fn glob_with_filetype(
   exclude_fn? : (String) -> Bool,
 ) -> AsyncIterator[Dirent] {
   let fs = @node.require("node:fs/promises")
-  let opts = @js.Object::new()
-  opts.set("withFileTypes", true)
-  if cwd is Some(c) {
-    opts.set("cwd", c)
-  }
-  if exclude is Some(e) {
-    opts.set("exclude", e |> @js.from_array)
-  }
-  if exclude_fn is Some(f) {
-    opts.set("exclude", f |> @js.from_fn1)
-  }
-  unsafe_cast(fs.call("glob", [path]))
+  unsafe_cast(
+    fs.call("glob", [
+      path,
+      @js.from_entries_option([
+        ("withFileTypes", Some(true)),
+        ("cwd", cwd.map(fn(x) { x })),
+        ("exclude", exclude.map(fn(x) { x |> @js.from_array })),
+        ("exclude", exclude_fn.map(fn(x) { x |> @js.from_fn1 })),
+      ]),
+    ]),
+  )
 }
 
 ///|
@@ -148,16 +147,19 @@ pub fn writeFile(
   signal? : AbortSignal,
 ) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let opts = @js.Object::new()
-  opts.set("encoding", encoding)
-  opts.set("mode", mode)
-  opts.set("flag", flag)
-  opts.set("flush", flush)
-  if signal is Some(s) {
-    opts.set("signal", s)
-  }
-  let promise = fs.call("writeFile", [path, content, opts])
-  unsafe_cast(promise)
+  unsafe_cast(
+    fs.call("writeFile", [
+      path,
+      content,
+      @js.from_entries_option([
+        ("encoding", Some(encoding)),
+        ("mode", Some(mode)),
+        ("flag", Some(flag)),
+        ("flush", Some(flush)),
+        ("signal", signal.map(fn(x) { x })),
+      ]),
+    ]),
+  )
 }
 
 ///|
@@ -169,26 +171,24 @@ pub fn rename(path : String, dest : String) -> Promise[Unit] {
 ///|
 pub fn rm(path : String, recursive? : Bool, force? : Bool) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let opts = @js.Object::new()
-  if recursive is Some(r) {
-    opts.set("recursive", r)
-  }
-  if force is Some(f) {
-    opts.set("force", f)
-  }
-  let promise = fs.call("rm", [path, opts])
-  unsafe_cast(promise)
+  unsafe_cast(
+    fs.call("rm", [
+      path,
+      @js.from_entries_option_cast([("recursive", recursive), ("force", force)]),
+    ]),
+  )
 }
 
 ///|
 pub fn cp(path : String, dest : String, recursive? : Bool) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let opts = @js.Object::new()
-  if recursive is Some(r) {
-    opts.set("recursive", r)
-  }
-  let promise = fs.call("cp", [path, dest, opts])
-  unsafe_cast(promise)
+  unsafe_cast(
+    fs.call("cp", [
+      path,
+      dest,
+      @js.from_entries_option_cast([("recursive", recursive)]),
+    ]),
+  )
 }
 
 ///| Additional File Operations
@@ -249,11 +249,12 @@ pub fn truncate(path : String, len? : Int) -> Promise[Unit] {
 /// Remove directory
 pub fn rmdir(path : String, recursive? : Bool) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  let opts = @js.Object::new()
-  if recursive is Some(r) {
-    opts.set("recursive", r)
-  }
-  unsafe_cast(fs.call("rmdir", [path, opts]))
+  unsafe_cast(
+    fs.call("rmdir", [
+      path,
+      @js.from_entries_option_cast([("recursive", recursive)]),
+    ]),
+  )
 }
 
 ///|
@@ -275,11 +276,14 @@ pub fn appendFile(
 ) -> Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   match encoding {
-    Some(enc) => {
-      let opts = @js.Object::new()
-      opts.set("encoding", enc)
-      unsafe_cast(fs.call("appendFile", [path, data, opts]))
-    }
+    Some(enc) =>
+      unsafe_cast(
+        fs.call("appendFile", [
+          path,
+          data,
+          @js.from_entries_option_cast([("encoding", Some(enc))]),
+        ]),
+      )
     None => unsafe_cast(fs.call("appendFile", [path, data]))
   }
 }

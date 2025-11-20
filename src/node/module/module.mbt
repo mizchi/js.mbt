@@ -57,11 +57,11 @@ pub fn findSourceMap(path : String) -> SourceMap? {
 pub fn enableCompileCache(cache_dir? : String) -> Unit {
   let mod = ffi_require_module()
   match cache_dir {
-    Some(dir) => {
-      let options = @js.Object::new()
-      options.set("cacheDir", dir)
-      mod.call("enableCompileCache", [options]) |> ignore
-    }
+    Some(dir) =>
+      mod.call("enableCompileCache", [
+        @js.from_entries_option_cast([("cacheDir", Some(dir))]),
+      ])
+      |> ignore
     None => mod.call("enableCompileCache", []) |> ignore
   }
 }
@@ -100,22 +100,17 @@ pub fn stripTypeScriptTypes(
   let mod = ffi_require_module()
   match (mode, source_map, source_url) {
     (None, None, None) => unsafe_cast(mod.call("stripTypeScriptTypes", [code]))
-    _ => {
-      let options = @js.Object::new()
-      match mode {
-        Some(m) => options.set("mode", m)
-        None => ()
-      }
-      match source_map {
-        Some(sm) => options.set("sourceMap", sm)
-        None => ()
-      }
-      match source_url {
-        Some(url) => options.set("sourceUrl", url)
-        None => ()
-      }
-      unsafe_cast(mod.call("stripTypeScriptTypes", [code, options]))
-    }
+    _ =>
+      unsafe_cast(
+        mod.call("stripTypeScriptTypes", [
+          code,
+          @js.from_entries_option([
+            ("mode", mode.map(fn(x) { x })),
+            ("sourceMap", source_map.map(fn(x) { x })),
+            ("sourceUrl", source_url.map(fn(x) { x })),
+          ]),
+        ]),
+      )
   }
 }
 
