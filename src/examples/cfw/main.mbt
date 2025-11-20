@@ -16,7 +16,7 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
   ) -> Response {
     let url_str = req.url()
     let url = URL::new(url_str)
-    let pathname = url.pathname()
+    let pathname = url.pathname
 
     // Route handling
     if pathname == "/" {

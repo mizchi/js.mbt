@@ -288,8 +288,7 @@ pub fn Window::getComputedStyle(
   pseudo_elt? : String,
 ) -> Js {
   match pseudo_elt {
-    Some(p) =>
-      self.call2("getComputedStyle", element.to_js(), p) |> unsafe_cast
+    Some(p) => self.call2("getComputedStyle", element.to_js(), p) |> unsafe_cast
     None => self.call("getComputedStyle", [element.to_js()]) |> unsafe_cast
   }
 }

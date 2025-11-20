@@ -106,7 +106,7 @@ fn[O : JsImpl, V : JsImpl] set_if_exists(O, &PropertyKey, V?) -> Unit
 
 async fn sleep(Int) -> Unit noraise
 
-fn structured_clone(Js) -> Js
+fn structuredCclone(Js) -> Js
 
 async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 

@@ -67,18 +67,12 @@ pub fn DatabaseSync::new(
     ("open", open.map(x => x)),
     ("readOnly", readOnly.map(x => x)),
     ("allowExtension", allowExtension.map(x => x)),
-    (
-      "enableForeignKeyConstraints",
-      enableForeignKeyConstraints.map(x => x),
-    ),
+    ("enableForeignKeyConstraints", enableForeignKeyConstraints.map(x => x)),
     ("timeout", timeout.map(x => x)),
     ("readBigInts", readBigInts.map(x => x)),
     ("returnArrays", returnArrays.map(x => x)),
     ("allowBareNamedParameters", allowBareNamedParameters.map(x => x)),
-    (
-      "allowUnknownNamedParameters",
-      allowUnknownNamedParameters.map(x => x),
-    ),
+    ("allowUnknownNamedParameters", allowUnknownNamedParameters.map(x => x)),
     ("defensive", defensive.map(x => x)),
   ])
   let v = @node.require("node:sqlite").get("DatabaseSync")

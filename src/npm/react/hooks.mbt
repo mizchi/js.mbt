@@ -202,7 +202,11 @@ pub fn[T, U] use_action_state(
     w |> @js.unsafe_js,
     initial |> @js.unsafe_js,
   )
-  (val.get(0) |> unsafe_cast, val.get(1) |> unsafe_cast, val.get(2) |> unsafe_cast)
+  (
+    val.get(0) |> unsafe_cast,
+    val.get(1) |> unsafe_cast,
+    val.get(2) |> unsafe_cast,
+  )
 }
 
 ///|

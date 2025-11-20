@@ -141,7 +141,10 @@ pub fn Object::values(v : &JsImpl) -> Array[Js] {
 /// JS: Object.entries(v)
 pub fn Object::entries(v : &JsImpl) -> Array[(String, Js)] {
   let entries = ffi_object_entries(v.to_js())
-  entries.map(entry => (entry.get(0) |> unsafe_cast, entry.get(1) |> unsafe_cast))
+  entries.map(entry => (
+    entry.get(0) |> unsafe_cast,
+    entry.get(1) |> unsafe_cast,
+  ))
 }
 
 ///|

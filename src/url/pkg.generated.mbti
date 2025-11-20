@@ -27,25 +27,9 @@ pub(all) struct URL {
   mut hash : String
   mut searchParams : URLSearchParams
 }
-fn URL::hash(Self) -> String
-fn URL::host(Self) -> String
-fn URL::hostname(Self) -> String
-fn URL::href(Self) -> String
 fn URL::new(String, base? : String) -> Self
 fn URL::origin(Self) -> String
-fn URL::pathname(Self) -> String
-fn URL::port(Self) -> String
-fn URL::protocol(Self) -> String
-fn URL::search(Self) -> String
 fn URL::searchParams(Self) -> URLSearchParams
-fn URL::set_hash(Self, String) -> Unit
-fn URL::set_host(Self, String) -> Unit
-fn URL::set_hostname(Self, String) -> Unit
-fn URL::set_href(Self, String) -> Unit
-fn URL::set_pathname(Self, String) -> Unit
-fn URL::set_port(Self, String) -> Unit
-fn URL::set_protocol(Self, String) -> Unit
-fn URL::set_search(Self, String) -> Unit
 #alias(toJSON)
 fn URL::to_json(Self) -> String
 #alias(toString)

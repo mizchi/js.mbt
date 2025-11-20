@@ -22,8 +22,7 @@ pub fn ChildProcess::on_stderr_data(
   callback : (Js) -> Unit noraise,
 ) -> Unit {
   match self.stderr() {
-    Some(stream) =>
-      stream.call2("on", "data", @js.from_fn1(callback)) |> ignore
+    Some(stream) => stream.call2("on", "data", @js.from_fn1(callback)) |> ignore
     None => ()
   }
 }

@@ -36,10 +36,7 @@ pub fn Deno::permissions_query(
 ) -> Promise[PermissionStatus] {
   let perms = self.permissions()
   perms.call("query", [
-    @js.from_entries_option([
-      ("name", Some(name)),
-      ("path", path.map(x => x)),
-    ]),
+    @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
   ])
   |> @js.unsafe_cast
 }
@@ -53,10 +50,7 @@ pub fn Deno::permissions_request(
 ) -> Promise[PermissionStatus] {
   let perms = self.permissions()
   perms.call("request", [
-    @js.from_entries_option([
-      ("name", Some(name)),
-      ("path", path.map(x => x)),
-    ]),
+    @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
   ])
   |> @js.unsafe_cast
 }
@@ -70,10 +64,7 @@ pub fn Deno::permissions_revoke(
 ) -> Promise[PermissionStatus] {
   let perms = self.permissions()
   perms.call("revoke", [
-    @js.from_entries_option([
-      ("name", Some(name)),
-      ("path", path.map(x => x)),
-    ]),
+    @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
   ])
   |> @js.unsafe_cast
 }

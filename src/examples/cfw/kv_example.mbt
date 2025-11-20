@@ -39,7 +39,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
   ) -> @http.Response {
     let url_str = req.url()
     let url = @url.URL::new(url_str)
-    let pathname = url.pathname()
+    let pathname = url.pathname
 
     // Get KV namespace
     let kv = match get_kv(env) {

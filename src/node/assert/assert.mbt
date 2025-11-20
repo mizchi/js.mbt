@@ -139,8 +139,7 @@ pub fn rejects(
       a.call("rejects", [promise.to_js(), err.to_js(), msg]) |> unsafe_cast
     (Some(err), None) =>
       a.call2("rejects", promise.to_js(), err.to_js()) |> unsafe_cast
-    (None, Some(msg)) =>
-      a.call2("rejects", promise.to_js(), msg) |> unsafe_cast
+    (None, Some(msg)) => a.call2("rejects", promise.to_js(), msg) |> unsafe_cast
     (None, None) => a.call("rejects", [promise.to_js()]) |> unsafe_cast
   }
 }

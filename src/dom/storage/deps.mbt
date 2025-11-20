@@ -1,2 +1,2 @@
 ///|
-using @js {type Js, trait JsImpl, unsafe_cast, js}
+using @js {trait JsImpl, unsafe_cast, js}
