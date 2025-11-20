@@ -1,5 +1,7 @@
 // EcmaScript global APIs
 
+///| Global Objects
+
 ///|
 /// JS: globalThis
 #alias(global_this)
@@ -13,6 +15,16 @@ pub fn undefined() -> Js {
   ffi_undefined()
 }
 
+///| Type Checking
+
+///|
+/// JS: isNaN(v)
+pub fn[T : JsImpl] isNaN(v : T) -> Bool {
+  ffi_is_nan(v.to_js())
+}
+
+///| String Encoding (Base64)
+
 ///|
 /// JS: atob(encodedData)
 pub fn atob(encoded_data : String) -> String {
@@ -24,6 +36,8 @@ pub fn atob(encoded_data : String) -> String {
 pub fn btoa(data : String) -> String {
   ffi_btoa(data)
 }
+
+///| URI Encoding
 
 ///|
 /// JS: encodeURI(uri)
@@ -53,6 +67,8 @@ pub fn decodeURIComponent(encoded_str : String) -> String {
   ffi_decode_uri_component(encoded_str)
 }
 
+///| Module Loading
+
 ///|
 /// Do not use vite env
 #alias(dynamic_import)
@@ -60,11 +76,7 @@ pub fn dynamicImport(module_name : String) -> Js {
   ffi_dynamic_import(module_name)
 }
 
-///|
-/// JS: isNaN(v)
-pub fn[T : JsImpl] isNaN(v : T) -> Bool {
-  ffi_is_nan(v.to_js())
-}
+///| Timers
 
 ///|
 /// JS: setTimeout(f, duration)
@@ -94,6 +106,8 @@ pub fn clearInterval(timer : JsTimer) -> Unit {
   ffi_clear_timeout(timer)
 }
 
+///| JSON
+
 ///|
 /// JavaScript: JSON
 #external
@@ -114,6 +128,8 @@ pub fn JSON::stringify(
 pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise JsThrowError {
   throwable(() => ffi_json_parse(s, reviver?))
 }
+
+///| AbortController and AbortSignal
 
 ///|
 /// JavaScript: AbortController

@@ -1,27 +1,45 @@
+///| Global Objects
+
 ///|
-test "JSON::stringify" {
-  let arr : Array[Int] = [1] |> unsafe_cast
-  arr |> inspect(content="[1]")
-  JSON::stringify(arr |> from_array, space=2)
-  |> inspect(
-    content=(
-      #|[
-      #|  1
-      #|]
-    ),
-  )
-  let v = from_map({ "key1": 123 |> js, "key2": 456 |> js, "key3": 789 |> js })
-  JSON::stringify(v, space=2)
-  |> inspect(
-    content=(
-      #|{
-      #|  "key1": 123,
-      #|  "key2": 456,
-      #|  "key3": 789
-      #|}
-    ),
-  )
+test "globalThis" {
+  let global = globalThis()
+  assert_true(@js.is_object(global))
+  assert_false(@js.is_null(global))
 }
+
+///| Type Checking
+
+///|
+test "global isNaN" {
+  let nan_val = @js.js(0.0 / 0.0)
+  assert_true(@js.isNaN(nan_val))
+  assert_false(@js.isNaN(42))
+  assert_false(@js.isNaN(3.14))
+}
+
+///| String Encoding (Base64)
+
+///|
+test "btoa encodes string to base64" {
+  let encoded = btoa("Hello World")
+  assert_eq(encoded, "SGVsbG8gV29ybGQ=")
+}
+
+///|
+test "atob decodes base64 to string" {
+  let decoded = atob("SGVsbG8gV29ybGQ=")
+  assert_eq(decoded, "Hello World")
+}
+
+///|
+test "btoa and atob round trip" {
+  let original = "MoonBit is great!"
+  let encoded = btoa(original)
+  let decoded = atob(encoded)
+  assert_eq(decoded, original)
+}
+
+///| URI Encoding
 
 ///|
 test "encode_uri and decode_uri" {
@@ -63,37 +81,29 @@ test "encode_uri_component and decode_uri_component" {
   assert_eq(decoded_component, original)
 }
 
-///|
-test "global isNaN" {
-  let nan_val = @js.js(0.0 / 0.0)
-  assert_true(@js.isNaN(nan_val))
-  assert_false(@js.isNaN(42))
-  assert_false(@js.isNaN(3.14))
-}
+///| JSON
 
 ///|
-test "globalThis" {
-  let global = globalThis()
-  assert_true(@js.is_object(global))
-  assert_false(@js.is_null(global))
-}
-
-///|
-test "btoa encodes string to base64" {
-  let encoded = btoa("Hello World")
-  assert_eq(encoded, "SGVsbG8gV29ybGQ=")
-}
-
-///|
-test "atob decodes base64 to string" {
-  let decoded = atob("SGVsbG8gV29ybGQ=")
-  assert_eq(decoded, "Hello World")
-}
-
-///|
-test "btoa and atob round trip" {
-  let original = "MoonBit is great!"
-  let encoded = btoa(original)
-  let decoded = atob(encoded)
-  assert_eq(decoded, original)
+test "JSON::stringify" {
+  let arr : Array[Int] = [1] |> unsafe_cast
+  arr |> inspect(content="[1]")
+  JSON::stringify(arr |> from_array, space=2)
+  |> inspect(
+    content=(
+      #|[
+      #|  1
+      #|]
+    ),
+  )
+  let v = from_map({ "key1": 123 |> js, "key2": 456 |> js, "key3": 789 |> js })
+  JSON::stringify(v, space=2)
+  |> inspect(
+    content=(
+      #|{
+      #|  "key1": 123,
+      #|  "key2": 456,
+      #|  "key3": 789
+      #|}
+    ),
+  )
 }
