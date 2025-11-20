@@ -43,21 +43,21 @@ pub fn MessagePort::post_message_with_transfer(
     arr.call("push", [transfer[i]]) |> ignore
     i = i + 1
   }
-  port.call("postMessage", [message.to_js(), arr.to_js()]) |> ignore
+  port.call2("postMessage", message.to_js(), arr.to_js()) |> ignore
 }
 
 ///|
 /// Starts the sending of messages queued on the port
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/start
 pub fn MessagePort::start(port : MessagePort) -> Unit {
-  port.call("start", []) |> ignore
+  port.call0("start") |> ignore
 }
 
 ///|
 /// Disconnects the port, so it is no longer active
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/close
 pub fn MessagePort::close(port : MessagePort) -> Unit {
-  port.call("close", []) |> ignore
+  port.call0("close") |> ignore
 }
 
 ///|
@@ -94,12 +94,12 @@ pub fn MessageChannel::new() -> MessageChannel {
 /// Returns the first port of the channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/port1
 pub fn MessageChannel::port1(channel : MessageChannel) -> MessagePort {
-  @js.unsafe_cast(channel.get("port1"))
+  channel.get("port1") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the second port of the channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/port2
 pub fn MessageChannel::port2(channel : MessageChannel) -> MessagePort {
-  @js.unsafe_cast(channel.get("port2"))
+  channel.get("port2") |> @js.unsafe_cast
 }

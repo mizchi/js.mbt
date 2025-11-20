@@ -141,13 +141,13 @@ pub fn Object::values(v : &JsImpl) -> Array[Js] {
 /// JS: Object.entries(v)
 pub fn Object::entries(v : &JsImpl) -> Array[(String, Js)] {
   let entries = ffi_object_entries(v.to_js())
-  entries.map(entry => (unsafe_cast(entry.get(0)), unsafe_cast(entry.get(1))))
+  entries.map(entry => (entry.get(0) |> unsafe_cast, entry.get(1) |> unsafe_cast))
 }
 
 ///|
 /// JS: Object.assign(target, source)
 pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Js {
-  object_class().call("assign", [target.to_js(), source.to_js()]) |> unsafe_cast
+  object_class().call2("assign", target.to_js(), source.to_js()) |> unsafe_cast
 }
 
 ///|

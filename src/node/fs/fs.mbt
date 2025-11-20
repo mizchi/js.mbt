@@ -21,7 +21,7 @@ pub fn read_file_sync(path : String) -> Buffer {
 /// Read file synchronously as string with encoding
 pub fn read_file_sync_string(path : String, encoding : String) -> String {
   let fs = fs_module()
-  fs.call("readFileSync", [path, encoding]) |> unsafe_cast
+  fs.call2("readFileSync", path, encoding) |> unsafe_cast
 }
 
 ///| File Writing
@@ -31,7 +31,7 @@ pub fn read_file_sync_string(path : String, encoding : String) -> String {
 #alias(write_file_sync)
 pub fn writeFileSync(path : String, data : &JsImpl) -> Unit {
   let fs = fs_module()
-  fs.call("writeFileSync", [path, data.to_js()]) |> ignore
+  fs.call2("writeFileSync", path, data.to_js()) |> ignore
 }
 
 ///|
@@ -39,7 +39,7 @@ pub fn writeFileSync(path : String, data : &JsImpl) -> Unit {
 #alias(appendFileSync)
 pub fn append_file_sync(path : String, data : &JsImpl) -> Unit {
   let fs = fs_module()
-  fs.call("appendFileSync", [path, data.to_js()]) |> ignore
+  fs.call2("appendFileSync", path, data.to_js()) |> ignore
 }
 
 ///| File/Directory Operations
@@ -49,7 +49,7 @@ pub fn append_file_sync(path : String, data : &JsImpl) -> Unit {
 #alias(exists_sync)
 pub fn existsSync(path : String) -> Bool {
   let fs = fs_module()
-  fs.call("existsSync", [path]) |> unsafe_cast
+  fs.call1("existsSync", path) |> unsafe_cast
 }
 
 ///|
@@ -57,7 +57,7 @@ pub fn existsSync(path : String) -> Bool {
 #alias(stat_sync)
 pub fn statSync(path : String) -> Js {
   let fs = fs_module()
-  fs.call("statSync", [path])
+  fs.call1("statSync", path)
 }
 
 ///|
@@ -68,9 +68,9 @@ pub fn mkdirSync(path : String, recursive? : Bool) -> Unit {
   match recursive {
     Some(r) => {
       let opts = @js.from_map({ "recursive": r |> unsafe_cast })
-      fs.call("mkdirSync", [path, opts]) |> ignore
+      fs.call2("mkdirSync", path, opts) |> ignore
     }
-    None => fs.call("mkdirSync", [path]) |> ignore
+    None => fs.call1("mkdirSync", path) |> ignore
   }
 }
 
@@ -79,7 +79,7 @@ pub fn mkdirSync(path : String, recursive? : Bool) -> Unit {
 #alias(unlink_sync)
 pub fn unlinkSync(path : String) -> Unit {
   let fs = fs_module()
-  fs.call("unlinkSync", [path]) |> ignore
+  fs.call1("unlinkSync", path) |> ignore
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn unlinkSync(path : String) -> Unit {
 #alias(rename_sync)
 pub fn renameSync(old_path : String, new_path : String) -> Unit {
   let fs = fs_module()
-  fs.call("renameSync", [old_path, new_path]) |> ignore
+  fs.call2("renameSync", old_path, new_path) |> ignore
 }
 
 ///|
@@ -95,7 +95,7 @@ pub fn renameSync(old_path : String, new_path : String) -> Unit {
 // #alias(copyFileSync)
 pub fn copyFileSync(src : String, dest : String) -> Unit {
   let fs = fs_module()
-  fs.call("copyFileSync", [src, dest]) |> ignore
+  fs.call2("copyFileSync", src, dest) |> ignore
 }
 
 ///|
@@ -103,7 +103,7 @@ pub fn copyFileSync(src : String, dest : String) -> Unit {
 #alias(readdir_sync)
 pub fn readdirSync(path : String) -> Array[String] {
   let fs = fs_module()
-  fs.call("readdirSync", [path]) |> unsafe_cast
+  fs.call1("readdirSync", path) |> unsafe_cast
 }
 
 ///|
@@ -114,13 +114,14 @@ pub fn rmSync(path : String, recursive? : Bool, force? : Bool) -> Unit {
   match (recursive, force) {
     (None, None) => fs.call1("rmSync", path) |> ignore
     _ =>
-      fs.call("rmSync", [
+      fs.call2(
+        "rmSync",
         path,
         @js.from_entries_option_cast([
           ("recursive", recursive),
           ("force", force),
         ]),
-      ])
+      )
       |> ignore
   }
 }
@@ -128,13 +129,13 @@ pub fn rmSync(path : String, recursive? : Bool, force? : Bool) -> Unit {
 ///|
 pub fn createReadStream(path : String) -> @stream.Readable {
   let fs = fs_module()
-  fs.call("createReadStream", [path]) |> unsafe_cast
+  fs.call1("createReadStream", path) |> unsafe_cast
 }
 
 ///|
 pub fn createWriteStream(path : String) -> @stream.Writable {
   let fs = fs_module()
-  fs.call("createWriteStream", [path]) |> unsafe_cast
+  fs.call1("createWriteStream", path) |> unsafe_cast
 }
 
 ///| Additional File Operations
@@ -144,7 +145,7 @@ pub fn createWriteStream(path : String) -> @stream.Writable {
 #alias(chmod_sync)
 pub fn chmodSync(path : String, mode : Int) -> Unit {
   let fs = fs_module()
-  fs.call("chmodSync", [path, mode]) |> ignore
+  fs.call2("chmodSync", path, mode) |> ignore
 }
 
 ///|
@@ -162,7 +163,7 @@ pub fn symlinkSync(target : String, path : String, type_? : String) -> Unit {
   let fs = fs_module()
   match type_ {
     Some(t) => fs.call("symlinkSync", [target, path, t]) |> ignore
-    None => fs.call("symlinkSync", [target, path]) |> ignore
+    None => fs.call2("symlinkSync", target, path) |> ignore
   }
 }
 
@@ -171,7 +172,7 @@ pub fn symlinkSync(target : String, path : String, type_? : String) -> Unit {
 #alias(readlink_sync)
 pub fn readlinkSync(path : String) -> String {
   let fs = fs_module()
-  fs.call("readlinkSync", [path]) |> unsafe_cast
+  fs.call1("readlinkSync", path) |> unsafe_cast
 }
 
 ///|
@@ -179,7 +180,7 @@ pub fn readlinkSync(path : String) -> String {
 #alias(realpath_sync)
 pub fn realpathSync(path : String) -> String {
   let fs = fs_module()
-  fs.call("realpathSync", [path]) |> unsafe_cast
+  fs.call1("realpathSync", path) |> unsafe_cast
 }
 
 ///|
@@ -188,8 +189,8 @@ pub fn realpathSync(path : String) -> String {
 pub fn truncateSync(path : String, len? : Int) -> Unit {
   let fs = fs_module()
   match len {
-    Some(l) => fs.call("truncateSync", [path, l]) |> ignore
-    None => fs.call("truncateSync", [path]) |> ignore
+    Some(l) => fs.call2("truncateSync", path, l) |> ignore
+    None => fs.call1("truncateSync", path) |> ignore
   }
 }
 
@@ -201,9 +202,9 @@ pub fn rmdirSync(path : String, recursive? : Bool) -> Unit {
   match recursive {
     Some(r) => {
       let opts = @js.from_map({ "recursive": r |> unsafe_cast })
-      fs.call("rmdirSync", [path, opts]) |> ignore
+      fs.call2("rmdirSync", path, opts) |> ignore
     }
-    None => fs.call("rmdirSync", [path]) |> ignore
+    None => fs.call1("rmdirSync", path) |> ignore
   }
 }
 
@@ -213,8 +214,8 @@ pub fn rmdirSync(path : String, recursive? : Bool) -> Unit {
 pub fn accessSync(path : String, mode? : Int) -> Unit {
   let fs = fs_module()
   match mode {
-    Some(m) => fs.call("accessSync", [path, m]) |> ignore
-    None => fs.call("accessSync", [path]) |> ignore
+    Some(m) => fs.call2("accessSync", path, m) |> ignore
+    None => fs.call1("accessSync", path) |> ignore
   }
 }
 
@@ -228,7 +229,7 @@ pub fn cpSync(src : String, dest : String, recursive? : Bool) -> Unit {
       let opts = @js.from_map({ "recursive": r |> unsafe_cast })
       fs.call("cpSync", [src, dest, opts]) |> ignore
     }
-    None => fs.call("cpSync", [src, dest]) |> ignore
+    None => fs.call2("cpSync", src, dest) |> ignore
   }
 }
 
@@ -239,7 +240,7 @@ pub fn openSync(path : String, flags : String, mode? : Int) -> Int {
   let fs = fs_module()
   match mode {
     Some(m) => fs.call("openSync", [path, flags, m]) |> unsafe_cast
-    None => fs.call("openSync", [path, flags]) |> unsafe_cast
+    None => fs.call2("openSync", path, flags) |> unsafe_cast
   }
 }
 
@@ -248,7 +249,7 @@ pub fn openSync(path : String, flags : String, mode? : Int) -> Int {
 #alias(close_sync)
 pub fn closeSync(fd : Int) -> Unit {
   let fs = fs_module()
-  fs.call("closeSync", [fd]) |> ignore
+  fs.call1("closeSync", fd) |> ignore
 }
 
 ///|

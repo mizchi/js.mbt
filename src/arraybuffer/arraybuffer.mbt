@@ -17,7 +17,7 @@ pub fn ArrayBuffer::new(byte_length : UInt) -> ArrayBuffer {
 ///|
 #alias(byteLength)
 pub fn ArrayBuffer::byte_length(self : ArrayBuffer) -> UInt {
-  unsafe_cast(self.get("byteLength"))
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
@@ -61,7 +61,7 @@ pub fn SharedArrayBuffer::new(byte_length : UInt) -> SharedArrayBuffer {
 ///|
 #alias(byteLength)
 pub fn SharedArrayBuffer::byte_length(self : SharedArrayBuffer) -> UInt {
-  unsafe_cast(self.get("byteLength"))
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
@@ -71,7 +71,7 @@ pub fn SharedArrayBuffer::slice(
   end? : Int,
 ) -> SharedArrayBuffer {
   match end {
-    Some(e) => unsafe_cast(self.call("slice", [begin, e]))
+    Some(e) => self.call2("slice", begin, e) |> unsafe_cast
     None => unsafe_cast(self.call("slice", [begin]))
   }
 }

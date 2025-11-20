@@ -27,13 +27,13 @@ pub fn JsBigInt::from_string(value : String) -> JsBigInt {
 ///|
 /// JS: BigInt.asIntN(bits, bigint)
 pub fn JsBigInt::asIntN(bits : Int, bigint : JsBigInt) -> JsBigInt {
-  bigint_class().call("asIntN", [bits, bigint]) |> unsafe_cast
+  bigint_class().call2("asIntN", bits, bigint) |> unsafe_cast
 }
 
 ///|
 /// JS: BigInt.asUintN(bits, bigint)
 pub fn JsBigInt::asUintN(bits : Int, bigint : JsBigInt) -> JsBigInt {
-  bigint_class().call("asUintN", [bits, bigint]) |> unsafe_cast
+  bigint_class().call2("asUintN", bits, bigint) |> unsafe_cast
 }
 
 ///|

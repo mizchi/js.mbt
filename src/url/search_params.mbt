@@ -40,7 +40,7 @@ pub fn URLSearchParams::set(
   name : String,
   value : String,
 ) -> Unit {
-  self.call("set", [name, value]) |> unsafe_cast
+  self.call2("set", name, value) |> unsafe_cast
 }
 
 ///|
@@ -49,7 +49,7 @@ pub fn URLSearchParams::append(
   name : String,
   value : String,
 ) -> Unit {
-  self.call("append", [name, value]) |> unsafe_cast
+  self.call2("append", name, value) |> unsafe_cast
 }
 
 ///|
@@ -59,7 +59,7 @@ pub fn URLSearchParams::delete(self : URLSearchParams, name : String) -> Unit {
 
 ///|
 pub fn URLSearchParams::sort(self : URLSearchParams) -> Unit {
-  self.call("sort", []) |> unsafe_cast
+  self.call0("sort") |> unsafe_cast
 }
 
 ///|
@@ -70,5 +70,5 @@ pub fn URLSearchParams::size(self : URLSearchParams) -> Int {
 ///|
 #alias(toString)
 pub fn URLSearchParams::to_string(self : URLSearchParams) -> String {
-  self.call("toString", []) |> unsafe_cast
+  self.call0("toString") |> unsafe_cast
 }

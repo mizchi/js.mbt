@@ -121,19 +121,21 @@ impl JsImpl with call0(self, key) -> Js {
 
 ///|
 /// call a method on the JavaScript value.
-/// JS: self[key](...args)
+/// JS: self[key](arg1)
 impl JsImpl with call1(self, key, arg1) -> Js {
-  ffi_call(self.to_js(), key.to_key() |> unsafe_cast, [arg1.to_js()])
+  ffi_call1(self.to_js(), key.to_key() |> unsafe_cast, arg1.to_js())
 }
 
 ///|
 /// call a method on the JavaScript value.
-/// JS: self[key](...args)
+/// JS: self[key](arg1, arg2)
 impl JsImpl with call2(self, key, arg1, arg2) -> Js {
-  ffi_call(self.to_js(), key.to_key() |> unsafe_cast, [
+  ffi_call2(
+    self.to_js(),
+    key.to_key() |> unsafe_cast,
     arg1.to_js(),
     arg2.to_js(),
-  ])
+  )
 }
 
 ///|

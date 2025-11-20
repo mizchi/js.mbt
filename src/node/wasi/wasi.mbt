@@ -92,19 +92,19 @@ pub fn WASI::new(options : WasiOptions) -> WASI {
 ///|
 /// Get import object for WebAssembly.instantiate()
 pub fn WASI::getImportObject(self : Self) -> Js {
-  self.call("getImportObject", [])
+  self.call0("getImportObject")
 }
 
 ///|
 /// Start a WASI command by invoking _start() export
 pub fn WASI::start(self : Self, instance : WebAssemblyInstance) -> Unit {
-  self.call("start", [instance.to_js()]) |> ignore
+  self.call1("start", instance.to_js()) |> ignore
 }
 
 ///|
 /// Initialize a WASI reactor by invoking _initialize() export
 pub fn WASI::initialize(self : WASI, instance : WebAssemblyInstance) -> Unit {
-  self.call("initialize", [instance.to_js()]) |> ignore
+  self.call1("initialize", instance.to_js()) |> ignore
 }
 
 ///|

@@ -45,7 +45,7 @@ impl ElementImpl with append(self, child) {
 
 ///|
 impl ElementImpl with className(self) -> String {
-  unsafe_cast(self.get("className"))
+  self.get("className") |> unsafe_cast
 }
 
 ///|
@@ -55,7 +55,7 @@ impl ElementImpl with setClassName(self, class_name) -> Unit {
 
 ///|
 impl ElementImpl with id(self) -> String {
-  unsafe_cast(self.get("id"))
+  self.get("id") |> unsafe_cast
 }
 
 ///|
@@ -70,7 +70,7 @@ impl ElementImpl with getAttribute(self, name) -> String? {
 
 ///|
 impl ElementImpl with setAttribute(self, name, value) -> Unit {
-  ignore(self.call("setAttribute", [name, value]))
+  ignore(self.call2("setAttribute", name, value))
 }
 
 ///|

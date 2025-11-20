@@ -20,7 +20,7 @@ pub fn R2Bucket::get_with_options(
   key : String,
   options : R2GetOptions,
 ) -> Promise[R2Object?] {
-  self.call("get", [key, options]) |> unsafe_cast
+  self.call2("get", key, options) |> unsafe_cast
 }
 
 ///|
@@ -36,7 +36,7 @@ pub fn R2Bucket::put(
   key : String,
   value : Js,
 ) -> Promise[R2Object] {
-  self.call("put", [key, value]) |> unsafe_cast
+  self.call2("put", key, value) |> unsafe_cast
 }
 
 ///|
@@ -74,7 +74,7 @@ pub fn R2Bucket::delete_multiple(
 ///|
 /// List objects in the bucket
 pub fn R2Bucket::list(self : Self) -> Promise[R2Objects] {
-  self.call("list", []) |> unsafe_cast
+  self.call0("list") |> unsafe_cast
 }
 
 ///|
@@ -102,7 +102,7 @@ pub fn R2Bucket::create_multipart_upload_with_options(
   key : String,
   options : R2PutOptions,
 ) -> Promise[R2MultipartUpload] {
-  self.call("createMultipartUpload", [key, options]) |> unsafe_cast
+  self.call2("createMultipartUpload", key, options) |> unsafe_cast
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn R2Bucket::resume_multipart_upload(
   key : String,
   upload_id : String,
 ) -> R2MultipartUpload {
-  self.call("resumeMultipartUpload", [key, upload_id]) |> unsafe_cast
+  self.call2("resumeMultipartUpload", key, upload_id) |> unsafe_cast
 }
 
 ///|
@@ -269,25 +269,25 @@ pub impl JsImpl for R2Object
 ///|
 /// Get object key
 pub fn R2Object::key(self : Self) -> String {
-  unsafe_cast(self.get("key"))
+  self.get("key") |> unsafe_cast
 }
 
 ///|
 /// Get object version
 pub fn R2Object::version(self : Self) -> String {
-  unsafe_cast(self.get("version"))
+  self.get("version") |> unsafe_cast
 }
 
 ///|
 /// Get object size
 pub fn R2Object::size(self : Self) -> Int {
-  unsafe_cast(self.get("size"))
+  self.get("size") |> unsafe_cast
 }
 
 ///|
 /// Get object etag
 pub fn R2Object::etag(self : Self) -> String {
-  unsafe_cast(self.get("etag"))
+  self.get("etag") |> unsafe_cast
 }
 
 ///|
@@ -311,25 +311,25 @@ pub fn R2Object::uploaded(self : Self) -> Js {
 ///|
 /// Get object body as ArrayBuffer
 pub fn R2Object::array_buffer(self : Self) -> Promise[Js] {
-  self.call("arrayBuffer", []) |> unsafe_cast
+  self.call0("arrayBuffer") |> unsafe_cast
 }
 
 ///|
 /// Get object body as text
 pub fn R2Object::text(self : Self) -> Promise[String] {
-  self.call("text", []) |> unsafe_cast
+  self.call0("text") |> unsafe_cast
 }
 
 ///|
 /// Get object body as JSON
 pub fn R2Object::json(self : Self) -> Promise[Js] {
-  self.call("json", []) |> unsafe_cast
+  self.call0("json") |> unsafe_cast
 }
 
 ///|
 /// Get object body as blob
 pub fn R2Object::blob(self : Self) -> Promise[Js] {
-  self.call("blob", []) |> unsafe_cast
+  self.call0("blob") |> unsafe_cast
 }
 
 ///|
@@ -341,7 +341,7 @@ pub fn R2Object::body(self : Self) -> Js {
 ///|
 /// Get object body used status
 pub fn R2Object::body_used(self : Self) -> Bool {
-  unsafe_cast(self.get("bodyUsed"))
+  self.get("bodyUsed") |> unsafe_cast
 }
 
 ///|
@@ -373,13 +373,13 @@ pub impl JsImpl for R2MultipartUpload
 ///|
 /// Get upload key
 pub fn R2MultipartUpload::key(self : Self) -> String {
-  unsafe_cast(self.get("key"))
+  self.get("key") |> unsafe_cast
 }
 
 ///|
 /// Get upload ID
 pub fn R2MultipartUpload::uploadId(self : Self) -> String {
-  unsafe_cast(self.get("uploadId"))
+  self.get("uploadId") |> unsafe_cast
 }
 
 ///|
@@ -389,13 +389,13 @@ pub fn R2MultipartUpload::upload_part(
   part_number : Int,
   value : Js,
 ) -> Promise[R2UploadedPart] {
-  self.call("uploadPart", [part_number, value]) |> unsafe_cast
+  self.call2("uploadPart", part_number, value) |> unsafe_cast
 }
 
 ///|
 /// Abort the multipart upload
 pub fn R2MultipartUpload::abort(self : Self) -> Promise[Unit] {
-  self.call("abort", []) |> unsafe_cast
+  self.call0("abort") |> unsafe_cast
 }
 
 ///|

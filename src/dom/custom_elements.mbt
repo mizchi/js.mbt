@@ -60,7 +60,7 @@ pub fn CustomElementRegistry::define_(
   callbacks : CustomElementCallbacks,
 ) -> Unit {
   let element_class = create_custom_element_class(callbacks)
-  ignore(self.call("define", [name, element_class]))
+  ignore(self.call2("define", name, element_class))
 }
 
 ///|
@@ -101,7 +101,7 @@ pub fn CustomElementRegistry::define_element_with_attributes(
   let element_class = create_custom_element_class_with_attributes(
     callbacks, observed_attributes,
   )
-  ignore(self.call("define", [name, element_class]))
+  ignore(self.call2("define", name, element_class))
 }
 
 ///|

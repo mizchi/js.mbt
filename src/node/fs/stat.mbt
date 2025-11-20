@@ -7,17 +7,17 @@ pub impl JsImpl for Stat
 
 ///|
 pub fn Stat::isFile(self : Self) -> Bool {
-  self.call("isFile", []) |> unsafe_cast
+  self.call0("isFile") |> unsafe_cast
 }
 
 ///|
 pub fn Stat::isDirectory(self : Self) -> Bool {
-  self.call("isDirectory", []) |> unsafe_cast
+  self.call0("isDirectory") |> unsafe_cast
 }
 
 ///|
 pub fn Stat::size(self : Self) -> Int {
-  unsafe_cast(self.get("size"))
+  self.get("size") |> unsafe_cast
 }
 
 ///|

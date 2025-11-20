@@ -48,7 +48,7 @@ pub fn Worker::new(script_url : String, type_? : String) -> Worker {
 
 ///|
 pub fn Worker::terminate(worker : Worker) -> Unit {
-  worker.call("terminate", []) |> ignore
+  worker.call0("terminate") |> ignore
 }
 
 ///|

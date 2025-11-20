@@ -23,7 +23,7 @@ pub impl JsImpl for SuiteContext
 pub fn TestContext::skip(self : Self, message? : String) -> Unit {
   match message {
     Some(msg) => self.call("skip", [@js.js(msg)]) |> ignore
-    None => self.call("skip", []) |> ignore
+    None => self.call0("skip") |> ignore
   }
 }
 
@@ -31,7 +31,7 @@ pub fn TestContext::skip(self : Self, message? : String) -> Unit {
 pub fn TestContext::todo(self : Self, message? : String) -> Unit {
   match message {
     Some(msg) => self.call("todo", [@js.js(msg)]) |> ignore
-    None => self.call("todo", []) |> ignore
+    None => self.call0("todo") |> ignore
   }
 }
 
@@ -93,7 +93,7 @@ pub fn test_todo(name : String, f? : async (TestContext) -> Unit) -> Unit {
     None => {
       let options = @js.Object::new()
       options.set("todo", true)
-      nodetest().call("test", [name, options]) |> ignore
+      nodetest().call2("test", name, options) |> ignore
     }
   }
 }
@@ -157,7 +157,7 @@ pub fn describe_todo(name : String, f? : async (SuiteContext) -> Unit) -> Unit {
     None => {
       let options = @js.Object::new()
       options.set("todo", true)
-      nodetest().call("describe", [name, options]) |> ignore
+      nodetest().call2("describe", name, options) |> ignore
     }
   }
 }
@@ -177,7 +177,7 @@ pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call("before", [promisify0(f) |> @js.from_fn0, options]) |> ignore
+  nodetest().call2("before", promisify0(f) |> @js.from_fn0, options) |> ignore
 }
 
 ///|
@@ -187,7 +187,7 @@ pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call("after", [promisify0(f) |> @js.from_fn0, options]) |> ignore
+  nodetest().call2("after", promisify0(f) |> @js.from_fn0, options) |> ignore
 }
 
 ///|
@@ -197,7 +197,7 @@ pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call("beforeEach", [promisify0(f) |> @js.from_fn0, options])
+  nodetest().call2("beforeEach", promisify0(f) |> @js.from_fn0, options)
   |> ignore
 }
 
@@ -208,7 +208,7 @@ pub fn afterEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call("afterEach", [promisify0(f) |> @js.from_fn0, options])
+  nodetest().call2("afterEach", promisify0(f) |> @js.from_fn0, options)
   |> ignore
 }
 

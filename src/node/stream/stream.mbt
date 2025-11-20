@@ -50,17 +50,17 @@ pub fn Readable::read(self : Readable, size? : Int) -> Js {
 
 ///|
 pub fn Readable::pause(self : Readable) -> Readable {
-  self.call("pause", []) |> unsafe_cast
+  self.call0("pause") |> unsafe_cast
 }
 
 ///|
 pub fn Readable::resume_(self : Readable) -> Readable {
-  self.call("resume", []) |> unsafe_cast
+  self.call0("resume") |> unsafe_cast
 }
 
 ///|
 pub fn Readable::isPaused(self : Readable) -> Bool {
-  self.call("isPaused", []) |> unsafe_cast
+  self.call0("isPaused") |> unsafe_cast
 }
 
 ///|
@@ -89,7 +89,7 @@ pub fn Readable::unshift(
   chunk : Js,
   encoding? : String,
 ) -> Unit {
-  ignore(self.call("unshift", [chunk, encoding]))
+  ignore(self.call2("unshift", chunk, encoding))
 }
 
 ///|
@@ -190,12 +190,12 @@ pub fn Writable::end(
 
 ///|
 pub fn Writable::cork(self : Writable) -> Unit {
-  ignore(self.call("cork", []))
+  ignore(self.call0("cork"))
 }
 
 ///|
 pub fn Writable::uncork(self : Writable) -> Unit {
-  ignore(self.call("uncork", []))
+  ignore(self.call0("uncork"))
 }
 
 ///|
@@ -378,7 +378,7 @@ pub fn compose(streams : Array[Js]) -> Js {
 
 ///|
 pub fn addAbortSignal(signal : Js, stream : Js) -> Js {
-  stream_module().call("addAbortSignal", [signal, stream])
+  stream_module().call2("addAbortSignal", signal, stream)
 }
 
 ///|
@@ -403,5 +403,5 @@ pub fn getDefaultHighWaterMark(objectMode : Bool) -> Int {
 
 ///|
 pub fn setDefaultHighWaterMark(objectMode : Bool, value : Int) -> Unit {
-  ignore(stream_module().call("setDefaultHighWaterMark", [objectMode, value]))
+  ignore(stream_module().call2("setDefaultHighWaterMark", objectMode, value))
 }

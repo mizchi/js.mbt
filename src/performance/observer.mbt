@@ -47,7 +47,7 @@ pub fn PerformanceObserver::observe(
 /// JS: observer.disconnect()
 /// Stop observing performance entries
 pub fn PerformanceObserver::disconnect(self : PerformanceObserver) -> Unit {
-  self.call("disconnect", []) |> ignore
+  self.call0("disconnect") |> ignore
 }
 
 ///|
@@ -56,7 +56,7 @@ pub fn PerformanceObserver::disconnect(self : PerformanceObserver) -> Unit {
 pub fn PerformanceObserver::takeRecords(
   self : PerformanceObserver,
 ) -> Array[PerformanceEntry] {
-  self.call("takeRecords", []) |> @js.unsafe_cast
+  self.call0("takeRecords") |> @js.unsafe_cast
 }
 
 ///|
@@ -65,7 +65,7 @@ pub fn PerformanceObserver::takeRecords(
 pub fn PerformanceObserverEntryList::getEntries(
   self : PerformanceObserverEntryList,
 ) -> Array[PerformanceEntry] {
-  self.call("getEntries", []) |> @js.unsafe_cast
+  self.call0("getEntries") |> @js.unsafe_cast
 }
 
 ///|

@@ -11,7 +11,7 @@ fn assert_module() -> Js {
 pub fn ok(value : Bool, message? : String) -> Unit {
   let a = assert_module()
   match message {
-    Some(msg) => a.call("ok", [value, msg]) |> ignore
+    Some(msg) => a.call2("ok", value, msg) |> ignore
     None => a.call("ok", [value]) |> ignore
   }
 }
@@ -23,7 +23,7 @@ pub fn equal(actual : &JsImpl, expected : &JsImpl, message? : String) -> Unit {
   match message {
     Some(msg) =>
       a.call("equal", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call("equal", [actual.to_js(), expected.to_js()]) |> ignore
+    None => a.call2("equal", actual.to_js(), expected.to_js()) |> ignore
   }
 }
 
@@ -38,7 +38,7 @@ pub fn notEqual(
   match message {
     Some(msg) =>
       a.call("notEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call("notEqual", [actual.to_js(), expected.to_js()]) |> ignore
+    None => a.call2("notEqual", actual.to_js(), expected.to_js()) |> ignore
   }
 }
 
@@ -53,7 +53,7 @@ pub fn deepEqual(
   match message {
     Some(msg) =>
       a.call("deepEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call("deepEqual", [actual.to_js(), expected.to_js()]) |> ignore
+    None => a.call2("deepEqual", actual.to_js(), expected.to_js()) |> ignore
   }
 }
 
@@ -68,7 +68,7 @@ pub fn notDeepEqual(
   match message {
     Some(msg) =>
       a.call("notDeepEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call("notDeepEqual", [actual.to_js(), expected.to_js()]) |> ignore
+    None => a.call2("notDeepEqual", actual.to_js(), expected.to_js()) |> ignore
   }
 }
 
@@ -83,7 +83,7 @@ pub fn strictEqual(
   match message {
     Some(msg) =>
       a.call("strictEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call("strictEqual", [actual.to_js(), expected.to_js()]) |> ignore
+    None => a.call2("strictEqual", actual.to_js(), expected.to_js()) |> ignore
   }
 }
 
@@ -100,7 +100,7 @@ pub fn notStrictEqual(
       a.call("notStrictEqual", [actual.to_js(), expected.to_js(), msg])
       |> ignore
     None =>
-      a.call("notStrictEqual", [actual.to_js(), expected.to_js()]) |> ignore
+      a.call2("notStrictEqual", actual.to_js(), expected.to_js()) |> ignore
   }
 }
 
@@ -111,7 +111,7 @@ pub fn notStrictEqual(
 pub fn throws(fn_ : () -> Unit, message? : String) -> Unit {
   let a = assert_module()
   match message {
-    Some(msg) => a.call("throws", [@js.from_fn0(fn_), msg]) |> ignore
+    Some(msg) => a.call2("throws", @js.from_fn0(fn_), msg) |> ignore
     None => a.call("throws", [@js.from_fn0(fn_)]) |> ignore
   }
 }
@@ -121,7 +121,7 @@ pub fn throws(fn_ : () -> Unit, message? : String) -> Unit {
 pub fn doesNotThrow(fn_ : () -> Unit, message? : String) -> Unit {
   let a = assert_module()
   match message {
-    Some(msg) => a.call("doesNotThrow", [@js.from_fn0(fn_), msg]) |> ignore
+    Some(msg) => a.call2("doesNotThrow", @js.from_fn0(fn_), msg) |> ignore
     None => a.call("doesNotThrow", [@js.from_fn0(fn_)]) |> ignore
   }
 }
@@ -138,9 +138,9 @@ pub fn rejects(
     (Some(err), Some(msg)) =>
       a.call("rejects", [promise.to_js(), err.to_js(), msg]) |> unsafe_cast
     (Some(err), None) =>
-      a.call("rejects", [promise.to_js(), err.to_js()]) |> unsafe_cast
+      a.call2("rejects", promise.to_js(), err.to_js()) |> unsafe_cast
     (None, Some(msg)) =>
-      a.call("rejects", [promise.to_js(), msg]) |> unsafe_cast
+      a.call2("rejects", promise.to_js(), msg) |> unsafe_cast
     (None, None) => a.call("rejects", [promise.to_js()]) |> unsafe_cast
   }
 }
@@ -150,7 +150,7 @@ pub fn rejects(
 pub fn doesNotReject(promise : &JsImpl, message? : String) -> Promise[Unit] {
   let a = assert_module()
   match message {
-    Some(msg) => a.call("doesNotReject", [promise.to_js(), msg]) |> unsafe_cast
+    Some(msg) => a.call2("doesNotReject", promise.to_js(), msg) |> unsafe_cast
     None => a.call("doesNotReject", [promise.to_js()]) |> unsafe_cast
   }
 }
@@ -163,7 +163,7 @@ pub fn fail(message? : String) -> Unit {
   let a = assert_module()
   match message {
     Some(msg) => a.call("fail", [msg]) |> ignore
-    None => a.call("fail", []) |> ignore
+    None => a.call0("fail") |> ignore
   }
 }
 
@@ -179,7 +179,7 @@ pub fn match_(actual : String, regexp : String, message? : String) -> Unit {
   let regex = create_regexp(regexp)
   match message {
     Some(msg) => a.call("match", [actual, regex, msg]) |> ignore
-    None => a.call("match", [actual, regex]) |> ignore
+    None => a.call2("match", actual, regex) |> ignore
   }
 }
 
@@ -194,7 +194,7 @@ pub fn doesNotMatch(
   let regex = create_regexp(regexp)
   match message {
     Some(msg) => a.call("doesNotMatch", [actual, regex, msg]) |> ignore
-    None => a.call("doesNotMatch", [actual, regex]) |> ignore
+    None => a.call2("doesNotMatch", actual, regex) |> ignore
   }
 }
 
@@ -205,7 +205,7 @@ pub fn instanceOf(value : &JsImpl, ctor : &JsImpl, message? : String) -> Unit {
   match message {
     Some(msg) =>
       a.call("instanceOf", [value.to_js(), ctor.to_js(), msg]) |> ignore
-    None => a.call("instanceOf", [value.to_js(), ctor.to_js()]) |> ignore
+    None => a.call2("instanceOf", value.to_js(), ctor.to_js()) |> ignore
   }
 }
 
@@ -220,6 +220,6 @@ pub fn notInstanceOf(
   match message {
     Some(msg) =>
       a.call("notInstanceOf", [value.to_js(), ctor.to_js(), msg]) |> ignore
-    None => a.call("notInstanceOf", [value.to_js(), ctor.to_js()]) |> ignore
+    None => a.call2("notInstanceOf", value.to_js(), ctor.to_js()) |> ignore
   }
 }

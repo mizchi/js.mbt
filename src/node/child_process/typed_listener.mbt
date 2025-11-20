@@ -45,7 +45,7 @@ pub fn ChildProcess::on_error(
   self : Self,
   callback : (Js) -> Unit noraise,
 ) -> Unit {
-  self.call("on", ["error", unsafe_cast(callback)]) |> ignore
+  self.call2("on", "error", unsafe_cast(callback)) |> ignore
 }
 
 ///|
@@ -71,7 +71,7 @@ pub fn ChildProcess::on_disconnect(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.call("on", ["disconnect", unsafe_cast(callback)]) |> ignore
+  self.call2("on", "disconnect", unsafe_cast(callback)) |> ignore
 }
 
 ///|
@@ -81,7 +81,7 @@ pub fn ChildProcess::on_spawn(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.call("on", ["spawn", unsafe_cast(callback)]) |> ignore
+  self.call2("on", "spawn", unsafe_cast(callback)) |> ignore
 }
 
 ///|
@@ -92,7 +92,7 @@ pub fn ChildProcess::on_stdout_data(
   callback : (Js) -> Unit noraise,
 ) -> Unit {
   match self.stdout() {
-    Some(stream) => stream.call("on", ["data", unsafe_cast(callback)]) |> ignore
+    Some(stream) => stream.call2("on", "data", unsafe_cast(callback)) |> ignore
     None => ()
   }
 }

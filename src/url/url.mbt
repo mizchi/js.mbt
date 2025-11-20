@@ -29,7 +29,7 @@ pub extern "js" fn URL::new(url : String, base? : String) -> URL =
 ///|
 /// Get the href property
 pub fn URL::href(self : URL) -> String {
-  @js.unsafe_cast(self.get("href"))
+  self.get("href") |> @js.unsafe_cast
 }
 
 ///|
@@ -41,13 +41,13 @@ pub fn URL::set_href(self : URL, value : String) -> Unit {
 ///|
 /// Get the origin property (read-only)
 pub fn URL::origin(self : URL) -> String {
-  @js.unsafe_cast(self.get("origin"))
+  self.get("origin") |> @js.unsafe_cast
 }
 
 ///|
 /// Get the protocol property
 pub fn URL::protocol(self : URL) -> String {
-  @js.unsafe_cast(self.get("protocol"))
+  self.get("protocol") |> @js.unsafe_cast
 }
 
 ///|
@@ -59,7 +59,7 @@ pub fn URL::set_protocol(self : URL, value : String) -> Unit {
 ///|
 /// Get the host property
 pub fn URL::host(self : URL) -> String {
-  @js.unsafe_cast(self.get("host"))
+  self.get("host") |> @js.unsafe_cast
 }
 
 ///|
@@ -71,7 +71,7 @@ pub fn URL::set_host(self : URL, value : String) -> Unit {
 ///|
 /// Get the hostname property
 pub fn URL::hostname(self : URL) -> String {
-  @js.unsafe_cast(self.get("hostname"))
+  self.get("hostname") |> @js.unsafe_cast
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn URL::set_hostname(self : URL, value : String) -> Unit {
 ///|
 /// Get the port property
 pub fn URL::port(self : URL) -> String {
-  @js.unsafe_cast(self.get("port"))
+  self.get("port") |> @js.unsafe_cast
 }
 
 ///|
@@ -95,7 +95,7 @@ pub fn URL::set_port(self : URL, value : String) -> Unit {
 ///|
 /// Get the pathname property
 pub fn URL::pathname(self : URL) -> String {
-  @js.unsafe_cast(self.get("pathname"))
+  self.get("pathname") |> @js.unsafe_cast
 }
 
 ///|
@@ -107,7 +107,7 @@ pub fn URL::set_pathname(self : URL, value : String) -> Unit {
 ///|
 /// Get the search property
 pub fn URL::search(self : URL) -> String {
-  @js.unsafe_cast(self.get("search"))
+  self.get("search") |> @js.unsafe_cast
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn URL::set_search(self : URL, value : String) -> Unit {
 ///|
 /// Get the hash property
 pub fn URL::hash(self : URL) -> String {
-  @js.unsafe_cast(self.get("hash"))
+  self.get("hash") |> @js.unsafe_cast
 }
 
 ///|
@@ -131,19 +131,19 @@ pub fn URL::set_hash(self : URL, value : String) -> Unit {
 ///|
 /// Get the searchParams property
 pub fn URL::searchParams(self : URL) -> URLSearchParams {
-  @js.unsafe_cast(self.get("searchParams"))
+  self.get("searchParams") |> @js.unsafe_cast
 }
 
 ///|
 /// Convert URL to string
 #alias(toString)
 pub fn URL::to_string(self : URL) -> String {
-  @js.unsafe_cast(self.call("toString", []))
+  self.call0("toString") |> @js.unsafe_cast
 }
 
 ///|
 /// Convert URL to JSON
 #alias(toJSON)
 pub fn URL::to_json(self : URL) -> String {
-  @js.unsafe_cast(self.call("toJSON", []))
+  self.call0("toJSON") |> @js.unsafe_cast
 }

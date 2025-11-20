@@ -61,7 +61,7 @@ pub extern "js" fn Document::createTextNode(self : Self, data : String) -> Text 
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
 #alias(ready_state)
 pub fn Document::readyState(self : Self) -> String {
-  unsafe_cast(self.get("readyState"))
+  self.get("readyState") |> unsafe_cast
 }
 
 ///|
@@ -124,7 +124,7 @@ pub fn Document::head(self : Self) -> HTMLHeadElement? {
 /// Returns the document's title
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/title
 pub fn Document::title(self : Self) -> String {
-  unsafe_cast(self.get("title"))
+  self.get("title") |> unsafe_cast
 }
 
 ///|
@@ -138,21 +138,21 @@ pub fn Document::setTitle(self : Self, title : String) -> Unit {
 /// Returns the document's URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/URL
 pub fn Document::url(self : Self) -> String {
-  unsafe_cast(self.get("URL"))
+  self.get("URL") |> unsafe_cast
 }
 
 ///|
 /// Returns the document's domain
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/domain
 pub fn Document::domain(self : Self) -> String {
-  unsafe_cast(self.get("domain"))
+  self.get("domain") |> unsafe_cast
 }
 
 ///|
 /// Returns the document's referrer
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/referrer
 pub fn Document::referrer(self : Self) -> String {
-  unsafe_cast(self.get("referrer"))
+  self.get("referrer") |> unsafe_cast
 }
 
 ///|
@@ -160,7 +160,7 @@ pub fn Document::referrer(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 #alias(create_document_fragment)
 pub fn Document::createDocumentFragment(self : Self) -> Js {
-  self.call("createDocumentFragment", []) |> unsafe_cast
+  self.call0("createDocumentFragment") |> unsafe_cast
 }
 
 ///|
@@ -176,7 +176,7 @@ pub fn Document::createComment(self : Self, data : String) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentElement
 #alias(document_element)
 pub fn Document::documentElement(self : Self) -> Element {
-  unsafe_cast(self.get("documentElement"))
+  self.get("documentElement") |> unsafe_cast
 }
 
 ///|
@@ -184,7 +184,7 @@ pub fn Document::documentElement(self : Self) -> Element {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentURI
 #alias(document_uri)
 pub fn Document::documentURI(self : Self) -> String {
-  unsafe_cast(self.get("documentURI"))
+  self.get("documentURI") |> unsafe_cast
 }
 
 ///|
@@ -192,7 +192,7 @@ pub fn Document::documentURI(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/characterSet
 #alias(character_set)
 pub fn Document::characterSet(self : Self) -> String {
-  unsafe_cast(self.get("characterSet"))
+  self.get("characterSet") |> unsafe_cast
 }
 
 ///|
@@ -200,7 +200,7 @@ pub fn Document::characterSet(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/contentType
 #alias(content_type)
 pub fn Document::contentType(self : Self) -> String {
-  unsafe_cast(self.get("contentType"))
+  self.get("contentType") |> unsafe_cast
 }
 
 ///|
@@ -223,7 +223,7 @@ pub fn Document::adoptNode(self : Self, node : Node) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
 #alias(import_node)
 pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
-  self.call("importNode", [node.to_js(), deep]) |> unsafe_cast
+  self.call2("importNode", node.to_js(), deep) |> unsafe_cast
 }
 
 ///|
@@ -242,7 +242,7 @@ pub fn Document::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  self.call("elementFromPoint", [x, y]) |> @js.unsafe_cast_option()
+  self.call2("elementFromPoint", x, y) |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -253,7 +253,7 @@ pub fn Document::elementsFromPoint(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  @js.array_from(self.call("elementsFromPoint", [x, y])).map(fn(v) {
+  @js.array_from(self.call2("elementsFromPoint", x, y)).map(fn(v) {
     unsafe_cast(v)
   })
 }

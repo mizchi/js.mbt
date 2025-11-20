@@ -39,20 +39,20 @@ pub fn Blob::size(self : Self) -> Int {
 /// Get the MIME type of the Blob
 #alias(content_type)
 pub fn Blob::contentType(self : Self) -> String {
-  unsafe_cast(self.get("type"))
+  self.get("type") |> unsafe_cast
 }
 
 ///|
 /// Get the Blob contents as ArrayBuffer
 #alias(arrayBuffer)
 pub fn Blob::array_buffer(self : Self) -> Promise[ArrayBuffer] {
-  self.call("arrayBuffer", []) |> unsafe_cast
+  self.call0("arrayBuffer") |> unsafe_cast
 }
 
 ///|
 /// Get the Blob contents as text
 pub fn Blob::text(self : Self) -> Promise[String] {
-  self.call("text", []) |> unsafe_cast
+  self.call0("text") |> unsafe_cast
 }
 
 ///|
@@ -64,15 +64,15 @@ pub fn Blob::slice(
   content_type? : String,
 ) -> Blob {
   match (start, end, content_type) {
-    (None, None, None) => self.call("slice", []) |> unsafe_cast
+    (None, None, None) => self.call0("slice") |> unsafe_cast
     (Some(s), None, None) => self.call("slice", [s]) |> unsafe_cast
-    (Some(s), Some(e), None) => self.call("slice", [s, e]) |> unsafe_cast
+    (Some(s), Some(e), None) => self.call2("slice", s, e) |> unsafe_cast
     (Some(s), Some(e), Some(ct)) =>
       self.call("slice", [s, e, ct]) |> unsafe_cast
     (None, Some(e), ct) =>
       match ct {
         Some(t) => self.call("slice", [0, e, t]) |> unsafe_cast
-        None => self.call("slice", [0, e]) |> unsafe_cast
+        None => self.call2("slice", 0, e) |> unsafe_cast
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size()
@@ -88,5 +88,5 @@ pub fn Blob::slice(
 ///|
 /// Get a ReadableStream for the Blob contents
 pub fn Blob::stream(self : Self) -> ReadableStream {
-  self.call("stream", []) |> unsafe_cast
+  self.call0("stream") |> unsafe_cast
 }

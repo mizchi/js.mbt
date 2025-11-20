@@ -10,7 +10,7 @@ pub fn join(paths : Array[String]) -> String {
 /// JS: path.join(a, b)
 pub fn join2(a : String, b : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call("join", [a, b]) |> unsafe_cast
+  path_module.call2("join", a, b) |> unsafe_cast
 }
 
 ///|
@@ -25,7 +25,7 @@ pub fn dirname(path : String) -> String {
 pub fn basename(path : String, suffix? : String) -> String {
   let path_module = @node.require("node:path")
   match suffix {
-    Some(s) => unsafe_cast(path_module.call("basename", [path, s]))
+    Some(s) => path_module.call2("basename", path, s) |> unsafe_cast
     None => unsafe_cast(path_module.call("basename", [path]))
   }
 }
@@ -63,7 +63,7 @@ pub fn resolve(paths : Array[String]) -> String {
 /// JS: path.relative(from, to)
 pub fn relative(from : String, to : String) -> String {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.call("relative", [from, to]))
+  path_module.call2("relative", from, to) |> unsafe_cast
 }
 
 ///|
@@ -116,5 +116,5 @@ pub fn toNamespacedPath(path : String) -> String {
 #alias(matches_glob)
 pub fn matchesGlob(path : String, pattern : String) -> Bool {
   let path_module = @node.require("node:path")
-  unsafe_cast(path_module.call("matchesGlob", [path, pattern]))
+  path_module.call2("matchesGlob", path, pattern) |> unsafe_cast
 }

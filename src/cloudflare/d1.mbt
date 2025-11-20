@@ -37,7 +37,7 @@ pub fn D1Database::batch(
 ///|
 /// Dump the entire database
 pub fn D1Database::dump(self : Self) -> Promise[Js] {
-  self.call("dump", []) |> unsafe_cast
+  self.call0("dump") |> unsafe_cast
 }
 
 ///|
@@ -66,7 +66,7 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[Js]) -> Self {
   }
 
   // Use apply to spread the array as individual arguments
-  unsafe_cast(bind_fn.call("apply", [stmt_js, params_js]))
+  bind_fn.call2("apply", stmt_js, params_js) |> unsafe_cast
 }
 
 ///|
@@ -95,7 +95,7 @@ pub fn D1PreparedStatement::bind3(
 ///|
 /// Execute the statement and return first row
 pub fn D1PreparedStatement::first(self : Self) -> Promise[Js?] {
-  self.call("first", []) |> unsafe_cast
+  self.call0("first") |> unsafe_cast
 }
 
 ///|

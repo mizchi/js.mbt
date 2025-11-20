@@ -22,7 +22,7 @@ pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
 
 ///|
 pub fn OffscreenCanvas::width(self : Self) -> Int {
-  unsafe_cast(self.get("width"))
+  self.get("width") |> unsafe_cast
 }
 
 ///|
@@ -32,7 +32,7 @@ pub fn OffscreenCanvas::setWidth(self : Self, value : Int) -> Unit {
 
 ///|
 pub fn OffscreenCanvas::height(self : Self) -> Int {
-  unsafe_cast(self.get("height"))
+  self.get("height") |> unsafe_cast
 }
 
 ///|
@@ -55,11 +55,11 @@ pub fn OffscreenCanvas::convertToBlob(
 ) -> Promise[Blob] {
   match options {
     Some(opts) => self.call("convertToBlob", [opts]) |> unsafe_cast
-    None => self.call("convertToBlob", []) |> unsafe_cast
+    None => self.call0("convertToBlob") |> unsafe_cast
   }
 }
 
 ///|
 pub fn OffscreenCanvas::transferToImage_bitmap(self : Self) -> ImageBitmap {
-  self.call("transferToImageBitmap", []) |> unsafe_cast
+  self.call0("transferToImageBitmap") |> unsafe_cast
 }

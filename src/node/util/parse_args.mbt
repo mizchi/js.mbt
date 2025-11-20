@@ -65,7 +65,7 @@ pub fn parseArgs(
   }
   ParseArgsResult::{
     values,
-    positionals: unsafe_cast(r.get("positionals")),
+    positionals: r.get("positionals") |> unsafe_cast,
     tokens: None,
   }
 }

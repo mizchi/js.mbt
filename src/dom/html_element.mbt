@@ -38,7 +38,7 @@ pub impl HTMLElementImpl for HTMLElement
 
 ///|
 impl HTMLElementImpl with innerText(self) -> String {
-  unsafe_cast(self.get("innerText"))
+  self.get("innerText") |> unsafe_cast
 }
 
 ///|
@@ -48,7 +48,7 @@ impl HTMLElementImpl with setInnerText(self, text) -> Unit {
 
 ///|
 impl HTMLElementImpl with innerHTML(self) -> String {
-  unsafe_cast(self.get("innerHTML"))
+  self.get("innerHTML") |> unsafe_cast
 }
 
 ///|
@@ -58,7 +58,7 @@ impl HTMLElementImpl with setInnerHTML(self, html) -> Unit {
 
 ///|
 impl HTMLElementImpl with outerHTML(self) -> String {
-  unsafe_cast(self.get("outerHTML"))
+  self.get("outerHTML") |> unsafe_cast
 }
 
 ///|
@@ -68,10 +68,10 @@ impl HTMLElementImpl with setOuterHTML(self, html) -> Unit {
 
 ///|
 impl HTMLElementImpl with focus(self) -> Unit {
-  ignore(self.call("focus", []))
+  ignore(self.call0("focus"))
 }
 
 ///|
 impl HTMLElementImpl with click(self) -> Unit {
-  ignore(self.call("click", []))
+  ignore(self.call0("click"))
 }

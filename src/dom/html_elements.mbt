@@ -39,7 +39,7 @@ pub impl HTMLElementImpl for HTMLCanvasElement
 ///|
 /// Canvas properties
 pub fn HTMLCanvasElement::width(self : Self) -> Int {
-  unsafe_cast(self.get("width"))
+  self.get("width") |> unsafe_cast
 }
 
 ///|
@@ -49,7 +49,7 @@ pub fn HTMLCanvasElement::setWidth(self : Self, value : Int) -> Unit {
 
 ///|
 pub fn HTMLCanvasElement::height(self : Self) -> Int {
-  unsafe_cast(self.get("height"))
+  self.get("height") |> unsafe_cast
 }
 
 ///|
@@ -70,9 +70,9 @@ pub fn HTMLCanvasElement::toDataURL(
   quality? : Double,
 ) -> String {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.call("toDataURL", [t, q]) |> unsafe_cast
+    (Some(t), Some(q)) => self.call2("toDataURL", t, q) |> unsafe_cast
     (Some(t), None) => self.call("toDataURL", [t]) |> unsafe_cast
-    (None, _) => self.call("toDataURL", []) |> unsafe_cast
+    (None, _) => self.call0("toDataURL") |> unsafe_cast
   }
 }
 
@@ -83,9 +83,9 @@ pub fn HTMLCanvasElement::toBlob(
   quality? : Double,
 ) -> Promise[Blob] {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.call("toBlob", [t, q]) |> unsafe_cast
+    (Some(t), Some(q)) => self.call2("toBlob", t, q) |> unsafe_cast
     (Some(t), None) => self.call("toBlob", [t]) |> unsafe_cast
-    (None, _) => self.call("toBlob", []) |> unsafe_cast
+    (None, _) => self.call0("toBlob") |> unsafe_cast
   }
 }
 
@@ -188,7 +188,7 @@ pub impl HTMLElementImpl for HTMLAnchorElement
 /// Returns the href attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/href
 pub fn HTMLAnchorElement::href(self : Self) -> String {
-  unsafe_cast(self.get("href"))
+  self.get("href") |> unsafe_cast
 }
 
 ///|
@@ -201,7 +201,7 @@ pub fn HTMLAnchorElement::setHref(self : Self, href : String) -> Unit {
 /// Returns the target attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/target
 pub fn HTMLAnchorElement::target(self : Self) -> String {
-  unsafe_cast(self.get("target"))
+  self.get("target") |> unsafe_cast
 }
 
 ///|
@@ -232,7 +232,7 @@ pub impl HTMLElementImpl for HTMLButtonElement
 ///|
 /// Returns whether the button is disabled
 pub fn HTMLButtonElement::disabled(self : Self) -> Bool {
-  unsafe_cast(self.get("disabled"))
+  self.get("disabled") |> unsafe_cast
 }
 
 ///|
@@ -263,7 +263,7 @@ pub impl HTMLElementImpl for HTMLInputElement
 ///|
 /// Returns the value of the input
 pub fn HTMLInputElement::value(self : Self) -> String {
-  unsafe_cast(self.get("value"))
+  self.get("value") |> unsafe_cast
 }
 
 ///|
@@ -275,7 +275,7 @@ pub fn HTMLInputElement::setValue(self : Self, value : String) -> Unit {
 ///|
 /// Returns the type of the input
 pub fn HTMLInputElement::type_(self : Self) -> String {
-  unsafe_cast(self.get("type"))
+  self.get("type") |> unsafe_cast
 }
 
 ///|
@@ -287,7 +287,7 @@ pub fn HTMLInputElement::setType(self : Self, input_type : String) -> Unit {
 ///|
 /// Returns whether the input is disabled
 pub fn HTMLInputElement::disabled(self : Self) -> Bool {
-  unsafe_cast(self.get("disabled"))
+  self.get("disabled") |> unsafe_cast
 }
 
 ///|
@@ -299,7 +299,7 @@ pub fn HTMLInputElement::setDisabled(self : Self, disabled : Bool) -> Unit {
 ///|
 /// Returns whether the input is checked (for checkbox/radio)
 pub fn HTMLInputElement::checked(self : Self) -> Bool {
-  unsafe_cast(self.get("checked"))
+  self.get("checked") |> unsafe_cast
 }
 
 ///|
@@ -311,7 +311,7 @@ pub fn HTMLInputElement::setChecked(self : Self, checked : Bool) -> Unit {
 ///|
 /// Returns the placeholder text
 pub fn HTMLInputElement::placeholder(self : Self) -> String {
-  unsafe_cast(self.get("placeholder"))
+  self.get("placeholder") |> unsafe_cast
 }
 
 ///|
@@ -346,7 +346,7 @@ pub impl HTMLElementImpl for HTMLTextAreaElement
 /// Returns the value of the textarea
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/value
 pub fn HTMLTextAreaElement::value(self : Self) -> String {
-  unsafe_cast(self.get("value"))
+  self.get("value") |> unsafe_cast
 }
 
 ///|
@@ -359,7 +359,7 @@ pub fn HTMLTextAreaElement::setValue(self : Self, value : String) -> Unit {
 /// Returns the placeholder text
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/placeholder
 pub fn HTMLTextAreaElement::placeholder(self : Self) -> String {
-  unsafe_cast(self.get("placeholder"))
+  self.get("placeholder") |> unsafe_cast
 }
 
 ///|
@@ -375,7 +375,7 @@ pub fn HTMLTextAreaElement::setPlaceholder(
 /// Returns whether the textarea is disabled
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/disabled
 pub fn HTMLTextAreaElement::disabled(self : Self) -> Bool {
-  unsafe_cast(self.get("disabled"))
+  self.get("disabled") |> unsafe_cast
 }
 
 ///|
@@ -388,7 +388,7 @@ pub fn HTMLTextAreaElement::setDisabled(self : Self, disabled : Bool) -> Unit {
 /// Returns the number of visible text lines
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/rows
 pub fn HTMLTextAreaElement::rows(self : Self) -> Int {
-  unsafe_cast(self.get("rows"))
+  self.get("rows") |> unsafe_cast
 }
 
 ///|
@@ -401,7 +401,7 @@ pub fn HTMLTextAreaElement::setRows(self : Self, rows : Int) -> Unit {
 /// Returns the visible width of the text control
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/cols
 pub fn HTMLTextAreaElement::cols(self : Self) -> Int {
-  unsafe_cast(self.get("cols"))
+  self.get("cols") |> unsafe_cast
 }
 
 ///|
@@ -414,7 +414,7 @@ pub fn HTMLTextAreaElement::setCols(self : Self, cols : Int) -> Unit {
 /// Returns whether the textarea is read-only
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/readOnly
 pub fn HTMLTextAreaElement::readOnly(self : Self) -> Bool {
-  unsafe_cast(self.get("readOnly"))
+  self.get("readOnly") |> unsafe_cast
 }
 
 ///|
@@ -446,7 +446,7 @@ pub impl HTMLElementImpl for HTMLIFrameElement
 /// Returns the src attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/src
 pub fn HTMLIFrameElement::src(self : Self) -> String {
-  unsafe_cast(self.get("src"))
+  self.get("src") |> unsafe_cast
 }
 
 ///|
@@ -473,7 +473,7 @@ pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
 /// Returns the width attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/width
 pub fn HTMLIFrameElement::width(self : Self) -> String {
-  unsafe_cast(self.get("width"))
+  self.get("width") |> unsafe_cast
 }
 
 ///|
@@ -486,7 +486,7 @@ pub fn HTMLIFrameElement::setWidth(self : Self, width : String) -> Unit {
 /// Returns the height attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/height
 pub fn HTMLIFrameElement::height(self : Self) -> String {
-  unsafe_cast(self.get("height"))
+  self.get("height") |> unsafe_cast
 }
 
 ///|
@@ -499,7 +499,7 @@ pub fn HTMLIFrameElement::setHeight(self : Self, height : String) -> Unit {
 /// Returns the name attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/name
 pub fn HTMLIFrameElement::name(self : Self) -> String {
-  unsafe_cast(self.get("name"))
+  self.get("name") |> unsafe_cast
 }
 
 ///|
@@ -512,7 +512,7 @@ pub fn HTMLIFrameElement::setName(self : Self, name : String) -> Unit {
 /// Returns the sandbox attribute
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/sandbox
 pub fn HTMLIFrameElement::sandbox(self : Self) -> String {
-  unsafe_cast(self.get("sandbox"))
+  self.get("sandbox") |> unsafe_cast
 }
 
 ///|
@@ -562,7 +562,7 @@ pub impl HTMLElementImpl for HTMLSelectElement
 ///|
 /// Returns the value of the select element
 pub fn HTMLSelectElement::value(self : Self) -> String {
-  unsafe_cast(self.get("value"))
+  self.get("value") |> unsafe_cast
 }
 
 ///|
@@ -574,7 +574,7 @@ pub fn HTMLSelectElement::setValue(self : Self, value : String) -> Unit {
 ///|
 /// Returns whether the select is disabled
 pub fn HTMLSelectElement::disabled(self : Self) -> Bool {
-  unsafe_cast(self.get("disabled"))
+  self.get("disabled") |> unsafe_cast
 }
 
 ///|
@@ -605,7 +605,7 @@ pub impl HTMLElementImpl for HTMLOptionElement
 ///|
 /// Returns the value of the option
 pub fn HTMLOptionElement::value(self : Self) -> String {
-  unsafe_cast(self.get("value"))
+  self.get("value") |> unsafe_cast
 }
 
 ///|
@@ -617,7 +617,7 @@ pub fn HTMLOptionElement::setValue(self : Self, value : String) -> Unit {
 ///|
 /// Returns whether the option is selected
 pub fn HTMLOptionElement::selected(self : Self) -> Bool {
-  unsafe_cast(self.get("selected"))
+  self.get("selected") |> unsafe_cast
 }
 
 ///|
@@ -648,7 +648,7 @@ pub impl HTMLElementImpl for HTMLLabelElement
 ///|
 /// Returns the htmlFor attribute (references an input id)
 pub fn HTMLLabelElement::htmlFor(self : Self) -> String {
-  unsafe_cast(self.get("htmlFor"))
+  self.get("htmlFor") |> unsafe_cast
 }
 
 ///|
@@ -679,7 +679,7 @@ pub impl HTMLElementImpl for HTMLImageElement
 ///|
 /// Returns the src attribute
 pub fn HTMLImageElement::src(self : Self) -> String {
-  unsafe_cast(self.get("src"))
+  self.get("src") |> unsafe_cast
 }
 
 ///|
@@ -691,7 +691,7 @@ pub fn HTMLImageElement::setSrc(self : Self, src : String) -> Unit {
 ///|
 /// Returns the alt attribute
 pub fn HTMLImageElement::alt(self : Self) -> String {
-  unsafe_cast(self.get("alt"))
+  self.get("alt") |> unsafe_cast
 }
 
 ///|

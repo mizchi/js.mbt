@@ -53,19 +53,19 @@ pub fn URLPattern::newFromObject(
 ///|
 /// Get the protocol pattern
 pub fn URLPattern::protocol(self : Self) -> String {
-  unsafe_cast(self.get("protocol"))
+  self.get("protocol") |> unsafe_cast
 }
 
 ///|
 /// Get the username pattern
 pub fn URLPattern::username(self : Self) -> String {
-  unsafe_cast(self.get("username"))
+  self.get("username") |> unsafe_cast
 }
 
 ///|
 /// Get the password pattern
 pub fn URLPattern::password(self : Self) -> String {
-  unsafe_cast(self.get("password"))
+  self.get("password") |> unsafe_cast
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn URLPattern::test_url_with_base(
   base? : String,
 ) -> Bool {
   match base {
-    Some(b) => self.call("test", [input, b]) |> unsafe_cast
+    Some(b) => self.call2("test", input, b) |> unsafe_cast
     None => self.call("test", [input]) |> unsafe_cast
   }
 }
@@ -148,7 +148,7 @@ pub fn URLPattern::execWithBase(
   base? : String,
 ) -> URLPatternResult? {
   let result = match base {
-    Some(b) => self.call("exec", [input, b])
+    Some(b) => self.call2("exec", input, b)
     None => self.call("exec", [input])
   }
   if ffi_is_null(result) {
@@ -224,7 +224,7 @@ pub fn URLPatternResult::hash(self : Self) -> @js.Js {
 ///|
 /// Get the input value from a component result
 pub fn get_component_input(component : @js.Js) -> String {
-  unsafe_cast(component.get("input"))
+  component.get("input") |> unsafe_cast
 }
 
 ///|

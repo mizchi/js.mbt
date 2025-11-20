@@ -9,8 +9,8 @@
 #alias(use_state)
 pub fn[T : JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
-  let value : T = unsafe_cast(result.get(0))
-  let update_fn : (T) -> Unit = unsafe_cast(result.get(1))
+  let value : T = result.get(0) |> unsafe_cast
+  let update_fn : (T) -> Unit = result.get(1) |> unsafe_cast
   (value, update_fn)
 }
 
@@ -24,8 +24,8 @@ pub fn[T : JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
   let initial : () -> Js = unsafe_cast(initial)
   let result = ffi_react_use_state_lazy(initial)
-  let value : T = unsafe_cast(result.get(0))
-  let update_fn : (T) -> Unit = unsafe_cast(result.get(1))
+  let value : T = result.get(0) |> unsafe_cast
+  let update_fn : (T) -> Unit = result.get(1) |> unsafe_cast
   (value, update_fn)
 }
 
@@ -182,7 +182,7 @@ pub fn[T, U] use_reducer(
     reducer |> @js.unsafe_js,
     initial |> @js.unsafe_cast,
   )
-  (unsafe_cast(val.get(0)), unsafe_cast(val.get(1)))
+  (val.get(0) |> unsafe_cast, val.get(1) |> unsafe_cast)
 }
 
 ///|
@@ -202,7 +202,7 @@ pub fn[T, U] use_action_state(
     w |> @js.unsafe_js,
     initial |> @js.unsafe_js,
   )
-  (unsafe_cast(val.get(0)), unsafe_cast(val.get(1)), unsafe_cast(val.get(2)))
+  (val.get(0) |> unsafe_cast, val.get(1) |> unsafe_cast, val.get(2) |> unsafe_cast)
 }
 
 ///|

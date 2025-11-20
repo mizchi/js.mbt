@@ -11,7 +11,7 @@ extern "js" fn ffi_require_module() -> Js =
 #alias(builtin_modules)
 pub fn builtinModules() -> Array[String] {
   let mod = ffi_require_module()
-  unsafe_cast(mod.get("builtinModules"))
+  mod.get("builtinModules") |> unsafe_cast
 }
 
 ///|
@@ -38,7 +38,7 @@ pub fn isBuiltin(module_name : String) -> Bool {
 #alias(sync_builtin_esm_exports)
 pub fn syncBuiltinESMExports() -> Unit {
   let mod = ffi_require_module()
-  mod.call("syncBuiltinESMExports", []) |> ignore
+  mod.call0("syncBuiltinESMExports") |> ignore
 }
 
 ///|
@@ -62,7 +62,7 @@ pub fn enableCompileCache(cache_dir? : String) -> Unit {
         @js.from_entries_option_cast([("cacheDir", Some(dir))]),
       ])
       |> ignore
-    None => mod.call("enableCompileCache", []) |> ignore
+    None => mod.call0("enableCompileCache") |> ignore
   }
 }
 
@@ -72,7 +72,7 @@ pub fn enableCompileCache(cache_dir? : String) -> Unit {
 #alias(flush_compile_cache)
 pub fn flushCompileCache() -> Unit {
   let mod = ffi_require_module()
-  mod.call("flushCompileCache", []) |> ignore
+  mod.call0("flushCompileCache") |> ignore
 }
 
 ///|
@@ -81,7 +81,7 @@ pub fn flushCompileCache() -> Unit {
 #alias(get_compile_cache_dir)
 pub fn getCompileCacheDir() -> String? {
   let mod = ffi_require_module()
-  mod.call("getCompileCacheDir", []) |> @js.unsafe_cast_option()
+  mod.call0("getCompileCacheDir") |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -139,7 +139,7 @@ pub fn SourceMap::findEntry(
   line_number : Int,
   column_number : Int,
 ) -> SourceMapEntry? {
-  self.call("findEntry", [line_number, column_number])
+  self.call2("findEntry", line_number, column_number)
   |> @js.unsafe_cast_option()
 }
 
@@ -157,35 +157,35 @@ pub impl JsImpl for SourceMapEntry
 /// Get the original line number
 #alias(original_line)
 pub fn SourceMapEntry::originalLine(self : Self) -> Int {
-  unsafe_cast(self.get("originalLine"))
+  self.get("originalLine") |> unsafe_cast
 }
 
 ///|
 /// Get the original column number
 #alias(original_column)
 pub fn SourceMapEntry::originalColumn(self : Self) -> Int {
-  unsafe_cast(self.get("originalColumn"))
+  self.get("originalColumn") |> unsafe_cast
 }
 
 ///|
 /// Get the original source file name
 #alias(original_source)
 pub fn SourceMapEntry::originalSource(self : Self) -> String {
-  unsafe_cast(self.get("originalSource"))
+  self.get("originalSource") |> unsafe_cast
 }
 
 ///|
 /// Get the generated line number
 #alias(generated_line)
 pub fn SourceMapEntry::generatedLine(self : Self) -> Int {
-  unsafe_cast(self.get("generatedLine"))
+  self.get("generatedLine") |> unsafe_cast
 }
 
 ///|
 /// Get the generated column number
 #alias(generated_column)
 pub fn SourceMapEntry::generatedColumn(self : Self) -> Int {
-  unsafe_cast(self.get("generatedColumn"))
+  self.get("generatedColumn") |> unsafe_cast
 }
 
 ///|

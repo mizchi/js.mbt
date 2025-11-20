@@ -20,7 +20,7 @@ pub fn ReadableStream::new(underlying_source : Js) -> ReadableStream {
 ///|
 /// Returns whether the stream is locked to a reader
 pub fn ReadableStream::locked(self : Self) -> Bool {
-  unsafe_cast(self.get("locked"))
+  self.get("locked") |> unsafe_cast
 }
 
 ///|
@@ -28,7 +28,7 @@ pub fn ReadableStream::locked(self : Self) -> Bool {
 pub fn ReadableStream::cancel(self : Self, reason? : Js) -> Promise[Unit] {
   match reason {
     Some(r) => self.call("cancel", [r]) |> unsafe_cast
-    None => self.call("cancel", []) |> unsafe_cast
+    None => self.call0("cancel") |> unsafe_cast
   }
 }
 
@@ -36,7 +36,7 @@ pub fn ReadableStream::cancel(self : Self, reason? : Js) -> Promise[Unit] {
 /// Get a reader for this stream
 #alias(get_reader)
 pub fn ReadableStream::getReader(self : Self) -> ReadableStreamDefaultReader {
-  self.call("getReader", []) |> unsafe_cast
+  self.call0("getReader") |> unsafe_cast
 }
 
 ///|
@@ -48,7 +48,7 @@ pub fn ReadableStream::pipeTo(
   options? : Js,
 ) -> Promise[Unit] {
   match options {
-    Some(opts) => self.call("pipeTo", [destination, opts]) |> unsafe_cast
+    Some(opts) => self.call2("pipeTo", destination, opts) |> unsafe_cast
     None => self.call("pipeTo", [destination]) |> unsafe_cast
   }
 }
@@ -62,7 +62,7 @@ pub fn ReadableStream::pipeThrough(
   options? : Js,
 ) -> ReadableStream {
   match options {
-    Some(opts) => self.call("pipeThrough", [transform, opts]) |> unsafe_cast
+    Some(opts) => self.call2("pipeThrough", transform, opts) |> unsafe_cast
     None => self.call("pipeThrough", [transform]) |> unsafe_cast
   }
 }
@@ -74,7 +74,7 @@ extern "js" fn ffi_array_get(arr : Js, index : Int) -> Js =
 ///|
 /// Tee this stream into two branches
 pub fn ReadableStream::tee(self : Self) -> (ReadableStream, ReadableStream) {
-  let result = self.call("tee", [])
+  let result = self.call0("tee")
   let first : ReadableStream = unsafe_cast(ffi_array_get(result, 0))
   let second : ReadableStream = unsafe_cast(ffi_array_get(result, 1))
   (first, second)
@@ -91,14 +91,14 @@ pub impl JsImpl for ReadableStreamDefaultReader
 ///|
 /// Read a chunk from the stream
 pub fn ReadableStreamDefaultReader::read(self : Self) -> Promise[Js] {
-  self.call("read", []) |> unsafe_cast
+  self.call0("read") |> unsafe_cast
 }
 
 ///|
 /// Release the reader's lock on the stream
 #alias(release_lock)
 pub fn ReadableStreamDefaultReader::releaseLock(self : Self) -> Unit {
-  self.call("releaseLock", []) |> ignore
+  self.call0("releaseLock") |> ignore
 }
 
 ///|
@@ -109,14 +109,14 @@ pub fn ReadableStreamDefaultReader::cancel(
 ) -> Promise[Unit] {
   match reason {
     Some(r) => self.call("cancel", [r]) |> unsafe_cast
-    None => self.call("cancel", []) |> unsafe_cast
+    None => self.call0("cancel") |> unsafe_cast
   }
 }
 
 ///|
 /// Get the closed promise
 pub fn ReadableStreamDefaultReader::closed(self : Self) -> Promise[Unit] {
-  unsafe_cast(self.get("closed"))
+  self.get("closed") |> unsafe_cast
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn WritableStream::new(underlying_sink : Js) -> WritableStream {
 ///|
 /// Returns whether the stream is locked to a writer
 pub fn WritableStream::locked(self : Self) -> Bool {
-  unsafe_cast(self.get("locked"))
+  self.get("locked") |> unsafe_cast
 }
 
 ///|
@@ -149,21 +149,21 @@ pub fn WritableStream::locked(self : Self) -> Bool {
 pub fn WritableStream::abort(self : Self, reason? : Js) -> Promise[Unit] {
   match reason {
     Some(r) => self.call("abort", [r]) |> unsafe_cast
-    None => self.call("abort", []) |> unsafe_cast
+    None => self.call0("abort") |> unsafe_cast
   }
 }
 
 ///|
 /// Close the stream
 pub fn WritableStream::close(self : Self) -> Promise[Unit] {
-  self.call("close", []) |> unsafe_cast
+  self.call0("close") |> unsafe_cast
 }
 
 ///|
 /// Get a writer for this stream
 #alias(get_writer)
 pub fn WritableStream::getWriter(self : Self) -> WritableStreamDefaultWriter {
-  self.call("getWriter", []) |> unsafe_cast
+  self.call0("getWriter") |> unsafe_cast
 }
 
 ///|
@@ -186,7 +186,7 @@ pub fn WritableStreamDefaultWriter::write(
 ///|
 /// Close the writer
 pub fn WritableStreamDefaultWriter::close(self : Self) -> Promise[Unit] {
-  self.call("close", []) |> unsafe_cast
+  self.call0("close") |> unsafe_cast
 }
 
 ///|
@@ -197,7 +197,7 @@ pub fn WritableStreamDefaultWriter::abort(
 ) -> Promise[Unit] {
   match reason {
     Some(r) => self.call("abort", [r]) |> unsafe_cast
-    None => self.call("abort", []) |> unsafe_cast
+    None => self.call0("abort") |> unsafe_cast
   }
 }
 
@@ -205,19 +205,19 @@ pub fn WritableStreamDefaultWriter::abort(
 /// Release the writer's lock on the stream
 #alias(release_lock)
 pub fn WritableStreamDefaultWriter::releaseLock(self : Self) -> Unit {
-  self.call("releaseLock", []) |> ignore
+  self.call0("releaseLock") |> ignore
 }
 
 ///|
 /// Get the closed promise
 pub fn WritableStreamDefaultWriter::closed(self : Self) -> Promise[Unit] {
-  unsafe_cast(self.get("closed"))
+  self.get("closed") |> unsafe_cast
 }
 
 ///|
 /// Get the ready promise
 pub fn WritableStreamDefaultWriter::ready(self : Self) -> Promise[Unit] {
-  unsafe_cast(self.get("ready"))
+  self.get("ready") |> unsafe_cast
 }
 
 ///|
@@ -261,11 +261,11 @@ pub fn TransformStream::new_identity() -> TransformStream {
 ///|
 /// Get the readable side of the transform stream
 pub fn TransformStream::readable(self : Self) -> ReadableStream {
-  unsafe_cast(self.get("readable"))
+  self.get("readable") |> unsafe_cast
 }
 
 ///|
 /// Get the writable side of the transform stream
 pub fn TransformStream::writable(self : Self) -> WritableStream {
-  unsafe_cast(self.get("writable"))
+  self.get("writable") |> unsafe_cast
 }

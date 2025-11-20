@@ -346,7 +346,7 @@ pub fn Deno::resolveDns(
 ///|
 /// Serve HTTP requests (simplified version)
 pub fn Deno::serve(self : Deno, port : Int, handler : Js) -> Js {
-  self.call("serve", [@js.from_entries([("port", port), ("handler", handler)])])
+  self.call1("serve", @js.from_entries([("port", port), ("handler", handler)]))
 }
 
 ///| Permissions APIs
@@ -354,21 +354,21 @@ pub fn Deno::serve(self : Deno, port : Int, handler : Js) -> Js {
 ///|
 /// Request permission
 pub fn Deno::request_permission(self : Self, name : String) -> Promise[Js] {
-  self.get("permissions").call("request", [@js.from_entries([("name", name)])])
+  self.get("permissions").call1("request", @js.from_entries([("name", name)]))
   |> @js.unsafe_cast
 }
 
 ///|
 /// Query permission status
 pub fn Deno::query_permission(self : Deno, name : String) -> Promise[Js] {
-  self.get("permissions").call("query", [@js.from_entries([("name", name)])])
+  self.get("permissions").call1("query", @js.from_entries([("name", name)]))
   |> @js.unsafe_cast
 }
 
 ///|
 /// Revoke permission
 pub fn Deno::revoke_permission(self : Deno, name : String) -> Promise[Js] {
-  self.get("permissions").call("revoke", [@js.from_entries([("name", name)])])
+  self.get("permissions").call1("revoke", @js.from_entries([("name", name)]))
   |> @js.unsafe_cast
 }
 

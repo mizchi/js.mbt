@@ -61,13 +61,13 @@ pub impl Show for JsError with to_string(self) {
 ///|
 /// JS: error.message
 pub fn JsError::message(self : Self) -> String {
-  unsafe_cast(self.get("message"))
+  self.get("message") |> unsafe_cast
 }
 
 ///|
 /// JS: error.stack
 pub fn JsError::stack(self : Self) -> String {
-  unsafe_cast(self.get("stack"))
+  self.get("stack") |> unsafe_cast
 }
 
 ///|

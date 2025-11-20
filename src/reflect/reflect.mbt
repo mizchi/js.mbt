@@ -65,7 +65,7 @@ pub fn deleteProperty(
   target : &@js.JsImpl,
   property_key : &@js.PropertyKey,
 ) -> Bool {
-  reflect_class().call("deleteProperty", [target.to_js(), property_key.to_key()])
+  reflect_class().call2("deleteProperty", target.to_js(), property_key.to_key())
   |> @js.unsafe_cast
 }
 
@@ -80,7 +80,7 @@ pub fn get(
   match receiver {
     Some(recv) =>
       reflect_class().call("get", [target.to_js(), property_key.to_key(), recv])
-    None => reflect_class().call("get", [target.to_js(), property_key.to_key()])
+    None => reflect_class().call2("get", target.to_js(), property_key.to_key())
   }
 }
 
@@ -108,7 +108,7 @@ pub fn getPrototypeOf(target : &@js.JsImpl) -> @js.Js {
 /// JS: Reflect.has(target, propertyKey)
 /// Checks if an object has a property
 pub fn has(target : &@js.JsImpl, property_key : &@js.PropertyKey) -> Bool {
-  reflect_class().call("has", [target.to_js(), property_key.to_key()])
+  reflect_class().call2("has", target.to_js(), property_key.to_key())
   |> @js.unsafe_cast
 }
 
@@ -165,6 +165,6 @@ pub fn set(
 /// JS: Reflect.setPrototypeOf(target, prototype)
 /// Sets the prototype of an object
 pub fn setPrototypeOf(target : &@js.JsImpl, prototype : &@js.JsImpl) -> Bool {
-  reflect_class().call("setPrototypeOf", [target.to_js(), prototype.to_js()])
+  reflect_class().call2("setPrototypeOf", target.to_js(), prototype.to_js())
   |> @js.unsafe_cast
 }

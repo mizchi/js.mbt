@@ -33,10 +33,10 @@ pub fn MockTracker::fn_(
   implementation? : Js,
 ) -> Js {
   match (original, implementation) {
-    (Some(orig), Some(imp)) => self.call("fn", [orig, imp])
+    (Some(orig), Some(imp)) => self.call2("fn", orig, imp)
     (Some(orig), None) => self.call("fn", [orig])
     (None, Some(imp)) => self.call("fn", [imp])
-    (None, None) => self.call("fn", [])
+    (None, None) => self.call0("fn")
   }
 }
 
@@ -51,7 +51,7 @@ pub fn MockTracker::method_(
 ) -> Js {
   match implementation {
     Some(imp) => self.call("method", [object, methodName, imp])
-    None => self.call("method", [object, methodName])
+    None => self.call2("method", object, methodName)
   }
 }
 
@@ -66,7 +66,7 @@ pub fn MockTracker::getter_(
 ) -> Js {
   match implementation {
     Some(imp) => self.call("getter", [object, methodName, imp])
-    None => self.call("getter", [object, methodName])
+    None => self.call2("getter", object, methodName)
   }
 }
 
@@ -81,7 +81,7 @@ pub fn MockTracker::setter_(
 ) -> Js {
   match implementation {
     Some(imp) => self.call("setter", [object, methodName, imp])
-    None => self.call("setter", [object, methodName])
+    None => self.call2("setter", object, methodName)
   }
 }
 
@@ -101,7 +101,7 @@ pub fn MockTracker::module_(
   if namedExports is Some(exp) {
     options.set("namedExports", exp)
   }
-  self.call("module", [@js.js(specifier), options]) |> ignore
+  self.call2("module", @js.js(specifier), options) |> ignore
 }
 
 ///|
@@ -115,20 +115,20 @@ pub fn MockTracker::property_(
 ) -> Js {
   match value {
     Some(val) => self.call("property", [object, propertyName, val])
-    None => self.call("property", [object, propertyName])
+    None => self.call2("property", object, propertyName)
   }
 }
 
 ///|
 /// Reset all mocks (clear call tracking without restoration)
 pub fn MockTracker::reset(self : MockTracker) -> Unit {
-  self.call("reset", []) |> ignore
+  self.call0("reset") |> ignore
 }
 
 ///|
 /// Restore all mocked functionality
 pub fn MockTracker::restoreAll(self : MockTracker) -> Unit {
-  self.call("restoreAll", []) |> ignore
+  self.call0("restoreAll") |> ignore
 }
 
 ///|
@@ -143,7 +143,7 @@ pub fn MockFunctionContext::calls(self : MockFunctionContext) -> Array[Js] {
 ///|
 /// Get the call count
 pub fn MockFunctionContext::callCount(self : MockFunctionContext) -> Int {
-  self.call("callCount", []) |> unsafe_cast
+  self.call0("callCount") |> unsafe_cast
 }
 
 ///|
@@ -164,7 +164,7 @@ pub fn MockFunctionContext::mockImplementationOnce(
 ) -> Unit {
   match onCall {
     Some(call) =>
-      self.call("mockImplementationOnce", [implementation, call]) |> ignore
+      self.call2("mockImplementationOnce", implementation, call) |> ignore
     None => self.call("mockImplementationOnce", [implementation]) |> ignore
   }
 }
@@ -172,13 +172,13 @@ pub fn MockFunctionContext::mockImplementationOnce(
 ///|
 /// Reset call history
 pub fn MockFunctionContext::resetCalls(self : MockFunctionContext) -> Unit {
-  self.call("resetCalls", []) |> ignore
+  self.call0("resetCalls") |> ignore
 }
 
 ///|
 /// Restore the original function
 pub fn MockFunctionContext::restore(self : MockFunctionContext) -> Unit {
-  self.call("restore", []) |> ignore
+  self.call0("restore") |> ignore
 }
 
 ///|

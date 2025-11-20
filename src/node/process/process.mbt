@@ -82,5 +82,5 @@ pub fn stderr() -> @stream.Stream {
 ///|
 /// JS: process.on(sig, listener)
 pub fn on(sig : String, listener : () -> Unit) -> Unit {
-  unsafe_cast(process().call("on", [sig, @js.from_fn0(listener)]))
+  unsafe_cast(process().call2("on", sig, @js.from_fn0(listener)))
 }

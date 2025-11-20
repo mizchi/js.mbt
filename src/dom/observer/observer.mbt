@@ -29,21 +29,21 @@ pub fn MutationObserver::observe(
   target : Element,
   options : Js,
 ) -> Unit {
-  self.call("observe", [target |> js, options]) |> ignore
+  self.call2("observe", target |> js, options) |> ignore
 }
 
 ///|
 /// Stops observing
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/disconnect
 pub fn MutationObserver::disconnect(self : Self) -> Unit {
-  self.call("disconnect", []) |> ignore
+  self.call0("disconnect") |> ignore
 }
 
 ///|
 /// Returns all pending mutation records
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/takeRecords
 pub fn MutationObserver::take_records(self : Self) -> Js {
-  self.call("takeRecords", [])
+  self.call0("takeRecords")
 }
 
 ///|
@@ -58,7 +58,7 @@ pub impl JsImpl for MutationRecord
 ///|
 /// Returns the type of mutation
 pub fn MutationRecord::mutation_type(self : Self) -> String {
-  @js.unsafe_cast(self.get("type"))
+  self.get("type") |> @js.unsafe_cast
 }
 
 ///|
@@ -150,14 +150,14 @@ pub fn IntersectionObserver::unobserve(self : Self, target : Element) -> Unit {
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/disconnect
 pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
-  self.call("disconnect", []) |> ignore
+  self.call0("disconnect") |> ignore
 }
 
 ///|
 /// Returns all pending intersection records
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords
 pub fn IntersectionObserver::take_records(self : Self) -> Js {
-  self.call("takeRecords", [])
+  self.call0("takeRecords")
 }
 
 ///|
@@ -172,7 +172,7 @@ pub impl JsImpl for IntersectionObserverEntry
 ///|
 /// Returns the target element
 pub fn IntersectionObserverEntry::target(self : Self) -> Js {
-  @js.unsafe_cast(self.get("target"))
+  self.get("target") |> @js.unsafe_cast
 }
 
 ///|
@@ -196,19 +196,19 @@ pub fn IntersectionObserverEntry::root_bounds(self : Self) -> Element? {
 ///|
 /// Returns the intersection ratio
 pub fn IntersectionObserverEntry::intersection_ratio(self : Self) -> Double {
-  @js.unsafe_cast(self.get("intersectionRatio"))
+  self.get("intersectionRatio") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns whether the target is intersecting
 pub fn IntersectionObserverEntry::is_intersecting(self : Self) -> Bool {
-  @js.unsafe_cast(self.get("isIntersecting"))
+  self.get("isIntersecting") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the time of the intersection
 pub fn IntersectionObserverEntry::time(self : Self) -> Double {
-  @js.unsafe_cast(self.get("time"))
+  self.get("time") |> @js.unsafe_cast
 }
 
 ///|
@@ -244,7 +244,7 @@ pub fn ResizeObserver::observe_with_options(
   target : Element,
   options : Js,
 ) -> Unit {
-  self.call("observe", [target |> js, options]) |> ignore
+  self.call2("observe", target |> js, options) |> ignore
 }
 
 ///|
@@ -258,7 +258,7 @@ pub fn ResizeObserver::unobserve(self : Self, target : Element) -> Unit {
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/disconnect
 pub fn ResizeObserver::disconnect(self : Self) -> Unit {
-  self.call("disconnect", []) |> ignore
+  self.call0("disconnect") |> ignore
 }
 
 ///|
@@ -273,13 +273,13 @@ pub impl JsImpl for ResizeObserverEntry
 ///|
 /// Returns the target element being observed
 pub fn ResizeObserverEntry::target(self : Self) -> Element {
-  @js.unsafe_cast(self.get("target"))
+  self.get("target") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the content rect
 pub fn ResizeObserverEntry::contentRect(self : Self) -> @dom.DOMRectReadOnly {
-  @js.unsafe_cast(self.get("contentRect"))
+  self.get("contentRect") |> @js.unsafe_cast
 }
 
 ///|

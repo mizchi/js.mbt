@@ -44,14 +44,14 @@ pub fn MockTimers::tick(self : MockTimers, milliseconds : Int) -> Unit {
 /// Execute all queued timers
 /// mock.timers.runAll()
 pub fn MockTimers::runAll(self : MockTimers) -> Unit {
-  self.call("runAll", []) |> ignore
+  self.call0("runAll") |> ignore
 }
 
 ///|
 /// Clear timer queue
 /// mock.timers.reset()
 pub fn MockTimers::reset(self : MockTimers) -> Unit {
-  self.call("reset", []) |> ignore
+  self.call0("reset") |> ignore
 }
 
 ///|

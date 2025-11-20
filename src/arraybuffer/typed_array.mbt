@@ -82,13 +82,13 @@ pub fn Uint8Array::set(
   array : Array[UInt],
   offset? : UInt = 0,
 ) -> Unit {
-  self.call("set", [@js.from_array(array), offset]) |> ignore
+  self.call2("set", @js.from_array(array), offset) |> ignore
 }
 
 ///|
 pub fn Uint8Array::slice(self : Self, start? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.call("slice", [start, e]) |> unsafe_cast
+    Some(e) => self.call2("slice", start, e) |> unsafe_cast
     None => self.call("slice", [start]) |> unsafe_cast
   }
 }
@@ -96,7 +96,7 @@ pub fn Uint8Array::slice(self : Self, start? : Int = 0, end? : Int) -> Self {
 ///|
 pub fn Uint8Array::subarray(self : Self, begin? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.call("subarray", [begin, e]) |> unsafe_cast
+    Some(e) => self.call2("subarray", begin, e) |> unsafe_cast
     None => self.call("subarray", [begin]) |> unsafe_cast
   }
 }
@@ -110,7 +110,7 @@ pub fn Uint8Array::fill(
 ) -> Self {
   match end {
     Some(e) => self.call("fill", [value, start, e]) |> unsafe_cast
-    None => self.call("fill", [value, start]) |> unsafe_cast
+    None => self.call2("fill", value, start) |> unsafe_cast
   }
 }
 
@@ -124,18 +124,18 @@ pub fn Uint8Array::copy_within(
 ) -> Self {
   match end {
     Some(e) => self.call("copyWithin", [target, start, e]) |> unsafe_cast
-    None => self.call("copyWithin", [target, start]) |> unsafe_cast
+    None => self.call2("copyWithin", target, start) |> unsafe_cast
   }
 }
 
 ///|
 pub fn Uint8Array::reverse(self : Self) -> Self {
-  self.call("reverse", []) |> unsafe_cast
+  self.call0("reverse") |> unsafe_cast
 }
 
 ///|
 pub fn Uint8Array::sort(self : Self) -> Self {
-  self.call("sort", []) |> unsafe_cast
+  self.call0("sort") |> unsafe_cast
 }
 
 ///|
@@ -145,7 +145,7 @@ pub fn Uint8Array::index_of(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call("indexOf", [search_element, from_index]) |> unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> unsafe_cast
 }
 
 ///|
@@ -156,7 +156,7 @@ pub fn Uint8Array::last_index_of(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call("lastIndexOf", [search_element, i]) |> unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> unsafe_cast
     None => self.call("lastIndexOf", [search_element]) |> unsafe_cast
   }
 }
@@ -167,7 +167,7 @@ pub fn Uint8Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call("includes", [search_element, from_index]) |> unsafe_cast
+  self.call2("includes", search_element, from_index) |> unsafe_cast
 }
 
 ///|
@@ -646,7 +646,7 @@ pub fn Float32Array::byte_offset(self : Self) -> UInt {
 
 ///|
 pub fn Float32Array::buffer(self : Self) -> ArrayBuffer {
-  unsafe_cast(self.get("buffer"))
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
@@ -707,22 +707,22 @@ pub extern "js" fn Float64Array::get_at(self : Self, index : UInt) -> Double =
 
 ///|
 pub fn Float64Array::length(self : Self) -> UInt {
-  unsafe_cast(self.get("length"))
+  self.get("length") |> unsafe_cast
 }
 
 ///|
 #alias(byteLength)
 pub fn Float64Array::byte_length(self : Self) -> UInt {
-  unsafe_cast(self.get("byteLength"))
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
 #alias(byteOffset)
 pub fn Float64Array::byte_offset(self : Self) -> UInt {
-  unsafe_cast(self.get("byteOffset"))
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|
 pub fn Float64Array::buffer(self : Self) -> ArrayBuffer {
-  unsafe_cast(self.get("buffer"))
+  self.get("buffer") |> unsafe_cast
 }

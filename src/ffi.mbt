@@ -91,6 +91,14 @@ extern "js" fn ffi_call0(obj : Js, key : String) -> Js =
   #| (obj, key) => obj[key]()
 
 ///|
+extern "js" fn ffi_call1(obj : Js, key : String, arg1 : Js) -> Js =
+  #| (obj, key, arg1) => obj[key](arg1)
+
+///|
+extern "js" fn ffi_call2(obj : Js, key : String, arg1 : Js, arg2 : Js) -> Js =
+  #| (obj, key, arg1, arg2) => obj[key](arg1, arg2)
+
+///|
 extern "js" fn ffi_call_self(func : Js, args : Array[Js]) -> Js =
   #| (func, args) => func(...args)
 

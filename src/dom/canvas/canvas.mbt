@@ -9,12 +9,12 @@ pub impl JsImpl for CanvasRenderingContext2D
 ///|
 /// Context properties
 pub fn CanvasRenderingContext2D::canvas(self : Self) -> HTMLCanvasElement {
-  unsafe_cast(self.get("canvas"))
+  self.get("canvas") |> unsafe_cast
 }
 
 ///|
 pub fn CanvasRenderingContext2D::fillStyle(self : Self) -> String {
-  unsafe_cast(self.get("fillStyle"))
+  self.get("fillStyle") |> unsafe_cast
 }
 
 ///|
@@ -27,7 +27,7 @@ pub fn CanvasRenderingContext2D::setFillStyle(
 
 ///|
 pub fn CanvasRenderingContext2D::strokeStyle(self : Self) -> String {
-  unsafe_cast(self.get("strokeStyle"))
+  self.get("strokeStyle") |> unsafe_cast
 }
 
 ///|
@@ -40,7 +40,7 @@ pub fn CanvasRenderingContext2D::setStrokeStyle(
 
 ///|
 pub fn CanvasRenderingContext2D::lineWidth(self : Self) -> Double {
-  unsafe_cast(self.get("lineWidth"))
+  self.get("lineWidth") |> unsafe_cast
 }
 
 ///|
@@ -53,7 +53,7 @@ pub fn CanvasRenderingContext2D::setLineWidth(
 
 ///|
 pub fn CanvasRenderingContext2D::font(self : Self) -> String {
-  unsafe_cast(self.get("font"))
+  self.get("font") |> unsafe_cast
 }
 
 ///|
@@ -63,7 +63,7 @@ pub fn CanvasRenderingContext2D::setFont(self : Self, value : String) -> Unit {
 
 ///|
 pub fn CanvasRenderingContext2D::textAlign(self : Self) -> String {
-  unsafe_cast(self.get("textAlign"))
+  self.get("textAlign") |> unsafe_cast
 }
 
 ///|
@@ -76,7 +76,7 @@ pub fn CanvasRenderingContext2D::setTextAlign(
 
 ///|
 pub fn CanvasRenderingContext2D::textBaseline(self : Self) -> String {
-  unsafe_cast(self.get("textBaseline"))
+  self.get("textBaseline") |> unsafe_cast
 }
 
 ///|
@@ -89,7 +89,7 @@ pub fn CanvasRenderingContext2D::setTextBaseline(
 
 ///|
 pub fn CanvasRenderingContext2D::globalAlpha(self : Self) -> Double {
-  unsafe_cast(self.get("globalAlpha"))
+  self.get("globalAlpha") |> unsafe_cast
 }
 
 ///|
@@ -141,13 +141,13 @@ pub fn CanvasRenderingContext2D::clearRect(
 /// Drawing paths
 #alias(begin_path)
 pub fn CanvasRenderingContext2D::beginPath(self : Self) -> Unit {
-  self.call("beginPath", []) |> ignore
+  self.call0("beginPath") |> ignore
 }
 
 ///|
 #alias(close_path)
 pub fn CanvasRenderingContext2D::closePath(self : Self) -> Unit {
-  self.call("closePath", []) |> ignore
+  self.call0("closePath") |> ignore
 }
 
 ///|
@@ -157,7 +157,7 @@ pub fn CanvasRenderingContext2D::moveTo(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.call("moveTo", [x, y]) |> ignore
+  self.call2("moveTo", x, y) |> ignore
 }
 
 ///|
@@ -167,7 +167,7 @@ pub fn CanvasRenderingContext2D::lineTo(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.call("lineTo", [x, y]) |> ignore
+  self.call2("lineTo", x, y) |> ignore
 }
 
 ///|
@@ -236,17 +236,17 @@ pub fn CanvasRenderingContext2D::rect(
 
 ///|
 pub fn CanvasRenderingContext2D::fill(self : Self) -> Unit {
-  self.call("fill", []) |> ignore
+  self.call0("fill") |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::stroke(self : Self) -> Unit {
-  self.call("stroke", []) |> ignore
+  self.call0("stroke") |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::clip(self : Self) -> Unit {
-  self.call("clip", []) |> ignore
+  self.call0("clip") |> ignore
 }
 
 ///|
@@ -293,7 +293,7 @@ pub fn CanvasRenderingContext2D::scale(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.call("scale", [x, y]) |> ignore
+  self.call2("scale", x, y) |> ignore
 }
 
 ///|
@@ -307,7 +307,7 @@ pub fn CanvasRenderingContext2D::translate(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.call("translate", [x, y]) |> ignore
+  self.call2("translate", x, y) |> ignore
 }
 
 ///|
@@ -338,7 +338,7 @@ pub fn CanvasRenderingContext2D::setTransform(
 
 ///|
 pub fn CanvasRenderingContext2D::resetTransform(self : Self) -> Unit {
-  self.call("resetTransform", []) |> ignore
+  self.call0("resetTransform") |> ignore
 }
 
 ///|
@@ -421,18 +421,18 @@ pub fn CanvasRenderingContext2D::createImageData(
   width : Int,
   height : Int,
 ) -> ImageData {
-  self.call("createImageData", [width, height]) |> unsafe_cast
+  self.call2("createImageData", width, height) |> unsafe_cast
 }
 
 ///|
 /// State
 pub fn CanvasRenderingContext2D::save(self : Self) -> Unit {
-  self.call("save", []) |> ignore
+  self.call0("save") |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::restore(self : Self) -> Unit {
-  self.call("restore", []) |> ignore
+  self.call0("restore") |> ignore
 }
 
 ///|
@@ -445,7 +445,7 @@ pub impl JsImpl for TextMetrics
 
 ///|
 pub fn TextMetrics::width(self : Self) -> Double {
-  unsafe_cast(self.get("width"))
+  self.get("width") |> unsafe_cast
 }
 
 ///|
@@ -486,17 +486,17 @@ pub fn ImageData::from_data(
 
 ///|
 pub fn ImageData::width(self : Self) -> Int {
-  unsafe_cast(self.get("width"))
+  self.get("width") |> unsafe_cast
 }
 
 ///|
 pub fn ImageData::height(self : Self) -> Int {
-  unsafe_cast(self.get("height"))
+  self.get("height") |> unsafe_cast
 }
 
 ///|
 pub fn ImageData::data(self : Self) -> Uint8Array {
-  unsafe_cast(self.get("data"))
+  self.get("data") |> unsafe_cast
 }
 
 ///|
@@ -514,17 +514,17 @@ pub impl Transferable for ImageBitmap with to_transferable(self) -> Js {
 
 ///|
 pub fn ImageBitmap::width(self : Self) -> Int {
-  unsafe_cast(self.get("width"))
+  self.get("width") |> unsafe_cast
 }
 
 ///|
 pub fn ImageBitmap::height(self : Self) -> Int {
-  unsafe_cast(self.get("height"))
+  self.get("height") |> unsafe_cast
 }
 
 ///|
 pub fn ImageBitmap::close(self : Self) -> Unit {
-  self.call("close", []) |> ignore
+  self.call0("close") |> ignore
 }
 
 ///|

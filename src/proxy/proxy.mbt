@@ -173,5 +173,5 @@ pub fn Proxy::revocable(
     let js_fn : @js.Js = @js.unsafe_cast(trap)
     handler.set("defineProperty", js_fn)
   }
-  proxy_class().call("revocable", [target.to_js(), handler.to_js()])
+  proxy_class().call2("revocable", target.to_js(), handler.to_js())
 }

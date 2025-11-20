@@ -150,7 +150,7 @@ pub impl ToJson for Js with to_json(self) -> Json {
     _ => ()
   }
   if is_array(self) {
-    let len : Int = unsafe_cast(self.call("length", []))
+    let len : Int = self.call0("length") |> unsafe_cast
     let arr : Array[Json] = []
     for i = 0; i < len; i = i + 1 {
       let v = self.get(i.to_string())

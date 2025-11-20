@@ -28,7 +28,7 @@ pub fn performance() -> Performance {
 /// JS: performance.now()
 /// Returns a high resolution timestamp in milliseconds
 pub fn Performance::now(self : Performance) -> Double {
-  self.call("now", []) |> @js.unsafe_cast
+  self.call0("now") |> @js.unsafe_cast
 }
 
 ///|
@@ -56,7 +56,7 @@ pub fn Performance::measure(
 ) -> PerformanceEntry {
   match (startMark, endMark) {
     (Some(s), Some(e)) => self.call("measure", [name, s, e]) |> @js.unsafe_cast
-    (Some(s), None) => self.call("measure", [name, s]) |> @js.unsafe_cast
+    (Some(s), None) => self.call2("measure", name, s) |> @js.unsafe_cast
     (None, _) => self.call("measure", [name]) |> @js.unsafe_cast
   }
 }
@@ -65,7 +65,7 @@ pub fn Performance::measure(
 /// JS: performance.getEntries()
 /// Returns a list of all PerformanceEntry objects
 pub fn Performance::getEntries(self : Performance) -> Array[PerformanceEntry] {
-  self.call("getEntries", []) |> @js.unsafe_cast
+  self.call0("getEntries") |> @js.unsafe_cast
 }
 
 ///|
@@ -94,7 +94,7 @@ pub fn Performance::getEntriesByName(
 pub fn Performance::clearMarks(self : Performance, name? : String) -> Unit {
   match name {
     Some(n) => self.call("clearMarks", [n]) |> ignore
-    None => self.call("clearMarks", []) |> ignore
+    None => self.call0("clearMarks") |> ignore
   }
 }
 
@@ -104,7 +104,7 @@ pub fn Performance::clearMarks(self : Performance, name? : String) -> Unit {
 pub fn Performance::clearMeasures(self : Performance, name? : String) -> Unit {
   match name {
     Some(n) => self.call("clearMeasures", [n]) |> ignore
-    None => self.call("clearMeasures", []) |> ignore
+    None => self.call0("clearMeasures") |> ignore
   }
 }
 

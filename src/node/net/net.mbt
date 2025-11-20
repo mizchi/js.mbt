@@ -26,7 +26,7 @@ pub fn Socket::as_duplex(self : Socket) -> Duplex {
 /// Connect the socket to a port and host
 pub fn Socket::connect(self : Socket, port : Int, host? : String) -> Socket {
   match host {
-    Some(h) => self.call("connect", [port, h]) |> unsafe_cast
+    Some(h) => self.call2("connect", port, h) |> unsafe_cast
     None => self.call("connect", [port]) |> unsafe_cast
   }
 }
@@ -40,25 +40,25 @@ pub fn Socket::write(self : Socket, data : String) -> Bool {
 ///|
 /// End the socket connection
 pub fn Socket::end(self : Socket) -> Socket {
-  self.call("end", []) |> unsafe_cast
+  self.call0("end") |> unsafe_cast
 }
 
 ///|
 /// Destroy the socket
 pub fn Socket::destroy(self : Socket) -> Socket {
-  self.call("destroy", []) |> unsafe_cast
+  self.call0("destroy") |> unsafe_cast
 }
 
 ///|
 /// Pause reading data
 pub fn Socket::pause(self : Socket) -> Socket {
-  self.call("pause", []) |> unsafe_cast
+  self.call0("pause") |> unsafe_cast
 }
 
 ///|
 /// Resume reading data
 pub fn Socket::resume_(self : Socket) -> Socket {
-  self.call("resume", []) |> unsafe_cast
+  self.call0("resume") |> unsafe_cast
 }
 
 ///|
@@ -157,8 +157,8 @@ pub fn Server::listen(
   // Call listen with port, host, and backlog
   match (host, backlog) {
     (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> unsafe_cast
-    (Some(h), None) => self.call("listen", [port, h]) |> unsafe_cast
-    (None, Some(b)) => self.call("listen", [port, b]) |> unsafe_cast
+    (Some(h), None) => self.call2("listen", port, h) |> unsafe_cast
+    (None, Some(b)) => self.call2("listen", port, b) |> unsafe_cast
     (None, None) => self.call("listen", [port]) |> unsafe_cast
   }
 }
@@ -166,13 +166,13 @@ pub fn Server::listen(
 ///|
 /// Close the server
 pub fn Server::close(self : Server) -> Server {
-  self.call("close", []) |> unsafe_cast
+  self.call0("close") |> unsafe_cast
 }
 
 ///|
 /// Get the server address
 pub fn Server::address(self : Server) -> Js? {
-  self.call("address", []) |> @js.unsafe_cast_option
+  self.call0("address") |> @js.unsafe_cast_option
 }
 
 ///|
@@ -199,7 +199,7 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 /// Create a new Socket and connect
 pub fn createConnection(port : Int, host? : String) -> Socket {
   match host {
-    Some(h) => net_module().call("createConnection", [port, h]) |> unsafe_cast
+    Some(h) => net_module().call2("createConnection", port, h) |> unsafe_cast
     None => net_module().call("createConnection", [port]) |> unsafe_cast
   }
 }
@@ -236,7 +236,7 @@ pub fn createServer(
     ])
     |> unsafe_cast
   } else {
-    net_module().call("createServer", []) |> unsafe_cast
+    net_module().call0("createServer") |> unsafe_cast
   }
 }
 

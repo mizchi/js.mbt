@@ -57,24 +57,24 @@ pub fn Interface::question(self : Self, query : String) -> Promise[String] {
 
 ///|
 pub fn Interface::commit(self : Self) -> Promise[Unit] {
-  self.call("commit", []) |> unsafe_cast
+  self.call0("commit") |> unsafe_cast
 }
 
 ///|
 pub fn Interface::rollback(self : Self) -> Self {
-  self.call("rollback", []) |> unsafe_cast
+  self.call0("rollback") |> unsafe_cast
 }
 
 ///|
 #alias(cursor_to)
 pub fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Promise[Unit] {
-  self.call("cursorTo", [x, y]) |> unsafe_cast
+  self.call2("cursorTo", x, y) |> unsafe_cast
 }
 
 ///|
 #alias(move_cursor)
 pub fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Promise[Unit] {
-  self.call("moveCursor", [dx, dy]) |> unsafe_cast
+  self.call2("moveCursor", dx, dy) |> unsafe_cast
 }
 
 ///|

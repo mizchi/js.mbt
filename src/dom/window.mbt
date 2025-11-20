@@ -21,21 +21,21 @@ pub extern "js" fn window() -> Window =
 /// Returns the document contained in the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/document
 pub fn Window::document(self : Self) -> Document {
-  unsafe_cast(self.get("document"))
+  self.get("document") |> unsafe_cast
 }
 
 ///|
 /// Returns the navigator object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
 pub fn Window::navigator(self : Self) -> Js {
-  unsafe_cast(self.get("navigator"))
+  self.get("navigator") |> unsafe_cast
 }
 
 ///|
 /// Returns the location object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/location
 pub fn Window::location(self : Self) -> Js {
-  unsafe_cast(self.get("location"))
+  self.get("location") |> unsafe_cast
 }
 
 ///|
@@ -43,7 +43,7 @@ pub fn Window::location(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 #alias(local_storage)
 pub fn Window::localStorage(self : Self) -> Js {
-  unsafe_cast(self.get("localStorage"))
+  self.get("localStorage") |> unsafe_cast
 }
 
 ///|
@@ -51,21 +51,21 @@ pub fn Window::localStorage(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 #alias(session_storage)
 pub fn Window::sessionStorage(self : Self) -> Js {
-  unsafe_cast(self.get("sessionStorage"))
+  self.get("sessionStorage") |> unsafe_cast
 }
 
 ///|
 /// Returns the console object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/console
 pub fn Window::console(self : Self) -> Js {
-  unsafe_cast(self.get("console"))
+  self.get("console") |> unsafe_cast
 }
 
 ///|
 /// Returns the history object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/history
 pub fn Window::history(self : Self) -> Js {
-  unsafe_cast(self.get("history"))
+  self.get("history") |> unsafe_cast
 }
 
 ///|
@@ -73,7 +73,7 @@ pub fn Window::history(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
 #alias(inner_width)
 pub fn Window::innerWidth(self : Self) -> Int {
-  unsafe_cast(self.get("innerWidth"))
+  self.get("innerWidth") |> unsafe_cast
 }
 
 ///|
@@ -81,7 +81,7 @@ pub fn Window::innerWidth(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
 #alias(inner_height)
 pub fn Window::innerHeight(self : Self) -> Int {
-  unsafe_cast(self.get("innerHeight"))
+  self.get("innerHeight") |> unsafe_cast
 }
 
 ///|
@@ -89,7 +89,7 @@ pub fn Window::innerHeight(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerWidth
 #alias(outer_width)
 pub fn Window::outerWidth(self : Self) -> Int {
-  unsafe_cast(self.get("outerWidth"))
+  self.get("outerWidth") |> unsafe_cast
 }
 
 ///|
@@ -97,14 +97,14 @@ pub fn Window::outerWidth(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerHeight
 #alias(outer_height)
 pub fn Window::outerHeight(self : Self) -> Int {
-  unsafe_cast(self.get("outerHeight"))
+  self.get("outerHeight") |> unsafe_cast
 }
 
 ///|
 /// Returns the screen object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/screen
 pub fn Window::screen(self : Self) -> Js {
-  unsafe_cast(self.get("screen"))
+  self.get("screen") |> unsafe_cast
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn Window::screen(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
 #alias(device_pixel_ratio)
 pub fn Window::devicePixelRatio(self : Self) -> Double {
-  unsafe_cast(self.get("devicePixelRatio"))
+  self.get("devicePixelRatio") |> unsafe_cast
 }
 
 ///|
@@ -138,7 +138,7 @@ pub fn Window::prompt(
   default? : String,
 ) -> String? {
   match default {
-    Some(d) => self.call("prompt", [message, d]) |> @js.unsafe_cast_option()
+    Some(d) => self.call2("prompt", message, d) |> @js.unsafe_cast_option()
     None => self.call("prompt", [message]) |> @js.unsafe_cast_option()
   }
 }
@@ -156,9 +156,9 @@ pub fn Window::open(
     (Some(u), Some(t), Some(f)) =>
       self.call("open", [u, t, f]) |> @js.unsafe_cast_option
     (Some(u), Some(t), None) =>
-      self.call("open", [u, t]) |> @js.unsafe_cast_option
+      self.call2("open", u, t) |> @js.unsafe_cast_option
     (Some(u), None, _) => self.call("open", [u]) |> @js.unsafe_cast_option
-    (None, _, _) => self.call("open", []) |> @js.unsafe_cast_option
+    (None, _, _) => self.call0("open") |> @js.unsafe_cast_option
   }
 }
 
@@ -166,7 +166,7 @@ pub fn Window::open(
 /// Closes the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/close
 pub fn Window::close(self : Self) -> Unit {
-  ignore(self.call("close", []))
+  ignore(self.call0("close"))
 }
 
 ///|
@@ -174,7 +174,7 @@ pub fn Window::close(self : Self) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
 #alias(scroll_to)
 pub fn Window::scrollTo(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.call("scrollTo", [x, y]))
+  ignore(self.call2("scrollTo", x, y))
 }
 
 ///|
@@ -182,7 +182,7 @@ pub fn Window::scrollTo(self : Self, x : Int, y : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollBy
 #alias(scroll_by)
 pub fn Window::scrollBy(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.call("scrollBy", [x, y]))
+  ignore(self.call2("scrollBy", x, y))
 }
 
 ///|
@@ -190,7 +190,7 @@ pub fn Window::scrollBy(self : Self, x : Int, y : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
 #alias(scroll_x)
 pub fn Window::scrollX(self : Self) -> Double {
-  unsafe_cast(self.get("scrollX"))
+  self.get("scrollX") |> unsafe_cast
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn Window::scrollX(self : Self) -> Double {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY
 #alias(scroll_y)
 pub fn Window::scrollY(self : Self) -> Double {
-  unsafe_cast(self.get("scrollY"))
+  self.get("scrollY") |> unsafe_cast
 }
 
 ///|
@@ -210,7 +210,7 @@ pub fn Window::setTimeout(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.call("setTimeout", [@js.from_fn0(handler), delay]) |> unsafe_cast
+  self.call2("setTimeout", @js.from_fn0(handler), delay) |> unsafe_cast
 }
 
 ///|
@@ -230,7 +230,7 @@ pub fn Window::setInterval(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.call("setInterval", [@js.from_fn0(handler), delay]) |> unsafe_cast
+  self.call2("setInterval", @js.from_fn0(handler), delay) |> unsafe_cast
 }
 
 ///|
@@ -265,7 +265,7 @@ pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
 pub fn Window::fetch(self : Self, input : String, init? : Js) -> Promise[Js] {
   match init {
-    Some(i) => self.call("fetch", [input, i]) |> unsafe_cast
+    Some(i) => self.call2("fetch", input, i) |> unsafe_cast
     None => self.call("fetch", [input]) |> unsafe_cast
   }
 }
@@ -275,7 +275,7 @@ pub fn Window::fetch(self : Self, input : String, init? : Js) -> Promise[Js] {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 #alias(get_selection)
 pub fn Window::getSelection(self : Self) -> Js? {
-  self.call("getSelection", []) |> @js.unsafe_cast_option
+  self.call0("getSelection") |> @js.unsafe_cast_option
 }
 
 ///|
@@ -289,7 +289,7 @@ pub fn Window::getComputedStyle(
 ) -> Js {
   match pseudo_elt {
     Some(p) =>
-      self.call("getComputedStyle", [element.to_js(), p]) |> unsafe_cast
+      self.call2("getComputedStyle", element.to_js(), p) |> unsafe_cast
     None => self.call("getComputedStyle", [element.to_js()]) |> unsafe_cast
   }
 }
@@ -311,7 +311,7 @@ pub fn Window::postMessage(
   message : Js,
   target_origin : String,
 ) -> Unit {
-  ignore(self.call("postMessage", [message, target_origin]))
+  ignore(self.call2("postMessage", message, target_origin))
 }
 
 ///|

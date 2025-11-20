@@ -224,7 +224,7 @@ fn app(props : AppProps) -> @react.Element {
           enc_type="application/x-www-form-urlencoded",
           action=form => {
             log(form)
-            let v : String = unsafe_cast(form.get("username"))
+            let v : String = form.get("username") |> unsafe_cast
             log("Username: \{v}")
           },
           [

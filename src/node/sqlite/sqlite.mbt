@@ -109,7 +109,7 @@ pub fn[T, U] DatabaseSync::aggregate(
     ("inverse", inverse.map(fn(x) { x |> @js.unsafe_js })),
     ("result", result.map(fn(x) { x |> @js.unsafe_js })),
   ])
-  self.call("aggregate", [name, opts]) |> ignore
+  self.call2("aggregate", name, opts) |> ignore
 }
 
 ///|
@@ -166,23 +166,23 @@ pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
 ///|
 #alias(is_open)
 pub fn DatabaseSync::isOpen(self : Self) -> Bool {
-  unsafe_cast(self.get("isOpen"))
+  self.get("isOpen") |> unsafe_cast
 }
 
 ///|
 #alias(is_transaction)
 pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
-  unsafe_cast(self.get("isTransaction"))
+  self.get("isTransaction") |> unsafe_cast
 }
 
 ///|
 pub fn DatabaseSync::open(self : Self) -> Unit {
-  self.call("open", []) |> ignore
+  self.call0("open") |> ignore
 }
 
 ///|
 pub fn DatabaseSync::close(self : Self) -> Unit {
-  self.call("close", []) |> ignore
+  self.call0("close") |> ignore
 }
 
 ///|
@@ -228,7 +228,7 @@ pub fn DatabaseSync::applyChangeset(
     ("filter", filter.map(fn(f) { f |> @js.from_fn1 })),
     ("onConflict", onConflict.map(fn(oc) { oc |> @js.from_fn2 })),
   ])
-  self.call("applyChangeset", [changeset, opts]) |> unsafe_cast
+  self.call2("applyChangeset", changeset, opts) |> unsafe_cast
 }
 
 ///|
@@ -269,7 +269,7 @@ pub fn StatementSync::get_(
 
 ///|
 pub fn StatementSync::columns(self : Self) -> Array[Js] {
-  self.call("columns", []) |> unsafe_cast
+  self.call0("columns") |> unsafe_cast
 }
 
 ///|
@@ -341,13 +341,13 @@ pub fn StatementSync::iterate(
 ///|
 #alias(expanded_sql)
 pub fn StatementSync::expandedSQL(self : Self) -> String {
-  unsafe_cast(self.get("expandedSQL"))
+  self.get("expandedSQL") |> unsafe_cast
 }
 
 ///|
 #alias(source_sql)
 pub fn StatementSync::sourceSQL(self : Self) -> String {
-  unsafe_cast(self.get("sourceSQL"))
+  self.get("sourceSQL") |> unsafe_cast
 }
 
 ///|
@@ -398,17 +398,17 @@ pub impl JsImpl for Session
 
 ///|
 pub fn Session::changeset(self : Self) -> Uint8Array {
-  self.call("changeset", []) |> unsafe_cast
+  self.call0("changeset") |> unsafe_cast
 }
 
 ///|
 pub fn Session::patchset(self : Self) -> Uint8Array {
-  self.call("patchset", []) |> unsafe_cast
+  self.call0("patchset") |> unsafe_cast
 }
 
 ///|
 pub fn Session::close(self : Self) -> Unit {
-  self.call("close", []) |> ignore
+  self.call0("close") |> ignore
 }
 
 ///|
@@ -420,22 +420,22 @@ pub impl JsImpl for SQLTagStore
 
 ///|
 pub fn SQLTagStore::capacity(self : Self) -> Int {
-  unsafe_cast(self.get("capacity"))
+  self.get("capacity") |> unsafe_cast
 }
 
 ///|
 pub fn SQLTagStore::size(self : Self) -> Int {
-  self.call("size", []) |> unsafe_cast
+  self.call0("size") |> unsafe_cast
 }
 
 ///|
 pub fn SQLTagStore::clear(self : Self) -> Unit {
-  self.call("clear", []) |> ignore
+  self.call0("clear") |> ignore
 }
 
 ///|
 pub fn SQLTagStore::db(self : Self) -> DatabaseSync {
-  unsafe_cast(self.get("db"))
+  self.get("db") |> unsafe_cast
 }
 
 ///|

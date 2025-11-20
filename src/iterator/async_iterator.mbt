@@ -9,12 +9,12 @@ pub impl[T] JsImpl for AsyncIterator[T]
 ///|
 /// JS: asyncIterator.next()
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
-  let v : Promise[Js] = unsafe_cast(self.call("next", []))
+  let v : Promise[Js] = self.call0("next") |> unsafe_cast
   let v : Js = v.unwrap()
-  if unsafe_cast(v.get("done")) {
+  if (v.get("done") |> unsafe_cast) {
     None
   } else {
-    Some(unsafe_cast(v.get("value")))
+    Some(v.get("value") |> unsafe_cast)
   }
 }
 

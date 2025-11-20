@@ -20,12 +20,12 @@ pub impl JsImpl for CloudflareRequest
 
 ///|
 pub fn CloudflareRequest::cf(self : CloudflareRequest) -> CloudflareContext {
-  unsafe_cast(self.get("cf"))
+  self.get("cf") |> unsafe_cast
 }
 
 ///|
 pub fn CloudflareRequest::url(self : CloudflareRequest) -> String {
-  unsafe_cast(self.get("url"))
+  self.get("url") |> unsafe_cast
 }
 
 ///|

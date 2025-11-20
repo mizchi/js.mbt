@@ -43,27 +43,27 @@ pub fn File::new(
 ///|
 /// Get the filename
 pub fn File::name(self : Self) -> String {
-  unsafe_cast(self.get("name"))
+  self.get("name") |> unsafe_cast
 }
 
 ///|
 /// Get the last modified timestamp in milliseconds
 #alias(lastModified)
 pub fn File::last_modified(self : Self) -> Int {
-  unsafe_cast(self.get("lastModified"))
+  self.get("lastModified") |> unsafe_cast
 }
 
 ///|
 /// Get the size of the file in bytes (inherited from Blob)
 pub fn File::size(self : Self) -> Int {
-  unsafe_cast(self.get("size"))
+  self.get("size") |> unsafe_cast
 }
 
 ///|
 /// Get the MIME type of the file (inherited from Blob)
 #alias(content_type)
 pub fn File::contentType(self : Self) -> String {
-  unsafe_cast(self.get("type"))
+  self.get("type") |> unsafe_cast
 }
 
 ///|
@@ -76,23 +76,23 @@ pub fn File::as_blob(self : Self) -> Blob {
 /// Get the file contents as ArrayBuffer (inherited from Blob)
 #alias(arrayBuffer)
 pub fn File::array_buffer(self : Self) -> Promise[ArrayBuffer] {
-  self.call("arrayBuffer", []) |> unsafe_cast
+  self.call0("arrayBuffer") |> unsafe_cast
 }
 
 ///|
 /// Get the file contents as text (inherited from Blob)
 pub fn File::text(self : Self) -> Promise[String] {
-  self.call("text", []) |> unsafe_cast
+  self.call0("text") |> unsafe_cast
 }
 
 ///|
 /// Create a new File containing a slice of this File (inherited from Blob)
 pub fn File::slice(self : Self, start? : Int, end? : Int) -> Blob {
   match (start, end) {
-    (None, None) => self.call("slice", []) |> unsafe_cast
+    (None, None) => self.call0("slice") |> unsafe_cast
     (Some(s), None) => self.call("slice", [s]) |> unsafe_cast
-    (Some(s), Some(e)) => self.call("slice", [s, e]) |> unsafe_cast
-    (None, Some(e)) => self.call("slice", [0, e]) |> unsafe_cast
+    (Some(s), Some(e)) => self.call2("slice", s, e) |> unsafe_cast
+    (None, Some(e)) => self.call2("slice", 0, e) |> unsafe_cast
   }
 }
 
@@ -121,7 +121,7 @@ pub fn FileReader::new() -> FileReader {
 /// Get the ready state (0=EMPTY, 1=LOADING, 2=DONE)
 #alias(readyState)
 pub fn FileReader::ready_state(self : Self) -> Int {
-  unsafe_cast(self.get("readyState"))
+  self.get("readyState") |> unsafe_cast
 }
 
 ///|
@@ -152,7 +152,7 @@ pub fn FileReader::read_as_text(
   encoding? : String,
 ) -> Unit {
   match encoding {
-    Some(enc) => self.call("readAsText", [blob, enc]) |> ignore
+    Some(enc) => self.call2("readAsText", blob, enc) |> ignore
     None => self.call("readAsText", [blob.to_js()]) |> ignore
   }
 }
@@ -167,7 +167,7 @@ pub fn FileReader::read_as_data_url(self : Self, blob : Blob) -> Unit {
 ///|
 /// Abort the read operation
 pub fn FileReader::abort(self : Self) -> Unit {
-  self.call("abort", []) |> ignore
+  self.call0("abort") |> ignore
 }
 
 ///|

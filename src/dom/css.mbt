@@ -33,7 +33,7 @@ pub fn CSSStyleDeclaration::set_property(
   property : String,
   value : String,
 ) -> Unit {
-  self.call("setProperty", [property, value]) |> ignore
+  self.call2("setProperty", property, value) |> ignore
 }
 
 ///|
@@ -68,7 +68,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
 ///|
 /// Returns the CSS text
 pub fn CSSStyleDeclaration::css_text(self : Self) -> String {
-  unsafe_cast(self.get("cssText"))
+  self.get("cssText") |> unsafe_cast
 }
 
 ///|
@@ -80,7 +80,7 @@ pub fn CSSStyleDeclaration::set_css_text(self : Self, text : String) -> Unit {
 ///|
 /// Returns the number of CSS properties
 pub fn CSSStyleDeclaration::length(self : Self) -> Int {
-  unsafe_cast(self.get("length"))
+  self.get("length") |> unsafe_cast
 }
 
 ///|
@@ -101,7 +101,7 @@ pub impl JsImpl for CSSRule
 ///|
 /// Returns the CSS text of the rule
 pub fn CSSRule::css_text(self : Self) -> String {
-  unsafe_cast(self.get("cssText"))
+  self.get("cssText") |> unsafe_cast
 }
 
 ///|
@@ -125,7 +125,7 @@ pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
 ///|
 /// Returns the rule type
 pub fn CSSRule::rule_type(self : Self) -> Int {
-  unsafe_cast(self.get("type"))
+  self.get("type") |> unsafe_cast
 }
 
 ///|
@@ -158,7 +158,7 @@ pub fn CSSStyleSheet::insert_rule_at(
   rule : String,
   index : Int,
 ) -> Int {
-  self.call("insertRule", [rule, index]) |> unsafe_cast
+  self.call2("insertRule", rule, index) |> unsafe_cast
 }
 
 ///|
@@ -177,7 +177,7 @@ pub fn CSSStyleSheet::owner_node(self : Self) -> Js? {
 ///|
 /// Returns whether the stylesheet is disabled
 pub fn CSSStyleSheet::disabled(self : Self) -> Bool {
-  unsafe_cast(self.get("disabled"))
+  self.get("disabled") |> unsafe_cast
 }
 
 ///|
@@ -224,13 +224,13 @@ pub fn matchMedia(query : String) -> MediaQueryList {
 ///|
 /// Returns the media query string
 pub fn MediaQueryList::media(self : Self) -> String {
-  unsafe_cast(self.get("media"))
+  self.get("media") |> unsafe_cast
 }
 
 ///|
 /// Returns whether the media query matches
 pub fn MediaQueryList::matches(self : Self) -> Bool {
-  unsafe_cast(self.get("matches"))
+  self.get("matches") |> unsafe_cast
 }
 
 ///|
@@ -259,7 +259,7 @@ pub fn MediaQueryList::add_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.call("addEventListener", ["change", listener |> @js.from_fn1]) |> ignore
+  self.call2("addEventListener", "change", listener |> @js.from_fn1) |> ignore
 }
 
 ///|
@@ -268,7 +268,7 @@ pub fn MediaQueryList::remove_change_listener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
-  self.call("removeEventListener", ["change", listener |> @js.from_fn1])
+  self.call2("removeEventListener", "change", listener |> @js.from_fn1)
   |> ignore
 }
 
@@ -290,7 +290,7 @@ pub fn cssEscape(value : String) -> String {
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  unsafe_cast(css_obj.call("supports", [property, value]))
+  css_obj.call2("supports", property, value) |> unsafe_cast
 }
 
 ///|
@@ -316,5 +316,5 @@ pub fn Document::create_stylesheet(self : Self) -> CSSStyleSheet {
     Some(head) => head.call("appendChild", [style]) |> ignore
     None => ()
   }
-  unsafe_cast(style.get("sheet"))
+  style.get("sheet") |> unsafe_cast
 }

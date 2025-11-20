@@ -28,7 +28,7 @@ test "mock.method mocks object method" {
   let obj_js : Js = @js.unsafe_cast(obj)
   m.method_(obj_js, "getValue", implementation=@js.from_fn0(fn() { 100 }))
   |> ignore
-  let result : Int = @js.unsafe_cast(obj.call("getValue", []))
+  let result : Int = @js.unsafe_cast(obj.call0("getValue"))
   inspect(result, content="100")
   m.restoreAll()
 }

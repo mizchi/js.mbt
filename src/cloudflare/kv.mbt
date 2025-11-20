@@ -24,21 +24,21 @@ pub extern "js" fn KVNamespace::get(
 /// Get a value as ArrayBuffer
 pub fn KVNamespace::get_array_buffer(self : Self, key : String) -> Promise[Js?] {
   let opts_js = @js.from_entries([("type", "arrayBuffer")])
-  self.call("get", [key, opts_js]) |> unsafe_cast
+  self.call2("get", key, opts_js) |> unsafe_cast
 }
 
 ///|
 /// Get a value as JSON
 pub fn KVNamespace::get_json(self : Self, key : String) -> Promise[Js?] {
   let opts_js = @js.from_entries([("type", "json")])
-  self.call("get", [key, opts_js]) |> unsafe_cast
+  self.call2("get", key, opts_js) |> unsafe_cast
 }
 
 ///|
 /// Get a value as stream
 pub fn KVNamespace::get_stream(self : Self, key : String) -> Promise[Js?] {
   let opts_js = @js.from_entries([("type", "stream")])
-  self.call("get", [key, opts_js]) |> unsafe_cast
+  self.call2("get", key, opts_js) |> unsafe_cast
 }
 
 ///|
@@ -51,9 +51,9 @@ pub fn KVNamespace::get_with_metadata(
   match options {
     None => {
       let opts_js = @js.from_entries([("type", "text")])
-      self.call("getWithMetadata", [key, opts_js]) |> unsafe_cast
+      self.call2("getWithMetadata", key, opts_js) |> unsafe_cast
     }
-    Some(opts) => self.call("getWithMetadata", [key, opts]) |> unsafe_cast
+    Some(opts) => self.call2("getWithMetadata", key, opts) |> unsafe_cast
   }
 }
 
@@ -66,7 +66,7 @@ pub fn KVNamespace::put(
   options : KVPutOptions?,
 ) -> Promise[Unit] {
   match options {
-    None => self.call("put", [key, value]) |> unsafe_cast
+    None => self.call2("put", key, value) |> unsafe_cast
     Some(opts) => self.call("put", [key, value, opts]) |> unsafe_cast
   }
 }

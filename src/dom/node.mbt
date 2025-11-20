@@ -35,12 +35,12 @@ pub(open) trait NodeImpl: JsImpl + EventTargetImpl {
 
 ///|
 impl NodeImpl with nodeType(self) -> Int {
-  unsafe_cast(self.get("nodeType"))
+  self.get("nodeType") |> unsafe_cast
 }
 
 ///|
 impl NodeImpl with nodeName(self) -> String {
-  unsafe_cast(self.get("nodeName"))
+  self.get("nodeName") |> unsafe_cast
 }
 
 ///|
@@ -87,15 +87,15 @@ impl NodeImpl with removeChild(self, child) -> Node {
 impl NodeImpl with insertBefore(self, new_node, ref_node) -> Node {
   match ref_node {
     Some(node) =>
-      unsafe_cast(self.call("insertBefore", [new_node.to_js(), node.to_js()]))
+      unsafe_cast(self.call2("insertBefore", new_node.to_js(), node.to_js()))
     None =>
-      unsafe_cast(self.call("insertBefore", [new_node.to_js(), @js.null_()]))
+      unsafe_cast(self.call2("insertBefore", new_node.to_js(), @js.null_()))
   }
 }
 
 ///|
 impl NodeImpl with replaceChild(self, new_child, old_child) -> Node {
-  unsafe_cast(self.call("replaceChild", [new_child.to_js(), old_child.to_js()]))
+  unsafe_cast(self.call2("replaceChild", new_child.to_js(), old_child.to_js()))
 }
 
 ///|
@@ -113,12 +113,12 @@ impl NodeImpl with contains(self, other) {
 
 ///|
 impl NodeImpl with hasChildNodes(self) -> Bool {
-  self.call("hasChildNodes", []) |> unsafe_cast
+  self.call0("hasChildNodes") |> unsafe_cast
 }
 
 ///|
 impl NodeImpl with textContent(self) -> String {
-  unsafe_cast(self.get("textContent"))
+  self.get("textContent") |> unsafe_cast
 }
 
 ///|

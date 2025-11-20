@@ -24,11 +24,11 @@ pub fn[T] JsIterator::from(v : Js) -> JsIterator[T] {
 ///|
 /// JS: iterator.next()
 pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
-  let v : Js = self.call("next", []) |> unsafe_cast
-  if unsafe_cast(v.get("done")) {
+  let v : Js = self.call0("next") |> unsafe_cast
+  if (v.get("done") |> unsafe_cast) {
     None
   } else {
-    Some(unsafe_cast(v.get("value")))
+    Some(v.get("value") |> unsafe_cast)
   }
 }
 
@@ -47,7 +47,7 @@ pub fn[T] JsIterator::take(self : Self[T], limit : Int) -> Self[T] {
 ///|
 /// JS: iterator.toArray()
 pub fn[T] JsIterator::toArray(self : Self[T]) -> Array[T] {
-  self.call("toArray", []) |> unsafe_cast
+  self.call0("toArray") |> unsafe_cast
 }
 
 ///|

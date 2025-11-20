@@ -23,7 +23,7 @@ pub fn ChildProcess::on_stderr_data(
 ) -> Unit {
   match self.stderr() {
     Some(stream) =>
-      stream.call("on", ["data", @js.from_fn1(callback)]) |> ignore
+      stream.call2("on", "data", @js.from_fn1(callback)) |> ignore
     None => ()
   }
 }
@@ -33,13 +33,13 @@ pub fn ChildProcess::on_stderr_data(
 ///|
 /// The process identifier (PID)
 pub fn ChildProcess::pid(self : Self) -> Int {
-  unsafe_cast(self.get("pid"))
+  self.get("pid") |> unsafe_cast
 }
 
 ///|
 /// Whether the process has been killed
 pub fn ChildProcess::killed(self : Self) -> Bool {
-  unsafe_cast(self.get("killed"))
+  self.get("killed") |> unsafe_cast
 }
 
 ///|
@@ -79,7 +79,7 @@ pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
 pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
   match signal {
     Some(sig) => self.call("kill", [sig]) |> unsafe_cast
-    None => self.call("kill", []) |> unsafe_cast
+    None => self.call0("kill") |> unsafe_cast
   }
 }
 
@@ -92,19 +92,19 @@ pub fn ChildProcess::send(self : Self, message : &JsImpl) -> Bool {
 ///|
 /// Close the IPC channel between parent and child
 pub fn ChildProcess::disconnect(self : Self) -> Unit {
-  self.call("disconnect", []) |> ignore
+  self.call0("disconnect") |> ignore
 }
 
 ///|
 /// Prevent the parent process from waiting for this child
 pub fn ChildProcess::unref(self : Self) -> Unit {
-  self.call("unref", []) |> ignore
+  self.call0("unref") |> ignore
 }
 
 ///|
 /// Require the parent process to wait for this child
 pub fn ChildProcess::ref_(self : Self) -> Unit {
-  self.call("ref", []) |> ignore
+  self.call0("ref") |> ignore
 }
 
 ///|
@@ -137,7 +137,7 @@ pub fn spawn(
       unsafe_cast(
         cp.call("spawn", [command |> js, a |> @js.from_array, options]),
       )
-    None => unsafe_cast(cp.call("spawn", [command |> js, options]))
+    None => cp.call2("spawn", command |> js, options) |> unsafe_cast
   }
 }
 
@@ -223,7 +223,7 @@ pub fn fork(
       unsafe_cast(
         cp.call("fork", [module_path |> js, a |> @js.from_array, options]),
       )
-    None => unsafe_cast(cp.call("fork", [module_path |> js, options]))
+    None => cp.call2("fork", module_path |> js, options) |> unsafe_cast
   }
 }
 
@@ -239,7 +239,7 @@ pub impl JsImpl for SpawnSyncResult
 
 ///|
 pub fn SpawnSyncResult::pid(self : Self) -> Int {
-  unsafe_cast(self.get("pid"))
+  self.get("pid") |> unsafe_cast
 }
 
 ///|
@@ -291,7 +291,7 @@ pub fn spawnSync(
   match args {
     Some(a) =>
       unsafe_cast(cp.call("spawnSync", [command, a |> @js.from_array, options]))
-    None => unsafe_cast(cp.call("spawnSync", [command |> js, options]))
+    None => cp.call2("spawnSync", command |> js, options) |> unsafe_cast
   }
 }
 
@@ -319,7 +319,7 @@ pub fn execSync(
     ("input", input.map(x => x)),
     ("encoding", Some(encoding.or("utf8"))),
   ])
-  unsafe_cast(cp.call("execSync", [command |> js, options]))
+  cp.call2("execSync", command |> js, options) |> unsafe_cast
 }
 
 ///|
@@ -348,6 +348,6 @@ pub fn execFileSync(
   match args {
     Some(a) =>
       unsafe_cast(cp.call("execFileSync", [file, a |> @js.from_array, options]))
-    None => unsafe_cast(cp.call("execFileSync", [file, options]))
+    None => cp.call2("execFileSync", file, options) |> unsafe_cast
   }
 }

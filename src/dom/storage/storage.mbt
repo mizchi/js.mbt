@@ -52,14 +52,14 @@ pub extern "js" fn Storage::removeItem(self : Storage, key : String) -> Unit =
 /// Clears all items from storage
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear
 pub fn Storage::clear(self : Storage) -> Unit {
-  self.call("clear", []) |> ignore
+  self.call0("clear") |> ignore
 }
 
 ///|
 /// Returns the number of items in storage
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/length
 pub fn Storage::length(self : Storage) -> Int {
-  unsafe_cast(self.get("length"))
+  self.get("length") |> unsafe_cast
 }
 
 ///|

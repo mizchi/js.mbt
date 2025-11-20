@@ -7,7 +7,7 @@ pub impl JsImpl for FormData
 
 ///|
 pub fn FormData::append(self : Self, name : String, value : String) -> Unit {
-  self.call("append", [name, value]) |> unsafe_cast
+  self.call2("append", name, value) |> unsafe_cast
 }
 
 ///|

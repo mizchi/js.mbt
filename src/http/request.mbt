@@ -18,52 +18,52 @@ pub fn Request::new(url : String) -> Request {
 ///|
 #alias(bodyUsed)
 pub fn Request::body_used(self : Request) -> Bool {
-  unsafe_cast(self.get("bodyUsed"))
+  self.get("bodyUsed") |> unsafe_cast
 }
 
 ///|
 pub fn Request::url(self : Request) -> String {
-  unsafe_cast(self.get("url"))
+  self.get("url") |> unsafe_cast
 }
 
 ///|
 pub fn Request::method_(self : Request) -> String {
-  unsafe_cast(self.get("method"))
+  self.get("method") |> unsafe_cast
 }
 
 ///|
 pub fn Request::credentials(self : Request) -> String {
-  unsafe_cast(self.get("credentials"))
+  self.get("credentials") |> unsafe_cast
 }
 
 ///|
 pub fn Request::clone(self : Request) -> Request {
-  self.call("clone", []) |> unsafe_cast
+  self.call0("clone") |> unsafe_cast
 }
 
 ///|
 pub fn Request::json(self : Request) -> Promise[Js] {
-  self.call("json", []) |> unsafe_cast
+  self.call0("json") |> unsafe_cast
 }
 
 ///|
 pub fn Request::text(self : Request) -> Promise[String] {
-  self.call("text", []) |> unsafe_cast
+  self.call0("text") |> unsafe_cast
 }
 
 ///|
 pub fn Request::arraybuffer(
   self : Request,
 ) -> Promise[@arraybuffer.ArrayBuffer] {
-  self.call("arrayBuffer", []) |> unsafe_cast
+  self.call0("arrayBuffer") |> unsafe_cast
 }
 
 ///|
 pub fn Request::blob(self : Request) -> Promise[Js] {
-  self.call("blob", []) |> unsafe_cast
+  self.call0("blob") |> unsafe_cast
 }
 
 ///|
 pub fn Request::bytes(self : Request) -> Promise[Js] {
-  self.call("bytes", []) |> unsafe_cast
+  self.call0("bytes") |> unsafe_cast
 }

@@ -87,13 +87,13 @@ pub fn WebAssemblyTable::length(self : Self) -> Int {
 ///|
 /// Set a value in the table at the given index
 pub fn WebAssemblyTable::set(self : Self, index : Int, value : Js) -> Unit {
-  ignore(self.call("set", [index, value]))
+  ignore(self.call2("set", index, value))
 }
 
 ///|
 /// Grow the table by delta elements
 pub fn WebAssemblyTable::grow(self : Self, delta : Int, value : Js) -> Int {
-  self.call("grow", [delta, value]) |> unsafe_cast
+  self.call2("grow", delta, value) |> unsafe_cast
 }
 
 ///|

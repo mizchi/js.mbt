@@ -303,10 +303,10 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
   if is_null(v) {
     return None
   }
-  let full : String = unsafe_cast(v.get(0))
-  let index : Int = unsafe_cast(v.get("index"))
-  let last_index : Int = unsafe_cast(v.get("lastIndex"))
-  let input : String = unsafe_cast(v.get("input"))
+  let full : String = v.get(0) |> unsafe_cast
+  let index : Int = v.get("index") |> unsafe_cast
+  let last_index : Int = v.get("lastIndex") |> unsafe_cast
+  let input : String = v.get("input") |> unsafe_cast
   let groups : Map[String, String]? = if is_undefined(v.get("groups")) {
     None
   } else {
@@ -343,20 +343,20 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
   if is_null(v) {
     return None
   }
-  let len : Int = unsafe_cast(v.get("length"))
+  let len : Int = v.get("length") |> unsafe_cast
   let matches : Array[String] = Array::new(capacity=len)
   for i = 0; i < len; i = i + 1 {
-    matches.push(unsafe_cast(v.get(i)))
+    matches.push(v.get(i) |> unsafe_cast)
   }
   let index : Int? = if is_undefined(v.get("index")) {
     None
   } else {
-    Some(unsafe_cast(v.get("index")))
+    Some(v.get("index") |> unsafe_cast)
   }
   let input : String? = if is_undefined(v.get("input")) {
     None
   } else {
-    Some(unsafe_cast(v.get("input")))
+    Some(v.get("input") |> unsafe_cast)
   }
   let groups : Map[String, String]? = if is_undefined(v.get("groups")) {
     None
@@ -381,24 +381,24 @@ pub fn RegExp::matchAll(
   string : String,
 ) -> Array[RegExpMatchArray] {
   let v = ffi_string_match_all(string, self)
-  let len : Int = unsafe_cast(v.get("length"))
+  let len : Int = v.get("length") |> unsafe_cast
   let results : Array[RegExpMatchArray] = []
   for i = 0; i < len; i = i + 1 {
     let item = v.get(i)
-    let match_len : Int = unsafe_cast(item.get("length"))
+    let match_len : Int = item.get("length") |> unsafe_cast
     let matches : Array[String] = Array::new(capacity=match_len)
     for j = 0; j < match_len; j = j + 1 {
-      matches.push(unsafe_cast(item.get(j)))
+      matches.push(item.get(j) |> unsafe_cast)
     }
     let index : Int? = if is_undefined(item.get("index")) {
       None
     } else {
-      Some(unsafe_cast(item.get("index")))
+      Some(item.get("index") |> unsafe_cast)
     }
     let input : String? = if is_undefined(item.get("input")) {
       None
     } else {
-      Some(unsafe_cast(item.get("input")))
+      Some(item.get("input") |> unsafe_cast)
     }
     let groups : Map[String, String]? = if is_undefined(item.get("groups")) {
       None
@@ -457,7 +457,7 @@ pub fn RegExp::replace_fn(
     offset : Int,
     input : String,
   ) -> String {
-    let groups_len : Int = unsafe_cast(groups_val.get("length"))
+    let groups_len : Int = groups_val.get("length") |> unsafe_cast
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = groups_val.get(i)
@@ -488,7 +488,7 @@ pub fn RegExp::replace_all_fn(
     offset : Int,
     input : String,
   ) -> String {
-    let groups_len : Int = unsafe_cast(groups_val.get("length"))
+    let groups_len : Int = groups_val.get("length") |> unsafe_cast
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = groups_val.get(i)

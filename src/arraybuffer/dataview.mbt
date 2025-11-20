@@ -24,19 +24,19 @@ pub fn DataView::new(
 
 ///|
 pub fn DataView::buffer(self : DataView) -> ArrayBuffer {
-  unsafe_cast(self.get("buffer"))
+  self.get("buffer") |> unsafe_cast
 }
 
 ///|
 #alias(byteLength)
 pub fn DataView::byte_length(self : DataView) -> UInt {
-  unsafe_cast(self.get("byteLength"))
+  self.get("byteLength") |> unsafe_cast
 }
 
 ///|
 #alias(byteOffset)
 pub fn DataView::byte_offset(self : DataView) -> UInt {
-  unsafe_cast(self.get("byteOffset"))
+  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|
@@ -78,7 +78,7 @@ pub fn DataView::get_int32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.call("getInt32", [byte_offset, little_endian]) |> unsafe_cast
+  self.call2("getInt32", byte_offset, little_endian) |> unsafe_cast
 }
 
 ///|
@@ -88,7 +88,7 @@ pub fn DataView::get_uint32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.call("getUint32", [byte_offset, little_endian]) |> unsafe_cast
+  self.call2("getUint32", byte_offset, little_endian) |> unsafe_cast
 }
 
 ///|
@@ -98,7 +98,7 @@ pub fn DataView::get_float32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.call("getFloat32", [byte_offset, little_endian]) |> unsafe_cast
+  self.call2("getFloat32", byte_offset, little_endian) |> unsafe_cast
 }
 
 ///|
@@ -108,7 +108,7 @@ pub fn DataView::get_float64(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.call("getFloat64", [byte_offset, little_endian]) |> unsafe_cast
+  self.call2("getFloat64", byte_offset, little_endian) |> unsafe_cast
 }
 
 ///|
@@ -118,7 +118,7 @@ pub fn DataView::set_int8(
   byte_offset : UInt,
   value : Int,
 ) -> Unit {
-  self.call("setInt8", [byte_offset, value]) |> ignore
+  self.call2("setInt8", byte_offset, value) |> ignore
 }
 
 ///|
@@ -128,7 +128,7 @@ pub fn DataView::set_uint8(
   byte_offset : UInt,
   value : UInt,
 ) -> Unit {
-  self.call("setUint8", [byte_offset, value]) |> ignore
+  self.call2("setUint8", byte_offset, value) |> ignore
 }
 
 ///|

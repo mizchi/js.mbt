@@ -21,7 +21,7 @@ pub(open) trait EventEmitterImpl: JsImpl {
 ///|
 /// Implement EventEmitter trait for EventEmitterClass
 impl EventEmitterImpl with on(self, name : String, callback : (Js) -> Unit) -> Unit {
-  self.call("on", [name, callback |> @js.from_fn1]) |> unsafe_cast
+  self.call2("on", name, callback |> @js.from_fn1) |> unsafe_cast
 }
 
 ///|
@@ -30,17 +30,17 @@ impl EventEmitterImpl with on2(
   name : String,
   callback : (Js?, Js) -> Unit,
 ) -> Unit {
-  self.call("on", [name, callback |> @js.from_fn2]) |> unsafe_cast
+  self.call2("on", name, callback |> @js.from_fn2) |> unsafe_cast
 }
 
 ///|
 impl EventEmitterImpl with once(self, name : String, callback : (Js) -> Unit) -> Unit {
-  self.call("once", [name, callback |> @js.from_fn1]) |> unsafe_cast
+  self.call2("once", name, callback |> @js.from_fn1) |> unsafe_cast
 }
 
 ///|
 impl EventEmitterImpl with eventNames(self) {
-  self.call("eventNames", []) |> unsafe_cast
+  self.call0("eventNames") |> unsafe_cast
 }
 
 ///|
@@ -52,13 +52,13 @@ impl EventEmitterImpl with listenerCount(self, eventName) {
 impl EventEmitterImpl with listeners(self, event? : String) {
   match event {
     Some(name) => self.call("listenerCount", [name]) |> unsafe_cast
-    None => self.call("listenerCount", []) |> unsafe_cast
+    None => self.call0("listenerCount") |> unsafe_cast
   }
 }
 
 ///|
 impl EventEmitterImpl with off(self, name : String, callback : (Js) -> Unit) -> Unit {
-  self.call("off", [name, callback |> @js.from_fn1]) |> unsafe_cast
+  self.call2("off", name, callback |> @js.from_fn1) |> unsafe_cast
 }
 
 ///|
@@ -67,18 +67,18 @@ impl EventEmitterImpl with removeListener(
   name : String,
   callback : (Js) -> Unit,
 ) -> Unit {
-  self.call("removeListener", [name, callback |> unsafe_cast]) |> unsafe_cast
+  self.call2("removeListener", name, callback |> unsafe_cast) |> unsafe_cast
 }
 
 ///|
 /// implement remove_all_listeners
 impl EventEmitterImpl with removeAllListeners(self) -> Unit {
-  self.call("removeAllListeners", []) |> unsafe_cast
+  self.call0("removeAllListeners") |> unsafe_cast
 }
 
 ///|
 impl EventEmitterImpl with emit(self, name : String, payload : Js) -> Unit {
-  self.call("emit", [name, payload]) |> unsafe_cast
+  self.call2("emit", name, payload) |> unsafe_cast
 }
 
 ///|

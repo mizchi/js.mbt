@@ -27,7 +27,7 @@ pub fn render(element : @react.Element) -> Unit {
 /// JS: cleanup()
 pub fn cleanup() -> Unit {
   let rtl = testing_library()
-  rtl.call("cleanup", []) |> ignore
+  rtl.call0("cleanup") |> ignore
 }
 
 ///|
@@ -43,7 +43,7 @@ pub impl JsImpl for FireEvent
 #alias(fire_event)
 pub fn fireEvent() -> FireEvent {
   let rtl = testing_library()
-  unsafe_cast(rtl.get("fireEvent"))
+  rtl.get("fireEvent") |> unsafe_cast
 }
 
 ///|
@@ -64,13 +64,13 @@ pub impl JsImpl for Screen
 /// JS: import { screen } from '@testing-library/react'
 pub fn screen() -> Screen {
   let rtl = testing_library()
-  unsafe_cast(rtl.get("screen"))
+  rtl.get("screen") |> unsafe_cast
 }
 
 ///|
 /// JS: screen.debug()
 pub fn Screen::debug(self : Self) -> Unit {
-  self.call("debug", []) |> ignore
+  self.call0("debug") |> ignore
 }
 
 ///|

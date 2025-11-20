@@ -5,13 +5,13 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
   let url_module = @node.require("node:url")
   match windows {
     Some(w) =>
-      unsafe_cast(
-        url_module.call("fileURLToPath", [
-          url,
-          @js.from_entries_option_cast([("windows", Some(w))]),
-        ]),
+      url_module.call2(
+        "fileURLToPath",
+        url,
+        @js.from_entries_option_cast([("windows", Some(w))]),
       )
-    None => unsafe_cast(url_module.call("fileURLToPath", [url]))
+      |> unsafe_cast
+    None => url_module.call1("fileURLToPath", url) |> unsafe_cast
   }
 }
 
@@ -22,13 +22,13 @@ pub fn fileURLToPathFromURL(url : URL, windows? : Bool) -> String {
   let url_module = @node.require("node:url")
   match windows {
     Some(w) =>
-      unsafe_cast(
-        url_module.call("fileURLToPath", [
-          url,
-          @js.from_entries_option_cast([("windows", Some(w))]),
-        ]),
+      url_module.call2(
+        "fileURLToPath",
+        url,
+        @js.from_entries_option_cast([("windows", Some(w))]),
       )
-    None => unsafe_cast(url_module.call("fileURLToPath", [url]))
+      |> unsafe_cast
+    None => url_module.call1("fileURLToPath", url) |> unsafe_cast
   }
 }
 
@@ -39,13 +39,13 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
   let url_module = @node.require("node:url")
   match windows {
     Some(w) =>
-      unsafe_cast(
-        url_module.call("pathToFileURL", [
-          path,
-          @js.from_entries_option_cast([("windows", Some(w))]),
-        ]),
+      url_module.call2(
+        "pathToFileURL",
+        path,
+        @js.from_entries_option_cast([("windows", Some(w))]),
       )
-    None => unsafe_cast(url_module.call1("pathToFileURL", path))
+      |> unsafe_cast
+    None => url_module.call1("pathToFileURL", path) |> unsafe_cast
   }
 }
 
@@ -54,12 +54,12 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
 #alias(url_to_http_options)
 pub fn urlToHttpOptions(url : URL) -> Js {
   let url_module = @node.require("node:url")
-  url_module.call("urlToHttpOptions", [url])
+  url_module.call1("urlToHttpOptions", url)
 }
 
 ///|
 /// Format a URL object to string (legacy API)
 pub fn format(url : URL) -> String {
   let url_module = @node.require("node:url")
-  unsafe_cast(url_module.call("format", [url]))
+  url_module.call1("format", url) |> unsafe_cast
 }
