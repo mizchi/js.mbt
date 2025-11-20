@@ -105,9 +105,9 @@ pub fn stripTypeScriptTypes(
         mod.call("stripTypeScriptTypes", [
           code,
           @js.from_entries_option([
-            ("mode", mode.map(fn(x) { x })),
-            ("sourceMap", source_map.map(fn(x) { x })),
-            ("sourceUrl", source_url.map(fn(x) { x })),
+            ("mode", mode.map(x => x)),
+            ("sourceMap", source_map.map(x => x)),
+            ("sourceUrl", source_url.map(x => x)),
           ]),
         ]),
       )

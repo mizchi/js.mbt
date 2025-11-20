@@ -30,17 +30,17 @@ pub fn fetch(
   let init_obj = @js.from_entries_option([
     ("method", Some(method_)),
     ("headers", Some(header_obj)),
-    ("body", body.map(fn(x) { x })),
-    ("cache", cache.map(fn(x) { x })),
-    ("mode", mode.map(fn(x) { x })),
-    ("credentials", credentials.map(fn(x) { x })),
-    ("integrity", integrity.map(fn(x) { x })),
-    ("keepalive", keepalive.map(fn(x) { x })),
-    ("priority", priority.map(fn(x) { x })),
-    ("redirect", redirect.map(fn(x) { x })),
-    ("referrer", referrer.map(fn(x) { x })),
-    ("referrerPolicy", referrerPolicy.map(fn(x) { x })),
-    ("signal", signal.map(fn(x) { x })),
+    ("body", body.map(x => x)),
+    ("cache", cache.map(x => x)),
+    ("mode", mode.map(x => x)),
+    ("credentials", credentials.map(x => x)),
+    ("integrity", integrity.map(x => x)),
+    ("keepalive", keepalive.map(x => x)),
+    ("priority", priority.map(x => x)),
+    ("redirect", redirect.map(x => x)),
+    ("referrer", referrer.map(x => x)),
+    ("referrerPolicy", referrerPolicy.map(x => x)),
+    ("signal", signal.map(x => x)),
   ])
   ffi_fetch(url, init_obj)
 }

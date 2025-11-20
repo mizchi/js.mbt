@@ -475,14 +475,14 @@ pub(all) struct DurableObjectListOptions {
 ///|
 pub impl JsImpl for DurableObjectListOptions with to_js(self) {
   @js.from_entries_option([
-    ("start", self.start.map(fn(x) { x })),
-    ("startAfter", self.startAfter.map(fn(x) { x })),
-    ("end", self.end.map(fn(x) { x })),
-    ("prefix", self.prefix.map(fn(x) { x })),
-    ("reverse", self.reverse.map(fn(x) { x })),
-    ("limit", self.limit.map(fn(x) { x })),
-    ("allowConcurrency", self.allowConcurrency.map(fn(x) { x })),
-    ("noCache", self.noCache.map(fn(x) { x })),
+    ("start", self.start.map(x => x)),
+    ("startAfter", self.startAfter.map(x => x)),
+    ("end", self.end.map(x => x)),
+    ("prefix", self.prefix.map(x => x)),
+    ("reverse", self.reverse.map(x => x)),
+    ("limit", self.limit.map(x => x)),
+    ("allowConcurrency", self.allowConcurrency.map(x => x)),
+    ("noCache", self.noCache.map(x => x)),
   ])
 }
 

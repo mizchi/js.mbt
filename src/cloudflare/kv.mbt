@@ -111,8 +111,8 @@ pub(all) struct KVGetOptions {
 ///|
 pub impl JsImpl for KVGetOptions with to_js(self) {
   @js.from_entries_option([
-    ("type", self.type_.map(fn(x) { x })),
-    ("cacheTtl", self.cacheTtl.map(fn(x) { x })),
+    ("type", self.type_.map(x => x)),
+    ("cacheTtl", self.cacheTtl.map(x => x)),
   ])
 }
 
@@ -127,9 +127,9 @@ pub(all) struct KVPutOptions {
 ///|
 pub impl JsImpl for KVPutOptions with to_js(self) {
   @js.from_entries_option([
-    ("expiration", self.expiration.map(fn(x) { x })),
-    ("expirationTtl", self.expirationTtl.map(fn(x) { x })),
-    ("metadata", self.metadata.map(fn(x) { x })),
+    ("expiration", self.expiration.map(x => x)),
+    ("expirationTtl", self.expirationTtl.map(x => x)),
+    ("metadata", self.metadata.map(x => x)),
   ])
 }
 
@@ -144,9 +144,9 @@ pub(all) struct KVListOptions {
 ///|
 pub impl JsImpl for KVListOptions with to_js(self) {
   @js.from_entries_option([
-    ("prefix", self.prefix.map(fn(x) { x })),
-    ("limit", self.limit.map(fn(x) { x })),
-    ("cursor", self.cursor.map(fn(x) { x })),
+    ("prefix", self.prefix.map(x => x)),
+    ("limit", self.limit.map(x => x)),
+    ("cursor", self.cursor.map(x => x)),
   ])
 }
 

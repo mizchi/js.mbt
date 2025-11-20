@@ -227,11 +227,11 @@ pub fn createServer(
   if has_options {
     net_module().call("createServer", [
       @js.from_entries_option([
-        ("allowHalfOpen", allowHalfOpen.map(fn(x) { x })),
-        ("pauseOnConnect", pauseOnConnect.map(fn(x) { x })),
-        ("noDelay", noDelay.map(fn(x) { x })),
-        ("keepAlive", keepAlive.map(fn(x) { x })),
-        ("keepAliveInitialDelay", keepAliveInitialDelay.map(fn(x) { x })),
+        ("allowHalfOpen", allowHalfOpen.map(x => x)),
+        ("pauseOnConnect", pauseOnConnect.map(x => x)),
+        ("noDelay", noDelay.map(x => x)),
+        ("keepAlive", keepAlive.map(x => x)),
+        ("keepAliveInitialDelay", keepAliveInitialDelay.map(x => x)),
       ]),
     ])
     |> unsafe_cast

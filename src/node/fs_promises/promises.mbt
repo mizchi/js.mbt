@@ -64,7 +64,7 @@ pub fn glob(
     fs.call("glob", [
       path,
       @js.from_entries_option([
-        ("cwd", cwd.map(fn(x) { x })),
+        ("cwd", cwd.map(x => x)),
         ("exclude", exclude.map(fn(x) { x |> @js.from_array })),
         ("exclude", exclude_fn.map(fn(x) { x |> @js.from_fn1 })),
       ]),
@@ -109,7 +109,7 @@ pub fn glob_with_filetype(
       path,
       @js.from_entries_option([
         ("withFileTypes", Some(true)),
-        ("cwd", cwd.map(fn(x) { x })),
+        ("cwd", cwd.map(x => x)),
         ("exclude", exclude.map(fn(x) { x |> @js.from_array })),
         ("exclude", exclude_fn.map(fn(x) { x |> @js.from_fn1 })),
       ]),
@@ -156,7 +156,7 @@ pub fn writeFile(
         ("mode", Some(mode)),
         ("flag", Some(flag)),
         ("flush", Some(flush)),
-        ("signal", signal.map(fn(x) { x })),
+        ("signal", signal.map(x => x)),
       ]),
     ]),
   )

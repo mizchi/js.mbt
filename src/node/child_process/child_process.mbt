@@ -125,25 +125,13 @@ pub fn spawn(
   signal? : AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.Object::new()
-  if args is Some(_) {
-    // args will be passed separately
-  }
-  if cwd is Some(c) {
-    options.set("cwd", c)
-  }
-  if env is Some(e) {
-    options.set("env", e)
-  }
-  if shell is Some(s) {
-    options.set("shell", s)
-  }
-  if timeout is Some(t) {
-    options.set("timeout", t)
-  }
-  if signal is Some(sig) {
-    options.set("signal", sig.to_js())
-  }
+  let options = @js.from_entries_option([
+    ("cwd", cwd.map(x => x)),
+    ("env", env.map(x => x)),
+    ("shell", shell.map(x => x)),
+    ("timeout", timeout.map(x => x)),
+    ("signal", signal.map(x => x.to_js())),
+  ])
   match args {
     Some(a) =>
       unsafe_cast(
@@ -167,25 +155,14 @@ pub fn exec(
   signal? : AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.Object::new()
-  if cwd is Some(c) {
-    options.set("cwd", c)
-  }
-  if env is Some(e) {
-    options.set("env", e)
-  }
-  if shell is Some(s) {
-    options.set("shell", s)
-  }
-  if timeout is Some(t) {
-    options.set("timeout", t)
-  }
-  if max_buffer is Some(mb) {
-    options.set("maxBuffer", mb)
-  }
-  if signal is Some(sig) {
-    options.set("signal", sig.to_js())
-  }
+  let options = @js.from_entries_option([
+    ("cwd", cwd.map(x => x)),
+    ("env", env.map(x => x)),
+    ("shell", shell.map(x => x)),
+    ("timeout", timeout.map(x => x)),
+    ("maxBuffer", max_buffer.map(x => x)),
+    ("signal", signal.map(x => x.to_js())),
+  ])
   unsafe_cast(cp.call("exec", [command |> js, options, unsafe_cast(callback)]))
 }
 
@@ -204,22 +181,13 @@ pub fn execFile(
   signal? : AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.Object::new()
-  if cwd is Some(c) {
-    options.set("cwd", c)
-  }
-  if env is Some(e) {
-    options.set("env", e)
-  }
-  if timeout is Some(t) {
-    options.set("timeout", t)
-  }
-  if max_buffer is Some(mb) {
-    options.set("maxBuffer", mb)
-  }
-  if signal is Some(sig) {
-    options.set("signal", sig.to_js())
-  }
+  let options = @js.from_entries_option([
+    ("cwd", cwd.map(x => x)),
+    ("env", env.map(x => x)),
+    ("timeout", timeout.map(x => x)),
+    ("maxBuffer", max_buffer.map(x => x)),
+    ("signal", signal.map(x => x.to_js())),
+  ])
   unsafe_cast(
     cp.call("execFile", [
       file,
@@ -243,22 +211,13 @@ pub fn fork(
   signal? : AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.Object::new()
-  if cwd is Some(c) {
-    options.set("cwd", c)
-  }
-  if env is Some(e) {
-    options.set("env", e)
-  }
-  if silent is Some(s) {
-    options.set("silent", s)
-  }
-  if timeout is Some(t) {
-    options.set("timeout", t)
-  }
-  if signal is Some(sig) {
-    options.set("signal", sig.to_js())
-  }
+  let options = @js.from_entries_option([
+    ("cwd", cwd.map(x => x)),
+    ("env", env.map(x => x)),
+    ("silent", silent.map(x => x)),
+    ("timeout", timeout.map(x => x)),
+    ("signal", signal.map(x => x.to_js())),
+  ])
   match args {
     Some(a) =>
       unsafe_cast(
@@ -322,22 +281,13 @@ pub fn spawnSync(
   input? : String,
 ) -> SpawnSyncResult {
   let cp = ffi_require_child_process()
-  let options = @js.Object::new()
-  if cwd is Some(c) {
-    options.set("cwd", c)
-  }
-  if env is Some(e) {
-    options.set("env", e)
-  }
-  if shell is Some(s) {
-    options.set("shell", s)
-  }
-  if timeout is Some(t) {
-    options.set("timeout", t)
-  }
-  if input is Some(i) {
-    options.set("input", i)
-  }
+  let options = @js.from_entries_option([
+    ("cwd", cwd.map(x => x)),
+    ("env", env.map(x => x)),
+    ("shell", shell.map(x => x)),
+    ("timeout", timeout.map(x => x)),
+    ("input", input.map(x => x)),
+  ])
   match args {
     Some(a) =>
       unsafe_cast(cp.call("spawnSync", [command, a |> @js.from_array, options]))
@@ -360,30 +310,15 @@ pub fn execSync(
   encoding? : String,
 ) -> String {
   let cp = ffi_require_child_process()
-  let options = @js.Object::new()
-  if cwd is Some(c) {
-    options.set("cwd", c)
-  }
-  if env is Some(e) {
-    options.set("env", e)
-  }
-  if shell is Some(s) {
-    options.set("shell", s)
-  }
-  if timeout is Some(t) {
-    options.set("timeout", t)
-  }
-  if maxBuffer is Some(mb) {
-    options.set("maxBuffer", mb)
-  }
-  if input is Some(i) {
-    options.set("input", i)
-  }
-  if encoding is Some(enc) {
-    options.set("encoding", enc)
-  } else {
-    options.set("encoding", "utf8")
-  }
+  let options = @js.from_entries_option([
+    ("cwd", cwd.map(x => x)),
+    ("env", env.map(x => x)),
+    ("shell", shell.map(x => x)),
+    ("timeout", timeout.map(x => x)),
+    ("maxBuffer", maxBuffer.map(x => x)),
+    ("input", input.map(x => x)),
+    ("encoding", Some(encoding.or("utf8"))),
+  ])
   unsafe_cast(cp.call("execSync", [command |> js, options]))
 }
 
@@ -402,27 +337,14 @@ pub fn execFileSync(
   encoding? : String,
 ) -> String {
   let cp = ffi_require_child_process()
-  let options = @js.Object::new()
-  if cwd is Some(c) {
-    options.set("cwd", c)
-  }
-  if env is Some(e) {
-    options.set("env", e)
-  }
-  if timeout is Some(t) {
-    options.set("timeout", t)
-  }
-  if maxBuffer is Some(mb) {
-    options.set("maxBuffer", mb)
-  }
-  if input is Some(i) {
-    options.set("input", i)
-  }
-  if encoding is Some(enc) {
-    options.set("encoding", enc)
-  } else {
-    options.set("encoding", "utf8")
-  }
+  let options = @js.from_entries_option([
+    ("cwd", cwd.map(x => x)),
+    ("env", env.map(x => x)),
+    ("timeout", timeout.map(x => x)),
+    ("maxBuffer", maxBuffer.map(x => x)),
+    ("input", input.map(x => x)),
+    ("encoding", Some(encoding.or("utf8"))),
+  ])
   match args {
     Some(a) =>
       unsafe_cast(cp.call("execFileSync", [file, a |> @js.from_array, options]))

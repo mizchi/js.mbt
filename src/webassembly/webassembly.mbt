@@ -64,7 +64,7 @@ pub fn WebAssemblyMemory::new(
   ffi_new_memory(
     @js.from_entries_option([
       ("initial", Some(descriptor.initial)),
-      ("maximum", descriptor.maximum.map(fn(x) { x })),
+      ("maximum", descriptor.maximum.map(x => x)),
       ("shared", Some(descriptor.shared)),
     ]),
   )
@@ -115,7 +115,7 @@ pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
     @js.from_entries_option([
       ("element", Some(descriptor.element)),
       ("initial", Some(descriptor.initial)),
-      ("maximum", descriptor.maximum.map(fn(x) { x })),
+      ("maximum", descriptor.maximum.map(x => x)),
     ]),
   )
 }

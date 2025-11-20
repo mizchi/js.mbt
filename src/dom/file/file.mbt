@@ -33,8 +33,8 @@ pub fn File::new(
       arr.to_js(),
       filename |> js,
       @js.from_entries_option([
-        ("type", content_type.map(fn(x) { x })),
-        ("lastModified", last_modified.map(fn(x) { x })),
+        ("type", content_type.map(x => x)),
+        ("lastModified", last_modified.map(x => x)),
       ]),
     ),
   )

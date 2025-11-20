@@ -22,7 +22,7 @@ impl JsImpl for ParseArgsOption with to_js(self) -> Js {
         ("type", Some("string")),
         ("short", Some(short)),
         ("multiple", Some(multiple)),
-        ("default", default.map(fn(x) { x })),
+        ("default", default.map(x => x)),
       ])
   }
 }

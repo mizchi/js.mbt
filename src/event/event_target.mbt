@@ -57,7 +57,7 @@ impl EventTargetImpl with addEventListener(
       ("capture", Some(capture)),
       ("once", Some(once)),
       ("passive", Some(passive)),
-      ("signal", signal.map(fn(x) { x })),
+      ("signal", signal.map(x => x)),
     ]),
   ])
   |> ignore

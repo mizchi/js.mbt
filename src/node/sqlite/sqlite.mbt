@@ -64,22 +64,22 @@ pub fn DatabaseSync::new(
   defensive? : Bool,
 ) -> DatabaseSync {
   let opts = @js.from_entries_option([
-    ("open", open.map(fn(x) { x })),
-    ("readOnly", readOnly.map(fn(x) { x })),
-    ("allowExtension", allowExtension.map(fn(x) { x })),
+    ("open", open.map(x => x)),
+    ("readOnly", readOnly.map(x => x)),
+    ("allowExtension", allowExtension.map(x => x)),
     (
       "enableForeignKeyConstraints",
-      enableForeignKeyConstraints.map(fn(x) { x }),
+      enableForeignKeyConstraints.map(x => x),
     ),
-    ("timeout", timeout.map(fn(x) { x })),
-    ("readBigInts", readBigInts.map(fn(x) { x })),
-    ("returnArrays", returnArrays.map(fn(x) { x })),
-    ("allowBareNamedParameters", allowBareNamedParameters.map(fn(x) { x })),
+    ("timeout", timeout.map(x => x)),
+    ("readBigInts", readBigInts.map(x => x)),
+    ("returnArrays", returnArrays.map(x => x)),
+    ("allowBareNamedParameters", allowBareNamedParameters.map(x => x)),
     (
       "allowUnknownNamedParameters",
-      allowUnknownNamedParameters.map(fn(x) { x }),
+      allowUnknownNamedParameters.map(x => x),
     ),
-    ("defensive", defensive.map(fn(x) { x })),
+    ("defensive", defensive.map(x => x)),
   ])
   let v = @node.require("node:sqlite").get("DatabaseSync")
     |> @js.new_([path, opts])
@@ -100,10 +100,10 @@ pub fn[T, U] DatabaseSync::aggregate(
   result? : (T) -> Js,
 ) -> Unit {
   let opts = @js.from_entries_option([
-    ("deterministic", deterministic.map(fn(x) { x })),
-    ("directOnly", directOnly.map(fn(x) { x })),
-    ("useBigIntArguments", useBigIntArguments.map(fn(x) { x })),
-    ("varargs", varargs.map(fn(x) { x })),
+    ("deterministic", deterministic.map(x => x)),
+    ("directOnly", directOnly.map(x => x)),
+    ("useBigIntArguments", useBigIntArguments.map(x => x)),
+    ("varargs", varargs.map(x => x)),
     ("start", start.map(fn(x) { x |> @js.unsafe_js })),
     ("step", step.map(fn(x) { x |> @js.unsafe_js })),
     ("inverse", inverse.map(fn(x) { x |> @js.unsafe_js })),
