@@ -51,8 +51,10 @@ fn Response::bytes(Self) -> @promise.Promise[@arraybuffer.Uint8Array]
 fn Response::clone(Self) -> Self
 fn Response::error() -> Self
 fn Response::form_data(Self) -> @promise.Promise[FormData]
+fn Response::html_response(String, Int) -> Self
 fn Response::json(Self) -> @promise.Promise[@js.Js]
 fn Response::json_(@js.Js, options? : @js.Js) -> Self
+fn Response::json_response(String, Int) -> Self
 fn Response::ok(Self) -> Bool
 fn Response::redirect(String, status? : Int) -> Self
 fn Response::redirected(Self) -> Bool
@@ -60,7 +62,9 @@ fn Response::status(Self) -> Int
 #alias(statusText)
 fn Response::status_text(Self) -> String
 fn Response::text(Self) -> @promise.Promise[String]
+fn Response::text_response(String, Int) -> Self
 fn Response::type_(Self) -> String
+fn Response::with_content_type(String, Int, String) -> Self
 impl @js.JsImpl for Response
 
 // Type aliases

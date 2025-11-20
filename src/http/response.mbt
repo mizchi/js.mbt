@@ -70,3 +70,36 @@ pub extern "js" fn Response::type_(self : Self) -> String =
 pub fn Response::body(self : Self) -> @stream.ReadableStream? {
   self.get("body") |> @js.unsafe_cast_option()
 }
+
+///|
+/// Helper function to create response with content type
+pub fn Response::with_content_type(
+  body : String,
+  status : Int,
+  content_type : String,
+) -> Response {
+  let headers = @js.Object::new()
+  headers.set("Content-Type", content_type)
+  let options = @js.Object::new()
+  options.set("status", status)
+  options.set("headers", headers.to_js())
+  new_response(body~, options=options.to_js())
+}
+
+///|
+/// Create a JSON response
+pub fn Response::json_response(body : String, status : Int) -> Response {
+  Response::with_content_type(body, status, "application/json")
+}
+
+///|
+/// Create a text response
+pub fn Response::text_response(body : String, status : Int) -> Response {
+  Response::with_content_type(body, status, "text/plain")
+}
+
+///|
+/// Create an HTML response
+pub fn Response::html_response(body : String, status : Int) -> Response {
+  Response::with_content_type(body, status, "text/html")
+}
