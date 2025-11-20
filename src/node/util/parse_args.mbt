@@ -15,20 +15,15 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 ///|
 impl JsImpl for ParseArgsOption with to_js(self) -> Js {
   match self {
-    Boolean(short~, ..) => {
-      let obj = @js.Object::new()
-      obj.set("type", "boolean")
-      obj.set("short", short)
-      obj.to_js()
-    }
-    String(short~, multiple~, default~, ..) => {
-      let obj = @js.Object::new()
-      obj.set("type", "string")
-      obj.set("short", short)
-      obj.set("multiple", multiple)
-      obj.set("default", default)
-      obj.to_js()
-    }
+    Boolean(short~, ..) =>
+      @js.from_entries([("type", "boolean"), ("short", short)])
+    String(short~, multiple~, default~, ..) =>
+      @js.from_entries_option([
+        ("type", Some("string")),
+        ("short", Some(short)),
+        ("multiple", Some(multiple)),
+        ("default", default.map(fn(x) { x })),
+      ])
   }
 }
 
