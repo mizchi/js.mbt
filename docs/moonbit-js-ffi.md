@@ -4,15 +4,34 @@ A practical guide for writing JavaScript FFI bindings using `mizchi/js`.
 
 ## Core Concepts
 
-### The `Js` Trait
+### The `JsImpl` Trait
 
-When you implement `Js` for a type, you can:
+When you implement `JsImpl` for a type, you can:
 
-- **Convert to JavaScript**: `value.to_js() -> Val`
-- **Access properties**: `value.get("propertyName") -> Val`
-- **Set properties**: `value.set("propertyName", jsValue)`
+- **Convert to JavaScript**: `value.to_js() -> Js`
+- **Access properties**: `value.get("propertyName") -> Js` (accepts `&PropertyKey`)
+- **Set properties**: `value.set("propertyName", jsValue)` (accepts `&PropertyKey`)
 - **Call methods**: `value.call("methodName", [arg1, arg2])`
+- **Call with specific arity**: `value.call0("method")`, `value.call1("method", arg1)`, `value.call2("method", arg1, arg2)`
+- **Call as function**: `value.call_self([arg1, arg2])`, `value.call_self0()`
+- **Error handling**: `value.call_throwable("method", [args])`, `value.call_self_throwable([args])`
+- **Property operations**: `value.delete("propertyName")`, `value.hasOwnProperty("propertyName")`
 - **Cast types**: `unsafe_cast(value) -> T`
+
+### PropertyKey Trait
+
+Properties can be accessed using `String`, `Int`, or `Symbol` keys:
+
+```moonbit
+pub trait PropertyKey {
+  to_key(Self) -> Js
+}
+
+// Implementations
+pub impl PropertyKey for String  // obj["name"]
+pub impl PropertyKey for Int     // arr[0]
+pub impl PropertyKey for Symbol  // obj[Symbol.iterator]
+```
 
 ### Basic Type Usage
 
@@ -170,13 +189,8 @@ pub fn Array::new() -> JsArray {
 ### Pattern 7: Handling Null/Undefined
 
 ```moonbit
-fn unsafe_cast_option(val: Val) -> Val? {
-  if is_null(val) || is_undefined(val) {
-    None
-  } else {
-    Some(val)
-  }
-}
+// Built-in helper function
+pub fn[A] unsafe_cast_option(v : Js) -> A?
 
 #alias(get_element_by_id)
 pub fn getElementById(id: String) -> Element? {
@@ -188,16 +202,30 @@ match getElementById("header") {
   Some(el) => el.set("textContent", "Hello")
   None => console.log("Element not found")
 }
+
+// Safe property setting with optional values
+pub fn[O : JsImpl, V : JsImpl] set_if_exists(
+  o : O,
+  key : &PropertyKey,
+  value : V?,
+) -> Unit
+
+// Example
+set_if_exists(obj, "optional_field", Some("value"))  // Sets property
+set_if_exists(obj, "optional_field", None)           // Skips setting
 ```
 
 ### Pattern 8: Promises and Async
 
 ```moonbit
 // Create Promise
-pub fn Promise::new(f: ((A) -> Unit, (Error) -> Unit) -> Unit) -> Promise[A]
+pub fn Promise::new(f: ((A) -> Unit, (JsError) -> Unit) -> Unit) -> Promise[A]
 
 // Use async/await
 pub async fn Promise::unwrap(self: Self[A]) -> A
+
+// Error handling with throwable
+pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError
 
 // Example
 run_async(() => {
@@ -218,6 +246,13 @@ run_async(() => {
   
   console.log(data)
 })
+
+// Using throwable for explicit error handling
+fn fetch_data() -> Js raise JsThrowError {
+  throwable(() => {
+    globalThis().call1("fetch", "https://api.example.com")
+  })
+}
 ```
 
 ### Pattern 9: Node.js Modules
@@ -334,6 +369,61 @@ fn TodoApp() -> Element {
 }
 ```
 
+### Pattern 10: BigInt Operations
+
+```moonbit
+// Create BigInt
+let bigint = @js.JsBigInt::from_int(42)
+let bigint2 = @js.JsBigInt::from_string("123456789012345678901234567890")
+
+// Arithmetic operations
+let sum = @js.JsBigInt::add(bigint, bigint2)
+let diff = @js.JsBigInt::sub(bigint, bigint2)
+let product = @js.JsBigInt::mul(bigint, bigint2)
+let quotient = @js.JsBigInt::div(bigint, bigint2)
+let remainder = @js.JsBigInt::mod(bigint, bigint2)
+
+// Comparison
+let is_equal = @js.JsBigInt::equal(bigint, bigint2)
+let is_less = @js.JsBigInt::lt(bigint, bigint2)
+
+// Convert to string
+let str = bigint.to_string()
+let hex = bigint.to_string_radix(16)
+```
+
+### Pattern 11: WeakMap, WeakSet, and WeakRef
+
+```moonbit
+// WeakMap for object metadata
+let metadata : WeakMap[Element, String] = @js.WeakMap::new()
+metadata.set(element, "some metadata")
+match metadata.get(element) {
+  Some(data) => console.log(data)
+  None => console.log("No metadata")
+}
+
+// WeakSet for tracking objects
+let tracked : WeakSet[Element] = @js.WeakSet::new()
+tracked.add(element)
+if tracked.has(element) {
+  console.log("Element is tracked")
+}
+
+// WeakRef for caching
+let cache : WeakRef[LargeObject] = @js.WeakRef::new(large_object)
+match cache.deref() {
+  Some(obj) => console.log("Object still alive")
+  None => console.log("Object was garbage collected")
+}
+
+// FinalizationRegistry for cleanup
+let registry = @js.FinalizationRegistry::new(fn(held_value) {
+  console.log("Object was finalized: " + held_value.to_string())
+})
+registry.register(element, "cleanup data")
+```
+
 ## Best Practices
 
 ### 1. Type Safety
@@ -342,8 +432,8 @@ fn TodoApp() -> Element {
 // Good: Specific types
 pub fn createElement(tag: String) -> Element
 
-// Avoid: Generic Val when type is known
-pub fn createElement(tag: String) -> Val
+// Avoid: Generic Js when type is known
+pub fn createElement(tag: String) -> Js
 ```
 
 ### 2. Document Your APIs
@@ -362,8 +452,10 @@ pub fn createElement(tag: String) -> Element
 // Use Option for nullable values
 pub fn getElementById(id: String) -> Element?
 
-// Use exceptions for operations that can fail
-pub async fn fetch(url: String) -> Response raise
+// Use raise for operations that can fail
+pub fn fetch(url: String) -> Js raise JsThrowError {
+  throwable(() => globalThis().call1("fetch", url))
+}
 ```
 
 ### 4. Consistent Naming
@@ -371,7 +463,21 @@ pub async fn fetch(url: String) -> Response raise
 - Use `#alias(snake_case)` followed by `pub fn camelCase`
 - Use `~` for required named parameters
 - Use `?` for optional parameters  
-- Use `_` suffix for reserved words
+- Use `_` suffix for reserved words (`throw_`, `new_`)
+
+### 5. Use PropertyKey for Flexible Access
+
+```moonbit
+// Accept any PropertyKey type
+pub fn get_property[K : PropertyKey](obj : Js, key : K) -> Js {
+  obj.get(key)
+}
+
+// Works with String, Int, Symbol
+get_property(obj, "name")
+get_property(arr, 0)
+get_property(obj, Symbol::iterator())
+```
 
 ## Quick Reference
 
@@ -381,25 +487,58 @@ pub async fn fetch(url: String) -> Response raise
 pub type MyType
 pub impl JsImpl for MyType
 
-// Property access
+// Property access (accepts &PropertyKey)
 value.get("prop")              // Get property
+value.get(0)                   // Get by index
+value.get(symbol)              // Get by symbol
 value.set("prop", val)         // Set property
+value.delete("prop")           // Delete property
+value.hasOwnProperty("prop")   // Check property
 
 // Method calls
-value.call("method", [arg1, arg2])     // Call method
+value.call("method", [arg1, arg2])     // Call with array
+value.call0("method")                  // Call with no args
+value.call1("method", arg1)            // Call with 1 arg
+value.call2("method", arg1, arg2)      // Call with 2 args
 value.call_self([arg1, arg2])          // Call as function
+value.call_self0()                     // Call as function (no args)
+
+// Error handling
+value.call_throwable("method", [args])           // Call with error handling
+value.call_self_throwable([args])                // Call self with error handling
+throwable(() => risky_operation())               // Wrap risky code
 
 // Type conversion
 unsafe_cast(value)             // Cast to target type
-value.to_js()                  // Convert to Val
+unsafe_cast_option(value)      // Cast to Option type
+value.to_js()                  // Convert to Js
 js(value)                      // Convert MoonBit value to JS
+option_js(value)               // Convert to Js?
 
 // Helpers
 @js.Object::new()              // Create empty object
+@js.Object::keys(obj)          // Get object keys
+@js.Object::values(obj)        // Get object values
+@js.Object::entries(obj)       // Get object entries
+@js.Object::freeze(obj)        // Freeze object
+@js.Object::seal(obj)          // Seal object
 @js.from_map(map)              // Map to object
 @js.from_array(arr)            // Array to JS array
+@js.set_if_exists(obj, key, opt_val)  // Set if value exists
+
+// Type checking
 is_null(val)                   // Check null
 is_undefined(val)              // Check undefined
+is_nullish(val)                // Check null or undefined
+is_array(val)                  // Check array
+is_object(val)                 // Check object
+
+// Symbol operations
+@js.symbol("name")             // Create symbol
+@js.Symbol::iterator()         // Get iterator symbol
+@js.Symbol::asyncIterator()    // Get async iterator symbol
+@js.Symbol::dispose()          // Get dispose symbol
+@js.Symbol::asyncDispose()     // Get async dispose symbol
 ```
 
 ## Learn More
