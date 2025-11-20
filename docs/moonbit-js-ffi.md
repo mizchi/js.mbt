@@ -2,6 +2,8 @@
 
 A practical guide for writing JavaScript FFI bindings using `mizchi/js`.
 
+> **See also**: [Executable FFI examples](../src/examples/js_ffi.mbt.md) - Runnable test cases demonstrating these patterns.
+
 ## Core Concepts
 
 ### The `JsImpl` Trait
