@@ -38,12 +38,14 @@ pub fn fileURLToPathFromURL(url : URL, windows? : Bool) -> String {
 pub fn pathToFileURL(path : String, windows? : Bool) -> URL {
   let url_module = @node.require("node:url")
   match windows {
-    Some(w) => {
-      let options = @js.Object::new()
-      options.set("windows", w)
-      unsafe_cast(url_module.call("pathToFileURL", [path, options]))
-    }
-    None => unsafe_cast(url_module.call("pathToFileURL", [path]))
+    Some(w) =>
+      unsafe_cast(
+        url_module.call("pathToFileURL", [
+          path,
+          @js.from_entries_option_cast([("windows", Some(w))]),
+        ]),
+      )
+    None => unsafe_cast(url_module.call1("pathToFileURL", path))
   }
 }
 
