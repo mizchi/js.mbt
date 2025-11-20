@@ -5,9 +5,6 @@
 using @js {unsafe_cast, run_async}
 
 ///|
-using @buffer {type Buffer}
-
-///|
 using @promises {rm}
 
 ///|

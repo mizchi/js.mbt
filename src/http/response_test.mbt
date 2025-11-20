@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, unsafe_cast, type Promise, run_async}
+using @js {type Js, unsafe_cast}
 
 ///|
 extern "js" fn ffi_new_response(content : String) -> Js =

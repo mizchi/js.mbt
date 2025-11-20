@@ -1,7 +1,4 @@
 ///|
-using @js {type Js}
-
-///|
 test "dom test" {
   @global_jsdom.register()
   let doc = document()
