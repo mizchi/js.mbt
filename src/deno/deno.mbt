@@ -244,6 +244,96 @@ pub fn Deno::realPath(self : Deno, path : String) -> @promise.Promise[String] {
   self.call("realPath", [@js.js(path)]) |> @js.unsafe_cast
 }
 
+///|
+/// Truncate or extend a file to specified length
+pub fn Deno::truncate(
+  self : Deno,
+  name : String,
+  len : Int,
+) -> @promise.Promise[Unit] {
+  self.call("truncate", [@js.js(name), @js.js(len)]) |> @js.unsafe_cast
+}
+
+///|
+/// Make temporary directory
+pub fn Deno::makeTempDir(
+  self : Deno,
+  prefix? : String,
+) -> @promise.Promise[String] {
+  match prefix {
+    Some(p) => {
+      let opts = @js.Object::new()
+      opts.set("prefix", p)
+      self.call("makeTempDir", [opts]) |> @js.unsafe_cast
+    }
+    None => self.call("makeTempDir", []) |> @js.unsafe_cast
+  }
+}
+
+///|
+/// Make temporary file
+pub fn Deno::makeTempFile(
+  self : Deno,
+  prefix? : String,
+) -> @promise.Promise[String] {
+  match prefix {
+    Some(p) => {
+      let opts = @js.Object::new()
+      opts.set("prefix", p)
+      self.call("makeTempFile", [opts]) |> @js.unsafe_cast
+    }
+    None => self.call("makeTempFile", []) |> @js.unsafe_cast
+  }
+}
+
+///|
+/// Get hostname
+pub fn Deno::hostname(self : Deno) -> String {
+  self.call("hostname", []) |> @js.unsafe_cast
+}
+
+///|
+/// Get OS release version
+pub fn Deno::osRelease(self : Deno) -> String {
+  self.call("osRelease", []) |> @js.unsafe_cast
+}
+
+///|
+/// Get OS uptime in seconds
+pub fn Deno::osUptime(self : Deno) -> Int {
+  self.call("osUptime", []) |> @js.unsafe_cast
+}
+
+///|
+/// Get system load average (Unix only)
+pub fn Deno::loadavg(self : Deno) -> Array[Double] {
+  self.call("loadavg", []) |> @js.unsafe_cast
+}
+
+///|
+/// Get network interfaces
+pub fn Deno::networkInterfaces(self : Deno) -> Js {
+  self.call("networkInterfaces", [])
+}
+
+///|
+/// Get system memory info
+pub fn Deno::systemMemoryInfo(self : Deno) -> Js {
+  self.call("systemMemoryInfo", [])
+}
+
+///|
+/// Get user ID (Unix only)
+pub fn Deno::uid(self : Deno) -> Int? {
+  self.call("uid", []) |> @js.unsafe_cast_option
+}
+
+///|
+/// Get group ID (Unix only)
+pub fn Deno::gid(self : Deno) -> Int? {
+  self.call("gid", []) |> @js.unsafe_cast_option
+}
+
 ///| Test APIs
 
 ///|

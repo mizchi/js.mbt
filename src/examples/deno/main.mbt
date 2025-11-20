@@ -211,4 +211,83 @@ fn main {
 
     d.remove(test_file).unwrap()
   })
+
+  // Test temporary directory
+  d.test_async("make temp dir", async fn(_ctx) {
+    let temp_dir = d.makeTempDir(prefix="test_").unwrap()
+
+    assert_true(temp_dir.length() > 0)
+
+    // Clean up
+    d.remove(temp_dir, recursive=true).unwrap()
+  })
+
+  // Test temporary file
+  d.test_async("make temp file", async fn(_ctx) {
+    let temp_file = d.makeTempFile(prefix="test_").unwrap()
+
+    assert_true(temp_file.length() > 0)
+
+    // Write some data
+    d.writeTextFile(temp_file, "temp data").unwrap()
+    let content = d.readTextFile(temp_file).unwrap()
+    assert_eq(content, "temp data")
+
+    // Clean up
+    d.remove(temp_file).unwrap()
+  })
+
+  // Test truncate
+  d.test_async("truncate file", async fn(_ctx) {
+    let test_file = "test_truncate.txt"
+
+    d.writeTextFile(test_file, "Hello, World! This is a long text.").unwrap()
+    d.truncate(test_file, 5).unwrap()
+
+    let content = d.readTextFile(test_file).unwrap()
+    assert_eq(content, "Hello")
+
+    d.remove(test_file).unwrap()
+  })
+
+  // Test system info
+  d.test_async("system information", async fn(_ctx) {
+    let hostname = d.hostname()
+    assert_true(hostname.length() > 0)
+
+    let os_release = d.osRelease()
+    assert_true(os_release.length() > 0)
+
+    let uptime = d.osUptime()
+    assert_true(uptime >= 0)
+  })
+
+  // Test load average (Unix only, might fail on Windows)
+  d.test_async("load average", async fn(_ctx) {
+    let loadavg = d.loadavg()
+    // Should return array of 3 numbers on Unix, empty on Windows
+    assert_true(loadavg.length() == 3 || loadavg.length() == 0)
+  })
+
+  // Test network interfaces
+  d.test_async("network interfaces", async fn(_ctx) {
+    let interfaces = d.networkInterfaces()
+    assert_true(@js.typeof_(interfaces) == "object")
+  })
+
+  // Test system memory info
+  d.test_async("system memory info", async fn(_ctx) {
+    let mem_info = d.systemMemoryInfo()
+    assert_true(@js.typeof_(mem_info) == "object")
+  })
+
+  // Test uid/gid (Unix only)
+  d.test_async("uid and gid", async fn(_ctx) {
+    let uid = d.uid()
+    let gid = d.gid()
+    // On Unix, these should be Some(Int), on Windows None
+    // Just check they don't crash
+    ignore(uid)
+    ignore(gid)
+  })
 }
