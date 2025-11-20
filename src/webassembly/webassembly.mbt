@@ -61,14 +61,13 @@ extern "js" fn ffi_new_memory(descriptor : Js) -> WebAssemblyMemory =
 pub fn WebAssemblyMemory::new(
   descriptor : MemoryDescriptor,
 ) -> WebAssemblyMemory {
-  let obj = @js.Object::new()
-  obj.set("initial", descriptor.initial)
-  match descriptor.maximum {
-    Some(max) => obj.set("maximum", max)
-    None => ()
-  }
-  obj.set("shared", descriptor.shared)
-  ffi_new_memory(obj.to_js())
+  ffi_new_memory(
+    @js.from_entries_option([
+      ("initial", Some(descriptor.initial)),
+      ("maximum", descriptor.maximum.map(fn(x) { x })),
+      ("shared", Some(descriptor.shared)),
+    ]),
+  )
 }
 
 ///|
@@ -112,14 +111,13 @@ extern "js" fn ffi_new_table(descriptor : Js) -> WebAssemblyTable =
 ///|
 /// Create a new WebAssembly table
 pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
-  let obj = @js.Object::new()
-  obj.set("element", descriptor.element)
-  obj.set("initial", descriptor.initial)
-  match descriptor.maximum {
-    Some(max) => obj.set("maximum", max)
-    None => ()
-  }
-  ffi_new_table(obj.to_js())
+  ffi_new_table(
+    @js.from_entries_option([
+      ("element", Some(descriptor.element)),
+      ("initial", Some(descriptor.initial)),
+      ("maximum", descriptor.maximum.map(fn(x) { x })),
+    ]),
+  )
 }
 
 ///|

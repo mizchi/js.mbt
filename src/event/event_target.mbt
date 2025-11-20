@@ -50,14 +50,16 @@ impl EventTargetImpl with addEventListener(
   passive? : Bool = false,
   signal? : AbortSignal,
 ) -> Unit {
-  let options = @js.Object::new()
-  options.set("capture", capture)
-  options.set("once", once)
-  options.set("passive", passive)
-  if signal is Some(sig) {
-    options.set("signal", sig)
-  }
-  self.call("addEventListener", [event_type, @js.from_fn1(handler), options])
+  self.call("addEventListener", [
+    event_type,
+    @js.from_fn1(handler),
+    @js.from_entries_option([
+      ("capture", Some(capture)),
+      ("once", Some(once)),
+      ("passive", Some(passive)),
+      ("signal", signal.map(fn(x) { x })),
+    ]),
+  ])
   |> ignore
 }
 
@@ -68,9 +70,11 @@ impl EventTargetImpl with removeEventListener(
   handler,
   capture? : Bool = false,
 ) -> Unit {
-  let options = @js.Object::new()
-  options.set("capture", capture)
-  self.call("removeEventListener", [event_type, @js.from_fn1(handler), options])
+  self.call("removeEventListener", [
+    event_type,
+    @js.from_fn1(handler),
+    @js.from_entries_option_cast([("capture", Some(capture))]),
+  ])
   |> ignore
 }
 

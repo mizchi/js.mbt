@@ -141,11 +141,12 @@ pub fn Deno::remove(
   recursive? : Bool,
 ) -> Promise[Unit] {
   match recursive {
-    Some(r) => {
-      let opts = @js.Object::new()
-      opts.set("recursive", r)
-      self.call("remove", [@js.js(path), opts]) |> @js.unsafe_cast
-    }
+    Some(r) =>
+      self.call("remove", [
+        @js.js(path),
+        @js.from_entries_option_cast([("recursive", Some(r))]),
+      ])
+      |> @js.unsafe_cast
     None => self.call("remove", [@js.js(path)]) |> @js.unsafe_cast
   }
 }
@@ -158,11 +159,12 @@ pub fn Deno::mkdir(
   recursive? : Bool,
 ) -> Promise[Unit] {
   match recursive {
-    Some(r) => {
-      let opts = @js.Object::new()
-      opts.set("recursive", r)
-      self.call("mkdir", [@js.js(path), opts]) |> @js.unsafe_cast
-    }
+    Some(r) =>
+      self.call("mkdir", [
+        @js.js(path),
+        @js.from_entries_option_cast([("recursive", Some(r))]),
+      ])
+      |> @js.unsafe_cast
     None => self.call("mkdir", [@js.js(path)]) |> @js.unsafe_cast
   }
 }
@@ -239,11 +241,11 @@ pub fn Deno::truncate(self : Deno, name : String, len : Int) -> Promise[Unit] {
 /// Make temporary directory
 pub fn Deno::makeTempDir(self : Deno, prefix? : String) -> Promise[String] {
   match prefix {
-    Some(p) => {
-      let opts = @js.Object::new()
-      opts.set("prefix", p)
-      self.call("makeTempDir", [opts]) |> @js.unsafe_cast
-    }
+    Some(p) =>
+      self.call("makeTempDir", [
+        @js.from_entries_option_cast([("prefix", Some(p))]),
+      ])
+      |> @js.unsafe_cast
     None => self.call("makeTempDir", []) |> @js.unsafe_cast
   }
 }
@@ -252,11 +254,11 @@ pub fn Deno::makeTempDir(self : Deno, prefix? : String) -> Promise[String] {
 /// Make temporary file
 pub fn Deno::makeTempFile(self : Deno, prefix? : String) -> Promise[String] {
   match prefix {
-    Some(p) => {
-      let opts = @js.Object::new()
-      opts.set("prefix", p)
-      self.call("makeTempFile", [opts]) |> @js.unsafe_cast
-    }
+    Some(p) =>
+      self.call("makeTempFile", [
+        @js.from_entries_option_cast([("prefix", Some(p))]),
+      ])
+      |> @js.unsafe_cast
     None => self.call("makeTempFile", []) |> @js.unsafe_cast
   }
 }
@@ -314,19 +316,18 @@ pub fn Deno::gid(self : Deno) -> Int? {
 ///|
 /// Open a network connection (TCP)
 pub fn Deno::connect(self : Self, hostname : String, port : Int) -> Promise[Js] {
-  let opts = @js.Object::new()
-  opts.set("hostname", hostname)
-  opts.set("port", port)
-  self.call("connect", [opts]) |> @js.unsafe_cast
+  self.call("connect", [
+    @js.from_entries([("hostname", hostname), ("port", port)]),
+  ])
+  |> @js.unsafe_cast
 }
 
 ///|
 /// Listen on a network address (TCP server)
 pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> Js {
-  let opts = @js.Object::new()
-  opts.set("hostname", hostname)
-  opts.set("port", port)
-  self.call("listen", [opts])
+  self.call("listen", [
+    @js.from_entries([("hostname", hostname), ("port", port)]),
+  ])
 }
 
 ///|
@@ -345,10 +346,7 @@ pub fn Deno::resolveDns(
 ///|
 /// Serve HTTP requests (simplified version)
 pub fn Deno::serve(self : Deno, port : Int, handler : Js) -> Js {
-  let opts = @js.Object::new()
-  opts.set("port", port)
-  opts.set("handler", handler)
-  self.call("serve", [opts])
+  self.call("serve", [@js.from_entries([("port", port), ("handler", handler)])])
 }
 
 ///| Permissions APIs
@@ -356,25 +354,22 @@ pub fn Deno::serve(self : Deno, port : Int, handler : Js) -> Js {
 ///|
 /// Request permission
 pub fn Deno::request_permission(self : Self, name : String) -> Promise[Js] {
-  let desc = @js.Object::new()
-  desc.set("name", name)
-  self.get("permissions").call("request", [desc]) |> @js.unsafe_cast
+  self.get("permissions").call("request", [@js.from_entries([("name", name)])])
+  |> @js.unsafe_cast
 }
 
 ///|
 /// Query permission status
 pub fn Deno::query_permission(self : Deno, name : String) -> Promise[Js] {
-  let desc = @js.Object::new()
-  desc.set("name", name)
-  self.get("permissions").call("query", [desc]) |> @js.unsafe_cast
+  self.get("permissions").call("query", [@js.from_entries([("name", name)])])
+  |> @js.unsafe_cast
 }
 
 ///|
 /// Revoke permission
 pub fn Deno::revoke_permission(self : Deno, name : String) -> Promise[Js] {
-  let desc = @js.Object::new()
-  desc.set("name", name)
-  self.get("permissions").call("revoke", [desc]) |> @js.unsafe_cast
+  self.get("permissions").call("revoke", [@js.from_entries([("name", name)])])
+  |> @js.unsafe_cast
 }
 
 ///| Time and Performance APIs
@@ -402,20 +397,15 @@ pub fn Deno::open(
   write? : Bool,
   read? : Bool,
 ) -> Promise[FsFile] {
-  let opts = @js.Object::new()
-  match create {
-    Some(c) => opts.set("create", c)
-    None => ()
-  }
-  match write {
-    Some(w) => opts.set("write", w)
-    None => ()
-  }
-  match read {
-    Some(r) => opts.set("read", r)
-    None => ()
-  }
-  self.call("open", [@js.js(path), opts]) |> @js.unsafe_cast
+  self.call("open", [
+    @js.js(path),
+    @js.from_entries_option_cast([
+      ("create", create),
+      ("write", write),
+      ("read", read),
+    ]),
+  ])
+  |> @js.unsafe_cast
 }
 
 ///|
@@ -484,9 +474,12 @@ pub fn Deno::test_only(
   name : String,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let opts : @js.Object = @js.Object::new()
-  opts.set("name", name)
-  opts.set("only", true)
-  opts.set("fn", promisify1(f) |> @js.from_fn1)
-  self.call("test", [opts.to_js()]) |> ignore
+  self.call("test", [
+    @js.from_entries([
+      ("name", name),
+      ("only", true),
+      ("fn", promisify1(f) |> @js.from_fn1),
+    ]),
+  ])
+  |> ignore
 }

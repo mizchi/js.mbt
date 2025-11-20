@@ -75,12 +75,7 @@ pub(all) struct DurableObjectIdOptions {
 
 ///|
 pub impl JsImpl for DurableObjectIdOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.jurisdiction {
-    Some(j) => obj.set("jurisdiction", j)
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option_cast([("jurisdiction", self.jurisdiction)])
 }
 
 ///|
@@ -441,16 +436,10 @@ pub(all) struct DurableObjectGetOptions {
 
 ///|
 pub impl JsImpl for DurableObjectGetOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.allowConcurrency {
-    Some(val) => obj.set("allowConcurrency", val)
-    None => ()
-  }
-  match self.noCache {
-    Some(val) => obj.set("noCache", val)
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option_cast([
+    ("allowConcurrency", self.allowConcurrency),
+    ("noCache", self.noCache),
+  ])
 }
 
 ///|
@@ -463,20 +452,11 @@ pub(all) struct DurableObjectPutOptions {
 
 ///|
 pub impl JsImpl for DurableObjectPutOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.allowConcurrency {
-    Some(val) => obj.set("allowConcurrency", val)
-    None => ()
-  }
-  match self.allowUnconfirmed {
-    Some(val) => obj.set("allowUnconfirmed", val)
-    None => ()
-  }
-  match self.noCache {
-    Some(val) => obj.set("noCache", val)
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option_cast([
+    ("allowConcurrency", self.allowConcurrency),
+    ("allowUnconfirmed", self.allowUnconfirmed),
+    ("noCache", self.noCache),
+  ])
 }
 
 ///|
@@ -494,40 +474,16 @@ pub(all) struct DurableObjectListOptions {
 
 ///|
 pub impl JsImpl for DurableObjectListOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.start {
-    Some(val) => obj.set("start", val)
-    None => ()
-  }
-  match self.startAfter {
-    Some(val) => obj.set("startAfter", val)
-    None => ()
-  }
-  match self.end {
-    Some(val) => obj.set("end", val)
-    None => ()
-  }
-  match self.prefix {
-    Some(val) => obj.set("prefix", val)
-    None => ()
-  }
-  match self.reverse {
-    Some(val) => obj.set("reverse", val)
-    None => ()
-  }
-  match self.limit {
-    Some(val) => obj.set("limit", val)
-    None => ()
-  }
-  match self.allowConcurrency {
-    Some(val) => obj.set("allowConcurrency", val)
-    None => ()
-  }
-  match self.noCache {
-    Some(val) => obj.set("noCache", val)
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option([
+    ("start", self.start.map(fn(x) { x })),
+    ("startAfter", self.startAfter.map(fn(x) { x })),
+    ("end", self.end.map(fn(x) { x })),
+    ("prefix", self.prefix.map(fn(x) { x })),
+    ("reverse", self.reverse.map(fn(x) { x })),
+    ("limit", self.limit.map(fn(x) { x })),
+    ("allowConcurrency", self.allowConcurrency.map(fn(x) { x })),
+    ("noCache", self.noCache.map(fn(x) { x })),
+  ])
 }
 
 ///|
@@ -538,12 +494,7 @@ pub(all) struct DurableObjectGetAlarmOptions {
 
 ///|
 pub impl JsImpl for DurableObjectGetAlarmOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.allowConcurrency {
-    Some(val) => obj.set("allowConcurrency", val)
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option_cast([("allowConcurrency", self.allowConcurrency)])
 }
 
 ///|
@@ -555,16 +506,10 @@ pub(all) struct DurableObjectSetAlarmOptions {
 
 ///|
 pub impl JsImpl for DurableObjectSetAlarmOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.allowConcurrency {
-    Some(val) => obj.set("allowConcurrency", val)
-    None => ()
-  }
-  match self.allowUnconfirmed {
-    Some(val) => obj.set("allowUnconfirmed", val)
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option_cast([
+    ("allowConcurrency", self.allowConcurrency),
+    ("allowUnconfirmed", self.allowUnconfirmed),
+  ])
 }
 
 ///|

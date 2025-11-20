@@ -23,46 +23,26 @@ pub fn fetch(
   referrerPolicy? : String,
   signal? : AbortSignal,
 ) -> Promise[Response] {
-  let init_obj = @js.Object::new()
-  init_obj.set("method", method_)
   let header_obj = @js.Object::new()
   for k, v in headers {
     header_obj.set(k, v)
   }
-  if body is Some(body) {
-    init_obj.set("body", body)
-  }
-  if cache is Some(c) {
-    init_obj.set("cache", c)
-  }
-  if mode is Some(m) {
-    init_obj.set("mode", m)
-  }
-  if credentials is Some(c) {
-    init_obj.set("credentials", c)
-  }
-  if integrity is Some(i) {
-    init_obj.set("integrity", i)
-  }
-  if keepalive is Some(k) {
-    init_obj.set("keepalive", k)
-  }
-  if priority is Some(p) {
-    init_obj.set("priority", p)
-  }
-  if redirect is Some(r) {
-    init_obj.set("redirect", r)
-  }
-  if referrer is Some(r) {
-    init_obj.set("referrer", r)
-  }
-  if referrerPolicy is Some(rp) {
-    init_obj.set("referrerPolicy", rp)
-  }
-  if signal is Some(s) {
-    init_obj.set("signal", s)
-  }
-  ffi_fetch(url, init_obj.to_js())
+  let init_obj = @js.from_entries_option([
+    ("method", Some(method_)),
+    ("headers", Some(header_obj)),
+    ("body", body.map(fn(x) { x })),
+    ("cache", cache.map(fn(x) { x })),
+    ("mode", mode.map(fn(x) { x })),
+    ("credentials", credentials.map(fn(x) { x })),
+    ("integrity", integrity.map(fn(x) { x })),
+    ("keepalive", keepalive.map(fn(x) { x })),
+    ("priority", priority.map(fn(x) { x })),
+    ("redirect", redirect.map(fn(x) { x })),
+    ("referrer", referrer.map(fn(x) { x })),
+    ("referrerPolicy", referrerPolicy.map(fn(x) { x })),
+    ("signal", signal.map(fn(x) { x })),
+  ])
+  ffi_fetch(url, init_obj)
 }
 
 ///|

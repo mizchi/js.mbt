@@ -142,12 +142,7 @@ pub(all) struct D1RawOptions {
 
 ///|
 pub impl JsImpl for D1RawOptions with to_js(self) {
-  let obj = @js.Object::new()
-  match self.columnNames {
-    Some(val) => obj.set("columnNames", val)
-    None => ()
-  }
-  obj.to_js()
+  @js.from_entries_option_cast([("columnNames", self.columnNames)])
 }
 
 ///|
