@@ -142,9 +142,7 @@ pub fn userInfo() -> Js {
 /// - `encoding`: The character encoding to use (default: 'utf8')
 #alias(userinfo_with_encoding)
 pub fn userInfoWithEncoding(encoding : String) -> Js {
-  let options = @js.Object::new()
-  options.set("encoding", encoding)
-  os_module().call("userInfo", [options])
+  os_module().call1("userInfo", @js.from_entries([("encoding", encoding)]))
 }
 
 ///|

@@ -41,61 +41,32 @@ pub(all) struct WasiOptions {
 ///|
 /// Convert WasiOptions to JS object
 fn WasiOptions::to_js(self : WasiOptions) -> Js {
-  let options = @js.Object::new()
-
-  // Set version (required)
-  options.set("version", self.version)
-
-  // Set optional args
-  match self.args {
-    Some(args) => options.set("args", args |> @js.from_array)
-    None => ()
-  }
-
-  // Set optional env
-  match self.env {
+  let env_obj = match self.env {
     Some(env) => {
-      let env_obj = @js.Object::new()
-      env.each(fn(key, value) { env_obj.set(key, value) })
-      options.set("env", env_obj)
+      let obj = @js.Object::new()
+      env.each(fn(key, value) { obj.set(key, value) })
+      Some(obj)
     }
-    None => ()
+    None => None
   }
-
-  // Set optional preopens
-  match self.preopens {
+  let preopens_obj = match self.preopens {
     Some(preopens) => {
-      let preopens_obj = @js.Object::new()
-      preopens.each(fn(key, value) { preopens_obj.set(key, value) })
-      options.set("preopens", preopens_obj)
+      let obj = @js.Object::new()
+      preopens.each(fn(key, value) { obj.set(key, value) })
+      Some(obj)
     }
-    None => ()
+    None => None
   }
-
-  // Set optional return_on_exit
-  match self.returnOnExit {
-    Some(value) => options.set("returnOnExit", value)
-    None => ()
-  }
-
-  // Set optional stdin
-  match self.stdin {
-    Some(value) => options.set("stdin", value)
-    None => ()
-  }
-
-  // Set optional stdout
-  match self.stdout {
-    Some(value) => options.set("stdout", value)
-    None => ()
-  }
-
-  // Set optional stderr
-  match self.stderr {
-    Some(value) => options.set("stderr", value)
-    None => ()
-  }
-  options.to_js()
+  @js.from_entries_option([
+    ("version", Some(self.version)),
+    ("args", self.args.map(x => x |> @js.from_array)),
+    ("env", env_obj.map(x => x)),
+    ("preopens", preopens_obj.map(x => x)),
+    ("returnOnExit", self.returnOnExit.map(x => x)),
+    ("stdin", self.stdin.map(x => x)),
+    ("stdout", self.stdout.map(x => x)),
+    ("stderr", self.stderr.map(x => x)),
+  ])
 }
 
 ///|

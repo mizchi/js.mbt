@@ -112,23 +112,16 @@ pub fn readdirSync(path : String) -> Array[String] {
 pub fn rmSync(path : String, recursive? : Bool, force? : Bool) -> Unit {
   let fs = fs_module()
   match (recursive, force) {
-    (Some(r), Some(f)) => {
-      let options = @js.Object::new()
-      options.set("recursive", r)
-      options.set("force", f)
-      fs.call("rmSync", [path, options]) |> ignore
-    }
-    (Some(r), None) => {
-      let options = @js.Object::new()
-      options.set("recursive", r)
-      fs.call("rmSync", [path, options]) |> ignore
-    }
-    (None, Some(f)) => {
-      let options = @js.Object::new()
-      options.set("force", f)
-      fs.call("rmSync", [path, options]) |> ignore
-    }
-    (None, None) => fs.call("rmSync", [path]) |> ignore
+    (None, None) => fs.call1("rmSync", path) |> ignore
+    _ =>
+      fs.call("rmSync", [
+        path,
+        @js.from_entries_option_cast([
+          ("recursive", recursive),
+          ("force", force),
+        ]),
+      ])
+      |> ignore
   }
 }
 

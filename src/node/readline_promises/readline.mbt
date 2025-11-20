@@ -30,39 +30,19 @@ pub fn createInterface(
   tabSize? : Int,
   signal? : AbortSignal,
 ) -> Interface {
-  let opts = @js.Object::new()
-  opts.set("input", input.to_js())
-  if output is Some(v) {
-    opts.set("output", v)
-  }
-  // opts.set("output", output.to_js())
-  if completer is Some(v) {
-    opts.set("completer", v |> @js.from_fn1)
-  }
-  if terminator is Some(v) {
-    opts.set("terminator", v)
-  }
-  if history is Some(v) {
-    opts.set("history", v |> @js.from_array)
-  }
-  if removeHistoryDuplicates is Some(v) {
-    opts.set("removeHistoryDuplicates", v)
-  }
-  if prompt is Some(v) {
-    opts.set("prompt", v)
-  }
-  if crlfDelay is Some(v) {
-    opts.set("crlfDelay", v)
-  }
-  if escapeCodeTimeout is Some(v) {
-    opts.set("escapeCodeTimeout", v)
-  }
-  if tabSize is Some(v) {
-    opts.set("tabSize", v)
-  }
-  if signal is Some(v) {
-    opts.set("signal", v)
-  }
+  let opts = @js.from_entries_option([
+    ("input", Some(input.to_js())),
+    ("output", output.map(x => x)),
+    ("completer", completer.map(x => x |> @js.from_fn1)),
+    ("terminator", terminator.map(x => x)),
+    ("history", history.map(x => x |> @js.from_array)),
+    ("removeHistoryDuplicates", removeHistoryDuplicates.map(x => x)),
+    ("prompt", prompt.map(x => x)),
+    ("crlfDelay", crlfDelay.map(x => x)),
+    ("escapeCodeTimeout", escapeCodeTimeout.map(x => x)),
+    ("tabSize", tabSize.map(x => x)),
+    ("signal", signal.map(x => x)),
+  ])
   unsafe_cast(
     @node.require("node:readline/promises")
     .get("createInterface")
