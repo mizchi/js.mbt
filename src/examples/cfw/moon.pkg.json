@@ -2,7 +2,7 @@
   "supported-targets": ["js"],
   "link": {
     "js": {
-      "exports": ["get_fetch_handler"]
+      "exports": ["get_fetch_handler", "get_kv_handler"]
     }
   },
   "import": [
