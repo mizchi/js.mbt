@@ -46,11 +46,23 @@ Add to your `moon.pkg.json`:
 ### Core APIs
 
 - **[mizchi/js](./src/README.md)** - Core JavaScript built-in APIs (Object, Promise, Array, etc.)
-- **[mizchi/js/arraybuffer](./src/arraybuffer/)** - Binary data handling
-- **[mizchi/js/web/http](./src/http/)** - Fetch API and HTTP primitives
-- **[mizchi/js/web/stream](./src/stream/)** - Streams API (ReadableStream, etc.)
-- **[mizchi/js/web/crypto](./src/crypto/)** - Web Crypto API
+- **[mizchi/js/arraybuffer](./src/arraybuffer/)** - Binary data handling (ArrayBuffer, TypedArrays)
 - **[mizchi/js/console](./src/console/)** - Console logging
+
+### Web Standard APIs
+
+Platform-independent Web Standard APIs that work across browsers, Node.js, Deno, Bun, and edge runtimes:
+
+- **[mizchi/js/web](./src/web/README.md)** - Meta-package documentation for all Web APIs
+- **[mizchi/js/web/http](./src/web/http/)** - Fetch API (Request, Response, Headers, FormData)
+- **[mizchi/js/web/url](./src/web/url/)** - URL APIs (URL, URLSearchParams, URLPattern)
+- **[mizchi/js/web/streams](./src/web/streams/)** - Streams API (ReadableStream, WritableStream, TransformStream)
+- **[mizchi/js/web/blob](./src/web/blob/)** - Blob API for binary data
+- **[mizchi/js/web/encoding](./src/web/encoding/)** - Encoding API (TextEncoder, TextDecoder)
+- **[mizchi/js/web/event](./src/web/event/)** - Event APIs (Event, CustomEvent, MessageEvent)
+- **[mizchi/js/web/crypto](./src/web/crypto/)** - Web Crypto API for cryptographic operations
+- **[mizchi/js/web/websocket](./src/web/websocket/)** - WebSocket API for real-time communication
+- **[mizchi/js/web/worker](./src/web/worker/)** - Web Workers API for background processing
 
 ### Runtime-Specific
 

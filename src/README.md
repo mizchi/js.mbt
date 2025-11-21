@@ -29,26 +29,31 @@ Comprehensive JavaScript FFI bindings for MoonBit, providing type-safe access to
 | **Standard APIs** |
 | RegExp | `mizchi/js/regexp` | ✅ Tested | Regular expressions |
 | Date | `mizchi/js/date` | ✅ Tested | Date/time operations |
-| URL | `mizchi/js/url` | ✅ Tested | URL parsing |
-| URLSearchParams | `mizchi/js/url` | ✅ Tested | Query strings |
-| URLPattern | `mizchi/js/url` | 🤖 AI Generated | URL pattern matching |
 | Console | `mizchi/js/console` | ✅ Tested | Console logging |
 | Performance | `mizchi/js/performance` | 🤖 AI Generated | Performance API |
 | Math | `mizchi/js/math` | ✅ Tested | Math operations |
 | Reflect | `mizchi/js/reflect` | 🤖 AI Generated | Reflection API |
-| **Web APIs** |
+| **Web Standard APIs** |
 | fetch | `mizchi/js/web/http` | ✅ Tested | HTTP requests |
 | Request | `mizchi/js/web/http` | ✅ Tested | Request objects |
 | Response | `mizchi/js/web/http` | ✅ Tested | Response objects |
 | Headers | `mizchi/js/web/http` | ✅ Tested | HTTP headers |
 | FormData | `mizchi/js/web/http` | ✅ Tested | Form data |
-| Streams | `mizchi/js/web/stream` | ✅ Tested | ReadableStream, etc. |
+| URL | `mizchi/js/web/url` | ✅ Tested | URL parsing |
+| URLSearchParams | `mizchi/js/web/url` | ✅ Tested | Query strings |
+| URLPattern | `mizchi/js/web/url` | ✅ Tested | URL pattern matching |
+| Blob | `mizchi/js/web/blob` | ✅ Tested | Binary data |
+| Streams | `mizchi/js/web/streams` | ✅ Tested | ReadableStream, etc. |
+| TextEncoder | `mizchi/js/web/encoding` | ✅ Tested | String to Uint8Array |
+| TextDecoder | `mizchi/js/web/encoding` | ✅ Tested | Uint8Array to String |
+| Event | `mizchi/js/web/event` | ✅ Tested | Event objects |
+| CustomEvent | `mizchi/js/web/event` | ✅ Tested | Custom events |
 | Crypto | `mizchi/js/web/crypto` | ✅ Tested | Web Crypto API |
+| WebSocket | `mizchi/js/web/websocket` | ✅ Tested | WebSocket API |
+| Worker | `mizchi/js/web/worker` | ✅ Tested | Web Workers |
+| MessageChannel | `mizchi/js/web/worker` | ✅ Tested | Message passing |
 | **Advanced** |
 | WebAssembly | `mizchi/js/webassembly` | 🤖 AI Generated | WASM integration |
-| Worker | `mizchi/js/web/worker` | 🤖 AI Generated | Web Workers |
-| MessageChannel | `mizchi/js/web/worker` | 🤖 AI Generated | Message passing |
-| WebSocket | `mizchi/js/web/websocket` | 🤖 AI Generated | WebSocket API |
 | **Platform-Specific** |
 | Node.js APIs | `mizchi/js/node/*` | 🚧 Partially | See [node/README](./node/README.md) |
 | DOM APIs | `mizchi/js/browser/*` | ✅ Tested | See [browser/dom/README](./browser/dom/README.md) |
@@ -84,29 +89,33 @@ mizchi/js/
 ├── Core (js.mbt)              - Core FFI primitives
 ├── arraybuffer/               - Binary data handling
 ├── console/                   - Console API
-├── crypto/                    - Web Crypto API
 ├── date/                      - Date/time operations
-├── dom/                       - DOM APIs (see dom/README.md)
-├── http/                      - Fetch API
 ├── math/                      - Math operations
-├── node/                      - Node.js APIs (see node/README.md)
-├── npm/                       - NPM package bindings
-│   ├── hono/                  - Hono web framework
-│   ├── react/                 - React library
-│   ├── react_dom_server/      - React SSR
-│   ├── react_dom_client/      - React CSR
-│   └── semver/                - Semantic versioning
 ├── performance/               - Performance API
 ├── reflect/                   - Reflection API
 ├── regexp/                    - Regular expressions
-├── stream/                    - Streams API
-├── url/                       - URL APIs
 ├── webassembly/               - WebAssembly API
-├── websocket/                 - WebSocket API
-├── worker/                    - Web Workers
-├── cloudflare/                - Cloudflare Workers
-└── deno/                      - Deno API
-
+├── web/                       - Web Standard APIs (platform-independent)
+│   ├── blob/                  - Blob API
+│   ├── crypto/                - Web Crypto API
+│   ├── encoding/              - TextEncoder/TextDecoder
+│   ├── event/                 - Event APIs
+│   ├── http/                  - Fetch API (Request/Response/Headers/FormData)
+│   ├── streams/               - Streams API (ReadableStream/WritableStream)
+│   ├── url/                   - URL APIs (URL/URLSearchParams/URLPattern)
+│   ├── websocket/             - WebSocket API
+│   └── worker/                - Web Workers API
+├── browser/                   - Browser-specific APIs
+│   └── dom/                   - DOM APIs (see browser/dom/README.md)
+├── node/                      - Node.js APIs (see node/README.md)
+├── cloudflare/                - Cloudflare Workers APIs
+├── deno/                      - Deno runtime APIs
+└── npm/                       - NPM package bindings
+    ├── hono/                  - Hono web framework
+    ├── react/                 - React library
+    ├── react_dom_server/      - React SSR
+    ├── react_dom_client/      - React CSR
+    └── semver/                - Semantic versioning
 ```
 
 ## Installation
