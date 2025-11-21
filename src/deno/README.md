@@ -30,6 +30,26 @@ MoonBit bindings for Deno runtime APIs.
 - ✅ **Tested**: Comprehensive test coverage
 - 📅 **Planned**: Scheduled for future implementation
 
+### Using Node.js APIs in Deno
+
+For APIs not yet implemented in the Deno-specific bindings, you can use Node.js compatibility packages:
+
+```moonbit
+// Use Node.js fs instead of Deno's file APIs
+import @node/fs_promises as fs
+
+fn example() -> Unit {
+  @js.run_async(fn() {
+    let content = fs.readFile("file.txt", "utf-8").await
+    @console.log(content)
+  })
+}
+```
+
+Deno provides built-in Node.js compatibility. See:
+- [Deno Node.js Compatibility](https://docs.deno.com/runtime/fundamentals/node/) - Official compatibility guide
+- [mizchi/js/node](../node/README.md) - Available Node.js bindings
+
 ---
 
 ## Installation
