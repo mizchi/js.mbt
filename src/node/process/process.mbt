@@ -84,3 +84,9 @@ pub fn stderr() -> @stream.Stream {
 pub fn on(sig : String, listener : () -> Unit) -> Unit {
   unsafe_cast(process().call2("on", sig, @js.from_fn0(listener)))
 }
+
+///|
+/// JS: process.nextTick(callback)
+pub fn nextTick(callback : () -> Unit) -> Unit {
+  process().call1("nextTick", @js.from_fn0(callback)) |> ignore
+}

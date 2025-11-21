@@ -21,6 +21,8 @@ fn exitCode() -> Int
 
 fn isTTY() -> Bool
 
+fn nextTick(() -> Unit) -> Unit
+
 fn on(String, () -> Unit) -> Unit
 
 fn process() -> Process

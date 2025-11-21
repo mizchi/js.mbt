@@ -6,6 +6,8 @@ import(
 )
 
 // Values
+fn clearImmediate(Immediate) -> Unit
+
 fn import_meta_dirname() -> String
 
 fn import_meta_filename() -> String
@@ -22,9 +24,14 @@ fn require_main() -> String
 
 fn require_resolve(String) -> Unit
 
+fn setImmediate(() -> Unit) -> Immediate
+
 // Errors
 
 // Types and methods
+#external
+pub type Immediate
+impl @js.JsImpl for Immediate
 
 // Type aliases
 
