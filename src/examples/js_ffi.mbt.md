@@ -483,10 +483,10 @@ For complex JavaScript objects with known structure, define MoonBit structs inst
 ```moonbit
 ///|
 pub struct Stats {
-  pub isFile : Bool
-  pub isDirectory : Bool
-  pub size : Int
-  pub mtime : Int
+  isFile : Bool
+  isDirectory : Bool
+  size : Int
+  mtime : Int
 }
 
 ///|
