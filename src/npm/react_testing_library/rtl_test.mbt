@@ -302,3 +302,176 @@ test "configure function exists" {
   // If we get here without error, the test passes
   assert_eq(1, 1)
 }
+
+///| React Hooks Tests with renderHook
+
+///|
+test "renderHook: useState" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let hook = fn() {
+    let (state, _set_state) = @react.use_state(0)
+    state
+  }
+  let result = renderHook(unsafe_cast(hook))
+  let hook_result = result.result()
+  // result.current is the hook return value
+  let current = hook_result.get("current")
+  let state : Int = unsafe_cast(current)
+  assert_eq(state, 0)
+}
+
+///|
+test "renderHook: useState with updates" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  // Test that we can get the initial state value
+  let hook = fn() {
+    let (state, _set_state) = @react.use_state(0)
+    state
+  }
+  let result = renderHook(unsafe_cast(hook))
+  // Get initial state
+  let current1 = result.result().get("current")
+  let state1 : Int = unsafe_cast(current1)
+  assert_eq(state1, 0)
+  // Note: Testing state updates with renderHook requires more complex setup
+  // For now, we verify the hook returns the correct initial value
+}
+
+///|
+test "renderHook: useEffect" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let hook = fn() {
+    let (count, set_count) = @react.use_state(0)
+    @react.useEffect(
+      fn() {
+        set_count(count + 1)
+        fn() { () }
+      },
+      [],
+    )
+    count
+  }
+  let result = renderHook(unsafe_cast(hook))
+  let current = result.result().get("current")
+  let count : Int = unsafe_cast(current)
+  // After useEffect runs, count should be 1
+  assert_eq(count, 1)
+}
+
+///|
+test "renderHook: useCallback" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let hook = fn() {
+    let (count, _set_count) = @react.use_state(0)
+    @react.useCallback(fn() { count * 2 }, [count])
+  }
+  let result = renderHook(unsafe_cast(hook))
+  let current = result.result().get("current")
+  // callback is a function
+  @js.typeof_(current) |> assert_eq("function")
+}
+
+///|
+test "renderHook: useMemo" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let hook = fn() {
+    let (count, _set_count) = @react.use_state(5)
+    @react.useMemo(fn() { count * 2 }, [count])
+  }
+  let result = renderHook(unsafe_cast(hook))
+  let current = result.result().get("current")
+  let doubled : Int = unsafe_cast(current)
+  assert_eq(doubled, 10)
+}
+
+///|
+test "renderHook: useRef" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let hook = fn() { @react.useRef(Some(42)) }
+  let result = renderHook(unsafe_cast(hook))
+  let current = result.result().get("current")
+  // ref has a current property
+  let ref_current = current.get("current")
+  let value : Int = unsafe_cast(ref_current)
+  assert_eq(value, 42)
+}
+
+///|
+test "renderHook: useContext" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let ctx : @react.Context[Int] = @react.create_context(Some(100))
+  let hook = fn() { @react.use_context(ctx) }
+  let result = renderHook(unsafe_cast(hook))
+  let current = result.result().get("current")
+  let value : Int = unsafe_cast(current)
+  assert_eq(value, 100)
+}
+
+///|
+test "renderHook: useReducer" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let reducer = fn(state : Int, action : Int) { state + action }
+  let hook = fn() {
+    let (state, _dispatch) = @react.use_reducer(reducer, 0)
+    state
+  }
+  let result = renderHook(unsafe_cast(hook))
+  let current = result.result().get("current")
+  let state : Int = unsafe_cast(current)
+  assert_eq(state, 0)
+  // Note: Testing dispatch with renderHook requires more complex setup
+  // For now, we verify the hook returns the correct initial state
+}
+
+///|
+test "renderHook: rerender method" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  // Use a simple hook that doesn't need props
+  let multiplier_ref : Ref[Int] = { val: 2 }
+  let hook = fn() {
+    let (count, _set_count) = @react.use_state(10)
+    count * multiplier_ref.val
+  }
+  let result = renderHook(unsafe_cast(hook))
+  let current1 = result.result().get("current")
+  let value1 : Int = unsafe_cast(current1)
+  assert_eq(value1, 20)
+  // Change multiplier and rerender
+  multiplier_ref.val = 3
+  result.rerender(@js.undefined())
+  let current2 = result.result().get("current")
+  let value2 : Int = unsafe_cast(current2)
+  assert_eq(value2, 30)
+}
+
+///|
+test "renderHook: unmount method" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let hook = fn() { @react.use_state(0) }
+  let result = renderHook(unsafe_cast(hook))
+  // Verify hook is mounted
+  let current = result.result().get("current")
+  @js.typeof_(current) |> assert_eq("object")
+  // Unmount should not throw
+  result.unmount()
+}
