@@ -17,7 +17,7 @@ pub(open) trait Transferable {
 ///   worker.post_message(@js.from_builtin_json({
 ///     "type": "greeting"
 ///   }))
-///   worker.addEventListener("message", event => {
+///   worker.addEventListener("message", _event => {
 ///     @js.log("Received message from worker:")
 ///   })
 ///   worker.terminate()

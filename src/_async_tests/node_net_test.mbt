@@ -1,13 +1,5 @@
 ///|
-using @net {
-  type Socket,
-  type Server,
-  createServer,
-  createConnection,
-  isIP,
-  isIPv4,
-  isIPv6,
-}
+using @net {createServer, createConnection, isIP, isIPv4, isIPv6}
 
 ///| IP validation tests
 

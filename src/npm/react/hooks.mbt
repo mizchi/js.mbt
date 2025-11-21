@@ -2,7 +2,7 @@
 /// React.useState
 /// ```mbt
 /// fn my_component (props: EmptyProps) -> Element {
-///   let (_count, set_count) = useState(0)
+///   let (_count, _set_count) = useState(0)
 ///   ...
 /// }
 /// ```
@@ -18,7 +18,7 @@ pub fn[T : JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
 /// JS: React.useState(() => initial)
 /// ```
 /// fn my_component(props: EmptyProps) -> Element {
-///   let (count, set_count) = use_state_lazy(() => 42)
+///   let (_count, _set_count) = use_state_lazy(() => 42)
 ///   ...
 /// }
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
@@ -32,8 +32,8 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 ///|
 /// React.useCallback
 /// ```mbt
-/// fn my_component(props : EmptyProps) -> Element {
-///   let on_click = useCallback(() => {
+/// fn my_component(_props : EmptyProps) -> Element {
+///   let _on_click = useCallback(() => {
 ///     ()
 ///   }, [])
 ///   ...
@@ -48,7 +48,7 @@ pub fn[F] useCallback(f : F, keys : Array[&JsImpl]) -> F {
 ///|
 /// JS: React.useEffect
 /// ```mbt
-/// fn my_component(props : EmptyProps) -> Element {
+/// fn my_component(_props : EmptyProps) -> Element {
 ///   useEffect(() => {
 ///     println("mounted")
 ///     () => println("unmounted")
@@ -70,11 +70,11 @@ pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[&JsImpl]) -> Unit {
 ///|
 /// React.useMemo
 /// ```mbt
-/// fn my_component(props : EmptyProps) -> Element {
-///   let result = useMemo(() => {
+/// fn my_component(_props : EmptyProps) -> Element {
+///   let _result = useMemo(() => {
 ///     42
 ///   }, [])
-///   createElement("div", [result])
+///   createElement("div", [_result])
 /// }
 /// ```
 #alias(use_memo)
@@ -87,7 +87,7 @@ pub fn[T] useMemo(f : () -> T, keys : Array[&JsImpl]) -> T {
 ///|
 /// JS: React.useRef
 /// ```mbt
-/// fn my_component(props : EmptyProps) -> Element {
+/// fn my_component(_props : EmptyProps) -> Element {
 ///   let my_ref : ReactRef[@dom.Element] = useRef(None)
 ///   createElement("div", ref_=my_ref, ["Hello"])
 /// }
@@ -167,10 +167,10 @@ pub fn[T] use_(promise : Promise[T]) -> T {
 ///   Increment
 /// }
 /// fn my_component(_props : EmptyProps) -> Element {
-///   let (state, dispatch) = use_reducer((s: Int, a: CounterAction) => match a {
+///   let (_state, _dispatch) = use_reducer((s: Int, a: CounterAction) => match a {
 ///     Increment => s + 1
 ///   }, 0)
-///   createElement("div", [state])
+///   createElement("div", [_state])
 /// }
 /// ```
 #alias(useReducer)

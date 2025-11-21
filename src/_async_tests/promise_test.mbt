@@ -377,7 +377,7 @@ test {
 ///|
 test {
   it("suspend with reject", _ => run_async(() => try {
-    let result : Result[Unit, Failure] = try? suspend((ok, err) => run_async(() => {
+    let result : Result[Unit, Failure] = try? suspend((_ok, err) => run_async(() => {
       sleep(5)
       err(Failure("test error"))
     }))

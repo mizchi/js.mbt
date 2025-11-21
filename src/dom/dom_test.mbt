@@ -339,7 +339,7 @@ test "EventTarget - addEventListener and dispatchEvent" {
   let mut event_fired = false
 
   // addEventListener test
-  div.addEventListener("click", fn(event) { event_fired = true })
+  div.addEventListener("click", fn(_event) { event_fired = true })
 
   // Create and dispatch custom event
   let event = doc.createEvent("Event")
@@ -357,7 +357,7 @@ test "EventTarget - removeEventListener" {
   let doc = document()
   let div = doc.createElement("div")
   let mut call_count = 0
-  let handler = fn(event) { call_count = call_count + 1 }
+  let handler = fn(_event) { call_count = call_count + 1 }
 
   // Add event listener
   div.addEventListener("test-event", handler)

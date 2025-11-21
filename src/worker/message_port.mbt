@@ -18,7 +18,7 @@ pub impl Show for MessagePort with output(self, logger) {
 }
 
 ///|
-pub impl Show for MessagePort with to_string(self) {
+pub impl Show for MessagePort with to_string(_self) {
   "[object MessagePort]"
 }
 
@@ -75,7 +75,7 @@ pub impl Show for MessageChannel with output(self, logger) {
 }
 
 ///|
-pub impl Show for MessageChannel with to_string(self) {
+pub impl Show for MessageChannel with to_string(_self) {
   "[object MessageChannel]"
 }
 

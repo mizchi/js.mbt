@@ -31,7 +31,7 @@ test "Date UTC and local time consistency" {
 
   // Local values depend on timezone but should be consistent
   let local_year = date.get_full_year()
-  let local_month = date.get_month()
+  let _local_month = date.get_month()
   inspect(local_year >= 2024, content="true")
 }
 

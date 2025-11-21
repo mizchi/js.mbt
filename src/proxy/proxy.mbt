@@ -26,7 +26,7 @@ fn proxy_class() -> @js.Js {
 /// Example with get trap:
 /// ```moonbit
 /// let target = @js.Object::new()
-/// let proxy = Proxy::new(target, get=fn(_target, _prop, _receiver) { @js.js("value") })
+/// let _proxy = Proxy::new(target, get=fn(_target, _prop, _receiver) { @js.js("value") })
 /// ```
 pub fn Proxy::new(
   target : &@js.JsImpl,

@@ -15,7 +15,7 @@
 ///
 /// let query = db.prepare("SELECT * FROM users WHERE id = ?")
 /// query.get_(anonymous_parameters=[1]) |> ignore
-/// let results = query.all()
+/// let _results = query.all()
 /// ```
 ///
 /// # Features

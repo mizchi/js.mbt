@@ -8,8 +8,8 @@
 ///
 /// ```moonbit
 /// let num = js(42)                 // MoonBit Int -> Js
-/// let str = js("hello")            // MoonBit String -> Js
-/// let val : Int = unsafe_cast(num) // Val -> MoonBit Int (unsafe)
+/// let _str = js("hello")            // MoonBit String -> Js
+/// let _val : Int = unsafe_cast(num) // Val -> MoonBit Int (unsafe)
 /// ```
 #external
 pub type Js
@@ -60,8 +60,8 @@ pub fn new_(cls : Js, args : Array[&JsImpl]) -> Js {
 ///
 /// ```moonbit
 /// // Using the trait explicitly
-/// let val : Js = JsImpl::to_js("hello")
-/// let num : Js = JsImpl::to_js(42)
+/// let _val : Js = JsImpl::to_js("hello")
+/// let _num : Js = JsImpl::to_js(42)
 ///
 /// // Using with polymorphic functions
 /// fn create_object(name : &JsImpl, age : &JsImpl) -> Js {
@@ -70,7 +70,7 @@ pub fn new_(cls : Js, args : Array[&JsImpl]) -> Js {
 ///   obj.set("age", age)
 ///   obj.to_js()
 /// }
-/// let obj = create_object("Alice", 30)  // Strings and Ints implement Js
+/// let _obj = create_object("Alice", 30)  // Strings and Ints implement Js
 /// ```
 pub(open) trait JsImpl {
   to_js(Self) -> Js = _

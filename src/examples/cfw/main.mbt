@@ -2,7 +2,7 @@
 using @js {log, promisify3}
 
 ///|
-using @http {type Request, type Response, fetch, fetch_request, new_response}
+using @http {type Response, fetch}
 
 ///|
 using @url {type URL}

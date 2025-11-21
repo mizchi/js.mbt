@@ -94,7 +94,7 @@ pub fn throw_(v : &JsImpl) -> Unit {
 ///
 /// ```moonbit
 /// let error = JsError::new("Something went wrong")
-/// let caused_error = JsError::new("Failed operation", cause=error)
+/// let _caused_error = JsError::new("Failed operation", cause=error)
 /// ```
 pub fn JsError::new(message : String, cause? : JsError) -> JsError {
   let args : Array[Js] = if cause is Some(cause) {

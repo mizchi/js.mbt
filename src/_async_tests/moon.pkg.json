@@ -2,14 +2,9 @@
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/iterator",
     "mizchi/js/stream",
     "mizchi/js/node",
     "mizchi/js/node/test",
-    "mizchi/js/node/buffer",
-    "mizchi/js/node/path",
-    "mizchi/js/node/os",
-    "mizchi/js/npm/react",
     {
       "path": "mizchi/js/crypto",
       "alias": "crypto"
@@ -37,6 +32,10 @@
     {
       "path": "mizchi/js/node/stream_promises",
       "alias": "stream_promises"
+    },
+    {
+      "path": "mizchi/js/npm/react",
+      "alias": "react"
     },
     {
       "path": "mizchi/js/npm/react_dom_server",

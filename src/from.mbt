@@ -11,7 +11,7 @@ pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
 ///
 /// ```moonbit
 /// let map = { "name": js("Alice"), "age": js(30) }
-/// let obj = from_map(map)
+/// let _obj = from_map(map)
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
 pub fn from_map(map : Map[String, Js]) -> Js {
@@ -30,7 +30,7 @@ pub fn from_map(map : Map[String, Js]) -> Js {
 ///
 /// ```moonbit
 /// let entries : Array[(String, &JsImpl)] = [("name", "Alice"), ("age", 30)]
-/// let obj = from_entries(entries)
+/// let _obj = from_entries(entries)
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
 pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Js {
@@ -54,7 +54,7 @@ pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Js {
 ///   ("age", Some(30)),
 ///   ("email", None)
 /// ]
-/// let obj = from_entries_option(entries)
+/// let _obj = from_entries_option(entries)
 /// // JavaScript: { name: "Alice", age: 30 }
 /// // Note: "email" is not included because it was None
 /// ```
@@ -78,7 +78,7 @@ pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Js {
 /// # Example
 ///
 /// ```moonbit
-/// let obj = from_entries_option_cast([
+/// let _obj = from_entries_option_cast([
 ///   ("open", Some(true)),
 ///   ("readOnly", Some(false)),
 ///   ("timeout", None)

@@ -130,7 +130,7 @@ test "RegExp.replace_fn" {
 test "RegExp.replace_all_fn" {
   let re = RegExp::new("(\\d+)", flags="g")
   let result = re.replace_all_fn("test1 test2 test3", fn(
-    matched,
+    _matched,
     _groups,
     _offset,
     _input,

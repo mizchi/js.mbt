@@ -9,7 +9,7 @@ impl[T] JsImpl for Promise[T]
 ///|
 /// JS: Promise.new((resolve, reject) => { ... })
 /// ```
-/// let p: Promise[Int] = Promise::new((resolve, reject) => {
+/// let _p: Promise[Int] = Promise::new((resolve, _reject) => {
 ///    resolve(10)
 /// })
 /// ```

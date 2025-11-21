@@ -146,7 +146,7 @@ fn main {
 
   // Test realPath
   d.test_async("real path", async fn(_ctx) {
-    let cwd = d.cwd()
+    let _cwd = d.cwd()
     let real = d.realPath(".").unwrap()
 
     // realPath should return an absolute path
