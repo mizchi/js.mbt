@@ -1,9 +1,6 @@
 {
-  "supported-targets": [
-    "js"
-  ],
+  "supported-targets": ["js"],
   "is_main": false,
-  "import": [
-    "mizchi/js"
-  ]
+  "import": ["mizchi/js"],
+  "test-import": ["mizchi/js/web/encoding"]
 }

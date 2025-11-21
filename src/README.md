@@ -44,6 +44,8 @@ Comprehensive JavaScript FFI bindings for MoonBit, providing type-safe access to
 | URLPattern | `mizchi/js/web/url` | ✅ Tested | URL pattern matching |
 | Blob | `mizchi/js/web/blob` | ✅ Tested | Binary data |
 | Streams | `mizchi/js/web/streams` | ✅ Tested | ReadableStream, etc. |
+| CompressionStream | `mizchi/js/web/streams` | ✅ Tested | GZIP/Deflate compression |
+| DecompressionStream | `mizchi/js/web/streams` | ✅ Tested | GZIP/Deflate decompression |
 | TextEncoder | `mizchi/js/web/encoding` | ✅ Tested | String to Uint8Array |
 | TextDecoder | `mizchi/js/web/encoding` | ✅ Tested | Uint8Array to String |
 | Event | `mizchi/js/web/event` | ✅ Tested | Event objects |

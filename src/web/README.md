@@ -26,6 +26,8 @@ These APIs work consistently across:
 | ReadableStream | `mizchi/js/web/streams` | ✅ Tested | Readable streams |
 | WritableStream | `mizchi/js/web/streams` | ✅ Tested | Writable streams |
 | TransformStream | `mizchi/js/web/streams` | ✅ Tested | Transform streams |
+| CompressionStream | `mizchi/js/web/streams` | ✅ Tested | GZIP/Deflate compression |
+| DecompressionStream | `mizchi/js/web/streams` | ✅ Tested | GZIP/Deflate decompression |
 | **Binary Data** |
 | Blob | `mizchi/js/web/blob` | ✅ Tested | Binary data |
 | **Encoding** |
@@ -133,7 +135,7 @@ fn handle_request(request : @http.Request) -> @http.Response {
 ```moonbit
 // Streaming API responses - efficient for large datasets
 fn stream_large_file(file_path : String) -> @http.Response {
-  let stream = @stream.ReadableStream::new(...)
+  let stream = @streams.ReadableStream::new(...)
   @http.Response::new(
     body=stream,
     headers=...
@@ -141,17 +143,37 @@ fn stream_large_file(file_path : String) -> @http.Response {
 }
 
 // Transform streams for data processing pipelines
-fn process_stream(input : @stream.ReadableStream) -> @stream.ReadableStream {
-  let transform = @stream.TransformStream::new()
+fn process_stream(input : @streams.ReadableStream) -> @streams.ReadableStream {
+  let transform = @streams.TransformStream::new()
   input.pipe_through(transform)
 }
 
 // Server-sent events (SSE) example
-fn create_sse_stream() -> @stream.ReadableStream {
-  @stream.ReadableStream::new(controller => {
+fn create_sse_stream() -> @streams.ReadableStream {
+  @streams.ReadableStream::new(controller => {
     // Send periodic updates
     controller.enqueue("data: {\"time\": \"...\"}\n\n")
   })
+}
+
+// Compression streams - compress data on the fly
+fn compress_response(data : String) -> @streams.ReadableStream {
+  let compressor = @streams.CompressionStream::new("gzip")
+  let encoder = @encoding.TextEncoder::new()
+  
+  // Create a readable stream from data
+  let readable = create_stream_from_string(data)
+  
+  // Pipe through compression
+  readable.pipeThrough(compressor)
+  compressor.readable()
+}
+
+// Decompression streams - decompress streamed data
+fn decompress_request(compressed_stream : @streams.ReadableStream) -> @streams.ReadableStream {
+  let decompressor = @streams.DecompressionStream::new("gzip")
+  compressed_stream.pipeThrough(decompressor)
+  decompressor.readable()
 }
 ```
 
@@ -353,6 +375,7 @@ All APIs follow official **WHATWG** and **W3C** specifications, ensuring compati
 
 - [Fetch Standard](https://fetch.spec.whatwg.org/) - HTTP requests and responses
 - [Streams Standard](https://streams.spec.whatwg.org/) - Streaming data processing
+- [Compression Streams API](https://wicg.github.io/compression/) - GZIP/Deflate compression and decompression
 - [Web Crypto API](https://www.w3.org/TR/WebCryptoAPI/) - Cryptographic operations
 - [WebSocket API](https://websockets.spec.whatwg.org/) - Real-time bidirectional communication
 - [Web Workers](https://html.spec.whatwg.org/multipage/workers.html) - Background processing
