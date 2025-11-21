@@ -14,24 +14,13 @@ fn hc(String) -> HonoClient
 
 // Types and methods
 pub type ClientEndpoint
-fn ClientEndpoint::delete_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
-fn ClientEndpoint::get_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
-fn ClientEndpoint::patch_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
-fn ClientEndpoint::post_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
-fn ClientEndpoint::put_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
-fn ClientEndpoint::url_(Self, options? : ClientRequestOptions) -> String
+fn ClientEndpoint::delete_(Self, query? : @js.Js, form? : @js.Js, json? : @js.Js, param? : @js.Js, header? : @js.Js, init? : @js.Js) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::get_(Self, query? : @js.Js, form? : @js.Js, json? : @js.Js, param? : @js.Js, header? : @js.Js, init? : @js.Js) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::patch_(Self, query? : @js.Js, form? : @js.Js, json? : @js.Js, param? : @js.Js, header? : @js.Js, init? : @js.Js) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::post_(Self, query? : @js.Js, form? : @js.Js, json? : @js.Js, param? : @js.Js, header? : @js.Js, init? : @js.Js) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::put_(Self, query? : @js.Js, form? : @js.Js, json? : @js.Js, param? : @js.Js, header? : @js.Js, init? : @js.Js) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::url_(Self, query? : @js.Js, form? : @js.Js, json? : @js.Js, param? : @js.Js, header? : @js.Js, init? : @js.Js) -> String
 impl @js.JsImpl for ClientEndpoint
-
-pub(all) struct ClientRequestOptions {
-  query : @js.Js
-  form : @js.Js
-  json : @js.Js
-  param : @js.Js
-  header : @js.Js
-  init : @js.Js
-}
-fn ClientRequestOptions::default() -> Self
-impl @js.JsImpl for ClientRequestOptions
 
 pub type ClientResponse
 #alias(array_buffer)

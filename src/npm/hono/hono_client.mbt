@@ -25,32 +25,25 @@ pub fn hc(base_url : String) -> HonoClient {
 }
 
 ///|
-/// ClientRequestOptions for passing query, form, json, param, header, init
-/// All fields are optional by using @js.undefined() as default
-pub(all) struct ClientRequestOptions {
-  query : Js
-  form : Js
-  json : Js
-  param : Js
-  header : Js
-  init : Js
-}
-
-///|
-pub impl @js.JsImpl for ClientRequestOptions
-
-///|
-/// Create default ClientRequestOptions with all fields undefined
-pub fn ClientRequestOptions::default() -> ClientRequestOptions {
-  {
-    query: @js.undefined(),
-    form: @js.undefined(),
-    json: @js.undefined(),
-    param: @js.undefined(),
-    header: @js.undefined(),
-    init: @js.undefined(),
-  }
-}
+/// Build request options object from keyword arguments
+extern "js" fn build_request_options(
+  query : Js,
+  form : Js,
+  json : Js,
+  param : Js,
+  header : Js,
+  init : Js,
+) -> Js =
+  #| (query, form, json, param, header, init) => {
+  #|   const obj = {};
+  #|   if (query !== undefined) obj.query = query;
+  #|   if (form !== undefined) obj.form = form;
+  #|   if (json !== undefined) obj.json = json;
+  #|   if (param !== undefined) obj.param = param;
+  #|   if (header !== undefined) obj.header = header;
+  #|   if (init !== undefined) obj.init = init;
+  #|   return obj;
+  #| }
 
 ///|
 /// ClientResponse type wrapping Response
@@ -127,13 +120,31 @@ extern "js" fn ffi_call_dollar_get(endpoint : Js, options : Js) -> Js =
 /// Original: endpoint.$get(options)
 pub fn ClientEndpoint::get_(
   self : ClientEndpoint,
-  options? : ClientRequestOptions,
+  query? : Js,
+  form? : Js,
+  json? : Js,
+  param? : Js,
+  header? : Js,
+  init? : Js,
 ) -> Promise[ClientResponse] {
-  match options {
-    Some(opts) =>
-      ffi_call_dollar_get(unsafe_cast(self), unsafe_cast(opts)) |> unsafe_cast
-    None =>
-      ffi_call_dollar_get(unsafe_cast(self), @js.undefined()) |> unsafe_cast
+  let has_options = query.is_empty() == false ||
+    form.is_empty() == false ||
+    json.is_empty() == false ||
+    param.is_empty() == false ||
+    header.is_empty() == false ||
+    init.is_empty() == false
+  if has_options {
+    let opts = build_request_options(
+      query.or(@js.undefined()),
+      form.or(@js.undefined()),
+      json.or(@js.undefined()),
+      param.or(@js.undefined()),
+      header.or(@js.undefined()),
+      init.or(@js.undefined()),
+    )
+    ffi_call_dollar_get(unsafe_cast(self), opts) |> unsafe_cast
+  } else {
+    ffi_call_dollar_get(unsafe_cast(self), @js.undefined()) |> unsafe_cast
   }
 }
 
@@ -152,13 +163,31 @@ extern "js" fn ffi_call_dollar_post(endpoint : Js, options : Js) -> Js =
 /// Original: endpoint.$post(options)
 pub fn ClientEndpoint::post_(
   self : ClientEndpoint,
-  options? : ClientRequestOptions,
+  query? : Js,
+  form? : Js,
+  json? : Js,
+  param? : Js,
+  header? : Js,
+  init? : Js,
 ) -> Promise[ClientResponse] {
-  match options {
-    Some(opts) =>
-      ffi_call_dollar_post(unsafe_cast(self), unsafe_cast(opts)) |> unsafe_cast
-    None =>
-      ffi_call_dollar_post(unsafe_cast(self), @js.undefined()) |> unsafe_cast
+  let has_options = query.is_empty() == false ||
+    form.is_empty() == false ||
+    json.is_empty() == false ||
+    param.is_empty() == false ||
+    header.is_empty() == false ||
+    init.is_empty() == false
+  if has_options {
+    let opts = build_request_options(
+      query.or(@js.undefined()),
+      form.or(@js.undefined()),
+      json.or(@js.undefined()),
+      param.or(@js.undefined()),
+      header.or(@js.undefined()),
+      init.or(@js.undefined()),
+    )
+    ffi_call_dollar_post(unsafe_cast(self), opts) |> unsafe_cast
+  } else {
+    ffi_call_dollar_post(unsafe_cast(self), @js.undefined()) |> unsafe_cast
   }
 }
 
@@ -177,13 +206,31 @@ extern "js" fn ffi_call_dollar_put(endpoint : Js, options : Js) -> Js =
 /// Original: endpoint.$put(options)
 pub fn ClientEndpoint::put_(
   self : ClientEndpoint,
-  options? : ClientRequestOptions,
+  query? : Js,
+  form? : Js,
+  json? : Js,
+  param? : Js,
+  header? : Js,
+  init? : Js,
 ) -> Promise[ClientResponse] {
-  match options {
-    Some(opts) =>
-      ffi_call_dollar_put(unsafe_cast(self), unsafe_cast(opts)) |> unsafe_cast
-    None =>
-      ffi_call_dollar_put(unsafe_cast(self), @js.undefined()) |> unsafe_cast
+  let has_options = query.is_empty() == false ||
+    form.is_empty() == false ||
+    json.is_empty() == false ||
+    param.is_empty() == false ||
+    header.is_empty() == false ||
+    init.is_empty() == false
+  if has_options {
+    let opts = build_request_options(
+      query.or(@js.undefined()),
+      form.or(@js.undefined()),
+      json.or(@js.undefined()),
+      param.or(@js.undefined()),
+      header.or(@js.undefined()),
+      init.or(@js.undefined()),
+    )
+    ffi_call_dollar_put(unsafe_cast(self), opts) |> unsafe_cast
+  } else {
+    ffi_call_dollar_put(unsafe_cast(self), @js.undefined()) |> unsafe_cast
   }
 }
 
@@ -202,14 +249,31 @@ extern "js" fn ffi_call_dollar_delete(endpoint : Js, options : Js) -> Js =
 /// Original: endpoint.$delete(options)
 pub fn ClientEndpoint::delete_(
   self : ClientEndpoint,
-  options? : ClientRequestOptions,
+  query? : Js,
+  form? : Js,
+  json? : Js,
+  param? : Js,
+  header? : Js,
+  init? : Js,
 ) -> Promise[ClientResponse] {
-  match options {
-    Some(opts) =>
-      ffi_call_dollar_delete(unsafe_cast(self), unsafe_cast(opts))
-      |> unsafe_cast
-    None =>
-      ffi_call_dollar_delete(unsafe_cast(self), @js.undefined()) |> unsafe_cast
+  let has_options = query.is_empty() == false ||
+    form.is_empty() == false ||
+    json.is_empty() == false ||
+    param.is_empty() == false ||
+    header.is_empty() == false ||
+    init.is_empty() == false
+  if has_options {
+    let opts = build_request_options(
+      query.or(@js.undefined()),
+      form.or(@js.undefined()),
+      json.or(@js.undefined()),
+      param.or(@js.undefined()),
+      header.or(@js.undefined()),
+      init.or(@js.undefined()),
+    )
+    ffi_call_dollar_delete(unsafe_cast(self), opts) |> unsafe_cast
+  } else {
+    ffi_call_dollar_delete(unsafe_cast(self), @js.undefined()) |> unsafe_cast
   }
 }
 
@@ -228,13 +292,31 @@ extern "js" fn ffi_call_dollar_patch(endpoint : Js, options : Js) -> Js =
 /// Original: endpoint.$patch(options)
 pub fn ClientEndpoint::patch_(
   self : ClientEndpoint,
-  options? : ClientRequestOptions,
+  query? : Js,
+  form? : Js,
+  json? : Js,
+  param? : Js,
+  header? : Js,
+  init? : Js,
 ) -> Promise[ClientResponse] {
-  match options {
-    Some(opts) =>
-      ffi_call_dollar_patch(unsafe_cast(self), unsafe_cast(opts)) |> unsafe_cast
-    None =>
-      ffi_call_dollar_patch(unsafe_cast(self), @js.undefined()) |> unsafe_cast
+  let has_options = query.is_empty() == false ||
+    form.is_empty() == false ||
+    json.is_empty() == false ||
+    param.is_empty() == false ||
+    header.is_empty() == false ||
+    init.is_empty() == false
+  if has_options {
+    let opts = build_request_options(
+      query.or(@js.undefined()),
+      form.or(@js.undefined()),
+      json.or(@js.undefined()),
+      param.or(@js.undefined()),
+      header.or(@js.undefined()),
+      init.or(@js.undefined()),
+    )
+    ffi_call_dollar_patch(unsafe_cast(self), opts) |> unsafe_cast
+  } else {
+    ffi_call_dollar_patch(unsafe_cast(self), @js.undefined()) |> unsafe_cast
   }
 }
 
@@ -253,13 +335,31 @@ extern "js" fn ffi_call_dollar_url(endpoint : Js, options : Js) -> Js =
 /// Original: endpoint.$url(options)
 pub fn ClientEndpoint::url_(
   self : ClientEndpoint,
-  options? : ClientRequestOptions,
+  query? : Js,
+  form? : Js,
+  json? : Js,
+  param? : Js,
+  header? : Js,
+  init? : Js,
 ) -> String {
-  match options {
-    Some(opts) =>
-      ffi_call_dollar_url(unsafe_cast(self), unsafe_cast(opts)) |> unsafe_cast
-    None =>
-      ffi_call_dollar_url(unsafe_cast(self), @js.undefined()) |> unsafe_cast
+  let has_options = query.is_empty() == false ||
+    form.is_empty() == false ||
+    json.is_empty() == false ||
+    param.is_empty() == false ||
+    header.is_empty() == false ||
+    init.is_empty() == false
+  if has_options {
+    let opts = build_request_options(
+      query.or(@js.undefined()),
+      form.or(@js.undefined()),
+      json.or(@js.undefined()),
+      param.or(@js.undefined()),
+      header.or(@js.undefined()),
+      init.or(@js.undefined()),
+    )
+    ffi_call_dollar_url(unsafe_cast(self), opts) |> unsafe_cast
+  } else {
+    ffi_call_dollar_url(unsafe_cast(self), @js.undefined()) |> unsafe_cast
   }
 }
 
