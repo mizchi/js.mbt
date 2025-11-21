@@ -141,7 +141,7 @@ pub fn[Env, ExecutionContext] Hono::fetch(
 /// Fire requests (for testing)
 /// https://hono.dev/docs/api/hono#fire
 pub fn[Env, ExecutionContext] Hono::fire(
-  self : Hono[Env, ExecutionContext]
+  self : Hono[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
   self.call0("fire") |> unsafe_cast
 }

@@ -14,8 +14,8 @@ pub impl[Env, ExecutionContext] @js.JsImpl for Context[Env, ExecutionContext]
 /// Get execution context (c.executionCtx)
 /// Alias for executionCtx field
 #alias(execution_ctx)
-pub fn Context::executionCtx[Env, ExecutionContext](
-  self : Context[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Context::executionCtx(
+  self : Context[Env, ExecutionContext],
 ) -> ExecutionContext {
   self.executionCtx
 }
@@ -23,10 +23,10 @@ pub fn Context::executionCtx[Env, ExecutionContext](
 ///|
 /// Return JSON response
 /// https://hono.dev/docs/api/context#json
-pub fn Context::json[Env, ExecutionContext, T](
+pub fn[Env, ExecutionContext, T] Context::json(
   self : Context[Env, ExecutionContext],
   data : T,
-  status? : Int
+  status? : Int,
 ) -> @http.Response {
   let status_code = match status {
     Some(s) => s
@@ -38,10 +38,10 @@ pub fn Context::json[Env, ExecutionContext, T](
 ///|
 /// Return text response
 /// https://hono.dev/docs/api/context#text
-pub fn Context::text[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::text(
   self : Context[Env, ExecutionContext],
   text : String,
-  status? : Int
+  status? : Int,
 ) -> @http.Response {
   let status_code = match status {
     Some(s) => s
@@ -53,10 +53,10 @@ pub fn Context::text[Env, ExecutionContext](
 ///|
 /// Return HTML response
 /// https://hono.dev/docs/api/context#html
-pub fn Context::html[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::html(
   self : Context[Env, ExecutionContext],
   html : String,
-  status? : Int
+  status? : Int,
 ) -> @http.Response {
   let status_code = match status {
     Some(s) => s
@@ -68,10 +68,10 @@ pub fn Context::html[Env, ExecutionContext](
 ///|
 /// Redirect to URL
 /// https://hono.dev/docs/api/context#redirect
-pub fn Context::redirect[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::redirect(
   self : Context[Env, ExecutionContext],
   url : String,
-  status? : Int
+  status? : Int,
 ) -> @http.Response {
   let status_code = match status {
     Some(s) => s
@@ -84,8 +84,8 @@ pub fn Context::redirect[Env, ExecutionContext](
 /// Return 404 Not Found
 /// https://hono.dev/docs/api/context#notfound
 #alias(not_found)
-pub fn Context::notFound[Env, ExecutionContext](
-  self : Context[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Context::notFound(
+  self : Context[Env, ExecutionContext],
 ) -> @http.Response {
   self.call0("notFound") |> unsafe_cast
 }
@@ -93,10 +93,10 @@ pub fn Context::notFound[Env, ExecutionContext](
 ///|
 /// Set response header
 /// https://hono.dev/docs/api/context#header
-pub fn Context::header[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::header(
   self : Context[Env, ExecutionContext],
   name : String,
-  value : String
+  value : String,
 ) -> Unit {
   self.call("header", [name, value]) |> ignore
 }
@@ -104,9 +104,9 @@ pub fn Context::header[Env, ExecutionContext](
 ///|
 /// Set status code
 /// https://hono.dev/docs/api/context#status
-pub fn Context::status[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::status(
   self : Context[Env, ExecutionContext],
-  code : Int
+  code : Int,
 ) -> Unit {
   self.call("status", [code]) |> ignore
 }
@@ -114,10 +114,10 @@ pub fn Context::status[Env, ExecutionContext](
 ///|
 /// Set a value in context
 /// https://hono.dev/docs/api/context#set-get
-pub fn Context::set[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::set(
   self : Context[Env, ExecutionContext],
   key : String,
-  value : Js
+  value : Js,
 ) -> Unit {
   self.call("set", [key, value]) |> ignore
 }
@@ -125,9 +125,9 @@ pub fn Context::set[Env, ExecutionContext](
 ///|
 /// Get a value from context
 #alias(get_value)
-pub fn Context::getValue[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::getValue(
   self : Context[Env, ExecutionContext],
-  key : String
+  key : String,
 ) -> Js {
   self.call("get", [key])
 }
@@ -135,8 +135,8 @@ pub fn Context::getValue[Env, ExecutionContext](
 ///|
 /// Get the Response object
 /// https://hono.dev/docs/api/context#res
-pub fn Context::res[Env, ExecutionContext](
-  self : Context[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Context::res(
+  self : Context[Env, ExecutionContext],
 ) -> @http.Response {
   self.get("res") |> unsafe_cast
 }
@@ -144,9 +144,9 @@ pub fn Context::res[Env, ExecutionContext](
 ///|
 /// Get a variable from context
 /// https://hono.dev/docs/api/context#var
-pub fn Context::var_[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::var_(
   self : Context[Env, ExecutionContext],
-  key : String
+  key : String,
 ) -> Js {
   self.get("var").get(key)
 }
@@ -154,11 +154,11 @@ pub fn Context::var_[Env, ExecutionContext](
 ///|
 /// Return a Response with body
 /// https://hono.dev/docs/api/context#body
-pub fn Context::body[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::body(
   self : Context[Env, ExecutionContext],
   body : String,
   status? : Int,
-  headers? : Js
+  headers? : Js,
 ) -> @http.Response {
   match (status, headers) {
     (Some(s), Some(h)) => self.call("body", [body, s, h]) |> unsafe_cast
@@ -171,9 +171,9 @@ pub fn Context::body[Env, ExecutionContext](
 /// Set a custom renderer for templates
 /// https://hono.dev/docs/api/context#setrenderer
 #alias(set_renderer)
-pub fn Context::setRenderer[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::setRenderer(
   self : Context[Env, ExecutionContext],
-  renderer : (String) -> @http.Response
+  renderer : (String) -> @http.Response,
 ) -> Unit {
   self.call("setRenderer", [unsafe_js(renderer)]) |> ignore
 }
@@ -181,9 +181,9 @@ pub fn Context::setRenderer[Env, ExecutionContext](
 ///|
 /// Render content using the renderer set by setRenderer
 /// https://hono.dev/docs/api/context#render-setrenderer
-pub fn Context::render[Env, ExecutionContext](
+pub fn[Env, ExecutionContext] Context::render(
   self : Context[Env, ExecutionContext],
-  content : String
+  content : String,
 ) -> @http.Response {
   self.call("render", [content]) |> unsafe_cast
 }

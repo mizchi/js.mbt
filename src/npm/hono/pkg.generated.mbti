@@ -8,10 +8,42 @@ import(
 )
 
 // Values
+fn hc(String) -> HonoClient
 
 // Errors
 
 // Types and methods
+pub type ClientEndpoint
+fn ClientEndpoint::delete_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::get_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::patch_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::post_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::put_(Self, options? : ClientRequestOptions) -> @js.Promise[ClientResponse]
+fn ClientEndpoint::url_(Self, options? : ClientRequestOptions) -> String
+impl @js.JsImpl for ClientEndpoint
+
+pub(all) struct ClientRequestOptions {
+  query : @js.Js
+  form : @js.Js
+  json : @js.Js
+  param : @js.Js
+  header : @js.Js
+  init : @js.Js
+}
+fn ClientRequestOptions::default() -> Self
+impl @js.JsImpl for ClientRequestOptions
+
+pub type ClientResponse
+#alias(array_buffer)
+fn ClientResponse::arrayBuffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
+fn ClientResponse::blob(Self) -> @js.Promise[@js.Js]
+fn ClientResponse::headers(Self) -> @js.Js
+fn ClientResponse::json(Self) -> @js.Promise[@js.Js]
+fn ClientResponse::ok(Self) -> Bool
+fn ClientResponse::status(Self) -> Int
+fn ClientResponse::text(Self) -> @js.Promise[String]
+impl @js.JsImpl for ClientResponse
+
 pub(all) struct Context[Env, ExecutionContext] {
   req : HonoRequest
   env : Env
@@ -61,6 +93,10 @@ fn[Env, ExecutionContext] Hono::route(Self[Env, ExecutionContext], String, Self[
 fn[Env, ExecutionContext] Hono::use_(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext], () -> @js.Promise[@http.Response]) -> @js.Promise[@http.Response]) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::useall(Self[Env, ExecutionContext], (Context[Env, ExecutionContext], () -> @js.Promise[@http.Response]) -> @js.Promise[@http.Response]) -> Self[Env, ExecutionContext]
 impl[Env, ExecutionContext] @js.JsImpl for Hono[Env, ExecutionContext]
+
+pub type HonoClient
+fn HonoClient::path(Self, String) -> ClientEndpoint
+impl @js.JsImpl for HonoClient
 
 #external
 pub type HonoRequest

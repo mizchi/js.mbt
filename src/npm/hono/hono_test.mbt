@@ -71,8 +71,7 @@ test "Hono multiple routes" {
 ///|
 test "Context json response" {
   let app : @hono.Hono[@js.Js, @js.Js] = @hono.Hono::new()
-  app.get("/json", fn(c) { c.json({ message: "Hello", count: 42 }) })
-  |> ignore
+  app.get("/json", fn(c) { c.json({ message: "Hello", count: 42 }) }) |> ignore
   @js.typeof_(app) |> assert_eq("object")
 }
 
@@ -143,8 +142,7 @@ test "Context json with status" {
 ///|
 test "Context redirect with status" {
   let app : @hono.Hono[@js.Js, @js.Js] = @hono.Hono::new()
-  app.get("/moved", fn(c) { c.redirect("/new-location", status=301) })
-  |> ignore
+  app.get("/moved", fn(c) { c.redirect("/new-location", status=301) }) |> ignore
   @js.typeof_(app) |> assert_eq("object")
 }
 
