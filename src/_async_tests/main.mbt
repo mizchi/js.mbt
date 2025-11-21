@@ -39,4 +39,22 @@ fn main {
       ctx.assert_throws(fn() { abort("test error") })
     })
   })
+
+  // Lifecycle hooks demo
+  describe("Lifecycle hooks", fn(_) {
+    before(() => println("before all tests in suite"))
+    after(() => println("after all tests in suite"))
+    beforeEach(() => println("before each test in suite"))
+    afterEach(() => println("after each test in suite"))
+
+    it("first test", _ => {
+      println("  running first test")
+      assert_eq(1 + 1, 2)
+    })
+
+    it("second test", _ => {
+      println("  running second test")
+      assert_eq(2 + 2, 4)
+    })
+  })
 }
