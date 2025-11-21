@@ -10,7 +10,7 @@ fn vm_module() -> Js {
 /// These APIs will be added once they are stabilized.
 /// See: https://nodejs.org/api/vm.html#class-vmmodule
 
-///| Script class
+///| Script clasqs
 
 ///|
 #external

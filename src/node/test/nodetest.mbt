@@ -50,6 +50,196 @@ pub fn TestContext::runOnly(self : Self, shouldRunOnlyTests : Bool) -> Unit {
   self.call("runOnly", [@js.js(shouldRunOnlyTests)]) |> ignore
 }
 
+///| TestContext assertion methods
+
+///|
+/// Get assert object from context
+fn TestContext::assert_obj(self : Self) -> Js {
+  self.get("assert")
+}
+
+///|
+/// Helper to get assert and apply function
+fn TestContext::with_assert[T](self : Self, f : (Js) -> T) -> T {
+  f(self.assert_obj())
+}
+
+///|
+/// assert.ok(value[, message])
+pub fn TestContext::assert_ok(self : Self, value : Bool, message? : String) -> Unit {
+  let assert_obj = self.assert_obj()
+  match message {
+    Some(msg) => assert_obj.call2("ok", value, msg) |> ignore
+    None => assert_obj.call1("ok", value) |> ignore
+  }
+}
+
+///|
+/// assert.strictEqual(actual, expected[, message])
+pub fn TestContext::assert_strict_equal[T : JsImpl](
+  self : Self,
+  actual : T,
+  expected : T,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  match message {
+    Some(msg) => assert_obj.call("strictEqual", [actual, expected, msg]) |> ignore
+    None => assert_obj.call2("strictEqual", actual, expected) |> ignore
+  }
+}
+
+///|
+/// assert.notStrictEqual(actual, expected[, message])
+pub fn TestContext::assert_not_strict_equal[T : JsImpl](
+  self : Self,
+  actual : T,
+  expected : T,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  match message {
+    Some(msg) => assert_obj.call("notStrictEqual", [actual, expected, msg]) |> ignore
+    None => assert_obj.call2("notStrictEqual", actual, expected) |> ignore
+  }
+}
+
+///|
+/// assert.deepStrictEqual(actual, expected[, message])
+pub fn TestContext::assert_deep_strict_equal[T : JsImpl](
+  self : Self,
+  actual : T,
+  expected : T,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  match message {
+    Some(msg) => assert_obj.call("deepStrictEqual", [actual, expected, msg])
+      |> ignore
+    None => assert_obj.call2("deepStrictEqual", actual, expected) |> ignore
+  }
+}
+
+///|
+/// assert.notDeepStrictEqual(actual, expected[, message])
+pub fn TestContext::assert_not_deep_strict_equal[T : JsImpl](
+  self : Self,
+  actual : T,
+  expected : T,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  match message {
+    Some(msg) => assert_obj.call("notDeepStrictEqual", [actual, expected, msg])
+      |> ignore
+    None => assert_obj.call2("notDeepStrictEqual", actual, expected) |> ignore
+  }
+}
+
+///|
+/// assert.match(string, regexp[, message])
+pub fn TestContext::assert_match(
+  self : Self,
+  string : String,
+  regexp : RegExp,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  match message {
+    Some(msg) => assert_obj.call("match", [string, regexp, msg]) |> ignore
+    None => assert_obj.call2("match", string, regexp) |> ignore
+  }
+}
+
+///|
+/// assert.doesNotMatch(string, regexp[, message])
+pub fn TestContext::assert_does_not_match(
+  self : Self,
+  string : String,
+  regexp : RegExp,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  match message {
+    Some(msg) => assert_obj.call("doesNotMatch", [string, regexp, msg]) |> ignore
+    None => assert_obj.call2("doesNotMatch", string, regexp) |> ignore
+  }
+}
+
+///|
+/// assert.throws(fn[, error][, message])
+pub fn TestContext::assert_throws(
+  self : Self,
+  fn_ : () -> Unit,
+  error? : Js,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  let fn_js = @js.from_fn0(fn_)
+  match (error, message) {
+    (Some(err), Some(msg)) => assert_obj.call("throws", [fn_js, err, msg]) |> ignore
+    (Some(err), None) => assert_obj.call2("throws", fn_js, err) |> ignore
+    (None, Some(msg)) => assert_obj.call2("throws", fn_js, msg) |> ignore
+    (None, None) => assert_obj.call1("throws", fn_js) |> ignore
+  }
+}
+
+///|
+/// assert.doesNotThrow(fn[, error][, message])
+pub fn TestContext::assert_does_not_throw(
+  self : Self,
+  fn_ : () -> Unit,
+  error? : Js,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  let fn_js = @js.from_fn0(fn_)
+  match (error, message) {
+    (Some(err), Some(msg)) => assert_obj.call("doesNotThrow", [fn_js, err, msg])
+      |> ignore
+    (Some(err), None) => assert_obj.call2("doesNotThrow", fn_js, err) |> ignore
+    (None, Some(msg)) => assert_obj.call2("doesNotThrow", fn_js, msg) |> ignore
+    (None, None) => assert_obj.call1("doesNotThrow", fn_js) |> ignore
+  }
+}
+
+///|
+/// assert.rejects(asyncFn[, error][, message])
+pub fn TestContext::assert_rejects(
+  self : Self,
+  asyncFn : async () -> Unit,
+  error? : Js,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  let fn_js = @js.from_fn0(promisify0(asyncFn))
+  match (error, message) {
+    (Some(err), Some(msg)) => assert_obj.call("rejects", [fn_js, err, msg]) |> ignore
+    (Some(err), None) => assert_obj.call2("rejects", fn_js, err) |> ignore
+    (None, Some(msg)) => assert_obj.call2("rejects", fn_js, msg) |> ignore
+    (None, None) => assert_obj.call1("rejects", fn_js) |> ignore
+  }
+}
+
+///|
+/// assert.doesNotReject(asyncFn[, error][, message])
+pub fn TestContext::assert_does_not_reject(
+  self : Self,
+  asyncFn : async () -> Unit,
+  error? : Js,
+  message? : String
+) -> Unit {
+  let assert_obj = self.assert_obj()
+  let fn_js = @js.from_fn0(promisify0(asyncFn))
+  match (error, message) {
+    (Some(err), Some(msg)) => assert_obj.call("doesNotReject", [fn_js, err, msg])
+      |> ignore
+    (Some(err), None) => assert_obj.call2("doesNotReject", fn_js, err) |> ignore
+    (None, Some(msg)) => assert_obj.call2("doesNotReject", fn_js, msg) |> ignore
+    (None, None) => assert_obj.call1("doesNotReject", fn_js) |> ignore
+  }
+}
+
 ///| Test definition functions
 
 ///|
@@ -109,15 +299,26 @@ pub fn test_only(name : String, f : async (TestContext) -> Unit) -> Unit {
 pub fn it(
   name : String,
   skip? : String,
+  todo? : String,
+  only? : Bool,
+  timeout? : Int,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let args : Array[&JsImpl] = if skip is Some(skip) {
-    let arg : Json = { "skip": skip }
-    [name, arg, promisify1(f) |> @js.from_fn1]
-  } else {
-    [name, promisify1(f) |> @js.from_fn1]
+  let options = @js.Object::new()
+  if skip is Some(s) {
+    options.set("skip", s)
   }
-  nodetest().call("it", args) |> ignore
+  if todo is Some(t) {
+    options.set("todo", t)
+  }
+  if only is Some(true) {
+    options.set("only", true)
+  }
+  if timeout is Some(t) {
+    options.set("timeout", t)
+  }
+  nodetest().call("it", [name, options, promisify1(f) |> @js.from_fn1])
+  |> ignore
 }
 
 ///|
@@ -127,6 +328,7 @@ pub fn describe(
   skip? : Bool,
   todo? : Bool,
   only? : Bool,
+  timeout? : Int,
   f : async (SuiteContext) -> Unit,
 ) -> Unit {
   let options = @js.Object::new()
@@ -138,6 +340,9 @@ pub fn describe(
   }
   if only is Some(true) {
     options.set("only", true)
+  }
+  if timeout is Some(t) {
+    options.set("timeout", t)
   }
   nodetest().call("describe", [name, options, promisify1(f) |> @js.from_fn1])
   |> ignore
