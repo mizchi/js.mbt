@@ -310,7 +310,7 @@ pub fn R2Object::uploaded(self : Self) -> Js {
 
 ///|
 /// Get object body as ArrayBuffer
-pub fn R2Object::array_buffer(self : Self) -> Promise[Js] {
+pub fn R2Object::array_buffer(self : Self) -> Promise[@arraybuffer.ArrayBuffer] {
   self.call0("arrayBuffer") |> unsafe_cast
 }
 
@@ -328,14 +328,14 @@ pub fn R2Object::json(self : Self) -> Promise[Js] {
 
 ///|
 /// Get object body as blob
-pub fn R2Object::blob(self : Self) -> Promise[Js] {
+pub fn R2Object::blob(self : Self) -> Promise[@blob.Blob] {
   self.call0("blob") |> unsafe_cast
 }
 
 ///|
-/// Get object body
-pub fn R2Object::body(self : Self) -> Js {
-  self.get("body")
+/// Get object body as ReadableStream
+pub fn R2Object::body(self : Self) -> @stream.ReadableStream {
+  self.get("body") |> unsafe_cast
 }
 
 ///|

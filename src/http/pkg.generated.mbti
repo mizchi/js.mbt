@@ -4,6 +4,7 @@ package "mizchi/js/http"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
+  "mizchi/js/dom/blob"
   "mizchi/js/stream"
 )
 
@@ -34,10 +35,10 @@ pub type Headers
 #external
 pub type Request
 fn Request::arraybuffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
-fn Request::blob(Self) -> @js.Promise[@js.Js]
+fn Request::blob(Self) -> @js.Promise[@blob.Blob]
 #alias(bodyUsed)
 fn Request::body_used(Self) -> Bool
-fn Request::bytes(Self) -> @js.Promise[@js.Js]
+fn Request::bytes(Self) -> @js.Promise[@arraybuffer.Uint8Array]
 fn Request::clone(Self) -> Self
 fn Request::credentials(Self) -> String
 fn Request::json(Self) -> @js.Promise[@js.Js]

@@ -59,11 +59,11 @@ pub fn Request::arraybuffer(
 }
 
 ///|
-pub fn Request::blob(self : Request) -> Promise[Js] {
+pub fn Request::blob(self : Request) -> Promise[@blob.Blob] {
   self.call0("blob") |> unsafe_cast
 }
 
 ///|
-pub fn Request::bytes(self : Request) -> Promise[Js] {
+pub fn Request::bytes(self : Request) -> Promise[@arraybuffer.Uint8Array] {
   self.call0("bytes") |> unsafe_cast
 }

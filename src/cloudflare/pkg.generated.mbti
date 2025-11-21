@@ -3,7 +3,10 @@ package "mizchi/js/cloudflare"
 
 import(
   "mizchi/js"
+  "mizchi/js/arraybuffer"
+  "mizchi/js/dom/blob"
   "mizchi/js/http"
+  "mizchi/js/stream"
 )
 
 // Values
@@ -320,9 +323,9 @@ impl @js.JsImpl for R2MultipartUpload
 
 #external
 pub type R2Object
-fn R2Object::array_buffer(Self) -> @js.Promise[@js.Js]
-fn R2Object::blob(Self) -> @js.Promise[@js.Js]
-fn R2Object::body(Self) -> @js.Js
+fn R2Object::array_buffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
+fn R2Object::blob(Self) -> @js.Promise[@blob.Blob]
+fn R2Object::body(Self) -> @stream.ReadableStream
 fn R2Object::body_used(Self) -> Bool
 fn R2Object::custom_metadata(Self) -> @js.Js
 fn R2Object::etag(Self) -> String

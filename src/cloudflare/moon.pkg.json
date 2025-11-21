@@ -1,4 +1,10 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/http"]
+  "import": [
+    "mizchi/js",
+    "mizchi/js/arraybuffer",
+    "mizchi/js/dom/blob",
+    "mizchi/js/http",
+    "mizchi/js/stream"
+  ]
 }
