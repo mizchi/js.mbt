@@ -312,3 +312,82 @@ test "Js Show trait" {
   let str = obj.to_js().to_string()
   assert_true(str.contains("Object") || str.length() > 0)
 }
+
+///| Global Functions Tests
+
+///|
+test "parseInt - parse decimal integers" {
+  assert_eq(parseInt("42"), Some(42))
+  assert_eq(parseInt("0"), Some(0))
+  assert_eq(parseInt("-123"), Some(-123))
+  assert_eq(parseInt("  456  "), Some(456)) // Leading/trailing whitespace
+}
+
+///|
+test "parseInt - parse with different radix" {
+  assert_eq(parseInt("ff", radix=16), Some(255))
+  assert_eq(parseInt("FF", radix=16), Some(255))
+  assert_eq(parseInt("101", radix=2), Some(5))
+  assert_eq(parseInt("77", radix=8), Some(63))
+  assert_eq(parseInt("z", radix=36), Some(35))
+}
+
+///|
+test "parseInt - return None for invalid input" {
+  assert_eq(parseInt("hello"), None)
+  assert_eq(parseInt(""), None)
+  assert_eq(parseInt("abc", radix=10), None)
+}
+
+///|
+test "parseInt - partial parsing" {
+  // JavaScript parseInt parses as much as it can
+  assert_eq(parseInt("123abc"), Some(123))
+  assert_eq(parseInt("42.5"), Some(42))
+}
+
+///|
+test "parseFloat - parse floating point numbers" {
+  assert_eq(parseFloat("3.14"), Some(3.14))
+  assert_eq(parseFloat("0.5"), Some(0.5))
+  assert_eq(parseFloat("-2.5"), Some(-2.5))
+  assert_eq(parseFloat("123"), Some(123.0))
+}
+
+///|
+test "parseFloat - parse scientific notation" {
+  assert_eq(parseFloat("1.5e2"), Some(150.0))
+  assert_eq(parseFloat("1e-3"), Some(0.001))
+}
+
+///|
+test "parseFloat - return None for invalid input" {
+  assert_eq(parseFloat("hello"), None)
+  assert_eq(parseFloat(""), None)
+}
+
+///|
+test "parseFloat - partial parsing" {
+  assert_eq(parseFloat("3.14abc"), Some(3.14))
+}
+
+///|
+test "isFinite - check finite numbers" {
+  assert_eq(isFinite(42.0), true)
+  assert_eq(isFinite(0.0), true)
+  assert_eq(isFinite(-123.456), true)
+}
+
+///|
+test "isFinite - check infinite values" {
+  let inf = 1.0 / 0.0
+  let neg_inf = -1.0 / 0.0
+  assert_eq(isFinite(inf), false)
+  assert_eq(isFinite(neg_inf), false)
+}
+
+///|
+test "isFinite - check NaN" {
+  let nan_val = 0.0 / 0.0
+  assert_eq(isFinite(nan_val), false)
+}

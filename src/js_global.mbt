@@ -23,6 +23,58 @@ pub fn[T : JsImpl] isNaN(v : T) -> Bool {
   ffi_is_nan(v.to_js())
 }
 
+///|
+/// JS: isFinite(v)
+#alias(is_finite)
+pub fn isFinite(v : Double) -> Bool {
+  ffi_is_finite(v)
+}
+
+///| Number Parsing
+
+///|
+/// JS: parseInt(string, radix)
+///
+/// Parse a string and return an integer.
+/// If radix is not provided, it defaults to 10 (or 16 if string starts with "0x").
+///
+/// Example:
+/// ```moonbit
+/// let n = parseInt("42") // Some(42)
+/// let hex = parseInt("ff", radix=16) // Some(255)
+/// let invalid = parseInt("hello") // None
+/// ```
+#alias(parse_int)
+pub fn parseInt(string : String, radix? : Int = 10) -> Int? {
+  let result = ffi_parse_int(string, radix)
+  if isNaN(result) {
+    None
+  } else {
+    Some(result |> unsafe_cast)
+  }
+}
+
+///|
+/// JS: parseFloat(string)
+///
+/// Parse a string and return a floating point number.
+/// Returns None if the string cannot be parsed as a number.
+///
+/// Example:
+/// ```moonbit
+/// let n = parseFloat("3.14") // Some(3.14)
+/// let invalid = parseFloat("hello") // None
+/// ```
+#alias(parse_float)
+pub fn parseFloat(string : String) -> Double? {
+  let result = ffi_parse_float(string)
+  if isNaN(result) {
+    None
+  } else {
+    Some(result |> unsafe_cast)
+  }
+}
+
 ///| String Encoding (Base64)
 
 ///|

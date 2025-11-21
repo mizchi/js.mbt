@@ -320,3 +320,17 @@ extern "js" fn ffi_clear_timeout(timer : JsTimer) -> Unit =
 ///|
 pub extern "js" fn structuredClone(value : Js) -> Js =
   #| (value) => structuredClone(value)
+
+///| Number Parsing and Validation
+
+///|
+extern "js" fn ffi_parse_int(string : String, radix : Int) -> Js =
+  #| (string, radix) => parseInt(string, radix)
+
+///|
+extern "js" fn ffi_parse_float(string : String) -> Js =
+  #| (string) => parseFloat(string)
+
+///|
+extern "js" fn ffi_is_finite(value : Double) -> Bool =
+  #| (value) => isFinite(value)
