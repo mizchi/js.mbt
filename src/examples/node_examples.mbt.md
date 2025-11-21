@@ -75,12 +75,9 @@ Getting operating system information:
 ///|
 test "os information" {
   let tmpdir = @os.tmpdir()
-  inspect(tmpdir, content="/var/folders/tq/sj1hxdh13m3645kf1cqpbnj00000gp/T")
-
   // tmpdir should be a non-empty string
   assert_true(tmpdir.length() > 0)
   let homedir = @os.homedir()
-  inspect(homedir, content="/Users/mizchi")
   assert_true(homedir.length() > 0)
 }
 ```
