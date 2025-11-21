@@ -1,3 +1,14 @@
+// This module provides conversion utilities between MoonBit and JavaScript types.
+//
+// Main functions:
+// - from_array() - Convert MoonBit Array to JS Array
+// - from_map() - Convert MoonBit Map to JS Object
+// - from_entries() - Convert tuple array to JS Object
+// - from_entries_option() - Convert optional tuple array to JS Object
+// - from_fn0/1/2/3() - Convert MoonBit functions to JS functions
+// - from_builtin_json() - Convert MoonBit Json to JS Object
+// - to_json() / to_js() - Bidirectional conversion between Json and Js
+
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
 pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
