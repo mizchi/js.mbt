@@ -123,6 +123,8 @@ extern "js" fn ffi_call_dollar_get(endpoint : Js, options : Js) -> Js =
   #| }
 
 ///|
+/// Make a GET request to the endpoint
+/// Original: endpoint.$get(options)
 pub fn ClientEndpoint::get_(
   self : ClientEndpoint,
   options? : ClientRequestOptions,
@@ -146,6 +148,8 @@ extern "js" fn ffi_call_dollar_post(endpoint : Js, options : Js) -> Js =
   #| }
 
 ///|
+/// Make a POST request to the endpoint
+/// Original: endpoint.$post(options)
 pub fn ClientEndpoint::post_(
   self : ClientEndpoint,
   options? : ClientRequestOptions,
@@ -169,6 +173,8 @@ extern "js" fn ffi_call_dollar_put(endpoint : Js, options : Js) -> Js =
   #| }
 
 ///|
+/// Make a PUT request to the endpoint
+/// Original: endpoint.$put(options)
 pub fn ClientEndpoint::put_(
   self : ClientEndpoint,
   options? : ClientRequestOptions,
@@ -192,6 +198,8 @@ extern "js" fn ffi_call_dollar_delete(endpoint : Js, options : Js) -> Js =
   #| }
 
 ///|
+/// Make a DELETE request to the endpoint
+/// Original: endpoint.$delete(options)
 pub fn ClientEndpoint::delete_(
   self : ClientEndpoint,
   options? : ClientRequestOptions,
@@ -216,6 +224,8 @@ extern "js" fn ffi_call_dollar_patch(endpoint : Js, options : Js) -> Js =
   #| }
 
 ///|
+/// Make a PATCH request to the endpoint
+/// Original: endpoint.$patch(options)
 pub fn ClientEndpoint::patch_(
   self : ClientEndpoint,
   options? : ClientRequestOptions,
@@ -239,6 +249,8 @@ extern "js" fn ffi_call_dollar_url(endpoint : Js, options : Js) -> Js =
   #| }
 
 ///|
+/// Get the URL for the endpoint
+/// Original: endpoint.$url(options)
 pub fn ClientEndpoint::url_(
   self : ClientEndpoint,
   options? : ClientRequestOptions,
@@ -253,6 +265,7 @@ pub fn ClientEndpoint::url_(
 
 ///|
 /// Access a path on the client
+/// Original: client[path] or client.path
 pub fn HonoClient::path(self : HonoClient, path : String) -> ClientEndpoint {
   self.get(path) |> unsafe_cast
 }
