@@ -2,9 +2,6 @@
 using @js {trait JsImpl, type AbortSignal, type Promise, unsafe_cast}
 
 ///|
-using @iterator {type AsyncIterator}
-
-///|
 #external
 pub type Stat
 
@@ -58,7 +55,7 @@ pub fn glob(
   cwd? : String,
   exclude? : Array[String],
   exclude_fn? : (String) -> Bool,
-) -> AsyncIterator[String] {
+) -> @js.AsyncIterator[String] {
   let fs = @node.require("node:fs/promises")
   unsafe_cast(
     fs.call("glob", [
@@ -102,7 +99,7 @@ pub fn glob_with_filetype(
   cwd? : String,
   exclude? : Array[String],
   exclude_fn? : (String) -> Bool,
-) -> AsyncIterator[Dirent] {
+) -> @js.AsyncIterator[Dirent] {
   let fs = @node.require("node:fs/promises")
   unsafe_cast(
     fs.call("glob", [

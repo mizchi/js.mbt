@@ -315,7 +315,7 @@ pub fn StatementSync::iterate(
   self : Self,
   named_parameters? : Map[String, &JsImpl],
   anonymous_parameters? : Array[&JsImpl],
-) -> JsIterator[Js] {
+) -> @js.JsIterator[Js] {
   let args : Array[&JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()

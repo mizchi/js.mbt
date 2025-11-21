@@ -6,14 +6,28 @@
     - `value.set(key, val)`
     - `value.call(key, args)`
     - etc
-  - JS Global APIs
-    - `setTimeout`, `globalThis`, etc.
+  - JS Built-in Objects
+    - `Object`
+    - `Function`
+    - `Boolean`
+    - `Number`
+    - `String`
+    - `Symbol`
+    - `Promise`
+    - `Error`
     - `WeakMap`
     - `WeakSet`
     - `WeakRef`
     - `FinalizationRegistry`
-  - `Promise`
-  - Moonbit async helpers: `run_async`, `suspend`, `sleep`, `promisify0`
+    - `JSON`
+    - `JsIterator` => Js Iterator
+    - `AsyncIterator`
+  - JS Global APIs
+    - `globalThis`
+    - `setTimeout`, `clearTimeout`, `setInterval`, `clearInterval`
+    - ``
+  - Moonbit async helpers:
+    - `run_async`, `suspend`, `sleep`, `promisify0`
 - `mizchi/js/arraybuffer`
   - `ArrayBuffer`
   - `SharedArrayBuffer`
@@ -21,20 +35,19 @@
   - `Uint8Array` and TypedArrays
 - `mizchi/js/regexp`
   - `RegExp`
-- `mizchi/js/iterator`
-  - `JsIterator` => Js Iterator
-  - `AsyncIterator`
-- `mizchi/js/worker` : Worker and MessageChannel API
-  - `Worker`
-  - `MessageChannel`
-  - `MessagePort`
-  - `Transferable`
+- `mizchi/js/date`
+  - `Date`
 - `mizchi/js/webassembly`
   - `WebAssembly`
   - `WebAssemblyModule`
   - `WebAssemblyInstance`
   - `WebAssemblyMemory`
   - `WebAssemblyTable`
+- `mizchi/js/worker` : Worker and MessageChannel API
+  - `Worker`
+  - `MessageChannel`
+  - `MessagePort`
+  - `Transferable`
 - `mizchi/js/url`
   - `URL`
   - `URLSearchParams`
@@ -46,7 +59,9 @@
   - `FormData`
 - `Performance` API
 
-Not yet
+Not supported
 
-- [ ] `DisposableStack`, `AsyncDisposableStack`
+- `eval()`
+- `new Function()`
+- `DisposableStack`, `AsyncDisposableStack`
   - Moonbit js has no way to generate `using`, `await using`
