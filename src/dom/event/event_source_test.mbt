@@ -38,8 +38,6 @@ test "get_last_event_id extracts lastEventId from event" {
 
 ///|
 test "get_event_origin extracts origin from event" {
-  let event = @js.from_map(
-    { "origin": @js.unsafe_cast("https://example.com") },
-  )
+  let event = @js.from_map({ "origin": @js.unsafe_cast("https://example.com") })
   assert_eq(get_event_origin(event), "https://example.com")
 }
