@@ -2,35 +2,42 @@
 
 DOM API bindings for MoonBit, providing type-safe access to browser DOM operations.
 
-## DOM bindings
+## DOM API Support Status
 
-- `mizchi/js/dom`
-  - `Node`
-  - `Element`
-  - `HTMLElement`
-  - `HTML*Element`
-  - `Event`
-  - `MouseEvent`
-  - `KeyboardEvent`
-  - `PointerEvent`
-  - `FocusEvent`
-  - `Document`
-  - `Text`
-  - `Window`
-  - etc.
-- `mizchi/js/dom/canvas`
-  - `CanvasRenderingContext2D`
-  - `ImageData`
-- `mizchi/js/dom/blob`
-  - `Blob`
-- `mizchi/js/dom/file`
-  - `File`
-- [ ] indexedDB
-- [ ] ServiceWorker
-- [ ] WebSocket
-- [ ] FileSystem
-- [ ] WebGL
-- [ ] AudioContext
+| API | Package | Status | Note |
+|-----|---------|--------|------|
+| Document | `mizchi/js/dom` | ✅ Tested | DOM manipulation |
+| Element | `mizchi/js/dom` | ✅ Tested | Element operations |
+| Node | `mizchi/js/dom` | ✅ Tested | Node interface |
+| HTMLElement | `mizchi/js/dom` | ✅ Tested | HTML elements |
+| Event | `mizchi/js/dom/event` | ✅ Tested | Event handling |
+| MouseEvent | `mizchi/js/dom/event` | ✅ Tested | Mouse events |
+| KeyboardEvent | `mizchi/js/dom/event` | ✅ Tested | Keyboard events |
+| PointerEvent | `mizchi/js/dom/event` | ✅ Tested | Pointer events |
+| FocusEvent | `mizchi/js/dom/event` | ✅ Tested | Focus events |
+| CustomEvent | `mizchi/js/dom` | ✅ Tested | Custom events |
+| Text | `mizchi/js/dom` | ✅ Tested | Text nodes |
+| Window | `mizchi/js/dom` | ✅ Tested | Window object |
+| Navigator | `mizchi/js/dom` | ✅ Tested | Browser info |
+| CSS/Style | `mizchi/js/dom` | ✅ Tested | Style manipulation |
+| Storage | `mizchi/js/dom/storage` | ✅ Tested | localStorage/sessionStorage |
+| Canvas 2D | `mizchi/js/dom/canvas` | 🤖 AI Generated | Canvas rendering |
+| Blob | `mizchi/js/dom/blob` | 🤖 AI Generated | Blob handling |
+| File | `mizchi/js/dom/file` | 🤖 AI Generated | File operations |
+| Observer | `mizchi/js/dom/observer` | 🤖 AI Generated | MutationObserver, etc. |
+| ShadowDOM | `mizchi/js/dom` | 🤖 AI Generated | Shadow DOM |
+| IndexedDB | - | 📅 Planned | Client-side database |
+| ServiceWorker | - | 📅 Planned | Background workers |
+| WebSocket | - | 📅 Planned | Real-time communication |
+| FileSystem | - | 📅 Planned | File System Access API |
+| WebGL | - | 📅 Planned | 3D graphics |
+| AudioContext | - | 📅 Planned | Web Audio API |
+
+### Status Legend
+
+- ✅ **Tested**: Comprehensive test coverage with JSDOM
+- 🤖 **AI Generated**: FFI bindings created, needs testing
+- 📅 **Planned**: Scheduled for future implementation
 
 ## Overview
 
