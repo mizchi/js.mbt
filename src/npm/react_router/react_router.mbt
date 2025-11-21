@@ -1,8 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, unsafe_cast, type Promise}
-
-///|
-extern "js" fn import_react_router() -> Promise[Js] =
+extern "js" fn import_react_router() -> @js.Promise[@js.Js] =
   #|() => import("react-router")
 
 ///|
@@ -30,7 +27,7 @@ extern "js" fn get_router_provider() -> (RouterProviderProps) -> @react.Element 
 #alias(router_provider)
 pub fn routerProvider(router : Router) -> @react.Element {
   let p = get_router_provider()
-  @react.c(p, RouterProviderProps::{ router, })
+  @react.component(p, RouterProviderProps::{ router, })
 }
 
 ///|
@@ -48,7 +45,7 @@ pub(all) enum Route {
 }
 
 ///|
-impl JsImpl for Route with to_js(self : Route) {
+impl @js.JsImpl for Route with to_js(self) {
   match self {
     Route::Component(path~, component~) => {
       let obj = @js.Object::new()
@@ -68,9 +65,10 @@ impl JsImpl for Route with to_js(self : Route) {
 ///|
 #alias(create_browser_router)
 pub fn createBrowserRouter(routes : Array[Route]) -> Router {
-  let create_browser_router : (Array[Js]) -> Router = unsafe_cast(
-    @js.global_this().get("__ReactRouterApi").get("createBrowserRouter"),
-  )
+  let create_browser_router : (Array[@js.Js]) -> Router = @js.global_this()
+    .get("__ReactRouterApi")
+    .get("createBrowserRouter")
+    |> @js.unsafe_cast
   create_browser_router(routes.map(_.to_js()))
 }
 
@@ -84,7 +82,7 @@ extern "js" fn get_link() -> (LinkProps) -> @react.Element =
   #| () => __ReactRouterApi.Link
 
 ///|
-pub fn link(to~ : String, children : Array[&JsImpl]) -> @react.Element {
+pub fn link(to~ : String, children : Array[&@js.JsImpl]) -> @react.Element {
   let p = get_link()
   @react.c(p, LinkProps::{ to, }, children~)
 }

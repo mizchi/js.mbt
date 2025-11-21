@@ -4,8 +4,6 @@
 
 // #external
 pub(all) struct JsError {
-  // Inherits from Js
-  // @js.Js
   message : String
   stack : String
 }

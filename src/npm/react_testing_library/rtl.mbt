@@ -1,19 +1,15 @@
 // React Testing Library
-//
-
-///|
-using @js {trait JsImpl, type Js, unsafe_cast}
 
 ///|
 #external
 pub type ReactTestingLibrary
 
 ///|
-impl JsImpl for ReactTestingLibrary
+impl @js.JsImpl for ReactTestingLibrary
 
 ///|
 fn testing_library() -> ReactTestingLibrary {
-  @node.require("@testing-library/react") |> unsafe_cast
+  @node.require("@testing-library/react") |> @js.unsafe_cast
 }
 
 ///|
@@ -36,19 +32,19 @@ pub fn cleanup() -> Unit {
 pub type FireEvent
 
 ///|
-pub impl JsImpl for FireEvent
+pub impl @js.JsImpl for FireEvent
 
 ///|
 /// JS: import { fireEvent } from '@testing-library/react'
 #alias(fire_event)
 pub fn fireEvent() -> FireEvent {
   let rtl = testing_library()
-  rtl.get("fireEvent") |> unsafe_cast
+  rtl.get("fireEvent") |> @js.unsafe_cast
 }
 
 ///|
 /// JS: fireEvent.click(target)
-pub fn FireEvent::click(self : FireEvent, target : Js) -> Unit {
+pub fn FireEvent::click(self : FireEvent, target : @js.Js) -> Unit {
   self.call("click", [target]) |> ignore
 }
 
@@ -58,13 +54,13 @@ pub fn FireEvent::click(self : FireEvent, target : Js) -> Unit {
 pub type Screen
 
 ///|
-pub impl JsImpl for Screen
+pub impl @js.JsImpl for Screen
 
 ///|
 /// JS: import { screen } from '@testing-library/react'
 pub fn screen() -> Screen {
   let rtl = testing_library()
-  rtl.get("screen") |> unsafe_cast
+  rtl.get("screen") |> @js.unsafe_cast
 }
 
 ///|
@@ -75,12 +71,12 @@ pub fn Screen::debug(self : Self) -> Unit {
 
 ///|
 /// JS: screen.getByText(text)
-pub fn Screen::getByText(self : Screen, text : String) -> Js {
+pub fn Screen::getByText(self : Screen, text : String) -> @js.Js {
   self.call("getByText", [text]) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: screen.getByRole(role)
-pub fn Screen::getByRole(self : Screen, role : String) -> Js {
-  self.call("getByRole", [role]) |> unsafe_cast
+pub fn Screen::getByRole(self : Screen, role : String) -> @js.Js {
+  self.call("getByRole", [role]) |> @js.unsafe_cast
 }

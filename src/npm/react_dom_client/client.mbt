@@ -7,13 +7,13 @@ pub type ReactDOMClient
 pub type ReactDOMRoot
 
 ///|
-pub impl JsImpl for ReactDOMRoot
+pub impl @js.JsImpl for ReactDOMRoot
 
 ///|
-pub impl JsImpl for ReactDOMClient
+pub impl @js.JsImpl for ReactDOMClient
 
 ///|
-pub extern "js" fn import_react_dom_client() -> Promise[ReactDOMClient] =
+pub extern "js" fn import_react_dom_client() -> @js.Promise[ReactDOMClient] =
   #| () => import("react-dom/client")
 
 ///|
@@ -22,7 +22,7 @@ pub fn ReactDOMClient::createRoot(
   self : Self,
   container : &@dom.ElementImpl,
 ) -> ReactDOMRoot {
-  self.call("createRoot", [container.to_js()]) |> unsafe_cast
+  self.call("createRoot", [container.to_js()]) |> @js.unsafe_cast
 }
 
 ///|
