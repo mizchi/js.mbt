@@ -99,24 +99,6 @@ fn main {
 }
 ```
 
-### Create your own bindings:
-
-```mbt
-using @js {
-  trait JsImpl,
-  unsafe_cast,
-}
-
-#external
-pub type MyType
-
-impl JsImpl for MyType
-
-pub fn MyType::myMethod(self: Self, arg: String) -> Int {
-  self.call("myMethod", [arg]) |> unsafe_cast
-}
-```
-
 See escape hatch pattern in [docs/moonbit-js-ffi.md](./docs/moonbit-js-ffi.md)
 
 ## LICENSE
