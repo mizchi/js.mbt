@@ -26,58 +26,56 @@ Not Supported
 - `Buffer`
   - Use `mizchi/js/node/buffer`
 
-## Node.js binding
+## Node.js Module Support Status
 
-Caution: Node.js bindings are not fully tested yet. In near future, we split Node.js bindings into a separate package.
+| Module | Package | Status | Note |
+|--------|---------|--------|------|
+| `node:assert` | `mizchi/js/node/assert` | 🤖 AI Generated | Basic assertions |
+| `node:buffer` | `mizchi/js/node/buffer` | ✅ Tested | Buffer manipulation |
+| `node:child_process` | `mizchi/js/node/child_process` | ✅ Tested | Process spawning |
+| `node:events` | `mizchi/js/node/events` | ✅ Tested | EventEmitter |
+| `node:fs` | `mizchi/js/node/fs` | ✅ Tested | File system (callback) |
+| `node:fs/promises` | `mizchi/js/node/fs_promises` | ✅ Tested | File system (Promise) |
+| `node:http` | `mizchi/js/node/http` | 🚧 Partially | HTTP server/client |
+| `node:module` | `mizchi/js/node/module` | 🤖 AI Generated | Module utilities |
+| `node:net` | `mizchi/js/node/net` | 🚧 Partially | TCP/IPC networking |
+| `node:os` | `mizchi/js/node/os` | 🤖 AI Generated | OS utilities |
+| `node:path` | `mizchi/js/node/path` | 🤖 AI Generated | Path manipulation |
+| `node:process` | `mizchi/js/node/process` | ✅ Tested | Process information |
+| `node:readline/promises` | `mizchi/js/node/readline_promises` | 🤖 AI Generated | Interactive I/O |
+| `node:sqlite` | `mizchi/js/node/sqlite` | 🤖 AI Generated | SQLite database |
+| `node:stream` | `mizchi/js/node/stream` | 🚧 Partially | Stream API |
+| `node:stream/promises` | `mizchi/js/node/stream_promises` | 🤖 AI Generated | Stream (Promise) |
+| `node:test` | `mizchi/js/node/test` | ✅ Tested | Testing framework |
+| `node:timers` | `mizchi/js/node` | ✅ Tested | setTimeout/setInterval |
+| `node:url` | `mizchi/js/node/url` | 🤖 AI Generated | URL parsing |
+| `node:util` | `mizchi/js/node/util` | 🤖 AI Generated | Utility functions |
+| `node:v8` | `mizchi/js/node/v8` | 🤖 AI Generated | V8 engine utilities |
+| `node:vm` | `mizchi/js/node/vm` | 🤖 AI Generated | VM script execution |
+| `node:wasi` | `mizchi/js/node/wasi` | 🤖 AI Generated | WASI support |
+| `node:worker_threads` | - | 📅 Planned | Worker threads |
+| `node:https` | - | 📅 Planned | HTTPS server/client |
+| `node:http2` | - | 📅 Planned | HTTP/2 support |
+| `node:dns` | - | 📅 Planned | DNS resolution |
+| `node:permissions` | - | 📅 Planned | Permissions API |
+| `node:domain` | - | 📅 Planned | Domain error handling |
+| `node:zlib` | - | ❌ Not Planned | Use Web Compression API |
+| `node:querystring` | - | ❌ Not Planned | Use URLSearchParams |
+| `node:crypto` | - | ❌ Not Planned | Use Web Crypto API |
+| `node:string_decoder` | - | ❌ Not Planned | Use TextDecoder |
+| `node:inspector` | - | ❌ Not Planned | |
+| `node:punycode` | - | ❌ Not Planned | |
+| `node:dgram` | - | ❌ Not Planned | |
+| `node:async_hooks` | - | ❌ Not Planned | |
 
-- [x] `mizchi/js/node` : Node.js global API
-  - `require`, etc.
-- [x] `mizchi/js/node/buffer` : `Buffer`
-- [x] `mizchi/js/node/fs` : `node:fs`
-- [x] `mizchi/js/node/fs_promises` : `node:fs/promises`
-- [x] `mizchi/js/node/path` : `node:path`
-- [x] `mizchi/js/node/os` : `node:os`
-- [x] `mizchi/js/node/sqlite` : `node:sqlite`
-- [x] `mizchi/js/node/module` : `node:module`
-- [x] `mizchi/js/node/process` : `node:process`
-- [x] `mizchi/js/node/v8` : `node:v8`
-- [x] `mizchi/js/node/events` : `node:events`
-  - [x] `EventEmitter`
-- [x] `mizchi/js/node/util` : `node:util`
-  - [x] `inspect`
-  - [x] `parseArgs`
-- [x] `mizchi/js/node/child_process` : `node:child_process`
-- [x] `mizchi/js/node/test` : `node:test`
-  - We use async testing instead of `async test` in Moonbit
-- [x] `node:stream`
-  - Partially tested
-- [ ] `node:stream/promises`
-  - Not tesed
-- [x] `node:wasi`
-- [ ] `node:net`
+### Status Legend
 
-Not yet
+- ✅ **Tested**: Comprehensive test coverage, production ready
+- 🚧 **Partially**: Core functionality implemented, tests incomplete
+- 🤖 **AI Generated**: FFI bindings created, needs testing
+- 📅 **Planned**: Scheduled for future implementation
+- ❌ **Not Planned**: Use Web standard alternatives
 
-- [ ] `node:vm`
-- [ ] `node:worker_threads`
-- [ ] `node:domain`
-- [ ] `node:http`
-- [ ] `node:https`
-- [ ] `node:http2`
-- [ ] `node:dns`
-- [ ] `node:permissions`
+---
 
-Not planned
-
-- `node:zlib`
-  - Use CompressionStream/DecompressionStream instead.
-- `node:querystring`
-  - Use `URLSearchParams` instead.
-- `node:crypto`
-  - Use Web Crypto API instead.
-- `node:string_decoder`
-  - Use TextDecoder/TextEncoder instead.
-- `node:inspector`
-- `node:punnycode`
-- `node:dgram`
-- `node:async_hooks`
+**Note**: Node.js bindings are actively developed. Some AI-generated modules require thorough testing before production use.
