@@ -35,8 +35,6 @@ fn encodeURIComponent(String) -> String
 
 fn[T : JsImpl] from_array(Array[T]) -> Js
 
-fn from_builtin_json(Json) -> Js
-
 fn from_entries(Array[(String, &JsImpl)]) -> Js
 
 fn from_entries_option(Array[(String, &JsImpl?)]) -> Js
@@ -50,6 +48,8 @@ fn[A, R] from_fn1((A) -> R) -> Js
 fn[A, B, R] from_fn2((A, B) -> R) -> Js
 
 fn[A, B, C, R] from_fn3((A, B, C) -> R) -> Js
+
+fn from_json(Json) -> Js
 
 fn from_map(Map[String, Js]) -> Js
 

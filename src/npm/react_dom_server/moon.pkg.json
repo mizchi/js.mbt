@@ -2,7 +2,7 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/web/stream",
+    "mizchi/js/web/streams",
     "mizchi/js/node",
     "mizchi/js/npm/react"
   ]

@@ -4,9 +4,9 @@ package "mizchi/js/web/websocket"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/browser/blob"
-  "mizchi/js/browser/event"
   "mizchi/js/node/buffer"
+  "mizchi/js/web/blob"
+  "mizchi/js/web/event"
 )
 
 // Values

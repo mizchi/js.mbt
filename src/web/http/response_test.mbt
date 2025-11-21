@@ -1,5 +1,5 @@
 ///|
-using @js { unsafe_cast }
+using @js {unsafe_cast}
 
 ///|
 extern "js" fn ffi_new_response(content : String) -> @js.Js =

@@ -10,4 +10,4 @@ using @js {
 }
 
 ///|
-using @url { type URL, type URLSearchParams }
+using @url {type URL, type URLSearchParams}

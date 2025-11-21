@@ -3,7 +3,7 @@ package "mizchi/js/web/worker"
 
 import(
   "mizchi/js"
-  "mizchi/js/browser/event"
+  "mizchi/js/web/event"
 )
 
 // Values

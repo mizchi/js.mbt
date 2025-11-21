@@ -334,7 +334,7 @@ pub fn R2Object::blob(self : Self) -> Promise[@blob.Blob] {
 
 ///|
 /// Get object body as ReadableStream
-pub fn R2Object::body(self : Self) -> @stream.ReadableStream {
+pub fn R2Object::body(self : Self) -> @streams.ReadableStream {
   self.get("body") |> unsafe_cast
 }
 

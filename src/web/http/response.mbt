@@ -153,7 +153,7 @@ pub extern "js" fn Response::type_(self : Self) -> String =
 
 ///|
 /// Get the body as a ReadableStream
-pub fn Response::body(self : Self) -> @stream.ReadableStream? {
+pub fn Response::body(self : Self) -> @streams.ReadableStream? {
   self.get("body") |> @js.unsafe_cast_option()
 }
 

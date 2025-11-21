@@ -1,5 +1,5 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/node/events", "mizchi/js/web/stream"],
+  "import": ["mizchi/js", "mizchi/js/node/events", "mizchi/js/web/streams"],
   "test-import": ["mizchi/js/node/buffer"]
 }

@@ -1,2 +1,2 @@
 ///|
-using @js { type Js, type JsArray, trait JsImpl, unsafe_cast }
+using @js {type Js, type JsArray, trait JsImpl, unsafe_cast}

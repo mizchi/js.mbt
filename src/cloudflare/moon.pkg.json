@@ -3,9 +3,9 @@
   "import": [
     "mizchi/js",
     "mizchi/js/arraybuffer",
-    "mizchi/js/browser/blob",
+    "mizchi/js/web/blob",
     "mizchi/js/web/http",
     "mizchi/js/web/url",
-    "mizchi/js/web/stream"
+    "mizchi/js/web/streams"
   ]
 }

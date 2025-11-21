@@ -2,9 +2,9 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/browser/event",
+    "mizchi/js/web/event",
     "mizchi/js/node/buffer",
     "mizchi/js/arraybuffer",
-    "mizchi/js/browser/blob"
+    "mizchi/js/web/blob"
   ]
 }

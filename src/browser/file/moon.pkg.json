@@ -1,5 +1,5 @@
 {
   "supported-targets": ["js"],
   "is_main": false,
-  "import": ["mizchi/js", "mizchi/js/browser/blob", "mizchi/js/arraybuffer"]
+  "import": ["mizchi/js", "mizchi/js/web/blob", "mizchi/js/arraybuffer"]
 }

@@ -252,12 +252,12 @@ pub fn SpawnSyncResult::signal(self : Self) -> String? {
 }
 
 ///|
-pub fn SpawnSyncResult::stdout(self : Self) -> @stream.ReadableStream {
+pub fn SpawnSyncResult::stdout(self : Self) -> @streams.ReadableStream {
   self.get("stdout") |> unsafe_cast
 }
 
 ///|
-pub fn SpawnSyncResult::stderr(self : Self) -> @stream.ReadableStream {
+pub fn SpawnSyncResult::stderr(self : Self) -> @streams.ReadableStream {
   self.get("stderr") |> unsafe_cast
 }
 

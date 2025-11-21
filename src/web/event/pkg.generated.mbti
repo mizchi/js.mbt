@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/browser/event"
+package "mizchi/js/web/event"
 
 import(
   "mizchi/js"

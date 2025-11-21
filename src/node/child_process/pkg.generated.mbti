@@ -4,7 +4,7 @@ package "mizchi/js/node/child_process"
 import(
   "mizchi/js"
   "mizchi/js/node/events"
-  "mizchi/js/web/stream"
+  "mizchi/js/web/streams"
 )
 
 // Values
@@ -47,9 +47,9 @@ fn ChildProcess::pid(Self) -> Int
 fn ChildProcess::ref_(Self) -> Unit
 fn ChildProcess::send(Self, &@js.JsImpl) -> Bool
 fn ChildProcess::signalCode(Self) -> String?
-fn ChildProcess::stderr(Self) -> @stream.ReadableStream?
-fn ChildProcess::stdin(Self) -> @stream.WritableStream?
-fn ChildProcess::stdout(Self) -> @stream.ReadableStream?
+fn ChildProcess::stderr(Self) -> @streams.ReadableStream?
+fn ChildProcess::stdin(Self) -> @streams.WritableStream?
+fn ChildProcess::stdout(Self) -> @streams.ReadableStream?
 fn ChildProcess::unref(Self) -> Unit
 impl @js.JsImpl for ChildProcess
 impl @events.EventEmitterImpl for ChildProcess
@@ -60,8 +60,8 @@ fn SpawnSyncResult::error(Self) -> @js.Js?
 fn SpawnSyncResult::pid(Self) -> Int
 fn SpawnSyncResult::signal(Self) -> String?
 fn SpawnSyncResult::status(Self) -> Int?
-fn SpawnSyncResult::stderr(Self) -> @stream.ReadableStream
-fn SpawnSyncResult::stdout(Self) -> @stream.ReadableStream
+fn SpawnSyncResult::stderr(Self) -> @streams.ReadableStream
+fn SpawnSyncResult::stdout(Self) -> @streams.ReadableStream
 impl @js.JsImpl for SpawnSyncResult
 
 // Type aliases

@@ -4,7 +4,7 @@
     "mizchi/js",
     "mizchi/js/node",
     {
-      "path": "mizchi/js/web/stream",
+      "path": "mizchi/js/web/streams",
       "alias": "web"
     },
     "mizchi/js/node/events"

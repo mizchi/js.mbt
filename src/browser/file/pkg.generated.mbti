@@ -4,7 +4,7 @@ package "mizchi/js/browser/file"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/browser/blob"
+  "mizchi/js/web/blob"
 )
 
 // Values

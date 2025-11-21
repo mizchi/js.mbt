@@ -3,7 +3,6 @@ package "mizchi/js/node/url"
 
 import(
   "mizchi/js"
-  "mizchi/js/web/http"
 )
 
 // Values
@@ -11,15 +10,15 @@ import(
 fn fileURLToPath(String, windows? : Bool) -> String
 
 #alias(file_url_to_path_from_url)
-fn fileURLToPathFromURL(@http.URL, windows? : Bool) -> String
+fn fileURLToPathFromURL(@mizchi/js/web/url.URL, windows? : Bool) -> String
 
-fn format(@http.URL) -> String
+fn format(@mizchi/js/web/url.URL) -> String
 
 #alias(path_to_file_url)
-fn pathToFileURL(String, windows? : Bool) -> @http.URL
+fn pathToFileURL(String, windows? : Bool) -> @mizchi/js/web/url.URL
 
 #alias(url_to_http_options)
-fn urlToHttpOptions(@http.URL) -> @js.Js
+fn urlToHttpOptions(@mizchi/js/web/url.URL) -> @js.Js
 
 // Errors
 

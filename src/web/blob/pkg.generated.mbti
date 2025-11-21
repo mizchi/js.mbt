@@ -1,10 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/browser/blob"
+package "mizchi/js/web/blob"
 
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/web/stream"
+  "mizchi/js/web/streams"
 )
 
 // Values
@@ -21,7 +21,7 @@ fn Blob::contentType(Self) -> String
 fn Blob::new(Array[&@js.JsImpl], content_type? : String) -> Self
 fn Blob::size(Self) -> Int
 fn Blob::slice(Self, start? : Int, end? : Int, content_type? : String) -> Self
-fn Blob::stream(Self) -> @stream.ReadableStream
+fn Blob::stream(Self) -> @streams.ReadableStream
 fn Blob::text(Self) -> @js.Promise[String]
 impl @js.JsImpl for Blob
 
