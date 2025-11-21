@@ -4,7 +4,7 @@ package "mizchi/js/node/child_process"
 import(
   "mizchi/js"
   "mizchi/js/node/events"
-  "mizchi/js/stream"
+  "mizchi/js/web/stream"
 )
 
 // Values

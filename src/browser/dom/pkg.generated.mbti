@@ -5,7 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/browser/blob"
   "mizchi/js/browser/event"
-  "mizchi/js/worker"
+  "mizchi/js/web/worker"
 )
 
 // Values

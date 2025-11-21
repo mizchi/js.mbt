@@ -4,7 +4,7 @@
     "mizchi/js",
     "mizchi/js/browser/event",
     "mizchi/js/browser/blob",
-    "mizchi/js/worker"
+    "mizchi/js/web/worker"
   ],
   "test-import": ["mizchi/js/npm/global_jsdom"]
 }

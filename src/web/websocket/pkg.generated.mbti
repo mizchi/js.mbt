@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/websocket"
+package "mizchi/js/web/websocket"
 
 import(
   "mizchi/js"

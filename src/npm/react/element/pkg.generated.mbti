@@ -4,8 +4,8 @@ package "mizchi/js/npm/react/element"
 import(
   "mizchi/js"
   "mizchi/js/browser/dom"
-  "mizchi/js/http"
   "mizchi/js/npm/react"
+  "mizchi/js/web/http"
 )
 
 // Values

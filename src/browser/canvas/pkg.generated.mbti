@@ -6,7 +6,7 @@ import(
   "mizchi/js/arraybuffer"
   "mizchi/js/browser/blob"
   "mizchi/js/browser/dom"
-  "mizchi/js/worker"
+  "mizchi/js/web/worker"
 )
 
 // Values

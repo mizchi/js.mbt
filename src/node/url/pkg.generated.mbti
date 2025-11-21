@@ -3,7 +3,7 @@ package "mizchi/js/node/url"
 
 import(
   "mizchi/js"
-  "mizchi/js/http"
+  "mizchi/js/web/http"
 )
 
 // Values

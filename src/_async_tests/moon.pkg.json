@@ -2,12 +2,12 @@
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/stream",
+    "mizchi/js/web/stream",
     "mizchi/js/node",
     "mizchi/js/node/test",
     "mizchi/js/regexp",
     {
-      "path": "mizchi/js/crypto",
+      "path": "mizchi/js/web/crypto",
       "alias": "crypto"
     },
     {

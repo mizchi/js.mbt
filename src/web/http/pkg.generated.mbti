@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/http"
+package "mizchi/js/web/http"
 
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
   "mizchi/js/browser/blob"
-  "mizchi/js/stream"
+  "mizchi/js/web/stream"
 )
 
 // Values

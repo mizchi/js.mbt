@@ -50,7 +50,7 @@ fn Readable::closed(Self) -> Bool
 fn Readable::destroy(Self, error? : @js.Js) -> Self
 fn Readable::errored(Self) -> @js.Js
 fn Readable::from(@js.Js) -> Self
-fn Readable::fromWeb(@mizchi/js/stream.ReadableStream) -> Self
+fn Readable::fromWeb(@mizchi/js/web/stream.ReadableStream) -> Self
 fn Readable::isPaused(Self) -> Bool
 fn Readable::pause(Self) -> Self
 fn Readable::pipe(Self, Writable) -> Writable
@@ -64,7 +64,7 @@ fn Readable::readableLength(Self) -> Int
 fn Readable::readableObjectMode(Self) -> Bool
 fn Readable::resume_(Self) -> Self
 fn Readable::setEncoding(Self, String) -> Self
-fn Readable::toWeb(Self) -> @mizchi/js/stream.ReadableStream
+fn Readable::toWeb(Self) -> @mizchi/js/web/stream.ReadableStream
 fn Readable::unpipe(Self, destination? : Writable) -> Self
 fn Readable::unshift(Self, @js.Js, encoding? : String) -> Unit
 impl @js.JsImpl for Readable
@@ -90,9 +90,9 @@ fn Writable::cork(Self) -> Unit
 fn Writable::destroy(Self, error? : @js.Js) -> Self
 fn Writable::end(Self, chunk? : @js.Js, encoding? : String, callback? : @js.Js) -> Self
 fn Writable::errored(Self) -> @js.Js
-fn Writable::fromWeb(@mizchi/js/stream.WritableStream) -> Self
+fn Writable::fromWeb(@mizchi/js/web/stream.WritableStream) -> Self
 fn Writable::setDefaultEncoding(Self, String) -> Self
-fn Writable::toWeb(Self) -> @mizchi/js/stream.WritableStream
+fn Writable::toWeb(Self) -> @mizchi/js/web/stream.WritableStream
 fn Writable::uncork(Self) -> Unit
 fn Writable::writable(Self) -> Bool
 fn Writable::writableCorked(Self) -> Int

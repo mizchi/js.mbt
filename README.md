@@ -47,9 +47,9 @@ Add to your `moon.pkg.json`:
 
 - **[mizchi/js](./src/README.md)** - Core JavaScript built-in APIs (Object, Promise, Array, etc.)
 - **[mizchi/js/arraybuffer](./src/arraybuffer/)** - Binary data handling
-- **[mizchi/js/http](./src/http/)** - Fetch API and HTTP primitives
-- **[mizchi/js/stream](./src/stream/)** - Streams API (ReadableStream, etc.)
-- **[mizchi/js/crypto](./src/crypto/)** - Web Crypto API
+- **[mizchi/js/web/http](./src/http/)** - Fetch API and HTTP primitives
+- **[mizchi/js/web/stream](./src/stream/)** - Streams API (ReadableStream, etc.)
+- **[mizchi/js/web/crypto](./src/crypto/)** - Web Crypto API
 - **[mizchi/js/console](./src/console/)** - Console logging
 
 ### Runtime-Specific

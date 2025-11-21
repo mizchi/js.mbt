@@ -37,18 +37,18 @@ Comprehensive JavaScript FFI bindings for MoonBit, providing type-safe access to
 | Math | `mizchi/js/math` | ✅ Tested | Math operations |
 | Reflect | `mizchi/js/reflect` | 🤖 AI Generated | Reflection API |
 | **Web APIs** |
-| fetch | `mizchi/js/http` | ✅ Tested | HTTP requests |
-| Request | `mizchi/js/http` | ✅ Tested | Request objects |
-| Response | `mizchi/js/http` | ✅ Tested | Response objects |
-| Headers | `mizchi/js/http` | ✅ Tested | HTTP headers |
-| FormData | `mizchi/js/http` | ✅ Tested | Form data |
-| Streams | `mizchi/js/stream` | ✅ Tested | ReadableStream, etc. |
-| Crypto | `mizchi/js/crypto` | ✅ Tested | Web Crypto API |
+| fetch | `mizchi/js/web/http` | ✅ Tested | HTTP requests |
+| Request | `mizchi/js/web/http` | ✅ Tested | Request objects |
+| Response | `mizchi/js/web/http` | ✅ Tested | Response objects |
+| Headers | `mizchi/js/web/http` | ✅ Tested | HTTP headers |
+| FormData | `mizchi/js/web/http` | ✅ Tested | Form data |
+| Streams | `mizchi/js/web/stream` | ✅ Tested | ReadableStream, etc. |
+| Crypto | `mizchi/js/web/crypto` | ✅ Tested | Web Crypto API |
 | **Advanced** |
 | WebAssembly | `mizchi/js/webassembly` | 🤖 AI Generated | WASM integration |
-| Worker | `mizchi/js/worker` | 🤖 AI Generated | Web Workers |
-| MessageChannel | `mizchi/js/worker` | 🤖 AI Generated | Message passing |
-| WebSocket | `mizchi/js/websocket` | 🤖 AI Generated | WebSocket API |
+| Worker | `mizchi/js/web/worker` | 🤖 AI Generated | Web Workers |
+| MessageChannel | `mizchi/js/web/worker` | 🤖 AI Generated | Message passing |
+| WebSocket | `mizchi/js/web/websocket` | 🤖 AI Generated | WebSocket API |
 | **Platform-Specific** |
 | Node.js APIs | `mizchi/js/node/*` | 🚧 Partially | See [node/README](./node/README.md) |
 | DOM APIs | `mizchi/js/browser/*` | ✅ Tested | See [browser/dom/README](./browser/dom/README.md) |
@@ -129,7 +129,7 @@ For specific APIs, import additional packages:
     "mizchi/js",
     "mizchi/js/browser/dom",
     "mizchi/js/node",
-    "mizchi/js/http"
+    "mizchi/js/web/http"
   ]
 }
 ```

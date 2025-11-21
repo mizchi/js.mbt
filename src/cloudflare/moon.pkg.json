@@ -4,7 +4,7 @@
     "mizchi/js",
     "mizchi/js/arraybuffer",
     "mizchi/js/browser/blob",
-    "mizchi/js/http",
-    "mizchi/js/stream"
+    "mizchi/js/web/http",
+    "mizchi/js/web/stream"
   ]
 }

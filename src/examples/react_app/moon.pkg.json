@@ -4,7 +4,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/browser/dom",
-    "mizchi/js/http",
+    "mizchi/js/web/http",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react/element",
     "mizchi/js/npm/react_dom_client",

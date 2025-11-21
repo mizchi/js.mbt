@@ -5,7 +5,7 @@
     "mizchi/js",
     "mizchi/js/browser/blob",
     "mizchi/js/arraybuffer",
-    "mizchi/js/worker",
+    "mizchi/js/web/worker",
     "mizchi/js/browser/dom"
   ]
 }

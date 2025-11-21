@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/worker"
+package "mizchi/js/web/worker"
 
 import(
   "mizchi/js"

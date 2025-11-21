@@ -4,7 +4,7 @@ package "mizchi/js/browser/blob"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/stream"
+  "mizchi/js/web/stream"
 )
 
 // Values

@@ -2,7 +2,7 @@
   "is_main": false,
   "import": [
     "mizchi/js",
-    "mizchi/js/http",
+    "mizchi/js/web/http",
     "mizchi/js/arraybuffer",
     "mizchi/js/node"
   ]

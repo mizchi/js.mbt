@@ -4,7 +4,7 @@ package "mizchi/js/npm/react_dom_server"
 import(
   "mizchi/js"
   "mizchi/js/npm/react"
-  "mizchi/js/stream"
+  "mizchi/js/web/stream"
 )
 
 // Values

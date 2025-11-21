@@ -4,7 +4,7 @@ package "mizchi/js/examples/cfw"
 import(
   "mizchi/js"
   "mizchi/js/cloudflare"
-  "mizchi/js/http"
+  "mizchi/js/web/http"
 )
 
 // Values

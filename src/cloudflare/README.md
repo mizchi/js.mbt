@@ -43,8 +43,8 @@ Add to your `moon.pkg.json`:
   "import": [
     "mizchi/js",
     "mizchi/js/url",
-    "mizchi/js/http",
-    "mizchi/js/worker",
+    "mizchi/js/web/http",
+    "mizchi/js/web/worker",
     "mizchi/js/cloudflare"
   ]
 }
