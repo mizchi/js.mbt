@@ -68,7 +68,7 @@ pub fn Document::readyState(self : Self) -> String {
 /// Returns an element by its ID
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
-pub fn Document::getElementById(self : Self, id : String) -> Js? {
+pub fn Document::getElementById(self : Self, id : String) -> Element? {
   self.call("getElementById", [id |> js]) |> @js.unsafe_cast_option()
 }
 
@@ -76,16 +76,26 @@ pub fn Document::getElementById(self : Self, id : String) -> Js? {
 /// Returns elements with the specified class name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
 #alias(get_elements_by_class_name)
-pub fn Document::getElementsByClassName(self : Self, class_name : String) -> Js {
-  self.call("getElementsByClassName", [class_name])
+pub fn Document::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
+  @js.array_from(self.call("getElementsByClassName", [class_name])).map(fn(v) {
+    v |> unsafe_cast
+  })
 }
 
 ///|
 /// Returns elements with the specified tag name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByTagName
 #alias(get_elements_by_tag_name)
-pub fn Document::getElementsByTagName(self : Self, tagName : String) -> Js {
-  self.call("getElementsByTagName", [tagName])
+pub fn Document::getElementsByTagName(
+  self : Self,
+  tagName : String,
+) -> Array[Element] {
+  @js.array_from(self.call("getElementsByTagName", [tagName])).map(fn(v) {
+    v |> unsafe_cast
+  })
 }
 
 ///|
@@ -159,7 +169,7 @@ pub fn Document::referrer(self : Self) -> String {
 /// Creates a document fragment
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 #alias(create_document_fragment)
-pub fn Document::createDocumentFragment(self : Self) -> Js {
+pub fn Document::createDocumentFragment(self : Self) -> DocumentFragment {
   self.call0("createDocumentFragment") |> unsafe_cast
 }
 
@@ -167,7 +177,7 @@ pub fn Document::createDocumentFragment(self : Self) -> Js {
 /// Creates a comment node
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 #alias(create_comment)
-pub fn Document::createComment(self : Self, data : String) -> Js {
+pub fn Document::createComment(self : Self, data : String) -> Node {
   self.call("createComment", [data]) |> unsafe_cast
 }
 

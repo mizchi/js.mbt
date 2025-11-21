@@ -47,4 +47,8 @@ pub fn CloudflareContext::pass_through_exception(
 
 ///|
 /// CloudflareFetchHandler is a type alias for Cloudflare Worker fetch handler
-pub type CloudflareFetchHandler = (CloudflareRequest, CloudflareEnv, CloudflareContext) -> Promise[Response]
+pub type CloudflareFetchHandler = (
+  CloudflareRequest,
+  CloudflareEnv,
+  CloudflareContext,
+) -> Promise[Response]

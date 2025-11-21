@@ -62,43 +62,43 @@ pub extern "js" fn WebSocket::new(
 ///|
 /// Get the URL of the WebSocket
 /// JS: webSocket.url
-pub fn WebSocket::url(self : Self) -> @js.Js {
-  self.get("url")
+pub fn WebSocket::url(self : Self) -> String {
+  self.get("url") |> unsafe_cast
 }
 
 ///|
 /// Get the ready state
 /// JS: webSocket.readyState
-pub fn WebSocket::readyState(self : Self) -> @js.Js {
-  self.get("readyState")
+pub fn WebSocket::readyState(self : Self) -> Int {
+  self.get("readyState") |> unsafe_cast
 }
 
 ///|
 /// Get the buffered amount
 /// JS: webSocket.bufferedAmount
-pub fn WebSocket::bufferedAmount(self : Self) -> @js.Js {
-  self.get("bufferedAmount")
+pub fn WebSocket::bufferedAmount(self : Self) -> Int {
+  self.get("bufferedAmount") |> unsafe_cast
 }
 
 ///|
 /// Get the extensions
 /// JS: webSocket.extensions
-pub fn WebSocket::extensions(self : Self) -> @js.Js {
-  self.get("extensions")
+pub fn WebSocket::extensions(self : Self) -> String {
+  self.get("extensions") |> unsafe_cast
 }
 
 ///|
 /// Get the protocol
 /// JS: webSocket.protocol
-pub fn WebSocket::protocol(self : Self) -> @js.Js {
-  self.get("protocol")
+pub fn WebSocket::protocol(self : Self) -> String {
+  self.get("protocol") |> unsafe_cast
 }
 
 ///|
 /// Get the binary type
 /// JS: webSocket.binaryType
-pub fn WebSocket::binaryType(self : Self) -> @js.Js {
-  self.get("binaryType")
+pub fn WebSocket::binaryType(self : Self) -> String {
+  self.get("binaryType") |> unsafe_cast
 }
 
 ///|
@@ -184,27 +184,27 @@ pub fn WebSocket::set_onclose(self : Self, handler : (@js.Js) -> Unit) -> Unit {
 ///|
 /// MessageEvent helper to get data
 /// JS: event.data
-pub fn get_message_data(event : @js.Js) -> @js.Js {
-  event.get("data")
+pub fn get_message_data(event : @js.Js) -> String {
+  event.get("data") |> unsafe_cast
 }
 
 ///|
 /// CloseEvent helper to get code
 /// JS: event.code
-pub fn get_close_code(event : @js.Js) -> @js.Js {
-  event.get("code")
+pub fn get_close_code(event : @js.Js) -> Int {
+  event.get("code") |> unsafe_cast
 }
 
 ///|
 /// CloseEvent helper to get reason
 /// JS: event.reason
-pub fn get_close_reason(event : @js.Js) -> @js.Js {
-  event.get("reason")
+pub fn get_close_reason(event : @js.Js) -> String {
+  event.get("reason") |> unsafe_cast
 }
 
 ///|
 /// CloseEvent helper to get wasClean
 /// JS: event.wasClean
-pub fn get_close_was_clean(event : @js.Js) -> @js.Js {
-  event.get("wasClean")
+pub fn get_close_was_clean(event : @js.Js) -> Bool {
+  event.get("wasClean") |> unsafe_cast
 }

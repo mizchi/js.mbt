@@ -15,7 +15,7 @@ pub fn SubtleCrypto::encrypt(
   key : &JsImpl,
   data : &JsImpl,
 ) -> Promise[Js] {
-  self.to_js().call("encrypt", [algorithm, key, data]) |> unsafe_cast
+  self.call("encrypt", [algorithm, key, data]) |> unsafe_cast
 }
 
 ///|
@@ -25,7 +25,7 @@ pub fn SubtleCrypto::decrypt(
   key : &JsImpl,
   data : &JsImpl,
 ) -> Promise[Js] {
-  self.to_js().call("decrypt", [algorithm, key, data]) |> unsafe_cast
+  self.call("decrypt", [algorithm, key, data]) |> unsafe_cast
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn SubtleCrypto::verify(
   signature : &JsImpl,
   data : &JsImpl,
 ) -> Promise[Bool] {
-  self.to_js().call("verify", [algorithm, key, signature, data]) |> unsafe_cast
+  self.call("verify", [algorithm, key, signature, data]) |> unsafe_cast
 }
 
 ///|
@@ -69,9 +69,11 @@ pub fn SubtleCrypto::generateKey(
   extractable : Bool,
   key_usages : Array[String],
 ) -> Promise[Js] {
-  self
-  .to_js()
-  .call("generateKey", [algorithm, extractable, key_usages |> @js.from_array])
+  self.call("generateKey", [
+    algorithm,
+    extractable,
+    key_usages |> @js.from_array,
+  ])
   |> unsafe_cast
 }
 
@@ -85,9 +87,7 @@ pub fn SubtleCrypto::deriveKey(
   extractable : Bool,
   key_usages : Array[String],
 ) -> Promise[Js] {
-  self
-  .to_js()
-  .call("deriveKey", [
+  self.call("deriveKey", [
     algorithm,
     base_key,
     derived_key_type,
@@ -119,9 +119,7 @@ pub fn SubtleCrypto::importKey(
   extractable : Bool,
   key_usages : Array[String],
 ) -> Promise[Js] {
-  self
-  .to_js()
-  .call("importKey", [
+  self.call("importKey", [
     format,
     key_data,
     algorithm,
@@ -151,7 +149,7 @@ pub fn SubtleCrypto::wrapKey(
   wrapping_key : &JsImpl,
   wrap_algorithm : &JsImpl,
 ) -> Promise[Js] {
-  self.to_js().call("wrapKey", [format, key, wrapping_key, wrap_algorithm])
+  self.call("wrapKey", [format, key, wrapping_key, wrap_algorithm])
   |> unsafe_cast
 }
 
@@ -167,9 +165,7 @@ pub fn SubtleCrypto::unwrapKey(
   extractable : Bool,
   key_usages : Array[String],
 ) -> Promise[Js] {
-  self
-  .to_js()
-  .call("unwrapKey", [
+  self.call("unwrapKey", [
     format,
     wrapped_key,
     unwrapping_key,

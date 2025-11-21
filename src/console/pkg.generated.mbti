@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-fn assert_(Bool, @js.Js) -> Unit
+fn assert_(Bool, &@js.JsImpl) -> Unit
 
 fn clear() -> Unit
 
@@ -14,29 +14,29 @@ fn count(String) -> Unit
 
 fn countReset(String) -> Unit
 
-fn debug(@js.Js) -> Unit
+fn debug(&@js.JsImpl) -> Unit
 
-fn dir(@js.Js) -> Unit
+fn dir(&@js.JsImpl) -> Unit
 
-fn error(@js.Js) -> Unit
+fn error(&@js.JsImpl) -> Unit
 
 fn group(String) -> Unit
 
 fn groupEnd() -> Unit
 
-fn info(@js.Js) -> Unit
+fn info(&@js.JsImpl) -> Unit
 
-fn log(@js.Js) -> Unit
+fn log(&@js.JsImpl) -> Unit
 
-fn table(@js.Js, Array[String]) -> Unit
+fn table(&@js.JsImpl, Array[String]) -> Unit
 
 fn time(String) -> Unit
 
 fn timeEnd(String) -> Unit
 
-fn trace(@js.Js) -> Unit
+fn trace(&@js.JsImpl) -> Unit
 
-fn warn(@js.Js) -> Unit
+fn warn(&@js.JsImpl) -> Unit
 
 // Errors
 

@@ -19,7 +19,15 @@ pub extern "js" fn Response::redirect(url : String, status? : Int) -> Response =
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/json_static
-pub extern "js" fn Response::json_(data : Js, options? : Js) -> Response =
+pub fn Response::json_(data : &JsImpl, options? : &JsImpl) -> Response {
+  match options {
+    Some(opts) => json_impl(data.to_js(), opts.to_js())
+    None => json_impl(data.to_js(), @js.undefined())
+  }
+}
+
+///|
+extern "js" fn json_impl(data : Js, options : Js) -> Response =
   #| (data, options) => Response.json(data, options)
 
 ///|

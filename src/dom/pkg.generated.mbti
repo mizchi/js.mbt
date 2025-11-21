@@ -147,9 +147,9 @@ fn Document::characterSet(Self) -> String
 fn Document::contentType(Self) -> String
 fn Document::cookie(Self) -> String
 #alias(create_comment)
-fn Document::createComment(Self, String) -> @js.Js
+fn Document::createComment(Self, String) -> Node
 #alias(create_document_fragment)
-fn Document::createDocumentFragment(Self) -> @js.Js
+fn Document::createDocumentFragment(Self) -> DocumentFragment
 #alias(create_element)
 fn Document::createElement(Self, String) -> Element
 #alias(create_element_ns)
@@ -168,11 +168,11 @@ fn Document::domain(Self) -> String
 fn Document::elementFromPoint(Self, Double, Double) -> Element?
 fn Document::elementsFromPoint(Self, Double, Double) -> Array[Element]
 #alias(get_element_by_id)
-fn Document::getElementById(Self, String) -> @js.Js?
+fn Document::getElementById(Self, String) -> Element?
 #alias(get_elements_by_class_name)
-fn Document::getElementsByClassName(Self, String) -> @js.Js
+fn Document::getElementsByClassName(Self, String) -> Array[Element]
 #alias(get_elements_by_tag_name)
-fn Document::getElementsByTagName(Self, String) -> @js.Js
+fn Document::getElementsByTagName(Self, String) -> Array[Element]
 fn Document::head(Self) -> HTMLHeadElement?
 #alias(import_node)
 fn Document::importNode(Self, Node, Bool) -> Node
