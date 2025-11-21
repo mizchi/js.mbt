@@ -624,3 +624,23 @@ pub fn Screen::findAllByTestId(
 ) -> @js.Promise[ScreenResults] {
   self.call("findAllByTestId", [testId]) |> @js.unsafe_cast
 }
+
+///| Helper functions to reduce unsafe_cast in tests
+
+///|
+/// Get textContent property from HTMLElement
+pub fn text_content(element : @dom.HTMLElement) -> String {
+  element.get("textContent") |> @js.unsafe_cast
+}
+
+///|
+/// Get any string property from HTMLElement
+pub fn get_string_property(element : @dom.HTMLElement, key : String) -> String {
+  element.get(key) |> @js.unsafe_cast
+}
+
+///|
+/// Get any property from HTMLElement as Js
+pub fn get_property(element : @dom.HTMLElement, key : String) -> @js.Js {
+  element.get(key)
+}

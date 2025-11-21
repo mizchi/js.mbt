@@ -8,6 +8,16 @@ using @react {component}
 using @element {div, button, input, label, span}
 
 ///|
+using @react_testing_library {
+  render,
+  cleanup,
+  screen,
+  text_content,
+  get_string_property,
+  get_property,
+}
+
+///|
 priv struct AppProps {} derive(Default)
 
 ///|
@@ -26,9 +36,7 @@ test "testing-library/react" {
   render(component(app, AppProps::default())) |> ignore
   fireEvent().click(screen().getByText("click me"))
   // screen().debug()
-  screen().getByText("Count: 1").get("textContent")
-  |> unsafe_cast
-  |> assert_eq("Count: 1")
+  text_content(screen().getByText("Count: 1")) |> assert_eq("Count: 1")
 }
 
 ///|
@@ -49,8 +57,7 @@ test "RenderResult methods" {
   // Test rerender
   let comp2 = (_props : AppProps) => div(["Rerendered Content"])
   result.rerender(component(comp2, AppProps::default()))
-  screen().getByText("Rerendered Content").get("textContent")
-  |> unsafe_cast
+  text_content(screen().getByText("Rerendered Content"))
   |> assert_eq("Rerendered Content")
   // Test unmount
   result.unmount()
@@ -72,7 +79,7 @@ test "queryBy methods return None when not found" {
   let is_null2 = @js.is_null(existing)
   assert_eq(is_null2, false)
   // Verify the text content
-  let text : String = existing.get("textContent") |> unsafe_cast
+  let text = text_content(unsafe_cast(existing))
   assert_eq(text, "Existing text")
 }
 
@@ -110,7 +117,7 @@ test "getByRole query" {
   render(component(comp, AppProps::default())) |> ignore
   // getByRole finds button
   let btn = screen().getByRole("button")
-  btn.get("textContent") |> unsafe_cast |> assert_eq("Click me")
+  text_content(btn) |> assert_eq("Click me")
   // getByRole finds textbox
   let input_el = screen().getByRole("textbox")
   @js.typeof_(input_el) |> assert_eq("object")
@@ -124,7 +131,7 @@ test "getByPlaceholderText query" {
   let comp = (_props : AppProps) => div([input(placeholder="Enter your name")])
   render(component(comp, AppProps::default())) |> ignore
   let input_el = screen().getByPlaceholderText("Enter your name")
-  input_el.get("placeholder") |> unsafe_cast |> assert_eq("Enter your name")
+  get_string_property(input_el, "placeholder") |> assert_eq("Enter your name")
 }
 
 ///|
@@ -135,7 +142,7 @@ test "getByDisplayValue query" {
   let comp = (_props : AppProps) => div([input(value="test value")])
   render(component(comp, AppProps::default())) |> ignore
   let input_el = screen().getByDisplayValue("test value")
-  input_el.get("value") |> unsafe_cast |> assert_eq("test value")
+  get_string_property(input_el, "value") |> assert_eq("test value")
 }
 
 ///|
@@ -170,9 +177,7 @@ test "fireEvent click on button" {
   render(component(comp, AppProps::default())) |> ignore
   screen().getByText("Not clicked") |> ignore
   fireEvent().click(screen().getByText("Click me"))
-  screen().getByText("Clicked!").get("textContent")
-  |> unsafe_cast
-  |> assert_eq("Clicked!")
+  text_content(screen().getByText("Clicked!")) |> assert_eq("Clicked!")
 }
 
 ///|
@@ -200,9 +205,7 @@ test "fireEvent change on input" {
   target.set("value", "hello")
   event.set("target", target.to_js())
   fireEvent().change(input_el, event.to_js())
-  screen().getByText("Value: hello").get("textContent")
-  |> unsafe_cast
-  |> assert_eq("Value: hello")
+  text_content(screen().getByText("Value: hello")) |> assert_eq("Value: hello")
 }
 
 ///|
@@ -231,10 +234,10 @@ test "fireEvent submit on form" {
   }
   render(component(comp, AppProps::default())) |> ignore
   screen().getByText("Not submitted") |> ignore
-  let form_el = screen().getByText("Submit").get("form") |> unsafe_cast
+  let form_el = get_property(screen().getByText("Submit"), "form")
+    |> unsafe_cast
   fireEvent().submit(form_el)
-  screen().getByText("Form submitted").get("textContent")
-  |> unsafe_cast
+  text_content(screen().getByText("Form submitted"))
   |> assert_eq("Form submitted")
 }
 
@@ -259,13 +262,9 @@ test "fireEvent focus and blur on input" {
   render(component(comp, AppProps::default())) |> ignore
   let input_el = screen().getByPlaceholderText("Focus me")
   fireEvent().focus(input_el)
-  screen().getByText("Focused").get("textContent")
-  |> unsafe_cast
-  |> assert_eq("Focused")
+  text_content(screen().getByText("Focused")) |> assert_eq("Focused")
   fireEvent().blur(input_el)
-  screen().getByText("Not focused").get("textContent")
-  |> unsafe_cast
-  |> assert_eq("Not focused")
+  text_content(screen().getByText("Not focused")) |> assert_eq("Not focused")
 }
 
 ///|
@@ -289,9 +288,7 @@ test "fireEvent keyDown on input" {
   let event = @js.Object::new()
   event.set("key", "Enter")
   fireEvent().keyDown(input_el, event.to_js())
-  screen().getByText("Key: Enter").get("textContent")
-  |> unsafe_cast
-  |> assert_eq("Key: Enter")
+  text_content(screen().getByText("Key: Enter")) |> assert_eq("Key: Enter")
 }
 
 ///|
