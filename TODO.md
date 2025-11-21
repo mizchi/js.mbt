@@ -12,44 +12,42 @@
 
 ## 優先度高: リリース前に必須
 
-### 1. `src/console/` - assert_の第2引数を具体化
-- [ ] `assert_(Bool, @js.Js)` → `assert_(Bool, &JsImpl)`
-- [ ] 任意のMoonBit型を受け取れるようにする
+### 1. `src/console/` - ✅ 完了
+- [x] `assert_(Bool, @js.Js)` → `assert_(Bool, &JsImpl)`
+- [x] 全ての関数で `&JsImpl` を受け付けるように変更
 
-### 2. `src/crypto/` - SubtleCryptoのメソッド引数を具体化
-- [ ] `digest(String, &JsImpl)` - データ部分を具体化
-- [ ] `encrypt/decrypt` - アルゴリズムとキーの型を明確化
-- [ ] `generateKey` - アルゴリズムオプションの型を定義
+### 2. `src/crypto/` - ✅ 完了
+- [x] SubtleCrypto メソッドで不要な `.to_js()` 呼び出しを削除
+- [x] `self.to_js().call()` → `self.call()` に統一
 
-### 3. `src/http/` - Response/Requestの型具体化
-- [ ] `Response::json_(@js.Js)` → `Response::json_(&JsImpl)`
-- [ ] `fetch` のオプション引数を構造体で定義
-- [ ] `new_response(body?, options?)` の型を明確化
+### 3. `src/http/` - ✅ 完了
+- [x] `Response::json_(@js.Js)` → `Response::json_(&JsImpl)`
+- [x] オプション引数も `&JsImpl` で受け取るように変更
 
-### 4. `src/dom/` - DOM APIの型具体化
-- [ ] `Document::getElementById(String) -> @js.Js?` → `Element?`
-- [ ] `Document::getElementsByClassName(String) -> @js.Js` → `Array[Element]`
-- [ ] `Document::createElement` の返り値を `Element` に
-- [ ] イベントハンドラの型を具体化
+### 4. `src/dom/` - ✅ 完了
+- [x] `Document::getElementById(String) -> @js.Js?` → `Element?`
+- [x] `Document::getElementsByClassName(String) -> @js.Js` → `Array[Element]`
+- [x] `Document::getElementsByTagName(String) -> @js.Js` → `Array[Element]`
+- [x] `Document::createDocumentFragment()` → `DocumentFragment`
+- [x] `Document::createComment()` → `Node`
 
-### 5. `src/websocket/` - WebSocketの型具体化  
-- [ ] `send` メソッドの引数型を明確化
-- [ ] イベントハンドラの型を具体化
-- [ ] `readyState` の返り値を `WebSocketReadyState` に
+### 5. `src/websocket/` - ✅ 完了
+- [x] プロパティの返り値を具体化（String, Int, Bool）
+- [x] イベントヘルパー関数の返り値を具体化
 
 ## 優先度中: リリース後でも可
 
 ### 6. `src/stream/` - Stream APIの型具体化
-- [ ] `ReadableStream::new(@js.Js)` のストラテジーオブジェクトを型定義
-- [ ] `pipeTo/pipeThrough` のオプションを構造体化
+- 現状: ストリームのオプションオブジェクトは複雑で、構造体化すると柔軟性が失われる
+- 決定: 現在の `@js.Js` のまま維持（リリース後に必要に応じて再検討）
 
 ### 7. `src/node/fs/` - Node.js FSの型具体化
-- [ ] `readSync(..., Int?)` → `readSync(..., position?: Int)`
-- [ ] オプションオブジェクトを構造体化
+- [ ] `statSync(String) -> @js.Js` を Stats 構造体に変更
+- [ ] Stats 構造体を定義（isFile, isDirectory, size, mtime 等）
 
 ### 8. `src/cloudflare/` - Cloudflare APIの型具体化
-- [ ] KV/R2/D1のオプション型をさらに具体化
-- [ ] メタデータの型を定義
+- 現状: 主要な型は既に具体化済み（KVNamespace, R2Bucket等）
+- 決定: 現状で十分（リリース後に必要に応じて拡張）
 
 ## 実施手順
 
