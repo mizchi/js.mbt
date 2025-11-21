@@ -5,6 +5,7 @@
     "mizchi/js/stream",
     "mizchi/js/node",
     "mizchi/js/node/test",
+    "mizchi/js/regexp",
     {
       "path": "mizchi/js/crypto",
       "alias": "crypto"

@@ -2,4 +2,7 @@
 using @js {sleep}
 
 ///|
-using @test {it, beforeEach}
+using @test {it, beforeEach, describe}
+
+///|
+using @regexp {}
