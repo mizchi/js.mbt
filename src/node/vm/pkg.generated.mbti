@@ -1,0 +1,39 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/vm"
+
+import(
+  "mizchi/js"
+  "mizchi/js/node/buffer"
+)
+
+// Values
+fn compileFunction(String, params? : Array[String], filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool, parsingContext? : @js.Js, contextExtensions? : Array[@js.Js]) -> @js.Js
+
+fn createContext(contextObject? : @js.Js, name? : String, origin? : String, microtaskMode? : String) -> @js.Js
+
+fn isContext(@js.Js) -> Bool
+
+fn runInContext(String, @js.Js, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js.Js
+
+fn runInNewContext(String, contextObject? : @js.Js, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @js.Js
+
+fn runInThisContext(String, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js.Js
+
+// Errors
+
+// Types and methods
+#external
+pub type Script
+fn Script::cachedDataRejected(Self) -> Bool?
+fn Script::createCachedData(Self) -> @buffer.Buffer
+fn Script::new(String, filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool) -> Self
+fn Script::runInContext(Self, @js.Js, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js.Js
+fn Script::runInNewContext(Self, contextObject? : @js.Js, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @js.Js
+fn Script::runInThisContext(Self, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js.Js
+fn Script::sourceMapURL(Self) -> String?
+impl @js.JsImpl for Script
+
+// Type aliases
+
+// Traits
+

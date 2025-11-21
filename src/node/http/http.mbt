@@ -75,7 +75,7 @@ pub fn IncomingMessage::socket(self : IncomingMessage) -> Socket {
 pub fn IncomingMessage::setTimeout(
   self : IncomingMessage,
   msecs : Int,
-  callback? : () -> Unit
+  callback? : () -> Unit,
 ) -> IncomingMessage {
   match callback {
     Some(cb) => self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> unsafe_cast
@@ -107,13 +107,14 @@ pub fn ServerResponse::writeHead(
   self : ServerResponse,
   statusCode : Int,
   statusMessage? : String,
-  headers? : Js
+  headers? : Js,
 ) -> ServerResponse {
   match (statusMessage, headers) {
     (Some(msg), Some(hdrs)) =>
       self.call("writeHead", [statusCode, msg, hdrs]) |> unsafe_cast
     (Some(msg), None) => self.call2("writeHead", statusCode, msg) |> unsafe_cast
-    (None, Some(hdrs)) => self.call2("writeHead", statusCode, hdrs) |> unsafe_cast
+    (None, Some(hdrs)) =>
+      self.call2("writeHead", statusCode, hdrs) |> unsafe_cast
     (None, None) => self.call("writeHead", [statusCode]) |> unsafe_cast
   }
 }
@@ -123,7 +124,7 @@ pub fn ServerResponse::writeHead(
 pub fn ServerResponse::write(
   self : ServerResponse,
   chunk : String,
-  encoding? : String
+  encoding? : String,
 ) -> Bool {
   match encoding {
     Some(enc) => self.call2("write", chunk, enc) |> unsafe_cast
@@ -136,18 +137,12 @@ pub fn ServerResponse::write(
 pub fn ServerResponse::end(
   self : ServerResponse,
   data? : String,
-  encoding? : String
+  encoding? : String,
 ) -> Unit {
   match (data, encoding) {
-    (Some(d), Some(enc)) => {
-      self.call2("end", d, enc) |> ignore
-    }
-    (Some(d), None) => {
-      self.call("end", [d]) |> ignore
-    }
-    (None, _) => {
-      self.call0("end") |> ignore
-    }
+    (Some(d), Some(enc)) => self.call2("end", d, enc) |> ignore
+    (Some(d), None) => self.call("end", [d]) |> ignore
+    (None, _) => self.call0("end") |> ignore
   }
 }
 
@@ -156,7 +151,7 @@ pub fn ServerResponse::end(
 pub fn ServerResponse::setHeader(
   self : ServerResponse,
   name : String,
-  value : String
+  value : String,
 ) -> Unit {
   self.call2("setHeader", name, value) |> ignore
 }
@@ -165,14 +160,17 @@ pub fn ServerResponse::setHeader(
 /// Get header
 pub fn ServerResponse::getHeader(
   self : ServerResponse,
-  name : String
+  name : String,
 ) -> String? {
   self.call("getHeader", [name]) |> @js.unsafe_cast_option
 }
 
 ///|
 /// Remove header
-pub fn ServerResponse::removeHeader(self : ServerResponse, name : String) -> Unit {
+pub fn ServerResponse::removeHeader(
+  self : ServerResponse,
+  name : String,
+) -> Unit {
   self.call("removeHeader", [name]) |> ignore
 }
 
@@ -190,7 +188,10 @@ pub fn ServerResponse::statusCode(self : ServerResponse) -> Int {
 
 ///|
 /// Set status code
-pub fn ServerResponse::set_statusCode(self : ServerResponse, code : Int) -> Unit {
+pub fn ServerResponse::set_statusCode(
+  self : ServerResponse,
+  code : Int,
+) -> Unit {
   self.set("statusCode", code |> @js.js)
 }
 
@@ -204,7 +205,7 @@ pub fn ServerResponse::statusMessage(self : ServerResponse) -> String {
 /// Set status message
 pub fn ServerResponse::set_statusMessage(
   self : ServerResponse,
-  message : String
+  message : String,
 ) -> Unit {
   self.set("statusMessage", message)
 }
@@ -214,7 +215,7 @@ pub fn ServerResponse::set_statusMessage(
 pub fn ServerResponse::setTimeout(
   self : ServerResponse,
   msecs : Int,
-  callback? : () -> Unit
+  callback? : () -> Unit,
 ) -> ServerResponse {
   match callback {
     Some(cb) => self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> unsafe_cast
@@ -241,7 +242,7 @@ pub fn Server::listen(
   port : Int,
   host? : String,
   backlog? : Int,
-  callback? : () -> Unit
+  callback? : () -> Unit,
 ) -> Server {
   // Register callback as 'listening' event listener if provided
   match callback {
@@ -296,7 +297,7 @@ pub fn Server::set_maxHeadersCount(self : Server, max : Int) -> Unit {
 pub fn Server::setTimeout(
   self : Server,
   msecs : Int,
-  callback? : () -> Unit
+  callback? : () -> Unit,
 ) -> Server {
   match callback {
     Some(cb) => self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> unsafe_cast
@@ -339,7 +340,7 @@ pub fn ClientRequest::as_writable(self : ClientRequest) -> Writable {
 pub fn ClientRequest::write(
   self : ClientRequest,
   chunk : String,
-  encoding? : String
+  encoding? : String,
 ) -> Bool {
   match encoding {
     Some(enc) => self.call2("write", chunk, enc) |> unsafe_cast
@@ -352,18 +353,12 @@ pub fn ClientRequest::write(
 pub fn ClientRequest::end(
   self : ClientRequest,
   data? : String,
-  encoding? : String
+  encoding? : String,
 ) -> Unit {
   match (data, encoding) {
-    (Some(d), Some(enc)) => {
-      self.call2("end", d, enc) |> ignore
-    }
-    (Some(d), None) => {
-      self.call("end", [d]) |> ignore
-    }
-    (None, _) => {
-      self.call0("end") |> ignore
-    }
+    (Some(d), Some(enc)) => self.call2("end", d, enc) |> ignore
+    (Some(d), None) => self.call("end", [d]) |> ignore
+    (None, _) => self.call0("end") |> ignore
   }
 }
 
@@ -378,7 +373,7 @@ pub fn ClientRequest::abort(self : ClientRequest) -> Unit {
 pub fn ClientRequest::setHeader(
   self : ClientRequest,
   name : String,
-  value : String
+  value : String,
 ) -> Unit {
   self.call2("setHeader", name, value) |> ignore
 }
@@ -400,7 +395,7 @@ pub fn ClientRequest::removeHeader(self : ClientRequest, name : String) -> Unit 
 pub fn ClientRequest::setTimeout(
   self : ClientRequest,
   msecs : Int,
-  callback? : () -> Unit
+  callback? : () -> Unit,
 ) -> ClientRequest {
   match callback {
     Some(cb) => self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> unsafe_cast
@@ -413,11 +408,12 @@ pub fn ClientRequest::setTimeout(
 ///|
 /// Create HTTP server
 pub fn createServer(
-  requestListener? : (IncomingMessage, ServerResponse) -> Unit
+  requestListener? : (IncomingMessage, ServerResponse) -> Unit,
 ) -> Server {
   match requestListener {
     Some(listener) =>
-      http_module().call("createServer", [@js.from_fn2(listener)]) |> unsafe_cast
+      http_module().call("createServer", [@js.from_fn2(listener)])
+      |> unsafe_cast
     None => http_module().call0("createServer") |> unsafe_cast
   }
 }
@@ -427,7 +423,7 @@ pub fn createServer(
 pub fn request(
   url : String,
   options? : Js,
-  callback? : (IncomingMessage) -> Unit
+  callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
     (Some(opts), Some(cb)) =>
@@ -446,7 +442,7 @@ pub fn request(
 pub fn get(
   url : String,
   options? : Js,
-  callback? : (IncomingMessage) -> Unit
+  callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
     (Some(opts), Some(cb)) =>

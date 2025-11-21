@@ -18,26 +18,20 @@ fn main {
       ctx.assert_ok(true)
       ctx.assert_ok(true, message="value should be true")
     })
-
     it("assert_strict_equal", ctx => {
       ctx.assert_strict_equal(42, 42)
       ctx.assert_strict_equal("hello", "hello", message="strings should match")
     })
-
     it("assert_deep_strict_equal", ctx => {
       let obj1 = @js.from_entries([("a", 1), ("b", 2)])
       let obj2 = @js.from_entries([("a", 1), ("b", 2)])
       ctx.assert_deep_strict_equal(obj1, obj2)
     })
-
     it("assert_match", ctx => {
       let pattern = @regexp.RegExp::new("hello")
       ctx.assert_match("hello world", pattern)
     })
-
-    it("assert_throws", ctx => {
-      ctx.assert_throws(fn() { abort("test error") })
-    })
+    it("assert_throws", ctx => ctx.assert_throws(fn() { abort("test error") }))
   })
 
   // Lifecycle hooks demo
@@ -46,12 +40,10 @@ fn main {
     after(() => println("after all tests in suite"))
     beforeEach(() => println("before each test in suite"))
     afterEach(() => println("after each test in suite"))
-
     it("first test", _ => {
       println("  running first test")
       assert_eq(1 + 1, 2)
     })
-
     it("second test", _ => {
       println("  running second test")
       assert_eq(2 + 2, 4)

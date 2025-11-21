@@ -24,6 +24,25 @@ pub fn read_file_sync_string(path : String, encoding : String) -> String {
   fs.call2("readFileSync", path, encoding) |> unsafe_cast
 }
 
+///|
+/// Read file synchronously as string with encoding
+/// JS: fs.readFileSync(path, encoding)
+pub fn read_file_as_string(
+  path : String,
+  encoding? : String = "utf8",
+) -> String {
+  let fs = fs_module()
+  fs.call2("readFileSync", path, encoding) |> unsafe_cast
+}
+
+///|
+/// Read file synchronously as Buffer
+/// JS: fs.readFileSync(path)
+pub fn read_file_as_buffer(path : String) -> Buffer {
+  let fs = fs_module()
+  fs.call("readFileSync", [path]) |> unsafe_cast
+}
+
 ///| File Writing
 
 ///|

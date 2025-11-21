@@ -94,7 +94,9 @@ test "Script runInNewContext" {
 /// Test Script::runInContext
 test "Script runInContext" {
   let script = Script::new("x * y")
-  let context = createContext(contextObject=@js.from_entries([("x", 5), ("y", 6)]))
+  let context = createContext(
+    contextObject=@js.from_entries([("x", 5), ("y", 6)]),
+  )
   let result = script.runInContext(context)
   inspect(result, content="30")
 }

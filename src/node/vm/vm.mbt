@@ -27,7 +27,7 @@ pub fn Script::new(
   lineOffset? : Int,
   columnOffset? : Int,
   cachedData? : Buffer,
-  produceCachedData? : Bool
+  produceCachedData? : Bool,
 ) -> Script {
   let vm = vm_module()
   let script_constructor = vm.get("Script")
@@ -50,7 +50,7 @@ pub fn Script::runInThisContext(
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
-  breakOnSigint? : Bool
+  breakOnSigint? : Bool,
 ) -> Js {
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
@@ -76,7 +76,7 @@ pub fn Script::runInNewContext(
   breakOnSigint? : Bool,
   contextName? : String,
   contextOrigin? : String,
-  microtaskMode? : String
+  microtaskMode? : String,
 ) -> Js {
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
@@ -105,7 +105,7 @@ pub fn Script::runInContext(
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
-  breakOnSigint? : Bool
+  breakOnSigint? : Bool,
 ) -> Js {
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
@@ -147,7 +147,7 @@ pub fn runInThisContext(
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
-  breakOnSigint? : Bool
+  breakOnSigint? : Bool,
 ) -> Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
@@ -174,7 +174,7 @@ pub fn runInNewContext(
   breakOnSigint? : Bool,
   contextName? : String,
   contextOrigin? : String,
-  microtaskMode? : String
+  microtaskMode? : String,
 ) -> Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
@@ -204,7 +204,7 @@ pub fn runInContext(
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
-  breakOnSigint? : Bool
+  breakOnSigint? : Bool,
 ) -> Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
@@ -224,7 +224,7 @@ pub fn createContext(
   contextObject? : Js,
   name? : String,
   origin? : String,
-  microtaskMode? : String
+  microtaskMode? : String,
 ) -> Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
@@ -256,7 +256,7 @@ pub fn compileFunction(
   cachedData? : Buffer,
   produceCachedData? : Bool,
   parsingContext? : Js,
-  contextExtensions? : Array[Js]
+  contextExtensions? : Array[Js],
 ) -> Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
@@ -266,10 +266,7 @@ pub fn compileFunction(
     ("cachedData", cachedData.map(fn(x) { x.to_js() })),
     ("produceCachedData", produceCachedData.map(fn(x) { x })),
     ("parsingContext", parsingContext.map(fn(x) { x })),
-    (
-      "contextExtensions",
-      contextExtensions.map(fn(x) { @js.from_array(x) }),
-    ),
+    ("contextExtensions", contextExtensions.map(fn(x) { @js.from_array(x) })),
   ])
   match params {
     Some(p) => {

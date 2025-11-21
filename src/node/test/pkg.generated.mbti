@@ -4,6 +4,7 @@ package "mizchi/js/node/test"
 import(
   "mizchi/js"
   "mizchi/js/node/stream"
+  "mizchi/js/regexp"
 )
 
 // Values
@@ -21,17 +22,11 @@ fn beforeAll(async () -> Unit) -> Unit
 
 fn beforeEach(async () -> Unit, timeout? : Int) -> Unit
 
-fn describe(String, skip? : Bool, todo? : Bool, only? : Bool, async (SuiteContext) -> Unit) -> Unit
-
-fn describe_only(String, async (SuiteContext) -> Unit) -> Unit
-
-fn describe_skip(String, async (SuiteContext) -> Unit) -> Unit
-
-fn describe_todo(String, f? : async (SuiteContext) -> Unit) -> Unit
+fn describe(String, skip? : Bool, todo? : Bool, only? : Bool, timeout? : Int, async (SuiteContext) -> Unit) -> Unit
 
 fn get_mock_context(@js.Js) -> MockFunctionContext
 
-fn it(String, skip? : String, async (TestContext) -> Unit) -> Unit
+fn it(String, skip? : String, todo? : String, only? : Bool, timeout? : Int, async (TestContext) -> Unit) -> Unit
 
 fn mock() -> MockTracker
 
@@ -44,12 +39,6 @@ fn setDefaultSnapshotSerializers(Array[&@js.JsImpl]) -> Unit
 fn setResolveSnapshotPath((String) -> String) -> Unit
 
 fn test_(String, skip? : Bool, todo? : Bool, only? : Bool, timeout? : Int, async (TestContext) -> Unit) -> Unit
-
-fn test_only(String, async (TestContext) -> Unit) -> Unit
-
-fn test_skip(String, async (TestContext) -> Unit) -> Unit
-
-fn test_todo(String, f? : async (TestContext) -> Unit) -> Unit
 
 // Errors
 
@@ -91,8 +80,19 @@ impl @js.JsImpl for SuiteContext
 
 #external
 pub type TestContext
+fn[T : @js.JsImpl] TestContext::assert_deep_strict_equal(Self, T, T, message? : String) -> Unit
+fn TestContext::assert_does_not_match(Self, String, @regexp.RegExp, message? : String) -> Unit
+fn TestContext::assert_does_not_reject(Self, async () -> Unit, error? : @js.Js, message? : String) -> Unit
+fn TestContext::assert_does_not_throw(Self, () -> Unit, error? : @js.Js, message? : String) -> Unit
 fn TestContext::assert_fileSnapshot(Self, &@js.JsImpl, String, message? : String) -> Unit
+fn TestContext::assert_match(Self, String, @regexp.RegExp, message? : String) -> Unit
+fn[T : @js.JsImpl] TestContext::assert_not_deep_strict_equal(Self, T, T, message? : String) -> Unit
+fn[T : @js.JsImpl] TestContext::assert_not_strict_equal(Self, T, T, message? : String) -> Unit
+fn TestContext::assert_ok(Self, Bool, message? : String) -> Unit
+fn TestContext::assert_rejects(Self, async () -> Unit, error? : @js.Js, message? : String) -> Unit
 fn TestContext::assert_snapshot(Self, &@js.JsImpl, message? : String) -> Unit
+fn[T : @js.JsImpl] TestContext::assert_strict_equal(Self, T, T, message? : String) -> Unit
+fn TestContext::assert_throws(Self, () -> Unit, error? : @js.Js, message? : String) -> Unit
 fn TestContext::diagnostic(Self, String) -> Unit
 fn TestContext::plan(Self, Int) -> Unit
 fn TestContext::runOnly(Self, Bool) -> Unit

@@ -9,10 +9,12 @@ using @http {
   type Server,
 }
 
+///|
 fn createServer(listener : (IncomingMessage, ServerResponse) -> Unit) -> Server {
   @http.createServer(requestListener=listener)
 }
 
+///|
 fn createServerNoListener() -> Server {
   @http.createServer()
 }
@@ -47,13 +49,11 @@ test {
   it("HTTP server can listen and close properly", _ => {
     let mut listening_called = false
     let mut close_called = false
-
     let server = createServerNoListener()
 
     // Start listening
-    server.listen(0, host="127.0.0.1", callback=fn() {
-      listening_called = true
-    }) |> ignore
+    server.listen(0, host="127.0.0.1", callback=fn() { listening_called = true })
+    |> ignore
 
     // Wait for server to start
     sleep(50)
@@ -61,9 +61,7 @@ test {
     inspect(server.listening(), content="true")
 
     // Close server with callback
-    server.close(callback=fn() {
-      close_called = true
-    }) |> ignore
+    server.close(callback=fn() { close_called = true }) |> ignore
 
     // Wait for server to close
     sleep(100)
@@ -76,13 +74,10 @@ test {
   it("HTTP server can get address after listening", _ => {
     let mut close_called = false
     let server = createServerNoListener()
-
     server.listen(0, host="127.0.0.1") |> ignore
     sleep(50)
-
     let address = server.address()
     inspect(address.is_empty(), content="false")
-
     match address {
       Some(addr) => {
         let port : Int = @js.unsafe_cast(addr.get("port"))
@@ -90,7 +85,6 @@ test {
       }
       None => ()
     }
-
     server.close(callback=fn() { close_called = true }) |> ignore
     sleep(100)
     inspect(close_called, content="true")
@@ -105,7 +99,6 @@ test {
     let mut request_handled = false
     let mut response_received = false
     let mut close_called = false
-
     let server = createServer(fn(_req : IncomingMessage, res : ServerResponse) {
       request_handled = true
       res.writeHead(200) |> ignore
@@ -126,17 +119,15 @@ test {
     }
 
     // Make request
-    let client_req = get(
-      "http://127.0.0.1:\{port}/",
-      callback=fn(_res : IncomingMessage) {
-        response_received = true
-      },
-    )
+    let client_req = get("http://127.0.0.1:\{port}/", callback=fn(
+      _res : IncomingMessage,
+    ) {
+      response_received = true
+    })
     client_req.end()
 
     // Wait for request/response
     sleep(100)
-
     inspect(request_handled, content="true")
     inspect(response_received, content="true")
 
@@ -158,10 +149,8 @@ test {
     // Check some common status codes
     let code200 : String = @js.unsafe_cast(codes.get("200"))
     inspect(code200, content="OK")
-
     let code404 : String = @js.unsafe_cast(codes.get("404"))
     inspect(code404, content="Not Found")
-
     let code500 : String = @js.unsafe_cast(codes.get("500"))
     inspect(code500, content="Internal Server Error")
   })

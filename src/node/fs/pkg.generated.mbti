@@ -52,6 +52,10 @@ fn openSync(String, String, mode? : Int) -> Int
 #alias(read_sync)
 fn readSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int
 
+fn read_file_as_buffer(String) -> @buffer.Buffer
+
+fn read_file_as_string(String, encoding? : String) -> String
+
 #alias(readFileSync)
 fn read_file_sync(String) -> @buffer.Buffer
 

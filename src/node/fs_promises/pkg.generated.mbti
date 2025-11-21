@@ -3,6 +3,7 @@ package "mizchi/js/node/fs_promises"
 
 import(
   "mizchi/js"
+  "moonbitlang/core/buffer"
 )
 
 // Values
@@ -28,6 +29,10 @@ fn open(String) -> @js.Promise[FileHandle]
 
 #alias(read_file)
 fn readFile(String, encoding? : String) -> @js.Promise[String]
+
+fn read_file_as_buffer(String) -> @js.Promise[@buffer.Buffer]
+
+fn read_file_as_string(String, encoding? : String) -> @js.Promise[String]
 
 fn readdir(String) -> @js.Promise[Array[String]]
 

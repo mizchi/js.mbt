@@ -133,6 +133,25 @@ pub fn readFile(path : String, encoding? : String = "utf-8") -> Promise[String] 
 }
 
 ///|
+/// Read file asynchronously as string with encoding
+/// JS: fs.promises.readFile(path, encoding)
+pub fn read_file_as_string(
+  path : String,
+  encoding? : String = "utf8",
+) -> Promise[String] {
+  let fs = @node.require("node:fs/promises")
+  fs.call2("readFile", path, encoding) |> unsafe_cast
+}
+
+///|
+/// Read file asynchronously as Buffer
+/// JS: fs.promises.readFile(path)
+pub fn read_file_as_buffer(path : String) -> Promise[@buffer.Buffer] {
+  let fs = @node.require("node:fs/promises")
+  unsafe_cast(fs.call("readFile", [path]))
+}
+
+///|
 #alias(write_file)
 pub fn writeFile(
   path : String,

@@ -60,7 +60,11 @@ fn TestContext::assert_obj(self : Self) -> Js {
 
 ///|
 /// JS: context.assert.ok(value, message?)
-pub fn TestContext::assert_ok(self : Self, value : Bool, message? : String) -> Unit {
+pub fn TestContext::assert_ok(
+  self : Self,
+  value : Bool,
+  message? : String,
+) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
     Some(msg) => assert_obj.call2("ok", value, msg) |> ignore
@@ -74,11 +78,12 @@ pub fn[T : JsImpl] TestContext::assert_strict_equal(
   self : Self,
   actual : T,
   expected : T,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
-    Some(msg) => assert_obj.call("strictEqual", [actual, expected, msg]) |> ignore
+    Some(msg) =>
+      assert_obj.call("strictEqual", [actual, expected, msg]) |> ignore
     None => assert_obj.call2("strictEqual", actual, expected) |> ignore
   }
 }
@@ -89,11 +94,12 @@ pub fn[T : JsImpl] TestContext::assert_not_strict_equal(
   self : Self,
   actual : T,
   expected : T,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
-    Some(msg) => assert_obj.call("notStrictEqual", [actual, expected, msg]) |> ignore
+    Some(msg) =>
+      assert_obj.call("notStrictEqual", [actual, expected, msg]) |> ignore
     None => assert_obj.call2("notStrictEqual", actual, expected) |> ignore
   }
 }
@@ -104,12 +110,12 @@ pub fn[T : JsImpl] TestContext::assert_deep_strict_equal(
   self : Self,
   actual : T,
   expected : T,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
-    Some(msg) => assert_obj.call("deepStrictEqual", [actual, expected, msg])
-      |> ignore
+    Some(msg) =>
+      assert_obj.call("deepStrictEqual", [actual, expected, msg]) |> ignore
     None => assert_obj.call2("deepStrictEqual", actual, expected) |> ignore
   }
 }
@@ -120,12 +126,12 @@ pub fn[T : JsImpl] TestContext::assert_not_deep_strict_equal(
   self : Self,
   actual : T,
   expected : T,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
-    Some(msg) => assert_obj.call("notDeepStrictEqual", [actual, expected, msg])
-      |> ignore
+    Some(msg) =>
+      assert_obj.call("notDeepStrictEqual", [actual, expected, msg]) |> ignore
     None => assert_obj.call2("notDeepStrictEqual", actual, expected) |> ignore
   }
 }
@@ -136,7 +142,7 @@ pub fn TestContext::assert_match(
   self : Self,
   string : String,
   regexp : RegExp,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
@@ -151,11 +157,12 @@ pub fn TestContext::assert_does_not_match(
   self : Self,
   string : String,
   regexp : RegExp,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
-    Some(msg) => assert_obj.call("doesNotMatch", [string, regexp, msg]) |> ignore
+    Some(msg) =>
+      assert_obj.call("doesNotMatch", [string, regexp, msg]) |> ignore
     None => assert_obj.call2("doesNotMatch", string, regexp) |> ignore
   }
 }
@@ -166,12 +173,13 @@ pub fn TestContext::assert_throws(
   self : Self,
   fn_ : () -> Unit,
   error? : Js,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   let fn_js = @js.from_fn0(fn_)
   match (error, message) {
-    (Some(err), Some(msg)) => assert_obj.call("throws", [fn_js, err, msg]) |> ignore
+    (Some(err), Some(msg)) =>
+      assert_obj.call("throws", [fn_js, err, msg]) |> ignore
     (Some(err), None) => assert_obj.call2("throws", fn_js, err) |> ignore
     (None, Some(msg)) => assert_obj.call2("throws", fn_js, msg) |> ignore
     (None, None) => assert_obj.call1("throws", fn_js) |> ignore
@@ -184,13 +192,13 @@ pub fn TestContext::assert_does_not_throw(
   self : Self,
   fn_ : () -> Unit,
   error? : Js,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   let fn_js = @js.from_fn0(fn_)
   match (error, message) {
-    (Some(err), Some(msg)) => assert_obj.call("doesNotThrow", [fn_js, err, msg])
-      |> ignore
+    (Some(err), Some(msg)) =>
+      assert_obj.call("doesNotThrow", [fn_js, err, msg]) |> ignore
     (Some(err), None) => assert_obj.call2("doesNotThrow", fn_js, err) |> ignore
     (None, Some(msg)) => assert_obj.call2("doesNotThrow", fn_js, msg) |> ignore
     (None, None) => assert_obj.call1("doesNotThrow", fn_js) |> ignore
@@ -198,17 +206,19 @@ pub fn TestContext::assert_does_not_throw(
 }
 
 ///|
+/// Not Tested
 /// JS: context.assert.rejects(asyncFn, error?, message?)
 pub fn TestContext::assert_rejects(
   self : Self,
   asyncFn : async () -> Unit,
   error? : Js,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   let promise_js : Js = promisify0(asyncFn)() |> unsafe_cast
   match (error, message) {
-    (Some(err), Some(msg)) => assert_obj.call("rejects", [promise_js, err, msg]) |> ignore
+    (Some(err), Some(msg)) =>
+      assert_obj.call("rejects", [promise_js, err, msg]) |> ignore
     (Some(err), None) => assert_obj.call2("rejects", promise_js, err) |> ignore
     (None, Some(msg)) => assert_obj.call2("rejects", promise_js, msg) |> ignore
     (None, None) => assert_obj.call1("rejects", promise_js) |> ignore
@@ -221,15 +231,17 @@ pub fn TestContext::assert_does_not_reject(
   self : Self,
   asyncFn : async () -> Unit,
   error? : Js,
-  message? : String
+  message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   let promise_js : Js = promisify0(asyncFn)() |> unsafe_cast
   match (error, message) {
-    (Some(err), Some(msg)) => assert_obj.call("doesNotReject", [promise_js, err, msg])
-      |> ignore
-    (Some(err), None) => assert_obj.call2("doesNotReject", promise_js, err) |> ignore
-    (None, Some(msg)) => assert_obj.call2("doesNotReject", promise_js, msg) |> ignore
+    (Some(err), Some(msg)) =>
+      assert_obj.call("doesNotReject", [promise_js, err, msg]) |> ignore
+    (Some(err), None) =>
+      assert_obj.call2("doesNotReject", promise_js, err) |> ignore
+    (None, Some(msg)) =>
+      assert_obj.call2("doesNotReject", promise_js, msg) |> ignore
     (None, None) => assert_obj.call1("doesNotReject", promise_js) |> ignore
   }
 }

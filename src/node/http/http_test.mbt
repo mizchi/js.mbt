@@ -8,8 +8,15 @@ test "http server creation" {
 ///|
 /// Test server with request listener
 test "http server with request listener" {
-  let server = createServer(requestListener=fn(req : IncomingMessage, res : ServerResponse) {
-    res.writeHead(200, headers=@js.from_entries([("Content-Type", "text/plain")])) |> ignore
+  let server = createServer(requestListener=fn(
+    req : IncomingMessage,
+    res : ServerResponse,
+  ) {
+    res.writeHead(
+      200,
+      headers=@js.from_entries([("Content-Type", "text/plain")]),
+    )
+    |> ignore
     res.end(data="Hello World")
   })
   inspect(server |> @js.typeof_, content="object")
@@ -18,11 +25,15 @@ test "http server with request listener" {
 ///|
 /// Test IncomingMessage methods
 test "incoming message methods exist" {
-  let server = createServer(requestListener=fn(req : IncomingMessage, _res : ServerResponse) {
+  let server = createServer(requestListener=fn(
+    req : IncomingMessage,
+    _res : ServerResponse,
+  ) {
     // Test that methods exist
     let _ = req.httpVersion()
     let _ = req.headers()
     let _ = req.rawHeaders()
+
   })
   inspect(server |> @js.typeof_, content="object")
 }
@@ -30,12 +41,16 @@ test "incoming message methods exist" {
 ///|
 /// Test ServerResponse methods
 test "server response methods" {
-  let server = createServer(requestListener=fn(_req : IncomingMessage, res : ServerResponse) {
+  let server = createServer(requestListener=fn(
+    _req : IncomingMessage,
+    res : ServerResponse,
+  ) {
     // Test chaining methods
     res.setHeader("X-Custom-Header", "test")
     let _ = res.getHeader("X-Custom-Header")
     res.set_statusCode(200)
     let _code = res.statusCode()
+
   })
   inspect(server |> @js.typeof_, content="object")
 }

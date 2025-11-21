@@ -1,19 +1,20 @@
 ///|
 using @net {createConnection, isIP, isIPv4, isIPv6}
 
+///|
 fn createNetServer(
   allowHalfOpen? : Bool,
   pauseOnConnect? : Bool,
   noDelay? : Bool,
   keepAlive? : Bool,
-  keepAliveInitialDelay? : Int
+  keepAliveInitialDelay? : Int,
 ) -> @net.Server {
   @net.createServer(
     allowHalfOpen?,
     pauseOnConnect?,
     noDelay?,
     keepAlive?,
-    keepAliveInitialDelay?
+    keepAliveInitialDelay?,
   )
 }
 
