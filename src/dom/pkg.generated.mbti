@@ -4,7 +4,7 @@ package "mizchi/js/dom"
 import(
   "mizchi/js"
   "mizchi/js/dom/blob"
-  "mizchi/js/event"
+  "mizchi/js/dom/event"
   "mizchi/js/worker"
 )
 

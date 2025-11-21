@@ -2,7 +2,7 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/event",
+    "mizchi/js/dom/event",
     "mizchi/js/dom/blob",
     "mizchi/js/worker"
   ],
