@@ -1,0 +1,57 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/websocket"
+
+import(
+  "mizchi/js"
+  "mizchi/js/arraybuffer"
+  "mizchi/js/dom/blob"
+  "mizchi/js/dom/event"
+  "mizchi/js/node/buffer"
+)
+
+// Values
+fn get_close_code(@js.Js) -> @js.Js
+
+fn get_close_reason(@js.Js) -> @js.Js
+
+fn get_close_was_clean(@js.Js) -> @js.Js
+
+fn get_message_data(@js.Js) -> @js.Js
+
+fn websocket_closed() -> Int
+
+fn websocket_closing() -> Int
+
+fn websocket_connecting() -> Int
+
+fn websocket_open() -> Int
+
+// Errors
+
+// Types and methods
+#external
+pub type WebSocket
+fn WebSocket::binaryType(Self) -> @js.Js
+fn WebSocket::bufferedAmount(Self) -> @js.Js
+fn WebSocket::close(Self, code? : Int, reason? : String) -> Unit
+fn WebSocket::extensions(Self) -> @js.Js
+fn WebSocket::new(String, protocols? : Array[String]) -> Self
+fn WebSocket::protocol(Self) -> @js.Js
+fn WebSocket::readyState(Self) -> @js.Js
+fn WebSocket::send_arraybuffer(Self, @arraybuffer.ArrayBuffer) -> Unit
+fn WebSocket::send_blob(Self, @blob.Blob) -> Unit
+fn WebSocket::send_buffer(Self, @buffer.Buffer) -> Unit
+fn WebSocket::send_string(Self, String) -> Unit
+fn WebSocket::set_binaryType(Self, String) -> Unit
+fn WebSocket::set_onclose(Self, (@js.Js) -> Unit) -> Unit
+fn WebSocket::set_onerror(Self, (@js.Js) -> Unit) -> Unit
+fn WebSocket::set_onmessage(Self, (@js.Js) -> Unit) -> Unit
+fn WebSocket::set_onopen(Self, (@js.Js) -> Unit) -> Unit
+fn WebSocket::url(Self) -> @js.Js
+impl @js.JsImpl for WebSocket
+impl @event.EventTargetImpl for WebSocket
+
+// Type aliases
+
+// Traits
+
