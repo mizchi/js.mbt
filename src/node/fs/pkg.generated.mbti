@@ -91,6 +91,8 @@ fn truncateSync(String, len? : Int) -> Unit
 #alias(unlink_sync)
 fn unlinkSync(String) -> Unit
 
+fn watch(String, persistent? : Bool, recursive? : Bool, encoding? : String, listener? : (String, String) -> Unit) -> FSWatcher
+
 #alias(write_file_sync)
 fn writeFileSync(String, &@js.JsImpl) -> Unit
 
@@ -100,6 +102,12 @@ fn writeSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int
 // Errors
 
 // Types and methods
+#external
+pub type FSWatcher
+fn FSWatcher::close(Self) -> Unit
+fn FSWatcher::on(Self, String, (String, String) -> Unit) -> Self
+impl @js.JsImpl for FSWatcher
+
 #external
 pub type Stat
 fn Stat::isDirectory(Self) -> Bool
