@@ -1,5 +1,10 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/dom", "mizchi/js/npm/react"],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/dom",
+    "mizchi/js/http",
+    "mizchi/js/npm/react"
+  ],
   "test-import": ["mizchi/js/node"]
 }

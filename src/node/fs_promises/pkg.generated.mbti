@@ -3,7 +3,6 @@ package "mizchi/js/node/fs_promises"
 
 import(
   "mizchi/js"
-  "mizchi/js/iterator"
 )
 
 // Values
@@ -19,9 +18,9 @@ fn copyFile(String, String) -> @js.Promise[Unit]
 
 fn cp(String, String, recursive? : Bool) -> @js.Promise[Unit]
 
-fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[String]
+fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[String]
 
-fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[Dirent]
+fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[Dirent]
 
 fn mkdir(String, recursive? : Bool) -> @js.Promise[Unit]
 

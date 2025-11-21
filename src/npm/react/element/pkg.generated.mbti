@@ -4,6 +4,7 @@ package "mizchi/js/npm/react/element"
 import(
   "mizchi/js"
   "mizchi/js/dom"
+  "mizchi/js/http"
   "mizchi/js/npm/react"
 )
 
@@ -32,7 +33,7 @@ fn ellipse(cx~ : Int, cy~ : Int, rx~ : Int, ry~ : Int, stroke? : String, stroke_
 
 fn footer(Array[&@react.ReactNode], props? : @js.Object, id? : String, class? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit, on_focus? : (@dom.FocusEvent) -> Unit, on_blur? : (@dom.FocusEvent) -> Unit, on_drag? : (@dom.DragEvent) -> Unit, on_dragstart? : (@dom.DragEvent) -> Unit, on_dragend? : (@dom.DragEvent) -> Unit, on_dragleave? : (@dom.DragEvent) -> Unit, on_dragenter? : (@dom.DragEvent) -> Unit, on_dragover? : (@dom.DragEvent) -> Unit, on_drop? : (@dom.DragEvent) -> Unit) -> @react.Element
 
-fn form(Array[&@react.ReactNode], method_? : String, disabled? : Bool, name? : String, enc_type? : String, action? : (FormData) -> Unit, on_submit? : (@dom.FormEvent) -> Unit, props? : @js.Object, id? : String, class? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.HTMLFormElement], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit, on_focus? : (@dom.FocusEvent) -> Unit, on_blur? : (@dom.FocusEvent) -> Unit, on_drag? : (@dom.DragEvent) -> Unit, on_dragstart? : (@dom.DragEvent) -> Unit, on_dragend? : (@dom.DragEvent) -> Unit, on_dragleave? : (@dom.DragEvent) -> Unit, on_dragenter? : (@dom.DragEvent) -> Unit, on_dragover? : (@dom.DragEvent) -> Unit, on_drop? : (@dom.DragEvent) -> Unit) -> @react.Element
+fn form(Array[&@react.ReactNode], method_? : String, disabled? : Bool, name? : String, enc_type? : String, action? : (@http.FormData) -> Unit, on_submit? : (@dom.FormEvent) -> Unit, props? : @js.Object, id? : String, class? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.HTMLFormElement], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit, on_focus? : (@dom.FocusEvent) -> Unit, on_blur? : (@dom.FocusEvent) -> Unit, on_drag? : (@dom.DragEvent) -> Unit, on_dragstart? : (@dom.DragEvent) -> Unit, on_dragend? : (@dom.DragEvent) -> Unit, on_dragleave? : (@dom.DragEvent) -> Unit, on_dragenter? : (@dom.DragEvent) -> Unit, on_dragover? : (@dom.DragEvent) -> Unit, on_drop? : (@dom.DragEvent) -> Unit) -> @react.Element
 
 fn g(Array[&@react.ReactNode], stroke? : String, stroke_width? : Int, fill? : String, props? : @js.Object, id? : String, class? : String, style? : Map[String, String], tab_index? : Int, ref_? : @react.ReactRef[@dom.Element], key? : String, on_click? : (@dom.MouseEvent) -> Unit, on_change? : (@dom.ChangeEvent) -> Unit, on_keydown? : (@dom.KeyboardEvent) -> Unit, on_keyup? : (@dom.KeyboardEvent) -> Unit, on_focus? : (@dom.FocusEvent) -> Unit, on_blur? : (@dom.FocusEvent) -> Unit, on_drag? : (@dom.DragEvent) -> Unit, on_dragstart? : (@dom.DragEvent) -> Unit, on_dragend? : (@dom.DragEvent) -> Unit, on_dragleave? : (@dom.DragEvent) -> Unit, on_dragenter? : (@dom.DragEvent) -> Unit, on_dragover? : (@dom.DragEvent) -> Unit, on_drop? : (@dom.DragEvent) -> Unit) -> @react.Element
 
@@ -109,9 +110,6 @@ fn video(Array[&@react.ReactNode], controls? : Bool, props? : @js.Object, id? : 
 // Errors
 
 // Types and methods
-#external
-pub type FormData
-fn FormData::get(Self, String) -> @js.Js
 
 // Type aliases
 

@@ -4,7 +4,6 @@ package "mizchi/js/node/sqlite"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/iterator"
 )
 
 // Values
@@ -163,7 +162,7 @@ fn StatementSync::columns(Self) -> Array[@js.Js]
 #alias(expanded_sql)
 fn StatementSync::expandedSQL(Self) -> String
 fn StatementSync::get_(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> @js.Js?
-fn StatementSync::iterate(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> @iterator.JsIterator[@js.Js]
+fn StatementSync::iterate(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> @js.JsIterator[@js.Js]
 fn StatementSync::run(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> StatementResultingChanges
 #alias(set_allow_bare_named_parameters)
 fn StatementSync::setAllowBareNamedParameters(Self, Bool) -> Unit

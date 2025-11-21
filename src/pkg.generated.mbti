@@ -143,6 +143,11 @@ pub type AbortSignal
 impl JsImpl for AbortSignal
 
 #external
+pub(all) type AsyncIterator[T]
+async fn[T] AsyncIterator::next(Self[T]) -> T?
+impl[T] JsImpl for AsyncIterator[T]
+
+#external
 pub type FinalizationRegistry[T]
 fn[T : JsImpl] FinalizationRegistry::new((T) -> Unit) -> Self[T]
 fn[T : JsImpl, U : JsImpl] FinalizationRegistry::register(Self[T], U, T, unregister_token? : Js) -> Unit
@@ -217,6 +222,16 @@ fn JsError::isError(&JsImpl) -> Bool
 fn JsError::new(String, cause? : Self) -> Self
 impl JsImpl for JsError
 impl Show for JsError
+
+#external
+pub(all) type JsIterator[T]
+fn[T] JsIterator::drop(Self[T], Int) -> Self[T]
+fn[T] JsIterator::from(Js) -> Self[T]
+fn[T] JsIterator::iter(Self[T]) -> Iterator[T]
+fn[T] JsIterator::next(Self[T]) -> T?
+fn[T] JsIterator::take(Self[T], Int) -> Self[T]
+fn[T] JsIterator::toArray(Self[T]) -> Array[T]
+impl[T] JsImpl for JsIterator[T]
 
 #external
 pub type JsString

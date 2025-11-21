@@ -1,3 +1,5 @@
+using @http { type FormData }
+
 ///|
 fn[T] common_node(
   tag_name : String,
@@ -1036,14 +1038,6 @@ pub fn section(
     children~,
   )
 }
-
-///|
-#external
-pub type FormData
-
-///|
-pub extern "js" fn FormData::get(self : FormData, key : String) -> Js =
-  #| (formData, key) => formData.get(key)
 
 ///|
 pub fn form(
