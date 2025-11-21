@@ -31,8 +31,12 @@ extern "js" fn ffi_is_null(value : Js) -> Bool =
   #| (value) => value === null
 
 ///|
-pub extern "js" fn ffi_is_undefined(value : Js) -> Bool =
+extern "js" fn ffi_is_undefined(value : Js) -> Bool =
   #| (value) => value === undefined
+
+///|
+extern "js" fn ffi_is_nullish(v : Js) -> Bool =
+  #|(v) => v == null
 
 ///|
 extern "js" fn ffi_is_error(value : Js) -> Bool =

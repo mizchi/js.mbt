@@ -1,13 +1,4 @@
 ///|
-extern "js" fn ffi_is_nullish(v : Js) -> Bool =
-  #|(v) => v === null || v === undefined
-
-///|
-pub fn[T : JsImpl] is_nullish(v : T) -> Bool {
-  ffi_is_nullish(v.to_js())
-}
-
-///|
 /// Unsafely cast a value from one type to another.
 /// When you cast to `Js`, use `js(v)` or `unsafe_js(v)` instead.
 pub fn[A, B] unsafe_cast(v : A) -> B = "%identity"
@@ -69,6 +60,11 @@ pub fn[T : JsImpl] is_null(v : T) -> Bool {
 /// JS: v === undefined
 pub fn[T : JsImpl] is_undefined(v : T) -> Bool {
   ffi_is_undefined(v.to_js())
+}
+
+///|
+pub fn[T : JsImpl] is_nullish(v : T) -> Bool {
+  ffi_is_nullish(v.to_js())
 }
 
 ///|
