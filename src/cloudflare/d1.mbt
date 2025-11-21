@@ -159,6 +159,8 @@ pub impl JsImpl for D1Result
 
 ///|
 /// Get results from D1Result
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn D1Result::get_results(self : Self) -> Array[Js] {
   match self.results {
     Some(r) => r

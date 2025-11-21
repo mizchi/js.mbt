@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/encoding"
+
+import(
+  "mizchi/js"
+  "mizchi/js/arraybuffer"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub type TextDecoder
+fn TextDecoder::decode(Self, @arraybuffer.Uint8Array) -> String
+fn TextDecoder::new() -> Self
+impl @js.JsImpl for TextDecoder
+
+#external
+pub type TextEncoder
+fn TextEncoder::encode(Self, String) -> @arraybuffer.Uint8Array
+fn TextEncoder::new() -> Self
+impl @js.JsImpl for TextEncoder
+
+// Type aliases
+
+// Traits
+

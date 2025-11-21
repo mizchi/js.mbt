@@ -49,6 +49,8 @@ impl NodeImpl with parentNode(self) -> Node? {
 }
 
 ///|
+/// Returns a static array of child nodes.
+/// Note: The returned array is a snapshot and should be treated as immutable.
 impl NodeImpl with childNodes(self) -> Array[Node] {
   @js.array_from(self.get("childNodes")).map(v => unsafe_cast(v))
 }

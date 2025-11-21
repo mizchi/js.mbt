@@ -155,17 +155,6 @@ fn SharedArrayBuffer::new(UInt) -> Self
 fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
 impl @js.JsImpl for SharedArrayBuffer
 
-pub type TextDecoder
-fn TextDecoder::decode(Self, Uint8Array) -> String
-fn TextDecoder::new() -> Self
-impl @js.JsImpl for TextDecoder
-
-#external
-pub type TextEncoder
-fn TextEncoder::encode(Self, String) -> Uint8Array
-fn TextEncoder::new() -> Self
-impl @js.JsImpl for TextEncoder
-
 #external
 pub type Uint16Array
 fn Uint16Array::buffer(Self) -> ArrayBuffer

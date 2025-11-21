@@ -131,18 +131,27 @@ fn object_class() -> Js {
 
 ///|
 /// JS: Object.keys(v)
+///
+/// Returns an array of a given object's own enumerable property names.
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::keys(v : &JsImpl) -> Array[String] {
   object_class().call("keys", [v.to_js()]) |> unsafe_cast
 }
 
 ///|
 /// JS: Object.values(v)
+///
+/// Returns an array of a given object's own enumerable property values.
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::values(v : &JsImpl) -> Array[Js] {
   object_class().call("values", [v.to_js()]) |> unsafe_cast
 }
 
 ///|
 /// JS: Object.entries(v)
+///
+/// Returns an array of a given object's own enumerable property [key, value] pairs.
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::entries(v : &JsImpl) -> Array[(String, Js)] {
   let entries = ffi_object_entries(v.to_js())
   entries.map(entry => (

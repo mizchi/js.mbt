@@ -8,6 +8,8 @@ extern "js" fn ffi_require_module() -> Js =
 
 ///|
 /// Get the builtin modules list
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(builtin_modules)
 pub fn builtinModules() -> Array[String] {
   let mod = ffi_require_module()

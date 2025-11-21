@@ -2,8 +2,8 @@
 pub fn svg(
   // common props
   children : Array[&ReactNode],
-  width~ : Int,
-  height~ : Int,
+  width~ : Double,
+  height~ : Double,
   view_box? : String,
   // shared
   props? : @js.Object,
@@ -73,11 +73,11 @@ pub fn svg(
 ///|
 pub fn circle(
   // common props
-  cx~ : Int,
-  cy~ : Int,
-  r~ : Int,
+  cx~ : Double,
+  cy~ : Double,
+  r~ : Double,
   stroke? : String,
-  stroke_width? : Int,
+  stroke_width? : Double,
   fill? : String,
 
   // shared
@@ -149,12 +149,12 @@ pub fn circle(
 ///|
 pub fn ellipse(
   // common props
-  cx~ : Int,
-  cy~ : Int,
-  rx~ : Int,
-  ry~ : Int,
+  cx~ : Double,
+  cy~ : Double,
+  rx~ : Double,
+  ry~ : Double,
   stroke? : String,
-  stroke_width? : Int,
+  stroke_width? : Double,
   fill? : String,
 
   // shared
@@ -232,12 +232,12 @@ pub fn ellipse(
 ///|
 pub fn rect(
   // common props
-  x~ : Int,
-  y~ : Int,
-  width~ : Int,
-  height~ : Int,
+  x~ : Double,
+  y~ : Double,
+  width~ : Double,
+  height~ : Double,
   stroke? : String,
-  stroke_width? : Int,
+  stroke_width? : Double,
   fill? : String,
 
   // shared
@@ -315,12 +315,12 @@ pub fn rect(
 ///|
 pub fn line(
   // common props
-  x1~ : Int,
-  y1~ : Int,
-  x2~ : Int,
-  y2~ : Int,
+  x1~ : Double,
+  y1~ : Double,
+  x2~ : Double,
+  y2~ : Double,
   stroke? : String,
-  stroke_width? : Int,
+  stroke_width? : Double,
   fill? : String,
 
   // shared
@@ -400,7 +400,7 @@ pub fn path(
   // common props
   d~ : String,
   stroke? : String,
-  stroke_width? : Int,
+  stroke_width? : Double,
   fill? : String,
 
   // shared
@@ -540,9 +540,9 @@ pub fn use_(
 ///|
 pub fn polygon(
   // common props
-  points~ : Array[(Int, Int)],
+  points~ : Array[(Double, Double)],
   stroke? : String,
-  stroke_width? : Int,
+  stroke_width? : Double,
   fill? : String,
 
   // shared
@@ -617,9 +617,9 @@ pub fn polygon(
 ///|
 pub fn polyline(
   // common props
-  points~ : Array[(Int, Int)],
+  points~ : Array[(Double, Double)],
   stroke? : String,
-  stroke_width? : Int,
+  stroke_width? : Double,
   fill? : String,
 
   // shared
@@ -696,7 +696,7 @@ pub fn g(
   children : Array[&ReactNode],
   // common props
   stroke? : String,
-  stroke_width? : Int,
+  stroke_width? : Double,
   fill? : String,
 
   // shared
@@ -833,15 +833,15 @@ pub fn defs(
 pub fn text(
   children : Array[&ReactNode],
   // common props
-  x~ : Int,
-  y~ : Int,
+  x~ : Double,
+  y~ : Double,
   dx? : String,
   dy? : String,
   length_adjust? : String,
   text_length? : String,
   rotate? : String,
   stroke? : String,
-  stroke_width? : Int,
+  stroke_width? : Double,
   fill? : String,
 
   // shared
@@ -931,8 +931,8 @@ pub fn text(
 
 ///|
 pub fn image(
-  x~ : Int,
-  y~ : Int,
+  x~ : Double,
+  y~ : Double,
   href~ : String,
   // shared
   props? : @js.Object,

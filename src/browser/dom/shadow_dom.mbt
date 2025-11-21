@@ -79,6 +79,8 @@ pub fn ShadowRoot::elementFromPoint(
 ///|
 /// Returns elements from point within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/elementsFromPoint
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn ShadowRoot::elementsFromPoint(
   self : Self,
   x : Double,

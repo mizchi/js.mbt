@@ -121,7 +121,9 @@ pub fn isExtensible(target : &@js.JsImpl) -> Bool {
 
 ///|
 /// JS: Reflect.ownKeys(target)
-/// Returns an array of the target object's own property keys
+///
+/// Returns an array of the target object's own property keys.
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn ownKeys(target : &@js.JsImpl) -> Array[@js.Js] {
   reflect_class().call("ownKeys", [target.to_js()]) |> @js.unsafe_cast
 }

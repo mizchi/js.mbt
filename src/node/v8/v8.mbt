@@ -18,6 +18,8 @@ pub fn getHeapStatistics() -> Js {
 
 ///|
 /// Get heap space statistics
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(get_heap_space_statistics)
 pub fn getHeapSpaceStatistics() -> Array[Js] {
   let v8 = ffi_require_v8()

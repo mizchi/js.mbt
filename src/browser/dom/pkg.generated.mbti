@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/web/blob"
   "mizchi/js/web/event"
+  "mizchi/js/web/http"
   "mizchi/js/web/worker"
 )
 
@@ -39,12 +40,14 @@ fn window() -> Window
 // Errors
 
 // Types and methods
-#external
-pub type AnimationEvent
-fn AnimationEvent::animationName(Self) -> String
-fn AnimationEvent::elapsedTime(Self) -> Double
-fn AnimationEvent::pseudoElement(Self) -> String
+pub(all) struct AnimationEvent {
+  animationName : String
+  elapsedTime : Double
+  pseudoElement : String
+}
+impl @js.JsImpl for AnimationEvent
 impl EventImpl for AnimationEvent
+impl Show for AnimationEvent
 
 #external
 pub type CSSRule
@@ -82,14 +85,20 @@ fn CSSStyleSheet::set_disabled(Self, Bool) -> Unit
 fn CSSStyleSheet::title(Self) -> String?
 impl @js.JsImpl for CSSStyleSheet
 
-#external
-pub type ChangeEvent
+pub(all) struct ChangeEvent {
+}
 impl @js.JsImpl for ChangeEvent
 impl EventImpl for ChangeEvent
+impl Show for ChangeEvent
 
-#external
-pub type ClipboardEvent
-fn ClipboardEvent::clipboardData(Self) -> @js.Js?
+pub struct ClipboardData(DataTransfer)
+#deprecated
+fn ClipboardData::inner(Self) -> DataTransfer
+
+pub(all) struct ClipboardEvent {
+  clipboardData : ClipboardData?
+}
+impl @js.JsImpl for ClipboardEvent
 impl EventImpl for ClipboardEvent
 
 pub struct CustomElementCallbacks {
@@ -133,6 +142,24 @@ pub(all) struct DOMRectReadOnly {
   left : Double
 }
 impl @js.JsImpl for DOMRectReadOnly
+
+#external
+pub type DataTransfer
+fn DataTransfer::clearData(Self, String) -> Unit
+fn DataTransfer::dropEffect(Self) -> String
+fn DataTransfer::effectAllowed(Self) -> String
+fn DataTransfer::files(Self) -> Array[@js.Js]
+fn DataTransfer::getData(Self, String) -> String
+fn DataTransfer::items(Self) -> @js.Js
+fn DataTransfer::setData(Self, String, String) -> Unit
+fn DataTransfer::setDropEffect(Self, String) -> Unit
+fn DataTransfer::setEffectAllowed(Self, String) -> Unit
+fn DataTransfer::types(Self) -> Array[String]
+impl @js.JsImpl for DataTransfer
+
+#external
+pub type DataTransferItem
+impl @js.JsImpl for DataTransferItem
 
 #external
 pub type Document
@@ -198,9 +225,9 @@ impl @js.JsImpl for DocumentFragment
 impl NodeImpl for DocumentFragment
 impl @event.EventTargetImpl for DocumentFragment
 
-#external
-pub type DragEvent
-fn DragEvent::dataTransfer(Self) -> @js.Js
+pub(all) struct DragEvent {
+  dataTransfer : DataTransfer?
+}
 impl @js.JsImpl for DragEvent
 impl EventImpl for DragEvent
 
@@ -221,9 +248,10 @@ pub type FocusEvent
 fn FocusEvent::relatedTarget(Self) -> Element?
 impl EventImpl for FocusEvent
 
-#external
-pub type FormEvent
-fn FormEvent::formData(Self) -> @js.Js
+pub(all) struct FormEvent {
+  formData : @http.FormData?
+}
+impl @js.JsImpl for FormEvent
 impl EventImpl for FormEvent
 
 pub(all) struct HTMLAnchorElement {
@@ -253,20 +281,19 @@ impl HTMLElementImpl for HTMLButtonElement
 impl NodeImpl for HTMLButtonElement
 impl @event.EventTargetImpl for HTMLButtonElement
 
-#external
-pub type HTMLCanvasElement
+pub(all) struct HTMLCanvasElement {
+  mut width : Int
+  mut height : Int
+}
 fn HTMLCanvasElement::getContext(Self, String) -> @js.Js
-fn HTMLCanvasElement::height(Self) -> Int
-fn HTMLCanvasElement::setHeight(Self, Int) -> Unit
-fn HTMLCanvasElement::setWidth(Self, Int) -> Unit
 fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @js.Promise[@blob.Blob]
 fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
-fn HTMLCanvasElement::width(Self) -> Int
 impl @js.JsImpl for HTMLCanvasElement
 impl ElementImpl for HTMLCanvasElement
 impl HTMLElementImpl for HTMLCanvasElement
 impl NodeImpl for HTMLCanvasElement
 impl @event.EventTargetImpl for HTMLCanvasElement
+impl Show for HTMLCanvasElement
 
 #external
 pub type HTMLDivElement
@@ -318,25 +345,21 @@ impl HTMLElementImpl for HTMLHtmlElement
 impl NodeImpl for HTMLHtmlElement
 impl @event.EventTargetImpl for HTMLHtmlElement
 
-#external
-pub type HTMLIFrameElement
+pub(all) struct HTMLIFrameElement {
+  mut src : String
+  mut sandbox : String
+  mut width : String
+  mut height : String
+  mut name : String
+}
 fn HTMLIFrameElement::contentDocument(Self) -> Document?
 fn HTMLIFrameElement::contentWindow(Self) -> Window?
-fn HTMLIFrameElement::height(Self) -> String
-fn HTMLIFrameElement::name(Self) -> String
-fn HTMLIFrameElement::sandbox(Self) -> String
-fn HTMLIFrameElement::setHeight(Self, String) -> Unit
-fn HTMLIFrameElement::setName(Self, String) -> Unit
-fn HTMLIFrameElement::setSandbox(Self, String) -> Unit
-fn HTMLIFrameElement::setSrc(Self, String) -> Unit
-fn HTMLIFrameElement::setWidth(Self, String) -> Unit
-fn HTMLIFrameElement::src(Self) -> String
-fn HTMLIFrameElement::width(Self) -> String
 impl @js.JsImpl for HTMLIFrameElement
 impl ElementImpl for HTMLIFrameElement
 impl HTMLElementImpl for HTMLIFrameElement
 impl NodeImpl for HTMLIFrameElement
 impl @event.EventTargetImpl for HTMLIFrameElement
+impl Show for HTMLIFrameElement
 
 pub(all) struct HTMLImageElement {
   mut src : String
@@ -445,25 +468,29 @@ impl HTMLElementImpl for HTMLUListElement
 impl NodeImpl for HTMLUListElement
 impl @event.EventTargetImpl for HTMLUListElement
 
-#external
-pub type InputEvent
-fn InputEvent::data(Self) -> String?
-fn InputEvent::inputType(Self) -> String
+pub(all) struct InputEvent {
+  data : String?
+  inputType : String
+}
+impl @js.JsImpl for InputEvent
 impl EventImpl for InputEvent
+impl Show for InputEvent
 
-#external
-pub type KeyboardEvent
-fn KeyboardEvent::altKey(Self) -> Bool
-fn KeyboardEvent::code(Self) -> String
-fn KeyboardEvent::ctrl_key(Self) -> Bool
-fn KeyboardEvent::key(Self) -> String
-fn KeyboardEvent::keyCode(Self) -> Int
-fn KeyboardEvent::location(Self) -> Int
-fn KeyboardEvent::metaKey(Self) -> Bool
-fn KeyboardEvent::repeat(Self) -> Bool
-fn KeyboardEvent::shiftKey(Self) -> Bool
-fn KeyboardEvent::which(Self) -> Int
+pub(all) struct KeyboardEvent {
+  key : String
+  code : String
+  keyCode : Int
+  which : Int
+  ctrlKey : Bool
+  altKey : Bool
+  shiftKey : Bool
+  metaKey : Bool
+  repeat : Bool
+  location : Int
+}
+impl @js.JsImpl for KeyboardEvent
 impl EventImpl for KeyboardEvent
+impl Show for KeyboardEvent
 
 #external
 pub type MediaQueryList
@@ -475,33 +502,35 @@ fn MediaQueryList::remove_change_listener(Self, (Event) -> Unit) -> Unit
 fn MediaQueryList::remove_listener(Self, (Self) -> Unit) -> Unit
 impl @js.JsImpl for MediaQueryList
 
-#external
-pub type MessageEvent
-fn MessageEvent::data(Self) -> @js.Js
-fn MessageEvent::origin(Self) -> String
-fn MessageEvent::ports(Self) -> Array[@js.Js]
+pub(all) struct MessageEvent {
+  data : @js.Js
+  origin : String
+  ports : Array[@worker.MessagePort]
+}
 fn MessageEvent::source(Self) -> Window?
 impl @js.JsImpl for MessageEvent
 impl EventImpl for MessageEvent
+impl Show for MessageEvent
 
-#external
-pub type MouseEvent
-fn MouseEvent::altKey(Self) -> Bool
-fn MouseEvent::button(Self) -> Int
-fn MouseEvent::buttons(Self) -> Int
-fn MouseEvent::clientX(Self) -> Int
-fn MouseEvent::clientY(Self) -> Int
-fn MouseEvent::ctrlKey(Self) -> Bool
-fn MouseEvent::metaKey(Self) -> Bool
-fn MouseEvent::offsetX(Self) -> Int
-fn MouseEvent::offsetY(Self) -> Int
-fn MouseEvent::pageX(Self) -> Int
-fn MouseEvent::pageY(Self) -> Int
-fn MouseEvent::screenX(Self) -> Int
-fn MouseEvent::screenY(Self) -> Int
-fn MouseEvent::shiftKey(Self) -> Bool
+pub(all) struct MouseEvent {
+  clientX : Double
+  clientY : Double
+  screenX : Double
+  screenY : Double
+  offsetX : Double
+  offsetY : Double
+  pageX : Double
+  pageY : Double
+  button : Int
+  buttons : Int
+  ctrlKey : Bool
+  shiftKey : Bool
+  altKey : Bool
+  metaKey : Bool
+}
 impl @js.JsImpl for MouseEvent
 impl EventImpl for MouseEvent
+impl Show for MouseEvent
 
 #external
 pub type Navigator
@@ -529,20 +558,22 @@ impl @js.JsImpl for Node
 impl NodeImpl for Node
 impl @event.EventTargetImpl for Node
 
-#external
-pub type PointerEvent
-fn PointerEvent::height(Self) -> Double
-fn PointerEvent::is_primary(Self) -> Bool
-fn PointerEvent::pointer_id(Self) -> Int
-fn PointerEvent::pointer_type(Self) -> String
-fn PointerEvent::width(Self) -> Double
+pub(all) struct PointerEvent {
+  width : Double
+  height : Double
+  pointerId : Int
+  pointerType : String
+  isPrimary : Bool
+}
 impl @js.JsImpl for PointerEvent
 impl EventImpl for PointerEvent
+impl Show for PointerEvent
 
-#external
-pub type ScrollEvent
+pub(all) struct ScrollEvent {
+}
 impl @js.JsImpl for ScrollEvent
 impl EventImpl for ScrollEvent
+impl Show for ScrollEvent
 
 #external
 pub type ShadowRoot
@@ -572,46 +603,54 @@ impl @js.JsImpl for Text
 impl NodeImpl for Text
 impl @event.EventTargetImpl for Text
 
-#external
-pub type Touch
-fn Touch::clientX(Self) -> Double
-fn Touch::clientY(Self) -> Double
-fn Touch::force(Self) -> Double
-fn Touch::identifier(Self) -> Int
-fn Touch::pageX(Self) -> Double
-fn Touch::pageY(Self) -> Double
-fn Touch::radiusX(Self) -> Double
-fn Touch::radiusY(Self) -> Double
-fn Touch::rotationAngle(Self) -> Double
-fn Touch::screenX(Self) -> Double
-fn Touch::screenY(Self) -> Double
+pub(all) struct Touch {
+  identifier : Int
+  clientX : Double
+  clientY : Double
+  screenX : Double
+  screenY : Double
+  pageX : Double
+  pageY : Double
+  radiusX : Double
+  radiusY : Double
+  rotationAngle : Double
+  force : Double
+}
 fn Touch::target(Self) -> Element
+impl @js.JsImpl for Touch
+impl Show for Touch
 
-#external
-pub type TouchEvent
-fn TouchEvent::altKey(Self) -> Bool
-fn TouchEvent::changedTouches(Self) -> @js.Js
-fn TouchEvent::ctrlKey(Self) -> Bool
-fn TouchEvent::metaKey(Self) -> Bool
-fn TouchEvent::shiftKey(Self) -> Bool
-fn TouchEvent::targetTouches(Self) -> @js.Js
-fn TouchEvent::touches(Self) -> @js.Js
+pub(all) struct TouchEvent {
+  touches : Array[Touch]
+  targetTouches : Array[Touch]
+  changedTouches : Array[Touch]
+  altKey : Bool
+  ctrlKey : Bool
+  shiftKey : Bool
+  metaKey : Bool
+}
+impl @js.JsImpl for TouchEvent
 impl EventImpl for TouchEvent
+impl Show for TouchEvent
 
-#external
-pub type TransitionEvent
-fn TransitionEvent::elapsedTime(Self) -> Double
-fn TransitionEvent::propertyName(Self) -> String
-fn TransitionEvent::pseudoElement(Self) -> String
+pub(all) struct TransitionEvent {
+  propertyName : String
+  elapsedTime : Double
+  pseudoElement : String
+}
+impl @js.JsImpl for TransitionEvent
 impl EventImpl for TransitionEvent
+impl Show for TransitionEvent
 
-#external
-pub type WheelEvent
-fn WheelEvent::delta_mode(Self) -> Int
-fn WheelEvent::delta_x(Self) -> Double
-fn WheelEvent::delta_y(Self) -> Double
-fn WheelEvent::delta_z(Self) -> Double
+pub(all) struct WheelEvent {
+  deltaX : Double
+  deltaY : Double
+  deltaZ : Double
+  deltaMode : Int
+}
+impl @js.JsImpl for WheelEvent
 impl EventImpl for WheelEvent
+impl Show for WheelEvent
 
 #external
 pub type Window

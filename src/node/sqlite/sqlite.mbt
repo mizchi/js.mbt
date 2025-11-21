@@ -262,6 +262,9 @@ pub fn StatementSync::get_(
 }
 
 ///|
+/// Get column information
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn StatementSync::columns(self : Self) -> Array[Js] {
   self.call0("columns") |> unsafe_cast
 }

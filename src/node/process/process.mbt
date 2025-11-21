@@ -18,6 +18,8 @@ pub fn env() -> ProcessEnv {
 
 ///|
 /// JS: process.argv
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn argv() -> Array[String] {
   unsafe_cast(process().get("argv"))
 }

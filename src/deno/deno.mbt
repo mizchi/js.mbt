@@ -57,6 +57,8 @@ pub fn Deno::exit(self : Deno, code? : Int) -> Unit {
 
 ///|
 /// Get command line arguments
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Deno::args(self : Deno) -> Array[String] {
   self.get("args") |> @js.unsafe_cast
 }
@@ -283,6 +285,8 @@ pub fn Deno::osUptime(self : Deno) -> Int {
 
 ///|
 /// Get system load average (Unix only)
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Deno::loadavg(self : Deno) -> Array[Double] {
   self.call("loadavg", []) |> @js.unsafe_cast
 }

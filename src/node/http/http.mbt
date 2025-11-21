@@ -48,6 +48,8 @@ pub fn IncomingMessage::headers(self : IncomingMessage) -> Js {
 
 ///|
 /// Get raw headers
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn IncomingMessage::rawHeaders(self : IncomingMessage) -> Array[String] {
   self.get("rawHeaders") |> unsafe_cast
 }

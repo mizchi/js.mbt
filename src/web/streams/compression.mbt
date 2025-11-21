@@ -75,7 +75,7 @@ extern "js" fn new_decompression_stream(format : String) -> DecompressionStream 
 ///|
 /// Get the readable side of the decompression stream
 pub fn DecompressionStream::readable(
-  self : DecompressionStream
+  self : DecompressionStream,
 ) -> ReadableStream {
   self.get("readable") |> unsafe_cast
 }
@@ -83,7 +83,7 @@ pub fn DecompressionStream::readable(
 ///|
 /// Get the writable side of the decompression stream
 pub fn DecompressionStream::writable(
-  self : DecompressionStream
+  self : DecompressionStream,
 ) -> WritableStream {
   self.get("writable") |> unsafe_cast
 }

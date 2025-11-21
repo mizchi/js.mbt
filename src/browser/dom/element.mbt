@@ -84,6 +84,8 @@ impl ElementImpl with hasAttribute(self, name) -> Bool {
 }
 
 ///|
+/// Returns a static array of elements with the specified tag name.
+/// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
   @js.array_from(self.call("getElementsByTagName", [tag_name])).map(fn(v) {
     unsafe_cast(v)
@@ -91,6 +93,8 @@ impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
 }
 
 ///|
+/// Returns a static array of elements with the specified class name.
+/// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element] {
   @js.array_from(self.call("getElementsByClassName", [class_name])).map(fn(v) {
     unsafe_cast(v)
@@ -109,6 +113,8 @@ impl ElementImpl with querySelector(self, selector) -> Element? {
 // }
 
 ///|
+/// Returns a static array of elements matching the specified CSS selector.
+/// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
   @js.array_from(self.call("querySelectorAll", [selector])).map(unsafe_cast(_))
 }

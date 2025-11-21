@@ -26,6 +26,8 @@ pub fn arch() -> String {
 /// # Returns
 ///
 /// An array of CPU information objects
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn cpus() -> Array[Js] {
   unsafe_cast(os_module().call0("cpus"))
 }
@@ -64,6 +66,8 @@ pub fn hostname() -> String {
 /// # Returns
 ///
 /// Load averages [1min, 5min, 15min]
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn loadavg() -> Array[Double] {
   unsafe_cast(os_module().call0("loadavg"))
 }

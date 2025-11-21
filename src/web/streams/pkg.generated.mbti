@@ -11,6 +11,20 @@ import(
 
 // Types and methods
 #external
+pub type CompressionStream
+fn CompressionStream::new(String) -> Self
+fn CompressionStream::readable(Self) -> ReadableStream
+fn CompressionStream::writable(Self) -> WritableStream
+impl @js.JsImpl for CompressionStream
+
+#external
+pub type DecompressionStream
+fn DecompressionStream::new(String) -> Self
+fn DecompressionStream::readable(Self) -> ReadableStream
+fn DecompressionStream::writable(Self) -> WritableStream
+impl @js.JsImpl for DecompressionStream
+
+#external
 pub type ReadableStream
 fn ReadableStream::cancel(Self, reason? : @js.Js) -> @js.Promise[Unit]
 #alias(get_reader)

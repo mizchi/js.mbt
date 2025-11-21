@@ -18,8 +18,12 @@ pub impl ElementImpl for HTMLDivElement
 pub impl HTMLElementImpl for HTMLDivElement
 
 ///|
-#external
-pub type HTMLCanvasElement
+/// HTMLCanvasElement represents a <canvas> element
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
+pub(all) struct HTMLCanvasElement {
+  mut width : Int
+  mut height : Int
+} derive(Show)
 
 ///|
 pub impl JsImpl for HTMLCanvasElement
@@ -35,27 +39,6 @@ pub impl ElementImpl for HTMLCanvasElement
 
 ///|
 pub impl HTMLElementImpl for HTMLCanvasElement
-
-///|
-/// Canvas properties
-pub fn HTMLCanvasElement::width(self : Self) -> Int {
-  self.get("width") |> unsafe_cast
-}
-
-///|
-pub fn HTMLCanvasElement::setWidth(self : Self, value : Int) -> Unit {
-  self.set("width", value)
-}
-
-///|
-pub fn HTMLCanvasElement::height(self : Self) -> Int {
-  self.get("height") |> unsafe_cast
-}
-
-///|
-pub fn HTMLCanvasElement::setHeight(self : Self, value : Int) -> Unit {
-  self.set("height", value)
-}
 
 ///|
 /// Canvas methods
@@ -274,8 +257,15 @@ pub impl ElementImpl for HTMLTextAreaElement
 pub impl HTMLElementImpl for HTMLTextAreaElement
 
 ///|
-#external
-pub type HTMLIFrameElement
+/// HTMLIFrameElement represents an <iframe> element
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement
+pub(all) struct HTMLIFrameElement {
+  mut src : String
+  mut sandbox : String
+  mut width : String
+  mut height : String
+  mut name : String
+} derive(Show)
 
 ///|
 pub impl JsImpl for HTMLIFrameElement
@@ -293,19 +283,6 @@ pub impl ElementImpl for HTMLIFrameElement
 pub impl HTMLElementImpl for HTMLIFrameElement
 
 ///|
-/// Returns the src attribute
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/src
-pub fn HTMLIFrameElement::src(self : Self) -> String {
-  self.get("src") |> unsafe_cast
-}
-
-///|
-/// Sets the src attribute
-pub fn HTMLIFrameElement::setSrc(self : Self, src : String) -> Unit {
-  self.set("src", src)
-}
-
-///|
 /// Returns the content window
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
 pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
@@ -317,58 +294,6 @@ pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
 pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
   self.get("contentDocument") |> @js.unsafe_cast_option()
-}
-
-///|
-/// Returns the width attribute
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/width
-pub fn HTMLIFrameElement::width(self : Self) -> String {
-  self.get("width") |> unsafe_cast
-}
-
-///|
-/// Sets the width attribute
-pub fn HTMLIFrameElement::setWidth(self : Self, width : String) -> Unit {
-  self.set("width", width)
-}
-
-///|
-/// Returns the height attribute
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/height
-pub fn HTMLIFrameElement::height(self : Self) -> String {
-  self.get("height") |> unsafe_cast
-}
-
-///|
-/// Sets the height attribute
-pub fn HTMLIFrameElement::setHeight(self : Self, height : String) -> Unit {
-  self.set("height", height)
-}
-
-///|
-/// Returns the name attribute
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/name
-pub fn HTMLIFrameElement::name(self : Self) -> String {
-  self.get("name") |> unsafe_cast
-}
-
-///|
-/// Sets the name attribute
-pub fn HTMLIFrameElement::setName(self : Self, name : String) -> Unit {
-  self.set("name", name)
-}
-
-///|
-/// Returns the sandbox attribute
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/sandbox
-pub fn HTMLIFrameElement::sandbox(self : Self) -> String {
-  self.get("sandbox") |> unsafe_cast
-}
-
-///|
-/// Sets the sandbox attribute
-pub fn HTMLIFrameElement::setSandbox(self : Self, sandbox : String) -> Unit {
-  self.set("sandbox", sandbox)
 }
 
 ///|

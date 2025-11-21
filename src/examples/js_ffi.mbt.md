@@ -434,10 +434,8 @@ test "types implementing JsImpl" {
   let obj = @js.Object::new()
   obj.set("value", 42)
   let js_obj : @js.Js = obj.to_js()
-  
   let arr = @js.JsArray::from([1, 2, 3])
   let js_arr : @js.Js = arr.to_js()
-  
   assert_eq(@js.is_object(js_obj), true)
   assert_eq(@js.is_array(js_arr), true)
 }
@@ -507,7 +505,6 @@ test "structured return types" {
   stats_obj.set("isDirectory", false)
   stats_obj.set("size", 1024)
   stats_obj.set("mtime", 1234567890)
-
   let stats = parse_stats(stats_obj.to_js())
   assert_eq(stats.isFile, true)
   assert_eq(stats.size, 1024)
@@ -531,7 +528,6 @@ test "flexible configuration objects" {
   // Stream options are complex and vary by use case
   let opts = @js.Object::new()
   opts.set("highWaterMark", 1024)
-  
   let stream = create_readable_stream(opts.to_js())
   assert_eq(@js.is_object(stream), true)
 }

@@ -119,6 +119,8 @@ pub fn copyFileSync(src : String, dest : String) -> Unit {
 
 ///|
 /// Read directory contents synchronously
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(readdir_sync)
 pub fn readdirSync(path : String) -> Array[String] {
   let fs = fs_module()

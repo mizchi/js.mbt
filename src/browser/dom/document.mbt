@@ -75,6 +75,8 @@ pub fn Document::getElementById(self : Self, id : String) -> Element? {
 ///|
 /// Returns elements with the specified class name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(get_elements_by_class_name)
 pub fn Document::getElementsByClassName(
   self : Self,
@@ -88,6 +90,8 @@ pub fn Document::getElementsByClassName(
 ///|
 /// Returns elements with the specified tag name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByTagName
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(get_elements_by_tag_name)
 pub fn Document::getElementsByTagName(
   self : Self,
@@ -258,6 +262,8 @@ pub fn Document::elementFromPoint(
 ///|
 /// Returns elements from point within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/elementsFromPoint
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Document::elementsFromPoint(
   self : Self,
   x : Double,

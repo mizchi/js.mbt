@@ -58,6 +58,9 @@ fn globalThis() -> Js
 
 fn[T : JsImpl] instanceof_(T, T) -> Bool
 
+#alias(is_finite)
+fn isFinite(Double) -> Bool
+
 fn[T : JsImpl] isNaN(T) -> Bool
 
 fn[T : JsImpl] is_array(T) -> Bool
@@ -83,6 +86,12 @@ fn new_(Js, Array[&JsImpl]) -> Js
 fn null_() -> Js
 
 fn[T : JsImpl] option_js(T) -> Js?
+
+#alias(parse_float)
+fn parseFloat(String) -> Double?
+
+#alias(parse_int)
+fn parseInt(String, radix? : Int) -> Int?
 
 fn[R] promisify0(async () -> R) -> () -> Promise[R]
 
