@@ -20,6 +20,7 @@ pub fn HonoRequest::query(self : Self, key : String) -> String? {
 
 ///|
 /// Get all query parameters
+#alias(query_all)
 pub fn HonoRequest::queryAll(self : Self) -> Js {
   self.call0("query")
 }
@@ -38,6 +39,7 @@ pub fn HonoRequest::param(self : Self, key : String) -> String? {
 
 ///|
 /// Get all path parameters
+#alias(param_all)
 pub fn HonoRequest::paramAll(self : Self) -> Js {
   self.call0("param")
 }
@@ -71,6 +73,7 @@ pub fn HonoRequest::text(self : Self) -> Promise[String] {
 ///|
 /// Parse request body as form data
 /// https://hono.dev/docs/api/request#formdata
+#alias(form_data)
 pub fn HonoRequest::formData(self : Self) -> Promise[@http.FormData] {
   self.call0("formData") |> unsafe_cast
 }
@@ -78,6 +81,7 @@ pub fn HonoRequest::formData(self : Self) -> Promise[@http.FormData] {
 ///|
 /// Parse request body as array buffer
 /// https://hono.dev/docs/api/request#arraybuffer
+#alias(array_buffer)
 pub fn HonoRequest::arrayBuffer(
   self : Self,
 ) -> Promise[@arraybuffer.ArrayBuffer] {
@@ -104,6 +108,7 @@ pub fn HonoRequest::path(self : Self) -> String {
 
 ///|
 /// Check if request body has been used
+#alias(body_used)
 pub fn HonoRequest::bodyUsed(self : Self) -> Bool {
   self.get("bodyUsed") |> unsafe_cast
 }

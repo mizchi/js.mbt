@@ -110,6 +110,7 @@ pub fn Hono::fire(self : Self) -> Hono {
 ///|
 /// Set base path
 /// https://hono.dev/docs/api/hono#basepath
+#alias(base_path)
 pub fn Hono::basePath(self : Self, path : String) -> Hono {
   self.call("basePath", [path]) |> unsafe_cast
 }
@@ -117,6 +118,7 @@ pub fn Hono::basePath(self : Self, path : String) -> Hono {
 ///|
 /// Custom 404 handler
 /// https://hono.dev/docs/api/hono#notfound
+#alias(not_found)
 pub fn Hono::notFound(self : Self, handler : Handler) -> Hono {
   self.call("notFound", [unsafe_js(handler)]) |> unsafe_cast
 }
@@ -124,6 +126,7 @@ pub fn Hono::notFound(self : Self, handler : Handler) -> Hono {
 ///|
 /// Error handler
 /// https://hono.dev/docs/api/hono#onerror
+#alias(on_error)
 pub fn Hono::onError(
   self : Self,
   handler : (Js, Context) -> @http.Response,

@@ -64,6 +64,7 @@ pub fn Context::redirect(self : Self, url : String, status? : Int) -> @http.Resp
 ///|
 /// Return 404 Not Found
 /// https://hono.dev/docs/api/context#notfound
+#alias(not_found)
 pub fn Context::notFound(self : Self) -> @http.Response {
   self.call0("notFound") |> unsafe_cast
 }
@@ -91,6 +92,7 @@ pub fn Context::set(self : Self, key : String, value : Js) -> Unit {
 
 ///|
 /// Get a value from context
+#alias(get_value)
 pub fn Context::getValue(self : Self, key : String) -> Js {
   self.call("get", [key])
 }
