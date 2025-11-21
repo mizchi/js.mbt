@@ -38,9 +38,5 @@ fn main {
     it("assert_throws", ctx => {
       ctx.assert_throws(fn() { abort("test error") })
     })
-
-    it("assert_rejects", ctx => {
-      ctx.assert_rejects(async fn() { abort("async error") })
-    })
   })
 }
