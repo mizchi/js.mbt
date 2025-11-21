@@ -46,17 +46,20 @@ pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Js {
 /// Convert an array of tuples with optional values to a JavaScript object.
 /// Only sets properties where the value is Some.
 ///
+/// **Use this when values have mixed types (String, Int, Bool, etc).**
+/// For single-type values, use `from_entries_option_cast` which has better type inference.
+///
 /// # Example
 ///
 /// ```moonbit
 /// let entries : Array[(String, &JsImpl?)] = [
-///   ("name", Some("Alice")),
-///   ("age", Some(30)),
+///   ("name", Some("Alice")),  // String
+///   ("age", Some(30)),        // Int
+///   ("active", Some(true)),   // Bool - mixed types!
 ///   ("email", None)
 /// ]
 /// let _obj = from_entries_option(entries)
-/// // JavaScript: { name: "Alice", age: 30 }
-/// // Note: "email" is not included because it was None
+/// // JavaScript: { name: "Alice", age: 30, active: true }
 /// ```
 pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Js {
   let obj = Object::new()
@@ -71,13 +74,17 @@ pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Js {
 }
 
 ///|
-/// Convert an array of tuples with optional JsImpl values to a JavaScript object.
+/// Convert an array of tuples with optional values to a JavaScript object.
 /// Accepts Option[T] where T: JsImpl directly without requiring .map().
 /// Only sets properties where the value is Some.
+///
+/// **Use this when all values have the same type for better type inference.**
+/// For mixed types (String, Int, Bool, etc), use `from_entries_option`.
 ///
 /// # Example
 ///
 /// ```moonbit
+/// // All values are Bool - use this function!
 /// let _obj = from_entries_option_cast([
 ///   ("open", Some(true)),
 ///   ("readOnly", Some(false)),

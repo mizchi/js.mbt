@@ -33,8 +33,6 @@ fn encodeURI(String) -> String
 #alias(encode_uri_component)
 fn encodeURIComponent(String) -> String
 
-fn ffi_is_undefined(Js) -> Bool
-
 fn[T : JsImpl] from_array(Array[T]) -> Js
 
 fn from_builtin_json(Json) -> Js
