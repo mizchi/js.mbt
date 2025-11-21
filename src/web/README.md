@@ -42,6 +42,8 @@ These APIs work consistently across:
 | Worker | `mizchi/js/web/worker` | ✅ Tested | Web Workers |
 | MessagePort | `mizchi/js/web/worker` | ✅ Tested | Message passing |
 | MessageChannel | `mizchi/js/web/worker` | ✅ Tested | Channel messaging |
+| **WebAssembly** |
+| WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
 
 ### Status Legend
 
@@ -52,6 +54,8 @@ These APIs work consistently across:
 ## Overview
 
 This package provides comprehensive bindings to **Web Standard APIs** - the common subset of APIs standardized by WHATWG and W3C that work universally across JavaScript runtimes.
+
+**Classification follows [WinterCG (Web-interoperable Runtimes Community Group)](https://wintercg.org/) definitions**, specifically the [Minimum Common Web Platform API](https://common-min-api.proposal.wintercg.org/) specification. APIs in `mizchi/js/web/*` are platform-independent and work across browsers, Node.js, Deno, Bun, and edge runtimes.
 
 ### Why Use web/* Packages?
 
@@ -83,6 +87,7 @@ Add specific sub-packages to your `moon.pkg.json`:
     "mizchi/js/web/http",
     "mizchi/js/web/streams",
     "mizchi/js/web/url",
+    "mizchi/js/web/webassembly",
     "mizchi/js/web/websocket",
     "mizchi/js/web/worker"
   ]
@@ -352,8 +357,11 @@ All APIs follow official **WHATWG** and **W3C** specifications, ensuring compati
 - [WebSocket API](https://websockets.spec.whatwg.org/) - Real-time bidirectional communication
 - [Web Workers](https://html.spec.whatwg.org/multipage/workers.html) - Background processing
 - [URL Standard](https://url.spec.whatwg.org/) - URL parsing and manipulation
+- [WebAssembly JavaScript Interface](https://webassembly.github.io/spec/js-api/) - WASM integration
 
-These bindings are also compatible with [WinterCG](https://wintercg.org/) (Web-interoperable Runtimes Community Group) standards.
+These bindings follow [WinterCG (Web-interoperable Runtimes Community Group)](https://wintercg.org/) standards, specifically:
+- [Minimum Common Web Platform API](https://common-min-api.proposal.wintercg.org/) - Core APIs that work across all JavaScript runtimes
+- [Runtime Keys](https://runtime-keys.proposal.wintercg.org/) - Runtime detection and capabilities
 
 ## License
 

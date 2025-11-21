@@ -9,5 +9,6 @@
 ///| - mizchi/js/web/http - Fetch API (Request, Response, Headers)
 ///| - mizchi/js/web/streams - Streams API
 ///| - mizchi/js/web/url - URL APIs (URL, URLSearchParams, URLPattern)
+///| - mizchi/js/web/webassembly - WebAssembly API
 ///| - mizchi/js/web/websocket - WebSocket API
 ///| - mizchi/js/web/worker - Web Workers API

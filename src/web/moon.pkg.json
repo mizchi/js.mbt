@@ -8,6 +8,7 @@
     "mizchi/js/web/http",
     "mizchi/js/web/streams",
     "mizchi/js/web/url",
+    "mizchi/js/web/webassembly",
     "mizchi/js/web/websocket",
     "mizchi/js/web/worker"
   ]

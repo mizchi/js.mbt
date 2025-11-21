@@ -61,6 +61,7 @@ Platform-independent Web Standard APIs that work across browsers, Node.js, Deno,
 - **[mizchi/js/web/encoding](./src/web/encoding/)** - Encoding API (TextEncoder, TextDecoder)
 - **[mizchi/js/web/event](./src/web/event/)** - Event APIs (Event, CustomEvent, MessageEvent)
 - **[mizchi/js/web/crypto](./src/web/crypto/)** - Web Crypto API for cryptographic operations
+- **[mizchi/js/web/webassembly](./src/web/webassembly/)** - WebAssembly API for WASM integration
 - **[mizchi/js/web/websocket](./src/web/websocket/)** - WebSocket API for real-time communication
 - **[mizchi/js/web/worker](./src/web/worker/)** - Web Workers API for background processing
 

@@ -52,8 +52,7 @@ Comprehensive JavaScript FFI bindings for MoonBit, providing type-safe access to
 | WebSocket | `mizchi/js/web/websocket` | ✅ Tested | WebSocket API |
 | Worker | `mizchi/js/web/worker` | ✅ Tested | Web Workers |
 | MessageChannel | `mizchi/js/web/worker` | ✅ Tested | Message passing |
-| **Advanced** |
-| WebAssembly | `mizchi/js/webassembly` | 🤖 AI Generated | WASM integration |
+| WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
 | **Platform-Specific** |
 | Node.js APIs | `mizchi/js/node/*` | 🚧 Partially | See [node/README](./node/README.md) |
 | DOM APIs | `mizchi/js/browser/*` | ✅ Tested | See [browser/dom/README](./browser/dom/README.md) |
@@ -103,6 +102,7 @@ mizchi/js/
 │   ├── http/                  - Fetch API (Request/Response/Headers/FormData)
 │   ├── streams/               - Streams API (ReadableStream/WritableStream)
 │   ├── url/                   - URL APIs (URL/URLSearchParams/URLPattern)
+│   ├── webassembly/           - WebAssembly API
 │   ├── websocket/             - WebSocket API
 │   └── worker/                - Web Workers API
 ├── browser/                   - Browser-specific APIs
