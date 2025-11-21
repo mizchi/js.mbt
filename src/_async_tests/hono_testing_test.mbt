@@ -8,7 +8,7 @@ test "testClient with simple GET route" {
   app.get("/hello", fn(c) { c.text("Hello World") }) |> ignore
 
   // Create test client
-  let client = @hono_testing.test_client(app)
+  let client = @hono.test_client(app)
 
   // Access the route
   let endpoint = client.path("hello")
@@ -29,7 +29,7 @@ test "testClient with JSON response" {
   |> ignore
 
   // Create test client
-  let client = @hono_testing.test_client(app)
+  let client = @hono.test_client(app)
 
   // Access the route
   let endpoint = client.path("api/user")
@@ -46,7 +46,7 @@ test "testClient with POST route" {
   app.post("/api/create", fn(c) { c.text("Created") }) |> ignore
 
   // Create test client
-  let client = @hono_testing.test_client(app)
+  let client = @hono.test_client(app)
 
   // Access the route
   let endpoint = client.path("api/create")

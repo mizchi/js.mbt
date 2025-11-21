@@ -16,7 +16,7 @@ extern "js" fn ffi_test_client(app : @js.Js) -> @js.Js =
 /// Create a test client for a Hono application
 /// Original: testClient(app)
 pub fn[Env, ExecutionContext] test_client(
-  app : @hono.Hono[Env, ExecutionContext],
-) -> @hono.HonoClient {
+  app : Hono[Env, ExecutionContext],
+) -> HonoClient {
   ffi_test_client(@js.unsafe_cast(app)) |> @js.unsafe_cast
 }

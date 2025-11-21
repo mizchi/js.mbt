@@ -10,6 +10,8 @@ import(
 // Values
 fn hc(String) -> HonoClient
 
+fn[Env, ExecutionContext] test_client(Hono[Env, ExecutionContext]) -> HonoClient
+
 // Errors
 
 // Types and methods
