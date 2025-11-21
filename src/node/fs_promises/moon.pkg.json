@@ -1,4 +1,4 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/iterator", "mizchi/js/node"]
+  "import": ["mizchi/js", "mizchi/js/node"]
 }

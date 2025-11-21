@@ -1,19 +1,9 @@
 {
-  "supported-targets": [
-    "js"
-  ],
+  "supported-targets": ["js"],
   "link": {
     "js": {
-      "exports": [
-        "get_fetch_handler",
-        "get_kv_handler"
-      ]
+      "exports": ["get_fetch_handler", "get_kv_handler"]
     }
   },
-  "import": [
-    "mizchi/js",
-    "mizchi/js/http",
-    "mizchi/js/cloudflare",
-    "mizchi/js/url"
-  ]
+  "import": ["mizchi/js", "mizchi/js/http", "mizchi/js/cloudflare"]
 }
