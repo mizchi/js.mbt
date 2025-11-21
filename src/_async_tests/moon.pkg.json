@@ -49,6 +49,14 @@
     {
       "path": "mizchi/js/npm/react_dom_client",
       "alias": "react_dom_client"
+    },
+    {
+      "path": "mizchi/js/npm/hono",
+      "alias": "hono"
+    },
+    {
+      "path": "mizchi/js/npm/hono_testing",
+      "alias": "hono_testing"
     }
   ]
 }

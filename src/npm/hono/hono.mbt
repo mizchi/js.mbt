@@ -12,7 +12,7 @@ pub type Hono[Env, ExecutionContext]
 pub impl[Env, ExecutionContext] @js.JsImpl for Hono[Env, ExecutionContext]
 
 ///|
-/// Create a new Hono instance
+/// Create a new Hono instance without options
 /// https://hono.dev/docs/api/hono#new-hono
 extern "js" fn ffi_new_hono() -> Js =
   #| () => {
@@ -21,8 +21,34 @@ extern "js" fn ffi_new_hono() -> Js =
   #| }
 
 ///|
-pub fn[Env, ExecutionContext] Hono::new() -> Hono[Env, ExecutionContext] {
-  unsafe_cast(ffi_new_hono())
+/// Create a new Hono instance with options
+/// https://hono.dev/docs/api/hono#new-hono
+extern "js" fn ffi_new_hono_with_options(options : Js) -> Js =
+  #| (options) => {
+  #|   const { Hono } = require('hono');
+  #|   return new Hono(options);
+  #| }
+
+///|
+/// Build Hono options object
+extern "js" fn build_hono_options(strict : Bool) -> Js =
+  #| (strict) => {
+  #|   return { strict };
+  #| }
+
+///|
+/// Create a new Hono instance
+/// Example with strict mode disabled:
+/// ```moonbit
+/// let app = Hono::new(strict=false)
+/// ```
+pub fn[Env, ExecutionContext] Hono::new(
+  strict? : Bool,
+) -> Hono[Env, ExecutionContext] {
+  match strict {
+    Some(s) => unsafe_cast(ffi_new_hono_with_options(build_hono_options(s)))
+    None => unsafe_cast(ffi_new_hono())
+  }
 }
 
 ///|

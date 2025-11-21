@@ -69,7 +69,7 @@ fn[Env, ExecutionContext] Hono::fetch(Self[Env, ExecutionContext], @http.Request
 fn[Env, ExecutionContext] Hono::fire(Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::get(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::mount(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::new() -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::new(strict? : Bool) -> Self[Env, ExecutionContext]
 #alias(not_found)
 fn[Env, ExecutionContext] Hono::notFound(Self[Env, ExecutionContext], (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 #alias(on_error)

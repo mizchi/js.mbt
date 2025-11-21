@@ -2,7 +2,6 @@
 /// Note: These tests require 'hono/client' package to be installed
 /// They will fail in environments without the Hono library
 /// The tests are kept to verify API signature compatibility
-
 test "hc function signature compiles" {
   // Just verify the function signature compiles
   // Actual runtime test would require Hono library
