@@ -127,12 +127,12 @@ pub fn ClientEndpoint::get_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_empty() == false ||
-    form.is_empty() == false ||
-    json.is_empty() == false ||
-    param.is_empty() == false ||
-    header.is_empty() == false ||
-    init.is_empty() == false
+  let has_options = query.is_some() ||
+    form.is_some() ||
+    json.is_some() ||
+    param.is_some() ||
+    header.is_some() ||
+    init.is_some()
   if has_options {
     let opts = build_request_options(
       query.or(@js.undefined()),
@@ -170,12 +170,12 @@ pub fn ClientEndpoint::post_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_empty() == false ||
-    form.is_empty() == false ||
-    json.is_empty() == false ||
-    param.is_empty() == false ||
-    header.is_empty() == false ||
-    init.is_empty() == false
+  let has_options = query.is_some() ||
+    form.is_some() ||
+    json.is_some() ||
+    param.is_some() ||
+    header.is_some() ||
+    init.is_some()
   if has_options {
     let opts = build_request_options(
       query.or(@js.undefined()),
@@ -213,12 +213,12 @@ pub fn ClientEndpoint::put_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_empty() == false ||
-    form.is_empty() == false ||
-    json.is_empty() == false ||
-    param.is_empty() == false ||
-    header.is_empty() == false ||
-    init.is_empty() == false
+  let has_options = query.is_some() ||
+    form.is_some() ||
+    json.is_some() ||
+    param.is_some() ||
+    header.is_some() ||
+    init.is_some()
   if has_options {
     let opts = build_request_options(
       query.or(@js.undefined()),
@@ -256,12 +256,12 @@ pub fn ClientEndpoint::delete_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_empty() == false ||
-    form.is_empty() == false ||
-    json.is_empty() == false ||
-    param.is_empty() == false ||
-    header.is_empty() == false ||
-    init.is_empty() == false
+  let has_options = query.is_some() ||
+    form.is_some() ||
+    json.is_some() ||
+    param.is_some() ||
+    header.is_some() ||
+    init.is_some()
   if has_options {
     let opts = build_request_options(
       query.or(@js.undefined()),
@@ -299,12 +299,12 @@ pub fn ClientEndpoint::patch_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_empty() == false ||
-    form.is_empty() == false ||
-    json.is_empty() == false ||
-    param.is_empty() == false ||
-    header.is_empty() == false ||
-    init.is_empty() == false
+  let has_options = query.is_some() ||
+    form.is_some() ||
+    json.is_some() ||
+    param.is_some() ||
+    header.is_some() ||
+    init.is_some()
   if has_options {
     let opts = build_request_options(
       query.or(@js.undefined()),
@@ -342,12 +342,12 @@ pub fn ClientEndpoint::url_(
   header? : Js,
   init? : Js,
 ) -> String {
-  let has_options = query.is_empty() == false ||
-    form.is_empty() == false ||
-    json.is_empty() == false ||
-    param.is_empty() == false ||
-    header.is_empty() == false ||
-    init.is_empty() == false
+  let has_options = query.is_some() ||
+    form.is_some() ||
+    json.is_some() ||
+    param.is_some() ||
+    header.is_some() ||
+    init.is_some()
   if has_options {
     let opts = build_request_options(
       query.or(@js.undefined()),
