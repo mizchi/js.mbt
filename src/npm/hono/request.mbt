@@ -89,6 +89,24 @@ pub fn HonoRequest::arrayBuffer(
 }
 
 ///|
+/// Parse request body as blob
+/// https://hono.dev/docs/api/request#blob
+pub fn HonoRequest::blob(self : Self) -> Promise[Js] {
+  self.call0("blob") |> unsafe_cast
+}
+
+///|
+/// Parse request body of multipart/form-data or application/x-www-form-urlencoded
+/// https://hono.dev/docs/api/request#parsebody
+#alias(parse_body)
+pub fn HonoRequest::parseBody(self : Self, options? : Js) -> Promise[Js] {
+  match options {
+    Some(opts) => self.call("parseBody", [opts]) |> unsafe_cast
+    None => self.call0("parseBody") |> unsafe_cast
+  }
+}
+
+///|
 /// Get request URL
 pub fn HonoRequest::url(self : Self) -> String {
   self.get("url") |> unsafe_cast

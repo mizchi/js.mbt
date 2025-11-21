@@ -66,6 +66,7 @@ impl[Env, ExecutionContext] @js.JsImpl for Hono[Env, ExecutionContext]
 pub type HonoRequest
 #alias(array_buffer)
 fn HonoRequest::arrayBuffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
+fn HonoRequest::blob(Self) -> @js.Promise[@js.Js]
 #alias(body_used)
 fn HonoRequest::bodyUsed(Self) -> Bool
 #alias(form_data)
@@ -76,6 +77,8 @@ fn HonoRequest::method_(Self) -> String
 fn HonoRequest::param(Self, String) -> String?
 #alias(param_all)
 fn HonoRequest::paramAll(Self) -> @js.Js
+#alias(parse_body)
+fn HonoRequest::parseBody(Self, options? : @js.Js) -> @js.Promise[@js.Js]
 fn HonoRequest::path(Self) -> String
 fn HonoRequest::query(Self, String) -> String?
 #alias(query_all)
