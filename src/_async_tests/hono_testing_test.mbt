@@ -14,7 +14,7 @@ test "testClient with simple GET route" {
   let endpoint = client.path("hello")
 
   // Verify endpoint is created
-  @js.typeof_(endpoint) |> inspect(content="endpoint type")
+  @js.typeof_(endpoint) |> inspect(content="function")
 }
 
 ///|
@@ -35,7 +35,7 @@ test "testClient with JSON response" {
   let endpoint = client.path("api/user")
 
   // Verify endpoint is created
-  @js.typeof_(endpoint) |> inspect(content="json endpoint type")
+  @js.typeof_(endpoint) |> inspect(content="function")
 }
 
 ///|
@@ -52,5 +52,5 @@ test "testClient with POST route" {
   let endpoint = client.path("api/create")
 
   // Verify endpoint is created
-  @js.typeof_(endpoint) |> inspect(content="post endpoint type")
+  @js.typeof_(endpoint) |> inspect(content="function")
 }
