@@ -18,17 +18,23 @@ These APIs work consistently across:
 | Response | `mizchi/js/web/http` | ✅ Tested | Response objects |
 | Headers | `mizchi/js/web/http` | ✅ Tested | HTTP headers |
 | FormData | `mizchi/js/web/http` | ✅ Tested | Form data handling |
-| URL | `mizchi/js/web/http` | ✅ Tested | URL parsing |
-| URLSearchParams | `mizchi/js/web/http` | ✅ Tested | Query strings |
-| URLPattern | `mizchi/js/web/http` | ✅ Tested | URL pattern matching |
+| URL | `mizchi/js/web/url` | ✅ Tested | URL parsing |
+| URLSearchParams | `mizchi/js/web/url` | ✅ Tested | Query strings |
+| URLPattern | `mizchi/js/web/url` | ✅ Tested | URL pattern matching |
 | WebSocket | `mizchi/js/web/websocket` | ✅ Tested | WebSocket API |
 | **Streams** |
-| ReadableStream | `mizchi/js/web/stream` | ✅ Tested | Readable streams |
-| WritableStream | `mizchi/js/web/stream` | ✅ Tested | Writable streams |
-| TransformStream | `mizchi/js/web/stream` | ✅ Tested | Transform streams |
+| ReadableStream | `mizchi/js/web/streams` | ✅ Tested | Readable streams |
+| WritableStream | `mizchi/js/web/streams` | ✅ Tested | Writable streams |
+| TransformStream | `mizchi/js/web/streams` | ✅ Tested | Transform streams |
 | **Binary Data** |
-| Blob | `mizchi/js/browser/blob` | 🤖 AI Generated | Binary data |
-| File | `mizchi/js/browser/file` | 🤖 AI Generated | File objects |
+| Blob | `mizchi/js/web/blob` | ✅ Tested | Binary data |
+| **Encoding** |
+| TextEncoder | `mizchi/js/web/encoding` | ✅ Tested | String to Uint8Array |
+| TextDecoder | `mizchi/js/web/encoding` | ✅ Tested | Uint8Array to String |
+| **Events** |
+| Event | `mizchi/js/web/event` | ✅ Tested | Event objects |
+| CustomEvent | `mizchi/js/web/event` | ✅ Tested | Custom events |
+| MessageEvent | `mizchi/js/web/event` | ✅ Tested | Message events |
 | **Cryptography** |
 | Crypto | `mizchi/js/web/crypto` | ✅ Tested | Web Crypto API |
 | SubtleCrypto | `mizchi/js/web/crypto` | ✅ Tested | Cryptographic operations |
@@ -65,19 +71,25 @@ This package provides comprehensive bindings to **Web Standard APIs** - the comm
 
 ## Installation
 
-Add to your `moon.pkg.json`:
+Add specific sub-packages to your `moon.pkg.json`:
 
 ```json
 {
   "import": [
-    "mizchi/js/web/http",
-    "mizchi/js/web/stream",
+    "mizchi/js/web/blob",
     "mizchi/js/web/crypto",
+    "mizchi/js/web/encoding",
+    "mizchi/js/web/event",
+    "mizchi/js/web/http",
+    "mizchi/js/web/streams",
+    "mizchi/js/web/url",
     "mizchi/js/web/websocket",
     "mizchi/js/web/worker"
   ]
 }
 ```
+
+**Note**: The `mizchi/js/web` package itself is a meta-package. You need to import specific sub-packages (like `mizchi/js/web/http`, `mizchi/js/web/crypto`, etc.) to use their APIs. There is no "wildcard import" in MoonBit - each sub-package must be imported explicitly.
 
 ## Usage Examples
 
