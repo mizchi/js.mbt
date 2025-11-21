@@ -64,10 +64,7 @@ test "Hono GET route" {
 test "Hono POST route" {
   init_hono()
   let app = @hono.Hono::new()
-  app.post("/api/data", fn(c) {
-    c.json(@js.unsafe_cast({ status: "ok" }))
-  })
-  |> ignore
+  app.post("/api/data", fn(c) { c.json({ status: "ok" }) }) |> ignore
   @js.typeof_(app) |> assert_eq("object")
 }
 
@@ -77,10 +74,7 @@ test "Hono multiple routes" {
   let app = @hono.Hono::new()
   app.get("/", fn(c) { c.text("Home") }) |> ignore
   app.get("/about", fn(c) { c.text("About") }) |> ignore
-  app.post("/api/create", fn(c) {
-    c.json(@js.unsafe_cast({ created: true }))
-  })
-  |> ignore
+  app.post("/api/create", fn(c) { c.json({ created: true }) }) |> ignore
   @js.typeof_(app) |> assert_eq("object")
 }
 
@@ -88,9 +82,7 @@ test "Hono multiple routes" {
 test "Context json response" {
   init_hono()
   let app = @hono.Hono::new()
-  app.get("/json", fn(c) {
-    c.json(@js.unsafe_cast({ message: "Hello", count: 42 }))
-  })
+  app.get("/json", fn(c) { c.json({ message: "Hello", count: 42 }) })
   |> ignore
   @js.typeof_(app) |> assert_eq("object")
 }
@@ -132,10 +124,7 @@ test "Hono basePath" {
   init_hono()
   let app = @hono.Hono::new()
   let api = app.basePath("/api")
-  api.get("/users", fn(c) {
-    c.json(@js.unsafe_cast({ users: [] }))
-  })
-  |> ignore
+  api.get("/users", fn(c) { c.json({ users: [] }) }) |> ignore
   @js.typeof_(api) |> assert_eq("object")
 }
 
@@ -143,18 +132,9 @@ test "Hono basePath" {
 test "Hono PUT, DELETE, PATCH methods" {
   init_hono()
   let app = @hono.Hono::new()
-  app.put("/update", fn(c) {
-    c.json(@js.unsafe_cast({ updated: true }))
-  })
-  |> ignore
-  app.delete("/delete", fn(c) {
-    c.json(@js.unsafe_cast({ deleted: true }))
-  })
-  |> ignore
-  app.patch("/patch", fn(c) {
-    c.json(@js.unsafe_cast({ patched: true }))
-  })
-  |> ignore
+  app.put("/update", fn(c) { c.json({ updated: true }) }) |> ignore
+  app.delete("/delete", fn(c) { c.json({ deleted: true }) }) |> ignore
+  app.patch("/patch", fn(c) { c.json({ patched: true }) }) |> ignore
   @js.typeof_(app) |> assert_eq("object")
 }
 
@@ -175,10 +155,7 @@ test "Context status and headers" {
 test "Context json with status" {
   init_hono()
   let app = @hono.Hono::new()
-  app.post("/created", fn(c) {
-    c.json(@js.unsafe_cast({ id: 123 }), status=201)
-  })
-  |> ignore
+  app.post("/created", fn(c) { c.json({ id: 123 }, status=201) }) |> ignore
   @js.typeof_(app) |> assert_eq("object")
 }
 
@@ -204,10 +181,7 @@ test "Hono route grouping" {
   init_hono()
   let app = @hono.Hono::new()
   let api = @hono.Hono::new()
-  api.get("/users", fn(c) {
-    c.json(@js.unsafe_cast({ users: [] }))
-  })
-  |> ignore
+  api.get("/users", fn(c) { c.json({ users: [] }) }) |> ignore
   app.route("/api", api) |> ignore
   @js.typeof_(app) |> assert_eq("object")
 }

@@ -20,12 +20,12 @@ pub fn Context::req(self : Self) -> HonoRequest {
 ///|
 /// Return JSON response
 /// https://hono.dev/docs/api/context#json
-pub fn Context::json(self : Self, data : Js, status? : Int) -> @http.Response {
+pub fn[T] Context::json(self : Self, data : T, status? : Int) -> @http.Response {
   let status_code = match status {
     Some(s) => s
     None => 200
   }
-  self.call("json", [data, status_code]) |> unsafe_cast
+  self.call("json", [unsafe_cast(data), status_code]) |> unsafe_cast
 }
 
 ///|
