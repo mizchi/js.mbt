@@ -59,7 +59,7 @@ fn TestContext::assert_obj(self : Self) -> Js {
 }
 
 ///|
-/// assert.ok(value[, message])
+/// JS: context.assert.ok(value, message?)
 pub fn TestContext::assert_ok(self : Self, value : Bool, message? : String) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
@@ -69,7 +69,7 @@ pub fn TestContext::assert_ok(self : Self, value : Bool, message? : String) -> U
 }
 
 ///|
-/// assert.strictEqual(actual, expected[, message])
+/// JS: context.assert.strictEqual(actual, expected, message?)
 pub fn[T : JsImpl] TestContext::assert_strict_equal(
   self : Self,
   actual : T,
@@ -84,7 +84,7 @@ pub fn[T : JsImpl] TestContext::assert_strict_equal(
 }
 
 ///|
-/// assert.notStrictEqual(actual, expected[, message])
+/// JS: context.assert.notStrictEqual(actual, expected, message?)
 pub fn[T : JsImpl] TestContext::assert_not_strict_equal(
   self : Self,
   actual : T,
@@ -99,7 +99,7 @@ pub fn[T : JsImpl] TestContext::assert_not_strict_equal(
 }
 
 ///|
-/// assert.deepStrictEqual(actual, expected[, message])
+/// JS: context.assert.deepStrictEqual(actual, expected, message?)
 pub fn[T : JsImpl] TestContext::assert_deep_strict_equal(
   self : Self,
   actual : T,
@@ -115,7 +115,7 @@ pub fn[T : JsImpl] TestContext::assert_deep_strict_equal(
 }
 
 ///|
-/// assert.notDeepStrictEqual(actual, expected[, message])
+/// JS: context.assert.notDeepStrictEqual(actual, expected, message?)
 pub fn[T : JsImpl] TestContext::assert_not_deep_strict_equal(
   self : Self,
   actual : T,
@@ -131,7 +131,7 @@ pub fn[T : JsImpl] TestContext::assert_not_deep_strict_equal(
 }
 
 ///|
-/// assert.match(string, regexp[, message])
+/// JS: context.assert.match(string, regexp, message?)
 pub fn TestContext::assert_match(
   self : Self,
   string : String,
@@ -146,7 +146,7 @@ pub fn TestContext::assert_match(
 }
 
 ///|
-/// assert.doesNotMatch(string, regexp[, message])
+/// JS: context.assert.doesNotMatch(string, regexp, message?)
 pub fn TestContext::assert_does_not_match(
   self : Self,
   string : String,
@@ -161,7 +161,7 @@ pub fn TestContext::assert_does_not_match(
 }
 
 ///|
-/// assert.throws(fn[, error][, message])
+/// JS: context.assert.throws(fn, error?, message?)
 pub fn TestContext::assert_throws(
   self : Self,
   fn_ : () -> Unit,
@@ -179,7 +179,7 @@ pub fn TestContext::assert_throws(
 }
 
 ///|
-/// assert.doesNotThrow(fn[, error][, message])
+/// JS: context.assert.doesNotThrow(fn, error?, message?)
 pub fn TestContext::assert_does_not_throw(
   self : Self,
   fn_ : () -> Unit,
@@ -198,7 +198,7 @@ pub fn TestContext::assert_does_not_throw(
 }
 
 ///|
-/// assert.rejects(asyncFn[, error][, message])
+/// JS: context.assert.rejects(asyncFn, error?, message?)
 pub fn TestContext::assert_rejects(
   self : Self,
   asyncFn : async () -> Unit,
@@ -216,7 +216,7 @@ pub fn TestContext::assert_rejects(
 }
 
 ///|
-/// assert.doesNotReject(asyncFn[, error][, message])
+/// JS: context.assert.doesNotReject(asyncFn, error?, message?)
 pub fn TestContext::assert_does_not_reject(
   self : Self,
   asyncFn : async () -> Unit,
