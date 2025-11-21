@@ -18,14 +18,6 @@ fn get_close_was_clean(@js.Js) -> @js.Js
 
 fn get_message_data(@js.Js) -> @js.Js
 
-fn websocket_closed() -> Int
-
-fn websocket_closing() -> Int
-
-fn websocket_connecting() -> Int
-
-fn websocket_open() -> Int
-
 // Errors
 
 // Types and methods
@@ -50,6 +42,17 @@ fn WebSocket::set_onopen(Self, (@js.Js) -> Unit) -> Unit
 fn WebSocket::url(Self) -> @js.Js
 impl @js.JsImpl for WebSocket
 impl @event.EventTargetImpl for WebSocket
+
+pub enum WebSocketReadyState {
+  Connecting
+  Open
+  Closing
+  Closed
+}
+fn WebSocketReadyState::from_int(Int) -> Self?
+fn WebSocketReadyState::to_int(Self) -> Int
+impl Eq for WebSocketReadyState
+impl Show for WebSocketReadyState
 
 // Type aliases
 

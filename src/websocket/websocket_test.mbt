@@ -2,23 +2,13 @@
 /// Test WebSocket
 
 ///|
-test "websocket_connecting returns 0" {
-  assert_eq(websocket_connecting(), 0)
-}
-
-///|
-test "websocket_open returns 1" {
-  assert_eq(websocket_open(), 1)
-}
-
-///|
-test "websocket_closing returns 2" {
-  assert_eq(websocket_closing(), 2)
-}
-
-///|
-test "websocket_closed returns 3" {
-  assert_eq(websocket_closed(), 3)
+test "WebSocketReadyState::from_int and to_int" {
+  // Test round-trip conversion
+  assert_eq(WebSocketReadyState::from_int(0).map(fn(s) { s.to_int() }), Some(0))
+  assert_eq(WebSocketReadyState::from_int(1).map(fn(s) { s.to_int() }), Some(1))
+  assert_eq(WebSocketReadyState::from_int(2).map(fn(s) { s.to_int() }), Some(2))
+  assert_eq(WebSocketReadyState::from_int(3).map(fn(s) { s.to_int() }), Some(3))
+  assert_eq(WebSocketReadyState::from_int(999), None)
 }
 
 ///|

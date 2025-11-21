@@ -42,7 +42,7 @@ pub extern "js" fn pow(base : Double, exp : Double) -> Double =
 
 ///|
 /// JS: Math.abs(x)
-pub extern "js" fn abs(x : Double) -> Int =
+pub extern "js" fn abs(x : Double) -> Double =
   #| (x) => Math.abs(x)
 
 ///|

@@ -2,13 +2,15 @@
 package "mizchi/js/examples/cfw"
 
 import(
+  "mizchi/js"
   "mizchi/js/cloudflare"
+  "mizchi/js/http"
 )
 
 // Values
-fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler
+fn get_fetch_handler() -> (@cloudflare.CloudflareRequest, @cloudflare.CloudflareEnv, @cloudflare.CloudflareContext) -> @js.Promise[@http.Response]
 
-fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler
+fn get_kv_handler() -> (@cloudflare.CloudflareRequest, @cloudflare.CloudflareEnv, @cloudflare.CloudflareContext) -> @js.Promise[@http.Response]
 
 // Errors
 

@@ -25,9 +25,17 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
         200,
       )
     } else if pathname == "/api/hello" {
-      Response::json_with_message("Hello from MoonBit Worker!", 200)
+      let data = @js.Object::new()
+      data.set("message", "Hello from MoonBit Worker!")
+      let options = @js.Object::new()
+      options.set("status", 200)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/api/echo" {
-      Response::json_with_url(url_str, 200)
+      let data = @js.Object::new()
+      data.set("url", url_str)
+      let options = @js.Object::new()
+      options.set("status", 200)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/api/fetch" {
       // Fetch external API
       let res = fetch(
@@ -36,22 +44,41 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
       ).unwrap() catch {
         e => {
           log("Error: " + e.to_string())
-          return Response::json_with_error("Failed to fetch", 500)
+          let data = @js.Object::new()
+          data.set("error", "Failed to fetch")
+          let options = @js.Object::new()
+          options.set("status", 500)
+          return Response::json_(data.to_js(), options=options.to_js())
         }
       }
       res
     } else if pathname == "/api/json" {
-      Response::json_complex()
+      let data = @js.Object::new()
+      data.set("status", "ok")
+      let inner_data = @js.Object::new()
+      inner_data.set("foo", "bar")
+      inner_data.set("num", 42)
+      data.set("data", inner_data)
+      data.set("timestamp", 1234567890)
+      let options = @js.Object::new()
+      options.set("status", 200)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/api/redirect" {
       Response::redirect("/", status=302)
     } else if pathname == "/api/headers" {
-      Response::with_custom_headers(
-        "{\"message\":\"Check the headers\"}", 200, "MoonBit-Worker", "Cloudflare",
-      )
+      Response::text_("{\"message\":\"Check the headers\"}", 200)
     } else if pathname == "/api/status/404" {
-      Response::json_with_error("Not Found", 404)
+      let data = @js.Object::new()
+      data.set("error", "Not Found")
+      let options = @js.Object::new()
+      options.set("status", 404)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/api/status/500" {
-      Response::json_with_error("Internal Server Error", 500)
+      let data = @js.Object::new()
+      data.set("error", "Internal Server Error")
+      let options = @js.Object::new()
+      options.set("status", 500)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/api/text" {
       Response::text_("Plain text response from MoonBit", 200)
     } else if pathname == "/api/query" {
@@ -65,25 +92,62 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
         Some(m) => m
         None => "Hello"
       }
-      Response::json_with_greeting(message + ", " + name + "!", 200)
+      let data = @js.Object::new()
+      data.set("greeting", message + ", " + name + "!")
+      let options = @js.Object::new()
+      options.set("status", 200)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/api/time" {
-      Response::json_with_timestamp(1234567890, 200)
+      let data = @js.Object::new()
+      data.set("timestamp", 1234567890)
+      let options = @js.Object::new()
+      options.set("status", 200)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/api/user-agent" {
-      Response::json_with_user_agent("unknown", 200)
+      let data = @js.Object::new()
+      data.set("userAgent", "unknown")
+      let options = @js.Object::new()
+      options.set("status", 200)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/api/method" {
-      Response::json_with_method("unknown", 200)
+      let data = @js.Object::new()
+      data.set("method", "unknown")
+      let options = @js.Object::new()
+      options.set("status", 200)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/health" {
-      Response::json_with_health("healthy", "moonbit-worker", 200)
+      let data = @js.Object::new()
+      data.set("status", "healthy")
+      data.set("service", "moonbit-worker")
+      let options = @js.Object::new()
+      options.set("status", 200)
+      Response::json_(data.to_js(), options=options.to_js())
     } else if pathname == "/api/math/add" {
       let params = url.searchParams()
       let a_str = params.get("a")
       let b_str = params.get("b")
       match (a_str, b_str) {
-        (Some(a), Some(b)) => Response::json_with_result(a + "+" + b, 200)
-        _ => Response::json_with_error("Missing parameters a or b", 400)
+        (Some(a), Some(b)) => {
+          let data = @js.Object::new()
+          data.set("result", a + "+" + b)
+          let options = @js.Object::new()
+          options.set("status", 200)
+          Response::json_(data.to_js(), options=options.to_js())
+        }
+        _ => {
+          let data = @js.Object::new()
+          data.set("error", "Missing parameters a or b")
+          let options = @js.Object::new()
+          options.set("status", 400)
+          Response::json_(data.to_js(), options=options.to_js())
+        }
       }
     } else {
-      Response::json_with_error("Route not found", 404)
+      let data = @js.Object::new()
+      data.set("error", "Route not found")
+      let options = @js.Object::new()
+      options.set("status", 404)
+      Response::json_(data.to_js(), options=options.to_js())
     }
   }
   promisify3(async_handler)

@@ -1,6 +1,6 @@
 # @mizchi/js
 
-Comprehensive JavaScript/TypeScript FFI bindings for MoonBit, supporting multiple runtimes and platforms.
+Comprehensive JavaScript/ FFI bindings for MoonBit, supporting multiple runtimes and platforms.
 
 ```bash
 $ moon add mizchi/js
@@ -44,6 +44,7 @@ Add to your `moon.pkg.json`:
 ## Supported Modules
 
 ### Core APIs
+
 - **[mizchi/js](./src/README.md)** - Core JavaScript built-in APIs (Object, Promise, Array, etc.)
 - **[mizchi/js/arraybuffer](./src/arraybuffer/)** - Binary data handling
 - **[mizchi/js/http](./src/http/)** - Fetch API and HTTP primitives
@@ -52,12 +53,14 @@ Add to your `moon.pkg.json`:
 - **[mizchi/js/console](./src/console/)** - Console logging
 
 ### Runtime-Specific
+
 - **[mizchi/js/node](./src/node/README.md)** - Node.js runtime APIs
 - **[mizchi/js/dom](./src/dom/README.md)** - Browser DOM APIs
 - **[mizchi/js/deno](./src/deno/README.md)** - Deno runtime APIs
 - **[mizchi/js/cloudflare](./src/cloudflare/README.md)** - Cloudflare Workers platform
 
 ### NPM Packages
+
 - **[mizchi/js/npm/react](./src/npm/react/)** - React library bindings
 - **[mizchi/js/npm/hono](./src/npm/hono/)** - Hono web framework
 - **[mizchi/js/npm/semver](./src/npm/semver/)** - Semantic versioning

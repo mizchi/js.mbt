@@ -15,23 +15,34 @@ pub impl @event.EventTargetImpl for WebSocket
 
 ///|
 /// WebSocket ready states
-pub fn websocket_connecting() -> Int {
-  0
+pub enum WebSocketReadyState {
+  Connecting
+  Open
+  Closing
+  Closed
+} derive(Eq, Show)
+
+///|
+/// Convert WebSocketReadyState to Int
+pub fn WebSocketReadyState::to_int(self : WebSocketReadyState) -> Int {
+  match self {
+    Connecting => 0
+    Open => 1
+    Closing => 2
+    Closed => 3
+  }
 }
 
 ///|
-pub fn websocket_open() -> Int {
-  1
-}
-
-///|
-pub fn websocket_closing() -> Int {
-  2
-}
-
-///|
-pub fn websocket_closed() -> Int {
-  3
+/// Create WebSocketReadyState from Int
+pub fn WebSocketReadyState::from_int(value : Int) -> WebSocketReadyState? {
+  match value {
+    0 => Some(Connecting)
+    1 => Some(Open)
+    2 => Some(Closing)
+    3 => Some(Closed)
+    _ => None
+  }
 }
 
 ///|

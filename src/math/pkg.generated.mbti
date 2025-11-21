@@ -2,7 +2,7 @@
 package "mizchi/js/math"
 
 // Values
-fn abs(Double) -> Int
+fn abs(Double) -> Double
 
 fn acos(Double) -> Double
 

@@ -24,10 +24,6 @@ fn CloudflareContext::wait_until(Self, @js.Promise[Unit]) -> Unit
 #external
 pub type CloudflareEnv
 
-pub(all) struct CloudflareFetchHandler((CloudflareRequest, CloudflareEnv, CloudflareContext) -> @js.Promise[@http.Response])
-#deprecated
-fn CloudflareFetchHandler::inner(Self) -> (CloudflareRequest, CloudflareEnv, CloudflareContext) -> @js.Promise[@http.Response]
-
 #external
 pub type CloudflareRequest
 fn CloudflareRequest::cf(Self) -> CloudflareContext
@@ -371,6 +367,7 @@ pub(all) struct R2UploadedPart {
 impl @js.JsImpl for R2UploadedPart
 
 // Type aliases
+pub type CloudflareFetchHandler = (CloudflareRequest, CloudflareEnv, CloudflareContext) -> @js.Promise[@http.Response]
 
 // Traits
 
