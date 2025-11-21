@@ -9,8 +9,79 @@ pub impl JsImpl for Response
 ///|
 /// Create a new Response
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/Response
-pub extern "js" fn Response::new(body? : String, options? : Js) -> Response =
-  #| (body, options) => new Response(body, options)
+pub fn Response::new(
+  body? : String,
+  status? : Int,
+  statusText? : String,
+  headers? : &JsImpl,
+) -> Response {
+  let body_js = match body {
+    Some(b) => @js.unsafe_cast(b)
+    None => @js.undefined()
+  }
+  match (status, statusText, headers) {
+    (Some(s), Some(st), Some(h)) =>
+      new_impl_full(body_js, s, @js.unsafe_cast(st), h.to_js())
+    (Some(s), Some(st), None) =>
+      new_impl_status_text(body_js, s, @js.unsafe_cast(st))
+    (Some(s), None, Some(h)) => new_impl_status_headers(body_js, s, h.to_js())
+    (Some(s), None, None) => new_impl_status(body_js, s)
+    (None, Some(st), Some(h)) =>
+      new_impl_text_headers(body_js, @js.unsafe_cast(st), h.to_js())
+    (None, Some(st), None) => new_impl_text(body_js, @js.unsafe_cast(st))
+    (None, None, Some(h)) => new_impl_headers(body_js, h.to_js())
+    (None, None, None) => new_impl_plain(body_js)
+  }
+}
+
+///|
+extern "js" fn new_impl_full(
+  body : Js,
+  status : Int,
+  statusText : Js,
+  headers : Js,
+) -> Response =
+  #| (body, status, statusText, headers) => new Response(body, { status, statusText, headers })
+
+///|
+extern "js" fn new_impl_status_text(
+  body : Js,
+  status : Int,
+  statusText : Js,
+) -> Response =
+  #| (body, status, statusText) => new Response(body, { status, statusText })
+
+///|
+extern "js" fn new_impl_status_headers(
+  body : Js,
+  status : Int,
+  headers : Js,
+) -> Response =
+  #| (body, status, headers) => new Response(body, { status, headers })
+
+///|
+extern "js" fn new_impl_status(body : Js, status : Int) -> Response =
+  #| (body, status) => new Response(body, { status })
+
+///|
+extern "js" fn new_impl_text_headers(
+  body : Js,
+  statusText : Js,
+  headers : Js,
+) -> Response =
+  #| (body, statusText, headers) => new Response(body, { statusText, headers })
+
+///|
+extern "js" fn new_impl_text(body : Js, statusText : Js) -> Response =
+  #| (body, statusText) => new Response(body, { statusText })
+
+///|
+extern "js" fn new_impl_headers(body : Js, headers : Js) -> Response =
+  #| (body, headers) => new Response(body, { headers })
+
+///|
+extern "js" fn new_impl_plain(body : Js) -> Response =
+  #| (body) => new Response(body)
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/redirect_static

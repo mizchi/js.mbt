@@ -56,7 +56,7 @@ fn Response::form_data(Self) -> @js.Promise[FormData]
 fn Response::html(String, Int) -> Self
 fn Response::json(Self) -> @js.Promise[@js.Js]
 fn Response::json_(&@js.JsImpl, options? : &@js.JsImpl) -> Self
-fn Response::new(body? : String, options? : @js.Js) -> Self
+fn Response::new(body? : String, status? : Int, statusText? : String, headers? : &@js.JsImpl) -> Self
 fn Response::ok(Self) -> Bool
 fn Response::redirect(String, status? : Int) -> Self
 fn Response::redirected(Self) -> Bool
