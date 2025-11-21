@@ -7,13 +7,6 @@ import(
 )
 
 // Values
-fn new_intersection_observer((@js.Js?, IntersectionObserver) -> Unit) -> IntersectionObserver
-
-fn new_intersection_observer_with_options((@js.Js?, IntersectionObserver) -> Unit, @js.Js) -> IntersectionObserver
-
-fn new_mutation_observer((@js.Js?, MutationObserver) -> Unit) -> MutationObserver
-
-fn new_resize_observer((@js.Js?, ResizeObserver) -> Unit) -> ResizeObserver
 
 // Errors
 
@@ -21,6 +14,7 @@ fn new_resize_observer((@js.Js?, ResizeObserver) -> Unit) -> ResizeObserver
 #external
 pub type IntersectionObserver
 fn IntersectionObserver::disconnect(Self) -> Unit
+fn IntersectionObserver::new((@js.Js?, Self) -> Unit, options? : @js.Js) -> Self
 fn IntersectionObserver::observe(Self, @dom.Element) -> Unit
 fn IntersectionObserver::take_records(Self) -> @js.Js
 fn IntersectionObserver::unobserve(Self, @dom.Element) -> Unit
@@ -40,6 +34,7 @@ impl @js.JsImpl for IntersectionObserverEntry
 #external
 pub type MutationObserver
 fn MutationObserver::disconnect(Self) -> Unit
+fn MutationObserver::new((@js.Js?, Self) -> Unit) -> Self
 fn MutationObserver::observe(Self, @dom.Element, @js.Js) -> Unit
 fn MutationObserver::take_records(Self) -> @js.Js
 impl @js.JsImpl for MutationObserver
@@ -59,6 +54,7 @@ impl @js.JsImpl for MutationRecord
 #external
 pub type ResizeObserver
 fn ResizeObserver::disconnect(Self) -> Unit
+fn ResizeObserver::new((@js.Js?, Self) -> Unit) -> Self
 fn ResizeObserver::observe(Self, @dom.Element) -> Unit
 fn ResizeObserver::observe_with_options(Self, @dom.Element, @js.Js) -> Unit
 fn ResizeObserver::unobserve(Self, @dom.Element) -> Unit

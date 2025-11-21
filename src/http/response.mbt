@@ -9,7 +9,7 @@ pub impl JsImpl for Response
 ///|
 /// Create a new Response
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/Response
-pub extern "js" fn new_response(body? : String, options? : Js) -> Response =
+pub extern "js" fn Response::new(body? : String, options? : Js) -> Response =
   #| (body, options) => new Response(body, options)
 
 ///|

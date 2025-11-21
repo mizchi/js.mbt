@@ -14,7 +14,7 @@ pub impl JsImpl for MutationObserver
 ///|
 /// Creates a new MutationObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
-pub fn new_mutation_observer(
+pub fn MutationObserver::new(
   callback : (Js?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @js.global_this().get("MutationObserver")
@@ -115,21 +115,16 @@ pub impl JsImpl for IntersectionObserver
 ///|
 /// Creates a new IntersectionObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
-pub fn new_intersection_observer(
+pub fn IntersectionObserver::new(
   callback : (Js?, IntersectionObserver) -> Unit,
+  options? : Js,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
-  @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
-}
-
-///|
-/// Creates a new IntersectionObserver with options
-pub fn new_intersection_observer_with_options(
-  callback : (Js?, IntersectionObserver) -> Unit,
-  options : Js,
-) -> IntersectionObserver {
-  let ctor = @js.global_this().get("IntersectionObserver")
-  @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2, options]))
+  match options {
+    Some(opts) =>
+      @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2, opts]))
+    None => @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
+  }
 }
 
 ///|
@@ -223,7 +218,7 @@ pub impl JsImpl for ResizeObserver
 ///|
 /// Creates a new ResizeObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/ResizeObserver
-pub fn new_resize_observer(
+pub fn ResizeObserver::new(
   callback : (Js?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @js.global_this().get("ResizeObserver")
