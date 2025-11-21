@@ -19,7 +19,7 @@ test "useState_lazy" {
       @element.button(on_click~, ["increment"], id="btn"),
     ])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Count: 10").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Count: 10")
@@ -41,7 +41,7 @@ test "useCallback" {
       @element.button(on_click=_ => on_click(), ["increment"]),
     ])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   fireEvent().click(screen().getByText("increment"))
   screen().getByText("Count: 1").get("textContent")
   |> @js.unsafe_cast
@@ -63,7 +63,7 @@ test "useEffect" {
     )
     @element.div([if mounted { "Mounted" } else { "Not mounted" }])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Mounted").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Mounted")
@@ -84,7 +84,7 @@ test "useLayoutEffect" {
     )
     @element.div([if mounted { "Layout mounted" } else { "Not mounted" }])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Layout mounted").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Layout mounted")
@@ -102,7 +102,7 @@ test "useMemo" {
       @element.button(on_click=_ => set_count(count + 1), ["increment"]),
     ])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Doubled: 2").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Doubled: 2")
@@ -122,7 +122,7 @@ test "useRef with Some" {
     )
     @element.div(ref_=r, ["Ref test"])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Ref test").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Ref test")
@@ -136,7 +136,7 @@ test "useRef with None" {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(None)
     @element.div(ref_=r, ["Ref None test"])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Ref None test").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Ref None test")
@@ -161,7 +161,7 @@ test "ReactRef::current and set_current" {
       @element.button(on_click~, ["update"]),
     ])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   fireEvent().click(screen().getByText("update"))
   screen().getByText("updated").get("textContent")
   |> @js.unsafe_cast
@@ -181,7 +181,7 @@ test "ReactRef::current None case" {
     }
     @element.div([@element.span([msg]), @element.button(on_click~, ["check"])])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   fireEvent().click(screen().getByText("check"))
   screen().getByText("no ref").get("textContent")
   |> @js.unsafe_cast
@@ -207,7 +207,7 @@ test "ReactRef::set_current" {
     }
     @element.div([@element.span([msg]), @element.button(on_click~, ["set"])])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   fireEvent().click(screen().getByText("set"))
   screen().getByText("custom value").get("textContent")
   |> @js.unsafe_cast
@@ -224,7 +224,7 @@ test "useContext" {
     @element.div(["Context value: \{value}"])
   }
   let el = provider(ctx, [component(comp, EmptyProps::default())], value=99)
-  render(el)
+  render(el) |> ignore
   screen().getByText("Context value: 99").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Context value: 99")
@@ -257,7 +257,7 @@ test "useReducer" {
       @element.button(on_click=_ => dispatch(Reset), ["reset"]),
     ])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   fireEvent().click(screen().getByText("+"))
   screen().getByText("Count: 1").get("textContent")
   |> @js.unsafe_cast
@@ -294,7 +294,7 @@ test "useActionState" {
       @element.button(on_click=_ => dispatch(1), ["dispatch"]),
     ])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("State: 0").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("State: 0")
@@ -314,7 +314,7 @@ test "startTransition" {
       @element.button(on_click~, ["transition"]),
     ])
   }
-  render(component(comp, EmptyProps::default()))
+  render(component(comp, EmptyProps::default())) |> ignore
   fireEvent().click(screen().getByText("transition"))
   screen().getByText("Count: 1").get("textContent")
   |> @js.unsafe_cast

@@ -66,3 +66,11 @@ dev: format check
 
 # CI workflow: format, info, check, build, test
 ci: format check build test
+
+# Development workflow: format, info, check
+dev-react: build
+    pnpm vite dev
+
+# Development workflow: format, info, check
+dev-cf: build
+    pnpm wrangler dev fixtures/cf-worker.js

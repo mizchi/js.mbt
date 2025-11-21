@@ -3,16 +3,23 @@ package "mizchi/js/npm/react_testing_library"
 
 import(
   "mizchi/js"
+  "mizchi/js/dom"
   "mizchi/js/npm/react"
 )
 
 // Values
+fn act(() -> Unit) -> @js.Js
+
 fn cleanup() -> Unit
+
+fn configure(@js.Js) -> Unit
 
 #alias(fire_event)
 fn fireEvent() -> FireEvent
 
-fn render(@react.Element) -> Unit
+fn render(@react.Element) -> RenderResult
+
+fn renderHook(@js.Js) -> RenderHookResult
 
 fn screen() -> Screen
 
@@ -21,20 +28,95 @@ fn screen() -> Screen
 // Types and methods
 #external
 pub type FireEvent
-fn FireEvent::click(Self, @js.Js) -> Unit
+fn FireEvent::blur(Self, @dom.HTMLElement) -> Unit
+fn FireEvent::change(Self, @dom.HTMLElement, @js.Js) -> Unit
+fn FireEvent::click(Self, @dom.HTMLElement) -> Unit
+fn FireEvent::focus(Self, @dom.HTMLElement) -> Unit
+fn FireEvent::input(Self, @dom.HTMLElement, @js.Js) -> Unit
+fn FireEvent::keyDown(Self, @dom.HTMLElement, @js.Js) -> Unit
+fn FireEvent::keyUp(Self, @dom.HTMLElement, @js.Js) -> Unit
+fn FireEvent::mouseEnter(Self, @dom.HTMLElement) -> Unit
+fn FireEvent::mouseLeave(Self, @dom.HTMLElement) -> Unit
+fn FireEvent::submit(Self, @dom.HTMLElement) -> Unit
 impl @js.JsImpl for FireEvent
 
 #external
 pub type ReactTestingLibrary
 
 #external
+pub type RenderHookResult
+fn RenderHookResult::rerender(Self, @js.Js) -> Unit
+fn RenderHookResult::result(Self) -> @js.Js
+fn RenderHookResult::unmount(Self) -> Unit
+impl @js.JsImpl for RenderHookResult
+
+#external
+pub type RenderResult
+fn RenderResult::asFragment(Self) -> @js.Js
+fn RenderResult::baseElement(Self) -> @dom.HTMLElement
+fn RenderResult::container(Self) -> @dom.HTMLElement
+fn RenderResult::debug(Self) -> Unit
+fn RenderResult::rerender(Self, @react.Element) -> Unit
+fn RenderResult::unmount(Self) -> Unit
+impl @js.JsImpl for RenderResult
+
+#external
 pub type Screen
 fn Screen::debug(Self) -> Unit
-fn Screen::getByRole(Self, String) -> @js.Js
-fn Screen::getByText(Self, String) -> @js.Js
+fn Screen::findAllByAltText(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
+fn Screen::findAllByDisplayValue(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
+fn Screen::findAllByLabelText(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
+fn Screen::findAllByPlaceholderText(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
+fn Screen::findAllByRole(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
+fn Screen::findAllByTestId(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
+fn Screen::findAllByText(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
+fn Screen::findAllByTitle(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
+fn Screen::findByAltText(Self, String) -> @js.Promise[@dom.HTMLElement]
+fn Screen::findByDisplayValue(Self, String) -> @js.Promise[@dom.HTMLElement]
+fn Screen::findByLabelText(Self, String) -> @js.Promise[@dom.HTMLElement]
+fn Screen::findByPlaceholderText(Self, String) -> @js.Promise[@dom.HTMLElement]
+fn Screen::findByRole(Self, String) -> @js.Promise[@dom.HTMLElement]
+fn Screen::findByTestId(Self, String) -> @js.Promise[@dom.HTMLElement]
+fn Screen::findByText(Self, String) -> @js.Promise[@dom.HTMLElement]
+fn Screen::findByTitle(Self, String) -> @js.Promise[@dom.HTMLElement]
+fn Screen::getAllByAltText(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::getAllByDisplayValue(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::getAllByLabelText(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::getAllByPlaceholderText(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::getAllByRole(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::getAllByTestId(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::getAllByText(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::getAllByTitle(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::getByAltText(Self, String) -> @dom.HTMLElement
+fn Screen::getByDisplayValue(Self, String) -> @dom.HTMLElement
+fn Screen::getByLabelText(Self, String) -> @dom.HTMLElement
+fn Screen::getByPlaceholderText(Self, String) -> @dom.HTMLElement
+fn Screen::getByRole(Self, String) -> @dom.HTMLElement
+fn Screen::getByTestId(Self, String) -> @dom.HTMLElement
+fn Screen::getByText(Self, String) -> @dom.HTMLElement
+fn Screen::getByTitle(Self, String) -> @dom.HTMLElement
+fn Screen::queryAllByAltText(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByDisplayValue(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByLabelText(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByPlaceholderText(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByRole(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByTestId(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByText(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByTitle(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::queryByAltText(Self, String) -> @dom.HTMLElement?
+fn Screen::queryByDisplayValue(Self, String) -> @dom.HTMLElement?
+fn Screen::queryByLabelText(Self, String) -> @dom.HTMLElement?
+fn Screen::queryByPlaceholderText(Self, String) -> @dom.HTMLElement?
+fn Screen::queryByRole(Self, String) -> @dom.HTMLElement?
+fn Screen::queryByTestId(Self, String) -> @dom.HTMLElement?
+fn Screen::queryByText(Self, String) -> @dom.HTMLElement?
+fn Screen::queryByTitle(Self, String) -> @dom.HTMLElement?
 impl @js.JsImpl for Screen
 
 // Type aliases
+pub using @dom {type HTMLElement as ScreenResult}
+
+pub type ScreenResults = Array[@dom.HTMLElement]
 
 // Traits
 
