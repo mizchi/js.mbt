@@ -102,7 +102,7 @@ fn setTimeout(() -> Unit, Int) -> JsTimer
 
 async fn sleep(Int) -> Unit noraise
 
-fn structuredCclone(Js) -> Js
+fn structuredClone(Js) -> Js
 
 async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 
@@ -209,12 +209,12 @@ fn JsBigInt::to_string_radix(Self, Int) -> String
 fn JsBigInt::valueOf(Self) -> Self
 impl JsImpl for JsBigInt
 
-#external
-pub type JsError
+pub(all) struct JsError {
+  message : String
+  stack : String
+}
 fn JsError::isError(&JsImpl) -> Bool
-fn JsError::message(Self) -> String
 fn JsError::new(String, cause? : Self) -> Self
-fn JsError::stack(Self) -> String
 impl JsImpl for JsError
 impl Show for JsError
 

@@ -1,7 +1,7 @@
 ///|
 test "JsError::isError" {
   let e = JsError::new("myerr")
-  assert_eq(e.message(), "myerr")
+  assert_eq(e.message, "myerr")
   assert_true(JsError::isError(e))
 }
 
@@ -51,6 +51,6 @@ test "JsError Show trait" {
 ///|
 test "JsError message method" {
   let err = JsError::new("error message")
-  let str = err.message()
+  let str = err.message
   assert_eq(str, "error message")
 }

@@ -10,8 +10,7 @@ pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
 /// # Example
 ///
 /// ```moonbit
-/// let map = { "name": js("Alice"), "age": js(30) }
-/// let _obj = from_map(map)
+/// let _obj = from_map({ "name": js("Alice"), "age": js(30) })
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
 pub fn from_map(map : Map[String, Js]) -> Js {
@@ -29,8 +28,7 @@ pub fn from_map(map : Map[String, Js]) -> Js {
 /// # Example
 ///
 /// ```moonbit
-/// let entries : Array[(String, &JsImpl)] = [("name", "Alice"), ("age", 30)]
-/// let _obj = from_entries(entries)
+/// let _obj = from_entries([("name", "Alice"), ("age", 30)])
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
 pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Js {
@@ -52,13 +50,12 @@ pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Js {
 /// # Example
 ///
 /// ```moonbit
-/// let entries : Array[(String, &JsImpl?)] = [
+/// let _obj = from_entries_option([
 ///   ("name", Some("Alice")),  // String
 ///   ("age", Some(30)),        // Int
 ///   ("active", Some(true)),   // Bool - mixed types!
 ///   ("email", None)
-/// ]
-/// let _obj = from_entries_option(entries)
+/// ])
 /// // JavaScript: { name: "Alice", age: 30, active: true }
 /// ```
 pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Js {
@@ -77,9 +74,6 @@ pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Js {
 /// Convert an array of tuples with optional values to a JavaScript object.
 /// Accepts Option[T] where T: JsImpl directly without requiring .map().
 /// Only sets properties where the value is Some.
-///
-/// **Use this when all values have the same type for better type inference.**
-/// For mixed types (String, Int, Bool, etc), use `from_entries_option`.
 ///
 /// # Example
 ///

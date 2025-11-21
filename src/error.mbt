@@ -1,7 +1,14 @@
 ///|
 /// JavaScript Error
-#external
-pub type JsError
+// pub type JsError
+
+// #external
+pub(all) struct JsError {
+  // Inherits from Js
+  // @js.Js
+  message : String
+  stack : String
+}
 
 ///|
 pub impl JsImpl for JsError
@@ -22,20 +29,6 @@ pub suberror JsThrowError {
 pub impl JsImpl for JsThrowError
 
 ///|
-extern "js" fn ffi_wrap_sync(
-  f : Js,
-  ok : (Js) -> Result[Js, Js],
-  err : (Js) -> Result[Js, Js],
-) -> Result[Js, Js] =
-  #|(f, ok, err) => {
-  #|  try {
-  #|    return ok(f())
-  #|  } catch(e) {
-  #|    return err(e)
-  #|  }
-  #|}
-
-///|
 pub impl Show for JsThrowError with output(self, logger) {
   logger.write_string(self.to_string())
 }
@@ -43,7 +36,7 @@ pub impl Show for JsThrowError with output(self, logger) {
 ///|
 pub impl Show for JsThrowError with to_string(self) {
   match self {
-    Error(err) => err.message()
+    Error(err) => err.message
     Value(val) => val.to_string()
   }
 }
@@ -55,20 +48,20 @@ pub impl Show for JsError with output(self, logger) {
 
 ///|
 pub impl Show for JsError with to_string(self) {
-  self.message()
+  self.message
 }
 
 ///|
 /// JS: error.message
-pub fn JsError::message(self : Self) -> String {
-  self.get("message") |> unsafe_cast
-}
+// pub fn JsError::message(self : Self) -> String {
+//   self.get("message") |> unsafe_cast
+// }
 
 ///|
 /// JS: error.stack
-pub fn JsError::stack(self : Self) -> String {
-  self.get("stack") |> unsafe_cast
-}
+// pub fn JsError::stack(self : Self) -> String {
+//   self.get("stack") |> unsafe_cast
+// }
 
 ///|
 /// JS: Error.isError(value)

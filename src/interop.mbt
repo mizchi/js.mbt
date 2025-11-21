@@ -1,4 +1,18 @@
 ///|
+extern "js" fn ffi_wrap_sync(
+  f : Js,
+  ok : (Js) -> Result[Js, Js],
+  err : (Js) -> Result[Js, Js],
+) -> Result[Js, Js] =
+  #|(f, ok, err) => {
+  #|  try {
+  #|    return ok(f())
+  #|  } catch(e) {
+  #|    return err(e)
+  #|  }
+  #|}
+
+///|
 /// Unsafely cast a value from one type to another.
 /// When you cast to `Js`, use `js(v)` or `unsafe_js(v)` instead.
 pub fn[A, B] unsafe_cast(v : A) -> B = "%identity"

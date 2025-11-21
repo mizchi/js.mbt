@@ -263,5 +263,5 @@ extern "js" fn ffi_clear_timeout(timer : JsTimer) -> Unit =
   #| (timer) => clearTimeout(timer)
 
 ///|
-pub extern "js" fn structuredCclone(value : Js) -> Js =
+pub extern "js" fn structuredClone(value : Js) -> Js =
   #| (value) => structuredClone(value)
