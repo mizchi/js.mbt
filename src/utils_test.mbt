@@ -37,20 +37,29 @@ test "Val cast_option" {
 }
 
 ///|
-test "set_if_exists" {
+test "conditional property setting" {
   let obj = @js.Object::new()
 
   // Set with Some value
-  set_if_exists(obj, "key1", Some("value1"))
+  match Some("value1") {
+    Some(v) => obj.set("key1", v)
+    None => ()
+  }
   assert_eq(unsafe_cast(obj.get("key1")), "value1")
 
   // Set with None should not add property
   let v : Int? = None
-  set_if_exists(obj, "key2", v)
+  match v {
+    Some(val) => obj.set("key2", val)
+    None => ()
+  }
   assert_true(@js.is_undefined(obj.get("key2")))
 
-  // Set with undefined value should not add property
-  set_if_exists(obj, "key3", Some(undefined()))
+  // Set with undefined value - check before setting
+  match Some(undefined()) {
+    Some(val) if not(@js.is_undefined(val)) => obj.set("key3", val)
+    _ => ()
+  }
   assert_true(@js.is_undefined(obj.get("key3")))
 }
 

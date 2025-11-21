@@ -78,30 +78,6 @@ pub fn[T : JsImpl] is_builtin_trait(v : T) -> Bool {
 }
 
 ///|
-/// Conditionally set a property value if the value exists and is not undefined.
-/// JS: if (value !== undefined) { o[key] = value; }
-///
-/// # Example
-///
-/// ```moonbit
-/// let obj = @js.Object::new()
-/// set_if_exists(obj, "name", Some("Alice"))     // Sets property
-/// set_if_exists(obj, "city", Some(undefined())) // Does nothing
-/// ```
-pub fn[O : JsImpl, V : JsImpl] set_if_exists(
-  o : O,
-  key : &PropertyKey,
-  value : V?,
-) -> Unit {
-  guard value is Some(val) else { return }
-  let val = val.to_js()
-  if is_undefined(val) {
-    return
-  }
-  ffi_set(o.to_js(), key.to_key() |> unsafe_cast, val.to_js())
-}
-
-///|
 /// Wraps a synchronous function call, converting any thrown JS errors into JsError
 /// ```moonbit skip
 /// let result = throwable(() => {

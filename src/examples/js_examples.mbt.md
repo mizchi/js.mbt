@@ -215,14 +215,20 @@ Using `set_if_exists` for optional values:
 
 ```moonbit
 ///|
-test "set_if_exists for optional properties" {
+test "conditional property setting for optional properties" {
   let obj = @js.Object::new()
 
   // Only sets if value is Some
   let name_opt : String? = Some("MoonBit")
   let version_opt : String? = None
-  @js.set_if_exists(obj, "name", name_opt)
-  @js.set_if_exists(obj, "version", version_opt)
+  match name_opt {
+    Some(v) => obj.set("name", v)
+    None => ()
+  }
+  match version_opt {
+    Some(v) => obj.set("version", v)
+    None => ()
+  }
   inspect(
     obj.to_js(),
     content=(

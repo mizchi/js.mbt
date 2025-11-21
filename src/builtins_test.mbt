@@ -207,3 +207,83 @@ test "Symbol::for_ creates global symbols" {
   let sym3 = Symbol::for_("differentSymbol")
   assert_eq(@js.typeof_(sym3), "symbol")
 }
+
+///|
+test "JsString::fromCharCode" {
+  // Create string from character codes
+  let str = JsString::fromCharCode([72, 101, 108, 108, 111]) // "Hello"
+  assert_eq(str, "Hello")
+  let str2 = JsString::fromCharCode([65, 66, 67]) // "ABC"
+  assert_eq(str2, "ABC")
+}
+
+///|
+test "JsString::fromCodePoint" {
+  // Create string from code points (supports Unicode beyond BMP)
+  let str = JsString::fromCodePoint([72, 101, 108, 108, 111]) // "Hello"
+  assert_eq(str, "Hello")
+  // Unicode emoji (beyond Basic Multilingual Plane)
+  let emoji = JsString::fromCodePoint([128512]) // 😀
+  assert_eq(emoji, "😀")
+}
+
+///|
+test "Object::isPrototypeOf" {
+  let parent = @js.Object::new()
+  let child = Object::create(parent.to_js())
+  // parent should be in the prototype chain of child
+  assert_true(parent.isPrototypeOf(child.to_js()))
+
+  // child should not be in the prototype chain of parent
+  let child_obj : Object = unsafe_cast(child)
+  assert_false(child_obj.isPrototypeOf(parent.to_js()))
+}
+
+///|
+test "Object::isExtensible instance method" {
+  let obj = @js.Object::new()
+  obj.set("prop", "value")
+
+  // Object should be extensible by default
+  assert_true(obj.isExtensible())
+
+  // After preventExtensions, should not be extensible
+  Object::preventExtensions(obj) |> ignore
+  assert_false(obj.isExtensible())
+}
+
+///|
+test "Function::to_string returns string" {
+  let parse_int = @js.globalThis().get("parseInt")
+  let func : Function = unsafe_cast(parse_int)
+  let func_str = func.to_string()
+  // The string representation should contain "function" or be a valid string
+  assert_true(func_str.length() > 0)
+}
+
+///|
+test "Object::is_ compares values" {
+  let obj1 = @js.Object::new()
+  let obj2 = @js.Object::new()
+
+  // Same object should be equal
+  assert_true(Object::is_(obj1, obj1))
+
+  // Different objects should not be equal
+  assert_false(Object::is_(obj1, obj2))
+
+  // Primitive values
+  assert_true(Object::is_(42, 42))
+  assert_false(Object::is_(42, 43))
+  assert_true(Object::is_("hello", "hello"))
+  assert_false(Object::is_("hello", "world"))
+}
+
+///|
+test "Function::name" {
+  // Get a built-in function's name
+  let parse_int = @js.globalThis().get("parseInt")
+  let func : Function = unsafe_cast(parse_int)
+  let name = func.name()
+  assert_eq(name, "parseInt")
+}

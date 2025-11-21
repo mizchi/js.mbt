@@ -27,12 +27,6 @@ pub extern "js" fn URL::new(url : String, base? : String) -> URL =
   #| (url, base) => new URL(url, base)
 
 ///|
-/// Get the origin property (read-only)
-pub fn URL::origin(self : URL) -> String {
-  self.get("origin") |> @js.unsafe_cast
-}
-
-///|
 /// Get the searchParams property
 pub fn URL::searchParams(self : URL) -> URLSearchParams {
   self.get("searchParams") |> @js.unsafe_cast

@@ -49,11 +49,17 @@ test "optional parameters" {
 
   // Set if Some
   let value_opt : String? = Some("exists")
-  @js.set_if_exists(obj, "field1", value_opt)
+  match value_opt {
+    Some(v) => obj.set("field1", v)
+    None => ()
+  }
 
   // Skip if None
   let empty_opt : String? = None
-  @js.set_if_exists(obj, "field2", empty_opt)
+  match empty_opt {
+    Some(v) => obj.set("field2", v)
+    None => ()
+  }
   assert_eq(obj.hasOwnProperty("field1"), true)
   assert_eq(obj.hasOwnProperty("field2"), false)
 }

@@ -94,14 +94,18 @@ fn string_instance() -> JsString {
 ///|
 /// JS: String.fromCharCode(...values)
 pub fn JsString::fromCharCode(values : Array[Int]) -> String {
-  string_instance().call("fromCharCode", values |> from_array |> unsafe_cast)
+  let string_class = string_instance()
+  let from_char_code = string_class.get("fromCharCode")
+  from_char_code.call2("apply", string_class, values |> from_array)
   |> unsafe_cast
 }
 
 ///|
-/// JS: String.fromCharCode(...values)
+/// JS: String.fromCodePoint(...values)
 pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
-  string_instance().call("fromCodePoint", values |> from_array |> unsafe_cast)
+  let string_class = string_instance()
+  let from_code_point = string_class.get("fromCodePoint")
+  from_code_point.call2("apply", string_class, values |> from_array)
   |> unsafe_cast
 }
 
@@ -160,9 +164,10 @@ pub fn Object::create(v : &JsImpl) -> Js {
 }
 
 ///|
-/// JS: Object.create(v)
-pub fn Object::is_(a : &JsImpl, b : &JsImpl) -> Js {
-  object_class().call2("create", a, b) |> unsafe_cast
+/// JS: Object.is(a, b)
+/// Determines whether two values are the same value
+pub fn Object::is_(a : &JsImpl, b : &JsImpl) -> Bool {
+  object_class().call2("is", a, b) |> unsafe_cast
 }
 
 ///|
@@ -225,8 +230,10 @@ pub fn Object::hasOwnProperty(self : Self, key : &PropertyKey) -> Bool {
 }
 
 ///|
+/// JS: Object.isExtensible(obj)
+/// Instance method that calls the static Object.isExtensible
 pub fn Object::isExtensible(self : Self) -> Bool {
-  self.call0("isExtensible") |> unsafe_cast
+  object_class().call1("isExtensible", self) |> unsafe_cast
 }
 
 ///|
@@ -294,8 +301,10 @@ pub type Function
 pub impl JsImpl for Function
 
 ///|
+/// JS: function.toString()
+/// Returns a string representing the source code of the function
 pub fn Function::to_string(self : Self) -> String {
-  ffi_json_stringify(self.to_js(), undefined(), undefined())
+  self.call0("toString") |> unsafe_cast
 }
 
 ///|

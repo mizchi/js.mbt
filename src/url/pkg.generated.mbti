@@ -28,7 +28,6 @@ pub(all) struct URL {
   mut searchParams : URLSearchParams
 }
 fn URL::new(String, base? : String) -> Self
-fn URL::origin(Self) -> String
 fn URL::searchParams(Self) -> URLSearchParams
 #alias(toJSON)
 fn URL::to_json(Self) -> String

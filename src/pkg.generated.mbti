@@ -102,8 +102,6 @@ fn setInterval(() -> Unit, Int) -> JsTimer
 #alias(set_timeout)
 fn setTimeout(() -> Unit, Int) -> JsTimer
 
-fn[O : JsImpl, V : JsImpl] set_if_exists(O, &PropertyKey, V?) -> Unit
-
 async fn sleep(Int) -> Unit noraise
 
 fn structuredCclone(Js) -> Js
@@ -243,7 +241,7 @@ fn Object::isExtensible_static(&JsImpl) -> Bool
 fn Object::isFrozen(&JsImpl) -> Bool
 fn Object::isPrototypeOf(Self, Js) -> Bool
 fn Object::isSealed(&JsImpl) -> Bool
-fn Object::is_(&JsImpl, &JsImpl) -> Js
+fn Object::is_(&JsImpl, &JsImpl) -> Bool
 fn Object::keys(&JsImpl) -> Array[String]
 fn Object::new() -> Self
 fn Object::preventExtensions(&JsImpl) -> Js

@@ -11,7 +11,7 @@ test "URL::new - basic URL parsing" {
 test "URL::new - with base URL" {
   let url = URL::new("/path", base="https://example.com")
   assert_eq(url.href, "https://example.com/path")
-  assert_eq(url.origin(), "https://example.com")
+  assert_eq(url.origin, "https://example.com")
 }
 
 ///|
@@ -57,25 +57,6 @@ test "URL::new - complete URL" {
   assert_eq(url.search, "?query=value")
   assert_eq(url.hash, "#fragment")
 }
-
-///|
-// URL::can_parse is not implemented yet
-// test "URL::can_parse - valid URLs" {
-//   assert_true(URL::can_parse("https://example.com"))
-//   assert_true(URL::can_parse("http://localhost:3000"))
-//   assert_true(URL::can_parse("/path", base="https://example.com"))
-// }
-
-///|
-// test "URL::can_parse - invalid URLs" {
-//   assert_false(URL::can_parse("not a url"))
-//   assert_false(URL::can_parse("://invalid"))
-// }
-
-///|
-// test "URL::can_parse - relative URL without base" {
-//   assert_false(URL::can_parse("/relative/path"))
-// }
 
 ///|
 test "URL - origin property" {
@@ -155,37 +136,3 @@ test "URL::to_json - returns serialized URL" {
   let json = url.to_json()
   assert_eq(json, "https://example.com/path")
 }
-
-///|
-// URL::parse is not implemented yet
-// test "URL::parse - valid URL" {
-//   let url = URL::parse("https://example.com/path")
-//   match url {
-//     Some(u) => {
-//       assert_eq(u.hostname, "example.com")
-//       assert_eq(u.pathname, "/path")
-//     }
-//     None => assert_true(false)
-//   }
-// }
-
-///|
-// test "URL::parse - valid URL with base" {
-//   let url = URL::parse("/path", base="https://example.com")
-//   match url {
-//     Some(u) => assert_eq(u.href, "https://example.com/path")
-//     None => assert_true(false)
-//   }
-// }
-
-///|
-// test "URL::parse - invalid URL returns None" {
-//   let url = URL::parse("not a valid url")
-//   assert_eq(url, None)
-// }
-
-///|
-// test "URL::parse - relative URL without base returns None" {
-//   let url = URL::parse("/relative/path")
-//   assert_eq(url, None)
-// }
