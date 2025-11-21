@@ -4,7 +4,7 @@ package "mizchi/js/cloudflare"
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/dom/blob"
+  "mizchi/js/browser/blob"
   "mizchi/js/http"
   "mizchi/js/stream"
 )

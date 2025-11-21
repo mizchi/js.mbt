@@ -1,4 +1,4 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/dom/event"]
+  "import": ["mizchi/js", "mizchi/js/browser/event"]
 }

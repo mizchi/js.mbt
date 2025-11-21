@@ -3,7 +3,7 @@
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/dom",
+    "mizchi/js/browser/dom",
     "mizchi/js/http",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react/element",

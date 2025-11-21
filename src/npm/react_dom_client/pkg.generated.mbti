@@ -3,7 +3,7 @@ package "mizchi/js/npm/react_dom_client"
 
 import(
   "mizchi/js"
-  "mizchi/js/dom"
+  "mizchi/js/browser/dom"
   "mizchi/js/npm/react"
 )
 

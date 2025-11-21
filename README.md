@@ -13,7 +13,7 @@ $ moon add mizchi/js
 | Platform | Documentation | Examples | Status |
 |----------|--------------|----------|--------|
 | **Core JavaScript** | [src/README.md](./src/README.md) | [js_examples.mbt.md](./src/examples/js_examples.mbt.md) | ✅ Tested |
-| **Browser/DOM** | [src/dom/README.md](./src/dom/README.md) | - | ✅ Tested |
+| **Browser/DOM** | [src/browser/dom/README.md](./src/browser/dom/README.md) | - | ✅ Tested |
 | **Node.js** | [src/node/README.md](./src/node/README.md) | [node_examples.mbt.md](./src/examples/node_examples.mbt.md) | 🚧 Partially |
 | **Deno** | [src/deno/README.md](./src/deno/README.md) | - | ✅ Tested |
 | **Cloudflare Workers** | [src/cloudflare/README.md](./src/cloudflare/README.md) | [cfw/](./src/examples/cfw/) | ✅ Tested |
@@ -55,7 +55,7 @@ Add to your `moon.pkg.json`:
 ### Runtime-Specific
 
 - **[mizchi/js/node](./src/node/README.md)** - Node.js runtime APIs
-- **[mizchi/js/dom](./src/dom/README.md)** - Browser DOM APIs
+- **[mizchi/js/browser/dom](./src/browser/dom/README.md)** - Browser DOM APIs
 - **[mizchi/js/deno](./src/deno/README.md)** - Deno runtime APIs
 - **[mizchi/js/cloudflare](./src/cloudflare/README.md)** - Cloudflare Workers platform
 

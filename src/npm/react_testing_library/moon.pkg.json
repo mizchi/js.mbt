@@ -2,7 +2,7 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/dom",
+    "mizchi/js/browser/dom",
     "mizchi/js/node",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react/element"

@@ -1,4 +1,4 @@
-# mizchi/js/dom
+# mizchi/js/browser/dom
 
 DOM API bindings for MoonBit, providing type-safe access to browser DOM operations.
 
@@ -6,26 +6,26 @@ DOM API bindings for MoonBit, providing type-safe access to browser DOM operatio
 
 | API | Package | Status | Note |
 |-----|---------|--------|------|
-| Document | `mizchi/js/dom` | ✅ Tested | DOM manipulation |
-| Element | `mizchi/js/dom` | ✅ Tested | Element operations |
-| Node | `mizchi/js/dom` | ✅ Tested | Node interface |
-| HTMLElement | `mizchi/js/dom` | ✅ Tested | HTML elements |
-| Event | `mizchi/js/dom/event` | ✅ Tested | Event handling |
-| MouseEvent | `mizchi/js/dom/event` | ✅ Tested | Mouse events |
-| KeyboardEvent | `mizchi/js/dom/event` | ✅ Tested | Keyboard events |
-| PointerEvent | `mizchi/js/dom/event` | ✅ Tested | Pointer events |
-| FocusEvent | `mizchi/js/dom/event` | ✅ Tested | Focus events |
-| CustomEvent | `mizchi/js/dom` | ✅ Tested | Custom events |
-| Text | `mizchi/js/dom` | ✅ Tested | Text nodes |
-| Window | `mizchi/js/dom` | ✅ Tested | Window object |
-| Navigator | `mizchi/js/dom` | ✅ Tested | Browser info |
-| CSS/Style | `mizchi/js/dom` | ✅ Tested | Style manipulation |
-| Storage | `mizchi/js/dom/storage` | ✅ Tested | localStorage/sessionStorage |
-| Canvas 2D | `mizchi/js/dom/canvas` | 🤖 AI Generated | Canvas rendering |
-| Blob | `mizchi/js/dom/blob` | 🤖 AI Generated | Blob handling |
-| File | `mizchi/js/dom/file` | 🤖 AI Generated | File operations |
-| Observer | `mizchi/js/dom/observer` | 🤖 AI Generated | MutationObserver, etc. |
-| ShadowDOM | `mizchi/js/dom` | 🤖 AI Generated | Shadow DOM |
+| Document | `mizchi/js/browser/dom` | ✅ Tested | DOM manipulation |
+| Element | `mizchi/js/browser/dom` | ✅ Tested | Element operations |
+| Node | `mizchi/js/browser/dom` | ✅ Tested | Node interface |
+| HTMLElement | `mizchi/js/browser/dom` | ✅ Tested | HTML elements |
+| Event | `mizchi/js/browser/event` | ✅ Tested | Event handling |
+| MouseEvent | `mizchi/js/browser/event` | ✅ Tested | Mouse events |
+| KeyboardEvent | `mizchi/js/browser/event` | ✅ Tested | Keyboard events |
+| PointerEvent | `mizchi/js/browser/event` | ✅ Tested | Pointer events |
+| FocusEvent | `mizchi/js/browser/event` | ✅ Tested | Focus events |
+| CustomEvent | `mizchi/js/browser/dom` | ✅ Tested | Custom events |
+| Text | `mizchi/js/browser/dom` | ✅ Tested | Text nodes |
+| Window | `mizchi/js/browser/dom` | ✅ Tested | Window object |
+| Navigator | `mizchi/js/browser/dom` | ✅ Tested | Browser info |
+| CSS/Style | `mizchi/js/browser/dom` | ✅ Tested | Style manipulation |
+| Storage | `mizchi/js/browser/storage` | ✅ Tested | localStorage/sessionStorage |
+| Canvas 2D | `mizchi/js/browser/canvas` | 🤖 AI Generated | Canvas rendering |
+| Blob | `mizchi/js/browser/blob` | 🤖 AI Generated | Blob handling |
+| File | `mizchi/js/browser/file` | 🤖 AI Generated | File operations |
+| Observer | `mizchi/js/browser/observer` | 🤖 AI Generated | MutationObserver, etc. |
+| ShadowDOM | `mizchi/js/browser/dom` | 🤖 AI Generated | Shadow DOM |
 | IndexedDB | - | 📅 Planned | Client-side database |
 | ServiceWorker | - | 📅 Planned | Background workers |
 | WebSocket | - | 📅 Planned | Real-time communication |
@@ -60,7 +60,7 @@ Add to your `moon.pkg.json`:
 ```json
 {
   "import": [
-    "mizchi/js/dom"
+    "mizchi/js/browser/dom"
   ]
 }
 ```

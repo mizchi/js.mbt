@@ -1,13 +1,11 @@
 {
-  "supported-targets": [
-    "js"
-  ],
+  "supported-targets": ["js"],
   "is_main": false,
   "import": [
     "mizchi/js",
-    "mizchi/js/dom/blob",
+    "mizchi/js/browser/blob",
     "mizchi/js/arraybuffer",
     "mizchi/js/worker",
-    "mizchi/js/dom"
+    "mizchi/js/browser/dom"
   ]
 }

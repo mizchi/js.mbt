@@ -2,8 +2,8 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/dom/event",
-    "mizchi/js/dom/blob",
+    "mizchi/js/browser/event",
+    "mizchi/js/browser/blob",
     "mizchi/js/worker"
   ],
   "test-import": ["mizchi/js/npm/global_jsdom"]

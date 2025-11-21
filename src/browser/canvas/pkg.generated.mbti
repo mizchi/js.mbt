@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/dom/canvas"
+package "mizchi/js/browser/canvas"
 
 import(
   "mizchi/js"
   "mizchi/js/arraybuffer"
-  "mizchi/js/dom"
-  "mizchi/js/dom/blob"
+  "mizchi/js/browser/blob"
+  "mizchi/js/browser/dom"
   "mizchi/js/worker"
 )
 

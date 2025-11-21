@@ -51,7 +51,7 @@ Comprehensive JavaScript FFI bindings for MoonBit, providing type-safe access to
 | WebSocket | `mizchi/js/websocket` | 🤖 AI Generated | WebSocket API |
 | **Platform-Specific** |
 | Node.js APIs | `mizchi/js/node/*` | 🚧 Partially | See [node/README](./node/README.md) |
-| DOM APIs | `mizchi/js/dom/*` | ✅ Tested | See [dom/README](./dom/README.md) |
+| DOM APIs | `mizchi/js/browser/*` | ✅ Tested | See [browser/dom/README](./browser/dom/README.md) |
 | Cloudflare | `mizchi/js/cloudflare/*` | 🤖 AI Generated | Workers/D1/KV/R2 |
 | Deno | `mizchi/js/deno/*` | 🤖 AI Generated | Deno-specific APIs |
 | **NPM Packages** |
@@ -127,7 +127,7 @@ For specific APIs, import additional packages:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/dom",
+    "mizchi/js/browser/dom",
     "mizchi/js/node",
     "mizchi/js/http"
   ]
