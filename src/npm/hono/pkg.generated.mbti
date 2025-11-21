@@ -1,0 +1,93 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/hono"
+
+import(
+  "mizchi/js"
+  "mizchi/js/arraybuffer"
+  "mizchi/js/http"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct Context[Env, ExecutionContext] {
+  req : HonoRequest
+  env : Env
+  executionCtx : ExecutionContext
+}
+fn[Env, ExecutionContext] Context::body(Self[Env, ExecutionContext], String, status? : Int, headers? : @js.Js) -> @http.Response
+#alias(execution_ctx)
+fn[Env, ExecutionContext] Context::executionCtx(Self[Env, ExecutionContext]) -> ExecutionContext
+#alias(get_value)
+fn[Env, ExecutionContext] Context::getValue(Self[Env, ExecutionContext], String) -> @js.Js
+fn[Env, ExecutionContext] Context::header(Self[Env, ExecutionContext], String, String) -> Unit
+fn[Env, ExecutionContext] Context::html(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
+fn[Env, ExecutionContext, T] Context::json(Self[Env, ExecutionContext], T, status? : Int) -> @http.Response
+#alias(not_found)
+fn[Env, ExecutionContext] Context::notFound(Self[Env, ExecutionContext]) -> @http.Response
+fn[Env, ExecutionContext] Context::redirect(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
+fn[Env, ExecutionContext] Context::render(Self[Env, ExecutionContext], String) -> @http.Response
+fn[Env, ExecutionContext] Context::res(Self[Env, ExecutionContext]) -> @http.Response
+fn[Env, ExecutionContext] Context::set(Self[Env, ExecutionContext], String, @js.Js) -> Unit
+#alias(set_renderer)
+fn[Env, ExecutionContext] Context::setRenderer(Self[Env, ExecutionContext], (String) -> @http.Response) -> Unit
+fn[Env, ExecutionContext] Context::status(Self[Env, ExecutionContext], Int) -> Unit
+fn[Env, ExecutionContext] Context::text(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
+fn[Env, ExecutionContext] Context::var_(Self[Env, ExecutionContext], String) -> @js.Js
+impl[Env, ExecutionContext] @js.JsImpl for Context[Env, ExecutionContext]
+
+#external
+pub type Hono[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::all(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+#alias(base_path)
+fn[Env, ExecutionContext] Hono::basePath(Self[Env, ExecutionContext], String) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::delete(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::fetch(Self[Env, ExecutionContext], @http.Request) -> @js.Promise[@http.Response]
+fn[Env, ExecutionContext] Hono::fire(Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::get(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::mount(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::new() -> Self[Env, ExecutionContext]
+#alias(not_found)
+fn[Env, ExecutionContext] Hono::notFound(Self[Env, ExecutionContext], (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+#alias(on_error)
+fn[Env, ExecutionContext] Hono::onError(Self[Env, ExecutionContext], (@js.Js, Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::options(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::patch(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::post(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::put(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::route(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::use_(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext], () -> @js.Promise[@http.Response]) -> @js.Promise[@http.Response]) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::useall(Self[Env, ExecutionContext], (Context[Env, ExecutionContext], () -> @js.Promise[@http.Response]) -> @js.Promise[@http.Response]) -> Self[Env, ExecutionContext]
+impl[Env, ExecutionContext] @js.JsImpl for Hono[Env, ExecutionContext]
+
+#external
+pub type HonoRequest
+#alias(array_buffer)
+fn HonoRequest::arrayBuffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
+#alias(body_used)
+fn HonoRequest::bodyUsed(Self) -> Bool
+#alias(form_data)
+fn HonoRequest::formData(Self) -> @js.Promise[@http.FormData]
+fn HonoRequest::header(Self, String) -> String?
+fn HonoRequest::json(Self) -> @js.Promise[@js.Js]
+fn HonoRequest::method_(Self) -> String
+fn HonoRequest::param(Self, String) -> String?
+#alias(param_all)
+fn HonoRequest::paramAll(Self) -> @js.Js
+fn HonoRequest::path(Self) -> String
+fn HonoRequest::query(Self, String) -> String?
+#alias(query_all)
+fn HonoRequest::queryAll(Self) -> @js.Js
+fn HonoRequest::text(Self) -> @js.Promise[String]
+fn HonoRequest::url(Self) -> String
+impl @js.JsImpl for HonoRequest
+
+// Type aliases
+pub type Handler[Env, ExecutionContext] = (Context[Env, ExecutionContext]) -> @http.Response
+
+pub type Middleware[Env, ExecutionContext] = (Context[Env, ExecutionContext], () -> @js.Promise[@http.Response]) -> @js.Promise[@http.Response]
+
+// Traits
+

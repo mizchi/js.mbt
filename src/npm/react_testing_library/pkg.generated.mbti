@@ -17,11 +17,17 @@ fn configure(@js.Js) -> Unit
 #alias(fire_event)
 fn fireEvent() -> FireEvent
 
+fn get_property(@dom.HTMLElement, String) -> @js.Js
+
+fn get_string_property(@dom.HTMLElement, String) -> String
+
 fn render(@react.Element) -> RenderResult
 
 fn renderHook(@js.Js) -> RenderHookResult
 
 fn screen() -> Screen
+
+fn text_content(@dom.HTMLElement) -> String
 
 // Errors
 

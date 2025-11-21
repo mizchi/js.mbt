@@ -53,13 +53,13 @@ fn[T] useRef(T?) -> ReactRef[T]
 #alias(use_state)
 fn[T : @js.JsImpl] useState(T) -> (T, (T) -> Unit)
 
-fn[T] use_(@js.Promise[T]) -> T
-
 #alias(useActionState)
 fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)
 
 #alias(useContext)
 fn[T] use_context(Context[T]) -> T
+
+fn[T] use_promise(@js.Promise[T]) -> T
 
 #alias(useReducer)
 fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
@@ -84,10 +84,11 @@ pub(all) struct EmptyProps {
 }
 impl Default for EmptyProps
 
-#external
-pub type ReactRef[T]
-fn[T] ReactRef::current(Self[T]) -> T?
-fn[T] ReactRef::set_current(Self[T], T) -> Unit
+pub(all) struct ReactRef[T] {
+  current : @js.Js
+}
+fn[T] ReactRef::get_current(Self[T]) -> T?
+fn[T] ReactRef::set_current(Self[T], T?) -> Unit
 impl[T] @js.JsImpl for ReactRef[T]
 
 // Type aliases
