@@ -399,6 +399,222 @@ test "instanceof and typeof" {
 }
 ```
 
+## Best Practices for Type Safety
+
+### Principle 1: Use Concrete Types for Arguments
+
+When the argument type is obvious, declare it with MoonBit's built-in types (String, Int, Bool) rather than `@js.Js`.
+
+**❌ Avoid:**
+```
+fn Response::json_(self : Response, data : @js.Js) -> Response
+```
+
+**✅ Prefer:**
+```
+fn Response::json_(self : Response, data : &JsImpl) -> Response
+```
+
+### Principle 2: Accept `&JsImpl` for JavaScript Objects
+
+For functions that accept JavaScript objects, use `&JsImpl` trait bound instead of `@js.Js`. This allows passing any type that implements `JsImpl`, providing better type flexibility.
+
+**Example:**
+```moonbit
+///|
+test "types implementing JsImpl" {
+  // Types implementing JsImpl can be converted to @js.Js
+  let obj = @js.Object::new()
+  obj.set("value", 42)
+  let js_obj : @js.Js = obj.to_js()
+  
+  let arr = @js.JsArray::from([1, 2, 3])
+  let js_arr : @js.Js = arr.to_js()
+  
+  assert_eq(@js.is_object(js_obj), true)
+  assert_eq(@js.is_array(js_arr), true)
+}
+```
+
+### Principle 3: Return Concrete Types When Possible
+
+Return specific types instead of `@js.Js` when the return value type is known.
+
+**❌ Avoid:**
+```
+fn Document::getElementById(self : Document, id : String) -> @js.Js?
+```
+
+**✅ Prefer:**
+```
+fn Document::getElementById(self : Document, id : String) -> Element?
+```
+
+### Principle 4: Avoid Redundant Conversions
+
+When working with types that already implement `JsImpl`, avoid unnecessary `.to_js()` calls.
+
+**❌ Avoid:**
+```
+fn SubtleCrypto::digest(self : SubtleCrypto, algorithm : String, data : ArrayBuffer) -> Promise[@js.Js] {
+  self.to_js().call("digest", [algorithm, data.to_js()]) |> unsafe_cast
+}
+```
+
+**✅ Prefer:**
+```
+fn SubtleCrypto::digest(self : SubtleCrypto, algorithm : String, data : ArrayBuffer) -> Promise[@js.Js] {
+  self.call("digest", [algorithm, data]) |> unsafe_cast
+}
+```
+
+### Principle 5: Use Structs for Complex Return Values
+
+For complex JavaScript objects with known structure, define MoonBit structs instead of returning `@js.Js`.
+
+**Example:**
+```moonbit
+///|
+pub struct Stats {
+  pub isFile : Bool
+  pub isDirectory : Bool
+  pub size : Int
+  pub mtime : Int
+}
+
+///|
+fn parse_stats(js_stats : @js.Js) -> Stats {
+  {
+    isFile: js_stats.get("isFile") |> @js.unsafe_cast,
+    isDirectory: js_stats.get("isDirectory") |> @js.unsafe_cast,
+    size: js_stats.get("size") |> @js.unsafe_cast,
+    mtime: js_stats.get("mtime") |> @js.unsafe_cast,
+  }
+}
+
+///|
+test "structured return types" {
+  // Instead of returning @js.Js, return a typed struct
+  let stats_obj = @js.Object::new()
+  stats_obj.set("isFile", true)
+  stats_obj.set("isDirectory", false)
+  stats_obj.set("size", 1024)
+  stats_obj.set("mtime", 1234567890)
+
+  let stats = parse_stats(stats_obj.to_js())
+  assert_eq(stats.isFile, true)
+  assert_eq(stats.size, 1024)
+}
+```
+
+### Principle 6: Keep Flexibility Where Needed
+
+For highly flexible APIs (like Streams options or complex configuration objects), it's acceptable to keep `@js.Js` to maintain JavaScript interoperability. Over-constraining these types can reduce flexibility.
+
+**Example - Acceptable use of @js.Js:**
+```moonbit
+///|
+fn create_readable_stream(options : @js.Js) -> @js.Js {
+  let ctor = @js.globalThis().get("ReadableStream")
+  @js.new_(ctor, [options])
+}
+
+///|
+test "flexible configuration objects" {
+  // Stream options are complex and vary by use case
+  let opts = @js.Object::new()
+  opts.set("highWaterMark", 1024)
+  
+  let stream = create_readable_stream(opts.to_js())
+  assert_eq(@js.is_object(stream), true)
+}
+```
+
+## Naming Conventions
+
+### Function Naming
+
+1. **Web Standard APIs**: Use camelCase (following JavaScript conventions)
+   ```
+   fn createElement(tag : String) -> Element
+   fn getElementById(id : String) -> Element?
+   ```
+
+2. **MoonBit-specific wrappers**: Use snake_case
+   ```
+   fn from_entries(entries : Array[(String, @js.Js)]) -> @js.Js
+   fn to_string_radix(n : Int) -> String
+   ```
+
+### Alias Consistency
+
+Always use `#alias` with snake_case, while the implementation uses the original JavaScript name.
+
+**Pattern:**
+```
+#external
+pub type Document
+
+pub fn Document::create_element(
+  self : Document,
+  tag : String
+) -> Element = "createElement"
+```
+
+### Documentation
+
+1. **Web Standard APIs**: Include MDN links in documentation
+   ```
+   /// Creates a new element with the given tag name.
+   /// 
+   /// See: https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+   pub fn Document::create_element(self : Document, tag : String) -> Element
+   ```
+
+2. **Node.js modules**: Link to official Node.js documentation
+   ```
+   /// Returns file statistics.
+   /// 
+   /// See: https://nodejs.org/api/fs.html#fsstatpath-options-callback
+   pub fn statSync(path : String) -> Stats
+   ```
+
+## Type Declaration Guidelines
+
+### Use `#external` for Opaque Types
+
+Use `#external pub type` for types that:
+- Are created by JavaScript runtime
+- Have complex internal structure
+- Are not meant to be constructed from MoonBit
+
+```
+#external
+pub type Element
+
+#external
+pub type Document
+
+#external
+pub type Promise[T]
+```
+
+### Use `struct` for Data Containers
+
+Use `pub(all) struct` for types that:
+- Are primarily data containers
+- Have simple getter-based interfaces
+- Are not constructed from MoonBit
+
+```
+pub(all) struct DOMRect {
+  x : Double
+  y : Double
+  width : Double
+  height : Double
+}
+```
+
 ## Summary
 
 These patterns demonstrate:
@@ -410,5 +626,6 @@ These patterns demonstrate:
 - BigInt operations
 - Symbol usage
 - Global JavaScript APIs
+- Best practices for type safety and naming conventions
 
 For more details, see [docs/moonbit-js-ffi.md](../../docs/moonbit-js-ffi.md).

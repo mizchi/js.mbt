@@ -1,86 +1,50 @@
-# Type Refinement Plan - リリース前の型具体化
+# Pending Tasks - Post-Release Improvements
 
-## 目的
+## Medium Priority: Post-Release
 
-`@js.Js` を多用している箇所を、可能な限り具体的な型に置き換え、型安全性を向上させる。
+### Node.js FS Type Refinement
+- [ ] Change `statSync(String) -> @js.Js` to return a `Stats` struct
+- [ ] Define `Stats` struct with fields: `isFile`, `isDirectory`, `size`, `mtime`, etc.
 
-## 基本方針
+**Status**: Deferred until after initial release. Current `@js.Js` return type provides sufficient flexibility for most use cases.
 
-1. **引数の型が自明な場合**: MoonBitのビルトイン型（String, Int, Bool等）で宣言してからキャストする
-2. **JSオブジェクトを受け取る場合**: `&JsImpl` で受けて `.to_js()` でキャストする
-3. **返り値**: 可能な限り具体的な型を返す（Element, String等）
+## Refactoring Tasks (Post-Release)
 
-## 優先度高: リリース前に必須
+### Coding Convention Standardization
 
-### 1. `src/console/` - ✅ 完了
-- [x] `assert_(Bool, @js.Js)` → `assert_(Bool, &JsImpl)`
-- [x] 全ての関数で `&JsImpl` を受け付けるように変更
+1. **`#alias` Consistency**
+   - Always use snake_case for `#alias` names
+   - Implementation should use the original JavaScript function name
+   - Example: `#alias(create_element)` + `fn createElement(...)`
 
-### 2. `src/crypto/` - ✅ 完了
-- [x] SubtleCrypto メソッドで不要な `.to_js()` 呼び出しを削除
-- [x] `self.to_js().call()` → `self.call()` に統一
+2. **Function Naming Conventions**
+   - Web Standard APIs: Use camelCase (JavaScript convention)
+   - MoonBit-specific wrappers: Use snake_case
 
-### 3. `src/http/` - ✅ 完了
-- [x] `Response::json_(@js.Js)` → `Response::json_(&JsImpl)`
-- [x] オプション引数も `&JsImpl` で受け取るように変更
+3. **Documentation Links**
+   - Web Standard APIs: Include MDN reference links
+   - Node.js modules: Include links to official Node.js documentation
 
-### 4. `src/dom/` - ✅ 完了
-- [x] `Document::getElementById(String) -> @js.Js?` → `Element?`
-- [x] `Document::getElementsByClassName(String) -> @js.Js` → `Array[Element]`
-- [x] `Document::getElementsByTagName(String) -> @js.Js` → `Array[Element]`
-- [x] `Document::createDocumentFragment()` → `DocumentFragment`
-- [x] `Document::createComment()` → `Node`
+4. **Type Declaration Optimization**
+   - Review `#external pub type` declarations
+   - Convert to `pub(all) struct` when the type meets these criteria:
+     - Not constructed from MoonBit side
+     - Primarily consists of simple getters
+   - Examples: `DOMRect`, `DOMRectReadOnly`
 
-### 5. `src/websocket/` - ✅ 完了
-- [x] プロパティの返り値を具体化（String, Int, Bool）
-- [x] イベントヘルパー関数の返り値を具体化
+## Completed Tasks ✅
 
-## 優先度中: リリース後でも可
+- ✅ `src/console/` - Accept `&JsImpl` instead of `@js.Js`
+- ✅ `src/crypto/` - Remove redundant `.to_js()` calls in SubtleCrypto methods
+- ✅ `src/http/` - Change `Response::json_(@js.Js)` to accept `&JsImpl`
+- ✅ `src/dom/` - Return concrete types (Element, DocumentFragment, Node) instead of `@js.Js`
+- ✅ `src/websocket/` - Use concrete types for properties and event helpers
+- ✅ Package reorganization - Extract web standard APIs to `src/web/*`
+- ✅ Documentation updates - Reflect new package structure across all READMEs
 
-### 6. `src/stream/` - Stream APIの型具体化
-- 現状: ストリームのオプションオブジェクトは複雑で、構造体化すると柔軟性が失われる
-- 決定: 現在の `@js.Js` のまま維持（リリース後に必要に応じて再検討）
+## Notes
 
-### 7. `src/node/fs/` - Node.js FSの型具体化
-- [ ] `statSync(String) -> @js.Js` を Stats 構造体に変更
-- [ ] Stats 構造体を定義（isFile, isDirectory, size, mtime 等）
-
-### 8. `src/cloudflare/` - Cloudflare APIの型具体化
-- 現状: 主要な型は既に具体化済み（KVNamespace, R2Bucket等）
-- 決定: 現状で十分（リリース後に必要に応じて拡張）
-
-## 実施手順
-
-1. 各パッケージの `.mbti` を確認して、`@js.Js` を使っている箇所をリストアップ
-2. 該当する `.mbt` ファイルを修正
-3. `moon info && moon test` で動作確認
-4. 一つずつコミット
-
-## 注意事項
-
-- JavaScriptとの相互運用性を保つため、過度な型制約は避ける
-- 既存のユーザーコードへの影響を最小限にする
-- テストが全て通ることを確認してからコミット
-
-## リファクタリングタスク（リリース後）
-
-### コーディング規約の統一
-
-1. **#alias の一貫性**
-   - `#alias` には必ず snake_case を書く
-   - 実装側には元のJavaScript関数名を宣言する
-   - 例: `#alias(create_element)` + `fn createElement(...)`
-
-2. **関数名の規約**
-   - Web標準API: camelCase（JavaScript準拠）
-   - MoonBit固有のラッパー: snake_case
-
-3. **ドキュメントリンク**
-   - Web標準API: MDNのリンクを記述
-   - Node.jsモジュール: Node.js公式サイトの該当モジュールへのリンクを記述
-
-4. **型宣言の最適化**
-   - `#external pub type` で宣言されているもののうち、以下の条件を満たすものは `pub(all) struct` に変更:
-     - MoonBit側から生成しない
-     - ほぼ単純なgetterで構成されている
-   - 例: `DOMRect`, `DOMRectReadOnly` など
+- The goal is to improve type safety while maintaining JavaScript interoperability
+- Avoid over-constraining types that need flexibility (e.g., Stream options)
+- All changes should pass `moon test` before committing
+- Type refinement decisions documented in `src/examples/js_ffi.mbt.md`
