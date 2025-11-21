@@ -4,6 +4,12 @@ fn vm_module() -> Js {
   @node.require("node:vm")
 }
 
+///|
+/// TODO: Add vm.Module support
+/// vm.Module (SourceTextModule, SyntheticModule) is currently marked as unstable in Node.js.
+/// These APIs will be added once they are stabilized.
+/// See: https://nodejs.org/api/vm.html#class-vmmodule
+
 ///| Script class
 
 ///|
