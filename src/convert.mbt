@@ -6,7 +6,7 @@
 // - from_entries() - Convert tuple array to JS Object
 // - from_entries_option() - Convert optional tuple array to JS Object
 // - from_fn0/1/2/3() - Convert MoonBit functions to JS functions
-// - from_builtin_json() - Convert MoonBit Json to JS Object
+// - from_json() - Convert MoonBit Json type to JS Object
 // - to_json() / to_js() - Bidirectional conversion between Json and Js
 
 ///|
@@ -136,7 +136,26 @@ pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
 }
 
 ///|
-pub fn from_builtin_json(j : Json) -> Js {
+/// Convert MoonBit's builtin `Json` type to JavaScript `Js` value.
+///
+/// **Important**: This converts MoonBit's `Json` type (from `@json` package),
+/// NOT JavaScript's JSON string. For parsing JSON strings, use `JSON.parse()`.
+///
+/// # Example
+///
+/// ```moonbit
+/// // Convert MoonBit Json to Js
+/// let json : Json = { "name": "Alice", "age": 30 }
+/// let js_obj = from_json(json)
+/// ```
+///
+/// For JSON string parsing, use JavaScript's `JSON.parse()` directly:
+///
+/// ```moonbit no-check
+/// let json_str = "{\"name\":\"Alice\"}"
+/// let js_obj = JSON.parse(json_str)
+/// ```
+pub fn from_json(j : Json) -> Js {
   JsImpl::to_js(j)
 }
 

@@ -15,7 +15,7 @@ pub(open) trait Transferable {
 /// fn _worker() -> Unit {
 ///   let worker = Worker::new("./worker_script.js", type_="module")
 ///   // or: extern "js" fn get_my_worker() -> Worker = "() => new Worker('./worker_script.js', { type: 'module' })"
-///   worker.post_message(@js.from_builtin_json({
+///   worker.post_message(@js.from_json({
 ///     "type": "greeting"
 ///   }))
 ///   worker.addEventListener("message", _event => {

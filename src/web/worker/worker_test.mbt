@@ -61,7 +61,7 @@ test "MessagePort::post_message sends a number" {
 // test "MessagePort::post_message sends an object" {
 //   let channel = MessageChannel::new()
 //   let port1 = channel.port1()
-//   let data = @js.from_builtin_json({ "type": "test", "value": 123 })
+//   let data = @js.from_json({ "type": "test", "value": 123 })
 //   port1.post_message(data)
 //   inspect(@js.typeof_(port1.to_js()), content="object")
 // }

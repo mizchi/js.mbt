@@ -14,9 +14,9 @@ test "is_builtin_trait detects MoonBit builtin traits" {
 }
 
 ///|
-test "from_builtin_json converts builtin Json to Js object" {
+test "from_json converts MoonBit Json to Js object" {
   inspect(
-    from_builtin_json({
+    from_json({
       "value": null,
       "items": [1, 2, 3],
       "nested": { "key": "value" },
@@ -26,7 +26,7 @@ test "from_builtin_json converts builtin Json to Js object" {
     ),
   )
   inspect(
-    from_builtin_json({ "age": 30, "name": "Alice" }),
+    from_json({ "age": 30, "name": "Alice" }),
     content=(
       #|{"age":30,"name":"Alice"}
     ),
