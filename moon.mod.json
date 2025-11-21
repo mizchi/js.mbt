@@ -15,9 +15,9 @@
     "cloudflare",
     "deno"
   ],
-  "description": "js/browser/node/deno/cloudfare/react and etc.",
+  "description": "js/node.js/browser/react and etc.",
   "source": "src",
-  "warn-list": "",
+  "warn-list": "-2-3-28-29-53",
   "alert-list": "-deprecated",
   "preferred-target": "js"
 }
