@@ -264,31 +264,6 @@ pub fn test_(
 }
 
 ///|
-/// test.skip(name, fn) - Skip a test
-pub fn test_skip(name : String, f : async (TestContext) -> Unit) -> Unit {
-  test_(name, skip=true, f)
-}
-
-///|
-/// test.todo(name, fn) - Mark test as TODO
-pub fn test_todo(name : String, f? : async (TestContext) -> Unit) -> Unit {
-  match f {
-    Some(fn_) => test_(name, todo=true, fn_)
-    None => {
-      let options = @js.Object::new()
-      options.set("todo", true)
-      nodetest().call2("test", name, options) |> ignore
-    }
-  }
-}
-
-///|
-/// test.only(name, fn) - Run only this test
-pub fn test_only(name : String, f : async (TestContext) -> Unit) -> Unit {
-  test_(name, only=true, f)
-}
-
-///|
 /// it(name, fn) - Alias for test()
 pub fn it(
   name : String,
@@ -340,31 +315,6 @@ pub fn describe(
   }
   nodetest().call("describe", [name, options, promisify1(f) |> @js.from_fn1])
   |> ignore
-}
-
-///|
-/// describe.skip(name, fn)
-pub fn describe_skip(name : String, f : async (SuiteContext) -> Unit) -> Unit {
-  describe(name, skip=true, f)
-}
-
-///|
-/// describe.todo(name, fn)
-pub fn describe_todo(name : String, f? : async (SuiteContext) -> Unit) -> Unit {
-  match f {
-    Some(fn_) => describe(name, todo=true, fn_)
-    None => {
-      let options = @js.Object::new()
-      options.set("todo", true)
-      nodetest().call2("describe", name, options) |> ignore
-    }
-  }
-}
-
-///|
-/// describe.only(name, fn)
-pub fn describe_only(name : String, f : async (SuiteContext) -> Unit) -> Unit {
-  describe(name, only=true, f)
 }
 
 ///| Lifecycle hooks
