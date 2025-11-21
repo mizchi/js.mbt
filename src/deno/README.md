@@ -1,6 +1,36 @@
-# @mizchi/js/deno
+# mizchi/js/deno
 
 MoonBit bindings for Deno runtime APIs.
+
+## Deno API Support Status
+
+| Category | API | Status | Note |
+|----------|-----|--------|------|
+| **Runtime** |
+| Environment Variables | `env_get/set/delete/toObject` | ✅ Tested | Process environment |
+| Process | `cwd/exit/args` | ✅ Tested | Process information |
+| **File System** |
+| Read/Write Text | `readTextFile/writeTextFile` | ✅ Tested | Text file operations |
+| Read/Write Binary | `readFile/writeFile` | ✅ Tested | Binary file operations |
+| Directory | `readDir/mkdir/remove` | ✅ Tested | Directory operations |
+| **Testing** |
+| Test Definition | `test_/test_async/test_only` | ✅ Tested | Test framework |
+| **Permissions** |
+| Query/Request/Revoke | `permissions_*` | ✅ Tested | Permission management |
+| PermissionStatus | `state/is_granted` | ✅ Tested | Permission state |
+| **Planned APIs** |
+| Network | `connect/listen/serve` | 📅 Planned | TCP/HTTP networking |
+| Subprocess | `Command/run` | 📅 Planned | Process spawning |
+| KV | `openKv` | 📅 Planned | Key-value storage |
+| FFI | `dlopen` | 📅 Planned | Foreign function interface |
+| WebGPU | `Deno.gpu` | 📅 Planned | GPU acceleration |
+
+### Status Legend
+
+- ✅ **Tested**: Comprehensive test coverage
+- 📅 **Planned**: Scheduled for future implementation
+
+---
 
 ## Installation
 
@@ -9,7 +39,6 @@ Add to your `moon.pkg.json`:
 ```json
 {
   "import": [
-    "mizchi/js",
     "mizchi/js",
     "mizchi/js/deno"
   ]
