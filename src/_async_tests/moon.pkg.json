@@ -22,6 +22,10 @@
       "alias": "net"
     },
     {
+      "path": "mizchi/js/node/http",
+      "alias": "http"
+    },
+    {
       "path": "mizchi/js/node/fs_promises",
       "alias": "fs_promises"
     },

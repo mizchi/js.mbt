@@ -1,5 +1,21 @@
 ///|
-using @net {createServer, createConnection, isIP, isIPv4, isIPv6}
+using @net {createConnection, isIP, isIPv4, isIPv6}
+
+fn createNetServer(
+  allowHalfOpen? : Bool,
+  pauseOnConnect? : Bool,
+  noDelay? : Bool,
+  keepAlive? : Bool,
+  keepAliveInitialDelay? : Int
+) -> @net.Server {
+  @net.createServer(
+    allowHalfOpen?,
+    pauseOnConnect?,
+    noDelay?,
+    keepAlive?,
+    keepAliveInitialDelay?
+  )
+}
 
 ///| IP validation tests
 
@@ -35,7 +51,7 @@ test {
 ///|
 test {
   it("Server can be created", _ => {
-    let server = createServer()
+    let server = createNetServer()
     inspect(server.listening(), content="false")
   })
 }
@@ -43,7 +59,7 @@ test {
 ///|
 test {
   it("Server can be created with options", _ => {
-    let server = createServer(
+    let server = createNetServer(
       allowHalfOpen=true,
       pauseOnConnect=false,
       noDelay=true,
@@ -58,7 +74,7 @@ test {
 test {
   it("Server listen with callback", _ => {
     let mut callback_called = false
-    let server = createServer()
+    let server = createNetServer()
     server.listen(0, host="127.0.0.1", callback=fn() { callback_called = true })
     |> ignore
     sleep(100)
@@ -71,7 +87,7 @@ test {
 ///|
 test {
   it("Server listen and get address", _ => {
-    let server = createServer()
+    let server = createNetServer()
     server.listen(0, host="127.0.0.1") |> ignore
     sleep(50)
     let address = server.address()

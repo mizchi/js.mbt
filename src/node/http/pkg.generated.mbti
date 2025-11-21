@@ -1,0 +1,88 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/http"
+
+import(
+  "mizchi/js"
+  "mizchi/js/node/events"
+  "mizchi/js/node/net"
+  "mizchi/js/node/stream"
+)
+
+// Values
+fn createServer(requestListener? : (IncomingMessage, ServerResponse) -> Unit) -> Server
+
+fn get(String, options? : @js.Js, callback? : (IncomingMessage) -> Unit) -> ClientRequest
+
+fn globalAgent() -> @js.Js
+
+fn request(String, options? : @js.Js, callback? : (IncomingMessage) -> Unit) -> ClientRequest
+
+fn status_codes() -> @js.Js
+
+// Errors
+
+// Types and methods
+#external
+pub type ClientRequest
+fn ClientRequest::abort(Self) -> Unit
+fn ClientRequest::as_writable(Self) -> @stream.Writable
+fn ClientRequest::end(Self, data? : String, encoding? : String) -> Unit
+fn ClientRequest::getHeader(Self, String) -> String?
+fn ClientRequest::removeHeader(Self, String) -> Unit
+fn ClientRequest::setHeader(Self, String, String) -> Unit
+fn ClientRequest::setTimeout(Self, Int, callback? : () -> Unit) -> Self
+fn ClientRequest::write(Self, String, encoding? : String) -> Bool
+impl @js.JsImpl for ClientRequest
+impl @events.EventEmitterImpl for ClientRequest
+
+#external
+pub type IncomingMessage
+fn IncomingMessage::as_readable(Self) -> @stream.Readable
+fn IncomingMessage::headers(Self) -> @js.Js
+fn IncomingMessage::httpVersion(Self) -> String
+fn IncomingMessage::method_(Self) -> String?
+fn IncomingMessage::rawHeaders(Self) -> Array[String]
+fn IncomingMessage::setTimeout(Self, Int, callback? : () -> Unit) -> Self
+fn IncomingMessage::socket(Self) -> @net.Socket
+fn IncomingMessage::statusCode(Self) -> Int?
+fn IncomingMessage::statusMessage(Self) -> String?
+fn IncomingMessage::url(Self) -> String?
+impl @js.JsImpl for IncomingMessage
+impl @events.EventEmitterImpl for IncomingMessage
+
+#external
+pub type Server
+fn Server::address(Self) -> @js.Js?
+fn Server::close(Self, callback? : () -> Unit) -> Self
+fn Server::listen(Self, Int, host? : String, backlog? : Int, callback? : () -> Unit) -> Self
+fn Server::listening(Self) -> Bool
+fn Server::maxHeadersCount(Self) -> Int?
+fn Server::setTimeout(Self, Int, callback? : () -> Unit) -> Self
+fn Server::set_maxHeadersCount(Self, Int) -> Unit
+fn Server::set_timeout(Self, Int) -> Unit
+fn Server::timeout(Self) -> Int
+impl @js.JsImpl for Server
+impl @events.EventEmitterImpl for Server
+
+#external
+pub type ServerResponse
+fn ServerResponse::as_writable(Self) -> @stream.Writable
+fn ServerResponse::end(Self, data? : String, encoding? : String) -> Unit
+fn ServerResponse::getHeader(Self, String) -> String?
+fn ServerResponse::headersSent(Self) -> Bool
+fn ServerResponse::removeHeader(Self, String) -> Unit
+fn ServerResponse::setHeader(Self, String, String) -> Unit
+fn ServerResponse::setTimeout(Self, Int, callback? : () -> Unit) -> Self
+fn ServerResponse::set_statusCode(Self, Int) -> Unit
+fn ServerResponse::set_statusMessage(Self, String) -> Unit
+fn ServerResponse::statusCode(Self) -> Int
+fn ServerResponse::statusMessage(Self) -> String
+fn ServerResponse::write(Self, String, encoding? : String) -> Bool
+fn ServerResponse::writeHead(Self, Int, statusMessage? : String, headers? : @js.Js) -> Self
+impl @js.JsImpl for ServerResponse
+impl @events.EventEmitterImpl for ServerResponse
+
+// Type aliases
+
+// Traits
+
