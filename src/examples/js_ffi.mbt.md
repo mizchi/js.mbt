@@ -412,12 +412,19 @@ fn Response::json_(self : Response, data : @js.Js) -> Response
 
 **✅ Prefer:**
 ```
-fn Response::json_(self : Response, data : &JsImpl) -> Response
+fn Response::json_[T : JsImpl](self : Response, data : T) -> Response
 ```
 
-### Principle 2: Accept `&JsImpl` for JavaScript Objects
+### Principle 2: Accept Types with `JsImpl` Trait Bound
 
-For functions that accept JavaScript objects, use `&JsImpl` trait bound instead of `@js.Js`. This allows passing any type that implements `JsImpl`, providing better type flexibility.
+For functions that accept JavaScript objects, use generic type parameters with `JsImpl` trait bound instead of `@js.Js`. This allows passing any type that implements `JsImpl`, providing better type flexibility.
+
+**Pattern:**
+```
+fn process[T : JsImpl](data : T) -> @js.Js {
+  data.to_js()
+}
+```
 
 **Example:**
 ```moonbit
