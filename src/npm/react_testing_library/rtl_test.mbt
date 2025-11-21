@@ -139,7 +139,9 @@ test "getByDisplayValue query" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   cleanup()
-  let comp = (_props : AppProps) => div([input(value="test value", on_change=fn(_) { () })])
+  let comp = (_props : AppProps) => div([
+    input(value="test value", on_change=fn(_) { () }),
+  ])
   render(component(comp, AppProps::default())) |> ignore
   let input_el = screen().getByDisplayValue("test value")
   get_string_property(input_el, "value") |> assert_eq("test value")
