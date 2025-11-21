@@ -39,7 +39,7 @@ extern "js" fn build_hono_options(strict : Bool) -> Js =
 ///|
 /// Create a new Hono instance
 /// Example with strict mode disabled:
-/// ```moonbit
+/// ```moonbit no-check
 /// let app = Hono::new(strict=false)
 /// ```
 pub fn[Env, ExecutionContext] Hono::new(
