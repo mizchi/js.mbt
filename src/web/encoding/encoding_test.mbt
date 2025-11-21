@@ -1,4 +1,7 @@
 ///|
+using @arraybuffer { type Uint8Array }
+
+///|
 test "TextEncoder::new - create encoder" {
   let encoder = TextEncoder::new()
   assert_true(encoder |> @js.is_object())
