@@ -5,5 +5,10 @@
       "exports": ["get_fetch_handler", "get_kv_handler"]
     }
   },
-  "import": ["mizchi/js", "mizchi/js/web/http", "mizchi/js/cloudflare"]
+  "import": [
+    "mizchi/js",
+    "mizchi/js/web/http",
+    "mizchi/js/web/url",
+    "mizchi/js/cloudflare"
+  ]
 }

@@ -5,7 +5,7 @@ using @js {log, promisify3}
 using @http {type Response, fetch}
 
 ///|
-using @http {type URL}
+using @url { type URL }
 
 ///|
 pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {

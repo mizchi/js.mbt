@@ -2,7 +2,8 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    { "path": "mizchi/js/web/http", "alias": "weburl" },
+    "mizchi/js/web/http",
+    { "path": "mizchi/js/web/url", "alias": "weburl" },
     "mizchi/js/node"
   ]
 }

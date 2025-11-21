@@ -8,3 +8,6 @@ using @js {
   type Promise,
   run_async,
 }
+
+///|
+using @url { type URL, type URLSearchParams }

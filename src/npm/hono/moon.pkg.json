@@ -3,6 +3,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/web/http",
+    "mizchi/js/web/url",
     "mizchi/js/arraybuffer",
     "mizchi/js/node"
   ]

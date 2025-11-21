@@ -2,7 +2,7 @@
 using @js {unsafe_cast}
 
 ///|
-using @weburl {type URL}
+using @weburl { type URL }
 
 ///|
 test "URL constructor with absolute URL" {

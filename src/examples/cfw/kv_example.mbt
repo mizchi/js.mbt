@@ -38,7 +38,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
     _ctx : @cloudflare.CloudflareContext,
   ) -> @http.Response {
     let url_str = req.url()
-    let url = @http.URL::new(url_str)
+    let url = @url.URL::new(url_str)
     let pathname = url.pathname
 
     // Get KV namespace
