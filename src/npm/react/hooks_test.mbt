@@ -149,7 +149,7 @@ test "ReactRef::current and set_current" {
   let comp = (_props : EmptyProps) => {
     let (text, set_text) = useState("initial")
     let r : ReactRef[@dom.HTMLSpanElement] = useRef(None)
-    let on_click : @dom.MouseEventHandler = _ => match r.current() {
+    let on_click : @dom.MouseEventHandler = _ => match r.get_current() {
       Some(el) => {
         el.set("textContent", "Updated by ref")
         set_text("updated")
@@ -175,7 +175,7 @@ test "ReactRef::current None case" {
   let comp = (_props : EmptyProps) => {
     let (msg, set_msg) = useState("waiting")
     let r : ReactRef[@dom.Element] = useRef(None)
-    let on_click : @dom.MouseEventHandler = _ => match r.current() {
+    let on_click : @dom.MouseEventHandler = _ => match r.get_current() {
       Some(_) => set_msg("has ref")
       None => set_msg("no ref")
     }
@@ -196,8 +196,8 @@ test "ReactRef::set_current" {
     let (msg, set_msg) = useState("initial")
     let r : ReactRef[@js.Js] = useRef(None)
     let on_click : @dom.MouseEventHandler = _ => {
-      r.set_current(@js.unsafe_cast("custom value"))
-      match r.current() {
+      r.set_current(Some(@js.unsafe_cast("custom value")))
+      match r.get_current() {
         Some(v) => {
           let s : String = @js.unsafe_cast(v)
           set_msg(s)

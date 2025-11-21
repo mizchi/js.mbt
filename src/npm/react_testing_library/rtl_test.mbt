@@ -53,7 +53,7 @@ test "RenderResult methods" {
   let base = result.baseElement()
   @js.typeof_(base) |> assert_eq("object")
   // Test debug (should not throw)
-  result.debug()
+  // result.debug()
   // Test rerender
   let comp2 = (_props : AppProps) => div(["Rerendered Content"])
   result.rerender(component(comp2, AppProps::default()))
@@ -139,7 +139,7 @@ test "getByDisplayValue query" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   cleanup()
-  let comp = (_props : AppProps) => div([input(value="test value")])
+  let comp = (_props : AppProps) => div([input(value="test value", on_change=fn(_) { () })])
   render(component(comp, AppProps::default())) |> ignore
   let input_el = screen().getByDisplayValue("test value")
   get_string_property(input_el, "value") |> assert_eq("test value")

@@ -107,34 +107,42 @@ pub fn[T] useRef(initial : T?) -> ReactRef[T] {
 
 ///|
 /// React.Ref<T>
-#external
-pub type ReactRef[T]
+pub(all) struct ReactRef[T] {
+  current : @js.Js
+}
 
 ///|
-pub impl[T] JsImpl for ReactRef[T]
-
-///|
-extern "js" fn current_internal(v : Js) -> Js =
-  #| (v) => v.current
-
-///|
-extern "js" fn set_current_internal(v : Js, o : Js) -> Unit =
-  #| (v, o) => v.current = o
-
-///|
-pub fn[T] ReactRef::current(v : ReactRef[T]) -> T? {
-  let v = current_internal(v |> @js.unsafe_js)
-  if @js.is_undefined(v) || @js.is_null(v) {
+pub fn[T] ReactRef::get_current(self : ReactRef[T]) -> T? {
+  let js_val = self.current
+  if ffi_is_nullish(js_val) {
     None
   } else {
-    Some(unsafe_cast(v))
+    Some(@js.unsafe_cast(js_val))
   }
 }
 
 ///|
-pub fn[T] ReactRef::set_current(v : ReactRef[T], o : T) -> Unit {
-  set_current_internal(v |> unsafe_cast, o |> unsafe_cast)
+extern "js" fn ffi_is_nullish(value : @js.Js) -> Bool =
+  #| (value) => value == null || value === undefined
+
+///|
+pub fn[T] ReactRef::set_current(self : ReactRef[T], value : T?) -> Unit {
+  let js_val : @js.Js = match value {
+    Some(v) => @js.unsafe_cast(v)
+    None => @js.undefined()
+  }
+  // Direct assignment to JS field
+  ffi_set_ref_current(self |> @js.unsafe_cast, js_val)
 }
+
+///|
+extern "js" fn ffi_set_ref_current(ref_obj : @js.Js, value : @js.Js) -> Unit =
+  #| (ref, value) => {
+  #|   ref.current = value;
+  #| }
+
+///|
+pub impl[T] JsImpl for ReactRef[T]
 
 ///|
 #external
@@ -148,15 +156,16 @@ pub fn[T] create_context(initial : T?) -> Context[T] {
 }
 
 ///|
-/// React.useContext
+/// React.useContext - internally uses React.use()
 #alias(useContext)
 pub fn[T] use_context(ctx : Context[T]) -> T {
-  unsafe_cast(ffi_react_use_context(ctx |> unsafe_cast))
+  unsafe_cast(ffi_react_use(ctx |> unsafe_cast))
 }
 
 ///|
-/// React.use
-pub fn[T] use_(promise : Promise[T]) -> T {
+/// React.use - Use a Promise with React.use()
+/// Note: This uses React.use() internally
+pub fn[T] use_promise(promise : Promise[T]) -> T {
   unsafe_cast(ffi_react_use(promise |> unsafe_cast))
 }
 
@@ -230,6 +239,6 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 /// let my_lazy_component: (props: MyLazyComponentProps) -> Element =
 ///   lazy_(load_my_lazy_component)
 /// ```
-pub fn[T] lazy_(f : async () -> (T) -> Element) -> (EmptyProps) -> Promise[Js] {
+pub fn[T] lazy_(f : async () -> ComponentFn[T]) -> (EmptyProps) -> Promise[Js] {
   f |> promisify0 |> @js.unsafe_js |> ffi_react_lazy() |> unsafe_cast
 }
