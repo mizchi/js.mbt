@@ -172,7 +172,7 @@ fn app(props : AppProps) -> @react.Element {
   let on_change : @dom.ChangeEventHandler = useCallback(
     ev => {
       let target : @dom.HTMLTextAreaElement = unsafe_cast(ev.target().to_js())
-      let value : String = target.value()
+      let value : String = target.value
       set_text(value)
       log("Textarea changed: \{value}")
     },

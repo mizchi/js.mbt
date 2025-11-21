@@ -226,12 +226,10 @@ pub type FormEvent
 fn FormEvent::formData(Self) -> @js.Js
 impl EventImpl for FormEvent
 
-#external
-pub type HTMLAnchorElement
-fn HTMLAnchorElement::href(Self) -> String
-fn HTMLAnchorElement::setHref(Self, String) -> Unit
-fn HTMLAnchorElement::setTarget(Self, String) -> Unit
-fn HTMLAnchorElement::target(Self) -> String
+pub(all) struct HTMLAnchorElement {
+  mut href : String
+  mut target : String
+}
 impl @js.JsImpl for HTMLAnchorElement
 impl ElementImpl for HTMLAnchorElement
 impl HTMLElementImpl for HTMLAnchorElement
@@ -246,10 +244,9 @@ impl HTMLElementImpl for HTMLBodyElement
 impl NodeImpl for HTMLBodyElement
 impl @event.EventTargetImpl for HTMLBodyElement
 
-#external
-pub type HTMLButtonElement
-fn HTMLButtonElement::disabled(Self) -> Bool
-fn HTMLButtonElement::setDisabled(Self, Bool) -> Unit
+pub(all) struct HTMLButtonElement {
+  mut disabled : Bool
+}
 impl @js.JsImpl for HTMLButtonElement
 impl ElementImpl for HTMLButtonElement
 impl HTMLElementImpl for HTMLButtonElement
@@ -341,30 +338,24 @@ impl HTMLElementImpl for HTMLIFrameElement
 impl NodeImpl for HTMLIFrameElement
 impl @event.EventTargetImpl for HTMLIFrameElement
 
-#external
-pub type HTMLImageElement
-fn HTMLImageElement::alt(Self) -> String
-fn HTMLImageElement::setAlt(Self, String) -> Unit
-fn HTMLImageElement::setSrc(Self, String) -> Unit
-fn HTMLImageElement::src(Self) -> String
+pub(all) struct HTMLImageElement {
+  mut src : String
+  mut alt : String
+}
 impl @js.JsImpl for HTMLImageElement
 impl ElementImpl for HTMLImageElement
 impl HTMLElementImpl for HTMLImageElement
 impl NodeImpl for HTMLImageElement
 impl @event.EventTargetImpl for HTMLImageElement
 
-#external
-pub type HTMLInputElement
-fn HTMLInputElement::checked(Self) -> Bool
-fn HTMLInputElement::disabled(Self) -> Bool
-fn HTMLInputElement::placeholder(Self) -> String
-fn HTMLInputElement::setChecked(Self, Bool) -> Unit
-fn HTMLInputElement::setDisabled(Self, Bool) -> Unit
-fn HTMLInputElement::setPlaceholder(Self, String) -> Unit
+pub(all) struct HTMLInputElement {
+  mut disabled : Bool
+  mut value : String
+  mut placeholder : String
+  mut checked : Bool
+}
 fn HTMLInputElement::setType(Self, String) -> Unit
-fn HTMLInputElement::setValue(Self, String) -> Unit
 fn HTMLInputElement::type_(Self) -> String
-fn HTMLInputElement::value(Self) -> String
 impl @js.JsImpl for HTMLInputElement
 impl ElementImpl for HTMLInputElement
 impl HTMLElementImpl for HTMLInputElement
@@ -379,10 +370,9 @@ impl HTMLElementImpl for HTMLLIElement
 impl NodeImpl for HTMLLIElement
 impl @event.EventTargetImpl for HTMLLIElement
 
-#external
-pub type HTMLLabelElement
-fn HTMLLabelElement::htmlFor(Self) -> String
-fn HTMLLabelElement::setHtmlFor(Self, String) -> Unit
+pub(all) struct HTMLLabelElement {
+  mut htmlFor : String
+}
 impl @js.JsImpl for HTMLLabelElement
 impl ElementImpl for HTMLLabelElement
 impl HTMLElementImpl for HTMLLabelElement
@@ -397,12 +387,10 @@ impl HTMLElementImpl for HTMLOListElement
 impl NodeImpl for HTMLOListElement
 impl @event.EventTargetImpl for HTMLOListElement
 
-#external
-pub type HTMLOptionElement
-fn HTMLOptionElement::selected(Self) -> Bool
-fn HTMLOptionElement::setSelected(Self, Bool) -> Unit
-fn HTMLOptionElement::setValue(Self, String) -> Unit
-fn HTMLOptionElement::value(Self) -> String
+pub(all) struct HTMLOptionElement {
+  mut value : String
+  mut selected : Bool
+}
 impl @js.JsImpl for HTMLOptionElement
 impl ElementImpl for HTMLOptionElement
 impl HTMLElementImpl for HTMLOptionElement
@@ -417,12 +405,10 @@ impl HTMLElementImpl for HTMLParagraphElement
 impl NodeImpl for HTMLParagraphElement
 impl @event.EventTargetImpl for HTMLParagraphElement
 
-#external
-pub type HTMLSelectElement
-fn HTMLSelectElement::disabled(Self) -> Bool
-fn HTMLSelectElement::setDisabled(Self, Bool) -> Unit
-fn HTMLSelectElement::setValue(Self, String) -> Unit
-fn HTMLSelectElement::value(Self) -> String
+pub(all) struct HTMLSelectElement {
+  mut value : String
+  mut disabled : Bool
+}
 impl @js.JsImpl for HTMLSelectElement
 impl ElementImpl for HTMLSelectElement
 impl HTMLElementImpl for HTMLSelectElement
@@ -437,20 +423,14 @@ impl HTMLElementImpl for HTMLSpanElement
 impl NodeImpl for HTMLSpanElement
 impl @event.EventTargetImpl for HTMLSpanElement
 
-#external
-pub type HTMLTextAreaElement
-fn HTMLTextAreaElement::cols(Self) -> Int
-fn HTMLTextAreaElement::disabled(Self) -> Bool
-fn HTMLTextAreaElement::placeholder(Self) -> String
-fn HTMLTextAreaElement::readOnly(Self) -> Bool
-fn HTMLTextAreaElement::rows(Self) -> Int
-fn HTMLTextAreaElement::setCols(Self, Int) -> Unit
-fn HTMLTextAreaElement::setDisabled(Self, Bool) -> Unit
-fn HTMLTextAreaElement::setPlaceholder(Self, String) -> Unit
-fn HTMLTextAreaElement::setReadOnly(Self, Bool) -> Unit
-fn HTMLTextAreaElement::setRows(Self, Int) -> Unit
-fn HTMLTextAreaElement::setValue(Self, String) -> Unit
-fn HTMLTextAreaElement::value(Self) -> String
+pub(all) struct HTMLTextAreaElement {
+  mut value : String
+  mut placeholder : String
+  mut disabled : Bool
+  mut rows : Int
+  mut cols : Int
+  mut readOnly : Bool
+}
 impl @js.JsImpl for HTMLTextAreaElement
 impl ElementImpl for HTMLTextAreaElement
 impl HTMLElementImpl for HTMLTextAreaElement

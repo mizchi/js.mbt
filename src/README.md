@@ -101,11 +101,11 @@ mizchi/js/
 ├── regexp/                    - Regular expressions
 ├── stream/                    - Streams API
 ├── url/                       - URL APIs
-├── webassembly/               - WebAssembly integration
+├── webassembly/               - WebAssembly API
 ├── websocket/                 - WebSocket API
 ├── worker/                    - Web Workers
 ├── cloudflare/                - Cloudflare Workers
-└── deno/                      - Deno runtime
+└── deno/                      - Deno API
 
 ```
 

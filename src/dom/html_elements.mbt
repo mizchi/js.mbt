@@ -166,8 +166,12 @@ pub impl ElementImpl for HTMLSpanElement
 pub impl HTMLElementImpl for HTMLSpanElement
 
 ///|
-#external
-pub type HTMLAnchorElement
+/// HTMLAnchorElement represents an <a> element
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement
+pub(all) struct HTMLAnchorElement {
+  mut href : String
+  mut target : String
+}
 
 ///|
 pub impl JsImpl for HTMLAnchorElement
@@ -185,34 +189,11 @@ pub impl ElementImpl for HTMLAnchorElement
 pub impl HTMLElementImpl for HTMLAnchorElement
 
 ///|
-/// Returns the href attribute
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/href
-pub fn HTMLAnchorElement::href(self : Self) -> String {
-  self.get("href") |> unsafe_cast
+/// HTMLButtonElement represents a <button> element
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement
+pub(all) struct HTMLButtonElement {
+  mut disabled : Bool
 }
-
-///|
-/// Sets the href attribute
-pub fn HTMLAnchorElement::setHref(self : Self, href : String) -> Unit {
-  self.set("href", href)
-}
-
-///|
-/// Returns the target attribute
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/target
-pub fn HTMLAnchorElement::target(self : Self) -> String {
-  self.get("target") |> unsafe_cast
-}
-
-///|
-/// Sets the target attribute
-pub fn HTMLAnchorElement::setTarget(self : Self, target : String) -> Unit {
-  self.set("target", target)
-}
-
-///|
-#external
-pub type HTMLButtonElement
 
 ///|
 pub impl JsImpl for HTMLButtonElement
@@ -230,20 +211,13 @@ pub impl ElementImpl for HTMLButtonElement
 pub impl HTMLElementImpl for HTMLButtonElement
 
 ///|
-/// Returns whether the button is disabled
-pub fn HTMLButtonElement::disabled(self : Self) -> Bool {
-  self.get("disabled") |> unsafe_cast
+// #external
+pub(all) struct HTMLInputElement {
+  mut disabled : Bool
+  mut value : String
+  mut placeholder : String
+  mut checked : Bool
 }
-
-///|
-/// Sets whether the button is disabled
-pub fn HTMLButtonElement::setDisabled(self : Self, disabled : Bool) -> Unit {
-  self.set("disabled", disabled)
-}
-
-///|
-#external
-pub type HTMLInputElement
 
 ///|
 pub impl JsImpl for HTMLInputElement
@@ -261,18 +235,6 @@ pub impl ElementImpl for HTMLInputElement
 pub impl HTMLElementImpl for HTMLInputElement
 
 ///|
-/// Returns the value of the input
-pub fn HTMLInputElement::value(self : Self) -> String {
-  self.get("value") |> unsafe_cast
-}
-
-///|
-/// Sets the value of the input
-pub fn HTMLInputElement::setValue(self : Self, value : String) -> Unit {
-  self.set("value", value)
-}
-
-///|
 /// Returns the type of the input
 pub fn HTMLInputElement::type_(self : Self) -> String {
   self.get("type") |> unsafe_cast
@@ -285,47 +247,16 @@ pub fn HTMLInputElement::setType(self : Self, input_type : String) -> Unit {
 }
 
 ///|
-/// Returns whether the input is disabled
-pub fn HTMLInputElement::disabled(self : Self) -> Bool {
-  self.get("disabled") |> unsafe_cast
+/// HTMLTextAreaElement represents a <textarea> element
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement
+pub(all) struct HTMLTextAreaElement {
+  mut value : String
+  mut placeholder : String
+  mut disabled : Bool
+  mut rows : Int
+  mut cols : Int
+  mut readOnly : Bool
 }
-
-///|
-/// Sets whether the input is disabled
-pub fn HTMLInputElement::setDisabled(self : Self, disabled : Bool) -> Unit {
-  self.set("disabled", disabled)
-}
-
-///|
-/// Returns whether the input is checked (for checkbox/radio)
-pub fn HTMLInputElement::checked(self : Self) -> Bool {
-  self.get("checked") |> unsafe_cast
-}
-
-///|
-/// Sets whether the input is checked (for checkbox/radio)
-pub fn HTMLInputElement::setChecked(self : Self, checked : Bool) -> Unit {
-  self.set("checked", checked)
-}
-
-///|
-/// Returns the placeholder text
-pub fn HTMLInputElement::placeholder(self : Self) -> String {
-  self.get("placeholder") |> unsafe_cast
-}
-
-///|
-/// Sets the placeholder text
-pub fn HTMLInputElement::setPlaceholder(
-  self : Self,
-  placeholder : String,
-) -> Unit {
-  self.set("placeholder", placeholder)
-}
-
-///|
-#external
-pub type HTMLTextAreaElement
 
 ///|
 pub impl JsImpl for HTMLTextAreaElement
@@ -341,87 +272,6 @@ pub impl ElementImpl for HTMLTextAreaElement
 
 ///|
 pub impl HTMLElementImpl for HTMLTextAreaElement
-
-///|
-/// Returns the value of the textarea
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/value
-pub fn HTMLTextAreaElement::value(self : Self) -> String {
-  self.get("value") |> unsafe_cast
-}
-
-///|
-/// Sets the value of the textarea
-pub fn HTMLTextAreaElement::setValue(self : Self, value : String) -> Unit {
-  self.set("value", value)
-}
-
-///|
-/// Returns the placeholder text
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/placeholder
-pub fn HTMLTextAreaElement::placeholder(self : Self) -> String {
-  self.get("placeholder") |> unsafe_cast
-}
-
-///|
-/// Sets the placeholder text
-pub fn HTMLTextAreaElement::setPlaceholder(
-  self : Self,
-  placeholder : String,
-) -> Unit {
-  self.set("placeholder", placeholder)
-}
-
-///|
-/// Returns whether the textarea is disabled
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/disabled
-pub fn HTMLTextAreaElement::disabled(self : Self) -> Bool {
-  self.get("disabled") |> unsafe_cast
-}
-
-///|
-/// Sets whether the textarea is disabled
-pub fn HTMLTextAreaElement::setDisabled(self : Self, disabled : Bool) -> Unit {
-  self.set("disabled", disabled)
-}
-
-///|
-/// Returns the number of visible text lines
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/rows
-pub fn HTMLTextAreaElement::rows(self : Self) -> Int {
-  self.get("rows") |> unsafe_cast
-}
-
-///|
-/// Sets the number of visible text lines
-pub fn HTMLTextAreaElement::setRows(self : Self, rows : Int) -> Unit {
-  self.set("rows", rows)
-}
-
-///|
-/// Returns the visible width of the text control
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/cols
-pub fn HTMLTextAreaElement::cols(self : Self) -> Int {
-  self.get("cols") |> unsafe_cast
-}
-
-///|
-/// Sets the visible width of the text control
-pub fn HTMLTextAreaElement::setCols(self : Self, cols : Int) -> Unit {
-  self.set("cols", cols)
-}
-
-///|
-/// Returns whether the textarea is read-only
-/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement/readOnly
-pub fn HTMLTextAreaElement::readOnly(self : Self) -> Bool {
-  self.get("readOnly") |> unsafe_cast
-}
-
-///|
-/// Sets whether the textarea is read-only
-pub fn HTMLTextAreaElement::setReadOnly(self : Self, read_only : Bool) -> Unit {
-  self.set("readOnly", read_only)
-}
 
 ///|
 #external
@@ -541,8 +391,12 @@ pub impl ElementImpl for HTMLFormElement
 pub impl HTMLElementImpl for HTMLFormElement
 
 ///|
-#external
-pub type HTMLSelectElement
+/// HTMLSelectElement represents a <select> element
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement
+pub(all) struct HTMLSelectElement {
+  mut value : String
+  mut disabled : Bool
+}
 
 ///|
 pub impl JsImpl for HTMLSelectElement
@@ -560,32 +414,12 @@ pub impl ElementImpl for HTMLSelectElement
 pub impl HTMLElementImpl for HTMLSelectElement
 
 ///|
-/// Returns the value of the select element
-pub fn HTMLSelectElement::value(self : Self) -> String {
-  self.get("value") |> unsafe_cast
+/// HTMLOptionElement represents an <option> element
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement
+pub(all) struct HTMLOptionElement {
+  mut value : String
+  mut selected : Bool
 }
-
-///|
-/// Sets the value of the select element
-pub fn HTMLSelectElement::setValue(self : Self, value : String) -> Unit {
-  self.set("value", value)
-}
-
-///|
-/// Returns whether the select is disabled
-pub fn HTMLSelectElement::disabled(self : Self) -> Bool {
-  self.get("disabled") |> unsafe_cast
-}
-
-///|
-/// Sets whether the select is disabled
-pub fn HTMLSelectElement::setDisabled(self : Self, disabled : Bool) -> Unit {
-  self.set("disabled", disabled)
-}
-
-///|
-#external
-pub type HTMLOptionElement
 
 ///|
 pub impl JsImpl for HTMLOptionElement
@@ -603,32 +437,11 @@ pub impl ElementImpl for HTMLOptionElement
 pub impl HTMLElementImpl for HTMLOptionElement
 
 ///|
-/// Returns the value of the option
-pub fn HTMLOptionElement::value(self : Self) -> String {
-  self.get("value") |> unsafe_cast
+/// HTMLLabelElement represents a <label> element
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLLabelElement
+pub(all) struct HTMLLabelElement {
+  mut htmlFor : String
 }
-
-///|
-/// Sets the value of the option
-pub fn HTMLOptionElement::setValue(self : Self, value : String) -> Unit {
-  self.set("value", value)
-}
-
-///|
-/// Returns whether the option is selected
-pub fn HTMLOptionElement::selected(self : Self) -> Bool {
-  self.get("selected") |> unsafe_cast
-}
-
-///|
-/// Sets whether the option is selected
-pub fn HTMLOptionElement::setSelected(self : Self, selected : Bool) -> Unit {
-  self.set("selected", selected)
-}
-
-///|
-#external
-pub type HTMLLabelElement
 
 ///|
 pub impl JsImpl for HTMLLabelElement
@@ -646,20 +459,12 @@ pub impl ElementImpl for HTMLLabelElement
 pub impl HTMLElementImpl for HTMLLabelElement
 
 ///|
-/// Returns the htmlFor attribute (references an input id)
-pub fn HTMLLabelElement::htmlFor(self : Self) -> String {
-  self.get("htmlFor") |> unsafe_cast
+/// HTMLImageElement represents an <img> element
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement
+pub(all) struct HTMLImageElement {
+  mut src : String
+  mut alt : String
 }
-
-///|
-/// Sets the htmlFor attribute
-pub fn HTMLLabelElement::setHtmlFor(self : Self, html_for : String) -> Unit {
-  self.set("htmlFor", html_for)
-}
-
-///|
-#external
-pub type HTMLImageElement
 
 ///|
 pub impl JsImpl for HTMLImageElement
@@ -675,30 +480,6 @@ pub impl ElementImpl for HTMLImageElement
 
 ///|
 pub impl HTMLElementImpl for HTMLImageElement
-
-///|
-/// Returns the src attribute
-pub fn HTMLImageElement::src(self : Self) -> String {
-  self.get("src") |> unsafe_cast
-}
-
-///|
-/// Sets the src attribute
-pub fn HTMLImageElement::setSrc(self : Self, src : String) -> Unit {
-  self.set("src", src)
-}
-
-///|
-/// Returns the alt attribute
-pub fn HTMLImageElement::alt(self : Self) -> String {
-  self.get("alt") |> unsafe_cast
-}
-
-///|
-/// Sets the alt attribute
-pub fn HTMLImageElement::setAlt(self : Self, alt : String) -> Unit {
-  self.set("alt", alt)
-}
 
 ///|
 #external
