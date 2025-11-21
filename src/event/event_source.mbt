@@ -1,0 +1,122 @@
+///| EventSource API
+/// https://developer.mozilla.org/ja/docs/Web/API/EventSource
+///
+/// Server-Sent Events (SSE) を受信するためのインターフェース
+
+///|
+#external
+pub type EventSource
+
+///|
+pub impl @js.JsImpl for EventSource
+
+///|
+pub impl EventTargetImpl for EventSource
+
+///|
+/// EventSource ready state: CONNECTING
+pub fn event_source_connecting() -> Int {
+  0
+}
+
+///|
+/// EventSource ready state: OPEN
+pub fn event_source_open() -> Int {
+  1
+}
+
+///|
+/// EventSource ready state: CLOSED
+pub fn event_source_closed() -> Int {
+  2
+}
+
+///|
+/// Create a new EventSource
+/// JS: new EventSource(url, options?)
+pub extern "js" fn EventSource::new(
+  url : String,
+  withCredentials? : Bool,
+) -> EventSource =
+  #|(url, withCredentials) => {
+  #|  if (withCredentials !== undefined) {
+  #|    return new EventSource(url, { withCredentials });
+  #|  }
+  #|  return new EventSource(url);
+  #|}
+
+///|
+/// Get the URL of the event source
+/// JS: eventSource.url
+pub fn EventSource::url(self : Self) -> String {
+  self.get("url") |> @js.unsafe_cast
+}
+
+///|
+/// Get the ready state
+/// JS: eventSource.readyState
+pub fn EventSource::readyState(self : Self) -> Int {
+  self.get("readyState") |> @js.unsafe_cast
+}
+
+///|
+/// Get withCredentials setting
+/// JS: eventSource.withCredentials
+pub fn EventSource::withCredentials(self : Self) -> Bool {
+  self.get("withCredentials") |> @js.unsafe_cast
+}
+
+///|
+/// Close the connection
+/// JS: eventSource.close()
+pub fn EventSource::close(self : Self) -> Unit {
+  self.call0("close") |> ignore
+}
+
+///|
+/// Set onopen event handler
+/// JS: eventSource.onopen = handler
+pub fn EventSource::set_onopen(self : Self, handler : (@js.Js) -> Unit) -> Unit {
+  self.set("onopen", @js.from_fn1(handler))
+}
+
+///|
+/// Set onmessage event handler
+/// JS: eventSource.onmessage = handler
+pub fn EventSource::set_onmessage(
+  self : Self,
+  handler : (@js.Js) -> Unit,
+) -> Unit {
+  self.set("onmessage", @js.from_fn1(handler))
+}
+
+///|
+/// Set onerror event handler
+/// JS: eventSource.onerror = handler
+pub fn EventSource::set_onerror(
+  self : Self,
+  handler : (@js.Js) -> Unit,
+) -> Unit {
+  self.set("onerror", @js.from_fn1(handler))
+}
+
+///|
+/// MessageEvent helper to get data
+/// JS: event.data
+pub fn get_event_data(event : @js.Js) -> String {
+  event.get("data") |> @js.unsafe_cast
+}
+
+///|
+/// MessageEvent helper to get lastEventId
+/// JS: event.lastEventId
+pub fn get_last_event_id(event : @js.Js) -> String {
+  event.get("lastEventId") |> @js.unsafe_cast
+}
+
+///|
+/// MessageEvent helper to get origin
+/// JS: event.origin
+pub fn get_event_origin(event : @js.Js) -> String {
+  event.get("origin") |> @js.unsafe_cast
+}

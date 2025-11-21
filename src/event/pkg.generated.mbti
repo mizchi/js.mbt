@@ -6,10 +6,33 @@ import(
 )
 
 // Values
+fn event_source_closed() -> Int
+
+fn event_source_connecting() -> Int
+
+fn event_source_open() -> Int
+
+fn get_event_data(@js.Js) -> String
+
+fn get_event_origin(@js.Js) -> String
+
+fn get_last_event_id(@js.Js) -> String
 
 // Errors
 
 // Types and methods
+#external
+pub type EventSource
+fn EventSource::close(Self) -> Unit
+fn EventSource::new(String, withCredentials? : Bool) -> Self
+fn EventSource::readyState(Self) -> Int
+fn EventSource::set_onerror(Self, (@js.Js) -> Unit) -> Unit
+fn EventSource::set_onmessage(Self, (@js.Js) -> Unit) -> Unit
+fn EventSource::set_onopen(Self, (@js.Js) -> Unit) -> Unit
+fn EventSource::url(Self) -> String
+fn EventSource::withCredentials(Self) -> Bool
+impl @js.JsImpl for EventSource
+impl EventTargetImpl for EventSource
 
 // Type aliases
 
