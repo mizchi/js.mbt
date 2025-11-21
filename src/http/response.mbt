@@ -1,4 +1,5 @@
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Response
 #external
 pub type Response
 
@@ -7,26 +8,32 @@ pub impl JsImpl for Response
 
 ///|
 /// Create a new Response
+/// https://developer.mozilla.org/ja/docs/Web/API/Response/Response
 pub extern "js" fn new_response(body? : String, options? : Js) -> Response =
   #| (body, options) => new Response(body, options)
 
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Response/redirect_static
 pub extern "js" fn Response::redirect(url : String, status? : Int) -> Response =
   #| (url, status) => Response
 
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Response/json_static
 pub extern "js" fn Response::json_(data : Js, options? : Js) -> Response =
   #| (data, options) => Response.json(data, options)
 
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Response/error_static
 pub extern "js" fn Response::error() -> Response =
   #| () => Response.error()
 
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Response/json
 pub extern "js" fn Response::json(self : Self) -> Promise[Js] =
   #| (v) => v.json()
 
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Response/text
 pub extern "js" fn Response::text(self : Self) -> Promise[String] =
   #| (v) => v.text()
 

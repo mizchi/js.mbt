@@ -1,5 +1,6 @@
 ///|
 /// JavaScript AsyncIterator
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator
 #external
 pub(all) type AsyncIterator[T]
 

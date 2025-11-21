@@ -1,4 +1,5 @@
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
 #external
 pub type ArrayBuffer
 

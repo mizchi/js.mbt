@@ -3,26 +3,31 @@ using @js {type Js}
 
 ///|
 /// JS: console.log(value)
+/// https://developer.mozilla.org/ja/docs/Web/API/console/log_static
 pub extern "js" fn log(value : Js) -> Unit =
   #| (value) => console.log(value)
 
 ///|
 /// JS: console.warn(value)
+/// https://developer.mozilla.org/ja/docs/Web/API/console/warn_static
 pub extern "js" fn warn(value : Js) -> Unit =
   #| (value) => console.warn(value)
 
 ///|
 /// JS: console.error(value)
+/// https://developer.mozilla.org/ja/docs/Web/API/console/error_static
 pub extern "js" fn error(value : Js) -> Unit =
   #| (value) => console.error(value)
 
 ///|
 /// JS: console.info(value)
+/// https://developer.mozilla.org/ja/docs/Web/API/console/info_static
 pub extern "js" fn info(value : Js) -> Unit =
   #| (value) => console.info(value)
 
 ///|
 /// JS: console.debug(value)
+/// https://developer.mozilla.org/ja/docs/Web/API/console/debug_static
 pub extern "js" fn debug(value : Js) -> Unit =
   #| (value) => console.debug(value)
 

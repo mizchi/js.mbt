@@ -3,6 +3,7 @@ extern "js" fn ffi_request_new(url : String) -> Js =
   #| (url) => new Request(url)
 
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Request
 #external
 pub type Request
 
@@ -10,6 +11,7 @@ pub type Request
 pub impl JsImpl for Request
 
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Request/Request
 pub fn Request::new(url : String) -> Request {
   let req = ffi_request_new(url)
   unsafe_cast(req)

@@ -1,9 +1,11 @@
 ///|
 /// WebAssembly API for JavaScript environments
 /// Based on WebAssembly JavaScript API specification
+/// https://developer.mozilla.org/ja/docs/WebAssembly
 
 ///|
 /// WebAssembly.Module represents a compiled WebAssembly module
+/// https://developer.mozilla.org/ja/docs/WebAssembly/JavaScript_interface/Module
 #external
 pub type WebAssemblyModule
 
@@ -12,6 +14,7 @@ pub impl JsImpl for WebAssemblyModule
 
 ///|
 /// WebAssembly.Instance represents an instantiated WebAssembly module
+/// https://developer.mozilla.org/ja/docs/WebAssembly/JavaScript_interface/Instance
 #external
 pub type WebAssemblyInstance
 
@@ -26,6 +29,7 @@ pub fn WebAssemblyInstance::exports(self : Self) -> Js {
 
 ///|
 /// WebAssembly.Memory represents a resizable ArrayBuffer
+/// https://developer.mozilla.org/ja/docs/WebAssembly/JavaScript_interface/Memory
 #external
 pub type WebAssemblyMemory
 

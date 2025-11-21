@@ -1,5 +1,6 @@
 ///|
 /// JavaScript Promise[T]
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise
 #external
 pub type Promise[T]
 
@@ -24,12 +25,14 @@ pub fn[A] Promise::new(
 
 ///|
 /// js: Promise.resolve(value)
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve
 pub fn[A] Promise::resolve(x : A) -> Self[A] {
   ffi_promise_resolve(unsafe_cast(x)) |> unsafe_cast
 }
 
 ///|
 /// js: Promise.reject(error)
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject
 pub fn Promise::reject(x : Js) -> Self[Js] {
   ffi_promise_reject(unsafe_cast(x)) |> unsafe_cast
 }
@@ -74,18 +77,21 @@ pub async fn[T] Promise::unwrap(self : Self[T]) -> T {
 
 ///|
 /// JS: Promise.all(promises)
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
 pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
   ffi_promise_all(promises |> unsafe_cast) |> unsafe_cast
 }
 
 ///|
 /// JS: Promise.race(promises)
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/race
 pub fn[T] Promise::race(promises : Array[Promise[T]]) -> Promise[T] {
   ffi_promise_race(promises |> unsafe_cast) |> unsafe_cast
 }
 
 ///|
 /// JS: Promise.any(promises)
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/any
 pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
   ffi_promise_any(promises |> unsafe_cast) |> unsafe_cast
 }
@@ -99,7 +105,8 @@ pub(all) struct SettledResult[T] {
 }
 
 ///|
-/// JS: Promise.all(promises)
+/// JS: Promise.allSettled(promises)
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
 pub fn[A] Promise::allSettled(
   promises : Array[Promise[A]],
 ) -> Promise[Array[SettledResult[A]]] {
@@ -125,6 +132,7 @@ pub fn[R] Promise::try_(f : async () -> R) -> Promise[R] noraise {
 
 ///|
 /// JS: Promise.withResolvers()
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers
 pub(all) struct Resolvers[T] {
   promise : Promise[T]
   resolve : (T) -> Unit
@@ -133,6 +141,7 @@ pub(all) struct Resolvers[T] {
 
 ///|
 /// JS: Promise.withResolvers()
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers
 pub fn[T] Promise::withResolvers() -> Resolvers[T] {
   ffi_promise_with_resolvers() |> unsafe_cast
 }

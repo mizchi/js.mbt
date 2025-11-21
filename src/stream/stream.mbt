@@ -1,5 +1,6 @@
 ///|
 /// ReadableStream represents a readable stream of byte data
+/// https://developer.mozilla.org/ja/docs/Web/API/ReadableStream
 #external
 pub type ReadableStream
 

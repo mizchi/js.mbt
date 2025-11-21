@@ -1,5 +1,6 @@
 ///|
 /// SubtleCrypto Type
+/// https://developer.mozilla.org/ja/docs/Web/API/SubtleCrypto
 #external
 pub type SubtleCrypto
 

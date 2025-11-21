@@ -9,6 +9,7 @@ pub(open) trait Transferable {
 
 ///|
 /// JavaScript Worker API
+/// https://developer.mozilla.org/ja/docs/Web/API/Worker
 /// cast extern or prebuilt js
 /// ```
 /// fn _worker() -> Unit {

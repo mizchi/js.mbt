@@ -1,7 +1,6 @@
-// https://developer.mozilla.org/en-US/docs/Web/API/Blob
-// Web Blob API
-
 ///|
+/// Web Blob API
+/// https://developer.mozilla.org/ja/docs/Web/API/Blob
 #external
 pub type Blob
 

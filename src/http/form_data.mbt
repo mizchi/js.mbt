@@ -1,4 +1,5 @@
 ///|
+/// https://developer.mozilla.org/ja/docs/Web/API/FormData
 #external
 pub type FormData
 
