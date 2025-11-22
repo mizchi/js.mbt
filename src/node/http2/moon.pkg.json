@@ -1,0 +1,8 @@
+{
+  "supported-targets": ["js"],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/web/event",
+    "mizchi/js/node/stream"
+  ]
+}
