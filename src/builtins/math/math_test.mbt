@@ -140,3 +140,161 @@ test "Math::trunc truncates decimal part" {
   assert_eq(Math::trunc(-4.9), -4.0)
   assert_eq(Math::trunc(-4.1), -4.0)
 }
+
+///| Math Constants Tests
+
+///|
+test "Math::e returns Euler's number" {
+  let e = Math::e()
+  assert_true(e > 2.71 && e < 2.72)
+}
+
+///|
+test "Math::pi returns Pi" {
+  let pi = Math::pi()
+  assert_true(pi > 3.14 && pi < 3.15)
+}
+
+///|
+test "Math::ln2 returns natural log of 2" {
+  let ln2 = Math::ln2()
+  assert_true(ln2 > 0.69 && ln2 < 0.70)
+}
+
+///|
+test "Math::ln10 returns natural log of 10" {
+  let ln10 = Math::ln10()
+  assert_true(ln10 > 2.30 && ln10 < 2.31)
+}
+
+///|
+test "Math::log2e returns base-2 log of E" {
+  let log2e = Math::log2e()
+  assert_true(log2e > 1.44 && log2e < 1.45)
+}
+
+///|
+test "Math::log10e returns base-10 log of E" {
+  let log10e = Math::log10e()
+  assert_true(log10e > 0.43 && log10e < 0.44)
+}
+
+///|
+test "Math::sqrt1_2 returns square root of 0.5" {
+  let sqrt1_2 = Math::sqrt1_2()
+  assert_true(sqrt1_2 > 0.70 && sqrt1_2 < 0.71)
+}
+
+///|
+test "Math::sqrt2 returns square root of 2" {
+  let sqrt2 = Math::sqrt2()
+  assert_true(sqrt2 > 1.41 && sqrt2 < 1.42)
+}
+
+///| Additional Math Methods Tests
+
+///|
+test "Math::sign returns sign of number" {
+  assert_eq(Math::sign(5.0), 1.0)
+  assert_eq(Math::sign(-5.0), -1.0)
+  assert_eq(Math::sign(0.0), 0.0)
+}
+
+///|
+test "Math::cbrt calculates cube root" {
+  assert_eq(Math::cbrt(8.0), 2.0)
+  assert_eq(Math::cbrt(27.0), 3.0)
+  assert_eq(Math::cbrt(-8.0), -2.0)
+}
+
+///|
+test "Math::fround rounds to 32-bit float" {
+  let result = Math::fround(1.337)
+  assert_true(result > 1.33 && result < 1.34)
+}
+
+///|
+test "Math::sinh calculates hyperbolic sine" {
+  assert_eq(Math::sinh(0.0), 0.0)
+  let result = Math::sinh(1.0)
+  assert_true(result > 1.17 && result < 1.18)
+}
+
+///|
+test "Math::cosh calculates hyperbolic cosine" {
+  assert_eq(Math::cosh(0.0), 1.0)
+  let result = Math::cosh(1.0)
+  assert_true(result > 1.54 && result < 1.55)
+}
+
+///|
+test "Math::asinh calculates inverse hyperbolic sine" {
+  assert_eq(Math::asinh(0.0), 0.0)
+  let result = Math::asinh(1.0)
+  assert_true(result > 0.88 && result < 0.89)
+}
+
+///|
+test "Math::acosh calculates inverse hyperbolic cosine" {
+  assert_eq(Math::acosh(1.0), 0.0)
+  let result = Math::acosh(2.0)
+  assert_true(result > 1.31 && result < 1.32)
+}
+
+///|
+test "Math::atanh calculates inverse hyperbolic tangent" {
+  assert_eq(Math::atanh(0.0), 0.0)
+  let result = Math::atanh(0.5)
+  assert_true(result > 0.54 && result < 0.55)
+}
+
+///|
+test "Math::log2 calculates base-2 logarithm" {
+  assert_eq(Math::log2(1.0), 0.0)
+  assert_eq(Math::log2(2.0), 1.0)
+  assert_eq(Math::log2(8.0), 3.0)
+}
+
+///|
+test "Math::log10 calculates base-10 logarithm" {
+  assert_eq(Math::log10(1.0), 0.0)
+  assert_eq(Math::log10(10.0), 1.0)
+  assert_eq(Math::log10(100.0), 2.0)
+}
+
+///|
+test "Math::log1p calculates log(1 + x)" {
+  assert_eq(Math::log1p(0.0), 0.0)
+  let e = 2.718281828459045
+  let result = Math::log1p(e - 1.0)
+  assert_true(result > 0.99 && result < 1.01)
+}
+
+///|
+test "Math::expm1 calculates e^x - 1" {
+  assert_eq(Math::expm1(0.0), 0.0)
+  let result = Math::expm1(1.0)
+  assert_true(result > 1.71 && result < 1.72)
+}
+
+///|
+test "Math::clz32 counts leading zeros" {
+  assert_eq(Math::clz32(1), 31)
+  assert_eq(Math::clz32(4), 29)
+  assert_eq(Math::clz32(1000), 22)
+}
+
+///|
+test "Math::imul performs 32-bit integer multiplication" {
+  assert_eq(Math::imul(2, 3), 6)
+  assert_eq(Math::imul(10, 12), 120)
+  assert_eq(Math::imul(-5, 12), -60)
+}
+
+///|
+test "Math::hypot calculates hypotenuse" {
+  assert_eq(Math::hypot([3.0, 4.0]), 5.0)
+  assert_eq(Math::hypot([5.0, 12.0]), 13.0)
+  let result = Math::hypot([1.0, 1.0])
+  assert_true(result > 1.41 && result < 1.42)
+}

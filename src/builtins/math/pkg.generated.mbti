@@ -10,21 +10,44 @@ package "mizchi/js/builtins/math"
 pub type Math
 fn Math::abs(Double) -> Double
 fn Math::acos(Double) -> Double
+fn Math::acosh(Double) -> Double
 fn Math::asin(Double) -> Double
+fn Math::asinh(Double) -> Double
 fn Math::atan(Double) -> Double
 fn Math::atan2(Double, Double) -> Double
+fn Math::atanh(Double) -> Double
+fn Math::cbrt(Double) -> Double
 fn Math::ceil(Double) -> Int
+fn Math::clz32(Int) -> Int
 fn Math::cos(Double) -> Double
+fn Math::cosh(Double) -> Double
+fn Math::e() -> Double
 fn Math::exp(Double) -> Double
+fn Math::expm1(Double) -> Double
 fn Math::floor(Double) -> Int
+fn Math::fround(Double) -> Double
+fn Math::hypot(Array[Double]) -> Double
+fn Math::imul(Int, Int) -> Int
+fn Math::ln10() -> Double
+fn Math::ln2() -> Double
 fn Math::log(Double) -> Double
+fn Math::log10(Double) -> Double
+fn Math::log10e() -> Double
+fn Math::log1p(Double) -> Double
+fn Math::log2(Double) -> Double
+fn Math::log2e() -> Double
 fn Math::max(Array[Double]) -> Double
 fn Math::min(Array[Double]) -> Double
+fn Math::pi() -> Double
 fn Math::pow(Double, Double) -> Double
 fn Math::random() -> Double
 fn Math::round(Double) -> Int
+fn Math::sign(Double) -> Double
 fn Math::sin(Double) -> Double
+fn Math::sinh(Double) -> Double
 fn Math::sqrt(Double) -> Double
+fn Math::sqrt1_2() -> Double
+fn Math::sqrt2() -> Double
 fn Math::tan(Double) -> Double
 fn Math::tanh(Double) -> Double
 fn Math::trunc(Double) -> Double

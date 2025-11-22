@@ -104,3 +104,122 @@ pub extern "js" fn Math::atan2(y : Double, x : Double) -> Double =
 /// JS: Math.trunc(x)
 pub extern "js" fn Math::trunc(x : Double) -> Double =
   #| (x) => Math.trunc(x)
+
+///| Math Constants
+
+///|
+/// JS: Math.E - Euler's number (approximately 2.718)
+pub extern "js" fn Math::e() -> Double =
+  #| () => Math.E
+
+///|
+/// JS: Math.LN2 - Natural logarithm of 2 (approximately 0.693)
+pub extern "js" fn Math::ln2() -> Double =
+  #| () => Math.LN2
+
+///|
+/// JS: Math.LN10 - Natural logarithm of 10 (approximately 2.303)
+pub extern "js" fn Math::ln10() -> Double =
+  #| () => Math.LN10
+
+///|
+/// JS: Math.LOG2E - Base-2 logarithm of E (approximately 1.443)
+pub extern "js" fn Math::log2e() -> Double =
+  #| () => Math.LOG2E
+
+///|
+/// JS: Math.LOG10E - Base-10 logarithm of E (approximately 0.434)
+pub extern "js" fn Math::log10e() -> Double =
+  #| () => Math.LOG10E
+
+///|
+/// JS: Math.PI - Pi (approximately 3.14159)
+pub extern "js" fn Math::pi() -> Double =
+  #| () => Math.PI
+
+///|
+/// JS: Math.SQRT1_2 - Square root of 1/2 (approximately 0.707)
+pub extern "js" fn Math::sqrt1_2() -> Double =
+  #| () => Math.SQRT1_2
+
+///|
+/// JS: Math.SQRT2 - Square root of 2 (approximately 1.414)
+pub extern "js" fn Math::sqrt2() -> Double =
+  #| () => Math.SQRT2
+
+///| Additional Math Methods
+
+///|
+/// JS: Math.sign(x)
+pub extern "js" fn Math::sign(x : Double) -> Double =
+  #| (x) => Math.sign(x)
+
+///|
+/// JS: Math.cbrt(x) - Cube root
+pub extern "js" fn Math::cbrt(x : Double) -> Double =
+  #| (x) => Math.cbrt(x)
+
+///|
+/// JS: Math.fround(x) - Round to nearest 32-bit float
+pub extern "js" fn Math::fround(x : Double) -> Double =
+  #| (x) => Math.fround(x)
+
+///|
+/// JS: Math.sinh(x) - Hyperbolic sine
+pub extern "js" fn Math::sinh(x : Double) -> Double =
+  #| (x) => Math.sinh(x)
+
+///|
+/// JS: Math.cosh(x) - Hyperbolic cosine
+pub extern "js" fn Math::cosh(x : Double) -> Double =
+  #| (x) => Math.cosh(x)
+
+///|
+/// JS: Math.asinh(x) - Inverse hyperbolic sine
+pub extern "js" fn Math::asinh(x : Double) -> Double =
+  #| (x) => Math.asinh(x)
+
+///|
+/// JS: Math.acosh(x) - Inverse hyperbolic cosine
+pub extern "js" fn Math::acosh(x : Double) -> Double =
+  #| (x) => Math.acosh(x)
+
+///|
+/// JS: Math.atanh(x) - Inverse hyperbolic tangent
+pub extern "js" fn Math::atanh(x : Double) -> Double =
+  #| (x) => Math.atanh(x)
+
+///|
+/// JS: Math.log2(x) - Base-2 logarithm
+pub extern "js" fn Math::log2(x : Double) -> Double =
+  #| (x) => Math.log2(x)
+
+///|
+/// JS: Math.log10(x) - Base-10 logarithm
+pub extern "js" fn Math::log10(x : Double) -> Double =
+  #| (x) => Math.log10(x)
+
+///|
+/// JS: Math.log1p(x) - Natural logarithm of 1 + x
+pub extern "js" fn Math::log1p(x : Double) -> Double =
+  #| (x) => Math.log1p(x)
+
+///|
+/// JS: Math.expm1(x) - e^x - 1
+pub extern "js" fn Math::expm1(x : Double) -> Double =
+  #| (x) => Math.expm1(x)
+
+///|
+/// JS: Math.clz32(x) - Count leading zeros in 32-bit binary
+pub extern "js" fn Math::clz32(x : Int) -> Int =
+  #| (x) => Math.clz32(x)
+
+///|
+/// JS: Math.imul(a, b) - 32-bit integer multiplication
+pub extern "js" fn Math::imul(a : Int, b : Int) -> Int =
+  #| (a, b) => Math.imul(a, b)
+
+///|
+/// JS: Math.hypot(...values) - Square root of sum of squares
+pub extern "js" fn Math::hypot(values : Array[Double]) -> Double =
+  #| (values) => Math.hypot(...values)
