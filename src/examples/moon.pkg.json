@@ -15,5 +15,5 @@
       "alias": "fs_promises"
     }
   ],
-  "warn-list": "-6"
+  "warn-list": "-1-3-6-7-9"
 }

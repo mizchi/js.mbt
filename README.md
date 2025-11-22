@@ -21,6 +21,7 @@ $ moon add mizchi/js
 
 ### 📖 Learning Resources
 
+- [MoonBit Cheatsheet](https://github.com/mizchi/js.mbt/blob/main/src/examples/moonbit_cheatsheet.mbt.md) - Quick reference for MoonBit syntax
 - [FFI Guide](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_ffi.mbt.md) - Understanding MoonBit JavaScript FFI
 - [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/src/examples/escape_hatch.mbt.md) - Advanced FFI techniques
 - [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/src/examples/for_ts_user.mbt.md) - Migration guide from TypeScript

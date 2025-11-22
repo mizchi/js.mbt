@@ -2,6 +2,10 @@
 
 This is a [MoonBit](https://docs.moonbitlang.com) project.
 
+## MoonBit Language Reference
+
+If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/examples/moonbit_cheatsheet.mbt.md) - it covers common patterns, differences from Rust, and key language features.
+
 ## Project Structure
 
 - MoonBit packages are organized per directory, for each directory, there is a
