@@ -1,9 +1,4 @@
 {
   "is-main": false,
-  "import": [
-    "mizchi/js",
-    "mizchi/js/browser/observer",
-    "mizchi/js/browser/file",
-    "mizchi/js/browser/dom"
-  ]
+  "import": ["mizchi/js", "mizchi/js/browser/file"]
 }
