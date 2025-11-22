@@ -375,3 +375,68 @@ pub fn[T] use_imperative_handle(
   let deps = keys.map(_.to_js()) |> @js.from_array
   ffi_use_imperative_handle(ref_ |> @js.unsafe_js, create |> @js.unsafe_js, deps)
 }
+
+///|
+extern "js" fn ffi_capture_owner_stack() -> Js =
+  #| () => globalThis.__ReactApi.captureOwnerStack ? globalThis.__ReactApi.captureOwnerStack() : null
+
+///|
+/// React.captureOwnerStack - Capture component stack for debugging (DEV only)
+/// see: https://react.dev/reference/react/captureOwnerStack
+#alias(captureOwnerStack)
+pub fn capture_owner_stack() -> Js? {
+  let result = ffi_capture_owner_stack()
+  if @js.is_nullish(result) {
+    None
+  } else {
+    Some(result)
+  }
+}
+
+///|
+extern "js" fn ffi_cache_signal() -> Js =
+  #| () => globalThis.__ReactApi.cacheSignal ? globalThis.__ReactApi.cacheSignal() : { current: null }
+
+///|
+/// React.cacheSignal - Create cache signal for use with cache()
+/// see: https://react.dev/reference/react/cacheSignal
+#alias(cacheSignal)
+pub fn cache_signal() -> Js {
+  ffi_cache_signal()
+}
+
+///|
+extern "js" fn ffi_react_cache(fn_ : Js) -> Js =
+  #| (fn) => globalThis.__ReactApi.cache ? globalThis.__ReactApi.cache(fn) : fn
+
+///|
+/// React.cache - Cache data fetching or computation results
+/// see: https://react.dev/reference/react/cache
+#alias(reactCache)
+pub fn[T, R] react_cache(f : (T) -> R) -> (T) -> R {
+  ffi_react_cache(f |> @js.unsafe_js) |> unsafe_cast
+}
+
+///|
+extern "js" fn ffi_act(callback : Js) -> Js =
+  #| (callback) => globalThis.__ReactApi.act(callback)
+
+///|
+/// React.act - Wrap test code to apply updates before assertions
+/// see: https://react.dev/reference/react/act
+pub fn act(callback : () -> Unit) -> Promise[Unit] {
+  ffi_act(callback |> @js.unsafe_js) |> unsafe_cast
+}
+
+///|
+extern "js" fn ffi_act_async(callback : Js) -> Promise[Unit] =
+  #| async (callback) => await globalThis.__ReactApi.act(callback)
+
+///|
+/// React.act (async) - Wrap async test code to apply updates before assertions
+/// see: https://react.dev/reference/react/act
+#alias(actAsync)
+pub async fn act_async(callback : async () -> Unit) -> Unit {
+  let promise_fn = promisify0(callback)
+  ffi_act_async(promise_fn |> @js.unsafe_js).wait()
+}
