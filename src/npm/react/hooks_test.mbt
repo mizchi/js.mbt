@@ -14,9 +14,9 @@ test "useState_lazy" {
   let comp = (_props : EmptyProps) => {
     let (count, set_count) = use_state_lazy(fn() { 10 })
     let on_click : @dom.MouseEventHandler = _ => set_count(count + 1) |> ignore
-    @element.div([
-      @element.span(["Count: \{count}"], id="count"),
-      @element.button(on_click~, ["increment"], id="btn"),
+    @react_element.div([
+      @react_element.span(["Count: \{count}"], id="count"),
+      @react_element.button(on_click~, ["increment"], id="btn"),
     ])
   }
   render(component(comp, EmptyProps::default())) |> ignore
@@ -36,9 +36,9 @@ test "useCallback" {
   let comp = (_props : EmptyProps) => {
     let (count, set_count) = useState(0)
     let on_click = useCallback(fn() { set_count(count + 1) }, [count])
-    @element.div([
-      @element.span(["Count: \{count}"]),
-      @element.button(on_click=_ => on_click(), ["increment"]),
+    @react_element.div([
+      @react_element.span(["Count: \{count}"]),
+      @react_element.button(on_click=_ => on_click(), ["increment"]),
     ])
   }
   render(component(comp, EmptyProps::default())) |> ignore
@@ -61,7 +61,7 @@ test "useEffect" {
       },
       [],
     )
-    @element.div([if mounted { "Mounted" } else { "Not mounted" }])
+    @react_element.div([if mounted { "Mounted" } else { "Not mounted" }])
   }
   render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Mounted").get("textContent")
@@ -82,7 +82,7 @@ test "useLayoutEffect" {
       },
       [],
     )
-    @element.div([if mounted { "Layout mounted" } else { "Not mounted" }])
+    @react_element.div([if mounted { "Layout mounted" } else { "Not mounted" }])
   }
   render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Layout mounted").get("textContent")
@@ -97,9 +97,9 @@ test "useMemo" {
   let comp = (_props : EmptyProps) => {
     let (count, set_count) = useState(1)
     let doubled = useMemo(fn() { count * 2 }, [count])
-    @element.div([
-      @element.span(["Doubled: \{doubled}"]),
-      @element.button(on_click=_ => set_count(count + 1), ["increment"]),
+    @react_element.div([
+      @react_element.span(["Doubled: \{doubled}"]),
+      @react_element.button(on_click=_ => set_count(count + 1), ["increment"]),
     ])
   }
   render(component(comp, EmptyProps::default())) |> ignore
@@ -120,7 +120,7 @@ test "useRef with Some" {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(
       Some(@js.unsafe_cast(@js.Object::new())),
     )
-    @element.div(ref_=r, ["Ref test"])
+    @react_element.div(ref_=r, ["Ref test"])
   }
   render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Ref test").get("textContent")
@@ -134,7 +134,7 @@ test "useRef with None" {
   cleanup()
   let comp = (_props : EmptyProps) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(None)
-    @element.div(ref_=r, ["Ref None test"])
+    @react_element.div(ref_=r, ["Ref None test"])
   }
   render(component(comp, EmptyProps::default())) |> ignore
   screen().getByText("Ref None test").get("textContent")
@@ -156,9 +156,9 @@ test "ReactRef::current and set_current" {
       }
       None => ()
     }
-    @element.div([
-      @element.span(ref_=r, [text], id="target"),
-      @element.button(on_click~, ["update"]),
+    @react_element.div([
+      @react_element.span(ref_=r, [text], id="target"),
+      @react_element.button(on_click~, ["update"]),
     ])
   }
   render(component(comp, EmptyProps::default())) |> ignore
@@ -179,7 +179,10 @@ test "ReactRef::current None case" {
       Some(_) => set_msg("has ref")
       None => set_msg("no ref")
     }
-    @element.div([@element.span([msg]), @element.button(on_click~, ["check"])])
+    @react_element.div([
+      @react_element.span([msg]),
+      @react_element.button(on_click~, ["check"]),
+    ])
   }
   render(component(comp, EmptyProps::default())) |> ignore
   fireEvent().click(screen().getByText("check"))
@@ -205,7 +208,10 @@ test "ReactRef::set_current" {
         None => ()
       }
     }
-    @element.div([@element.span([msg]), @element.button(on_click~, ["set"])])
+    @react_element.div([
+      @react_element.span([msg]),
+      @react_element.button(on_click~, ["set"]),
+    ])
   }
   render(component(comp, EmptyProps::default())) |> ignore
   fireEvent().click(screen().getByText("set"))
@@ -221,7 +227,7 @@ test "useContext" {
   let ctx : Context[Int] = create_context(Some(42))
   let comp = (_props : EmptyProps) => {
     let value = use_context(ctx)
-    @element.div(["Context value: \{value}"])
+    @react_element.div(["Context value: \{value}"])
   }
   let el = provider(ctx, [component(comp, EmptyProps::default())], value=99)
   render(el) |> ignore
@@ -250,11 +256,11 @@ test "useReducer" {
       }
     }
     let (state, dispatch) = use_reducer(reducer, 0)
-    @element.div([
-      @element.span(["Count: \{state}"]),
-      @element.button(on_click=_ => dispatch(Increment), ["+"]),
-      @element.button(on_click=_ => dispatch(Decrement), ["-"]),
-      @element.button(on_click=_ => dispatch(Reset), ["reset"]),
+    @react_element.div([
+      @react_element.span(["Count: \{state}"]),
+      @react_element.button(on_click=_ => dispatch(Increment), ["+"]),
+      @react_element.button(on_click=_ => dispatch(Decrement), ["-"]),
+      @react_element.button(on_click=_ => dispatch(Reset), ["reset"]),
     ])
   }
   render(component(comp, EmptyProps::default())) |> ignore
@@ -288,10 +294,10 @@ test "useActionState" {
       state + 1
     }
     let (state, dispatch, is_pending) = use_action_state(action, 0)
-    @element.div([
-      @element.span(["State: \{state}"]),
-      @element.span(["Pending: \{is_pending}"]),
-      @element.button(on_click=_ => dispatch(1), ["dispatch"]),
+    @react_element.div([
+      @react_element.span(["State: \{state}"]),
+      @react_element.span(["Pending: \{is_pending}"]),
+      @react_element.button(on_click=_ => dispatch(1), ["dispatch"]),
     ])
   }
   render(component(comp, EmptyProps::default())) |> ignore
@@ -309,9 +315,9 @@ test "startTransition" {
     let on_click : @dom.MouseEventHandler = _ => start_transition(fn() {
       set_count(count + 1)
     })
-    @element.div([
-      @element.span(["Count: \{count}"]),
-      @element.button(on_click~, ["transition"]),
+    @react_element.div([
+      @react_element.span(["Count: \{count}"]),
+      @react_element.button(on_click~, ["transition"]),
     ])
   }
   render(component(comp, EmptyProps::default())) |> ignore

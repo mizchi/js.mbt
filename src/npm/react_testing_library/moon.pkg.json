@@ -5,7 +5,7 @@
     "mizchi/js/browser/dom",
     "mizchi/js/node",
     "mizchi/js/npm/react",
-    "mizchi/js/npm/react/element"
+    "mizchi/js/npm/react_element"
   ],
   "test-import": ["mizchi/js/npm/global_jsdom"]
 }

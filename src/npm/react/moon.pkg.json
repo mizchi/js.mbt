@@ -4,7 +4,7 @@
   "test-import": [
     "mizchi/js/node",
     "mizchi/js/npm/react_testing_library",
-    "mizchi/js/npm/react/element"
+    "mizchi/js/npm/react_element"
   ],
   "warn-list": "-1-5-6"
 }

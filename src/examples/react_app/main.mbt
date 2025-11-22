@@ -22,7 +22,7 @@ using @react_router {router_provider}
 using @js {log, js, unsafe_cast, sleep, run_async}
 
 ///|
-using @element {
+using @react_element {
   h1,
   h2,
   hr,

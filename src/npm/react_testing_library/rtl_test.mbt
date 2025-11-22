@@ -5,7 +5,7 @@ using @js {unsafe_cast}
 using @react {component}
 
 ///|
-using @element {div, button, input, label, span}
+using @react_element {div, button, input, label, span}
 
 ///|
 using @react_testing_library {
@@ -222,8 +222,8 @@ test "fireEvent submit on form" {
       set_submitted(true)
     }
     div([
-      @element.form(
-        [@element.button(["Submit"], type_="submit")],
+      @react_element.form(
+        [@react_element.button(["Submit"], type_="submit")],
         on_submit=unsafe_cast(on_submit),
         id="test-form",
       ),
