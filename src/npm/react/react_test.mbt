@@ -286,11 +286,27 @@ extern "js" fn load_lazy_component_stub() -> @js.Promise[@js.Js] =
   #|() => Promise.resolve({ default: () => globalThis.__ReactApi.createElement("div", null, "lazy_component") })
 
 ///|
-test "lazy with suspense" {
+test "lazy_ with EmptyProps" {
   init_react_api(@node.require("react"))
-  let lazy_comp = lazy_(load_lazy_component_stub)
+  let lazy_comp : ComponentType[EmptyProps] = lazy_(load_lazy_component_stub)
   let fallback = createElement("div", ["Loading..."])
   let lazy_el = component(lazy_comp, EmptyProps::default())
+  let el = suspense([lazy_el], fallback~)
+  let s = render_to_string(el)
+  // Lazy components render fallback during SSR with renderToString
+  assert_eq(s.contains("Loading..."), true)
+}
+
+///|
+extern "js" fn load_lazy_typed_component_stub() -> @js.Promise[@js.Js] =
+  #|() => Promise.resolve({ default: (props) => globalThis.__ReactApi.createElement("div", null, "Hello, " + props.v) })
+
+///|
+test "lazy_ with custom props" {
+  init_react_api(@node.require("react"))
+  let lazy_comp : ComponentType[TestProps] = lazy_(load_lazy_typed_component_stub)
+  let fallback = createElement("div", ["Loading..."])
+  let lazy_el = component(lazy_comp, { v: "World" })
   let el = suspense([lazy_el], fallback~)
   let s = render_to_string(el)
   // Lazy components render fallback during SSR with renderToString

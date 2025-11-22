@@ -226,11 +226,20 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 /// The import function should return a module with a `default` export of ComponentType[T].
 ///
 /// ```moonbit skip
-/// extern "js" fn load_my_lazy_component() -> @js.Promise[@js.Js] =
-///   #| () => import("./MyLazyComponent")
+/// // For components with EmptyProps
+/// extern "js" fn load_my_component() -> @js.Promise[@js.Js] =
+///   #| () => import("./MyComponent")
 ///
-/// let my_lazy_component = lazy_(load_my_lazy_component)
+/// let my_component : ComponentType[EmptyProps] = lazy_(load_my_component)
+///
+/// // For components with custom props
+/// struct MyProps { name : String }
+///
+/// extern "js" fn load_custom_component() -> @js.Promise[@js.Js] =
+///   #| () => import("./CustomComponent")
+///
+/// let custom_component : ComponentType[MyProps] = lazy_(load_custom_component)
 /// ```
-pub fn lazy_(f : () -> Promise[Js]) -> ComponentType[EmptyProps] {
+pub fn[T] lazy_(f : () -> Promise[Js]) -> ComponentType[T] {
   ffi_react_lazy(f |> @js.unsafe_js) |> unsafe_cast
 }
