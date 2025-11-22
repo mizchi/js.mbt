@@ -9,6 +9,57 @@
 // - from_json() - Convert MoonBit Json type to JS Object
 // - to_json() / to_js() - Bidirectional conversion between Json and Js
 
+///| JsImpl implementations for MoonBit primitive types
+
+///|
+pub impl JsImpl for String
+
+///|
+pub impl JsImpl for Double
+
+///|
+pub impl JsImpl for Float
+
+///|
+pub impl JsImpl for Int
+
+///|
+/// Convert a MoonBit Bool to a JavaScript boolean value.
+pub impl JsImpl for Bool
+
+///|
+/// Convert a MoonBit UInt to a JavaScript number value.
+pub impl JsImpl for UInt
+
+///|
+pub impl JsImpl for Unit
+
+///|
+pub impl JsImpl for BigInt
+
+///|
+/// Convert an Array of Js-implementing types to a JavaScript array.
+pub impl JsImpl for Array[&JsImpl] with to_js(self) {
+  from_array(self)
+}
+
+///|
+pub impl JsImpl for Map[String, &JsImpl] with to_js(self) {
+  let v = Object::new()
+  for k, val in self {
+    v.set(k, val.to_js())
+  }
+  v.to_js()
+}
+
+///|
+/// Convert an Option to a JavaScript value.
+pub impl[T] JsImpl for T? with to_js(self) {
+  unsafe_cast(self)
+}
+
+///| Conversion functions
+
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
 pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
@@ -226,4 +277,130 @@ pub impl JsImpl for Json with to_js(self) -> Js {
       arr.to_js()
     }
   }
+}
+
+///|
+extern "js" fn ffi_wrap_sync(
+  f : Js,
+  ok : (Js) -> Result[Js, Js],
+  err : (Js) -> Result[Js, Js],
+) -> Result[Js, Js] =
+  #|(f, ok, err) => {
+  #|  try {
+  #|    return ok(f())
+  #|  } catch(e) {
+  #|    return err(e)
+  #|  }
+  #|}
+
+///|
+/// Unsafely cast a value from one type to another.
+/// When you cast to `Js`, use `js(v)` or `unsafe_js(v)` instead.
+pub fn[A, B] unsafe_cast(v : A) -> B = "%identity"
+
+///|
+/// Cast any JsImpl type to a JavaScript Val safely.
+/// When you can not, use `unsafe_js()`.
+pub fn js(a : &JsImpl) -> Js {
+  unsafe_cast(a.to_js())
+}
+
+///|
+/// Safe cast JsImpl -> Option[Js].
+pub fn[T : JsImpl] option_js(a : T) -> Js? {
+  if ffi_is_nullish(a |> unsafe_cast) {
+    None
+  } else {
+    Some(unsafe_cast(a.to_js()))
+  }
+}
+
+///|
+/// Convert any MoonBit value to a JavaScript Val.
+/// Use `unsafe_js()` if you can
+pub fn[T] unsafe_js(v : T) -> Js {
+  unsafe_cast(v)
+}
+
+///|
+/// Safely convert a JavaScript Val to an Option type.
+/// Without check, Moonbit FFI will touch (null).toString() and crash.
+pub fn[A] unsafe_cast_option(v : Js) -> A? {
+  if ffi_is_nullish(v) {
+    None
+  } else {
+    Some(unsafe_cast(v))
+  }
+}
+
+///|
+/// JS: Array.isArray(v)
+pub fn[T : JsImpl] is_array(v : T) -> Bool {
+  ffi_is_array(v.to_js())
+}
+
+///|
+/// JS: typeof v === "object" && v !== null && !Array.isArray(v)
+pub fn[T : JsImpl] is_object(v : T) -> Bool {
+  ffi_is_object(v.to_js())
+}
+
+///|
+/// JS: v === null
+pub fn[T : JsImpl] is_null(v : T) -> Bool {
+  ffi_is_null(v.to_js())
+}
+
+///|
+/// JS: v === undefined
+pub fn[T : JsImpl] is_undefined(v : T) -> Bool {
+  ffi_is_undefined(v.to_js())
+}
+
+///|
+pub fn[T : JsImpl] is_nullish(v : T) -> Bool {
+  ffi_is_nullish(v.to_js())
+}
+
+///|
+pub fn[T : JsImpl] is_builtin_trait(v : T) -> Bool {
+  let v : Js = v |> unsafe_cast
+  v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
+}
+
+///|
+/// Wraps a synchronous function call, converting any thrown JS errors into JsError
+/// ```moonbit skip
+/// let result = throwable(() => {
+///   undefined().call_self([])
+/// })
+/// ```
+pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError {
+  match throwable_result(f |> unsafe_cast) {
+    Ok(result) => result |> unsafe_cast
+    Err(e) => {
+      if ffi_is_error(e) {
+        raise JsThrowError::Error(unsafe_cast(e))
+      }
+      raise JsThrowError::Value(e |> unsafe_cast)
+    }
+  }
+}
+
+///|
+/// Wraps a synchronous function call that returns Result, converting any thrown JS errors into JsError
+fn throwable_result(f : () -> Result[Js, Js]) -> Result[Js, Js] {
+  ffi_wrap_sync(unsafe_cast(f), Ok(_), Err(_))
+}
+
+///|
+/// JS: console.log(v)
+pub fn[T] log(v : T) -> Unit {
+  ffi_console_log([v |> unsafe_cast]) |> ignore
+}
+
+///|
+/// JS: console.log(a, b)
+pub fn[T, U] log2(a : T, b : U) -> Unit {
+  ffi_console_log([a |> unsafe_cast, b |> unsafe_cast]) |> ignore
 }

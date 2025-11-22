@@ -340,3 +340,215 @@ pub extern "js" fn Function::bind(self : Self, caller : Js) -> Js =
 /// JS: function.length
 pub extern "js" fn Function::length(self : Self) -> Js =
   #|(self) => self.length
+
+///|
+/// JavaScript Error
+// pub type JsError
+// #external
+pub(all) struct JsError {
+  message : String
+  stack : String
+}
+
+///|
+pub impl JsImpl for JsError
+
+///|
+pub impl Show for JsError with output(self, logger) {
+  logger.write_string(self.to_string())
+}
+
+///|
+pub impl Show for JsError with to_string(self) {
+  self.message
+}
+
+///|
+/// JS: Error.isError(value)
+pub fn JsError::isError(val : &JsImpl) -> Bool {
+  ffi_is_error(val.to_js())
+}
+
+///|
+/// Throws a JavaScript error/value
+pub fn throw_(v : &JsImpl) -> Unit {
+  ffi_throw(v.to_js())
+}
+
+///|
+/// Create a new JavaScript Error object.
+pub fn JsError::new(message : String, cause? : JsError) -> JsError {
+  let args : Array[Js] = if cause is Some(cause) {
+    [message |> js, from_map({ "cause": cause |> unsafe_cast() })]
+  } else {
+    [message |> js]
+  }
+  ffi_new_error(args)
+}
+
+///|
+pub suberror JsThrowError {
+  // TODO: Differentiate error types
+  // TypeError
+  // ReferenceError
+  // SyntaxError
+  // RangeError
+  // etc.
+  Error(JsError)
+  Value(Js)
+}
+
+///|
+pub impl JsImpl for JsThrowError
+
+///|
+pub impl Show for JsThrowError with output(self, logger) {
+  logger.write_string(self.to_string())
+}
+
+///|
+pub impl Show for JsThrowError with to_string(self) {
+  match self {
+    Error(err) => err.message
+    Value(val) => val.to_string()
+  }
+}
+
+///|
+/// JavaScript Iterator
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator
+#external
+pub(all) type JsIterator[T]
+
+///|
+pub impl[T] JsImpl for JsIterator[T]
+
+///|
+extern "js" fn ffi_iterator_from(v : Js) -> Js =
+  #|(v) => Iterator.from(v)
+
+///|
+/// JS: Iterator.from(v)
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/from
+pub fn[T] JsIterator::from(v : Js) -> JsIterator[T] {
+  ffi_iterator_from(v) |> unsafe_cast
+}
+
+///|
+/// JS: iterator.next()
+pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
+  let v : Js = self.call0("next") |> unsafe_cast
+  if (v.get("done") |> unsafe_cast) {
+    None
+  } else {
+    Some(v.get("value") |> unsafe_cast)
+  }
+}
+
+///|
+/// JS: iterator.drop(limit)
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/drop
+pub fn[T] JsIterator::drop(self : Self[T], limit : Int) -> Self[T] {
+  self.call("drop", [limit]) |> unsafe_cast
+}
+
+///|
+/// JS: iterator.take(limit)
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/take
+pub fn[T] JsIterator::take(self : Self[T], limit : Int) -> Self[T] {
+  self.call("take", [limit]) |> unsafe_cast
+}
+
+///|
+/// JS: iterator.toArray()
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/toArray
+pub fn[T] JsIterator::toArray(self : Self[T]) -> Array[T] {
+  self.call0("toArray") |> unsafe_cast
+}
+
+///|
+/// to Moonbit Iterator
+pub fn[T] JsIterator::iter(self : JsIterator[T]) -> Iterator[T] {
+  Iterator::new(() => self.next())
+}
+
+///|
+/// JavaScript AsyncIterator
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator
+#external
+pub(all) type AsyncIterator[T]
+
+///|
+pub impl[T] JsImpl for AsyncIterator[T]
+
+///|
+/// JS: asyncIterator.next()
+pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
+  let v : Promise[Js] = self.call0("next") |> unsafe_cast
+  let v : Js = v.unwrap()
+  if (v.get("done") |> unsafe_cast) {
+    None
+  } else {
+    Some(v.get("value") |> unsafe_cast)
+  }
+}
+
+// TODO: test with async test {}
+
+///| JSON
+
+///|
+/// JavaScript: JSON
+#external
+pub type JSON
+
+///|
+/// JS: JSON.stringify(v, replacer, space)
+pub fn JSON::stringify(
+  v : Js,
+  replacer? : Js = undefined(),
+  space? : Int = 2,
+) -> String {
+  ffi_json_stringify(v.to_js(), replacer, space |> js)
+}
+
+///|
+/// JS: JSON.parse(s, reviver)
+pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise JsThrowError {
+  throwable(() => ffi_json_parse(s, reviver?))
+}
+
+///| AbortController and AbortSignal
+
+///|
+/// JavaScript: AbortController
+#external
+pub type AbortController
+
+///|
+pub impl JsImpl for AbortController
+
+///|
+/// JS: new AbortController()
+pub extern "js" fn AbortController::new() -> AbortController =
+  #| () => new AbortController()
+
+///|
+/// JS: abortController.abort()
+pub fn AbortController::abort(self : Self) -> AbortController {
+  self.call0("abort") |> unsafe_cast
+}
+
+///|
+/// JavaScript: AbortSignal
+#external
+pub type AbortSignal
+
+///|
+pub impl JsImpl for AbortSignal
+
+///|
+/// JS: abortController.signal
+pub fn AbortController::signal(self : Self) -> AbortSignal {
+  self.get("signal") |> unsafe_cast
+}
