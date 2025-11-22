@@ -31,6 +31,12 @@ pub impl ReactNode for Bool with to_react_node(self) {
 }
 
 ///|
+pub impl ReactNode for Array[&ReactNode] with to_react_node(self) {
+  @js.from_array(self.map(x => x.to_react_node())) |> unsafe_cast
+}
+
+
+///|
 pub impl[T : ReactNode] ReactNode for T? with to_react_node(self) {
   match self {
     Some(v) => v.to_react_node()

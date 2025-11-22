@@ -82,7 +82,7 @@ extern "js" fn get_link() -> (LinkProps) -> @react.Element =
   #| () => __ReactRouterApi.Link
 
 ///|
-pub fn link(to~ : String, children : Array[&@js.JsImpl]) -> @react.Element {
+pub fn link(to~ : String, children : Array[&@react.ReactNode]) -> @react.Element {
   let p = get_link()
   @react.c(p, LinkProps::{ to, }, children~)
 }

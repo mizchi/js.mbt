@@ -167,3 +167,116 @@ test "ReactNode Option None" {
   let s = render_to_string(el)
   assert_eq(s, "<div></div>")
 }
+
+///|
+test "ReactNode Array of ReactNode" {
+  init_react_api(@node.require("react"))
+  let items : Array[&ReactNode] = ["item1", "item2", "item3"]
+  let el = createElement("div", [items])
+  let s = render_to_string(el)
+  assert_eq(s, "<div>item1<!-- -->item2<!-- -->item3</div>")
+}
+
+///|
+test "ReactNode nested Array with Elements" {
+  init_react_api(@node.require("react"))
+  let nested : Array[&ReactNode] = [
+    createElement("span", ["a"], key="a"),
+    createElement("span", ["b"], key="b"),
+    createElement("span", ["c"], key="c"),
+  ]
+  let el = createElement("div", [nested])
+  let s = render_to_string(el)
+  assert_eq(s, "<div><span>a</span><span>b</span><span>c</span></div>")
+}
+
+///|
+test "ReactNode Array with mixed types" {
+  init_react_api(@node.require("react"))
+  let mixed : Array[&ReactNode] = [
+    "text",
+    42,
+    createElement("strong", ["bold"], key="bold"),
+  ]
+  let el = createElement("div", [mixed])
+  let s = render_to_string(el)
+  assert_eq(s, "<div>text<!-- -->42<strong>bold</strong></div>")
+}
+
+///|
+test "ReactNode deeply nested Arrays" {
+  init_react_api(@node.require("react"))
+  let inner : Array[&ReactNode] = ["inner1", "inner2"]
+  let outer : Array[&ReactNode] = ["outer", inner, "end"]
+  let el = createElement("div", [outer])
+  let s = render_to_string(el)
+  assert_eq(s, "<div>outer<!-- -->inner1<!-- -->inner2<!-- -->end</div>")
+}
+
+///|
+test "ReactNode Array with Option values" {
+  init_react_api(@node.require("react"))
+  let opt_some : String? = Some("middle")
+  let opt_none : String? = None
+  let with_option : Array[&ReactNode] = [
+    "start",
+    opt_some,
+    opt_none,
+    "end",
+  ]
+  let el = createElement("div", [with_option])
+  let s = render_to_string(el)
+  assert_eq(s, "<div>start<!-- -->middle<!-- -->end</div>")
+}
+
+///|
+test "ReactNode Array with for expression" {
+  init_react_api(@node.require("react"))
+  let items = ["apple", "banana", "cherry"]
+  let children : Array[&ReactNode] = items.map(fn(item) {
+    createElement("li", [item], key=item)
+  })
+  let el = createElement("ul", [children])
+  let s = render_to_string(el)
+  assert_eq(s, "<ul><li>apple</li><li>banana</li><li>cherry</li></ul>")
+}
+
+///|
+test "ReactNode fragment with for expression" {
+  init_react_api(@node.require("react"))
+  let items = [1, 2, 3]
+  let children : Array[&ReactNode] = items.map(fn(i) {
+    createElement("div", [i], key=i.to_string())
+  })
+  let el = fragment(children)
+  let s = render_to_string(el)
+  assert_eq(s, "<div>1</div><div>2</div><div>3</div>")
+}
+
+///|
+test "ReactNode Array with map in fragment" {
+  init_react_api(@node.require("react"))
+  let numbers = [10, 20, 30]
+  let mapped : Array[&ReactNode] = numbers.map(fn(n) {
+    createElement("span", [n], key=n.to_string())
+  })
+  let el = fragment(mapped)
+  let s = render_to_string(el)
+  assert_eq(s, "<span>10</span><span>20</span><span>30</span>")
+}
+
+///|
+test "ReactNode conditional rendering in for expression" {
+  init_react_api(@node.require("react"))
+  let items = [1, 2, 3, 4, 5]
+  let children : Array[&ReactNode] = items.map(fn(i) {
+    if i % 2 == 0 {
+      createElement("strong", [i], key=i.to_string())
+    } else {
+      createElement("em", [i], key=i.to_string())
+    }
+  })
+  let el = createElement("div", [children])
+  let s = render_to_string(el)
+  assert_eq(s, "<div><em>1</em><strong>2</strong><em>3</em><strong>4</strong><em>5</em></div>")
+}
