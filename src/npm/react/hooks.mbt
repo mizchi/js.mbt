@@ -1,11 +1,5 @@
 ///|
 /// React.useState
-/// ```mbt
-/// fn my_component (_props: EmptyProps) -> Element {
-///   let (_count, _set_count) = useState(0)
-///   ...
-/// }
-/// ```
 #alias(use_state)
 pub fn[T : JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
@@ -16,11 +10,6 @@ pub fn[T : JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
 
 ///|
 /// JS: React.useState(() => initial)
-/// ```
-/// fn my_component(_props: EmptyProps) -> Element {
-///   let (_count, _set_count) = use_state_lazy(() => 42)
-///   ...
-/// }
 #alias(useStateLazy)
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
   let initial : () -> Js = unsafe_cast(initial)
@@ -32,14 +21,6 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 
 ///|
 /// React.useCallback
-/// ```mbt
-/// fn my_component(_props : EmptyProps) -> Element {
-///   let _on_click = useCallback(() => {
-///     ()
-///   }, [])
-///   ...
-/// }
-/// ```
 #alias(use_callback)
 pub fn[F] useCallback(f : F, keys : Array[&JsImpl]) -> F {
   let keys = keys.map(k => k.to_js())
@@ -48,15 +29,6 @@ pub fn[F] useCallback(f : F, keys : Array[&JsImpl]) -> F {
 
 ///|
 /// JS: React.useEffect
-/// ```mbt
-/// fn my_component(_props : EmptyProps) -> Element {
-///   useEffect(() => {
-///     println("mounted")
-///     () => println("unmounted")
-///   }, [])
-///   createElement("div", ["Hello"])
-/// }
-/// ```
 #alias(use_effect)
 pub fn useEffect(f : () -> () -> Unit, keys : Array[&JsImpl]) -> Unit {
   ffi_react_use_effect(f, keys.map(_.to_js()))

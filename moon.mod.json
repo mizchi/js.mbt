@@ -17,6 +17,6 @@
   ],
   "description": "bindings for js/node/browser/deno/cloudflare/react etc",
   "source": "src",
-  "warn-list": "-3-9-28-29-53",
+  "warn-list": "-3-9-29-53",
   "preferred-target": "js"
 }
