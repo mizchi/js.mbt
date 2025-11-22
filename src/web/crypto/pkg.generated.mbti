@@ -12,9 +12,9 @@ fn getCrypto() -> Crypto
 // Errors
 
 // Types and methods
-#external
-pub type Crypto
-fn Crypto::subtle(Self) -> SubtleCrypto
+pub(all) struct Crypto {
+  subtle : SubtleCrypto
+}
 impl @js.JsImpl for Crypto
 
 #external

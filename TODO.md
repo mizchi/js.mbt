@@ -155,10 +155,13 @@
 
 ### 注意事項
 
-- **JavaScript予約語**: `type`のような予約語はフィールド名として使用できない。getter関数として提供する（例: `contentType()`）
-- **`unsafe_cast`パターン**: `|> unsafe_cast`の後置形式を優先
+- **JavaScript/MoonBit予約語**: `type`, `ref`, `method`などの予約語とぶつかるプロパティは、フィールド名として使用できない。必ずgetter/setterメソッドとして維持する（例: `contentType()`, `getRef()`, `getMethod()`）
+  - ❌ `type_: String` をstructフィールドとして定義
+  - ✅ `fn contentType(self) -> String` をメソッドとして定義
+- **`unsafe_cast`パターン**: `|> @js.unsafe_cast`の後置形式を優先（名前空間を含める）
 - **`#alias`属性**: メソッドにのみ使用可能。structフィールドには使用不可
 - **複雑なメソッド**: 元の複雑なメソッドは保持し、フィールドアクセスのみ追加する
+- **予約語の確認**: 変換前に、JavaScriptプロパティ名がMoonBitやJavaScriptの予約語と衝突しないか確認する
 
 ### コミットメッセージ例
 

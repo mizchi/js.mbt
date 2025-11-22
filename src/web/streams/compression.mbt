@@ -5,8 +5,10 @@
 ///|
 /// CompressionStream is a TransformStream that compresses data using gzip, deflate, or deflate-raw
 /// https://developer.mozilla.org/en-US/docs/Web/API/CompressionStream
-#external
-pub type CompressionStream
+pub(all) struct CompressionStream {
+  readable : ReadableStream
+  writable : WritableStream
+}
 
 ///|
 pub impl JsImpl for CompressionStream
@@ -24,30 +26,20 @@ pub impl JsImpl for CompressionStream
 /// let compressor = CompressionStream::new("gzip")
 /// ```
 pub fn CompressionStream::new(format : String) -> CompressionStream {
-  new_compression_stream(format)
+  new_compression_stream(format) |> @js.unsafe_cast
 }
 
 ///|
-extern "js" fn new_compression_stream(format : String) -> CompressionStream =
+extern "js" fn new_compression_stream(format : String) -> Js =
   #|(format) => new CompressionStream(format)
-
-///|
-/// Get the readable side of the compression stream
-pub fn CompressionStream::readable(self : CompressionStream) -> ReadableStream {
-  self.get("readable") |> unsafe_cast
-}
-
-///|
-/// Get the writable side of the compression stream
-pub fn CompressionStream::writable(self : CompressionStream) -> WritableStream {
-  self.get("writable") |> unsafe_cast
-}
 
 ///|
 /// DecompressionStream is a TransformStream that decompresses data using gzip, deflate, or deflate-raw
 /// https://developer.mozilla.org/en-US/docs/Web/API/DecompressionStream
-#external
-pub type DecompressionStream
+pub(all) struct DecompressionStream {
+  readable : ReadableStream
+  writable : WritableStream
+}
 
 ///|
 pub impl JsImpl for DecompressionStream
@@ -65,25 +57,9 @@ pub impl JsImpl for DecompressionStream
 /// let decompressor = DecompressionStream::new("gzip")
 /// ```
 pub fn DecompressionStream::new(format : String) -> DecompressionStream {
-  new_decompression_stream(format)
+  new_decompression_stream(format) |> @js.unsafe_cast
 }
 
 ///|
-extern "js" fn new_decompression_stream(format : String) -> DecompressionStream =
+extern "js" fn new_decompression_stream(format : String) -> Js =
   #|(format) => new DecompressionStream(format)
-
-///|
-/// Get the readable side of the decompression stream
-pub fn DecompressionStream::readable(
-  self : DecompressionStream,
-) -> ReadableStream {
-  self.get("readable") |> unsafe_cast
-}
-
-///|
-/// Get the writable side of the decompression stream
-pub fn DecompressionStream::writable(
-  self : DecompressionStream,
-) -> WritableStream {
-  self.get("writable") |> unsafe_cast
-}

@@ -183,7 +183,7 @@ fn decompress_request(compressed_stream : @streams.ReadableStream) -> @streams.R
 // Password hashing (server-side authentication)
 fn hash_password(password : String) -> @js.Promise[@js.ArrayBuffer] {
   let crypto = @crypto.get_crypto()
-  let subtle = crypto.subtle()
+  let subtle = crypto.subtle
   let encoder = @js.TextEncoder::new()
   let data = encoder.encode(password)
   subtle.digest("SHA-256", data)
@@ -192,7 +192,7 @@ fn hash_password(password : String) -> @js.Promise[@js.ArrayBuffer] {
 // Generate JWT tokens (API authentication)
 fn sign_jwt(payload : String, secret : String) -> @js.Promise[String] {
   let crypto = @crypto.get_crypto()
-  let subtle = crypto.subtle()
+  let subtle = crypto.subtle
   
   // Import HMAC key
   let key = subtle.import_key(
@@ -210,7 +210,7 @@ fn sign_jwt(payload : String, secret : String) -> @js.Promise[String] {
 // Encrypt sensitive data (database encryption)
 fn encrypt_data(data : String) -> @js.Promise[@js.ArrayBuffer] {
   let crypto = @crypto.get_crypto()
-  let subtle = crypto.subtle()
+  let subtle = crypto.subtle
   
   // Generate key
   let key = subtle.generate_key(

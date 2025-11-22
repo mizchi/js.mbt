@@ -10,18 +10,18 @@ import(
 // Errors
 
 // Types and methods
-#external
-pub type CompressionStream
+pub(all) struct CompressionStream {
+  readable : ReadableStream
+  writable : WritableStream
+}
 fn CompressionStream::new(String) -> Self
-fn CompressionStream::readable(Self) -> ReadableStream
-fn CompressionStream::writable(Self) -> WritableStream
 impl @js.JsImpl for CompressionStream
 
-#external
-pub type DecompressionStream
+pub(all) struct DecompressionStream {
+  readable : ReadableStream
+  writable : WritableStream
+}
 fn DecompressionStream::new(String) -> Self
-fn DecompressionStream::readable(Self) -> ReadableStream
-fn DecompressionStream::writable(Self) -> WritableStream
 impl @js.JsImpl for DecompressionStream
 
 #external
@@ -47,13 +47,13 @@ fn ReadableStreamDefaultReader::read(Self) -> @js.Promise[@js.Js]
 fn ReadableStreamDefaultReader::releaseLock(Self) -> Unit
 impl @js.JsImpl for ReadableStreamDefaultReader
 
-#external
-pub type TransformStream
+pub(all) struct TransformStream {
+  readable : ReadableStream
+  writable : WritableStream
+}
 fn TransformStream::new(@js.Js) -> Self
 #alias(newIdentity)
 fn TransformStream::new_identity() -> Self
-fn TransformStream::readable(Self) -> ReadableStream
-fn TransformStream::writable(Self) -> WritableStream
 impl @js.JsImpl for TransformStream
 
 #external

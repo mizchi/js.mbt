@@ -59,17 +59,17 @@ fn URLPattern::test_url_with_base(Self, String, base? : String) -> Bool
 fn URLPattern::username(Self) -> String
 impl @js.JsImpl for URLPattern
 
-#external
-pub type URLPatternResult
-fn URLPatternResult::hash(Self) -> @js.Js
-fn URLPatternResult::hostname(Self) -> @js.Js
-fn URLPatternResult::inputs(Self) -> @js.Js
-fn URLPatternResult::password(Self) -> @js.Js
-fn URLPatternResult::pathname(Self) -> @js.Js
-fn URLPatternResult::port(Self) -> @js.Js
-fn URLPatternResult::protocol(Self) -> @js.Js
-fn URLPatternResult::search(Self) -> @js.Js
-fn URLPatternResult::username(Self) -> @js.Js
+pub(all) struct URLPatternResult {
+  inputs : @js.Js
+  protocol : @js.Js
+  username : @js.Js
+  password : @js.Js
+  hostname : @js.Js
+  port : @js.Js
+  pathname : @js.Js
+  search : @js.Js
+  hash : @js.Js
+}
 impl @js.JsImpl for URLPatternResult
 
 #external

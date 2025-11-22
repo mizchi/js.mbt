@@ -180,16 +180,12 @@ pub fn SubtleCrypto::unwrapKey(
 ///|
 /// WebCrypto
 /// JS: Crypto
-#external
-pub type Crypto
+pub(all) struct Crypto {
+  subtle : SubtleCrypto
+}
 
 ///|
 pub impl JsImpl for Crypto
-
-///|
-pub fn Crypto::subtle(self : Self) -> SubtleCrypto {
-  self.get("subtle") |> unsafe_cast
-}
 
 ///|
 /// Global Crypto Access
@@ -199,5 +195,5 @@ extern "js" fn ffi_get_crypto() -> Js =
 ///|
 #alias(get_crypto)
 pub fn getCrypto() -> Crypto {
-  ffi_get_crypto() |> unsafe_cast
+  ffi_get_crypto() |> @js.unsafe_cast
 }

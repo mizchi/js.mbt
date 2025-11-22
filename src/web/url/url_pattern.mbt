@@ -19,12 +19,31 @@ pub impl @js.JsImpl for URLPattern with to_js(self) -> @js.Js {
 }
 
 ///|
-#external
-pub type URLPatternResult
+pub(all) struct URLPatternResult {
+  inputs : @js.Js
+  protocol : @js.Js
+  username : @js.Js
+  password : @js.Js
+  hostname : @js.Js
+  port : @js.Js
+  pathname : @js.Js
+  search : @js.Js
+  hash : @js.Js
+}
 
 ///|
-pub impl @js.JsImpl for URLPatternResult with to_js(self) -> @js.Js {
-  self |> @js.unsafe_js
+pub impl @js.JsImpl for URLPatternResult
+
+///|
+/// Get the input value from a component result
+pub fn get_component_input(component : @js.Js) -> String {
+  component.get("input") |> @js.unsafe_cast
+}
+
+///|
+/// Get the groups from a component result
+pub fn get_component_groups(component : @js.Js) -> @js.Js {
+  component.get("groups")
 }
 
 ///|
@@ -135,7 +154,7 @@ pub fn URLPattern::exec(self : Self, input : String) -> URLPatternResult? {
   if ffi_is_null(result) {
     None
   } else {
-    Some(unsafe_cast(result))
+    Some(result |> @js.unsafe_cast)
   }
 }
 
@@ -154,81 +173,6 @@ pub fn URLPattern::execWithBase(
   if ffi_is_null(result) {
     None
   } else {
-    Some(unsafe_cast(result))
+    Some(result |> @js.unsafe_cast)
   }
-}
-
-///|
-/// Get the inputs from the pattern result
-pub fn URLPatternResult::inputs(self : Self) -> @js.Js {
-  self.to_js().get("inputs")
-}
-
-///|
-/// Get a specific component result from the pattern result
-fn get_component_result(
-  result : URLPatternResult,
-  component : String,
-) -> @js.Js {
-  result.to_js().get(component)
-}
-
-///|
-/// Get the protocol component result
-pub fn URLPatternResult::protocol(self : Self) -> @js.Js {
-  get_component_result(self, "protocol")
-}
-
-///|
-/// Get the username component result
-pub fn URLPatternResult::username(self : Self) -> @js.Js {
-  get_component_result(self, "username")
-}
-
-///|
-/// Get the password component result
-pub fn URLPatternResult::password(self : Self) -> @js.Js {
-  get_component_result(self, "password")
-}
-
-///|
-/// Get the hostname component result
-pub fn URLPatternResult::hostname(self : Self) -> @js.Js {
-  get_component_result(self, "hostname")
-}
-
-///|
-/// Get the port component result
-pub fn URLPatternResult::port(self : Self) -> @js.Js {
-  get_component_result(self, "port")
-}
-
-///|
-/// Get the pathname component result
-pub fn URLPatternResult::pathname(self : Self) -> @js.Js {
-  get_component_result(self, "pathname")
-}
-
-///|
-/// Get the search component result
-pub fn URLPatternResult::search(self : Self) -> @js.Js {
-  get_component_result(self, "search")
-}
-
-///|
-/// Get the hash component result
-pub fn URLPatternResult::hash(self : Self) -> @js.Js {
-  get_component_result(self, "hash")
-}
-
-///|
-/// Get the input value from a component result
-pub fn get_component_input(component : @js.Js) -> String {
-  component.get("input") |> unsafe_cast
-}
-
-///|
-/// Get the groups from a component result
-pub fn get_component_groups(component : @js.Js) -> @js.Js {
-  component.get("groups")
 }

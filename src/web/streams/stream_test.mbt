@@ -94,8 +94,8 @@ test "WritableStreamDefaultWriter releaseLock alias" {
 ///|
 test "TransformStream identity creates readable and writable" {
   let transform = TransformStream::new_identity()
-  let readable = transform.readable()
-  let writable = transform.writable()
+  let readable = transform.readable
+  let writable = transform.writable
   assert_eq(readable.locked(), false)
   assert_eq(writable.locked(), false)
 }
@@ -104,8 +104,8 @@ test "TransformStream identity creates readable and writable" {
 test "TransformStream with transformer" {
   let transformer = @js.Object::new()
   let transform = TransformStream::new(transformer.to_js())
-  let readable = transform.readable()
-  let writable = transform.writable()
+  let readable = transform.readable
+  let writable = transform.writable
   assert_eq(readable.locked(), false)
   assert_eq(writable.locked(), false)
 }
@@ -113,6 +113,6 @@ test "TransformStream with transformer" {
 ///|
 test "TransformStream newIdentity alias" {
   let transform = TransformStream::newIdentity()
-  let readable = transform.readable()
+  let readable = transform.readable
   assert_eq(readable.locked(), false)
 }

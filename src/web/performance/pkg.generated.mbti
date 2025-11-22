@@ -24,12 +24,12 @@ fn Performance::now(Self) -> Double
 fn Performance::timeOrigin(Self) -> Double
 impl @js.JsImpl for Performance
 
-#external
-pub type PerformanceEntry
-fn PerformanceEntry::duration(Self) -> Double
-fn PerformanceEntry::entryType(Self) -> String
-fn PerformanceEntry::name(Self) -> String
-fn PerformanceEntry::startTime(Self) -> Double
+pub(all) struct PerformanceEntry {
+  name : String
+  entryType : String
+  startTime : Double
+  duration : Double
+}
 impl @js.JsImpl for PerformanceEntry
 
 #external

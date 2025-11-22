@@ -230,8 +230,10 @@ pub fn WritableStreamDefaultWriter::desired_size(self : Self) -> Int? {
 
 ///|
 /// TransformStream represents a transform stream for piping data through a transformation
-#external
-pub type TransformStream
+pub(all) struct TransformStream {
+  readable : ReadableStream
+  writable : WritableStream
+}
 
 ///|
 pub impl JsImpl for TransformStream
@@ -244,7 +246,7 @@ extern "js" fn ffi_new_transform_stream(transformer : Js) -> Js =
 ///|
 /// Create a new TransformStream with a transformer
 pub fn TransformStream::new(transformer : Js) -> TransformStream {
-  unsafe_cast(ffi_new_transform_stream(transformer))
+  ffi_new_transform_stream(transformer) |> @js.unsafe_cast
 }
 
 ///|
@@ -256,17 +258,5 @@ extern "js" fn ffi_new_identity_transform_stream() -> Js =
 /// Create a new identity TransformStream
 #alias(newIdentity)
 pub fn TransformStream::new_identity() -> TransformStream {
-  unsafe_cast(ffi_new_identity_transform_stream())
-}
-
-///|
-/// Get the readable side of the transform stream
-pub fn TransformStream::readable(self : Self) -> ReadableStream {
-  self.get("readable") |> unsafe_cast
-}
-
-///|
-/// Get the writable side of the transform stream
-pub fn TransformStream::writable(self : Self) -> WritableStream {
-  self.get("writable") |> unsafe_cast
+  ffi_new_identity_transform_stream() |> @js.unsafe_cast
 }

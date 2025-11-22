@@ -12,8 +12,12 @@ pub impl @js.JsImpl for Performance
 
 ///|
 /// PerformanceEntry represents a single performance metric
-#external
-pub type PerformanceEntry
+pub(all) struct PerformanceEntry {
+  name : String
+  entryType : String
+  startTime : Double
+  duration : Double
+}
 
 ///|
 pub impl @js.JsImpl for PerformanceEntry
@@ -106,28 +110,4 @@ pub fn Performance::clearMeasures(self : Performance, name? : String) -> Unit {
     Some(n) => self.call("clearMeasures", [n]) |> ignore
     None => self.call0("clearMeasures") |> ignore
   }
-}
-
-///|
-/// JS: entry.name
-pub fn PerformanceEntry::name(self : PerformanceEntry) -> String {
-  self.get("name") |> @js.unsafe_cast
-}
-
-///|
-/// JS: entry.entryType
-pub fn PerformanceEntry::entryType(self : PerformanceEntry) -> String {
-  self.get("entryType") |> @js.unsafe_cast
-}
-
-///|
-/// JS: entry.startTime
-pub fn PerformanceEntry::startTime(self : PerformanceEntry) -> Double {
-  self.get("startTime") |> @js.unsafe_cast
-}
-
-///|
-/// JS: entry.duration
-pub fn PerformanceEntry::duration(self : PerformanceEntry) -> Double {
-  self.get("duration") |> @js.unsafe_cast
 }

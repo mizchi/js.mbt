@@ -22,7 +22,7 @@ test "URLPattern exec method" {
   let pattern = URLPattern::new("https://example.com/books/:id")
   match pattern.exec("https://example.com/books/123") {
     Some(result) => {
-      let pathname_comp = result.pathname()
+      let pathname_comp = result.pathname
       let input = get_component_input(pathname_comp)
       assert_eq(input, "/books/123")
       let groups = get_component_groups(pathname_comp)
@@ -61,7 +61,7 @@ test "URLPattern with search parameter" {
   assert_eq(pattern.test_url("https://example.com/search?q=test"), true)
   match pattern.exec("https://example.com/search?q=moonbit") {
     Some(result) => {
-      let search_comp = result.search()
+      let search_comp = result.search
       let groups = get_component_groups(search_comp)
       let query : String = unsafe_cast(groups.get("query"))
       assert_eq(query, "moonbit")
@@ -76,7 +76,7 @@ test "URLPattern with hash" {
   assert_eq(pattern.test_url("https://example.com/page#intro"), true)
   match pattern.exec("https://example.com/page#intro") {
     Some(result) => {
-      let hash_comp = result.hash()
+      let hash_comp = result.hash
       let groups = get_component_groups(hash_comp)
       let section : String = unsafe_cast(groups.get("section"))
       assert_eq(section, "intro")
@@ -112,7 +112,7 @@ test "URLPattern multiple path parameters" {
   )
   match pattern.exec("https://example.com/books/42/chapters/3") {
     Some(result) => {
-      let pathname_comp = result.pathname()
+      let pathname_comp = result.pathname
       let groups = get_component_groups(pathname_comp)
       let book_id : String = unsafe_cast(groups.get("bookId"))
       let chapter_id : String = unsafe_cast(groups.get("chapterId"))
