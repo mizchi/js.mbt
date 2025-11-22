@@ -125,7 +125,7 @@ fn main {
 }
 ```
 
-See escape hatch pattern in [docs/moonbit-js-ffi.md](./docs/moonbit-js-ffi.md)
+See escape hatch pattern in [src/examples/escape_hatch.mbt.md](./src/examples/escape_hatch.mbt.md)
 
 ## LICENSE
 
