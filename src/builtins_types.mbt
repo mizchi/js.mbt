@@ -1,63 +1,27 @@
-// Js Builtin Types
+// Frequently used JavaScript builtin types
+//
+// This file contains the most commonly used JavaScript builtin types:
+// - Object, Array, Function (core object types)
+// - Error (error handling)
+// - Symbol, JsString (primitive types)
+// - JSON (serialization)
+// - Iterator, AsyncIterator (iteration protocols)
+// - AbortController, AbortSignal (async control)
+//
+// For more specialized builtin types, see src/builtins/:
+// - arraybuffer/ - ArrayBuffer, TypedArrays, DataView
+// - bigint/ - BigInt operations
+// - date/ - Date object
+// - math/ - Math utilities
+// - proxy/ - Proxy and traps
+// - reflect/ - Reflect API
+// - regexp/ - Regular expressions
+// - weak/ - WeakMap, WeakSet, WeakRef
 
 ///|
 /// JS: null
 pub fn null_() -> Js {
   ffi_null()
-}
-
-///|
-/// JavaScript Symbol
-#external
-pub type Symbol
-
-///|
-pub impl JsImpl for Symbol
-
-///|
-extern "js" fn symbol_class() -> Js =
-  #| () => Symbol
-
-///|
-/// JS: Symbol(name)
-pub fn symbol(name : String) -> Symbol {
-  ffi_symbol(name)
-}
-
-///|
-/// JS: Symbol.for(name)
-pub fn Symbol::for_(name : String) -> Symbol {
-  symbol_class().call("for", [name]) |> unsafe_cast
-}
-
-///|
-/// JS: Symbol.iterator
-pub fn Symbol::iterator() -> Symbol {
-  symbol_class().get("iterator") |> unsafe_cast
-}
-
-///|
-/// JS: Symbol.asyncIterator
-pub fn Symbol::asyncIterator() -> Symbol {
-  symbol_class().get("asyncIterator") |> unsafe_cast
-}
-
-///|
-/// JS: Symbol.dispose
-pub fn Symbol::dispose() -> Symbol {
-  symbol_class().get("dispose") |> unsafe_cast
-}
-
-///|
-/// JS: Symbol.asyncDispose
-pub fn Symbol::asyncDispose() -> Symbol {
-  symbol_class().get("asyncDispose") |> unsafe_cast
-}
-
-///|
-/// JS: Symbol.asyncDispose
-pub fn Symbol::toStringTag() -> Symbol {
-  symbol_class().get("toStringTag") |> unsafe_cast
 }
 
 ///|
@@ -81,35 +45,7 @@ pub impl PropertyKey for Int
 ///|
 pub impl PropertyKey for Symbol
 
-///|
-#external
-pub type JsString
-
-///|
-pub impl JsImpl for JsString
-
-///|
-fn string_instance() -> JsString {
-  unsafe_cast(globalThis().get("String"))
-}
-
-///|
-/// JS: String.fromCharCode(...values)
-pub fn JsString::fromCharCode(values : Array[Int]) -> String {
-  let string_class = string_instance()
-  let from_char_code = string_class.get("fromCharCode")
-  from_char_code.call2("apply", string_class, values |> from_array)
-  |> unsafe_cast
-}
-
-///|
-/// JS: String.fromCodePoint(...values)
-pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
-  let string_class = string_instance()
-  let from_code_point = string_class.get("fromCodePoint")
-  from_code_point.call2("apply", string_class, values |> from_array)
-  |> unsafe_cast
-}
+///| Object - Most frequently used builtin type
 
 ///|
 /// JavaScript Object
@@ -252,6 +188,8 @@ pub fn Object::to_string(self : Self) -> String {
   ffi_json_stringify(self.to_js(), undefined(), undefined())
 }
 
+///| Array - Second most frequently used builtin type
+
 ///|
 /// JavaScript Array
 /// NonGeneric Array only for Array[Js]
@@ -303,6 +241,8 @@ pub fn array_from(v : Js) -> Array[Js] {
   ffi_array_from(v)
 }
 
+///| Function
+
 ///|
 /// JavaScript Function
 #external
@@ -342,6 +282,8 @@ pub extern "js" fn Function::bind(self : Self, caller : Js) -> Js =
 /// JS: function.length
 pub extern "js" fn Function::length(self : Self) -> Js =
   #|(self) => self.length
+
+///| Error - Error handling
 
 ///|
 /// JavaScript Error
@@ -419,6 +361,119 @@ pub impl Show for ThrowError with to_string(self) {
   }
 }
 
+///| JSON - Serialization
+
+///|
+/// JavaScript: JSON
+#external
+pub type JSON
+
+///|
+/// JS: JSON.stringify(v, replacer, space)
+pub fn JSON::stringify(
+  v : Js,
+  replacer? : Js = undefined(),
+  space? : Int = 2,
+) -> String {
+  ffi_json_stringify(v.to_js(), replacer, space |> js)
+}
+
+///|
+/// JS: JSON.parse(s, reviver)
+pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise ThrowError {
+  throwable(() => ffi_json_parse(s, reviver?))
+}
+
+///| Symbol - Used for special properties
+
+///|
+/// JavaScript Symbol
+#external
+pub type Symbol
+
+///|
+pub impl JsImpl for Symbol
+
+///|
+extern "js" fn symbol_class() -> Js =
+  #| () => Symbol
+
+///|
+/// JS: Symbol(name)
+pub fn symbol(name : String) -> Symbol {
+  ffi_symbol(name)
+}
+
+///|
+/// JS: Symbol.for(name)
+pub fn Symbol::for_(name : String) -> Symbol {
+  symbol_class().call("for", [name]) |> unsafe_cast
+}
+
+///|
+/// JS: Symbol.iterator
+pub fn Symbol::iterator() -> Symbol {
+  symbol_class().get("iterator") |> unsafe_cast
+}
+
+///|
+/// JS: Symbol.asyncIterator
+pub fn Symbol::asyncIterator() -> Symbol {
+  symbol_class().get("asyncIterator") |> unsafe_cast
+}
+
+///|
+/// JS: Symbol.dispose
+pub fn Symbol::dispose() -> Symbol {
+  symbol_class().get("dispose") |> unsafe_cast
+}
+
+///|
+/// JS: Symbol.asyncDispose
+pub fn Symbol::asyncDispose() -> Symbol {
+  symbol_class().get("asyncDispose") |> unsafe_cast
+}
+
+///|
+/// JS: Symbol.asyncDispose
+pub fn Symbol::toStringTag() -> Symbol {
+  symbol_class().get("toStringTag") |> unsafe_cast
+}
+
+///| JsString - String utilities
+
+///|
+#external
+pub type JsString
+
+///|
+pub impl JsImpl for JsString
+
+///|
+fn string_instance() -> JsString {
+  unsafe_cast(globalThis().get("String"))
+}
+
+///|
+/// JS: String.fromCharCode(...values)
+pub fn JsString::fromCharCode(values : Array[Int]) -> String {
+  let string_class = string_instance()
+  let from_char_code = string_class.get("fromCharCode")
+  from_char_code.call2("apply", string_class, values |> from_array)
+  |> unsafe_cast
+}
+
+///|
+/// JS: String.fromCodePoint(...values)
+pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
+  let string_class = string_instance()
+  let from_code_point = string_class.get("fromCodePoint")
+  from_code_point.call2("apply", string_class, values |> from_array)
+  |> unsafe_cast
+}
+
+///| Iterator - Iteration protocol
+
 ///|
 /// JavaScript Iterator
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator
@@ -477,6 +532,8 @@ pub fn[T] JsIterator::iter(self : JsIterator[T]) -> Iterator[T] {
   Iterator::new(() => self.next())
 }
 
+///| AsyncIterator
+
 ///|
 /// JavaScript AsyncIterator
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator
@@ -500,30 +557,7 @@ pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
 
 // TODO: test with async test {}
 
-///| JSON
-
-///|
-/// JavaScript: JSON
-#external
-pub type JSON
-
-///|
-/// JS: JSON.stringify(v, replacer, space)
-pub fn JSON::stringify(
-  v : Js,
-  replacer? : Js = undefined(),
-  space? : Int = 2,
-) -> String {
-  ffi_json_stringify(v.to_js(), replacer, space |> js)
-}
-
-///|
-/// JS: JSON.parse(s, reviver)
-pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise ThrowError {
-  throwable(() => ffi_json_parse(s, reviver?))
-}
-
-///| AbortController and AbortSignal
+///| AbortController and AbortSignal - Async control
 
 ///|
 /// JavaScript: AbortController
