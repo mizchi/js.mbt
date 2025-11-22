@@ -7,7 +7,6 @@ pub(all) struct File {
   name : String
   lastModified : Int
   size : Int
-  type_ : String
 }
 
 ///|
@@ -15,7 +14,8 @@ pub impl JsImpl for File
 
 ///|
 /// Get the content type of the File
-pub fn File::type_(self : Self) -> String {
+#alias(content_type)
+pub fn File::contentType(self : Self) -> String {
   self.to_js().get("type") |> unsafe_cast
 }
 

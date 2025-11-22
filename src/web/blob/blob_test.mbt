@@ -33,14 +33,14 @@ test "Blob size returns correct size" {
 /// Test Blob type property
 test "Blob content_type returns MIME type" {
   let blob = Blob::new(["test"], content_type="text/plain")
-  inspect(blob.type_() == "text/plain", content="true")
+  inspect(blob.contentType() == "text/plain", content="true")
 }
 
 ///|
 /// Test Blob type property when not specified
 test "Blob content_type returns empty string when not specified" {
   let blob = Blob::new(["test"])
-  inspect(blob.type_() == "", content="true")
+  inspect(blob.contentType() == "", content="true")
 }
 
 ///| Method Tests
@@ -102,7 +102,7 @@ test "Blob slice with start and end returns range" {
 test "Blob slice with content_type sets MIME type" {
   let blob = Blob::new(["Hello"])
   let sliced = blob.slice(content_type="text/plain")
-  inspect(sliced.type_() == "text/plain", content="true")
+  inspect(sliced.contentType() == "text/plain", content="true")
 }
 
 ///|

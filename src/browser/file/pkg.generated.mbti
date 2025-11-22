@@ -15,15 +15,15 @@ pub(all) struct File {
   name : String
   lastModified : Int
   size : Int
-  type_ : String
 }
 #alias(arrayBuffer)
 fn File::array_buffer(Self) -> @js.Promise[@js.ArrayBuffer]
 fn File::as_blob(Self) -> @blob.Blob
+#alias(content_type)
+fn File::contentType(Self) -> String
 fn File::new(Array[&@js.JsImpl], String, content_type? : String, last_modified? : Int) -> Self
 fn File::slice(Self, start? : Int, end? : Int) -> @blob.Blob
 fn File::text(Self) -> @js.Promise[String]
-fn File::type_(Self) -> String
 impl @js.JsImpl for File
 
 pub(all) struct FileReader {

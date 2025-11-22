@@ -3,7 +3,6 @@
 /// https://developer.mozilla.org/ja/docs/Web/API/Blob
 pub(all) struct Blob {
   size : Int
-  type_ : String
 }
 
 ///|
@@ -11,7 +10,8 @@ pub impl JsImpl for Blob
 
 ///|
 /// Get the content type of the Blob
-pub fn Blob::type_(self : Self) -> String {
+#alias(content_type)
+pub fn Blob::contentType(self : Self) -> String {
   self.to_js().get("type") |> unsafe_cast
 }
 

@@ -40,7 +40,7 @@ test "File size returns correct size" {
 /// Test File content_type property
 test "File content_type returns MIME type" {
   let file = File::new(["test"], "test.txt", content_type="text/plain")
-  inspect(file.type_() == "text/plain", content="true")
+  inspect(file.contentType() == "text/plain", content="true")
 }
 
 ///| File as_blob Tests
