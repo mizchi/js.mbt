@@ -245,3 +245,133 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 pub fn[T] lazy_(f : () -> Promise[Js]) -> ComponentType[T] {
   ffi_react_lazy(f |> @js.unsafe_js) |> unsafe_cast
 }
+
+///|
+extern "js" fn ffi_use_deferred_value(value : Js) -> Js =
+  #| (value) => globalThis.__ReactApi.useDeferredValue(value)
+
+///|
+/// React.useDeferredValue - Defer updating a part of the UI
+/// see: https://react.dev/reference/react/useDeferredValue
+#alias(useDeferredValue)
+pub fn[T] use_deferred_value(value : T) -> T {
+  ffi_use_deferred_value(value |> @js.unsafe_js) |> unsafe_cast
+}
+
+///|
+extern "js" fn ffi_use_debug_value(value : Js, formatter : Js) -> Unit =
+  #| (value, formatter) => globalThis.__ReactApi.useDebugValue(value, formatter)
+
+///|
+/// React.useDebugValue - Add a label to a custom hook in React DevTools
+/// see: https://react.dev/reference/react/useDebugValue
+#alias(useDebugValue)
+pub fn[T] use_debug_value(value : T, formatter? : (T) -> String) -> Unit {
+  match formatter {
+    Some(f) => ffi_use_debug_value(value |> @js.unsafe_js, f |> @js.unsafe_js)
+    None => ffi_use_debug_value(value |> @js.unsafe_js, @js.undefined())
+  }
+}
+
+///|
+extern "js" fn ffi_use_id() -> String =
+  #| () => globalThis.__ReactApi.useId()
+
+///|
+/// React.useId - Generate unique IDs for accessibility attributes
+/// see: https://react.dev/reference/react/useId
+#alias(useId)
+pub fn use_id() -> String {
+  ffi_use_id()
+}
+
+///|
+extern "js" fn ffi_use_transition() -> Js =
+  #| () => globalThis.__ReactApi.useTransition()
+
+///|
+/// React.useTransition - Update state without blocking the UI
+/// see: https://react.dev/reference/react/useTransition
+#alias(useTransition)
+pub fn use_transition() -> (Bool, (() -> Unit) -> Unit) {
+  let result = ffi_use_transition()
+  (result.get(0) |> unsafe_cast, result.get(1) |> unsafe_cast)
+}
+
+///|
+extern "js" fn ffi_use_optimistic(state : Js, update_fn : Js) -> Js =
+  #| (state, updateFn) => globalThis.__ReactApi.useOptimistic(state, updateFn)
+
+///|
+/// React.useOptimistic - Show optimistic state while async action is underway
+/// see: https://react.dev/reference/react/useOptimistic
+#alias(useOptimistic)
+pub fn[T, U] use_optimistic(
+  state : T,
+  update_fn : (T, U) -> T
+) -> (T, (U) -> Unit) {
+  let result = ffi_use_optimistic(
+    state |> @js.unsafe_js,
+    update_fn |> @js.unsafe_js,
+  )
+  (result.get(0) |> unsafe_cast, result.get(1) |> unsafe_cast)
+}
+
+///|
+extern "js" fn ffi_use_insertion_effect(effect : Js, deps : Js) -> Unit =
+  #| (effect, deps) => globalThis.__ReactApi.useInsertionEffect(effect, deps)
+
+///|
+/// React.useInsertionEffect - Insert elements into the DOM before layout effects
+/// see: https://react.dev/reference/react/useInsertionEffect
+#alias(useInsertionEffect)
+pub fn use_insertion_effect(f : () -> () -> Unit, keys : Array[&JsImpl]) -> Unit {
+  let deps = keys.map(_.to_js()) |> @js.from_array
+  ffi_use_insertion_effect(f |> @js.unsafe_js, deps)
+}
+
+///|
+extern "js" fn ffi_use_sync_external_store(
+  subscribe : Js,
+  get_snapshot : Js,
+  get_server_snapshot : Js
+) -> Js =
+  #| (subscribe, getSnapshot, getServerSnapshot) => globalThis.__ReactApi.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+
+///|
+/// React.useSyncExternalStore - Subscribe to an external store
+/// see: https://react.dev/reference/react/useSyncExternalStore
+#alias(useSyncExternalStore)
+pub fn[T] use_sync_external_store(
+  subscribe : ((Js) -> Unit) -> () -> Unit,
+  get_snapshot : () -> T,
+  get_server_snapshot? : () -> T
+) -> T {
+  let server_snapshot = match get_server_snapshot {
+    Some(f) => f |> @js.unsafe_js
+    None => @js.undefined()
+  }
+  ffi_use_sync_external_store(
+    subscribe |> @js.unsafe_js,
+    get_snapshot |> @js.unsafe_js,
+    server_snapshot,
+  )
+  |> unsafe_cast
+}
+
+///|
+extern "js" fn ffi_use_imperative_handle(ref_ : Js, create : Js, deps : Js) -> Unit =
+  #| (ref, create, deps) => globalThis.__ReactApi.useImperativeHandle(ref, create, deps)
+
+///|
+/// React.useImperativeHandle - Customize the ref handle exposed to parent
+/// see: https://react.dev/reference/react/useImperativeHandle
+#alias(useImperativeHandle)
+pub fn[T] use_imperative_handle(
+  ref_ : ReactRef[T],
+  create : () -> T,
+  keys : Array[&JsImpl]
+) -> Unit {
+  let deps = keys.map(_.to_js()) |> @js.from_array
+  ffi_use_imperative_handle(ref_ |> @js.unsafe_js, create |> @js.unsafe_js, deps)
+}
