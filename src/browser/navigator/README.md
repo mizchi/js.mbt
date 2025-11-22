@@ -9,6 +9,7 @@ Add to your `moon.pkg.json`:
 ```json
 {
   "import": [
+    "mizchi/js",
     "mizchi/js/browser/navigator"
   ]
 }

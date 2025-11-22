@@ -83,6 +83,7 @@ Add specific sub-packages to your `moon.pkg.json`:
 ```json
 {
   "import": [
+    "mizchi/js",
     "mizchi/js/web/blob",
     "mizchi/js/web/crypto",
     "mizchi/js/web/encoding",
