@@ -36,7 +36,7 @@ fn Interface::on_sigint(Self, () -> Unit) -> Self
 fn Interface::on_sigtstp(Self, () -> Unit) -> Self
 fn Interface::pause(Self) -> Unit
 fn Interface::prompt(Self, Bool) -> Unit
-fn Interface::resume(Self) -> Unit
+fn Interface::resume_(Self) -> Unit
 fn Interface::set_prompt(Self, String) -> Unit
 fn Interface::write(Self, String, @js.Object?) -> Unit
 

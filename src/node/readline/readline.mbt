@@ -9,16 +9,16 @@ pub type Interface
 ///|
 /// Options for createInterface
 pub struct InterfaceOptions {
-  pub input : @stream.Readable
-  pub output : @stream.Writable?
-  pub completer : ((String) -> (Array[String], String))?
-  pub terminal : Bool?
-  pub history_size : Int?
-  pub prompt : String?
-  pub cr_lf_delay : Int?
-  pub remove_history_duplicates : Bool?
-  pub escape_code_timeout : Int?
-  pub tab_size : Int?
+  input : @stream.Readable
+  output : @stream.Writable?
+  completer : ((String) -> (Array[String], String))?
+  terminal : Bool?
+  history_size : Int?
+  prompt : String?
+  cr_lf_delay : Int?
+  remove_history_duplicates : Bool?
+  escape_code_timeout : Int?
+  tab_size : Int?
 }
 
 ///|
@@ -126,7 +126,7 @@ pub extern "js" fn Interface::pause(self : Interface) -> Unit =
 
 ///|
 /// Resume the input stream
-pub extern "js" fn Interface::resume(self : Interface) -> Unit =
+pub extern "js" fn Interface::resume_(self : Interface) -> Unit =
   #|(self) => self.resume()
 
 ///|
