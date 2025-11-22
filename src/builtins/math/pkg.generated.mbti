@@ -2,49 +2,32 @@
 package "mizchi/js/builtins/math"
 
 // Values
-fn abs(Double) -> Double
-
-fn acos(Double) -> Double
-
-fn asin(Double) -> Double
-
-fn atan(Double) -> Double
-
-fn atan2(Double, Double) -> Double
-
-fn ceil(Double) -> Int
-
-fn cos(Double) -> Double
-
-fn exp(Double) -> Double
-
-fn floor(Double) -> Int
-
-fn log(Double) -> Double
-
-fn max(Array[Double]) -> Double
-
-fn min(Array[Double]) -> Double
-
-fn pow(Double, Double) -> Double
-
-fn random() -> Double
-
-fn round(Double) -> Int
-
-fn sin(Double) -> Double
-
-fn sqrt(Double) -> Double
-
-fn tan(Double) -> Double
-
-fn tanh(Double) -> Double
-
-fn trunc(Double) -> Double
 
 // Errors
 
 // Types and methods
+#external
+pub type Math
+fn Math::abs(Double) -> Double
+fn Math::acos(Double) -> Double
+fn Math::asin(Double) -> Double
+fn Math::atan(Double) -> Double
+fn Math::atan2(Double, Double) -> Double
+fn Math::ceil(Double) -> Int
+fn Math::cos(Double) -> Double
+fn Math::exp(Double) -> Double
+fn Math::floor(Double) -> Int
+fn Math::log(Double) -> Double
+fn Math::max(Array[Double]) -> Double
+fn Math::min(Array[Double]) -> Double
+fn Math::pow(Double, Double) -> Double
+fn Math::random() -> Double
+fn Math::round(Double) -> Int
+fn Math::sin(Double) -> Double
+fn Math::sqrt(Double) -> Double
+fn Math::tan(Double) -> Double
+fn Math::tanh(Double) -> Double
+fn Math::trunc(Double) -> Double
 
 // Type aliases
 
