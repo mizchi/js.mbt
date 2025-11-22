@@ -218,12 +218,7 @@ test "ReactNode Array with Option values" {
   init_react_api(@node.require("react"))
   let opt_some : String? = Some("middle")
   let opt_none : String? = None
-  let with_option : Array[&ReactNode] = [
-    "start",
-    opt_some,
-    opt_none,
-    "end",
-  ]
+  let with_option : Array[&ReactNode] = ["start", opt_some, opt_none, "end"]
   let el = createElement("div", [with_option])
   let s = render_to_string(el)
   assert_eq(s, "<div>start<!-- -->middle<!-- -->end</div>")
@@ -278,7 +273,9 @@ test "ReactNode conditional rendering in for expression" {
   })
   let el = createElement("div", [children])
   let s = render_to_string(el)
-  assert_eq(s, "<div><em>1</em><strong>2</strong><em>3</em><strong>4</strong><em>5</em></div>")
+  assert_eq(
+    s, "<div><em>1</em><strong>2</strong><em>3</em><strong>4</strong><em>5</em></div>",
+  )
 }
 
 ///|
@@ -288,7 +285,7 @@ extern "js" fn load_lazy_component_stub() -> @js.Promise[@js.Js] =
 ///|
 test "lazy_ with EmptyProps" {
   init_react_api(@node.require("react"))
-  let lazy_comp : ComponentType[EmptyProps] = lazy_(load_lazy_component_stub)
+  let lazy_comp : Component[EmptyProps] = lazy_(load_lazy_component_stub)
   let fallback = createElement("div", ["Loading..."])
   let lazy_el = component(lazy_comp, EmptyProps::default())
   let el = suspense([lazy_el], fallback~)
@@ -304,7 +301,7 @@ extern "js" fn load_lazy_typed_component_stub() -> @js.Promise[@js.Js] =
 ///|
 test "lazy_ with custom props" {
   init_react_api(@node.require("react"))
-  let lazy_comp : ComponentType[TestProps] = lazy_(load_lazy_typed_component_stub)
+  let lazy_comp : Component[TestProps] = lazy_(load_lazy_typed_component_stub)
   let fallback = createElement("div", ["Loading..."])
   let lazy_el = component(lazy_comp, { v: "World" })
   let el = suspense([lazy_el], fallback~)

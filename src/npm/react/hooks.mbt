@@ -242,7 +242,7 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 ///
 /// let custom_component : ComponentType[MyProps] = lazy_(load_custom_component)
 /// ```
-pub fn[T] lazy_(f : () -> Promise[Js]) -> ComponentType[T] {
+pub fn[T] lazy_(f : () -> Promise[Js]) -> Component[T] {
   ffi_react_lazy(f |> @js.unsafe_js) |> unsafe_cast
 }
 
@@ -317,7 +317,7 @@ extern "js" fn ffi_use_optimistic(state : Js, update_fn : Js) -> Js =
 #alias(useOptimistic)
 pub fn[S, A] use_optimistic(
   state : S,
-  update_fn : (S, A) -> S
+  update_fn : (S, A) -> S,
 ) -> (S, (A) -> Unit) {
   let result = ffi_use_optimistic(
     state |> @js.unsafe_js,
@@ -335,7 +335,10 @@ extern "js" fn ffi_use_insertion_effect(effect : Js, deps : Js) -> Unit =
 /// TypeScript: function useInsertionEffect(effect: EffectCallback, deps?: DependencyList): void
 /// see: https://react.dev/reference/react/useInsertionEffect
 #alias(useInsertionEffect)
-pub fn use_insertion_effect(f : () -> () -> Unit, keys : Array[&JsImpl]) -> Unit {
+pub fn use_insertion_effect(
+  f : () -> () -> Unit,
+  keys : Array[&JsImpl],
+) -> Unit {
   let deps = keys.map(_.to_js()) |> @js.from_array
   ffi_use_insertion_effect(f |> @js.unsafe_js, deps)
 }
@@ -344,7 +347,7 @@ pub fn use_insertion_effect(f : () -> () -> Unit, keys : Array[&JsImpl]) -> Unit
 extern "js" fn ffi_use_sync_external_store(
   subscribe : Js,
   get_snapshot : Js,
-  get_server_snapshot : Js
+  get_server_snapshot : Js,
 ) -> Js =
   #| (subscribe, getSnapshot, getServerSnapshot) => globalThis.__ReactApi.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
@@ -356,7 +359,7 @@ extern "js" fn ffi_use_sync_external_store(
 pub fn[Snapshot] use_sync_external_store(
   subscribe : (() -> Unit) -> () -> Unit,
   get_snapshot : () -> Snapshot,
-  get_server_snapshot? : () -> Snapshot
+  get_server_snapshot? : () -> Snapshot,
 ) -> Snapshot {
   let server_snapshot = match get_server_snapshot {
     Some(f) => f |> @js.unsafe_js
@@ -371,7 +374,11 @@ pub fn[Snapshot] use_sync_external_store(
 }
 
 ///|
-extern "js" fn ffi_use_imperative_handle(ref_ : Js, create : Js, deps : Js) -> Unit =
+extern "js" fn ffi_use_imperative_handle(
+  ref_ : Js,
+  create : Js,
+  deps : Js,
+) -> Unit =
   #| (ref, create, deps) => globalThis.__ReactApi.useImperativeHandle(ref, create, deps)
 
 ///|
@@ -382,10 +389,14 @@ extern "js" fn ffi_use_imperative_handle(ref_ : Js, create : Js, deps : Js) -> U
 pub fn[T] use_imperative_handle(
   ref_ : ReactRef[T],
   create : () -> T,
-  keys : Array[&JsImpl]
+  keys : Array[&JsImpl],
 ) -> Unit {
   let deps = keys.map(_.to_js()) |> @js.from_array
-  ffi_use_imperative_handle(ref_ |> @js.unsafe_js, create |> @js.unsafe_js, deps)
+  ffi_use_imperative_handle(
+    ref_ |> @js.unsafe_js,
+    create |> @js.unsafe_js,
+    deps,
+  )
 }
 
 ///|

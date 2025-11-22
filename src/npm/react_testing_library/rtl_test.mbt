@@ -15,6 +15,7 @@ using @react_testing_library {
   text_content,
   get_string_property,
   get_property,
+  act,
 }
 
 ///|
@@ -476,4 +477,124 @@ test "renderHook: unmount method" {
   @js.typeof_(current) |> assert_eq("object")
   // Unmount should not throw
   result.unmount()
+}
+
+///|
+test "useId hook" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let comp = (_props : AppProps) => {
+    let id = @react.use_id()
+    div([span(["The ID is: \{id}"])])
+  }
+  let result = render(component(comp, AppProps::default()))
+  // useId generates IDs that contain _ character
+  let container = result.container()
+  let text = text_content(container)
+  assert_eq(text.contains("The ID is:"), true)
+}
+
+///|
+test "useTransition hook" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let comp = (_props : AppProps) => {
+    let (count, set_count) = @react.use_state(0)
+    let (is_pending, start_transition) = @react.use_transition()
+    let on_click : @dom.MouseEventHandler = _ => start_transition(fn() {
+      set_count(count + 1)
+    })
+    let pending_text = if is_pending { " (pending)" } else { "" }
+    div([
+      span(["Count: \{count}\{pending_text}"]),
+      button(on_click~, ["Increment"]),
+    ])
+  }
+  render(component(comp, AppProps::default())) |> ignore
+  text_content(screen().getByText("Count: 0")) |> assert_eq("Count: 0")
+  fireEvent().click(screen().getByText("Increment"))
+  text_content(screen().getByText("Count: 1")) |> assert_eq("Count: 1")
+}
+
+///|
+test "useDeferredValue hook" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let comp = (_props : AppProps) => {
+    let (value, set_value) = @react.use_state(0)
+    let deferred = @react.use_deferred_value(value)
+    let on_click : @dom.MouseEventHandler = _ => set_value(value + 1)
+    div([
+      span(["Value: \{value}, Deferred: \{deferred}"]),
+      button(on_click~, ["Update"]),
+    ])
+  }
+  render(component(comp, AppProps::default())) |> ignore
+  text_content(screen().getByText("Value: 0, Deferred: 0"))
+  |> assert_eq("Value: 0, Deferred: 0")
+  fireEvent().click(screen().getByText("Update"))
+  // After update, both should eventually match
+  text_content(screen().getByText("Value: 1, Deferred: 1"))
+  |> assert_eq("Value: 1, Deferred: 1")
+}
+
+///|
+test "useOptimistic hook" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  let comp = (_props : AppProps) => {
+    let (count, set_count) = @react.use_state(0)
+    let (optimistic, add_optimistic) = @react.use_optimistic(count, fn(
+      state,
+      value,
+    ) {
+      state + value
+    })
+    let (_is_pending, start_transition) = @react.use_transition()
+    let on_click : @dom.MouseEventHandler = _ => {
+      start_transition(fn() {
+        add_optimistic(1)
+        set_count(count + 1)
+      })
+    }
+    div([span(["Optimistic: \{optimistic}"]), button(on_click~, ["Add"])])
+  }
+  render(component(comp, AppProps::default())) |> ignore
+  text_content(screen().getByText("Optimistic: 0"))
+  |> assert_eq("Optimistic: 0")
+  fireEvent().click(screen().getByText("Add"))
+  text_content(screen().getByText("Optimistic: 1"))
+  |> assert_eq("Optimistic: 1")
+}
+
+///|
+priv struct ChildProps {} derive(Default)
+
+///|
+fn child_component(_props : ChildProps) -> @react.Element {
+  let ref_val : @react.ReactRef[@dom.HTMLDivElement] = @react.use_ref(None)
+  @react.use_imperative_handle(
+    ref_val,
+    fn() -> @dom.HTMLDivElement { @js.Object::new() |> unsafe_cast },
+    [],
+  )
+  div(["Child"], ref_=ref_val)
+}
+
+///|
+fn parent_component(_props : AppProps) -> @react.Element {
+  div([component(child_component, ChildProps::default())])
+}
+
+///|
+test "useImperativeHandle hook" {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  cleanup()
+  render(component(parent_component, AppProps::default())) |> ignore
+  text_content(screen().getByText("Child")) |> assert_eq("Child")
 }

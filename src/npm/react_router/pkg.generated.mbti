@@ -2,7 +2,6 @@
 package "mizchi/js/npm/react_router"
 
 import(
-  "mizchi/js"
   "mizchi/js/npm/react"
 )
 
@@ -12,7 +11,7 @@ fn createBrowserRouter(Array[Route]) -> Router
 
 async fn init_react_router_async() -> Unit
 
-fn link(to~ : String, Array[&@js.JsImpl]) -> @react.Element
+fn link(to~ : String, Array[&@react.ReactNode]) -> @react.Element
 
 #alias(router_provider)
 fn routerProvider(Router) -> @react.Element

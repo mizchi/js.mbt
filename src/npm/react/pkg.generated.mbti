@@ -7,8 +7,19 @@ import(
 )
 
 // Values
+fn act(() -> Unit) -> @js.Promise[Unit]
+
+#alias(actAsync)
+async fn act_async(async () -> Unit) -> Unit
+
+#alias(cacheSignal)
+fn cache_signal() -> @js.Js
+
+#alias(captureOwnerStack)
+fn capture_owner_stack() -> @js.Js?
+
 #alias(c)
-fn[T] component((T) -> Element, T, children? : Array[&@js.JsImpl], key? : String) -> Element
+fn[T] component((T) -> Element, T, children? : Array[&ReactNode], key? : String) -> Element
 
 #alias(h)
 fn createElement(String, Array[&ReactNode], props? : Map[String, @js.Js], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
@@ -18,22 +29,27 @@ fn createElementDirect(String, @js.Js, @js.Js) -> Element
 #alias(createContext)
 fn[T] create_context(T?) -> Context[T]
 
-fn fragment(Array[&@js.JsImpl], key? : String) -> Element
+fn fragment(Array[&ReactNode], key? : String) -> Element
 
+#alias(initReactApi)
 fn init_react_api(@js.Js, global_key? : String) -> Unit
 
+#alias(initReactAsync)
 async fn init_react_async() -> Unit
 
-fn[T] lazy_(async () -> ((T) -> Element)) -> (EmptyProps) -> @js.Promise[@js.Js]
+fn[T] lazy_(() -> @js.Promise[@js.Js]) -> (T) -> Element
 
-fn[T] provider(Context[T], Array[&@js.JsImpl], value~ : T) -> Element
+fn[T] provider(Context[T], Array[&ReactNode], value~ : T) -> Element
+
+#alias(reactCache)
+fn[T, R] react_cache((T) -> R) -> (T) -> R
 
 #alias(startTransition)
 fn start_transition(() -> Unit) -> Unit
 
-fn strict_mode(Array[&@js.JsImpl]) -> Element
+fn strict_mode(Array[&ReactNode]) -> Element
 
-fn suspense(Array[&@js.JsImpl], fallback~ : Element) -> Element
+fn suspense(Array[&ReactNode], fallback~ : Element) -> Element
 
 #alias(use_callback)
 fn[F] useCallback(F, Array[&@js.JsImpl]) -> F
@@ -59,12 +75,38 @@ fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool
 #alias(useContext)
 fn[T] use_context(Context[T]) -> T
 
+#alias(useDebugValue)
+fn[T, R] use_debug_value(T, format? : (T) -> R) -> Unit
+
+#alias(useDeferredValue)
+fn[T] use_deferred_value(T, initial_value? : T) -> T
+
+#alias(useId)
+fn use_id() -> String
+
+#alias(useImperativeHandle)
+fn[T] use_imperative_handle(ReactRef[T], () -> T, Array[&@js.JsImpl]) -> Unit
+
+#alias(useInsertionEffect)
+fn use_insertion_effect(() -> () -> Unit, Array[&@js.JsImpl]) -> Unit
+
+#alias(useOptimistic)
+fn[S, A] use_optimistic(S, (S, A) -> S) -> (S, (A) -> Unit)
+
+#alias(usePromise)
 fn[T] use_promise(@js.Promise[T]) -> T
 
 #alias(useReducer)
 fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
 
+#alias(useStateLazy)
 fn[T] use_state_lazy(() -> T) -> (T, (T) -> Unit)
+
+#alias(useSyncExternalStore)
+fn[Snapshot] use_sync_external_store((() -> Unit) -> () -> Unit, () -> Snapshot, get_server_snapshot? : () -> Snapshot) -> Snapshot
+
+#alias(useTransition)
+fn use_transition() -> (Bool, (() -> Unit) -> Unit)
 
 // Errors
 
@@ -98,7 +140,7 @@ pub type ChangeEventHandler[T] = (@dom.ChangeEvent) -> Unit
 
 pub type ClipboardEventHandler[T] = (@dom.ClipboardEvent) -> Unit
 
-pub type ComponentFn[T] = (T) -> Element
+pub type ComponentType[T] = (T) -> Element
 
 pub type DragEventHandler[T] = (@dom.DragEvent) -> Unit
 
@@ -127,4 +169,5 @@ impl ReactNode for Int
 impl ReactNode for Double
 impl ReactNode for String
 impl[T : ReactNode] ReactNode for T?
+impl ReactNode for Array[&ReactNode]
 

@@ -2,18 +2,14 @@
 pub(all) struct EmptyProps {} derive(Default)
 
 ///|
-#external
-pub type Component[T]
-
-///|
-pub type ComponentType[T] = (T) -> Element
+pub type Component[T] = (T) -> Element
 
 ///|
 /// render component
 /// JS: React.createElement(component, props, ...children)
 #alias(c)
 pub fn[T] component(
-  tag : ComponentType[T],
+  tag : Component[T],
   props : T,
   children? : Array[&ReactNode] = [],
   key? : String,
