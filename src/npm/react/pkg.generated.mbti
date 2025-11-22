@@ -31,7 +31,6 @@ fn[T] create_context(T?) -> Context[T]
 
 fn fragment(Array[&ReactNode], key? : String) -> Element
 
-#alias(initReactApi)
 fn init_react_api(@js.Js, global_key? : String) -> Unit
 
 #alias(initReactAsync)
@@ -112,9 +111,6 @@ fn use_transition() -> (Bool, (() -> Unit) -> Unit)
 
 // Types and methods
 #external
-pub type Component[T]
-
-#external
 pub type Context[T]
 
 #external
@@ -140,7 +136,7 @@ pub type ChangeEventHandler[T] = (@dom.ChangeEvent) -> Unit
 
 pub type ClipboardEventHandler[T] = (@dom.ClipboardEvent) -> Unit
 
-pub type ComponentType[T] = (T) -> Element
+pub type Component[T] = (T) -> Element
 
 pub type DragEventHandler[T] = (@dom.DragEvent) -> Unit
 
