@@ -194,7 +194,7 @@ pub(all) struct SpawnSyncResult {
   signal : String?
   stdout : @streams.ReadableStream
   stderr : @streams.ReadableStream
-  error : Js?
+  error : Js
 }
 
 ///|

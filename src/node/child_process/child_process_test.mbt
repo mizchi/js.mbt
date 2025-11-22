@@ -86,18 +86,19 @@ test "spawnSync with timeout option" {
 ///|
 test "spawnSync handles non-existent command with error" {
   let result = spawnSync("/nonexistent/command")
+  // Error is a Js object (not nullish) when command is not found
   let error = result.error
-  // On macOS/Linux, command not found sets error to null (not undefined)
-  // so unsafe_cast_option converts it to Some(null) instead of None
-  inspect(error, content="Some(null)")
+  inspect(@js.is_nullish(error), content="false")
+  // Verify it's an error object
+  assert_true(@js.is_object(error))
 }
 
 ///|
 test "spawnSync handles command not found" {
   let result = spawnSync("/nonexistent/command")
   let error = result.error
-  // Error field is Some(null) when command is not found
-  inspect(error, content="Some(null)")
+  // Error field exists as a Js object
+  assert_true(@js.is_object(error))
 }
 
 ///|
