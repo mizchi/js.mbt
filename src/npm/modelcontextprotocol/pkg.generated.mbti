@@ -63,7 +63,7 @@ pub struct JsonRpcErrorResponse {
 }
 fn JsonRpcErrorResponse::to_js(Self) -> @js.Object
 
-pub struct JsonRpcNotification {
+pub(all) struct JsonRpcNotification {
   jsonrpc : String
   method_name : String
   params : @js.Object?
@@ -107,7 +107,7 @@ fn McpServer::add_tool(Self, Tool, (@js.Object) -> @js.Promise[Array[Content]]) 
 fn McpServer::handle_request(Self, JsonRpcRequest) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]]
 fn McpServer::new(String, String) -> Self
 
-pub struct Prompt {
+pub(all) struct Prompt {
   name : String
   description : String?
   arguments : Array[PromptArgument]
@@ -115,7 +115,7 @@ pub struct Prompt {
 fn Prompt::to_js(Self) -> @js.Object
 impl Show for Prompt
 
-pub struct PromptArgument {
+pub(all) struct PromptArgument {
   name : String
   description : String?
   required : Bool
@@ -132,7 +132,7 @@ fn RequestId::to_js(Self) -> @js.Js
 impl Eq for RequestId
 impl Show for RequestId
 
-pub struct Resource {
+pub(all) struct Resource {
   uri : String
   name : String
   description : String?
@@ -156,7 +156,7 @@ pub struct ServerInfo {
 fn ServerInfo::to_js(Self) -> @js.Object
 impl Show for ServerInfo
 
-pub struct Tool {
+pub(all) struct Tool {
   name : String
   description : String
   input_schema : @js.Object
