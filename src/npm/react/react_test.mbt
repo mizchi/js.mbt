@@ -290,7 +290,7 @@ test "lazy with suspense" {
   init_react_api(@node.require("react"))
   let lazy_loader = async fn() {
     let module_obj = create_lazy_component_stub()
-    let component : ComponentFn[EmptyProps] = module_obj.get("default") |> unsafe_cast
+    let component : ComponentType[EmptyProps] = module_obj.get("default") |> unsafe_cast
     component
   }
   let lazy_comp = lazy_(lazy_loader)
