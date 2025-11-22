@@ -66,7 +66,16 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
     } else if pathname == "/api/redirect" {
       Response::redirect("/", status=302)
     } else if pathname == "/api/headers" {
-      Response::text_("{\"message\":\"Check the headers\"}", 200)
+      let headers = @js.Object::new()
+      headers.set("Content-Type", "application/json")
+      headers.set("x-custom-header", "MoonBit-Worker")
+      headers.set("x-powered-by", "Cloudflare")
+      let data = @js.Object::new()
+      data.set("message", "Check the headers")
+      let options = @js.Object::new()
+      options.set("status", 200)
+      options.set("headers", headers)
+      Response::json_(data, options~)
     } else if pathname == "/api/status/404" {
       let data = @js.Object::new()
       data.set("error", "Not Found")

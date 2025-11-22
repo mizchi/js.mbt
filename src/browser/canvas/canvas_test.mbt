@@ -1,38 +1,440 @@
 ///| Canvas tests
 
-// Note: Canvas API tests are omitted as they require a browser environment.
-// Canvas APIs (HTMLCanvasElement, CanvasRenderingContext2D, ImageData, ImageBitmap, OffscreenCanvas)
-// are browser-specific and are not available in Node.js without the canvas package.
+// Note: These tests require node-canvas package to be installed
+// Run: npm install canvas
 
-// Example usage pattern (for documentation):
-//
-// Canvas element:
-// let canvas = document.createElement("canvas")
-// canvas.set_width(300)
-// canvas.set_height(200)
-//
-// 2D context:
-// let ctx = canvas.get_context("2d")
-// ctx.set_fill_style("red")
-// ctx.fill_rect(10.0, 10.0, 100.0, 50.0)
-//
-// ImageData:
-// let image_data = ctx.create_image_data(10, 20)
-// let data = image_data.data()
-//
-// ImageBitmap:
-// let bitmap = await create_image_bitmap(image_element)
-//
-// OffscreenCanvas:
-// let offscreen = OffscreenCanvas::new(300, 200)
-// let ctx = offscreen.get_context("2d")
-// ctx.set_fill_style("blue")
-// ctx.fill_rect(0.0, 0.0, 100.0, 100.0)
-// let bitmap = offscreen.transfer_to_image_bitmap()
-//
-// Transferable with postMessage:
-// let offscreen = OffscreenCanvas::new(100, 100)
-// worker.post_message_with_transfer(
-//   message,
-//   [offscreen.to_transferable()]
-// )
+///|
+/// Dependencies
+using @js {type Js, trait JsImpl, js, unsafe_cast}
+
+///|
+using @arraybuffer {type Uint8Array}
+
+///|
+using @dom {type HTMLCanvasElement}
+
+///|
+/// Test setup - create canvas using node-canvas
+extern "js" fn ffi_create_test_canvas(width : Js, height : Js) -> Js =
+  #|(width, height) => {
+  #|  const { createCanvas } = require('canvas');
+  #|  return createCanvas(width, height);
+  #|}
+
+///|
+extern "js" fn ffi_create_image_data(width : Js, height : Js) -> Js =
+  #|(width, height) => {
+  #|  const { createImageData } = require('canvas');
+  #|  return createImageData(width, height);
+  #|}
+
+///|
+extern "js" fn ffi_create_image_data_with_data(
+  data : Js,
+  width : Js,
+  height : Js,
+) -> Js =
+  #|(data, width, height) => {
+  #|  const { createImageData } = require('canvas');
+  #|  return createImageData(new Uint8ClampedArray(data.buffer), width, height);
+  #|}
+
+///|
+fn create_test_canvas(width : Int, height : Int) -> HTMLCanvasElement {
+  unsafe_cast(ffi_create_test_canvas(width |> js, height |> js))
+}
+
+///|
+/// Basic drawing operations tests
+test "fillRect draws a rectangle" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFillStyle("red")
+  ctx.fillRect(10.0, 10.0, 100.0, 50.0)
+  inspect(ctx.fillStyle(), content="#ff0000")
+}
+
+///|
+test "strokeRect draws a rectangle outline" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setStrokeStyle("blue")
+  ctx.setLineWidth(2.0)
+  ctx.strokeRect(10.0, 10.0, 100.0, 50.0)
+  inspect(ctx.strokeStyle(), content="#0000ff")
+  inspect(ctx.lineWidth(), content="2")
+}
+
+///|
+test "clearRect clears a rectangle area" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFillStyle("green")
+  ctx.fillRect(0.0, 0.0, 200.0, 200.0)
+  ctx.clearRect(50.0, 50.0, 100.0, 100.0)
+  // Test passes if no error is thrown
+}
+
+///|
+/// Path operations tests
+test "beginPath and closePath work correctly" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.beginPath()
+  ctx.moveTo(10.0, 10.0)
+  ctx.lineTo(100.0, 10.0)
+  ctx.lineTo(100.0, 100.0)
+  ctx.closePath()
+  ctx.stroke()
+  // Test passes if no error is thrown
+}
+
+///|
+test "arc draws a circle" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.beginPath()
+  ctx.arc(100.0, 100.0, 50.0, 0.0, 6.28318530718, counterclockwise=false)
+  ctx.stroke()
+  // Test passes if no error is thrown
+}
+
+///|
+test "arc with default counterclockwise" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.beginPath()
+  ctx.arc(100.0, 100.0, 50.0, 0.0, 6.28318530718)
+  ctx.fill()
+  // Test passes if no error is thrown
+}
+
+///|
+test "arcTo draws an arc between two tangents" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.beginPath()
+  ctx.moveTo(20.0, 20.0)
+  ctx.arcTo(100.0, 20.0, 100.0, 100.0, 50.0)
+  ctx.stroke()
+  // Test passes if no error is thrown
+}
+
+///|
+test "bezierCurveTo draws a cubic bezier curve" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.beginPath()
+  ctx.moveTo(20.0, 100.0)
+  ctx.bezierCurveTo(20.0, 20.0, 180.0, 20.0, 180.0, 100.0)
+  ctx.stroke()
+  // Test passes if no error is thrown
+}
+
+///|
+test "quadraticCurveTo draws a quadratic curve" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.beginPath()
+  ctx.moveTo(20.0, 100.0)
+  ctx.quadraticCurveTo(100.0, 20.0, 180.0, 100.0)
+  ctx.stroke()
+  // Test passes if no error is thrown
+}
+
+///|
+test "rect adds a rectangle to the path" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.beginPath()
+  ctx.rect(10.0, 10.0, 100.0, 50.0)
+  ctx.fill()
+  // Test passes if no error is thrown
+}
+
+///|
+test "fill and stroke work correctly" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.beginPath()
+  ctx.rect(10.0, 10.0, 100.0, 50.0)
+  ctx.setFillStyle("red")
+  ctx.fill()
+  ctx.setStrokeStyle("blue")
+  ctx.stroke()
+  // Test passes if no error is thrown
+}
+
+///|
+test "clip restricts drawing region" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.beginPath()
+  ctx.rect(50.0, 50.0, 100.0, 100.0)
+  ctx.clip()
+  ctx.setFillStyle("green")
+  ctx.fillRect(0.0, 0.0, 200.0, 200.0)
+  // Test passes if no error is thrown
+}
+
+///|
+/// Text operations tests
+test "fillText draws text" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFont("20px Arial")
+  ctx.setFillStyle("black")
+  ctx.fillText("Hello", 10.0, 50.0)
+  inspect(ctx.font(), content="20px Arial")
+}
+
+///|
+test "fillText with max_width parameter" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFont("20px Arial")
+  ctx.fillText("Hello World", 10.0, 50.0, max_width=100.0)
+  // Test passes if no error is thrown
+}
+
+///|
+test "strokeText draws outlined text" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFont("30px Arial")
+  ctx.setStrokeStyle("blue")
+  ctx.strokeText("Hello", 10.0, 50.0)
+  // Test passes if no error is thrown
+}
+
+///|
+test "strokeText with max_width parameter" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFont("30px Arial")
+  ctx.strokeText("Hello World", 10.0, 50.0, max_width=150.0)
+  // Test passes if no error is thrown
+}
+
+///|
+test "measureText returns text metrics" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFont("20px Arial")
+  let metrics = ctx.measureText("Hello")
+  let width = metrics.width()
+  inspect(width > 0.0, content="true")
+}
+
+///|
+test "textAlign property works" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setTextAlign("center")
+  inspect(ctx.textAlign(), content="center")
+}
+
+///|
+test "textBaseline property works" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setTextBaseline("middle")
+  inspect(ctx.textBaseline(), content="middle")
+}
+
+///|
+/// Transformation tests
+test "scale transformation works" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.scale(2.0, 2.0)
+  ctx.fillRect(10.0, 10.0, 50.0, 50.0)
+  // Test passes if no error is thrown
+}
+
+///|
+test "rotate transformation works" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.rotate(0.785398163397) // 45 degrees in radians
+  ctx.fillRect(50.0, 0.0, 50.0, 50.0)
+  // Test passes if no error is thrown
+}
+
+///|
+test "translate transformation works" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.translate(50.0, 50.0)
+  ctx.fillRect(0.0, 0.0, 50.0, 50.0)
+  // Test passes if no error is thrown
+}
+
+///|
+test "transform applies custom transformation matrix" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.transform(1.0, 0.5, -0.5, 1.0, 30.0, 10.0)
+  ctx.fillRect(0.0, 0.0, 50.0, 50.0)
+  // Test passes if no error is thrown
+}
+
+///|
+test "setTransform sets transformation matrix" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setTransform(1.0, 0.0, 0.0, 1.0, 50.0, 50.0)
+  ctx.fillRect(0.0, 0.0, 50.0, 50.0)
+  // Test passes if no error is thrown
+}
+
+///|
+test "resetTransform resets to identity matrix" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.scale(2.0, 2.0)
+  ctx.rotate(0.785398163397)
+  ctx.resetTransform()
+  ctx.fillRect(10.0, 10.0, 50.0, 50.0)
+  // Test passes if no error is thrown
+}
+
+///|
+/// State management tests
+test "save and restore canvas state" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFillStyle("red")
+  ctx.save()
+  ctx.setFillStyle("blue")
+  inspect(ctx.fillStyle(), content="#0000ff")
+  ctx.restore()
+  inspect(ctx.fillStyle(), content="#ff0000")
+}
+
+///|
+test "multiple save and restore" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFillStyle("red")
+  ctx.save()
+  ctx.setFillStyle("green")
+  ctx.save()
+  ctx.setFillStyle("blue")
+  ctx.restore()
+  inspect(ctx.fillStyle(), content="#008000")
+  ctx.restore()
+  inspect(ctx.fillStyle(), content="#ff0000")
+}
+
+///|
+/// Property getter/setter tests
+test "fillStyle property getter and setter" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFillStyle("#FF5733")
+  inspect(ctx.fillStyle(), content="#ff5733")
+}
+
+///|
+test "strokeStyle property getter and setter" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setStrokeStyle("#3498db")
+  inspect(ctx.strokeStyle(), content="#3498db")
+}
+
+///|
+test "lineWidth property getter and setter" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setLineWidth(5.5)
+  inspect(ctx.lineWidth(), content="5.5")
+}
+
+///|
+test "font property getter and setter" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFont("italic 24px Georgia")
+  inspect(ctx.font(), content="italic 24px Georgia")
+}
+
+///|
+test "globalAlpha property getter and setter" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setGlobalAlpha(0.5)
+  inspect(ctx.globalAlpha(), content="0.5")
+}
+
+///|
+test "canvas property returns HTMLCanvasElement" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  let retrieved_canvas = ctx.canvas()
+  inspect(retrieved_canvas.width, content="200")
+  inspect(retrieved_canvas.height, content="200")
+}
+
+///|
+/// ImageData tests
+test "createImageData creates new ImageData" {
+  let canvas = create_test_canvas(200, 200)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  let image_data = ctx.createImageData(100, 50)
+  inspect(image_data.width(), content="100")
+  inspect(image_data.height(), content="50")
+}
+
+///|
+test "ImageData constructor works" {
+  let image_data : ImageData = unsafe_cast(
+    ffi_create_image_data(10 |> js, 20 |> js),
+  )
+  inspect(image_data.width(), content="10")
+  inspect(image_data.height(), content="20")
+}
+
+///|
+test "ImageData data property returns Uint8Array" {
+  let image_data : ImageData = unsafe_cast(
+    ffi_create_image_data(10 |> js, 10 |> js),
+  )
+  let data = image_data.data()
+  let length = data.length()
+  // 10 * 10 * 4 (RGBA) = 400
+  inspect(length, content="400")
+}
+
+///|
+test "ImageData from_data creates ImageData from Uint8Array" {
+  let data = Uint8Array::from_size(40) // 10 * 1 * 4 (RGBA)
+  let image_data : ImageData = unsafe_cast(
+    ffi_create_image_data_with_data(data.to_js(), 10 |> js, 1 |> js),
+  )
+  inspect(image_data.width(), content="10")
+  inspect(image_data.height(), content="1")
+}
+
+///|
+test "getImageData retrieves pixel data" {
+  let canvas = create_test_canvas(100, 100)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  ctx.setFillStyle("red")
+  ctx.fillRect(0.0, 0.0, 100.0, 100.0)
+  let image_data = ctx.getImageData(0.0, 0.0, 50.0, 50.0)
+  inspect(image_data.width(), content="50")
+  inspect(image_data.height(), content="50")
+}
+
+///|
+test "putImageData writes pixel data to canvas" {
+  let canvas = create_test_canvas(100, 100)
+  let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
+  let image_data : ImageData = unsafe_cast(
+    ffi_create_image_data(50 |> js, 50 |> js),
+  )
+  ctx.putImageData(image_data, 10.0, 10.0)
+  // Test passes if no error is thrown
+}

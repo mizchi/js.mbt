@@ -102,7 +102,7 @@ fn OffscreenCanvas::height(Self) -> Int
 fn OffscreenCanvas::new(Int, Int) -> Self
 fn OffscreenCanvas::setHeight(Self, Int) -> Unit
 fn OffscreenCanvas::setWidth(Self, Int) -> Unit
-fn OffscreenCanvas::transferToImage_bitmap(Self) -> ImageBitmap
+fn OffscreenCanvas::transferToImageBitmap(Self) -> ImageBitmap
 fn OffscreenCanvas::width(Self) -> Int
 impl @js.JsImpl for OffscreenCanvas
 impl @worker.Transferable for OffscreenCanvas

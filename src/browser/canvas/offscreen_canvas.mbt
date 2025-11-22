@@ -60,6 +60,6 @@ pub fn OffscreenCanvas::convertToBlob(
 }
 
 ///|
-pub fn OffscreenCanvas::transferToImage_bitmap(self : Self) -> ImageBitmap {
+pub fn OffscreenCanvas::transferToImageBitmap(self : Self) -> ImageBitmap {
   self.call0("transferToImageBitmap") |> unsafe_cast
 }

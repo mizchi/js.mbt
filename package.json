@@ -8,9 +8,11 @@
     "@ai-sdk/anthropic": "2.0.43",
     "@cloudflare/vitest-pool-workers": "^0.10.10",
     "@cloudflare/workers-types": "^4.20251121.0",
+    "@modelcontextprotocol/sdk": "^1.22.0",
     "@testing-library/react": "16.3.0",
     "@types/node": "^24.10.1",
     "ai": "6.0.0-beta.95",
+    "canvas": "^3.2.0",
     "global-jsdom": "27.0.0",
     "hono": "^4.10.6",
     "jsdom": "27.0.1",
@@ -21,7 +23,8 @@
     "typescript": "5.9.3",
     "vite": "^7.2.4",
     "vitest": "^3.2.4",
-    "wrangler": "^4.50.0"
+    "wrangler": "^4.50.0",
+    "zod": "^4.1.12"
   },
   "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b"
 }

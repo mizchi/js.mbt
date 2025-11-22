@@ -1,0 +1,174 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/modelcontextprotocol"
+
+import(
+  "mizchi/js"
+  "moonbitlang/core/immut/hashmap"
+)
+
+// Values
+let internal_error : Int
+
+let invalid_params : Int
+
+let invalid_request : Int
+
+let method_not_found : Int
+
+let parse_error : Int
+
+// Errors
+
+// Types and methods
+pub struct ClientInfo {
+  name : String
+  version : String
+}
+fn ClientInfo::from_js(@js.Js) -> Self?
+impl Show for ClientInfo
+
+pub struct Content {
+  type_ : ContentType
+  text : String?
+  data : String?
+  mime_type : String?
+  uri : String?
+}
+fn Content::image(String, String) -> Self
+fn Content::resource(String) -> Self
+fn Content::text(String) -> Self
+fn Content::to_js(Self) -> @js.Object
+impl Show for Content
+
+pub enum ContentType {
+  Text
+  Image
+  Resource
+}
+fn ContentType::to_string(Self) -> String
+impl Eq for ContentType
+impl Show for ContentType
+
+pub struct JsonRpcError {
+  code : Int
+  message : String
+  data : @js.Js?
+}
+fn JsonRpcError::to_js(Self) -> @js.Object
+
+pub struct JsonRpcErrorResponse {
+  jsonrpc : String
+  id : RequestId
+  error : JsonRpcError
+}
+fn JsonRpcErrorResponse::to_js(Self) -> @js.Object
+
+pub struct JsonRpcNotification {
+  jsonrpc : String
+  method_name : String
+  params : @js.Object?
+}
+fn JsonRpcNotification::to_js(Self) -> @js.Object
+
+pub struct JsonRpcRequest {
+  jsonrpc : String
+  id : RequestId
+  method_name : String
+  params : @js.Object?
+}
+fn JsonRpcRequest::from_js(@js.Js) -> Self?
+fn JsonRpcRequest::to_js(Self) -> @js.Object
+
+pub struct JsonRpcResponse {
+  jsonrpc : String
+  id : RequestId
+  result : @js.Js
+}
+fn JsonRpcResponse::to_js(Self) -> @js.Object
+
+pub struct McpClient {
+  server_info : ServerInfo?
+  mut request_id : Int
+  endpoint : String
+}
+fn McpClient::create_request(Self, String, @js.Object?) -> JsonRpcRequest
+fn McpClient::get_server_info(Self) -> ServerInfo?
+fn McpClient::new(String) -> Self
+
+pub struct McpServer {
+  info : ServerInfo
+  mut tools : @hashmap.HashMap[String, (Tool, (@js.Object) -> @js.Promise[Array[Content]])]
+  mut resources : @hashmap.HashMap[String, (Resource, (String) -> @js.Promise[Array[Content]])]
+  mut prompts : @hashmap.HashMap[String, (Prompt, (@js.Object) -> @js.Promise[Array[Content]])]
+}
+fn McpServer::add_prompt(Self, Prompt, (@js.Object) -> @js.Promise[Array[Content]]) -> Unit
+fn McpServer::add_resource(Self, Resource, (String) -> @js.Promise[Array[Content]]) -> Unit
+fn McpServer::add_tool(Self, Tool, (@js.Object) -> @js.Promise[Array[Content]]) -> Unit
+fn McpServer::handle_request(Self, JsonRpcRequest) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]]
+fn McpServer::new(String, String) -> Self
+
+pub struct Prompt {
+  name : String
+  description : String?
+  arguments : Array[PromptArgument]
+}
+fn Prompt::to_js(Self) -> @js.Object
+impl Show for Prompt
+
+pub struct PromptArgument {
+  name : String
+  description : String?
+  required : Bool
+}
+fn PromptArgument::to_js(Self) -> @js.Object
+impl Show for PromptArgument
+
+pub enum RequestId {
+  String(String)
+  Number(Int)
+}
+fn RequestId::from_js(@js.Js) -> Self?
+fn RequestId::to_js(Self) -> @js.Js
+impl Eq for RequestId
+impl Show for RequestId
+
+pub struct Resource {
+  uri : String
+  name : String
+  description : String?
+  mime_type : String?
+}
+fn Resource::to_js(Self) -> @js.Object
+impl Show for Resource
+
+pub struct ServerCapabilities {
+  tools : Bool
+  resources : Bool
+  prompts : Bool
+}
+fn ServerCapabilities::to_js(Self) -> @js.Object
+impl Show for ServerCapabilities
+
+pub struct ServerInfo {
+  name : String
+  version : String
+}
+fn ServerInfo::to_js(Self) -> @js.Object
+impl Show for ServerInfo
+
+pub struct Tool {
+  name : String
+  description : String
+  input_schema : @js.Object
+}
+fn Tool::to_js(Self) -> @js.Object
+
+// Type aliases
+pub type PromptHandler = (@js.Object) -> @js.Promise[Array[Content]]
+
+pub type ResourceHandler = (String) -> @js.Promise[Array[Content]]
+
+pub type ToolHandler = (@js.Object) -> @js.Promise[Array[Content]]
+
+// Traits
+

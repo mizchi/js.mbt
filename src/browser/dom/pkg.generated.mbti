@@ -91,7 +91,7 @@ impl @js.JsImpl for ChangeEvent
 impl EventImpl for ChangeEvent
 impl Show for ChangeEvent
 
-pub struct ClipboardData(DataTransfer)
+pub(all) struct ClipboardData(DataTransfer)
 #deprecated
 fn ClipboardData::inner(Self) -> DataTransfer
 
@@ -470,11 +470,12 @@ impl @event.EventTargetImpl for HTMLUListElement
 
 pub(all) struct InputEvent {
   data : String?
+  dataTransfer : DataTransfer?
   inputType : String
+  isComposing : Bool
 }
 impl @js.JsImpl for InputEvent
 impl EventImpl for InputEvent
-impl Show for InputEvent
 
 pub(all) struct KeyboardEvent {
   key : String
@@ -487,6 +488,7 @@ pub(all) struct KeyboardEvent {
   metaKey : Bool
   repeat : Bool
   location : Int
+  isComposing : Bool
 }
 impl @js.JsImpl for KeyboardEvent
 impl EventImpl for KeyboardEvent
@@ -505,6 +507,7 @@ impl @js.JsImpl for MediaQueryList
 pub(all) struct MessageEvent {
   data : @js.Js
   origin : String
+  lastEventId : String
   ports : Array[@worker.MessagePort]
 }
 fn MessageEvent::source(Self) -> Window?
@@ -521,6 +524,8 @@ pub(all) struct MouseEvent {
   offsetY : Double
   pageX : Double
   pageY : Double
+  movementX : Double
+  movementY : Double
   button : Int
   buttons : Int
   ctrlKey : Bool
@@ -528,6 +533,7 @@ pub(all) struct MouseEvent {
   altKey : Bool
   metaKey : Bool
 }
+fn MouseEvent::relatedTarget(Self) -> Element?
 impl @js.JsImpl for MouseEvent
 impl EventImpl for MouseEvent
 impl Show for MouseEvent
@@ -559,15 +565,150 @@ impl NodeImpl for Node
 impl @event.EventTargetImpl for Node
 
 pub(all) struct PointerEvent {
+  pointerId : Int
   width : Double
   height : Double
-  pointerId : Int
+  pressure : Double
+  tangentialPressure : Double
+  tiltX : Double
+  tiltY : Double
+  twist : Double
+  altitudeAngle : Double
+  azimuthAngle : Double
   pointerType : String
   isPrimary : Bool
 }
 impl @js.JsImpl for PointerEvent
 impl EventImpl for PointerEvent
 impl Show for PointerEvent
+
+pub(all) struct SVGCircleElement {
+}
+fn SVGCircleElement::cx(Self) -> Double
+fn SVGCircleElement::cy(Self) -> Double
+fn SVGCircleElement::r(Self) -> Double
+fn SVGCircleElement::setAttribute(Self, String, String) -> Unit
+impl @js.JsImpl for SVGCircleElement
+impl ElementImpl for SVGCircleElement
+impl NodeImpl for SVGCircleElement
+impl @event.EventTargetImpl for SVGCircleElement
+impl Show for SVGCircleElement
+
+#external
+pub type SVGElement
+fn SVGElement::getAttribute(Self, String) -> String?
+fn SVGElement::setAttribute(Self, String, String) -> Unit
+impl @js.JsImpl for SVGElement
+
+pub(all) struct SVGEllipseElement {
+}
+fn SVGEllipseElement::cx(Self) -> Double
+fn SVGEllipseElement::cy(Self) -> Double
+fn SVGEllipseElement::rx(Self) -> Double
+fn SVGEllipseElement::ry(Self) -> Double
+fn SVGEllipseElement::setAttribute(Self, String, String) -> Unit
+impl @js.JsImpl for SVGEllipseElement
+impl ElementImpl for SVGEllipseElement
+impl NodeImpl for SVGEllipseElement
+impl @event.EventTargetImpl for SVGEllipseElement
+impl Show for SVGEllipseElement
+
+pub(all) struct SVGGElement {
+}
+fn SVGGElement::setAttribute(Self, String, String) -> Unit
+impl @js.JsImpl for SVGGElement
+impl ElementImpl for SVGGElement
+impl NodeImpl for SVGGElement
+impl @event.EventTargetImpl for SVGGElement
+impl Show for SVGGElement
+
+pub(all) struct SVGImageElement {
+}
+fn SVGImageElement::height(Self) -> Double
+fn SVGImageElement::href(Self) -> String
+fn SVGImageElement::setAttribute(Self, String, String) -> Unit
+fn SVGImageElement::width(Self) -> Double
+fn SVGImageElement::x(Self) -> Double
+fn SVGImageElement::y(Self) -> Double
+impl @js.JsImpl for SVGImageElement
+impl ElementImpl for SVGImageElement
+impl NodeImpl for SVGImageElement
+impl @event.EventTargetImpl for SVGImageElement
+impl Show for SVGImageElement
+
+pub(all) struct SVGLineElement {
+}
+fn SVGLineElement::setAttribute(Self, String, String) -> Unit
+fn SVGLineElement::x1(Self) -> Double
+fn SVGLineElement::x2(Self) -> Double
+fn SVGLineElement::y1(Self) -> Double
+fn SVGLineElement::y2(Self) -> Double
+impl @js.JsImpl for SVGLineElement
+impl ElementImpl for SVGLineElement
+impl NodeImpl for SVGLineElement
+impl @event.EventTargetImpl for SVGLineElement
+impl Show for SVGLineElement
+
+pub(all) struct SVGPathElement {
+}
+fn SVGPathElement::d(Self) -> String
+fn SVGPathElement::getTotalLength(Self) -> Double
+fn SVGPathElement::setAttribute(Self, String, String) -> Unit
+impl @js.JsImpl for SVGPathElement
+impl ElementImpl for SVGPathElement
+impl NodeImpl for SVGPathElement
+impl @event.EventTargetImpl for SVGPathElement
+impl Show for SVGPathElement
+
+pub(all) struct SVGPolygonElement {
+}
+fn SVGPolygonElement::setAttribute(Self, String, String) -> Unit
+impl @js.JsImpl for SVGPolygonElement
+impl ElementImpl for SVGPolygonElement
+impl NodeImpl for SVGPolygonElement
+impl @event.EventTargetImpl for SVGPolygonElement
+impl Show for SVGPolygonElement
+
+pub(all) struct SVGPolylineElement {
+}
+fn SVGPolylineElement::setAttribute(Self, String, String) -> Unit
+impl @js.JsImpl for SVGPolylineElement
+impl ElementImpl for SVGPolylineElement
+impl NodeImpl for SVGPolylineElement
+impl @event.EventTargetImpl for SVGPolylineElement
+impl Show for SVGPolylineElement
+
+pub(all) struct SVGRectElement {
+}
+fn SVGRectElement::height(Self) -> Double
+fn SVGRectElement::setAttribute(Self, String, String) -> Unit
+fn SVGRectElement::width(Self) -> Double
+fn SVGRectElement::x(Self) -> Double
+fn SVGRectElement::y(Self) -> Double
+impl @js.JsImpl for SVGRectElement
+impl ElementImpl for SVGRectElement
+impl NodeImpl for SVGRectElement
+impl @event.EventTargetImpl for SVGRectElement
+impl Show for SVGRectElement
+
+#external
+pub type SVGSVGElement
+fn SVGSVGElement::getAttribute(Self, String) -> String?
+fn SVGSVGElement::height(Self) -> Double
+fn SVGSVGElement::setAttribute(Self, String, String) -> Unit
+fn SVGSVGElement::width(Self) -> Double
+impl @js.JsImpl for SVGSVGElement
+
+pub(all) struct SVGTextElement {
+}
+fn SVGTextElement::setAttribute(Self, String, String) -> Unit
+fn SVGTextElement::x(Self) -> Double
+fn SVGTextElement::y(Self) -> Double
+impl @js.JsImpl for SVGTextElement
+impl ElementImpl for SVGTextElement
+impl NodeImpl for SVGTextElement
+impl @event.EventTargetImpl for SVGTextElement
+impl Show for SVGTextElement
 
 pub(all) struct ScrollEvent {
 }
