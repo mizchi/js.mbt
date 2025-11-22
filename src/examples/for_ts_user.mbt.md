@@ -305,8 +305,8 @@ MoonBit variables are immutable unless explicitly marked as mutable:
 ```moonbit
 ///|
 test "mutability" {
-  let x = 10 // immutable
-  // x = 20  // ERROR: cannot reassign
+  let _x = 10 // immutable
+  // _x = 20  // ERROR: cannot reassign
 
   let mut y = 10 // mutable
   y = 20 // OK

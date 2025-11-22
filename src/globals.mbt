@@ -40,9 +40,9 @@ pub fn isFinite(v : Double) -> Bool {
 ///
 /// Example:
 /// ```moonbit
-/// let n = parseInt("42") // Some(42)
-/// let hex = parseInt("ff", radix=16) // Some(255)
-/// let invalid = parseInt("hello") // None
+/// let _n = parseInt("42") // Some(42)
+/// let _hex = parseInt("ff", radix=16) // Some(255)
+/// let _invalid = parseInt("hello") // None
 /// ```
 #alias(parse_int)
 pub fn parseInt(string : String, radix? : Int = 10) -> Int? {
@@ -62,8 +62,8 @@ pub fn parseInt(string : String, radix? : Int = 10) -> Int? {
 ///
 /// Example:
 /// ```moonbit
-/// let n = parseFloat("3.14") // Some(3.14)
-/// let invalid = parseFloat("hello") // None
+/// let _n = parseFloat("3.14") // Some(3.14)
+/// let _invalid = parseFloat("hello") // None
 /// ```
 #alias(parse_float)
 pub fn parseFloat(string : String) -> Double? {

@@ -243,8 +243,6 @@ test "json stringify and parse" {
 
   // Stringify
   let json_str = @js.JSON::stringify(obj.to_js())
-  let expected_json =
-    #|{"name":"MoonBit","value":42}
   inspect(
     json_str,
     content=(
@@ -274,7 +272,7 @@ test "symbol operations" {
   obj.set(custom_sym, "secret")
 
   // Well-known symbols
-  let iter_sym = @js.Symbol::iterator()
+  let _iter_sym = @js.Symbol::iterator()
   let _async_iter = @js.Symbol::asyncIterator()
 
   // Symbol as property key

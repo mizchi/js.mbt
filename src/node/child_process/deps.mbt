@@ -1,5 +1,5 @@
 ///|
-using @js {js, unsafe_cast, type Js, trait JsImpl, type AbortSignal}
+using @js {js, type Js, trait JsImpl, type AbortSignal}
 
 ///|
 using @events {trait EventEmitterImpl}

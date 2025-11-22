@@ -1,6 +1,5 @@
 ///|
 using @http {
-  request,
   get,
   status_codes,
   globalAgent,

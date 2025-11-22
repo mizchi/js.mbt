@@ -303,7 +303,7 @@ fn McpServer::handle_prompts_get(
 
 ///|
 fn McpServer::method_not_found_error(
-  self : McpServer,
+  _self : McpServer,
   id : RequestId,
   message : String,
 ) -> JsonRpcErrorResponse {
@@ -312,7 +312,7 @@ fn McpServer::method_not_found_error(
 
 ///|
 fn McpServer::invalid_params_error(
-  self : McpServer,
+  _self : McpServer,
   id : RequestId,
   message : String,
 ) -> JsonRpcErrorResponse {

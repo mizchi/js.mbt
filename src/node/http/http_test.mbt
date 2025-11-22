@@ -9,7 +9,7 @@ test "http server creation" {
 /// Test server with request listener
 test "http server with request listener" {
   let server = createServer(requestListener=fn(
-    req : IncomingMessage,
+    _req : IncomingMessage,
     res : ServerResponse,
   ) {
     res.writeHead(

@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, unsafe_cast, from_fn1, type ArrayBuffer}
+using @js {type Js, trait JsImpl, type ArrayBuffer}
 
 ///|
 using @event {trait EventTargetImpl}

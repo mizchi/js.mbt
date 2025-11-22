@@ -197,7 +197,7 @@ pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
 /// ```moonbit
 /// // Convert MoonBit Json to Js
 /// let json : Json = { "name": "Alice", "age": 30 }
-/// let js_obj = from_json(json)
+/// let _js_obj = from_json(json)
 /// ```
 ///
 /// For JSON string parsing, use JavaScript's `JSON.parse()` directly:

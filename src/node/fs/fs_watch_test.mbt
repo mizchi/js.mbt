@@ -18,7 +18,7 @@ test "watch with listener" {
 ///|
 test "FSWatcher.on adds event listener" {
   let watcher = @fs.watch(".")
-  watcher.on("change", fn(event, filename) { println("Changed: \{filename}") })
+  watcher.on("change", fn(_event, filename) { println("Changed: \{filename}") })
   |> ignore
   watcher.close()
 }

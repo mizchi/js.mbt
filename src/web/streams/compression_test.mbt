@@ -65,11 +65,11 @@ test "DecompressionStream::writable - get writable stream" {
 ///|
 test "compression and decompression round-trip" {
   let encoder = @encoding.TextEncoder::new()
-  let decoder = @encoding.TextDecoder::new()
+  let _decoder = @encoding.TextDecoder::new()
 
   // Original data
   let original = "Hello, MoonBit! This is a compression test."
-  let data = encoder.encode(original)
+  let _data = encoder.encode(original)
 
   // Create compression stream
   let compressor = CompressionStream::new("gzip")

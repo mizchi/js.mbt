@@ -15,9 +15,9 @@
     "cloudflare",
     "deno"
   ],
-  "description": "js/node.js/browser/react and etc.",
+  "description": "bindings for js/node/browser/deno/cloudflare/react etc",
   "source": "src",
-  "warn-list": "-2-3-9-28-29-53",
+  "warn-list": "-3-9-28-29-53",
   "alert-list": "-deprecated",
   "preferred-target": "js"
 }

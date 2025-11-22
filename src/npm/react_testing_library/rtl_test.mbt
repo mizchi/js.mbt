@@ -5,7 +5,7 @@ using @js {unsafe_cast}
 using @react {component}
 
 ///|
-using @react_element {div, button, input, label, span}
+using @react_element {div, button, input, span}
 
 ///|
 using @react_testing_library {
@@ -15,7 +15,6 @@ using @react_testing_library {
   text_content,
   get_string_property,
   get_property,
-  act,
 }
 
 ///|
@@ -555,12 +554,10 @@ test "useOptimistic hook" {
       state + value
     })
     let (_is_pending, start_transition) = @react.use_transition()
-    let on_click : @dom.MouseEventHandler = _ => {
-      start_transition(fn() {
-        add_optimistic(1)
-        set_count(count + 1)
-      })
-    }
+    let on_click : @dom.MouseEventHandler = _ => start_transition(fn() {
+      add_optimistic(1)
+      set_count(count + 1)
+    })
     div([span(["Optimistic: \{optimistic}"]), button(on_click~, ["Add"])])
   }
   render(component(comp, AppProps::default())) |> ignore

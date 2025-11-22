@@ -1,7 +1,7 @@
 ///|
 /// Node.js Inspector module
 /// Provides programmatic access to the V8 Inspector for debugging
-using @js {type Js, trait JsImpl, js}
+using @js {type Js, trait JsImpl}
 
 ///|
 /// Session class for V8 Inspector communication

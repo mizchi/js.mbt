@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl, js}
+using @js {type Js, trait JsImpl}
 
 ///|
 /// MessagePort represents one end of a message channel

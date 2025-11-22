@@ -1,7 +1,7 @@
 ///|
 /// React.useState
 /// ```mbt
-/// fn my_component (props: EmptyProps) -> Element {
+/// fn my_component (_props: EmptyProps) -> Element {
 ///   let (_count, _set_count) = useState(0)
 ///   ...
 /// }
@@ -17,7 +17,7 @@ pub fn[T : JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
 ///|
 /// JS: React.useState(() => initial)
 /// ```
-/// fn my_component(props: EmptyProps) -> Element {
+/// fn my_component(_props: EmptyProps) -> Element {
 ///   let (_count, _set_count) = use_state_lazy(() => 42)
 ///   ...
 /// }

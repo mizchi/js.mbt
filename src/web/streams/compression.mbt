@@ -23,7 +23,7 @@ pub impl JsImpl for CompressionStream
 ///
 /// Example:
 /// ```moonbit
-/// let compressor = CompressionStream::new("gzip")
+/// let _compressor = CompressionStream::new("gzip")
 /// ```
 pub fn CompressionStream::new(format : String) -> CompressionStream {
   new_compression_stream(format) |> @js.unsafe_cast
@@ -54,7 +54,7 @@ pub impl JsImpl for DecompressionStream
 ///
 /// Example:
 /// ```moonbit
-/// let decompressor = DecompressionStream::new("gzip")
+/// let _decompressor = DecompressionStream::new("gzip")
 /// ```
 pub fn DecompressionStream::new(format : String) -> DecompressionStream {
   new_decompression_stream(format) |> @js.unsafe_cast
