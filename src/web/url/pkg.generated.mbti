@@ -62,7 +62,7 @@ pub(all) struct URLPatternComponentResult {
 impl @js.JsImpl for URLPatternComponentResult
 
 pub(all) struct URLPatternResult {
-  inputs : @js.Js
+  inputs : Array[String]
   protocol : URLPatternComponentResult
   username : URLPatternComponentResult
   password : URLPatternComponentResult

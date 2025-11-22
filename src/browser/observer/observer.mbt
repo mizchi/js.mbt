@@ -52,8 +52,8 @@ pub fn MutationObserver::take_records(self : Self) -> Js {
 pub(all) struct MutationRecord {
   mutationType : String
   target : Node
-  addedNodes : @js.Js // NodeList (array-like)
-  removedNodes : @js.Js // NodeList (array-like)
+  addedNodes : Array[Node]
+  removedNodes : Array[Node]
   previousSibling : Nullable[Node]
   nextSibling : Nullable[Node]
   attributeName : Nullable[String]
@@ -125,9 +125,9 @@ pub fn IntersectionObserver::take_records(self : Self) -> Js {
 /// IntersectionObserverEntry represents an intersection change
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry
 pub(all) struct IntersectionObserverEntry {
-  target : Js
-  boundingClientRect : Js
-  intersectionRect : Js
+  target : Element
+  boundingClientRect : DOMRectReadOnly
+  intersectionRect : DOMRectReadOnly
   rootBounds : Element?
   intersectionRatio : Double
   isIntersecting : Bool

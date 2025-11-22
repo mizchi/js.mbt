@@ -32,10 +32,10 @@ test "Navigator::language returns string" {
 
 ///|
 #skip("navigator not available in JSDOM")
-test "Navigator::languages returns Js" {
+test "Navigator::languages returns array" {
   let nav = navigator()
   let langs = nav.languages
-  assert_true(@js.is_array(langs))
+  assert_true(langs.length() >= 0)
 }
 
 ///|

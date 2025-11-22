@@ -36,7 +36,7 @@ pub impl @js.JsImpl for URLPatternComponentResult
 
 ///|
 pub(all) struct URLPatternResult {
-  inputs : @js.Js // Array of input strings
+  inputs : Array[String]
   protocol : URLPatternComponentResult
   username : URLPatternComponentResult
   password : URLPatternComponentResult

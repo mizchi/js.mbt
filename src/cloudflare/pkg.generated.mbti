@@ -3,6 +3,7 @@ package "mizchi/js/cloudflare"
 
 import(
   "mizchi/js"
+  "mizchi/js/builtins/date"
   "mizchi/js/web/blob"
   "mizchi/js/web/http"
   "mizchi/js/web/streams"
@@ -277,8 +278,8 @@ impl @js.JsImpl for R2Bucket
 pub(all) struct R2Conditional {
   etagMatches : String?
   etagDoesNotMatch : String?
-  uploadedBefore : @js.Js?
-  uploadedAfter : @js.Js?
+  uploadedBefore : @date.Date?
+  uploadedAfter : @date.Date?
 }
 
 pub(all) struct R2GetOptions {
@@ -293,7 +294,7 @@ pub(all) struct R2HttpMetadata {
   contentDisposition : String?
   contentEncoding : String?
   cacheControl : String?
-  cacheExpiry : @js.Js?
+  cacheExpiry : @date.Date?
 }
 impl @js.JsImpl for R2HttpMetadata
 

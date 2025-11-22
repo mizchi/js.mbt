@@ -15,7 +15,7 @@ pub(all) struct Navigator {
   userAgent : String
   onLine : Bool
   language : String
-  languages : @js.Js
+  languages : Array[String]
   platform : String
   hardwareConcurrency : Int
   deviceMemory : Double?

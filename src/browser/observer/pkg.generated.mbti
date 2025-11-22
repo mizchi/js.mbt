@@ -21,9 +21,9 @@ fn IntersectionObserver::unobserve(Self, @dom.Element) -> Unit
 impl @js.JsImpl for IntersectionObserver
 
 pub(all) struct IntersectionObserverEntry {
-  target : @js.Js
-  boundingClientRect : @js.Js
-  intersectionRect : @js.Js
+  target : @dom.Element
+  boundingClientRect : @dom.DOMRectReadOnly
+  intersectionRect : @dom.DOMRectReadOnly
   rootBounds : @dom.Element?
   intersectionRatio : Double
   isIntersecting : Bool
@@ -42,8 +42,8 @@ impl @js.JsImpl for MutationObserver
 pub(all) struct MutationRecord {
   mutationType : String
   target : @dom.Node
-  addedNodes : @js.Js
-  removedNodes : @js.Js
+  addedNodes : Array[@dom.Node]
+  removedNodes : Array[@dom.Node]
   previousSibling : @js.Nullable[@dom.Node]
   nextSibling : @js.Nullable[@dom.Node]
   attributeName : @js.Nullable[String]

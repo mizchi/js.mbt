@@ -164,8 +164,8 @@ pub impl JsImpl for R2GetOptions with to_js(self) {
 pub(all) struct R2Conditional {
   etagMatches : String?
   etagDoesNotMatch : String?
-  uploadedBefore : Js?
-  uploadedAfter : Js?
+  uploadedBefore : @date.Date?
+  uploadedAfter : @date.Date?
 }
 
 ///|
@@ -213,7 +213,7 @@ pub(all) struct R2HttpMetadata {
   contentDisposition : String?
   contentEncoding : String?
   cacheControl : String?
-  cacheExpiry : Js?
+  cacheExpiry : @date.Date?
 }
 
 ///|
