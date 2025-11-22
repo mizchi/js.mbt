@@ -412,3 +412,21 @@ test "JsError Show implementation" {
   let shown = err.to_string()
   assert_true(shown.contains("Test error"))
 }
+
+///|
+test "ThrowError with non-Error value" {
+  // Create a function that throws a non-Error value
+  let throw_string : () -> Js = fn() {
+    let code = "throw 'custom error string';"
+    @js.globalThis().call("eval", [js(code)])
+  }
+  let result = try? throwable(throw_string)
+  match result {
+    Err(ThrowError::Value(v)) => {
+      let str_val : String = unsafe_cast(v)
+      assert_eq(str_val, "custom error string")
+    }
+    Err(ThrowError::Error(_)) => fail("Expected Value variant, got Error")
+    Ok(_) => fail("Expected error to be thrown")
+  }
+}

@@ -67,7 +67,8 @@ test "Nullable[Int]::is_null() - undefined behavior" {
   let nullable : Nullable[Int] = create_undefined() |> unsafe_cast
   // The behavior of is_null() with undefined may vary
   // This test documents that we don't make assumptions about it
-  let _ = nullable.is_null() // Just call it, don't assert
+  let _ = nullable.is_null()
+   // Just call it, don't assert
 }
 
 ///|
@@ -192,7 +193,7 @@ pub impl JsImpl for MultiNullableRecord
 extern "js" fn create_multi_nullable(
   str_null : Bool,
   int_null : Bool,
-  bool_null : Bool
+  bool_null : Bool,
 ) -> @js.Js =
   #|(str_null, int_null, bool_null) => ({
   #|  str_field: str_null ? null : "test",

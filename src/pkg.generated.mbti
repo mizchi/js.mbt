@@ -233,8 +233,8 @@ pub type JsTimer
 
 #external
 pub type Nullable[T]
+fn[T] Nullable::is_null(Self[T]) -> Bool
 fn[T] Nullable::to_option(Self[T]) -> T?
-fn[T] Nullable::unwrap(Self[T]) -> T
 
 #external
 pub type Object
@@ -287,6 +287,7 @@ pub(all) struct SettledResult[T] {
   value : T?
   reason : Nullable[Js]
 }
+impl[T] JsImpl for SettledResult[T]
 
 #external
 pub type SharedArrayBuffer
