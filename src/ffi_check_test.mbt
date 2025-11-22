@@ -366,6 +366,96 @@ test "Trait-based conversion" {
   inspect(simple.age, content="35")
 }
 
+///| Custom struct Option tests
+///
+/// CRITICAL FINDING: CustomStruct? behaves differently for null vs undefined
+/// - null: becomes Some(null) - DANGEROUS, crashes on field access
+/// - undefined: becomes None - SAFE
+///
+/// This means CustomStruct? is only safe if JavaScript APIs exclusively use undefined,
+/// but many DOM APIs return null, making this pattern unsafe in practice.
+
+///|
+pub(all) struct CustomStruct {
+  id : Int
+  name : String
+} derive(Show)
+
+///|
+pub impl JsImpl for CustomStruct
+
+///|
+pub(all) struct ContainerWithCustom {
+  required : String
+  optional : CustomStruct?
+}
+
+///|
+pub impl JsImpl for ContainerWithCustom
+
+///|
+extern "js" fn create_with_null_custom() -> Js =
+  #|() => ({
+  #|  required: "test",
+  #|  optional: null
+  #|})
+
+///|
+extern "js" fn create_with_undefined_custom() -> Js =
+  #|() => ({
+  #|  required: "test",
+  #|  optional: undefined
+  #|})
+
+///|
+extern "js" fn create_with_custom_value() -> Js =
+  #|() => ({
+  #|  required: "test",
+  #|  optional: { id: 42, name: "Alice" }
+  #|})
+
+///|
+test "CustomStruct? field with null" {
+  let obj : ContainerWithCustom = create_with_null_custom() |> unsafe_cast
+  let raw = obj.to_js().get("optional")
+  inspect(is_nullish(raw), content="true")
+
+  // CustomStruct? field with null - same issue as Js?
+  match obj.optional {
+    Some(_) => inspect("has value (possibly null)", content="has value (possibly null)")
+    None => inspect("None", content="?")
+  }
+}
+
+///|
+test "CustomStruct? field with undefined" {
+  let obj : ContainerWithCustom = create_with_undefined_custom() |> unsafe_cast
+  let raw = obj.to_js().get("optional")
+  inspect(is_nullish(raw), content="true")
+
+  // CustomStruct? field with undefined
+  match obj.optional {
+    Some(_) => inspect("has value (possibly undefined)", content="?")
+    None => inspect("None", content="None")
+  }
+}
+
+///|
+test "CustomStruct? field with value" {
+  let obj : ContainerWithCustom = create_with_custom_value() |> unsafe_cast
+  let raw = obj.to_js().get("optional")
+  inspect(is_nullish(raw), content="false")
+
+  // CustomStruct? field with actual value
+  match obj.optional {
+    Some(s) => {
+      inspect(s.id, content="42")
+      inspect(s.name, content="Alice")
+    }
+    None => inspect("None", content="?")
+  }
+}
+
 ///| from_option tests
 
 ///|

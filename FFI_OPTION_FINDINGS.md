@@ -6,29 +6,57 @@
 
 ## 重要な発見
 
-### ❌ 問題のあるパターン: `Js?` 型フィールド
+### ❌ 問題のあるパターン: 非プリミティブ型の `T?` フィールド
 
-**`Js?` 型のstructフィールドは、JavaScriptの `null`/`undefined` を正しく扱えない。**
+**`Js?` およびカスタム構造体の `Struct?` フィールドは、JavaScriptの `null` を正しく扱えない。**
 
 ```moonbit
 pub(all) struct FileReader {
   result : Js?  // ❌ 問題あり
   error : Js?   // ❌ 問題あり
 }
+
+pub(all) struct Container {
+  optional : CustomStruct?  // ❌ 問題あり
+}
 ```
 
-**挙動:**
-- JavaScriptの `null` → MoonBitで `match` しようとすると `$tag` プロパティアクセスでクラッシュ
-- `Some(null)` でも `None` でもない、アクセス不可能な状態
+**挙動の詳細:**
 
-**エラー例:**
+| JavaScript値 | `Js?` | `CustomStruct?` | 説明 |
+|-------------|-------|-----------------|------|
+| `null` | `match` でクラッシュ (`$tag` エラー) | `Some(null)` になる | ❌ 両方とも問題 |
+| `undefined` | `match` でクラッシュ (`$tag` エラー) | `None` になる | ⚠️ `Js?` のみ問題 |
+| 実際の値 | クラッシュ | `Some(value)` | ⚠️ `Js?` のみ問題 |
+
+**エラー例 (`Js?` の場合):**
 ```
 TypeError: Cannot read properties of null (reading '$tag')
 ```
 
+**問題例 (`CustomStruct?` の場合):**
+```moonbit
+// null の場合、Some(null) になり、フィールドアクセスでクラッシュ
+match container.optional {
+  Some(s) => s.name  // ❌ null.name でクラッシュ
+  None => "no value"
+}
+```
+
+**重要な発見: `null` と `undefined` で挙動が異なる**
+
+カスタム構造体の場合：
+- `null` → `Some(null)` (危険：フィールドアクセスでクラッシュ)
+- `undefined` → `None` (正常)
+
+JavaScriptでは `null` と `undefined` が混在するため、**`undefined` だけを使うAPIなら安全だが、`null` を返す可能性があるAPIは危険。**
+
 **影響を受ける型:**
-- `FileReader` - `result: Js?`, `error: Js?`
+- `FileReader` - `result: Js?`, `error: Js?` (nullを返す)
 - `SpawnSyncResult` - `error: Js` (既に修正済み)
+- `MutationRecord` - `previousSibling: Element?`, `nextSibling: Element?` (nullを返す)
+- `InputEvent` - `dataTransfer: DataTransfer?` (nullを返す)
+- `DragEvent` - `dataTransfer: DataTransfer?` (nullを返す)
 - その他多数のCloudflare Workers API型
 
 ### ✅ 正しく動作するパターン: プリミティブ型の `T?`
