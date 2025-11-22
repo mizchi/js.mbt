@@ -230,6 +230,6 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 /// let my_lazy_component: (props: MyLazyComponentProps) -> Element =
 ///   lazy_(load_my_lazy_component)
 /// ```
-pub fn[T] lazy_(f : async () -> ComponentFn[T]) -> (EmptyProps) -> Promise[Js] {
+pub fn[T] lazy_(f : async () -> ComponentFn[T]) -> ComponentFn[EmptyProps] {
   f |> promisify0 |> @js.unsafe_js |> ffi_react_lazy() |> unsafe_cast
 }

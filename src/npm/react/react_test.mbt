@@ -280,3 +280,24 @@ test "ReactNode conditional rendering in for expression" {
   let s = render_to_string(el)
   assert_eq(s, "<div><em>1</em><strong>2</strong><em>3</em><strong>4</strong><em>5</em></div>")
 }
+
+///|
+extern "js" fn create_lazy_component_stub() -> @js.Js =
+  #|() => ({ default: () => globalThis.__ReactApi.createElement("div", null, "lazy_component") })
+
+///|
+test "lazy with suspense" {
+  init_react_api(@node.require("react"))
+  let lazy_loader = async fn() {
+    let module_obj = create_lazy_component_stub()
+    let component : ComponentFn[EmptyProps] = module_obj.get("default") |> unsafe_cast
+    component
+  }
+  let lazy_comp = lazy_(lazy_loader)
+  let fallback = createElement("div", ["Loading..."])
+  let lazy_el = component(lazy_comp, EmptyProps::default())
+  let el = suspense([lazy_el], fallback~)
+  let s = render_to_string(el)
+  // Lazy components render fallback during SSR with renderToString
+  assert_eq(s.contains("Loading..."), true)
+}
