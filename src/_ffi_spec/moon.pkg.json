@@ -1,4 +1,0 @@
-{
-  "is-main": false,
-  "import": ["mizchi/js", "mizchi/js/browser/file"]
-}
