@@ -42,7 +42,8 @@ Not Supported
 | `node:os` | `mizchi/js/node/os` | 🤖 AI Generated | OS utilities |
 | `node:path` | `mizchi/js/node/path` | 🤖 AI Generated | Path manipulation |
 | `node:process` | `mizchi/js/node/process` | ✅ Tested | Process information |
-| `node:readline/promises` | `mizchi/js/node/readline_promises` | 🤖 AI Generated | Interactive I/O |
+| `node:readline` | `mizchi/js/node/readline` | 🤖 AI Generated | Interactive I/O |
+| `node:readline/promises` | `mizchi/js/node/readline_promises` | 🤖 AI Generated | Interactive I/O (Promise) |
 | `node:sqlite` | `mizchi/js/node/sqlite` | 🤖 AI Generated | SQLite database |
 | `node:stream` | `mizchi/js/node/stream` | 🚧 Partially | Stream API |
 | `node:stream/promises` | `mizchi/js/node/stream_promises` | 🤖 AI Generated | Stream (Promise) |
@@ -53,9 +54,9 @@ Not Supported
 | `node:v8` | `mizchi/js/node/v8` | 🤖 AI Generated | V8 engine utilities |
 | `node:vm` | `mizchi/js/node/vm` | 🤖 AI Generated | VM script execution |
 | `node:wasi` | `mizchi/js/node/wasi` | 🤖 AI Generated | WASI support |
+| `node:https` | `mizchi/js/node/https` | 🤖 AI Generated | HTTPS server/client |
+| `node:http2` | `mizchi/js/node/http2` | 🤖 AI Generated | HTTP/2 support |
 | `node:worker_threads` | - | 📅 Planned | Worker threads |
-| `node:https` | - | 📅 Planned | HTTPS server/client |
-| `node:http2` | - | 📅 Planned | HTTP/2 support |
 | `node:dns` | - | 📅 Planned | DNS resolution |
 | `node:permissions` | - | 📅 Planned | Permissions API |
 | `node:domain` | - | 📅 Planned | Domain error handling |
