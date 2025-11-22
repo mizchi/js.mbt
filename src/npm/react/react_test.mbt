@@ -282,18 +282,13 @@ test "ReactNode conditional rendering in for expression" {
 }
 
 ///|
-extern "js" fn create_lazy_component_stub() -> @js.Js =
-  #|() => ({ default: () => globalThis.__ReactApi.createElement("div", null, "lazy_component") })
+extern "js" fn load_lazy_component_stub() -> @js.Promise[@js.Js] =
+  #|() => Promise.resolve({ default: () => globalThis.__ReactApi.createElement("div", null, "lazy_component") })
 
 ///|
 test "lazy with suspense" {
   init_react_api(@node.require("react"))
-  let lazy_loader = async fn() {
-    let module_obj = create_lazy_component_stub()
-    let component : ComponentType[EmptyProps] = module_obj.get("default") |> unsafe_cast
-    component
-  }
-  let lazy_comp = lazy_(lazy_loader)
+  let lazy_comp = lazy_(load_lazy_component_stub)
   let fallback = createElement("div", ["Loading..."])
   let lazy_el = component(lazy_comp, EmptyProps::default())
   let el = suspense([lazy_el], fallback~)

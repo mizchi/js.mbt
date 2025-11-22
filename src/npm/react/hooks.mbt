@@ -222,14 +222,15 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 }
 
 ///|
-/// wip
+/// Create a lazy-loaded component from a dynamic import function.
+/// The import function should return a module with a `default` export of ComponentType[T].
+///
 /// ```moonbit skip
-/// extern "js" fn load_my_lazy_component() -> @js.Promise[Js] =
+/// extern "js" fn load_my_lazy_component() -> @js.Promise[@js.Js] =
 ///   #| () => import("./MyLazyComponent")
-/// struct MyLazyComponentProps {}
-/// let my_lazy_component: (props: MyLazyComponentProps) -> Element =
-///   lazy_(load_my_lazy_component)
+///
+/// let my_lazy_component = lazy_(load_my_lazy_component)
 /// ```
-pub fn[T] lazy_(f : async () -> ComponentType[T]) -> ComponentType[EmptyProps] {
-  f |> promisify0 |> @js.unsafe_js |> ffi_react_lazy() |> unsafe_cast
+pub fn lazy_(f : () -> Promise[Js]) -> ComponentType[EmptyProps] {
+  ffi_react_lazy(f |> @js.unsafe_js) |> unsafe_cast
 }
