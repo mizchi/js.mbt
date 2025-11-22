@@ -73,7 +73,7 @@ pub fn Content::to_js(self : Content) -> Object {
 
 ///|
 /// Tool Definition
-pub struct Tool {
+pub(all) struct Tool {
   name : String
   description : String
   input_schema : Object
@@ -90,7 +90,7 @@ pub fn Tool::to_js(self : Tool) -> Object {
 
 ///|
 /// Resource Definition
-pub struct Resource {
+pub(all) struct Resource {
   uri : String
   name : String
   description : String?
@@ -115,14 +115,14 @@ pub fn Resource::to_js(self : Resource) -> Object {
 
 ///|
 /// Prompt Definition
-pub struct Prompt {
+pub(all) struct Prompt {
   name : String
   description : String?
   arguments : Array[PromptArgument]
 } derive(Show)
 
 ///|
-pub struct PromptArgument {
+pub(all) struct PromptArgument {
   name : String
   description : String?
   required : Bool

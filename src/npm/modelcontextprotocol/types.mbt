@@ -128,7 +128,7 @@ pub fn JsonRpcErrorResponse::to_js(self : JsonRpcErrorResponse) -> Object {
 
 ///|
 /// JSON-RPC Notification (no response expected)
-pub struct JsonRpcNotification {
+pub(all) struct JsonRpcNotification {
   jsonrpc : String // Always "2.0"
   method_name : String
   params : Object?
