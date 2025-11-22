@@ -21,6 +21,7 @@ pub fn[T : JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
 ///   let (_count, _set_count) = use_state_lazy(() => 42)
 ///   ...
 /// }
+#alias(useStateLazy)
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
   let initial : () -> Js = unsafe_cast(initial)
   let result = ffi_react_use_state_lazy(initial)
@@ -156,6 +157,7 @@ pub fn[T] use_context(ctx : Context[T]) -> T {
 ///|
 /// React.use - Use a Promise with React.use()
 /// Note: This uses React.use() internally
+#alias(usePromise)
 pub fn[T] use_promise(promise : Promise[T]) -> T {
   unsafe_cast(ffi_react_use(promise |> unsafe_cast))
 }
