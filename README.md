@@ -46,14 +46,24 @@ Add to your `moon.pkg.json`:
 ### Core APIs
 
 - **[mizchi/js](./src/README.md)** - Core JavaScript built-in APIs (Object, Promise, Array, etc.)
-- **[mizchi/js/arraybuffer](./src/arraybuffer/)** - Binary data handling (ArrayBuffer, TypedArrays)
-- **[mizchi/js/console](./src/console/)** - Console logging
+
+### JavaScript Built-ins
+
+Standard JavaScript built-in objects:
+
+- **[mizchi/js/builtins/arraybuffer](./src/builtins/arraybuffer/)** - Binary data handling (ArrayBuffer, TypedArrays)
+- **[mizchi/js/builtins/date](./src/builtins/date/)** - Date and time manipulation
+- **[mizchi/js/builtins/math](./src/builtins/math/)** - Mathematical operations
+- **[mizchi/js/builtins/regexp](./src/builtins/regexp/)** - Regular expressions
+- **[mizchi/js/builtins/reflect](./src/builtins/reflect/)** - Reflection API
+- **[mizchi/js/builtins/proxy](./src/builtins/proxy/)** - Proxy API for object interception
 
 ### Web Standard APIs
 
 Platform-independent Web Standard APIs that work across browsers, Node.js, Deno, Bun, and edge runtimes:
 
 - **[mizchi/js/web](./src/web/README.md)** - Meta-package documentation for all Web APIs
+- **[mizchi/js/web/console](./src/web/console/)** - Console logging API
 - **[mizchi/js/web/http](./src/web/http/)** - Fetch API (Request, Response, Headers, FormData)
 - **[mizchi/js/web/url](./src/web/url/)** - URL APIs (URL, URLSearchParams, URLPattern)
 - **[mizchi/js/web/streams](./src/web/streams/)** - Streams API (ReadableStream, WritableStream, TransformStream)
@@ -61,9 +71,11 @@ Platform-independent Web Standard APIs that work across browsers, Node.js, Deno,
 - **[mizchi/js/web/encoding](./src/web/encoding/)** - Encoding API (TextEncoder, TextDecoder)
 - **[mizchi/js/web/event](./src/web/event/)** - Event APIs (Event, CustomEvent, MessageEvent)
 - **[mizchi/js/web/crypto](./src/web/crypto/)** - Web Crypto API for cryptographic operations
+- **[mizchi/js/web/performance](./src/web/performance/)** - Performance timing and measurement API
 - **[mizchi/js/web/webassembly](./src/web/webassembly/)** - WebAssembly API for WASM integration
 - **[mizchi/js/web/websocket](./src/web/websocket/)** - WebSocket API for real-time communication
 - **[mizchi/js/web/worker](./src/web/worker/)** - Web Workers API for background processing
+- **[mizchi/js/web/message_channel](./src/web/message_channel/)** - MessageChannel API for communication
 
 ### Runtime-Specific
 

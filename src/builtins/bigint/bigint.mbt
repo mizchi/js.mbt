@@ -1,5 +1,8 @@
 ///|
 /// JavaScript BigInt
+using @js {type Js, trait JsImpl, globalThis, unsafe_cast}
+
+///|
 #external
 pub type JsBigInt
 

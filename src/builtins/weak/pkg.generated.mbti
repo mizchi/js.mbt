@@ -1,0 +1,46 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/weak"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type FinalizationRegistry[T]
+fn[T : @js.JsImpl] FinalizationRegistry::new((T) -> Unit) -> Self[T]
+fn[T : @js.JsImpl, U : @js.JsImpl] FinalizationRegistry::register(Self[T], U, T, unregister_token? : @js.Js) -> Unit
+fn[T] FinalizationRegistry::unregister(Self[T], @js.Js) -> Bool
+impl[T] @js.JsImpl for FinalizationRegistry[T]
+
+#external
+pub type WeakMap[K, V]
+fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::delete(Self[K, V], K) -> Bool
+fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::get(Self[K, V], K) -> V?
+fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::has(Self[K, V], K) -> Bool
+fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::new() -> Self[K, V]
+fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::set(Self[K, V], K, V) -> Self[K, V]
+impl[K, V] @js.JsImpl for WeakMap[K, V]
+
+#external
+pub type WeakRef[T]
+fn[T] WeakRef::deref(Self[T]) -> T?
+fn[T : @js.JsImpl] WeakRef::new(T) -> Self[T]
+impl[T] @js.JsImpl for WeakRef[T]
+
+#external
+pub type WeakSet[T]
+fn[T : @js.JsImpl] WeakSet::add(Self[T], T) -> Self[T]
+fn[T : @js.JsImpl] WeakSet::delete(Self[T], T) -> Bool
+fn[T : @js.JsImpl] WeakSet::has(Self[T], T) -> Bool
+fn[T : @js.JsImpl] WeakSet::new() -> Self[T]
+impl[T] @js.JsImpl for WeakSet[T]
+
+// Type aliases
+
+// Traits
+

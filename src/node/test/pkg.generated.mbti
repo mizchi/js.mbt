@@ -3,8 +3,8 @@ package "mizchi/js/node/test"
 
 import(
   "mizchi/js"
+  "mizchi/js/builtins/regexp"
   "mizchi/js/node/stream"
-  "mizchi/js/regexp"
 )
 
 // Values

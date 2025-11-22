@@ -1,0 +1,4 @@
+{
+  "is-main": false,
+  "import": ["mizchi/js", "mizchi/js/web/event"]
+}

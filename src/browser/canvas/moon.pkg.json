@@ -4,7 +4,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/web/blob",
-    "mizchi/js/arraybuffer",
+    "mizchi/js/builtins/arraybuffer",
     "mizchi/js/web/worker",
     "mizchi/js/browser/dom"
   ]

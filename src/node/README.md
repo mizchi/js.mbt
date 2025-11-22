@@ -58,15 +58,15 @@ Not Supported
 | `node:http2` | `mizchi/js/node/http2` | 🤖 AI Generated | HTTP/2 support |
 | `node:tty` | `mizchi/js/node/tty` | 🤖 AI Generated | Terminal I/O |
 | `node:tls` | `mizchi/js/node/tls` | 🤖 AI Generated | TLS/SSL connections |
+| `node:dns` | `mizchi/js/node/dns` | 🤖 AI Generated | DNS resolution |
+| `node:zlib` | `mizchi/js/node/zlib` | 🤖 AI Generated | Compression/decompression |
+| `node:inspector` | `mizchi/js/node/inspector` | 🤖 AI Generated | V8 Inspector debugging |
 | `node:worker_threads` | - | 📅 Planned | Worker threads |
-| `node:dns` | - | 📅 Planned | DNS resolution |
 | `node:permissions` | - | 📅 Planned | Permissions API |
 | `node:domain` | - | 📅 Planned | Domain error handling |
-| `node:zlib` | - | ❌ Not Planned | Use Web Compression API |
 | `node:querystring` | - | ❌ Not Planned | Use URLSearchParams |
 | `node:crypto` | - | ❌ Not Planned | Use Web Crypto API |
 | `node:string_decoder` | - | ❌ Not Planned | Use TextDecoder |
-| `node:inspector` | - | ❌ Not Planned | |
 | `node:punycode` | - | ❌ Not Planned | |
 | `node:dgram` | - | ❌ Not Planned | |
 | `node:async_hooks` | - | ❌ Not Planned | |

@@ -2,6 +2,6 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/builtins/arraybuffer"
+    "mizchi/js/node/stream"
   ]
 }

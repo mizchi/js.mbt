@@ -5,7 +5,7 @@
     "mizchi/js/web/streams",
     "mizchi/js/node",
     "mizchi/js/node/test",
-    "mizchi/js/regexp",
+    "mizchi/js/builtins/regexp",
     {
       "path": "mizchi/js/web/crypto",
       "alias": "crypto"

@@ -3,8 +3,8 @@ package "mizchi/js/browser/canvas"
 
 import(
   "mizchi/js"
-  "mizchi/js/arraybuffer"
   "mizchi/js/browser/dom"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/web/blob"
   "mizchi/js/web/worker"
 )

@@ -212,19 +212,19 @@ test "type checking helpers" {
 ```moonbit
 ///|
 test "bigint arithmetic" {
-  let big1 = @js.JsBigInt::from_int(100)
-  let big2 = @js.JsBigInt::from_int(50)
+  let big1 = @bigint.JsBigInt::from_int(100)
+  let big2 = @bigint.JsBigInt::from_int(50)
 
   // Arithmetic
-  let sum = @js.JsBigInt::add(big1, big2)
-  let diff = @js.JsBigInt::sub(big1, big2)
-  let product = @js.JsBigInt::mul(big1, big2)
-  let expected_sum = @js.JsBigInt::from_int(150)
-  let expected_diff = @js.JsBigInt::from_int(50)
-  let expected_product = @js.JsBigInt::from_int(5000)
-  assert_eq(@js.JsBigInt::equal(sum, expected_sum), true)
-  assert_eq(@js.JsBigInt::equal(diff, expected_diff), true)
-  assert_eq(@js.JsBigInt::equal(product, expected_product), true)
+  let sum = @bigint.JsBigInt::add(big1, big2)
+  let diff = @bigint.JsBigInt::sub(big1, big2)
+  let product = @bigint.JsBigInt::mul(big1, big2)
+  let expected_sum = @bigint.JsBigInt::from_int(150)
+  let expected_diff = @bigint.JsBigInt::from_int(50)
+  let expected_product = @bigint.JsBigInt::from_int(5000)
+  assert_eq(@bigint.JsBigInt::equal(sum, expected_sum), true)
+  assert_eq(@bigint.JsBigInt::equal(diff, expected_diff), true)
+  assert_eq(@bigint.JsBigInt::equal(product, expected_product), true)
 
   // String conversion
   inspect(sum.to_string(), content="150")

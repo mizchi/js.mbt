@@ -1,0 +1,47 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/dns"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn get_servers() -> @js.JsArray
+
+fn lookup(String, LookupOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+
+fn resolve(String, String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+
+fn resolve4(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+
+fn resolve6(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+
+fn resolve_cname(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+
+fn resolve_mx(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+
+fn resolve_ns(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+
+fn resolve_srv(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+
+fn resolve_txt(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+
+fn reverse(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+
+fn set_servers(Array[String]) -> Unit
+
+// Errors
+
+// Types and methods
+pub struct LookupOptions {
+  family : Int?
+  all : Bool?
+  order : String?
+}
+fn LookupOptions::new() -> Self
+fn LookupOptions::to_js(Self) -> @js.Js
+
+// Type aliases
+
+// Traits
+

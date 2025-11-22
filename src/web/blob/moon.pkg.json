@@ -1,5 +1,5 @@
 {
   "supported-targets": ["js"],
   "is_main": false,
-  "import": ["mizchi/js", "mizchi/js/arraybuffer", "mizchi/js/web/streams"]
+  "import": ["mizchi/js", "mizchi/js/builtins/arraybuffer", "mizchi/js/web/streams"]
 }

@@ -289,18 +289,18 @@ Working with arbitrary precision integers:
 ```moonbit
 ///|
 test "bigint arithmetic operations" {
-  let big1 = @js.JsBigInt::from_int(42)
-  let big2 = @js.JsBigInt::from_string("123456789012345678901234567890")
-  let sum = @js.JsBigInt::add(big1, big2)
-  let product = @js.JsBigInt::mul(big1, big2)
+  let big1 = @bigint.JsBigInt::from_int(42)
+  let big2 = @bigint.JsBigInt::from_string("123456789012345678901234567890")
+  let sum = @bigint.JsBigInt::add(big1, big2)
+  let product = @bigint.JsBigInt::mul(big1, big2)
   inspect(sum.to_string(), content="123456789012345678901234567932")
   inspect(product.to_string(), content="5185185138518518513851851851380")
   inspect(sum.to_string_radix(16), content="18ee90ff6c373e0ee4e3f0afc")
-  let a = @js.JsBigInt::from_int(10)
-  let b = @js.JsBigInt::from_int(20)
-  let result = @js.JsBigInt::add(a, b)
-  let expected = @js.JsBigInt::from_int(30)
-  assert_eq(@js.JsBigInt::equal(result, expected), true)
+  let a = @bigint.JsBigInt::from_int(10)
+  let b = @bigint.JsBigInt::from_int(20)
+  let result = @bigint.JsBigInt::add(a, b)
+  let expected = @bigint.JsBigInt::from_int(30)
+  assert_eq(@bigint.JsBigInt::equal(result, expected), true)
 }
 ```
 

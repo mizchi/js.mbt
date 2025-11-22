@@ -3,7 +3,7 @@ package "mizchi/js/web/encoding"
 
 import(
   "mizchi/js"
-  "mizchi/js/arraybuffer"
+  "mizchi/js/builtins/arraybuffer"
 )
 
 // Values

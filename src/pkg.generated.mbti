@@ -157,13 +157,6 @@ async fn[T] AsyncIterator::next(Self[T]) -> T?
 impl[T] JsImpl for AsyncIterator[T]
 
 #external
-pub type FinalizationRegistry[T]
-fn[T : JsImpl] FinalizationRegistry::new((T) -> Unit) -> Self[T]
-fn[T : JsImpl, U : JsImpl] FinalizationRegistry::register(Self[T], U, T, unregister_token? : Js) -> Unit
-fn[T] FinalizationRegistry::unregister(Self[T], Js) -> Bool
-impl[T] JsImpl for FinalizationRegistry[T]
-
-#external
 pub type Function
 fn Function::apply(Self, Js, Array[Js]) -> Js
 fn Function::bind(Self, Js) -> Js
@@ -193,35 +186,6 @@ fn JsArray::new() -> Self
 fn JsArray::push(Self, &JsImpl) -> Unit
 fn JsArray::to_string(Self) -> String
 impl JsImpl for JsArray
-
-#external
-pub type JsBigInt
-fn JsBigInt::add(Self, Self) -> Self
-fn JsBigInt::asIntN(Int, Self) -> Self
-fn JsBigInt::asUintN(Int, Self) -> Self
-fn JsBigInt::bitand(Self, Self) -> Self
-fn JsBigInt::bitnot(Self) -> Self
-fn JsBigInt::bitor(Self, Self) -> Self
-fn JsBigInt::bitxor(Self, Self) -> Self
-fn JsBigInt::div(Self, Self) -> Self
-fn JsBigInt::equal(Self, Self) -> Bool
-fn JsBigInt::from_int(Int) -> Self
-fn JsBigInt::from_string(String) -> Self
-fn JsBigInt::ge(Self, Self) -> Bool
-fn JsBigInt::gt(Self, Self) -> Bool
-fn JsBigInt::le(Self, Self) -> Bool
-fn JsBigInt::lt(Self, Self) -> Bool
-fn JsBigInt::mod(Self, Self) -> Self
-fn JsBigInt::mul(Self, Self) -> Self
-fn JsBigInt::neg(Self) -> Self
-fn JsBigInt::pow(Self, Self) -> Self
-fn JsBigInt::shl(Self, Self) -> Self
-fn JsBigInt::shr(Self, Self) -> Self
-fn JsBigInt::sub(Self, Self) -> Self
-fn JsBigInt::to_string(Self) -> String
-fn JsBigInt::to_string_radix(Self, Int) -> String
-fn JsBigInt::valueOf(Self) -> Self
-impl JsImpl for JsBigInt
 
 pub(all) struct JsError {
   message : String
@@ -313,29 +277,6 @@ fn Symbol::iterator() -> Self
 fn Symbol::toStringTag() -> Self
 impl JsImpl for Symbol
 impl PropertyKey for Symbol
-
-#external
-pub type WeakMap[K, V]
-fn[K : JsImpl, V : JsImpl] WeakMap::delete(Self[K, V], K) -> Bool
-fn[K : JsImpl, V : JsImpl] WeakMap::get(Self[K, V], K) -> V?
-fn[K : JsImpl, V : JsImpl] WeakMap::has(Self[K, V], K) -> Bool
-fn[K : JsImpl, V : JsImpl] WeakMap::new() -> Self[K, V]
-fn[K : JsImpl, V : JsImpl] WeakMap::set(Self[K, V], K, V) -> Self[K, V]
-impl[K, V] JsImpl for WeakMap[K, V]
-
-#external
-pub type WeakRef[T]
-fn[T] WeakRef::deref(Self[T]) -> T?
-fn[T : JsImpl] WeakRef::new(T) -> Self[T]
-impl[T] JsImpl for WeakRef[T]
-
-#external
-pub type WeakSet[T]
-fn[T : JsImpl] WeakSet::add(Self[T], T) -> Self[T]
-fn[T : JsImpl] WeakSet::delete(Self[T], T) -> Bool
-fn[T : JsImpl] WeakSet::has(Self[T], T) -> Bool
-fn[T : JsImpl] WeakSet::new() -> Self[T]
-impl[T] JsImpl for WeakSet[T]
 
 // Type aliases
 

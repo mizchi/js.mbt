@@ -1,6 +1,6 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/arraybuffer"],
+  "import": ["mizchi/js", "mizchi/js/builtins/arraybuffer"],
   "test-import": [
     "mizchi/js/node/fs",
     "mizchi/js/node/path",

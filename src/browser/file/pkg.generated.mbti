@@ -3,7 +3,7 @@ package "mizchi/js/browser/file"
 
 import(
   "mizchi/js"
-  "mizchi/js/arraybuffer"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/web/blob"
 )
 

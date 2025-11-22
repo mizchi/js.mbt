@@ -1,4 +1,7 @@
 ///|
+using @js {type Js, trait JsImpl, unsafe_cast, is_undefined}
+
+///|
 #external
 pub type WeakMap[K, V]
 

@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/math"
+package "mizchi/js/builtins/math"
 
 // Values
 fn abs(Double) -> Double

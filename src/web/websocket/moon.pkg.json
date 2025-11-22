@@ -4,7 +4,7 @@
     "mizchi/js",
     "mizchi/js/web/event",
     "mizchi/js/node/buffer",
-    "mizchi/js/arraybuffer",
+    "mizchi/js/builtins/arraybuffer",
     "mizchi/js/web/blob"
   ]
 }

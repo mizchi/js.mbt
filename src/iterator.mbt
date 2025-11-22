@@ -55,3 +55,26 @@ pub fn[T] JsIterator::toArray(self : Self[T]) -> Array[T] {
 pub fn[T] JsIterator::iter(self : JsIterator[T]) -> Iterator[T] {
   Iterator::new(() => self.next())
 }
+
+///|
+/// JavaScript AsyncIterator
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator
+#external
+pub(all) type AsyncIterator[T]
+
+///|
+pub impl[T] JsImpl for AsyncIterator[T]
+
+///|
+/// JS: asyncIterator.next()
+pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
+  let v : Promise[Js] = self.call0("next") |> unsafe_cast
+  let v : Js = v.unwrap()
+  if (v.get("done") |> unsafe_cast) {
+    None
+  } else {
+    Some(v.get("value") |> unsafe_cast)
+  }
+}
+
+// TODO: test with async test {}

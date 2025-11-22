@@ -1,0 +1,75 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/zlib"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn brotli_compress(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+
+fn brotli_decompress(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+
+fn create_brotli_compress(ZlibOptions) -> BrotliCompress
+
+fn create_brotli_decompress(ZlibOptions) -> BrotliDecompress
+
+fn create_deflate(ZlibOptions) -> Deflate
+
+fn create_gunzip(ZlibOptions) -> Gunzip
+
+fn create_gzip(ZlibOptions) -> Gzip
+
+fn create_inflate(ZlibOptions) -> Inflate
+
+fn deflate(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+
+fn gunzip(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+
+fn gzip(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+
+fn inflate(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+
+fn unzip(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+
+// Errors
+
+// Types and methods
+#external
+pub type BrotliCompress
+impl @js.JsImpl for BrotliCompress
+
+#external
+pub type BrotliDecompress
+impl @js.JsImpl for BrotliDecompress
+
+#external
+pub type Deflate
+impl @js.JsImpl for Deflate
+
+#external
+pub type Gunzip
+impl @js.JsImpl for Gunzip
+
+#external
+pub type Gzip
+impl @js.JsImpl for Gzip
+
+#external
+pub type Inflate
+impl @js.JsImpl for Inflate
+
+pub struct ZlibOptions {
+  level : Int?
+  chunk_size : Int?
+  mem_level : Int?
+  strategy : Int?
+  window_bits : Int?
+}
+fn ZlibOptions::new() -> Self
+fn ZlibOptions::to_js(Self) -> @js.Js
+
+// Type aliases
+
+// Traits
+

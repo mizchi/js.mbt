@@ -1,6 +1,7 @@
 {
   "import": [
     "mizchi/js",
+    "mizchi/js/builtins/bigint",
     {
       "path": "mizchi/js/node/path",
       "alias": "path"
