@@ -18,21 +18,36 @@ Add to your `moon.pkg.json`:
 }
 ```
 
-```mbt
+## Usage
+
+### For Browser/Vite (Dynamic Import)
+
+```moonbit
 fn main {
-  @js.run_async(() => try {
-    // Initialize React Router API
-    @react.init_react_async()
-    @react_router.init_react_router_async()
+  @js.run_async(fn() try {
+    // Initialize React and React Router APIs
+    @react.dynamic_import_async()
+    @react_router.dynamic_import_async()
     // React Router is ready to use
-    ()
   } catch {
-    _err => {
-      @js.log("Failed to run async initialization.")
-      panic()
-    }
+    err => @js.log("Error during initialization: \{err}")
   })
-  // @react_router.init_react_router_async()
-  // @react_router.init_react_router_async()
 }
 ```
+
+### For Node.js (Synchronous Require)
+
+```moonbit
+fn main {
+  // Initialize React API
+  let react_module = @node.require("react")
+  @react.init_react_api(react_module)
+  
+  // Initialize React Router API (manually set to globalThis)
+  let react_router_module = @node.require("react-router")
+  globalThis().set("__ReactRouterApi", react_router_module)
+  // React Router is ready to use
+}
+```
+
+**Note**: The `__ReactRouterApi` key is an implementation detail and may change in future versions.

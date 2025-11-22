@@ -36,11 +36,9 @@ For APIs not yet implemented in the Deno-specific bindings, you can use Node.js 
 
 ```moonbit
 // Use Node.js fs instead of Deno's file APIs
-import @node/fs_promises as fs
-
 fn example() -> Unit {
   @js.run_async(fn() {
-    let content = fs.readFile("file.txt", "utf-8").await
+    let content = @fs_promises.readFile("file.txt", "utf-8").await
     @console.log(content)
   })
 }

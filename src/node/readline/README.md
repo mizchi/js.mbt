@@ -12,10 +12,10 @@ This package provides bindings to Node.js's `readline` module for reading input 
 
 ```moonbit
 let options = InterfaceOptions::new(
-  @node/process.stdin,
-  output=Some(@node/process.stdout)
+  @process.stdin,
+  output=Some(@process.stdout)
 )
-let rl = @node/readline.create_interface(options)
+let rl = @readline.create_interface(options)
 ```
 
 ### Handling Line Input

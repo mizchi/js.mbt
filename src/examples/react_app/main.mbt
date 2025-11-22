@@ -255,9 +255,9 @@ fn app(props : AppProps) -> @react.Element {
 fn main {
   // lazy init context
   run_async(() => try {
-    @react.init_react_async()
-    @react_router.init_react_router_async()
-    let client = @react_dom_client.import_react_dom_client().wait()
+    @react.dynamic_import_async()
+    @react_router.dynamic_import_async()
+    let client = @react_dom_client.dynamic_import_async()
     guard @dom.document().querySelector("#app") is Some(app_root)
     init_myctx()
     let index = (_props : @react_router.RouteProps) => component(app, {

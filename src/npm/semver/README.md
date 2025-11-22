@@ -17,28 +17,28 @@ pnpm add semver
 ## Usage
 
 ```moonbit
-let version = @npm/semver.parse("1.2.3")
-@npm/semver.valid("1.2.3") // returns "1.2.3"
-@npm/semver.clean("  =v1.2.3   ") // returns "1.2.3"
+let version = @semver.parse("1.2.3")
+@semver.valid("1.2.3") // returns "1.2.3"
+@semver.clean("  =v1.2.3   ") // returns "1.2.3"
 
 // Comparison
-@npm/semver.gt("1.2.4", "1.2.3") // true
-@npm/semver.satisfies("1.2.3", "1.x || >=2.5.0") // true
+@semver.gt("1.2.4", "1.2.3") // true
+@semver.satisfies("1.2.3", "1.x || >=2.5.0") // true
 
 // Version manipulation
-@npm/semver.inc("1.2.3", "major") // "2.0.0"
-@npm/semver.inc("1.2.3", "minor") // "1.3.0"
-@npm/semver.inc("1.2.3", "patch") // "1.2.4"
+@semver.inc("1.2.3", "major") // "2.0.0"
+@semver.inc("1.2.3", "minor") // "1.3.0"
+@semver.inc("1.2.3", "patch") // "1.2.4"
 
 // Version parts
-@npm/semver.major("1.2.3") // 1
-@npm/semver.minor("1.2.3") // 2
-@npm/semver.patch("1.2.3") // 3
+@semver.major("1.2.3") // 1
+@semver.minor("1.2.3") // 2
+@semver.patch("1.2.3") // 3
 
 // Arrays
-let versions = ["1.2.3", "1.0.0", "2.0.0"].to_js()
-@npm/semver.sort(versions)
-@npm/semver.max(versions)
+let versions = ["1.2.3", "1.0.0", "2.0.0"]
+@semver.sort(versions)
+@semver.max(versions)
 ```
 
 ## API Reference

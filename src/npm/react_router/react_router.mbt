@@ -1,13 +1,27 @@
 ///|
+/// Dynamic import for react-router module
+/// NOTE: This uses dynamic import which doesn't support tree-shaking.
+/// When MoonBit adds native ESM support, this should be replaced with static imports.
 extern "js" fn import_react_router() -> @js.Promise[@js.Js] =
   #|() => import("react-router")
 
 ///|
-pub async fn init_react_router_async() -> Unit {
+/// Dynamic import and initialize React Router API asynchronously
+/// NOTE: This uses dynamic import which doesn't support tree-shaking.
+/// When MoonBit adds native ESM support, this should be replaced with static imports.
+///
+/// Implementation detail: Stores the module in globalThis for internal use.
+pub async fn dynamic_import_async() -> Unit {
   if @js.is_undefined(@js.globalThis().get("__ReactRouterApi")) {
     let v = import_react_router().wait()
     @js.globalThis().set("__ReactRouterApi", v)
   }
+}
+
+///|
+/// @deprecated Use dynamic_import_async() instead
+pub async fn init_react_router_async() -> Unit {
+  dynamic_import_async()
 }
 
 ///|

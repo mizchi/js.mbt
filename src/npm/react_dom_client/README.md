@@ -31,15 +31,34 @@ Add to your `moon.pkg.json`:
 - [x] ReactDOMRoot - Root container for React tree
 
 ### Functions
-- [x] import_react_dom_client() -> Promise[ReactDOMClient] - Dynamic import
+- [x] dynamic_import_async() -> ReactDOMClient - Dynamic import (async)
 - [x] ReactDOMClient::createRoot(container) -> ReactDOMRoot - Create root
 - [x] ReactDOMRoot::render(vdom) - Render React element
 
 ## Usage
 
+### For Browser/Vite (Dynamic Import)
+
 ```moonbit
-let client = import_react_dom_client().unwrap()
-let container = document.getElementById("root")
-let root = client.createRoot(container)
-root.render(my_element)
+fn main {
+  @js.run_async(fn() try {
+    let client = @react_dom_client.dynamic_import_async()
+    let container = @dom.document().getElementById("root")
+    let root = client.createRoot(container)
+    root.render(my_element)
+  } catch {
+    err => @js.log("Error during initialization: \{err}")
+  })
+}
+```
+
+### For Node.js (Synchronous Require)
+
+```moonbit
+fn main {
+  let client : @react_dom_client.ReactDOMClient = @node.require("react-dom/client") |> @js.unsafe_cast
+  let container = @dom.document().getElementById("root")
+  let root = client.createRoot(container)
+  root.render(my_element)
+}
 ```

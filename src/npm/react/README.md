@@ -19,19 +19,30 @@ Add to your `moon.pkg.json`:
 
 We are designing the API to be intuitive for React users, even if it means compromising on some aspects of safety.
 
-```js
+## Usage
+
+### For Browser/Vite (Dynamic Import)
+
+```moonbit
 fn main {
-  // Initialize React API
-  @async.run_async(() => {
-    @react.init_react_async() catch {
-      _err => {
-        @js.log("Failed to initialize React.")
-        panic()
-      }
-    }
+  // Initialize React API with dynamic import
+  @js.run_async(fn() try {
+    @react.dynamic_import_async()
     // React is ready to use
-    ()
+  } catch {
+    err => @js.log("Error during React initialization: \{err}")
   })
+}
+```
+
+### For Node.js (Synchronous Require)
+
+```moonbit
+fn main {
+  // Initialize React API with require
+  let react_module = @node.require("react")
+  @react.init_react_api(react_module)
+  // React is ready to use
 }
 ```
 
