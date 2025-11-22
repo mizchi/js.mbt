@@ -1,0 +1,42 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/tty"
+
+import(
+  "mizchi/js"
+  "mizchi/js/web/event"
+)
+
+// Values
+fn isatty(Int) -> Bool
+
+// Errors
+
+// Types and methods
+#external
+pub type ReadStream
+fn ReadStream::is_raw(Self) -> Bool
+fn ReadStream::is_tty(Self) -> Bool
+fn ReadStream::set_raw_mode(Self, Bool) -> Unit
+impl @js.JsImpl for ReadStream
+impl @event.EventTargetImpl for ReadStream
+
+#external
+pub type WriteStream
+fn WriteStream::clear_line(Self, Int, () -> Unit) -> Unit
+fn WriteStream::clear_screen_down(Self, () -> Unit) -> Unit
+fn WriteStream::columns(Self) -> Int
+fn WriteStream::cursor_to(Self, Int, Int, () -> Unit) -> Unit
+fn WriteStream::get_color_depth(Self) -> Int
+fn WriteStream::get_window_size(Self) -> (Int, Int)
+fn WriteStream::has_colors(Self, Int) -> Bool
+fn WriteStream::is_tty(Self) -> Bool
+fn WriteStream::move_cursor(Self, Int, Int, () -> Unit) -> Unit
+fn WriteStream::on_resize(Self, () -> Unit) -> Self
+fn WriteStream::rows(Self) -> Int
+impl @js.JsImpl for WriteStream
+impl @event.EventTargetImpl for WriteStream
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,70 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/tls"
+
+import(
+  "mizchi/js"
+  "mizchi/js/web/event"
+)
+
+// Values
+fn connect(ConnectOptions, () -> Unit) -> TLSSocket
+
+fn create_server(ServerOptions, (TLSSocket) -> Unit) -> Server
+
+// Errors
+
+// Types and methods
+pub struct ConnectOptions {
+  host : String?
+  port : Int?
+  servername : String?
+  key : String?
+  cert : String?
+  ca : String?
+  rejectUnauthorized : Bool?
+  alpn_protocols : Array[String]?
+  session : @js.Object?
+}
+fn ConnectOptions::new(Int, String) -> Self
+fn ConnectOptions::to_js(Self) -> @js.Js
+
+#external
+pub type Server
+fn Server::close(Self, () -> Unit) -> Unit
+fn Server::listen(Self, Int, () -> Unit) -> Unit
+impl @js.JsImpl for Server
+impl @event.EventTargetImpl for Server
+
+pub struct ServerOptions {
+  key : String?
+  cert : String?
+  ca : String?
+  pfx : String?
+  passphrase : String?
+  rejectUnauthorized : Bool?
+  requestCert : Bool?
+  alpn_protocols : Array[String]?
+}
+fn ServerOptions::new() -> Self
+fn ServerOptions::to_js(Self) -> @js.Js
+
+#external
+pub type TLSSocket
+fn TLSSocket::authorization_error(Self) -> String?
+fn TLSSocket::authorized(Self) -> Bool
+fn TLSSocket::end(Self) -> Unit
+fn TLSSocket::get_cipher(Self) -> @js.Object
+fn TLSSocket::get_peer_certificate(Self, Bool) -> @js.Object
+fn TLSSocket::get_protocol(Self) -> String
+fn TLSSocket::on_data(Self, (@js.Object) -> Unit) -> Self
+fn TLSSocket::on_end(Self, () -> Unit) -> Self
+fn TLSSocket::on_error(Self, (@js.Object) -> Unit) -> Self
+fn TLSSocket::on_secure_connect(Self, () -> Unit) -> Self
+fn TLSSocket::write(Self, String) -> Unit
+impl @js.JsImpl for TLSSocket
+impl @event.EventTargetImpl for TLSSocket
+
+// Type aliases
+
+// Traits
+

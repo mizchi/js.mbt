@@ -1,0 +1,162 @@
+///|
+using @js {type Js, trait JsImpl}
+
+///|
+/// TTY ReadStream - represents the readable side of a terminal
+/// https://nodejs.org/api/tty.html#class-ttyreadstream
+#external
+pub type ReadStream
+
+///|
+pub impl JsImpl for ReadStream
+
+///|
+pub impl @event.EventTargetImpl for ReadStream
+
+///|
+/// Check if ReadStream is a TTY
+pub fn ReadStream::is_tty(self : ReadStream) -> Bool {
+  let val : Js = self.get("isTTY")
+  @js.unsafe_cast(val)
+}
+
+///|
+/// Check if ReadStream is in raw mode
+pub fn ReadStream::is_raw(self : ReadStream) -> Bool {
+  let val : Js = self.get("isRaw")
+  @js.unsafe_cast(val)
+}
+
+///|
+/// Set raw mode for the ReadStream
+/// In raw mode, input is available character-by-character
+pub fn ReadStream::set_raw_mode(self : ReadStream, mode : Bool) -> Unit {
+  self.call("setRawMode", [mode]) |> ignore
+}
+
+///|
+/// TTY WriteStream - represents the writable side of a terminal
+/// https://nodejs.org/api/tty.html#class-ttywritestream
+#external
+pub type WriteStream
+
+///|
+pub impl JsImpl for WriteStream
+
+///|
+pub impl @event.EventTargetImpl for WriteStream
+
+///|
+/// Check if WriteStream is a TTY
+pub fn WriteStream::is_tty(self : WriteStream) -> Bool {
+  let val : Js = self.get("isTTY")
+  @js.unsafe_cast(val)
+}
+
+///|
+/// Get the number of columns in the terminal
+pub fn WriteStream::columns(self : WriteStream) -> Int {
+  let val : Js = self.get("columns")
+  @js.unsafe_cast(val)
+}
+
+///|
+/// Get the number of rows in the terminal
+pub fn WriteStream::rows(self : WriteStream) -> Int {
+  let val : Js = self.get("rows")
+  @js.unsafe_cast(val)
+}
+
+///|
+/// Clear the current line
+/// dir: -1 (left), 0 (entire line), 1 (right)
+pub fn WriteStream::clear_line(
+  self : WriteStream,
+  dir : Int,
+  callback : () -> Unit,
+) -> Unit {
+  let cb : Js = @js.unsafe_cast(callback)
+  self.call2("clearLine", dir, cb) |> ignore
+}
+
+///|
+/// Clear the screen from cursor position downward
+pub fn WriteStream::clear_screen_down(
+  self : WriteStream,
+  callback : () -> Unit,
+) -> Unit {
+  let cb : Js = @js.unsafe_cast(callback)
+  self.call("clearScreenDown", [cb]) |> ignore
+}
+
+///|
+/// Move cursor to absolute position
+pub fn WriteStream::cursor_to(
+  self : WriteStream,
+  x : Int,
+  y : Int,
+  callback : () -> Unit,
+) -> Unit {
+  let cb : Js = @js.unsafe_cast(callback)
+  self.call("cursorTo", [x, y, cb]) |> ignore
+}
+
+///|
+/// Move cursor relatively
+pub fn WriteStream::move_cursor(
+  self : WriteStream,
+  dx : Int,
+  dy : Int,
+  callback : () -> Unit,
+) -> Unit {
+  let cb : Js = @js.unsafe_cast(callback)
+  self.call("moveCursor", [dx, dy, cb]) |> ignore
+}
+
+///|
+/// Get the color depth supported by the terminal
+/// Returns 1, 4, 8, or 24 bits
+pub fn WriteStream::get_color_depth(self : WriteStream) -> Int {
+  let val : Js = self.call0("getColorDepth")
+  @js.unsafe_cast(val)
+}
+
+///|
+/// Check if terminal supports the requested color count
+pub fn WriteStream::has_colors(self : WriteStream, count : Int) -> Bool {
+  let val : Js = self.call("hasColors", [count])
+  @js.unsafe_cast(val)
+}
+
+///|
+/// Get window size as [columns, rows]
+pub fn WriteStream::get_window_size(self : WriteStream) -> (Int, Int) {
+  let val : Js = self.call0("getWindowSize")
+  let arr : @js.JsArray = @js.unsafe_cast(val)
+  let cols : Int = @js.unsafe_cast(arr.get(0))
+  let rows : Int = @js.unsafe_cast(arr.get(1))
+  (cols, rows)
+}
+
+///|
+/// Register resize event handler
+pub fn WriteStream::on_resize(
+  self : WriteStream,
+  callback : () -> Unit,
+) -> WriteStream {
+  self.addEventListener("resize", fn(_e : Js) { callback() })
+  self
+}
+
+///|
+extern "js" fn ffi_isatty(fd : Int) -> Bool =
+  #| (fd) => {
+  #|   const tty = require('tty');
+  #|   return tty.isatty(fd);
+  #| }
+
+///|
+/// Check if a file descriptor is associated with a TTY
+pub fn isatty(fd : Int) -> Bool {
+  ffi_isatty(fd)
+}
