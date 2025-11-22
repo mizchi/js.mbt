@@ -68,11 +68,17 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 ///|
 /// JS: await promise
 /// Waits for the Promise to be resolved or rejected.
-pub async fn[T] Promise::unwrap(self : Self[T]) -> T {
+pub async fn[T] Promise::wait(self : Self[T]) -> T {
   suspend((ok, err) => self
     .call("then", [from_fn1(ok)])
     .call("catch", [from_fn1(err)])
     |> ignore)
+}
+
+///|
+/// @deprecated Use `wait()` instead
+pub async fn[T] Promise::unwrap(self : Self[T]) -> T {
+  self.wait()
 }
 
 ///|
