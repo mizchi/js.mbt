@@ -339,15 +339,13 @@ test "unsafe_cast_option with Show types" {
 }
 
 ///|
-test "check_option for nullish detection" {
+test "unsafe_cast_option for nullish detection" {
   let obj = @js.Object::new()
-  let result = check_option(obj)
+  let result : @js.Object? = @js.unsafe_cast_option(obj.to_js())
   assert_false(result is None)
-  let null_obj : @js.Object = @js.unsafe_cast(@js.null_())
-  let null_result = check_option(null_obj)
+  let null_result : @js.Object? = @js.unsafe_cast_option(@js.null_())
   assert_true(null_result is None)
-  let undef_obj : @js.Object = @js.unsafe_cast(@js.undefined())
-  let undef_result = check_option(undef_obj)
+  let undef_result : @js.Object? = @js.unsafe_cast_option(@js.undefined())
   assert_true(undef_result is None)
 }
 

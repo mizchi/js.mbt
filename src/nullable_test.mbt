@@ -68,7 +68,7 @@ test "Nullable[Int]::is_null() - undefined behavior" {
   // The behavior of is_null() with undefined may vary
   // This test documents that we don't make assumptions about it
   let _ = nullable.is_null()
-   // Just call it, don't assert
+  // Just call it, don't assert
 }
 
 ///|

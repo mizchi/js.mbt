@@ -12,8 +12,6 @@ fn atob(String) -> String
 
 fn btoa(String) -> String
 
-fn[T : JsImpl] check_option(T) -> Js?
-
 #alias(clear_interval)
 fn clearInterval(JsTimer) -> Unit
 

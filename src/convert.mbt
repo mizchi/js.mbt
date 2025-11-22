@@ -306,17 +306,6 @@ pub fn js(a : &JsImpl) -> Js {
 }
 
 ///|
-/// Dynamically checks if a Js object is nullish (null or undefined) and casts it to Option[Js].
-/// Returns None if the value is nullish, otherwise returns Some with the casted value.
-pub fn[T : JsImpl] check_option(a : T) -> Js? {
-  if ffi_is_nullish(a |> unsafe_cast) {
-    None
-  } else {
-    Some(unsafe_cast(a.to_js()))
-  }
-}
-
-///|
 /// Convert any MoonBit value to a JavaScript Val.
 /// Use `unsafe_js()` if you can
 pub fn[T] unsafe_js(v : T) -> Js {
@@ -324,8 +313,20 @@ pub fn[T] unsafe_js(v : T) -> Js {
 }
 
 ///|
-/// Safely convert a JavaScript Val to an Option type.
-/// Without check, Moonbit FFI will touch (null).toString() and crash.
+/// Safely convert a JavaScript value to an Option type.
+///
+/// Converts JavaScript `null` or `undefined` to `None`, otherwise returns `Some(value)`.
+/// This is essential for FFI because accessing properties on null/undefined will crash.
+///
+/// # Common Patterns
+///
+/// - DOM API nullable returns: `node.get("parentNode") |> unsafe_cast_option()`
+/// - Optional object properties: `obj.get("name") |> unsafe_cast_option()`
+/// - Converting back to Js: use `from_option(opt)`
+///
+/// # Related Functions
+/// - `from_option(A?) -> Js` - Inverse conversion (Option to Js)
+/// - `Nullable[T]` - For FFI struct fields that need explicit null handling
 pub fn[A] unsafe_cast_option(v : Js) -> A? {
   if ffi_is_nullish(v) {
     None
@@ -336,16 +337,18 @@ pub fn[A] unsafe_cast_option(v : Js) -> A? {
 
 ///|
 /// Convert an Option to Js, mapping None to null and Some(v) to v.
-/// This is the inverse of unsafe_cast_option.
 ///
-/// # Example
-/// ```moonbit
-/// let some_val : Int? = Some(42)
-/// let js_val = from_option(some_val)  // Js(42)
+/// This is the inverse of `unsafe_cast_option`. Use this when you need to pass
+/// MoonBit Option values back to JavaScript APIs.
 ///
-/// let none_val : Int? = None
-/// let js_null = from_option(none_val)  // Js(null)
-/// ```
+/// # Usage
+///
+/// - `Some(42) |> from_option` returns Js(42)
+/// - `None |> from_option` returns Js(null)
+/// - Use with match to set optional properties on objects
+///
+/// # See Also
+/// - `unsafe_cast_option(Js) -> A?` - Inverse conversion (Js to Option)
 pub fn[A : JsImpl] from_option(opt : A?) -> Js {
   match opt {
     Some(v) => v.to_js()
