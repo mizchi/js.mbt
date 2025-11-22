@@ -2,7 +2,6 @@
 using @node_stream {
   type Readable,
   type Writable,
-  type Duplex,
   type PassThrough,
   type Transform,
   pipeline,

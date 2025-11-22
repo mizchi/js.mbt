@@ -5,12 +5,12 @@ using @js {type Js, unsafe_cast, js}
 using @react {
   type ReactRef,
   trait ReactNode,
-  type MouseEventHandler,
-  type ChangeEventHandler,
-  type KeyboardEventHandler,
-  type DragEventHandler,
-  type FocusEventHandler,
-  type FormEventHandler,
+// type MouseEventHandler,
+// type ChangeEventHandler,
+// type KeyboardEventHandler,
+// type DragEventHandler,
+// type FocusEventHandler,
+// type FormEventHandler,
 }
 
 ///|
