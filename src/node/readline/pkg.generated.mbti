@@ -1,0 +1,61 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/readline"
+
+import(
+  "mizchi/js"
+  "mizchi/js/node/stream"
+)
+
+// Values
+fn clear_line(@stream.Writable, Int) -> Bool
+
+fn clear_screen_down(@stream.Writable) -> Bool
+
+fn create_interface(InterfaceOptions) -> Interface
+
+fn cursor_to(@stream.Writable, Int, Int?) -> Bool
+
+fn emit_keypress_events(@stream.Readable, Interface?) -> Unit
+
+fn move_cursor(@stream.Writable, Int, Int) -> Bool
+
+// Errors
+
+// Types and methods
+pub type Interface
+fn Interface::add_to_history(Self, String) -> Unit
+fn Interface::close(Self) -> Unit
+fn Interface::get_cursor_pos(Self) -> (Int, Int)
+fn Interface::on_close(Self, () -> Unit) -> Self
+fn Interface::on_history(Self, (Array[String]) -> Unit) -> Self
+fn Interface::on_line(Self, (String) -> Unit) -> Self
+fn Interface::on_pause(Self, () -> Unit) -> Self
+fn Interface::on_resume(Self, () -> Unit) -> Self
+fn Interface::on_sigcont(Self, () -> Unit) -> Self
+fn Interface::on_sigint(Self, () -> Unit) -> Self
+fn Interface::on_sigtstp(Self, () -> Unit) -> Self
+fn Interface::pause(Self) -> Unit
+fn Interface::prompt(Self, Bool) -> Unit
+fn Interface::resume(Self) -> Unit
+fn Interface::set_prompt(Self, String) -> Unit
+fn Interface::write(Self, String, @js.Object?) -> Unit
+
+pub struct InterfaceOptions {
+  input : @stream.Readable
+  output : @stream.Writable?
+  completer : ((String) -> (Array[String], String))?
+  terminal : Bool?
+  history_size : Int?
+  prompt : String?
+  cr_lf_delay : Int?
+  remove_history_duplicates : Bool?
+  escape_code_timeout : Int?
+  tab_size : Int?
+}
+fn InterfaceOptions::new(@stream.Readable, @stream.Writable?) -> Self
+fn InterfaceOptions::to_js(Self) -> @js.Object
+
+// Type aliases
+
+// Traits
+

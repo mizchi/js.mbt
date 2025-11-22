@@ -1,0 +1,293 @@
+///| Node.js Readline Module
+
+///| https://nodejs.org/api/readline.html
+
+///|
+/// Readline Interface
+pub type Interface
+
+///|
+/// Options for createInterface
+pub struct InterfaceOptions {
+  pub input : @stream.Readable
+  pub output : @stream.Writable?
+  pub completer : ((String) -> (Array[String], String))?
+  pub terminal : Bool?
+  pub history_size : Int?
+  pub prompt : String?
+  pub cr_lf_delay : Int?
+  pub remove_history_duplicates : Bool?
+  pub escape_code_timeout : Int?
+  pub tab_size : Int?
+}
+
+///|
+/// Create a readline interface with minimal options
+pub fn InterfaceOptions::new(
+  input : @stream.Readable,
+  output : @stream.Writable?,
+) -> InterfaceOptions {
+  {
+    input,
+    output,
+    completer: None,
+    terminal: None,
+    history_size: None,
+    prompt: None,
+    cr_lf_delay: None,
+    remove_history_duplicates: None,
+    escape_code_timeout: None,
+    tab_size: None,
+  }
+}
+
+///|
+/// Convert InterfaceOptions to JS object
+pub fn InterfaceOptions::to_js(self : InterfaceOptions) -> @js.Object {
+  let obj = @js.Object::new()
+  obj.set("input", self.input)
+  match self.output {
+    Some(o) => obj.set("output", o)
+    None => ()
+  }
+  match self.terminal {
+    Some(t) => obj.set("terminal", t)
+    None => ()
+  }
+  match self.history_size {
+    Some(h) => obj.set("historySize", h)
+    None => ()
+  }
+  match self.prompt {
+    Some(p) => obj.set("prompt", p)
+    None => ()
+  }
+  match self.cr_lf_delay {
+    Some(d) => obj.set("crlfDelay", d)
+    None => ()
+  }
+  match self.remove_history_duplicates {
+    Some(r) => obj.set("removeHistoryDuplicates", r)
+    None => ()
+  }
+  match self.escape_code_timeout {
+    Some(e) => obj.set("escapeCodeTimeout", e)
+    None => ()
+  }
+  match self.tab_size {
+    Some(t) => obj.set("tabSize", t)
+    None => ()
+  }
+  obj
+}
+
+///|
+/// Create a readline interface
+pub fn create_interface(options : InterfaceOptions) -> Interface {
+  create_interface_impl(options.to_js())
+}
+
+///|
+extern "js" fn create_interface_impl(options : @js.Object) -> Interface =
+  #|(options) => {
+  #|  const readline = require('node:readline');
+  #|  return readline.createInterface(options);
+  #|}
+
+///|
+/// Set the prompt
+pub extern "js" fn Interface::set_prompt(
+  self : Interface,
+  prompt : String,
+) -> Unit =
+  #|(self, prompt) => self.setPrompt(prompt)
+
+///|
+/// Display the prompt
+pub extern "js" fn Interface::prompt(
+  self : Interface,
+  preserve_cursor : Bool,
+) -> Unit =
+  #|(self, preserve_cursor) => self.prompt(preserve_cursor)
+
+///|
+/// Write to output
+pub extern "js" fn Interface::write(
+  self : Interface,
+  data : String,
+  key : @js.Object?,
+) -> Unit =
+  #|(self, data, key) => self.write(data, key)
+
+///|
+/// Pause the input stream
+pub extern "js" fn Interface::pause(self : Interface) -> Unit =
+  #|(self) => self.pause()
+
+///|
+/// Resume the input stream
+pub extern "js" fn Interface::resume(self : Interface) -> Unit =
+  #|(self) => self.resume()
+
+///|
+/// Close the interface
+pub extern "js" fn Interface::close(self : Interface) -> Unit =
+  #|(self) => self.close()
+
+///|
+/// Add a line to history
+pub extern "js" fn Interface::add_to_history(
+  self : Interface,
+  line : String,
+) -> Unit =
+  #|(self, line) => {
+  #|  if (self.history) {
+  #|    self.history.unshift(line);
+  #|  }
+  #|}
+
+///|
+/// Get the current cursor position
+pub extern "js" fn Interface::get_cursor_pos(self : Interface) -> (Int, Int) =
+  #|(self) => {
+  #|  return [self.cursor, self.line.length];
+  #|}
+
+///|
+/// Add event listener for 'line' event
+pub extern "js" fn Interface::on_line(
+  self : Interface,
+  callback : (String) -> Unit,
+) -> Interface =
+  #|(self, callback) => {
+  #|  self.on('line', callback);
+  #|  return self;
+  #|}
+
+///|
+/// Add event listener for 'close' event
+pub extern "js" fn Interface::on_close(
+  self : Interface,
+  callback : () -> Unit,
+) -> Interface =
+  #|(self, callback) => {
+  #|  self.on('close', callback);
+  #|  return self;
+  #|}
+
+///|
+/// Add event listener for 'pause' event
+pub extern "js" fn Interface::on_pause(
+  self : Interface,
+  callback : () -> Unit,
+) -> Interface =
+  #|(self, callback) => {
+  #|  self.on('pause', callback);
+  #|  return self;
+  #|}
+
+///|
+/// Add event listener for 'resume' event
+pub extern "js" fn Interface::on_resume(
+  self : Interface,
+  callback : () -> Unit,
+) -> Interface =
+  #|(self, callback) => {
+  #|  self.on('resume', callback);
+  #|  return self;
+  #|}
+
+///|
+/// Add event listener for 'SIGINT' event
+pub extern "js" fn Interface::on_sigint(
+  self : Interface,
+  callback : () -> Unit,
+) -> Interface =
+  #|(self, callback) => {
+  #|  self.on('SIGINT', callback);
+  #|  return self;
+  #|}
+
+///|
+/// Add event listener for 'SIGTSTP' event
+pub extern "js" fn Interface::on_sigtstp(
+  self : Interface,
+  callback : () -> Unit,
+) -> Interface =
+  #|(self, callback) => {
+  #|  self.on('SIGTSTP', callback);
+  #|  return self;
+  #|}
+
+///|
+/// Add event listener for 'SIGCONT' event
+pub extern "js" fn Interface::on_sigcont(
+  self : Interface,
+  callback : () -> Unit,
+) -> Interface =
+  #|(self, callback) => {
+  #|  self.on('SIGCONT', callback);
+  #|  return self;
+  #|}
+
+///|
+/// Add event listener for 'history' event
+pub extern "js" fn Interface::on_history(
+  self : Interface,
+  callback : (Array[String]) -> Unit,
+) -> Interface =
+  #|(self, callback) => {
+  #|  self.on('history', callback);
+  #|  return self;
+  #|}
+
+///|
+/// Clear the current line
+pub extern "js" fn clear_line(stream : @stream.Writable, dir : Int) -> Bool =
+  #|(stream, dir) => {
+  #|  const readline = require('node:readline');
+  #|  return readline.clearLine(stream, dir);
+  #|}
+
+///|
+/// Clear the screen from cursor down
+pub extern "js" fn clear_screen_down(stream : @stream.Writable) -> Bool =
+  #|(stream) => {
+  #|  const readline = require('node:readline');
+  #|  return readline.clearScreenDown(stream);
+  #|}
+
+///|
+/// Move cursor to specified position
+pub extern "js" fn cursor_to(
+  stream : @stream.Writable,
+  x : Int,
+  y : Int?,
+) -> Bool =
+  #|(stream, x, y) => {
+  #|  const readline = require('node:readline');
+  #|  return readline.cursorTo(stream, x, y);
+  #|}
+
+///|
+/// Move cursor relative to current position
+pub extern "js" fn move_cursor(
+  stream : @stream.Writable,
+  dx : Int,
+  dy : Int,
+) -> Bool =
+  #|(stream, dx, dy) => {
+  #|  const readline = require('node:readline');
+  #|  return readline.moveCursor(stream, dx, dy);
+  #|}
+
+///|
+/// Emit a keypress event
+pub extern "js" fn emit_keypress_events(
+  stream : @stream.Readable,
+  interface_ : Interface?,
+) -> Unit =
+  #|(stream, interface_) => {
+  #|  const readline = require('node:readline');
+  #|  readline.emitKeypressEvents(stream, interface_);
+  #|}

@@ -1,0 +1,10 @@
+{
+  "is_main": false,
+  "import": [
+    "mizchi/js",
+    {
+      "path": "mizchi/js/node/stream",
+      "alias": "stream"
+    }
+  ]
+}
