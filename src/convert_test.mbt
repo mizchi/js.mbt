@@ -336,3 +336,86 @@ test "JSON::stringify" {
     ),
   )
 }
+
+///|
+test "from_fn0 converts 0-arg function to Js" {
+  let greet = fn() -> String { "Hello" }
+  let js_greet : Js = from_fn0(greet)
+  assert_eq(@js.typeof_(js_greet), "function")
+  let result = js_greet.call_self0()
+  assert_eq(unsafe_cast(result), "Hello")
+}
+
+///|
+test "from_fn1 converts 1-arg function to Js" {
+  let double = fn(x : Int) -> Int { x * 2 }
+  let js_double : Js = from_fn1(double)
+  assert_eq(@js.typeof_(js_double), "function")
+  let result = js_double.call_self([js(5)])
+  assert_eq(unsafe_cast(result), 10)
+}
+
+///|
+test "from_fn3 converts 3-arg function to Js" {
+  let add3 = fn(a : Int, b : Int, c : Int) -> Int { a + b + c }
+  let js_add3 : Js = from_fn3(add3)
+  assert_eq(@js.typeof_(js_add3), "function")
+  let result = js_add3.call_self([js(1), js(2), js(3)])
+  assert_eq(unsafe_cast(result), 6)
+}
+
+///|
+test "from_entries_option_cast with Bool options" {
+  let entries : Array[(String, Bool?)] = [
+    ("open", Some(true)),
+    ("readOnly", Some(false)),
+    ("timeout", None),
+  ]
+  let obj = from_entries_option_cast(entries)
+  assert_eq(unsafe_cast(obj.get("open")), true)
+  assert_eq(unsafe_cast(obj.get("readOnly")), false)
+  assert_true(is_undefined(obj.get("timeout")))
+}
+
+///|
+test "from_entries_option_cast with Int options" {
+  let entries : Array[(String, Int?)] = [
+    ("width", Some(100)),
+    ("height", Some(200)),
+    ("depth", None),
+  ]
+  let obj = from_entries_option_cast(entries)
+  assert_eq(unsafe_cast(obj.get("width")), 100)
+  assert_eq(unsafe_cast(obj.get("height")), 200)
+  assert_true(is_undefined(obj.get("depth")))
+}
+
+///|
+test "JsImpl for Map[String, &JsImpl]" {
+  let map : Map[String, &JsImpl] = { "name": "Bob", "age": 25, "active": true }
+  let obj : Js = JsImpl::to_js(map)
+  assert_eq(unsafe_cast(obj.get("name")), "Bob")
+  assert_eq(unsafe_cast(obj.get("age")), 25)
+  assert_eq(unsafe_cast(obj.get("active")), true)
+}
+
+///|
+test "JsImpl for Array[&JsImpl]" {
+  let arr : Array[&JsImpl] = [1, "hello", true, 3.14]
+  let js_arr : Js = JsImpl::to_js(arr)
+  assert_true(@js.is_array(js_arr))
+  assert_eq(unsafe_cast(js_arr.get(0)), 1)
+  assert_eq(unsafe_cast(js_arr.get(1)), "hello")
+  assert_eq(unsafe_cast(js_arr.get(2)), true)
+  assert_eq(unsafe_cast(js_arr.get(3)), 3.14)
+}
+
+///|
+test "JsImpl for Option types" {
+  let some_val : Int? = Some(42)
+  let none_val : Int? = None
+  let js_some : Js = JsImpl::to_js(some_val)
+  let js_none : Js = JsImpl::to_js(none_val)
+  assert_eq(unsafe_cast(js_some), 42)
+  assert_true(is_undefined(js_none))
+}

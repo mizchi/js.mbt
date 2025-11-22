@@ -405,3 +405,10 @@ test "Js Show trait for different types" {
   let obj_str = obj.to_js().to_string()
   assert_true(obj_str.contains("key") && obj_str.contains("value"))
 }
+
+///|
+test "JsError Show implementation" {
+  let err = JsError::new("Test error")
+  let shown = err.to_string()
+  assert_true(shown.contains("Test error"))
+}
