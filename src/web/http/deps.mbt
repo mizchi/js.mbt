@@ -9,6 +9,3 @@ using @js {
   run_async,
   type ArrayBuffer,
 }
-
-///|
-using @url {type URL, type URLSearchParams}

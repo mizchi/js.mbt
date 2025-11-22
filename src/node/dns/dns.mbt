@@ -1,5 +1,5 @@
 ///|
-using @js {type Js, trait JsImpl}
+using @js {type Js}
 
 ///|
 /// DNS lookup options

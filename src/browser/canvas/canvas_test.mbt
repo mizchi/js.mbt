@@ -5,7 +5,7 @@
 
 ///|
 /// Dependencies
-using @js {type Js, trait JsImpl, js, unsafe_cast}
+using @js {type Js, js, unsafe_cast}
 
 ///|
 using @typed_array {type Uint8Array}
