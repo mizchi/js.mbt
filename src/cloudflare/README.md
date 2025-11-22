@@ -7,13 +7,13 @@ This package provides type-safe MoonBit bindings for Cloudflare Workers platform
 | Service | Package | Status | Note |
 |---------|---------|--------|------|
 | **Core Platform** |
-| Workers Runtime | `mizchi/js/cloudflare` | ✅ Tested | Basic runtime bindings |
-| Environment Context | `mizchi/js/cloudflare` | ✅ Tested | Env/ExecutionContext |
+| Workers Runtime | `mizchi/js/cloudflare` | 🧪 Tested | Basic runtime bindings |
+| Environment Context | `mizchi/js/cloudflare` | 🧪 Tested | Env/ExecutionContext |
 | **Storage Services** |
-| KV (Key-Value) | `mizchi/js/cloudflare` | ✅ Tested | Get/Put/Delete/List |
-| D1 (SQL Database) | `mizchi/js/cloudflare` | ✅ Tested | Queries/Prepared/Batch |
-| R2 (Object Storage) | `mizchi/js/cloudflare` | ✅ Tested | Objects/Multipart/Metadata |
-| Durable Objects | `mizchi/js/cloudflare` | ✅ Tested | Storage/Alarms/State |
+| KV (Key-Value) | `mizchi/js/cloudflare` | 🧪 Tested | Get/Put/Delete/List |
+| D1 (SQL Database) | `mizchi/js/cloudflare` | 🧪 Tested | Queries/Prepared/Batch |
+| R2 (Object Storage) | `mizchi/js/cloudflare` | 🧪 Tested | Objects/Multipart/Metadata |
+| Durable Objects | `mizchi/js/cloudflare` | 🧪 Tested | Storage/Alarms/State |
 | **Compute & Network** |
 | Workers AI | - | 📅 Planned | AI model inference |
 | Vectorize | - | 📅 Planned | Vector database |
@@ -28,7 +28,7 @@ This package provides type-safe MoonBit bindings for Cloudflare Workers platform
 
 ### Status Legend
 
-- ✅ **Tested**: Comprehensive test coverage with Miniflare/Vitest
+- 🧪 **Tested**: Comprehensive test coverage with Miniflare/Vitest
 - 🤖 **AI Generated**: FFI bindings created, needs testing
 - 📅 **Planned**: Scheduled for future implementation
 

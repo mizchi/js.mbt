@@ -31,24 +31,24 @@ Not Supported
 | Module | Package | Status | Note |
 |--------|---------|--------|------|
 | `node:assert` | `mizchi/js/node/assert` | 🤖 AI Generated | Basic assertions |
-| `node:buffer` | `mizchi/js/node/buffer` | ✅ Tested | Buffer manipulation |
-| `node:child_process` | `mizchi/js/node/child_process` | ✅ Tested | Process spawning |
-| `node:events` | `mizchi/js/node/events` | ✅ Tested | EventEmitter |
-| `node:fs` | `mizchi/js/node/fs` | ✅ Tested | File system (callback) |
-| `node:fs/promises` | `mizchi/js/node/fs_promises` | ✅ Tested | File system (Promise) |
+| `node:buffer` | `mizchi/js/node/buffer` | 🧪 Tested | Buffer manipulation |
+| `node:child_process` | `mizchi/js/node/child_process` | 🧪 Tested | Process spawning |
+| `node:events` | `mizchi/js/node/events` | 🧪 Tested | EventEmitter |
+| `node:fs` | `mizchi/js/node/fs` | 🧪 Tested | File system (callback) |
+| `node:fs/promises` | `mizchi/js/node/fs_promises` | 🧪 Tested | File system (Promise) |
 | `node:http` | `mizchi/js/node/http` | 🚧 Partially | HTTP server/client |
 | `node:module` | `mizchi/js/node/module` | 🤖 AI Generated | Module utilities |
 | `node:net` | `mizchi/js/node/net` | 🚧 Partially | TCP/IPC networking |
 | `node:os` | `mizchi/js/node/os` | 🤖 AI Generated | OS utilities |
 | `node:path` | `mizchi/js/node/path` | 🤖 AI Generated | Path manipulation |
-| `node:process` | `mizchi/js/node/process` | ✅ Tested | Process information |
+| `node:process` | `mizchi/js/node/process` | 🧪 Tested | Process information |
 | `node:readline` | `mizchi/js/node/readline` | 🤖 AI Generated | Interactive I/O |
 | `node:readline/promises` | `mizchi/js/node/readline_promises` | 🤖 AI Generated | Interactive I/O (Promise) |
 | `node:sqlite` | `mizchi/js/node/sqlite` | 🤖 AI Generated | SQLite database |
 | `node:stream` | `mizchi/js/node/stream` | 🚧 Partially | Stream API |
 | `node:stream/promises` | `mizchi/js/node/stream_promises` | 🤖 AI Generated | Stream (Promise) |
-| `node:test` | `mizchi/js/node/test` | ✅ Tested | Testing framework |
-| `node:timers` | `mizchi/js/node` | ✅ Tested | setTimeout/setInterval |
+| `node:test` | `mizchi/js/node/test` | 🧪 Tested | Testing framework |
+| `node:timers` | `mizchi/js/node` | 🧪 Tested | setTimeout/setInterval |
 | `node:url` | `mizchi/js/node/url` | 🤖 AI Generated | URL parsing |
 | `node:util` | `mizchi/js/node/util` | 🤖 AI Generated | Utility functions |
 | `node:v8` | `mizchi/js/node/v8` | 🤖 AI Generated | V8 engine utilities |
@@ -73,7 +73,7 @@ Not Supported
 
 ### Status Legend
 
-- ✅ **Tested**: Comprehensive test coverage, production ready
+- 🧪 **Tested**: Comprehensive test coverage, production ready
 - 🚧 **Partially**: Core functionality implemented, tests incomplete
 - 🤖 **AI Generated**: FFI bindings created, needs testing
 - 📅 **Planned**: Scheduled for future implementation

@@ -13,43 +13,44 @@ These APIs work consistently across:
 | API | Package | Status | Note |
 |-----|---------|--------|------|
 | **HTTP & Networking** |
-| fetch | `mizchi/js/web/http` | ✅ Tested | HTTP requests |
-| Request | `mizchi/js/web/http` | ✅ Tested | Request objects |
-| Response | `mizchi/js/web/http` | ✅ Tested | Response objects |
-| Headers | `mizchi/js/web/http` | ✅ Tested | HTTP headers |
-| FormData | `mizchi/js/web/http` | ✅ Tested | Form data handling |
-| URL | `mizchi/js/web/url` | ✅ Tested | URL parsing |
-| URLSearchParams | `mizchi/js/web/url` | ✅ Tested | Query strings |
-| URLPattern | `mizchi/js/web/url` | ✅ Tested | URL pattern matching |
-| WebSocket | `mizchi/js/web/websocket` | ✅ Tested | WebSocket API |
+| fetch | `mizchi/js/web/http` | 🧪 Tested | HTTP requests |
+| Request | `mizchi/js/web/http` | 🧪 Tested | Request objects |
+| Response | `mizchi/js/web/http` | 🧪 Tested | Response objects |
+| Headers | `mizchi/js/web/http` | 🧪 Tested | HTTP headers |
+| FormData | `mizchi/js/web/http` | 🧪 Tested | Form data handling |
+| URL | `mizchi/js/web/url` | 🧪 Tested | URL parsing |
+| URLSearchParams | `mizchi/js/web/url` | 🧪 Tested | Query strings |
+| URLPattern | `mizchi/js/web/url` | 🧪 Tested | URL pattern matching |
+| WebSocket | `mizchi/js/web/websocket` | 🧪 Tested | WebSocket API |
 | **Streams** |
-| ReadableStream | `mizchi/js/web/streams` | ✅ Tested | Readable streams |
-| WritableStream | `mizchi/js/web/streams` | ✅ Tested | Writable streams |
-| TransformStream | `mizchi/js/web/streams` | ✅ Tested | Transform streams |
-| CompressionStream | `mizchi/js/web/streams` | ✅ Tested | GZIP/Deflate compression |
-| DecompressionStream | `mizchi/js/web/streams` | ✅ Tested | GZIP/Deflate decompression |
+| ReadableStream | `mizchi/js/web/streams` | 🧪 Tested | Readable streams |
+| WritableStream | `mizchi/js/web/streams` | 🧪 Tested | Writable streams |
+| TransformStream | `mizchi/js/web/streams` | 🧪 Tested | Transform streams |
+| CompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate compression |
+| DecompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate decompression |
 | **Binary Data** |
-| Blob | `mizchi/js/web/blob` | ✅ Tested | Binary data |
+| Blob | `mizchi/js/web/blob` | 🧪 Tested | Binary data |
 | **Encoding** |
-| TextEncoder | `mizchi/js/web/encoding` | ✅ Tested | String to Uint8Array |
-| TextDecoder | `mizchi/js/web/encoding` | ✅ Tested | Uint8Array to String |
+| TextEncoder | `mizchi/js/web/encoding` | 🧪 Tested | String to Uint8Array |
+| TextDecoder | `mizchi/js/web/encoding` | 🧪 Tested | Uint8Array to String |
 | **Events** |
-| Event | `mizchi/js/web/event` | ✅ Tested | Event objects |
-| CustomEvent | `mizchi/js/web/event` | ✅ Tested | Custom events |
-| MessageEvent | `mizchi/js/web/event` | ✅ Tested | Message events |
+| Event | `mizchi/js/web/event` | 🧪 Tested | Event objects |
+| CustomEvent | `mizchi/js/web/event` | 🧪 Tested | Custom events |
+| MessageEvent | `mizchi/js/web/event` | 🧪 Tested | Message events |
 | **Cryptography** |
-| Crypto | `mizchi/js/web/crypto` | ✅ Tested | Web Crypto API |
-| SubtleCrypto | `mizchi/js/web/crypto` | ✅ Tested | Cryptographic operations |
+| Crypto | `mizchi/js/web/crypto` | 🆗 Reviewed | Web Crypto API |
+| SubtleCrypto | `mizchi/js/web/crypto` | 🤖 AI Generated | Cryptographic operations |
 | **Workers & Concurrency** |
-| Worker | `mizchi/js/web/worker` | ✅ Tested | Web Workers |
-| MessagePort | `mizchi/js/web/worker` | ✅ Tested | Message passing |
-| MessageChannel | `mizchi/js/web/worker` | ✅ Tested | Channel messaging |
+| Worker | `mizchi/js/web/worker` | 🤖 AI Generated | Web Workers |
+| MessagePort | `mizchi/js/web/worker` | 🤖 AI Generated | Message passing |
+| MessageChannel | `mizchi/js/web/message_channel` | 🤖 AI Generated | Channel messaging |
 | **WebAssembly** |
 | WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
 
 ### Status Legend
 
-- ✅ **Tested**: Comprehensive test coverage
+- 🆗 **Reviewed**: Human reviewed (AI agents cannot change this status)
+- 🧪 **Tested**: Comprehensive test coverage
 - 🤖 **AI Generated**: FFI bindings created, needs testing
 - 📅 **Planned**: Scheduled for future implementation
 

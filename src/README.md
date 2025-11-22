@@ -7,68 +7,68 @@ Comprehensive JavaScript FFI bindings for MoonBit, providing type-safe access to
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
 | **Core JS** |
-| Core FFI | `mizchi/js` | ✅ Tested | `get`, `set`, `call`, etc. |
-| Object | `mizchi/js` | ✅ Tested | Object manipulation |
-| Function | `mizchi/js` | ✅ Tested | Function operations |
-| Promise | `mizchi/js` | ✅ Tested | Async/Promise API |
-| Error | `mizchi/js` | ✅ Tested | Error handling |
-| JSON | `mizchi/js` | ✅ Tested | JSON parse/stringify |
-| Iterator | `mizchi/js` | ✅ Tested | JS Iterator protocol |
-| AsyncIterator | `mizchi/js` | ✅ Tested | Async iteration |
-| WeakMap/Set/Ref | `mizchi/js` | ✅ Tested | Weak references |
+| Core FFI | `mizchi/js` | 🧪 Tested | `get`, `set`, `call`, etc. |
+| Object | `mizchi/js` | 🧪 Tested | Object manipulation |
+| Function | `mizchi/js` | 🧪 Tested | Function operations |
+| Promise | `mizchi/js` | 🧪 Tested | Async/Promise API |
+| Error | `mizchi/js` | 🧪 Tested | Error handling |
+| JSON | `mizchi/js` | 🧪 Tested | JSON parse/stringify |
+| Iterator | `mizchi/js` | 🧪 Tested | JS Iterator protocol |
+| AsyncIterator | `mizchi/js` | 🧪 Tested | Async iteration |
+| WeakMap/Set/Ref | `mizchi/js` | 🧪 Tested | Weak references |
 | **Async Helpers** |
-| run_async | `mizchi/js` | ✅ Tested | Async execution |
-| suspend | `mizchi/js` | ✅ Tested | Promise suspension |
-| sleep | `mizchi/js` | ✅ Tested | Delay execution |
-| promisify | `mizchi/js` | ✅ Tested | Callback → Promise |
+| run_async | `mizchi/js` | 🧪 Tested | Async execution |
+| suspend | `mizchi/js` | 🧪 Tested | Promise suspension |
+| sleep | `mizchi/js` | 🧪 Tested | Delay execution |
+| promisify | `mizchi/js` | 🧪 Tested | Callback → Promise |
 | **Binary Data** |
-| ArrayBuffer | `mizchi/js/arraybuffer` | ✅ Tested | Binary buffers |
-| TypedArrays | `mizchi/js/arraybuffer` | ✅ Tested | Uint8Array, etc. |
-| DataView | `mizchi/js/arraybuffer` | ✅ Tested | Buffer views |
+| ArrayBuffer | `mizchi/js/arraybuffer` | 🧪 Tested | Binary buffers |
+| TypedArrays | `mizchi/js/arraybuffer` | 🧪 Tested | Uint8Array, etc. |
+| DataView | `mizchi/js/arraybuffer` | 🧪 Tested | Buffer views |
 | SharedArrayBuffer | `mizchi/js/arraybuffer` | 🤖 AI Generated | Shared memory |
 | **Standard APIs** |
-| RegExp | `mizchi/js/regexp` | ✅ Tested | Regular expressions |
-| Date | `mizchi/js/date` | ✅ Tested | Date/time operations |
-| Console | `mizchi/js/console` | ✅ Tested | Console logging |
+| RegExp | `mizchi/js/regexp` | 🧪 Tested | Regular expressions |
+| Date | `mizchi/js/date` | 🧪 Tested | Date/time operations |
+| Console | `mizchi/js/console` | 🧪 Tested | Console logging |
 | Performance | `mizchi/js/performance` | 🤖 AI Generated | Performance API |
-| Math | `mizchi/js/math` | ✅ Tested | Math operations |
+| Math | `mizchi/js/math` | 🧪 Tested | Math operations |
 | Reflect | `mizchi/js/reflect` | 🤖 AI Generated | Reflection API |
 | **Web Standard APIs** |
-| fetch | `mizchi/js/web/http` | ✅ Tested | HTTP requests |
-| Request | `mizchi/js/web/http` | ✅ Tested | Request objects |
-| Response | `mizchi/js/web/http` | ✅ Tested | Response objects |
-| Headers | `mizchi/js/web/http` | ✅ Tested | HTTP headers |
-| FormData | `mizchi/js/web/http` | ✅ Tested | Form data |
-| URL | `mizchi/js/web/url` | ✅ Tested | URL parsing |
-| URLSearchParams | `mizchi/js/web/url` | ✅ Tested | Query strings |
-| URLPattern | `mizchi/js/web/url` | ✅ Tested | URL pattern matching |
-| Blob | `mizchi/js/web/blob` | ✅ Tested | Binary data |
-| Streams | `mizchi/js/web/streams` | ✅ Tested | ReadableStream, etc. |
-| CompressionStream | `mizchi/js/web/streams` | ✅ Tested | GZIP/Deflate compression |
-| DecompressionStream | `mizchi/js/web/streams` | ✅ Tested | GZIP/Deflate decompression |
-| TextEncoder | `mizchi/js/web/encoding` | ✅ Tested | String to Uint8Array |
-| TextDecoder | `mizchi/js/web/encoding` | ✅ Tested | Uint8Array to String |
-| Event | `mizchi/js/web/event` | ✅ Tested | Event objects |
-| CustomEvent | `mizchi/js/web/event` | ✅ Tested | Custom events |
-| Crypto | `mizchi/js/web/crypto` | ✅ Tested | Web Crypto API |
-| WebSocket | `mizchi/js/web/websocket` | ✅ Tested | WebSocket API |
-| Worker | `mizchi/js/web/worker` | ✅ Tested | Web Workers |
-| MessageChannel | `mizchi/js/web/worker` | ✅ Tested | Message passing |
+| fetch | `mizchi/js/web/http` | 🧪 Tested | HTTP requests |
+| Request | `mizchi/js/web/http` | 🧪 Tested | Request objects |
+| Response | `mizchi/js/web/http` | 🧪 Tested | Response objects |
+| Headers | `mizchi/js/web/http` | 🧪 Tested | HTTP headers |
+| FormData | `mizchi/js/web/http` | 🧪 Tested | Form data |
+| URL | `mizchi/js/web/url` | 🧪 Tested | URL parsing |
+| URLSearchParams | `mizchi/js/web/url` | 🧪 Tested | Query strings |
+| URLPattern | `mizchi/js/web/url` | 🧪 Tested | URL pattern matching |
+| Blob | `mizchi/js/web/blob` | 🧪 Tested | Binary data |
+| Streams | `mizchi/js/web/streams` | 🧪 Tested | ReadableStream, etc. |
+| CompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate compression |
+| DecompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate decompression |
+| TextEncoder | `mizchi/js/web/encoding` | 🧪 Tested | String to Uint8Array |
+| TextDecoder | `mizchi/js/web/encoding` | 🧪 Tested | Uint8Array to String |
+| Event | `mizchi/js/web/event` | 🧪 Tested | Event objects |
+| CustomEvent | `mizchi/js/web/event` | 🧪 Tested | Custom events |
+| Crypto | `mizchi/js/web/crypto` | 🧪 Tested | Web Crypto API |
+| WebSocket | `mizchi/js/web/websocket` | 🧪 Tested | WebSocket API |
+| Worker | `mizchi/js/web/worker` | 🧪 Tested | Web Workers |
+| MessageChannel | `mizchi/js/web/worker` | 🧪 Tested | Message passing |
 | WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
 | **Platform-Specific** |
 | Node.js APIs | `mizchi/js/node/*` | 🚧 Partially | See [node/README](./node/README.md) |
-| DOM APIs | `mizchi/js/browser/*` | ✅ Tested | See [browser/dom/README](./browser/dom/README.md) |
+| DOM APIs | `mizchi/js/browser/*` | 🧪 Tested | See [browser/dom/README](./browser/dom/README.md) |
 | Cloudflare | `mizchi/js/cloudflare/*` | 🤖 AI Generated | Workers/D1/KV/R2 |
 | Deno | `mizchi/js/deno/*` | 🤖 AI Generated | Deno-specific APIs |
 | **NPM Packages** |
-| React | `mizchi/js/npm/react` | ✅ Tested | React bindings |
-| React DOM | `mizchi/js/npm/react_dom_*` | ✅ Tested | React rendering |
-| Hono | `mizchi/js/npm/hono` | ✅ Tested | Hono web framework |
+| React | `mizchi/js/npm/react` | 🧪 Tested | React bindings |
+| React DOM | `mizchi/js/npm/react_dom_*` | 🧪 Tested | React rendering |
+| Hono | `mizchi/js/npm/hono` | 🧪 Tested | Hono web framework |
 | semver | `mizchi/js/npm/semver` | 🤖 AI Generated | Version parsing |
 
 ### Status Legend
 
-- ✅ **Tested**: Comprehensive test coverage, production ready
+- 🧪 **Tested**: Comprehensive test coverage, production ready
 - 🚧 **Partially**: Core functionality implemented, tests incomplete
 - 🤖 **AI Generated**: FFI bindings created, needs testing
 - 📅 **Planned**: Scheduled for future implementation

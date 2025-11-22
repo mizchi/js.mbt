@@ -8,36 +8,36 @@ Browser-specific API bindings for MoonBit, providing type-safe access to browser
 
 | API | Package | Status | Note |
 |-----|---------|--------|------|
-| Document | `mizchi/js/browser/dom` | ✅ Tested | DOM manipulation |
-| Element | `mizchi/js/browser/dom` | ✅ Tested | Element operations |
-| Node | `mizchi/js/browser/dom` | ✅ Tested | Node interface |
-| HTMLElement | `mizchi/js/browser/dom` | ✅ Tested | HTML elements |
-| Text | `mizchi/js/browser/dom` | ✅ Tested | Text nodes |
+| Document | `mizchi/js/browser/dom` | 🧪 Tested | DOM manipulation |
+| Element | `mizchi/js/browser/dom` | 🧪 Tested | Element operations |
+| Node | `mizchi/js/browser/dom` | 🧪 Tested | Node interface |
+| HTMLElement | `mizchi/js/browser/dom` | 🧪 Tested | HTML elements |
+| Text | `mizchi/js/browser/dom` | 🧪 Tested | Text nodes |
 | ShadowDOM | `mizchi/js/browser/dom` | 🤖 AI Generated | Shadow DOM |
 
 ### Event APIs
 
 | API | Package | Status | Note |
 |-----|---------|--------|------|
-| Event | `mizchi/js/browser/event` | ✅ Tested | Event handling |
-| MouseEvent | `mizchi/js/browser/event` | ✅ Tested | Mouse events |
-| KeyboardEvent | `mizchi/js/browser/event` | ✅ Tested | Keyboard events |
-| PointerEvent | `mizchi/js/browser/event` | ✅ Tested | Pointer events |
-| FocusEvent | `mizchi/js/browser/event` | ✅ Tested | Focus events |
-| CustomEvent | `mizchi/js/browser/dom` | ✅ Tested | Custom events |
+| Event | `mizchi/js/browser/event` | 🧪 Tested | Event handling |
+| MouseEvent | `mizchi/js/browser/event` | 🧪 Tested | Mouse events |
+| KeyboardEvent | `mizchi/js/browser/event` | 🧪 Tested | Keyboard events |
+| PointerEvent | `mizchi/js/browser/event` | 🧪 Tested | Pointer events |
+| FocusEvent | `mizchi/js/browser/event` | 🧪 Tested | Focus events |
+| CustomEvent | `mizchi/js/browser/dom` | 🧪 Tested | Custom events |
 
 ### Browser Objects
 
 | API | Package | Status | Note |
 |-----|---------|--------|------|
-| Window | `mizchi/js/browser/dom` | ✅ Tested | Window object |
-| Navigator | `mizchi/js/browser/dom` | ✅ Tested | Browser info |
+| Window | `mizchi/js/browser/dom` | 🧪 Tested | Window object |
+| Navigator | `mizchi/js/browser/dom` | 🧪 Tested | Browser info |
 
 ### Browser Storage
 
 | API | Package | Status | Note |
 |-----|---------|--------|------|
-| Storage | `mizchi/js/browser/storage` | ✅ Tested | localStorage/sessionStorage |
+| Storage | `mizchi/js/browser/storage` | 🧪 Tested | localStorage/sessionStorage |
 | IndexedDB | - | 📅 Planned | Client-side database |
 
 ### Rendering & Media
@@ -45,7 +45,7 @@ Browser-specific API bindings for MoonBit, providing type-safe access to browser
 | API | Package | Status | Note |
 |-----|---------|--------|------|
 | Canvas 2D | `mizchi/js/browser/canvas` | 🤖 AI Generated | Canvas rendering |
-| CSS/Style | `mizchi/js/browser/dom` | ✅ Tested | Style manipulation |
+| CSS/Style | `mizchi/js/browser/dom` | 🧪 Tested | Style manipulation |
 | WebGL | - | 📅 Planned | 3D graphics |
 | AudioContext | - | 📅 Planned | Web Audio API |
 
@@ -71,7 +71,7 @@ Browser-specific API bindings for MoonBit, providing type-safe access to browser
 
 ### Status Legend
 
-- ✅ **Tested**: Comprehensive test coverage with JSDOM
+- 🧪 **Tested**: Comprehensive test coverage with JSDOM
 - 🤖 **AI Generated**: FFI bindings created, needs testing
 - 📅 **Planned**: Scheduled for future implementation
 

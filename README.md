@@ -12,12 +12,12 @@ $ moon add mizchi/js
 
 | Platform | Documentation | Examples | Status |
 |----------|--------------|----------|--------|
-| **Core JavaScript** | [src/README.md](./src/README.md) | [js_examples.mbt.md](./src/examples/js_examples.mbt.md) | ✅ Tested |
-| **Browser/DOM** | [src/browser/dom/README.md](./src/browser/dom/README.md) | - | ✅ Tested |
+| **Core JavaScript** | [src/README.md](./src/README.md) | [js_examples.mbt.md](./src/examples/js_examples.mbt.md) | 🧪 Tested |
+| **Browser/DOM** | [src/browser/dom/README.md](./src/browser/dom/README.md) | - | 🧪 Tested |
 | **Node.js** | [src/node/README.md](./src/node/README.md) | [node_examples.mbt.md](./src/examples/node_examples.mbt.md) | 🚧 Partially |
-| **Deno** | [src/deno/README.md](./src/deno/README.md) | - | ✅ Tested |
-| **Cloudflare Workers** | [src/cloudflare/README.md](./src/cloudflare/README.md) | [cfw/](./src/examples/cfw/) | ✅ Tested |
-| **React** | [src/npm/react/](./src/npm/react/) | [react_app/](./src/examples/react_app/) | ✅ Tested |
+| **Deno** | [src/deno/README.md](./src/deno/README.md) | - | 🧪 Tested |
+| **Cloudflare Workers** | [src/cloudflare/README.md](./src/cloudflare/README.md) | [cfw/](./src/examples/cfw/) | 🧪 Tested |
+| **React** | [src/npm/react/](./src/npm/react/) | [react_app/](./src/examples/react_app/) | 🧪 Tested |
 
 ### 📖 Learning Resources
 
@@ -49,33 +49,31 @@ Add to your `moon.pkg.json`:
 
 ### JavaScript Built-ins
 
-Standard JavaScript built-in objects:
-
-- **[mizchi/js/builtins/arraybuffer](./src/builtins/arraybuffer/)** - Binary data handling (ArrayBuffer, TypedArrays)
-- **[mizchi/js/builtins/date](./src/builtins/date/)** - Date and time manipulation
-- **[mizchi/js/builtins/math](./src/builtins/math/)** - Mathematical operations
-- **[mizchi/js/builtins/regexp](./src/builtins/regexp/)** - Regular expressions
-- **[mizchi/js/builtins/reflect](./src/builtins/reflect/)** - Reflection API
-- **[mizchi/js/builtins/proxy](./src/builtins/proxy/)** - Proxy API for object interception
+- **[mizchi/js/builtins/typed_array](./src/builtins/typed_array/)** - Binary data handling (ArrayBuffer, TypedArrays, DataView)
+- **[mizchi/js/builtins/date](./src/builtins/date/)** - Date and time manipulation (Date)
+- **[mizchi/js/builtins/math](./src/builtins/math/)** - Mathematical operations (Math)
+- **[mizchi/js/builtins/regexp](./src/builtins/regexp/)** - Regular expressions (RegExp)
+- **[mizchi/js/builtins/reflect](./src/builtins/reflect/)** - Reflection API (Reflect)
+- **[mizchi/js/builtins/proxy](./src/builtins/proxy/)** - Proxy API (Proxy, Reflect)
 
 ### Web Standard APIs
 
-Platform-independent Web Standard APIs that work across browsers, Node.js, Deno, Bun, and edge runtimes:
+Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
-- **[mizchi/js/web](./src/web/README.md)** - Meta-package documentation for all Web APIs
-- **[mizchi/js/web/console](./src/web/console/)** - Console logging API
+- **[mizchi/js/web](./src/web/README.md)** - Web APIs documentation
+- **[mizchi/js/web/console](./src/web/console/)** - Console logging (console.log, console.error, etc.)
 - **[mizchi/js/web/http](./src/web/http/)** - Fetch API (Request, Response, Headers, FormData)
-- **[mizchi/js/web/url](./src/web/url/)** - URL APIs (URL, URLSearchParams, URLPattern)
+- **[mizchi/js/web/url](./src/web/url/)** - URL API (URL, URLSearchParams, URLPattern)
 - **[mizchi/js/web/streams](./src/web/streams/)** - Streams API (ReadableStream, WritableStream, TransformStream)
-- **[mizchi/js/web/blob](./src/web/blob/)** - Blob API for binary data
+- **[mizchi/js/web/blob](./src/web/blob/)** - Blob API (Blob, File)
 - **[mizchi/js/web/encoding](./src/web/encoding/)** - Encoding API (TextEncoder, TextDecoder)
-- **[mizchi/js/web/event](./src/web/event/)** - Event APIs (Event, CustomEvent, MessageEvent)
-- **[mizchi/js/web/crypto](./src/web/crypto/)** - Web Crypto API for cryptographic operations
-- **[mizchi/js/web/performance](./src/web/performance/)** - Performance timing and measurement API
-- **[mizchi/js/web/webassembly](./src/web/webassembly/)** - WebAssembly API for WASM integration
-- **[mizchi/js/web/websocket](./src/web/websocket/)** - WebSocket API for real-time communication
-- **[mizchi/js/web/worker](./src/web/worker/)** - Web Workers API for background processing
-- **[mizchi/js/web/message_channel](./src/web/message_channel/)** - MessageChannel API for communication
+- **[mizchi/js/web/event](./src/web/event/)** - Event API (Event, CustomEvent, MessageEvent)
+- **[mizchi/js/web/crypto](./src/web/crypto/)** - Web Crypto API (SubtleCrypto, getRandomValues, randomUUID)
+- **[mizchi/js/web/performance](./src/web/performance/)** - Performance API (Performance, PerformanceEntry)
+- **[mizchi/js/web/webassembly](./src/web/webassembly/)** - WebAssembly API (WebAssembly.Module, WebAssembly.Instance)
+- **[mizchi/js/web/websocket](./src/web/websocket/)** - WebSocket API (WebSocket)
+- **[mizchi/js/web/worker](./src/web/worker/)** - Web Workers API (Worker, MessagePort)
+- **[mizchi/js/web/message_channel](./src/web/message_channel/)** - MessageChannel API (MessageChannel, MessagePort)
 
 ### Runtime-Specific
 

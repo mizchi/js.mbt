@@ -1,3 +1,11 @@
+# mizchi/js/browser/dom
+
+Browser DOM APIs - Document Object Model manipulation for MoonBit
+
+## Status
+
+🧪 Tested - Comprehensive browser DOM support
+
 ## Installation
 
 Add to your `moon.pkg.json`:
