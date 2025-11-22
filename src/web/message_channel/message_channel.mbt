@@ -1,4 +1,7 @@
 ///|
+using @js {type Js, trait JsImpl, js}
+
+///|
 /// MessagePort represents one end of a message channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort
 ///

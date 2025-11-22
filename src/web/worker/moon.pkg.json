@@ -1,4 +1,8 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/web/event"]
+  "import": [
+    "mizchi/js",
+    "mizchi/js/web/event",
+    "mizchi/js/web/message_channel"
+  ]
 }

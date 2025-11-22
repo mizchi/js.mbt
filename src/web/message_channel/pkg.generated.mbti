@@ -1,0 +1,36 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/message_channel"
+
+import(
+  "mizchi/js"
+  "mizchi/js/web/event"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type MessageChannel
+fn MessageChannel::new() -> Self
+fn MessageChannel::port1(Self) -> MessagePort
+fn MessageChannel::port2(Self) -> MessagePort
+impl @js.JsImpl for MessageChannel
+impl Show for MessageChannel
+
+#external
+pub type MessagePort
+fn MessagePort::close(Self) -> Unit
+#alias(postMessage)
+fn MessagePort::post_message(Self, &@js.JsImpl) -> Unit
+fn MessagePort::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Js]) -> Unit
+fn MessagePort::start(Self) -> Unit
+impl @js.JsImpl for MessagePort
+impl @event.EventTargetImpl for MessagePort
+impl Show for MessagePort
+
+// Type aliases
+
+// Traits
+

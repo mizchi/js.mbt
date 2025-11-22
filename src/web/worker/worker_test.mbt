@@ -1,16 +1,16 @@
 ///|
 /// Test MessageChannel::new creates a channel
 test "MessageChannel::new creates a channel" {
-  let channel = MessageChannel::new()
+  let channel = @message_channel.MessageChannel::new()
   inspect(@js.typeof_(channel.to_js()), content="object")
 }
 
 ///|
 /// Test MessageChannel has port1 and port2
 test "MessageChannel::port1 and port2 return MessagePort" {
-  let channel = MessageChannel::new()
-  let port1 = channel.port1()
-  let port2 = channel.port2()
+  let channel = @message_channel.MessageChannel::new()
+  let port1 = @message_channel.MessageChannel::port1(channel)
+  let port2 = @message_channel.MessageChannel::port2(channel)
   inspect(@js.typeof_(port1.to_js()), content="object")
   inspect(@js.typeof_(port2.to_js()), content="object")
 }
@@ -18,18 +18,18 @@ test "MessageChannel::port1 and port2 return MessagePort" {
 ///|
 /// Test MessagePort::start can be called
 test "MessagePort::start can be called" {
-  let channel = MessageChannel::new()
-  let port1 = channel.port1()
-  port1.start()
+  let channel = @message_channel.MessageChannel::new()
+  let port1 = @message_channel.MessageChannel::port1(channel)
+  @message_channel.MessagePort::start(port1)
   inspect(@js.typeof_(port1.to_js()), content="object")
 }
 
 ///|
 /// Test MessagePort::close can be called
 test "MessagePort::close disconnects the port" {
-  let channel = MessageChannel::new()
-  let port1 = channel.port1()
-  port1.close()
+  let channel = @message_channel.MessageChannel::new()
+  let port1 = @message_channel.MessageChannel::port1(channel)
+  @message_channel.MessagePort::close(port1)
   inspect(@js.typeof_(port1.to_js()), content="object")
 }
 
@@ -50,9 +50,9 @@ test "MessagePort::close disconnects the port" {
 ///|
 /// Test MessagePort::post_message can send a number
 test "MessagePort::post_message sends a number" {
-  let channel = MessageChannel::new()
-  let port1 = channel.port1()
-  port1.post_message(42)
+  let channel = @message_channel.MessageChannel::new()
+  let port1 = @message_channel.MessageChannel::port1(channel)
+  @message_channel.MessagePort::post_message(port1, 42)
   inspect(@js.typeof_(port1.to_js()), content="object")
 }
 

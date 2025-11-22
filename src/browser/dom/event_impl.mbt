@@ -341,7 +341,7 @@ pub(all) struct MessageEvent {
   data : Js
   origin : String
   lastEventId : String
-  ports : Array[@worker.MessagePort]
+  ports : Array[@message_channel.MessagePort]
 } derive(Show)
 
 ///|
