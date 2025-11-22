@@ -105,7 +105,7 @@ pub(all) struct SettledResult[T] {
 }
 
 ///|
-impl[T] JsImpl for SettledResult[T]
+pub impl[T] JsImpl for SettledResult[T]
 
 ///|
 /// JS: Promise.allSettled(promises)

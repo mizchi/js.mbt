@@ -20,6 +20,7 @@ pub fn[T] Nullable::to_option(self : Nullable[T]) -> T? {
 }
 
 ///|
-pub fn[T] Nullable::unwrap(self : Nullable[T]) -> T {
-  self |> unsafe_cast
+pub fn[T] Nullable::is_null(self : Nullable[T]) -> Bool {
+  let js_value : Js = self |> unsafe_cast
+  ffi_is_null(js_value)
 }
