@@ -29,12 +29,17 @@ fn spawnSync(String, args? : Array[String], cwd? : String, env? : @js.Js, shell?
 // Errors
 
 // Types and methods
-#external
-pub type ChildProcess
+pub(all) struct ChildProcess {
+  pid : Int
+  killed : Bool
+  exitCode : Int
+  signalCode : String
+  stdin : @streams.WritableStream
+  stdout : @streams.ReadableStream
+  stderr : @streams.ReadableStream
+}
 fn ChildProcess::disconnect(Self) -> Unit
-fn ChildProcess::exitCode(Self) -> Int?
 fn ChildProcess::kill(Self, signal? : String) -> Bool
-fn ChildProcess::killed(Self) -> Bool
 fn ChildProcess::on_close(Self, (Int?, String?) -> Unit) -> Unit
 fn ChildProcess::on_disconnect(Self, () -> Unit) -> Unit
 fn ChildProcess::on_error(Self, (@js.Js) -> Unit) -> Unit
@@ -43,25 +48,20 @@ fn ChildProcess::on_message(Self, (@js.Js, @js.Js?) -> Unit) -> Unit
 fn ChildProcess::on_spawn(Self, () -> Unit) -> Unit
 fn ChildProcess::on_stderr_data(Self, (@js.Js) -> Unit) -> Unit
 fn ChildProcess::on_stdout_data(Self, (@js.Js) -> Unit) -> Unit
-fn ChildProcess::pid(Self) -> Int
 fn ChildProcess::ref_(Self) -> Unit
 fn ChildProcess::send(Self, &@js.JsImpl) -> Bool
-fn ChildProcess::signalCode(Self) -> String?
-fn ChildProcess::stderr(Self) -> @streams.ReadableStream?
-fn ChildProcess::stdin(Self) -> @streams.WritableStream?
-fn ChildProcess::stdout(Self) -> @streams.ReadableStream?
 fn ChildProcess::unref(Self) -> Unit
 impl @js.JsImpl for ChildProcess
 impl @events.EventEmitterImpl for ChildProcess
 
-#external
-pub type SpawnSyncResult
-fn SpawnSyncResult::error(Self) -> @js.Js?
-fn SpawnSyncResult::pid(Self) -> Int
-fn SpawnSyncResult::signal(Self) -> String?
-fn SpawnSyncResult::status(Self) -> Int?
-fn SpawnSyncResult::stderr(Self) -> @streams.ReadableStream
-fn SpawnSyncResult::stdout(Self) -> @streams.ReadableStream
+pub(all) struct SpawnSyncResult {
+  pid : Int
+  status : Int?
+  signal : String?
+  stdout : @streams.ReadableStream
+  stderr : @streams.ReadableStream
+  error : @js.Js?
+}
 impl @js.JsImpl for SpawnSyncResult
 
 // Type aliases

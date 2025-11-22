@@ -5,8 +5,15 @@
 
 ///|
 /// The ChildProcess class extends EventEmitter and represents a spawned child process
-#external
-pub type ChildProcess
+pub(all) struct ChildProcess {
+  pid : Int
+  killed : Bool
+  exitCode : Int
+  signalCode : String
+  stdin : WritableStream
+  stdout : ReadableStream
+  stderr : ReadableStream
+}
 
 ///|
 pub impl JsImpl for ChildProcess
@@ -21,54 +28,7 @@ pub fn ChildProcess::on_stderr_data(
   self : Self,
   callback : (Js) -> Unit noraise,
 ) -> Unit {
-  match self.stderr() {
-    Some(stream) => stream.call2("on", "data", @js.from_fn1(callback)) |> ignore
-    None => ()
-  }
-}
-
-///| ChildProcess Properties
-
-///|
-/// The process identifier (PID)
-pub fn ChildProcess::pid(self : Self) -> Int {
-  self.get("pid") |> unsafe_cast
-}
-
-///|
-/// Whether the process has been killed
-pub fn ChildProcess::killed(self : Self) -> Bool {
-  self.get("killed") |> unsafe_cast
-}
-
-///|
-/// The exit code of the child process, or null if still running
-pub fn ChildProcess::exitCode(self : Self) -> Int? {
-  self.get("exitCode") |> @js.unsafe_cast_option()
-}
-
-///|
-/// The signal that terminated the child process, or null
-pub fn ChildProcess::signalCode(self : Self) -> String? {
-  self.get("signalCode") |> @js.unsafe_cast_option()
-}
-
-///|
-/// A readable stream representing the child process's stdin
-pub fn ChildProcess::stdin(self : Self) -> WritableStream? {
-  self.get("stdin") |> @js.unsafe_cast_option()
-}
-
-///|
-/// A writable stream representing the child process's stdout
-pub fn ChildProcess::stdout(self : Self) -> ReadableStream? {
-  self.get("stdout") |> @js.unsafe_cast_option()
-}
-
-///|
-/// A writable stream representing the child process's stderr
-pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
-  self.get("stderr") |> @js.unsafe_cast_option()
+  self.stderr.call2("on", "data", @js.from_fn1(callback)) |> ignore
 }
 
 ///| ChildProcess Methods
@@ -77,15 +37,15 @@ pub fn ChildProcess::stderr(self : Self) -> ReadableStream? {
 /// Send a signal to the child process
 pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
   match signal {
-    Some(sig) => self.call("kill", [sig]) |> unsafe_cast
-    None => self.call0("kill") |> unsafe_cast
+    Some(sig) => self.call("kill", [sig]) |> @js.unsafe_cast
+    None => self.call0("kill") |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Send a message to the child process (for IPC)
 pub fn ChildProcess::send(self : Self, message : &JsImpl) -> Bool {
-  self.call("send", [message.to_js()]) |> unsafe_cast
+  self.call("send", [message.to_js()]) |> @js.unsafe_cast
 }
 
 ///|
@@ -133,10 +93,9 @@ pub fn spawn(
   ])
   match args {
     Some(a) =>
-      unsafe_cast(
-        cp.call("spawn", [command |> js, a |> @js.from_array, options]),
-      )
-    None => cp.call2("spawn", command |> js, options) |> unsafe_cast
+      cp.call("spawn", [command |> js, a |> @js.from_array, options])
+      |> @js.unsafe_cast
+    None => cp.call2("spawn", command |> js, options) |> @js.unsafe_cast
   }
 }
 
@@ -162,7 +121,8 @@ pub fn exec(
     ("maxBuffer", max_buffer.map(x => x)),
     ("signal", signal.map(x => x.to_js())),
   ])
-  unsafe_cast(cp.call("exec", [command |> js, options, unsafe_cast(callback)]))
+  cp.call("exec", [command |> js, options, @js.unsafe_cast(callback)])
+  |> @js.unsafe_cast
 }
 
 ///|
@@ -187,14 +147,13 @@ pub fn execFile(
     ("maxBuffer", max_buffer.map(x => x)),
     ("signal", signal.map(x => x.to_js())),
   ])
-  unsafe_cast(
-    cp.call("execFile", [
-      file,
-      args |> @js.from_array,
-      options,
-      unsafe_cast(callback),
-    ]),
-  )
+  cp.call("execFile", [
+    file,
+    args |> @js.from_array,
+    options,
+    @js.unsafe_cast(callback),
+  ])
+  |> @js.unsafe_cast
 }
 
 ///|
@@ -219,10 +178,9 @@ pub fn fork(
   ])
   match args {
     Some(a) =>
-      unsafe_cast(
-        cp.call("fork", [module_path |> js, a |> @js.from_array, options]),
-      )
-    None => cp.call2("fork", module_path |> js, options) |> unsafe_cast
+      cp.call("fork", [module_path |> js, a |> @js.from_array, options])
+      |> @js.unsafe_cast
+    None => cp.call2("fork", module_path |> js, options) |> @js.unsafe_cast
   }
 }
 
@@ -230,41 +188,17 @@ pub fn fork(
 
 ///|
 /// SpawnSyncResult type for synchronous spawn operations
-#external
-pub type SpawnSyncResult
+pub(all) struct SpawnSyncResult {
+  pid : Int
+  status : Int?
+  signal : String?
+  stdout : @streams.ReadableStream
+  stderr : @streams.ReadableStream
+  error : Js?
+}
 
 ///|
 pub impl JsImpl for SpawnSyncResult
-
-///|
-pub fn SpawnSyncResult::pid(self : Self) -> Int {
-  self.get("pid") |> unsafe_cast
-}
-
-///|
-pub fn SpawnSyncResult::status(self : Self) -> Int? {
-  self.get("status") |> @js.unsafe_cast_option()
-}
-
-///|
-pub fn SpawnSyncResult::signal(self : Self) -> String? {
-  self.get("signal") |> @js.unsafe_cast_option()
-}
-
-///|
-pub fn SpawnSyncResult::stdout(self : Self) -> @streams.ReadableStream {
-  self.get("stdout") |> unsafe_cast
-}
-
-///|
-pub fn SpawnSyncResult::stderr(self : Self) -> @streams.ReadableStream {
-  self.get("stderr") |> unsafe_cast
-}
-
-///|
-pub fn SpawnSyncResult::error(self : Self) -> Js? {
-  self.get("error") |> @js.unsafe_cast_option()
-}
 
 ///|
 /// spawnSync(command[, args][, options])
@@ -289,8 +223,9 @@ pub fn spawnSync(
   ])
   match args {
     Some(a) =>
-      unsafe_cast(cp.call("spawnSync", [command, a |> @js.from_array, options]))
-    None => cp.call2("spawnSync", command |> js, options) |> unsafe_cast
+      cp.call("spawnSync", [command, a |> @js.from_array, options])
+      |> @js.unsafe_cast
+    None => cp.call2("spawnSync", command |> js, options) |> @js.unsafe_cast
   }
 }
 
@@ -318,7 +253,7 @@ pub fn execSync(
     ("input", input.map(x => x)),
     ("encoding", Some(encoding.or("utf8"))),
   ])
-  cp.call2("execSync", command |> js, options) |> unsafe_cast
+  cp.call2("execSync", command |> js, options) |> @js.unsafe_cast
 }
 
 ///|
@@ -346,7 +281,8 @@ pub fn execFileSync(
   ])
   match args {
     Some(a) =>
-      unsafe_cast(cp.call("execFileSync", [file, a |> @js.from_array, options]))
-    None => cp.call2("execFileSync", file, options) |> unsafe_cast
+      cp.call("execFileSync", [file, a |> @js.from_array, options])
+      |> @js.unsafe_cast
+    None => cp.call2("execFileSync", file, options) |> @js.unsafe_cast
   }
 }

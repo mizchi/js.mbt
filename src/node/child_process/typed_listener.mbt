@@ -9,7 +9,7 @@ pub fn ChildProcess::on_exit(
 ) -> Unit {
   self.call("on", [
     "exit",
-    unsafe_cast(fn(code : Js, signal : Js) {
+    @js.unsafe_cast(fn(code : Js, signal : Js) {
       callback(
         code |> @js.unsafe_cast_option(),
         signal |> @js.unsafe_cast_option(),
@@ -28,7 +28,7 @@ pub fn ChildProcess::on_close(
 ) -> Unit {
   self.call("on", [
     "close",
-    unsafe_cast(fn(code : Js, signal : Js) {
+    @js.unsafe_cast(fn(code : Js, signal : Js) {
       callback(
         code |> @js.unsafe_cast_option(),
         signal |> @js.unsafe_cast_option(),
@@ -45,7 +45,7 @@ pub fn ChildProcess::on_error(
   self : Self,
   callback : (Js) -> Unit noraise,
 ) -> Unit {
-  self.call2("on", "error", unsafe_cast(callback)) |> ignore
+  self.call2("on", "error", @js.unsafe_cast(callback)) |> ignore
 }
 
 ///|
@@ -57,7 +57,7 @@ pub fn ChildProcess::on_message(
 ) -> Unit {
   self.call("on", [
     "message",
-    unsafe_cast(fn(message : Js, sendHandle : Js) {
+    @js.unsafe_cast(fn(message : Js, sendHandle : Js) {
       callback(message, sendHandle |> @js.unsafe_cast_option())
     }),
   ])
@@ -71,7 +71,7 @@ pub fn ChildProcess::on_disconnect(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.call2("on", "disconnect", unsafe_cast(callback)) |> ignore
+  self.call2("on", "disconnect", @js.unsafe_cast(callback)) |> ignore
 }
 
 ///|
@@ -81,7 +81,7 @@ pub fn ChildProcess::on_spawn(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.call2("on", "spawn", unsafe_cast(callback)) |> ignore
+  self.call2("on", "spawn", @js.unsafe_cast(callback)) |> ignore
 }
 
 ///|
@@ -91,8 +91,5 @@ pub fn ChildProcess::on_stdout_data(
   self : Self,
   callback : (Js) -> Unit noraise,
 ) -> Unit {
-  match self.stdout() {
-    Some(stream) => stream.call2("on", "data", unsafe_cast(callback)) |> ignore
-    None => ()
-  }
+  self.stdout.call2("on", "data", @js.unsafe_cast(callback)) |> ignore
 }

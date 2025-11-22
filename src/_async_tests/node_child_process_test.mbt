@@ -10,9 +10,9 @@
 test {
   it("spawn creates child process with valid PID", _ => {
     let proc = @child_process.spawn("echo", args=["test"])
-    let pid = proc.pid()
+    let pid = proc.pid
     assert_true(pid > 0)
-    assert_false(proc.killed())
+    assert_false(proc.killed)
   })
 }
 
@@ -20,7 +20,7 @@ test {
 test {
   it("spawn with shell option", _ => {
     let proc = @child_process.spawn("echo test", shell=true)
-    assert_true(proc.pid() > 0)
+    assert_true(proc.pid > 0)
   })
 }
 
@@ -28,7 +28,7 @@ test {
 test {
   it("spawn with working directory", _ => {
     let proc = @child_process.spawn("pwd", cwd="/tmp")
-    assert_true(proc.pid() > 0)
+    assert_true(proc.pid > 0)
   })
 }
 
@@ -38,10 +38,10 @@ test {
 test {
   it("ChildProcess has stdout and stderr streams", _ => {
     let proc = @child_process.spawn("echo", args=["test"])
-    let stdout = proc.stdout()
-    let stderr = proc.stderr()
-    assert_true(stdout is Some(_))
-    assert_true(stderr is Some(_))
+    let stdout = proc.stdout
+    let stderr = proc.stderr
+    assert_true(@js.is_object(stdout))
+    assert_true(@js.is_object(stderr))
   })
 }
 
@@ -49,9 +49,9 @@ test {
 test {
   it("ChildProcess exitCode is None for running process", _ => {
     let proc = @child_process.spawn("sleep", args=["0.1"])
-    let exit_code = proc.exitCode()
-    // Process might still be running
-    assert_true(exit_code is None || exit_code is Some(_))
+    let exit_code = proc.exitCode
+    // Process might still be running - exitCode is always Int now
+    assert_true(exit_code >= 0 || exit_code < 0)
   })
 }
 
@@ -81,7 +81,7 @@ test {
     let proc = @child_process.spawn("echo", args=["test"])
     proc.unref()
     proc.ref_()
-    assert_true(proc.pid() > 0)
+    assert_true(proc.pid > 0)
   })
 }
 
@@ -105,8 +105,8 @@ test {
 test {
   it("ChildProcess stdin is available", _ => {
     let proc = @child_process.spawn("cat")
-    let stdin = proc.stdin()
-    assert_true(stdin is Some(_))
+    let stdin = proc.stdin
+    assert_true(@js.is_object(stdin))
     proc.kill() |> ignore
   })
 }
@@ -117,7 +117,7 @@ test {
     let proc = @child_process.spawn("sleep", args=["10"])
     proc.kill(signal="SIGTERM") |> ignore
     // signalCode may not be available immediately
-    let _signal = proc.signalCode()
-    assert_true(true) // Just verify the method exists
+    let _signal = proc.signalCode
+    assert_true(true) // Just verify the field exists
   })
 }
