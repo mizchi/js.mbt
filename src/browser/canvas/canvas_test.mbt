@@ -49,27 +49,27 @@ fn create_test_canvas(width : Int, height : Int) -> HTMLCanvasElement {
 test "fillRect draws a rectangle" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFillStyle("red")
+  ctx.fillStyle = "red"
   ctx.fillRect(10.0, 10.0, 100.0, 50.0)
-  inspect(ctx.fillStyle(), content="#ff0000")
+  inspect(ctx.fillStyle, content="#ff0000")
 }
 
 ///|
 test "strokeRect draws a rectangle outline" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setStrokeStyle("blue")
-  ctx.setLineWidth(2.0)
+  ctx.strokeStyle = "blue"
+  ctx.lineWidth = 2.0
   ctx.strokeRect(10.0, 10.0, 100.0, 50.0)
-  inspect(ctx.strokeStyle(), content="#0000ff")
-  inspect(ctx.lineWidth(), content="2")
+  inspect(ctx.strokeStyle, content="#0000ff")
+  inspect(ctx.lineWidth, content="2")
 }
 
 ///|
 test "clearRect clears a rectangle area" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFillStyle("green")
+  ctx.fillStyle = "green"
   ctx.fillRect(0.0, 0.0, 200.0, 200.0)
   ctx.clearRect(50.0, 50.0, 100.0, 100.0)
   // Test passes if no error is thrown
@@ -158,9 +158,9 @@ test "fill and stroke work correctly" {
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.rect(10.0, 10.0, 100.0, 50.0)
-  ctx.setFillStyle("red")
+  ctx.fillStyle = "red"
   ctx.fill()
-  ctx.setStrokeStyle("blue")
+  ctx.strokeStyle = "blue"
   ctx.stroke()
   // Test passes if no error is thrown
 }
@@ -172,7 +172,7 @@ test "clip restricts drawing region" {
   ctx.beginPath()
   ctx.rect(50.0, 50.0, 100.0, 100.0)
   ctx.clip()
-  ctx.setFillStyle("green")
+  ctx.fillStyle = "green"
   ctx.fillRect(0.0, 0.0, 200.0, 200.0)
   // Test passes if no error is thrown
 }
@@ -182,17 +182,17 @@ test "clip restricts drawing region" {
 test "fillText draws text" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFont("20px Arial")
-  ctx.setFillStyle("black")
+  ctx.font = "20px Arial"
+  ctx.fillStyle = "black"
   ctx.fillText("Hello", 10.0, 50.0)
-  inspect(ctx.font(), content="20px Arial")
+  inspect(ctx.font, content="20px Arial")
 }
 
 ///|
 test "fillText with max_width parameter" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFont("20px Arial")
+  ctx.font = "20px Arial"
   ctx.fillText("Hello World", 10.0, 50.0, max_width=100.0)
   // Test passes if no error is thrown
 }
@@ -201,8 +201,8 @@ test "fillText with max_width parameter" {
 test "strokeText draws outlined text" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFont("30px Arial")
-  ctx.setStrokeStyle("blue")
+  ctx.font = "30px Arial"
+  ctx.strokeStyle = "blue"
   ctx.strokeText("Hello", 10.0, 50.0)
   // Test passes if no error is thrown
 }
@@ -211,7 +211,7 @@ test "strokeText draws outlined text" {
 test "strokeText with max_width parameter" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFont("30px Arial")
+  ctx.font = "30px Arial"
   ctx.strokeText("Hello World", 10.0, 50.0, max_width=150.0)
   // Test passes if no error is thrown
 }
@@ -220,9 +220,9 @@ test "strokeText with max_width parameter" {
 test "measureText returns text metrics" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFont("20px Arial")
+  ctx.font = "20px Arial"
   let metrics = ctx.measureText("Hello")
-  let width = metrics.width()
+  let width = metrics.width
   inspect(width > 0.0, content="true")
 }
 
@@ -230,16 +230,16 @@ test "measureText returns text metrics" {
 test "textAlign property works" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setTextAlign("center")
-  inspect(ctx.textAlign(), content="center")
+  ctx.textAlign = "center"
+  inspect(ctx.textAlign, content="center")
 }
 
 ///|
 test "textBaseline property works" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setTextBaseline("middle")
-  inspect(ctx.textBaseline(), content="middle")
+  ctx.textBaseline = "middle"
+  inspect(ctx.textBaseline, content="middle")
 }
 
 ///|
@@ -304,27 +304,27 @@ test "resetTransform resets to identity matrix" {
 test "save and restore canvas state" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFillStyle("red")
+  ctx.fillStyle = "red"
   ctx.save()
-  ctx.setFillStyle("blue")
-  inspect(ctx.fillStyle(), content="#0000ff")
+  ctx.fillStyle = "blue"
+  inspect(ctx.fillStyle, content="#0000ff")
   ctx.restore()
-  inspect(ctx.fillStyle(), content="#ff0000")
+  inspect(ctx.fillStyle, content="#ff0000")
 }
 
 ///|
 test "multiple save and restore" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFillStyle("red")
+  ctx.fillStyle = "red"
   ctx.save()
-  ctx.setFillStyle("green")
+  ctx.fillStyle = "green"
   ctx.save()
-  ctx.setFillStyle("blue")
+  ctx.fillStyle = "blue"
   ctx.restore()
-  inspect(ctx.fillStyle(), content="#008000")
+  inspect(ctx.fillStyle, content="#008000")
   ctx.restore()
-  inspect(ctx.fillStyle(), content="#ff0000")
+  inspect(ctx.fillStyle, content="#ff0000")
 }
 
 ///|
@@ -332,47 +332,47 @@ test "multiple save and restore" {
 test "fillStyle property getter and setter" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFillStyle("#FF5733")
-  inspect(ctx.fillStyle(), content="#ff5733")
+  ctx.fillStyle = "#FF5733"
+  inspect(ctx.fillStyle, content="#ff5733")
 }
 
 ///|
 test "strokeStyle property getter and setter" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setStrokeStyle("#3498db")
-  inspect(ctx.strokeStyle(), content="#3498db")
+  ctx.strokeStyle = "#3498db"
+  inspect(ctx.strokeStyle, content="#3498db")
 }
 
 ///|
 test "lineWidth property getter and setter" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setLineWidth(5.5)
-  inspect(ctx.lineWidth(), content="5.5")
+  ctx.lineWidth = 5.5
+  inspect(ctx.lineWidth, content="5.5")
 }
 
 ///|
 test "font property getter and setter" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFont("italic 24px Georgia")
-  inspect(ctx.font(), content="italic 24px Georgia")
+  ctx.font = "italic 24px Georgia"
+  inspect(ctx.font, content="italic 24px Georgia")
 }
 
 ///|
 test "globalAlpha property getter and setter" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setGlobalAlpha(0.5)
-  inspect(ctx.globalAlpha(), content="0.5")
+  ctx.globalAlpha = 0.5
+  inspect(ctx.globalAlpha, content="0.5")
 }
 
 ///|
 test "canvas property returns HTMLCanvasElement" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  let retrieved_canvas = ctx.canvas()
+  let retrieved_canvas = ctx.canvas
   inspect(retrieved_canvas.width, content="200")
   inspect(retrieved_canvas.height, content="200")
 }
@@ -383,8 +383,8 @@ test "createImageData creates new ImageData" {
   let canvas = create_test_canvas(200, 200)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
   let image_data = ctx.createImageData(100, 50)
-  inspect(image_data.width(), content="100")
-  inspect(image_data.height(), content="50")
+  inspect(image_data.width, content="100")
+  inspect(image_data.height, content="50")
 }
 
 ///|
@@ -392,8 +392,8 @@ test "ImageData constructor works" {
   let image_data : ImageData = unsafe_cast(
     ffi_create_image_data(10 |> js, 20 |> js),
   )
-  inspect(image_data.width(), content="10")
-  inspect(image_data.height(), content="20")
+  inspect(image_data.width, content="10")
+  inspect(image_data.height, content="20")
 }
 
 ///|
@@ -401,7 +401,7 @@ test "ImageData data property returns Uint8Array" {
   let image_data : ImageData = unsafe_cast(
     ffi_create_image_data(10 |> js, 10 |> js),
   )
-  let data = image_data.data()
+  let data = image_data.data
   let length = data.length()
   // 10 * 10 * 4 (RGBA) = 400
   inspect(length, content="400")
@@ -413,19 +413,19 @@ test "ImageData from_data creates ImageData from Uint8Array" {
   let image_data : ImageData = unsafe_cast(
     ffi_create_image_data_with_data(data.to_js(), 10 |> js, 1 |> js),
   )
-  inspect(image_data.width(), content="10")
-  inspect(image_data.height(), content="1")
+  inspect(image_data.width, content="10")
+  inspect(image_data.height, content="1")
 }
 
 ///|
 test "getImageData retrieves pixel data" {
   let canvas = create_test_canvas(100, 100)
   let ctx : CanvasRenderingContext2D = unsafe_cast(canvas.getContext("2d"))
-  ctx.setFillStyle("red")
+  ctx.fillStyle = "red"
   ctx.fillRect(0.0, 0.0, 100.0, 100.0)
   let image_data = ctx.getImageData(0.0, 0.0, 50.0, 50.0)
-  inspect(image_data.width(), content="50")
-  inspect(image_data.height(), content="50")
+  inspect(image_data.width, content="50")
+  inspect(image_data.height, content="50")
 }
 
 ///|

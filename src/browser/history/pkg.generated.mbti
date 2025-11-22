@@ -1,0 +1,31 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/browser/history"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn history() -> History
+
+// Errors
+
+// Types and methods
+pub(all) struct History {
+  length : Int
+  state : @js.Js?
+  mut scrollRestoration : String
+}
+fn History::back(Self) -> Unit
+fn History::forward(Self) -> Unit
+fn History::go(Self, delta? : Int) -> Unit
+#alias(push_state)
+fn History::pushState(Self, @js.Js, String, url? : String) -> Unit
+#alias(replace_state)
+fn History::replaceState(Self, @js.Js, String, url? : String) -> Unit
+impl @js.JsImpl for History
+
+// Type aliases
+
+// Traits
+

@@ -27,15 +27,19 @@ pub fn Window::document(self : Self) -> Document {
 ///|
 /// Returns the navigator object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
+///
+/// For typed access to Navigator methods, use the `mizchi/js/browser/navigator` package.
 pub fn Window::navigator(self : Self) -> Js {
-  self.get("navigator") |> unsafe_cast
+  self.get("navigator")
 }
 
 ///|
 /// Returns the location object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/location
+///
+/// For typed access to Location methods, use the `mizchi/js/browser/location` package.
 pub fn Window::location(self : Self) -> Js {
-  self.get("location") |> unsafe_cast
+  self.get("location")
 }
 
 ///|
@@ -64,8 +68,10 @@ pub fn Window::console(self : Self) -> Js {
 ///|
 /// Returns the history object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/history
+///
+/// For typed access to History methods, use the `mizchi/js/browser/history` package.
 pub fn Window::history(self : Self) -> Js {
-  self.get("history") |> unsafe_cast
+  self.get("history")
 }
 
 ///|

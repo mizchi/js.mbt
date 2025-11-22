@@ -1,0 +1,5 @@
+{
+  "supported-targets": ["js"],
+  "import": ["mizchi/js"],
+  "test-import": ["mizchi/js/npm/global_jsdom"]
+}

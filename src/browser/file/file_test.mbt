@@ -10,14 +10,14 @@ using @js {run_async}
 /// Test File constructor with basic data
 test "File new creates file from string" {
   let file = File::new(["Hello, File!"], "test.txt", content_type="text/plain")
-  inspect(file.name() == "test.txt", content="true")
+  inspect(file.name == "test.txt", content="true")
 }
 
 ///|
 /// Test File constructor with last_modified
 test "File new with last_modified" {
   let file = File::new(["test"], "test.txt", last_modified=1234567890)
-  inspect(file.last_modified() == 1234567890, content="true")
+  inspect(file.lastModified == 1234567890, content="true")
 }
 
 ///| File Property Tests
@@ -26,21 +26,21 @@ test "File new with last_modified" {
 /// Test File name property
 test "File name returns filename" {
   let file = File::new(["data"], "myfile.txt")
-  inspect(file.name() == "myfile.txt", content="true")
+  inspect(file.name == "myfile.txt", content="true")
 }
 
 ///|
 /// Test File size property
 test "File size returns correct size" {
   let file = File::new(["Hello"], "test.txt")
-  inspect(file.size() == 5, content="true")
+  inspect(file.size == 5, content="true")
 }
 
 ///|
 /// Test File content_type property
 test "File content_type returns MIME type" {
   let file = File::new(["test"], "test.txt", content_type="text/plain")
-  inspect(file.content_type() == "text/plain", content="true")
+  inspect(file.type_() == "text/plain", content="true")
 }
 
 ///| File as_blob Tests
@@ -50,7 +50,7 @@ test "File content_type returns MIME type" {
 test "File as_blob returns Blob" {
   let file = File::new(["test"], "test.txt")
   let blob = file.as_blob()
-  inspect(blob.size() == 4, content="true")
+  inspect(blob.size == 4, content="true")
 }
 
 ///| File Inherited Methods Tests
@@ -88,7 +88,7 @@ test "File array_buffer returns ArrayBuffer" {
 test "File slice returns Blob" {
   let file = File::new(["Hello, World!"], "test.txt")
   let sliced = file.slice(start=0, end=5)
-  inspect(sliced.size() == 5, content="true")
+  inspect(sliced.size == 5, content="true")
 }
 
 // Note: FileReader tests are omitted as FileReader is a browser-only API

@@ -11,17 +11,17 @@ import(
 // Errors
 
 // Types and methods
-#external
-pub type Blob
+pub(all) struct Blob {
+  size : Int
+  type_ : String
+}
 #alias(arrayBuffer)
 fn Blob::array_buffer(Self) -> @js.Promise[@js.ArrayBuffer]
-#alias(content_type)
-fn Blob::contentType(Self) -> String
 fn Blob::new(Array[&@js.JsImpl], content_type? : String) -> Self
-fn Blob::size(Self) -> Int
 fn Blob::slice(Self, start? : Int, end? : Int, content_type? : String) -> Self
 fn Blob::stream(Self) -> @streams.ReadableStream
 fn Blob::text(Self) -> @js.Promise[String]
+fn Blob::type_(Self) -> String
 impl @js.JsImpl for Blob
 
 // Type aliases

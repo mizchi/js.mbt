@@ -1,0 +1,37 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/browser/navigator"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn navigator() -> Navigator
+
+// Errors
+
+// Types and methods
+#external
+pub type Navigator
+fn Navigator::clipboard(Self) -> @js.Js
+fn Navigator::connection(Self) -> @js.Js?
+fn Navigator::cookieEnabled(Self) -> Bool
+fn Navigator::deviceMemory(Self) -> Double?
+fn Navigator::doNotTrack(Self) -> String?
+fn Navigator::geolocation(Self) -> @js.Js
+fn Navigator::hardwareConcurrency(Self) -> Int
+fn Navigator::language(Self) -> String
+fn Navigator::languages(Self) -> @js.Js
+fn Navigator::maxTouchPoints(Self) -> Int
+fn Navigator::onLine(Self) -> Bool
+fn Navigator::permissions(Self) -> @js.Js
+fn Navigator::platform(Self) -> String
+fn Navigator::userAgent(Self) -> String
+fn Navigator::vendor(Self) -> String
+fn Navigator::vibrate(Self, Int) -> Bool
+impl @js.JsImpl for Navigator
+
+// Type aliases
+
+// Traits
+

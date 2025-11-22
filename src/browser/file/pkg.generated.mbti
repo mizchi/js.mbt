@@ -11,26 +11,27 @@ import(
 // Errors
 
 // Types and methods
-#external
-pub type File
+pub(all) struct File {
+  name : String
+  lastModified : Int
+  size : Int
+  type_ : String
+}
 #alias(arrayBuffer)
 fn File::array_buffer(Self) -> @js.Promise[@js.ArrayBuffer]
 fn File::as_blob(Self) -> @blob.Blob
-#alias(content_type)
-fn File::contentType(Self) -> String
-#alias(lastModified)
-fn File::last_modified(Self) -> Int
-fn File::name(Self) -> String
 fn File::new(Array[&@js.JsImpl], String, content_type? : String, last_modified? : Int) -> Self
-fn File::size(Self) -> Int
 fn File::slice(Self, start? : Int, end? : Int) -> @blob.Blob
 fn File::text(Self) -> @js.Promise[String]
+fn File::type_(Self) -> String
 impl @js.JsImpl for File
 
-#external
-pub type FileReader
+pub(all) struct FileReader {
+  readyState : Int
+  result : @js.Js?
+  error : @js.Js?
+}
 fn FileReader::abort(Self) -> Unit
-fn FileReader::error(Self) -> @js.Js?
 fn FileReader::new() -> Self
 #alias(readAsArrayBuffer)
 fn FileReader::read_as_array_buffer(Self, @blob.Blob) -> Unit
@@ -38,9 +39,6 @@ fn FileReader::read_as_array_buffer(Self, @blob.Blob) -> Unit
 fn FileReader::read_as_data_url(Self, @blob.Blob) -> Unit
 #alias(readAsText)
 fn FileReader::read_as_text(Self, @blob.Blob, encoding? : String) -> Unit
-#alias(readyState)
-fn FileReader::ready_state(Self) -> Int
-fn FileReader::result(Self) -> @js.Js?
 fn FileReader::set_onerror(Self, (@js.Js) -> Unit) -> Unit
 fn FileReader::set_onload(Self, (@js.Js) -> Unit) -> Unit
 fn FileReader::set_onloadend(Self, (@js.Js) -> Unit) -> Unit

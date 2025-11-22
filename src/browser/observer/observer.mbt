@@ -18,7 +18,7 @@ pub fn MutationObserver::new(
   callback : (Js?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @js.global_this().get("MutationObserver")
-  @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
+  @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.unsafe_cast
 }
 
 ///|
@@ -29,79 +29,45 @@ pub fn MutationObserver::observe(
   target : Element,
   options : Js,
 ) -> Unit {
-  self.call2("observe", target |> js, options) |> ignore
+  self.to_js().call2("observe", target |> js, options) |> ignore
 }
 
 ///|
 /// Stops observing
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/disconnect
 pub fn MutationObserver::disconnect(self : Self) -> Unit {
-  self.call0("disconnect") |> ignore
+  self.to_js().call0("disconnect") |> ignore
 }
 
 ///|
 /// Returns all pending mutation records
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/takeRecords
 pub fn MutationObserver::take_records(self : Self) -> Js {
-  self.call0("takeRecords")
+  self.to_js().call0("takeRecords")
 }
 
 ///|
 /// MutationRecord represents a single DOM mutation
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
-#external
-pub type MutationRecord
+pub(all) struct MutationRecord {
+  mutationType : String
+  target : Js
+  addedNodes : Js
+  removedNodes : Js
+  previousSibling : Element?
+  nextSibling : Element?
+  attributeName : String?
+  oldValue : String?
+}
+
+///|
+/// Get the type of mutation
+pub fn MutationRecord::mutation_type(self : Self) -> String {
+  self.to_js().get("type") |> @js.unsafe_cast
+}
 
 ///|
 pub impl JsImpl for MutationRecord
-
-///|
-/// Returns the type of mutation
-pub fn MutationRecord::mutation_type(self : Self) -> String {
-  self.get("type") |> @js.unsafe_cast
-}
-
-///|
-/// Returns the target node
-pub fn MutationRecord::target(self : Self) -> Js {
-  self.get("target")
-}
-
-///|
-/// Returns the added nodes
-pub fn MutationRecord::added_nodes(self : Self) -> Js {
-  self.get("addedNodes")
-}
-
-///|
-/// Returns the removed nodes
-pub fn MutationRecord::removed_nodes(self : Self) -> Js {
-  self.get("removedNodes")
-}
-
-///|
-/// Returns the previous sibling
-pub fn MutationRecord::previous_sibling(self : Self) -> Element? {
-  self.get("previousSibling") |> @js.unsafe_cast_option()
-}
-
-///|
-/// Returns the next sibling
-pub fn MutationRecord::next_sibling(self : Self) -> Element? {
-  self.get("nextSibling") |> @js.unsafe_cast_option()
-}
-
-///|
-/// Returns the attribute name
-pub fn MutationRecord::attribute_name(self : Self) -> String? {
-  self.get("attributeName") |> @js.unsafe_cast_option()
-}
-
-///|
-/// Returns the old value
-pub fn MutationRecord::old_value(self : Self) -> String? {
-  self.get("oldValue") |> @js.unsafe_cast_option()
-}
 
 ///|
 /// IntersectionObserver observes intersection changes
@@ -122,8 +88,8 @@ pub fn IntersectionObserver::new(
   let ctor = @js.global_this().get("IntersectionObserver")
   match options {
     Some(opts) =>
-      @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2, opts]))
-    None => @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
+      @js.new_(ctor, [callback |> @js.from_fn2, opts]) |> @js.unsafe_cast
+    None => @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.unsafe_cast
   }
 }
 
@@ -131,80 +97,45 @@ pub fn IntersectionObserver::new(
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/observe
 pub fn IntersectionObserver::observe(self : Self, target : Element) -> Unit {
-  self.call("observe", [target]) |> ignore
+  self.to_js().call("observe", [target]) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/unobserve
 pub fn IntersectionObserver::unobserve(self : Self, target : Element) -> Unit {
-  self.call("unobserve", [target]) |> ignore
+  self.to_js().call("unobserve", [target]) |> ignore
 }
 
 ///|
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/disconnect
 pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
-  self.call0("disconnect") |> ignore
+  self.to_js().call0("disconnect") |> ignore
 }
 
 ///|
 /// Returns all pending intersection records
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords
 pub fn IntersectionObserver::take_records(self : Self) -> Js {
-  self.call0("takeRecords")
+  self.to_js().call0("takeRecords")
 }
 
 ///|
 /// IntersectionObserverEntry represents an intersection change
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry
-#external
-pub type IntersectionObserverEntry
+pub(all) struct IntersectionObserverEntry {
+  target : Js
+  boundingClientRect : Js
+  intersectionRect : Js
+  rootBounds : Element?
+  intersectionRatio : Double
+  isIntersecting : Bool
+  time : Double
+}
 
 ///|
 pub impl JsImpl for IntersectionObserverEntry
-
-///|
-/// Returns the target element
-pub fn IntersectionObserverEntry::target(self : Self) -> Js {
-  self.get("target") |> @js.unsafe_cast
-}
-
-///|
-/// Returns the bounding rect of the target
-pub fn IntersectionObserverEntry::bounding_client_rect(self : Self) -> Js {
-  self.get("boundingClientRect")
-}
-
-///|
-/// Returns the intersection rect
-pub fn IntersectionObserverEntry::intersection_rect(self : Self) -> Js {
-  self.get("intersectionRect")
-}
-
-///|
-/// Returns the root bounds
-pub fn IntersectionObserverEntry::root_bounds(self : Self) -> Element? {
-  self.get("rootBounds") |> @js.unsafe_cast_option()
-}
-
-///|
-/// Returns the intersection ratio
-pub fn IntersectionObserverEntry::intersection_ratio(self : Self) -> Double {
-  self.get("intersectionRatio") |> @js.unsafe_cast
-}
-
-///|
-/// Returns whether the target is intersecting
-pub fn IntersectionObserverEntry::is_intersecting(self : Self) -> Bool {
-  self.get("isIntersecting") |> @js.unsafe_cast
-}
-
-///|
-/// Returns the time of the intersection
-pub fn IntersectionObserverEntry::time(self : Self) -> Double {
-  self.get("time") |> @js.unsafe_cast
-}
 
 ///|
 /// ResizeObserver observes size changes
@@ -222,14 +153,14 @@ pub fn ResizeObserver::new(
   callback : (Js?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @js.global_this().get("ResizeObserver")
-  @js.unsafe_cast(@js.new_(ctor, [callback |> @js.from_fn2]))
+  @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.unsafe_cast
 }
 
 ///|
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
 pub fn ResizeObserver::observe(self : Self, target : Element) -> Unit {
-  self.call("observe", [target |> js]) |> ignore
+  self.to_js().call("observe", [target |> js]) |> ignore
 }
 
 ///|
@@ -239,52 +170,32 @@ pub fn ResizeObserver::observe_with_options(
   target : Element,
   options : Js,
 ) -> Unit {
-  self.call2("observe", target |> js, options) |> ignore
+  self.to_js().call2("observe", target |> js, options) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve
 pub fn ResizeObserver::unobserve(self : Self, target : Element) -> Unit {
-  self.call("unobserve", [target |> js]) |> ignore
+  self.to_js().call("unobserve", [target |> js]) |> ignore
 }
 
 ///|
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/disconnect
 pub fn ResizeObserver::disconnect(self : Self) -> Unit {
-  self.call0("disconnect") |> ignore
+  self.to_js().call0("disconnect") |> ignore
 }
 
 ///|
 /// ResizeObserverEntry represents an entry in a ResizeObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry
-#external
-pub type ResizeObserverEntry
+pub(all) struct ResizeObserverEntry {
+  target : Element
+  contentRect : @dom.DOMRectReadOnly
+  borderBoxSize : Js
+  contentBoxSize : Js
+}
 
 ///|
 pub impl JsImpl for ResizeObserverEntry
-
-///|
-/// Returns the target element being observed
-pub fn ResizeObserverEntry::target(self : Self) -> Element {
-  self.get("target") |> @js.unsafe_cast
-}
-
-///|
-/// Returns the content rect
-pub fn ResizeObserverEntry::contentRect(self : Self) -> @dom.DOMRectReadOnly {
-  self.get("contentRect") |> @js.unsafe_cast
-}
-
-///|
-/// Returns the border box size
-pub fn ResizeObserverEntry::borderBoxSize(self : Self) -> Js {
-  self.get("borderBoxSize")
-}
-
-///|
-/// Returns the content box size
-pub fn ResizeObserverEntry::contentBoxSize(self : Self) -> Js {
-  self.get("contentBoxSize")
-}

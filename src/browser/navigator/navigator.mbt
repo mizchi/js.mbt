@@ -5,7 +5,7 @@
 pub type Navigator
 
 ///|
-pub impl JsImpl for Navigator
+pub impl @js.JsImpl for Navigator
 
 ///|
 /// Returns the global navigator object
@@ -28,13 +28,13 @@ pub extern "js" fn Navigator::onLine(self : Self) -> Bool =
 /// Returns the browser's language
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/language
 pub fn Navigator::language(self : Self) -> String {
-  self.get("language") |> unsafe_cast
+  self.get("language") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the browser's preferred languages
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/languages
-pub fn Navigator::languages(self : Self) -> Js {
+pub fn Navigator::languages(self : Self) -> @js.Js {
   self.get("languages")
 }
 
@@ -42,14 +42,14 @@ pub fn Navigator::languages(self : Self) -> Js {
 /// Returns the platform string
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/platform
 pub fn Navigator::platform(self : Self) -> String {
-  self.get("platform") |> unsafe_cast
+  self.get("platform") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the number of logical processors
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/hardwareConcurrency
 pub fn Navigator::hardwareConcurrency(self : Self) -> Int {
-  self.get("hardwareConcurrency") |> unsafe_cast
+  self.get("hardwareConcurrency") |> @js.unsafe_cast
 }
 
 ///|
@@ -63,21 +63,21 @@ pub fn Navigator::deviceMemory(self : Self) -> Double? {
 /// Returns the maximum touch points
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/maxTouchPoints
 pub fn Navigator::maxTouchPoints(self : Self) -> Int {
-  self.get("maxTouchPoints") |> unsafe_cast
+  self.get("maxTouchPoints") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the vendor name
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vendor
 pub fn Navigator::vendor(self : Self) -> String {
-  self.get("vendor") |> unsafe_cast
+  self.get("vendor") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns whether cookies are enabled
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/cookieEnabled
 pub fn Navigator::cookieEnabled(self : Self) -> Bool {
-  self.get("cookieEnabled") |> unsafe_cast
+  self.get("cookieEnabled") |> @js.unsafe_cast
 }
 
 ///|
@@ -90,28 +90,28 @@ pub fn Navigator::doNotTrack(self : Self) -> String? {
 ///|
 /// Returns the connection information
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/connection
-pub fn Navigator::connection(self : Self) -> Js? {
+pub fn Navigator::connection(self : Self) -> @js.Js? {
   self.get("connection") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// Requests permission for a feature
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/permissions
-pub fn Navigator::permissions(self : Self) -> Js {
+pub fn Navigator::permissions(self : Self) -> @js.Js {
   self.get("permissions")
 }
 
 ///|
 /// Returns the clipboard API
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/clipboard
-pub fn Navigator::clipboard(self : Self) -> Js {
+pub fn Navigator::clipboard(self : Self) -> @js.Js {
   self.get("clipboard")
 }
 
 ///|
 /// Returns the geolocation API
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation
-pub fn Navigator::geolocation(self : Self) -> Js {
+pub fn Navigator::geolocation(self : Self) -> @js.Js {
   self.get("geolocation")
 }
 
@@ -119,5 +119,5 @@ pub fn Navigator::geolocation(self : Self) -> Js {
 /// Vibrates the device
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate
 pub fn Navigator::vibrate(self : Self, pattern : Int) -> Bool {
-  self.call("vibrate", [pattern]) |> unsafe_cast
+  self.call("vibrate", [pattern]) |> @js.unsafe_cast
 }

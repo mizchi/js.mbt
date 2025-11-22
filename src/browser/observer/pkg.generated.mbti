@@ -20,15 +20,15 @@ fn IntersectionObserver::take_records(Self) -> @js.Js
 fn IntersectionObserver::unobserve(Self, @dom.Element) -> Unit
 impl @js.JsImpl for IntersectionObserver
 
-#external
-pub type IntersectionObserverEntry
-fn IntersectionObserverEntry::bounding_client_rect(Self) -> @js.Js
-fn IntersectionObserverEntry::intersection_ratio(Self) -> Double
-fn IntersectionObserverEntry::intersection_rect(Self) -> @js.Js
-fn IntersectionObserverEntry::is_intersecting(Self) -> Bool
-fn IntersectionObserverEntry::root_bounds(Self) -> @dom.Element?
-fn IntersectionObserverEntry::target(Self) -> @js.Js
-fn IntersectionObserverEntry::time(Self) -> Double
+pub(all) struct IntersectionObserverEntry {
+  target : @js.Js
+  boundingClientRect : @js.Js
+  intersectionRect : @js.Js
+  rootBounds : @dom.Element?
+  intersectionRatio : Double
+  isIntersecting : Bool
+  time : Double
+}
 impl @js.JsImpl for IntersectionObserverEntry
 
 #external
@@ -39,16 +39,17 @@ fn MutationObserver::observe(Self, @dom.Element, @js.Js) -> Unit
 fn MutationObserver::take_records(Self) -> @js.Js
 impl @js.JsImpl for MutationObserver
 
-#external
-pub type MutationRecord
-fn MutationRecord::added_nodes(Self) -> @js.Js
-fn MutationRecord::attribute_name(Self) -> String?
+pub(all) struct MutationRecord {
+  mutationType : String
+  target : @js.Js
+  addedNodes : @js.Js
+  removedNodes : @js.Js
+  previousSibling : @dom.Element?
+  nextSibling : @dom.Element?
+  attributeName : String?
+  oldValue : String?
+}
 fn MutationRecord::mutation_type(Self) -> String
-fn MutationRecord::next_sibling(Self) -> @dom.Element?
-fn MutationRecord::old_value(Self) -> String?
-fn MutationRecord::previous_sibling(Self) -> @dom.Element?
-fn MutationRecord::removed_nodes(Self) -> @js.Js
-fn MutationRecord::target(Self) -> @js.Js
 impl @js.JsImpl for MutationRecord
 
 #external
@@ -60,12 +61,12 @@ fn ResizeObserver::observe_with_options(Self, @dom.Element, @js.Js) -> Unit
 fn ResizeObserver::unobserve(Self, @dom.Element) -> Unit
 impl @js.JsImpl for ResizeObserver
 
-#external
-pub type ResizeObserverEntry
-fn ResizeObserverEntry::borderBoxSize(Self) -> @js.Js
-fn ResizeObserverEntry::contentBoxSize(Self) -> @js.Js
-fn ResizeObserverEntry::contentRect(Self) -> @dom.DOMRectReadOnly
-fn ResizeObserverEntry::target(Self) -> @dom.Element
+pub(all) struct ResizeObserverEntry {
+  target : @dom.Element
+  contentRect : @dom.DOMRectReadOnly
+  borderBoxSize : @js.Js
+  contentBoxSize : @js.Js
+}
 impl @js.JsImpl for ResizeObserverEntry
 
 // Type aliases

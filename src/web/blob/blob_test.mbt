@@ -10,14 +10,14 @@ using @js {run_async}
 /// Test Blob constructor with string
 test "Blob new creates blob from string" {
   let blob = Blob::new(["Hello, World!"], content_type="text/plain")
-  inspect(blob.size() > 0, content="true")
+  inspect(blob.size > 0, content="true")
 }
 
 ///|
 /// Test Blob constructor with multiple parts
 test "Blob new creates blob from multiple parts" {
   let blob = Blob::new(["Hello", " ", "World!"], content_type="text/plain")
-  inspect(blob.size() > 0, content="true")
+  inspect(blob.size > 0, content="true")
 }
 
 ///| Property Tests
@@ -26,21 +26,21 @@ test "Blob new creates blob from multiple parts" {
 /// Test Blob size property
 test "Blob size returns correct size" {
   let blob = Blob::new(["Hello"])
-  inspect(blob.size() == 5, content="true")
+  inspect(blob.size == 5, content="true")
 }
 
 ///|
 /// Test Blob type property
 test "Blob content_type returns MIME type" {
   let blob = Blob::new(["test"], content_type="text/plain")
-  inspect(blob.content_type() == "text/plain", content="true")
+  inspect(blob.type_() == "text/plain", content="true")
 }
 
 ///|
 /// Test Blob type property when not specified
 test "Blob content_type returns empty string when not specified" {
   let blob = Blob::new(["test"])
-  inspect(blob.content_type() == "", content="true")
+  inspect(blob.type_() == "", content="true")
 }
 
 ///| Method Tests
@@ -78,7 +78,7 @@ test "Blob array_buffer returns ArrayBuffer" {
 test "Blob slice without parameters returns copy" {
   let blob = Blob::new(["Hello, World!"])
   let sliced = blob.slice()
-  inspect(sliced.size() == blob.size(), content="true")
+  inspect(sliced.size == blob.size, content="true")
 }
 
 ///|
@@ -86,7 +86,7 @@ test "Blob slice without parameters returns copy" {
 test "Blob slice with start returns substring" {
   let blob = Blob::new(["Hello, World!"])
   let sliced = blob.slice(start=7)
-  inspect(sliced.size() == 6, content="true")
+  inspect(sliced.size == 6, content="true")
 }
 
 ///|
@@ -94,7 +94,7 @@ test "Blob slice with start returns substring" {
 test "Blob slice with start and end returns range" {
   let blob = Blob::new(["Hello, World!"])
   let sliced = blob.slice(start=0, end=5)
-  inspect(sliced.size() == 5, content="true")
+  inspect(sliced.size == 5, content="true")
 }
 
 ///|
@@ -102,7 +102,7 @@ test "Blob slice with start and end returns range" {
 test "Blob slice with content_type sets MIME type" {
   let blob = Blob::new(["Hello"])
   let sliced = blob.slice(content_type="text/plain")
-  inspect(sliced.content_type() == "text/plain", content="true")
+  inspect(sliced.type_() == "text/plain", content="true")
 }
 
 ///|
@@ -123,7 +123,7 @@ test "Blob handles binary data" {
   uint8.set_at(1, 105) // 'i'
   uint8.set_at(2, 33) // '!'
   let blob = Blob::new([uint8])
-  inspect(blob.size() == 3, content="true")
+  inspect(blob.size == 3, content="true")
 }
 
 ///|
