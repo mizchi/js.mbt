@@ -188,6 +188,26 @@ pub(all) struct Crypto {
 pub impl JsImpl for Crypto
 
 ///|
+/// Crypto::getRandomValues()
+/// Fills the passed TypedArray with cryptographically secure random values.
+///
+/// Accepts any integer TypedArray and fills it with cryptographically strong random values.
+#alias(get_random_values)
+pub fn[T : JsImpl] Crypto::getRandomValues(self : Self, array : T) -> T {
+  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+}
+
+///|
+/// Crypto::randomUUID()
+/// Generates a v4 UUID using a cryptographically secure random number generator.
+///
+/// Returns a string in the format: "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+#alias(random_uuid)
+pub fn Crypto::randomUUID(self : Self) -> String {
+  self.call("randomUUID", []) |> @js.unsafe_cast
+}
+
+///|
 /// Global Crypto Access
 extern "js" fn ffi_get_crypto() -> Js =
   #|() => globalThis.crypto

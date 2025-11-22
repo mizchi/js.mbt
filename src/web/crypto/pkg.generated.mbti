@@ -15,6 +15,10 @@ fn getCrypto() -> Crypto
 pub(all) struct Crypto {
   subtle : SubtleCrypto
 }
+#alias(get_random_values)
+fn[T : @js.JsImpl] Crypto::getRandomValues(Self, T) -> T
+#alias(random_uuid)
+fn Crypto::randomUUID(Self) -> String
 impl @js.JsImpl for Crypto
 
 #external
