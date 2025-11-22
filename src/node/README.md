@@ -56,6 +56,8 @@ Not Supported
 | `node:wasi` | `mizchi/js/node/wasi` | 🤖 AI Generated | WASI support |
 | `node:https` | `mizchi/js/node/https` | 🤖 AI Generated | HTTPS server/client |
 | `node:http2` | `mizchi/js/node/http2` | 🤖 AI Generated | HTTP/2 support |
+| `node:tty` | `mizchi/js/node/tty` | 🤖 AI Generated | Terminal I/O |
+| `node:tls` | `mizchi/js/node/tls` | 🤖 AI Generated | TLS/SSL connections |
 | `node:worker_threads` | - | 📅 Planned | Worker threads |
 | `node:dns` | - | 📅 Planned | DNS resolution |
 | `node:permissions` | - | 📅 Planned | Permissions API |
