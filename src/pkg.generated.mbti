@@ -55,6 +55,8 @@ fn from_json(Json) -> Js
 
 fn from_map(Map[String, Js]) -> Js
 
+fn[A : JsImpl] from_option(A?) -> Js
+
 #alias(global_this)
 fn globalThis() -> Js
 

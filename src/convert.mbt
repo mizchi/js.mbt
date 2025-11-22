@@ -335,6 +335,25 @@ pub fn[A] unsafe_cast_option(v : Js) -> A? {
 }
 
 ///|
+/// Convert an Option to Js, mapping None to null and Some(v) to v.
+/// This is the inverse of unsafe_cast_option.
+///
+/// # Example
+/// ```moonbit
+/// let some_val : Int? = Some(42)
+/// let js_val = from_option(some_val)  // Js(42)
+///
+/// let none_val : Int? = None
+/// let js_null = from_option(none_val)  // Js(null)
+/// ```
+pub fn[A : JsImpl] from_option(opt : A?) -> Js {
+  match opt {
+    Some(v) => v.to_js()
+    None => ffi_null()
+  }
+}
+
+///|
 /// JS: Array.isArray(v)
 pub fn[T : JsImpl] is_array(v : T) -> Bool {
   ffi_is_array(v.to_js())

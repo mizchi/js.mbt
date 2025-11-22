@@ -365,3 +365,47 @@ test "Trait-based conversion" {
   inspect(simple.name, content="Charlie")
   inspect(simple.age, content="35")
 }
+
+///| from_option tests
+
+///|
+test "from_option with Some(Int)" {
+  let opt : Int? = Some(42)
+  let js_val = from_option(opt)
+  inspect(is_nullish(js_val), content="false")
+  let back : Int = js_val |> unsafe_cast
+  inspect(back, content="42")
+}
+
+///|
+test "from_option with None" {
+  let opt : Int? = None
+  let js_val = from_option(opt)
+  inspect(is_nullish(js_val), content="true")
+  inspect(is_null(js_val), content="true")
+}
+
+///|
+test "from_option with Some(String)" {
+  let opt : String? = Some("hello")
+  let js_val = from_option(opt)
+  inspect(is_nullish(js_val), content="false")
+  let back : String = js_val |> unsafe_cast
+  inspect(back, content="hello")
+}
+
+///|
+test "from_option roundtrip" {
+  let original : Int? = Some(123)
+  let js_val = from_option(original)
+  let restored : Int? = unsafe_cast_option(js_val)
+  inspect(restored, content="Some(123)")
+}
+
+///|
+test "from_option roundtrip with None" {
+  let original : String? = None
+  let js_val = from_option(original)
+  let restored : String? = unsafe_cast_option(js_val)
+  inspect(restored, content="None")
+}
