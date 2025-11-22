@@ -113,17 +113,8 @@ pub(all) struct ReactRef[T] {
 
 ///|
 pub fn[T] ReactRef::get_current(self : ReactRef[T]) -> T? {
-  let js_val = self.current
-  if ffi_is_nullish(js_val) {
-    None
-  } else {
-    Some(@js.unsafe_cast(js_val))
-  }
+  @js.unsafe_cast_option(self.current)
 }
-
-///|
-extern "js" fn ffi_is_nullish(value : @js.Js) -> Bool =
-  #| (value) => value == null || value === undefined
 
 ///|
 pub fn[T] ReactRef::set_current(self : ReactRef[T], value : T?) -> Unit {

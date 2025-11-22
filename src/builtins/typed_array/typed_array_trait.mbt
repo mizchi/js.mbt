@@ -16,9 +16,6 @@ pub(open) trait TypedArrayImpl: @js.JsImpl {
   /// Get the byte offset in the underlying ArrayBuffer
   byteOffset(Self) -> UInt = _
 
-  /// Get the underlying ArrayBuffer
-  buffer(Self) -> @js.ArrayBuffer = _
-
   /// Create a new array with a shallow copy of a portion of the array
   slice(Self, start? : Int, end? : Int) -> Self = _
 
@@ -56,11 +53,6 @@ impl TypedArrayImpl with byteLength(self) -> UInt {
 ///|
 impl TypedArrayImpl with byteOffset(self) -> UInt {
   self.get("byteOffset") |> @js.unsafe_cast
-}
-
-///|
-impl TypedArrayImpl with buffer(self) -> @js.ArrayBuffer {
-  self.get("buffer") |> @js.unsafe_cast
 }
 
 ///|

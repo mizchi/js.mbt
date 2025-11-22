@@ -1,6 +1,9 @@
 ///|
-#external
-pub type DataView
+pub(all) struct DataView {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+}
 
 ///|
 pub impl JsImpl for DataView
@@ -20,23 +23,6 @@ pub fn DataView::new(
   byte_length? : UInt,
 ) -> DataView {
   unsafe_cast(ffi_new_dataview(buffer.to_js(), byte_offset, byte_length))
-}
-
-///|
-pub fn DataView::buffer(self : DataView) -> ArrayBuffer {
-  self.get("buffer") |> unsafe_cast
-}
-
-///|
-#alias(byteLength)
-pub fn DataView::byte_length(self : DataView) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byteOffset)
-pub fn DataView::byte_offset(self : DataView) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
 }
 
 ///|

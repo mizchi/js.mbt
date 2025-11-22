@@ -232,6 +232,11 @@ impl JsImpl for JsString
 pub type JsTimer
 
 #external
+pub type Nullable[T]
+fn[T] Nullable::to_option(Self[T]) -> T?
+fn[T] Nullable::unwrap(Self[T]) -> T
+
+#external
 pub type Object
 fn Object::assign(&JsImpl, &JsImpl) -> Js
 fn Object::create(&JsImpl) -> Js
@@ -280,7 +285,7 @@ fn[T] Resolvers::resolve(Self[T], T) -> Unit
 pub(all) struct SettledResult[T] {
   status : String
   value : T?
-  reason : Js?
+  reason : Nullable[Js]
 }
 
 #external

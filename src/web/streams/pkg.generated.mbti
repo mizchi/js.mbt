@@ -24,12 +24,12 @@ pub(all) struct DecompressionStream {
 fn DecompressionStream::new(String) -> Self
 impl @js.JsImpl for DecompressionStream
 
-#external
-pub type ReadableStream
+pub(all) struct ReadableStream {
+  locked : Bool
+}
 fn ReadableStream::cancel(Self, reason? : @js.Js) -> @js.Promise[Unit]
 #alias(get_reader)
 fn ReadableStream::getReader(Self) -> ReadableStreamDefaultReader
-fn ReadableStream::locked(Self) -> Bool
 fn ReadableStream::new(@js.Js) -> Self
 #alias(pipe_through)
 fn ReadableStream::pipeThrough(Self, @js.Js, options? : @js.Js) -> Self
@@ -38,10 +38,10 @@ fn ReadableStream::pipeTo(Self, WritableStream, options? : @js.Js) -> @js.Promis
 fn ReadableStream::tee(Self) -> (Self, Self)
 impl @js.JsImpl for ReadableStream
 
-#external
-pub type ReadableStreamDefaultReader
+pub(all) struct ReadableStreamDefaultReader {
+  closed : @js.Promise[Unit]
+}
 fn ReadableStreamDefaultReader::cancel(Self, reason? : @js.Js) -> @js.Promise[Unit]
-fn ReadableStreamDefaultReader::closed(Self) -> @js.Promise[Unit]
 fn ReadableStreamDefaultReader::read(Self) -> @js.Promise[@js.Js]
 #alias(release_lock)
 fn ReadableStreamDefaultReader::releaseLock(Self) -> Unit
@@ -56,24 +56,23 @@ fn TransformStream::new(@js.Js) -> Self
 fn TransformStream::new_identity() -> Self
 impl @js.JsImpl for TransformStream
 
-#external
-pub type WritableStream
+pub(all) struct WritableStream {
+  locked : Bool
+}
 fn WritableStream::abort(Self, reason? : @js.Js) -> @js.Promise[Unit]
 fn WritableStream::close(Self) -> @js.Promise[Unit]
 #alias(get_writer)
 fn WritableStream::getWriter(Self) -> WritableStreamDefaultWriter
-fn WritableStream::locked(Self) -> Bool
 fn WritableStream::new(@js.Js) -> Self
 impl @js.JsImpl for WritableStream
 
-#external
-pub type WritableStreamDefaultWriter
+pub(all) struct WritableStreamDefaultWriter {
+  closed : @js.Promise[Unit]
+  ready : @js.Promise[Unit]
+  desiredSize : @js.Nullable[Int]
+}
 fn WritableStreamDefaultWriter::abort(Self, reason? : @js.Js) -> @js.Promise[Unit]
 fn WritableStreamDefaultWriter::close(Self) -> @js.Promise[Unit]
-fn WritableStreamDefaultWriter::closed(Self) -> @js.Promise[Unit]
-#alias(desiredSize)
-fn WritableStreamDefaultWriter::desired_size(Self) -> Int?
-fn WritableStreamDefaultWriter::ready(Self) -> @js.Promise[Unit]
 #alias(release_lock)
 fn WritableStreamDefaultWriter::releaseLock(Self) -> Unit
 fn WritableStreamDefaultWriter::write(Self, @js.Js) -> @js.Promise[Unit]

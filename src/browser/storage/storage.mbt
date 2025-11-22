@@ -1,8 +1,9 @@
 ///|
 /// Storage represents the Web Storage API (localStorage/sessionStorage)
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage
-#external
-pub type Storage
+pub(all) struct Storage {
+  length : Int
+}
 
 ///|
 pub impl JsImpl for Storage
@@ -56,13 +57,6 @@ pub fn Storage::clear(self : Storage) -> Unit {
 }
 
 ///|
-/// Returns the number of items in storage
-/// https://developer.mozilla.org/en-US/docs/Web/API/Storage/length
-pub fn Storage::length(self : Storage) -> Int {
-  self.get("length") |> unsafe_cast
-}
-
-///|
 /// Returns the key at the specified index
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/key
 pub fn Storage::key(self : Storage, index : Int) -> String? {
@@ -81,7 +75,7 @@ pub fn Storage::hasItem(self : Storage, key : String) -> Bool {
 ///|
 /// Gets all keys in storage as an array
 pub fn Storage::keys(self : Storage) -> Array[String] {
-  let len = self.length()
+  let len = self.length
   let result = []
   for i = 0; i < len; i = i + 1 {
     match self.key(i) {
@@ -95,7 +89,7 @@ pub fn Storage::keys(self : Storage) -> Array[String] {
 ///|
 /// Gets all values in storage as an array
 pub fn Storage::values(self : Storage) -> Array[String] {
-  let len = self.length()
+  let len = self.length
   let result = []
   for i = 0; i < len; i = i + 1 {
     match self.key(i) {
@@ -113,7 +107,7 @@ pub fn Storage::values(self : Storage) -> Array[String] {
 ///|
 /// Gets all key-value pairs in storage
 pub fn Storage::entries(self : Storage) -> Array[(String, String)] {
-  let len = self.length()
+  let len = self.length
   let result = []
   for i = 0; i < len; i = i + 1 {
     match self.key(i) {

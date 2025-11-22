@@ -20,25 +20,24 @@ fn get_message_data(@js.Js) -> String
 // Errors
 
 // Types and methods
-#external
-pub type WebSocket
-fn WebSocket::binaryType(Self) -> String
-fn WebSocket::bufferedAmount(Self) -> Int
+pub(all) struct WebSocket {
+  url : String
+  readyState : Int
+  bufferedAmount : Int
+  extensions : String
+  protocol : String
+  mut binaryType : String
+}
 fn WebSocket::close(Self, code? : Int, reason? : String) -> Unit
-fn WebSocket::extensions(Self) -> String
 fn WebSocket::new(String, protocols? : Array[String]) -> Self
-fn WebSocket::protocol(Self) -> String
-fn WebSocket::readyState(Self) -> Int
 fn WebSocket::send_arraybuffer(Self, @js.ArrayBuffer) -> Unit
 fn WebSocket::send_blob(Self, @blob.Blob) -> Unit
 fn WebSocket::send_buffer(Self, @buffer.Buffer) -> Unit
 fn WebSocket::send_string(Self, String) -> Unit
-fn WebSocket::set_binaryType(Self, String) -> Unit
 fn WebSocket::set_onclose(Self, (@js.Js) -> Unit) -> Unit
 fn WebSocket::set_onerror(Self, (@js.Js) -> Unit) -> Unit
 fn WebSocket::set_onmessage(Self, (@js.Js) -> Unit) -> Unit
 fn WebSocket::set_onopen(Self, (@js.Js) -> Unit) -> Unit
-fn WebSocket::url(Self) -> String
 impl @js.JsImpl for WebSocket
 impl @event.EventTargetImpl for WebSocket
 

@@ -10,41 +10,45 @@ extern "js" fn ffi_new_url_pattern_with_base(
   #|(pattern, base) => new URLPattern(pattern, base)
 
 ///|
-#external
-pub type URLPattern
-
-///|
-pub impl @js.JsImpl for URLPattern with to_js(self) -> @js.Js {
-  self |> @js.unsafe_js
+pub(all) struct URLPattern {
+  protocol : String
+  username : String
+  password : String
+  hostname : String
+  port : String
+  pathname : String
+  search : String
+  hash : String
+  hasRegExpGroups : Bool
 }
 
 ///|
+pub impl @js.JsImpl for URLPattern
+
+///|
+pub(all) struct URLPatternComponentResult {
+  input : String
+  groups : @js.Js
+}
+
+///|
+pub impl @js.JsImpl for URLPatternComponentResult
+
+///|
 pub(all) struct URLPatternResult {
-  inputs : @js.Js
-  protocol : @js.Js
-  username : @js.Js
-  password : @js.Js
-  hostname : @js.Js
-  port : @js.Js
-  pathname : @js.Js
-  search : @js.Js
-  hash : @js.Js
+  inputs : @js.Js // Array of input strings
+  protocol : URLPatternComponentResult
+  username : URLPatternComponentResult
+  password : URLPatternComponentResult
+  hostname : URLPatternComponentResult
+  port : URLPatternComponentResult
+  pathname : URLPatternComponentResult
+  search : URLPatternComponentResult
+  hash : URLPatternComponentResult
 }
 
 ///|
 pub impl @js.JsImpl for URLPatternResult
-
-///|
-/// Get the input value from a component result
-pub fn get_component_input(component : @js.Js) -> String {
-  component.get("input") |> @js.unsafe_cast
-}
-
-///|
-/// Get the groups from a component result
-pub fn get_component_groups(component : @js.Js) -> @js.Js {
-  component.get("groups")
-}
 
 ///|
 /// Create a new URLPattern from a pattern string
@@ -67,61 +71,6 @@ pub fn URLPattern::newFromObject(
     Some(b) => unsafe_cast(ffi_new_url_pattern_with_base(pattern, b))
     None => unsafe_cast(ffi_new_url_pattern(pattern))
   }
-}
-
-///|
-/// Get the protocol pattern
-pub fn URLPattern::protocol(self : Self) -> String {
-  self.get("protocol") |> unsafe_cast
-}
-
-///|
-/// Get the username pattern
-pub fn URLPattern::username(self : Self) -> String {
-  self.get("username") |> unsafe_cast
-}
-
-///|
-/// Get the password pattern
-pub fn URLPattern::password(self : Self) -> String {
-  self.get("password") |> unsafe_cast
-}
-
-///|
-/// Get the hostname pattern
-pub fn URLPattern::hostname(self : Self) -> String {
-  unsafe_cast(self.to_js().get("hostname"))
-}
-
-///|
-/// Get the port pattern
-pub fn URLPattern::port(self : Self) -> String {
-  unsafe_cast(self.to_js().get("port"))
-}
-
-///|
-/// Get the pathname pattern
-pub fn URLPattern::pathname(self : Self) -> String {
-  unsafe_cast(self.to_js().get("pathname"))
-}
-
-///|
-/// Get the search pattern
-pub fn URLPattern::search(self : Self) -> String {
-  unsafe_cast(self.to_js().get("search"))
-}
-
-///|
-/// Get the hash pattern
-pub fn URLPattern::hash(self : Self) -> String {
-  unsafe_cast(self.to_js().get("hash"))
-}
-
-///|
-/// Check if the pattern has regular expression groups
-#alias(has_regexp_groups)
-pub fn URLPattern::hasRegExpGroups(self : Self) -> Bool {
-  unsafe_cast(self.to_js().get("hasRegExpGroups"))
 }
 
 ///|

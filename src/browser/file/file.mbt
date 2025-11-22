@@ -86,8 +86,8 @@ pub fn File::slice(self : Self, start? : Int, end? : Int) -> Blob {
 /// FileReader allows reading file contents asynchronously
 pub(all) struct FileReader {
   readyState : Int
-  result : Js?
-  error : Js?
+  result : Nullable[Js]
+  error : Nullable[Js]
 }
 
 ///|

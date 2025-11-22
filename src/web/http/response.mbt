@@ -1,7 +1,11 @@
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Response
-#external
-pub type Response
+pub(all) struct Response {
+  ok : Bool
+  status : Int
+  statusText : String
+  redirected : Bool
+}
 
 ///|
 pub impl JsImpl for Response
@@ -131,23 +135,8 @@ pub extern "js" fn Response::clone(self : Self) -> Response =
   #| (v) => v.clone()
 
 ///|
-pub extern "js" fn Response::ok(self : Self) -> Bool =
-  #| (v) => v.ok
-
-///|
-pub extern "js" fn Response::status(self : Self) -> Int =
-  #| (v) => v.status
-
-///|
-#alias(statusText)
-pub extern "js" fn Response::status_text(self : Self) -> String =
-  #| (v) => v.statusText
-
-///|
-pub extern "js" fn Response::redirected(self : Self) -> Bool =
-  #| (v) => v.redirected
-
-///|
+/// Get the response type
+/// Note: This is a method because "type" is a reserved word in MoonBit
 pub extern "js" fn Response::type_(self : Self) -> String =
   #| (v) => v.type
 

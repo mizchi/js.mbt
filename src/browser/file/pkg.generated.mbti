@@ -28,8 +28,8 @@ impl @js.JsImpl for File
 
 pub(all) struct FileReader {
   readyState : Int
-  result : @js.Js?
-  error : @js.Js?
+  result : @js.Nullable[@js.Js]
+  error : @js.Nullable[@js.Js]
 }
 fn FileReader::abort(Self) -> Unit
 fn FileReader::new() -> Self

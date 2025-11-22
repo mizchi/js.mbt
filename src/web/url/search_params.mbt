@@ -1,6 +1,7 @@
 ///|
-#external
-pub type URLSearchParams
+pub(all) struct URLSearchParams {
+  size : Int
+}
 
 ///|
 impl JsImpl for URLSearchParams
@@ -60,11 +61,6 @@ pub fn URLSearchParams::delete(self : URLSearchParams, name : String) -> Unit {
 ///|
 pub fn URLSearchParams::sort(self : URLSearchParams) -> Unit {
   self.call0("sort") |> unsafe_cast
-}
-
-///|
-pub fn URLSearchParams::size(self : URLSearchParams) -> Int {
-  unsafe_cast(self.to_js().get("size"))
 }
 
 ///|

@@ -11,8 +11,9 @@ fn performance() -> Performance
 // Errors
 
 // Types and methods
-#external
-pub type Performance
+pub(all) struct Performance {
+  timeOrigin : Double
+}
 fn Performance::clearMarks(Self, name? : String) -> Unit
 fn Performance::clearMeasures(Self, name? : String) -> Unit
 fn Performance::getEntries(Self) -> Array[PerformanceEntry]
@@ -21,7 +22,6 @@ fn Performance::getEntriesByType(Self, String) -> Array[PerformanceEntry]
 fn Performance::mark(Self, String) -> PerformanceEntry
 fn Performance::measure(Self, String, startMark? : String, endMark? : String) -> PerformanceEntry
 fn Performance::now(Self) -> Double
-fn Performance::timeOrigin(Self) -> Double
 impl @js.JsImpl for Performance
 
 pub(all) struct PerformanceEntry {

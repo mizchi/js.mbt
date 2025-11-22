@@ -4,8 +4,14 @@
 /// WebSocket プロトコルを使用してサーバーとの双方向通信を提供
 
 ///|
-#external
-pub type WebSocket
+pub(all) struct WebSocket {
+  url : String
+  readyState : Int
+  bufferedAmount : Int
+  extensions : String
+  protocol : String
+  mut binaryType : String
+}
 
 ///|
 pub impl @js.JsImpl for WebSocket
@@ -58,55 +64,6 @@ pub extern "js" fn WebSocket::new(
   #|  }
   #|  return new WebSocket(url);
   #|}
-
-///|
-/// Get the URL of the WebSocket
-/// JS: webSocket.url
-pub fn WebSocket::url(self : Self) -> String {
-  self.get("url") |> unsafe_cast
-}
-
-///|
-/// Get the ready state
-/// JS: webSocket.readyState
-pub fn WebSocket::readyState(self : Self) -> Int {
-  self.get("readyState") |> unsafe_cast
-}
-
-///|
-/// Get the buffered amount
-/// JS: webSocket.bufferedAmount
-pub fn WebSocket::bufferedAmount(self : Self) -> Int {
-  self.get("bufferedAmount") |> unsafe_cast
-}
-
-///|
-/// Get the extensions
-/// JS: webSocket.extensions
-pub fn WebSocket::extensions(self : Self) -> String {
-  self.get("extensions") |> unsafe_cast
-}
-
-///|
-/// Get the protocol
-/// JS: webSocket.protocol
-pub fn WebSocket::protocol(self : Self) -> String {
-  self.get("protocol") |> unsafe_cast
-}
-
-///|
-/// Get the binary type
-/// JS: webSocket.binaryType
-pub fn WebSocket::binaryType(self : Self) -> String {
-  self.get("binaryType") |> unsafe_cast
-}
-
-///|
-/// Set the binary type
-/// JS: webSocket.binaryType = binaryType
-pub fn WebSocket::set_binaryType(self : Self, binaryType : String) -> Unit {
-  self.set("binaryType", binaryType)
-}
 
 ///|
 /// Close the connection

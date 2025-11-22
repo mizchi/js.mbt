@@ -41,13 +41,13 @@ impl @js.JsImpl for MutationObserver
 
 pub(all) struct MutationRecord {
   mutationType : String
-  target : @js.Js
+  target : @dom.Node
   addedNodes : @js.Js
   removedNodes : @js.Js
-  previousSibling : @dom.Element?
-  nextSibling : @dom.Element?
-  attributeName : String?
-  oldValue : String?
+  previousSibling : @js.Nullable[@dom.Node]
+  nextSibling : @js.Nullable[@dom.Node]
+  attributeName : @js.Nullable[String]
+  oldValue : @js.Nullable[String]
 }
 fn MutationRecord::mutation_type(Self) -> String
 impl @js.JsImpl for MutationRecord

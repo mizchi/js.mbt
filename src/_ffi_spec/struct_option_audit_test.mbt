@@ -15,26 +15,35 @@ extern "js" fn create_file_reader_with_null_result() -> @js.Js =
   #|})
 
 ///|
-test "FileReader with null result" {
+test "FileReader with null result - using Nullable" {
   let reader : @file.FileReader = create_file_reader_with_null_result()
     |> @js.unsafe_cast
-  let raw = reader.to_js().get("result")
-  inspect(@js.is_nullish(raw), content="true")
 
-  // CANNOT match on Js? field - it crashes with $tag error
-  // This documents that Js? fields are fundamentally broken
-  inspect("Js? cannot be matched", content="Js? cannot be matched")
+  // Now using Nullable[Js] instead of Js?
+  match reader.result.to_option() {
+    Some(_) => fail("result should be None when null")
+    None =>
+      inspect(
+        "FileReader.result null handled correctly",
+        content="FileReader.result null handled correctly",
+      )
+  }
 }
 
 ///|
-test "FileReader with null error" {
+test "FileReader with null error - using Nullable" {
   let reader : @file.FileReader = create_file_reader_with_null_result()
     |> @js.unsafe_cast
-  let error_raw = reader.to_js().get("error")
-  inspect(@js.is_nullish(error_raw), content="true")
 
-  // CANNOT match on Js? field - it crashes with $tag error
-  inspect("Js? cannot be matched", content="Js? cannot be matched")
+  // Now using Nullable[Js] instead of Js?
+  match reader.error.to_option() {
+    Some(_) => fail("error should be None when null")
+    None =>
+      inspect(
+        "FileReader.error null handled correctly",
+        content="FileReader.error null handled correctly",
+      )
+  }
 }
 
 ///| @js.SettledResult audit

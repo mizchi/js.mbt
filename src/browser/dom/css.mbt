@@ -5,8 +5,11 @@
 ///|
 /// CSSStyleDeclaration represents a CSS declaration block
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration
-#external
-pub type CSSStyleDeclaration
+pub(all) struct CSSStyleDeclaration {
+  mut cssText : String
+  length : Int
+  parentRule : CSSRule?
+}
 
 ///|
 pub impl JsImpl for CSSStyleDeclaration
@@ -63,30 +66,6 @@ pub fn CSSStyleDeclaration::get_property_priority(
   property : String,
 ) -> String {
   self.call("getPropertyPriority", [property]) |> unsafe_cast
-}
-
-///|
-/// Returns the CSS text
-pub fn CSSStyleDeclaration::css_text(self : Self) -> String {
-  self.get("cssText") |> unsafe_cast
-}
-
-///|
-/// Sets the CSS text
-pub fn CSSStyleDeclaration::set_css_text(self : Self, text : String) -> Unit {
-  self.set("cssText", text) |> ignore
-}
-
-///|
-/// Returns the number of CSS properties
-pub fn CSSStyleDeclaration::length(self : Self) -> Int {
-  self.get("length") |> unsafe_cast
-}
-
-///|
-/// Returns the parent CSS rule
-pub fn CSSStyleDeclaration::parent_rule(self : Self) -> CSSRule? {
-  self.get("parentRule") |> @js.unsafe_cast_option
 }
 
 ///|
@@ -207,8 +186,10 @@ pub fn CSSStyleSheet::media(self : Self) -> Js {
 ///|
 /// MediaQueryList represents a media query list
 /// https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList
-#external
-pub type MediaQueryList
+pub(all) struct MediaQueryList {
+  media : String
+  matches : Bool
+}
 
 ///|
 pub impl JsImpl for MediaQueryList
@@ -219,18 +200,6 @@ pub impl JsImpl for MediaQueryList
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
   unsafe_cast(@js.global_this().call("matchMedia", [query]))
-}
-
-///|
-/// Returns the media query string
-pub fn MediaQueryList::media(self : Self) -> String {
-  self.get("media") |> unsafe_cast
-}
-
-///|
-/// Returns whether the media query matches
-pub fn MediaQueryList::matches(self : Self) -> Bool {
-  self.get("matches") |> unsafe_cast
 }
 
 ///|

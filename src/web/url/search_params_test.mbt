@@ -200,21 +200,21 @@ test "URLSearchParams::sort - alphabetical order" {
 test "URLSearchParams::size - count parameters" {
   let url = URL::new("https://example.com?foo=bar&baz=qux")
   let params = url.searchParams
-  assert_eq(params.size(), 2)
+  assert_eq(params.size, 2)
 }
 
 ///|
 test "URLSearchParams::size - with duplicates" {
   let url = URL::new("https://example.com?foo=first&foo=second&bar=value")
   let params = url.searchParams
-  assert_eq(params.size(), 3)
+  assert_eq(params.size, 3)
 }
 
 ///|
 test "URLSearchParams::size - empty" {
   let url = URL::new("https://example.com")
   let params = url.searchParams
-  assert_eq(params.size(), 0)
+  assert_eq(params.size, 0)
 }
 
 ///|
@@ -245,13 +245,13 @@ test "URLSearchParams::to_string - with special characters" {
 test "URLSearchParams - mutation workflow" {
   let url = URL::new("https://example.com?a=1&b=2")
   let params = url.searchParams
-  assert_eq(params.size(), 2)
+  assert_eq(params.size, 2)
   params.append("c", "3")
-  assert_eq(params.size(), 3)
+  assert_eq(params.size, 3)
   params.set("a", "updated")
   assert_eq(params.get("a"), Some("updated"))
   params.delete("b")
-  assert_eq(params.size(), 2)
+  assert_eq(params.size, 2)
   assert_false(params.has("b"))
   params.sort()
   let str = params.to_string()

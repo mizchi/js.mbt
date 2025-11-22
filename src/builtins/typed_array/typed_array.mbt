@@ -1,24 +1,16 @@
 ///|
-#external
-pub type Uint8Array
+pub(all) struct Uint8Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 
 ///|
 pub impl JsImpl for Uint8Array
 
 ///|
 pub impl TypedArrayImpl for Uint8Array
-
-///|
-#alias(byte_length)
-pub fn Uint8Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byte_offset)
-pub fn Uint8Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
-}
 
 ///|
 #alias(copy_within)
@@ -144,26 +136,18 @@ pub fn Uint8Array::includes(
 }
 
 ///|
-#external
-pub type Uint16Array
+pub(all) struct Uint16Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 
 ///|
 pub impl JsImpl for Uint16Array
 
 ///|
 pub impl TypedArrayImpl for Uint16Array
-
-///|
-#alias(byte_length)
-pub fn Uint16Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byte_offset)
-pub fn Uint16Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
-}
 
 ///|
 #alias(copy_within)
@@ -280,26 +264,18 @@ pub fn Uint16Array::includes(
 }
 
 ///|
-#external
-pub type Uint32Array
+pub(all) struct Uint32Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 
 ///|
 pub impl JsImpl for Uint32Array
 
 ///|
 pub impl TypedArrayImpl for Uint32Array
-
-///|
-#alias(byte_length)
-pub fn Uint32Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byte_offset)
-pub fn Uint32Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
-}
 
 ///|
 #alias(copy_within)
@@ -416,26 +392,18 @@ pub fn Uint32Array::includes(
 }
 
 ///|
-#external
-pub type Int8Array
+pub(all) struct Int8Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 
 ///|
 pub impl JsImpl for Int8Array
 
 ///|
 pub impl TypedArrayImpl for Int8Array
-
-///|
-#alias(byte_length)
-pub fn Int8Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byte_offset)
-pub fn Int8Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
-}
 
 ///|
 #alias(copy_within)
@@ -552,26 +520,18 @@ pub fn Int8Array::includes(
 }
 
 ///|
-#external
-pub type Int16Array
+pub(all) struct Int16Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 
 ///|
 pub impl JsImpl for Int16Array
 
 ///|
 pub impl TypedArrayImpl for Int16Array
-
-///|
-#alias(byte_length)
-pub fn Int16Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byte_offset)
-pub fn Int16Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
-}
 
 ///|
 #alias(copy_within)
@@ -688,26 +648,18 @@ pub fn Int16Array::includes(
 }
 
 ///|
-#external
-pub type Int32Array
+pub(all) struct Int32Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 
 ///|
 pub impl JsImpl for Int32Array
 
 ///|
 pub impl TypedArrayImpl for Int32Array
-
-///|
-#alias(byte_length)
-pub fn Int32Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byte_offset)
-pub fn Int32Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
-}
 
 ///|
 #alias(copy_within)
@@ -824,26 +776,18 @@ pub fn Int32Array::includes(
 }
 
 ///|
-#external
-pub type Float32Array
+pub(all) struct Float32Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 
 ///|
 pub impl JsImpl for Float32Array
 
 ///|
 pub impl TypedArrayImpl for Float32Array
-
-///|
-#alias(byte_length)
-pub fn Float32Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byte_offset)
-pub fn Float32Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
-}
 
 ///|
 #alias(copy_within)
@@ -960,26 +904,18 @@ pub fn Float32Array::includes(
 }
 
 ///|
-#external
-pub type Float64Array
+pub(all) struct Float64Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 
 ///|
 pub impl JsImpl for Float64Array
 
 ///|
 pub impl TypedArrayImpl for Float64Array
-
-///|
-#alias(byte_length)
-pub fn Float64Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byte_offset)
-pub fn Float64Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
-}
 
 ///|
 #alias(copy_within)
@@ -1096,26 +1032,18 @@ pub fn Float64Array::includes(
 }
 
 ///|
-#external
-pub type Uint8ClampedArray
+pub(all) struct Uint8ClampedArray {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 
 ///|
 pub impl JsImpl for Uint8ClampedArray
 
 ///|
 pub impl TypedArrayImpl for Uint8ClampedArray
-
-///|
-#alias(byte_length)
-pub fn Uint8ClampedArray::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> unsafe_cast
-}
-
-///|
-#alias(byte_offset)
-pub fn Uint8ClampedArray::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> unsafe_cast
-}
 
 ///|
 #alias(copy_within)

@@ -15,7 +15,7 @@ test "Response body returns ReadableStream" {
   match body {
     Some(stream) =>
       // Verify it's a ReadableStream by checking locked property
-      assert_eq(stream.locked(), false)
+      assert_eq(stream.locked, false)
     None => fail("Response should have a body")
   }
 }
@@ -27,9 +27,9 @@ test "Response body can be read with reader" {
     Some(stream) => {
       let reader = stream.get_reader()
       // After getting a reader, the stream should be locked
-      assert_eq(stream.locked(), true)
+      assert_eq(stream.locked, true)
       reader.release_lock()
-      assert_eq(stream.locked(), false)
+      assert_eq(stream.locked, false)
     }
     None => fail("Response should have a body")
   }
@@ -58,9 +58,9 @@ test "Response clone has independent body stream" {
         Some(cloned_stream) => {
           // Lock the original stream
           let _reader = original_stream.get_reader()
-          assert_eq(original_stream.locked(), true)
+          assert_eq(original_stream.locked, true)
           // Cloned stream should still be unlocked
-          assert_eq(cloned_stream.locked(), false)
+          assert_eq(cloned_stream.locked, false)
         }
         None => fail("Cloned response should have a body")
       }
@@ -74,8 +74,8 @@ test "Response body can be teed" {
   match response.body() {
     Some(stream) => {
       let (branch1, branch2) = stream.tee()
-      assert_eq(branch1.locked(), false)
-      assert_eq(branch2.locked(), false)
+      assert_eq(branch1.locked, false)
+      assert_eq(branch2.locked, false)
     }
     None => fail("Response should have a body")
   }

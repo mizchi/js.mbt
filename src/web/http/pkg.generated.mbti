@@ -26,24 +26,27 @@ impl @js.JsImpl for FormData
 #external
 pub type Headers
 
-#external
-pub type Request
+pub(all) struct Request {
+  bodyUsed : Bool
+  url : String
+  credentials : String
+}
 fn Request::arraybuffer(Self) -> @js.Promise[@js.ArrayBuffer]
 fn Request::blob(Self) -> @js.Promise[@blob.Blob]
-#alias(bodyUsed)
-fn Request::body_used(Self) -> Bool
 fn Request::bytes(Self) -> @js.Promise[@typed_array.Uint8Array]
 fn Request::clone(Self) -> Self
-fn Request::credentials(Self) -> String
 fn Request::json(Self) -> @js.Promise[@js.Js]
 fn Request::method_(Self) -> String
 fn Request::new(String) -> Self
 fn Request::text(Self) -> @js.Promise[String]
-fn Request::url(Self) -> String
 impl @js.JsImpl for Request
 
-#external
-pub type Response
+pub(all) struct Response {
+  ok : Bool
+  status : Int
+  statusText : String
+  redirected : Bool
+}
 fn Response::body(Self) -> @streams.ReadableStream?
 fn Response::bytes(Self) -> @js.Promise[@typed_array.Uint8Array]
 fn Response::clone(Self) -> Self
@@ -53,12 +56,7 @@ fn Response::html(String, Int) -> Self
 fn Response::json(Self) -> @js.Promise[@js.Js]
 fn Response::json_(&@js.JsImpl, options? : &@js.JsImpl) -> Self
 fn Response::new(body? : String, status? : Int, statusText? : String, headers? : &@js.JsImpl) -> Self
-fn Response::ok(Self) -> Bool
 fn Response::redirect(String, status? : Int) -> Self
-fn Response::redirected(Self) -> Bool
-fn Response::status(Self) -> Int
-#alias(statusText)
-fn Response::status_text(Self) -> String
 fn Response::text(Self) -> @js.Promise[String]
 fn Response::text_(String, Int) -> Self
 fn Response::type_(Self) -> String

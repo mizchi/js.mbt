@@ -101,8 +101,11 @@ pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
 pub(all) struct SettledResult[T] {
   status : String // "fulfilled" | "rejected"
   value : T?
-  reason : Js?
+  reason : Nullable[Js]
 }
+
+///|
+impl[T] JsImpl for SettledResult[T]
 
 ///|
 /// JS: Promise.allSettled(promises)

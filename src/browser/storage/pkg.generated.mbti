@@ -13,15 +13,15 @@ fn sessionStorage() -> Storage
 // Errors
 
 // Types and methods
-#external
-pub type Storage
+pub(all) struct Storage {
+  length : Int
+}
 fn Storage::clear(Self) -> Unit
 fn Storage::entries(Self) -> Array[(String, String)]
 fn Storage::getItem(Self, String) -> String?
 fn Storage::hasItem(Self, String) -> Bool
 fn Storage::key(Self, Int) -> String?
 fn Storage::keys(Self) -> Array[String]
-fn Storage::length(Self) -> Int
 fn Storage::removeItem(Self, String) -> Unit
 fn Storage::setItem(Self, String, String) -> Unit
 fn Storage::values(Self) -> Array[String]

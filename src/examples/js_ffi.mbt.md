@@ -618,6 +618,123 @@ pub(all) struct DOMRect {
 }
 ```
 
+### ⚠️ CRITICAL: Avoid Option Types in FFI Struct Fields
+
+**Problem**: Option type fields in FFI structs don't handle JavaScript `null`/`undefined` correctly, leading to runtime crashes.
+
+#### Unsafe Patterns (DO NOT USE)
+
+```moonbit no-check
+// ❌ BROKEN: Js? fields cause runtime crashes when matching
+pub(all) struct BadFileReader {
+  result : Js?  // Crashes with $tag error on match
+  error : Js?   // Crashes with $tag error on match
+}
+
+// ❌ BROKEN: Custom struct Option fields become Some(null)
+pub(all) struct BadMutationRecord {
+  previousSibling : Element?  // null becomes Some(null), crashes on field access
+  nextSibling : Element?      // null becomes Some(null), crashes on field access
+}
+```
+
+#### Discovered Issues
+
+1. **`Js?` fields**: Matching on `null` values crashes with `$tag` error
+2. **`CustomStruct?` fields**: JavaScript `null` becomes `Some(null)`, which crashes when accessing fields
+3. **`String?`, `Int?`, `Bool?` fields**: Work correctly but avoided for consistency
+
+#### Safe Pattern 1: Use Nullable[T] (Recommended)
+
+For APIs that explicitly return `null`, use `Nullable[T]`:
+
+```moonbit no-check
+pub(all) struct FileReader {
+  readyState : Int
+  result : @js.Nullable[Js]  // ✅ Safe: Nullable[T] handles null correctly
+  error : @js.Nullable[Js]   // ✅ Safe: Can match on to_option()
+}
+
+///|
+fn example_nullable_access(reader : FileReader) -> Unit {
+  // ✅ Safe: Use to_option() to convert to T?
+  match reader.result.to_option() {
+    Some(result) => println("data loaded")
+    None => println("no result yet (null)")
+  }
+  
+  match reader.error.to_option() {
+    Some(err) => println("error occurred")
+    None => println("no error")
+  }
+}
+```
+
+#### Safe Pattern 2: Use Getter Methods (Legacy)
+
+For backward compatibility, use non-optional fields with getter methods:
+
+```moonbit no-check
+pub(all) struct SafeFileReader {
+  readyState : Int
+  result : Js  // NOTE: Cannot use Js? - Use get_result() instead.
+  error : Js   // NOTE: Cannot use Js? - Use get_error() instead.
+}
+
+///|
+/// Get the result (null if not loaded yet)
+fn SafeFileReader::get_result(self : SafeFileReader) -> @js.Js? {
+  @js.unsafe_cast_option(self.result)
+}
+
+///|
+/// Get the error (null if no error)
+fn SafeFileReader::get_error(self : SafeFileReader) -> @js.Js? {
+  @js.unsafe_cast_option(self.error)
+}
+```
+
+#### Usage Example
+
+```moonbit no-check
+// Hypothetical usage example (not executable)
+fn example_safe_access(reader : SafeFileReader) -> Unit {
+  // ✅ Safe: Use getter method
+  match reader.get_result() {
+    Some(result) => println("data loaded")
+    None => println("no result yet")
+  }
+  
+  // ❌ UNSAFE: Direct field access of Js field requires unsafe_cast_option
+  // let bad = reader.result  // This is just Js, not Js?
+}
+```
+
+#### Helper Function: from_option
+
+For converting Option back to Js (e.g., when passing to JavaScript), use the built-in `@js.from_option` function:
+
+```moonbit
+///|
+test "converting Option to Js" {
+  let some_value : String? = Some("hello")
+  let none_value : String? = None
+  let js_some = @js.from_option(some_value)
+  let js_none = @js.from_option(none_value)
+  assert_eq(@js.is_nullish(js_none), true)
+  assert_eq(@js.unsafe_cast(js_some), "hello")
+}
+```
+
+#### When This Will Be Fixed
+
+This is a MoonBit language limitation. Once the language properly supports Option types in FFI struct fields:
+
+1. Remove getter methods
+2. Change fields to Option types
+3. Remove commented-out old definitions
+4. Update usage sites to use direct field access
+
 ## Summary
 
 These patterns demonstrate:

@@ -68,13 +68,11 @@ fn BigUint64Array::toString(Self) -> String
 impl @js.JsImpl for BigUint64Array
 impl TypedArrayImpl for BigUint64Array
 
-#external
-pub type DataView
-fn DataView::buffer(Self) -> @js.ArrayBuffer
-#alias(byteLength)
-fn DataView::byte_length(Self) -> UInt
-#alias(byteOffset)
-fn DataView::byte_offset(Self) -> UInt
+pub(all) struct DataView {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+}
 #alias(getFloat32)
 fn DataView::get_float32(Self, UInt, little_endian? : Bool) -> Double
 #alias(getFloat64)
@@ -110,12 +108,12 @@ fn DataView::set_uint32(Self, UInt, UInt, little_endian? : Bool) -> Unit
 fn DataView::set_uint8(Self, UInt, UInt) -> Unit
 impl @js.JsImpl for DataView
 
-#external
-pub type Float32Array
-#alias(byte_length)
-fn Float32Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn Float32Array::byteOffset(Self) -> UInt
+pub(all) struct Float32Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 #alias(copy_within)
 fn Float32Array::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Float32Array::fill(Self, Double, start? : Int, end? : Int) -> Self
@@ -136,12 +134,12 @@ fn Float32Array::toString(Self) -> String
 impl @js.JsImpl for Float32Array
 impl TypedArrayImpl for Float32Array
 
-#external
-pub type Float64Array
-#alias(byte_length)
-fn Float64Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn Float64Array::byteOffset(Self) -> UInt
+pub(all) struct Float64Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 #alias(copy_within)
 fn Float64Array::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Float64Array::fill(Self, Double, start? : Int, end? : Int) -> Self
@@ -162,12 +160,12 @@ fn Float64Array::toString(Self) -> String
 impl @js.JsImpl for Float64Array
 impl TypedArrayImpl for Float64Array
 
-#external
-pub type Int16Array
-#alias(byte_length)
-fn Int16Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn Int16Array::byteOffset(Self) -> UInt
+pub(all) struct Int16Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 #alias(copy_within)
 fn Int16Array::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Int16Array::fill(Self, Int, start? : Int, end? : Int) -> Self
@@ -188,12 +186,12 @@ fn Int16Array::toString(Self) -> String
 impl @js.JsImpl for Int16Array
 impl TypedArrayImpl for Int16Array
 
-#external
-pub type Int32Array
-#alias(byte_length)
-fn Int32Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn Int32Array::byteOffset(Self) -> UInt
+pub(all) struct Int32Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 #alias(copy_within)
 fn Int32Array::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Int32Array::fill(Self, Int, start? : Int, end? : Int) -> Self
@@ -214,12 +212,12 @@ fn Int32Array::toString(Self) -> String
 impl @js.JsImpl for Int32Array
 impl TypedArrayImpl for Int32Array
 
-#external
-pub type Int8Array
-#alias(byte_length)
-fn Int8Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn Int8Array::byteOffset(Self) -> UInt
+pub(all) struct Int8Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 #alias(copy_within)
 fn Int8Array::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Int8Array::fill(Self, Int, start? : Int, end? : Int) -> Self
@@ -240,12 +238,12 @@ fn Int8Array::toString(Self) -> String
 impl @js.JsImpl for Int8Array
 impl TypedArrayImpl for Int8Array
 
-#external
-pub type Uint16Array
-#alias(byte_length)
-fn Uint16Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn Uint16Array::byteOffset(Self) -> UInt
+pub(all) struct Uint16Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 #alias(copy_within)
 fn Uint16Array::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Uint16Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
@@ -266,12 +264,12 @@ fn Uint16Array::toString(Self) -> String
 impl @js.JsImpl for Uint16Array
 impl TypedArrayImpl for Uint16Array
 
-#external
-pub type Uint32Array
-#alias(byte_length)
-fn Uint32Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn Uint32Array::byteOffset(Self) -> UInt
+pub(all) struct Uint32Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 #alias(copy_within)
 fn Uint32Array::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Uint32Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
@@ -292,12 +290,12 @@ fn Uint32Array::toString(Self) -> String
 impl @js.JsImpl for Uint32Array
 impl TypedArrayImpl for Uint32Array
 
-#external
-pub type Uint8Array
-#alias(byte_length)
-fn Uint8Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn Uint8Array::byteOffset(Self) -> UInt
+pub(all) struct Uint8Array {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 #alias(copy_within)
 fn Uint8Array::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Uint8Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
@@ -321,12 +319,12 @@ fn Uint8Array::to_bytes(Self) -> Bytes
 impl @js.JsImpl for Uint8Array
 impl TypedArrayImpl for Uint8Array
 
-#external
-pub type Uint8ClampedArray
-#alias(byte_length)
-fn Uint8ClampedArray::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn Uint8ClampedArray::byteOffset(Self) -> UInt
+pub(all) struct Uint8ClampedArray {
+  buffer : @js.ArrayBuffer
+  byteLength : UInt
+  byteOffset : UInt
+  length : UInt
+}
 #alias(copy_within)
 fn Uint8ClampedArray::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Uint8ClampedArray::fill(Self, UInt, start? : Int, end? : Int) -> Self
@@ -355,7 +353,6 @@ pub(open) trait TypedArrayImpl : @js.JsImpl {
   length(Self) -> UInt = _
   byteLength(Self) -> UInt = _
   byteOffset(Self) -> UInt = _
-  buffer(Self) -> @js.ArrayBuffer = _
   slice(Self, start? : Int, end? : Int) -> Self = _
   subarray(Self, begin? : Int, end? : Int) -> Self = _
   copyWithin(Self, Int, Int, end? : Int) -> Self = _

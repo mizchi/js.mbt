@@ -171,7 +171,7 @@ test "sqlite session and changeset" {
   insert.run(anonymous_parameters=[1, "hello"]) |> ignore
   insert.run(anonymous_parameters=[2, "world"]) |> ignore
   let changeset = session.changeset()
-  assert_true(changeset.byte_length() > 0)
+  assert_true(changeset.byteLength > 0)
   target_db.applyChangeset(changeset) |> ignore
   let result = target_db.prepare("SELECT COUNT(*) as count FROM data").get_()
   guard result is Some(row)
@@ -519,7 +519,7 @@ test "sqlite Session patchset" {
   insert.run(anonymous_parameters=[1, "hello"]) |> ignore
   insert.run(anonymous_parameters=[2, "world"]) |> ignore
   let patchset = session.patchset()
-  assert_true(patchset.byte_length() > 0)
+  assert_true(patchset.byteLength > 0)
   session.close()
   source_db.close()
 }
@@ -532,7 +532,7 @@ test "sqlite Session with table option" {
   let insert = db.prepare("INSERT INTO data (value) VALUES (?)")
   insert.run(anonymous_parameters=["test"]) |> ignore
   let changeset = session.changeset()
-  assert_true(changeset.byte_length() > 0)
+  assert_true(changeset.byteLength > 0)
   session.close()
   db.close()
 }

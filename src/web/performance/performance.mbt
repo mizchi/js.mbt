@@ -4,8 +4,9 @@
 
 ///|
 /// Performance interface - provides access to performance-related information
-#external
-pub type Performance
+pub(all) struct Performance {
+  timeOrigin : Double
+}
 
 ///|
 pub impl @js.JsImpl for Performance
@@ -33,13 +34,6 @@ pub fn performance() -> Performance {
 /// Returns a high resolution timestamp in milliseconds
 pub fn Performance::now(self : Performance) -> Double {
   self.call0("now") |> @js.unsafe_cast
-}
-
-///|
-/// JS: performance.timeOrigin
-/// Returns the high resolution timestamp of the start time of the performance measurement
-pub fn Performance::timeOrigin(self : Performance) -> Double {
-  self.get("timeOrigin") |> @js.unsafe_cast
 }
 
 ///|

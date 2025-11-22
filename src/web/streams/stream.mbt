@@ -1,8 +1,9 @@
 ///|
 /// ReadableStream represents a readable stream of byte data
 /// https://developer.mozilla.org/ja/docs/Web/API/ReadableStream
-#external
-pub type ReadableStream
+pub(all) struct ReadableStream {
+  locked : Bool
+}
 
 ///|
 pub impl JsImpl for ReadableStream
@@ -16,12 +17,6 @@ extern "js" fn ffi_new_readable_stream(underlying_source : Js) -> Js =
 /// Create a new ReadableStream with an underlying source
 pub fn ReadableStream::new(underlying_source : Js) -> ReadableStream {
   unsafe_cast(ffi_new_readable_stream(underlying_source))
-}
-
-///|
-/// Returns whether the stream is locked to a reader
-pub fn ReadableStream::locked(self : Self) -> Bool {
-  self.get("locked") |> unsafe_cast
 }
 
 ///|
@@ -83,8 +78,9 @@ pub fn ReadableStream::tee(self : Self) -> (ReadableStream, ReadableStream) {
 
 ///|
 /// ReadableStreamDefaultReader represents a default reader for reading from a ReadableStream
-#external
-pub type ReadableStreamDefaultReader
+pub(all) struct ReadableStreamDefaultReader {
+  closed : Promise[Unit]
+}
 
 ///|
 pub impl JsImpl for ReadableStreamDefaultReader
@@ -115,15 +111,10 @@ pub fn ReadableStreamDefaultReader::cancel(
 }
 
 ///|
-/// Get the closed promise
-pub fn ReadableStreamDefaultReader::closed(self : Self) -> Promise[Unit] {
-  self.get("closed") |> unsafe_cast
-}
-
-///|
 /// WritableStream represents a writable stream
-#external
-pub type WritableStream
+pub(all) struct WritableStream {
+  locked : Bool
+}
 
 ///|
 pub impl JsImpl for WritableStream
@@ -137,12 +128,6 @@ extern "js" fn ffi_new_writable_stream(underlying_sink : Js) -> Js =
 /// Create a new WritableStream with an underlying sink
 pub fn WritableStream::new(underlying_sink : Js) -> WritableStream {
   unsafe_cast(ffi_new_writable_stream(underlying_sink))
-}
-
-///|
-/// Returns whether the stream is locked to a writer
-pub fn WritableStream::locked(self : Self) -> Bool {
-  self.get("locked") |> unsafe_cast
 }
 
 ///|
@@ -169,8 +154,11 @@ pub fn WritableStream::getWriter(self : Self) -> WritableStreamDefaultWriter {
 
 ///|
 /// WritableStreamDefaultWriter represents a default writer for writing to a WritableStream
-#external
-pub type WritableStreamDefaultWriter
+pub(all) struct WritableStreamDefaultWriter {
+  closed : Promise[Unit]
+  ready : Promise[Unit]
+  desiredSize : Nullable[Int]
+}
 
 ///|
 pub impl JsImpl for WritableStreamDefaultWriter
@@ -207,25 +195,6 @@ pub fn WritableStreamDefaultWriter::abort(
 #alias(release_lock)
 pub fn WritableStreamDefaultWriter::releaseLock(self : Self) -> Unit {
   self.call0("releaseLock") |> ignore
-}
-
-///|
-/// Get the closed promise
-pub fn WritableStreamDefaultWriter::closed(self : Self) -> Promise[Unit] {
-  self.get("closed") |> unsafe_cast
-}
-
-///|
-/// Get the ready promise
-pub fn WritableStreamDefaultWriter::ready(self : Self) -> Promise[Unit] {
-  self.get("ready") |> unsafe_cast
-}
-
-///|
-/// Get the desired size
-#alias(desiredSize)
-pub fn WritableStreamDefaultWriter::desired_size(self : Self) -> Int? {
-  self.get("desiredSize") |> @js.unsafe_cast_option
 }
 
 ///|

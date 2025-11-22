@@ -4,8 +4,11 @@ extern "js" fn ffi_request_new(url : String) -> Js =
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Request
-#external
-pub type Request
+pub(all) struct Request {
+  bodyUsed : Bool
+  url : String
+  credentials : String
+}
 
 ///|
 pub impl JsImpl for Request
@@ -18,24 +21,10 @@ pub fn Request::new(url : String) -> Request {
 }
 
 ///|
-#alias(bodyUsed)
-pub fn Request::body_used(self : Request) -> Bool {
-  self.get("bodyUsed") |> unsafe_cast
-}
-
-///|
-pub fn Request::url(self : Request) -> String {
-  self.get("url") |> unsafe_cast
-}
-
-///|
+/// Get the HTTP method (e.g., "GET", "POST")
+/// Note: This is a method because "method" is a reserved word in MoonBit
 pub fn Request::method_(self : Request) -> String {
   self.get("method") |> unsafe_cast
-}
-
-///|
-pub fn Request::credentials(self : Request) -> String {
-  self.get("credentials") |> unsafe_cast
 }
 
 ///|

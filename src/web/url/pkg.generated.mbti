@@ -6,9 +6,6 @@ import(
 )
 
 // Values
-fn get_component_groups(@js.Js) -> @js.Js
-
-fn get_component_input(@js.Js) -> String
 
 // Errors
 
@@ -37,43 +34,49 @@ impl @js.JsImpl for URL
 impl Eq for URL
 impl Show for URL
 
-#external
-pub type URLPattern
+pub(all) struct URLPattern {
+  protocol : String
+  username : String
+  password : String
+  hostname : String
+  port : String
+  pathname : String
+  search : String
+  hash : String
+  hasRegExpGroups : Bool
+}
 fn URLPattern::exec(Self, String) -> URLPatternResult?
 #alias(exec_with_base)
 fn URLPattern::execWithBase(Self, String, base? : String) -> URLPatternResult?
-#alias(has_regexp_groups)
-fn URLPattern::hasRegExpGroups(Self) -> Bool
-fn URLPattern::hash(Self) -> String
-fn URLPattern::hostname(Self) -> String
 fn URLPattern::new(String, base? : String) -> Self
 #alias(new_from_object)
 fn URLPattern::newFromObject(@js.Js, base? : String) -> Self
-fn URLPattern::password(Self) -> String
-fn URLPattern::pathname(Self) -> String
-fn URLPattern::port(Self) -> String
-fn URLPattern::protocol(Self) -> String
-fn URLPattern::search(Self) -> String
 fn URLPattern::test_url(Self, String) -> Bool
 fn URLPattern::test_url_with_base(Self, String, base? : String) -> Bool
-fn URLPattern::username(Self) -> String
 impl @js.JsImpl for URLPattern
+
+pub(all) struct URLPatternComponentResult {
+  input : String
+  groups : @js.Js
+}
+impl @js.JsImpl for URLPatternComponentResult
 
 pub(all) struct URLPatternResult {
   inputs : @js.Js
-  protocol : @js.Js
-  username : @js.Js
-  password : @js.Js
-  hostname : @js.Js
-  port : @js.Js
-  pathname : @js.Js
-  search : @js.Js
-  hash : @js.Js
+  protocol : URLPatternComponentResult
+  username : URLPatternComponentResult
+  password : URLPatternComponentResult
+  hostname : URLPatternComponentResult
+  port : URLPatternComponentResult
+  pathname : URLPatternComponentResult
+  search : URLPatternComponentResult
+  hash : URLPatternComponentResult
 }
 impl @js.JsImpl for URLPatternResult
 
-#external
-pub type URLSearchParams
+pub(all) struct URLSearchParams {
+  size : Int
+}
 fn URLSearchParams::append(Self, String, String) -> Unit
 fn URLSearchParams::delete(Self, String) -> Unit
 fn URLSearchParams::get(Self, String) -> String?
@@ -81,7 +84,6 @@ fn URLSearchParams::get(Self, String) -> String?
 fn URLSearchParams::get_all(Self, String) -> Array[String]
 fn URLSearchParams::has(Self, String) -> Bool
 fn URLSearchParams::set(Self, String, String) -> Unit
-fn URLSearchParams::size(Self) -> Int
 fn URLSearchParams::sort(Self) -> Unit
 #alias(toString)
 fn URLSearchParams::to_string(Self) -> String

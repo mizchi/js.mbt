@@ -2,31 +2,31 @@
 test "DataView::new - basic creation" {
   let buffer = @js.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
-  assert_eq(view.byte_length(), 16)
-  assert_eq(view.byte_offset(), 0)
+  assert_eq(view.byteLength, 16)
+  assert_eq(view.byteOffset, 0)
 }
 
 ///|
 test "DataView::new - with byte offset" {
   let buffer = @js.ArrayBuffer::new(16)
   let view = DataView::new(buffer, byte_offset=4)
-  assert_eq(view.byte_length(), 12)
-  assert_eq(view.byte_offset(), 4)
+  assert_eq(view.byteLength, 12)
+  assert_eq(view.byteOffset, 4)
 }
 
 ///|
 test "DataView::new - with byte offset and length" {
   let buffer = @js.ArrayBuffer::new(16)
   let view = DataView::new(buffer, byte_offset=4, byte_length=8)
-  assert_eq(view.byte_length(), 8)
-  assert_eq(view.byte_offset(), 4)
+  assert_eq(view.byteLength, 8)
+  assert_eq(view.byteOffset, 4)
 }
 
 ///|
 test "DataView::buffer - get underlying buffer" {
   let buffer = @js.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
-  let retrieved = view.buffer()
+  let retrieved = view.buffer
   assert_eq(retrieved.byte_length(), 16)
 }
 
@@ -172,14 +172,14 @@ test "Uint8Array::last_index_of - with from_index parameter" {
 test "Uint16Array::byte_offset - basic test" {
   let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint16Array::from_array_buffer(buffer, byte_offset=4)
-  assert_eq(arr.byte_offset(), 4)
+  assert_eq(arr.byteOffset, 4)
 }
 
 ///|
 test "Uint16Array::buffer - get underlying buffer" {
   let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint16Array::from_array_buffer(buffer)
-  let retrieved = arr.buffer()
+  let retrieved = arr.buffer
   assert_eq(retrieved.byte_length(), 16)
 }
 
@@ -194,5 +194,5 @@ test "Uint32Array::from_array_buffer - with length parameter" {
 test "Uint32Array::byte_offset - basic test" {
   let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint32Array::from_array_buffer(buffer, byte_offset=4)
-  assert_eq(arr.byte_offset(), 4)
+  assert_eq(arr.byteOffset, 4)
 }

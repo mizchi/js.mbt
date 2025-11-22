@@ -51,13 +51,13 @@ pub fn MutationObserver::take_records(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
 pub(all) struct MutationRecord {
   mutationType : String
-  target : Js
-  addedNodes : Js
-  removedNodes : Js
-  previousSibling : Element?
-  nextSibling : Element?
-  attributeName : String?
-  oldValue : String?
+  target : Node
+  addedNodes : @js.Js // NodeList (array-like)
+  removedNodes : @js.Js // NodeList (array-like)
+  previousSibling : Nullable[Node]
+  nextSibling : Nullable[Node]
+  attributeName : Nullable[String]
+  oldValue : Nullable[String]
 }
 
 ///|

@@ -2,7 +2,7 @@
 test "Uint8Array::from_size - create array" {
   let arr = Uint8Array::from_size(10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_length(), 10)
+  assert_eq(arr.byteLength, 10)
 }
 
 ///|
@@ -18,8 +18,8 @@ test "Uint8Array::from_array_buffer - basic" {
   let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint8Array::from_array_buffer(buffer)
   assert_eq(arr.length(), 16)
-  assert_eq(arr.byte_length(), 16)
-  assert_eq(arr.byte_offset(), 0)
+  assert_eq(arr.byteLength, 16)
+  assert_eq(arr.byteOffset, 0)
 }
 
 ///|
@@ -27,7 +27,7 @@ test "Uint8Array::from_array_buffer - with offset" {
   let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint8Array::from_array_buffer(buffer, byte_offset=4)
   assert_eq(arr.length(), 12)
-  assert_eq(arr.byte_offset(), 4)
+  assert_eq(arr.byteOffset, 4)
 }
 
 ///|
@@ -35,13 +35,13 @@ test "Uint8Array::from_array_buffer - with offset and length" {
   let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint8Array::from_array_buffer(buffer, byte_offset=4, length=8)
   assert_eq(arr.length(), 8)
-  assert_eq(arr.byte_offset(), 4)
+  assert_eq(arr.byteOffset, 4)
 }
 
 ///|
 test "Uint8Array::buffer - get underlying buffer" {
   let arr = Uint8Array::from_size(10)
-  let buffer = arr.buffer()
+  let buffer = arr.buffer
   assert_eq(buffer.byte_length(), 10)
 }
 
@@ -198,7 +198,7 @@ test "Uint8Array::to_string - convert to string" {
 test "Uint16Array::from_size - create array" {
   let arr = Uint16Array::from_size(10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_length(), 20)
+  assert_eq(arr.byteLength, 20)
 }
 
 ///|
@@ -214,7 +214,7 @@ test "Uint16Array::from_array_buffer - basic" {
   let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint16Array::from_array_buffer(buffer)
   assert_eq(arr.length(), 8)
-  assert_eq(arr.byte_length(), 16)
+  assert_eq(arr.byteLength, 16)
 }
 
 ///|
@@ -230,7 +230,7 @@ test "Uint16Array - get and set operations" {
 test "Uint32Array::from_size - create array" {
   let arr = Uint32Array::from_size(10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_length(), 40)
+  assert_eq(arr.byteLength, 40)
 }
 
 ///|
@@ -255,7 +255,7 @@ test "Uint32Array - get and set operations" {
 test "Int8Array::from_size - create array" {
   let arr = Int8Array::from_size(10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_length(), 10)
+  assert_eq(arr.byteLength, 10)
 }
 
 ///|
@@ -281,7 +281,7 @@ test "Int8Array - get and set operations" {
 test "Int16Array::from_size - create array" {
   let arr = Int16Array::from_size(10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_length(), 20)
+  assert_eq(arr.byteLength, 20)
 }
 
 ///|
@@ -296,7 +296,7 @@ test "Int16Array::from_array - create from array" {
 test "Int32Array::from_size - create array" {
   let arr = Int32Array::from_size(10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_length(), 40)
+  assert_eq(arr.byteLength, 40)
 }
 
 ///|
@@ -311,7 +311,7 @@ test "Int32Array::from_array - create from array" {
 test "Float32Array::from_size - create array" {
   let arr = Float32Array::from_size(10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_length(), 40)
+  assert_eq(arr.byteLength, 40)
 }
 
 ///|
@@ -337,7 +337,7 @@ test "Float32Array - get and set operations" {
 test "Float64Array::from_size - create array" {
   let arr = Float64Array::from_size(10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_length(), 80)
+  assert_eq(arr.byteLength, 80)
 }
 
 ///|
@@ -383,7 +383,7 @@ test "TypedArray - byte offset alignment" {
 ///|
 test "Uint32Array::buffer - get underlying buffer" {
   let arr = Uint32Array::from_size(10)
-  let buffer = arr.buffer()
+  let buffer = arr.buffer
   assert_eq(buffer.byte_length(), 40)
 }
 
@@ -392,13 +392,13 @@ test "Int8Array::from_array_buffer - with offset and length" {
   let buffer = @js.ArrayBuffer::new(16)
   let arr = Int8Array::from_array_buffer(buffer, byte_offset=4, length=8)
   assert_eq(arr.length(), 8)
-  assert_eq(arr.byte_offset(), 4)
+  assert_eq(arr.byteOffset, 4)
 }
 
 ///|
 test "Int8Array::buffer - get underlying buffer" {
   let arr = Int8Array::from_size(10)
-  let buffer = arr.buffer()
+  let buffer = arr.buffer
   assert_eq(buffer.byte_length(), 10)
 }
 
@@ -407,13 +407,13 @@ test "Int16Array::from_array_buffer - with offset and length" {
   let buffer = @js.ArrayBuffer::new(32)
   let arr = Int16Array::from_array_buffer(buffer, byte_offset=4, length=8)
   assert_eq(arr.length(), 8)
-  assert_eq(arr.byte_offset(), 4)
+  assert_eq(arr.byteOffset, 4)
 }
 
 ///|
 test "Int16Array::buffer - get underlying buffer" {
   let arr = Int16Array::from_size(10)
-  let buffer = arr.buffer()
+  let buffer = arr.buffer
   assert_eq(buffer.byte_length(), 20)
 }
 
@@ -422,13 +422,13 @@ test "Int32Array::from_array_buffer - with offset and length" {
   let buffer = @js.ArrayBuffer::new(64)
   let arr = Int32Array::from_array_buffer(buffer, byte_offset=8, length=10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_offset(), 8)
+  assert_eq(arr.byteOffset, 8)
 }
 
 ///|
 test "Int32Array::buffer - get underlying buffer" {
   let arr = Int32Array::from_size(10)
-  let buffer = arr.buffer()
+  let buffer = arr.buffer
   assert_eq(buffer.byte_length(), 40)
 }
 
@@ -437,13 +437,13 @@ test "Float32Array::from_array_buffer - with offset and length" {
   let buffer = @js.ArrayBuffer::new(64)
   let arr = Float32Array::from_array_buffer(buffer, byte_offset=8, length=10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_offset(), 8)
+  assert_eq(arr.byteOffset, 8)
 }
 
 ///|
 test "Float32Array::buffer - get underlying buffer" {
   let arr = Float32Array::from_size(10)
-  let buffer = arr.buffer()
+  let buffer = arr.buffer
   assert_eq(buffer.byte_length(), 40)
 }
 
@@ -452,13 +452,13 @@ test "Float64Array::from_array_buffer - with offset and length" {
   let buffer = @js.ArrayBuffer::new(128)
   let arr = Float64Array::from_array_buffer(buffer, byte_offset=16, length=10)
   assert_eq(arr.length(), 10)
-  assert_eq(arr.byte_offset(), 16)
+  assert_eq(arr.byteOffset, 16)
 }
 
 ///|
 test "Float64Array::buffer - get underlying buffer" {
   let arr = Float64Array::from_size(10)
-  let buffer = arr.buffer()
+  let buffer = arr.buffer
   assert_eq(buffer.byte_length(), 80)
 }
 

@@ -57,15 +57,14 @@ fn CSSRule::rule_type(Self) -> Int
 fn CSSRule::set_css_text(Self, String) -> Unit
 impl @js.JsImpl for CSSRule
 
-#external
-pub type CSSStyleDeclaration
-fn CSSStyleDeclaration::css_text(Self) -> String
+pub(all) struct CSSStyleDeclaration {
+  mut cssText : String
+  length : Int
+  parentRule : CSSRule?
+}
 fn CSSStyleDeclaration::get_property_priority(Self, String) -> String
 fn CSSStyleDeclaration::get_property_value(Self, String) -> String
-fn CSSStyleDeclaration::length(Self) -> Int
-fn CSSStyleDeclaration::parent_rule(Self) -> CSSRule?
 fn CSSStyleDeclaration::remove_property(Self, String) -> String
-fn CSSStyleDeclaration::set_css_text(Self, String) -> Unit
 fn CSSStyleDeclaration::set_property(Self, String, String) -> Unit
 fn CSSStyleDeclaration::set_property_priority(Self, String, String, String) -> Unit
 impl @js.JsImpl for CSSStyleDeclaration
@@ -142,18 +141,18 @@ pub(all) struct DOMRectReadOnly {
 }
 impl @js.JsImpl for DOMRectReadOnly
 
-#external
-pub type DataTransfer
+pub(all) struct DataTransfer {
+  mut dropEffect : String
+  mut effectAllowed : String
+  items : @js.Js
+  files : @js.Js
+  types : @js.Js
+}
 fn DataTransfer::clearData(Self, String) -> Unit
-fn DataTransfer::dropEffect(Self) -> String
-fn DataTransfer::effectAllowed(Self) -> String
-fn DataTransfer::files(Self) -> Array[@js.Js]
 fn DataTransfer::getData(Self, String) -> String
-fn DataTransfer::items(Self) -> @js.Js
+fn DataTransfer::get_files(Self) -> Array[@js.Js]
+fn DataTransfer::get_types(Self) -> Array[String]
 fn DataTransfer::setData(Self, String, String) -> Unit
-fn DataTransfer::setDropEffect(Self, String) -> Unit
-fn DataTransfer::setEffectAllowed(Self, String) -> Unit
-fn DataTransfer::types(Self) -> Array[String]
 impl @js.JsImpl for DataTransfer
 
 #external
@@ -225,7 +224,7 @@ impl NodeImpl for DocumentFragment
 impl @event.EventTargetImpl for DocumentFragment
 
 pub(all) struct DragEvent {
-  dataTransfer : DataTransfer?
+  dataTransfer : @js.Nullable[DataTransfer]
 }
 impl @js.JsImpl for DragEvent
 impl EventImpl for DragEvent
@@ -468,8 +467,8 @@ impl NodeImpl for HTMLUListElement
 impl @event.EventTargetImpl for HTMLUListElement
 
 pub(all) struct InputEvent {
-  data : String?
-  dataTransfer : DataTransfer?
+  data : @js.Nullable[String]
+  dataTransfer : @js.Nullable[DataTransfer]
   inputType : String
   isComposing : Bool
 }
@@ -493,12 +492,12 @@ impl @js.JsImpl for KeyboardEvent
 impl EventImpl for KeyboardEvent
 impl Show for KeyboardEvent
 
-#external
-pub type MediaQueryList
+pub(all) struct MediaQueryList {
+  media : String
+  matches : Bool
+}
 fn MediaQueryList::add_change_listener(Self, (Event) -> Unit) -> Unit
 fn MediaQueryList::add_listener(Self, (Self) -> Unit) -> Unit
-fn MediaQueryList::matches(Self) -> Bool
-fn MediaQueryList::media(Self) -> String
 fn MediaQueryList::remove_change_listener(Self, (Event) -> Unit) -> Unit
 fn MediaQueryList::remove_listener(Self, (Self) -> Unit) -> Unit
 impl @js.JsImpl for MediaQueryList

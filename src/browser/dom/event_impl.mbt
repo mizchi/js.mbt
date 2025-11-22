@@ -195,7 +195,7 @@ pub impl EventImpl for FormEvent
 /// DragEvent represents a drag and drop event
 /// https://developer.mozilla.org/en-US/docs/Web/API/DragEvent
 pub(all) struct DragEvent {
-  dataTransfer : DataTransfer?
+  dataTransfer : Nullable[DataTransfer]
 }
 
 ///|
@@ -208,8 +208,8 @@ pub impl EventImpl for DragEvent
 /// InputEvent represents an input event
 /// https://developer.mozilla.org/en-US/docs/Web/API/InputEvent
 pub(all) struct InputEvent {
-  data : String?
-  dataTransfer : DataTransfer?
+  data : Nullable[String]
+  dataTransfer : Nullable[DataTransfer]
   inputType : String
   isComposing : Bool
 }

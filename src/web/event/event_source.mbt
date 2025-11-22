@@ -4,8 +4,11 @@
 /// Server-Sent Events (SSE) を受信するためのインターフェース
 
 ///|
-#external
-pub type EventSource
+pub(all) struct EventSource {
+  url : String
+  readyState : Int
+  withCredentials : Bool
+}
 
 ///|
 pub impl @js.JsImpl for EventSource
@@ -44,27 +47,6 @@ pub extern "js" fn EventSource::new(
   #|  }
   #|  return new EventSource(url);
   #|}
-
-///|
-/// Get the URL of the event source
-/// JS: eventSource.url
-pub fn EventSource::url(self : Self) -> String {
-  self.get("url") |> @js.unsafe_cast
-}
-
-///|
-/// Get the ready state
-/// JS: eventSource.readyState
-pub fn EventSource::readyState(self : Self) -> Int {
-  self.get("readyState") |> @js.unsafe_cast
-}
-
-///|
-/// Get withCredentials setting
-/// JS: eventSource.withCredentials
-pub fn EventSource::withCredentials(self : Self) -> Bool {
-  self.get("withCredentials") |> @js.unsafe_cast
-}
 
 ///|
 /// Close the connection

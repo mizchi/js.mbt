@@ -21,16 +21,16 @@ fn get_last_event_id(@js.Js) -> String
 // Errors
 
 // Types and methods
-#external
-pub type EventSource
+pub(all) struct EventSource {
+  url : String
+  readyState : Int
+  withCredentials : Bool
+}
 fn EventSource::close(Self) -> Unit
 fn EventSource::new(String, withCredentials? : Bool) -> Self
-fn EventSource::readyState(Self) -> Int
 fn EventSource::set_onerror(Self, (@js.Js) -> Unit) -> Unit
 fn EventSource::set_onmessage(Self, (@js.Js) -> Unit) -> Unit
 fn EventSource::set_onopen(Self, (@js.Js) -> Unit) -> Unit
-fn EventSource::url(Self) -> String
-fn EventSource::withCredentials(Self) -> Bool
 impl @js.JsImpl for EventSource
 impl EventTargetImpl for EventSource
 

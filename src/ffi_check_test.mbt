@@ -422,7 +422,8 @@ test "CustomStruct? field with null" {
 
   // CustomStruct? field with null - same issue as Js?
   match obj.optional {
-    Some(_) => inspect("has value (possibly null)", content="has value (possibly null)")
+    Some(_) =>
+      inspect("has value (possibly null)", content="has value (possibly null)")
     None => inspect("None", content="?")
   }
 }

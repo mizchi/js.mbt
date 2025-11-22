@@ -6,6 +6,7 @@ using @js {
   unsafe_cast,
   type Promise,
   type ArrayBuffer,
+  type Nullable,
 }
 
 ///|
