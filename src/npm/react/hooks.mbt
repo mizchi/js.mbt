@@ -247,15 +247,20 @@ pub fn[T] lazy_(f : () -> Promise[Js]) -> ComponentType[T] {
 }
 
 ///|
-extern "js" fn ffi_use_deferred_value(value : Js) -> Js =
-  #| (value) => globalThis.__ReactApi.useDeferredValue(value)
+extern "js" fn ffi_use_deferred_value(value : Js, initial_value : Js) -> Js =
+  #| (value, initialValue) => globalThis.__ReactApi.useDeferredValue(value, initialValue)
 
 ///|
 /// React.useDeferredValue - Defer updating a part of the UI
+/// TypeScript: function useDeferredValue<T>(value: T, initialValue?: T): T
 /// see: https://react.dev/reference/react/useDeferredValue
 #alias(useDeferredValue)
-pub fn[T] use_deferred_value(value : T) -> T {
-  ffi_use_deferred_value(value |> @js.unsafe_js) |> unsafe_cast
+pub fn[T] use_deferred_value(value : T, initial_value? : T) -> T {
+  let initial = match initial_value {
+    Some(v) => v |> @js.unsafe_js
+    None => @js.undefined()
+  }
+  ffi_use_deferred_value(value |> @js.unsafe_js, initial) |> unsafe_cast
 }
 
 ///|
@@ -264,10 +269,11 @@ extern "js" fn ffi_use_debug_value(value : Js, formatter : Js) -> Unit =
 
 ///|
 /// React.useDebugValue - Add a label to a custom hook in React DevTools
+/// TypeScript: function useDebugValue<T>(value: T, format?: (value: T) => any): void
 /// see: https://react.dev/reference/react/useDebugValue
 #alias(useDebugValue)
-pub fn[T] use_debug_value(value : T, formatter? : (T) -> String) -> Unit {
-  match formatter {
+pub fn[T, R] use_debug_value(value : T, format? : (T) -> R) -> Unit {
+  match format {
     Some(f) => ffi_use_debug_value(value |> @js.unsafe_js, f |> @js.unsafe_js)
     None => ffi_use_debug_value(value |> @js.unsafe_js, @js.undefined())
   }
@@ -279,6 +285,7 @@ extern "js" fn ffi_use_id() -> String =
 
 ///|
 /// React.useId - Generate unique IDs for accessibility attributes
+/// TypeScript: function useId(): string
 /// see: https://react.dev/reference/react/useId
 #alias(useId)
 pub fn use_id() -> String {
@@ -291,6 +298,7 @@ extern "js" fn ffi_use_transition() -> Js =
 
 ///|
 /// React.useTransition - Update state without blocking the UI
+/// TypeScript: function useTransition(): [boolean, (callback: () => void) => void]
 /// see: https://react.dev/reference/react/useTransition
 #alias(useTransition)
 pub fn use_transition() -> (Bool, (() -> Unit) -> Unit) {
@@ -304,12 +312,13 @@ extern "js" fn ffi_use_optimistic(state : Js, update_fn : Js) -> Js =
 
 ///|
 /// React.useOptimistic - Show optimistic state while async action is underway
+/// TypeScript: function useOptimistic<S, A>(state: S, updateFn: (currentState: S, optimisticValue: A) => S): [S, (optimisticValue: A) => void]
 /// see: https://react.dev/reference/react/useOptimistic
 #alias(useOptimistic)
-pub fn[T, U] use_optimistic(
-  state : T,
-  update_fn : (T, U) -> T
-) -> (T, (U) -> Unit) {
+pub fn[S, A] use_optimistic(
+  state : S,
+  update_fn : (S, A) -> S
+) -> (S, (A) -> Unit) {
   let result = ffi_use_optimistic(
     state |> @js.unsafe_js,
     update_fn |> @js.unsafe_js,
@@ -323,6 +332,7 @@ extern "js" fn ffi_use_insertion_effect(effect : Js, deps : Js) -> Unit =
 
 ///|
 /// React.useInsertionEffect - Insert elements into the DOM before layout effects
+/// TypeScript: function useInsertionEffect(effect: EffectCallback, deps?: DependencyList): void
 /// see: https://react.dev/reference/react/useInsertionEffect
 #alias(useInsertionEffect)
 pub fn use_insertion_effect(f : () -> () -> Unit, keys : Array[&JsImpl]) -> Unit {
@@ -340,13 +350,14 @@ extern "js" fn ffi_use_sync_external_store(
 
 ///|
 /// React.useSyncExternalStore - Subscribe to an external store
+/// TypeScript: function useSyncExternalStore<Snapshot>(subscribe: (onStoreChange: () => void) => () => void, getSnapshot: () => Snapshot, getServerSnapshot?: () => Snapshot): Snapshot
 /// see: https://react.dev/reference/react/useSyncExternalStore
 #alias(useSyncExternalStore)
-pub fn[T] use_sync_external_store(
-  subscribe : ((Js) -> Unit) -> () -> Unit,
-  get_snapshot : () -> T,
-  get_server_snapshot? : () -> T
-) -> T {
+pub fn[Snapshot] use_sync_external_store(
+  subscribe : (() -> Unit) -> () -> Unit,
+  get_snapshot : () -> Snapshot,
+  get_server_snapshot? : () -> Snapshot
+) -> Snapshot {
   let server_snapshot = match get_server_snapshot {
     Some(f) => f |> @js.unsafe_js
     None => @js.undefined()
@@ -365,6 +376,7 @@ extern "js" fn ffi_use_imperative_handle(ref_ : Js, create : Js, deps : Js) -> U
 
 ///|
 /// React.useImperativeHandle - Customize the ref handle exposed to parent
+/// TypeScript: function useImperativeHandle<T, R extends T>(ref: Ref<T> | undefined, init: () => R, deps?: DependencyList): void
 /// see: https://react.dev/reference/react/useImperativeHandle
 #alias(useImperativeHandle)
 pub fn[T] use_imperative_handle(
@@ -411,6 +423,7 @@ extern "js" fn ffi_react_cache(fn_ : Js) -> Js =
 
 ///|
 /// React.cache - Cache data fetching or computation results
+/// TypeScript: function cache<CachedFunction extends Function>(fn: CachedFunction): CachedFunction
 /// see: https://react.dev/reference/react/cache
 #alias(reactCache)
 pub fn[T, R] react_cache(f : (T) -> R) -> (T) -> R {
