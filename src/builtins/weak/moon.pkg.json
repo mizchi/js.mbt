@@ -1,5 +1,4 @@
 {
   "supported-targets": ["js"],
-  "is_main": false,
   "import": ["mizchi/js"]
 }

@@ -1,5 +1,8 @@
 {
   "supported-targets": ["js"],
-  "is_main": false,
-  "import": ["mizchi/js", "mizchi/js/web/blob", "mizchi/js/builtins/typed_array"]
+  "import": [
+    "mizchi/js",
+    "mizchi/js/web/blob",
+    "mizchi/js/builtins/typed_array"
+  ]
 }

@@ -1,4 +1,4 @@
 {
-  "is-main": false,
+  "supported-targets": ["js"],
   "import": ["mizchi/js", "mizchi/js/web/event"]
 }
