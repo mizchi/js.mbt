@@ -60,7 +60,7 @@ pub(all) struct SpawnSyncResult {
   signal : String?
   stdout : @streams.ReadableStream
   stderr : @streams.ReadableStream
-  error : @js.Js?
+  error : @js.Js
 }
 impl @js.JsImpl for SpawnSyncResult
 
