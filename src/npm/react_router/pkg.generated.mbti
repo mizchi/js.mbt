@@ -9,6 +9,8 @@ import(
 #alias(create_browser_router)
 fn createBrowserRouter(Array[Route]) -> Router
 
+async fn dynamic_import_async() -> Unit
+
 async fn init_react_router_async() -> Unit
 
 fn link(to~ : String, Array[&@react.ReactNode]) -> @react.Element

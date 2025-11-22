@@ -29,6 +29,8 @@ fn createElementDirect(String, @js.Js, @js.Js) -> Element
 #alias(createContext)
 fn[T] create_context(T?) -> Context[T]
 
+async fn dynamic_import_async() -> Unit
+
 fn fragment(Array[&ReactNode], key? : String) -> Element
 
 fn init_react_api(@js.Js, global_key? : String) -> Unit
