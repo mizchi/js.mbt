@@ -12,18 +12,18 @@ $ moon add mizchi/js
 
 | Platform | Documentation | Examples | Status |
 |----------|--------------|----------|--------|
-| **Core JavaScript** | [src/README.md](src/README.md) | [js_examples.mbt.md](src/examples/js_examples.mbt.md) | 🧪 Tested |
+| **Core JavaScript** | [src/README.md](src/README.md) | [js_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_examples.mbt.md) | 🧪 Tested |
 | **Browser/DOM** | [src/browser/dom/README.md](src/browser/dom/README.md) | - | 🧪 Tested |
-| **Node.js** | [src/node/README.md](src/node/README.md) | [node_examples.mbt.md](src/examples/node_examples.mbt.md) | 🚧 Partially |
+| **Node.js** | [src/node/README.md](src/node/README.md) | [node_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/node_examples.mbt.md) | 🚧 Partially |
 | **Deno** | [src/deno/README.md](src/deno/README.md) | - | 🧪 Tested |
 | **Cloudflare Workers** | [src/cloudflare/README.md](src/cloudflare/README.md) | [cfw/](src/examples/cfw/) | 🧪 Tested |
 | **React** | [src/npm/react/](src/npm/react/) | [react_app/](src/examples/react_app/) | 🧪 Tested |
 
 ### 📖 Learning Resources
 
-- [FFI Guide](src/examples/js_ffi.mbt.md) - Understanding MoonBit JavaScript FFI
-- [Escape Hatch Pattern](src/examples/escape_hatch.mbt.md) - Advanced FFI techniques
-- [For TypeScript Users](src/examples/for_ts_user.mbt.md) - Migration guide from TypeScript
+- [FFI Guide](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_ffi.mbt.md) - Understanding MoonBit JavaScript FFI
+- [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/src/examples/escape_hatch.mbt.md) - Advanced FFI techniques
+- [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/src/examples/for_ts_user.mbt.md) - Migration guide from TypeScript
 
 ---
 
@@ -127,7 +127,7 @@ fn main {
 }
 ```
 
-See escape hatch pattern in [src/examples/escape_hatch.mbt.md](src/examples/escape_hatch.mbt.md)
+See escape hatch pattern in [escape_hatch.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/escape_hatch.mbt.md)
 
 ## LICENSE
 
