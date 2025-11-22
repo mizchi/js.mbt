@@ -35,7 +35,7 @@ extern "js" fn ffi_random_values(length : Int) -> Js =
 ///|
 test {
   it("SubtleCrypto digest SHA-256", _ => {
-    let crypto = @crypto.getCrypto()
+    let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let data = ffi_text_encoder_encode("Hello, World!")
     let digest = subtle.digest("SHA-256", data).unwrap()
@@ -47,7 +47,7 @@ test {
 ///|
 test {
   it("SubtleCrypto digest SHA-384", _ => {
-    let crypto = @crypto.getCrypto()
+    let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let data = ffi_text_encoder_encode("Hello, World!")
     let digest = subtle.digest("SHA-384", data).unwrap()
@@ -59,7 +59,7 @@ test {
 ///|
 test {
   it("SubtleCrypto digest SHA-512", _ => {
-    let crypto = @crypto.getCrypto()
+    let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let data = ffi_text_encoder_encode("Hello, World!")
     let digest = subtle.digest("SHA-512", data).unwrap()
@@ -73,7 +73,7 @@ test {
 ///|
 test {
   it("SubtleCrypto generateKey AES-GCM", _ => {
-    let crypto = @crypto.getCrypto()
+    let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
     let key_usages = ["encrypt", "decrypt"]
@@ -86,7 +86,7 @@ test {
 ///|
 test {
   it("SubtleCrypto generateKey HMAC", _ => {
-    let crypto = @crypto.getCrypto()
+    let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
     let key_usages = ["sign", "verify"]
@@ -101,7 +101,7 @@ test {
 ///|
 test {
   it("SubtleCrypto encrypt and decrypt with AES-GCM", _ => {
-    let crypto = @crypto.getCrypto()
+    let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
     let key_usages = ["encrypt", "decrypt"]
@@ -121,7 +121,7 @@ test {
 ///|
 test {
   it("SubtleCrypto sign and verify with HMAC", _ => {
-    let crypto = @crypto.getCrypto()
+    let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
     let key_usages = ["sign", "verify"]
@@ -140,7 +140,7 @@ test {
 ///|
 test {
   it("SubtleCrypto exportKey and importKey with AES-GCM", _ => {
-    let crypto = @crypto.getCrypto()
+    let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
     let key_usages = ["encrypt", "decrypt"]
@@ -159,7 +159,7 @@ test {
 ///|
 test {
   it("getCrypto returns Crypto instance", _ => {
-    let crypto = @crypto.getCrypto()
+    let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let data = ffi_text_encoder_encode("test")
     let digest = subtle.digest("SHA-256", data).unwrap()

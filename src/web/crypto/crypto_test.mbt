@@ -1,6 +1,6 @@
 ///|
 test "Crypto::getRandomValues fills Uint8Array" {
-  let crypto = getCrypto()
+  let crypto = Crypto::get()
   let array = @typed_array.Uint8Array::from_size(16)
   let result = crypto.getRandomValues(array)
 
@@ -20,10 +20,10 @@ test "Crypto::getRandomValues fills Uint8Array" {
 }
 
 ///|
-test "Crypto::getRandomValues fills Uint32Array" {
-  let crypto = getCrypto()
+test "Crypto::getRandomValuesU32 fills Uint32Array" {
+  let crypto = Crypto::get()
   let array = @typed_array.Uint32Array::from_size(4)
-  let result = crypto.getRandomValues(array)
+  let result = crypto.getRandomValuesU32(array)
   assert_eq(result.length, 4)
 
   // Verify randomness
@@ -40,7 +40,7 @@ test "Crypto::getRandomValues fills Uint32Array" {
 
 ///|
 test "Crypto::randomUUID generates valid UUID" {
-  let crypto = getCrypto()
+  let crypto = Crypto::get()
   let uuid = crypto.randomUUID()
 
   // UUID v4 format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
@@ -59,7 +59,7 @@ test "Crypto::randomUUID generates valid UUID" {
 
 ///|
 test "Crypto::randomUUID generates unique values" {
-  let crypto = getCrypto()
+  let crypto = Crypto::get()
   let uuid1 = crypto.randomUUID()
   let uuid2 = crypto.randomUUID()
 
@@ -68,8 +68,8 @@ test "Crypto::randomUUID generates unique values" {
 }
 
 ///|
-test "getCrypto returns Crypto instance" {
-  let crypto = getCrypto()
+test "Crypto::get returns Crypto instance" {
+  let crypto = Crypto::get()
   let js_val : @js.Js = crypto.to_js()
   assert_eq(@js.typeof_(js_val), "object")
 }

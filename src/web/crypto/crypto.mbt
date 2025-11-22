@@ -189,11 +189,65 @@ pub impl JsImpl for Crypto
 
 ///|
 /// Crypto::getRandomValues()
-/// Fills the passed TypedArray with cryptographically secure random values.
-///
-/// Accepts any integer TypedArray and fills it with cryptographically strong random values.
-#alias(get_random_values)
-pub fn[T : JsImpl] Crypto::getRandomValues(self : Self, array : T) -> T {
+/// Fills the passed Uint8Array with cryptographically secure random values.
+pub fn Crypto::getRandomValues(self : Self, array : Uint8Array) -> Uint8Array {
+  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+}
+
+///|
+/// Crypto::getRandomValuesU16()
+/// Fills the passed Uint16Array with cryptographically secure random values.
+pub fn Crypto::getRandomValuesU16(
+  self : Self,
+  array : Uint16Array,
+) -> Uint16Array {
+  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+}
+
+///|
+/// Crypto::getRandomValuesU32()
+/// Fills the passed Uint32Array with cryptographically secure random values.
+pub fn Crypto::getRandomValuesU32(
+  self : Self,
+  array : Uint32Array,
+) -> Uint32Array {
+  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+}
+
+///|
+/// Crypto::getRandomValuesI8()
+/// Fills the passed Int8Array with cryptographically secure random values.
+pub fn Crypto::getRandomValuesI8(self : Self, array : Int8Array) -> Int8Array {
+  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+}
+
+///|
+/// Crypto::getRandomValuesI16()
+/// Fills the passed Int16Array with cryptographically secure random values.
+pub fn Crypto::getRandomValuesI16(
+  self : Self,
+  array : Int16Array,
+) -> Int16Array {
+  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+}
+
+///|
+/// Crypto::getRandomValuesI32()
+/// Fills the passed Int32Array with cryptographically secure random values.
+pub fn Crypto::getRandomValuesI32(
+  self : Self,
+  array : Int32Array,
+) -> Int32Array {
+  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+}
+
+///|
+/// Crypto::getRandomValuesClamped()
+/// Fills the passed Uint8ClampedArray with cryptographically secure random values.
+pub fn Crypto::getRandomValuesClamped(
+  self : Self,
+  array : Uint8ClampedArray,
+) -> Uint8ClampedArray {
   self.call("getRandomValues", [array]) |> @js.unsafe_cast
 }
 
@@ -213,7 +267,7 @@ extern "js" fn ffi_get_crypto() -> Js =
   #|() => globalThis.crypto
 
 ///|
-#alias(get_crypto)
-pub fn getCrypto() -> Crypto {
+/// Get the global Crypto instance
+pub fn Crypto::get() -> Crypto {
   ffi_get_crypto() |> @js.unsafe_cast
 }
