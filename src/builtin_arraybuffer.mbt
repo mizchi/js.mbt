@@ -14,18 +14,40 @@ pub type ArrayBuffer
 pub impl JsImpl for ArrayBuffer
 
 ///|
-extern "js" fn ffi_new_array_buffer(byte_length : UInt) -> Js =
-  #| (len) => new ArrayBuffer(len)
+extern "js" fn ffi_new_array_buffer(
+  byte_length : UInt,
+  max_byte_length : UInt?,
+) -> Js =
+  #| (len, maxLen) => maxLen !== undefined ? new ArrayBuffer(len, { maxByteLength: maxLen }) : new ArrayBuffer(len)
 
 ///|
-pub fn ArrayBuffer::new(byte_length : UInt) -> ArrayBuffer {
-  unsafe_cast(ffi_new_array_buffer(byte_length))
+pub fn ArrayBuffer::new(
+  byte_length : UInt,
+  max_byte_length? : UInt,
+) -> ArrayBuffer {
+  unsafe_cast(ffi_new_array_buffer(byte_length, max_byte_length))
 }
 
 ///|
-#alias(byteLength)
-pub fn ArrayBuffer::byte_length(self : ArrayBuffer) -> UInt {
+#alias(byte_length)
+pub fn ArrayBuffer::byteLength(self : ArrayBuffer) -> UInt {
   self.get("byteLength") |> unsafe_cast
+}
+
+///|
+#alias(max_byte_length)
+pub fn ArrayBuffer::maxByteLength(self : ArrayBuffer) -> UInt {
+  self.get("maxByteLength") |> unsafe_cast
+}
+
+///|
+pub fn ArrayBuffer::resizable(self : ArrayBuffer) -> Bool {
+  self.get("resizable") |> unsafe_cast
+}
+
+///|
+pub fn ArrayBuffer::resize(self : ArrayBuffer, new_byte_length : UInt) -> Unit {
+  self.call1("resize", new_byte_length) |> ignore
 }
 
 ///|
@@ -45,8 +67,8 @@ extern "js" fn ffi_is_view(arg : Js) -> Js =
   #| (arg) => ArrayBuffer.isView(arg)
 
 ///|
-#alias(isView)
-pub fn ArrayBuffer::is_view(arg : Js) -> Bool {
+#alias(is_view)
+pub fn ArrayBuffer::isView(arg : Js) -> Bool {
   ffi_is_view(arg) |> unsafe_cast
 }
 
@@ -69,8 +91,8 @@ pub fn SharedArrayBuffer::new(byte_length : UInt) -> SharedArrayBuffer {
 }
 
 ///|
-#alias(byteLength)
-pub fn SharedArrayBuffer::byte_length(self : SharedArrayBuffer) -> UInt {
+#alias(byte_length)
+pub fn SharedArrayBuffer::byteLength(self : SharedArrayBuffer) -> UInt {
   self.get("byteLength") |> unsafe_cast
 }
 

@@ -3,7 +3,6 @@ package "mizchi/js/npm/hono"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/web/http"
 )
 
@@ -26,7 +25,7 @@ impl @js.JsImpl for ClientEndpoint
 
 pub type ClientResponse
 #alias(array_buffer)
-fn ClientResponse::arrayBuffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
+fn ClientResponse::arrayBuffer(Self) -> @js.Promise[@js.ArrayBuffer]
 fn ClientResponse::blob(Self) -> @js.Promise[@js.Js]
 fn ClientResponse::headers(Self) -> @js.Js
 fn ClientResponse::json(Self) -> @js.Promise[@js.Js]
@@ -92,7 +91,7 @@ impl @js.JsImpl for HonoClient
 #external
 pub type HonoRequest
 #alias(array_buffer)
-fn HonoRequest::arrayBuffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
+fn HonoRequest::arrayBuffer(Self) -> @js.Promise[@js.ArrayBuffer]
 fn HonoRequest::blob(Self) -> @js.Promise[@js.Js]
 #alias(body_used)
 fn HonoRequest::bodyUsed(Self) -> Bool

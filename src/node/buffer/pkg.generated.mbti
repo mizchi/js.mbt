@@ -3,7 +3,6 @@ package "mizchi/js/node/buffer"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/arraybuffer"
 )
 
 // Values
@@ -16,7 +15,7 @@ pub type Buffer
 fn Buffer::alloc(Int, fill? : @js.Js, encoding? : String) -> Self
 #alias(alloc_unsafe)
 fn Buffer::allocUnsafe(Int) -> Self
-fn Buffer::buffer(Self) -> @arraybuffer.ArrayBuffer
+fn Buffer::buffer(Self) -> @js.ArrayBuffer
 #alias(byte_length)
 fn Buffer::byteLength(String, encoding? : String) -> Int
 #alias(byte_offset)
@@ -28,7 +27,7 @@ fn Buffer::copy(Self, Self, target_start? : Int, source_start? : Int, source_end
 fn Buffer::equals(Self, Self) -> Bool
 fn Buffer::fill(Self, @js.Js, offset? : Int, end? : Int, encoding? : String) -> Self
 fn Buffer::from_array(Array[Int]) -> Self
-fn Buffer::from_arraybuffer(@arraybuffer.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
+fn Buffer::from_arraybuffer(@js.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 fn Buffer::from_buffer(Self) -> Self
 fn Buffer::from_string(String, encoding? : String) -> Self
 fn Buffer::includes(Self, @js.Js, byte_offset? : Int, encoding? : String) -> Bool

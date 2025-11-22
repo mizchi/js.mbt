@@ -26,7 +26,6 @@ test "JsMap creation and basic operations" {
 ///|
 test "JsMap::from_entries" {
   let map = JsMap::from_entries([("a", 1), ("b", 2), ("c", 3)])
-
   assert_eq(map.size(), 3)
   assert_eq(map.get("a"), Some(1))
   assert_eq(map.get("b"), Some(2))
@@ -79,7 +78,6 @@ test "JsMap iteration" {
 test "JsMap forEach" {
   let map = JsMap::from_entries([("a", 1), ("b", 2)])
   let mut sum = 0
-
   map.forEach(fn(value, _key) { sum = sum + value })
   assert_eq(sum, 3)
 }
@@ -154,7 +152,6 @@ test "JsSet iteration" {
 test "JsSet forEach" {
   let set = JsSet::from_array([1, 2, 3])
   let mut sum = 0
-
   set.forEach(fn(value) { sum = sum + value })
   assert_eq(sum, 6)
 }
@@ -162,11 +159,9 @@ test "JsSet forEach" {
 ///|
 test "JsSet with strings" {
   let set = JsSet::from_array(["apple", "banana", "cherry"])
-
   assert_eq(set.size(), 3)
   assert_true(set.has("apple"))
   assert_false(set.has("orange"))
-
   set.add("orange") |> ignore
   assert_true(set.has("orange"))
   assert_eq(set.size(), 4)

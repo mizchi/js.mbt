@@ -3,17 +3,17 @@ package "mizchi/js/web/webassembly"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/builtins/typed_array"
 )
 
 // Values
-fn compile(@arraybuffer.Uint8Array) -> @js.Js
+fn compile(@typed_array.Uint8Array) -> @js.Js
 
-fn instantiate_bytes(@arraybuffer.Uint8Array, @js.Js?) -> (WebAssemblyModule, WebAssemblyInstance)
+fn instantiate_bytes(@typed_array.Uint8Array, @js.Js?) -> (WebAssemblyModule, WebAssemblyInstance)
 
 fn instantiate_module(WebAssemblyModule, @js.Js?) -> WebAssemblyInstance
 
-fn validate(@arraybuffer.Uint8Array) -> Bool
+fn validate(@typed_array.Uint8Array) -> Bool
 
 // Errors
 
@@ -50,15 +50,15 @@ impl @js.JsImpl for WebAssemblyInstance
 
 #external
 pub type WebAssemblyMemory
-fn WebAssemblyMemory::buffer(Self) -> @arraybuffer.ArrayBuffer
+fn WebAssemblyMemory::buffer(Self) -> @js.ArrayBuffer
 fn WebAssemblyMemory::grow(Self, Int) -> Int
 fn WebAssemblyMemory::new(MemoryDescriptor) -> Self
 impl @js.JsImpl for WebAssemblyMemory
 
 #external
 pub type WebAssemblyModule
-fn WebAssemblyModule::from_buffer(@arraybuffer.ArrayBuffer) -> Self
-fn WebAssemblyModule::from_bytes(@arraybuffer.Uint8Array) -> Self
+fn WebAssemblyModule::from_buffer(@js.ArrayBuffer) -> Self
+fn WebAssemblyModule::from_bytes(@typed_array.Uint8Array) -> Self
 impl @js.JsImpl for WebAssemblyModule
 
 #external

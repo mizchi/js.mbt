@@ -3,7 +3,6 @@ package "mizchi/js/web/websocket"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/node/buffer"
   "mizchi/js/web/blob"
   "mizchi/js/web/event"
@@ -30,7 +29,7 @@ fn WebSocket::extensions(Self) -> String
 fn WebSocket::new(String, protocols? : Array[String]) -> Self
 fn WebSocket::protocol(Self) -> String
 fn WebSocket::readyState(Self) -> Int
-fn WebSocket::send_arraybuffer(Self, @arraybuffer.ArrayBuffer) -> Unit
+fn WebSocket::send_arraybuffer(Self, @js.ArrayBuffer) -> Unit
 fn WebSocket::send_blob(Self, @blob.Blob) -> Unit
 fn WebSocket::send_buffer(Self, @buffer.Buffer) -> Unit
 fn WebSocket::send_string(Self, String) -> Unit

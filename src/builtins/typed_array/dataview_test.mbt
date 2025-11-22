@@ -1,3 +1,4 @@
+///|
 test "DataView::new - basic creation" {
   let buffer = @js.ArrayBuffer::new(16)
   let view = DataView::new(buffer)

@@ -3,7 +3,6 @@ package "mizchi/js/node/v8"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/node/buffer"
 )
 
@@ -61,7 +60,7 @@ fn Deserializer::readUint32(Self) -> Int
 #alias(read_value)
 fn Deserializer::readValue(Self) -> @js.Js
 #alias(transferArrayBuffer)
-fn Deserializer::transfer_array_buffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
+fn Deserializer::transfer_array_buffer(Self, Int, @js.ArrayBuffer) -> Unit
 impl @js.JsImpl for Deserializer
 
 #external
@@ -70,7 +69,7 @@ fn Serializer::new() -> Self
 #alias(release_buffer)
 fn Serializer::releaseBuffer(Self) -> @buffer.Buffer
 #alias(transfer_array_buffer)
-fn Serializer::transferArrayBuffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
+fn Serializer::transferArrayBuffer(Self, Int, @js.ArrayBuffer) -> Unit
 #alias(write_header)
 fn Serializer::writeHeader(Self) -> Unit
 #alias(write_value)

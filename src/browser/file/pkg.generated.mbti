@@ -3,7 +3,6 @@ package "mizchi/js/browser/file"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/web/blob"
 )
 
@@ -15,7 +14,7 @@ import(
 #external
 pub type File
 #alias(arrayBuffer)
-fn File::array_buffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
+fn File::array_buffer(Self) -> @js.Promise[@js.ArrayBuffer]
 fn File::as_blob(Self) -> @blob.Blob
 #alias(content_type)
 fn File::contentType(Self) -> String

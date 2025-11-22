@@ -461,3 +461,41 @@ test "Float64Array::buffer - get underlying buffer" {
   let buffer = arr.buffer()
   assert_eq(buffer.byte_length(), 80)
 }
+
+///|
+test "Bytes to Uint8Array conversion" {
+  // Create Bytes from array
+  let bytes = Bytes::from_array([72, 101, 108, 108, 111])
+
+  // Convert Bytes to Uint8Array via unsafe_cast
+  let uint8array : Uint8Array = @js.unsafe_cast(bytes)
+
+  // Verify length
+  assert_eq(uint8array.length(), 5)
+
+  // Verify values (ASCII codes)
+  assert_eq(uint8array.get_at(0), 72) // 'H'
+  assert_eq(uint8array.get_at(1), 101) // 'e'
+  assert_eq(uint8array.get_at(2), 108) // 'l'
+  assert_eq(uint8array.get_at(3), 108) // 'l'
+  assert_eq(uint8array.get_at(4), 111) // 'o'
+}
+
+///|
+test "Uint8Array to Bytes conversion" {
+  // Create Uint8Array
+  let uint8array = Uint8Array::from_array([72, 101, 108, 108, 111])
+
+  // Convert Uint8Array to Bytes via unsafe_cast
+  let bytes : Bytes = @js.unsafe_cast(uint8array)
+
+  // Verify length
+  assert_eq(bytes.length(), 5)
+
+  // Verify values
+  assert_eq(bytes[0], 72)
+  assert_eq(bytes[1], 101)
+  assert_eq(bytes[2], 108)
+  assert_eq(bytes[3], 108)
+  assert_eq(bytes[4], 111)
+}

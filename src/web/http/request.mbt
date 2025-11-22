@@ -54,9 +54,7 @@ pub fn Request::text(self : Request) -> Promise[String] {
 }
 
 ///|
-pub fn Request::arraybuffer(
-  self : Request,
-) -> Promise[ArrayBuffer] {
+pub fn Request::arraybuffer(self : Request) -> Promise[ArrayBuffer] {
   self.call0("arrayBuffer") |> unsafe_cast
 }
 

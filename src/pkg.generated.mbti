@@ -12,6 +12,8 @@ fn atob(String) -> String
 
 fn btoa(String) -> String
 
+fn[T : JsImpl] check_option(T) -> Js?
+
 #alias(clear_interval)
 fn clearInterval(JsTimer) -> Unit
 
@@ -85,8 +87,6 @@ fn new_(Js, Array[&JsImpl]) -> Js
 
 fn null_() -> Js
 
-fn[T : JsImpl] option_js(T) -> Js?
-
 #alias(parse_float)
 fn parseFloat(String) -> Double?
 
@@ -119,7 +119,7 @@ fn symbol(String) -> Symbol
 
 fn throw_(&JsImpl) -> Unit
 
-fn[T] throwable(() -> T raise?) -> T raise JsThrowError
+fn[T] throwable(() -> T raise?) -> T raise ThrowError
 
 fn[T : JsImpl] typeof_(T) -> String
 
@@ -132,12 +132,12 @@ fn[A] unsafe_cast_option(Js) -> A?
 fn[T] unsafe_js(T) -> Js
 
 // Errors
-pub suberror JsThrowError {
+pub suberror ThrowError {
   Error(JsError)
   Value(Js)
 }
-impl JsImpl for JsThrowError
-impl Show for JsThrowError
+impl JsImpl for ThrowError
+impl Show for ThrowError
 
 // Types and methods
 #external
@@ -150,6 +150,20 @@ impl JsImpl for AbortController
 #external
 pub type AbortSignal
 impl JsImpl for AbortSignal
+
+#external
+pub type ArrayBuffer
+#alias(byte_length)
+fn ArrayBuffer::byteLength(Self) -> UInt
+#alias(is_view)
+fn ArrayBuffer::isView(Js) -> Bool
+#alias(max_byte_length)
+fn ArrayBuffer::maxByteLength(Self) -> UInt
+fn ArrayBuffer::new(UInt, max_byte_length? : UInt) -> Self
+fn ArrayBuffer::resizable(Self) -> Bool
+fn ArrayBuffer::resize(Self, UInt) -> Unit
+fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
+impl JsImpl for ArrayBuffer
 
 #external
 pub(all) type AsyncIterator[T]
@@ -167,7 +181,7 @@ impl JsImpl for Function
 
 #external
 pub type JSON
-fn JSON::parse(String, reviver? : Js?) -> Js raise JsThrowError
+fn JSON::parse(String, reviver? : Js?) -> Js raise ThrowError
 fn JSON::stringify(Js, replacer? : Js, space? : Int) -> String
 
 #external
@@ -268,6 +282,14 @@ pub(all) struct SettledResult[T] {
 }
 
 #external
+pub type SharedArrayBuffer
+#alias(byte_length)
+fn SharedArrayBuffer::byteLength(Self) -> UInt
+fn SharedArrayBuffer::new(UInt) -> Self
+fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
+impl JsImpl for SharedArrayBuffer
+
+#external
 pub type Symbol
 fn Symbol::asyncDispose() -> Self
 fn Symbol::asyncIterator() -> Self
@@ -289,10 +311,10 @@ pub(open) trait JsImpl {
   call0(Self, &PropertyKey) -> Js = _
   call1(Self, &PropertyKey, &JsImpl) -> Js = _
   call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Js = _
-  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise JsThrowError = _
+  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise ThrowError = _
   call_self(Self, Array[&JsImpl]) -> Js = _
   call_self0(Self) -> Js = _
-  call_self_throwable(Self, Array[&JsImpl]) -> Js raise JsThrowError = _
+  call_self_throwable(Self, Array[&JsImpl]) -> Js raise ThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
 }

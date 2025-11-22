@@ -3,7 +3,7 @@ package "mizchi/js/web/http"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/builtins/typed_array"
   "mizchi/js/web/blob"
   "mizchi/js/web/streams"
 )
@@ -28,11 +28,11 @@ pub type Headers
 
 #external
 pub type Request
-fn Request::arraybuffer(Self) -> @js.Promise[@arraybuffer.ArrayBuffer]
+fn Request::arraybuffer(Self) -> @js.Promise[@js.ArrayBuffer]
 fn Request::blob(Self) -> @js.Promise[@blob.Blob]
 #alias(bodyUsed)
 fn Request::body_used(Self) -> Bool
-fn Request::bytes(Self) -> @js.Promise[@arraybuffer.Uint8Array]
+fn Request::bytes(Self) -> @js.Promise[@typed_array.Uint8Array]
 fn Request::clone(Self) -> Self
 fn Request::credentials(Self) -> String
 fn Request::json(Self) -> @js.Promise[@js.Js]
@@ -45,7 +45,7 @@ impl @js.JsImpl for Request
 #external
 pub type Response
 fn Response::body(Self) -> @streams.ReadableStream?
-fn Response::bytes(Self) -> @js.Promise[@arraybuffer.Uint8Array]
+fn Response::bytes(Self) -> @js.Promise[@typed_array.Uint8Array]
 fn Response::clone(Self) -> Self
 fn Response::error() -> Self
 fn Response::form_data(Self) -> @js.Promise[FormData]

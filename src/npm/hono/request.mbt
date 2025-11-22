@@ -82,9 +82,7 @@ pub fn HonoRequest::formData(self : Self) -> Promise[@http.FormData] {
 /// Parse request body as array buffer
 /// https://hono.dev/docs/api/request#arraybuffer
 #alias(array_buffer)
-pub fn HonoRequest::arrayBuffer(
-  self : Self,
-) -> Promise[ArrayBuffer] {
+pub fn HonoRequest::arrayBuffer(self : Self) -> Promise[ArrayBuffer] {
   self.call0("arrayBuffer") |> unsafe_cast
 }
 

@@ -1,28 +1,76 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/builtins/arraybuffer"
+package "mizchi/js/builtins/typed_array"
 
 import(
   "mizchi/js"
+  "mizchi/js/builtins/bigint"
 )
 
 // Values
+fn bytes_to_uint8array(Bytes) -> Uint8Array
+
+fn uint8array_to_bytes(Uint8Array) -> Bytes
 
 // Errors
 
 // Types and methods
 #external
-pub type ArrayBuffer
-#alias(byteLength)
-fn ArrayBuffer::byte_length(Self) -> UInt
-#alias(isView)
-fn ArrayBuffer::is_view(@js.Js) -> Bool
-fn ArrayBuffer::new(UInt) -> Self
-fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-impl @js.JsImpl for ArrayBuffer
+pub type BigInt64Array
+#alias(byte_length)
+fn BigInt64Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn BigInt64Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn BigInt64Array::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn BigInt64Array::fill(Self, @bigint.JsBigInt, start? : Int, end? : Int) -> Self
+fn BigInt64Array::from_array(Array[@bigint.JsBigInt]) -> Self
+fn BigInt64Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn BigInt64Array::from_size(UInt) -> Self
+#alias("_[_]")
+fn BigInt64Array::get_at(Self, UInt) -> @bigint.JsBigInt
+fn BigInt64Array::includes(Self, @bigint.JsBigInt, from_index? : Int) -> Bool
+#alias(index_of)
+fn BigInt64Array::indexOf(Self, @bigint.JsBigInt, from_index? : Int) -> Int
+#alias(last_index_of)
+fn BigInt64Array::lastIndexOf(Self, @bigint.JsBigInt, from_index? : Int) -> Int
+fn BigInt64Array::set(Self, Array[@bigint.JsBigInt], offset? : UInt) -> Unit
+#alias("_[_]=_")
+fn BigInt64Array::set_at(Self, UInt, @bigint.JsBigInt) -> Unit
+#alias(to_string)
+fn BigInt64Array::toString(Self) -> String
+impl @js.JsImpl for BigInt64Array
+impl TypedArrayImpl for BigInt64Array
+
+#external
+pub type BigUint64Array
+#alias(byte_length)
+fn BigUint64Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn BigUint64Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn BigUint64Array::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn BigUint64Array::fill(Self, @bigint.JsBigInt, start? : Int, end? : Int) -> Self
+fn BigUint64Array::from_array(Array[@bigint.JsBigInt]) -> Self
+fn BigUint64Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn BigUint64Array::from_size(UInt) -> Self
+#alias("_[_]")
+fn BigUint64Array::get_at(Self, UInt) -> @bigint.JsBigInt
+fn BigUint64Array::includes(Self, @bigint.JsBigInt, from_index? : Int) -> Bool
+#alias(index_of)
+fn BigUint64Array::indexOf(Self, @bigint.JsBigInt, from_index? : Int) -> Int
+#alias(last_index_of)
+fn BigUint64Array::lastIndexOf(Self, @bigint.JsBigInt, from_index? : Int) -> Int
+fn BigUint64Array::set(Self, Array[@bigint.JsBigInt], offset? : UInt) -> Unit
+#alias("_[_]=_")
+fn BigUint64Array::set_at(Self, UInt, @bigint.JsBigInt) -> Unit
+#alias(to_string)
+fn BigUint64Array::toString(Self) -> String
+impl @js.JsImpl for BigUint64Array
+impl TypedArrayImpl for BigUint64Array
 
 #external
 pub type DataView
-fn DataView::buffer(Self) -> ArrayBuffer
+fn DataView::buffer(Self) -> @js.ArrayBuffer
 #alias(byteLength)
 fn DataView::byte_length(Self) -> UInt
 #alias(byteOffset)
@@ -43,7 +91,7 @@ fn DataView::get_uint16(Self, UInt, little_endian? : Bool) -> UInt
 fn DataView::get_uint32(Self, UInt, little_endian? : Bool) -> UInt
 #alias(getUint8)
 fn DataView::get_uint8(Self, UInt) -> UInt
-fn DataView::new(ArrayBuffer, byte_offset? : UInt, byte_length? : UInt) -> Self
+fn DataView::new(@js.ArrayBuffer, byte_offset? : UInt, byte_length? : UInt) -> Self
 #alias(setFloat32)
 fn DataView::set_float32(Self, UInt, Double, little_endian? : Bool) -> Unit
 #alias(setFloat64)
@@ -64,165 +112,256 @@ impl @js.JsImpl for DataView
 
 #external
 pub type Float32Array
-fn Float32Array::buffer(Self) -> ArrayBuffer
-#alias(byteLength)
-fn Float32Array::byte_length(Self) -> UInt
-#alias(byteOffset)
-fn Float32Array::byte_offset(Self) -> UInt
+#alias(byte_length)
+fn Float32Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn Float32Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn Float32Array::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn Float32Array::fill(Self, Double, start? : Int, end? : Int) -> Self
 fn Float32Array::from_array(Array[Double]) -> Self
-fn Float32Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Float32Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
 fn Float32Array::from_size(UInt) -> Self
 #alias("_[_]")
 fn Float32Array::get_at(Self, UInt) -> Double
-fn Float32Array::length(Self) -> UInt
+fn Float32Array::includes(Self, Double, from_index? : Int) -> Bool
+#alias(index_of)
+fn Float32Array::indexOf(Self, Double, from_index? : Int) -> Int
+#alias(last_index_of)
+fn Float32Array::lastIndexOf(Self, Double, from_index? : Int) -> Int
 #alias("_[_]=_")
 fn Float32Array::set_at(Self, UInt, Double) -> Unit
+#alias(to_string)
+fn Float32Array::toString(Self) -> String
 impl @js.JsImpl for Float32Array
+impl TypedArrayImpl for Float32Array
 
 #external
 pub type Float64Array
-fn Float64Array::buffer(Self) -> ArrayBuffer
-#alias(byteLength)
-fn Float64Array::byte_length(Self) -> UInt
-#alias(byteOffset)
-fn Float64Array::byte_offset(Self) -> UInt
+#alias(byte_length)
+fn Float64Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn Float64Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn Float64Array::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn Float64Array::fill(Self, Double, start? : Int, end? : Int) -> Self
 fn Float64Array::from_array(Array[Double]) -> Self
-fn Float64Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Float64Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
 fn Float64Array::from_size(UInt) -> Self
 #alias("_[_]")
 fn Float64Array::get_at(Self, UInt) -> Double
-fn Float64Array::length(Self) -> UInt
+fn Float64Array::includes(Self, Double, from_index? : Int) -> Bool
+#alias(index_of)
+fn Float64Array::indexOf(Self, Double, from_index? : Int) -> Int
+#alias(last_index_of)
+fn Float64Array::lastIndexOf(Self, Double, from_index? : Int) -> Int
 #alias("_[_]=_")
 fn Float64Array::set_at(Self, UInt, Double) -> Unit
+#alias(to_string)
+fn Float64Array::toString(Self) -> String
 impl @js.JsImpl for Float64Array
+impl TypedArrayImpl for Float64Array
 
 #external
 pub type Int16Array
-fn Int16Array::buffer(Self) -> ArrayBuffer
-#alias(byteLength)
-fn Int16Array::byte_length(Self) -> UInt
-#alias(byteOffset)
-fn Int16Array::byte_offset(Self) -> UInt
+#alias(byte_length)
+fn Int16Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn Int16Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn Int16Array::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn Int16Array::fill(Self, Int, start? : Int, end? : Int) -> Self
 fn Int16Array::from_array(Array[Int]) -> Self
-fn Int16Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Int16Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
 fn Int16Array::from_size(UInt) -> Self
 #alias("_[_]")
 fn Int16Array::get_at(Self, UInt) -> Int
-fn Int16Array::length(Self) -> UInt
+fn Int16Array::includes(Self, Int, from_index? : Int) -> Bool
+#alias(index_of)
+fn Int16Array::indexOf(Self, Int, from_index? : Int) -> Int
+#alias(last_index_of)
+fn Int16Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
 #alias("_[_]=_")
 fn Int16Array::set_at(Self, UInt, Int) -> Unit
+#alias(to_string)
+fn Int16Array::toString(Self) -> String
 impl @js.JsImpl for Int16Array
+impl TypedArrayImpl for Int16Array
 
 #external
 pub type Int32Array
-fn Int32Array::buffer(Self) -> ArrayBuffer
-#alias(byteLength)
-fn Int32Array::byte_length(Self) -> UInt
-#alias(byteOffset)
-fn Int32Array::byte_offset(Self) -> UInt
+#alias(byte_length)
+fn Int32Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn Int32Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn Int32Array::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn Int32Array::fill(Self, Int, start? : Int, end? : Int) -> Self
 fn Int32Array::from_array(Array[Int]) -> Self
-fn Int32Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Int32Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
 fn Int32Array::from_size(UInt) -> Self
 #alias("_[_]")
 fn Int32Array::get_at(Self, UInt) -> Int
-fn Int32Array::length(Self) -> UInt
+fn Int32Array::includes(Self, Int, from_index? : Int) -> Bool
+#alias(index_of)
+fn Int32Array::indexOf(Self, Int, from_index? : Int) -> Int
+#alias(last_index_of)
+fn Int32Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
 #alias("_[_]=_")
 fn Int32Array::set_at(Self, UInt, Int) -> Unit
+#alias(to_string)
+fn Int32Array::toString(Self) -> String
 impl @js.JsImpl for Int32Array
+impl TypedArrayImpl for Int32Array
 
 #external
 pub type Int8Array
-fn Int8Array::buffer(Self) -> ArrayBuffer
-#alias(byteLength)
-fn Int8Array::byte_length(Self) -> UInt
-#alias(byteOffset)
-fn Int8Array::byte_offset(Self) -> UInt
+#alias(byte_length)
+fn Int8Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn Int8Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn Int8Array::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn Int8Array::fill(Self, Int, start? : Int, end? : Int) -> Self
 fn Int8Array::from_array(Array[Int]) -> Self
-fn Int8Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Int8Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
 fn Int8Array::from_size(UInt) -> Self
 #alias("_[_]")
 fn Int8Array::get_at(Self, UInt) -> Int
-fn Int8Array::length(Self) -> UInt
+fn Int8Array::includes(Self, Int, from_index? : Int) -> Bool
+#alias(index_of)
+fn Int8Array::indexOf(Self, Int, from_index? : Int) -> Int
+#alias(last_index_of)
+fn Int8Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
 #alias("_[_]=_")
 fn Int8Array::set_at(Self, UInt, Int) -> Unit
+#alias(to_string)
+fn Int8Array::toString(Self) -> String
 impl @js.JsImpl for Int8Array
-
-#external
-pub type SharedArrayBuffer
-#alias(byteLength)
-fn SharedArrayBuffer::byte_length(Self) -> UInt
-fn SharedArrayBuffer::new(UInt) -> Self
-fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-impl @js.JsImpl for SharedArrayBuffer
+impl TypedArrayImpl for Int8Array
 
 #external
 pub type Uint16Array
-fn Uint16Array::buffer(Self) -> ArrayBuffer
-#alias(byteLength)
-fn Uint16Array::byte_length(Self) -> UInt
-#alias(byteOffset)
-fn Uint16Array::byte_offset(Self) -> UInt
+#alias(byte_length)
+fn Uint16Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn Uint16Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn Uint16Array::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn Uint16Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
 fn Uint16Array::from_array(Array[UInt]) -> Self
-fn Uint16Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Uint16Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
 fn Uint16Array::from_size(UInt) -> Self
 #alias("_[_]")
 fn Uint16Array::get_at(Self, UInt) -> UInt
-fn Uint16Array::length(Self) -> UInt
+fn Uint16Array::includes(Self, UInt, from_index? : Int) -> Bool
+#alias(index_of)
+fn Uint16Array::indexOf(Self, UInt, from_index? : Int) -> Int
+#alias(last_index_of)
+fn Uint16Array::lastIndexOf(Self, UInt, from_index? : Int) -> Int
 #alias("_[_]=_")
 fn Uint16Array::set_at(Self, UInt, UInt) -> Unit
+#alias(to_string)
+fn Uint16Array::toString(Self) -> String
 impl @js.JsImpl for Uint16Array
+impl TypedArrayImpl for Uint16Array
 
 #external
 pub type Uint32Array
-fn Uint32Array::buffer(Self) -> ArrayBuffer
-#alias(byteLength)
-fn Uint32Array::byte_length(Self) -> UInt
-#alias(byteOffset)
-fn Uint32Array::byte_offset(Self) -> UInt
+#alias(byte_length)
+fn Uint32Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn Uint32Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn Uint32Array::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn Uint32Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
 fn Uint32Array::from_array(Array[UInt]) -> Self
-fn Uint32Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Uint32Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
 fn Uint32Array::from_size(UInt) -> Self
 #alias("_[_]")
 fn Uint32Array::get_at(Self, UInt) -> UInt
-fn Uint32Array::length(Self) -> UInt
+fn Uint32Array::includes(Self, UInt, from_index? : Int) -> Bool
+#alias(index_of)
+fn Uint32Array::indexOf(Self, UInt, from_index? : Int) -> Int
+#alias(last_index_of)
+fn Uint32Array::lastIndexOf(Self, UInt, from_index? : Int) -> Int
 #alias("_[_]=_")
 fn Uint32Array::set_at(Self, UInt, UInt) -> Unit
+#alias(to_string)
+fn Uint32Array::toString(Self) -> String
 impl @js.JsImpl for Uint32Array
+impl TypedArrayImpl for Uint32Array
 
 #external
 pub type Uint8Array
-fn Uint8Array::buffer(Self) -> ArrayBuffer
-#alias(byteLength)
-fn Uint8Array::byte_length(Self) -> UInt
-#alias(byteOffset)
-fn Uint8Array::byte_offset(Self) -> UInt
-#alias(copyWithin)
-fn Uint8Array::copy_within(Self, Int, Int, end? : Int) -> Self
+#alias(byte_length)
+fn Uint8Array::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn Uint8Array::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn Uint8Array::copyWithin(Self, Int, Int, end? : Int) -> Self
 fn Uint8Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
 fn Uint8Array::from_array(Array[UInt]) -> Self
-fn Uint8Array::from_array_buffer(ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Uint8Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Uint8Array::from_bytes(Bytes) -> Self
 fn Uint8Array::from_size(UInt) -> Self
 #alias("_[_]")
 fn Uint8Array::get_at(Self, UInt) -> UInt
 fn Uint8Array::includes(Self, UInt, from_index? : Int) -> Bool
-#alias(indexOf)
-fn Uint8Array::index_of(Self, UInt, from_index? : Int) -> Int
-fn Uint8Array::join(Self, separator? : String) -> String
-#alias(lastIndexOf)
-fn Uint8Array::last_index_of(Self, UInt, from_index? : Int) -> Int
-fn Uint8Array::length(Self) -> UInt
-fn Uint8Array::reverse(Self) -> Self
+#alias(index_of)
+fn Uint8Array::indexOf(Self, UInt, from_index? : Int) -> Int
+#alias(last_index_of)
+fn Uint8Array::lastIndexOf(Self, UInt, from_index? : Int) -> Int
 fn Uint8Array::set(Self, Array[UInt], offset? : UInt) -> Unit
 #alias("_[_]=_")
 fn Uint8Array::set_at(Self, UInt, UInt) -> Unit
-fn Uint8Array::slice(Self, start? : Int, end? : Int) -> Self
-fn Uint8Array::sort(Self) -> Self
-fn Uint8Array::subarray(Self, begin? : Int, end? : Int) -> Self
-#alias(toString)
-fn Uint8Array::to_string(Self) -> String
+#alias(to_string)
+fn Uint8Array::toString(Self) -> String
+fn Uint8Array::to_bytes(Self) -> Bytes
 impl @js.JsImpl for Uint8Array
+impl TypedArrayImpl for Uint8Array
+
+#external
+pub type Uint8ClampedArray
+#alias(byte_length)
+fn Uint8ClampedArray::byteLength(Self) -> UInt
+#alias(byte_offset)
+fn Uint8ClampedArray::byteOffset(Self) -> UInt
+#alias(copy_within)
+fn Uint8ClampedArray::copyWithin(Self, Int, Int, end? : Int) -> Self
+fn Uint8ClampedArray::fill(Self, UInt, start? : Int, end? : Int) -> Self
+fn Uint8ClampedArray::from_array(Array[UInt]) -> Self
+fn Uint8ClampedArray::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
+fn Uint8ClampedArray::from_size(UInt) -> Self
+#alias("_[_]")
+fn Uint8ClampedArray::get_at(Self, UInt) -> UInt
+fn Uint8ClampedArray::includes(Self, UInt, from_index? : Int) -> Bool
+#alias(index_of)
+fn Uint8ClampedArray::indexOf(Self, UInt, from_index? : Int) -> Int
+#alias(last_index_of)
+fn Uint8ClampedArray::lastIndexOf(Self, UInt, from_index? : Int) -> Int
+fn Uint8ClampedArray::set(Self, Array[UInt], offset? : UInt) -> Unit
+#alias("_[_]=_")
+fn Uint8ClampedArray::set_at(Self, UInt, UInt) -> Unit
+#alias(to_string)
+fn Uint8ClampedArray::toString(Self) -> String
+impl @js.JsImpl for Uint8ClampedArray
+impl TypedArrayImpl for Uint8ClampedArray
 
 // Type aliases
 
 // Traits
+pub(open) trait TypedArrayImpl : @js.JsImpl {
+  length(Self) -> UInt = _
+  byteLength(Self) -> UInt = _
+  byteOffset(Self) -> UInt = _
+  buffer(Self) -> @js.ArrayBuffer = _
+  slice(Self, start? : Int, end? : Int) -> Self = _
+  subarray(Self, begin? : Int, end? : Int) -> Self = _
+  copyWithin(Self, Int, Int, end? : Int) -> Self = _
+  reverse(Self) -> Self = _
+  sort(Self) -> Self = _
+  join(Self, separator? : String) -> String = _
+  toString(Self) -> String = _
+}
 

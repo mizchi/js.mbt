@@ -8,7 +8,6 @@ test "Object creation and basic operations" {
   let obj = @js.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
-
   assert_eq(unsafe_cast(obj.get("name")), "Alice")
   assert_eq(unsafe_cast(obj.get("age")), 30)
   assert_true(obj.hasOwnProperty("name"))
@@ -42,7 +41,9 @@ test "Object::keys, values, entries" {
   obj2.set("c", 3)
   let values = Object::values(obj2)
   assert_eq(values.length(), 3)
-  let sum : Int = unsafe_cast(values[0]) + unsafe_cast(values[1]) + unsafe_cast(values[2])
+  let sum : Int = unsafe_cast(values[0]) +
+    unsafe_cast(values[1]) +
+    unsafe_cast(values[2])
   assert_eq(sum, 6)
 
   // Test entries
@@ -73,7 +74,6 @@ test "Object::assign" {
   source.set("b", 3)
   source.set("c", 4)
   let result = Object::assign(target, source)
-
   assert_eq(unsafe_cast(result.get("a")), 1)
   assert_eq(unsafe_cast(result.get("b")), 3)
   assert_eq(unsafe_cast(result.get("c")), 4)
@@ -83,7 +83,6 @@ test "Object::assign" {
 test "Object::is_ comparison" {
   let obj1 = @js.Object::new()
   let obj2 = @js.Object::new()
-
   assert_true(Object::is_(obj1, obj1))
   assert_false(Object::is_(obj1, obj2))
 
@@ -106,13 +105,13 @@ test "Object freeze, seal, preventExtensions" {
   assert_eq(unsafe_cast(frozen.get("a")), 1)
 
   // Test seal
-  let sealed = @js.Object::new()
-  sealed.set("b", 2)
-  assert_false(Object::isSealed(sealed))
-  Object::seal(sealed) |> ignore
-  assert_true(Object::isSealed(sealed))
-  assert_false(Object::isExtensible_static(sealed))
-  assert_eq(unsafe_cast(sealed.get("b")), 2)
+  let sealed_obj = @js.Object::new()
+  sealed_obj.set("b", 2)
+  assert_false(Object::isSealed(sealed_obj))
+  Object::seal(sealed_obj) |> ignore
+  assert_true(Object::isSealed(sealed_obj))
+  assert_false(Object::isExtensible_static(sealed_obj))
+  assert_eq(unsafe_cast(sealed_obj.get("b")), 2)
 
   // Test preventExtensions
   let non_ext = @js.Object::new()
@@ -125,8 +124,8 @@ test "Object freeze, seal, preventExtensions" {
   // Compare all three
   assert_true(Object::isFrozen(frozen))
   assert_true(Object::isSealed(frozen))
-  assert_false(Object::isFrozen(sealed))
-  assert_true(Object::isSealed(sealed))
+  assert_false(Object::isFrozen(sealed_obj))
+  assert_true(Object::isSealed(sealed_obj))
   assert_false(Object::isFrozen(non_ext))
   assert_false(Object::isSealed(non_ext))
 }
@@ -143,9 +142,7 @@ test "Object::propertyIsEnumerable" {
 test "Object::isPrototypeOf" {
   let parent = @js.Object::new()
   let child = Object::create(parent.to_js())
-
   assert_true(parent.isPrototypeOf(child.to_js()))
-
   let child_obj : Object = unsafe_cast(child)
   assert_false(child_obj.isPrototypeOf(parent.to_js()))
 }
@@ -154,7 +151,6 @@ test "Object::isPrototypeOf" {
 test "Object::isExtensible instance method" {
   let obj = @js.Object::new()
   obj.set("prop", "value")
-
   assert_true(obj.isExtensible())
   Object::preventExtensions(obj) |> ignore
   assert_false(obj.isExtensible())
@@ -205,7 +201,6 @@ test "JsError creation and properties" {
   let error = JsError::new("Test error")
   assert_eq(error.message, "Test error")
   assert_true(JsError::isError(error))
-
   let error_val : Js = unsafe_cast(error)
   assert_true(@js.is_object(error_val))
   assert_eq(unsafe_cast(error_val.get("message")), "Test error")
@@ -223,7 +218,6 @@ test "JsError with cause" {
 test "JsError Show trait" {
   let err = JsError::new("error message")
   inspect(err, content="error message")
-
   let str = err.message
   assert_eq(str, "error message")
 }
@@ -255,7 +249,6 @@ test "Symbol creation and well-known symbols" {
   let iter_sym = Symbol::iterator()
   let dispose_sym = Symbol::dispose()
   let async_dispose_sym = Symbol::asyncDispose()
-
   assert_eq(@js.typeof_(js(sym)), "symbol")
   assert_eq(@js.typeof_(js(iter_sym)), "symbol")
   assert_eq(@js.typeof_(js(dispose_sym)), "symbol")
@@ -266,10 +259,8 @@ test "Symbol creation and well-known symbols" {
 test "Symbol::for_ global registry" {
   let sym1 = Symbol::for_("mySymbol")
   let sym2 = Symbol::for_("mySymbol")
-
   assert_eq(@js.typeof_(sym1), "symbol")
   assert_eq(@js.typeof_(sym2), "symbol")
-
   let sym3 = Symbol::for_("differentSymbol")
   assert_eq(@js.typeof_(sym3), "symbol")
 }
@@ -280,7 +271,6 @@ test "Symbol::for_ global registry" {
 test "JsString::fromCharCode" {
   let str = JsString::fromCharCode([72, 101, 108, 108, 111]) // "Hello"
   assert_eq(str, "Hello")
-
   let str2 = JsString::fromCharCode([65, 66, 67]) // "ABC"
   assert_eq(str2, "ABC")
 }
@@ -302,15 +292,12 @@ test "Primitive type casting" {
   let int_val = js(42)
   let int_result : Int = unsafe_cast(int_val)
   assert_eq(int_result, 42)
-
   let double_val = js(3.14)
   let double_result : Double = unsafe_cast(double_val)
   assert_eq(double_result, 3.14)
-
   let str_val = js("hello")
   let str_result : String = unsafe_cast(str_val)
   assert_eq(str_result, "hello")
-
   let bool_val = js(true)
   let bool_result : Bool = unsafe_cast(bool_val)
   assert_eq(bool_result, true)
@@ -336,7 +323,6 @@ test "unsafe_cast_option with Show types" {
   let num_val = @js.js(42)
   let num_opt : Int? = @js.unsafe_cast_option(num_val)
   assert_eq(num_opt, Some(42))
-
   let str_val = @js.js("hello")
   let str_opt : String? = @js.unsafe_cast_option(str_val)
   assert_eq(str_opt, Some("hello"))
@@ -357,11 +343,9 @@ test "check_option for nullish detection" {
   let obj = @js.Object::new()
   let result = check_option(obj)
   assert_false(result is None)
-
   let null_obj : @js.Object = @js.unsafe_cast(@js.null_())
   let null_result = check_option(null_obj)
   assert_true(null_result is None)
-
   let undef_obj : @js.Object = @js.unsafe_cast(@js.undefined())
   let undef_result = check_option(undef_obj)
   assert_true(undef_result is None)
