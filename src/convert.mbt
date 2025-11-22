@@ -306,8 +306,9 @@ pub fn js(a : &JsImpl) -> Js {
 }
 
 ///|
-/// Safe cast JsImpl -> Option[Js].
-pub fn[T : JsImpl] option_js(a : T) -> Js? {
+/// Dynamically checks if a Js object is nullish (null or undefined) and casts it to Option[Js].
+/// Returns None if the value is nullish, otherwise returns Some with the casted value.
+pub fn[T : JsImpl] check_option(a : T) -> Js? {
   if ffi_is_nullish(a |> unsafe_cast) {
     None
   } else {
@@ -369,20 +370,20 @@ pub fn[T : JsImpl] is_builtin_trait(v : T) -> Bool {
 }
 
 ///|
-/// Wraps a synchronous function call, converting any thrown JS errors into JsError
+/// Wraps a synchronous function call, converting any thrown JS errors into ThrowError
 /// ```moonbit skip
 /// let result = throwable(() => {
 ///   undefined().call_self([])
 /// })
 /// ```
-pub fn[T] throwable(f : () -> T raise?) -> T raise JsThrowError {
+pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
   match throwable_result(f |> unsafe_cast) {
     Ok(result) => result |> unsafe_cast
     Err(e) => {
       if ffi_is_error(e) {
-        raise JsThrowError::Error(unsafe_cast(e))
+        raise ThrowError::Error(unsafe_cast(e))
       }
-      raise JsThrowError::Value(e |> unsafe_cast)
+      raise ThrowError::Value(e |> unsafe_cast)
     }
   }
 }

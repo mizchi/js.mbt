@@ -80,10 +80,10 @@ pub(open) trait JsImpl {
   call0(Self, &PropertyKey) -> Js = _
   call1(Self, &PropertyKey, &JsImpl) -> Js = _
   call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Js = _
-  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise JsThrowError = _
+  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise ThrowError = _
   call_self(Self, Array[&JsImpl]) -> Js = _
   call_self0(Self) -> Js = _
-  call_self_throwable(Self, Array[&JsImpl]) -> Js raise JsThrowError = _
+  call_self_throwable(Self, Array[&JsImpl]) -> Js raise ThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
 }
@@ -139,8 +139,8 @@ impl JsImpl with call2(self, key, arg1, arg2) -> Js {
 }
 
 ///|
-/// JS: try { self[key](...args) } catch (e) { throw new JsThrowError(e); }
-impl JsImpl with call_throwable(self, key, args) -> Js raise JsThrowError {
+/// JS: try { self[key](...args) } catch (e) { throw new ThrowError(e); }
+impl JsImpl with call_throwable(self, key, args) -> Js raise ThrowError {
   throwable(() => ffi_call(
     self.to_js(),
     key.to_key() |> unsafe_cast,
@@ -163,7 +163,7 @@ impl JsImpl with call_self0(self) -> Js {
 }
 
 ///|
-impl JsImpl with call_self_throwable(self, args) -> Js raise JsThrowError {
+impl JsImpl with call_self_throwable(self, args) -> Js raise ThrowError {
   throwable(() => ffi_call_self(self.to_js(), args.map(_.to_js())))
 }
 

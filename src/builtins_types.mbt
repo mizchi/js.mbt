@@ -1,3 +1,5 @@
+// Js Builtin Types
+
 ///|
 /// JS: null
 pub fn null_() -> Js {
@@ -387,7 +389,10 @@ pub fn JsError::new(message : String, cause? : JsError) -> JsError {
 }
 
 ///|
-pub suberror JsThrowError {
+/// Wraps JavaScript errors thrown during runtime.
+/// This type represents errors that can be raised when calling JavaScript functions
+/// that may throw exceptions.
+pub suberror ThrowError {
   // TODO: Differentiate error types
   // TypeError
   // ReferenceError
@@ -399,15 +404,15 @@ pub suberror JsThrowError {
 }
 
 ///|
-pub impl JsImpl for JsThrowError
+pub impl JsImpl for ThrowError
 
 ///|
-pub impl Show for JsThrowError with output(self, logger) {
+pub impl Show for ThrowError with output(self, logger) {
   logger.write_string(self.to_string())
 }
 
 ///|
-pub impl Show for JsThrowError with to_string(self) {
+pub impl Show for ThrowError with to_string(self) {
   match self {
     Error(err) => err.message
     Value(val) => val.to_string()
@@ -514,7 +519,7 @@ pub fn JSON::stringify(
 
 ///|
 /// JS: JSON.parse(s, reviver)
-pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise JsThrowError {
+pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise ThrowError {
   throwable(() => ffi_json_parse(s, reviver?))
 }
 
