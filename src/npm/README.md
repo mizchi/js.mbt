@@ -15,3 +15,11 @@ In near future, we split these bindings into a separate package.
   - Only `BrowserRouter` related api
 - `mizchi/js/npm/react_testing_library`
   - npm: `@testing-library/react`
+
+## TODO: Planned implementations
+
+- `date-fns` - Modern JavaScript date utility library
+- `ajv` - JSON schema validator
+- `zod` - TypeScript-first schema validation
+- `chalk` - Terminal string styling
+- `yargs` - Command-line argument parser
