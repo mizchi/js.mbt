@@ -53,9 +53,12 @@ test "round-trip conversion - Uint8Array -> Bytes -> Uint8Array" {
   let bytes = uint8array_to_bytes(original)
   let result = bytes_to_uint8array(bytes)
   assert_eq(result.length(), original.length())
-  let len = original.length().to_int()
+  let len = original.length().reinterpret_as_int()
   for i = 0; i < len; i = i + 1 {
-    assert_eq(result.get_at(i.to_uint()), original.get_at(i.to_uint()))
+    assert_eq(
+      result.get_at(i.reinterpret_as_uint()),
+      original.get_at(i.reinterpret_as_uint()),
+    )
   }
 }
 

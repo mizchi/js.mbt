@@ -8,7 +8,7 @@ test "WeakMap::set and get - store and retrieve values" {
   let value = js("test value")
   wm.set(key, value) |> ignore
   let result = wm.get(key)
-  assert_false(result.is_empty())
+  assert_false(result is None)
 }
 
 ///|
@@ -40,7 +40,7 @@ test "WeakMap::get - return None for non-existent key" {
   let wm : WeakMap[Js, Js] = WeakMap::new()
   let key = @js.Object::new()
   let result = wm.get(key.to_js())
-  assert_true(result.is_empty())
+  assert_true(result is None)
 }
 
 ///|
@@ -78,7 +78,7 @@ test "WeakRef::new and deref - create and dereference" {
   let target = @js.Object::new()
   let wr : WeakRef[Js] = WeakRef::new(target.to_js())
   let result = wr.deref()
-  assert_false(result.is_empty())
+  assert_false(result is None)
 }
 
 ///|
@@ -118,5 +118,5 @@ test "WeakRef::deref returns None when target is collected" {
   mock_weakref.set("deref", @js.from_fn0(fn() { undef_ref }))
   let wr : WeakRef[Js] = @js.unsafe_cast(mock_weakref.to_js())
   let result = wr.deref()
-  assert_true(result.is_empty())
+  assert_true(result is None)
 }

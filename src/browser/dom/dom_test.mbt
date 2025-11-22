@@ -106,11 +106,11 @@ test "Node trait - node properties" {
   div.nodeType() |> inspect(content="1")
 
   // firstChild, lastChild test
-  assert_eq(div.firstChild().is_empty(), false)
-  assert_eq(div.lastChild().is_empty(), false)
+  assert_eq(div.firstChild() is None, false)
+  assert_eq(div.lastChild() is None, false)
 
   // parentNode test
-  assert_eq(span.parentNode().is_empty(), false)
+  assert_eq(span.parentNode() is None, false)
 }
 
 ///|
@@ -128,8 +128,8 @@ test "Node trait - sibling navigation" {
   assert_eq(parent.childNodes().length(), 2)
 
   // Test firstChild and lastChild
-  assert_eq(parent.firstChild().is_empty(), false)
-  assert_eq(parent.lastChild().is_empty(), false)
+  assert_eq(parent.firstChild() is None, false)
+  assert_eq(parent.lastChild() is None, false)
 }
 
 ///|
@@ -190,7 +190,7 @@ test "Element trait - querySelector and querySelectorAll" {
 
   // querySelector test
   let found = parent.querySelector(".test-class")
-  assert_eq(found.is_empty(), false)
+  assert_eq(found is None, false)
 
   // querySelectorAll test
   let all_spans = parent.querySelectorAll("span")
@@ -198,7 +198,7 @@ test "Element trait - querySelector and querySelectorAll" {
 
   // querySelector by id
   let by_id = parent.querySelector("#unique-id")
-  assert_eq(by_id.is_empty(), false)
+  assert_eq(by_id is None, false)
 }
 
 ///|
@@ -301,13 +301,13 @@ test "Document - getElementById and document element accessors" {
 
   // getElementById test
   let found = doc.getElementById("test-element")
-  assert_eq(found.is_empty(), false)
+  assert_eq(found is None, false)
 
   // body test
-  assert_eq(doc.body().is_empty(), false)
+  assert_eq(doc.body() is None, false)
 
   // head test
-  assert_eq(doc.head().is_empty(), false)
+  assert_eq(doc.head() is None, false)
 
   // documentElement test
   let root = doc.documentElement()

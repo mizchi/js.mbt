@@ -127,20 +127,20 @@ pub fn ClientEndpoint::get_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_some() ||
-    form.is_some() ||
-    json.is_some() ||
-    param.is_some() ||
-    header.is_some() ||
-    init.is_some()
+  let has_options = query is Some(_) ||
+    form is Some(_) ||
+    json is Some(_) ||
+    param is Some(_) ||
+    header is Some(_) ||
+    init is Some(_)
   if has_options {
     let opts = build_request_options(
-      query.or(@js.undefined()),
-      form.or(@js.undefined()),
-      json.or(@js.undefined()),
-      param.or(@js.undefined()),
-      header.or(@js.undefined()),
-      init.or(@js.undefined()),
+      query.unwrap_or(@js.undefined()),
+      form.unwrap_or(@js.undefined()),
+      json.unwrap_or(@js.undefined()),
+      param.unwrap_or(@js.undefined()),
+      header.unwrap_or(@js.undefined()),
+      init.unwrap_or(@js.undefined()),
     )
     ffi_call_dollar_get(unsafe_cast(self), opts) |> unsafe_cast
   } else {
@@ -170,20 +170,20 @@ pub fn ClientEndpoint::post_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_some() ||
-    form.is_some() ||
-    json.is_some() ||
-    param.is_some() ||
-    header.is_some() ||
-    init.is_some()
+  let has_options = query is Some(_) ||
+    form is Some(_) ||
+    json is Some(_) ||
+    param is Some(_) ||
+    header is Some(_) ||
+    init is Some(_)
   if has_options {
     let opts = build_request_options(
-      query.or(@js.undefined()),
-      form.or(@js.undefined()),
-      json.or(@js.undefined()),
-      param.or(@js.undefined()),
-      header.or(@js.undefined()),
-      init.or(@js.undefined()),
+      query.unwrap_or(@js.undefined()),
+      form.unwrap_or(@js.undefined()),
+      json.unwrap_or(@js.undefined()),
+      param.unwrap_or(@js.undefined()),
+      header.unwrap_or(@js.undefined()),
+      init.unwrap_or(@js.undefined()),
     )
     ffi_call_dollar_post(unsafe_cast(self), opts) |> unsafe_cast
   } else {
@@ -213,20 +213,20 @@ pub fn ClientEndpoint::put_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_some() ||
-    form.is_some() ||
-    json.is_some() ||
-    param.is_some() ||
-    header.is_some() ||
-    init.is_some()
+  let has_options = query is Some(_) ||
+    form is Some(_) ||
+    json is Some(_) ||
+    param is Some(_) ||
+    header is Some(_) ||
+    init is Some(_)
   if has_options {
     let opts = build_request_options(
-      query.or(@js.undefined()),
-      form.or(@js.undefined()),
-      json.or(@js.undefined()),
-      param.or(@js.undefined()),
-      header.or(@js.undefined()),
-      init.or(@js.undefined()),
+      query.unwrap_or(@js.undefined()),
+      form.unwrap_or(@js.undefined()),
+      json.unwrap_or(@js.undefined()),
+      param.unwrap_or(@js.undefined()),
+      header.unwrap_or(@js.undefined()),
+      init.unwrap_or(@js.undefined()),
     )
     ffi_call_dollar_put(unsafe_cast(self), opts) |> unsafe_cast
   } else {
@@ -256,20 +256,20 @@ pub fn ClientEndpoint::delete_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_some() ||
-    form.is_some() ||
-    json.is_some() ||
-    param.is_some() ||
-    header.is_some() ||
-    init.is_some()
+  let has_options = query is Some(_) ||
+    form is Some(_) ||
+    json is Some(_) ||
+    param is Some(_) ||
+    header is Some(_) ||
+    init is Some(_)
   if has_options {
     let opts = build_request_options(
-      query.or(@js.undefined()),
-      form.or(@js.undefined()),
-      json.or(@js.undefined()),
-      param.or(@js.undefined()),
-      header.or(@js.undefined()),
-      init.or(@js.undefined()),
+      query.unwrap_or(@js.undefined()),
+      form.unwrap_or(@js.undefined()),
+      json.unwrap_or(@js.undefined()),
+      param.unwrap_or(@js.undefined()),
+      header.unwrap_or(@js.undefined()),
+      init.unwrap_or(@js.undefined()),
     )
     ffi_call_dollar_delete(unsafe_cast(self), opts) |> unsafe_cast
   } else {
@@ -299,20 +299,20 @@ pub fn ClientEndpoint::patch_(
   header? : Js,
   init? : Js,
 ) -> Promise[ClientResponse] {
-  let has_options = query.is_some() ||
-    form.is_some() ||
-    json.is_some() ||
-    param.is_some() ||
-    header.is_some() ||
-    init.is_some()
+  let has_options = query is Some(_) ||
+    form is Some(_) ||
+    json is Some(_) ||
+    param is Some(_) ||
+    header is Some(_) ||
+    init is Some(_)
   if has_options {
     let opts = build_request_options(
-      query.or(@js.undefined()),
-      form.or(@js.undefined()),
-      json.or(@js.undefined()),
-      param.or(@js.undefined()),
-      header.or(@js.undefined()),
-      init.or(@js.undefined()),
+      query.unwrap_or(@js.undefined()),
+      form.unwrap_or(@js.undefined()),
+      json.unwrap_or(@js.undefined()),
+      param.unwrap_or(@js.undefined()),
+      header.unwrap_or(@js.undefined()),
+      init.unwrap_or(@js.undefined()),
     )
     ffi_call_dollar_patch(unsafe_cast(self), opts) |> unsafe_cast
   } else {
@@ -342,20 +342,20 @@ pub fn ClientEndpoint::url_(
   header? : Js,
   init? : Js,
 ) -> String {
-  let has_options = query.is_some() ||
-    form.is_some() ||
-    json.is_some() ||
-    param.is_some() ||
-    header.is_some() ||
-    init.is_some()
+  let has_options = query is Some(_) ||
+    form is Some(_) ||
+    json is Some(_) ||
+    param is Some(_) ||
+    header is Some(_) ||
+    init is Some(_)
   if has_options {
     let opts = build_request_options(
-      query.or(@js.undefined()),
-      form.or(@js.undefined()),
-      json.or(@js.undefined()),
-      param.or(@js.undefined()),
-      header.or(@js.undefined()),
-      init.or(@js.undefined()),
+      query.unwrap_or(@js.undefined()),
+      form.unwrap_or(@js.undefined()),
+      json.unwrap_or(@js.undefined()),
+      param.unwrap_or(@js.undefined()),
+      header.unwrap_or(@js.undefined()),
+      init.unwrap_or(@js.undefined()),
     )
     ffi_call_dollar_url(unsafe_cast(self), opts) |> unsafe_cast
   } else {

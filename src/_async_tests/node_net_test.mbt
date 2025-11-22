@@ -92,7 +92,7 @@ test {
     server.listen(0, host="127.0.0.1") |> ignore
     sleep(50)
     let address = server.address()
-    inspect(address.is_empty(), content="false")
+    inspect(address is None, content="false")
     match address {
       Some(addr) => {
         let port : Int = @js.unsafe_cast(addr.get("port"))

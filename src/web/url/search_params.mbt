@@ -7,7 +7,7 @@ pub(all) struct URLSearchParams {
 impl JsImpl for URLSearchParams
 
 ///|
-impl Eq for URLSearchParams with op_equal(self, other) {
+impl Eq for URLSearchParams with equal(self, other) {
   self.to_js() == other.to_js()
 }
 

@@ -251,7 +251,7 @@ pub fn execSync(
     ("timeout", timeout.map(x => x)),
     ("maxBuffer", maxBuffer.map(x => x)),
     ("input", input.map(x => x)),
-    ("encoding", Some(encoding.or("utf8"))),
+    ("encoding", Some(encoding.unwrap_or("utf8"))),
   ])
   cp.call2("execSync", command |> js, options) |> @js.unsafe_cast
 }
@@ -277,7 +277,7 @@ pub fn execFileSync(
     ("timeout", timeout.map(x => x)),
     ("maxBuffer", maxBuffer.map(x => x)),
     ("input", input.map(x => x)),
-    ("encoding", Some(encoding.or("utf8"))),
+    ("encoding", Some(encoding.unwrap_or("utf8"))),
   ])
   match args {
     Some(a) =>

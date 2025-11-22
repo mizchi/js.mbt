@@ -36,9 +36,9 @@ pub fn watch(
   listener? : (String, String) -> Unit,
 ) -> FSWatcher {
   let fs = fs_module()
-  let has_options = not(persistent.is_empty()) ||
-    not(recursive.is_empty()) ||
-    not(encoding.is_empty())
+  let has_options = not(persistent is None) ||
+    not(recursive is None) ||
+    not(encoding is None)
   if has_options {
     let map : Map[String, Js] = {
       let m = Map::new()

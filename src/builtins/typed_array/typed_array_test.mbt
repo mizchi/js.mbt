@@ -247,8 +247,8 @@ test "Uint32Array - get and set operations" {
   let val2 : UInt = 200000000
   arr.set_at(0, val1)
   arr.set_at(1, val2)
-  assert_eq(arr.get_at(0).to_int(), val1.to_int())
-  assert_eq(arr.get_at(1).to_int(), val2.to_int())
+  assert_eq(arr.get_at(0).reinterpret_as_int(), val1.reinterpret_as_int())
+  assert_eq(arr.get_at(1).reinterpret_as_int(), val2.reinterpret_as_int())
 }
 
 ///|
