@@ -15,7 +15,7 @@ extern "js" fn ffi_new_dataview(
 
 ///|
 pub fn DataView::new(
-  buffer : ArrayBuffer,
+  buffer : @js.ArrayBuffer,
   byte_offset? : UInt = 0,
   byte_length? : UInt,
 ) -> DataView {

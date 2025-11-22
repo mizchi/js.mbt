@@ -56,7 +56,7 @@ pub fn Request::text(self : Request) -> Promise[String] {
 ///|
 pub fn Request::arraybuffer(
   self : Request,
-) -> Promise[@arraybuffer.ArrayBuffer] {
+) -> Promise[ArrayBuffer] {
   self.call0("arrayBuffer") |> unsafe_cast
 }
 
@@ -66,6 +66,6 @@ pub fn Request::blob(self : Request) -> Promise[@blob.Blob] {
 }
 
 ///|
-pub fn Request::bytes(self : Request) -> Promise[@arraybuffer.Uint8Array] {
+pub fn Request::bytes(self : Request) -> Promise[@typed_array.Uint8Array] {
   self.call0("bytes") |> unsafe_cast
 }

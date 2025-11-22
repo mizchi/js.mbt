@@ -2,4 +2,4 @@
 using @js {type Js, trait JsImpl, unsafe_cast}
 
 ///|
-using @arraybuffer {type Uint8Array}
+using @typed_array {type Uint8Array}

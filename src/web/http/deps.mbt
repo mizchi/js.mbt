@@ -7,6 +7,7 @@ using @js {
   unsafe_cast,
   type Promise,
   run_async,
+  type ArrayBuffer,
 }
 
 ///|

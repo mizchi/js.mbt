@@ -1,3 +1,10 @@
+// ArrayBuffer - Frequently used binary data buffer
+//
+// For TypedArray (Uint8Array, Int32Array, etc.) and DataView,
+// see src/builtins/typed_array/
+
+///| ArrayBuffer
+
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
 #external
@@ -42,6 +49,8 @@ extern "js" fn ffi_is_view(arg : Js) -> Js =
 pub fn ArrayBuffer::is_view(arg : Js) -> Bool {
   ffi_is_view(arg) |> unsafe_cast
 }
+
+///| SharedArrayBuffer
 
 ///|
 #external

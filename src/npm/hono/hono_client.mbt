@@ -81,7 +81,7 @@ pub fn ClientResponse::text(self : ClientResponse) -> Promise[String] {
 #alias(array_buffer)
 pub fn ClientResponse::arrayBuffer(
   self : ClientResponse,
-) -> Promise[@arraybuffer.ArrayBuffer] {
+) -> Promise[ArrayBuffer] {
   self.call0("arrayBuffer") |> unsafe_cast
 }
 

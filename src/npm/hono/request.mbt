@@ -84,7 +84,7 @@ pub fn HonoRequest::formData(self : Self) -> Promise[@http.FormData] {
 #alias(array_buffer)
 pub fn HonoRequest::arrayBuffer(
   self : Self,
-) -> Promise[@arraybuffer.ArrayBuffer] {
+) -> Promise[ArrayBuffer] {
   self.call0("arrayBuffer") |> unsafe_cast
 }
 

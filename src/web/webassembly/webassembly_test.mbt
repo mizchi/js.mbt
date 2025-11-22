@@ -3,7 +3,7 @@
 using @js {unsafe_cast}
 
 ///|
-using @arraybuffer {type Uint8Array}
+using @typed_array {type Uint8Array}
 
 ///|
 /// Test basic WebAssembly module compilation and instantiation

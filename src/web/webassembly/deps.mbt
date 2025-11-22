@@ -1,5 +1,4 @@
 ///|
-using @js {type Js, trait JsImpl, js, unsafe_cast}
-
+using @js {type Js, trait JsImpl, js, unsafe_cast, type ArrayBuffer}
 ///|
-using @arraybuffer {type ArrayBuffer, type Uint8Array}
+using @typed_array {type Uint8Array}

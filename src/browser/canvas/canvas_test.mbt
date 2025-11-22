@@ -8,7 +8,7 @@
 using @js {type Js, trait JsImpl, js, unsafe_cast}
 
 ///|
-using @arraybuffer {type Uint8Array}
+using @typed_array {type Uint8Array}
 
 ///|
 using @dom {type HTMLCanvasElement}

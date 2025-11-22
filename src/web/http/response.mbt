@@ -123,7 +123,7 @@ pub extern "js" fn Response::form_data(self : Self) -> Promise[FormData] =
 ///|
 pub extern "js" fn Response::bytes(
   self : Self,
-) -> Promise[@arraybuffer.Uint8Array] =
+) -> Promise[@typed_array.Uint8Array] =
   #| (v) => v.bytes()
 
 ///|

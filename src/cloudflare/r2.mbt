@@ -310,7 +310,7 @@ pub fn R2Object::uploaded(self : Self) -> Js {
 
 ///|
 /// Get object body as ArrayBuffer
-pub fn R2Object::array_buffer(self : Self) -> Promise[@arraybuffer.ArrayBuffer] {
+pub fn R2Object::array_buffer(self : Self) -> Promise[ArrayBuffer] {
   self.call0("arrayBuffer") |> unsafe_cast
 }
 

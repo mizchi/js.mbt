@@ -1,5 +1,5 @@
 ///|
-using @arraybuffer {type Uint8Array}
+using @typed_array {type Uint8Array}
 
 ///|
 test "TextEncoder::new - create encoder" {

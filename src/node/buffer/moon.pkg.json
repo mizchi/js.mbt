@@ -1,4 +1,4 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/node", "mizchi/js/builtins/arraybuffer"]
+  "import": ["mizchi/js", "mizchi/js/node", "mizchi/js/builtins/typed_array"]
 }

@@ -15,7 +15,7 @@ test "Uint8Array::from_array - create from array" {
 
 ///|
 test "Uint8Array::from_array_buffer - basic" {
-  let buffer = ArrayBuffer::new(16)
+  let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint8Array::from_array_buffer(buffer)
   assert_eq(arr.length(), 16)
   assert_eq(arr.byte_length(), 16)
@@ -24,7 +24,7 @@ test "Uint8Array::from_array_buffer - basic" {
 
 ///|
 test "Uint8Array::from_array_buffer - with offset" {
-  let buffer = ArrayBuffer::new(16)
+  let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint8Array::from_array_buffer(buffer, byte_offset=4)
   assert_eq(arr.length(), 12)
   assert_eq(arr.byte_offset(), 4)
@@ -32,7 +32,7 @@ test "Uint8Array::from_array_buffer - with offset" {
 
 ///|
 test "Uint8Array::from_array_buffer - with offset and length" {
-  let buffer = ArrayBuffer::new(16)
+  let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint8Array::from_array_buffer(buffer, byte_offset=4, length=8)
   assert_eq(arr.length(), 8)
   assert_eq(arr.byte_offset(), 4)
@@ -211,7 +211,7 @@ test "Uint16Array::from_array - create from array" {
 
 ///|
 test "Uint16Array::from_array_buffer - basic" {
-  let buffer = ArrayBuffer::new(16)
+  let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint16Array::from_array_buffer(buffer)
   assert_eq(arr.length(), 8)
   assert_eq(arr.byte_length(), 16)
@@ -361,7 +361,7 @@ test "Float64Array - get and set operations" {
 
 ///|
 test "TypedArray - shared buffer" {
-  let buffer = ArrayBuffer::new(16)
+  let buffer = @js.ArrayBuffer::new(16)
   let u8 = Uint8Array::from_array_buffer(buffer)
   let u16 = Uint16Array::from_array_buffer(buffer)
   u8.set_at(0, 255)
@@ -371,7 +371,7 @@ test "TypedArray - shared buffer" {
 
 ///|
 test "TypedArray - byte offset alignment" {
-  let buffer = ArrayBuffer::new(16)
+  let buffer = @js.ArrayBuffer::new(16)
   let arr1 = Uint8Array::from_array_buffer(buffer, byte_offset=0, length=4)
   let arr2 = Uint8Array::from_array_buffer(buffer, byte_offset=4, length=4)
   arr1.set_at(0, 1)
@@ -389,7 +389,7 @@ test "Uint32Array::buffer - get underlying buffer" {
 
 ///|
 test "Int8Array::from_array_buffer - with offset and length" {
-  let buffer = ArrayBuffer::new(16)
+  let buffer = @js.ArrayBuffer::new(16)
   let arr = Int8Array::from_array_buffer(buffer, byte_offset=4, length=8)
   assert_eq(arr.length(), 8)
   assert_eq(arr.byte_offset(), 4)
@@ -404,7 +404,7 @@ test "Int8Array::buffer - get underlying buffer" {
 
 ///|
 test "Int16Array::from_array_buffer - with offset and length" {
-  let buffer = ArrayBuffer::new(32)
+  let buffer = @js.ArrayBuffer::new(32)
   let arr = Int16Array::from_array_buffer(buffer, byte_offset=4, length=8)
   assert_eq(arr.length(), 8)
   assert_eq(arr.byte_offset(), 4)
@@ -419,7 +419,7 @@ test "Int16Array::buffer - get underlying buffer" {
 
 ///|
 test "Int32Array::from_array_buffer - with offset and length" {
-  let buffer = ArrayBuffer::new(64)
+  let buffer = @js.ArrayBuffer::new(64)
   let arr = Int32Array::from_array_buffer(buffer, byte_offset=8, length=10)
   assert_eq(arr.length(), 10)
   assert_eq(arr.byte_offset(), 8)
@@ -434,7 +434,7 @@ test "Int32Array::buffer - get underlying buffer" {
 
 ///|
 test "Float32Array::from_array_buffer - with offset and length" {
-  let buffer = ArrayBuffer::new(64)
+  let buffer = @js.ArrayBuffer::new(64)
   let arr = Float32Array::from_array_buffer(buffer, byte_offset=8, length=10)
   assert_eq(arr.length(), 10)
   assert_eq(arr.byte_offset(), 8)
@@ -449,7 +449,7 @@ test "Float32Array::buffer - get underlying buffer" {
 
 ///|
 test "Float64Array::from_array_buffer - with offset and length" {
-  let buffer = ArrayBuffer::new(128)
+  let buffer = @js.ArrayBuffer::new(128)
   let arr = Float64Array::from_array_buffer(buffer, byte_offset=16, length=10)
   assert_eq(arr.length(), 10)
   assert_eq(arr.byte_offset(), 16)

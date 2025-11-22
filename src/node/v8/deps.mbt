@@ -1,8 +1,5 @@
 ///|
-using @js {unsafe_cast, type Js, trait JsImpl}
-
+using @js {unsafe_cast, type Js, trait JsImpl, type ArrayBuffer}
 ///|
-using @arraybuffer {type ArrayBuffer}
-
 ///|
 using @buffer {type Buffer}
