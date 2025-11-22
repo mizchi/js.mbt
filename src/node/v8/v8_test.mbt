@@ -67,7 +67,7 @@ test "write_heap_snapshot returns filename" {
   inspect(filename.length() > 0, content="true")
   // Clean up snapshot file
   run_async(async fn() noraise {
-    try rm(filename).unwrap() |> ignore catch {
+    try rm(filename).wait() |> ignore catch {
       _ => ()
     }
   })
@@ -81,7 +81,7 @@ test "write_heap_snapshot with custom filename" {
   inspect(filename == custom_name, content="true")
   // Clean up snapshot file
   run_async(async fn() noraise {
-    try rm(filename).unwrap() |> ignore catch {
+    try rm(filename).wait() |> ignore catch {
       _ => ()
     }
   })

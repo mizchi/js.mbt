@@ -61,7 +61,7 @@ test "File text returns content as string" {
   run_async(async fn() noraise {
     try {
       let file = File::new(["Hello, File!"], "test.txt")
-      let text = file.text().unwrap()
+      let text = file.text().wait()
       inspect(text == "Hello, File!", content="true")
     } catch {
       _ => ()
@@ -75,7 +75,7 @@ test "File array_buffer returns ArrayBuffer" {
   run_async(async fn() noraise {
     try {
       let file = File::new(["test"], "test.txt")
-      let buffer = file.array_buffer().unwrap()
+      let buffer = file.array_buffer().wait()
       inspect(buffer.byte_length() > 0, content="true")
     } catch {
       _ => ()

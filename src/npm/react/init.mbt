@@ -16,7 +16,7 @@ extern "js" fn import_react() -> Promise[Js] =
 /// Initialize the React API asynchronously and store it in globalThis.__ReactApi
 pub async fn init_react_async() -> Unit {
   if @js.is_nullish(global_this().get("__ReactApi")) {
-    let react : Js = import_react().unwrap()
+    let react : Js = import_react().wait()
     global_this().set("__ReactApi", react)
   }
 }

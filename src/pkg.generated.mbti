@@ -269,7 +269,6 @@ fn Promise::reject(Js) -> Self[Js]
 fn[A] Promise::resolve(A) -> Self[A]
 fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
 fn[R] Promise::try_(async () -> R) -> Self[R]
-async fn[T] Promise::unwrap(Self[T]) -> T
 async fn[T] Promise::wait(Self[T]) -> T
 fn[T] Promise::withResolvers() -> Resolvers[T]
 

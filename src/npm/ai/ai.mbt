@@ -85,7 +85,7 @@ test "ai" {
   )
   let messages : Array[ModelMessage] = [UserMessage(content=Message("hello"))]
   run_async(() => try {
-    let result = ai.generate_text(model~, messages~).unwrap()
+    let result = ai.generate_text(model~, messages~).wait()
     @js.log(result)
   } catch {
     @js.ThrowError::Error(e) => @js.log(e)

@@ -38,7 +38,7 @@ test {
     let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let data = ffi_text_encoder_encode("Hello, World!")
-    let digest = subtle.digest("SHA-256", data).unwrap()
+    let digest = subtle.digest("SHA-256", data).wait()
     let hex = ffi_array_buffer_to_hex(digest)
     assert_eq(hex.length(), 64)
   })
@@ -50,7 +50,7 @@ test {
     let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let data = ffi_text_encoder_encode("Hello, World!")
-    let digest = subtle.digest("SHA-384", data).unwrap()
+    let digest = subtle.digest("SHA-384", data).wait()
     let hex = ffi_array_buffer_to_hex(digest)
     assert_eq(hex.length(), 96)
   })
@@ -62,7 +62,7 @@ test {
     let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let data = ffi_text_encoder_encode("Hello, World!")
-    let digest = subtle.digest("SHA-512", data).unwrap()
+    let digest = subtle.digest("SHA-512", data).wait()
     let hex = ffi_array_buffer_to_hex(digest)
     assert_eq(hex.length(), 128)
   })
@@ -77,7 +77,7 @@ test {
     let subtle = crypto.subtle
     let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
     let key_usages = ["encrypt", "decrypt"]
-    let key = subtle.generateKey(algorithm, true, key_usages).unwrap()
+    let key = subtle.generateKey(algorithm, true, key_usages).wait()
     let key_type : String = unsafe_cast(key.get("type"))
     assert_eq(key_type, "secret")
   })
@@ -90,7 +90,7 @@ test {
     let subtle = crypto.subtle
     let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
     let key_usages = ["sign", "verify"]
-    let key = subtle.generateKey(algorithm, true, key_usages).unwrap()
+    let key = subtle.generateKey(algorithm, true, key_usages).wait()
     let key_type : String = unsafe_cast(key.get("type"))
     assert_eq(key_type, "secret")
   })
@@ -105,12 +105,12 @@ test {
     let subtle = crypto.subtle
     let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
     let key_usages = ["encrypt", "decrypt"]
-    let key = subtle.generateKey(algorithm, true, key_usages).unwrap()
+    let key = subtle.generateKey(algorithm, true, key_usages).wait()
     let iv = ffi_random_values(12)
     let plaintext = ffi_text_encoder_encode("Secret message")
     let enc_algorithm = ffi_create_aes_gcm_params("AES-GCM", iv)
-    let encrypted = subtle.encrypt(enc_algorithm, key, plaintext).unwrap()
-    let decrypted = subtle.decrypt(enc_algorithm, key, encrypted).unwrap()
+    let encrypted = subtle.encrypt(enc_algorithm, key, plaintext).wait()
+    let decrypted = subtle.decrypt(enc_algorithm, key, encrypted).wait()
     let result = ffi_text_decoder_decode(decrypted)
     assert_eq(result, "Secret message")
   })
@@ -125,11 +125,11 @@ test {
     let subtle = crypto.subtle
     let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
     let key_usages = ["sign", "verify"]
-    let key = subtle.generateKey(algorithm, true, key_usages).unwrap()
+    let key = subtle.generateKey(algorithm, true, key_usages).wait()
     let data = ffi_text_encoder_encode("Message to sign")
-    let signature = subtle.sign(algorithm, key, data).unwrap()
+    let signature = subtle.sign(algorithm, key, data).wait()
     let is_valid : Bool = unsafe_cast(
-      subtle.verify(algorithm, key, signature, data).unwrap(),
+      subtle.verify(algorithm, key, signature, data).wait(),
     )
     assert_true(is_valid)
   })
@@ -144,11 +144,11 @@ test {
     let subtle = crypto.subtle
     let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
     let key_usages = ["encrypt", "decrypt"]
-    let original_key = subtle.generateKey(algorithm, true, key_usages).unwrap()
-    let exported = subtle.exportKey("raw", original_key).unwrap()
+    let original_key = subtle.generateKey(algorithm, true, key_usages).wait()
+    let exported = subtle.exportKey("raw", original_key).wait()
     let imported_key = subtle
       .importKey("raw", exported, algorithm, true, key_usages)
-      .unwrap()
+      .wait()
     let key_type : String = unsafe_cast(imported_key.get("type"))
     assert_eq(key_type, "secret")
   })
@@ -162,7 +162,7 @@ test {
     let crypto = @crypto.Crypto::get()
     let subtle = crypto.subtle
     let data = ffi_text_encoder_encode("test")
-    let digest = subtle.digest("SHA-256", data).unwrap()
+    let digest = subtle.digest("SHA-256", data).wait()
     let hex = ffi_array_buffer_to_hex(digest)
     assert_true(hex.length() > 0)
   })

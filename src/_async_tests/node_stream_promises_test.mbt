@@ -58,7 +58,7 @@ test {
     let writable_js = create_writable_to_array_promises()
     let streams : Array[@js.Js] = [readable.to_js(), writable_js]
     let promise = promises_pipeline(streams)
-    ignore(promise.unwrap())
+    ignore(promise.wait())
     let chunks = get_chunks_promises(writable_js)
     assert_eq(chunks.length(), 2)
     assert_eq(chunks[0], "hello")
@@ -78,7 +78,7 @@ test {
       writable_js,
     ]
     let promise = promises_pipeline(streams)
-    ignore(promise.unwrap())
+    ignore(promise.wait())
     let chunks = get_chunks_promises(writable_js)
     assert_eq(chunks.length(), 2)
     assert_eq(chunks[0], "HELLO")
@@ -100,7 +100,7 @@ test {
       writable_js,
     ]
     let promise = promises_pipeline(streams)
-    ignore(promise.unwrap())
+    ignore(promise.wait())
     let chunks = get_chunks_promises(writable_js)
     assert_eq(chunks.length(), 2)
     assert_eq(chunks[0], "TEST")
@@ -119,7 +119,7 @@ test {
     ignore(writable.to_js().call0("end"))
     // Wait for finish
     let promise = promises_finished(writable_js)
-    promise.unwrap()
+    promise.wait()
     assert_eq(writable.writableFinished(), true)
   })
 }
@@ -133,7 +133,7 @@ test {
     let _ = readable.read()
     // Wait for end
     let promise = promises_finished(readable.to_js())
-    promise.unwrap()
+    promise.wait()
     assert_eq(readable.readableEnded(), true)
   })
 }
@@ -152,7 +152,7 @@ test {
         writable_js,
       ]
       let promise = promises_pipeline(streams)
-      let result = promise.unwrap() catch { _ => @js.unsafe_cast(()) }
+      let result = promise.wait() catch { _ => @js.unsafe_cast(()) }
       ignore(result)
       let chunks = get_chunks_promises(writable_js)
       let success = chunks.length() == 2 &&
@@ -160,7 +160,7 @@ test {
         chunks[1] == "TEST"
       resolver.resolve(success)
     })
-    let result = resolver.promise.unwrap()
+    let result = resolver.promise.wait()
     assert_eq(result, true)
   })
 }
@@ -175,7 +175,7 @@ test {
     let promise = promises_pipeline(streams)
     // Use then to verify completion
     let resolved = promise.then(fn(_) { Promise::resolve(true) })
-    let success = resolved.unwrap()
+    let success = resolved.wait()
     assert_eq(success, true)
     let chunks = get_chunks_promises(writable_js)
     assert_eq(chunks.length(), 2)
@@ -193,7 +193,7 @@ test {
       let chunks = get_chunks_promises(writable_js)
       Promise::resolve(chunks.length())
     })
-    let count = result_promise.unwrap()
+    let count = result_promise.wait()
     assert_eq(count, 2)
   })
 }
@@ -211,8 +211,8 @@ test {
     // Wait for both to finish
     let promise1 = promises_finished(writable1_js)
     let promise2 = promises_finished(writable2_js)
-    promise1.unwrap()
-    promise2.unwrap()
+    promise1.wait()
+    promise2.wait()
     assert_eq(writable1.writableFinished(), true)
     assert_eq(writable2.writableFinished(), true)
   })
@@ -231,7 +231,7 @@ test {
     let writable_js = create_writable_to_array_promises()
     let streams : Array[@js.Js] = [readable.to_js(), writable_js]
     let promise = promises_pipeline(streams)
-    ignore(promise.unwrap())
+    ignore(promise.wait())
     let chunks = get_chunks_promises(writable_js)
     assert_eq(chunks.length(), 100)
     assert_eq(chunks[0], "item0")

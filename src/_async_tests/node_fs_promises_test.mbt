@@ -14,7 +14,7 @@ test {
         // Cleanup
         @fs_promises.unlink(test_file)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -30,7 +30,7 @@ test {
         // Cleanup
         @fs_promises.rm("test_async_nested", recursive=true, force=true)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -48,7 +48,7 @@ test {
         // Cleanup
         @fs_promises.unlink(new_name)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -61,7 +61,7 @@ test {
       .then(fn(_) { @fs_promises.writeFile("\{test_dir}/sub/file.txt", "test") })
       .then(fn(_) { @fs_promises.rm(test_dir, recursive=true, force=true) })
       .then(fn(_) { Promise::resolve(()) })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -84,7 +84,7 @@ test {
           @fs_promises.rm(dest_dir, recursive=true, force=true)
         })
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -101,7 +101,7 @@ test {
         // Cleanup
         @fs_promises.unlink(test_file)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -121,7 +121,7 @@ test {
         // Cleanup
         @fs_promises.unlink(test_file)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -139,7 +139,7 @@ test {
         // Cleanup
         @fs_promises.unlink(link).then(fn(_) { @fs_promises.unlink(target) })
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -151,7 +151,7 @@ test {
       assert_true(real.length() > 0)
       Promise::resolve(())
     })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -168,7 +168,7 @@ test {
         // Cleanup
         @fs_promises.unlink(test_file)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -180,7 +180,7 @@ test {
     let promise = @fs_promises.mkdir(test_dir)
       .then(fn(_) { @fs_promises.rmdir(test_dir) })
       .then(fn(_) { Promise::resolve(()) })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -195,7 +195,7 @@ test {
         // Cleanup
         @fs_promises.unlink(test_file)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -212,7 +212,7 @@ test {
         // Cleanup
         @fs_promises.unlink(test_file)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -230,7 +230,7 @@ test {
         // Cleanup
         @fs_promises.unlink(src).then(fn(_) { @fs_promises.unlink(dest) })
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -248,7 +248,7 @@ test {
         // Cleanup
         @fs_promises.rm(test_dir, recursive=true, force=true)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -264,7 +264,7 @@ test {
         // Cleanup
         @fs_promises.unlink(test_file)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -281,7 +281,7 @@ test {
         // Cleanup
         @fs_promises.unlink(test_file)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -300,7 +300,7 @@ test {
         // Cleanup
         @fs_promises.unlink(test_file)
       })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }
 
@@ -312,6 +312,6 @@ test {
     let promise = @fs_promises.mkdir("\{test_dir}/sub", recursive=true)
       .then(fn(_) { @fs_promises.rmdir(test_dir, recursive=true) })
       .then(fn(_) { Promise::resolve(()) })
-    ignore(promise.unwrap())
+    ignore(promise.wait())
   })
 }

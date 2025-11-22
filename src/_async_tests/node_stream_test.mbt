@@ -253,7 +253,7 @@ test {
       )
 
     })
-    let result = resolver.promise.unwrap()
+    let result = resolver.promise.wait()
     assert_eq(result, true)
   })
 }

@@ -547,7 +547,7 @@ pub impl[T] JsImpl for AsyncIterator[T]
 /// JS: asyncIterator.next()
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
   let v : Promise[Js] = self.call0("next") |> unsafe_cast
-  let v : Js = v.unwrap()
+  let v : Js = v.wait()
   if (v.get("done") |> unsafe_cast) {
     None
   } else {

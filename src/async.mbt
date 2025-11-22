@@ -67,7 +67,7 @@ extern "js" fn ffi_sleep(ms : Int) -> Promise[Unit] =
 
 ///|
 pub async fn sleep(ms : Int) -> Unit noraise {
-  ffi_sleep(ms).unwrap() catch {
+  ffi_sleep(ms).wait() catch {
     _ => panic()
   }
 }

@@ -43,26 +43,26 @@ fn main {
   d.test_async("file read/write text", async fn(_ctx) {
     let test_file = "test_deno_text.txt"
     let content = "Hello, Deno from MoonBit!"
-    d.writeTextFile(test_file, content).unwrap()
-    let read_content = d.readTextFile(test_file).unwrap()
+    d.writeTextFile(test_file, content).wait()
+    let read_content = d.readTextFile(test_file).wait()
     assert_eq(read_content, content)
-    d.remove(test_file).unwrap()
+    d.remove(test_file).wait()
   })
 
   // Test directory operations
   d.test_async("directory operations", async fn(_ctx) {
     let test_dir = "test_deno_dir"
     let nested_dir = "test_deno_dir/nested"
-    d.mkdir(test_dir).unwrap()
-    d.mkdir(nested_dir, recursive=true).unwrap()
+    d.mkdir(test_dir).wait()
+    d.mkdir(nested_dir, recursive=true).wait()
 
     // Clean up
-    d.remove(test_dir, recursive=true).unwrap()
+    d.remove(test_dir, recursive=true).wait()
   })
 
   // Test permissions (this will work with --allow-all flag)
   d.test_async("permissions query", async fn(_ctx) {
-    let status = d.permissions_query("read").unwrap()
+    let status = d.permissions_query("read").wait()
     let state = status.state()
     // With --allow-all, should be "granted"
     assert_true(state == "granted" || state == "prompt" || state == "denied")
@@ -70,14 +70,14 @@ fn main {
 
   // Test multiple file operations
   d.test_async("multiple files", async fn(_ctx) {
-    d.writeTextFile("test1.txt", "content1").unwrap()
-    d.writeTextFile("test2.txt", "content2").unwrap()
-    let c1 = d.readTextFile("test1.txt").unwrap()
-    let c2 = d.readTextFile("test2.txt").unwrap()
+    d.writeTextFile("test1.txt", "content1").wait()
+    d.writeTextFile("test2.txt", "content2").wait()
+    let c1 = d.readTextFile("test1.txt").wait()
+    let c2 = d.readTextFile("test2.txt").wait()
     assert_eq(c1, "content1")
     assert_eq(c2, "content2")
-    d.remove("test1.txt").unwrap()
-    d.remove("test2.txt").unwrap()
+    d.remove("test1.txt").wait()
+    d.remove("test2.txt").wait()
   })
 
   // Test env_toObject
@@ -114,40 +114,40 @@ fn main {
   d.test_async("file rename", async fn(_ctx) {
     let old_name = "test_rename_old.txt"
     let new_name = "test_rename_new.txt"
-    d.writeTextFile(old_name, "rename test").unwrap()
-    d.rename(old_name, new_name).unwrap()
-    let content = d.readTextFile(new_name).unwrap()
+    d.writeTextFile(old_name, "rename test").wait()
+    d.rename(old_name, new_name).wait()
+    let content = d.readTextFile(new_name).wait()
     assert_eq(content, "rename test")
-    d.remove(new_name).unwrap()
+    d.remove(new_name).wait()
   })
 
   // Test file copy
   d.test_async("file copy", async fn(_ctx) {
     let source = "test_copy_source.txt"
     let dest = "test_copy_dest.txt"
-    d.writeTextFile(source, "copy test").unwrap()
-    d.copyFile(source, dest).unwrap()
-    let content = d.readTextFile(dest).unwrap()
+    d.writeTextFile(source, "copy test").wait()
+    d.copyFile(source, dest).wait()
+    let content = d.readTextFile(dest).wait()
     assert_eq(content, "copy test")
-    d.remove(source).unwrap()
-    d.remove(dest).unwrap()
+    d.remove(source).wait()
+    d.remove(dest).wait()
   })
 
   // Test file stat
   d.test_async("file stat", async fn(_ctx) {
     let test_file = "test_stat.txt"
-    d.writeTextFile(test_file, "stat test").unwrap()
-    let stat = d.stat(test_file).unwrap()
+    d.writeTextFile(test_file, "stat test").wait()
+    let stat = d.stat(test_file).wait()
 
     // Check that stat returns an object
     assert_true(@js.typeof_(stat) == "object")
-    d.remove(test_file).unwrap()
+    d.remove(test_file).wait()
   })
 
   // Test realPath
   d.test_async("real path", async fn(_ctx) {
     let _cwd = d.cwd()
-    let real = d.realPath(".").unwrap()
+    let real = d.realPath(".").wait()
 
     // realPath should return an absolute path
     assert_true(real.length() > 0)
@@ -156,27 +156,27 @@ fn main {
   // Test chmod (Unix only, might fail on Windows)
   d.test_async("chmod", async fn(_ctx) {
     let test_file = "test_chmod.txt"
-    d.writeTextFile(test_file, "chmod test").unwrap()
+    d.writeTextFile(test_file, "chmod test").wait()
 
     // Try to change permissions (might not work on all platforms)
-    let result = d.chmod(test_file, 0o644).unwrap() catch { _ => () }
+    let result = d.chmod(test_file, 0o644).wait() catch { _ => () }
     ignore(result)
-    d.remove(test_file).unwrap()
+    d.remove(test_file).wait()
   })
 
   // Test symlink (might not work on all platforms/permissions)
   d.test_async("symlink", async fn(_ctx) {
     let target = "test_symlink_target.txt"
     let link = "test_symlink_link.txt"
-    d.writeTextFile(target, "symlink test").unwrap()
+    d.writeTextFile(target, "symlink test").wait()
 
     // Try to create symlink (might fail without proper permissions)
-    let result = d.symlink(target, link).unwrap() catch { _ => () }
+    let result = d.symlink(target, link).wait() catch { _ => () }
     ignore(result)
 
     // Clean up - ignore errors if symlink wasn't created
-    let _ = d.remove(link).unwrap() catch { _ => () }
-    d.remove(target).unwrap()
+    let _ = d.remove(link).wait() catch { _ => () }
+    d.remove(target).wait()
   })
 
   // Test binary file operations
@@ -186,43 +186,43 @@ fn main {
     // Create binary data using TextEncoder
     let encoder = new_text_encoder()
     let arr = encoder.call("encode", [@js.js("binary test data")])
-    d.writeFile(test_file, arr).unwrap()
-    let data = d.readFile(test_file).unwrap()
+    d.writeFile(test_file, arr).wait()
+    let data = d.readFile(test_file).wait()
     assert_true(@js.typeof_(data) == "object")
-    d.remove(test_file).unwrap()
+    d.remove(test_file).wait()
   })
 
   // Test temporary directory
   d.test_async("make temp dir", async fn(_ctx) {
-    let temp_dir = d.makeTempDir(prefix="test_").unwrap()
+    let temp_dir = d.makeTempDir(prefix="test_").wait()
     assert_true(temp_dir.length() > 0)
 
     // Clean up
-    d.remove(temp_dir, recursive=true).unwrap()
+    d.remove(temp_dir, recursive=true).wait()
   })
 
   // Test temporary file
   d.test_async("make temp file", async fn(_ctx) {
-    let temp_file = d.makeTempFile(prefix="test_").unwrap()
+    let temp_file = d.makeTempFile(prefix="test_").wait()
     assert_true(temp_file.length() > 0)
 
     // Write some data
-    d.writeTextFile(temp_file, "temp data").unwrap()
-    let content = d.readTextFile(temp_file).unwrap()
+    d.writeTextFile(temp_file, "temp data").wait()
+    let content = d.readTextFile(temp_file).wait()
     assert_eq(content, "temp data")
 
     // Clean up
-    d.remove(temp_file).unwrap()
+    d.remove(temp_file).wait()
   })
 
   // Test truncate
   d.test_async("truncate file", async fn(_ctx) {
     let test_file = "test_truncate.txt"
-    d.writeTextFile(test_file, "Hello, World! This is a long text.").unwrap()
-    d.truncate(test_file, 5).unwrap()
-    let content = d.readTextFile(test_file).unwrap()
+    d.writeTextFile(test_file, "Hello, World! This is a long text.").wait()
+    d.truncate(test_file, 5).wait()
+    let content = d.readTextFile(test_file).wait()
     assert_eq(content, "Hello")
-    d.remove(test_file).unwrap()
+    d.remove(test_file).wait()
   })
 
   // Test system info
@@ -276,35 +276,35 @@ fn main {
     let test_file = "test_handle.txt"
 
     // Create and write using file handle
-    let file = d.create(test_file).unwrap()
+    let file = d.create(test_file).wait()
     let encoder = new_text_encoder()
     let data = encoder.call("encode", [@js.js("file handle test")])
-    let written = file.write(data).unwrap()
+    let written = file.write(data).wait()
     assert_true(written > 0)
     file.close()
 
     // Read back using file handle
-    let read_file = d.open(test_file, read=true).unwrap()
+    let read_file = d.open(test_file, read=true).wait()
     let buffer = new_uint8array(100)
-    let read_bytes = read_file.read(buffer).unwrap()
+    let read_bytes = read_file.read(buffer).wait()
     assert_true(read_bytes > 0)
     read_file.close()
 
     // Clean up
-    d.remove(test_file).unwrap()
+    d.remove(test_file).wait()
   })
 
   // Test permissions request
   d.test_async("permissions request", async fn(_ctx) {
     // Query read permission
-    let status = d.query_permission("read").unwrap()
+    let status = d.query_permission("read").wait()
     assert_true(@js.typeof_(status) == "object")
   })
 
   // Test DNS resolution
   d.test_async("dns resolution", async fn(_ctx) {
     // Try to resolve localhost
-    let result = d.resolveDns("localhost", "A").unwrap() catch {
+    let result = d.resolveDns("localhost", "A").wait() catch {
         _ =>
           // DNS resolution might fail in some environments
           return
@@ -317,97 +317,97 @@ fn main {
     let test_file = "test_seek.txt"
 
     // Create file with content
-    d.writeTextFile(test_file, "0123456789").unwrap()
+    d.writeTextFile(test_file, "0123456789").wait()
 
     // Open file and seek
-    let file = d.open(test_file, read=true).unwrap()
-    let pos = file.seek(5, 0).unwrap() // SEEK_SET = 0
+    let file = d.open(test_file, read=true).wait()
+    let pos = file.seek(5, 0).wait() // SEEK_SET = 0
     assert_eq(pos, 5)
     file.close()
-    d.remove(test_file).unwrap()
+    d.remove(test_file).wait()
   })
 
   // Test multiple file handles
   d.test_async("multiple file handles", async fn(_ctx) {
     let file1 = "test_handle1.txt"
     let file2 = "test_handle2.txt"
-    d.writeTextFile(file1, "file1 content").unwrap()
-    d.writeTextFile(file2, "file2 content").unwrap()
-    let f1 = d.open(file1, read=true).unwrap()
-    let f2 = d.open(file2, read=true).unwrap()
+    d.writeTextFile(file1, "file1 content").wait()
+    d.writeTextFile(file2, "file2 content").wait()
+    let f1 = d.open(file1, read=true).wait()
+    let f2 = d.open(file2, read=true).wait()
     f1.close()
     f2.close()
-    d.remove(file1).unwrap()
-    d.remove(file2).unwrap()
+    d.remove(file1).wait()
+    d.remove(file2).wait()
   })
 
   // Test lstat (doesn't throw on non-existent files)
   d.test_async("lstat", async fn(_ctx) {
     let test_file = "test_lstat.txt"
-    d.writeTextFile(test_file, "lstat test").unwrap()
-    let stat = d.lstat(test_file).unwrap()
+    d.writeTextFile(test_file, "lstat test").wait()
+    let stat = d.lstat(test_file).wait()
     assert_true(@js.typeof_(stat) == "object")
-    d.remove(test_file).unwrap()
+    d.remove(test_file).wait()
   })
 
   // Test readLink (might not work without symlinks)
   d.test_async("readLink", async fn(_ctx) {
     let target = "test_readlink_target.txt"
-    d.writeTextFile(target, "readlink test").unwrap()
+    d.writeTextFile(target, "readlink test").wait()
 
     // Just verify we can stat the file (readLink requires symlinks which may not work)
-    let stat = d.stat(target).unwrap()
+    let stat = d.stat(target).wait()
     ignore(stat)
-    d.remove(target).unwrap()
+    d.remove(target).wait()
   })
 
   // Test readDir (directory listing)
   d.test_async("readDir", async fn(_ctx) {
     let test_dir = "test_readdir"
-    d.mkdir(test_dir).unwrap()
-    d.writeTextFile(test_dir + "/file1.txt", "content1").unwrap()
-    d.writeTextFile(test_dir + "/file2.txt", "content2").unwrap()
+    d.mkdir(test_dir).wait()
+    d.writeTextFile(test_dir + "/file1.txt", "content1").wait()
+    d.writeTextFile(test_dir + "/file2.txt", "content2").wait()
     let entries = d.readDir(test_dir)
     assert_true(@js.typeof_(entries) == "object")
-    d.remove(test_dir, recursive=true).unwrap()
+    d.remove(test_dir, recursive=true).wait()
   })
 
   // Test multiple temp files
   d.test_async("multiple temp files", async fn(_ctx) {
-    let temp1 = d.makeTempFile(prefix="test1_").unwrap()
-    let temp2 = d.makeTempFile(prefix="test2_").unwrap()
+    let temp1 = d.makeTempFile(prefix="test1_").wait()
+    let temp2 = d.makeTempFile(prefix="test2_").wait()
     assert_true(temp1 != temp2)
-    d.writeTextFile(temp1, "temp1").unwrap()
-    d.writeTextFile(temp2, "temp2").unwrap()
-    let content1 = d.readTextFile(temp1).unwrap()
-    let content2 = d.readTextFile(temp2).unwrap()
+    d.writeTextFile(temp1, "temp1").wait()
+    d.writeTextFile(temp2, "temp2").wait()
+    let content1 = d.readTextFile(temp1).wait()
+    let content2 = d.readTextFile(temp2).wait()
     assert_eq(content1, "temp1")
     assert_eq(content2, "temp2")
-    d.remove(temp1).unwrap()
-    d.remove(temp2).unwrap()
+    d.remove(temp1).wait()
+    d.remove(temp2).wait()
   })
 
   // Test nested directories
   d.test_async("nested directories", async fn(_ctx) {
     let base_dir = "test_nested"
     let nested_path = base_dir + "/level1/level2/level3"
-    d.mkdir(nested_path, recursive=true).unwrap()
+    d.mkdir(nested_path, recursive=true).wait()
     let test_file = nested_path + "/deep.txt"
-    d.writeTextFile(test_file, "deep content").unwrap()
-    let content = d.readTextFile(test_file).unwrap()
+    d.writeTextFile(test_file, "deep content").wait()
+    let content = d.readTextFile(test_file).wait()
     assert_eq(content, "deep content")
-    d.remove(base_dir, recursive=true).unwrap()
+    d.remove(base_dir, recursive=true).wait()
   })
 
   // Test file overwrite
   d.test_async("file overwrite", async fn(_ctx) {
     let test_file = "test_overwrite.txt"
-    d.writeTextFile(test_file, "original").unwrap()
-    let content1 = d.readTextFile(test_file).unwrap()
+    d.writeTextFile(test_file, "original").wait()
+    let content1 = d.readTextFile(test_file).wait()
     assert_eq(content1, "original")
-    d.writeTextFile(test_file, "updated").unwrap()
-    let content2 = d.readTextFile(test_file).unwrap()
+    d.writeTextFile(test_file, "updated").wait()
+    let content2 = d.readTextFile(test_file).wait()
     assert_eq(content2, "updated")
-    d.remove(test_file).unwrap()
+    d.remove(test_file).wait()
   })
 }

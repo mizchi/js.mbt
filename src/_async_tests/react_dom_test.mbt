@@ -48,11 +48,11 @@ test {
   it("renderToReadableStream should return a Promise of ReadableStream", _ => {
     init_react()
     let element = createElement("div", [])
-    let stream = renderToReadableStream(element).unwrap()
+    let stream = renderToReadableStream(element).wait()
     let reader = stream.getReader()
 
     // Read first chunk
-    let result : @js.Js = reader.read().unwrap()
+    let result : @js.Js = reader.read().wait()
     let done : Bool = @js.unsafe_cast(result.get("done"))
 
     // Should have at least one chunk
@@ -66,14 +66,14 @@ test {
   it("renderToReadableStream should render HTML content", _ => {
     init_react()
     let element = createElement("h1", ["Test Title"])
-    let stream = renderToReadableStream(element).unwrap()
+    let stream = renderToReadableStream(element).wait()
     let reader = stream.getReader()
     let html_parts : Array[String] = []
     let decoder = text_decoder_new()
 
     // Read all chunks
     while true {
-      let result : @js.Js = reader.read().unwrap()
+      let result : @js.Js = reader.read().wait()
       let done : Bool = @js.unsafe_cast(result.get("done"))
       if done {
         break
@@ -98,14 +98,14 @@ test {
     init_react()
     let inner = createElement("span", ["Inner"])
     let outer = createElement("div", [inner])
-    let stream = renderToReadableStream(outer).unwrap()
+    let stream = renderToReadableStream(outer).wait()
     let reader = stream.getReader()
     let html_parts : Array[String] = []
     let decoder = text_decoder_new()
 
     // Read all chunks
     while true {
-      let result : @js.Js = reader.read().unwrap()
+      let result : @js.Js = reader.read().wait()
       let done : Bool = @js.unsafe_cast(result.get("done"))
       if done {
         break

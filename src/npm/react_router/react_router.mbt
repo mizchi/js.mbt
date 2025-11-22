@@ -5,7 +5,7 @@ extern "js" fn import_react_router() -> @js.Promise[@js.Js] =
 ///|
 pub async fn init_react_router_async() -> Unit {
   if @js.is_undefined(@js.globalThis().get("__ReactRouterApi")) {
-    let v = import_react_router().unwrap()
+    let v = import_react_router().wait()
     @js.globalThis().set("__ReactRouterApi", v)
   }
 }

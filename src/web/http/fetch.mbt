@@ -60,13 +60,13 @@ test "fetch" {
       "https://jsonplaceholder.typicode.com/todos/1",
       method_="GET",
       headers={ "Accept": "application/json" },
-    ).unwrap() catch {
+    ).wait() catch {
       e => {
         log("Fetch error: " + e.to_string())
         return
       }
     }
-    let value = response.json().unwrap() catch {
+    let value = response.json().wait() catch {
         e => {
           log("Error parsing JSON: " + e.to_string())
           return

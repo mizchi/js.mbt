@@ -76,12 +76,6 @@ pub async fn[T] Promise::wait(self : Self[T]) -> T {
 }
 
 ///|
-/// @deprecated Use `wait()` instead
-pub async fn[T] Promise::unwrap(self : Self[T]) -> T {
-  self.wait()
-}
-
-///|
 /// JS: Promise.all(promises)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
 pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {

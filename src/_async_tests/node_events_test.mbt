@@ -122,9 +122,9 @@ test {
       sleep(5)
       resolver3.resolve(3)
     })
-    let r1 = resolver1.promise.unwrap()
-    let r2 = resolver2.promise.unwrap()
-    let r3 = resolver3.promise.unwrap()
+    let r1 = resolver1.promise.wait()
+    let r2 = resolver2.promise.wait()
+    let r3 = resolver3.promise.wait()
     assert_eq(r1 + r2 + r3, 6)
   })
 }
@@ -142,7 +142,7 @@ test {
       },
       10,
     )
-    resolver.promise.unwrap()
+    resolver.promise.wait()
     promise_resolved = true
     assert_true(timer_fired)
     assert_true(promise_resolved)
