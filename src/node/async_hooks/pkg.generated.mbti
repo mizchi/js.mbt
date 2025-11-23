@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/async_hooks"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type AsyncLocalStorage[T]
+fn[T] AsyncLocalStorage::disable(Self[T]) -> Unit
+fn[T : @js.JsImpl] AsyncLocalStorage::enterWith(Self[T], T) -> Unit
+fn[T] AsyncLocalStorage::exit(Self[T], () -> Unit) -> Unit
+fn[T] AsyncLocalStorage::getStore(Self[T]) -> T?
+fn[T] AsyncLocalStorage::new() -> Self[T]
+fn[T : @js.JsImpl] AsyncLocalStorage::run(Self[T], T, () -> Unit) -> Unit
+impl[T] @js.JsImpl for AsyncLocalStorage[T]
+
+// Type aliases
+
+// Traits
+
