@@ -1,4 +1,4 @@
-# mizchi/js/web/message_channel
+# mizchi/js/web/message
 
 MessageChannel API for two-way communication between contexts.
 
@@ -10,7 +10,7 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/web/message_channel"
+    "mizchi/js/web/message"
   ]
 }
 ```
@@ -24,7 +24,7 @@ Provides bindings for MessageChannel and MessagePort for creating communication 
 ```moonbit
 fn main {
   // Create a message channel
-  let channel = @message_channel.MessageChannel::new()
+  let channel = @message.MessageChannel::new()
   
   // Get the two ports
   let port1 = channel.port1()

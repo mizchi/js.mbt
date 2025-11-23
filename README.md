@@ -78,7 +78,7 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 - **[mizchi/js/web/webassembly](src/web/webassembly/)** - WebAssembly API (WebAssembly.Module, WebAssembly.Instance)
 - **[mizchi/js/web/websocket](src/web/websocket/)** - WebSocket API (WebSocket)
 - **[mizchi/js/web/worker](src/web/worker/)** - Web Workers API (Worker, MessagePort)
-- **[mizchi/js/web/message_channel](src/web/message_channel/)** - MessageChannel API (MessageChannel, MessagePort)
+- **[mizchi/js/web/message](src/web/message/)** - MessageChannel API (MessageChannel, MessagePort)
 
 ### Runtime-Specific
 

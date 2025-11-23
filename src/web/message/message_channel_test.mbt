@@ -12,3 +12,16 @@ test "MessageChannel implements Show trait" {
   let channel = MessageChannel::new()
   inspect(channel.to_string(), content="[object MessageChannel]")
 }
+///|
+/// Test MessageEvent can be created and accessed
+test "MessageEvent struct" {
+  let event : MessageEvent = {
+    data: @js.js("test data"),
+    origin: "https://example.com",
+    lastEventId: "123",
+    ports: [],
+  }
+  assert_eq(event.origin, "https://example.com")
+  assert_eq(event.lastEventId, "123")
+  assert_eq(event.ports.length(), 0)
+}

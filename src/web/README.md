@@ -43,7 +43,7 @@ These APIs work consistently across:
 | **Workers & Concurrency** |
 | Worker | `mizchi/js/web/worker` | 🤖 AI Generated | Web Workers |
 | MessagePort | `mizchi/js/web/worker` | 🤖 AI Generated | Message passing |
-| MessageChannel | `mizchi/js/web/message_channel` | 🤖 AI Generated | Channel messaging |
+| MessageChannel | `mizchi/js/web/message` | 🤖 AI Generated | Channel messaging |
 | **WebAssembly** |
 | WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
 

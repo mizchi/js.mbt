@@ -3,6 +3,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/web/event",
-    "mizchi/js/web/message_channel"
+    "mizchi/js/web/message"
   ]
 }

@@ -5,7 +5,7 @@
     "mizchi/js/web/event",
     "mizchi/js/web/blob",
     "mizchi/js/web/worker",
-    "mizchi/js/web/message_channel",
+    "mizchi/js/web/message",
     "mizchi/js/web/http"
   ],
   "test-import": ["mizchi/js/npm/global_jsdom"]

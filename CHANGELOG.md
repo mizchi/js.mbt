@@ -81,7 +81,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `web/webassembly` - WebAssembly Module and Instance
 - `web/websocket` - WebSocket API
 - `web/worker` - Web Workers
-- `web/message_channel` - MessageChannel, MessagePort
+- `web/message` - MessageChannel, MessagePort
 
 #### Compression
 - `CompressionStream` and `DecompressionStream` APIs

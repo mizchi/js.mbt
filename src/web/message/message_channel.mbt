@@ -1,4 +1,22 @@
 ///|
+/// MessageEvent represents a message received by a target object
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
+pub(all) struct MessageEvent {
+  /// The data sent by the message emitter
+  data : @js.Js
+  /// The origin of the message emitter
+  origin : String
+  /// The last event ID
+  lastEventId : String
+  /// The MessagePort array sent with the message
+  ports : Array[MessagePort]
+} derive(Show)
+
+///|
+pub impl @js.JsImpl for MessageEvent
+
+///|
+pub impl @event.EventTargetImpl for MessageEvent
 
 ///|
 /// MessagePort represents one end of a message channel
