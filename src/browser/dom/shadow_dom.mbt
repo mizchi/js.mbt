@@ -9,10 +9,10 @@
 pub type ShadowRoot
 
 ///|
-pub impl JsImpl for ShadowRoot
+pub impl @js.JsImpl for ShadowRoot
 
 ///|
-pub impl EventTargetImpl for ShadowRoot
+pub impl @event.EventTargetImpl for ShadowRoot
 
 ///|
 pub impl NodeImpl for ShadowRoot
@@ -21,35 +21,35 @@ pub impl NodeImpl for ShadowRoot
 /// Returns the mode of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/mode
 pub fn ShadowRoot::mode(self : Self) -> String {
-  self.get("mode") |> unsafe_cast
+  self.get("mode") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the host element of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/host
 pub fn ShadowRoot::host(self : Self) -> Element {
-  self.get("host") |> unsafe_cast
+  self.get("host") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns whether the shadow root delegates focus
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/delegatesFocus
 pub fn ShadowRoot::delegatesFocus(self : Self) -> Bool {
-  self.get("delegatesFocus") |> unsafe_cast
+  self.get("delegatesFocus") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the shadow root's slot assignment mode
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/slotAssignment
 pub fn ShadowRoot::slotAssignment(self : Self) -> String {
-  self.get("slotAssignment") |> unsafe_cast
+  self.get("slotAssignment") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the inner HTML of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/innerHTML
 pub fn ShadowRoot::innerHTML(self : Self) -> String {
-  self.get("innerHTML") |> unsafe_cast
+  self.get("innerHTML") |> @js.unsafe_cast
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn ShadowRoot::elementsFromPoint(
   y : Double,
 ) -> Array[Element] {
   @js.array_from(self.call2("elementsFromPoint", x, y)).map(fn(v) {
-    unsafe_cast(v)
+    @js.unsafe_cast(v)
   })
 }
 
@@ -117,11 +117,11 @@ pub fn HTMLElement::attachShadow(
   init : ShadowRootInit,
 ) -> ShadowRoot {
   let options = @js.from_map({
-    "mode": js(init.mode),
-    "delegatesFocus": js(init.delegatesFocus),
-    "slotAssignment": js(init.slotAssignment),
+    "mode": @js.js(init.mode),
+    "delegatesFocus": @js.js(init.delegatesFocus),
+    "slotAssignment": @js.js(init.slotAssignment),
   })
-  self.call("attachShadow", [options]) |> unsafe_cast
+  self.call("attachShadow", [options]) |> @js.unsafe_cast
 }
 
 ///|

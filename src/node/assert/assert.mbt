@@ -1,6 +1,6 @@
 ///|
 /// node:assert module
-fn assert_module() -> Js {
+fn assert_module() -> @js.Js {
   @node.require("node:assert")
 }
 
@@ -18,7 +18,11 @@ pub fn ok(value : Bool, message? : String) -> Unit {
 
 ///|
 /// Assert equality (==)
-pub fn equal(actual : &JsImpl, expected : &JsImpl, message? : String) -> Unit {
+pub fn equal(
+  actual : &@js.JsImpl,
+  expected : &@js.JsImpl,
+  message? : String,
+) -> Unit {
   let a = assert_module()
   match message {
     Some(msg) =>
@@ -30,8 +34,8 @@ pub fn equal(actual : &JsImpl, expected : &JsImpl, message? : String) -> Unit {
 ///|
 /// Assert inequality (!=)
 pub fn notEqual(
-  actual : &JsImpl,
-  expected : &JsImpl,
+  actual : &@js.JsImpl,
+  expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
   let a = assert_module()
@@ -45,8 +49,8 @@ pub fn notEqual(
 ///|
 /// Assert deep equality
 pub fn deepEqual(
-  actual : &JsImpl,
-  expected : &JsImpl,
+  actual : &@js.JsImpl,
+  expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
   let a = assert_module()
@@ -60,8 +64,8 @@ pub fn deepEqual(
 ///|
 /// Assert deep inequality
 pub fn notDeepEqual(
-  actual : &JsImpl,
-  expected : &JsImpl,
+  actual : &@js.JsImpl,
+  expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
   let a = assert_module()
@@ -75,8 +79,8 @@ pub fn notDeepEqual(
 ///|
 /// Assert strict equality (===)
 pub fn strictEqual(
-  actual : &JsImpl,
-  expected : &JsImpl,
+  actual : &@js.JsImpl,
+  expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
   let a = assert_module()
@@ -90,8 +94,8 @@ pub fn strictEqual(
 ///|
 /// Assert strict inequality (!==)
 pub fn notStrictEqual(
-  actual : &JsImpl,
-  expected : &JsImpl,
+  actual : &@js.JsImpl,
+  expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
   let a = assert_module()
@@ -129,28 +133,33 @@ pub fn doesNotThrow(fn_ : () -> Unit, message? : String) -> Unit {
 ///|
 /// Assert that a promise rejects
 pub fn rejects(
-  promise : &JsImpl,
-  error? : &JsImpl,
+  promise : &@js.JsImpl,
+  error? : &@js.JsImpl,
   message? : String,
-) -> Promise[Unit] {
+) -> @js.Promise[Unit] {
   let a = assert_module()
   match (error, message) {
     (Some(err), Some(msg)) =>
-      a.call("rejects", [promise.to_js(), err.to_js(), msg]) |> unsafe_cast
+      a.call("rejects", [promise.to_js(), err.to_js(), msg]) |> @js.unsafe_cast
     (Some(err), None) =>
-      a.call2("rejects", promise.to_js(), err.to_js()) |> unsafe_cast
-    (None, Some(msg)) => a.call2("rejects", promise.to_js(), msg) |> unsafe_cast
-    (None, None) => a.call("rejects", [promise.to_js()]) |> unsafe_cast
+      a.call2("rejects", promise.to_js(), err.to_js()) |> @js.unsafe_cast
+    (None, Some(msg)) =>
+      a.call2("rejects", promise.to_js(), msg) |> @js.unsafe_cast
+    (None, None) => a.call("rejects", [promise.to_js()]) |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Assert that a promise does not reject
-pub fn doesNotReject(promise : &JsImpl, message? : String) -> Promise[Unit] {
+pub fn doesNotReject(
+  promise : &@js.JsImpl,
+  message? : String,
+) -> @js.Promise[Unit] {
   let a = assert_module()
   match message {
-    Some(msg) => a.call2("doesNotReject", promise.to_js(), msg) |> unsafe_cast
-    None => a.call("doesNotReject", [promise.to_js()]) |> unsafe_cast
+    Some(msg) =>
+      a.call2("doesNotReject", promise.to_js(), msg) |> @js.unsafe_cast
+    None => a.call("doesNotReject", [promise.to_js()]) |> @js.unsafe_cast
   }
 }
 
@@ -168,7 +177,7 @@ pub fn fail(message? : String) -> Unit {
 
 ///|
 /// Create RegExp from string
-extern "js" fn create_regexp(pattern : String) -> Js =
+extern "js" fn create_regexp(pattern : String) -> @js.Js =
   #|(pattern) => new RegExp(pattern)
 
 ///|
@@ -199,7 +208,11 @@ pub fn doesNotMatch(
 
 ///|
 /// Assert that value is instance of constructor
-pub fn instanceOf(value : &JsImpl, ctor : &JsImpl, message? : String) -> Unit {
+pub fn instanceOf(
+  value : &@js.JsImpl,
+  ctor : &@js.JsImpl,
+  message? : String,
+) -> Unit {
   let a = assert_module()
   match message {
     Some(msg) =>
@@ -211,8 +224,8 @@ pub fn instanceOf(value : &JsImpl, ctor : &JsImpl, message? : String) -> Unit {
 ///|
 /// Assert that value is not instance of constructor
 pub fn notInstanceOf(
-  value : &JsImpl,
-  ctor : &JsImpl,
+  value : &@js.JsImpl,
+  ctor : &@js.JsImpl,
   message? : String,
 ) -> Unit {
   let a = assert_module()

@@ -1,10 +1,9 @@
 ///|
-using @js {type Js, trait JsImpl, js}
 
 ///|
 /// Transferable trait for objects that can be transferred via postMessage
 pub(open) trait Transferable {
-  to_transferable(Self) -> Js
+  to_transferable(Self) -> @js.Js
 }
 
 ///|
@@ -28,19 +27,19 @@ pub(open) trait Transferable {
 pub type Worker
 
 ///|
-pub impl JsImpl for Worker
+pub impl @js.JsImpl for Worker
 
 ///|
 pub impl @event.EventTargetImpl for Worker
 
 ///|
-extern "js" fn ffi_new_worker(script_url : String, option : Js) -> Worker =
+extern "js" fn ffi_new_worker(script_url : String, option : @js.Js) -> Worker =
   #| (script_url) => new Worker(script_url)
 
 ///|
 pub fn Worker::new(script_url : String, type_? : String) -> Worker {
   let option = if type_ is Some(v) {
-    @js.from_map({ "type": js(v) })
+    @js.from_map({ "type": @js.js(v) })
   } else {
     @js.undefined()
   }
@@ -55,22 +54,22 @@ pub fn Worker::terminate(worker : Worker) -> Unit {
 ///|
 extern "js" fn ffi_worker_post_message(
   worker : Worker,
-  message : Js,
-  transfer : Js,
+  message : @js.Js,
+  transfer : @js.Js,
 ) -> Unit =
   #| (worker, message, transfer) => worker.postMessage(message, transfer)
 
 ///|
 #alias(post_message)
-pub fn Worker::postMessage(worker : Worker, message : &JsImpl) -> Unit {
+pub fn Worker::postMessage(worker : Worker, message : &@js.JsImpl) -> Unit {
   ffi_worker_post_message(worker, message.to_js(), @js.undefined())
 }
 
 ///|
 pub fn Worker::post_message_with_transfer(
   worker : Worker,
-  message : &JsImpl,
-  transfer : Array[Js],
+  message : &@js.JsImpl,
+  transfer : Array[@js.Js],
 ) -> Unit {
   let arr = @js.JsArray::new()
   let mut i = 0
@@ -85,7 +84,7 @@ pub fn Worker::post_message_with_transfer(
 /// MessageEvent structure for Worker message events
 /// Access via Val from EventTarget trait's event listener
 pub(all) struct MessageEvent {
-  data : Js
+  data : @js.Js
   origin : String
-  source : Js
+  source : @js.Js
 }

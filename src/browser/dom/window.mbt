@@ -5,12 +5,12 @@
 pub type Window
 
 ///|
-pub impl JsImpl for Window with to_js(self) {
-  self |> unsafe_cast
+pub impl @js.JsImpl for Window with to_js(self) {
+  self |> @js.unsafe_cast
 }
 
 ///|
-pub impl EventTargetImpl for Window
+pub impl @event.EventTargetImpl for Window
 
 ///|
 /// Returns the global window object
@@ -21,7 +21,7 @@ pub extern "js" fn window() -> Window =
 /// Returns the document contained in the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/document
 pub fn Window::document(self : Self) -> Document {
-  self.get("document") |> unsafe_cast
+  self.get("document") |> @js.unsafe_cast
 }
 
 ///|
@@ -29,7 +29,7 @@ pub fn Window::document(self : Self) -> Document {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
 ///
 /// For typed access to Navigator methods, use the `mizchi/js/browser/navigator` package.
-pub fn Window::navigator(self : Self) -> Js {
+pub fn Window::navigator(self : Self) -> @js.Js {
   self.get("navigator")
 }
 
@@ -38,7 +38,7 @@ pub fn Window::navigator(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/location
 ///
 /// For typed access to Location methods, use the `mizchi/js/browser/location` package.
-pub fn Window::location(self : Self) -> Js {
+pub fn Window::location(self : Self) -> @js.Js {
   self.get("location")
 }
 
@@ -46,23 +46,23 @@ pub fn Window::location(self : Self) -> Js {
 /// Returns the localStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 #alias(local_storage)
-pub fn Window::localStorage(self : Self) -> Js {
-  self.get("localStorage") |> unsafe_cast
+pub fn Window::localStorage(self : Self) -> @js.Js {
+  self.get("localStorage") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the sessionStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 #alias(session_storage)
-pub fn Window::sessionStorage(self : Self) -> Js {
-  self.get("sessionStorage") |> unsafe_cast
+pub fn Window::sessionStorage(self : Self) -> @js.Js {
+  self.get("sessionStorage") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the console object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/console
-pub fn Window::console(self : Self) -> Js {
-  self.get("console") |> unsafe_cast
+pub fn Window::console(self : Self) -> @js.Js {
+  self.get("console") |> @js.unsafe_cast
 }
 
 ///|
@@ -70,7 +70,7 @@ pub fn Window::console(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/history
 ///
 /// For typed access to History methods, use the `mizchi/js/browser/history` package.
-pub fn Window::history(self : Self) -> Js {
+pub fn Window::history(self : Self) -> @js.Js {
   self.get("history")
 }
 
@@ -79,7 +79,7 @@ pub fn Window::history(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
 #alias(inner_width)
 pub fn Window::innerWidth(self : Self) -> Int {
-  self.get("innerWidth") |> unsafe_cast
+  self.get("innerWidth") |> @js.unsafe_cast
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn Window::innerWidth(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
 #alias(inner_height)
 pub fn Window::innerHeight(self : Self) -> Int {
-  self.get("innerHeight") |> unsafe_cast
+  self.get("innerHeight") |> @js.unsafe_cast
 }
 
 ///|
@@ -95,7 +95,7 @@ pub fn Window::innerHeight(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerWidth
 #alias(outer_width)
 pub fn Window::outerWidth(self : Self) -> Int {
-  self.get("outerWidth") |> unsafe_cast
+  self.get("outerWidth") |> @js.unsafe_cast
 }
 
 ///|
@@ -103,14 +103,14 @@ pub fn Window::outerWidth(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerHeight
 #alias(outer_height)
 pub fn Window::outerHeight(self : Self) -> Int {
-  self.get("outerHeight") |> unsafe_cast
+  self.get("outerHeight") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the screen object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/screen
-pub fn Window::screen(self : Self) -> Js {
-  self.get("screen") |> unsafe_cast
+pub fn Window::screen(self : Self) -> @js.Js {
+  self.get("screen") |> @js.unsafe_cast
 }
 
 ///|
@@ -118,7 +118,7 @@ pub fn Window::screen(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
 #alias(device_pixel_ratio)
 pub fn Window::devicePixelRatio(self : Self) -> Double {
-  self.get("devicePixelRatio") |> unsafe_cast
+  self.get("devicePixelRatio") |> @js.unsafe_cast
 }
 
 ///|
@@ -132,7 +132,7 @@ pub fn Window::alert(self : Self, message : String) -> Unit {
 /// Displays a confirm dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
 pub fn Window::confirm(self : Self, message : String) -> Bool {
-  self.call("confirm", [message]) |> unsafe_cast
+  self.call("confirm", [message]) |> @js.unsafe_cast
 }
 
 ///|
@@ -196,7 +196,7 @@ pub fn Window::scrollBy(self : Self, x : Int, y : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
 #alias(scroll_x)
 pub fn Window::scrollX(self : Self) -> Double {
-  self.get("scrollX") |> unsafe_cast
+  self.get("scrollX") |> @js.unsafe_cast
 }
 
 ///|
@@ -204,7 +204,7 @@ pub fn Window::scrollX(self : Self) -> Double {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY
 #alias(scroll_y)
 pub fn Window::scrollY(self : Self) -> Double {
-  self.get("scrollY") |> unsafe_cast
+  self.get("scrollY") |> @js.unsafe_cast
 }
 
 ///|
@@ -216,7 +216,7 @@ pub fn Window::setTimeout(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.call2("setTimeout", @js.from_fn0(handler), delay) |> unsafe_cast
+  self.call2("setTimeout", @js.from_fn0(handler), delay) |> @js.unsafe_cast
 }
 
 ///|
@@ -236,7 +236,7 @@ pub fn Window::setInterval(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.call2("setInterval", @js.from_fn0(handler), delay) |> unsafe_cast
+  self.call2("setInterval", @js.from_fn0(handler), delay) |> @js.unsafe_cast
 }
 
 ///|
@@ -255,7 +255,8 @@ pub fn Window::requestAnimationFrame(
   self : Self,
   callback : (Double) -> Unit,
 ) -> Int {
-  self.call("requestAnimationFrame", [@js.unsafe_js(callback)]) |> unsafe_cast
+  self.call("requestAnimationFrame", [@js.unsafe_js(callback)])
+  |> @js.unsafe_cast
 }
 
 ///|
@@ -269,10 +270,14 @@ pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
 ///|
 /// Starts the process of fetching a resource from the network
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
-pub fn Window::fetch(self : Self, input : String, init? : Js) -> Promise[Js] {
+pub fn Window::fetch(
+  self : Self,
+  input : String,
+  init? : @js.Js,
+) -> @js.Promise[@js.Js] {
   match init {
-    Some(i) => self.call2("fetch", input, i) |> unsafe_cast
-    None => self.call("fetch", [input]) |> unsafe_cast
+    Some(i) => self.call2("fetch", input, i) |> @js.unsafe_cast
+    None => self.call("fetch", [input]) |> @js.unsafe_cast
   }
 }
 
@@ -280,7 +285,7 @@ pub fn Window::fetch(self : Self, input : String, init? : Js) -> Promise[Js] {
 /// Returns a selection object representing selected text
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 #alias(get_selection)
-pub fn Window::getSelection(self : Self) -> Js? {
+pub fn Window::getSelection(self : Self) -> @js.Js? {
   self.call0("getSelection") |> @js.unsafe_cast_option
 }
 
@@ -292,10 +297,11 @@ pub fn Window::getComputedStyle(
   self : Self,
   element : Element,
   pseudo_elt? : String,
-) -> Js {
+) -> @js.Js {
   match pseudo_elt {
-    Some(p) => self.call2("getComputedStyle", element.to_js(), p) |> unsafe_cast
-    None => self.call("getComputedStyle", [element.to_js()]) |> unsafe_cast
+    Some(p) =>
+      self.call2("getComputedStyle", element.to_js(), p) |> @js.unsafe_cast
+    None => self.call("getComputedStyle", [element.to_js()]) |> @js.unsafe_cast
   }
 }
 
@@ -303,8 +309,8 @@ pub fn Window::getComputedStyle(
 /// Returns a media query list
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
-pub fn Window::matchMedia(self : Self, query : String) -> Js {
-  self.call("matchMedia", [query]) |> unsafe_cast
+pub fn Window::matchMedia(self : Self, query : String) -> @js.Js {
+  self.call("matchMedia", [query]) |> @js.unsafe_cast
 }
 
 ///|
@@ -313,7 +319,7 @@ pub fn Window::matchMedia(self : Self, query : String) -> Js {
 #alias(post_message)
 pub fn Window::postMessage(
   self : Self,
-  message : Js,
+  message : @js.Js,
   target_origin : String,
 ) -> Unit {
   ignore(self.call2("postMessage", message, target_origin))
@@ -322,9 +328,9 @@ pub fn Window::postMessage(
 ///|
 /// Posts a message to the window with transfer
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
-pub fn[T : Transferable] Window::post_message_with_transfer(
+pub fn[T : @worker.Transferable] Window::post_message_with_transfer(
   self : Self,
-  message : Js,
+  message : @js.Js,
   target_origin : String,
   transfer : Array[T],
 ) -> Unit {

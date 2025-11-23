@@ -8,7 +8,7 @@ pub(all) struct Response {
 }
 
 ///|
-pub impl JsImpl for Response
+pub impl @js.JsImpl for Response
 
 ///|
 /// Create a new Response
@@ -17,7 +17,7 @@ pub fn Response::new(
   body? : String,
   status? : Int,
   statusText? : String,
-  headers? : &JsImpl,
+  headers? : &@js.JsImpl,
 ) -> Response {
   let body_js = match body {
     Some(b) => @js.unsafe_cast(b)
@@ -40,51 +40,51 @@ pub fn Response::new(
 
 ///|
 extern "js" fn new_impl_full(
-  body : Js,
+  body : @js.Js,
   status : Int,
-  statusText : Js,
-  headers : Js,
+  statusText : @js.Js,
+  headers : @js.Js,
 ) -> Response =
   #| (body, status, statusText, headers) => new Response(body, { status, statusText, headers })
 
 ///|
 extern "js" fn new_impl_status_text(
-  body : Js,
+  body : @js.Js,
   status : Int,
-  statusText : Js,
+  statusText : @js.Js,
 ) -> Response =
   #| (body, status, statusText) => new Response(body, { status, statusText })
 
 ///|
 extern "js" fn new_impl_status_headers(
-  body : Js,
+  body : @js.Js,
   status : Int,
-  headers : Js,
+  headers : @js.Js,
 ) -> Response =
   #| (body, status, headers) => new Response(body, { status, headers })
 
 ///|
-extern "js" fn new_impl_status(body : Js, status : Int) -> Response =
+extern "js" fn new_impl_status(body : @js.Js, status : Int) -> Response =
   #| (body, status) => new Response(body, { status })
 
 ///|
 extern "js" fn new_impl_text_headers(
-  body : Js,
-  statusText : Js,
-  headers : Js,
+  body : @js.Js,
+  statusText : @js.Js,
+  headers : @js.Js,
 ) -> Response =
   #| (body, statusText, headers) => new Response(body, { statusText, headers })
 
 ///|
-extern "js" fn new_impl_text(body : Js, statusText : Js) -> Response =
+extern "js" fn new_impl_text(body : @js.Js, statusText : @js.Js) -> Response =
   #| (body, statusText) => new Response(body, { statusText })
 
 ///|
-extern "js" fn new_impl_headers(body : Js, headers : Js) -> Response =
+extern "js" fn new_impl_headers(body : @js.Js, headers : @js.Js) -> Response =
   #| (body, headers) => new Response(body, { headers })
 
 ///|
-extern "js" fn new_impl_plain(body : Js) -> Response =
+extern "js" fn new_impl_plain(body : @js.Js) -> Response =
   #| (body) => new Response(body)
 
 ///|
@@ -94,7 +94,7 @@ pub extern "js" fn Response::redirect(url : String, status? : Int) -> Response =
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/json_static
-pub fn Response::json_(data : &JsImpl, options? : &JsImpl) -> Response {
+pub fn Response::json_(data : &@js.JsImpl, options? : &@js.JsImpl) -> Response {
   match options {
     Some(opts) => json_impl(data.to_js(), opts.to_js())
     None => json_impl(data.to_js(), @js.undefined())
@@ -102,7 +102,7 @@ pub fn Response::json_(data : &JsImpl, options? : &JsImpl) -> Response {
 }
 
 ///|
-extern "js" fn json_impl(data : Js, options : Js) -> Response =
+extern "js" fn json_impl(data : @js.Js, options : @js.Js) -> Response =
   #| (data, options) => Response.json(data, options)
 
 ///|
@@ -112,22 +112,22 @@ pub extern "js" fn Response::error() -> Response =
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/json
-pub extern "js" fn Response::json(self : Self) -> Promise[Js] =
+pub extern "js" fn Response::json(self : Self) -> @js.Promise[@js.Js] =
   #| (v) => v.json()
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/text
-pub extern "js" fn Response::text(self : Self) -> Promise[String] =
+pub extern "js" fn Response::text(self : Self) -> @js.Promise[String] =
   #| (v) => v.text()
 
 ///|
-pub extern "js" fn Response::form_data(self : Self) -> Promise[FormData] =
+pub extern "js" fn Response::form_data(self : Self) -> @js.Promise[FormData] =
   #| (v) => v.formData()
 
 ///|
 pub extern "js" fn Response::bytes(
   self : Self,
-) -> Promise[@typed_array.Uint8Array] =
+) -> @js.Promise[@typed_array.Uint8Array] =
   #| (v) => v.bytes()
 
 ///|

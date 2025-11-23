@@ -1,5 +1,4 @@
 ///|
-using @js {type Js, trait JsImpl}
 
 ///|
 /// MessagePort represents one end of a message channel
@@ -10,7 +9,7 @@ using @js {type Js, trait JsImpl}
 pub type MessagePort
 
 ///|
-pub impl JsImpl for MessagePort
+pub impl @js.JsImpl for MessagePort
 
 ///|
 pub impl @event.EventTargetImpl for MessagePort
@@ -29,7 +28,10 @@ pub impl Show for MessagePort with to_string(_self) {
 /// Sends a message through the port
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/postMessage
 #alias(postMessage)
-pub fn MessagePort::post_message(port : MessagePort, message : &JsImpl) -> Unit {
+pub fn MessagePort::post_message(
+  port : MessagePort,
+  message : &@js.JsImpl,
+) -> Unit {
   port.call("postMessage", [message.to_js()]) |> ignore
 }
 
@@ -37,8 +39,8 @@ pub fn MessagePort::post_message(port : MessagePort, message : &JsImpl) -> Unit 
 /// Sends a message with transferable objects through the port
 pub fn MessagePort::post_message_with_transfer(
   port : MessagePort,
-  message : &JsImpl,
-  transfer : Array[Js],
+  message : &@js.JsImpl,
+  transfer : Array[@js.Js],
 ) -> Unit {
   let arr = @js.JsArray::new()
   let mut i = 0
@@ -70,7 +72,7 @@ pub fn MessagePort::close(port : MessagePort) -> Unit {
 pub type MessageChannel
 
 ///|
-pub impl JsImpl for MessageChannel
+pub impl @js.JsImpl for MessageChannel
 
 ///|
 pub impl Show for MessageChannel with output(self, logger) {

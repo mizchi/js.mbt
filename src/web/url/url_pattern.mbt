@@ -55,8 +55,8 @@ pub impl @js.JsImpl for URLPatternResult
 pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
   let pattern_val = @js.unsafe_js(pattern)
   match base {
-    Some(b) => unsafe_cast(ffi_new_url_pattern_with_base(pattern_val, b))
-    None => unsafe_cast(ffi_new_url_pattern(pattern_val))
+    Some(b) => @js.unsafe_cast(ffi_new_url_pattern_with_base(pattern_val, b))
+    None => @js.unsafe_cast(ffi_new_url_pattern(pattern_val))
   }
 }
 
@@ -68,15 +68,15 @@ pub fn URLPattern::newFromObject(
   base? : String,
 ) -> URLPattern {
   match base {
-    Some(b) => unsafe_cast(ffi_new_url_pattern_with_base(pattern, b))
-    None => unsafe_cast(ffi_new_url_pattern(pattern))
+    Some(b) => @js.unsafe_cast(ffi_new_url_pattern_with_base(pattern, b))
+    None => @js.unsafe_cast(ffi_new_url_pattern(pattern))
   }
 }
 
 ///|
 /// Test if a URL string matches the pattern
 pub fn URLPattern::test_url(self : Self, input : String) -> Bool {
-  self.call("test", [input]) |> unsafe_cast
+  self.call("test", [input]) |> @js.unsafe_cast
 }
 
 ///|
@@ -87,8 +87,8 @@ pub fn URLPattern::test_url_with_base(
   base? : String,
 ) -> Bool {
   match base {
-    Some(b) => self.call2("test", input, b) |> unsafe_cast
-    None => self.call("test", [input]) |> unsafe_cast
+    Some(b) => self.call2("test", input, b) |> @js.unsafe_cast
+    None => self.call("test", [input]) |> @js.unsafe_cast
   }
 }
 

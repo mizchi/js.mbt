@@ -326,7 +326,7 @@ pub fn[T] unsafe_js(v : T) -> Js {
 ///
 /// # Related Functions
 /// - `from_option(A?) -> Js` - Inverse conversion (Option to Js)
-/// - `Nullable[T]` - For FFI struct fields that need explicit null handling
+/// - `@js.Nullable[T]` - For FFI struct fields that need explicit null handling
 pub fn[A] unsafe_cast_option(v : Js) -> A? {
   if ffi_is_nullish(v) {
     None

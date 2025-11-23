@@ -5,7 +5,7 @@ pub(all) struct TestShard {
 }
 
 ///|
-pub impl JsImpl for TestShard
+pub impl @js.JsImpl for TestShard
 
 ///|
 /// https://nodejs.org/api/test.html#runoptions
@@ -70,5 +70,5 @@ pub fn run(
     ("rerunFailuresFilePath", rerunFailuresFilePath.map(x => x)),
     ("setup", setup.map(fn(x) { @js.from_fn0(x) })),
   ])
-  nodetest().call("run", [obj]) |> unsafe_cast
+  nodetest().call("run", [obj]) |> @js.unsafe_cast
 }

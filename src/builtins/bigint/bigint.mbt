@@ -1,60 +1,59 @@
 ///|
 /// JavaScript BigInt
-using @js {type Js, trait JsImpl, globalThis, unsafe_cast}
 
 ///|
 #external
 pub type JsBigInt
 
 ///|
-pub impl JsImpl for JsBigInt
+pub impl @js.JsImpl for JsBigInt
 
 ///|
 /// get the BigInt class
-fn bigint_class() -> Js {
-  unsafe_cast(globalThis().get("BigInt"))
+fn bigint_class() -> @js.Js {
+  @js.unsafe_cast(@js.globalThis().get("BigInt"))
 }
 
 ///|
 /// JS: BigInt(value)
 pub fn JsBigInt::from_int(value : Int) -> JsBigInt {
-  bigint_class().call_self([value]) |> unsafe_cast
+  bigint_class().call_self([value]) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: BigInt(value)
 pub fn JsBigInt::from_string(value : String) -> JsBigInt {
-  bigint_class().call_self([value]) |> unsafe_cast
+  bigint_class().call_self([value]) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: BigInt.asIntN(bits, bigint)
 pub fn JsBigInt::asIntN(bits : Int, bigint : JsBigInt) -> JsBigInt {
-  bigint_class().call2("asIntN", bits, bigint) |> unsafe_cast
+  bigint_class().call2("asIntN", bits, bigint) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: BigInt.asUintN(bits, bigint)
 pub fn JsBigInt::asUintN(bits : Int, bigint : JsBigInt) -> JsBigInt {
-  bigint_class().call2("asUintN", bits, bigint) |> unsafe_cast
+  bigint_class().call2("asUintN", bits, bigint) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: bigint.toString()
 pub fn JsBigInt::to_string(self : Self) -> String {
-  self.call0("toString") |> unsafe_cast
+  self.call0("toString") |> @js.unsafe_cast
 }
 
 ///|
 /// JS: bigint.toString(radix)
 pub fn JsBigInt::to_string_radix(self : Self, radix : Int) -> String {
-  self.call1("toString", radix) |> unsafe_cast
+  self.call1("toString", radix) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: bigint.valueOf()
 pub fn JsBigInt::valueOf(self : Self) -> JsBigInt {
-  self.call0("valueOf") |> unsafe_cast
+  self.call0("valueOf") |> @js.unsafe_cast
 }
 
 ///|

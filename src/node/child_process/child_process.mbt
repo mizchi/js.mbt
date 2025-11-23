@@ -10,23 +10,23 @@ pub(all) struct ChildProcess {
   killed : Bool
   exitCode : Int
   signalCode : String
-  stdin : WritableStream
-  stdout : ReadableStream
-  stderr : ReadableStream
+  stdin : @streams.WritableStream
+  stdout : @streams.ReadableStream
+  stderr : @streams.ReadableStream
 }
 
 ///|
-pub impl JsImpl for ChildProcess
+pub impl @js.JsImpl for ChildProcess
 
 ///|
-pub impl EventEmitterImpl for ChildProcess
+pub impl @events.EventEmitterImpl for ChildProcess
 
 ///|
 /// Listen for stderr 'data' event with typed callback
-/// Callback receives: data (Js) - typically Buffer or String
+/// Callback receives: data (@js.Js) - typically Buffer or String
 pub fn ChildProcess::on_stderr_data(
   self : Self,
-  callback : (Js) -> Unit noraise,
+  callback : (@js.Js) -> Unit noraise,
 ) -> Unit {
   self.stderr.call2("on", "data", @js.from_fn1(callback)) |> ignore
 }
@@ -44,7 +44,7 @@ pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
 
 ///|
 /// Send a message to the child process (for IPC)
-pub fn ChildProcess::send(self : Self, message : &JsImpl) -> Bool {
+pub fn ChildProcess::send(self : Self, message : &@js.JsImpl) -> Bool {
   self.call("send", [message.to_js()]) |> @js.unsafe_cast
 }
 
@@ -68,7 +68,7 @@ pub fn ChildProcess::ref_(self : Self) -> Unit {
 
 ///|
 /// Module Functions
-extern "js" fn ffi_require_child_process() -> Js =
+extern "js" fn ffi_require_child_process() -> @js.Js =
   #|() => require("node:child_process")
 
 ///|
@@ -78,10 +78,10 @@ pub fn spawn(
   command : String,
   args? : Array[String],
   cwd? : String,
-  env? : Js,
+  env? : @js.Js,
   shell? : Bool,
   timeout? : Int,
-  signal? : AbortSignal,
+  signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let options = @js.from_entries_option([
@@ -93,9 +93,9 @@ pub fn spawn(
   ])
   match args {
     Some(a) =>
-      cp.call("spawn", [command |> js, a |> @js.from_array, options])
+      cp.call("spawn", [command |> @js.js, a |> @js.from_array, options])
       |> @js.unsafe_cast
-    None => cp.call2("spawn", command |> js, options) |> @js.unsafe_cast
+    None => cp.call2("spawn", command |> @js.js, options) |> @js.unsafe_cast
   }
 }
 
@@ -104,13 +104,13 @@ pub fn spawn(
 /// Spawns a shell and executes a command, buffering the output
 pub fn exec(
   command : String,
-  callback : (Js?, String, String) -> Unit noraise,
+  callback : (@js.Js?, String, String) -> Unit noraise,
   cwd? : String,
-  env? : Js,
+  env? : @js.Js,
   shell? : String,
   timeout? : Int,
   max_buffer? : Int,
-  signal? : AbortSignal,
+  signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let options = @js.from_entries_option([
@@ -121,7 +121,7 @@ pub fn exec(
     ("maxBuffer", max_buffer.map(x => x)),
     ("signal", signal.map(x => x.to_js())),
   ])
-  cp.call("exec", [command |> js, options, @js.unsafe_cast(callback)])
+  cp.call("exec", [command |> @js.js, options, @js.unsafe_cast(callback)])
   |> @js.unsafe_cast
 }
 
@@ -132,12 +132,12 @@ pub fn exec(
 pub fn execFile(
   file : String,
   args : Array[String],
-  callback : (Js?, String, String) -> Unit noraise,
+  callback : (@js.Js?, String, String) -> Unit noraise,
   cwd? : String,
-  env? : Js,
+  env? : @js.Js,
   timeout? : Int,
   max_buffer? : Int,
-  signal? : AbortSignal,
+  signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let options = @js.from_entries_option([
@@ -163,10 +163,10 @@ pub fn fork(
   module_path : String,
   args? : Array[String],
   cwd? : String,
-  env? : Js,
+  env? : @js.Js,
   silent? : Bool,
   timeout? : Int,
-  signal? : AbortSignal,
+  signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let options = @js.from_entries_option([
@@ -178,9 +178,9 @@ pub fn fork(
   ])
   match args {
     Some(a) =>
-      cp.call("fork", [module_path |> js, a |> @js.from_array, options])
+      cp.call("fork", [module_path |> @js.js, a |> @js.from_array, options])
       |> @js.unsafe_cast
-    None => cp.call2("fork", module_path |> js, options) |> @js.unsafe_cast
+    None => cp.call2("fork", module_path |> @js.js, options) |> @js.unsafe_cast
   }
 }
 
@@ -194,11 +194,11 @@ pub(all) struct SpawnSyncResult {
   signal : String?
   stdout : @streams.ReadableStream
   stderr : @streams.ReadableStream
-  error : Js
+  error : @js.Js
 }
 
 ///|
-pub impl JsImpl for SpawnSyncResult
+pub impl @js.JsImpl for SpawnSyncResult
 
 ///|
 /// spawnSync(command[, args][, options])
@@ -208,7 +208,7 @@ pub fn spawnSync(
   command : String,
   args? : Array[String],
   cwd? : String,
-  env? : Js,
+  env? : @js.Js,
   shell? : Bool,
   timeout? : Int,
   input? : String,
@@ -228,7 +228,8 @@ pub fn spawnSync(
       Some(a) =>
         cp.call("spawnSync", [command, a |> @js.from_array, options])
         |> @js.unsafe_cast
-      None => cp.call2("spawnSync", command |> js, options) |> @js.unsafe_cast
+      None =>
+        cp.call2("spawnSync", command |> @js.js, options) |> @js.unsafe_cast
     }
   })
 }
@@ -240,7 +241,7 @@ pub fn spawnSync(
 pub fn execSync(
   command : String,
   cwd? : String,
-  env? : Js,
+  env? : @js.Js,
   shell? : String,
   timeout? : Int,
   maxBuffer? : Int,
@@ -260,7 +261,7 @@ pub fn execSync(
       ("encoding", Some(encoding.unwrap_or("utf8"))),
       ("stdio", stdio.map(x => x)),
     ])
-    cp.call2("execSync", command |> js, options) |> @js.unsafe_cast
+    cp.call2("execSync", command |> @js.js, options) |> @js.unsafe_cast
   })
 }
 
@@ -272,7 +273,7 @@ pub fn execFileSync(
   file : String,
   args? : Array[String],
   cwd? : String,
-  env? : Js,
+  env? : @js.Js,
   timeout? : Int,
   maxBuffer? : Int,
   input? : String,

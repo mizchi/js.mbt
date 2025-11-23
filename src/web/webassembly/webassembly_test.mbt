@@ -1,8 +1,4 @@
 ///|
-/// Test WebAssembly API with add.wasm fixture
-using @js {unsafe_cast}
-
-///|
 using @typed_array {type Uint8Array}
 
 ///|
@@ -13,7 +9,7 @@ test "WebAssembly module from bytes" {
   let wasm_path = @path.join([cwd, "fixtures/add.wasm"])
   let buffer = @fs.read_file_sync(wasm_path)
   // Buffer is a Uint8Array, so we can cast it directly
-  let bytes : Uint8Array = buffer.to_js() |> unsafe_cast
+  let bytes : Uint8Array = buffer.to_js() |> @js.unsafe_cast
 
   // Validate the bytes
   let is_valid = validate(bytes)
@@ -30,7 +26,7 @@ test "WebAssembly module from bytes" {
   // Get exports and call add function
   let exports = instance.exports()
   let add_func = exports.get("add")
-  let result : Int = add_func.call_self([5, 3]) |> unsafe_cast
+  let result : Int = add_func.call_self([5, 3]) |> @js.unsafe_cast
   inspect(result, content="8")
 }
 
@@ -87,12 +83,12 @@ test "WebAssembly Global" {
   inspect(global.to_js() |> @js.typeof_(), content="object")
 
   // Get the value
-  let value : Int = global.value() |> unsafe_cast
+  let value : Int = global.value() |> @js.unsafe_cast
   inspect(value, content="42")
 
   // Set a new value
   global.set_value(100 |> @js.js())
-  let new_value : Int = global.value() |> unsafe_cast
+  let new_value : Int = global.value() |> @js.unsafe_cast
   inspect(new_value, content="100")
 }
 
@@ -107,6 +103,6 @@ test "WebAssembly Global immutable" {
   inspect(@js.typeof_(global.to_js()), content="object")
 
   // Get the value
-  let value : Double = global.value() |> unsafe_cast
+  let value : Double = global.value() |> @js.unsafe_cast
   inspect(value, content="3.14")
 }

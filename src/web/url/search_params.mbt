@@ -4,7 +4,7 @@ pub(all) struct URLSearchParams {
 }
 
 ///|
-impl JsImpl for URLSearchParams
+impl @js.JsImpl for URLSearchParams
 
 ///|
 impl Eq for URLSearchParams with equal(self, other) {
@@ -27,12 +27,12 @@ pub fn URLSearchParams::get_all(
   self : URLSearchParams,
   name : String,
 ) -> Array[String] {
-  self.call("getAll", [name]) |> unsafe_cast
+  self.call("getAll", [name]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn URLSearchParams::has(self : URLSearchParams, name : String) -> Bool {
-  self.call("has", [name]) |> unsafe_cast
+  self.call("has", [name]) |> @js.unsafe_cast
 }
 
 ///|
@@ -41,7 +41,7 @@ pub fn URLSearchParams::set(
   name : String,
   value : String,
 ) -> Unit {
-  self.call2("set", name, value) |> unsafe_cast
+  self.call2("set", name, value) |> @js.unsafe_cast
 }
 
 ///|
@@ -50,21 +50,21 @@ pub fn URLSearchParams::append(
   name : String,
   value : String,
 ) -> Unit {
-  self.call2("append", name, value) |> unsafe_cast
+  self.call2("append", name, value) |> @js.unsafe_cast
 }
 
 ///|
 pub fn URLSearchParams::delete(self : URLSearchParams, name : String) -> Unit {
-  self.call("delete", [name]) |> unsafe_cast
+  self.call("delete", [name]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn URLSearchParams::sort(self : URLSearchParams) -> Unit {
-  self.call0("sort") |> unsafe_cast
+  self.call0("sort") |> @js.unsafe_cast
 }
 
 ///|
 #alias(toString)
 pub fn URLSearchParams::to_string(self : URLSearchParams) -> String {
-  self.call0("toString") |> unsafe_cast
+  self.call0("toString") |> @js.unsafe_cast
 }

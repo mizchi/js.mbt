@@ -3,7 +3,7 @@
 
 ///|
 /// Module Functions
-extern "js" fn ffi_require_module() -> Js =
+extern "js" fn ffi_require_module() -> @js.Js =
   #|() => require("node:module")
 
 ///|
@@ -13,14 +13,14 @@ extern "js" fn ffi_require_module() -> Js =
 #alias(builtin_modules)
 pub fn builtinModules() -> Array[String] {
   let mod = ffi_require_module()
-  mod.get("builtinModules") |> unsafe_cast
+  mod.get("builtinModules") |> @js.unsafe_cast
 }
 
 ///|
 /// createRequire(filename)
 /// Create a require function from a file URL or path
 #alias(create_require)
-pub fn createRequire(filename : String) -> Js {
+pub fn createRequire(filename : String) -> @js.Js {
   let mod = ffi_require_module()
   mod.call("createRequire", [filename])
 }
@@ -31,7 +31,7 @@ pub fn createRequire(filename : String) -> Js {
 #alias(is_builtin)
 pub fn isBuiltin(module_name : String) -> Bool {
   let mod = ffi_require_module()
-  unsafe_cast(mod.call("isBuiltin", [module_name]))
+  @js.unsafe_cast(mod.call("isBuiltin", [module_name]))
 }
 
 ///|
@@ -101,9 +101,10 @@ pub fn stripTypeScriptTypes(
 ) -> String {
   let mod = ffi_require_module()
   match (mode, source_map, source_url) {
-    (None, None, None) => unsafe_cast(mod.call("stripTypeScriptTypes", [code]))
+    (None, None, None) =>
+      @js.unsafe_cast(mod.call("stripTypeScriptTypes", [code]))
     _ =>
-      unsafe_cast(
+      @js.unsafe_cast(
         mod.call("stripTypeScriptTypes", [
           code,
           @js.from_entries_option([
@@ -124,11 +125,11 @@ pub fn stripTypeScriptTypes(
 pub type SourceMap
 
 ///|
-pub impl JsImpl for SourceMap
+pub impl @js.JsImpl for SourceMap
 
 ///|
 /// Get the payload (the actual source map data)
-pub fn SourceMap::payload(self : Self) -> Js {
+pub fn SourceMap::payload(self : Self) -> @js.Js {
   self.get("payload")
 }
 
@@ -153,41 +154,41 @@ pub fn SourceMap::findEntry(
 pub type SourceMapEntry
 
 ///|
-pub impl JsImpl for SourceMapEntry
+pub impl @js.JsImpl for SourceMapEntry
 
 ///|
 /// Get the original line number
 #alias(original_line)
 pub fn SourceMapEntry::originalLine(self : Self) -> Int {
-  self.get("originalLine") |> unsafe_cast
+  self.get("originalLine") |> @js.unsafe_cast
 }
 
 ///|
 /// Get the original column number
 #alias(original_column)
 pub fn SourceMapEntry::originalColumn(self : Self) -> Int {
-  self.get("originalColumn") |> unsafe_cast
+  self.get("originalColumn") |> @js.unsafe_cast
 }
 
 ///|
 /// Get the original source file name
 #alias(original_source)
 pub fn SourceMapEntry::originalSource(self : Self) -> String {
-  self.get("originalSource") |> unsafe_cast
+  self.get("originalSource") |> @js.unsafe_cast
 }
 
 ///|
 /// Get the generated line number
 #alias(generated_line)
 pub fn SourceMapEntry::generatedLine(self : Self) -> Int {
-  self.get("generatedLine") |> unsafe_cast
+  self.get("generatedLine") |> @js.unsafe_cast
 }
 
 ///|
 /// Get the generated column number
 #alias(generated_column)
 pub fn SourceMapEntry::generatedColumn(self : Self) -> Int {
-  self.get("generatedColumn") |> unsafe_cast
+  self.get("generatedColumn") |> @js.unsafe_cast
 }
 
 ///|

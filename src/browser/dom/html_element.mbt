@@ -1,6 +1,6 @@
 ///|
 /// HTMLElement trait - base interface for HTML elements
-pub(open) trait HTMLElementImpl: JsImpl + ElementImpl {
+pub(open) trait HTMLElementImpl: @js.JsImpl + ElementImpl {
   innerText(Self) -> String = _
   setInnerText(Self, String) -> Unit = _
   innerHTML(Self) -> String = _
@@ -16,10 +16,10 @@ pub(open) trait HTMLElementImpl: JsImpl + ElementImpl {
 pub type HTMLElement
 
 ///|
-pub impl JsImpl for HTMLElement
+pub impl @js.JsImpl for HTMLElement
 
 ///|
-pub impl EventTargetImpl for HTMLElement
+pub impl @event.EventTargetImpl for HTMLElement
 
 ///|
 pub impl ElementImpl for HTMLElement
@@ -31,14 +31,14 @@ pub impl NodeImpl for HTMLElement
 pub impl HTMLElementImpl for HTMLElement
 
 ///|
-pub impl JsImpl for HTMLElement
+pub impl @js.JsImpl for HTMLElement
 
 ///|
 pub impl HTMLElementImpl for HTMLElement
 
 ///|
 impl HTMLElementImpl with innerText(self) -> String {
-  self.get("innerText") |> unsafe_cast
+  self.get("innerText") |> @js.unsafe_cast
 }
 
 ///|
@@ -48,7 +48,7 @@ impl HTMLElementImpl with setInnerText(self, text) -> Unit {
 
 ///|
 impl HTMLElementImpl with innerHTML(self) -> String {
-  self.get("innerHTML") |> unsafe_cast
+  self.get("innerHTML") |> @js.unsafe_cast
 }
 
 ///|
@@ -58,7 +58,7 @@ impl HTMLElementImpl with setInnerHTML(self, html) -> Unit {
 
 ///|
 impl HTMLElementImpl with outerHTML(self) -> String {
-  self.get("outerHTML") |> unsafe_cast
+  self.get("outerHTML") |> @js.unsafe_cast
 }
 
 ///|

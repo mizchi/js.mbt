@@ -8,7 +8,7 @@
 pub type MockTracker
 
 ///|
-pub impl JsImpl for MockTracker
+pub impl @js.JsImpl for MockTracker
 
 ///|
 /// MockFunctionContext - tracks mock function calls
@@ -16,12 +16,12 @@ pub impl JsImpl for MockTracker
 pub type MockFunctionContext
 
 ///|
-pub impl JsImpl for MockFunctionContext
+pub impl @js.JsImpl for MockFunctionContext
 
 ///|
 /// Get the global mock tracker
 pub fn mock() -> MockTracker {
-  nodetest().get("mock") |> unsafe_cast
+  nodetest().get("mock") |> @js.unsafe_cast
 }
 
 ///|
@@ -29,9 +29,9 @@ pub fn mock() -> MockTracker {
 /// mock.fn([original[, implementation]][, options])
 pub fn MockTracker::fn_(
   self : MockTracker,
-  original? : Js,
-  implementation? : Js,
-) -> Js {
+  original? : @js.Js,
+  implementation? : @js.Js,
+) -> @js.Js {
   match (original, implementation) {
     (Some(orig), Some(imp)) => self.call2("fn", orig, imp)
     (Some(orig), None) => self.call("fn", [orig])
@@ -45,10 +45,10 @@ pub fn MockTracker::fn_(
 /// mock.method(object, methodName[, implementation][, options])
 pub fn MockTracker::method_(
   self : MockTracker,
-  object : Js,
+  object : @js.Js,
   methodName : String,
-  implementation? : Js,
-) -> Js {
+  implementation? : @js.Js,
+) -> @js.Js {
   match implementation {
     Some(imp) => self.call("method", [object, methodName, imp])
     None => self.call2("method", object, methodName)
@@ -60,10 +60,10 @@ pub fn MockTracker::method_(
 /// mock.getter(object, methodName[, implementation][, options])
 pub fn MockTracker::getter_(
   self : MockTracker,
-  object : Js,
+  object : @js.Js,
   methodName : String,
-  implementation? : Js,
-) -> Js {
+  implementation? : @js.Js,
+) -> @js.Js {
   match implementation {
     Some(imp) => self.call("getter", [object, methodName, imp])
     None => self.call2("getter", object, methodName)
@@ -75,10 +75,10 @@ pub fn MockTracker::getter_(
 /// mock.setter(object, methodName[, implementation][, options])
 pub fn MockTracker::setter_(
   self : MockTracker,
-  object : Js,
+  object : @js.Js,
   methodName : String,
-  implementation? : Js,
-) -> Js {
+  implementation? : @js.Js,
+) -> @js.Js {
   match implementation {
     Some(imp) => self.call("setter", [object, methodName, imp])
     None => self.call2("setter", object, methodName)
@@ -91,8 +91,8 @@ pub fn MockTracker::setter_(
 pub fn MockTracker::module_(
   self : MockTracker,
   specifier : String,
-  defaultExport? : Js,
-  namedExports? : Js,
+  defaultExport? : @js.Js,
+  namedExports? : @js.Js,
 ) -> Unit {
   let options = @js.Object::new()
   if defaultExport is Some(exp) {
@@ -109,10 +109,10 @@ pub fn MockTracker::module_(
 /// mock.property(object, propertyName[, value])
 pub fn MockTracker::property_(
   self : MockTracker,
-  object : Js,
+  object : @js.Js,
   propertyName : String,
-  value? : Js,
-) -> Js {
+  value? : @js.Js,
+) -> @js.Js {
   match value {
     Some(val) => self.call("property", [object, propertyName, val])
     None => self.call2("property", object, propertyName)
@@ -136,21 +136,21 @@ pub fn MockTracker::restoreAll(self : MockTracker) -> Unit {
 
 ///|
 /// Get the calls array
-pub fn MockFunctionContext::calls(self : MockFunctionContext) -> Array[Js] {
-  self.get("calls") |> unsafe_cast
+pub fn MockFunctionContext::calls(self : MockFunctionContext) -> Array[@js.Js] {
+  self.get("calls") |> @js.unsafe_cast
 }
 
 ///|
 /// Get the call count
 pub fn MockFunctionContext::callCount(self : MockFunctionContext) -> Int {
-  self.call0("callCount") |> unsafe_cast
+  self.call0("callCount") |> @js.unsafe_cast
 }
 
 ///|
 /// Change mock implementation
 pub fn MockFunctionContext::mockImplementation(
   self : MockFunctionContext,
-  implementation : Js,
+  implementation : @js.Js,
 ) -> Unit {
   self.call("mockImplementation", [implementation]) |> ignore
 }
@@ -159,7 +159,7 @@ pub fn MockFunctionContext::mockImplementation(
 /// Set implementation for a single call
 pub fn MockFunctionContext::mockImplementationOnce(
   self : MockFunctionContext,
-  implementation : Js,
+  implementation : @js.Js,
   onCall? : Int,
 ) -> Unit {
   match onCall {
@@ -183,6 +183,6 @@ pub fn MockFunctionContext::restore(self : MockFunctionContext) -> Unit {
 
 ///|
 /// Get the mock context from a mocked function
-pub fn get_mock_context(func : Js) -> MockFunctionContext {
-  func.get("mock") |> unsafe_cast
+pub fn get_mock_context(func : @js.Js) -> MockFunctionContext {
+  func.get("mock") |> @js.unsafe_cast
 }

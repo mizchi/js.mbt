@@ -9,14 +9,14 @@
 pub type CustomElementRegistry
 
 ///|
-pub impl JsImpl for CustomElementRegistry
+pub impl @js.JsImpl for CustomElementRegistry
 
 ///|
 /// Returns the custom elements registry
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements
 #alias(custom_elements)
 pub fn customElements() -> CustomElementRegistry {
-  unsafe_cast(@js.global_this().get("customElements"))
+  @js.unsafe_cast(@js.global_this().get("customElements"))
 }
 
 ///|
@@ -33,7 +33,7 @@ pub struct CustomElementCallbacks {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements
 extern "js" fn create_custom_element_class(
   callbacks : CustomElementCallbacks,
-) -> Js =
+) -> @js.Js =
   #|(callbacks) => {
   #|  return class extends HTMLElement {
   #|    connectedCallback() {
@@ -69,7 +69,7 @@ pub fn CustomElementRegistry::define_(
 extern "js" fn create_custom_element_class_with_attributes(
   callbacks : CustomElementCallbacks,
   observedAttributes : Array[String],
-) -> Js =
+) -> @js.Js =
   #|(callbacks, observedAttributes) => {
   #|  return class extends HTMLElement {
   #|    static get observedAttributes() {
@@ -107,7 +107,7 @@ pub fn CustomElementRegistry::define_element_with_attributes(
 ///|
 /// Returns the constructor for the custom element with the given name
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
-pub fn CustomElementRegistry::get(self : Self, name : String) -> Js? {
+pub fn CustomElementRegistry::get(self : Self, name : String) -> @js.Js? {
   self.call("get", [name]) |> @js.unsafe_cast_option
 }
 
@@ -116,7 +116,7 @@ pub fn CustomElementRegistry::get(self : Self, name : String) -> Js? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/getName
 pub fn CustomElementRegistry::getName(
   self : Self,
-  element_constructor : Js,
+  element_constructor : @js.Js,
 ) -> String? {
   self.call("getName", [element_constructor]) |> @js.unsafe_cast_option
 }
@@ -127,8 +127,8 @@ pub fn CustomElementRegistry::getName(
 pub fn CustomElementRegistry::whenDefined(
   self : Self,
   name : String,
-) -> Promise[Unit] {
-  self.call("whenDefined", [name]) |> unsafe_cast
+) -> @js.Promise[Unit] {
+  self.call("whenDefined", [name]) |> @js.unsafe_cast
 }
 
 ///|

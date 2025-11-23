@@ -1,9 +1,9 @@
 ///|
-extern "js" fn ffi_new_text_encoder() -> Js =
+extern "js" fn ffi_new_text_encoder() -> @js.Js =
   #| () => new TextEncoder()
 
 ///|
-extern "js" fn ffi_new_text_decoder() -> Js =
+extern "js" fn ffi_new_text_decoder() -> @js.Js =
   #| () => new TextDecoder()
 
 ///|
@@ -11,30 +11,36 @@ extern "js" fn ffi_new_text_decoder() -> Js =
 pub type TextEncoder
 
 ///|
-pub impl JsImpl for TextEncoder
+pub impl @js.JsImpl for TextEncoder
 
 ///|
 pub fn TextEncoder::new() -> TextEncoder {
-  unsafe_cast(ffi_new_text_encoder())
+  @js.unsafe_cast(ffi_new_text_encoder())
 }
 
 ///|
-pub fn TextEncoder::encode(self : TextEncoder, input : String) -> Uint8Array {
-  self.call("encode", [input]) |> unsafe_cast
+pub fn TextEncoder::encode(
+  self : TextEncoder,
+  input : String,
+) -> @typed_array.Uint8Array {
+  self.call("encode", [input]) |> @js.unsafe_cast
 }
 
 ///|
 pub type TextDecoder
 
 ///|
-pub impl JsImpl for TextDecoder
+pub impl @js.JsImpl for TextDecoder
 
 ///|
 pub fn TextDecoder::new() -> TextDecoder {
-  unsafe_cast(ffi_new_text_decoder())
+  @js.unsafe_cast(ffi_new_text_decoder())
 }
 
 ///|
-pub fn TextDecoder::decode(self : TextDecoder, input : Uint8Array) -> String {
-  self.call("decode", [input]) |> unsafe_cast
+pub fn TextDecoder::decode(
+  self : TextDecoder,
+  input : @typed_array.Uint8Array,
+) -> String {
+  self.call("decode", [input]) |> @js.unsafe_cast
 }

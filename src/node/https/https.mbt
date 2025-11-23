@@ -1,5 +1,4 @@
 ///|
-using @js {type Js, trait JsImpl}
 
 ///|
 /// HTTPS Agent for managing connection pooling and TLS session caching
@@ -8,7 +7,7 @@ using @js {type Js, trait JsImpl}
 pub type Agent
 
 ///|
-pub impl JsImpl for Agent
+pub impl @js.JsImpl for Agent
 
 ///|
 /// Options for creating an HTTPS Agent
@@ -38,7 +37,7 @@ pub fn AgentOptions::new() -> AgentOptions {
 
 ///|
 /// Convert AgentOptions to JavaScript object
-pub fn AgentOptions::to_js(self : AgentOptions) -> Js {
+pub fn AgentOptions::to_js(self : AgentOptions) -> @js.Js {
   let obj = @js.Object::new()
   match self.max_cached_sessions {
     Some(v) => obj.set("maxCachedSessions", v)
@@ -72,7 +71,7 @@ pub fn AgentOptions::to_js(self : AgentOptions) -> Js {
 }
 
 ///|
-extern "js" fn ffi_new_agent(options : Js) -> Agent =
+extern "js" fn ffi_new_agent(options : @js.Js) -> Agent =
   #| (options) => {
   #|   const https = require('https');
   #|   return new https.Agent(options);
@@ -91,7 +90,7 @@ pub fn Agent::new(options : AgentOptions) -> Agent {
 pub type Server
 
 ///|
-pub impl JsImpl for Server
+pub impl @js.JsImpl for Server
 
 ///|
 pub impl @event.EventTargetImpl for Server
@@ -113,7 +112,7 @@ pub fn ServerOptions::new() -> ServerOptions {
 
 ///|
 /// Convert ServerOptions to JavaScript object
-pub fn ServerOptions::to_js(self : ServerOptions) -> Js {
+pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Js {
   let obj = @js.Object::new()
   match self.key {
     Some(v) => obj.set("key", v)
@@ -135,7 +134,10 @@ pub fn ServerOptions::to_js(self : ServerOptions) -> Js {
 }
 
 ///|
-extern "js" fn ffi_create_server(options : Js, request_listener : Js) -> Server =
+extern "js" fn ffi_create_server(
+  options : @js.Js,
+  request_listener : @js.Js,
+) -> Server =
   #| (options, requestListener) => {
   #|   const https = require('https');
   #|   return https.createServer(options, requestListener);
@@ -154,14 +156,14 @@ pub fn create_server(
 ///|
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   self.call("close", [cb]) |> ignore
 }
 
@@ -171,7 +173,7 @@ pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
 pub type ClientRequest
 
 ///|
-pub impl JsImpl for ClientRequest
+pub impl @js.JsImpl for ClientRequest
 
 ///|
 pub impl @event.EventTargetImpl for ClientRequest
@@ -206,7 +208,7 @@ pub fn RequestOptions::new(url : String) -> RequestOptions {
 
 ///|
 /// Convert RequestOptions to JavaScript object
-pub fn RequestOptions::to_js(self : RequestOptions) -> Js {
+pub fn RequestOptions::to_js(self : RequestOptions) -> @js.Js {
   let obj = match self.headers {
     Some(h) => h
     None => @js.Object::new()
@@ -239,7 +241,10 @@ pub fn RequestOptions::to_js(self : RequestOptions) -> Js {
 }
 
 ///|
-extern "js" fn ffi_request(options : Js, callback : Js) -> ClientRequest =
+extern "js" fn ffi_request(
+  options : @js.Js,
+  callback : @js.Js,
+) -> ClientRequest =
   #| (options, callback) => {
   #|   const https = require('https');
   #|   return https.request(options, callback);
@@ -251,7 +256,7 @@ pub fn request(
   options : RequestOptions,
   callback : (@js.Object) -> Unit,
 ) -> ClientRequest {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_request(options.to_js(), cb)
 }
 
@@ -268,7 +273,7 @@ pub fn ClientRequest::end(self : ClientRequest) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_get(url : String, callback : Js) -> ClientRequest =
+extern "js" fn ffi_get(url : String, callback : @js.Js) -> ClientRequest =
   #| (url, callback) => {
   #|   const https = require('https');
   #|   return https.get(url, callback);
@@ -277,7 +282,7 @@ extern "js" fn ffi_get(url : String, callback : Js) -> ClientRequest =
 ///|
 /// Make an HTTPS GET request
 pub fn get(url : String, callback : (@js.Object) -> Unit) -> ClientRequest {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_get(url, cb)
 }
 

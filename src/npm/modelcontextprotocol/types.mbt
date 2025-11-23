@@ -8,7 +8,7 @@ pub enum RequestId {
 } derive(Show, Eq)
 
 ///|
-pub fn RequestId::to_js(self : RequestId) -> Js {
+pub fn RequestId::to_js(self : RequestId) -> @js.Js {
   match self {
     String(s) => @js.unsafe_cast(s)
     Number(n) => @js.unsafe_cast(n)
@@ -16,7 +16,7 @@ pub fn RequestId::to_js(self : RequestId) -> Js {
 }
 
 ///|
-pub fn RequestId::from_js(js : Js) -> RequestId? {
+pub fn RequestId::from_js(js : @js.Js) -> RequestId? {
   let ty = @js.typeof_(js)
   if ty == "string" {
     let s : String = @js.unsafe_cast(js)
@@ -35,12 +35,12 @@ pub struct JsonRpcRequest {
   jsonrpc : String // Always "2.0"
   id : RequestId
   method_name : String
-  params : Object?
+  params : @js.Object?
 }
 
 ///|
-pub fn JsonRpcRequest::to_js(self : JsonRpcRequest) -> Object {
-  let obj = Object::new()
+pub fn JsonRpcRequest::to_js(self : JsonRpcRequest) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("jsonrpc", self.jsonrpc)
   obj.set("id", self.id.to_js())
   obj.set("method", self.method_name)
@@ -52,8 +52,8 @@ pub fn JsonRpcRequest::to_js(self : JsonRpcRequest) -> Object {
 }
 
 ///|
-pub fn JsonRpcRequest::from_js(js : Js) -> JsonRpcRequest? {
-  let obj : Object = @js.unsafe_cast(js)
+pub fn JsonRpcRequest::from_js(js : @js.Js) -> JsonRpcRequest? {
+  let obj : @js.Object = @js.unsafe_cast(js)
   let jsonrpc : String? = obj.get("jsonrpc") |> @js.unsafe_cast_option()
   let id_js = obj.get("id")
   let method_name : String? = obj.get("method") |> @js.unsafe_cast_option()
@@ -78,12 +78,12 @@ pub fn JsonRpcRequest::from_js(js : Js) -> JsonRpcRequest? {
 pub struct JsonRpcResponse {
   jsonrpc : String // Always "2.0"
   id : RequestId
-  result : Js
+  result : @js.Js
 }
 
 ///|
-pub fn JsonRpcResponse::to_js(self : JsonRpcResponse) -> Object {
-  let obj = Object::new()
+pub fn JsonRpcResponse::to_js(self : JsonRpcResponse) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("jsonrpc", self.jsonrpc)
   obj.set("id", self.id.to_js())
   obj.set("result", self.result)
@@ -95,12 +95,12 @@ pub fn JsonRpcResponse::to_js(self : JsonRpcResponse) -> Object {
 pub struct JsonRpcError {
   code : Int
   message : String
-  data : Js?
+  data : @js.Js?
 }
 
 ///|
-pub fn JsonRpcError::to_js(self : JsonRpcError) -> Object {
-  let obj = Object::new()
+pub fn JsonRpcError::to_js(self : JsonRpcError) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("code", self.code)
   obj.set("message", self.message)
   match self.data {
@@ -118,8 +118,8 @@ pub struct JsonRpcErrorResponse {
 }
 
 ///|
-pub fn JsonRpcErrorResponse::to_js(self : JsonRpcErrorResponse) -> Object {
-  let obj = Object::new()
+pub fn JsonRpcErrorResponse::to_js(self : JsonRpcErrorResponse) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("jsonrpc", self.jsonrpc)
   obj.set("id", self.id.to_js())
   obj.set("error", self.error.to_js())
@@ -131,12 +131,12 @@ pub fn JsonRpcErrorResponse::to_js(self : JsonRpcErrorResponse) -> Object {
 pub(all) struct JsonRpcNotification {
   jsonrpc : String // Always "2.0"
   method_name : String
-  params : Object?
+  params : @js.Object?
 }
 
 ///|
-pub fn JsonRpcNotification::to_js(self : JsonRpcNotification) -> Object {
-  let obj = Object::new()
+pub fn JsonRpcNotification::to_js(self : JsonRpcNotification) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("jsonrpc", self.jsonrpc)
   obj.set("method", self.method_name)
   match self.params {

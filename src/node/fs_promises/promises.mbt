@@ -1,46 +1,43 @@
 ///|
-using @js {trait JsImpl, type AbortSignal, type Promise, unsafe_cast}
-
-///|
 #external
 pub type Stat
 
 ///|
-pub impl JsImpl for Stat
+pub impl @js.JsImpl for Stat
 
 ///|
 pub fn Stat::isFile(self : Self) -> Bool {
-  self.call0("isFile") |> unsafe_cast
+  self.call0("isFile") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Stat::isDirectory(self : Self) -> Bool {
-  self.call0("isDirectory") |> unsafe_cast
+  self.call0("isDirectory") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Stat::size(self : Self) -> Int {
-  self.get("size") |> unsafe_cast
+  self.get("size") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Stat::mtime_ms(self : Self) -> Float {
   let mtime = self.get("mtime")
-  unsafe_cast(mtime.get("getTime").call("call", [mtime]))
+  @js.unsafe_cast(mtime.get("getTime").call("call", [mtime]))
 }
 
 ///|
 /// node:fs/promises.stat
-pub fn stat(path : String) -> Promise[Stat] {
+pub fn stat(path : String) -> @js.Promise[Stat] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.call("stat", [path]))
+  @js.unsafe_cast(fs.call("stat", [path]))
 }
 
 ///|
 /// node:fs/promises.mkdir
-pub fn mkdir(path : String, recursive? : Bool) -> Promise[Unit] {
+pub fn mkdir(path : String, recursive? : Bool) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(
+  @js.unsafe_cast(
     fs.call("mkdir", [
       path,
       @js.from_entries_option_cast([("recursive", recursive)]),
@@ -57,7 +54,7 @@ pub fn glob(
   exclude_fn? : (String) -> Bool,
 ) -> @js.AsyncIterator[String] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(
+  @js.unsafe_cast(
     fs.call("glob", [
       path,
       @js.from_entries_option([
@@ -74,23 +71,23 @@ pub fn glob(
 pub type Dirent
 
 ///|
-pub impl JsImpl for Dirent
+pub impl @js.JsImpl for Dirent
 
 ///|
 #alias(is_file)
 pub fn Dirent::isFile(self : Self) -> Bool {
-  self.call0("isFile") |> unsafe_cast
+  self.call0("isFile") |> @js.unsafe_cast
 }
 
 ///|
 #alias(is_directory)
 pub fn Dirent::isDirectory(self : Self) -> Bool {
-  self.call0("isDirectory") |> unsafe_cast
+  self.call0("isDirectory") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Dirent::name(self : Self) -> String {
-  self.get("name") |> unsafe_cast
+  self.get("name") |> @js.unsafe_cast
 }
 
 ///|
@@ -101,7 +98,7 @@ pub fn glob_with_filetype(
   exclude_fn? : (String) -> Bool,
 ) -> @js.AsyncIterator[Dirent] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(
+  @js.unsafe_cast(
     fs.call("glob", [
       path,
       @js.from_entries_option([
@@ -120,16 +117,19 @@ pub fn glob_with_filetype(
 pub type FileHandle
 
 ///|
-pub fn open(path : String) -> Promise[FileHandle] {
+pub fn open(path : String) -> @js.Promise[FileHandle] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.call("open", [path]))
+  @js.unsafe_cast(fs.call("open", [path]))
 }
 
 ///|
 #alias(read_file)
-pub fn readFile(path : String, encoding? : String = "utf-8") -> Promise[String] {
+pub fn readFile(
+  path : String,
+  encoding? : String = "utf-8",
+) -> @js.Promise[String] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("readFile", path, encoding) |> unsafe_cast
+  fs.call2("readFile", path, encoding) |> @js.unsafe_cast
 }
 
 ///|
@@ -138,17 +138,17 @@ pub fn readFile(path : String, encoding? : String = "utf-8") -> Promise[String] 
 pub fn read_file_as_string(
   path : String,
   encoding? : String = "utf8",
-) -> Promise[String] {
+) -> @js.Promise[String] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("readFile", path, encoding) |> unsafe_cast
+  fs.call2("readFile", path, encoding) |> @js.unsafe_cast
 }
 
 ///|
 /// Read file asynchronously as Buffer
 /// JS: fs.promises.readFile(path)
-pub fn read_file_as_buffer(path : String) -> Promise[@buffer.Buffer] {
+pub fn read_file_as_buffer(path : String) -> @js.Promise[@buffer.Buffer] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.call("readFile", [path]))
+  @js.unsafe_cast(fs.call("readFile", [path]))
 }
 
 ///|
@@ -160,10 +160,10 @@ pub fn writeFile(
   mode? : Int = 0o666,
   flag? : String = "w",
   flush? : Bool = false,
-  signal? : AbortSignal,
-) -> Promise[Unit] {
+  signal? : @js.AbortSignal,
+) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(
+  @js.unsafe_cast(
     fs.call("writeFile", [
       path,
       content,
@@ -179,15 +179,15 @@ pub fn writeFile(
 }
 
 ///|
-pub fn rename(path : String, dest : String) -> Promise[Unit] {
+pub fn rename(path : String, dest : String) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("rename", path, dest) |> unsafe_cast
+  fs.call2("rename", path, dest) |> @js.unsafe_cast
 }
 
 ///|
-pub fn rm(path : String, recursive? : Bool, force? : Bool) -> Promise[Unit] {
+pub fn rm(path : String, recursive? : Bool, force? : Bool) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(
+  @js.unsafe_cast(
     fs.call("rm", [
       path,
       @js.from_entries_option_cast([("recursive", recursive), ("force", force)]),
@@ -196,9 +196,9 @@ pub fn rm(path : String, recursive? : Bool, force? : Bool) -> Promise[Unit] {
 }
 
 ///|
-pub fn cp(path : String, dest : String, recursive? : Bool) -> Promise[Unit] {
+pub fn cp(path : String, dest : String, recursive? : Bool) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(
+  @js.unsafe_cast(
     fs.call("cp", [
       path,
       dest,
@@ -211,16 +211,16 @@ pub fn cp(path : String, dest : String, recursive? : Bool) -> Promise[Unit] {
 
 ///|
 /// Change file permissions
-pub fn chmod(path : String, mode : Int) -> Promise[Unit] {
+pub fn chmod(path : String, mode : Int) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("chmod", path, mode) |> unsafe_cast
+  fs.call2("chmod", path, mode) |> @js.unsafe_cast
 }
 
 ///|
 /// Change file owner
-pub fn chown(path : String, uid : Int, gid : Int) -> Promise[Unit] {
+pub fn chown(path : String, uid : Int, gid : Int) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.call("chown", [path, uid, gid]))
+  @js.unsafe_cast(fs.call("chown", [path, uid, gid]))
 }
 
 ///|
@@ -229,43 +229,43 @@ pub fn symlink(
   target : String,
   path : String,
   type_? : String,
-) -> Promise[Unit] {
+) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   match type_ {
-    Some(t) => unsafe_cast(fs.call("symlink", [target, path, t]))
-    None => fs.call2("symlink", target, path) |> unsafe_cast
+    Some(t) => @js.unsafe_cast(fs.call("symlink", [target, path, t]))
+    None => fs.call2("symlink", target, path) |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Read symbolic link
-pub fn readlink(path : String) -> Promise[String] {
+pub fn readlink(path : String) -> @js.Promise[String] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.call("readlink", [path]))
+  @js.unsafe_cast(fs.call("readlink", [path]))
 }
 
 ///|
 /// Get real path
-pub fn realpath(path : String) -> Promise[String] {
+pub fn realpath(path : String) -> @js.Promise[String] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.call("realpath", [path]))
+  @js.unsafe_cast(fs.call("realpath", [path]))
 }
 
 ///|
 /// Truncate file
-pub fn truncate(path : String, len? : Int) -> Promise[Unit] {
+pub fn truncate(path : String, len? : Int) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   match len {
-    Some(l) => fs.call2("truncate", path, l) |> unsafe_cast
-    None => unsafe_cast(fs.call("truncate", [path]))
+    Some(l) => fs.call2("truncate", path, l) |> @js.unsafe_cast
+    None => @js.unsafe_cast(fs.call("truncate", [path]))
   }
 }
 
 ///|
 /// Remove directory
-pub fn rmdir(path : String, recursive? : Bool) -> Promise[Unit] {
+pub fn rmdir(path : String, recursive? : Bool) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(
+  @js.unsafe_cast(
     fs.call("rmdir", [
       path,
       @js.from_entries_option_cast([("recursive", recursive)]),
@@ -275,11 +275,11 @@ pub fn rmdir(path : String, recursive? : Bool) -> Promise[Unit] {
 
 ///|
 /// Check file access
-pub fn access(path : String, mode? : Int) -> Promise[Unit] {
+pub fn access(path : String, mode? : Int) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   match mode {
-    Some(m) => fs.call2("access", path, m) |> unsafe_cast
-    None => unsafe_cast(fs.call("access", [path]))
+    Some(m) => fs.call2("access", path, m) |> @js.unsafe_cast
+    None => @js.unsafe_cast(fs.call("access", [path]))
   }
 }
 
@@ -289,38 +289,38 @@ pub fn appendFile(
   path : String,
   data : String,
   encoding? : String,
-) -> Promise[Unit] {
+) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   match encoding {
     Some(enc) =>
-      unsafe_cast(
+      @js.unsafe_cast(
         fs.call("appendFile", [
           path,
           data,
           @js.from_entries_option_cast([("encoding", Some(enc))]),
         ]),
       )
-    None => fs.call2("appendFile", path, data) |> unsafe_cast
+    None => fs.call2("appendFile", path, data) |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Copy file
-pub fn copyFile(src : String, dest : String) -> Promise[Unit] {
+pub fn copyFile(src : String, dest : String) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("copyFile", src, dest) |> unsafe_cast
+  fs.call2("copyFile", src, dest) |> @js.unsafe_cast
 }
 
 ///|
 /// Read directory contents
-pub fn readdir(path : String) -> Promise[Array[String]] {
+pub fn readdir(path : String) -> @js.Promise[Array[String]] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.call("readdir", [path]))
+  @js.unsafe_cast(fs.call("readdir", [path]))
 }
 
 ///|
 /// Unlink (delete) file
-pub fn unlink(path : String) -> Promise[Unit] {
+pub fn unlink(path : String) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  unsafe_cast(fs.call("unlink", [path]))
+  @js.unsafe_cast(fs.call("unlink", [path]))
 }

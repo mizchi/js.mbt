@@ -44,7 +44,6 @@ test {
       let hex = ffi_array_buffer_to_hex(digest)
       assert_eq(hex.length(), 64)
     })
-
     it("SubtleCrypto digest SHA-384", _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
@@ -53,7 +52,6 @@ test {
       let hex = ffi_array_buffer_to_hex(digest)
       assert_eq(hex.length(), 96)
     })
-
     it("SubtleCrypto digest SHA-512", _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
@@ -79,7 +77,6 @@ test {
       let key_type : String = unsafe_cast(key.get("type"))
       assert_eq(key_type, "secret")
     })
-
     it("SubtleCrypto generateKey HMAC", _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
@@ -96,8 +93,9 @@ test {
 
 ///|
 test {
-  @test.describe("Web Crypto API: Encryption and decryption", _ => {
-    it("SubtleCrypto encrypt and decrypt with AES-GCM", _ => {
+  @test.describe("Web Crypto API: Encryption and decryption", _ => it(
+    "SubtleCrypto encrypt and decrypt with AES-GCM",
+    _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
       let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
@@ -110,16 +108,17 @@ test {
       let decrypted = subtle.decrypt(enc_algorithm, key, encrypted).wait()
       let result = ffi_text_decoder_decode(decrypted)
       assert_eq(result, "Secret message")
-    })
-  })
+    },
+  ))
 }
 
 ///| Sign/Verify Tests
 
 ///|
 test {
-  @test.describe("Web Crypto API: Sign and verify", _ => {
-    it("SubtleCrypto sign and verify with HMAC", _ => {
+  @test.describe("Web Crypto API: Sign and verify", _ => it(
+    "SubtleCrypto sign and verify with HMAC",
+    _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
       let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
@@ -131,16 +130,17 @@ test {
         subtle.verify(algorithm, key, signature, data).wait(),
       )
       assert_true(is_valid)
-    })
-  })
+    },
+  ))
 }
 
 ///| Export/Import Tests
 
 ///|
 test {
-  @test.describe("Web Crypto API: Key export and import", _ => {
-    it("SubtleCrypto exportKey and importKey with AES-GCM", _ => {
+  @test.describe("Web Crypto API: Key export and import", _ => it(
+    "SubtleCrypto exportKey and importKey with AES-GCM",
+    _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
       let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
@@ -152,22 +152,23 @@ test {
         .wait()
       let key_type : String = unsafe_cast(imported_key.get("type"))
       assert_eq(key_type, "secret")
-    })
-  })
+    },
+  ))
 }
 
 ///| Access Test
 
 ///|
 test {
-  @test.describe("Web Crypto API: Basic access", _ => {
-    it("getCrypto returns Crypto instance", _ => {
+  @test.describe("Web Crypto API: Basic access", _ => it(
+    "getCrypto returns Crypto instance",
+    _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
       let data = ffi_text_encoder_encode("test")
       let digest = subtle.digest("SHA-256", data).wait()
       let hex = ffi_array_buffer_to_hex(digest)
       assert_true(hex.length() > 0)
-    })
-  })
+    },
+  ))
 }

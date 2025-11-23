@@ -93,7 +93,7 @@ pub fn WebSocket::send_buffer(self : Self, data : @buffer.Buffer) -> Unit {
 ///|
 /// Send ArrayBuffer
 /// JS: webSocket.send(data)
-pub fn WebSocket::send_arraybuffer(self : Self, data : ArrayBuffer) -> Unit {
+pub fn WebSocket::send_arraybuffer(self : Self, data : @js.ArrayBuffer) -> Unit {
   self.call1("send", data) |> ignore
 }
 

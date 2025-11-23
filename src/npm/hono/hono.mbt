@@ -14,7 +14,7 @@ pub impl[Env, ExecutionContext] @js.JsImpl for Hono[Env, ExecutionContext]
 ///|
 /// Create a new Hono instance without options
 /// https://hono.dev/docs/api/hono#new-hono
-extern "js" fn ffi_new_hono() -> Js =
+extern "js" fn ffi_new_hono() -> @js.Js =
   #| () => {
   #|   const { Hono } = require('hono');
   #|   return new Hono();
@@ -23,7 +23,7 @@ extern "js" fn ffi_new_hono() -> Js =
 ///|
 /// Create a new Hono instance with options
 /// https://hono.dev/docs/api/hono#new-hono
-extern "js" fn ffi_new_hono_with_options(options : Js) -> Js =
+extern "js" fn ffi_new_hono_with_options(options : @js.Js) -> @js.Js =
   #| (options) => {
   #|   const { Hono } = require('hono');
   #|   return new Hono(options);
@@ -31,7 +31,7 @@ extern "js" fn ffi_new_hono_with_options(options : Js) -> Js =
 
 ///|
 /// Build Hono options object
-extern "js" fn build_hono_options(strict : Bool) -> Js =
+extern "js" fn build_hono_options(strict : Bool) -> @js.Js =
   #| (strict) => {
   #|   return { strict };
   #| }
@@ -46,8 +46,8 @@ pub fn[Env, ExecutionContext] Hono::new(
   strict? : Bool,
 ) -> Hono[Env, ExecutionContext] {
   match strict {
-    Some(s) => unsafe_cast(ffi_new_hono_with_options(build_hono_options(s)))
-    None => unsafe_cast(ffi_new_hono())
+    Some(s) => @js.unsafe_cast(ffi_new_hono_with_options(build_hono_options(s)))
+    None => @js.unsafe_cast(ffi_new_hono())
   }
 }
 
@@ -59,8 +59,8 @@ pub type Handler[Env, ExecutionContext] = (Context[Env, ExecutionContext]) -> @h
 /// Middleware function type
 pub type Middleware[Env, ExecutionContext] = (
   Context[Env, ExecutionContext],
-  () -> Promise[@http.Response],
-) -> Promise[@http.Response]
+  () -> @js.Promise[@http.Response],
+) -> @js.Promise[@http.Response]
 
 ///|
 /// GET route handler
@@ -70,7 +70,7 @@ pub fn[Env, ExecutionContext] Hono::get(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("get", [path, unsafe_js(handler)]) |> unsafe_cast
+  self.call("get", [path, @js.unsafe_js(handler)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -80,7 +80,7 @@ pub fn[Env, ExecutionContext] Hono::post(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("post", [path, unsafe_js(handler)]) |> unsafe_cast
+  self.call("post", [path, @js.unsafe_js(handler)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -90,7 +90,7 @@ pub fn[Env, ExecutionContext] Hono::put(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("put", [path, unsafe_js(handler)]) |> unsafe_cast
+  self.call("put", [path, @js.unsafe_js(handler)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -100,7 +100,7 @@ pub fn[Env, ExecutionContext] Hono::delete(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("delete", [path, unsafe_js(handler)]) |> unsafe_cast
+  self.call("delete", [path, @js.unsafe_js(handler)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -110,7 +110,7 @@ pub fn[Env, ExecutionContext] Hono::patch(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("patch", [path, unsafe_js(handler)]) |> unsafe_cast
+  self.call("patch", [path, @js.unsafe_js(handler)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -120,7 +120,7 @@ pub fn[Env, ExecutionContext] Hono::options(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("options", [path, unsafe_js(handler)]) |> unsafe_cast
+  self.call("options", [path, @js.unsafe_js(handler)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -130,7 +130,7 @@ pub fn[Env, ExecutionContext] Hono::all(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("all", [path, unsafe_js(handler)]) |> unsafe_cast
+  self.call("all", [path, @js.unsafe_js(handler)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn[Env, ExecutionContext] Hono::use_(
   path : String,
   middleware : Middleware[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("use", [path, unsafe_js(middleware)]) |> unsafe_cast
+  self.call("use", [path, @js.unsafe_js(middleware)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -150,7 +150,7 @@ pub fn[Env, ExecutionContext] Hono::useall(
   self : Hono[Env, ExecutionContext],
   middleware : Middleware[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("use", [unsafe_js(middleware)]) |> unsafe_cast
+  self.call("use", [@js.unsafe_js(middleware)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -159,8 +159,8 @@ pub fn[Env, ExecutionContext] Hono::useall(
 pub fn[Env, ExecutionContext] Hono::fetch(
   self : Hono[Env, ExecutionContext],
   request : @http.Request,
-) -> Promise[@http.Response] {
-  self.call("fetch", [request]) |> unsafe_cast
+) -> @js.Promise[@http.Response] {
+  self.call("fetch", [request]) |> @js.unsafe_cast
 }
 
 ///|
@@ -169,7 +169,7 @@ pub fn[Env, ExecutionContext] Hono::fetch(
 pub fn[Env, ExecutionContext] Hono::fire(
   self : Hono[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call0("fire") |> unsafe_cast
+  self.call0("fire") |> @js.unsafe_cast
 }
 
 ///|
@@ -180,7 +180,7 @@ pub fn[Env, ExecutionContext] Hono::basePath(
   self : Hono[Env, ExecutionContext],
   path : String,
 ) -> Hono[Env, ExecutionContext] {
-  self.call("basePath", [path]) |> unsafe_cast
+  self.call("basePath", [path]) |> @js.unsafe_cast
 }
 
 ///|
@@ -191,7 +191,7 @@ pub fn[Env, ExecutionContext] Hono::notFound(
   self : Hono[Env, ExecutionContext],
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("notFound", [unsafe_js(handler)]) |> unsafe_cast
+  self.call("notFound", [@js.unsafe_js(handler)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -200,9 +200,9 @@ pub fn[Env, ExecutionContext] Hono::notFound(
 #alias(on_error)
 pub fn[Env, ExecutionContext] Hono::onError(
   self : Hono[Env, ExecutionContext],
-  handler : (Js, Context[Env, ExecutionContext]) -> @http.Response,
+  handler : (@js.Js, Context[Env, ExecutionContext]) -> @http.Response,
 ) -> Hono[Env, ExecutionContext] {
-  self.call("onError", [unsafe_js(handler)]) |> unsafe_cast
+  self.call("onError", [@js.unsafe_js(handler)]) |> @js.unsafe_cast
 }
 
 ///|
@@ -213,7 +213,7 @@ pub fn[Env, ExecutionContext] Hono::mount(
   path : String,
   app : Hono[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("mount", [path, app]) |> unsafe_cast
+  self.call("mount", [path, app]) |> @js.unsafe_cast
 }
 
 ///|
@@ -224,5 +224,5 @@ pub fn[Env, ExecutionContext] Hono::route(
   path : String,
   app : Hono[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("route", [path, app]) |> unsafe_cast
+  self.call("route", [path, app]) |> @js.unsafe_cast
 }

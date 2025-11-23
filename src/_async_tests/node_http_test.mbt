@@ -28,9 +28,11 @@ test {
       inspect(server.listening(), content="false")
       // Non-listening server doesn't need close
     })
-
     it("HTTP server can be created with request listener", _ => {
-      let server = createServer(fn(_req : IncomingMessage, res : ServerResponse) {
+      let server = createServer(fn(
+        _req : IncomingMessage,
+        res : ServerResponse,
+      ) {
         res.writeHead(200) |> ignore
         res.end()
       })
@@ -51,7 +53,9 @@ test {
       let server = createServerNoListener()
 
       // Start listening
-      server.listen(0, host="127.0.0.1", callback=fn() { listening_called = true })
+      server.listen(0, host="127.0.0.1", callback=fn() {
+        listening_called = true
+      })
       |> ignore
 
       // Wait for server to start
@@ -66,7 +70,6 @@ test {
       sleep(100)
       inspect(close_called, content="true")
     })
-
     it("HTTP server can get address after listening", _ => {
       let mut close_called = false
       let server = createServerNoListener()
@@ -92,12 +95,16 @@ test {
 
 ///|
 test {
-  @test.describe("Node HTTP: Request handling", _ => {
-    it("HTTP server handles simple request", _ => {
+  @test.describe("Node HTTP: Request handling", _ => it(
+    "HTTP server handles simple request",
+    _ => {
       let mut request_handled = false
       let mut response_received = false
       let mut close_called = false
-      let server = createServer(fn(_req : IncomingMessage, res : ServerResponse) {
+      let server = createServer(fn(
+        _req : IncomingMessage,
+        res : ServerResponse,
+      ) {
         request_handled = true
         res.writeHead(200) |> ignore
         res.end(data="OK")
@@ -133,8 +140,8 @@ test {
       server.close(callback=fn() { close_called = true }) |> ignore
       sleep(100)
       inspect(close_called, content="true")
-    })
-  })
+    },
+  ))
 }
 
 ///| Module function tests
@@ -154,7 +161,6 @@ test {
       let code500 : String = @js.unsafe_cast(codes.get("500"))
       inspect(code500, content="Internal Server Error")
     })
-
     it("globalAgent exists", _ => {
       let agent = globalAgent()
       inspect(@js.typeof_(agent), content="object")

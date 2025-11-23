@@ -5,7 +5,7 @@
 pub type SVGElement
 
 ///|
-pub impl JsImpl for SVGElement
+pub impl @js.JsImpl for SVGElement
 
 ///|
 /// Sets an attribute on the SVG element
@@ -30,18 +30,18 @@ pub fn SVGElement::getAttribute(self : Self, name : String) -> String? {
 pub type SVGSVGElement
 
 ///|
-pub impl JsImpl for SVGSVGElement
+pub impl @js.JsImpl for SVGSVGElement
 
 ///|
 /// Gets the current viewport width
 pub fn SVGSVGElement::width(self : Self) -> Double {
-  self.get("width").get("baseVal").get("value") |> unsafe_cast
+  self.get("width").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the current viewport height
 pub fn SVGSVGElement::height(self : Self) -> Double {
-  self.get("height").get("baseVal").get("value") |> unsafe_cast
+  self.get("height").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
@@ -66,7 +66,7 @@ pub fn SVGSVGElement::getAttribute(self : Self, name : String) -> String? {
 pub(all) struct SVGCircleElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGCircleElement
+pub impl @js.JsImpl for SVGCircleElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGCircleElement
@@ -80,19 +80,19 @@ pub impl ElementImpl for SVGCircleElement
 ///|
 /// Gets the cx coordinate
 pub fn SVGCircleElement::cx(self : Self) -> Double {
-  self.get("cx").get("baseVal").get("value") |> unsafe_cast
+  self.get("cx").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the cy coordinate
 pub fn SVGCircleElement::cy(self : Self) -> Double {
-  self.get("cy").get("baseVal").get("value") |> unsafe_cast
+  self.get("cy").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the radius
 pub fn SVGCircleElement::r(self : Self) -> Double {
-  self.get("r").get("baseVal").get("value") |> unsafe_cast
+  self.get("r").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
@@ -111,7 +111,7 @@ pub fn SVGCircleElement::setAttribute(
 pub(all) struct SVGRectElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGRectElement
+pub impl @js.JsImpl for SVGRectElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGRectElement
@@ -125,25 +125,25 @@ pub impl ElementImpl for SVGRectElement
 ///|
 /// Gets the x coordinate
 pub fn SVGRectElement::x(self : Self) -> Double {
-  self.get("x").get("baseVal").get("value") |> unsafe_cast
+  self.get("x").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the y coordinate
 pub fn SVGRectElement::y(self : Self) -> Double {
-  self.get("y").get("baseVal").get("value") |> unsafe_cast
+  self.get("y").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the width
 pub fn SVGRectElement::width(self : Self) -> Double {
-  self.get("width").get("baseVal").get("value") |> unsafe_cast
+  self.get("width").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the height
 pub fn SVGRectElement::height(self : Self) -> Double {
-  self.get("height").get("baseVal").get("value") |> unsafe_cast
+  self.get("height").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
@@ -162,7 +162,7 @@ pub fn SVGRectElement::setAttribute(
 pub(all) struct SVGEllipseElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGEllipseElement
+pub impl @js.JsImpl for SVGEllipseElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGEllipseElement
@@ -176,25 +176,25 @@ pub impl ElementImpl for SVGEllipseElement
 ///|
 /// Gets the cx coordinate
 pub fn SVGEllipseElement::cx(self : Self) -> Double {
-  self.get("cx").get("baseVal").get("value") |> unsafe_cast
+  self.get("cx").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the cy coordinate
 pub fn SVGEllipseElement::cy(self : Self) -> Double {
-  self.get("cy").get("baseVal").get("value") |> unsafe_cast
+  self.get("cy").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the x-axis radius
 pub fn SVGEllipseElement::rx(self : Self) -> Double {
-  self.get("rx").get("baseVal").get("value") |> unsafe_cast
+  self.get("rx").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the y-axis radius
 pub fn SVGEllipseElement::ry(self : Self) -> Double {
-  self.get("ry").get("baseVal").get("value") |> unsafe_cast
+  self.get("ry").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
@@ -213,7 +213,7 @@ pub fn SVGEllipseElement::setAttribute(
 pub(all) struct SVGLineElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGLineElement
+pub impl @js.JsImpl for SVGLineElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGLineElement
@@ -227,25 +227,25 @@ pub impl ElementImpl for SVGLineElement
 ///|
 /// Gets the x1 coordinate
 pub fn SVGLineElement::x1(self : Self) -> Double {
-  self.get("x1").get("baseVal").get("value") |> unsafe_cast
+  self.get("x1").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the y1 coordinate
 pub fn SVGLineElement::y1(self : Self) -> Double {
-  self.get("y1").get("baseVal").get("value") |> unsafe_cast
+  self.get("y1").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the x2 coordinate
 pub fn SVGLineElement::x2(self : Self) -> Double {
-  self.get("x2").get("baseVal").get("value") |> unsafe_cast
+  self.get("x2").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the y2 coordinate
 pub fn SVGLineElement::y2(self : Self) -> Double {
-  self.get("y2").get("baseVal").get("value") |> unsafe_cast
+  self.get("y2").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
@@ -264,7 +264,7 @@ pub fn SVGLineElement::setAttribute(
 pub(all) struct SVGPolygonElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGPolygonElement
+pub impl @js.JsImpl for SVGPolygonElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGPolygonElement
@@ -291,7 +291,7 @@ pub fn SVGPolygonElement::setAttribute(
 pub(all) struct SVGPolylineElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGPolylineElement
+pub impl @js.JsImpl for SVGPolylineElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGPolylineElement
@@ -318,7 +318,7 @@ pub fn SVGPolylineElement::setAttribute(
 pub(all) struct SVGPathElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGPathElement
+pub impl @js.JsImpl for SVGPathElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGPathElement
@@ -332,14 +332,14 @@ pub impl ElementImpl for SVGPathElement
 ///|
 /// Gets the path data
 pub fn SVGPathElement::d(self : Self) -> String {
-  self.get("d") |> unsafe_cast
+  self.get("d") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the total length of the path
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement/getTotalLength
 pub fn SVGPathElement::getTotalLength(self : Self) -> Double {
-  self.call0("getTotalLength") |> unsafe_cast
+  self.call0("getTotalLength") |> @js.unsafe_cast
 }
 
 ///|
@@ -358,7 +358,7 @@ pub fn SVGPathElement::setAttribute(
 pub(all) struct SVGTextElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGTextElement
+pub impl @js.JsImpl for SVGTextElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGTextElement
@@ -372,13 +372,13 @@ pub impl ElementImpl for SVGTextElement
 ///|
 /// Gets the x coordinate
 pub fn SVGTextElement::x(self : Self) -> Double {
-  self.get("x").get("baseVal").get(0).get("value") |> unsafe_cast
+  self.get("x").get("baseVal").get(0).get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the y coordinate
 pub fn SVGTextElement::y(self : Self) -> Double {
-  self.get("y").get("baseVal").get(0).get("value") |> unsafe_cast
+  self.get("y").get("baseVal").get(0).get("value") |> @js.unsafe_cast
 }
 
 ///|
@@ -397,7 +397,7 @@ pub fn SVGTextElement::setAttribute(
 pub(all) struct SVGImageElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGImageElement
+pub impl @js.JsImpl for SVGImageElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGImageElement
@@ -411,31 +411,31 @@ pub impl ElementImpl for SVGImageElement
 ///|
 /// Gets the x coordinate
 pub fn SVGImageElement::x(self : Self) -> Double {
-  self.get("x").get("baseVal").get("value") |> unsafe_cast
+  self.get("x").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the y coordinate
 pub fn SVGImageElement::y(self : Self) -> Double {
-  self.get("y").get("baseVal").get("value") |> unsafe_cast
+  self.get("y").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the width
 pub fn SVGImageElement::width(self : Self) -> Double {
-  self.get("width").get("baseVal").get("value") |> unsafe_cast
+  self.get("width").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the height
 pub fn SVGImageElement::height(self : Self) -> Double {
-  self.get("height").get("baseVal").get("value") |> unsafe_cast
+  self.get("height").get("baseVal").get("value") |> @js.unsafe_cast
 }
 
 ///|
 /// Gets the href attribute
 pub fn SVGImageElement::href(self : Self) -> String {
-  self.get("href").get("baseVal") |> unsafe_cast
+  self.get("href").get("baseVal") |> @js.unsafe_cast
 }
 
 ///|
@@ -454,7 +454,7 @@ pub fn SVGImageElement::setAttribute(
 pub(all) struct SVGGElement {} derive(Show)
 
 ///|
-pub impl JsImpl for SVGGElement
+pub impl @js.JsImpl for SVGGElement
 
 ///|
 pub impl @event.EventTargetImpl for SVGGElement

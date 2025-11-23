@@ -9,7 +9,7 @@ pub fn ChildProcess::on_exit(
 ) -> Unit {
   self.call("on", [
     "exit",
-    @js.unsafe_cast(fn(code : Js, signal : Js) {
+    @js.unsafe_cast(fn(code : @js.Js, signal : @js.Js) {
       callback(
         code |> @js.unsafe_cast_option(),
         signal |> @js.unsafe_cast_option(),
@@ -28,7 +28,7 @@ pub fn ChildProcess::on_close(
 ) -> Unit {
   self.call("on", [
     "close",
-    @js.unsafe_cast(fn(code : Js, signal : Js) {
+    @js.unsafe_cast(fn(code : @js.Js, signal : @js.Js) {
       callback(
         code |> @js.unsafe_cast_option(),
         signal |> @js.unsafe_cast_option(),
@@ -40,24 +40,24 @@ pub fn ChildProcess::on_close(
 
 ///|
 /// Listen for 'error' event with typed callback
-/// Callback receives: error (Js)
+/// Callback receives: error (@js.Js)
 pub fn ChildProcess::on_error(
   self : Self,
-  callback : (Js) -> Unit noraise,
+  callback : (@js.Js) -> Unit noraise,
 ) -> Unit {
   self.call2("on", "error", @js.unsafe_cast(callback)) |> ignore
 }
 
 ///|
 /// Listen for 'message' event with typed callback
-/// Callback receives: message (Js), sendHandle (Js?)
+/// Callback receives: message (@js.Js), sendHandle (@js.Js?)
 pub fn ChildProcess::on_message(
   self : Self,
-  callback : (Js, Js?) -> Unit noraise,
+  callback : (@js.Js, @js.Js?) -> Unit noraise,
 ) -> Unit {
   self.call("on", [
     "message",
-    @js.unsafe_cast(fn(message : Js, sendHandle : Js) {
+    @js.unsafe_cast(fn(message : @js.Js, sendHandle : @js.Js) {
       callback(message, sendHandle |> @js.unsafe_cast_option())
     }),
   ])
@@ -86,10 +86,10 @@ pub fn ChildProcess::on_spawn(
 
 ///|
 /// Listen for stdout 'data' event with typed callback
-/// Callback receives: data (Js) - typically Buffer or String
+/// Callback receives: data (@js.Js) - typically Buffer or String
 pub fn ChildProcess::on_stdout_data(
   self : Self,
-  callback : (Js) -> Unit noraise,
+  callback : (@js.Js) -> Unit noraise,
 ) -> Unit {
   self.stdout.call2("on", "data", @js.unsafe_cast(callback)) |> ignore
 }

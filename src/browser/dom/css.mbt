@@ -12,12 +12,12 @@ pub(all) struct CSSStyleDeclaration {
 }
 
 ///|
-pub impl JsImpl for CSSStyleDeclaration
+pub impl @js.JsImpl for CSSStyleDeclaration
 
 ///|
 /// Returns a CSS style declaration from a Val
-pub fn css_style_from_val(val : Js) -> CSSStyleDeclaration {
-  unsafe_cast(val)
+pub fn css_style_from_val(val : @js.Js) -> CSSStyleDeclaration {
+  @js.unsafe_cast(val)
 }
 
 ///|
@@ -26,7 +26,7 @@ pub fn CSSStyleDeclaration::get_property_value(
   self : Self,
   property : String,
 ) -> String {
-  self.call("getPropertyValue", [property]) |> unsafe_cast
+  self.call("getPropertyValue", [property]) |> @js.unsafe_cast
 }
 
 ///|
@@ -56,7 +56,7 @@ pub fn CSSStyleDeclaration::remove_property(
   self : Self,
   property : String,
 ) -> String {
-  self.call("removeProperty", [property]) |> unsafe_cast
+  self.call("removeProperty", [property]) |> @js.unsafe_cast
 }
 
 ///|
@@ -65,7 +65,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
   self : Self,
   property : String,
 ) -> String {
-  self.call("getPropertyPriority", [property]) |> unsafe_cast
+  self.call("getPropertyPriority", [property]) |> @js.unsafe_cast
 }
 
 ///|
@@ -75,12 +75,12 @@ pub fn CSSStyleDeclaration::get_property_priority(
 pub type CSSRule
 
 ///|
-pub impl JsImpl for CSSRule
+pub impl @js.JsImpl for CSSRule
 
 ///|
 /// Returns the CSS text of the rule
 pub fn CSSRule::css_text(self : Self) -> String {
-  self.get("cssText") |> unsafe_cast
+  self.get("cssText") |> @js.unsafe_cast
 }
 
 ///|
@@ -104,7 +104,7 @@ pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
 ///|
 /// Returns the rule type
 pub fn CSSRule::rule_type(self : Self) -> Int {
-  self.get("type") |> unsafe_cast
+  self.get("type") |> @js.unsafe_cast
 }
 
 ///|
@@ -114,12 +114,12 @@ pub fn CSSRule::rule_type(self : Self) -> Int {
 pub type CSSStyleSheet
 
 ///|
-pub impl JsImpl for CSSStyleSheet
+pub impl @js.JsImpl for CSSStyleSheet
 
 ///|
 /// Returns the CSS rules
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/cssRules
-pub fn CSSStyleSheet::css_rules(self : Self) -> Js {
+pub fn CSSStyleSheet::css_rules(self : Self) -> @js.Js {
   self.get("cssRules")
 }
 
@@ -127,7 +127,7 @@ pub fn CSSStyleSheet::css_rules(self : Self) -> Js {
 /// Inserts a CSS rule
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
 pub fn CSSStyleSheet::insert_rule(self : Self, rule : String) -> Int {
-  self.call("insertRule", [rule]) |> unsafe_cast
+  self.call("insertRule", [rule]) |> @js.unsafe_cast
 }
 
 ///|
@@ -137,7 +137,7 @@ pub fn CSSStyleSheet::insert_rule_at(
   rule : String,
   index : Int,
 ) -> Int {
-  self.call2("insertRule", rule, index) |> unsafe_cast
+  self.call2("insertRule", rule, index) |> @js.unsafe_cast
 }
 
 ///|
@@ -149,14 +149,14 @@ pub fn CSSStyleSheet::delete_rule(self : Self, index : Int) -> Unit {
 
 ///|
 /// Returns the owner node
-pub fn CSSStyleSheet::owner_node(self : Self) -> Js? {
+pub fn CSSStyleSheet::owner_node(self : Self) -> @js.Js? {
   self.get("ownerNode") |> @js.unsafe_cast_option()
 }
 
 ///|
 /// Returns whether the stylesheet is disabled
 pub fn CSSStyleSheet::disabled(self : Self) -> Bool {
-  self.get("disabled") |> unsafe_cast
+  self.get("disabled") |> @js.unsafe_cast
 }
 
 ///|
@@ -179,7 +179,7 @@ pub fn CSSStyleSheet::title(self : Self) -> String? {
 
 ///|
 /// Returns the stylesheet's media
-pub fn CSSStyleSheet::media(self : Self) -> Js {
+pub fn CSSStyleSheet::media(self : Self) -> @js.Js {
   self.get("media")
 }
 
@@ -192,14 +192,14 @@ pub(all) struct MediaQueryList {
 }
 
 ///|
-pub impl JsImpl for MediaQueryList
+pub impl @js.JsImpl for MediaQueryList
 
 ///|
 /// Creates a MediaQueryList from window.matchMedia
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
-  unsafe_cast(@js.global_this().call("matchMedia", [query]))
+  @js.unsafe_cast(@js.global_this().call("matchMedia", [query]))
 }
 
 ///|
@@ -250,7 +250,7 @@ pub fn MediaQueryList::remove_change_listener(
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
   let css_obj = @js.global_this().get("CSS")
-  unsafe_cast(css_obj.call("escape", [value]))
+  @js.unsafe_cast(css_obj.call("escape", [value]))
 }
 
 ///|
@@ -259,7 +259,7 @@ pub fn cssEscape(value : String) -> String {
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  css_obj.call2("supports", property, value) |> unsafe_cast
+  css_obj.call2("supports", property, value) |> @js.unsafe_cast
 }
 
 ///|
@@ -267,13 +267,13 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  unsafe_cast(css_obj.call("supports", [condition]))
+  @js.unsafe_cast(css_obj.call("supports", [condition]))
 }
 
 ///|
 /// Access document stylesheets
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/styleSheets
-pub fn Document::style_sheets(self : Self) -> Js {
+pub fn Document::style_sheets(self : Self) -> @js.Js {
   self.get("styleSheets")
 }
 
@@ -285,5 +285,5 @@ pub fn Document::create_stylesheet(self : Self) -> CSSStyleSheet {
     Some(head) => head.call("appendChild", [style]) |> ignore
     None => ()
   }
-  style.get("sheet") |> unsafe_cast
+  style.get("sheet") |> @js.unsafe_cast
 }

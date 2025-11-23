@@ -1,6 +1,6 @@
 ///|
 /// node:vm module
-fn vm_module() -> Js {
+fn vm_module() -> @js.Js {
   @node.require("node:vm")
 }
 
@@ -17,7 +17,7 @@ fn vm_module() -> Js {
 pub type Script
 
 ///|
-pub impl JsImpl for Script
+pub impl @js.JsImpl for Script
 
 ///|
 /// Create a new Script object
@@ -26,7 +26,7 @@ pub fn Script::new(
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
-  cachedData? : Buffer,
+  cachedData? : @buffer.Buffer,
   produceCachedData? : Bool,
 ) -> Script {
   let vm = vm_module()
@@ -38,7 +38,7 @@ pub fn Script::new(
     ("cachedData", cachedData.map(fn(x) { x.to_js() })),
     ("produceCachedData", produceCachedData.map(fn(x) { x })),
   ])
-  @js.new_(script_constructor, [code, options]) |> unsafe_cast
+  @js.new_(script_constructor, [code, options]) |> @js.unsafe_cast
 }
 
 ///|
@@ -51,7 +51,7 @@ pub fn Script::runInThisContext(
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> Js {
+) -> @js.Js {
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
     ("lineOffset", lineOffset.map(fn(x) { x })),
@@ -67,7 +67,7 @@ pub fn Script::runInThisContext(
 /// Run script in new context
 pub fn Script::runInNewContext(
   self : Script,
-  contextObject? : Js,
+  contextObject? : @js.Js,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
@@ -77,7 +77,7 @@ pub fn Script::runInNewContext(
   contextName? : String,
   contextOrigin? : String,
   microtaskMode? : String,
-) -> Js {
+) -> @js.Js {
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
     ("lineOffset", lineOffset.map(fn(x) { x })),
@@ -99,14 +99,14 @@ pub fn Script::runInNewContext(
 /// Run script in context
 pub fn Script::runInContext(
   self : Script,
-  contextifiedObject : Js,
+  contextifiedObject : @js.Js,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> Js {
+) -> @js.Js {
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
     ("lineOffset", lineOffset.map(fn(x) { x })),
@@ -120,8 +120,8 @@ pub fn Script::runInContext(
 
 ///|
 /// Create cached data
-pub fn Script::createCachedData(self : Script) -> Buffer {
-  self.call0("createCachedData") |> unsafe_cast
+pub fn Script::createCachedData(self : Script) -> @buffer.Buffer {
+  self.call0("createCachedData") |> @js.unsafe_cast
 }
 
 ///|
@@ -148,7 +148,7 @@ pub fn runInThisContext(
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> Js {
+) -> @js.Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
@@ -165,7 +165,7 @@ pub fn runInThisContext(
 /// Compile and run code in new context
 pub fn runInNewContext(
   code : String,
-  contextObject? : Js,
+  contextObject? : @js.Js,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
@@ -175,7 +175,7 @@ pub fn runInNewContext(
   contextName? : String,
   contextOrigin? : String,
   microtaskMode? : String,
-) -> Js {
+) -> @js.Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
@@ -198,14 +198,14 @@ pub fn runInNewContext(
 /// Run code in context
 pub fn runInContext(
   code : String,
-  contextifiedObject : Js,
+  contextifiedObject : @js.Js,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> Js {
+) -> @js.Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
@@ -221,11 +221,11 @@ pub fn runInContext(
 ///|
 /// Create a new context
 pub fn createContext(
-  contextObject? : Js,
+  contextObject? : @js.Js,
   name? : String,
   origin? : String,
   microtaskMode? : String,
-) -> Js {
+) -> @js.Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("name", name.map(fn(x) { x })),
@@ -240,9 +240,9 @@ pub fn createContext(
 
 ///|
 /// Check if object is a context
-pub fn isContext(object : Js) -> Bool {
+pub fn isContext(object : @js.Js) -> Bool {
   let vm = vm_module()
-  vm.call1("isContext", object) |> unsafe_cast
+  vm.call1("isContext", object) |> @js.unsafe_cast
 }
 
 ///|
@@ -253,11 +253,11 @@ pub fn compileFunction(
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
-  cachedData? : Buffer,
+  cachedData? : @buffer.Buffer,
   produceCachedData? : Bool,
-  parsingContext? : Js,
-  contextExtensions? : Array[Js],
-) -> Js {
+  parsingContext? : @js.Js,
+  contextExtensions? : Array[@js.Js],
+) -> @js.Js {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),

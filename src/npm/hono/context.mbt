@@ -32,7 +32,7 @@ pub fn[Env, ExecutionContext, T] Context::json(
     Some(s) => s
     None => 200
   }
-  self.call("json", [unsafe_cast(data), status_code]) |> unsafe_cast
+  self.call("json", [@js.unsafe_cast(data), status_code]) |> @js.unsafe_cast
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn[Env, ExecutionContext] Context::text(
     Some(s) => s
     None => 200
   }
-  self.call("text", [text, status_code]) |> unsafe_cast
+  self.call("text", [text, status_code]) |> @js.unsafe_cast
 }
 
 ///|
@@ -62,7 +62,7 @@ pub fn[Env, ExecutionContext] Context::html(
     Some(s) => s
     None => 200
   }
-  self.call("html", [html, status_code]) |> unsafe_cast
+  self.call("html", [html, status_code]) |> @js.unsafe_cast
 }
 
 ///|
@@ -77,7 +77,7 @@ pub fn[Env, ExecutionContext] Context::redirect(
     Some(s) => s
     None => 302
   }
-  self.call("redirect", [url, status_code]) |> unsafe_cast
+  self.call("redirect", [url, status_code]) |> @js.unsafe_cast
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn[Env, ExecutionContext] Context::redirect(
 pub fn[Env, ExecutionContext] Context::notFound(
   self : Context[Env, ExecutionContext],
 ) -> @http.Response {
-  self.call0("notFound") |> unsafe_cast
+  self.call0("notFound") |> @js.unsafe_cast
 }
 
 ///|
@@ -117,7 +117,7 @@ pub fn[Env, ExecutionContext] Context::status(
 pub fn[Env, ExecutionContext] Context::set(
   self : Context[Env, ExecutionContext],
   key : String,
-  value : Js,
+  value : @js.Js,
 ) -> Unit {
   self.call("set", [key, value]) |> ignore
 }
@@ -128,7 +128,7 @@ pub fn[Env, ExecutionContext] Context::set(
 pub fn[Env, ExecutionContext] Context::getValue(
   self : Context[Env, ExecutionContext],
   key : String,
-) -> Js {
+) -> @js.Js {
   self.call("get", [key])
 }
 
@@ -138,7 +138,7 @@ pub fn[Env, ExecutionContext] Context::getValue(
 pub fn[Env, ExecutionContext] Context::res(
   self : Context[Env, ExecutionContext],
 ) -> @http.Response {
-  self.get("res") |> unsafe_cast
+  self.get("res") |> @js.unsafe_cast
 }
 
 ///|
@@ -147,7 +147,7 @@ pub fn[Env, ExecutionContext] Context::res(
 pub fn[Env, ExecutionContext] Context::var_(
   self : Context[Env, ExecutionContext],
   key : String,
-) -> Js {
+) -> @js.Js {
   self.get("var").get(key)
 }
 
@@ -158,12 +158,12 @@ pub fn[Env, ExecutionContext] Context::body(
   self : Context[Env, ExecutionContext],
   body : String,
   status? : Int,
-  headers? : Js,
+  headers? : @js.Js,
 ) -> @http.Response {
   match (status, headers) {
-    (Some(s), Some(h)) => self.call("body", [body, s, h]) |> unsafe_cast
-    (Some(s), None) => self.call("body", [body, s]) |> unsafe_cast
-    _ => self.call("body", [body]) |> unsafe_cast
+    (Some(s), Some(h)) => self.call("body", [body, s, h]) |> @js.unsafe_cast
+    (Some(s), None) => self.call("body", [body, s]) |> @js.unsafe_cast
+    _ => self.call("body", [body]) |> @js.unsafe_cast
   }
 }
 
@@ -175,7 +175,7 @@ pub fn[Env, ExecutionContext] Context::setRenderer(
   self : Context[Env, ExecutionContext],
   renderer : (String) -> @http.Response,
 ) -> Unit {
-  self.call("setRenderer", [unsafe_js(renderer)]) |> ignore
+  self.call("setRenderer", [@js.unsafe_js(renderer)]) |> ignore
 }
 
 ///|
@@ -185,5 +185,5 @@ pub fn[Env, ExecutionContext] Context::render(
   self : Context[Env, ExecutionContext],
   content : String,
 ) -> @http.Response {
-  self.call("render", [content]) |> unsafe_cast
+  self.call("render", [content]) |> @js.unsafe_cast
 }

@@ -9,13 +9,13 @@
 pub type MutationObserver
 
 ///|
-pub impl JsImpl for MutationObserver
+pub impl @js.JsImpl for MutationObserver
 
 ///|
 /// Creates a new MutationObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
 pub fn MutationObserver::new(
-  callback : (Js?, MutationObserver) -> Unit,
+  callback : (@js.Js?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @js.global_this().get("MutationObserver")
   @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.unsafe_cast
@@ -26,10 +26,10 @@ pub fn MutationObserver::new(
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe
 pub fn MutationObserver::observe(
   self : Self,
-  target : Element,
-  options : Js,
+  target : @dom.Element,
+  options : @js.Js,
 ) -> Unit {
-  self.to_js().call2("observe", target |> js, options) |> ignore
+  self.to_js().call2("observe", target |> @js.js, options) |> ignore
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn MutationObserver::disconnect(self : Self) -> Unit {
 ///|
 /// Returns all pending mutation records
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/takeRecords
-pub fn MutationObserver::take_records(self : Self) -> Js {
+pub fn MutationObserver::take_records(self : Self) -> @js.Js {
   self.to_js().call0("takeRecords")
 }
 
@@ -51,13 +51,13 @@ pub fn MutationObserver::take_records(self : Self) -> Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
 pub(all) struct MutationRecord {
   mutationType : String
-  target : Node
-  addedNodes : Array[Node]
-  removedNodes : Array[Node]
-  previousSibling : Nullable[Node]
-  nextSibling : Nullable[Node]
-  attributeName : Nullable[String]
-  oldValue : Nullable[String]
+  target : @dom.Node
+  addedNodes : Array[@dom.Node]
+  removedNodes : Array[@dom.Node]
+  previousSibling : @js.Nullable[@dom.Node]
+  nextSibling : @js.Nullable[@dom.Node]
+  attributeName : @js.Nullable[String]
+  oldValue : @js.Nullable[String]
 }
 
 ///|
@@ -67,7 +67,7 @@ pub fn MutationRecord::mutation_type(self : Self) -> String {
 }
 
 ///|
-pub impl JsImpl for MutationRecord
+pub impl @js.JsImpl for MutationRecord
 
 ///|
 /// IntersectionObserver observes intersection changes
@@ -76,14 +76,14 @@ pub impl JsImpl for MutationRecord
 pub type IntersectionObserver
 
 ///|
-pub impl JsImpl for IntersectionObserver
+pub impl @js.JsImpl for IntersectionObserver
 
 ///|
 /// Creates a new IntersectionObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
 pub fn IntersectionObserver::new(
-  callback : (Js?, IntersectionObserver) -> Unit,
-  options? : Js,
+  callback : (@js.Js?, IntersectionObserver) -> Unit,
+  options? : @js.Js,
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
   match options {
@@ -96,14 +96,20 @@ pub fn IntersectionObserver::new(
 ///|
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/observe
-pub fn IntersectionObserver::observe(self : Self, target : Element) -> Unit {
+pub fn IntersectionObserver::observe(
+  self : Self,
+  target : @dom.Element,
+) -> Unit {
   self.to_js().call("observe", [target]) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/unobserve
-pub fn IntersectionObserver::unobserve(self : Self, target : Element) -> Unit {
+pub fn IntersectionObserver::unobserve(
+  self : Self,
+  target : @dom.Element,
+) -> Unit {
   self.to_js().call("unobserve", [target]) |> ignore
 }
 
@@ -117,7 +123,7 @@ pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
 ///|
 /// Returns all pending intersection records
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords
-pub fn IntersectionObserver::take_records(self : Self) -> Js {
+pub fn IntersectionObserver::take_records(self : Self) -> @js.Js {
   self.to_js().call0("takeRecords")
 }
 
@@ -125,17 +131,17 @@ pub fn IntersectionObserver::take_records(self : Self) -> Js {
 /// IntersectionObserverEntry represents an intersection change
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry
 pub(all) struct IntersectionObserverEntry {
-  target : Element
-  boundingClientRect : DOMRectReadOnly
-  intersectionRect : DOMRectReadOnly
-  rootBounds : Element?
+  target : @dom.Element
+  boundingClientRect : @dom.DOMRectReadOnly
+  intersectionRect : @dom.DOMRectReadOnly
+  rootBounds : @dom.Element?
   intersectionRatio : Double
   isIntersecting : Bool
   time : Double
 }
 
 ///|
-pub impl JsImpl for IntersectionObserverEntry
+pub impl @js.JsImpl for IntersectionObserverEntry
 
 ///|
 /// ResizeObserver observes size changes
@@ -144,13 +150,13 @@ pub impl JsImpl for IntersectionObserverEntry
 pub type ResizeObserver
 
 ///|
-pub impl JsImpl for ResizeObserver
+pub impl @js.JsImpl for ResizeObserver
 
 ///|
 /// Creates a new ResizeObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/ResizeObserver
 pub fn ResizeObserver::new(
-  callback : (Js?, ResizeObserver) -> Unit,
+  callback : (@js.Js?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @js.global_this().get("ResizeObserver")
   @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.unsafe_cast
@@ -159,25 +165,25 @@ pub fn ResizeObserver::new(
 ///|
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
-pub fn ResizeObserver::observe(self : Self, target : Element) -> Unit {
-  self.to_js().call("observe", [target |> js]) |> ignore
+pub fn ResizeObserver::observe(self : Self, target : @dom.Element) -> Unit {
+  self.to_js().call("observe", [target |> @js.js]) |> ignore
 }
 
 ///|
 /// Starts observing with options
 pub fn ResizeObserver::observe_with_options(
   self : Self,
-  target : Element,
-  options : Js,
+  target : @dom.Element,
+  options : @js.Js,
 ) -> Unit {
-  self.to_js().call2("observe", target |> js, options) |> ignore
+  self.to_js().call2("observe", target |> @js.js, options) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve
-pub fn ResizeObserver::unobserve(self : Self, target : Element) -> Unit {
-  self.to_js().call("unobserve", [target |> js]) |> ignore
+pub fn ResizeObserver::unobserve(self : Self, target : @dom.Element) -> Unit {
+  self.to_js().call("unobserve", [target |> @js.js]) |> ignore
 }
 
 ///|
@@ -191,11 +197,11 @@ pub fn ResizeObserver::disconnect(self : Self) -> Unit {
 /// ResizeObserverEntry represents an entry in a ResizeObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry
 pub(all) struct ResizeObserverEntry {
-  target : Element
+  target : @dom.Element
   contentRect : @dom.DOMRectReadOnly
-  borderBoxSize : Js
-  contentBoxSize : Js
+  borderBoxSize : @js.Js
+  contentBoxSize : @js.Js
 }
 
 ///|
-pub impl JsImpl for ResizeObserverEntry
+pub impl @js.JsImpl for ResizeObserverEntry

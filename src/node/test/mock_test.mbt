@@ -2,9 +2,6 @@
 using @test {mock, get_mock_context}
 
 ///|
-using @js {type Js}
-
-///|
 test "mock.fn creates spy function" {
   let m = mock()
   let spy = m.fn_()
@@ -25,7 +22,7 @@ test "mock.method mocks object method" {
   obj.set("getValue", @js.from_fn0(fn() { 42 }))
 
   // Mock the method to return different value
-  let obj_js : Js = @js.unsafe_cast(obj)
+  let obj_js : @js.Js = @js.unsafe_cast(obj)
   m.method_(obj_js, "getValue", implementation=@js.from_fn0(fn() { 100 }))
   |> ignore
   let result : Int = @js.unsafe_cast(obj.call0("getValue"))
@@ -37,7 +34,7 @@ test "mock.method mocks object method" {
 test "mock.fn with implementation" {
   let m = mock()
   let spy = m.fn_(
-    implementation=@js.from_fn1(fn(x : Js) {
+    implementation=@js.from_fn1(fn(x : @js.Js) {
       let n : Int = @js.unsafe_cast(x)
       n * 2
     }),
@@ -51,11 +48,11 @@ test "mock.fn with implementation" {
 ///|
 test "mock.fn with both original and implementation" {
   let m = mock()
-  let original_fn = @js.from_fn1(fn(x : Js) {
+  let original_fn = @js.from_fn1(fn(x : @js.Js) {
     let n : Int = @js.unsafe_cast(x)
     n + 1
   })
-  let implementation_fn = @js.from_fn1(fn(x : Js) {
+  let implementation_fn = @js.from_fn1(fn(x : @js.Js) {
     let n : Int = @js.unsafe_cast(x)
     n * 2
   })
@@ -71,7 +68,7 @@ test "mock.method without implementation" {
   obj.set("getValue", @js.from_fn0(fn() { 42 }))
 
   // Mock the method without implementation (spy on original)
-  let obj_js : Js = @js.unsafe_cast(obj)
+  let obj_js : @js.Js = @js.unsafe_cast(obj)
   m.method_(obj_js, "getValue") |> ignore
   let result : Int = @js.unsafe_cast(obj.call0("getValue"))
   inspect(result, content="42")

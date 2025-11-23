@@ -6,7 +6,7 @@ pub(all) struct Storage {
 }
 
 ///|
-pub impl JsImpl for Storage
+pub impl @js.JsImpl for Storage
 
 ///|
 /// Returns the localStorage object
@@ -60,7 +60,7 @@ pub fn Storage::clear(self : Storage) -> Unit {
 /// Returns the key at the specified index
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/key
 pub fn Storage::key(self : Storage, index : Int) -> String? {
-  self.call("key", [index |> js]) |> @js.unsafe_cast_option()
+  self.call("key", [index |> @js.js]) |> @js.unsafe_cast_option()
 }
 
 ///|

@@ -1,7 +1,7 @@
 ///|
 /// CanvasRenderingContext2D
 pub(all) struct CanvasRenderingContext2D {
-  canvas : HTMLCanvasElement
+  canvas : @dom.HTMLCanvasElement
   mut fillStyle : String
   mut strokeStyle : String
   mut lineWidth : Double
@@ -12,7 +12,7 @@ pub(all) struct CanvasRenderingContext2D {
 }
 
 ///|
-pub impl JsImpl for CanvasRenderingContext2D
+pub impl @js.JsImpl for CanvasRenderingContext2D
 
 ///|
 /// Drawing rectangles
@@ -200,7 +200,7 @@ pub fn CanvasRenderingContext2D::measureText(
   self : Self,
   text : String,
 ) -> TextMetrics {
-  self.to_js().call("measureText", [text]) |> unsafe_cast
+  self.to_js().call("measureText", [text]) |> @js.unsafe_cast
 }
 
 ///|
@@ -262,7 +262,7 @@ pub fn CanvasRenderingContext2D::resetTransform(self : Self) -> Unit {
 /// Drawing images
 pub fn CanvasRenderingContext2D::drawImage(
   self : Self,
-  image : &JsImpl,
+  image : &@js.JsImpl,
   dx : Double,
   dy : Double,
 ) -> Unit {
@@ -272,7 +272,7 @@ pub fn CanvasRenderingContext2D::drawImage(
 ///|
 pub fn CanvasRenderingContext2D::drawImageScaled(
   self : Self,
-  image : &JsImpl,
+  image : &@js.JsImpl,
   dx : Double,
   dy : Double,
   d_width : Double,
@@ -285,7 +285,7 @@ pub fn CanvasRenderingContext2D::drawImageScaled(
 ///|
 pub fn CanvasRenderingContext2D::drawImageSub(
   self : Self,
-  image : &JsImpl,
+  image : &@js.JsImpl,
   sx : Double,
   sy : Double,
   s_width : Double,
@@ -320,7 +320,7 @@ pub fn CanvasRenderingContext2D::getImageData(
   sw : Double,
   sh : Double,
 ) -> ImageData {
-  self.to_js().call("getImageData", [sx, sy, sw, sh]) |> unsafe_cast
+  self.to_js().call("getImageData", [sx, sy, sw, sh]) |> @js.unsafe_cast
 }
 
 ///|
@@ -339,7 +339,7 @@ pub fn CanvasRenderingContext2D::createImageData(
   width : Int,
   height : Int,
 ) -> ImageData {
-  self.to_js().call2("createImageData", width, height) |> unsafe_cast
+  self.to_js().call2("createImageData", width, height) |> @js.unsafe_cast
 }
 
 ///|
@@ -360,44 +360,48 @@ pub(all) struct TextMetrics {
 }
 
 ///|
-pub impl JsImpl for TextMetrics
+pub impl @js.JsImpl for TextMetrics
 
 ///|
 /// ImageData
 pub(all) struct ImageData {
   width : Int
   height : Int
-  data : Uint8Array
+  data : @typed_array.Uint8Array
 }
 
 ///|
-pub impl JsImpl for ImageData
+pub impl @js.JsImpl for ImageData
 
 ///|
-extern "js" fn ffi_new_image_data(width : Js, height : Js) -> Js =
+extern "js" fn ffi_new_image_data(width : @js.Js, height : @js.Js) -> @js.Js =
   #|(width, height) => new ImageData(width, height)
 
 ///|
 extern "js" fn ffi_new_image_data_with_data(
-  data : Js,
-  width : Js,
-  height : Js,
-) -> Js =
+  data : @js.Js,
+  width : @js.Js,
+  height : @js.Js,
+) -> @js.Js =
   #|(data, width, height) => new ImageData(data, width, height)
 
 ///|
 pub fn ImageData::new(width : Int, height : Int) -> ImageData {
-  unsafe_cast(ffi_new_image_data(width |> js, height |> js))
+  @js.unsafe_cast(ffi_new_image_data(width |> @js.js, height |> @js.js))
 }
 
 ///|
 pub fn ImageData::from_data(
-  data : Uint8Array,
+  data : @typed_array.Uint8Array,
   width : Int,
   height : Int,
 ) -> ImageData {
-  unsafe_cast(
-    ffi_new_image_data_with_data(data.to_js(), width |> js, height |> js),
+  @js.unsafe_cast(
+    ffi_new_image_data_with_data(
+      data.to_js(),
+      width |> @js.js,
+      height |> @js.js,
+    ),
   )
 }
 
@@ -409,10 +413,10 @@ pub(all) struct ImageBitmap {
 }
 
 ///|
-pub impl JsImpl for ImageBitmap
+pub impl @js.JsImpl for ImageBitmap
 
 ///|
-pub impl Transferable for ImageBitmap with to_transferable(self) -> Js {
+pub impl @worker.Transferable for ImageBitmap with to_transferable(self) -> @js.Js {
   self.to_js()
 }
 
@@ -423,41 +427,41 @@ pub fn ImageBitmap::close(self : Self) -> Unit {
 
 ///|
 /// createImageBitmap
-extern "js" fn ffi_create_image_bitmap(image : Js) -> Js =
+extern "js" fn ffi_create_image_bitmap(image : @js.Js) -> @js.Js =
   #|(image) => createImageBitmap(image)
 
 ///|
 extern "js" fn ffi_create_image_bitmap_with_rect(
-  image : Js,
-  sx : Js,
-  sy : Js,
-  sw : Js,
-  sh : Js,
-) -> Js =
+  image : @js.Js,
+  sx : @js.Js,
+  sy : @js.Js,
+  sw : @js.Js,
+  sh : @js.Js,
+) -> @js.Js =
   #|(image, sx, sy, sw, sh) => createImageBitmap(image, sx, sy, sw, sh)
 
 ///|
 #alias(create_image_bitmap)
-pub fn createImageBitmap(image : &JsImpl) -> ImageBitmap {
-  unsafe_cast(ffi_create_image_bitmap(image.to_js()))
+pub fn createImageBitmap(image : &@js.JsImpl) -> ImageBitmap {
+  @js.unsafe_cast(ffi_create_image_bitmap(image.to_js()))
 }
 
 ///|
 #alias(create_image_bitmap_rect)
 pub fn createImageBitmapRect(
-  image : &JsImpl,
+  image : &@js.JsImpl,
   sx : Int,
   sy : Int,
   sw : Int,
   sh : Int,
-) -> Promise[ImageBitmap] {
-  unsafe_cast(
+) -> @js.Promise[ImageBitmap] {
+  @js.unsafe_cast(
     ffi_create_image_bitmap_with_rect(
       image.to_js(),
-      sx |> js,
-      sy |> js,
-      sw |> js,
-      sh |> js,
+      sx |> @js.js,
+      sy |> @js.js,
+      sw |> @js.js,
+      sh |> @js.js,
     ),
   )
 }

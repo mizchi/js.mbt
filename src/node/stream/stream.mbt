@@ -1,30 +1,27 @@
 ///|
-using @js {trait JsImpl, type Js, unsafe_cast}
 
 ///|
-using @events {trait EventEmitterImpl}
 
 ///|
 /// node:stream
-fn stream_module() -> Js {
+fn stream_module() -> @js.Js {
   @node.require("node:stream")
 }
 
 ///|
 /// WIP
-pub(open) trait StreamImpl: JsImpl + EventEmitterImpl {
-  // Define stream-specific methods here if needed
-}
+pub(open) trait StreamImpl: @js.JsImpl + @events.EventEmitterImpl {}
+// Define stream-specific methods here if needed
 
 ///|
 #external
 pub type Stream
 
 ///|
-pub impl JsImpl for Stream
+pub impl @js.JsImpl for Stream
 
 ///|
-pub impl EventEmitterImpl for Stream
+pub impl @events.EventEmitterImpl for Stream
 
 ///|
 pub impl StreamImpl for Stream
@@ -34,59 +31,59 @@ pub impl StreamImpl for Stream
 pub type Readable
 
 ///|
-pub impl JsImpl for Readable
+pub impl @js.JsImpl for Readable
 
 ///|
-pub impl EventEmitterImpl for Readable
+pub impl @events.EventEmitterImpl for Readable
 
 ///|
 pub impl StreamImpl for Readable
 
 ///|
 /// Readable stream methods
-pub fn Readable::read(self : Readable, size? : Int) -> Js {
+pub fn Readable::read(self : Readable, size? : Int) -> @js.Js {
   self.call("read", [size])
 }
 
 ///|
 pub fn Readable::pause(self : Readable) -> Readable {
-  self.call0("pause") |> unsafe_cast
+  self.call0("pause") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::resume_(self : Readable) -> Readable {
-  self.call0("resume") |> unsafe_cast
+  self.call0("resume") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::isPaused(self : Readable) -> Bool {
-  self.call0("isPaused") |> unsafe_cast
+  self.call0("isPaused") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::pipe(self : Readable, destination : Writable) -> Writable {
-  self.call("pipe", [destination]) |> unsafe_cast
+  self.call("pipe", [destination]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::unpipe(self : Readable, destination? : Writable) -> Readable {
-  self.call("unpipe", [destination]) |> unsafe_cast
+  self.call("unpipe", [destination]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::setEncoding(self : Readable, encoding : String) -> Readable {
-  self.call("setEncoding", [encoding]) |> unsafe_cast
+  self.call("setEncoding", [encoding]) |> @js.unsafe_cast
 }
 
 ///|
-pub fn Readable::destroy(self : Readable, error? : Js) -> Readable {
-  self.call("destroy", [error]) |> unsafe_cast
+pub fn Readable::destroy(self : Readable, error? : @js.Js) -> Readable {
+  self.call("destroy", [error]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::unshift(
   self : Readable,
-  chunk : Js,
+  chunk : @js.Js,
   encoding? : String,
 ) -> Unit {
   ignore(self.call2("unshift", chunk, encoding))
@@ -95,63 +92,63 @@ pub fn Readable::unshift(
 ///|
 /// Readable stream properties
 pub fn Readable::readable(self : Readable) -> Bool {
-  self.get("readable") |> unsafe_cast
+  self.get("readable") |> @js.unsafe_cast
 }
 
 ///|
-pub fn Readable::readableEncoding(self : Readable) -> Js {
+pub fn Readable::readableEncoding(self : Readable) -> @js.Js {
   self.get("readableEncoding")
 }
 
 ///|
 pub fn Readable::readableEnded(self : Readable) -> Bool {
-  self.get("readableEnded") |> unsafe_cast
+  self.get("readableEnded") |> @js.unsafe_cast
 }
 
 ///|
-pub fn Readable::readableFlowing(self : Readable) -> Js {
+pub fn Readable::readableFlowing(self : Readable) -> @js.Js {
   self.get("readableFlowing")
 }
 
 ///|
 pub fn Readable::readableHighWaterMark(self : Readable) -> Int {
-  self.get("readableHighWaterMark") |> unsafe_cast
+  self.get("readableHighWaterMark") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::readableLength(self : Readable) -> Int {
-  self.get("readableLength") |> unsafe_cast
+  self.get("readableLength") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::readableObjectMode(self : Readable) -> Bool {
-  self.get("readableObjectMode") |> unsafe_cast
+  self.get("readableObjectMode") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::closed(self : Readable) -> Bool {
-  self.get("closed") |> unsafe_cast
+  self.get("closed") |> @js.unsafe_cast
 }
 
 ///|
-pub fn Readable::errored(self : Readable) -> Js {
+pub fn Readable::errored(self : Readable) -> @js.Js {
   self.get("errored")
 }
 
 ///|
 /// Web Stream conversion
 pub fn Readable::toWeb(self : Readable) -> @web.ReadableStream {
-  stream_module().get("Readable").call("toWeb", [self]) |> unsafe_cast
+  stream_module().get("Readable").call("toWeb", [self]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn Readable::fromWeb(s : @web.ReadableStream) -> Readable {
-  stream_module().get("Readable").call("fromWeb", [s]) |> unsafe_cast
+  stream_module().get("Readable").call("fromWeb", [s]) |> @js.unsafe_cast
 }
 
 ///|
-pub fn Readable::from(iterable : Js) -> Readable {
-  stream_module().get("Readable").call("from", [iterable]) |> unsafe_cast
+pub fn Readable::from(iterable : @js.Js) -> Readable {
+  stream_module().get("Readable").call("from", [iterable]) |> @js.unsafe_cast
 }
 
 ///|
@@ -159,10 +156,10 @@ pub fn Readable::from(iterable : Js) -> Readable {
 pub type Writable
 
 ///|
-pub impl JsImpl for Writable
+pub impl @js.JsImpl for Writable
 
 ///|
-pub impl EventEmitterImpl for Writable
+pub impl @events.EventEmitterImpl for Writable
 
 ///|
 pub impl StreamImpl for Writable
@@ -171,21 +168,21 @@ pub impl StreamImpl for Writable
 /// Writable stream methods
 pub fn Writable::write(
   self : Writable,
-  chunk : Js,
+  chunk : @js.Js,
   encoding? : String,
-  callback? : Js,
+  callback? : @js.Js,
 ) -> Bool {
-  self.call("write", [chunk, encoding, callback]) |> unsafe_cast
+  self.call("write", [chunk, encoding, callback]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn Writable::end(
   self : Writable,
-  chunk? : Js,
+  chunk? : @js.Js,
   encoding? : String,
-  callback? : Js,
+  callback? : @js.Js,
 ) -> Writable {
-  self.call("end", [chunk, encoding, callback]) |> unsafe_cast
+  self.call("end", [chunk, encoding, callback]) |> @js.unsafe_cast
 }
 
 ///|
@@ -199,8 +196,8 @@ pub fn Writable::uncork(self : Writable) -> Unit {
 }
 
 ///|
-pub fn Writable::destroy(self : Writable, error? : Js) -> Writable {
-  self.call("destroy", [error]) |> unsafe_cast
+pub fn Writable::destroy(self : Writable, error? : @js.Js) -> Writable {
+  self.call("destroy", [error]) |> @js.unsafe_cast
 }
 
 ///|
@@ -208,64 +205,64 @@ pub fn Writable::setDefaultEncoding(
   self : Writable,
   encoding : String,
 ) -> Writable {
-  self.call("setDefaultEncoding", [encoding]) |> unsafe_cast
+  self.call("setDefaultEncoding", [encoding]) |> @js.unsafe_cast
 }
 
 ///|
 /// Writable stream properties
 pub fn Writable::writable(self : Writable) -> Bool {
-  self.get("writable") |> unsafe_cast
+  self.get("writable") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Writable::writableEnded(self : Writable) -> Bool {
-  self.get("writableEnded") |> unsafe_cast
+  self.get("writableEnded") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Writable::writableFinished(self : Writable) -> Bool {
-  self.get("writableFinished") |> unsafe_cast
+  self.get("writableFinished") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Writable::writableHighWaterMark(self : Writable) -> Int {
-  self.get("writableHighWaterMark") |> unsafe_cast
+  self.get("writableHighWaterMark") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Writable::writableLength(self : Writable) -> Int {
-  self.get("writableLength") |> unsafe_cast
+  self.get("writableLength") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Writable::writableObjectMode(self : Writable) -> Bool {
-  self.get("writableObjectMode") |> unsafe_cast
+  self.get("writableObjectMode") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Writable::writableCorked(self : Writable) -> Int {
-  self.get("writableCorked") |> unsafe_cast
+  self.get("writableCorked") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Writable::closed(self : Writable) -> Bool {
-  self.get("closed") |> unsafe_cast
+  self.get("closed") |> @js.unsafe_cast
 }
 
 ///|
-pub fn Writable::errored(self : Writable) -> Js {
+pub fn Writable::errored(self : Writable) -> @js.Js {
   self.get("errored")
 }
 
 ///|
 /// Web Stream conversion
 pub fn Writable::toWeb(self : Self) -> @web.WritableStream {
-  stream_module().get("Writable").call("toWeb", [self]) |> unsafe_cast
+  stream_module().get("Writable").call("toWeb", [self]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn Writable::fromWeb(s : @web.WritableStream) -> Writable {
-  stream_module().get("Writable").call("fromWeb", [s]) |> unsafe_cast
+  stream_module().get("Writable").call("fromWeb", [s]) |> @js.unsafe_cast
 }
 
 ///|
@@ -273,10 +270,10 @@ pub fn Writable::fromWeb(s : @web.WritableStream) -> Writable {
 pub type Duplex
 
 ///|
-pub impl JsImpl for Duplex
+pub impl @js.JsImpl for Duplex
 
 ///|
-pub impl EventEmitterImpl for Duplex
+pub impl @events.EventEmitterImpl for Duplex
 
 ///|
 pub impl StreamImpl for Duplex
@@ -284,23 +281,23 @@ pub impl StreamImpl for Duplex
 ///|
 /// Duplex stream properties
 pub fn Duplex::allowHalfOpen(self : Duplex) -> Bool {
-  self.get("allowHalfOpen") |> unsafe_cast
+  self.get("allowHalfOpen") |> @js.unsafe_cast
 }
 
 ///|
 /// Web Stream conversion
-pub fn Duplex::toWeb(self : Duplex) -> Js {
+pub fn Duplex::toWeb(self : Duplex) -> @js.Js {
   stream_module().get("Duplex").call("toWeb", [self])
 }
 
 ///|
-pub fn Duplex::fromWeb(pair : Js) -> Duplex {
-  stream_module().get("Duplex").call("fromWeb", [pair]) |> unsafe_cast
+pub fn Duplex::fromWeb(pair : @js.Js) -> Duplex {
+  stream_module().get("Duplex").call("fromWeb", [pair]) |> @js.unsafe_cast
 }
 
 ///|
-pub fn Duplex::from(src : Js) -> Duplex {
-  stream_module().get("Duplex").call("from", [src]) |> unsafe_cast
+pub fn Duplex::from(src : @js.Js) -> Duplex {
+  stream_module().get("Duplex").call("from", [src]) |> @js.unsafe_cast
 }
 
 ///|
@@ -308,10 +305,10 @@ pub fn Duplex::from(src : Js) -> Duplex {
 pub type Transform
 
 ///|
-pub impl JsImpl for Transform
+pub impl @js.JsImpl for Transform
 
 ///|
-pub impl EventEmitterImpl for Transform
+pub impl @events.EventEmitterImpl for Transform
 
 ///|
 pub impl StreamImpl for Transform
@@ -321,16 +318,16 @@ pub impl StreamImpl for Transform
 pub type PassThrough
 
 ///|
-pub impl JsImpl for PassThrough
+pub impl @js.JsImpl for PassThrough
 
 ///|
-pub impl EventEmitterImpl for PassThrough
+pub impl @events.EventEmitterImpl for PassThrough
 
 ///|
 pub impl StreamImpl for PassThrough
 
 ///|
-extern "js" fn ffi_pipeline(streams : Js, callback : Js?) -> Js =
+extern "js" fn ffi_pipeline(streams : @js.Js, callback : @js.Js?) -> @js.Js =
   #| (streams, callback) => {
   #|   const stream = require('node:stream');
   #|   // Check if callback is Some (object with $tag: 1)
@@ -343,12 +340,12 @@ extern "js" fn ffi_pipeline(streams : Js, callback : Js?) -> Js =
 
 ///|
 /// Utility functions
-pub fn pipeline(streams : Array[Js], callback? : Js) -> Js {
-  ffi_pipeline(unsafe_cast(streams), callback)
+pub fn pipeline(streams : Array[@js.Js], callback? : @js.Js) -> @js.Js {
+  ffi_pipeline(@js.unsafe_cast(streams), callback)
 }
 
 ///|
-extern "js" fn ffi_finished(stream : Js, callback : Js?) -> Js =
+extern "js" fn ffi_finished(stream : @js.Js, callback : @js.Js?) -> @js.Js =
   #| (stream, callback) => {
   #|   const streamModule = require('node:stream');
   #|   // Check if callback is Some (object with $tag: 1)
@@ -360,45 +357,46 @@ extern "js" fn ffi_finished(stream : Js, callback : Js?) -> Js =
   #| }
 
 ///|
-pub fn finished(stream : Js, callback? : Js) -> Js {
+pub fn finished(stream : @js.Js, callback? : @js.Js) -> @js.Js {
   ffi_finished(stream, callback)
 }
 
 ///|
-extern "js" fn ffi_compose(streams : Js) -> Js =
+extern "js" fn ffi_compose(streams : @js.Js) -> @js.Js =
   #| (streams) => {
   #|   const stream = require('node:stream');
   #|   return stream.compose(...streams);
   #| }
 
 ///|
-pub fn compose(streams : Array[Js]) -> Js {
-  ffi_compose(unsafe_cast(streams))
+pub fn compose(streams : Array[@js.Js]) -> @js.Js {
+  ffi_compose(@js.unsafe_cast(streams))
 }
 
 ///|
-pub fn addAbortSignal(signal : Js, stream : Js) -> Js {
+pub fn addAbortSignal(signal : @js.Js, stream : @js.Js) -> @js.Js {
   stream_module().call2("addAbortSignal", signal, stream)
 }
 
 ///|
-pub fn isErrored(stream : Js) -> Bool {
-  stream_module().call("isErrored", [stream]) |> unsafe_cast
+pub fn isErrored(stream : @js.Js) -> Bool {
+  stream_module().call("isErrored", [stream]) |> @js.unsafe_cast
 }
 
 ///|
-pub fn isReadable(stream : Js) -> Bool {
-  stream_module().call("isReadable", [stream]) |> unsafe_cast
+pub fn isReadable(stream : @js.Js) -> Bool {
+  stream_module().call("isReadable", [stream]) |> @js.unsafe_cast
 }
 
 ///|
-pub fn isWritable(stream : Js) -> Bool {
-  stream_module().call("isWritable", [stream]) |> unsafe_cast
+pub fn isWritable(stream : @js.Js) -> Bool {
+  stream_module().call("isWritable", [stream]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn getDefaultHighWaterMark(objectMode : Bool) -> Int {
-  stream_module().call("getDefaultHighWaterMark", [objectMode]) |> unsafe_cast
+  stream_module().call("getDefaultHighWaterMark", [objectMode])
+  |> @js.unsafe_cast
 }
 
 ///|

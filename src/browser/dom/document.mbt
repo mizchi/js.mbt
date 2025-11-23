@@ -5,10 +5,10 @@
 pub type Document
 
 ///|
-pub impl JsImpl for Document
+pub impl @js.JsImpl for Document
 
 ///|
-pub impl EventTargetImpl for Document
+pub impl @event.EventTargetImpl for Document
 
 ///|
 pub impl NodeImpl for Document
@@ -61,7 +61,7 @@ pub extern "js" fn Document::createTextNode(self : Self, data : String) -> Text 
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
 #alias(ready_state)
 pub fn Document::readyState(self : Self) -> String {
-  self.get("readyState") |> unsafe_cast
+  self.get("readyState") |> @js.unsafe_cast
 }
 
 ///|
@@ -69,7 +69,7 @@ pub fn Document::readyState(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
 pub fn Document::getElementById(self : Self, id : String) -> Element? {
-  self.call("getElementById", [id |> js]) |> @js.unsafe_cast_option()
+  self.call("getElementById", [id |> @js.js]) |> @js.unsafe_cast_option()
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn Document::getElementsByClassName(
   class_name : String,
 ) -> Array[Element] {
   @js.array_from(self.call("getElementsByClassName", [class_name])).map(fn(v) {
-    v |> unsafe_cast
+    v |> @js.unsafe_cast
   })
 }
 
@@ -98,7 +98,7 @@ pub fn Document::getElementsByTagName(
   tagName : String,
 ) -> Array[Element] {
   @js.array_from(self.call("getElementsByTagName", [tagName])).map(fn(v) {
-    v |> unsafe_cast
+    v |> @js.unsafe_cast
   })
 }
 
@@ -138,7 +138,7 @@ pub fn Document::head(self : Self) -> HTMLHeadElement? {
 /// Returns the document's title
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/title
 pub fn Document::title(self : Self) -> String {
-  self.get("title") |> unsafe_cast
+  self.get("title") |> @js.unsafe_cast
 }
 
 ///|
@@ -152,21 +152,21 @@ pub fn Document::setTitle(self : Self, title : String) -> Unit {
 /// Returns the document's URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/URL
 pub fn Document::url(self : Self) -> String {
-  self.get("URL") |> unsafe_cast
+  self.get("URL") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the document's domain
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/domain
 pub fn Document::domain(self : Self) -> String {
-  self.get("domain") |> unsafe_cast
+  self.get("domain") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the document's referrer
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/referrer
 pub fn Document::referrer(self : Self) -> String {
-  self.get("referrer") |> unsafe_cast
+  self.get("referrer") |> @js.unsafe_cast
 }
 
 ///|
@@ -174,7 +174,7 @@ pub fn Document::referrer(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 #alias(create_document_fragment)
 pub fn Document::createDocumentFragment(self : Self) -> DocumentFragment {
-  self.call0("createDocumentFragment") |> unsafe_cast
+  self.call0("createDocumentFragment") |> @js.unsafe_cast
 }
 
 ///|
@@ -182,7 +182,7 @@ pub fn Document::createDocumentFragment(self : Self) -> DocumentFragment {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 #alias(create_comment)
 pub fn Document::createComment(self : Self, data : String) -> Node {
-  self.call("createComment", [data]) |> unsafe_cast
+  self.call("createComment", [data]) |> @js.unsafe_cast
 }
 
 ///|
@@ -190,7 +190,7 @@ pub fn Document::createComment(self : Self, data : String) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentElement
 #alias(document_element)
 pub fn Document::documentElement(self : Self) -> Element {
-  self.get("documentElement") |> unsafe_cast
+  self.get("documentElement") |> @js.unsafe_cast
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn Document::documentElement(self : Self) -> Element {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentURI
 #alias(document_uri)
 pub fn Document::documentURI(self : Self) -> String {
-  self.get("documentURI") |> unsafe_cast
+  self.get("documentURI") |> @js.unsafe_cast
 }
 
 ///|
@@ -206,7 +206,7 @@ pub fn Document::documentURI(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/characterSet
 #alias(character_set)
 pub fn Document::characterSet(self : Self) -> String {
-  self.get("characterSet") |> unsafe_cast
+  self.get("characterSet") |> @js.unsafe_cast
 }
 
 ///|
@@ -214,13 +214,13 @@ pub fn Document::characterSet(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/contentType
 #alias(content_type)
 pub fn Document::contentType(self : Self) -> String {
-  self.get("contentType") |> unsafe_cast
+  self.get("contentType") |> @js.unsafe_cast
 }
 
 ///|
 /// Returns the document type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
-pub fn Document::doctype(self : Self) -> Js? {
+pub fn Document::doctype(self : Self) -> @js.Js? {
   self.get("doctype") |> @js.unsafe_cast_option()
 }
 
@@ -229,7 +229,7 @@ pub fn Document::doctype(self : Self) -> Js? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
 #alias(adopt_node)
 pub fn Document::adoptNode(self : Self, node : Node) -> Node {
-  self.call("adoptNode", [node.to_js()]) |> unsafe_cast
+  self.call("adoptNode", [node.to_js()]) |> @js.unsafe_cast
 }
 
 ///|
@@ -237,7 +237,7 @@ pub fn Document::adoptNode(self : Self, node : Node) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
 #alias(import_node)
 pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
-  self.call2("importNode", node.to_js(), deep) |> unsafe_cast
+  self.call2("importNode", node.to_js(), deep) |> @js.unsafe_cast
 }
 
 ///|
@@ -245,7 +245,7 @@ pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
 #alias(create_event)
 pub fn Document::createEvent(self : Self, event_type : String) -> Event {
-  self.call("createEvent", [event_type]) |> unsafe_cast
+  self.call("createEvent", [event_type]) |> @js.unsafe_cast
 }
 
 ///|
@@ -270,6 +270,6 @@ pub fn Document::elementsFromPoint(
   y : Double,
 ) -> Array[Element] {
   @js.array_from(self.call2("elementsFromPoint", x, y)).map(fn(v) {
-    unsafe_cast(v)
+    @js.unsafe_cast(v)
   })
 }

@@ -1,5 +1,5 @@
-///| Nullable[T] type tests
-/// Tests for the Nullable[T] type which handles explicit null values in FFI
+///| @js.Nullable[T] type tests
+/// Tests for the @js.Nullable[T] type which handles explicit null values in FFI
 
 ///|
 extern "js" fn create_null() -> @js.Js =
@@ -22,8 +22,8 @@ extern "js" fn create_object_with_value_field(v : Int) -> @js.Js =
   #|(v) => ({ value: v })
 
 ///|
-test "Nullable[Int]::to_option() - null value returns None" {
-  let nullable : Nullable[Int] = create_null() |> unsafe_cast
+test "@js.Nullable[Int]::to_option() - null value returns None" {
+  let nullable : @js.Nullable[Int] = create_null() |> unsafe_cast
   match nullable.to_option() {
     Some(_) => fail("Expected None for null value")
     None => ()
@@ -31,8 +31,8 @@ test "Nullable[Int]::to_option() - null value returns None" {
 }
 
 ///|
-test "Nullable[Int]::to_option() - actual value returns Some" {
-  let nullable : Nullable[Int] = create_value(42) |> unsafe_cast
+test "@js.Nullable[Int]::to_option() - actual value returns Some" {
+  let nullable : @js.Nullable[Int] = create_value(42) |> unsafe_cast
   match nullable.to_option() {
     Some(v) => assert_eq(v, 42)
     None => fail("Expected Some(42) for actual value")
@@ -40,8 +40,8 @@ test "Nullable[Int]::to_option() - actual value returns Some" {
 }
 
 ///|
-test "Nullable[Int]::to_option() - undefined behavior" {
-  let nullable : Nullable[Int] = create_undefined() |> unsafe_cast
+test "@js.Nullable[Int]::to_option() - undefined behavior" {
+  let nullable : @js.Nullable[Int] = create_undefined() |> unsafe_cast
   // Note: The actual behavior of undefined with Nullable may vary
   // This test documents the current behavior
   match nullable.to_option() {
@@ -51,20 +51,20 @@ test "Nullable[Int]::to_option() - undefined behavior" {
 }
 
 ///|
-test "Nullable[Int]::is_null() - null returns true" {
-  let nullable : Nullable[Int] = create_null() |> unsafe_cast
+test "@js.Nullable[Int]::is_null() - null returns true" {
+  let nullable : @js.Nullable[Int] = create_null() |> unsafe_cast
   assert_true(nullable.is_null())
 }
 
 ///|
-test "Nullable[Int]::is_null() - value returns false" {
-  let nullable : Nullable[Int] = create_value(42) |> unsafe_cast
+test "@js.Nullable[Int]::is_null() - value returns false" {
+  let nullable : @js.Nullable[Int] = create_value(42) |> unsafe_cast
   assert_false(nullable.is_null())
 }
 
 ///|
-test "Nullable[Int]::is_null() - undefined behavior" {
-  let nullable : Nullable[Int] = create_undefined() |> unsafe_cast
+test "@js.Nullable[Int]::is_null() - undefined behavior" {
+  let nullable : @js.Nullable[Int] = create_undefined() |> unsafe_cast
   // The behavior of is_null() with undefined may vary
   // This test documents that we don't make assumptions about it
   let _ = nullable.is_null()
@@ -72,8 +72,8 @@ test "Nullable[Int]::is_null() - undefined behavior" {
 }
 
 ///|
-test "Nullable[String] - null value" {
-  let nullable : Nullable[String] = create_null() |> unsafe_cast
+test "@js.Nullable[String] - null value" {
+  let nullable : @js.Nullable[String] = create_null() |> unsafe_cast
   assert_true(nullable.is_null())
   match nullable.to_option() {
     Some(_) => fail("Expected None for null string")
@@ -82,9 +82,9 @@ test "Nullable[String] - null value" {
 }
 
 ///|
-test "Nullable[String] - actual value" {
+test "@js.Nullable[String] - actual value" {
   let js_str : @js.Js = @js.unsafe_cast("hello")
-  let nullable : Nullable[String] = js_str |> unsafe_cast
+  let nullable : @js.Nullable[String] = js_str |> unsafe_cast
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(s) => assert_eq(s, "hello")
@@ -93,15 +93,15 @@ test "Nullable[String] - actual value" {
 }
 
 ///|
-test "Nullable[Bool] - null value" {
-  let nullable : Nullable[Bool] = create_null() |> unsafe_cast
+test "@js.Nullable[Bool] - null value" {
+  let nullable : @js.Nullable[Bool] = create_null() |> unsafe_cast
   assert_true(nullable.is_null())
 }
 
 ///|
-test "Nullable[Bool] - false value is not null" {
+test "@js.Nullable[Bool] - false value is not null" {
   let js_false : @js.Js = @js.unsafe_cast(false)
-  let nullable : Nullable[Bool] = js_false |> unsafe_cast
+  let nullable : @js.Nullable[Bool] = js_false |> unsafe_cast
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(b) => assert_false(b)
@@ -110,9 +110,9 @@ test "Nullable[Bool] - false value is not null" {
 }
 
 ///|
-test "Nullable[Bool] - true value" {
+test "@js.Nullable[Bool] - true value" {
   let js_true : @js.Js = @js.unsafe_cast(true)
-  let nullable : Nullable[Bool] = js_true |> unsafe_cast
+  let nullable : @js.Nullable[Bool] = js_true |> unsafe_cast
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(b) => assert_true(b)
@@ -121,15 +121,15 @@ test "Nullable[Bool] - true value" {
 }
 
 ///|
-test "Nullable[Double] - null value" {
-  let nullable : Nullable[Double] = create_null() |> unsafe_cast
+test "@js.Nullable[Double] - null value" {
+  let nullable : @js.Nullable[Double] = create_null() |> unsafe_cast
   assert_true(nullable.is_null())
 }
 
 ///|
-test "Nullable[Double] - zero is not null" {
+test "@js.Nullable[Double] - zero is not null" {
   let js_zero : @js.Js = @js.unsafe_cast(0.0)
-  let nullable : Nullable[Double] = js_zero |> unsafe_cast
+  let nullable : @js.Nullable[Double] = js_zero |> unsafe_cast
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(v) => assert_eq(v, 0.0)
@@ -138,9 +138,9 @@ test "Nullable[Double] - zero is not null" {
 }
 
 ///|
-test "Nullable[Double] - actual value" {
+test "@js.Nullable[Double] - actual value" {
   let js_val : @js.Js = @js.unsafe_cast(3.14)
-  let nullable : Nullable[Double] = js_val |> unsafe_cast
+  let nullable : @js.Nullable[Double] = js_val |> unsafe_cast
   match nullable.to_option() {
     Some(v) => assert_eq(v, 3.14)
     None => fail("Expected Some(3.14)")
@@ -150,7 +150,7 @@ test "Nullable[Double] - actual value" {
 ///|
 /// Test struct with Nullable field
 pub(all) struct TestRecord {
-  value : Nullable[Int]
+  value : @js.Nullable[Int]
 }
 
 ///|
@@ -181,9 +181,9 @@ test "struct with Nullable field - actual value" {
 ///|
 /// Test multiple Nullable fields
 pub(all) struct MultiNullableRecord {
-  str_field : Nullable[String]
-  int_field : Nullable[Int]
-  bool_field : Nullable[Bool]
+  str_field : @js.Nullable[String]
+  int_field : @js.Nullable[Int]
+  bool_field : @js.Nullable[Bool]
 }
 
 ///|

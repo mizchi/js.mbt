@@ -1,6 +1,6 @@
 ///|
 /// node:http module
-fn http_module() -> Js {
+fn http_module() -> @js.Js {
   @node.require("node:http")
 }
 
@@ -11,21 +11,21 @@ fn http_module() -> Js {
 pub type IncomingMessage
 
 ///|
-pub impl JsImpl for IncomingMessage
+pub impl @js.JsImpl for IncomingMessage
 
 ///|
-pub impl EventEmitterImpl for IncomingMessage
+pub impl @events.EventEmitterImpl for IncomingMessage
 
 ///|
 /// IncomingMessage is a Readable stream
-pub fn IncomingMessage::as_readable(self : IncomingMessage) -> Readable {
-  unsafe_cast(self)
+pub fn IncomingMessage::as_readable(self : IncomingMessage) -> @stream.Readable {
+  @js.unsafe_cast(self)
 }
 
 ///|
 /// Get HTTP version
 pub fn IncomingMessage::httpVersion(self : IncomingMessage) -> String {
-  self.get("httpVersion") |> unsafe_cast
+  self.get("httpVersion") |> @js.unsafe_cast
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn IncomingMessage::url(self : IncomingMessage) -> String? {
 
 ///|
 /// Get headers
-pub fn IncomingMessage::headers(self : IncomingMessage) -> Js {
+pub fn IncomingMessage::headers(self : IncomingMessage) -> @js.Js {
   self.get("headers")
 }
 
@@ -51,7 +51,7 @@ pub fn IncomingMessage::headers(self : IncomingMessage) -> Js {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn IncomingMessage::rawHeaders(self : IncomingMessage) -> Array[String] {
-  self.get("rawHeaders") |> unsafe_cast
+  self.get("rawHeaders") |> @js.unsafe_cast
 }
 
 ///|
@@ -68,8 +68,8 @@ pub fn IncomingMessage::statusMessage(self : IncomingMessage) -> String? {
 
 ///|
 /// Get socket
-pub fn IncomingMessage::socket(self : IncomingMessage) -> Socket {
-  self.get("socket") |> unsafe_cast
+pub fn IncomingMessage::socket(self : IncomingMessage) -> @net.Socket {
+  self.get("socket") |> @js.unsafe_cast
 }
 
 ///|
@@ -80,8 +80,9 @@ pub fn IncomingMessage::setTimeout(
   callback? : () -> Unit,
 ) -> IncomingMessage {
   match callback {
-    Some(cb) => self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> unsafe_cast
-    None => self.call("setTimeout", [msecs]) |> unsafe_cast
+    Some(cb) =>
+      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.unsafe_cast
+    None => self.call("setTimeout", [msecs]) |> @js.unsafe_cast
   }
 }
 
@@ -92,15 +93,15 @@ pub fn IncomingMessage::setTimeout(
 pub type ServerResponse
 
 ///|
-pub impl JsImpl for ServerResponse
+pub impl @js.JsImpl for ServerResponse
 
 ///|
-pub impl EventEmitterImpl for ServerResponse
+pub impl @events.EventEmitterImpl for ServerResponse
 
 ///|
 /// ServerResponse is a Writable stream
-pub fn ServerResponse::as_writable(self : ServerResponse) -> Writable {
-  unsafe_cast(self)
+pub fn ServerResponse::as_writable(self : ServerResponse) -> @stream.Writable {
+  @js.unsafe_cast(self)
 }
 
 ///|
@@ -109,15 +110,16 @@ pub fn ServerResponse::writeHead(
   self : ServerResponse,
   statusCode : Int,
   statusMessage? : String,
-  headers? : Js,
+  headers? : @js.Js,
 ) -> ServerResponse {
   match (statusMessage, headers) {
     (Some(msg), Some(hdrs)) =>
-      self.call("writeHead", [statusCode, msg, hdrs]) |> unsafe_cast
-    (Some(msg), None) => self.call2("writeHead", statusCode, msg) |> unsafe_cast
+      self.call("writeHead", [statusCode, msg, hdrs]) |> @js.unsafe_cast
+    (Some(msg), None) =>
+      self.call2("writeHead", statusCode, msg) |> @js.unsafe_cast
     (None, Some(hdrs)) =>
-      self.call2("writeHead", statusCode, hdrs) |> unsafe_cast
-    (None, None) => self.call("writeHead", [statusCode]) |> unsafe_cast
+      self.call2("writeHead", statusCode, hdrs) |> @js.unsafe_cast
+    (None, None) => self.call("writeHead", [statusCode]) |> @js.unsafe_cast
   }
 }
 
@@ -129,8 +131,8 @@ pub fn ServerResponse::write(
   encoding? : String,
 ) -> Bool {
   match encoding {
-    Some(enc) => self.call2("write", chunk, enc) |> unsafe_cast
-    None => self.call("write", [chunk]) |> unsafe_cast
+    Some(enc) => self.call2("write", chunk, enc) |> @js.unsafe_cast
+    None => self.call("write", [chunk]) |> @js.unsafe_cast
   }
 }
 
@@ -179,13 +181,13 @@ pub fn ServerResponse::removeHeader(
 ///|
 /// Get headers sent status
 pub fn ServerResponse::headersSent(self : ServerResponse) -> Bool {
-  self.get("headersSent") |> unsafe_cast
+  self.get("headersSent") |> @js.unsafe_cast
 }
 
 ///|
 /// Get status code
 pub fn ServerResponse::statusCode(self : ServerResponse) -> Int {
-  self.get("statusCode") |> unsafe_cast
+  self.get("statusCode") |> @js.unsafe_cast
 }
 
 ///|
@@ -200,7 +202,7 @@ pub fn ServerResponse::set_statusCode(
 ///|
 /// Get status message
 pub fn ServerResponse::statusMessage(self : ServerResponse) -> String {
-  self.get("statusMessage") |> unsafe_cast
+  self.get("statusMessage") |> @js.unsafe_cast
 }
 
 ///|
@@ -220,8 +222,9 @@ pub fn ServerResponse::setTimeout(
   callback? : () -> Unit,
 ) -> ServerResponse {
   match callback {
-    Some(cb) => self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> unsafe_cast
-    None => self.call("setTimeout", [msecs]) |> unsafe_cast
+    Some(cb) =>
+      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.unsafe_cast
+    None => self.call("setTimeout", [msecs]) |> @js.unsafe_cast
   }
 }
 
@@ -232,10 +235,10 @@ pub fn ServerResponse::setTimeout(
 pub type Server
 
 ///|
-pub impl JsImpl for Server
+pub impl @js.JsImpl for Server
 
 ///|
-pub impl EventEmitterImpl for Server
+pub impl @events.EventEmitterImpl for Server
 
 ///|
 /// Listen on a port and host
@@ -254,10 +257,10 @@ pub fn Server::listen(
 
   // Call listen with port, host, and backlog
   match (host, backlog) {
-    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> unsafe_cast
-    (Some(h), None) => self.call2("listen", port, h) |> unsafe_cast
-    (None, Some(b)) => self.call2("listen", port, b) |> unsafe_cast
-    (None, None) => self.call("listen", [port]) |> unsafe_cast
+    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> @js.unsafe_cast
+    (Some(h), None) => self.call2("listen", port, h) |> @js.unsafe_cast
+    (None, Some(b)) => self.call2("listen", port, b) |> @js.unsafe_cast
+    (None, None) => self.call("listen", [port]) |> @js.unsafe_cast
   }
 }
 
@@ -265,21 +268,21 @@ pub fn Server::listen(
 /// Close the server
 pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
   match callback {
-    Some(cb) => self.call("close", [@js.from_fn0(cb)]) |> unsafe_cast
-    None => self.call0("close") |> unsafe_cast
+    Some(cb) => self.call("close", [@js.from_fn0(cb)]) |> @js.unsafe_cast
+    None => self.call0("close") |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Get the server address
-pub fn Server::address(self : Server) -> Js? {
+pub fn Server::address(self : Server) -> @js.Js? {
   self.call0("address") |> @js.unsafe_cast_option
 }
 
 ///|
 /// Check if the server is listening
 pub fn Server::listening(self : Server) -> Bool {
-  self.get("listening") |> unsafe_cast
+  self.get("listening") |> @js.unsafe_cast
 }
 
 ///|
@@ -302,15 +305,16 @@ pub fn Server::setTimeout(
   callback? : () -> Unit,
 ) -> Server {
   match callback {
-    Some(cb) => self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> unsafe_cast
-    None => self.call("setTimeout", [msecs]) |> unsafe_cast
+    Some(cb) =>
+      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.unsafe_cast
+    None => self.call("setTimeout", [msecs]) |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Get timeout
 pub fn Server::timeout(self : Server) -> Int {
-  self.get("timeout") |> unsafe_cast
+  self.get("timeout") |> @js.unsafe_cast
 }
 
 ///|
@@ -326,15 +330,15 @@ pub fn Server::set_timeout(self : Server, msecs : Int) -> Unit {
 pub type ClientRequest
 
 ///|
-pub impl JsImpl for ClientRequest
+pub impl @js.JsImpl for ClientRequest
 
 ///|
-pub impl EventEmitterImpl for ClientRequest
+pub impl @events.EventEmitterImpl for ClientRequest
 
 ///|
 /// ClientRequest is a Writable stream
-pub fn ClientRequest::as_writable(self : ClientRequest) -> Writable {
-  unsafe_cast(self)
+pub fn ClientRequest::as_writable(self : ClientRequest) -> @stream.Writable {
+  @js.unsafe_cast(self)
 }
 
 ///|
@@ -345,8 +349,8 @@ pub fn ClientRequest::write(
   encoding? : String,
 ) -> Bool {
   match encoding {
-    Some(enc) => self.call2("write", chunk, enc) |> unsafe_cast
-    None => self.call("write", [chunk]) |> unsafe_cast
+    Some(enc) => self.call2("write", chunk, enc) |> @js.unsafe_cast
+    None => self.call("write", [chunk]) |> @js.unsafe_cast
   }
 }
 
@@ -400,8 +404,9 @@ pub fn ClientRequest::setTimeout(
   callback? : () -> Unit,
 ) -> ClientRequest {
   match callback {
-    Some(cb) => self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> unsafe_cast
-    None => self.call("setTimeout", [msecs]) |> unsafe_cast
+    Some(cb) =>
+      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.unsafe_cast
+    None => self.call("setTimeout", [msecs]) |> @js.unsafe_cast
   }
 }
 
@@ -415,8 +420,8 @@ pub fn createServer(
   match requestListener {
     Some(listener) =>
       http_module().call("createServer", [@js.from_fn2(listener)])
-      |> unsafe_cast
-    None => http_module().call0("createServer") |> unsafe_cast
+      |> @js.unsafe_cast
+    None => http_module().call0("createServer") |> @js.unsafe_cast
   }
 }
 
@@ -424,18 +429,18 @@ pub fn createServer(
 /// Make HTTP request
 pub fn request(
   url : String,
-  options? : Js,
+  options? : @js.Js,
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
     (Some(opts), Some(cb)) =>
       http_module().call("request", [url, opts, @js.from_fn1(cb)])
-      |> unsafe_cast
+      |> @js.unsafe_cast
     (Some(opts), None) =>
-      http_module().call2("request", url, opts) |> unsafe_cast
+      http_module().call2("request", url, opts) |> @js.unsafe_cast
     (None, Some(cb)) =>
-      http_module().call2("request", url, @js.from_fn1(cb)) |> unsafe_cast
-    (None, None) => http_module().call("request", [url]) |> unsafe_cast
+      http_module().call2("request", url, @js.from_fn1(cb)) |> @js.unsafe_cast
+    (None, None) => http_module().call("request", [url]) |> @js.unsafe_cast
   }
 }
 
@@ -443,27 +448,29 @@ pub fn request(
 /// Make HTTP GET request
 pub fn get(
   url : String,
-  options? : Js,
+  options? : @js.Js,
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
     (Some(opts), Some(cb)) =>
-      http_module().call("get", [url, opts, @js.from_fn1(cb)]) |> unsafe_cast
-    (Some(opts), None) => http_module().call2("get", url, opts) |> unsafe_cast
+      http_module().call("get", [url, opts, @js.from_fn1(cb)])
+      |> @js.unsafe_cast
+    (Some(opts), None) =>
+      http_module().call2("get", url, opts) |> @js.unsafe_cast
     (None, Some(cb)) =>
-      http_module().call2("get", url, @js.from_fn1(cb)) |> unsafe_cast
-    (None, None) => http_module().call("get", [url]) |> unsafe_cast
+      http_module().call2("get", url, @js.from_fn1(cb)) |> @js.unsafe_cast
+    (None, None) => http_module().call("get", [url]) |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Global max sockets
-pub fn globalAgent() -> Js {
+pub fn globalAgent() -> @js.Js {
   http_module().get("globalAgent")
 }
 
 ///|
 /// HTTP status codes
-pub fn status_codes() -> Js {
+pub fn status_codes() -> @js.Js {
   http_module().get("STATUS_CODES")
 }

@@ -625,7 +625,7 @@ pub fn Screen::findAllByTestId(
   self.call("findAllByTestId", [testId]) |> @js.unsafe_cast
 }
 
-///| Helper functions to reduce unsafe_cast in tests
+///| Helper functions to reduce @js.unsafe_cast in tests
 
 ///|
 /// Get textContent property from HTMLElement

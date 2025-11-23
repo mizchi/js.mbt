@@ -78,7 +78,9 @@ test {
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("store1", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -90,13 +92,14 @@ test {
       // Cleanup
       deleteDatabase("test-open-db") |> ignore
     })
-
     it("add and get item", _ => {
       let request = open("test-add-get-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("items", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -116,13 +119,14 @@ test {
       db.close()
       deleteDatabase("test-add-get-db") |> ignore
     })
-
     it("put updates existing item", _ => {
       let request = open("test-put-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("records", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -144,13 +148,14 @@ test {
       db.close()
       deleteDatabase("test-put-db") |> ignore
     })
-
     it("delete removes item", _ => {
       let request = open("test-delete-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("todos", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -171,13 +176,14 @@ test {
       db.close()
       deleteDatabase("test-delete-db") |> ignore
     })
-
     it("clear removes all items", _ => {
       let request = open("test-clear-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("data", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -204,13 +210,14 @@ test {
       db.close()
       deleteDatabase("test-clear-db") |> ignore
     })
-
     it("getAll returns all items", _ => {
       let request = open("test-getall-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("entries", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -239,13 +246,14 @@ test {
       db.close()
       deleteDatabase("test-getall-db") |> ignore
     })
-
     it("count returns correct number", _ => {
       let request = open("test-count-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("counters", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -267,13 +275,14 @@ test {
       db.close()
       deleteDatabase("test-count-db") |> ignore
     })
-
     it("transaction modes work correctly", _ => {
       let request = open("test-tx-mode-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("txtest", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -300,7 +309,9 @@ test {
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("numbers", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -322,7 +333,6 @@ test {
       db.close()
       deleteDatabase("test-keyrange-db") |> ignore
     })
-
     it("cmp function compares keys", _ => {
       assert_eq(cmp(1, 2), -1) // 1 < 2
       assert_eq(cmp(2, 1), 1) // 2 > 1
@@ -371,7 +381,9 @@ test {
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("users", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -409,13 +421,14 @@ test {
       db.close()
       deleteDatabase("typed-user-db") |> ignore
     })
-
     it("manage products with Product struct type safety", _ => {
       let request = open("typed-product-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         let store = db.createObjectStore("products", keyPath="sku")
         store.createIndex("category", "category", unique=false) |> ignore
       })
@@ -474,13 +487,14 @@ test {
       db.close()
       deleteDatabase("typed-product-db") |> ignore
     })
-
     it("iterate orders with IDBCursorWithValue and Order struct", _ => {
       let request = open("typed-orders-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+        let db : IDBDatabase = @js.unsafe_cast(
+          event.get("target").get("result"),
+        )
         db.createObjectStore("orders", keyPath="order_id") |> ignore
       })
       let db_js = db_promise.wait()
@@ -506,7 +520,8 @@ test {
 
       // Type-safe cursor access
       if not(@js.is_nullish(cursor_result)) {
-        let cursor : IDBCursorWithValue[Order] = cursor_result |> @js.unsafe_cast
+        let cursor : IDBCursorWithValue[Order] = cursor_result
+          |> @js.unsafe_cast
 
         // cursor.value is Order - direct access, no conversion needed
         let order : Order = cursor.value
@@ -522,4 +537,3 @@ test {
     })
   })
 }
-

@@ -2,15 +2,15 @@
 
 ///|
 /// Tool Handler - takes params and returns content
-pub type ToolHandler = (Object) -> Promise[Array[Content]]
+pub type ToolHandler = (@js.Object) -> @js.Promise[Array[Content]]
 
 ///|
 /// Resource Handler - returns content for a resource URI
-pub type ResourceHandler = (String) -> Promise[Array[Content]]
+pub type ResourceHandler = (String) -> @js.Promise[Array[Content]]
 
 ///|
 /// Prompt Handler - takes arguments and returns messages
-pub type PromptHandler = (Object) -> Promise[Array[Content]]
+pub type PromptHandler = (@js.Object) -> @js.Promise[Array[Content]]
 
 ///|
 /// MCP Server
@@ -66,7 +66,7 @@ pub fn McpServer::add_prompt(
 pub fn McpServer::handle_request(
   self : McpServer,
   request : JsonRpcRequest,
-) -> Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
+) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   let id = request.id
 
   // Handle different methods
@@ -85,7 +85,9 @@ pub fn McpServer::handle_request(
   } else if request.method_name == "prompts/get" {
     self.handle_prompts_get(id, request.params)
   } else {
-    Promise::resolve(Err(self.method_not_found_error(id, request.method_name)))
+    @js.Promise::resolve(
+      Err(self.method_not_found_error(id, request.method_name)),
+    )
   }
 }
 
@@ -93,9 +95,9 @@ pub fn McpServer::handle_request(
 fn McpServer::handle_initialize(
   self : McpServer,
   id : RequestId,
-  _params : Object?,
-) -> Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let result = Object::new()
+  _params : @js.Object?,
+) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
+  let result = @js.Object::new()
   result.set("protocolVersion", "2024-11-05")
   result.set("serverInfo", self.info.to_js())
 
@@ -106,44 +108,48 @@ fn McpServer::handle_initialize(
     prompts: self.prompts.length() > 0,
   }
   result.set("capabilities", capabilities.to_js())
-  Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }))
+  @js.Promise::resolve(
+    Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+  )
 }
 
 ///|
 fn McpServer::handle_tools_list(
   self : McpServer,
   id : RequestId,
-) -> Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let tools_array = JsArray::new()
+) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
+  let tools_array = @js.JsArray::new()
   self.tools.each(fn(_, value) {
     let (tool, _) = value
     tools_array.push(tool.to_js())
   })
-  let result = Object::new()
+  let result = @js.Object::new()
   result.set("tools", tools_array)
-  Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }))
+  @js.Promise::resolve(
+    Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+  )
 }
 
 ///|
 fn McpServer::handle_tools_call(
   self : McpServer,
   id : RequestId,
-  params : Object?,
-) -> Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
+  params : @js.Object?,
+) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   match params {
     None =>
-      Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
+      @js.Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
     Some(p) => {
       let name : String? = p.get("name") |> @js.unsafe_cast_option()
       match name {
         None =>
-          Promise::resolve(
+          @js.Promise::resolve(
             Err(self.invalid_params_error(id, "Missing tool name")),
           )
         Some(tool_name) =>
           match self.tools.get(tool_name) {
             None =>
-              Promise::resolve(
+              @js.Promise::resolve(
                 Err(
                   self.method_not_found_error(
                     id,
@@ -152,19 +158,19 @@ fn McpServer::handle_tools_call(
                 ),
               )
             Some((_, handler)) => {
-              let arguments : Object = match
+              let arguments : @js.Object = match
                 (p.get("arguments") |> @js.unsafe_cast_option()) {
                 Some(args) => args
-                None => Object::new()
+                None => @js.Object::new()
               }
               handler(arguments).then(fn(content) {
-                let content_array = JsArray::new()
+                let content_array = @js.JsArray::new()
                 for i = 0; i < content.length(); i = i + 1 {
                   content_array.push(content[i].to_js())
                 }
-                let result = Object::new()
+                let result = @js.Object::new()
                 result.set("content", content_array)
-                Promise::resolve(
+                @js.Promise::resolve(
                   Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
                 )
               })
@@ -179,37 +185,39 @@ fn McpServer::handle_tools_call(
 fn McpServer::handle_resources_list(
   self : McpServer,
   id : RequestId,
-) -> Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let resources_array = JsArray::new()
+) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
+  let resources_array = @js.JsArray::new()
   self.resources.each(fn(_, value) {
     let (resource, _) = value
     resources_array.push(resource.to_js())
   })
-  let result = Object::new()
+  let result = @js.Object::new()
   result.set("resources", resources_array)
-  Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }))
+  @js.Promise::resolve(
+    Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+  )
 }
 
 ///|
 fn McpServer::handle_resources_read(
   self : McpServer,
   id : RequestId,
-  params : Object?,
-) -> Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
+  params : @js.Object?,
+) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   match params {
     None =>
-      Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
+      @js.Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
     Some(p) => {
       let uri : String? = p.get("uri") |> @js.unsafe_cast_option()
       match uri {
         None =>
-          Promise::resolve(
+          @js.Promise::resolve(
             Err(self.invalid_params_error(id, "Missing resource URI")),
           )
         Some(resource_uri) =>
           match self.resources.get(resource_uri) {
             None =>
-              Promise::resolve(
+              @js.Promise::resolve(
                 Err(
                   self.method_not_found_error(
                     id,
@@ -219,13 +227,13 @@ fn McpServer::handle_resources_read(
               )
             Some((_, handler)) =>
               handler(resource_uri).then(fn(content) {
-                let content_array = JsArray::new()
+                let content_array = @js.JsArray::new()
                 for i = 0; i < content.length(); i = i + 1 {
                   content_array.push(content[i].to_js())
                 }
-                let result = Object::new()
+                let result = @js.Object::new()
                 result.set("contents", content_array)
-                Promise::resolve(
+                @js.Promise::resolve(
                   Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
                 )
               })
@@ -239,37 +247,39 @@ fn McpServer::handle_resources_read(
 fn McpServer::handle_prompts_list(
   self : McpServer,
   id : RequestId,
-) -> Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let prompts_array = JsArray::new()
+) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
+  let prompts_array = @js.JsArray::new()
   self.prompts.each(fn(_, value) {
     let (prompt, _) = value
     prompts_array.push(prompt.to_js())
   })
-  let result = Object::new()
+  let result = @js.Object::new()
   result.set("prompts", prompts_array)
-  Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }))
+  @js.Promise::resolve(
+    Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+  )
 }
 
 ///|
 fn McpServer::handle_prompts_get(
   self : McpServer,
   id : RequestId,
-  params : Object?,
-) -> Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
+  params : @js.Object?,
+) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   match params {
     None =>
-      Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
+      @js.Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
     Some(p) => {
       let name : String? = p.get("name") |> @js.unsafe_cast_option()
       match name {
         None =>
-          Promise::resolve(
+          @js.Promise::resolve(
             Err(self.invalid_params_error(id, "Missing prompt name")),
           )
         Some(prompt_name) =>
           match self.prompts.get(prompt_name) {
             None =>
-              Promise::resolve(
+              @js.Promise::resolve(
                 Err(
                   self.method_not_found_error(
                     id,
@@ -278,19 +288,19 @@ fn McpServer::handle_prompts_get(
                 ),
               )
             Some((_, handler)) => {
-              let arguments : Object = match
+              let arguments : @js.Object = match
                 (p.get("arguments") |> @js.unsafe_cast_option()) {
                 Some(args) => args
-                None => Object::new()
+                None => @js.Object::new()
               }
               handler(arguments).then(fn(content) {
-                let content_array = JsArray::new()
+                let content_array = @js.JsArray::new()
                 for i = 0; i < content.length(); i = i + 1 {
                   content_array.push(content[i].to_js())
                 }
-                let result = Object::new()
+                let result = @js.Object::new()
                 result.set("messages", content_array)
-                Promise::resolve(
+                @js.Promise::resolve(
                   Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
                 )
               })

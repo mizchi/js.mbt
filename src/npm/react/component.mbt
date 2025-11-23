@@ -14,42 +14,42 @@ pub fn[T] component(
   children? : Array[&ReactNode] = [],
   key? : String,
 ) -> Element {
-  let tag = unsafe_cast(tag)
+  let tag = @js.unsafe_cast(tag)
   let children = children.map(_.to_react_node()) |> @js.from_array
-  let val : Js = props |> unsafe_cast
+  let val : @js.Js = props |> @js.unsafe_cast
   if key is Some(key) {
     val.set("key", key)
   }
-  ffi_create_element(tag, val, children) |> unsafe_cast
+  ffi_create_element(tag, val, children) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: <React.Fragment key=...>{children}</React.Fragment>
 pub fn strict_mode(children : Array[&ReactNode]) -> Element {
-  let tag = unsafe_cast(get_strict_mode())
+  let tag = @js.unsafe_cast(get_strict_mode())
   let children = children.map(_.to_react_node()) |> @js.from_array
-  ffi_create_element(tag, @js.undefined(), children) |> unsafe_cast
+  ffi_create_element(tag, @js.undefined(), children) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: <React.Fragment key=...>{children}</React.Fragment>
 pub fn fragment(children : Array[&ReactNode], key? : String) -> Element {
-  let tag = unsafe_cast(get_fragment())
+  let tag = @js.unsafe_cast(get_fragment())
   let children = children.map(_.to_react_node()) |> @js.from_array
   let val = @js.Object::new()
   if key is Some(key) {
     val.set("key", key)
   }
-  ffi_create_element(tag, val.to_js(), children) |> unsafe_cast
+  ffi_create_element(tag, val.to_js(), children) |> @js.unsafe_cast
 }
 
 ///|
 /// JS: <React.Suspense fallback=...>{children}</React.Suspense>
 pub fn suspense(children : Array[&ReactNode], fallback~ : Element) -> Element {
-  let tag = get_suspense() |> unsafe_cast
+  let tag = get_suspense() |> @js.unsafe_cast
   let children = children.map(_.to_react_node()) |> @js.from_array
-  let props = @js.from_map({ "fallback": fallback |> unsafe_cast })
-  unsafe_cast(ffi_create_element(tag, props, children))
+  let props = @js.from_map({ "fallback": fallback |> @js.unsafe_cast })
+  @js.unsafe_cast(ffi_create_element(tag, props, children))
 }
 
 ///|
@@ -61,6 +61,6 @@ pub fn[T] provider(
   value~ : T,
 ) -> Element {
   let children = children.map(_.to_react_node()) |> @js.from_array
-  let props = @js.from_map({ "value": value |> unsafe_cast })
-  unsafe_cast(ffi_create_element(tag |> unsafe_cast, props, children))
+  let props = @js.from_map({ "value": value |> @js.unsafe_cast })
+  @js.unsafe_cast(ffi_create_element(tag |> @js.unsafe_cast, props, children))
 }

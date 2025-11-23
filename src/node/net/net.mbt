@@ -1,6 +1,6 @@
 ///|
 /// node:net module
-fn net_module() -> Js {
+fn net_module() -> @js.Js {
   @node.require("node:net")
 }
 
@@ -11,78 +11,78 @@ fn net_module() -> Js {
 pub type Socket
 
 ///|
-pub impl JsImpl for Socket
+pub impl @js.JsImpl for Socket
 
 ///|
-pub impl EventEmitterImpl for Socket
+pub impl @events.EventEmitterImpl for Socket
 
 ///|
 /// Socket is a Duplex stream
-pub fn Socket::as_duplex(self : Socket) -> Duplex {
-  unsafe_cast(self)
+pub fn Socket::as_duplex(self : Socket) -> @stream.Duplex {
+  @js.unsafe_cast(self)
 }
 
 ///|
 /// Connect the socket to a port and host
 pub fn Socket::connect(self : Socket, port : Int, host? : String) -> Socket {
   match host {
-    Some(h) => self.call2("connect", port, h) |> unsafe_cast
-    None => self.call("connect", [port]) |> unsafe_cast
+    Some(h) => self.call2("connect", port, h) |> @js.unsafe_cast
+    None => self.call("connect", [port]) |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Write data to the socket
 pub fn Socket::write(self : Socket, data : String) -> Bool {
-  self.call("write", [data]) |> unsafe_cast
+  self.call("write", [data]) |> @js.unsafe_cast
 }
 
 ///|
 /// End the socket connection
 pub fn Socket::end(self : Socket) -> Socket {
-  self.call0("end") |> unsafe_cast
+  self.call0("end") |> @js.unsafe_cast
 }
 
 ///|
 /// Destroy the socket
 pub fn Socket::destroy(self : Socket) -> Socket {
-  self.call0("destroy") |> unsafe_cast
+  self.call0("destroy") |> @js.unsafe_cast
 }
 
 ///|
 /// Pause reading data
 pub fn Socket::pause(self : Socket) -> Socket {
-  self.call0("pause") |> unsafe_cast
+  self.call0("pause") |> @js.unsafe_cast
 }
 
 ///|
 /// Resume reading data
 pub fn Socket::resume_(self : Socket) -> Socket {
-  self.call0("resume") |> unsafe_cast
+  self.call0("resume") |> @js.unsafe_cast
 }
 
 ///|
 /// Set the socket encoding
 pub fn Socket::setEncoding(self : Socket, encoding : String) -> Socket {
-  self.call("setEncoding", [encoding]) |> unsafe_cast
+  self.call("setEncoding", [encoding]) |> @js.unsafe_cast
 }
 
 ///|
 /// Set keep alive
 pub fn Socket::setKeepAlive(self : Socket, enable : Bool) -> Socket {
-  self.call("setKeepAlive", [enable]) |> unsafe_cast
+  self.call("setKeepAlive", [enable]) |> @js.unsafe_cast
 }
 
 ///|
 /// Set no delay (disable Nagle algorithm)
 pub fn Socket::setNoDelay(self : Socket, noDelay : Bool) -> Socket {
-  self.call("setNoDelay", [noDelay]) |> unsafe_cast
+  self.call("setNoDelay", [noDelay]) |> @js.unsafe_cast
 }
 
 ///|
 /// Set timeout
 pub fn Socket::setTimeout(self : Socket, timeout : Int) -> Socket {
-  self.call("setTimeout", [timeout]) |> unsafe_cast
+  self.call("setTimeout", [timeout]) |> @js.unsafe_cast
 }
 
 ///|
@@ -112,19 +112,19 @@ pub fn Socket::localPort(self : Socket) -> Int? {
 ///|
 /// Check if the socket is destroyed
 pub fn Socket::destroyed(self : Socket) -> Bool {
-  self.get("destroyed") |> unsafe_cast
+  self.get("destroyed") |> @js.unsafe_cast
 }
 
 ///|
 /// Get bytes read
 pub fn Socket::bytesRead(self : Socket) -> Int {
-  self.get("bytesRead") |> unsafe_cast
+  self.get("bytesRead") |> @js.unsafe_cast
 }
 
 ///|
 /// Get bytes written
 pub fn Socket::bytesWritten(self : Socket) -> Int {
-  self.get("bytesWritten") |> unsafe_cast
+  self.get("bytesWritten") |> @js.unsafe_cast
 }
 
 ///| Server class
@@ -134,10 +134,10 @@ pub fn Socket::bytesWritten(self : Socket) -> Int {
 pub type Server
 
 ///|
-pub impl JsImpl for Server
+pub impl @js.JsImpl for Server
 
 ///|
-pub impl EventEmitterImpl for Server
+pub impl @events.EventEmitterImpl for Server
 
 ///|
 /// Listen on a port and host
@@ -156,29 +156,29 @@ pub fn Server::listen(
 
   // Call listen with port, host, and backlog
   match (host, backlog) {
-    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> unsafe_cast
-    (Some(h), None) => self.call2("listen", port, h) |> unsafe_cast
-    (None, Some(b)) => self.call2("listen", port, b) |> unsafe_cast
-    (None, None) => self.call("listen", [port]) |> unsafe_cast
+    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> @js.unsafe_cast
+    (Some(h), None) => self.call2("listen", port, h) |> @js.unsafe_cast
+    (None, Some(b)) => self.call2("listen", port, b) |> @js.unsafe_cast
+    (None, None) => self.call("listen", [port]) |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server) -> Server {
-  self.call0("close") |> unsafe_cast
+  self.call0("close") |> @js.unsafe_cast
 }
 
 ///|
 /// Get the server address
-pub fn Server::address(self : Server) -> Js? {
+pub fn Server::address(self : Server) -> @js.Js? {
   self.call0("address") |> @js.unsafe_cast_option
 }
 
 ///|
 /// Check if the server is listening
 pub fn Server::listening(self : Server) -> Bool {
-  self.get("listening") |> unsafe_cast
+  self.get("listening") |> @js.unsafe_cast
 }
 
 ///|
@@ -199,8 +199,9 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 /// Create a new Socket and connect
 pub fn createConnection(port : Int, host? : String) -> Socket {
   match host {
-    Some(h) => net_module().call2("createConnection", port, h) |> unsafe_cast
-    None => net_module().call("createConnection", [port]) |> unsafe_cast
+    Some(h) =>
+      net_module().call2("createConnection", port, h) |> @js.unsafe_cast
+    None => net_module().call("createConnection", [port]) |> @js.unsafe_cast
   }
 }
 
@@ -234,26 +235,26 @@ pub fn createServer(
         ("keepAliveInitialDelay", keepAliveInitialDelay.map(x => x)),
       ]),
     ])
-    |> unsafe_cast
+    |> @js.unsafe_cast
   } else {
-    net_module().call0("createServer") |> unsafe_cast
+    net_module().call0("createServer") |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Check if IP address is IPv4
 pub fn isIPv4(input : String) -> Bool {
-  net_module().call("isIPv4", [input]) |> unsafe_cast
+  net_module().call("isIPv4", [input]) |> @js.unsafe_cast
 }
 
 ///|
 /// Check if IP address is IPv6
 pub fn isIPv6(input : String) -> Bool {
-  net_module().call("isIPv6", [input]) |> unsafe_cast
+  net_module().call("isIPv6", [input]) |> @js.unsafe_cast
 }
 
 ///|
 /// Check IP version (returns 4, 6, or 0 for invalid)
 pub fn isIP(input : String) -> Int {
-  net_module().call("isIP", [input]) |> unsafe_cast
+  net_module().call("isIP", [input]) |> @js.unsafe_cast
 }

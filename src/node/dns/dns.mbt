@@ -1,5 +1,4 @@
 ///|
-using @js {type Js}
 
 ///|
 /// DNS lookup options
@@ -17,7 +16,7 @@ pub fn LookupOptions::new() -> LookupOptions {
 
 ///|
 /// Convert LookupOptions to JavaScript object
-pub fn LookupOptions::to_js(self : LookupOptions) -> Js {
+pub fn LookupOptions::to_js(self : LookupOptions) -> @js.Js {
   let obj = @js.Object::new()
   match self.family {
     Some(v) => obj.set("family", v)
@@ -37,8 +36,8 @@ pub fn LookupOptions::to_js(self : LookupOptions) -> Js {
 ///|
 extern "js" fn ffi_lookup(
   hostname : String,
-  options : Js,
-  callback : Js,
+  options : @js.Js,
+  callback : @js.Js,
 ) -> Unit =
   #| (hostname, options, callback) => {
   #|   const dns = require('dns');
@@ -52,7 +51,7 @@ pub fn lookup(
   options : LookupOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_lookup(hostname, options.to_js(), cb)
 }
 
@@ -60,7 +59,7 @@ pub fn lookup(
 extern "js" fn ffi_resolve(
   hostname : String,
   rrtype : String,
-  callback : Js,
+  callback : @js.Js,
 ) -> Unit =
   #| (hostname, rrtype, callback) => {
   #|   const dns = require('dns');
@@ -74,12 +73,12 @@ pub fn resolve(
   rrtype : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_resolve(hostname, rrtype, cb)
 }
 
 ///|
-extern "js" fn ffi_resolve4(hostname : String, callback : Js) -> Unit =
+extern "js" fn ffi_resolve4(hostname : String, callback : @js.Js) -> Unit =
   #| (hostname, callback) => {
   #|   const dns = require('dns');
   #|   dns.resolve4(hostname, callback);
@@ -91,12 +90,12 @@ pub fn resolve4(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_resolve4(hostname, cb)
 }
 
 ///|
-extern "js" fn ffi_resolve6(hostname : String, callback : Js) -> Unit =
+extern "js" fn ffi_resolve6(hostname : String, callback : @js.Js) -> Unit =
   #| (hostname, callback) => {
   #|   const dns = require('dns');
   #|   dns.resolve6(hostname, callback);
@@ -108,12 +107,12 @@ pub fn resolve6(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_resolve6(hostname, cb)
 }
 
 ///|
-extern "js" fn ffi_resolve_mx(hostname : String, callback : Js) -> Unit =
+extern "js" fn ffi_resolve_mx(hostname : String, callback : @js.Js) -> Unit =
   #| (hostname, callback) => {
   #|   const dns = require('dns');
   #|   dns.resolveMx(hostname, callback);
@@ -125,12 +124,12 @@ pub fn resolve_mx(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_resolve_mx(hostname, cb)
 }
 
 ///|
-extern "js" fn ffi_resolve_txt(hostname : String, callback : Js) -> Unit =
+extern "js" fn ffi_resolve_txt(hostname : String, callback : @js.Js) -> Unit =
   #| (hostname, callback) => {
   #|   const dns = require('dns');
   #|   dns.resolveTxt(hostname, callback);
@@ -142,12 +141,12 @@ pub fn resolve_txt(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_resolve_txt(hostname, cb)
 }
 
 ///|
-extern "js" fn ffi_resolve_srv(hostname : String, callback : Js) -> Unit =
+extern "js" fn ffi_resolve_srv(hostname : String, callback : @js.Js) -> Unit =
   #| (hostname, callback) => {
   #|   const dns = require('dns');
   #|   dns.resolveSrv(hostname, callback);
@@ -159,12 +158,12 @@ pub fn resolve_srv(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_resolve_srv(hostname, cb)
 }
 
 ///|
-extern "js" fn ffi_resolve_ns(hostname : String, callback : Js) -> Unit =
+extern "js" fn ffi_resolve_ns(hostname : String, callback : @js.Js) -> Unit =
   #| (hostname, callback) => {
   #|   const dns = require('dns');
   #|   dns.resolveNs(hostname, callback);
@@ -176,12 +175,12 @@ pub fn resolve_ns(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_resolve_ns(hostname, cb)
 }
 
 ///|
-extern "js" fn ffi_resolve_cname(hostname : String, callback : Js) -> Unit =
+extern "js" fn ffi_resolve_cname(hostname : String, callback : @js.Js) -> Unit =
   #| (hostname, callback) => {
   #|   const dns = require('dns');
   #|   dns.resolveCname(hostname, callback);
@@ -193,12 +192,12 @@ pub fn resolve_cname(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_resolve_cname(hostname, cb)
 }
 
 ///|
-extern "js" fn ffi_reverse(ip : String, callback : Js) -> Unit =
+extern "js" fn ffi_reverse(ip : String, callback : @js.Js) -> Unit =
   #| (ip, callback) => {
   #|   const dns = require('dns');
   #|   dns.reverse(ip, callback);
@@ -210,7 +209,7 @@ pub fn reverse(
   ip : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_reverse(ip, cb)
 }
 

@@ -7,12 +7,12 @@
 pub type WasiModule
 
 ///|
-pub impl JsImpl for WasiModule
+pub impl @js.JsImpl for WasiModule
 
 ///|
 /// Get wasi module
 fn wasi_module() -> WasiModule {
-  @node.require("node:wasi") |> unsafe_cast
+  @node.require("node:wasi") |> @js.unsafe_cast
 }
 
 ///| WASI Options
@@ -40,7 +40,7 @@ pub(all) struct WasiOptions {
 
 ///|
 /// Convert WasiOptions to JS object
-fn WasiOptions::to_js(self : WasiOptions) -> Js {
+fn WasiOptions::to_js(self : WasiOptions) -> @js.Js {
   let env_obj = match self.env {
     Some(env) => {
       let obj = @js.Object::new()
@@ -70,7 +70,7 @@ fn WasiOptions::to_js(self : WasiOptions) -> Js {
 }
 
 ///|
-extern "js" fn ffi_new_wasi(wasi_class : Js, options : Js) -> Js =
+extern "js" fn ffi_new_wasi(wasi_class : @js.Js, options : @js.Js) -> @js.Js =
   #| (WasiClass, options) => new WasiClass(options)
 
 ///|
@@ -78,7 +78,7 @@ extern "js" fn ffi_new_wasi(wasi_class : Js, options : Js) -> Js =
 pub type WASI
 
 ///|
-pub impl JsImpl for WASI
+pub impl @js.JsImpl for WASI
 
 ///|
 /// Create a new WASI instance
@@ -86,29 +86,35 @@ pub fn WASI::new(options : WasiOptions) -> WASI {
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.get("WASI")
   let instance = ffi_new_wasi(wasi_class, options.to_js())
-  instance |> unsafe_cast
+  instance |> @js.unsafe_cast
 }
 
 ///|
 /// Get import object for WebAssembly.instantiate()
-pub fn WASI::getImportObject(self : Self) -> Js {
+pub fn WASI::getImportObject(self : Self) -> @js.Js {
   self.call0("getImportObject")
 }
 
 ///|
 /// Start a WASI command by invoking _start() export
-pub fn WASI::start(self : Self, instance : WebAssemblyInstance) -> Unit {
+pub fn WASI::start(
+  self : Self,
+  instance : @webassembly.WebAssemblyInstance,
+) -> Unit {
   self.call1("start", instance.to_js()) |> ignore
 }
 
 ///|
 /// Initialize a WASI reactor by invoking _initialize() export
-pub fn WASI::initialize(self : WASI, instance : WebAssemblyInstance) -> Unit {
+pub fn WASI::initialize(
+  self : WASI,
+  instance : @webassembly.WebAssemblyInstance,
+) -> Unit {
   self.call1("initialize", instance.to_js()) |> ignore
 }
 
 ///|
 /// Get the wasiImport property
-pub fn WASI::wasiImport(self : Self) -> Js {
+pub fn WASI::wasiImport(self : Self) -> @js.Js {
   self.get("wasiImport")
 }

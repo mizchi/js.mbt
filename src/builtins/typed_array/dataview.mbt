@@ -6,14 +6,14 @@ pub(all) struct DataView {
 }
 
 ///|
-pub impl JsImpl for DataView
+pub impl @js.JsImpl for DataView
 
 ///|
 extern "js" fn ffi_new_dataview(
-  buffer : Js,
+  buffer : @js.Js,
   byte_offset : UInt,
   byte_length : UInt?,
-) -> Js =
+) -> @js.Js =
   #| (buf, offset, len) => len !== undefined ? new DataView(buf, offset, len) : new DataView(buf, offset)
 
 ///|
@@ -22,19 +22,19 @@ pub fn DataView::new(
   byte_offset? : UInt = 0,
   byte_length? : UInt,
 ) -> DataView {
-  unsafe_cast(ffi_new_dataview(buffer.to_js(), byte_offset, byte_length))
+  @js.unsafe_cast(ffi_new_dataview(buffer.to_js(), byte_offset, byte_length))
 }
 
 ///|
 #alias(getInt8)
 pub fn DataView::get_int8(self : DataView, byte_offset : UInt) -> Int {
-  self.call("getInt8", [byte_offset]) |> unsafe_cast
+  self.call("getInt8", [byte_offset]) |> @js.unsafe_cast
 }
 
 ///|
 #alias(getUint8)
 pub fn DataView::get_uint8(self : DataView, byte_offset : UInt) -> UInt {
-  self.call1("getUint8", byte_offset) |> unsafe_cast
+  self.call1("getUint8", byte_offset) |> @js.unsafe_cast
 }
 
 ///|
@@ -44,7 +44,7 @@ pub fn DataView::get_int16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.call2("getInt16", byte_offset, little_endian) |> unsafe_cast
+  self.call2("getInt16", byte_offset, little_endian) |> @js.unsafe_cast
 }
 
 ///|
@@ -54,7 +54,7 @@ pub fn DataView::get_uint16(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.call2("getUint16", byte_offset, little_endian) |> unsafe_cast
+  self.call2("getUint16", byte_offset, little_endian) |> @js.unsafe_cast
 }
 
 ///|
@@ -64,7 +64,7 @@ pub fn DataView::get_int32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Int {
-  self.call2("getInt32", byte_offset, little_endian) |> unsafe_cast
+  self.call2("getInt32", byte_offset, little_endian) |> @js.unsafe_cast
 }
 
 ///|
@@ -74,7 +74,7 @@ pub fn DataView::get_uint32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> UInt {
-  self.call2("getUint32", byte_offset, little_endian) |> unsafe_cast
+  self.call2("getUint32", byte_offset, little_endian) |> @js.unsafe_cast
 }
 
 ///|
@@ -84,7 +84,7 @@ pub fn DataView::get_float32(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.call2("getFloat32", byte_offset, little_endian) |> unsafe_cast
+  self.call2("getFloat32", byte_offset, little_endian) |> @js.unsafe_cast
 }
 
 ///|
@@ -94,7 +94,7 @@ pub fn DataView::get_float64(
   byte_offset : UInt,
   little_endian? : Bool = false,
 ) -> Double {
-  self.call2("getFloat64", byte_offset, little_endian) |> unsafe_cast
+  self.call2("getFloat64", byte_offset, little_endian) |> @js.unsafe_cast
 }
 
 ///|

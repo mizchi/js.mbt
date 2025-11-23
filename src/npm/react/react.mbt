@@ -4,19 +4,19 @@
 pub type Element
 
 ///|
-pub impl JsImpl for Element
+pub impl @js.JsImpl for Element
 
 ///|
 #alias(h)
 pub fn createElement(
   tag : String,
   children : Array[&ReactNode],
-  props? : Map[String, Js],
+  props? : Map[String, @js.Js],
   style? : Map[String, String],
   ref_? : ReactRef[@dom.Element],
   key? : String,
 ) -> Element {
-  let tag = js(tag)
+  let tag = @js.js(tag)
   let children = children.map(_.to_react_node()) |> @js.from_array
   let val = @js.Object::new()
   if props is Some(props) {
@@ -25,7 +25,7 @@ pub fn createElement(
     }
   }
   if ref_ is Some(ref_) {
-    val.set("ref", ref_ |> js)
+    val.set("ref", ref_ |> @js.js)
   }
   if key is Some(key) {
     val.set("key", key)
@@ -37,12 +37,16 @@ pub fn createElement(
     }
     val.set("style", style_obj)
   }
-  unsafe_cast(ffi_create_element(tag, val.to_js(), children))
+  @js.unsafe_cast(ffi_create_element(tag, val.to_js(), children))
 }
 
 ///|
 /// Intenal FFI to create React element
 /// Directly create a React element with given tag, props, and children.
-pub fn createElementDirect(tag : String, props : Js, children : Js) -> Element {
-  unsafe_cast(ffi_create_element(tag |> js, props, children))
+pub fn createElementDirect(
+  tag : String,
+  props : @js.Js,
+  children : @js.Js,
+) -> Element {
+  @js.unsafe_cast(ffi_create_element(tag |> @js.js, props, children))
 }

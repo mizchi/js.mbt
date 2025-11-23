@@ -10,7 +10,7 @@ pub(all) struct DataTransfer {
 }
 
 ///|
-pub impl JsImpl for DataTransfer
+pub impl @js.JsImpl for DataTransfer
 
 ///|
 /// Returns an array of files being dragged
@@ -21,13 +21,13 @@ pub fn DataTransfer::get_files(self : Self) -> Array[@js.Js] {
 ///|
 /// Returns an array of formats used in the drag operation
 pub fn DataTransfer::get_types(self : Self) -> Array[String] {
-  @js.array_from(self.types).map(fn(v) { unsafe_cast(v) })
+  @js.array_from(self.types).map(fn(v) { @js.unsafe_cast(v) })
 }
 
 ///|
 /// Retrieves the data for a given type
 pub fn DataTransfer::getData(self : Self, format : String) -> String {
-  self.call("getData", [format]) |> unsafe_cast
+  self.call("getData", [format]) |> @js.unsafe_cast
 }
 
 ///|
@@ -53,7 +53,7 @@ pub fn DataTransfer::clearData(self : Self, format : String) -> Unit {
 pub type DataTransferItem
 
 ///|
-pub impl JsImpl for DataTransferItem
+pub impl @js.JsImpl for DataTransferItem
 
 ///|
 /// ClipboardData provides access to clipboard data

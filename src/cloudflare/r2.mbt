@@ -5,12 +5,12 @@
 pub type R2Bucket
 
 ///|
-pub impl JsImpl for R2Bucket
+pub impl @js.JsImpl for R2Bucket
 
 ///|
 /// Get an object from R2
-pub fn R2Bucket::get(self : Self, key : String) -> Promise[R2Object?] {
-  self.call("get", [key]) |> unsafe_cast
+pub fn R2Bucket::get(self : Self, key : String) -> @js.Promise[R2Object?] {
+  self.call("get", [key]) |> @js.unsafe_cast
 }
 
 ///|
@@ -19,14 +19,14 @@ pub fn R2Bucket::get_with_options(
   self : Self,
   key : String,
   options : R2GetOptions,
-) -> Promise[R2Object?] {
-  self.call2("get", key, options) |> unsafe_cast
+) -> @js.Promise[R2Object?] {
+  self.call2("get", key, options) |> @js.unsafe_cast
 }
 
 ///|
 /// Get object metadata without body
-pub fn R2Bucket::head(self : Self, key : String) -> Promise[R2Object?] {
-  self.call("head", [key]) |> unsafe_cast
+pub fn R2Bucket::head(self : Self, key : String) -> @js.Promise[R2Object?] {
+  self.call("head", [key]) |> @js.unsafe_cast
 }
 
 ///|
@@ -34,9 +34,9 @@ pub fn R2Bucket::head(self : Self, key : String) -> Promise[R2Object?] {
 pub fn R2Bucket::put(
   self : Self,
   key : String,
-  value : Js,
-) -> Promise[R2Object] {
-  self.call2("put", key, value) |> unsafe_cast
+  value : @js.Js,
+) -> @js.Promise[R2Object] {
+  self.call2("put", key, value) |> @js.unsafe_cast
 }
 
 ///|
@@ -44,16 +44,16 @@ pub fn R2Bucket::put(
 pub fn R2Bucket::put_with_options(
   self : Self,
   key : String,
-  value : Js,
+  value : @js.Js,
   options : R2PutOptions,
-) -> Promise[R2Object] {
-  self.call("put", [key, value, options]) |> unsafe_cast
+) -> @js.Promise[R2Object] {
+  self.call("put", [key, value, options]) |> @js.unsafe_cast
 }
 
 ///|
 /// Delete an object from R2
-pub fn R2Bucket::delete(self : Self, key : String) -> Promise[Unit] {
-  self.call("delete", [key]) |> unsafe_cast
+pub fn R2Bucket::delete(self : Self, key : String) -> @js.Promise[Unit] {
+  self.call("delete", [key]) |> @js.unsafe_cast
 }
 
 ///|
@@ -61,20 +61,20 @@ pub fn R2Bucket::delete(self : Self, key : String) -> Promise[Unit] {
 pub fn R2Bucket::delete_multiple(
   self : Self,
   keys : Array[String],
-) -> Promise[Unit] {
+) -> @js.Promise[Unit] {
   let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call("delete", [keys_js]) |> unsafe_cast
+  self.call("delete", [keys_js]) |> @js.unsafe_cast
 }
 
 ///|
 /// List objects in the bucket
-pub fn R2Bucket::list(self : Self) -> Promise[R2Objects] {
-  self.call0("list") |> unsafe_cast
+pub fn R2Bucket::list(self : Self) -> @js.Promise[R2Objects] {
+  self.call0("list") |> @js.unsafe_cast
 }
 
 ///|
@@ -82,8 +82,8 @@ pub fn R2Bucket::list(self : Self) -> Promise[R2Objects] {
 pub fn R2Bucket::list_with_options(
   self : Self,
   options : R2ListOptions,
-) -> Promise[R2Objects] {
-  self.call("list", [options]) |> unsafe_cast
+) -> @js.Promise[R2Objects] {
+  self.call("list", [options]) |> @js.unsafe_cast
 }
 
 ///|
@@ -91,8 +91,8 @@ pub fn R2Bucket::list_with_options(
 pub fn R2Bucket::create_multipart_upload(
   self : Self,
   key : String,
-) -> Promise[R2MultipartUpload] {
-  self.call("createMultipartUpload", [key]) |> unsafe_cast
+) -> @js.Promise[R2MultipartUpload] {
+  self.call("createMultipartUpload", [key]) |> @js.unsafe_cast
 }
 
 ///|
@@ -101,8 +101,8 @@ pub fn R2Bucket::create_multipart_upload_with_options(
   self : Self,
   key : String,
   options : R2PutOptions,
-) -> Promise[R2MultipartUpload] {
-  self.call2("createMultipartUpload", key, options) |> unsafe_cast
+) -> @js.Promise[R2MultipartUpload] {
+  self.call2("createMultipartUpload", key, options) |> @js.unsafe_cast
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn R2Bucket::resume_multipart_upload(
   key : String,
   upload_id : String,
 ) -> R2MultipartUpload {
-  self.call2("resumeMultipartUpload", key, upload_id) |> unsafe_cast
+  self.call2("resumeMultipartUpload", key, upload_id) |> @js.unsafe_cast
 }
 
 ///|
@@ -123,7 +123,7 @@ pub(all) struct R2GetOptions {
 }
 
 ///|
-pub impl JsImpl for R2GetOptions with to_js(self) {
+pub impl @js.JsImpl for R2GetOptions with to_js(self) {
   let onlyIf_js : @js.Js? = match self.onlyIf {
     Some(cond) =>
       Some(
@@ -180,7 +180,7 @@ pub(all) struct R2Range {
 /// Options for R2 put operations
 pub(all) struct R2PutOptions {
   httpMetadata : R2HttpMetadata?
-  customMetadata : Js?
+  customMetadata : @js.Js?
   md5 : String?
   sha1 : String?
   sha256 : String?
@@ -189,7 +189,7 @@ pub(all) struct R2PutOptions {
 }
 
 ///|
-pub impl JsImpl for R2PutOptions with to_js(self) {
+pub impl @js.JsImpl for R2PutOptions with to_js(self) {
   let httpMetadata_js : @js.Js? = match self.httpMetadata {
     Some(meta) => Some(meta.to_js())
     None => None
@@ -217,7 +217,7 @@ pub(all) struct R2HttpMetadata {
 }
 
 ///|
-pub impl JsImpl for R2HttpMetadata with to_js(self) {
+pub impl @js.JsImpl for R2HttpMetadata with to_js(self) {
   @js.from_entries_option([
     ("contentType", self.contentType.map(fn(x) { x as &@js.JsImpl })),
     ("contentLanguage", self.contentLanguage.map(fn(x) { x as &@js.JsImpl })),
@@ -243,7 +243,7 @@ pub(all) struct R2ListOptions {
 }
 
 ///|
-pub impl JsImpl for R2ListOptions with to_js(self) {
+pub impl @js.JsImpl for R2ListOptions with to_js(self) {
   let include_js : @js.Js? = match self.include_ {
     Some(inc) => Some(@js.from_array(inc))
     None => None
@@ -264,90 +264,90 @@ pub impl JsImpl for R2ListOptions with to_js(self) {
 pub type R2Object
 
 ///|
-pub impl JsImpl for R2Object
+pub impl @js.JsImpl for R2Object
 
 ///|
 /// Get object key
 pub fn R2Object::key(self : Self) -> String {
-  self.get("key") |> unsafe_cast
+  self.get("key") |> @js.unsafe_cast
 }
 
 ///|
 /// Get object version
 pub fn R2Object::version(self : Self) -> String {
-  self.get("version") |> unsafe_cast
+  self.get("version") |> @js.unsafe_cast
 }
 
 ///|
 /// Get object size
 pub fn R2Object::size(self : Self) -> Int {
-  self.get("size") |> unsafe_cast
+  self.get("size") |> @js.unsafe_cast
 }
 
 ///|
 /// Get object etag
 pub fn R2Object::etag(self : Self) -> String {
-  self.get("etag") |> unsafe_cast
+  self.get("etag") |> @js.unsafe_cast
 }
 
 ///|
 /// Get object HTTP metadata
-pub fn R2Object::http_metadata(self : Self) -> Js {
+pub fn R2Object::http_metadata(self : Self) -> @js.Js {
   self.get("httpMetadata")
 }
 
 ///|
 /// Get object custom metadata
-pub fn R2Object::custom_metadata(self : Self) -> Js {
+pub fn R2Object::custom_metadata(self : Self) -> @js.Js {
   self.get("customMetadata")
 }
 
 ///|
 /// Get object uploaded time
-pub fn R2Object::uploaded(self : Self) -> Js {
+pub fn R2Object::uploaded(self : Self) -> @js.Js {
   self.get("uploaded")
 }
 
 ///|
 /// Get object body as ArrayBuffer
-pub fn R2Object::array_buffer(self : Self) -> Promise[ArrayBuffer] {
-  self.call0("arrayBuffer") |> unsafe_cast
+pub fn R2Object::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
+  self.call0("arrayBuffer") |> @js.unsafe_cast
 }
 
 ///|
 /// Get object body as text
-pub fn R2Object::text(self : Self) -> Promise[String] {
-  self.call0("text") |> unsafe_cast
+pub fn R2Object::text(self : Self) -> @js.Promise[String] {
+  self.call0("text") |> @js.unsafe_cast
 }
 
 ///|
 /// Get object body as JSON
-pub fn R2Object::json(self : Self) -> Promise[Js] {
-  self.call0("json") |> unsafe_cast
+pub fn R2Object::json(self : Self) -> @js.Promise[@js.Js] {
+  self.call0("json") |> @js.unsafe_cast
 }
 
 ///|
 /// Get object body as blob
-pub fn R2Object::blob(self : Self) -> Promise[@blob.Blob] {
-  self.call0("blob") |> unsafe_cast
+pub fn R2Object::blob(self : Self) -> @js.Promise[@blob.Blob] {
+  self.call0("blob") |> @js.unsafe_cast
 }
 
 ///|
 /// Get object body as ReadableStream
 pub fn R2Object::body(self : Self) -> @streams.ReadableStream {
-  self.get("body") |> unsafe_cast
+  self.get("body") |> @js.unsafe_cast
 }
 
 ///|
 /// Get object body used status
 pub fn R2Object::body_used(self : Self) -> Bool {
-  self.get("bodyUsed") |> unsafe_cast
+  self.get("bodyUsed") |> @js.unsafe_cast
 }
 
 ///|
 /// Write object to a writable stream
-pub fn R2Object::write_http_metadata(self : Self, headers : Js) -> Unit {
-  self.call("writeHttpMetadata", [headers]) |> unsafe_cast
+pub fn R2Object::write_http_metadata(self : Self, headers : @js.Js) -> Unit {
+  self.call("writeHttpMetadata", [headers]) |> @js.unsafe_cast
 }
 
 ///|
@@ -360,7 +360,7 @@ pub(all) struct R2Objects {
 }
 
 ///|
-pub impl JsImpl for R2Objects
+pub impl @js.JsImpl for R2Objects
 
 ///|
 /// R2 Multipart Upload
@@ -368,18 +368,18 @@ pub impl JsImpl for R2Objects
 pub type R2MultipartUpload
 
 ///|
-pub impl JsImpl for R2MultipartUpload
+pub impl @js.JsImpl for R2MultipartUpload
 
 ///|
 /// Get upload key
 pub fn R2MultipartUpload::key(self : Self) -> String {
-  self.get("key") |> unsafe_cast
+  self.get("key") |> @js.unsafe_cast
 }
 
 ///|
 /// Get upload ID
 pub fn R2MultipartUpload::uploadId(self : Self) -> String {
-  self.get("uploadId") |> unsafe_cast
+  self.get("uploadId") |> @js.unsafe_cast
 }
 
 ///|
@@ -387,15 +387,15 @@ pub fn R2MultipartUpload::uploadId(self : Self) -> String {
 pub fn R2MultipartUpload::upload_part(
   self : Self,
   part_number : Int,
-  value : Js,
-) -> Promise[R2UploadedPart] {
-  self.call2("uploadPart", part_number, value) |> unsafe_cast
+  value : @js.Js,
+) -> @js.Promise[R2UploadedPart] {
+  self.call2("uploadPart", part_number, value) |> @js.unsafe_cast
 }
 
 ///|
 /// Abort the multipart upload
-pub fn R2MultipartUpload::abort(self : Self) -> Promise[Unit] {
-  self.call0("abort") |> unsafe_cast
+pub fn R2MultipartUpload::abort(self : Self) -> @js.Promise[Unit] {
+  self.call0("abort") |> @js.unsafe_cast
 }
 
 ///|
@@ -403,14 +403,14 @@ pub fn R2MultipartUpload::abort(self : Self) -> Promise[Unit] {
 pub fn R2MultipartUpload::complete(
   self : Self,
   parts : Array[R2UploadedPart],
-) -> Promise[R2Object] {
+) -> @js.Promise[R2Object] {
   let parts_js = @js.JsArray::new()
   let mut i = 0
   while i < parts.length() {
     parts_js.call("push", [parts[i]]) |> ignore
     i = i + 1
   }
-  self.call("complete", [parts_js]) |> unsafe_cast
+  self.call("complete", [parts_js]) |> @js.unsafe_cast
 }
 
 ///|
@@ -421,6 +421,6 @@ pub(all) struct R2UploadedPart {
 }
 
 ///|
-pub impl JsImpl for R2UploadedPart with to_js(self) {
+pub impl @js.JsImpl for R2UploadedPart with to_js(self) {
   @js.from_entries([("partNumber", self.partNumber), ("etag", self.etag)])
 }

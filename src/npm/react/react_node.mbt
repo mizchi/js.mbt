@@ -2,37 +2,37 @@
 /// Renderable React node types.
 /// Int, Double, Bool, String, ReactElement, Array of ReactNode, Option of ReactNode
 pub(open) trait ReactNode {
-  to_react_node(Self) -> Js
+  to_react_node(Self) -> @js.Js
 }
 
 ///|
 pub impl ReactNode for String with to_react_node(self) {
-  self |> js
+  self |> @js.js
 }
 
 ///|
 pub impl ReactNode for Element with to_react_node(self) {
-  self |> js
+  self |> @js.js
 }
 
 ///|
 pub impl ReactNode for Int with to_react_node(self) {
-  self |> js
+  self |> @js.js
 }
 
 ///|
 pub impl ReactNode for Double with to_react_node(self) {
-  self |> js
+  self |> @js.js
 }
 
 ///|
 pub impl ReactNode for Bool with to_react_node(self) {
-  self |> js
+  self |> @js.js
 }
 
 ///|
 pub impl ReactNode for Array[&ReactNode] with to_react_node(self) {
-  @js.from_array(self.map(x => x.to_react_node())) |> unsafe_cast
+  @js.from_array(self.map(x => x.to_react_node())) |> @js.unsafe_cast
 }
 
 ///|

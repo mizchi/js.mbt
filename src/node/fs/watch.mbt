@@ -5,7 +5,7 @@
 pub type FSWatcher
 
 ///|
-pub impl JsImpl for FSWatcher
+pub impl @js.JsImpl for FSWatcher
 
 ///|
 /// Close the watcher
@@ -22,7 +22,7 @@ pub fn FSWatcher::on(
   event : String,
   listener : (String, String) -> Unit,
 ) -> Self {
-  self.call2("on", event, @js.from_fn2(listener)) |> unsafe_cast
+  self.call2("on", event, @js.from_fn2(listener)) |> @js.unsafe_cast
 }
 
 ///|
@@ -40,18 +40,18 @@ pub fn watch(
     not(recursive is None) ||
     not(encoding is None)
   if has_options {
-    let map : Map[String, Js] = {
+    let map : Map[String, @js.Js] = {
       let m = Map::new()
       match persistent {
-        Some(p) => m.set("persistent", unsafe_cast(p))
+        Some(p) => m.set("persistent", @js.unsafe_cast(p))
         None => ()
       }
       match recursive {
-        Some(r) => m.set("recursive", unsafe_cast(r))
+        Some(r) => m.set("recursive", @js.unsafe_cast(r))
         None => ()
       }
       match encoding {
-        Some(e) => m.set("encoding", unsafe_cast(e))
+        Some(e) => m.set("encoding", @js.unsafe_cast(e))
         None => ()
       }
       m
@@ -59,13 +59,14 @@ pub fn watch(
     let options = @js.from_map(map)
     match listener {
       Some(l) =>
-        fs.call("watch", [filename, options, @js.from_fn2(l)]) |> unsafe_cast
-      None => fs.call2("watch", filename, options) |> unsafe_cast
+        fs.call("watch", [filename, options, @js.from_fn2(l)])
+        |> @js.unsafe_cast
+      None => fs.call2("watch", filename, options) |> @js.unsafe_cast
     }
   } else {
     match listener {
-      Some(l) => fs.call2("watch", filename, @js.from_fn2(l)) |> unsafe_cast
-      None => fs.call1("watch", filename) |> unsafe_cast
+      Some(l) => fs.call2("watch", filename, @js.from_fn2(l)) |> @js.unsafe_cast
+      None => fs.call1("watch", filename) |> @js.unsafe_cast
     }
   }
 }

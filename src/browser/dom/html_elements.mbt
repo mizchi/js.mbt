@@ -3,10 +3,10 @@
 pub type HTMLDivElement
 
 ///|
-pub impl JsImpl for HTMLDivElement
+pub impl @js.JsImpl for HTMLDivElement
 
 ///|
-pub impl EventTargetImpl for HTMLDivElement
+pub impl @event.EventTargetImpl for HTMLDivElement
 
 ///|
 pub impl NodeImpl for HTMLDivElement
@@ -26,10 +26,10 @@ pub(all) struct HTMLCanvasElement {
 } derive(Show)
 
 ///|
-pub impl JsImpl for HTMLCanvasElement
+pub impl @js.JsImpl for HTMLCanvasElement
 
 ///|
-pub impl EventTargetImpl for HTMLCanvasElement
+pub impl @event.EventTargetImpl for HTMLCanvasElement
 
 ///|
 pub impl NodeImpl for HTMLCanvasElement
@@ -42,7 +42,10 @@ pub impl HTMLElementImpl for HTMLCanvasElement
 
 ///|
 /// Canvas methods
-pub fn HTMLCanvasElement::getContext(self : Self, context_type : String) -> Js {
+pub fn HTMLCanvasElement::getContext(
+  self : Self,
+  context_type : String,
+) -> @js.Js {
   self.call("getContext", [context_type])
 }
 
@@ -53,9 +56,9 @@ pub fn HTMLCanvasElement::toDataURL(
   quality? : Double,
 ) -> String {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.call2("toDataURL", t, q) |> unsafe_cast
-    (Some(t), None) => self.call("toDataURL", [t]) |> unsafe_cast
-    (None, _) => self.call0("toDataURL") |> unsafe_cast
+    (Some(t), Some(q)) => self.call2("toDataURL", t, q) |> @js.unsafe_cast
+    (Some(t), None) => self.call("toDataURL", [t]) |> @js.unsafe_cast
+    (None, _) => self.call0("toDataURL") |> @js.unsafe_cast
   }
 }
 
@@ -64,11 +67,11 @@ pub fn HTMLCanvasElement::toBlob(
   self : Self,
   image_type? : String,
   quality? : Double,
-) -> Promise[Blob] {
+) -> @js.Promise[@blob.Blob] {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.call2("toBlob", t, q) |> unsafe_cast
-    (Some(t), None) => self.call("toBlob", [t]) |> unsafe_cast
-    (None, _) => self.call0("toBlob") |> unsafe_cast
+    (Some(t), Some(q)) => self.call2("toBlob", t, q) |> @js.unsafe_cast
+    (Some(t), None) => self.call("toBlob", [t]) |> @js.unsafe_cast
+    (None, _) => self.call0("toBlob") |> @js.unsafe_cast
   }
 }
 
@@ -77,10 +80,10 @@ pub fn HTMLCanvasElement::toBlob(
 pub type HTMLBodyElement
 
 ///|
-pub impl JsImpl for HTMLBodyElement
+pub impl @js.JsImpl for HTMLBodyElement
 
 ///|
-pub impl EventTargetImpl for HTMLBodyElement
+pub impl @event.EventTargetImpl for HTMLBodyElement
 
 ///|
 pub impl NodeImpl for HTMLBodyElement
@@ -96,10 +99,10 @@ pub impl HTMLElementImpl for HTMLBodyElement
 pub type HTMLHeadElement
 
 ///|
-pub impl JsImpl for HTMLHeadElement
+pub impl @js.JsImpl for HTMLHeadElement
 
 ///|
-pub impl EventTargetImpl for HTMLHeadElement
+pub impl @event.EventTargetImpl for HTMLHeadElement
 
 ///|
 pub impl NodeImpl for HTMLHeadElement
@@ -115,10 +118,10 @@ pub impl HTMLElementImpl for HTMLHeadElement
 pub type HTMLHtmlElement
 
 ///|
-pub impl JsImpl for HTMLHtmlElement
+pub impl @js.JsImpl for HTMLHtmlElement
 
 ///|
-pub impl EventTargetImpl for HTMLHtmlElement
+pub impl @event.EventTargetImpl for HTMLHtmlElement
 
 ///|
 pub impl NodeImpl for HTMLHtmlElement
@@ -134,10 +137,10 @@ pub impl HTMLElementImpl for HTMLHtmlElement
 pub type HTMLSpanElement
 
 ///|
-pub impl JsImpl for HTMLSpanElement
+pub impl @js.JsImpl for HTMLSpanElement
 
 ///|
-pub impl EventTargetImpl for HTMLSpanElement
+pub impl @event.EventTargetImpl for HTMLSpanElement
 
 ///|
 pub impl NodeImpl for HTMLSpanElement
@@ -157,10 +160,10 @@ pub(all) struct HTMLAnchorElement {
 }
 
 ///|
-pub impl JsImpl for HTMLAnchorElement
+pub impl @js.JsImpl for HTMLAnchorElement
 
 ///|
-pub impl EventTargetImpl for HTMLAnchorElement
+pub impl @event.EventTargetImpl for HTMLAnchorElement
 
 ///|
 pub impl NodeImpl for HTMLAnchorElement
@@ -179,10 +182,10 @@ pub(all) struct HTMLButtonElement {
 }
 
 ///|
-pub impl JsImpl for HTMLButtonElement
+pub impl @js.JsImpl for HTMLButtonElement
 
 ///|
-pub impl EventTargetImpl for HTMLButtonElement
+pub impl @event.EventTargetImpl for HTMLButtonElement
 
 ///|
 pub impl NodeImpl for HTMLButtonElement
@@ -203,10 +206,10 @@ pub(all) struct HTMLInputElement {
 }
 
 ///|
-pub impl JsImpl for HTMLInputElement
+pub impl @js.JsImpl for HTMLInputElement
 
 ///|
-pub impl EventTargetImpl for HTMLInputElement
+pub impl @event.EventTargetImpl for HTMLInputElement
 
 ///|
 pub impl NodeImpl for HTMLInputElement
@@ -220,7 +223,7 @@ pub impl HTMLElementImpl for HTMLInputElement
 ///|
 /// Returns the type of the input
 pub fn HTMLInputElement::type_(self : Self) -> String {
-  self.get("type") |> unsafe_cast
+  self.get("type") |> @js.unsafe_cast
 }
 
 ///|
@@ -242,10 +245,10 @@ pub(all) struct HTMLTextAreaElement {
 }
 
 ///|
-pub impl JsImpl for HTMLTextAreaElement
+pub impl @js.JsImpl for HTMLTextAreaElement
 
 ///|
-pub impl EventTargetImpl for HTMLTextAreaElement
+pub impl @event.EventTargetImpl for HTMLTextAreaElement
 
 ///|
 pub impl NodeImpl for HTMLTextAreaElement
@@ -268,10 +271,10 @@ pub(all) struct HTMLIFrameElement {
 } derive(Show)
 
 ///|
-pub impl JsImpl for HTMLIFrameElement
+pub impl @js.JsImpl for HTMLIFrameElement
 
 ///|
-pub impl EventTargetImpl for HTMLIFrameElement
+pub impl @event.EventTargetImpl for HTMLIFrameElement
 
 ///|
 pub impl NodeImpl for HTMLIFrameElement
@@ -301,10 +304,10 @@ pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
 pub type HTMLFormElement
 
 ///|
-pub impl JsImpl for HTMLFormElement
+pub impl @js.JsImpl for HTMLFormElement
 
 ///|
-pub impl EventTargetImpl for HTMLFormElement
+pub impl @event.EventTargetImpl for HTMLFormElement
 
 ///|
 pub impl NodeImpl for HTMLFormElement
@@ -324,10 +327,10 @@ pub(all) struct HTMLSelectElement {
 }
 
 ///|
-pub impl JsImpl for HTMLSelectElement
+pub impl @js.JsImpl for HTMLSelectElement
 
 ///|
-pub impl EventTargetImpl for HTMLSelectElement
+pub impl @event.EventTargetImpl for HTMLSelectElement
 
 ///|
 pub impl NodeImpl for HTMLSelectElement
@@ -347,10 +350,10 @@ pub(all) struct HTMLOptionElement {
 }
 
 ///|
-pub impl JsImpl for HTMLOptionElement
+pub impl @js.JsImpl for HTMLOptionElement
 
 ///|
-pub impl EventTargetImpl for HTMLOptionElement
+pub impl @event.EventTargetImpl for HTMLOptionElement
 
 ///|
 pub impl NodeImpl for HTMLOptionElement
@@ -369,10 +372,10 @@ pub(all) struct HTMLLabelElement {
 }
 
 ///|
-pub impl JsImpl for HTMLLabelElement
+pub impl @js.JsImpl for HTMLLabelElement
 
 ///|
-pub impl EventTargetImpl for HTMLLabelElement
+pub impl @event.EventTargetImpl for HTMLLabelElement
 
 ///|
 pub impl NodeImpl for HTMLLabelElement
@@ -392,10 +395,10 @@ pub(all) struct HTMLImageElement {
 }
 
 ///|
-pub impl JsImpl for HTMLImageElement
+pub impl @js.JsImpl for HTMLImageElement
 
 ///|
-pub impl EventTargetImpl for HTMLImageElement
+pub impl @event.EventTargetImpl for HTMLImageElement
 
 ///|
 pub impl NodeImpl for HTMLImageElement
@@ -411,10 +414,10 @@ pub impl HTMLElementImpl for HTMLImageElement
 pub type HTMLParagraphElement
 
 ///|
-pub impl JsImpl for HTMLParagraphElement
+pub impl @js.JsImpl for HTMLParagraphElement
 
 ///|
-pub impl EventTargetImpl for HTMLParagraphElement
+pub impl @event.EventTargetImpl for HTMLParagraphElement
 
 ///|
 pub impl NodeImpl for HTMLParagraphElement
@@ -430,10 +433,10 @@ pub impl HTMLElementImpl for HTMLParagraphElement
 pub type HTMLHeadingElement
 
 ///|
-pub impl JsImpl for HTMLHeadingElement
+pub impl @js.JsImpl for HTMLHeadingElement
 
 ///|
-pub impl EventTargetImpl for HTMLHeadingElement
+pub impl @event.EventTargetImpl for HTMLHeadingElement
 
 ///|
 pub impl NodeImpl for HTMLHeadingElement
@@ -449,10 +452,10 @@ pub impl HTMLElementImpl for HTMLHeadingElement
 pub type HTMLUListElement
 
 ///|
-pub impl JsImpl for HTMLUListElement
+pub impl @js.JsImpl for HTMLUListElement
 
 ///|
-pub impl EventTargetImpl for HTMLUListElement
+pub impl @event.EventTargetImpl for HTMLUListElement
 
 ///|
 pub impl NodeImpl for HTMLUListElement
@@ -468,10 +471,10 @@ pub impl HTMLElementImpl for HTMLUListElement
 pub type HTMLOListElement
 
 ///|
-pub impl JsImpl for HTMLOListElement
+pub impl @js.JsImpl for HTMLOListElement
 
 ///|
-pub impl EventTargetImpl for HTMLOListElement
+pub impl @event.EventTargetImpl for HTMLOListElement
 
 ///|
 pub impl NodeImpl for HTMLOListElement
@@ -487,10 +490,10 @@ pub impl HTMLElementImpl for HTMLOListElement
 pub type HTMLLIElement
 
 ///|
-pub impl JsImpl for HTMLLIElement
+pub impl @js.JsImpl for HTMLLIElement
 
 ///|
-pub impl EventTargetImpl for HTMLLIElement
+pub impl @event.EventTargetImpl for HTMLLIElement
 
 ///|
 pub impl NodeImpl for HTMLLIElement

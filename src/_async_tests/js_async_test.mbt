@@ -7,7 +7,6 @@ test {
       sleep(20)
       assert_true(executed)
     })
-
     it("clearTimeout", _ => {
       let mut executed = false
       let timer = @js.setTimeout(() => executed = true, 10)
@@ -15,14 +14,12 @@ test {
       sleep(20)
       assert_false(executed)
     })
-
     it("setTimeout with zero delay", _ => {
       let mut executed = false
       let _ = @js.setTimeout(() => executed = true, 0)
       sleep(1)
       assert_true(executed)
     })
-
     it("multiple setTimeouts", _ => {
       let order = []
       let _ = @js.setTimeout(() => order.push(1), 10)
@@ -34,7 +31,6 @@ test {
       assert_eq(order[1], 1) // 10ms
       assert_eq(order[2], 3) // 15ms
     })
-
     it("setInterval immediate execution", _ => {
       let mut first_execution = false
       let timer = @js.setInterval(
@@ -45,7 +41,6 @@ test {
       @js.clearInterval(timer)
       assert_true(first_execution)
     })
-
     it("sleep with very short duration", _ => {
       sleep(1)
       // Just verify sleep completes without error
@@ -67,7 +62,6 @@ test {
       count += 1
       assert_eq(count, 3)
     })
-
     it("nested run_async", _ => {
       let mut outer = false
       let mut inner = false
@@ -83,7 +77,6 @@ test {
       assert_true(outer)
       assert_true(inner)
     })
-
     it("run_async with multiple sleep calls", _ => {
       let checkpoints = []
       run_async(() => {
@@ -104,10 +97,11 @@ test {
 
 ///|
 test {
-  @test.describe("JS Async: EventEmitter", _ => {
-    it("EventEmitter listenerCount for non-existent event", _ => {
+  @test.describe("JS Async: EventEmitter", _ => it(
+    "EventEmitter listenerCount for non-existent event",
+    _ => {
       let emitter = @events.EventEmitter::new()
       assert_eq(emitter.listenerCount("nonexistent"), 0)
-    })
-  })
+    },
+  ))
 }

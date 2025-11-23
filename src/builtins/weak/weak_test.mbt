@@ -1,11 +1,11 @@
 ///|
-using @js {type Js, js}
+using @js {type Js}
 
 ///|
 test "WeakMap::set and get - store and retrieve values" {
   let wm : WeakMap[Js, Js] = WeakMap::new()
   let key = @js.Object::new().to_js()
-  let value = js("test value")
+  let value = @js.js("test value")
   wm.set(key, value) |> ignore
   let result = wm.get(key)
   assert_false(result is None)
@@ -15,7 +15,7 @@ test "WeakMap::set and get - store and retrieve values" {
 test "WeakMap::has - check if key exists" {
   let wm : WeakMap[Js, Js] = WeakMap::new()
   let key = @js.Object::new().to_js()
-  let value = js("test")
+  let value = @js.js("test")
   let has_before = wm.has(key)
   wm.set(key, value) |> ignore
   let has_after = wm.has(key)
@@ -27,7 +27,7 @@ test "WeakMap::has - check if key exists" {
 test "WeakMap::delete - remove a key-value pair" {
   let wm : WeakMap[Js, Js] = WeakMap::new()
   let key = @js.Object::new().to_js()
-  let value = js("test")
+  let value = @js.js("test")
   wm.set(key, value) |> ignore
   let deleted = wm.delete(key)
   let has_after = wm.has(key)
@@ -45,7 +45,7 @@ test "WeakMap::get - return None for non-existent key" {
 
 ///|
 test "WeakSet::add and has - add and check values" {
-  let ws : WeakSet[Js] = WeakSet::new()
+  let ws : WeakSet[@js.Js] = WeakSet::new()
   let value = @js.Object::new()
   let has_before = ws.has(value.to_js())
   ws.add(value.to_js()) |> ignore
@@ -56,7 +56,7 @@ test "WeakSet::add and has - add and check values" {
 
 ///|
 test "WeakSet::delete - remove a value" {
-  let ws : WeakSet[Js] = WeakSet::new()
+  let ws : WeakSet[@js.Js] = WeakSet::new()
   let value = @js.Object::new()
   ws.add(value.to_js()) |> ignore
   let deleted = ws.delete(value.to_js())
@@ -67,7 +67,7 @@ test "WeakSet::delete - remove a value" {
 
 ///|
 test "WeakSet::has - return false for non-existent value" {
-  let ws : WeakSet[Js] = WeakSet::new()
+  let ws : WeakSet[@js.Js] = WeakSet::new()
   let value = @js.Object::new()
   let has = ws.has(value.to_js())
   assert_false(has)
@@ -76,28 +76,28 @@ test "WeakSet::has - return false for non-existent value" {
 ///|
 test "WeakRef::new and deref - create and dereference" {
   let target = @js.Object::new()
-  let wr : WeakRef[Js] = WeakRef::new(target.to_js())
+  let wr : WeakRef[@js.Js] = WeakRef::new(target.to_js())
   let result = wr.deref()
   assert_false(result is None)
 }
 
 ///|
 test "FinalizationRegistry::register - register an object" {
-  let registry : FinalizationRegistry[Js] = FinalizationRegistry::new(fn(
+  let registry : FinalizationRegistry[@js.Js] = FinalizationRegistry::new(fn(
     _held_value,
   ) {
     ()
   })
   let target = @js.Object::new()
   let held_value = "cleanup info"
-  registry.register(target, held_value |> js)
+  registry.register(target, held_value |> @js.js)
   // Registry was created successfully
   assert_true(true)
 }
 
 ///|
 test "FinalizationRegistry::unregister - unregister with token" {
-  let registry : FinalizationRegistry[Js] = FinalizationRegistry::new(fn(
+  let registry : FinalizationRegistry[@js.Js] = FinalizationRegistry::new(fn(
     _held_value,
   ) {
     ()
@@ -105,7 +105,11 @@ test "FinalizationRegistry::unregister - unregister with token" {
   let target = @js.Object::new()
   let held_value = "cleanup info"
   let token = @js.Object::new()
-  registry.register(target, held_value |> js, unregister_token=token.to_js())
+  registry.register(
+    target,
+    held_value |> @js.js,
+    unregister_token=token.to_js(),
+  )
   let unregistered = registry.unregister(token.to_js())
   assert_true(unregistered)
 }
@@ -113,10 +117,10 @@ test "FinalizationRegistry::unregister - unregister with token" {
 ///|
 test "WeakRef::deref returns None when target is collected" {
   // Create a mock WeakRef that returns undefined to simulate collected object
-  let undef_ref : Js = @js.undefined()
+  let undef_ref : @js.Js = @js.undefined()
   let mock_weakref = @js.Object::new()
   mock_weakref.set("deref", @js.from_fn0(fn() { undef_ref }))
-  let wr : WeakRef[Js] = @js.unsafe_cast(mock_weakref.to_js())
+  let wr : WeakRef[@js.Js] = @js.unsafe_cast(mock_weakref.to_js())
   let result = wr.deref()
   assert_true(result is None)
 }

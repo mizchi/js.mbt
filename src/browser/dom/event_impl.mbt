@@ -1,6 +1,6 @@
 ///|
 /// EventImpl trait - base interface for all DOM events
-pub(open) trait EventImpl: JsImpl {
+pub(open) trait EventImpl: @js.JsImpl {
   preventDefault(Self) -> Unit = _
   stopPropagation(Self) -> Unit = _
   stopImmediatePropagation(Self) -> Unit = _
@@ -29,32 +29,32 @@ impl EventImpl with stopImmediatePropagation(self) -> Unit {
 
 ///|
 impl EventImpl with target(self) -> Element {
-  self.get("target") |> unsafe_cast
+  self.get("target") |> @js.unsafe_cast
 }
 
 ///|
 impl EventImpl with currentTarget(self) -> Element {
-  self.get("currentTarget") |> unsafe_cast
+  self.get("currentTarget") |> @js.unsafe_cast
 }
 
 ///|
 impl EventImpl with eventType(self) -> String {
-  self.get("type") |> unsafe_cast
+  self.get("type") |> @js.unsafe_cast
 }
 
 ///|
 impl EventImpl with bubbles(self) -> Bool {
-  self.get("bubbles") |> unsafe_cast
+  self.get("bubbles") |> @js.unsafe_cast
 }
 
 ///|
 impl EventImpl with cancelable(self) -> Bool {
-  self.get("cancelable") |> unsafe_cast
+  self.get("cancelable") |> @js.unsafe_cast
 }
 
 ///|
 impl EventImpl with defaultPrevented(self) -> Bool {
-  self.get("defaultPrevented") |> unsafe_cast
+  self.get("defaultPrevented") |> @js.unsafe_cast
 }
 
 ///|
@@ -64,7 +64,7 @@ impl EventImpl with defaultPrevented(self) -> Bool {
 pub type Event
 
 ///|
-pub impl JsImpl for Event
+pub impl @js.JsImpl for Event
 
 ///|
 pub impl EventImpl for Event
@@ -88,7 +88,7 @@ pub(all) struct PointerEvent {
 } derive(Show)
 
 ///|
-pub impl JsImpl for PointerEvent
+pub impl @js.JsImpl for PointerEvent
 
 ///|
 pub impl EventImpl for PointerEvent
@@ -116,7 +116,7 @@ pub(all) struct MouseEvent {
 } derive(Show)
 
 ///|
-pub impl JsImpl for MouseEvent
+pub impl @js.JsImpl for MouseEvent
 
 ///|
 pub impl EventImpl for MouseEvent
@@ -146,7 +146,7 @@ pub(all) struct KeyboardEvent {
 } derive(Show)
 
 ///|
-pub impl JsImpl for KeyboardEvent
+pub impl @js.JsImpl for KeyboardEvent
 
 ///|
 pub impl EventImpl for KeyboardEvent
@@ -156,7 +156,7 @@ pub impl EventImpl for KeyboardEvent
 pub(all) struct ChangeEvent {} derive(Show)
 
 ///|
-pub impl JsImpl for ChangeEvent
+pub impl @js.JsImpl for ChangeEvent
 
 ///|
 pub impl EventImpl for ChangeEvent
@@ -168,7 +168,7 @@ pub impl EventImpl for ChangeEvent
 pub type FocusEvent
 
 ///|
-impl JsImpl for FocusEvent
+impl @js.JsImpl for FocusEvent
 
 ///|
 pub impl EventImpl for FocusEvent
@@ -186,7 +186,7 @@ pub(all) struct FormEvent {
 }
 
 ///|
-pub impl JsImpl for FormEvent
+pub impl @js.JsImpl for FormEvent
 
 ///|
 pub impl EventImpl for FormEvent
@@ -195,11 +195,11 @@ pub impl EventImpl for FormEvent
 /// DragEvent represents a drag and drop event
 /// https://developer.mozilla.org/en-US/docs/Web/API/DragEvent
 pub(all) struct DragEvent {
-  dataTransfer : Nullable[DataTransfer]
+  dataTransfer : @js.Nullable[DataTransfer]
 }
 
 ///|
-pub impl JsImpl for DragEvent
+pub impl @js.JsImpl for DragEvent
 
 ///|
 pub impl EventImpl for DragEvent
@@ -208,14 +208,14 @@ pub impl EventImpl for DragEvent
 /// InputEvent represents an input event
 /// https://developer.mozilla.org/en-US/docs/Web/API/InputEvent
 pub(all) struct InputEvent {
-  data : Nullable[String]
-  dataTransfer : Nullable[DataTransfer]
+  data : @js.Nullable[String]
+  dataTransfer : @js.Nullable[DataTransfer]
   inputType : String
   isComposing : Bool
 }
 
 ///|
-pub impl JsImpl for InputEvent
+pub impl @js.JsImpl for InputEvent
 
 ///|
 pub impl EventImpl for InputEvent
@@ -231,7 +231,7 @@ pub(all) struct WheelEvent {
 } derive(Show)
 
 ///|
-pub impl JsImpl for WheelEvent
+pub impl @js.JsImpl for WheelEvent
 
 ///|
 pub impl EventImpl for WheelEvent
@@ -250,7 +250,7 @@ pub(all) struct TouchEvent {
 } derive(Show)
 
 ///|
-pub impl JsImpl for TouchEvent
+pub impl @js.JsImpl for TouchEvent
 
 ///|
 pub impl EventImpl for TouchEvent
@@ -273,12 +273,12 @@ pub(all) struct Touch {
 } derive(Show)
 
 ///|
-pub impl JsImpl for Touch
+pub impl @js.JsImpl for Touch
 
 ///|
 /// Returns the target element
 pub fn Touch::target(self : Self) -> Element {
-  self.get("target") |> unsafe_cast
+  self.get("target") |> @js.unsafe_cast
 }
 
 ///|
@@ -289,7 +289,7 @@ pub(all) struct ClipboardEvent {
 }
 
 ///|
-pub impl JsImpl for ClipboardEvent
+pub impl @js.JsImpl for ClipboardEvent
 
 ///|
 pub impl EventImpl for ClipboardEvent
@@ -304,7 +304,7 @@ pub(all) struct TransitionEvent {
 } derive(Show)
 
 ///|
-pub impl JsImpl for TransitionEvent
+pub impl @js.JsImpl for TransitionEvent
 
 ///|
 pub impl EventImpl for TransitionEvent
@@ -319,7 +319,7 @@ pub(all) struct AnimationEvent {
 } derive(Show)
 
 ///|
-pub impl JsImpl for AnimationEvent
+pub impl @js.JsImpl for AnimationEvent
 
 ///|
 pub impl EventImpl for AnimationEvent
@@ -329,7 +329,7 @@ pub impl EventImpl for AnimationEvent
 pub(all) struct ScrollEvent {} derive(Show)
 
 ///|
-pub impl JsImpl for ScrollEvent
+pub impl @js.JsImpl for ScrollEvent
 
 ///|
 pub impl EventImpl for ScrollEvent
@@ -338,14 +338,14 @@ pub impl EventImpl for ScrollEvent
 /// MessageEvent is fired when a message is received from another browsing context
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
 pub(all) struct MessageEvent {
-  data : Js
+  data : @js.Js
   origin : String
   lastEventId : String
   ports : Array[@message_channel.MessagePort]
 } derive(Show)
 
 ///|
-pub impl JsImpl for MessageEvent
+pub impl @js.JsImpl for MessageEvent
 
 ///|
 pub impl EventImpl for MessageEvent

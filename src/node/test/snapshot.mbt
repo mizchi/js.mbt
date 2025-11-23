@@ -9,7 +9,7 @@
 /// context.assert.snapshot(value) - Compare value against stored snapshot
 pub fn TestContext::assert_snapshot(
   self : TestContext,
-  value : &JsImpl,
+  value : &@js.JsImpl,
   message? : String,
 ) -> Unit {
   let assert_obj = self.get("assert")
@@ -23,7 +23,7 @@ pub fn TestContext::assert_snapshot(
 /// context.assert.fileSnapshot(value, path) - File-based snapshot comparison
 pub fn TestContext::assert_fileSnapshot(
   self : TestContext,
-  value : &JsImpl,
+  value : &@js.JsImpl,
   path : String,
   message? : String,
 ) -> Unit {
@@ -39,13 +39,13 @@ pub fn TestContext::assert_fileSnapshot(
 /// snapshot module functions
 
 ///|
-fn snapshot_module() -> Js {
+fn snapshot_module() -> @js.Js {
   nodetest().get("snapshot")
 }
 
 ///|
 /// setDefaultSnapshotSerializers(serializers) - Customize snapshot serialization
-pub fn setDefaultSnapshotSerializers(serializers : Array[&JsImpl]) -> Unit {
+pub fn setDefaultSnapshotSerializers(serializers : Array[&@js.JsImpl]) -> Unit {
   let s = snapshot_module()
   s.call("setDefaultSnapshotSerializers", [@js.from_array(serializers)])
   |> ignore

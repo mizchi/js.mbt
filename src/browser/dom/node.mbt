@@ -3,17 +3,17 @@
 pub type Node
 
 ///|
-pub impl JsImpl for Node
+pub impl @js.JsImpl for Node
 
 ///|
-pub impl EventTargetImpl for Node
+pub impl @event.EventTargetImpl for Node
 
 ///|
 pub impl NodeImpl for Node
 
 ///|
 /// Node_ trait - base interface for DOM tree nodes
-pub(open) trait NodeImpl: JsImpl + EventTargetImpl {
+pub(open) trait NodeImpl: @js.JsImpl + @event.EventTargetImpl {
   nodeType(Self) -> Int = _
   nodeName(Self) -> String = _
   parentNode(Self) -> Node? = _
@@ -35,12 +35,12 @@ pub(open) trait NodeImpl: JsImpl + EventTargetImpl {
 
 ///|
 impl NodeImpl with nodeType(self) -> Int {
-  self.get("nodeType") |> unsafe_cast
+  self.get("nodeType") |> @js.unsafe_cast
 }
 
 ///|
 impl NodeImpl with nodeName(self) -> String {
-  self.get("nodeName") |> unsafe_cast
+  self.get("nodeName") |> @js.unsafe_cast
 }
 
 ///|
@@ -52,7 +52,7 @@ impl NodeImpl with parentNode(self) -> Node? {
 /// Returns a static array of child nodes.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl NodeImpl with childNodes(self) -> Array[Node] {
-  @js.array_from(self.get("childNodes")).map(v => unsafe_cast(v))
+  @js.array_from(self.get("childNodes")).map(v => @js.unsafe_cast(v))
 }
 
 ///|
@@ -77,50 +77,54 @@ impl NodeImpl with nextSibling(self) -> Node? {
 
 ///|
 impl NodeImpl with appendChild(self, child) -> Node {
-  self.call("appendChild", [child.to_js()]) |> unsafe_cast
+  self.call("appendChild", [child.to_js()]) |> @js.unsafe_cast
 }
 
 ///|
 impl NodeImpl with removeChild(self, child) -> Node {
-  self.call("removeChild", [child.to_js()]) |> unsafe_cast
+  self.call("removeChild", [child.to_js()]) |> @js.unsafe_cast
 }
 
 ///|
 impl NodeImpl with insertBefore(self, new_node, ref_node) -> Node {
   match ref_node {
     Some(node) =>
-      unsafe_cast(self.call2("insertBefore", new_node.to_js(), node.to_js()))
+      @js.unsafe_cast(
+        self.call2("insertBefore", new_node.to_js(), node.to_js()),
+      )
     None =>
-      unsafe_cast(self.call2("insertBefore", new_node.to_js(), @js.null_()))
+      @js.unsafe_cast(self.call2("insertBefore", new_node.to_js(), @js.null_()))
   }
 }
 
 ///|
 impl NodeImpl with replaceChild(self, new_child, old_child) -> Node {
-  unsafe_cast(self.call2("replaceChild", new_child.to_js(), old_child.to_js()))
+  @js.unsafe_cast(
+    self.call2("replaceChild", new_child.to_js(), old_child.to_js()),
+  )
 }
 
 ///|
 impl NodeImpl with cloneNode(self, deep) {
-  self.call("cloneNode", [deep]) |> unsafe_cast
+  self.call("cloneNode", [deep]) |> @js.unsafe_cast
 }
 
 ///|
 impl NodeImpl with contains(self, other) {
   match other {
-    Some(node) => self.call("contains", [node.to_js()]) |> unsafe_cast
-    None => self.call("contains", [@js.null_()]) |> unsafe_cast
+    Some(node) => self.call("contains", [node.to_js()]) |> @js.unsafe_cast
+    None => self.call("contains", [@js.null_()]) |> @js.unsafe_cast
   }
 }
 
 ///|
 impl NodeImpl with hasChildNodes(self) -> Bool {
-  self.call0("hasChildNodes") |> unsafe_cast
+  self.call0("hasChildNodes") |> @js.unsafe_cast
 }
 
 ///|
 impl NodeImpl with textContent(self) -> String {
-  self.get("textContent") |> unsafe_cast
+  self.get("textContent") |> @js.unsafe_cast
 }
 
 ///|

@@ -16,7 +16,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("rename file", _ => {
       let old_name = "test_async_rename_old.txt"
       let new_name = "test_async_rename_new.txt"
@@ -30,7 +29,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("chmod changes permissions", _ => {
       let test_file = "test_async_chmod.txt"
       let promise = @fs_promises.writeFile(test_file, "chmod test")
@@ -43,7 +41,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("chown changes ownership", _ => {
       let test_file = "test_async_chown.txt"
       let promise = @fs_promises.writeFile(test_file, "chown test")
@@ -59,7 +56,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("truncate reduces file size", _ => {
       let test_file = "test_async_truncate.txt"
       let promise = @fs_promises.writeFile(test_file, "Hello, World!")
@@ -72,7 +68,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("access checks file access", _ => {
       let test_file = "test_async_access.txt"
       let promise = @fs_promises.writeFile(test_file, "access test")
@@ -83,7 +78,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("appendFile appends content", _ => {
       let test_file = "test_async_append.txt"
       let promise = @fs_promises.writeFile(test_file, "Hello")
@@ -96,7 +90,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("copyFile copies file", _ => {
       let src = "test_async_copy_src.txt"
       let dest = "test_async_copy_dest.txt"
@@ -110,7 +103,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("stat returns file stats", _ => {
       let test_file = "test_async_stat.txt"
       let promise = @fs_promises.writeFile(test_file, "stat test")
@@ -122,7 +114,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("truncate without length truncates to 0", _ => {
       let test_file = "test_async_truncate_zero.txt"
       let promise = @fs_promises.writeFile(test_file, "This will be empty")
@@ -135,7 +126,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("appendFile with encoding", _ => {
       let test_file = "test_async_append_enc.txt"
       let promise = @fs_promises.writeFile(test_file, "Hello")
@@ -167,7 +157,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("rmdir removes directory", _ => {
       let test_dir = "test_async_rmdir"
       let promise = @fs_promises.mkdir(test_dir)
@@ -175,7 +164,6 @@ test {
         .then(fn(_) { Promise::resolve(()) })
       ignore(promise.wait())
     })
-
     it("readdir reads directory contents", _ => {
       let test_dir = "test_async_readdir"
       let promise = @fs_promises.mkdir(test_dir)
@@ -189,7 +177,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("rmdir with recursive removes nested dirs", _ => {
       let test_dir = "test_async_rmdir_recursive"
       let promise = @fs_promises.mkdir("\{test_dir}/sub", recursive=true)
@@ -206,12 +193,13 @@ test {
     it("rm with recursive and force", _ => {
       let test_dir = "test_async_rm"
       let promise = @fs_promises.mkdir("\{test_dir}/sub", recursive=true)
-        .then(fn(_) { @fs_promises.writeFile("\{test_dir}/sub/file.txt", "test") })
+        .then(fn(_) {
+          @fs_promises.writeFile("\{test_dir}/sub/file.txt", "test")
+        })
         .then(fn(_) { @fs_promises.rm(test_dir, recursive=true, force=true) })
         .then(fn(_) { Promise::resolve(()) })
       ignore(promise.wait())
     })
-
     it("cp with recursive", _ => {
       let src_dir = "test_async_cp_src"
       let dest_dir = "test_async_cp_dest"
@@ -249,7 +237,6 @@ test {
         })
       ignore(promise.wait())
     })
-
     it("realpath resolves path", _ => {
       let promise = @fs_promises.realpath(".").then(fn(real) {
         assert_true(real.length() > 0)

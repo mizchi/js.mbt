@@ -10,7 +10,7 @@ extern "js" fn ffi_request_animation_frame(f : () -> Unit) -> Unit =
 
 ///|
 pub async fn requestAnimationFrame(f : () -> Unit raise) -> Unit noraise {
-  suspend(fn(ok, _err) {
+  @js.suspend(fn(ok, _err) {
     ffi_request_animation_frame(() => {
       f() catch {
         _ => ()
@@ -24,7 +24,7 @@ pub async fn requestAnimationFrame(f : () -> Unit raise) -> Unit noraise {
 
 ///|
 pub async fn wait_animation_frame() -> Unit noraise {
-  suspend((ok, _) => ffi_request_animation_frame(() => ok(()))) catch {
+  @js.suspend((ok, _) => ffi_request_animation_frame(() => ok(()))) catch {
     _ => ()
   }
 }

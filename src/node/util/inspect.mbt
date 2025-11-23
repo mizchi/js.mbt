@@ -3,7 +3,7 @@
 pub type Util
 
 ///|
-pub impl JsImpl for Util
+pub impl @js.JsImpl for Util
 
 ///|
 fn util() -> Util {
@@ -13,7 +13,7 @@ fn util() -> Util {
 ///|
 /// util.inspect
 pub fn inspect(
-  value : Js,
+  value : @js.Js,
   depth? : Int,
   colors? : Bool,
   compact? : Bool,
@@ -23,13 +23,13 @@ pub fn inspect(
   maxStringLength? : Int,
 ) -> String {
   let opt = @js.from_map({
-    "depth": depth |> js,
-    "colors": colors |> js,
-    "compact": compact |> js,
-    "sorted": sorted |> js,
-    "breakLength": breakLength |> js,
-    "maxArrayLength": maxArrayLength |> js,
-    "maxStringLength": maxStringLength |> js,
+    "depth": depth |> @js.js,
+    "colors": colors |> @js.js,
+    "compact": compact |> @js.js,
+    "sorted": sorted |> @js.js,
+    "breakLength": breakLength |> @js.js,
+    "maxArrayLength": maxArrayLength |> @js.js,
+    "maxStringLength": maxStringLength |> @js.js,
   })
-  unsafe_cast(util().get("inspect").call_self([value, opt]))
+  @js.unsafe_cast(util().get("inspect").call_self([value, opt]))
 }

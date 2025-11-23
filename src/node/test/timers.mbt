@@ -7,12 +7,12 @@
 pub type MockTimers
 
 ///|
-pub impl JsImpl for MockTimers
+pub impl @js.JsImpl for MockTimers
 
 ///|
 /// Get the mock.timers object
 pub fn mock_timers() -> MockTimers {
-  mock().get("timers") |> unsafe_cast
+  mock().get("timers") |> @js.unsafe_cast
 }
 
 ///|

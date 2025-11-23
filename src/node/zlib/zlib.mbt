@@ -1,5 +1,4 @@
 ///|
-using @js {type Js, trait JsImpl}
 
 ///|
 /// Zlib compression options
@@ -25,7 +24,7 @@ pub fn ZlibOptions::new() -> ZlibOptions {
 
 ///|
 /// Convert ZlibOptions to JavaScript object
-pub fn ZlibOptions::to_js(self : ZlibOptions) -> Js {
+pub fn ZlibOptions::to_js(self : ZlibOptions) -> @js.Js {
   let obj = @js.Object::new()
   match self.level {
     Some(v) => obj.set("level", v)
@@ -51,7 +50,11 @@ pub fn ZlibOptions::to_js(self : ZlibOptions) -> Js {
 }
 
 ///|
-extern "js" fn ffi_gzip(buffer : Js, options : Js, callback : Js) -> Unit =
+extern "js" fn ffi_gzip(
+  buffer : @js.Js,
+  options : @js.Js,
+  callback : @js.Js,
+) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
   #|   zlib.gzip(buffer, options, callback);
@@ -64,12 +67,16 @@ pub fn gzip(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_gzip(buffer.to_js(), options.to_js(), cb)
 }
 
 ///|
-extern "js" fn ffi_gunzip(buffer : Js, options : Js, callback : Js) -> Unit =
+extern "js" fn ffi_gunzip(
+  buffer : @js.Js,
+  options : @js.Js,
+  callback : @js.Js,
+) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
   #|   zlib.gunzip(buffer, options, callback);
@@ -82,12 +89,16 @@ pub fn gunzip(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_gunzip(buffer.to_js(), options.to_js(), cb)
 }
 
 ///|
-extern "js" fn ffi_deflate(buffer : Js, options : Js, callback : Js) -> Unit =
+extern "js" fn ffi_deflate(
+  buffer : @js.Js,
+  options : @js.Js,
+  callback : @js.Js,
+) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
   #|   zlib.deflate(buffer, options, callback);
@@ -100,12 +111,16 @@ pub fn deflate(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_deflate(buffer.to_js(), options.to_js(), cb)
 }
 
 ///|
-extern "js" fn ffi_inflate(buffer : Js, options : Js, callback : Js) -> Unit =
+extern "js" fn ffi_inflate(
+  buffer : @js.Js,
+  options : @js.Js,
+  callback : @js.Js,
+) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
   #|   zlib.inflate(buffer, options, callback);
@@ -118,15 +133,15 @@ pub fn inflate(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_inflate(buffer.to_js(), options.to_js(), cb)
 }
 
 ///|
 extern "js" fn ffi_brotli_compress(
-  buffer : Js,
-  options : Js,
-  callback : Js,
+  buffer : @js.Js,
+  options : @js.Js,
+  callback : @js.Js,
 ) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
@@ -140,15 +155,15 @@ pub fn brotli_compress(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_brotli_compress(buffer.to_js(), options.to_js(), cb)
 }
 
 ///|
 extern "js" fn ffi_brotli_decompress(
-  buffer : Js,
-  options : Js,
-  callback : Js,
+  buffer : @js.Js,
+  options : @js.Js,
+  callback : @js.Js,
 ) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
@@ -162,12 +177,16 @@ pub fn brotli_decompress(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_brotli_decompress(buffer.to_js(), options.to_js(), cb)
 }
 
 ///|
-extern "js" fn ffi_unzip(buffer : Js, options : Js, callback : Js) -> Unit =
+extern "js" fn ffi_unzip(
+  buffer : @js.Js,
+  options : @js.Js,
+  callback : @js.Js,
+) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
   #|   zlib.unzip(buffer, options, callback);
@@ -180,7 +199,7 @@ pub fn unzip(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   ffi_unzip(buffer.to_js(), options.to_js(), cb)
 }
 
@@ -190,10 +209,10 @@ pub fn unzip(
 pub type Gzip
 
 ///|
-pub impl JsImpl for Gzip
+pub impl @js.JsImpl for Gzip
 
 ///|
-extern "js" fn ffi_create_gzip(options : Js) -> Gzip =
+extern "js" fn ffi_create_gzip(options : @js.Js) -> Gzip =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createGzip(options);
@@ -211,10 +230,10 @@ pub fn create_gzip(options : ZlibOptions) -> Gzip {
 pub type Gunzip
 
 ///|
-pub impl JsImpl for Gunzip
+pub impl @js.JsImpl for Gunzip
 
 ///|
-extern "js" fn ffi_create_gunzip(options : Js) -> Gunzip =
+extern "js" fn ffi_create_gunzip(options : @js.Js) -> Gunzip =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createGunzip(options);
@@ -232,10 +251,10 @@ pub fn create_gunzip(options : ZlibOptions) -> Gunzip {
 pub type Deflate
 
 ///|
-pub impl JsImpl for Deflate
+pub impl @js.JsImpl for Deflate
 
 ///|
-extern "js" fn ffi_create_deflate(options : Js) -> Deflate =
+extern "js" fn ffi_create_deflate(options : @js.Js) -> Deflate =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createDeflate(options);
@@ -253,10 +272,10 @@ pub fn create_deflate(options : ZlibOptions) -> Deflate {
 pub type Inflate
 
 ///|
-pub impl JsImpl for Inflate
+pub impl @js.JsImpl for Inflate
 
 ///|
-extern "js" fn ffi_create_inflate(options : Js) -> Inflate =
+extern "js" fn ffi_create_inflate(options : @js.Js) -> Inflate =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createInflate(options);
@@ -274,10 +293,10 @@ pub fn create_inflate(options : ZlibOptions) -> Inflate {
 pub type BrotliCompress
 
 ///|
-pub impl JsImpl for BrotliCompress
+pub impl @js.JsImpl for BrotliCompress
 
 ///|
-extern "js" fn ffi_create_brotli_compress(options : Js) -> BrotliCompress =
+extern "js" fn ffi_create_brotli_compress(options : @js.Js) -> BrotliCompress =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createBrotliCompress(options);
@@ -295,10 +314,12 @@ pub fn create_brotli_compress(options : ZlibOptions) -> BrotliCompress {
 pub type BrotliDecompress
 
 ///|
-pub impl JsImpl for BrotliDecompress
+pub impl @js.JsImpl for BrotliDecompress
 
 ///|
-extern "js" fn ffi_create_brotli_decompress(options : Js) -> BrotliDecompress =
+extern "js" fn ffi_create_brotli_decompress(
+  options : @js.Js,
+) -> BrotliDecompress =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createBrotliDecompress(options);

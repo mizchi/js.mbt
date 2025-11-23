@@ -29,14 +29,12 @@ test {
       inspect(isIPv4("invalid"), content="false")
       inspect(isIPv4("::1"), content="false")
     })
-
     it("isIPv6 should validate IPv6 addresses", _ => {
       inspect(isIPv6("::1"), content="true")
       inspect(isIPv6("2001:db8::1"), content="true")
       inspect(isIPv6("127.0.0.1"), content="false")
       inspect(isIPv6("invalid"), content="false")
     })
-
     it("isIP should return IP version", _ => {
       inspect(isIP("127.0.0.1"), content="4")
       inspect(isIP("::1"), content="6")
@@ -52,7 +50,6 @@ test {
       let server = createNetServer()
       inspect(server.listening(), content="false")
     })
-
     it("Server can be created with options", _ => {
       let server = createNetServer(
         allowHalfOpen=true,
@@ -63,18 +60,18 @@ test {
       )
       inspect(server.listening(), content="false")
     })
-
     it("Server listen with callback", _ => {
       let mut callback_called = false
       let server = createNetServer()
-      server.listen(0, host="127.0.0.1", callback=fn() { callback_called = true })
+      server.listen(0, host="127.0.0.1", callback=fn() {
+        callback_called = true
+      })
       |> ignore
       sleep(100)
       inspect(callback_called, content="true")
       inspect(server.listening(), content="true")
       server.close() |> ignore
     })
-
     it("Server listen and get address", _ => {
       let server = createNetServer()
       server.listen(0, host="127.0.0.1") |> ignore
@@ -95,12 +92,13 @@ test {
 
 ///|
 test {
-  @test.describe("Node Net: Socket operations", _ => {
-    it("Socket can be created", _ => {
+  @test.describe("Node Net: Socket operations", _ => it(
+    "Socket can be created",
+    _ => {
       let socket = createConnection(8080, host="127.0.0.1")
       // Just check that socket was created without connecting
       inspect(socket.destroyed(), content="false")
       socket.destroy() |> ignore
-    })
-  })
+    },
+  ))
 }

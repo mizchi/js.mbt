@@ -2,9 +2,6 @@
 using @js {trait JsImpl, type Promise, unsafe_cast, type AbortSignal}
 
 ///|
-using @events {trait EventEmitterImpl}
-
-///|
 #external
 pub type Interface
 
@@ -13,7 +10,7 @@ impl JsImpl for Interface
 
 ///|
 /// Implement EventEmitter trait for Interface
-pub impl EventEmitterImpl for Interface
+pub impl @events.EventEmitterImpl for Interface
 
 ///|
 #alias(create_interface)

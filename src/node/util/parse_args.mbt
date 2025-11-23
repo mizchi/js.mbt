@@ -13,7 +13,7 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 }
 
 ///|
-impl JsImpl for ParseArgsOption with to_js(self) -> Js {
+impl @js.JsImpl for ParseArgsOption with to_js(self) -> @js.Js {
   match self {
     Boolean(short~, ..) =>
       @js.from_entries([("type", "boolean"), ("short", short)])
@@ -29,9 +29,9 @@ impl JsImpl for ParseArgsOption with to_js(self) -> Js {
 
 ///|
 pub(all) struct ParseArgsResult {
-  values : Map[String, Js]
+  values : Map[String, @js.Js]
   positionals : Array[String]
-  tokens : Array[Js]?
+  tokens : Array[@js.Js]?
 }
 
 ///|
@@ -57,15 +57,15 @@ pub fn parseArgs(
     ("allowPositionals", allow_positionals),
   ])
   // result["tokens"] = tokens
-  let r : Js = unsafe_cast(util().get("parseArgs").call_self([result]))
-  let values : Map[String, Js] = {}
+  let r : @js.Js = @js.unsafe_cast(util().get("parseArgs").call_self([result]))
+  let values : Map[String, @js.Js] = {}
   let result_keys = r.get("values") |> @js.Object::keys
   for k in result_keys {
-    values[k] = unsafe_cast(r.get("values").get(k))
+    values[k] = @js.unsafe_cast(r.get("values").get(k))
   }
   ParseArgsResult::{
     values,
-    positionals: r.get("positionals") |> unsafe_cast,
+    positionals: r.get("positionals") |> @js.unsafe_cast,
     tokens: None,
   }
 }

@@ -7,8 +7,8 @@
 /// # Example
 ///
 /// ```moonbit
-/// let num = js(42)                 // MoonBit Int -> Js
-/// let _str = js("hello")            // MoonBit String -> Js
+/// let num = js(42)                 // MoonBit Int -> @js.Js
+/// let _str = js("hello")            // MoonBit String -> @js.Js
 /// let _val : Int = unsafe_cast(num) // Val -> MoonBit Int (unsafe)
 /// ```
 #external

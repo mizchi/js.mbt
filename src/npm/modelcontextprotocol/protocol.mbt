@@ -49,8 +49,8 @@ pub fn Content::resource(uri : String) -> Content {
 }
 
 ///|
-pub fn Content::to_js(self : Content) -> Object {
-  let obj = Object::new()
+pub fn Content::to_js(self : Content) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("type", self.type_.to_string())
   match self.text {
     Some(t) => obj.set("text", t)
@@ -76,12 +76,12 @@ pub fn Content::to_js(self : Content) -> Object {
 pub(all) struct Tool {
   name : String
   description : String
-  input_schema : Object
+  input_schema : @js.Object
 }
 
 ///|
-pub fn Tool::to_js(self : Tool) -> Object {
-  let obj = Object::new()
+pub fn Tool::to_js(self : Tool) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("name", self.name)
   obj.set("description", self.description)
   obj.set("inputSchema", self.input_schema)
@@ -98,8 +98,8 @@ pub(all) struct Resource {
 } derive(Show)
 
 ///|
-pub fn Resource::to_js(self : Resource) -> Object {
-  let obj = Object::new()
+pub fn Resource::to_js(self : Resource) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("uri", self.uri)
   obj.set("name", self.name)
   match self.description {
@@ -129,8 +129,8 @@ pub(all) struct PromptArgument {
 } derive(Show)
 
 ///|
-pub fn PromptArgument::to_js(self : PromptArgument) -> Object {
-  let obj = Object::new()
+pub fn PromptArgument::to_js(self : PromptArgument) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("name", self.name)
   match self.description {
     Some(d) => obj.set("description", d)
@@ -141,14 +141,14 @@ pub fn PromptArgument::to_js(self : PromptArgument) -> Object {
 }
 
 ///|
-pub fn Prompt::to_js(self : Prompt) -> Object {
-  let obj = Object::new()
+pub fn Prompt::to_js(self : Prompt) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("name", self.name)
   match self.description {
     Some(d) => obj.set("description", d)
     None => ()
   }
-  let args_array = JsArray::new()
+  let args_array = @js.JsArray::new()
   for i = 0; i < self.arguments.length(); i = i + 1 {
     args_array.push(self.arguments[i].to_js())
   }
@@ -165,17 +165,17 @@ pub struct ServerCapabilities {
 } derive(Show)
 
 ///|
-pub fn ServerCapabilities::to_js(self : ServerCapabilities) -> Object {
-  let obj = Object::new()
-  let capabilities = Object::new()
+pub fn ServerCapabilities::to_js(self : ServerCapabilities) -> @js.Object {
+  let obj = @js.Object::new()
+  let capabilities = @js.Object::new()
   if self.tools {
-    capabilities.set("tools", Object::new())
+    capabilities.set("tools", @js.Object::new())
   }
   if self.resources {
-    capabilities.set("resources", Object::new())
+    capabilities.set("resources", @js.Object::new())
   }
   if self.prompts {
-    capabilities.set("prompts", Object::new())
+    capabilities.set("prompts", @js.Object::new())
   }
   obj.set("capabilities", capabilities)
   obj
@@ -189,8 +189,8 @@ pub struct ServerInfo {
 } derive(Show)
 
 ///|
-pub fn ServerInfo::to_js(self : ServerInfo) -> Object {
-  let obj = Object::new()
+pub fn ServerInfo::to_js(self : ServerInfo) -> @js.Object {
+  let obj = @js.Object::new()
   obj.set("name", self.name)
   obj.set("version", self.version)
   obj
@@ -204,8 +204,8 @@ pub struct ClientInfo {
 } derive(Show)
 
 ///|
-pub fn ClientInfo::from_js(js : Js) -> ClientInfo? {
-  let obj : Object = @js.unsafe_cast(js)
+pub fn ClientInfo::from_js(js : @js.Js) -> ClientInfo? {
+  let obj : @js.Object = @js.unsafe_cast(js)
   let name : String? = obj.get("name") |> @js.unsafe_cast_option()
   let version : String? = obj.get("version") |> @js.unsafe_cast_option()
   match (name, version) {

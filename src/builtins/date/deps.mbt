@@ -1,2 +1,0 @@
-///|
-using @js {trait JsImpl}

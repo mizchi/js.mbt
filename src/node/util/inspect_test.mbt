@@ -1,7 +1,4 @@
 ///|
-using @js {js}
-
-///|
 test "util:inspect" {
   let obj : Json = {
     "xxx": "------------------------",

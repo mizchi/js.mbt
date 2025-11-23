@@ -35,7 +35,6 @@ test {
       // not called
       assert_eq(received, 6)
     })
-
     it("EventEmitter once", _ => {
       let emitter = @events.EventEmitter::new()
       let mut count = 0
@@ -48,7 +47,6 @@ test {
       sleep(10)
       assert_eq(count, 1)
     })
-
     it("EventEmitter eventNames", _ => {
       let emitter = @events.EventEmitter::new()
       emitter.on("event1", _ => ())
@@ -56,7 +54,6 @@ test {
       let names = emitter.eventNames()
       assert_eq(names.length(), 2)
     })
-
     it("EventEmitter multiple listeners", _ => {
       let emitter = @events.EventEmitter::new()
       let mut count1 = 0
@@ -75,7 +72,6 @@ test {
       assert_eq(count1, 1)
       assert_eq(count2, 1)
     })
-
     it("EventEmitter with async handlers", _ => {
       let emitter = @events.EventEmitter::new()
       let results = []
@@ -118,7 +114,6 @@ test {
       let r3 = resolver3.promise.wait()
       assert_eq(r1 + r2 + r3, 6)
     })
-
     it("timer and promise coordination", _ => {
       let mut timer_fired = false
       let mut promise_resolved = false
@@ -154,7 +149,6 @@ test {
       sleep(20)
       assert_eq(total, 45) // 0+1+2+...+9 = 45
     })
-
     it("multiple EventEmitters", _ => {
       let emitter1 = @events.EventEmitter::new()
       let emitter2 = @events.EventEmitter::new()
@@ -174,7 +168,6 @@ test {
       assert_eq(count1, 1)
       assert_eq(count2, 1)
     })
-
     it("EventEmitter with different payload types", _ => {
       let emitter = @events.EventEmitter::new()
       let mut int_val = 0
@@ -193,7 +186,6 @@ test {
       assert_eq(int_val, 42)
       assert_eq(str_val, "hello")
     })
-
     it("EventEmitter removeAllListeners specific event", _ => {
       let emitter = @events.EventEmitter::new()
       let mut count = 0

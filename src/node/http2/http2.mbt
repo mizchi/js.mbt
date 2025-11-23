@@ -1,5 +1,4 @@
 ///|
-using @js {type Js, trait JsImpl}
 
 ///|
 /// HTTP/2 Session - base class for client and server sessions
@@ -8,7 +7,7 @@ using @js {type Js, trait JsImpl}
 pub type Http2Session
 
 ///|
-pub impl JsImpl for Http2Session
+pub impl @js.JsImpl for Http2Session
 
 ///|
 pub impl @event.EventTargetImpl for Http2Session
@@ -20,7 +19,7 @@ pub impl @event.EventTargetImpl for Http2Session
 pub type Http2Server
 
 ///|
-pub impl JsImpl for Http2Server
+pub impl @js.JsImpl for Http2Server
 
 ///|
 pub impl @event.EventTargetImpl for Http2Server
@@ -32,7 +31,7 @@ pub impl @event.EventTargetImpl for Http2Server
 pub type Http2SecureServer
 
 ///|
-pub impl JsImpl for Http2SecureServer
+pub impl @js.JsImpl for Http2SecureServer
 
 ///|
 pub impl @event.EventTargetImpl for Http2SecureServer
@@ -44,7 +43,7 @@ pub impl @event.EventTargetImpl for Http2SecureServer
 pub type Http2Stream
 
 ///|
-pub impl JsImpl for Http2Stream
+pub impl @js.JsImpl for Http2Stream
 
 ///|
 pub impl @event.EventTargetImpl for Http2Stream
@@ -56,7 +55,7 @@ pub impl @event.EventTargetImpl for Http2Stream
 pub type ClientHttp2Stream
 
 ///|
-pub impl JsImpl for ClientHttp2Stream
+pub impl @js.JsImpl for ClientHttp2Stream
 
 ///|
 pub impl @event.EventTargetImpl for ClientHttp2Stream
@@ -68,7 +67,7 @@ pub impl @event.EventTargetImpl for ClientHttp2Stream
 pub type ServerHttp2Stream
 
 ///|
-pub impl JsImpl for ServerHttp2Stream
+pub impl @js.JsImpl for ServerHttp2Stream
 
 ///|
 pub impl @event.EventTargetImpl for ServerHttp2Stream
@@ -101,7 +100,7 @@ pub fn ServerOptions::new() -> ServerOptions {
 
 ///|
 /// Convert ServerOptions to JavaScript object
-pub fn ServerOptions::to_js(self : ServerOptions) -> Js {
+pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Js {
   let obj = @js.Object::new()
   match self.allow_http1 {
     Some(v) => obj.set("allowHTTP1", v)
@@ -152,7 +151,7 @@ pub fn SecureServerOptions::new() -> SecureServerOptions {
 
 ///|
 /// Convert SecureServerOptions to JavaScript object
-pub fn SecureServerOptions::to_js(self : SecureServerOptions) -> Js {
+pub fn SecureServerOptions::to_js(self : SecureServerOptions) -> @js.Js {
   let obj = @js.Object::new()
   match self.key {
     Some(v) => obj.set("key", v)
@@ -179,8 +178,8 @@ pub fn SecureServerOptions::to_js(self : SecureServerOptions) -> Js {
 
 ///|
 extern "js" fn ffi_create_server(
-  options : Js,
-  request_handler : Js,
+  options : @js.Js,
+  request_handler : @js.Js,
 ) -> Http2Server =
   #| (options, requestHandler) => {
   #|   const http2 = require('http2');
@@ -198,8 +197,8 @@ pub fn create_server(
 
 ///|
 extern "js" fn ffi_create_secure_server(
-  options : Js,
-  request_handler : Js,
+  options : @js.Js,
+  request_handler : @js.Js,
 ) -> Http2SecureServer =
   #| (options, requestHandler) => {
   #|   const http2 = require('http2');
@@ -222,7 +221,7 @@ pub fn Http2Server::listen(
   port : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
@@ -233,14 +232,14 @@ pub fn Http2SecureServer::listen(
   port : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Http2Server::close(self : Http2Server, callback : () -> Unit) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   self.call("close", [cb]) |> ignore
 }
 
@@ -250,12 +249,15 @@ pub fn Http2SecureServer::close(
   self : Http2SecureServer,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   self.call("close", [cb]) |> ignore
 }
 
 ///|
-extern "js" fn ffi_connect(authority : String, options : Js) -> Http2Session =
+extern "js" fn ffi_connect(
+  authority : String,
+  options : @js.Js,
+) -> Http2Session =
   #| (authority, options) => {
   #|   const http2 = require('http2');
   #|   return http2.connect(authority, options);
@@ -285,7 +287,7 @@ pub fn Http2Session::close(self : Http2Session) -> Unit {
 ///|
 /// Send a ping
 pub fn Http2Session::ping(self : Http2Session, callback : () -> Unit) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   self.call("ping", [cb]) |> ignore
 }
 
@@ -325,7 +327,7 @@ pub fn ClientHttp2Stream::on_data(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("data", fn(e : Js) { callback(@js.unsafe_cast(e)) })
+  self.addEventListener("data", fn(e : @js.Js) { callback(@js.unsafe_cast(e)) })
   self
 }
 
@@ -335,7 +337,9 @@ pub fn ClientHttp2Stream::on_response(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("response", fn(e : Js) { callback(@js.unsafe_cast(e)) })
+  self.addEventListener("response", fn(e : @js.Js) {
+    callback(@js.unsafe_cast(e))
+  })
   self
 }
 
@@ -345,6 +349,6 @@ pub fn ClientHttp2Stream::on_end(
   self : ClientHttp2Stream,
   callback : () -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("end", fn(_e : Js) { callback() })
+  self.addEventListener("end", fn(_e : @js.Js) { callback() })
   self
 }

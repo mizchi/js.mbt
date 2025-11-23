@@ -1,7 +1,6 @@
 ///|
 /// Node.js Inspector module
 /// Provides programmatic access to the V8 Inspector for debugging
-using @js {type Js}
 
 ///|
 /// Session class for V8 Inspector communication
@@ -49,7 +48,7 @@ pub fn Session::post(
   params : @js.Object?,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.unsafe_cast(callback)
   match params {
     Some(p) => self.call("post", [method_, p.to_js(), cb]) |> ignore
     None => self.call("post", [method_, cb]) |> ignore
@@ -94,7 +93,7 @@ extern "js" fn ffi_close() -> Unit =
 
 ///|
 pub fn url() -> String? {
-  let result : Js = ffi_url()
+  let result : @js.Js = ffi_url()
   let is_undef : Bool = @js.unsafe_cast(@js.typeof_(result) == "undefined")
   if is_undef {
     None
@@ -104,7 +103,7 @@ pub fn url() -> String? {
 }
 
 ///|
-extern "js" fn ffi_url() -> Js =
+extern "js" fn ffi_url() -> @js.Js =
   #| () => require('node:inspector').url()
 
 ///|

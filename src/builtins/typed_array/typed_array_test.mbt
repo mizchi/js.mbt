@@ -467,7 +467,7 @@ test "Bytes to Uint8Array conversion" {
   // Create Bytes from array
   let bytes = Bytes::from_array([72, 101, 108, 108, 111])
 
-  // Convert Bytes to Uint8Array via unsafe_cast
+  // Convert Bytes to Uint8Array via @js.unsafe_cast
   let uint8array : Uint8Array = @js.unsafe_cast(bytes)
 
   // Verify length
@@ -486,7 +486,7 @@ test "Uint8Array to Bytes conversion" {
   // Create Uint8Array
   let uint8array = Uint8Array::from_array([72, 101, 108, 108, 111])
 
-  // Convert Uint8Array to Bytes via unsafe_cast
+  // Convert Uint8Array to Bytes via @js.unsafe_cast
   let bytes : Bytes = @js.unsafe_cast(uint8array)
 
   // Verify length

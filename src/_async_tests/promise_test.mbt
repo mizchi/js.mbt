@@ -36,7 +36,6 @@ test {
       let result = p.wait()
       assert_eq(result, 20)
     })
-
     it("Promise::catch_", _ => {
       let err_val : Js = @js.unsafe_cast(@js.Object::new())
       let p = Promise::reject(err_val)
@@ -45,7 +44,6 @@ test {
       let v : Int = unsafe_cast(result)
       assert_eq(v, 42)
     })
-
     it("Promise::finally_", _ => {
       let mut finalized = false
       let resolver : Resolvers[Int] = Promise::withResolvers()
@@ -58,7 +56,6 @@ test {
       assert_eq(result, 100)
       assert_true(finalized)
     })
-
     it("Promise::all", _ => {
       let p1 = Promise::resolve(1)
       let p2 = Promise::resolve(2)
@@ -69,7 +66,6 @@ test {
       assert_eq(results[1], 2)
       assert_eq(results[2], 3)
     })
-
     it("Promise::race", _ => {
       let resolver1 : Resolvers[Int] = Promise::withResolvers()
       let resolver2 : Resolvers[Int] = Promise::withResolvers()
@@ -85,7 +81,6 @@ test {
       let result = race.wait()
       assert_eq(result, 100)
     })
-
     it("Promise::new", _ => {
       let p : Promise[Int] = Promise::new((resolve, _reject) => run_async(() => {
         sleep(1)
@@ -94,7 +89,6 @@ test {
       let result = p.wait()
       assert_eq(result, 42)
     })
-
     it("Promise::new with reject", _ => {
       let p : Promise[Int] = Promise::new((_resolve, reject) => run_async(() => {
         sleep(1)
@@ -103,7 +97,6 @@ test {
       let result = try? p.wait()
       assert_true(result is Err(_))
     })
-
     it("Promise::resolve with different types", _ => {
       let p1 = Promise::resolve(42)
       let p2 = Promise::resolve("hello")
@@ -112,20 +105,17 @@ test {
       assert_eq(p2.wait(), "hello")
       assert_eq(p3.wait(), true)
     })
-
     it("Promise::all with empty array", _ => {
       let all : Promise[Array[Int]] = Promise::all([])
       let results = all.wait()
       assert_eq(results.length(), 0)
     })
-
     it("Promise::race with single promise", _ => {
       let p = Promise::resolve(100)
       let race = Promise::race([p])
       let result = race.wait()
       assert_eq(result, 100)
     })
-
     it("Promise::any returns first fulfilled promise", _ => {
       let resolver1 : Resolvers[Int] = Promise::withResolvers()
       let resolver2 : Resolvers[Int] = Promise::withResolvers()
@@ -141,7 +131,6 @@ test {
       let result = any_result.wait()
       inspect(result, content="200")
     })
-
     it("Promise::allSettled handles both fulfilled and rejected", _ => {
       let resolver1 : Resolvers[Int] = Promise::withResolvers()
       let resolver2 : Resolvers[Int] = Promise::withResolvers()
@@ -168,44 +157,37 @@ test {
       let result = p.wait()
       assert_eq(result, 123)
     })
-
     it("Promise::try_ failure", _ => {
       let p : Promise[Unit] = Promise::try_(async fn() { fail("error") })
       let result = try? p.wait()
       assert_true(result is Err(_))
     })
-
     it("async function to Promise and back", _ => {
       let result = Promise::try_(async fn() { 42 }).wait()
       inspect(result, content="42")
     })
-
     it("Promise.resolve to async unwrap", _ => {
       let result = Promise::resolve(100).wait()
       inspect(result, content="100")
     })
-
     it("promisify0 converts async function to Promise function", _ => {
       let async_fn = async fn() { "hello" }
       let promise_fn = promisify0(async_fn)
       let result = promise_fn().wait()
       inspect(result, content="hello")
     })
-
     it("promisify1 converts async function to Promise function", _ => {
       let async_fn = async fn(x : Int) { x * 2 }
       let promise_fn = promisify1(async_fn)
       let result = promise_fn(21).wait()
       inspect(result, content="42")
     })
-
     it("Promise.then with async unwrap", _ => {
       let promise = Promise::resolve(10)
       let doubled = promise.then(fn(x) { Promise::resolve(x * 2) })
       let result = doubled.wait()
       inspect(result, content="20")
     })
-
     it("unwrap Promise inside async function", _ => {
       let async_fn = async fn() {
         let p1 = Promise::resolve(10)
@@ -217,7 +199,6 @@ test {
       let result = async_fn()
       inspect(result, content="30")
     })
-
     it("Promise.all with async unwrap", _ => {
       let promises = [
         Promise::resolve(1),
@@ -231,20 +212,19 @@ test {
       inspect(results[1], content="2")
       inspect(results[2], content="3")
     })
-
     it("async function with error converts to rejected Promise", _ => {
       let async_fn = async fn() -> Int { fail("test error") }
       let promise = Promise::try_(async_fn)
       let result = promise.wait() catch { _e => -1 }
       inspect(result, content="-1")
     })
-
     it("Promise.new to async unwrap", _ => {
-      let promise : Promise[Int] = Promise::new((resolve, _reject) => resolve(999))
+      let promise : Promise[Int] = Promise::new((resolve, _reject) => resolve(
+        999,
+      ))
       let result = promise.wait()
       inspect(result, content="999")
     })
-
     it("chaining async and Promise operations", _ => {
       let step1 = async fn() { 5 }
       let step2 = async fn(x : Int) { Promise::resolve(x * 2).wait() }
@@ -256,7 +236,6 @@ test {
       })()
       inspect(result, content="20")
     })
-
     it("Promise and async are interchangeable", _ => {
       // async -> Promise
       let async_value = async fn() { 42 }
@@ -287,7 +266,6 @@ test {
       // race は最初に解決された Promise を返す（同期的に resolve されるのでどれか1つ）
       inspect(result >= 1 && result <= 3, content="true")
     })
-
     it("Promise.finally_ always executes", _ => {
       let mut finally_called = false
       let promise = Promise::resolve(42)

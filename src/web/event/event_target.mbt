@@ -19,7 +19,7 @@ pub(open) trait EventTargetImpl: @js.JsImpl {
   /// - capture: if true, the listener will be triggered during the capture phase
   /// - once: if true, the listener will be automatically removed after being invoked once
   /// - passive: if true, indicates that the listener will never call preventDefault()
-  /// - signal: an AbortSignal to remove the listener when aborted
+  /// - signal: an @js.AbortSignal to remove the listener when aborted
   addEventListener(
     Self,
     String,
@@ -27,7 +27,7 @@ pub(open) trait EventTargetImpl: @js.JsImpl {
     capture? : Bool,
     once? : Bool,
     passive? : Bool,
-    signal? : AbortSignal,
+    signal? : @js.AbortSignal,
   ) -> Unit = _
 
   /// Remove a previously registered event listener
@@ -48,7 +48,7 @@ impl EventTargetImpl with addEventListener(
   capture? : Bool = false,
   once? : Bool = false,
   passive? : Bool = false,
-  signal? : AbortSignal,
+  signal? : @js.AbortSignal,
 ) -> Unit {
   self.call("addEventListener", [
     event_type,

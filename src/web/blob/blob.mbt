@@ -6,23 +6,23 @@ pub(all) struct Blob {
 }
 
 ///|
-pub impl JsImpl for Blob
+pub impl @js.JsImpl for Blob
 
 ///|
 /// Get the content type of the Blob
 #alias(content_type)
 pub fn Blob::contentType(self : Self) -> String {
-  self.to_js().get("type") |> unsafe_cast
+  self.to_js().get("type") |> @js.unsafe_cast
 }
 
 ///|
 /// Create a new Blob from array of data
-extern "js" fn ffi_new_blob(data : Js, options : Js) -> Js =
+extern "js" fn ffi_new_blob(data : @js.Js, options : @js.Js) -> @js.Js =
   #|(data, options) => new Blob(data, options)
 
 ///|
 /// Create a new Blob
-pub fn Blob::new(data : Array[&JsImpl], content_type? : String) -> Blob {
+pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
   let arr = @js.JsArray::new()
   let mut i = 0
   while i < data.length() {
@@ -33,20 +33,20 @@ pub fn Blob::new(data : Array[&JsImpl], content_type? : String) -> Blob {
     arr.to_js(),
     @js.from_entries_option_cast([("type", content_type)]),
   )
-  |> unsafe_cast
+  |> @js.unsafe_cast
 }
 
 ///|
 /// Get the Blob contents as ArrayBuffer
 #alias(arrayBuffer)
-pub fn Blob::array_buffer(self : Self) -> Promise[ArrayBuffer] {
-  self.to_js().call0("arrayBuffer") |> unsafe_cast
+pub fn Blob::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
+  self.to_js().call0("arrayBuffer") |> @js.unsafe_cast
 }
 
 ///|
 /// Get the Blob contents as text
-pub fn Blob::text(self : Self) -> Promise[String] {
-  self.to_js().call0("text") |> unsafe_cast
+pub fn Blob::text(self : Self) -> @js.Promise[String] {
+  self.to_js().call0("text") |> @js.unsafe_cast
 }
 
 ///|
@@ -59,28 +59,29 @@ pub fn Blob::slice(
 ) -> Blob {
   let js = self.to_js()
   match (start, end, content_type) {
-    (None, None, None) => js.call0("slice") |> unsafe_cast
-    (Some(s), None, None) => js.call("slice", [s]) |> unsafe_cast
-    (Some(s), Some(e), None) => js.call2("slice", s, e) |> unsafe_cast
-    (Some(s), Some(e), Some(ct)) => js.call("slice", [s, e, ct]) |> unsafe_cast
+    (None, None, None) => js.call0("slice") |> @js.unsafe_cast
+    (Some(s), None, None) => js.call("slice", [s]) |> @js.unsafe_cast
+    (Some(s), Some(e), None) => js.call2("slice", s, e) |> @js.unsafe_cast
+    (Some(s), Some(e), Some(ct)) =>
+      js.call("slice", [s, e, ct]) |> @js.unsafe_cast
     (None, Some(e), ct) =>
       match ct {
-        Some(t) => js.call("slice", [0, e, t]) |> unsafe_cast
-        None => js.call2("slice", 0, e) |> unsafe_cast
+        Some(t) => js.call("slice", [0, e, t]) |> @js.unsafe_cast
+        None => js.call2("slice", 0, e) |> @js.unsafe_cast
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size
-      js.call("slice", [s, size, ct]) |> unsafe_cast
+      js.call("slice", [s, size, ct]) |> @js.unsafe_cast
     }
     (None, None, Some(ct)) => {
       let size = self.size
-      js.call("slice", [0, size, ct]) |> unsafe_cast
+      js.call("slice", [0, size, ct]) |> @js.unsafe_cast
     }
   }
 }
 
 ///|
 /// Get a ReadableStream for the Blob contents
-pub fn Blob::stream(self : Self) -> ReadableStream {
-  self.to_js().call0("stream") |> unsafe_cast
+pub fn Blob::stream(self : Self) -> @streams.ReadableStream {
+  self.to_js().call0("stream") |> @js.unsafe_cast
 }

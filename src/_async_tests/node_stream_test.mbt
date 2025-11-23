@@ -64,20 +64,17 @@ test {
       let _ = readable.resume_()
       assert_eq(readable.isPaused(), false)
     })
-
     it("Readable stream - properties", _ => {
       let readable = create_readable_from_string("test")
       assert_eq(readable.readable(), true)
       // Readable.from() creates object mode stream by default
       assert_eq(readable.readableObjectMode(), true)
     })
-
     it("Readable setEncoding", _ => {
       let readable = create_readable_from_string("encoding test")
       let _ = readable.setEncoding("utf8")
       assert_eq(readable.readable(), true)
     })
-
     it("Readable unpipe", _ => {
       let readable = create_readable_from_string("unpipe test")
       let writable : Writable = unsafe_cast(create_writable_to_array())
@@ -86,7 +83,6 @@ test {
       // Stream should be unpiped
       assert_eq(readable.readable(), true)
     })
-
     it("Readable destroy", _ => {
       let readable = create_readable_from_string("destroy test")
       // Destroy without error - stream will handle it
@@ -108,7 +104,6 @@ test {
       let success = writable.write(@js.unsafe_cast("test"))
       assert_eq(success, true)
     })
-
     it("Writable cork/uncork", _ => {
       let writable_js = create_writable_to_array()
       let writable : Writable = unsafe_cast(writable_js)
@@ -122,7 +117,6 @@ test {
       let chunks = get_chunks(writable_js)
       assert_eq(chunks.length(), 2)
     })
-
     it("Writable destroy", _ => {
       let writable : Writable = unsafe_cast(create_writable_to_array())
       // Destroy without error - stream will handle it
@@ -130,7 +124,6 @@ test {
       sleep(5)
       assert_eq(writable.closed(), true)
     })
-
     it("Writable end", _ => {
       let writable : Writable = unsafe_cast(create_writable_to_array())
       // Call end without chunk - use call directly
@@ -154,7 +147,6 @@ test {
       assert_eq(chunks.length(), 1)
       assert_eq(chunks[0], "Hello Pipe!")
     })
-
     it("Transform stream - uppercase", _ => {
       let readable = create_readable_from_string("hello transform")
       let transform : Readable = unsafe_cast(create_transform_uppercase())
@@ -167,20 +159,20 @@ test {
       assert_eq(chunks.length(), 1)
       assert_eq(chunks[0], "HELLO TRANSFORM")
     })
-
     it("PassThrough stream", _ => {
       let readable = create_readable_from_string("passthrough test")
       let passthrough : Readable = unsafe_cast(create_passthrough())
       let writable_js = create_writable_to_array()
       let writable : Writable = unsafe_cast(writable_js)
-      let piped : Readable = unsafe_cast(readable.pipe(unsafe_cast(passthrough)))
+      let piped : Readable = unsafe_cast(
+        readable.pipe(unsafe_cast(passthrough)),
+      )
       let _ = piped.pipe(writable)
       sleep(10)
       let chunks = get_chunks(writable_js)
       assert_eq(chunks.length(), 1)
       assert_eq(chunks[0], "passthrough test")
     })
-
     it("multiple transforms in pipeline", _ => {
       let readable = create_readable_from_string("multi transform")
       let transform1 = create_transform_uppercase()
@@ -188,7 +180,9 @@ test {
       let writable_js = create_writable_to_array()
       let writable : Writable = unsafe_cast(writable_js)
       // Use pipe instead of pipeline for multiple streams without callback
-      let piped1 : Readable = unsafe_cast(readable.pipe(unsafe_cast(transform1)))
+      let piped1 : Readable = unsafe_cast(
+        readable.pipe(unsafe_cast(transform1)),
+      )
       let piped2 : Readable = unsafe_cast(piped1.pipe(unsafe_cast(transform2)))
       let _ = piped2.pipe(writable)
       sleep(15)
@@ -196,7 +190,6 @@ test {
       assert_eq(chunks.length(), 1)
       assert_eq(chunks[0], "MULTI TRANSFORM")
     })
-
     it("stream properties after operations", _ => {
       let readable = create_readable_from_string("props test")
       let writable_js = create_writable_to_array()
@@ -225,7 +218,6 @@ test {
       assert_eq(chunks.length(), 1)
       assert_eq(chunks[0], "PIPELINE TEST")
     })
-
     it("pipeline with callback", _ => {
       let mut callback_called = false
       let readable = create_readable_from_string("callback test")
@@ -244,7 +236,6 @@ test {
       let chunks = get_chunks(writable_js)
       assert_eq(chunks[0], "callback test")
     })
-
     it("finished - stream completion", _ => {
       let mut finished_called = false
       let readable = create_readable_from_string("finished test")
@@ -259,7 +250,6 @@ test {
       sleep(20)
       assert_eq(finished_called, true)
     })
-
     it("async pipeline with Promise", _ => {
       let resolver : Resolvers[Bool] = Promise::withResolvers()
       run_async(fn() {

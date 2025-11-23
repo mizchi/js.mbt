@@ -1,6 +1,6 @@
 ///|
-fn nodetest() -> Js {
-  unsafe_cast(@node.require("node:test"))
+fn nodetest() -> @js.Js {
+  @js.unsafe_cast(@node.require("node:test"))
 }
 
 ///|
@@ -8,14 +8,14 @@ fn nodetest() -> Js {
 pub type TestContext
 
 ///|
-pub impl JsImpl for TestContext
+pub impl @js.JsImpl for TestContext
 
 ///|
 #external
 pub type SuiteContext
 
 ///|
-pub impl JsImpl for SuiteContext
+pub impl @js.JsImpl for SuiteContext
 
 ///| TestContext methods
 
@@ -54,7 +54,7 @@ pub fn TestContext::runOnly(self : Self, shouldRunOnlyTests : Bool) -> Unit {
 
 ///|
 /// Get assert object from context
-fn TestContext::assert_obj(self : Self) -> Js {
+fn TestContext::assert_obj(self : Self) -> @js.Js {
   self.get("assert")
 }
 
@@ -74,7 +74,7 @@ pub fn TestContext::assert_ok(
 
 ///|
 /// JS: context.assert.strictEqual(actual, expected, message?)
-pub fn[T : JsImpl] TestContext::assert_strict_equal(
+pub fn[T : @js.JsImpl] TestContext::assert_strict_equal(
   self : Self,
   actual : T,
   expected : T,
@@ -90,7 +90,7 @@ pub fn[T : JsImpl] TestContext::assert_strict_equal(
 
 ///|
 /// JS: context.assert.notStrictEqual(actual, expected, message?)
-pub fn[T : JsImpl] TestContext::assert_not_strict_equal(
+pub fn[T : @js.JsImpl] TestContext::assert_not_strict_equal(
   self : Self,
   actual : T,
   expected : T,
@@ -106,7 +106,7 @@ pub fn[T : JsImpl] TestContext::assert_not_strict_equal(
 
 ///|
 /// JS: context.assert.deepStrictEqual(actual, expected, message?)
-pub fn[T : JsImpl] TestContext::assert_deep_strict_equal(
+pub fn[T : @js.JsImpl] TestContext::assert_deep_strict_equal(
   self : Self,
   actual : T,
   expected : T,
@@ -122,7 +122,7 @@ pub fn[T : JsImpl] TestContext::assert_deep_strict_equal(
 
 ///|
 /// JS: context.assert.notDeepStrictEqual(actual, expected, message?)
-pub fn[T : JsImpl] TestContext::assert_not_deep_strict_equal(
+pub fn[T : @js.JsImpl] TestContext::assert_not_deep_strict_equal(
   self : Self,
   actual : T,
   expected : T,
@@ -141,7 +141,7 @@ pub fn[T : JsImpl] TestContext::assert_not_deep_strict_equal(
 pub fn TestContext::assert_match(
   self : Self,
   string : String,
-  regexp : RegExp,
+  regexp : @regexp.RegExp,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
@@ -156,7 +156,7 @@ pub fn TestContext::assert_match(
 pub fn TestContext::assert_does_not_match(
   self : Self,
   string : String,
-  regexp : RegExp,
+  regexp : @regexp.RegExp,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
@@ -172,7 +172,7 @@ pub fn TestContext::assert_does_not_match(
 pub fn TestContext::assert_throws(
   self : Self,
   fn_ : () -> Unit,
-  error? : Js,
+  error? : @js.Js,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
@@ -191,7 +191,7 @@ pub fn TestContext::assert_throws(
 pub fn TestContext::assert_does_not_throw(
   self : Self,
   fn_ : () -> Unit,
-  error? : Js,
+  error? : @js.Js,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
@@ -211,11 +211,11 @@ pub fn TestContext::assert_does_not_throw(
 pub fn TestContext::assert_rejects(
   self : Self,
   asyncFn : async () -> Unit,
-  error? : Js,
+  error? : @js.Js,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : Js = promisify0(asyncFn)() |> unsafe_cast
+  let promise_js : @js.Js = @js.promisify0(asyncFn)() |> @js.unsafe_cast
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj.call("rejects", [promise_js, err, msg]) |> ignore
@@ -230,11 +230,11 @@ pub fn TestContext::assert_rejects(
 pub fn TestContext::assert_does_not_reject(
   self : Self,
   asyncFn : async () -> Unit,
-  error? : Js,
+  error? : @js.Js,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : Js = promisify0(asyncFn)() |> unsafe_cast
+  let promise_js : @js.Js = @js.promisify0(asyncFn)() |> @js.unsafe_cast
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj.call("doesNotReject", [promise_js, err, msg]) |> ignore
@@ -271,7 +271,7 @@ pub fn test_(
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call("test", [name, options, promisify1(f) |> @js.from_fn1])
+  nodetest().call("test", [name, options, @js.promisify1(f) |> @js.from_fn1])
   |> ignore
 }
 
@@ -298,7 +298,7 @@ pub fn it(
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call("it", [name, options, promisify1(f) |> @js.from_fn1])
+  nodetest().call("it", [name, options, @js.promisify1(f) |> @js.from_fn1])
   |> ignore
 }
 
@@ -325,7 +325,7 @@ pub fn describe(
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call("describe", [name, options, promisify1(f) |> @js.from_fn1])
+  nodetest().call("describe", [name, options, @js.promisify1(f) |> @js.from_fn1])
   |> ignore
 }
 
@@ -338,7 +338,8 @@ pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call2("before", promisify0(f) |> @js.from_fn0, options) |> ignore
+  nodetest().call2("before", @js.promisify0(f) |> @js.from_fn0, options)
+  |> ignore
 }
 
 ///|
@@ -348,7 +349,8 @@ pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call2("after", promisify0(f) |> @js.from_fn0, options) |> ignore
+  nodetest().call2("after", @js.promisify0(f) |> @js.from_fn0, options)
+  |> ignore
 }
 
 ///|
@@ -358,7 +360,7 @@ pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call2("beforeEach", promisify0(f) |> @js.from_fn0, options)
+  nodetest().call2("beforeEach", @js.promisify0(f) |> @js.from_fn0, options)
   |> ignore
 }
 
@@ -369,7 +371,7 @@ pub fn afterEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options.set("timeout", t)
   }
-  nodetest().call2("afterEach", promisify0(f) |> @js.from_fn0, options)
+  nodetest().call2("afterEach", @js.promisify0(f) |> @js.from_fn0, options)
   |> ignore
 }
 

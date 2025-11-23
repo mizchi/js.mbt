@@ -1,10 +1,10 @@
 ///|
-using @js {type Js, unsafe_cast, log}
+using @js {log}
 
 ///|
 fn render_to_string(element : Element) -> String {
-  let react_dom_server : Js = @node.require("react-dom/server")
-  unsafe_cast(react_dom_server.get("renderToString").call_self([element]))
+  let react_dom_server : @js.Js = @node.require("react-dom/server")
+  @js.unsafe_cast(react_dom_server.get("renderToString").call_self([element]))
 }
 
 ///|
@@ -16,16 +16,19 @@ priv struct TestProps {
 test "React createElement" {
   init_react_api(@node.require("react"))
   let el = createElement("div", [])
-  assert_eq(unsafe_cast(el.get("type")), "div")
+  assert_eq(@js.unsafe_cast(el.get("type")), "div")
   let with_attrs = createElement(
     "button",
     props={
-      "className": "my-button" |> unsafe_cast,
+      "className": "my-button" |> @js.unsafe_cast,
       "onClick": @js.from_fn0(fn() { log("Button clicked") }),
     },
     [],
   )
-  assert_eq(unsafe_cast(with_attrs.get("props").get("className")), "my-button")
+  assert_eq(
+    @js.unsafe_cast(with_attrs.get("props").get("className")),
+    "my-button",
+  )
   let c1 = (_ : EmptyProps) => {
     let r : ReactRef[@dom.Element] = useRef(None)
     createElement("span", ref_=r, [])
@@ -47,7 +50,7 @@ test "render_to_string" {
 test "createElement with key" {
   init_react_api(@node.require("react"))
   let el = createElement("div", ["test"], key="my-key")
-  assert_eq(unsafe_cast(el.get("key")), "my-key")
+  assert_eq(@js.unsafe_cast(el.get("key")), "my-key")
 }
 
 ///|
@@ -103,7 +106,7 @@ test "fragment" {
 test "fragment with key" {
   init_react_api(@node.require("react"))
   let el = fragment([createElement("div", ["item"])], key="frag-key")
-  assert_eq(unsafe_cast(el.get("key")), "frag-key")
+  assert_eq(@js.unsafe_cast(el.get("key")), "frag-key")
 }
 
 ///|

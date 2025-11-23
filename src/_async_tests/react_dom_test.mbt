@@ -22,7 +22,6 @@ test {
       let html = renderToString(element)
       inspect(html, content="<div></div>")
     })
-
     it("renderToString should render an element with text", _ => {
       init_react()
       let element = createElement("p", ["Hello, World!"])
@@ -59,7 +58,6 @@ test {
       inspect(done, content="false")
       reader.releaseLock()
     })
-
     it("renderToReadableStream should render HTML content", _ => {
       init_react()
       let element = createElement("h1", ["Test Title"])
@@ -87,7 +85,6 @@ test {
       inspect(contains_h1, content="true")
       inspect(contains_title, content="true")
     })
-
     it("renderToReadableStream should handle nested elements", _ => {
       init_react()
       let inner = createElement("span", ["Inner"])

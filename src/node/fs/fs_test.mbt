@@ -1,7 +1,4 @@
 ///|
-using @js {js, unsafe_cast}
-
-///|
 /// Synchronous File System API Tests
 
 ///| File Reading Tests
@@ -10,7 +7,7 @@ using @js {js, unsafe_cast}
 /// Test read_file_sync reads buffer
 test "read_file_sync reads package.json" {
   let content = read_file_sync("package.json")
-  inspect(unsafe_cast(content.get("length")) > 0, content="true")
+  inspect(@js.unsafe_cast(content.get("length")) > 0, content="true")
 }
 
 ///|
@@ -37,8 +34,8 @@ test "write_file_sync creates file" {
 /// Test append_file_sync
 test "append_file_sync appends to file" {
   let test_file = "test_append_sync.txt"
-  writeFileSync(test_file, "Hello" |> js)
-  append_file_sync(test_file, ", World!" |> js)
+  writeFileSync(test_file, "Hello" |> @js.js)
+  append_file_sync(test_file, ", World!" |> @js.js)
   let content = read_file_sync_string(test_file, "utf8")
   inspect(content == "Hello, World!", content="true")
   // Cleanup
@@ -83,7 +80,7 @@ test "mkdir_sync creates nested directories" {
 /// Test unlink_sync deletes file
 test "unlink_sync deletes file" {
   let test_file = "test_unlink_sync.txt"
-  writeFileSync(test_file, "delete me" |> js)
+  writeFileSync(test_file, "delete me" |> @js.js)
   unlinkSync(test_file)
   let exists = existsSync(test_file)
   inspect(exists == false, content="true")
@@ -94,7 +91,7 @@ test "unlink_sync deletes file" {
 test "rename_sync renames file" {
   let old_name = "test_rename_old.txt"
   let new_name = "test_rename_new.txt"
-  writeFileSync(old_name, "rename test" |> js)
+  writeFileSync(old_name, "rename test" |> @js.js)
   renameSync(old_name, new_name)
   let old_exists = existsSync(old_name)
   let new_exists = existsSync(new_name)
@@ -109,7 +106,7 @@ test "rename_sync renames file" {
 test "copy_file_sync copies file" {
   let src = "test_copy_src.txt"
   let dest = "test_copy_dest.txt"
-  writeFileSync(src, "copy test" |> js)
+  writeFileSync(src, "copy test" |> @js.js)
   copyFileSync(src, dest)
   let src_content = read_file_sync_string(src, "utf8")
   let dest_content = read_file_sync_string(dest, "utf8")
@@ -124,8 +121,8 @@ test "copy_file_sync copies file" {
 test "readdir_sync reads directory contents" {
   let test_dir = "test_readdir_sync"
   mkdirSync(test_dir)
-  writeFileSync("\{test_dir}/file1.txt", "test" |> js)
-  writeFileSync("\{test_dir}/file2.txt", "test" |> js)
+  writeFileSync("\{test_dir}/file1.txt", "test" |> @js.js)
+  writeFileSync("\{test_dir}/file2.txt", "test" |> @js.js)
   let files = readdirSync(test_dir)
   inspect(files.length() == 2, content="true")
   // Cleanup
@@ -138,7 +135,7 @@ test "readdir_sync reads directory contents" {
 /// Test chmod_sync changes file permissions
 test "chmod_sync changes permissions" {
   let test_file = "test_chmod.txt"
-  writeFileSync(test_file, "chmod test" |> js)
+  writeFileSync(test_file, "chmod test" |> @js.js)
   chmodSync(test_file, 0o644)
   let exists = existsSync(test_file)
   inspect(exists, content="true")
@@ -157,7 +154,7 @@ test "realpath_sync resolves current directory" {
 /// Test truncate_sync
 test "truncate_sync truncates file" {
   let test_file = "test_truncate.txt"
-  writeFileSync(test_file, "Hello, World!" |> js)
+  writeFileSync(test_file, "Hello, World!" |> @js.js)
   truncateSync(test_file, len=5)
   let content = read_file_sync_string(test_file, "utf8")
   inspect(content.length() == 5, content="true")
@@ -179,7 +176,7 @@ test "rmdir_sync removes directory" {
 /// Test access_sync
 test "access_sync checks file access" {
   let test_file = "test_access.txt"
-  writeFileSync(test_file, "access test" |> js)
+  writeFileSync(test_file, "access test" |> @js.js)
   accessSync(test_file, mode=fs_R_OK())
   let exists = existsSync(test_file)
   inspect(exists, content="true")
@@ -193,7 +190,7 @@ test "cp_sync copies directory" {
   let src_dir = "test_cp_src"
   let dest_dir = "test_cp_dest"
   mkdirSync(src_dir)
-  writeFileSync("\{src_dir}/file.txt", "test" |> js)
+  writeFileSync("\{src_dir}/file.txt", "test" |> @js.js)
   cpSync(src_dir, dest_dir, recursive=true)
   let dest_exists = existsSync("\{dest_dir}/file.txt")
   inspect(dest_exists, content="true")
@@ -206,7 +203,7 @@ test "cp_sync copies directory" {
 /// Test open_sync and close_sync
 test "open_sync and close_sync work with file descriptor" {
   let test_file = "test_fd.txt"
-  writeFileSync(test_file, "fd test" |> js)
+  writeFileSync(test_file, "fd test" |> @js.js)
   let fd = openSync(test_file, "r")
   inspect(fd > 0, content="true")
   closeSync(fd)
@@ -230,7 +227,7 @@ test "file access constants are defined" {
 test "symlink_sync and readlink_sync work with symlinks" {
   let target = "test_symlink_target.txt"
   let link = "test_symlink_link.txt"
-  writeFileSync(target, "symlink test" |> js)
+  writeFileSync(target, "symlink test" |> @js.js)
   symlinkSync(target, link)
   let link_target = readlinkSync(link)
   inspect(link_target == target, content="true")
@@ -243,10 +240,10 @@ test "symlink_sync and readlink_sync work with symlinks" {
 /// Test chown_sync (requires appropriate permissions)
 test "chown_sync changes file ownership" {
   let test_file = "test_chown.txt"
-  writeFileSync(test_file, "chown test" |> js)
+  writeFileSync(test_file, "chown test" |> @js.js)
   let stats = statSync(test_file)
-  let uid : Int = stats.get("uid") |> unsafe_cast
-  let gid : Int = stats.get("gid") |> unsafe_cast
+  let uid : Int = stats.get("uid") |> @js.unsafe_cast
+  let gid : Int = stats.get("gid") |> @js.unsafe_cast
   // Set to same owner (should succeed without elevated permissions)
   chownSync(test_file, uid, gid)
   let exists = existsSync(test_file)
@@ -283,7 +280,7 @@ test "readSync and writeSync work with buffers" {
 /// Test readSync with position parameter
 test "readSync with position reads from specific offset" {
   let test_file = "test_read_pos.txt"
-  writeFileSync(test_file, "0123456789" |> js)
+  writeFileSync(test_file, "0123456789" |> @js.js)
   let fd = openSync(test_file, "r")
   let buffer = @buffer.Buffer::alloc(5)
   // Read 5 bytes starting from position 3
@@ -299,7 +296,7 @@ test "readSync with position reads from specific offset" {
 /// Test writeSync with position parameter
 test "writeSync with position writes to specific offset" {
   let test_file = "test_write_pos.txt"
-  writeFileSync(test_file, "0000000000" |> js)
+  writeFileSync(test_file, "0000000000" |> @js.js)
   let fd = openSync(test_file, "r+")
   let buffer = @buffer.Buffer::from_string("XXX")
   // Write 3 bytes starting at position 3
@@ -338,7 +335,7 @@ test "rmSync with force removes non-existent file without error" {
 test "rmSync with recursive and force removes directory tree" {
   let test_dir = "test_rm_recursive"
   mkdirSync("\{test_dir}/sub", recursive=true)
-  writeFileSync("\{test_dir}/sub/file.txt", "test" |> js)
+  writeFileSync("\{test_dir}/sub/file.txt", "test" |> @js.js)
   rmSync(test_dir, recursive=true, force=true)
   let exists = existsSync(test_dir)
   inspect(exists == false, content="true")
@@ -348,7 +345,7 @@ test "rmSync with recursive and force removes directory tree" {
 /// Test truncate_sync without length parameter
 test "truncate_sync without length truncates to 0" {
   let test_file = "test_truncate_zero.txt"
-  writeFileSync(test_file, "This will be empty" |> js)
+  writeFileSync(test_file, "This will be empty" |> @js.js)
   truncateSync(test_file)
   let content = read_file_sync_string(test_file, "utf8")
   inspect(content.length() == 0, content="true")
@@ -360,7 +357,7 @@ test "truncate_sync without length truncates to 0" {
 /// Test access_sync without mode parameter
 test "access_sync without mode checks file existence" {
   let test_file = "test_access_default.txt"
-  writeFileSync(test_file, "access test" |> js)
+  writeFileSync(test_file, "access test" |> @js.js)
   accessSync(test_file)
   let exists = existsSync(test_file)
   inspect(exists, content="true")
@@ -373,7 +370,7 @@ test "access_sync without mode checks file existence" {
 test "cp_sync without recursive copies single file" {
   let src = "test_cp_file_src.txt"
   let dest = "test_cp_file_dest.txt"
-  writeFileSync(src, "copy file test" |> js)
+  writeFileSync(src, "copy file test" |> @js.js)
   cpSync(src, dest)
   let dest_exists = existsSync(dest)
   inspect(dest_exists, content="true")

@@ -1,7 +1,7 @@
 ///|
 pub fn svg(
   // common props
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   width~ : Double,
   height~ : Double,
   view_box? : String,
@@ -12,7 +12,7 @@ pub fn svg(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -33,7 +33,7 @@ pub fn svg(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -87,7 +87,7 @@ pub fn circle(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -102,7 +102,7 @@ pub fn circle(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -164,7 +164,7 @@ pub fn ellipse(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -184,7 +184,7 @@ pub fn ellipse(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -247,7 +247,7 @@ pub fn rect(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -267,7 +267,7 @@ pub fn rect(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -330,7 +330,7 @@ pub fn line(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -350,7 +350,7 @@ pub fn line(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -410,7 +410,7 @@ pub fn path(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -430,7 +430,7 @@ pub fn path(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -484,7 +484,7 @@ pub fn use_(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -504,7 +504,7 @@ pub fn use_(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -552,7 +552,7 @@ pub fn polygon(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -572,13 +572,13 @@ pub fn polygon(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
     None => @js.Object::new()
   }
-  attrs.set("points", points |> unsafe_cast)
+  attrs.set("points", points |> @js.unsafe_cast)
   if stroke is Some(stroke) {
     attrs.set("stroke", stroke)
   }
@@ -629,7 +629,7 @@ pub fn polyline(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -649,13 +649,13 @@ pub fn polyline(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
     None => @js.Object::new()
   }
-  attrs.set("points", points |> unsafe_cast)
+  attrs.set("points", points |> @js.unsafe_cast)
   if stroke is Some(stroke) {
     attrs.set("stroke", stroke)
   }
@@ -693,7 +693,7 @@ pub fn polyline(
 
 ///|
 pub fn g(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // common props
   stroke? : String,
   stroke_width? : Double,
@@ -706,7 +706,7 @@ pub fn g(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -726,7 +726,7 @@ pub fn g(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -769,7 +769,7 @@ pub fn g(
 
 ///|
 pub fn defs(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -777,7 +777,7 @@ pub fn defs(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -797,7 +797,7 @@ pub fn defs(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -831,7 +831,7 @@ pub fn defs(
 
 ///|
 pub fn text(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // common props
   x~ : Double,
   y~ : Double,
@@ -851,7 +851,7 @@ pub fn text(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -871,7 +871,7 @@ pub fn text(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }
@@ -941,7 +941,7 @@ pub fn image(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -961,7 +961,7 @@ pub fn image(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
       } else {
         p
       }

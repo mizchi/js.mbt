@@ -23,7 +23,7 @@ pub fn PermissionStatus::is_granted(self : PermissionStatus) -> Bool {
 
 ///|
 /// Get permissions object
-pub fn Deno::permissions(self : Deno) -> Js {
+pub fn Deno::permissions(self : Deno) -> @js.Js {
   self.get("permissions")
 }
 
@@ -33,7 +33,7 @@ pub fn Deno::permissions_query(
   self : Deno,
   name : String,
   path? : String,
-) -> Promise[PermissionStatus] {
+) -> @js.Promise[PermissionStatus] {
   let perms = self.permissions()
   perms.call("query", [
     @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
@@ -47,7 +47,7 @@ pub fn Deno::permissions_request(
   self : Deno,
   name : String,
   path? : String,
-) -> Promise[PermissionStatus] {
+) -> @js.Promise[PermissionStatus] {
   let perms = self.permissions()
   perms.call("request", [
     @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
@@ -61,7 +61,7 @@ pub fn Deno::permissions_revoke(
   self : Deno,
   name : String,
   path? : String,
-) -> Promise[PermissionStatus] {
+) -> @js.Promise[PermissionStatus] {
   let perms = self.permissions()
   perms.call("revoke", [
     @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),

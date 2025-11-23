@@ -11,7 +11,7 @@ pub(all) struct CompressionStream {
 }
 
 ///|
-pub impl JsImpl for CompressionStream
+pub impl @js.JsImpl for CompressionStream
 
 ///|
 /// Create a new CompressionStream with the specified format
@@ -30,7 +30,7 @@ pub fn CompressionStream::new(format : String) -> CompressionStream {
 }
 
 ///|
-extern "js" fn new_compression_stream(format : String) -> Js =
+extern "js" fn new_compression_stream(format : String) -> @js.Js =
   #|(format) => new CompressionStream(format)
 
 ///|
@@ -42,7 +42,7 @@ pub(all) struct DecompressionStream {
 }
 
 ///|
-pub impl JsImpl for DecompressionStream
+pub impl @js.JsImpl for DecompressionStream
 
 ///|
 /// Create a new DecompressionStream with the specified format
@@ -61,5 +61,5 @@ pub fn DecompressionStream::new(format : String) -> DecompressionStream {
 }
 
 ///|
-extern "js" fn new_decompression_stream(format : String) -> Js =
+extern "js" fn new_decompression_stream(format : String) -> @js.Js =
   #|(format) => new DecompressionStream(format)

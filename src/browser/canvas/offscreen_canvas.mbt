@@ -4,25 +4,28 @@
 pub type OffscreenCanvas
 
 ///|
-pub impl JsImpl for OffscreenCanvas
+pub impl @js.JsImpl for OffscreenCanvas
 
 ///|
-pub impl Transferable for OffscreenCanvas with to_transferable(self) -> Js {
+pub impl @worker.Transferable for OffscreenCanvas with to_transferable(self) -> @js.Js {
   self.to_js()
 }
 
 ///|
-extern "js" fn ffi_new_offscreen_canvas(width : Js, height : Js) -> Js =
+extern "js" fn ffi_new_offscreen_canvas(
+  width : @js.Js,
+  height : @js.Js,
+) -> @js.Js =
   #|(width, height) => new OffscreenCanvas(width, height)
 
 ///|
 pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
-  unsafe_cast(ffi_new_offscreen_canvas(width |> js, height |> js))
+  @js.unsafe_cast(ffi_new_offscreen_canvas(width |> @js.js, height |> @js.js))
 }
 
 ///|
 pub fn OffscreenCanvas::width(self : Self) -> Int {
-  self.get("width") |> unsafe_cast
+  self.get("width") |> @js.unsafe_cast
 }
 
 ///|
@@ -32,7 +35,7 @@ pub fn OffscreenCanvas::setWidth(self : Self, value : Int) -> Unit {
 
 ///|
 pub fn OffscreenCanvas::height(self : Self) -> Int {
-  self.get("height") |> unsafe_cast
+  self.get("height") |> @js.unsafe_cast
 }
 
 ///|
@@ -45,21 +48,21 @@ pub fn OffscreenCanvas::getContext(
   self : Self,
   context_type : String,
 ) -> CanvasRenderingContext2D {
-  self.call("getContext", [context_type]) |> unsafe_cast
+  self.call("getContext", [context_type]) |> @js.unsafe_cast
 }
 
 ///|
 pub fn OffscreenCanvas::convertToBlob(
   self : Self,
   options? : String,
-) -> Promise[Blob] {
+) -> @js.Promise[@blob.Blob] {
   match options {
-    Some(opts) => self.call("convertToBlob", [opts]) |> unsafe_cast
-    None => self.call0("convertToBlob") |> unsafe_cast
+    Some(opts) => self.call("convertToBlob", [opts]) |> @js.unsafe_cast
+    None => self.call0("convertToBlob") |> @js.unsafe_cast
   }
 }
 
 ///|
 pub fn OffscreenCanvas::transferToImageBitmap(self : Self) -> ImageBitmap {
-  self.call0("transferToImageBitmap") |> unsafe_cast
+  self.call0("transferToImageBitmap") |> @js.unsafe_cast
 }

@@ -1,16 +1,15 @@
 ///|
-using @http {type FormData}
 
 ///|
 fn[T] common_node(
   tag_name : String,
   props : @js.Object,
-  children~ : Array[&ReactNode],
+  children~ : Array[&@react.ReactNode],
   id~ : String?,
   class~ : String?,
   style~ : Map[String, String]?,
   tab_index~ : Int?,
-  ref_~ : ReactRef[T]?,
+  ref_~ : @react.ReactRef[T]?,
   key~ : String?,
   on_click~ : @react.MouseEventHandler[T]?,
   on_change~ : @react.ChangeEventHandler[T]?,
@@ -43,7 +42,7 @@ fn[T] common_node(
     props.set("style", style_obj.to_js())
   }
   if ref_ is Some(ref_) {
-    props.set("ref", ref_ |> js)
+    props.set("ref", ref_ |> @js.js)
   }
   if key is Some(key) {
     props.set("key", key)
@@ -95,7 +94,7 @@ fn[T] common_node(
 ///|
 pub fn div(
   // common props
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -103,22 +102,22 @@ pub fn div(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[HTMLDivElement],
+  ref_? : @react.ReactRef[@dom.HTMLDivElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLDivElement],
-  on_change? : @react.ChangeEventHandler[HTMLDivElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLDivElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLDivElement],
-  on_focus? : @react.FocusEventHandler[HTMLDivElement],
-  on_blur? : @react.FocusEventHandler[HTMLDivElement],
-  on_drag? : @react.DragEventHandler[HTMLDivElement],
-  on_dragstart? : @react.DragEventHandler[HTMLDivElement],
-  on_dragend? : @react.DragEventHandler[HTMLDivElement],
-  on_dragleave? : @react.DragEventHandler[HTMLDivElement],
-  on_dragenter? : @react.DragEventHandler[HTMLDivElement],
-  on_dragover? : @react.DragEventHandler[HTMLDivElement],
-  on_drop? : @react.DragEventHandler[HTMLDivElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLDivElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLDivElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLDivElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLDivElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLDivElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLDivElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLDivElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLDivElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLDivElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLDivElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLDivElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLDivElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLDivElement],
 ) -> @react.Element {
   common_node(
     "div",
@@ -152,7 +151,7 @@ pub fn div(
 ///|
 pub fn pre(
   // common props
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -160,7 +159,7 @@ pub fn pre(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -209,7 +208,7 @@ pub fn pre(
 ///|
 pub fn blockquote(
   // common props
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -217,7 +216,7 @@ pub fn blockquote(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -265,7 +264,7 @@ pub fn blockquote(
 
 ///|
 pub fn span(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -273,22 +272,22 @@ pub fn span(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[HTMLSpanElement],
+  ref_? : @react.ReactRef[@dom.HTMLSpanElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLSpanElement],
-  on_change? : @react.ChangeEventHandler[HTMLSpanElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLSpanElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLSpanElement],
-  on_focus? : @react.FocusEventHandler[HTMLSpanElement],
-  on_blur? : @react.FocusEventHandler[HTMLSpanElement],
-  on_drag? : @react.DragEventHandler[HTMLSpanElement],
-  on_dragstart? : @react.DragEventHandler[HTMLSpanElement],
-  on_dragend? : @react.DragEventHandler[HTMLSpanElement],
-  on_dragleave? : @react.DragEventHandler[HTMLSpanElement],
-  on_dragenter? : @react.DragEventHandler[HTMLSpanElement],
-  on_dragover? : @react.DragEventHandler[HTMLSpanElement],
-  on_drop? : @react.DragEventHandler[HTMLSpanElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLSpanElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLSpanElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLSpanElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLSpanElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLSpanElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLSpanElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLSpanElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLSpanElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLSpanElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLSpanElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLSpanElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLSpanElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLSpanElement],
 ) -> @react.Element {
   common_node(
     "span",
@@ -321,7 +320,7 @@ pub fn span(
 
 ///|
 pub fn nav(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -329,7 +328,7 @@ pub fn nav(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -377,7 +376,7 @@ pub fn nav(
 
 ///|
 pub fn p(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -385,22 +384,22 @@ pub fn p(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[HTMLParagraphElement],
+  ref_? : @react.ReactRef[@dom.HTMLParagraphElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLParagraphElement],
-  on_change? : @react.ChangeEventHandler[HTMLParagraphElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLParagraphElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLParagraphElement],
-  on_focus? : @react.FocusEventHandler[HTMLParagraphElement],
-  on_blur? : @react.FocusEventHandler[HTMLParagraphElement],
-  on_drag? : @react.DragEventHandler[HTMLParagraphElement],
-  on_dragstart? : @react.DragEventHandler[HTMLParagraphElement],
-  on_dragend? : @react.DragEventHandler[HTMLParagraphElement],
-  on_dragleave? : @react.DragEventHandler[HTMLParagraphElement],
-  on_dragenter? : @react.DragEventHandler[HTMLParagraphElement],
-  on_dragover? : @react.DragEventHandler[HTMLParagraphElement],
-  on_drop? : @react.DragEventHandler[HTMLParagraphElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLParagraphElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLParagraphElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLParagraphElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLParagraphElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLParagraphElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLParagraphElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLParagraphElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLParagraphElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLParagraphElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLParagraphElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLParagraphElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLParagraphElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLParagraphElement],
 ) -> @react.Element {
   common_node(
     "p",
@@ -433,7 +432,7 @@ pub fn p(
 
 ///|
 pub fn textarea(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   rows? : Int,
   columns? : Int,
   spellcheck? : Bool,
@@ -447,25 +446,25 @@ pub fn textarea(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[HTMLTextAreaElement],
+  ref_? : @react.ReactRef[@dom.HTMLTextAreaElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLTextAreaElement],
-  on_change? : @react.ChangeEventHandler[HTMLTextAreaElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLTextAreaElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLTextAreaElement],
-  on_focus? : @react.FocusEventHandler[HTMLTextAreaElement],
-  on_blur? : @react.FocusEventHandler[HTMLTextAreaElement],
-  on_drag? : @react.DragEventHandler[HTMLTextAreaElement],
-  on_dragstart? : @react.DragEventHandler[HTMLTextAreaElement],
-  on_dragend? : @react.DragEventHandler[HTMLTextAreaElement],
-  on_dragleave? : @react.DragEventHandler[HTMLTextAreaElement],
-  on_dragenter? : @react.DragEventHandler[HTMLTextAreaElement],
-  on_dragover? : @react.DragEventHandler[HTMLTextAreaElement],
-  on_drop? : @react.DragEventHandler[HTMLTextAreaElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLTextAreaElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLTextAreaElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLTextAreaElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLTextAreaElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLTextAreaElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLTextAreaElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   if rows is Some(r) {
@@ -526,25 +525,25 @@ pub fn input(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[HTMLInputElement],
+  ref_? : @react.ReactRef[@dom.HTMLInputElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLInputElement],
-  on_change? : @react.ChangeEventHandler[HTMLInputElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLInputElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLInputElement],
-  on_focus? : @react.FocusEventHandler[HTMLInputElement],
-  on_blur? : @react.FocusEventHandler[HTMLInputElement],
-  on_drag? : @react.DragEventHandler[HTMLInputElement],
-  on_dragstart? : @react.DragEventHandler[HTMLInputElement],
-  on_dragend? : @react.DragEventHandler[HTMLInputElement],
-  on_dragleave? : @react.DragEventHandler[HTMLInputElement],
-  on_dragenter? : @react.DragEventHandler[HTMLInputElement],
-  on_dragover? : @react.DragEventHandler[HTMLInputElement],
-  on_drop? : @react.DragEventHandler[HTMLInputElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLInputElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLInputElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLInputElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLInputElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLInputElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLInputElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLInputElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLInputElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLInputElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLInputElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLInputElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLInputElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLInputElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   if name is Some(n) {
@@ -590,7 +589,7 @@ pub fn input(
 
 ///|
 pub fn main_(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -598,7 +597,7 @@ pub fn main_(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -646,7 +645,7 @@ pub fn main_(
 
 ///|
 pub fn header(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -655,7 +654,7 @@ pub fn header(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -703,7 +702,7 @@ pub fn header(
 
 ///|
 pub fn footer(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -712,7 +711,7 @@ pub fn footer(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -760,7 +759,7 @@ pub fn footer(
 
 ///|
 pub fn ul(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -769,22 +768,22 @@ pub fn ul(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLUListElement],
+  ref_? : @react.ReactRef[@dom.HTMLUListElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLUListElement],
-  on_change? : @react.ChangeEventHandler[HTMLUListElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLUListElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLUListElement],
-  on_focus? : @react.FocusEventHandler[HTMLUListElement],
-  on_blur? : @react.FocusEventHandler[HTMLUListElement],
-  on_drag? : @react.DragEventHandler[HTMLUListElement],
-  on_dragstart? : @react.DragEventHandler[HTMLUListElement],
-  on_dragend? : @react.DragEventHandler[HTMLUListElement],
-  on_dragleave? : @react.DragEventHandler[HTMLUListElement],
-  on_dragenter? : @react.DragEventHandler[HTMLUListElement],
-  on_dragover? : @react.DragEventHandler[HTMLUListElement],
-  on_drop? : @react.DragEventHandler[HTMLUListElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLUListElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLUListElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLUListElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLUListElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLUListElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLUListElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLUListElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLUListElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLUListElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLUListElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLUListElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLUListElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLUListElement],
 ) -> @react.Element {
   common_node(
     "ul",
@@ -817,7 +816,7 @@ pub fn ul(
 
 ///|
 pub fn ol(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -826,22 +825,22 @@ pub fn ol(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLOListElement],
+  ref_? : @react.ReactRef[@dom.HTMLOListElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLOListElement],
-  on_change? : @react.ChangeEventHandler[HTMLOListElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLOListElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLOListElement],
-  on_focus? : @react.FocusEventHandler[HTMLOListElement],
-  on_blur? : @react.FocusEventHandler[HTMLOListElement],
-  on_drag? : @react.DragEventHandler[HTMLOListElement],
-  on_dragstart? : @react.DragEventHandler[HTMLOListElement],
-  on_dragend? : @react.DragEventHandler[HTMLOListElement],
-  on_dragleave? : @react.DragEventHandler[HTMLOListElement],
-  on_dragenter? : @react.DragEventHandler[HTMLOListElement],
-  on_dragover? : @react.DragEventHandler[HTMLOListElement],
-  on_drop? : @react.DragEventHandler[HTMLOListElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLOListElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLOListElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLOListElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLOListElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLOListElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLOListElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLOListElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLOListElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLOListElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLOListElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLOListElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLOListElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLOListElement],
 ) -> @react.Element {
   common_node(
     "ol",
@@ -874,7 +873,7 @@ pub fn ol(
 
 ///|
 pub fn article(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -882,7 +881,7 @@ pub fn article(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -930,7 +929,7 @@ pub fn article(
 
 ///|
 pub fn aside(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -938,7 +937,7 @@ pub fn aside(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -986,7 +985,7 @@ pub fn aside(
 
 ///|
 pub fn section(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -994,7 +993,7 @@ pub fn section(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -1042,14 +1041,14 @@ pub fn section(
 
 ///|
 pub fn form(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
 
   // xxx
   method_? : String,
   disabled? : Bool,
   name? : String,
   enc_type? : String,
-  action? : (FormData) -> Unit,
+  action? : (@http.FormData) -> Unit,
   on_submit? : (@dom.FormEvent) -> Unit,
   // shared
   props? : @js.Object,
@@ -1059,25 +1058,25 @@ pub fn form(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLFormElement],
+  ref_? : @react.ReactRef[@dom.HTMLFormElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLFormElement],
-  on_change? : @react.ChangeEventHandler[HTMLFormElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLFormElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLFormElement],
-  on_focus? : @react.FocusEventHandler[HTMLFormElement],
-  on_blur? : @react.FocusEventHandler[HTMLFormElement],
-  on_drag? : @react.DragEventHandler[HTMLFormElement],
-  on_dragstart? : @react.DragEventHandler[HTMLFormElement],
-  on_dragend? : @react.DragEventHandler[HTMLFormElement],
-  on_dragleave? : @react.DragEventHandler[HTMLFormElement],
-  on_dragenter? : @react.DragEventHandler[HTMLFormElement],
-  on_dragover? : @react.DragEventHandler[HTMLFormElement],
-  on_drop? : @react.DragEventHandler[HTMLFormElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLFormElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLFormElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLFormElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLFormElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLFormElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLFormElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLFormElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLFormElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLFormElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLFormElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLFormElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLFormElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLFormElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   if disabled is Some(d) {
@@ -1090,11 +1089,11 @@ pub fn form(
     custom_props.set("method", m)
   }
   if on_submit is Some(f) {
-    let fn_value : Js = f |> @js.from_fn1
+    let fn_value : @js.Js = f |> @js.from_fn1
     custom_props.set("onSubmit", fn_value)
   }
   if action is Some(f) {
-    let fn_value : Js = f |> @js.from_fn1
+    let fn_value : @js.Js = f |> @js.from_fn1
     custom_props.set("action", fn_value)
   }
   if enc_type is Some(e) {
@@ -1128,7 +1127,7 @@ pub fn form(
 
 ///|
 pub fn select(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // xxx
   multiple? : Bool,
   disabled? : Bool,
@@ -1140,25 +1139,25 @@ pub fn select(
   style? : Map[String, String],
   tab_index? : Int,
   // react
-  ref_? : ReactRef[HTMLSelectElement],
+  ref_? : @react.ReactRef[@dom.HTMLSelectElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLSelectElement],
-  on_change? : @react.ChangeEventHandler[HTMLSelectElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLSelectElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLSelectElement],
-  on_focus? : @react.FocusEventHandler[HTMLSelectElement],
-  on_blur? : @react.FocusEventHandler[HTMLSelectElement],
-  on_drag? : @react.DragEventHandler[HTMLSelectElement],
-  on_dragstart? : @react.DragEventHandler[HTMLSelectElement],
-  on_dragend? : @react.DragEventHandler[HTMLSelectElement],
-  on_dragleave? : @react.DragEventHandler[HTMLSelectElement],
-  on_dragenter? : @react.DragEventHandler[HTMLSelectElement],
-  on_dragover? : @react.DragEventHandler[HTMLSelectElement],
-  on_drop? : @react.DragEventHandler[HTMLSelectElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLSelectElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLSelectElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLSelectElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLSelectElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLSelectElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLSelectElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLSelectElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLSelectElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLSelectElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLSelectElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLSelectElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLSelectElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLSelectElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   if multiple is Some(m) {
@@ -1198,7 +1197,7 @@ pub fn select(
 
 ///|
 pub fn option(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   value~ : String,
   selected? : Bool,
   // shared
@@ -1209,25 +1208,25 @@ pub fn option(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLOptionElement],
+  ref_? : @react.ReactRef[@dom.HTMLOptionElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLOptionElement],
-  on_change? : @react.ChangeEventHandler[HTMLOptionElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLOptionElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLOptionElement],
-  on_focus? : @react.FocusEventHandler[HTMLOptionElement],
-  on_blur? : @react.FocusEventHandler[HTMLOptionElement],
-  on_drag? : @react.DragEventHandler[HTMLOptionElement],
-  on_dragstart? : @react.DragEventHandler[HTMLOptionElement],
-  on_dragend? : @react.DragEventHandler[HTMLOptionElement],
-  on_dragleave? : @react.DragEventHandler[HTMLOptionElement],
-  on_dragenter? : @react.DragEventHandler[HTMLOptionElement],
-  on_dragover? : @react.DragEventHandler[HTMLOptionElement],
-  on_drop? : @react.DragEventHandler[HTMLOptionElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLOptionElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLOptionElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLOptionElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLOptionElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLOptionElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLOptionElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLOptionElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLOptionElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLOptionElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLOptionElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLOptionElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLOptionElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLOptionElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   custom_props.set("value", value)
@@ -1262,7 +1261,7 @@ pub fn option(
 
 ///|
 pub fn label(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   htmlFor : String,
   // shared
   props? : @js.Object,
@@ -1272,25 +1271,25 @@ pub fn label(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLLabelElement],
+  ref_? : @react.ReactRef[@dom.HTMLLabelElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLLabelElement],
-  on_change? : @react.ChangeEventHandler[HTMLLabelElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLLabelElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLLabelElement],
-  on_focus? : @react.FocusEventHandler[HTMLLabelElement],
-  on_blur? : @react.FocusEventHandler[HTMLLabelElement],
-  on_drag? : @react.DragEventHandler[HTMLLabelElement],
-  on_dragstart? : @react.DragEventHandler[HTMLLabelElement],
-  on_dragend? : @react.DragEventHandler[HTMLLabelElement],
-  on_dragleave? : @react.DragEventHandler[HTMLLabelElement],
-  on_dragenter? : @react.DragEventHandler[HTMLLabelElement],
-  on_dragover? : @react.DragEventHandler[HTMLLabelElement],
-  on_drop? : @react.DragEventHandler[HTMLLabelElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLLabelElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLLabelElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLLabelElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLLabelElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLLabelElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLLabelElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLLabelElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLLabelElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLLabelElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLLabelElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLLabelElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLLabelElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLLabelElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   custom_props.set("htmlFor", htmlFor)
@@ -1322,7 +1321,7 @@ pub fn label(
 
 ///|
 pub fn li(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -1331,22 +1330,22 @@ pub fn li(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLLIElement],
+  ref_? : @react.ReactRef[@dom.HTMLLIElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLLIElement],
-  on_change? : @react.ChangeEventHandler[HTMLLIElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLLIElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLLIElement],
-  on_focus? : @react.FocusEventHandler[HTMLLIElement],
-  on_blur? : @react.FocusEventHandler[HTMLLIElement],
-  on_drag? : @react.DragEventHandler[HTMLLIElement],
-  on_dragstart? : @react.DragEventHandler[HTMLLIElement],
-  on_dragend? : @react.DragEventHandler[HTMLLIElement],
-  on_dragleave? : @react.DragEventHandler[HTMLLIElement],
-  on_dragenter? : @react.DragEventHandler[HTMLLIElement],
-  on_dragover? : @react.DragEventHandler[HTMLLIElement],
-  on_drop? : @react.DragEventHandler[HTMLLIElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLLIElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLLIElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLLIElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLLIElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLLIElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLLIElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLLIElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLLIElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLLIElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLLIElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLLIElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLLIElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLLIElement],
 ) -> @react.Element {
   common_node(
     "li",
@@ -1379,7 +1378,7 @@ pub fn li(
 
 ///|
 pub fn code(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -1388,7 +1387,7 @@ pub fn code(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -1436,7 +1435,7 @@ pub fn code(
 
 ///|
 pub fn details(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -1445,7 +1444,7 @@ pub fn details(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -1493,7 +1492,7 @@ pub fn details(
 
 ///|
 pub fn summary(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -1502,7 +1501,7 @@ pub fn summary(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -1550,7 +1549,7 @@ pub fn summary(
 
 ///|
 pub fn a(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
 
   // a specific
   href~ : String,
@@ -1565,25 +1564,25 @@ pub fn a(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLAnchorElement],
+  ref_? : @react.ReactRef[@dom.HTMLAnchorElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLAnchorElement],
-  on_change? : @react.ChangeEventHandler[HTMLAnchorElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLAnchorElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLAnchorElement],
-  on_focus? : @react.FocusEventHandler[HTMLAnchorElement],
-  on_blur? : @react.FocusEventHandler[HTMLAnchorElement],
-  on_drag? : @react.DragEventHandler[HTMLAnchorElement],
-  on_dragstart? : @react.DragEventHandler[HTMLAnchorElement],
-  on_dragend? : @react.DragEventHandler[HTMLAnchorElement],
-  on_dragleave? : @react.DragEventHandler[HTMLAnchorElement],
-  on_dragenter? : @react.DragEventHandler[HTMLAnchorElement],
-  on_dragover? : @react.DragEventHandler[HTMLAnchorElement],
-  on_drop? : @react.DragEventHandler[HTMLAnchorElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLAnchorElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLAnchorElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLAnchorElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLAnchorElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLAnchorElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLAnchorElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLAnchorElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLAnchorElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLAnchorElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLAnchorElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLAnchorElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLAnchorElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLAnchorElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   custom_props.set("href", href)
@@ -1621,7 +1620,7 @@ pub fn a(
 
 ///|
 pub fn iframe(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
 
   // a specific
   src~ : String,
@@ -1638,7 +1637,7 @@ pub fn iframe(
   class? : String,
   style? : Map[String, String],
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -1656,7 +1655,7 @@ pub fn iframe(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   custom_props.set("src", src)
@@ -1706,7 +1705,7 @@ pub fn iframe(
 
 ///|
 pub fn img(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
 
   // a specific
   src~ : String,
@@ -1728,25 +1727,25 @@ pub fn img(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLImageElement],
+  ref_? : @react.ReactRef[@dom.HTMLImageElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLImageElement],
-  on_change? : @react.ChangeEventHandler[HTMLImageElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLImageElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLImageElement],
-  on_focus? : @react.FocusEventHandler[HTMLImageElement],
-  on_blur? : @react.FocusEventHandler[HTMLImageElement],
-  on_drag? : @react.DragEventHandler[HTMLImageElement],
-  on_dragstart? : @react.DragEventHandler[HTMLImageElement],
-  on_dragend? : @react.DragEventHandler[HTMLImageElement],
-  on_dragleave? : @react.DragEventHandler[HTMLImageElement],
-  on_dragenter? : @react.DragEventHandler[HTMLImageElement],
-  on_dragover? : @react.DragEventHandler[HTMLImageElement],
-  on_drop? : @react.DragEventHandler[HTMLImageElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLImageElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLImageElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLImageElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLImageElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLImageElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLImageElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLImageElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLImageElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLImageElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLImageElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLImageElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLImageElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLImageElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   custom_props.set("src", src)
@@ -1805,7 +1804,7 @@ pub fn img(
 
 ///|
 pub fn video(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
 
   // a specific
   controls? : Bool,
@@ -1818,7 +1817,7 @@ pub fn video(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -1836,7 +1835,7 @@ pub fn video(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   if controls is Some(c) {
@@ -1882,7 +1881,7 @@ pub fn source(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -1900,7 +1899,7 @@ pub fn source(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   custom_props.set("src", src |> @js.unsafe_js)
@@ -1943,7 +1942,7 @@ pub fn hr(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[@dom.Element],
+  ref_? : @react.ReactRef[@dom.Element],
   key? : String,
   // event handlers
   on_click? : @react.MouseEventHandler[@dom.Element],
@@ -1991,7 +1990,7 @@ pub fn hr(
 
 ///|
 pub fn h1(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -2000,22 +1999,22 @@ pub fn h1(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLHeadingElement],
+  ref_? : @react.ReactRef[@dom.HTMLHeadingElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLHeadingElement],
-  on_change? : @react.ChangeEventHandler[HTMLHeadingElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_focus? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_blur? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_drag? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragstart? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragend? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragleave? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragenter? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragover? : @react.DragEventHandler[HTMLHeadingElement],
-  on_drop? : @react.DragEventHandler[HTMLHeadingElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLHeadingElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLHeadingElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLHeadingElement],
 ) -> @react.Element {
   common_node(
     "h1",
@@ -2048,7 +2047,7 @@ pub fn h1(
 
 ///|
 pub fn h2(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -2057,22 +2056,22 @@ pub fn h2(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLHeadingElement],
+  ref_? : @react.ReactRef[@dom.HTMLHeadingElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLHeadingElement],
-  on_change? : @react.ChangeEventHandler[HTMLHeadingElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_focus? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_blur? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_drag? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragstart? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragend? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragleave? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragenter? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragover? : @react.DragEventHandler[HTMLHeadingElement],
-  on_drop? : @react.DragEventHandler[HTMLHeadingElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLHeadingElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLHeadingElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLHeadingElement],
 ) -> @react.Element {
   common_node(
     "h2",
@@ -2105,7 +2104,7 @@ pub fn h2(
 
 ///|
 pub fn h3(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -2114,22 +2113,22 @@ pub fn h3(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLHeadingElement],
+  ref_? : @react.ReactRef[@dom.HTMLHeadingElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLHeadingElement],
-  on_change? : @react.ChangeEventHandler[HTMLHeadingElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_focus? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_blur? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_drag? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragstart? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragend? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragleave? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragenter? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragover? : @react.DragEventHandler[HTMLHeadingElement],
-  on_drop? : @react.DragEventHandler[HTMLHeadingElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLHeadingElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLHeadingElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLHeadingElement],
 ) -> @react.Element {
   common_node(
     "h3",
@@ -2162,7 +2161,7 @@ pub fn h3(
 
 ///|
 pub fn h4(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -2171,22 +2170,22 @@ pub fn h4(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLHeadingElement],
+  ref_? : @react.ReactRef[@dom.HTMLHeadingElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLHeadingElement],
-  on_change? : @react.ChangeEventHandler[HTMLHeadingElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_focus? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_blur? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_drag? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragstart? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragend? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragleave? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragenter? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragover? : @react.DragEventHandler[HTMLHeadingElement],
-  on_drop? : @react.DragEventHandler[HTMLHeadingElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLHeadingElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLHeadingElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLHeadingElement],
 ) -> @react.Element {
   common_node(
     "h4",
@@ -2219,7 +2218,7 @@ pub fn h4(
 
 ///|
 pub fn h5(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   // shared
   props? : @js.Object,
   id? : String,
@@ -2228,22 +2227,22 @@ pub fn h5(
   tab_index? : Int,
 
   // react
-  ref_? : ReactRef[HTMLHeadingElement],
+  ref_? : @react.ReactRef[@dom.HTMLHeadingElement],
   key? : String,
   // event handlers
-  on_click? : @react.MouseEventHandler[HTMLHeadingElement],
-  on_change? : @react.ChangeEventHandler[HTMLHeadingElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLHeadingElement],
-  on_focus? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_blur? : @react.FocusEventHandler[HTMLHeadingElement],
-  on_drag? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragstart? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragend? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragleave? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragenter? : @react.DragEventHandler[HTMLHeadingElement],
-  on_dragover? : @react.DragEventHandler[HTMLHeadingElement],
-  on_drop? : @react.DragEventHandler[HTMLHeadingElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLHeadingElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLHeadingElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLHeadingElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLHeadingElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLHeadingElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLHeadingElement],
 ) -> @react.Element {
   common_node(
     "h5",
@@ -2276,7 +2275,7 @@ pub fn h5(
 
 ///|
 pub fn button(
-  children : Array[&ReactNode],
+  children : Array[&@react.ReactNode],
   type_? : String,
   disabled? : Bool,
   props? : @js.Object,
@@ -2284,24 +2283,24 @@ pub fn button(
   class? : String,
   style? : Map[String, String],
   tab_index? : Int,
-  ref_? : ReactRef[HTMLButtonElement],
+  ref_? : @react.ReactRef[@dom.HTMLButtonElement],
   key? : String,
-  on_click? : @react.MouseEventHandler[HTMLButtonElement],
-  on_change? : @react.ChangeEventHandler[HTMLButtonElement],
-  on_keydown? : @react.KeyboardEventHandler[HTMLButtonElement],
-  on_keyup? : @react.KeyboardEventHandler[HTMLButtonElement],
-  on_focus? : @react.FocusEventHandler[HTMLButtonElement],
-  on_blur? : @react.FocusEventHandler[HTMLButtonElement],
-  on_drag? : @react.DragEventHandler[HTMLButtonElement],
-  on_dragstart? : @react.DragEventHandler[HTMLButtonElement],
-  on_dragend? : @react.DragEventHandler[HTMLButtonElement],
-  on_dragleave? : @react.DragEventHandler[HTMLButtonElement],
-  on_dragenter? : @react.DragEventHandler[HTMLButtonElement],
-  on_dragover? : @react.DragEventHandler[HTMLButtonElement],
-  on_drop? : @react.DragEventHandler[HTMLButtonElement],
+  on_click? : @react.MouseEventHandler[@dom.HTMLButtonElement],
+  on_change? : @react.ChangeEventHandler[@dom.HTMLButtonElement],
+  on_keydown? : @react.KeyboardEventHandler[@dom.HTMLButtonElement],
+  on_keyup? : @react.KeyboardEventHandler[@dom.HTMLButtonElement],
+  on_focus? : @react.FocusEventHandler[@dom.HTMLButtonElement],
+  on_blur? : @react.FocusEventHandler[@dom.HTMLButtonElement],
+  on_drag? : @react.DragEventHandler[@dom.HTMLButtonElement],
+  on_dragstart? : @react.DragEventHandler[@dom.HTMLButtonElement],
+  on_dragend? : @react.DragEventHandler[@dom.HTMLButtonElement],
+  on_dragleave? : @react.DragEventHandler[@dom.HTMLButtonElement],
+  on_dragenter? : @react.DragEventHandler[@dom.HTMLButtonElement],
+  on_dragover? : @react.DragEventHandler[@dom.HTMLButtonElement],
+  on_drop? : @react.DragEventHandler[@dom.HTMLButtonElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> unsafe_cast
+    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
     None => @js.Object::new()
   }
   if type_ is Some(t) {

@@ -3,7 +3,7 @@
 
 ///|
 /// Get fs module
-fn fs_module() -> Js {
+fn fs_module() -> @js.Js {
   @node.require("node:fs")
 }
 
@@ -12,10 +12,10 @@ fn fs_module() -> Js {
 ///|
 /// Read file synchronously as Buffer
 #alias(readFileSync)
-pub fn read_file_sync(path : String) -> Buffer raise @js.ThrowError {
+pub fn read_file_sync(path : String) -> @buffer.Buffer raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call("readFileSync", [path]) |> unsafe_cast
+    fs.call("readFileSync", [path]) |> @js.unsafe_cast
   })
 }
 
@@ -27,7 +27,7 @@ pub fn read_file_sync_string(
 ) -> String raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call2("readFileSync", path, encoding) |> unsafe_cast
+    fs.call2("readFileSync", path, encoding) |> @js.unsafe_cast
   })
 }
 
@@ -40,17 +40,19 @@ pub fn read_file_as_string(
 ) -> String raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call2("readFileSync", path, encoding) |> unsafe_cast
+    fs.call2("readFileSync", path, encoding) |> @js.unsafe_cast
   })
 }
 
 ///|
 /// Read file synchronously as Buffer
 /// JS: fs.readFileSync(path)
-pub fn read_file_as_buffer(path : String) -> Buffer raise @js.ThrowError {
+pub fn read_file_as_buffer(
+  path : String,
+) -> @buffer.Buffer raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call("readFileSync", [path]) |> unsafe_cast
+    fs.call("readFileSync", [path]) |> @js.unsafe_cast
   })
 }
 
@@ -61,7 +63,7 @@ pub fn read_file_as_buffer(path : String) -> Buffer raise @js.ThrowError {
 #alias(write_file_sync)
 pub fn writeFileSync(
   path : String,
-  data : &JsImpl,
+  data : &@js.JsImpl,
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
@@ -74,7 +76,7 @@ pub fn writeFileSync(
 #alias(appendFileSync)
 pub fn append_file_sync(
   path : String,
-  data : &JsImpl,
+  data : &@js.JsImpl,
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
@@ -89,13 +91,13 @@ pub fn append_file_sync(
 #alias(exists_sync)
 pub fn existsSync(path : String) -> Bool {
   let fs = fs_module()
-  fs.call1("existsSync", path) |> unsafe_cast
+  fs.call1("existsSync", path) |> @js.unsafe_cast
 }
 
 ///|
 /// Get file statistics
 #alias(stat_sync)
-pub fn statSync(path : String) -> Js raise @js.ThrowError {
+pub fn statSync(path : String) -> @js.Js raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
     fs.call1("statSync", path)
@@ -110,7 +112,7 @@ pub fn mkdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
     let fs = fs_module()
     match recursive {
       Some(r) => {
-        let opts = @js.from_map({ "recursive": r |> unsafe_cast })
+        let opts = @js.from_map({ "recursive": r |> @js.unsafe_cast })
         fs.call2("mkdirSync", path, opts) |> ignore
       }
       None => fs.call1("mkdirSync", path) |> ignore
@@ -159,7 +161,7 @@ pub fn copyFileSync(src : String, dest : String) -> Unit raise @js.ThrowError {
 pub fn readdirSync(path : String) -> Array[String] raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call1("readdirSync", path) |> unsafe_cast
+    fs.call1("readdirSync", path) |> @js.unsafe_cast
   })
 }
 
@@ -192,13 +194,13 @@ pub fn rmSync(
 ///|
 pub fn createReadStream(path : String) -> @stream.Readable {
   let fs = fs_module()
-  fs.call1("createReadStream", path) |> unsafe_cast
+  fs.call1("createReadStream", path) |> @js.unsafe_cast
 }
 
 ///|
 pub fn createWriteStream(path : String) -> @stream.Writable {
   let fs = fs_module()
-  fs.call1("createWriteStream", path) |> unsafe_cast
+  fs.call1("createWriteStream", path) |> @js.unsafe_cast
 }
 
 ///| Additional File Operations
@@ -250,7 +252,7 @@ pub fn symlinkSync(
 pub fn readlinkSync(path : String) -> String raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call1("readlinkSync", path) |> unsafe_cast
+    fs.call1("readlinkSync", path) |> @js.unsafe_cast
   })
 }
 
@@ -260,7 +262,7 @@ pub fn readlinkSync(path : String) -> String raise @js.ThrowError {
 pub fn realpathSync(path : String) -> String raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call1("realpathSync", path) |> unsafe_cast
+    fs.call1("realpathSync", path) |> @js.unsafe_cast
   })
 }
 
@@ -285,7 +287,7 @@ pub fn rmdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
     let fs = fs_module()
     match recursive {
       Some(r) => {
-        let opts = @js.from_map({ "recursive": r |> unsafe_cast })
+        let opts = @js.from_map({ "recursive": r |> @js.unsafe_cast })
         fs.call2("rmdirSync", path, opts) |> ignore
       }
       None => fs.call1("rmdirSync", path) |> ignore
@@ -318,7 +320,7 @@ pub fn cpSync(
     let fs = fs_module()
     match recursive {
       Some(r) => {
-        let opts = @js.from_map({ "recursive": r |> unsafe_cast })
+        let opts = @js.from_map({ "recursive": r |> @js.unsafe_cast })
         fs.call("cpSync", [src, dest, opts]) |> ignore
       }
       None => fs.call2("cpSync", src, dest) |> ignore
@@ -337,8 +339,8 @@ pub fn openSync(
   @js.throwable(fn() {
     let fs = fs_module()
     match mode {
-      Some(m) => fs.call("openSync", [path, flags, m]) |> unsafe_cast
-      None => fs.call2("openSync", path, flags) |> unsafe_cast
+      Some(m) => fs.call("openSync", [path, flags, m]) |> @js.unsafe_cast
+      None => fs.call2("openSync", path, flags) |> @js.unsafe_cast
     }
   })
 }
@@ -358,7 +360,7 @@ pub fn closeSync(fd : Int) -> Unit raise @js.ThrowError {
 #alias(read_sync)
 pub fn readSync(
   fd : Int,
-  buffer : Buffer,
+  buffer : @buffer.Buffer,
   offset : Int,
   length : Int,
   position : Int?,
@@ -367,8 +369,10 @@ pub fn readSync(
     let fs = fs_module()
     match position {
       Some(pos) =>
-        fs.call("readSync", [fd, buffer, offset, length, pos]) |> unsafe_cast
-      None => fs.call("readSync", [fd, buffer, offset, length]) |> unsafe_cast
+        fs.call("readSync", [fd, buffer, offset, length, pos])
+        |> @js.unsafe_cast
+      None =>
+        fs.call("readSync", [fd, buffer, offset, length]) |> @js.unsafe_cast
     }
   })
 }
@@ -378,7 +382,7 @@ pub fn readSync(
 #alias(write_sync)
 pub fn writeSync(
   fd : Int,
-  buffer : Buffer,
+  buffer : @buffer.Buffer,
   offset : Int,
   length : Int,
   position : Int?,
@@ -387,8 +391,10 @@ pub fn writeSync(
     let fs = fs_module()
     match position {
       Some(pos) =>
-        fs.call("writeSync", [fd, buffer, offset, length, pos]) |> unsafe_cast
-      None => fs.call("writeSync", [fd, buffer, offset, length]) |> unsafe_cast
+        fs.call("writeSync", [fd, buffer, offset, length, pos])
+        |> @js.unsafe_cast
+      None =>
+        fs.call("writeSync", [fd, buffer, offset, length]) |> @js.unsafe_cast
     }
   })
 }
