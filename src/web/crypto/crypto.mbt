@@ -192,8 +192,8 @@ pub impl @js.JsImpl for Crypto
 /// Fills the passed Uint8Array with cryptographically secure random values.
 pub fn Crypto::getRandomValues(
   self : Self,
-  array : @typed_array.Uint8Array,
-) -> @typed_array.Uint8Array {
+  array : @typedarray.Uint8Array,
+) -> @typedarray.Uint8Array {
   self.call("getRandomValues", [array]) |> @js.unsafe_cast
 }
 
@@ -202,8 +202,8 @@ pub fn Crypto::getRandomValues(
 /// Fills the passed Uint16Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesU16(
   self : Self,
-  array : @typed_array.Uint16Array,
-) -> @typed_array.Uint16Array {
+  array : @typedarray.Uint16Array,
+) -> @typedarray.Uint16Array {
   self.call("getRandomValues", [array]) |> @js.unsafe_cast
 }
 
@@ -212,8 +212,8 @@ pub fn Crypto::getRandomValuesU16(
 /// Fills the passed Uint32Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesU32(
   self : Self,
-  array : @typed_array.Uint32Array,
-) -> @typed_array.Uint32Array {
+  array : @typedarray.Uint32Array,
+) -> @typedarray.Uint32Array {
   self.call("getRandomValues", [array]) |> @js.unsafe_cast
 }
 
@@ -222,8 +222,8 @@ pub fn Crypto::getRandomValuesU32(
 /// Fills the passed Int8Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesI8(
   self : Self,
-  array : @typed_array.Int8Array,
-) -> @typed_array.Int8Array {
+  array : @typedarray.Int8Array,
+) -> @typedarray.Int8Array {
   self.call("getRandomValues", [array]) |> @js.unsafe_cast
 }
 
@@ -232,8 +232,8 @@ pub fn Crypto::getRandomValuesI8(
 /// Fills the passed Int16Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesI16(
   self : Self,
-  array : @typed_array.Int16Array,
-) -> @typed_array.Int16Array {
+  array : @typedarray.Int16Array,
+) -> @typedarray.Int16Array {
   self.call("getRandomValues", [array]) |> @js.unsafe_cast
 }
 
@@ -242,8 +242,8 @@ pub fn Crypto::getRandomValuesI16(
 /// Fills the passed Int32Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesI32(
   self : Self,
-  array : @typed_array.Int32Array,
-) -> @typed_array.Int32Array {
+  array : @typedarray.Int32Array,
+) -> @typedarray.Int32Array {
   self.call("getRandomValues", [array]) |> @js.unsafe_cast
 }
 
@@ -252,8 +252,8 @@ pub fn Crypto::getRandomValuesI32(
 /// Fills the passed Uint8ClampedArray with cryptographically secure random values.
 pub fn Crypto::getRandomValuesClamped(
   self : Self,
-  array : @typed_array.Uint8ClampedArray,
-) -> @typed_array.Uint8ClampedArray {
+  array : @typedarray.Uint8ClampedArray,
+) -> @typedarray.Uint8ClampedArray {
   self.call("getRandomValues", [array]) |> @js.unsafe_cast
 }
 

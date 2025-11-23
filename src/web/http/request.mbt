@@ -53,6 +53,6 @@ pub fn Request::blob(self : Request) -> @js.Promise[@blob.Blob] {
 }
 
 ///|
-pub fn Request::bytes(self : Request) -> @js.Promise[@typed_array.Uint8Array] {
+pub fn Request::bytes(self : Request) -> @js.Promise[@typedarray.Uint8Array] {
   self.call0("bytes") |> @js.unsafe_cast
 }

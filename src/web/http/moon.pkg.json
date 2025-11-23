@@ -2,7 +2,7 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/builtins/typed_array",
+    "mizchi/js/builtins/typedarray",
     "mizchi/js/web/blob",
     "mizchi/js/web/streams",
     "mizchi/js/web/url"

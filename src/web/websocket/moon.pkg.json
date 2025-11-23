@@ -4,7 +4,7 @@
     "mizchi/js",
     "mizchi/js/web/event",
     "mizchi/js/node/buffer",
-    "mizchi/js/builtins/typed_array",
+    "mizchi/js/builtins/typedarray",
     "mizchi/js/web/blob"
   ]
 }

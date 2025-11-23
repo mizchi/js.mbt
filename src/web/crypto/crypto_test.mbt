@@ -1,7 +1,7 @@
 ///|
 test "Crypto::getRandomValues fills Uint8Array" {
   let crypto = Crypto::get()
-  let array = @typed_array.Uint8Array::from_size(16)
+  let array = @typedarray.Uint8Array::from_size(16)
   let result = crypto.getRandomValues(array)
 
   // Verify it returns the same array
@@ -22,7 +22,7 @@ test "Crypto::getRandomValues fills Uint8Array" {
 ///|
 test "Crypto::getRandomValuesU32 fills Uint32Array" {
   let crypto = Crypto::get()
-  let array = @typed_array.Uint32Array::from_size(4)
+  let array = @typedarray.Uint32Array::from_size(4)
   let result = crypto.getRandomValuesU32(array)
   assert_eq(result.length, 4)
 

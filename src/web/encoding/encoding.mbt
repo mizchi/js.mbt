@@ -22,7 +22,7 @@ pub fn TextEncoder::new() -> TextEncoder {
 pub fn TextEncoder::encode(
   self : TextEncoder,
   input : String,
-) -> @typed_array.Uint8Array {
+) -> @typedarray.Uint8Array {
   self.call("encode", [input]) |> @js.unsafe_cast
 }
 
@@ -40,7 +40,7 @@ pub fn TextDecoder::new() -> TextDecoder {
 ///|
 pub fn TextDecoder::decode(
   self : TextDecoder,
-  input : @typed_array.Uint8Array,
+  input : @typedarray.Uint8Array,
 ) -> String {
   self.call("decode", [input]) |> @js.unsafe_cast
 }

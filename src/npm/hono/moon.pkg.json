@@ -3,7 +3,7 @@
     "mizchi/js",
     "mizchi/js/web/http",
     "mizchi/js/web/url",
-    "mizchi/js/builtins/typed_array",
+    "mizchi/js/builtins/typedarray",
     "mizchi/js/node"
   ]
 }

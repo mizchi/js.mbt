@@ -2,6 +2,6 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/builtins/typed_array"
+    "mizchi/js/builtins/typedarray"
   ]
 }

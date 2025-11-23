@@ -222,7 +222,7 @@ pub fn DatabaseSync::prepare(self : Self, query : String) -> StatementSync {
 #alias(apply_changeset)
 pub fn DatabaseSync::applyChangeset(
   self : Self,
-  changeset : @typed_array.Uint8Array,
+  changeset : @typedarray.Uint8Array,
   filter? : (@js.Js) -> Bool,
   onConflict? : (@js.Js?, @js.Js) -> Bool,
 ) -> Bool {
@@ -402,12 +402,12 @@ pub type Session
 pub impl @js.JsImpl for Session
 
 ///|
-pub fn Session::changeset(self : Self) -> @typed_array.Uint8Array {
+pub fn Session::changeset(self : Self) -> @typedarray.Uint8Array {
   self.call0("changeset") |> @js.unsafe_cast
 }
 
 ///|
-pub fn Session::patchset(self : Self) -> @typed_array.Uint8Array {
+pub fn Session::patchset(self : Self) -> @typedarray.Uint8Array {
   self.call0("patchset") |> @js.unsafe_cast
 }
 

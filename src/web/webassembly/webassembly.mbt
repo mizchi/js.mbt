@@ -178,7 +178,7 @@ extern "js" fn ffi_new_module(bytes : @js.Js) -> WebAssemblyModule =
 ///|
 /// Compile a WebAssembly module from bytes
 pub fn WebAssemblyModule::from_bytes(
-  bytes : @typed_array.Uint8Array,
+  bytes : @typedarray.Uint8Array,
 ) -> WebAssemblyModule {
   ffi_new_module(bytes.to_js())
 }
@@ -221,7 +221,7 @@ extern "js" fn ffi_instantiate(
 ///|
 /// Compile and instantiate a WebAssembly module from bytes
 pub fn instantiate_bytes(
-  bytes : @typed_array.Uint8Array,
+  bytes : @typedarray.Uint8Array,
   import_object : @js.Js?,
 ) -> (WebAssemblyModule, WebAssemblyInstance) {
   let imports = match import_object {
@@ -253,7 +253,7 @@ extern "js" fn ffi_validate(bytes : @js.Js) -> Bool =
 
 ///|
 /// Validate WebAssembly bytes
-pub fn validate(bytes : @typed_array.Uint8Array) -> Bool {
+pub fn validate(bytes : @typedarray.Uint8Array) -> Bool {
   ffi_validate(bytes.to_js())
 }
 
@@ -263,6 +263,6 @@ extern "js" fn ffi_compile(bytes : @js.Js) -> @js.Js =
 
 ///|
 /// Compile a WebAssembly module (async)
-pub fn compile(bytes : @typed_array.Uint8Array) -> @js.Js {
+pub fn compile(bytes : @typedarray.Uint8Array) -> @js.Js {
   ffi_compile(bytes.to_js())
 }
