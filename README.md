@@ -22,10 +22,11 @@ $ moon add mizchi/js
 ### 📖 Learning Resources
 
 - [MoonBit Cheatsheet](https://github.com/mizchi/js.mbt/blob/main/src/examples/moonbit_cheatsheet.mbt.md) - Quick reference for MoonBit syntax
-- [MoonBit Libraries Reference](https://github.com/mizchi/js.mbt/blob/main/docs/moonbit_libraries.md) - Comprehensive list of available MoonBit packages
 - [FFI Guide](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_ffi.mbt.md) - Understanding MoonBit JavaScript FFI
 - [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/src/examples/escape_hatch.mbt.md) - Advanced FFI techniques
 - [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/src/examples/for_ts_user.mbt.md) - Migration guide from TypeScript
+
+> 💡 To search available MoonBit packages, use the [Library Reference CLI](#moonbit-library-reference-cli)
 
 ---
 
@@ -133,17 +134,25 @@ See escape hatch pattern in [escape_hatch.mbt.md](https://github.com/mizchi/js.m
 
 ## Development Scripts
 
-### Generate Library Reference
+### MoonBit Library Reference CLI
 
-Generate an up-to-date list of all available MoonBit packages from your local registry:
+Search and browse available MoonBit packages from your local registry:
 
 ```bash
-npx tsx scripts/generate_library_cheatsheet.ts
-# or with Node.js
-node scripts/generate_library_cheatsheet.ts
+# Show all packages
+npx tsx scripts/generate_library_cheatsheet.ts --all
+
+# Search for packages containing "json"
+npx tsx scripts/generate_library_cheatsheet.ts --search json
+
+# Search for specific package
+npx tsx scripts/generate_library_cheatsheet.ts --search moonbitlang/core
+
+# Pipe to less for easier browsing
+npx tsx scripts/generate_library_cheatsheet.ts --all | less
 ```
 
-This will create/update `docs/moonbit_libraries.md` with information from `~/.moon/registry/index/`.
+The tool reads package information from `~/.moon/registry/index/`.
 
 ## LICENSE
 

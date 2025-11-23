@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 /**
- * Generate MoonBit library cheatsheet from registry index
+ * MoonBit library reference CLI tool
  *
  * Usage:
- *   node scripts/generate_library_cheatsheet.ts
- *   # or with tsx
- *   tsx scripts/generate_library_cheatsheet.ts
+ *   tsx scripts/generate_library_cheatsheet.ts --all
+ *   tsx scripts/generate_library_cheatsheet.ts --search json
+ *   tsx scripts/generate_library_cheatsheet.ts --search moonbitlang/core
  */
 
 import { join } from "node:path";
-import { existsSync, readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 
 interface PackageInfo {
@@ -216,18 +216,94 @@ function categorizePackage(pkg: PackageEntry): string {
   return 'Utilities';
 }
 
+function parseArgs(): { all: boolean; search: string | null } {
+  const args = process.argv.slice(2);
+  let all = false;
+  let search: string | null = null;
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === "--all") {
+      all = true;
+    } else if (args[i] === "--search" && i + 1 < args.length) {
+      search = args[i + 1];
+      i++;
+    }
+  }
+
+  return { all, search };
+}
+
+function printPackages(packages: Map<string, PackageEntry>, query?: string) {
+  const sortedPackages = Array.from(packages.values())
+    .filter((pkg) => !query || pkg.name.toLowerCase().includes(query.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  if (sortedPackages.length === 0) {
+    console.log("No packages found.");
+    return;
+  }
+
+  console.log(`Found ${sortedPackages.length} package(s):\n`);
+
+  for (const pkg of sortedPackages) {
+    console.log(`${pkg.name} (v${pkg.latestVersion})`);
+    if (pkg.description) {
+      console.log(`  Description: ${pkg.description}`);
+    }
+    if (pkg.repository) {
+      console.log(`  Repository: ${pkg.repository}`);
+    }
+    if (pkg.keywords.length > 0) {
+      console.log(`  Keywords: ${pkg.keywords.join(", ")}`);
+    }
+    if (pkg.license) {
+      console.log(`  License: ${pkg.license}`);
+    }
+    console.log();
+  }
+}
+
+function showUsage() {
+  console.log(`MoonBit Library Reference CLI
+
+Usage:
+  tsx scripts/generate_library_cheatsheet.ts --all
+  tsx scripts/generate_library_cheatsheet.ts --search <query>
+
+Options:
+  --all              Show all available packages
+  --search <query>   Search packages by name (partial match)
+
+Examples:
+  tsx scripts/generate_library_cheatsheet.ts --all
+  tsx scripts/generate_library_cheatsheet.ts --search json
+  tsx scripts/generate_library_cheatsheet.ts --search moonbitlang/core
+`);
+}
+
 function main() {
-  console.log("Collecting packages from ~/.moon/registry/index/...");
+  // Ignore EPIPE errors (when output is piped to head, etc.)
+  process.stdout.on('error', (err) => {
+    if (err.code === 'EPIPE') {
+      process.exit(0);
+    }
+    throw err;
+  });
+
+  const { all, search } = parseArgs();
+
+  if (!all && !search) {
+    showUsage();
+    process.exit(1);
+  }
+
   const packages = collectPackages();
 
-  console.log(`Found ${packages.size} packages`);
-
-  const markdown = generateMarkdown(packages);
-
-  const outputPath = "docs/moonbit_libraries.md";
-  writeFileSync(outputPath, markdown, "utf-8");
-
-  console.log(`✅ Generated: ${outputPath}`);
+  if (all) {
+    printPackages(packages);
+  } else if (search) {
+    printPackages(packages, search);
+  }
 }
 
 main();
