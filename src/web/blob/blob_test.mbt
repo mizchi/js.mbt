@@ -2,7 +2,6 @@
 /// Blob API Tests
 
 ///|
-using @js {run_async}
 
 ///| Constructor Tests
 
@@ -48,7 +47,7 @@ test "Blob content_type returns empty string when not specified" {
 ///|
 /// Test Blob text method
 test "Blob text returns content as string" {
-  run_async(async fn() noraise {
+  @js.run_async(async fn() noraise {
     try {
       let blob = Blob::new(["Hello, Blob!"])
       let text = blob.text().wait()
@@ -62,7 +61,7 @@ test "Blob text returns content as string" {
 ///|
 /// Test Blob arrayBuffer method
 test "Blob array_buffer returns ArrayBuffer" {
-  run_async(async fn() noraise {
+  @js.run_async(async fn() noraise {
     try {
       let blob = Blob::new(["test"])
       let buffer = blob.array_buffer().wait()
@@ -129,7 +128,7 @@ test "Blob handles binary data" {
 ///|
 /// Test Blob slice and text together
 test "Blob slice and text work together" {
-  run_async(async fn() noraise {
+  @js.run_async(async fn() noraise {
     try {
       let blob = Blob::new(["Hello, World!"])
       let sliced = blob.slice(start=0, end=5)

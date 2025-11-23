@@ -2,15 +2,15 @@
 
 ///|
 test "ArrayBuffer creation and properties" {
-  let buffer = ArrayBuffer::new(16)
+  let buffer = @js.ArrayBuffer::new(16)
   assert_eq(buffer.byteLength(), 16)
-  let zero_buffer = ArrayBuffer::new(0)
+  let zero_buffer = @js.ArrayBuffer::new(0)
   assert_eq(zero_buffer.byteLength(), 0)
 }
 
 ///|
 test "ArrayBuffer with maxByteLength" {
-  let buffer = ArrayBuffer::new(8, max_byte_length=16)
+  let buffer = @js.ArrayBuffer::new(8, max_byte_length=16)
   assert_eq(buffer.byteLength(), 8)
   assert_eq(buffer.maxByteLength(), 16)
   assert_true(buffer.resizable())
@@ -20,13 +20,13 @@ test "ArrayBuffer with maxByteLength" {
   assert_eq(buffer.byteLength(), 12)
 
   // Non-resizable buffer
-  let fixed_buffer = ArrayBuffer::new(8)
+  let fixed_buffer = @js.ArrayBuffer::new(8)
   assert_false(fixed_buffer.resizable())
 }
 
 ///|
-test "ArrayBuffer::slice operations" {
-  let buffer = ArrayBuffer::new(16)
+test "@js.ArrayBuffer::slice operations" {
+  let buffer = @js.ArrayBuffer::new(16)
 
   // Basic slice
   let sliced = buffer.slice(begin=4, end=12)
@@ -46,11 +46,11 @@ test "ArrayBuffer::slice operations" {
 }
 
 ///|
-test "ArrayBuffer::is_view" {
-  let buffer = ArrayBuffer::new(16)
+test "@js.ArrayBuffer::is_view" {
+  let buffer = @js.ArrayBuffer::new(16)
 
   // Plain buffer is not a view
-  assert_false(ArrayBuffer::isView(buffer.to_js()))
+  assert_false(@js.ArrayBuffer::isView(buffer.to_js()))
 
   // Note: Testing with actual views requires typed_array package
   // which would create circular dependency.
@@ -66,7 +66,7 @@ test "SharedArrayBuffer creation and properties" {
 }
 
 ///|
-test "SharedArrayBuffer::slice operations" {
+test "Shared@js.ArrayBuffer::slice operations" {
   let buffer = SharedArrayBuffer::new(16)
 
   // Basic slice

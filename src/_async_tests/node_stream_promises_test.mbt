@@ -54,7 +54,7 @@ extern "js" fn get_chunks_promises(writable : @js.Js) -> Array[String] =
 ///|
 test {
   @test.describe("Node Stream Promises: Pipeline operations", _ => {
-    it("pipeline with promises - basic", _ => {
+    @test.it("pipeline with promises - basic", _ => {
       let readable = create_readable_from_array(["hello", "world"])
       let writable_js = create_writable_to_array_promises()
       let streams : Array[@js.Js] = [readable.to_js(), writable_js]
@@ -65,7 +65,7 @@ test {
       assert_eq(chunks[0], "hello")
       assert_eq(chunks[1], "world")
     })
-    it("pipeline with promises - with transform", _ => {
+    @test.it("pipeline with promises - with transform", _ => {
       let readable = create_readable_from_array(["hello", "world"])
       let transform = create_transform_uppercase_promises()
       let writable_js = create_writable_to_array_promises()
@@ -81,7 +81,7 @@ test {
       assert_eq(chunks[0], "HELLO")
       assert_eq(chunks[1], "WORLD")
     })
-    it("pipeline with promises - multiple transforms", _ => {
+    @test.it("pipeline with promises - multiple transforms", _ => {
       let readable = create_readable_from_array(["test", "data"])
       let transform1 = create_transform_uppercase_promises()
       let transform2 = create_passthrough_promises()
@@ -99,9 +99,9 @@ test {
       assert_eq(chunks[0], "TEST")
       assert_eq(chunks[1], "DATA")
     })
-    it("pipeline with promises - async operations", _ => {
+    @test.it("pipeline with promises - async operations", _ => {
       let resolver : Resolvers[Bool] = Promise::withResolvers()
-      run_async(fn() {
+      @js.run_async(fn() {
         let readable = create_readable_from_array(["async", "test"])
         let transform = create_transform_uppercase_promises()
         let writable_js = create_writable_to_array_promises()
@@ -122,7 +122,7 @@ test {
       let result = resolver.promise.wait()
       assert_eq(result, true)
     })
-    it("pipeline with promises - successful completion", _ => {
+    @test.it("pipeline with promises - successful completion", _ => {
       // Test that pipeline promise resolves successfully
       let readable = create_readable_from_array(["test", "data"])
       let writable_js = create_writable_to_array_promises()
@@ -135,7 +135,7 @@ test {
       let chunks = get_chunks_promises(writable_js)
       assert_eq(chunks.length(), 2)
     })
-    it("pipeline with promises - then chain", _ => {
+    @test.it("pipeline with promises - then chain", _ => {
       let readable = create_readable_from_array(["chain", "test"])
       let writable_js = create_writable_to_array_promises()
       let streams : Array[@js.Js] = [readable.to_js(), writable_js]
@@ -147,7 +147,7 @@ test {
       let count = result_promise.wait()
       assert_eq(count, 2)
     })
-    it("pipeline with promises - large data", _ => {
+    @test.it("pipeline with promises - large data", _ => {
       let items = Array::make(100, "")
       let mut i = 0
       while i < 100 {
@@ -170,7 +170,7 @@ test {
 ///|
 test {
   @test.describe("Node Stream Promises: Finished operations", _ => {
-    it("finished with promises - writable", _ => {
+    @test.it("finished with promises - writable", _ => {
       let writable_js = create_writable_to_array_promises()
       let writable : @node_stream.Writable = @js.unsafe_cast(writable_js)
       // Write some data
@@ -182,7 +182,7 @@ test {
       promise.wait()
       assert_eq(writable.writableFinished(), true)
     })
-    it("finished with promises - readable", _ => {
+    @test.it("finished with promises - readable", _ => {
       let readable = create_readable_from_array(["item"])
       // Consume the stream
       let _ = readable.read()
@@ -192,7 +192,7 @@ test {
       promise.wait()
       assert_eq(readable.readableEnded(), true)
     })
-    it("finished with promises - multiple streams", _ => {
+    @test.it("finished with promises - multiple streams", _ => {
       let writable1_js = create_writable_to_array_promises()
       let writable1 : @node_stream.Writable = @js.unsafe_cast(writable1_js)
       let writable2_js = create_writable_to_array_promises()

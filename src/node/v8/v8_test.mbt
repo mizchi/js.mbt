@@ -1,15 +1,6 @@
 ///|
 /// Node.js v8 API Tests
 
-///|
-using @js {run_async, type ArrayBuffer}
-
-///|
-using @promises {rm}
-
-///|
-using @v8 {serialize, deserialize, type Serializer, type Deserializer}
-
 ///| Heap Statistics Tests
 
 ///|
@@ -66,8 +57,8 @@ test "write_heap_snapshot returns filename" {
   let filename = @v8.writeHeapSnapshot()
   inspect(filename.length() > 0, content="true")
   // Clean up snapshot file
-  run_async(async fn() noraise {
-    try rm(filename).wait() |> ignore catch {
+  @js.run_async(async fn() noraise {
+    try @fs_promises.rm(filename).wait() |> ignore catch {
       _ => ()
     }
   })
@@ -80,8 +71,8 @@ test "write_heap_snapshot with custom filename" {
   let filename = @v8.writeHeapSnapshot(filename=custom_name)
   inspect(filename == custom_name, content="true")
   // Clean up snapshot file
-  run_async(async fn() noraise {
-    try rm(filename).wait() |> ignore catch {
+  @js.run_async(async fn() noraise {
+    try @fs_promises.rm(filename).wait() |> ignore catch {
       _ => ()
     }
   })
@@ -195,7 +186,7 @@ test "Serializer write_double" {
 test "Serializer transfer_array_buffer" {
   let serializer = Serializer::new()
   serializer.write_header()
-  let ab = ArrayBuffer::new(16)
+  let ab = @js.ArrayBuffer::new(16)
   serializer.transferArrayBuffer(1, ab)
   let buffer = serializer.releaseBuffer()
   inspect(@js.unsafe_cast(buffer.get("length")) > 0, content="true")
@@ -237,11 +228,11 @@ test "Deserializer get_wire_format_version" {
 ///|
 /// Test Deserializer transfer_array_buffer
 test "Deserializer transfer_array_buffer" {
-  let ab = ArrayBuffer::new(16)
+  let ab = @js.ArrayBuffer::new(16)
   let serialized = serialize(ab)
   let deserializer = Deserializer::new(serialized)
   deserializer.read_header() |> ignore
-  let new_ab = ArrayBuffer::new(16)
+  let new_ab = @js.ArrayBuffer::new(16)
   deserializer.transfer_array_buffer(1, new_ab)
   inspect(true, content="true")
 }

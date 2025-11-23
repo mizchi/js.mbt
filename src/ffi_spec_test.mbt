@@ -214,7 +214,7 @@ test "Js? field with null value" {
   let obj : StructWithOptions = create_null_fields() |> unsafe_cast
   // Js? field cannot be matched - it crashes when trying to access $tag
   // Convert to Js and check with is_nullish instead
-  let raw : Js = obj.to_js().get("optionalJs")
+  let raw : @js.Js = obj.to_js().get("optionalJs")
   inspect(is_nullish(raw), content="true")
 }
 
@@ -222,7 +222,7 @@ test "Js? field with null value" {
 test "Js? field with undefined value" {
   let obj : StructWithOptions = create_undefined_fields() |> unsafe_cast
   // Js? field cannot be matched - it crashes when trying to access $tag
-  let raw : Js = obj.to_js().get("optionalJs")
+  let raw : @js.Js = obj.to_js().get("optionalJs")
   inspect(is_nullish(raw), content="true")
 }
 
@@ -355,8 +355,8 @@ pub trait Convertible {
 }
 
 ///|
-pub impl Convertible for SimpleStruct with from_js(js : Js) -> SimpleStruct {
-  unsafe_cast(js)
+pub impl Convertible for SimpleStruct with from_js(js : @js.Js) -> SimpleStruct {
+  @js.unsafe_cast(js)
 }
 
 ///|

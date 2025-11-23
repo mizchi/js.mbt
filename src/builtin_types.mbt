@@ -335,8 +335,6 @@ pub fn JsError::new(message : String, cause? : JsError) -> JsError {
 /// This type represents errors that can be raised when calling JavaScript functions
 /// that may throw exceptions.
 pub suberror ThrowError {
-  /// Generic JavaScript Error
-  Error(JsError)
   /// TypeError - Type-related errors
   TypeError(JsError)
   /// RangeError - Value out of range errors
@@ -351,6 +349,8 @@ pub suberror ThrowError {
   EvalError(JsError)
   /// AggregateError - Multiple errors wrapped together
   AggregateError(JsError)
+  /// Generic JavaScript Error including custom errors
+  Error(JsError)
   /// Non-error value thrown
   Value(Js)
 }

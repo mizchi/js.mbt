@@ -1,12 +1,9 @@
 ///|
-using @js {trait JsImpl, type Promise, unsafe_cast, type AbortSignal}
-
-///|
 #external
 pub type Interface
 
 ///|
-impl JsImpl for Interface
+impl @js.JsImpl for Interface
 
 ///|
 /// Implement EventEmitter trait for Interface
@@ -25,7 +22,7 @@ pub fn createInterface(
   crlfDelay? : Int,
   escapeCodeTimeout? : Int,
   tabSize? : Int,
-  signal? : AbortSignal,
+  signal? : @js.AbortSignal,
 ) -> Interface {
   let opts = @js.from_entries_option([
     ("input", Some(input.to_js())),
@@ -40,7 +37,7 @@ pub fn createInterface(
     ("tabSize", tabSize.map(x => x)),
     ("signal", signal.map(x => x)),
   ])
-  unsafe_cast(
+  @js.unsafe_cast(
     @node.require("node:readline/promises")
     .get("createInterface")
     .call_self([opts]),
@@ -48,42 +45,46 @@ pub fn createInterface(
 }
 
 ///|
-pub fn Interface::question(self : Self, query : String) -> Promise[String] {
-  self.call("question", [query]) |> unsafe_cast
+pub fn Interface::question(self : Self, query : String) -> @js.Promise[String] {
+  self.call("question", [query]) |> @js.unsafe_cast
 }
 
 ///|
-pub fn Interface::commit(self : Self) -> Promise[Unit] {
-  self.call0("commit") |> unsafe_cast
+pub fn Interface::commit(self : Self) -> @js.Promise[Unit] {
+  self.call0("commit") |> @js.unsafe_cast
 }
 
 ///|
 pub fn Interface::rollback(self : Self) -> Self {
-  self.call0("rollback") |> unsafe_cast
+  self.call0("rollback") |> @js.unsafe_cast
 }
 
 ///|
 #alias(cursor_to)
-pub fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Promise[Unit] {
-  self.call2("cursorTo", x, y) |> unsafe_cast
+pub fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> @js.Promise[Unit] {
+  self.call2("cursorTo", x, y) |> @js.unsafe_cast
 }
 
 ///|
 #alias(move_cursor)
-pub fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Promise[Unit] {
-  self.call2("moveCursor", dx, dy) |> unsafe_cast
+pub fn Interface::moveCursor(
+  self : Self,
+  dx : Int,
+  dy? : Int,
+) -> @js.Promise[Unit] {
+  self.call2("moveCursor", dx, dy) |> @js.unsafe_cast
 }
 
 ///|
 #alias(clear_line)
 pub fn Interface::clearLine(self : Self, dir : Int) -> Self {
-  self.call("clearLine", [dir]) |> unsafe_cast
+  self.call("clearLine", [dir]) |> @js.unsafe_cast
 }
 
 ///|
 #alias(clear_screen_down)
 pub fn Interface::clearScreenDown(self : Self, dir : Int) -> Self {
-  self.call("clearScreenDown", [dir]) |> unsafe_cast
+  self.call("clearScreenDown", [dir]) |> @js.unsafe_cast
 }
 
 ///|

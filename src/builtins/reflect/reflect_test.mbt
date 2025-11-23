@@ -3,8 +3,8 @@ test "Reflect.get" {
   let obj = @js.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
-  let name = get(obj, "name", None)
-  let age = get(obj, "age", None)
+  let name = @reflect.get(obj, "name", None)
+  let age = @reflect.get(obj, "age", None)
   assert_eq(@js.unsafe_cast(name), "Alice")
   assert_eq(@js.unsafe_cast(age), 30)
 }
@@ -12,8 +12,8 @@ test "Reflect.get" {
 ///|
 test "Reflect.set" {
   let obj = @js.Object::new()
-  let result1 = set(obj, "x", 10, None)
-  let result2 = set(obj, "y", 20, None)
+  let result1 = @reflect.set(obj, "x", 10, None)
+  let result2 = @reflect.set(obj, "y", 20, None)
   assert_true(result1)
   assert_true(result2)
   assert_eq(@js.unsafe_cast(obj.get("x")), 10)
@@ -126,7 +126,7 @@ test "Reflect.get with receiver" {
   let obj = @js.Object::new()
   obj.set("value", 100)
   let receiver = @js.Object::new()
-  let result = get(obj, "value", Some(receiver.to_js()))
+  let result = @reflect.get(obj, "value", Some(receiver.to_js()))
   assert_eq(@js.unsafe_cast(result), 100)
 }
 
@@ -137,19 +137,19 @@ test "Reflect operations on frozen object" {
   @js.Object::freeze(obj) |> ignore
 
   // Cannot add new properties to frozen object
-  let set_result = set(obj, "new", "value", None)
+  let set_result = @reflect.set(obj, "new", "value", None)
   assert_false(set_result)
 
   // Cannot delete properties from frozen object
-  let delete_result = deleteProperty(obj, "frozen")
+  let delete_result = @reflect.deleteProperty(obj, "frozen")
   assert_false(delete_result)
 
   // Can still read properties
-  let value = get(obj, "frozen", None)
+  let value = @reflect.get(obj, "frozen", None)
   assert_eq(@js.unsafe_cast(value), true)
 
   // Frozen object is not extensible
-  assert_false(isExtensible(obj))
+  assert_false(@reflect.isExtensible(obj))
 }
 
 ///|

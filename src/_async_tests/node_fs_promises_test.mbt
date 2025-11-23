@@ -4,7 +4,7 @@
 ///|
 test {
   @test.describe("Node FS Promises: File operations", _ => {
-    it("readFile and writeFile", _ => {
+    @test.it("readFile and writeFile", _ => {
       let test_file = "test_async_write.txt"
       let content = "Hello, async world!"
       let promise = @fs_promises.writeFile(test_file, content)
@@ -16,7 +16,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("rename file", _ => {
+    @test.it("rename file", _ => {
       let old_name = "test_async_rename_old.txt"
       let new_name = "test_async_rename_new.txt"
       let promise = @fs_promises.writeFile(old_name, "rename test")
@@ -29,7 +29,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("chmod changes permissions", _ => {
+    @test.it("chmod changes permissions", _ => {
       let test_file = "test_async_chmod.txt"
       let promise = @fs_promises.writeFile(test_file, "chmod test")
         .then(fn(_) { @fs_promises.chmod(test_file, 0o644) })
@@ -41,7 +41,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("chown changes ownership", _ => {
+    @test.it("chown changes ownership", _ => {
       let test_file = "test_async_chown.txt"
       let promise = @fs_promises.writeFile(test_file, "chown test")
         .then(fn(_) { @fs_promises.stat(test_file) })
@@ -56,7 +56,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("truncate reduces file size", _ => {
+    @test.it("truncate reduces file size", _ => {
       let test_file = "test_async_truncate.txt"
       let promise = @fs_promises.writeFile(test_file, "Hello, World!")
         .then(fn(_) { @fs_promises.truncate(test_file, len=5) })
@@ -68,7 +68,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("access checks file access", _ => {
+    @test.it("access checks file access", _ => {
       let test_file = "test_async_access.txt"
       let promise = @fs_promises.writeFile(test_file, "access test")
         .then(fn(_) { @fs_promises.access(test_file) })
@@ -78,7 +78,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("appendFile appends content", _ => {
+    @test.it("appendFile appends content", _ => {
       let test_file = "test_async_append.txt"
       let promise = @fs_promises.writeFile(test_file, "Hello")
         .then(fn(_) { @fs_promises.appendFile(test_file, ", World!") })
@@ -90,7 +90,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("copyFile copies file", _ => {
+    @test.it("copyFile copies file", _ => {
       let src = "test_async_copy_src.txt"
       let dest = "test_async_copy_dest.txt"
       let promise = @fs_promises.writeFile(src, "copy test")
@@ -103,7 +103,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("stat returns file stats", _ => {
+    @test.it("stat returns file stats", _ => {
       let test_file = "test_async_stat.txt"
       let promise = @fs_promises.writeFile(test_file, "stat test")
         .then(fn(_) { @fs_promises.stat(test_file) })
@@ -114,7 +114,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("truncate without length truncates to 0", _ => {
+    @test.it("truncate without length truncates to 0", _ => {
       let test_file = "test_async_truncate_zero.txt"
       let promise = @fs_promises.writeFile(test_file, "This will be empty")
         .then(fn(_) { @fs_promises.truncate(test_file) })
@@ -126,7 +126,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("appendFile with encoding", _ => {
+    @test.it("appendFile with encoding", _ => {
       let test_file = "test_async_append_enc.txt"
       let promise = @fs_promises.writeFile(test_file, "Hello")
         .then(fn(_) {
@@ -146,7 +146,7 @@ test {
 ///|
 test {
   @test.describe("Node FS Promises: Directory operations", _ => {
-    it("mkdir with recursive", _ => {
+    @test.it("mkdir with recursive", _ => {
       let test_dir = "test_async_nested/sub/deep"
       let promise = @fs_promises.mkdir(test_dir, recursive=true)
         .then(fn(_) { @fs_promises.stat(test_dir) })
@@ -157,14 +157,14 @@ test {
         })
       ignore(promise.wait())
     })
-    it("rmdir removes directory", _ => {
+    @test.it("rmdir removes directory", _ => {
       let test_dir = "test_async_rmdir"
       let promise = @fs_promises.mkdir(test_dir)
         .then(fn(_) { @fs_promises.rmdir(test_dir) })
         .then(fn(_) { Promise::resolve(()) })
       ignore(promise.wait())
     })
-    it("readdir reads directory contents", _ => {
+    @test.it("readdir reads directory contents", _ => {
       let test_dir = "test_async_readdir"
       let promise = @fs_promises.mkdir(test_dir)
         .then(fn(_) { @fs_promises.writeFile("\{test_dir}/file1.txt", "test") })
@@ -177,7 +177,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("rmdir with recursive removes nested dirs", _ => {
+    @test.it("rmdir with recursive removes nested dirs", _ => {
       let test_dir = "test_async_rmdir_recursive"
       let promise = @fs_promises.mkdir("\{test_dir}/sub", recursive=true)
         .then(fn(_) { @fs_promises.rmdir(test_dir, recursive=true) })
@@ -190,7 +190,7 @@ test {
 ///|
 test {
   @test.describe("Node FS Promises: Directory tree operations", _ => {
-    it("rm with recursive and force", _ => {
+    @test.it("rm with recursive and force", _ => {
       let test_dir = "test_async_rm"
       let promise = @fs_promises.mkdir("\{test_dir}/sub", recursive=true)
         .then(fn(_) {
@@ -200,7 +200,7 @@ test {
         .then(fn(_) { Promise::resolve(()) })
       ignore(promise.wait())
     })
-    it("cp with recursive", _ => {
+    @test.it("cp with recursive", _ => {
       let src_dir = "test_async_cp_src"
       let dest_dir = "test_async_cp_dest"
       let promise = @fs_promises.mkdir(src_dir)
@@ -224,7 +224,7 @@ test {
 ///|
 test {
   @test.describe("Node FS Promises: Symbolic link operations", _ => {
-    it("symlink and readlink", _ => {
+    @test.it("symlink and readlink", _ => {
       let target = "test_async_symlink_target.txt"
       let link = "test_async_symlink_link.txt"
       let promise = @fs_promises.writeFile(target, "symlink test")
@@ -237,7 +237,7 @@ test {
         })
       ignore(promise.wait())
     })
-    it("realpath resolves path", _ => {
+    @test.it("realpath resolves path", _ => {
       let promise = @fs_promises.realpath(".").then(fn(real) {
         assert_true(real.length() > 0)
         Promise::resolve(())

@@ -2,7 +2,6 @@
 /// File and FileReader API Tests
 
 ///|
-using @js {run_async}
 
 ///| File Constructor Tests
 
@@ -58,7 +57,7 @@ test "File as_blob returns Blob" {
 ///|
 /// Test File text method (inherited from Blob)
 test "File text returns content as string" {
-  run_async(async fn() noraise {
+  @js.run_async(async fn() noraise {
     try {
       let file = File::new(["Hello, File!"], "test.txt")
       let text = file.text().wait()
@@ -72,7 +71,7 @@ test "File text returns content as string" {
 ///|
 /// Test File array_buffer method
 test "File array_buffer returns ArrayBuffer" {
-  run_async(async fn() noraise {
+  @js.run_async(async fn() noraise {
     try {
       let file = File::new(["test"], "test.txt")
       let buffer = file.array_buffer().wait()

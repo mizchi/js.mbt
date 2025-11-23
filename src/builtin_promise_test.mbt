@@ -2,7 +2,7 @@
 
 ///|
 test "Promise::new creates Promise" {
-  let _p : Promise[Int] = Promise::new(fn(resolve, _reject) { resolve(42) })
+  let _p : @js.Promise[Int] = Promise::new(fn(resolve, _reject) { resolve(42) })
   // Promise created successfully
 }
 

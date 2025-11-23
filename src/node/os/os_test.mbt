@@ -2,24 +2,6 @@
 /// Node.js OS Module Tests
 
 ///|
-using @os {
-  arch,
-  cpus,
-  endianness,
-  freemem,
-  homedir,
-  hostname,
-  loadavg,
-  platform,
-  release,
-  tmpdir,
-  totalmem,
-  type_,
-  uptime,
-  version,
-  eol,
-  machine,
-}
 
 ///|
 test "arch returns valid architecture" {

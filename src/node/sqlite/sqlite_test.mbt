@@ -219,7 +219,7 @@ test "sqlite type-safe anonymous parameters" {
   assert_eq(results.length(), 2)
   let first = results[0]
   assert_eq(@js.unsafe_cast(first.get("name")), "Apple")
-  // Test with get() method
+  // Test with @http.get() method
   let get_stmt = database.prepare(
     "SELECT name, price FROM products WHERE id = ?",
   )

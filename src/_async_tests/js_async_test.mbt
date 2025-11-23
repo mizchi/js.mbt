@@ -1,48 +1,48 @@
 ///|
 test {
   @test.describe("JS Async: Timer operations", _ => {
-    it("setTimeout", _ => {
+    @test.it("setTimeout", _ => {
       let mut executed = false
       let _timer = @js.setTimeout(() => executed = true, 10)
-      sleep(20)
+      @js.sleep(20)
       assert_true(executed)
     })
-    it("clearTimeout", _ => {
+    @test.it("clearTimeout", _ => {
       let mut executed = false
       let timer = @js.setTimeout(() => executed = true, 10)
       @js.clearTimeout(timer)
-      sleep(20)
+      @js.sleep(20)
       assert_false(executed)
     })
-    it("setTimeout with zero delay", _ => {
+    @test.it("setTimeout with zero delay", _ => {
       let mut executed = false
       let _ = @js.setTimeout(() => executed = true, 0)
-      sleep(1)
+      @js.sleep(1)
       assert_true(executed)
     })
-    it("multiple setTimeouts", _ => {
+    @test.it("multiple setTimeouts", _ => {
       let order = []
       let _ = @js.setTimeout(() => order.push(1), 10)
       let _ = @js.setTimeout(() => order.push(2), 5)
       let _ = @js.setTimeout(() => order.push(3), 15)
-      sleep(25)
+      @js.sleep(25)
       assert_eq(order.length(), 3)
       assert_eq(order[0], 2) // 5ms
       assert_eq(order[1], 1) // 10ms
       assert_eq(order[2], 3) // 15ms
     })
-    it("setInterval immediate execution", _ => {
+    @test.it("setInterval immediate execution", _ => {
       let mut first_execution = false
       let timer = @js.setInterval(
         () => if not(first_execution) { first_execution = true },
         5,
       )
-      sleep(10)
+      @js.sleep(10)
       @js.clearInterval(timer)
       assert_true(first_execution)
     })
-    it("sleep with very short duration", _ => {
-      sleep(1)
+    @test.it("sleep with very short duration", _ => {
+      @js.sleep(1)
       // Just verify sleep completes without error
       assert_true(true)
     })
@@ -52,41 +52,41 @@ test {
 ///|
 test {
   @test.describe("JS Async: Async operations", _ => {
-    it("sleep multiple times", _ => {
+    @test.it("sleep multiple times", _ => {
       let mut count = 0
-      sleep(5)
+      @js.sleep(5)
       count += 1
-      sleep(5)
+      @js.sleep(5)
       count += 1
-      sleep(5)
+      @js.sleep(5)
       count += 1
       assert_eq(count, 3)
     })
-    it("nested run_async", _ => {
+    @test.it("nested run_async", _ => {
       let mut outer = false
       let mut inner = false
-      run_async(() => {
-        sleep(5)
+      @js.run_async(() => {
+        @js.sleep(5)
         outer = true
-        run_async(() => {
-          sleep(5)
+        @js.run_async(() => {
+          @js.sleep(5)
           inner = true
         })
       })
-      sleep(20)
+      @js.sleep(20)
       assert_true(outer)
       assert_true(inner)
     })
-    it("run_async with multiple sleep calls", _ => {
+    @test.it("run_async with multiple sleep calls", _ => {
       let checkpoints = []
-      run_async(() => {
+      @js.run_async(() => {
         checkpoints.push(1)
-        sleep(5)
+        @js.sleep(5)
         checkpoints.push(2)
-        sleep(5)
+        @js.sleep(5)
         checkpoints.push(3)
       })
-      sleep(32)
+      @js.sleep(32)
       assert_eq(checkpoints.length(), 3)
       assert_eq(checkpoints[0], 1)
       assert_eq(checkpoints[1], 2)

@@ -133,7 +133,6 @@ fn[T] unsafe_js(T) -> Js
 
 // Errors
 pub suberror ThrowError {
-  Error(JsError)
   TypeError(JsError)
   RangeError(JsError)
   ReferenceError(JsError)
@@ -141,6 +140,7 @@ pub suberror ThrowError {
   URIError(JsError)
   EvalError(JsError)
   AggregateError(JsError)
+  Error(JsError)
   Value(Js)
 }
 fn ThrowError::from_js(Js) -> Self

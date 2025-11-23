@@ -1,20 +1,14 @@
 ///|
-using @http {
-  get,
-  status_codes,
-  globalAgent,
-  type IncomingMessage,
-  type ServerResponse,
-  type Server,
-}
 
 ///|
-fn createServer(listener : (IncomingMessage, ServerResponse) -> Unit) -> Server {
+fn createServer(
+  listener : (@http.IncomingMessage, @http.ServerResponse) -> Unit,
+) -> @http.Server {
   @http.createServer(requestListener=listener)
 }
 
 ///|
-fn createServerNoListener() -> Server {
+fn createServerNoListener() -> @http.Server {
   @http.createServer()
 }
 
@@ -22,16 +16,16 @@ fn createServerNoListener() -> Server {
 
 ///|
 test {
-  @test.describe("Node HTTP: Server creation", _ => {
-    it("HTTP server can be created", _ => {
+  @test.describe("Node HTTP: @http.Server creation", _ => {
+    @test.it("HTTP server can be created", _ => {
       let server = createServerNoListener()
       inspect(server.listening(), content="false")
       // Non-listening server doesn't need close
     })
-    it("HTTP server can be created with request listener", _ => {
+    @test.it("HTTP server can be created with request listener", _ => {
       let server = createServer(fn(
-        _req : IncomingMessage,
-        res : ServerResponse,
+        _req : @http.IncomingMessage,
+        res : @http.ServerResponse,
       ) {
         res.writeHead(200) |> ignore
         res.end()
@@ -46,8 +40,8 @@ test {
 
 ///|
 test {
-  @test.describe("Node HTTP: Server listening", _ => {
-    it("HTTP server can listen and close properly", _ => {
+  @test.describe("Node HTTP: @http.Server listening", _ => {
+    @test.it("HTTP server can listen and close properly", _ => {
       let mut listening_called = false
       let mut close_called = false
       let server = createServerNoListener()
@@ -59,7 +53,7 @@ test {
       |> ignore
 
       // Wait for server to start
-      sleep(50)
+      @js.sleep(50)
       inspect(listening_called, content="true")
       inspect(server.listening(), content="true")
 
@@ -67,14 +61,14 @@ test {
       server.close(callback=fn() { close_called = true }) |> ignore
 
       // Wait for server to close
-      sleep(100)
+      @js.sleep(100)
       inspect(close_called, content="true")
     })
-    it("HTTP server can get address after listening", _ => {
+    @test.it("HTTP server can get address after listening", _ => {
       let mut close_called = false
       let server = createServerNoListener()
       server.listen(0, host="127.0.0.1") |> ignore
-      sleep(50)
+      @js.sleep(50)
       let address = server.address()
       inspect(address is None, content="false")
       match address {
@@ -85,7 +79,7 @@ test {
         None => ()
       }
       server.close(callback=fn() { close_called = true }) |> ignore
-      sleep(100)
+      @js.sleep(100)
       inspect(close_called, content="true")
     })
   })
@@ -102,8 +96,8 @@ test {
       let mut response_received = false
       let mut close_called = false
       let server = createServer(fn(
-        _req : IncomingMessage,
-        res : ServerResponse,
+        _req : @http.IncomingMessage,
+        res : @http.ServerResponse,
       ) {
         request_handled = true
         res.writeHead(200) |> ignore
@@ -112,7 +106,7 @@ test {
 
       // Start server
       server.listen(0, host="127.0.0.1") |> ignore
-      sleep(50)
+      @js.sleep(50)
 
       // Get port
       let port = match server.address() {
@@ -124,21 +118,21 @@ test {
       }
 
       // Make request
-      let client_req = get("http://127.0.0.1:\{port}/", callback=fn(
-        _res : IncomingMessage,
+      let client_req = @http.get("http://127.0.0.1:\{port}/", callback=fn(
+        _res : @http.IncomingMessage,
       ) {
         response_received = true
       })
       client_req.end()
 
       // Wait for request/response
-      sleep(100)
+      @js.sleep(100)
       inspect(request_handled, content="true")
       inspect(response_received, content="true")
 
       // Close server
       server.close(callback=fn() { close_called = true }) |> ignore
-      sleep(100)
+      @js.sleep(100)
       inspect(close_called, content="true")
     },
   ))
@@ -149,8 +143,8 @@ test {
 ///|
 test {
   @test.describe("Node HTTP: Module functions", _ => {
-    it("status_codes returns status code map", _ => {
-      let codes = status_codes()
+    @test.it("status_codes returns status code map", _ => {
+      let codes = @http.status_codes()
       inspect(@js.typeof_(codes), content="object")
 
       // Check some common status codes
@@ -161,8 +155,8 @@ test {
       let code500 : String = @js.unsafe_cast(codes.get("500"))
       inspect(code500, content="Internal Server Error")
     })
-    it("globalAgent exists", _ => {
-      let agent = globalAgent()
+    @test.it("globalAgent exists", _ => {
+      let agent = @http.globalAgent()
       inspect(@js.typeof_(agent), content="object")
     })
   })

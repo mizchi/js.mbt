@@ -4,12 +4,6 @@
 // Run: npm install canvas
 
 ///|
-using @typed_array {type Uint8Array}
-
-///|
-using @dom {type HTMLCanvasElement}
-
-///|
 /// Test setup - create canvas using node-canvas
 extern "js" fn ffi_create_test_canvas(
   width : @js.Js,
@@ -39,7 +33,7 @@ extern "js" fn ffi_create_image_data_with_data(
   #|}
 
 ///|
-fn create_test_canvas(width : Int, height : Int) -> HTMLCanvasElement {
+fn create_test_canvas(width : Int, height : Int) -> @dom.HTMLCanvasElement {
   @js.unsafe_cast(ffi_create_test_canvas(width |> @js.js, height |> @js.js))
 }
 
@@ -408,7 +402,7 @@ test "ImageData data property returns Uint8Array" {
 
 ///|
 test "ImageData from_data creates ImageData from Uint8Array" {
-  let data = Uint8Array::from_size(40) // 10 * 1 * 4 (RGBA)
+  let data = @typed_array.Uint8Array::from_size(40) // 10 * 1 * 4 (RGBA)
   let image_data : ImageData = @js.unsafe_cast(
     ffi_create_image_data_with_data(data.to_js(), 10 |> @js.js, 1 |> @js.js),
   )

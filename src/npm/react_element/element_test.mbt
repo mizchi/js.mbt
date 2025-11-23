@@ -332,7 +332,7 @@ test "uncovered HTML elements" {
   let elements = [
     pre(["Preformatted text"]),
     blockquote(["Quote"]),
-    span(["Span text"]),
+    @react_element.span(["Span text"]),
     nav(["Navigation"]),
     main_(["Main content"]),
     header(["Header"]),

@@ -12,23 +12,13 @@ fn init_fake_indexeddb() -> Unit {
 }
 
 ///|
-using @indexeddb {
-  open,
-  deleteDatabase,
-  cmp,
-  type IDBDatabase,
-  type IDBRequest,
-  type IDBOpenDBRequest,
-  type IDBKeyRange,
-  type IDBObjectStore,
-  type IDBIndex,
-  type IDBCursorWithValue,
-}
 // Note: @test {it, describe} and @js {Promise, run_async, sleep, suspend} are already imported in deps.mbt
 
 ///|
 /// Helper to promisify IDBRequest
-fn[T] request_to_promise(request : IDBRequest[T]) -> Promise[@js.Js] {
+fn[T] request_to_promise(
+  request : @indexeddb.IDBRequest[T],
+) -> @js.Promise[@js.Js] {
   let resolvers = Promise::withResolvers()
   request.addEventListener("success", fn(event) {
     resolvers.resolve(event.get("target").get("result"))
@@ -45,9 +35,9 @@ fn[T] request_to_promise(request : IDBRequest[T]) -> Promise[@js.Js] {
 ///|
 /// Helper to promisify IDBOpenDBRequest
 fn open_request_to_promise(
-  request : IDBOpenDBRequest,
+  request : @indexeddb.IDBOpenDBRequest,
   onupgradeneeded? : (@js.Js) -> Unit,
-) -> Promise[@js.Js] {
+) -> @js.Promise[@js.Js] {
   let resolvers = Promise::withResolvers()
 
   // Handle upgrade if needed
@@ -72,38 +62,38 @@ fn open_request_to_promise(
 ///|
 test {
   @test.describe("IndexedDB: Basic operations", _ => {
-    it("open and close database", _ => {
+    @test.it("open and close database", _ => {
       init_fake_indexeddb()
-      let request = open("test-open-db", version=1)
+      let request = @indexeddb.open("test-open-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("store1", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
       assert_eq(db.name, "test-open-db")
       assert_eq(db.version, 1)
       db.close()
 
       // Cleanup
-      deleteDatabase("test-open-db") |> ignore
+      @indexeddb.deleteDatabase("test-open-db") |> ignore
     })
-    it("add and get item", _ => {
-      let request = open("test-add-get-db", version=1)
+    @test.it("add and get item", _ => {
+      let request = @indexeddb.open("test-add-get-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("items", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
 
       // Add an item
       let tx = db.transaction(["items"], mode="readwrite")
@@ -117,20 +107,20 @@ test {
       let result = request_to_promise(get_request).wait()
       assert_eq(@js.unsafe_cast(result.get("name")), "Test")
       db.close()
-      deleteDatabase("test-add-get-db") |> ignore
+      @indexeddb.deleteDatabase("test-add-get-db") |> ignore
     })
-    it("put updates existing item", _ => {
-      let request = open("test-put-db", version=1)
+    @test.it("put updates existing item", _ => {
+      let request = @indexeddb.open("test-put-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("records", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
       let tx = db.transaction(["records"], mode="readwrite")
       let store = tx.objectStore("records")
 
@@ -146,20 +136,20 @@ test {
       let result = request_to_promise(store.get(1)).wait()
       assert_eq(@js.unsafe_cast(result.get("value")), "updated")
       db.close()
-      deleteDatabase("test-put-db") |> ignore
+      @indexeddb.deleteDatabase("test-put-db") |> ignore
     })
-    it("delete removes item", _ => {
-      let request = open("test-delete-db", version=1)
+    @test.it("delete removes item", _ => {
+      let request = @indexeddb.open("test-delete-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("todos", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
       let tx = db.transaction(["todos"], mode="readwrite")
       let store = tx.objectStore("todos")
 
@@ -174,20 +164,20 @@ test {
       let result = request_to_promise(store.get(1)).wait()
       assert_true(@js.is_undefined(result))
       db.close()
-      deleteDatabase("test-delete-db") |> ignore
+      @indexeddb.deleteDatabase("test-delete-db") |> ignore
     })
-    it("clear removes all items", _ => {
-      let request = open("test-clear-db", version=1)
+    @test.it("clear removes all items", _ => {
+      let request = @indexeddb.open("test-clear-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("data", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
       let tx = db.transaction(["data"], mode="readwrite")
       let store = tx.objectStore("data")
 
@@ -208,20 +198,20 @@ test {
       let count_result = request_to_promise(store.count()).wait()
       assert_eq(@js.unsafe_cast(count_result), 0)
       db.close()
-      deleteDatabase("test-clear-db") |> ignore
+      @indexeddb.deleteDatabase("test-clear-db") |> ignore
     })
-    it("getAll returns all items", _ => {
-      let request = open("test-getall-db", version=1)
+    @test.it("getAll returns all items", _ => {
+      let request = @indexeddb.open("test-getall-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("entries", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
       let tx = db.transaction(["entries"], mode="readwrite")
       let store = tx.objectStore("entries")
 
@@ -244,20 +234,20 @@ test {
       let len : Int = @js.unsafe_cast(results.get("length"))
       assert_eq(len, 3)
       db.close()
-      deleteDatabase("test-getall-db") |> ignore
+      @indexeddb.deleteDatabase("test-getall-db") |> ignore
     })
-    it("count returns correct number", _ => {
-      let request = open("test-count-db", version=1)
+    @test.it("count returns correct number", _ => {
+      let request = @indexeddb.open("test-count-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("counters", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
       let tx = db.transaction(["counters"], mode="readwrite")
       let store = tx.objectStore("counters")
 
@@ -273,20 +263,20 @@ test {
       let count_result = request_to_promise(store.count()).wait()
       assert_eq(@js.unsafe_cast(count_result), 3)
       db.close()
-      deleteDatabase("test-count-db") |> ignore
+      @indexeddb.deleteDatabase("test-count-db") |> ignore
     })
-    it("transaction modes work correctly", _ => {
-      let request = open("test-tx-mode-db", version=1)
+    @test.it("transaction modes work correctly", _ => {
+      let request = @indexeddb.open("test-tx-mode-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("txtest", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
 
       // Read-only transaction
       let readonly_tx = db.transaction(["txtest"], mode="readonly")
@@ -296,7 +286,7 @@ test {
       let readwrite_tx = db.transaction(["txtest"], mode="readwrite")
       assert_eq(readwrite_tx.mode, "readwrite")
       db.close()
-      deleteDatabase("test-tx-mode-db") |> ignore
+      @indexeddb.deleteDatabase("test-tx-mode-db") |> ignore
     })
   })
 }
@@ -304,18 +294,18 @@ test {
 ///|
 test {
   @test.describe("IndexedDB: Advanced queries", _ => {
-    it("IDBKeyRange operations", _ => {
-      let request = open("test-keyrange-db", version=1)
+    @test.it("IDBKeyRange operations", _ => {
+      let request = @indexeddb.open("test-keyrange-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("numbers", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
       let tx = db.transaction(["numbers"], mode="readwrite")
       let store = tx.objectStore("numbers")
 
@@ -326,18 +316,23 @@ test {
       }
 
       // Test key range queries
-      let range = IDBKeyRange::bound(3, 7, lowerOpen=false, upperOpen=false)
+      let range = @indexeddb.IDBKeyRange::bound(
+        3,
+        7,
+        lowerOpen=false,
+        upperOpen=false,
+      )
       let results = request_to_promise(store.getAll(query=range)).wait()
       let len : Int = @js.unsafe_cast(results.get("length"))
       assert_eq(len, 5) // 3, 4, 5, 6, 7
       db.close()
-      deleteDatabase("test-keyrange-db") |> ignore
+      @indexeddb.deleteDatabase("test-keyrange-db") |> ignore
     })
-    it("cmp function compares keys", _ => {
-      assert_eq(cmp(1, 2), -1) // 1 < 2
-      assert_eq(cmp(2, 1), 1) // 2 > 1
-      assert_eq(cmp(5, 5), 0) // 5 == 5
-      assert_eq(cmp("a", "b"), -1) // "a" < "b"
+    @test.it("cmp function compares keys", _ => {
+      assert_eq(@indexeddb.cmp(1, 2), -1) // 1 < 2
+      assert_eq(@indexeddb.cmp(2, 1), 1) // 2 > 1
+      assert_eq(@indexeddb.cmp(5, 5), 0) // 5 == 5
+      assert_eq(@indexeddb.cmp("a", "b"), -1) // "a" < "b"
     })
   })
 }
@@ -376,18 +371,18 @@ struct Order {
 /// Type-safe scenario: Managing user profiles with User struct
 test {
   @test.describe("IndexedDB: Type-safe operations", _ => {
-    it("store and retrieve User struct with full type safety", _ => {
-      let request = open("typed-user-db", version=1)
+    @test.it("store and retrieve User struct with full type safety", _ => {
+      let request = @indexeddb.open("typed-user-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("users", keyPath="id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
 
       // Create User struct
       let alice : User = {
@@ -397,17 +392,17 @@ test {
         age: 30,
       }
 
-      // Type-safe store: IDBObjectStore[User] with unsafe_cast
+      // Type-safe store: @indexeddb.IDBObjectStore[User] with unsafe_cast
       let tx = db.transaction(["users"], mode="readwrite")
-      let store : IDBObjectStore[User] = tx.objectStore("users")
+      let store : @indexeddb.IDBObjectStore[User] = tx.objectStore("users")
         |> @js.unsafe_cast
 
       // Add User directly - internal casting handled by IndexedDB
       let add_request = store.add(alice)
       request_to_promise(add_request).wait() |> ignore
 
-      // Get with type parameter User: IDBRequest[User]
-      let get_request : IDBRequest[User] = store.get(1)
+      // Get with type parameter User: @indexeddb.IDBRequest[User]
+      let get_request : @indexeddb.IDBRequest[User] = store.get(1)
       let result = request_to_promise(get_request).wait()
 
       // result is User type - direct cast, no from_js() needed
@@ -419,21 +414,21 @@ test {
       assert_eq(retrieved_user.email, "alice@example.com")
       assert_eq(retrieved_user.age, 30)
       db.close()
-      deleteDatabase("typed-user-db") |> ignore
+      @indexeddb.deleteDatabase("typed-user-db") |> ignore
     })
-    it("manage products with Product struct type safety", _ => {
-      let request = open("typed-product-db", version=1)
+    @test.it("manage products with Product struct type safety", _ => {
+      let request = @indexeddb.open("typed-product-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         let store = db.createObjectStore("products", keyPath="sku")
         store.createIndex("category", "category", unique=false) |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
 
       // Create Product structs
       let laptop : Product = {
@@ -451,9 +446,11 @@ test {
         stock: 50,
       }
 
-      // Type-safe store: IDBObjectStore[Product]
+      // Type-safe store: @indexeddb.IDBObjectStore[Product]
       let tx = db.transaction(["products"], mode="readwrite")
-      let store : IDBObjectStore[Product] = tx.objectStore("products")
+      let store : @indexeddb.IDBObjectStore[Product] = tx.objectStore(
+          "products",
+        )
         |> @js.unsafe_cast
 
       // Add Product directly - internal casting handled by IndexedDB
@@ -461,7 +458,9 @@ test {
       request_to_promise(store.add(mouse)).wait() |> ignore
 
       // Get with IDBRequest[Product]
-      let laptop_request : IDBRequest[Product] = store.get("LAPTOP-001")
+      let laptop_request : @indexeddb.IDBRequest[Product] = store.get(
+        "LAPTOP-001",
+      )
       let laptop_result = request_to_promise(laptop_request).wait()
       let retrieved_laptop : Product = laptop_result |> @js.unsafe_cast
 
@@ -472,7 +471,9 @@ test {
       assert_eq(retrieved_laptop.stock, 15)
 
       // Query all electronics using index
-      let category_index : IDBIndex[Product] = store.index("category")
+      let category_index : @indexeddb.IDBIndex[Product] = store.index(
+        "category",
+      )
       let electronics_request = category_index.getAll(query="electronics")
       let electronics_array = request_to_promise(electronics_request).wait()
 
@@ -485,24 +486,24 @@ test {
       let first_product : Product = first_product_js |> @js.unsafe_cast
       assert_eq(first_product.category, "electronics")
       db.close()
-      deleteDatabase("typed-product-db") |> ignore
+      @indexeddb.deleteDatabase("typed-product-db") |> ignore
     })
-    it("iterate orders with IDBCursorWithValue and Order struct", _ => {
-      let request = open("typed-orders-db", version=1)
+    @test.it("iterate orders with IDBCursorWithValue and Order struct", _ => {
+      let request = @indexeddb.open("typed-orders-db", version=1)
       let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
         event,
       ) {
-        let db : IDBDatabase = @js.unsafe_cast(
+        let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
           event.get("target").get("result"),
         )
         db.createObjectStore("orders", keyPath="order_id") |> ignore
       })
       let db_js = db_promise.wait()
-      let db : IDBDatabase = @js.unsafe_cast(db_js)
+      let db : @indexeddb.IDBDatabase = @js.unsafe_cast(db_js)
 
       // Create and store Order structs
       let tx = db.transaction(["orders"], mode="readwrite")
-      let store : IDBObjectStore[Order] = tx.objectStore("orders")
+      let store : @indexeddb.IDBObjectStore[Order] = tx.objectStore("orders")
         |> @js.unsafe_cast
       for i = 1; i <= 3; i = i + 1 {
         let order : Order = {
@@ -520,7 +521,7 @@ test {
 
       // Type-safe cursor access
       if not(@js.is_nullish(cursor_result)) {
-        let cursor : IDBCursorWithValue[Order] = cursor_result
+        let cursor : @indexeddb.IDBCursorWithValue[Order] = cursor_result
           |> @js.unsafe_cast
 
         // cursor.value is Order - direct access, no conversion needed
@@ -533,7 +534,7 @@ test {
         assert_eq(order.status, "pending")
       }
       db.close()
-      deleteDatabase("typed-orders-db") |> ignore
+      @indexeddb.deleteDatabase("typed-orders-db") |> ignore
     })
   })
 }

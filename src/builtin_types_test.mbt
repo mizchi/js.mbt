@@ -8,8 +8,8 @@ test "Object creation and basic operations" {
   let obj = @js.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
-  assert_eq(unsafe_cast(obj.get("name")), "Alice")
-  assert_eq(unsafe_cast(obj.get("age")), 30)
+  assert_eq(@js.unsafe_cast(obj.get("name")), "Alice")
+  assert_eq(@js.unsafe_cast(obj.get("age")), 30)
   assert_true(obj.hasOwnProperty("name"))
   assert_false(obj.hasOwnProperty("nonexistent"))
 }
@@ -41,9 +41,9 @@ test "Object::keys, values, entries" {
   obj2.set("c", 3)
   let values = Object::values(obj2)
   assert_eq(values.length(), 3)
-  let sum : Int = unsafe_cast(values[0]) +
-    unsafe_cast(values[1]) +
-    unsafe_cast(values[2])
+  let sum : Int = @js.unsafe_cast(values[0]) +
+    @js.unsafe_cast(values[1]) +
+    @js.unsafe_cast(values[2])
   assert_eq(sum, 6)
 
   // Test entries
@@ -54,10 +54,10 @@ test "Object::keys, values, entries" {
   for entry in entries {
     let (key, value) = entry
     if key == "name" {
-      assert_eq(unsafe_cast(value), "Alice")
+      assert_eq(@js.unsafe_cast(value), "Alice")
       found_name = true
     } else if key == "age" {
-      assert_eq(unsafe_cast(value), 30)
+      assert_eq(@js.unsafe_cast(value), 30)
       found_age = true
     }
   }
@@ -74,9 +74,9 @@ test "Object::assign" {
   source.set("b", 3)
   source.set("c", 4)
   let result = Object::assign(target, source)
-  assert_eq(unsafe_cast(result.get("a")), 1)
-  assert_eq(unsafe_cast(result.get("b")), 3)
-  assert_eq(unsafe_cast(result.get("c")), 4)
+  assert_eq(@js.unsafe_cast(result.get("a")), 1)
+  assert_eq(@js.unsafe_cast(result.get("b")), 3)
+  assert_eq(@js.unsafe_cast(result.get("c")), 4)
 }
 
 ///|
@@ -102,7 +102,7 @@ test "Object freeze, seal, preventExtensions" {
   Object::freeze(frozen) |> ignore
   assert_true(Object::isFrozen(frozen))
   assert_false(Object::isExtensible_static(frozen))
-  assert_eq(unsafe_cast(frozen.get("a")), 1)
+  assert_eq(@js.unsafe_cast(frozen.get("a")), 1)
 
   // Test seal
   let sealed_obj = @js.Object::new()
@@ -111,7 +111,7 @@ test "Object freeze, seal, preventExtensions" {
   Object::seal(sealed_obj) |> ignore
   assert_true(Object::isSealed(sealed_obj))
   assert_false(Object::isExtensible_static(sealed_obj))
-  assert_eq(unsafe_cast(sealed_obj.get("b")), 2)
+  assert_eq(@js.unsafe_cast(sealed_obj.get("b")), 2)
 
   // Test preventExtensions
   let non_ext = @js.Object::new()
@@ -119,7 +119,7 @@ test "Object freeze, seal, preventExtensions" {
   assert_true(Object::isExtensible_static(non_ext))
   Object::preventExtensions(non_ext) |> ignore
   assert_false(Object::isExtensible_static(non_ext))
-  assert_eq(unsafe_cast(non_ext.get("c")), 3)
+  assert_eq(@js.unsafe_cast(non_ext.get("c")), 3)
 
   // Compare all three
   assert_true(Object::isFrozen(frozen))
@@ -143,7 +143,7 @@ test "Object::isPrototypeOf" {
   let parent = @js.Object::new()
   let child = Object::create(parent.to_js())
   assert_true(parent.isPrototypeOf(child.to_js()))
-  let child_obj : Object = unsafe_cast(child)
+  let child_obj : Object = @js.unsafe_cast(child)
   assert_false(child_obj.isPrototypeOf(parent.to_js()))
 }
 
@@ -160,7 +160,7 @@ test "Object::isExtensible instance method" {
 test "Object with empty strings" {
   let obj = @js.Object::new()
   obj.set("empty", "")
-  assert_eq(unsafe_cast(obj.get("empty")), "")
+  assert_eq(@js.unsafe_cast(obj.get("empty")), "")
   assert_true(obj.hasOwnProperty("empty"))
 }
 
@@ -187,7 +187,7 @@ test "JsIterator::from converts iterable to iterator" {
   arr.push(3)
 
   // Use Iterator.from to convert iterable to iterator
-  let js_iter : JsIterator[Js] = JsIterator::from(arr.to_js())
+  let js_iter : JsIterator[@js.Js] = JsIterator::from(arr.to_js())
 
   // Verify it's created (basic type check)
   assert_true(@js.is_object(js_iter.to_js()))
@@ -198,7 +198,7 @@ test "JsIterator::from converts iterable to iterator" {
 ///|
 test "Function::to_string" {
   let parse_int = @js.globalThis().get("parseInt")
-  let func : Function = unsafe_cast(parse_int)
+  let func : Function = @js.unsafe_cast(parse_int)
   let func_str = func.to_string()
   assert_true(func_str.length() > 0)
 }
@@ -206,7 +206,7 @@ test "Function::to_string" {
 ///|
 test "Function::name" {
   let parse_int = @js.globalThis().get("parseInt")
-  let func : Function = unsafe_cast(parse_int)
+  let func : Function = @js.unsafe_cast(parse_int)
   let name = func.name()
   assert_eq(name, "parseInt")
 }
@@ -218,17 +218,17 @@ test "JsError creation and properties" {
   let error = JsError::new("Test error")
   assert_eq(error.message, "Test error")
   assert_true(JsError::isError(error))
-  let error_val : Js = unsafe_cast(error)
+  let error_val : @js.Js = @js.unsafe_cast(error)
   assert_true(@js.is_object(error_val))
-  assert_eq(unsafe_cast(error_val.get("message")), "Test error")
+  assert_eq(@js.unsafe_cast(error_val.get("message")), "Test error")
 }
 
 ///|
 test "JsError with cause" {
   let cause_error = JsError::new("Cause error")
   let error_with_cause = JsError::new("Main error", cause=cause_error)
-  let error_with_cause_val : Js = unsafe_cast(error_with_cause)
-  assert_eq(unsafe_cast(error_with_cause_val.get("message")), "Main error")
+  let error_with_cause_val : @js.Js = @js.unsafe_cast(error_with_cause)
+  assert_eq(@js.unsafe_cast(error_with_cause_val.get("message")), "Main error")
 }
 
 ///|
@@ -311,16 +311,16 @@ test "JsString::fromCodePoint" {
 ///|
 test "Primitive type casting" {
   let int_val = js(42)
-  let int_result : Int = unsafe_cast(int_val)
+  let int_result : Int = @js.unsafe_cast(int_val)
   assert_eq(int_result, 42)
   let double_val = js(3.14)
-  let double_result : Double = unsafe_cast(double_val)
+  let double_result : Double = @js.unsafe_cast(double_val)
   assert_eq(double_result, 3.14)
   let str_val = js("hello")
-  let str_result : String = unsafe_cast(str_val)
+  let str_result : String = @js.unsafe_cast(str_val)
   assert_eq(str_result, "hello")
   let bool_val = js(true)
-  let bool_result : Bool = unsafe_cast(bool_val)
+  let bool_result : Bool = @js.unsafe_cast(bool_val)
   assert_eq(bool_result, true)
 }
 
@@ -379,7 +379,7 @@ test "Conditional property setting with Option" {
     Some(v) => obj.set("key1", v)
     None => ()
   }
-  assert_eq(unsafe_cast(obj.get("key1")), "value1")
+  assert_eq(@js.unsafe_cast(obj.get("key1")), "value1")
 
   // Set with None should not add property
   let v : Int? = None

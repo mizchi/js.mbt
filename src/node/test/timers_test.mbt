@@ -2,7 +2,6 @@
 // Tests for Node.js test mock timers
 
 ///|
-using @test {mock_timers}
 
 ///|
 test "MockTimers functionality" {

@@ -1,9 +1,8 @@
 ///|
-using @weburl {type URL}
 
 ///|
 test "URL constructor with absolute URL" {
-  let url = URL::new("https://example.com/path?query=value#hash")
+  let url = @weburl.URL::new("https://example.com/path?query=value#hash")
   assert_eq(url.protocol, "https:")
   assert_eq(url.hostname, "example.com")
   assert_eq(url.pathname, "/path")
@@ -59,7 +58,7 @@ test "fileURLToPath and pathToFileURL roundtrip" {
 
 ///|
 test "urlToHttpOptions" {
-  let url = URL::new("https://example.com:8080/path?query=value")
+  let url = @weburl.URL::new("https://example.com:8080/path?query=value")
   let options = urlToHttpOptions(url)
   let protocol : String = @js.unsafe_cast(options.get("protocol"))
   assert_eq(protocol, "https:")

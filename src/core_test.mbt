@@ -4,13 +4,13 @@ priv enum TestEnum {
 } derive(Eq, Show)
 
 ///|
-fn TestEnum::from_js(v : Js) -> Self raise {
-  let tag : String = unsafe_cast(v.get("tag"))
+fn TestEnum::from_js(v : @js.Js) -> Self raise {
+  let tag : String = @js.unsafe_cast(v.get("tag"))
   match tag {
     "A" => {
       let value = v.get("value")
       guard @js.typeof_(value) == "number"
-      A(value=unsafe_cast(value))
+      A(value=@js.unsafe_cast(value))
     }
     _ => fail("unknown tag: " + tag)
   }
@@ -39,7 +39,7 @@ test "unsafe_cast converts between Js and MoonBit types" {
   let v1 = js(42)
   let v2 = js(42)
   assert_eq(v1, v2)
-  assert_eq(unsafe_cast(TestConstantEnum::NotFound), js(404))
+  assert_eq(@js.unsafe_cast(TestConstantEnum::NotFound), js(404))
   let s1 : String? = js("hello") |> @js.unsafe_cast_option()
   assert_eq(s1, Some("hello"))
   let s2 : String? = undefined() |> @js.unsafe_cast_option()
@@ -53,19 +53,19 @@ test "unsafe_cast converts struct to Js object" {
     y : Int
   } derive(Eq, Show)
   let p = Point::{ x: 10, y: 20 }
-  let v : Js = unsafe_cast(p)
-  assert_eq(unsafe_cast(v.get("x")), 10)
-  assert_eq(unsafe_cast(v.get("y")), 20)
-  let casted : Point = unsafe_cast(v)
+  let v : @js.Js = @js.unsafe_cast(p)
+  assert_eq(@js.unsafe_cast(v.get("x")), 10)
+  assert_eq(@js.unsafe_cast(v.get("y")), 20)
+  let casted : Point = @js.unsafe_cast(v)
   assert_eq(casted, p)
 }
 
 ///|
 test "JsImpl trait converts enum to Js and back" {
   let v : TestEnum = A(value=123)
-  let v : Js = v.to_js()
-  assert_eq(unsafe_cast(v.get("tag")), "A")
-  assert_eq(unsafe_cast(v.get("value")), 123)
+  let v : @js.Js = v.to_js()
+  assert_eq(@js.unsafe_cast(v.get("tag")), "A")
+  assert_eq(@js.unsafe_cast(v.get("value")), 123)
   let recovered : TestEnum = TestEnum::from_js(v)
   assert_eq(recovered, A(value=123))
 }
@@ -135,15 +135,15 @@ test "JsImpl get/set" {
   obj.set("name", "Alice")
   obj.set("age", 30)
   obj.set("active", true)
-  assert_eq(unsafe_cast(obj.get("name")), "Alice")
-  assert_eq(unsafe_cast(obj.get("age")), 30)
-  assert_eq(unsafe_cast(obj.get("active")), true)
+  assert_eq(@js.unsafe_cast(obj.get("name")), "Alice")
+  assert_eq(@js.unsafe_cast(obj.get("age")), 30)
+  assert_eq(@js.unsafe_cast(obj.get("active")), true)
 
   // Test nested objects
   let nested = @js.Object::new()
   nested.set("inner", "value")
   obj.set("nested", nested)
-  assert_eq(unsafe_cast(obj.get("nested").get("inner")), "value")
+  assert_eq(@js.unsafe_cast(obj.get("nested").get("inner")), "value")
 }
 
 ///|
@@ -180,13 +180,13 @@ test "JsImpl::equal" {
 test "Js with arrays" {
   let arr = from_array([1, 2, 3])
   assert_true(@js.is_array(arr))
-  assert_eq(unsafe_cast(arr.get(0)), 1)
-  assert_eq(unsafe_cast(arr.get(1)), 2)
-  assert_eq(unsafe_cast(arr.get(2)), 3)
+  assert_eq(@js.unsafe_cast(arr.get(0)), 1)
+  assert_eq(@js.unsafe_cast(arr.get(1)), 2)
+  assert_eq(@js.unsafe_cast(arr.get(2)), 3)
 
   // Modify array
   arr.set(1, 10)
-  assert_eq(unsafe_cast(arr.get(1)), 10)
+  assert_eq(@js.unsafe_cast(arr.get(1)), 10)
 }
 
 ///|
@@ -202,11 +202,14 @@ test "Js with nested structures" {
   root.set("user", user)
 
   // Access nested values
-  assert_eq(unsafe_cast(root.get("user").get("name")), "Alice")
-  assert_eq(unsafe_cast(root.get("user").get("age")), 30)
-  assert_eq(unsafe_cast(root.get("user").get("address").get("city")), "Tokyo")
+  assert_eq(@js.unsafe_cast(root.get("user").get("name")), "Alice")
+  assert_eq(@js.unsafe_cast(root.get("user").get("age")), 30)
   assert_eq(
-    unsafe_cast(root.get("user").get("address").get("country")),
+    @js.unsafe_cast(root.get("user").get("address").get("city")),
+    "Tokyo",
+  )
+  assert_eq(
+    @js.unsafe_cast(root.get("user").get("address").get("country")),
     "Japan",
   )
 }
@@ -245,24 +248,24 @@ test "Val with mixed types in object" {
 ///|
 test "Js trait for primitives" {
   // String
-  let str_js : Js = JsImpl::to_js("hello")
-  assert_eq(unsafe_cast(str_js), "hello")
+  let str_js : @js.Js = JsImpl::to_js("hello")
+  assert_eq(@js.unsafe_cast(str_js), "hello")
 
   // Int
-  let int_js : Js = JsImpl::to_js(42)
-  assert_eq(unsafe_cast(int_js), 42)
+  let int_js : @js.Js = JsImpl::to_js(42)
+  assert_eq(@js.unsafe_cast(int_js), 42)
 
   // Double
-  let double_js : Js = JsImpl::to_js(3.14)
-  assert_eq(unsafe_cast(double_js), 3.14)
+  let double_js : @js.Js = JsImpl::to_js(3.14)
+  assert_eq(@js.unsafe_cast(double_js), 3.14)
 
   // Bool
-  let bool_js : Js = JsImpl::to_js(true)
-  assert_eq(unsafe_cast(bool_js), true)
+  let bool_js : @js.Js = JsImpl::to_js(true)
+  assert_eq(@js.unsafe_cast(bool_js), true)
 
   // Val (identity)
   let val = @js.js(100)
-  let val_js : Js = JsImpl::to_js(val)
+  let val_js : @js.Js = JsImpl::to_js(val)
   assert_eq(val_js, val)
 }
 
@@ -271,10 +274,10 @@ test "JsImpl for Array[&JsImpl]" {
   let arr : Array[&JsImpl] = ["hello", 42, 3.14, true]
   let val = JsImpl::to_js(arr)
   assert_true(@js.is_array(val))
-  assert_eq(unsafe_cast(val.get(0)), "hello")
-  assert_eq(unsafe_cast(val.get(1)), 42)
-  assert_eq(unsafe_cast(val.get(2)), 3.14)
-  assert_eq(unsafe_cast(val.get(3)), true)
+  assert_eq(@js.unsafe_cast(val.get(0)), "hello")
+  assert_eq(@js.unsafe_cast(val.get(1)), 42)
+  assert_eq(@js.unsafe_cast(val.get(2)), 3.14)
+  assert_eq(@js.unsafe_cast(val.get(3)), true)
 }
 
 ///|
@@ -282,7 +285,7 @@ test "JsImpl for Option[T]" {
   // Some value
   let some_val : Int? = Some(42)
   let some_js = JsImpl::to_js(some_val)
-  assert_eq(unsafe_cast(some_js), 42)
+  assert_eq(@js.unsafe_cast(some_js), 42)
 
   // None value - represented as undefined in MoonBit
   let none_val : Int? = None
@@ -294,15 +297,15 @@ test "JsImpl for Option[T]" {
 test "Js numeric edge cases" {
   // Large integers
   let large = js(1000000)
-  assert_eq(unsafe_cast(large), 1000000)
+  assert_eq(@js.unsafe_cast(large), 1000000)
 
   // Negative numbers
   let negative = js(-42)
-  assert_eq(unsafe_cast(negative), -42)
+  assert_eq(@js.unsafe_cast(negative), -42)
 
   // Very small float
   let small = js(0.0001)
-  assert_eq(unsafe_cast(small), 0.0001)
+  assert_eq(@js.unsafe_cast(small), 0.0001)
 }
 
 ///|

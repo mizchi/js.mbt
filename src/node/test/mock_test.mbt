@@ -1,5 +1,4 @@
 ///|
-using @test {mock, get_mock_context}
 
 ///|
 test "mock.fn creates spy function" {

@@ -4,31 +4,34 @@
 
 ///|
 /// Helper Functions
-extern "js" fn ffi_text_encoder_encode(text : String) -> Js =
+extern "js" fn ffi_text_encoder_encode(text : String) -> @js.Js =
   #|(text) => new TextEncoder().encode(text)
 
 ///|
-extern "js" fn ffi_text_decoder_decode(data : Js) -> String =
+extern "js" fn ffi_text_decoder_decode(data : @js.Js) -> String =
   #|(data) => new TextDecoder().decode(data)
 
 ///|
-extern "js" fn ffi_array_buffer_to_hex(buffer : Js) -> String =
+extern "js" fn ffi_array_buffer_to_hex(buffer : @js.Js) -> String =
   #|(buffer) => Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('')
 
 ///|
-extern "js" fn ffi_create_aes_algorithm(name : String, length : Int) -> Js =
+extern "js" fn ffi_create_aes_algorithm(name : String, length : Int) -> @js.Js =
   #|(name, length) => ({ name, length })
 
 ///|
-extern "js" fn ffi_create_aes_gcm_params(name : String, iv : Js) -> Js =
+extern "js" fn ffi_create_aes_gcm_params(name : String, iv : @js.Js) -> @js.Js =
   #|(name, iv) => ({ name, iv })
 
 ///|
-extern "js" fn ffi_create_hmac_algorithm(name : String, hash : String) -> Js =
+extern "js" fn ffi_create_hmac_algorithm(
+  name : String,
+  hash : String,
+) -> @js.Js =
   #|(name, hash) => ({ name, hash })
 
 ///|
-extern "js" fn ffi_random_values(length : Int) -> Js =
+extern "js" fn ffi_random_values(length : Int) -> @js.Js =
   #|(length) => crypto.getRandomValues(new Uint8Array(length))
 
 ///| Digest Tests
@@ -36,7 +39,7 @@ extern "js" fn ffi_random_values(length : Int) -> Js =
 ///|
 test {
   @test.describe("Web Crypto API: Digest operations", _ => {
-    it("SubtleCrypto digest SHA-256", _ => {
+    @test.it("SubtleCrypto digest SHA-256", _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
       let data = ffi_text_encoder_encode("Hello, World!")
@@ -44,7 +47,7 @@ test {
       let hex = ffi_array_buffer_to_hex(digest)
       assert_eq(hex.length(), 64)
     })
-    it("SubtleCrypto digest SHA-384", _ => {
+    @test.it("SubtleCrypto digest SHA-384", _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
       let data = ffi_text_encoder_encode("Hello, World!")
@@ -52,7 +55,7 @@ test {
       let hex = ffi_array_buffer_to_hex(digest)
       assert_eq(hex.length(), 96)
     })
-    it("SubtleCrypto digest SHA-512", _ => {
+    @test.it("SubtleCrypto digest SHA-512", _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
       let data = ffi_text_encoder_encode("Hello, World!")
@@ -68,22 +71,22 @@ test {
 ///|
 test {
   @test.describe("Web Crypto API: Key generation", _ => {
-    it("SubtleCrypto generateKey AES-GCM", _ => {
+    @test.it("SubtleCrypto generateKey AES-GCM", _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
       let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
       let key_usages = ["encrypt", "decrypt"]
       let key = subtle.generateKey(algorithm, true, key_usages).wait()
-      let key_type : String = unsafe_cast(key.get("type"))
+      let key_type : String = @js.unsafe_cast(key.get("type"))
       assert_eq(key_type, "secret")
     })
-    it("SubtleCrypto generateKey HMAC", _ => {
+    @test.it("SubtleCrypto generateKey HMAC", _ => {
       let crypto = @crypto.Crypto::get()
       let subtle = crypto.subtle
       let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
       let key_usages = ["sign", "verify"]
       let key = subtle.generateKey(algorithm, true, key_usages).wait()
-      let key_type : String = unsafe_cast(key.get("type"))
+      let key_type : String = @js.unsafe_cast(key.get("type"))
       assert_eq(key_type, "secret")
     })
   })
@@ -126,7 +129,7 @@ test {
       let key = subtle.generateKey(algorithm, true, key_usages).wait()
       let data = ffi_text_encoder_encode("Message to sign")
       let signature = subtle.sign(algorithm, key, data).wait()
-      let is_valid : Bool = unsafe_cast(
+      let is_valid : Bool = @js.unsafe_cast(
         subtle.verify(algorithm, key, signature, data).wait(),
       )
       assert_true(is_valid)
@@ -150,7 +153,7 @@ test {
       let imported_key = subtle
         .importKey("raw", exported, algorithm, true, key_usages)
         .wait()
-      let key_type : String = unsafe_cast(imported_key.get("type"))
+      let key_type : String = @js.unsafe_cast(imported_key.get("type"))
       assert_eq(key_type, "secret")
     },
   ))

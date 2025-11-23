@@ -1,19 +1,19 @@
 ///|
 test {
   @test.describe("Node Events: Basic operations", _ => {
-    it("EventEmitter on/emit/off", _ => {
+    @test.it("EventEmitter on/emit/off", _ => {
       let emitter = @events.EventEmitter::new()
       let mut received = 0
-      let callback = (_data : Js) => run_async(() => {
-        sleep(1)
-        let v : Int = unsafe_cast(_data)
+      let callback = (_data : @js.Js) => @js.run_async(() => {
+        @js.sleep(1)
+        let v : Int = @js.unsafe_cast(_data)
         received += v
       })
       emitter.on("vvv", callback)
       emitter.emit("vvv", 1 |> @js.js)
       emitter.emit("vvv", 2 |> @js.js)
       emitter.emit("vvv", 3 |> @js.js)
-      sleep(16)
+      @js.sleep(16)
       assert_eq(received, 6)
       assert_eq(emitter.listenerCount("vvv"), 1)
 
@@ -21,7 +21,7 @@ test {
       emitter.off("vvv", callback)
       assert_eq(emitter.listenerCount("vvv"), 0)
       emitter.emit("vvv", () |> @js.js)
-      sleep(16)
+      @js.sleep(16)
       // not called
       assert_eq(received, 6)
       emitter.on("aaa", callback)
@@ -31,58 +31,58 @@ test {
       emitter.removeAllListeners()
       assert_eq(emitter.listenerCount("vvv"), 0)
       emitter.emit("vvv", 10 |> @js.js)
-      sleep(16)
+      @js.sleep(16)
       // not called
       assert_eq(received, 6)
     })
-    it("EventEmitter once", _ => {
+    @test.it("EventEmitter once", _ => {
       let emitter = @events.EventEmitter::new()
       let mut count = 0
-      emitter.once("test", _ => run_async(() => {
-        sleep(1)
+      emitter.once("test", _ => @js.run_async(() => {
+        @js.sleep(1)
         count += 1
       }))
       emitter.emit("test", 1 |> @js.js)
       emitter.emit("test", 2 |> @js.js)
-      sleep(10)
+      @js.sleep(10)
       assert_eq(count, 1)
     })
-    it("EventEmitter eventNames", _ => {
+    @test.it("EventEmitter eventNames", _ => {
       let emitter = @events.EventEmitter::new()
       emitter.on("event1", _ => ())
       emitter.on("event2", _ => ())
       let names = emitter.eventNames()
       assert_eq(names.length(), 2)
     })
-    it("EventEmitter multiple listeners", _ => {
+    @test.it("EventEmitter multiple listeners", _ => {
       let emitter = @events.EventEmitter::new()
       let mut count1 = 0
       let mut count2 = 0
-      emitter.on("test", _ => run_async(() => {
-        sleep(1)
+      emitter.on("test", _ => @js.run_async(() => {
+        @js.sleep(1)
         count1 += 1
       }))
-      emitter.on("test", _ => run_async(() => {
-        sleep(1)
+      emitter.on("test", _ => @js.run_async(() => {
+        @js.sleep(1)
         count2 += 1
       }))
       assert_eq(emitter.listenerCount("test"), 2)
       emitter.emit("test", () |> @js.js)
-      sleep(10)
+      @js.sleep(10)
       assert_eq(count1, 1)
       assert_eq(count2, 1)
     })
-    it("EventEmitter with async handlers", _ => {
+    @test.it("EventEmitter with async handlers", _ => {
       let emitter = @events.EventEmitter::new()
       let results = []
-      emitter.on("async", data => run_async(() => {
-        sleep(5)
-        let v : Int = unsafe_cast(data)
+      emitter.on("async", data => @js.run_async(() => {
+        @js.sleep(5)
+        let v : Int = @js.unsafe_cast(data)
         results.push(v * 2)
       }))
       emitter.emit("async", 10 |> @js.js)
       emitter.emit("async", 20 |> @js.js)
-      sleep(20)
+      @js.sleep(20)
       assert_eq(results.length(), 2)
       assert_eq(results[0], 20)
       assert_eq(results[1], 40)
@@ -93,20 +93,20 @@ test {
 ///|
 test {
   @test.describe("Node Events: Promise and timer coordination", _ => {
-    it("multiple promises concurrent", _ => {
+    @test.it("multiple promises concurrent", _ => {
       let resolver1 : Resolvers[Int] = Promise::withResolvers()
       let resolver2 : Resolvers[Int] = Promise::withResolvers()
       let resolver3 : Resolvers[Int] = Promise::withResolvers()
-      run_async(() => {
-        sleep(5)
+      @js.run_async(() => {
+        @js.sleep(5)
         resolver1.resolve(1)
       })
-      run_async(() => {
-        sleep(5)
+      @js.run_async(() => {
+        @js.sleep(5)
         resolver2.resolve(2)
       })
-      run_async(() => {
-        sleep(5)
+      @js.run_async(() => {
+        @js.sleep(5)
         resolver3.resolve(3)
       })
       let r1 = resolver1.promise.wait()
@@ -114,7 +114,7 @@ test {
       let r3 = resolver3.promise.wait()
       assert_eq(r1 + r2 + r3, 6)
     })
-    it("timer and promise coordination", _ => {
+    @test.it("timer and promise coordination", _ => {
       let mut timer_fired = false
       let mut promise_resolved = false
       let resolver : Resolvers[Unit] = Promise::withResolvers()
@@ -136,65 +136,65 @@ test {
 ///|
 test {
   @test.describe("Node Events: Advanced scenarios", _ => {
-    it("EventEmitter stress test", _ => {
+    @test.it("EventEmitter stress test", _ => {
       let emitter = @events.EventEmitter::new()
       let mut total = 0
-      emitter.on("data", data => run_async(() => {
-        let v : Int = unsafe_cast(data)
+      emitter.on("data", data => @js.run_async(() => {
+        let v : Int = @js.unsafe_cast(data)
         total += v
       }))
       for i = 0; i < 10; i = i + 1 {
         emitter.emit("data", i |> @js.js)
       }
-      sleep(20)
+      @js.sleep(20)
       assert_eq(total, 45) // 0+1+2+...+9 = 45
     })
-    it("multiple EventEmitters", _ => {
+    @test.it("multiple EventEmitters", _ => {
       let emitter1 = @events.EventEmitter::new()
       let emitter2 = @events.EventEmitter::new()
       let mut count1 = 0
       let mut count2 = 0
-      emitter1.on("test", _ => run_async(() => {
-        sleep(1)
+      emitter1.on("test", _ => @js.run_async(() => {
+        @js.sleep(1)
         count1 += 1
       }))
-      emitter2.on("test", _ => run_async(() => {
-        sleep(1)
+      emitter2.on("test", _ => @js.run_async(() => {
+        @js.sleep(1)
         count2 += 1
       }))
       emitter1.emit("test", () |> @js.js)
       emitter2.emit("test", () |> @js.js)
-      sleep(10)
+      @js.sleep(10)
       assert_eq(count1, 1)
       assert_eq(count2, 1)
     })
-    it("EventEmitter with different payload types", _ => {
+    @test.it("EventEmitter with different payload types", _ => {
       let emitter = @events.EventEmitter::new()
       let mut int_val = 0
       let mut str_val = ""
-      emitter.on("int", data => run_async(() => {
-        let v : Int = unsafe_cast(data)
+      emitter.on("int", data => @js.run_async(() => {
+        let v : Int = @js.unsafe_cast(data)
         int_val = v
       }))
-      emitter.on("string", data => run_async(() => {
-        let v : String = unsafe_cast(data)
+      emitter.on("string", data => @js.run_async(() => {
+        let v : String = @js.unsafe_cast(data)
         str_val = v
       }))
       emitter.emit("int", 42 |> @js.js)
       emitter.emit("string", "hello" |> @js.js)
-      sleep(10)
+      @js.sleep(10)
       assert_eq(int_val, 42)
       assert_eq(str_val, "hello")
     })
-    it("EventEmitter removeAllListeners specific event", _ => {
+    @test.it("EventEmitter removeAllListeners specific event", _ => {
       let emitter = @events.EventEmitter::new()
       let mut count = 0
-      emitter.on("event1", _ => run_async(() => count += 1))
-      emitter.on("event2", _ => run_async(() => count += 10))
+      emitter.on("event1", _ => @js.run_async(() => count += 1))
+      emitter.on("event2", _ => @js.run_async(() => count += 10))
       emitter.removeAllListeners()
       emitter.emit("event1", () |> @js.js)
       emitter.emit("event2", () |> @js.js)
-      sleep(10)
+      @js.sleep(10)
       assert_eq(count, 0)
     })
   })

@@ -66,7 +66,7 @@ test "http request creation" {
 ///|
 /// Test HTTP GET
 test "http get request" {
-  let req = get("http://example.com")
+  let req = @http.get("http://example.com")
   inspect(req |> @js.typeof_, content="object")
   req.end()
 }
@@ -81,6 +81,6 @@ test "http status codes" {
 ///|
 /// Test globalAgent
 test "http global agent" {
-  let agent = globalAgent()
+  let agent = @http.globalAgent()
   inspect(agent |> @js.typeof_, content="object")
 }

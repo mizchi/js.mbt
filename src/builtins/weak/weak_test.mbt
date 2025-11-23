@@ -1,9 +1,8 @@
 ///|
-using @js {type Js}
 
 ///|
 test "WeakMap::set and get - store and retrieve values" {
-  let wm : WeakMap[Js, Js] = WeakMap::new()
+  let wm : WeakMap[@js.Js, @js.Js] = WeakMap::new()
   let key = @js.Object::new().to_js()
   let value = @js.js("test value")
   wm.set(key, value) |> ignore
@@ -13,7 +12,7 @@ test "WeakMap::set and get - store and retrieve values" {
 
 ///|
 test "WeakMap::has - check if key exists" {
-  let wm : WeakMap[Js, Js] = WeakMap::new()
+  let wm : WeakMap[@js.Js, @js.Js] = WeakMap::new()
   let key = @js.Object::new().to_js()
   let value = @js.js("test")
   let has_before = wm.has(key)
@@ -25,7 +24,7 @@ test "WeakMap::has - check if key exists" {
 
 ///|
 test "WeakMap::delete - remove a key-value pair" {
-  let wm : WeakMap[Js, Js] = WeakMap::new()
+  let wm : WeakMap[@js.Js, @js.Js] = WeakMap::new()
   let key = @js.Object::new().to_js()
   let value = @js.js("test")
   wm.set(key, value) |> ignore
@@ -37,7 +36,7 @@ test "WeakMap::delete - remove a key-value pair" {
 
 ///|
 test "WeakMap::get - return None for non-existent key" {
-  let wm : WeakMap[Js, Js] = WeakMap::new()
+  let wm : WeakMap[@js.Js, @js.Js] = WeakMap::new()
   let key = @js.Object::new()
   let result = wm.get(key.to_js())
   assert_true(result is None)

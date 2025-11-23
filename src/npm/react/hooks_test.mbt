@@ -1,16 +1,15 @@
 ///|
-using @react_testing_library {render, cleanup, screen, fireEvent}
 
 ///|
 fn init_jsdom() -> Unit {
   @node.require("global-jsdom/register") |> ignore
-  init_react_api(@node.require("react"))
+  @react.init_react_api(@node.require("react"))
 }
 
 ///|
 test "useState_lazy" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (count, set_count) = use_state_lazy(fn() { 10 })
     let on_click : @dom.MouseEventHandler = _ => set_count(count + 1) |> ignore
@@ -19,12 +18,15 @@ test "useState_lazy" {
       @react_element.button(on_click~, ["increment"], id="btn"),
     ])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  screen().getByText("Count: 10").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.screen().getByText("Count: 10").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Count: 10")
-  fireEvent().click(screen().getByText("increment"))
-  screen().getByText("Count: 11").get("textContent")
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("increment"),
+  )
+  @react_testing_library.screen().getByText("Count: 11").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Count: 11")
 }
@@ -32,7 +34,7 @@ test "useState_lazy" {
 ///|
 test "useCallback" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (count, set_count) = useState(0)
     let on_click = useCallback(fn() { set_count(count + 1) }, [count])
@@ -41,9 +43,12 @@ test "useCallback" {
       @react_element.button(on_click=_ => on_click(), ["increment"]),
     ])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  fireEvent().click(screen().getByText("increment"))
-  screen().getByText("Count: 1").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("increment"),
+  )
+  @react_testing_library.screen().getByText("Count: 1").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Count: 1")
 }
@@ -51,7 +56,7 @@ test "useCallback" {
 ///|
 test "useEffect" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (mounted, set_mounted) = useState(false)
     useEffect(
@@ -63,8 +68,9 @@ test "useEffect" {
     )
     @react_element.div([if mounted { "Mounted" } else { "Not mounted" }])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  screen().getByText("Mounted").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.screen().getByText("Mounted").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Mounted")
 }
@@ -72,7 +78,7 @@ test "useEffect" {
 ///|
 test "useLayoutEffect" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (mounted, set_mounted) = useState(false)
     useLayoutEffect(
@@ -84,8 +90,9 @@ test "useLayoutEffect" {
     )
     @react_element.div([if mounted { "Layout mounted" } else { "Not mounted" }])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  screen().getByText("Layout mounted").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.screen().getByText("Layout mounted").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Layout mounted")
 }
@@ -93,7 +100,7 @@ test "useLayoutEffect" {
 ///|
 test "useMemo" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (count, set_count) = useState(1)
     let doubled = useMemo(fn() { count * 2 }, [count])
@@ -102,12 +109,15 @@ test "useMemo" {
       @react_element.button(on_click=_ => set_count(count + 1), ["increment"]),
     ])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  screen().getByText("Doubled: 2").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.screen().getByText("Doubled: 2").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Doubled: 2")
-  fireEvent().click(screen().getByText("increment"))
-  screen().getByText("Doubled: 4").get("textContent")
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("increment"),
+  )
+  @react_testing_library.screen().getByText("Doubled: 4").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Doubled: 4")
 }
@@ -115,15 +125,16 @@ test "useMemo" {
 ///|
 test "useRef with Some" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(
       Some(@js.unsafe_cast(@js.Object::new())),
     )
     @react_element.div(ref_=r, ["Ref test"])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  screen().getByText("Ref test").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.screen().getByText("Ref test").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Ref test")
 }
@@ -131,13 +142,14 @@ test "useRef with Some" {
 ///|
 test "useRef with None" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(None)
     @react_element.div(ref_=r, ["Ref None test"])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  screen().getByText("Ref None test").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.screen().getByText("Ref None test").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Ref None test")
 }
@@ -145,7 +157,7 @@ test "useRef with None" {
 ///|
 test "ReactRef::current and set_current" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (text, set_text) = useState("initial")
     let r : ReactRef[@dom.HTMLSpanElement] = useRef(None)
@@ -161,9 +173,12 @@ test "ReactRef::current and set_current" {
       @react_element.button(on_click~, ["update"]),
     ])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  fireEvent().click(screen().getByText("update"))
-  screen().getByText("updated").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("update"),
+  )
+  @react_testing_library.screen().getByText("updated").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("updated")
 }
@@ -171,7 +186,7 @@ test "ReactRef::current and set_current" {
 ///|
 test "ReactRef::current None case" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (msg, set_msg) = useState("waiting")
     let r : ReactRef[@dom.Element] = useRef(None)
@@ -184,9 +199,12 @@ test "ReactRef::current None case" {
       @react_element.button(on_click~, ["check"]),
     ])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  fireEvent().click(screen().getByText("check"))
-  screen().getByText("no ref").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("check"),
+  )
+  @react_testing_library.screen().getByText("no ref").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("no ref")
 }
@@ -194,7 +212,7 @@ test "ReactRef::current None case" {
 ///|
 test "ReactRef::set_current" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (msg, set_msg) = useState("initial")
     let r : ReactRef[@js.Js] = useRef(None)
@@ -213,9 +231,12 @@ test "ReactRef::set_current" {
       @react_element.button(on_click~, ["set"]),
     ])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  fireEvent().click(screen().getByText("set"))
-  screen().getByText("custom value").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("set"),
+  )
+  @react_testing_library.screen().getByText("custom value").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("custom value")
 }
@@ -223,15 +244,21 @@ test "ReactRef::set_current" {
 ///|
 test "useContext" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let ctx : Context[Int] = create_context(Some(42))
   let comp = (_props : EmptyProps) => {
     let value = use_context(ctx)
     @react_element.div(["Context value: \{value}"])
   }
-  let el = provider(ctx, [component(comp, EmptyProps::default())], value=99)
-  render(el) |> ignore
-  screen().getByText("Context value: 99").get("textContent")
+  let el = provider(
+    ctx,
+    [@react.component(comp, EmptyProps::default())],
+    value=99,
+  )
+  @react_testing_library.render(el) |> ignore
+  @react_testing_library.screen()
+  .getByText("Context value: 99")
+  .get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Context value: 99")
 }
@@ -246,7 +273,7 @@ enum CounterAction {
 ///|
 test "useReducer" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let reducer = fn(state : Int, action : CounterAction) {
       match action {
@@ -263,21 +290,30 @@ test "useReducer" {
       @react_element.button(on_click=_ => dispatch(Reset), ["reset"]),
     ])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  fireEvent().click(screen().getByText("+"))
-  screen().getByText("Count: 1").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("+"),
+  )
+  @react_testing_library.screen().getByText("Count: 1").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Count: 1")
-  fireEvent().click(screen().getByText("+"))
-  screen().getByText("Count: 2").get("textContent")
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("+"),
+  )
+  @react_testing_library.screen().getByText("Count: 2").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Count: 2")
-  fireEvent().click(screen().getByText("-"))
-  screen().getByText("Count: 1").get("textContent")
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("-"),
+  )
+  @react_testing_library.screen().getByText("Count: 1").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Count: 1")
-  fireEvent().click(screen().getByText("reset"))
-  screen().getByText("Count: 0").get("textContent")
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("reset"),
+  )
+  @react_testing_library.screen().getByText("Count: 0").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Count: 0")
 }
@@ -285,7 +321,7 @@ test "useReducer" {
 ///|
 test "useActionState" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let action : async (Int, Int) -> Int noraise = async fn(
       state,
@@ -300,8 +336,9 @@ test "useActionState" {
       @react_element.button(on_click=_ => dispatch(1), ["dispatch"]),
     ])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  screen().getByText("State: 0").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.screen().getByText("State: 0").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("State: 0")
 }
@@ -309,7 +346,7 @@ test "useActionState" {
 ///|
 test "startTransition" {
   init_jsdom()
-  cleanup()
+  @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (count, set_count) = useState(0)
     let on_click : @dom.MouseEventHandler = _ => start_transition(fn() {
@@ -320,9 +357,12 @@ test "startTransition" {
       @react_element.button(on_click~, ["transition"]),
     ])
   }
-  render(component(comp, EmptyProps::default())) |> ignore
-  fireEvent().click(screen().getByText("transition"))
-  screen().getByText("Count: 1").get("textContent")
+  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
+  |> ignore
+  @react_testing_library.fireEvent().click(
+    @react_testing_library.screen().getByText("transition"),
+  )
+  @react_testing_library.screen().getByText("Count: 1").get("textContent")
   |> @js.unsafe_cast
   |> assert_eq("Count: 1")
 }

@@ -97,8 +97,7 @@ pub fn Buffer::isEncoding(encoding : String) -> Bool {
 /// Compare two buffers
 pub fn Buffer::compare(buf1 : Buffer, buf2 : Buffer) -> Int {
   let ctor = buffer_constructor()
-  ctor.call2("compare", buf1.to_js(), buf2.to_js())
-  |> @js.unsafe_cast
+  ctor.call2("compare", buf1.to_js(), buf2.to_js()) |> @js.unsafe_cast
 }
 
 ///|
@@ -195,12 +194,7 @@ pub fn Buffer::copy(
   let buf_js = self.to_js()
   match source_end {
     Some(se) =>
-      buf_js.call("copy", [
-        target.to_js(),
-        target_start,
-        source_start,
-        se,
-      ])
+      buf_js.call("copy", [target.to_js(), target_start, source_start, se])
       |> @js.unsafe_cast
     None =>
       buf_js.call("copy", [target.to_js(), target_start, source_start])

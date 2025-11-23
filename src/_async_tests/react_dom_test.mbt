@@ -1,14 +1,12 @@
 ///|
 
 ///|
-using @react {createElement, init_react_api}
 
 ///|
-using @react_dom_server {renderToReadableStream, renderToString}
 
 ///|
 fn init_react() -> Unit {
-  init_react_api(@node.require("react"))
+  @react.init_react_api(@node.require("react"))
 }
 
 ///| renderToString test
@@ -16,16 +14,16 @@ fn init_react() -> Unit {
 ///|
 test {
   @test.describe("React DOM Server: renderToString", _ => {
-    it("renderToString should render a simple element", _ => {
+    @test.it("renderToString should render a simple element", _ => {
       init_react()
-      let element = createElement("div", [])
-      let html = renderToString(element)
+      let element = @react.createElement("div", [])
+      let html = @react_dom_server.renderToString(element)
       inspect(html, content="<div></div>")
     })
-    it("renderToString should render an element with text", _ => {
+    @test.it("renderToString should render an element with text", _ => {
       init_react()
-      let element = createElement("p", ["Hello, World!"])
-      let html = renderToString(element)
+      let element = @react.createElement("p", ["Hello, World!"])
+      let html = @react_dom_server.renderToString(element)
       inspect(html, content="<p>Hello, World!</p>")
     })
   })
@@ -44,24 +42,27 @@ extern "js" fn text_decoder_decode(decoder : @js.Js, value : @js.Js) -> String =
 ///|
 test {
   @test.describe("React DOM Server: renderToReadableStream", _ => {
-    it("renderToReadableStream should return a Promise of ReadableStream", _ => {
-      init_react()
-      let element = createElement("div", [])
-      let stream = renderToReadableStream(element).wait()
-      let reader = stream.getReader()
+    @test.it(
+      "renderToReadableStream should return a Promise of ReadableStream",
+      _ => {
+        init_react()
+        let element = @react.createElement("div", [])
+        let stream = @react_dom_server.renderToReadableStream(element).wait()
+        let reader = stream.getReader()
 
-      // Read first chunk
-      let result : @js.Js = reader.read().wait()
-      let done : Bool = @js.unsafe_cast(result.get("done"))
+        // Read first chunk
+        let result : @js.Js = reader.read().wait()
+        let done : Bool = @js.unsafe_cast(result.get("done"))
 
-      // Should have at least one chunk
-      inspect(done, content="false")
-      reader.releaseLock()
-    })
-    it("renderToReadableStream should render HTML content", _ => {
+        // Should have at least one chunk
+        inspect(done, content="false")
+        reader.releaseLock()
+      },
+    )
+    @test.it("renderToReadableStream should render HTML content", _ => {
       init_react()
-      let element = createElement("h1", ["Test Title"])
-      let stream = renderToReadableStream(element).wait()
+      let element = @react.createElement("h1", ["Test Title"])
+      let stream = @react_dom_server.renderToReadableStream(element).wait()
       let reader = stream.getReader()
       let html_parts : Array[String] = []
       let decoder = text_decoder_new()
@@ -85,11 +86,11 @@ test {
       inspect(contains_h1, content="true")
       inspect(contains_title, content="true")
     })
-    it("renderToReadableStream should handle nested elements", _ => {
+    @test.it("renderToReadableStream should handle nested elements", _ => {
       init_react()
-      let inner = createElement("span", ["Inner"])
-      let outer = createElement("div", [inner])
-      let stream = renderToReadableStream(outer).wait()
+      let inner = @react.createElement("span", ["Inner"])
+      let outer = @react.createElement("div", [inner])
+      let stream = @react_dom_server.renderToReadableStream(outer).wait()
       let reader = stream.getReader()
       let html_parts : Array[String] = []
       let decoder = text_decoder_new()
