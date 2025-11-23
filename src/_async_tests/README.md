@@ -7,12 +7,17 @@ In near future, we plan to expand this directory to include more comprehensive a
 ```mbt
 // before async test
 test {
-  it("test-case", () => {
-    // ...  
+  @test.describe("Test", () => {
+    @test.it("test-case", _ => {
+      // ...  
+    })
+    @test.it("test-case", _ => {
+      // ...  
+    })
   })
 }
 
-// after async test
+// after async test support
 async test "test-case" {
   // ...
 }
