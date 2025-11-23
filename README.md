@@ -54,7 +54,7 @@ Add to your `moon.pkg.json`:
 
 ### JavaScript Built-ins
 
-- **[mizchi/js/builtins/typed_array](src/builtins/typed_array/)** - Binary data handling (TypedArrays, DataView)
+- **[mizchi/js/builtins/typedarray](src/builtins/typedarray/)** - Binary data handling (TypedArrays, DataView)
 - **[mizchi/js/builtins/date](src/builtins/date/)** - Date and time manipulation (Date)
 - **[mizchi/js/builtins/math](src/builtins/math/)** - Mathematical operations (Math)
 - **[mizchi/js/builtins/regexp](src/builtins/regexp/)** - Regular expressions (RegExp)

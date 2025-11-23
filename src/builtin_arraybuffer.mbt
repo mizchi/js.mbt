@@ -1,7 +1,7 @@
 // ArrayBuffer - Frequently used binary data buffer
 //
 // For TypedArray (Uint8Array, Int32Array, etc.) and DataView,
-// see src/builtins/typed_array/
+// see src/builtins/typedarray/
 
 ///| ArrayBuffer
 

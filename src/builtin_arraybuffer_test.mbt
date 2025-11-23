@@ -52,9 +52,9 @@ test "@js.ArrayBuffer::is_view" {
   // Plain buffer is not a view
   assert_false(@js.ArrayBuffer::isView(buffer.to_js()))
 
-  // Note: Testing with actual views requires typed_array package
+  // Note: Testing with actual views requires typedarray package
   // which would create circular dependency.
-  // The is_view implementation is tested in typed_array tests.
+  // The is_view implementation is tested in typedarray tests.
 }
 
 ///| SharedArrayBuffer tests

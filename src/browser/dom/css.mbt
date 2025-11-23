@@ -119,20 +119,20 @@ pub impl @js.JsImpl for CSSStyleSheet
 ///|
 /// Returns the CSS rules
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/cssRules
-pub fn CSSStyleSheet::css_rules(self : Self) -> @js.Js {
+pub fn CSSStyleSheet::cssRules(self : Self) -> @js.Js {
   self.get("cssRules")
 }
 
 ///|
 /// Inserts a CSS rule
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
-pub fn CSSStyleSheet::insert_rule(self : Self, rule : String) -> Int {
+pub fn CSSStyleSheet::insertRule(self : Self, rule : String) -> Int {
   self.call("insertRule", [rule]) |> @js.unsafe_cast
 }
 
 ///|
 /// Inserts a CSS rule at index
-pub fn CSSStyleSheet::insert_rule_at(
+pub fn CSSStyleSheet::insertRuleAt(
   self : Self,
   rule : String,
   index : Int,
@@ -143,13 +143,13 @@ pub fn CSSStyleSheet::insert_rule_at(
 ///|
 /// Deletes a CSS rule at index
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/deleteRule
-pub fn CSSStyleSheet::delete_rule(self : Self, index : Int) -> Unit {
+pub fn CSSStyleSheet::deleteRule(self : Self, index : Int) -> Unit {
   self.call("deleteRule", [index]) |> ignore
 }
 
 ///|
 /// Returns the owner node
-pub fn CSSStyleSheet::owner_node(self : Self) -> @js.Js? {
+pub fn CSSStyleSheet::ownerNode(self : Self) -> @js.Js? {
   self.get("ownerNode") |> @js.unsafe_cast_option()
 }
 
@@ -205,7 +205,7 @@ pub fn matchMedia(query : String) -> MediaQueryList {
 ///|
 /// Adds a change listener
 /// https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList/addListener
-pub fn MediaQueryList::add_listener(
+pub fn MediaQueryList::addListener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
@@ -215,7 +215,7 @@ pub fn MediaQueryList::add_listener(
 ///|
 /// Removes a change listener
 /// https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList/removeListener
-pub fn MediaQueryList::remove_listener(
+pub fn MediaQueryList::removeListener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
@@ -224,7 +224,7 @@ pub fn MediaQueryList::remove_listener(
 
 ///|
 /// Add event listener for change event
-pub fn MediaQueryList::add_change_listener(
+pub fn MediaQueryList::addChangeListener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
@@ -233,7 +233,7 @@ pub fn MediaQueryList::add_change_listener(
 
 ///|
 /// Remove event listener for change event
-pub fn MediaQueryList::remove_change_listener(
+pub fn MediaQueryList::removeChangeListener(
   self : Self,
   listener : (Event) -> Unit,
 ) -> Unit {
@@ -273,13 +273,13 @@ pub fn cssSupportsCondition(condition : String) -> Bool {
 ///|
 /// Access document stylesheets
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/styleSheets
-pub fn Document::style_sheets(self : Self) -> @js.Js {
+pub fn Document::styleSheets(self : Self) -> @js.Js {
   self.get("styleSheets")
 }
 
 ///|
 /// Create a new stylesheet
-pub fn Document::create_stylesheet(self : Self) -> CSSStyleSheet {
+pub fn Document::createStylesheet(self : Self) -> CSSStyleSheet {
   let style = self.create_element("style")
   match self.head() {
     Some(head) => head.call("appendChild", [style]) |> ignore

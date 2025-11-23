@@ -12,6 +12,7 @@ test "MessageChannel implements Show trait" {
   let channel = MessageChannel::new()
   inspect(channel.to_string(), content="[object MessageChannel]")
 }
+
 ///|
 /// Test MessageEvent can be created and accessed
 test "MessageEvent struct" {

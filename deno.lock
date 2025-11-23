@@ -36,6 +36,7 @@
         "npm:@types/node@^24.10.1",
         "npm:ai@6.0.0-beta.95",
         "npm:canvas@^3.2.0",
+        "npm:fake-indexeddb@^6.2.5",
         "npm:global-jsdom@27.0.0",
         "npm:hono@^4.10.6",
         "npm:jsdom@27.0.1",

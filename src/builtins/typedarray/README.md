@@ -1,4 +1,4 @@
-# mizchi/js/builtins/typed_array
+# mizchi/js/builtins/typedarray
 
 Binary data handling with ArrayBuffer and TypedArrays.
 
@@ -10,7 +10,7 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/builtins/typed_array"
+    "mizchi/js/builtins/typedarray"
   ]
 }
 ```
@@ -27,7 +27,7 @@ Provides bindings for JavaScript's binary data types:
 ```moonbit
 fn main {
   // Create a Uint8Array
-  let arr = @typed_array.Uint8Array::from_size(10)
+  let arr = @typedarray.Uint8Array::from_size(10)
   
   // Set values
   arr.set_at(0, 42)
@@ -38,7 +38,7 @@ fn main {
   
   // Byte operations
   let bytes = Bytes::new(10)
-  let typed_arr = @typed_array.bytes_to_uint8array(bytes)
+  let typed_arr = @typedarray.bytes_to_uint8array(bytes)
 }
 ```
 

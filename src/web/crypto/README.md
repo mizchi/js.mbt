@@ -24,7 +24,7 @@ Provides bindings for the Web Crypto API for secure cryptographic operations.
 ```moonbit
 fn main {
   // Generate random values
-  let array = @typed_array.Uint8Array::from_size(16)
+  let array = @typedarray.Uint8Array::from_size(16)
   @crypto.get_random_values(array)
   
   // Generate UUID

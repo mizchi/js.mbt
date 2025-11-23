@@ -101,6 +101,9 @@ fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> Promise[R]
 
 fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
 
+#alias(queue_microtask)
+fn queueMicrotask(() -> Unit) -> Unit
+
 fn run_async(async () -> Unit noraise) -> Unit
 
 #alias(set_interval)

@@ -141,6 +141,7 @@ test "btoa - throws on invalid characters" {
     Ok(_) => fail("Expected btoa to throw on non-Latin1 characters")
   }
 }
+
 ///| Microtasks
 
 ///|

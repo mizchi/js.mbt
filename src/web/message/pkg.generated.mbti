@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/web/message_channel"
+package "mizchi/js/web/message"
 
 import(
   "mizchi/js"
@@ -18,6 +18,16 @@ fn MessageChannel::port1(Self) -> MessagePort
 fn MessageChannel::port2(Self) -> MessagePort
 impl @js.JsImpl for MessageChannel
 impl Show for MessageChannel
+
+pub(all) struct MessageEvent {
+  data : @js.Js
+  origin : String
+  lastEventId : String
+  ports : Array[MessagePort]
+}
+impl @js.JsImpl for MessageEvent
+impl @event.EventTargetImpl for MessageEvent
+impl Show for MessageEvent
 
 #external
 pub type MessagePort

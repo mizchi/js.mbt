@@ -6,7 +6,7 @@ import(
   "mizchi/js/web/blob"
   "mizchi/js/web/event"
   "mizchi/js/web/http"
-  "mizchi/js/web/message_channel"
+  "mizchi/js/web/message"
   "mizchi/js/web/worker"
 )
 
@@ -71,14 +71,14 @@ impl @js.JsImpl for CSSStyleDeclaration
 
 #external
 pub type CSSStyleSheet
-fn CSSStyleSheet::css_rules(Self) -> @js.Js
-fn CSSStyleSheet::delete_rule(Self, Int) -> Unit
+fn CSSStyleSheet::cssRules(Self) -> @js.Js
+fn CSSStyleSheet::deleteRule(Self, Int) -> Unit
 fn CSSStyleSheet::disabled(Self) -> Bool
 fn CSSStyleSheet::href(Self) -> String?
-fn CSSStyleSheet::insert_rule(Self, String) -> Int
-fn CSSStyleSheet::insert_rule_at(Self, String, Int) -> Int
+fn CSSStyleSheet::insertRule(Self, String) -> Int
+fn CSSStyleSheet::insertRuleAt(Self, String, Int) -> Int
 fn CSSStyleSheet::media(Self) -> @js.Js
-fn CSSStyleSheet::owner_node(Self) -> @js.Js?
+fn CSSStyleSheet::ownerNode(Self) -> @js.Js?
 fn CSSStyleSheet::set_disabled(Self, Bool) -> Unit
 fn CSSStyleSheet::title(Self) -> String?
 impl @js.JsImpl for CSSStyleSheet
@@ -181,9 +181,9 @@ fn Document::createElement(Self, String) -> Element
 fn Document::createElementNs(Self, String, String) -> Element
 #alias(create_event)
 fn Document::createEvent(Self, String) -> Event
+fn Document::createStylesheet(Self) -> CSSStyleSheet
 #alias(create_text_node)
 fn Document::createTextNode(Self, String) -> Text
-fn Document::create_stylesheet(Self) -> CSSStyleSheet
 fn Document::doctype(Self) -> @js.Js?
 #alias(document_element)
 fn Document::documentElement(Self) -> Element
@@ -209,7 +209,7 @@ fn Document::setBody(Self, HTMLBodyElement) -> Unit
 #alias(set_title)
 fn Document::setTitle(Self, String) -> Unit
 fn Document::set_cookie(Self, String) -> Unit
-fn Document::style_sheets(Self) -> @js.Js
+fn Document::styleSheets(Self) -> @js.Js
 fn Document::title(Self) -> String
 fn Document::url(Self) -> String
 impl @js.JsImpl for Document
@@ -496,17 +496,17 @@ pub(all) struct MediaQueryList {
   media : String
   matches : Bool
 }
-fn MediaQueryList::add_change_listener(Self, (Event) -> Unit) -> Unit
-fn MediaQueryList::add_listener(Self, (Self) -> Unit) -> Unit
-fn MediaQueryList::remove_change_listener(Self, (Event) -> Unit) -> Unit
-fn MediaQueryList::remove_listener(Self, (Self) -> Unit) -> Unit
+fn MediaQueryList::addChangeListener(Self, (Event) -> Unit) -> Unit
+fn MediaQueryList::addListener(Self, (Self) -> Unit) -> Unit
+fn MediaQueryList::removeChangeListener(Self, (Event) -> Unit) -> Unit
+fn MediaQueryList::removeListener(Self, (Self) -> Unit) -> Unit
 impl @js.JsImpl for MediaQueryList
 
 pub(all) struct MessageEvent {
   data : @js.Js
   origin : String
   lastEventId : String
-  ports : Array[@message_channel.MessagePort]
+  ports : Array[@message.MessagePort]
 }
 fn MessageEvent::source(Self) -> Window?
 impl @js.JsImpl for MessageEvent
