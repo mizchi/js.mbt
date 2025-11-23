@@ -1,8 +1,20 @@
 ///| IndexedDB Tests
 
 ///|
+/// Setup fake-indexeddb for Node.js testing environment
+extern "js" fn ffi_require_fake_indexeddb() -> @js.Js =
+  #|() => { require("fake-indexeddb/auto"); return globalThis.indexedDB; }
+
+///|
+/// Initialize fake-indexeddb (call once to setup)
+fn init_fake_indexeddb() -> Unit {
+  ffi_require_fake_indexeddb() |> ignore
+}
+
+///|
 /// Test IDBKeyRange bound
 test "IDBKeyRange bound" {
+  init_fake_indexeddb()
   let range = IDBKeyRange::bound(1, 10, lowerOpen=false, upperOpen=false)
   assert_true(range.includes(1))
   assert_true(range.includes(5))
@@ -13,6 +25,7 @@ test "IDBKeyRange bound" {
 
 ///|
 test "IDBKeyRange only" {
+  init_fake_indexeddb()
   let range = IDBKeyRange::only(5)
   assert_true(range.includes(5))
   assert_false(range.includes(4))
@@ -21,6 +34,7 @@ test "IDBKeyRange only" {
 
 ///|
 test "IDBKeyRange lowerBound" {
+  init_fake_indexeddb()
   let range = IDBKeyRange::lowerBound(5, open=false)
   assert_true(range.includes(5))
   assert_true(range.includes(10))
@@ -29,6 +43,7 @@ test "IDBKeyRange lowerBound" {
 
 ///|
 test "IDBKeyRange upperBound" {
+  init_fake_indexeddb()
   let range = IDBKeyRange::upperBound(10, open=false)
   assert_true(range.includes(10))
   assert_true(range.includes(5))
@@ -38,6 +53,7 @@ test "IDBKeyRange upperBound" {
 ///|
 /// Test cmp function
 test "indexedDB cmp function" {
+  init_fake_indexeddb()
   assert_eq(cmp(1, 2), -1) // 1 < 2
   assert_eq(cmp(2, 1), 1) // 2 > 1
   assert_eq(cmp(5, 5), 0) // 5 == 5
@@ -46,14 +62,15 @@ test "indexedDB cmp function" {
 ///|
 /// Test opening database
 test "indexedDB open database" {
+  init_fake_indexeddb()
   let request = open("test-db", version=1)
 
   // Set up database structure
-  request.on("upgradeneeded", fn(event) {
+  request.addEventListener("upgradeneeded", fn(event) {
     let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
     db.createObjectStore("users", keyPath="id") |> ignore
   })
-  request.on("success", fn(event) {
+  request.addEventListener("success", fn(event) {
     let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
     db.close()
   })
@@ -65,14 +82,16 @@ test "indexedDB open database" {
 ///|
 /// Test deleteDatabase
 test "indexedDB deleteDatabase" {
+  init_fake_indexeddb()
   let request = deleteDatabase("db-to-delete")
-  request.on("success", fn(_) { () })
+  request.addEventListener("success", fn(_) { () })
   inspect(true, content="true")
 }
 
 ///|
 /// Test indexedDB factory access
 test "indexedDB factory" {
+  init_fake_indexeddb()
   let idb = indexedDB()
   assert_false(@js.is_nullish(idb))
 }

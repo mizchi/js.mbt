@@ -4,5 +4,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/web/event"
-  ]
+  ],
+  "warn-list": "-5"
 }

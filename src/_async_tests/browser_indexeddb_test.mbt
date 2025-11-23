@@ -1,27 +1,39 @@
 ///| Browser IndexedDB async tests
 
 ///|
+/// Setup fake-indexeddb for Node.js testing environment
+extern "js" fn ffi_require_fake_indexeddb() -> @js.Js =
+  #|() => { require("fake-indexeddb/auto"); return globalThis.indexedDB; }
+
+///|
+/// Initialize fake-indexeddb (call once to setup)
+fn init_fake_indexeddb() -> Unit {
+  ffi_require_fake_indexeddb() |> ignore
+}
+
+///|
 using @indexeddb {
   open,
   deleteDatabase,
   cmp,
   type IDBDatabase,
-  type IDBObjectStore,
-  type IDBTransaction,
   type IDBRequest,
   type IDBOpenDBRequest,
   type IDBKeyRange,
+  type IDBObjectStore,
+  type IDBIndex,
+  type IDBCursorWithValue,
 }
 // Note: @test {it} and @js {Promise, run_async, sleep, suspend} are already imported in deps.mbt
 
 ///|
 /// Helper to promisify IDBRequest
-fn request_to_promise(request : IDBRequest) -> Promise[@js.Js] {
+fn[T] request_to_promise(request : IDBRequest[T]) -> Promise[@js.Js] {
   let resolvers = Promise::withResolvers()
-  request.on("success", fn(event) {
+  request.addEventListener("success", fn(event) {
     resolvers.resolve(event.get("target").get("result"))
   })
-  request.on("error", fn(event) {
+  request.addEventListener("error", fn(event) {
     let error_msg = @js.unsafe_cast(
       event.get("target").get("error").call0("toString"),
     )
@@ -40,13 +52,13 @@ fn open_request_to_promise(
 
   // Handle upgrade if needed
   match onupgradeneeded {
-    Some(handler) => request.on("upgradeneeded", handler)
+    Some(handler) => request.addEventListener("upgradeneeded", handler)
     None => ()
   }
-  request.on("success", fn(event) {
+  request.addEventListener("success", fn(event) {
     resolvers.resolve(event.get("target").get("result"))
   })
-  request.on("error", fn(event) {
+  request.addEventListener("error", fn(event) {
     let error_msg = @js.unsafe_cast(
       event.get("target").get("error").call0("toString"),
     )
@@ -60,6 +72,7 @@ fn open_request_to_promise(
 ///|
 test {
   it("open and close database", _ => {
+    init_fake_indexeddb()
     let request = open("test-open-db", version=1)
     let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
       event,
@@ -69,8 +82,8 @@ test {
     })
     let db_js = db_promise.wait()
     let db : IDBDatabase = @js.unsafe_cast(db_js)
-    assert_eq(db.name(), "test-open-db")
-    assert_eq(db.version(), 1)
+    assert_eq(db.name, "test-open-db")
+    assert_eq(db.version, 1)
     db.close()
 
     // Cleanup
@@ -288,11 +301,11 @@ test {
 
     // Read-only transaction
     let readonly_tx = db.transaction(["txtest"], mode="readonly")
-    assert_eq(readonly_tx.mode(), "readonly")
+    assert_eq(readonly_tx.mode, "readonly")
 
     // Read-write transaction
     let readwrite_tx = db.transaction(["txtest"], mode="readwrite")
-    assert_eq(readwrite_tx.mode(), "readwrite")
+    assert_eq(readwrite_tx.mode, "readwrite")
     db.close()
     deleteDatabase("test-tx-mode-db") |> ignore
   })
@@ -338,3 +351,201 @@ test {
     assert_eq(cmp("a", "b"), -1) // "a" < "b"
   })
 }
+
+///| Real-world user scenarios with MoonBit structs
+
+///|
+/// Define MoonBit struct types for type-safe IndexedDB operations
+struct User {
+  id : Int
+  name : String
+  email : String
+  age : Int
+}
+
+///|
+/// Product struct for e-commerce
+struct Product {
+  sku : String
+  name : String
+  category : String
+  price : Double
+  stock : Int
+}
+
+///|
+/// Order struct
+struct Order {
+  order_id : Int
+  customer : String
+  total : Double
+  status : String
+}
+
+///|
+/// Type-safe scenario: Managing user profiles with User struct
+test {
+  it("store and retrieve User struct with full type safety", _ => {
+    let request = open("typed-user-db", version=1)
+    let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
+      event,
+    ) {
+      let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+      db.createObjectStore("users", keyPath="id") |> ignore
+    })
+    let db_js = db_promise.wait()
+    let db : IDBDatabase = @js.unsafe_cast(db_js)
+
+    // Create User struct
+    let alice : User = {
+      id: 1,
+      name: "Alice",
+      email: "alice@example.com",
+      age: 30,
+    }
+
+    // Type-safe store: IDBObjectStore[User] with unsafe_cast
+    let tx = db.transaction(["users"], mode="readwrite")
+    let store : IDBObjectStore[User] = tx.objectStore("users")
+      |> @js.unsafe_cast
+
+    // Add User directly - internal casting handled by IndexedDB
+    let add_request = store.add(alice)
+    request_to_promise(add_request).wait() |> ignore
+
+    // Get with type parameter User: IDBRequest[User]
+    let get_request : IDBRequest[User] = store.get(1)
+    let result = request_to_promise(get_request).wait()
+
+    // result is User type - direct cast, no from_js() needed
+    let retrieved_user : User = result |> @js.unsafe_cast
+
+    // Type-safe assertions with struct fields
+    assert_eq(retrieved_user.id, 1)
+    assert_eq(retrieved_user.name, "Alice")
+    assert_eq(retrieved_user.email, "alice@example.com")
+    assert_eq(retrieved_user.age, 30)
+    db.close()
+    deleteDatabase("typed-user-db") |> ignore
+  })
+}
+
+///|
+/// Type-safe scenario: Product catalog with Product struct
+test {
+  it("manage products with Product struct type safety", _ => {
+    let request = open("typed-product-db", version=1)
+    let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
+      event,
+    ) {
+      let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+      let store = db.createObjectStore("products", keyPath="sku")
+      store.createIndex("category", "category", unique=false) |> ignore
+    })
+    let db_js = db_promise.wait()
+    let db : IDBDatabase = @js.unsafe_cast(db_js)
+
+    // Create Product structs
+    let laptop : Product = {
+      sku: "LAPTOP-001",
+      name: "Gaming Laptop",
+      category: "electronics",
+      price: 1299.99,
+      stock: 15,
+    }
+    let mouse : Product = {
+      sku: "MOUSE-002",
+      name: "Wireless Mouse",
+      category: "electronics",
+      price: 29.99,
+      stock: 50,
+    }
+
+    // Type-safe store: IDBObjectStore[Product]
+    let tx = db.transaction(["products"], mode="readwrite")
+    let store : IDBObjectStore[Product] = tx.objectStore("products")
+      |> @js.unsafe_cast
+
+    // Add Product directly - internal casting handled by IndexedDB
+    request_to_promise(store.add(laptop)).wait() |> ignore
+    request_to_promise(store.add(mouse)).wait() |> ignore
+
+    // Get with IDBRequest[Product]
+    let laptop_request : IDBRequest[Product] = store.get("LAPTOP-001")
+    let laptop_result = request_to_promise(laptop_request).wait()
+    let retrieved_laptop : Product = laptop_result |> @js.unsafe_cast
+
+    // Type-safe field access
+    assert_eq(retrieved_laptop.sku, "LAPTOP-001")
+    assert_eq(retrieved_laptop.name, "Gaming Laptop")
+    assert_eq(retrieved_laptop.price, 1299.99)
+    assert_eq(retrieved_laptop.stock, 15)
+
+    // Query all electronics using index
+    let category_index : IDBIndex[Product] = store.index("category")
+    let electronics_request = category_index.getAll(query="electronics")
+    let electronics_array = request_to_promise(electronics_request).wait()
+
+    // Array operations with Js
+    let length : Int = @js.unsafe_cast(electronics_array.get("length"))
+    assert_eq(length, 2)
+
+    // Access first product with direct cast
+    let first_product_js : @js.Js = electronics_array.call1("at", 0)
+    let first_product : Product = first_product_js |> @js.unsafe_cast
+    assert_eq(first_product.category, "electronics")
+    db.close()
+    deleteDatabase("typed-product-db") |> ignore
+  })
+}
+
+///|
+/// Type-safe cursor iteration with Order struct
+test {
+  it("iterate orders with IDBCursorWithValue and Order struct", _ => {
+    let request = open("typed-orders-db", version=1)
+    let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
+      event,
+    ) {
+      let db : IDBDatabase = @js.unsafe_cast(event.get("target").get("result"))
+      db.createObjectStore("orders", keyPath="order_id") |> ignore
+    })
+    let db_js = db_promise.wait()
+    let db : IDBDatabase = @js.unsafe_cast(db_js)
+
+    // Create and store Order structs
+    let tx = db.transaction(["orders"], mode="readwrite")
+    let store : IDBObjectStore[Order] = tx.objectStore("orders")
+      |> @js.unsafe_cast
+    for i = 1; i <= 3; i = i + 1 {
+      let order : Order = {
+        order_id: i,
+        customer: "Customer-\{i}",
+        total: i.to_double() * 100.0,
+        status: "pending",
+      }
+      request_to_promise(store.add(order)).wait() |> ignore
+    }
+
+    // Open cursor with typed value
+    let cursor_request = store.openCursor()
+    let cursor_result = request_to_promise(cursor_request).wait()
+
+    // Type-safe cursor access
+    if not(@js.is_nullish(cursor_result)) {
+      let cursor : IDBCursorWithValue[Order] = cursor_result |> @js.unsafe_cast
+
+      // cursor.value is Order - direct access, no conversion needed
+      let order : Order = cursor.value
+
+      // Type-safe field access
+      assert_eq(order.order_id, 1)
+      assert_eq(order.customer, "Customer-1")
+      assert_eq(order.total, 100.0)
+      assert_eq(order.status, "pending")
+    }
+    db.close()
+    deleteDatabase("typed-orders-db") |> ignore
+  })
+}
+

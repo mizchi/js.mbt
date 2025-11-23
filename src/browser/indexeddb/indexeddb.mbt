@@ -5,67 +5,62 @@
 
 ///|
 /// IDBRequest represents an async request to the database
-#external
-pub type IDBRequest
-
-///|
-pub impl JsImpl for IDBRequest
-
-///|
-pub impl EventTargetImpl for IDBRequest
-
-///|
-/// Convenience method: add event listener
-pub fn IDBRequest::on(
-  self : Self,
-  event_type : String,
-  callback : (Js) -> Unit,
-) -> Unit {
-  self.call2("addEventListener", event_type, @js.from_fn1(callback)) |> ignore
+/// T is the type of the result value
+pub(all) struct IDBRequest[T] {
+  result : T
+  error : @js.Nullable[Js]
+  source : Js
+  readyState : String
 }
 
 ///|
-/// Get the request result (throws if not done)
-pub fn IDBRequest::get_result(self : Self) -> Js {
-  self.get("result")
-}
+pub impl[T] JsImpl for IDBRequest[T]
 
 ///|
-/// Get the request error (null if no error)
-pub fn IDBRequest::get_error(self : Self) -> Js {
-  self.get("error")
-}
-
-///|
-/// Get the request source
-pub fn IDBRequest::get_source(self : Self) -> Js {
-  self.get("source")
-}
-
-///|
-/// Get the readyState
-pub fn IDBRequest::get_readyState(self : Self) -> String {
-  @js.unsafe_cast(self.get("readyState"))
-}
+pub impl[T] EventTargetImpl for IDBRequest[T]
 
 ///|
 /// Check if request is pending
-pub fn IDBRequest::is_pending(self : Self) -> Bool {
-  self.get_readyState() == "pending"
+pub fn[T] IDBRequest::is_pending(self : IDBRequest[T]) -> Bool {
+  self.readyState == "pending"
 }
 
 ///|
 /// Check if request is done
-pub fn IDBRequest::is_done(self : Self) -> Bool {
-  self.get_readyState() == "done"
+pub fn[T] IDBRequest::is_done(self : IDBRequest[T]) -> Bool {
+  self.readyState == "done"
+}
+
+///|
+/// Cast source to IDBObjectStore
+pub fn[T] IDBRequest::source_as_object_store(
+  self : IDBRequest[T],
+) -> IDBObjectStore[Js] {
+  self.source |> @js.unsafe_cast
+}
+
+///|
+/// Cast source to IDBIndex
+pub fn[T] IDBRequest::source_as_index(self : IDBRequest[T]) -> IDBIndex[Js] {
+  self.source |> @js.unsafe_cast
+}
+
+///|
+/// Cast source to IDBCursor
+pub fn[T, U] IDBRequest::source_as_cursor(self : IDBRequest[T]) -> IDBCursor[U] {
+  self.source |> @js.unsafe_cast
 }
 
 ///| IDBOpenDBRequest - Request for opening database
 
 ///|
 /// IDBOpenDBRequest extends IDBRequest for database opening
-#external
-pub type IDBOpenDBRequest
+pub(all) struct IDBOpenDBRequest {
+  result : Js
+  error : @js.Nullable[Js]
+  source : Js
+  readyState : String
+}
 
 ///|
 pub impl JsImpl for IDBOpenDBRequest
@@ -73,58 +68,18 @@ pub impl JsImpl for IDBOpenDBRequest
 ///|
 pub impl EventTargetImpl for IDBOpenDBRequest
 
-///|
-/// Convenience method: add event listener
-pub fn IDBOpenDBRequest::on(
-  self : Self,
-  event_type : String,
-  callback : (Js) -> Unit,
-) -> Unit {
-  self.call2("addEventListener", event_type, @js.from_fn1(callback)) |> ignore
-}
-
-///|
-/// Get the request result
-pub fn IDBOpenDBRequest::get_result(self : Self) -> Js {
-  self.get("result")
-}
-
-///|
-/// Get the request error
-pub fn IDBOpenDBRequest::get_error(self : Self) -> Js {
-  self.get("error")
-}
-
 ///| IDBDatabase - Database connection
 
 ///|
 /// IDBDatabase represents a connection to an IndexedDB database
-#external
-pub type IDBDatabase
+pub(all) struct IDBDatabase {
+  name : String
+  version : Int
+  objectStoreNames : Js
+}
 
 ///|
 pub impl JsImpl for IDBDatabase
-
-///|
-pub impl EventTargetImpl for IDBDatabase
-
-///|
-/// Get database name
-pub fn IDBDatabase::name(self : Self) -> String {
-  @js.unsafe_cast(self.get("name"))
-}
-
-///|
-/// Get database version
-pub fn IDBDatabase::version(self : Self) -> Int {
-  @js.unsafe_cast(self.get("version"))
-}
-
-///|
-/// Get object store names
-pub fn IDBDatabase::objectStoreNames(self : Self) -> Js {
-  self.get("objectStoreNames")
-}
 
 ///|
 /// Create a transaction for the specified object stores
@@ -133,7 +88,7 @@ pub fn IDBDatabase::transaction(
   self : Self,
   store_names : Array[String],
   mode? : String,
-) -> IDBTransaction {
+) -> IDBTransaction[Js] {
   let mode_str = mode.unwrap_or("readonly")
   self.call2("transaction", @js.from_array(store_names), mode_str)
   |> @js.unsafe_cast
@@ -146,7 +101,7 @@ pub fn IDBDatabase::createObjectStore(
   name : String,
   keyPath? : String,
   autoIncrement? : Bool,
-) -> IDBObjectStore {
+) -> IDBObjectStore[Js] {
   let options = @js.from_entries_option([
     ("keyPath", keyPath.map(fn(x) { x })),
     ("autoIncrement", autoIncrement.map(fn(x) { x })),
@@ -170,51 +125,34 @@ pub fn IDBDatabase::close(self : Self) -> Unit {
 
 ///|
 /// IDBTransaction represents a database transaction
-#external
-pub type IDBTransaction
-
-///|
-pub impl JsImpl for IDBTransaction
-
-///|
-pub impl EventTargetImpl for IDBTransaction
-
-///|
-/// Get transaction mode
-pub fn IDBTransaction::mode(self : Self) -> String {
-  @js.unsafe_cast(self.get("mode"))
+/// T is the type of values in the object stores accessed by this transaction
+pub(all) struct IDBTransaction[T] {
+  db : IDBDatabase
+  mode : String
+  objectStoreNames : Js
 }
 
 ///|
-/// Get transaction database
-pub fn IDBTransaction::db(self : Self) -> IDBDatabase {
-  @js.unsafe_cast(self.get("db"))
-}
-
-///|
-/// Get object store names in this transaction
-pub fn IDBTransaction::objectStoreNames(self : Self) -> Js {
-  self.get("objectStoreNames")
-}
+pub impl[T] JsImpl for IDBTransaction[T]
 
 ///|
 /// Get an object store from this transaction
-pub fn IDBTransaction::objectStore(
-  self : Self,
+pub fn[T] IDBTransaction::objectStore(
+  self : IDBTransaction[T],
   name : String,
-) -> IDBObjectStore {
+) -> IDBObjectStore[T] {
   self.call1("objectStore", name) |> @js.unsafe_cast
 }
 
 ///|
 /// Commit the transaction
-pub fn IDBTransaction::commit(self : Self) -> Unit {
+pub fn[T] IDBTransaction::commit(self : IDBTransaction[T]) -> Unit {
   self.call0("commit") |> ignore
 }
 
 ///|
 /// Abort the transaction
-pub fn IDBTransaction::abort(self : Self) -> Unit {
+pub fn[T] IDBTransaction::abort(self : IDBTransaction[T]) -> Unit {
   self.call0("abort") |> ignore
 }
 
@@ -222,93 +160,77 @@ pub fn IDBTransaction::abort(self : Self) -> Unit {
 
 ///|
 /// IDBObjectStore represents an object store in the database
-#external
-pub type IDBObjectStore
-
-///|
-pub impl JsImpl for IDBObjectStore
-
-///|
-/// Get object store name
-pub fn IDBObjectStore::name(self : Self) -> String {
-  @js.unsafe_cast(self.get("name"))
+/// T is the type of values stored in this object store
+pub(all) struct IDBObjectStore[T] {
+  name : String
+  keyPath : Js
+  autoIncrement : Bool
+  indexNames : Js
+  transaction : IDBTransaction[T]
 }
 
 ///|
-/// Get key path
-pub fn IDBObjectStore::keyPath(self : Self) -> Js {
-  self.to_js().get("keyPath")
-}
-
-///|
-/// Get autoIncrement flag
-pub fn IDBObjectStore::autoIncrement(self : Self) -> Bool {
-  @js.unsafe_cast(self.get("autoIncrement"))
-}
-
-///|
-/// Get index names
-pub fn IDBObjectStore::indexNames(self : Self) -> Js {
-  self.to_js().get("indexNames")
-}
-
-///|
-/// Get transaction
-pub fn IDBObjectStore::transaction(self : Self) -> IDBTransaction {
-  @js.unsafe_cast(self.get("transaction"))
-}
+pub impl[T] JsImpl for IDBObjectStore[T]
 
 ///|
 /// Add a new record (fails if key exists)
-pub fn IDBObjectStore::add(
-  self : Self,
-  value : &JsImpl,
+pub fn[T] IDBObjectStore::add(
+  self : IDBObjectStore[T],
+  value : T,
   key? : &JsImpl,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
+  let js_value : Js = value |> @js.unsafe_cast
   match key {
-    Some(k) => self.call2("add", value.to_js(), k.to_js()) |> @js.unsafe_cast
-    None => self.call1("add", value.to_js()) |> @js.unsafe_cast
+    Some(k) => self.call2("add", js_value, k.to_js()) |> @js.unsafe_cast
+    None => self.call1("add", js_value) |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Put a record (overwrites if key exists)
-pub fn IDBObjectStore::put(
-  self : Self,
-  value : &JsImpl,
+pub fn[T] IDBObjectStore::put(
+  self : IDBObjectStore[T],
+  value : T,
   key? : &JsImpl,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
+  let js_value : Js = value |> @js.unsafe_cast
   match key {
-    Some(k) => self.call2("put", value.to_js(), k.to_js()) |> @js.unsafe_cast
-    None => self.call1("put", value.to_js()) |> @js.unsafe_cast
+    Some(k) => self.call2("put", js_value, k.to_js()) |> @js.unsafe_cast
+    None => self.call1("put", js_value) |> @js.unsafe_cast
   }
 }
 
 ///|
 /// Get a record by key
-pub fn IDBObjectStore::get(self : Self, key : &JsImpl) -> IDBRequest {
+pub fn[T] IDBObjectStore::get(
+  self : IDBObjectStore[T],
+  key : &JsImpl,
+) -> IDBRequest[T] {
   self.call1("get", key.to_js()) |> @js.unsafe_cast
 }
 
 ///|
 /// Delete a record by key
-pub fn IDBObjectStore::delete(self : Self, key : &JsImpl) -> IDBRequest {
+pub fn[T] IDBObjectStore::delete(
+  self : IDBObjectStore[T],
+  key : &JsImpl,
+) -> IDBRequest[Js] {
   self.call1("delete", key.to_js()) |> @js.unsafe_cast
 }
 
 ///|
 /// Clear all records from the store
-pub fn IDBObjectStore::clear(self : Self) -> IDBRequest {
+pub fn[T] IDBObjectStore::clear(self : IDBObjectStore[T]) -> IDBRequest[Js] {
   self.call0("clear") |> @js.unsafe_cast
 }
 
 ///|
 /// Get all records (optionally filtered by query)
-pub fn IDBObjectStore::getAll(
-  self : Self,
+pub fn[T] IDBObjectStore::getAll(
+  self : IDBObjectStore[T],
   query? : &JsImpl,
   count? : Int,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
   match (query, count) {
     (Some(q), Some(c)) => self.call2("getAll", q.to_js(), c) |> @js.unsafe_cast
     (Some(q), None) => self.call1("getAll", q.to_js()) |> @js.unsafe_cast
@@ -320,11 +242,11 @@ pub fn IDBObjectStore::getAll(
 
 ///|
 /// Get all keys (optionally filtered by query)
-pub fn IDBObjectStore::getAllKeys(
-  self : Self,
+pub fn[T] IDBObjectStore::getAllKeys(
+  self : IDBObjectStore[T],
   query? : &JsImpl,
   count? : Int,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
   match (query, count) {
     (Some(q), Some(c)) =>
       self.call2("getAllKeys", q.to_js(), c) |> @js.unsafe_cast
@@ -337,7 +259,10 @@ pub fn IDBObjectStore::getAllKeys(
 
 ///|
 /// Count records (optionally filtered by query)
-pub fn IDBObjectStore::count(self : Self, query? : &JsImpl) -> IDBRequest {
+pub fn[T] IDBObjectStore::count(
+  self : IDBObjectStore[T],
+  query? : &JsImpl,
+) -> IDBRequest[Js] {
   match query {
     Some(q) => self.call1("count", q.to_js()) |> @js.unsafe_cast
     None => self.call0("count") |> @js.unsafe_cast
@@ -346,11 +271,11 @@ pub fn IDBObjectStore::count(self : Self, query? : &JsImpl) -> IDBRequest {
 
 ///|
 /// Open a cursor to iterate over records
-pub fn IDBObjectStore::openCursor(
-  self : Self,
+pub fn[T] IDBObjectStore::openCursor(
+  self : IDBObjectStore[T],
   query? : &JsImpl,
   direction? : String,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
   match (query, direction) {
     (Some(q), Some(d)) =>
       self.call2("openCursor", q.to_js(), d) |> @js.unsafe_cast
@@ -363,11 +288,11 @@ pub fn IDBObjectStore::openCursor(
 
 ///|
 /// Open a key cursor
-pub fn IDBObjectStore::openKeyCursor(
-  self : Self,
+pub fn[T] IDBObjectStore::openKeyCursor(
+  self : IDBObjectStore[T],
   query? : &JsImpl,
   direction? : String,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
   match (query, direction) {
     (Some(q), Some(d)) =>
       self.call2("openKeyCursor", q.to_js(), d) |> @js.unsafe_cast
@@ -380,13 +305,13 @@ pub fn IDBObjectStore::openKeyCursor(
 
 ///|
 /// Create an index on this object store
-pub fn IDBObjectStore::createIndex(
-  self : Self,
+pub fn[T] IDBObjectStore::createIndex(
+  self : IDBObjectStore[T],
   name : String,
   keyPath : String,
   unique? : Bool,
   multiEntry? : Bool,
-) -> IDBIndex {
+) -> IDBIndex[T] {
   let options = @js.from_entries_option([
     ("unique", unique.map(fn(x) { x })),
     ("multiEntry", multiEntry.map(fn(x) { x })),
@@ -396,13 +321,19 @@ pub fn IDBObjectStore::createIndex(
 
 ///|
 /// Delete an index from this object store
-pub fn IDBObjectStore::deleteIndex(self : Self, name : String) -> Unit {
+pub fn[T] IDBObjectStore::deleteIndex(
+  self : IDBObjectStore[T],
+  name : String,
+) -> Unit {
   self.call1("deleteIndex", name) |> ignore
 }
 
 ///|
 /// Get an index by name
-pub fn IDBObjectStore::index(self : Self, name : String) -> IDBIndex {
+pub fn[T] IDBObjectStore::index(
+  self : IDBObjectStore[T],
+  name : String,
+) -> IDBIndex[T] {
   self.call1("index", name) |> @js.unsafe_cast
 }
 
@@ -410,55 +341,31 @@ pub fn IDBObjectStore::index(self : Self, name : String) -> IDBIndex {
 
 ///|
 /// IDBIndex represents an index on an object store
-#external
-pub type IDBIndex
-
-///|
-pub impl JsImpl for IDBIndex
-
-///|
-/// Get index name
-pub fn IDBIndex::name(self : Self) -> String {
-  @js.unsafe_cast(self.get("name"))
+/// T is the type of values stored in the associated object store
+pub(all) struct IDBIndex[T] {
+  name : String
+  objectStore : IDBObjectStore[T]
+  keyPath : Js
+  multiEntry : Bool
+  unique : Bool
 }
 
 ///|
-/// Get object store
-pub fn IDBIndex::objectStore(self : Self) -> IDBObjectStore {
-  @js.unsafe_cast(self.get("objectStore"))
-}
-
-///|
-/// Get key path
-pub fn IDBIndex::keyPath(self : Self) -> Js {
-  self.to_js().get("keyPath")
-}
-
-///|
-/// Get multiEntry flag
-pub fn IDBIndex::multiEntry(self : Self) -> Bool {
-  @js.unsafe_cast(self.get("multiEntry"))
-}
-
-///|
-/// Get unique flag
-pub fn IDBIndex::unique(self : Self) -> Bool {
-  @js.unsafe_cast(self.get("unique"))
-}
+pub impl[T] JsImpl for IDBIndex[T]
 
 ///|
 /// Get a record by index key
-pub fn IDBIndex::get(self : Self, key : &JsImpl) -> IDBRequest {
+pub fn[T] IDBIndex::get(self : IDBIndex[T], key : &JsImpl) -> IDBRequest[T] {
   self.call1("get", key.to_js()) |> @js.unsafe_cast
 }
 
 ///|
 /// Get all records matching the query
-pub fn IDBIndex::getAll(
-  self : Self,
+pub fn[T] IDBIndex::getAll(
+  self : IDBIndex[T],
   query? : &JsImpl,
   count? : Int,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
   match (query, count) {
     (Some(q), Some(c)) => self.call2("getAll", q.to_js(), c) |> @js.unsafe_cast
     (Some(q), None) => self.call1("getAll", q.to_js()) |> @js.unsafe_cast
@@ -470,11 +377,11 @@ pub fn IDBIndex::getAll(
 
 ///|
 /// Get all keys matching the query
-pub fn IDBIndex::getAllKeys(
-  self : Self,
+pub fn[T] IDBIndex::getAllKeys(
+  self : IDBIndex[T],
   query? : &JsImpl,
   count? : Int,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
   match (query, count) {
     (Some(q), Some(c)) =>
       self.call2("getAllKeys", q.to_js(), c) |> @js.unsafe_cast
@@ -487,7 +394,10 @@ pub fn IDBIndex::getAllKeys(
 
 ///|
 /// Count records matching the query
-pub fn IDBIndex::count(self : Self, query? : &JsImpl) -> IDBRequest {
+pub fn[T] IDBIndex::count(
+  self : IDBIndex[T],
+  query? : &JsImpl,
+) -> IDBRequest[Js] {
   match query {
     Some(q) => self.call1("count", q.to_js()) |> @js.unsafe_cast
     None => self.call0("count") |> @js.unsafe_cast
@@ -496,11 +406,11 @@ pub fn IDBIndex::count(self : Self, query? : &JsImpl) -> IDBRequest {
 
 ///|
 /// Open a cursor on this index
-pub fn IDBIndex::openCursor(
-  self : Self,
+pub fn[T] IDBIndex::openCursor(
+  self : IDBIndex[T],
   query? : &JsImpl,
   direction? : String,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
   match (query, direction) {
     (Some(q), Some(d)) =>
       self.call2("openCursor", q.to_js(), d) |> @js.unsafe_cast
@@ -513,11 +423,11 @@ pub fn IDBIndex::openCursor(
 
 ///|
 /// Open a key cursor on this index
-pub fn IDBIndex::openKeyCursor(
-  self : Self,
+pub fn[T] IDBIndex::openKeyCursor(
+  self : IDBIndex[T],
   query? : &JsImpl,
   direction? : String,
-) -> IDBRequest {
+) -> IDBRequest[Js] {
   match (query, direction) {
     (Some(q), Some(d)) =>
       self.call2("openKeyCursor", q.to_js(), d) |> @js.unsafe_cast
@@ -532,39 +442,19 @@ pub fn IDBIndex::openKeyCursor(
 
 ///|
 /// IDBCursor represents a cursor for iterating over records
-#external
-pub type IDBCursor
-
-///|
-pub impl JsImpl for IDBCursor
-
-///|
-/// Get current key
-pub fn IDBCursor::key(self : Self) -> Js {
-  self.get("key")
+pub(all) struct IDBCursor[T] {
+  key : Js
+  primaryKey : Js
+  direction : String
+  source : Js
 }
 
 ///|
-/// Get primary key
-pub fn IDBCursor::primaryKey(self : Self) -> Js {
-  self.get("primaryKey")
-}
-
-///|
-/// Get direction
-pub fn IDBCursor::direction(self : Self) -> String {
-  @js.unsafe_cast(self.get("direction"))
-}
-
-///|
-/// Get source
-pub fn IDBCursor::source(self : Self) -> Js {
-  self.get("source")
-}
+pub impl[T] JsImpl for IDBCursor[T]
 
 ///|
 /// Continue to the next record
-pub fn IDBCursor::continue_(self : Self, key? : &JsImpl) -> Unit {
+pub fn[T] IDBCursor::continue_(self : IDBCursor[T], key? : &JsImpl) -> Unit {
   match key {
     Some(k) => self.call1("continue", k.to_js()) |> ignore
     None => self.call0("continue") |> ignore
@@ -573,19 +463,20 @@ pub fn IDBCursor::continue_(self : Self, key? : &JsImpl) -> Unit {
 
 ///|
 /// Advance the cursor by count records
-pub fn IDBCursor::advance(self : Self, count : Int) -> Unit {
+pub fn[T] IDBCursor::advance(self : IDBCursor[T], count : Int) -> Unit {
   self.call1("advance", count) |> ignore
 }
 
 ///|
 /// Update the current record
-pub fn IDBCursor::update(self : Self, value : &JsImpl) -> IDBRequest {
-  self.call1("update", value.to_js()) |> @js.unsafe_cast
+pub fn[T] IDBCursor::update(self : IDBCursor[T], value : T) -> IDBRequest[Js] {
+  let js_value : Js = value |> @js.unsafe_cast
+  self.call1("update", js_value) |> @js.unsafe_cast
 }
 
 ///|
 /// Delete the current record
-pub fn IDBCursor::delete_current(self : Self) -> IDBRequest {
+pub fn[T] IDBCursor::delete_current(self : IDBCursor[T]) -> IDBRequest[Js] {
   self.call0("delete") |> @js.unsafe_cast
 }
 
@@ -593,45 +484,24 @@ pub fn IDBCursor::delete_current(self : Self) -> IDBRequest {
 
 ///|
 /// IDBCursorWithValue extends IDBCursor with value property
-#external
-pub type IDBCursorWithValue
-
-///|
-pub impl JsImpl for IDBCursorWithValue
-
-///|
-/// Get current value
-pub fn IDBCursorWithValue::value(self : Self) -> Js {
-  self.get("value")
+/// T is the type of values in the object store
+pub(all) struct IDBCursorWithValue[T] {
+  key : Js
+  primaryKey : Js
+  direction : String
+  source : Js
+  value : T
 }
 
 ///|
-/// Get current key
-pub fn IDBCursorWithValue::key(self : Self) -> Js {
-  self.get("key")
-}
-
-///|
-/// Get primary key
-pub fn IDBCursorWithValue::primaryKey(self : Self) -> Js {
-  self.get("primaryKey")
-}
-
-///|
-/// Get direction
-pub fn IDBCursorWithValue::direction(self : Self) -> String {
-  @js.unsafe_cast(self.get("direction"))
-}
-
-///|
-/// Get source
-pub fn IDBCursorWithValue::source(self : Self) -> Js {
-  self.get("source")
-}
+pub impl[T] JsImpl for IDBCursorWithValue[T]
 
 ///|
 /// Continue to the next record
-pub fn IDBCursorWithValue::continue_(self : Self, key? : &JsImpl) -> Unit {
+pub fn[T] IDBCursorWithValue::continue_(
+  self : IDBCursorWithValue[T],
+  key? : &JsImpl,
+) -> Unit {
   match key {
     Some(k) => self.call1("continue", k.to_js()) |> ignore
     None => self.call0("continue") |> ignore
@@ -640,19 +510,28 @@ pub fn IDBCursorWithValue::continue_(self : Self, key? : &JsImpl) -> Unit {
 
 ///|
 /// Advance the cursor by count records
-pub fn IDBCursorWithValue::advance(self : Self, count : Int) -> Unit {
+pub fn[T] IDBCursorWithValue::advance(
+  self : IDBCursorWithValue[T],
+  count : Int,
+) -> Unit {
   self.call1("advance", count) |> ignore
 }
 
 ///|
 /// Update the current record
-pub fn IDBCursorWithValue::update(self : Self, value : &JsImpl) -> IDBRequest {
-  self.call1("update", value.to_js()) |> @js.unsafe_cast
+pub fn[T] IDBCursorWithValue::update(
+  self : IDBCursorWithValue[T],
+  value : T,
+) -> IDBRequest[Js] {
+  let js_value : Js = value |> @js.unsafe_cast
+  self.call1("update", js_value) |> @js.unsafe_cast
 }
 
 ///|
 /// Delete the current record
-pub fn IDBCursorWithValue::delete_current(self : Self) -> IDBRequest {
+pub fn[T] IDBCursorWithValue::delete_current(
+  self : IDBCursorWithValue[T],
+) -> IDBRequest[Js] {
   self.call0("delete") |> @js.unsafe_cast
 }
 
@@ -660,35 +539,15 @@ pub fn IDBCursorWithValue::delete_current(self : Self) -> IDBRequest {
 
 ///|
 /// IDBKeyRange represents a range of keys
-#external
-pub type IDBKeyRange
+pub(all) struct IDBKeyRange {
+  lower : Js
+  upper : Js
+  lowerOpen : Bool
+  upperOpen : Bool
+}
 
 ///|
 pub impl JsImpl for IDBKeyRange
-
-///|
-/// Get lower bound
-pub fn IDBKeyRange::lower(self : Self) -> Js {
-  self.get("lower")
-}
-
-///|
-/// Get upper bound
-pub fn IDBKeyRange::upper(self : Self) -> Js {
-  self.get("upper")
-}
-
-///|
-/// Get lowerOpen flag
-pub fn IDBKeyRange::lowerOpen(self : Self) -> Bool {
-  @js.unsafe_cast(self.get("lowerOpen"))
-}
-
-///|
-/// Get upperOpen flag
-pub fn IDBKeyRange::upperOpen(self : Self) -> Bool {
-  @js.unsafe_cast(self.get("upperOpen"))
-}
 
 ///|
 /// Create a key range with both bounds
@@ -698,7 +557,6 @@ pub fn IDBKeyRange::bound(
   lowerOpen? : Bool,
   upperOpen? : Bool,
 ) -> IDBKeyRange {
-  indexedDB() |> ignore // Ensure fake-indexeddb is loaded
   let global = @js.globalThis()
   let idb_key_range = global.get("IDBKeyRange")
   idb_key_range.call("bound", [
@@ -713,7 +571,6 @@ pub fn IDBKeyRange::bound(
 ///|
 /// Create a key range with only one value
 pub fn IDBKeyRange::only(value : &JsImpl) -> IDBKeyRange {
-  indexedDB() |> ignore // Ensure fake-indexeddb is loaded
   let global = @js.globalThis()
   let idb_key_range = global.get("IDBKeyRange")
   idb_key_range.call1("only", value.to_js()) |> @js.unsafe_cast
@@ -722,7 +579,6 @@ pub fn IDBKeyRange::only(value : &JsImpl) -> IDBKeyRange {
 ///|
 /// Create a key range with lower bound
 pub fn IDBKeyRange::lowerBound(lower : &JsImpl, open? : Bool) -> IDBKeyRange {
-  indexedDB() |> ignore // Ensure fake-indexeddb is loaded
   let global = @js.globalThis()
   let idb_key_range = global.get("IDBKeyRange")
   idb_key_range.call2("lowerBound", lower.to_js(), open.unwrap_or(false))
@@ -732,7 +588,6 @@ pub fn IDBKeyRange::lowerBound(lower : &JsImpl, open? : Bool) -> IDBKeyRange {
 ///|
 /// Create a key range with upper bound
 pub fn IDBKeyRange::upperBound(upper : &JsImpl, open? : Bool) -> IDBKeyRange {
-  indexedDB() |> ignore // Ensure fake-indexeddb is loaded
   let global = @js.globalThis()
   let idb_key_range = global.get("IDBKeyRange")
   idb_key_range.call2("upperBound", upper.to_js(), open.unwrap_or(false))
@@ -748,14 +603,9 @@ pub fn IDBKeyRange::includes(self : Self, key : &JsImpl) -> Bool {
 ///| IDBFactory - Factory for opening databases
 
 ///|
-/// Get the global indexedDB factory
-extern "js" fn ffi_require_fake_indexeddb() -> Js =
-  #|() => { require("fake-indexeddb/auto"); return globalThis.indexedDB; }
-
-///|
-/// Get the indexedDB factory instance
+/// Get the indexedDB factory instance from globalThis
 pub fn indexedDB() -> Js {
-  ffi_require_fake_indexeddb()
+  @js.globalThis().get("indexedDB")
 }
 
 ///|
