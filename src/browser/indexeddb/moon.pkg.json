@@ -3,6 +3,6 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/node/events"
+    "mizchi/js/web/event"
   ]
 }

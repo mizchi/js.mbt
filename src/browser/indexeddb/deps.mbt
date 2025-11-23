@@ -13,4 +13,4 @@ using @js {
 }
 
 ///|
-using @events {trait EventEmitterImpl}
+using @event {trait EventTargetImpl}

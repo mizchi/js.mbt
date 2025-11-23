@@ -12,11 +12,16 @@ pub type IDBRequest
 pub impl JsImpl for IDBRequest
 
 ///|
-pub impl EventEmitterImpl for IDBRequest
+pub impl EventTargetImpl for IDBRequest
 
 ///|
-pub impl EventEmitterImpl for IDBRequest with on(self, name, callback) {
-  self.call2("addEventListener", name, @js.from_fn1(callback)) |> ignore
+/// Convenience method: add event listener
+pub fn IDBRequest::on(
+  self : Self,
+  event_type : String,
+  callback : (Js) -> Unit,
+) -> Unit {
+  self.call2("addEventListener", event_type, @js.from_fn1(callback)) |> ignore
 }
 
 ///|
@@ -66,11 +71,16 @@ pub type IDBOpenDBRequest
 pub impl JsImpl for IDBOpenDBRequest
 
 ///|
-pub impl EventEmitterImpl for IDBOpenDBRequest
+pub impl EventTargetImpl for IDBOpenDBRequest
 
 ///|
-pub impl EventEmitterImpl for IDBOpenDBRequest with on(self, name, callback) {
-  self.call2("addEventListener", name, @js.from_fn1(callback)) |> ignore
+/// Convenience method: add event listener
+pub fn IDBOpenDBRequest::on(
+  self : Self,
+  event_type : String,
+  callback : (Js) -> Unit,
+) -> Unit {
+  self.call2("addEventListener", event_type, @js.from_fn1(callback)) |> ignore
 }
 
 ///|
@@ -96,7 +106,7 @@ pub type IDBDatabase
 pub impl JsImpl for IDBDatabase
 
 ///|
-pub impl EventEmitterImpl for IDBDatabase
+pub impl EventTargetImpl for IDBDatabase
 
 ///|
 /// Get database name
@@ -167,7 +177,7 @@ pub type IDBTransaction
 pub impl JsImpl for IDBTransaction
 
 ///|
-pub impl EventEmitterImpl for IDBTransaction
+pub impl EventTargetImpl for IDBTransaction
 
 ///|
 /// Get transaction mode
