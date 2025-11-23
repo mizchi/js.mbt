@@ -109,8 +109,8 @@ impl @js.JsImpl for IDBObjectStore
 pub type IDBOpenDBRequest
 fn IDBOpenDBRequest::get_error(Self) -> @js.Js
 fn IDBOpenDBRequest::get_result(Self) -> @js.Js
-fn IDBOpenDBRequest::on(Self, String, (@js.Js) -> Unit) -> Unit
 impl @js.JsImpl for IDBOpenDBRequest
+impl @events.EventEmitterImpl for IDBOpenDBRequest
 
 #external
 pub type IDBRequest
@@ -120,8 +120,8 @@ fn IDBRequest::get_result(Self) -> @js.Js
 fn IDBRequest::get_source(Self) -> @js.Js
 fn IDBRequest::is_done(Self) -> Bool
 fn IDBRequest::is_pending(Self) -> Bool
-fn IDBRequest::on(Self, String, (@js.Js) -> Unit) -> Unit
 impl @js.JsImpl for IDBRequest
+impl @events.EventEmitterImpl for IDBRequest
 
 #external
 pub type IDBTransaction

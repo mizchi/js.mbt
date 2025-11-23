@@ -12,13 +12,11 @@ pub type IDBRequest
 pub impl JsImpl for IDBRequest
 
 ///|
-/// Add event listener (DOM EventTarget API)
-pub fn IDBRequest::on(
-  self : Self,
-  event_name : String,
-  callback : (Js) -> Unit,
-) -> Unit {
-  self.call2("addEventListener", event_name, @js.from_fn1(callback)) |> ignore
+pub impl EventEmitterImpl for IDBRequest
+
+///|
+pub impl EventEmitterImpl for IDBRequest with on(self, name, callback) {
+  self.call2("addEventListener", name, @js.from_fn1(callback)) |> ignore
 }
 
 ///|
@@ -68,13 +66,11 @@ pub type IDBOpenDBRequest
 pub impl JsImpl for IDBOpenDBRequest
 
 ///|
-/// Add event listener (DOM EventTarget API)
-pub fn IDBOpenDBRequest::on(
-  self : Self,
-  event_name : String,
-  callback : (Js) -> Unit,
-) -> Unit {
-  self.call2("addEventListener", event_name, @js.from_fn1(callback)) |> ignore
+pub impl EventEmitterImpl for IDBOpenDBRequest
+
+///|
+pub impl EventEmitterImpl for IDBOpenDBRequest with on(self, name, callback) {
+  self.call2("addEventListener", name, @js.from_fn1(callback)) |> ignore
 }
 
 ///|
