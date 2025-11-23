@@ -141,3 +141,12 @@ test "btoa - throws on invalid characters" {
     Ok(_) => fail("Expected btoa to throw on non-Latin1 characters")
   }
 }
+///| Microtasks
+
+///|
+test "queueMicrotask - can be called" {
+  // Queue a microtask - it will execute after current task
+  queueMicrotask(fn() { () })
+  // Just verify the function can be called without error
+  assert_true(true)
+}

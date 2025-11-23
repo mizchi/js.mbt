@@ -323,6 +323,10 @@ extern "js" fn ffi_clear_timeout(timer : JsTimer) -> Unit =
   #| (timer) => clearTimeout(timer)
 
 ///|
+extern "js" fn ffi_queue_microtask(callback : () -> Unit noraise) -> Unit =
+  #| (callback) => queueMicrotask(callback)
+
+///|
 pub extern "js" fn structuredClone(value : Js) -> Js =
   #| (value) => structuredClone(value)
 

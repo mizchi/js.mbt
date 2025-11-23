@@ -27,3 +27,13 @@ pub fn setInterval(f : () -> Unit, duration : Int) -> JsTimer {
 pub fn clearInterval(timer : JsTimer) -> Unit {
   ffi_clear_timeout(timer)
 }
+
+///|
+/// JS: queueMicrotask(callback)
+///
+/// Queue a microtask to be executed after the current task finishes.
+/// Microtasks are executed before the next task in the event loop.
+#alias(queue_microtask)
+pub fn queueMicrotask(callback : () -> Unit) -> Unit {
+  ffi_queue_microtask(callback)
+}
