@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * MoonBit library reference CLI tool
+ * mooncheat - MoonBit cheatsheet and reference CLI tool
  *
  * Usage:
- *   tsx scripts/generate_library_cheatsheet.ts --all
- *   tsx scripts/generate_library_cheatsheet.ts --search json
- *   tsx scripts/generate_library_cheatsheet.ts --search moonbitlang/core
+ *   mooncheat pkg --all
+ *   mooncheat pkg --search json
+ *   mooncheat pkg --search moonbitlang/core
  */
 
 import { join } from "node:path";
@@ -216,12 +216,14 @@ function categorizePackage(pkg: PackageEntry): string {
   return 'Utilities';
 }
 
-function parseArgs(): { all: boolean; search: string | null } {
+function parseArgs(): { subcommand: string | null; all: boolean; search: string | null } {
   const args = process.argv.slice(2);
+  const subcommand = args[0] || null;
   let all = false;
   let search: string | null = null;
 
-  for (let i = 0; i < args.length; i++) {
+  // Parse options after subcommand
+  for (let i = 1; i < args.length; i++) {
     if (args[i] === "--all") {
       all = true;
     } else if (args[i] === "--search" && i + 1 < args.length) {
@@ -230,7 +232,7 @@ function parseArgs(): { all: boolean; search: string | null } {
     }
   }
 
-  return { all, search };
+  return { subcommand, all, search };
 }
 
 function printPackages(packages: Map<string, PackageEntry>, query?: string) {
@@ -264,21 +266,41 @@ function printPackages(packages: Map<string, PackageEntry>, query?: string) {
 }
 
 function showUsage() {
-  console.log(`MoonBit Library Reference CLI
+  console.log(`mooncheat - MoonBit cheatsheet and reference CLI
 
 Usage:
-  tsx scripts/generate_library_cheatsheet.ts --all
-  tsx scripts/generate_library_cheatsheet.ts --search <query>
+  mooncheat pkg --all
+  mooncheat pkg --search <query>
+
+Subcommands:
+  pkg                Browse MoonBit packages
 
 Options:
   --all              Show all available packages
   --search <query>   Search packages by name (partial match)
 
 Examples:
-  tsx scripts/generate_library_cheatsheet.ts --all
-  tsx scripts/generate_library_cheatsheet.ts --search json
-  tsx scripts/generate_library_cheatsheet.ts --search moonbitlang/core
+  mooncheat pkg --all
+  mooncheat pkg --search json
+  mooncheat pkg --search moonbitlang/core
+  mooncheat pkg --all | less
 `);
+}
+
+function handlePkgCommand(all: boolean, search: string | null) {
+  if (!all && !search) {
+    console.error('Error: pkg command requires --all or --search option\n');
+    showUsage();
+    process.exit(1);
+  }
+
+  const packages = collectPackages();
+
+  if (all) {
+    printPackages(packages);
+  } else if (search) {
+    printPackages(packages, search);
+  }
 }
 
 function main() {
@@ -290,19 +312,21 @@ function main() {
     throw err;
   });
 
-  const { all, search } = parseArgs();
+  const { subcommand, all, search } = parseArgs();
 
-  if (!all && !search) {
+  if (!subcommand) {
     showUsage();
     process.exit(1);
   }
 
-  const packages = collectPackages();
-
-  if (all) {
-    printPackages(packages);
-  } else if (search) {
-    printPackages(packages, search);
+  switch (subcommand) {
+    case 'pkg':
+      handlePkgCommand(all, search);
+      break;
+    default:
+      console.error(`Error: Unknown subcommand '${subcommand}'\n`);
+      showUsage();
+      process.exit(1);
   }
 }
 

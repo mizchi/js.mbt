@@ -26,7 +26,7 @@ $ moon add mizchi/js
 - [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/src/examples/escape_hatch.mbt.md) - Advanced FFI techniques
 - [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/src/examples/for_ts_user.mbt.md) - Migration guide from TypeScript
 
-> 💡 To search available MoonBit packages, use the [Library Reference CLI](#moonbit-library-reference-cli)
+> 💡 To search available MoonBit packages, use [`mooncheat`](#mooncheat---moonbit-reference-cli)
 
 ---
 
@@ -134,22 +134,22 @@ See escape hatch pattern in [escape_hatch.mbt.md](https://github.com/mizchi/js.m
 
 ## Development Scripts
 
-### MoonBit Library Reference CLI
+### mooncheat - MoonBit Reference CLI
 
 Search and browse available MoonBit packages from your local registry:
 
 ```bash
 # Show all packages
-npx tsx scripts/generate_library_cheatsheet.ts --all
+npx tsx scripts/mooncheat.ts pkg --all
 
 # Search for packages containing "json"
-npx tsx scripts/generate_library_cheatsheet.ts --search json
+npx tsx scripts/mooncheat.ts pkg --search json
 
 # Search for specific package
-npx tsx scripts/generate_library_cheatsheet.ts --search moonbitlang/core
+npx tsx scripts/mooncheat.ts pkg --search moonbitlang/core
 
 # Pipe to less for easier browsing
-npx tsx scripts/generate_library_cheatsheet.ts --all | less
+npx tsx scripts/mooncheat.ts pkg --all | less
 ```
 
 The tool reads package information from `~/.moon/registry/index/`.
