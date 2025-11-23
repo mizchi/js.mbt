@@ -1,0 +1,47 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/worker_threads"
+
+import(
+  "mizchi/js"
+  "mizchi/js/node/events"
+  "mizchi/js/web/streams"
+)
+
+// Values
+fn isMainThread() -> Bool
+
+fn parentPort() -> MessagePort?
+
+fn threadId() -> Int
+
+fn workerData() -> @js.Js?
+
+// Errors
+
+// Types and methods
+#external
+pub type MessagePort
+fn MessagePort::close(Self) -> Unit
+fn MessagePort::postMessage(Self, &@js.JsImpl, transferList? : Array[@js.Js]) -> Unit
+fn MessagePort::start(Self) -> Unit
+impl @js.JsImpl for MessagePort
+impl @events.EventEmitterImpl for MessagePort
+
+#external
+pub type Worker
+fn Worker::new(String, workerData? : @js.Js, env? : @js.Js, stdin? : Bool, stdout? : Bool, stderr? : Bool, execArgv? : Array[String], resourceLimits? : @js.Js) -> Self
+fn Worker::postMessage(Self, &@js.JsImpl, transferList? : Array[@js.Js]) -> Unit
+fn Worker::ref_(Self) -> Unit
+fn Worker::stderr(Self) -> @streams.ReadableStream?
+fn Worker::stdin(Self) -> @streams.WritableStream?
+fn Worker::stdout(Self) -> @streams.ReadableStream?
+fn Worker::terminate(Self) -> Unit
+fn Worker::threadId(Self) -> Int
+fn Worker::unref(Self) -> Unit
+impl @js.JsImpl for Worker
+impl @events.EventEmitterImpl for Worker
+
+// Type aliases
+
+// Traits
+

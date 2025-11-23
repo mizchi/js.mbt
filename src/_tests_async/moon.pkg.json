@@ -40,6 +40,10 @@
       "alias": "stream_promises"
     },
     {
+      "path": "mizchi/js/node/worker_threads",
+      "alias": "worker_threads"
+    },
+    {
       "path": "mizchi/js/npm/react",
       "alias": "react"
     },
