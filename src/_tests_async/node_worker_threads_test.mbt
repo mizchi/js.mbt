@@ -21,7 +21,7 @@ test {
     @test.it("creates a worker and receives init message", _ => {
       let worker_data = @js.from_map({ "value": @js.js(42) })
       let worker = @worker_threads.Worker::new(
-        "fixtures/workers/simple_worker.mjs",
+        "./fixtures/workers/simple_worker.mjs",
         workerData=worker_data,
       )
       let mut received_init = false
@@ -45,7 +45,7 @@ test {
     })
     @test.it("sends message to worker and receives echo", _ => {
       let worker = @worker_threads.Worker::new(
-        "fixtures/workers/simple_worker.mjs",
+        "./fixtures/workers/simple_worker.mjs",
       )
       let mut received_echo = false
       let mut echo_data : String = ""
@@ -70,7 +70,7 @@ test {
     })
     @test.it("worker performs computation", _ => {
       let worker = @worker_threads.Worker::new(
-        "fixtures/workers/compute_worker.mjs",
+        "./fixtures/workers/compute_worker.mjs",
       )
       let mut result : Int = 0
       worker.on("message", (msg : @js.Js) => @js.run_async(() => {
@@ -95,7 +95,7 @@ test {
     })
     @test.it("worker exits gracefully", _ => {
       let worker = @worker_threads.Worker::new(
-        "fixtures/workers/exit_worker.mjs",
+        "./fixtures/workers/exit_worker.mjs",
       )
       let mut exited = false
       let mut exit_code : Int = -1
@@ -115,7 +115,7 @@ test {
     @test.it("worker threadId is different from main", _ => {
       let main_thread_id = @worker_threads.threadId()
       let worker = @worker_threads.Worker::new(
-        "fixtures/workers/simple_worker.mjs",
+        "./fixtures/workers/simple_worker.mjs",
       )
       @js.sleep(20)
       let worker_thread_id = worker.threadId()
