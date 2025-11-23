@@ -51,6 +51,8 @@ Not Supported
 | `node:timers` | `mizchi/js/node` | 🧪 Tested | setTimeout/setInterval |
 | `node:url` | `mizchi/js/node/url` | 🤖 AI Generated | URL parsing |
 | `node:util` | `mizchi/js/node/util` | 🤖 AI Generated | Utility functions |
+| `node:worker_threads` | `mizchi/js/node/worker_threads` | 🧪 Tested | Worker threads |
+| `node:async_hooks` | `mizchi/js/node/async_hooks` | 🧪 Tested | AsyncLocalStorage |
 | `node:v8` | `mizchi/js/node/v8` | 🤖 AI Generated | V8 engine utilities |
 | `node:vm` | `mizchi/js/node/vm` | 🤖 AI Generated | VM script execution |
 | `node:wasi` | `mizchi/js/node/wasi` | 🤖 AI Generated | WASI support |
@@ -61,7 +63,6 @@ Not Supported
 | `node:dns` | `mizchi/js/node/dns` | 🤖 AI Generated | DNS resolution |
 | `node:zlib` | `mizchi/js/node/zlib` | 🤖 AI Generated | Compression/decompression |
 | `node:inspector` | `mizchi/js/node/inspector` | 🤖 AI Generated | V8 Inspector debugging |
-| `node:worker_threads` | - | 📅 Planned | Worker threads |
 | `node:permissions` | - | 📅 Planned | Permissions API |
 | `node:domain` | - | 📅 Planned | Domain error handling |
 | `node:querystring` | - | ❌ Not Planned | Use URLSearchParams |
@@ -69,7 +70,6 @@ Not Supported
 | `node:string_decoder` | - | ❌ Not Planned | Use TextDecoder |
 | `node:punycode` | - | ❌ Not Planned | |
 | `node:dgram` | - | ❌ Not Planned | |
-| `node:async_hooks` | - | ❌ Not Planned | |
 
 ### Status Legend
 
