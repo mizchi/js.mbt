@@ -3,17 +3,17 @@ package "mizchi/js/web/webassembly"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/typed_array"
+  "mizchi/js/builtins/typedarray"
 )
 
 // Values
-fn compile(@typed_array.Uint8Array) -> @js.Js
+fn compile(@typedarray.Uint8Array) -> @js.Js
 
-fn instantiate_bytes(@typed_array.Uint8Array, @js.Js?) -> (WebAssemblyModule, WebAssemblyInstance)
+fn instantiate_bytes(@typedarray.Uint8Array, @js.Js?) -> (WebAssemblyModule, WebAssemblyInstance)
 
 fn instantiate_module(WebAssemblyModule, @js.Js?) -> WebAssemblyInstance
 
-fn validate(@typed_array.Uint8Array) -> Bool
+fn validate(@typedarray.Uint8Array) -> Bool
 
 // Errors
 
@@ -58,7 +58,7 @@ impl @js.JsImpl for WebAssemblyMemory
 #external
 pub type WebAssemblyModule
 fn WebAssemblyModule::from_buffer(@js.ArrayBuffer) -> Self
-fn WebAssemblyModule::from_bytes(@typed_array.Uint8Array) -> Self
+fn WebAssemblyModule::from_bytes(@typedarray.Uint8Array) -> Self
 impl @js.JsImpl for WebAssemblyModule
 
 #external

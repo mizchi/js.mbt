@@ -79,14 +79,14 @@ pub fn parseFloat(string : String) -> Double? {
 
 ///|
 /// JS: atob(encodedData)
-pub fn atob(encoded_data : String) -> String {
-  ffi_atob(encoded_data)
+pub fn atob(encoded_data : String) -> String raise ThrowError {
+  throwable(fn() { ffi_atob(encoded_data) })
 }
 
 ///|
 /// JS: btoa(data)
-pub fn btoa(data : String) -> String {
-  ffi_btoa(data)
+pub fn btoa(data : String) -> String raise ThrowError {
+  throwable(fn() { ffi_btoa(data) })
 }
 
 ///| URI Encoding

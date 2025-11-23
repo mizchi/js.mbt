@@ -22,9 +22,15 @@ pub(all) struct URL {
 pub impl @js.JsImpl for URL
 
 ///|
-/// Create a new URL
-pub extern "js" fn URL::new(url : String, base? : String) -> URL =
+/// Create a new URL (internal)
+extern "js" fn ffi_url_new(url : String, base? : String) -> URL =
   #| (url, base) => new URL(url, base)
+
+///|
+/// Create a new URL
+pub fn URL::new(url : String, base? : String) -> URL raise @js.ThrowError {
+  @js.throwable(fn() { ffi_url_new(url, base?) })
+}
 
 ///|
 /// Get the searchParams property

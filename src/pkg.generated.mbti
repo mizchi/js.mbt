@@ -8,9 +8,9 @@ import(
 // Values
 fn array_from(Js) -> Array[Js]
 
-fn atob(String) -> String
+fn atob(String) -> String raise ThrowError
 
-fn btoa(String) -> String
+fn btoa(String) -> String raise ThrowError
 
 #alias(clear_interval)
 fn clearInterval(JsTimer) -> Unit

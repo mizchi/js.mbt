@@ -136,3 +136,21 @@ test "URL::to_json - returns serialized URL" {
   let json = url.to_json()
   assert_eq(json, "https://example.com/path")
 }
+
+///|
+test "URL::new - throws on invalid URL" {
+  let result = try? URL::new("not a valid url")
+  match result {
+    Err(_) => assert_true(true)
+    Ok(_) => fail("Expected URL::new to throw on invalid URL")
+  }
+}
+
+///|
+test "URL::new - throws on invalid base URL" {
+  let result = try? URL::new("/path", base="not a valid base")
+  match result {
+    Err(_) => assert_true(true)
+    Ok(_) => fail("Expected URL::new to throw on invalid base URL")
+  }
+}

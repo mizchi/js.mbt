@@ -24,7 +24,7 @@ pub(all) struct URL {
   mut hash : String
   mut searchParams : URLSearchParams
 }
-fn URL::new(String, base? : String) -> Self
+fn URL::new(String, base? : String) -> Self raise @js.ThrowError
 fn URL::searchParams(Self) -> URLSearchParams
 #alias(toJSON)
 fn URL::to_json(Self) -> String

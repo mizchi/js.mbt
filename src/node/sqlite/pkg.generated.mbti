@@ -3,7 +3,7 @@ package "mizchi/js/node/sqlite"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/typed_array"
+  "mizchi/js/builtins/typedarray"
 )
 
 // Values
@@ -109,7 +109,7 @@ pub(all) struct BackupProgress {
 pub type DatabaseSync
 fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T, inverse? : (T, U) -> T, result? : (T) -> @js.Js) -> Unit
 #alias(apply_changeset)
-fn DatabaseSync::applyChangeset(Self, @typed_array.Uint8Array, filter? : (@js.Js) -> Bool, onConflict? : (@js.Js?, @js.Js) -> Bool) -> Bool
+fn DatabaseSync::applyChangeset(Self, @typedarray.Uint8Array, filter? : (@js.Js) -> Bool, onConflict? : (@js.Js?, @js.Js) -> Bool) -> Bool
 fn DatabaseSync::close(Self) -> Unit
 #alias(create_session)
 fn DatabaseSync::createSession(Self, table? : String, db? : String) -> Session
@@ -143,9 +143,9 @@ impl @js.JsImpl for SQLTagStore
 
 #external
 pub type Session
-fn Session::changeset(Self) -> @typed_array.Uint8Array
+fn Session::changeset(Self) -> @typedarray.Uint8Array
 fn Session::close(Self) -> Unit
-fn Session::patchset(Self) -> @typed_array.Uint8Array
+fn Session::patchset(Self) -> @typedarray.Uint8Array
 impl @js.JsImpl for Session
 
 pub(all) struct StatementResultingChanges {

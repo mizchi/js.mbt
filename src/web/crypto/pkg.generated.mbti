@@ -3,7 +3,7 @@ package "mizchi/js/web/crypto"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/typed_array"
+  "mizchi/js/builtins/typedarray"
 )
 
 // Values
@@ -15,13 +15,13 @@ pub(all) struct Crypto {
   subtle : SubtleCrypto
 }
 fn Crypto::get() -> Self
-fn Crypto::getRandomValues(Self, @typed_array.Uint8Array) -> @typed_array.Uint8Array
-fn Crypto::getRandomValuesClamped(Self, @typed_array.Uint8ClampedArray) -> @typed_array.Uint8ClampedArray
-fn Crypto::getRandomValuesI16(Self, @typed_array.Int16Array) -> @typed_array.Int16Array
-fn Crypto::getRandomValuesI32(Self, @typed_array.Int32Array) -> @typed_array.Int32Array
-fn Crypto::getRandomValuesI8(Self, @typed_array.Int8Array) -> @typed_array.Int8Array
-fn Crypto::getRandomValuesU16(Self, @typed_array.Uint16Array) -> @typed_array.Uint16Array
-fn Crypto::getRandomValuesU32(Self, @typed_array.Uint32Array) -> @typed_array.Uint32Array
+fn Crypto::getRandomValues(Self, @typedarray.Uint8Array) -> @typedarray.Uint8Array
+fn Crypto::getRandomValuesClamped(Self, @typedarray.Uint8ClampedArray) -> @typedarray.Uint8ClampedArray
+fn Crypto::getRandomValuesI16(Self, @typedarray.Int16Array) -> @typedarray.Int16Array
+fn Crypto::getRandomValuesI32(Self, @typedarray.Int32Array) -> @typedarray.Int32Array
+fn Crypto::getRandomValuesI8(Self, @typedarray.Int8Array) -> @typedarray.Int8Array
+fn Crypto::getRandomValuesU16(Self, @typedarray.Uint16Array) -> @typedarray.Uint16Array
+fn Crypto::getRandomValuesU32(Self, @typedarray.Uint32Array) -> @typedarray.Uint32Array
 #alias(random_uuid)
 fn Crypto::randomUUID(Self) -> String
 impl @js.JsImpl for Crypto

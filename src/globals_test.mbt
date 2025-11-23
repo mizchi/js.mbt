@@ -123,3 +123,21 @@ test "setInterval and clearInterval" {
   clearInterval(timer)
   // Interval created and cleared successfully
 }
+
+///|
+test "atob - throws on invalid base64" {
+  let result = try? atob("not valid base64!!!")
+  match result {
+    Err(_) => assert_true(true)
+    Ok(_) => fail("Expected atob to throw on invalid base64")
+  }
+}
+
+///|
+test "btoa - throws on invalid characters" {
+  let result = try? btoa("Hello 世界")
+  match result {
+    Err(_) => assert_true(true)
+    Ok(_) => fail("Expected btoa to throw on non-Latin1 characters")
+  }
+}

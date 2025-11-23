@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/builtins/typed_array"
+package "mizchi/js/builtins/typedarray"
 
 import(
   "mizchi/js"

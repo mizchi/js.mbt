@@ -3,7 +3,7 @@ package "mizchi/js/web/encoding"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/typed_array"
+  "mizchi/js/builtins/typedarray"
 )
 
 // Values
@@ -12,13 +12,13 @@ import(
 
 // Types and methods
 pub type TextDecoder
-fn TextDecoder::decode(Self, @typed_array.Uint8Array) -> String
+fn TextDecoder::decode(Self, @typedarray.Uint8Array) -> String
 fn TextDecoder::new() -> Self
 impl @js.JsImpl for TextDecoder
 
 #external
 pub type TextEncoder
-fn TextEncoder::encode(Self, String) -> @typed_array.Uint8Array
+fn TextEncoder::encode(Self, String) -> @typedarray.Uint8Array
 fn TextEncoder::new() -> Self
 impl @js.JsImpl for TextEncoder
 
