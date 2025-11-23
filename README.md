@@ -145,7 +145,7 @@ npx tsx scripts/mooncheat.ts pkg --search json
 
 # Browse core library
 npx tsx scripts/mooncheat.ts core --pkgs                # List all core packages
-npx tsx scripts/mooncheat.ts core --builtin-symbols    # Show builtin symbols
+npx tsx scripts/mooncheat.ts core --builtin-symbols    # Show prelude (globally available)
 npx tsx scripts/mooncheat.ts core mbti builtin         # Show .mbti file
 
 # Browse current project

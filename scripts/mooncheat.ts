@@ -310,7 +310,7 @@ Package Options:
   --search <query>   Search packages by name (partial match)
 
 Core Options:
-  --builtin-symbols  Show all builtin symbols
+  --builtin-symbols  Show prelude symbols (globally available)
   --pkgs             List all core packages
   mbti <pkg>         Show .mbti file for a core package
 
@@ -344,9 +344,14 @@ function handleCoreCommand(builtinSymbols: boolean, pkgs: boolean, mbtiArgs: str
   }
 
   if (builtinSymbols) {
-    // Show builtin symbols from core library
-    const symbols = collectCoreSymbols(coreLibPath);
-    console.log(`Found ${symbols.length} builtin symbols:\n`);
+    // Show builtin symbols from prelude (globally available)
+    const preludePath = join(coreLibPath, "prelude");
+    if (!existsSync(preludePath)) {
+      console.error(`Error: Prelude path not found: ${preludePath}`);
+      process.exit(1);
+    }
+    const symbols = collectPreludeSymbols(preludePath);
+    console.log(`Prelude symbols (globally available) - ${symbols.length} total:\n`);
     for (const symbol of symbols) {
       console.log(symbol);
     }
@@ -366,6 +371,70 @@ function handleCoreCommand(builtinSymbols: boolean, pkgs: boolean, mbtiArgs: str
     showUsage();
     process.exit(1);
   }
+}
+
+function collectPreludeSymbols(preludePath: string): string[] {
+  const symbols: string[] = [];
+
+  // Find the .mbti file in prelude directory
+  const mbtiPath = join(preludePath, "pkg.generated.mbti");
+
+  if (!existsSync(mbtiPath)) {
+    console.error(`Error: Prelude .mbti file not found: ${mbtiPath}`);
+    process.exit(1);
+  }
+
+  const content = readFileSync(mbtiPath, "utf-8");
+  const lines = content.split('\n');
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    // Extract different types of declarations
+    // Functions
+    const fnMatch = trimmed.match(/^(?:pub\s+)?fn\s*(?:\[.*?\])?\s*(\w+)/);
+    if (fnMatch) {
+      symbols.push(`fn ${fnMatch[1]}`);
+      continue;
+    }
+
+    // Structs
+    const structMatch = trimmed.match(/^(?:pub\s+)?struct\s+(\w+)/);
+    if (structMatch) {
+      symbols.push(`struct ${structMatch[1]}`);
+      continue;
+    }
+
+    // Enums
+    const enumMatch = trimmed.match(/^(?:pub\s+)?enum\s+(\w+)/);
+    if (enumMatch) {
+      symbols.push(`enum ${enumMatch[1]}`);
+      continue;
+    }
+
+    // Types
+    const typeMatch = trimmed.match(/^(?:pub\s+)?type\s+(\w+)/);
+    if (typeMatch) {
+      symbols.push(`type ${typeMatch[1]}`);
+      continue;
+    }
+
+    // Traits
+    const traitMatch = trimmed.match(/^(?:pub\s+)?trait\s+(\w+)/);
+    if (traitMatch) {
+      symbols.push(`trait ${traitMatch[1]}`);
+      continue;
+    }
+
+    // Let bindings (constants)
+    const letMatch = trimmed.match(/^(?:pub\s+)?let\s+(\w+)/);
+    if (letMatch) {
+      symbols.push(`let ${letMatch[1]}`);
+      continue;
+    }
+  }
+
+  return symbols.sort();
 }
 
 function collectCoreSymbols(coreLibPath: string): string[] {
