@@ -54,6 +54,10 @@
     {
       "path": "mizchi/js/npm/hono",
       "alias": "hono"
+    },
+    {
+      "path": "mizchi/js/browser/indexeddb",
+      "alias": "indexeddb"
     }
   ]
 }
