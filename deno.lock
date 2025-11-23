@@ -1,0 +1,54 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@std/fs@*": "1.0.19",
+    "jsr:@std/internal@^1.0.10": "1.0.12",
+    "jsr:@std/internal@^1.0.9": "1.0.12",
+    "jsr:@std/path@*": "1.1.2",
+    "jsr:@std/path@^1.1.1": "1.1.2"
+  },
+  "jsr": {
+    "@std/fs@1.0.19": {
+      "integrity": "051968c2b1eae4d2ea9f79a08a3845740ef6af10356aff43d3e2ef11ed09fb06",
+      "dependencies": [
+        "jsr:@std/internal@^1.0.9",
+        "jsr:@std/path@^1.1.1"
+      ]
+    },
+    "@std/internal@1.0.12": {
+      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
+    },
+    "@std/path@1.1.2": {
+      "integrity": "c0b13b97dfe06546d5e16bf3966b1cadf92e1cc83e56ba5476ad8b498d9e3038",
+      "dependencies": [
+        "jsr:@std/internal@^1.0.10"
+      ]
+    }
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@ai-sdk/anthropic@2.0.43",
+        "npm:@cloudflare/vitest-pool-workers@~0.10.10",
+        "npm:@cloudflare/workers-types@^4.20251121.0",
+        "npm:@modelcontextprotocol/sdk@^1.22.0",
+        "npm:@testing-library/react@16.3.0",
+        "npm:@types/node@^24.10.1",
+        "npm:ai@6.0.0-beta.95",
+        "npm:canvas@^3.2.0",
+        "npm:global-jsdom@27.0.0",
+        "npm:hono@^4.10.6",
+        "npm:jsdom@27.0.1",
+        "npm:react-dom@19.2.0",
+        "npm:react-router@7.9.4",
+        "npm:react@19.2.0",
+        "npm:semver@^7.7.3",
+        "npm:typescript@5.9.3",
+        "npm:vite@^7.2.4",
+        "npm:vitest@^3.2.4",
+        "npm:wrangler@^4.50.0",
+        "npm:zod@^4.1.12"
+      ]
+    }
+  }
+}
