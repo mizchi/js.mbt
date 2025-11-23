@@ -136,23 +136,29 @@ See escape hatch pattern in [escape_hatch.mbt.md](https://github.com/mizchi/js.m
 
 ### mooncheat - MoonBit Reference CLI
 
-Search and browse available MoonBit packages from your local registry:
+Search and browse MoonBit packages, core library, and project symbols:
 
 ```bash
-# Show all packages
+# Browse registry packages
 npx tsx scripts/mooncheat.ts pkg --all
-
-# Search for packages containing "json"
 npx tsx scripts/mooncheat.ts pkg --search json
 
-# Search for specific package
-npx tsx scripts/mooncheat.ts pkg --search moonbitlang/core
+# Browse core library
+npx tsx scripts/mooncheat.ts core --pkgs                # List all core packages
+npx tsx scripts/mooncheat.ts core --builtin-symbols    # Show builtin symbols
+npx tsx scripts/mooncheat.ts core mbti builtin         # Show .mbti file
+
+# Browse current project
+npx tsx scripts/mooncheat.ts self --symbols            # Show project symbols
 
 # Pipe to less for easier browsing
-npx tsx scripts/mooncheat.ts pkg --all | less
+npx tsx scripts/mooncheat.ts core --builtin-symbols | less
 ```
 
-The tool reads package information from `~/.moon/registry/index/`.
+The tool reads from:
+- `~/.moon/registry/index/` - Package registry
+- `~/.moon/lib/core/` - Core library
+- Current directory - Project symbols
 
 ## LICENSE
 

@@ -216,11 +216,25 @@ function categorizePackage(pkg: PackageEntry): string {
   return 'Utilities';
 }
 
-function parseArgs(): { subcommand: string | null; all: boolean; search: string | null } {
+interface ParsedArgs {
+  subcommand: string | null;
+  all: boolean;
+  search: string | null;
+  builtinSymbols: boolean;
+  pkgs: boolean;
+  symbols: boolean;
+  mbtiArgs: string[];
+}
+
+function parseArgs(): ParsedArgs {
   const args = process.argv.slice(2);
   const subcommand = args[0] || null;
   let all = false;
   let search: string | null = null;
+  let builtinSymbols = false;
+  let pkgs = false;
+  let symbols = false;
+  const mbtiArgs: string[] = [];
 
   // Parse options after subcommand
   for (let i = 1; i < args.length; i++) {
@@ -229,10 +243,20 @@ function parseArgs(): { subcommand: string | null; all: boolean; search: string 
     } else if (args[i] === "--search" && i + 1 < args.length) {
       search = args[i + 1];
       i++;
+    } else if (args[i] === "--builtin-symbols") {
+      builtinSymbols = true;
+    } else if (args[i] === "--pkgs") {
+      pkgs = true;
+    } else if (args[i] === "--symbols") {
+      symbols = true;
+    } else if (args[i] === "mbti" && i + 1 < args.length) {
+      // Collect all remaining args as mbti package names
+      mbtiArgs.push(...args.slice(i + 1));
+      break;
     }
   }
 
-  return { subcommand, all, search };
+  return { subcommand, all, search, builtinSymbols, pkgs, symbols, mbtiArgs };
 }
 
 function printPackages(packages: Map<string, PackageEntry>, query?: string) {
@@ -271,20 +295,217 @@ function showUsage() {
 Usage:
   mooncheat pkg --all
   mooncheat pkg --search <query>
+  mooncheat core --builtin-symbols
+  mooncheat core --pkgs
+  mooncheat core mbti <pkg>
+  mooncheat self --symbols
 
 Subcommands:
-  pkg                Browse MoonBit packages
+  pkg                Browse MoonBit packages from registry
+  core               Browse core library (builtin)
+  self               Browse current project
 
-Options:
+Package Options:
   --all              Show all available packages
   --search <query>   Search packages by name (partial match)
+
+Core Options:
+  --builtin-symbols  Show all builtin symbols
+  --pkgs             List all core packages
+  mbti <pkg>         Show .mbti file for a core package
+
+Self Options:
+  --symbols          Show symbols in current project
 
 Examples:
   mooncheat pkg --all
   mooncheat pkg --search json
-  mooncheat pkg --search moonbitlang/core
-  mooncheat pkg --all | less
+  mooncheat core --builtin-symbols
+  mooncheat core --pkgs
+  mooncheat core mbti builtin
+  mooncheat self --symbols
 `);
+}
+
+function getCoreLibPath(): string {
+  const home = homedir();
+  if (!home) {
+    throw new Error("Cannot determine home directory");
+  }
+  return join(home, ".moon", "lib", "core");
+}
+
+function handleCoreCommand(builtinSymbols: boolean, pkgs: boolean, mbtiArgs: string[]) {
+  const coreLibPath = getCoreLibPath();
+
+  if (!existsSync(coreLibPath)) {
+    console.error(`Error: Core library path not found: ${coreLibPath}`);
+    process.exit(1);
+  }
+
+  if (builtinSymbols) {
+    // Show builtin symbols from core library
+    const symbols = collectCoreSymbols(coreLibPath);
+    console.log(`Found ${symbols.length} builtin symbols:\n`);
+    for (const symbol of symbols) {
+      console.log(symbol);
+    }
+  } else if (pkgs) {
+    // List core packages
+    const packages = listCorePackages(coreLibPath);
+    console.log(`Core packages (${packages.length}):\n`);
+    for (const pkg of packages) {
+      console.log(`  ${pkg}`);
+    }
+  } else if (mbtiArgs.length > 0) {
+    // Show .mbti file for specific package
+    const pkgName = mbtiArgs[0];
+    showCoreMbti(coreLibPath, pkgName);
+  } else {
+    console.error('Error: core command requires --builtin-symbols, --pkgs, or mbti <pkg>\n');
+    showUsage();
+    process.exit(1);
+  }
+}
+
+function collectCoreSymbols(coreLibPath: string): string[] {
+  const symbols: string[] = [];
+
+  function walkDir(dir: string, prefix: string = "") {
+    const entries = readdirSync(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+
+      if (entry.isDirectory()) {
+        const pkgName = prefix ? `${prefix}/${entry.name}` : entry.name;
+        walkDir(fullPath, pkgName);
+      } else if (entry.name.endsWith(".mbti")) {
+        const pkgName = prefix || entry.name.replace(".mbti", "");
+        const content = readFileSync(fullPath, "utf-8");
+        const pkgSymbols = extractSymbolsFromMbti(content, pkgName);
+        symbols.push(...pkgSymbols);
+      }
+    }
+  }
+
+  walkDir(coreLibPath);
+  return symbols.sort();
+}
+
+function extractSymbolsFromMbti(content: string, pkgName: string): string[] {
+  const symbols: string[] = [];
+  const lines = content.split('\n');
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    // Extract function signatures, types, structs, etc.
+    if (trimmed.startsWith('pub fn') ||
+        trimmed.startsWith('pub struct') ||
+        trimmed.startsWith('pub enum') ||
+        trimmed.startsWith('pub type') ||
+        trimmed.startsWith('pub trait')) {
+      // Extract the name
+      const match = trimmed.match(/pub\s+(?:fn|struct|enum|type|trait)\s+(\w+)/);
+      if (match) {
+        symbols.push(`${pkgName}::${match[1]}`);
+      }
+    }
+  }
+
+  return symbols;
+}
+
+function listCorePackages(coreLibPath: string): string[] {
+  const packages: string[] = [];
+
+  function walkDir(dir: string, prefix: string = "") {
+    const entries = readdirSync(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        const pkgName = prefix ? `${prefix}/${entry.name}` : entry.name;
+        packages.push(pkgName);
+        walkDir(join(dir, entry.name), pkgName);
+      }
+    }
+  }
+
+  walkDir(coreLibPath);
+  return packages.sort();
+}
+
+function showCoreMbti(coreLibPath: string, pkgName: string) {
+  // Try to find the .mbti file for the package
+  const possiblePaths = [
+    join(coreLibPath, pkgName, `pkg.generated.mbti`),
+    join(coreLibPath, pkgName, `${pkgName.split('/').pop()}.mbti`),
+    join(coreLibPath, pkgName, `lib.mbti`),
+    join(coreLibPath, `${pkgName}.mbti`),
+  ];
+
+  for (const path of possiblePaths) {
+    if (existsSync(path)) {
+      const content = readFileSync(path, "utf-8");
+      console.log(`// ${pkgName} (${path})\n`);
+      console.log(content);
+      return;
+    }
+  }
+
+  console.error(`Error: .mbti file not found for package: ${pkgName}`);
+  console.error(`Searched paths:`);
+  for (const path of possiblePaths) {
+    console.error(`  - ${path}`);
+  }
+  process.exit(1);
+}
+
+function handleSelfCommand(symbols: boolean) {
+  if (symbols) {
+    // Show symbols from current project
+    const projectSymbols = collectProjectSymbols();
+    console.log(`Found ${projectSymbols.length} project symbols:\n`);
+    for (const symbol of projectSymbols) {
+      console.log(symbol);
+    }
+  } else {
+    console.error('Error: self command requires --symbols\n');
+    showUsage();
+    process.exit(1);
+  }
+}
+
+function collectProjectSymbols(): string[] {
+  const symbols: string[] = [];
+  const cwd = process.cwd();
+
+  function walkDir(dir: string, prefix: string = "") {
+    if (!existsSync(dir)) return;
+
+    const entries = readdirSync(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+
+      // Skip common directories
+      if (entry.isDirectory() && ['node_modules', '.git', 'target'].includes(entry.name)) {
+        continue;
+      }
+
+      if (entry.isDirectory()) {
+        walkDir(fullPath, entry.name);
+      } else if (entry.name.endsWith(".mbti")) {
+        const pkgName = prefix || entry.name.replace(".mbti", "");
+        const content = readFileSync(fullPath, "utf-8");
+        const pkgSymbols = extractSymbolsFromMbti(content, pkgName);
+        symbols.push(...pkgSymbols);
+      }
+    }
+  }
+
+  walkDir(cwd);
+  return symbols.sort();
 }
 
 function handlePkgCommand(all: boolean, search: string | null) {
@@ -312,7 +533,7 @@ function main() {
     throw err;
   });
 
-  const { subcommand, all, search } = parseArgs();
+  const { subcommand, all, search, builtinSymbols, pkgs, symbols, mbtiArgs } = parseArgs();
 
   if (!subcommand) {
     showUsage();
@@ -322,6 +543,12 @@ function main() {
   switch (subcommand) {
     case 'pkg':
       handlePkgCommand(all, search);
+      break;
+    case 'core':
+      handleCoreCommand(builtinSymbols, pkgs, mbtiArgs);
+      break;
+    case 'self':
+      handleSelfCommand(symbols);
       break;
     default:
       console.error(`Error: Unknown subcommand '${subcommand}'\n`);
