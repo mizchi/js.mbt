@@ -4,6 +4,61 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.5.0] - 2025-11-24
+
+### Added
+
+#### Node.js APIs
+- **node:worker_threads** - Worker threads API implementation
+  - `Worker` class with labeled optional parameters
+  - Worker methods: `postMessage()`, `terminate()`, `ref_()`, `unref()`, `threadId()`
+  - `MessagePort` class with `postMessage()`, `start()`, `close()`
+  - Global functions: `isMainThread()`, `parentPort()`, `workerData()`, `threadId()`
+  - EventEmitter support for Worker and MessagePort
+  - Stream support: `stdin()`, `stdout()`, `stderr()`
+
+- **node:async_hooks** - AsyncLocalStorage implementation
+  - Generic type `AsyncLocalStorage[T]` for type-safe async context
+  - Methods: `new()`, `run()`, `exit()`, `getStore()`, `enterWith()`, `disable()`
+  - Comprehensive test coverage (7 tests)
+
+#### Core APIs
+- **queueMicrotask()** - Queue microtask for execution
+  - FFI binding with `#alias(queue_microtask)` for snake_case
+
+- **MessageEvent** - Web messaging event implementation
+  - Implemented as `pub(all) struct` with EventTargetImpl
+  - Fields: `data`, `origin`, `lastEventId`, `ports`
+
+#### Error Handling
+- **URL::new**, **atob**, **btoa** now raise exceptions
+  - Changed to `-> T raise ThrowError` signature
+  - Wrapped FFI calls with `@js.throwable()`
+  - Added exception tests with `try?` pattern
+
+### Changed
+
+#### Breaking Changes
+- **Renamed package**: `message_channel` → `message`
+  - Updated imports: `mizchi/js/web/message_channel` → `mizchi/js/web/message`
+  - Updated all references in documentation and code
+
+- **Renamed package**: `typed_array` → `typedarray`
+  - Updated imports: `mizchi/js/builtins/typed_array` → `mizchi/js/builtins/typedarray`
+  - All references updated across 35 files
+
+### Fixed
+- Worker script paths now require `./` prefix for relative paths
+  - Fixes `ERR_WORKER_PATH` error in Node.js Worker
+
+- threadId FFI function now returns Int directly
+  - Fixed trait object casting issue with dedicated FFI binding
+
+### Testing
+- Added async tests for worker_threads (basic operations only)
+- Worker creation tests temporarily disabled due to async timing issues
+- threadId test skipped due to FFI casting investigation
+
 ## [Unreleased]
 
 ### React
@@ -51,7 +106,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 #### Typed Arrays
 - Unified `#alias` pattern for typed arrays
 - Added `Bytes` conversion utilities
-- Reorganized to `builtins/typed_array`
+- Reorganized to `builtins/typedarray`
 
 #### Crypto
 - `Crypto.getRandomValues()` with type-safe TypedArray overloads
