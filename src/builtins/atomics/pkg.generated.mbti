@@ -1,0 +1,47 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/atomics"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn add(@js.Js, Int, Int) -> Int
+
+fn and_(@js.Js, Int, Int) -> Int
+
+fn compareExchange(@js.Js, Int, Int, Int) -> Int
+
+fn exchange(@js.Js, Int, Int) -> Int
+
+fn isLockFree(Int) -> Bool
+
+fn load(@js.Js, Int) -> Int
+
+fn notify(@js.Js, Int, count? : Int) -> Int
+
+fn or_(@js.Js, Int, Int) -> Int
+
+fn store(@js.Js, Int, Int) -> Int
+
+fn sub(@js.Js, Int, Int) -> Int
+
+fn wait(@js.Js, Int, Int, timeout? : Int) -> AtomicsWaitResult
+
+fn xor(@js.Js, Int, Int) -> Int
+
+// Errors
+
+// Types and methods
+pub enum AtomicsWaitResult {
+  Ok
+  NotEqual
+  TimedOut
+}
+impl Eq for AtomicsWaitResult
+impl Show for AtomicsWaitResult
+
+// Type aliases
+
+// Traits
+

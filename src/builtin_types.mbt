@@ -335,13 +335,23 @@ pub fn JsError::new(message : String, cause? : JsError) -> JsError {
 /// This type represents errors that can be raised when calling JavaScript functions
 /// that may throw exceptions.
 pub suberror ThrowError {
-  // TODO: Differentiate error types
-  // TypeError
-  // ReferenceError
-  // SyntaxError
-  // RangeError
-  // etc.
+  /// Generic JavaScript Error
   Error(JsError)
+  /// TypeError - Type-related errors
+  TypeError(JsError)
+  /// RangeError - Value out of range errors
+  RangeError(JsError)
+  /// ReferenceError - Invalid reference errors
+  ReferenceError(JsError)
+  /// SyntaxError - Syntax parsing errors
+  SyntaxError(JsError)
+  /// URIError - URI handling errors
+  URIError(JsError)
+  /// EvalError - eval() related errors
+  EvalError(JsError)
+  /// AggregateError - Multiple errors wrapped together
+  AggregateError(JsError)
+  /// Non-error value thrown
   Value(Js)
 }
 
@@ -356,8 +366,55 @@ pub impl Show for ThrowError with output(self, logger) {
 ///|
 pub impl Show for ThrowError with to_string(self) {
   match self {
-    Error(err) => err.message
+    Error(err)
+    | TypeError(err)
+    | RangeError(err)
+    | ReferenceError(err)
+    | SyntaxError(err)
+    | URIError(err)
+    | EvalError(err)
+    | AggregateError(err) => err.message
     Value(val) => val.to_string()
+  }
+}
+
+///|
+/// Convert a JavaScript value to ThrowError by checking its type with instanceof
+///
+/// This function inspects the error type and returns the appropriate ThrowError variant.
+/// If the value is not an Error object, it returns ThrowError::Value.
+///
+/// # Example
+///
+/// ```moonbit no-check
+/// let js_error = globalThis().get("TypeError")
+/// let throw_error = ThrowError::from_js(js_error)
+/// // Returns ThrowError::TypeError(...)
+/// ```
+pub fn ThrowError::from_js(value : Js) -> ThrowError {
+  let global = globalThis()
+
+  // Check specific error types first (most specific to least specific)
+  if ffi_instance_of(value, global.get("TypeError")) {
+    ThrowError::TypeError(unsafe_cast(value))
+  } else if ffi_instance_of(value, global.get("RangeError")) {
+    ThrowError::RangeError(unsafe_cast(value))
+  } else if ffi_instance_of(value, global.get("ReferenceError")) {
+    ThrowError::ReferenceError(unsafe_cast(value))
+  } else if ffi_instance_of(value, global.get("SyntaxError")) {
+    ThrowError::SyntaxError(unsafe_cast(value))
+  } else if ffi_instance_of(value, global.get("URIError")) {
+    ThrowError::URIError(unsafe_cast(value))
+  } else if ffi_instance_of(value, global.get("EvalError")) {
+    ThrowError::EvalError(unsafe_cast(value))
+  } else if ffi_instance_of(value, global.get("AggregateError")) {
+    ThrowError::AggregateError(unsafe_cast(value))
+  } else if JsError::isError(value) {
+    // Generic Error or custom error types
+    ThrowError::Error(unsafe_cast(value))
+  } else {
+    // Non-error value thrown
+    ThrowError::Value(value)
   }
 }
 

@@ -403,7 +403,18 @@ pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
     Ok(result) => result |> unsafe_cast
     Err(e) => {
       if ffi_is_error(e) {
-        raise ThrowError::Error(unsafe_cast(e))
+        let error : JsError = unsafe_cast(e)
+        let error_type = ffi_get_error_type(e)
+        match error_type {
+          "TypeError" => raise ThrowError::TypeError(error)
+          "RangeError" => raise ThrowError::RangeError(error)
+          "ReferenceError" => raise ThrowError::ReferenceError(error)
+          "SyntaxError" => raise ThrowError::SyntaxError(error)
+          "URIError" => raise ThrowError::URIError(error)
+          "EvalError" => raise ThrowError::EvalError(error)
+          "AggregateError" => raise ThrowError::AggregateError(error)
+          _ => raise ThrowError::Error(error)
+        }
       }
       raise ThrowError::Value(e |> unsafe_cast)
     }

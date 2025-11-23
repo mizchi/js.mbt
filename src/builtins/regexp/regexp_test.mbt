@@ -139,3 +139,51 @@ test "RegExp.replace_all_fn" {
   })
   assert_eq(result, "testX testX testX")
 }
+
+///|
+test "RegExp.dotAll flag" {
+  // Without dotAll flag, . doesn't match newlines
+  let re_without = RegExp::new("a.b")
+  assert_false(re_without.dotAll())
+  assert_false(re_without.test_("a\nb"))
+
+  // With dotAll flag (s), . matches newlines
+  let re_with = RegExp::new("a.b", flags="s")
+  assert_true(re_with.dotAll())
+  assert_true(re_with.test_("a\nb"))
+}
+
+///|
+test "RegExp.hasIndices flag" {
+  // Without hasIndices flag
+  let re_without = RegExp::new("test")
+  assert_false(re_without.hasIndices())
+
+  // With hasIndices flag (d)
+  let re_with = RegExp::new("test", flags="d")
+  assert_true(re_with.hasIndices())
+}
+
+///|
+test "RegExp.exec returns None when no match" {
+  let re = RegExp::new("^[a-z]+$")
+  let result = re.exec("123")
+  inspect(result is None, content="true")
+}
+
+///|
+test "RegExp.exec with basic pattern" {
+  let re = RegExp::new("(\\d+)-(\\w+)")
+  let result = re.exec("test 123-abc here")
+  guard result is Some(matched)
+  assert_eq(matched.full, "123-abc")
+  assert_eq(matched.index, 5)
+  assert_eq(matched.input, "test 123-abc here")
+}
+
+///|
+test "RegExp.match_ returns None when no match" {
+  let re = RegExp::new("xyz")
+  let result = re.match_("hello world")
+  inspect(result is None, content="true")
+}

@@ -9,24 +9,24 @@ import(
 
 // Values
 #alias(access_sync)
-fn accessSync(String, mode? : Int) -> Unit
+fn accessSync(String, mode? : Int) -> Unit raise @js.ThrowError
 
 #alias(appendFileSync)
-fn append_file_sync(String, &@js.JsImpl) -> Unit
+fn append_file_sync(String, &@js.JsImpl) -> Unit raise @js.ThrowError
 
 #alias(chmod_sync)
-fn chmodSync(String, Int) -> Unit
+fn chmodSync(String, Int) -> Unit raise @js.ThrowError
 
 #alias(chown_sync)
-fn chownSync(String, Int, Int) -> Unit
+fn chownSync(String, Int, Int) -> Unit raise @js.ThrowError
 
 #alias(close_sync)
-fn closeSync(Int) -> Unit
+fn closeSync(Int) -> Unit raise @js.ThrowError
 
-fn copyFileSync(String, String) -> Unit
+fn copyFileSync(String, String) -> Unit raise @js.ThrowError
 
 #alias(cp_sync)
-fn cpSync(String, String, recursive? : Bool) -> Unit
+fn cpSync(String, String, recursive? : Bool) -> Unit raise @js.ThrowError
 
 fn createReadStream(String) -> @stream.Readable
 
@@ -44,60 +44,60 @@ fn fs_W_OK() -> Int
 fn fs_X_OK() -> Int
 
 #alias(mkdir_sync)
-fn mkdirSync(String, recursive? : Bool) -> Unit
+fn mkdirSync(String, recursive? : Bool) -> Unit raise @js.ThrowError
 
 #alias(open_sync)
-fn openSync(String, String, mode? : Int) -> Int
+fn openSync(String, String, mode? : Int) -> Int raise @js.ThrowError
 
 #alias(read_sync)
-fn readSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int
+fn readSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int raise @js.ThrowError
 
-fn read_file_as_buffer(String) -> @buffer.Buffer
+fn read_file_as_buffer(String) -> @buffer.Buffer raise @js.ThrowError
 
-fn read_file_as_string(String, encoding? : String) -> String
+fn read_file_as_string(String, encoding? : String) -> String raise @js.ThrowError
 
 #alias(readFileSync)
-fn read_file_sync(String) -> @buffer.Buffer
+fn read_file_sync(String) -> @buffer.Buffer raise @js.ThrowError
 
-fn read_file_sync_string(String, String) -> String
+fn read_file_sync_string(String, String) -> String raise @js.ThrowError
 
 #alias(readdir_sync)
-fn readdirSync(String) -> Array[String]
+fn readdirSync(String) -> Array[String] raise @js.ThrowError
 
 #alias(readlink_sync)
-fn readlinkSync(String) -> String
+fn readlinkSync(String) -> String raise @js.ThrowError
 
 #alias(realpath_sync)
-fn realpathSync(String) -> String
+fn realpathSync(String) -> String raise @js.ThrowError
 
 #alias(rename_sync)
-fn renameSync(String, String) -> Unit
+fn renameSync(String, String) -> Unit raise @js.ThrowError
 
 #alias(rm_sync)
-fn rmSync(String, recursive? : Bool, force? : Bool) -> Unit
+fn rmSync(String, recursive? : Bool, force? : Bool) -> Unit raise @js.ThrowError
 
 #alias(rmdir_sync)
-fn rmdirSync(String, recursive? : Bool) -> Unit
+fn rmdirSync(String, recursive? : Bool) -> Unit raise @js.ThrowError
 
 #alias(stat_sync)
-fn statSync(String) -> @js.Js
+fn statSync(String) -> @js.Js raise @js.ThrowError
 
 #alias(symlink_sync)
-fn symlinkSync(String, String, type_? : String) -> Unit
+fn symlinkSync(String, String, type_? : String) -> Unit raise @js.ThrowError
 
 #alias(truncate_sync)
-fn truncateSync(String, len? : Int) -> Unit
+fn truncateSync(String, len? : Int) -> Unit raise @js.ThrowError
 
 #alias(unlink_sync)
-fn unlinkSync(String) -> Unit
+fn unlinkSync(String) -> Unit raise @js.ThrowError
 
 fn watch(String, persistent? : Bool, recursive? : Bool, encoding? : String, listener? : (String, String) -> Unit) -> FSWatcher
 
 #alias(write_file_sync)
-fn writeFileSync(String, &@js.JsImpl) -> Unit
+fn writeFileSync(String, &@js.JsImpl) -> Unit raise @js.ThrowError
 
 #alias(write_sync)
-fn writeSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int
+fn writeSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int raise @js.ThrowError
 
 // Errors
 

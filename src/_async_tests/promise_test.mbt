@@ -112,6 +112,18 @@ test {
 
 ///|
 test {
+  it("Promise::new with reject", _ => {
+    let p : Promise[Int] = Promise::new((_resolve, reject) => run_async(() => {
+      sleep(1)
+      reject(Failure("test error"))
+    }))
+    let result = try? p.wait()
+    assert_true(result is Err(_))
+  })
+}
+
+///|
+test {
   it("Promise::try_ success", _ => {
     let p = Promise::try_(async fn() { 123 })
     let result = p.wait()
@@ -511,5 +523,144 @@ test {
       })
     let result = p.wait()
     assert_eq(result, 20)
+  })
+}
+
+///|
+/// Promise::then with error handling path
+test {
+  it("Promise::then with raise and catch", _ => {
+    let p = Promise::resolve(10)
+    let transformed = p.then(fn(_x) -> Promise[Int] {
+      raise Failure("intentional error")
+    })
+    let result = transformed.wait() catch { _e => -1 }
+    inspect(result, content="-1")
+  })
+}
+
+///|
+/// Promise::any resolves with first fulfilled promise
+test {
+  it("Promise::any returns first fulfilled promise", _ => {
+    let resolver1 : Resolvers[Int] = Promise::withResolvers()
+    let resolver2 : Resolvers[Int] = Promise::withResolvers()
+    run_async(() => {
+      sleep(10)
+      resolver1.resolve(100)
+    })
+    run_async(() => {
+      sleep(5)
+      resolver2.resolve(200)
+    })
+    let any_result = Promise::any([resolver1.promise, resolver2.promise])
+    let result = any_result.wait()
+    inspect(result, content="200")
+  })
+}
+
+///|
+/// Promise::allSettled waits for all promises
+test {
+  it("Promise::allSettled handles both fulfilled and rejected", _ => {
+    let resolver1 : Resolvers[Int] = Promise::withResolvers()
+    let resolver2 : Resolvers[Int] = Promise::withResolvers()
+    run_async(() => {
+      sleep(5)
+      resolver1.resolve(42)
+    })
+    run_async(() => {
+      sleep(5)
+      resolver2.resolve(100)
+    })
+    let settled = Promise::allSettled([resolver1.promise, resolver2.promise])
+    let results = settled.wait()
+    inspect(results.length(), content="2")
+  })
+}
+
+///|
+/// Rejection propagates through then chain without catch
+test {
+  it("rejection propagates through then chain", _ => {
+    let err_val : Js = @js.unsafe_cast(@js.Object::new())
+    let p = Promise::reject(err_val)
+      .then(v => {
+        let _ignored : Js = v
+        Promise::resolve(99 |> @js.js)
+      })
+      .then(v => {
+        let _ignored : Js = v
+        Promise::resolve(100 |> @js.js)
+      })
+    let result : Js = p.wait() catch { _e => @js.js(-1) }
+    let num : Int = @js.unsafe_cast(result)
+    inspect(num, content="-1")
+  })
+}
+
+///|
+/// Multiple catch handlers in chain
+test {
+  it("multiple catch handlers in chain", _ => {
+    let mut first_catch_called = false
+    let mut second_catch_called = false
+    let err_val : Js = @js.unsafe_cast(@js.Object::new())
+    let p = Promise::reject(err_val)
+      .catch_(_ => {
+        first_catch_called = true
+        Promise::resolve(42 |> @js.js)
+      })
+      .catch_(_ => {
+        second_catch_called = true
+        Promise::resolve(99 |> @js.js)
+      })
+    let result : Js = p.wait()
+    let num : Int = @js.unsafe_cast(result)
+    inspect(num, content="42")
+    inspect(first_catch_called, content="true")
+    inspect(second_catch_called, content="false")
+  })
+}
+
+///|
+/// catch_ then finally_ chain
+test {
+  it("catch then finally chain", _ => {
+    let mut finally_called = false
+    let err_val : Js = @js.unsafe_cast(@js.Object::new())
+    let p = Promise::reject(err_val)
+      .catch_(_ => Promise::resolve(42 |> @js.js))
+      .finally_(fn() { finally_called = true })
+    let result : Js = p.wait()
+    let num : Int = @js.unsafe_cast(result)
+    inspect(num, content="42")
+    inspect(finally_called, content="true")
+  })
+}
+
+///|
+/// Rejection in then followed by catch
+test {
+  it("rejection in then followed by catch", _ => {
+    let p = Promise::resolve(10)
+      .then(fn(_x) -> Promise[Int] { raise Failure("error in then") })
+      .catch_(_ => Promise::resolve(-1))
+    let result = p.wait()
+    inspect(result, content="-1")
+  })
+}
+
+///|
+/// Nested catch handlers
+test {
+  it("nested catch handlers", _ => {
+    let err_val : Js = @js.unsafe_cast(@js.Object::new())
+    let p = Promise::reject(err_val)
+      .catch_(_ => Promise::reject(@js.unsafe_cast(@js.Object::new())))
+      .catch_(_ => Promise::resolve(100 |> @js.js))
+    let result : Js = p.wait()
+    let num : Int = @js.unsafe_cast(result)
+    inspect(num, content="100")
   })
 }

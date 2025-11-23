@@ -189,6 +189,11 @@ extern "js" fn ffi_new_error(args : Array[Js]) -> JsError =
 extern "js" fn ffi_throw(value : Js) -> Unit =
   #| (value) => { throw value }
 
+///|
+/// Get the error type name (constructor name)
+extern "js" fn ffi_get_error_type(error : Js) -> String =
+  #| (error) => error?.constructor?.name || ""
+
 ///| Promise Operations
 
 ///|

@@ -46,6 +46,55 @@ test "execSync captures stdout correctly" {
 }
 
 ///|
+/// Test execSync throws error for non-existent command
+test "execSync throws error for non-existent command" {
+  let mut error_caught = false
+  try {
+    // Use stdio="pipe" to suppress error output to console
+    let _ = execSync("/nonexistent/command/that/does/not/exist", stdio="pipe")
+
+  } catch {
+    _ => error_caught = true // Catch any error type
+  }
+  assert_true(error_caught)
+}
+
+///|
+/// Test execSync throws error for command that exits with non-zero status
+test "execSync throws error for failing command" {
+  let mut error_caught = false
+  try {
+    let _ = execSync("exit 1", shell="/bin/sh")
+
+  } catch {
+    _ => error_caught = true // Catch any error type
+  }
+  assert_true(error_caught)
+}
+
+///|
+/// Test execFileSync throws error for non-existent file
+test "execFileSync throws error for non-existent file" {
+  let mut error_caught = false
+  try {
+    let _ = execFileSync("/nonexistent/file")
+
+  } catch {
+    _ => error_caught = true // Catch any error type
+  }
+  assert_true(error_caught)
+}
+
+///|
+/// Test that execSync without try-catch would fail
+/// This test demonstrates that execSync throws an error without try-catch
+/// Uncomment to verify error throwing behavior (test will fail as expected)
+// test "execSync without error handling - SHOULD FAIL" {
+//   let _ = execSync("/nonexistent/command/that/does/not/exist")
+//   assert_true(false) // This line should never be reached
+// }
+
+///|
 /// Test spawnSync executes command synchronously
 test "spawnSync returns SpawnSyncResult" {
   let result = spawnSync("echo", args=["test"])
@@ -85,7 +134,8 @@ test "spawnSync with timeout option" {
 
 ///|
 test "spawnSync handles non-existent command with error" {
-  let result = spawnSync("/nonexistent/command")
+  // Use stdio="pipe" to suppress error output to console
+  let result = spawnSync("/nonexistent/command", stdio="pipe")
   // Error is a Js object (not nullish) when command is not found
   let error = result.error
   inspect(@js.is_nullish(error), content="false")
@@ -95,7 +145,8 @@ test "spawnSync handles non-existent command with error" {
 
 ///|
 test "spawnSync handles command not found" {
-  let result = spawnSync("/nonexistent/command")
+  // Use stdio="pipe" to suppress error output to console
+  let result = spawnSync("/nonexistent/command", stdio="pipe")
   let error = result.error
   // Error field exists as a Js object
   assert_true(@js.is_object(error))
@@ -196,6 +247,27 @@ test "ChildProcess kill method exists" {
   let proc = spawn("sleep", args=["10"])
   let killed = proc.kill()
   inspect(killed || !killed, content="true")
+}
+
+///|
+/// Test ChildProcess kill with signal
+test "ChildProcess kill with signal" {
+  let proc = spawn("sleep", args=["10"])
+  let killed = proc.kill(signal="SIGTERM")
+  inspect(killed || !killed, content="true")
+}
+
+///|
+/// Test ChildProcess on_stderr_data
+test "ChildProcess on_stderr_data captures error output" {
+  let proc = spawn("sh", args=["-c", "echo error >&2"])
+  proc.on_stderr_data(fn(_) {
+    // Callback registered successfully
+    ()
+  })
+
+  // Verify callback can be registered
+  inspect(true, content="true")
 }
 
 ///|

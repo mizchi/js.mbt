@@ -419,3 +419,197 @@ test "JsImpl for Option types" {
   assert_eq(unsafe_cast(js_some), 42)
   assert_true(is_undefined(js_none))
 }
+
+///| ThrowError Tests - JavaScript Built-in Error Types
+
+///|
+/// Test TypeError is caught correctly
+test "throwable catches TypeError" {
+  let mut caught_type_error = false
+  throwable(fn() {
+    let null_val = null_()
+    // Calling a method on null will throw TypeError
+    null_val.call0("toString") |> ignore
+  }) catch {
+    ThrowError::TypeError(_) => caught_type_error = true
+    _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_type_error)
+}
+
+///|
+/// Test RangeError is caught correctly
+test "throwable catches RangeError" {
+  let mut caught_range_error = false
+  throwable(fn() {
+    // Creating array with invalid length throws RangeError
+    let arr = JsArray::new()
+    arr.set("length", js(-1)) |> ignore
+  }) catch {
+    ThrowError::RangeError(_) => caught_range_error = true
+    _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_range_error)
+}
+
+///|
+/// Test SyntaxError is caught correctly with JSON.parse
+test "throwable catches SyntaxError from JSON.parse" {
+  let mut caught_syntax_error = false
+  try {
+    // Invalid JSON will throw SyntaxError
+    let _ = JSON::parse("{invalid json}")
+
+  } catch {
+    ThrowError::SyntaxError(_) => caught_syntax_error = true
+    _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_syntax_error)
+}
+
+///|
+/// Test URIError is caught correctly
+test "throwable catches URIError" {
+  let mut caught_uri_error = false
+  throwable(fn() {
+    // Invalid URI encoding throws URIError
+    decodeURIComponent("%E0%A4%A") |> ignore
+  }) catch {
+    ThrowError::URIError(_) => caught_uri_error = true
+    _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_uri_error)
+}
+
+///|
+/// Test ReferenceError is caught correctly
+test "throwable catches ReferenceError" {
+  let mut caught_reference_error = false
+  throwable(fn() {
+    // Accessing undefined variable throws ReferenceError
+    let code = "nonExistentVariable"
+    globalThis().call("eval", [js(code)]) |> ignore
+  }) catch {
+    ThrowError::ReferenceError(_) => caught_reference_error = true
+    _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_reference_error)
+}
+
+///|
+/// Test EvalError can be created (eval errors are rare in modern JS)
+test "throwable catches EvalError" {
+  let mut caught_eval_error = false
+  throwable(fn() {
+    // Create EvalError manually since it's rarely thrown naturally
+    let eval_error_cls = globalThis().get("EvalError")
+    let err = new_(eval_error_cls, ["Eval error message"])
+    throw_(err)
+  }) catch {
+    ThrowError::EvalError(_) => caught_eval_error = true
+    _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_eval_error)
+}
+
+///|
+/// Test AggregateError is caught correctly
+test "throwable catches AggregateError" {
+  let mut caught_aggregate_error = false
+  throwable(fn() {
+    // Create AggregateError with multiple errors
+    let errors = JsArray::new()
+    errors.push(JsError::new("Error 1"))
+    errors.push(JsError::new("Error 2"))
+    let agg_error_cls = globalThis().get("AggregateError")
+    let agg_err = new_(agg_error_cls, [errors, "Multiple errors"])
+    throw_(agg_err)
+  }) catch {
+    ThrowError::AggregateError(_) => caught_aggregate_error = true
+    _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_aggregate_error)
+}
+
+///|
+/// Test generic Error is caught when type doesn't match specific types
+test "throwable catches generic Error" {
+  let mut caught_error = false
+  throwable(fn() {
+    // Create and throw a generic Error
+    let err = JsError::new("Generic error message")
+    throw_(err)
+  }) catch {
+    ThrowError::Error(err) => {
+      caught_error = true
+      assert_eq(err.message, "Generic error message")
+    }
+    _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_error)
+}
+
+///|
+/// Test non-error value thrown as ThrowError::Value
+test "throwable catches non-error value" {
+  let mut caught_value = false
+  throwable(fn() {
+    // Throw a non-Error value (string)
+    throw_(js("custom error string"))
+  }) catch {
+    ThrowError::Value(val) => {
+      caught_value = true
+      assert_eq(unsafe_cast(val), "custom error string")
+    }
+    _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_value)
+}
+
+///|
+/// Test error message is preserved in ThrowError
+test "ThrowError preserves error message" {
+  try {
+    let _ = JSON::parse("{bad json}")
+
+  } catch {
+    ThrowError::SyntaxError(err) =>
+      // Error message should contain information about the syntax error
+      assert_true(err.message.length() > 0)
+    _ => assert_true(false) // Should not reach here
+  }
+}
+
+///|
+/// Test ThrowError Show trait implementation
+test "ThrowError Show trait works for all variants" {
+  // Test TypeError
+  throwable(fn() { null_().call0("toString") |> ignore }) catch {
+    ThrowError::TypeError(err) => {
+      let msg = err.to_string()
+      assert_true(msg.length() > 0)
+    }
+    _ => assert_true(false) // Should not catch other error types
+  }
+
+  // Test SyntaxError
+  try {
+    let _ = JSON::parse("{invalid}")
+
+  } catch {
+    ThrowError::SyntaxError(err) => {
+      let msg = err.to_string()
+      assert_true(msg.length() > 0)
+    }
+    _ => assert_true(false) // Should not catch other error types
+  }
+
+  // Test Value variant - direct to_string on ThrowError
+  throwable(fn() { throw_(js(42)) }) catch {
+    err => {
+      // Test ThrowError's to_string() implementation
+      let msg = err.to_string()
+      assert_eq(msg, "42")
+    }
+  }
+}

@@ -404,3 +404,31 @@ test "rmdir_sync with recursive removes nested directories" {
   let exists = existsSync(test_dir)
   inspect(exists == false, content="true")
 }
+
+///| Error Handling Tests
+
+///|
+/// Test read_file_as_string throws ThrowError for non-existent file
+test "read_file_as_string throws error for non-existent file" {
+  let mut error_caught = false
+  try {
+    let _ = read_file_as_string("/nonexistent/file/path/12345.txt")
+
+  } catch {
+    _ => error_caught = true
+  }
+  inspect(error_caught, content="true")
+}
+
+///|
+/// Test read_file_as_buffer throws ThrowError for non-existent file
+test "read_file_as_buffer throws error for non-existent file" {
+  let mut error_caught = false
+  try {
+    let _ = read_file_as_buffer("/nonexistent/file/path/12345.txt")
+
+  } catch {
+    _ => error_caught = true
+  }
+  inspect(error_caught, content="true")
+}

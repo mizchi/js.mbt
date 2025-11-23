@@ -212,21 +212,25 @@ pub fn spawnSync(
   shell? : Bool,
   timeout? : Int,
   input? : String,
-) -> SpawnSyncResult {
-  let cp = ffi_require_child_process()
-  let options = @js.from_entries_option([
-    ("cwd", cwd.map(x => x)),
-    ("env", env.map(x => x)),
-    ("shell", shell.map(x => x)),
-    ("timeout", timeout.map(x => x)),
-    ("input", input.map(x => x)),
-  ])
-  match args {
-    Some(a) =>
-      cp.call("spawnSync", [command, a |> @js.from_array, options])
-      |> @js.unsafe_cast
-    None => cp.call2("spawnSync", command |> js, options) |> @js.unsafe_cast
-  }
+  stdio? : String,
+) -> SpawnSyncResult raise @js.ThrowError {
+  @js.throwable(fn() {
+    let cp = ffi_require_child_process()
+    let options = @js.from_entries_option([
+      ("cwd", cwd.map(x => x)),
+      ("env", env.map(x => x)),
+      ("shell", shell.map(x => x)),
+      ("timeout", timeout.map(x => x)),
+      ("input", input.map(x => x)),
+      ("stdio", stdio.map(x => x)),
+    ])
+    match args {
+      Some(a) =>
+        cp.call("spawnSync", [command, a |> @js.from_array, options])
+        |> @js.unsafe_cast
+      None => cp.call2("spawnSync", command |> js, options) |> @js.unsafe_cast
+    }
+  })
 }
 
 ///|
@@ -242,18 +246,22 @@ pub fn execSync(
   maxBuffer? : Int,
   input? : String,
   encoding? : String,
-) -> String {
-  let cp = ffi_require_child_process()
-  let options = @js.from_entries_option([
-    ("cwd", cwd.map(x => x)),
-    ("env", env.map(x => x)),
-    ("shell", shell.map(x => x)),
-    ("timeout", timeout.map(x => x)),
-    ("maxBuffer", maxBuffer.map(x => x)),
-    ("input", input.map(x => x)),
-    ("encoding", Some(encoding.unwrap_or("utf8"))),
-  ])
-  cp.call2("execSync", command |> js, options) |> @js.unsafe_cast
+  stdio? : String,
+) -> String raise @js.ThrowError {
+  @js.throwable(fn() {
+    let cp = ffi_require_child_process()
+    let options = @js.from_entries_option([
+      ("cwd", cwd.map(x => x)),
+      ("env", env.map(x => x)),
+      ("shell", shell.map(x => x)),
+      ("timeout", timeout.map(x => x)),
+      ("maxBuffer", maxBuffer.map(x => x)),
+      ("input", input.map(x => x)),
+      ("encoding", Some(encoding.unwrap_or("utf8"))),
+      ("stdio", stdio.map(x => x)),
+    ])
+    cp.call2("execSync", command |> js, options) |> @js.unsafe_cast
+  })
 }
 
 ///|
@@ -269,20 +277,22 @@ pub fn execFileSync(
   maxBuffer? : Int,
   input? : String,
   encoding? : String,
-) -> String {
-  let cp = ffi_require_child_process()
-  let options = @js.from_entries_option([
-    ("cwd", cwd.map(x => x)),
-    ("env", env.map(x => x)),
-    ("timeout", timeout.map(x => x)),
-    ("maxBuffer", maxBuffer.map(x => x)),
-    ("input", input.map(x => x)),
-    ("encoding", Some(encoding.unwrap_or("utf8"))),
-  ])
-  match args {
-    Some(a) =>
-      cp.call("execFileSync", [file, a |> @js.from_array, options])
-      |> @js.unsafe_cast
-    None => cp.call2("execFileSync", file, options) |> @js.unsafe_cast
-  }
+) -> String raise @js.ThrowError {
+  @js.throwable(fn() {
+    let cp = ffi_require_child_process()
+    let options = @js.from_entries_option([
+      ("cwd", cwd.map(x => x)),
+      ("env", env.map(x => x)),
+      ("timeout", timeout.map(x => x)),
+      ("maxBuffer", maxBuffer.map(x => x)),
+      ("input", input.map(x => x)),
+      ("encoding", Some(encoding.unwrap_or("utf8"))),
+    ])
+    match args {
+      Some(a) =>
+        cp.call("execFileSync", [file, a |> @js.from_array, options])
+        |> @js.unsafe_cast
+      None => cp.call2("execFileSync", file, options) |> @js.unsafe_cast
+    }
+  })
 }

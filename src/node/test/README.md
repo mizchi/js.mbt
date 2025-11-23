@@ -10,8 +10,10 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js",
-    "mizchi/js/node/test"
+    {
+      "alias": "nodetest",
+      "path": "mizchi/js/node/test"
+    }
   ]
 }
 ```
@@ -104,39 +106,62 @@ Add to your `moon.pkg.json`:
 
 ## Example
 
+### Synchronous vs Asynchronous Tests
+
+MoonBit supports both traditional synchronous tests and modern asynchronous tests:
+
 ```moonbit
+using @nodetest {it, describe}
+// Before: Synchronous test with callbacks
+test {
+  it("test-case", () => {
+    // test logic
+  })
+}
+
+// After: Asynchronous test (recommended)
+async test "test-case" {
+  // async test logic with await support
+}
+```
+
+### Basic Examples
+
+```moonbit
+using @nodetest {it, before, afterEach, describe, mock, get_mock_context}
+
 test "basic test" {
-  @test.it("addition works", _ => {
+  it("addition works", _ => {
     assert_eq(2 + 2, 4)
   })
-  
-  @test.it("todo test", ctx => {
+
+  it("todo test", ctx => {
     ctx.todo(message="implement later")
   })
 }
 
 test "with hooks" {
-  @test.before(() => {
+  before(() => {
     println("setup")
   })
-  
-  @test.afterEach(() => {
+
+  afterEach(() => {
     println("cleanup")
   })
-  
-  @test.describe("math operations", _ => {
-    @test.it("multiplication", _ => {
+
+  describe("math operations", _ => {
+    it("multiplication", _ => {
       assert_eq(3 * 4, 12)
     })
   })
 }
 
 test "mocking example" {
-  @test.it("mock function", _ => {
-    let m = @test.mock()
+  it("mock function", _ => {
+    let m = mock()
     let fn = m.fn_()
-    let ctx = @test.get_mock_context(fn)
-    
+    let ctx = get_mock_context(fn)
+
     fn.call_self([])
     assert_eq(ctx.callCount(), 1)
   })

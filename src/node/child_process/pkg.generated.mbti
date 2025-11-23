@@ -14,17 +14,17 @@ fn exec(String, (@js.Js?, String, String) -> Unit, cwd? : String, env? : @js.Js,
 fn execFile(String, Array[String], (@js.Js?, String, String) -> Unit, cwd? : String, env? : @js.Js, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 #alias(exec_file_sync)
-fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Js, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String
+fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Js, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String raise @js.ThrowError
 
 #alias(exec_sync)
-fn execSync(String, cwd? : String, env? : @js.Js, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String
+fn execSync(String, cwd? : String, env? : @js.Js, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String, stdio? : String) -> String raise @js.ThrowError
 
 fn fork(String, args? : Array[String], cwd? : String, env? : @js.Js, silent? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 fn spawn(String, args? : Array[String], cwd? : String, env? : @js.Js, shell? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
 
 #alias(spawn_sync)
-fn spawnSync(String, args? : Array[String], cwd? : String, env? : @js.Js, shell? : Bool, timeout? : Int, input? : String) -> SpawnSyncResult
+fn spawnSync(String, args? : Array[String], cwd? : String, env? : @js.Js, shell? : Bool, timeout? : Int, input? : String, stdio? : String) -> SpawnSyncResult raise @js.ThrowError
 
 // Errors
 

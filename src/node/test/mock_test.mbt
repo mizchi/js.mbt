@@ -47,3 +47,33 @@ test "mock.fn with implementation" {
   let ctx = get_mock_context(spy)
   inspect(ctx.callCount(), content="1")
 }
+
+///|
+test "mock.fn with both original and implementation" {
+  let m = mock()
+  let original_fn = @js.from_fn1(fn(x : Js) {
+    let n : Int = @js.unsafe_cast(x)
+    n + 1
+  })
+  let implementation_fn = @js.from_fn1(fn(x : Js) {
+    let n : Int = @js.unsafe_cast(x)
+    n * 2
+  })
+  let spy = m.fn_(original=original_fn, implementation=implementation_fn)
+  let result : Int = @js.unsafe_cast(spy.call_self([5]))
+  inspect(result, content="10")
+}
+
+///|
+test "mock.method without implementation" {
+  let m = mock()
+  let obj = @js.Object::new()
+  obj.set("getValue", @js.from_fn0(fn() { 42 }))
+
+  // Mock the method without implementation (spy on original)
+  let obj_js : Js = @js.unsafe_cast(obj)
+  m.method_(obj_js, "getValue") |> ignore
+  let result : Int = @js.unsafe_cast(obj.call0("getValue"))
+  inspect(result, content="42")
+  m.restoreAll()
+}

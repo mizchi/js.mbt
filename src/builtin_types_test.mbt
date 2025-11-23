@@ -176,6 +176,23 @@ test "JsArray creation and type checking" {
   assert_true(@js.is_array([1] |> @js.from_array))
 }
 
+///| Iterator tests
+
+///|
+test "JsIterator::from converts iterable to iterator" {
+  // Create an array - arrays are iterable in JavaScript
+  let arr = JsArray::new()
+  arr.push(1)
+  arr.push(2)
+  arr.push(3)
+
+  // Use Iterator.from to convert iterable to iterator
+  let js_iter : JsIterator[Js] = JsIterator::from(arr.to_js())
+
+  // Verify it's created (basic type check)
+  assert_true(@js.is_object(js_iter.to_js()))
+}
+
 ///| Function tests
 
 ///|
@@ -225,8 +242,12 @@ test "JsError Show trait" {
 ///|
 test "ThrowError from call_throwable" {
   let v = try? globalThis().call_throwable("nonexistentMethod", [])
-  guard v is Err(ThrowError::Error(e))
-  assert_true(JsError::isError(e))
+  match v {
+    Err(ThrowError::Error(e)) | Err(ThrowError::TypeError(e)) =>
+      assert_true(JsError::isError(e))
+    Err(_) => fail("Expected Error or TypeError")
+    Ok(_) => fail("Expected error to be thrown")
+  }
 }
 
 ///|
@@ -409,22 +430,4 @@ test "JsError Show implementation" {
   let err = JsError::new("Test error")
   let shown = err.to_string()
   assert_true(shown.contains("Test error"))
-}
-
-///|
-test "ThrowError with non-Error value" {
-  // Create a function that throws a non-Error value
-  let throw_string : () -> Js = fn() {
-    let code = "throw 'custom error string';"
-    @js.globalThis().call("eval", [js(code)])
-  }
-  let result = try? throwable(throw_string)
-  match result {
-    Err(ThrowError::Value(v)) => {
-      let str_val : String = unsafe_cast(v)
-      assert_eq(str_val, "custom error string")
-    }
-    Err(ThrowError::Error(_)) => fail("Expected Value variant, got Error")
-    Ok(_) => fail("Expected error to be thrown")
-  }
 }
