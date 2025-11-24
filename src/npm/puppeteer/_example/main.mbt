@@ -4,6 +4,7 @@ fn main {
   basic_example()
   screenshot_example()
   element_example()
+  coverage_example()
 }
 
 ///|
@@ -26,7 +27,9 @@ fn basic_example() -> Unit {
     let page = browser.new_page() catch {
       e => {
         println("Failed to create page: \{e}")
-        browser.close() catch { _ => () }
+        browser.close() catch {
+          _ => ()
+        }
         return
       }
     }
@@ -36,7 +39,9 @@ fn basic_example() -> Unit {
     page.goto("https://example.com") catch {
       e => {
         println("Failed to navigate: \{e}")
-        browser.close() catch { _ => () }
+        browser.close() catch {
+          _ => ()
+        }
         return
       }
     }
@@ -46,7 +51,9 @@ fn basic_example() -> Unit {
     let title = page.title() catch {
       e => {
         println("Failed to get title: \{e}")
-        browser.close() catch { _ => () }
+        browser.close() catch {
+          _ => ()
+        }
         return
       }
     }
@@ -60,7 +67,9 @@ fn basic_example() -> Unit {
     let content = page.content() catch {
       e => {
         println("Failed to get content: \{e}")
-        browser.close() catch { _ => () }
+        browser.close() catch {
+          _ => ()
+        }
         return
       }
     }

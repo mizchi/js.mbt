@@ -239,6 +239,41 @@ match response {
 }
 ```
 
+### Code Coverage
+
+See: [Coverage API](https://pptr.dev/api/puppeteer.coverage)
+
+```moonbit
+// Get coverage instance
+let coverage = page.coverage()
+
+// Start tracking JS and CSS coverage
+coverage.startJSCoverage()!
+coverage.startCSSCoverage()!
+
+// Navigate and interact with page
+page.goto("https://example.com")!
+// ... perform actions ...
+
+// Stop coverage and get results
+let jsCoverage = coverage.stopJSCoverage()!
+let cssCoverage = coverage.stopCSSCoverage()!
+
+println("JS coverage entries: \{jsCoverage.length()}")
+println("CSS coverage entries: \{cssCoverage.length()}")
+
+// Each entry contains: url, text (source), ranges (used code ranges)
+```
+
+**Coverage with options:**
+```moonbit
+// Start JS coverage with anonymous scripts reporting
+let options = @js.from_entries([
+  ("reportAnonymousScripts", true)
+])
+coverage.startJSCoverage_with(options)!
+```
+
 ## API Reference
 
 ### Types
@@ -248,6 +283,10 @@ match response {
 - `ElementHandle` - Handle to a DOM element
 - `HTTPRequest` - HTTP request object (for network interception)
 - `HTTPResponse` - HTTP response object
+- `Coverage` - Code coverage tracking
+- `CoverageRange` - Range of used code (start, end)
+- `JSCoverageEntry` - JavaScript coverage entry (url, text, ranges)
+- `CSSCoverageEntry` - CSS coverage entry (url, text, ranges)
 
 ### Browser Methods
 
@@ -324,6 +363,9 @@ match response {
 #### Network Interception
 - `Page::setRequestInterception(value)` - Enable/disable request interception
 
+#### Coverage
+- `Page::coverage()` - Get coverage instance
+
 ### ElementHandle Methods
 
 - `ElementHandle::click()` - Click element
@@ -365,6 +407,15 @@ match response {
 - `HTTPResponse::fromServiceWorker()` - Check if from service worker
 - `HTTPResponse::request()` - Get associated request
 - `HTTPResponse::remoteAddress()` - Get remote server address
+
+### Coverage Methods
+
+- `Coverage::startJSCoverage()` - Start JavaScript coverage tracking
+- `Coverage::startJSCoverage_with(options)` - Start JS coverage with options
+- `Coverage::stopJSCoverage()` - Stop JS coverage and get results
+- `Coverage::startCSSCoverage()` - Start CSS coverage tracking
+- `Coverage::startCSSCoverage_with(options)` - Start CSS coverage with options
+- `Coverage::stopCSSCoverage()` - Stop CSS coverage and get results
 
 ### Types
 

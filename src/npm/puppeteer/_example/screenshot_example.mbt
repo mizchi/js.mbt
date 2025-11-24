@@ -3,18 +3,18 @@
 pub fn screenshot_example() -> Unit {
   @js.run_async(async fn() -> Unit noraise {
     println("\n=== Screenshot Example ===")
-
     let browser = @puppeteer.launch(headless=true) catch {
       e => {
         println("Failed to launch browser: \{e}")
         return
       }
     }
-
     let page = browser.new_page() catch {
       e => {
         println("Failed to create page: \{e}")
-        browser.close() catch { _ => () }
+        browser.close() catch {
+          _ => ()
+        }
         return
       }
     }
@@ -23,7 +23,9 @@ pub fn screenshot_example() -> Unit {
     page.setViewport(1920, 1080) catch {
       e => {
         println("Failed to set viewport: \{e}")
-        browser.close() catch { _ => () }
+        browser.close() catch {
+          _ => ()
+        }
         return
       }
     }
@@ -33,7 +35,9 @@ pub fn screenshot_example() -> Unit {
     page.goto("https://example.com") catch {
       e => {
         println("Failed to navigate: \{e}")
-        browser.close() catch { _ => () }
+        browser.close() catch {
+          _ => ()
+        }
         return
       }
     }
@@ -43,13 +47,16 @@ pub fn screenshot_example() -> Unit {
     page.screenshot("/tmp/puppeteer-example.png") catch {
       e => {
         println("Failed to take screenshot: \{e}")
-        browser.close() catch { _ => () }
+        browser.close() catch {
+          _ => ()
+        }
         return
       }
     }
     println("✓ Screenshot saved to /tmp/puppeteer-example.png")
-
-    browser.close() catch { _ => () }
+    browser.close() catch {
+      _ => ()
+    }
     println("✓ Browser closed")
   })
 }
