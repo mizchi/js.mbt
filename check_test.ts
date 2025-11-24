@@ -6,18 +6,24 @@
  * to identify flaky tests and compare against a baseline.
  *
  * Usage:
- *   ./check_test.ts [runs] [timeout]
+ *   ./check_test.ts [runs] [timeout] [--verbose]
  *
  * Arguments:
- *   runs    - Number of test runs (default: 2)
- *   timeout - Timeout per run in milliseconds (default: 120000)
+ *   runs     - Number of test runs (default: 2)
+ *   timeout  - Timeout per run in milliseconds (default: 12000)
+ *   --verbose, -v - Show all test output (default: show progress only)
  *
  * Examples:
- *   ./check_test.ts          # Run 2 times with 120s timeout
- *   ./check_test.ts 5        # Run 5 times with 120s timeout
- *   ./check_test.ts 3 180000 # Run 3 times with 180s timeout
+ *   ./check_test.ts              # Run 2 times with 12s timeout
+ *   ./check_test.ts 5            # Run 5 times with 12s timeout
+ *   ./check_test.ts 3 180000     # Run 3 times with 180s timeout
+ *   ./check_test.ts 5 60000 -v   # Run 5 times with verbose output
+ *   ./check_test.ts 10 12000     # Run 10 times, press Ctrl-C to see diff
  *
  * Features:
+ *   - Shows progress indicator (100 tests, 200 tests, etc.)
+ *   - Immediately displays failed tests
+ *   - Shows last test executed on timeout
  *   - Captures all test results with file:line information
  *   - Compares consecutive runs to find flaky tests
  *   - Saves last run as baseline (.test_baseline.json)
@@ -41,13 +47,20 @@ interface RunResult {
   failedTests: number;
   duration: number;
   timedOut: boolean;
+  testKeys: Set<string>;
 }
 
-async function runTests(timeout: number = 120000): Promise<RunResult> {
+async function runTests(
+  timeout: number = 12000,
+  verbose: boolean = false,
+  previousTests?: Set<string>,
+): Promise<RunResult> {
   return new Promise((resolve, reject) => {
     const startTime = Date.now();
     const tests: TestResult[] = [];
     let output = "";
+    let lastProgressUpdate = 0;
+    const currentTestKeys = new Set<string>();
 
     const proc = spawn("moon", ["test", "--target", "js", "--verbose"], {
       cwd: process.cwd(),
@@ -63,6 +76,11 @@ async function runTests(timeout: number = 120000): Promise<RunResult> {
       proc.stderr?.removeAllListeners();
       proc.removeAllListeners();
 
+      const lastTest = tests[tests.length - 1];
+      console.log(
+        `\n⚠️  TIMEOUT after ${timeout}ms - Last test: ${lastTest?.file}:${lastTest?.line} "${lastTest?.name}"`,
+      );
+
       resolve({
         tests,
         totalTests: tests.length,
@@ -70,13 +88,18 @@ async function runTests(timeout: number = 120000): Promise<RunResult> {
         failedTests: tests.filter((t) => t.status === "failed").length,
         duration: Date.now() - startTime,
         timedOut: true,
+        testKeys: currentTestKeys,
       });
     }, timeout);
 
     proc.stdout.on("data", (data: Buffer) => {
       const chunk = data.toString();
       output += chunk;
-      process.stdout.write(chunk);
+
+      // Show verbose output if requested
+      if (verbose) {
+        process.stdout.write(chunk);
+      }
 
       // Parse test results from verbose output
       const lines = chunk.split("\n");
@@ -87,18 +110,60 @@ async function runTests(timeout: number = 120000): Promise<RunResult> {
         );
         if (match) {
           const [, file, lineNum, name, status] = match;
+          const testKey = `${file}:${lineNum}`;
+
           tests.push({
             name,
             status: status as "ok" | "failed",
             file,
             line: parseInt(lineNum, 10),
           });
+
+          // Track test keys for diff
+          if (status === "ok") {
+            currentTestKeys.add(testKey);
+          }
+
+          // Show progress every 100 tests or if failed
+          if (!verbose && (tests.length % 100 === 0 || status === "failed")) {
+            const now = Date.now();
+            // Update at most once per second to avoid too many updates
+            if (now - lastProgressUpdate > 1000 || status === "failed") {
+              const passed = tests.filter((t) => t.status === "ok").length;
+              const failed = tests.filter((t) => t.status === "failed").length;
+
+              let progressMsg = `\r  Progress: ${tests.length} tests (${passed} passed, ${failed} failed)`;
+
+              // Show diff if we have previous test results
+              if (previousTests && previousTests.size > 0) {
+                const newTests = [...currentTestKeys].filter(
+                  (k) => !previousTests.has(k),
+                );
+                const missingTests = [...previousTests].filter(
+                  (k) => !currentTestKeys.has(k),
+                );
+                if (newTests.length > 0 || missingTests.length > 0) {
+                  progressMsg += ` | diff: +${newTests.length} -${missingTests.length}`;
+                }
+              }
+
+              process.stdout.write(progressMsg);
+              lastProgressUpdate = now;
+            }
+          }
+
+          // Show failed tests immediately
+          if (status === "failed") {
+            console.log(`\n❌ FAILED: ${file}:${lineNum} "${name}"`);
+          }
         }
       }
     });
 
     proc.stderr.on("data", (data: Buffer) => {
-      process.stderr.write(data);
+      if (verbose) {
+        process.stderr.write(data);
+      }
     });
 
     proc.on("close", (_code) => {
@@ -132,6 +197,7 @@ async function runTests(timeout: number = 120000): Promise<RunResult> {
         failedTests,
         duration,
         timedOut: false,
+        testKeys: currentTestKeys,
       });
     });
 
@@ -192,14 +258,69 @@ function findDifferences(
 
 async function main() {
   const args = process.argv.slice(2);
-  const runs = parseInt(args[0] || "2", 10);
-  const timeout = parseInt(args[1] || "120000", 10);
 
-  console.log(`Running moon test ${runs} times with ${timeout}ms timeout...`);
+  // Parse arguments
+  let runs = 2;
+  let timeout = 12000;
+  let verbose = false;
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg === "--verbose" || arg === "-v") {
+      verbose = true;
+    } else if (i === 0 && !isNaN(parseInt(arg, 10))) {
+      runs = parseInt(arg, 10);
+    } else if (i === 1 && !isNaN(parseInt(arg, 10))) {
+      timeout = parseInt(arg, 10);
+    }
+  }
+
+  console.log(
+    `Running moon test ${runs} times with ${timeout}ms timeout${verbose ? " (verbose mode)" : ""}...`,
+  );
   console.log("=".repeat(80));
 
   const results: RunResult[] = [];
   const baselineFile = ".test_baseline.json";
+  let interrupted = false;
+
+  // Handle Ctrl-C
+  process.on("SIGINT", () => {
+    interrupted = true;
+    console.log("\n\n⚠️  Interrupted by user (Ctrl-C)");
+
+    // Show diff if we have results
+    if (results.length >= 2) {
+      const lastRun = results[results.length - 1];
+      const prevRun = results[results.length - 2];
+      console.log("\n" + "=".repeat(80));
+      console.log("Difference between last two runs:");
+      console.log("=".repeat(80));
+
+      const diff = findDifferences(prevRun, lastRun);
+      if (diff.newFailures.length > 0) {
+        console.log(`\nNew failures (${diff.newFailures.length}):`);
+        for (const test of diff.newFailures) {
+          console.log(`  - ${test.file}:${test.line} "${test.name}"`);
+        }
+      }
+      if (diff.newSuccesses.length > 0) {
+        console.log(`\nNew successes (${diff.newSuccesses.length}):`);
+        for (const test of diff.newSuccesses) {
+          console.log(`  - ${test.file}:${test.line} "${test.name}"`);
+        }
+      }
+      if (
+        diff.newFailures.length === 0 &&
+        diff.newSuccesses.length === 0 &&
+        diff.consistentFailures.length === 0
+      ) {
+        console.log("\nNo differences found");
+      }
+    }
+
+    process.exit(130); // Standard exit code for SIGINT
+  });
 
   // Load baseline if exists
   let baseline: RunResult | null = null;
@@ -213,14 +334,23 @@ async function main() {
   }
 
   // Run tests multiple times
+  let previousTestKeys: Set<string> | undefined;
   for (let i = 0; i < runs; i++) {
     console.log(`\n${"=".repeat(80)}`);
     console.log(`Run ${i + 1}/${runs}`);
     console.log("=".repeat(80));
 
     try {
-      const result = await runTests(timeout);
+      const result = await runTests(timeout, verbose, previousTestKeys);
       results.push(result);
+
+      // Save test keys for next run comparison
+      previousTestKeys = result.testKeys;
+
+      // Clear progress line
+      if (!verbose) {
+        process.stdout.write("\r" + " ".repeat(80) + "\r");
+      }
 
       console.log(`\n${"=".repeat(80)}`);
       console.log(`Run ${i + 1} Summary:`);
@@ -228,7 +358,9 @@ async function main() {
         `  Total: ${result.totalTests}, Passed: ${result.passedTests}, Failed: ${result.failedTests}`,
       );
       console.log(`  Duration: ${(result.duration / 1000).toFixed(2)}s`);
-      console.log(`  Timed out: ${result.timedOut}`);
+      if (result.timedOut) {
+        console.log(`  ⚠️  Timed out: ${result.timedOut}`);
+      }
       console.log("=".repeat(80));
 
       if (result.failedTests > 0) {
