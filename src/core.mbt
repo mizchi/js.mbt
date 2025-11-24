@@ -15,6 +15,11 @@
 pub type Js
 
 ///|
+pub fn[T] Js::cast(self : Self) -> T {
+  identity(self)
+}
+
+///|
 pub impl Show for Js with output(self, logger) {
   logger.write_string(self.to_string())
 }
