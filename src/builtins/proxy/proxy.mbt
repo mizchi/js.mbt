@@ -15,7 +15,7 @@ pub impl @js.JsImpl for Proxy
 
 ///|
 /// get the Proxy class
-fn proxy_class() -> @js.Js {
+fn proxy_class() -> @js.Any {
   @js.globalThis().get("Proxy")
 }
 
@@ -30,71 +30,71 @@ fn proxy_class() -> @js.Js {
 /// ```
 pub fn Proxy::new(
   target : &@js.JsImpl,
-  get? : (@js.Js, @js.Js, @js.Js) -> @js.Js,
-  set? : (@js.Js, @js.Js, @js.Js, @js.Js) -> Bool,
-  has? : (@js.Js, @js.Js) -> Bool,
-  deleteProperty? : (@js.Js, @js.Js) -> Bool,
-  apply? : (@js.Js, @js.Js, @js.Js) -> @js.Js,
-  construct? : (@js.Js, @js.Js, @js.Js) -> @js.Js,
-  ownKeys? : (@js.Js) -> @js.Js,
-  getPrototypeOf? : (@js.Js) -> @js.Js,
-  setPrototypeOf? : (@js.Js, @js.Js) -> Bool,
-  isExtensible? : (@js.Js) -> Bool,
-  preventExtensions? : (@js.Js) -> Bool,
-  getOwnPropertyDescriptor? : (@js.Js, @js.Js) -> @js.Js,
-  defineProperty? : (@js.Js, @js.Js, @js.Js) -> Bool,
+  get? : (@js.Any, @js.Any, @js.Any) -> @js.Any,
+  set? : (@js.Any, @js.Any, @js.Any, @js.Any) -> Bool,
+  has? : (@js.Any, @js.Any) -> Bool,
+  deleteProperty? : (@js.Any, @js.Any) -> Bool,
+  apply? : (@js.Any, @js.Any, @js.Any) -> @js.Any,
+  construct? : (@js.Any, @js.Any, @js.Any) -> @js.Any,
+  ownKeys? : (@js.Any) -> @js.Any,
+  getPrototypeOf? : (@js.Any) -> @js.Any,
+  setPrototypeOf? : (@js.Any, @js.Any) -> Bool,
+  isExtensible? : (@js.Any) -> Bool,
+  preventExtensions? : (@js.Any) -> Bool,
+  getOwnPropertyDescriptor? : (@js.Any, @js.Any) -> @js.Any,
+  defineProperty? : (@js.Any, @js.Any, @js.Any) -> Bool,
 ) -> Proxy {
   let handler = @js.Object::new()
   if get is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("get", js_fn)
   }
   if set is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("set", js_fn)
   }
   if has is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("has", js_fn)
   }
   if deleteProperty is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("deleteProperty", js_fn)
   }
   if apply is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("apply", js_fn)
   }
   if construct is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("construct", js_fn)
   }
   if ownKeys is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("ownKeys", js_fn)
   }
   if getPrototypeOf is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("getPrototypeOf", js_fn)
   }
   if setPrototypeOf is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("setPrototypeOf", js_fn)
   }
   if isExtensible is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("isExtensible", js_fn)
   }
   if preventExtensions is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("preventExtensions", js_fn)
   }
   if getOwnPropertyDescriptor is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("getOwnPropertyDescriptor", js_fn)
   }
   if defineProperty is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("defineProperty", js_fn)
   }
   @js.new_(proxy_class(), [target.to_js(), handler.to_js()]).cast()
@@ -106,71 +106,71 @@ pub fn Proxy::new(
 /// Returns an object with {proxy: Proxy, revoke: Function}
 pub fn Proxy::revocable(
   target : &@js.JsImpl,
-  get? : (@js.Js, @js.Js, @js.Js) -> @js.Js,
-  set? : (@js.Js, @js.Js, @js.Js, @js.Js) -> Bool,
-  has? : (@js.Js, @js.Js) -> Bool,
-  deleteProperty? : (@js.Js, @js.Js) -> Bool,
-  apply? : (@js.Js, @js.Js, @js.Js) -> @js.Js,
-  construct? : (@js.Js, @js.Js, @js.Js) -> @js.Js,
-  ownKeys? : (@js.Js) -> @js.Js,
-  getPrototypeOf? : (@js.Js) -> @js.Js,
-  setPrototypeOf? : (@js.Js, @js.Js) -> Bool,
-  isExtensible? : (@js.Js) -> Bool,
-  preventExtensions? : (@js.Js) -> Bool,
-  getOwnPropertyDescriptor? : (@js.Js, @js.Js) -> @js.Js,
-  defineProperty? : (@js.Js, @js.Js, @js.Js) -> Bool,
-) -> @js.Js {
+  get? : (@js.Any, @js.Any, @js.Any) -> @js.Any,
+  set? : (@js.Any, @js.Any, @js.Any, @js.Any) -> Bool,
+  has? : (@js.Any, @js.Any) -> Bool,
+  deleteProperty? : (@js.Any, @js.Any) -> Bool,
+  apply? : (@js.Any, @js.Any, @js.Any) -> @js.Any,
+  construct? : (@js.Any, @js.Any, @js.Any) -> @js.Any,
+  ownKeys? : (@js.Any) -> @js.Any,
+  getPrototypeOf? : (@js.Any) -> @js.Any,
+  setPrototypeOf? : (@js.Any, @js.Any) -> Bool,
+  isExtensible? : (@js.Any) -> Bool,
+  preventExtensions? : (@js.Any) -> Bool,
+  getOwnPropertyDescriptor? : (@js.Any, @js.Any) -> @js.Any,
+  defineProperty? : (@js.Any, @js.Any, @js.Any) -> Bool,
+) -> @js.Any {
   let handler = @js.Object::new()
   if get is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("get", js_fn)
   }
   if set is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("set", js_fn)
   }
   if has is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("has", js_fn)
   }
   if deleteProperty is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("deleteProperty", js_fn)
   }
   if apply is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("apply", js_fn)
   }
   if construct is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("construct", js_fn)
   }
   if ownKeys is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("ownKeys", js_fn)
   }
   if getPrototypeOf is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("getPrototypeOf", js_fn)
   }
   if setPrototypeOf is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("setPrototypeOf", js_fn)
   }
   if isExtensible is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("isExtensible", js_fn)
   }
   if preventExtensions is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("preventExtensions", js_fn)
   }
   if getOwnPropertyDescriptor is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("getOwnPropertyDescriptor", js_fn)
   }
   if defineProperty is Some(trap) {
-    let js_fn : @js.Js = @js.identity(trap)
+    let js_fn : @js.Any = @js.identity(trap)
     handler.set("defineProperty", js_fn)
   }
   proxy_class().call2("revocable", target.to_js(), handler.to_js())

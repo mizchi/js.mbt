@@ -16,7 +16,7 @@ pub impl @js.JsImpl for PerformanceObserverEntryList
 
 ///|
 extern "js" fn ffi_new_performance_observer(
-  callback : (@js.Js, @js.Js) -> Unit,
+  callback : (@js.Any, @js.Any) -> Unit,
 ) -> PerformanceObserver =
   #|(callback) => new PerformanceObserver(callback)
 

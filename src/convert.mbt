@@ -62,7 +62,7 @@ pub impl[T] JsImpl for T? with to_js(self) {
 
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
-pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
+pub fn[T : JsImpl] from_array(v : Array[T]) -> Any {
   identity(v.map(_.to_js()))
 }
 
@@ -75,10 +75,10 @@ pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
 /// let _obj = from_map({ "name": js("Alice"), "age": js(30) })
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
-pub fn from_map(map : Map[String, Js]) -> Js {
+pub fn from_map(map : Map[String, Any]) -> Any {
   let obj = Object::new()
   for k, v in map {
-    let v : Js = JsImpl::to_js(v)
+    let v : Any = JsImpl::to_js(v)
     obj.set(k, v)
   }
   obj.to_js()
@@ -93,7 +93,7 @@ pub fn from_map(map : Map[String, Js]) -> Js {
 /// let _obj = from_entries([("name", "Alice"), ("age", 30)])
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
-pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Js {
+pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Any {
   let obj = Object::new()
   for entry in entries {
     let (k, v) = entry
@@ -120,7 +120,7 @@ pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Js {
 /// ])
 /// // JavaScript: { name: "Alice", age: 30, active: true }
 /// ```
-pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Js {
+pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Any {
   let obj = Object::new()
   for entry in entries {
     let (k, v) = entry
@@ -150,7 +150,7 @@ pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Js {
 /// ```
 pub fn[T : JsImpl] from_entries_option_cast(
   entries : Array[(String, T?)],
-) -> Js {
+) -> Any {
   let obj = Object::new()
   for entry in entries {
     let (k, v) = entry
@@ -164,25 +164,25 @@ pub fn[T : JsImpl] from_entries_option_cast(
 
 ///|
 /// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
-pub fn[R] from_fn0(f : () -> R) -> Js {
+pub fn[R] from_fn0(f : () -> R) -> Any {
   identity(f)
 }
 
 ///|
 /// Cast a MoonBit function with 1 argument to a JavaScript function Val.
-pub fn[A, R] from_fn1(f : (A) -> R) -> Js {
+pub fn[A, R] from_fn1(f : (A) -> R) -> Any {
   identity(f)
 }
 
 ///|
 /// Cast a MoonBit function with 2 arguments to a JavaScript function Val.
-pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Js {
+pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Any {
   identity(f)
 }
 
 ///|
 /// Cast a MoonBit function with 3 arguments to a JavaScript function Val.
-pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
+pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Any {
   identity(f)
 }
 
@@ -206,12 +206,12 @@ pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
 /// let json_str = "{\"name\":\"Alice\"}"
 /// let js_obj = JSON.parse(json_str)
 /// ```
-pub fn from_json(j : Json) -> Js {
+pub fn from_json(j : Json) -> Any {
   JsImpl::to_js(j)
 }
 
 ///|
-pub impl ToJson for Js with to_json(self) -> Json {
+pub impl ToJson for Any with to_json(self) -> Json {
   if is_nullish(self) {
     return null
   }
@@ -253,7 +253,7 @@ pub impl ToJson for Js with to_json(self) -> Json {
 }
 
 ///|
-pub impl JsImpl for Json with to_js(self) -> Js {
+pub impl JsImpl for Json with to_js(self) -> Any {
   match self {
     Null => null_()
     String(s) => js(s)
@@ -263,7 +263,7 @@ pub impl JsImpl for Json with to_js(self) -> Js {
     Object(o) => {
       let obj = Object::new()
       for k, v in o {
-        let v : Js = JsImpl::to_js(v)
+        let v : Any = JsImpl::to_js(v)
         obj.set(k, v)
       }
       obj.to_js()
@@ -271,7 +271,7 @@ pub impl JsImpl for Json with to_js(self) -> Js {
     Array(a) => {
       let arr = JsArray::new()
       for v in a {
-        let v : Js = JsImpl::to_js(v)
+        let v : Any = JsImpl::to_js(v)
         arr.call("push", [v]) |> ignore
       }
       arr.to_js()
@@ -281,10 +281,10 @@ pub impl JsImpl for Json with to_js(self) -> Js {
 
 ///|
 extern "js" fn ffi_wrap_sync(
-  f : Js,
-  ok : (Js) -> Result[Js, Js],
-  err : (Js) -> Result[Js, Js],
-) -> Result[Js, Js] =
+  f : Any,
+  ok : (Any) -> Result[Any, Any],
+  err : (Any) -> Result[Any, Any],
+) -> Result[Any, Any] =
   #|(f, ok, err) => {
   #|  try {
   #|    return ok(f())
@@ -301,14 +301,14 @@ pub fn[A, B] identity(v : A) -> B = "%identity"
 ///|
 /// Cast any JsImpl type to a JavaScript Val safely.
 /// When you can not, use `unsafe_js()`.
-pub fn js(a : &JsImpl) -> Js {
+pub fn js(a : &JsImpl) -> Any {
   identity(a.to_js())
 }
 
 ///|
 /// Convert any MoonBit value to a JavaScript Val.
 /// Use `unsafe_js()` if you can
-pub fn[T] unsafe_js(v : T) -> Js {
+pub fn[T] unsafe_js(v : T) -> Any {
   identity(v)
 }
 
@@ -327,7 +327,7 @@ pub fn[T] unsafe_js(v : T) -> Js {
 /// # Related Functions
 /// - `from_option(A?) -> Js` - Inverse conversion (Option to Js)
 /// - `@js.Nullable[T]` - For FFI struct fields that need explicit null handling
-pub fn[A] identity_option(v : Js) -> A? {
+pub fn[A] identity_option(v : Any) -> A? {
   if ffi_is_nullish(v) {
     None
   } else {
@@ -336,7 +336,7 @@ pub fn[A] identity_option(v : Js) -> A? {
 }
 
 ///|
-/// Convert an Option to Js, mapping None to null and Some(v) to v.
+/// Convert an Option to Any, mapping None to null and Some(v) to v.
 ///
 /// This is the inverse of `identity_option`. Use this when you need to pass
 /// MoonBit Option values back to JavaScript APIs.
@@ -349,7 +349,7 @@ pub fn[A] identity_option(v : Js) -> A? {
 ///
 /// # See Also
 /// - `identity_option(Js) -> A?` - Inverse conversion (Js to Option)
-pub fn[A : JsImpl] from_option(opt : A?) -> Js {
+pub fn[A : JsImpl] from_option(opt : A?) -> Any {
   match opt {
     Some(v) => v.to_js()
     None => ffi_null()
@@ -386,8 +386,8 @@ pub fn[T : JsImpl] is_nullish(v : T) -> Bool {
 }
 
 ///|
-pub fn[T : JsImpl] is_builtin_trait(v : T) -> Bool {
-  let v : Js = v |> identity
+pub fn[T] is_builtin_trait(v : T) -> Bool {
+  let v : Any = v |> identity
   v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
 }
 
@@ -423,7 +423,7 @@ pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
 
 ///|
 /// Wraps a synchronous function call that returns Result, converting any thrown JS errors into JsError
-fn throwable_result(f : () -> Result[Js, Js]) -> Result[Js, Js] {
+fn throwable_result(f : () -> Result[Any, Any]) -> Result[Any, Any] {
   ffi_wrap_sync(identity(f), Ok(_), Err(_))
 }
 

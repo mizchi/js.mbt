@@ -22,10 +22,10 @@ pub fn File::contentType(self : Self) -> String {
 ///|
 /// Create a new File from FFI
 extern "js" fn ffi_new_file(
-  data : @js.Js,
-  filename : @js.Js,
-  options : @js.Js,
-) -> @js.Js =
+  data : @js.Any,
+  filename : @js.Any,
+  options : @js.Any,
+) -> @js.Any =
   #|(data, filename, options) => new File(data, filename, options)
 
 ///|
@@ -90,8 +90,8 @@ pub fn File::slice(self : Self, start? : Int, end? : Int) -> @blob.Blob {
 /// FileReader allows reading file contents asynchronously
 pub(all) struct FileReader {
   readyState : Int
-  result : @js.Nullable[@js.Js]
-  error : @js.Nullable[@js.Js]
+  result : @js.Nullable[@js.Any]
+  error : @js.Nullable[@js.Any]
 }
 
 ///|
@@ -99,7 +99,7 @@ pub impl @js.JsImpl for FileReader
 
 ///|
 /// Create a new FileReader
-extern "js" fn ffi_new_file_reader() -> @js.Js =
+extern "js" fn ffi_new_file_reader() -> @js.Any =
   #|() => new FileReader()
 
 ///|
@@ -147,7 +147,7 @@ pub fn FileReader::abort(self : Self) -> Unit {
 /// Set onload event handler
 pub fn FileReader::set_onload(
   self : Self,
-  callback : (@js.Js) -> Unit noraise,
+  callback : (@js.Any) -> Unit noraise,
 ) -> Unit {
   self.to_js().set("onload", callback |> @js.identity)
 }
@@ -156,7 +156,7 @@ pub fn FileReader::set_onload(
 /// Set onerror event handler
 pub fn FileReader::set_onerror(
   self : Self,
-  callback : (@js.Js) -> Unit noraise,
+  callback : (@js.Any) -> Unit noraise,
 ) -> Unit {
   self.to_js().set("onerror", callback |> @js.identity)
 }
@@ -165,7 +165,7 @@ pub fn FileReader::set_onerror(
 /// Set onloadend event handler
 pub fn FileReader::set_onloadend(
   self : Self,
-  callback : (@js.Js) -> Unit noraise,
+  callback : (@js.Any) -> Unit noraise,
 ) -> Unit {
   self.to_js().set("onloadend", callback |> @js.identity)
 }

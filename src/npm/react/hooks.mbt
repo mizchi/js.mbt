@@ -12,7 +12,7 @@ pub fn[T : @js.JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
 /// JS: React.useState(() => initial)
 #alias(useStateLazy)
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
-  let initial : () -> @js.Js = @js.identity(initial)
+  let initial : () -> @js.Any = @js.identity(initial)
   let result = ffi_react_use_state_lazy(initial)
   let value : T = result.get(0).cast()
   let update_fn : (T) -> Unit = result.get(1).cast()
@@ -81,7 +81,7 @@ pub fn[T] useRef(initial : T?) -> ReactRef[T] {
 ///|
 /// React.Ref<T>
 pub(all) struct ReactRef[T] {
-  current : @js.Js
+  current : @js.Any
 }
 
 ///|
@@ -91,7 +91,7 @@ pub fn[T] ReactRef::get_current(self : ReactRef[T]) -> T? {
 
 ///|
 pub fn[T] ReactRef::set_current(self : ReactRef[T], value : T?) -> Unit {
-  let js_val : @js.Js = match value {
+  let js_val : @js.Any = match value {
     Some(v) => @js.identity(v)
     None => @js.undefined()
   }
@@ -100,7 +100,7 @@ pub fn[T] ReactRef::set_current(self : ReactRef[T], value : T?) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_set_ref_current(ref_obj : @js.Js, value : @js.Js) -> Unit =
+extern "js" fn ffi_set_ref_current(ref_obj : @js.Any, value : @js.Any) -> Unit =
   #| (ref, value) => {
   #|   ref.current = value;
   #| }
@@ -161,9 +161,9 @@ pub fn[T, U] use_reducer(
 
 ///|
 extern "js" fn use_action_state_internal(
-  f : @js.Js,
-  initial : @js.Js,
-) -> @js.Js =
+  f : @js.Any,
+  initial : @js.Any,
+) -> @js.Any =
   #| (f, initial) => {
   #|   return __ReactApi.useActionState(f, initial);
   #| }
@@ -175,7 +175,7 @@ pub fn[T, U] use_action_state(
   initial : T,
 ) -> (T, (U) -> Unit, Bool) {
   let w = @js.promisify2((s, a) => f(s, a))
-  let val : @js.Js = use_action_state_internal(
+  let val : @js.Any = use_action_state_internal(
     w |> @js.unsafe_js,
     initial |> @js.unsafe_js,
   )
@@ -200,7 +200,7 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 ///
 /// ```moonbit skip
 /// // For components with EmptyProps
-/// extern "js" fn load_my_component() -> @js.Promise[@js.Js] =
+/// extern "js" fn load_my_component() -> @js.Promise[@js.Any] =
 ///   #| () => import("./MyComponent")
 ///
 /// let my_component : ComponentType[EmptyProps] = lazy_(load_my_component)
@@ -208,20 +208,20 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 /// // For components with custom props
 /// struct MyProps { name : String }
 ///
-/// extern "js" fn load_custom_component() -> @js.Promise[@js.Js] =
+/// extern "js" fn load_custom_component() -> @js.Promise[@js.Any] =
 ///   #| () => import("./CustomComponent")
 ///
 /// let custom_component : ComponentType[MyProps] = lazy_(load_custom_component)
 /// ```
-pub fn[T] lazy_(f : () -> @js.Promise[@js.Js]) -> Component[T] {
+pub fn[T] lazy_(f : () -> @js.Promise[@js.Any]) -> Component[T] {
   ffi_react_lazy(f |> @js.unsafe_js) |> @js.identity
 }
 
 ///|
 extern "js" fn ffi_use_deferred_value(
-  value : @js.Js,
-  initial_value : @js.Js,
-) -> @js.Js =
+  value : @js.Any,
+  initial_value : @js.Any,
+) -> @js.Any =
   #| (value, initialValue) => globalThis.__ReactApi.useDeferredValue(value, initialValue)
 
 ///|
@@ -238,7 +238,10 @@ pub fn[T] use_deferred_value(value : T, initial_value? : T) -> T {
 }
 
 ///|
-extern "js" fn ffi_use_debug_value(value : @js.Js, formatter : @js.Js) -> Unit =
+extern "js" fn ffi_use_debug_value(
+  value : @js.Any,
+  formatter : @js.Any,
+) -> Unit =
   #| (value, formatter) => globalThis.__ReactApi.useDebugValue(value, formatter)
 
 ///|
@@ -267,7 +270,7 @@ pub fn use_id() -> String {
 }
 
 ///|
-extern "js" fn ffi_use_transition() -> @js.Js =
+extern "js" fn ffi_use_transition() -> @js.Any =
   #| () => globalThis.__ReactApi.useTransition()
 
 ///|
@@ -281,7 +284,10 @@ pub fn use_transition() -> (Bool, (() -> Unit) -> Unit) {
 }
 
 ///|
-extern "js" fn ffi_use_optimistic(state : @js.Js, update_fn : @js.Js) -> @js.Js =
+extern "js" fn ffi_use_optimistic(
+  state : @js.Any,
+  update_fn : @js.Any,
+) -> @js.Any =
   #| (state, updateFn) => globalThis.__ReactApi.useOptimistic(state, updateFn)
 
 ///|
@@ -301,7 +307,10 @@ pub fn[S, A] use_optimistic(
 }
 
 ///|
-extern "js" fn ffi_use_insertion_effect(effect : @js.Js, deps : @js.Js) -> Unit =
+extern "js" fn ffi_use_insertion_effect(
+  effect : @js.Any,
+  deps : @js.Any,
+) -> Unit =
   #| (effect, deps) => globalThis.__ReactApi.useInsertionEffect(effect, deps)
 
 ///|
@@ -319,10 +328,10 @@ pub fn use_insertion_effect(
 
 ///|
 extern "js" fn ffi_use_sync_external_store(
-  subscribe : @js.Js,
-  get_snapshot : @js.Js,
-  get_server_snapshot : @js.Js,
-) -> @js.Js =
+  subscribe : @js.Any,
+  get_snapshot : @js.Any,
+  get_server_snapshot : @js.Any,
+) -> @js.Any =
   #| (subscribe, getSnapshot, getServerSnapshot) => globalThis.__ReactApi.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
 ///|
@@ -349,9 +358,9 @@ pub fn[Snapshot] use_sync_external_store(
 
 ///|
 extern "js" fn ffi_use_imperative_handle(
-  ref_ : @js.Js,
-  create : @js.Js,
-  deps : @js.Js,
+  ref_ : @js.Any,
+  create : @js.Any,
+  deps : @js.Any,
 ) -> Unit =
   #| (ref, create, deps) => globalThis.__ReactApi.useImperativeHandle(ref, create, deps)
 
@@ -374,14 +383,14 @@ pub fn[T] use_imperative_handle(
 }
 
 ///|
-extern "js" fn ffi_capture_owner_stack() -> @js.Js =
+extern "js" fn ffi_capture_owner_stack() -> @js.Any =
   #| () => globalThis.__ReactApi.captureOwnerStack ? globalThis.__ReactApi.captureOwnerStack() : null
 
 ///|
 /// React.captureOwnerStack - Capture component stack for debugging (DEV only)
 /// see: https://react.dev/reference/react/captureOwnerStack
 #alias(captureOwnerStack)
-pub fn capture_owner_stack() -> @js.Js? {
+pub fn capture_owner_stack() -> @js.Any? {
   let result = ffi_capture_owner_stack()
   if @js.is_nullish(result) {
     None
@@ -391,19 +400,19 @@ pub fn capture_owner_stack() -> @js.Js? {
 }
 
 ///|
-extern "js" fn ffi_cache_signal() -> @js.Js =
+extern "js" fn ffi_cache_signal() -> @js.Any =
   #| () => globalThis.__ReactApi.cacheSignal ? globalThis.__ReactApi.cacheSignal() : { current: null }
 
 ///|
 /// React.cacheSignal - Create cache signal for use with cache()
 /// see: https://react.dev/reference/react/cacheSignal
 #alias(cacheSignal)
-pub fn cache_signal() -> @js.Js {
+pub fn cache_signal() -> @js.Any {
   ffi_cache_signal()
 }
 
 ///|
-extern "js" fn ffi_react_cache(fn_ : @js.Js) -> @js.Js =
+extern "js" fn ffi_react_cache(fn_ : @js.Any) -> @js.Any =
   #| (fn) => globalThis.__ReactApi.cache ? globalThis.__ReactApi.cache(fn) : fn
 
 ///|
@@ -416,7 +425,7 @@ pub fn[T, R] react_cache(f : (T) -> R) -> (T) -> R {
 }
 
 ///|
-extern "js" fn ffi_act(callback : @js.Js) -> @js.Js =
+extern "js" fn ffi_act(callback : @js.Any) -> @js.Any =
   #| (callback) => globalThis.__ReactApi.act(callback)
 
 ///|
@@ -427,7 +436,7 @@ pub fn act(callback : () -> Unit) -> @js.Promise[Unit] {
 }
 
 ///|
-extern "js" fn ffi_act_async(callback : @js.Js) -> @js.Promise[Unit] =
+extern "js" fn ffi_act_async(callback : @js.Any) -> @js.Promise[Unit] =
   #| async (callback) => await globalThis.__ReactApi.act(callback)
 
 ///|

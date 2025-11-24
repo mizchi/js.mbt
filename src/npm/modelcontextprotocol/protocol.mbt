@@ -204,7 +204,7 @@ pub struct ClientInfo {
 } derive(Show)
 
 ///|
-pub fn ClientInfo::from_js(js : @js.Js) -> ClientInfo? {
+pub fn ClientInfo::from_js(js : @js.Any) -> ClientInfo? {
   let obj : @js.Object = @js.identity(js)
   let name : String? = obj.get("name") |> @js.identity_option()
   let version : String? = obj.get("version") |> @js.identity_option()

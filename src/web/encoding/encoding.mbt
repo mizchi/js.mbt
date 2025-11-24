@@ -1,9 +1,9 @@
 ///|
-extern "js" fn ffi_new_text_encoder() -> @js.Js =
+extern "js" fn ffi_new_text_encoder() -> @js.Any =
   #| () => new TextEncoder()
 
 ///|
-extern "js" fn ffi_new_text_decoder() -> @js.Js =
+extern "js" fn ffi_new_text_decoder() -> @js.Any =
   #| () => new TextDecoder()
 
 ///|

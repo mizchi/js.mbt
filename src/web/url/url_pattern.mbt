@@ -1,12 +1,12 @@
 ///|
-extern "js" fn ffi_new_url_pattern(pattern : @js.Js) -> @js.Js =
+extern "js" fn ffi_new_url_pattern(pattern : @js.Any) -> @js.Any =
   #|(pattern) => new URLPattern(pattern)
 
 ///|
 extern "js" fn ffi_new_url_pattern_with_base(
-  pattern : @js.Js,
+  pattern : @js.Any,
   base : String,
-) -> @js.Js =
+) -> @js.Any =
   #|(pattern, base) => new URLPattern(pattern, base)
 
 ///|
@@ -28,7 +28,7 @@ pub impl @js.JsImpl for URLPattern
 ///|
 pub(all) struct URLPatternComponentResult {
   input : String
-  groups : @js.Js
+  groups : @js.Any
 }
 
 ///|
@@ -64,7 +64,7 @@ pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
 /// Create a new URLPattern from a pattern object
 #alias(new_from_object)
 pub fn URLPattern::newFromObject(
-  pattern : @js.Js,
+  pattern : @js.Any,
   base? : String,
 ) -> URLPattern {
   match base {
@@ -93,7 +93,7 @@ pub fn URLPattern::test_url_with_base(
 }
 
 ///|
-extern "js" fn ffi_is_null(v : @js.Js) -> Bool =
+extern "js" fn ffi_is_null(v : @js.Any) -> Bool =
   #|(v) => v === null
 
 ///|

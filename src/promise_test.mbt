@@ -16,10 +16,10 @@ async test "Promise: @js.Promise::then" {
 
 ///|
 async test "Promise: @js.Promise::catch_" {
-  let err_val : @js.Js = @js.identity(@js.Object::new())
+  let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
   let recovered = p.catch_(_ => @js.Promise::resolve(42 |> @js.js))
-  let result : @js.Js = recovered.wait()
+  let result : @js.Any = recovered.wait()
   let v : Int = @js.identity(result)
   assert_eq(v, 42)
 }
@@ -70,9 +70,10 @@ async test "Promise: @js.Promise::race" {
 ///|
 async test "Promise: @js.Promise::new" {
   let p : @js.Promise[Int] = @js.Promise::new((resolve, _reject) => @js.run_async(() => {
-    @js.sleep(16)
-    resolve(42)
-  }))
+      @js.sleep(16)
+      resolve(42)
+    },
+  ))
   let result = p.wait()
   assert_eq(result, 42)
 }
@@ -80,9 +81,10 @@ async test "Promise: @js.Promise::new" {
 ///|
 async test "Promise: @js.Promise::new with reject" {
   let p : @js.Promise[Int] = @js.Promise::new((_resolve, reject) => @js.run_async(() => {
-    @js.sleep(16)
-    reject(Failure("test error"))
-  }))
+      @js.sleep(16)
+      reject(Failure("test error"))
+    },
+  ))
   let result = try? p.wait()
   assert_true(result is Err(_))
 }
@@ -213,7 +215,11 @@ async test "Promise: unwrap Promise inside async function" {
 
 ///|
 async test "Promise: Promise.all with async unwrap" {
-  let promises = [@js.Promise::resolve(1), @js.Promise::resolve(2), @js.Promise::resolve(3)]
+  let promises = [
+    @js.Promise::resolve(1),
+    @js.Promise::resolve(2),
+    @js.Promise::resolve(3),
+  ]
   let all_promise = @js.Promise::all(promises)
   let results = all_promise.wait()
   inspect(results.length(), content="3")
@@ -232,7 +238,9 @@ async test "Promise: async function with error converts to rejected Promise" {
 
 ///|
 async test "Promise: Promise.new to async unwrap" {
-  let promise : @js.Promise[Int] = @js.Promise::new((resolve, _reject) => resolve(999))
+  let promise : @js.Promise[Int] = @js.Promise::new((resolve, _reject) => resolve(
+    999,
+  ))
   let result = promise.wait()
   inspect(result, content="999")
 }
@@ -369,9 +377,10 @@ async test "Promise: suspend with resolve" {
 async test "Promise: suspend with reject" {
   @js.run_async(() => try {
     let result : Result[Unit, Failure] = try? @js.suspend((_ok, err) => @js.run_async(() => {
-      @js.sleep(16)
-      err(Failure("test error"))
-    }))
+        @js.sleep(16)
+        err(Failure("test error"))
+      },
+    ))
     assert_true(result is Err(_))
   } catch {
     _ => ()
@@ -478,7 +487,7 @@ async test "Promise: @js.Promise::withResolvers multiple resolve calls" {
 
 ///|
 async test "Promise: Promise chain with error recovery" {
-  let err_val : @js.Js = @js.identity(@js.Object::new())
+  let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
     .catch_(_ => @js.Promise::resolve(10 |> @js.js))
     .then(v => {
@@ -539,17 +548,17 @@ async test "Promise: @js.Promise::allSettled handles both fulfilled and rejected
 ///|
 /// Rejection propagates through then chain without catch
 async test "Promise: rejection propagates through then chain" {
-  let err_val : @js.Js = @js.identity(@js.Object::new())
+  let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
     .then(v => {
-      let _ignored : @js.Js = v
+      let _ignored : @js.Any = v
       @js.Promise::resolve(99 |> @js.js)
     })
     .then(v => {
-      let _ignored : @js.Js = v
+      let _ignored : @js.Any = v
       @js.Promise::resolve(100 |> @js.js)
     })
-  let result : @js.Js = p.wait() catch { _e => @js.js(-1) }
+  let result : @js.Any = p.wait() catch { _e => @js.js(-1) }
   let num : Int = @js.identity(result)
   inspect(num, content="-1")
 }
@@ -559,7 +568,7 @@ async test "Promise: rejection propagates through then chain" {
 async test "Promise: multiple catch handlers in chain" {
   let mut first_catch_called = false
   let mut second_catch_called = false
-  let err_val : @js.Js = @js.identity(@js.Object::new())
+  let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
     .catch_(_ => {
       first_catch_called = true
@@ -569,7 +578,7 @@ async test "Promise: multiple catch handlers in chain" {
       second_catch_called = true
       @js.Promise::resolve(99 |> @js.js)
     })
-  let result : @js.Js = p.wait()
+  let result : @js.Any = p.wait()
   let num : Int = @js.identity(result)
   inspect(num, content="42")
   inspect(first_catch_called, content="true")
@@ -580,11 +589,11 @@ async test "Promise: multiple catch handlers in chain" {
 /// catch_ then finally_ chain
 async test "Promise: catch then finally chain" {
   let mut finally_called = false
-  let err_val : @js.Js = @js.identity(@js.Object::new())
+  let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
     .catch_(_ => @js.Promise::resolve(42 |> @js.js))
     .finally_(fn() { finally_called = true })
-  let result : @js.Js = p.wait()
+  let result : @js.Any = p.wait()
   let num : Int = @js.identity(result)
   inspect(num, content="42")
   inspect(finally_called, content="true")
@@ -603,11 +612,11 @@ async test "Promise: rejection in then followed by catch" {
 ///|
 /// Nested catch handlers
 async test "Promise: nested catch handlers" {
-  let err_val : @js.Js = @js.identity(@js.Object::new())
+  let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
     .catch_(_ => @js.Promise::reject(@js.identity(@js.Object::new())))
     .catch_(_ => @js.Promise::resolve(100 |> @js.js))
-  let result : @js.Js = p.wait()
+  let result : @js.Any = p.wait()
   let num : Int = @js.identity(result)
   inspect(num, content="100")
 }

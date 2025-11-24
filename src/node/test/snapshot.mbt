@@ -39,7 +39,7 @@ pub fn TestContext::assert_fileSnapshot(
 /// snapshot module functions
 
 ///|
-fn snapshot_module() -> @js.Js {
+fn snapshot_module() -> @js.Any {
   nodetest().get("snapshot")
 }
 

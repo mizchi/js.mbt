@@ -187,7 +187,7 @@ test "JsIterator::from converts iterable to iterator" {
   arr.push(3)
 
   // Use Iterator.from to convert iterable to iterator
-  let js_iter : JsIterator[@js.Js] = JsIterator::from(arr.to_js())
+  let js_iter : JsIterator[@js.Any] = JsIterator::from(arr.to_js())
 
   // Verify it's created (basic type check)
   assert_true(@js.is_object(js_iter.to_js()))
@@ -218,7 +218,7 @@ test "JsError creation and properties" {
   let error = JsError::new("Test error")
   assert_eq(error.message, "Test error")
   assert_true(JsError::isError(error))
-  let error_val : @js.Js = @js.identity(error)
+  let error_val : @js.Any = @js.identity(error)
   assert_true(@js.is_object(error_val))
   assert_eq(@js.identity(error_val.get("message")), "Test error")
 }
@@ -227,7 +227,7 @@ test "JsError creation and properties" {
 test "JsError with cause" {
   let cause_error = JsError::new("Cause error")
   let error_with_cause = JsError::new("Main error", cause=cause_error)
-  let error_with_cause_val : @js.Js = @js.identity(error_with_cause)
+  let error_with_cause_val : @js.Any = @js.identity(error_with_cause)
   assert_eq(@js.identity(error_with_cause_val.get("message")), "Main error")
 }
 

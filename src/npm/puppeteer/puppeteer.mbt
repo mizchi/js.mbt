@@ -12,7 +12,7 @@ pub impl @js.JsImpl for Browser
 
 ///|
 /// FFI: Launch browser with options
-extern "js" fn ffi_launch(options : @js.Js) -> @js.Js =
+extern "js" fn ffi_launch(options : @js.Any) -> @js.Any =
   #| (options) => {
   #|   const puppeteer = require('puppeteer');
   #|   return puppeteer.launch(options);
@@ -33,7 +33,7 @@ pub async fn launch(
   timeout? : Int,
   userDataDir? : String,
   dumpio? : Bool,
-  env? : @js.Js,
+  env? : @js.Any,
   pipe? : Bool,
   ignoreDefaultArgs? : Bool,
   waitForInitialPage? : Bool,
@@ -126,9 +126,7 @@ pub async fn Browser::close(self : Browser) -> Unit {
 ///|
 /// Browser: Get all pages
 pub async fn Browser::pages(self : Browser) -> Array[Page] {
-  let promise : @js.Promise[Array[Page]] = @js.identity(
-    self.call("pages", []),
-  )
+  let promise : @js.Promise[Array[Page]] = @js.identity(self.call("pages", []))
   promise.wait()
 }
 
@@ -142,8 +140,6 @@ pub async fn Browser::version(self : Browser) -> String {
 ///|
 /// Browser: Get user agent
 pub async fn Browser::userAgent(self : Browser) -> String {
-  let promise : @js.Promise[String] = @js.identity(
-    self.call("userAgent", []),
-  )
+  let promise : @js.Promise[String] = @js.identity(self.call("userAgent", []))
   promise.wait()
 }

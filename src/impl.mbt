@@ -1,46 +1,4 @@
 ///|
-/// Represents an unsafe JavaScript value.
-///
-/// `Val` is the core type for FFI operations between MoonBit and JavaScript.
-/// It can hold any JavaScript value including primitives, objects, arrays, functions, etc.
-///
-/// # Example
-///
-/// ```moonbit
-/// let num = js(42)                 // MoonBit Int -> @js.Js
-/// let _str = js("hello")            // MoonBit String -> @js.Js
-/// let _val : Int = identity(num) // Val -> MoonBit Int (unsafe)
-/// ```
-#external
-pub type Js
-
-///|
-pub fn[T] Js::cast(self : Self) -> T {
-  identity(self)
-}
-
-///|
-pub impl Show for Js with output(self, logger) {
-  logger.write_string(self.to_string())
-}
-
-///|
-pub impl Show for Js with to_string(self) {
-  if is_array(self) {
-    return ffi_json_stringify(self, undefined(), undefined())
-  }
-  if is_object(self) {
-    return ffi_json_stringify(self, undefined(), undefined())
-  }
-  ffi_to_string(self)
-}
-
-///|
-pub impl Eq for Js with equal(self, other) -> Bool {
-  ffi_object_is(self, other)
-}
-
-///|
 /// JS: v instanceof cls
 pub fn[T : JsImpl] instanceof_(v : T, cls : T) -> Bool {
   ffi_instance_of(v.to_js(), cls.to_js())
@@ -54,7 +12,7 @@ pub fn[T : JsImpl] typeof_(v : T) -> String {
 
 ///|
 /// JS: new cls(...args)
-pub fn new_(cls : Js, args : Array[&JsImpl]) -> Js {
+pub fn new_(cls : Any, args : Array[&JsImpl]) -> Any {
   ffi_new(cls, args.map(_.to_js()))
 }
 
@@ -65,11 +23,11 @@ pub fn new_(cls : Js, args : Array[&JsImpl]) -> Js {
 ///
 /// ```moonbit
 /// // Using the trait explicitly
-/// let _val : Js = JsImpl::to_js("hello")
-/// let _num : Js = JsImpl::to_js(42)
+/// let _val : Any = JsImpl::to_js("hello")
+/// let _num : Any = JsImpl::to_js(42)
 ///
 /// // Using with polymorphic functions
-/// fn create_object(name : &JsImpl, age : &JsImpl) -> Js {
+/// fn create_object(name : &JsImpl, age : &JsImpl) -> Any {
 ///   let obj = @js.Object::new()
 ///   obj.set("name", name)
 ///   obj.set("age", age)
@@ -78,29 +36,29 @@ pub fn new_(cls : Js, args : Array[&JsImpl]) -> Js {
 /// let _obj = create_object("Alice", 30)  // Strings and Ints implement Js
 /// ```
 pub(open) trait JsImpl {
-  to_js(Self) -> Js = _
-  get(Self, &PropertyKey) -> Js = _
+  to_js(Self) -> Any = _
+  get(Self, &PropertyKey) -> Any = _
   set(Self, &PropertyKey, &JsImpl) -> Unit = _
-  call(Self, &PropertyKey, Array[&JsImpl]) -> Js = _
-  call0(Self, &PropertyKey) -> Js = _
-  call1(Self, &PropertyKey, &JsImpl) -> Js = _
-  call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Js = _
-  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise ThrowError = _
-  call_self(Self, Array[&JsImpl]) -> Js = _
-  call_self0(Self) -> Js = _
-  call_self_throwable(Self, Array[&JsImpl]) -> Js raise ThrowError = _
+  call(Self, &PropertyKey, Array[&JsImpl]) -> Any = _
+  call0(Self, &PropertyKey) -> Any = _
+  call1(Self, &PropertyKey, &JsImpl) -> Any = _
+  call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Any = _
+  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Any raise ThrowError = _
+  call_self(Self, Array[&JsImpl]) -> Any = _
+  call_self0(Self) -> Any = _
+  call_self_throwable(Self, Array[&JsImpl]) -> Any raise ThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
 }
 
 ///|
-impl JsImpl with to_js(self) -> Js {
+impl JsImpl with to_js(self) -> Any {
   identity(self)
 }
 
 ///|
 /// JS: self[key]
-impl JsImpl with get(self, key : &PropertyKey) -> Js {
+impl JsImpl with get(self, key : &PropertyKey) -> Any {
   ffi_get(self.to_js(), key.to_key() |> identity)
 }
 
@@ -113,34 +71,34 @@ impl JsImpl with set(self, key : &PropertyKey, val : &JsImpl) -> Unit {
 ///|
 /// call a method on the JavaScript value.
 /// JS: self[key](...args)
-impl JsImpl with call(self, key, args) -> Js {
+impl JsImpl with call(self, key, args) -> Any {
   ffi_call(self.to_js(), key.to_key() |> identity, args.map(_.to_js()))
 }
 
 ///|
 /// call a method on the JavaScript value.
 /// JS: self[key](...args)
-impl JsImpl with call0(self, key) -> Js {
+impl JsImpl with call0(self, key) -> Any {
   ffi_call0(self.to_js(), key.to_key() |> identity)
 }
 
 ///|
 /// call a method on the JavaScript value.
 /// JS: self[key](arg1)
-impl JsImpl with call1(self, key, arg1) -> Js {
+impl JsImpl with call1(self, key, arg1) -> Any {
   ffi_call1(self.to_js(), key.to_key() |> identity, arg1.to_js())
 }
 
 ///|
 /// call a method on the JavaScript value.
 /// JS: self[key](arg1, arg2)
-impl JsImpl with call2(self, key, arg1, arg2) -> Js {
+impl JsImpl with call2(self, key, arg1, arg2) -> Any {
   ffi_call2(self.to_js(), key.to_key() |> identity, arg1.to_js(), arg2.to_js())
 }
 
 ///|
 /// JS: try { self[key](...args) } catch (e) { throw new ThrowError(e); }
-impl JsImpl with call_throwable(self, key, args) -> Js raise ThrowError {
+impl JsImpl with call_throwable(self, key, args) -> Any raise ThrowError {
   throwable(() => ffi_call(
     self.to_js(),
     key.to_key() |> identity,
@@ -151,19 +109,19 @@ impl JsImpl with call_throwable(self, key, args) -> Js raise ThrowError {
 ///|
 /// call a method on the JavaScript value with no arguments.
 /// JS: self(...args)
-impl JsImpl with call_self(self, args) -> Js {
+impl JsImpl with call_self(self, args) -> Any {
   ffi_call_self(self.to_js(), args.map(_.to_js()))
 }
 
 ///|
 /// call a method on the JavaScript value with no arguments.
 /// JS: self()
-impl JsImpl with call_self0(self) -> Js {
+impl JsImpl with call_self0(self) -> Any {
   ffi_call_self0(self.to_js())
 }
 
 ///|
-impl JsImpl with call_self_throwable(self, args) -> Js raise ThrowError {
+impl JsImpl with call_self_throwable(self, args) -> Any raise ThrowError {
   throwable(() => ffi_call_self(self.to_js(), args.map(_.to_js())))
 }
 
@@ -176,7 +134,3 @@ impl JsImpl with delete(self, key : &PropertyKey) -> Unit {
 impl JsImpl with hasOwnProperty(self, key : &PropertyKey) -> Bool {
   ffi_has_own_property(self.to_js(), key.to_key() |> identity)
 }
-
-///|
-/// Identity implementation for Js.
-pub impl JsImpl for Js

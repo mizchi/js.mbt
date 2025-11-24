@@ -55,7 +55,7 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
 ///|
 /// Convert URL to HTTP options object
 #alias(url_to_http_options)
-pub fn urlToHttpOptions(url : @weburl.URL) -> @js.Js {
+pub fn urlToHttpOptions(url : @weburl.URL) -> @js.Any {
   let url_module = @node.require("node:url")
   url_module.call1("urlToHttpOptions", url)
 }

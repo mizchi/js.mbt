@@ -91,7 +91,7 @@ pub fn[T, U] DatabaseSync::aggregate(
   start? : U,
   step? : (T, U) -> T,
   inverse? : (T, U) -> T,
-  result? : (T) -> @js.Js,
+  result? : (T) -> @js.Any,
 ) -> Unit {
   let opts = @js.from_entries_option([
     ("deterministic", deterministic.map(x => x)),
@@ -110,7 +110,7 @@ pub fn[T, U] DatabaseSync::aggregate(
 pub fn DatabaseSync::function(
   self : Self,
   name : String,
-  func : (Array[@js.Js]) -> @js.Js,
+  func : (Array[@js.Any]) -> @js.Any,
   deterministic? : Bool,
   directOnly? : Bool,
   useBigIntArguments? : Bool,
@@ -223,8 +223,8 @@ pub fn DatabaseSync::prepare(self : Self, query : String) -> StatementSync {
 pub fn DatabaseSync::applyChangeset(
   self : Self,
   changeset : @typedarray.Uint8Array,
-  filter? : (@js.Js) -> Bool,
-  onConflict? : (@js.Js?, @js.Js) -> Bool,
+  filter? : (@js.Any) -> Bool,
+  onConflict? : (@js.Any?, @js.Any) -> Bool,
 ) -> Bool {
   let opts = @js.from_entries_option_cast([
     ("filter", filter.map(fn(f) { f |> @js.from_fn1 })),
@@ -247,7 +247,7 @@ pub fn StatementSync::get_(
   self : Self,
   named_parameters? : Map[String, &@js.JsImpl],
   anonymous_parameters? : Array[&@js.JsImpl],
-) -> @js.Js? {
+) -> @js.Any? {
   let args : Array[&@js.JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
@@ -273,7 +273,7 @@ pub fn StatementSync::get_(
 /// Get column information
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn StatementSync::columns(self : Self) -> Array[@js.Js] {
+pub fn StatementSync::columns(self : Self) -> Array[@js.Any] {
   self.call0("columns") |> @js.identity
 }
 
@@ -304,7 +304,7 @@ pub fn StatementSync::all(
   self : Self,
   named_parameters? : Map[String, &@js.JsImpl],
   anonymous_parameters? : Array[&@js.JsImpl],
-) -> Array[@js.Js] {
+) -> Array[@js.Any] {
   let args : Array[&@js.JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
@@ -326,7 +326,7 @@ pub fn StatementSync::iterate(
   self : Self,
   named_parameters? : Map[String, &@js.JsImpl],
   anonymous_parameters? : Array[&@js.JsImpl],
-) -> @js.JsIterator[@js.Js] {
+) -> @js.JsIterator[@js.Any] {
   let args : Array[&@js.JsImpl] = []
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
@@ -471,13 +471,13 @@ pub fn backup(
   if progress is Some(f) {
     opts.set("progress", f |> @js.from_fn1)
   }
-  let backup : @js.Js = @node.require("node:sqlite").get("backup")
+  let backup : @js.Any = @node.require("node:sqlite").get("backup")
   backup.call_self([source_db.to_js(), db_path, opts]) |> ignore
 }
 
 ///|
 /// SQLite constants accessor
-fn get_constants() -> @js.Js {
+fn get_constants() -> @js.Any {
   let sqlite = @node.require("node:sqlite")
   sqlite.get("constants")
 }

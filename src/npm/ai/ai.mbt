@@ -65,7 +65,7 @@ pub fn Ai::generate_text(
   model~ : Model,
   messages~ : Array[ModelMessage],
   // prompt?: String
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   @js.identity(
     self
     .to_js()

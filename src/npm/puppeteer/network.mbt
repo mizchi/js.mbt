@@ -56,7 +56,7 @@ pub async fn HTTPRequest::continue_(self : HTTPRequest) -> Unit {
 /// JS: request.continue(overrides)
 pub async fn HTTPRequest::continue_with(
   self : HTTPRequest,
-  overrides : @js.Js,
+  overrides : @js.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = @js.identity(
     self.call("continue", [overrides]),
@@ -69,7 +69,7 @@ pub async fn HTTPRequest::continue_with(
 /// JS: request.respond(response)
 pub async fn HTTPRequest::respond(
   self : HTTPRequest,
-  response : @js.Js,
+  response : @js.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = @js.identity(
     self.call("respond", [response]),
@@ -101,7 +101,7 @@ pub fn HTTPRequest::method_(self : HTTPRequest) -> String {
 ///|
 /// HTTPRequest: Get request headers
 /// JS: request.headers()
-pub fn HTTPRequest::headers(self : HTTPRequest) -> @js.Js {
+pub fn HTTPRequest::headers(self : HTTPRequest) -> @js.Any {
   self.call("headers", [])
 }
 
@@ -183,7 +183,7 @@ pub fn HTTPResponse::ok(self : HTTPResponse) -> Bool {
 ///|
 /// HTTPResponse: Get response headers
 /// JS: response.headers()
-pub fn HTTPResponse::headers(self : HTTPResponse) -> @js.Js {
+pub fn HTTPResponse::headers(self : HTTPResponse) -> @js.Any {
   self.call("headers", [])
 }
 
@@ -198,16 +198,16 @@ pub async fn HTTPResponse::text(self : HTTPResponse) -> String {
 ///|
 /// HTTPResponse: Get response body as JSON
 /// JS: response.json()
-pub async fn HTTPResponse::json(self : HTTPResponse) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.identity(self.call("json", []))
+pub async fn HTTPResponse::json(self : HTTPResponse) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = @js.identity(self.call("json", []))
   promise.wait()
 }
 
 ///|
 /// HTTPResponse: Get response body as buffer
 /// JS: response.buffer()
-pub async fn HTTPResponse::buffer(self : HTTPResponse) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.identity(self.call("buffer", []))
+pub async fn HTTPResponse::buffer(self : HTTPResponse) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = @js.identity(self.call("buffer", []))
   promise.wait()
 }
 

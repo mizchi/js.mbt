@@ -1,6 +1,6 @@
 ///|
 /// node:net module
-fn net_module() -> @js.Js {
+fn net_module() -> @js.Any {
   @node.require("node:net")
 }
 
@@ -171,7 +171,7 @@ pub fn Server::close(self : Server) -> Server {
 
 ///|
 /// Get the server address
-pub fn Server::address(self : Server) -> @js.Js? {
+pub fn Server::address(self : Server) -> @js.Any? {
   self.call0("address") |> @js.identity_option
 }
 

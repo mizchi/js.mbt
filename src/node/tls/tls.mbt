@@ -54,7 +54,7 @@ pub fn ServerOptions::new() -> ServerOptions {
 
 ///|
 /// Convert ServerOptions to JavaScript object
-pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Js {
+pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.key {
     Some(v) => obj.set("key", v)
@@ -101,8 +101,8 @@ pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Js {
 
 ///|
 extern "js" fn ffi_create_server(
-  options : @js.Js,
-  secureConnectionListener : @js.Js,
+  options : @js.Any,
+  secureConnectionListener : @js.Any,
 ) -> Server =
   #| (options, secureConnectionListener) => {
   #|   const tls = require('tls');
@@ -115,21 +115,21 @@ pub fn create_server(
   options : ServerOptions,
   secureConnectionListener : (TLSSocket) -> Unit,
 ) -> Server {
-  let cb : @js.Js = @js.identity(secureConnectionListener)
+  let cb : @js.Any = @js.identity(secureConnectionListener)
   ffi_create_server(options.to_js(), cb)
 }
 
 ///|
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
-  let cb : @js.Js = @js.identity(callback)
+  let cb : @js.Any = @js.identity(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
-  let cb : @js.Js = @js.identity(callback)
+  let cb : @js.Any = @js.identity(callback)
   self.call("close", [cb]) |> ignore
 }
 
@@ -165,7 +165,7 @@ pub fn ConnectOptions::new(port : Int, host : String) -> ConnectOptions {
 
 ///|
 /// Convert ConnectOptions to JavaScript object
-pub fn ConnectOptions::to_js(self : ConnectOptions) -> @js.Js {
+pub fn ConnectOptions::to_js(self : ConnectOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.host {
     Some(v) => obj.set("host", v)
@@ -215,7 +215,7 @@ pub fn ConnectOptions::to_js(self : ConnectOptions) -> @js.Js {
 }
 
 ///|
-extern "js" fn ffi_connect(options : @js.Js, callback : @js.Js) -> TLSSocket =
+extern "js" fn ffi_connect(options : @js.Any, callback : @js.Any) -> TLSSocket =
   #| (options, callback) => {
   #|   const tls = require('tls');
   #|   return tls.connect(options, callback);
@@ -224,7 +224,7 @@ extern "js" fn ffi_connect(options : @js.Js, callback : @js.Js) -> TLSSocket =
 ///|
 /// Connect to a TLS server
 pub fn connect(options : ConnectOptions, callback : () -> Unit) -> TLSSocket {
-  let cb : @js.Js = @js.identity(callback)
+  let cb : @js.Any = @js.identity(callback)
   ffi_connect(options.to_js(), cb)
 }
 
@@ -234,35 +234,35 @@ pub fn TLSSocket::get_peer_certificate(
   self : TLSSocket,
   detailed : Bool,
 ) -> @js.Object {
-  let val : @js.Js = self.call("getPeerCertificate", [detailed])
+  let val : @js.Any = self.call("getPeerCertificate", [detailed])
   @js.identity(val)
 }
 
 ///|
 /// Get the cipher information
 pub fn TLSSocket::get_cipher(self : TLSSocket) -> @js.Object {
-  let val : @js.Js = self.call0("getCipher")
+  let val : @js.Any = self.call0("getCipher")
   @js.identity(val)
 }
 
 ///|
 /// Get the negotiated TLS protocol version
 pub fn TLSSocket::get_protocol(self : TLSSocket) -> String {
-  let val : @js.Js = self.call0("getProtocol")
+  let val : @js.Any = self.call0("getProtocol")
   @js.identity(val)
 }
 
 ///|
 /// Check if the connection is authorized
 pub fn TLSSocket::authorized(self : TLSSocket) -> Bool {
-  let val : @js.Js = self.get("authorized")
+  let val : @js.Any = self.get("authorized")
   @js.identity(val)
 }
 
 ///|
 /// Get the authorization error if not authorized
 pub fn TLSSocket::authorization_error(self : TLSSocket) -> String? {
-  let val : @js.Js = self.get("authorizationError")
+  let val : @js.Any = self.get("authorizationError")
   let is_null : Bool = @js.identity(@js.typeof_(val) == "undefined")
   if is_null {
     None
@@ -289,7 +289,7 @@ pub fn TLSSocket::on_secure_connect(
   self : TLSSocket,
   callback : () -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("secureConnect", fn(_e : @js.Js) { callback() })
+  self.addEventListener("secureConnect", fn(_e : @js.Any) { callback() })
   self
 }
 
@@ -299,14 +299,14 @@ pub fn TLSSocket::on_data(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("data", fn(e : @js.Js) { callback(@js.identity(e)) })
+  self.addEventListener("data", fn(e : @js.Any) { callback(@js.identity(e)) })
   self
 }
 
 ///|
 /// Register 'end' event handler
 pub fn TLSSocket::on_end(self : TLSSocket, callback : () -> Unit) -> TLSSocket {
-  self.addEventListener("end", fn(_e : @js.Js) { callback() })
+  self.addEventListener("end", fn(_e : @js.Any) { callback() })
   self
 }
 
@@ -316,6 +316,6 @@ pub fn TLSSocket::on_error(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("error", fn(e : @js.Js) { callback(@js.identity(e)) })
+  self.addEventListener("error", fn(e : @js.Any) { callback(@js.identity(e)) })
   self
 }

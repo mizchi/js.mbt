@@ -4,12 +4,12 @@
 
 ///|
 /// Helper to create TextEncoder
-extern "js" fn new_text_encoder() -> @js.Js =
+extern "js" fn new_text_encoder() -> @js.Any =
   #| () => new TextEncoder()
 
 ///|
 /// Helper to create Uint8Array
-extern "js" fn new_uint8array(size : Int) -> @js.Js =
+extern "js" fn new_uint8array(size : Int) -> @js.Any =
   #| (size) => new Uint8Array(size)
 
 ///|

@@ -56,7 +56,7 @@ pub fn Uint8Array::toString(self : Self) -> String {
 }
 
 ///|
-extern "js" fn ffi_uint8array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_uint8array_from_size(length : UInt) -> @js.Any =
   #| (len) => new Uint8Array(len)
 
 ///|
@@ -65,7 +65,7 @@ pub fn Uint8Array::from_size(length : UInt) -> Uint8Array {
 }
 
 ///|
-extern "js" fn ffi_uint8array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_uint8array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new Uint8Array(arr)
 
 ///|
@@ -75,10 +75,10 @@ pub fn Uint8Array::from_array(array : Array[UInt]) -> Uint8Array {
 
 ///|
 extern "js" fn ffi_uint8array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new Uint8Array(buf, offset, len) : new Uint8Array(buf, offset)
 
 ///|
@@ -198,7 +198,7 @@ pub fn Uint16Array::from_size(length : UInt) -> Uint16Array {
 }
 
 ///|
-extern "js" fn ffi_uint16array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_uint16array_from_size(length : UInt) -> @js.Any =
   #| (len) => new Uint16Array(len)
 
 ///|
@@ -207,7 +207,7 @@ pub fn Uint16Array::from_array(array : Array[UInt]) -> Uint16Array {
 }
 
 ///|
-extern "js" fn ffi_uint16array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_uint16array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new Uint16Array(arr)
 
 ///|
@@ -221,10 +221,10 @@ pub fn Uint16Array::from_array_buffer(
 
 ///|
 extern "js" fn ffi_uint16array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new Uint16Array(buf, offset, len) : new Uint16Array(buf, offset)
 
 ///|
@@ -326,7 +326,7 @@ pub fn Uint32Array::from_size(length : UInt) -> Uint32Array {
 }
 
 ///|
-extern "js" fn ffi_uint32array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_uint32array_from_size(length : UInt) -> @js.Any =
   #| (len) => new Uint32Array(len)
 
 ///|
@@ -335,7 +335,7 @@ pub fn Uint32Array::from_array(array : Array[UInt]) -> Uint32Array {
 }
 
 ///|
-extern "js" fn ffi_uint32array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_uint32array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new Uint32Array(arr)
 
 ///|
@@ -349,10 +349,10 @@ pub fn Uint32Array::from_array_buffer(
 
 ///|
 extern "js" fn ffi_uint32array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new Uint32Array(buf, offset, len) : new Uint32Array(buf, offset)
 
 ///|
@@ -454,7 +454,7 @@ pub fn Int8Array::from_size(length : UInt) -> Int8Array {
 }
 
 ///|
-extern "js" fn ffi_int8array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_int8array_from_size(length : UInt) -> @js.Any =
   #| (len) => new Int8Array(len)
 
 ///|
@@ -463,7 +463,7 @@ pub fn Int8Array::from_array(array : Array[Int]) -> Int8Array {
 }
 
 ///|
-extern "js" fn ffi_int8array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_int8array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new Int8Array(arr)
 
 ///|
@@ -477,10 +477,10 @@ pub fn Int8Array::from_array_buffer(
 
 ///|
 extern "js" fn ffi_int8array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new Int8Array(buf, offset, len) : new Int8Array(buf, offset)
 
 ///|
@@ -582,7 +582,7 @@ pub fn Int16Array::from_size(length : UInt) -> Int16Array {
 }
 
 ///|
-extern "js" fn ffi_int16array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_int16array_from_size(length : UInt) -> @js.Any =
   #| (len) => new Int16Array(len)
 
 ///|
@@ -591,7 +591,7 @@ pub fn Int16Array::from_array(array : Array[Int]) -> Int16Array {
 }
 
 ///|
-extern "js" fn ffi_int16array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_int16array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new Int16Array(arr)
 
 ///|
@@ -605,10 +605,10 @@ pub fn Int16Array::from_array_buffer(
 
 ///|
 extern "js" fn ffi_int16array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new Int16Array(buf, offset, len) : new Int16Array(buf, offset)
 
 ///|
@@ -710,7 +710,7 @@ pub fn Int32Array::from_size(length : UInt) -> Int32Array {
 }
 
 ///|
-extern "js" fn ffi_int32array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_int32array_from_size(length : UInt) -> @js.Any =
   #| (len) => new Int32Array(len)
 
 ///|
@@ -719,7 +719,7 @@ pub fn Int32Array::from_array(array : Array[Int]) -> Int32Array {
 }
 
 ///|
-extern "js" fn ffi_int32array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_int32array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new Int32Array(arr)
 
 ///|
@@ -733,10 +733,10 @@ pub fn Int32Array::from_array_buffer(
 
 ///|
 extern "js" fn ffi_int32array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new Int32Array(buf, offset, len) : new Int32Array(buf, offset)
 
 ///|
@@ -838,7 +838,7 @@ pub fn Float32Array::from_size(length : UInt) -> Float32Array {
 }
 
 ///|
-extern "js" fn ffi_float32array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_float32array_from_size(length : UInt) -> @js.Any =
   #| (len) => new Float32Array(len)
 
 ///|
@@ -847,7 +847,7 @@ pub fn Float32Array::from_array(array : Array[Double]) -> Float32Array {
 }
 
 ///|
-extern "js" fn ffi_float32array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_float32array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new Float32Array(arr)
 
 ///|
@@ -863,10 +863,10 @@ pub fn Float32Array::from_array_buffer(
 
 ///|
 extern "js" fn ffi_float32array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new Float32Array(buf, offset, len) : new Float32Array(buf, offset)
 
 ///|
@@ -968,7 +968,7 @@ pub fn Float64Array::from_size(length : UInt) -> Float64Array {
 }
 
 ///|
-extern "js" fn ffi_float64array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_float64array_from_size(length : UInt) -> @js.Any =
   #| (len) => new Float64Array(len)
 
 ///|
@@ -977,7 +977,7 @@ pub fn Float64Array::from_array(array : Array[Double]) -> Float64Array {
 }
 
 ///|
-extern "js" fn ffi_float64array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_float64array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new Float64Array(arr)
 
 ///|
@@ -993,10 +993,10 @@ pub fn Float64Array::from_array_buffer(
 
 ///|
 extern "js" fn ffi_float64array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new Float64Array(buf, offset, len) : new Float64Array(buf, offset)
 
 ///|
@@ -1098,7 +1098,7 @@ pub fn Uint8ClampedArray::from_size(length : UInt) -> Uint8ClampedArray {
 }
 
 ///|
-extern "js" fn ffi_uint8clampedarray_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_uint8clampedarray_from_size(length : UInt) -> @js.Any =
   #| (len) => new Uint8ClampedArray(len)
 
 ///|
@@ -1107,7 +1107,7 @@ pub fn Uint8ClampedArray::from_array(array : Array[UInt]) -> Uint8ClampedArray {
 }
 
 ///|
-extern "js" fn ffi_uint8clampedarray_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_uint8clampedarray_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new Uint8ClampedArray(arr)
 
 ///|
@@ -1123,10 +1123,10 @@ pub fn Uint8ClampedArray::from_array_buffer(
 
 ///|
 extern "js" fn ffi_uint8clampedarray_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new Uint8ClampedArray(buf, offset, len) : new Uint8ClampedArray(buf, offset)
 
 ///|
@@ -1245,7 +1245,7 @@ pub fn BigUint64Array::from_size(length : UInt) -> BigUint64Array {
 }
 
 ///|
-extern "js" fn ffi_biguint64array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_biguint64array_from_size(length : UInt) -> @js.Any =
   #| (len) => new BigUint64Array(len)
 
 ///|
@@ -1256,7 +1256,7 @@ pub fn BigUint64Array::from_array(
 }
 
 ///|
-extern "js" fn ffi_biguint64array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_biguint64array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new BigUint64Array(arr)
 
 ///|
@@ -1272,10 +1272,10 @@ pub fn BigUint64Array::from_array_buffer(
 
 ///|
 extern "js" fn ffi_biguint64array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new BigUint64Array(buf, offset, len) : new BigUint64Array(buf, offset)
 
 ///|
@@ -1397,7 +1397,7 @@ pub fn BigInt64Array::from_size(length : UInt) -> BigInt64Array {
 }
 
 ///|
-extern "js" fn ffi_bigint64array_from_size(length : UInt) -> @js.Js =
+extern "js" fn ffi_bigint64array_from_size(length : UInt) -> @js.Any =
   #| (len) => new BigInt64Array(len)
 
 ///|
@@ -1408,7 +1408,7 @@ pub fn BigInt64Array::from_array(
 }
 
 ///|
-extern "js" fn ffi_bigint64array_from_array(array : @js.Js) -> @js.Js =
+extern "js" fn ffi_bigint64array_from_array(array : @js.Any) -> @js.Any =
   #| (arr) => new BigInt64Array(arr)
 
 ///|
@@ -1424,10 +1424,10 @@ pub fn BigInt64Array::from_array_buffer(
 
 ///|
 extern "js" fn ffi_bigint64array_from_buffer(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new BigInt64Array(buf, offset, len) : new BigInt64Array(buf, offset)
 
 ///|

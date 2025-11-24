@@ -2,7 +2,7 @@
 /// Dynamic import for react-router module
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-extern "js" fn import_react_router() -> @js.Promise[@js.Js] =
+extern "js" fn import_react_router() -> @js.Promise[@js.Any] =
   #|() => import("react-router")
 
 ///|
@@ -79,7 +79,7 @@ impl @js.JsImpl for Route with to_js(self) {
 ///|
 #alias(create_browser_router)
 pub fn createBrowserRouter(routes : Array[Route]) -> Router {
-  let create_browser_router : (Array[@js.Js]) -> Router = @js.global_this()
+  let create_browser_router : (Array[@js.Any]) -> Router = @js.global_this()
     .get("__ReactRouterApi")
     .get("createBrowserRouter")
     .cast()

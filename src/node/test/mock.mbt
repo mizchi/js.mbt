@@ -29,9 +29,9 @@ pub fn mock() -> MockTracker {
 /// mock.fn([original[, implementation]][, options])
 pub fn MockTracker::fn_(
   self : MockTracker,
-  original? : @js.Js,
-  implementation? : @js.Js,
-) -> @js.Js {
+  original? : @js.Any,
+  implementation? : @js.Any,
+) -> @js.Any {
   match (original, implementation) {
     (Some(orig), Some(imp)) => self.call2("fn", orig, imp)
     (Some(orig), None) => self.call("fn", [orig])
@@ -45,10 +45,10 @@ pub fn MockTracker::fn_(
 /// mock.method(object, methodName[, implementation][, options])
 pub fn MockTracker::method_(
   self : MockTracker,
-  object : @js.Js,
+  object : @js.Any,
   methodName : String,
-  implementation? : @js.Js,
-) -> @js.Js {
+  implementation? : @js.Any,
+) -> @js.Any {
   match implementation {
     Some(imp) => self.call("method", [object, methodName, imp])
     None => self.call2("method", object, methodName)
@@ -60,10 +60,10 @@ pub fn MockTracker::method_(
 /// mock.getter(object, methodName[, implementation][, options])
 pub fn MockTracker::getter_(
   self : MockTracker,
-  object : @js.Js,
+  object : @js.Any,
   methodName : String,
-  implementation? : @js.Js,
-) -> @js.Js {
+  implementation? : @js.Any,
+) -> @js.Any {
   match implementation {
     Some(imp) => self.call("getter", [object, methodName, imp])
     None => self.call2("getter", object, methodName)
@@ -75,10 +75,10 @@ pub fn MockTracker::getter_(
 /// mock.setter(object, methodName[, implementation][, options])
 pub fn MockTracker::setter_(
   self : MockTracker,
-  object : @js.Js,
+  object : @js.Any,
   methodName : String,
-  implementation? : @js.Js,
-) -> @js.Js {
+  implementation? : @js.Any,
+) -> @js.Any {
   match implementation {
     Some(imp) => self.call("setter", [object, methodName, imp])
     None => self.call2("setter", object, methodName)
@@ -91,8 +91,8 @@ pub fn MockTracker::setter_(
 pub fn MockTracker::module_(
   self : MockTracker,
   specifier : String,
-  defaultExport? : @js.Js,
-  namedExports? : @js.Js,
+  defaultExport? : @js.Any,
+  namedExports? : @js.Any,
 ) -> Unit {
   let options = @js.Object::new()
   if defaultExport is Some(exp) {
@@ -109,10 +109,10 @@ pub fn MockTracker::module_(
 /// mock.property(object, propertyName[, value])
 pub fn MockTracker::property_(
   self : MockTracker,
-  object : @js.Js,
+  object : @js.Any,
   propertyName : String,
-  value? : @js.Js,
-) -> @js.Js {
+  value? : @js.Any,
+) -> @js.Any {
   match value {
     Some(val) => self.call("property", [object, propertyName, val])
     None => self.call2("property", object, propertyName)
@@ -136,7 +136,7 @@ pub fn MockTracker::restoreAll(self : MockTracker) -> Unit {
 
 ///|
 /// Get the calls array
-pub fn MockFunctionContext::calls(self : MockFunctionContext) -> Array[@js.Js] {
+pub fn MockFunctionContext::calls(self : MockFunctionContext) -> Array[@js.Any] {
   self.get("calls").cast()
 }
 
@@ -150,7 +150,7 @@ pub fn MockFunctionContext::callCount(self : MockFunctionContext) -> Int {
 /// Change mock implementation
 pub fn MockFunctionContext::mockImplementation(
   self : MockFunctionContext,
-  implementation : @js.Js,
+  implementation : @js.Any,
 ) -> Unit {
   self.call("mockImplementation", [implementation]) |> ignore
 }
@@ -159,7 +159,7 @@ pub fn MockFunctionContext::mockImplementation(
 /// Set implementation for a single call
 pub fn MockFunctionContext::mockImplementationOnce(
   self : MockFunctionContext,
-  implementation : @js.Js,
+  implementation : @js.Any,
   onCall? : Int,
 ) -> Unit {
   match onCall {
@@ -183,6 +183,6 @@ pub fn MockFunctionContext::restore(self : MockFunctionContext) -> Unit {
 
 ///|
 /// Get the mock context from a mocked function
-pub fn get_mock_context(func : @js.Js) -> MockFunctionContext {
+pub fn get_mock_context(func : @js.Any) -> MockFunctionContext {
   func.get("mock").cast()
 }

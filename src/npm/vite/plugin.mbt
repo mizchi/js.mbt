@@ -4,44 +4,44 @@
 
 ///|
 /// Vite Plugin type
-pub type Plugin = @js.Js
+pub type Plugin = @js.Any
 
 ///| Hook callback types
 
 ///|
 /// ResolveId hook callback
-/// (source: String, importer: String?, options: @js.Js) -> String? | @js.Js?
-pub type ResolveIdHook = (String, String?, @js.Js) -> String?
+/// (source: String, importer: String?, options: @js.Any) -> String? | @js.Any?
+pub type ResolveIdHook = (String, String?, @js.Any) -> String?
 
 ///|
 /// Load hook callback
-/// (id: String) -> String? | @js.Js?
+/// (id: String) -> String? | @js.Any?
 pub type LoadHook = (String) -> String?
 
 ///|
 /// Transform hook callback
-/// (code: String, id: String) -> String? | @js.Js?
+/// (code: String, id: String) -> String? | @js.Any?
 pub type TransformHook = (String, String) -> String?
 
 ///|
 /// BuildStart hook callback
-/// (options: @js.Js) -> Unit
-pub type BuildStartHook = (@js.Js) -> Unit
+/// (options: @js.Any) -> Unit
+pub type BuildStartHook = (@js.Any) -> Unit
 
 ///|
 /// BuildEnd hook callback
-/// (error?: @js.Js) -> Unit
-pub type BuildEndHook = (@js.Js?) -> Unit
+/// (error?: @js.Any) -> Unit
+pub type BuildEndHook = (@js.Any?) -> Unit
 
 ///|
 /// ConfigResolved hook callback
-/// (config: @js.Js) -> Unit
-pub type ConfigResolvedHook = (@js.Js) -> Unit
+/// (config: @js.Any) -> Unit
+pub type ConfigResolvedHook = (@js.Any) -> Unit
 
 ///|
 /// ConfigureServer hook callback
-/// (server: @js.Js) -> Unit
-pub type ConfigureServerHook = (@js.Js) -> Unit
+/// (server: @js.Any) -> Unit
+pub type ConfigureServerHook = (@js.Any) -> Unit
 
 ///|
 /// Create a Vite plugin with labeled arguments
@@ -50,13 +50,13 @@ pub fn define_plugin(
   name : String,
   enforce? : String,
   apply? : String,
-  config? : (@js.Js) -> Unit,
+  config? : (@js.Any) -> Unit,
   configResolved? : ConfigResolvedHook,
   configureServer? : ConfigureServerHook,
-  configurePreviewServer? : (@js.Js) -> Unit,
-  transformIndexHtml? : (@js.Js) -> @js.Js,
-  handleHotUpdate? : (@js.Js) -> Unit,
-  options? : (@js.Js) -> Unit,
+  configurePreviewServer? : (@js.Any) -> Unit,
+  transformIndexHtml? : (@js.Any) -> @js.Any,
+  handleHotUpdate? : (@js.Any) -> Unit,
+  options? : (@js.Any) -> Unit,
   buildStart? : BuildStartHook,
   resolveId? : ResolveIdHook,
   load? : LoadHook,

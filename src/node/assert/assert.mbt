@@ -1,6 +1,6 @@
 ///|
 /// node:assert module
-fn assert_module() -> @js.Js {
+fn assert_module() -> @js.Any {
   @node.require("node:assert")
 }
 
@@ -174,7 +174,7 @@ pub fn fail(message? : String) -> Unit {
 
 ///|
 /// Create RegExp from string
-extern "js" fn create_regexp(pattern : String) -> @js.Js =
+extern "js" fn create_regexp(pattern : String) -> @js.Any =
   #|(pattern) => new RegExp(pattern)
 
 ///|

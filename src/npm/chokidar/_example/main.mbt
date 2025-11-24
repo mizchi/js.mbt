@@ -15,27 +15,27 @@ fn main {
   // Set up event handlers
   let _ = watcher.on(
     "add",
-    @js.identity(fn(path : @js.Js) { println("File added: \{path}") }),
+    @js.identity(fn(path : @js.Any) { println("File added: \{path}") }),
   )
   let _ = watcher.on(
     "change",
-    @js.identity(fn(path : @js.Js) { println("File changed: \{path}") }),
+    @js.identity(fn(path : @js.Any) { println("File changed: \{path}") }),
   )
   let _ = watcher.on(
     "unlink",
-    @js.identity(fn(path : @js.Js) { println("File removed: \{path}") }),
+    @js.identity(fn(path : @js.Any) { println("File removed: \{path}") }),
   )
   let _ = watcher.on(
     "addDir",
-    @js.identity(fn(path : @js.Js) { println("Directory added: \{path}") }),
+    @js.identity(fn(path : @js.Any) { println("Directory added: \{path}") }),
   )
   let _ = watcher.on(
     "unlinkDir",
-    @js.identity(fn(path : @js.Js) { println("Directory removed: \{path}") }),
+    @js.identity(fn(path : @js.Any) { println("Directory removed: \{path}") }),
   )
   let _ = watcher.on(
     "error",
-    @js.identity(fn(error : @js.Js) { println("Error: \{error}") }),
+    @js.identity(fn(error : @js.Any) { println("Error: \{error}") }),
   )
   let _ = watcher.on(
     "ready",

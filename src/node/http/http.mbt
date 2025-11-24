@@ -1,6 +1,6 @@
 ///|
 /// node:http module
-fn http_module() -> @js.Js {
+fn http_module() -> @js.Any {
   @node.require("node:http")
 }
 
@@ -10,7 +10,7 @@ fn http_module() -> @js.Js {
 pub(all) struct IncomingMessage {
   httpVersion : String
   url : String?
-  headers : @js.Js
+  headers : @js.Any
   rawHeaders : Array[String]
   statusCode : Int?
   statusMessage : String?
@@ -73,7 +73,7 @@ pub fn ServerResponse::writeHead(
   self : ServerResponse,
   statusCode : Int,
   statusMessage? : String,
-  headers? : @js.Js,
+  headers? : @js.Any,
 ) -> ServerResponse {
   match (statusMessage, headers) {
     (Some(msg), Some(hdrs)) =>
@@ -238,7 +238,7 @@ pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
 
 ///|
 /// Get the server address
-pub fn Server::address(self : Server) -> @js.Js? {
+pub fn Server::address(self : Server) -> @js.Any? {
   self.call0("address") |> @js.identity_option
 }
 
@@ -392,7 +392,7 @@ pub fn createServer(
 /// Make HTTP request
 pub fn request(
   url : String,
-  options? : @js.Js,
+  options? : @js.Any,
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
@@ -411,7 +411,7 @@ pub fn request(
 /// Make HTTP GET request
 pub fn get(
   url : String,
-  options? : @js.Js,
+  options? : @js.Any,
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
@@ -426,12 +426,12 @@ pub fn get(
 
 ///|
 /// Global max sockets
-pub fn globalAgent() -> @js.Js {
+pub fn globalAgent() -> @js.Any {
   http_module().get("globalAgent")
 }
 
 ///|
 /// HTTP status codes
-pub fn status_codes() -> @js.Js {
+pub fn status_codes() -> @js.Any {
   http_module().get("STATUS_CODES")
 }

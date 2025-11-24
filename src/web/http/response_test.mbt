@@ -1,5 +1,5 @@
 ///|
-extern "js" fn ffi_new_response(content : String) -> @js.Js =
+extern "js" fn ffi_new_response(content : String) -> @js.Any =
   #|(content) => new Response(content)
 
 ///|

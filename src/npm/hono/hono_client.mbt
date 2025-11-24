@@ -12,7 +12,7 @@ pub impl @js.JsImpl for HonoClient
 ///|
 /// Create a new Hono RPC client
 /// https://hono.dev/docs/guides/rpc
-extern "js" fn ffi_hc(base_url : String) -> @js.Js =
+extern "js" fn ffi_hc(base_url : String) -> @js.Any =
   #| (baseUrl) => {
   #|   const { hc } = require('hono/client');
   #|   return hc(baseUrl);
@@ -27,13 +27,13 @@ pub fn hc(base_url : String) -> HonoClient {
 ///|
 /// Build request options object from keyword arguments
 extern "js" fn build_request_options(
-  query : @js.Js,
-  form : @js.Js,
-  json : @js.Js,
-  param : @js.Js,
-  header : @js.Js,
-  init : @js.Js,
-) -> @js.Js =
+  query : @js.Any,
+  form : @js.Any,
+  json : @js.Any,
+  param : @js.Any,
+  header : @js.Any,
+  init : @js.Any,
+) -> @js.Any =
   #| (query, form, json, param, header, init) => {
   #|   const obj = {};
   #|   if (query !== undefined) obj.query = query;
@@ -66,7 +66,7 @@ pub fn ClientResponse::status(self : ClientResponse) -> Int {
 
 ///|
 /// Parse response as JSON
-pub fn ClientResponse::json(self : ClientResponse) -> @js.Promise[@js.Js] {
+pub fn ClientResponse::json(self : ClientResponse) -> @js.Promise[@js.Any] {
   self.call0("json").cast()
 }
 
@@ -87,13 +87,13 @@ pub fn ClientResponse::arrayBuffer(
 
 ///|
 /// Parse response as blob
-pub fn ClientResponse::blob(self : ClientResponse) -> @js.Promise[@js.Js] {
+pub fn ClientResponse::blob(self : ClientResponse) -> @js.Promise[@js.Any] {
   self.call0("blob").cast()
 }
 
 ///|
 /// Get headers from response
-pub fn ClientResponse::headers(self : ClientResponse) -> @js.Js {
+pub fn ClientResponse::headers(self : ClientResponse) -> @js.Any {
   self.get("headers")
 }
 
@@ -108,9 +108,9 @@ pub impl @js.JsImpl for ClientEndpoint
 /// Make a GET request to the endpoint (calls $get method)
 /// https://hono.dev/docs/guides/rpc#client
 extern "js" fn ffi_call_dollar_get(
-  endpoint : @js.Js,
-  options : @js.Js,
-) -> @js.Js =
+  endpoint : @js.Any,
+  options : @js.Any,
+) -> @js.Any =
   #| (endpoint, options) => {
   #|   if (options === undefined) {
   #|     return endpoint.$get();
@@ -123,12 +123,12 @@ extern "js" fn ffi_call_dollar_get(
 /// Original: endpoint.$get(options)
 pub fn ClientEndpoint::get_(
   self : ClientEndpoint,
-  query? : @js.Js,
-  form? : @js.Js,
-  json? : @js.Js,
-  param? : @js.Js,
-  header? : @js.Js,
-  init? : @js.Js,
+  query? : @js.Any,
+  form? : @js.Any,
+  json? : @js.Any,
+  param? : @js.Any,
+  header? : @js.Any,
+  init? : @js.Any,
 ) -> @js.Promise[ClientResponse] {
   let has_options = query is Some(_) ||
     form is Some(_) ||
@@ -154,9 +154,9 @@ pub fn ClientEndpoint::get_(
 ///|
 /// Make a POST request to the endpoint (calls $post method)
 extern "js" fn ffi_call_dollar_post(
-  endpoint : @js.Js,
-  options : @js.Js,
-) -> @js.Js =
+  endpoint : @js.Any,
+  options : @js.Any,
+) -> @js.Any =
   #| (endpoint, options) => {
   #|   if (options === undefined) {
   #|     return endpoint.$post();
@@ -169,12 +169,12 @@ extern "js" fn ffi_call_dollar_post(
 /// Original: endpoint.$post(options)
 pub fn ClientEndpoint::post_(
   self : ClientEndpoint,
-  query? : @js.Js,
-  form? : @js.Js,
-  json? : @js.Js,
-  param? : @js.Js,
-  header? : @js.Js,
-  init? : @js.Js,
+  query? : @js.Any,
+  form? : @js.Any,
+  json? : @js.Any,
+  param? : @js.Any,
+  header? : @js.Any,
+  init? : @js.Any,
 ) -> @js.Promise[ClientResponse] {
   let has_options = query is Some(_) ||
     form is Some(_) ||
@@ -200,9 +200,9 @@ pub fn ClientEndpoint::post_(
 ///|
 /// Make a PUT request to the endpoint (calls $put method)
 extern "js" fn ffi_call_dollar_put(
-  endpoint : @js.Js,
-  options : @js.Js,
-) -> @js.Js =
+  endpoint : @js.Any,
+  options : @js.Any,
+) -> @js.Any =
   #| (endpoint, options) => {
   #|   if (options === undefined) {
   #|     return endpoint.$put();
@@ -215,12 +215,12 @@ extern "js" fn ffi_call_dollar_put(
 /// Original: endpoint.$put(options)
 pub fn ClientEndpoint::put_(
   self : ClientEndpoint,
-  query? : @js.Js,
-  form? : @js.Js,
-  json? : @js.Js,
-  param? : @js.Js,
-  header? : @js.Js,
-  init? : @js.Js,
+  query? : @js.Any,
+  form? : @js.Any,
+  json? : @js.Any,
+  param? : @js.Any,
+  header? : @js.Any,
+  init? : @js.Any,
 ) -> @js.Promise[ClientResponse] {
   let has_options = query is Some(_) ||
     form is Some(_) ||
@@ -246,9 +246,9 @@ pub fn ClientEndpoint::put_(
 ///|
 /// Make a DELETE request to the endpoint (calls $delete method)
 extern "js" fn ffi_call_dollar_delete(
-  endpoint : @js.Js,
-  options : @js.Js,
-) -> @js.Js =
+  endpoint : @js.Any,
+  options : @js.Any,
+) -> @js.Any =
   #| (endpoint, options) => {
   #|   if (options === undefined) {
   #|     return endpoint.$delete();
@@ -261,12 +261,12 @@ extern "js" fn ffi_call_dollar_delete(
 /// Original: endpoint.$delete(options)
 pub fn ClientEndpoint::delete_(
   self : ClientEndpoint,
-  query? : @js.Js,
-  form? : @js.Js,
-  json? : @js.Js,
-  param? : @js.Js,
-  header? : @js.Js,
-  init? : @js.Js,
+  query? : @js.Any,
+  form? : @js.Any,
+  json? : @js.Any,
+  param? : @js.Any,
+  header? : @js.Any,
+  init? : @js.Any,
 ) -> @js.Promise[ClientResponse] {
   let has_options = query is Some(_) ||
     form is Some(_) ||
@@ -292,9 +292,9 @@ pub fn ClientEndpoint::delete_(
 ///|
 /// Make a PATCH request to the endpoint (calls $patch method)
 extern "js" fn ffi_call_dollar_patch(
-  endpoint : @js.Js,
-  options : @js.Js,
-) -> @js.Js =
+  endpoint : @js.Any,
+  options : @js.Any,
+) -> @js.Any =
   #| (endpoint, options) => {
   #|   if (options === undefined) {
   #|     return endpoint.$patch();
@@ -307,12 +307,12 @@ extern "js" fn ffi_call_dollar_patch(
 /// Original: endpoint.$patch(options)
 pub fn ClientEndpoint::patch_(
   self : ClientEndpoint,
-  query? : @js.Js,
-  form? : @js.Js,
-  json? : @js.Js,
-  param? : @js.Js,
-  header? : @js.Js,
-  init? : @js.Js,
+  query? : @js.Any,
+  form? : @js.Any,
+  json? : @js.Any,
+  param? : @js.Any,
+  header? : @js.Any,
+  init? : @js.Any,
 ) -> @js.Promise[ClientResponse] {
   let has_options = query is Some(_) ||
     form is Some(_) ||
@@ -338,9 +338,9 @@ pub fn ClientEndpoint::patch_(
 ///|
 /// Get the URL for the endpoint (calls $url method)
 extern "js" fn ffi_call_dollar_url(
-  endpoint : @js.Js,
-  options : @js.Js,
-) -> @js.Js =
+  endpoint : @js.Any,
+  options : @js.Any,
+) -> @js.Any =
   #| (endpoint, options) => {
   #|   if (options === undefined) {
   #|     return endpoint.$url();
@@ -353,12 +353,12 @@ extern "js" fn ffi_call_dollar_url(
 /// Original: endpoint.$url(options)
 pub fn ClientEndpoint::url_(
   self : ClientEndpoint,
-  query? : @js.Js,
-  form? : @js.Js,
-  json? : @js.Js,
-  param? : @js.Js,
-  header? : @js.Js,
-  init? : @js.Js,
+  query? : @js.Any,
+  form? : @js.Any,
+  json? : @js.Any,
+  param? : @js.Any,
+  header? : @js.Any,
+  init? : @js.Any,
 ) -> String {
   let has_options = query is Some(_) ||
     form is Some(_) ||

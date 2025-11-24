@@ -53,7 +53,7 @@ extern "js" fn RegExp::ffi_regexp_test(self : RegExp, string : String) -> Bool =
 extern "js" fn RegExp::ffi_regexp_exec(
   self : RegExp,
   string : String,
-) -> @js.Js =
+) -> @js.Any =
   #|(re, string) => re.exec(string)
 
 ///|
@@ -121,12 +121,12 @@ extern "js" fn RegExp::ffi_regexp_to_string(self : RegExp) -> String =
 
 ///|
 /// JavaScript API: String.prototype.match()
-extern "js" fn ffi_string_match(string : String, re : RegExp) -> @js.Js =
+extern "js" fn ffi_string_match(string : String, re : RegExp) -> @js.Any =
   #|(string, re) => string.match(re)
 
 ///|
 /// JavaScript API: String.prototype.matchAll()
-extern "js" fn ffi_string_match_all(string : String, re : RegExp) -> @js.Js =
+extern "js" fn ffi_string_match_all(string : String, re : RegExp) -> @js.Any =
   #|(string, re) => Array.from(string.matchAll(re))
 
 ///|
@@ -152,7 +152,7 @@ extern "js" fn ffi_string_replace_all(
 extern "js" fn ffi_string_replace_fn(
   string : String,
   re : RegExp,
-  replacer : @js.Js,
+  replacer : @js.Any,
 ) -> String =
   #|(string, re, replacer) => string.replace(re, replacer)
 
@@ -161,7 +161,7 @@ extern "js" fn ffi_string_replace_fn(
 extern "js" fn ffi_string_replace_all_fn(
   string : String,
   re : RegExp,
-  replacer : @js.Js,
+  replacer : @js.Any,
 ) -> String =
   #|(string, re, replacer) => string.replaceAll(re, replacer)
 
@@ -175,7 +175,7 @@ extern "js" fn ffi_string_search(string : String, re : RegExp) -> Int =
 extern "js" fn ffi_string_split(
   string : String,
   re : RegExp,
-  limit : @js.Js,
+  limit : @js.Any,
 ) -> Array[String] =
   #|(string, re, limit) => string.split(re, limit === null ? undefined : limit)
 
@@ -456,7 +456,7 @@ pub fn RegExp::replace_fn(
 ) -> String {
   let wrapper = fn(
     matched : String,
-    groups_val : @js.Js,
+    groups_val : @js.Any,
     offset : Int,
     input : String,
   ) -> String {
@@ -487,7 +487,7 @@ pub fn RegExp::replace_all_fn(
 ) -> String {
   let wrapper = fn(
     matched : String,
-    groups_val : @js.Js,
+    groups_val : @js.Any,
     offset : Int,
     input : String,
   ) -> String {

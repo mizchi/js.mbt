@@ -451,9 +451,9 @@ test "types implementing JsImpl" {
   // Types implementing JsImpl can be converted to @js.Js
   let obj = @js.Object::new()
   obj.set("value", 42)
-  let js_obj : @js.Js = obj.to_js()
+  let js_obj : @js.Any = obj.to_js()
   let arr = @js.JsArray::from([1, 2, 3])
-  let js_arr : @js.Js = arr.to_js()
+  let js_arr : @js.Any = arr.to_js()
   assert_eq(@js.is_object(js_obj), true)
   assert_eq(@js.is_array(js_arr), true)
 }
@@ -507,7 +507,7 @@ pub struct Stats {
 }
 
 ///|
-fn parse_stats(js_stats : @js.Js) -> Stats {
+fn parse_stats(js_stats : @js.Any) -> Stats {
   {
     isFile: js_stats.get("isFile") |> @js.identity,
     isDirectory: js_stats.get("isDirectory") |> @js.identity,
@@ -538,7 +538,7 @@ For highly flexible APIs (like Streams options or complex configuration objects)
 ```moonbit
 
 ///|
-fn create_readable_stream(options : @js.Js) -> @js.Js {
+fn create_readable_stream(options : @js.Any) -> @js.Any {
   let ctor = @js.globalThis().get("ReadableStream")
   @js.new_(ctor, [options])
 }

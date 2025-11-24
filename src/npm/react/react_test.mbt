@@ -2,7 +2,7 @@
 
 ///|
 fn render_to_string(element : Element) -> String {
-  let react_dom_server : @js.Js = @node.require("react-dom/server")
+  let react_dom_server : @js.Any = @node.require("react-dom/server")
   @js.identity(react_dom_server.get("renderToString").call_self([element]))
 }
 
@@ -284,7 +284,7 @@ test "ReactNode conditional rendering in for expression" {
 }
 
 ///|
-extern "js" fn load_lazy_component_stub() -> @js.Promise[@js.Js] =
+extern "js" fn load_lazy_component_stub() -> @js.Promise[@js.Any] =
   #|() => Promise.resolve({ default: () => globalThis.__ReactApi.createElement("div", null, "lazy_component") })
 
 ///|
@@ -300,7 +300,7 @@ test "lazy_ with EmptyProps" {
 }
 
 ///|
-extern "js" fn load_lazy_typed_component_stub() -> @js.Promise[@js.Js] =
+extern "js" fn load_lazy_typed_component_stub() -> @js.Promise[@js.Any] =
   #|() => Promise.resolve({ default: (props) => globalThis.__ReactApi.createElement("div", null, "Hello, " + props.v) })
 
 ///|

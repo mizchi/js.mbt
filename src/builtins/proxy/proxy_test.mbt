@@ -149,7 +149,7 @@ test "Proxy with deleteProperty trap" {
 
 ///|
 test "Proxy with apply trap for function" {
-  let target_fn = @js.from_fn1(fn(x : @js.Js) -> @js.Js {
+  let target_fn = @js.from_fn1(fn(x : @js.Any) -> @js.Any {
     let n : Int = @js.identity(x)
     @js.js(n * 2)
   })

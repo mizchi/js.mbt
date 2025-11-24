@@ -99,8 +99,8 @@ pub async fn Page::query_selector_all(
 
 ///|
 /// Page: Evaluate JavaScript in page context
-pub async fn Page::evaluate(self : Page, script : String) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.identity(
+pub async fn Page::evaluate(self : Page, script : String) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = @js.identity(
     self.call("evaluate", [script]),
   )
   promise.wait()
@@ -209,8 +209,8 @@ pub async fn Page::waitForNavigation(self : Page) -> Unit {
 ///|
 /// Page: Wait for function to return truthy value
 /// JS: page.waitForFunction(pageFunction)
-pub async fn Page::waitForFunction(self : Page, fn_str : String) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.identity(
+pub async fn Page::waitForFunction(self : Page, fn_str : String) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = @js.identity(
     self.call("waitForFunction", [fn_str]),
   )
   promise.wait()
@@ -244,8 +244,8 @@ pub(all) struct Cookie {
 ///|
 /// Page: Get cookies
 /// JS: page.cookies()
-pub async fn Page::cookies(self : Page) -> Array[@js.Js] raise @js.ThrowError {
-  let promise : @js.Promise[Array[@js.Js]] = @js.identity(
+pub async fn Page::cookies(self : Page) -> Array[@js.Any] raise @js.ThrowError {
+  let promise : @js.Promise[Array[@js.Any]] = @js.identity(
     self.call("cookies", []),
   )
   promise.wait() catch {
@@ -256,7 +256,7 @@ pub async fn Page::cookies(self : Page) -> Array[@js.Js] raise @js.ThrowError {
 ///|
 /// Page: Set cookies
 /// JS: page.setCookie(...cookies)
-pub async fn Page::setCookie(self : Page, cookies : Array[@js.Js]) -> Unit {
+pub async fn Page::setCookie(self : Page, cookies : Array[@js.Any]) -> Unit {
   let js_cookies = @js.from_array(cookies)
   let promise : @js.Promise[Unit] = @js.identity(
     self.call("setCookie", [js_cookies]),
@@ -267,7 +267,7 @@ pub async fn Page::setCookie(self : Page, cookies : Array[@js.Js]) -> Unit {
 ///|
 /// Page: Delete cookies
 /// JS: page.deleteCookie(...cookies)
-pub async fn Page::deleteCookie(self : Page, cookies : Array[@js.Js]) -> Unit {
+pub async fn Page::deleteCookie(self : Page, cookies : Array[@js.Any]) -> Unit {
   let js_cookies = @js.from_array(cookies)
   let promise : @js.Promise[Unit] = @js.identity(
     self.call("deleteCookie", [js_cookies]),
@@ -340,8 +340,8 @@ pub async fn ElementHandle::type_(self : ElementHandle, text : String) -> Unit {
 pub async fn ElementHandle::getProperty(
   self : ElementHandle,
   propertyName : String,
-) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.identity(
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = @js.identity(
     self.call("getProperty", [propertyName]),
   )
   promise.wait()

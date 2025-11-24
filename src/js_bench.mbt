@@ -3,7 +3,7 @@
 
 ///|
 // Helper: Create a simple JavaScript function for testing
-extern "js" fn ffi_create_test_function() -> Js =
+extern "js" fn ffi_create_test_function() -> Any =
   #|() => {
   #|  return {
   #|    identity: (x) => x,
@@ -16,7 +16,7 @@ extern "js" fn ffi_create_test_function() -> Js =
   #|}
 
 ///|
-fn get_test_obj() -> Js {
+fn get_test_obj() -> Any {
   ffi_create_test_function()
 }
 
@@ -57,10 +57,10 @@ test "bench: call with Array[Int] (map overhead)" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: call with pre-converted Array[Js]
-test "bench: call with Array[Js] (no conversion)" (b : @bench.T) {
+/// Benchmark: call with pre-converted Array[Any]
+test "bench: call with Array[Any] (no conversion)" (b : @bench.T) {
   let obj = get_test_obj()
-  let args : Array[Js] = [js(1), js(2), js(3), js(4), js(5)]
+  let args : Array[Any] = [js(1), js(2), js(3), js(4), js(5)]
   b.bench(fn() { b.keep(ffi_call(obj, "sum", args)) })
 }
 
@@ -132,7 +132,7 @@ test "bench: String to_js conversion" (b : @bench.T) {
 /// Benchmark: identity (no conversion, baseline)
 test "bench: identity Int to Js" (b : @bench.T) {
   b.bench(fn() {
-    let result : Js = identity(42)
+    let result : Any = identity(42)
     b.keep(result)
   })
 }
@@ -140,7 +140,7 @@ test "bench: identity Int to Js" (b : @bench.T) {
 ///|
 /// Benchmark: Map to Object conversion
 test "bench: from_map (5 entries)" (b : @bench.T) {
-  let map : Map[String, Js] = {
+  let map : Map[String, Any] = {
     "a": js(1),
     "b": js(2),
     "c": js(3),
@@ -167,7 +167,7 @@ test "bench: Object::new() + set (5 properties, FFI)" (b : @bench.T) {
 ///|
 /// Benchmark: Object creation from Map (goes through MoonBit iteration)
 test "bench: from_map vs Object::new (5 properties)" (b : @bench.T) {
-  let map : Map[String, Js] = {
+  let map : Map[String, Any] = {
     "a": js(1),
     "b": js(2),
     "c": js(3),

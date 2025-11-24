@@ -228,7 +228,7 @@ test "ReactRef::set_current" {
   @react_testing_library.cleanup()
   let comp = (_props : EmptyProps) => {
     let (msg, set_msg) = useState("initial")
-    let r : ReactRef[@js.Js] = useRef(None)
+    let r : ReactRef[@js.Any] = useRef(None)
     let on_click : @dom.MouseEventHandler = _ => {
       r.set_current(Some(@js.identity("custom value")))
       match r.get_current() {

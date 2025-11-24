@@ -72,13 +72,13 @@ test "queryBy methods return None when not found" {
   @react_testing_library.render(@react.component(comp, AppProps::default()))
   |> ignore
   // queryByText returns null (converted to None in JS) for non-existent text
-  let result : @js.Js = @react_testing_library.screen().call("queryByText", [
+  let result : @js.Any = @react_testing_library.screen().call("queryByText", [
     "Non-existent",
   ])
   let is_null = @js.is_null(result)
   assert_eq(is_null, true)
   // queryByText returns element for existing text
-  let existing : @js.Js = @react_testing_library.screen().call("queryByText", [
+  let existing : @js.Any = @react_testing_library.screen().call("queryByText", [
     "Existing text",
   ])
   let is_null2 = @js.is_null(existing)
@@ -208,7 +208,7 @@ test "fireEvent change on input" {
   let comp = (_props : AppProps) => {
     let (value, set_value) = @react.use_state("")
     let on_change : @dom.ChangeEventHandler = e => {
-      let target : @js.Js = e.get("target")
+      let target : @js.Any = e.get("target")
       let new_value : String = target.get("value").cast()
       set_value(new_value)
     }
@@ -239,7 +239,7 @@ test "fireEvent submit on form" {
   @react_testing_library.cleanup()
   let comp = (_props : AppProps) => {
     let (submitted, set_submitted) = @react.use_state(false)
-    let on_submit = fn(e : @js.Js) {
+    let on_submit = fn(e : @js.Any) {
       e.call0("preventDefault") |> ignore
       set_submitted(true)
     }
@@ -275,8 +275,8 @@ test "fireEvent focus and blur on input" {
   @react_testing_library.cleanup()
   let comp = (_props : AppProps) => {
     let (focused, set_focused) = @react.use_state(false)
-    let on_focus = fn(_e : @js.Js) { set_focused(true) }
-    let on_blur = fn(_e : @js.Js) { set_focused(false) }
+    let on_focus = fn(_e : @js.Any) { set_focused(true) }
+    let on_blur = fn(_e : @js.Any) { set_focused(false) }
     @react_element.div([
       @react_element.input(
         on_focus=@js.identity(on_focus),
@@ -306,7 +306,7 @@ test "fireEvent keyDown on input" {
   @react_testing_library.cleanup()
   let comp = (_props : AppProps) => {
     let (key, set_key) = @react.use_state("")
-    let on_keydown = fn(e : @js.Js) {
+    let on_keydown = fn(e : @js.Any) {
       let k : String = e.get("key").cast()
       set_key("Key: \{k}")
     }

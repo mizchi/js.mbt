@@ -1,5 +1,5 @@
 ///|
-extern "js" fn ffi_request_new(url : String) -> @js.Js =
+extern "js" fn ffi_request_new(url : String) -> @js.Any =
   #| (url) => new Request(url)
 
 ///|
@@ -33,7 +33,7 @@ pub fn Request::clone(self : Request) -> Request {
 }
 
 ///|
-pub fn Request::json(self : Request) -> @js.Promise[@js.Js] {
+pub fn Request::json(self : Request) -> @js.Promise[@js.Any] {
   self.call0("json").cast()
 }
 

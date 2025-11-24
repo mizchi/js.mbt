@@ -6,7 +6,7 @@
 /// Create a test client from a Hono app instance
 /// The test client allows you to make type-safe requests to your Hono app routes
 /// Returns an object that mirrors your app's route structure
-extern "js" fn ffi_test_client(app : @js.Js) -> @js.Js =
+extern "js" fn ffi_test_client(app : @js.Any) -> @js.Any =
   #| (app) => {
   #|   const { testClient } = require('hono/testing');
   #|   return testClient(app);

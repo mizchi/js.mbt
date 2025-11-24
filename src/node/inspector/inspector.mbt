@@ -48,7 +48,7 @@ pub fn Session::post(
   params : @js.Object?,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.identity(callback)
+  let cb : @js.Any = @js.identity(callback)
   match params {
     Some(p) => self.call("post", [method_, p.to_js(), cb]) |> ignore
     None => self.call("post", [method_, cb]) |> ignore
@@ -93,7 +93,7 @@ extern "js" fn ffi_close() -> Unit =
 
 ///|
 pub fn url() -> String? {
-  let result : @js.Js = ffi_url()
+  let result : @js.Any = ffi_url()
   let is_undef : Bool = @js.identity(@js.typeof_(result) == "undefined")
   if is_undef {
     None
@@ -103,7 +103,7 @@ pub fn url() -> String? {
 }
 
 ///|
-extern "js" fn ffi_url() -> @js.Js =
+extern "js" fn ffi_url() -> @js.Any =
   #| () => require('node:inspector').url()
 
 ///|

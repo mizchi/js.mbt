@@ -58,7 +58,10 @@ pub fn EventSource::close(self : Self) -> Unit {
 ///|
 /// Set onopen event handler
 /// JS: eventSource.onopen = handler
-pub fn EventSource::set_onopen(self : Self, handler : (@js.Js) -> Unit) -> Unit {
+pub fn EventSource::set_onopen(
+  self : Self,
+  handler : (@js.Any) -> Unit,
+) -> Unit {
   self.set("onopen", @js.from_fn1(handler))
 }
 
@@ -67,7 +70,7 @@ pub fn EventSource::set_onopen(self : Self, handler : (@js.Js) -> Unit) -> Unit 
 /// JS: eventSource.onmessage = handler
 pub fn EventSource::set_onmessage(
   self : Self,
-  handler : (@js.Js) -> Unit,
+  handler : (@js.Any) -> Unit,
 ) -> Unit {
   self.set("onmessage", @js.from_fn1(handler))
 }
@@ -77,7 +80,7 @@ pub fn EventSource::set_onmessage(
 /// JS: eventSource.onerror = handler
 pub fn EventSource::set_onerror(
   self : Self,
-  handler : (@js.Js) -> Unit,
+  handler : (@js.Any) -> Unit,
 ) -> Unit {
   self.set("onerror", @js.from_fn1(handler))
 }
@@ -85,20 +88,20 @@ pub fn EventSource::set_onerror(
 ///|
 /// MessageEvent helper to get data
 /// JS: event.data
-pub fn get_event_data(event : @js.Js) -> String {
+pub fn get_event_data(event : @js.Any) -> String {
   event.get("data").cast()
 }
 
 ///|
 /// MessageEvent helper to get lastEventId
 /// JS: event.lastEventId
-pub fn get_last_event_id(event : @js.Js) -> String {
+pub fn get_last_event_id(event : @js.Any) -> String {
   event.get("lastEventId").cast()
 }
 
 ///|
 /// MessageEvent helper to get origin
 /// JS: event.origin
-pub fn get_event_origin(event : @js.Js) -> String {
+pub fn get_event_origin(event : @js.Any) -> String {
   event.get("origin").cast()
 }

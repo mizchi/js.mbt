@@ -1,5 +1,5 @@
 ///|
-fn nodetest() -> @js.Js {
+fn nodetest() -> @js.Any {
   @js.identity(@node.require("node:test"))
 }
 
@@ -54,7 +54,7 @@ pub fn TestContext::runOnly(self : Self, shouldRunOnlyTests : Bool) -> Unit {
 
 ///|
 /// Get assert object from context
-fn TestContext::assert_obj(self : Self) -> @js.Js {
+fn TestContext::assert_obj(self : Self) -> @js.Any {
   self.get("assert")
 }
 
@@ -172,7 +172,7 @@ pub fn TestContext::assert_does_not_match(
 pub fn TestContext::assert_throws(
   self : Self,
   fn_ : () -> Unit,
-  error? : @js.Js,
+  error? : @js.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
@@ -191,7 +191,7 @@ pub fn TestContext::assert_throws(
 pub fn TestContext::assert_does_not_throw(
   self : Self,
   fn_ : () -> Unit,
-  error? : @js.Js,
+  error? : @js.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
@@ -211,11 +211,11 @@ pub fn TestContext::assert_does_not_throw(
 pub fn TestContext::assert_rejects(
   self : Self,
   asyncFn : async () -> Unit,
-  error? : @js.Js,
+  error? : @js.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : @js.Js = @js.promisify0(asyncFn)() |> @js.identity
+  let promise_js : @js.Any = @js.promisify0(asyncFn)() |> @js.identity
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj.call("rejects", [promise_js, err, msg]) |> ignore
@@ -230,11 +230,11 @@ pub fn TestContext::assert_rejects(
 pub fn TestContext::assert_does_not_reject(
   self : Self,
   asyncFn : async () -> Unit,
-  error? : @js.Js,
+  error? : @js.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : @js.Js = @js.promisify0(asyncFn)() |> @js.identity
+  let promise_js : @js.Any = @js.promisify0(asyncFn)() |> @js.identity
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj.call("doesNotReject", [promise_js, err, msg]) |> ignore

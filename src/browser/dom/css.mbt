@@ -16,7 +16,7 @@ pub impl @js.JsImpl for CSSStyleDeclaration
 
 ///|
 /// Returns a CSS style declaration from a Val
-pub fn css_style_from_val(val : @js.Js) -> CSSStyleDeclaration {
+pub fn css_style_from_val(val : @js.Any) -> CSSStyleDeclaration {
   @js.identity(val)
 }
 
@@ -119,7 +119,7 @@ pub impl @js.JsImpl for CSSStyleSheet
 ///|
 /// Returns the CSS rules
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/cssRules
-pub fn CSSStyleSheet::cssRules(self : Self) -> @js.Js {
+pub fn CSSStyleSheet::cssRules(self : Self) -> @js.Any {
   self.get("cssRules")
 }
 
@@ -149,7 +149,7 @@ pub fn CSSStyleSheet::deleteRule(self : Self, index : Int) -> Unit {
 
 ///|
 /// Returns the owner node
-pub fn CSSStyleSheet::ownerNode(self : Self) -> @js.Js? {
+pub fn CSSStyleSheet::ownerNode(self : Self) -> @js.Any? {
   self.get("ownerNode") |> @js.identity_option()
 }
 
@@ -179,7 +179,7 @@ pub fn CSSStyleSheet::title(self : Self) -> String? {
 
 ///|
 /// Returns the stylesheet's media
-pub fn CSSStyleSheet::media(self : Self) -> @js.Js {
+pub fn CSSStyleSheet::media(self : Self) -> @js.Any {
   self.get("media")
 }
 
@@ -273,7 +273,7 @@ pub fn cssSupportsCondition(condition : String) -> Bool {
 ///|
 /// Access document stylesheets
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/styleSheets
-pub fn Document::styleSheets(self : Self) -> @js.Js {
+pub fn Document::styleSheets(self : Self) -> @js.Any {
   self.get("styleSheets")
 }
 

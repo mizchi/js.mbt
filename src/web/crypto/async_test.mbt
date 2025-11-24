@@ -4,34 +4,34 @@
 
 ///|
 /// Helper Functions
-extern "js" fn ffi_text_encoder_encode(text : String) -> @js.Js =
+extern "js" fn ffi_text_encoder_encode(text : String) -> @js.Any =
   #|(text) => new TextEncoder().encode(text)
 
 ///|
-extern "js" fn ffi_text_decoder_decode(data : @js.Js) -> String =
+extern "js" fn ffi_text_decoder_decode(data : @js.Any) -> String =
   #|(data) => new TextDecoder().decode(data)
 
 ///|
-extern "js" fn ffi_array_buffer_to_hex(buffer : @js.Js) -> String =
+extern "js" fn ffi_array_buffer_to_hex(buffer : @js.Any) -> String =
   #|(buffer) => Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('')
 
 ///|
-extern "js" fn ffi_create_aes_algorithm(name : String, length : Int) -> @js.Js =
+extern "js" fn ffi_create_aes_algorithm(name : String, length : Int) -> @js.Any =
   #|(name, length) => ({ name, length })
 
 ///|
-extern "js" fn ffi_create_aes_gcm_params(name : String, iv : @js.Js) -> @js.Js =
+extern "js" fn ffi_create_aes_gcm_params(name : String, iv : @js.Any) -> @js.Any =
   #|(name, iv) => ({ name, iv })
 
 ///|
 extern "js" fn ffi_create_hmac_algorithm(
   name : String,
   hash : String,
-) -> @js.Js =
+) -> @js.Any =
   #|(name, hash) => ({ name, hash })
 
 ///|
-extern "js" fn ffi_random_values(length : Int) -> @js.Js =
+extern "js" fn ffi_random_values(length : Int) -> @js.Any =
   #|(length) => crypto.getRandomValues(new Uint8Array(length))
 
 ///| Digest Tests

@@ -36,7 +36,7 @@ pub fn Deno::env_delete(self : Deno, key : String) -> Unit {
 
 ///|
 /// Get all environment variables
-pub fn Deno::env_toObject(self : Deno) -> @js.Js {
+pub fn Deno::env_toObject(self : Deno) -> @js.Any {
   self.get("env").call("toObject", [])
 }
 
@@ -89,19 +89,19 @@ pub fn Deno::build_arch(self : Deno) -> String {
 
 ///|
 /// Read all data from stdin
-pub fn Deno::stdin_read(self : Deno) -> @js.Promise[@js.Js] {
+pub fn Deno::stdin_read(self : Deno) -> @js.Promise[@js.Any] {
   self.get("stdin").call("read", []).cast()
 }
 
 ///|
 /// Write to stdout
-pub fn Deno::stdout_write(self : Deno, data : @js.Js) -> @js.Promise[Int] {
+pub fn Deno::stdout_write(self : Deno, data : @js.Any) -> @js.Promise[Int] {
   self.get("stdout").call("write", [data]).cast()
 }
 
 ///|
 /// Write to stderr
-pub fn Deno::stderr_write(self : Deno, data : @js.Js) -> @js.Promise[Int] {
+pub fn Deno::stderr_write(self : Deno, data : @js.Any) -> @js.Promise[Int] {
   self.get("stderr").call("write", [data]).cast()
 }
 
@@ -125,7 +125,7 @@ pub fn Deno::writeTextFile(
 
 ///|
 /// Read file as Uint8Array
-pub fn Deno::readFile(self : Deno, path : String) -> @js.Promise[@js.Js] {
+pub fn Deno::readFile(self : Deno, path : String) -> @js.Promise[@js.Any] {
   self.call("readFile", [@js.js(path)]).cast()
 }
 
@@ -134,7 +134,7 @@ pub fn Deno::readFile(self : Deno, path : String) -> @js.Promise[@js.Js] {
 pub fn Deno::writeFile(
   self : Deno,
   path : String,
-  data : @js.Js,
+  data : @js.Any,
 ) -> @js.Promise[Unit] {
   self.call("writeFile", [@js.js(path), data]).cast()
 }
@@ -179,7 +179,7 @@ pub fn Deno::mkdir(
 
 ///|
 /// Read directory entries
-pub fn Deno::readDir(self : Deno, path : String) -> @js.Js {
+pub fn Deno::readDir(self : Deno, path : String) -> @js.Any {
   self.call("readDir", [@js.js(path)])
 }
 
@@ -205,13 +205,13 @@ pub fn Deno::copyFile(
 
 ///|
 /// Check if path exists
-pub fn Deno::stat(self : Deno, path : String) -> @js.Promise[@js.Js] {
+pub fn Deno::stat(self : Deno, path : String) -> @js.Promise[@js.Any] {
   self.call("stat", [@js.js(path)]).cast()
 }
 
 ///|
 /// Check if path exists (returns null if not found instead of throwing)
-pub fn Deno::lstat(self : Deno, path : String) -> @js.Promise[@js.Js] {
+pub fn Deno::lstat(self : Deno, path : String) -> @js.Promise[@js.Any] {
   self.call("lstat", [@js.js(path)]).cast()
 }
 
@@ -307,13 +307,13 @@ pub fn Deno::loadavg(self : Deno) -> Array[Double] {
 
 ///|
 /// Get network interfaces
-pub fn Deno::networkInterfaces(self : Deno) -> @js.Js {
+pub fn Deno::networkInterfaces(self : Deno) -> @js.Any {
   self.call("networkInterfaces", [])
 }
 
 ///|
 /// Get system memory info
-pub fn Deno::systemMemoryInfo(self : Deno) -> @js.Js {
+pub fn Deno::systemMemoryInfo(self : Deno) -> @js.Any {
   self.call("systemMemoryInfo", [])
 }
 
@@ -337,7 +337,7 @@ pub fn Deno::connect(
   self : Self,
   hostname : String,
   port : Int,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self
   .call("connect", [@js.from_entries([("hostname", hostname), ("port", port)])])
   .cast()
@@ -345,7 +345,7 @@ pub fn Deno::connect(
 
 ///|
 /// Listen on a network address (TCP server)
-pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> @js.Js {
+pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> @js.Any {
   self.call("listen", [
     @js.from_entries([("hostname", hostname), ("port", port)]),
   ])
@@ -357,7 +357,7 @@ pub fn Deno::resolveDns(
   self : Deno,
   query : String,
   recordType : String,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self.call("resolveDns", [@js.js(query), @js.js(recordType)]).cast()
 }
 
@@ -365,7 +365,7 @@ pub fn Deno::resolveDns(
 
 ///|
 /// Serve HTTP requests (simplified version)
-pub fn Deno::serve(self : Deno, port : Int, handler : @js.Js) -> @js.Js {
+pub fn Deno::serve(self : Deno, port : Int, handler : @js.Any) -> @js.Any {
   self.call1("serve", @js.from_entries([("port", port), ("handler", handler)]))
 }
 
@@ -376,7 +376,7 @@ pub fn Deno::serve(self : Deno, port : Int, handler : @js.Js) -> @js.Js {
 pub fn Deno::request_permission(
   self : Self,
   name : String,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self
   .get("permissions")
   .call1("request", @js.from_entries([("name", name)]))
@@ -388,7 +388,7 @@ pub fn Deno::request_permission(
 pub fn Deno::query_permission(
   self : Deno,
   name : String,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self
   .get("permissions")
   .call1("query", @js.from_entries([("name", name)]))
@@ -400,7 +400,7 @@ pub fn Deno::query_permission(
 pub fn Deno::revoke_permission(
   self : Deno,
   name : String,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self
   .get("permissions")
   .call1("revoke", @js.from_entries([("name", name)]))
@@ -458,13 +458,13 @@ pub fn FsFile::close(self : FsFile) -> Unit {
 
 ///|
 /// Read from file
-pub fn FsFile::read(self : FsFile, buffer : @js.Js) -> @js.Promise[Int] {
+pub fn FsFile::read(self : FsFile, buffer : @js.Any) -> @js.Promise[Int] {
   self.call("read", [buffer]).cast()
 }
 
 ///|
 /// Write to file
-pub fn FsFile::write(self : FsFile, data : @js.Js) -> @js.Promise[Int] {
+pub fn FsFile::write(self : FsFile, data : @js.Any) -> @js.Promise[Int] {
   self.call("write", [data]).cast()
 }
 

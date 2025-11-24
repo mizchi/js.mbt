@@ -33,7 +33,7 @@ pub fn[A] Promise::resolve(x : A) -> Self[A] {
 ///|
 /// js: Promise.reject(error)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject
-pub fn Promise::reject(x : Js) -> Self[Js] {
+pub fn Promise::reject(x : Any) -> Self[Any] {
   ffi_promise_reject(identity(x)) |> identity
 }
 
@@ -98,7 +98,7 @@ pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
 pub(all) struct SettledResult[T] {
   status : String // "fulfilled" | "rejected"
   value : T?
-  reason : Nullable[Js]
+  reason : Nullable[Any]
 }
 
 ///|

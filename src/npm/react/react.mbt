@@ -11,7 +11,7 @@ pub impl @js.JsImpl for Element
 pub fn createElement(
   tag : String,
   children : Array[&ReactNode],
-  props? : Map[String, @js.Js],
+  props? : Map[String, @js.Any],
   style? : Map[String, String],
   ref_? : ReactRef[@dom.Element],
   key? : String,
@@ -45,8 +45,8 @@ pub fn createElement(
 /// Directly create a React element with given tag, props, and children.
 pub fn createElementDirect(
   tag : String,
-  props : @js.Js,
-  children : @js.Js,
+  props : @js.Any,
+  children : @js.Any,
 ) -> Element {
   @js.identity(ffi_create_element(tag |> @js.js, props, children))
 }

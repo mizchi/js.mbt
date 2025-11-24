@@ -8,7 +8,7 @@ pub enum RequestId {
 } derive(Show, Eq)
 
 ///|
-pub fn RequestId::to_js(self : RequestId) -> @js.Js {
+pub fn RequestId::to_js(self : RequestId) -> @js.Any {
   match self {
     String(s) => @js.identity(s)
     Number(n) => @js.identity(n)
@@ -16,7 +16,7 @@ pub fn RequestId::to_js(self : RequestId) -> @js.Js {
 }
 
 ///|
-pub fn RequestId::from_js(js : @js.Js) -> RequestId? {
+pub fn RequestId::from_js(js : @js.Any) -> RequestId? {
   let ty = @js.typeof_(js)
   if ty == "string" {
     let s : String = @js.identity(js)
@@ -52,7 +52,7 @@ pub fn JsonRpcRequest::to_js(self : JsonRpcRequest) -> @js.Object {
 }
 
 ///|
-pub fn JsonRpcRequest::from_js(js : @js.Js) -> JsonRpcRequest? {
+pub fn JsonRpcRequest::from_js(js : @js.Any) -> JsonRpcRequest? {
   let obj : @js.Object = @js.identity(js)
   let jsonrpc : String? = obj.get("jsonrpc") |> @js.identity_option()
   let id_js = obj.get("id")
@@ -78,7 +78,7 @@ pub fn JsonRpcRequest::from_js(js : @js.Js) -> JsonRpcRequest? {
 pub struct JsonRpcResponse {
   jsonrpc : String // Always "2.0"
   id : RequestId
-  result : @js.Js
+  result : @js.Any
 }
 
 ///|
@@ -95,7 +95,7 @@ pub fn JsonRpcResponse::to_js(self : JsonRpcResponse) -> @js.Object {
 pub struct JsonRpcError {
   code : Int
   message : String
-  data : @js.Js?
+  data : @js.Any?
 }
 
 ///|

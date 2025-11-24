@@ -5,7 +5,7 @@
 async test "Node Events: EventEmitter on/emit/off" {
   let emitter = @events.EventEmitter::new()
   let mut received = 0
-  let callback = (_data : @js.Js) => @js.run_async(() => {
+  let callback = (_data : @js.Any) => @js.run_async(() => {
     @js.sleep(16)
     let v : Int = @js.identity(_data)
     received += v

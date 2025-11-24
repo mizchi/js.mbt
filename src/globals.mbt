@@ -5,13 +5,13 @@
 ///|
 /// JS: globalThis
 #alias(global_this)
-pub fn globalThis() -> Js {
+pub fn globalThis() -> Any {
   ffi_global_this()
 }
 
 ///|
 /// JS: undefined
-pub fn undefined() -> Js {
+pub fn undefined() -> Any {
   ffi_undefined()
 }
 
@@ -124,6 +124,6 @@ pub fn decodeURIComponent(encoded_str : String) -> String {
 ///|
 /// Do not use vite env
 #alias(dynamic_import)
-pub fn dynamicImport(module_name : String) -> Js {
+pub fn dynamicImport(module_name : String) -> Any {
   ffi_dynamic_import(module_name)
 }

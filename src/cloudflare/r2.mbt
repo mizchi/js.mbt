@@ -34,7 +34,7 @@ pub fn R2Bucket::head(self : Self, key : String) -> @js.Promise[R2Object?] {
 pub fn R2Bucket::put(
   self : Self,
   key : String,
-  value : @js.Js,
+  value : @js.Any,
 ) -> @js.Promise[R2Object] {
   self.call2("put", key, value).cast()
 }
@@ -44,7 +44,7 @@ pub fn R2Bucket::put(
 pub fn R2Bucket::put_with_options(
   self : Self,
   key : String,
-  value : @js.Js,
+  value : @js.Any,
   options : R2PutOptions,
 ) -> @js.Promise[R2Object] {
   self.call("put", [key, value, options]).cast()
@@ -124,7 +124,7 @@ pub(all) struct R2GetOptions {
 
 ///|
 pub impl @js.JsImpl for R2GetOptions with to_js(self) {
-  let onlyIf_js : @js.Js? = match self.onlyIf {
+  let onlyIf_js : @js.Any? = match self.onlyIf {
     Some(cond) =>
       Some(
         @js.from_entries_option([
@@ -142,7 +142,7 @@ pub impl @js.JsImpl for R2GetOptions with to_js(self) {
       )
     None => None
   }
-  let range_js : @js.Js? = match self.range {
+  let range_js : @js.Any? = match self.range {
     Some(r) =>
       Some(
         @js.from_entries_option([
@@ -180,7 +180,7 @@ pub(all) struct R2Range {
 /// Options for R2 put operations
 pub(all) struct R2PutOptions {
   httpMetadata : R2HttpMetadata?
-  customMetadata : @js.Js?
+  customMetadata : @js.Any?
   md5 : String?
   sha1 : String?
   sha256 : String?
@@ -190,7 +190,7 @@ pub(all) struct R2PutOptions {
 
 ///|
 pub impl @js.JsImpl for R2PutOptions with to_js(self) {
-  let httpMetadata_js : @js.Js? = match self.httpMetadata {
+  let httpMetadata_js : @js.Any? = match self.httpMetadata {
     Some(meta) => Some(meta.to_js())
     None => None
   }
@@ -244,7 +244,7 @@ pub(all) struct R2ListOptions {
 
 ///|
 pub impl @js.JsImpl for R2ListOptions with to_js(self) {
-  let include_js : @js.Js? = match self.include_ {
+  let include_js : @js.Any? = match self.include_ {
     Some(inc) => Some(@js.from_array(inc))
     None => None
   }
@@ -292,19 +292,19 @@ pub fn R2Object::etag(self : Self) -> String {
 
 ///|
 /// Get object HTTP metadata
-pub fn R2Object::http_metadata(self : Self) -> @js.Js {
+pub fn R2Object::http_metadata(self : Self) -> @js.Any {
   self.get("httpMetadata")
 }
 
 ///|
 /// Get object custom metadata
-pub fn R2Object::custom_metadata(self : Self) -> @js.Js {
+pub fn R2Object::custom_metadata(self : Self) -> @js.Any {
   self.get("customMetadata")
 }
 
 ///|
 /// Get object uploaded time
-pub fn R2Object::uploaded(self : Self) -> @js.Js {
+pub fn R2Object::uploaded(self : Self) -> @js.Any {
   self.get("uploaded")
 }
 
@@ -322,7 +322,7 @@ pub fn R2Object::text(self : Self) -> @js.Promise[String] {
 
 ///|
 /// Get object body as JSON
-pub fn R2Object::json(self : Self) -> @js.Promise[@js.Js] {
+pub fn R2Object::json(self : Self) -> @js.Promise[@js.Any] {
   self.call0("json").cast()
 }
 
@@ -346,7 +346,7 @@ pub fn R2Object::body_used(self : Self) -> Bool {
 
 ///|
 /// Write object to a writable stream
-pub fn R2Object::write_http_metadata(self : Self, headers : @js.Js) -> Unit {
+pub fn R2Object::write_http_metadata(self : Self, headers : @js.Any) -> Unit {
   self.call("writeHttpMetadata", [headers]).cast()
 }
 
@@ -387,7 +387,7 @@ pub fn R2MultipartUpload::uploadId(self : Self) -> String {
 pub fn R2MultipartUpload::upload_part(
   self : Self,
   part_number : Int,
-  value : @js.Js,
+  value : @js.Any,
 ) -> @js.Promise[R2UploadedPart] {
   self.call2("uploadPart", part_number, value).cast()
 }

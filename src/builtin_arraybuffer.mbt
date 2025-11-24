@@ -17,7 +17,7 @@ pub impl JsImpl for ArrayBuffer
 extern "js" fn ffi_new_array_buffer(
   byte_length : UInt,
   max_byte_length : UInt?,
-) -> Js =
+) -> Any =
   #| (len, maxLen) => maxLen !== undefined ? new ArrayBuffer(len, { maxByteLength: maxLen }) : new ArrayBuffer(len)
 
 ///|
@@ -63,12 +63,12 @@ pub fn ArrayBuffer::slice(
 }
 
 ///|
-extern "js" fn ffi_is_view(arg : Js) -> Js =
+extern "js" fn ffi_is_view(arg : Any) -> Any =
   #| (arg) => ArrayBuffer.isView(arg)
 
 ///|
 #alias(is_view)
-pub fn ArrayBuffer::isView(arg : Js) -> Bool {
+pub fn ArrayBuffer::isView(arg : Any) -> Bool {
   ffi_is_view(arg) |> identity
 }
 
@@ -82,7 +82,7 @@ pub type SharedArrayBuffer
 pub impl JsImpl for SharedArrayBuffer
 
 ///|
-extern "js" fn ffi_new_shared_array_buffer(byte_length : UInt) -> Js =
+extern "js" fn ffi_new_shared_array_buffer(byte_length : UInt) -> Any =
   #| (len) => new SharedArrayBuffer(len)
 
 ///|

@@ -37,7 +37,7 @@ pub(all) struct StructWithOptions {
   required : String
   optionalInt : Int?
   optionalString : String?
-  optionalJs : Js?
+  optionalJs : Any?
 }
 
 ///|
@@ -75,7 +75,7 @@ pub impl[T : JsImpl] JsImpl for Container[T]
 ///| Helper Functions - All extern "js" must be at top level
 
 ///|
-extern "js" fn create_all_fields() -> Js =
+extern "js" fn create_all_fields() -> Any =
   #|() => ({
   #|  required: "test",
   #|  optionalInt: 42,
@@ -84,7 +84,7 @@ extern "js" fn create_all_fields() -> Js =
   #|})
 
 ///|
-extern "js" fn create_null_fields() -> Js =
+extern "js" fn create_null_fields() -> Any =
   #|() => ({
   #|  required: "test",
   #|  optionalInt: null,
@@ -93,7 +93,7 @@ extern "js" fn create_null_fields() -> Js =
   #|})
 
 ///|
-extern "js" fn create_undefined_fields() -> Js =
+extern "js" fn create_undefined_fields() -> Any =
   #|() => ({
   #|  required: "test",
   #|  optionalInt: undefined,
@@ -102,48 +102,48 @@ extern "js" fn create_undefined_fields() -> Js =
   #|})
 
 ///|
-extern "js" fn create_missing_fields() -> Js =
+extern "js" fn create_missing_fields() -> Any =
   #|() => ({ required: "test" })
 
 ///|
-extern "js" fn create_nested() -> Js =
+extern "js" fn create_nested() -> Any =
   #|() => ({
   #|  id: 1,
   #|  simple: { name: "Alice", age: 30 }
   #|})
 
 ///|
-extern "js" fn create_null_nested() -> Js =
+extern "js" fn create_null_nested() -> Any =
   #|() => ({
   #|  id: 1,
   #|  nested: null
   #|})
 
 ///|
-extern "js" fn create_undefined_nested() -> Js =
+extern "js" fn create_undefined_nested() -> Any =
   #|() => ({
   #|  id: 1,
   #|  nested: undefined
   #|})
 
 ///|
-extern "js" fn create_null_value() -> Js =
+extern "js" fn create_null_value() -> Any =
   #|() => ({ value: null })
 
 ///|
-extern "js" fn get_number() -> Js =
+extern "js" fn get_number() -> Any =
   #|() => 42
 
 ///|
-extern "js" fn get_null() -> Js =
+extern "js" fn get_null() -> Any =
   #|() => null
 
 ///|
-extern "js" fn get_undefined() -> Js =
+extern "js" fn get_undefined() -> Any =
   #|() => undefined
 
 ///|
-extern "js" fn get_simple() -> Js =
+extern "js" fn get_simple() -> Any =
   #|() => ({ name: "Charlie", age: 35 })
 
 ///| Test Cases
@@ -213,8 +213,8 @@ test "Js? field with all values set" {
 test "Js? field with null value" {
   let obj : StructWithOptions = create_null_fields() |> identity
   // Js? field cannot be matched - it crashes when trying to access $tag
-  // Convert to Js and check with is_nullish instead
-  let raw : @js.Js = obj.to_js().get("optionalJs")
+  // Convert to Any and check with is_nullish instead
+  let raw : @js.Any = obj.to_js().get("optionalJs")
   inspect(is_nullish(raw), content="true")
 }
 
@@ -222,7 +222,7 @@ test "Js? field with null value" {
 test "Js? field with undefined value" {
   let obj : StructWithOptions = create_undefined_fields() |> identity
   // Js? field cannot be matched - it crashes when trying to access $tag
-  let raw : @js.Js = obj.to_js().get("optionalJs")
+  let raw : @js.Any = obj.to_js().get("optionalJs")
   inspect(is_nullish(raw), content="true")
 }
 
@@ -351,11 +351,11 @@ test "identity_option with value" {
 
 ///|
 pub trait Convertible {
-  from_js(Js) -> Self
+  from_js(Any) -> Self
 }
 
 ///|
-pub impl Convertible for SimpleStruct with from_js(js : @js.Js) -> SimpleStruct {
+pub impl Convertible for SimpleStruct with from_js(js : @js.Any) -> SimpleStruct {
   @js.identity(js)
 }
 
@@ -394,21 +394,21 @@ pub(all) struct ContainerWithCustom {
 pub impl JsImpl for ContainerWithCustom
 
 ///|
-extern "js" fn create_with_null_custom() -> Js =
+extern "js" fn create_with_null_custom() -> Any =
   #|() => ({
   #|  required: "test",
   #|  optional: null
   #|})
 
 ///|
-extern "js" fn create_with_undefined_custom() -> Js =
+extern "js" fn create_with_undefined_custom() -> Any =
   #|() => ({
   #|  required: "test",
   #|  optional: undefined
   #|})
 
 ///|
-extern "js" fn create_with_custom_value() -> Js =
+extern "js" fn create_with_custom_value() -> Any =
   #|() => ({
   #|  required: "test",
   #|  optional: { id: 42, name: "Alice" }

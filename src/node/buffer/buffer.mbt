@@ -7,7 +7,7 @@ pub impl @js.JsImpl for Buffer
 
 ///|
 /// Get the Buffer constructor
-fn buffer_constructor() -> @js.Js {
+fn buffer_constructor() -> @js.Any {
   @node.require("node:buffer").get("Buffer")
 }
 
@@ -59,7 +59,7 @@ pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
 /// Allocate a new zero-filled buffer
 pub fn Buffer::alloc(
   size : Int,
-  fill? : @js.Js,
+  fill? : @js.Any,
   encoding? : String = "utf-8",
 ) -> Buffer {
   let ctor = buffer_constructor()
@@ -205,7 +205,7 @@ pub fn Buffer::copy(
 /// Fill the buffer with a value
 pub fn Buffer::fill(
   self : Self,
-  value : @js.Js,
+  value : @js.Any,
   offset? : Int = 0,
   end? : Int,
   encoding? : String = "utf-8",
@@ -255,7 +255,7 @@ pub fn Buffer::compare_with(
 /// Check if the buffer includes a value
 pub fn Buffer::includes(
   self : Self,
-  value : @js.Js,
+  value : @js.Any,
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Bool {
@@ -267,7 +267,7 @@ pub fn Buffer::includes(
 #alias(index_of)
 pub fn Buffer::indexOf(
   self : Self,
-  value : @js.Js,
+  value : @js.Any,
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Int {
@@ -279,7 +279,7 @@ pub fn Buffer::indexOf(
 #alias(last_index_of)
 pub fn Buffer::lastIndexOf(
   self : Self,
-  value : @js.Js,
+  value : @js.Any,
   byte_offset? : Int,
   encoding? : String = "utf-8",
 ) -> Int {
@@ -291,11 +291,11 @@ pub fn Buffer::lastIndexOf(
 }
 
 ///|
-// extern "js" fn ffi_get_index(obj : @js.Js, index : Int) -> Js =
+// extern "js" fn ffi_get_index(obj : @js.Any, index : Int) -> Js =
 //   #|(obj, i) => obj[i]
 
 // ///|
-// extern "js" fn ffi_set_index(obj : @js.Js, index : Int, value : @js.Js) -> Unit =
+// extern "js" fn ffi_set_index(obj : @js.Any, index : Int, value : @js.Any) -> Unit =
 //   #|(obj, i, v) => { obj[i] = v }
 
 ///|
@@ -326,6 +326,6 @@ pub fn Buffer::byteOffset(self : Self) -> Int {
 ///|
 /// Convert buffer to JSON representation
 #alias(to_json)
-pub fn Buffer::toJSON(self : Self) -> @js.Js {
+pub fn Buffer::toJSON(self : Self) -> @js.Any {
   self.call0("toJSON")
 }

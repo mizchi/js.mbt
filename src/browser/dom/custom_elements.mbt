@@ -33,7 +33,7 @@ pub struct CustomElementCallbacks {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements
 extern "js" fn create_custom_element_class(
   callbacks : CustomElementCallbacks,
-) -> @js.Js =
+) -> @js.Any =
   #|(callbacks) => {
   #|  return class extends HTMLElement {
   #|    connectedCallback() {
@@ -69,7 +69,7 @@ pub fn CustomElementRegistry::define_(
 extern "js" fn create_custom_element_class_with_attributes(
   callbacks : CustomElementCallbacks,
   observedAttributes : Array[String],
-) -> @js.Js =
+) -> @js.Any =
   #|(callbacks, observedAttributes) => {
   #|  return class extends HTMLElement {
   #|    static get observedAttributes() {
@@ -107,7 +107,7 @@ pub fn CustomElementRegistry::define_element_with_attributes(
 ///|
 /// Returns the constructor for the custom element with the given name
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
-pub fn CustomElementRegistry::get(self : Self, name : String) -> @js.Js? {
+pub fn CustomElementRegistry::get(self : Self, name : String) -> @js.Any? {
   self.call("get", [name]) |> @js.identity_option
 }
 
@@ -116,7 +116,7 @@ pub fn CustomElementRegistry::get(self : Self, name : String) -> @js.Js? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/getName
 pub fn CustomElementRegistry::getName(
   self : Self,
-  element_constructor : @js.Js,
+  element_constructor : @js.Any,
 ) -> String? {
   self.call("getName", [element_constructor]) |> @js.identity_option
 }

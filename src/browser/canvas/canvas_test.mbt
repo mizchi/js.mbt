@@ -6,16 +6,19 @@
 ///|
 /// Test setup - create canvas using node-canvas
 extern "js" fn ffi_create_test_canvas(
-  width : @js.Js,
-  height : @js.Js,
-) -> @js.Js =
+  width : @js.Any,
+  height : @js.Any,
+) -> @js.Any =
   #|(width, height) => {
   #|  const { createCanvas } = require('canvas');
   #|  return createCanvas(width, height);
   #|}
 
 ///|
-extern "js" fn ffi_create_image_data(width : @js.Js, height : @js.Js) -> @js.Js =
+extern "js" fn ffi_create_image_data(
+  width : @js.Any,
+  height : @js.Any,
+) -> @js.Any =
   #|(width, height) => {
   #|  const { createImageData } = require('canvas');
   #|  return createImageData(width, height);
@@ -23,10 +26,10 @@ extern "js" fn ffi_create_image_data(width : @js.Js, height : @js.Js) -> @js.Js 
 
 ///|
 extern "js" fn ffi_create_image_data_with_data(
-  data : @js.Js,
-  width : @js.Js,
-  height : @js.Js,
-) -> @js.Js =
+  data : @js.Any,
+  width : @js.Any,
+  height : @js.Any,
+) -> @js.Any =
   #|(data, width, height) => {
   #|  const { createImageData } = require('canvas');
   #|  return createImageData(new Uint8ClampedArray(data.buffer), width, height);

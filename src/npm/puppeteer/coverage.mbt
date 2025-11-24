@@ -24,7 +24,7 @@ pub(all) struct CoverageRange {
 pub(all) struct JSCoverageEntry {
   url : String
   text : String
-  ranges : Array[@js.Js]
+  ranges : Array[@js.Any]
 } derive(Show)
 
 ///|
@@ -32,7 +32,7 @@ pub(all) struct JSCoverageEntry {
 pub(all) struct CSSCoverageEntry {
   url : String
   text : String
-  ranges : Array[@js.Js]
+  ranges : Array[@js.Any]
 } derive(Show)
 
 ///| Page methods (coverage)
@@ -62,7 +62,7 @@ pub async fn Coverage::startJSCoverage(self : Coverage) -> Unit {
 /// JS: coverage.startJSCoverage(options)
 pub async fn Coverage::startJSCoverage_with(
   self : Coverage,
-  options : @js.Js,
+  options : @js.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = @js.identity(
     self.call("startJSCoverage", [options]),
@@ -75,8 +75,8 @@ pub async fn Coverage::startJSCoverage_with(
 /// JS: coverage.stopJSCoverage()
 /// See: https://pptr.dev/api/puppeteer.coverage.stopjscoverage
 /// Returns array of coverage entries
-pub async fn Coverage::stopJSCoverage(self : Coverage) -> Array[@js.Js] {
-  let promise : @js.Promise[Array[@js.Js]] = @js.identity(
+pub async fn Coverage::stopJSCoverage(self : Coverage) -> Array[@js.Any] {
+  let promise : @js.Promise[Array[@js.Any]] = @js.identity(
     self.call("stopJSCoverage", []),
   )
   promise.wait()
@@ -98,7 +98,7 @@ pub async fn Coverage::startCSSCoverage(self : Coverage) -> Unit {
 /// JS: coverage.startCSSCoverage(options)
 pub async fn Coverage::startCSSCoverage_with(
   self : Coverage,
-  options : @js.Js,
+  options : @js.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = @js.identity(
     self.call("startCSSCoverage", [options]),
@@ -111,8 +111,8 @@ pub async fn Coverage::startCSSCoverage_with(
 /// JS: coverage.stopCSSCoverage()
 /// See: https://pptr.dev/api/puppeteer.coverage.stopcsscoverage
 /// Returns array of coverage entries
-pub async fn Coverage::stopCSSCoverage(self : Coverage) -> Array[@js.Js] {
-  let promise : @js.Promise[Array[@js.Js]] = @js.identity(
+pub async fn Coverage::stopCSSCoverage(self : Coverage) -> Array[@js.Any] {
+  let promise : @js.Promise[Array[@js.Any]] = @js.identity(
     self.call("stopCSSCoverage", []),
   )
   promise.wait()

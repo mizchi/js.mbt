@@ -2,7 +2,7 @@
 /// Renderable React node types.
 /// Int, Double, Bool, String, ReactElement, Array of ReactNode, Option of ReactNode
 pub(open) trait ReactNode {
-  to_react_node(Self) -> @js.Js
+  to_react_node(Self) -> @js.Any
 }
 
 ///|

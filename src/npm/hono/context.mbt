@@ -117,7 +117,7 @@ pub fn[Env, ExecutionContext] Context::status(
 pub fn[Env, ExecutionContext] Context::set(
   self : Context[Env, ExecutionContext],
   key : String,
-  value : @js.Js,
+  value : @js.Any,
 ) -> Unit {
   self.call("set", [key, value]) |> ignore
 }
@@ -128,7 +128,7 @@ pub fn[Env, ExecutionContext] Context::set(
 pub fn[Env, ExecutionContext] Context::getValue(
   self : Context[Env, ExecutionContext],
   key : String,
-) -> @js.Js {
+) -> @js.Any {
   self.call("get", [key])
 }
 
@@ -147,7 +147,7 @@ pub fn[Env, ExecutionContext] Context::res(
 pub fn[Env, ExecutionContext] Context::var_(
   self : Context[Env, ExecutionContext],
   key : String,
-) -> @js.Js {
+) -> @js.Any {
   self.get("var").get(key)
 }
 
@@ -158,7 +158,7 @@ pub fn[Env, ExecutionContext] Context::body(
   self : Context[Env, ExecutionContext],
   body : String,
   status? : Int,
-  headers? : @js.Js,
+  headers? : @js.Any,
 ) -> @http.Response {
   match (status, headers) {
     (Some(s), Some(h)) => self.call("body", [body, s, h]).cast()

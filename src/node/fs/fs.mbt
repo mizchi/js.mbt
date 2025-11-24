@@ -3,7 +3,7 @@
 
 ///|
 /// Get fs module
-fn fs_module() -> @js.Js {
+fn fs_module() -> @js.Any {
   @node.require("node:fs")
 }
 
@@ -97,7 +97,7 @@ pub fn existsSync(path : String) -> Bool {
 ///|
 /// Get file statistics
 #alias(stat_sync)
-pub fn statSync(path : String) -> @js.Js raise @js.ThrowError {
+pub fn statSync(path : String) -> @js.Any raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
     fs.call1("statSync", path)

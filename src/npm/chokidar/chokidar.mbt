@@ -14,7 +14,7 @@ pub impl @js.JsImpl for FSWatcher
 /// Watch options for configuring file system watching
 pub(all) struct WatchOptions {
   persistent : Bool?
-  ignored : @js.Js?
+  ignored : @js.Any?
   ignoreInitial : Bool?
   followSymlinks : Bool?
   cwd : String?
@@ -24,7 +24,7 @@ pub(all) struct WatchOptions {
   binaryInterval : Int?
   alwaysStat : Bool?
   depth : Int?
-  awaitWriteFinish : @js.Js?
+  awaitWriteFinish : @js.Any?
   ignorePermissionErrors : Bool?
   atomic_ : Bool?
 } derive(Show)
@@ -33,7 +33,7 @@ pub(all) struct WatchOptions {
 
 ///|
 /// FFI: watch
-extern "js" fn ffi_watch(paths : @js.Js, options : @js.Js) -> @js.Js =
+extern "js" fn ffi_watch(paths : @js.Any, options : @js.Any) -> @js.Any =
   #| (paths, options) => {
   #|   const chokidar = require('chokidar');
   #|   return chokidar.watch(paths, options);
@@ -46,9 +46,9 @@ extern "js" fn ffi_watch(paths : @js.Js, options : @js.Js) -> @js.Js =
 /// JS: chokidar.watch(paths, options)
 /// See: https://github.com/paulmillr/chokidar#api
 pub fn watch(
-  paths : @js.Js,
+  paths : @js.Any,
   persistent? : Bool,
-  ignored? : @js.Js,
+  ignored? : @js.Any,
   ignoreInitial? : Bool,
   followSymlinks? : Bool,
   cwd? : String,
@@ -58,7 +58,7 @@ pub fn watch(
   binaryInterval? : Int,
   alwaysStat? : Bool,
   depth? : Int,
-  awaitWriteFinish? : @js.Js,
+  awaitWriteFinish? : @js.Any,
   ignorePermissionErrors? : Bool,
   atomic_? : Bool,
 ) -> FSWatcher {
@@ -127,14 +127,14 @@ pub fn watch(
 ///|
 /// Add files or directories to watch
 /// JS: watcher.add(paths)
-pub fn FSWatcher::add(self : FSWatcher, paths : @js.Js) -> FSWatcher {
+pub fn FSWatcher::add(self : FSWatcher, paths : @js.Any) -> FSWatcher {
   @js.identity(self.call("add", [paths]))
 }
 
 ///|
 /// Stop watching files or directories
 /// JS: watcher.unwatch(paths)
-pub fn FSWatcher::unwatch(self : FSWatcher, paths : @js.Js) -> FSWatcher {
+pub fn FSWatcher::unwatch(self : FSWatcher, paths : @js.Any) -> FSWatcher {
   @js.identity(self.call("unwatch", [paths]))
 }
 
@@ -149,7 +149,7 @@ pub async fn FSWatcher::close(self : FSWatcher) -> Unit {
 ///|
 /// Get object of watched paths
 /// JS: watcher.getWatched()
-pub fn FSWatcher::getWatched(self : FSWatcher) -> @js.Js {
+pub fn FSWatcher::getWatched(self : FSWatcher) -> @js.Any {
   self.call("getWatched", [])
 }
 
@@ -161,7 +161,7 @@ pub fn FSWatcher::getWatched(self : FSWatcher) -> @js.Js {
 pub fn FSWatcher::on(
   self : FSWatcher,
   event : String,
-  callback : @js.Js,
+  callback : @js.Any,
 ) -> FSWatcher {
   @js.identity(self.call("on", [@js.js(event), callback]))
 }
@@ -172,7 +172,7 @@ pub fn FSWatcher::on(
 pub fn FSWatcher::off(
   self : FSWatcher,
   event : String,
-  callback : @js.Js,
+  callback : @js.Any,
 ) -> FSWatcher {
   @js.identity(self.call("off", [@js.js(event), callback]))
 }

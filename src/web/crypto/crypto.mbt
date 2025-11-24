@@ -14,7 +14,7 @@ pub fn SubtleCrypto::encrypt(
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self.call("encrypt", [algorithm, key, data]).cast()
 }
 
@@ -24,7 +24,7 @@ pub fn SubtleCrypto::decrypt(
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self.call("decrypt", [algorithm, key, data]).cast()
 }
 
@@ -35,7 +35,7 @@ pub fn SubtleCrypto::sign(
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self.call("sign", [algorithm, key, data]).cast()
 }
 
@@ -56,7 +56,7 @@ pub fn SubtleCrypto::digest(
   self : Self,
   algorithm : String,
   data : &@js.JsImpl,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self.call2("digest", algorithm |> @js.js, data.to_js()).cast()
 }
 
@@ -68,7 +68,7 @@ pub fn SubtleCrypto::generateKey(
   algorithm : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self
   .call("generateKey", [algorithm, extractable, key_usages |> @js.from_array])
   .cast()
@@ -83,7 +83,7 @@ pub fn SubtleCrypto::deriveKey(
   derived_key_type : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self
   .call("deriveKey", [
     algorithm,
@@ -102,7 +102,7 @@ pub fn SubtleCrypto::deriveBits(
   algorithm : &@js.JsImpl,
   base_key : &@js.JsImpl,
   length : Int,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self.call("deriveBits", [algorithm, base_key, length]).cast()
 }
 
@@ -116,7 +116,7 @@ pub fn SubtleCrypto::importKey(
   algorithm : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self
   .call("importKey", [
     format,
@@ -134,7 +134,7 @@ pub fn SubtleCrypto::exportKey(
   self : Self,
   format : String,
   key : &@js.JsImpl,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self.call2("exportKey", format, key).cast()
 }
 
@@ -147,7 +147,7 @@ pub fn SubtleCrypto::wrapKey(
   key : &@js.JsImpl,
   wrapping_key : &@js.JsImpl,
   wrap_algorithm : &@js.JsImpl,
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self.call("wrapKey", [format, key, wrapping_key, wrap_algorithm]).cast()
 }
 
@@ -162,7 +162,7 @@ pub fn SubtleCrypto::unwrapKey(
   unwrapped_key_algorithm : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   self
   .call("unwrapKey", [
     format,
@@ -268,7 +268,7 @@ pub fn Crypto::randomUUID(self : Self) -> String {
 
 ///|
 /// Global Crypto Access
-extern "js" fn ffi_get_crypto() -> @js.Js =
+extern "js" fn ffi_get_crypto() -> @js.Any =
   #|() => globalThis.crypto
 
 ///|

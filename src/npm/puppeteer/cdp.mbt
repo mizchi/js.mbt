@@ -50,9 +50,9 @@ pub fn CDPSession::id(self : CDPSession) -> String {
 pub async fn CDPSession::send(
   self : CDPSession,
   method_ : String,
-  params : @js.Js,
-) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.identity(
+  params : @js.Any,
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = @js.identity(
     self.call("send", [method_, params]),
   )
   promise.wait()
@@ -65,7 +65,9 @@ pub async fn CDPSession::send_simple(
   self : CDPSession,
   method_ : String,
 ) -> Unit {
-  let promise : @js.Promise[@js.Js] = @js.identity(self.call("send", [method_]))
+  let promise : @js.Promise[@js.Any] = @js.identity(
+    self.call("send", [method_]),
+  )
   let _ = promise.wait()
 
 }

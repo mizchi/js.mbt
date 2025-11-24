@@ -3,7 +3,7 @@
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
 pub(all) struct MessageEvent {
   /// The data sent by the message emitter
-  data : @js.Js
+  data : @js.Any
   /// The origin of the message emitter
   origin : String
   /// The last event ID
@@ -58,7 +58,7 @@ pub fn MessagePort::post_message(
 pub fn MessagePort::post_message_with_transfer(
   port : MessagePort,
   message : &@js.JsImpl,
-  transfer : Array[@js.Js],
+  transfer : Array[@js.Any],
 ) -> Unit {
   let arr = @js.JsArray::new()
   let mut i = 0

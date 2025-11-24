@@ -1,6 +1,6 @@
 ///|
 /// get the Reflect class
-fn reflect_class() -> @js.Js {
+fn reflect_class() -> @js.Any {
   @js.globalThis().get("Reflect")
 }
 
@@ -10,8 +10,8 @@ fn reflect_class() -> @js.Js {
 pub fn apply(
   target : &@js.JsImpl,
   this_argument : &@js.JsImpl,
-  arguments_list : Array[@js.Js],
-) -> @js.Js {
+  arguments_list : Array[@js.Any],
+) -> @js.Any {
   reflect_class().call("apply", [
     target.to_js(),
     this_argument.to_js(),
@@ -24,9 +24,9 @@ pub fn apply(
 /// Acts like the new operator as a function
 pub fn construct(
   target : &@js.JsImpl,
-  arguments_list : Array[@js.Js],
-  new_target : @js.Js?,
-) -> @js.Js {
+  arguments_list : Array[@js.Any],
+  new_target : @js.Any?,
+) -> @js.Any {
   match new_target {
     Some(nt) =>
       reflect_class().call("construct", [
@@ -77,8 +77,8 @@ pub fn deleteProperty(
 pub fn get(
   target : &@js.JsImpl,
   property_key : &@js.PropertyKey,
-  receiver : @js.Js?,
-) -> @js.Js {
+  receiver : @js.Any?,
+) -> @js.Any {
   match receiver {
     Some(recv) =>
       reflect_class().call("get", [target.to_js(), property_key.to_key(), recv])
@@ -92,7 +92,7 @@ pub fn get(
 pub fn getOwnPropertyDescriptor(
   target : &@js.JsImpl,
   property_key : &@js.PropertyKey,
-) -> @js.Js {
+) -> @js.Any {
   reflect_class().call("getOwnPropertyDescriptor", [
     target.to_js(),
     property_key.to_key(),
@@ -102,7 +102,7 @@ pub fn getOwnPropertyDescriptor(
 ///|
 /// JS: Reflect.getPrototypeOf(target)
 /// Gets the prototype of an object
-pub fn getPrototypeOf(target : &@js.JsImpl) -> @js.Js {
+pub fn getPrototypeOf(target : &@js.JsImpl) -> @js.Any {
   reflect_class().call("getPrototypeOf", [target.to_js()])
 }
 
@@ -125,7 +125,7 @@ pub fn isExtensible(target : &@js.JsImpl) -> Bool {
 ///
 /// Returns an array of the target object's own property keys.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn ownKeys(target : &@js.JsImpl) -> Array[@js.Js] {
+pub fn ownKeys(target : &@js.JsImpl) -> Array[@js.Any] {
   reflect_class().call("ownKeys", [target.to_js()]).cast()
 }
 
@@ -143,7 +143,7 @@ pub fn set(
   target : &@js.JsImpl,
   property_key : &@js.PropertyKey,
   value : &@js.JsImpl,
-  receiver : @js.Js?,
+  receiver : @js.Any?,
 ) -> Bool {
   match receiver {
     Some(recv) =>

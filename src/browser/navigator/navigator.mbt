@@ -13,10 +13,10 @@ pub(all) struct Navigator {
   vendor : String
   cookieEnabled : Bool
   doNotTrack : String?
-  connection : @js.Js?
-  permissions : @js.Js
-  clipboard : @js.Js
-  geolocation : @js.Js
+  connection : @js.Any?
+  permissions : @js.Any
+  clipboard : @js.Any
+  geolocation : @js.Any
 }
 
 ///|

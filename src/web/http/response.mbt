@@ -40,51 +40,51 @@ pub fn Response::new(
 
 ///|
 extern "js" fn new_impl_full(
-  body : @js.Js,
+  body : @js.Any,
   status : Int,
-  statusText : @js.Js,
-  headers : @js.Js,
+  statusText : @js.Any,
+  headers : @js.Any,
 ) -> Response =
   #| (body, status, statusText, headers) => new Response(body, { status, statusText, headers })
 
 ///|
 extern "js" fn new_impl_status_text(
-  body : @js.Js,
+  body : @js.Any,
   status : Int,
-  statusText : @js.Js,
+  statusText : @js.Any,
 ) -> Response =
   #| (body, status, statusText) => new Response(body, { status, statusText })
 
 ///|
 extern "js" fn new_impl_status_headers(
-  body : @js.Js,
+  body : @js.Any,
   status : Int,
-  headers : @js.Js,
+  headers : @js.Any,
 ) -> Response =
   #| (body, status, headers) => new Response(body, { status, headers })
 
 ///|
-extern "js" fn new_impl_status(body : @js.Js, status : Int) -> Response =
+extern "js" fn new_impl_status(body : @js.Any, status : Int) -> Response =
   #| (body, status) => new Response(body, { status })
 
 ///|
 extern "js" fn new_impl_text_headers(
-  body : @js.Js,
-  statusText : @js.Js,
-  headers : @js.Js,
+  body : @js.Any,
+  statusText : @js.Any,
+  headers : @js.Any,
 ) -> Response =
   #| (body, statusText, headers) => new Response(body, { statusText, headers })
 
 ///|
-extern "js" fn new_impl_text(body : @js.Js, statusText : @js.Js) -> Response =
+extern "js" fn new_impl_text(body : @js.Any, statusText : @js.Any) -> Response =
   #| (body, statusText) => new Response(body, { statusText })
 
 ///|
-extern "js" fn new_impl_headers(body : @js.Js, headers : @js.Js) -> Response =
+extern "js" fn new_impl_headers(body : @js.Any, headers : @js.Any) -> Response =
   #| (body, headers) => new Response(body, { headers })
 
 ///|
-extern "js" fn new_impl_plain(body : @js.Js) -> Response =
+extern "js" fn new_impl_plain(body : @js.Any) -> Response =
   #| (body) => new Response(body)
 
 ///|
@@ -102,7 +102,7 @@ pub fn Response::json_(data : &@js.JsImpl, options? : &@js.JsImpl) -> Response {
 }
 
 ///|
-extern "js" fn json_impl(data : @js.Js, options : @js.Js) -> Response =
+extern "js" fn json_impl(data : @js.Any, options : @js.Any) -> Response =
   #| (data, options) => Response.json(data, options)
 
 ///|
@@ -112,7 +112,7 @@ pub extern "js" fn Response::error() -> Response =
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/json
-pub extern "js" fn Response::json(self : Self) -> @js.Promise[@js.Js] =
+pub extern "js" fn Response::json(self : Self) -> @js.Promise[@js.Any] =
   #| (v) => v.json()
 
 ///|

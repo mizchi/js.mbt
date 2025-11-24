@@ -4,7 +4,7 @@
 
 ///|
 // Initialize a minimal React API for benchmarking (without Node.js)
-extern "js" fn ffi_create_minimal_react_api() -> @js.Js =
+extern "js" fn ffi_create_minimal_react_api() -> @js.Any =
   #|() => {
   #|  return {
   #|    createElement: (tag, props, children) => {

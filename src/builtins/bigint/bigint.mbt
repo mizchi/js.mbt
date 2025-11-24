@@ -10,7 +10,7 @@ pub impl @js.JsImpl for JsBigInt
 
 ///|
 /// get the BigInt class
-fn bigint_class() -> @js.Js {
+fn bigint_class() -> @js.Any {
   @js.identity(@js.globalThis().get("BigInt"))
 }
 

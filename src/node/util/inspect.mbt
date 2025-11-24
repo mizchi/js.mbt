@@ -13,7 +13,7 @@ fn util() -> Util {
 ///|
 /// util.inspect
 pub fn inspect(
-  value : @js.Js,
+  value : @js.Any,
   depth? : Int,
   colors? : Bool,
   compact? : Bool,

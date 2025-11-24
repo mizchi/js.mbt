@@ -218,7 +218,7 @@ pub fn Document::contentType(self : Self) -> String {
 ///|
 /// Returns the document type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
-pub fn Document::doctype(self : Self) -> @js.Js? {
+pub fn Document::doctype(self : Self) -> @js.Any? {
   self.get("doctype") |> @js.identity_option()
 }
 

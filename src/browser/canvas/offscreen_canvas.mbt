@@ -7,15 +7,15 @@ pub type OffscreenCanvas
 pub impl @js.JsImpl for OffscreenCanvas
 
 ///|
-pub impl @worker.Transferable for OffscreenCanvas with to_transferable(self) -> @js.Js {
+pub impl @worker.Transferable for OffscreenCanvas with to_transferable(self) -> @js.Any {
   self.to_js()
 }
 
 ///|
 extern "js" fn ffi_new_offscreen_canvas(
-  width : @js.Js,
-  height : @js.Js,
-) -> @js.Js =
+  width : @js.Any,
+  height : @js.Any,
+) -> @js.Any =
   #|(width, height) => new OffscreenCanvas(width, height)
 
 ///|

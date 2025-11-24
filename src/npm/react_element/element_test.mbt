@@ -1,7 +1,7 @@
 ///|
 extern "js" fn ffi_render_to_string(
-  render_fn : @js.Js,
-  element : @js.Js,
+  render_fn : @js.Any,
+  element : @js.Any,
 ) -> String =
   #|(renderFn, element) => renderFn(element)
 
@@ -10,7 +10,7 @@ fn get_render_to_string() -> (@react.Element) -> String {
   // Initialize React API
   @react.init_react_api(@node.require("react"))
   let react_dom_server = @node.require("react-dom/server")
-  let render_fn : @js.Js = react_dom_server.get("renderToString")
+  let render_fn : @js.Any = react_dom_server.get("renderToString")
   fn(element : @react.Element) -> String {
     ffi_render_to_string(render_fn, element.to_js())
   }

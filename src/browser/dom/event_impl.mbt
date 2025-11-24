@@ -338,7 +338,7 @@ pub impl EventImpl for ScrollEvent
 /// MessageEvent is fired when a message is received from another browsing context
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
 pub(all) struct MessageEvent {
-  data : @js.Js
+  data : @js.Any
   origin : String
   lastEventId : String
   ports : Array[@message.MessagePort]

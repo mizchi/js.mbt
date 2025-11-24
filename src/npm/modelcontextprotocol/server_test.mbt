@@ -50,8 +50,8 @@ test "Content::resource creates resource content" {
 
 ///|
 test "RequestId conversions" {
-  let js_str : @js.Js = @js.identity("abc")
+  let js_str : @js.Any = @js.identity("abc")
   inspect(RequestId::from_js(js_str), content="Some(String(\"abc\"))")
-  let js_num : @js.Js = @js.identity(42)
+  let js_num : @js.Any = @js.identity(42)
   inspect(RequestId::from_js(js_num), content="Some(Number(42))")
 }

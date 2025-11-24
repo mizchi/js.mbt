@@ -4,7 +4,7 @@ pub fn config_example() -> Unit {
   println("=== defineConfig Example ===")
 
   // Create configuration using defineConfig with labeled arguments
-  // This returns a @js.Js object directly
+  // This returns a @js.Any object directly
   let config = @vite.defineConfig(
     root?=Some("."),
     base?=Some("/"),

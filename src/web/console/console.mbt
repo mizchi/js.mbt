@@ -6,7 +6,7 @@ pub fn log(value : &@js.JsImpl) -> Unit {
 }
 
 ///|
-extern "js" fn log_impl(value : @js.Js) -> Unit =
+extern "js" fn log_impl(value : @js.Any) -> Unit =
   #| (value) => console.log(value)
 
 ///|
@@ -17,7 +17,7 @@ pub fn warn(value : &@js.JsImpl) -> Unit {
 }
 
 ///|
-extern "js" fn warn_impl(value : @js.Js) -> Unit =
+extern "js" fn warn_impl(value : @js.Any) -> Unit =
   #| (value) => console.warn(value)
 
 ///|
@@ -28,7 +28,7 @@ pub fn error(value : &@js.JsImpl) -> Unit {
 }
 
 ///|
-extern "js" fn error_impl(value : @js.Js) -> Unit =
+extern "js" fn error_impl(value : @js.Any) -> Unit =
   #| (value) => console.error(value)
 
 ///|
@@ -39,7 +39,7 @@ pub fn info(value : &@js.JsImpl) -> Unit {
 }
 
 ///|
-extern "js" fn info_impl(value : @js.Js) -> Unit =
+extern "js" fn info_impl(value : @js.Any) -> Unit =
   #| (value) => console.info(value)
 
 ///|
@@ -50,7 +50,7 @@ pub fn debug(value : &@js.JsImpl) -> Unit {
 }
 
 ///|
-extern "js" fn debug_impl(value : @js.Js) -> Unit =
+extern "js" fn debug_impl(value : @js.Any) -> Unit =
   #| (value) => console.debug(value)
 
 ///|
@@ -60,7 +60,7 @@ pub fn trace(value : &@js.JsImpl) -> Unit {
 }
 
 ///|
-extern "js" fn trace_impl(value : @js.Js) -> Unit =
+extern "js" fn trace_impl(value : @js.Any) -> Unit =
   #| (value) => console.trace(value)
 
 ///|
@@ -70,7 +70,7 @@ pub fn dir(value : &@js.JsImpl) -> Unit {
 }
 
 ///|
-extern "js" fn dir_impl(value : @js.Js) -> Unit =
+extern "js" fn dir_impl(value : @js.Any) -> Unit =
   #| (value) => console.dir(value)
 
 ///|
@@ -80,7 +80,7 @@ pub fn table(value : &@js.JsImpl, keys : Array[String]) -> Unit {
 }
 
 ///|
-extern "js" fn table_impl(value : @js.Js, keys : Array[String]) -> Unit =
+extern "js" fn table_impl(value : @js.Any, keys : Array[String]) -> Unit =
   #| (value, keys) => console.table(value, keys)
 
 ///|
@@ -90,7 +90,7 @@ pub fn assert_(condition : Bool, value : &@js.JsImpl) -> Unit {
 }
 
 ///|
-extern "js" fn assert_impl(condition : Bool, value : @js.Js) -> Unit =
+extern "js" fn assert_impl(condition : Bool, value : @js.Any) -> Unit =
   #| (condition, value) => console.assert(condition, value)
 
 ///|

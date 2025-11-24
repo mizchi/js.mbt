@@ -23,10 +23,10 @@ pub impl @events.EventEmitterImpl for ChildProcess
 
 ///|
 /// Listen for stderr 'data' event with typed callback
-/// Callback receives: data (@js.Js) - typically Buffer or String
+/// Callback receives: data (@js.Any) - typically Buffer or String
 pub fn ChildProcess::on_stderr_data(
   self : Self,
-  callback : (@js.Js) -> Unit noraise,
+  callback : (@js.Any) -> Unit noraise,
 ) -> Unit {
   self.stderr.call2("on", "data", @js.from_fn1(callback)) |> ignore
 }
@@ -68,7 +68,7 @@ pub fn ChildProcess::ref_(self : Self) -> Unit {
 
 ///|
 /// Module Functions
-extern "js" fn ffi_require_child_process() -> @js.Js =
+extern "js" fn ffi_require_child_process() -> @js.Any =
   #|() => require("node:child_process")
 
 ///|
@@ -78,7 +78,7 @@ pub fn spawn(
   command : String,
   args? : Array[String],
   cwd? : String,
-  env? : @js.Js,
+  env? : @js.Any,
   shell? : Bool,
   timeout? : Int,
   signal? : @js.AbortSignal,
@@ -102,9 +102,9 @@ pub fn spawn(
 /// Spawns a shell and executes a command, buffering the output
 pub fn exec(
   command : String,
-  callback : (@js.Js?, String, String) -> Unit noraise,
+  callback : (@js.Any?, String, String) -> Unit noraise,
   cwd? : String,
-  env? : @js.Js,
+  env? : @js.Any,
   shell? : String,
   timeout? : Int,
   max_buffer? : Int,
@@ -129,9 +129,9 @@ pub fn exec(
 pub fn execFile(
   file : String,
   args : Array[String],
-  callback : (@js.Js?, String, String) -> Unit noraise,
+  callback : (@js.Any?, String, String) -> Unit noraise,
   cwd? : String,
-  env? : @js.Js,
+  env? : @js.Any,
   timeout? : Int,
   max_buffer? : Int,
   signal? : @js.AbortSignal,
@@ -161,7 +161,7 @@ pub fn fork(
   module_path : String,
   args? : Array[String],
   cwd? : String,
-  env? : @js.Js,
+  env? : @js.Any,
   silent? : Bool,
   timeout? : Int,
   signal? : @js.AbortSignal,
@@ -193,7 +193,7 @@ pub(all) struct SpawnSyncResult {
   signal : String?
   stdout : @streams.ReadableStream
   stderr : @streams.ReadableStream
-  error : @js.Js
+  error : @js.Any
 }
 
 ///|
@@ -207,7 +207,7 @@ pub fn spawnSync(
   command : String,
   args? : Array[String],
   cwd? : String,
-  env? : @js.Js,
+  env? : @js.Any,
   shell? : Bool,
   timeout? : Int,
   input? : String,
@@ -238,7 +238,7 @@ pub fn spawnSync(
 pub fn execSync(
   command : String,
   cwd? : String,
-  env? : @js.Js,
+  env? : @js.Any,
   shell? : String,
   timeout? : Int,
   maxBuffer? : Int,
@@ -270,7 +270,7 @@ pub fn execFileSync(
   file : String,
   args? : Array[String],
   cwd? : String,
-  env? : @js.Js,
+  env? : @js.Any,
   timeout? : Int,
   maxBuffer? : Int,
   input? : String,

@@ -27,7 +27,7 @@ pub fn Window::document(self : Self) -> Document {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
 ///
 /// For typed access to Navigator methods, use the `mizchi/js/browser/navigator` package.
-pub fn Window::navigator(self : Self) -> @js.Js {
+pub fn Window::navigator(self : Self) -> @js.Any {
   self.get("navigator")
 }
 
@@ -36,7 +36,7 @@ pub fn Window::navigator(self : Self) -> @js.Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/location
 ///
 /// For typed access to Location methods, use the `mizchi/js/browser/location` package.
-pub fn Window::location(self : Self) -> @js.Js {
+pub fn Window::location(self : Self) -> @js.Any {
   self.get("location")
 }
 
@@ -44,7 +44,7 @@ pub fn Window::location(self : Self) -> @js.Js {
 /// Returns the localStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 #alias(local_storage)
-pub fn Window::localStorage(self : Self) -> @js.Js {
+pub fn Window::localStorage(self : Self) -> @js.Any {
   self.get("localStorage").cast()
 }
 
@@ -52,14 +52,14 @@ pub fn Window::localStorage(self : Self) -> @js.Js {
 /// Returns the sessionStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 #alias(session_storage)
-pub fn Window::sessionStorage(self : Self) -> @js.Js {
+pub fn Window::sessionStorage(self : Self) -> @js.Any {
   self.get("sessionStorage").cast()
 }
 
 ///|
 /// Returns the console object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/console
-pub fn Window::console(self : Self) -> @js.Js {
+pub fn Window::console(self : Self) -> @js.Any {
   self.get("console").cast()
 }
 
@@ -68,7 +68,7 @@ pub fn Window::console(self : Self) -> @js.Js {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/history
 ///
 /// For typed access to History methods, use the `mizchi/js/browser/history` package.
-pub fn Window::history(self : Self) -> @js.Js {
+pub fn Window::history(self : Self) -> @js.Any {
   self.get("history")
 }
 
@@ -107,7 +107,7 @@ pub fn Window::outerHeight(self : Self) -> Int {
 ///|
 /// Returns the screen object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/screen
-pub fn Window::screen(self : Self) -> @js.Js {
+pub fn Window::screen(self : Self) -> @js.Any {
   self.get("screen").cast()
 }
 
@@ -269,8 +269,8 @@ pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
 pub fn Window::fetch(
   self : Self,
   input : String,
-  init? : @js.Js,
-) -> @js.Promise[@js.Js] {
+  init? : @js.Any,
+) -> @js.Promise[@js.Any] {
   match init {
     Some(i) => self.call2("fetch", input, i).cast()
     None => self.call("fetch", [input]).cast()
@@ -281,7 +281,7 @@ pub fn Window::fetch(
 /// Returns a selection object representing selected text
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 #alias(get_selection)
-pub fn Window::getSelection(self : Self) -> @js.Js? {
+pub fn Window::getSelection(self : Self) -> @js.Any? {
   self.call0("getSelection") |> @js.identity_option
 }
 
@@ -293,7 +293,7 @@ pub fn Window::getComputedStyle(
   self : Self,
   element : Element,
   pseudo_elt? : String,
-) -> @js.Js {
+) -> @js.Any {
   match pseudo_elt {
     Some(p) => self.call2("getComputedStyle", element.to_js(), p).cast()
     None => self.call("getComputedStyle", [element.to_js()]).cast()
@@ -304,7 +304,7 @@ pub fn Window::getComputedStyle(
 /// Returns a media query list
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
-pub fn Window::matchMedia(self : Self, query : String) -> @js.Js {
+pub fn Window::matchMedia(self : Self, query : String) -> @js.Any {
   self.call("matchMedia", [query]).cast()
 }
 
@@ -314,7 +314,7 @@ pub fn Window::matchMedia(self : Self, query : String) -> @js.Js {
 #alias(post_message)
 pub fn Window::postMessage(
   self : Self,
-  message : @js.Js,
+  message : @js.Any,
   target_origin : String,
 ) -> Unit {
   ignore(self.call2("postMessage", message, target_origin))
@@ -325,7 +325,7 @@ pub fn Window::postMessage(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
 pub fn[T : @worker.Transferable] Window::post_message_with_transfer(
   self : Self,
-  message : @js.Js,
+  message : @js.Any,
   target_origin : String,
   transfer : Array[T],
 ) -> Unit {

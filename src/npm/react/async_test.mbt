@@ -30,11 +30,11 @@ async test "React DOM Server: renderToString should render an element with text"
 ///| renderToReadableStream tests
 
 ///|
-extern "js" fn text_decoder_new() -> @js.Js =
+extern "js" fn text_decoder_new() -> @js.Any =
   #|() => new TextDecoder()
 
 ///|
-extern "js" fn text_decoder_decode(decoder : @js.Js, value : @js.Js) -> String =
+extern "js" fn text_decoder_decode(decoder : @js.Any, value : @js.Any) -> String =
   #|(decoder, value) => decoder.decode(value)
 
 ///|
@@ -45,7 +45,7 @@ async test "React DOM Server: renderToReadableStream should return a Promise of 
   let reader = stream.getReader()
 
   // Read first chunk
-  let result : @js.Js = reader.read().wait()
+  let result : @js.Any = reader.read().wait()
   let done : Bool = @js.identity(result.get("done"))
 
   // Should have at least one chunk
@@ -64,12 +64,12 @@ async test "React DOM Server: renderToReadableStream should render HTML content"
 
   // Read all chunks
   while true {
-    let result : @js.Js = reader.read().wait()
+    let result : @js.Any = reader.read().wait()
     let done : Bool = @js.identity(result.get("done"))
     if done {
       break
     }
-    let value : @js.Js = result.get("value")
+    let value : @js.Any = result.get("value")
     let chunk = text_decoder_decode(decoder, value)
     html_parts.push(chunk)
   }
@@ -94,12 +94,12 @@ async test "React DOM Server: renderToReadableStream should handle nested elemen
 
   // Read all chunks
   while true {
-    let result : @js.Js = reader.read().wait()
+    let result : @js.Any = reader.read().wait()
     let done : Bool = @js.identity(result.get("done"))
     if done {
       break
     }
-    let value : @js.Js = result.get("value")
+    let value : @js.Any = result.get("value")
     let chunk = text_decoder_decode(decoder, value)
     html_parts.push(chunk)
   }

@@ -14,7 +14,7 @@ pub impl[Env, ExecutionContext] @js.JsImpl for Hono[Env, ExecutionContext]
 ///|
 /// Create a new Hono instance without options
 /// https://hono.dev/docs/api/hono#new-hono
-extern "js" fn ffi_new_hono() -> @js.Js =
+extern "js" fn ffi_new_hono() -> @js.Any =
   #| () => {
   #|   const { Hono } = require('hono');
   #|   return new Hono();
@@ -23,7 +23,7 @@ extern "js" fn ffi_new_hono() -> @js.Js =
 ///|
 /// Create a new Hono instance with options
 /// https://hono.dev/docs/api/hono#new-hono
-extern "js" fn ffi_new_hono_with_options(options : @js.Js) -> @js.Js =
+extern "js" fn ffi_new_hono_with_options(options : @js.Any) -> @js.Any =
   #| (options) => {
   #|   const { Hono } = require('hono');
   #|   return new Hono(options);
@@ -31,7 +31,7 @@ extern "js" fn ffi_new_hono_with_options(options : @js.Js) -> @js.Js =
 
 ///|
 /// Build Hono options object
-extern "js" fn build_hono_options(strict : Bool) -> @js.Js =
+extern "js" fn build_hono_options(strict : Bool) -> @js.Any =
   #| (strict) => {
   #|   return { strict };
   #| }
@@ -200,7 +200,7 @@ pub fn[Env, ExecutionContext] Hono::notFound(
 #alias(on_error)
 pub fn[Env, ExecutionContext] Hono::onError(
   self : Hono[Env, ExecutionContext],
-  handler : (@js.Js, Context[Env, ExecutionContext]) -> @http.Response,
+  handler : (@js.Any, Context[Env, ExecutionContext]) -> @http.Response,
 ) -> Hono[Env, ExecutionContext] {
   self.call("onError", [@js.unsafe_js(handler)]).cast()
 }

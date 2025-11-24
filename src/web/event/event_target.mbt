@@ -23,7 +23,7 @@ pub(open) trait EventTargetImpl: @js.JsImpl {
   addEventListener(
     Self,
     String,
-    (@js.Js) -> Unit,
+    (@js.Any) -> Unit,
     capture? : Bool,
     once? : Bool,
     passive? : Bool,
@@ -33,10 +33,10 @@ pub(open) trait EventTargetImpl: @js.JsImpl {
   /// Remove a previously registered event listener
   /// Options:
   /// - capture: must match the capture value used when adding the listener
-  removeEventListener(Self, String, (@js.Js) -> Unit, capture? : Bool) -> Unit = _
+  removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit = _
 
   /// Dispatch an event to this target
-  dispatchEvent(Self, @js.Js) -> Bool = _
+  dispatchEvent(Self, @js.Any) -> Bool = _
 }
 
 ///|

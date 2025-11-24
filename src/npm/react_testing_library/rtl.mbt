@@ -63,7 +63,7 @@ pub fn RenderResult::unmount(self : RenderResult) -> Unit {
 
 ///|
 /// JS: result.asFragment()
-pub fn RenderResult::asFragment(self : RenderResult) -> @js.Js {
+pub fn RenderResult::asFragment(self : RenderResult) -> @js.Any {
   self.call0("asFragment")
 }
 
@@ -76,14 +76,14 @@ pub fn cleanup() -> Unit {
 
 ///|
 /// JS: act(callback)
-pub fn act(callback : () -> Unit) -> @js.Js {
+pub fn act(callback : () -> Unit) -> @js.Any {
   let rtl = testing_library()
   rtl.call("act", [@js.identity(callback)])
 }
 
 ///|
 /// JS: configure(options)
-pub fn configure(options : @js.Js) -> Unit {
+pub fn configure(options : @js.Any) -> Unit {
   let rtl = testing_library()
   rtl.call("configure", [options]) |> ignore
 }
@@ -98,14 +98,14 @@ pub impl @js.JsImpl for RenderHookResult
 
 ///|
 /// JS: renderHook(hook, options?)
-pub fn renderHook(hook : @js.Js) -> RenderHookResult {
+pub fn renderHook(hook : @js.Any) -> RenderHookResult {
   let rtl = testing_library()
   rtl.call("renderHook", [hook]).cast()
 }
 
 ///|
 /// JS: result.result
-pub fn RenderHookResult::result(self : RenderHookResult) -> @js.Js {
+pub fn RenderHookResult::result(self : RenderHookResult) -> @js.Any {
   self.get("result")
 }
 
@@ -113,7 +113,7 @@ pub fn RenderHookResult::result(self : RenderHookResult) -> @js.Js {
 /// JS: result.rerender(props)
 pub fn RenderHookResult::rerender(
   self : RenderHookResult,
-  props : @js.Js,
+  props : @js.Any,
 ) -> Unit {
   self.call("rerender", [props]) |> ignore
 }
@@ -151,7 +151,7 @@ pub fn FireEvent::click(self : FireEvent, target : @dom.HTMLElement) -> Unit {
 pub fn FireEvent::change(
   self : FireEvent,
   target : @dom.HTMLElement,
-  event : @js.Js,
+  event : @js.Any,
 ) -> Unit {
   self.call("change", [target, event]) |> ignore
 }
@@ -161,7 +161,7 @@ pub fn FireEvent::change(
 pub fn FireEvent::input(
   self : FireEvent,
   target : @dom.HTMLElement,
-  event : @js.Js,
+  event : @js.Any,
 ) -> Unit {
   self.call("input", [target, event]) |> ignore
 }
@@ -189,7 +189,7 @@ pub fn FireEvent::blur(self : FireEvent, target : @dom.HTMLElement) -> Unit {
 pub fn FireEvent::keyDown(
   self : FireEvent,
   target : @dom.HTMLElement,
-  event : @js.Js,
+  event : @js.Any,
 ) -> Unit {
   self.call("keyDown", [target, event]) |> ignore
 }
@@ -199,7 +199,7 @@ pub fn FireEvent::keyDown(
 pub fn FireEvent::keyUp(
   self : FireEvent,
   target : @dom.HTMLElement,
-  event : @js.Js,
+  event : @js.Any,
 ) -> Unit {
   self.call("keyUp", [target, event]) |> ignore
 }
@@ -641,6 +641,6 @@ pub fn get_string_property(element : @dom.HTMLElement, key : String) -> String {
 
 ///|
 /// Get any property from HTMLElement as Js
-pub fn get_property(element : @dom.HTMLElement, key : String) -> @js.Js {
+pub fn get_property(element : @dom.HTMLElement, key : String) -> @js.Any {
   element.get(key)
 }

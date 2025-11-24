@@ -374,15 +374,15 @@ pub(all) struct ImageData {
 pub impl @js.JsImpl for ImageData
 
 ///|
-extern "js" fn ffi_new_image_data(width : @js.Js, height : @js.Js) -> @js.Js =
+extern "js" fn ffi_new_image_data(width : @js.Any, height : @js.Any) -> @js.Any =
   #|(width, height) => new ImageData(width, height)
 
 ///|
 extern "js" fn ffi_new_image_data_with_data(
-  data : @js.Js,
-  width : @js.Js,
-  height : @js.Js,
-) -> @js.Js =
+  data : @js.Any,
+  width : @js.Any,
+  height : @js.Any,
+) -> @js.Any =
   #|(data, width, height) => new ImageData(data, width, height)
 
 ///|
@@ -416,7 +416,7 @@ pub(all) struct ImageBitmap {
 pub impl @js.JsImpl for ImageBitmap
 
 ///|
-pub impl @worker.Transferable for ImageBitmap with to_transferable(self) -> @js.Js {
+pub impl @worker.Transferable for ImageBitmap with to_transferable(self) -> @js.Any {
   self.to_js()
 }
 
@@ -427,17 +427,17 @@ pub fn ImageBitmap::close(self : Self) -> Unit {
 
 ///|
 /// createImageBitmap
-extern "js" fn ffi_create_image_bitmap(image : @js.Js) -> @js.Js =
+extern "js" fn ffi_create_image_bitmap(image : @js.Any) -> @js.Any =
   #|(image) => createImageBitmap(image)
 
 ///|
 extern "js" fn ffi_create_image_bitmap_with_rect(
-  image : @js.Js,
-  sx : @js.Js,
-  sy : @js.Js,
-  sw : @js.Js,
-  sh : @js.Js,
-) -> @js.Js =
+  image : @js.Any,
+  sx : @js.Any,
+  sy : @js.Any,
+  sw : @js.Any,
+  sh : @js.Any,
+) -> @js.Any =
   #|(image, sx, sy, sw, sh) => createImageBitmap(image, sx, sy, sw, sh)
 
 ///|

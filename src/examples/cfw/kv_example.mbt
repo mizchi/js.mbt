@@ -9,7 +9,7 @@ extern "js" fn parse_int(s : String) -> Int =
 
 ///|
 /// Stringify JSON
-extern "js" fn json_stringify(obj : @js.Js) -> String =
+extern "js" fn json_stringify(obj : @js.Any) -> String =
   #| (obj) => JSON.stringify(obj)
 
 ///|
@@ -20,7 +20,7 @@ extern "js" fn kv_json_response(body : String, status : Int) -> @http.Response =
 ///|
 /// Helper to get KV namespace from env
 fn get_kv(env : @cloudflare.CloudflareEnv) -> @cloudflare.KVNamespace? {
-  let env_js : @js.Js = @js.identity(env)
+  let env_js : @js.Any = @js.identity(env)
   let kv_js = env_js.get("MY_KV")
   if @js.typeof_(kv_js) == "undefined" {
     None

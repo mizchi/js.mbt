@@ -9,25 +9,25 @@ pub(all) struct Config {
   mode : String?
   logLevel : String?
   clearScreen : Bool?
-  server : @js.Js?
-  build : @js.Js?
-  preview : @js.Js?
-  optimizeDeps : @js.Js?
-  plugins : @js.Js?
+  server : @js.Any?
+  build : @js.Any?
+  preview : @js.Any?
+  optimizeDeps : @js.Any?
+  plugins : @js.Any?
   publicDir : String?
   cacheDir : String?
-  resolve : @js.Js?
-  css : @js.Js?
-  json : @js.Js?
-  esbuild : @js.Js?
-  assetsInclude : @js.Js?
+  resolve : @js.Any?
+  css : @js.Any?
+  json : @js.Any?
+  esbuild : @js.Any?
+  assetsInclude : @js.Any?
   envDir : String?
   envPrefix : String?
 } derive(Show)
 
 ///|
 /// FFI: defineConfig
-extern "js" fn ffi_defineConfig(config : @js.Js) -> @js.Js =
+extern "js" fn ffi_defineConfig(config : @js.Any) -> @js.Any =
   #| (config) => {
   #|   const vite = require('vite');
   #|   return vite.defineConfig(config);
@@ -37,28 +37,28 @@ extern "js" fn ffi_defineConfig(config : @js.Js) -> @js.Js =
 /// Define Vite configuration with type support
 /// JS: defineConfig(config)
 /// See: https://ja.vite.dev/config/#config-intellisense
-/// Returns a @js.Js object with defineConfig applied
+/// Returns a @js.Any object with defineConfig applied
 pub fn defineConfig(
   root? : String,
   base? : String,
   mode? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  server? : @js.Js,
-  build? : @js.Js,
-  preview? : @js.Js,
-  optimizeDeps? : @js.Js,
-  plugins? : @js.Js,
+  server? : @js.Any,
+  build? : @js.Any,
+  preview? : @js.Any,
+  optimizeDeps? : @js.Any,
+  plugins? : @js.Any,
   publicDir? : String,
   cacheDir? : String,
-  resolve? : @js.Js,
-  css? : @js.Js,
-  json? : @js.Js,
-  esbuild? : @js.Js,
-  assetsInclude? : @js.Js,
+  resolve? : @js.Any,
+  css? : @js.Any,
+  json? : @js.Any,
+  esbuild? : @js.Any,
+  assetsInclude? : @js.Any,
   envDir? : String,
   envPrefix? : String,
-) -> @js.Js {
+) -> @js.Any {
   let obj = @js.Object::new()
   match root {
     Some(v) => obj.set("root", @js.js(v))

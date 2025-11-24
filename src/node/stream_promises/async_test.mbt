@@ -14,7 +14,7 @@ extern "js" fn create_readable_from_array(
   #| }
 
 ///|
-extern "js" fn create_writable_to_array_promises() -> @js.Js =
+extern "js" fn create_writable_to_array_promises() -> @js.Any =
   #| () => {
   #|   const { Writable } = require('node:stream');
   #|   const chunks = [];
@@ -48,7 +48,7 @@ extern "js" fn create_passthrough_promises() -> @stream.PassThrough =
   #| }
 
 ///|
-extern "js" fn get_chunks_promises(writable : @js.Js) -> Array[String] =
+extern "js" fn get_chunks_promises(writable : @js.Any) -> Array[String] =
   #| (writable) => writable.chunks || []
 
 ///| Pipeline operations
@@ -57,7 +57,7 @@ extern "js" fn get_chunks_promises(writable : @js.Js) -> Array[String] =
 async test "Node Stream Promises: pipeline with promises - basic" {
   let readable = create_readable_from_array(["hello", "world"])
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Js] = [readable.to_js(), writable_js]
+  let streams : Array[@js.Any] = [readable.to_js(), writable_js]
   let promise = promises_pipeline(streams)
   ignore(promise.wait())
   let chunks = get_chunks_promises(writable_js)
@@ -71,7 +71,7 @@ async test "Node Stream Promises: pipeline with promises - with transform" {
   let readable = create_readable_from_array(["hello", "world"])
   let transform = create_transform_uppercase_promises()
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Js] = [
+  let streams : Array[@js.Any] = [
     readable.to_js(),
     transform.to_js(),
     writable_js,
@@ -90,7 +90,7 @@ async test "Node Stream Promises: pipeline with promises - multiple transforms" 
   let transform1 = create_transform_uppercase_promises()
   let transform2 = create_passthrough_promises()
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Js] = [
+  let streams : Array[@js.Any] = [
     readable.to_js(),
     transform1.to_js(),
     transform2.to_js(),
@@ -111,7 +111,7 @@ async test "Node Stream Promises: pipeline with promises - async operations" {
     let readable = create_readable_from_array(["async", "test"])
     let transform = create_transform_uppercase_promises()
     let writable_js = create_writable_to_array_promises()
-    let streams : Array[@js.Js] = [
+    let streams : Array[@js.Any] = [
       readable.to_js(),
       transform.to_js(),
       writable_js,
@@ -134,7 +134,7 @@ async test "Node Stream Promises: pipeline with promises - successful completion
   // Test that pipeline promise resolves successfully
   let readable = create_readable_from_array(["test", "data"])
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Js] = [readable.to_js(), writable_js]
+  let streams : Array[@js.Any] = [readable.to_js(), writable_js]
   let promise = promises_pipeline(streams)
   // Use then to verify completion
   let resolved = promise.then(fn(_) { @js.Promise::resolve(true) })
@@ -148,7 +148,7 @@ async test "Node Stream Promises: pipeline with promises - successful completion
 async test "Node Stream Promises: pipeline with promises - then chain" {
   let readable = create_readable_from_array(["chain", "test"])
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Js] = [readable.to_js(), writable_js]
+  let streams : Array[@js.Any] = [readable.to_js(), writable_js]
   let promise = promises_pipeline(streams)
   let result_promise = promise.then(fn(_) {
     let chunks = get_chunks_promises(writable_js)
@@ -168,7 +168,7 @@ async test "Node Stream Promises: pipeline with promises - large data" {
   }
   let readable = create_readable_from_array(items)
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Js] = [readable.to_js(), writable_js]
+  let streams : Array[@js.Any] = [readable.to_js(), writable_js]
   let promise = promises_pipeline(streams)
   ignore(promise.wait())
   let chunks = get_chunks_promises(writable_js)

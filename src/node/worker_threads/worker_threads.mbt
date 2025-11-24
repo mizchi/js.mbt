@@ -26,7 +26,7 @@ pub impl @events.EventEmitterImpl for MessagePort
 
 ///|
 /// Module Functions
-extern "js" fn ffi_require_worker_threads() -> @js.Js =
+extern "js" fn ffi_require_worker_threads() -> @js.Any =
   #|() => require("node:worker_threads")
 
 ///|
@@ -38,13 +38,13 @@ extern "js" fn ffi_get_thread_id() -> Int =
 /// https://nodejs.org/api/worker_threads.html#new-workerfilename-options
 pub fn Worker::new(
   filename : String,
-  workerData? : @js.Js,
-  env? : @js.Js,
+  workerData? : @js.Any,
+  env? : @js.Any,
   stdin? : Bool,
   stdout? : Bool,
   stderr? : Bool,
   execArgv? : Array[String],
-  resourceLimits? : @js.Js,
+  resourceLimits? : @js.Any,
 ) -> Worker {
   let wt = ffi_require_worker_threads()
   let worker_class = wt.get("Worker")
@@ -66,7 +66,7 @@ pub fn Worker::new(
 pub fn Worker::postMessage(
   self : Worker,
   value : &@js.JsImpl,
-  transferList? : Array[@js.Js],
+  transferList? : Array[@js.Any],
 ) -> Unit {
   match transferList {
     Some(list) =>
@@ -123,7 +123,7 @@ pub fn Worker::stderr(self : Worker) -> @streams.ReadableStream? {
 pub fn MessagePort::postMessage(
   self : MessagePort,
   value : &@js.JsImpl,
-  transferList? : Array[@js.Js],
+  transferList? : Array[@js.Any],
 ) -> Unit {
   match transferList {
     Some(list) =>
@@ -161,7 +161,7 @@ pub fn parentPort() -> MessagePort? {
 ///|
 /// Get the worker data passed to the worker
 /// https://nodejs.org/api/worker_threads.html#workerworkerdata
-pub fn workerData() -> @js.Js? {
+pub fn workerData() -> @js.Any? {
   ffi_require_worker_threads().get("workerData") |> @js.identity_option()
 }
 

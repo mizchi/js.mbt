@@ -15,14 +15,14 @@ pub impl @event.EventTargetImpl for ReadStream
 ///|
 /// Check if ReadStream is a TTY
 pub fn ReadStream::is_tty(self : ReadStream) -> Bool {
-  let val : @js.Js = self.get("isTTY")
+  let val : @js.Any = self.get("isTTY")
   @js.identity(val)
 }
 
 ///|
 /// Check if ReadStream is in raw mode
 pub fn ReadStream::is_raw(self : ReadStream) -> Bool {
-  let val : @js.Js = self.get("isRaw")
+  let val : @js.Any = self.get("isRaw")
   @js.identity(val)
 }
 
@@ -48,21 +48,21 @@ pub impl @event.EventTargetImpl for WriteStream
 ///|
 /// Check if WriteStream is a TTY
 pub fn WriteStream::is_tty(self : WriteStream) -> Bool {
-  let val : @js.Js = self.get("isTTY")
+  let val : @js.Any = self.get("isTTY")
   @js.identity(val)
 }
 
 ///|
 /// Get the number of columns in the terminal
 pub fn WriteStream::columns(self : WriteStream) -> Int {
-  let val : @js.Js = self.get("columns")
+  let val : @js.Any = self.get("columns")
   @js.identity(val)
 }
 
 ///|
 /// Get the number of rows in the terminal
 pub fn WriteStream::rows(self : WriteStream) -> Int {
-  let val : @js.Js = self.get("rows")
+  let val : @js.Any = self.get("rows")
   @js.identity(val)
 }
 
@@ -74,7 +74,7 @@ pub fn WriteStream::clear_line(
   dir : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.identity(callback)
+  let cb : @js.Any = @js.identity(callback)
   self.call2("clearLine", dir, cb) |> ignore
 }
 
@@ -84,7 +84,7 @@ pub fn WriteStream::clear_screen_down(
   self : WriteStream,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.identity(callback)
+  let cb : @js.Any = @js.identity(callback)
   self.call("clearScreenDown", [cb]) |> ignore
 }
 
@@ -96,7 +96,7 @@ pub fn WriteStream::cursor_to(
   y : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.identity(callback)
+  let cb : @js.Any = @js.identity(callback)
   self.call("cursorTo", [x, y, cb]) |> ignore
 }
 
@@ -108,7 +108,7 @@ pub fn WriteStream::move_cursor(
   dy : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.identity(callback)
+  let cb : @js.Any = @js.identity(callback)
   self.call("moveCursor", [dx, dy, cb]) |> ignore
 }
 
@@ -116,21 +116,21 @@ pub fn WriteStream::move_cursor(
 /// Get the color depth supported by the terminal
 /// Returns 1, 4, 8, or 24 bits
 pub fn WriteStream::get_color_depth(self : WriteStream) -> Int {
-  let val : @js.Js = self.call0("getColorDepth")
+  let val : @js.Any = self.call0("getColorDepth")
   @js.identity(val)
 }
 
 ///|
 /// Check if terminal supports the requested color count
 pub fn WriteStream::has_colors(self : WriteStream, count : Int) -> Bool {
-  let val : @js.Js = self.call("hasColors", [count])
+  let val : @js.Any = self.call("hasColors", [count])
   @js.identity(val)
 }
 
 ///|
 /// Get window size as [columns, rows]
 pub fn WriteStream::get_window_size(self : WriteStream) -> (Int, Int) {
-  let val : @js.Js = self.call0("getWindowSize")
+  let val : @js.Any = self.call0("getWindowSize")
   let arr : @js.JsArray = @js.identity(val)
   let cols : Int = @js.identity(arr.get(0))
   let rows : Int = @js.identity(arr.get(1))
@@ -143,7 +143,7 @@ pub fn WriteStream::on_resize(
   self : WriteStream,
   callback : () -> Unit,
 ) -> WriteStream {
-  self.addEventListener("resize", fn(_e : @js.Js) { callback() })
+  self.addEventListener("resize", fn(_e : @js.Any) { callback() })
   self
 }
 

@@ -5,21 +5,21 @@
 ///|
 /// EventEmitter trait for Node.js event emitter pattern
 pub(open) trait EventEmitterImpl: @js.JsImpl {
-  on(Self, String, (@js.Js) -> Unit) -> Unit = _
-  on2(Self, String, (@js.Js?, @js.Js) -> Unit) -> Unit = _
-  once(Self, String, (@js.Js) -> Unit) -> Unit = _
+  on(Self, String, (@js.Any) -> Unit) -> Unit = _
+  on2(Self, String, (@js.Any?, @js.Any) -> Unit) -> Unit = _
+  once(Self, String, (@js.Any) -> Unit) -> Unit = _
   eventNames(Self) -> Array[String] = _
   listenerCount(Self, String) -> Int = _
-  listeners(Self, event? : String) -> Array[(@js.Js) -> Unit] = _
-  off(Self, String, (@js.Js) -> Unit) -> Unit = _
-  removeListener(Self, String, (@js.Js) -> Unit) -> Unit = _
+  listeners(Self, event? : String) -> Array[(@js.Any) -> Unit] = _
+  off(Self, String, (@js.Any) -> Unit) -> Unit = _
+  removeListener(Self, String, (@js.Any) -> Unit) -> Unit = _
   removeAllListeners(Self) -> Unit = _
-  emit(Self, String, @js.Js) -> Unit = _
+  emit(Self, String, @js.Any) -> Unit = _
 }
 
 ///|
 /// Implement EventEmitter trait for EventEmitterClass
-impl EventEmitterImpl with on(self, name : String, callback : (@js.Js) -> Unit) -> Unit {
+impl EventEmitterImpl with on(self, name : String, callback : (@js.Any) -> Unit) -> Unit {
   self.call2("on", name, callback |> @js.from_fn1).cast()
 }
 
@@ -27,7 +27,7 @@ impl EventEmitterImpl with on(self, name : String, callback : (@js.Js) -> Unit) 
 impl EventEmitterImpl with on2(
   self,
   name : String,
-  callback : (@js.Js?, @js.Js) -> Unit,
+  callback : (@js.Any?, @js.Any) -> Unit,
 ) -> Unit {
   self.call2("on", name, callback |> @js.from_fn2).cast()
 }
@@ -36,7 +36,7 @@ impl EventEmitterImpl with on2(
 impl EventEmitterImpl with once(
   self,
   name : String,
-  callback : (@js.Js) -> Unit,
+  callback : (@js.Any) -> Unit,
 ) -> Unit {
   self.call2("once", name, callback |> @js.from_fn1).cast()
 }
@@ -60,7 +60,11 @@ impl EventEmitterImpl with listeners(self, event? : String) {
 }
 
 ///|
-impl EventEmitterImpl with off(self, name : String, callback : (@js.Js) -> Unit) -> Unit {
+impl EventEmitterImpl with off(
+  self,
+  name : String,
+  callback : (@js.Any) -> Unit,
+) -> Unit {
   self.call2("off", name, callback |> @js.from_fn1).cast()
 }
 
@@ -68,7 +72,7 @@ impl EventEmitterImpl with off(self, name : String, callback : (@js.Js) -> Unit)
 impl EventEmitterImpl with removeListener(
   self,
   name : String,
-  callback : (@js.Js) -> Unit,
+  callback : (@js.Any) -> Unit,
 ) -> Unit {
   self.call2("removeListener", name, callback |> @js.from_fn1).cast()
 }
@@ -80,7 +84,7 @@ impl EventEmitterImpl with removeAllListeners(self) -> Unit {
 }
 
 ///|
-impl EventEmitterImpl with emit(self, name : String, payload : @js.Js) -> Unit {
+impl EventEmitterImpl with emit(self, name : String, payload : @js.Any) -> Unit {
   self.call2("emit", name, payload).cast()
 }
 

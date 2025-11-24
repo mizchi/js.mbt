@@ -39,7 +39,7 @@ pub fn D1Database::batch(
 
 ///|
 /// Dump the entire database
-pub fn D1Database::dump(self : Self) -> @js.Promise[@js.Js] {
+pub fn D1Database::dump(self : Self) -> @js.Promise[@js.Any] {
   self.call0("dump").cast()
 }
 
@@ -54,7 +54,7 @@ pub impl @js.JsImpl for D1PreparedStatement
 ///|
 /// Bind parameters to a prepared statement
 /// Note: This wraps parameters in an array and spreads them to match Cloudflare's API
-pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Js]) -> Self {
+pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Any]) -> Self {
   // Cloudflare's bind() expects variadic arguments, not an array
   // We need to spread the array when calling bind
   let stmt_js = self.to_js()
@@ -74,7 +74,7 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Js]) -> Self {
 
 ///|
 /// Bind a single parameter
-pub fn D1PreparedStatement::bind1(self : Self, param : @js.Js) -> Self {
+pub fn D1PreparedStatement::bind1(self : Self, param : @js.Any) -> Self {
   self.bind([param])
 }
 
@@ -82,8 +82,8 @@ pub fn D1PreparedStatement::bind1(self : Self, param : @js.Js) -> Self {
 /// Bind two parameters
 pub fn D1PreparedStatement::bind2(
   self : Self,
-  p1 : @js.Js,
-  p2 : @js.Js,
+  p1 : @js.Any,
+  p2 : @js.Any,
 ) -> Self {
   self.bind([p1, p2])
 }
@@ -92,16 +92,16 @@ pub fn D1PreparedStatement::bind2(
 /// Bind three parameters
 pub fn D1PreparedStatement::bind3(
   self : Self,
-  p1 : @js.Js,
-  p2 : @js.Js,
-  p3 : @js.Js,
+  p1 : @js.Any,
+  p2 : @js.Any,
+  p3 : @js.Any,
 ) -> Self {
   self.bind([p1, p2, p3])
 }
 
 ///|
 /// Execute the statement and return first row
-pub fn D1PreparedStatement::first(self : Self) -> @js.Promise[@js.Js?] {
+pub fn D1PreparedStatement::first(self : Self) -> @js.Promise[@js.Any?] {
   self.call0("first").cast()
 }
 
@@ -110,7 +110,7 @@ pub fn D1PreparedStatement::first(self : Self) -> @js.Promise[@js.Js?] {
 pub fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
-) -> @js.Promise[@js.Js?] {
+) -> @js.Promise[@js.Any?] {
   self.call1("first", col_name).cast()
 }
 
@@ -128,7 +128,7 @@ pub fn D1PreparedStatement::run(self : Self) -> @js.Promise[D1Result] {
 
 ///|
 /// Execute and return raw results
-pub fn D1PreparedStatement::raw(self : Self) -> @js.Promise[Array[@js.Js]] {
+pub fn D1PreparedStatement::raw(self : Self) -> @js.Promise[Array[@js.Any]] {
   self.call0("raw").cast()
 }
 
@@ -137,7 +137,7 @@ pub fn D1PreparedStatement::raw(self : Self) -> @js.Promise[Array[@js.Js]] {
 pub fn D1PreparedStatement::raw_with_options(
   self : Self,
   options : D1RawOptions,
-) -> @js.Promise[Array[@js.Js]] {
+) -> @js.Promise[Array[@js.Any]] {
   self.call1("raw", options).cast()
 }
 
@@ -155,7 +155,7 @@ pub impl @js.JsImpl for D1RawOptions with to_js(self) {
 ///|
 /// Result of a D1 query
 pub(all) struct D1Result {
-  results : Array[@js.Js]?
+  results : Array[@js.Any]?
   success : Bool
   meta : D1Meta?
   error : String?
@@ -168,7 +168,7 @@ pub impl @js.JsImpl for D1Result
 /// Get results from D1Result
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn D1Result::get_results(self : Self) -> Array[@js.Js] {
+pub fn D1Result::get_results(self : Self) -> Array[@js.Any] {
   match self.results {
     Some(r) => r
     None => []

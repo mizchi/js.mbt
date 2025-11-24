@@ -1,6 +1,6 @@
 ///|
 /// node:vm module
-fn vm_module() -> @js.Js {
+fn vm_module() -> @js.Any {
   @node.require("node:vm")
 }
 
@@ -51,7 +51,7 @@ pub fn Script::runInThisContext(
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @js.Js {
+) -> @js.Any {
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
     ("lineOffset", lineOffset.map(fn(x) { x })),
@@ -67,7 +67,7 @@ pub fn Script::runInThisContext(
 /// Run script in new context
 pub fn Script::runInNewContext(
   self : Script,
-  contextObject? : @js.Js,
+  contextObject? : @js.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
@@ -77,7 +77,7 @@ pub fn Script::runInNewContext(
   contextName? : String,
   contextOrigin? : String,
   microtaskMode? : String,
-) -> @js.Js {
+) -> @js.Any {
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
     ("lineOffset", lineOffset.map(fn(x) { x })),
@@ -99,14 +99,14 @@ pub fn Script::runInNewContext(
 /// Run script in context
 pub fn Script::runInContext(
   self : Script,
-  contextifiedObject : @js.Js,
+  contextifiedObject : @js.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @js.Js {
+) -> @js.Any {
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
     ("lineOffset", lineOffset.map(fn(x) { x })),
@@ -148,7 +148,7 @@ pub fn runInThisContext(
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @js.Js {
+) -> @js.Any {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
@@ -165,7 +165,7 @@ pub fn runInThisContext(
 /// Compile and run code in new context
 pub fn runInNewContext(
   code : String,
-  contextObject? : @js.Js,
+  contextObject? : @js.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
@@ -175,7 +175,7 @@ pub fn runInNewContext(
   contextName? : String,
   contextOrigin? : String,
   microtaskMode? : String,
-) -> @js.Js {
+) -> @js.Any {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
@@ -198,14 +198,14 @@ pub fn runInNewContext(
 /// Run code in context
 pub fn runInContext(
   code : String,
-  contextifiedObject : @js.Js,
+  contextifiedObject : @js.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @js.Js {
+) -> @js.Any {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),
@@ -221,11 +221,11 @@ pub fn runInContext(
 ///|
 /// Create a new context
 pub fn createContext(
-  contextObject? : @js.Js,
+  contextObject? : @js.Any,
   name? : String,
   origin? : String,
   microtaskMode? : String,
-) -> @js.Js {
+) -> @js.Any {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("name", name.map(fn(x) { x })),
@@ -240,7 +240,7 @@ pub fn createContext(
 
 ///|
 /// Check if object is a context
-pub fn isContext(object : @js.Js) -> Bool {
+pub fn isContext(object : @js.Any) -> Bool {
   let vm = vm_module()
   vm.call1("isContext", object) |> @js.identity
 }
@@ -255,9 +255,9 @@ pub fn compileFunction(
   columnOffset? : Int,
   cachedData? : @buffer.Buffer,
   produceCachedData? : Bool,
-  parsingContext? : @js.Js,
-  contextExtensions? : Array[@js.Js],
-) -> @js.Js {
+  parsingContext? : @js.Any,
+  contextExtensions? : Array[@js.Any],
+) -> @js.Any {
   let vm = vm_module()
   let options = @js.from_entries_option([
     ("filename", filename.map(fn(x) { x })),

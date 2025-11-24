@@ -42,7 +42,7 @@ pub impl @js.JsImpl for RollupOutput
 
 ///|
 /// FFI: createServer
-extern "js" fn ffi_createServer(config : @js.Js) -> @js.Js =
+extern "js" fn ffi_createServer(config : @js.Any) -> @js.Any =
   #| (config) => {
   #|   const vite = require('vite');
   #|   return vite.createServer(config);
@@ -50,7 +50,7 @@ extern "js" fn ffi_createServer(config : @js.Js) -> @js.Js =
 
 ///|
 /// FFI: build
-extern "js" fn ffi_build(config : @js.Js) -> @js.Js =
+extern "js" fn ffi_build(config : @js.Any) -> @js.Any =
   #| (config) => {
   #|   const vite = require('vite');
   #|   return vite.build(config);
@@ -58,7 +58,7 @@ extern "js" fn ffi_build(config : @js.Js) -> @js.Js =
 
 ///|
 /// FFI: preview
-extern "js" fn ffi_preview(config : @js.Js) -> @js.Js =
+extern "js" fn ffi_preview(config : @js.Any) -> @js.Any =
   #| (config) => {
   #|   const vite = require('vite');
   #|   return vite.preview(config);
@@ -77,7 +77,7 @@ pub async fn createServer(
   configFile? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  server? : @js.Js,
+  server? : @js.Any,
 ) -> ViteDevServer {
   let config = @js.Object::new()
   match root {
@@ -125,7 +125,7 @@ pub async fn build(
   configFile? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  build? : @js.Js,
+  build? : @js.Any,
 ) -> RollupOutput {
   let config = @js.Object::new()
   match root {
@@ -173,7 +173,7 @@ pub async fn preview(
   configFile? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  preview? : @js.Js,
+  preview? : @js.Any,
 ) -> PreviewServer {
   let config = @js.Object::new()
   match root {
@@ -272,7 +272,7 @@ pub async fn ViteDevServer::restart(
 ///|
 /// ViteDevServer: Get resolved URLs
 /// JS: server.resolvedUrls
-pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @js.Js {
+pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @js.Any {
   self.get("resolvedUrls")
 }
 
@@ -289,6 +289,6 @@ pub fn PreviewServer::printUrls(self : PreviewServer) -> Unit {
 ///|
 /// PreviewServer: Get resolved URLs
 /// JS: server.resolvedUrls
-pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @js.Js {
+pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @js.Any {
   self.get("resolvedUrls")
 }

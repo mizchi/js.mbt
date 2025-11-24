@@ -7,6 +7,7 @@ For full documentation, see [docs/user-escape-hatch.md](../../docs/user-escape-h
 ## Core Operations
 
 ```moonbit
+
 ///|
 test "basic js operations" {
   let obj = @js.Object::new()
@@ -30,6 +31,7 @@ test "basic js operations" {
 ## Pattern: Accessing Missing Properties
 
 ```moonbit
+
 ///|
 test "access globalThis properties" {
   // Access global object
@@ -48,6 +50,7 @@ test "access globalThis properties" {
 ## Pattern: Calling Missing Methods
 
 ```moonbit
+
 ///|
 test "call methods with call()" {
   let obj = @js.Object::new()
@@ -66,6 +69,7 @@ test "call methods with call()" {
 ## Pattern: Building Complex Options
 
 ```moonbit
+
 ///|
 test "build options object" {
   let options = @js.Object::new()
@@ -91,12 +95,13 @@ test "build options object" {
 ## Pattern: Working with Arrays
 
 ```moonbit
+
 ///|
 test "array methods via call()" {
   let arr = @js.JsArray::from([1, 2, 3, 4, 5])
 
   // Use filter
-  let filter_fn = fn(x : @js.Js) -> Bool {
+  let filter_fn = fn(x : @js.Any) -> Bool {
     let num : Int = @js.identity(x)
     num > 2
   }
@@ -104,7 +109,7 @@ test "array methods via call()" {
   inspect(filtered, content="[3,4,5]")
 
   // Use map
-  let map_fn = fn(x : @js.Js) -> @js.Js {
+  let map_fn = fn(x : @js.Any) -> @js.Any {
     let num : Int = @js.identity(x)
     @js.js(num * 2)
   }
@@ -116,6 +121,7 @@ test "array methods via call()" {
 ## Pattern: Using Set
 
 ```moonbit
+
 ///|
 test "working with Set" {
   let set_class = @js.globalThis().get("Set")
@@ -141,6 +147,7 @@ test "working with Set" {
 ## Pattern: Checking API Availability
 
 ```moonbit
+
 ///|
 test "feature detection" {
   // Check if Math exists
@@ -158,6 +165,7 @@ test "feature detection" {
 ## Pattern: Accessing Nested Properties
 
 ```moonbit
+
 ///|
 test "nested property access" {
   // Create nested structure
@@ -179,6 +187,7 @@ test "nested property access" {
 ## Pattern: Safe Nested Access
 
 ```moonbit
+
 ///|
 test "safe nested access with checks" {
   let obj = @js.Object::new()
@@ -209,6 +218,7 @@ test "safe nested access with checks" {
 ## Pattern: Type Conversion Helpers
 
 ```moonbit
+
 ///|
 test "type conversion helpers" {
   // from_array
@@ -241,6 +251,7 @@ test "type conversion helpers" {
 ## Pattern: Function Conversion
 
 ```moonbit
+
 ///|
 test "function conversion with from_fn" {
   // from_fn0 - no arguments
@@ -263,6 +274,7 @@ test "function conversion with from_fn" {
 ## Pattern: Type Checking
 
 ```moonbit
+
 ///|
 test "type checking utilities" {
   let obj = @js.Object::new()
@@ -293,6 +305,7 @@ test "type checking utilities" {
 ## Pattern: instanceof Check
 
 ```moonbit
+
 ///|
 test "instanceof checking" {
   let arr = @js.JsArray::new()
@@ -306,10 +319,11 @@ test "instanceof checking" {
 ## Pattern: Error Handling with throwable
 
 ```moonbit
+
 ///|
 test "error handling with throwable" {
   // Simulate a risky operation
-  let result = @js.throwable(fn() -> @js.Js {
+  let result = @js.throwable(fn() -> @js.Any {
     let obj = @js.Object::new()
     obj.set("value", 42)
     obj.to_js()
@@ -323,6 +337,7 @@ test "error handling with throwable" {
 ## Pattern: Constructors with new_
 
 ```moonbit
+
 ///|
 test "create instances with new_" {
   // Create Map instance
@@ -343,6 +358,7 @@ test "create instances with new_" {
 ## Best Practices Summary
 
 ```moonbit
+
 ///|
 test "best practices demonstration" {
   // 1. Immediate type casting

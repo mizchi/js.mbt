@@ -1,6 +1,6 @@
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/fetch
-extern "js" fn ffi_fetch(url : String, init : @js.Js) -> @js.Promise[Response] =
+extern "js" fn ffi_fetch(url : String, init : @js.Any) -> @js.Promise[Response] =
   #| (url, init) => fetch(url, init)
 
 ///|

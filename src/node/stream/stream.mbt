@@ -4,7 +4,7 @@
 
 ///|
 /// node:stream
-fn stream_module() -> @js.Js {
+fn stream_module() -> @js.Any {
   @node.require("node:stream")
 }
 
@@ -41,7 +41,7 @@ pub impl StreamImpl for Readable
 
 ///|
 /// Readable stream methods
-pub fn Readable::read(self : Readable, size? : Int) -> @js.Js {
+pub fn Readable::read(self : Readable, size? : Int) -> @js.Any {
   self.call("read", [size])
 }
 
@@ -76,14 +76,14 @@ pub fn Readable::setEncoding(self : Readable, encoding : String) -> Readable {
 }
 
 ///|
-pub fn Readable::destroy(self : Readable, error? : @js.Js) -> Readable {
+pub fn Readable::destroy(self : Readable, error? : @js.Any) -> Readable {
   self.call("destroy", [error]).cast()
 }
 
 ///|
 pub fn Readable::unshift(
   self : Readable,
-  chunk : @js.Js,
+  chunk : @js.Any,
   encoding? : String,
 ) -> Unit {
   ignore(self.call2("unshift", chunk, encoding))
@@ -96,7 +96,7 @@ pub fn Readable::readable(self : Readable) -> Bool {
 }
 
 ///|
-pub fn Readable::readableEncoding(self : Readable) -> @js.Js {
+pub fn Readable::readableEncoding(self : Readable) -> @js.Any {
   self.get("readableEncoding")
 }
 
@@ -106,7 +106,7 @@ pub fn Readable::readableEnded(self : Readable) -> Bool {
 }
 
 ///|
-pub fn Readable::readableFlowing(self : Readable) -> @js.Js {
+pub fn Readable::readableFlowing(self : Readable) -> @js.Any {
   self.get("readableFlowing")
 }
 
@@ -131,7 +131,7 @@ pub fn Readable::closed(self : Readable) -> Bool {
 }
 
 ///|
-pub fn Readable::errored(self : Readable) -> @js.Js {
+pub fn Readable::errored(self : Readable) -> @js.Any {
   self.get("errored")
 }
 
@@ -147,7 +147,7 @@ pub fn Readable::fromWeb(s : @web.ReadableStream) -> Readable {
 }
 
 ///|
-pub fn Readable::from(iterable : @js.Js) -> Readable {
+pub fn Readable::from(iterable : @js.Any) -> Readable {
   stream_module().get("Readable").call("from", [iterable]).cast()
 }
 
@@ -168,9 +168,9 @@ pub impl StreamImpl for Writable
 /// Writable stream methods
 pub fn Writable::write(
   self : Writable,
-  chunk : @js.Js,
+  chunk : @js.Any,
   encoding? : String,
-  callback? : @js.Js,
+  callback? : @js.Any,
 ) -> Bool {
   self.call("write", [chunk, encoding, callback]).cast()
 }
@@ -178,9 +178,9 @@ pub fn Writable::write(
 ///|
 pub fn Writable::end(
   self : Writable,
-  chunk? : @js.Js,
+  chunk? : @js.Any,
   encoding? : String,
-  callback? : @js.Js,
+  callback? : @js.Any,
 ) -> Writable {
   self.call("end", [chunk, encoding, callback]).cast()
 }
@@ -196,7 +196,7 @@ pub fn Writable::uncork(self : Writable) -> Unit {
 }
 
 ///|
-pub fn Writable::destroy(self : Writable, error? : @js.Js) -> Writable {
+pub fn Writable::destroy(self : Writable, error? : @js.Any) -> Writable {
   self.call("destroy", [error]).cast()
 }
 
@@ -250,7 +250,7 @@ pub fn Writable::closed(self : Writable) -> Bool {
 }
 
 ///|
-pub fn Writable::errored(self : Writable) -> @js.Js {
+pub fn Writable::errored(self : Writable) -> @js.Any {
   self.get("errored")
 }
 
@@ -286,17 +286,17 @@ pub fn Duplex::allowHalfOpen(self : Duplex) -> Bool {
 
 ///|
 /// Web Stream conversion
-pub fn Duplex::toWeb(self : Duplex) -> @js.Js {
+pub fn Duplex::toWeb(self : Duplex) -> @js.Any {
   stream_module().get("Duplex").call("toWeb", [self])
 }
 
 ///|
-pub fn Duplex::fromWeb(pair : @js.Js) -> Duplex {
+pub fn Duplex::fromWeb(pair : @js.Any) -> Duplex {
   stream_module().get("Duplex").call("fromWeb", [pair]).cast()
 }
 
 ///|
-pub fn Duplex::from(src : @js.Js) -> Duplex {
+pub fn Duplex::from(src : @js.Any) -> Duplex {
   stream_module().get("Duplex").call("from", [src]).cast()
 }
 
@@ -327,7 +327,7 @@ pub impl @events.EventEmitterImpl for PassThrough
 pub impl StreamImpl for PassThrough
 
 ///|
-extern "js" fn ffi_pipeline(streams : @js.Js, callback : @js.Js?) -> @js.Js =
+extern "js" fn ffi_pipeline(streams : @js.Any, callback : @js.Any?) -> @js.Any =
   #| (streams, callback) => {
   #|   const stream = require('node:stream');
   #|   // Check if callback is Some (object with $tag: 1)
@@ -340,12 +340,12 @@ extern "js" fn ffi_pipeline(streams : @js.Js, callback : @js.Js?) -> @js.Js =
 
 ///|
 /// Utility functions
-pub fn pipeline(streams : Array[@js.Js], callback? : @js.Js) -> @js.Js {
+pub fn pipeline(streams : Array[@js.Any], callback? : @js.Any) -> @js.Any {
   ffi_pipeline(@js.identity(streams), callback)
 }
 
 ///|
-extern "js" fn ffi_finished(stream : @js.Js, callback : @js.Js?) -> @js.Js =
+extern "js" fn ffi_finished(stream : @js.Any, callback : @js.Any?) -> @js.Any =
   #| (stream, callback) => {
   #|   const streamModule = require('node:stream');
   #|   // Check if callback is Some (object with $tag: 1)
@@ -357,39 +357,39 @@ extern "js" fn ffi_finished(stream : @js.Js, callback : @js.Js?) -> @js.Js =
   #| }
 
 ///|
-pub fn finished(stream : @js.Js, callback? : @js.Js) -> @js.Js {
+pub fn finished(stream : @js.Any, callback? : @js.Any) -> @js.Any {
   ffi_finished(stream, callback)
 }
 
 ///|
-extern "js" fn ffi_compose(streams : @js.Js) -> @js.Js =
+extern "js" fn ffi_compose(streams : @js.Any) -> @js.Any =
   #| (streams) => {
   #|   const stream = require('node:stream');
   #|   return stream.compose(...streams);
   #| }
 
 ///|
-pub fn compose(streams : Array[@js.Js]) -> @js.Js {
+pub fn compose(streams : Array[@js.Any]) -> @js.Any {
   ffi_compose(@js.identity(streams))
 }
 
 ///|
-pub fn addAbortSignal(signal : @js.Js, stream : @js.Js) -> @js.Js {
+pub fn addAbortSignal(signal : @js.Any, stream : @js.Any) -> @js.Any {
   stream_module().call2("addAbortSignal", signal, stream)
 }
 
 ///|
-pub fn isErrored(stream : @js.Js) -> Bool {
+pub fn isErrored(stream : @js.Any) -> Bool {
   stream_module().call("isErrored", [stream]).cast()
 }
 
 ///|
-pub fn isReadable(stream : @js.Js) -> Bool {
+pub fn isReadable(stream : @js.Any) -> Bool {
   stream_module().call("isReadable", [stream]).cast()
 }
 
 ///|
-pub fn isWritable(stream : @js.Js) -> Bool {
+pub fn isWritable(stream : @js.Any) -> Bool {
   stream_module().call("isWritable", [stream]).cast()
 }
 

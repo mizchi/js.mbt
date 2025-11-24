@@ -16,7 +16,7 @@ pub fn[T] component(
 ) -> Element {
   let tag = @js.identity(tag)
   let children = children.map(_.to_react_node()) |> @js.from_array
-  let val : @js.Js = props |> @js.identity
+  let val : @js.Any = props |> @js.identity
   if key is Some(key) {
     val.set("key", key)
   }

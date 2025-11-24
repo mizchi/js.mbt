@@ -4,9 +4,9 @@
 pub(all) struct DataTransfer {
   mut dropEffect : String
   mut effectAllowed : String
-  items : @js.Js
-  files : @js.Js
-  types : @js.Js
+  items : @js.Any
+  files : @js.Any
+  types : @js.Any
 }
 
 ///|
@@ -14,7 +14,7 @@ pub impl @js.JsImpl for DataTransfer
 
 ///|
 /// Returns an array of files being dragged
-pub fn DataTransfer::get_files(self : Self) -> Array[@js.Js] {
+pub fn DataTransfer::get_files(self : Self) -> Array[@js.Any] {
   @js.array_from(self.files).map(fn(v) { v })
 }
 

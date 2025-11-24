@@ -32,7 +32,7 @@ pub enum AtomicsWaitResult {
 /// ```
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/add
-pub fn add(typedArray : @js.Js, index : Int, value : Int) -> Int {
+pub fn add(typedArray : @js.Any, index : Int, value : Int) -> Int {
   ffi_atomics_add(typedArray, index, value).cast()
 }
 
@@ -41,7 +41,7 @@ pub fn add(typedArray : @js.Js, index : Int, value : Int) -> Int {
 /// Returns the old value at that index.
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/and
-pub fn and_(typedArray : @js.Js, index : Int, value : Int) -> Int {
+pub fn and_(typedArray : @js.Any, index : Int, value : Int) -> Int {
   ffi_atomics_and(typedArray, index, value).cast()
 }
 
@@ -60,7 +60,7 @@ pub fn and_(typedArray : @js.Js, index : Int, value : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/compareExchange
 pub fn compareExchange(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   expectedValue : Int,
   replacementValue : Int,
@@ -75,7 +75,7 @@ pub fn compareExchange(
 /// Returns the old value.
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/exchange
-pub fn exchange(typedArray : @js.Js, index : Int, value : Int) -> Int {
+pub fn exchange(typedArray : @js.Any, index : Int, value : Int) -> Int {
   ffi_atomics_exchange(typedArray, index, value).cast()
 }
 
@@ -101,7 +101,7 @@ pub fn isLockFree(size : Int) -> Bool {
 /// Atomically returns the value at the given position in the array.
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/load
-pub fn load(typedArray : @js.Js, index : Int) -> Int {
+pub fn load(typedArray : @js.Any, index : Int) -> Int {
   ffi_atomics_load(typedArray, index).cast()
 }
 
@@ -118,7 +118,7 @@ pub fn load(typedArray : @js.Js, index : Int) -> Int {
 /// ```
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/notify
-pub fn notify(typedArray : @js.Js, index : Int, count? : Int) -> Int {
+pub fn notify(typedArray : @js.Any, index : Int, count? : Int) -> Int {
   match count {
     Some(c) => ffi_atomics_notify(typedArray, index, c).cast()
     None => ffi_atomics_notify_2(typedArray, index).cast()
@@ -130,7 +130,7 @@ pub fn notify(typedArray : @js.Js, index : Int, count? : Int) -> Int {
 /// Returns the old value at that index.
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/or
-pub fn or_(typedArray : @js.Js, index : Int, value : Int) -> Int {
+pub fn or_(typedArray : @js.Any, index : Int, value : Int) -> Int {
   ffi_atomics_or(typedArray, index, value).cast()
 }
 
@@ -139,7 +139,7 @@ pub fn or_(typedArray : @js.Js, index : Int, value : Int) -> Int {
 /// Returns the value that was stored.
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/store
-pub fn store(typedArray : @js.Js, index : Int, value : Int) -> Int {
+pub fn store(typedArray : @js.Any, index : Int, value : Int) -> Int {
   ffi_atomics_store(typedArray, index, value).cast()
 }
 
@@ -148,7 +148,7 @@ pub fn store(typedArray : @js.Js, index : Int, value : Int) -> Int {
 /// Returns the old value at that index.
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/sub
-pub fn sub(typedArray : @js.Js, index : Int, value : Int) -> Int {
+pub fn sub(typedArray : @js.Any, index : Int, value : Int) -> Int {
   ffi_atomics_sub(typedArray, index, value).cast()
 }
 
@@ -172,7 +172,7 @@ pub fn sub(typedArray : @js.Js, index : Int, value : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/wait
 pub fn wait(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
   timeout? : Int,
@@ -195,7 +195,7 @@ pub fn wait(
 /// Returns the old value at that index.
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/xor
-pub fn xor(typedArray : @js.Js, index : Int, value : Int) -> Int {
+pub fn xor(typedArray : @js.Any, index : Int, value : Int) -> Int {
   ffi_atomics_xor(typedArray, index, value).cast()
 }
 
@@ -203,35 +203,35 @@ pub fn xor(typedArray : @js.Js, index : Int, value : Int) -> Int {
 
 ///|
 extern "js" fn ffi_atomics_add(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, value) => Atomics.add(typedArray, index, value)
 
 ///|
 extern "js" fn ffi_atomics_and(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, value) => Atomics.and(typedArray, index, value)
 
 ///|
 extern "js" fn ffi_atomics_compare_exchange(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   expectedValue : Int,
   replacementValue : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, expectedValue, replacementValue) => Atomics.compareExchange(typedArray, index, expectedValue, replacementValue)
 
 ///|
 extern "js" fn ffi_atomics_exchange(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, value) => Atomics.exchange(typedArray, index, value)
 
 ///|
@@ -239,66 +239,66 @@ extern "js" fn ffi_atomics_is_lock_free(size : Int) -> Bool =
   #| (size) => Atomics.isLockFree(size)
 
 ///|
-extern "js" fn ffi_atomics_load(typedArray : @js.Js, index : Int) -> @js.Js =
+extern "js" fn ffi_atomics_load(typedArray : @js.Any, index : Int) -> @js.Any =
   #| (typedArray, index) => Atomics.load(typedArray, index)
 
 ///|
 extern "js" fn ffi_atomics_notify(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   count : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, count) => Atomics.notify(typedArray, index, count)
 
 ///|
-extern "js" fn ffi_atomics_notify_2(typedArray : @js.Js, index : Int) -> @js.Js =
+extern "js" fn ffi_atomics_notify_2(typedArray : @js.Any, index : Int) -> @js.Any =
   #| (typedArray, index) => Atomics.notify(typedArray, index)
 
 ///|
 extern "js" fn ffi_atomics_or(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, value) => Atomics.or(typedArray, index, value)
 
 ///|
 extern "js" fn ffi_atomics_store(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, value) => Atomics.store(typedArray, index, value)
 
 ///|
 extern "js" fn ffi_atomics_sub(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, value) => Atomics.sub(typedArray, index, value)
 
 ///|
 extern "js" fn ffi_atomics_wait(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
   timeout : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, value, timeout) => Atomics.wait(typedArray, index, value, timeout)
 
 ///|
 extern "js" fn ffi_atomics_wait_3(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, value) => Atomics.wait(typedArray, index, value)
 
 ///|
 extern "js" fn ffi_atomics_xor(
-  typedArray : @js.Js,
+  typedArray : @js.Any,
   index : Int,
   value : Int,
-) -> @js.Js =
+) -> @js.Any =
   #| (typedArray, index, value) => Atomics.xor(typedArray, index, value)

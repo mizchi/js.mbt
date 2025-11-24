@@ -3,7 +3,7 @@
 /// https://developer.mozilla.org/en-US/docs/Web/API/History
 pub(all) struct History {
   length : Int
-  state : @js.Js?
+  state : @js.Any?
   mut scrollRestoration : String
 }
 
@@ -45,7 +45,7 @@ pub fn History::go(self : Self, delta? : Int) -> Unit {
 #alias(push_state)
 pub fn History::pushState(
   self : Self,
-  state : @js.Js,
+  state : @js.Any,
   unused : String,
   url? : String,
 ) -> Unit {
@@ -61,7 +61,7 @@ pub fn History::pushState(
 #alias(replace_state)
 pub fn History::replaceState(
   self : Self,
-  state : @js.Js,
+  state : @js.Any,
   unused : String,
   url? : String,
 ) -> Unit {

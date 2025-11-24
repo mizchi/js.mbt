@@ -4,7 +4,7 @@
 
 ///|
 /// Get os module
-fn os_module() -> @js.Js {
+fn os_module() -> @js.Any {
   @node.require("node:os")
 }
 
@@ -28,7 +28,7 @@ pub fn arch() -> String {
 /// An array of CPU information objects
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn cpus() -> Array[@js.Js] {
+pub fn cpus() -> Array[@js.Any] {
   @js.identity(os_module().call0("cpus"))
 }
 
@@ -79,7 +79,7 @@ pub fn loadavg() -> Array[Double] {
 ///
 /// An object with interface names as keys
 #alias(network_interfaces)
-pub fn networkInterfaces() -> @js.Js {
+pub fn networkInterfaces() -> @js.Any {
   os_module().call0("networkInterfaces")
 }
 
@@ -134,7 +134,7 @@ pub fn uptime() -> Double {
 ///
 /// An object containing uid, gid, username, homedir, shell
 #alias(userinfo)
-pub fn userInfo() -> @js.Js {
+pub fn userInfo() -> @js.Any {
   os_module().call0("userInfo")
 }
 
@@ -145,7 +145,7 @@ pub fn userInfo() -> @js.Js {
 ///
 /// - `encoding`: The character encoding to use (default: 'utf8')
 #alias(userinfo_with_encoding)
-pub fn userInfoWithEncoding(encoding : String) -> @js.Js {
+pub fn userInfoWithEncoding(encoding : String) -> @js.Any {
   os_module().call1("userInfo", @js.from_entries([("encoding", encoding)]))
 }
 

@@ -70,6 +70,6 @@ test "Crypto::randomUUID generates unique values" {
 ///|
 test "Crypto::get returns Crypto instance" {
   let crypto = Crypto::get()
-  let js_val : @js.Js = crypto.to_js()
+  let js_val : @js.Any = crypto.to_js()
   assert_eq(@js.typeof_(js_val), "object")
 }

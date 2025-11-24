@@ -17,7 +17,7 @@ pub fn Blob::contentType(self : Self) -> String {
 
 ///|
 /// Create a new Blob from array of data
-extern "js" fn ffi_new_blob(data : @js.Js, options : @js.Js) -> @js.Js =
+extern "js" fn ffi_new_blob(data : @js.Any, options : @js.Any) -> @js.Any =
   #|(data, options) => new Blob(data, options)
 
 ///|

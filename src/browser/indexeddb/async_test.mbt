@@ -2,7 +2,7 @@
 
 ///|
 /// Setup fake-indexeddb for Node.js testing environment
-extern "js" fn ffi_require_fake_indexeddb() -> @js.Js =
+extern "js" fn ffi_require_fake_indexeddb() -> @js.Any =
   #|() => { require("fake-indexeddb/auto"); return globalThis.indexedDB; }
 
 ///|
@@ -18,7 +18,7 @@ fn init_fake_indexeddb() -> Unit {
 /// Helper to promisify IDBRequest
 fn[T] request_to_promise(
   request : @indexeddb.IDBRequest[T],
-) -> @js.Promise[@js.Js] {
+) -> @js.Promise[@js.Any] {
   let resolvers = @js.Promise::withResolvers()
   request.addEventListener("success", fn(event) {
     resolvers.resolve(event.get("target").get("result"))
@@ -36,8 +36,8 @@ fn[T] request_to_promise(
 /// Helper to promisify IDBOpenDBRequest
 fn open_request_to_promise(
   request : @indexeddb.IDBOpenDBRequest,
-  onupgradeneeded? : (@js.Js) -> Unit,
-) -> @js.Promise[@js.Js] {
+  onupgradeneeded? : (@js.Any) -> Unit,
+) -> @js.Promise[@js.Any] {
   let resolvers = @js.Promise::withResolvers()
 
   // Handle upgrade if needed
@@ -465,7 +465,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
   assert_eq(length, 2)
 
   // Access first product with direct cast
-  let first_product_js : @js.Js = electronics_array.call1("at", 0)
+  let first_product_js : @js.Any = electronics_array.call1("at", 0)
   let first_product : Product = first_product_js |> @js.identity
   assert_eq(first_product.category, "electronics")
   db.close()

@@ -1089,11 +1089,11 @@ pub fn form(
     custom_props.set("method", m)
   }
   if on_submit is Some(f) {
-    let fn_value : @js.Js = f |> @js.from_fn1
+    let fn_value : @js.Any = f |> @js.from_fn1
     custom_props.set("onSubmit", fn_value)
   }
   if action is Some(f) {
-    let fn_value : @js.Js = f |> @js.from_fn1
+    let fn_value : @js.Any = f |> @js.from_fn1
     custom_props.set("action", fn_value)
   }
   if enc_type is Some(e) {

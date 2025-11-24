@@ -23,7 +23,7 @@ pub fn PermissionStatus::is_granted(self : PermissionStatus) -> Bool {
 
 ///|
 /// Get permissions object
-pub fn Deno::permissions(self : Deno) -> @js.Js {
+pub fn Deno::permissions(self : Deno) -> @js.Any {
   self.get("permissions")
 }
 

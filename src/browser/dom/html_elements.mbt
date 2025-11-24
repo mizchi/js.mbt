@@ -45,7 +45,7 @@ pub impl HTMLElementImpl for HTMLCanvasElement
 pub fn HTMLCanvasElement::getContext(
   self : Self,
   context_type : String,
-) -> @js.Js {
+) -> @js.Any {
   self.call("getContext", [context_type])
 }
 

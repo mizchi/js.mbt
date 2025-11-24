@@ -40,7 +40,7 @@ pub fn watch(
     not(recursive is None) ||
     not(encoding is None)
   if has_options {
-    let map : Map[String, @js.Js] = {
+    let map : Map[String, @js.Any] = {
       let m = Map::new()
       match persistent {
         Some(p) => m.set("persistent", @js.identity(p))

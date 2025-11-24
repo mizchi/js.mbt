@@ -10,7 +10,7 @@ pub impl @js.JsImpl for HonoRequest
 /// Get query parameter
 /// https://hono.dev/docs/api/request#query
 pub fn HonoRequest::query(self : Self, key : String) -> String? {
-  let result : @js.Js = self.call("query", [key])
+  let result : @js.Any = self.call("query", [key])
   if result == @js.undefined() {
     None
   } else {
@@ -21,7 +21,7 @@ pub fn HonoRequest::query(self : Self, key : String) -> String? {
 ///|
 /// Get all query parameters
 #alias(query_all)
-pub fn HonoRequest::queryAll(self : Self) -> @js.Js {
+pub fn HonoRequest::queryAll(self : Self) -> @js.Any {
   self.call0("query")
 }
 
@@ -29,7 +29,7 @@ pub fn HonoRequest::queryAll(self : Self) -> @js.Js {
 /// Get path parameter
 /// https://hono.dev/docs/api/request#param
 pub fn HonoRequest::param(self : Self, key : String) -> String? {
-  let result : @js.Js = self.call("param", [key])
+  let result : @js.Any = self.call("param", [key])
   if result == @js.undefined() {
     None
   } else {
@@ -40,7 +40,7 @@ pub fn HonoRequest::param(self : Self, key : String) -> String? {
 ///|
 /// Get all path parameters
 #alias(param_all)
-pub fn HonoRequest::paramAll(self : Self) -> @js.Js {
+pub fn HonoRequest::paramAll(self : Self) -> @js.Any {
   self.call0("param")
 }
 
@@ -48,7 +48,7 @@ pub fn HonoRequest::paramAll(self : Self) -> @js.Js {
 /// Get header value
 /// https://hono.dev/docs/api/request#header
 pub fn HonoRequest::header(self : Self, key : String) -> String? {
-  let result : @js.Js = self.call("header", [key])
+  let result : @js.Any = self.call("header", [key])
   if result == @js.undefined() {
     None
   } else {
@@ -59,7 +59,7 @@ pub fn HonoRequest::header(self : Self, key : String) -> String? {
 ///|
 /// Parse request body as JSON
 /// https://hono.dev/docs/api/request#json
-pub fn HonoRequest::json(self : Self) -> @js.Promise[@js.Js] {
+pub fn HonoRequest::json(self : Self) -> @js.Promise[@js.Any] {
   self.call0("json").cast()
 }
 
@@ -89,7 +89,7 @@ pub fn HonoRequest::arrayBuffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
 ///|
 /// Parse request body as blob
 /// https://hono.dev/docs/api/request#blob
-pub fn HonoRequest::blob(self : Self) -> @js.Promise[@js.Js] {
+pub fn HonoRequest::blob(self : Self) -> @js.Promise[@js.Any] {
   self.call0("blob").cast()
 }
 
@@ -99,8 +99,8 @@ pub fn HonoRequest::blob(self : Self) -> @js.Promise[@js.Js] {
 #alias(parse_body)
 pub fn HonoRequest::parseBody(
   self : Self,
-  options? : @js.Js,
-) -> @js.Promise[@js.Js] {
+  options? : @js.Any,
+) -> @js.Promise[@js.Any] {
   match options {
     Some(opts) => self.call("parseBody", [opts]).cast()
     None => self.call0("parseBody").cast()

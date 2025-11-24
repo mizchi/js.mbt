@@ -1,4 +1,147 @@
 ///|
+/// JS Async: Timer operations
+
+///|
+async test "JS Async: setTimeout" {
+  let resolver : @js.Resolvers[Bool] = @js.Promise::withResolvers()
+  let _timer = @js.setTimeout(() => resolver.resolve(true), 16)
+  let executed = resolver.promise.wait()
+  assert_true(executed)
+}
+
+///|
+async test "JS Async: clearTimeout" {
+  let mut executed = false
+  let timer = @js.setTimeout(() => executed = true, 16)
+  defer @js.clearTimeout(timer)
+  @js.clearTimeout(timer)
+  @js.sleep(32)
+  assert_false(executed)
+}
+
+///|
+#skip
+async test "JS Async: setTimeout with zero delay" {
+  let mut executed = false
+  let _ = @js.setTimeout(() => executed = true, 0)
+  @js.sleep(60)
+  assert_true(executed)
+}
+
+///|
+#skip("Flaky test - setTimeout execution order not guaranteed")
+async test "JS Async: multiple setTimeouts" {
+  let order = []
+  let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  let _ = @js.setTimeout(
+    () => {
+      order.push(1)
+      if order.length() == 3 {
+        resolver.resolve(3)
+      }
+    },
+    16,
+  )
+  let _ = @js.setTimeout(
+    () => {
+      order.push(2)
+      if order.length() == 3 {
+        resolver.resolve(3)
+      }
+    },
+    32,
+  )
+  let _ = @js.setTimeout(
+    () => {
+      order.push(3)
+      if order.length() == 3 {
+        resolver.resolve(3)
+      }
+    },
+    48,
+  )
+  let count = resolver.promise.wait()
+  assert_eq(count, 3)
+  assert_eq(order[0], 1) // 16ms
+  assert_eq(order[1], 2) // 32ms
+  assert_eq(order[2], 3) // 48ms
+}
+
+///|
+async test "JS Async: setInterval immediate execution" {
+  let mut first_execution = false
+  let timer = @js.setInterval(
+    () => if not(first_execution) { first_execution = true },
+    16,
+  )
+  defer @js.clearInterval(timer)
+  @js.sleep(16)
+  assert_true(first_execution)
+}
+
+///|
+async test "JS Async: sleep with very short duration" {
+  @js.sleep(16)
+  // Just verify sleep completes without error
+  assert_true(true)
+}
+
+///| Async operations
+
+///|
+async test "JS Async: sleep multiple times" {
+  let mut count = 0
+  @js.sleep(16)
+  count += 1
+  @js.sleep(16)
+  count += 1
+  @js.sleep(16)
+  count += 1
+  assert_eq(count, 3)
+}
+
+///|
+#skip("Flaky test, needs investigation")
+async test "JS Async: nested run_async" {
+  let mut outer = false
+  let mut inner = false
+  @js.run_async(() => {
+    @js.sleep(16)
+    outer = true
+    @js.run_async(() => {
+      @js.sleep(16)
+      inner = true
+    })
+  })
+  @js.sleep(100)
+  assert_true(outer)
+  assert_true(inner)
+}
+
+///|
+async test "JS Async: run_async with multiple sleep calls" {
+  let checkpoints = []
+  checkpoints.push(1)
+  @js.sleep(16)
+  checkpoints.push(2)
+  @js.sleep(16)
+  checkpoints.push(3)
+  @js.sleep(48)
+  assert_eq(checkpoints.length(), 3)
+  assert_eq(checkpoints[0], 1)
+  assert_eq(checkpoints[1], 2)
+  assert_eq(checkpoints[2], 3)
+}
+
+///| EventEmitter
+
+///|
+async test "JS Async: EventEmitter listenerCount for non-existent event" {
+  let emitter = @events.EventEmitter::new()
+  assert_eq(emitter.listenerCount("nonexistent"), 0)
+}
+
+///|
 /// Test that promisify0 creates a Promise
 test "promisify0 creates a Promise" {
   async fn test_fn0() -> Int {
@@ -8,7 +151,7 @@ test "promisify0 creates a Promise" {
   let promise_fn = @js.promisify0(test_fn0)
   let promise = promise_fn()
   // Verify that a Promise was created by checking if it's a JS object
-  let js_val : @js.Js = @js.identity(promise)
+  let js_val : @js.Any = @js.identity(promise)
   inspect(typeof_(js_val), content="object")
 }
 
@@ -21,7 +164,7 @@ test "promisify1 creates a Promise" {
 
   let promise_fn = @js.promisify1(test_fn1)
   let promise = promise_fn(21)
-  let js_val : @js.Js = @js.identity(promise)
+  let js_val : @js.Any = @js.identity(promise)
   inspect(typeof_(js_val), content="object")
 }
 
@@ -34,7 +177,7 @@ test "promisify2 creates a Promise" {
 
   let promise_fn = @js.promisify2(test_fn2)
   let promise = promise_fn(10, 32)
-  let js_val : @js.Js = @js.identity(promise)
+  let js_val : @js.Any = @js.identity(promise)
   inspect(typeof_(js_val), content="object")
 }
 
@@ -47,17 +190,17 @@ test "promisify3 creates a Promise" {
 
   let promise_fn = @js.promisify3(test_fn3)
   let promise = promise_fn(10, 20, 12)
-  let js_val : @js.Js = @js.identity(promise)
+  let js_val : @js.Any = @js.identity(promise)
   inspect(typeof_(js_val), content="object")
 }
 
 ///|
 /// Test run_promise with AbortSignal support
 async test "run_promise basic usage" {
-  let result = @js.run_promise((_abort_signal : @js.AbortSignal) => {
+  let result = @js.run_promise((
+    _abort_signal : @js.AbortSignal,
     // Create a simple promise that resolves immediately
-    @js.Promise::resolve(42)
-  })
+  ) => @js.Promise::resolve(42))
   inspect(result, content="42")
 }
 

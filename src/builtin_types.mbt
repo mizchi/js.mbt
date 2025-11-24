@@ -20,7 +20,7 @@
 
 ///|
 /// JS: null
-pub fn null_() -> Js {
+pub fn null_() -> Any {
   ffi_null()
 }
 
@@ -28,11 +28,11 @@ pub fn null_() -> Js {
 /// property key for js object access
 /// obj[0], obj["name"], obj[symbol]
 pub trait PropertyKey {
-  to_key(Self) -> Js = _
+  to_key(Self) -> Any = _
 }
 
 ///|
-impl PropertyKey with to_key(self) -> Js {
+impl PropertyKey with to_key(self) -> Any {
   self |> identity
 }
 
@@ -63,7 +63,7 @@ pub fn Object::new() -> Self {
 
 ///|
 /// get the Object class
-fn object_class() -> Js {
+fn object_class() -> Any {
   identity(globalThis().get("Object"))
 }
 
@@ -81,7 +81,7 @@ pub fn Object::keys(v : &JsImpl) -> Array[String] {
 ///
 /// Returns an array of a given object's own enumerable property values.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::values(v : &JsImpl) -> Array[Js] {
+pub fn Object::values(v : &JsImpl) -> Array[Any] {
   object_class().call("values", [v.to_js()]) |> identity
 }
 
@@ -90,20 +90,20 @@ pub fn Object::values(v : &JsImpl) -> Array[Js] {
 ///
 /// Returns an array of a given object's own enumerable property [key, value] pairs.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::entries(v : &JsImpl) -> Array[(String, Js)] {
+pub fn Object::entries(v : &JsImpl) -> Array[(String, Any)] {
   let entries = ffi_object_entries(v.to_js())
   entries.map(entry => (entry.get(0) |> identity, entry.get(1) |> identity))
 }
 
 ///|
 /// JS: Object.assign(target, source)
-pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Js {
+pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Any {
   object_class().call2("assign", target.to_js(), source.to_js())
 }
 
 ///|
 /// JS: Object.create(v)
-pub fn Object::create(v : &JsImpl) -> Js {
+pub fn Object::create(v : &JsImpl) -> Any {
   object_class().call1("create", v)
 }
 
@@ -117,14 +117,14 @@ pub fn Object::is_(a : &JsImpl, b : &JsImpl) -> Bool {
 ///|
 /// JS: Object.freeze(obj)
 /// Freezes an object, preventing new properties from being added and existing properties from being removed or changed
-pub fn Object::freeze(obj : &JsImpl) -> Js {
+pub fn Object::freeze(obj : &JsImpl) -> Any {
   object_class().call1("freeze", obj)
 }
 
 ///|
 /// JS: Object.seal(obj)
 /// Seals an object, preventing new properties from being added and marking all existing properties as non-configurable
-pub fn Object::seal(obj : &JsImpl) -> Js {
+pub fn Object::seal(obj : &JsImpl) -> Any {
   object_class().call1("seal", obj)
 }
 
@@ -145,7 +145,7 @@ pub fn Object::isSealed(obj : &JsImpl) -> Bool {
 ///|
 /// JS: Object.preventExtensions(obj)
 /// Prevents new properties from being added to an object
-pub fn Object::preventExtensions(obj : &JsImpl) -> Js {
+pub fn Object::preventExtensions(obj : &JsImpl) -> Any {
   object_class().call1("preventExtensions", obj) |> identity
 }
 
@@ -164,7 +164,7 @@ pub fn Object::propertyIsEnumerable(self : Self, key : &PropertyKey) -> Bool {
 
 ///|
 /// JS: object.isPrototypeOf(target)
-pub fn Object::isPrototypeOf(self : Self, target : Js) -> Bool {
+pub fn Object::isPrototypeOf(self : Self, target : Any) -> Bool {
   ffi_is_prototype_of(self.to_js(), target)
 }
 
@@ -189,7 +189,7 @@ pub fn Object::to_string(self : Self) -> String {
 
 ///|
 /// JavaScript Array
-/// NonGeneric Array only for Array[Js]
+/// NonGeneric Array only for Array[Any]
 /// Use builtin Array[T] for generic array and JsArray::from(array)
 #external
 pub type JsArray
@@ -234,7 +234,7 @@ pub fn[T : JsImpl] JsArray::isArray(v : T) -> Bool {
 
 ///|
 /// Array.from(v)
-pub fn array_from(v : Js) -> Array[Js] {
+pub fn array_from(v : Any) -> Array[Any] {
   ffi_array_from(v)
 }
 
@@ -265,19 +265,19 @@ pub fn Function::name(self : Self) -> String {
 /// JS: function.apply
 pub extern "js" fn Function::apply(
   self : Self,
-  caller : Js,
-  args : Array[Js],
-) -> Js =
+  caller : Any,
+  args : Array[Any],
+) -> Any =
   #|(self, args) => self.apply(caller, args)
 
 ///|
 /// JS: function.bind(caller)
-pub extern "js" fn Function::bind(self : Self, caller : Js) -> Js =
+pub extern "js" fn Function::bind(self : Self, caller : Any) -> Any =
   #|(self, caller) => self.bind(caller)
 
 ///|
 /// JS: function.length
-pub extern "js" fn Function::length(self : Self) -> Js =
+pub extern "js" fn Function::length(self : Self) -> Any =
   #|(self) => self.length
 
 ///| Error - Error handling
@@ -319,7 +319,7 @@ pub fn throw_(v : &JsImpl) -> Unit {
 ///|
 /// Create a new JavaScript Error object.
 pub fn JsError::new(message : String, cause? : JsError) -> JsError {
-  let args : Array[Js] = if cause is Some(cause) {
+  let args : Array[Any] = if cause is Some(cause) {
     [message |> js, from_map({ "cause": cause |> identity() })]
   } else {
     [message |> js]
@@ -349,7 +349,7 @@ pub suberror ThrowError {
   /// Generic JavaScript Error including custom errors
   Error(JsError)
   /// Non-error value thrown
-  Value(Js)
+  Value(Any)
 }
 
 ///|
@@ -388,7 +388,7 @@ pub impl Show for ThrowError with to_string(self) {
 /// let throw_error = ThrowError::from_js(js_error)
 /// // Returns ThrowError::TypeError(...)
 /// ```
-pub fn ThrowError::from_js(value : Js) -> ThrowError {
+pub fn ThrowError::from_js(value : Any) -> ThrowError {
   let global = globalThis()
 
   // Check specific error types first (most specific to least specific)
@@ -425,8 +425,8 @@ pub type JSON
 ///|
 /// JS: JSON.stringify(v, replacer, space)
 pub fn JSON::stringify(
-  v : Js,
-  replacer? : Js = undefined(),
+  v : Any,
+  replacer? : Any = undefined(),
   space? : Int = 2,
 ) -> String {
   ffi_json_stringify(v.to_js(), replacer, space |> js)
@@ -434,7 +434,7 @@ pub fn JSON::stringify(
 
 ///|
 /// JS: JSON.parse(s, reviver)
-pub fn JSON::parse(s : String, reviver? : Js? = None) -> Js raise ThrowError {
+pub fn JSON::parse(s : String, reviver? : Any? = None) -> Any raise ThrowError {
   throwable(() => ffi_json_parse(s, reviver?))
 }
 
@@ -449,7 +449,7 @@ pub type Symbol
 pub impl JsImpl for Symbol
 
 ///|
-extern "js" fn symbol_class() -> Js =
+extern "js" fn symbol_class() -> Any =
   #| () => Symbol
 
 ///|
@@ -536,20 +536,20 @@ pub(all) type JsIterator[T]
 pub impl[T] JsImpl for JsIterator[T]
 
 ///|
-extern "js" fn ffi_iterator_from(v : Js) -> Js =
+extern "js" fn ffi_iterator_from(v : Any) -> Any =
   #|(v) => Iterator.from(v)
 
 ///|
 /// JS: Iterator.from(v)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/from
-pub fn[T] JsIterator::from(v : Js) -> JsIterator[T] {
+pub fn[T] JsIterator::from(v : Any) -> JsIterator[T] {
   ffi_iterator_from(v) |> identity
 }
 
 ///|
 /// JS: iterator.next()
 pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
-  let v : Js = self.call0("next") |> identity
+  let v : Any = self.call0("next") |> identity
   if (v.get("done") |> identity) {
     None
   } else {
@@ -598,8 +598,8 @@ pub impl[T] JsImpl for AsyncIterator[T]
 ///|
 /// JS: asyncIterator.next()
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
-  let v : Promise[Js] = self.call0("next") |> identity
-  let v : Js = v.wait()
+  let v : Promise[Any] = self.call0("next") |> identity
+  let v : Any = v.wait()
   if (v.get("done") |> identity) {
     None
   } else {

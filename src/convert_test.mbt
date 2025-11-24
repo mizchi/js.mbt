@@ -1,7 +1,7 @@
 ///|
 test "JsImpl::to_js converts builtin Json to Js" {
   let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
-  let v : @js.Js = JsImpl::to_js(j)
+  let v : @js.Any = JsImpl::to_js(j)
   assert_eq(@js.identity(v.get("items").get(0)), 1)
   assert_eq(@js.identity(v.get("nested").get("key")), "value")
 }
@@ -9,12 +9,12 @@ test "JsImpl::to_js converts builtin Json to Js" {
 ///|
 test "is_builtin_trait detects MoonBit builtin traits" {
   let show : &Show = "hello"
-  let v : @js.Js = @js.identity(show)
+  let v : @js.Any = @js.identity(show)
   assert_true(is_builtin_trait(v))
 }
 
 ///|
-test "from_json converts MoonBit Json to Js object" {
+test "from_json converts MoonBit Json to Any object" {
   inspect(
     from_json({
       "value": null,
@@ -48,13 +48,13 @@ fn Point::x2(self : Self) -> Int {
 impl JsImpl for Point
 
 ///|
-extern "js" fn ffi_point_new(x : Int, y : Int) -> Js =
+extern "js" fn ffi_point_new(x : Int, y : Int) -> Any =
   #|(x, y) => ({ x: x, y: y })
 
 ///|
 test "from builtin struct" {
   let p = Point::{ x: 10, y: 20 }
-  let v : @js.Js = JsImpl::to_js(p)
+  let v : @js.Any = JsImpl::to_js(p)
   assert_eq(@js.identity(v.get("x")), 10)
   assert_eq(@js.identity(v.get("y")), 20)
   inspect(p, content="{x: 10, y: 20}")
@@ -62,7 +62,7 @@ test "from builtin struct" {
 
 ///|
 test "identity to struct" {
-  let v : @js.Js = ffi_point_new(5, 15)
+  let v : @js.Any = ffi_point_new(5, 15)
   let p : Point = @js.identity(v)
   assert_eq(p.x, 5)
   assert_eq(p.y, 15)
@@ -71,17 +71,17 @@ test "identity to struct" {
 }
 
 ///|
-test "from_map converts MoonBit Map to Js object" {
-  let map : Map[String, @js.Js] = { "name": js("Alice"), "age": js(30) }
-  let obj : @js.Js = from_map(map)
+test "from_map converts MoonBit Map to Any object" {
+  let map : Map[String, @js.Any] = { "name": js("Alice"), "age": js(30) }
+  let obj : @js.Any = from_map(map)
   assert_eq(@js.identity(obj.get("name")), "Alice")
   assert_eq(@js.identity(obj.get("age")), 30)
 }
 
 ///|
 test "from_map and to_string" {
-  let map : Map[String, @js.Js] = { "name": js("Alice"), "age": js(30) }
-  let obj : @js.Js = from_map(map)
+  let map : Map[String, @js.Any] = { "name": js("Alice"), "age": js(30) }
+  let obj : @js.Any = from_map(map)
   inspect(
     obj.to_string(),
     content=(
@@ -92,7 +92,7 @@ test "from_map and to_string" {
 
 ///|
 test "from_map" {
-  let map : Map[String, @js.Js] = {
+  let map : Map[String, @js.Any] = {
     "name": js("Alice"),
     "age": js(30),
     "active": js(true),
@@ -116,14 +116,14 @@ test "from_array" {
 ///|
 test "from_fn2 converts 2-arg function to Js" {
   let add = fn(a : Int, b : Int) -> Int { a + b }
-  let js_add : @js.Js = from_fn2(add)
+  let js_add : @js.Any = from_fn2(add)
   assert_eq(@js.typeof_(js_add), "function")
   let result = js_add.call_self([js(5), js(3)])
   assert_eq(@js.identity(result), 8)
 }
 
 ///|
-test "from_entries converts tuple array to Js object" {
+test "from_entries converts tuple array to Any object" {
   let entries : Array[(String, &JsImpl)] = [
     ("name", "Alice"),
     ("age", 30),
@@ -340,7 +340,7 @@ test "JSON::stringify" {
 ///|
 test "from_fn0 converts 0-arg function to Js" {
   let greet = fn() -> String { "Hello" }
-  let js_greet : @js.Js = from_fn0(greet)
+  let js_greet : @js.Any = from_fn0(greet)
   assert_eq(@js.typeof_(js_greet), "function")
   let result = js_greet.call_self0()
   assert_eq(@js.identity(result), "Hello")
@@ -349,7 +349,7 @@ test "from_fn0 converts 0-arg function to Js" {
 ///|
 test "from_fn1 converts 1-arg function to Js" {
   let double = fn(x : Int) -> Int { x * 2 }
-  let js_double : @js.Js = from_fn1(double)
+  let js_double : @js.Any = from_fn1(double)
   assert_eq(@js.typeof_(js_double), "function")
   let result = js_double.call_self([js(5)])
   assert_eq(@js.identity(result), 10)
@@ -358,7 +358,7 @@ test "from_fn1 converts 1-arg function to Js" {
 ///|
 test "from_fn3 converts 3-arg function to Js" {
   let add3 = fn(a : Int, b : Int, c : Int) -> Int { a + b + c }
-  let js_add3 : @js.Js = from_fn3(add3)
+  let js_add3 : @js.Any = from_fn3(add3)
   assert_eq(@js.typeof_(js_add3), "function")
   let result = js_add3.call_self([js(1), js(2), js(3)])
   assert_eq(@js.identity(result), 6)
@@ -393,7 +393,7 @@ test "from_entries_option_cast with Int options" {
 ///|
 test "JsImpl for Map[String, &JsImpl]" {
   let map : Map[String, &JsImpl] = { "name": "Bob", "age": 25, "active": true }
-  let obj : @js.Js = JsImpl::to_js(map)
+  let obj : @js.Any = JsImpl::to_js(map)
   assert_eq(@js.identity(obj.get("name")), "Bob")
   assert_eq(@js.identity(obj.get("age")), 25)
   assert_eq(@js.identity(obj.get("active")), true)
@@ -402,7 +402,7 @@ test "JsImpl for Map[String, &JsImpl]" {
 ///|
 test "JsImpl for Array[&JsImpl]" {
   let arr : Array[&JsImpl] = [1, "hello", true, 3.14]
-  let js_arr : @js.Js = JsImpl::to_js(arr)
+  let js_arr : @js.Any = JsImpl::to_js(arr)
   assert_true(@js.is_array(js_arr))
   assert_eq(@js.identity(js_arr.get(0)), 1)
   assert_eq(@js.identity(js_arr.get(1)), "hello")
@@ -414,8 +414,8 @@ test "JsImpl for Array[&JsImpl]" {
 test "JsImpl for Option types" {
   let some_val : Int? = Some(42)
   let none_val : Int? = None
-  let js_some : @js.Js = JsImpl::to_js(some_val)
-  let js_none : @js.Js = JsImpl::to_js(none_val)
+  let js_some : @js.Any = JsImpl::to_js(some_val)
+  let js_none : @js.Any = JsImpl::to_js(none_val)
   assert_eq(@js.identity(js_some), 42)
   assert_true(is_undefined(js_none))
 }

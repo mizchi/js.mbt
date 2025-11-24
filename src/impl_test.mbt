@@ -4,7 +4,7 @@ priv enum TestEnum {
 } derive(Eq, Show)
 
 ///|
-fn TestEnum::from_js(v : @js.Js) -> Self raise {
+fn TestEnum::from_js(v : @js.Any) -> Self raise {
   let tag : String = @js.identity(v.get("tag"))
   match tag {
     "A" => {
@@ -34,7 +34,7 @@ priv enum TestConstantEnum {
 }
 
 ///|
-test "identity converts between Js and MoonBit types" {
+test "identity converts between Any and MoonBit types" {
   assert_eq(js(42), js(42))
   let v1 = js(42)
   let v2 = js(42)
@@ -47,13 +47,13 @@ test "identity converts between Js and MoonBit types" {
 }
 
 ///|
-test "identity converts struct to Js object" {
+test "identity converts struct to Any object" {
   struct Point {
     x : Int
     y : Int
   } derive(Eq, Show)
   let p = Point::{ x: 10, y: 20 }
-  let v : @js.Js = @js.identity(p)
+  let v : @js.Any = @js.identity(p)
   assert_eq(@js.identity(v.get("x")), 10)
   assert_eq(@js.identity(v.get("y")), 20)
   let casted : Point = @js.identity(v)
@@ -61,9 +61,9 @@ test "identity converts struct to Js object" {
 }
 
 ///|
-test "JsImpl trait converts enum to Js and back" {
+test "JsImpl trait converts enum to Any and back" {
   let v : TestEnum = A(value=123)
-  let v : @js.Js = v.to_js()
+  let v : @js.Any = v.to_js()
   assert_eq(@js.identity(v.get("tag")), "A")
   assert_eq(@js.identity(v.get("value")), 123)
   let recovered : TestEnum = TestEnum::from_js(v)
@@ -245,24 +245,24 @@ test "Val with mixed types in object" {
 ///|
 test "Js trait for primitives" {
   // String
-  let str_js : @js.Js = JsImpl::to_js("hello")
+  let str_js : @js.Any = JsImpl::to_js("hello")
   assert_eq(@js.identity(str_js), "hello")
 
   // Int
-  let int_js : @js.Js = JsImpl::to_js(42)
+  let int_js : @js.Any = JsImpl::to_js(42)
   assert_eq(@js.identity(int_js), 42)
 
   // Double
-  let double_js : @js.Js = JsImpl::to_js(3.14)
+  let double_js : @js.Any = JsImpl::to_js(3.14)
   assert_eq(@js.identity(double_js), 3.14)
 
   // Bool
-  let bool_js : @js.Js = JsImpl::to_js(true)
+  let bool_js : @js.Any = JsImpl::to_js(true)
   assert_eq(@js.identity(bool_js), true)
 
   // Val (identity)
   let val = @js.js(100)
-  let val_js : @js.Js = JsImpl::to_js(val)
+  let val_js : @js.Any = JsImpl::to_js(val)
   assert_eq(val_js, val)
 }
 

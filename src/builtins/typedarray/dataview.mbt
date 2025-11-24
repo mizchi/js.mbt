@@ -10,10 +10,10 @@ pub impl @js.JsImpl for DataView
 
 ///|
 extern "js" fn ffi_new_dataview(
-  buffer : @js.Js,
+  buffer : @js.Any,
   byte_offset : UInt,
   byte_length : UInt?,
-) -> @js.Js =
+) -> @js.Any =
   #| (buf, offset, len) => len !== undefined ? new DataView(buf, offset, len) : new DataView(buf, offset)
 
 ///|
