@@ -36,7 +36,7 @@ pub fn CSSStyleDeclaration::set_property(
   property : String,
   value : String,
 ) -> Unit {
-  self.call2("setProperty", property, value) |> ignore
+  self.call2("setProperty", property, value).cast()
 }
 
 ///|
@@ -137,7 +137,7 @@ pub fn CSSStyleSheet::insertRuleAt(
   rule : String,
   index : Int,
 ) -> Int {
-  self.call2("insertRule", rule, index) |> @js.identity
+  self.call2("insertRule", rule, index).cast()
 }
 
 ///|
@@ -259,7 +259,7 @@ pub fn cssEscape(value : String) -> String {
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  css_obj.call2("supports", property, value) |> @js.identity
+  css_obj.call2("supports", property, value).cast()
 }
 
 ///|

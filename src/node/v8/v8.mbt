@@ -23,7 +23,7 @@ pub fn getHeapStatistics() -> @js.Js {
 #alias(get_heap_space_statistics)
 pub fn getHeapSpaceStatistics() -> Array[@js.Js] {
   let v8 = ffi_require_v8()
-  v8.call0("getHeapSpaceStatistics") |> @js.identity
+  v8.call0("getHeapSpaceStatistics").cast()
 }
 
 ///|
@@ -61,7 +61,7 @@ pub fn writeHeapSnapshot(filename? : String) -> String {
   let v8 = ffi_require_v8()
   match filename {
     Some(f) => @js.identity(v8.call("writeHeapSnapshot", [f]))
-    None => v8.call0("writeHeapSnapshot") |> @js.identity
+    None => v8.call0("writeHeapSnapshot").cast()
   }
 }
 
@@ -126,7 +126,7 @@ pub fn Serializer::writeValue(self : Self, value : &@js.JsImpl) -> Bool {
 /// Release buffer
 #alias(release_buffer)
 pub fn Serializer::releaseBuffer(self : Self) -> @buffer.Buffer {
-  self.call0("releaseBuffer") |> @js.identity
+  self.call0("releaseBuffer").cast()
 }
 
 ///|
@@ -184,7 +184,7 @@ pub fn Deserializer::new(buffer : @buffer.Buffer) -> Deserializer {
 /// Read header
 #alias(read_header)
 pub fn Deserializer::readHeader(self : Self) -> Bool {
-  self.call0("readHeader") |> @js.identity
+  self.call0("readHeader").cast()
 }
 
 ///|
@@ -209,21 +209,21 @@ pub fn Deserializer::transfer_array_buffer(
 /// Get wire format version
 #alias(get_wire_format_version)
 pub fn Deserializer::getWireFormatVersion(self : Self) -> Int {
-  self.call0("getWireFormatVersion") |> @js.identity
+  self.call0("getWireFormatVersion").cast()
 }
 
 ///|
 /// Read uint32
 #alias(read_uint32)
 pub fn Deserializer::readUint32(self : Self) -> Int {
-  self.call0("readUint32") |> @js.identity
+  self.call0("readUint32").cast()
 }
 
 ///|
 /// Read double
 #alias(read_double)
 pub fn Deserializer::readDouble(self : Self) -> Double {
-  self.call0("readDouble") |> @js.identity
+  self.call0("readDouble").cast()
 }
 
 ///|
@@ -240,7 +240,7 @@ pub fn Deserializer::readRawBytes(self : Self, length : Int) -> @buffer.Buffer {
 #alias(cached_data_version_tag)
 pub fn cachedDataVersionTag() -> Int {
   let v8 = ffi_require_v8()
-  v8.call0("cachedDataVersionTag") |> @js.identity
+  v8.call0("cachedDataVersionTag").cast()
 }
 
 ///|

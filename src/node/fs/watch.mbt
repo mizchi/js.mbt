@@ -22,7 +22,7 @@ pub fn FSWatcher::on(
   event : String,
   listener : (String, String) -> Unit,
 ) -> Self {
-  self.call2("on", event, @js.from_fn2(listener)) |> @js.identity
+  self.call2("on", event, @js.from_fn2(listener)).cast()
 }
 
 ///|
@@ -58,15 +58,13 @@ pub fn watch(
     }
     let options = @js.from_map(map)
     match listener {
-      Some(l) =>
-        fs.call("watch", [filename, options, @js.from_fn2(l)])
-        |> @js.identity
-      None => fs.call2("watch", filename, options) |> @js.identity
+      Some(l) => fs.call("watch", [filename, options, @js.from_fn2(l)]).cast()
+      None => fs.call2("watch", filename, options).cast()
     }
   } else {
     match listener {
-      Some(l) => fs.call2("watch", filename, @js.from_fn2(l)) |> @js.identity
-      None => fs.call1("watch", filename) |> @js.identity
+      Some(l) => fs.call2("watch", filename, @js.from_fn2(l)).cast()
+      None => fs.call1("watch", filename).cast()
     }
   }
 }

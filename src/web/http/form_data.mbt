@@ -8,7 +8,7 @@ pub impl @js.JsImpl for FormData
 
 ///|
 pub fn FormData::append(self : Self, name : String, value : String) -> Unit {
-  self.call2("append", name, value) |> @js.identity
+  self.call2("append", name, value).cast()
 }
 
 ///|

@@ -27,7 +27,7 @@ pub fn ReadableStream::cancel(
 ) -> @js.Promise[Unit] {
   match reason {
     Some(r) => self.call("cancel", [r]).cast()
-    None => self.call0("cancel") |> @js.identity
+    None => self.call0("cancel").cast()
   }
 }
 
@@ -35,7 +35,7 @@ pub fn ReadableStream::cancel(
 /// Get a reader for this stream
 #alias(get_reader)
 pub fn ReadableStream::getReader(self : Self) -> ReadableStreamDefaultReader {
-  self.call0("getReader") |> @js.identity
+  self.call0("getReader").cast()
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn ReadableStream::pipeTo(
   options? : @js.Js,
 ) -> @js.Promise[Unit] {
   match options {
-    Some(opts) => self.call2("pipeTo", destination, opts) |> @js.identity
+    Some(opts) => self.call2("pipeTo", destination, opts).cast()
     None => self.call("pipeTo", [destination]).cast()
   }
 }
@@ -61,7 +61,7 @@ pub fn ReadableStream::pipeThrough(
   options? : @js.Js,
 ) -> ReadableStream {
   match options {
-    Some(opts) => self.call2("pipeThrough", transform, opts) |> @js.identity
+    Some(opts) => self.call2("pipeThrough", transform, opts).cast()
     None => self.call("pipeThrough", [transform]).cast()
   }
 }
@@ -91,7 +91,7 @@ pub impl @js.JsImpl for ReadableStreamDefaultReader
 ///|
 /// Read a chunk from the stream
 pub fn ReadableStreamDefaultReader::read(self : Self) -> @js.Promise[@js.Js] {
-  self.call0("read") |> @js.identity
+  self.call0("read").cast()
 }
 
 ///|
@@ -109,7 +109,7 @@ pub fn ReadableStreamDefaultReader::cancel(
 ) -> @js.Promise[Unit] {
   match reason {
     Some(r) => self.call("cancel", [r]).cast()
-    None => self.call0("cancel") |> @js.identity
+    None => self.call0("cancel").cast()
   }
 }
 
@@ -141,21 +141,21 @@ pub fn WritableStream::abort(
 ) -> @js.Promise[Unit] {
   match reason {
     Some(r) => self.call("abort", [r]).cast()
-    None => self.call0("abort") |> @js.identity
+    None => self.call0("abort").cast()
   }
 }
 
 ///|
 /// Close the stream
 pub fn WritableStream::close(self : Self) -> @js.Promise[Unit] {
-  self.call0("close") |> @js.identity
+  self.call0("close").cast()
 }
 
 ///|
 /// Get a writer for this stream
 #alias(get_writer)
 pub fn WritableStream::getWriter(self : Self) -> WritableStreamDefaultWriter {
-  self.call0("getWriter") |> @js.identity
+  self.call0("getWriter").cast()
 }
 
 ///|
@@ -181,7 +181,7 @@ pub fn WritableStreamDefaultWriter::write(
 ///|
 /// Close the writer
 pub fn WritableStreamDefaultWriter::close(self : Self) -> @js.Promise[Unit] {
-  self.call0("close") |> @js.identity
+  self.call0("close").cast()
 }
 
 ///|
@@ -192,7 +192,7 @@ pub fn WritableStreamDefaultWriter::abort(
 ) -> @js.Promise[Unit] {
   match reason {
     Some(r) => self.call("abort", [r]).cast()
-    None => self.call0("abort") |> @js.identity
+    None => self.call0("abort").cast()
   }
 }
 
@@ -221,7 +221,7 @@ extern "js" fn ffi_new_transform_stream(transformer : @js.Js) -> @js.Js =
 ///|
 /// Create a new TransformStream with a transformer
 pub fn TransformStream::new(transformer : @js.Js) -> TransformStream {
-  ffi_new_transform_stream(transformer) |> @js.identity
+  ffi_new_transform_stream(transformer).cast()
 }
 
 ///|
@@ -233,5 +233,5 @@ extern "js" fn ffi_new_identity_transform_stream() -> @js.Js =
 /// Create a new identity TransformStream
 #alias(newIdentity)
 pub fn TransformStream::new_identity() -> TransformStream {
-  ffi_new_identity_transform_stream() |> @js.identity
+  ffi_new_identity_transform_stream().cast()
 }

@@ -20,7 +20,7 @@ pub fn R2Bucket::get_with_options(
   key : String,
   options : R2GetOptions,
 ) -> @js.Promise[R2Object?] {
-  self.call2("get", key, options) |> @js.identity
+  self.call2("get", key, options).cast()
 }
 
 ///|
@@ -36,7 +36,7 @@ pub fn R2Bucket::put(
   key : String,
   value : @js.Js,
 ) -> @js.Promise[R2Object] {
-  self.call2("put", key, value) |> @js.identity
+  self.call2("put", key, value).cast()
 }
 
 ///|
@@ -74,7 +74,7 @@ pub fn R2Bucket::delete_multiple(
 ///|
 /// List objects in the bucket
 pub fn R2Bucket::list(self : Self) -> @js.Promise[R2Objects] {
-  self.call0("list") |> @js.identity
+  self.call0("list").cast()
 }
 
 ///|
@@ -102,7 +102,7 @@ pub fn R2Bucket::create_multipart_upload_with_options(
   key : String,
   options : R2PutOptions,
 ) -> @js.Promise[R2MultipartUpload] {
-  self.call2("createMultipartUpload", key, options) |> @js.identity
+  self.call2("createMultipartUpload", key, options).cast()
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn R2Bucket::resume_multipart_upload(
   key : String,
   upload_id : String,
 ) -> R2MultipartUpload {
-  self.call2("resumeMultipartUpload", key, upload_id) |> @js.identity
+  self.call2("resumeMultipartUpload", key, upload_id).cast()
 }
 
 ///|
@@ -311,25 +311,25 @@ pub fn R2Object::uploaded(self : Self) -> @js.Js {
 ///|
 /// Get object body as ArrayBuffer
 pub fn R2Object::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer") |> @js.identity
+  self.call0("arrayBuffer").cast()
 }
 
 ///|
 /// Get object body as text
 pub fn R2Object::text(self : Self) -> @js.Promise[String] {
-  self.call0("text") |> @js.identity
+  self.call0("text").cast()
 }
 
 ///|
 /// Get object body as JSON
 pub fn R2Object::json(self : Self) -> @js.Promise[@js.Js] {
-  self.call0("json") |> @js.identity
+  self.call0("json").cast()
 }
 
 ///|
 /// Get object body as blob
 pub fn R2Object::blob(self : Self) -> @js.Promise[@blob.Blob] {
-  self.call0("blob") |> @js.identity
+  self.call0("blob").cast()
 }
 
 ///|
@@ -389,13 +389,13 @@ pub fn R2MultipartUpload::upload_part(
   part_number : Int,
   value : @js.Js,
 ) -> @js.Promise[R2UploadedPart] {
-  self.call2("uploadPart", part_number, value) |> @js.identity
+  self.call2("uploadPart", part_number, value).cast()
 }
 
 ///|
 /// Abort the multipart upload
 pub fn R2MultipartUpload::abort(self : Self) -> @js.Promise[Unit] {
-  self.call0("abort") |> @js.identity
+  self.call0("abort").cast()
 }
 
 ///|

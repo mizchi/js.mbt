@@ -20,14 +20,18 @@ test "useState_lazy" {
   }
   @react_testing_library.render(@react.component(comp, EmptyProps::default()))
   |> ignore
-  @react_testing_library.screen().getByText("Count: 10").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Count: 10")
+  .get("textContent")
+  .cast()
   |> assert_eq("Count: 10")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("increment"),
   )
-  @react_testing_library.screen().getByText("Count: 11").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Count: 11")
+  .get("textContent")
+  .cast()
   |> assert_eq("Count: 11")
 }
 
@@ -48,8 +52,10 @@ test "useCallback" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("increment"),
   )
-  @react_testing_library.screen().getByText("Count: 1").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Count: 1")
+  .get("textContent")
+  .cast()
   |> assert_eq("Count: 1")
 }
 
@@ -70,8 +76,7 @@ test "useEffect" {
   }
   @react_testing_library.render(@react.component(comp, EmptyProps::default()))
   |> ignore
-  @react_testing_library.screen().getByText("Mounted").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen().getByText("Mounted").get("textContent").cast()
   |> assert_eq("Mounted")
 }
 
@@ -92,8 +97,10 @@ test "useLayoutEffect" {
   }
   @react_testing_library.render(@react.component(comp, EmptyProps::default()))
   |> ignore
-  @react_testing_library.screen().getByText("Layout mounted").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Layout mounted")
+  .get("textContent")
+  .cast()
   |> assert_eq("Layout mounted")
 }
 
@@ -111,14 +118,18 @@ test "useMemo" {
   }
   @react_testing_library.render(@react.component(comp, EmptyProps::default()))
   |> ignore
-  @react_testing_library.screen().getByText("Doubled: 2").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Doubled: 2")
+  .get("textContent")
+  .cast()
   |> assert_eq("Doubled: 2")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("increment"),
   )
-  @react_testing_library.screen().getByText("Doubled: 4").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Doubled: 4")
+  .get("textContent")
+  .cast()
   |> assert_eq("Doubled: 4")
 }
 
@@ -134,8 +145,10 @@ test "useRef with Some" {
   }
   @react_testing_library.render(@react.component(comp, EmptyProps::default()))
   |> ignore
-  @react_testing_library.screen().getByText("Ref test").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Ref test")
+  .get("textContent")
+  .cast()
   |> assert_eq("Ref test")
 }
 
@@ -149,8 +162,10 @@ test "useRef with None" {
   }
   @react_testing_library.render(@react.component(comp, EmptyProps::default()))
   |> ignore
-  @react_testing_library.screen().getByText("Ref None test").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Ref None test")
+  .get("textContent")
+  .cast()
   |> assert_eq("Ref None test")
 }
 
@@ -178,8 +193,7 @@ test "ReactRef::current and set_current" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("update"),
   )
-  @react_testing_library.screen().getByText("updated").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen().getByText("updated").get("textContent").cast()
   |> assert_eq("updated")
 }
 
@@ -204,8 +218,7 @@ test "ReactRef::current None case" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("check"),
   )
-  @react_testing_library.screen().getByText("no ref").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen().getByText("no ref").get("textContent").cast()
   |> assert_eq("no ref")
 }
 
@@ -236,8 +249,10 @@ test "ReactRef::set_current" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("set"),
   )
-  @react_testing_library.screen().getByText("custom value").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("custom value")
+  .get("textContent")
+  .cast()
   |> assert_eq("custom value")
 }
 
@@ -259,7 +274,7 @@ test "useContext" {
   @react_testing_library.screen()
   .getByText("Context value: 99")
   .get("textContent")
-  |> @js.identity
+  .cast()
   |> assert_eq("Context value: 99")
 }
 
@@ -295,26 +310,34 @@ test "useReducer" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("+"),
   )
-  @react_testing_library.screen().getByText("Count: 1").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Count: 1")
+  .get("textContent")
+  .cast()
   |> assert_eq("Count: 1")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("+"),
   )
-  @react_testing_library.screen().getByText("Count: 2").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Count: 2")
+  .get("textContent")
+  .cast()
   |> assert_eq("Count: 2")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("-"),
   )
-  @react_testing_library.screen().getByText("Count: 1").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Count: 1")
+  .get("textContent")
+  .cast()
   |> assert_eq("Count: 1")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("reset"),
   )
-  @react_testing_library.screen().getByText("Count: 0").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Count: 0")
+  .get("textContent")
+  .cast()
   |> assert_eq("Count: 0")
 }
 
@@ -338,8 +361,10 @@ test "useActionState" {
   }
   @react_testing_library.render(@react.component(comp, EmptyProps::default()))
   |> ignore
-  @react_testing_library.screen().getByText("State: 0").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("State: 0")
+  .get("textContent")
+  .cast()
   |> assert_eq("State: 0")
 }
 
@@ -362,7 +387,9 @@ test "startTransition" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("transition"),
   )
-  @react_testing_library.screen().getByText("Count: 1").get("textContent")
-  |> @js.identity
+  @react_testing_library.screen()
+  .getByText("Count: 1")
+  .get("textContent")
+  .cast()
   |> assert_eq("Count: 1")
 }

@@ -19,15 +19,12 @@ test "React createElement" {
   let with_attrs = @react.createElement(
     "button",
     props={
-      "className": "my-button" |> @js.identity,
+      "className": "my-button" |> @js.js,
       "onClick": @js.from_fn0(fn() { @js.log("Button clicked") }),
     },
     [],
   )
-  assert_eq(
-    @js.identity(with_attrs.get("props").get("className")),
-    "my-button",
-  )
+  assert_eq(@js.identity(with_attrs.get("props").get("className")), "my-button")
   let c1 = (_ : EmptyProps) => {
     let r : ReactRef[@dom.Element] = useRef(None)
     @react.createElement("span", ref_=r, [])

@@ -20,7 +20,7 @@ pub(open) trait EventEmitterImpl: @js.JsImpl {
 ///|
 /// Implement EventEmitter trait for EventEmitterClass
 impl EventEmitterImpl with on(self, name : String, callback : (@js.Js) -> Unit) -> Unit {
-  self.call2("on", name, callback |> @js.from_fn1) |> @js.identity
+  self.call2("on", name, callback |> @js.from_fn1).cast()
 }
 
 ///|
@@ -29,7 +29,7 @@ impl EventEmitterImpl with on2(
   name : String,
   callback : (@js.Js?, @js.Js) -> Unit,
 ) -> Unit {
-  self.call2("on", name, callback |> @js.from_fn2) |> @js.identity
+  self.call2("on", name, callback |> @js.from_fn2).cast()
 }
 
 ///|
@@ -38,12 +38,12 @@ impl EventEmitterImpl with once(
   name : String,
   callback : (@js.Js) -> Unit,
 ) -> Unit {
-  self.call2("once", name, callback |> @js.from_fn1) |> @js.identity
+  self.call2("once", name, callback |> @js.from_fn1).cast()
 }
 
 ///|
 impl EventEmitterImpl with eventNames(self) {
-  self.call0("eventNames") |> @js.identity
+  self.call0("eventNames").cast()
 }
 
 ///|
@@ -55,13 +55,13 @@ impl EventEmitterImpl with listenerCount(self, eventName) {
 impl EventEmitterImpl with listeners(self, event? : String) {
   match event {
     Some(name) => self.call("listenerCount", [name]).cast()
-    None => self.call0("listenerCount") |> @js.identity
+    None => self.call0("listenerCount").cast()
   }
 }
 
 ///|
 impl EventEmitterImpl with off(self, name : String, callback : (@js.Js) -> Unit) -> Unit {
-  self.call2("off", name, callback |> @js.from_fn1) |> @js.identity
+  self.call2("off", name, callback |> @js.from_fn1).cast()
 }
 
 ///|
@@ -70,18 +70,18 @@ impl EventEmitterImpl with removeListener(
   name : String,
   callback : (@js.Js) -> Unit,
 ) -> Unit {
-  self.call2("removeListener", name, callback |> @js.from_fn1) |> @js.identity
+  self.call2("removeListener", name, callback |> @js.from_fn1).cast()
 }
 
 ///|
 /// implement remove_all_listeners
 impl EventEmitterImpl with removeAllListeners(self) -> Unit {
-  self.call0("removeAllListeners") |> @js.identity
+  self.call0("removeAllListeners").cast()
 }
 
 ///|
 impl EventEmitterImpl with emit(self, name : String, payload : @js.Js) -> Unit {
-  self.call2("emit", name, payload) |> @js.identity
+  self.call2("emit", name, payload).cast()
 }
 
 ///|

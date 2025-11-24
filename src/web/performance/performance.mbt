@@ -33,7 +33,7 @@ pub fn performance() -> Performance {
 /// JS: performance.now()
 /// Returns a high resolution timestamp in milliseconds
 pub fn Performance::now(self : Performance) -> Double {
-  self.call0("now") |> @js.identity
+  self.call0("now").cast()
 }
 
 ///|
@@ -54,7 +54,7 @@ pub fn Performance::measure(
 ) -> PerformanceEntry {
   match (startMark, endMark) {
     (Some(s), Some(e)) => self.call("measure", [name, s, e]).cast()
-    (Some(s), None) => self.call2("measure", name, s) |> @js.identity
+    (Some(s), None) => self.call2("measure", name, s).cast()
     (None, _) => self.call("measure", [name]).cast()
   }
 }
@@ -63,7 +63,7 @@ pub fn Performance::measure(
 /// JS: performance.getEntries()
 /// Returns a list of all PerformanceEntry objects
 pub fn Performance::getEntries(self : Performance) -> Array[PerformanceEntry] {
-  self.call0("getEntries") |> @js.identity
+  self.call0("getEntries").cast()
 }
 
 ///|

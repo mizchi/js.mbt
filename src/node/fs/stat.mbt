@@ -7,12 +7,12 @@ pub impl @js.JsImpl for Stat
 
 ///|
 pub fn Stat::isFile(self : Self) -> Bool {
-  self.call0("isFile") |> @js.identity
+  self.call0("isFile").cast()
 }
 
 ///|
 pub fn Stat::isDirectory(self : Self) -> Bool {
-  self.call0("isDirectory") |> @js.identity
+  self.call0("isDirectory").cast()
 }
 
 ///|

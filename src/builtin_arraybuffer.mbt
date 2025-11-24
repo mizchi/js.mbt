@@ -57,8 +57,8 @@ pub fn ArrayBuffer::slice(
   end? : Int,
 ) -> ArrayBuffer {
   match end {
-    Some(e) => self.call2("slice", begin, e) |> identity
-    None => self.call1("slice", begin) |> identity
+    Some(e) => self.call2("slice", begin, e).cast()
+    None => self.call1("slice", begin).cast()
   }
 }
 

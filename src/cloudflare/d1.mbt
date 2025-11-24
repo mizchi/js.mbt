@@ -40,7 +40,7 @@ pub fn D1Database::batch(
 ///|
 /// Dump the entire database
 pub fn D1Database::dump(self : Self) -> @js.Promise[@js.Js] {
-  self.call0("dump") |> @js.identity
+  self.call0("dump").cast()
 }
 
 ///|
@@ -69,7 +69,7 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Js]) -> Self {
   }
 
   // Use apply to spread the array as individual arguments
-  bind_fn.call2("apply", stmt_js, params_js) |> @js.identity
+  bind_fn.call2("apply", stmt_js, params_js).cast()
 }
 
 ///|
@@ -102,7 +102,7 @@ pub fn D1PreparedStatement::bind3(
 ///|
 /// Execute the statement and return first row
 pub fn D1PreparedStatement::first(self : Self) -> @js.Promise[@js.Js?] {
-  self.call0("first") |> @js.identity
+  self.call0("first").cast()
 }
 
 ///|
@@ -111,25 +111,25 @@ pub fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
 ) -> @js.Promise[@js.Js?] {
-  self.call1("first", col_name) |> @js.identity
+  self.call1("first", col_name).cast()
 }
 
 ///|
 /// Execute the statement and return all rows
 pub fn D1PreparedStatement::all(self : Self) -> @js.Promise[D1Result] {
-  self.call0("all") |> @js.identity
+  self.call0("all").cast()
 }
 
 ///|
 /// Execute the statement (for INSERT, UPDATE, DELETE)
 pub fn D1PreparedStatement::run(self : Self) -> @js.Promise[D1Result] {
-  self.call0("run") |> @js.identity
+  self.call0("run").cast()
 }
 
 ///|
 /// Execute and return raw results
 pub fn D1PreparedStatement::raw(self : Self) -> @js.Promise[Array[@js.Js]] {
-  self.call0("raw") |> @js.identity
+  self.call0("raw").cast()
 }
 
 ///|
@@ -138,7 +138,7 @@ pub fn D1PreparedStatement::raw_with_options(
   self : Self,
   options : D1RawOptions,
 ) -> @js.Promise[Array[@js.Js]] {
-  self.call1("raw", options) |> @js.identity
+  self.call1("raw", options).cast()
 }
 
 ///|

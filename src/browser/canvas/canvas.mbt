@@ -339,7 +339,7 @@ pub fn CanvasRenderingContext2D::createImageData(
   width : Int,
   height : Int,
 ) -> ImageData {
-  self.to_js().call2("createImageData", width, height) |> @js.identity
+  self.to_js().call2("createImageData", width, height).cast()
 }
 
 ///|

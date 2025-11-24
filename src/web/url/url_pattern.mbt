@@ -87,7 +87,7 @@ pub fn URLPattern::test_url_with_base(
   base? : String,
 ) -> Bool {
   match base {
-    Some(b) => self.call2("test", input, b) |> @js.identity
+    Some(b) => self.call2("test", input, b).cast()
     None => self.call("test", [input]).cast()
   }
 }

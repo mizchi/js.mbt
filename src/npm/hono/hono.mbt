@@ -169,7 +169,7 @@ pub fn[Env, ExecutionContext] Hono::fetch(
 pub fn[Env, ExecutionContext] Hono::fire(
   self : Hono[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call0("fire") |> @js.identity
+  self.call0("fire").cast()
 }
 
 ///|

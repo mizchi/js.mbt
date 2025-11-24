@@ -97,9 +97,7 @@ pub fn Document::getElementsByTagName(
   self : Self,
   tagName : String,
 ) -> Array[Element] {
-  @js.array_from(self.call("getElementsByTagName", [tagName])).map(fn(v) {
-    v |> @js.identity
-  })
+  @js.array_from(self.call("getElementsByTagName", [tagName])).map(_.cast())
 }
 
 ///|

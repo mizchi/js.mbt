@@ -58,7 +58,7 @@ impl TypedArrayImpl with byteOffset(self) -> UInt {
 ///|
 impl TypedArrayImpl with slice(self, start? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.call2("slice", start, e) |> @js.identity
+    Some(e) => self.call2("slice", start, e).cast()
     None => self.call("slice", [start]).cast()
   }
 }
@@ -66,7 +66,7 @@ impl TypedArrayImpl with slice(self, start? : Int = 0, end? : Int) -> Self {
 ///|
 impl TypedArrayImpl with subarray(self, begin? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.call2("subarray", begin, e) |> @js.identity
+    Some(e) => self.call2("subarray", begin, e).cast()
     None => self.call("subarray", [begin]).cast()
   }
 }
@@ -75,18 +75,18 @@ impl TypedArrayImpl with subarray(self, begin? : Int = 0, end? : Int) -> Self {
 impl TypedArrayImpl with copyWithin(self, target, start, end? : Int) -> Self {
   match end {
     Some(e) => self.call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start) |> @js.identity
+    None => self.call2("copyWithin", target, start).cast()
   }
 }
 
 ///|
 impl TypedArrayImpl with reverse(self) -> Self {
-  self.call0("reverse") |> @js.identity
+  self.call0("reverse").cast()
 }
 
 ///|
 impl TypedArrayImpl with sort(self) -> Self {
-  self.call0("sort") |> @js.identity
+  self.call0("sort").cast()
 }
 
 ///|
@@ -96,5 +96,5 @@ impl TypedArrayImpl with join(self, separator? : String = ",") -> String {
 
 ///|
 impl TypedArrayImpl with toString(self) -> String {
-  self.call0("toString") |> @js.identity
+  self.call0("toString").cast()
 }

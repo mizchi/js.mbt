@@ -5,9 +5,7 @@
 pub type Window
 
 ///|
-pub impl @js.JsImpl for Window with to_js(self) {
-  self |> @js.identity
-}
+pub impl @js.JsImpl for Window
 
 ///|
 pub impl @event.EventTargetImpl for Window
@@ -215,7 +213,7 @@ pub fn Window::setTimeout(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.call2("setTimeout", @js.from_fn0(handler), delay) |> @js.identity
+  self.call2("setTimeout", @js.from_fn0(handler), delay).cast()
 }
 
 ///|
@@ -235,7 +233,7 @@ pub fn Window::setInterval(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.call2("setInterval", @js.from_fn0(handler), delay) |> @js.identity
+  self.call2("setInterval", @js.from_fn0(handler), delay).cast()
 }
 
 ///|
@@ -274,7 +272,7 @@ pub fn Window::fetch(
   init? : @js.Js,
 ) -> @js.Promise[@js.Js] {
   match init {
-    Some(i) => self.call2("fetch", input, i) |> @js.identity
+    Some(i) => self.call2("fetch", input, i).cast()
     None => self.call("fetch", [input]).cast()
   }
 }
@@ -297,8 +295,7 @@ pub fn Window::getComputedStyle(
   pseudo_elt? : String,
 ) -> @js.Js {
   match pseudo_elt {
-    Some(p) =>
-      self.call2("getComputedStyle", element.to_js(), p) |> @js.identity
+    Some(p) => self.call2("getComputedStyle", element.to_js(), p).cast()
     None => self.call("getComputedStyle", [element.to_js()]).cast()
   }
 }

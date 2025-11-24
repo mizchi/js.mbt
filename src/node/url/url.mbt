@@ -5,13 +5,14 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
   let url_module = @node.require("node:url")
   match windows {
     Some(w) =>
-      url_module.call2(
+      url_module
+      .call2(
         "fileURLToPath",
         url,
         @js.from_entries_option_cast([("windows", Some(w))]),
       )
-      |> @js.identity
-    None => url_module.call1("fileURLToPath", url) |> @js.identity
+      .cast()
+    None => url_module.call1("fileURLToPath", url).cast()
   }
 }
 
@@ -22,13 +23,14 @@ pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
   let url_module = @node.require("node:url")
   match windows {
     Some(w) =>
-      url_module.call2(
+      url_module
+      .call2(
         "fileURLToPath",
         url,
         @js.from_entries_option_cast([("windows", Some(w))]),
       )
-      |> @js.identity
-    None => url_module.call1("fileURLToPath", url) |> @js.identity
+      .cast()
+    None => url_module.call1("fileURLToPath", url).cast()
   }
 }
 
@@ -39,13 +41,14 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
   let url_module = @node.require("node:url")
   match windows {
     Some(w) =>
-      url_module.call2(
+      url_module
+      .call2(
         "pathToFileURL",
         path,
         @js.from_entries_option_cast([("windows", Some(w))]),
       )
-      |> @js.identity
-    None => url_module.call1("pathToFileURL", path) |> @js.identity
+      .cast()
+    None => url_module.call1("pathToFileURL", path).cast()
   }
 }
 
@@ -61,5 +64,5 @@ pub fn urlToHttpOptions(url : @weburl.URL) -> @js.Js {
 /// Format a URL object to string (legacy API)
 pub fn format(url : @weburl.URL) -> String {
   let url_module = @node.require("node:url")
-  url_module.call1("format", url) |> @js.identity
+  url_module.call1("format", url).cast()
 }

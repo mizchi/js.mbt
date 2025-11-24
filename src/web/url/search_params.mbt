@@ -18,7 +18,7 @@ impl Show for URLSearchParams with output(self, logger) {
 
 ///|
 pub fn URLSearchParams::get(self : URLSearchParams, name : String) -> String? {
-  self.call("get", [name]) |> @js.identity_option
+  self.call("get", [name]).cast() |> @js.identity_option
 }
 
 ///|
@@ -41,7 +41,7 @@ pub fn URLSearchParams::set(
   name : String,
   value : String,
 ) -> Unit {
-  self.call2("set", name, value) |> @js.identity
+  self.call2("set", name, value).cast()
 }
 
 ///|
@@ -50,7 +50,7 @@ pub fn URLSearchParams::append(
   name : String,
   value : String,
 ) -> Unit {
-  self.call2("append", name, value) |> @js.identity
+  self.call2("append", name, value).cast()
 }
 
 ///|
@@ -60,11 +60,11 @@ pub fn URLSearchParams::delete(self : URLSearchParams, name : String) -> Unit {
 
 ///|
 pub fn URLSearchParams::sort(self : URLSearchParams) -> Unit {
-  self.call0("sort") |> @js.identity
+  self.call0("sort").cast()
 }
 
 ///|
 #alias(toString)
 pub fn URLSearchParams::to_string(self : URLSearchParams) -> String {
-  self.call0("toString") |> @js.identity
+  self.call0("toString").cast()
 }

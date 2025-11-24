@@ -69,7 +69,7 @@ pub fn File::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
 ///|
 /// Get the file contents as text (inherited from Blob)
 pub fn File::text(self : Self) -> @js.Promise[String] {
-  self.to_js().call0("text") |> @js.identity
+  self.to_js().call0("text").cast()
 }
 
 ///|
@@ -77,10 +77,10 @@ pub fn File::text(self : Self) -> @js.Promise[String] {
 pub fn File::slice(self : Self, start? : Int, end? : Int) -> @blob.Blob {
   let js = self.to_js()
   match (start, end) {
-    (None, None) => js.call0("slice") |> @js.identity
+    (None, None) => js.call0("slice").cast()
     (Some(s), None) => js.call("slice", [s]).cast()
-    (Some(s), Some(e)) => js.call2("slice", s, e) |> @js.identity
-    (None, Some(e)) => js.call2("slice", 0, e) |> @js.identity
+    (Some(s), Some(e)) => js.call2("slice", s, e).cast()
+    (None, Some(e)) => js.call2("slice", 0, e).cast()
   }
 }
 

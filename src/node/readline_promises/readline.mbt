@@ -51,18 +51,18 @@ pub fn Interface::question(self : Self, query : String) -> @js.Promise[String] {
 
 ///|
 pub fn Interface::commit(self : Self) -> @js.Promise[Unit] {
-  self.call0("commit") |> @js.identity
+  self.call0("commit").cast()
 }
 
 ///|
 pub fn Interface::rollback(self : Self) -> Self {
-  self.call0("rollback") |> @js.identity
+  self.call0("rollback").cast()
 }
 
 ///|
 #alias(cursor_to)
 pub fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> @js.Promise[Unit] {
-  self.call2("cursorTo", x, y) |> @js.identity
+  self.call2("cursorTo", x, y).cast()
 }
 
 ///|
@@ -72,7 +72,7 @@ pub fn Interface::moveCursor(
   dx : Int,
   dy? : Int,
 ) -> @js.Promise[Unit] {
-  self.call2("moveCursor", dx, dy) |> @js.identity
+  self.call2("moveCursor", dx, dy).cast()
 }
 
 ///|

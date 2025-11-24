@@ -9,7 +9,7 @@ impl @js.JsImpl for ReactTestingLibrary
 
 ///|
 fn testing_library() -> ReactTestingLibrary {
-  @node.require("@testing-library/react") |> @js.identity
+  @node.require("@testing-library/react").cast()
 }
 
 ///|

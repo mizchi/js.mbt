@@ -97,7 +97,7 @@ pub fn WebAssemblyTable::set(self : Self, index : Int, value : @js.Js) -> Unit {
 ///|
 /// Grow the table by delta elements
 pub fn WebAssemblyTable::grow(self : Self, delta : Int, value : @js.Js) -> Int {
-  self.call2("grow", delta, value) |> @js.identity
+  self.call2("grow", delta, value).cast()
 }
 
 ///|
@@ -244,7 +244,7 @@ pub fn instantiate_module(
     Some(obj) => obj
     None => @js.undefined()
   }
-  ffi_instantiate(wasm_module.to_js(), imports) |> @js.identity
+  ffi_instantiate(wasm_module.to_js(), imports).cast()
 }
 
 ///|

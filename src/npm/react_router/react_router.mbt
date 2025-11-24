@@ -82,7 +82,7 @@ pub fn createBrowserRouter(routes : Array[Route]) -> Router {
   let create_browser_router : (Array[@js.Js]) -> Router = @js.global_this()
     .get("__ReactRouterApi")
     .get("createBrowserRouter")
-    |> @js.identity
+    .cast()
   create_browser_router(routes.map(_.to_js()))
 }
 

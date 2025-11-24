@@ -50,12 +50,13 @@ pub fn defineProperty(
   property_key : &@js.PropertyKey,
   attributes : &@js.JsImpl,
 ) -> Bool {
-  reflect_class().call("defineProperty", [
+  reflect_class()
+  .call("defineProperty", [
     target.to_js(),
     property_key.to_key(),
     attributes.to_js(),
   ])
-  |> @js.identity
+  .cast()
 }
 
 ///|
@@ -65,8 +66,9 @@ pub fn deleteProperty(
   target : &@js.JsImpl,
   property_key : &@js.PropertyKey,
 ) -> Bool {
-  reflect_class().call2("deleteProperty", target.to_js(), property_key.to_key())
-  |> @js.identity
+  reflect_class()
+  .call2("deleteProperty", target.to_js(), property_key.to_key())
+  .cast()
 }
 
 ///|
@@ -108,8 +110,7 @@ pub fn getPrototypeOf(target : &@js.JsImpl) -> @js.Js {
 /// JS: Reflect.has(target, propertyKey)
 /// Checks if an object has a property
 pub fn has(target : &@js.JsImpl, property_key : &@js.PropertyKey) -> Bool {
-  reflect_class().call2("has", target.to_js(), property_key.to_key())
-  |> @js.identity
+  reflect_class().call2("has", target.to_js(), property_key.to_key()).cast()
 }
 
 ///|
@@ -146,20 +147,13 @@ pub fn set(
 ) -> Bool {
   match receiver {
     Some(recv) =>
-      reflect_class().call("set", [
-        target.to_js(),
-        property_key.to_key(),
-        value.to_js(),
-        recv,
-      ])
-      |> @js.identity
+      reflect_class()
+      .call("set", [target.to_js(), property_key.to_key(), value.to_js(), recv])
+      .cast()
     None =>
-      reflect_class().call("set", [
-        target.to_js(),
-        property_key.to_key(),
-        value.to_js(),
-      ])
-      |> @js.identity
+      reflect_class()
+      .call("set", [target.to_js(), property_key.to_key(), value.to_js()])
+      .cast()
   }
 }
 
@@ -167,6 +161,7 @@ pub fn set(
 /// JS: Reflect.setPrototypeOf(target, prototype)
 /// Sets the prototype of an object
 pub fn setPrototypeOf(target : &@js.JsImpl, prototype : &@js.JsImpl) -> Bool {
-  reflect_class().call2("setPrototypeOf", target.to_js(), prototype.to_js())
-  |> @js.identity
+  reflect_class()
+  .call2("setPrototypeOf", target.to_js(), prototype.to_js())
+  .cast()
 }

@@ -33,7 +33,7 @@ pub enum AtomicsWaitResult {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/add
 pub fn add(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_add(typedArray, index, value) |> @js.identity
+  ffi_atomics_add(typedArray, index, value).cast()
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn add(typedArray : @js.Js, index : Int, value : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/and
 pub fn and_(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_and(typedArray, index, value) |> @js.identity
+  ffi_atomics_and(typedArray, index, value).cast()
 }
 
 ///|
@@ -67,8 +67,7 @@ pub fn compareExchange(
 ) -> Int {
   ffi_atomics_compare_exchange(
     typedArray, index, expectedValue, replacementValue,
-  )
-  |> @js.identity
+  ).cast()
 }
 
 ///|
@@ -77,7 +76,7 @@ pub fn compareExchange(
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/exchange
 pub fn exchange(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_exchange(typedArray, index, value) |> @js.identity
+  ffi_atomics_exchange(typedArray, index, value).cast()
 }
 
 ///|
@@ -103,7 +102,7 @@ pub fn isLockFree(size : Int) -> Bool {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/load
 pub fn load(typedArray : @js.Js, index : Int) -> Int {
-  ffi_atomics_load(typedArray, index) |> @js.identity
+  ffi_atomics_load(typedArray, index).cast()
 }
 
 ///|
@@ -121,8 +120,8 @@ pub fn load(typedArray : @js.Js, index : Int) -> Int {
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/notify
 pub fn notify(typedArray : @js.Js, index : Int, count? : Int) -> Int {
   match count {
-    Some(c) => ffi_atomics_notify(typedArray, index, c) |> @js.identity
-    None => ffi_atomics_notify_2(typedArray, index) |> @js.identity
+    Some(c) => ffi_atomics_notify(typedArray, index, c).cast()
+    None => ffi_atomics_notify_2(typedArray, index).cast()
   }
 }
 
@@ -132,7 +131,7 @@ pub fn notify(typedArray : @js.Js, index : Int, count? : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/or
 pub fn or_(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_or(typedArray, index, value) |> @js.identity
+  ffi_atomics_or(typedArray, index, value).cast()
 }
 
 ///|
@@ -141,7 +140,7 @@ pub fn or_(typedArray : @js.Js, index : Int, value : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/store
 pub fn store(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_store(typedArray, index, value) |> @js.identity
+  ffi_atomics_store(typedArray, index, value).cast()
 }
 
 ///|
@@ -150,7 +149,7 @@ pub fn store(typedArray : @js.Js, index : Int, value : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/sub
 pub fn sub(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_sub(typedArray, index, value) |> @js.identity
+  ffi_atomics_sub(typedArray, index, value).cast()
 }
 
 ///|
@@ -197,7 +196,7 @@ pub fn wait(
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/xor
 pub fn xor(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_xor(typedArray, index, value) |> @js.identity
+  ffi_atomics_xor(typedArray, index, value).cast()
 }
 
 ///| FFI Bindings

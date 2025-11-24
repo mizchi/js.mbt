@@ -42,12 +42,12 @@ pub fn URL::searchParams(self : URL) -> URLSearchParams {
 /// Convert URL to string
 #alias(toString)
 pub fn URL::to_string(self : URL) -> String {
-  self.call0("toString") |> @js.identity
+  self.call0("toString").cast()
 }
 
 ///|
 /// Convert URL to JSON
 #alias(toJSON)
 pub fn URL::to_json(self : URL) -> String {
-  self.call0("toJSON") |> @js.identity
+  self.call0("toJSON").cast()
 }

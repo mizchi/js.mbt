@@ -7,12 +7,12 @@ pub impl @js.JsImpl for Stat
 
 ///|
 pub fn Stat::isFile(self : Self) -> Bool {
-  self.call0("isFile") |> @js.identity
+  self.call0("isFile").cast()
 }
 
 ///|
 pub fn Stat::isDirectory(self : Self) -> Bool {
-  self.call0("isDirectory") |> @js.identity
+  self.call0("isDirectory").cast()
 }
 
 ///|
@@ -76,13 +76,13 @@ pub impl @js.JsImpl for Dirent
 ///|
 #alias(is_file)
 pub fn Dirent::isFile(self : Self) -> Bool {
-  self.call0("isFile") |> @js.identity
+  self.call0("isFile").cast()
 }
 
 ///|
 #alias(is_directory)
 pub fn Dirent::isDirectory(self : Self) -> Bool {
-  self.call0("isDirectory") |> @js.identity
+  self.call0("isDirectory").cast()
 }
 
 ///|
@@ -129,7 +129,7 @@ pub fn readFile(
   encoding? : String = "utf-8",
 ) -> @js.Promise[String] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("readFile", path, encoding) |> @js.identity
+  fs.call2("readFile", path, encoding).cast()
 }
 
 ///|
@@ -140,7 +140,7 @@ pub fn read_file_as_string(
   encoding? : String = "utf8",
 ) -> @js.Promise[String] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("readFile", path, encoding) |> @js.identity
+  fs.call2("readFile", path, encoding).cast()
 }
 
 ///|
@@ -181,7 +181,7 @@ pub fn writeFile(
 ///|
 pub fn rename(path : String, dest : String) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("rename", path, dest) |> @js.identity
+  fs.call2("rename", path, dest).cast()
 }
 
 ///|
@@ -213,7 +213,7 @@ pub fn cp(path : String, dest : String, recursive? : Bool) -> @js.Promise[Unit] 
 /// Change file permissions
 pub fn chmod(path : String, mode : Int) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("chmod", path, mode) |> @js.identity
+  fs.call2("chmod", path, mode).cast()
 }
 
 ///|
@@ -233,7 +233,7 @@ pub fn symlink(
   let fs = @node.require("node:fs/promises")
   match type_ {
     Some(t) => @js.identity(fs.call("symlink", [target, path, t]))
-    None => fs.call2("symlink", target, path) |> @js.identity
+    None => fs.call2("symlink", target, path).cast()
   }
 }
 
@@ -256,7 +256,7 @@ pub fn realpath(path : String) -> @js.Promise[String] {
 pub fn truncate(path : String, len? : Int) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   match len {
-    Some(l) => fs.call2("truncate", path, l) |> @js.identity
+    Some(l) => fs.call2("truncate", path, l).cast()
     None => @js.identity(fs.call("truncate", [path]))
   }
 }
@@ -278,7 +278,7 @@ pub fn rmdir(path : String, recursive? : Bool) -> @js.Promise[Unit] {
 pub fn access(path : String, mode? : Int) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
   match mode {
-    Some(m) => fs.call2("access", path, m) |> @js.identity
+    Some(m) => fs.call2("access", path, m).cast()
     None => @js.identity(fs.call("access", [path]))
   }
 }
@@ -300,7 +300,7 @@ pub fn appendFile(
           @js.from_entries_option_cast([("encoding", Some(enc))]),
         ]),
       )
-    None => fs.call2("appendFile", path, data) |> @js.identity
+    None => fs.call2("appendFile", path, data).cast()
   }
 }
 
@@ -308,7 +308,7 @@ pub fn appendFile(
 /// Copy file
 pub fn copyFile(src : String, dest : String) -> @js.Promise[Unit] {
   let fs = @node.require("node:fs/promises")
-  fs.call2("copyFile", src, dest) |> @js.identity
+  fs.call2("copyFile", src, dest).cast()
 }
 
 ///|

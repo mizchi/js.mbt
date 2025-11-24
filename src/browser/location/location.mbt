@@ -46,5 +46,5 @@ pub fn Location::reload(self : Self) -> Unit {
 /// Returns the URL as a string
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/toString
 pub fn Location::to_string(self : Self) -> String {
-  self.to_js().call0("toString") |> @js.identity
+  self.to_js().call0("toString").cast()
 }

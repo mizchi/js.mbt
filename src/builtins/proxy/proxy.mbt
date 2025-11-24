@@ -97,7 +97,7 @@ pub fn Proxy::new(
     let js_fn : @js.Js = @js.identity(trap)
     handler.set("defineProperty", js_fn)
   }
-  @js.new_(proxy_class(), [target.to_js(), handler.to_js()]) |> @js.identity
+  @js.new_(proxy_class(), [target.to_js(), handler.to_js()]).cast()
 }
 
 ///|

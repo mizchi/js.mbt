@@ -98,13 +98,13 @@ pub fn Object::entries(v : &JsImpl) -> Array[(String, Js)] {
 ///|
 /// JS: Object.assign(target, source)
 pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Js {
-  object_class().call2("assign", target.to_js(), source.to_js()) |> identity
+  object_class().call2("assign", target.to_js(), source.to_js())
 }
 
 ///|
 /// JS: Object.create(v)
 pub fn Object::create(v : &JsImpl) -> Js {
-  object_class().call1("create", v) |> identity
+  object_class().call1("create", v)
 }
 
 ///|
@@ -118,14 +118,14 @@ pub fn Object::is_(a : &JsImpl, b : &JsImpl) -> Bool {
 /// JS: Object.freeze(obj)
 /// Freezes an object, preventing new properties from being added and existing properties from being removed or changed
 pub fn Object::freeze(obj : &JsImpl) -> Js {
-  object_class().call1("freeze", obj) |> identity
+  object_class().call1("freeze", obj)
 }
 
 ///|
 /// JS: Object.seal(obj)
 /// Seals an object, preventing new properties from being added and marking all existing properties as non-configurable
 pub fn Object::seal(obj : &JsImpl) -> Js {
-  object_class().call1("seal", obj) |> identity
+  object_class().call1("seal", obj)
 }
 
 ///|

@@ -32,21 +32,20 @@ pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
   ffi_new_blob(
     arr.to_js(),
     @js.from_entries_option_cast([("type", content_type)]),
-  )
-  |> @js.identity
+  ).cast()
 }
 
 ///|
 /// Get the Blob contents as ArrayBuffer
 #alias(arrayBuffer)
 pub fn Blob::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.to_js().call0("arrayBuffer") |> @js.identity
+  self.to_js().call0("arrayBuffer").cast()
 }
 
 ///|
 /// Get the Blob contents as text
 pub fn Blob::text(self : Self) -> @js.Promise[String] {
-  self.to_js().call0("text") |> @js.identity
+  self.to_js().call0("text").cast()
 }
 
 ///|
@@ -59,14 +58,14 @@ pub fn Blob::slice(
 ) -> Blob {
   let js = self.to_js()
   match (start, end, content_type) {
-    (None, None, None) => js.call0("slice") |> @js.identity
+    (None, None, None) => js.call0("slice").cast()
     (Some(s), None, None) => js.call("slice", [s]).cast()
-    (Some(s), Some(e), None) => js.call2("slice", s, e) |> @js.identity
+    (Some(s), Some(e), None) => js.call2("slice", s, e).cast()
     (Some(s), Some(e), Some(ct)) => js.call("slice", [s, e, ct]).cast()
     (None, Some(e), ct) =>
       match ct {
         Some(t) => js.call("slice", [0, e, t]).cast()
-        None => js.call2("slice", 0, e) |> @js.identity
+        None => js.call2("slice", 0, e).cast()
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size
@@ -82,5 +81,5 @@ pub fn Blob::slice(
 ///|
 /// Get a ReadableStream for the Blob contents
 pub fn Blob::stream(self : Self) -> @streams.ReadableStream {
-  self.to_js().call0("stream") |> @js.identity
+  self.to_js().call0("stream").cast()
 }

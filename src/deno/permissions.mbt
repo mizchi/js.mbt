@@ -35,10 +35,11 @@ pub fn Deno::permissions_query(
   path? : String,
 ) -> @js.Promise[PermissionStatus] {
   let perms = self.permissions()
-  perms.call("query", [
+  perms
+  .call("query", [
     @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
   ])
-  |> @js.identity
+  .cast()
 }
 
 ///|
@@ -49,10 +50,11 @@ pub fn Deno::permissions_request(
   path? : String,
 ) -> @js.Promise[PermissionStatus] {
   let perms = self.permissions()
-  perms.call("request", [
+  perms
+  .call("request", [
     @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
   ])
-  |> @js.identity
+  .cast()
 }
 
 ///|
@@ -63,8 +65,9 @@ pub fn Deno::permissions_revoke(
   path? : String,
 ) -> @js.Promise[PermissionStatus] {
   let perms = self.permissions()
-  perms.call("revoke", [
+  perms
+  .call("revoke", [
     @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
   ])
-  |> @js.identity
+  .cast()
 }

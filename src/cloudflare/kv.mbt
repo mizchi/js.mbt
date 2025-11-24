@@ -27,14 +27,14 @@ pub fn KVNamespace::get_array_buffer(
   key : String,
 ) -> @js.Promise[@js.Js?] {
   let opts_js = @js.from_entries([("type", "arrayBuffer")])
-  self.call2("get", key, opts_js) |> @js.identity
+  self.call2("get", key, opts_js).cast()
 }
 
 ///|
 /// Get a value as JSON
 pub fn KVNamespace::get_json(self : Self, key : String) -> @js.Promise[@js.Js?] {
   let opts_js = @js.from_entries([("type", "json")])
-  self.call2("get", key, opts_js) |> @js.identity
+  self.call2("get", key, opts_js).cast()
 }
 
 ///|
@@ -44,7 +44,7 @@ pub fn KVNamespace::get_stream(
   key : String,
 ) -> @js.Promise[@js.Js?] {
   let opts_js = @js.from_entries([("type", "stream")])
-  self.call2("get", key, opts_js) |> @js.identity
+  self.call2("get", key, opts_js).cast()
 }
 
 ///|
@@ -57,9 +57,9 @@ pub fn KVNamespace::get_with_metadata(
   match options {
     None => {
       let opts_js = @js.from_entries([("type", "text")])
-      self.call2("getWithMetadata", key, opts_js) |> @js.identity
+      self.call2("getWithMetadata", key, opts_js).cast()
     }
-    Some(opts) => self.call2("getWithMetadata", key, opts) |> @js.identity
+    Some(opts) => self.call2("getWithMetadata", key, opts).cast()
   }
 }
 
@@ -72,7 +72,7 @@ pub fn KVNamespace::put(
   options : KVPutOptions?,
 ) -> @js.Promise[Unit] {
   match options {
-    None => self.call2("put", key, value) |> @js.identity
+    None => self.call2("put", key, value).cast()
     Some(opts) => self.call("put", [key, value, opts]).cast()
   }
 }
@@ -102,7 +102,7 @@ pub fn KVNamespace::list(
   options : KVListOptions?,
 ) -> @js.Promise[KVListResult] {
   match options {
-    None => self.call0("list") |> @js.identity
+    None => self.call0("list").cast()
     Some(opts) => self.call("list", [opts.to_js()]).cast()
   }
 }

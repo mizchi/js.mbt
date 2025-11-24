@@ -56,9 +56,9 @@ pub fn HTMLCanvasElement::toDataURL(
   quality? : Double,
 ) -> String {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.call2("toDataURL", t, q) |> @js.identity
+    (Some(t), Some(q)) => self.call2("toDataURL", t, q).cast()
     (Some(t), None) => self.call("toDataURL", [t]).cast()
-    (None, _) => self.call0("toDataURL") |> @js.identity
+    (None, _) => self.call0("toDataURL").cast()
   }
 }
 
@@ -69,9 +69,9 @@ pub fn HTMLCanvasElement::toBlob(
   quality? : Double,
 ) -> @js.Promise[@blob.Blob] {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.call2("toBlob", t, q) |> @js.identity
+    (Some(t), Some(q)) => self.call2("toBlob", t, q).cast()
     (Some(t), None) => self.call("toBlob", [t]).cast()
-    (None, _) => self.call0("toBlob") |> @js.identity
+    (None, _) => self.call0("toBlob").cast()
   }
 }
 
@@ -289,14 +289,14 @@ pub impl HTMLElementImpl for HTMLIFrameElement
 /// Returns the content window
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
 pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
-  self.get("contentWindow") |> @js.identity_option()
+  self.get("contentWindow").cast() |> @js.identity_option
 }
 
 ///|
 /// Returns the content document
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
 pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
-  self.get("contentDocument") |> @js.identity_option()
+  self.get("contentDocument").cast() |> @js.identity_option
 }
 
 ///|

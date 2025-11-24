@@ -21,7 +21,7 @@ extern "js" fn ffi_hc(base_url : String) -> @js.Js =
 ///|
 /// Create a Hono RPC client
 pub fn hc(base_url : String) -> HonoClient {
-  ffi_hc(base_url) |> @js.identity
+  ffi_hc(base_url).cast()
 }
 
 ///|
@@ -67,13 +67,13 @@ pub fn ClientResponse::status(self : ClientResponse) -> Int {
 ///|
 /// Parse response as JSON
 pub fn ClientResponse::json(self : ClientResponse) -> @js.Promise[@js.Js] {
-  self.call0("json") |> @js.identity
+  self.call0("json").cast()
 }
 
 ///|
 /// Parse response as text
 pub fn ClientResponse::text(self : ClientResponse) -> @js.Promise[String] {
-  self.call0("text") |> @js.identity
+  self.call0("text").cast()
 }
 
 ///|
@@ -82,13 +82,13 @@ pub fn ClientResponse::text(self : ClientResponse) -> @js.Promise[String] {
 pub fn ClientResponse::arrayBuffer(
   self : ClientResponse,
 ) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer") |> @js.identity
+  self.call0("arrayBuffer").cast()
 }
 
 ///|
 /// Parse response as blob
 pub fn ClientResponse::blob(self : ClientResponse) -> @js.Promise[@js.Js] {
-  self.call0("blob") |> @js.identity
+  self.call0("blob").cast()
 }
 
 ///|
@@ -145,9 +145,9 @@ pub fn ClientEndpoint::get_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_get(@js.identity(self), opts) |> @js.identity
+    ffi_call_dollar_get(@js.identity(self), opts).cast()
   } else {
-    ffi_call_dollar_get(@js.identity(self), @js.undefined()) |> @js.identity
+    ffi_call_dollar_get(@js.identity(self), @js.undefined()).cast()
   }
 }
 
@@ -191,9 +191,9 @@ pub fn ClientEndpoint::post_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_post(@js.identity(self), opts) |> @js.identity
+    ffi_call_dollar_post(@js.identity(self), opts).cast()
   } else {
-    ffi_call_dollar_post(@js.identity(self), @js.undefined()) |> @js.identity
+    ffi_call_dollar_post(@js.identity(self), @js.undefined()).cast()
   }
 }
 
@@ -237,9 +237,9 @@ pub fn ClientEndpoint::put_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_put(@js.identity(self), opts) |> @js.identity
+    ffi_call_dollar_put(@js.identity(self), opts).cast()
   } else {
-    ffi_call_dollar_put(@js.identity(self), @js.undefined()) |> @js.identity
+    ffi_call_dollar_put(@js.identity(self), @js.undefined()).cast()
   }
 }
 
@@ -283,9 +283,9 @@ pub fn ClientEndpoint::delete_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_delete(@js.identity(self), opts) |> @js.identity
+    ffi_call_dollar_delete(@js.identity(self), opts).cast()
   } else {
-    ffi_call_dollar_delete(@js.identity(self), @js.undefined()) |> @js.identity
+    ffi_call_dollar_delete(@js.identity(self), @js.undefined()).cast()
   }
 }
 
@@ -329,9 +329,9 @@ pub fn ClientEndpoint::patch_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_patch(@js.identity(self), opts) |> @js.identity
+    ffi_call_dollar_patch(@js.identity(self), opts).cast()
   } else {
-    ffi_call_dollar_patch(@js.identity(self), @js.undefined()) |> @js.identity
+    ffi_call_dollar_patch(@js.identity(self), @js.undefined()).cast()
   }
 }
 
@@ -375,9 +375,9 @@ pub fn ClientEndpoint::url_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_url(@js.identity(self), opts) |> @js.identity
+    ffi_call_dollar_url(@js.identity(self), opts).cast()
   } else {
-    ffi_call_dollar_url(@js.identity(self), @js.undefined()) |> @js.identity
+    ffi_call_dollar_url(@js.identity(self), @js.undefined()).cast()
   }
 }
 

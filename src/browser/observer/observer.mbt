@@ -18,7 +18,7 @@ pub fn MutationObserver::new(
   callback : (@js.Js?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @js.global_this().get("MutationObserver")
-  @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.identity
+  @js.new_(ctor, [callback |> @js.from_fn2]).cast()
 }
 
 ///|
@@ -87,9 +87,8 @@ pub fn IntersectionObserver::new(
 ) -> IntersectionObserver {
   let ctor = @js.global_this().get("IntersectionObserver")
   match options {
-    Some(opts) =>
-      @js.new_(ctor, [callback |> @js.from_fn2, opts]) |> @js.identity
-    None => @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.identity
+    Some(opts) => @js.new_(ctor, [callback |> @js.from_fn2, opts]).cast()
+    None => @js.new_(ctor, [callback |> @js.from_fn2]).cast()
   }
 }
 
@@ -159,7 +158,7 @@ pub fn ResizeObserver::new(
   callback : (@js.Js?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @js.global_this().get("ResizeObserver")
-  @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.identity
+  @js.new_(ctor, [callback |> @js.from_fn2]).cast()
 }
 
 ///|

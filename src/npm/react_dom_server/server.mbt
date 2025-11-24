@@ -11,6 +11,5 @@ pub fn renderToReadableStream(
   element : @react.Element,
 ) -> @js.Promise[@streams.ReadableStream] {
   let react_dom_server = @node.require("react-dom/server")
-  react_dom_server.get("renderToReadableStream").call_self([element])
-  |> @js.identity
+  react_dom_server.get("renderToReadableStream").call_self([element]).cast()
 }

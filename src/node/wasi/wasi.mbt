@@ -12,7 +12,7 @@ pub impl @js.JsImpl for WasiModule
 ///|
 /// Get wasi module
 fn wasi_module() -> WasiModule {
-  @node.require("node:wasi") |> @js.identity
+  @node.require("node:wasi").cast()
 }
 
 ///| WASI Options
@@ -86,7 +86,7 @@ pub fn WASI::new(options : WasiOptions) -> WASI {
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.get("WASI")
   let instance = ffi_new_wasi(wasi_class, options.to_js())
-  instance |> @js.identity
+  instance.cast()
 }
 
 ///|

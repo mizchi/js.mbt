@@ -13,7 +13,7 @@ pub fn DurableObjectNamespace::get(
   self : Self,
   id : DurableObjectId,
 ) -> DurableObjectStub {
-  self.call1("get", id) |> @js.identity
+  self.call1("get", id).cast()
 }
 
 ///|
@@ -22,7 +22,7 @@ pub fn DurableObjectNamespace::get_by_id_string(
   self : Self,
   id : String,
 ) -> DurableObjectStub {
-  self.call1("get", id) |> @js.identity
+  self.call1("get", id).cast()
 }
 
 ///|
@@ -37,7 +37,7 @@ pub fn DurableObjectNamespace::get_by_name(
 ///|
 /// Create a new unique ID
 pub fn DurableObjectNamespace::new_unique_id(self : Self) -> DurableObjectId {
-  self.call0("newUniqueId") |> @js.identity
+  self.call0("newUniqueId").cast()
 }
 
 ///|
@@ -89,7 +89,7 @@ pub impl @js.JsImpl for DurableObjectId
 ///|
 /// Convert ID to string
 pub fn DurableObjectId::to_string(self : Self) -> String {
-  self.call0("toString") |> @js.identity
+  self.call0("toString").cast()
 }
 
 ///|
@@ -140,7 +140,7 @@ pub fn DurableObjectStub::fetch_with_init(
   request : @js.Js,
   init : @js.Js,
 ) -> @js.Promise[@js.Js] {
-  self.call2("fetch", request, init) |> @js.identity
+  self.call2("fetch", request, init).cast()
 }
 
 ///|
@@ -159,7 +159,7 @@ pub fn DurableObjectStub::fetch_url_with_init(
   url : String,
   init : @js.Js,
 ) -> @js.Promise[@js.Js] {
-  self.call2("fetch", url, init) |> @js.identity
+  self.call2("fetch", url, init).cast()
 }
 
 ///|
@@ -221,7 +221,7 @@ pub fn DurableObjectStorage::get_with_options(
   key : String,
   options : DurableObjectGetOptions,
 ) -> @js.Promise[@js.Js?] {
-  self.call2("get", key, options) |> @js.identity
+  self.call2("get", key, options).cast()
 }
 
 ///|
@@ -252,7 +252,7 @@ pub fn DurableObjectStorage::get_multiple_with_options(
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call2("get", keys_js, options.to_js()) |> @js.identity
+  self.call2("get", keys_js, options.to_js()).cast()
 }
 
 ///|
@@ -262,7 +262,7 @@ pub fn DurableObjectStorage::put(
   key : String,
   value : @js.Js,
 ) -> @js.Promise[Unit] {
-  self.call2("put", key, value) |> @js.identity
+  self.call2("put", key, value).cast()
 }
 
 ///|
@@ -292,7 +292,7 @@ pub fn DurableObjectStorage::put_multiple_with_options(
   entries : @js.Js,
   options : DurableObjectPutOptions,
 ) -> @js.Promise[Unit] {
-  self.call2("put", entries, options.to_js()) |> @js.identity
+  self.call2("put", entries, options.to_js()).cast()
 }
 
 ///|
@@ -311,7 +311,7 @@ pub fn DurableObjectStorage::delete_with_options(
   key : String,
   options : DurableObjectPutOptions,
 ) -> @js.Promise[Bool] {
-  self.call2("delete", key, options) |> @js.identity
+  self.call2("delete", key, options).cast()
 }
 
 ///|
@@ -342,13 +342,13 @@ pub fn DurableObjectStorage::delete_multiple_with_options(
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call2("delete", keys_js, options.to_js()) |> @js.identity
+  self.call2("delete", keys_js, options.to_js()).cast()
 }
 
 ///|
 /// Delete all keys in storage
 pub fn DurableObjectStorage::delete_all(self : Self) -> @js.Promise[Unit] {
-  self.call0("deleteAll") |> @js.identity
+  self.call0("deleteAll").cast()
 }
 
 ///|
@@ -363,7 +363,7 @@ pub fn DurableObjectStorage::delete_all_with_options(
 ///|
 /// List keys in storage
 pub fn DurableObjectStorage::list(self : Self) -> @js.Promise[@js.Js] {
-  self.call0("list") |> @js.identity
+  self.call0("list").cast()
 }
 
 ///|
@@ -387,7 +387,7 @@ pub fn DurableObjectStorage::transaction(
 ///|
 /// Get current alarm time
 pub fn DurableObjectStorage::get_alarm(self : Self) -> @js.Promise[Int?] {
-  self.call0("getAlarm") |> @js.identity
+  self.call0("getAlarm").cast()
 }
 
 ///|
@@ -415,13 +415,13 @@ pub fn DurableObjectStorage::set_alarm_with_options(
   scheduled_time : Int,
   options : DurableObjectSetAlarmOptions,
 ) -> @js.Promise[Unit] {
-  self.call2("setAlarm", scheduled_time, options) |> @js.identity
+  self.call2("setAlarm", scheduled_time, options).cast()
 }
 
 ///|
 /// Delete the alarm
 pub fn DurableObjectStorage::delete_alarm(self : Self) -> @js.Promise[Unit] {
-  self.call0("deleteAlarm") |> @js.identity
+  self.call0("deleteAlarm").cast()
 }
 
 ///|
@@ -436,7 +436,7 @@ pub fn DurableObjectStorage::delete_alarm_with_options(
 ///|
 /// Sync storage to disk
 pub fn DurableObjectStorage::sync(self : Self) -> @js.Promise[Unit] {
-  self.call0("sync") |> @js.identity
+  self.call0("sync").cast()
 }
 
 ///|
@@ -563,7 +563,7 @@ pub fn DurableObjectTransaction::put(
   key : String,
   value : @js.Js,
 ) -> @js.Promise[Unit] {
-  self.call2("put", key, value) |> @js.identity
+  self.call2("put", key, value).cast()
 }
 
 ///|
@@ -602,13 +602,13 @@ pub fn DurableObjectTransaction::delete_multiple(
 ///|
 /// Delete all keys in transaction
 pub fn DurableObjectTransaction::delete_all(self : Self) -> @js.Promise[Unit] {
-  self.call0("deleteAll") |> @js.identity
+  self.call0("deleteAll").cast()
 }
 
 ///|
 /// List keys in transaction
 pub fn DurableObjectTransaction::list(self : Self) -> @js.Promise[@js.Js] {
-  self.call0("list") |> @js.identity
+  self.call0("list").cast()
 }
 
 ///|
@@ -623,13 +623,13 @@ pub fn DurableObjectTransaction::list_with_options(
 ///|
 /// Rollback the transaction
 pub fn DurableObjectTransaction::rollback(self : Self) -> Unit {
-  self.call0("rollback") |> @js.identity
+  self.call0("rollback").cast()
 }
 
 ///|
 /// Get alarm in transaction
 pub fn DurableObjectTransaction::get_alarm(self : Self) -> @js.Promise[Int?] {
-  self.call0("getAlarm") |> @js.identity
+  self.call0("getAlarm").cast()
 }
 
 ///|
@@ -644,5 +644,5 @@ pub fn DurableObjectTransaction::set_alarm(
 ///|
 /// Delete alarm in transaction
 pub fn DurableObjectTransaction::delete_alarm(self : Self) -> @js.Promise[Unit] {
-  self.call0("deleteAlarm") |> @js.identity
+  self.call0("deleteAlarm").cast()
 }

@@ -58,11 +58,11 @@ pub fn OffscreenCanvas::convertToBlob(
 ) -> @js.Promise[@blob.Blob] {
   match options {
     Some(opts) => self.call("convertToBlob", [opts]).cast()
-    None => self.call0("convertToBlob") |> @js.identity
+    None => self.call0("convertToBlob").cast()
   }
 }
 
 ///|
 pub fn OffscreenCanvas::transferToImageBitmap(self : Self) -> ImageBitmap {
-  self.call0("transferToImageBitmap") |> @js.identity
+  self.call0("transferToImageBitmap").cast()
 }

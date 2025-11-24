@@ -19,7 +19,7 @@ pub extern "js" fn deno() -> Deno =
 ///|
 /// Get environment variable
 pub fn Deno::env_get(self : Deno, key : String) -> String? {
-  self.get("env").call("get", [@js.js(key)]) |> @js.identity_option
+  self.get("env").call("get", [@js.js(key)]).cast() |> @js.identity_option
 }
 
 ///|
@@ -148,11 +148,12 @@ pub fn Deno::remove(
 ) -> @js.Promise[Unit] {
   match recursive {
     Some(r) =>
-      self.call("remove", [
+      self
+      .call("remove", [
         @js.js(path),
         @js.from_entries_option_cast([("recursive", Some(r))]),
       ])
-      |> @js.identity
+      .cast()
     None => self.call("remove", [@js.js(path)]).cast()
   }
 }
@@ -166,11 +167,12 @@ pub fn Deno::mkdir(
 ) -> @js.Promise[Unit] {
   match recursive {
     Some(r) =>
-      self.call("mkdir", [
+      self
+      .call("mkdir", [
         @js.js(path),
         @js.from_entries_option_cast([("recursive", Some(r))]),
       ])
-      |> @js.identity
+      .cast()
     None => self.call("mkdir", [@js.js(path)]).cast()
   }
 }
@@ -256,10 +258,9 @@ pub fn Deno::truncate(
 pub fn Deno::makeTempDir(self : Deno, prefix? : String) -> @js.Promise[String] {
   match prefix {
     Some(p) =>
-      self.call("makeTempDir", [
-        @js.from_entries_option_cast([("prefix", Some(p))]),
-      ])
-      |> @js.identity
+      self
+      .call("makeTempDir", [@js.from_entries_option_cast([("prefix", Some(p))])])
+      .cast()
     None => self.call("makeTempDir", []).cast()
   }
 }
@@ -269,10 +270,11 @@ pub fn Deno::makeTempDir(self : Deno, prefix? : String) -> @js.Promise[String] {
 pub fn Deno::makeTempFile(self : Deno, prefix? : String) -> @js.Promise[String] {
   match prefix {
     Some(p) =>
-      self.call("makeTempFile", [
+      self
+      .call("makeTempFile", [
         @js.from_entries_option_cast([("prefix", Some(p))]),
       ])
-      |> @js.identity
+      .cast()
     None => self.call("makeTempFile", []).cast()
   }
 }
@@ -318,13 +320,13 @@ pub fn Deno::systemMemoryInfo(self : Deno) -> @js.Js {
 ///|
 /// Get user ID (Unix only)
 pub fn Deno::uid(self : Deno) -> Int? {
-  self.call("uid", []) |> @js.identity_option
+  self.call("uid", []).cast() |> @js.identity_option
 }
 
 ///|
 /// Get group ID (Unix only)
 pub fn Deno::gid(self : Deno) -> Int? {
-  self.call("gid", []) |> @js.identity_option
+  self.call("gid", []).cast() |> @js.identity_option
 }
 
 ///| Network APIs
@@ -336,10 +338,9 @@ pub fn Deno::connect(
   hostname : String,
   port : Int,
 ) -> @js.Promise[@js.Js] {
-  self.call("connect", [
-    @js.from_entries([("hostname", hostname), ("port", port)]),
-  ])
-  |> @js.identity
+  self
+  .call("connect", [@js.from_entries([("hostname", hostname), ("port", port)])])
+  .cast()
 }
 
 ///|
@@ -376,8 +377,10 @@ pub fn Deno::request_permission(
   self : Self,
   name : String,
 ) -> @js.Promise[@js.Js] {
-  self.get("permissions").call1("request", @js.from_entries([("name", name)]))
-  |> @js.identity
+  self
+  .get("permissions")
+  .call1("request", @js.from_entries([("name", name)]))
+  .cast()
 }
 
 ///|
@@ -386,8 +389,10 @@ pub fn Deno::query_permission(
   self : Deno,
   name : String,
 ) -> @js.Promise[@js.Js] {
-  self.get("permissions").call1("query", @js.from_entries([("name", name)]))
-  |> @js.identity
+  self
+  .get("permissions")
+  .call1("query", @js.from_entries([("name", name)]))
+  .cast()
 }
 
 ///|
@@ -396,8 +401,10 @@ pub fn Deno::revoke_permission(
   self : Deno,
   name : String,
 ) -> @js.Promise[@js.Js] {
-  self.get("permissions").call1("revoke", @js.from_entries([("name", name)]))
-  |> @js.identity
+  self
+  .get("permissions")
+  .call1("revoke", @js.from_entries([("name", name)]))
+  .cast()
 }
 
 ///| Time and Performance APIs
@@ -425,7 +432,8 @@ pub fn Deno::open(
   write? : Bool,
   read? : Bool,
 ) -> @js.Promise[FsFile] {
-  self.call("open", [
+  self
+  .call("open", [
     @js.js(path),
     @js.from_entries_option_cast([
       ("create", create),
@@ -433,7 +441,7 @@ pub fn Deno::open(
       ("read", read),
     ]),
   ])
-  |> @js.identity
+  .cast()
 }
 
 ///|

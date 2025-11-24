@@ -260,10 +260,9 @@ test "fireEvent submit on form" {
   |> ignore
   @react_testing_library.screen().getByText("Not submitted") |> ignore
   let form_el = get_property(
-      @react_testing_library.screen().getByText("Submit"),
-      "form",
-    )
-    |> @js.identity
+    @react_testing_library.screen().getByText("Submit"),
+    "form",
+  ).cast()
   @react_testing_library.fireEvent().submit(form_el)
   text_content(@react_testing_library.screen().getByText("Form submitted"))
   |> assert_eq("Form submitted")

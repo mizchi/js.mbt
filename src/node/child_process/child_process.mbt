@@ -38,7 +38,7 @@ pub fn ChildProcess::on_stderr_data(
 pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
   match signal {
     Some(sig) => self.call("kill", [sig]).cast()
-    None => self.call0("kill") |> @js.identity
+    None => self.call0("kill").cast()
   }
 }
 
@@ -92,10 +92,8 @@ pub fn spawn(
     ("signal", signal.map(x => x.to_js())),
   ])
   match args {
-    Some(a) =>
-      cp.call("spawn", [command |> @js.js, a |> @js.from_array, options])
-      |> @js.identity
-    None => cp.call2("spawn", command |> @js.js, options) |> @js.identity
+    Some(a) => cp.call("spawn", [command, a |> @js.from_array, options]).cast()
+    None => cp.call2("spawn", command, options).cast()
   }
 }
 
@@ -121,8 +119,7 @@ pub fn exec(
     ("maxBuffer", max_buffer.map(x => x)),
     ("signal", signal.map(x => x.to_js())),
   ])
-  cp.call("exec", [command |> @js.js, options, @js.identity(callback)])
-  |> @js.identity
+  cp.call("exec", [command |> @js.js, options, @js.identity(callback)]).cast()
 }
 
 ///|
@@ -147,13 +144,14 @@ pub fn execFile(
     ("maxBuffer", max_buffer.map(x => x)),
     ("signal", signal.map(x => x.to_js())),
   ])
-  cp.call("execFile", [
+  cp
+  .call("execFile", [
     file,
     args |> @js.from_array,
     options,
     @js.identity(callback),
   ])
-  |> @js.identity
+  .cast()
 }
 
 ///|
@@ -178,9 +176,10 @@ pub fn fork(
   ])
   match args {
     Some(a) =>
-      cp.call("fork", [module_path |> @js.js, a |> @js.from_array, options])
-      |> @js.identity
-    None => cp.call2("fork", module_path |> @js.js, options) |> @js.identity
+      cp
+      .call("fork", [module_path |> @js.js, a |> @js.from_array, options])
+      .cast()
+    None => cp.call2("fork", module_path |> @js.js, options).cast()
   }
 }
 
@@ -226,9 +225,8 @@ pub fn spawnSync(
     ])
     match args {
       Some(a) =>
-        cp.call("spawnSync", [command, a |> @js.from_array, options])
-        |> @js.identity
-      None => cp.call2("spawnSync", command |> @js.js, options) |> @js.identity
+        cp.call("spawnSync", [command, a |> @js.from_array, options]).cast()
+      None => cp.call2("spawnSync", command |> @js.js, options).cast()
     }
   })
 }
@@ -260,7 +258,7 @@ pub fn execSync(
       ("encoding", Some(encoding.unwrap_or("utf8"))),
       ("stdio", stdio.map(x => x)),
     ])
-    cp.call2("execSync", command |> @js.js, options) |> @js.identity
+    cp.call2("execSync", command |> @js.js, options).cast()
   })
 }
 
@@ -290,9 +288,8 @@ pub fn execFileSync(
     ])
     match args {
       Some(a) =>
-        cp.call("execFileSync", [file, a |> @js.from_array, options])
-        |> @js.identity
-      None => cp.call2("execFileSync", file, options) |> @js.identity
+        cp.call("execFileSync", [file, a |> @js.from_array, options]).cast()
+      None => cp.call2("execFileSync", file, options).cast()
     }
   })
 }

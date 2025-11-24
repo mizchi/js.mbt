@@ -464,7 +464,7 @@ pub fn textarea(
   on_drop? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   if rows is Some(r) {
@@ -543,7 +543,7 @@ pub fn input(
   on_drop? : @react.DragEventHandler[@dom.HTMLInputElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   if name is Some(n) {
@@ -1076,7 +1076,7 @@ pub fn form(
   on_drop? : @react.DragEventHandler[@dom.HTMLFormElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   if disabled is Some(d) {
@@ -1157,7 +1157,7 @@ pub fn select(
   on_drop? : @react.DragEventHandler[@dom.HTMLSelectElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   if multiple is Some(m) {
@@ -1226,7 +1226,7 @@ pub fn option(
   on_drop? : @react.DragEventHandler[@dom.HTMLOptionElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   custom_props.set("value", value)
@@ -1289,7 +1289,7 @@ pub fn label(
   on_drop? : @react.DragEventHandler[@dom.HTMLLabelElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   custom_props.set("htmlFor", htmlFor)
@@ -1582,7 +1582,7 @@ pub fn a(
   on_drop? : @react.DragEventHandler[@dom.HTMLAnchorElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   custom_props.set("href", href)
@@ -1655,7 +1655,7 @@ pub fn iframe(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   custom_props.set("src", src)
@@ -1745,7 +1745,7 @@ pub fn img(
   on_drop? : @react.DragEventHandler[@dom.HTMLImageElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   custom_props.set("src", src)
@@ -1835,7 +1835,7 @@ pub fn video(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   if controls is Some(c) {
@@ -1899,7 +1899,7 @@ pub fn source(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   custom_props.set("src", src |> @js.unsafe_js)
@@ -2300,7 +2300,7 @@ pub fn button(
   on_drop? : @react.DragEventHandler[@dom.HTMLButtonElement],
 ) -> @react.Element {
   let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p) |> @js.identity
+    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
   if type_ is Some(t) {

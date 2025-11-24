@@ -47,17 +47,17 @@ pub fn Readable::read(self : Readable, size? : Int) -> @js.Js {
 
 ///|
 pub fn Readable::pause(self : Readable) -> Readable {
-  self.call0("pause") |> @js.identity
+  self.call0("pause").cast()
 }
 
 ///|
 pub fn Readable::resume_(self : Readable) -> Readable {
-  self.call0("resume") |> @js.identity
+  self.call0("resume").cast()
 }
 
 ///|
 pub fn Readable::isPaused(self : Readable) -> Bool {
-  self.call0("isPaused") |> @js.identity
+  self.call0("isPaused").cast()
 }
 
 ///|

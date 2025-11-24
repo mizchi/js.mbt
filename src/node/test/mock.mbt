@@ -143,7 +143,7 @@ pub fn MockFunctionContext::calls(self : MockFunctionContext) -> Array[@js.Js] {
 ///|
 /// Get the call count
 pub fn MockFunctionContext::callCount(self : MockFunctionContext) -> Int {
-  self.call0("callCount") |> @js.identity
+  self.call0("callCount").cast()
 }
 
 ///|

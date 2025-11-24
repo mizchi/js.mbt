@@ -56,7 +56,7 @@ pub fn PerformanceObserver::disconnect(self : PerformanceObserver) -> Unit {
 pub fn PerformanceObserver::takeRecords(
   self : PerformanceObserver,
 ) -> Array[PerformanceEntry] {
-  self.call0("takeRecords") |> @js.identity
+  self.call0("takeRecords").cast()
 }
 
 ///|
@@ -65,7 +65,7 @@ pub fn PerformanceObserver::takeRecords(
 pub fn PerformanceObserverEntryList::getEntries(
   self : PerformanceObserverEntryList,
 ) -> Array[PerformanceEntry] {
-  self.call0("getEntries") |> @js.identity
+  self.call0("getEntries").cast()
 }
 
 ///|

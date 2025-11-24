@@ -29,30 +29,30 @@ pub fn Request::method_(self : Request) -> String {
 
 ///|
 pub fn Request::clone(self : Request) -> Request {
-  self.call0("clone") |> @js.identity
+  self.call0("clone").cast()
 }
 
 ///|
 pub fn Request::json(self : Request) -> @js.Promise[@js.Js] {
-  self.call0("json") |> @js.identity
+  self.call0("json").cast()
 }
 
 ///|
 pub fn Request::text(self : Request) -> @js.Promise[String] {
-  self.call0("text") |> @js.identity
+  self.call0("text").cast()
 }
 
 ///|
 pub fn Request::arraybuffer(self : Request) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer") |> @js.identity
+  self.call0("arrayBuffer").cast()
 }
 
 ///|
 pub fn Request::blob(self : Request) -> @js.Promise[@blob.Blob] {
-  self.call0("blob") |> @js.identity
+  self.call0("blob").cast()
 }
 
 ///|
 pub fn Request::bytes(self : Request) -> @js.Promise[@typedarray.Uint8Array] {
-  self.call0("bytes") |> @js.identity
+  self.call0("bytes").cast()
 }

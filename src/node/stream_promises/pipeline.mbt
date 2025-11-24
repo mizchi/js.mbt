@@ -14,10 +14,10 @@ extern "js" fn ffi_stream_promises_finished(stream : @js.Js) -> @js.Js =
 
 ///|
 pub fn pipeline(streams : Array[@js.Js]) -> @js.Promise[@stream.Stream] {
-  ffi_stream_promises_pipeline(@js.identity(streams)) |> @js.identity
+  ffi_stream_promises_pipeline(@js.identity(streams)).cast()
 }
 
 ///|
 pub fn finished(stream : @js.Js) -> @js.Promise[Unit] {
-  ffi_stream_promises_finished(stream) |> @js.identity
+  ffi_stream_promises_finished(stream).cast()
 }

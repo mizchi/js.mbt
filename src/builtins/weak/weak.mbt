@@ -13,7 +13,7 @@ extern "js" fn ffi_new_weakmap() -> @js.Js =
 
 ///|
 pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::new() -> WeakMap[K, V] {
-  ffi_new_weakmap() |> @js.identity
+  ffi_new_weakmap().cast()
 }
 
 ///|
@@ -21,7 +21,7 @@ pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::delete(
   self : WeakMap[K, V],
   key : K,
 ) -> Bool {
-  self.call1("delete", key) |> @js.identity
+  self.call1("delete", key).cast()
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::has(
   self : WeakMap[K, V],
   key : K,
 ) -> Bool {
-  self.call1("has", key) |> @js.identity
+  self.call1("has", key).cast()
 }
 
 ///|
@@ -51,7 +51,7 @@ pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::set(
   key : K,
   value : V,
 ) -> WeakMap[K, V] {
-  self.call2("set", key, value) |> @js.identity
+  self.call2("set", key, value).cast()
 }
 
 ///|
@@ -67,22 +67,22 @@ extern "js" fn ffi_new_weakset() -> @js.Js =
 
 ///|
 pub fn[T : @js.JsImpl] WeakSet::new() -> WeakSet[T] {
-  ffi_new_weakset() |> @js.identity
+  ffi_new_weakset().cast()
 }
 
 ///|
 pub fn[T : @js.JsImpl] WeakSet::add(self : Self[T], value : T) -> WeakSet[T] {
-  self.call1("add", value) |> @js.identity
+  self.call1("add", value).cast()
 }
 
 ///|
 pub fn[T : @js.JsImpl] WeakSet::delete(self : Self[T], value : T) -> Bool {
-  self.call1("delete", value) |> @js.identity
+  self.call1("delete", value).cast()
 }
 
 ///|
 pub fn[T : @js.JsImpl] WeakSet::has(self : Self[T], value : T) -> Bool {
-  self.call1("has", value) |> @js.identity
+  self.call1("has", value).cast()
 }
 
 ///|
@@ -99,7 +99,7 @@ extern "js" fn ffi_new_weakref(target : @js.Js) -> @js.Js =
 
 ///|
 pub fn[T : @js.JsImpl] WeakRef::new(target : T) -> WeakRef[T] {
-  ffi_new_weakref(target.to_js()) |> @js.identity
+  ffi_new_weakref(target.to_js()).cast()
 }
 
 ///|
@@ -129,8 +129,7 @@ extern "js" fn ffi_new_finalization_registry(
 pub fn[T : @js.JsImpl] FinalizationRegistry::new(
   cleanup_callback : (T) -> Unit,
 ) -> FinalizationRegistry[T] {
-  ffi_new_finalization_registry(fn(val) { cleanup_callback(val.cast()) })
-  |> @js.identity
+  ffi_new_finalization_registry(fn(val) { cleanup_callback(val.cast()) }).cast()
 }
 
 ///|
