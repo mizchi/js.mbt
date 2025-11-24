@@ -65,7 +65,7 @@ pub fn parseArgs(
   }
   ParseArgsResult::{
     values,
-    positionals: r.get("positionals") |> @js.identity,
+    positionals: r.get("positionals").cast(),
     tokens: None,
   }
 }

@@ -15,7 +15,7 @@ fn fs_module() -> @js.Js {
 pub fn read_file_sync(path : String) -> @buffer.Buffer raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call("readFileSync", [path]) |> @js.identity
+    fs.call("readFileSync", [path]).cast()
   })
 }
 
@@ -52,7 +52,7 @@ pub fn read_file_as_buffer(
 ) -> @buffer.Buffer raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call("readFileSync", [path]) |> @js.identity
+    fs.call("readFileSync", [path]).cast()
   })
 }
 
@@ -339,7 +339,7 @@ pub fn openSync(
   @js.throwable(fn() {
     let fs = fs_module()
     match mode {
-      Some(m) => fs.call("openSync", [path, flags, m]) |> @js.identity
+      Some(m) => fs.call("openSync", [path, flags, m]).cast()
       None => fs.call2("openSync", path, flags) |> @js.identity
     }
   })
@@ -369,10 +369,8 @@ pub fn readSync(
     let fs = fs_module()
     match position {
       Some(pos) =>
-        fs.call("readSync", [fd, buffer, offset, length, pos])
-        |> @js.identity
-      None =>
-        fs.call("readSync", [fd, buffer, offset, length]) |> @js.identity
+        fs.call("readSync", [fd, buffer, offset, length, pos]) |> @js.identity
+      None => fs.call("readSync", [fd, buffer, offset, length]).cast()
     }
   })
 }
@@ -391,10 +389,8 @@ pub fn writeSync(
     let fs = fs_module()
     match position {
       Some(pos) =>
-        fs.call("writeSync", [fd, buffer, offset, length, pos])
-        |> @js.identity
-      None =>
-        fs.call("writeSync", [fd, buffer, offset, length]) |> @js.identity
+        fs.call("writeSync", [fd, buffer, offset, length, pos]) |> @js.identity
+      None => fs.call("writeSync", [fd, buffer, offset, length]).cast()
     }
   })
 }

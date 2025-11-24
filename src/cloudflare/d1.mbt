@@ -10,7 +10,7 @@ pub impl @js.JsImpl for D1Database
 ///|
 /// Prepare a SQL statement
 pub fn D1Database::prepare(self : Self, query : String) -> D1PreparedStatement {
-  self.call("prepare", [query]) |> @js.identity
+  self.call("prepare", [query]).cast()
 }
 
 ///|
@@ -19,7 +19,7 @@ pub fn D1Database::exec(
   self : Self,
   query : String,
 ) -> @js.Promise[D1ExecResult] {
-  self.call("exec", [query]) |> @js.identity
+  self.call("exec", [query]).cast()
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn D1Database::batch(
     stmts_js.call("push", [statements[i]]) |> ignore
     i = i + 1
   }
-  self.call("batch", [stmts_js]) |> @js.identity
+  self.call("batch", [stmts_js]).cast()
 }
 
 ///|

@@ -48,13 +48,13 @@ impl EventEmitterImpl with eventNames(self) {
 
 ///|
 impl EventEmitterImpl with listenerCount(self, eventName) {
-  self.call("listenerCount", [eventName]) |> @js.identity
+  self.call("listenerCount", [eventName]).cast()
 }
 
 ///|
 impl EventEmitterImpl with listeners(self, event? : String) {
   match event {
-    Some(name) => self.call("listenerCount", [name]) |> @js.identity
+    Some(name) => self.call("listenerCount", [name]).cast()
     None => self.call0("listenerCount") |> @js.identity
   }
 }

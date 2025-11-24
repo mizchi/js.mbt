@@ -26,7 +26,7 @@ pub fn ReadableStream::cancel(
   reason? : @js.Js,
 ) -> @js.Promise[Unit] {
   match reason {
-    Some(r) => self.call("cancel", [r]) |> @js.identity
+    Some(r) => self.call("cancel", [r]).cast()
     None => self.call0("cancel") |> @js.identity
   }
 }
@@ -48,7 +48,7 @@ pub fn ReadableStream::pipeTo(
 ) -> @js.Promise[Unit] {
   match options {
     Some(opts) => self.call2("pipeTo", destination, opts) |> @js.identity
-    None => self.call("pipeTo", [destination]) |> @js.identity
+    None => self.call("pipeTo", [destination]).cast()
   }
 }
 
@@ -62,7 +62,7 @@ pub fn ReadableStream::pipeThrough(
 ) -> ReadableStream {
   match options {
     Some(opts) => self.call2("pipeThrough", transform, opts) |> @js.identity
-    None => self.call("pipeThrough", [transform]) |> @js.identity
+    None => self.call("pipeThrough", [transform]).cast()
   }
 }
 
@@ -108,7 +108,7 @@ pub fn ReadableStreamDefaultReader::cancel(
   reason? : @js.Js,
 ) -> @js.Promise[Unit] {
   match reason {
-    Some(r) => self.call("cancel", [r]) |> @js.identity
+    Some(r) => self.call("cancel", [r]).cast()
     None => self.call0("cancel") |> @js.identity
   }
 }
@@ -140,7 +140,7 @@ pub fn WritableStream::abort(
   reason? : @js.Js,
 ) -> @js.Promise[Unit] {
   match reason {
-    Some(r) => self.call("abort", [r]) |> @js.identity
+    Some(r) => self.call("abort", [r]).cast()
     None => self.call0("abort") |> @js.identity
   }
 }
@@ -175,7 +175,7 @@ pub fn WritableStreamDefaultWriter::write(
   self : Self,
   chunk : @js.Js,
 ) -> @js.Promise[Unit] {
-  self.call("write", [chunk]) |> @js.identity
+  self.call("write", [chunk]).cast()
 }
 
 ///|
@@ -191,7 +191,7 @@ pub fn WritableStreamDefaultWriter::abort(
   reason? : @js.Js,
 ) -> @js.Promise[Unit] {
   match reason {
-    Some(r) => self.call("abort", [r]) |> @js.identity
+    Some(r) => self.call("abort", [r]).cast()
     None => self.call0("abort") |> @js.identity
   }
 }

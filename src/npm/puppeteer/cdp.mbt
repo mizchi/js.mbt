@@ -40,7 +40,7 @@ pub async fn CDPSession::detach(self : CDPSession) -> Unit {
 /// JS: cdpSession.id()
 /// See: https://pptr.dev/api/puppeteer.cdpsession.id
 pub fn CDPSession::id(self : CDPSession) -> String {
-  self.call("id", []) |> @js.identity
+  self.call("id", []).cast()
 }
 
 ///|
@@ -65,9 +65,7 @@ pub async fn CDPSession::send_simple(
   self : CDPSession,
   method_ : String,
 ) -> Unit {
-  let promise : @js.Promise[@js.Js] = @js.identity(
-    self.call("send", [method_]),
-  )
+  let promise : @js.Promise[@js.Js] = @js.identity(self.call("send", [method_]))
   let _ = promise.wait()
 
 }

@@ -32,7 +32,7 @@ pub fn[Env, ExecutionContext, T] Context::json(
     Some(s) => s
     None => 200
   }
-  self.call("json", [@js.identity(data), status_code]) |> @js.identity
+  self.call("json", [@js.identity(data), status_code]).cast()
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn[Env, ExecutionContext] Context::text(
     Some(s) => s
     None => 200
   }
-  self.call("text", [text, status_code]) |> @js.identity
+  self.call("text", [text, status_code]).cast()
 }
 
 ///|
@@ -62,7 +62,7 @@ pub fn[Env, ExecutionContext] Context::html(
     Some(s) => s
     None => 200
   }
-  self.call("html", [html, status_code]) |> @js.identity
+  self.call("html", [html, status_code]).cast()
 }
 
 ///|
@@ -77,7 +77,7 @@ pub fn[Env, ExecutionContext] Context::redirect(
     Some(s) => s
     None => 302
   }
-  self.call("redirect", [url, status_code]) |> @js.identity
+  self.call("redirect", [url, status_code]).cast()
 }
 
 ///|
@@ -138,7 +138,7 @@ pub fn[Env, ExecutionContext] Context::getValue(
 pub fn[Env, ExecutionContext] Context::res(
   self : Context[Env, ExecutionContext],
 ) -> @http.Response {
-  self.get("res") |> @js.identity
+  self.get("res").cast()
 }
 
 ///|
@@ -161,9 +161,9 @@ pub fn[Env, ExecutionContext] Context::body(
   headers? : @js.Js,
 ) -> @http.Response {
   match (status, headers) {
-    (Some(s), Some(h)) => self.call("body", [body, s, h]) |> @js.identity
-    (Some(s), None) => self.call("body", [body, s]) |> @js.identity
-    _ => self.call("body", [body]) |> @js.identity
+    (Some(s), Some(h)) => self.call("body", [body, s, h]).cast()
+    (Some(s), None) => self.call("body", [body, s]).cast()
+    _ => self.call("body", [body]).cast()
   }
 }
 
@@ -185,5 +185,5 @@ pub fn[Env, ExecutionContext] Context::render(
   self : Context[Env, ExecutionContext],
   content : String,
 ) -> @http.Response {
-  self.call("render", [content]) |> @js.identity
+  self.call("render", [content]).cast()
 }

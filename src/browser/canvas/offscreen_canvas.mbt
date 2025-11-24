@@ -25,7 +25,7 @@ pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
 
 ///|
 pub fn OffscreenCanvas::width(self : Self) -> Int {
-  self.get("width") |> @js.identity
+  self.get("width").cast()
 }
 
 ///|
@@ -35,7 +35,7 @@ pub fn OffscreenCanvas::setWidth(self : Self, value : Int) -> Unit {
 
 ///|
 pub fn OffscreenCanvas::height(self : Self) -> Int {
-  self.get("height") |> @js.identity
+  self.get("height").cast()
 }
 
 ///|
@@ -48,7 +48,7 @@ pub fn OffscreenCanvas::getContext(
   self : Self,
   context_type : String,
 ) -> CanvasRenderingContext2D {
-  self.call("getContext", [context_type]) |> @js.identity
+  self.call("getContext", [context_type]).cast()
 }
 
 ///|
@@ -57,7 +57,7 @@ pub fn OffscreenCanvas::convertToBlob(
   options? : String,
 ) -> @js.Promise[@blob.Blob] {
   match options {
-    Some(opts) => self.call("convertToBlob", [opts]) |> @js.identity
+    Some(opts) => self.call("convertToBlob", [opts]).cast()
     None => self.call0("convertToBlob") |> @js.identity
   }
 }

@@ -106,7 +106,7 @@ pub fn IDBDatabase::createObjectStore(
     ("keyPath", keyPath.map(fn(x) { x })),
     ("autoIncrement", autoIncrement.map(fn(x) { x })),
   ])
-  self.call2("createObjectStore", name, options) |> @js.identity
+  self.call2("createObjectStore", name, options).cast()
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn[T] IDBTransaction::objectStore(
   self : IDBTransaction[T],
   name : String,
 ) -> IDBObjectStore[T] {
-  self.call1("objectStore", name) |> @js.identity
+  self.call1("objectStore", name).cast()
 }
 
 ///|
@@ -206,7 +206,7 @@ pub fn[T] IDBObjectStore::get(
   self : IDBObjectStore[T],
   key : &@js.JsImpl,
 ) -> IDBRequest[T] {
-  self.call1("get", key.to_js()) |> @js.identity
+  self.call1("get", key.to_js()).cast()
 }
 
 ///|
@@ -215,13 +215,13 @@ pub fn[T] IDBObjectStore::delete(
   self : IDBObjectStore[T],
   key : &@js.JsImpl,
 ) -> IDBRequest[@js.Js] {
-  self.call1("delete", key.to_js()) |> @js.identity
+  self.call1("delete", key.to_js()).cast()
 }
 
 ///|
 /// Clear all records from the store
 pub fn[T] IDBObjectStore::clear(self : IDBObjectStore[T]) -> IDBRequest[@js.Js] {
-  self.call0("clear") |> @js.identity
+  self.call0("clear").cast()
 }
 
 ///|
@@ -232,11 +232,10 @@ pub fn[T] IDBObjectStore::getAll(
   count? : Int,
 ) -> IDBRequest[@js.Js] {
   match (query, count) {
-    (Some(q), Some(c)) => self.call2("getAll", q.to_js(), c) |> @js.identity
-    (Some(q), None) => self.call1("getAll", q.to_js()) |> @js.identity
-    (None, Some(c)) =>
-      self.call2("getAll", @js.undefined(), c) |> @js.identity
-    (None, None) => self.call0("getAll") |> @js.identity
+    (Some(q), Some(c)) => self.call2("getAll", q.to_js(), c).cast()
+    (Some(q), None) => self.call1("getAll", q.to_js()).cast()
+    (None, Some(c)) => self.call2("getAll", @js.undefined(), c).cast()
+    (None, None) => self.call0("getAll").cast()
   }
 }
 
@@ -248,8 +247,7 @@ pub fn[T] IDBObjectStore::getAllKeys(
   count? : Int,
 ) -> IDBRequest[@js.Js] {
   match (query, count) {
-    (Some(q), Some(c)) =>
-      self.call2("getAllKeys", q.to_js(), c) |> @js.identity
+    (Some(q), Some(c)) => self.call2("getAllKeys", q.to_js(), c) |> @js.identity
     (Some(q), None) => self.call1("getAllKeys", q.to_js()) |> @js.identity
     (None, Some(c)) =>
       self.call2("getAllKeys", @js.undefined(), c) |> @js.identity
@@ -277,8 +275,7 @@ pub fn[T] IDBObjectStore::openCursor(
   direction? : String,
 ) -> IDBRequest[@js.Js] {
   match (query, direction) {
-    (Some(q), Some(d)) =>
-      self.call2("openCursor", q.to_js(), d) |> @js.identity
+    (Some(q), Some(d)) => self.call2("openCursor", q.to_js(), d) |> @js.identity
     (Some(q), None) => self.call1("openCursor", q.to_js()) |> @js.identity
     (None, Some(d)) =>
       self.call2("openCursor", @js.undefined(), d) |> @js.identity
@@ -316,7 +313,7 @@ pub fn[T] IDBObjectStore::createIndex(
     ("unique", unique.map(fn(x) { x })),
     ("multiEntry", multiEntry.map(fn(x) { x })),
   ])
-  self.call("createIndex", [name, keyPath, options]) |> @js.identity
+  self.call("createIndex", [name, keyPath, options]).cast()
 }
 
 ///|
@@ -369,8 +366,7 @@ pub fn[T] IDBIndex::getAll(
   match (query, count) {
     (Some(q), Some(c)) => self.call2("getAll", q.to_js(), c) |> @js.identity
     (Some(q), None) => self.call1("getAll", q.to_js()) |> @js.identity
-    (None, Some(c)) =>
-      self.call2("getAll", @js.undefined(), c) |> @js.identity
+    (None, Some(c)) => self.call2("getAll", @js.undefined(), c) |> @js.identity
     (None, None) => self.call0("getAll") |> @js.identity
   }
 }
@@ -383,8 +379,7 @@ pub fn[T] IDBIndex::getAllKeys(
   count? : Int,
 ) -> IDBRequest[@js.Js] {
   match (query, count) {
-    (Some(q), Some(c)) =>
-      self.call2("getAllKeys", q.to_js(), c) |> @js.identity
+    (Some(q), Some(c)) => self.call2("getAllKeys", q.to_js(), c) |> @js.identity
     (Some(q), None) => self.call1("getAllKeys", q.to_js()) |> @js.identity
     (None, Some(c)) =>
       self.call2("getAllKeys", @js.undefined(), c) |> @js.identity
@@ -412,8 +407,7 @@ pub fn[T] IDBIndex::openCursor(
   direction? : String,
 ) -> IDBRequest[@js.Js] {
   match (query, direction) {
-    (Some(q), Some(d)) =>
-      self.call2("openCursor", q.to_js(), d) |> @js.identity
+    (Some(q), Some(d)) => self.call2("openCursor", q.to_js(), d) |> @js.identity
     (Some(q), None) => self.call1("openCursor", q.to_js()) |> @js.identity
     (None, Some(d)) =>
       self.call2("openCursor", @js.undefined(), d) |> @js.identity

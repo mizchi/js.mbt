@@ -3,8 +3,8 @@
 #alias(use_state)
 pub fn[T : @js.JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
   let result = ffi_react_use_state(initial.to_js())
-  let value : T = result.get(0) |> @js.identity
-  let update_fn : (T) -> Unit = result.get(1) |> @js.identity
+  let value : T = result.get(0).cast()
+  let update_fn : (T) -> Unit = result.get(1).cast()
   (value, update_fn)
 }
 
@@ -14,8 +14,8 @@ pub fn[T : @js.JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
   let initial : () -> @js.Js = @js.identity(initial)
   let result = ffi_react_use_state_lazy(initial)
-  let value : T = result.get(0) |> @js.identity
-  let update_fn : (T) -> Unit = result.get(1) |> @js.identity
+  let value : T = result.get(0).cast()
+  let update_fn : (T) -> Unit = result.get(1).cast()
   (value, update_fn)
 }
 
@@ -156,7 +156,7 @@ pub fn[T, U] use_reducer(
     reducer |> @js.unsafe_js,
     initial |> @js.identity,
   )
-  (val.get(0) |> @js.identity, val.get(1).cast())
+  (val.get(0).cast(), val.get(1).cast())
 }
 
 ///|
@@ -179,11 +179,7 @@ pub fn[T, U] use_action_state(
     w |> @js.unsafe_js,
     initial |> @js.unsafe_js,
   )
-  (
-    val.get(0) |> @js.identity,
-    val.get(1) |> @js.identity,
-    val.get(2) |> @js.identity,
-  )
+  (val.get(0).cast(), val.get(1).cast(), val.get(2).cast())
 }
 
 ///|
@@ -281,7 +277,7 @@ extern "js" fn ffi_use_transition() -> @js.Js =
 #alias(useTransition)
 pub fn use_transition() -> (Bool, (() -> Unit) -> Unit) {
   let result = ffi_use_transition()
-  (result.get(0) |> @js.identity, result.get(1).cast())
+  (result.get(0).cast(), result.get(1).cast())
 }
 
 ///|
@@ -301,7 +297,7 @@ pub fn[S, A] use_optimistic(
     state |> @js.unsafe_js,
     update_fn |> @js.unsafe_js,
   )
-  (result.get(0) |> @js.identity, result.get(1).cast())
+  (result.get(0).cast(), result.get(1).cast())
 }
 
 ///|

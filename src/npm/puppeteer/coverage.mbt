@@ -41,7 +41,7 @@ pub(all) struct CSSCoverageEntry {
 /// Page: Get coverage instance
 /// JS: page.coverage
 pub fn Page::coverage(self : Page) -> Coverage {
-  self.get("coverage") |> @js.identity
+  self.get("coverage").cast()
 }
 
 ///| Coverage methods

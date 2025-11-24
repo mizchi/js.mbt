@@ -117,12 +117,12 @@ pub fn MessageChannel::new() -> MessageChannel {
 /// Returns the first port of the channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/port1
 pub fn MessageChannel::port1(channel : MessageChannel) -> MessagePort {
-  channel.get("port1") |> @js.identity
+  channel.get("port1").cast()
 }
 
 ///|
 /// Returns the second port of the channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/port2
 pub fn MessageChannel::port2(channel : MessageChannel) -> MessagePort {
-  channel.get("port2") |> @js.identity
+  channel.get("port2").cast()
 }

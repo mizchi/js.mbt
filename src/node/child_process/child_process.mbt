@@ -37,7 +37,7 @@ pub fn ChildProcess::on_stderr_data(
 /// Send a signal to the child process
 pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
   match signal {
-    Some(sig) => self.call("kill", [sig]) |> @js.identity
+    Some(sig) => self.call("kill", [sig]).cast()
     None => self.call0("kill") |> @js.identity
   }
 }
@@ -45,7 +45,7 @@ pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
 ///|
 /// Send a message to the child process (for IPC)
 pub fn ChildProcess::send(self : Self, message : &@js.JsImpl) -> Bool {
-  self.call("send", [message.to_js()]) |> @js.identity
+  self.call("send", [message.to_js()]).cast()
 }
 
 ///|
@@ -228,8 +228,7 @@ pub fn spawnSync(
       Some(a) =>
         cp.call("spawnSync", [command, a |> @js.from_array, options])
         |> @js.identity
-      None =>
-        cp.call2("spawnSync", command |> @js.js, options) |> @js.identity
+      None => cp.call2("spawnSync", command |> @js.js, options) |> @js.identity
     }
   })
 }

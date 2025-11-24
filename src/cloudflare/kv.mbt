@@ -73,7 +73,7 @@ pub fn KVNamespace::put(
 ) -> @js.Promise[Unit] {
   match options {
     None => self.call2("put", key, value) |> @js.identity
-    Some(opts) => self.call("put", [key, value, opts]) |> @js.identity
+    Some(opts) => self.call("put", [key, value, opts]).cast()
   }
 }
 
@@ -86,13 +86,13 @@ pub fn KVNamespace::put_with_metadata(
   metadata : @js.Js,
 ) -> @js.Promise[Unit] {
   let opts_js = @js.from_entries([("metadata", metadata)])
-  self.call("put", [key, value, opts_js]) |> @js.identity
+  self.call("put", [key, value, opts_js]).cast()
 }
 
 ///|
 /// Delete a key from KV store
 pub fn KVNamespace::delete(self : Self, key : String) -> @js.Promise[Unit] {
-  self.call("delete", [key]) |> @js.identity
+  self.call("delete", [key]).cast()
 }
 
 ///|
@@ -103,7 +103,7 @@ pub fn KVNamespace::list(
 ) -> @js.Promise[KVListResult] {
   match options {
     None => self.call0("list") |> @js.identity
-    Some(opts) => self.call("list", [opts.to_js()]) |> @js.identity
+    Some(opts) => self.call("list", [opts.to_js()]).cast()
   }
 }
 

@@ -23,7 +23,7 @@ pub fn TextEncoder::encode(
   self : TextEncoder,
   input : String,
 ) -> @typedarray.Uint8Array {
-  self.call("encode", [input]) |> @js.identity
+  self.call("encode", [input]).cast()
 }
 
 ///|
@@ -42,5 +42,5 @@ pub fn TextDecoder::decode(
   self : TextDecoder,
   input : @typedarray.Uint8Array,
 ) -> String {
-  self.call("decode", [input]) |> @js.identity
+  self.call("decode", [input]).cast()
 }

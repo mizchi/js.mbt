@@ -46,7 +46,7 @@ pub fn createInterface(
 
 ///|
 pub fn Interface::question(self : Self, query : String) -> @js.Promise[String] {
-  self.call("question", [query]) |> @js.identity
+  self.call("question", [query]).cast()
 }
 
 ///|
@@ -78,13 +78,13 @@ pub fn Interface::moveCursor(
 ///|
 #alias(clear_line)
 pub fn Interface::clearLine(self : Self, dir : Int) -> Self {
-  self.call("clearLine", [dir]) |> @js.identity
+  self.call("clearLine", [dir]).cast()
 }
 
 ///|
 #alias(clear_screen_down)
 pub fn Interface::clearScreenDown(self : Self, dir : Int) -> Self {
-  self.call("clearScreenDown", [dir]) |> @js.identity
+  self.call("clearScreenDown", [dir]).cast()
 }
 
 ///|

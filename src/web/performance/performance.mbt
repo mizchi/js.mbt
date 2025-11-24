@@ -26,7 +26,7 @@ pub impl @js.JsImpl for PerformanceEntry
 ///|
 /// Get the Performance object from globalThis
 pub fn performance() -> Performance {
-  @js.global_this().get("performance") |> @js.identity
+  @js.global_this().get("performance").cast()
 }
 
 ///|
@@ -40,7 +40,7 @@ pub fn Performance::now(self : Performance) -> Double {
 /// JS: performance.mark(name)
 /// Creates a timestamp in the browser's performance entry buffer with the given name
 pub fn Performance::mark(self : Performance, name : String) -> PerformanceEntry {
-  self.call("mark", [name]) |> @js.identity
+  self.call("mark", [name]).cast()
 }
 
 ///|
@@ -53,9 +53,9 @@ pub fn Performance::measure(
   endMark? : String,
 ) -> PerformanceEntry {
   match (startMark, endMark) {
-    (Some(s), Some(e)) => self.call("measure", [name, s, e]) |> @js.identity
+    (Some(s), Some(e)) => self.call("measure", [name, s, e]).cast()
     (Some(s), None) => self.call2("measure", name, s) |> @js.identity
-    (None, _) => self.call("measure", [name]) |> @js.identity
+    (None, _) => self.call("measure", [name]).cast()
   }
 }
 
@@ -73,7 +73,7 @@ pub fn Performance::getEntriesByType(
   self : Performance,
   entryType : String,
 ) -> Array[PerformanceEntry] {
-  self.call("getEntriesByType", [entryType]) |> @js.identity
+  self.call("getEntriesByType", [entryType]).cast()
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn Performance::getEntriesByName(
   self : Performance,
   name : String,
 ) -> Array[PerformanceEntry] {
-  self.call("getEntriesByName", [name]) |> @js.identity
+  self.call("getEntriesByName", [name]).cast()
 }
 
 ///|

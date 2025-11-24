@@ -12,7 +12,7 @@ pub impl @js.JsImpl for Blob
 /// Get the content type of the Blob
 #alias(content_type)
 pub fn Blob::contentType(self : Self) -> String {
-  self.to_js().get("type") |> @js.identity
+  self.to_js().get("type").cast()
 }
 
 ///|
@@ -60,22 +60,21 @@ pub fn Blob::slice(
   let js = self.to_js()
   match (start, end, content_type) {
     (None, None, None) => js.call0("slice") |> @js.identity
-    (Some(s), None, None) => js.call("slice", [s]) |> @js.identity
+    (Some(s), None, None) => js.call("slice", [s]).cast()
     (Some(s), Some(e), None) => js.call2("slice", s, e) |> @js.identity
-    (Some(s), Some(e), Some(ct)) =>
-      js.call("slice", [s, e, ct]) |> @js.identity
+    (Some(s), Some(e), Some(ct)) => js.call("slice", [s, e, ct]).cast()
     (None, Some(e), ct) =>
       match ct {
-        Some(t) => js.call("slice", [0, e, t]) |> @js.identity
+        Some(t) => js.call("slice", [0, e, t]).cast()
         None => js.call2("slice", 0, e) |> @js.identity
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size
-      js.call("slice", [s, size, ct]) |> @js.identity
+      js.call("slice", [s, size, ct]).cast()
     }
     (None, None, Some(ct)) => {
       let size = self.size
-      js.call("slice", [0, size, ct]) |> @js.identity
+      js.call("slice", [0, size, ct]).cast()
     }
   }
 }

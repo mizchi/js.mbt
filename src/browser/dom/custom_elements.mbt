@@ -128,7 +128,7 @@ pub fn CustomElementRegistry::whenDefined(
   self : Self,
   name : String,
 ) -> @js.Promise[Unit] {
-  self.call("whenDefined", [name]) |> @js.identity
+  self.call("whenDefined", [name]).cast()
 }
 
 ///|

@@ -86,19 +86,19 @@ pub fn EventSource::set_onerror(
 /// MessageEvent helper to get data
 /// JS: event.data
 pub fn get_event_data(event : @js.Js) -> String {
-  event.get("data") |> @js.identity
+  event.get("data").cast()
 }
 
 ///|
 /// MessageEvent helper to get lastEventId
 /// JS: event.lastEventId
 pub fn get_last_event_id(event : @js.Js) -> String {
-  event.get("lastEventId") |> @js.identity
+  event.get("lastEventId").cast()
 }
 
 ///|
 /// MessageEvent helper to get origin
 /// JS: event.origin
 pub fn get_event_origin(event : @js.Js) -> String {
-  event.get("origin") |> @js.identity
+  event.get("origin").cast()
 }

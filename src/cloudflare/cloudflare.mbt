@@ -20,12 +20,12 @@ pub impl @js.JsImpl for CloudflareRequest
 
 ///|
 pub fn CloudflareRequest::cf(self : CloudflareRequest) -> CloudflareContext {
-  self.get("cf") |> @js.identity
+  self.get("cf").cast()
 }
 
 ///|
 pub fn CloudflareRequest::url(self : CloudflareRequest) -> String {
-  self.get("url") |> @js.identity
+  self.get("url").cast()
 }
 
 ///|

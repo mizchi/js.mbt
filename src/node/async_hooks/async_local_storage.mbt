@@ -36,7 +36,7 @@ pub fn[T] AsyncLocalStorage::exit(
   self : AsyncLocalStorage[T],
   callback : () -> Unit,
 ) -> Unit {
-  self.call("exit", [callback |> @js.from_fn0]) |> @js.identity
+  self.call("exit", [callback |> @js.from_fn0]).cast()
 }
 
 ///|
@@ -53,7 +53,7 @@ pub fn[T : @js.JsImpl] AsyncLocalStorage::enterWith(
   self : AsyncLocalStorage[T],
   store : T,
 ) -> Unit {
-  self.call("enterWith", [store]) |> @js.identity
+  self.call("enterWith", [store]).cast()
 }
 
 ///|

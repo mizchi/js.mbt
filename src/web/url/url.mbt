@@ -35,7 +35,7 @@ pub fn URL::new(url : String, base? : String) -> URL raise @js.ThrowError {
 ///|
 /// Get the searchParams property
 pub fn URL::searchParams(self : URL) -> URLSearchParams {
-  self.get("searchParams") |> @js.identity
+  self.get("searchParams").cast()
 }
 
 ///|

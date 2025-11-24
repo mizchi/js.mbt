@@ -31,5 +31,5 @@ pub extern "js" fn navigator() -> Navigator =
 /// Vibrates the device
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate
 pub fn Navigator::vibrate(self : Self, pattern : Int) -> Bool {
-  self.call("vibrate", [pattern]) |> @js.identity
+  self.call("vibrate", [pattern]).cast()
 }

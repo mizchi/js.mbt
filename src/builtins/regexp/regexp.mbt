@@ -306,10 +306,10 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
   if @js.is_null(v) {
     return None
   }
-  let full : String = v.get(0) |> @js.identity
-  let index : Int = v.get("index") |> @js.identity
-  let last_index : Int = v.get("lastIndex") |> @js.identity
-  let input : String = v.get("input") |> @js.identity
+  let full : String = v.get(0).cast()
+  let index : Int = v.get("index").cast()
+  let last_index : Int = v.get("lastIndex").cast()
+  let input : String = v.get("input").cast()
   let groups : Map[String, String]? = if @js.is_undefined(v.get("groups")) {
     None
   } else {
@@ -346,7 +346,7 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
   if @js.is_null(v) {
     return None
   }
-  let len : Int = v.get("length") |> @js.identity
+  let len : Int = v.get("length").cast()
   let matches : Array[String] = Array::new(capacity=len)
   for i = 0; i < len; i = i + 1 {
     matches.push(v.get(i).cast())
@@ -384,11 +384,11 @@ pub fn RegExp::matchAll(
   string : String,
 ) -> Array[RegExpMatchArray] {
   let v = ffi_string_match_all(string, self)
-  let len : Int = v.get("length") |> @js.identity
+  let len : Int = v.get("length").cast()
   let results : Array[RegExpMatchArray] = []
   for i = 0; i < len; i = i + 1 {
     let item = v.get(i)
-    let match_len : Int = item.get("length") |> @js.identity
+    let match_len : Int = item.get("length").cast()
     let matches : Array[String] = Array::new(capacity=match_len)
     for j = 0; j < match_len; j = j + 1 {
       matches.push(item.get(j).cast())
@@ -460,7 +460,7 @@ pub fn RegExp::replace_fn(
     offset : Int,
     input : String,
   ) -> String {
-    let groups_len : Int = groups_val.get("length") |> @js.identity
+    let groups_len : Int = groups_val.get("length").cast()
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = groups_val.get(i)
@@ -491,7 +491,7 @@ pub fn RegExp::replace_all_fn(
     offset : Int,
     input : String,
   ) -> String {
-    let groups_len : Int = groups_val.get("length") |> @js.identity
+    let groups_len : Int = groups_val.get("length").cast()
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = groups_val.get(i)

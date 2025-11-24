@@ -31,7 +31,7 @@ pub fn Buffer::from_array(arr : Array[Int]) -> Buffer {
     arr_js.call("push", [arr[i]]) |> ignore
     i = i + 1
   }
-  ctor.call("from", [arr_js]) |> @js.identity
+  ctor.call("from", [arr_js]).cast()
 }
 
 ///|
@@ -43,7 +43,7 @@ pub fn Buffer::from_arraybuffer(
 ) -> Buffer {
   let ctor = buffer_constructor()
   match length {
-    Some(len) => ctor.call("from", [ab, byte_offset, len]) |> @js.identity
+    Some(len) => ctor.call("from", [ab, byte_offset, len]).cast()
     None => ctor.call2("from", ab, byte_offset) |> @js.identity
   }
 }
@@ -52,7 +52,7 @@ pub fn Buffer::from_arraybuffer(
 /// Create a Buffer by copying another buffer
 pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call("from", [buf.to_js()]) |> @js.identity
+  ctor.call("from", [buf.to_js()]).cast()
 }
 
 ///|
@@ -64,8 +64,8 @@ pub fn Buffer::alloc(
 ) -> Buffer {
   let ctor = buffer_constructor()
   match fill {
-    Some(f) => ctor.call("alloc", [size, f, encoding]) |> @js.identity
-    None => ctor.call("alloc", [size]) |> @js.identity
+    Some(f) => ctor.call("alloc", [size, f, encoding]).cast()
+    None => ctor.call("alloc", [size]).cast()
   }
 }
 
@@ -74,7 +74,7 @@ pub fn Buffer::alloc(
 #alias(alloc_unsafe)
 pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call("allocUnsafe", [size]) |> @js.identity
+  ctor.call("allocUnsafe", [size]).cast()
 }
 
 ///|
@@ -82,7 +82,7 @@ pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
 #alias(is_buffer)
 pub fn Buffer::isBuffer(obj : &@js.JsImpl) -> Bool {
   let ctor = buffer_constructor()
-  ctor.call("isBuffer", [obj.to_js()]) |> @js.identity
+  ctor.call("isBuffer", [obj.to_js()]).cast()
 }
 
 ///|
@@ -90,7 +90,7 @@ pub fn Buffer::isBuffer(obj : &@js.JsImpl) -> Bool {
 #alias(is_encoding)
 pub fn Buffer::isEncoding(encoding : String) -> Bool {
   let ctor = buffer_constructor()
-  ctor.call("isEncoding", [encoding]) |> @js.identity
+  ctor.call("isEncoding", [encoding]).cast()
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
   }
   match total_length {
     Some(len) => ctor.call2("concat", list_js, len) |> @js.identity
-    None => ctor.call("concat", [list_js]) |> @js.identity
+    None => ctor.call("concat", [list_js]).cast()
   }
 }
 
@@ -127,7 +127,7 @@ pub fn Buffer::byteLength(str : String, encoding? : String = "utf-8") -> Int {
 ///|
 /// Get the length of the buffer in bytes
 pub fn Buffer::length(self : Self) -> Int {
-  self.get("length") |> @js.identity
+  self.get("length").cast()
 }
 
 ///|
@@ -140,7 +140,7 @@ pub fn Buffer::toString(
   end? : Int,
 ) -> String {
   match end {
-    Some(e) => self.call("toString", [encoding, start, e]) |> @js.identity
+    Some(e) => self.call("toString", [encoding, start, e]).cast()
     None => self.call2("toString", encoding, start) |> @js.identity
   }
 }
@@ -156,9 +156,8 @@ pub fn Buffer::write(
 ) -> Int {
   let buf_js = self.to_js()
   match length {
-    Some(len) =>
-      buf_js.call("write", [str, offset, len, encoding]) |> @js.identity
-    None => buf_js.call("write", [str, offset, encoding]) |> @js.identity
+    Some(len) => buf_js.call("write", [str, offset, len, encoding]).cast()
+    None => buf_js.call("write", [str, offset, encoding]).cast()
   }
 }
 
@@ -168,7 +167,7 @@ pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.to_js()
   match end {
     Some(e) => buf_js.call2("slice", start, e) |> @js.identity
-    None => buf_js.call("slice", [start]) |> @js.identity
+    None => buf_js.call("slice", [start]).cast()
   }
 }
 
@@ -178,7 +177,7 @@ pub fn Buffer::subarray(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.to_js()
   match end {
     Some(e) => buf_js.call2("subarray", start, e) |> @js.identity
-    None => buf_js.call("subarray", [start]) |> @js.identity
+    None => buf_js.call("subarray", [start]).cast()
   }
 }
 
@@ -213,8 +212,7 @@ pub fn Buffer::fill(
 ) -> Buffer {
   let buf_js = self.to_js()
   match end {
-    Some(e) =>
-      buf_js.call("fill", [value, offset, e, encoding]) |> @js.identity
+    Some(e) => buf_js.call("fill", [value, offset, e, encoding]).cast()
     None => buf_js.call2("fill", value, offset) |> @js.identity
   }
 }
@@ -222,7 +220,7 @@ pub fn Buffer::fill(
 ///|
 /// Test if this buffer equals another buffer
 pub fn Buffer::equals(self : Self, other : Buffer) -> Bool {
-  self.call("equals", [other.to_js()]) |> @js.identity
+  self.call("equals", [other.to_js()]).cast()
 }
 
 ///|
@@ -250,7 +248,7 @@ pub fn Buffer::compare_with(
   }
   let compare_fn = buf_js.get("compare")
   let apply = compare_fn.get("apply")
-  apply.call("call", [compare_fn, buf_js, args]) |> @js.identity
+  apply.call("call", [compare_fn, buf_js, args]).cast()
 }
 
 ///|
@@ -261,7 +259,7 @@ pub fn Buffer::includes(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Bool {
-  self.call("includes", [value, byte_offset, encoding]) |> @js.identity
+  self.call("includes", [value, byte_offset, encoding]).cast()
 }
 
 ///|
@@ -273,7 +271,7 @@ pub fn Buffer::indexOf(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Int {
-  self.call("indexOf", [value, byte_offset, encoding]) |> @js.identity
+  self.call("indexOf", [value, byte_offset, encoding]).cast()
 }
 
 ///|
@@ -287,8 +285,7 @@ pub fn Buffer::lastIndexOf(
 ) -> Int {
   let buf_js = self.to_js()
   match byte_offset {
-    Some(offset) =>
-      buf_js.call("lastIndexOf", [value, offset, encoding]) |> @js.identity
+    Some(offset) => buf_js.call("lastIndexOf", [value, offset, encoding]).cast()
     None => buf_js.call2("lastIndexOf", value, encoding) |> @js.identity
   }
 }
@@ -316,14 +313,14 @@ pub fn Buffer::lastIndexOf(
 ///|
 /// Get the underlying ArrayBuffer
 pub fn Buffer::buffer(self : Self) -> @js.ArrayBuffer {
-  self.get("buffer") |> @js.identity
+  self.get("buffer").cast()
 }
 
 ///|
 /// Get the byte offset in the underlying ArrayBuffer
 #alias(byte_offset)
 pub fn Buffer::byteOffset(self : Self) -> Int {
-  self.get("byteOffset") |> @js.identity
+  self.get("byteOffset").cast()
 }
 
 ///|

@@ -35,12 +35,12 @@ pub(open) trait NodeImpl: @js.JsImpl + @event.EventTargetImpl {
 
 ///|
 impl NodeImpl with nodeType(self) -> Int {
-  self.get("nodeType") |> @js.identity
+  self.get("nodeType").cast()
 }
 
 ///|
 impl NodeImpl with nodeName(self) -> String {
-  self.get("nodeName") |> @js.identity
+  self.get("nodeName").cast()
 }
 
 ///|
@@ -77,21 +77,19 @@ impl NodeImpl with nextSibling(self) -> Node? {
 
 ///|
 impl NodeImpl with appendChild(self, child) -> Node {
-  self.call("appendChild", [child.to_js()]) |> @js.identity
+  self.call("appendChild", [child.to_js()]).cast()
 }
 
 ///|
 impl NodeImpl with removeChild(self, child) -> Node {
-  self.call("removeChild", [child.to_js()]) |> @js.identity
+  self.call("removeChild", [child.to_js()]).cast()
 }
 
 ///|
 impl NodeImpl with insertBefore(self, new_node, ref_node) -> Node {
   match ref_node {
     Some(node) =>
-      @js.identity(
-        self.call2("insertBefore", new_node.to_js(), node.to_js()),
-      )
+      @js.identity(self.call2("insertBefore", new_node.to_js(), node.to_js()))
     None =>
       @js.identity(self.call2("insertBefore", new_node.to_js(), @js.null_()))
   }
@@ -99,32 +97,30 @@ impl NodeImpl with insertBefore(self, new_node, ref_node) -> Node {
 
 ///|
 impl NodeImpl with replaceChild(self, new_child, old_child) -> Node {
-  @js.identity(
-    self.call2("replaceChild", new_child.to_js(), old_child.to_js()),
-  )
+  @js.identity(self.call2("replaceChild", new_child.to_js(), old_child.to_js()))
 }
 
 ///|
 impl NodeImpl with cloneNode(self, deep) {
-  self.call("cloneNode", [deep]) |> @js.identity
+  self.call("cloneNode", [deep]).cast()
 }
 
 ///|
 impl NodeImpl with contains(self, other) {
   match other {
-    Some(node) => self.call("contains", [node.to_js()]) |> @js.identity
-    None => self.call("contains", [@js.null_()]) |> @js.identity
+    Some(node) => self.call("contains", [node.to_js()]).cast()
+    None => self.call("contains", [@js.null_()]).cast()
   }
 }
 
 ///|
 impl NodeImpl with hasChildNodes(self) -> Bool {
-  self.call0("hasChildNodes") |> @js.identity
+  self.call0("hasChildNodes").cast()
 }
 
 ///|
 impl NodeImpl with textContent(self) -> String {
-  self.get("textContent") |> @js.identity
+  self.get("textContent").cast()
 }
 
 ///|

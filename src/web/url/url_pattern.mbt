@@ -76,7 +76,7 @@ pub fn URLPattern::newFromObject(
 ///|
 /// Test if a URL string matches the pattern
 pub fn URLPattern::test_url(self : Self, input : String) -> Bool {
-  self.call("test", [input]) |> @js.identity
+  self.call("test", [input]).cast()
 }
 
 ///|
@@ -88,7 +88,7 @@ pub fn URLPattern::test_url_with_base(
 ) -> Bool {
   match base {
     Some(b) => self.call2("test", input, b) |> @js.identity
-    None => self.call("test", [input]) |> @js.identity
+    None => self.call("test", [input]).cast()
   }
 }
 

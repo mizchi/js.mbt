@@ -29,32 +29,32 @@ impl EventImpl with stopImmediatePropagation(self) -> Unit {
 
 ///|
 impl EventImpl with target(self) -> Element {
-  self.get("target") |> @js.identity
+  self.get("target").cast()
 }
 
 ///|
 impl EventImpl with currentTarget(self) -> Element {
-  self.get("currentTarget") |> @js.identity
+  self.get("currentTarget").cast()
 }
 
 ///|
 impl EventImpl with eventType(self) -> String {
-  self.get("type") |> @js.identity
+  self.get("type").cast()
 }
 
 ///|
 impl EventImpl with bubbles(self) -> Bool {
-  self.get("bubbles") |> @js.identity
+  self.get("bubbles").cast()
 }
 
 ///|
 impl EventImpl with cancelable(self) -> Bool {
-  self.get("cancelable") |> @js.identity
+  self.get("cancelable").cast()
 }
 
 ///|
 impl EventImpl with defaultPrevented(self) -> Bool {
-  self.get("defaultPrevented") |> @js.identity
+  self.get("defaultPrevented").cast()
 }
 
 ///|
@@ -125,7 +125,7 @@ pub impl EventImpl for MouseEvent
 /// Returns the secondary target for the mouse event
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/relatedTarget
 pub fn MouseEvent::relatedTarget(self : Self) -> Element? {
-  self.get("relatedTarget") |> @js.identity_option()
+  self.get("relatedTarget") |> @js.identity_option
 }
 
 ///|
@@ -176,7 +176,7 @@ pub impl EventImpl for FocusEvent
 ///|
 /// Returns the related target (element losing/gaining focus)
 pub fn FocusEvent::relatedTarget(self : FocusEvent) -> Element? {
-  self.get("relatedTarget") |> @js.identity_option()
+  self.get("relatedTarget") |> @js.identity_option
 }
 
 ///|
@@ -278,7 +278,7 @@ pub impl @js.JsImpl for Touch
 ///|
 /// Returns the target element
 pub fn Touch::target(self : Self) -> Element {
-  self.get("target") |> @js.identity
+  self.get("target").cast()
 }
 
 ///|

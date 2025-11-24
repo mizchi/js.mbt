@@ -57,7 +57,7 @@ pub fn HTMLCanvasElement::toDataURL(
 ) -> String {
   match (image_type, quality) {
     (Some(t), Some(q)) => self.call2("toDataURL", t, q) |> @js.identity
-    (Some(t), None) => self.call("toDataURL", [t]) |> @js.identity
+    (Some(t), None) => self.call("toDataURL", [t]).cast()
     (None, _) => self.call0("toDataURL") |> @js.identity
   }
 }
@@ -70,7 +70,7 @@ pub fn HTMLCanvasElement::toBlob(
 ) -> @js.Promise[@blob.Blob] {
   match (image_type, quality) {
     (Some(t), Some(q)) => self.call2("toBlob", t, q) |> @js.identity
-    (Some(t), None) => self.call("toBlob", [t]) |> @js.identity
+    (Some(t), None) => self.call("toBlob", [t]).cast()
     (None, _) => self.call0("toBlob") |> @js.identity
   }
 }
@@ -223,7 +223,7 @@ pub impl HTMLElementImpl for HTMLInputElement
 ///|
 /// Returns the type of the input
 pub fn HTMLInputElement::type_(self : Self) -> String {
-  self.get("type") |> @js.identity
+  self.get("type").cast()
 }
 
 ///|

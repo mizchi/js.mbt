@@ -102,7 +102,7 @@ pub fn HonoRequest::parseBody(
   options? : @js.Js,
 ) -> @js.Promise[@js.Js] {
   match options {
-    Some(opts) => self.call("parseBody", [opts]) |> @js.identity
+    Some(opts) => self.call("parseBody", [opts]).cast()
     None => self.call0("parseBody") |> @js.identity
   }
 }
@@ -110,13 +110,13 @@ pub fn HonoRequest::parseBody(
 ///|
 /// Get request URL
 pub fn HonoRequest::url(self : Self) -> String {
-  self.get("url") |> @js.identity
+  self.get("url").cast()
 }
 
 ///|
 /// Get request method
 pub fn HonoRequest::method_(self : Self) -> String {
-  self.get("method") |> @js.identity
+  self.get("method").cast()
 }
 
 ///|
@@ -129,5 +129,5 @@ pub fn HonoRequest::path(self : Self) -> String {
 /// Check if request body has been used
 #alias(body_used)
 pub fn HonoRequest::bodyUsed(self : Self) -> Bool {
-  self.get("bodyUsed") |> @js.identity
+  self.get("bodyUsed").cast()
 }

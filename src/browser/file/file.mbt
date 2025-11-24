@@ -16,7 +16,7 @@ pub impl @js.JsImpl for File
 /// Get the content type of the File
 #alias(content_type)
 pub fn File::contentType(self : Self) -> String {
-  self.to_js().get("type") |> @js.identity
+  self.to_js().get("type").cast()
 }
 
 ///|
@@ -78,7 +78,7 @@ pub fn File::slice(self : Self, start? : Int, end? : Int) -> @blob.Blob {
   let js = self.to_js()
   match (start, end) {
     (None, None) => js.call0("slice") |> @js.identity
-    (Some(s), None) => js.call("slice", [s]) |> @js.identity
+    (Some(s), None) => js.call("slice", [s]).cast()
     (Some(s), Some(e)) => js.call2("slice", s, e) |> @js.identity
     (None, Some(e)) => js.call2("slice", 0, e) |> @js.identity
   }

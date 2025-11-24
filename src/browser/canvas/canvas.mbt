@@ -200,7 +200,7 @@ pub fn CanvasRenderingContext2D::measureText(
   self : Self,
   text : String,
 ) -> TextMetrics {
-  self.to_js().call("measureText", [text]) |> @js.identity
+  self.to_js().call("measureText", [text]).cast()
 }
 
 ///|
@@ -320,7 +320,7 @@ pub fn CanvasRenderingContext2D::getImageData(
   sw : Double,
   sh : Double,
 ) -> ImageData {
-  self.to_js().call("getImageData", [sx, sy, sw, sh]) |> @js.identity
+  self.to_js().call("getImageData", [sx, sy, sw, sh]).cast()
 }
 
 ///|

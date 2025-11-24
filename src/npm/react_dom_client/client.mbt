@@ -38,7 +38,7 @@ pub fn ReactDOMClient::createRoot(
   self : Self,
   container : &@dom.ElementImpl,
 ) -> ReactDOMRoot {
-  self.call("createRoot", [container.to_js()]) |> @js.identity
+  self.call("createRoot", [container.to_js()]).cast()
 }
 
 ///|

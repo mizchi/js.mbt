@@ -13,7 +13,7 @@ extern "js" fn ffi_require_module() -> @js.Js =
 #alias(builtin_modules)
 pub fn builtinModules() -> Array[String] {
   let mod = ffi_require_module()
-  mod.get("builtinModules") |> @js.identity
+  mod.get("builtinModules").cast()
 }
 
 ///|
@@ -101,8 +101,7 @@ pub fn stripTypeScriptTypes(
 ) -> String {
   let mod = ffi_require_module()
   match (mode, source_map, source_url) {
-    (None, None, None) =>
-      @js.identity(mod.call("stripTypeScriptTypes", [code]))
+    (None, None, None) => @js.identity(mod.call("stripTypeScriptTypes", [code]))
     _ =>
       @js.identity(
         mod.call("stripTypeScriptTypes", [
@@ -142,8 +141,7 @@ pub fn SourceMap::findEntry(
   line_number : Int,
   column_number : Int,
 ) -> SourceMapEntry? {
-  self.call2("findEntry", line_number, column_number)
-  |> @js.identity_option()
+  self.call2("findEntry", line_number, column_number) |> @js.identity_option()
 }
 
 ///| SourceMapEntry Type
@@ -160,35 +158,35 @@ pub impl @js.JsImpl for SourceMapEntry
 /// Get the original line number
 #alias(original_line)
 pub fn SourceMapEntry::originalLine(self : Self) -> Int {
-  self.get("originalLine") |> @js.identity
+  self.get("originalLine").cast()
 }
 
 ///|
 /// Get the original column number
 #alias(original_column)
 pub fn SourceMapEntry::originalColumn(self : Self) -> Int {
-  self.get("originalColumn") |> @js.identity
+  self.get("originalColumn").cast()
 }
 
 ///|
 /// Get the original source file name
 #alias(original_source)
 pub fn SourceMapEntry::originalSource(self : Self) -> String {
-  self.get("originalSource") |> @js.identity
+  self.get("originalSource").cast()
 }
 
 ///|
 /// Get the generated line number
 #alias(generated_line)
 pub fn SourceMapEntry::generatedLine(self : Self) -> Int {
-  self.get("generatedLine") |> @js.identity
+  self.get("generatedLine").cast()
 }
 
 ///|
 /// Get the generated column number
 #alias(generated_column)
 pub fn SourceMapEntry::generatedColumn(self : Self) -> Int {
-  self.get("generatedColumn") |> @js.identity
+  self.get("generatedColumn").cast()
 }
 
 ///|

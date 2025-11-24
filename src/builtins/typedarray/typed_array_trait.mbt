@@ -42,24 +42,24 @@ pub(open) trait TypedArrayImpl: @js.JsImpl {
 
 ///|
 impl TypedArrayImpl with length(self) -> UInt {
-  self.get("length") |> @js.identity
+  self.get("length").cast()
 }
 
 ///|
 impl TypedArrayImpl with byteLength(self) -> UInt {
-  self.get("byteLength") |> @js.identity
+  self.get("byteLength").cast()
 }
 
 ///|
 impl TypedArrayImpl with byteOffset(self) -> UInt {
-  self.get("byteOffset") |> @js.identity
+  self.get("byteOffset").cast()
 }
 
 ///|
 impl TypedArrayImpl with slice(self, start? : Int = 0, end? : Int) -> Self {
   match end {
     Some(e) => self.call2("slice", start, e) |> @js.identity
-    None => self.call("slice", [start]) |> @js.identity
+    None => self.call("slice", [start]).cast()
   }
 }
 
@@ -67,14 +67,14 @@ impl TypedArrayImpl with slice(self, start? : Int = 0, end? : Int) -> Self {
 impl TypedArrayImpl with subarray(self, begin? : Int = 0, end? : Int) -> Self {
   match end {
     Some(e) => self.call2("subarray", begin, e) |> @js.identity
-    None => self.call("subarray", [begin]) |> @js.identity
+    None => self.call("subarray", [begin]).cast()
   }
 }
 
 ///|
 impl TypedArrayImpl with copyWithin(self, target, start, end? : Int) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    Some(e) => self.call("copyWithin", [target, start, e]).cast()
     None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
@@ -91,7 +91,7 @@ impl TypedArrayImpl with sort(self) -> Self {
 
 ///|
 impl TypedArrayImpl with join(self, separator? : String = ",") -> String {
-  self.call("join", [separator]) |> @js.identity
+  self.call("join", [separator]).cast()
 }
 
 ///|

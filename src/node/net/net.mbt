@@ -27,14 +27,14 @@ pub fn Socket::as_duplex(self : Socket) -> @stream.Duplex {
 pub fn Socket::connect(self : Socket, port : Int, host? : String) -> Socket {
   match host {
     Some(h) => self.call2("connect", port, h) |> @js.identity
-    None => self.call("connect", [port]) |> @js.identity
+    None => self.call("connect", [port]).cast()
   }
 }
 
 ///|
 /// Write data to the socket
 pub fn Socket::write(self : Socket, data : String) -> Bool {
-  self.call("write", [data]) |> @js.identity
+  self.call("write", [data]).cast()
 }
 
 ///|
@@ -64,25 +64,25 @@ pub fn Socket::resume_(self : Socket) -> Socket {
 ///|
 /// Set the socket encoding
 pub fn Socket::setEncoding(self : Socket, encoding : String) -> Socket {
-  self.call("setEncoding", [encoding]) |> @js.identity
+  self.call("setEncoding", [encoding]).cast()
 }
 
 ///|
 /// Set keep alive
 pub fn Socket::setKeepAlive(self : Socket, enable : Bool) -> Socket {
-  self.call("setKeepAlive", [enable]) |> @js.identity
+  self.call("setKeepAlive", [enable]).cast()
 }
 
 ///|
 /// Set no delay (disable Nagle algorithm)
 pub fn Socket::setNoDelay(self : Socket, noDelay : Bool) -> Socket {
-  self.call("setNoDelay", [noDelay]) |> @js.identity
+  self.call("setNoDelay", [noDelay]).cast()
 }
 
 ///|
 /// Set timeout
 pub fn Socket::setTimeout(self : Socket, timeout : Int) -> Socket {
-  self.call("setTimeout", [timeout]) |> @js.identity
+  self.call("setTimeout", [timeout]).cast()
 }
 
 ///|
@@ -112,19 +112,19 @@ pub fn Socket::localPort(self : Socket) -> Int? {
 ///|
 /// Check if the socket is destroyed
 pub fn Socket::destroyed(self : Socket) -> Bool {
-  self.get("destroyed") |> @js.identity
+  self.get("destroyed").cast()
 }
 
 ///|
 /// Get bytes read
 pub fn Socket::bytesRead(self : Socket) -> Int {
-  self.get("bytesRead") |> @js.identity
+  self.get("bytesRead").cast()
 }
 
 ///|
 /// Get bytes written
 pub fn Socket::bytesWritten(self : Socket) -> Int {
-  self.get("bytesWritten") |> @js.identity
+  self.get("bytesWritten").cast()
 }
 
 ///| Server class
@@ -156,10 +156,10 @@ pub fn Server::listen(
 
   // Call listen with port, host, and backlog
   match (host, backlog) {
-    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> @js.identity
+    (Some(h), Some(b)) => self.call("listen", [port, h, b]).cast()
     (Some(h), None) => self.call2("listen", port, h) |> @js.identity
     (None, Some(b)) => self.call2("listen", port, b) |> @js.identity
-    (None, None) => self.call("listen", [port]) |> @js.identity
+    (None, None) => self.call("listen", [port]).cast()
   }
 }
 
@@ -178,7 +178,7 @@ pub fn Server::address(self : Server) -> @js.Js? {
 ///|
 /// Check if the server is listening
 pub fn Server::listening(self : Server) -> Bool {
-  self.get("listening") |> @js.identity
+  self.get("listening").cast()
 }
 
 ///|
@@ -199,9 +199,8 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 /// Create a new Socket and connect
 pub fn createConnection(port : Int, host? : String) -> Socket {
   match host {
-    Some(h) =>
-      net_module().call2("createConnection", port, h) |> @js.identity
-    None => net_module().call("createConnection", [port]) |> @js.identity
+    Some(h) => net_module().call2("createConnection", port, h) |> @js.identity
+    None => net_module().call("createConnection", [port]).cast()
   }
 }
 
@@ -244,17 +243,17 @@ pub fn createServer(
 ///|
 /// Check if IP address is IPv4
 pub fn isIPv4(input : String) -> Bool {
-  net_module().call("isIPv4", [input]) |> @js.identity
+  net_module().call("isIPv4", [input]).cast()
 }
 
 ///|
 /// Check if IP address is IPv6
 pub fn isIPv6(input : String) -> Bool {
-  net_module().call("isIPv6", [input]) |> @js.identity
+  net_module().call("isIPv6", [input]).cast()
 }
 
 ///|
 /// Check IP version (returns 4, 6, or 0 for invalid)
 pub fn isIP(input : String) -> Int {
-  net_module().call("isIP", [input]) |> @js.identity
+  net_module().call("isIP", [input]).cast()
 }

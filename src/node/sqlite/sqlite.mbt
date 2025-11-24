@@ -164,13 +164,13 @@ pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
 ///|
 #alias(is_open)
 pub fn DatabaseSync::isOpen(self : Self) -> Bool {
-  self.get("isOpen") |> @js.identity
+  self.get("isOpen").cast()
 }
 
 ///|
 #alias(is_transaction)
 pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
-  self.get("isTransaction") |> @js.identity
+  self.get("isTransaction").cast()
 }
 
 ///|
@@ -194,7 +194,7 @@ pub fn DatabaseSync::createTagStore(
   } else {
     []
   }
-  self.call("createTagStore", args) |> @js.identity
+  self.call("createTagStore", args).cast()
 }
 
 ///|
@@ -205,17 +205,17 @@ pub fn DatabaseSync::createSession(
   db? : String,
 ) -> Session {
   let v = @js.from_entries_option_cast([("table", table), ("db", db)])
-  self.call("createSession", [v]) |> @js.identity
+  self.call("createSession", [v]).cast()
 }
 
 ///|
 pub fn DatabaseSync::exec(self : Self, query : String) -> Unit {
-  self.call("exec", [query]) |> @js.identity
+  self.call("exec", [query]).cast()
 }
 
 ///|
 pub fn DatabaseSync::prepare(self : Self, query : String) -> StatementSync {
-  self.call("prepare", [query]) |> @js.identity
+  self.call("prepare", [query]).cast()
 }
 
 ///|
@@ -296,7 +296,7 @@ pub fn StatementSync::run(
       args.push(param)
     }
   }
-  self.call("run", args) |> @js.identity
+  self.call("run", args).cast()
 }
 
 ///|
@@ -318,7 +318,7 @@ pub fn StatementSync::all(
       args.push(param)
     }
   }
-  self.call("all", args) |> @js.identity
+  self.call("all", args).cast()
 }
 
 ///|
@@ -340,19 +340,19 @@ pub fn StatementSync::iterate(
       args.push(param)
     }
   }
-  self.call("iterate", args) |> @js.identity
+  self.call("iterate", args).cast()
 }
 
 ///|
 #alias(expanded_sql)
 pub fn StatementSync::expandedSQL(self : Self) -> String {
-  self.get("expandedSQL") |> @js.identity
+  self.get("expandedSQL").cast()
 }
 
 ///|
 #alias(source_sql)
 pub fn StatementSync::sourceSQL(self : Self) -> String {
-  self.get("sourceSQL") |> @js.identity
+  self.get("sourceSQL").cast()
 }
 
 ///|
@@ -425,7 +425,7 @@ pub impl @js.JsImpl for SQLTagStore
 
 ///|
 pub fn SQLTagStore::capacity(self : Self) -> Int {
-  self.get("capacity") |> @js.identity
+  self.get("capacity").cast()
 }
 
 ///|
@@ -440,7 +440,7 @@ pub fn SQLTagStore::clear(self : Self) -> Unit {
 
 ///|
 pub fn SQLTagStore::db(self : Self) -> DatabaseSync {
-  self.get("db") |> @js.identity
+  self.get("db").cast()
 }
 
 ///|

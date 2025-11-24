@@ -70,7 +70,7 @@ pub fn[Env, ExecutionContext] Hono::get(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("get", [path, @js.unsafe_js(handler)]) |> @js.identity
+  self.call("get", [path, @js.unsafe_js(handler)]).cast()
 }
 
 ///|
@@ -80,7 +80,7 @@ pub fn[Env, ExecutionContext] Hono::post(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("post", [path, @js.unsafe_js(handler)]) |> @js.identity
+  self.call("post", [path, @js.unsafe_js(handler)]).cast()
 }
 
 ///|
@@ -90,7 +90,7 @@ pub fn[Env, ExecutionContext] Hono::put(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("put", [path, @js.unsafe_js(handler)]) |> @js.identity
+  self.call("put", [path, @js.unsafe_js(handler)]).cast()
 }
 
 ///|
@@ -100,7 +100,7 @@ pub fn[Env, ExecutionContext] Hono::delete(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("delete", [path, @js.unsafe_js(handler)]) |> @js.identity
+  self.call("delete", [path, @js.unsafe_js(handler)]).cast()
 }
 
 ///|
@@ -110,7 +110,7 @@ pub fn[Env, ExecutionContext] Hono::patch(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("patch", [path, @js.unsafe_js(handler)]) |> @js.identity
+  self.call("patch", [path, @js.unsafe_js(handler)]).cast()
 }
 
 ///|
@@ -120,7 +120,7 @@ pub fn[Env, ExecutionContext] Hono::options(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("options", [path, @js.unsafe_js(handler)]) |> @js.identity
+  self.call("options", [path, @js.unsafe_js(handler)]).cast()
 }
 
 ///|
@@ -130,7 +130,7 @@ pub fn[Env, ExecutionContext] Hono::all(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("all", [path, @js.unsafe_js(handler)]) |> @js.identity
+  self.call("all", [path, @js.unsafe_js(handler)]).cast()
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn[Env, ExecutionContext] Hono::use_(
   path : String,
   middleware : Middleware[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("use", [path, @js.unsafe_js(middleware)]) |> @js.identity
+  self.call("use", [path, @js.unsafe_js(middleware)]).cast()
 }
 
 ///|
@@ -150,7 +150,7 @@ pub fn[Env, ExecutionContext] Hono::useall(
   self : Hono[Env, ExecutionContext],
   middleware : Middleware[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("use", [@js.unsafe_js(middleware)]) |> @js.identity
+  self.call("use", [@js.unsafe_js(middleware)]).cast()
 }
 
 ///|
@@ -160,7 +160,7 @@ pub fn[Env, ExecutionContext] Hono::fetch(
   self : Hono[Env, ExecutionContext],
   request : @http.Request,
 ) -> @js.Promise[@http.Response] {
-  self.call("fetch", [request]) |> @js.identity
+  self.call("fetch", [request]).cast()
 }
 
 ///|
@@ -180,7 +180,7 @@ pub fn[Env, ExecutionContext] Hono::basePath(
   self : Hono[Env, ExecutionContext],
   path : String,
 ) -> Hono[Env, ExecutionContext] {
-  self.call("basePath", [path]) |> @js.identity
+  self.call("basePath", [path]).cast()
 }
 
 ///|
@@ -191,7 +191,7 @@ pub fn[Env, ExecutionContext] Hono::notFound(
   self : Hono[Env, ExecutionContext],
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("notFound", [@js.unsafe_js(handler)]) |> @js.identity
+  self.call("notFound", [@js.unsafe_js(handler)]).cast()
 }
 
 ///|
@@ -202,7 +202,7 @@ pub fn[Env, ExecutionContext] Hono::onError(
   self : Hono[Env, ExecutionContext],
   handler : (@js.Js, Context[Env, ExecutionContext]) -> @http.Response,
 ) -> Hono[Env, ExecutionContext] {
-  self.call("onError", [@js.unsafe_js(handler)]) |> @js.identity
+  self.call("onError", [@js.unsafe_js(handler)]).cast()
 }
 
 ///|
@@ -213,7 +213,7 @@ pub fn[Env, ExecutionContext] Hono::mount(
   path : String,
   app : Hono[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("mount", [path, app]) |> @js.identity
+  self.call("mount", [path, app]).cast()
 }
 
 ///|
@@ -224,5 +224,5 @@ pub fn[Env, ExecutionContext] Hono::route(
   path : String,
   app : Hono[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call("route", [path, app]) |> @js.identity
+  self.call("route", [path, app]).cast()
 }

@@ -61,7 +61,7 @@ pub extern "js" fn Document::createTextNode(self : Self, data : String) -> Text 
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
 #alias(ready_state)
 pub fn Document::readyState(self : Self) -> String {
-  self.get("readyState") |> @js.identity
+  self.get("readyState").cast()
 }
 
 ///|
@@ -138,7 +138,7 @@ pub fn Document::head(self : Self) -> HTMLHeadElement? {
 /// Returns the document's title
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/title
 pub fn Document::title(self : Self) -> String {
-  self.get("title") |> @js.identity
+  self.get("title").cast()
 }
 
 ///|
@@ -152,21 +152,21 @@ pub fn Document::setTitle(self : Self, title : String) -> Unit {
 /// Returns the document's URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/URL
 pub fn Document::url(self : Self) -> String {
-  self.get("URL") |> @js.identity
+  self.get("URL").cast()
 }
 
 ///|
 /// Returns the document's domain
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/domain
 pub fn Document::domain(self : Self) -> String {
-  self.get("domain") |> @js.identity
+  self.get("domain").cast()
 }
 
 ///|
 /// Returns the document's referrer
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/referrer
 pub fn Document::referrer(self : Self) -> String {
-  self.get("referrer") |> @js.identity
+  self.get("referrer").cast()
 }
 
 ///|
@@ -182,7 +182,7 @@ pub fn Document::createDocumentFragment(self : Self) -> DocumentFragment {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 #alias(create_comment)
 pub fn Document::createComment(self : Self, data : String) -> Node {
-  self.call("createComment", [data]) |> @js.identity
+  self.call("createComment", [data]).cast()
 }
 
 ///|
@@ -190,7 +190,7 @@ pub fn Document::createComment(self : Self, data : String) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentElement
 #alias(document_element)
 pub fn Document::documentElement(self : Self) -> Element {
-  self.get("documentElement") |> @js.identity
+  self.get("documentElement").cast()
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn Document::documentElement(self : Self) -> Element {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentURI
 #alias(document_uri)
 pub fn Document::documentURI(self : Self) -> String {
-  self.get("documentURI") |> @js.identity
+  self.get("documentURI").cast()
 }
 
 ///|
@@ -206,7 +206,7 @@ pub fn Document::documentURI(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/characterSet
 #alias(character_set)
 pub fn Document::characterSet(self : Self) -> String {
-  self.get("characterSet") |> @js.identity
+  self.get("characterSet").cast()
 }
 
 ///|
@@ -214,7 +214,7 @@ pub fn Document::characterSet(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/contentType
 #alias(content_type)
 pub fn Document::contentType(self : Self) -> String {
-  self.get("contentType") |> @js.identity
+  self.get("contentType").cast()
 }
 
 ///|
@@ -229,7 +229,7 @@ pub fn Document::doctype(self : Self) -> @js.Js? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
 #alias(adopt_node)
 pub fn Document::adoptNode(self : Self, node : Node) -> Node {
-  self.call("adoptNode", [node.to_js()]) |> @js.identity
+  self.call("adoptNode", [node.to_js()]).cast()
 }
 
 ///|
@@ -245,7 +245,7 @@ pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
 #alias(create_event)
 pub fn Document::createEvent(self : Self, event_type : String) -> Event {
-  self.call("createEvent", [event_type]) |> @js.identity
+  self.call("createEvent", [event_type]).cast()
 }
 
 ///|

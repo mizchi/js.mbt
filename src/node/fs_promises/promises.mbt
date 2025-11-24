@@ -17,7 +17,7 @@ pub fn Stat::isDirectory(self : Self) -> Bool {
 
 ///|
 pub fn Stat::size(self : Self) -> Int {
-  self.get("size") |> @js.identity
+  self.get("size").cast()
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn Dirent::isDirectory(self : Self) -> Bool {
 
 ///|
 pub fn Dirent::name(self : Self) -> String {
-  self.get("name") |> @js.identity
+  self.get("name").cast()
 }
 
 ///|

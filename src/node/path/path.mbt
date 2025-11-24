@@ -2,7 +2,7 @@
 /// path.join(...paths)
 pub fn join(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  path_module.call("join", paths.map(p => p)) |> @js.identity
+  path_module.call("join", paths.map(p => p)).cast()
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn basename(path : String, suffix? : String) -> String {
 /// JS: path.extname(path)
 pub fn extname(path : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call("extname", [path]) |> @js.identity
+  path_module.call("extname", [path]).cast()
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn extname(path : String) -> String {
 #alias(is_absolute)
 pub fn isAbsolute(path : String) -> Bool {
   let path_module = @node.require("node:path")
-  path_module.call("isAbsolute", [path]) |> @js.identity
+  path_module.call("isAbsolute", [path]).cast()
 }
 
 ///|
@@ -56,7 +56,7 @@ pub fn normalize(path : String) -> String {
 /// JS: path.resolve(...paths)
 pub fn resolve(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  path_module.call("resolve", paths.map(p => @js.js(p))) |> @js.identity
+  path_module.call("resolve", paths.map(p => @js.js(p))).cast()
 }
 
 ///|
@@ -96,13 +96,13 @@ pub impl @js.JsImpl for ParsedPath
 ///|
 pub fn delimiter() -> String {
   let path_module = @node.require("node:path")
-  path_module.get("delimiter") |> @js.identity
+  path_module.get("delimiter").cast()
 }
 
 ///|
 pub fn sep() -> String {
   let path_module = @node.require("node:path")
-  path_module.get("sep") |> @js.identity
+  path_module.get("sep").cast()
 }
 
 ///|

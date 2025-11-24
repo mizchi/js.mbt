@@ -242,8 +242,8 @@ test "chown_sync changes file ownership" {
   let test_file = "test_chown.txt"
   writeFileSync(test_file, "chown test" |> @js.js)
   let stats = statSync(test_file)
-  let uid : Int = stats.get("uid") |> @js.identity
-  let gid : Int = stats.get("gid") |> @js.identity
+  let uid : Int = stats.get("uid").cast()
+  let gid : Int = stats.get("gid").cast()
   // Set to same owner (should succeed without elevated permissions)
   chownSync(test_file, uid, gid)
   let exists = existsSync(test_file)

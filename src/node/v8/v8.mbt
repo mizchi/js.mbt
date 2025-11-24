@@ -119,7 +119,7 @@ pub fn Serializer::writeHeader(self : Self) -> Unit {
 /// Write a value
 #alias(write_value)
 pub fn Serializer::writeValue(self : Self, value : &@js.JsImpl) -> Bool {
-  self.call("writeValue", [value.to_js()]) |> @js.identity
+  self.call("writeValue", [value.to_js()]).cast()
 }
 
 ///|
@@ -230,7 +230,7 @@ pub fn Deserializer::readDouble(self : Self) -> Double {
 /// Read raw bytes
 #alias(read_raw_bytes)
 pub fn Deserializer::readRawBytes(self : Self, length : Int) -> @buffer.Buffer {
-  self.call("readRawBytes", [length]) |> @js.identity
+  self.call("readRawBytes", [length]).cast()
 }
 
 ///| Utility Functions

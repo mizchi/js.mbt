@@ -24,7 +24,7 @@ pub fn Request::new(url : String) -> Request {
 /// Get the HTTP method (e.g., "GET", "POST")
 /// Note: This is a method because "method" is a reserved word in MoonBit
 pub fn Request::method_(self : Request) -> String {
-  self.get("method") |> @js.identity
+  self.get("method").cast()
 }
 
 ///|

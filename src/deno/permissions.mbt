@@ -12,7 +12,7 @@ pub impl @js.JsImpl for PermissionStatus
 ///|
 /// Get permission state ("granted", "denied", "prompt")
 pub fn PermissionStatus::state(self : PermissionStatus) -> String {
-  self.get("state") |> @js.identity
+  self.get("state").cast()
 }
 
 ///|

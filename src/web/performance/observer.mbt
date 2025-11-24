@@ -75,7 +75,7 @@ pub fn PerformanceObserverEntryList::getEntriesByType(
   self : PerformanceObserverEntryList,
   entryType : String,
 ) -> Array[PerformanceEntry] {
-  self.call("getEntriesByType", [entryType]) |> @js.identity
+  self.call("getEntriesByType", [entryType]).cast()
 }
 
 ///|
@@ -85,5 +85,5 @@ pub fn PerformanceObserverEntryList::getEntriesByName(
   self : PerformanceObserverEntryList,
   name : String,
 ) -> Array[PerformanceEntry] {
-  self.call("getEntriesByName", [name]) |> @js.identity
+  self.call("getEntriesByName", [name]).cast()
 }

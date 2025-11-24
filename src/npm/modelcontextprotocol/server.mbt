@@ -108,9 +108,7 @@ fn McpServer::handle_initialize(
     prompts: self.prompts.length() > 0,
   }
   result.set("capabilities", capabilities.to_js())
-  @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
-  )
+  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
 }
 
 ///|
@@ -125,9 +123,7 @@ fn McpServer::handle_tools_list(
   })
   let result = @js.Object::new()
   result.set("tools", tools_array)
-  @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
-  )
+  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
 }
 
 ///|
@@ -193,9 +189,7 @@ fn McpServer::handle_resources_list(
   })
   let result = @js.Object::new()
   result.set("resources", resources_array)
-  @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
-  )
+  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
 }
 
 ///|
@@ -255,9 +249,7 @@ fn McpServer::handle_prompts_list(
   })
   let result = @js.Object::new()
   result.set("prompts", prompts_array)
-  @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
-  )
+  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
 }
 
 ///|

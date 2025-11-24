@@ -26,7 +26,7 @@ pub fn CSSStyleDeclaration::get_property_value(
   self : Self,
   property : String,
 ) -> String {
-  self.call("getPropertyValue", [property]) |> @js.identity
+  self.call("getPropertyValue", [property]).cast()
 }
 
 ///|
@@ -56,7 +56,7 @@ pub fn CSSStyleDeclaration::remove_property(
   self : Self,
   property : String,
 ) -> String {
-  self.call("removeProperty", [property]) |> @js.identity
+  self.call("removeProperty", [property]).cast()
 }
 
 ///|
@@ -65,7 +65,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
   self : Self,
   property : String,
 ) -> String {
-  self.call("getPropertyPriority", [property]) |> @js.identity
+  self.call("getPropertyPriority", [property]).cast()
 }
 
 ///|
@@ -80,7 +80,7 @@ pub impl @js.JsImpl for CSSRule
 ///|
 /// Returns the CSS text of the rule
 pub fn CSSRule::css_text(self : Self) -> String {
-  self.get("cssText") |> @js.identity
+  self.get("cssText").cast()
 }
 
 ///|
@@ -104,7 +104,7 @@ pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
 ///|
 /// Returns the rule type
 pub fn CSSRule::rule_type(self : Self) -> Int {
-  self.get("type") |> @js.identity
+  self.get("type").cast()
 }
 
 ///|
@@ -127,7 +127,7 @@ pub fn CSSStyleSheet::cssRules(self : Self) -> @js.Js {
 /// Inserts a CSS rule
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
 pub fn CSSStyleSheet::insertRule(self : Self, rule : String) -> Int {
-  self.call("insertRule", [rule]) |> @js.identity
+  self.call("insertRule", [rule]).cast()
 }
 
 ///|
@@ -156,7 +156,7 @@ pub fn CSSStyleSheet::ownerNode(self : Self) -> @js.Js? {
 ///|
 /// Returns whether the stylesheet is disabled
 pub fn CSSStyleSheet::disabled(self : Self) -> Bool {
-  self.get("disabled") |> @js.identity
+  self.get("disabled").cast()
 }
 
 ///|
@@ -285,5 +285,5 @@ pub fn Document::createStylesheet(self : Self) -> CSSStyleSheet {
     Some(head) => head.call("appendChild", [style]) |> ignore
     None => ()
   }
-  style.get("sheet") |> @js.identity
+  style.get("sheet").cast()
 }

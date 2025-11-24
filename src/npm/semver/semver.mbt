@@ -40,63 +40,63 @@ pub fn clean(version : String) -> @js.Js {
 /// Returns 0 if v1 == v2, or 1 if v1 is greater, or -1 if v2 is greater
 /// https://github.com/npm/node-semver#comparison
 pub fn compare(v1 : String, v2 : String) -> Int {
-  semver().call("compare", [v1, v2]) |> @js.identity
+  semver().call("compare", [v1, v2]).cast()
 }
 
 ///|
 /// Compare two versions loosely
 /// https://github.com/npm/node-semver#comparison
 pub fn compare_loose(v1 : String, v2 : String) -> Int {
-  semver().call("compare", [v1, v2, true]) |> @js.identity
+  semver().call("compare", [v1, v2, true]).cast()
 }
 
 ///|
 /// v1 > v2
 /// https://github.com/npm/node-semver#comparison
 pub fn gt(v1 : String, v2 : String) -> Bool {
-  semver().call("gt", [v1, v2]) |> @js.identity
+  semver().call("gt", [v1, v2]).cast()
 }
 
 ///|
 /// v1 >= v2
 /// https://github.com/npm/node-semver#comparison
 pub fn gte(v1 : String, v2 : String) -> Bool {
-  semver().call("gte", [v1, v2]) |> @js.identity
+  semver().call("gte", [v1, v2]).cast()
 }
 
 ///|
 /// v1 < v2
 /// https://github.com/npm/node-semver#comparison
 pub fn lt(v1 : String, v2 : String) -> Bool {
-  semver().call("lt", [v1, v2]) |> @js.identity
+  semver().call("lt", [v1, v2]).cast()
 }
 
 ///|
 /// v1 <= v2
 /// https://github.com/npm/node-semver#comparison
 pub fn lte(v1 : String, v2 : String) -> Bool {
-  semver().call("lte", [v1, v2]) |> @js.identity
+  semver().call("lte", [v1, v2]).cast()
 }
 
 ///|
 /// v1 == v2
 /// https://github.com/npm/node-semver#comparison
 pub fn eq(v1 : String, v2 : String) -> Bool {
-  semver().call("eq", [v1, v2]) |> @js.identity
+  semver().call("eq", [v1, v2]).cast()
 }
 
 ///|
 /// v1 != v2
 /// https://github.com/npm/node-semver#comparison
 pub fn neq(v1 : String, v2 : String) -> Bool {
-  semver().call("neq", [v1, v2]) |> @js.identity
+  semver().call("neq", [v1, v2]).cast()
 }
 
 ///|
 /// Check if version satisfies a range
 /// https://github.com/npm/node-semver#ranges
 pub fn satisfies(version : String, range : String) -> Bool {
-  semver().call("satisfies", [version, range]) |> @js.identity
+  semver().call("satisfies", [version, range]).cast()
 }
 
 ///|
@@ -135,21 +135,21 @@ pub extern "js" fn min(versions : Array[String]) -> @js.Js =
 /// Return true if the version is greater than all the versions in the range
 /// https://github.com/npm/node-semver#ranges
 pub fn gtr(version : String, range : String) -> Bool {
-  semver().call("gtr", [version, range]) |> @js.identity
+  semver().call("gtr", [version, range]).cast()
 }
 
 ///|
 /// Return true if the version is less than all the versions in the range
 /// https://github.com/npm/node-semver#ranges
 pub fn ltr(version : String, range : String) -> Bool {
-  semver().call("ltr", [version, range]) |> @js.identity
+  semver().call("ltr", [version, range]).cast()
 }
 
 ///|
 /// Return true if version is outside the range
 /// https://github.com/npm/node-semver#ranges
 pub fn outside(version : String, range : String, hilo : String) -> Bool {
-  semver().call("outside", [version, range, hilo]) |> @js.identity
+  semver().call("outside", [version, range, hilo]).cast()
 }
 
 ///|
@@ -179,21 +179,21 @@ pub fn inc(
 /// Return the major version number
 /// https://github.com/npm/node-semver#functions
 pub fn major(version : String) -> Int {
-  semver().call("major", [version]) |> @js.identity
+  semver().call("major", [version]).cast()
 }
 
 ///|
 /// Return the minor version number
 /// https://github.com/npm/node-semver#functions
 pub fn minor(version : String) -> Int {
-  semver().call("minor", [version]) |> @js.identity
+  semver().call("minor", [version]).cast()
 }
 
 ///|
 /// Return the patch version number
 /// https://github.com/npm/node-semver#functions
 pub fn patch(version : String) -> Int {
-  semver().call("patch", [version]) |> @js.identity
+  semver().call("patch", [version]).cast()
 }
 
 ///|

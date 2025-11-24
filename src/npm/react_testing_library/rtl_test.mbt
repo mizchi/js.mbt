@@ -209,7 +209,7 @@ test "fireEvent change on input" {
     let (value, set_value) = @react.use_state("")
     let on_change : @dom.ChangeEventHandler = e => {
       let target : @js.Js = e.get("target")
-      let new_value : String = target.get("value") |> @js.identity
+      let new_value : String = target.get("value").cast()
       set_value(new_value)
     }
     @react_element.div([
@@ -308,7 +308,7 @@ test "fireEvent keyDown on input" {
   let comp = (_props : AppProps) => {
     let (key, set_key) = @react.use_state("")
     let on_keydown = fn(e : @js.Js) {
-      let k : String = e.get("key") |> @js.identity
+      let k : String = e.get("key").cast()
       set_key("Key: \{k}")
     }
     @react_element.div([

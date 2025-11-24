@@ -55,13 +55,13 @@ pub impl @js.JsImpl for ClientResponse
 ///|
 /// Check if response is ok
 pub fn ClientResponse::ok(self : ClientResponse) -> Bool {
-  self.get("ok") |> @js.identity
+  self.get("ok").cast()
 }
 
 ///|
 /// Get response status
 pub fn ClientResponse::status(self : ClientResponse) -> Int {
-  self.get("status") |> @js.identity
+  self.get("status").cast()
 }
 
 ///|
@@ -147,8 +147,7 @@ pub fn ClientEndpoint::get_(
     )
     ffi_call_dollar_get(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_get(@js.identity(self), @js.undefined())
-    |> @js.identity
+    ffi_call_dollar_get(@js.identity(self), @js.undefined()) |> @js.identity
   }
 }
 
@@ -194,8 +193,7 @@ pub fn ClientEndpoint::post_(
     )
     ffi_call_dollar_post(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_post(@js.identity(self), @js.undefined())
-    |> @js.identity
+    ffi_call_dollar_post(@js.identity(self), @js.undefined()) |> @js.identity
   }
 }
 
@@ -241,8 +239,7 @@ pub fn ClientEndpoint::put_(
     )
     ffi_call_dollar_put(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_put(@js.identity(self), @js.undefined())
-    |> @js.identity
+    ffi_call_dollar_put(@js.identity(self), @js.undefined()) |> @js.identity
   }
 }
 
@@ -288,8 +285,7 @@ pub fn ClientEndpoint::delete_(
     )
     ffi_call_dollar_delete(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_delete(@js.identity(self), @js.undefined())
-    |> @js.identity
+    ffi_call_dollar_delete(@js.identity(self), @js.undefined()) |> @js.identity
   }
 }
 
@@ -335,8 +331,7 @@ pub fn ClientEndpoint::patch_(
     )
     ffi_call_dollar_patch(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_patch(@js.identity(self), @js.undefined())
-    |> @js.identity
+    ffi_call_dollar_patch(@js.identity(self), @js.undefined()) |> @js.identity
   }
 }
 
@@ -382,8 +377,7 @@ pub fn ClientEndpoint::url_(
     )
     ffi_call_dollar_url(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_url(@js.identity(self), @js.undefined())
-    |> @js.identity
+    ffi_call_dollar_url(@js.identity(self), @js.undefined()) |> @js.identity
   }
 }
 
@@ -391,5 +385,5 @@ pub fn ClientEndpoint::url_(
 /// Access a path on the client
 /// Original: client[path] or client.path
 pub fn HonoClient::path(self : HonoClient, path : String) -> ClientEndpoint {
-  self.get(path) |> @js.identity
+  self.get(path).cast()
 }

@@ -35,13 +35,13 @@ pub impl @js.JsImpl for SVGSVGElement
 ///|
 /// Gets the current viewport width
 pub fn SVGSVGElement::width(self : Self) -> Double {
-  self.get("width").get("baseVal").get("value") |> @js.identity
+  self.get("width").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the current viewport height
 pub fn SVGSVGElement::height(self : Self) -> Double {
-  self.get("height").get("baseVal").get("value") |> @js.identity
+  self.get("height").get("baseVal").get("value").cast()
 }
 
 ///|
@@ -57,7 +57,7 @@ pub fn SVGSVGElement::setAttribute(
 ///|
 /// Gets an attribute from the SVG element
 pub fn SVGSVGElement::getAttribute(self : Self, name : String) -> String? {
-  self.call("getAttribute", [name]) |> @js.identity_option()
+  self.call("getAttribute", [name]) |> @js.identity_option
 }
 
 ///|
@@ -80,19 +80,19 @@ pub impl ElementImpl for SVGCircleElement
 ///|
 /// Gets the cx coordinate
 pub fn SVGCircleElement::cx(self : Self) -> Double {
-  self.get("cx").get("baseVal").get("value") |> @js.identity
+  self.get("cx").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the cy coordinate
 pub fn SVGCircleElement::cy(self : Self) -> Double {
-  self.get("cy").get("baseVal").get("value") |> @js.identity
+  self.get("cy").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the radius
 pub fn SVGCircleElement::r(self : Self) -> Double {
-  self.get("r").get("baseVal").get("value") |> @js.identity
+  self.get("r").get("baseVal").get("value").cast()
 }
 
 ///|
@@ -125,25 +125,25 @@ pub impl ElementImpl for SVGRectElement
 ///|
 /// Gets the x coordinate
 pub fn SVGRectElement::x(self : Self) -> Double {
-  self.get("x").get("baseVal").get("value") |> @js.identity
+  self.get("x").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the y coordinate
 pub fn SVGRectElement::y(self : Self) -> Double {
-  self.get("y").get("baseVal").get("value") |> @js.identity
+  self.get("y").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the width
 pub fn SVGRectElement::width(self : Self) -> Double {
-  self.get("width").get("baseVal").get("value") |> @js.identity
+  self.get("width").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the height
 pub fn SVGRectElement::height(self : Self) -> Double {
-  self.get("height").get("baseVal").get("value") |> @js.identity
+  self.get("height").get("baseVal").get("value").cast()
 }
 
 ///|
@@ -176,25 +176,25 @@ pub impl ElementImpl for SVGEllipseElement
 ///|
 /// Gets the cx coordinate
 pub fn SVGEllipseElement::cx(self : Self) -> Double {
-  self.get("cx").get("baseVal").get("value") |> @js.identity
+  self.get("cx").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the cy coordinate
 pub fn SVGEllipseElement::cy(self : Self) -> Double {
-  self.get("cy").get("baseVal").get("value") |> @js.identity
+  self.get("cy").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the x-axis radius
 pub fn SVGEllipseElement::rx(self : Self) -> Double {
-  self.get("rx").get("baseVal").get("value") |> @js.identity
+  self.get("rx").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the y-axis radius
 pub fn SVGEllipseElement::ry(self : Self) -> Double {
-  self.get("ry").get("baseVal").get("value") |> @js.identity
+  self.get("ry").get("baseVal").get("value").cast()
 }
 
 ///|
@@ -227,25 +227,25 @@ pub impl ElementImpl for SVGLineElement
 ///|
 /// Gets the x1 coordinate
 pub fn SVGLineElement::x1(self : Self) -> Double {
-  self.get("x1").get("baseVal").get("value") |> @js.identity
+  self.get("x1").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the y1 coordinate
 pub fn SVGLineElement::y1(self : Self) -> Double {
-  self.get("y1").get("baseVal").get("value") |> @js.identity
+  self.get("y1").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the x2 coordinate
 pub fn SVGLineElement::x2(self : Self) -> Double {
-  self.get("x2").get("baseVal").get("value") |> @js.identity
+  self.get("x2").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the y2 coordinate
 pub fn SVGLineElement::y2(self : Self) -> Double {
-  self.get("y2").get("baseVal").get("value") |> @js.identity
+  self.get("y2").get("baseVal").get("value").cast()
 }
 
 ///|
@@ -332,14 +332,14 @@ pub impl ElementImpl for SVGPathElement
 ///|
 /// Gets the path data
 pub fn SVGPathElement::d(self : Self) -> String {
-  self.get("d") |> @js.identity
+  self.get("d").cast()
 }
 
 ///|
 /// Gets the total length of the path
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement/getTotalLength
 pub fn SVGPathElement::getTotalLength(self : Self) -> Double {
-  self.call0("getTotalLength") |> @js.identity
+  self.call0("getTotalLength").cast()
 }
 
 ///|
@@ -372,13 +372,13 @@ pub impl ElementImpl for SVGTextElement
 ///|
 /// Gets the x coordinate
 pub fn SVGTextElement::x(self : Self) -> Double {
-  self.get("x").get("baseVal").get(0).get("value") |> @js.identity
+  self.get("x").get("baseVal").get(0).get("value").cast()
 }
 
 ///|
 /// Gets the y coordinate
 pub fn SVGTextElement::y(self : Self) -> Double {
-  self.get("y").get("baseVal").get(0).get("value") |> @js.identity
+  self.get("y").get("baseVal").get(0).get("value").cast()
 }
 
 ///|
@@ -411,31 +411,31 @@ pub impl ElementImpl for SVGImageElement
 ///|
 /// Gets the x coordinate
 pub fn SVGImageElement::x(self : Self) -> Double {
-  self.get("x").get("baseVal").get("value") |> @js.identity
+  self.get("x").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the y coordinate
 pub fn SVGImageElement::y(self : Self) -> Double {
-  self.get("y").get("baseVal").get("value") |> @js.identity
+  self.get("y").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the width
 pub fn SVGImageElement::width(self : Self) -> Double {
-  self.get("width").get("baseVal").get("value") |> @js.identity
+  self.get("width").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the height
 pub fn SVGImageElement::height(self : Self) -> Double {
-  self.get("height").get("baseVal").get("value") |> @js.identity
+  self.get("height").get("baseVal").get("value").cast()
 }
 
 ///|
 /// Gets the href attribute
 pub fn SVGImageElement::href(self : Self) -> String {
-  self.get("href").get("baseVal") |> @js.identity
+  self.get("href").get("baseVal").cast()
 }
 
 ///|

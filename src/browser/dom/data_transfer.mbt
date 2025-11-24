@@ -27,7 +27,7 @@ pub fn DataTransfer::get_types(self : Self) -> Array[String] {
 ///|
 /// Retrieves the data for a given type
 pub fn DataTransfer::getData(self : Self, format : String) -> String {
-  self.call("getData", [format]) |> @js.identity
+  self.call("getData", [format]).cast()
 }
 
 ///|

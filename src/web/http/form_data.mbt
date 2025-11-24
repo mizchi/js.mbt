@@ -13,10 +13,10 @@ pub fn FormData::append(self : Self, name : String, value : String) -> Unit {
 
 ///|
 pub fn FormData::delete(self : Self, name : String) -> Unit {
-  self.call("delete", [name]) |> @js.identity
+  self.call("delete", [name]).cast()
 }
 
 ///|
 pub fn FormData::get(self : Self, name : String) -> String {
-  self.call("get", [name]) |> @js.identity
+  self.call("get", [name]).cast()
 }

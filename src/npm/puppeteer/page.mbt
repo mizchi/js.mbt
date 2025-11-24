@@ -45,9 +45,7 @@ pub async fn Page::screenshot(self : Page, path : String) -> Unit {
 ///|
 /// Page: Click on element
 pub async fn Page::click(self : Page, selector : String) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("click", [selector]),
-  )
+  let promise : @js.Promise[Unit] = @js.identity(self.call("click", [selector]))
   promise.wait()
 }
 
@@ -145,7 +143,7 @@ pub async fn Page::title(self : Page) -> String {
 ///|
 /// Page: Get page URL
 pub fn Page::url(self : Page) -> String {
-  self.call("url", []) |> @js.identity
+  self.call("url", []).cast()
 }
 
 ///|
@@ -154,9 +152,7 @@ pub async fn Page::focus(
   self : Page,
   selector : String,
 ) -> Unit raise @js.ThrowError {
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("focus", [selector]),
-  )
+  let promise : @js.Promise[Unit] = @js.identity(self.call("focus", [selector]))
   promise.wait() catch {
     e => raise @js.ThrowError::from_js(@js.unsafe_js(e))
   }
@@ -168,9 +164,7 @@ pub async fn Page::hover(
   self : Page,
   selector : String,
 ) -> Unit raise @js.ThrowError {
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("hover", [selector]),
-  )
+  let promise : @js.Promise[Unit] = @js.identity(self.call("hover", [selector]))
   promise.wait() catch {
     e => raise @js.ThrowError::from_js(@js.unsafe_js(e))
   }
@@ -196,9 +190,7 @@ pub async fn Page::select(
 ///|
 /// Page: Tap on element (touch event)
 pub async fn Page::tap(self : Page, selector : String) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("tap", [selector]),
-  )
+  let promise : @js.Promise[Unit] = @js.identity(self.call("tap", [selector]))
   promise.wait()
 }
 

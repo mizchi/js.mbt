@@ -63,7 +63,7 @@ pub(all) struct MutationRecord {
 ///|
 /// Get the type of mutation
 pub fn MutationRecord::mutation_type(self : Self) -> String {
-  self.to_js().get("type") |> @js.identity
+  self.to_js().get("type").cast()
 }
 
 ///|

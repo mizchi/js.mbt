@@ -39,13 +39,13 @@ pub impl @js.JsImpl for WebAssemblyMemory
 ///|
 /// Get the buffer from WebAssembly memory
 pub fn WebAssemblyMemory::buffer(self : Self) -> @js.ArrayBuffer {
-  self.get("buffer") |> @js.identity
+  self.get("buffer").cast()
 }
 
 ///|
 /// Grow the memory by delta pages
 pub fn WebAssemblyMemory::grow(self : Self, delta : Int) -> Int {
-  self.call("grow", [delta]) |> @js.identity
+  self.call("grow", [delta]).cast()
 }
 
 ///|
@@ -85,7 +85,7 @@ pub impl @js.JsImpl for WebAssemblyTable
 ///|
 /// Get the length of the table
 pub fn WebAssemblyTable::length(self : Self) -> Int {
-  self.get("length") |> @js.identity
+  self.get("length").cast()
 }
 
 ///|
@@ -229,8 +229,8 @@ pub fn instantiate_bytes(
     None => @js.undefined()
   }
   let result = ffi_instantiate(bytes.to_js(), imports)
-  let wasm_module : WebAssemblyModule = result.get("module") |> @js.identity
-  let instance : WebAssemblyInstance = result.get("instance") |> @js.identity
+  let wasm_module : WebAssemblyModule = result.get("module").cast()
+  let instance : WebAssemblyInstance = result.get("instance").cast()
   (wasm_module, instance)
 }
 

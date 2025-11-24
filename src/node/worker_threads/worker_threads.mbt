@@ -97,7 +97,7 @@ pub fn Worker::ref_(self : Worker) -> Unit {
 ///|
 /// Get the threadId of the worker
 pub fn Worker::threadId(self : Worker) -> Int {
-  self.get("threadId") |> @js.identity
+  self.get("threadId").cast()
 }
 
 ///|
@@ -148,7 +148,7 @@ pub fn MessagePort::close(self : MessagePort) -> Unit {
 /// Check if running in the main thread
 /// https://nodejs.org/api/worker_threads.html#workerismainthread
 pub fn isMainThread() -> Bool {
-  ffi_require_worker_threads().get("isMainThread") |> @js.identity
+  ffi_require_worker_threads().get("isMainThread").cast()
 }
 
 ///|

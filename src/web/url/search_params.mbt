@@ -27,12 +27,12 @@ pub fn URLSearchParams::get_all(
   self : URLSearchParams,
   name : String,
 ) -> Array[String] {
-  self.call("getAll", [name]) |> @js.identity
+  self.call("getAll", [name]).cast()
 }
 
 ///|
 pub fn URLSearchParams::has(self : URLSearchParams, name : String) -> Bool {
-  self.call("has", [name]) |> @js.identity
+  self.call("has", [name]).cast()
 }
 
 ///|
@@ -55,7 +55,7 @@ pub fn URLSearchParams::append(
 
 ///|
 pub fn URLSearchParams::delete(self : URLSearchParams, name : String) -> Unit {
-  self.call("delete", [name]) |> @js.identity
+  self.call("delete", [name]).cast()
 }
 
 ///|

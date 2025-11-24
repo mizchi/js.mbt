@@ -21,35 +21,35 @@ pub impl NodeImpl for ShadowRoot
 /// Returns the mode of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/mode
 pub fn ShadowRoot::mode(self : Self) -> String {
-  self.get("mode") |> @js.identity
+  self.get("mode").cast()
 }
 
 ///|
 /// Returns the host element of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/host
 pub fn ShadowRoot::host(self : Self) -> Element {
-  self.get("host") |> @js.identity
+  self.get("host").cast()
 }
 
 ///|
 /// Returns whether the shadow root delegates focus
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/delegatesFocus
 pub fn ShadowRoot::delegatesFocus(self : Self) -> Bool {
-  self.get("delegatesFocus") |> @js.identity
+  self.get("delegatesFocus").cast()
 }
 
 ///|
 /// Returns the shadow root's slot assignment mode
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/slotAssignment
 pub fn ShadowRoot::slotAssignment(self : Self) -> String {
-  self.get("slotAssignment") |> @js.identity
+  self.get("slotAssignment").cast()
 }
 
 ///|
 /// Returns the inner HTML of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/innerHTML
 pub fn ShadowRoot::innerHTML(self : Self) -> String {
-  self.get("innerHTML") |> @js.identity
+  self.get("innerHTML").cast()
 }
 
 ///|
@@ -121,7 +121,7 @@ pub fn HTMLElement::attachShadow(
     "delegatesFocus": @js.js(init.delegatesFocus),
     "slotAssignment": @js.js(init.slotAssignment),
   })
-  self.call("attachShadow", [options]) |> @js.identity
+  self.call("attachShadow", [options]).cast()
 }
 
 ///|

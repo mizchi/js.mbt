@@ -38,7 +38,7 @@ pub impl HTMLElementImpl for HTMLElement
 
 ///|
 impl HTMLElementImpl with innerText(self) -> String {
-  self.get("innerText") |> @js.identity
+  self.get("innerText").cast()
 }
 
 ///|
@@ -48,7 +48,7 @@ impl HTMLElementImpl with setInnerText(self, text) -> Unit {
 
 ///|
 impl HTMLElementImpl with innerHTML(self) -> String {
-  self.get("innerHTML") |> @js.identity
+  self.get("innerHTML").cast()
 }
 
 ///|
@@ -58,7 +58,7 @@ impl HTMLElementImpl with setInnerHTML(self, html) -> Unit {
 
 ///|
 impl HTMLElementImpl with outerHTML(self) -> String {
-  self.get("outerHTML") |> @js.identity
+  self.get("outerHTML").cast()
 }
 
 ///|

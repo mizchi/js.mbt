@@ -139,26 +139,26 @@ pub fn WebSocket::set_onclose(self : Self, handler : (@js.Js) -> Unit) -> Unit {
 /// MessageEvent helper to get data
 /// JS: event.data
 pub fn get_message_data(event : @js.Js) -> String {
-  event.get("data") |> @js.identity
+  event.get("data").cast()
 }
 
 ///|
 /// CloseEvent helper to get code
 /// JS: event.code
 pub fn get_close_code(event : @js.Js) -> Int {
-  event.get("code") |> @js.identity
+  event.get("code").cast()
 }
 
 ///|
 /// CloseEvent helper to get reason
 /// JS: event.reason
 pub fn get_close_reason(event : @js.Js) -> String {
-  event.get("reason") |> @js.identity
+  event.get("reason").cast()
 }
 
 ///|
 /// CloseEvent helper to get wasClean
 /// JS: event.wasClean
 pub fn get_close_was_clean(event : @js.Js) -> Bool {
-  event.get("wasClean") |> @js.identity
+  event.get("wasClean").cast()
 }

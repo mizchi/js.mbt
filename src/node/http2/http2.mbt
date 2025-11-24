@@ -275,7 +275,7 @@ pub fn Http2Session::request(
   self : Http2Session,
   headers : @js.Object,
 ) -> ClientHttp2Stream {
-  self.call("request", [headers.to_js()]) |> @js.identity
+  self.call("request", [headers.to_js()]).cast()
 }
 
 ///|
@@ -337,9 +337,7 @@ pub fn ClientHttp2Stream::on_response(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("response", fn(e : @js.Js) {
-    callback(@js.identity(e))
-  })
+  self.addEventListener("response", fn(e : @js.Js) { callback(@js.identity(e)) })
   self
 }
 

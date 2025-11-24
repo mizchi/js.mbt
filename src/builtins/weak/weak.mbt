@@ -152,5 +152,5 @@ pub fn[T] FinalizationRegistry::unregister(
   self : FinalizationRegistry[T],
   unregister_token : @js.Js,
 ) -> Bool {
-  self.to_js().call("unregister", [unregister_token]) |> @js.identity
+  self.to_js().call("unregister", [unregister_token]).cast()
 }

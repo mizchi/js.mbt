@@ -35,17 +35,17 @@ pub(open) trait ElementImpl: @js.JsImpl + NodeImpl {
 
 ///|
 impl ElementImpl with tagName(self) {
-  self.get("tagName") |> @js.identity
+  self.get("tagName").cast()
 }
 
 ///|
 impl ElementImpl with append(self, child) {
-  self.call("append", [child.to_js()]) |> @js.identity
+  self.call("append", [child.to_js()]).cast()
 }
 
 ///|
 impl ElementImpl with className(self) -> String {
-  self.get("className") |> @js.identity
+  self.get("className").cast()
 }
 
 ///|
@@ -55,7 +55,7 @@ impl ElementImpl with setClassName(self, class_name) -> Unit {
 
 ///|
 impl ElementImpl with id(self) -> String {
-  self.get("id") |> @js.identity
+  self.get("id").cast()
 }
 
 ///|
@@ -80,7 +80,7 @@ impl ElementImpl with removeAttribute(self, name) -> Unit {
 
 ///|
 impl ElementImpl with hasAttribute(self, name) -> Bool {
-  self.call("hasAttribute", [name]) |> @js.identity
+  self.call("hasAttribute", [name]).cast()
 }
 
 ///|
@@ -116,7 +116,5 @@ impl ElementImpl with querySelector(self, selector) -> Element? {
 /// Returns a static array of elements matching the specified CSS selector.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
-  @js.array_from(self.call("querySelectorAll", [selector])).map(
-    @js.identity(_),
-  )
+  @js.array_from(self.call("querySelectorAll", [selector])).map(@js.identity(_))
 }

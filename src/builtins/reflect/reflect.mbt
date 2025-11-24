@@ -116,7 +116,7 @@ pub fn has(target : &@js.JsImpl, property_key : &@js.PropertyKey) -> Bool {
 /// JS: Reflect.isExtensible(target)
 /// Checks if an object is extensible
 pub fn isExtensible(target : &@js.JsImpl) -> Bool {
-  reflect_class().call("isExtensible", [target.to_js()]) |> @js.identity
+  reflect_class().call("isExtensible", [target.to_js()]).cast()
 }
 
 ///|
@@ -125,14 +125,14 @@ pub fn isExtensible(target : &@js.JsImpl) -> Bool {
 /// Returns an array of the target object's own property keys.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn ownKeys(target : &@js.JsImpl) -> Array[@js.Js] {
-  reflect_class().call("ownKeys", [target.to_js()]) |> @js.identity
+  reflect_class().call("ownKeys", [target.to_js()]).cast()
 }
 
 ///|
 /// JS: Reflect.preventExtensions(target)
 /// Prevents new properties from being added to an object
 pub fn preventExtensions(target : &@js.JsImpl) -> Bool {
-  reflect_class().call("preventExtensions", [target.to_js()]) |> @js.identity
+  reflect_class().call("preventExtensions", [target.to_js()]).cast()
 }
 
 ///|

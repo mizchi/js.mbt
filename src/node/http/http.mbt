@@ -45,7 +45,7 @@ pub fn IncomingMessage::setTimeout(
   match callback {
     Some(cb) =>
       self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
-    None => self.call("setTimeout", [msecs]) |> @js.identity
+    None => self.call("setTimeout", [msecs]).cast()
   }
 }
 
@@ -77,12 +77,12 @@ pub fn ServerResponse::writeHead(
 ) -> ServerResponse {
   match (statusMessage, headers) {
     (Some(msg), Some(hdrs)) =>
-      self.call("writeHead", [statusCode, msg, hdrs]) |> @js.identity
+      self.call("writeHead", [statusCode, msg, hdrs]).cast()
     (Some(msg), None) =>
       self.call2("writeHead", statusCode, msg) |> @js.identity
     (None, Some(hdrs)) =>
       self.call2("writeHead", statusCode, hdrs) |> @js.identity
-    (None, None) => self.call("writeHead", [statusCode]) |> @js.identity
+    (None, None) => self.call("writeHead", [statusCode]).cast()
   }
 }
 
@@ -95,7 +95,7 @@ pub fn ServerResponse::write(
 ) -> Bool {
   match encoding {
     Some(enc) => self.call2("write", chunk, enc) |> @js.identity
-    None => self.call("write", [chunk]) |> @js.identity
+    None => self.call("write", [chunk]).cast()
   }
 }
 
@@ -144,13 +144,13 @@ pub fn ServerResponse::removeHeader(
 ///|
 /// Get headers sent status
 pub fn ServerResponse::headersSent(self : ServerResponse) -> Bool {
-  self.get("headersSent") |> @js.identity
+  self.get("headersSent").cast()
 }
 
 ///|
 /// Get status code
 pub fn ServerResponse::statusCode(self : ServerResponse) -> Int {
-  self.get("statusCode") |> @js.identity
+  self.get("statusCode").cast()
 }
 
 ///|
@@ -165,7 +165,7 @@ pub fn ServerResponse::set_statusCode(
 ///|
 /// Get status message
 pub fn ServerResponse::statusMessage(self : ServerResponse) -> String {
-  self.get("statusMessage") |> @js.identity
+  self.get("statusMessage").cast()
 }
 
 ///|
@@ -187,7 +187,7 @@ pub fn ServerResponse::setTimeout(
   match callback {
     Some(cb) =>
       self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
-    None => self.call("setTimeout", [msecs]) |> @js.identity
+    None => self.call("setTimeout", [msecs]).cast()
   }
 }
 
@@ -220,10 +220,10 @@ pub fn Server::listen(
 
   // Call listen with port, host, and backlog
   match (host, backlog) {
-    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> @js.identity
+    (Some(h), Some(b)) => self.call("listen", [port, h, b]).cast()
     (Some(h), None) => self.call2("listen", port, h) |> @js.identity
     (None, Some(b)) => self.call2("listen", port, b) |> @js.identity
-    (None, None) => self.call("listen", [port]) |> @js.identity
+    (None, None) => self.call("listen", [port]).cast()
   }
 }
 
@@ -231,7 +231,7 @@ pub fn Server::listen(
 /// Close the server
 pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
   match callback {
-    Some(cb) => self.call("close", [@js.from_fn0(cb)]) |> @js.identity
+    Some(cb) => self.call("close", [@js.from_fn0(cb)]).cast()
     None => self.call0("close") |> @js.identity
   }
 }
@@ -245,7 +245,7 @@ pub fn Server::address(self : Server) -> @js.Js? {
 ///|
 /// Check if the server is listening
 pub fn Server::listening(self : Server) -> Bool {
-  self.get("listening") |> @js.identity
+  self.get("listening").cast()
 }
 
 ///|
@@ -270,14 +270,14 @@ pub fn Server::setTimeout(
   match callback {
     Some(cb) =>
       self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
-    None => self.call("setTimeout", [msecs]) |> @js.identity
+    None => self.call("setTimeout", [msecs]).cast()
   }
 }
 
 ///|
 /// Get timeout
 pub fn Server::timeout(self : Server) -> Int {
-  self.get("timeout") |> @js.identity
+  self.get("timeout").cast()
 }
 
 ///|
@@ -313,7 +313,7 @@ pub fn ClientRequest::write(
 ) -> Bool {
   match encoding {
     Some(enc) => self.call2("write", chunk, enc) |> @js.identity
-    None => self.call("write", [chunk]) |> @js.identity
+    None => self.call("write", [chunk]).cast()
   }
 }
 
@@ -369,7 +369,7 @@ pub fn ClientRequest::setTimeout(
   match callback {
     Some(cb) =>
       self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
-    None => self.call("setTimeout", [msecs]) |> @js.identity
+    None => self.call("setTimeout", [msecs]).cast()
   }
 }
 
@@ -403,7 +403,7 @@ pub fn request(
       http_module().call2("request", url, opts) |> @js.identity
     (None, Some(cb)) =>
       http_module().call2("request", url, @js.from_fn1(cb)) |> @js.identity
-    (None, None) => http_module().call("request", [url]) |> @js.identity
+    (None, None) => http_module().call("request", [url]).cast()
   }
 }
 
@@ -416,13 +416,11 @@ pub fn get(
 ) -> ClientRequest {
   match (options, callback) {
     (Some(opts), Some(cb)) =>
-      http_module().call("get", [url, opts, @js.from_fn1(cb)])
-      |> @js.identity
-    (Some(opts), None) =>
-      http_module().call2("get", url, opts) |> @js.identity
+      http_module().call("get", [url, opts, @js.from_fn1(cb)]).cast()
+    (Some(opts), None) => http_module().call2("get", url, opts) |> @js.identity
     (None, Some(cb)) =>
       http_module().call2("get", url, @js.from_fn1(cb)) |> @js.identity
-    (None, None) => http_module().call("get", [url]) |> @js.identity
+    (None, None) => http_module().call("get", [url]).cast()
   }
 }
 

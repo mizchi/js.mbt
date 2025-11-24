@@ -28,7 +28,7 @@ pub fn DataView::new(
 ///|
 #alias(getInt8)
 pub fn DataView::get_int8(self : DataView, byte_offset : UInt) -> Int {
-  self.call("getInt8", [byte_offset]) |> @js.identity
+  self.call("getInt8", [byte_offset]).cast()
 }
 
 ///|

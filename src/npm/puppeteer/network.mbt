@@ -81,21 +81,21 @@ pub async fn HTTPRequest::respond(
 /// HTTPRequest: Check if interception is already handled
 /// JS: request.isInterceptResolutionHandled()
 pub fn HTTPRequest::isInterceptResolutionHandled(self : HTTPRequest) -> Bool {
-  self.call("isInterceptResolutionHandled", []) |> @js.identity
+  self.call("isInterceptResolutionHandled", []).cast()
 }
 
 ///|
 /// HTTPRequest: Get request URL
 /// JS: request.url()
 pub fn HTTPRequest::url(self : HTTPRequest) -> String {
-  self.call("url", []) |> @js.identity
+  self.call("url", []).cast()
 }
 
 ///|
 /// HTTPRequest: Get request method
 /// JS: request.method()
 pub fn HTTPRequest::method_(self : HTTPRequest) -> String {
-  self.call("method", []) |> @js.identity
+  self.call("method", []).cast()
 }
 
 ///|
@@ -109,35 +109,35 @@ pub fn HTTPRequest::headers(self : HTTPRequest) -> @js.Js {
 /// HTTPRequest: Get resource type
 /// JS: request.resourceType()
 pub fn HTTPRequest::resourceType(self : HTTPRequest) -> String {
-  self.call("resourceType", []) |> @js.identity
+  self.call("resourceType", []).cast()
 }
 
 ///|
 /// HTTPRequest: Check if navigation request
 /// JS: request.isNavigationRequest()
 pub fn HTTPRequest::isNavigationRequest(self : HTTPRequest) -> Bool {
-  self.call("isNavigationRequest", []) |> @js.identity
+  self.call("isNavigationRequest", []).cast()
 }
 
 ///|
 /// HTTPRequest: Get response
 /// JS: request.response()
 pub fn HTTPRequest::response(self : HTTPRequest) -> HTTPResponse? {
-  self.call("response", []) |> @js.identity
+  self.call("response", []).cast()
 }
 
 ///|
 /// HTTPRequest: Get redirect chain
 /// JS: request.redirectChain()
 pub fn HTTPRequest::redirectChain(self : HTTPRequest) -> Array[HTTPRequest] {
-  self.call("redirectChain", []) |> @js.identity
+  self.call("redirectChain", []).cast()
 }
 
 ///|
 /// HTTPRequest: Check if has POST data
 /// JS: request.hasPostData()
 pub fn HTTPRequest::hasPostData(self : HTTPRequest) -> Bool {
-  self.call("hasPostData", []) |> @js.identity
+  self.call("hasPostData", []).cast()
 }
 
 ///|
@@ -156,28 +156,28 @@ pub async fn HTTPRequest::fetchPostData(self : HTTPRequest) -> String {
 /// HTTPResponse: Get response URL
 /// JS: response.url()
 pub fn HTTPResponse::url(self : HTTPResponse) -> String {
-  self.call("url", []) |> @js.identity
+  self.call("url", []).cast()
 }
 
 ///|
 /// HTTPResponse: Get status code
 /// JS: response.status()
 pub fn HTTPResponse::status(self : HTTPResponse) -> Int {
-  self.call("status", []) |> @js.identity
+  self.call("status", []).cast()
 }
 
 ///|
 /// HTTPResponse: Get status text
 /// JS: response.statusText()
 pub fn HTTPResponse::statusText(self : HTTPResponse) -> String {
-  self.call("statusText", []) |> @js.identity
+  self.call("statusText", []).cast()
 }
 
 ///|
 /// HTTPResponse: Check if response is OK (200-299)
 /// JS: response.ok()
 pub fn HTTPResponse::ok(self : HTTPResponse) -> Bool {
-  self.call("ok", []) |> @js.identity
+  self.call("ok", []).cast()
 }
 
 ///|
@@ -215,26 +215,26 @@ pub async fn HTTPResponse::buffer(self : HTTPResponse) -> @js.Js {
 /// HTTPResponse: Check if served from cache
 /// JS: response.fromCache()
 pub fn HTTPResponse::fromCache(self : HTTPResponse) -> Bool {
-  self.call("fromCache", []) |> @js.identity
+  self.call("fromCache", []).cast()
 }
 
 ///|
 /// HTTPResponse: Check if served from service worker
 /// JS: response.fromServiceWorker()
 pub fn HTTPResponse::fromServiceWorker(self : HTTPResponse) -> Bool {
-  self.call("fromServiceWorker", []) |> @js.identity
+  self.call("fromServiceWorker", []).cast()
 }
 
 ///|
 /// HTTPResponse: Get request
 /// JS: response.request()
 pub fn HTTPResponse::request(self : HTTPResponse) -> HTTPRequest {
-  self.call("request", []) |> @js.identity
+  self.call("request", []).cast()
 }
 
 ///|
 /// HTTPResponse: Get remote address
 /// JS: response.remoteAddress()
 pub fn HTTPResponse::remoteAddress(self : HTTPResponse) -> String {
-  self.call("remoteAddress", []) |> @js.identity
+  self.call("remoteAddress", []).cast()
 }

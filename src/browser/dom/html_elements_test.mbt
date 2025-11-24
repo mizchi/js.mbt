@@ -128,8 +128,7 @@ test "HTMLInputElement - placeholder property" {
 test "HTMLCanvasElement - width and height properties" {
   @global_jsdom.register()
   let doc = document()
-  let canvas : HTMLCanvasElement = doc.createElement("canvas")
-    |> @js.identity
+  let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @js.identity
 
   // Set width and height
   canvas.width = 800
@@ -144,8 +143,7 @@ test "HTMLCanvasElement - width and height properties" {
 test "HTMLCanvasElement - default dimensions" {
   @global_jsdom.register()
   let doc = document()
-  let canvas : HTMLCanvasElement = doc.createElement("canvas")
-    |> @js.identity
+  let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @js.identity
 
   // Check default dimensions (300x150 per HTML spec)
   canvas.width |> inspect(content="300")
@@ -156,8 +154,7 @@ test "HTMLCanvasElement - default dimensions" {
 test "HTMLIFrameElement - src and sandbox properties" {
   @global_jsdom.register()
   let doc = document()
-  let iframe : HTMLIFrameElement = doc.createElement("iframe")
-    |> @js.identity
+  let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @js.identity
 
   // Set src and sandbox
   iframe.src = "https://example.com"
@@ -172,8 +169,7 @@ test "HTMLIFrameElement - src and sandbox properties" {
 test "HTMLIFrameElement - width and height properties" {
   @global_jsdom.register()
   let doc = document()
-  let iframe : HTMLIFrameElement = doc.createElement("iframe")
-    |> @js.identity
+  let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @js.identity
 
   // Set width and height as strings
   iframe.width = "640"
@@ -188,8 +184,7 @@ test "HTMLIFrameElement - width and height properties" {
 test "HTMLIFrameElement - name property" {
   @global_jsdom.register()
   let doc = document()
-  let iframe : HTMLIFrameElement = doc.createElement("iframe")
-    |> @js.identity
+  let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @js.identity
 
   // Set name
   iframe.name = "myFrame"

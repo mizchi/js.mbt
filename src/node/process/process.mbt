@@ -13,7 +13,7 @@ pub fn process() -> Process {
 ///|
 /// JS: process.env
 pub fn env() -> ProcessEnv {
-  @node.require("node:process").get("env") |> @js.identity
+  @node.require("node:process").get("env").cast()
 }
 
 ///|
@@ -63,7 +63,7 @@ pub fn exit(code : Int) -> Unit {
 ///|
 /// JS: process.exitCode
 pub fn exitCode() -> Int {
-  process().get("exitCode") |> @js.identity
+  process().get("exitCode").cast()
 }
 
 ///|
