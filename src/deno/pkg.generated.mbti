@@ -17,66 +17,66 @@ fn Deno::args(Self) -> Array[String]
 fn Deno::build_arch(Self) -> String
 fn Deno::build_os(Self) -> String
 fn Deno::chmod(Self, String, Int) -> @js.Promise[Unit]
-fn Deno::connect(Self, String, Int) -> @js.Promise[@js.Js]
+fn Deno::connect(Self, String, Int) -> @js.Promise[@js.Any]
 fn Deno::copyFile(Self, String, String) -> @js.Promise[Unit]
 fn Deno::create(Self, String) -> @js.Promise[FsFile]
 fn Deno::cwd(Self) -> String
 fn Deno::env_delete(Self, String) -> Unit
 fn Deno::env_get(Self, String) -> String?
 fn Deno::env_set(Self, String, String) -> Unit
-fn Deno::env_toObject(Self) -> @js.Js
+fn Deno::env_toObject(Self) -> @js.Any
 fn Deno::exit(Self, code? : Int) -> Unit
 fn Deno::gid(Self) -> Int?
 fn Deno::hostname(Self) -> String
-fn Deno::listen(Self, String, Int) -> @js.Js
+fn Deno::listen(Self, String, Int) -> @js.Any
 fn Deno::loadavg(Self) -> Array[Double]
-fn Deno::lstat(Self, String) -> @js.Promise[@js.Js]
+fn Deno::lstat(Self, String) -> @js.Promise[@js.Any]
 fn Deno::makeTempDir(Self, prefix? : String) -> @js.Promise[String]
 fn Deno::makeTempFile(Self, prefix? : String) -> @js.Promise[String]
 fn Deno::mkdir(Self, String, recursive? : Bool) -> @js.Promise[Unit]
-fn Deno::networkInterfaces(Self) -> @js.Js
+fn Deno::networkInterfaces(Self) -> @js.Any
 fn Deno::now(Self) -> Double
 fn Deno::open(Self, String, create? : Bool, write? : Bool, read? : Bool) -> @js.Promise[FsFile]
 fn Deno::osRelease(Self) -> String
 fn Deno::osUptime(Self) -> Int
-fn Deno::permissions(Self) -> @js.Js
+fn Deno::permissions(Self) -> @js.Any
 fn Deno::permissions_query(Self, String, path? : String) -> @js.Promise[PermissionStatus]
 fn Deno::permissions_request(Self, String, path? : String) -> @js.Promise[PermissionStatus]
 fn Deno::permissions_revoke(Self, String, path? : String) -> @js.Promise[PermissionStatus]
 fn Deno::pid(Self) -> Int
 fn Deno::ppid(Self) -> Int
-fn Deno::query_permission(Self, String) -> @js.Promise[@js.Js]
-fn Deno::readDir(Self, String) -> @js.Js
-fn Deno::readFile(Self, String) -> @js.Promise[@js.Js]
+fn Deno::query_permission(Self, String) -> @js.Promise[@js.Any]
+fn Deno::readDir(Self, String) -> @js.Any
+fn Deno::readFile(Self, String) -> @js.Promise[@js.Any]
 fn Deno::readLink(Self, String) -> @js.Promise[String]
 fn Deno::readTextFile(Self, String) -> @js.Promise[String]
 fn Deno::realPath(Self, String) -> @js.Promise[String]
 fn Deno::remove(Self, String, recursive? : Bool) -> @js.Promise[Unit]
 fn Deno::rename(Self, String, String) -> @js.Promise[Unit]
-fn Deno::request_permission(Self, String) -> @js.Promise[@js.Js]
-fn Deno::resolveDns(Self, String, String) -> @js.Promise[@js.Js]
-fn Deno::revoke_permission(Self, String) -> @js.Promise[@js.Js]
-fn Deno::serve(Self, Int, @js.Js) -> @js.Js
-fn Deno::stat(Self, String) -> @js.Promise[@js.Js]
-fn Deno::stderr_write(Self, @js.Js) -> @js.Promise[Int]
-fn Deno::stdin_read(Self) -> @js.Promise[@js.Js]
-fn Deno::stdout_write(Self, @js.Js) -> @js.Promise[Int]
+fn Deno::request_permission(Self, String) -> @js.Promise[@js.Any]
+fn Deno::resolveDns(Self, String, String) -> @js.Promise[@js.Any]
+fn Deno::revoke_permission(Self, String) -> @js.Promise[@js.Any]
+fn Deno::serve(Self, Int, @js.Any) -> @js.Any
+fn Deno::stat(Self, String) -> @js.Promise[@js.Any]
+fn Deno::stderr_write(Self, @js.Any) -> @js.Promise[Int]
+fn Deno::stdin_read(Self) -> @js.Promise[@js.Any]
+fn Deno::stdout_write(Self, @js.Any) -> @js.Promise[Int]
 fn Deno::symlink(Self, String, String) -> @js.Promise[Unit]
-fn Deno::systemMemoryInfo(Self) -> @js.Js
+fn Deno::systemMemoryInfo(Self) -> @js.Any
 fn Deno::test_(Self, String, (TestContext) -> Unit) -> Unit
 fn Deno::test_async(Self, String, async (TestContext) -> Unit) -> Unit
 fn Deno::test_only(Self, String, async (TestContext) -> Unit) -> Unit
 fn Deno::truncate(Self, String, Int) -> @js.Promise[Unit]
 fn Deno::uid(Self) -> Int?
-fn Deno::writeFile(Self, String, @js.Js) -> @js.Promise[Unit]
+fn Deno::writeFile(Self, String, @js.Any) -> @js.Promise[Unit]
 fn Deno::writeTextFile(Self, String, String) -> @js.Promise[Unit]
 
 #external
 pub type FsFile
 fn FsFile::close(Self) -> Unit
-fn FsFile::read(Self, @js.Js) -> @js.Promise[Int]
+fn FsFile::read(Self, @js.Any) -> @js.Promise[Int]
 fn FsFile::seek(Self, Int, Int) -> @js.Promise[Int]
-fn FsFile::write(Self, @js.Js) -> @js.Promise[Int]
+fn FsFile::write(Self, @js.Any) -> @js.Promise[Int]
 
 #external
 pub type PermissionStatus

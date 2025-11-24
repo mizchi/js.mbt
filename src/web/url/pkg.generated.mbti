@@ -50,14 +50,14 @@ fn URLPattern::exec(Self, String) -> URLPatternResult?
 fn URLPattern::execWithBase(Self, String, base? : String) -> URLPatternResult?
 fn URLPattern::new(String, base? : String) -> Self
 #alias(new_from_object)
-fn URLPattern::newFromObject(@js.Js, base? : String) -> Self
+fn URLPattern::newFromObject(@js.Any, base? : String) -> Self
 fn URLPattern::test_url(Self, String) -> Bool
 fn URLPattern::test_url_with_base(Self, String, base? : String) -> Bool
 impl @js.JsImpl for URLPattern
 
 pub(all) struct URLPatternComponentResult {
   input : String
-  groups : @js.Js
+  groups : @js.Any
 }
 impl @js.JsImpl for URLPatternComponentResult
 

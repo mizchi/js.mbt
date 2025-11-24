@@ -6,29 +6,29 @@ import(
 )
 
 // Values
-fn apply(&@js.JsImpl, &@js.JsImpl, Array[@js.Js]) -> @js.Js
+fn apply(&@js.JsImpl, &@js.JsImpl, Array[@js.Any]) -> @js.Any
 
-fn construct(&@js.JsImpl, Array[@js.Js], @js.Js?) -> @js.Js
+fn construct(&@js.JsImpl, Array[@js.Any], @js.Any?) -> @js.Any
 
 fn defineProperty(&@js.JsImpl, &@js.PropertyKey, &@js.JsImpl) -> Bool
 
 fn deleteProperty(&@js.JsImpl, &@js.PropertyKey) -> Bool
 
-fn get(&@js.JsImpl, &@js.PropertyKey, @js.Js?) -> @js.Js
+fn get(&@js.JsImpl, &@js.PropertyKey, @js.Any?) -> @js.Any
 
-fn getOwnPropertyDescriptor(&@js.JsImpl, &@js.PropertyKey) -> @js.Js
+fn getOwnPropertyDescriptor(&@js.JsImpl, &@js.PropertyKey) -> @js.Any
 
-fn getPrototypeOf(&@js.JsImpl) -> @js.Js
+fn getPrototypeOf(&@js.JsImpl) -> @js.Any
 
 fn has(&@js.JsImpl, &@js.PropertyKey) -> Bool
 
 fn isExtensible(&@js.JsImpl) -> Bool
 
-fn ownKeys(&@js.JsImpl) -> Array[@js.Js]
+fn ownKeys(&@js.JsImpl) -> Array[@js.Any]
 
 fn preventExtensions(&@js.JsImpl) -> Bool
 
-fn set(&@js.JsImpl, &@js.PropertyKey, &@js.JsImpl, @js.Js?) -> Bool
+fn set(&@js.JsImpl, &@js.PropertyKey, &@js.JsImpl, @js.Any?) -> Bool
 
 fn setPrototypeOf(&@js.JsImpl, &@js.JsImpl) -> Bool
 

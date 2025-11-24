@@ -420,11 +420,11 @@ test "instanceof and typeof" {
 
 ### Principle 1: Use Concrete Types for Arguments
 
-When the argument type is obvious, declare it with MoonBit's built-in types (String, Int, Bool) rather than `@js.Js`.
+When the argument type is obvious, declare it with MoonBit's built-in types (String, Int, Bool) rather than `@js.Any`.
 
 **❌ Avoid:**
 ```
-fn Response::json_(self : Response, data : @js.Js) -> Response
+fn Response::json_(self : Response, data : @js.Any) -> Response
 ```
 
 **✅ Prefer:**
@@ -434,11 +434,12 @@ fn Response::json_[T : JsImpl](self : Response, data : T) -> Response
 
 ### Principle 2: Accept Types with `JsImpl` Trait Bound
 
-For functions that accept JavaScript objects, use generic type parameters with `JsImpl` trait bound instead of `@js.Js`. This allows passing any type that implements `JsImpl`, providing better type flexibility.
+For functions that accept JavaScript objects, use generic type parameters with `JsImpl` trait bound instead of `@js.ANy`. This allows passing any type that implements `JsImpl`, providing better type flexibility.
 
 **Pattern:**
+
 ```
-fn process[T : JsImpl](data : T) -> @js.Js {
+fn process[T : JsImpl](data : T) -> @js.Any {
   data.to_js()
 }
 ```
@@ -448,7 +449,7 @@ fn process[T : JsImpl](data : T) -> @js.Js {
 
 ///|
 test "types implementing JsImpl" {
-  // Types implementing JsImpl can be converted to @js.Js
+  // Types implementing JsImpl can be converted to @js.Any
   let obj = @js.Object::new()
   obj.set("value", 42)
   let js_obj : @js.Any = obj.to_js()
@@ -461,11 +462,11 @@ test "types implementing JsImpl" {
 
 ### Principle 3: Return Concrete Types When Possible
 
-Return specific types instead of `@js.Js` when the return value type is known.
+Return specific types instead of `@js.Any` when the return value type is known.
 
 **❌ Avoid:**
 ```
-fn Document::getElementById(self : Document, id : String) -> @js.Js?
+fn Document::getElementById(self : Document, id : String) -> @js.Any?
 ```
 
 **✅ Prefer:**
@@ -479,21 +480,21 @@ When working with types that already implement `JsImpl`, avoid unnecessary `.to_
 
 **❌ Avoid:**
 ```
-fn SubtleCrypto::digest(self : SubtleCrypto, algorithm : String, data : ArrayBuffer) -> Promise[@js.Js] {
+fn SubtleCrypto::digest(self : SubtleCrypto, algorithm : String, data : ArrayBuffer) -> Promise[@js.Any] {
   self.to_js().call("digest", [algorithm, data.to_js()]) |> identity
 }
 ```
 
 **✅ Prefer:**
 ```
-fn SubtleCrypto::digest(self : SubtleCrypto, algorithm : String, data : ArrayBuffer) -> Promise[@js.Js] {
+fn SubtleCrypto::digest(self : SubtleCrypto, algorithm : String, data : ArrayBuffer) -> Promise[@js.Any] {
   self.call("digest", [algorithm, data]) |> identity
 }
 ```
 
 ### Principle 5: Use Structs for Complex Return Values
 
-For complex JavaScript objects with known structure, define MoonBit structs instead of returning `@js.Js`.
+For complex JavaScript objects with known structure, define MoonBit structs instead of returning `@js.Any`.
 
 **Example:**
 ```moonbit
@@ -518,7 +519,7 @@ fn parse_stats(js_stats : @js.Any) -> Stats {
 
 ///|
 test "structured return types" {
-  // Instead of returning @js.Js, return a typed struct
+  // Instead of returning @js.Any, return a typed struct
   let stats_obj = @js.Object::new()
   stats_obj.set("isFile", true)
   stats_obj.set("isDirectory", false)
@@ -532,9 +533,9 @@ test "structured return types" {
 
 ### Principle 6: Keep Flexibility Where Needed
 
-For highly flexible APIs (like Streams options or complex configuration objects), it's acceptable to keep `@js.Js` to maintain JavaScript interoperability. Over-constraining these types can reduce flexibility.
+For highly flexible APIs (like Streams options or complex configuration objects), it's acceptable to keep `@js.Any` to maintain JavaScript interoperability. Over-constraining these types can reduce flexibility.
 
-**Example - Acceptable use of @js.Js:**
+**Example - Acceptable use of @js.Any:**
 ```moonbit
 
 ///|
@@ -565,7 +566,7 @@ test "flexible configuration objects" {
 
 2. **MoonBit-specific wrappers**: Use snake_case
    ```
-   fn from_entries(entries : Array[(String, @js.Js)]) -> @js.Js
+   fn from_entries(entries : Array[(String, @js.Any)]) -> @js.Any
    fn to_string_radix(n : Int) -> String
    ```
 
@@ -703,13 +704,13 @@ pub(all) struct SafeFileReader {
 
 ///|
 /// Get the result (null if not loaded yet)
-fn SafeFileReader::get_result(self : SafeFileReader) -> @js.Js? {
+fn SafeFileReader::get_result(self : SafeFileReader) -> @js.Any? {
   @js.identity_option(self.result)
 }
 
 ///|
 /// Get the error (null if no error)
-fn SafeFileReader::get_error(self : SafeFileReader) -> @js.Js? {
+fn SafeFileReader::get_error(self : SafeFileReader) -> @js.Any? {
   @js.identity_option(self.error)
 }
 ```

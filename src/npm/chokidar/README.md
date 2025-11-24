@@ -17,7 +17,7 @@ npm install chokidar
 ```moonbit
 // Watch a file or directory
 let watcher = @chokidar.watch(
-  @js.js("src"),
+  @js.Any("src"),
   ignoreInitial?=Some(true),
   persistent?=Some(true)
 )
@@ -41,7 +41,7 @@ let _ = watcher.on("unlink", @js.identity(fn(path) {
 ```moonbit
 // Watch multiple files or directories
 let watcher = @chokidar.watch(
-  @js.from_array([@js.js("src"), @js.js("tests")]),
+  @js.from_array([@js.Any("src"), @js.Any("tests")]),
   persistent?=Some(true)
 )
 ```
@@ -51,15 +51,15 @@ let watcher = @chokidar.watch(
 ```moonbit
 // Ignore dotfiles
 let watcher = @chokidar.watch(
-  @js.js("."),
-  ignored?=Some(@js.js("/(^|[\/\\])\\../")),
+  @js.Any("."),
+  ignored?=Some(@js.Any("/(^|[\/\\])\\../")),
   ignoreInitial?=Some(true)
 )
 
 // Ignore node_modules
 let watcher = @chokidar.watch(
-  @js.js("."),
-  ignored?=Some(@js.js("node_modules")),
+  @js.Any("."),
+  ignored?=Some(@js.Any("node_modules")),
   persistent?=Some(true)
 )
 ```
@@ -67,13 +67,13 @@ let watcher = @chokidar.watch(
 ### Add/Remove Watched Paths
 
 ```moonbit
-let watcher = @chokidar.watch(@js.js("src"))
+let watcher = @chokidar.watch(@js.Any("src"))
 
 // Add more paths
-let _ = watcher.add(@js.js("tests"))
+let _ = watcher.add(@js.Any("tests"))
 
 // Stop watching specific paths
-let _ = watcher.unwatch(@js.js("tests"))
+let _ = watcher.unwatch(@js.Any("tests"))
 ```
 
 ### Close Watcher
@@ -102,9 +102,9 @@ Create a file system watcher with options:
 
 ```moonbit
 pub fn watch(
-  paths : @js.Js,
+  paths : @js.Any,
   persistent? : Bool,
-  ignored? : @js.Js,
+  ignored? : @js.Any,
   ignoreInitial? : Bool,
   followSymlinks? : Bool,
   cwd? : String,
@@ -114,7 +114,7 @@ pub fn watch(
   binaryInterval? : Int,
   alwaysStat? : Bool,
   depth? : Int,
-  awaitWriteFinish? : @js.Js,
+  awaitWriteFinish? : @js.Any,
   ignorePermissionErrors? : Bool,
   atomic_? : Bool,
 ) -> FSWatcher
@@ -145,12 +145,12 @@ pub fn watch(
 Add files or directories to watch:
 
 ```moonbit
-pub fn FSWatcher::add(self : FSWatcher, paths : @js.Js) -> FSWatcher
+pub fn FSWatcher::add(self : FSWatcher, paths : @js.Any) -> FSWatcher
 ```
 
 **Example:**
 ```moonbit
-let _ = watcher.add(@js.js("new-folder"))
+let _ = watcher.add(@js.Any("new-folder"))
 ```
 
 #### unwatch
@@ -158,12 +158,12 @@ let _ = watcher.add(@js.js("new-folder"))
 Stop watching files or directories:
 
 ```moonbit
-pub fn FSWatcher::unwatch(self : FSWatcher, paths : @js.Js) -> FSWatcher
+pub fn FSWatcher::unwatch(self : FSWatcher, paths : @js.Any) -> FSWatcher
 ```
 
 **Example:**
 ```moonbit
-let _ = watcher.unwatch(@js.js("old-folder"))
+let _ = watcher.unwatch(@js.Any("old-folder"))
 ```
 
 #### close
@@ -188,7 +188,7 @@ pub async fn FSWatcher::close(self : FSWatcher) -> Unit
 Get object mapping watched directories to their contents:
 
 ```moonbit
-pub fn FSWatcher::getWatched(self : FSWatcher) -> @js.Js
+pub fn FSWatcher::getWatched(self : FSWatcher) -> @js.Any
 ```
 
 **Example:**
@@ -204,7 +204,7 @@ Listen for file system events:
 pub fn FSWatcher::on(
   self : FSWatcher,
   event : String,
-  callback : @js.Js,
+  callback : @js.Any,
 ) -> FSWatcher
 ```
 
@@ -234,7 +234,7 @@ Remove event listener:
 pub fn FSWatcher::off(
   self : FSWatcher,
   event : String,
-  callback : @js.Js,
+  callback : @js.Any,
 ) -> FSWatcher
 ```
 
@@ -246,7 +246,7 @@ Wait for file writes to complete before emitting events:
 
 ```moonbit
 let watcher = @chokidar.watch(
-  @js.js("downloads"),
+  @js.Any("downloads"),
   awaitWriteFinish?=Some(@js.from_entries([
     ("stabilityThreshold", 2000),
     ("pollInterval", 100)
@@ -261,7 +261,7 @@ Force polling mode (useful for network drives):
 
 ```moonbit
 let watcher = @chokidar.watch(
-  @js.js("/network/share"),
+  @js.Any("/network/share"),
   usePolling?=Some(true),
   interval?=Some(1000)
 )
@@ -273,7 +273,7 @@ Watch only up to a certain depth:
 
 ```moonbit
 let watcher = @chokidar.watch(
-  @js.js("src"),
+  @js.Any("src"),
   depth?=Some(2),
   ignoreInitial?=Some(true)
 )
@@ -282,7 +282,7 @@ let watcher = @chokidar.watch(
 ### Error Handling
 
 ```moonbit
-let watcher = @chokidar.watch(@js.js("src"))
+let watcher = @chokidar.watch(@js.Any("src"))
 
 let _ = watcher.on("error", @js.identity(fn(error) {
   println("Watcher error: \{error}")
@@ -299,8 +299,8 @@ let _ = watcher.on("ready", @js.identity(fn() {
 fn main {
   // Create watcher with options
   let watcher = @chokidar.watch(
-    @js.from_array([@js.js("src"), @js.js("lib")]),
-    ignored?=Some(@js.js("/(^|[\/\\])\\../")),
+    @js.from_array([@js.Any("src"), @js.Any("lib")]),
+    ignored?=Some(@js.Any("/(^|[\/\\])\\../")),
     persistent?=Some(true),
     ignoreInitial?=Some(true),
     awaitWriteFinish?=Some(@js.from_entries([
@@ -328,7 +328,7 @@ fn main {
     }))
 
   // Add more paths later
-  let _ = watcher.add(@js.js("tests"))
+  let _ = watcher.add(@js.Any("tests"))
 
   // Get watched paths
   let watched = watcher.getWatched()
@@ -357,7 +357,7 @@ Internal struct for type documentation (not directly used):
 ```moonbit
 pub(all) struct WatchOptions {
   persistent : Bool?
-  ignored : @js.Js?
+  ignored : @js.Any?
   ignoreInitial : Bool?
   followSymlinks : Bool?
   cwd : String?
@@ -367,7 +367,7 @@ pub(all) struct WatchOptions {
   binaryInterval : Int?
   alwaysStat : Bool?
   depth : Int?
-  awaitWriteFinish : @js.Js?
+  awaitWriteFinish : @js.Any?
   ignorePermissionErrors : Bool?
   atomic_ : Bool?
 } derive(Show)

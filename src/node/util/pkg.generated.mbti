@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-fn inspect(@js.Js, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, breakLength? : Int, maxArrayLength? : Int, maxStringLength? : Int) -> String
+fn inspect(@js.Any, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, breakLength? : Int, maxArrayLength? : Int, maxStringLength? : Int) -> String
 
 #alias(parse_args)
 fn parseArgs(args~ : Array[String], options~ : Array[ParseArgsOption], allow_positionals? : Bool) -> ParseArgsResult
@@ -21,9 +21,9 @@ pub(all) enum ParseArgsOption {
 fn ParseArgsOption::key(Self) -> String
 
 pub(all) struct ParseArgsResult {
-  values : Map[String, @js.Js]
+  values : Map[String, @js.Any]
   positionals : Array[String]
-  tokens : Array[@js.Js]?
+  tokens : Array[@js.Any]?
 }
 
 #external

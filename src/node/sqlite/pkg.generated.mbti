@@ -107,9 +107,9 @@ pub(all) struct BackupProgress {
 
 #external
 pub type DatabaseSync
-fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T, inverse? : (T, U) -> T, result? : (T) -> @js.Js) -> Unit
+fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T, inverse? : (T, U) -> T, result? : (T) -> @js.Any) -> Unit
 #alias(apply_changeset)
-fn DatabaseSync::applyChangeset(Self, @typedarray.Uint8Array, filter? : (@js.Js) -> Bool, onConflict? : (@js.Js?, @js.Js) -> Bool) -> Bool
+fn DatabaseSync::applyChangeset(Self, @typedarray.Uint8Array, filter? : (@js.Any) -> Bool, onConflict? : (@js.Any?, @js.Any) -> Bool) -> Bool
 fn DatabaseSync::close(Self) -> Unit
 #alias(create_session)
 fn DatabaseSync::createSession(Self, table? : String, db? : String) -> Session
@@ -118,7 +118,7 @@ fn DatabaseSync::createTagStore(Self, max_size? : Int) -> SQLTagStore
 #alias(enable_load_extension)
 fn DatabaseSync::enableLoadExtension(Self, Bool) -> Unit
 fn DatabaseSync::exec(Self, String) -> Unit
-fn DatabaseSync::function(Self, String, (Array[@js.Js]) -> @js.Js, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool) -> Unit
+fn DatabaseSync::function(Self, String, (Array[@js.Any]) -> @js.Any, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool) -> Unit
 #alias(is_open)
 fn DatabaseSync::isOpen(Self) -> Bool
 #alias(is_transaction)
@@ -157,12 +157,12 @@ impl Show for StatementResultingChanges
 
 #external
 pub type StatementSync
-fn StatementSync::all(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> Array[@js.Js]
-fn StatementSync::columns(Self) -> Array[@js.Js]
+fn StatementSync::all(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> Array[@js.Any]
+fn StatementSync::columns(Self) -> Array[@js.Any]
 #alias(expanded_sql)
 fn StatementSync::expandedSQL(Self) -> String
-fn StatementSync::get_(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> @js.Js?
-fn StatementSync::iterate(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> @js.JsIterator[@js.Js]
+fn StatementSync::get_(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> @js.Any?
+fn StatementSync::iterate(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> @js.JsIterator[@js.Any]
 fn StatementSync::run(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> StatementResultingChanges
 #alias(set_allow_bare_named_parameters)
 fn StatementSync::setAllowBareNamedParameters(Self, Bool) -> Unit

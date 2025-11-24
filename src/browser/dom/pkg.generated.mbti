@@ -20,7 +20,7 @@ fn cssSupports(String, String) -> Bool
 #alias(css_supports_condition)
 fn cssSupportsCondition(String) -> Bool
 
-fn css_style_from_val(@js.Js) -> CSSStyleDeclaration
+fn css_style_from_val(@js.Any) -> CSSStyleDeclaration
 
 #alias(custom_elements)
 fn customElements() -> CustomElementRegistry
@@ -71,14 +71,14 @@ impl @js.JsImpl for CSSStyleDeclaration
 
 #external
 pub type CSSStyleSheet
-fn CSSStyleSheet::cssRules(Self) -> @js.Js
+fn CSSStyleSheet::cssRules(Self) -> @js.Any
 fn CSSStyleSheet::deleteRule(Self, Int) -> Unit
 fn CSSStyleSheet::disabled(Self) -> Bool
 fn CSSStyleSheet::href(Self) -> String?
 fn CSSStyleSheet::insertRule(Self, String) -> Int
 fn CSSStyleSheet::insertRuleAt(Self, String, Int) -> Int
-fn CSSStyleSheet::media(Self) -> @js.Js
-fn CSSStyleSheet::ownerNode(Self) -> @js.Js?
+fn CSSStyleSheet::media(Self) -> @js.Any
+fn CSSStyleSheet::ownerNode(Self) -> @js.Any?
 fn CSSStyleSheet::set_disabled(Self, Bool) -> Unit
 fn CSSStyleSheet::title(Self) -> String?
 impl @js.JsImpl for CSSStyleSheet
@@ -111,8 +111,8 @@ fn CustomElementCallbacks::new(onConnected? : () -> Unit, onDisconnected? : () -
 pub type CustomElementRegistry
 fn CustomElementRegistry::define_(Self, String, CustomElementCallbacks) -> Unit
 fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomElementCallbacks, Array[String]) -> Unit
-fn CustomElementRegistry::get(Self, String) -> @js.Js?
-fn CustomElementRegistry::getName(Self, @js.Js) -> String?
+fn CustomElementRegistry::get(Self, String) -> @js.Any?
+fn CustomElementRegistry::getName(Self, @js.Any) -> String?
 fn CustomElementRegistry::upgrade(Self, Node) -> Unit
 fn CustomElementRegistry::whenDefined(Self, String) -> @js.Promise[Unit]
 impl @js.JsImpl for CustomElementRegistry
@@ -144,13 +144,13 @@ impl @js.JsImpl for DOMRectReadOnly
 pub(all) struct DataTransfer {
   mut dropEffect : String
   mut effectAllowed : String
-  items : @js.Js
-  files : @js.Js
-  types : @js.Js
+  items : @js.Any
+  files : @js.Any
+  types : @js.Any
 }
 fn DataTransfer::clearData(Self, String) -> Unit
 fn DataTransfer::getData(Self, String) -> String
-fn DataTransfer::get_files(Self) -> Array[@js.Js]
+fn DataTransfer::get_files(Self) -> Array[@js.Any]
 fn DataTransfer::get_types(Self) -> Array[String]
 fn DataTransfer::setData(Self, String, String) -> Unit
 impl @js.JsImpl for DataTransfer
@@ -184,7 +184,7 @@ fn Document::createEvent(Self, String) -> Event
 fn Document::createStylesheet(Self) -> CSSStyleSheet
 #alias(create_text_node)
 fn Document::createTextNode(Self, String) -> Text
-fn Document::doctype(Self) -> @js.Js?
+fn Document::doctype(Self) -> @js.Any?
 #alias(document_element)
 fn Document::documentElement(Self) -> Element
 #alias(document_uri)
@@ -209,7 +209,7 @@ fn Document::setBody(Self, HTMLBodyElement) -> Unit
 #alias(set_title)
 fn Document::setTitle(Self, String) -> Unit
 fn Document::set_cookie(Self, String) -> Unit
-fn Document::styleSheets(Self) -> @js.Js
+fn Document::styleSheets(Self) -> @js.Any
 fn Document::title(Self) -> String
 fn Document::url(Self) -> String
 impl @js.JsImpl for Document
@@ -283,7 +283,7 @@ pub(all) struct HTMLCanvasElement {
   mut width : Int
   mut height : Int
 }
-fn HTMLCanvasElement::getContext(Self, String) -> @js.Js
+fn HTMLCanvasElement::getContext(Self, String) -> @js.Any
 fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @js.Promise[@blob.Blob]
 fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
 impl @js.JsImpl for HTMLCanvasElement
@@ -503,7 +503,7 @@ fn MediaQueryList::removeListener(Self, (Self) -> Unit) -> Unit
 impl @js.JsImpl for MediaQueryList
 
 pub(all) struct MessageEvent {
-  data : @js.Js
+  data : @js.Any
   origin : String
   lastEventId : String
   ports : Array[@message.MessagePort]
@@ -782,38 +782,38 @@ fn Window::clearInterval(Self, Int) -> Unit
 fn Window::clearTimeout(Self, Int) -> Unit
 fn Window::close(Self) -> Unit
 fn Window::confirm(Self, String) -> Bool
-fn Window::console(Self) -> @js.Js
+fn Window::console(Self) -> @js.Any
 #alias(device_pixel_ratio)
 fn Window::devicePixelRatio(Self) -> Double
 fn Window::document(Self) -> Document
-fn Window::fetch(Self, String, init? : @js.Js) -> @js.Promise[@js.Js]
+fn Window::fetch(Self, String, init? : @js.Any) -> @js.Promise[@js.Any]
 #alias(get_computed_style)
-fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @js.Js
+fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @js.Any
 #alias(get_selection)
-fn Window::getSelection(Self) -> @js.Js?
-fn Window::history(Self) -> @js.Js
+fn Window::getSelection(Self) -> @js.Any?
+fn Window::history(Self) -> @js.Any
 #alias(inner_height)
 fn Window::innerHeight(Self) -> Int
 #alias(inner_width)
 fn Window::innerWidth(Self) -> Int
 #alias(local_storage)
-fn Window::localStorage(Self) -> @js.Js
-fn Window::location(Self) -> @js.Js
+fn Window::localStorage(Self) -> @js.Any
+fn Window::location(Self) -> @js.Any
 #alias(match_media)
-fn Window::matchMedia(Self, String) -> @js.Js
-fn Window::navigator(Self) -> @js.Js
+fn Window::matchMedia(Self, String) -> @js.Any
+fn Window::navigator(Self) -> @js.Any
 fn Window::open(Self, url? : String, target? : String, features? : String) -> Self?
 #alias(outer_height)
 fn Window::outerHeight(Self) -> Int
 #alias(outer_width)
 fn Window::outerWidth(Self) -> Int
 #alias(post_message)
-fn Window::postMessage(Self, @js.Js, String) -> Unit
-fn[T : @worker.Transferable] Window::post_message_with_transfer(Self, @js.Js, String, Array[T]) -> Unit
+fn Window::postMessage(Self, @js.Any, String) -> Unit
+fn[T : @worker.Transferable] Window::post_message_with_transfer(Self, @js.Any, String, Array[T]) -> Unit
 fn Window::prompt(Self, String, default? : String) -> String?
 #alias(request_animation_frame)
 fn Window::requestAnimationFrame(Self, (Double) -> Unit) -> Int
-fn Window::screen(Self) -> @js.Js
+fn Window::screen(Self) -> @js.Any
 #alias(scroll_by)
 fn Window::scrollBy(Self, Int, Int) -> Unit
 #alias(scroll_to)
@@ -823,7 +823,7 @@ fn Window::scrollX(Self) -> Double
 #alias(scroll_y)
 fn Window::scrollY(Self) -> Double
 #alias(session_storage)
-fn Window::sessionStorage(Self) -> @js.Js
+fn Window::sessionStorage(Self) -> @js.Any
 #alias(set_interval)
 fn Window::setInterval(Self, () -> Unit, Int) -> Int
 #alias(set_timeout)

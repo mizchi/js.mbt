@@ -7,11 +7,11 @@ import(
 )
 
 // Values
-fn compile(@typedarray.Uint8Array) -> @js.Js
+fn compile(@typedarray.Uint8Array) -> @js.Any
 
-fn instantiate_bytes(@typedarray.Uint8Array, @js.Js?) -> (WebAssemblyModule, WebAssemblyInstance)
+fn instantiate_bytes(@typedarray.Uint8Array, @js.Any?) -> (WebAssemblyModule, WebAssemblyInstance)
 
-fn instantiate_module(WebAssemblyModule, @js.Js?) -> WebAssemblyInstance
+fn instantiate_module(WebAssemblyModule, @js.Any?) -> WebAssemblyInstance
 
 fn validate(@typedarray.Uint8Array) -> Bool
 
@@ -37,15 +37,15 @@ pub(all) struct TableDescriptor {
 
 #external
 pub type WebAssemblyGlobal
-fn WebAssemblyGlobal::new(GlobalDescriptor, @js.Js) -> Self
-fn WebAssemblyGlobal::set_value(Self, @js.Js) -> Unit
-fn WebAssemblyGlobal::value(Self) -> @js.Js
+fn WebAssemblyGlobal::new(GlobalDescriptor, @js.Any) -> Self
+fn WebAssemblyGlobal::set_value(Self, @js.Any) -> Unit
+fn WebAssemblyGlobal::value(Self) -> @js.Any
 impl @js.JsImpl for WebAssemblyGlobal
 
 #external
 pub type WebAssemblyInstance
-fn WebAssemblyInstance::exports(Self) -> @js.Js
-fn WebAssemblyInstance::from_module(WebAssemblyModule, @js.Js?) -> Self
+fn WebAssemblyInstance::exports(Self) -> @js.Any
+fn WebAssemblyInstance::from_module(WebAssemblyModule, @js.Any?) -> Self
 impl @js.JsImpl for WebAssemblyInstance
 
 #external
@@ -63,10 +63,10 @@ impl @js.JsImpl for WebAssemblyModule
 
 #external
 pub type WebAssemblyTable
-fn WebAssemblyTable::grow(Self, Int, @js.Js) -> Int
+fn WebAssemblyTable::grow(Self, Int, @js.Any) -> Int
 fn WebAssemblyTable::length(Self) -> Int
 fn WebAssemblyTable::new(TableDescriptor) -> Self
-fn WebAssemblyTable::set(Self, Int, @js.Js) -> Unit
+fn WebAssemblyTable::set(Self, Int, @js.Any) -> Unit
 impl @js.JsImpl for WebAssemblyTable
 
 // Type aliases

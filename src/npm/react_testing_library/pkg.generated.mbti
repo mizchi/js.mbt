@@ -8,22 +8,22 @@ import(
 )
 
 // Values
-fn act(() -> Unit) -> @js.Js
+fn act(() -> Unit) -> @js.Any
 
 fn cleanup() -> Unit
 
-fn configure(@js.Js) -> Unit
+fn configure(@js.Any) -> Unit
 
 #alias(fire_event)
 fn fireEvent() -> FireEvent
 
-fn get_property(@dom.HTMLElement, String) -> @js.Js
+fn get_property(@dom.HTMLElement, String) -> @js.Any
 
 fn get_string_property(@dom.HTMLElement, String) -> String
 
 fn render(@react.Element) -> RenderResult
 
-fn renderHook(@js.Js) -> RenderHookResult
+fn renderHook(@js.Any) -> RenderHookResult
 
 fn screen() -> Screen
 
@@ -35,12 +35,12 @@ fn text_content(@dom.HTMLElement) -> String
 #external
 pub type FireEvent
 fn FireEvent::blur(Self, @dom.HTMLElement) -> Unit
-fn FireEvent::change(Self, @dom.HTMLElement, @js.Js) -> Unit
+fn FireEvent::change(Self, @dom.HTMLElement, @js.Any) -> Unit
 fn FireEvent::click(Self, @dom.HTMLElement) -> Unit
 fn FireEvent::focus(Self, @dom.HTMLElement) -> Unit
-fn FireEvent::input(Self, @dom.HTMLElement, @js.Js) -> Unit
-fn FireEvent::keyDown(Self, @dom.HTMLElement, @js.Js) -> Unit
-fn FireEvent::keyUp(Self, @dom.HTMLElement, @js.Js) -> Unit
+fn FireEvent::input(Self, @dom.HTMLElement, @js.Any) -> Unit
+fn FireEvent::keyDown(Self, @dom.HTMLElement, @js.Any) -> Unit
+fn FireEvent::keyUp(Self, @dom.HTMLElement, @js.Any) -> Unit
 fn FireEvent::mouseEnter(Self, @dom.HTMLElement) -> Unit
 fn FireEvent::mouseLeave(Self, @dom.HTMLElement) -> Unit
 fn FireEvent::submit(Self, @dom.HTMLElement) -> Unit
@@ -51,14 +51,14 @@ pub type ReactTestingLibrary
 
 #external
 pub type RenderHookResult
-fn RenderHookResult::rerender(Self, @js.Js) -> Unit
-fn RenderHookResult::result(Self) -> @js.Js
+fn RenderHookResult::rerender(Self, @js.Any) -> Unit
+fn RenderHookResult::result(Self) -> @js.Any
 fn RenderHookResult::unmount(Self) -> Unit
 impl @js.JsImpl for RenderHookResult
 
 #external
 pub type RenderResult
-fn RenderResult::asFragment(Self) -> @js.Js
+fn RenderResult::asFragment(Self) -> @js.Any
 fn RenderResult::baseElement(Self) -> @dom.HTMLElement
 fn RenderResult::container(Self) -> @dom.HTMLElement
 fn RenderResult::debug(Self) -> Unit

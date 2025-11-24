@@ -16,9 +16,9 @@ fn import_meta_resolve(String) -> Unit
 
 fn import_meta_url() -> String
 
-fn module_() -> @js.Js
+fn module_() -> @js.Any
 
-fn require(String) -> @js.Js
+fn require(String) -> @js.Any
 
 fn require_cache() -> @js.Object
 

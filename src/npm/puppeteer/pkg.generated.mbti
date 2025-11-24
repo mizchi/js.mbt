@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-async fn launch(headless? : Bool, args? : Array[String], executablePath? : String, devtools? : Bool, timeout? : Int, userDataDir? : String, dumpio? : Bool, env? : @js.Js, pipe? : Bool, ignoreDefaultArgs? : Bool, waitForInitialPage? : Bool, debuggingPort? : Int, handleSIGHUP? : Bool, handleSIGINT? : Bool, handleSIGTERM? : Bool) -> Browser
+async fn launch(headless? : Bool, args? : Array[String], executablePath? : String, devtools? : Bool, timeout? : Int, userDataDir? : String, dumpio? : Bool, env? : @js.Any, pipe? : Bool, ignoreDefaultArgs? : Bool, waitForInitialPage? : Bool, debuggingPort? : Int, handleSIGHUP? : Bool, handleSIGINT? : Bool, handleSIGTERM? : Bool) -> Browser
 
 // Errors
 
@@ -24,14 +24,14 @@ impl @js.JsImpl for Browser
 pub type CDPSession
 async fn CDPSession::detach(Self) -> Unit
 fn CDPSession::id(Self) -> String
-async fn CDPSession::send(Self, String, @js.Js) -> @js.Js
+async fn CDPSession::send(Self, String, @js.Any) -> @js.Any
 async fn CDPSession::send_simple(Self, String) -> Unit
 impl @js.JsImpl for CDPSession
 
 pub(all) struct CSSCoverageEntry {
   url : String
   text : String
-  ranges : Array[@js.Js]
+  ranges : Array[@js.Any]
 }
 impl Show for CSSCoverageEntry
 
@@ -50,11 +50,11 @@ impl Show for Cookie
 #external
 pub type Coverage
 async fn Coverage::startCSSCoverage(Self) -> Unit
-async fn Coverage::startCSSCoverage_with(Self, @js.Js) -> Unit
+async fn Coverage::startCSSCoverage_with(Self, @js.Any) -> Unit
 async fn Coverage::startJSCoverage(Self) -> Unit
-async fn Coverage::startJSCoverage_with(Self, @js.Js) -> Unit
-async fn Coverage::stopCSSCoverage(Self) -> Array[@js.Js]
-async fn Coverage::stopJSCoverage(Self) -> Array[@js.Js]
+async fn Coverage::startJSCoverage_with(Self, @js.Any) -> Unit
+async fn Coverage::stopCSSCoverage(Self) -> Array[@js.Any]
+async fn Coverage::stopJSCoverage(Self) -> Array[@js.Any]
 impl @js.JsImpl for Coverage
 
 pub(all) struct CoverageRange {
@@ -67,7 +67,7 @@ impl Show for CoverageRange
 pub type ElementHandle
 async fn ElementHandle::click(Self) -> Unit
 async fn ElementHandle::focus(Self) -> Unit
-async fn ElementHandle::getProperty(Self, String) -> @js.Js
+async fn ElementHandle::getProperty(Self, String) -> @js.Any
 async fn ElementHandle::hover(Self) -> Unit
 async fn ElementHandle::query_selector(Self, String) -> Self?
 async fn ElementHandle::query_selector_all(Self, String) -> Array[Self]
@@ -78,27 +78,27 @@ impl @js.JsImpl for ElementHandle
 pub type HTTPRequest
 async fn HTTPRequest::abort(Self) -> Unit
 async fn HTTPRequest::continue_(Self) -> Unit
-async fn HTTPRequest::continue_with(Self, @js.Js) -> Unit
+async fn HTTPRequest::continue_with(Self, @js.Any) -> Unit
 async fn HTTPRequest::fetchPostData(Self) -> String
 fn HTTPRequest::hasPostData(Self) -> Bool
-fn HTTPRequest::headers(Self) -> @js.Js
+fn HTTPRequest::headers(Self) -> @js.Any
 fn HTTPRequest::isInterceptResolutionHandled(Self) -> Bool
 fn HTTPRequest::isNavigationRequest(Self) -> Bool
 fn HTTPRequest::method_(Self) -> String
 fn HTTPRequest::redirectChain(Self) -> Array[Self]
 fn HTTPRequest::resourceType(Self) -> String
-async fn HTTPRequest::respond(Self, @js.Js) -> Unit
+async fn HTTPRequest::respond(Self, @js.Any) -> Unit
 fn HTTPRequest::response(Self) -> HTTPResponse?
 fn HTTPRequest::url(Self) -> String
 impl @js.JsImpl for HTTPRequest
 
 #external
 pub type HTTPResponse
-async fn HTTPResponse::buffer(Self) -> @js.Js
+async fn HTTPResponse::buffer(Self) -> @js.Any
 fn HTTPResponse::fromCache(Self) -> Bool
 fn HTTPResponse::fromServiceWorker(Self) -> Bool
-fn HTTPResponse::headers(Self) -> @js.Js
-async fn HTTPResponse::json(Self) -> @js.Js
+fn HTTPResponse::headers(Self) -> @js.Any
+async fn HTTPResponse::json(Self) -> @js.Any
 fn HTTPResponse::ok(Self) -> Bool
 fn HTTPResponse::remoteAddress(Self) -> String
 fn HTTPResponse::request(Self) -> HTTPRequest
@@ -111,7 +111,7 @@ impl @js.JsImpl for HTTPResponse
 pub(all) struct JSCoverageEntry {
   url : String
   text : String
-  ranges : Array[@js.Js]
+  ranges : Array[@js.Any]
 }
 impl Show for JSCoverageEntry
 
@@ -119,11 +119,11 @@ impl Show for JSCoverageEntry
 pub type Page
 async fn Page::click(Self, String) -> Unit
 async fn Page::content(Self) -> String
-async fn Page::cookies(Self) -> Array[@js.Js] raise @js.ThrowError
+async fn Page::cookies(Self) -> Array[@js.Any] raise @js.ThrowError
 fn Page::coverage(Self) -> Coverage
 async fn Page::createCDPSession(Self) -> CDPSession
-async fn Page::deleteCookie(Self, Array[@js.Js]) -> Unit
-async fn Page::evaluate(Self, String) -> @js.Js
+async fn Page::deleteCookie(Self, Array[@js.Any]) -> Unit
+async fn Page::evaluate(Self, String) -> @js.Any
 async fn Page::focus(Self, String) -> Unit raise @js.ThrowError
 async fn Page::goBack(Self) -> Unit
 async fn Page::goForward(Self) -> Unit
@@ -136,7 +136,7 @@ async fn Page::reload(Self) -> Unit
 async fn Page::screenshot(Self, String) -> Unit
 async fn Page::select(Self, String, Array[String]) -> Array[String] raise @js.ThrowError
 async fn Page::setContent(Self, String) -> Unit
-async fn Page::setCookie(Self, Array[@js.Js]) -> Unit
+async fn Page::setCookie(Self, Array[@js.Any]) -> Unit
 async fn Page::setRequestInterception(Self, Bool) -> Unit
 async fn Page::setUserAgent(Self, String) -> Unit
 async fn Page::setViewport(Self, Int, Int) -> Unit
@@ -144,7 +144,7 @@ async fn Page::tap(Self, String) -> Unit
 async fn Page::title(Self) -> String
 async fn Page::type_(Self, String, String) -> Unit
 fn Page::url(Self) -> String
-async fn Page::waitForFunction(Self, String) -> @js.Js
+async fn Page::waitForFunction(Self, String) -> @js.Any
 async fn Page::waitForNavigation(Self) -> Unit
 async fn Page::waitForSelector(Self, String) -> ElementHandle?
 async fn Page::waitForTimeout(Self, Int) -> Unit

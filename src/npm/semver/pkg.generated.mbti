@@ -6,15 +6,15 @@ import(
 )
 
 // Values
-fn clean(String) -> @js.Js
+fn clean(String) -> @js.Any
 
-fn coerce(String) -> @js.Js
+fn coerce(String) -> @js.Any
 
 fn compare(String, String) -> Int
 
 fn compare_loose(String, String) -> Int
 
-fn diff(String, String) -> @js.Js
+fn diff(String, String) -> @js.Any
 
 fn eq(String, String) -> Bool
 
@@ -24,7 +24,7 @@ fn gte(String, String) -> Bool
 
 fn gtr(String, String) -> Bool
 
-fn inc(String, String, identifier? : String) -> @js.Js
+fn inc(String, String, identifier? : String) -> @js.Any
 
 fn lt(String, String) -> Bool
 
@@ -34,13 +34,13 @@ fn ltr(String, String) -> Bool
 
 fn major(String) -> Int
 
-fn max(Array[String]) -> @js.Js
+fn max(Array[String]) -> @js.Any
 
-fn max_satisfying(Array[String], String) -> @js.Js
+fn max_satisfying(Array[String], String) -> @js.Any
 
-fn min(Array[String]) -> @js.Js
+fn min(Array[String]) -> @js.Any
 
-fn min_satisfying(Array[String], String) -> @js.Js
+fn min_satisfying(Array[String], String) -> @js.Any
 
 fn minor(String) -> Int
 
@@ -48,21 +48,21 @@ fn neq(String, String) -> Bool
 
 fn outside(String, String, String) -> Bool
 
-fn parse(String) -> @js.Js
+fn parse(String) -> @js.Any
 
 fn patch(String) -> Int
 
-fn prerelease(String) -> @js.Js
+fn prerelease(String) -> @js.Any
 
-fn rsort(Array[String]) -> @js.Js
+fn rsort(Array[String]) -> @js.Any
 
 fn satisfies(String, String) -> Bool
 
-fn sort(Array[String]) -> @js.Js
+fn sort(Array[String]) -> @js.Any
 
-fn valid(String) -> @js.Js
+fn valid(String) -> @js.Any
 
-fn valid_range(String) -> @js.Js
+fn valid_range(String) -> @js.Any
 
 // Errors
 

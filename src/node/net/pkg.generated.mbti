@@ -25,7 +25,7 @@ fn isIPv6(String) -> Bool
 // Types and methods
 #external
 pub type Server
-fn Server::address(Self) -> @js.Js?
+fn Server::address(Self) -> @js.Any?
 fn Server::close(Self) -> Self
 fn Server::listen(Self, Int, host? : String, backlog? : Int, callback? : () -> Unit) -> Self
 fn Server::listening(Self) -> Bool

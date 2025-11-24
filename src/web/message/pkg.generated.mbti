@@ -20,7 +20,7 @@ impl @js.JsImpl for MessageChannel
 impl Show for MessageChannel
 
 pub(all) struct MessageEvent {
-  data : @js.Js
+  data : @js.Any
   origin : String
   lastEventId : String
   ports : Array[MessagePort]
@@ -34,7 +34,7 @@ pub type MessagePort
 fn MessagePort::close(Self) -> Unit
 #alias(postMessage)
 fn MessagePort::post_message(Self, &@js.JsImpl) -> Unit
-fn MessagePort::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Js]) -> Unit
+fn MessagePort::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
 fn MessagePort::start(Self) -> Unit
 impl @js.JsImpl for MessagePort
 impl @event.EventTargetImpl for MessagePort

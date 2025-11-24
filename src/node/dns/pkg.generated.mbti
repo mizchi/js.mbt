@@ -39,7 +39,7 @@ pub struct LookupOptions {
   order : String?
 }
 fn LookupOptions::new() -> Self
-fn LookupOptions::to_js(Self) -> @js.Js
+fn LookupOptions::to_js(Self) -> @js.Any
 
 // Type aliases
 

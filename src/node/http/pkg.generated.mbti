@@ -11,13 +11,13 @@ import(
 // Values
 fn createServer(requestListener? : (IncomingMessage, ServerResponse) -> Unit) -> Server
 
-fn get(String, options? : @js.Js, callback? : (IncomingMessage) -> Unit) -> ClientRequest
+fn get(String, options? : @js.Any, callback? : (IncomingMessage) -> Unit) -> ClientRequest
 
-fn globalAgent() -> @js.Js
+fn globalAgent() -> @js.Any
 
-fn request(String, options? : @js.Js, callback? : (IncomingMessage) -> Unit) -> ClientRequest
+fn request(String, options? : @js.Any, callback? : (IncomingMessage) -> Unit) -> ClientRequest
 
-fn status_codes() -> @js.Js
+fn status_codes() -> @js.Any
 
 // Errors
 
@@ -38,7 +38,7 @@ impl @events.EventEmitterImpl for ClientRequest
 pub(all) struct IncomingMessage {
   httpVersion : String
   url : String?
-  headers : @js.Js
+  headers : @js.Any
   rawHeaders : Array[String]
   statusCode : Int?
   statusMessage : String?
@@ -52,7 +52,7 @@ impl @events.EventEmitterImpl for IncomingMessage
 
 #external
 pub type Server
-fn Server::address(Self) -> @js.Js?
+fn Server::address(Self) -> @js.Any?
 fn Server::close(Self, callback? : () -> Unit) -> Self
 fn Server::listen(Self, Int, host? : String, backlog? : Int, callback? : () -> Unit) -> Self
 fn Server::listening(Self) -> Bool
@@ -78,7 +78,7 @@ fn ServerResponse::set_statusMessage(Self, String) -> Unit
 fn ServerResponse::statusCode(Self) -> Int
 fn ServerResponse::statusMessage(Self) -> String
 fn ServerResponse::write(Self, String, encoding? : String) -> Bool
-fn ServerResponse::writeHead(Self, Int, statusMessage? : String, headers? : @js.Js) -> Self
+fn ServerResponse::writeHead(Self, Int, statusMessage? : String, headers? : @js.Any) -> Self
 impl @js.JsImpl for ServerResponse
 impl @events.EventEmitterImpl for ServerResponse
 

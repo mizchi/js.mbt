@@ -28,8 +28,8 @@ impl @js.JsImpl for File
 
 pub(all) struct FileReader {
   readyState : Int
-  result : @js.Nullable[@js.Js]
-  error : @js.Nullable[@js.Js]
+  result : @js.Nullable[@js.Any]
+  error : @js.Nullable[@js.Any]
 }
 fn FileReader::abort(Self) -> Unit
 fn FileReader::new() -> Self
@@ -39,9 +39,9 @@ fn FileReader::read_as_array_buffer(Self, @blob.Blob) -> Unit
 fn FileReader::read_as_data_url(Self, @blob.Blob) -> Unit
 #alias(readAsText)
 fn FileReader::read_as_text(Self, @blob.Blob, encoding? : String) -> Unit
-fn FileReader::set_onerror(Self, (@js.Js) -> Unit) -> Unit
-fn FileReader::set_onload(Self, (@js.Js) -> Unit) -> Unit
-fn FileReader::set_onloadend(Self, (@js.Js) -> Unit) -> Unit
+fn FileReader::set_onerror(Self, (@js.Any) -> Unit) -> Unit
+fn FileReader::set_onload(Self, (@js.Any) -> Unit) -> Unit
+fn FileReader::set_onloadend(Self, (@js.Any) -> Unit) -> Unit
 impl @js.JsImpl for FileReader
 
 // Type aliases

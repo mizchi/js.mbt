@@ -14,9 +14,9 @@ import(
 #external
 pub type IntersectionObserver
 fn IntersectionObserver::disconnect(Self) -> Unit
-fn IntersectionObserver::new((@js.Js?, Self) -> Unit, options? : @js.Js) -> Self
+fn IntersectionObserver::new((@js.Any?, Self) -> Unit, options? : @js.Any) -> Self
 fn IntersectionObserver::observe(Self, @dom.Element) -> Unit
-fn IntersectionObserver::take_records(Self) -> @js.Js
+fn IntersectionObserver::take_records(Self) -> @js.Any
 fn IntersectionObserver::unobserve(Self, @dom.Element) -> Unit
 impl @js.JsImpl for IntersectionObserver
 
@@ -34,9 +34,9 @@ impl @js.JsImpl for IntersectionObserverEntry
 #external
 pub type MutationObserver
 fn MutationObserver::disconnect(Self) -> Unit
-fn MutationObserver::new((@js.Js?, Self) -> Unit) -> Self
-fn MutationObserver::observe(Self, @dom.Element, @js.Js) -> Unit
-fn MutationObserver::take_records(Self) -> @js.Js
+fn MutationObserver::new((@js.Any?, Self) -> Unit) -> Self
+fn MutationObserver::observe(Self, @dom.Element, @js.Any) -> Unit
+fn MutationObserver::take_records(Self) -> @js.Any
 impl @js.JsImpl for MutationObserver
 
 pub(all) struct MutationRecord {
@@ -55,17 +55,17 @@ impl @js.JsImpl for MutationRecord
 #external
 pub type ResizeObserver
 fn ResizeObserver::disconnect(Self) -> Unit
-fn ResizeObserver::new((@js.Js?, Self) -> Unit) -> Self
+fn ResizeObserver::new((@js.Any?, Self) -> Unit) -> Self
 fn ResizeObserver::observe(Self, @dom.Element) -> Unit
-fn ResizeObserver::observe_with_options(Self, @dom.Element, @js.Js) -> Unit
+fn ResizeObserver::observe_with_options(Self, @dom.Element, @js.Any) -> Unit
 fn ResizeObserver::unobserve(Self, @dom.Element) -> Unit
 impl @js.JsImpl for ResizeObserver
 
 pub(all) struct ResizeObserverEntry {
   target : @dom.Element
   contentRect : @dom.DOMRectReadOnly
-  borderBoxSize : @js.Js
-  contentBoxSize : @js.Js
+  borderBoxSize : @js.Any
+  contentBoxSize : @js.Any
 }
 impl @js.JsImpl for ResizeObserverEntry
 

@@ -8,21 +8,21 @@ import(
 )
 
 // Values
-fn addAbortSignal(@js.Js, @js.Js) -> @js.Js
+fn addAbortSignal(@js.Any, @js.Any) -> @js.Any
 
-fn compose(Array[@js.Js]) -> @js.Js
+fn compose(Array[@js.Any]) -> @js.Any
 
-fn finished(@js.Js, callback? : @js.Js) -> @js.Js
+fn finished(@js.Any, callback? : @js.Any) -> @js.Any
 
 fn getDefaultHighWaterMark(Bool) -> Int
 
-fn isErrored(@js.Js) -> Bool
+fn isErrored(@js.Any) -> Bool
 
-fn isReadable(@js.Js) -> Bool
+fn isReadable(@js.Any) -> Bool
 
-fn isWritable(@js.Js) -> Bool
+fn isWritable(@js.Any) -> Bool
 
-fn pipeline(Array[@js.Js], callback? : @js.Js) -> @js.Js
+fn pipeline(Array[@js.Any], callback? : @js.Any) -> @js.Any
 
 fn setDefaultHighWaterMark(Bool, Int) -> Unit
 
@@ -32,9 +32,9 @@ fn setDefaultHighWaterMark(Bool, Int) -> Unit
 #external
 pub type Duplex
 fn Duplex::allowHalfOpen(Self) -> Bool
-fn Duplex::from(@js.Js) -> Self
-fn Duplex::fromWeb(@js.Js) -> Self
-fn Duplex::toWeb(Self) -> @js.Js
+fn Duplex::from(@js.Any) -> Self
+fn Duplex::fromWeb(@js.Any) -> Self
+fn Duplex::toWeb(Self) -> @js.Any
 impl @js.JsImpl for Duplex
 impl @events.EventEmitterImpl for Duplex
 impl StreamImpl for Duplex
@@ -48,18 +48,18 @@ impl StreamImpl for PassThrough
 #external
 pub type Readable
 fn Readable::closed(Self) -> Bool
-fn Readable::destroy(Self, error? : @js.Js) -> Self
-fn Readable::errored(Self) -> @js.Js
-fn Readable::from(@js.Js) -> Self
+fn Readable::destroy(Self, error? : @js.Any) -> Self
+fn Readable::errored(Self) -> @js.Any
+fn Readable::from(@js.Any) -> Self
 fn Readable::fromWeb(@streams.ReadableStream) -> Self
 fn Readable::isPaused(Self) -> Bool
 fn Readable::pause(Self) -> Self
 fn Readable::pipe(Self, Writable) -> Writable
-fn Readable::read(Self, size? : Int) -> @js.Js
+fn Readable::read(Self, size? : Int) -> @js.Any
 fn Readable::readable(Self) -> Bool
-fn Readable::readableEncoding(Self) -> @js.Js
+fn Readable::readableEncoding(Self) -> @js.Any
 fn Readable::readableEnded(Self) -> Bool
-fn Readable::readableFlowing(Self) -> @js.Js
+fn Readable::readableFlowing(Self) -> @js.Any
 fn Readable::readableHighWaterMark(Self) -> Int
 fn Readable::readableLength(Self) -> Int
 fn Readable::readableObjectMode(Self) -> Bool
@@ -67,7 +67,7 @@ fn Readable::resume_(Self) -> Self
 fn Readable::setEncoding(Self, String) -> Self
 fn Readable::toWeb(Self) -> @streams.ReadableStream
 fn Readable::unpipe(Self, destination? : Writable) -> Self
-fn Readable::unshift(Self, @js.Js, encoding? : String) -> Unit
+fn Readable::unshift(Self, @js.Any, encoding? : String) -> Unit
 impl @js.JsImpl for Readable
 impl @events.EventEmitterImpl for Readable
 impl StreamImpl for Readable
@@ -88,9 +88,9 @@ impl StreamImpl for Transform
 pub type Writable
 fn Writable::closed(Self) -> Bool
 fn Writable::cork(Self) -> Unit
-fn Writable::destroy(Self, error? : @js.Js) -> Self
-fn Writable::end(Self, chunk? : @js.Js, encoding? : String, callback? : @js.Js) -> Self
-fn Writable::errored(Self) -> @js.Js
+fn Writable::destroy(Self, error? : @js.Any) -> Self
+fn Writable::end(Self, chunk? : @js.Any, encoding? : String, callback? : @js.Any) -> Self
+fn Writable::errored(Self) -> @js.Any
 fn Writable::fromWeb(@streams.WritableStream) -> Self
 fn Writable::setDefaultEncoding(Self, String) -> Self
 fn Writable::toWeb(Self) -> @streams.WritableStream
@@ -102,7 +102,7 @@ fn Writable::writableFinished(Self) -> Bool
 fn Writable::writableHighWaterMark(Self) -> Int
 fn Writable::writableLength(Self) -> Int
 fn Writable::writableObjectMode(Self) -> Bool
-fn Writable::write(Self, @js.Js, encoding? : String, callback? : @js.Js) -> Bool
+fn Writable::write(Self, @js.Any, encoding? : String, callback? : @js.Any) -> Bool
 impl @js.JsImpl for Writable
 impl @events.EventEmitterImpl for Writable
 impl StreamImpl for Writable

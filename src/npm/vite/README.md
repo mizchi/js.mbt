@@ -15,7 +15,7 @@ npm install vite
 ### Using defineConfig
 
 ```moonbit
-// defineConfig returns @js.Js object directly
+// defineConfig returns @js.Any object directly
 let config = @vite.defineConfig(
   root?=Some("."),
   base?=Some("/"),
@@ -97,21 +97,21 @@ pub fn defineConfig(
   mode? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  server? : @js.Js,
-  build? : @js.Js,
-  preview? : @js.Js,
-  optimizeDeps? : @js.Js,
-  plugins? : @js.Js,
+  server? : @js.Any,
+  build? : @js.Any,
+  preview? : @js.Any,
+  optimizeDeps? : @js.Any,
+  plugins? : @js.Any,
   publicDir? : String,
   cacheDir? : String,
-  resolve? : @js.Js,
-  css? : @js.Js,
-  json? : @js.Js,
-  esbuild? : @js.Js,
-  assetsInclude? : @js.Js,
+  resolve? : @js.Any,
+  css? : @js.Any,
+  json? : @js.Any,
+  esbuild? : @js.Any,
+  assetsInclude? : @js.Any,
   envDir? : String,
   envPrefix? : String
-) -> @js.Js
+) -> @js.Any
 ```
 
 **Example:**
@@ -142,13 +142,13 @@ pub fn define_plugin(
   name : String,
   enforce? : String,
   apply? : String,
-  config? : (@js.Js) -> Unit,
+  config? : (@js.Any) -> Unit,
   configResolved? : ConfigResolvedHook,
   configureServer? : ConfigureServerHook,
-  configurePreviewServer? : (@js.Js) -> Unit,
-  transformIndexHtml? : (@js.Js) -> @js.Js,
-  handleHotUpdate? : (@js.Js) -> Unit,
-  options? : (@js.Js) -> Unit,
+  configurePreviewServer? : (@js.Any) -> Unit,
+  transformIndexHtml? : (@js.Any) -> @js.Any,
+  handleHotUpdate? : (@js.Any) -> Unit,
+  options? : (@js.Any) -> Unit,
   buildStart? : BuildStartHook,
   resolveId? : ResolveIdHook,
   load? : LoadHook,
@@ -160,13 +160,13 @@ pub fn define_plugin(
 
 **Hook Types:**
 ```moonbit
-pub type ResolveIdHook = (String, String?, @js.Js) -> String?
+pub type ResolveIdHook = (String, String?, @js.Any) -> String?
 pub type LoadHook = (String) -> String?
 pub type TransformHook = (String, String) -> String?
-pub type BuildStartHook = (@js.Js) -> Unit
-pub type BuildEndHook = (@js.Js?) -> Unit
-pub type ConfigResolvedHook = (@js.Js) -> Unit
-pub type ConfigureServerHook = (@js.Js) -> Unit
+pub type BuildStartHook = (@js.Any) -> Unit
+pub type BuildEndHook = (@js.Any?) -> Unit
+pub type ConfigResolvedHook = (@js.Any) -> Unit
+pub type ConfigureServerHook = (@js.Any) -> Unit
 ```
 
 **Parameters:**
@@ -228,7 +228,7 @@ pub async fn createServer(
   ~configFile : String = "",
   ~logLevel : String = "",
   ~clearScreen : Bool = true,
-  ~server : @js.Js = @js.undefined
+  ~server : @js.Any = @js.undefined
 ) -> ViteDevServer
 ```
 
@@ -239,7 +239,7 @@ pub async fn createServer(
 - `configFile` - Path to config file (default: auto-detect)
 - `logLevel` - Log level: "info" | "warn" | "error" | "silent"
 - `clearScreen` - Clear terminal screen (default: true)
-- `server` - Server-specific options as `@js.Js` object
+- `server` - Server-specific options as `@js.Any` object
 
 #### build
 
@@ -253,7 +253,7 @@ pub async fn build(
   ~configFile : String = "",
   ~logLevel : String = "",
   ~clearScreen : Bool = true,
-  ~build : @js.Js = @js.undefined
+  ~build : @js.Any = @js.undefined
 ) -> RollupOutput
 ```
 
@@ -264,7 +264,7 @@ pub async fn build(
 - `configFile` - Path to config file
 - `logLevel` - Log level
 - `clearScreen` - Clear terminal screen
-- `build` - Build-specific options as `@js.Js` object
+- `build` - Build-specific options as `@js.Any` object
 
 #### preview
 
@@ -278,7 +278,7 @@ pub async fn preview(
   ~configFile : String = "",
   ~logLevel : String = "",
   ~clearScreen : Bool = true,
-  ~preview : @js.Js = @js.undefined
+  ~preview : @js.Any = @js.undefined
 ) -> PreviewServer
 ```
 
@@ -289,7 +289,7 @@ pub async fn preview(
 - `configFile` - Path to config file
 - `logLevel` - Log level
 - `clearScreen` - Clear terminal screen
-- `preview` - Preview-specific options as `@js.Js` object
+- `preview` - Preview-specific options as `@js.Any` object
 
 ### ViteDevServer Methods
 
@@ -337,7 +337,7 @@ pub async fn ViteDevServer::restart(
 Get resolved URLs:
 
 ```moonbit
-pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @js.Js
+pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @js.Any
 ```
 
 ### PreviewServer Methods
@@ -355,7 +355,7 @@ pub fn PreviewServer::printUrls(self : PreviewServer) -> Unit
 Get resolved URLs:
 
 ```moonbit
-pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @js.Js
+pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @js.Any
 ```
 
 ## Advanced Configuration
@@ -404,28 +404,28 @@ pub(all) struct Config {
   mode : String?
   logLevel : String?
   clearScreen : Bool?
-  server : @js.Js?
-  build : @js.Js?
-  preview : @js.Js?
-  optimizeDeps : @js.Js?
-  plugins : @js.Js?
+  server : @js.Any?
+  build : @js.Any?
+  preview : @js.Any?
+  optimizeDeps : @js.Any?
+  plugins : @js.Any?
   publicDir : String?
   cacheDir : String?
-  resolve : @js.Js?
-  css : @js.Js?
-  json : @js.Js?
-  esbuild : @js.Js?
-  assetsInclude : @js.Js?
+  resolve : @js.Any?
+  css : @js.Any?
+  json : @js.Any?
+  esbuild : @js.Any?
+  assetsInclude : @js.Any?
   envDir : String?
   envPrefix : String?
 } derive(Show)
 ```
 
-Note: `defineConfig()` returns `@js.Js` directly, so you typically don't need to work with the `Config` struct directly.
+Note: `defineConfig()` returns `@js.Any` directly, so you typically don't need to work with the `Config` struct directly.
 
 ### Other Types
 
-- `Plugin` - Vite plugin (alias for `@js.Js`)
+- `Plugin` - Vite plugin (alias for `@js.Any`)
 - `ViteDevServer` - Development server instance
 - `PreviewServer` - Preview server instance
 - `ResolvedConfig` - Resolved Vite configuration

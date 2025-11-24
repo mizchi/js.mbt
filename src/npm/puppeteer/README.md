@@ -64,7 +64,7 @@ let browser = launch(
 - `timeout`: Maximum time in ms to wait for browser to start (default: 30000)
 - `userDataDir`: Path to user data directory (for profiles, cookies, etc.)
 - `dumpio`: Pipe browser stdout/stderr to process output
-- `env`: Custom environment variables as `@js.Js` object
+- `env`: Custom environment variables as `@js.Any` object
 - `pipe`: Connect via pipe instead of WebSocket (Chrome only)
 - `ignoreDefaultArgs`: Skip Puppeteer's default arguments
 - `waitForInitialPage`: Wait for initial page before resolving (default: true)

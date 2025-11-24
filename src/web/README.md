@@ -276,7 +276,7 @@ worker.postMessage("Start processing")
 Build HTTP clients that work in any environment:
 ```moonbit
 // Same code runs in browser, Node.js, Deno, Cloudflare Workers
-fn fetch_user(id : Int) -> @js.Promise[@js.Js] {
+fn fetch_user(id : Int) -> @js.Promise[@js.Any] {
   let response = @http.fetch("https://api.example.com/users/\(id)")
   response.json()
 }

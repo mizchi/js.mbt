@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-fn array_from(Js) -> Array[Js]
+fn array_from(Any) -> Array[Any]
 
 fn atob(String) -> String raise ThrowError
 
@@ -25,7 +25,7 @@ fn decodeURI(String) -> String
 fn decodeURIComponent(String) -> String
 
 #alias(dynamic_import)
-fn dynamicImport(String) -> Js
+fn dynamicImport(String) -> Any
 
 #alias(encode_uri)
 fn encodeURI(String) -> String
@@ -33,32 +33,36 @@ fn encodeURI(String) -> String
 #alias(encode_uri_component)
 fn encodeURIComponent(String) -> String
 
-fn[T : JsImpl] from_array(Array[T]) -> Js
+fn[T : JsImpl] from_array(Array[T]) -> Any
 
 async fn[T] from_callback(((T) -> Unit) -> Unit) -> T
 
-fn from_entries(Array[(String, &JsImpl)]) -> Js
+fn from_entries(Array[(String, &JsImpl)]) -> Any
 
-fn from_entries_option(Array[(String, &JsImpl?)]) -> Js
+fn from_entries_option(Array[(String, &JsImpl?)]) -> Any
 
-fn[T : JsImpl] from_entries_option_cast(Array[(String, T?)]) -> Js
+fn[T : JsImpl] from_entries_option_cast(Array[(String, T?)]) -> Any
 
-fn[R] from_fn0(() -> R) -> Js
+fn[R] from_fn0(() -> R) -> Any
 
-fn[A, R] from_fn1((A) -> R) -> Js
+fn[A, R] from_fn1((A) -> R) -> Any
 
-fn[A, B, R] from_fn2((A, B) -> R) -> Js
+fn[A, B, R] from_fn2((A, B) -> R) -> Any
 
-fn[A, B, C, R] from_fn3((A, B, C) -> R) -> Js
+fn[A, B, C, R] from_fn3((A, B, C) -> R) -> Any
 
-fn from_json(Json) -> Js
+fn from_json(Json) -> Any
 
-fn from_map(Map[String, Js]) -> Js
+fn from_map(Map[String, Any]) -> Any
 
-fn[A : JsImpl] from_option(A?) -> Js
+fn[A : JsImpl] from_option(A?) -> Any
 
 #alias(global_this)
-fn globalThis() -> Js
+fn globalThis() -> Any
+
+fn[A, B] identity(A) -> B
+
+fn[A] identity_option(Any) -> A?
 
 fn[T : JsImpl] instanceof_(T, T) -> Bool
 
@@ -69,7 +73,7 @@ fn[T : JsImpl] isNaN(T) -> Bool
 
 fn[T : JsImpl] is_array(T) -> Bool
 
-fn[T : JsImpl] is_builtin_trait(T) -> Bool
+fn[T] is_builtin_trait(T) -> Bool
 
 fn[T : JsImpl] is_null(T) -> Bool
 
@@ -79,15 +83,15 @@ fn[T : JsImpl] is_object(T) -> Bool
 
 fn[T : JsImpl] is_undefined(T) -> Bool
 
-fn js(&JsImpl) -> Js
+fn js(&JsImpl) -> Any
 
 fn[T] log(T) -> Unit
 
 fn[T, U] log2(T, U) -> Unit
 
-fn new_(Js, Array[&JsImpl]) -> Js
+fn new_(Any, Array[&JsImpl]) -> Any
 
-fn null_() -> Js
+fn null_() -> Any
 
 #alias(parse_float)
 fn parseFloat(String) -> Double?
@@ -118,7 +122,7 @@ fn setTimeout(() -> Unit, Int) -> JsTimer
 
 async fn sleep(Int) -> Unit noraise
 
-fn structuredClone(Js) -> Js
+fn structuredClone(Any) -> Any
 
 async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 
@@ -130,13 +134,9 @@ fn[T] throwable(() -> T raise?) -> T raise ThrowError
 
 fn[T : JsImpl] typeof_(T) -> String
 
-fn undefined() -> Js
+fn undefined() -> Any
 
-fn[A, B] identity(A) -> B
-
-fn[A] identity_option(Js) -> A?
-
-fn[T] unsafe_js(T) -> Js
+fn[T] unsafe_js(T) -> Any
 
 // Errors
 pub suberror ThrowError {
@@ -148,9 +148,9 @@ pub suberror ThrowError {
   EvalError(JsError)
   AggregateError(JsError)
   Error(JsError)
-  Value(Js)
+  Value(Any)
 }
-fn ThrowError::from_js(Js) -> Self
+fn ThrowError::from_js(Any) -> Self
 impl JsImpl for ThrowError
 impl Show for ThrowError
 
@@ -167,11 +167,19 @@ pub type AbortSignal
 impl JsImpl for AbortSignal
 
 #external
+pub type Any
+fn[T] Any::cast(Self) -> T
+impl JsImpl for Any
+impl Eq for Any
+impl Show for Any
+impl ToJson for Any
+
+#external
 pub type ArrayBuffer
 #alias(byte_length)
 fn ArrayBuffer::byteLength(Self) -> UInt
 #alias(is_view)
-fn ArrayBuffer::isView(Js) -> Bool
+fn ArrayBuffer::isView(Any) -> Bool
 #alias(max_byte_length)
 fn ArrayBuffer::maxByteLength(Self) -> UInt
 fn ArrayBuffer::new(UInt, max_byte_length? : UInt) -> Self
@@ -187,24 +195,17 @@ impl[T] JsImpl for AsyncIterator[T]
 
 #external
 pub type Function
-fn Function::apply(Self, Js, Array[Js]) -> Js
-fn Function::bind(Self, Js) -> Js
-fn Function::length(Self) -> Js
+fn Function::apply(Self, Any, Array[Any]) -> Any
+fn Function::bind(Self, Any) -> Any
+fn Function::length(Self) -> Any
 fn Function::name(Self) -> String
 fn Function::to_string(Self) -> String
 impl JsImpl for Function
 
 #external
 pub type JSON
-fn JSON::parse(String, reviver? : Js?) -> Js raise ThrowError
-fn JSON::stringify(Js, replacer? : Js, space? : Int) -> String
-
-#external
-pub type Js
-impl JsImpl for Js
-impl Eq for Js
-impl Show for Js
-impl ToJson for Js
+fn JSON::parse(String, reviver? : Any?) -> Any raise ThrowError
+fn JSON::stringify(Any, replacer? : Any, space? : Int) -> String
 
 #external
 pub type JsArray
@@ -228,7 +229,7 @@ impl Show for JsError
 #external
 pub(all) type JsIterator[T]
 fn[T] JsIterator::drop(Self[T], Int) -> Self[T]
-fn[T] JsIterator::from(Js) -> Self[T]
+fn[T] JsIterator::from(Any) -> Self[T]
 fn[T] JsIterator::iter(Self[T]) -> Iterator[T]
 fn[T] JsIterator::next(Self[T]) -> T?
 fn[T] JsIterator::take(Self[T], Int) -> Self[T]
@@ -251,24 +252,24 @@ fn[T] Nullable::to_option(Self[T]) -> T?
 
 #external
 pub type Object
-fn Object::assign(&JsImpl, &JsImpl) -> Js
-fn Object::create(&JsImpl) -> Js
-fn Object::entries(&JsImpl) -> Array[(String, Js)]
-fn Object::freeze(&JsImpl) -> Js
+fn Object::assign(&JsImpl, &JsImpl) -> Any
+fn Object::create(&JsImpl) -> Any
+fn Object::entries(&JsImpl) -> Array[(String, Any)]
+fn Object::freeze(&JsImpl) -> Any
 fn Object::hasOwnProperty(Self, &PropertyKey) -> Bool
 fn Object::isExtensible(Self) -> Bool
 fn Object::isExtensible_static(&JsImpl) -> Bool
 fn Object::isFrozen(&JsImpl) -> Bool
-fn Object::isPrototypeOf(Self, Js) -> Bool
+fn Object::isPrototypeOf(Self, Any) -> Bool
 fn Object::isSealed(&JsImpl) -> Bool
 fn Object::is_(&JsImpl, &JsImpl) -> Bool
 fn Object::keys(&JsImpl) -> Array[String]
 fn Object::new() -> Self
-fn Object::preventExtensions(&JsImpl) -> Js
+fn Object::preventExtensions(&JsImpl) -> Any
 fn Object::propertyIsEnumerable(Self, &PropertyKey) -> Bool
-fn Object::seal(&JsImpl) -> Js
+fn Object::seal(&JsImpl) -> Any
 fn Object::to_string(Self) -> String
-fn Object::values(&JsImpl) -> Array[Js]
+fn Object::values(&JsImpl) -> Array[Any]
 impl JsImpl for Object
 
 #external
@@ -280,7 +281,7 @@ fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
 fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
 fn[A] Promise::new(((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
 fn[T] Promise::race(Array[Self[T]]) -> Self[T]
-fn Promise::reject(Js) -> Self[Js]
+fn Promise::reject(Any) -> Self[Any]
 fn[A] Promise::resolve(A) -> Self[A]
 fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
 fn[R] Promise::try_(async () -> R) -> Self[R]
@@ -298,7 +299,7 @@ fn[T] Resolvers::resolve(Self[T], T) -> Unit
 pub(all) struct SettledResult[T] {
   status : String
   value : T?
-  reason : Nullable[Js]
+  reason : Nullable[Any]
 }
 impl[T] JsImpl for SettledResult[T]
 
@@ -325,17 +326,17 @@ impl PropertyKey for Symbol
 
 // Traits
 pub(open) trait JsImpl {
-  to_js(Self) -> Js = _
-  get(Self, &PropertyKey) -> Js = _
+  to_js(Self) -> Any = _
+  get(Self, &PropertyKey) -> Any = _
   set(Self, &PropertyKey, &JsImpl) -> Unit = _
-  call(Self, &PropertyKey, Array[&JsImpl]) -> Js = _
-  call0(Self, &PropertyKey) -> Js = _
-  call1(Self, &PropertyKey, &JsImpl) -> Js = _
-  call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Js = _
-  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Js raise ThrowError = _
-  call_self(Self, Array[&JsImpl]) -> Js = _
-  call_self0(Self) -> Js = _
-  call_self_throwable(Self, Array[&JsImpl]) -> Js raise ThrowError = _
+  call(Self, &PropertyKey, Array[&JsImpl]) -> Any = _
+  call0(Self, &PropertyKey) -> Any = _
+  call1(Self, &PropertyKey, &JsImpl) -> Any = _
+  call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Any = _
+  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Any raise ThrowError = _
+  call_self(Self, Array[&JsImpl]) -> Any = _
+  call_self0(Self) -> Any = _
+  call_self_throwable(Self, Array[&JsImpl]) -> Any raise ThrowError = _
   delete(Self, &PropertyKey) -> Unit = _
   hasOwnProperty(Self, &PropertyKey) -> Bool = _
 }
@@ -353,7 +354,8 @@ impl JsImpl for Json
 impl JsImpl for Map[String, &JsImpl]
 
 pub trait PropertyKey {
-  to_key(Self) -> Js
+  to_key(Self) -> Any
 }
 impl PropertyKey for Int
 impl PropertyKey for String
+

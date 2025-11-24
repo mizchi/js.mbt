@@ -26,7 +26,7 @@ pub struct ConnectOptions {
   session : @js.Object?
 }
 fn ConnectOptions::new(Int, String) -> Self
-fn ConnectOptions::to_js(Self) -> @js.Js
+fn ConnectOptions::to_js(Self) -> @js.Any
 
 #external
 pub type Server
@@ -46,7 +46,7 @@ pub struct ServerOptions {
   alpn_protocols : Array[String]?
 }
 fn ServerOptions::new() -> Self
-fn ServerOptions::to_js(Self) -> @js.Js
+fn ServerOptions::to_js(Self) -> @js.Any
 
 #external
 pub type TLSSocket

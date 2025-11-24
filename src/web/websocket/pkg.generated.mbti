@@ -9,13 +9,13 @@ import(
 )
 
 // Values
-fn get_close_code(@js.Js) -> Int
+fn get_close_code(@js.Any) -> Int
 
-fn get_close_reason(@js.Js) -> String
+fn get_close_reason(@js.Any) -> String
 
-fn get_close_was_clean(@js.Js) -> Bool
+fn get_close_was_clean(@js.Any) -> Bool
 
-fn get_message_data(@js.Js) -> String
+fn get_message_data(@js.Any) -> String
 
 // Errors
 
@@ -34,10 +34,10 @@ fn WebSocket::send_arraybuffer(Self, @js.ArrayBuffer) -> Unit
 fn WebSocket::send_blob(Self, @blob.Blob) -> Unit
 fn WebSocket::send_buffer(Self, @buffer.Buffer) -> Unit
 fn WebSocket::send_string(Self, String) -> Unit
-fn WebSocket::set_onclose(Self, (@js.Js) -> Unit) -> Unit
-fn WebSocket::set_onerror(Self, (@js.Js) -> Unit) -> Unit
-fn WebSocket::set_onmessage(Self, (@js.Js) -> Unit) -> Unit
-fn WebSocket::set_onopen(Self, (@js.Js) -> Unit) -> Unit
+fn WebSocket::set_onclose(Self, (@js.Any) -> Unit) -> Unit
+fn WebSocket::set_onerror(Self, (@js.Any) -> Unit) -> Unit
+fn WebSocket::set_onmessage(Self, (@js.Any) -> Unit) -> Unit
+fn WebSocket::set_onopen(Self, (@js.Any) -> Unit) -> Unit
 impl @js.JsImpl for WebSocket
 impl @event.EventTargetImpl for WebSocket
 

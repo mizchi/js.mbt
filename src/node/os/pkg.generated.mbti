@@ -11,7 +11,7 @@ fn arch() -> String
 #alias(available_parallelism)
 fn availableParallelism() -> Int
 
-fn cpus() -> Array[@js.Js]
+fn cpus() -> Array[@js.Any]
 
 #alias(dev_null)
 fn devNull() -> String
@@ -34,7 +34,7 @@ fn loadavg() -> Array[Double]
 fn machine() -> String
 
 #alias(network_interfaces)
-fn networkInterfaces() -> @js.Js
+fn networkInterfaces() -> @js.Any
 
 fn platform() -> String
 
@@ -52,10 +52,10 @@ fn type_() -> String
 fn uptime() -> Double
 
 #alias(userinfo)
-fn userInfo() -> @js.Js
+fn userInfo() -> @js.Any
 
 #alias(userinfo_with_encoding)
-fn userInfoWithEncoding(String) -> @js.Js
+fn userInfoWithEncoding(String) -> @js.Any
 
 fn version() -> String
 

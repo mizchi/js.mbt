@@ -24,7 +24,7 @@ pub struct ClientInfo {
   name : String
   version : String
 }
-fn ClientInfo::from_js(@js.Js) -> Self?
+fn ClientInfo::from_js(@js.Any) -> Self?
 impl Show for ClientInfo
 
 pub struct Content {
@@ -52,7 +52,7 @@ impl Show for ContentType
 pub struct JsonRpcError {
   code : Int
   message : String
-  data : @js.Js?
+  data : @js.Any?
 }
 fn JsonRpcError::to_js(Self) -> @js.Object
 
@@ -76,13 +76,13 @@ pub struct JsonRpcRequest {
   method_name : String
   params : @js.Object?
 }
-fn JsonRpcRequest::from_js(@js.Js) -> Self?
+fn JsonRpcRequest::from_js(@js.Any) -> Self?
 fn JsonRpcRequest::to_js(Self) -> @js.Object
 
 pub struct JsonRpcResponse {
   jsonrpc : String
   id : RequestId
-  result : @js.Js
+  result : @js.Any
 }
 fn JsonRpcResponse::to_js(Self) -> @js.Object
 
@@ -127,8 +127,8 @@ pub enum RequestId {
   String(String)
   Number(Int)
 }
-fn RequestId::from_js(@js.Js) -> Self?
-fn RequestId::to_js(Self) -> @js.Js
+fn RequestId::from_js(@js.Any) -> Self?
+fn RequestId::to_js(Self) -> @js.Any
 impl Eq for RequestId
 impl Show for RequestId
 

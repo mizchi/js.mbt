@@ -381,6 +381,7 @@ pub fn[T : JsImpl] is_undefined(v : T) -> Bool {
 }
 
 ///|
+/// JS: v == undefined
 pub fn[T : JsImpl] is_nullish(v : T) -> Bool {
   ffi_is_nullish(v.to_js())
 }

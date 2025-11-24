@@ -24,7 +24,7 @@ fn beforeEach(async () -> Unit, timeout? : Int) -> Unit
 
 fn describe(String, skip? : Bool, todo? : Bool, only? : Bool, timeout? : Int, async (SuiteContext) -> Unit) -> Unit
 
-fn get_mock_context(@js.Js) -> MockFunctionContext
+fn get_mock_context(@js.Any) -> MockFunctionContext
 
 fn it(String, skip? : String, todo? : String, only? : Bool, timeout? : Int, async (TestContext) -> Unit) -> Unit
 
@@ -46,9 +46,9 @@ fn test_(String, skip? : Bool, todo? : Bool, only? : Bool, timeout? : Int, async
 #external
 pub type MockFunctionContext
 fn MockFunctionContext::callCount(Self) -> Int
-fn MockFunctionContext::calls(Self) -> Array[@js.Js]
-fn MockFunctionContext::mockImplementation(Self, @js.Js) -> Unit
-fn MockFunctionContext::mockImplementationOnce(Self, @js.Js, onCall? : Int) -> Unit
+fn MockFunctionContext::calls(Self) -> Array[@js.Any]
+fn MockFunctionContext::mockImplementation(Self, @js.Any) -> Unit
+fn MockFunctionContext::mockImplementationOnce(Self, @js.Any, onCall? : Int) -> Unit
 fn MockFunctionContext::resetCalls(Self) -> Unit
 fn MockFunctionContext::restore(Self) -> Unit
 impl @js.JsImpl for MockFunctionContext
@@ -64,14 +64,14 @@ impl @js.JsImpl for MockTimers
 
 #external
 pub type MockTracker
-fn MockTracker::fn_(Self, original? : @js.Js, implementation? : @js.Js) -> @js.Js
-fn MockTracker::getter_(Self, @js.Js, String, implementation? : @js.Js) -> @js.Js
-fn MockTracker::method_(Self, @js.Js, String, implementation? : @js.Js) -> @js.Js
-fn MockTracker::module_(Self, String, defaultExport? : @js.Js, namedExports? : @js.Js) -> Unit
-fn MockTracker::property_(Self, @js.Js, String, value? : @js.Js) -> @js.Js
+fn MockTracker::fn_(Self, original? : @js.Any, implementation? : @js.Any) -> @js.Any
+fn MockTracker::getter_(Self, @js.Any, String, implementation? : @js.Any) -> @js.Any
+fn MockTracker::method_(Self, @js.Any, String, implementation? : @js.Any) -> @js.Any
+fn MockTracker::module_(Self, String, defaultExport? : @js.Any, namedExports? : @js.Any) -> Unit
+fn MockTracker::property_(Self, @js.Any, String, value? : @js.Any) -> @js.Any
 fn MockTracker::reset(Self) -> Unit
 fn MockTracker::restoreAll(Self) -> Unit
-fn MockTracker::setter_(Self, @js.Js, String, implementation? : @js.Js) -> @js.Js
+fn MockTracker::setter_(Self, @js.Any, String, implementation? : @js.Any) -> @js.Any
 impl @js.JsImpl for MockTracker
 
 #external
@@ -82,17 +82,17 @@ impl @js.JsImpl for SuiteContext
 pub type TestContext
 fn[T : @js.JsImpl] TestContext::assert_deep_strict_equal(Self, T, T, message? : String) -> Unit
 fn TestContext::assert_does_not_match(Self, String, @regexp.RegExp, message? : String) -> Unit
-fn TestContext::assert_does_not_reject(Self, async () -> Unit, error? : @js.Js, message? : String) -> Unit
-fn TestContext::assert_does_not_throw(Self, () -> Unit, error? : @js.Js, message? : String) -> Unit
+fn TestContext::assert_does_not_reject(Self, async () -> Unit, error? : @js.Any, message? : String) -> Unit
+fn TestContext::assert_does_not_throw(Self, () -> Unit, error? : @js.Any, message? : String) -> Unit
 fn TestContext::assert_fileSnapshot(Self, &@js.JsImpl, String, message? : String) -> Unit
 fn TestContext::assert_match(Self, String, @regexp.RegExp, message? : String) -> Unit
 fn[T : @js.JsImpl] TestContext::assert_not_deep_strict_equal(Self, T, T, message? : String) -> Unit
 fn[T : @js.JsImpl] TestContext::assert_not_strict_equal(Self, T, T, message? : String) -> Unit
 fn TestContext::assert_ok(Self, Bool, message? : String) -> Unit
-fn TestContext::assert_rejects(Self, async () -> Unit, error? : @js.Js, message? : String) -> Unit
+fn TestContext::assert_rejects(Self, async () -> Unit, error? : @js.Any, message? : String) -> Unit
 fn TestContext::assert_snapshot(Self, &@js.JsImpl, message? : String) -> Unit
 fn[T : @js.JsImpl] TestContext::assert_strict_equal(Self, T, T, message? : String) -> Unit
-fn TestContext::assert_throws(Self, () -> Unit, error? : @js.Js, message? : String) -> Unit
+fn TestContext::assert_throws(Self, () -> Unit, error? : @js.Any, message? : String) -> Unit
 fn TestContext::diagnostic(Self, String) -> Unit
 fn TestContext::plan(Self, Int) -> Unit
 fn TestContext::runOnly(Self, Bool) -> Unit

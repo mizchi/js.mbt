@@ -13,8 +13,8 @@ import(
 #external
 pub type FinalizationRegistry[T]
 fn[T : @js.JsImpl] FinalizationRegistry::new((T) -> Unit) -> Self[T]
-fn[T : @js.JsImpl, U : @js.JsImpl] FinalizationRegistry::register(Self[T], U, T, unregister_token? : @js.Js) -> Unit
-fn[T] FinalizationRegistry::unregister(Self[T], @js.Js) -> Bool
+fn[T : @js.JsImpl, U : @js.JsImpl] FinalizationRegistry::register(Self[T], U, T, unregister_token? : @js.Any) -> Unit
+fn[T] FinalizationRegistry::unregister(Self[T], @js.Any) -> Bool
 impl[T] @js.JsImpl for FinalizationRegistry[T]
 
 #external

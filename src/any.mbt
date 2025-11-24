@@ -7,9 +7,8 @@
 /// # Example
 ///
 /// ```moonbit
-/// let num = @js.js(42)               // MoonBit Int -> @js.Any
-/// let _str = @js.js("hello")         // MoonBit String -> @js.Any
-/// let _val : Int = identity(num) // Any -> MoonBit Int (unsafe)
+/// let num: @js.Any = @js.js(42)               // MoonBit Int -> @js.Any
+/// let _val : Int = num.cast() // Any -> MoonBit Int (unsafe)
 /// ```
 #external
 pub type Any

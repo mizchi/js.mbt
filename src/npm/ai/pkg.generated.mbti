@@ -12,7 +12,7 @@ import(
 // Types and methods
 #external
 pub type Ai
-fn Ai::generate_text(Self, model~ : Model, messages~ : Array[ModelMessage]) -> @js.Promise[@js.Js]
+fn Ai::generate_text(Self, model~ : Model, messages~ : Array[ModelMessage]) -> @js.Promise[@js.Any]
 fn Ai::require() -> Self
 impl @js.JsImpl for Ai
 

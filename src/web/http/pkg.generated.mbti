@@ -35,7 +35,7 @@ fn Request::arraybuffer(Self) -> @js.Promise[@js.ArrayBuffer]
 fn Request::blob(Self) -> @js.Promise[@blob.Blob]
 fn Request::bytes(Self) -> @js.Promise[@typedarray.Uint8Array]
 fn Request::clone(Self) -> Self
-fn Request::json(Self) -> @js.Promise[@js.Js]
+fn Request::json(Self) -> @js.Promise[@js.Any]
 fn Request::method_(Self) -> String
 fn Request::new(String) -> Self
 fn Request::text(Self) -> @js.Promise[String]
@@ -53,7 +53,7 @@ fn Response::clone(Self) -> Self
 fn Response::error() -> Self
 fn Response::form_data(Self) -> @js.Promise[FormData]
 fn Response::html(String, Int) -> Self
-fn Response::json(Self) -> @js.Promise[@js.Js]
+fn Response::json(Self) -> @js.Promise[@js.Any]
 fn Response::json_(&@js.JsImpl, options? : &@js.JsImpl) -> Self
 fn Response::new(body? : String, status? : Int, statusText? : String, headers? : &@js.JsImpl) -> Self
 fn Response::redirect(String, status? : Int) -> Self

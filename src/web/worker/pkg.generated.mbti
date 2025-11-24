@@ -12,9 +12,9 @@ import(
 
 // Types and methods
 pub(all) struct MessageEvent {
-  data : @js.Js
+  data : @js.Any
   origin : String
-  source : @js.Js
+  source : @js.Any
 }
 
 #external
@@ -22,7 +22,7 @@ pub type Worker
 fn Worker::new(String, type_? : String) -> Self
 #alias(post_message)
 fn Worker::postMessage(Self, &@js.JsImpl) -> Unit
-fn Worker::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Js]) -> Unit
+fn Worker::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
 fn Worker::terminate(Self) -> Unit
 impl @js.JsImpl for Worker
 impl @event.EventTargetImpl for Worker
@@ -31,6 +31,6 @@ impl @event.EventTargetImpl for Worker
 
 // Traits
 pub(open) trait Transferable {
-  to_transferable(Self) -> @js.Js
+  to_transferable(Self) -> @js.Any
 }
 

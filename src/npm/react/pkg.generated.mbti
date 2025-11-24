@@ -13,18 +13,18 @@ fn act(() -> Unit) -> @js.Promise[Unit]
 async fn act_async(async () -> Unit) -> Unit
 
 #alias(cacheSignal)
-fn cache_signal() -> @js.Js
+fn cache_signal() -> @js.Any
 
 #alias(captureOwnerStack)
-fn capture_owner_stack() -> @js.Js?
+fn capture_owner_stack() -> @js.Any?
 
 #alias(c)
 fn[T] component((T) -> Element, T, children? : Array[&ReactNode], key? : String) -> Element
 
 #alias(h)
-fn createElement(String, Array[&ReactNode], props? : Map[String, @js.Js], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
+fn createElement(String, Array[&ReactNode], props? : Map[String, @js.Any], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
 
-fn createElementDirect(String, @js.Js, @js.Js) -> Element
+fn createElementDirect(String, @js.Any, @js.Any) -> Element
 
 #alias(createContext)
 fn[T] create_context(T?) -> Context[T]
@@ -33,12 +33,12 @@ async fn dynamic_import_async() -> Unit
 
 fn fragment(Array[&ReactNode], key? : String) -> Element
 
-fn init_react_api(@js.Js, global_key? : String) -> Unit
+fn init_react_api(@js.Any, global_key? : String) -> Unit
 
 #alias(initReactAsync)
 async fn init_react_async() -> Unit
 
-fn[T] lazy_(() -> @js.Promise[@js.Js]) -> (T) -> Element
+fn[T] lazy_(() -> @js.Promise[@js.Any]) -> (T) -> Element
 
 fn[T] provider(Context[T], Array[&ReactNode], value~ : T) -> Element
 
@@ -125,7 +125,7 @@ pub(all) struct EmptyProps {
 impl Default for EmptyProps
 
 pub(all) struct ReactRef[T] {
-  current : @js.Js
+  current : @js.Any
 }
 fn[T] ReactRef::get_current(Self[T]) -> T?
 fn[T] ReactRef::set_current(Self[T], T?) -> Unit
@@ -160,7 +160,7 @@ pub type WheelEventHandler[T] = (@dom.WheelEvent) -> Unit
 
 // Traits
 pub(open) trait ReactNode {
-  to_react_node(Self) -> @js.Js
+  to_react_node(Self) -> @js.Any
 }
 impl ReactNode for Bool
 impl ReactNode for Int
