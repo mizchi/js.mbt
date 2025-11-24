@@ -70,8 +70,7 @@ impl EventEmitterImpl with removeListener(
   name : String,
   callback : (@js.Js) -> Unit,
 ) -> Unit {
-  self.call2("removeListener", name, callback |> @js.identity)
-  |> @js.identity
+  self.call2("removeListener", name, callback |> @js.from_fn1) |> @js.identity
 }
 
 ///|

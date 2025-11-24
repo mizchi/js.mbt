@@ -33,7 +33,7 @@ pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::get(
   if @js.is_undefined(result) {
     None
   } else {
-    Some(result |> @js.identity)
+    Some(result.cast())
   }
 }
 
@@ -108,7 +108,7 @@ pub fn[T] WeakRef::deref(self : WeakRef[T]) -> T? {
   if @js.is_undefined(result) {
     None
   } else {
-    Some(result |> @js.identity)
+    Some(result.cast())
   }
 }
 
@@ -129,9 +129,7 @@ extern "js" fn ffi_new_finalization_registry(
 pub fn[T : @js.JsImpl] FinalizationRegistry::new(
   cleanup_callback : (T) -> Unit,
 ) -> FinalizationRegistry[T] {
-  ffi_new_finalization_registry(fn(val) {
-    cleanup_callback(val |> @js.identity)
-  })
+  ffi_new_finalization_registry(fn(val) { cleanup_callback(val.cast()) })
   |> @js.identity
 }
 

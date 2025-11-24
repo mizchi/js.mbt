@@ -349,17 +349,17 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
   let len : Int = v.get("length") |> @js.identity
   let matches : Array[String] = Array::new(capacity=len)
   for i = 0; i < len; i = i + 1 {
-    matches.push(v.get(i) |> @js.identity)
+    matches.push(v.get(i).cast())
   }
   let index : Int? = if @js.is_undefined(v.get("index")) {
     None
   } else {
-    Some(v.get("index") |> @js.identity)
+    Some(v.get("index").cast())
   }
   let input : String? = if @js.is_undefined(v.get("input")) {
     None
   } else {
-    Some(v.get("input") |> @js.identity)
+    Some(v.get("input").cast())
   }
   let groups : Map[String, String]? = if @js.is_undefined(v.get("groups")) {
     None
@@ -391,17 +391,17 @@ pub fn RegExp::matchAll(
     let match_len : Int = item.get("length") |> @js.identity
     let matches : Array[String] = Array::new(capacity=match_len)
     for j = 0; j < match_len; j = j + 1 {
-      matches.push(item.get(j) |> @js.identity)
+      matches.push(item.get(j).cast())
     }
     let index : Int? = if @js.is_undefined(item.get("index")) {
       None
     } else {
-      Some(item.get("index") |> @js.identity)
+      Some(item.get("index").cast())
     }
     let input : String? = if @js.is_undefined(item.get("input")) {
       None
     } else {
-      Some(item.get("input") |> @js.identity)
+      Some(item.get("input").cast())
     }
     let groups : Map[String, String]? = if @js.is_undefined(item.get("groups")) {
       None

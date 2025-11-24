@@ -156,7 +156,7 @@ pub fn[T, U] use_reducer(
     reducer |> @js.unsafe_js,
     initial |> @js.identity,
   )
-  (val.get(0) |> @js.identity, val.get(1) |> @js.identity)
+  (val.get(0) |> @js.identity, val.get(1).cast())
 }
 
 ///|
@@ -281,7 +281,7 @@ extern "js" fn ffi_use_transition() -> @js.Js =
 #alias(useTransition)
 pub fn use_transition() -> (Bool, (() -> Unit) -> Unit) {
   let result = ffi_use_transition()
-  (result.get(0) |> @js.identity, result.get(1) |> @js.identity)
+  (result.get(0) |> @js.identity, result.get(1).cast())
 }
 
 ///|
@@ -301,7 +301,7 @@ pub fn[S, A] use_optimistic(
     state |> @js.unsafe_js,
     update_fn |> @js.unsafe_js,
   )
-  (result.get(0) |> @js.identity, result.get(1) |> @js.identity)
+  (result.get(0) |> @js.identity, result.get(1).cast())
 }
 
 ///|

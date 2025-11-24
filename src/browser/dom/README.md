@@ -123,7 +123,7 @@ fn handle_mouse(event : @dom.MouseEvent) -> Unit {
 }
 
 element.addEventListener("click", fn(e) { 
-  handle_mouse(e |> @js.identity) 
+  handle_mouse(e.cast()) 
 })
 ```
 

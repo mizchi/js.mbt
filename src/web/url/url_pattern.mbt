@@ -103,7 +103,7 @@ pub fn URLPattern::exec(self : Self, input : String) -> URLPatternResult? {
   if ffi_is_null(result) {
     None
   } else {
-    Some(result |> @js.identity)
+    Some(result.cast())
   }
 }
 
@@ -122,6 +122,6 @@ pub fn URLPattern::execWithBase(
   if ffi_is_null(result) {
     None
   } else {
-    Some(result |> @js.identity)
+    Some(result.cast())
   }
 }
