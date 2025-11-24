@@ -17,6 +17,7 @@ fn createServerNoListener() -> @http.Server {
 ///|
 async test "Node HTTP: HTTP server can be created" {
   let server = createServerNoListener()
+  defer server.close() |> ignore // Cleanup to prevent leaks
   inspect(server.listening(), content="false")
   // Non-listening server doesn't need close
 }
@@ -30,6 +31,7 @@ async test "Node HTTP: HTTP server can be created with request listener" {
     res.writeHead(200) |> ignore
     res.end()
   })
+  defer server.close() |> ignore // Cleanup to prevent leaks
   inspect(server.listening(), content="false")
   // Non-listening server doesn't need close
 }
@@ -65,7 +67,6 @@ async test "Node HTTP: HTTP server can get address after listening" {
   let mut close_called = false
   let server = createServerNoListener()
   defer server.close() |> ignore // Cleanup to prevent leaks
-
   server.listen(0, host="127.0.0.1") |> ignore
   @js.sleep(48)
   let address = server.address()
@@ -90,6 +91,7 @@ async test "Node HTTP: HTTP server handles simple request" {
   let mut request_handled = false
   let mut response_received = false
   let mut close_called = false
+  let mut server_listening = false
   let server = createServer(fn(
     _req : @http.IncomingMessage,
     res : @http.ServerResponse,
@@ -100,9 +102,11 @@ async test "Node HTTP: HTTP server handles simple request" {
   })
   defer server.close() |> ignore // Cleanup to prevent leaks
 
-  // Start server
-  server.listen(0, host="127.0.0.1") |> ignore
-  @js.sleep(48)
+  // Start server with callback to ensure it's ready
+  server.listen(0, host="127.0.0.1", callback=fn() { server_listening = true })
+  |> ignore
+  @js.sleep(100)
+  inspect(server_listening, content="true")
 
   // Get port
   let port = match server.address() {
@@ -121,8 +125,8 @@ async test "Node HTTP: HTTP server handles simple request" {
   })
   client_req.end()
 
-  // Wait for request/response
-  @js.sleep(96)
+  // Wait for request/response (increased timeout for reliability)
+  @js.sleep(200)
   inspect(request_handled, content="true")
   inspect(response_received, content="true")
 

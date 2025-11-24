@@ -47,6 +47,7 @@ async test "Node Net: isIP should return IP version" {
 ///|
 async test "Node Net: Server can be created" {
   let server = createNetServer()
+  defer server.close() |> ignore // Cleanup to prevent leaks
   inspect(server.listening(), content="false")
 }
 
@@ -59,6 +60,7 @@ async test "Node Net: Server can be created with options" {
     keepAlive=true,
     keepAliveInitialDelay=1000,
   )
+  defer server.close() |> ignore // Cleanup to prevent leaks
   inspect(server.listening(), content="false")
 }
 
@@ -66,6 +68,7 @@ async test "Node Net: Server can be created with options" {
 async test "Node Net: Server listen with callback" {
   let mut callback_called = false
   let server = createNetServer()
+  defer server.close() |> ignore // Cleanup to prevent leaks
   server.listen(0, host="127.0.0.1", callback=fn() { callback_called = true })
   |> ignore
   @js.sleep(96)
@@ -77,6 +80,7 @@ async test "Node Net: Server listen with callback" {
 ///|
 async test "Node Net: Server listen and get address" {
   let server = createNetServer()
+  defer server.close() |> ignore // Cleanup to prevent leaks
   server.listen(0, host="127.0.0.1") |> ignore
   @js.sleep(48)
   let address = server.address()
@@ -96,6 +100,7 @@ async test "Node Net: Server listen and get address" {
 ///|
 async test "Node Net: Socket can be created" {
   let socket = @net.createConnection(8080, host="127.0.0.1")
+  defer socket.destroy() |> ignore // Cleanup to prevent leaks
   // Just check that socket was created without connecting
   inspect(socket.destroyed(), content="false")
   socket.destroy() |> ignore

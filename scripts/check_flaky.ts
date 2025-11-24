@@ -6,7 +6,7 @@
  * to identify flaky tests and compare against a baseline.
  *
  * Usage:
- *   ./check_test.ts [runs] [timeout] [--verbose]
+ *   ./scripts/check_flaky.ts [runs] [timeout] [--verbose]
  *
  * Arguments:
  *   runs     - Number of test runs (default: 2)
@@ -14,11 +14,11 @@
  *   --verbose, -v - Show all test output (default: show progress only)
  *
  * Examples:
- *   ./check_test.ts              # Run 2 times with 12s timeout
- *   ./check_test.ts 5            # Run 5 times with 12s timeout
- *   ./check_test.ts 3 180000     # Run 3 times with 180s timeout
- *   ./check_test.ts 5 60000 -v   # Run 5 times with verbose output
- *   ./check_test.ts 10 12000     # Run 10 times, press Ctrl-C to see diff
+ *   ./scripts/check_flaky.ts              # Run 2 times with 12s timeout
+ *   ./scripts/check_flaky.ts 5            # Run 5 times with 12s timeout
+ *   ./scripts/check_flaky.ts 3 180000     # Run 3 times with 180s timeout
+ *   ./scripts/check_flaky.ts 5 60000 -v   # Run 5 times with verbose output
+ *   ./scripts/check_flaky.ts 10 12000     # Run 10 times, press Ctrl-C to see diff
  *
  * Features:
  *   - Shows progress indicator (100 tests, 200 tests, etc.)
@@ -29,6 +29,19 @@
  *   - Saves last run as baseline (.test_baseline.json)
  *   - Shows statistics and success rates
  *   - Identifies new failures, new successes, and consistent failures
+ *
+ * Output:
+ *   - Progress updates every 100 tests (unless verbose)
+ *   - Real-time diff between consecutive runs
+ *   - Summary per run with pass/fail counts
+ *   - Analysis of differences between runs
+ *   - Comparison with baseline (if exists)
+ *   - Statistics (success rate, timeouts, etc.)
+ *
+ * Exit codes:
+ *   0   - All runs passed with consistent test counts
+ *   1   - Some runs failed or test counts were inconsistent
+ *   130 - Interrupted by user (Ctrl-C)
  */
 import { spawn } from "node:child_process";
 import { writeFileSync, readFileSync, existsSync } from "node:fs";
@@ -521,7 +534,7 @@ async function main() {
 
       if (diff.consistentFailures.length > 0) {
         console.log(
-          `  Consistent failures (${diff.consistentFailures.length}):`
+          `  Consistent failures (${diff.consistentFailures.length}):`,
         );
         for (const test of diff.consistentFailures) {
           console.log(`    - ${test.file}:${test.line} "${test.name}"`);
@@ -563,7 +576,7 @@ async function main() {
 
     if (diff.consistentFailures.length > 0) {
       console.log(
-        `\nConsistent failures (${diff.consistentFailures.length}):`
+        `\nConsistent failures (${diff.consistentFailures.length}):`,
       );
       for (const test of diff.consistentFailures) {
         console.log(`  - ${test.file}:${test.line} "${test.name}"`);

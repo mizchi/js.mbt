@@ -55,7 +55,7 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
 - CLAUDE.md has some small tasks that are easy for AI to pick up, agent is
   welcome to finish the tasks and check the box when you are done
 
-## Testings
+## Testing
 
 ```bash
 moon test
@@ -63,3 +63,38 @@ moon build
 pnpm test:cloudflare
 deno test -A
 ```
+
+### Async Test Resource Management
+
+When writing `async test` that creates servers or network resources (HTTP, HTTPS, HTTP/2, Net), **ALWAYS** use `defer` immediately after resource creation to ensure proper cleanup:
+
+```moonbit
+async test "Server test example" {
+  let server = createServer()
+  defer server.close() |> ignore  // REQUIRED: Add this immediately after creation
+
+  // Test code here...
+}
+
+async test "Socket test example" {
+  let socket = createConnection()
+  defer socket.destroy() |> ignore  // REQUIRED: Add this immediately after creation
+
+  // Test code here...
+}
+```
+
+**Rules:**
+- Place `defer` statement **immediately after** resource creation (server, socket, etc.)
+- This applies to all async tests in:
+  - `src/node/http/*_test.mbt`
+  - `src/node/https/*_test.mbt`
+  - `src/node/http2/*_test.mbt`
+  - `src/node/net/*_test.mbt`
+- The `defer` ensures cleanup even if the test fails or times out
+- You may still call explicit cleanup (e.g., `server.close(callback=...)`) for verification purposes, but `defer` is mandatory for safety
+
+**Test Stability:**
+- Use `./scripts/check_flaky.ts` to verify test stability
+- Run multiple times to identify flaky tests: `./scripts/check_flaky.ts 10 12000`
+- All tests should consistently pass without timeouts
