@@ -1,0 +1,83 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/puppeteer"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+async fn launch(headless? : Bool, args? : Array[String], executablePath? : String, devtools? : Bool, timeout? : Int, userDataDir? : String, dumpio? : Bool, env? : @js.Js, pipe? : Bool, ignoreDefaultArgs? : Bool, waitForInitialPage? : Bool, debuggingPort? : Int, handleSIGHUP? : Bool, handleSIGINT? : Bool, handleSIGTERM? : Bool) -> Browser
+
+fn run_example() -> Unit
+
+// Errors
+
+// Types and methods
+#external
+pub type Browser
+async fn Browser::close(Self) -> Unit
+async fn Browser::new_page(Self) -> Page
+async fn Browser::pages(Self) -> Array[Page]
+async fn Browser::userAgent(Self) -> String
+async fn Browser::version(Self) -> String
+impl @js.JsImpl for Browser
+
+pub(all) struct Cookie {
+  name : String
+  value : String
+  domain : String?
+  path : String?
+  expires : Double?
+  httpOnly : Bool?
+  secure : Bool?
+  sameSite : String?
+}
+impl Show for Cookie
+
+#external
+pub type ElementHandle
+async fn ElementHandle::click(Self) -> Unit
+async fn ElementHandle::focus(Self) -> Unit
+async fn ElementHandle::getProperty(Self, String) -> @js.Js
+async fn ElementHandle::hover(Self) -> Unit
+async fn ElementHandle::query_selector(Self, String) -> Self?
+async fn ElementHandle::query_selector_all(Self, String) -> Array[Self]
+async fn ElementHandle::type_(Self, String) -> Unit
+impl @js.JsImpl for ElementHandle
+
+#external
+pub type Page
+async fn Page::click(Self, String) -> Unit
+async fn Page::content(Self) -> String
+async fn Page::cookies(Self) -> Array[@js.Js]
+async fn Page::deleteCookie(Self, Array[@js.Js]) -> Unit
+async fn Page::evaluate(Self, String) -> @js.Js
+async fn Page::focus(Self, String) -> Unit
+async fn Page::goBack(Self) -> Unit
+async fn Page::goForward(Self) -> Unit
+async fn Page::goto(Self, String) -> Unit
+async fn Page::hover(Self, String) -> Unit
+async fn Page::pdf(Self, String) -> Unit
+async fn Page::query_selector(Self, String) -> ElementHandle?
+async fn Page::query_selector_all(Self, String) -> Array[ElementHandle]
+async fn Page::reload(Self) -> Unit
+async fn Page::screenshot(Self, String) -> Unit
+async fn Page::select(Self, String, Array[String]) -> Array[String]
+async fn Page::setContent(Self, String) -> Unit
+async fn Page::setCookie(Self, Array[@js.Js]) -> Unit
+async fn Page::setUserAgent(Self, String) -> Unit
+async fn Page::setViewport(Self, Int, Int) -> Unit
+async fn Page::tap(Self, String) -> Unit
+async fn Page::title(Self) -> String
+async fn Page::type_(Self, String, String) -> Unit
+fn Page::url(Self) -> String
+async fn Page::waitForFunction(Self, String) -> @js.Js
+async fn Page::waitForNavigation(Self) -> Unit
+async fn Page::waitForSelector(Self, String) -> ElementHandle?
+async fn Page::waitForTimeout(Self, Int) -> Unit
+impl @js.JsImpl for Page
+
+// Type aliases
+
+// Traits
+
