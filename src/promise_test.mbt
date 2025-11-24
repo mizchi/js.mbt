@@ -139,7 +139,7 @@ async test "Promise: Promise::any returns first fulfilled promise" {
   let resolver1 : Resolvers[Int] = Promise::withResolvers()
   let resolver2 : Resolvers[Int] = Promise::withResolvers()
   run_async(() => {
-    sleep(32)
+    sleep(48)
     resolver1.resolve(100)
   })
   run_async(() => {

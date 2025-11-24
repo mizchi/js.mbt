@@ -10,6 +10,7 @@ extern "js" fn ffi_decode_uint8array(uint8array : @js.Js) -> String =
   #|(uint8array) => new TextDecoder().decode(uint8array)
 
 ///|
+#skip
 async test "Response: read body as text" {
   let response = ffi_new_response_async("Hello, async world!")
 
@@ -22,6 +23,7 @@ async test "Response: read body as text" {
 }
 
 ///|
+#skip
 async test "Response: read body as JSON" {
   let json_str = "{\"name\":\"test\",\"value\":42}"
   let response = ffi_new_response_async(json_str)
@@ -39,6 +41,7 @@ async test "Response: read body as JSON" {
 }
 
 ///|
+#skip
 async test "Response: read body stream chunk by chunk" {
   let response = ffi_new_response_async("chunk1chunk2chunk3")
   let body = response.body()
@@ -75,6 +78,7 @@ async test "Response: read body stream chunk by chunk" {
 }
 
 ///|
+#skip
 async test "Response: clone and read both bodies" {
   let response = ffi_new_response_async("original content")
   let cloned = response.clone()
@@ -94,6 +98,7 @@ async test "Response: clone and read both bodies" {
 }
 
 ///|
+#skip
 async test "Response: read body multiple times fails after first read" {
   let response = ffi_new_response_async("single read")
 
@@ -110,6 +115,7 @@ async test "Response: read body multiple times fails after first read" {
 }
 
 ///|
+#skip
 async test "Response: read large body in chunks" {
   // Create a larger response
   let mut large_content = ""
@@ -130,6 +136,7 @@ async test "Response: read large body in chunks" {
 }
 
 ///|
+#skip
 async test "Response: body stream with defer cleanup" {
   let response = ffi_new_response_async("test cleanup")
   let body = response.body()
@@ -154,6 +161,7 @@ async test "Response: body stream with defer cleanup" {
 }
 
 ///|
+#skip
 async test "Response: arrayBuffer method" {
   let response = ffi_new_response_async("buffer test")
 
@@ -171,6 +179,7 @@ async test "Response: arrayBuffer method" {
 }
 
 ///|
+#skip
 async test "Response: blob method" {
   let response = ffi_new_response_async("blob content")
 

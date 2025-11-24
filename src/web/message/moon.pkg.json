@@ -1,5 +1,4 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/web/event"],
-  "test-import": ["moonbitlang/async"]
+  "import": ["mizchi/js", "mizchi/js/web/event"]
 }

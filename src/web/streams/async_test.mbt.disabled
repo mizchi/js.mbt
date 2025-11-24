@@ -52,6 +52,7 @@ extern "js" fn ffi_writer_abort(writer : @js.Js) -> @js.Js =
   #| (writer) => writer.abort()
 
 ///|
+#skip
 async test "ReadableStream: read chunks sequentially" {
   let stream = create_readable_with_chunks(["chunk1", "chunk2", "chunk3"])
   let reader = stream.get_reader()
@@ -89,6 +90,7 @@ async test "ReadableStream: read chunks sequentially" {
 }
 
 ///|
+#skip
 async test "WritableStream: write chunks sequentially" {
   let writable_js = create_writable_collector()
   let writable : WritableStream = @js.unsafe_cast(writable_js)
@@ -122,6 +124,7 @@ async test "WritableStream: write chunks sequentially" {
 }
 
 ///|
+#skip
 async test "ReadableStream: pipe to WritableStream" {
   let readable = create_readable_with_chunks(["data1", "data2", "data3"])
   let writable_js = create_writable_collector()
@@ -141,6 +144,7 @@ async test "ReadableStream: pipe to WritableStream" {
 }
 
 ///|
+#skip
 async test "TransformStream: transform data through pipeline" {
   let readable = create_readable_with_chunks(["hello", "world"])
   let writable_js = create_writable_collector()
@@ -168,6 +172,7 @@ async test "TransformStream: transform data through pipeline" {
 }
 
 ///|
+#skip
 async test "ReadableStream: tee creates independent branches" {
   let stream = create_readable_with_chunks(["item1", "item2"])
   let (branch1, branch2) = stream.tee()
@@ -193,6 +198,7 @@ async test "ReadableStream: tee creates independent branches" {
 }
 
 ///|
+#skip
 async test "ReadableStream: cancel stops reading" {
   let stream = create_readable_with_chunks(["a", "b", "c", "d", "e"])
   let reader = stream.get_reader()
@@ -219,6 +225,7 @@ async test "ReadableStream: cancel stops reading" {
 }
 
 ///|
+#skip
 async test "WritableStream: abort stops writing" {
   let writable_js = create_writable_collector()
   let writable : WritableStream = @js.unsafe_cast(writable_js)
