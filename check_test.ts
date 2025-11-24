@@ -424,22 +424,45 @@ async function main() {
           );
         }
 
-        // Show which tests were not executed
-        const missingTests = [...prevRun.testKeys].filter(
-          (k) => !result.testKeys.has(k),
+        // Show symmetric difference (tests that differ between runs)
+        const diffTests = prevRun.testKeys.symmetricDifference(
+          result.testKeys,
         );
-        if (missingTests.length > 0) {
-          console.log(
-            `  ⚠️  Tests not executed in this run: ${missingTests.length}`,
+        if (diffTests.size > 0) {
+          const missingTests = [...prevRun.testKeys].filter(
+            (k) => !result.testKeys.has(k),
           );
-          if (missingTests.length <= 10) {
-            for (const key of missingTests) {
-              console.log(`    - ${key}`);
+          const newTests = [...result.testKeys].filter(
+            (k) => !prevRun.testKeys.has(k),
+          );
+
+          if (missingTests.length > 0) {
+            console.log(
+              `  ⚠️  Tests not executed in this run: ${missingTests.length}`,
+            );
+            if (missingTests.length <= 10) {
+              for (const key of missingTests) {
+                console.log(`    - ${key}`);
+              }
+            } else {
+              console.log(`    (showing first 10 of ${missingTests.length})`);
+              for (const key of missingTests.slice(0, 10)) {
+                console.log(`    - ${key}`);
+              }
             }
-          } else {
-            console.log(`    (showing first 10 of ${missingTests.length})`);
-            for (const key of missingTests.slice(0, 10)) {
-              console.log(`    - ${key}`);
+          }
+
+          if (newTests.length > 0) {
+            console.log(`  ℹ️  New tests in this run: ${newTests.length}`);
+            if (newTests.length <= 10) {
+              for (const key of newTests) {
+                console.log(`    + ${key}`);
+              }
+            } else {
+              console.log(`    (showing first 10 of ${newTests.length})`);
+              for (const key of newTests.slice(0, 10)) {
+                console.log(`    + ${key}`);
+              }
             }
           }
         }
