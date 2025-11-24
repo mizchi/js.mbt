@@ -288,6 +288,7 @@ async function main() {
   process.on("SIGINT", () => {
     interrupted = true;
     console.log("\n\n⚠️  Interrupted by user (Ctrl-C)");
+    console.log(`Completed runs: ${results.length}`);
 
     // Show diff if we have results
     if (results.length >= 2) {
@@ -310,6 +311,14 @@ async function main() {
           console.log(`  - ${test.file}:${test.line} "${test.name}"`);
         }
       }
+      if (diff.consistentFailures.length > 0) {
+        console.log(
+          `\nConsistent failures (${diff.consistentFailures.length}):`,
+        );
+        for (const test of diff.consistentFailures) {
+          console.log(`  - ${test.file}:${test.line} "${test.name}"`);
+        }
+      }
       if (
         diff.newFailures.length === 0 &&
         diff.newSuccesses.length === 0 &&
@@ -317,6 +326,44 @@ async function main() {
       ) {
         console.log("\nNo differences found");
       }
+    } else if (results.length === 1 && baseline) {
+      // Compare with baseline if only one run completed
+      console.log("\n" + "=".repeat(80));
+      console.log("Difference with baseline:");
+      console.log("=".repeat(80));
+
+      const diff = findDifferences(baseline, results[0]);
+      if (diff.newFailures.length > 0) {
+        console.log(`\nNew failures (${diff.newFailures.length}):`);
+        for (const test of diff.newFailures) {
+          console.log(`  - ${test.file}:${test.line} "${test.name}"`);
+        }
+      }
+      if (diff.newSuccesses.length > 0) {
+        console.log(`\nNew successes (${diff.newSuccesses.length}):`);
+        for (const test of diff.newSuccesses) {
+          console.log(`  - ${test.file}:${test.line} "${test.name}"`);
+        }
+      }
+      if (diff.consistentFailures.length > 0) {
+        console.log(
+          `\nConsistent failures (${diff.consistentFailures.length}):`,
+        );
+        for (const test of diff.consistentFailures) {
+          console.log(`  - ${test.file}:${test.line} "${test.name}"`);
+        }
+      }
+      if (
+        diff.newFailures.length === 0 &&
+        diff.newSuccesses.length === 0 &&
+        diff.consistentFailures.length === 0
+      ) {
+        console.log("\nNo differences found");
+      }
+    } else {
+      console.log(
+        "\nNot enough runs completed to show differences (need at least 2 runs or 1 run with baseline)",
+      );
     }
 
     process.exit(130); // Standard exit code for SIGINT
@@ -326,7 +373,14 @@ async function main() {
   let baseline: RunResult | null = null;
   if (existsSync(baselineFile)) {
     try {
-      baseline = JSON.parse(readFileSync(baselineFile, "utf-8"));
+      const parsed = JSON.parse(readFileSync(baselineFile, "utf-8"));
+      // Convert testKeys array back to Set
+      if (parsed.testKeys && Array.isArray(parsed.testKeys)) {
+        parsed.testKeys = new Set(parsed.testKeys);
+      } else {
+        parsed.testKeys = new Set();
+      }
+      baseline = parsed;
       console.log("Loaded baseline from", baselineFile);
     } catch (e) {
       console.warn("Failed to load baseline:", e);
@@ -378,7 +432,12 @@ async function main() {
   // Save last run as baseline
   if (results.length > 0) {
     const lastRun = results[results.length - 1];
-    writeFileSync(baselineFile, JSON.stringify(lastRun, null, 2));
+    // Convert Set to array for JSON serialization
+    const serializable = {
+      ...lastRun,
+      testKeys: Array.from(lastRun.testKeys),
+    };
+    writeFileSync(baselineFile, JSON.stringify(serializable, null, 2));
     console.log(`\nSaved last run as baseline to ${baselineFile}`);
   }
 
