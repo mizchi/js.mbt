@@ -41,6 +41,7 @@ async test "Node HTTP: HTTP server can listen and close properly" {
   let mut listening_called = false
   let mut close_called = false
   let server = createServerNoListener()
+  defer server.close() |> ignore // Cleanup to prevent leaks
 
   // Start listening
   server.listen(0, host="127.0.0.1", callback=fn() { listening_called = true })
@@ -51,7 +52,7 @@ async test "Node HTTP: HTTP server can listen and close properly" {
   inspect(listening_called, content="true")
   inspect(server.listening(), content="true")
 
-  // Close server with callback
+  // Explicitly close server with callback
   server.close(callback=fn() { close_called = true }) |> ignore
 
   // Wait for server to close
@@ -63,6 +64,8 @@ async test "Node HTTP: HTTP server can listen and close properly" {
 async test "Node HTTP: HTTP server can get address after listening" {
   let mut close_called = false
   let server = createServerNoListener()
+  defer server.close() |> ignore // Cleanup to prevent leaks
+
   server.listen(0, host="127.0.0.1") |> ignore
   @js.sleep(48)
   let address = server.address()
@@ -74,6 +77,7 @@ async test "Node HTTP: HTTP server can get address after listening" {
     }
     None => ()
   }
+  // Explicitly close server with callback
   server.close(callback=fn() { close_called = true }) |> ignore
   @js.sleep(96)
   inspect(close_called, content="true")
@@ -94,6 +98,7 @@ async test "Node HTTP: HTTP server handles simple request" {
     res.writeHead(200) |> ignore
     res.end(data="OK")
   })
+  defer server.close() |> ignore // Cleanup to prevent leaks
 
   // Start server
   server.listen(0, host="127.0.0.1") |> ignore
@@ -121,7 +126,7 @@ async test "Node HTTP: HTTP server handles simple request" {
   inspect(request_handled, content="true")
   inspect(response_received, content="true")
 
-  // Close server
+  // Explicitly close server with callback
   server.close(callback=fn() { close_called = true }) |> ignore
   @js.sleep(96)
   inspect(close_called, content="true")
