@@ -45,3 +45,5 @@ jobs:
       - name: moon test
         run: |
           moon test --target js
+        env:
+          NODE_OPTIONS: "--experimental-wasm-modules --no-warnings=ExperimentalWarnings"

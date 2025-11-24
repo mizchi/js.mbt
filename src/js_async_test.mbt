@@ -3,9 +3,9 @@
 
 ///|
 async test "JS Async: setTimeout" {
-  let mut executed = false
-  let _timer = @js.setTimeout(() => executed = true, 16)
-  @js.sleep(32)
+  let resolver : @js.Resolvers[Bool] = @js.Promise::withResolvers()
+  let _timer = @js.setTimeout(() => resolver.resolve(true), 16)
+  let executed = resolver.promise.wait()
   assert_true(executed)
 }
 
@@ -31,14 +31,41 @@ async test "JS Async: setTimeout with zero delay" {
 ///|
 async test "JS Async: multiple setTimeouts" {
   let order = []
-  let _ = @js.setTimeout(() => order.push(1), 16)
-  let _ = @js.setTimeout(() => order.push(2), 32)
-  let _ = @js.setTimeout(() => order.push(3), 48)
-  @js.sleep(60)
-  assert_eq(order.length(), 3)
+  let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+
+  let _ = @js.setTimeout(
+    () => {
+      order.push(1)
+      if order.length() == 3 {
+        resolver.resolve(3)
+      }
+    },
+    16,
+  )
+  let _ = @js.setTimeout(
+    () => {
+      order.push(2)
+      if order.length() == 3 {
+        resolver.resolve(3)
+      }
+    },
+    32,
+  )
+  let _ = @js.setTimeout(
+    () => {
+      order.push(3)
+      if order.length() == 3 {
+        resolver.resolve(3)
+      }
+    },
+    48,
+  )
+
+  let count = resolver.promise.wait()
+  assert_eq(count, 3)
   assert_eq(order[0], 1) // 16ms
-  assert_eq(order[1], 2) // 16ms
-  assert_eq(order[2], 3) // 16ms
+  assert_eq(order[1], 2) // 32ms
+  assert_eq(order[2], 3) // 48ms
 }
 
 ///|
