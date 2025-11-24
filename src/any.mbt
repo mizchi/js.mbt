@@ -7,13 +7,14 @@
 /// # Example
 ///
 /// ```moonbit
-/// let num: @js.Any = @js.js(42)               // MoonBit Int -> @js.Any
-/// let _val : Int = num.cast() // Any -> MoonBit Int (unsafe)
+/// let num: @js.Any = @js.js(42) // MoonBit Int -> @js.Any
+/// let _val : Int = num.cast()   // Any -> MoonBit Int (unsafe)
 /// ```
 #external
 pub type Any
 
 ///|
+/// Unsafe cast the `Any` value to a specific MoonBit type.
 pub fn[T] Any::cast(self : Self) -> T {
   identity(self)
 }

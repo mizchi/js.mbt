@@ -105,7 +105,7 @@ async test "Node HTTP: HTTP server handles simple request" {
   // Start server with callback to ensure it's ready
   server.listen(0, host="127.0.0.1", callback=fn() { server_listening = true })
   |> ignore
-  @js.sleep(100)
+  @js.sleep(300)
   inspect(server_listening, content="true")
 
   // Get port
