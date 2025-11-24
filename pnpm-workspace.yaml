@@ -1,4 +1,5 @@
 onlyBuiltDependencies:
   - canvas
   - esbuild
+  - puppeteer
   - workerd

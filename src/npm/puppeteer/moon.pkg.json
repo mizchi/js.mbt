@@ -1,5 +1,4 @@
 {
-  "is-main": true,
   "import": [
     "mizchi/js"
   ]
