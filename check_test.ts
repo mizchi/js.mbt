@@ -282,11 +282,9 @@ async function main() {
 
   const results: RunResult[] = [];
   const baselineFile = ".test_baseline.json";
-  let interrupted = false;
 
   // Handle Ctrl-C
   process.on("SIGINT", () => {
-    interrupted = true;
     console.log("\n\n⚠️  Interrupted by user (Ctrl-C)");
     console.log(`Completed runs: ${results.length}`);
 
@@ -415,6 +413,38 @@ async function main() {
       if (result.timedOut) {
         console.log(`  ⚠️  Timed out: ${result.timedOut}`);
       }
+
+      // Compare test count with previous run
+      if (i > 0) {
+        const prevRun = results[i - 1];
+        const passedDiff = result.passedTests - prevRun.passedTests;
+        if (passedDiff !== 0) {
+          console.log(
+            `  ⚠️  Passed tests diff: ${passedDiff > 0 ? "+" : ""}${passedDiff} (prev: ${prevRun.passedTests}, current: ${result.passedTests})`,
+          );
+        }
+
+        // Show which tests were not executed
+        const missingTests = [...prevRun.testKeys].filter(
+          (k) => !result.testKeys.has(k),
+        );
+        if (missingTests.length > 0) {
+          console.log(
+            `  ⚠️  Tests not executed in this run: ${missingTests.length}`,
+          );
+          if (missingTests.length <= 10) {
+            for (const key of missingTests) {
+              console.log(`    - ${key}`);
+            }
+          } else {
+            console.log(`    (showing first 10 of ${missingTests.length})`);
+            for (const key of missingTests.slice(0, 10)) {
+              console.log(`    - ${key}`);
+            }
+          }
+        }
+      }
+
       console.log("=".repeat(80));
 
       if (result.failedTests > 0) {
@@ -523,6 +553,7 @@ async function main() {
   console.log("Statistics:");
   console.log("=".repeat(80));
 
+  const passedCounts = results.map((r) => r.passedTests);
   const successRates = results.map(
     (r) => (r.passedTests / r.totalTests) * 100,
   );
@@ -530,15 +561,24 @@ async function main() {
     successRates.reduce((a, b) => a + b, 0) / successRates.length;
   const timeouts = results.filter((r) => r.timedOut).length;
 
+  console.log(`Passed tests: ${passedCounts.join(", ")}`);
+  const uniquePassedCounts = new Set(passedCounts);
+  if (uniquePassedCounts.size > 1) {
+    console.log(
+      `  ⚠️  Inconsistent passed test counts! Min: ${Math.min(...passedCounts)}, Max: ${Math.max(...passedCounts)}`,
+    );
+  }
+
   console.log(
     `Success rate: ${successRates.map((r) => r.toFixed(1) + "%").join(", ")}`,
   );
   console.log(`Average success rate: ${avgSuccessRate.toFixed(1)}%`);
   console.log(`Timeouts: ${timeouts}/${results.length}`);
 
-  // Exit with error if there were failures or timeouts
+  // Exit with error if there were failures, timeouts, or inconsistent test counts
   const hasFailures = results.some((r) => r.failedTests > 0 || r.timedOut);
-  process.exit(hasFailures ? 1 : 0);
+  const hasInconsistentCounts = uniquePassedCounts.size > 1;
+  process.exit(hasFailures || hasInconsistentCounts ? 1 : 0);
 }
 
 main().catch((err) => {
