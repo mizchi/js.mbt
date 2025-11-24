@@ -1,5 +1,5 @@
 {
   "supported-targets": ["js"],
   "import": ["mizchi/js"],
-  "test-import": ["mizchi/js/web/encoding"]
+  "test-import": ["mizchi/js/web/encoding", "moonbitlang/async"]
 }

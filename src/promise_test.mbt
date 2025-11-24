@@ -139,7 +139,7 @@ async test "Promise: Promise::any returns first fulfilled promise" {
   let resolver1 : Resolvers[Int] = Promise::withResolvers()
   let resolver2 : Resolvers[Int] = Promise::withResolvers()
   run_async(() => {
-    sleep(16)
+    sleep(32)
     resolver1.resolve(100)
   })
   run_async(() => {
@@ -235,11 +235,7 @@ async test "Promise: unwrap Promise inside async function" {
 
 ///|
 async test "Promise: Promise.all with async unwrap" {
-  let promises = [
-    Promise::resolve(1),
-    Promise::resolve(2),
-    Promise::resolve(3),
-  ]
+  let promises = [Promise::resolve(1), Promise::resolve(2), Promise::resolve(3)]
   let all_promise = Promise::all(promises)
   let results = all_promise.wait()
   inspect(results.length(), content="3")
@@ -258,9 +254,7 @@ async test "Promise: async function with error converts to rejected Promise" {
 
 ///|
 async test "Promise: Promise.new to async unwrap" {
-  let promise : Promise[Int] = Promise::new((resolve, _reject) => resolve(
-    999,
-  ))
+  let promise : Promise[Int] = Promise::new((resolve, _reject) => resolve(999))
   let result = promise.wait()
   inspect(result, content="999")
 }
@@ -534,7 +528,7 @@ async test "Promise: Promise::any returns first fulfilled promise (2)" {
   let resolver1 : Resolvers[Int] = Promise::withResolvers()
   let resolver2 : Resolvers[Int] = Promise::withResolvers()
   run_async(() => {
-    sleep(16)
+    sleep(32)
     resolver1.resolve(100)
   })
   run_async(() => {

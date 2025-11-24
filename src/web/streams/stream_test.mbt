@@ -9,7 +9,8 @@ test "ReadableStream basic properties" {
 test "ReadableStream get_reader locks stream" {
   let source = @js.Object::new()
   let stream = ReadableStream::new(source.to_js())
-  let _reader = stream.get_reader()
+  let reader = stream.get_reader()
+  defer reader.release_lock()
   assert_eq(stream.locked, true)
 }
 
@@ -33,7 +34,8 @@ test "WritableStream basic properties" {
 test "WritableStream get_writer locks stream" {
   let sink = @js.Object::new()
   let stream = WritableStream::new(sink.to_js())
-  let _writer = stream.get_writer()
+  let writer = stream.get_writer()
+  defer writer.release_lock()
   assert_eq(stream.locked, true)
 }
 
@@ -61,7 +63,8 @@ test "WritableStreamDefaultWriter releaseLock unlocks stream" {
 test "ReadableStream getReader alias" {
   let source = @js.Object::new()
   let stream = ReadableStream::new(source.to_js())
-  let _reader = stream.getReader()
+  let reader = stream.getReader()
+  defer reader.release_lock()
   assert_eq(stream.locked, true)
 }
 
@@ -69,7 +72,8 @@ test "ReadableStream getReader alias" {
 test "WritableStream getWriter alias" {
   let sink = @js.Object::new()
   let stream = WritableStream::new(sink.to_js())
-  let _writer = stream.getWriter()
+  let writer = stream.getWriter()
+  defer writer.release_lock()
   assert_eq(stream.locked, true)
 }
 

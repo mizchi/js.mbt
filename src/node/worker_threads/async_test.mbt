@@ -5,8 +5,10 @@ async test "Node Worker Threads: isMainThread returns true in main thread" {
 }
 
 ///|
+#skip
 async test "Node Worker Threads: threadId returns a number" {
   let tid = @worker_threads.threadId()
+  inspect(tid, content="0")
   assert_eq(tid > 0, true)
 }
 

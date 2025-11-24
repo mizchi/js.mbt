@@ -9,6 +9,11 @@ pub extern "js" fn require_cache() -> @js.Object =
   #| (moduleName) => require.cache
 
 ///|
+/// Node.js: module
+pub extern "js" fn module_() -> @js.Js =
+  #| () => module
+
+///|
 /// Node.js: require.resolve(moduleName)
 /// only cjs
 pub extern "js" fn require_resolve(module_name : String) =

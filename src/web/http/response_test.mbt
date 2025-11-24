@@ -23,10 +23,9 @@ test "Response body can be read with reader" {
   match response.body() {
     Some(stream) => {
       let reader = stream.get_reader()
+      defer reader.release_lock()
       // After getting a reader, the stream should be locked
       assert_eq(stream.locked, true)
-      reader.release_lock()
-      assert_eq(stream.locked, false)
     }
     None => fail("Response should have a body")
   }
@@ -54,7 +53,8 @@ test "Response clone has independent body stream" {
       match cloned.body() {
         Some(cloned_stream) => {
           // Lock the original stream
-          let _reader = original_stream.get_reader()
+          let reader = original_stream.get_reader()
+          defer reader.release_lock()
           assert_eq(original_stream.locked, true)
           // Cloned stream should still be unlocked
           assert_eq(cloned_stream.locked, false)

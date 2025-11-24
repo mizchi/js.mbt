@@ -120,7 +120,7 @@ test "setTimeout and clearTimeout" {
 ///|
 test "setInterval and clearInterval" {
   let timer = setInterval(fn() { () }, 100)
-  clearInterval(timer)
+  defer clearInterval(timer)
   // Interval created and cleared successfully
 }
 
@@ -145,9 +145,11 @@ test "btoa - throws on invalid characters" {
 ///| Microtasks
 
 ///|
-test "queueMicrotask - can be called" {
+async test "queueMicrotask - can be called" {
+  let mut called = false
   // Queue a microtask - it will execute after current task
-  queueMicrotask(fn() { () })
+  queueMicrotask(fn() { called = true })
+  @js.sleep(16)
   // Just verify the function can be called without error
-  assert_true(true)
+  assert_true(called)
 }
