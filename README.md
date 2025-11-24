@@ -13,7 +13,7 @@ $ moon add mizchi/js
 | Platform | Documentation | Examples | Status |
 |----------|--------------|----------|--------|
 | **Core JavaScript** | [src/README.md](src/README.md) | [js_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_examples.mbt.md) | 🧪 Tested |
-| **Browser/DOM** | [src/browser/dom/README.md](src/browser/dom/README.md) | - | 🧪 Tested |
+| **Browser** | [src/browser/README.md](src/browser/README.md) | - | 🧪 Tested |
 | **Node.js** | [src/node/README.md](src/node/README.md) | [node_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/node_examples.mbt.md) | 🚧 Partially |
 | **Deno** | [src/deno/README.md](src/deno/README.md) | - | 🧪 Tested |
 | **Cloudflare Workers** | [src/cloudflare/README.md](src/cloudflare/README.md) | [cfw/](src/examples/cfw/) | 🧪 Tested |

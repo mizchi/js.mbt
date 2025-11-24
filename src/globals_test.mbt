@@ -113,7 +113,7 @@ test "JSON::stringify" {
 ///|
 test "setTimeout and clearTimeout" {
   let timer = setTimeout(fn() { () }, 100)
-  clearTimeout(timer)
+  defer clearTimeout(timer)
   // Timer created and cleared successfully
 }
 
