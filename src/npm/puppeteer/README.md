@@ -177,6 +177,68 @@ let userAgent = browser.userAgent()!
 let pages = browser.pages()!
 ```
 
+### Network Interception
+
+See: [Network Interception Guide](https://pptr.dev/guides/network-interception)
+
+```moonbit
+// Enable request interception
+page.setRequestInterception(true)!
+
+// Listen to request events (using EventEmitter pattern)
+// Example: Block images
+page.on("request", fn(req: HTTPRequest) {
+  if req.isInterceptResolutionHandled() {
+    return
+  }
+  if req.resourceType() == "image" {
+    req.abort()!
+  } else {
+    req.continue_()!
+  }
+})!
+
+// Modify request headers
+page.on("request", fn(req: HTTPRequest) {
+  if req.isInterceptResolutionHandled() {
+    return
+  }
+  let overrides = @js.from_entries([
+    ("headers", @js.from_entries([
+      ("User-Agent", "Custom User Agent")
+    ]))
+  ])
+  req.continue_with(overrides)!
+})!
+
+// Mock response
+page.on("request", fn(req: HTTPRequest) {
+  if req.url().contains("/api/data") {
+    let response = @js.from_entries([
+      ("status", 200),
+      ("contentType", "application/json"),
+      ("body", "{\"mock\": true}")
+    ])
+    req.respond(response)!
+  } else {
+    req.continue_()!
+  }
+})!
+
+// Inspect response
+page.goto("https://example.com")!
+let response = page.waitForNavigation()!
+match response {
+  Some(res) => {
+    println("Status: \{res.status()}")
+    println("OK: \{res.ok()}")
+    let text = res.text()!
+    println("Body: \{text}")
+  }
+  None => println("No response")
+}
+```
+
 ## API Reference
 
 ### Types
@@ -184,6 +246,8 @@ let pages = browser.pages()!
 - `Browser` - Browser instance
 - `Page` - Browser page/tab instance
 - `ElementHandle` - Handle to a DOM element
+- `HTTPRequest` - HTTP request object (for network interception)
+- `HTTPResponse` - HTTP response object
 
 ### Browser Methods
 
@@ -257,6 +321,9 @@ let pages = browser.pages()!
 - `Page::screenshot(path)` - Take screenshot
 - `Page::pdf(path)` - Generate PDF
 
+#### Network Interception
+- `Page::setRequestInterception(value)` - Enable/disable request interception
+
 ### ElementHandle Methods
 
 - `ElementHandle::click()` - Click element
@@ -266,6 +333,38 @@ let pages = browser.pages()!
 - `ElementHandle::getProperty(propertyName)` - Get element property
 - `ElementHandle::query_selector(selector)` - Query selector within element
 - `ElementHandle::query_selector_all(selector)` - Query all within element
+
+### HTTPRequest Methods
+
+- `HTTPRequest::abort()` - Abort the request
+- `HTTPRequest::continue_()` - Continue the request
+- `HTTPRequest::continue_with(overrides)` - Continue with request overrides
+- `HTTPRequest::respond(response)` - Respond with custom response
+- `HTTPRequest::isInterceptResolutionHandled()` - Check if already handled
+- `HTTPRequest::url()` - Get request URL
+- `HTTPRequest::method_()` - Get HTTP method
+- `HTTPRequest::headers()` - Get request headers
+- `HTTPRequest::resourceType()` - Get resource type
+- `HTTPRequest::isNavigationRequest()` - Check if navigation request
+- `HTTPRequest::response()` - Get response (if available)
+- `HTTPRequest::redirectChain()` - Get redirect chain
+- `HTTPRequest::hasPostData()` - Check if has POST data
+- `HTTPRequest::fetchPostData()` - Fetch POST data
+
+### HTTPResponse Methods
+
+- `HTTPResponse::url()` - Get response URL
+- `HTTPResponse::status()` - Get HTTP status code
+- `HTTPResponse::statusText()` - Get status text
+- `HTTPResponse::ok()` - Check if status is 200-299
+- `HTTPResponse::headers()` - Get response headers
+- `HTTPResponse::text()` - Get response body as text
+- `HTTPResponse::json()` - Get response body as JSON
+- `HTTPResponse::buffer()` - Get response body as buffer
+- `HTTPResponse::fromCache()` - Check if served from cache
+- `HTTPResponse::fromServiceWorker()` - Check if from service worker
+- `HTTPResponse::request()` - Get associated request
+- `HTTPResponse::remoteAddress()` - Get remote server address
 
 ### Types
 

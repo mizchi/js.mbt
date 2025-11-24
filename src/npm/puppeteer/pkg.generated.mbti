@@ -8,8 +8,6 @@ import(
 // Values
 async fn launch(headless? : Bool, args? : Array[String], executablePath? : String, devtools? : Bool, timeout? : Int, userDataDir? : String, dumpio? : Bool, env? : @js.Js, pipe? : Bool, ignoreDefaultArgs? : Bool, waitForInitialPage? : Bool, debuggingPort? : Int, handleSIGHUP? : Bool, handleSIGINT? : Bool, handleSIGTERM? : Bool) -> Browser
 
-fn run_example() -> Unit
-
 // Errors
 
 // Types and methods
@@ -46,25 +44,60 @@ async fn ElementHandle::type_(Self, String) -> Unit
 impl @js.JsImpl for ElementHandle
 
 #external
+pub type HTTPRequest
+async fn HTTPRequest::abort(Self) -> Unit
+async fn HTTPRequest::continue_(Self) -> Unit
+async fn HTTPRequest::continue_with(Self, @js.Js) -> Unit
+async fn HTTPRequest::fetchPostData(Self) -> String
+fn HTTPRequest::hasPostData(Self) -> Bool
+fn HTTPRequest::headers(Self) -> @js.Js
+fn HTTPRequest::isInterceptResolutionHandled(Self) -> Bool
+fn HTTPRequest::isNavigationRequest(Self) -> Bool
+fn HTTPRequest::method_(Self) -> String
+fn HTTPRequest::redirectChain(Self) -> Array[Self]
+fn HTTPRequest::resourceType(Self) -> String
+async fn HTTPRequest::respond(Self, @js.Js) -> Unit
+fn HTTPRequest::response(Self) -> HTTPResponse?
+fn HTTPRequest::url(Self) -> String
+impl @js.JsImpl for HTTPRequest
+
+#external
+pub type HTTPResponse
+async fn HTTPResponse::buffer(Self) -> @js.Js
+fn HTTPResponse::fromCache(Self) -> Bool
+fn HTTPResponse::fromServiceWorker(Self) -> Bool
+fn HTTPResponse::headers(Self) -> @js.Js
+async fn HTTPResponse::json(Self) -> @js.Js
+fn HTTPResponse::ok(Self) -> Bool
+fn HTTPResponse::remoteAddress(Self) -> String
+fn HTTPResponse::request(Self) -> HTTPRequest
+fn HTTPResponse::status(Self) -> Int
+fn HTTPResponse::statusText(Self) -> String
+async fn HTTPResponse::text(Self) -> String
+fn HTTPResponse::url(Self) -> String
+impl @js.JsImpl for HTTPResponse
+
+#external
 pub type Page
 async fn Page::click(Self, String) -> Unit
 async fn Page::content(Self) -> String
-async fn Page::cookies(Self) -> Array[@js.Js]
+async fn Page::cookies(Self) -> Array[@js.Js] raise @js.ThrowError
 async fn Page::deleteCookie(Self, Array[@js.Js]) -> Unit
 async fn Page::evaluate(Self, String) -> @js.Js
-async fn Page::focus(Self, String) -> Unit
+async fn Page::focus(Self, String) -> Unit raise @js.ThrowError
 async fn Page::goBack(Self) -> Unit
 async fn Page::goForward(Self) -> Unit
 async fn Page::goto(Self, String) -> Unit
-async fn Page::hover(Self, String) -> Unit
-async fn Page::pdf(Self, String) -> Unit
+async fn Page::hover(Self, String) -> Unit raise @js.ThrowError
+async fn Page::pdf(Self, String) -> Unit raise @js.ThrowError
 async fn Page::query_selector(Self, String) -> ElementHandle?
 async fn Page::query_selector_all(Self, String) -> Array[ElementHandle]
 async fn Page::reload(Self) -> Unit
 async fn Page::screenshot(Self, String) -> Unit
-async fn Page::select(Self, String, Array[String]) -> Array[String]
+async fn Page::select(Self, String, Array[String]) -> Array[String] raise @js.ThrowError
 async fn Page::setContent(Self, String) -> Unit
 async fn Page::setCookie(Self, Array[@js.Js]) -> Unit
+async fn Page::setRequestInterception(Self, Bool) -> Unit
 async fn Page::setUserAgent(Self, String) -> Unit
 async fn Page::setViewport(Self, Int, Int) -> Unit
 async fn Page::tap(Self, String) -> Unit
