@@ -8,5 +8,6 @@
       "alias": "web"
     },
     "mizchi/js/node/events"
-  ]
+  ],
+  "test-import": ["moonbitlang/async"]
 }

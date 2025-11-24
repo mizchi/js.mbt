@@ -2,9 +2,12 @@
   "supported-targets": ["js"],
   "import": ["mizchi/js", "mizchi/js/browser/dom"],
   "test-import": [
+    "moonbitlang/async",
     "mizchi/js/node",
     "mizchi/js/npm/react_testing_library",
-    "mizchi/js/npm/react_element"
+    "mizchi/js/npm/react_element",
+    "mizchi/js/npm/react_dom_server",
+    "mizchi/js/web/streams"
   ],
   "warn-list": "-1-5-6"
 }

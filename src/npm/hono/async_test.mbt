@@ -1,7 +1,7 @@
 ///|
 /// Hono Testing Integration Tests
 /// These tests demonstrate the usage of Hono with testClient
-test "testClient with simple GET route" {
+async test "testClient with simple GET route" {
   let app : @hono.Hono[@js.Js, @js.Js] = @hono.Hono::new()
 
   // Define a simple route
@@ -18,7 +18,7 @@ test "testClient with simple GET route" {
 }
 
 ///|
-test "testClient with JSON response" {
+async test "testClient with JSON response" {
   let app : @hono.Hono[@js.Js, @js.Js] = @hono.Hono::new()
 
   // Define a JSON route
@@ -39,7 +39,7 @@ test "testClient with JSON response" {
 }
 
 ///|
-test "testClient with POST route" {
+async test "testClient with POST route" {
   let app : @hono.Hono[@js.Js, @js.Js] = @hono.Hono::new()
 
   // Define a POST route

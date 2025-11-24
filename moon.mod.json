@@ -1,7 +1,9 @@
 {
   "name": "mizchi/js",
   "version": "0.5.0",
-  "deps": {},
+  "deps": {
+    "moonbitlang/async": "0.13.3"
+  },
   "readme": "README.md",
   "repository": "https://github.com/mizchi/js.mbt",
   "license": "MIT",

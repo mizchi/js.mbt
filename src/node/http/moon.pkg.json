@@ -6,5 +6,6 @@
     "mizchi/js/node/events",
     "mizchi/js/node/net",
     "mizchi/js/node/stream"
-  ]
+  ],
+  "test-import": ["moonbitlang/async"]
 }
