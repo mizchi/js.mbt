@@ -1,0 +1,45 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/chokidar"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn watch(@js.Js, persistent? : Bool, ignored? : @js.Js, ignoreInitial? : Bool, followSymlinks? : Bool, cwd? : String, disableGlobbing? : Bool, usePolling? : Bool, interval? : Int, binaryInterval? : Int, alwaysStat? : Bool, depth? : Int, awaitWriteFinish? : @js.Js, ignorePermissionErrors? : Bool, atomic_? : Bool) -> FSWatcher
+
+// Errors
+
+// Types and methods
+#external
+pub type FSWatcher
+fn FSWatcher::add(Self, @js.Js) -> Self
+async fn FSWatcher::close(Self) -> Unit
+fn FSWatcher::getWatched(Self) -> @js.Js
+fn FSWatcher::off(Self, String, @js.Js) -> Self
+fn FSWatcher::on(Self, String, @js.Js) -> Self
+fn FSWatcher::unwatch(Self, @js.Js) -> Self
+impl @js.JsImpl for FSWatcher
+
+pub(all) struct WatchOptions {
+  persistent : Bool?
+  ignored : @js.Js?
+  ignoreInitial : Bool?
+  followSymlinks : Bool?
+  cwd : String?
+  disableGlobbing : Bool?
+  usePolling : Bool?
+  interval : Int?
+  binaryInterval : Int?
+  alwaysStat : Bool?
+  depth : Int?
+  awaitWriteFinish : @js.Js?
+  ignorePermissionErrors : Bool?
+  atomic_ : Bool?
+}
+impl Show for WatchOptions
+
+// Type aliases
+
+// Traits
+

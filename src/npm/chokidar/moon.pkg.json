@@ -1,0 +1,6 @@
+{
+  "is_main": false,
+  "import": [
+    "mizchi/js"
+  ]
+}

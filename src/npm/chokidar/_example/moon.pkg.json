@@ -1,0 +1,7 @@
+{
+  "is_main": true,
+  "import": [
+    "mizchi/js",
+    "mizchi/js/npm/chokidar"
+  ]
+}

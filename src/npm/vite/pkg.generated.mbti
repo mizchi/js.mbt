@@ -1,0 +1,86 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/vite"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+async fn build(root? : String, base? : String, mode? : String, configFile? : String, logLevel? : String, clearScreen? : Bool, build? : @js.Js) -> RollupOutput
+
+async fn createServer(root? : String, base? : String, mode? : String, configFile? : String, logLevel? : String, clearScreen? : Bool, server? : @js.Js) -> ViteDevServer
+
+fn defineConfig(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @js.Js, build? : @js.Js, preview? : @js.Js, optimizeDeps? : @js.Js, plugins? : @js.Js, publicDir? : String, cacheDir? : String, resolve? : @js.Js, css? : @js.Js, json? : @js.Js, esbuild? : @js.Js, assetsInclude? : @js.Js, envDir? : String, envPrefix? : String) -> @js.Js
+
+fn define_plugin(String, enforce? : String, apply? : String, config? : (@js.Js) -> Unit, configResolved? : (@js.Js) -> Unit, configureServer? : (@js.Js) -> Unit, configurePreviewServer? : (@js.Js) -> Unit, transformIndexHtml? : (@js.Js) -> @js.Js, handleHotUpdate? : (@js.Js) -> Unit, options? : (@js.Js) -> Unit, buildStart? : (@js.Js) -> Unit, resolveId? : (String, String?, @js.Js) -> String?, load? : (String) -> String?, transform? : (String, String) -> String?, buildEnd? : (@js.Js?) -> Unit, closeBundle? : () -> Unit) -> @js.Js
+
+async fn preview(root? : String, base? : String, mode? : String, configFile? : String, logLevel? : String, clearScreen? : Bool, preview? : @js.Js) -> PreviewServer
+
+// Errors
+
+// Types and methods
+pub(all) struct Config {
+  root : String?
+  base : String?
+  mode : String?
+  logLevel : String?
+  clearScreen : Bool?
+  server : @js.Js?
+  build : @js.Js?
+  preview : @js.Js?
+  optimizeDeps : @js.Js?
+  plugins : @js.Js?
+  publicDir : String?
+  cacheDir : String?
+  resolve : @js.Js?
+  css : @js.Js?
+  json : @js.Js?
+  esbuild : @js.Js?
+  assetsInclude : @js.Js?
+  envDir : String?
+  envPrefix : String?
+}
+impl Show for Config
+
+#external
+pub type PreviewServer
+fn PreviewServer::printUrls(Self) -> Unit
+fn PreviewServer::resolvedUrls(Self) -> @js.Js
+impl @js.JsImpl for PreviewServer
+
+#external
+pub type ResolvedConfig
+impl @js.JsImpl for ResolvedConfig
+
+#external
+pub type RollupOutput
+impl @js.JsImpl for RollupOutput
+
+#external
+pub type ViteDevServer
+async fn ViteDevServer::close(Self) -> Unit
+async fn ViteDevServer::listen(Self, port? : Int, host? : String) -> Self
+fn ViteDevServer::printUrls(Self) -> Unit
+fn ViteDevServer::resolvedUrls(Self) -> @js.Js
+async fn ViteDevServer::restart(Self, forceOptimize? : Bool) -> Unit
+impl @js.JsImpl for ViteDevServer
+
+// Type aliases
+pub type BuildEndHook = (@js.Js?) -> Unit
+
+pub type BuildStartHook = (@js.Js) -> Unit
+
+pub type ConfigResolvedHook = (@js.Js) -> Unit
+
+pub type ConfigureServerHook = (@js.Js) -> Unit
+
+pub type LoadHook = (String) -> String?
+
+pub using @js {type Js as Plugin}
+
+pub type ResolveIdHook = (String, String?, @js.Js) -> String?
+
+pub type TransformHook = (String, String) -> String?
+
+// Traits
+
