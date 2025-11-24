@@ -16,7 +16,7 @@ npm install puppeteer
 
 ```moonbit
 let browser = launch(headless=true)!
-let page = browser.new_page()!
+let page = browser.newPage()!
 page.goto("https://example.com")!
 let content = page.content()!
 browser.close()!
@@ -29,7 +29,7 @@ let browser = launch(
   headless=true,
   args=["--no-sandbox", "--disable-setuid-sandbox"]
 )!
-let page = browser.new_page()!
+let page = browser.newPage()!
 page.goto("https://example.com")!
 browser.close()!
 ```
@@ -274,6 +274,49 @@ let options = @js.from_entries([
 coverage.startJSCoverage_with(options)!
 ```
 
+### Chrome DevTools Protocol (CDP) Session
+
+See: [CDPSession API](https://pptr.dev/api/puppeteer.cdpsession)
+
+```moonbit
+// Create a CDP session
+let session = page.createCDPSession()!
+
+// Get session ID
+let sessionId = session.id()
+println("Session ID: \{sessionId}")
+
+// Send CDP commands
+let params = @js.from_entries([
+  ("enabled", true)
+])
+session.send("Network.enable", params)!
+
+// Send command without params
+session.send_simple("Page.enable")!
+
+// Detach when done
+session.detach()!
+```
+
+**Common CDP Commands:**
+```moonbit
+// Enable network tracking
+session.send_simple("Network.enable")!
+
+// Set user agent override
+let uaParams = @js.from_entries([
+  ("userAgent", "Custom User Agent")
+])
+session.send("Network.setUserAgentOverride", uaParams)!
+
+// Enable DOM snapshot
+session.send_simple("DOMSnapshot.enable")!
+
+// Take DOM snapshot
+let snapshot = session.send_simple("DOMSnapshot.captureSnapshot")!
+```
+
 ## API Reference
 
 ### Types
@@ -287,6 +330,7 @@ coverage.startJSCoverage_with(options)!
 - `CoverageRange` - Range of used code (start, end)
 - `JSCoverageEntry` - JavaScript coverage entry (url, text, ranges)
 - `CSSCoverageEntry` - CSS coverage entry (url, text, ranges)
+- `CDPSession` - Chrome DevTools Protocol session
 
 ### Browser Methods
 
@@ -306,7 +350,7 @@ coverage.startJSCoverage_with(options)!
   - `handleSIGHUP?` - Handle SIGHUP signal
   - `handleSIGINT?` - Handle SIGINT signal
   - `handleSIGTERM?` - Handle SIGTERM signal
-- `Browser::new_page()` - Create a new page
+- `Browser::newPage()` - Create a new page
 - `Browser::close()` - Close the browser
 - `Browser::pages()` - Get all open pages
 - `Browser::version()` - Get browser version
@@ -366,6 +410,9 @@ coverage.startJSCoverage_with(options)!
 #### Coverage
 - `Page::coverage()` - Get coverage instance
 
+#### CDP Session
+- `Page::createCDPSession()` - Create a new CDP session
+
 ### ElementHandle Methods
 
 - `ElementHandle::click()` - Click element
@@ -416,6 +463,13 @@ coverage.startJSCoverage_with(options)!
 - `Coverage::startCSSCoverage()` - Start CSS coverage tracking
 - `Coverage::startCSSCoverage_with(options)` - Start CSS coverage with options
 - `Coverage::stopCSSCoverage()` - Stop CSS coverage and get results
+
+### CDPSession Methods
+
+- `CDPSession::detach()` - Detach the session from the target
+- `CDPSession::id()` - Get the session ID
+- `CDPSession::send(method, params)` - Send a CDP command with parameters
+- `CDPSession::send_simple(method)` - Send a CDP command without parameters
 
 ### Types
 

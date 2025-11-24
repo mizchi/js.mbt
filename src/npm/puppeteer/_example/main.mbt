@@ -5,6 +5,7 @@ fn main {
   screenshot_example()
   element_example()
   coverage_example()
+  cdp_example()
 }
 
 ///|
@@ -24,7 +25,7 @@ fn basic_example() -> Unit {
     println("✓ Browser launched")
 
     // Create new page
-    let page = browser.new_page() catch {
+    let page = browser.newPage() catch {
       e => {
         println("Failed to create page: \{e}")
         browser.close() catch {

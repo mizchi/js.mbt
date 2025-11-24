@@ -14,11 +14,26 @@ async fn launch(headless? : Bool, args? : Array[String], executablePath? : Strin
 #external
 pub type Browser
 async fn Browser::close(Self) -> Unit
-async fn Browser::new_page(Self) -> Page
+async fn Browser::newPage(Self) -> Page
 async fn Browser::pages(Self) -> Array[Page]
 async fn Browser::userAgent(Self) -> String
 async fn Browser::version(Self) -> String
 impl @js.JsImpl for Browser
+
+#external
+pub type CDPSession
+async fn CDPSession::detach(Self) -> Unit
+fn CDPSession::id(Self) -> String
+async fn CDPSession::send(Self, String, @js.Js) -> @js.Js
+async fn CDPSession::send_simple(Self, String) -> Unit
+impl @js.JsImpl for CDPSession
+
+pub(all) struct CSSCoverageEntry {
+  url : String
+  text : String
+  ranges : Array[@js.Js]
+}
+impl Show for CSSCoverageEntry
 
 pub(all) struct Cookie {
   name : String
@@ -31,6 +46,22 @@ pub(all) struct Cookie {
   sameSite : String?
 }
 impl Show for Cookie
+
+#external
+pub type Coverage
+async fn Coverage::startCSSCoverage(Self) -> Unit
+async fn Coverage::startCSSCoverage_with(Self, @js.Js) -> Unit
+async fn Coverage::startJSCoverage(Self) -> Unit
+async fn Coverage::startJSCoverage_with(Self, @js.Js) -> Unit
+async fn Coverage::stopCSSCoverage(Self) -> Array[@js.Js]
+async fn Coverage::stopJSCoverage(Self) -> Array[@js.Js]
+impl @js.JsImpl for Coverage
+
+pub(all) struct CoverageRange {
+  start : Int
+  end : Int
+}
+impl Show for CoverageRange
 
 #external
 pub type ElementHandle
@@ -77,11 +108,20 @@ async fn HTTPResponse::text(Self) -> String
 fn HTTPResponse::url(Self) -> String
 impl @js.JsImpl for HTTPResponse
 
+pub(all) struct JSCoverageEntry {
+  url : String
+  text : String
+  ranges : Array[@js.Js]
+}
+impl Show for JSCoverageEntry
+
 #external
 pub type Page
 async fn Page::click(Self, String) -> Unit
 async fn Page::content(Self) -> String
 async fn Page::cookies(Self) -> Array[@js.Js] raise @js.ThrowError
+fn Page::coverage(Self) -> Coverage
+async fn Page::createCDPSession(Self) -> CDPSession
 async fn Page::deleteCookie(Self, Array[@js.Js]) -> Unit
 async fn Page::evaluate(Self, String) -> @js.Js
 async fn Page::focus(Self, String) -> Unit raise @js.ThrowError

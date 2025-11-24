@@ -9,7 +9,7 @@ pub fn element_example() -> Unit {
         return
       }
     }
-    let page = browser.new_page() catch {
+    let page = browser.newPage() catch {
       e => {
         println("Failed to create page: \{e}")
         browser.close() catch {

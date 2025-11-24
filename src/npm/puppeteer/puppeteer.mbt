@@ -111,7 +111,7 @@ pub async fn launch(
 
 ///|
 /// Browser: Create new page
-pub async fn Browser::new_page(self : Browser) -> Page {
+pub async fn Browser::newPage(self : Browser) -> Page {
   let promise : @js.Promise[Page] = @js.unsafe_cast(self.call("newPage", []))
   promise.wait()
 }

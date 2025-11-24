@@ -1,8 +1,8 @@
 ///|
-/// Screenshot example
-pub fn screenshot_example() -> Unit {
+/// CDP Session example
+pub fn cdp_example() -> Unit {
   @js.run_async(async fn() -> Unit noraise {
-    println("\n=== Screenshot Example ===")
+    println("\n=== CDP Session Example ===")
     let browser = @puppeteer.launch(headless=true) catch {
       e => {
         println("Failed to launch browser: \{e}")
@@ -19,17 +19,33 @@ pub fn screenshot_example() -> Unit {
       }
     }
 
-    // Set viewport size
-    page.setViewport(1920, 1080) catch {
+    // Create CDP session
+    let session = page.createCDPSession() catch {
       e => {
-        println("Failed to set viewport: \{e}")
+        println("Failed to create CDP session: \{e}")
         browser.close() catch {
           _ => ()
         }
         return
       }
     }
-    println("✓ Viewport set to 1920x1080")
+    println("✓ Created CDP session")
+
+    // Get session ID
+    let sessionId = session.id()
+    println("Session ID: \{sessionId}")
+
+    // Enable network tracking via CDP
+    session.send_simple("Network.enable") catch {
+      e => {
+        println("Failed to enable network: \{e}")
+        browser.close() catch {
+          _ => ()
+        }
+        return
+      }
+    }
+    println("✓ Enabled network tracking via CDP")
 
     // Navigate to example.com
     page.goto("https://example.com") catch {
@@ -43,17 +59,17 @@ pub fn screenshot_example() -> Unit {
     }
     println("✓ Navigated to example.com")
 
-    // Take screenshot
-    page.screenshot("/tmp/puppeteer-example.png") catch {
+    // Detach session
+    session.detach() catch {
       e => {
-        println("Failed to take screenshot: \{e}")
+        println("Failed to detach session: \{e}")
         browser.close() catch {
           _ => ()
         }
         return
       }
     }
-    println("✓ Screenshot saved to /tmp/puppeteer-example.png")
+    println("✓ Detached CDP session")
     browser.close() catch {
       _ => ()
     }
