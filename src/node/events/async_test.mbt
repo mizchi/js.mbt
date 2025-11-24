@@ -7,7 +7,7 @@ async test "Node Events: EventEmitter on/emit/off" {
   let mut received = 0
   let callback = (_data : @js.Js) => @js.run_async(() => {
     @js.sleep(16)
-    let v : Int = @js.unsafe_cast(_data)
+    let v : Int = @js.identity(_data)
     received += v
   })
   emitter.on("vvv", callback)
@@ -86,7 +86,7 @@ async test "Node Events: EventEmitter with async handlers" {
   let results = []
   emitter.on("async", data => @js.run_async(() => {
     @js.sleep(16)
-    let v : Int = @js.unsafe_cast(data)
+    let v : Int = @js.identity(data)
     results.push(v * 2)
   }))
   emitter.emit("async", 10 |> @js.js)
@@ -147,7 +147,7 @@ async test "Node Events: EventEmitter stress test" {
   let emitter = @events.EventEmitter::new()
   let mut total = 0
   emitter.on("data", data => @js.run_async(() => {
-    let v : Int = @js.unsafe_cast(data)
+    let v : Int = @js.identity(data)
     total += v
   }))
   for i = 0; i < 10; i = i + 1 {
@@ -184,11 +184,11 @@ async test "Node Events: EventEmitter with different payload types" {
   let mut int_val = 0
   let mut str_val = ""
   emitter.on("int", data => @js.run_async(() => {
-    let v : Int = @js.unsafe_cast(data)
+    let v : Int = @js.identity(data)
     int_val = v
   }))
   emitter.on("string", data => @js.run_async(() => {
-    let v : String = @js.unsafe_cast(data)
+    let v : String = @js.identity(data)
     str_val = v
   }))
   emitter.emit("int", 42 |> @js.js)

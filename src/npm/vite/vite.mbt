@@ -108,7 +108,7 @@ pub async fn createServer(
     Some(v) => config.set("server", v)
     None => ()
   }
-  let promise : @js.Promise[ViteDevServer] = @js.unsafe_cast(
+  let promise : @js.Promise[ViteDevServer] = @js.identity(
     ffi_createServer(config.to_js()),
   )
   promise.wait()
@@ -156,7 +156,7 @@ pub async fn build(
     Some(v) => config.set("build", v)
     None => ()
   }
-  let promise : @js.Promise[RollupOutput] = @js.unsafe_cast(
+  let promise : @js.Promise[RollupOutput] = @js.identity(
     ffi_build(config.to_js()),
   )
   promise.wait()
@@ -204,7 +204,7 @@ pub async fn preview(
     Some(v) => config.set("preview", v)
     None => ()
   }
-  let promise : @js.Promise[PreviewServer] = @js.unsafe_cast(
+  let promise : @js.Promise[PreviewServer] = @js.identity(
     ffi_preview(config.to_js()),
   )
   promise.wait()
@@ -229,7 +229,7 @@ pub async fn ViteDevServer::listen(
     Some(v) => options.set("host", @js.js(v))
     None => ()
   }
-  let promise : @js.Promise[ViteDevServer] = @js.unsafe_cast(
+  let promise : @js.Promise[ViteDevServer] = @js.identity(
     self.call("listen", [options.to_js()]),
   )
   promise.wait()
@@ -239,7 +239,7 @@ pub async fn ViteDevServer::listen(
 /// ViteDevServer: Close the server
 /// JS: server.close()
 pub async fn ViteDevServer::close(self : ViteDevServer) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("close", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
   promise.wait()
 }
 
@@ -263,7 +263,7 @@ pub async fn ViteDevServer::restart(
     Some(v) => options.set("forceOptimize", @js.js(v))
     None => ()
   }
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("restart", [options.to_js()]),
   )
   promise.wait()

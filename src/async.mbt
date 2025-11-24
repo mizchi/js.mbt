@@ -27,31 +27,26 @@ pub fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
 /// }
 /// ```
 pub async fn[X] run_promise(f : (AbortSignal) -> Promise[X]) -> X {
-  @js_async.run_promise(
-    (signal : @js_async.AbortSignal) => {
-      let converted_signal : AbortSignal = unsafe_cast(signal)
-      let promise : Promise[X] = f(converted_signal)
-      unsafe_cast(promise)
-    },
-  )
+  @js_async.run_promise((signal : @js_async.AbortSignal) => {
+    let converted_signal : AbortSignal = identity(signal)
+    let promise : Promise[X] = f(converted_signal)
+    identity(promise)
+  })
 }
 
 ///|
 /// Moonbit Async Function to JS Promise Function
 pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
-  () => {
-    // Use moonbitlang/async/js_async for better async support
-    @js_async.Promise::from_async(f) |> unsafe_cast
-  }
+  (
+  // Use moonbitlang/async/js_async for better async support
+  ) => @js_async.Promise::from_async(f) |> identity
 }
 
 ///|
 /// Moonbit Async Function to JS Promise Function
 pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
-  a => {
-    // Use moonbitlang/async/js_async for better async support
-    @js_async.Promise::from_async(async fn() { f(a) }) |> unsafe_cast
-  }
+  // Use moonbitlang/async/js_async for better async support
+  a => @js_async.Promise::from_async(async fn() { f(a) }) |> identity
 }
 
 ///|
@@ -59,10 +54,11 @@ pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
 pub fn[A, B, R] promisify2(
   f : async (A, B) -> R,
 ) -> (A, B) -> Promise[R] noraise {
-  (a, b) => {
+  (
+    a,
+    b,
     // Use moonbitlang/async/js_async for better async support
-    @js_async.Promise::from_async(async fn() { f(a, b) }) |> unsafe_cast
-  }
+  ) => @js_async.Promise::from_async(async fn() { f(a, b) }) |> identity
 }
 
 ///|
@@ -71,8 +67,13 @@ pub fn[A, B, C, R] promisify3(
   f : async (A, B, C) -> R,
 ) -> (A, B, C) -> Promise[R] noraise {
   (a, b, c) => {
-    // Use moonbitlang/async/js_async for better async support
-    @js_async.Promise::from_async(async fn() { f(a, b, c) }) |> unsafe_cast
+    let { promise, resolve, reject } = Promise::withResolvers()
+    run_async(async fn() noraise {
+      try f(a, b, c) |> resolve catch {
+        e => reject(e)
+      }
+    })
+    promise
   }
 }
 
@@ -109,8 +110,6 @@ pub async fn sleep(ms : Int) -> Unit noraise {
 ///   inspect(server.listening(), content="true")
 /// }
 /// ```
-pub async fn[T] from_callback(
-  f : ((T) -> Unit) -> Unit
-) -> T raise Error {
+pub async fn[T] from_callback(f : ((T) -> Unit) -> Unit) -> T raise Error {
   suspend(fn(resolve, _reject) { f(resolve) })
 }

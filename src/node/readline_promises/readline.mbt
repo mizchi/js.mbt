@@ -37,7 +37,7 @@ pub fn createInterface(
     ("tabSize", tabSize.map(x => x)),
     ("signal", signal.map(x => x)),
   ])
-  @js.unsafe_cast(
+  @js.identity(
     @node.require("node:readline/promises")
     .get("createInterface")
     .call_self([opts]),
@@ -46,23 +46,23 @@ pub fn createInterface(
 
 ///|
 pub fn Interface::question(self : Self, query : String) -> @js.Promise[String] {
-  self.call("question", [query]) |> @js.unsafe_cast
+  self.call("question", [query]) |> @js.identity
 }
 
 ///|
 pub fn Interface::commit(self : Self) -> @js.Promise[Unit] {
-  self.call0("commit") |> @js.unsafe_cast
+  self.call0("commit") |> @js.identity
 }
 
 ///|
 pub fn Interface::rollback(self : Self) -> Self {
-  self.call0("rollback") |> @js.unsafe_cast
+  self.call0("rollback") |> @js.identity
 }
 
 ///|
 #alias(cursor_to)
 pub fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> @js.Promise[Unit] {
-  self.call2("cursorTo", x, y) |> @js.unsafe_cast
+  self.call2("cursorTo", x, y) |> @js.identity
 }
 
 ///|
@@ -72,27 +72,27 @@ pub fn Interface::moveCursor(
   dx : Int,
   dy? : Int,
 ) -> @js.Promise[Unit] {
-  self.call2("moveCursor", dx, dy) |> @js.unsafe_cast
+  self.call2("moveCursor", dx, dy) |> @js.identity
 }
 
 ///|
 #alias(clear_line)
 pub fn Interface::clearLine(self : Self, dir : Int) -> Self {
-  self.call("clearLine", [dir]) |> @js.unsafe_cast
+  self.call("clearLine", [dir]) |> @js.identity
 }
 
 ///|
 #alias(clear_screen_down)
 pub fn Interface::clearScreenDown(self : Self, dir : Int) -> Self {
-  self.call("clearScreenDown", [dir]) |> @js.unsafe_cast
+  self.call("clearScreenDown", [dir]) |> @js.identity
 }
 
 ///|
 /// TODO: impl after async test support
 // test "readline promises interface" {
 //   let rl = create_interface(
-//     input=unsafe_cast(@node.require("node:process").get("stdin")),
-//     output=unsafe_cast(@node.require("node:process").get("stdout")),
+//     input=identity(@node.require("node:process").get("stdin")),
+//     output=identity(@node.require("node:process").get("stdout")),
 //   )
 //   // let x = rl.question("What is your name? ")
 // }

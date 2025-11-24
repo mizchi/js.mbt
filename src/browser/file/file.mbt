@@ -16,7 +16,7 @@ pub impl @js.JsImpl for File
 /// Get the content type of the File
 #alias(content_type)
 pub fn File::contentType(self : Self) -> String {
-  self.to_js().get("type") |> @js.unsafe_cast
+  self.to_js().get("type") |> @js.identity
 }
 
 ///|
@@ -50,26 +50,26 @@ pub fn File::new(
       ("lastModified", last_modified.map(x => x)),
     ]),
   )
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
 /// Cast File to Blob
 pub fn File::as_blob(self : Self) -> @blob.Blob {
-  self.to_js() |> @js.unsafe_cast
+  self.to_js() |> @js.identity
 }
 
 ///|
 /// Get the file contents as ArrayBuffer (inherited from Blob)
 #alias(arrayBuffer)
 pub fn File::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.to_js().call0("arrayBuffer") |> @js.unsafe_cast
+  self.to_js().call0("arrayBuffer") |> @js.identity
 }
 
 ///|
 /// Get the file contents as text (inherited from Blob)
 pub fn File::text(self : Self) -> @js.Promise[String] {
-  self.to_js().call0("text") |> @js.unsafe_cast
+  self.to_js().call0("text") |> @js.identity
 }
 
 ///|
@@ -77,10 +77,10 @@ pub fn File::text(self : Self) -> @js.Promise[String] {
 pub fn File::slice(self : Self, start? : Int, end? : Int) -> @blob.Blob {
   let js = self.to_js()
   match (start, end) {
-    (None, None) => js.call0("slice") |> @js.unsafe_cast
-    (Some(s), None) => js.call("slice", [s]) |> @js.unsafe_cast
-    (Some(s), Some(e)) => js.call2("slice", s, e) |> @js.unsafe_cast
-    (None, Some(e)) => js.call2("slice", 0, e) |> @js.unsafe_cast
+    (None, None) => js.call0("slice") |> @js.identity
+    (Some(s), None) => js.call("slice", [s]) |> @js.identity
+    (Some(s), Some(e)) => js.call2("slice", s, e) |> @js.identity
+    (None, Some(e)) => js.call2("slice", 0, e) |> @js.identity
   }
 }
 
@@ -105,7 +105,7 @@ extern "js" fn ffi_new_file_reader() -> @js.Js =
 ///|
 /// Create a new FileReader
 pub fn FileReader::new() -> FileReader {
-  ffi_new_file_reader() |> @js.unsafe_cast
+  ffi_new_file_reader() |> @js.identity
 }
 
 ///|
@@ -149,7 +149,7 @@ pub fn FileReader::set_onload(
   self : Self,
   callback : (@js.Js) -> Unit noraise,
 ) -> Unit {
-  self.to_js().set("onload", callback |> @js.unsafe_cast)
+  self.to_js().set("onload", callback |> @js.identity)
 }
 
 ///|
@@ -158,7 +158,7 @@ pub fn FileReader::set_onerror(
   self : Self,
   callback : (@js.Js) -> Unit noraise,
 ) -> Unit {
-  self.to_js().set("onerror", callback |> @js.unsafe_cast)
+  self.to_js().set("onerror", callback |> @js.identity)
 }
 
 ///|
@@ -167,5 +167,5 @@ pub fn FileReader::set_onloadend(
   self : Self,
   callback : (@js.Js) -> Unit noraise,
 ) -> Unit {
-  self.to_js().set("onloadend", callback |> @js.unsafe_cast)
+  self.to_js().set("onloadend", callback |> @js.identity)
 }

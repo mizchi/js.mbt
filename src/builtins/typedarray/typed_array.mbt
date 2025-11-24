@@ -21,8 +21,8 @@ pub fn Uint8Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -33,7 +33,7 @@ pub fn Uint8Array::indexOf(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -44,15 +44,15 @@ pub fn Uint8Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn Uint8Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
@@ -61,7 +61,7 @@ extern "js" fn ffi_uint8array_from_size(length : UInt) -> @js.Js =
 
 ///|
 pub fn Uint8Array::from_size(length : UInt) -> Uint8Array {
-  @js.unsafe_cast(ffi_uint8array_from_size(length))
+  @js.identity(ffi_uint8array_from_size(length))
 }
 
 ///|
@@ -70,7 +70,7 @@ extern "js" fn ffi_uint8array_from_array(array : @js.Js) -> @js.Js =
 
 ///|
 pub fn Uint8Array::from_array(array : Array[UInt]) -> Uint8Array {
-  @js.unsafe_cast(ffi_uint8array_from_array(@js.from_array(array)))
+  @js.identity(ffi_uint8array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn Uint8Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint8Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_uint8array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -123,8 +123,8 @@ pub fn Uint8Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -134,7 +134,7 @@ pub fn Uint8Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -160,8 +160,8 @@ pub fn Uint16Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -172,7 +172,7 @@ pub fn Uint16Array::indexOf(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -183,20 +183,20 @@ pub fn Uint16Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn Uint16Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn Uint16Array::from_size(length : UInt) -> Uint16Array {
-  @js.unsafe_cast(ffi_uint16array_from_size(length))
+  @js.identity(ffi_uint16array_from_size(length))
 }
 
 ///|
@@ -205,7 +205,7 @@ extern "js" fn ffi_uint16array_from_size(length : UInt) -> @js.Js =
 
 ///|
 pub fn Uint16Array::from_array(array : Array[UInt]) -> Uint16Array {
-  @js.unsafe_cast(ffi_uint16array_from_array(@js.from_array(array)))
+  @js.identity(ffi_uint16array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -218,7 +218,7 @@ pub fn Uint16Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint16Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_uint16array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -253,8 +253,8 @@ pub fn Uint16Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -264,7 +264,7 @@ pub fn Uint16Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -290,8 +290,8 @@ pub fn Uint32Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -302,7 +302,7 @@ pub fn Uint32Array::indexOf(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -313,20 +313,20 @@ pub fn Uint32Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn Uint32Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn Uint32Array::from_size(length : UInt) -> Uint32Array {
-  @js.unsafe_cast(ffi_uint32array_from_size(length))
+  @js.identity(ffi_uint32array_from_size(length))
 }
 
 ///|
@@ -335,7 +335,7 @@ extern "js" fn ffi_uint32array_from_size(length : UInt) -> @js.Js =
 
 ///|
 pub fn Uint32Array::from_array(array : Array[UInt]) -> Uint32Array {
-  @js.unsafe_cast(ffi_uint32array_from_array(@js.from_array(array)))
+  @js.identity(ffi_uint32array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -348,7 +348,7 @@ pub fn Uint32Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint32Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_uint32array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -383,8 +383,8 @@ pub fn Uint32Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -394,7 +394,7 @@ pub fn Uint32Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -420,8 +420,8 @@ pub fn Int8Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -432,7 +432,7 @@ pub fn Int8Array::indexOf(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -443,20 +443,20 @@ pub fn Int8Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn Int8Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn Int8Array::from_size(length : UInt) -> Int8Array {
-  @js.unsafe_cast(ffi_int8array_from_size(length))
+  @js.identity(ffi_int8array_from_size(length))
 }
 
 ///|
@@ -465,7 +465,7 @@ extern "js" fn ffi_int8array_from_size(length : UInt) -> @js.Js =
 
 ///|
 pub fn Int8Array::from_array(array : Array[Int]) -> Int8Array {
-  @js.unsafe_cast(ffi_int8array_from_array(@js.from_array(array)))
+  @js.identity(ffi_int8array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -478,7 +478,7 @@ pub fn Int8Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Int8Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_int8array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -513,8 +513,8 @@ pub fn Int8Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -524,7 +524,7 @@ pub fn Int8Array::includes(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -550,8 +550,8 @@ pub fn Int16Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -562,7 +562,7 @@ pub fn Int16Array::indexOf(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -573,20 +573,20 @@ pub fn Int16Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn Int16Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn Int16Array::from_size(length : UInt) -> Int16Array {
-  @js.unsafe_cast(ffi_int16array_from_size(length))
+  @js.identity(ffi_int16array_from_size(length))
 }
 
 ///|
@@ -595,7 +595,7 @@ extern "js" fn ffi_int16array_from_size(length : UInt) -> @js.Js =
 
 ///|
 pub fn Int16Array::from_array(array : Array[Int]) -> Int16Array {
-  @js.unsafe_cast(ffi_int16array_from_array(@js.from_array(array)))
+  @js.identity(ffi_int16array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -608,7 +608,7 @@ pub fn Int16Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Int16Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_int16array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -643,8 +643,8 @@ pub fn Int16Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -654,7 +654,7 @@ pub fn Int16Array::includes(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -680,8 +680,8 @@ pub fn Int32Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -692,7 +692,7 @@ pub fn Int32Array::indexOf(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -703,20 +703,20 @@ pub fn Int32Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn Int32Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn Int32Array::from_size(length : UInt) -> Int32Array {
-  @js.unsafe_cast(ffi_int32array_from_size(length))
+  @js.identity(ffi_int32array_from_size(length))
 }
 
 ///|
@@ -725,7 +725,7 @@ extern "js" fn ffi_int32array_from_size(length : UInt) -> @js.Js =
 
 ///|
 pub fn Int32Array::from_array(array : Array[Int]) -> Int32Array {
-  @js.unsafe_cast(ffi_int32array_from_array(@js.from_array(array)))
+  @js.identity(ffi_int32array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -738,7 +738,7 @@ pub fn Int32Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Int32Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_int32array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -773,8 +773,8 @@ pub fn Int32Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -784,7 +784,7 @@ pub fn Int32Array::includes(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -810,8 +810,8 @@ pub fn Float32Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -822,7 +822,7 @@ pub fn Float32Array::indexOf(
   search_element : Double,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -833,20 +833,20 @@ pub fn Float32Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn Float32Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn Float32Array::from_size(length : UInt) -> Float32Array {
-  @js.unsafe_cast(ffi_float32array_from_size(length))
+  @js.identity(ffi_float32array_from_size(length))
 }
 
 ///|
@@ -855,7 +855,7 @@ extern "js" fn ffi_float32array_from_size(length : UInt) -> @js.Js =
 
 ///|
 pub fn Float32Array::from_array(array : Array[Double]) -> Float32Array {
-  @js.unsafe_cast(ffi_float32array_from_array(@js.from_array(array)))
+  @js.identity(ffi_float32array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -868,7 +868,7 @@ pub fn Float32Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Float32Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_float32array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -903,8 +903,8 @@ pub fn Float32Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -914,7 +914,7 @@ pub fn Float32Array::includes(
   search_element : Double,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -940,8 +940,8 @@ pub fn Float64Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -952,7 +952,7 @@ pub fn Float64Array::indexOf(
   search_element : Double,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -963,20 +963,20 @@ pub fn Float64Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn Float64Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn Float64Array::from_size(length : UInt) -> Float64Array {
-  @js.unsafe_cast(ffi_float64array_from_size(length))
+  @js.identity(ffi_float64array_from_size(length))
 }
 
 ///|
@@ -985,7 +985,7 @@ extern "js" fn ffi_float64array_from_size(length : UInt) -> @js.Js =
 
 ///|
 pub fn Float64Array::from_array(array : Array[Double]) -> Float64Array {
-  @js.unsafe_cast(ffi_float64array_from_array(@js.from_array(array)))
+  @js.identity(ffi_float64array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -998,7 +998,7 @@ pub fn Float64Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Float64Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_float64array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -1033,8 +1033,8 @@ pub fn Float64Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -1044,7 +1044,7 @@ pub fn Float64Array::includes(
   search_element : Double,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -1070,8 +1070,8 @@ pub fn Uint8ClampedArray::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -1082,7 +1082,7 @@ pub fn Uint8ClampedArray::indexOf(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -1093,20 +1093,20 @@ pub fn Uint8ClampedArray::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn Uint8ClampedArray::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn Uint8ClampedArray::from_size(length : UInt) -> Uint8ClampedArray {
-  @js.unsafe_cast(ffi_uint8clampedarray_from_size(length))
+  @js.identity(ffi_uint8clampedarray_from_size(length))
 }
 
 ///|
@@ -1115,7 +1115,7 @@ extern "js" fn ffi_uint8clampedarray_from_size(length : UInt) -> @js.Js =
 
 ///|
 pub fn Uint8ClampedArray::from_array(array : Array[UInt]) -> Uint8ClampedArray {
-  @js.unsafe_cast(ffi_uint8clampedarray_from_array(@js.from_array(array)))
+  @js.identity(ffi_uint8clampedarray_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -1128,7 +1128,7 @@ pub fn Uint8ClampedArray::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint8ClampedArray {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_uint8clampedarray_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -1172,8 +1172,8 @@ pub fn Uint8ClampedArray::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -1183,7 +1183,7 @@ pub fn Uint8ClampedArray::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -1199,13 +1199,13 @@ pub impl TypedArrayImpl for BigUint64Array
 ///|
 #alias(byte_length)
 pub fn BigUint64Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> @js.unsafe_cast
+  self.get("byteLength") |> @js.identity
 }
 
 ///|
 #alias(byte_offset)
 pub fn BigUint64Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> @js.unsafe_cast
+  self.get("byteOffset") |> @js.identity
 }
 
 ///|
@@ -1217,8 +1217,8 @@ pub fn BigUint64Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -1229,7 +1229,7 @@ pub fn BigUint64Array::indexOf(
   search_element : @bigint.JsBigInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -1240,20 +1240,20 @@ pub fn BigUint64Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn BigUint64Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn BigUint64Array::from_size(length : UInt) -> BigUint64Array {
-  @js.unsafe_cast(ffi_biguint64array_from_size(length))
+  @js.identity(ffi_biguint64array_from_size(length))
 }
 
 ///|
@@ -1264,7 +1264,7 @@ extern "js" fn ffi_biguint64array_from_size(length : UInt) -> @js.Js =
 pub fn BigUint64Array::from_array(
   array : Array[@bigint.JsBigInt],
 ) -> BigUint64Array {
-  @js.unsafe_cast(ffi_biguint64array_from_array(@js.from_array(array)))
+  @js.identity(ffi_biguint64array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -1277,7 +1277,7 @@ pub fn BigUint64Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> BigUint64Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_biguint64array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -1324,8 +1324,8 @@ pub fn BigUint64Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -1335,7 +1335,7 @@ pub fn BigUint64Array::includes(
   search_element : @bigint.JsBigInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -1351,13 +1351,13 @@ pub impl TypedArrayImpl for BigInt64Array
 ///|
 #alias(byte_length)
 pub fn BigInt64Array::byteLength(self : Self) -> UInt {
-  self.get("byteLength") |> @js.unsafe_cast
+  self.get("byteLength") |> @js.identity
 }
 
 ///|
 #alias(byte_offset)
 pub fn BigInt64Array::byteOffset(self : Self) -> UInt {
-  self.get("byteOffset") |> @js.unsafe_cast
+  self.get("byteOffset") |> @js.identity
 }
 
 ///|
@@ -1369,8 +1369,8 @@ pub fn BigInt64Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
@@ -1381,7 +1381,7 @@ pub fn BigInt64Array::indexOf(
   search_element : @bigint.JsBigInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index) |> @js.unsafe_cast
+  self.call2("indexOf", search_element, from_index) |> @js.identity
 }
 
 ///|
@@ -1392,20 +1392,20 @@ pub fn BigInt64Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.unsafe_cast
-    None => self.call("lastIndexOf", [search_element]) |> @js.unsafe_cast
+    Some(i) => self.call2("lastIndexOf", search_element, i) |> @js.identity
+    None => self.call("lastIndexOf", [search_element]) |> @js.identity
   }
 }
 
 ///|
 #alias(to_string)
 pub fn BigInt64Array::toString(self : Self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 pub fn BigInt64Array::from_size(length : UInt) -> BigInt64Array {
-  @js.unsafe_cast(ffi_bigint64array_from_size(length))
+  @js.identity(ffi_bigint64array_from_size(length))
 }
 
 ///|
@@ -1416,7 +1416,7 @@ extern "js" fn ffi_bigint64array_from_size(length : UInt) -> @js.Js =
 pub fn BigInt64Array::from_array(
   array : Array[@bigint.JsBigInt],
 ) -> BigInt64Array {
-  @js.unsafe_cast(ffi_bigint64array_from_array(@js.from_array(array)))
+  @js.identity(ffi_bigint64array_from_array(@js.from_array(array)))
 }
 
 ///|
@@ -1429,7 +1429,7 @@ pub fn BigInt64Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> BigInt64Array {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_bigint64array_from_buffer(buffer.to_js(), byte_offset, length),
   )
 }
@@ -1476,8 +1476,8 @@ pub fn BigInt64Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self.call("fill", [value, start, e]) |> @js.unsafe_cast
-    None => self.call2("fill", value, start) |> @js.unsafe_cast
+    Some(e) => self.call("fill", [value, start, e]) |> @js.identity
+    None => self.call2("fill", value, start) |> @js.identity
   }
 }
 
@@ -1487,5 +1487,5 @@ pub fn BigInt64Array::includes(
   search_element : @bigint.JsBigInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index) |> @js.unsafe_cast
+  self.call2("includes", search_element, from_index) |> @js.identity
 }

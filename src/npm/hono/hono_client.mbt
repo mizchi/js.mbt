@@ -21,7 +21,7 @@ extern "js" fn ffi_hc(base_url : String) -> @js.Js =
 ///|
 /// Create a Hono RPC client
 pub fn hc(base_url : String) -> HonoClient {
-  ffi_hc(base_url) |> @js.unsafe_cast
+  ffi_hc(base_url) |> @js.identity
 }
 
 ///|
@@ -55,25 +55,25 @@ pub impl @js.JsImpl for ClientResponse
 ///|
 /// Check if response is ok
 pub fn ClientResponse::ok(self : ClientResponse) -> Bool {
-  self.get("ok") |> @js.unsafe_cast
+  self.get("ok") |> @js.identity
 }
 
 ///|
 /// Get response status
 pub fn ClientResponse::status(self : ClientResponse) -> Int {
-  self.get("status") |> @js.unsafe_cast
+  self.get("status") |> @js.identity
 }
 
 ///|
 /// Parse response as JSON
 pub fn ClientResponse::json(self : ClientResponse) -> @js.Promise[@js.Js] {
-  self.call0("json") |> @js.unsafe_cast
+  self.call0("json") |> @js.identity
 }
 
 ///|
 /// Parse response as text
 pub fn ClientResponse::text(self : ClientResponse) -> @js.Promise[String] {
-  self.call0("text") |> @js.unsafe_cast
+  self.call0("text") |> @js.identity
 }
 
 ///|
@@ -82,13 +82,13 @@ pub fn ClientResponse::text(self : ClientResponse) -> @js.Promise[String] {
 pub fn ClientResponse::arrayBuffer(
   self : ClientResponse,
 ) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer") |> @js.unsafe_cast
+  self.call0("arrayBuffer") |> @js.identity
 }
 
 ///|
 /// Parse response as blob
 pub fn ClientResponse::blob(self : ClientResponse) -> @js.Promise[@js.Js] {
-  self.call0("blob") |> @js.unsafe_cast
+  self.call0("blob") |> @js.identity
 }
 
 ///|
@@ -145,10 +145,10 @@ pub fn ClientEndpoint::get_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_get(@js.unsafe_cast(self), opts) |> @js.unsafe_cast
+    ffi_call_dollar_get(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_get(@js.unsafe_cast(self), @js.undefined())
-    |> @js.unsafe_cast
+    ffi_call_dollar_get(@js.identity(self), @js.undefined())
+    |> @js.identity
   }
 }
 
@@ -192,10 +192,10 @@ pub fn ClientEndpoint::post_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_post(@js.unsafe_cast(self), opts) |> @js.unsafe_cast
+    ffi_call_dollar_post(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_post(@js.unsafe_cast(self), @js.undefined())
-    |> @js.unsafe_cast
+    ffi_call_dollar_post(@js.identity(self), @js.undefined())
+    |> @js.identity
   }
 }
 
@@ -239,10 +239,10 @@ pub fn ClientEndpoint::put_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_put(@js.unsafe_cast(self), opts) |> @js.unsafe_cast
+    ffi_call_dollar_put(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_put(@js.unsafe_cast(self), @js.undefined())
-    |> @js.unsafe_cast
+    ffi_call_dollar_put(@js.identity(self), @js.undefined())
+    |> @js.identity
   }
 }
 
@@ -286,10 +286,10 @@ pub fn ClientEndpoint::delete_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_delete(@js.unsafe_cast(self), opts) |> @js.unsafe_cast
+    ffi_call_dollar_delete(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_delete(@js.unsafe_cast(self), @js.undefined())
-    |> @js.unsafe_cast
+    ffi_call_dollar_delete(@js.identity(self), @js.undefined())
+    |> @js.identity
   }
 }
 
@@ -333,10 +333,10 @@ pub fn ClientEndpoint::patch_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_patch(@js.unsafe_cast(self), opts) |> @js.unsafe_cast
+    ffi_call_dollar_patch(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_patch(@js.unsafe_cast(self), @js.undefined())
-    |> @js.unsafe_cast
+    ffi_call_dollar_patch(@js.identity(self), @js.undefined())
+    |> @js.identity
   }
 }
 
@@ -380,10 +380,10 @@ pub fn ClientEndpoint::url_(
       header.unwrap_or(@js.undefined()),
       init.unwrap_or(@js.undefined()),
     )
-    ffi_call_dollar_url(@js.unsafe_cast(self), opts) |> @js.unsafe_cast
+    ffi_call_dollar_url(@js.identity(self), opts) |> @js.identity
   } else {
-    ffi_call_dollar_url(@js.unsafe_cast(self), @js.undefined())
-    |> @js.unsafe_cast
+    ffi_call_dollar_url(@js.identity(self), @js.undefined())
+    |> @js.identity
   }
 }
 
@@ -391,5 +391,5 @@ pub fn ClientEndpoint::url_(
 /// Access a path on the client
 /// Original: client[path] or client.path
 pub fn HonoClient::path(self : HonoClient, path : String) -> ClientEndpoint {
-  self.get(path) |> @js.unsafe_cast
+  self.get(path) |> @js.identity
 }

@@ -21,7 +21,7 @@ pub impl @js.JsImpl for MockFunctionContext
 ///|
 /// Get the global mock tracker
 pub fn mock() -> MockTracker {
-  nodetest().get("mock") |> @js.unsafe_cast
+  nodetest().get("mock") |> @js.identity
 }
 
 ///|
@@ -137,13 +137,13 @@ pub fn MockTracker::restoreAll(self : MockTracker) -> Unit {
 ///|
 /// Get the calls array
 pub fn MockFunctionContext::calls(self : MockFunctionContext) -> Array[@js.Js] {
-  self.get("calls") |> @js.unsafe_cast
+  self.get("calls") |> @js.identity
 }
 
 ///|
 /// Get the call count
 pub fn MockFunctionContext::callCount(self : MockFunctionContext) -> Int {
-  self.call0("callCount") |> @js.unsafe_cast
+  self.call0("callCount") |> @js.identity
 }
 
 ///|
@@ -184,5 +184,5 @@ pub fn MockFunctionContext::restore(self : MockFunctionContext) -> Unit {
 ///|
 /// Get the mock context from a mocked function
 pub fn get_mock_context(func : @js.Js) -> MockFunctionContext {
-  func.get("mock") |> @js.unsafe_cast
+  func.get("mock") |> @js.identity
 }

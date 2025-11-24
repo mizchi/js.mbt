@@ -73,7 +73,7 @@ async test "Node HTTP: HTTP server can get address after listening" {
   inspect(address is None, content="false")
   match address {
     Some(addr) => {
-      let port : Int = @js.unsafe_cast(addr.get("port"))
+      let port : Int = @js.identity(addr.get("port"))
       inspect(port > 0, content="true")
     }
     None => ()
@@ -111,7 +111,7 @@ async test "Node HTTP: HTTP server handles simple request" {
   // Get port
   let port = match server.address() {
     Some(addr) => {
-      let p : Int = @js.unsafe_cast(addr.get("port"))
+      let p : Int = @js.identity(addr.get("port"))
       p
     }
     None => 0
@@ -144,11 +144,11 @@ async test "Node HTTP: status_codes returns status code map" {
   inspect(@js.typeof_(codes), content="object")
 
   // Check some common status codes
-  let code200 : String = @js.unsafe_cast(codes.get("200"))
+  let code200 : String = @js.identity(codes.get("200"))
   inspect(code200, content="OK")
-  let code404 : String = @js.unsafe_cast(codes.get("404"))
+  let code404 : String = @js.identity(codes.get("404"))
   inspect(code404, content="Not Found")
-  let code500 : String = @js.unsafe_cast(codes.get("500"))
+  let code500 : String = @js.identity(codes.get("500"))
   inspect(code500, content="Internal Server Error")
 }
 

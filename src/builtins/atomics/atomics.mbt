@@ -33,7 +33,7 @@ pub enum AtomicsWaitResult {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/add
 pub fn add(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_add(typedArray, index, value) |> @js.unsafe_cast
+  ffi_atomics_add(typedArray, index, value) |> @js.identity
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn add(typedArray : @js.Js, index : Int, value : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/and
 pub fn and_(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_and(typedArray, index, value) |> @js.unsafe_cast
+  ffi_atomics_and(typedArray, index, value) |> @js.identity
 }
 
 ///|
@@ -68,7 +68,7 @@ pub fn compareExchange(
   ffi_atomics_compare_exchange(
     typedArray, index, expectedValue, replacementValue,
   )
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -77,7 +77,7 @@ pub fn compareExchange(
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/exchange
 pub fn exchange(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_exchange(typedArray, index, value) |> @js.unsafe_cast
+  ffi_atomics_exchange(typedArray, index, value) |> @js.identity
 }
 
 ///|
@@ -103,7 +103,7 @@ pub fn isLockFree(size : Int) -> Bool {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/load
 pub fn load(typedArray : @js.Js, index : Int) -> Int {
-  ffi_atomics_load(typedArray, index) |> @js.unsafe_cast
+  ffi_atomics_load(typedArray, index) |> @js.identity
 }
 
 ///|
@@ -121,8 +121,8 @@ pub fn load(typedArray : @js.Js, index : Int) -> Int {
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/notify
 pub fn notify(typedArray : @js.Js, index : Int, count? : Int) -> Int {
   match count {
-    Some(c) => ffi_atomics_notify(typedArray, index, c) |> @js.unsafe_cast
-    None => ffi_atomics_notify_2(typedArray, index) |> @js.unsafe_cast
+    Some(c) => ffi_atomics_notify(typedArray, index, c) |> @js.identity
+    None => ffi_atomics_notify_2(typedArray, index) |> @js.identity
   }
 }
 
@@ -132,7 +132,7 @@ pub fn notify(typedArray : @js.Js, index : Int, count? : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/or
 pub fn or_(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_or(typedArray, index, value) |> @js.unsafe_cast
+  ffi_atomics_or(typedArray, index, value) |> @js.identity
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn or_(typedArray : @js.Js, index : Int, value : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/store
 pub fn store(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_store(typedArray, index, value) |> @js.unsafe_cast
+  ffi_atomics_store(typedArray, index, value) |> @js.identity
 }
 
 ///|
@@ -150,7 +150,7 @@ pub fn store(typedArray : @js.Js, index : Int, value : Int) -> Int {
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/sub
 pub fn sub(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_sub(typedArray, index, value) |> @js.unsafe_cast
+  ffi_atomics_sub(typedArray, index, value) |> @js.identity
 }
 
 ///|
@@ -182,7 +182,7 @@ pub fn wait(
     Some(t) => ffi_atomics_wait(typedArray, index, value, t)
     None => ffi_atomics_wait_3(typedArray, index, value)
   }
-  let result_str : String = @js.unsafe_cast(result)
+  let result_str : String = @js.identity(result)
   match result_str {
     "ok" => AtomicsWaitResult::Ok
     "not-equal" => AtomicsWaitResult::NotEqual
@@ -197,7 +197,7 @@ pub fn wait(
 ///
 /// MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics/xor
 pub fn xor(typedArray : @js.Js, index : Int, value : Int) -> Int {
-  ffi_atomics_xor(typedArray, index, value) |> @js.unsafe_cast
+  ffi_atomics_xor(typedArray, index, value) |> @js.identity
 }
 
 ///| FFI Bindings

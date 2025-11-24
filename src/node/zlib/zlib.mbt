@@ -67,7 +67,7 @@ pub fn gzip(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_gzip(buffer.to_js(), options.to_js(), cb)
 }
 
@@ -89,7 +89,7 @@ pub fn gunzip(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_gunzip(buffer.to_js(), options.to_js(), cb)
 }
 
@@ -111,7 +111,7 @@ pub fn deflate(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_deflate(buffer.to_js(), options.to_js(), cb)
 }
 
@@ -133,7 +133,7 @@ pub fn inflate(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_inflate(buffer.to_js(), options.to_js(), cb)
 }
 
@@ -155,7 +155,7 @@ pub fn brotli_compress(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_brotli_compress(buffer.to_js(), options.to_js(), cb)
 }
 
@@ -177,7 +177,7 @@ pub fn brotli_decompress(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_brotli_decompress(buffer.to_js(), options.to_js(), cb)
 }
 
@@ -199,7 +199,7 @@ pub fn unzip(
   options : ZlibOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_unzip(buffer.to_js(), options.to_js(), cb)
 }
 

@@ -75,55 +75,55 @@ pub fn define_plugin(
     None => ()
   }
   match config {
-    Some(v) => plugin.set("config", @js.unsafe_cast(v))
+    Some(v) => plugin.set("config", @js.identity(v))
     None => ()
   }
   match configResolved {
-    Some(v) => plugin.set("configResolved", @js.unsafe_cast(v))
+    Some(v) => plugin.set("configResolved", @js.identity(v))
     None => ()
   }
   match configureServer {
-    Some(v) => plugin.set("configureServer", @js.unsafe_cast(v))
+    Some(v) => plugin.set("configureServer", @js.identity(v))
     None => ()
   }
   match configurePreviewServer {
-    Some(v) => plugin.set("configurePreviewServer", @js.unsafe_cast(v))
+    Some(v) => plugin.set("configurePreviewServer", @js.identity(v))
     None => ()
   }
   match transformIndexHtml {
-    Some(v) => plugin.set("transformIndexHtml", @js.unsafe_cast(v))
+    Some(v) => plugin.set("transformIndexHtml", @js.identity(v))
     None => ()
   }
   match handleHotUpdate {
-    Some(v) => plugin.set("handleHotUpdate", @js.unsafe_cast(v))
+    Some(v) => plugin.set("handleHotUpdate", @js.identity(v))
     None => ()
   }
   match options {
-    Some(v) => plugin.set("options", @js.unsafe_cast(v))
+    Some(v) => plugin.set("options", @js.identity(v))
     None => ()
   }
   match buildStart {
-    Some(v) => plugin.set("buildStart", @js.unsafe_cast(v))
+    Some(v) => plugin.set("buildStart", @js.identity(v))
     None => ()
   }
   match resolveId {
-    Some(v) => plugin.set("resolveId", @js.unsafe_cast(v))
+    Some(v) => plugin.set("resolveId", @js.identity(v))
     None => ()
   }
   match load {
-    Some(v) => plugin.set("load", @js.unsafe_cast(v))
+    Some(v) => plugin.set("load", @js.identity(v))
     None => ()
   }
   match transform {
-    Some(v) => plugin.set("transform", @js.unsafe_cast(v))
+    Some(v) => plugin.set("transform", @js.identity(v))
     None => ()
   }
   match buildEnd {
-    Some(v) => plugin.set("buildEnd", @js.unsafe_cast(v))
+    Some(v) => plugin.set("buildEnd", @js.identity(v))
     None => ()
   }
   match closeBundle {
-    Some(v) => plugin.set("closeBundle", @js.unsafe_cast(v))
+    Some(v) => plugin.set("closeBundle", @js.identity(v))
     None => ()
   }
   plugin.to_js()

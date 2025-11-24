@@ -13,7 +13,7 @@ extern "js" fn ffi_new_weakmap() -> @js.Js =
 
 ///|
 pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::new() -> WeakMap[K, V] {
-  ffi_new_weakmap() |> @js.unsafe_cast
+  ffi_new_weakmap() |> @js.identity
 }
 
 ///|
@@ -21,7 +21,7 @@ pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::delete(
   self : WeakMap[K, V],
   key : K,
 ) -> Bool {
-  self.call1("delete", key) |> @js.unsafe_cast
+  self.call1("delete", key) |> @js.identity
 }
 
 ///|
@@ -33,7 +33,7 @@ pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::get(
   if @js.is_undefined(result) {
     None
   } else {
-    Some(result |> @js.unsafe_cast)
+    Some(result |> @js.identity)
   }
 }
 
@@ -42,7 +42,7 @@ pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::has(
   self : WeakMap[K, V],
   key : K,
 ) -> Bool {
-  self.call1("has", key) |> @js.unsafe_cast
+  self.call1("has", key) |> @js.identity
 }
 
 ///|
@@ -51,7 +51,7 @@ pub fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::set(
   key : K,
   value : V,
 ) -> WeakMap[K, V] {
-  self.call2("set", key, value) |> @js.unsafe_cast
+  self.call2("set", key, value) |> @js.identity
 }
 
 ///|
@@ -67,22 +67,22 @@ extern "js" fn ffi_new_weakset() -> @js.Js =
 
 ///|
 pub fn[T : @js.JsImpl] WeakSet::new() -> WeakSet[T] {
-  ffi_new_weakset() |> @js.unsafe_cast
+  ffi_new_weakset() |> @js.identity
 }
 
 ///|
 pub fn[T : @js.JsImpl] WeakSet::add(self : Self[T], value : T) -> WeakSet[T] {
-  self.call1("add", value) |> @js.unsafe_cast
+  self.call1("add", value) |> @js.identity
 }
 
 ///|
 pub fn[T : @js.JsImpl] WeakSet::delete(self : Self[T], value : T) -> Bool {
-  self.call1("delete", value) |> @js.unsafe_cast
+  self.call1("delete", value) |> @js.identity
 }
 
 ///|
 pub fn[T : @js.JsImpl] WeakSet::has(self : Self[T], value : T) -> Bool {
-  self.call1("has", value) |> @js.unsafe_cast
+  self.call1("has", value) |> @js.identity
 }
 
 ///|
@@ -99,7 +99,7 @@ extern "js" fn ffi_new_weakref(target : @js.Js) -> @js.Js =
 
 ///|
 pub fn[T : @js.JsImpl] WeakRef::new(target : T) -> WeakRef[T] {
-  ffi_new_weakref(target.to_js()) |> @js.unsafe_cast
+  ffi_new_weakref(target.to_js()) |> @js.identity
 }
 
 ///|
@@ -108,7 +108,7 @@ pub fn[T] WeakRef::deref(self : WeakRef[T]) -> T? {
   if @js.is_undefined(result) {
     None
   } else {
-    Some(result |> @js.unsafe_cast)
+    Some(result |> @js.identity)
   }
 }
 
@@ -130,9 +130,9 @@ pub fn[T : @js.JsImpl] FinalizationRegistry::new(
   cleanup_callback : (T) -> Unit,
 ) -> FinalizationRegistry[T] {
   ffi_new_finalization_registry(fn(val) {
-    cleanup_callback(val |> @js.unsafe_cast)
+    cleanup_callback(val |> @js.identity)
   })
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -154,5 +154,5 @@ pub fn[T] FinalizationRegistry::unregister(
   self : FinalizationRegistry[T],
   unregister_token : @js.Js,
 ) -> Bool {
-  self.to_js().call("unregister", [unregister_token]) |> @js.unsafe_cast
+  self.to_js().call("unregister", [unregister_token]) |> @js.identity
 }

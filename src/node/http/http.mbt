@@ -26,13 +26,13 @@ pub impl @events.EventEmitterImpl for IncomingMessage
 ///|
 /// IncomingMessage is a Readable stream
 pub fn IncomingMessage::as_readable(self : IncomingMessage) -> @stream.Readable {
-  @js.unsafe_cast(self)
+  @js.identity(self)
 }
 
 ///|
 /// Get HTTP method
 pub fn IncomingMessage::method_(self : IncomingMessage) -> String? {
-  self.get("method") |> @js.unsafe_cast_option
+  self.get("method") |> @js.identity_option
 }
 
 ///|
@@ -44,8 +44,8 @@ pub fn IncomingMessage::setTimeout(
 ) -> IncomingMessage {
   match callback {
     Some(cb) =>
-      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.unsafe_cast
-    None => self.call("setTimeout", [msecs]) |> @js.unsafe_cast
+      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
+    None => self.call("setTimeout", [msecs]) |> @js.identity
   }
 }
 
@@ -64,7 +64,7 @@ pub impl @events.EventEmitterImpl for ServerResponse
 ///|
 /// ServerResponse is a Writable stream
 pub fn ServerResponse::as_writable(self : ServerResponse) -> @stream.Writable {
-  @js.unsafe_cast(self)
+  @js.identity(self)
 }
 
 ///|
@@ -77,12 +77,12 @@ pub fn ServerResponse::writeHead(
 ) -> ServerResponse {
   match (statusMessage, headers) {
     (Some(msg), Some(hdrs)) =>
-      self.call("writeHead", [statusCode, msg, hdrs]) |> @js.unsafe_cast
+      self.call("writeHead", [statusCode, msg, hdrs]) |> @js.identity
     (Some(msg), None) =>
-      self.call2("writeHead", statusCode, msg) |> @js.unsafe_cast
+      self.call2("writeHead", statusCode, msg) |> @js.identity
     (None, Some(hdrs)) =>
-      self.call2("writeHead", statusCode, hdrs) |> @js.unsafe_cast
-    (None, None) => self.call("writeHead", [statusCode]) |> @js.unsafe_cast
+      self.call2("writeHead", statusCode, hdrs) |> @js.identity
+    (None, None) => self.call("writeHead", [statusCode]) |> @js.identity
   }
 }
 
@@ -94,8 +94,8 @@ pub fn ServerResponse::write(
   encoding? : String,
 ) -> Bool {
   match encoding {
-    Some(enc) => self.call2("write", chunk, enc) |> @js.unsafe_cast
-    None => self.call("write", [chunk]) |> @js.unsafe_cast
+    Some(enc) => self.call2("write", chunk, enc) |> @js.identity
+    None => self.call("write", [chunk]) |> @js.identity
   }
 }
 
@@ -129,7 +129,7 @@ pub fn ServerResponse::getHeader(
   self : ServerResponse,
   name : String,
 ) -> String? {
-  self.call("getHeader", [name]) |> @js.unsafe_cast_option
+  self.call("getHeader", [name]) |> @js.identity_option
 }
 
 ///|
@@ -144,13 +144,13 @@ pub fn ServerResponse::removeHeader(
 ///|
 /// Get headers sent status
 pub fn ServerResponse::headersSent(self : ServerResponse) -> Bool {
-  self.get("headersSent") |> @js.unsafe_cast
+  self.get("headersSent") |> @js.identity
 }
 
 ///|
 /// Get status code
 pub fn ServerResponse::statusCode(self : ServerResponse) -> Int {
-  self.get("statusCode") |> @js.unsafe_cast
+  self.get("statusCode") |> @js.identity
 }
 
 ///|
@@ -165,7 +165,7 @@ pub fn ServerResponse::set_statusCode(
 ///|
 /// Get status message
 pub fn ServerResponse::statusMessage(self : ServerResponse) -> String {
-  self.get("statusMessage") |> @js.unsafe_cast
+  self.get("statusMessage") |> @js.identity
 }
 
 ///|
@@ -186,8 +186,8 @@ pub fn ServerResponse::setTimeout(
 ) -> ServerResponse {
   match callback {
     Some(cb) =>
-      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.unsafe_cast
-    None => self.call("setTimeout", [msecs]) |> @js.unsafe_cast
+      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
+    None => self.call("setTimeout", [msecs]) |> @js.identity
   }
 }
 
@@ -220,10 +220,10 @@ pub fn Server::listen(
 
   // Call listen with port, host, and backlog
   match (host, backlog) {
-    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> @js.unsafe_cast
-    (Some(h), None) => self.call2("listen", port, h) |> @js.unsafe_cast
-    (None, Some(b)) => self.call2("listen", port, b) |> @js.unsafe_cast
-    (None, None) => self.call("listen", [port]) |> @js.unsafe_cast
+    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> @js.identity
+    (Some(h), None) => self.call2("listen", port, h) |> @js.identity
+    (None, Some(b)) => self.call2("listen", port, b) |> @js.identity
+    (None, None) => self.call("listen", [port]) |> @js.identity
   }
 }
 
@@ -231,27 +231,27 @@ pub fn Server::listen(
 /// Close the server
 pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
   match callback {
-    Some(cb) => self.call("close", [@js.from_fn0(cb)]) |> @js.unsafe_cast
-    None => self.call0("close") |> @js.unsafe_cast
+    Some(cb) => self.call("close", [@js.from_fn0(cb)]) |> @js.identity
+    None => self.call0("close") |> @js.identity
   }
 }
 
 ///|
 /// Get the server address
 pub fn Server::address(self : Server) -> @js.Js? {
-  self.call0("address") |> @js.unsafe_cast_option
+  self.call0("address") |> @js.identity_option
 }
 
 ///|
 /// Check if the server is listening
 pub fn Server::listening(self : Server) -> Bool {
-  self.get("listening") |> @js.unsafe_cast
+  self.get("listening") |> @js.identity
 }
 
 ///|
 /// Get max headers count
 pub fn Server::maxHeadersCount(self : Server) -> Int? {
-  self.get("maxHeadersCount") |> @js.unsafe_cast_option
+  self.get("maxHeadersCount") |> @js.identity_option
 }
 
 ///|
@@ -269,15 +269,15 @@ pub fn Server::setTimeout(
 ) -> Server {
   match callback {
     Some(cb) =>
-      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.unsafe_cast
-    None => self.call("setTimeout", [msecs]) |> @js.unsafe_cast
+      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
+    None => self.call("setTimeout", [msecs]) |> @js.identity
   }
 }
 
 ///|
 /// Get timeout
 pub fn Server::timeout(self : Server) -> Int {
-  self.get("timeout") |> @js.unsafe_cast
+  self.get("timeout") |> @js.identity
 }
 
 ///|
@@ -301,7 +301,7 @@ pub impl @events.EventEmitterImpl for ClientRequest
 ///|
 /// ClientRequest is a Writable stream
 pub fn ClientRequest::as_writable(self : ClientRequest) -> @stream.Writable {
-  @js.unsafe_cast(self)
+  @js.identity(self)
 }
 
 ///|
@@ -312,8 +312,8 @@ pub fn ClientRequest::write(
   encoding? : String,
 ) -> Bool {
   match encoding {
-    Some(enc) => self.call2("write", chunk, enc) |> @js.unsafe_cast
-    None => self.call("write", [chunk]) |> @js.unsafe_cast
+    Some(enc) => self.call2("write", chunk, enc) |> @js.identity
+    None => self.call("write", [chunk]) |> @js.identity
   }
 }
 
@@ -350,7 +350,7 @@ pub fn ClientRequest::setHeader(
 ///|
 /// Get header
 pub fn ClientRequest::getHeader(self : ClientRequest, name : String) -> String? {
-  self.call("getHeader", [name]) |> @js.unsafe_cast_option
+  self.call("getHeader", [name]) |> @js.identity_option
 }
 
 ///|
@@ -368,8 +368,8 @@ pub fn ClientRequest::setTimeout(
 ) -> ClientRequest {
   match callback {
     Some(cb) =>
-      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.unsafe_cast
-    None => self.call("setTimeout", [msecs]) |> @js.unsafe_cast
+      self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
+    None => self.call("setTimeout", [msecs]) |> @js.identity
   }
 }
 
@@ -383,8 +383,8 @@ pub fn createServer(
   match requestListener {
     Some(listener) =>
       http_module().call("createServer", [@js.from_fn2(listener)])
-      |> @js.unsafe_cast
-    None => http_module().call0("createServer") |> @js.unsafe_cast
+      |> @js.identity
+    None => http_module().call0("createServer") |> @js.identity
   }
 }
 
@@ -398,12 +398,12 @@ pub fn request(
   match (options, callback) {
     (Some(opts), Some(cb)) =>
       http_module().call("request", [url, opts, @js.from_fn1(cb)])
-      |> @js.unsafe_cast
+      |> @js.identity
     (Some(opts), None) =>
-      http_module().call2("request", url, opts) |> @js.unsafe_cast
+      http_module().call2("request", url, opts) |> @js.identity
     (None, Some(cb)) =>
-      http_module().call2("request", url, @js.from_fn1(cb)) |> @js.unsafe_cast
-    (None, None) => http_module().call("request", [url]) |> @js.unsafe_cast
+      http_module().call2("request", url, @js.from_fn1(cb)) |> @js.identity
+    (None, None) => http_module().call("request", [url]) |> @js.identity
   }
 }
 
@@ -417,12 +417,12 @@ pub fn get(
   match (options, callback) {
     (Some(opts), Some(cb)) =>
       http_module().call("get", [url, opts, @js.from_fn1(cb)])
-      |> @js.unsafe_cast
+      |> @js.identity
     (Some(opts), None) =>
-      http_module().call2("get", url, opts) |> @js.unsafe_cast
+      http_module().call2("get", url, opts) |> @js.identity
     (None, Some(cb)) =>
-      http_module().call2("get", url, @js.from_fn1(cb)) |> @js.unsafe_cast
-    (None, None) => http_module().call("get", [url]) |> @js.unsafe_cast
+      http_module().call2("get", url, @js.from_fn1(cb)) |> @js.identity
+    (None, None) => http_module().call("get", [url]) |> @js.identity
   }
 }
 

@@ -35,15 +35,15 @@
 
 | Operation | Time | Description |
 |-----------|------|-------------|
-| **Int to_js conversion** | 0.01 µs | Same as unsafe_cast |
-| **String to_js conversion** | 0.01 µs | Same as unsafe_cast |
-| **unsafe_cast Int to Js** | 0.01 µs | Baseline |
+| **Int to_js conversion** | 0.01 µs | Same as identity |
+| **String to_js conversion** | 0.01 µs | Same as identity |
+| **identity Int to Js** | 0.01 µs | Baseline |
 | **from_array (5 Ints)** | 0.01 µs | Array conversion |
 | **Array map to_js (5 Ints)** | 0.01 µs | Manual map |
 | **from_map (5 entries)** | 0.10 µs | Map→Object conversion |
 
 **Key Findings:**
-- `to_js()` has same cost as `unsafe_cast` (compiler optimized)
+- `to_js()` has same cost as `identity` (compiler optimized)
 - `from_array` is very fast (0.01µs for 5 elements)
 - `from_map` is relatively expensive (0.10µs): requires Object::set per entry
 
@@ -67,7 +67,7 @@
 ```moonbit
 // Current: call() converts array via map every time
 impl JsImpl with call(self, key, args) -> Js {
-  ffi_call(self.to_js(), key.to_key() |> unsafe_cast, args.map(_.to_js()))
+  ffi_call(self.to_js(), key.to_key() |> identity, args.map(_.to_js()))
 }
 ```
 
@@ -122,7 +122,7 @@ Consistency with FFI analysis:
 
 The mizchi/js FFI is very well optimized:
 - Basic operations are 0.01-0.02µs (extremely fast)
-- `to_js()` equals `unsafe_cast` (compiler optimized)
+- `to_js()` equals `identity` (compiler optimized)
 - Main bottlenecks:
   1. **Array map conversion** (use specialized methods when avoidable)
   2. **Object::keys()** (use only when necessary)

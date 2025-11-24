@@ -33,7 +33,7 @@ pub trait PropertyKey {
 
 ///|
 impl PropertyKey with to_key(self) -> Js {
-  self |> unsafe_cast
+  self |> identity
 }
 
 ///|
@@ -58,13 +58,13 @@ pub impl JsImpl for Object
 ///|
 /// JS: new Object()
 pub fn Object::new() -> Self {
-  ffi_new_object() |> unsafe_cast
+  ffi_new_object() |> identity
 }
 
 ///|
 /// get the Object class
 fn object_class() -> Js {
-  unsafe_cast(globalThis().get("Object"))
+  identity(globalThis().get("Object"))
 }
 
 ///|
@@ -73,7 +73,7 @@ fn object_class() -> Js {
 /// Returns an array of a given object's own enumerable property names.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::keys(v : &JsImpl) -> Array[String] {
-  object_class().call("keys", [v.to_js()]) |> unsafe_cast
+  object_class().call("keys", [v.to_js()]) |> identity
 }
 
 ///|
@@ -82,7 +82,7 @@ pub fn Object::keys(v : &JsImpl) -> Array[String] {
 /// Returns an array of a given object's own enumerable property values.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::values(v : &JsImpl) -> Array[Js] {
-  object_class().call("values", [v.to_js()]) |> unsafe_cast
+  object_class().call("values", [v.to_js()]) |> identity
 }
 
 ///|
@@ -92,77 +92,74 @@ pub fn Object::values(v : &JsImpl) -> Array[Js] {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::entries(v : &JsImpl) -> Array[(String, Js)] {
   let entries = ffi_object_entries(v.to_js())
-  entries.map(entry => (
-    entry.get(0) |> unsafe_cast,
-    entry.get(1) |> unsafe_cast,
-  ))
+  entries.map(entry => (entry.get(0) |> identity, entry.get(1) |> identity))
 }
 
 ///|
 /// JS: Object.assign(target, source)
 pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Js {
-  object_class().call2("assign", target.to_js(), source.to_js()) |> unsafe_cast
+  object_class().call2("assign", target.to_js(), source.to_js()) |> identity
 }
 
 ///|
 /// JS: Object.create(v)
 pub fn Object::create(v : &JsImpl) -> Js {
-  object_class().call1("create", v) |> unsafe_cast
+  object_class().call1("create", v) |> identity
 }
 
 ///|
 /// JS: Object.is(a, b)
 /// Determines whether two values are the same value
 pub fn Object::is_(a : &JsImpl, b : &JsImpl) -> Bool {
-  object_class().call2("is", a, b) |> unsafe_cast
+  object_class().call2("is", a, b) |> identity
 }
 
 ///|
 /// JS: Object.freeze(obj)
 /// Freezes an object, preventing new properties from being added and existing properties from being removed or changed
 pub fn Object::freeze(obj : &JsImpl) -> Js {
-  object_class().call1("freeze", obj) |> unsafe_cast
+  object_class().call1("freeze", obj) |> identity
 }
 
 ///|
 /// JS: Object.seal(obj)
 /// Seals an object, preventing new properties from being added and marking all existing properties as non-configurable
 pub fn Object::seal(obj : &JsImpl) -> Js {
-  object_class().call1("seal", obj) |> unsafe_cast
+  object_class().call1("seal", obj) |> identity
 }
 
 ///|
 /// JS: Object.isFrozen(obj)
 /// Determines if an object is frozen
 pub fn Object::isFrozen(obj : &JsImpl) -> Bool {
-  object_class().call1("isFrozen", obj) |> unsafe_cast
+  object_class().call1("isFrozen", obj) |> identity
 }
 
 ///|
 /// JS: Object.isSealed(obj)
 /// Determines if an object is sealed
 pub fn Object::isSealed(obj : &JsImpl) -> Bool {
-  object_class().call1("isSealed", obj) |> unsafe_cast
+  object_class().call1("isSealed", obj) |> identity
 }
 
 ///|
 /// JS: Object.preventExtensions(obj)
 /// Prevents new properties from being added to an object
 pub fn Object::preventExtensions(obj : &JsImpl) -> Js {
-  object_class().call1("preventExtensions", obj) |> unsafe_cast
+  object_class().call1("preventExtensions", obj) |> identity
 }
 
 ///|
 /// JS: Object.isExtensible(obj)
 /// Determines if an object is extensible
 pub fn Object::isExtensible_static(obj : &JsImpl) -> Bool {
-  object_class().call1("isExtensible", obj) |> unsafe_cast
+  object_class().call1("isExtensible", obj) |> identity
 }
 
 ///|
 /// JS: object.propertyIsEnumerable(k)
 pub fn Object::propertyIsEnumerable(self : Self, key : &PropertyKey) -> Bool {
-  ffi_property_is_enumerable(self.to_js(), key.to_key() |> unsafe_cast)
+  ffi_property_is_enumerable(self.to_js(), key.to_key() |> identity)
 }
 
 ///|
@@ -173,14 +170,14 @@ pub fn Object::isPrototypeOf(self : Self, target : Js) -> Bool {
 
 ///|
 pub fn Object::hasOwnProperty(self : Self, key : &PropertyKey) -> Bool {
-  ffi_has_own_property(self.to_js(), key.to_key() |> unsafe_cast)
+  ffi_has_own_property(self.to_js(), key.to_key() |> identity)
 }
 
 ///|
 /// JS: Object.isExtensible(obj)
 /// Instance method that calls the static Object.isExtensible
 pub fn Object::isExtensible(self : Self) -> Bool {
-  object_class().call1("isExtensible", self) |> unsafe_cast
+  object_class().call1("isExtensible", self) |> identity
 }
 
 ///|
@@ -208,13 +205,13 @@ pub fn JsArray::to_string(self : Self) -> String {
 ///|
 /// JS: Array.from(items)
 pub fn[T] JsArray::from(items : Array[T]) -> JsArray {
-  ffi_array_from(items |> unsafe_cast) |> unsafe_cast
+  ffi_array_from(items |> identity) |> identity
 }
 
 ///|
 /// JS: new Array()
 pub fn JsArray::new() -> JsArray {
-  ffi_new_array() |> unsafe_cast
+  ffi_new_array() |> identity
 }
 
 ///|
@@ -226,7 +223,7 @@ pub fn JsArray::push(self : JsArray, item : &JsImpl) -> Unit {
 ///|
 /// cast to builtin Array
 pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
-  self |> unsafe_cast
+  self |> identity
 }
 
 ///|
@@ -255,13 +252,13 @@ pub impl JsImpl for Function
 /// JS: function.toString()
 /// Returns a string representing the source code of the function
 pub fn Function::to_string(self : Self) -> String {
-  self.call0("toString") |> unsafe_cast
+  self.call0("toString") |> identity
 }
 
 ///|
 /// JS: function.name
 pub fn Function::name(self : Self) -> String {
-  self.get("name") |> unsafe_cast
+  self.get("name") |> identity
 }
 
 ///|
@@ -323,7 +320,7 @@ pub fn throw_(v : &JsImpl) -> Unit {
 /// Create a new JavaScript Error object.
 pub fn JsError::new(message : String, cause? : JsError) -> JsError {
   let args : Array[Js] = if cause is Some(cause) {
-    [message |> js, from_map({ "cause": cause |> unsafe_cast() })]
+    [message |> js, from_map({ "cause": cause |> identity() })]
   } else {
     [message |> js]
   }
@@ -396,22 +393,22 @@ pub fn ThrowError::from_js(value : Js) -> ThrowError {
 
   // Check specific error types first (most specific to least specific)
   if ffi_instance_of(value, global.get("TypeError")) {
-    ThrowError::TypeError(unsafe_cast(value))
+    ThrowError::TypeError(identity(value))
   } else if ffi_instance_of(value, global.get("RangeError")) {
-    ThrowError::RangeError(unsafe_cast(value))
+    ThrowError::RangeError(identity(value))
   } else if ffi_instance_of(value, global.get("ReferenceError")) {
-    ThrowError::ReferenceError(unsafe_cast(value))
+    ThrowError::ReferenceError(identity(value))
   } else if ffi_instance_of(value, global.get("SyntaxError")) {
-    ThrowError::SyntaxError(unsafe_cast(value))
+    ThrowError::SyntaxError(identity(value))
   } else if ffi_instance_of(value, global.get("URIError")) {
-    ThrowError::URIError(unsafe_cast(value))
+    ThrowError::URIError(identity(value))
   } else if ffi_instance_of(value, global.get("EvalError")) {
-    ThrowError::EvalError(unsafe_cast(value))
+    ThrowError::EvalError(identity(value))
   } else if ffi_instance_of(value, global.get("AggregateError")) {
-    ThrowError::AggregateError(unsafe_cast(value))
+    ThrowError::AggregateError(identity(value))
   } else if JsError::isError(value) {
     // Generic Error or custom error types
-    ThrowError::Error(unsafe_cast(value))
+    ThrowError::Error(identity(value))
   } else {
     // Non-error value thrown
     ThrowError::Value(value)
@@ -464,37 +461,37 @@ pub fn symbol(name : String) -> Symbol {
 ///|
 /// JS: Symbol.for(name)
 pub fn Symbol::for_(name : String) -> Symbol {
-  symbol_class().call("for", [name]) |> unsafe_cast
+  symbol_class().call("for", [name]) |> identity
 }
 
 ///|
 /// JS: Symbol.iterator
 pub fn Symbol::iterator() -> Symbol {
-  symbol_class().get("iterator") |> unsafe_cast
+  symbol_class().get("iterator") |> identity
 }
 
 ///|
 /// JS: Symbol.asyncIterator
 pub fn Symbol::asyncIterator() -> Symbol {
-  symbol_class().get("asyncIterator") |> unsafe_cast
+  symbol_class().get("asyncIterator") |> identity
 }
 
 ///|
 /// JS: Symbol.dispose
 pub fn Symbol::dispose() -> Symbol {
-  symbol_class().get("dispose") |> unsafe_cast
+  symbol_class().get("dispose") |> identity
 }
 
 ///|
 /// JS: Symbol.asyncDispose
 pub fn Symbol::asyncDispose() -> Symbol {
-  symbol_class().get("asyncDispose") |> unsafe_cast
+  symbol_class().get("asyncDispose") |> identity
 }
 
 ///|
 /// JS: Symbol.asyncDispose
 pub fn Symbol::toStringTag() -> Symbol {
-  symbol_class().get("toStringTag") |> unsafe_cast
+  symbol_class().get("toStringTag") |> identity
 }
 
 ///| JsString - String utilities
@@ -508,7 +505,7 @@ pub impl JsImpl for JsString
 
 ///|
 fn string_instance() -> JsString {
-  unsafe_cast(globalThis().get("String"))
+  identity(globalThis().get("String"))
 }
 
 ///|
@@ -516,8 +513,7 @@ fn string_instance() -> JsString {
 pub fn JsString::fromCharCode(values : Array[Int]) -> String {
   let string_class = string_instance()
   let from_char_code = string_class.get("fromCharCode")
-  from_char_code.call2("apply", string_class, values |> from_array)
-  |> unsafe_cast
+  from_char_code.call2("apply", string_class, values |> from_array) |> identity
 }
 
 ///|
@@ -525,8 +521,7 @@ pub fn JsString::fromCharCode(values : Array[Int]) -> String {
 pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
   let string_class = string_instance()
   let from_code_point = string_class.get("fromCodePoint")
-  from_code_point.call2("apply", string_class, values |> from_array)
-  |> unsafe_cast
+  from_code_point.call2("apply", string_class, values |> from_array) |> identity
 }
 
 ///| Iterator - Iteration protocol
@@ -548,17 +543,17 @@ extern "js" fn ffi_iterator_from(v : Js) -> Js =
 /// JS: Iterator.from(v)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/from
 pub fn[T] JsIterator::from(v : Js) -> JsIterator[T] {
-  ffi_iterator_from(v) |> unsafe_cast
+  ffi_iterator_from(v) |> identity
 }
 
 ///|
 /// JS: iterator.next()
 pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
-  let v : Js = self.call0("next") |> unsafe_cast
-  if (v.get("done") |> unsafe_cast) {
+  let v : Js = self.call0("next") |> identity
+  if (v.get("done") |> identity) {
     None
   } else {
-    Some(v.get("value") |> unsafe_cast)
+    Some(v.get("value") |> identity)
   }
 }
 
@@ -566,21 +561,21 @@ pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
 /// JS: iterator.drop(limit)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/drop
 pub fn[T] JsIterator::drop(self : Self[T], limit : Int) -> Self[T] {
-  self.call("drop", [limit]) |> unsafe_cast
+  self.call("drop", [limit]) |> identity
 }
 
 ///|
 /// JS: iterator.take(limit)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/take
 pub fn[T] JsIterator::take(self : Self[T], limit : Int) -> Self[T] {
-  self.call("take", [limit]) |> unsafe_cast
+  self.call("take", [limit]) |> identity
 }
 
 ///|
 /// JS: iterator.toArray()
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/toArray
 pub fn[T] JsIterator::toArray(self : Self[T]) -> Array[T] {
-  self.call0("toArray") |> unsafe_cast
+  self.call0("toArray") |> identity
 }
 
 ///|
@@ -603,12 +598,12 @@ pub impl[T] JsImpl for AsyncIterator[T]
 ///|
 /// JS: asyncIterator.next()
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
-  let v : Promise[Js] = self.call0("next") |> unsafe_cast
+  let v : Promise[Js] = self.call0("next") |> identity
   let v : Js = v.wait()
-  if (v.get("done") |> unsafe_cast) {
+  if (v.get("done") |> identity) {
     None
   } else {
-    Some(v.get("value") |> unsafe_cast)
+    Some(v.get("value") |> identity)
   }
 }
 
@@ -632,7 +627,7 @@ pub extern "js" fn AbortController::new() -> AbortController =
 ///|
 /// JS: abortController.abort()
 pub fn AbortController::abort(self : Self) -> AbortController {
-  self.call0("abort") |> unsafe_cast
+  self.call0("abort") |> identity
 }
 
 ///|
@@ -646,5 +641,5 @@ pub impl JsImpl for AbortSignal
 ///|
 /// JS: abortController.signal
 pub fn AbortController::signal(self : Self) -> AbortSignal {
-  self.get("signal") |> unsafe_cast
+  self.get("signal") |> identity
 }

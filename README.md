@@ -122,11 +122,11 @@ fn main {
   
   // get with cast
   // JS: const v = obj.xxx
-  let v: Int = obj.get("xxx") |> @js.unsafe_cast
+  let v: Int = obj.get("xxx") |> @js.identity
   
   // call method
   // JS: const has_world = obj.hasOwnProperty("world")
-  let has_world: Bool = obj.call("hasOwnProperty", ["world"]) |> @js.unsafe_cast
+  let has_world: Bool = obj.call("hasOwnProperty", ["world"]) |> @js.identity
 }
 ```
 

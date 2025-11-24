@@ -70,5 +70,5 @@ pub fn run(
     ("rerunFailuresFilePath", rerunFailuresFilePath.map(x => x)),
     ("setup", setup.map(fn(x) { @js.from_fn0(x) })),
   ])
-  nodetest().call("run", [obj]) |> @js.unsafe_cast
+  nodetest().call("run", [obj]) |> @js.identity
 }

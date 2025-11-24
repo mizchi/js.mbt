@@ -7,13 +7,13 @@ pub impl @js.JsImpl for Process
 
 ///|
 pub fn process() -> Process {
-  @js.unsafe_cast(@node.require("node:process"))
+  @js.identity(@node.require("node:process"))
 }
 
 ///|
 /// JS: process.env
 pub fn env() -> ProcessEnv {
-  @node.require("node:process").get("env") |> @js.unsafe_cast
+  @node.require("node:process").get("env") |> @js.identity
 }
 
 ///|
@@ -21,37 +21,37 @@ pub fn env() -> ProcessEnv {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn argv() -> Array[String] {
-  @js.unsafe_cast(process().get("argv"))
+  @js.identity(process().get("argv"))
 }
 
 ///|
 /// JS: process.cwd()
 pub fn cwd() -> String {
-  @js.unsafe_cast(process().get("cwd").call_self([]))
+  @js.identity(process().get("cwd").call_self([]))
 }
 
 ///|
 /// JS: process.version
 pub fn version() -> String {
-  @js.unsafe_cast(process().get("version"))
+  @js.identity(process().get("version"))
 }
 
 ///|
 /// JS: process.versions
 pub fn versions() -> @js.Object {
-  @js.unsafe_cast(process().get("version"))
+  @js.identity(process().get("version"))
 }
 
 ///|
 /// JS: process.isTTY
 pub fn isTTY() -> Bool {
-  @js.unsafe_cast(process().get("isTTY"))
+  @js.identity(process().get("isTTY"))
 }
 
 ///|
 /// JS: process.chdir(path)
 pub fn chdir(path : String) -> Unit {
-  @js.unsafe_cast(process().get("chdir").call_self([path]))
+  @js.identity(process().get("chdir").call_self([path]))
 }
 
 ///|
@@ -63,28 +63,28 @@ pub fn exit(code : Int) -> Unit {
 ///|
 /// JS: process.exitCode
 pub fn exitCode() -> Int {
-  process().get("exitCode") |> @js.unsafe_cast
+  process().get("exitCode") |> @js.identity
 }
 
 ///|
 pub fn stdin() -> @stream.Stream {
-  @js.unsafe_cast(process().get("stdin"))
+  @js.identity(process().get("stdin"))
 }
 
 ///|
 pub fn stdout() -> @stream.Stream {
-  @js.unsafe_cast(process().get("stdout"))
+  @js.identity(process().get("stdout"))
 }
 
 ///|
 pub fn stderr() -> @stream.Stream {
-  @js.unsafe_cast(process().get("stderr"))
+  @js.identity(process().get("stderr"))
 }
 
 ///|
 /// JS: process.on(sig, listener)
 pub fn on(sig : String, listener : () -> Unit) -> Unit {
-  @js.unsafe_cast(process().call2("on", sig, @js.from_fn0(listener)))
+  @js.identity(process().call2("on", sig, @js.from_fn0(listener)))
 }
 
 ///|

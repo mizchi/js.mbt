@@ -10,8 +10,8 @@ pub enum RequestId {
 ///|
 pub fn RequestId::to_js(self : RequestId) -> @js.Js {
   match self {
-    String(s) => @js.unsafe_cast(s)
-    Number(n) => @js.unsafe_cast(n)
+    String(s) => @js.identity(s)
+    Number(n) => @js.identity(n)
   }
 }
 
@@ -19,10 +19,10 @@ pub fn RequestId::to_js(self : RequestId) -> @js.Js {
 pub fn RequestId::from_js(js : @js.Js) -> RequestId? {
   let ty = @js.typeof_(js)
   if ty == "string" {
-    let s : String = @js.unsafe_cast(js)
+    let s : String = @js.identity(js)
     Some(String(s))
   } else if ty == "number" {
-    let n : Int = @js.unsafe_cast(js)
+    let n : Int = @js.identity(js)
     Some(Number(n))
   } else {
     None
@@ -53,10 +53,10 @@ pub fn JsonRpcRequest::to_js(self : JsonRpcRequest) -> @js.Object {
 
 ///|
 pub fn JsonRpcRequest::from_js(js : @js.Js) -> JsonRpcRequest? {
-  let obj : @js.Object = @js.unsafe_cast(js)
-  let jsonrpc : String? = obj.get("jsonrpc") |> @js.unsafe_cast_option()
+  let obj : @js.Object = @js.identity(js)
+  let jsonrpc : String? = obj.get("jsonrpc") |> @js.identity_option()
   let id_js = obj.get("id")
-  let method_name : String? = obj.get("method") |> @js.unsafe_cast_option()
+  let method_name : String? = obj.get("method") |> @js.identity_option()
   match (jsonrpc, method_name) {
     (Some(jrpc), Some(m)) =>
       match RequestId::from_js(id_js) {
@@ -65,7 +65,7 @@ pub fn JsonRpcRequest::from_js(js : @js.Js) -> JsonRpcRequest? {
             jsonrpc: jrpc,
             id,
             method_name: m,
-            params: obj.get("params") |> @js.unsafe_cast_option(),
+            params: obj.get("params") |> @js.identity_option(),
           })
         None => None
       }

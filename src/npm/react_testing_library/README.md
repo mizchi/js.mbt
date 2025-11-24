@@ -42,7 +42,7 @@ fn test_component() -> Unit {
   fire.click(button)
   
   // Check element properties
-  let text : String = button.get("textContent") |> @js.unsafe_cast
+  let text : String = button.get("textContent") |> @js.identity
   @js.log("Button text: \{text}")
   
   // Cleanup

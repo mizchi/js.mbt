@@ -77,7 +77,7 @@ pub fn DatabaseSync::new(
   ])
   let v = @node.require("node:sqlite").get("DatabaseSync")
     |> @js.new_([path, opts])
-  @js.unsafe_cast(v)
+  @js.identity(v)
 }
 
 ///|
@@ -122,7 +122,7 @@ pub fn DatabaseSync::function(
     ("useBigIntArguments", useBigIntArguments),
     ("varargs", varargs),
   ])
-  self.call("function", [name, func |> @js.unsafe_cast, opts]) |> ignore
+  self.call("function", [name, func |> @js.identity, opts]) |> ignore
 }
 
 ///|
@@ -145,7 +145,7 @@ pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
   if @js.is_null(result) {
     None
   } else {
-    Some(@js.unsafe_cast(result))
+    Some(@js.identity(result))
   }
 }
 
@@ -164,13 +164,13 @@ pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
 ///|
 #alias(is_open)
 pub fn DatabaseSync::isOpen(self : Self) -> Bool {
-  self.get("isOpen") |> @js.unsafe_cast
+  self.get("isOpen") |> @js.identity
 }
 
 ///|
 #alias(is_transaction)
 pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
-  self.get("isTransaction") |> @js.unsafe_cast
+  self.get("isTransaction") |> @js.identity
 }
 
 ///|
@@ -194,7 +194,7 @@ pub fn DatabaseSync::createTagStore(
   } else {
     []
   }
-  self.call("createTagStore", args) |> @js.unsafe_cast
+  self.call("createTagStore", args) |> @js.identity
 }
 
 ///|
@@ -205,17 +205,17 @@ pub fn DatabaseSync::createSession(
   db? : String,
 ) -> Session {
   let v = @js.from_entries_option_cast([("table", table), ("db", db)])
-  self.call("createSession", [v]) |> @js.unsafe_cast
+  self.call("createSession", [v]) |> @js.identity
 }
 
 ///|
 pub fn DatabaseSync::exec(self : Self, query : String) -> Unit {
-  self.call("exec", [query]) |> @js.unsafe_cast
+  self.call("exec", [query]) |> @js.identity
 }
 
 ///|
 pub fn DatabaseSync::prepare(self : Self, query : String) -> StatementSync {
-  self.call("prepare", [query]) |> @js.unsafe_cast
+  self.call("prepare", [query]) |> @js.identity
 }
 
 ///|
@@ -230,7 +230,7 @@ pub fn DatabaseSync::applyChangeset(
     ("filter", filter.map(fn(f) { f |> @js.from_fn1 })),
     ("onConflict", onConflict.map(fn(oc) { oc |> @js.from_fn2 })),
   ])
-  self.call2("applyChangeset", changeset, opts) |> @js.unsafe_cast
+  self.call2("applyChangeset", changeset, opts) |> @js.identity
 }
 
 ///|
@@ -239,7 +239,7 @@ pub type StatementSync
 
 ///|
 pub impl @js.JsImpl for StatementSync with to_js(self) {
-  self |> @js.unsafe_cast
+  self |> @js.identity
 }
 
 ///|
@@ -274,7 +274,7 @@ pub fn StatementSync::get_(
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn StatementSync::columns(self : Self) -> Array[@js.Js] {
-  self.call0("columns") |> @js.unsafe_cast
+  self.call0("columns") |> @js.identity
 }
 
 ///|
@@ -296,7 +296,7 @@ pub fn StatementSync::run(
       args.push(param)
     }
   }
-  self.call("run", args) |> @js.unsafe_cast
+  self.call("run", args) |> @js.identity
 }
 
 ///|
@@ -318,7 +318,7 @@ pub fn StatementSync::all(
       args.push(param)
     }
   }
-  self.call("all", args) |> @js.unsafe_cast
+  self.call("all", args) |> @js.identity
 }
 
 ///|
@@ -340,19 +340,19 @@ pub fn StatementSync::iterate(
       args.push(param)
     }
   }
-  self.call("iterate", args) |> @js.unsafe_cast
+  self.call("iterate", args) |> @js.identity
 }
 
 ///|
 #alias(expanded_sql)
 pub fn StatementSync::expandedSQL(self : Self) -> String {
-  self.get("expandedSQL") |> @js.unsafe_cast
+  self.get("expandedSQL") |> @js.identity
 }
 
 ///|
 #alias(source_sql)
 pub fn StatementSync::sourceSQL(self : Self) -> String {
-  self.get("sourceSQL") |> @js.unsafe_cast
+  self.get("sourceSQL") |> @js.identity
 }
 
 ///|
@@ -403,12 +403,12 @@ pub impl @js.JsImpl for Session
 
 ///|
 pub fn Session::changeset(self : Self) -> @typedarray.Uint8Array {
-  self.call0("changeset") |> @js.unsafe_cast
+  self.call0("changeset") |> @js.identity
 }
 
 ///|
 pub fn Session::patchset(self : Self) -> @typedarray.Uint8Array {
-  self.call0("patchset") |> @js.unsafe_cast
+  self.call0("patchset") |> @js.identity
 }
 
 ///|
@@ -425,12 +425,12 @@ pub impl @js.JsImpl for SQLTagStore
 
 ///|
 pub fn SQLTagStore::capacity(self : Self) -> Int {
-  self.get("capacity") |> @js.unsafe_cast
+  self.get("capacity") |> @js.identity
 }
 
 ///|
 pub fn SQLTagStore::size(self : Self) -> Int {
-  self.call0("size") |> @js.unsafe_cast
+  self.call0("size") |> @js.identity
 }
 
 ///|
@@ -440,7 +440,7 @@ pub fn SQLTagStore::clear(self : Self) -> Unit {
 
 ///|
 pub fn SQLTagStore::db(self : Self) -> DatabaseSync {
-  self.get("db") |> @js.unsafe_cast
+  self.get("db") |> @js.identity
 }
 
 ///|
@@ -484,220 +484,220 @@ fn get_constants() -> @js.Js {
 
 ///|
 pub fn sqlite_changeset_data() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CHANGESET_DATA"))
+  @js.identity(get_constants().get("SQLITE_CHANGESET_DATA"))
 }
 
 ///|
 pub fn sqlite_changeset_notfound() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CHANGESET_NOTFOUND"))
+  @js.identity(get_constants().get("SQLITE_CHANGESET_NOTFOUND"))
 }
 
 ///|
 pub fn sqlite_changeset_conflict() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CHANGESET_CONFLICT"))
+  @js.identity(get_constants().get("SQLITE_CHANGESET_CONFLICT"))
 }
 
 ///|
 pub fn sqlite_changeset_foreign_key() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CHANGESET_FOREIGN_KEY"))
+  @js.identity(get_constants().get("SQLITE_CHANGESET_FOREIGN_KEY"))
 }
 
 ///|
 pub fn sqlite_changeset_omit() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CHANGESET_OMIT"))
+  @js.identity(get_constants().get("SQLITE_CHANGESET_OMIT"))
 }
 
 ///|
 pub fn sqlite_changeset_replace() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CHANGESET_REPLACE"))
+  @js.identity(get_constants().get("SQLITE_CHANGESET_REPLACE"))
 }
 
 ///|
 pub fn sqlite_changeset_abort() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CHANGESET_ABORT"))
+  @js.identity(get_constants().get("SQLITE_CHANGESET_ABORT"))
 }
 
 ///|
 pub fn sqlite_deny() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DENY"))
+  @js.identity(get_constants().get("SQLITE_DENY"))
 }
 
 ///|
 pub fn sqlite_ignore() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_IGNORE"))
+  @js.identity(get_constants().get("SQLITE_IGNORE"))
 }
 
 ///|
 pub fn sqlite_ok() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_OK"))
+  @js.identity(get_constants().get("SQLITE_OK"))
 }
 
 ///|
 pub fn sqlite_create_index() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CREATE_INDEX"))
+  @js.identity(get_constants().get("SQLITE_CREATE_INDEX"))
 }
 
 ///|
 pub fn sqlite_create_table() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CREATE_TABLE"))
+  @js.identity(get_constants().get("SQLITE_CREATE_TABLE"))
 }
 
 ///|
 pub fn sqlite_create_temp_index() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CREATE_TEMP_INDEX"))
+  @js.identity(get_constants().get("SQLITE_CREATE_TEMP_INDEX"))
 }
 
 ///|
 pub fn sqlite_create_temp_table() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CREATE_TEMP_TABLE"))
+  @js.identity(get_constants().get("SQLITE_CREATE_TEMP_TABLE"))
 }
 
 ///|
 pub fn sqlite_create_temp_trigger() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CREATE_TEMP_TRIGGER"))
+  @js.identity(get_constants().get("SQLITE_CREATE_TEMP_TRIGGER"))
 }
 
 ///|
 pub fn sqlite_create_temp_view() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CREATE_TEMP_VIEW"))
+  @js.identity(get_constants().get("SQLITE_CREATE_TEMP_VIEW"))
 }
 
 ///|
 pub fn sqlite_create_trigger() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CREATE_TRIGGER"))
+  @js.identity(get_constants().get("SQLITE_CREATE_TRIGGER"))
 }
 
 ///|
 pub fn sqlite_create_view() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CREATE_VIEW"))
+  @js.identity(get_constants().get("SQLITE_CREATE_VIEW"))
 }
 
 ///|
 pub fn sqlite_delete() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DELETE"))
+  @js.identity(get_constants().get("SQLITE_DELETE"))
 }
 
 ///|
 pub fn sqlite_drop_index() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DROP_INDEX"))
+  @js.identity(get_constants().get("SQLITE_DROP_INDEX"))
 }
 
 ///|
 pub fn sqlite_drop_table() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DROP_TABLE"))
+  @js.identity(get_constants().get("SQLITE_DROP_TABLE"))
 }
 
 ///|
 pub fn sqlite_drop_temp_index() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DROP_TEMP_INDEX"))
+  @js.identity(get_constants().get("SQLITE_DROP_TEMP_INDEX"))
 }
 
 ///|
 pub fn sqlite_drop_temp_table() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DROP_TEMP_TABLE"))
+  @js.identity(get_constants().get("SQLITE_DROP_TEMP_TABLE"))
 }
 
 ///|
 pub fn sqlite_drop_temp_trigger() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DROP_TEMP_TRIGGER"))
+  @js.identity(get_constants().get("SQLITE_DROP_TEMP_TRIGGER"))
 }
 
 ///|
 pub fn sqlite_drop_temp_view() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DROP_TEMP_VIEW"))
+  @js.identity(get_constants().get("SQLITE_DROP_TEMP_VIEW"))
 }
 
 ///|
 pub fn sqlite_drop_trigger() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DROP_TRIGGER"))
+  @js.identity(get_constants().get("SQLITE_DROP_TRIGGER"))
 }
 
 ///|
 pub fn sqlite_drop_view() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DROP_VIEW"))
+  @js.identity(get_constants().get("SQLITE_DROP_VIEW"))
 }
 
 ///|
 pub fn sqlite_insert() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_INSERT"))
+  @js.identity(get_constants().get("SQLITE_INSERT"))
 }
 
 ///|
 pub fn sqlite_pragma() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_PRAGMA"))
+  @js.identity(get_constants().get("SQLITE_PRAGMA"))
 }
 
 ///|
 pub fn sqlite_read() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_READ"))
+  @js.identity(get_constants().get("SQLITE_READ"))
 }
 
 ///|
 pub fn sqlite_select() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_SELECT"))
+  @js.identity(get_constants().get("SQLITE_SELECT"))
 }
 
 ///|
 pub fn sqlite_transaction() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_TRANSACTION"))
+  @js.identity(get_constants().get("SQLITE_TRANSACTION"))
 }
 
 ///|
 pub fn sqlite_update() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_UPDATE"))
+  @js.identity(get_constants().get("SQLITE_UPDATE"))
 }
 
 ///|
 pub fn sqlite_attach() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_ATTACH"))
+  @js.identity(get_constants().get("SQLITE_ATTACH"))
 }
 
 ///|
 pub fn sqlite_detach() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DETACH"))
+  @js.identity(get_constants().get("SQLITE_DETACH"))
 }
 
 ///|
 pub fn sqlite_alter_table() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_ALTER_TABLE"))
+  @js.identity(get_constants().get("SQLITE_ALTER_TABLE"))
 }
 
 ///|
 pub fn sqlite_reindex() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_REINDEX"))
+  @js.identity(get_constants().get("SQLITE_REINDEX"))
 }
 
 ///|
 pub fn sqlite_analyze() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_ANALYZE"))
+  @js.identity(get_constants().get("SQLITE_ANALYZE"))
 }
 
 ///|
 pub fn sqlite_create_vtable() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_CREATE_VTABLE"))
+  @js.identity(get_constants().get("SQLITE_CREATE_VTABLE"))
 }
 
 ///|
 pub fn sqlite_drop_vtable() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_DROP_VTABLE"))
+  @js.identity(get_constants().get("SQLITE_DROP_VTABLE"))
 }
 
 ///|
 pub fn sqlite_function() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_FUNCTION"))
+  @js.identity(get_constants().get("SQLITE_FUNCTION"))
 }
 
 ///|
 pub fn sqlite_savepoint() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_SAVEPOINT"))
+  @js.identity(get_constants().get("SQLITE_SAVEPOINT"))
 }
 
 ///|
 pub fn sqlite_copy() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_COPY"))
+  @js.identity(get_constants().get("SQLITE_COPY"))
 }
 
 ///|
 pub fn sqlite_recursive() -> Int {
-  @js.unsafe_cast(get_constants().get("SQLITE_RECURSIVE"))
+  @js.identity(get_constants().get("SQLITE_RECURSIVE"))
 }

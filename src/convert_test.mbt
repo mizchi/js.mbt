@@ -2,14 +2,14 @@
 test "JsImpl::to_js converts builtin Json to Js" {
   let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
   let v : @js.Js = JsImpl::to_js(j)
-  assert_eq(@js.unsafe_cast(v.get("items").get(0)), 1)
-  assert_eq(@js.unsafe_cast(v.get("nested").get("key")), "value")
+  assert_eq(@js.identity(v.get("items").get(0)), 1)
+  assert_eq(@js.identity(v.get("nested").get("key")), "value")
 }
 
 ///|
 test "is_builtin_trait detects MoonBit builtin traits" {
   let show : &Show = "hello"
-  let v : @js.Js = @js.unsafe_cast(show)
+  let v : @js.Js = @js.identity(show)
   assert_true(is_builtin_trait(v))
 }
 
@@ -55,15 +55,15 @@ extern "js" fn ffi_point_new(x : Int, y : Int) -> Js =
 test "from builtin struct" {
   let p = Point::{ x: 10, y: 20 }
   let v : @js.Js = JsImpl::to_js(p)
-  assert_eq(@js.unsafe_cast(v.get("x")), 10)
-  assert_eq(@js.unsafe_cast(v.get("y")), 20)
+  assert_eq(@js.identity(v.get("x")), 10)
+  assert_eq(@js.identity(v.get("y")), 20)
   inspect(p, content="{x: 10, y: 20}")
 }
 
 ///|
-test "unsafe_cast to struct" {
+test "identity to struct" {
   let v : @js.Js = ffi_point_new(5, 15)
-  let p : Point = @js.unsafe_cast(v)
+  let p : Point = @js.identity(v)
   assert_eq(p.x, 5)
   assert_eq(p.y, 15)
   assert_eq(p.x2(), 10)
@@ -74,8 +74,8 @@ test "unsafe_cast to struct" {
 test "from_map converts MoonBit Map to Js object" {
   let map : Map[String, @js.Js] = { "name": js("Alice"), "age": js(30) }
   let obj : @js.Js = from_map(map)
-  assert_eq(@js.unsafe_cast(obj.get("name")), "Alice")
-  assert_eq(@js.unsafe_cast(obj.get("age")), 30)
+  assert_eq(@js.identity(obj.get("name")), "Alice")
+  assert_eq(@js.identity(obj.get("age")), 30)
 }
 
 ///|
@@ -98,9 +98,9 @@ test "from_map" {
     "active": js(true),
   }
   let obj = from_map(map)
-  assert_eq(@js.unsafe_cast(obj.get("name")), "Alice")
-  assert_eq(@js.unsafe_cast(obj.get("age")), 30)
-  assert_eq(@js.unsafe_cast(obj.get("active")), true)
+  assert_eq(@js.identity(obj.get("name")), "Alice")
+  assert_eq(@js.identity(obj.get("age")), 30)
+  assert_eq(@js.identity(obj.get("active")), true)
 }
 
 ///|
@@ -108,9 +108,9 @@ test "from_array" {
   let arr = [1, 2, 3, 4, 5]
   let val = from_array(arr)
   assert_true(@js.is_array(val))
-  assert_eq(@js.unsafe_cast(val.get(0)), 1)
-  assert_eq(@js.unsafe_cast(val.get(2)), 3)
-  assert_eq(@js.unsafe_cast(val.get(4)), 5)
+  assert_eq(@js.identity(val.get(0)), 1)
+  assert_eq(@js.identity(val.get(2)), 3)
+  assert_eq(@js.identity(val.get(4)), 5)
 }
 
 ///|
@@ -119,7 +119,7 @@ test "from_fn2 converts 2-arg function to Js" {
   let js_add : @js.Js = from_fn2(add)
   assert_eq(@js.typeof_(js_add), "function")
   let result = js_add.call_self([js(5), js(3)])
-  assert_eq(@js.unsafe_cast(result), 8)
+  assert_eq(@js.identity(result), 8)
 }
 
 ///|
@@ -130,9 +130,9 @@ test "from_entries converts tuple array to Js object" {
     ("active", true),
   ]
   let obj = from_entries(entries)
-  assert_eq(@js.unsafe_cast(obj.get("name")), "Alice")
-  assert_eq(@js.unsafe_cast(obj.get("age")), 30)
-  assert_eq(@js.unsafe_cast(obj.get("active")), true)
+  assert_eq(@js.identity(obj.get("name")), "Alice")
+  assert_eq(@js.identity(obj.get("age")), 30)
+  assert_eq(@js.identity(obj.get("active")), true)
 }
 
 ///|
@@ -144,10 +144,10 @@ test "from_entries with mixed types" {
     ("float", 3.14),
   ]
   let obj = from_entries(entries)
-  assert_eq(@js.unsafe_cast(obj.get("str")), "hello")
-  assert_eq(@js.unsafe_cast(obj.get("num")), 42)
-  assert_eq(@js.unsafe_cast(obj.get("bool")), false)
-  assert_eq(@js.unsafe_cast(obj.get("float")), 3.14)
+  assert_eq(@js.identity(obj.get("str")), "hello")
+  assert_eq(@js.identity(obj.get("num")), 42)
+  assert_eq(@js.identity(obj.get("bool")), false)
+  assert_eq(@js.identity(obj.get("float")), 3.14)
 }
 
 ///|
@@ -167,9 +167,9 @@ test "from_entries_option filters None values" {
     ("address", None),
   ]
   let obj = from_entries_option(entries)
-  assert_eq(@js.unsafe_cast(obj.get("name")), "Alice")
-  assert_eq(@js.unsafe_cast(obj.get("age")), 30)
-  assert_eq(@js.unsafe_cast(obj.get("active")), true)
+  assert_eq(@js.identity(obj.get("name")), "Alice")
+  assert_eq(@js.identity(obj.get("age")), 30)
+  assert_eq(@js.identity(obj.get("active")), true)
   // None values should not be set
   assert_true(is_undefined(obj.get("email")))
   assert_true(is_undefined(obj.get("address")))
@@ -183,9 +183,9 @@ test "from_entries_option with all Some" {
     ("c", Some(3)),
   ]
   let obj = from_entries_option(entries)
-  assert_eq(@js.unsafe_cast(obj.get("a")), 1)
-  assert_eq(@js.unsafe_cast(obj.get("b")), 2)
-  assert_eq(@js.unsafe_cast(obj.get("c")), 3)
+  assert_eq(@js.identity(obj.get("a")), 1)
+  assert_eq(@js.identity(obj.get("b")), 2)
+  assert_eq(@js.identity(obj.get("c")), 3)
 }
 
 ///|
@@ -210,8 +210,8 @@ test "from_entries_option with empty array" {
 test "from_entries with direct array (type inference)" {
   // 直接配列を渡した場合、型推論が効くかテスト
   let obj = from_entries([("name", "Bob"), ("age", 25)])
-  assert_eq(@js.unsafe_cast(obj.get("name")), "Bob")
-  assert_eq(@js.unsafe_cast(obj.get("age")), 25)
+  assert_eq(@js.identity(obj.get("name")), "Bob")
+  assert_eq(@js.identity(obj.get("age")), 25)
 }
 
 ///|
@@ -222,8 +222,8 @@ test "from_entries_option with direct array (type inference)" {
     ("age", Some(40)),
     ("email", None),
   ])
-  assert_eq(@js.unsafe_cast(obj.get("name")), "Charlie")
-  assert_eq(@js.unsafe_cast(obj.get("age")), 40)
+  assert_eq(@js.identity(obj.get("name")), "Charlie")
+  assert_eq(@js.identity(obj.get("age")), 40)
   assert_true(is_undefined(obj.get("email")))
 }
 
@@ -314,7 +314,7 @@ test "encode_uri_component and decode_uri_component" {
 
 ///|
 test "JSON::stringify" {
-  let arr : Array[Int] = [1] |> unsafe_cast
+  let arr : Array[Int] = [1] |> identity
   arr |> inspect(content="[1]")
   JSON::stringify(arr |> from_array, space=2)
   |> inspect(
@@ -343,7 +343,7 @@ test "from_fn0 converts 0-arg function to Js" {
   let js_greet : @js.Js = from_fn0(greet)
   assert_eq(@js.typeof_(js_greet), "function")
   let result = js_greet.call_self0()
-  assert_eq(@js.unsafe_cast(result), "Hello")
+  assert_eq(@js.identity(result), "Hello")
 }
 
 ///|
@@ -352,7 +352,7 @@ test "from_fn1 converts 1-arg function to Js" {
   let js_double : @js.Js = from_fn1(double)
   assert_eq(@js.typeof_(js_double), "function")
   let result = js_double.call_self([js(5)])
-  assert_eq(@js.unsafe_cast(result), 10)
+  assert_eq(@js.identity(result), 10)
 }
 
 ///|
@@ -361,7 +361,7 @@ test "from_fn3 converts 3-arg function to Js" {
   let js_add3 : @js.Js = from_fn3(add3)
   assert_eq(@js.typeof_(js_add3), "function")
   let result = js_add3.call_self([js(1), js(2), js(3)])
-  assert_eq(@js.unsafe_cast(result), 6)
+  assert_eq(@js.identity(result), 6)
 }
 
 ///|
@@ -372,8 +372,8 @@ test "from_entries_option_cast with Bool options" {
     ("timeout", None),
   ]
   let obj = from_entries_option_cast(entries)
-  assert_eq(@js.unsafe_cast(obj.get("open")), true)
-  assert_eq(@js.unsafe_cast(obj.get("readOnly")), false)
+  assert_eq(@js.identity(obj.get("open")), true)
+  assert_eq(@js.identity(obj.get("readOnly")), false)
   assert_true(is_undefined(obj.get("timeout")))
 }
 
@@ -385,8 +385,8 @@ test "from_entries_option_cast with Int options" {
     ("depth", None),
   ]
   let obj = from_entries_option_cast(entries)
-  assert_eq(@js.unsafe_cast(obj.get("width")), 100)
-  assert_eq(@js.unsafe_cast(obj.get("height")), 200)
+  assert_eq(@js.identity(obj.get("width")), 100)
+  assert_eq(@js.identity(obj.get("height")), 200)
   assert_true(is_undefined(obj.get("depth")))
 }
 
@@ -394,9 +394,9 @@ test "from_entries_option_cast with Int options" {
 test "JsImpl for Map[String, &JsImpl]" {
   let map : Map[String, &JsImpl] = { "name": "Bob", "age": 25, "active": true }
   let obj : @js.Js = JsImpl::to_js(map)
-  assert_eq(@js.unsafe_cast(obj.get("name")), "Bob")
-  assert_eq(@js.unsafe_cast(obj.get("age")), 25)
-  assert_eq(@js.unsafe_cast(obj.get("active")), true)
+  assert_eq(@js.identity(obj.get("name")), "Bob")
+  assert_eq(@js.identity(obj.get("age")), 25)
+  assert_eq(@js.identity(obj.get("active")), true)
 }
 
 ///|
@@ -404,10 +404,10 @@ test "JsImpl for Array[&JsImpl]" {
   let arr : Array[&JsImpl] = [1, "hello", true, 3.14]
   let js_arr : @js.Js = JsImpl::to_js(arr)
   assert_true(@js.is_array(js_arr))
-  assert_eq(@js.unsafe_cast(js_arr.get(0)), 1)
-  assert_eq(@js.unsafe_cast(js_arr.get(1)), "hello")
-  assert_eq(@js.unsafe_cast(js_arr.get(2)), true)
-  assert_eq(@js.unsafe_cast(js_arr.get(3)), 3.14)
+  assert_eq(@js.identity(js_arr.get(0)), 1)
+  assert_eq(@js.identity(js_arr.get(1)), "hello")
+  assert_eq(@js.identity(js_arr.get(2)), true)
+  assert_eq(@js.identity(js_arr.get(3)), 3.14)
 }
 
 ///|
@@ -416,7 +416,7 @@ test "JsImpl for Option types" {
   let none_val : Int? = None
   let js_some : @js.Js = JsImpl::to_js(some_val)
   let js_none : @js.Js = JsImpl::to_js(none_val)
-  assert_eq(@js.unsafe_cast(js_some), 42)
+  assert_eq(@js.identity(js_some), 42)
   assert_true(is_undefined(js_none))
 }
 
@@ -559,7 +559,7 @@ test "throwable catches non-error value" {
   }) catch {
     ThrowError::Value(val) => {
       caught_value = true
-      assert_eq(@js.unsafe_cast(val), "custom error string")
+      assert_eq(@js.identity(val), "custom error string")
     }
     _ => assert_true(false) // Should not catch other error types
   }

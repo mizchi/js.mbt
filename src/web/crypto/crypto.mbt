@@ -15,7 +15,7 @@ pub fn SubtleCrypto::encrypt(
   key : &@js.JsImpl,
   data : &@js.JsImpl,
 ) -> @js.Promise[@js.Js] {
-  self.call("encrypt", [algorithm, key, data]) |> @js.unsafe_cast
+  self.call("encrypt", [algorithm, key, data]) |> @js.identity
 }
 
 ///|
@@ -25,7 +25,7 @@ pub fn SubtleCrypto::decrypt(
   key : &@js.JsImpl,
   data : &@js.JsImpl,
 ) -> @js.Promise[@js.Js] {
-  self.call("decrypt", [algorithm, key, data]) |> @js.unsafe_cast
+  self.call("decrypt", [algorithm, key, data]) |> @js.identity
 }
 
 ///|
@@ -36,7 +36,7 @@ pub fn SubtleCrypto::sign(
   key : &@js.JsImpl,
   data : &@js.JsImpl,
 ) -> @js.Promise[@js.Js] {
-  self.call("sign", [algorithm, key, data]) |> @js.unsafe_cast
+  self.call("sign", [algorithm, key, data]) |> @js.identity
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn SubtleCrypto::verify(
   signature : &@js.JsImpl,
   data : &@js.JsImpl,
 ) -> @js.Promise[Bool] {
-  self.call("verify", [algorithm, key, signature, data]) |> @js.unsafe_cast
+  self.call("verify", [algorithm, key, signature, data]) |> @js.identity
 }
 
 ///|
@@ -57,7 +57,7 @@ pub fn SubtleCrypto::digest(
   algorithm : String,
   data : &@js.JsImpl,
 ) -> @js.Promise[@js.Js] {
-  self.call2("digest", algorithm |> @js.js, data.to_js()) |> @js.unsafe_cast
+  self.call2("digest", algorithm |> @js.js, data.to_js()) |> @js.identity
 }
 
 ///|
@@ -74,7 +74,7 @@ pub fn SubtleCrypto::generateKey(
     extractable,
     key_usages |> @js.from_array,
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -94,7 +94,7 @@ pub fn SubtleCrypto::deriveKey(
     extractable,
     key_usages |> @js.from_array,
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -105,7 +105,7 @@ pub fn SubtleCrypto::deriveBits(
   base_key : &@js.JsImpl,
   length : Int,
 ) -> @js.Promise[@js.Js] {
-  self.call("deriveBits", [algorithm, base_key, length]) |> @js.unsafe_cast
+  self.call("deriveBits", [algorithm, base_key, length]) |> @js.identity
 }
 
 ///|
@@ -126,7 +126,7 @@ pub fn SubtleCrypto::importKey(
     extractable,
     key_usages |> @js.from_array,
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -136,7 +136,7 @@ pub fn SubtleCrypto::exportKey(
   format : String,
   key : &@js.JsImpl,
 ) -> @js.Promise[@js.Js] {
-  self.call2("exportKey", format, key) |> @js.unsafe_cast
+  self.call2("exportKey", format, key) |> @js.identity
 }
 
 ///|
@@ -150,7 +150,7 @@ pub fn SubtleCrypto::wrapKey(
   wrap_algorithm : &@js.JsImpl,
 ) -> @js.Promise[@js.Js] {
   self.call("wrapKey", [format, key, wrapping_key, wrap_algorithm])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -174,7 +174,7 @@ pub fn SubtleCrypto::unwrapKey(
     extractable,
     key_usages |> @js.from_array,
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -194,7 +194,7 @@ pub fn Crypto::getRandomValues(
   self : Self,
   array : @typedarray.Uint8Array,
 ) -> @typedarray.Uint8Array {
-  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+  self.call("getRandomValues", [array]) |> @js.identity
 }
 
 ///|
@@ -204,7 +204,7 @@ pub fn Crypto::getRandomValuesU16(
   self : Self,
   array : @typedarray.Uint16Array,
 ) -> @typedarray.Uint16Array {
-  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+  self.call("getRandomValues", [array]) |> @js.identity
 }
 
 ///|
@@ -214,7 +214,7 @@ pub fn Crypto::getRandomValuesU32(
   self : Self,
   array : @typedarray.Uint32Array,
 ) -> @typedarray.Uint32Array {
-  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+  self.call("getRandomValues", [array]) |> @js.identity
 }
 
 ///|
@@ -224,7 +224,7 @@ pub fn Crypto::getRandomValuesI8(
   self : Self,
   array : @typedarray.Int8Array,
 ) -> @typedarray.Int8Array {
-  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+  self.call("getRandomValues", [array]) |> @js.identity
 }
 
 ///|
@@ -234,7 +234,7 @@ pub fn Crypto::getRandomValuesI16(
   self : Self,
   array : @typedarray.Int16Array,
 ) -> @typedarray.Int16Array {
-  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+  self.call("getRandomValues", [array]) |> @js.identity
 }
 
 ///|
@@ -244,7 +244,7 @@ pub fn Crypto::getRandomValuesI32(
   self : Self,
   array : @typedarray.Int32Array,
 ) -> @typedarray.Int32Array {
-  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+  self.call("getRandomValues", [array]) |> @js.identity
 }
 
 ///|
@@ -254,7 +254,7 @@ pub fn Crypto::getRandomValuesClamped(
   self : Self,
   array : @typedarray.Uint8ClampedArray,
 ) -> @typedarray.Uint8ClampedArray {
-  self.call("getRandomValues", [array]) |> @js.unsafe_cast
+  self.call("getRandomValues", [array]) |> @js.identity
 }
 
 ///|
@@ -264,7 +264,7 @@ pub fn Crypto::getRandomValuesClamped(
 /// Returns a string in the format: "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 #alias(random_uuid)
 pub fn Crypto::randomUUID(self : Self) -> String {
-  self.call("randomUUID", []) |> @js.unsafe_cast
+  self.call("randomUUID", []) |> @js.identity
 }
 
 ///|
@@ -275,5 +275,5 @@ extern "js" fn ffi_get_crypto() -> @js.Js =
 ///|
 /// Get the global Crypto instance
 pub fn Crypto::get() -> Crypto {
-  ffi_get_crypto() |> @js.unsafe_cast
+  ffi_get_crypto() |> @js.identity
 }

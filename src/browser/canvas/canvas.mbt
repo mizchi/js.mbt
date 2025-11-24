@@ -200,7 +200,7 @@ pub fn CanvasRenderingContext2D::measureText(
   self : Self,
   text : String,
 ) -> TextMetrics {
-  self.to_js().call("measureText", [text]) |> @js.unsafe_cast
+  self.to_js().call("measureText", [text]) |> @js.identity
 }
 
 ///|
@@ -320,7 +320,7 @@ pub fn CanvasRenderingContext2D::getImageData(
   sw : Double,
   sh : Double,
 ) -> ImageData {
-  self.to_js().call("getImageData", [sx, sy, sw, sh]) |> @js.unsafe_cast
+  self.to_js().call("getImageData", [sx, sy, sw, sh]) |> @js.identity
 }
 
 ///|
@@ -339,7 +339,7 @@ pub fn CanvasRenderingContext2D::createImageData(
   width : Int,
   height : Int,
 ) -> ImageData {
-  self.to_js().call2("createImageData", width, height) |> @js.unsafe_cast
+  self.to_js().call2("createImageData", width, height) |> @js.identity
 }
 
 ///|
@@ -387,7 +387,7 @@ extern "js" fn ffi_new_image_data_with_data(
 
 ///|
 pub fn ImageData::new(width : Int, height : Int) -> ImageData {
-  @js.unsafe_cast(ffi_new_image_data(width |> @js.js, height |> @js.js))
+  @js.identity(ffi_new_image_data(width |> @js.js, height |> @js.js))
 }
 
 ///|
@@ -396,7 +396,7 @@ pub fn ImageData::from_data(
   width : Int,
   height : Int,
 ) -> ImageData {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_new_image_data_with_data(
       data.to_js(),
       width |> @js.js,
@@ -443,7 +443,7 @@ extern "js" fn ffi_create_image_bitmap_with_rect(
 ///|
 #alias(create_image_bitmap)
 pub fn createImageBitmap(image : &@js.JsImpl) -> ImageBitmap {
-  @js.unsafe_cast(ffi_create_image_bitmap(image.to_js()))
+  @js.identity(ffi_create_image_bitmap(image.to_js()))
 }
 
 ///|
@@ -455,7 +455,7 @@ pub fn createImageBitmapRect(
   sw : Int,
   sh : Int,
 ) -> @js.Promise[ImageBitmap] {
-  @js.unsafe_cast(
+  @js.identity(
     ffi_create_image_bitmap_with_rect(
       image.to_js(),
       sx |> @js.js,

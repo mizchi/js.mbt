@@ -2,10 +2,10 @@
   "supported-targets": ["js"],
   "is-main": true,
   "import": [
+    "moonbitlang/async",
     "mizchi/js",
     "mizchi/js/browser/dom",
     "mizchi/js/web/http",
-    "mizchi/js/web/url",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react_element",
     "mizchi/js/npm/react_dom_client",

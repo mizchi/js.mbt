@@ -16,7 +16,7 @@ pub impl @js.JsImpl for CustomElementRegistry
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements
 #alias(custom_elements)
 pub fn customElements() -> CustomElementRegistry {
-  @js.unsafe_cast(@js.global_this().get("customElements"))
+  @js.identity(@js.global_this().get("customElements"))
 }
 
 ///|
@@ -108,7 +108,7 @@ pub fn CustomElementRegistry::define_element_with_attributes(
 /// Returns the constructor for the custom element with the given name
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
 pub fn CustomElementRegistry::get(self : Self, name : String) -> @js.Js? {
-  self.call("get", [name]) |> @js.unsafe_cast_option
+  self.call("get", [name]) |> @js.identity_option
 }
 
 ///|
@@ -118,7 +118,7 @@ pub fn CustomElementRegistry::getName(
   self : Self,
   element_constructor : @js.Js,
 ) -> String? {
-  self.call("getName", [element_constructor]) |> @js.unsafe_cast_option
+  self.call("getName", [element_constructor]) |> @js.identity_option
 }
 
 ///|
@@ -128,7 +128,7 @@ pub fn CustomElementRegistry::whenDefined(
   self : Self,
   name : String,
 ) -> @js.Promise[Unit] {
-  self.call("whenDefined", [name]) |> @js.unsafe_cast
+  self.call("whenDefined", [name]) |> @js.identity
 }
 
 ///|

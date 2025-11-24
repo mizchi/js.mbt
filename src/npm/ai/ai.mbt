@@ -56,7 +56,7 @@ pub impl @js.JsImpl for Ai
 
 ///|
 pub fn Ai::require() -> Self {
-  @node.require("ai") |> @js.unsafe_cast
+  @node.require("ai") |> @js.identity
 }
 
 ///|
@@ -66,13 +66,13 @@ pub fn Ai::generate_text(
   messages~ : Array[ModelMessage],
   // prompt?: String
 ) -> @js.Promise[@js.Js] {
-  @js.unsafe_cast(
+  @js.identity(
     self
     .to_js()
     .get("generateText")
     .call_self([
       @js.from_map({
-        "model": model |> @js.unsafe_cast,
+        "model": model |> @js.identity,
         "messages": messages.map(_.to_js()) |> @js.from_array,
       }),
     ]),
@@ -82,8 +82,8 @@ pub fn Ai::generate_text(
 ///|
 #skip
 test "ai" {
-  let ai : Ai = @js.unsafe_cast(@node.require("ai"))
-  let model : Model = @js.unsafe_cast(
+  let ai : Ai = @js.identity(@node.require("ai"))
+  let model : Model = @js.identity(
     @node.require("@ai-sdk/anthropic")
     .get("anthropic")
     .call_self(["claude-sonnet-4-20250514"]),

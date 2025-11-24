@@ -7,6 +7,7 @@ For comprehensive documentation, see [docs/moonbit-js-ffi.md](../../docs/moonbit
 ## PropertyKey - String, Int, Symbol
 
 ```moonbit
+
 ///|
 test "property key types" {
   let obj = @js.Object::new()
@@ -23,13 +24,14 @@ test "property key types" {
   let sym = @js.symbol("custom")
   obj.set(sym, "symbol value")
   inspect(obj.get(sym), content="symbol value")
-  assert_eq(@js.unsafe_cast(obj.get("name")), "MoonBit")
+  assert_eq(@js.identity(obj.get("name")), "MoonBit")
 }
 ```
 
 ## Pattern: Simple FFI Function
 
 ```moonbit
+
 ///|
 test "simple ffi with encodeURIComponent" {
   let text = "hello world"
@@ -43,6 +45,7 @@ test "simple ffi with encodeURIComponent" {
 ## Pattern: Optional Parameters
 
 ```moonbit
+
 ///|
 test "optional parameters" {
   let obj = @js.Object::new()
@@ -68,14 +71,15 @@ test "optional parameters" {
 ## Pattern: Handling Null/Undefined
 
 ```moonbit
+
 ///|
-test "unsafe_cast_option for nullable values" {
+test "identity_option for nullable values" {
   let obj = @js.Object::new()
   obj.set("exists", "value")
 
-  // unsafe_cast_option returns Option
-  let exists : String? = @js.unsafe_cast_option(obj.get("exists"))
-  let missing : String? = @js.unsafe_cast_option(obj.get("missing"))
+  // identity_option returns Option
+  let exists : String? = @js.identity_option(obj.get("exists"))
+  let missing : String? = @js.identity_option(obj.get("missing"))
   assert_eq(exists, Some("value"))
   assert_eq(missing, None)
 
@@ -90,6 +94,7 @@ test "unsafe_cast_option for nullable values" {
 ## Pattern: Object Methods and Properties
 
 ```moonbit
+
 ///|
 test "object methods - keys, values, entries" {
   let obj = @js.Object::new()
@@ -114,6 +119,7 @@ test "object methods - keys, values, entries" {
 ## Pattern: Method Calls with Different Arities
 
 ```moonbit
+
 ///|
 test "call0, call1, call2 methods" {
   let obj = @js.Object::new()
@@ -124,7 +130,7 @@ test "call0, call1, call2 methods" {
   inspect(str_repr, content="[object Object]")
 
   // call1 - one argument
-  let has_name : Bool = @js.unsafe_cast(obj.call1("hasOwnProperty", "name"))
+  let has_name : Bool = @js.identity(obj.call1("hasOwnProperty", "name"))
   assert_eq(has_name, true)
 
   // call - variable arguments
@@ -136,6 +142,7 @@ test "call0, call1, call2 methods" {
 ## Pattern: Type Conversion
 
 ```moonbit
+
 ///|
 test "js() for type conversion" {
   // Convert MoonBit types to Js
@@ -144,9 +151,9 @@ test "js() for type conversion" {
   let bool = @js.js(true)
 
   // Convert back
-  let num_back : Int = @js.unsafe_cast(num)
-  let str_back : String = @js.unsafe_cast(str)
-  let bool_back : Bool = @js.unsafe_cast(bool)
+  let num_back : Int = @js.identity(num)
+  let str_back : String = @js.identity(str)
+  let bool_back : Bool = @js.identity(bool)
   assert_eq(num_back, 42)
   assert_eq(str_back, "hello")
   assert_eq(bool_back, true)
@@ -156,6 +163,7 @@ test "js() for type conversion" {
 ## Pattern: Arrays
 
 ```moonbit
+
 ///|
 test "javascript arrays" {
   // Create from MoonBit array
@@ -167,7 +175,7 @@ test "javascript arrays" {
 
   // Check type
   assert_eq(@js.JsArray::isArray(arr), true)
-  let length : Int = @js.unsafe_cast(arr.get("length"))
+  let length : Int = @js.identity(arr.get("length"))
   assert_eq(length, 5)
 }
 ```
@@ -175,6 +183,7 @@ test "javascript arrays" {
 ## Pattern: Map to Object
 
 ```moonbit
+
 ///|
 test "map to javascript object" {
   let map = Map::new()
@@ -182,15 +191,16 @@ test "map to javascript object" {
   map.set("version", @js.js(1))
   map.set("active", @js.js(true))
   let obj = @js.from_map(map)
-  assert_eq(@js.unsafe_cast(obj.get("name")), "MoonBit")
-  assert_eq(@js.unsafe_cast(obj.get("version")), 1)
-  assert_eq(@js.unsafe_cast(obj.get("active")), true)
+  assert_eq(@js.identity(obj.get("name")), "MoonBit")
+  assert_eq(@js.identity(obj.get("version")), 1)
+  assert_eq(@js.identity(obj.get("active")), true)
 }
 ```
 
 ## Pattern: Type Checking
 
 ```moonbit
+
 ///|
 test "type checking helpers" {
   let arr = @js.JsArray::new()
@@ -210,6 +220,7 @@ test "type checking helpers" {
 ## Pattern: BigInt Operations
 
 ```moonbit
+
 ///|
 test "bigint arithmetic" {
   let big1 = @bigint.JsBigInt::from_int(100)
@@ -235,6 +246,7 @@ test "bigint arithmetic" {
 ## Pattern: JSON Operations
 
 ```moonbit
+
 ///|
 test "json stringify and parse" {
   let obj = @js.Object::new()
@@ -256,13 +268,14 @@ test "json stringify and parse" {
   // Parse
   let parsed = @js.JSON::parse(json_str) catch { _ => @js.undefined() }
   assert_eq(@js.is_object(parsed), true)
-  assert_eq(@js.unsafe_cast(parsed.get("name")), "MoonBit")
+  assert_eq(@js.identity(parsed.get("name")), "MoonBit")
 }
 ```
 
 ## Pattern: Symbols
 
 ```moonbit
+
 ///|
 test "symbol operations" {
   let obj = @js.Object::new()
@@ -276,7 +289,7 @@ test "symbol operations" {
   let _async_iter = @js.Symbol::asyncIterator()
 
   // Symbol as property key
-  let secret : String = @js.unsafe_cast(obj.get(custom_sym))
+  let secret : String = @js.identity(obj.get(custom_sym))
   assert_eq(secret, "secret")
 
   // Symbols don't appear in Object.keys
@@ -288,6 +301,7 @@ test "symbol operations" {
 ## Pattern: Global Functions
 
 ```moonbit
+
 ///|
 test "global javascript functions" {
   // Base64 encoding
@@ -312,6 +326,7 @@ test "global javascript functions" {
 ## Pattern: Constructors with new_
 
 ```moonbit
+
 ///|
 test "constructor with new operator" {
   // Using new_ helper
@@ -329,17 +344,18 @@ test "constructor with new operator" {
 ## Pattern: Function Calls with call_self
 
 ```moonbit
+
 ///|
 test "call_self for direct function calls" {
   // parseInt is a function
   let parseInt = @js.globalThis().get("parseInt")
 
   // Call it directly with arguments
-  let result : Int = @js.unsafe_cast(parseInt.call_self(["42"]))
+  let result : Int = @js.identity(parseInt.call_self(["42"]))
   assert_eq(result, 42)
 
   // With radix
-  let hex_result : Int = @js.unsafe_cast(parseInt.call_self(["ff", 16]))
+  let hex_result : Int = @js.identity(parseInt.call_self(["ff", 16]))
   assert_eq(hex_result, 255)
 }
 ```
@@ -347,6 +363,7 @@ test "call_self for direct function calls" {
 ## Pattern: Object Seal and Freeze
 
 ```moonbit
+
 ///|
 test "object immutability" {
   let obj = @js.Object::new()
@@ -367,6 +384,7 @@ test "object immutability" {
 ## Pattern: Property Delete
 
 ```moonbit
+
 ///|
 test "delete property" {
   let obj = @js.Object::new()
@@ -380,6 +398,7 @@ test "delete property" {
 ## Pattern: instanceOf and typeOf
 
 ```moonbit
+
 ///|
 test "instanceof and typeof" {
   let arr = @js.JsArray::new()
@@ -426,6 +445,7 @@ fn process[T : JsImpl](data : T) -> @js.Js {
 
 **Example:**
 ```moonbit
+
 ///|
 test "types implementing JsImpl" {
   // Types implementing JsImpl can be converted to @js.Js
@@ -460,14 +480,14 @@ When working with types that already implement `JsImpl`, avoid unnecessary `.to_
 **❌ Avoid:**
 ```
 fn SubtleCrypto::digest(self : SubtleCrypto, algorithm : String, data : ArrayBuffer) -> Promise[@js.Js] {
-  self.to_js().call("digest", [algorithm, data.to_js()]) |> unsafe_cast
+  self.to_js().call("digest", [algorithm, data.to_js()]) |> identity
 }
 ```
 
 **✅ Prefer:**
 ```
 fn SubtleCrypto::digest(self : SubtleCrypto, algorithm : String, data : ArrayBuffer) -> Promise[@js.Js] {
-  self.call("digest", [algorithm, data]) |> unsafe_cast
+  self.call("digest", [algorithm, data]) |> identity
 }
 ```
 
@@ -477,6 +497,7 @@ For complex JavaScript objects with known structure, define MoonBit structs inst
 
 **Example:**
 ```moonbit
+
 ///|
 pub struct Stats {
   isFile : Bool
@@ -488,10 +509,10 @@ pub struct Stats {
 ///|
 fn parse_stats(js_stats : @js.Js) -> Stats {
   {
-    isFile: js_stats.get("isFile") |> @js.unsafe_cast,
-    isDirectory: js_stats.get("isDirectory") |> @js.unsafe_cast,
-    size: js_stats.get("size") |> @js.unsafe_cast,
-    mtime: js_stats.get("mtime") |> @js.unsafe_cast,
+    isFile: js_stats.get("isFile") |> @js.identity,
+    isDirectory: js_stats.get("isDirectory") |> @js.identity,
+    size: js_stats.get("size") |> @js.identity,
+    mtime: js_stats.get("mtime") |> @js.identity,
   }
 }
 
@@ -515,6 +536,7 @@ For highly flexible APIs (like Streams options or complex configuration objects)
 
 **Example - Acceptable use of @js.Js:**
 ```moonbit
+
 ///|
 fn create_readable_stream(options : @js.Js) -> @js.Js {
   let ctor = @js.globalThis().get("ReadableStream")
@@ -682,13 +704,13 @@ pub(all) struct SafeFileReader {
 ///|
 /// Get the result (null if not loaded yet)
 fn SafeFileReader::get_result(self : SafeFileReader) -> @js.Js? {
-  @js.unsafe_cast_option(self.result)
+  @js.identity_option(self.result)
 }
 
 ///|
 /// Get the error (null if no error)
 fn SafeFileReader::get_error(self : SafeFileReader) -> @js.Js? {
-  @js.unsafe_cast_option(self.error)
+  @js.identity_option(self.error)
 }
 ```
 
@@ -703,7 +725,7 @@ fn example_safe_access(reader : SafeFileReader) -> Unit {
     None => println("no result yet")
   }
   
-  // ❌ UNSAFE: Direct field access of Js field requires unsafe_cast_option
+  // ❌ UNSAFE: Direct field access of Js field requires identity_option
   // let bad = reader.result  // This is just Js, not Js?
 }
 ```
@@ -713,6 +735,7 @@ fn example_safe_access(reader : SafeFileReader) -> Unit {
 For converting Option back to Js (e.g., when passing to JavaScript), use the built-in `@js.from_option` function:
 
 ```moonbit
+
 ///|
 test "converting Option to Js" {
   let some_value : String? = Some("hello")
@@ -720,7 +743,7 @@ test "converting Option to Js" {
   let js_some = @js.from_option(some_value)
   let js_none = @js.from_option(none_value)
   assert_eq(@js.is_nullish(js_none), true)
-  assert_eq(@js.unsafe_cast(js_some), "hello")
+  assert_eq(@js.identity(js_some), "hello")
 }
 ```
 

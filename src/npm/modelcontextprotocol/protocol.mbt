@@ -205,9 +205,9 @@ pub struct ClientInfo {
 
 ///|
 pub fn ClientInfo::from_js(js : @js.Js) -> ClientInfo? {
-  let obj : @js.Object = @js.unsafe_cast(js)
-  let name : String? = obj.get("name") |> @js.unsafe_cast_option()
-  let version : String? = obj.get("version") |> @js.unsafe_cast_option()
+  let obj : @js.Object = @js.identity(js)
+  let name : String? = obj.get("name") |> @js.identity_option()
+  let version : String? = obj.get("version") |> @js.identity_option()
   match (name, version) {
     (Some(n), Some(v)) => Some({ name: n, version: v })
     _ => None

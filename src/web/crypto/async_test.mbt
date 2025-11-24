@@ -75,7 +75,7 @@ async test "Web Crypto API: SubtleCrypto generateKey AES-GCM" {
   let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
   let key_usages = ["encrypt", "decrypt"]
   let key = subtle.generateKey(algorithm, true, key_usages).wait()
-  let key_type : String = @js.unsafe_cast(key.get("type"))
+  let key_type : String = @js.identity(key.get("type"))
   assert_eq(key_type, "secret")
 }
 
@@ -86,7 +86,7 @@ async test "Web Crypto API: SubtleCrypto generateKey HMAC" {
   let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
   let key_usages = ["sign", "verify"]
   let key = subtle.generateKey(algorithm, true, key_usages).wait()
-  let key_type : String = @js.unsafe_cast(key.get("type"))
+  let key_type : String = @js.identity(key.get("type"))
   assert_eq(key_type, "secret")
 }
 
@@ -119,7 +119,7 @@ async test "Web Crypto API: SubtleCrypto sign and verify with HMAC" {
   let key = subtle.generateKey(algorithm, true, key_usages).wait()
   let data = ffi_text_encoder_encode("Message to sign")
   let signature = subtle.sign(algorithm, key, data).wait()
-  let is_valid : Bool = @js.unsafe_cast(
+  let is_valid : Bool = @js.identity(
     subtle.verify(algorithm, key, signature, data).wait(),
   )
   assert_true(is_valid)
@@ -138,7 +138,7 @@ async test "Web Crypto API: SubtleCrypto exportKey and importKey with AES-GCM" {
   let imported_key = subtle
     .importKey("raw", exported, algorithm, true, key_usages)
     .wait()
-  let key_type : String = @js.unsafe_cast(imported_key.get("type"))
+  let key_type : String = @js.identity(imported_key.get("type"))
   assert_eq(key_type, "secret")
 }
 

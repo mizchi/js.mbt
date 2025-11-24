@@ -8,10 +8,10 @@ test "Proxy::new with no traps (transparent proxy)" {
   let proxy = Proxy::new(target)
 
   // All operations pass through to target
-  assert_eq(@js.unsafe_cast(proxy.get("name")), "original")
-  assert_eq(@js.unsafe_cast(proxy.get("value")), 42)
+  assert_eq(@js.identity(proxy.get("name")), "original")
+  assert_eq(@js.identity(proxy.get("value")), 42)
   proxy.set("name", "modified")
-  assert_eq(@js.unsafe_cast(target.get("name")), "modified")
+  assert_eq(@js.identity(target.get("name")), "modified")
 }
 
 ///|
@@ -30,7 +30,7 @@ test "Proxy::revocable creates revocable proxy" {
   let revoke = revocable.get("revoke")
 
   // Proxy works before revocation
-  assert_eq(@js.unsafe_cast(proxy.get("data")), "important")
+  assert_eq(@js.identity(proxy.get("data")), "important")
 
   // Verify revoke function exists
   assert_eq(@js.typeof_(revoke), "function")
@@ -66,15 +66,15 @@ test "Proxy with get trap" {
   target.set("x", 10)
   target.set("y", 20)
   let proxy = Proxy::new(target, get=fn(_target, prop, _receiver) {
-    let key : String = @js.unsafe_cast(prop)
+    let key : String = @js.identity(prop)
     if key == "x" {
       @js.js(100)
     } else {
       @js.js(200)
     }
   })
-  assert_eq(@js.unsafe_cast(proxy.get("x")), 100)
-  assert_eq(@js.unsafe_cast(proxy.get("y")), 200)
+  assert_eq(@js.identity(proxy.get("x")), 100)
+  assert_eq(@js.identity(proxy.get("y")), 200)
 }
 
 ///|
@@ -83,8 +83,8 @@ test "Proxy with set trap" {
   let proxy = Proxy::new(target, set=fn(target_obj, prop, value, _receiver) {
     // Only allow setting if value is a number
     if @js.typeof_(value) == "number" {
-      let key : String = @js.unsafe_cast(prop)
-      let obj : @js.Object = @js.unsafe_cast(target_obj)
+      let key : String = @js.identity(prop)
+      let obj : @js.Object = @js.identity(target_obj)
       obj.set(key, value)
       true
     } else {
@@ -92,7 +92,7 @@ test "Proxy with set trap" {
     }
   })
   proxy.set("x", 42)
-  assert_eq(@js.unsafe_cast(target.get("x")), 42)
+  assert_eq(@js.identity(target.get("x")), 42)
 }
 
 ///|
@@ -100,7 +100,7 @@ test "Proxy with has trap" {
   let target = @js.Object::new()
   target.set("real", "value")
   let proxy = Proxy::new(target, has=fn(_target, prop) {
-    let key : String = @js.unsafe_cast(prop)
+    let key : String = @js.identity(prop)
     // Always return true for "fake" property
     key == "fake" || key == "real"
   })
@@ -116,15 +116,15 @@ test "Proxy with multiple traps" {
     target,
     get=fn(_target, _prop, _receiver) { @js.js("intercepted") },
     set=fn(target_obj, prop, value, _receiver) {
-      let key : String = @js.unsafe_cast(prop)
-      let obj : @js.Object = @js.unsafe_cast(target_obj)
+      let key : String = @js.identity(prop)
+      let obj : @js.Object = @js.identity(target_obj)
       obj.set(key, value)
       true
     },
   )
   proxy.set("key", "original")
   // get trap returns "intercepted" instead of "original"
-  assert_eq(@js.unsafe_cast(proxy.get("key")), "intercepted")
+  assert_eq(@js.identity(proxy.get("key")), "intercepted")
 }
 
 ///|
@@ -135,8 +135,8 @@ test "Proxy with deleteProperty trap" {
   target.set("y", 20)
   let proxy = Proxy::new(target, deleteProperty=fn(target_obj, prop) {
     delete_called = true
-    let key : String = @js.unsafe_cast(prop)
-    let obj : @js.Object = @js.unsafe_cast(target_obj)
+    let key : String = @js.identity(prop)
+    let obj : @js.Object = @js.identity(target_obj)
     obj.delete(key)
     true
   })
@@ -150,16 +150,16 @@ test "Proxy with deleteProperty trap" {
 ///|
 test "Proxy with apply trap for function" {
   let target_fn = @js.from_fn1(fn(x : @js.Js) -> @js.Js {
-    let n : Int = @js.unsafe_cast(x)
+    let n : Int = @js.identity(x)
     @js.js(n * 2)
   })
   let proxy = Proxy::new(target_fn, apply=fn(_target, _this, args) {
     // Intercept function call and return modified result
-    let arr : @js.JsArray = @js.unsafe_cast(args)
-    let first : Int = @js.unsafe_cast(arr.get("0"))
+    let arr : @js.JsArray = @js.identity(args)
+    let first : Int = @js.identity(arr.get("0"))
     @js.js(first * 10)
   })
-  let result : Int = @js.unsafe_cast(proxy.call_self([@js.js(5)]))
+  let result : Int = @js.identity(proxy.call_self([@js.js(5)]))
   inspect(result, content="50")
 }
 
@@ -178,13 +178,13 @@ test "Proxy with construct trap" {
     _newTarget,
   ) {
     let obj = @js.Object::new()
-    let arr : @js.JsArray = @js.unsafe_cast(args)
-    let first : Int = @js.unsafe_cast(arr.get("0"))
+    let arr : @js.JsArray = @js.identity(args)
+    let first : Int = @js.identity(arr.get("0"))
     obj.set("constructed", first * 100)
     obj.to_js()
   })
   let instance = @js.new_(proxy.to_js(), [@js.js(5)])
-  let value : Int = @js.unsafe_cast(instance.get("constructed"))
+  let value : Int = @js.identity(instance.get("constructed"))
   inspect(value, content="500")
 }
 
@@ -216,11 +216,11 @@ test "Proxy with ownKeys trap" {
     },
   )
   let object_class = @js.globalThis().get("Object")
-  let keys : @js.JsArray = @js.unsafe_cast(object_class.call1("keys", proxy))
+  let keys : @js.JsArray = @js.identity(object_class.call1("keys", proxy))
   inspect(ownkeys_called, content="true")
-  let length : Int = @js.unsafe_cast(keys.get("length"))
+  let length : Int = @js.identity(keys.get("length"))
   inspect(length, content="3")
-  let first : String = @js.unsafe_cast(keys.get("0"))
+  let first : String = @js.identity(keys.get("0"))
   inspect(first, content="x")
 }
 
@@ -234,7 +234,7 @@ test "Proxy with getPrototypeOf trap" {
   })
   let object_class = @js.globalThis().get("Object")
   let proto = object_class.call1("getPrototypeOf", proxy)
-  let has_custom : Bool = @js.unsafe_cast(proto.get("custom"))
+  let has_custom : Bool = @js.identity(proto.get("custom"))
   inspect(has_custom, content="true")
 }
 
@@ -259,7 +259,7 @@ test "Proxy with isExtensible trap" {
   let object_class = @js.globalThis().get("Object")
   object_class.call1("preventExtensions", target) |> ignore
   let proxy = Proxy::new(target, isExtensible=fn(_target) { false })
-  let extensible : Bool = @js.unsafe_cast(
+  let extensible : Bool = @js.identity(
     object_class.call1("isExtensible", proxy),
   )
   inspect(extensible, content="false")
@@ -295,7 +295,7 @@ test "Proxy with getOwnPropertyDescriptor trap" {
   })
   let object_class = @js.globalThis().get("Object")
   let descriptor = object_class.call2("getOwnPropertyDescriptor", proxy, "x")
-  let value : Int = @js.unsafe_cast(descriptor.get("value"))
+  let value : Int = @js.identity(descriptor.get("value"))
   inspect(value, content="999")
 }
 
@@ -309,9 +309,9 @@ test "Proxy with defineProperty trap" {
     descriptor,
   ) {
     define_called = true
-    let obj : @js.Object = @js.unsafe_cast(target_obj)
-    let key : String = @js.unsafe_cast(prop)
-    let desc : @js.Object = @js.unsafe_cast(descriptor)
+    let obj : @js.Object = @js.identity(target_obj)
+    let key : String = @js.identity(prop)
+    let desc : @js.Object = @js.identity(descriptor)
     obj.set(key, desc.get("value"))
     true
   })
@@ -326,6 +326,6 @@ test "Proxy with defineProperty trap" {
   ])
   |> ignore
   inspect(define_called, content="true")
-  let value : Int = @js.unsafe_cast(target.get("newProp"))
+  let value : Int = @js.identity(target.get("newProp"))
   inspect(value, content="123")
 }

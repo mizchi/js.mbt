@@ -51,7 +51,7 @@ pub fn lookup(
   options : LookupOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_lookup(hostname, options.to_js(), cb)
 }
 
@@ -73,7 +73,7 @@ pub fn resolve(
   rrtype : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_resolve(hostname, rrtype, cb)
 }
 
@@ -90,7 +90,7 @@ pub fn resolve4(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_resolve4(hostname, cb)
 }
 
@@ -107,7 +107,7 @@ pub fn resolve6(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_resolve6(hostname, cb)
 }
 
@@ -124,7 +124,7 @@ pub fn resolve_mx(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_resolve_mx(hostname, cb)
 }
 
@@ -141,7 +141,7 @@ pub fn resolve_txt(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_resolve_txt(hostname, cb)
 }
 
@@ -158,7 +158,7 @@ pub fn resolve_srv(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_resolve_srv(hostname, cb)
 }
 
@@ -175,7 +175,7 @@ pub fn resolve_ns(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_resolve_ns(hostname, cb)
 }
 
@@ -192,7 +192,7 @@ pub fn resolve_cname(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_resolve_cname(hostname, cb)
 }
 
@@ -209,7 +209,7 @@ pub fn reverse(
   ip : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_reverse(ip, cb)
 }
 

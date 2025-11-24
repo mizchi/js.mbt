@@ -5,8 +5,8 @@ test "Reflect.get" {
   obj.set("age", 30)
   let name = @reflect.get(obj, "name", None)
   let age = @reflect.get(obj, "age", None)
-  assert_eq(@js.unsafe_cast(name), "Alice")
-  assert_eq(@js.unsafe_cast(age), 30)
+  assert_eq(@js.identity(name), "Alice")
+  assert_eq(@js.identity(age), 30)
 }
 
 ///|
@@ -16,8 +16,8 @@ test "Reflect.set" {
   let result2 = @reflect.set(obj, "y", 20, None)
   assert_true(result1)
   assert_true(result2)
-  assert_eq(@js.unsafe_cast(obj.get("x")), 10)
-  assert_eq(@js.unsafe_cast(obj.get("y")), 20)
+  assert_eq(@js.identity(obj.get("x")), 10)
+  assert_eq(@js.identity(obj.get("y")), 20)
 }
 
 ///|
@@ -72,14 +72,14 @@ test "Reflect.setPrototypeOf" {
   let result = setPrototypeOf(obj, new_proto)
   assert_true(result)
   let proto = getPrototypeOf(obj)
-  assert_eq(@js.unsafe_cast(proto.get("custom")), true)
+  assert_eq(@js.identity(proto.get("custom")), true)
 }
 
 ///|
 test "Reflect.apply" {
   let add_fn = @js.globalThis().get("Math").get("max")
   let result = apply(add_fn, @js.undefined(), [@js.js(10), @js.js(20)])
-  assert_eq(@js.unsafe_cast(result), 20)
+  assert_eq(@js.identity(result), 20)
 }
 
 ///|
@@ -96,7 +96,7 @@ test "Reflect.getOwnPropertyDescriptor" {
   let descriptor = getOwnPropertyDescriptor(obj, "prop")
   assert_true(@js.is_object(descriptor))
   let value = descriptor.get("value")
-  assert_eq(@js.unsafe_cast(value), "value")
+  assert_eq(@js.identity(value), "value")
 }
 
 ///|
@@ -109,7 +109,7 @@ test "Reflect.defineProperty" {
   descriptor.set("configurable", true)
   let result = defineProperty(obj, "newProp", descriptor)
   assert_true(result)
-  assert_eq(@js.unsafe_cast(obj.get("newProp")), 42)
+  assert_eq(@js.identity(obj.get("newProp")), 42)
 }
 
 ///|
@@ -127,7 +127,7 @@ test "Reflect.get with receiver" {
   obj.set("value", 100)
   let receiver = @js.Object::new()
   let result = @reflect.get(obj, "value", Some(receiver.to_js()))
-  assert_eq(@js.unsafe_cast(result), 100)
+  assert_eq(@js.identity(result), 100)
 }
 
 ///|
@@ -146,7 +146,7 @@ test "Reflect operations on frozen object" {
 
   // Can still read properties
   let value = @reflect.get(obj, "frozen", None)
-  assert_eq(@js.unsafe_cast(value), true)
+  assert_eq(@js.identity(value), true)
 
   // Frozen object is not extensible
   assert_false(@reflect.isExtensible(obj))

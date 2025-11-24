@@ -9,10 +9,10 @@ pub fn ChildProcess::on_exit(
 ) -> Unit {
   self.call("on", [
     "exit",
-    @js.unsafe_cast(fn(code : @js.Js, signal : @js.Js) {
+    @js.identity(fn(code : @js.Js, signal : @js.Js) {
       callback(
-        code |> @js.unsafe_cast_option(),
-        signal |> @js.unsafe_cast_option(),
+        code |> @js.identity_option(),
+        signal |> @js.identity_option(),
       )
     }),
   ])
@@ -28,10 +28,10 @@ pub fn ChildProcess::on_close(
 ) -> Unit {
   self.call("on", [
     "close",
-    @js.unsafe_cast(fn(code : @js.Js, signal : @js.Js) {
+    @js.identity(fn(code : @js.Js, signal : @js.Js) {
       callback(
-        code |> @js.unsafe_cast_option(),
-        signal |> @js.unsafe_cast_option(),
+        code |> @js.identity_option(),
+        signal |> @js.identity_option(),
       )
     }),
   ])
@@ -45,7 +45,7 @@ pub fn ChildProcess::on_error(
   self : Self,
   callback : (@js.Js) -> Unit noraise,
 ) -> Unit {
-  self.call2("on", "error", @js.unsafe_cast(callback)) |> ignore
+  self.call2("on", "error", @js.identity(callback)) |> ignore
 }
 
 ///|
@@ -57,8 +57,8 @@ pub fn ChildProcess::on_message(
 ) -> Unit {
   self.call("on", [
     "message",
-    @js.unsafe_cast(fn(message : @js.Js, sendHandle : @js.Js) {
-      callback(message, sendHandle |> @js.unsafe_cast_option())
+    @js.identity(fn(message : @js.Js, sendHandle : @js.Js) {
+      callback(message, sendHandle |> @js.identity_option())
     }),
   ])
   |> ignore
@@ -71,7 +71,7 @@ pub fn ChildProcess::on_disconnect(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.call2("on", "disconnect", @js.unsafe_cast(callback)) |> ignore
+  self.call2("on", "disconnect", @js.identity(callback)) |> ignore
 }
 
 ///|
@@ -81,7 +81,7 @@ pub fn ChildProcess::on_spawn(
   self : Self,
   callback : () -> Unit noraise,
 ) -> Unit {
-  self.call2("on", "spawn", @js.unsafe_cast(callback)) |> ignore
+  self.call2("on", "spawn", @js.identity(callback)) |> ignore
 }
 
 ///|
@@ -91,5 +91,5 @@ pub fn ChildProcess::on_stdout_data(
   self : Self,
   callback : (@js.Js) -> Unit noraise,
 ) -> Unit {
-  self.stdout.call2("on", "data", @js.unsafe_cast(callback)) |> ignore
+  self.stdout.call2("on", "data", @js.identity(callback)) |> ignore
 }

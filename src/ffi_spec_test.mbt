@@ -11,9 +11,9 @@
 /// 2. **Workarounds:**
 ///    - Use non-optional fields (T instead of T?) in structs
 ///    - Access raw JS object with `obj.to_js().get("field")` and check with `is_nullish()`
-///    - Use getter methods with `unsafe_cast_option()` for nullable fields
+///    - Use getter methods with `identity_option()` for nullable fields
 ///
-/// 3. **unsafe_cast_option() works correctly:**
+/// 3. **identity_option() works correctly:**
 ///    - Converts null/undefined to None
 ///    - Converts values to Some(T)
 ///
@@ -150,13 +150,13 @@ extern "js" fn get_simple() -> Js =
 
 ///|
 test "Int? field with all values set" {
-  let obj : StructWithOptions = create_all_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_all_fields() |> identity
   inspect(obj.optionalInt, content="Some(42)")
 }
 
 ///|
 test "Int? field with null value" {
-  let obj : StructWithOptions = create_null_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_null_fields() |> identity
   // FFI does not convert null to None - it becomes Some(null)
   // We cannot inspect the value directly as it crashes
   match obj.optionalInt {
@@ -167,25 +167,25 @@ test "Int? field with null value" {
 
 ///|
 test "Int? field with undefined value" {
-  let obj : StructWithOptions = create_undefined_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_undefined_fields() |> identity
   inspect(obj.optionalInt, content="None")
 }
 
 ///|
 test "Int? field with missing value" {
-  let obj : StructWithOptions = create_missing_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_missing_fields() |> identity
   inspect(obj.optionalInt, content="None")
 }
 
 ///|
 test "String? field with all values set" {
-  let obj : StructWithOptions = create_all_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_all_fields() |> identity
   inspect(obj.optionalString, content="Some(\"hello\")")
 }
 
 ///|
 test "String? field with null value" {
-  let obj : StructWithOptions = create_null_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_null_fields() |> identity
   // FFI does not convert null to None - it becomes Some(null)
   match obj.optionalString {
     Some(_) => inspect("Some (possibly null)", content="Some (possibly null)")
@@ -195,13 +195,13 @@ test "String? field with null value" {
 
 ///|
 test "String? field with undefined value" {
-  let obj : StructWithOptions = create_undefined_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_undefined_fields() |> identity
   inspect(obj.optionalString, content="None")
 }
 
 ///|
 test "Js? field with all values set" {
-  let obj : StructWithOptions = create_all_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_all_fields() |> identity
   // Check if optionalJs has a value and contains an object
   match obj.optionalJs {
     Some(v) => inspect(is_object(v), content="?")
@@ -211,7 +211,7 @@ test "Js? field with all values set" {
 
 ///|
 test "Js? field with null value" {
-  let obj : StructWithOptions = create_null_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_null_fields() |> identity
   // Js? field cannot be matched - it crashes when trying to access $tag
   // Convert to Js and check with is_nullish instead
   let raw : @js.Js = obj.to_js().get("optionalJs")
@@ -220,7 +220,7 @@ test "Js? field with null value" {
 
 ///|
 test "Js? field with undefined value" {
-  let obj : StructWithOptions = create_undefined_fields() |> unsafe_cast
+  let obj : StructWithOptions = create_undefined_fields() |> identity
   // Js? field cannot be matched - it crashes when trying to access $tag
   let raw : @js.Js = obj.to_js().get("optionalJs")
   inspect(is_nullish(raw), content="true")
@@ -228,14 +228,14 @@ test "Js? field with undefined value" {
 
 ///|
 test "Nested struct with value" {
-  let obj : NestedStruct = create_nested() |> unsafe_cast
+  let obj : NestedStruct = create_nested() |> identity
   inspect(obj.simple.name, content="Alice")
   inspect(obj.simple.age, content="30")
 }
 
 ///|
 test "Optional nested struct with value" {
-  let obj : StructWithOptionalNested = create_nested() |> unsafe_cast
+  let obj : StructWithOptionalNested = create_nested() |> identity
   match obj.nested {
     Some(s) => {
       inspect(s.name, content="?")
@@ -247,7 +247,7 @@ test "Optional nested struct with value" {
 
 ///|
 test "Optional nested struct with null" {
-  let obj : StructWithOptionalNested = create_null_nested() |> unsafe_cast
+  let obj : StructWithOptionalNested = create_null_nested() |> identity
   // Cannot inspect SimpleStruct? directly when it contains null
   match obj.nested {
     Some(_) => inspect("has value", content="has value")
@@ -257,7 +257,7 @@ test "Optional nested struct with null" {
 
 ///|
 test "Optional nested struct with undefined" {
-  let obj : StructWithOptionalNested = create_undefined_nested() |> unsafe_cast
+  let obj : StructWithOptionalNested = create_undefined_nested() |> identity
   inspect(obj.nested, content="None")
 }
 
@@ -265,7 +265,7 @@ test "Optional nested struct with undefined" {
 test "Generic Container[Int]" {
   let js_obj = @js.Object::new()
   js_obj.set("value", 42)
-  let container : Container[Int] = js_obj.to_js() |> unsafe_cast
+  let container : Container[Int] = js_obj.to_js() |> identity
   inspect(container.value, content="42")
 }
 
@@ -273,7 +273,7 @@ test "Generic Container[Int]" {
 test "Generic Container[String]" {
   let js_obj = @js.Object::new()
   js_obj.set("value", "test")
-  let container : Container[String] = js_obj.to_js() |> unsafe_cast
+  let container : Container[String] = js_obj.to_js() |> identity
   inspect(container.value, content="test")
 }
 
@@ -281,13 +281,13 @@ test "Generic Container[String]" {
 test "Generic Container[Int?] with value" {
   let js_obj = @js.Object::new()
   js_obj.set("value", 42)
-  let container : Container[Int?] = js_obj.to_js() |> unsafe_cast
+  let container : Container[Int?] = js_obj.to_js() |> identity
   inspect(container.value, content="Some(42)")
 }
 
 ///|
 test "Generic Container[Int?] with null" {
-  let container : Container[Int?] = create_null_value() |> unsafe_cast
+  let container : Container[Int?] = create_null_value() |> identity
   // FFI does not convert null to None - it becomes Some(null)
   match container.value {
     Some(_) => inspect("Some (possibly null)", content="Some (possibly null)")
@@ -302,20 +302,20 @@ test "Generic Container[SimpleStruct]" {
   simple_obj.set("name", "Bob")
   simple_obj.set("age", 25)
   js_obj.set("value", simple_obj.to_js())
-  let container : Container[SimpleStruct] = js_obj.to_js() |> unsafe_cast
+  let container : Container[SimpleStruct] = js_obj.to_js() |> identity
   inspect(container.value.name, content="Bob")
   inspect(container.value.age, content="25")
 }
 
 ///|
-test "Direct unsafe_cast to Int? with number" {
-  let value : Int? = get_number() |> unsafe_cast
+test "Direct identity to Int? with number" {
+  let value : Int? = get_number() |> identity
   inspect(value, content="Some(42)")
 }
 
 ///|
-test "Direct unsafe_cast to Int? with null" {
-  let value : Int? = get_null() |> unsafe_cast
+test "Direct identity to Int? with null" {
+  let value : Int? = get_null() |> identity
   // FFI does not convert null to None - it becomes Some(null)
   match value {
     Some(_) => inspect("Some (possibly null)", content="Some (possibly null)")
@@ -324,26 +324,26 @@ test "Direct unsafe_cast to Int? with null" {
 }
 
 ///|
-test "Direct unsafe_cast to Int? with undefined" {
-  let value : Int? = get_undefined() |> unsafe_cast
+test "Direct identity to Int? with undefined" {
+  let value : Int? = get_undefined() |> identity
   inspect(value, content="None")
 }
 
 ///|
-test "unsafe_cast_option with null" {
-  let value : Int? = unsafe_cast_option(get_null())
+test "identity_option with null" {
+  let value : Int? = identity_option(get_null())
   inspect(value, content="None")
 }
 
 ///|
-test "unsafe_cast_option with undefined" {
-  let value : Int? = unsafe_cast_option(get_undefined())
+test "identity_option with undefined" {
+  let value : Int? = identity_option(get_undefined())
   inspect(value, content="None")
 }
 
 ///|
-test "unsafe_cast_option with value" {
-  let value : Int? = unsafe_cast_option(get_number())
+test "identity_option with value" {
+  let value : Int? = identity_option(get_number())
   inspect(value, content="Some(42)")
 }
 
@@ -356,7 +356,7 @@ pub trait Convertible {
 
 ///|
 pub impl Convertible for SimpleStruct with from_js(js : @js.Js) -> SimpleStruct {
-  @js.unsafe_cast(js)
+  @js.identity(js)
 }
 
 ///|
@@ -416,7 +416,7 @@ extern "js" fn create_with_custom_value() -> Js =
 
 ///|
 test "CustomStruct? field with null" {
-  let obj : ContainerWithCustom = create_with_null_custom() |> unsafe_cast
+  let obj : ContainerWithCustom = create_with_null_custom() |> identity
   let raw = obj.to_js().get("optional")
   inspect(is_nullish(raw), content="true")
 
@@ -430,7 +430,7 @@ test "CustomStruct? field with null" {
 
 ///|
 test "CustomStruct? field with undefined" {
-  let obj : ContainerWithCustom = create_with_undefined_custom() |> unsafe_cast
+  let obj : ContainerWithCustom = create_with_undefined_custom() |> identity
   let raw = obj.to_js().get("optional")
   inspect(is_nullish(raw), content="true")
 
@@ -443,7 +443,7 @@ test "CustomStruct? field with undefined" {
 
 ///|
 test "CustomStruct? field with value" {
-  let obj : ContainerWithCustom = create_with_custom_value() |> unsafe_cast
+  let obj : ContainerWithCustom = create_with_custom_value() |> identity
   let raw = obj.to_js().get("optional")
   inspect(is_nullish(raw), content="false")
 
@@ -464,7 +464,7 @@ test "from_option with Some(Int)" {
   let opt : Int? = Some(42)
   let js_val = from_option(opt)
   inspect(is_nullish(js_val), content="false")
-  let back : Int = js_val |> unsafe_cast
+  let back : Int = js_val |> identity
   inspect(back, content="42")
 }
 
@@ -481,7 +481,7 @@ test "from_option with Some(String)" {
   let opt : String? = Some("hello")
   let js_val = from_option(opt)
   inspect(is_nullish(js_val), content="false")
-  let back : String = js_val |> unsafe_cast
+  let back : String = js_val |> identity
   inspect(back, content="hello")
 }
 
@@ -489,7 +489,7 @@ test "from_option with Some(String)" {
 test "from_option roundtrip" {
   let original : Int? = Some(123)
   let js_val = from_option(original)
-  let restored : Int? = unsafe_cast_option(js_val)
+  let restored : Int? = identity_option(js_val)
   inspect(restored, content="Some(123)")
 }
 
@@ -497,6 +497,6 @@ test "from_option roundtrip" {
 test "from_option roundtrip with None" {
   let original : String? = None
   let js_val = from_option(original)
-  let restored : String? = unsafe_cast_option(js_val)
+  let restored : String? = identity_option(js_val)
   inspect(restored, content="None")
 }

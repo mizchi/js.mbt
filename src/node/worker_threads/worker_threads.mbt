@@ -57,7 +57,7 @@ pub fn Worker::new(
     ("execArgv", execArgv.map(fn(x) { @js.from_array(x) })),
     ("resourceLimits", resourceLimits.map(fn(x) { x })),
   ])
-  @js.unsafe_cast(@js.new_(worker_class, [filename, js_opts]))
+  @js.identity(@js.new_(worker_class, [filename, js_opts]))
 }
 
 ///|
@@ -97,25 +97,25 @@ pub fn Worker::ref_(self : Worker) -> Unit {
 ///|
 /// Get the threadId of the worker
 pub fn Worker::threadId(self : Worker) -> Int {
-  self.get("threadId") |> @js.unsafe_cast
+  self.get("threadId") |> @js.identity
 }
 
 ///|
 /// Get the stdin stream of the worker (if enabled)
 pub fn Worker::stdin(self : Worker) -> @streams.WritableStream? {
-  self.get("stdin") |> @js.unsafe_cast_option()
+  self.get("stdin") |> @js.identity_option()
 }
 
 ///|
 /// Get the stdout stream of the worker (if enabled)
 pub fn Worker::stdout(self : Worker) -> @streams.ReadableStream? {
-  self.get("stdout") |> @js.unsafe_cast_option()
+  self.get("stdout") |> @js.identity_option()
 }
 
 ///|
 /// Get the stderr stream of the worker (if enabled)
 pub fn Worker::stderr(self : Worker) -> @streams.ReadableStream? {
-  self.get("stderr") |> @js.unsafe_cast_option()
+  self.get("stderr") |> @js.identity_option()
 }
 
 ///|
@@ -148,21 +148,21 @@ pub fn MessagePort::close(self : MessagePort) -> Unit {
 /// Check if running in the main thread
 /// https://nodejs.org/api/worker_threads.html#workerismainthread
 pub fn isMainThread() -> Bool {
-  ffi_require_worker_threads().get("isMainThread") |> @js.unsafe_cast
+  ffi_require_worker_threads().get("isMainThread") |> @js.identity
 }
 
 ///|
 /// Get the parent port (null in main thread)
 /// https://nodejs.org/api/worker_threads.html#workerparentport
 pub fn parentPort() -> MessagePort? {
-  ffi_require_worker_threads().get("parentPort") |> @js.unsafe_cast_option()
+  ffi_require_worker_threads().get("parentPort") |> @js.identity_option()
 }
 
 ///|
 /// Get the worker data passed to the worker
 /// https://nodejs.org/api/worker_threads.html#workerworkerdata
 pub fn workerData() -> @js.Js? {
-  ffi_require_worker_threads().get("workerData") |> @js.unsafe_cast_option()
+  ffi_require_worker_threads().get("workerData") |> @js.identity_option()
 }
 
 ///|

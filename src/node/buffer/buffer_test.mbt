@@ -21,8 +21,8 @@ test "Buffer.alloc" {
   let buf = Buffer::alloc(10)
   assert_eq(buf.length(), 10)
   // Zero-filled buffer
-  assert_eq(buf.get(0) |> @js.unsafe_cast, 0)
-  assert_eq(buf.get(9) |> @js.unsafe_cast, 0)
+  assert_eq(buf.get(0) |> @js.identity, 0)
+  assert_eq(buf.get(9) |> @js.identity, 0)
   let buf_filled = Buffer::alloc(5, fill=@js.js(0x41)) // Fill with 'A'
   assert_eq(buf_filled.toString(), "AAAAA")
 }
@@ -117,10 +117,10 @@ test "Buffer fill" {
   assert_eq(buf.toString(), "AAAAA")
   let buf2 = Buffer::alloc(10)
   buf2.fill(@js.js(0x42), offset=2, end=7) |> ignore // Fill with 'B'
-  assert_eq(buf2.get(1) |> @js.unsafe_cast, 0)
-  assert_eq(buf2.get(2) |> @js.unsafe_cast, 0x42) // 'B'
-  assert_eq(buf2.get(6) |> @js.unsafe_cast, 0x42) // 'B'
-  assert_eq(buf2.get(7) |> @js.unsafe_cast, 0)
+  assert_eq(buf2.get(1) |> @js.identity, 0)
+  assert_eq(buf2.get(2) |> @js.identity, 0x42) // 'B'
+  assert_eq(buf2.get(6) |> @js.identity, 0x42) // 'B'
+  assert_eq(buf2.get(7) |> @js.identity, 0)
 }
 
 ///|
@@ -150,7 +150,7 @@ test "Buffer get and set" {
   buf.set(2, 108) // 'l'
   buf.set(3, 108) // 'l'
   buf.set(4, 111) // 'o'
-  assert_eq(buf.get(0) |> @js.unsafe_cast, 72)
+  assert_eq(buf.get(0) |> @js.identity, 72)
   assert_eq(buf.toString(), "Hello")
 }
 
@@ -160,11 +160,11 @@ test "Buffer toJSON" {
   let json = buf.toJSON()
 
   // JSON representation has type and data fields
-  let json_type : String = @js.unsafe_cast(json.get("type"))
+  let json_type : String = @js.identity(json.get("type"))
   assert_eq(json_type, "Buffer")
   // The data field is an array, verify it has the correct length
   let data = json.get("data")
-  let data_length : Int = @js.unsafe_cast(data.get("length"))
+  let data_length : Int = @js.identity(data.get("length"))
   assert_eq(data_length, 5)
 }
 

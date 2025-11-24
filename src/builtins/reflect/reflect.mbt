@@ -55,7 +55,7 @@ pub fn defineProperty(
     property_key.to_key(),
     attributes.to_js(),
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -66,7 +66,7 @@ pub fn deleteProperty(
   property_key : &@js.PropertyKey,
 ) -> Bool {
   reflect_class().call2("deleteProperty", target.to_js(), property_key.to_key())
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -109,14 +109,14 @@ pub fn getPrototypeOf(target : &@js.JsImpl) -> @js.Js {
 /// Checks if an object has a property
 pub fn has(target : &@js.JsImpl, property_key : &@js.PropertyKey) -> Bool {
   reflect_class().call2("has", target.to_js(), property_key.to_key())
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
 /// JS: Reflect.isExtensible(target)
 /// Checks if an object is extensible
 pub fn isExtensible(target : &@js.JsImpl) -> Bool {
-  reflect_class().call("isExtensible", [target.to_js()]) |> @js.unsafe_cast
+  reflect_class().call("isExtensible", [target.to_js()]) |> @js.identity
 }
 
 ///|
@@ -125,14 +125,14 @@ pub fn isExtensible(target : &@js.JsImpl) -> Bool {
 /// Returns an array of the target object's own property keys.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn ownKeys(target : &@js.JsImpl) -> Array[@js.Js] {
-  reflect_class().call("ownKeys", [target.to_js()]) |> @js.unsafe_cast
+  reflect_class().call("ownKeys", [target.to_js()]) |> @js.identity
 }
 
 ///|
 /// JS: Reflect.preventExtensions(target)
 /// Prevents new properties from being added to an object
 pub fn preventExtensions(target : &@js.JsImpl) -> Bool {
-  reflect_class().call("preventExtensions", [target.to_js()]) |> @js.unsafe_cast
+  reflect_class().call("preventExtensions", [target.to_js()]) |> @js.identity
 }
 
 ///|
@@ -152,14 +152,14 @@ pub fn set(
         value.to_js(),
         recv,
       ])
-      |> @js.unsafe_cast
+      |> @js.identity
     None =>
       reflect_class().call("set", [
         target.to_js(),
         property_key.to_key(),
         value.to_js(),
       ])
-      |> @js.unsafe_cast
+      |> @js.identity
   }
 }
 
@@ -168,5 +168,5 @@ pub fn set(
 /// Sets the prototype of an object
 pub fn setPrototypeOf(target : &@js.JsImpl, prototype : &@js.JsImpl) -> Bool {
   reflect_class().call2("setPrototypeOf", target.to_js(), prototype.to_js())
-  |> @js.unsafe_cast
+  |> @js.identity
 }

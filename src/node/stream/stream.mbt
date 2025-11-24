@@ -47,37 +47,37 @@ pub fn Readable::read(self : Readable, size? : Int) -> @js.Js {
 
 ///|
 pub fn Readable::pause(self : Readable) -> Readable {
-  self.call0("pause") |> @js.unsafe_cast
+  self.call0("pause") |> @js.identity
 }
 
 ///|
 pub fn Readable::resume_(self : Readable) -> Readable {
-  self.call0("resume") |> @js.unsafe_cast
+  self.call0("resume") |> @js.identity
 }
 
 ///|
 pub fn Readable::isPaused(self : Readable) -> Bool {
-  self.call0("isPaused") |> @js.unsafe_cast
+  self.call0("isPaused") |> @js.identity
 }
 
 ///|
 pub fn Readable::pipe(self : Readable, destination : Writable) -> Writable {
-  self.call("pipe", [destination]) |> @js.unsafe_cast
+  self.call("pipe", [destination]) |> @js.identity
 }
 
 ///|
 pub fn Readable::unpipe(self : Readable, destination? : Writable) -> Readable {
-  self.call("unpipe", [destination]) |> @js.unsafe_cast
+  self.call("unpipe", [destination]) |> @js.identity
 }
 
 ///|
 pub fn Readable::setEncoding(self : Readable, encoding : String) -> Readable {
-  self.call("setEncoding", [encoding]) |> @js.unsafe_cast
+  self.call("setEncoding", [encoding]) |> @js.identity
 }
 
 ///|
 pub fn Readable::destroy(self : Readable, error? : @js.Js) -> Readable {
-  self.call("destroy", [error]) |> @js.unsafe_cast
+  self.call("destroy", [error]) |> @js.identity
 }
 
 ///|
@@ -92,7 +92,7 @@ pub fn Readable::unshift(
 ///|
 /// Readable stream properties
 pub fn Readable::readable(self : Readable) -> Bool {
-  self.get("readable") |> @js.unsafe_cast
+  self.get("readable") |> @js.identity
 }
 
 ///|
@@ -102,7 +102,7 @@ pub fn Readable::readableEncoding(self : Readable) -> @js.Js {
 
 ///|
 pub fn Readable::readableEnded(self : Readable) -> Bool {
-  self.get("readableEnded") |> @js.unsafe_cast
+  self.get("readableEnded") |> @js.identity
 }
 
 ///|
@@ -112,22 +112,22 @@ pub fn Readable::readableFlowing(self : Readable) -> @js.Js {
 
 ///|
 pub fn Readable::readableHighWaterMark(self : Readable) -> Int {
-  self.get("readableHighWaterMark") |> @js.unsafe_cast
+  self.get("readableHighWaterMark") |> @js.identity
 }
 
 ///|
 pub fn Readable::readableLength(self : Readable) -> Int {
-  self.get("readableLength") |> @js.unsafe_cast
+  self.get("readableLength") |> @js.identity
 }
 
 ///|
 pub fn Readable::readableObjectMode(self : Readable) -> Bool {
-  self.get("readableObjectMode") |> @js.unsafe_cast
+  self.get("readableObjectMode") |> @js.identity
 }
 
 ///|
 pub fn Readable::closed(self : Readable) -> Bool {
-  self.get("closed") |> @js.unsafe_cast
+  self.get("closed") |> @js.identity
 }
 
 ///|
@@ -138,17 +138,17 @@ pub fn Readable::errored(self : Readable) -> @js.Js {
 ///|
 /// Web Stream conversion
 pub fn Readable::toWeb(self : Readable) -> @web.ReadableStream {
-  stream_module().get("Readable").call("toWeb", [self]) |> @js.unsafe_cast
+  stream_module().get("Readable").call("toWeb", [self]) |> @js.identity
 }
 
 ///|
 pub fn Readable::fromWeb(s : @web.ReadableStream) -> Readable {
-  stream_module().get("Readable").call("fromWeb", [s]) |> @js.unsafe_cast
+  stream_module().get("Readable").call("fromWeb", [s]) |> @js.identity
 }
 
 ///|
 pub fn Readable::from(iterable : @js.Js) -> Readable {
-  stream_module().get("Readable").call("from", [iterable]) |> @js.unsafe_cast
+  stream_module().get("Readable").call("from", [iterable]) |> @js.identity
 }
 
 ///|
@@ -172,7 +172,7 @@ pub fn Writable::write(
   encoding? : String,
   callback? : @js.Js,
 ) -> Bool {
-  self.call("write", [chunk, encoding, callback]) |> @js.unsafe_cast
+  self.call("write", [chunk, encoding, callback]) |> @js.identity
 }
 
 ///|
@@ -182,7 +182,7 @@ pub fn Writable::end(
   encoding? : String,
   callback? : @js.Js,
 ) -> Writable {
-  self.call("end", [chunk, encoding, callback]) |> @js.unsafe_cast
+  self.call("end", [chunk, encoding, callback]) |> @js.identity
 }
 
 ///|
@@ -197,7 +197,7 @@ pub fn Writable::uncork(self : Writable) -> Unit {
 
 ///|
 pub fn Writable::destroy(self : Writable, error? : @js.Js) -> Writable {
-  self.call("destroy", [error]) |> @js.unsafe_cast
+  self.call("destroy", [error]) |> @js.identity
 }
 
 ///|
@@ -205,48 +205,48 @@ pub fn Writable::setDefaultEncoding(
   self : Writable,
   encoding : String,
 ) -> Writable {
-  self.call("setDefaultEncoding", [encoding]) |> @js.unsafe_cast
+  self.call("setDefaultEncoding", [encoding]) |> @js.identity
 }
 
 ///|
 /// Writable stream properties
 pub fn Writable::writable(self : Writable) -> Bool {
-  self.get("writable") |> @js.unsafe_cast
+  self.get("writable") |> @js.identity
 }
 
 ///|
 pub fn Writable::writableEnded(self : Writable) -> Bool {
-  self.get("writableEnded") |> @js.unsafe_cast
+  self.get("writableEnded") |> @js.identity
 }
 
 ///|
 pub fn Writable::writableFinished(self : Writable) -> Bool {
-  self.get("writableFinished") |> @js.unsafe_cast
+  self.get("writableFinished") |> @js.identity
 }
 
 ///|
 pub fn Writable::writableHighWaterMark(self : Writable) -> Int {
-  self.get("writableHighWaterMark") |> @js.unsafe_cast
+  self.get("writableHighWaterMark") |> @js.identity
 }
 
 ///|
 pub fn Writable::writableLength(self : Writable) -> Int {
-  self.get("writableLength") |> @js.unsafe_cast
+  self.get("writableLength") |> @js.identity
 }
 
 ///|
 pub fn Writable::writableObjectMode(self : Writable) -> Bool {
-  self.get("writableObjectMode") |> @js.unsafe_cast
+  self.get("writableObjectMode") |> @js.identity
 }
 
 ///|
 pub fn Writable::writableCorked(self : Writable) -> Int {
-  self.get("writableCorked") |> @js.unsafe_cast
+  self.get("writableCorked") |> @js.identity
 }
 
 ///|
 pub fn Writable::closed(self : Writable) -> Bool {
-  self.get("closed") |> @js.unsafe_cast
+  self.get("closed") |> @js.identity
 }
 
 ///|
@@ -257,12 +257,12 @@ pub fn Writable::errored(self : Writable) -> @js.Js {
 ///|
 /// Web Stream conversion
 pub fn Writable::toWeb(self : Self) -> @web.WritableStream {
-  stream_module().get("Writable").call("toWeb", [self]) |> @js.unsafe_cast
+  stream_module().get("Writable").call("toWeb", [self]) |> @js.identity
 }
 
 ///|
 pub fn Writable::fromWeb(s : @web.WritableStream) -> Writable {
-  stream_module().get("Writable").call("fromWeb", [s]) |> @js.unsafe_cast
+  stream_module().get("Writable").call("fromWeb", [s]) |> @js.identity
 }
 
 ///|
@@ -281,7 +281,7 @@ pub impl StreamImpl for Duplex
 ///|
 /// Duplex stream properties
 pub fn Duplex::allowHalfOpen(self : Duplex) -> Bool {
-  self.get("allowHalfOpen") |> @js.unsafe_cast
+  self.get("allowHalfOpen") |> @js.identity
 }
 
 ///|
@@ -292,12 +292,12 @@ pub fn Duplex::toWeb(self : Duplex) -> @js.Js {
 
 ///|
 pub fn Duplex::fromWeb(pair : @js.Js) -> Duplex {
-  stream_module().get("Duplex").call("fromWeb", [pair]) |> @js.unsafe_cast
+  stream_module().get("Duplex").call("fromWeb", [pair]) |> @js.identity
 }
 
 ///|
 pub fn Duplex::from(src : @js.Js) -> Duplex {
-  stream_module().get("Duplex").call("from", [src]) |> @js.unsafe_cast
+  stream_module().get("Duplex").call("from", [src]) |> @js.identity
 }
 
 ///|
@@ -341,7 +341,7 @@ extern "js" fn ffi_pipeline(streams : @js.Js, callback : @js.Js?) -> @js.Js =
 ///|
 /// Utility functions
 pub fn pipeline(streams : Array[@js.Js], callback? : @js.Js) -> @js.Js {
-  ffi_pipeline(@js.unsafe_cast(streams), callback)
+  ffi_pipeline(@js.identity(streams), callback)
 }
 
 ///|
@@ -370,7 +370,7 @@ extern "js" fn ffi_compose(streams : @js.Js) -> @js.Js =
 
 ///|
 pub fn compose(streams : Array[@js.Js]) -> @js.Js {
-  ffi_compose(@js.unsafe_cast(streams))
+  ffi_compose(@js.identity(streams))
 }
 
 ///|
@@ -380,23 +380,23 @@ pub fn addAbortSignal(signal : @js.Js, stream : @js.Js) -> @js.Js {
 
 ///|
 pub fn isErrored(stream : @js.Js) -> Bool {
-  stream_module().call("isErrored", [stream]) |> @js.unsafe_cast
+  stream_module().call("isErrored", [stream]) |> @js.identity
 }
 
 ///|
 pub fn isReadable(stream : @js.Js) -> Bool {
-  stream_module().call("isReadable", [stream]) |> @js.unsafe_cast
+  stream_module().call("isReadable", [stream]) |> @js.identity
 }
 
 ///|
 pub fn isWritable(stream : @js.Js) -> Bool {
-  stream_module().call("isWritable", [stream]) |> @js.unsafe_cast
+  stream_module().call("isWritable", [stream]) |> @js.identity
 }
 
 ///|
 pub fn getDefaultHighWaterMark(objectMode : Bool) -> Int {
   stream_module().call("getDefaultHighWaterMark", [objectMode])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|

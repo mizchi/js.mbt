@@ -13,12 +13,12 @@ test "JsonRpcRequest to_js" {
   obj.set("jsonrpc", "2.0")
   obj.set("id", "test-123")
   obj.set("method", "test/method")
-  let request = JsonRpcRequest::from_js(@js.unsafe_cast(obj))
+  let request = JsonRpcRequest::from_js(@js.identity(obj))
   match request {
     Some(req) => {
       let result = req.to_js()
-      let jsonrpc : String = @js.unsafe_cast(result.get("jsonrpc"))
-      let method_name : String = @js.unsafe_cast(result.get("method"))
+      let jsonrpc : String = @js.identity(result.get("jsonrpc"))
+      let method_name : String = @js.identity(result.get("method"))
       inspect(jsonrpc, content="2.0")
       inspect(method_name, content="test/method")
     }
@@ -50,8 +50,8 @@ test "Content::resource creates resource content" {
 
 ///|
 test "RequestId conversions" {
-  let js_str : @js.Js = @js.unsafe_cast("abc")
+  let js_str : @js.Js = @js.identity("abc")
   inspect(RequestId::from_js(js_str), content="Some(String(\"abc\"))")
-  let js_num : @js.Js = @js.unsafe_cast(42)
+  let js_num : @js.Js = @js.identity(42)
   inspect(RequestId::from_js(js_num), content="Some(Number(42))")
 }

@@ -117,7 +117,7 @@ async test "Node Stream Promises: pipeline with promises - async operations" {
       writable_js,
     ]
     let promise = promises_pipeline(streams)
-    let result = promise.wait() catch { _ => @js.unsafe_cast(()) }
+    let result = promise.wait() catch { _ => @js.identity(()) }
     ignore(result)
     let chunks = get_chunks_promises(writable_js)
     let success = chunks.length() == 2 &&
@@ -182,9 +182,9 @@ async test "Node Stream Promises: pipeline with promises - large data" {
 ///|
 async test "Node Stream Promises: finished with promises - writable" {
   let writable_js = create_writable_to_array_promises()
-  let writable : @stream.Writable = @js.unsafe_cast(writable_js)
+  let writable : @stream.Writable = @js.identity(writable_js)
   // Write some data
-  let _ = writable.write(@js.unsafe_cast("test"))
+  let _ = writable.write(@js.identity("test"))
   // End the stream
   ignore(writable.to_js().call0("end"))
   // Wait for finish
@@ -208,9 +208,9 @@ async test "Node Stream Promises: finished with promises - readable" {
 ///|
 async test "Node Stream Promises: finished with promises - multiple streams" {
   let writable1_js = create_writable_to_array_promises()
-  let writable1 : @stream.Writable = @js.unsafe_cast(writable1_js)
+  let writable1 : @stream.Writable = @js.identity(writable1_js)
   let writable2_js = create_writable_to_array_promises()
-  let writable2 : @stream.Writable = @js.unsafe_cast(writable2_js)
+  let writable2 : @stream.Writable = @js.identity(writable2_js)
   // End both streams
   ignore(writable1.to_js().call0("end"))
   ignore(writable2.to_js().call0("end"))

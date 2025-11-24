@@ -18,7 +18,7 @@ pub impl @js.JsImpl for CDPSession
 /// JS: page.createCDPSession()
 /// See: https://pptr.dev/api/puppeteer.page.createcdpsession
 pub async fn Page::createCDPSession(self : Page) -> CDPSession {
-  let promise : @js.Promise[CDPSession] = @js.unsafe_cast(
+  let promise : @js.Promise[CDPSession] = @js.identity(
     self.call("createCDPSession", []),
   )
   promise.wait()
@@ -31,7 +31,7 @@ pub async fn Page::createCDPSession(self : Page) -> CDPSession {
 /// JS: cdpSession.detach()
 /// See: https://pptr.dev/api/puppeteer.cdpsession.detach
 pub async fn CDPSession::detach(self : CDPSession) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("detach", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("detach", []))
   promise.wait()
 }
 
@@ -40,7 +40,7 @@ pub async fn CDPSession::detach(self : CDPSession) -> Unit {
 /// JS: cdpSession.id()
 /// See: https://pptr.dev/api/puppeteer.cdpsession.id
 pub fn CDPSession::id(self : CDPSession) -> String {
-  self.call("id", []) |> @js.unsafe_cast
+  self.call("id", []) |> @js.identity
 }
 
 ///|
@@ -52,7 +52,7 @@ pub async fn CDPSession::send(
   method_ : String,
   params : @js.Js,
 ) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.unsafe_cast(
+  let promise : @js.Promise[@js.Js] = @js.identity(
     self.call("send", [method_, params]),
   )
   promise.wait()
@@ -65,7 +65,7 @@ pub async fn CDPSession::send_simple(
   self : CDPSession,
   method_ : String,
 ) -> Unit {
-  let promise : @js.Promise[@js.Js] = @js.unsafe_cast(
+  let promise : @js.Promise[@js.Js] = @js.identity(
     self.call("send", [method_]),
   )
   let _ = promise.wait()

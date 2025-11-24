@@ -34,14 +34,14 @@ extern "js" fn ffi_create_image_data_with_data(
 
 ///|
 fn create_test_canvas(width : Int, height : Int) -> @dom.HTMLCanvasElement {
-  @js.unsafe_cast(ffi_create_test_canvas(width |> @js.js, height |> @js.js))
+  @js.identity(ffi_create_test_canvas(width |> @js.js, height |> @js.js))
 }
 
 ///|
 /// Basic drawing operations tests
 test "fillRect draws a rectangle" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.fillStyle = "red"
   ctx.fillRect(10.0, 10.0, 100.0, 50.0)
   inspect(ctx.fillStyle, content="#ff0000")
@@ -50,7 +50,7 @@ test "fillRect draws a rectangle" {
 ///|
 test "strokeRect draws a rectangle outline" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.strokeStyle = "blue"
   ctx.lineWidth = 2.0
   ctx.strokeRect(10.0, 10.0, 100.0, 50.0)
@@ -61,7 +61,7 @@ test "strokeRect draws a rectangle outline" {
 ///|
 test "clearRect clears a rectangle area" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.fillStyle = "green"
   ctx.fillRect(0.0, 0.0, 200.0, 200.0)
   ctx.clearRect(50.0, 50.0, 100.0, 100.0)
@@ -72,7 +72,7 @@ test "clearRect clears a rectangle area" {
 /// Path operations tests
 test "beginPath and closePath work correctly" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.moveTo(10.0, 10.0)
   ctx.lineTo(100.0, 10.0)
@@ -85,7 +85,7 @@ test "beginPath and closePath work correctly" {
 ///|
 test "arc draws a circle" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.arc(100.0, 100.0, 50.0, 0.0, 6.28318530718, counterclockwise=false)
   ctx.stroke()
@@ -95,7 +95,7 @@ test "arc draws a circle" {
 ///|
 test "arc with default counterclockwise" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.arc(100.0, 100.0, 50.0, 0.0, 6.28318530718)
   ctx.fill()
@@ -105,7 +105,7 @@ test "arc with default counterclockwise" {
 ///|
 test "arcTo draws an arc between two tangents" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.moveTo(20.0, 20.0)
   ctx.arcTo(100.0, 20.0, 100.0, 100.0, 50.0)
@@ -116,7 +116,7 @@ test "arcTo draws an arc between two tangents" {
 ///|
 test "bezierCurveTo draws a cubic bezier curve" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.moveTo(20.0, 100.0)
   ctx.bezierCurveTo(20.0, 20.0, 180.0, 20.0, 180.0, 100.0)
@@ -127,7 +127,7 @@ test "bezierCurveTo draws a cubic bezier curve" {
 ///|
 test "quadraticCurveTo draws a quadratic curve" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.moveTo(20.0, 100.0)
   ctx.quadraticCurveTo(100.0, 20.0, 180.0, 100.0)
@@ -138,7 +138,7 @@ test "quadraticCurveTo draws a quadratic curve" {
 ///|
 test "rect adds a rectangle to the path" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.rect(10.0, 10.0, 100.0, 50.0)
   ctx.fill()
@@ -148,7 +148,7 @@ test "rect adds a rectangle to the path" {
 ///|
 test "fill and stroke work correctly" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.rect(10.0, 10.0, 100.0, 50.0)
   ctx.fillStyle = "red"
@@ -161,7 +161,7 @@ test "fill and stroke work correctly" {
 ///|
 test "clip restricts drawing region" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.beginPath()
   ctx.rect(50.0, 50.0, 100.0, 100.0)
   ctx.clip()
@@ -174,7 +174,7 @@ test "clip restricts drawing region" {
 /// Text operations tests
 test "fillText draws text" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.font = "20px Arial"
   ctx.fillStyle = "black"
   ctx.fillText("Hello", 10.0, 50.0)
@@ -184,7 +184,7 @@ test "fillText draws text" {
 ///|
 test "fillText with max_width parameter" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.font = "20px Arial"
   ctx.fillText("Hello World", 10.0, 50.0, max_width=100.0)
   // Test passes if no error is thrown
@@ -193,7 +193,7 @@ test "fillText with max_width parameter" {
 ///|
 test "strokeText draws outlined text" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.font = "30px Arial"
   ctx.strokeStyle = "blue"
   ctx.strokeText("Hello", 10.0, 50.0)
@@ -203,7 +203,7 @@ test "strokeText draws outlined text" {
 ///|
 test "strokeText with max_width parameter" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.font = "30px Arial"
   ctx.strokeText("Hello World", 10.0, 50.0, max_width=150.0)
   // Test passes if no error is thrown
@@ -212,7 +212,7 @@ test "strokeText with max_width parameter" {
 ///|
 test "measureText returns text metrics" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.font = "20px Arial"
   let metrics = ctx.measureText("Hello")
   let width = metrics.width
@@ -222,7 +222,7 @@ test "measureText returns text metrics" {
 ///|
 test "textAlign property works" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.textAlign = "center"
   inspect(ctx.textAlign, content="center")
 }
@@ -230,7 +230,7 @@ test "textAlign property works" {
 ///|
 test "textBaseline property works" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.textBaseline = "middle"
   inspect(ctx.textBaseline, content="middle")
 }
@@ -239,7 +239,7 @@ test "textBaseline property works" {
 /// Transformation tests
 test "scale transformation works" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.scale(2.0, 2.0)
   ctx.fillRect(10.0, 10.0, 50.0, 50.0)
   // Test passes if no error is thrown
@@ -248,7 +248,7 @@ test "scale transformation works" {
 ///|
 test "rotate transformation works" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.rotate(0.785398163397) // 45 degrees in radians
   ctx.fillRect(50.0, 0.0, 50.0, 50.0)
   // Test passes if no error is thrown
@@ -257,7 +257,7 @@ test "rotate transformation works" {
 ///|
 test "translate transformation works" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.translate(50.0, 50.0)
   ctx.fillRect(0.0, 0.0, 50.0, 50.0)
   // Test passes if no error is thrown
@@ -266,7 +266,7 @@ test "translate transformation works" {
 ///|
 test "transform applies custom transformation matrix" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.transform(1.0, 0.5, -0.5, 1.0, 30.0, 10.0)
   ctx.fillRect(0.0, 0.0, 50.0, 50.0)
   // Test passes if no error is thrown
@@ -275,7 +275,7 @@ test "transform applies custom transformation matrix" {
 ///|
 test "setTransform sets transformation matrix" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.setTransform(1.0, 0.0, 0.0, 1.0, 50.0, 50.0)
   ctx.fillRect(0.0, 0.0, 50.0, 50.0)
   // Test passes if no error is thrown
@@ -284,7 +284,7 @@ test "setTransform sets transformation matrix" {
 ///|
 test "resetTransform resets to identity matrix" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.scale(2.0, 2.0)
   ctx.rotate(0.785398163397)
   ctx.resetTransform()
@@ -296,7 +296,7 @@ test "resetTransform resets to identity matrix" {
 /// State management tests
 test "save and restore canvas state" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.fillStyle = "red"
   ctx.save()
   ctx.fillStyle = "blue"
@@ -308,7 +308,7 @@ test "save and restore canvas state" {
 ///|
 test "multiple save and restore" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.fillStyle = "red"
   ctx.save()
   ctx.fillStyle = "green"
@@ -324,7 +324,7 @@ test "multiple save and restore" {
 /// Property getter/setter tests
 test "fillStyle property getter and setter" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.fillStyle = "#FF5733"
   inspect(ctx.fillStyle, content="#ff5733")
 }
@@ -332,7 +332,7 @@ test "fillStyle property getter and setter" {
 ///|
 test "strokeStyle property getter and setter" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.strokeStyle = "#3498db"
   inspect(ctx.strokeStyle, content="#3498db")
 }
@@ -340,7 +340,7 @@ test "strokeStyle property getter and setter" {
 ///|
 test "lineWidth property getter and setter" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.lineWidth = 5.5
   inspect(ctx.lineWidth, content="5.5")
 }
@@ -348,7 +348,7 @@ test "lineWidth property getter and setter" {
 ///|
 test "font property getter and setter" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.font = "italic 24px Georgia"
   inspect(ctx.font, content="italic 24px Georgia")
 }
@@ -356,7 +356,7 @@ test "font property getter and setter" {
 ///|
 test "globalAlpha property getter and setter" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.globalAlpha = 0.5
   inspect(ctx.globalAlpha, content="0.5")
 }
@@ -364,7 +364,7 @@ test "globalAlpha property getter and setter" {
 ///|
 test "canvas property returns HTMLCanvasElement" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   let retrieved_canvas = ctx.canvas
   inspect(retrieved_canvas.width, content="200")
   inspect(retrieved_canvas.height, content="200")
@@ -374,7 +374,7 @@ test "canvas property returns HTMLCanvasElement" {
 /// ImageData tests
 test "createImageData creates new ImageData" {
   let canvas = create_test_canvas(200, 200)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   let image_data = ctx.createImageData(100, 50)
   inspect(image_data.width, content="100")
   inspect(image_data.height, content="50")
@@ -382,7 +382,7 @@ test "createImageData creates new ImageData" {
 
 ///|
 test "ImageData constructor works" {
-  let image_data : ImageData = @js.unsafe_cast(
+  let image_data : ImageData = @js.identity(
     ffi_create_image_data(10 |> @js.js, 20 |> @js.js),
   )
   inspect(image_data.width, content="10")
@@ -391,7 +391,7 @@ test "ImageData constructor works" {
 
 ///|
 test "ImageData data property returns Uint8Array" {
-  let image_data : ImageData = @js.unsafe_cast(
+  let image_data : ImageData = @js.identity(
     ffi_create_image_data(10 |> @js.js, 10 |> @js.js),
   )
   let data = image_data.data
@@ -403,7 +403,7 @@ test "ImageData data property returns Uint8Array" {
 ///|
 test "ImageData from_data creates ImageData from Uint8Array" {
   let data = @typedarray.Uint8Array::from_size(40) // 10 * 1 * 4 (RGBA)
-  let image_data : ImageData = @js.unsafe_cast(
+  let image_data : ImageData = @js.identity(
     ffi_create_image_data_with_data(data.to_js(), 10 |> @js.js, 1 |> @js.js),
   )
   inspect(image_data.width, content="10")
@@ -413,7 +413,7 @@ test "ImageData from_data creates ImageData from Uint8Array" {
 ///|
 test "getImageData retrieves pixel data" {
   let canvas = create_test_canvas(100, 100)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   ctx.fillStyle = "red"
   ctx.fillRect(0.0, 0.0, 100.0, 100.0)
   let image_data = ctx.getImageData(0.0, 0.0, 50.0, 50.0)
@@ -424,8 +424,8 @@ test "getImageData retrieves pixel data" {
 ///|
 test "putImageData writes pixel data to canvas" {
   let canvas = create_test_canvas(100, 100)
-  let ctx : CanvasRenderingContext2D = @js.unsafe_cast(canvas.getContext("2d"))
-  let image_data : ImageData = @js.unsafe_cast(
+  let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
+  let image_data : ImageData = @js.identity(
     ffi_create_image_data(50 |> @js.js, 50 |> @js.js),
   )
   ctx.putImageData(image_data, 10.0, 10.0)

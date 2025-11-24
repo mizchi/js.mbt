@@ -55,7 +55,7 @@ pub impl JsImpl for Map[String, &JsImpl] with to_js(self) {
 ///|
 /// Convert an Option to a JavaScript value.
 pub impl[T] JsImpl for T? with to_js(self) {
-  unsafe_cast(self)
+  identity(self)
 }
 
 ///| Conversion functions
@@ -63,7 +63,7 @@ pub impl[T] JsImpl for T? with to_js(self) {
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
 pub fn[T : JsImpl] from_array(v : Array[T]) -> Js {
-  unsafe_cast(v.map(_.to_js()))
+  identity(v.map(_.to_js()))
 }
 
 ///|
@@ -165,25 +165,25 @@ pub fn[T : JsImpl] from_entries_option_cast(
 ///|
 /// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
 pub fn[R] from_fn0(f : () -> R) -> Js {
-  unsafe_cast(f)
+  identity(f)
 }
 
 ///|
 /// Cast a MoonBit function with 1 argument to a JavaScript function Val.
 pub fn[A, R] from_fn1(f : (A) -> R) -> Js {
-  unsafe_cast(f)
+  identity(f)
 }
 
 ///|
 /// Cast a MoonBit function with 2 arguments to a JavaScript function Val.
 pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Js {
-  unsafe_cast(f)
+  identity(f)
 }
 
 ///|
 /// Cast a MoonBit function with 3 arguments to a JavaScript function Val.
 pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Js {
-  unsafe_cast(f)
+  identity(f)
 }
 
 ///|
@@ -217,22 +217,22 @@ pub impl ToJson for Js with to_json(self) -> Json {
   }
   match typeof_(self) {
     "boolean" => {
-      // let v : Bool = unsafe_cast(self)
-      let v : Bool = unsafe_cast(self)
+      // let v : Bool = identity(self)
+      let v : Bool = identity(self)
       return v.to_json()
     }
     "number" => {
-      let v : Double = unsafe_cast(self)
+      let v : Double = identity(self)
       return v.to_json()
     }
     "string" => {
-      let v : String = unsafe_cast(self)
+      let v : String = identity(self)
       return v.to_json()
     }
     _ => ()
   }
   if is_array(self) {
-    let len : Int = self.call0("length") |> unsafe_cast
+    let len : Int = self.call0("length") |> identity
     let arr : Array[Json] = []
     for i = 0; i < len; i = i + 1 {
       let v = self.get(i.to_string())
@@ -296,20 +296,20 @@ extern "js" fn ffi_wrap_sync(
 ///|
 /// Unsafely cast a value from one type to another.
 /// When you cast to `Js`, use `js(v)` or `unsafe_js(v)` instead.
-pub fn[A, B] unsafe_cast(v : A) -> B = "%identity"
+pub fn[A, B] identity(v : A) -> B = "%identity"
 
 ///|
 /// Cast any JsImpl type to a JavaScript Val safely.
 /// When you can not, use `unsafe_js()`.
 pub fn js(a : &JsImpl) -> Js {
-  unsafe_cast(a.to_js())
+  identity(a.to_js())
 }
 
 ///|
 /// Convert any MoonBit value to a JavaScript Val.
 /// Use `unsafe_js()` if you can
 pub fn[T] unsafe_js(v : T) -> Js {
-  unsafe_cast(v)
+  identity(v)
 }
 
 ///|
@@ -320,25 +320,25 @@ pub fn[T] unsafe_js(v : T) -> Js {
 ///
 /// # Common Patterns
 ///
-/// - DOM API nullable returns: `node.get("parentNode") |> unsafe_cast_option()`
-/// - Optional object properties: `obj.get("name") |> unsafe_cast_option()`
+/// - DOM API nullable returns: `node.get("parentNode") |> identity_option()`
+/// - Optional object properties: `obj.get("name") |> identity_option()`
 /// - Converting back to Js: use `from_option(opt)`
 ///
 /// # Related Functions
 /// - `from_option(A?) -> Js` - Inverse conversion (Option to Js)
 /// - `@js.Nullable[T]` - For FFI struct fields that need explicit null handling
-pub fn[A] unsafe_cast_option(v : Js) -> A? {
+pub fn[A] identity_option(v : Js) -> A? {
   if ffi_is_nullish(v) {
     None
   } else {
-    Some(unsafe_cast(v))
+    Some(identity(v))
   }
 }
 
 ///|
 /// Convert an Option to Js, mapping None to null and Some(v) to v.
 ///
-/// This is the inverse of `unsafe_cast_option`. Use this when you need to pass
+/// This is the inverse of `identity_option`. Use this when you need to pass
 /// MoonBit Option values back to JavaScript APIs.
 ///
 /// # Usage
@@ -348,7 +348,7 @@ pub fn[A] unsafe_cast_option(v : Js) -> A? {
 /// - Use with match to set optional properties on objects
 ///
 /// # See Also
-/// - `unsafe_cast_option(Js) -> A?` - Inverse conversion (Js to Option)
+/// - `identity_option(Js) -> A?` - Inverse conversion (Js to Option)
 pub fn[A : JsImpl] from_option(opt : A?) -> Js {
   match opt {
     Some(v) => v.to_js()
@@ -387,7 +387,7 @@ pub fn[T : JsImpl] is_nullish(v : T) -> Bool {
 
 ///|
 pub fn[T : JsImpl] is_builtin_trait(v : T) -> Bool {
-  let v : Js = v |> unsafe_cast
+  let v : Js = v |> identity
   v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
 }
 
@@ -399,11 +399,11 @@ pub fn[T : JsImpl] is_builtin_trait(v : T) -> Bool {
 /// })
 /// ```
 pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
-  match throwable_result(f |> unsafe_cast) {
-    Ok(result) => result |> unsafe_cast
+  match throwable_result(f |> identity) {
+    Ok(result) => result |> identity
     Err(e) => {
       if ffi_is_error(e) {
-        let error : JsError = unsafe_cast(e)
+        let error : JsError = identity(e)
         let error_type = ffi_get_error_type(e)
         match error_type {
           "TypeError" => raise ThrowError::TypeError(error)
@@ -416,7 +416,7 @@ pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
           _ => raise ThrowError::Error(error)
         }
       }
-      raise ThrowError::Value(e |> unsafe_cast)
+      raise ThrowError::Value(e |> identity)
     }
   }
 }
@@ -424,17 +424,17 @@ pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
 ///|
 /// Wraps a synchronous function call that returns Result, converting any thrown JS errors into JsError
 fn throwable_result(f : () -> Result[Js, Js]) -> Result[Js, Js] {
-  ffi_wrap_sync(unsafe_cast(f), Ok(_), Err(_))
+  ffi_wrap_sync(identity(f), Ok(_), Err(_))
 }
 
 ///|
 /// JS: console.log(v)
 pub fn[T] log(v : T) -> Unit {
-  ffi_console_log([v |> unsafe_cast]) |> ignore
+  ffi_console_log([v |> identity]) |> ignore
 }
 
 ///|
 /// JS: console.log(a, b)
 pub fn[T, U] log2(a : T, b : U) -> Unit {
-  ffi_console_log([a |> unsafe_cast, b |> unsafe_cast]) |> ignore
+  ffi_console_log([a |> identity, b |> identity]) |> ignore
 }

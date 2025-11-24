@@ -85,7 +85,7 @@ test "encode_uri_component and decode_uri_component" {
 
 ///|
 test "JSON::stringify" {
-  let arr : Array[Int] = [1] |> unsafe_cast
+  let arr : Array[Int] = [1] |> identity
   arr |> inspect(content="[1]")
   JSON::stringify(arr |> from_array, space=2)
   |> inspect(

@@ -19,7 +19,7 @@ pub extern "js" fn deno() -> Deno =
 ///|
 /// Get environment variable
 pub fn Deno::env_get(self : Deno, key : String) -> String? {
-  self.get("env").call("get", [@js.js(key)]) |> @js.unsafe_cast_option
+  self.get("env").call("get", [@js.js(key)]) |> @js.identity_option
 }
 
 ///|
@@ -43,7 +43,7 @@ pub fn Deno::env_toObject(self : Deno) -> @js.Js {
 ///|
 /// Get current working directory
 pub fn Deno::cwd(self : Deno) -> String {
-  self.call("cwd", []) |> @js.unsafe_cast
+  self.call("cwd", []) |> @js.identity
 }
 
 ///|
@@ -60,49 +60,49 @@ pub fn Deno::exit(self : Deno, code? : Int) -> Unit {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Deno::args(self : Deno) -> Array[String] {
-  self.get("args") |> @js.unsafe_cast
+  self.get("args") |> @js.identity
 }
 
 ///|
 /// Get process ID
 pub fn Deno::pid(self : Deno) -> Int {
-  self.get("pid") |> @js.unsafe_cast
+  self.get("pid") |> @js.identity
 }
 
 ///|
 /// Get parent process ID
 pub fn Deno::ppid(self : Deno) -> Int {
-  self.get("ppid") |> @js.unsafe_cast
+  self.get("ppid") |> @js.identity
 }
 
 ///|
 /// Get operating system
 pub fn Deno::build_os(self : Deno) -> String {
-  self.get("build").get("os") |> @js.unsafe_cast
+  self.get("build").get("os") |> @js.identity
 }
 
 ///|
 /// Get architecture
 pub fn Deno::build_arch(self : Deno) -> String {
-  self.get("build").get("arch") |> @js.unsafe_cast
+  self.get("build").get("arch") |> @js.identity
 }
 
 ///|
 /// Read all data from stdin
 pub fn Deno::stdin_read(self : Deno) -> @js.Promise[@js.Js] {
-  self.get("stdin").call("read", []) |> @js.unsafe_cast
+  self.get("stdin").call("read", []) |> @js.identity
 }
 
 ///|
 /// Write to stdout
 pub fn Deno::stdout_write(self : Deno, data : @js.Js) -> @js.Promise[Int] {
-  self.get("stdout").call("write", [data]) |> @js.unsafe_cast
+  self.get("stdout").call("write", [data]) |> @js.identity
 }
 
 ///|
 /// Write to stderr
 pub fn Deno::stderr_write(self : Deno, data : @js.Js) -> @js.Promise[Int] {
-  self.get("stderr").call("write", [data]) |> @js.unsafe_cast
+  self.get("stderr").call("write", [data]) |> @js.identity
 }
 
 ///| File System APIs
@@ -110,7 +110,7 @@ pub fn Deno::stderr_write(self : Deno, data : @js.Js) -> @js.Promise[Int] {
 ///|
 /// Read text file
 pub fn Deno::readTextFile(self : Deno, path : String) -> @js.Promise[String] {
-  self.call("readTextFile", [@js.js(path)]) |> @js.unsafe_cast
+  self.call("readTextFile", [@js.js(path)]) |> @js.identity
 }
 
 ///|
@@ -120,13 +120,13 @@ pub fn Deno::writeTextFile(
   path : String,
   data : String,
 ) -> @js.Promise[Unit] {
-  self.call("writeTextFile", [@js.js(path), @js.js(data)]) |> @js.unsafe_cast
+  self.call("writeTextFile", [@js.js(path), @js.js(data)]) |> @js.identity
 }
 
 ///|
 /// Read file as Uint8Array
 pub fn Deno::readFile(self : Deno, path : String) -> @js.Promise[@js.Js] {
-  self.call("readFile", [@js.js(path)]) |> @js.unsafe_cast
+  self.call("readFile", [@js.js(path)]) |> @js.identity
 }
 
 ///|
@@ -136,7 +136,7 @@ pub fn Deno::writeFile(
   path : String,
   data : @js.Js,
 ) -> @js.Promise[Unit] {
-  self.call("writeFile", [@js.js(path), data]) |> @js.unsafe_cast
+  self.call("writeFile", [@js.js(path), data]) |> @js.identity
 }
 
 ///|
@@ -152,8 +152,8 @@ pub fn Deno::remove(
         @js.js(path),
         @js.from_entries_option_cast([("recursive", Some(r))]),
       ])
-      |> @js.unsafe_cast
-    None => self.call("remove", [@js.js(path)]) |> @js.unsafe_cast
+      |> @js.identity
+    None => self.call("remove", [@js.js(path)]) |> @js.identity
   }
 }
 
@@ -170,8 +170,8 @@ pub fn Deno::mkdir(
         @js.js(path),
         @js.from_entries_option_cast([("recursive", Some(r))]),
       ])
-      |> @js.unsafe_cast
-    None => self.call("mkdir", [@js.js(path)]) |> @js.unsafe_cast
+      |> @js.identity
+    None => self.call("mkdir", [@js.js(path)]) |> @js.identity
   }
 }
 
@@ -188,7 +188,7 @@ pub fn Deno::rename(
   oldpath : String,
   newpath : String,
 ) -> @js.Promise[Unit] {
-  self.call("rename", [@js.js(oldpath), @js.js(newpath)]) |> @js.unsafe_cast
+  self.call("rename", [@js.js(oldpath), @js.js(newpath)]) |> @js.identity
 }
 
 ///|
@@ -198,25 +198,25 @@ pub fn Deno::copyFile(
   from : String,
   to : String,
 ) -> @js.Promise[Unit] {
-  self.call("copyFile", [@js.js(from), @js.js(to)]) |> @js.unsafe_cast
+  self.call("copyFile", [@js.js(from), @js.js(to)]) |> @js.identity
 }
 
 ///|
 /// Check if path exists
 pub fn Deno::stat(self : Deno, path : String) -> @js.Promise[@js.Js] {
-  self.call("stat", [@js.js(path)]) |> @js.unsafe_cast
+  self.call("stat", [@js.js(path)]) |> @js.identity
 }
 
 ///|
 /// Check if path exists (returns null if not found instead of throwing)
 pub fn Deno::lstat(self : Deno, path : String) -> @js.Promise[@js.Js] {
-  self.call("lstat", [@js.js(path)]) |> @js.unsafe_cast
+  self.call("lstat", [@js.js(path)]) |> @js.identity
 }
 
 ///|
 /// Read link target
 pub fn Deno::readLink(self : Deno, path : String) -> @js.Promise[String] {
-  self.call("readLink", [@js.js(path)]) |> @js.unsafe_cast
+  self.call("readLink", [@js.js(path)]) |> @js.identity
 }
 
 ///|
@@ -226,19 +226,19 @@ pub fn Deno::symlink(
   target : String,
   path : String,
 ) -> @js.Promise[Unit] {
-  self.call("symlink", [@js.js(target), @js.js(path)]) |> @js.unsafe_cast
+  self.call("symlink", [@js.js(target), @js.js(path)]) |> @js.identity
 }
 
 ///|
 /// Change file permissions (Unix only)
 pub fn Deno::chmod(self : Deno, path : String, mode : Int) -> @js.Promise[Unit] {
-  self.call("chmod", [@js.js(path), @js.js(mode)]) |> @js.unsafe_cast
+  self.call("chmod", [@js.js(path), @js.js(mode)]) |> @js.identity
 }
 
 ///|
 /// Get real path (resolves symlinks)
 pub fn Deno::realPath(self : Deno, path : String) -> @js.Promise[String] {
-  self.call("realPath", [@js.js(path)]) |> @js.unsafe_cast
+  self.call("realPath", [@js.js(path)]) |> @js.identity
 }
 
 ///|
@@ -248,7 +248,7 @@ pub fn Deno::truncate(
   name : String,
   len : Int,
 ) -> @js.Promise[Unit] {
-  self.call("truncate", [@js.js(name), @js.js(len)]) |> @js.unsafe_cast
+  self.call("truncate", [@js.js(name), @js.js(len)]) |> @js.identity
 }
 
 ///|
@@ -259,8 +259,8 @@ pub fn Deno::makeTempDir(self : Deno, prefix? : String) -> @js.Promise[String] {
       self.call("makeTempDir", [
         @js.from_entries_option_cast([("prefix", Some(p))]),
       ])
-      |> @js.unsafe_cast
-    None => self.call("makeTempDir", []) |> @js.unsafe_cast
+      |> @js.identity
+    None => self.call("makeTempDir", []) |> @js.identity
   }
 }
 
@@ -272,27 +272,27 @@ pub fn Deno::makeTempFile(self : Deno, prefix? : String) -> @js.Promise[String] 
       self.call("makeTempFile", [
         @js.from_entries_option_cast([("prefix", Some(p))]),
       ])
-      |> @js.unsafe_cast
-    None => self.call("makeTempFile", []) |> @js.unsafe_cast
+      |> @js.identity
+    None => self.call("makeTempFile", []) |> @js.identity
   }
 }
 
 ///|
 /// Get hostname
 pub fn Deno::hostname(self : Deno) -> String {
-  self.call("hostname", []) |> @js.unsafe_cast
+  self.call("hostname", []) |> @js.identity
 }
 
 ///|
 /// Get OS release version
 pub fn Deno::osRelease(self : Deno) -> String {
-  self.call("osRelease", []) |> @js.unsafe_cast
+  self.call("osRelease", []) |> @js.identity
 }
 
 ///|
 /// Get OS uptime in seconds
 pub fn Deno::osUptime(self : Deno) -> Int {
-  self.call("osUptime", []) |> @js.unsafe_cast
+  self.call("osUptime", []) |> @js.identity
 }
 
 ///|
@@ -300,7 +300,7 @@ pub fn Deno::osUptime(self : Deno) -> Int {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Deno::loadavg(self : Deno) -> Array[Double] {
-  self.call("loadavg", []) |> @js.unsafe_cast
+  self.call("loadavg", []) |> @js.identity
 }
 
 ///|
@@ -318,13 +318,13 @@ pub fn Deno::systemMemoryInfo(self : Deno) -> @js.Js {
 ///|
 /// Get user ID (Unix only)
 pub fn Deno::uid(self : Deno) -> Int? {
-  self.call("uid", []) |> @js.unsafe_cast_option
+  self.call("uid", []) |> @js.identity_option
 }
 
 ///|
 /// Get group ID (Unix only)
 pub fn Deno::gid(self : Deno) -> Int? {
-  self.call("gid", []) |> @js.unsafe_cast_option
+  self.call("gid", []) |> @js.identity_option
 }
 
 ///| Network APIs
@@ -339,7 +339,7 @@ pub fn Deno::connect(
   self.call("connect", [
     @js.from_entries([("hostname", hostname), ("port", port)]),
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -358,7 +358,7 @@ pub fn Deno::resolveDns(
   recordType : String,
 ) -> @js.Promise[@js.Js] {
   self.call("resolveDns", [@js.js(query), @js.js(recordType)])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///| HTTP Server APIs
@@ -378,7 +378,7 @@ pub fn Deno::request_permission(
   name : String,
 ) -> @js.Promise[@js.Js] {
   self.get("permissions").call1("request", @js.from_entries([("name", name)]))
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -388,7 +388,7 @@ pub fn Deno::query_permission(
   name : String,
 ) -> @js.Promise[@js.Js] {
   self.get("permissions").call1("query", @js.from_entries([("name", name)]))
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -398,7 +398,7 @@ pub fn Deno::revoke_permission(
   name : String,
 ) -> @js.Promise[@js.Js] {
   self.get("permissions").call1("revoke", @js.from_entries([("name", name)]))
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///| Time and Performance APIs
@@ -434,13 +434,13 @@ pub fn Deno::open(
       ("read", read),
     ]),
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
 /// Create a file
 pub fn Deno::create(self : Deno, path : String) -> @js.Promise[FsFile] {
-  self.call("create", [@js.js(path)]) |> @js.unsafe_cast
+  self.call("create", [@js.js(path)]) |> @js.identity
 }
 
 ///|
@@ -452,13 +452,13 @@ pub fn FsFile::close(self : FsFile) -> Unit {
 ///|
 /// Read from file
 pub fn FsFile::read(self : FsFile, buffer : @js.Js) -> @js.Promise[Int] {
-  self.call("read", [buffer]) |> @js.unsafe_cast
+  self.call("read", [buffer]) |> @js.identity
 }
 
 ///|
 /// Write to file
 pub fn FsFile::write(self : FsFile, data : @js.Js) -> @js.Promise[Int] {
-  self.call("write", [data]) |> @js.unsafe_cast
+  self.call("write", [data]) |> @js.identity
 }
 
 ///|
@@ -468,7 +468,7 @@ pub fn FsFile::seek(
   offset : Int,
   whence : Int,
 ) -> @js.Promise[Int] {
-  self.call("seek", [@js.js(offset), @js.js(whence)]) |> @js.unsafe_cast
+  self.call("seek", [@js.js(offset), @js.js(whence)]) |> @js.identity
 }
 
 ///| Test APIs

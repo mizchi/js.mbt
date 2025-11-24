@@ -7,7 +7,7 @@ pub impl @js.JsImpl for Util
 
 ///|
 fn util() -> Util {
-  @node.require("node:util") |> @js.unsafe_cast
+  @node.require("node:util") |> @js.identity
 }
 
 ///|
@@ -31,5 +31,5 @@ pub fn inspect(
     "maxArrayLength": maxArrayLength |> @js.js,
     "maxStringLength": maxStringLength |> @js.js,
   })
-  @js.unsafe_cast(util().get("inspect").call_self([value, opt]))
+  @js.identity(util().get("inspect").call_self([value, opt]))
 }

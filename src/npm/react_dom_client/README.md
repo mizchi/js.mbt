@@ -56,7 +56,7 @@ fn main {
 
 ```moonbit
 fn main {
-  let client : @react_dom_client.ReactDOMClient = @node.require("react-dom/client") |> @js.unsafe_cast
+  let client : @react_dom_client.ReactDOMClient = @node.require("react-dom/client") |> @js.identity
   let container = @dom.document().getElementById("root")
   let root = client.createRoot(container)
   root.render(my_element)

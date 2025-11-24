@@ -3,7 +3,7 @@
 ///|
 fn render_to_string(element : Element) -> String {
   let react_dom_server : @js.Js = @node.require("react-dom/server")
-  @js.unsafe_cast(react_dom_server.get("renderToString").call_self([element]))
+  @js.identity(react_dom_server.get("renderToString").call_self([element]))
 }
 
 ///|
@@ -15,17 +15,17 @@ priv struct TestProps {
 test "React createElement" {
   @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", [])
-  assert_eq(@js.unsafe_cast(el.get("type")), "div")
+  assert_eq(@js.identity(el.get("type")), "div")
   let with_attrs = @react.createElement(
     "button",
     props={
-      "className": "my-button" |> @js.unsafe_cast,
+      "className": "my-button" |> @js.identity,
       "onClick": @js.from_fn0(fn() { @js.log("Button clicked") }),
     },
     [],
   )
   assert_eq(
-    @js.unsafe_cast(with_attrs.get("props").get("className")),
+    @js.identity(with_attrs.get("props").get("className")),
     "my-button",
   )
   let c1 = (_ : EmptyProps) => {
@@ -49,7 +49,7 @@ test "render_to_string" {
 test "createElement with key" {
   @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", ["test"], key="my-key")
-  assert_eq(@js.unsafe_cast(el.get("key")), "my-key")
+  assert_eq(@js.identity(el.get("key")), "my-key")
 }
 
 ///|
@@ -111,7 +111,7 @@ test "fragment" {
 test "fragment with key" {
   @react.init_react_api(@node.require("react"))
   let el = fragment([createElement("div", ["item"])], key="frag-key")
-  assert_eq(@js.unsafe_cast(el.get("key")), "frag-key")
+  assert_eq(@js.identity(el.get("key")), "frag-key")
 }
 
 ///|

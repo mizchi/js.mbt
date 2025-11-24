@@ -132,9 +132,9 @@ fn[T : JsImpl] typeof_(T) -> String
 
 fn undefined() -> Js
 
-fn[A, B] unsafe_cast(A) -> B
+fn[A, B] identity(A) -> B
 
-fn[A] unsafe_cast_option(Js) -> A?
+fn[A] identity_option(Js) -> A?
 
 fn[T] unsafe_js(T) -> Js
 
@@ -357,4 +357,3 @@ pub trait PropertyKey {
 }
 impl PropertyKey for Int
 impl PropertyKey for String
-

@@ -10,7 +10,7 @@ pub impl @js.JsImpl for D1Database
 ///|
 /// Prepare a SQL statement
 pub fn D1Database::prepare(self : Self, query : String) -> D1PreparedStatement {
-  self.call("prepare", [query]) |> @js.unsafe_cast
+  self.call("prepare", [query]) |> @js.identity
 }
 
 ///|
@@ -19,7 +19,7 @@ pub fn D1Database::exec(
   self : Self,
   query : String,
 ) -> @js.Promise[D1ExecResult] {
-  self.call("exec", [query]) |> @js.unsafe_cast
+  self.call("exec", [query]) |> @js.identity
 }
 
 ///|
@@ -34,13 +34,13 @@ pub fn D1Database::batch(
     stmts_js.call("push", [statements[i]]) |> ignore
     i = i + 1
   }
-  self.call("batch", [stmts_js]) |> @js.unsafe_cast
+  self.call("batch", [stmts_js]) |> @js.identity
 }
 
 ///|
 /// Dump the entire database
 pub fn D1Database::dump(self : Self) -> @js.Promise[@js.Js] {
-  self.call0("dump") |> @js.unsafe_cast
+  self.call0("dump") |> @js.identity
 }
 
 ///|
@@ -69,7 +69,7 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Js]) -> Self {
   }
 
   // Use apply to spread the array as individual arguments
-  bind_fn.call2("apply", stmt_js, params_js) |> @js.unsafe_cast
+  bind_fn.call2("apply", stmt_js, params_js) |> @js.identity
 }
 
 ///|
@@ -102,7 +102,7 @@ pub fn D1PreparedStatement::bind3(
 ///|
 /// Execute the statement and return first row
 pub fn D1PreparedStatement::first(self : Self) -> @js.Promise[@js.Js?] {
-  self.call0("first") |> @js.unsafe_cast
+  self.call0("first") |> @js.identity
 }
 
 ///|
@@ -111,25 +111,25 @@ pub fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
 ) -> @js.Promise[@js.Js?] {
-  self.call1("first", col_name) |> @js.unsafe_cast
+  self.call1("first", col_name) |> @js.identity
 }
 
 ///|
 /// Execute the statement and return all rows
 pub fn D1PreparedStatement::all(self : Self) -> @js.Promise[D1Result] {
-  self.call0("all") |> @js.unsafe_cast
+  self.call0("all") |> @js.identity
 }
 
 ///|
 /// Execute the statement (for INSERT, UPDATE, DELETE)
 pub fn D1PreparedStatement::run(self : Self) -> @js.Promise[D1Result] {
-  self.call0("run") |> @js.unsafe_cast
+  self.call0("run") |> @js.identity
 }
 
 ///|
 /// Execute and return raw results
 pub fn D1PreparedStatement::raw(self : Self) -> @js.Promise[Array[@js.Js]] {
-  self.call0("raw") |> @js.unsafe_cast
+  self.call0("raw") |> @js.identity
 }
 
 ///|
@@ -138,7 +138,7 @@ pub fn D1PreparedStatement::raw_with_options(
   self : Self,
   options : D1RawOptions,
 ) -> @js.Promise[Array[@js.Js]] {
-  self.call1("raw", options) |> @js.unsafe_cast
+  self.call1("raw", options) |> @js.identity
 }
 
 ///|

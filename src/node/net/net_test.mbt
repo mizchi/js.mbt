@@ -87,7 +87,7 @@ async test "Node Net: Server listen and get address" {
   inspect(address is None, content="false")
   match address {
     Some(addr) => {
-      let port : Int = @js.unsafe_cast(addr.get("port"))
+      let port : Int = @js.identity(addr.get("port"))
       inspect(port > 0, content="true")
     }
     None => ()

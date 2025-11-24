@@ -49,7 +49,7 @@ let tool : Tool = {
 
 let handler : ToolHandler = fn(params) {
   let name = match params.get("name") {
-    Some(n) => @js.unsafe_cast(n)
+    Some(n) => @js.identity(n)
     None => "World"
   }
   Promise::resolve([Content::text("Hello, " + name + "!")])

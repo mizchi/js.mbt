@@ -15,7 +15,7 @@ pub impl[T] @js.JsImpl for AsyncLocalStorage[T]
 /// Create a new AsyncLocalStorage instance
 pub fn[T] AsyncLocalStorage::new() -> AsyncLocalStorage[T] {
   let als = @node.require("async_hooks").get("AsyncLocalStorage")
-  @js.unsafe_cast(@js.new_(als, []))
+  @js.identity(@js.new_(als, []))
 }
 
 ///|
@@ -26,7 +26,7 @@ pub fn[T : @js.JsImpl] AsyncLocalStorage::run(
   store : T,
   callback : () -> Unit,
 ) -> Unit {
-  self.call2("run", store, callback |> @js.from_fn0) |> @js.unsafe_cast
+  self.call2("run", store, callback |> @js.from_fn0) |> @js.identity
 }
 
 ///|
@@ -36,14 +36,14 @@ pub fn[T] AsyncLocalStorage::exit(
   self : AsyncLocalStorage[T],
   callback : () -> Unit,
 ) -> Unit {
-  self.call("exit", [callback |> @js.from_fn0]) |> @js.unsafe_cast
+  self.call("exit", [callback |> @js.from_fn0]) |> @js.identity
 }
 
 ///|
 /// Returns the current store. If called outside of an asynchronous context, it returns undefined.
 /// https://nodejs.org/api/async_context.html#asynclocalstoragegetstore
 pub fn[T] AsyncLocalStorage::getStore(self : AsyncLocalStorage[T]) -> T? {
-  self.call0("getStore") |> @js.unsafe_cast_option()
+  self.call0("getStore") |> @js.identity_option()
 }
 
 ///|
@@ -53,12 +53,12 @@ pub fn[T : @js.JsImpl] AsyncLocalStorage::enterWith(
   self : AsyncLocalStorage[T],
   store : T,
 ) -> Unit {
-  self.call("enterWith", [store]) |> @js.unsafe_cast
+  self.call("enterWith", [store]) |> @js.identity
 }
 
 ///|
 /// Disables the instance of AsyncLocalStorage
 /// https://nodejs.org/api/async_context.html#asynclocalstoragedisable
 pub fn[T] AsyncLocalStorage::disable(self : AsyncLocalStorage[T]) -> Unit {
-  self.call0("disable") |> @js.unsafe_cast
+  self.call0("disable") |> @js.identity
 }

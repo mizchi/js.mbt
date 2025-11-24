@@ -33,7 +33,7 @@ pub fn svg(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -102,7 +102,7 @@ pub fn circle(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -184,7 +184,7 @@ pub fn ellipse(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -267,7 +267,7 @@ pub fn rect(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -350,7 +350,7 @@ pub fn line(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -430,7 +430,7 @@ pub fn path(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -504,7 +504,7 @@ pub fn use_(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -572,13 +572,13 @@ pub fn polygon(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
     None => @js.Object::new()
   }
-  attrs.set("points", points |> @js.unsafe_cast)
+  attrs.set("points", points |> @js.identity)
   if stroke is Some(stroke) {
     attrs.set("stroke", stroke)
   }
@@ -649,13 +649,13 @@ pub fn polyline(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
     None => @js.Object::new()
   }
-  attrs.set("points", points |> @js.unsafe_cast)
+  attrs.set("points", points |> @js.identity)
   if stroke is Some(stroke) {
     attrs.set("stroke", stroke)
   }
@@ -726,7 +726,7 @@ pub fn g(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -797,7 +797,7 @@ pub fn defs(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -871,7 +871,7 @@ pub fn text(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }
@@ -961,7 +961,7 @@ pub fn image(
   let attrs : @js.Object = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.unsafe_cast
+        @js.Object::assign(@js.Object::new(), p) |> @js.identity
       } else {
         p
       }

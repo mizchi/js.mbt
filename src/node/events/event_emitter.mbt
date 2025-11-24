@@ -20,7 +20,7 @@ pub(open) trait EventEmitterImpl: @js.JsImpl {
 ///|
 /// Implement EventEmitter trait for EventEmitterClass
 impl EventEmitterImpl with on(self, name : String, callback : (@js.Js) -> Unit) -> Unit {
-  self.call2("on", name, callback |> @js.from_fn1) |> @js.unsafe_cast
+  self.call2("on", name, callback |> @js.from_fn1) |> @js.identity
 }
 
 ///|
@@ -29,7 +29,7 @@ impl EventEmitterImpl with on2(
   name : String,
   callback : (@js.Js?, @js.Js) -> Unit,
 ) -> Unit {
-  self.call2("on", name, callback |> @js.from_fn2) |> @js.unsafe_cast
+  self.call2("on", name, callback |> @js.from_fn2) |> @js.identity
 }
 
 ///|
@@ -38,30 +38,30 @@ impl EventEmitterImpl with once(
   name : String,
   callback : (@js.Js) -> Unit,
 ) -> Unit {
-  self.call2("once", name, callback |> @js.from_fn1) |> @js.unsafe_cast
+  self.call2("once", name, callback |> @js.from_fn1) |> @js.identity
 }
 
 ///|
 impl EventEmitterImpl with eventNames(self) {
-  self.call0("eventNames") |> @js.unsafe_cast
+  self.call0("eventNames") |> @js.identity
 }
 
 ///|
 impl EventEmitterImpl with listenerCount(self, eventName) {
-  self.call("listenerCount", [eventName]) |> @js.unsafe_cast
+  self.call("listenerCount", [eventName]) |> @js.identity
 }
 
 ///|
 impl EventEmitterImpl with listeners(self, event? : String) {
   match event {
-    Some(name) => self.call("listenerCount", [name]) |> @js.unsafe_cast
-    None => self.call0("listenerCount") |> @js.unsafe_cast
+    Some(name) => self.call("listenerCount", [name]) |> @js.identity
+    None => self.call0("listenerCount") |> @js.identity
   }
 }
 
 ///|
 impl EventEmitterImpl with off(self, name : String, callback : (@js.Js) -> Unit) -> Unit {
-  self.call2("off", name, callback |> @js.from_fn1) |> @js.unsafe_cast
+  self.call2("off", name, callback |> @js.from_fn1) |> @js.identity
 }
 
 ///|
@@ -70,19 +70,19 @@ impl EventEmitterImpl with removeListener(
   name : String,
   callback : (@js.Js) -> Unit,
 ) -> Unit {
-  self.call2("removeListener", name, callback |> @js.unsafe_cast)
-  |> @js.unsafe_cast
+  self.call2("removeListener", name, callback |> @js.identity)
+  |> @js.identity
 }
 
 ///|
 /// implement remove_all_listeners
 impl EventEmitterImpl with removeAllListeners(self) -> Unit {
-  self.call0("removeAllListeners") |> @js.unsafe_cast
+  self.call0("removeAllListeners") |> @js.identity
 }
 
 ///|
 impl EventEmitterImpl with emit(self, name : String, payload : @js.Js) -> Unit {
-  self.call2("emit", name, payload) |> @js.unsafe_cast
+  self.call2("emit", name, payload) |> @js.identity
 }
 
 ///|
@@ -99,5 +99,5 @@ pub impl EventEmitterImpl for EventEmitter
 ///|
 pub fn EventEmitter::new() -> EventEmitter {
   let ee = @node.require("events").get("EventEmitter")
-  @js.unsafe_cast(@js.new_(ee, []))
+  @js.identity(@js.new_(ee, []))
 }

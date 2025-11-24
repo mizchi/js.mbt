@@ -23,7 +23,7 @@ pub fn getHeapStatistics() -> @js.Js {
 #alias(get_heap_space_statistics)
 pub fn getHeapSpaceStatistics() -> Array[@js.Js] {
   let v8 = ffi_require_v8()
-  v8.call0("getHeapSpaceStatistics") |> @js.unsafe_cast
+  v8.call0("getHeapSpaceStatistics") |> @js.identity
 }
 
 ///|
@@ -60,8 +60,8 @@ pub fn getHeapSnapshot(
 pub fn writeHeapSnapshot(filename? : String) -> String {
   let v8 = ffi_require_v8()
   match filename {
-    Some(f) => @js.unsafe_cast(v8.call("writeHeapSnapshot", [f]))
-    None => v8.call0("writeHeapSnapshot") |> @js.unsafe_cast
+    Some(f) => @js.identity(v8.call("writeHeapSnapshot", [f]))
+    None => v8.call0("writeHeapSnapshot") |> @js.identity
   }
 }
 
@@ -79,7 +79,7 @@ pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
 /// Serialize a value to a Buffer
 pub fn serialize(value : &@js.JsImpl) -> @buffer.Buffer {
   let v8 = ffi_require_v8()
-  @js.unsafe_cast(v8.call("serialize", [value.to_js()]))
+  @js.identity(v8.call("serialize", [value.to_js()]))
 }
 
 ///|
@@ -105,7 +105,7 @@ extern "js" fn ffi_new_serializer() -> @js.Js =
 ///|
 /// Create a new Serializer
 pub fn Serializer::new() -> Serializer {
-  @js.unsafe_cast(ffi_new_serializer())
+  @js.identity(ffi_new_serializer())
 }
 
 ///|
@@ -119,14 +119,14 @@ pub fn Serializer::writeHeader(self : Self) -> Unit {
 /// Write a value
 #alias(write_value)
 pub fn Serializer::writeValue(self : Self, value : &@js.JsImpl) -> Bool {
-  self.call("writeValue", [value.to_js()]) |> @js.unsafe_cast
+  self.call("writeValue", [value.to_js()]) |> @js.identity
 }
 
 ///|
 /// Release buffer
 #alias(release_buffer)
 pub fn Serializer::releaseBuffer(self : Self) -> @buffer.Buffer {
-  self.call0("releaseBuffer") |> @js.unsafe_cast
+  self.call0("releaseBuffer") |> @js.identity
 }
 
 ///|
@@ -177,14 +177,14 @@ extern "js" fn ffi_new_deserializer(buffer : @js.Js) -> @js.Js =
 ///|
 /// Create a new Deserializer
 pub fn Deserializer::new(buffer : @buffer.Buffer) -> Deserializer {
-  @js.unsafe_cast(ffi_new_deserializer(buffer.to_js()))
+  @js.identity(ffi_new_deserializer(buffer.to_js()))
 }
 
 ///|
 /// Read header
 #alias(read_header)
 pub fn Deserializer::readHeader(self : Self) -> Bool {
-  self.call0("readHeader") |> @js.unsafe_cast
+  self.call0("readHeader") |> @js.identity
 }
 
 ///|
@@ -209,28 +209,28 @@ pub fn Deserializer::transfer_array_buffer(
 /// Get wire format version
 #alias(get_wire_format_version)
 pub fn Deserializer::getWireFormatVersion(self : Self) -> Int {
-  self.call0("getWireFormatVersion") |> @js.unsafe_cast
+  self.call0("getWireFormatVersion") |> @js.identity
 }
 
 ///|
 /// Read uint32
 #alias(read_uint32)
 pub fn Deserializer::readUint32(self : Self) -> Int {
-  self.call0("readUint32") |> @js.unsafe_cast
+  self.call0("readUint32") |> @js.identity
 }
 
 ///|
 /// Read double
 #alias(read_double)
 pub fn Deserializer::readDouble(self : Self) -> Double {
-  self.call0("readDouble") |> @js.unsafe_cast
+  self.call0("readDouble") |> @js.identity
 }
 
 ///|
 /// Read raw bytes
 #alias(read_raw_bytes)
 pub fn Deserializer::readRawBytes(self : Self, length : Int) -> @buffer.Buffer {
-  self.call("readRawBytes", [length]) |> @js.unsafe_cast
+  self.call("readRawBytes", [length]) |> @js.identity
 }
 
 ///| Utility Functions
@@ -240,7 +240,7 @@ pub fn Deserializer::readRawBytes(self : Self, length : Int) -> @buffer.Buffer {
 #alias(cached_data_version_tag)
 pub fn cachedDataVersionTag() -> Int {
   let v8 = ffi_require_v8()
-  v8.call0("cachedDataVersionTag") |> @js.unsafe_cast
+  v8.call0("cachedDataVersionTag") |> @js.identity
 }
 
 ///|

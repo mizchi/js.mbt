@@ -306,17 +306,17 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
   if @js.is_null(v) {
     return None
   }
-  let full : String = v.get(0) |> @js.unsafe_cast
-  let index : Int = v.get("index") |> @js.unsafe_cast
-  let last_index : Int = v.get("lastIndex") |> @js.unsafe_cast
-  let input : String = v.get("input") |> @js.unsafe_cast
+  let full : String = v.get(0) |> @js.identity
+  let index : Int = v.get("index") |> @js.identity
+  let last_index : Int = v.get("lastIndex") |> @js.identity
+  let input : String = v.get("input") |> @js.identity
   let groups : Map[String, String]? = if @js.is_undefined(v.get("groups")) {
     None
   } else {
     let g : Map[String, String] = {}
     let keys = @js.Object::keys(v.get("groups"))
     for k in keys {
-      g[k] = @js.unsafe_cast(v.get("groups").get(k))
+      g[k] = @js.identity(v.get("groups").get(k))
     }
     Some(g)
   }
@@ -346,20 +346,20 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
   if @js.is_null(v) {
     return None
   }
-  let len : Int = v.get("length") |> @js.unsafe_cast
+  let len : Int = v.get("length") |> @js.identity
   let matches : Array[String] = Array::new(capacity=len)
   for i = 0; i < len; i = i + 1 {
-    matches.push(v.get(i) |> @js.unsafe_cast)
+    matches.push(v.get(i) |> @js.identity)
   }
   let index : Int? = if @js.is_undefined(v.get("index")) {
     None
   } else {
-    Some(v.get("index") |> @js.unsafe_cast)
+    Some(v.get("index") |> @js.identity)
   }
   let input : String? = if @js.is_undefined(v.get("input")) {
     None
   } else {
-    Some(v.get("input") |> @js.unsafe_cast)
+    Some(v.get("input") |> @js.identity)
   }
   let groups : Map[String, String]? = if @js.is_undefined(v.get("groups")) {
     None
@@ -367,7 +367,7 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
     let g : Map[String, String] = {}
     let keys = @js.Object::keys(v.get("groups"))
     for k in keys {
-      g[k] = @js.unsafe_cast(v.get("groups").get(k))
+      g[k] = @js.identity(v.get("groups").get(k))
     }
     Some(g)
   }
@@ -384,24 +384,24 @@ pub fn RegExp::matchAll(
   string : String,
 ) -> Array[RegExpMatchArray] {
   let v = ffi_string_match_all(string, self)
-  let len : Int = v.get("length") |> @js.unsafe_cast
+  let len : Int = v.get("length") |> @js.identity
   let results : Array[RegExpMatchArray] = []
   for i = 0; i < len; i = i + 1 {
     let item = v.get(i)
-    let match_len : Int = item.get("length") |> @js.unsafe_cast
+    let match_len : Int = item.get("length") |> @js.identity
     let matches : Array[String] = Array::new(capacity=match_len)
     for j = 0; j < match_len; j = j + 1 {
-      matches.push(item.get(j) |> @js.unsafe_cast)
+      matches.push(item.get(j) |> @js.identity)
     }
     let index : Int? = if @js.is_undefined(item.get("index")) {
       None
     } else {
-      Some(item.get("index") |> @js.unsafe_cast)
+      Some(item.get("index") |> @js.identity)
     }
     let input : String? = if @js.is_undefined(item.get("input")) {
       None
     } else {
-      Some(item.get("input") |> @js.unsafe_cast)
+      Some(item.get("input") |> @js.identity)
     }
     let groups : Map[String, String]? = if @js.is_undefined(item.get("groups")) {
       None
@@ -409,7 +409,7 @@ pub fn RegExp::matchAll(
       let g : Map[String, String] = {}
       let keys = @js.Object::keys(item.get("groups"))
       for k in keys {
-        g[k] = @js.unsafe_cast(item.get("groups").get(k))
+        g[k] = @js.identity(item.get("groups").get(k))
       }
       Some(g)
     }
@@ -460,14 +460,14 @@ pub fn RegExp::replace_fn(
     offset : Int,
     input : String,
   ) -> String {
-    let groups_len : Int = groups_val.get("length") |> @js.unsafe_cast
+    let groups_len : Int = groups_val.get("length") |> @js.identity
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = groups_val.get(i)
       if @js.is_undefined(item) {
         groups.push("")
       } else {
-        groups.push(@js.unsafe_cast(item))
+        groups.push(@js.identity(item))
       }
     }
     replacer(matched, groups, offset, input)
@@ -491,14 +491,14 @@ pub fn RegExp::replace_all_fn(
     offset : Int,
     input : String,
   ) -> String {
-    let groups_len : Int = groups_val.get("length") |> @js.unsafe_cast
+    let groups_len : Int = groups_val.get("length") |> @js.identity
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = groups_val.get(i)
       if @js.is_undefined(item) {
         groups.push("")
       } else {
-        groups.push(@js.unsafe_cast(item))
+        groups.push(@js.identity(item))
       }
     }
     replacer(matched, groups, offset, input)

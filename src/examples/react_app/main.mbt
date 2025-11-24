@@ -19,7 +19,7 @@ using @react {
 using @react_router {router_provider}
 
 ///|
-using @js {log, js, unsafe_cast, sleep, run_async}
+using @js {log, js, identity, sleep, run_async}
 
 ///|
 using @react_element {
@@ -103,7 +103,7 @@ fn counter(_ : EmptyProps) -> @react.Element {
     },
     [count],
   )
-  createElement("button", props={ "onClick": on_click |> unsafe_cast }, [
+  createElement("button", props={ "onClick": on_click |> identity }, [
     "Count: \{count}",
   ])
 }
@@ -171,7 +171,7 @@ fn app(props : AppProps) -> @react.Element {
   let (input_text, set_text) = useState("")
   let on_change : @dom.ChangeEventHandler = useCallback(
     ev => {
-      let target : @dom.HTMLTextAreaElement = unsafe_cast(ev.target().to_js())
+      let target : @dom.HTMLTextAreaElement = identity(ev.target().to_js())
       let value : String = target.value
       set_text(value)
       log("Textarea changed: \{value}")
@@ -224,7 +224,7 @@ fn app(props : AppProps) -> @react.Element {
           enc_type="application/x-www-form-urlencoded",
           action=form => {
             log(form)
-            let v : String = form.get("username") |> unsafe_cast
+            let v : String = form.get("username") |> identity
             log("Username: \{v}")
           },
           [
@@ -252,30 +252,25 @@ fn app(props : AppProps) -> @react.Element {
 }
 
 ///|
-fn main {
-  // lazy init context
-  run_async(() => try {
-    @react.dynamic_import_async()
-    @react_router.dynamic_import_async()
-    let client = @react_dom_client.dynamic_import_async()
-    guard @dom.document().querySelector("#app") is Some(app_root)
-    init_myctx()
-    let index = (_props : @react_router.RouteProps) => component(app, {
-      x: 42,
-      items: ["Item 1", "Item 2", "Item 3"],
-    })
-    let routes = @react_router.create_browser_router([
-      Component(path="/", component=index),
-      Element(
-        path="/about",
-        element=createElement("div", [
-          "About page",
-          @react_router.link(to="/", ["Go to Top"]),
-        ]),
-      ),
-    ])
-    client.create_root(app_root).render(router_provider(routes))
-  } catch {
-    err => log("Error during React initialization: \{err}")
+async fn main {
+  @react.dynamic_import_async()
+  @react_router.dynamic_import_async()
+  let client = @react_dom_client.dynamic_import_async()
+  guard @dom.document().querySelector("#app") is Some(app_root)
+  init_myctx()
+  let index = (_props : @react_router.RouteProps) => component(app, {
+    x: 42,
+    items: ["Item 1", "Item 2", "Item 3"],
   })
+  let routes = @react_router.create_browser_router([
+    Component(path="/", component=index),
+    Element(
+      path="/about",
+      element=createElement("div", [
+        "About page",
+        @react_router.link(to="/", ["Go to Top"]),
+      ]),
+    ),
+  ])
+  client.create_root(app_root).render(router_provider(routes))
 }

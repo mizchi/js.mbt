@@ -80,5 +80,5 @@ impl EventTargetImpl with removeEventListener(
 
 ///|
 impl EventTargetImpl with dispatchEvent(self, event) -> Bool {
-  self.call("dispatchEvent", [event]) |> @js.unsafe_cast
+  self.call("dispatchEvent", [event]) |> @js.identity
 }

@@ -1,15 +1,8 @@
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect } from "vitest";
+import { get_fetch_handler } from "../../target/js/release/build/examples/cfw/cfw.js";
 
 describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
-  let handler: any;
-
-  beforeAll(async () => {
-    // Load the MoonBit compiled worker
-    const mod = await import(
-      "../../target/js/release/build/examples/cfw/cfw.js"
-    );
-    handler = mod.get_fetch_handler();
-  });
+  const handler = get_fetch_handler();
 
   it("should return HTML homepage at /", async () => {
     const request = new Request("http://localhost/");

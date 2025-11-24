@@ -119,7 +119,7 @@ pub fn watch(
     Some(v) => options.set("atomic", @js.js(v))
     None => ()
   }
-  @js.unsafe_cast(ffi_watch(paths, options.to_js()))
+  @js.identity(ffi_watch(paths, options.to_js()))
 }
 
 ///| FSWatcher Methods
@@ -128,21 +128,21 @@ pub fn watch(
 /// Add files or directories to watch
 /// JS: watcher.add(paths)
 pub fn FSWatcher::add(self : FSWatcher, paths : @js.Js) -> FSWatcher {
-  @js.unsafe_cast(self.call("add", [paths]))
+  @js.identity(self.call("add", [paths]))
 }
 
 ///|
 /// Stop watching files or directories
 /// JS: watcher.unwatch(paths)
 pub fn FSWatcher::unwatch(self : FSWatcher, paths : @js.Js) -> FSWatcher {
-  @js.unsafe_cast(self.call("unwatch", [paths]))
+  @js.identity(self.call("unwatch", [paths]))
 }
 
 ///|
 /// Close the watcher and remove all listeners
 /// JS: watcher.close()
 pub async fn FSWatcher::close(self : FSWatcher) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("close", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
   promise.wait()
 }
 
@@ -163,7 +163,7 @@ pub fn FSWatcher::on(
   event : String,
   callback : @js.Js,
 ) -> FSWatcher {
-  @js.unsafe_cast(self.call("on", [@js.js(event), callback]))
+  @js.identity(self.call("on", [@js.js(event), callback]))
 }
 
 ///|
@@ -174,5 +174,5 @@ pub fn FSWatcher::off(
   event : String,
   callback : @js.Js,
 ) -> FSWatcher {
-  @js.unsafe_cast(self.call("off", [@js.js(event), callback]))
+  @js.identity(self.call("off", [@js.js(event), callback]))
 }

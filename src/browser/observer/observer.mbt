@@ -18,7 +18,7 @@ pub fn MutationObserver::new(
   callback : (@js.Js?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @js.global_this().get("MutationObserver")
-  @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.unsafe_cast
+  @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.identity
 }
 
 ///|
@@ -63,7 +63,7 @@ pub(all) struct MutationRecord {
 ///|
 /// Get the type of mutation
 pub fn MutationRecord::mutation_type(self : Self) -> String {
-  self.to_js().get("type") |> @js.unsafe_cast
+  self.to_js().get("type") |> @js.identity
 }
 
 ///|
@@ -88,8 +88,8 @@ pub fn IntersectionObserver::new(
   let ctor = @js.global_this().get("IntersectionObserver")
   match options {
     Some(opts) =>
-      @js.new_(ctor, [callback |> @js.from_fn2, opts]) |> @js.unsafe_cast
-    None => @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.unsafe_cast
+      @js.new_(ctor, [callback |> @js.from_fn2, opts]) |> @js.identity
+    None => @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.identity
   }
 }
 
@@ -159,7 +159,7 @@ pub fn ResizeObserver::new(
   callback : (@js.Js?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @js.global_this().get("ResizeObserver")
-  @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.unsafe_cast
+  @js.new_(ctor, [callback |> @js.from_fn2]) |> @js.identity
 }
 
 ///|

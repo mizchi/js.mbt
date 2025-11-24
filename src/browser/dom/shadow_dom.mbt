@@ -21,35 +21,35 @@ pub impl NodeImpl for ShadowRoot
 /// Returns the mode of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/mode
 pub fn ShadowRoot::mode(self : Self) -> String {
-  self.get("mode") |> @js.unsafe_cast
+  self.get("mode") |> @js.identity
 }
 
 ///|
 /// Returns the host element of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/host
 pub fn ShadowRoot::host(self : Self) -> Element {
-  self.get("host") |> @js.unsafe_cast
+  self.get("host") |> @js.identity
 }
 
 ///|
 /// Returns whether the shadow root delegates focus
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/delegatesFocus
 pub fn ShadowRoot::delegatesFocus(self : Self) -> Bool {
-  self.get("delegatesFocus") |> @js.unsafe_cast
+  self.get("delegatesFocus") |> @js.identity
 }
 
 ///|
 /// Returns the shadow root's slot assignment mode
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/slotAssignment
 pub fn ShadowRoot::slotAssignment(self : Self) -> String {
-  self.get("slotAssignment") |> @js.unsafe_cast
+  self.get("slotAssignment") |> @js.identity
 }
 
 ///|
 /// Returns the inner HTML of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/innerHTML
 pub fn ShadowRoot::innerHTML(self : Self) -> String {
-  self.get("innerHTML") |> @js.unsafe_cast
+  self.get("innerHTML") |> @js.identity
 }
 
 ///|
@@ -62,7 +62,7 @@ pub fn ShadowRoot::setInnerHTML(self : Self, html : String) -> Unit {
 /// Returns the active element within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/activeElement
 pub fn ShadowRoot::activeElement(self : Self) -> Element? {
-  self.get("activeElement") |> @js.unsafe_cast_option()
+  self.get("activeElement") |> @js.identity_option()
 }
 
 ///|
@@ -73,7 +73,7 @@ pub fn ShadowRoot::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  self.call2("elementFromPoint", x, y) |> @js.unsafe_cast_option()
+  self.call2("elementFromPoint", x, y) |> @js.identity_option()
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn ShadowRoot::elementsFromPoint(
   y : Double,
 ) -> Array[Element] {
   @js.array_from(self.call2("elementsFromPoint", x, y)).map(fn(v) {
-    @js.unsafe_cast(v)
+    @js.identity(v)
   })
 }
 
@@ -121,12 +121,12 @@ pub fn HTMLElement::attachShadow(
     "delegatesFocus": @js.js(init.delegatesFocus),
     "slotAssignment": @js.js(init.slotAssignment),
   })
-  self.call("attachShadow", [options]) |> @js.unsafe_cast
+  self.call("attachShadow", [options]) |> @js.identity
 }
 
 ///|
 /// Returns the shadow root of the element if it exists
 /// https://developer.mozilla.org/en-US/docs/Web/API/Element/shadowRoot
 pub fn HTMLElement::shadowRoot(self : Self) -> ShadowRoot? {
-  self.get("shadowRoot") |> @js.unsafe_cast_option()
+  self.get("shadowRoot") |> @js.identity_option()
 }

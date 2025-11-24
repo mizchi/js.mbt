@@ -140,12 +140,12 @@ pub fn rejects(
   let a = assert_module()
   match (error, message) {
     (Some(err), Some(msg)) =>
-      a.call("rejects", [promise.to_js(), err.to_js(), msg]) |> @js.unsafe_cast
+      a.call("rejects", [promise.to_js(), err.to_js(), msg]) |> @js.identity
     (Some(err), None) =>
-      a.call2("rejects", promise.to_js(), err.to_js()) |> @js.unsafe_cast
+      a.call2("rejects", promise.to_js(), err.to_js()) |> @js.identity
     (None, Some(msg)) =>
-      a.call2("rejects", promise.to_js(), msg) |> @js.unsafe_cast
-    (None, None) => a.call("rejects", [promise.to_js()]) |> @js.unsafe_cast
+      a.call2("rejects", promise.to_js(), msg) |> @js.identity
+    (None, None) => a.call("rejects", [promise.to_js()]) |> @js.identity
   }
 }
 
@@ -158,8 +158,8 @@ pub fn doesNotReject(
   let a = assert_module()
   match message {
     Some(msg) =>
-      a.call2("doesNotReject", promise.to_js(), msg) |> @js.unsafe_cast
-    None => a.call("doesNotReject", [promise.to_js()]) |> @js.unsafe_cast
+      a.call2("doesNotReject", promise.to_js(), msg) |> @js.identity
+    None => a.call("doesNotReject", [promise.to_js()]) |> @js.identity
   }
 }
 

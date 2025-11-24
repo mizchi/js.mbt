@@ -50,7 +50,7 @@ pub fn parseInt(string : String, radix? : Int = 10) -> Int? {
   if isNaN(result) {
     None
   } else {
-    Some(result |> unsafe_cast)
+    Some(result |> identity)
   }
 }
 
@@ -71,7 +71,7 @@ pub fn parseFloat(string : String) -> Double? {
   if isNaN(result) {
     None
   } else {
-    Some(result |> unsafe_cast)
+    Some(result |> identity)
   }
 }
 

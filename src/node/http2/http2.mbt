@@ -221,7 +221,7 @@ pub fn Http2Server::listen(
   port : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
@@ -232,14 +232,14 @@ pub fn Http2SecureServer::listen(
   port : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Http2Server::close(self : Http2Server, callback : () -> Unit) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   self.call("close", [cb]) |> ignore
 }
 
@@ -249,7 +249,7 @@ pub fn Http2SecureServer::close(
   self : Http2SecureServer,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   self.call("close", [cb]) |> ignore
 }
 
@@ -275,7 +275,7 @@ pub fn Http2Session::request(
   self : Http2Session,
   headers : @js.Object,
 ) -> ClientHttp2Stream {
-  self.call("request", [headers.to_js()]) |> @js.unsafe_cast
+  self.call("request", [headers.to_js()]) |> @js.identity
 }
 
 ///|
@@ -287,7 +287,7 @@ pub fn Http2Session::close(self : Http2Session) -> Unit {
 ///|
 /// Send a ping
 pub fn Http2Session::ping(self : Http2Session, callback : () -> Unit) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   self.call("ping", [cb]) |> ignore
 }
 
@@ -327,7 +327,7 @@ pub fn ClientHttp2Stream::on_data(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("data", fn(e : @js.Js) { callback(@js.unsafe_cast(e)) })
+  self.addEventListener("data", fn(e : @js.Js) { callback(@js.identity(e)) })
   self
 }
 
@@ -338,7 +338,7 @@ pub fn ClientHttp2Stream::on_response(
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
   self.addEventListener("response", fn(e : @js.Js) {
-    callback(@js.unsafe_cast(e))
+    callback(@js.identity(e))
   })
   self
 }

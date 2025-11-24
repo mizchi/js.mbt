@@ -41,7 +41,7 @@ pub(all) struct CSSCoverageEntry {
 /// Page: Get coverage instance
 /// JS: page.coverage
 pub fn Page::coverage(self : Page) -> Coverage {
-  self.get("coverage") |> @js.unsafe_cast
+  self.get("coverage") |> @js.identity
 }
 
 ///| Coverage methods
@@ -51,7 +51,7 @@ pub fn Page::coverage(self : Page) -> Coverage {
 /// JS: coverage.startJSCoverage(options)
 /// See: https://pptr.dev/api/puppeteer.coverage.startjscoverage
 pub async fn Coverage::startJSCoverage(self : Coverage) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("startJSCoverage", []),
   )
   promise.wait()
@@ -64,7 +64,7 @@ pub async fn Coverage::startJSCoverage_with(
   self : Coverage,
   options : @js.Js,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("startJSCoverage", [options]),
   )
   promise.wait()
@@ -76,7 +76,7 @@ pub async fn Coverage::startJSCoverage_with(
 /// See: https://pptr.dev/api/puppeteer.coverage.stopjscoverage
 /// Returns array of coverage entries
 pub async fn Coverage::stopJSCoverage(self : Coverage) -> Array[@js.Js] {
-  let promise : @js.Promise[Array[@js.Js]] = @js.unsafe_cast(
+  let promise : @js.Promise[Array[@js.Js]] = @js.identity(
     self.call("stopJSCoverage", []),
   )
   promise.wait()
@@ -87,7 +87,7 @@ pub async fn Coverage::stopJSCoverage(self : Coverage) -> Array[@js.Js] {
 /// JS: coverage.startCSSCoverage(options)
 /// See: https://pptr.dev/api/puppeteer.coverage.startcsscoverage
 pub async fn Coverage::startCSSCoverage(self : Coverage) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("startCSSCoverage", []),
   )
   promise.wait()
@@ -100,7 +100,7 @@ pub async fn Coverage::startCSSCoverage_with(
   self : Coverage,
   options : @js.Js,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("startCSSCoverage", [options]),
   )
   promise.wait()
@@ -112,7 +112,7 @@ pub async fn Coverage::startCSSCoverage_with(
 /// See: https://pptr.dev/api/puppeteer.coverage.stopcsscoverage
 /// Returns array of coverage entries
 pub async fn Coverage::stopCSSCoverage(self : Coverage) -> Array[@js.Js] {
-  let promise : @js.Promise[Array[@js.Js]] = @js.unsafe_cast(
+  let promise : @js.Promise[Array[@js.Js]] = @js.identity(
     self.call("stopCSSCoverage", []),
   )
   promise.wait()

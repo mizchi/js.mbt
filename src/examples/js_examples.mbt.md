@@ -7,6 +7,7 @@ This document demonstrates common usage patterns for the `mizchi/js` library.
 Creating and manipulating JavaScript objects:
 
 ```moonbit
+
 ///|
 test "basic object operations" {
   let obj = @js.Object::new()
@@ -29,6 +30,7 @@ test "basic object operations" {
 Properties can be accessed with different key types:
 
 ```moonbit
+
 ///|
 test "property keys - string, int, symbol" {
   let obj = @js.Object::new()
@@ -46,8 +48,8 @@ test "property keys - string, int, symbol" {
   inspect(obj.get("name"), content="value")
   inspect(obj.get(0), content="first")
   inspect(obj.get(sym), content="symbol value")
-  assert_eq(@js.unsafe_cast(obj.get("name")), "value")
-  assert_eq(@js.unsafe_cast(obj.get(0)), "first")
+  assert_eq(@js.identity(obj.get("name")), "value")
+  assert_eq(@js.identity(obj.get(0)), "first")
 }
 ```
 
@@ -56,6 +58,7 @@ test "property keys - string, int, symbol" {
 Working with JavaScript arrays:
 
 ```moonbit
+
 ///|
 test "array operations" {
   // Create from MoonBit array
@@ -75,13 +78,14 @@ test "array operations" {
 Calling JavaScript methods with specific number of arguments:
 
 ```moonbit
+
 ///|
 test "method call arities" {
   let obj = @js.Object::new()
   obj.set("name", "test")
 
   // hasOwnProperty via call1
-  let result : Bool = @js.unsafe_cast(obj.call1("hasOwnProperty", "name"))
+  let result : Bool = @js.identity(obj.call1("hasOwnProperty", "name"))
   assert_eq(result, true)
 
   // call0, call1, call2 for specific argument counts
@@ -104,6 +108,7 @@ test "method call arities" {
 Using Object static methods:
 
 ```moonbit
+
 ///|
 test "object helper methods" {
   let obj = @js.Object::new()
@@ -141,6 +146,7 @@ test "object helper methods" {
 Converting between MoonBit and JavaScript types:
 
 ```moonbit
+
 ///|
 test "type conversion" {
   // JsImpl is implemented for basic types
@@ -151,10 +157,10 @@ test "type conversion" {
   inspect(str_js, content="hello")
   inspect(bool_js, content="true")
 
-  // Convert back using unsafe_cast
-  let num : Int = @js.unsafe_cast(num_js)
-  let str : String = @js.unsafe_cast(str_js)
-  let bool : Bool = @js.unsafe_cast(bool_js)
+  // Convert back using identity
+  let num : Int = @js.identity(num_js)
+  let str : String = @js.identity(str_js)
+  let bool : Bool = @js.identity(bool_js)
   assert_eq(num, 42)
   assert_eq(str, "hello")
   assert_eq(bool, true)
@@ -166,6 +172,7 @@ test "type conversion" {
 Converting MoonBit Maps to JavaScript objects:
 
 ```moonbit
+
 ///|
 test "map to object conversion" {
   let map = Map::new()
@@ -179,8 +186,8 @@ test "map to object conversion" {
       #|{"name":"MoonBit","version":1,"active":true}
     ),
   )
-  assert_eq(@js.unsafe_cast(obj.get("name")), "MoonBit")
-  assert_eq(@js.unsafe_cast(obj.get("version")), 1)
+  assert_eq(@js.identity(obj.get("name")), "MoonBit")
+  assert_eq(@js.identity(obj.get("version")), 1)
 }
 ```
 
@@ -189,14 +196,15 @@ test "map to object conversion" {
 Safe handling of nullable JavaScript values:
 
 ```moonbit
+
 ///|
-test "optional values with unsafe_cast_option" {
+test "optional values with identity_option" {
   let obj = @js.Object::new()
   obj.set("exists", "value")
 
-  // Using unsafe_cast_option
-  let exists : String? = @js.unsafe_cast_option(obj.get("exists"))
-  let missing : String? = @js.unsafe_cast_option(obj.get("missing"))
+  // Using identity_option
+  let exists : String? = @js.identity_option(obj.get("exists"))
+  let missing : String? = @js.identity_option(obj.get("missing"))
   inspect(
     exists,
     content=(
@@ -214,6 +222,7 @@ test "optional values with unsafe_cast_option" {
 Using `set_if_exists` for optional values:
 
 ```moonbit
+
 ///|
 test "conditional property setting for optional properties" {
   let obj = @js.Object::new()
@@ -245,6 +254,7 @@ test "conditional property setting for optional properties" {
 Checking JavaScript value types:
 
 ```moonbit
+
 ///|
 test "javascript type checking" {
   let arr = @js.JsArray::from([1, 2, 3])
@@ -266,6 +276,7 @@ test "javascript type checking" {
 Working with JavaScript Symbols:
 
 ```moonbit
+
 ///|
 test "symbol operations" {
   let obj = @js.Object::new()
@@ -278,7 +289,7 @@ test "symbol operations" {
   let _iter_sym = @js.Symbol::iterator()
   let _to_string_tag = @js.Symbol::toStringTag()
   inspect(obj.get(custom_sym), content="custom value")
-  assert_eq(@js.unsafe_cast(obj.get(custom_sym)), "custom value")
+  assert_eq(@js.identity(obj.get(custom_sym)), "custom value")
 }
 ```
 
@@ -287,6 +298,7 @@ test "symbol operations" {
 Working with arbitrary precision integers:
 
 ```moonbit
+
 ///|
 test "bigint arithmetic operations" {
   let big1 = @bigint.JsBigInt::from_int(42)
@@ -309,6 +321,7 @@ test "bigint arithmetic operations" {
 Using global JavaScript functions:
 
 ```moonbit
+
 ///|
 test "global encoding functions" {
   // URI encoding
@@ -333,6 +346,7 @@ test "global encoding functions" {
 Working with JSON:
 
 ```moonbit
+
 ///|
 test "json stringify and parse" {
   let obj = @js.Object::new()
@@ -374,19 +388,20 @@ test "json stringify and parse" {
 Calling JavaScript values as functions:
 
 ```moonbit
+
 ///|
 test "call_self for direct function calls" {
   // Get a JavaScript function
   let parseInt = @js.globalThis().get("parseInt")
 
   // Call it directly
-  let result : Int = @js.unsafe_cast(parseInt.call_self(["123"]))
+  let result : Int = @js.identity(parseInt.call_self(["123"]))
   inspect(result, content="123")
   assert_eq(result, 123)
 
   // call_self0 for no arguments - using Math.PI
   let math = @js.globalThis().get("Math")
-  let pi : Double = @js.unsafe_cast(math.get("PI"))
+  let pi : Double = @js.identity(math.get("PI"))
   inspect(pi, content="3.141592653589793")
 }
 ```
@@ -396,6 +411,7 @@ test "call_self for direct function calls" {
 Creating instances with the `new` operator:
 
 ```moonbit
+
 ///|
 test "constructor with new_" {
   // Get constructor

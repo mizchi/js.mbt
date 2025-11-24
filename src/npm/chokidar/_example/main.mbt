@@ -15,31 +15,31 @@ fn main {
   // Set up event handlers
   let _ = watcher.on(
     "add",
-    @js.unsafe_cast(fn(path : @js.Js) { println("File added: \{path}") }),
+    @js.identity(fn(path : @js.Js) { println("File added: \{path}") }),
   )
   let _ = watcher.on(
     "change",
-    @js.unsafe_cast(fn(path : @js.Js) { println("File changed: \{path}") }),
+    @js.identity(fn(path : @js.Js) { println("File changed: \{path}") }),
   )
   let _ = watcher.on(
     "unlink",
-    @js.unsafe_cast(fn(path : @js.Js) { println("File removed: \{path}") }),
+    @js.identity(fn(path : @js.Js) { println("File removed: \{path}") }),
   )
   let _ = watcher.on(
     "addDir",
-    @js.unsafe_cast(fn(path : @js.Js) { println("Directory added: \{path}") }),
+    @js.identity(fn(path : @js.Js) { println("Directory added: \{path}") }),
   )
   let _ = watcher.on(
     "unlinkDir",
-    @js.unsafe_cast(fn(path : @js.Js) { println("Directory removed: \{path}") }),
+    @js.identity(fn(path : @js.Js) { println("Directory removed: \{path}") }),
   )
   let _ = watcher.on(
     "error",
-    @js.unsafe_cast(fn(error : @js.Js) { println("Error: \{error}") }),
+    @js.identity(fn(error : @js.Js) { println("Error: \{error}") }),
   )
   let _ = watcher.on(
     "ready",
-    @js.unsafe_cast(fn() { println("Initial scan complete. Ready for changes") }),
+    @js.identity(fn() { println("Initial scan complete. Ready for changes") }),
   )
   println("Watching for file changes...")
   println("(This example would run continuously in a real application)")

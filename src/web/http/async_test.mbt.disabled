@@ -16,7 +16,7 @@ async test "Response: read body as text" {
 
   // Read body as text
   let text_result : @js.Js = response.to_js().call0("text")
-  let text_promise : @js.Promise[String] = @js.unsafe_cast(text_result)
+  let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
 
   assert_eq(text, "Hello, async world!")
@@ -30,11 +30,11 @@ async test "Response: read body as JSON" {
 
   // Read body as JSON
   let json_result : @js.Js = response.to_js().call0("json")
-  let json_promise : @js.Promise[@js.Js] = @js.unsafe_cast(json_result)
+  let json_promise : @js.Promise[@js.Js] = @js.identity(json_result)
   let json_obj = json_promise.wait()
 
-  let name : String = @js.unsafe_cast(json_obj.get("name"))
-  let value : Int = @js.unsafe_cast(json_obj.get("value"))
+  let name : String = @js.identity(json_obj.get("name"))
+  let value : Int = @js.identity(json_obj.get("value"))
 
   assert_eq(name, "test")
   assert_eq(value, 42)
@@ -57,10 +57,10 @@ async test "Response: read body stream chunk by chunk" {
       let mut done = false
       while not(done) {
         let result : @js.Js = reader.to_js().call0("read")
-        let promise : @js.Promise[@js.Js] = @js.unsafe_cast(result)
+        let promise : @js.Promise[@js.Js] = @js.identity(result)
         let data = promise.wait()
 
-        done = @js.unsafe_cast(data.get("done"))
+        done = @js.identity(data.get("done"))
         if not(done) {
           // Decode Uint8Array to string using TextDecoder
           let value : @js.Js = data.get("value")
@@ -85,12 +85,12 @@ async test "Response: clone and read both bodies" {
 
   // Read original
   let text1_result : @js.Js = response.to_js().call0("text")
-  let text1_promise : @js.Promise[String] = @js.unsafe_cast(text1_result)
+  let text1_promise : @js.Promise[String] = @js.identity(text1_result)
   let text1 = text1_promise.wait()
 
   // Read cloned
   let text2_result : @js.Js = cloned.to_js().call0("text")
-  let text2_promise : @js.Promise[String] = @js.unsafe_cast(text2_result)
+  let text2_promise : @js.Promise[String] = @js.identity(text2_result)
   let text2 = text2_promise.wait()
 
   assert_eq(text1, "original content")
@@ -104,13 +104,13 @@ async test "Response: read body multiple times fails after first read" {
 
   // First read succeeds
   let text1_result : @js.Js = response.to_js().call0("text")
-  let text1_promise : @js.Promise[String] = @js.unsafe_cast(text1_result)
+  let text1_promise : @js.Promise[String] = @js.identity(text1_result)
   let text1 = text1_promise.wait()
   assert_eq(text1, "single read")
 
   // Second read should fail (body already consumed)
   // We can verify this by checking bodyUsed property
-  let body_used : Bool = @js.unsafe_cast(response.to_js().get("bodyUsed"))
+  let body_used : Bool = @js.identity(response.to_js().get("bodyUsed"))
   assert_eq(body_used, true)
 }
 
@@ -128,7 +128,7 @@ async test "Response: read large body in chunks" {
   let response = ffi_new_response_async(large_content)
 
   let text_result : @js.Js = response.to_js().call0("text")
-  let text_promise : @js.Promise[String] = @js.unsafe_cast(text_result)
+  let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
 
   assert_eq(text, large_content)
@@ -151,7 +151,7 @@ async test "Response: body stream with defer cleanup" {
 
       // Read one chunk
       let result : @js.Js = reader.to_js().call0("read")
-      let promise : @js.Promise[@js.Js] = @js.unsafe_cast(result)
+      let promise : @js.Promise[@js.Js] = @js.identity(result)
       let _data = promise.wait()
 
       // defer will automatically call release_lock
@@ -166,7 +166,7 @@ async test "Response: arrayBuffer method" {
   let response = ffi_new_response_async("buffer test")
 
   let buffer_result : @js.Js = response.to_js().call0("arrayBuffer")
-  let buffer_promise : @js.Promise[@js.Js] = @js.unsafe_cast(buffer_result)
+  let buffer_promise : @js.Promise[@js.Js] = @js.identity(buffer_result)
   let buffer = buffer_promise.wait()
 
   // Verify we got an ArrayBuffer
@@ -174,7 +174,7 @@ async test "Response: arrayBuffer method" {
   assert_eq(buffer_type, "object")
 
   // Get byte length
-  let byte_length : Int = @js.unsafe_cast(buffer.get("byteLength"))
+  let byte_length : Int = @js.identity(buffer.get("byteLength"))
   assert_true(byte_length > 0)
 }
 
@@ -184,7 +184,7 @@ async test "Response: blob method" {
   let response = ffi_new_response_async("blob content")
 
   let blob_result : @js.Js = response.to_js().call0("blob")
-  let blob_promise : @js.Promise[@js.Js] = @js.unsafe_cast(blob_result)
+  let blob_promise : @js.Promise[@js.Js] = @js.identity(blob_result)
   let blob = blob_promise.wait()
 
   // Verify we got a Blob
@@ -192,6 +192,6 @@ async test "Response: blob method" {
   assert_eq(blob_type, "object")
 
   // Get blob size
-  let size : Int = @js.unsafe_cast(blob.get("size"))
+  let size : Int = @js.identity(blob.get("size"))
   assert_true(size > 0)
 }

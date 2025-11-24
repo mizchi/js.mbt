@@ -38,7 +38,7 @@ pub fn Script::new(
     ("cachedData", cachedData.map(fn(x) { x.to_js() })),
     ("produceCachedData", produceCachedData.map(fn(x) { x })),
   ])
-  @js.new_(script_constructor, [code, options]) |> @js.unsafe_cast
+  @js.new_(script_constructor, [code, options]) |> @js.identity
 }
 
 ///|
@@ -121,19 +121,19 @@ pub fn Script::runInContext(
 ///|
 /// Create cached data
 pub fn Script::createCachedData(self : Script) -> @buffer.Buffer {
-  self.call0("createCachedData") |> @js.unsafe_cast
+  self.call0("createCachedData") |> @js.identity
 }
 
 ///|
 /// Get cachedDataRejected property
 pub fn Script::cachedDataRejected(self : Script) -> Bool? {
-  self.get("cachedDataRejected") |> @js.unsafe_cast_option
+  self.get("cachedDataRejected") |> @js.identity_option
 }
 
 ///|
 /// Get sourceMapURL property
 pub fn Script::sourceMapURL(self : Script) -> String? {
-  self.get("sourceMapURL") |> @js.unsafe_cast_option
+  self.get("sourceMapURL") |> @js.identity_option
 }
 
 ///| Module functions
@@ -242,7 +242,7 @@ pub fn createContext(
 /// Check if object is a context
 pub fn isContext(object : @js.Js) -> Bool {
   let vm = vm_module()
-  vm.call1("isContext", object) |> @js.unsafe_cast
+  vm.call1("isContext", object) |> @js.identity
 }
 
 ///|

@@ -32,7 +32,7 @@ pub impl ReactNode for Bool with to_react_node(self) {
 
 ///|
 pub impl ReactNode for Array[&ReactNode] with to_react_node(self) {
-  @js.from_array(self.map(x => x.to_react_node())) |> @js.unsafe_cast
+  @js.from_array(self.map(x => x.to_react_node())) |> @js.identity
 }
 
 ///|

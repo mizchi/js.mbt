@@ -10,7 +10,7 @@ pub impl @js.JsImpl for R2Bucket
 ///|
 /// Get an object from R2
 pub fn R2Bucket::get(self : Self, key : String) -> @js.Promise[R2Object?] {
-  self.call("get", [key]) |> @js.unsafe_cast
+  self.call("get", [key]) |> @js.identity
 }
 
 ///|
@@ -20,13 +20,13 @@ pub fn R2Bucket::get_with_options(
   key : String,
   options : R2GetOptions,
 ) -> @js.Promise[R2Object?] {
-  self.call2("get", key, options) |> @js.unsafe_cast
+  self.call2("get", key, options) |> @js.identity
 }
 
 ///|
 /// Get object metadata without body
 pub fn R2Bucket::head(self : Self, key : String) -> @js.Promise[R2Object?] {
-  self.call("head", [key]) |> @js.unsafe_cast
+  self.call("head", [key]) |> @js.identity
 }
 
 ///|
@@ -36,7 +36,7 @@ pub fn R2Bucket::put(
   key : String,
   value : @js.Js,
 ) -> @js.Promise[R2Object] {
-  self.call2("put", key, value) |> @js.unsafe_cast
+  self.call2("put", key, value) |> @js.identity
 }
 
 ///|
@@ -47,13 +47,13 @@ pub fn R2Bucket::put_with_options(
   value : @js.Js,
   options : R2PutOptions,
 ) -> @js.Promise[R2Object] {
-  self.call("put", [key, value, options]) |> @js.unsafe_cast
+  self.call("put", [key, value, options]) |> @js.identity
 }
 
 ///|
 /// Delete an object from R2
 pub fn R2Bucket::delete(self : Self, key : String) -> @js.Promise[Unit] {
-  self.call("delete", [key]) |> @js.unsafe_cast
+  self.call("delete", [key]) |> @js.identity
 }
 
 ///|
@@ -68,13 +68,13 @@ pub fn R2Bucket::delete_multiple(
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call("delete", [keys_js]) |> @js.unsafe_cast
+  self.call("delete", [keys_js]) |> @js.identity
 }
 
 ///|
 /// List objects in the bucket
 pub fn R2Bucket::list(self : Self) -> @js.Promise[R2Objects] {
-  self.call0("list") |> @js.unsafe_cast
+  self.call0("list") |> @js.identity
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn R2Bucket::list_with_options(
   self : Self,
   options : R2ListOptions,
 ) -> @js.Promise[R2Objects] {
-  self.call("list", [options]) |> @js.unsafe_cast
+  self.call("list", [options]) |> @js.identity
 }
 
 ///|
@@ -92,7 +92,7 @@ pub fn R2Bucket::create_multipart_upload(
   self : Self,
   key : String,
 ) -> @js.Promise[R2MultipartUpload] {
-  self.call("createMultipartUpload", [key]) |> @js.unsafe_cast
+  self.call("createMultipartUpload", [key]) |> @js.identity
 }
 
 ///|
@@ -102,7 +102,7 @@ pub fn R2Bucket::create_multipart_upload_with_options(
   key : String,
   options : R2PutOptions,
 ) -> @js.Promise[R2MultipartUpload] {
-  self.call2("createMultipartUpload", key, options) |> @js.unsafe_cast
+  self.call2("createMultipartUpload", key, options) |> @js.identity
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn R2Bucket::resume_multipart_upload(
   key : String,
   upload_id : String,
 ) -> R2MultipartUpload {
-  self.call2("resumeMultipartUpload", key, upload_id) |> @js.unsafe_cast
+  self.call2("resumeMultipartUpload", key, upload_id) |> @js.identity
 }
 
 ///|
@@ -269,25 +269,25 @@ pub impl @js.JsImpl for R2Object
 ///|
 /// Get object key
 pub fn R2Object::key(self : Self) -> String {
-  self.get("key") |> @js.unsafe_cast
+  self.get("key") |> @js.identity
 }
 
 ///|
 /// Get object version
 pub fn R2Object::version(self : Self) -> String {
-  self.get("version") |> @js.unsafe_cast
+  self.get("version") |> @js.identity
 }
 
 ///|
 /// Get object size
 pub fn R2Object::size(self : Self) -> Int {
-  self.get("size") |> @js.unsafe_cast
+  self.get("size") |> @js.identity
 }
 
 ///|
 /// Get object etag
 pub fn R2Object::etag(self : Self) -> String {
-  self.get("etag") |> @js.unsafe_cast
+  self.get("etag") |> @js.identity
 }
 
 ///|
@@ -311,43 +311,43 @@ pub fn R2Object::uploaded(self : Self) -> @js.Js {
 ///|
 /// Get object body as ArrayBuffer
 pub fn R2Object::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer") |> @js.unsafe_cast
+  self.call0("arrayBuffer") |> @js.identity
 }
 
 ///|
 /// Get object body as text
 pub fn R2Object::text(self : Self) -> @js.Promise[String] {
-  self.call0("text") |> @js.unsafe_cast
+  self.call0("text") |> @js.identity
 }
 
 ///|
 /// Get object body as JSON
 pub fn R2Object::json(self : Self) -> @js.Promise[@js.Js] {
-  self.call0("json") |> @js.unsafe_cast
+  self.call0("json") |> @js.identity
 }
 
 ///|
 /// Get object body as blob
 pub fn R2Object::blob(self : Self) -> @js.Promise[@blob.Blob] {
-  self.call0("blob") |> @js.unsafe_cast
+  self.call0("blob") |> @js.identity
 }
 
 ///|
 /// Get object body as ReadableStream
 pub fn R2Object::body(self : Self) -> @streams.ReadableStream {
-  self.get("body") |> @js.unsafe_cast
+  self.get("body") |> @js.identity
 }
 
 ///|
 /// Get object body used status
 pub fn R2Object::body_used(self : Self) -> Bool {
-  self.get("bodyUsed") |> @js.unsafe_cast
+  self.get("bodyUsed") |> @js.identity
 }
 
 ///|
 /// Write object to a writable stream
 pub fn R2Object::write_http_metadata(self : Self, headers : @js.Js) -> Unit {
-  self.call("writeHttpMetadata", [headers]) |> @js.unsafe_cast
+  self.call("writeHttpMetadata", [headers]) |> @js.identity
 }
 
 ///|
@@ -373,13 +373,13 @@ pub impl @js.JsImpl for R2MultipartUpload
 ///|
 /// Get upload key
 pub fn R2MultipartUpload::key(self : Self) -> String {
-  self.get("key") |> @js.unsafe_cast
+  self.get("key") |> @js.identity
 }
 
 ///|
 /// Get upload ID
 pub fn R2MultipartUpload::uploadId(self : Self) -> String {
-  self.get("uploadId") |> @js.unsafe_cast
+  self.get("uploadId") |> @js.identity
 }
 
 ///|
@@ -389,13 +389,13 @@ pub fn R2MultipartUpload::upload_part(
   part_number : Int,
   value : @js.Js,
 ) -> @js.Promise[R2UploadedPart] {
-  self.call2("uploadPart", part_number, value) |> @js.unsafe_cast
+  self.call2("uploadPart", part_number, value) |> @js.identity
 }
 
 ///|
 /// Abort the multipart upload
 pub fn R2MultipartUpload::abort(self : Self) -> @js.Promise[Unit] {
-  self.call0("abort") |> @js.unsafe_cast
+  self.call0("abort") |> @js.identity
 }
 
 ///|
@@ -410,7 +410,7 @@ pub fn R2MultipartUpload::complete(
     parts_js.call("push", [parts[i]]) |> ignore
     i = i + 1
   }
-  self.call("complete", [parts_js]) |> @js.unsafe_cast
+  self.call("complete", [parts_js]) |> @js.identity
 }
 
 ///|

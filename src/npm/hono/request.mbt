@@ -14,7 +14,7 @@ pub fn HonoRequest::query(self : Self, key : String) -> String? {
   if result == @js.undefined() {
     None
   } else {
-    Some(@js.unsafe_cast(result))
+    Some(@js.identity(result))
   }
 }
 
@@ -33,7 +33,7 @@ pub fn HonoRequest::param(self : Self, key : String) -> String? {
   if result == @js.undefined() {
     None
   } else {
-    Some(@js.unsafe_cast(result))
+    Some(@js.identity(result))
   }
 }
 
@@ -52,7 +52,7 @@ pub fn HonoRequest::header(self : Self, key : String) -> String? {
   if result == @js.undefined() {
     None
   } else {
-    Some(@js.unsafe_cast(result))
+    Some(@js.identity(result))
   }
 }
 
@@ -60,14 +60,14 @@ pub fn HonoRequest::header(self : Self, key : String) -> String? {
 /// Parse request body as JSON
 /// https://hono.dev/docs/api/request#json
 pub fn HonoRequest::json(self : Self) -> @js.Promise[@js.Js] {
-  self.call0("json") |> @js.unsafe_cast
+  self.call0("json") |> @js.identity
 }
 
 ///|
 /// Parse request body as text
 /// https://hono.dev/docs/api/request#text
 pub fn HonoRequest::text(self : Self) -> @js.Promise[String] {
-  self.call0("text") |> @js.unsafe_cast
+  self.call0("text") |> @js.identity
 }
 
 ///|
@@ -75,7 +75,7 @@ pub fn HonoRequest::text(self : Self) -> @js.Promise[String] {
 /// https://hono.dev/docs/api/request#formdata
 #alias(form_data)
 pub fn HonoRequest::formData(self : Self) -> @js.Promise[@http.FormData] {
-  self.call0("formData") |> @js.unsafe_cast
+  self.call0("formData") |> @js.identity
 }
 
 ///|
@@ -83,14 +83,14 @@ pub fn HonoRequest::formData(self : Self) -> @js.Promise[@http.FormData] {
 /// https://hono.dev/docs/api/request#arraybuffer
 #alias(array_buffer)
 pub fn HonoRequest::arrayBuffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer") |> @js.unsafe_cast
+  self.call0("arrayBuffer") |> @js.identity
 }
 
 ///|
 /// Parse request body as blob
 /// https://hono.dev/docs/api/request#blob
 pub fn HonoRequest::blob(self : Self) -> @js.Promise[@js.Js] {
-  self.call0("blob") |> @js.unsafe_cast
+  self.call0("blob") |> @js.identity
 }
 
 ///|
@@ -102,32 +102,32 @@ pub fn HonoRequest::parseBody(
   options? : @js.Js,
 ) -> @js.Promise[@js.Js] {
   match options {
-    Some(opts) => self.call("parseBody", [opts]) |> @js.unsafe_cast
-    None => self.call0("parseBody") |> @js.unsafe_cast
+    Some(opts) => self.call("parseBody", [opts]) |> @js.identity
+    None => self.call0("parseBody") |> @js.identity
   }
 }
 
 ///|
 /// Get request URL
 pub fn HonoRequest::url(self : Self) -> String {
-  self.get("url") |> @js.unsafe_cast
+  self.get("url") |> @js.identity
 }
 
 ///|
 /// Get request method
 pub fn HonoRequest::method_(self : Self) -> String {
-  self.get("method") |> @js.unsafe_cast
+  self.get("method") |> @js.identity
 }
 
 ///|
 /// Get request path
 pub fn HonoRequest::path(self : Self) -> String {
-  self.call0("path") |> @js.unsafe_cast
+  self.call0("path") |> @js.identity
 }
 
 ///|
 /// Check if request body has been used
 #alias(body_used)
 pub fn HonoRequest::bodyUsed(self : Self) -> Bool {
-  self.get("bodyUsed") |> @js.unsafe_cast
+  self.get("bodyUsed") |> @js.identity
 }

@@ -46,7 +46,7 @@ async test "React DOM Server: renderToReadableStream should return a Promise of 
 
   // Read first chunk
   let result : @js.Js = reader.read().wait()
-  let done : Bool = @js.unsafe_cast(result.get("done"))
+  let done : Bool = @js.identity(result.get("done"))
 
   // Should have at least one chunk
   inspect(done, content="false")
@@ -65,7 +65,7 @@ async test "React DOM Server: renderToReadableStream should render HTML content"
   // Read all chunks
   while true {
     let result : @js.Js = reader.read().wait()
-    let done : Bool = @js.unsafe_cast(result.get("done"))
+    let done : Bool = @js.identity(result.get("done"))
     if done {
       break
     }
@@ -95,7 +95,7 @@ async test "React DOM Server: renderToReadableStream should handle nested elemen
   // Read all chunks
   while true {
     let result : @js.Js = reader.read().wait()
-    let done : Bool = @js.unsafe_cast(result.get("done"))
+    let done : Bool = @js.identity(result.get("done"))
     if done {
       break
     }

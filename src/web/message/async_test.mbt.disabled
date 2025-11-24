@@ -15,7 +15,7 @@ async test "MessageChannel: send and receive message between ports" {
   port2.addEventListener(
     "message",
     fn(event : @js.Js) {
-      let data : String = @js.unsafe_cast(event.get("data"))
+      let data : String = @js.identity(event.get("data"))
       resolver.resolve(data)
     },
   )
@@ -46,7 +46,7 @@ async test "MessageChannel: bidirectional messaging" {
   port1.addEventListener(
     "message",
     fn(event : @js.Js) {
-      let data : Int = @js.unsafe_cast(event.get("data"))
+      let data : Int = @js.identity(event.get("data"))
       resolver1.resolve(data)
     },
   )
@@ -54,7 +54,7 @@ async test "MessageChannel: bidirectional messaging" {
   port2.addEventListener(
     "message",
     fn(event : @js.Js) {
-      let data : Int = @js.unsafe_cast(event.get("data"))
+      let data : Int = @js.identity(event.get("data"))
       resolver2.resolve(data)
     },
   )
@@ -90,7 +90,7 @@ async test "MessageChannel: multiple messages in sequence" {
   port2.addEventListener(
     "message",
     fn(event : @js.Js) {
-      let data : String = @js.unsafe_cast(event.get("data"))
+      let data : String = @js.identity(event.get("data"))
       messages.push(data)
       count = count + 1
       if count == 3 {
@@ -159,11 +159,11 @@ async test "MessageChannel: message event properties" {
   )
 
   MessagePort::start(port2)
-  let obj = @js.from_map({ "key": @js.unsafe_cast("value") })
+  let obj = @js.from_map({ "key": @js.identity("value") })
   MessagePort::post_message(port1, obj)
 
   let event = resolver.promise.wait()
   let data : @js.Js = event.get("data")
-  let key_value : String = @js.unsafe_cast(data.get("key"))
+  let key_value : String = @js.identity(data.get("key"))
   assert_eq(key_value, "value")
 }

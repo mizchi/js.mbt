@@ -1,6 +1,6 @@
 ///|
 fn nodetest() -> @js.Js {
-  @js.unsafe_cast(@node.require("node:test"))
+  @js.identity(@node.require("node:test"))
 }
 
 ///|
@@ -215,7 +215,7 @@ pub fn TestContext::assert_rejects(
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : @js.Js = @js.promisify0(asyncFn)() |> @js.unsafe_cast
+  let promise_js : @js.Js = @js.promisify0(asyncFn)() |> @js.identity
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj.call("rejects", [promise_js, err, msg]) |> ignore
@@ -234,7 +234,7 @@ pub fn TestContext::assert_does_not_reject(
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : @js.Js = @js.promisify0(asyncFn)() |> @js.unsafe_cast
+  let promise_js : @js.Js = @js.promisify0(asyncFn)() |> @js.identity
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj.call("doesNotReject", [promise_js, err, msg]) |> ignore

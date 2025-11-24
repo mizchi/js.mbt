@@ -19,14 +19,14 @@ pub impl @js.JsImpl for ElementHandle
 ///|
 /// Page: Navigate to URL
 pub async fn Page::goto(self : Page, url : String) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("goto", [url]))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("goto", [url]))
   promise.wait()
 }
 
 ///|
 /// Page: Get page content
 pub async fn Page::content(self : Page) -> String {
-  let promise : @js.Promise[String] = @js.unsafe_cast(self.call("content", []))
+  let promise : @js.Promise[String] = @js.identity(self.call("content", []))
   promise.wait()
 }
 
@@ -34,7 +34,7 @@ pub async fn Page::content(self : Page) -> String {
 /// Page: Take screenshot
 pub async fn Page::screenshot(self : Page, path : String) -> Unit {
   let opts = @js.from_entries([("path", path)])
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("screenshot", [opts]),
   )
   promise.wait()
@@ -45,7 +45,7 @@ pub async fn Page::screenshot(self : Page, path : String) -> Unit {
 ///|
 /// Page: Click on element
 pub async fn Page::click(self : Page, selector : String) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("click", [selector]),
   )
   promise.wait()
@@ -54,7 +54,7 @@ pub async fn Page::click(self : Page, selector : String) -> Unit {
 ///|
 /// Page: Type text into element
 pub async fn Page::type_(self : Page, selector : String, text : String) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("type", [selector, text]),
   )
   promise.wait()
@@ -67,7 +67,7 @@ pub async fn Page::waitForSelector(
   self : Page,
   selector : String,
 ) -> ElementHandle? {
-  let promise : @js.Promise[ElementHandle?] = @js.unsafe_cast(
+  let promise : @js.Promise[ElementHandle?] = @js.identity(
     self.call("waitForSelector", [selector]),
   )
   promise.wait()
@@ -80,7 +80,7 @@ pub async fn Page::query_selector(
   self : Page,
   selector : String,
 ) -> ElementHandle? {
-  let promise : @js.Promise[ElementHandle?] = @js.unsafe_cast(
+  let promise : @js.Promise[ElementHandle?] = @js.identity(
     self.call("$", [selector]),
   )
   promise.wait()
@@ -93,7 +93,7 @@ pub async fn Page::query_selector_all(
   self : Page,
   selector : String,
 ) -> Array[ElementHandle] {
-  let promise : @js.Promise[Array[ElementHandle]] = @js.unsafe_cast(
+  let promise : @js.Promise[Array[ElementHandle]] = @js.identity(
     self.call("$$", [selector]),
   )
   promise.wait()
@@ -102,7 +102,7 @@ pub async fn Page::query_selector_all(
 ///|
 /// Page: Evaluate JavaScript in page context
 pub async fn Page::evaluate(self : Page, script : String) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.unsafe_cast(
+  let promise : @js.Promise[@js.Js] = @js.identity(
     self.call("evaluate", [script]),
   )
   promise.wait()
@@ -113,7 +113,7 @@ pub async fn Page::evaluate(self : Page, script : String) -> @js.Js {
 /// JS: page.setViewport({ width, height })
 pub async fn Page::setViewport(self : Page, width : Int, height : Int) -> Unit {
   let viewport = @js.from_entries([("width", width), ("height", height)])
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("setViewport", [viewport]),
   )
   promise.wait()
@@ -122,7 +122,7 @@ pub async fn Page::setViewport(self : Page, width : Int, height : Int) -> Unit {
 ///|
 /// Page: Set user agent
 pub async fn Page::setUserAgent(self : Page, userAgent : String) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("setUserAgent", [userAgent]),
   )
   promise.wait()
@@ -131,21 +131,21 @@ pub async fn Page::setUserAgent(self : Page, userAgent : String) -> Unit {
 ///|
 /// Page: Reload page
 pub async fn Page::reload(self : Page) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("reload", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("reload", []))
   promise.wait()
 }
 
 ///|
 /// Page: Get page title
 pub async fn Page::title(self : Page) -> String {
-  let promise : @js.Promise[String] = @js.unsafe_cast(self.call("title", []))
+  let promise : @js.Promise[String] = @js.identity(self.call("title", []))
   promise.wait()
 }
 
 ///|
 /// Page: Get page URL
 pub fn Page::url(self : Page) -> String {
-  self.call("url", []) |> @js.unsafe_cast
+  self.call("url", []) |> @js.identity
 }
 
 ///|
@@ -154,7 +154,7 @@ pub async fn Page::focus(
   self : Page,
   selector : String,
 ) -> Unit raise @js.ThrowError {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("focus", [selector]),
   )
   promise.wait() catch {
@@ -168,7 +168,7 @@ pub async fn Page::hover(
   self : Page,
   selector : String,
 ) -> Unit raise @js.ThrowError {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("hover", [selector]),
   )
   promise.wait() catch {
@@ -185,7 +185,7 @@ pub async fn Page::select(
   values : Array[String],
 ) -> Array[String] raise @js.ThrowError {
   let js_values = @js.from_array(values)
-  let promise : @js.Promise[Array[String]] = @js.unsafe_cast(
+  let promise : @js.Promise[Array[String]] = @js.identity(
     self.call("select", [selector, js_values]),
   )
   promise.wait() catch {
@@ -196,7 +196,7 @@ pub async fn Page::select(
 ///|
 /// Page: Tap on element (touch event)
 pub async fn Page::tap(self : Page, selector : String) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("tap", [selector]),
   )
   promise.wait()
@@ -208,7 +208,7 @@ pub async fn Page::tap(self : Page, selector : String) -> Unit {
 /// Page: Wait for navigation
 /// JS: page.waitForNavigation()
 pub async fn Page::waitForNavigation(self : Page) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("waitForNavigation", []),
   )
   promise.wait()
@@ -218,7 +218,7 @@ pub async fn Page::waitForNavigation(self : Page) -> Unit {
 /// Page: Wait for function to return truthy value
 /// JS: page.waitForFunction(pageFunction)
 pub async fn Page::waitForFunction(self : Page, fn_str : String) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.unsafe_cast(
+  let promise : @js.Promise[@js.Js] = @js.identity(
     self.call("waitForFunction", [fn_str]),
   )
   promise.wait()
@@ -228,7 +228,7 @@ pub async fn Page::waitForFunction(self : Page, fn_str : String) -> @js.Js {
 /// Page: Wait for timeout (milliseconds)
 /// JS: page.waitForTimeout(milliseconds)
 pub async fn Page::waitForTimeout(self : Page, ms : Int) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("waitForTimeout", [ms]),
   )
   promise.wait()
@@ -253,7 +253,7 @@ pub(all) struct Cookie {
 /// Page: Get cookies
 /// JS: page.cookies()
 pub async fn Page::cookies(self : Page) -> Array[@js.Js] raise @js.ThrowError {
-  let promise : @js.Promise[Array[@js.Js]] = @js.unsafe_cast(
+  let promise : @js.Promise[Array[@js.Js]] = @js.identity(
     self.call("cookies", []),
   )
   promise.wait() catch {
@@ -266,7 +266,7 @@ pub async fn Page::cookies(self : Page) -> Array[@js.Js] raise @js.ThrowError {
 /// JS: page.setCookie(...cookies)
 pub async fn Page::setCookie(self : Page, cookies : Array[@js.Js]) -> Unit {
   let js_cookies = @js.from_array(cookies)
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("setCookie", [js_cookies]),
   )
   promise.wait()
@@ -277,7 +277,7 @@ pub async fn Page::setCookie(self : Page, cookies : Array[@js.Js]) -> Unit {
 /// JS: page.deleteCookie(...cookies)
 pub async fn Page::deleteCookie(self : Page, cookies : Array[@js.Js]) -> Unit {
   let js_cookies = @js.from_array(cookies)
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("deleteCookie", [js_cookies]),
   )
   promise.wait()
@@ -290,7 +290,7 @@ pub async fn Page::deleteCookie(self : Page, cookies : Array[@js.Js]) -> Unit {
 /// JS: page.pdf({ path })
 pub async fn Page::pdf(self : Page, path : String) -> Unit raise @js.ThrowError {
   let opts = @js.from_entries([("path", path)])
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("pdf", [opts]))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("pdf", [opts]))
   promise.wait() catch {
     e => raise @js.ThrowError::from_js(@js.unsafe_js(e))
   }
@@ -302,7 +302,7 @@ pub async fn Page::pdf(self : Page, path : String) -> Unit raise @js.ThrowError 
 /// Page: Go back in history
 /// JS: page.goBack()
 pub async fn Page::goBack(self : Page) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("goBack", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("goBack", []))
   promise.wait()
 }
 
@@ -310,7 +310,7 @@ pub async fn Page::goBack(self : Page) -> Unit {
 /// Page: Go forward in history
 /// JS: page.goForward()
 pub async fn Page::goForward(self : Page) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("goForward", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("goForward", []))
   promise.wait()
 }
 
@@ -320,7 +320,7 @@ pub async fn Page::goForward(self : Page) -> Unit {
 /// Page: Set content HTML
 /// JS: page.setContent(html)
 pub async fn Page::setContent(self : Page, html : String) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(
+  let promise : @js.Promise[Unit] = @js.identity(
     self.call("setContent", [html]),
   )
   promise.wait()
@@ -331,14 +331,14 @@ pub async fn Page::setContent(self : Page, html : String) -> Unit {
 ///|
 /// ElementHandle: Click element
 pub async fn ElementHandle::click(self : ElementHandle) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("click", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("click", []))
   promise.wait()
 }
 
 ///|
 /// ElementHandle: Type text
 pub async fn ElementHandle::type_(self : ElementHandle, text : String) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("type", [text]))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("type", [text]))
   promise.wait()
 }
 
@@ -349,7 +349,7 @@ pub async fn ElementHandle::getProperty(
   self : ElementHandle,
   propertyName : String,
 ) -> @js.Js {
-  let promise : @js.Promise[@js.Js] = @js.unsafe_cast(
+  let promise : @js.Promise[@js.Js] = @js.identity(
     self.call("getProperty", [propertyName]),
   )
   promise.wait()
@@ -362,7 +362,7 @@ pub async fn ElementHandle::query_selector(
   self : ElementHandle,
   selector : String,
 ) -> ElementHandle? {
-  let promise : @js.Promise[ElementHandle?] = @js.unsafe_cast(
+  let promise : @js.Promise[ElementHandle?] = @js.identity(
     self.call("$", [selector]),
   )
   promise.wait()
@@ -375,7 +375,7 @@ pub async fn ElementHandle::query_selector_all(
   self : ElementHandle,
   selector : String,
 ) -> Array[ElementHandle] {
-  let promise : @js.Promise[Array[ElementHandle]] = @js.unsafe_cast(
+  let promise : @js.Promise[Array[ElementHandle]] = @js.identity(
     self.call("$$", [selector]),
   )
   promise.wait()
@@ -384,13 +384,13 @@ pub async fn ElementHandle::query_selector_all(
 ///|
 /// ElementHandle: Focus on element
 pub async fn ElementHandle::focus(self : ElementHandle) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("focus", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("focus", []))
   promise.wait()
 }
 
 ///|
 /// ElementHandle: Hover over element
 pub async fn ElementHandle::hover(self : ElementHandle) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("hover", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("hover", []))
   promise.wait()
 }

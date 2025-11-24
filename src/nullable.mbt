@@ -25,23 +25,23 @@
 /// Convert to Option: `reader.result.to_option()`
 ///
 /// # See Also
-/// - `unsafe_cast_option(Js) -> A?` - For converting Js to Option
+/// - `identity_option(Js) -> A?` - For converting Js to Option
 /// - `from_option(A?) -> Js` - For converting Option to Js
 #external
 pub type Nullable[T]
 
 ///|
 pub fn[T] Nullable::to_option(self : Nullable[T]) -> T? {
-  let js_value : Js = self |> unsafe_cast
+  let js_value : Js = self |> identity
   if ffi_is_null(js_value) {
     None
   } else {
-    Some(self |> unsafe_cast)
+    Some(self |> identity)
   }
 }
 
 ///|
 pub fn[T] Nullable::is_null(self : Nullable[T]) -> Bool {
-  let js_value : Js = self |> unsafe_cast
+  let js_value : Js = self |> identity
   ffi_is_null(js_value)
 }

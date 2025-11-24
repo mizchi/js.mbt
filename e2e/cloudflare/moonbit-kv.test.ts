@@ -1,18 +1,11 @@
-import { describe, it, expect, beforeEach } from "vitest";
-
-// Import the worker
-const workerPath = "./fixtures/cf-worker-kv.js";
-let handler: any;
-
-beforeEach(async () => {
-  const module = await import(workerPath);
-  handler = module.default.fetch;
-});
+import { env } from "cloudflare:test";
+import { describe, it, expect } from "vitest";
+import { get_kv_handler } from "../../target/js/release/build/examples/cfw/cfw.js";
 
 describe("Cloudflare Worker KV - MoonBit", () => {
+  const handler = get_kv_handler();
   it("should return help/endpoints at root", async () => {
     const request = new Request("http://localhost/");
-    const env = { MY_KV: new Map() }; // Mock KV
     const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
 
     const response = await handler(request, env, ctx);
@@ -24,22 +17,6 @@ describe("Cloudflare Worker KV - MoonBit", () => {
   });
 
   it("should put and get a key-value pair", async () => {
-    // Create a mock KV namespace
-    const kvStore = new Map();
-    const mockKV = {
-      get: async (key: string) => kvStore.get(key) || null,
-      put: async (key: string, value: string) => {
-        kvStore.set(key, value);
-      },
-      delete: async (key: string) => {
-        kvStore.delete(key);
-      },
-      list: async () => ({
-        keys: Array.from(kvStore.keys()).map((name) => ({ name })),
-      }),
-    };
-
-    const env = { MY_KV: mockKV };
     const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
 
     // Put a value
@@ -64,14 +41,6 @@ describe("Cloudflare Worker KV - MoonBit", () => {
   });
 
   it("should return 404 for non-existent key", async () => {
-    const mockKV = {
-      get: async (key: string) => null,
-      put: async (key: string, value: string) => {},
-      delete: async (key: string) => {},
-      list: async () => ({ keys: [] }),
-    };
-
-    const env = { MY_KV: mockKV };
     const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
 
     const request = new Request("http://localhost/kv/get?key=nonexistent");
@@ -83,51 +52,27 @@ describe("Cloudflare Worker KV - MoonBit", () => {
   });
 
   it("should delete a key", async () => {
-    const kvStore = new Map();
-    kvStore.set("toDelete", "value");
-
-    const mockKV = {
-      get: async (key: string) => kvStore.get(key) || null,
-      put: async (key: string, value: string) => {
-        kvStore.set(key, value);
-      },
-      delete: async (key: string) => {
-        kvStore.delete(key);
-      },
-      list: async () => ({
-        keys: Array.from(kvStore.keys()).map((name) => ({ name })),
-      }),
-    };
-
-    const env = { MY_KV: mockKV };
     const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
 
+    // First put a value
+    const putRequest = new Request("http://localhost/kv/put?key=toDelete&value=value");
+    await handler(putRequest, env, ctx);
+
+    // Then delete it
     const request = new Request("http://localhost/kv/delete?key=toDelete");
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
 
     const body = await response.json();
     expect(body.success).toBe(true);
-    expect(kvStore.has("toDelete")).toBe(false);
+
+    // Verify it's deleted
+    const getRequest = new Request("http://localhost/kv/get?key=toDelete");
+    const getResponse = await handler(getRequest, env, ctx);
+    expect(getResponse.status).toBe(404);
   });
 
   it("should increment counter", async () => {
-    const kvStore = new Map();
-
-    const mockKV = {
-      get: async (key: string) => kvStore.get(key) || null,
-      put: async (key: string, value: string) => {
-        kvStore.set(key, value);
-      },
-      delete: async (key: string) => {
-        kvStore.delete(key);
-      },
-      list: async () => ({
-        keys: Array.from(kvStore.keys()).map((name) => ({ name })),
-      }),
-    };
-
-    const env = { MY_KV: mockKV };
     const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
 
     // First increment (from 0)
@@ -156,47 +101,25 @@ describe("Cloudflare Worker KV - MoonBit", () => {
   });
 
   it("should list keys", async () => {
-    const kvStore = new Map();
-    kvStore.set("key1", "value1");
-    kvStore.set("key2", "value2");
-    kvStore.set("key3", "value3");
-
-    const mockKV = {
-      get: async (key: string) => kvStore.get(key) || null,
-      put: async (key: string, value: string) => {
-        kvStore.set(key, value);
-      },
-      delete: async (key: string) => {
-        kvStore.delete(key);
-      },
-      list: async () => ({
-        keys: Array.from(kvStore.keys()).map((name) => ({ name })),
-      }),
-    };
-
-    const env = { MY_KV: mockKV };
     const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+
+    // Put some values first
+    await handler(new Request("http://localhost/kv/put?key=key1&value=value1"), env, ctx);
+    await handler(new Request("http://localhost/kv/put?key=key2&value=value2"), env, ctx);
+    await handler(new Request("http://localhost/kv/put?key=key3&value=value3"), env, ctx);
 
     const request = new Request("http://localhost/kv/list");
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
 
     const body = await response.json();
-    expect(body.count).toBe(3);
+    expect(body.count).toBeGreaterThanOrEqual(3);
     expect(body.keys).toContain("key1");
     expect(body.keys).toContain("key2");
     expect(body.keys).toContain("key3");
   });
 
   it("should return 400 for missing parameters", async () => {
-    const mockKV = {
-      get: async (key: string) => null,
-      put: async (key: string, value: string) => {},
-      delete: async (key: string) => {},
-      list: async () => ({ keys: [] }),
-    };
-
-    const env = { MY_KV: mockKV };
     const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
 
     // Get without key

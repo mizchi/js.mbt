@@ -22,7 +22,7 @@ test "URLPattern exec method" {
   match pattern.exec("https://example.com/books/123") {
     Some(result) => {
       assert_eq(result.pathname.input, "/books/123")
-      let id : String = @js.unsafe_cast(result.pathname.groups.get("id"))
+      let id : String = @js.identity(result.pathname.groups.get("id"))
       assert_eq(id, "123")
     }
     None => fail("Should match the URL")
@@ -57,7 +57,7 @@ test "URLPattern with search parameter" {
   assert_eq(pattern.test_url("https://example.com/search?q=test"), true)
   match pattern.exec("https://example.com/search?q=moonbit") {
     Some(result) => {
-      let query : String = @js.unsafe_cast(result.search.groups.get("query"))
+      let query : String = @js.identity(result.search.groups.get("query"))
       assert_eq(query, "moonbit")
     }
     None => fail("Should match the URL")
@@ -70,7 +70,7 @@ test "URLPattern with hash" {
   assert_eq(pattern.test_url("https://example.com/page#intro"), true)
   match pattern.exec("https://example.com/page#intro") {
     Some(result) => {
-      let section : String = @js.unsafe_cast(result.hash.groups.get("section"))
+      let section : String = @js.identity(result.hash.groups.get("section"))
       assert_eq(section, "intro")
     }
     None => fail("Should match the URL")
@@ -104,10 +104,10 @@ test "URLPattern multiple path parameters" {
   )
   match pattern.exec("https://example.com/books/42/chapters/3") {
     Some(result) => {
-      let book_id : String = @js.unsafe_cast(
+      let book_id : String = @js.identity(
         result.pathname.groups.get("bookId"),
       )
-      let chapter_id : String = @js.unsafe_cast(
+      let chapter_id : String = @js.identity(
         result.pathname.groups.get("chapterId"),
       )
       assert_eq(book_id, "42")

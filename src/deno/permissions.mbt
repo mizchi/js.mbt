@@ -12,7 +12,7 @@ pub impl @js.JsImpl for PermissionStatus
 ///|
 /// Get permission state ("granted", "denied", "prompt")
 pub fn PermissionStatus::state(self : PermissionStatus) -> String {
-  self.get("state") |> @js.unsafe_cast
+  self.get("state") |> @js.identity
 }
 
 ///|
@@ -38,7 +38,7 @@ pub fn Deno::permissions_query(
   perms.call("query", [
     @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -52,7 +52,7 @@ pub fn Deno::permissions_request(
   perms.call("request", [
     @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
@@ -66,5 +66,5 @@ pub fn Deno::permissions_revoke(
   perms.call("revoke", [
     @js.from_entries_option([("name", Some(name)), ("path", path.map(x => x))]),
   ])
-  |> @js.unsafe_cast
+  |> @js.identity
 }

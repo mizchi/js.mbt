@@ -40,7 +40,7 @@ test "access globalThis properties" {
   assert_eq(@js.is_undefined(math), false)
 
   // Get Math.PI
-  let pi : Double = @js.unsafe_cast(math.get("PI"))
+  let pi : Double = @js.identity(math.get("PI"))
   inspect(pi, content="3.141592653589793")
 }
 ```
@@ -58,7 +58,7 @@ test "call methods with call()" {
   inspect(str, content="[object Object]")
 
   // Call hasOwnProperty
-  let has : Bool = @js.unsafe_cast(obj.call1("hasOwnProperty", "value"))
+  let has : Bool = @js.identity(obj.call1("hasOwnProperty", "value"))
   assert_eq(has, true)
 }
 ```
@@ -97,7 +97,7 @@ test "array methods via call()" {
 
   // Use filter
   let filter_fn = fn(x : @js.Js) -> Bool {
-    let num : Int = @js.unsafe_cast(x)
+    let num : Int = @js.identity(x)
     num > 2
   }
   let filtered = arr.call1("filter", @js.from_fn1(filter_fn))
@@ -105,7 +105,7 @@ test "array methods via call()" {
 
   // Use map
   let map_fn = fn(x : @js.Js) -> @js.Js {
-    let num : Int = @js.unsafe_cast(x)
+    let num : Int = @js.identity(x)
     @js.js(num * 2)
   }
   let mapped = arr.call1("map", @js.from_fn1(map_fn))
@@ -127,13 +127,13 @@ test "working with Set" {
   set.call1("add", 1) |> ignore // Duplicate
 
   // Check size
-  let size : Int = @js.unsafe_cast(set.get("size"))
+  let size : Int = @js.identity(set.get("size"))
   assert_eq(size, 2)
 
   // Check has
-  let has_one : Bool = @js.unsafe_cast(set.call1("has", 1))
+  let has_one : Bool = @js.identity(set.call1("has", 1))
   assert_eq(has_one, true)
-  let has_three : Bool = @js.unsafe_cast(set.call1("has", 3))
+  let has_three : Bool = @js.identity(set.call1("has", 3))
   assert_eq(has_three, false)
 }
 ```
@@ -169,7 +169,7 @@ test "nested property access" {
   obj.set("config", config)
 
   // Access nested value
-  let endpoint : String = @js.unsafe_cast(
+  let endpoint : String = @js.identity(
     obj.get("config").get("api").get("endpoint"),
   )
   assert_eq(endpoint, "https://api.example.com")
@@ -229,9 +229,9 @@ test "type conversion helpers" {
   let num_js = @js.js(42)
   let str_js = @js.js("hello")
   let bool_js = @js.js(true)
-  let num : Int = @js.unsafe_cast(num_js)
-  let str : String = @js.unsafe_cast(str_js)
-  let bool : Bool = @js.unsafe_cast(bool_js)
+  let num : Int = @js.identity(num_js)
+  let str : String = @js.identity(str_js)
+  let bool : Bool = @js.identity(bool_js)
   assert_eq(num, 42)
   assert_eq(str, "hello")
   assert_eq(bool, true)
@@ -245,17 +245,17 @@ test "type conversion helpers" {
 test "function conversion with from_fn" {
   // from_fn0 - no arguments
   let fn0 = @js.from_fn0(fn() -> Int { 42 })
-  let result0 : Int = @js.unsafe_cast(fn0.call_self0())
+  let result0 : Int = @js.identity(fn0.call_self0())
   assert_eq(result0, 42)
 
   // from_fn1 - one argument
   let fn1 = @js.from_fn1(fn(x : Int) -> Int { x * 2 })
-  let result1 : Int = @js.unsafe_cast(fn1.call_self([10]))
+  let result1 : Int = @js.identity(fn1.call_self([10]))
   assert_eq(result1, 20)
 
   // from_fn2 - two arguments
   let fn2 = @js.from_fn2(fn(a : Int, b : Int) -> Int { a + b })
-  let result2 : Int = @js.unsafe_cast(fn2.call_self([5, 3]))
+  let result2 : Int = @js.identity(fn2.call_self([5, 3]))
   assert_eq(result2, 8)
 }
 ```
@@ -335,7 +335,7 @@ test "create instances with new_" {
   inspect(value, content="value")
 
   // Check size
-  let size : Int = @js.unsafe_cast(map.get("size"))
+  let size : Int = @js.identity(map.get("size"))
   assert_eq(size, 1)
 }
 ```
@@ -348,7 +348,7 @@ test "best practices demonstration" {
   // 1. Immediate type casting
   let obj = @js.Object::new()
   obj.set("count", 5)
-  let count : Int = @js.unsafe_cast(obj.get("count")) // Good: immediate cast
+  let count : Int = @js.identity(obj.get("count")) // Good: immediate cast
   assert_eq(count, 5)
 
   // 2. Check for undefined

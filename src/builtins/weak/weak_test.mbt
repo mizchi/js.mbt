@@ -119,7 +119,7 @@ test "WeakRef::deref returns None when target is collected" {
   let undef_ref : @js.Js = @js.undefined()
   let mock_weakref = @js.Object::new()
   mock_weakref.set("deref", @js.from_fn0(fn() { undef_ref }))
-  let wr : WeakRef[@js.Js] = @js.unsafe_cast(mock_weakref.to_js())
+  let wr : WeakRef[@js.Js] = @js.identity(mock_weakref.to_js())
   let result = wr.deref()
   assert_true(result is None)
 }

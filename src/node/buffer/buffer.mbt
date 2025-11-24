@@ -18,7 +18,7 @@ pub fn Buffer::from_string(
   encoding? : String = "utf-8",
 ) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call2("from", str, encoding) |> @js.unsafe_cast
+  ctor.call2("from", str, encoding) |> @js.identity
 }
 
 ///|
@@ -31,7 +31,7 @@ pub fn Buffer::from_array(arr : Array[Int]) -> Buffer {
     arr_js.call("push", [arr[i]]) |> ignore
     i = i + 1
   }
-  ctor.call("from", [arr_js]) |> @js.unsafe_cast
+  ctor.call("from", [arr_js]) |> @js.identity
 }
 
 ///|
@@ -43,8 +43,8 @@ pub fn Buffer::from_arraybuffer(
 ) -> Buffer {
   let ctor = buffer_constructor()
   match length {
-    Some(len) => ctor.call("from", [ab, byte_offset, len]) |> @js.unsafe_cast
-    None => ctor.call2("from", ab, byte_offset) |> @js.unsafe_cast
+    Some(len) => ctor.call("from", [ab, byte_offset, len]) |> @js.identity
+    None => ctor.call2("from", ab, byte_offset) |> @js.identity
   }
 }
 
@@ -52,7 +52,7 @@ pub fn Buffer::from_arraybuffer(
 /// Create a Buffer by copying another buffer
 pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call("from", [buf.to_js()]) |> @js.unsafe_cast
+  ctor.call("from", [buf.to_js()]) |> @js.identity
 }
 
 ///|
@@ -64,8 +64,8 @@ pub fn Buffer::alloc(
 ) -> Buffer {
   let ctor = buffer_constructor()
   match fill {
-    Some(f) => ctor.call("alloc", [size, f, encoding]) |> @js.unsafe_cast
-    None => ctor.call("alloc", [size]) |> @js.unsafe_cast
+    Some(f) => ctor.call("alloc", [size, f, encoding]) |> @js.identity
+    None => ctor.call("alloc", [size]) |> @js.identity
   }
 }
 
@@ -74,7 +74,7 @@ pub fn Buffer::alloc(
 #alias(alloc_unsafe)
 pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call("allocUnsafe", [size]) |> @js.unsafe_cast
+  ctor.call("allocUnsafe", [size]) |> @js.identity
 }
 
 ///|
@@ -82,7 +82,7 @@ pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
 #alias(is_buffer)
 pub fn Buffer::isBuffer(obj : &@js.JsImpl) -> Bool {
   let ctor = buffer_constructor()
-  ctor.call("isBuffer", [obj.to_js()]) |> @js.unsafe_cast
+  ctor.call("isBuffer", [obj.to_js()]) |> @js.identity
 }
 
 ///|
@@ -90,14 +90,14 @@ pub fn Buffer::isBuffer(obj : &@js.JsImpl) -> Bool {
 #alias(is_encoding)
 pub fn Buffer::isEncoding(encoding : String) -> Bool {
   let ctor = buffer_constructor()
-  ctor.call("isEncoding", [encoding]) |> @js.unsafe_cast
+  ctor.call("isEncoding", [encoding]) |> @js.identity
 }
 
 ///|
 /// Compare two buffers
 pub fn Buffer::compare(buf1 : Buffer, buf2 : Buffer) -> Int {
   let ctor = buffer_constructor()
-  ctor.call2("compare", buf1.to_js(), buf2.to_js()) |> @js.unsafe_cast
+  ctor.call2("compare", buf1.to_js(), buf2.to_js()) |> @js.identity
 }
 
 ///|
@@ -111,8 +111,8 @@ pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
     i = i + 1
   }
   match total_length {
-    Some(len) => ctor.call2("concat", list_js, len) |> @js.unsafe_cast
-    None => ctor.call("concat", [list_js]) |> @js.unsafe_cast
+    Some(len) => ctor.call2("concat", list_js, len) |> @js.identity
+    None => ctor.call("concat", [list_js]) |> @js.identity
   }
 }
 
@@ -121,13 +121,13 @@ pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
 #alias(byte_length)
 pub fn Buffer::byteLength(str : String, encoding? : String = "utf-8") -> Int {
   let ctor = buffer_constructor()
-  ctor.call2("byteLength", str, encoding) |> @js.unsafe_cast
+  ctor.call2("byteLength", str, encoding) |> @js.identity
 }
 
 ///|
 /// Get the length of the buffer in bytes
 pub fn Buffer::length(self : Self) -> Int {
-  self.get("length") |> @js.unsafe_cast
+  self.get("length") |> @js.identity
 }
 
 ///|
@@ -140,8 +140,8 @@ pub fn Buffer::toString(
   end? : Int,
 ) -> String {
   match end {
-    Some(e) => self.call("toString", [encoding, start, e]) |> @js.unsafe_cast
-    None => self.call2("toString", encoding, start) |> @js.unsafe_cast
+    Some(e) => self.call("toString", [encoding, start, e]) |> @js.identity
+    None => self.call2("toString", encoding, start) |> @js.identity
   }
 }
 
@@ -157,8 +157,8 @@ pub fn Buffer::write(
   let buf_js = self.to_js()
   match length {
     Some(len) =>
-      buf_js.call("write", [str, offset, len, encoding]) |> @js.unsafe_cast
-    None => buf_js.call("write", [str, offset, encoding]) |> @js.unsafe_cast
+      buf_js.call("write", [str, offset, len, encoding]) |> @js.identity
+    None => buf_js.call("write", [str, offset, encoding]) |> @js.identity
   }
 }
 
@@ -167,8 +167,8 @@ pub fn Buffer::write(
 pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.to_js()
   match end {
-    Some(e) => buf_js.call2("slice", start, e) |> @js.unsafe_cast
-    None => buf_js.call("slice", [start]) |> @js.unsafe_cast
+    Some(e) => buf_js.call2("slice", start, e) |> @js.identity
+    None => buf_js.call("slice", [start]) |> @js.identity
   }
 }
 
@@ -177,8 +177,8 @@ pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
 pub fn Buffer::subarray(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.to_js()
   match end {
-    Some(e) => buf_js.call2("subarray", start, e) |> @js.unsafe_cast
-    None => buf_js.call("subarray", [start]) |> @js.unsafe_cast
+    Some(e) => buf_js.call2("subarray", start, e) |> @js.identity
+    None => buf_js.call("subarray", [start]) |> @js.identity
   }
 }
 
@@ -195,10 +195,10 @@ pub fn Buffer::copy(
   match source_end {
     Some(se) =>
       buf_js.call("copy", [target.to_js(), target_start, source_start, se])
-      |> @js.unsafe_cast
+      |> @js.identity
     None =>
       buf_js.call("copy", [target.to_js(), target_start, source_start])
-      |> @js.unsafe_cast
+      |> @js.identity
   }
 }
 
@@ -214,15 +214,15 @@ pub fn Buffer::fill(
   let buf_js = self.to_js()
   match end {
     Some(e) =>
-      buf_js.call("fill", [value, offset, e, encoding]) |> @js.unsafe_cast
-    None => buf_js.call2("fill", value, offset) |> @js.unsafe_cast
+      buf_js.call("fill", [value, offset, e, encoding]) |> @js.identity
+    None => buf_js.call2("fill", value, offset) |> @js.identity
   }
 }
 
 ///|
 /// Test if this buffer equals another buffer
 pub fn Buffer::equals(self : Self, other : Buffer) -> Bool {
-  self.call("equals", [other.to_js()]) |> @js.unsafe_cast
+  self.call("equals", [other.to_js()]) |> @js.identity
 }
 
 ///|
@@ -250,7 +250,7 @@ pub fn Buffer::compare_with(
   }
   let compare_fn = buf_js.get("compare")
   let apply = compare_fn.get("apply")
-  apply.call("call", [compare_fn, buf_js, args]) |> @js.unsafe_cast
+  apply.call("call", [compare_fn, buf_js, args]) |> @js.identity
 }
 
 ///|
@@ -261,7 +261,7 @@ pub fn Buffer::includes(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Bool {
-  self.call("includes", [value, byte_offset, encoding]) |> @js.unsafe_cast
+  self.call("includes", [value, byte_offset, encoding]) |> @js.identity
 }
 
 ///|
@@ -273,7 +273,7 @@ pub fn Buffer::indexOf(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Int {
-  self.call("indexOf", [value, byte_offset, encoding]) |> @js.unsafe_cast
+  self.call("indexOf", [value, byte_offset, encoding]) |> @js.identity
 }
 
 ///|
@@ -288,8 +288,8 @@ pub fn Buffer::lastIndexOf(
   let buf_js = self.to_js()
   match byte_offset {
     Some(offset) =>
-      buf_js.call("lastIndexOf", [value, offset, encoding]) |> @js.unsafe_cast
-    None => buf_js.call2("lastIndexOf", value, encoding) |> @js.unsafe_cast
+      buf_js.call("lastIndexOf", [value, offset, encoding]) |> @js.identity
+    None => buf_js.call2("lastIndexOf", value, encoding) |> @js.identity
   }
 }
 
@@ -304,7 +304,7 @@ pub fn Buffer::lastIndexOf(
 ///|
 /// Get a byte at a specific index
 // pub fn Buffer::get(self : Self, index : Int) -> Int {
-//   ffi_get_index(self.to_js(), index) |> @js.unsafe_cast
+//   ffi_get_index(self.to_js(), index) |> @js.identity
 // }
 
 // ///|
@@ -316,14 +316,14 @@ pub fn Buffer::lastIndexOf(
 ///|
 /// Get the underlying ArrayBuffer
 pub fn Buffer::buffer(self : Self) -> @js.ArrayBuffer {
-  self.get("buffer") |> @js.unsafe_cast
+  self.get("buffer") |> @js.identity
 }
 
 ///|
 /// Get the byte offset in the underlying ArrayBuffer
 #alias(byte_offset)
 pub fn Buffer::byteOffset(self : Self) -> Int {
-  self.get("byteOffset") |> @js.unsafe_cast
+  self.get("byteOffset") |> @js.identity
 }
 
 ///|

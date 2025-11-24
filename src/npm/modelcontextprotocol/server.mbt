@@ -109,7 +109,7 @@ fn McpServer::handle_initialize(
   }
   result.set("capabilities", capabilities.to_js())
   @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+    Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
   )
 }
 
@@ -126,7 +126,7 @@ fn McpServer::handle_tools_list(
   let result = @js.Object::new()
   result.set("tools", tools_array)
   @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+    Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
   )
 }
 
@@ -140,7 +140,7 @@ fn McpServer::handle_tools_call(
     None =>
       @js.Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
     Some(p) => {
-      let name : String? = p.get("name") |> @js.unsafe_cast_option()
+      let name : String? = p.get("name") |> @js.identity_option()
       match name {
         None =>
           @js.Promise::resolve(
@@ -159,7 +159,7 @@ fn McpServer::handle_tools_call(
               )
             Some((_, handler)) => {
               let arguments : @js.Object = match
-                (p.get("arguments") |> @js.unsafe_cast_option()) {
+                (p.get("arguments") |> @js.identity_option()) {
                 Some(args) => args
                 None => @js.Object::new()
               }
@@ -171,7 +171,7 @@ fn McpServer::handle_tools_call(
                 let result = @js.Object::new()
                 result.set("content", content_array)
                 @js.Promise::resolve(
-                  Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+                  Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
                 )
               })
             }
@@ -194,7 +194,7 @@ fn McpServer::handle_resources_list(
   let result = @js.Object::new()
   result.set("resources", resources_array)
   @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+    Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
   )
 }
 
@@ -208,7 +208,7 @@ fn McpServer::handle_resources_read(
     None =>
       @js.Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
     Some(p) => {
-      let uri : String? = p.get("uri") |> @js.unsafe_cast_option()
+      let uri : String? = p.get("uri") |> @js.identity_option()
       match uri {
         None =>
           @js.Promise::resolve(
@@ -234,7 +234,7 @@ fn McpServer::handle_resources_read(
                 let result = @js.Object::new()
                 result.set("contents", content_array)
                 @js.Promise::resolve(
-                  Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+                  Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
                 )
               })
           }
@@ -256,7 +256,7 @@ fn McpServer::handle_prompts_list(
   let result = @js.Object::new()
   result.set("prompts", prompts_array)
   @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+    Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
   )
 }
 
@@ -270,7 +270,7 @@ fn McpServer::handle_prompts_get(
     None =>
       @js.Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
     Some(p) => {
-      let name : String? = p.get("name") |> @js.unsafe_cast_option()
+      let name : String? = p.get("name") |> @js.identity_option()
       match name {
         None =>
           @js.Promise::resolve(
@@ -289,7 +289,7 @@ fn McpServer::handle_prompts_get(
               )
             Some((_, handler)) => {
               let arguments : @js.Object = match
-                (p.get("arguments") |> @js.unsafe_cast_option()) {
+                (p.get("arguments") |> @js.identity_option()) {
                 Some(args) => args
                 None => @js.Object::new()
               }
@@ -301,7 +301,7 @@ fn McpServer::handle_prompts_get(
                 let result = @js.Object::new()
                 result.set("messages", content_array)
                 @js.Promise::resolve(
-                  Ok({ jsonrpc: "2.0", id, result: @js.unsafe_cast(result) }),
+                  Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
                 )
               })
             }

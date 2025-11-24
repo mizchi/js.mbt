@@ -20,12 +20,12 @@ extern "js" fn kv_json_response(body : String, status : Int) -> @http.Response =
 ///|
 /// Helper to get KV namespace from env
 fn get_kv(env : @cloudflare.CloudflareEnv) -> @cloudflare.KVNamespace? {
-  let env_js : @js.Js = @js.unsafe_cast(env)
+  let env_js : @js.Js = @js.identity(env)
   let kv_js = env_js.get("MY_KV")
   if @js.typeof_(kv_js) == "undefined" {
     None
   } else {
-    Some(@js.unsafe_cast(kv_js))
+    Some(@js.identity(kv_js))
   }
 }
 

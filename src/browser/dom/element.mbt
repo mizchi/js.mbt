@@ -35,17 +35,17 @@ pub(open) trait ElementImpl: @js.JsImpl + NodeImpl {
 
 ///|
 impl ElementImpl with tagName(self) {
-  self.get("tagName") |> @js.unsafe_cast
+  self.get("tagName") |> @js.identity
 }
 
 ///|
 impl ElementImpl with append(self, child) {
-  self.call("append", [child.to_js()]) |> @js.unsafe_cast
+  self.call("append", [child.to_js()]) |> @js.identity
 }
 
 ///|
 impl ElementImpl with className(self) -> String {
-  self.get("className") |> @js.unsafe_cast
+  self.get("className") |> @js.identity
 }
 
 ///|
@@ -55,7 +55,7 @@ impl ElementImpl with setClassName(self, class_name) -> Unit {
 
 ///|
 impl ElementImpl with id(self) -> String {
-  self.get("id") |> @js.unsafe_cast
+  self.get("id") |> @js.identity
 }
 
 ///|
@@ -65,7 +65,7 @@ impl ElementImpl with setId(self, id) -> Unit {
 
 ///|
 impl ElementImpl with getAttribute(self, name) -> String? {
-  self.call("getAttribute", [name]) |> @js.unsafe_cast_option
+  self.call("getAttribute", [name]) |> @js.identity_option
 }
 
 ///|
@@ -80,7 +80,7 @@ impl ElementImpl with removeAttribute(self, name) -> Unit {
 
 ///|
 impl ElementImpl with hasAttribute(self, name) -> Bool {
-  self.call("hasAttribute", [name]) |> @js.unsafe_cast
+  self.call("hasAttribute", [name]) |> @js.identity
 }
 
 ///|
@@ -88,7 +88,7 @@ impl ElementImpl with hasAttribute(self, name) -> Bool {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
   @js.array_from(self.call("getElementsByTagName", [tag_name])).map(fn(v) {
-    @js.unsafe_cast(v)
+    @js.identity(v)
   })
 }
 
@@ -97,13 +97,13 @@ impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element] {
   @js.array_from(self.call("getElementsByClassName", [class_name])).map(fn(v) {
-    @js.unsafe_cast(v)
+    @js.identity(v)
   })
 }
 
 ///|
 impl ElementImpl with querySelector(self, selector) -> Element? {
-  self.call("querySelector", [selector]) |> @js.unsafe_cast_option
+  self.call("querySelector", [selector]) |> @js.identity_option
 }
 
 ///|
@@ -117,6 +117,6 @@ impl ElementImpl with querySelector(self, selector) -> Element? {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
   @js.array_from(self.call("querySelectorAll", [selector])).map(
-    @js.unsafe_cast(_),
+    @js.identity(_),
   )
 }

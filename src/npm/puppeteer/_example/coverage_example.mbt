@@ -82,12 +82,12 @@ pub fn coverage_example() -> Unit {
     // Display first entry info if available
     if jsCoverage.length() > 0 {
       let first = jsCoverage[0]
-      let url : String = first.get("url") |> @js.unsafe_cast
+      let url : String = first.get("url") |> @js.identity
       println("First JS entry URL: \{url}")
     }
     if cssCoverage.length() > 0 {
       let first = cssCoverage[0]
-      let url : String = first.get("url") |> @js.unsafe_cast
+      let url : String = first.get("url") |> @js.identity
       println("First CSS entry URL: \{url}")
     }
     browser.close() catch {

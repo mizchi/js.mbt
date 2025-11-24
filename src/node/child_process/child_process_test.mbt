@@ -121,7 +121,7 @@ test "spawnSync with env option" {
   let env_obj = @js.from_map({ "TEST_VAR": @js.js("test_value") })
   let result = spawnSync("echo", args=["$TEST_VAR"], shell=true, env=env_obj)
   let stdout = result.stdout
-  let buffer : @buffer.Buffer = @js.unsafe_cast(stdout)
+  let buffer : @buffer.Buffer = @js.identity(stdout)
   let stdout_str = buffer.toString()
   assert_true(stdout_str.contains("test_value"))
 }
@@ -156,7 +156,7 @@ test "spawnSync handles command not found" {
 test "spawnSync captures output in result" {
   let result = spawnSync("echo", args=["captured"])
   let stdout = result.stdout
-  let buffer : @buffer.Buffer = @js.unsafe_cast(stdout)
+  let buffer : @buffer.Buffer = @js.identity(stdout)
   let stdout_str = buffer.toString()
   assert_true(stdout_str.contains("captured"))
 }

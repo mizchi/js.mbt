@@ -9,7 +9,7 @@
 /// ```moonbit
 /// let num = js(42)                 // MoonBit Int -> @js.Js
 /// let _str = js("hello")            // MoonBit String -> @js.Js
-/// let _val : Int = unsafe_cast(num) // Val -> MoonBit Int (unsafe)
+/// let _val : Int = identity(num) // Val -> MoonBit Int (unsafe)
 /// ```
 #external
 pub type Js
@@ -90,52 +90,47 @@ pub(open) trait JsImpl {
 
 ///|
 impl JsImpl with to_js(self) -> Js {
-  unsafe_cast(self)
+  identity(self)
 }
 
 ///|
 /// JS: self[key]
 impl JsImpl with get(self, key : &PropertyKey) -> Js {
-  ffi_get(self.to_js(), key.to_key() |> unsafe_cast)
+  ffi_get(self.to_js(), key.to_key() |> identity)
 }
 
 ///|
 /// JS: self[key] = val
 impl JsImpl with set(self, key : &PropertyKey, val : &JsImpl) -> Unit {
-  ffi_set(self.to_js(), key.to_key() |> unsafe_cast, val.to_js())
+  ffi_set(self.to_js(), key.to_key() |> identity, val.to_js())
 }
 
 ///|
 /// call a method on the JavaScript value.
 /// JS: self[key](...args)
 impl JsImpl with call(self, key, args) -> Js {
-  ffi_call(self.to_js(), key.to_key() |> unsafe_cast, args.map(_.to_js()))
+  ffi_call(self.to_js(), key.to_key() |> identity, args.map(_.to_js()))
 }
 
 ///|
 /// call a method on the JavaScript value.
 /// JS: self[key](...args)
 impl JsImpl with call0(self, key) -> Js {
-  ffi_call0(self.to_js(), key.to_key() |> unsafe_cast)
+  ffi_call0(self.to_js(), key.to_key() |> identity)
 }
 
 ///|
 /// call a method on the JavaScript value.
 /// JS: self[key](arg1)
 impl JsImpl with call1(self, key, arg1) -> Js {
-  ffi_call1(self.to_js(), key.to_key() |> unsafe_cast, arg1.to_js())
+  ffi_call1(self.to_js(), key.to_key() |> identity, arg1.to_js())
 }
 
 ///|
 /// call a method on the JavaScript value.
 /// JS: self[key](arg1, arg2)
 impl JsImpl with call2(self, key, arg1, arg2) -> Js {
-  ffi_call2(
-    self.to_js(),
-    key.to_key() |> unsafe_cast,
-    arg1.to_js(),
-    arg2.to_js(),
-  )
+  ffi_call2(self.to_js(), key.to_key() |> identity, arg1.to_js(), arg2.to_js())
 }
 
 ///|
@@ -143,7 +138,7 @@ impl JsImpl with call2(self, key, arg1, arg2) -> Js {
 impl JsImpl with call_throwable(self, key, args) -> Js raise ThrowError {
   throwable(() => ffi_call(
     self.to_js(),
-    key.to_key() |> unsafe_cast,
+    key.to_key() |> identity,
     args.map(_.to_js()),
   ))
 }
@@ -169,12 +164,12 @@ impl JsImpl with call_self_throwable(self, args) -> Js raise ThrowError {
 
 ///|
 impl JsImpl with delete(self, key : &PropertyKey) -> Unit {
-  ffi_delete(self.to_js(), key.to_key() |> unsafe_cast)
+  ffi_delete(self.to_js(), key.to_key() |> identity)
 }
 
 ///|
 impl JsImpl with hasOwnProperty(self, key : &PropertyKey) -> Bool {
-  ffi_has_own_property(self.to_js(), key.to_key() |> unsafe_cast)
+  ffi_has_own_property(self.to_js(), key.to_key() |> identity)
 }
 
 ///|

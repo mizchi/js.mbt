@@ -13,7 +13,7 @@ extern "js" fn ffi_require_module() -> @js.Js =
 #alias(builtin_modules)
 pub fn builtinModules() -> Array[String] {
   let mod = ffi_require_module()
-  mod.get("builtinModules") |> @js.unsafe_cast
+  mod.get("builtinModules") |> @js.identity
 }
 
 ///|
@@ -31,7 +31,7 @@ pub fn createRequire(filename : String) -> @js.Js {
 #alias(is_builtin)
 pub fn isBuiltin(module_name : String) -> Bool {
   let mod = ffi_require_module()
-  @js.unsafe_cast(mod.call("isBuiltin", [module_name]))
+  @js.identity(mod.call("isBuiltin", [module_name]))
 }
 
 ///|
@@ -49,7 +49,7 @@ pub fn syncBuiltinESMExports() -> Unit {
 #alias(find_source_map)
 pub fn findSourceMap(path : String) -> SourceMap? {
   let mod = ffi_require_module()
-  mod.call("findSourceMap", [path]) |> @js.unsafe_cast_option()
+  mod.call("findSourceMap", [path]) |> @js.identity_option()
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn flushCompileCache() -> Unit {
 #alias(get_compile_cache_dir)
 pub fn getCompileCacheDir() -> String? {
   let mod = ffi_require_module()
-  mod.call0("getCompileCacheDir") |> @js.unsafe_cast_option()
+  mod.call0("getCompileCacheDir") |> @js.identity_option()
 }
 
 ///|
@@ -102,9 +102,9 @@ pub fn stripTypeScriptTypes(
   let mod = ffi_require_module()
   match (mode, source_map, source_url) {
     (None, None, None) =>
-      @js.unsafe_cast(mod.call("stripTypeScriptTypes", [code]))
+      @js.identity(mod.call("stripTypeScriptTypes", [code]))
     _ =>
-      @js.unsafe_cast(
+      @js.identity(
         mod.call("stripTypeScriptTypes", [
           code,
           @js.from_entries_option([
@@ -143,7 +143,7 @@ pub fn SourceMap::findEntry(
   column_number : Int,
 ) -> SourceMapEntry? {
   self.call2("findEntry", line_number, column_number)
-  |> @js.unsafe_cast_option()
+  |> @js.identity_option()
 }
 
 ///| SourceMapEntry Type
@@ -160,39 +160,39 @@ pub impl @js.JsImpl for SourceMapEntry
 /// Get the original line number
 #alias(original_line)
 pub fn SourceMapEntry::originalLine(self : Self) -> Int {
-  self.get("originalLine") |> @js.unsafe_cast
+  self.get("originalLine") |> @js.identity
 }
 
 ///|
 /// Get the original column number
 #alias(original_column)
 pub fn SourceMapEntry::originalColumn(self : Self) -> Int {
-  self.get("originalColumn") |> @js.unsafe_cast
+  self.get("originalColumn") |> @js.identity
 }
 
 ///|
 /// Get the original source file name
 #alias(original_source)
 pub fn SourceMapEntry::originalSource(self : Self) -> String {
-  self.get("originalSource") |> @js.unsafe_cast
+  self.get("originalSource") |> @js.identity
 }
 
 ///|
 /// Get the generated line number
 #alias(generated_line)
 pub fn SourceMapEntry::generatedLine(self : Self) -> Int {
-  self.get("generatedLine") |> @js.unsafe_cast
+  self.get("generatedLine") |> @js.identity
 }
 
 ///|
 /// Get the generated column number
 #alias(generated_column)
 pub fn SourceMapEntry::generatedColumn(self : Self) -> Int {
-  self.get("generatedColumn") |> @js.unsafe_cast
+  self.get("generatedColumn") |> @js.identity
 }
 
 ///|
 /// Get the name (if available)
 pub fn SourceMapEntry::name(self : Self) -> String? {
-  self.get("name") |> @js.unsafe_cast_option()
+  self.get("name") |> @js.identity_option()
 }

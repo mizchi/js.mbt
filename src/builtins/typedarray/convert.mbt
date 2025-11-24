@@ -16,7 +16,7 @@
 /// assert_eq(uint8array.length(), 5)
 /// ```
 pub fn bytes_to_uint8array(bytes : Bytes) -> Uint8Array {
-  @js.unsafe_cast(bytes)
+  @js.identity(bytes)
 }
 
 ///|
@@ -32,7 +32,7 @@ pub fn bytes_to_uint8array(bytes : Bytes) -> Uint8Array {
 /// assert_eq(bytes.length(), 5)
 /// ```
 pub fn uint8array_to_bytes(uint8array : Uint8Array) -> Bytes {
-  @js.unsafe_cast(uint8array)
+  @js.identity(uint8array)
 }
 
 ///|

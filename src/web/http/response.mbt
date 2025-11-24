@@ -20,19 +20,19 @@ pub fn Response::new(
   headers? : &@js.JsImpl,
 ) -> Response {
   let body_js = match body {
-    Some(b) => @js.unsafe_cast(b)
+    Some(b) => @js.identity(b)
     None => @js.undefined()
   }
   match (status, statusText, headers) {
     (Some(s), Some(st), Some(h)) =>
-      new_impl_full(body_js, s, @js.unsafe_cast(st), h.to_js())
+      new_impl_full(body_js, s, @js.identity(st), h.to_js())
     (Some(s), Some(st), None) =>
-      new_impl_status_text(body_js, s, @js.unsafe_cast(st))
+      new_impl_status_text(body_js, s, @js.identity(st))
     (Some(s), None, Some(h)) => new_impl_status_headers(body_js, s, h.to_js())
     (Some(s), None, None) => new_impl_status(body_js, s)
     (None, Some(st), Some(h)) =>
-      new_impl_text_headers(body_js, @js.unsafe_cast(st), h.to_js())
-    (None, Some(st), None) => new_impl_text(body_js, @js.unsafe_cast(st))
+      new_impl_text_headers(body_js, @js.identity(st), h.to_js())
+    (None, Some(st), None) => new_impl_text(body_js, @js.identity(st))
     (None, None, Some(h)) => new_impl_headers(body_js, h.to_js())
     (None, None, None) => new_impl_plain(body_js)
   }
@@ -143,7 +143,7 @@ pub extern "js" fn Response::type_(self : Self) -> String =
 ///|
 /// Get the body as a ReadableStream
 pub fn Response::body(self : Self) -> @streams.ReadableStream? {
-  self.get("body") |> @js.unsafe_cast_option()
+  self.get("body") |> @js.identity_option()
 }
 
 ///|

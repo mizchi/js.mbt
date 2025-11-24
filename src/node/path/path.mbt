@@ -2,7 +2,7 @@
 /// path.join(...paths)
 pub fn join(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  path_module.call("join", paths.map(p => p)) |> @js.unsafe_cast
+  path_module.call("join", paths.map(p => p)) |> @js.identity
 }
 
 ///|
@@ -10,14 +10,14 @@ pub fn join(paths : Array[String]) -> String {
 /// JS: path.join(a, b)
 pub fn join2(a : String, b : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call2("join", a, b) |> @js.unsafe_cast
+  path_module.call2("join", a, b) |> @js.identity
 }
 
 ///|
 /// JS: path.dirname(path)
 pub fn dirname(path : String) -> String {
   let path_module = @node.require("node:path")
-  @js.unsafe_cast(path_module.call("dirname", [path]))
+  @js.identity(path_module.call("dirname", [path]))
 }
 
 ///|
@@ -25,8 +25,8 @@ pub fn dirname(path : String) -> String {
 pub fn basename(path : String, suffix? : String) -> String {
   let path_module = @node.require("node:path")
   match suffix {
-    Some(s) => path_module.call2("basename", path, s) |> @js.unsafe_cast
-    None => @js.unsafe_cast(path_module.call("basename", [path]))
+    Some(s) => path_module.call2("basename", path, s) |> @js.identity
+    None => @js.identity(path_module.call("basename", [path]))
   }
 }
 
@@ -34,7 +34,7 @@ pub fn basename(path : String, suffix? : String) -> String {
 /// JS: path.extname(path)
 pub fn extname(path : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call("extname", [path]) |> @js.unsafe_cast
+  path_module.call("extname", [path]) |> @js.identity
 }
 
 ///|
@@ -42,42 +42,42 @@ pub fn extname(path : String) -> String {
 #alias(is_absolute)
 pub fn isAbsolute(path : String) -> Bool {
   let path_module = @node.require("node:path")
-  path_module.call("isAbsolute", [path]) |> @js.unsafe_cast
+  path_module.call("isAbsolute", [path]) |> @js.identity
 }
 
 ///|
 /// JS: path.normalize(path)
 pub fn normalize(path : String) -> String {
   let path_module = @node.require("node:path")
-  @js.unsafe_cast(path_module.call("normalize", [path]))
+  @js.identity(path_module.call("normalize", [path]))
 }
 
 ///|
 /// JS: path.resolve(...paths)
 pub fn resolve(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  path_module.call("resolve", paths.map(p => @js.js(p))) |> @js.unsafe_cast
+  path_module.call("resolve", paths.map(p => @js.js(p))) |> @js.identity
 }
 
 ///|
 /// JS: path.relative(from, to)
 pub fn relative(from : String, to : String) -> String {
   let path_module = @node.require("node:path")
-  path_module.call2("relative", from, to) |> @js.unsafe_cast
+  path_module.call2("relative", from, to) |> @js.identity
 }
 
 ///|
 /// JS: path.parse(path)
 pub fn parse(path : String) -> ParsedPath {
   let path_module = @node.require("node:path")
-  @js.unsafe_cast(path_module.call("parse", [path]))
+  @js.identity(path_module.call("parse", [path]))
 }
 
 ///|
 /// JS: path.format(parsed)
 pub fn format(parsed : ParsedPath) -> String {
   let path_module = @node.require("node:path")
-  @js.unsafe_cast(path_module.call("format", [parsed.to_js()]))
+  @js.identity(path_module.call("format", [parsed.to_js()]))
 }
 
 ///|
@@ -96,25 +96,25 @@ pub impl @js.JsImpl for ParsedPath
 ///|
 pub fn delimiter() -> String {
   let path_module = @node.require("node:path")
-  path_module.get("delimiter") |> @js.unsafe_cast
+  path_module.get("delimiter") |> @js.identity
 }
 
 ///|
 pub fn sep() -> String {
   let path_module = @node.require("node:path")
-  path_module.get("sep") |> @js.unsafe_cast
+  path_module.get("sep") |> @js.identity
 }
 
 ///|
 #alias(to_namespaced_path)
 pub fn toNamespacedPath(path : String) -> String {
   let path_module = @node.require("node:path")
-  @js.unsafe_cast(path_module.call("toNamespacedPath", [path]))
+  @js.identity(path_module.call("toNamespacedPath", [path]))
 }
 
 ///|
 #alias(matches_glob)
 pub fn matchesGlob(path : String, pattern : String) -> Bool {
   let path_module = @node.require("node:path")
-  path_module.call2("matchesGlob", path, pattern) |> @js.unsafe_cast
+  path_module.call2("matchesGlob", path, pattern) |> @js.identity
 }

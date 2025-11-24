@@ -129,10 +129,10 @@ test "bench: String to_js conversion" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: unsafe_cast (no conversion, baseline)
-test "bench: unsafe_cast Int to Js" (b : @bench.T) {
+/// Benchmark: identity (no conversion, baseline)
+test "bench: identity Int to Js" (b : @bench.T) {
   b.bench(fn() {
-    let result : Js = unsafe_cast(42)
+    let result : Js = identity(42)
     b.keep(result)
   })
 }

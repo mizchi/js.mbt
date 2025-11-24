@@ -20,12 +20,12 @@ pub impl @js.JsImpl for CloudflareRequest
 
 ///|
 pub fn CloudflareRequest::cf(self : CloudflareRequest) -> CloudflareContext {
-  self.get("cf") |> @js.unsafe_cast
+  self.get("cf") |> @js.identity
 }
 
 ///|
 pub fn CloudflareRequest::url(self : CloudflareRequest) -> String {
-  self.get("url") |> @js.unsafe_cast
+  self.get("url") |> @js.identity
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn CloudflareContext::wait_until(
   self : CloudflareContext,
   promise : @js.Promise[Unit],
 ) -> Unit {
-  @js.unsafe_cast(self.get("waitUntil").call_self([promise |> @js.unsafe_cast]))
+  @js.identity(self.get("waitUntil").call_self([promise |> @js.identity]))
 }
 
 ///|

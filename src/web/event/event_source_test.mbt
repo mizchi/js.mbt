@@ -26,18 +26,18 @@ test "EventSource constructor exists" {
 
 ///|
 test "get_event_data extracts data from event" {
-  let event = @js.from_map({ "data": @js.unsafe_cast("test data") })
+  let event = @js.from_map({ "data": @js.identity("test data") })
   assert_eq(get_event_data(event), "test data")
 }
 
 ///|
 test "get_last_event_id extracts lastEventId from event" {
-  let event = @js.from_map({ "lastEventId": @js.unsafe_cast("123") })
+  let event = @js.from_map({ "lastEventId": @js.identity("123") })
   assert_eq(get_last_event_id(event), "123")
 }
 
 ///|
 test "get_event_origin extracts origin from event" {
-  let event = @js.from_map({ "origin": @js.unsafe_cast("https://example.com") })
+  let event = @js.from_map({ "origin": @js.identity("https://example.com") })
   assert_eq(get_event_origin(event), "https://example.com")
 }

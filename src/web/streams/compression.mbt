@@ -26,7 +26,7 @@ pub impl @js.JsImpl for CompressionStream
 /// let _compressor = CompressionStream::new("gzip")
 /// ```
 pub fn CompressionStream::new(format : String) -> CompressionStream {
-  new_compression_stream(format) |> @js.unsafe_cast
+  new_compression_stream(format) |> @js.identity
 }
 
 ///|
@@ -57,7 +57,7 @@ pub impl @js.JsImpl for DecompressionStream
 /// let _decompressor = DecompressionStream::new("gzip")
 /// ```
 pub fn DecompressionStream::new(format : String) -> DecompressionStream {
-  new_decompression_stream(format) |> @js.unsafe_cast
+  new_decompression_stream(format) |> @js.identity
 }
 
 ///|

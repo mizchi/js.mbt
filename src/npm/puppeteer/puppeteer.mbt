@@ -103,7 +103,7 @@ pub async fn launch(
     Some(h) => js_opts.set("handleSIGTERM", @js.js(h))
     None => ()
   }
-  let promise : @js.Promise[Browser] = @js.unsafe_cast(ffi_launch(js_opts))
+  let promise : @js.Promise[Browser] = @js.identity(ffi_launch(js_opts))
   promise.wait()
 }
 
@@ -112,21 +112,21 @@ pub async fn launch(
 ///|
 /// Browser: Create new page
 pub async fn Browser::newPage(self : Browser) -> Page {
-  let promise : @js.Promise[Page] = @js.unsafe_cast(self.call("newPage", []))
+  let promise : @js.Promise[Page] = @js.identity(self.call("newPage", []))
   promise.wait()
 }
 
 ///|
 /// Browser: Close browser
 pub async fn Browser::close(self : Browser) -> Unit {
-  let promise : @js.Promise[Unit] = @js.unsafe_cast(self.call("close", []))
+  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
   promise.wait()
 }
 
 ///|
 /// Browser: Get all pages
 pub async fn Browser::pages(self : Browser) -> Array[Page] {
-  let promise : @js.Promise[Array[Page]] = @js.unsafe_cast(
+  let promise : @js.Promise[Array[Page]] = @js.identity(
     self.call("pages", []),
   )
   promise.wait()
@@ -135,14 +135,14 @@ pub async fn Browser::pages(self : Browser) -> Array[Page] {
 ///|
 /// Browser: Get version
 pub async fn Browser::version(self : Browser) -> String {
-  let promise : @js.Promise[String] = @js.unsafe_cast(self.call("version", []))
+  let promise : @js.Promise[String] = @js.identity(self.call("version", []))
   promise.wait()
 }
 
 ///|
 /// Browser: Get user agent
 pub async fn Browser::userAgent(self : Browser) -> String {
-  let promise : @js.Promise[String] = @js.unsafe_cast(
+  let promise : @js.Promise[String] = @js.identity(
     self.call("userAgent", []),
   )
   promise.wait()

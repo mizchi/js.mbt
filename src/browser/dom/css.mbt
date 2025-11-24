@@ -17,7 +17,7 @@ pub impl @js.JsImpl for CSSStyleDeclaration
 ///|
 /// Returns a CSS style declaration from a Val
 pub fn css_style_from_val(val : @js.Js) -> CSSStyleDeclaration {
-  @js.unsafe_cast(val)
+  @js.identity(val)
 }
 
 ///|
@@ -26,7 +26,7 @@ pub fn CSSStyleDeclaration::get_property_value(
   self : Self,
   property : String,
 ) -> String {
-  self.call("getPropertyValue", [property]) |> @js.unsafe_cast
+  self.call("getPropertyValue", [property]) |> @js.identity
 }
 
 ///|
@@ -56,7 +56,7 @@ pub fn CSSStyleDeclaration::remove_property(
   self : Self,
   property : String,
 ) -> String {
-  self.call("removeProperty", [property]) |> @js.unsafe_cast
+  self.call("removeProperty", [property]) |> @js.identity
 }
 
 ///|
@@ -65,7 +65,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
   self : Self,
   property : String,
 ) -> String {
-  self.call("getPropertyPriority", [property]) |> @js.unsafe_cast
+  self.call("getPropertyPriority", [property]) |> @js.identity
 }
 
 ///|
@@ -80,7 +80,7 @@ pub impl @js.JsImpl for CSSRule
 ///|
 /// Returns the CSS text of the rule
 pub fn CSSRule::css_text(self : Self) -> String {
-  self.get("cssText") |> @js.unsafe_cast
+  self.get("cssText") |> @js.identity
 }
 
 ///|
@@ -92,19 +92,19 @@ pub fn CSSRule::set_css_text(self : Self, text : String) -> Unit {
 ///|
 /// Returns the parent rule
 pub fn CSSRule::parent_rule(self : Self) -> CSSRule? {
-  self.get("parentRule") |> @js.unsafe_cast_option()
+  self.get("parentRule") |> @js.identity_option()
 }
 
 ///|
 /// Returns the parent stylesheet
 pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
-  self.get("parentStyleSheet") |> @js.unsafe_cast_option()
+  self.get("parentStyleSheet") |> @js.identity_option()
 }
 
 ///|
 /// Returns the rule type
 pub fn CSSRule::rule_type(self : Self) -> Int {
-  self.get("type") |> @js.unsafe_cast
+  self.get("type") |> @js.identity
 }
 
 ///|
@@ -127,7 +127,7 @@ pub fn CSSStyleSheet::cssRules(self : Self) -> @js.Js {
 /// Inserts a CSS rule
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
 pub fn CSSStyleSheet::insertRule(self : Self, rule : String) -> Int {
-  self.call("insertRule", [rule]) |> @js.unsafe_cast
+  self.call("insertRule", [rule]) |> @js.identity
 }
 
 ///|
@@ -137,7 +137,7 @@ pub fn CSSStyleSheet::insertRuleAt(
   rule : String,
   index : Int,
 ) -> Int {
-  self.call2("insertRule", rule, index) |> @js.unsafe_cast
+  self.call2("insertRule", rule, index) |> @js.identity
 }
 
 ///|
@@ -150,13 +150,13 @@ pub fn CSSStyleSheet::deleteRule(self : Self, index : Int) -> Unit {
 ///|
 /// Returns the owner node
 pub fn CSSStyleSheet::ownerNode(self : Self) -> @js.Js? {
-  self.get("ownerNode") |> @js.unsafe_cast_option()
+  self.get("ownerNode") |> @js.identity_option()
 }
 
 ///|
 /// Returns whether the stylesheet is disabled
 pub fn CSSStyleSheet::disabled(self : Self) -> Bool {
-  self.get("disabled") |> @js.unsafe_cast
+  self.get("disabled") |> @js.identity
 }
 
 ///|
@@ -168,13 +168,13 @@ pub fn CSSStyleSheet::set_disabled(self : Self, disabled : Bool) -> Unit {
 ///|
 /// Returns the stylesheet's href
 pub fn CSSStyleSheet::href(self : Self) -> String? {
-  self.get("href") |> @js.unsafe_cast_option()
+  self.get("href") |> @js.identity_option()
 }
 
 ///|
 /// Returns the stylesheet's title
 pub fn CSSStyleSheet::title(self : Self) -> String? {
-  self.get("title") |> @js.unsafe_cast_option()
+  self.get("title") |> @js.identity_option()
 }
 
 ///|
@@ -199,7 +199,7 @@ pub impl @js.JsImpl for MediaQueryList
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
-  @js.unsafe_cast(@js.global_this().call("matchMedia", [query]))
+  @js.identity(@js.global_this().call("matchMedia", [query]))
 }
 
 ///|
@@ -250,7 +250,7 @@ pub fn MediaQueryList::removeChangeListener(
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
   let css_obj = @js.global_this().get("CSS")
-  @js.unsafe_cast(css_obj.call("escape", [value]))
+  @js.identity(css_obj.call("escape", [value]))
 }
 
 ///|
@@ -259,7 +259,7 @@ pub fn cssEscape(value : String) -> String {
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  css_obj.call2("supports", property, value) |> @js.unsafe_cast
+  css_obj.call2("supports", property, value) |> @js.identity
 }
 
 ///|
@@ -267,7 +267,7 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  @js.unsafe_cast(css_obj.call("supports", [condition]))
+  @js.identity(css_obj.call("supports", [condition]))
 }
 
 ///|
@@ -285,5 +285,5 @@ pub fn Document::createStylesheet(self : Self) -> CSSStyleSheet {
     Some(head) => head.call("appendChild", [style]) |> ignore
     None => ()
   }
-  style.get("sheet") |> @js.unsafe_cast
+  style.get("sheet") |> @js.identity
 }

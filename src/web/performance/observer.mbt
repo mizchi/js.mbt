@@ -28,7 +28,7 @@ pub fn PerformanceObserver::new(
   callback : (PerformanceObserverEntryList, PerformanceObserver) -> Unit,
 ) -> PerformanceObserver {
   ffi_new_performance_observer(fn(list, observer) {
-    callback(@js.unsafe_cast(list), @js.unsafe_cast(observer))
+    callback(@js.identity(list), @js.identity(observer))
   })
 }
 
@@ -56,7 +56,7 @@ pub fn PerformanceObserver::disconnect(self : PerformanceObserver) -> Unit {
 pub fn PerformanceObserver::takeRecords(
   self : PerformanceObserver,
 ) -> Array[PerformanceEntry] {
-  self.call0("takeRecords") |> @js.unsafe_cast
+  self.call0("takeRecords") |> @js.identity
 }
 
 ///|
@@ -65,7 +65,7 @@ pub fn PerformanceObserver::takeRecords(
 pub fn PerformanceObserverEntryList::getEntries(
   self : PerformanceObserverEntryList,
 ) -> Array[PerformanceEntry] {
-  self.call0("getEntries") |> @js.unsafe_cast
+  self.call0("getEntries") |> @js.identity
 }
 
 ///|
@@ -75,7 +75,7 @@ pub fn PerformanceObserverEntryList::getEntriesByType(
   self : PerformanceObserverEntryList,
   entryType : String,
 ) -> Array[PerformanceEntry] {
-  self.call("getEntriesByType", [entryType]) |> @js.unsafe_cast
+  self.call("getEntriesByType", [entryType]) |> @js.identity
 }
 
 ///|
@@ -85,5 +85,5 @@ pub fn PerformanceObserverEntryList::getEntriesByName(
   self : PerformanceObserverEntryList,
   name : String,
 ) -> Array[PerformanceEntry] {
-  self.call("getEntriesByName", [name]) |> @js.unsafe_cast
+  self.call("getEntriesByName", [name]) |> @js.identity
 }

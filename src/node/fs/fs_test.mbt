@@ -7,7 +7,7 @@
 /// Test read_file_sync reads buffer
 test "read_file_sync reads package.json" {
   let content = read_file_sync("package.json")
-  inspect(@js.unsafe_cast(content.get("length")) > 0, content="true")
+  inspect(@js.identity(content.get("length")) > 0, content="true")
 }
 
 ///|
@@ -242,8 +242,8 @@ test "chown_sync changes file ownership" {
   let test_file = "test_chown.txt"
   writeFileSync(test_file, "chown test" |> @js.js)
   let stats = statSync(test_file)
-  let uid : Int = stats.get("uid") |> @js.unsafe_cast
-  let gid : Int = stats.get("gid") |> @js.unsafe_cast
+  let uid : Int = stats.get("uid") |> @js.identity
+  let gid : Int = stats.get("gid") |> @js.identity
   // Set to same owner (should succeed without elevated permissions)
   chownSync(test_file, uid, gid)
   let exists = existsSync(test_file)

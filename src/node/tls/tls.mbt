@@ -115,21 +115,21 @@ pub fn create_server(
   options : ServerOptions,
   secureConnectionListener : (TLSSocket) -> Unit,
 ) -> Server {
-  let cb : @js.Js = @js.unsafe_cast(secureConnectionListener)
+  let cb : @js.Js = @js.identity(secureConnectionListener)
   ffi_create_server(options.to_js(), cb)
 }
 
 ///|
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   self.call("close", [cb]) |> ignore
 }
 
@@ -224,7 +224,7 @@ extern "js" fn ffi_connect(options : @js.Js, callback : @js.Js) -> TLSSocket =
 ///|
 /// Connect to a TLS server
 pub fn connect(options : ConnectOptions, callback : () -> Unit) -> TLSSocket {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_connect(options.to_js(), cb)
 }
 
@@ -235,39 +235,39 @@ pub fn TLSSocket::get_peer_certificate(
   detailed : Bool,
 ) -> @js.Object {
   let val : @js.Js = self.call("getPeerCertificate", [detailed])
-  @js.unsafe_cast(val)
+  @js.identity(val)
 }
 
 ///|
 /// Get the cipher information
 pub fn TLSSocket::get_cipher(self : TLSSocket) -> @js.Object {
   let val : @js.Js = self.call0("getCipher")
-  @js.unsafe_cast(val)
+  @js.identity(val)
 }
 
 ///|
 /// Get the negotiated TLS protocol version
 pub fn TLSSocket::get_protocol(self : TLSSocket) -> String {
   let val : @js.Js = self.call0("getProtocol")
-  @js.unsafe_cast(val)
+  @js.identity(val)
 }
 
 ///|
 /// Check if the connection is authorized
 pub fn TLSSocket::authorized(self : TLSSocket) -> Bool {
   let val : @js.Js = self.get("authorized")
-  @js.unsafe_cast(val)
+  @js.identity(val)
 }
 
 ///|
 /// Get the authorization error if not authorized
 pub fn TLSSocket::authorization_error(self : TLSSocket) -> String? {
   let val : @js.Js = self.get("authorizationError")
-  let is_null : Bool = @js.unsafe_cast(@js.typeof_(val) == "undefined")
+  let is_null : Bool = @js.identity(@js.typeof_(val) == "undefined")
   if is_null {
     None
   } else {
-    Some(@js.unsafe_cast(val))
+    Some(@js.identity(val))
   }
 }
 
@@ -299,7 +299,7 @@ pub fn TLSSocket::on_data(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("data", fn(e : @js.Js) { callback(@js.unsafe_cast(e)) })
+  self.addEventListener("data", fn(e : @js.Js) { callback(@js.identity(e)) })
   self
 }
 
@@ -316,6 +316,6 @@ pub fn TLSSocket::on_error(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("error", fn(e : @js.Js) { callback(@js.unsafe_cast(e)) })
+  self.addEventListener("error", fn(e : @js.Js) { callback(@js.identity(e)) })
   self
 }

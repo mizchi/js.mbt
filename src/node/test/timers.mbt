@@ -12,7 +12,7 @@ pub impl @js.JsImpl for MockTimers
 ///|
 /// Get the mock.timers object
 pub fn mock_timers() -> MockTimers {
-  mock().get("timers") |> @js.unsafe_cast
+  mock().get("timers") |> @js.identity
 }
 
 ///|

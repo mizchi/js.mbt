@@ -19,112 +19,112 @@ pub impl @events.EventEmitterImpl for Socket
 ///|
 /// Socket is a Duplex stream
 pub fn Socket::as_duplex(self : Socket) -> @stream.Duplex {
-  @js.unsafe_cast(self)
+  @js.identity(self)
 }
 
 ///|
 /// Connect the socket to a port and host
 pub fn Socket::connect(self : Socket, port : Int, host? : String) -> Socket {
   match host {
-    Some(h) => self.call2("connect", port, h) |> @js.unsafe_cast
-    None => self.call("connect", [port]) |> @js.unsafe_cast
+    Some(h) => self.call2("connect", port, h) |> @js.identity
+    None => self.call("connect", [port]) |> @js.identity
   }
 }
 
 ///|
 /// Write data to the socket
 pub fn Socket::write(self : Socket, data : String) -> Bool {
-  self.call("write", [data]) |> @js.unsafe_cast
+  self.call("write", [data]) |> @js.identity
 }
 
 ///|
 /// End the socket connection
 pub fn Socket::end(self : Socket) -> Socket {
-  self.call0("end") |> @js.unsafe_cast
+  self.call0("end") |> @js.identity
 }
 
 ///|
 /// Destroy the socket
 pub fn Socket::destroy(self : Socket) -> Socket {
-  self.call0("destroy") |> @js.unsafe_cast
+  self.call0("destroy") |> @js.identity
 }
 
 ///|
 /// Pause reading data
 pub fn Socket::pause(self : Socket) -> Socket {
-  self.call0("pause") |> @js.unsafe_cast
+  self.call0("pause") |> @js.identity
 }
 
 ///|
 /// Resume reading data
 pub fn Socket::resume_(self : Socket) -> Socket {
-  self.call0("resume") |> @js.unsafe_cast
+  self.call0("resume") |> @js.identity
 }
 
 ///|
 /// Set the socket encoding
 pub fn Socket::setEncoding(self : Socket, encoding : String) -> Socket {
-  self.call("setEncoding", [encoding]) |> @js.unsafe_cast
+  self.call("setEncoding", [encoding]) |> @js.identity
 }
 
 ///|
 /// Set keep alive
 pub fn Socket::setKeepAlive(self : Socket, enable : Bool) -> Socket {
-  self.call("setKeepAlive", [enable]) |> @js.unsafe_cast
+  self.call("setKeepAlive", [enable]) |> @js.identity
 }
 
 ///|
 /// Set no delay (disable Nagle algorithm)
 pub fn Socket::setNoDelay(self : Socket, noDelay : Bool) -> Socket {
-  self.call("setNoDelay", [noDelay]) |> @js.unsafe_cast
+  self.call("setNoDelay", [noDelay]) |> @js.identity
 }
 
 ///|
 /// Set timeout
 pub fn Socket::setTimeout(self : Socket, timeout : Int) -> Socket {
-  self.call("setTimeout", [timeout]) |> @js.unsafe_cast
+  self.call("setTimeout", [timeout]) |> @js.identity
 }
 
 ///|
 /// Get the remote address
 pub fn Socket::remoteAddress(self : Socket) -> String? {
-  self.get("remoteAddress") |> @js.unsafe_cast_option
+  self.get("remoteAddress") |> @js.identity_option
 }
 
 ///|
 /// Get the remote port
 pub fn Socket::remotePort(self : Socket) -> Int? {
-  self.get("remotePort") |> @js.unsafe_cast_option
+  self.get("remotePort") |> @js.identity_option
 }
 
 ///|
 /// Get the local address
 pub fn Socket::localAddress(self : Socket) -> String? {
-  self.get("localAddress") |> @js.unsafe_cast_option
+  self.get("localAddress") |> @js.identity_option
 }
 
 ///|
 /// Get the local port
 pub fn Socket::localPort(self : Socket) -> Int? {
-  self.get("localPort") |> @js.unsafe_cast_option
+  self.get("localPort") |> @js.identity_option
 }
 
 ///|
 /// Check if the socket is destroyed
 pub fn Socket::destroyed(self : Socket) -> Bool {
-  self.get("destroyed") |> @js.unsafe_cast
+  self.get("destroyed") |> @js.identity
 }
 
 ///|
 /// Get bytes read
 pub fn Socket::bytesRead(self : Socket) -> Int {
-  self.get("bytesRead") |> @js.unsafe_cast
+  self.get("bytesRead") |> @js.identity
 }
 
 ///|
 /// Get bytes written
 pub fn Socket::bytesWritten(self : Socket) -> Int {
-  self.get("bytesWritten") |> @js.unsafe_cast
+  self.get("bytesWritten") |> @js.identity
 }
 
 ///| Server class
@@ -156,35 +156,35 @@ pub fn Server::listen(
 
   // Call listen with port, host, and backlog
   match (host, backlog) {
-    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> @js.unsafe_cast
-    (Some(h), None) => self.call2("listen", port, h) |> @js.unsafe_cast
-    (None, Some(b)) => self.call2("listen", port, b) |> @js.unsafe_cast
-    (None, None) => self.call("listen", [port]) |> @js.unsafe_cast
+    (Some(h), Some(b)) => self.call("listen", [port, h, b]) |> @js.identity
+    (Some(h), None) => self.call2("listen", port, h) |> @js.identity
+    (None, Some(b)) => self.call2("listen", port, b) |> @js.identity
+    (None, None) => self.call("listen", [port]) |> @js.identity
   }
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server) -> Server {
-  self.call0("close") |> @js.unsafe_cast
+  self.call0("close") |> @js.identity
 }
 
 ///|
 /// Get the server address
 pub fn Server::address(self : Server) -> @js.Js? {
-  self.call0("address") |> @js.unsafe_cast_option
+  self.call0("address") |> @js.identity_option
 }
 
 ///|
 /// Check if the server is listening
 pub fn Server::listening(self : Server) -> Bool {
-  self.get("listening") |> @js.unsafe_cast
+  self.get("listening") |> @js.identity
 }
 
 ///|
 /// Get max connections
 pub fn Server::maxConnections(self : Server) -> Int? {
-  self.get("maxConnections") |> @js.unsafe_cast_option
+  self.get("maxConnections") |> @js.identity_option
 }
 
 ///|
@@ -200,8 +200,8 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 pub fn createConnection(port : Int, host? : String) -> Socket {
   match host {
     Some(h) =>
-      net_module().call2("createConnection", port, h) |> @js.unsafe_cast
-    None => net_module().call("createConnection", [port]) |> @js.unsafe_cast
+      net_module().call2("createConnection", port, h) |> @js.identity
+    None => net_module().call("createConnection", [port]) |> @js.identity
   }
 }
 
@@ -235,26 +235,26 @@ pub fn createServer(
         ("keepAliveInitialDelay", keepAliveInitialDelay.map(x => x)),
       ]),
     ])
-    |> @js.unsafe_cast
+    |> @js.identity
   } else {
-    net_module().call0("createServer") |> @js.unsafe_cast
+    net_module().call0("createServer") |> @js.identity
   }
 }
 
 ///|
 /// Check if IP address is IPv4
 pub fn isIPv4(input : String) -> Bool {
-  net_module().call("isIPv4", [input]) |> @js.unsafe_cast
+  net_module().call("isIPv4", [input]) |> @js.identity
 }
 
 ///|
 /// Check if IP address is IPv6
 pub fn isIPv6(input : String) -> Bool {
-  net_module().call("isIPv6", [input]) |> @js.unsafe_cast
+  net_module().call("isIPv6", [input]) |> @js.identity
 }
 
 ///|
 /// Check IP version (returns 4, 6, or 0 for invalid)
 pub fn isIP(input : String) -> Int {
-  net_module().call("isIP", [input]) |> @js.unsafe_cast
+  net_module().call("isIP", [input]) |> @js.identity
 }

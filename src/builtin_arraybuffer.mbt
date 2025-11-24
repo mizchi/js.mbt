@@ -25,24 +25,24 @@ pub fn ArrayBuffer::new(
   byte_length : UInt,
   max_byte_length? : UInt,
 ) -> ArrayBuffer {
-  unsafe_cast(ffi_new_array_buffer(byte_length, max_byte_length))
+  identity(ffi_new_array_buffer(byte_length, max_byte_length))
 }
 
 ///|
 #alias(byte_length)
 pub fn ArrayBuffer::byteLength(self : ArrayBuffer) -> UInt {
-  self.get("byteLength") |> unsafe_cast
+  self.get("byteLength") |> identity
 }
 
 ///|
 #alias(max_byte_length)
 pub fn ArrayBuffer::maxByteLength(self : ArrayBuffer) -> UInt {
-  self.get("maxByteLength") |> unsafe_cast
+  self.get("maxByteLength") |> identity
 }
 
 ///|
 pub fn ArrayBuffer::resizable(self : ArrayBuffer) -> Bool {
-  self.get("resizable") |> unsafe_cast
+  self.get("resizable") |> identity
 }
 
 ///|
@@ -57,8 +57,8 @@ pub fn ArrayBuffer::slice(
   end? : Int,
 ) -> ArrayBuffer {
   match end {
-    Some(e) => self.call2("slice", begin, e) |> unsafe_cast
-    None => self.call1("slice", begin) |> unsafe_cast
+    Some(e) => self.call2("slice", begin, e) |> identity
+    None => self.call1("slice", begin) |> identity
   }
 }
 
@@ -69,7 +69,7 @@ extern "js" fn ffi_is_view(arg : Js) -> Js =
 ///|
 #alias(is_view)
 pub fn ArrayBuffer::isView(arg : Js) -> Bool {
-  ffi_is_view(arg) |> unsafe_cast
+  ffi_is_view(arg) |> identity
 }
 
 ///| SharedArrayBuffer
@@ -87,13 +87,13 @@ extern "js" fn ffi_new_shared_array_buffer(byte_length : UInt) -> Js =
 
 ///|
 pub fn SharedArrayBuffer::new(byte_length : UInt) -> SharedArrayBuffer {
-  unsafe_cast(ffi_new_shared_array_buffer(byte_length))
+  identity(ffi_new_shared_array_buffer(byte_length))
 }
 
 ///|
 #alias(byte_length)
 pub fn SharedArrayBuffer::byteLength(self : SharedArrayBuffer) -> UInt {
-  self.get("byteLength") |> unsafe_cast
+  self.get("byteLength") |> identity
 }
 
 ///|
@@ -103,7 +103,7 @@ pub fn SharedArrayBuffer::slice(
   end? : Int,
 ) -> SharedArrayBuffer {
   match end {
-    Some(e) => self.call2("slice", begin, e) |> unsafe_cast
-    None => unsafe_cast(self.call("slice", [begin]))
+    Some(e) => self.call2("slice", begin, e) |> identity
+    None => identity(self.call("slice", [begin]))
   }
 }

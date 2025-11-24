@@ -84,7 +84,7 @@ test "queryBy methods return None when not found" {
   let is_null2 = @js.is_null(existing)
   assert_eq(is_null2, false)
   // Verify the text content
-  let text = text_content(@js.unsafe_cast(existing))
+  let text = text_content(@js.identity(existing))
   assert_eq(text, "Existing text")
 }
 
@@ -209,7 +209,7 @@ test "fireEvent change on input" {
     let (value, set_value) = @react.use_state("")
     let on_change : @dom.ChangeEventHandler = e => {
       let target : @js.Js = e.get("target")
-      let new_value : String = target.get("value") |> @js.unsafe_cast
+      let new_value : String = target.get("value") |> @js.identity
       set_value(new_value)
     }
     @react_element.div([
@@ -246,7 +246,7 @@ test "fireEvent submit on form" {
     @react_element.div([
       @react_element.form(
         [@react_element.button(["Submit"], type_="submit")],
-        on_submit=@js.unsafe_cast(on_submit),
+        on_submit=@js.identity(on_submit),
         id="test-form",
       ),
       if submitted {
@@ -263,7 +263,7 @@ test "fireEvent submit on form" {
       @react_testing_library.screen().getByText("Submit"),
       "form",
     )
-    |> @js.unsafe_cast
+    |> @js.identity
   @react_testing_library.fireEvent().submit(form_el)
   text_content(@react_testing_library.screen().getByText("Form submitted"))
   |> assert_eq("Form submitted")
@@ -280,8 +280,8 @@ test "fireEvent focus and blur on input" {
     let on_blur = fn(_e : @js.Js) { set_focused(false) }
     @react_element.div([
       @react_element.input(
-        on_focus=@js.unsafe_cast(on_focus),
-        on_blur=@js.unsafe_cast(on_blur),
+        on_focus=@js.identity(on_focus),
+        on_blur=@js.identity(on_blur),
         placeholder="Focus me",
       ),
       @react_element.div([if focused { "Focused" } else { "Not focused" }]),
@@ -308,12 +308,12 @@ test "fireEvent keyDown on input" {
   let comp = (_props : AppProps) => {
     let (key, set_key) = @react.use_state("")
     let on_keydown = fn(e : @js.Js) {
-      let k : String = e.get("key") |> @js.unsafe_cast
+      let k : String = e.get("key") |> @js.identity
       set_key("Key: \{k}")
     }
     @react_element.div([
       @react_element.input(
-        on_keydown=@js.unsafe_cast(on_keydown),
+        on_keydown=@js.identity(on_keydown),
         placeholder="Press a key",
       ),
       @react_element.div([if key == "" { "No key pressed" } else { key }]),
@@ -354,11 +354,11 @@ test "renderHook: useState" {
     let (state, _set_state) = @react.use_state(0)
     state
   }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   let hook_result = result.result()
   // result.current is the hook return value
   let current = hook_result.get("current")
-  let state : Int = @js.unsafe_cast(current)
+  let state : Int = @js.identity(current)
   assert_eq(state, 0)
 }
 
@@ -372,10 +372,10 @@ test "renderHook: useState with updates" {
     let (state, _set_state) = @react.use_state(0)
     state
   }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   // Get initial state
   let current1 = result.result().get("current")
-  let state1 : Int = @js.unsafe_cast(current1)
+  let state1 : Int = @js.identity(current1)
   assert_eq(state1, 0)
   // Note: Testing state updates with renderHook requires more complex setup
   // For now, we verify the hook returns the correct initial value
@@ -397,9 +397,9 @@ test "renderHook: useEffect" {
     )
     count
   }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   let current = result.result().get("current")
-  let count : Int = @js.unsafe_cast(current)
+  let count : Int = @js.identity(current)
   // After useEffect runs, count should be 1
   assert_eq(count, 1)
 }
@@ -413,7 +413,7 @@ test "renderHook: useCallback" {
     let (count, _set_count) = @react.use_state(0)
     @react.useCallback(fn() { count * 2 }, [count])
   }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   let current = result.result().get("current")
   // callback is a function
   @js.typeof_(current) |> assert_eq("function")
@@ -428,9 +428,9 @@ test "renderHook: useMemo" {
     let (count, _set_count) = @react.use_state(5)
     @react.useMemo(fn() { count * 2 }, [count])
   }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   let current = result.result().get("current")
-  let doubled : Int = @js.unsafe_cast(current)
+  let doubled : Int = @js.identity(current)
   assert_eq(doubled, 10)
 }
 
@@ -440,11 +440,11 @@ test "renderHook: useRef" {
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
   let hook = fn() { @react.useRef(Some(42)) }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   let current = result.result().get("current")
   // ref has a current property
   let ref_current = current.get("current")
-  let value : Int = @js.unsafe_cast(ref_current)
+  let value : Int = @js.identity(ref_current)
   assert_eq(value, 42)
 }
 
@@ -455,9 +455,9 @@ test "renderHook: useContext" {
   @react_testing_library.cleanup()
   let ctx : @react.Context[Int] = @react.create_context(Some(100))
   let hook = fn() { @react.use_context(ctx) }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   let current = result.result().get("current")
-  let value : Int = @js.unsafe_cast(current)
+  let value : Int = @js.identity(current)
   assert_eq(value, 100)
 }
 
@@ -471,9 +471,9 @@ test "renderHook: useReducer" {
     let (state, _dispatch) = @react.use_reducer(reducer, 0)
     state
   }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   let current = result.result().get("current")
-  let state : Int = @js.unsafe_cast(current)
+  let state : Int = @js.identity(current)
   assert_eq(state, 0)
   // Note: Testing dispatch with renderHook requires more complex setup
   // For now, we verify the hook returns the correct initial state
@@ -490,15 +490,15 @@ test "renderHook: rerender method" {
     let (count, _set_count) = @react.use_state(10)
     count * multiplier_ref.val
   }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   let current1 = result.result().get("current")
-  let value1 : Int = @js.unsafe_cast(current1)
+  let value1 : Int = @js.identity(current1)
   assert_eq(value1, 20)
   // Change multiplier and rerender
   multiplier_ref.val = 3
   result.rerender(@js.undefined())
   let current2 = result.result().get("current")
-  let value2 : Int = @js.unsafe_cast(current2)
+  let value2 : Int = @js.identity(current2)
   assert_eq(value2, 30)
 }
 
@@ -508,7 +508,7 @@ test "renderHook: unmount method" {
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
   let hook = fn() { @react.use_state(0) }
-  let result = renderHook(@js.unsafe_cast(hook))
+  let result = renderHook(@js.identity(hook))
   // Verify hook is mounted
   let current = result.result().get("current")
   @js.typeof_(current) |> assert_eq("object")
@@ -634,7 +634,7 @@ fn child_component(_props : ChildProps) -> @react.Element {
   let ref_val : @react.ReactRef[@dom.HTMLDivElement] = @react.use_ref(None)
   @react.use_imperative_handle(
     ref_val,
-    fn() -> @dom.HTMLDivElement { @js.Object::new() |> @js.unsafe_cast },
+    fn() -> @dom.HTMLDivElement { @js.Object::new() |> @js.identity },
     [],
   )
   @react_element.div(["Child"], ref_=ref_val)

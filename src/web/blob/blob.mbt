@@ -12,7 +12,7 @@ pub impl @js.JsImpl for Blob
 /// Get the content type of the Blob
 #alias(content_type)
 pub fn Blob::contentType(self : Self) -> String {
-  self.to_js().get("type") |> @js.unsafe_cast
+  self.to_js().get("type") |> @js.identity
 }
 
 ///|
@@ -33,20 +33,20 @@ pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
     arr.to_js(),
     @js.from_entries_option_cast([("type", content_type)]),
   )
-  |> @js.unsafe_cast
+  |> @js.identity
 }
 
 ///|
 /// Get the Blob contents as ArrayBuffer
 #alias(arrayBuffer)
 pub fn Blob::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.to_js().call0("arrayBuffer") |> @js.unsafe_cast
+  self.to_js().call0("arrayBuffer") |> @js.identity
 }
 
 ///|
 /// Get the Blob contents as text
 pub fn Blob::text(self : Self) -> @js.Promise[String] {
-  self.to_js().call0("text") |> @js.unsafe_cast
+  self.to_js().call0("text") |> @js.identity
 }
 
 ///|
@@ -59,23 +59,23 @@ pub fn Blob::slice(
 ) -> Blob {
   let js = self.to_js()
   match (start, end, content_type) {
-    (None, None, None) => js.call0("slice") |> @js.unsafe_cast
-    (Some(s), None, None) => js.call("slice", [s]) |> @js.unsafe_cast
-    (Some(s), Some(e), None) => js.call2("slice", s, e) |> @js.unsafe_cast
+    (None, None, None) => js.call0("slice") |> @js.identity
+    (Some(s), None, None) => js.call("slice", [s]) |> @js.identity
+    (Some(s), Some(e), None) => js.call2("slice", s, e) |> @js.identity
     (Some(s), Some(e), Some(ct)) =>
-      js.call("slice", [s, e, ct]) |> @js.unsafe_cast
+      js.call("slice", [s, e, ct]) |> @js.identity
     (None, Some(e), ct) =>
       match ct {
-        Some(t) => js.call("slice", [0, e, t]) |> @js.unsafe_cast
-        None => js.call2("slice", 0, e) |> @js.unsafe_cast
+        Some(t) => js.call("slice", [0, e, t]) |> @js.identity
+        None => js.call2("slice", 0, e) |> @js.identity
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size
-      js.call("slice", [s, size, ct]) |> @js.unsafe_cast
+      js.call("slice", [s, size, ct]) |> @js.identity
     }
     (None, None, Some(ct)) => {
       let size = self.size
-      js.call("slice", [0, size, ct]) |> @js.unsafe_cast
+      js.call("slice", [0, size, ct]) |> @js.identity
     }
   }
 }
@@ -83,5 +83,5 @@ pub fn Blob::slice(
 ///|
 /// Get a ReadableStream for the Blob contents
 pub fn Blob::stream(self : Self) -> @streams.ReadableStream {
-  self.to_js().call0("stream") |> @js.unsafe_cast
+  self.to_js().call0("stream") |> @js.identity
 }

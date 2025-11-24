@@ -18,5 +18,5 @@ extern "js" fn ffi_test_client(app : @js.Js) -> @js.Js =
 pub fn[Env, ExecutionContext] test_client(
   app : Hono[Env, ExecutionContext],
 ) -> HonoClient {
-  ffi_test_client(@js.unsafe_cast(app)) |> @js.unsafe_cast
+  ffi_test_client(@js.identity(app)) |> @js.identity
 }

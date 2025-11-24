@@ -35,19 +35,19 @@ pub fn URL::new(url : String, base? : String) -> URL raise @js.ThrowError {
 ///|
 /// Get the searchParams property
 pub fn URL::searchParams(self : URL) -> URLSearchParams {
-  self.get("searchParams") |> @js.unsafe_cast
+  self.get("searchParams") |> @js.identity
 }
 
 ///|
 /// Convert URL to string
 #alias(toString)
 pub fn URL::to_string(self : URL) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }
 
 ///|
 /// Convert URL to JSON
 #alias(toJSON)
 pub fn URL::to_json(self : URL) -> String {
-  self.call0("toJSON") |> @js.unsafe_cast
+  self.call0("toJSON") |> @js.identity
 }

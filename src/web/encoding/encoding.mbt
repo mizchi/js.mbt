@@ -15,7 +15,7 @@ pub impl @js.JsImpl for TextEncoder
 
 ///|
 pub fn TextEncoder::new() -> TextEncoder {
-  @js.unsafe_cast(ffi_new_text_encoder())
+  @js.identity(ffi_new_text_encoder())
 }
 
 ///|
@@ -23,7 +23,7 @@ pub fn TextEncoder::encode(
   self : TextEncoder,
   input : String,
 ) -> @typedarray.Uint8Array {
-  self.call("encode", [input]) |> @js.unsafe_cast
+  self.call("encode", [input]) |> @js.identity
 }
 
 ///|
@@ -34,7 +34,7 @@ pub impl @js.JsImpl for TextDecoder
 
 ///|
 pub fn TextDecoder::new() -> TextDecoder {
-  @js.unsafe_cast(ffi_new_text_decoder())
+  @js.identity(ffi_new_text_decoder())
 }
 
 ///|
@@ -42,5 +42,5 @@ pub fn TextDecoder::decode(
   self : TextDecoder,
   input : @typedarray.Uint8Array,
 ) -> String {
-  self.call("decode", [input]) |> @js.unsafe_cast
+  self.call("decode", [input]) |> @js.identity
 }

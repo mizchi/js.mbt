@@ -37,7 +37,7 @@ pub fn createElement(
     }
     val.set("style", style_obj)
   }
-  @js.unsafe_cast(ffi_create_element(tag, val.to_js(), children))
+  @js.identity(ffi_create_element(tag, val.to_js(), children))
 }
 
 ///|
@@ -48,5 +48,5 @@ pub fn createElementDirect(
   props : @js.Js,
   children : @js.Js,
 ) -> Element {
-  @js.unsafe_cast(ffi_create_element(tag |> @js.js, props, children))
+  @js.identity(ffi_create_element(tag |> @js.js, props, children))
 }

@@ -60,13 +60,13 @@ test "fileURLToPath and pathToFileURL roundtrip" {
 test "urlToHttpOptions" {
   let url = @weburl.URL::new("https://example.com:8080/path?query=value")
   let options = urlToHttpOptions(url)
-  let protocol : String = @js.unsafe_cast(options.get("protocol"))
+  let protocol : String = @js.identity(options.get("protocol"))
   assert_eq(protocol, "https:")
-  let hostname : String = @js.unsafe_cast(options.get("hostname"))
+  let hostname : String = @js.identity(options.get("hostname"))
   assert_eq(hostname, "example.com")
   // port is returned as a number in the options object
-  let port : Int = @js.unsafe_cast(options.get("port"))
+  let port : Int = @js.identity(options.get("port"))
   assert_eq(port, 8080)
-  let pathname : String = @js.unsafe_cast(options.get("pathname"))
+  let pathname : String = @js.identity(options.get("pathname"))
   assert_eq(pathname, "/path")
 }

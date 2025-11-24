@@ -10,8 +10,8 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
         url,
         @js.from_entries_option_cast([("windows", Some(w))]),
       )
-      |> @js.unsafe_cast
-    None => url_module.call1("fileURLToPath", url) |> @js.unsafe_cast
+      |> @js.identity
+    None => url_module.call1("fileURLToPath", url) |> @js.identity
   }
 }
 
@@ -27,8 +27,8 @@ pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
         url,
         @js.from_entries_option_cast([("windows", Some(w))]),
       )
-      |> @js.unsafe_cast
-    None => url_module.call1("fileURLToPath", url) |> @js.unsafe_cast
+      |> @js.identity
+    None => url_module.call1("fileURLToPath", url) |> @js.identity
   }
 }
 
@@ -44,8 +44,8 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
         path,
         @js.from_entries_option_cast([("windows", Some(w))]),
       )
-      |> @js.unsafe_cast
-    None => url_module.call1("pathToFileURL", path) |> @js.unsafe_cast
+      |> @js.identity
+    None => url_module.call1("pathToFileURL", path) |> @js.identity
   }
 }
 
@@ -61,5 +61,5 @@ pub fn urlToHttpOptions(url : @weburl.URL) -> @js.Js {
 /// Format a URL object to string (legacy API)
 pub fn format(url : @weburl.URL) -> String {
   let url_module = @node.require("node:url")
-  url_module.call1("format", url) |> @js.unsafe_cast
+  url_module.call1("format", url) |> @js.identity
 }

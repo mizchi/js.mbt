@@ -42,59 +42,59 @@ pub(open) trait TypedArrayImpl: @js.JsImpl {
 
 ///|
 impl TypedArrayImpl with length(self) -> UInt {
-  self.get("length") |> @js.unsafe_cast
+  self.get("length") |> @js.identity
 }
 
 ///|
 impl TypedArrayImpl with byteLength(self) -> UInt {
-  self.get("byteLength") |> @js.unsafe_cast
+  self.get("byteLength") |> @js.identity
 }
 
 ///|
 impl TypedArrayImpl with byteOffset(self) -> UInt {
-  self.get("byteOffset") |> @js.unsafe_cast
+  self.get("byteOffset") |> @js.identity
 }
 
 ///|
 impl TypedArrayImpl with slice(self, start? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.call2("slice", start, e) |> @js.unsafe_cast
-    None => self.call("slice", [start]) |> @js.unsafe_cast
+    Some(e) => self.call2("slice", start, e) |> @js.identity
+    None => self.call("slice", [start]) |> @js.identity
   }
 }
 
 ///|
 impl TypedArrayImpl with subarray(self, begin? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.call2("subarray", begin, e) |> @js.unsafe_cast
-    None => self.call("subarray", [begin]) |> @js.unsafe_cast
+    Some(e) => self.call2("subarray", begin, e) |> @js.identity
+    None => self.call("subarray", [begin]) |> @js.identity
   }
 }
 
 ///|
 impl TypedArrayImpl with copyWithin(self, target, start, end? : Int) -> Self {
   match end {
-    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.unsafe_cast
-    None => self.call2("copyWithin", target, start) |> @js.unsafe_cast
+    Some(e) => self.call("copyWithin", [target, start, e]) |> @js.identity
+    None => self.call2("copyWithin", target, start) |> @js.identity
   }
 }
 
 ///|
 impl TypedArrayImpl with reverse(self) -> Self {
-  self.call0("reverse") |> @js.unsafe_cast
+  self.call0("reverse") |> @js.identity
 }
 
 ///|
 impl TypedArrayImpl with sort(self) -> Self {
-  self.call0("sort") |> @js.unsafe_cast
+  self.call0("sort") |> @js.identity
 }
 
 ///|
 impl TypedArrayImpl with join(self, separator? : String = ",") -> String {
-  self.call("join", [separator]) |> @js.unsafe_cast
+  self.call("join", [separator]) |> @js.identity
 }
 
 ///|
 impl TypedArrayImpl with toString(self) -> String {
-  self.call0("toString") |> @js.unsafe_cast
+  self.call0("toString") |> @js.identity
 }

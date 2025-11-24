@@ -23,7 +23,7 @@ extern "js" fn create_object_with_value_field(v : Int) -> @js.Js =
 
 ///|
 test "@js.Nullable[Int]::to_option() - null value returns None" {
-  let nullable : @js.Nullable[Int] = create_null() |> unsafe_cast
+  let nullable : @js.Nullable[Int] = create_null() |> identity
   match nullable.to_option() {
     Some(_) => fail("Expected None for null value")
     None => ()
@@ -32,7 +32,7 @@ test "@js.Nullable[Int]::to_option() - null value returns None" {
 
 ///|
 test "@js.Nullable[Int]::to_option() - actual value returns Some" {
-  let nullable : @js.Nullable[Int] = create_value(42) |> unsafe_cast
+  let nullable : @js.Nullable[Int] = create_value(42) |> identity
   match nullable.to_option() {
     Some(v) => assert_eq(v, 42)
     None => fail("Expected Some(42) for actual value")
@@ -41,7 +41,7 @@ test "@js.Nullable[Int]::to_option() - actual value returns Some" {
 
 ///|
 test "@js.Nullable[Int]::to_option() - undefined behavior" {
-  let nullable : @js.Nullable[Int] = create_undefined() |> unsafe_cast
+  let nullable : @js.Nullable[Int] = create_undefined() |> identity
   // Note: The actual behavior of undefined with Nullable may vary
   // This test documents the current behavior
   match nullable.to_option() {
@@ -52,19 +52,19 @@ test "@js.Nullable[Int]::to_option() - undefined behavior" {
 
 ///|
 test "@js.Nullable[Int]::is_null() - null returns true" {
-  let nullable : @js.Nullable[Int] = create_null() |> unsafe_cast
+  let nullable : @js.Nullable[Int] = create_null() |> identity
   assert_true(nullable.is_null())
 }
 
 ///|
 test "@js.Nullable[Int]::is_null() - value returns false" {
-  let nullable : @js.Nullable[Int] = create_value(42) |> unsafe_cast
+  let nullable : @js.Nullable[Int] = create_value(42) |> identity
   assert_false(nullable.is_null())
 }
 
 ///|
 test "@js.Nullable[Int]::is_null() - undefined behavior" {
-  let nullable : @js.Nullable[Int] = create_undefined() |> unsafe_cast
+  let nullable : @js.Nullable[Int] = create_undefined() |> identity
   // The behavior of is_null() with undefined may vary
   // This test documents that we don't make assumptions about it
   let _ = nullable.is_null()
@@ -73,7 +73,7 @@ test "@js.Nullable[Int]::is_null() - undefined behavior" {
 
 ///|
 test "@js.Nullable[String] - null value" {
-  let nullable : @js.Nullable[String] = create_null() |> unsafe_cast
+  let nullable : @js.Nullable[String] = create_null() |> identity
   assert_true(nullable.is_null())
   match nullable.to_option() {
     Some(_) => fail("Expected None for null string")
@@ -83,8 +83,8 @@ test "@js.Nullable[String] - null value" {
 
 ///|
 test "@js.Nullable[String] - actual value" {
-  let js_str : @js.Js = @js.unsafe_cast("hello")
-  let nullable : @js.Nullable[String] = js_str |> unsafe_cast
+  let js_str : @js.Js = @js.identity("hello")
+  let nullable : @js.Nullable[String] = js_str |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(s) => assert_eq(s, "hello")
@@ -94,14 +94,14 @@ test "@js.Nullable[String] - actual value" {
 
 ///|
 test "@js.Nullable[Bool] - null value" {
-  let nullable : @js.Nullable[Bool] = create_null() |> unsafe_cast
+  let nullable : @js.Nullable[Bool] = create_null() |> identity
   assert_true(nullable.is_null())
 }
 
 ///|
 test "@js.Nullable[Bool] - false value is not null" {
-  let js_false : @js.Js = @js.unsafe_cast(false)
-  let nullable : @js.Nullable[Bool] = js_false |> unsafe_cast
+  let js_false : @js.Js = @js.identity(false)
+  let nullable : @js.Nullable[Bool] = js_false |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(b) => assert_false(b)
@@ -111,8 +111,8 @@ test "@js.Nullable[Bool] - false value is not null" {
 
 ///|
 test "@js.Nullable[Bool] - true value" {
-  let js_true : @js.Js = @js.unsafe_cast(true)
-  let nullable : @js.Nullable[Bool] = js_true |> unsafe_cast
+  let js_true : @js.Js = @js.identity(true)
+  let nullable : @js.Nullable[Bool] = js_true |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(b) => assert_true(b)
@@ -122,14 +122,14 @@ test "@js.Nullable[Bool] - true value" {
 
 ///|
 test "@js.Nullable[Double] - null value" {
-  let nullable : @js.Nullable[Double] = create_null() |> unsafe_cast
+  let nullable : @js.Nullable[Double] = create_null() |> identity
   assert_true(nullable.is_null())
 }
 
 ///|
 test "@js.Nullable[Double] - zero is not null" {
-  let js_zero : @js.Js = @js.unsafe_cast(0.0)
-  let nullable : @js.Nullable[Double] = js_zero |> unsafe_cast
+  let js_zero : @js.Js = @js.identity(0.0)
+  let nullable : @js.Nullable[Double] = js_zero |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(v) => assert_eq(v, 0.0)
@@ -139,8 +139,8 @@ test "@js.Nullable[Double] - zero is not null" {
 
 ///|
 test "@js.Nullable[Double] - actual value" {
-  let js_val : @js.Js = @js.unsafe_cast(3.14)
-  let nullable : @js.Nullable[Double] = js_val |> unsafe_cast
+  let js_val : @js.Js = @js.identity(3.14)
+  let nullable : @js.Nullable[Double] = js_val |> identity
   match nullable.to_option() {
     Some(v) => assert_eq(v, 3.14)
     None => fail("Expected Some(3.14)")
@@ -159,7 +159,7 @@ pub impl JsImpl for TestRecord
 ///|
 test "struct with Nullable field - null value" {
   let obj = create_object_with_null_field()
-  let record : TestRecord = obj |> unsafe_cast
+  let record : TestRecord = obj |> identity
   assert_true(record.value.is_null())
   match record.value.to_option() {
     Some(_) => fail("Expected None for null field")
@@ -170,7 +170,7 @@ test "struct with Nullable field - null value" {
 ///|
 test "struct with Nullable field - actual value" {
   let obj = create_object_with_value_field(99)
-  let record : TestRecord = obj |> unsafe_cast
+  let record : TestRecord = obj |> identity
   assert_false(record.value.is_null())
   match record.value.to_option() {
     Some(v) => assert_eq(v, 99)
@@ -204,7 +204,7 @@ extern "js" fn create_multi_nullable(
 ///|
 test "multiple Nullable fields - all null" {
   let obj = create_multi_nullable(true, true, true)
-  let record : MultiNullableRecord = obj |> unsafe_cast
+  let record : MultiNullableRecord = obj |> identity
   assert_true(record.str_field.is_null())
   assert_true(record.int_field.is_null())
   assert_true(record.bool_field.is_null())
@@ -213,7 +213,7 @@ test "multiple Nullable fields - all null" {
 ///|
 test "multiple Nullable fields - all non-null" {
   let obj = create_multi_nullable(false, false, false)
-  let record : MultiNullableRecord = obj |> unsafe_cast
+  let record : MultiNullableRecord = obj |> identity
   assert_false(record.str_field.is_null())
   assert_false(record.int_field.is_null())
   assert_false(record.bool_field.is_null())
@@ -234,7 +234,7 @@ test "multiple Nullable fields - all non-null" {
 ///|
 test "multiple Nullable fields - mixed null and non-null" {
   let obj = create_multi_nullable(true, false, true)
-  let record : MultiNullableRecord = obj |> unsafe_cast
+  let record : MultiNullableRecord = obj |> identity
   assert_true(record.str_field.is_null())
   assert_false(record.int_field.is_null())
   assert_true(record.bool_field.is_null())

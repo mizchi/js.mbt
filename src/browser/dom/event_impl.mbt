@@ -29,32 +29,32 @@ impl EventImpl with stopImmediatePropagation(self) -> Unit {
 
 ///|
 impl EventImpl with target(self) -> Element {
-  self.get("target") |> @js.unsafe_cast
+  self.get("target") |> @js.identity
 }
 
 ///|
 impl EventImpl with currentTarget(self) -> Element {
-  self.get("currentTarget") |> @js.unsafe_cast
+  self.get("currentTarget") |> @js.identity
 }
 
 ///|
 impl EventImpl with eventType(self) -> String {
-  self.get("type") |> @js.unsafe_cast
+  self.get("type") |> @js.identity
 }
 
 ///|
 impl EventImpl with bubbles(self) -> Bool {
-  self.get("bubbles") |> @js.unsafe_cast
+  self.get("bubbles") |> @js.identity
 }
 
 ///|
 impl EventImpl with cancelable(self) -> Bool {
-  self.get("cancelable") |> @js.unsafe_cast
+  self.get("cancelable") |> @js.identity
 }
 
 ///|
 impl EventImpl with defaultPrevented(self) -> Bool {
-  self.get("defaultPrevented") |> @js.unsafe_cast
+  self.get("defaultPrevented") |> @js.identity
 }
 
 ///|
@@ -125,7 +125,7 @@ pub impl EventImpl for MouseEvent
 /// Returns the secondary target for the mouse event
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/relatedTarget
 pub fn MouseEvent::relatedTarget(self : Self) -> Element? {
-  self.get("relatedTarget") |> @js.unsafe_cast_option()
+  self.get("relatedTarget") |> @js.identity_option()
 }
 
 ///|
@@ -176,7 +176,7 @@ pub impl EventImpl for FocusEvent
 ///|
 /// Returns the related target (element losing/gaining focus)
 pub fn FocusEvent::relatedTarget(self : FocusEvent) -> Element? {
-  self.get("relatedTarget") |> @js.unsafe_cast_option()
+  self.get("relatedTarget") |> @js.identity_option()
 }
 
 ///|
@@ -278,7 +278,7 @@ pub impl @js.JsImpl for Touch
 ///|
 /// Returns the target element
 pub fn Touch::target(self : Self) -> Element {
-  self.get("target") |> @js.unsafe_cast
+  self.get("target") |> @js.identity
 }
 
 ///|
@@ -354,5 +354,5 @@ pub impl EventImpl for MessageEvent
 /// Returns the source window of the message
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/source
 pub fn MessageEvent::source(self : Self) -> Window? {
-  self.get("source") |> @js.unsafe_cast_option()
+  self.get("source") |> @js.identity_option()
 }

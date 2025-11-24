@@ -156,14 +156,14 @@ pub fn create_server(
 ///|
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   self.call("close", [cb]) |> ignore
 }
 
@@ -256,7 +256,7 @@ pub fn request(
   options : RequestOptions,
   callback : (@js.Object) -> Unit,
 ) -> ClientRequest {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_request(options.to_js(), cb)
 }
 
@@ -282,7 +282,7 @@ extern "js" fn ffi_get(url : String, callback : @js.Js) -> ClientRequest =
 ///|
 /// Make an HTTPS GET request
 pub fn get(url : String, callback : (@js.Object) -> Unit) -> ClientRequest {
-  let cb : @js.Js = @js.unsafe_cast(callback)
+  let cb : @js.Js = @js.identity(callback)
   ffi_get(url, cb)
 }
 
