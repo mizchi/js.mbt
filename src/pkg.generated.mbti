@@ -35,6 +35,8 @@ fn encodeURIComponent(String) -> String
 
 fn[T : JsImpl] from_array(Array[T]) -> Js
 
+async fn[T] from_callback(((T) -> Unit) -> Unit) -> T
+
 fn from_entries(Array[(String, &JsImpl)]) -> Js
 
 fn from_entries_option(Array[(String, &JsImpl?)]) -> Js
@@ -105,6 +107,8 @@ fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
 fn queueMicrotask(() -> Unit) -> Unit
 
 fn run_async(async () -> Unit noraise) -> Unit
+
+async fn[X] run_promise((AbortSignal) -> Promise[X]) -> X
 
 #alias(set_interval)
 fn setInterval(() -> Unit, Int) -> JsTimer

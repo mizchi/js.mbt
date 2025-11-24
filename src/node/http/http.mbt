@@ -7,8 +7,15 @@ fn http_module() -> @js.Js {
 ///| IncomingMessage class
 
 ///|
-#external
-pub type IncomingMessage
+pub(all) struct IncomingMessage {
+  httpVersion : String
+  url : String?
+  headers : @js.Js
+  rawHeaders : Array[String]
+  statusCode : Int?
+  statusMessage : String?
+  socket : @net.Socket
+}
 
 ///|
 pub impl @js.JsImpl for IncomingMessage
@@ -23,53 +30,9 @@ pub fn IncomingMessage::as_readable(self : IncomingMessage) -> @stream.Readable 
 }
 
 ///|
-/// Get HTTP version
-pub fn IncomingMessage::httpVersion(self : IncomingMessage) -> String {
-  self.get("httpVersion") |> @js.unsafe_cast
-}
-
-///|
 /// Get HTTP method
 pub fn IncomingMessage::method_(self : IncomingMessage) -> String? {
   self.get("method") |> @js.unsafe_cast_option
-}
-
-///|
-/// Get URL
-pub fn IncomingMessage::url(self : IncomingMessage) -> String? {
-  self.get("url") |> @js.unsafe_cast_option
-}
-
-///|
-/// Get headers
-pub fn IncomingMessage::headers(self : IncomingMessage) -> @js.Js {
-  self.get("headers")
-}
-
-///|
-/// Get raw headers
-///
-/// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn IncomingMessage::rawHeaders(self : IncomingMessage) -> Array[String] {
-  self.get("rawHeaders") |> @js.unsafe_cast
-}
-
-///|
-/// Get status code
-pub fn IncomingMessage::statusCode(self : IncomingMessage) -> Int? {
-  self.get("statusCode") |> @js.unsafe_cast_option
-}
-
-///|
-/// Get status message
-pub fn IncomingMessage::statusMessage(self : IncomingMessage) -> String? {
-  self.get("statusMessage") |> @js.unsafe_cast_option
-}
-
-///|
-/// Get socket
-pub fn IncomingMessage::socket(self : IncomingMessage) -> @net.Socket {
-  self.get("socket") |> @js.unsafe_cast
 }
 
 ///|

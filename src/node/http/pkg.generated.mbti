@@ -35,18 +35,18 @@ fn ClientRequest::write(Self, String, encoding? : String) -> Bool
 impl @js.JsImpl for ClientRequest
 impl @events.EventEmitterImpl for ClientRequest
 
-#external
-pub type IncomingMessage
+pub(all) struct IncomingMessage {
+  httpVersion : String
+  url : String?
+  headers : @js.Js
+  rawHeaders : Array[String]
+  statusCode : Int?
+  statusMessage : String?
+  socket : @net.Socket
+}
 fn IncomingMessage::as_readable(Self) -> @stream.Readable
-fn IncomingMessage::headers(Self) -> @js.Js
-fn IncomingMessage::httpVersion(Self) -> String
 fn IncomingMessage::method_(Self) -> String?
-fn IncomingMessage::rawHeaders(Self) -> Array[String]
 fn IncomingMessage::setTimeout(Self, Int, callback? : () -> Unit) -> Self
-fn IncomingMessage::socket(Self) -> @net.Socket
-fn IncomingMessage::statusCode(Self) -> Int?
-fn IncomingMessage::statusMessage(Self) -> String?
-fn IncomingMessage::url(Self) -> String?
 impl @js.JsImpl for IncomingMessage
 impl @events.EventEmitterImpl for IncomingMessage
 
