@@ -4,7 +4,63 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.5.0] - 2025-11-24
+## [0.5.0] - 2025-11-25
+
+### Breaking Changes
+
+#### Type System Changes
+- **`@js.Js` → `@js.Any`** - Renamed core JavaScript interop type
+  - All `Js` type references must be updated to `Any`
+  - Affects all FFI function signatures and type annotations
+  - Migration: Replace `@js.Js` with `@js.Any` throughout your codebase
+
+- **`unsafe_cast` → `identity`** - Renamed unsafe type conversion function
+  - `@js.unsafe_cast()` is now `@js.identity()`
+  - Used for FFI conversions between MoonBit and JavaScript types
+  - Migration: Replace `unsafe_cast` with `identity` in FFI code
+
+- **Introduced `Js::cast()` method** - New type-safe casting method
+  - Added for cleaner type conversions in FFI boundaries
+  - Preferred over `identity` for explicit type casts
+  - Usage: `value.cast()` instead of `identity(value)`
+
+### Added
+
+- **`Js::cast()` method** - Type-safe casting for JavaScript values
+- **Test stability checker** (`scripts/check_test.ts`)
+  - Detect flaky tests by running multiple iterations
+  - Progress display and diff tracking
+  - Proper Ctrl-C handling and cleanup
+- **`run_promise()` function** - Cancellable promise execution support
+
+### Changed
+
+- **Async test infrastructure improvements**
+  - Migrated to `moonbitlang/async` with `async test` format
+  - Added `defer` resource cleanup for servers and connections
+  - Improved resource management to prevent test hangs
+  - Proper cleanup of event listeners and network resources
+
+- **Promise API improvements**
+  - Integration with `moonbitlang/async/js_async`
+  - Better interoperability with MoonBit's async system
+
+### Fixed
+
+- **Test stability issues**
+  - Added defer cleanup for HTTP server tests
+  - Fixed event listener cleanup to prevent process hanging
+  - Converted setTimeout tests to Promise-based synchronization
+  - Improved async test resource management
+
+### Internal
+
+- **Refactoring**
+  - Simplified IncomingMessage with from_callback helper
+  - Merged promise tests and removed using declarations
+  - Used Set.symmetricDifference for test comparison
+
+## [0.4.0] - 2025-11-24
 
 ### Added
 
@@ -269,7 +325,51 @@ Initial releases and earlier changes are not documented in this changelog.
 
 ---
 
-## Migration Guide from v0.2.0
+## Migration Guide
+
+### From v0.4.0 to v0.5.0
+
+#### Update Type References
+
+Replace all `@js.Js` with `@js.Any`:
+
+```moonbit
+// Before (v0.4.0)
+fn my_function(value : @js.Js) -> @js.Js {
+  value
+}
+
+extern "js" fn ffi_call() -> @js.Js = #|() => {}
+
+// After (v0.5.0)
+fn my_function(value : @js.Any) -> @js.Any {
+  value
+}
+
+extern "js" fn ffi_call() -> @js.Any = #|() => {}
+```
+
+#### Replace unsafe_cast with identity
+
+```moonbit
+// Before (v0.4.0)
+let result = @js.unsafe_cast(value)
+
+// After (v0.5.0)
+let result = @js.identity(value)
+```
+
+#### Use cast() for explicit conversions
+
+```moonbit
+// Preferred pattern in v0.5.0
+let typed_value : MyType = js_value.cast()
+
+// Also valid
+let typed_value : MyType = @js.identity(js_value)
+```
+
+### From v0.2.0 to v0.4.0
 
 ### Type System Changes
 
@@ -336,6 +436,6 @@ useState(initial)
 
 ## Current Version
 
-The current version is **v0.4.0**, representing a major refactoring and expansion of the JavaScript FFI bindings for MoonBit.
+The current version is **v0.5.0**, which includes breaking changes to the core type system (`@js.Js` → `@js.Any`) and FFI utilities (`unsafe_cast` → `identity`).
 
 For detailed API documentation, see the README.md files in each package directory.

@@ -295,8 +295,8 @@ pub fn Window::getComputedStyle(
   pseudo_elt? : String,
 ) -> @js.Any {
   match pseudo_elt {
-    Some(p) => self.call2("getComputedStyle", element.to_js(), p).cast()
-    None => self.call("getComputedStyle", [element.to_js()]).cast()
+    Some(p) => self.call2("getComputedStyle", element.to_any(), p).cast()
+    None => self.call("getComputedStyle", [element.to_any()]).cast()
   }
 }
 
@@ -332,7 +332,7 @@ pub fn[T : @worker.Transferable] Window::post_message_with_transfer(
   let transfer_vals = transfer.map(fn(t) { t.to_transferable() })
   ignore(
     self
-    .to_js()
+    .to_any()
     .call("postMessage", [message, target_origin, @js.unsafe_js(transfer_vals)]),
   )
 }

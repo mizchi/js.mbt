@@ -13,8 +13,8 @@ pub fn apply(
   arguments_list : Array[@js.Any],
 ) -> @js.Any {
   reflect_class().call("apply", [
-    target.to_js(),
-    this_argument.to_js(),
+    target.to_any(),
+    this_argument.to_any(),
     @js.from_array(arguments_list),
   ])
 }
@@ -30,13 +30,13 @@ pub fn construct(
   match new_target {
     Some(nt) =>
       reflect_class().call("construct", [
-        target.to_js(),
+        target.to_any(),
         @js.from_array(arguments_list),
         nt,
       ])
     None =>
       reflect_class().call("construct", [
-        target.to_js(),
+        target.to_any(),
         @js.from_array(arguments_list),
       ])
   }
@@ -52,9 +52,9 @@ pub fn defineProperty(
 ) -> Bool {
   reflect_class()
   .call("defineProperty", [
-    target.to_js(),
+    target.to_any(),
     property_key.to_key(),
-    attributes.to_js(),
+    attributes.to_any(),
   ])
   .cast()
 }
@@ -67,7 +67,7 @@ pub fn deleteProperty(
   property_key : &@js.PropertyKey,
 ) -> Bool {
   reflect_class()
-  .call2("deleteProperty", target.to_js(), property_key.to_key())
+  .call2("deleteProperty", target.to_any(), property_key.to_key())
   .cast()
 }
 
@@ -81,8 +81,8 @@ pub fn get(
 ) -> @js.Any {
   match receiver {
     Some(recv) =>
-      reflect_class().call("get", [target.to_js(), property_key.to_key(), recv])
-    None => reflect_class().call2("get", target.to_js(), property_key.to_key())
+      reflect_class().call("get", [target.to_any(), property_key.to_key(), recv])
+    None => reflect_class().call2("get", target.to_any(), property_key.to_key())
   }
 }
 
@@ -94,7 +94,7 @@ pub fn getOwnPropertyDescriptor(
   property_key : &@js.PropertyKey,
 ) -> @js.Any {
   reflect_class().call("getOwnPropertyDescriptor", [
-    target.to_js(),
+    target.to_any(),
     property_key.to_key(),
   ])
 }
@@ -103,21 +103,21 @@ pub fn getOwnPropertyDescriptor(
 /// JS: Reflect.getPrototypeOf(target)
 /// Gets the prototype of an object
 pub fn getPrototypeOf(target : &@js.JsImpl) -> @js.Any {
-  reflect_class().call("getPrototypeOf", [target.to_js()])
+  reflect_class().call("getPrototypeOf", [target.to_any()])
 }
 
 ///|
 /// JS: Reflect.has(target, propertyKey)
 /// Checks if an object has a property
 pub fn has(target : &@js.JsImpl, property_key : &@js.PropertyKey) -> Bool {
-  reflect_class().call2("has", target.to_js(), property_key.to_key()).cast()
+  reflect_class().call2("has", target.to_any(), property_key.to_key()).cast()
 }
 
 ///|
 /// JS: Reflect.isExtensible(target)
 /// Checks if an object is extensible
 pub fn isExtensible(target : &@js.JsImpl) -> Bool {
-  reflect_class().call("isExtensible", [target.to_js()]).cast()
+  reflect_class().call("isExtensible", [target.to_any()]).cast()
 }
 
 ///|
@@ -126,14 +126,14 @@ pub fn isExtensible(target : &@js.JsImpl) -> Bool {
 /// Returns an array of the target object's own property keys.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn ownKeys(target : &@js.JsImpl) -> Array[@js.Any] {
-  reflect_class().call("ownKeys", [target.to_js()]).cast()
+  reflect_class().call("ownKeys", [target.to_any()]).cast()
 }
 
 ///|
 /// JS: Reflect.preventExtensions(target)
 /// Prevents new properties from being added to an object
 pub fn preventExtensions(target : &@js.JsImpl) -> Bool {
-  reflect_class().call("preventExtensions", [target.to_js()]).cast()
+  reflect_class().call("preventExtensions", [target.to_any()]).cast()
 }
 
 ///|
@@ -148,11 +148,16 @@ pub fn set(
   match receiver {
     Some(recv) =>
       reflect_class()
-      .call("set", [target.to_js(), property_key.to_key(), value.to_js(), recv])
+      .call("set", [
+        target.to_any(),
+        property_key.to_key(),
+        value.to_any(),
+        recv,
+      ])
       .cast()
     None =>
       reflect_class()
-      .call("set", [target.to_js(), property_key.to_key(), value.to_js()])
+      .call("set", [target.to_any(), property_key.to_key(), value.to_any()])
       .cast()
   }
 }
@@ -162,6 +167,6 @@ pub fn set(
 /// Sets the prototype of an object
 pub fn setPrototypeOf(target : &@js.JsImpl, prototype : &@js.JsImpl) -> Bool {
   reflect_class()
-  .call2("setPrototypeOf", target.to_js(), prototype.to_js())
+  .call2("setPrototypeOf", target.to_any(), prototype.to_any())
   .cast()
 }

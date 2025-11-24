@@ -12,7 +12,7 @@ fn get_render_to_string() -> (@react.Element) -> String {
   let react_dom_server = @node.require("react-dom/server")
   let render_fn : @js.Any = react_dom_server.get("renderToString")
   fn(element : @react.Element) -> String {
-    ffi_render_to_string(render_fn, element.to_js())
+    ffi_render_to_string(render_fn, element.to_any())
   }
 }
 

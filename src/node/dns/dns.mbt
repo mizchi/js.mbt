@@ -16,7 +16,7 @@ pub fn LookupOptions::new() -> LookupOptions {
 
 ///|
 /// Convert LookupOptions to JavaScript object
-pub fn LookupOptions::to_js(self : LookupOptions) -> @js.Any {
+pub fn LookupOptions::to_any(self : LookupOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.family {
     Some(v) => obj.set("family", v)
@@ -30,7 +30,7 @@ pub fn LookupOptions::to_js(self : LookupOptions) -> @js.Any {
     Some(v) => obj.set("order", v)
     None => ()
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -52,7 +52,7 @@ pub fn lookup(
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
-  ffi_lookup(hostname, options.to_js(), cb)
+  ffi_lookup(hostname, options.to_any(), cb)
 }
 
 ///|

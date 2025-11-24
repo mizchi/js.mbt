@@ -37,7 +37,7 @@ pub fn AgentOptions::new() -> AgentOptions {
 
 ///|
 /// Convert AgentOptions to JavaScript object
-pub fn AgentOptions::to_js(self : AgentOptions) -> @js.Any {
+pub fn AgentOptions::to_any(self : AgentOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.max_cached_sessions {
     Some(v) => obj.set("maxCachedSessions", v)
@@ -67,7 +67,7 @@ pub fn AgentOptions::to_js(self : AgentOptions) -> @js.Any {
     Some(v) => obj.set("timeout", v)
     None => ()
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -80,7 +80,7 @@ extern "js" fn ffi_new_agent(options : @js.Any) -> Agent =
 ///|
 /// Create a new HTTPS Agent
 pub fn Agent::new(options : AgentOptions) -> Agent {
-  ffi_new_agent(options.to_js())
+  ffi_new_agent(options.to_any())
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn ServerOptions::new() -> ServerOptions {
 
 ///|
 /// Convert ServerOptions to JavaScript object
-pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Any {
+pub fn ServerOptions::to_any(self : ServerOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.key {
     Some(v) => obj.set("key", v)
@@ -130,7 +130,7 @@ pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Any {
     Some(v) => obj.set("passphrase", v)
     None => ()
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -150,7 +150,7 @@ pub fn create_server(
   request_listener : (@js.Object, @js.Object) -> Unit,
 ) -> Server {
   let listener = @js.from_fn2(request_listener)
-  ffi_create_server(options.to_js(), listener)
+  ffi_create_server(options.to_any(), listener)
 }
 
 ///|
@@ -208,7 +208,7 @@ pub fn RequestOptions::new(url : String) -> RequestOptions {
 
 ///|
 /// Convert RequestOptions to JavaScript object
-pub fn RequestOptions::to_js(self : RequestOptions) -> @js.Any {
+pub fn RequestOptions::to_any(self : RequestOptions) -> @js.Any {
   let obj = match self.headers {
     Some(h) => h
     None => @js.Object::new()
@@ -230,14 +230,14 @@ pub fn RequestOptions::to_js(self : RequestOptions) -> @js.Any {
     None => ()
   }
   match self.agent {
-    Some(v) => obj.set("agent", v.to_js())
+    Some(v) => obj.set("agent", v.to_any())
     None => ()
   }
   match self.rejectUnauthorized {
     Some(v) => obj.set("rejectUnauthorized", v)
     None => ()
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -257,7 +257,7 @@ pub fn request(
   callback : (@js.Object) -> Unit,
 ) -> ClientRequest {
   let cb : @js.Any = @js.identity(callback)
-  ffi_request(options.to_js(), cb)
+  ffi_request(options.to_any(), cb)
 }
 
 ///|

@@ -40,7 +40,7 @@ pub(all) struct WasiOptions {
 
 ///|
 /// Convert WasiOptions to JS object
-fn WasiOptions::to_js(self : WasiOptions) -> @js.Any {
+fn WasiOptions::to_any(self : WasiOptions) -> @js.Any {
   let env_obj = match self.env {
     Some(env) => {
       let obj = @js.Object::new()
@@ -85,7 +85,7 @@ pub impl @js.JsImpl for WASI
 pub fn WASI::new(options : WasiOptions) -> WASI {
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.get("WASI")
-  let instance = ffi_new_wasi(wasi_class, options.to_js())
+  let instance = ffi_new_wasi(wasi_class, options.to_any())
   instance.cast()
 }
 
@@ -101,7 +101,7 @@ pub fn WASI::start(
   self : Self,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.call1("start", instance.to_js()) |> ignore
+  self.call1("start", instance.to_any()) |> ignore
 }
 
 ///|
@@ -110,7 +110,7 @@ pub fn WASI::initialize(
   self : WASI,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.call1("initialize", instance.to_js()) |> ignore
+  self.call1("initialize", instance.to_any()) |> ignore
 }
 
 ///|

@@ -61,7 +61,7 @@ pub struct SecureServerOptions {
   allow_http1 : Bool?
 }
 fn SecureServerOptions::new() -> Self
-fn SecureServerOptions::to_js(Self) -> @js.Any
+fn SecureServerOptions::to_any(Self) -> @js.Any
 
 #external
 pub type ServerHttp2Stream
@@ -80,7 +80,7 @@ pub struct ServerOptions {
   padding_strategy : Int?
 }
 fn ServerOptions::new() -> Self
-fn ServerOptions::to_js(Self) -> @js.Any
+fn ServerOptions::to_any(Self) -> @js.Any
 
 // Type aliases
 

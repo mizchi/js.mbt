@@ -35,7 +35,7 @@ pub fn Script::new(
     ("filename", filename.map(fn(x) { x })),
     ("lineOffset", lineOffset.map(fn(x) { x })),
     ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("cachedData", cachedData.map(fn(x) { x.to_js() })),
+    ("cachedData", cachedData.map(fn(x) { x.to_any() })),
     ("produceCachedData", produceCachedData.map(fn(x) { x })),
   ])
   @js.new_(script_constructor, [code, options]) |> @js.identity
@@ -263,7 +263,7 @@ pub fn compileFunction(
     ("filename", filename.map(fn(x) { x })),
     ("lineOffset", lineOffset.map(fn(x) { x })),
     ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("cachedData", cachedData.map(fn(x) { x.to_js() })),
+    ("cachedData", cachedData.map(fn(x) { x.to_any() })),
     ("produceCachedData", produceCachedData.map(fn(x) { x })),
     ("parsingContext", parsingContext.map(fn(x) { x })),
     ("contextExtensions", contextExtensions.map(fn(x) { @js.from_array(x) })),

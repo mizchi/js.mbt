@@ -37,7 +37,7 @@ pub fn createElement(
     }
     val.set("style", style_obj)
   }
-  @js.identity(ffi_create_element(tag, val.to_js(), children))
+  @js.identity(ffi_create_element(tag, val.to_any(), children))
 }
 
 ///|

@@ -54,7 +54,7 @@ pub fn ServerOptions::new() -> ServerOptions {
 
 ///|
 /// Convert ServerOptions to JavaScript object
-pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Any {
+pub fn ServerOptions::to_any(self : ServerOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.key {
     Some(v) => obj.set("key", v)
@@ -96,7 +96,7 @@ pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Any {
     }
     None => ()
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -116,7 +116,7 @@ pub fn create_server(
   secureConnectionListener : (TLSSocket) -> Unit,
 ) -> Server {
   let cb : @js.Any = @js.identity(secureConnectionListener)
-  ffi_create_server(options.to_js(), cb)
+  ffi_create_server(options.to_any(), cb)
 }
 
 ///|
@@ -165,7 +165,7 @@ pub fn ConnectOptions::new(port : Int, host : String) -> ConnectOptions {
 
 ///|
 /// Convert ConnectOptions to JavaScript object
-pub fn ConnectOptions::to_js(self : ConnectOptions) -> @js.Any {
+pub fn ConnectOptions::to_any(self : ConnectOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.host {
     Some(v) => obj.set("host", v)
@@ -211,7 +211,7 @@ pub fn ConnectOptions::to_js(self : ConnectOptions) -> @js.Any {
     Some(v) => obj.set("session", v)
     None => ()
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -225,7 +225,7 @@ extern "js" fn ffi_connect(options : @js.Any, callback : @js.Any) -> TLSSocket =
 /// Connect to a TLS server
 pub fn connect(options : ConnectOptions, callback : () -> Unit) -> TLSSocket {
   let cb : @js.Any = @js.identity(callback)
-  ffi_connect(options.to_js(), cb)
+  ffi_connect(options.to_any(), cb)
 }
 
 ///|

@@ -2,7 +2,7 @@
 #skip("location not available in JSDOM")
 test "location global function returns Location" {
   let loc = location()
-  assert_true(@js.is_object(loc.to_js()))
+  assert_true(@js.is_object(loc.to_any()))
 }
 
 ///|

@@ -13,7 +13,7 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 }
 
 ///|
-impl @js.JsImpl for ParseArgsOption with to_js(self) -> @js.Any {
+impl @js.JsImpl for ParseArgsOption with to_any(self) -> @js.Any {
   match self {
     Boolean(short~, ..) =>
       @js.from_entries([("type", "boolean"), ("short", short)])
@@ -47,7 +47,7 @@ pub fn parseArgs(
   } else {
     let o = @js.Object::new()
     for opt in options {
-      o.set(opt.key(), opt.to_js())
+      o.set(opt.key(), opt.to_any())
     }
     o
   }

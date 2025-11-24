@@ -33,7 +33,7 @@ pub struct AgentOptions {
   timeout : Int?
 }
 fn AgentOptions::new() -> Self
-fn AgentOptions::to_js(Self) -> @js.Any
+fn AgentOptions::to_any(Self) -> @js.Any
 
 #external
 pub type ClientRequest
@@ -52,7 +52,7 @@ pub struct RequestOptions {
   rejectUnauthorized : Bool?
 }
 fn RequestOptions::new(String) -> Self
-fn RequestOptions::to_js(Self) -> @js.Any
+fn RequestOptions::to_any(Self) -> @js.Any
 
 #external
 pub type Server
@@ -68,7 +68,7 @@ pub struct ServerOptions {
   passphrase : String?
 }
 fn ServerOptions::new() -> Self
-fn ServerOptions::to_js(Self) -> @js.Any
+fn ServerOptions::to_any(Self) -> @js.Any
 
 // Type aliases
 

@@ -14,7 +14,7 @@ test "basic object operations" {
   obj.set("name", "MoonBit")
   obj.set("version", 1)
   inspect(
-    obj.to_js(),
+    obj.to_any(),
     content=(
       #|{"name":"MoonBit","version":1}
     ),
@@ -67,7 +67,7 @@ test "array operations" {
   // Add items
   arr.push(4)
   arr.push(5)
-  inspect(arr.to_js(), content="[1,2,3,4,5]")
+  inspect(arr.to_any(), content="[1,2,3,4,5]")
   inspect(arr.get("length"), content="5")
   assert_eq(@js.JsArray::isArray(arr), true)
 }
@@ -239,7 +239,7 @@ test "conditional property setting for optional properties" {
     None => ()
   }
   inspect(
-    obj.to_js(),
+    obj.to_any(),
     content=(
       #|{"name":"MoonBit"}
     ),
@@ -354,7 +354,7 @@ test "json stringify and parse" {
   obj.set("version", 1)
 
   // Stringify
-  let json_str = @js.JSON::stringify(obj.to_js())
+  let json_str = @js.JSON::stringify(obj.to_any())
   inspect(
     json_str,
     content=(

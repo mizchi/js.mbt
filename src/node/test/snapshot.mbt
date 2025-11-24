@@ -14,8 +14,8 @@ pub fn TestContext::assert_snapshot(
 ) -> Unit {
   let assert_obj = self.get("assert")
   match message {
-    Some(msg) => assert_obj.call2("snapshot", value.to_js(), msg) |> ignore
-    None => assert_obj.call("snapshot", [value.to_js()]) |> ignore
+    Some(msg) => assert_obj.call2("snapshot", value.to_any(), msg) |> ignore
+    None => assert_obj.call("snapshot", [value.to_any()]) |> ignore
   }
 }
 
@@ -30,8 +30,8 @@ pub fn TestContext::assert_fileSnapshot(
   let assert_obj = self.get("assert")
   match message {
     Some(msg) =>
-      assert_obj.call("fileSnapshot", [value.to_js(), path, msg]) |> ignore
-    None => assert_obj.call2("fileSnapshot", value.to_js(), path) |> ignore
+      assert_obj.call("fileSnapshot", [value.to_any(), path, msg]) |> ignore
+    None => assert_obj.call2("fileSnapshot", value.to_any(), path) |> ignore
   }
 }
 

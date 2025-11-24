@@ -407,7 +407,7 @@ test "ImageData data property returns Uint8Array" {
 test "ImageData from_data creates ImageData from Uint8Array" {
   let data = @typedarray.Uint8Array::from_size(40) // 10 * 1 * 4 (RGBA)
   let image_data : ImageData = @js.identity(
-    ffi_create_image_data_with_data(data.to_js(), 10 |> @js.js, 1 |> @js.js),
+    ffi_create_image_data_with_data(data.to_any(), 10 |> @js.js, 1 |> @js.js),
   )
   inspect(image_data.width, content="10")
   inspect(image_data.height, content="1")

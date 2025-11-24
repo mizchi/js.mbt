@@ -123,7 +123,7 @@ pub(all) struct R2GetOptions {
 }
 
 ///|
-pub impl @js.JsImpl for R2GetOptions with to_js(self) {
+pub impl @js.JsImpl for R2GetOptions with to_any(self) {
   let onlyIf_js : @js.Any? = match self.onlyIf {
     Some(cond) =>
       Some(
@@ -189,9 +189,9 @@ pub(all) struct R2PutOptions {
 }
 
 ///|
-pub impl @js.JsImpl for R2PutOptions with to_js(self) {
+pub impl @js.JsImpl for R2PutOptions with to_any(self) {
   let httpMetadata_js : @js.Any? = match self.httpMetadata {
-    Some(meta) => Some(meta.to_js())
+    Some(meta) => Some(meta.to_any())
     None => None
   }
   @js.from_entries_option([
@@ -217,7 +217,7 @@ pub(all) struct R2HttpMetadata {
 }
 
 ///|
-pub impl @js.JsImpl for R2HttpMetadata with to_js(self) {
+pub impl @js.JsImpl for R2HttpMetadata with to_any(self) {
   @js.from_entries_option([
     ("contentType", self.contentType.map(fn(x) { x as &@js.JsImpl })),
     ("contentLanguage", self.contentLanguage.map(fn(x) { x as &@js.JsImpl })),
@@ -243,7 +243,7 @@ pub(all) struct R2ListOptions {
 }
 
 ///|
-pub impl @js.JsImpl for R2ListOptions with to_js(self) {
+pub impl @js.JsImpl for R2ListOptions with to_any(self) {
   let include_js : @js.Any? = match self.include_ {
     Some(inc) => Some(@js.from_array(inc))
     None => None
@@ -421,6 +421,6 @@ pub(all) struct R2UploadedPart {
 }
 
 ///|
-pub impl @js.JsImpl for R2UploadedPart with to_js(self) {
+pub impl @js.JsImpl for R2UploadedPart with to_any(self) {
   @js.from_entries([("partNumber", self.partNumber), ("etag", self.etag)])
 }

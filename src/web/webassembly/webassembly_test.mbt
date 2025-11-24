@@ -8,7 +8,7 @@ test "WebAssembly module from bytes" {
   let wasm_path = @path.join([cwd, "fixtures/add.wasm"])
   let buffer = @fs.read_file_sync(wasm_path)
   // Buffer is a Uint8Array, so we can cast it directly
-  let bytes : @typedarray.Uint8Array = buffer.to_js().cast()
+  let bytes : @typedarray.Uint8Array = buffer.to_any().cast()
 
   // Validate the bytes
   let is_valid = validate(bytes)
@@ -16,11 +16,11 @@ test "WebAssembly module from bytes" {
 
   // Compile module
   let wasm_module = WebAssemblyModule::from_bytes(bytes)
-  inspect(wasm_module.to_js() |> @js.typeof_(), content="object")
+  inspect(wasm_module.to_any() |> @js.typeof_(), content="object")
 
   // Instantiate
   let instance = WebAssemblyInstance::from_module(wasm_module, None)
-  inspect(instance.to_js() |> @js.typeof_(), content="object")
+  inspect(instance.to_any() |> @js.typeof_(), content="object")
 
   // Get exports and call add function
   let exports = instance.exports()
@@ -38,7 +38,7 @@ test "WebAssembly Memory" {
     maximum: Some(10),
     shared: false,
   })
-  inspect(@js.typeof_(memory.to_js()), content="object")
+  inspect(@js.typeof_(memory.to_any()), content="object")
 
   // Get the buffer
   let buffer = memory.buffer()
@@ -64,7 +64,7 @@ test "WebAssembly Table" {
     initial: 2,
     maximum: Some(10),
   })
-  inspect(table.to_js() |> @js.typeof_(), content="object")
+  inspect(table.to_any() |> @js.typeof_(), content="object")
 
   // Check initial length
   let length = table.length()
@@ -79,7 +79,7 @@ test "WebAssembly Global" {
     { value: "i32", mutable: true },
     @js.js(42),
   )
-  inspect(global.to_js() |> @js.typeof_(), content="object")
+  inspect(global.to_any() |> @js.typeof_(), content="object")
 
   // Get the value
   let value : Int = global.value().cast()
@@ -99,7 +99,7 @@ test "WebAssembly Global immutable" {
     { value: "f64", mutable: false },
     @js.js(3.14),
   )
-  inspect(@js.typeof_(global.to_js()), content="object")
+  inspect(@js.typeof_(global.to_any()), content="object")
 
   // Get the value
   let value : Double = global.value().cast()

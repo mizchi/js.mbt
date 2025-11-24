@@ -226,8 +226,8 @@ test "fireEvent change on input" {
   let event = @js.Object::new()
   let target = @js.Object::new()
   target.set("value", "hello")
-  event.set("target", target.to_js())
-  @react_testing_library.fireEvent().change(input_el, event.to_js())
+  event.set("target", target.to_any())
+  @react_testing_library.fireEvent().change(input_el, event.to_any())
   text_content(@react_testing_library.screen().getByText("Value: hello"))
   |> assert_eq("Value: hello")
 }
@@ -325,7 +325,7 @@ test "fireEvent keyDown on input" {
   )
   let event = @js.Object::new()
   event.set("key", "Enter")
-  @react_testing_library.fireEvent().keyDown(input_el, event.to_js())
+  @react_testing_library.fireEvent().keyDown(input_el, event.to_any())
   text_content(@react_testing_library.screen().getByText("Key: Enter"))
   |> assert_eq("Key: Enter")
 }
@@ -337,7 +337,7 @@ test "configure function exists" {
   @react_testing_library.cleanup()
   // Just test that configure can be called without error
   let config = @js.Object::new()
-  configure(config.to_js())
+  configure(config.to_any())
   // If we get here without error, the test passes
   assert_eq(1, 1)
 }

@@ -2,7 +2,7 @@
 #skip("history not available in JSDOM")
 test "history global function returns History" {
   let h = history()
-  assert_true(@js.is_object(h.to_js()))
+  assert_true(@js.is_object(h.to_any()))
 }
 
 ///|
@@ -25,7 +25,7 @@ test "History::state can be accessed" {
 #skip("history not available in JSDOM")
 test "History::pushState and replaceState work" {
   let h = history()
-  let state = @js.Object::new().to_js()
+  let state = @js.Object::new().to_any()
   h.pushState(state, "")
   h.replaceState(state, "")
   assert_true(true)

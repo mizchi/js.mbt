@@ -8,7 +8,7 @@ impl @js.JsImpl for URLSearchParams
 
 ///|
 impl Eq for URLSearchParams with equal(self, other) {
-  self.to_js() == other.to_js()
+  self.to_any() == other.to_any()
 }
 
 ///|

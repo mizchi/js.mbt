@@ -104,7 +104,7 @@ test "Date timezone offset is consistent" {
 /// Whitebox test for Date Js trait integration
 test "Date integrates with Js trait properly" {
   let date = Date::from_string("2024-01-01T00:00:00.000Z")
-  let val = date.to_js()
+  let val = date.to_any()
 
   // Should convert to Val without being null or undefined
   inspect(@js.is_null(val), content="false")

@@ -326,7 +326,7 @@ impl PropertyKey for Symbol
 
 // Traits
 pub(open) trait JsImpl {
-  to_js(Self) -> Any = _
+  to_any(Self) -> Any = _
   get(Self, &PropertyKey) -> Any = _
   set(Self, &PropertyKey, &JsImpl) -> Unit = _
   call(Self, &PropertyKey, Array[&JsImpl]) -> Any = _

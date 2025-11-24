@@ -2,7 +2,7 @@
 #skip("navigator not available in JSDOM")
 test "navigator global function returns Navigator" {
   let nav = navigator()
-  assert_true(@js.is_object(nav.to_js()))
+  assert_true(@js.is_object(nav.to_any()))
 }
 
 ///|

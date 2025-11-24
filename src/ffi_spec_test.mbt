@@ -10,7 +10,7 @@
 ///
 /// 2. **Workarounds:**
 ///    - Use non-optional fields (T instead of T?) in structs
-///    - Access raw JS object with `obj.to_js().get("field")` and check with `is_nullish()`
+///    - Access raw JS object with `obj.to_any().get("field")` and check with `is_nullish()`
 ///    - Use getter methods with `identity_option()` for nullable fields
 ///
 /// 3. **identity_option() works correctly:**
@@ -214,7 +214,7 @@ test "Js? field with null value" {
   let obj : StructWithOptions = create_null_fields() |> identity
   // Js? field cannot be matched - it crashes when trying to access $tag
   // Convert to Any and check with is_nullish instead
-  let raw : @js.Any = obj.to_js().get("optionalJs")
+  let raw : @js.Any = obj.to_any().get("optionalJs")
   inspect(is_nullish(raw), content="true")
 }
 
@@ -222,7 +222,7 @@ test "Js? field with null value" {
 test "Js? field with undefined value" {
   let obj : StructWithOptions = create_undefined_fields() |> identity
   // Js? field cannot be matched - it crashes when trying to access $tag
-  let raw : @js.Any = obj.to_js().get("optionalJs")
+  let raw : @js.Any = obj.to_any().get("optionalJs")
   inspect(is_nullish(raw), content="true")
 }
 
@@ -265,7 +265,7 @@ test "Optional nested struct with undefined" {
 test "Generic Container[Int]" {
   let js_obj = @js.Object::new()
   js_obj.set("value", 42)
-  let container : Container[Int] = js_obj.to_js() |> identity
+  let container : Container[Int] = js_obj.to_any() |> identity
   inspect(container.value, content="42")
 }
 
@@ -273,7 +273,7 @@ test "Generic Container[Int]" {
 test "Generic Container[String]" {
   let js_obj = @js.Object::new()
   js_obj.set("value", "test")
-  let container : Container[String] = js_obj.to_js() |> identity
+  let container : Container[String] = js_obj.to_any() |> identity
   inspect(container.value, content="test")
 }
 
@@ -281,7 +281,7 @@ test "Generic Container[String]" {
 test "Generic Container[Int?] with value" {
   let js_obj = @js.Object::new()
   js_obj.set("value", 42)
-  let container : Container[Int?] = js_obj.to_js() |> identity
+  let container : Container[Int?] = js_obj.to_any() |> identity
   inspect(container.value, content="Some(42)")
 }
 
@@ -301,8 +301,8 @@ test "Generic Container[SimpleStruct]" {
   let simple_obj = @js.Object::new()
   simple_obj.set("name", "Bob")
   simple_obj.set("age", 25)
-  js_obj.set("value", simple_obj.to_js())
-  let container : Container[SimpleStruct] = js_obj.to_js() |> identity
+  js_obj.set("value", simple_obj.to_any())
+  let container : Container[SimpleStruct] = js_obj.to_any() |> identity
   inspect(container.value.name, content="Bob")
   inspect(container.value.age, content="25")
 }
@@ -417,7 +417,7 @@ extern "js" fn create_with_custom_value() -> Any =
 ///|
 test "CustomStruct? field with null" {
   let obj : ContainerWithCustom = create_with_null_custom() |> identity
-  let raw = obj.to_js().get("optional")
+  let raw = obj.to_any().get("optional")
   inspect(is_nullish(raw), content="true")
 
   // CustomStruct? field with null - same issue as Js?
@@ -431,7 +431,7 @@ test "CustomStruct? field with null" {
 ///|
 test "CustomStruct? field with undefined" {
   let obj : ContainerWithCustom = create_with_undefined_custom() |> identity
-  let raw = obj.to_js().get("optional")
+  let raw = obj.to_any().get("optional")
   inspect(is_nullish(raw), content="true")
 
   // CustomStruct? field with undefined
@@ -444,7 +444,7 @@ test "CustomStruct? field with undefined" {
 ///|
 test "CustomStruct? field with value" {
   let obj : ContainerWithCustom = create_with_custom_value() |> identity
-  let raw = obj.to_js().get("optional")
+  let raw = obj.to_any().get("optional")
   inspect(is_nullish(raw), content="false")
 
   // CustomStruct? field with actual value

@@ -159,7 +159,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       response_json.set("count", keys.length())
 
       // Convert to JSON string
-      let json_str = json_stringify(response_json.to_js())
+      let json_str = json_stringify(response_json.to_any())
       kv_json_response(json_str, 200)
     } else {
       // Help/index page

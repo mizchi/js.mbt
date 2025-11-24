@@ -19,14 +19,14 @@ pub extern "js" fn history() -> History =
 /// Loads the previous URL in the history list
 /// https://developer.mozilla.org/en-US/docs/Web/API/History/back
 pub fn History::back(self : Self) -> Unit {
-  ignore(self.to_js().call0("back"))
+  ignore(self.to_any().call0("back"))
 }
 
 ///|
 /// Loads the next URL in the history list
 /// https://developer.mozilla.org/en-US/docs/Web/API/History/forward
 pub fn History::forward(self : Self) -> Unit {
-  ignore(self.to_js().call0("forward"))
+  ignore(self.to_any().call0("forward"))
 }
 
 ///|
@@ -34,8 +34,8 @@ pub fn History::forward(self : Self) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/History/go
 pub fn History::go(self : Self, delta? : Int) -> Unit {
   match delta {
-    Some(d) => ignore(self.to_js().call("go", [d]))
-    None => ignore(self.to_js().call0("go"))
+    Some(d) => ignore(self.to_any().call("go", [d]))
+    None => ignore(self.to_any().call0("go"))
   }
 }
 
@@ -50,8 +50,8 @@ pub fn History::pushState(
   url? : String,
 ) -> Unit {
   match url {
-    Some(u) => ignore(self.to_js().call("pushState", [state, unused, u]))
-    None => ignore(self.to_js().call2("pushState", state, unused))
+    Some(u) => ignore(self.to_any().call("pushState", [state, unused, u]))
+    None => ignore(self.to_any().call2("pushState", state, unused))
   }
 }
 
@@ -66,7 +66,7 @@ pub fn History::replaceState(
   url? : String,
 ) -> Unit {
   match url {
-    Some(u) => ignore(self.to_js().call("replaceState", [state, unused, u]))
-    None => ignore(self.to_js().call2("replaceState", state, unused))
+    Some(u) => ignore(self.to_any().call("replaceState", [state, unused, u]))
+    None => ignore(self.to_any().call2("replaceState", state, unused))
   }
 }

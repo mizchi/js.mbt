@@ -99,7 +99,7 @@ extern "js" fn ffi_new_weakref(target : @js.Any) -> @js.Any =
 
 ///|
 pub fn[T : @js.JsImpl] WeakRef::new(target : T) -> WeakRef[T] {
-  ffi_new_weakref(target.to_js()).cast()
+  ffi_new_weakref(target.to_any()).cast()
 }
 
 ///|
@@ -141,8 +141,8 @@ pub fn[T : @js.JsImpl, U : @js.JsImpl] FinalizationRegistry::register(
 ) -> Unit {
   match unregister_token {
     Some(token) =>
-      self.to_js().call("register", [target, held_value, token]) |> ignore
-    None => self.to_js().call2("register", target, held_value) |> ignore
+      self.to_any().call("register", [target, held_value, token]) |> ignore
+    None => self.to_any().call2("register", target, held_value) |> ignore
   }
 }
 
@@ -151,5 +151,5 @@ pub fn[T] FinalizationRegistry::unregister(
   self : FinalizationRegistry[T],
   unregister_token : @js.Any,
 ) -> Bool {
-  self.to_js().call("unregister", [unregister_token]).cast()
+  self.to_any().call("unregister", [unregister_token]).cast()
 }

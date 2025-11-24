@@ -20,7 +20,7 @@ pub fn undefined() -> Any {
 ///|
 /// JS: isNaN(v)
 pub fn[T : JsImpl] isNaN(v : T) -> Bool {
-  ffi_is_nan(v.to_js())
+  ffi_is_nan(v.to_any())
 }
 
 ///|

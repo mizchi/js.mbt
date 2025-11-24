@@ -50,7 +50,7 @@ pub fn MessagePort::post_message(
   port : MessagePort,
   message : &@js.JsImpl,
 ) -> Unit {
-  port.call("postMessage", [message.to_js()]) |> ignore
+  port.call("postMessage", [message.to_any()]) |> ignore
 }
 
 ///|
@@ -66,7 +66,7 @@ pub fn MessagePort::post_message_with_transfer(
     arr.call("push", [transfer[i]]) |> ignore
     i = i + 1
   }
-  port.call2("postMessage", message.to_js(), arr.to_js()) |> ignore
+  port.call2("postMessage", message.to_any(), arr.to_any()) |> ignore
 }
 
 ///|

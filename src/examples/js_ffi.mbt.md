@@ -254,7 +254,7 @@ test "json stringify and parse" {
   obj.set("value", 42)
 
   // Stringify
-  let json_str = @js.JSON::stringify(obj.to_js())
+  let json_str = @js.JSON::stringify(obj.to_any())
   inspect(
     json_str,
     content=(
@@ -405,7 +405,7 @@ test "instanceof and typeof" {
   let array_constructor = @js.globalThis().get("Array")
 
   // instanceof check
-  assert_eq(@js.instanceof_(arr.to_js(), array_constructor), true)
+  assert_eq(@js.instanceof_(arr.to_any(), array_constructor), true)
 
   // typeof check
   let type_str = @js.typeof_(arr)
@@ -440,7 +440,7 @@ For functions that accept JavaScript objects, use generic type parameters with `
 
 ```
 fn process[T : JsImpl](data : T) -> @js.Any {
-  data.to_js()
+  data.to_any()
 }
 ```
 
@@ -452,9 +452,9 @@ test "types implementing JsImpl" {
   // Types implementing JsImpl can be converted to @js.Any
   let obj = @js.Object::new()
   obj.set("value", 42)
-  let js_obj : @js.Any = obj.to_js()
+  let js_obj : @js.Any = obj.to_any()
   let arr = @js.JsArray::from([1, 2, 3])
-  let js_arr : @js.Any = arr.to_js()
+  let js_arr : @js.Any = arr.to_any()
   assert_eq(@js.is_object(js_obj), true)
   assert_eq(@js.is_array(js_arr), true)
 }
@@ -476,12 +476,12 @@ fn Document::getElementById(self : Document, id : String) -> Element?
 
 ### Principle 4: Avoid Redundant Conversions
 
-When working with types that already implement `JsImpl`, avoid unnecessary `.to_js()` calls.
+When working with types that already implement `JsImpl`, avoid unnecessary `.to_any()` calls.
 
 **❌ Avoid:**
 ```
 fn SubtleCrypto::digest(self : SubtleCrypto, algorithm : String, data : ArrayBuffer) -> Promise[@js.Any] {
-  self.to_js().call("digest", [algorithm, data.to_js()]) |> identity
+  self.to_any().call("digest", [algorithm, data.to_any()]) |> identity
 }
 ```
 
@@ -525,7 +525,7 @@ test "structured return types" {
   stats_obj.set("isDirectory", false)
   stats_obj.set("size", 1024)
   stats_obj.set("mtime", 1234567890)
-  let stats = parse_stats(stats_obj.to_js())
+  let stats = parse_stats(stats_obj.to_any())
   assert_eq(stats.isFile, true)
   assert_eq(stats.size, 1024)
 }
@@ -549,7 +549,7 @@ test "flexible configuration objects" {
   // Stream options are complex and vary by use case
   let opts = @js.Object::new()
   opts.set("highWaterMark", 1024)
-  let stream = create_readable_stream(opts.to_js())
+  let stream = create_readable_stream(opts.to_any())
   assert_eq(@js.is_object(stream), true)
 }
 ```

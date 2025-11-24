@@ -27,7 +27,7 @@ Add to your `moon.pkg.json`:
 These are Promise-based versions of the callback-based stream utilities.
 
 ```moonbit
-let streams = [readable.to_js(), transform.to_js(), writable]
+let streams = [readable.to_any(), transform.to_any(), writable]
 pipeline(streams).then(fn(_) {
   // All streams completed successfully
 })

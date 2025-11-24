@@ -73,7 +73,7 @@ fn object_class() -> Any {
 /// Returns an array of a given object's own enumerable property names.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::keys(v : &JsImpl) -> Array[String] {
-  object_class().call("keys", [v.to_js()]) |> identity
+  object_class().call("keys", [v.to_any()]) |> identity
 }
 
 ///|
@@ -82,7 +82,7 @@ pub fn Object::keys(v : &JsImpl) -> Array[String] {
 /// Returns an array of a given object's own enumerable property values.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::values(v : &JsImpl) -> Array[Any] {
-  object_class().call("values", [v.to_js()]) |> identity
+  object_class().call("values", [v.to_any()]) |> identity
 }
 
 ///|
@@ -91,14 +91,14 @@ pub fn Object::values(v : &JsImpl) -> Array[Any] {
 /// Returns an array of a given object's own enumerable property [key, value] pairs.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::entries(v : &JsImpl) -> Array[(String, Any)] {
-  let entries = ffi_object_entries(v.to_js())
+  let entries = ffi_object_entries(v.to_any())
   entries.map(entry => (entry.get(0) |> identity, entry.get(1) |> identity))
 }
 
 ///|
 /// JS: Object.assign(target, source)
 pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Any {
-  object_class().call2("assign", target.to_js(), source.to_js())
+  object_class().call2("assign", target.to_any(), source.to_any())
 }
 
 ///|
@@ -159,18 +159,18 @@ pub fn Object::isExtensible_static(obj : &JsImpl) -> Bool {
 ///|
 /// JS: object.propertyIsEnumerable(k)
 pub fn Object::propertyIsEnumerable(self : Self, key : &PropertyKey) -> Bool {
-  ffi_property_is_enumerable(self.to_js(), key.to_key() |> identity)
+  ffi_property_is_enumerable(self.to_any(), key.to_key() |> identity)
 }
 
 ///|
 /// JS: object.isPrototypeOf(target)
 pub fn Object::isPrototypeOf(self : Self, target : Any) -> Bool {
-  ffi_is_prototype_of(self.to_js(), target)
+  ffi_is_prototype_of(self.to_any(), target)
 }
 
 ///|
 pub fn Object::hasOwnProperty(self : Self, key : &PropertyKey) -> Bool {
-  ffi_has_own_property(self.to_js(), key.to_key() |> identity)
+  ffi_has_own_property(self.to_any(), key.to_key() |> identity)
 }
 
 ///|
@@ -182,7 +182,7 @@ pub fn Object::isExtensible(self : Self) -> Bool {
 
 ///|
 pub fn Object::to_string(self : Self) -> String {
-  ffi_json_stringify(self.to_js(), undefined(), undefined())
+  ffi_json_stringify(self.to_any(), undefined(), undefined())
 }
 
 ///| Array - Second most frequently used builtin type
@@ -199,7 +199,7 @@ pub impl JsImpl for JsArray
 
 ///|
 pub fn JsArray::to_string(self : Self) -> String {
-  ffi_json_stringify(self.to_js(), undefined(), undefined())
+  ffi_json_stringify(self.to_any(), undefined(), undefined())
 }
 
 ///|
@@ -217,7 +217,7 @@ pub fn JsArray::new() -> JsArray {
 ///|
 /// JS: array.push(item)
 pub fn JsArray::push(self : JsArray, item : &JsImpl) -> Unit {
-  self.as_builtin_array().push(item.to_js())
+  self.as_builtin_array().push(item.to_any())
 }
 
 ///|
@@ -229,7 +229,7 @@ pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
 ///|
 /// JS: Array.isArray(v)
 pub fn[T : JsImpl] JsArray::isArray(v : T) -> Bool {
-  ffi_is_array(v.to_js())
+  ffi_is_array(v.to_any())
 }
 
 ///|
@@ -307,13 +307,13 @@ pub impl Show for JsError with to_string(self) {
 ///|
 /// JS: Error.isError(value)
 pub fn JsError::isError(val : &JsImpl) -> Bool {
-  ffi_is_error(val.to_js())
+  ffi_is_error(val.to_any())
 }
 
 ///|
 /// Throws a JavaScript error/value
 pub fn throw_(v : &JsImpl) -> Unit {
-  ffi_throw(v.to_js())
+  ffi_throw(v.to_any())
 }
 
 ///|
@@ -429,7 +429,7 @@ pub fn JSON::stringify(
   replacer? : Any = undefined(),
   space? : Int = 2,
 ) -> String {
-  ffi_json_stringify(v.to_js(), replacer, space |> js)
+  ffi_json_stringify(v.to_any(), replacer, space |> js)
 }
 
 ///|

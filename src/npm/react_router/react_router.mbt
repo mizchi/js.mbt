@@ -59,19 +59,19 @@ pub(all) enum Route {
 }
 
 ///|
-impl @js.JsImpl for Route with to_js(self) {
+impl @js.JsImpl for Route with to_any(self) {
   match self {
     Route::Component(path~, component~) => {
       let obj = @js.Object::new()
       obj.set("path", path)
       obj.set("Component", component |> @js.unsafe_js)
-      obj.to_js()
+      obj.to_any()
     }
     Route::Element(path~, element~) => {
       let obj = @js.Object::new()
       obj.set("path", path)
       obj.set("element", element |> @js.unsafe_js)
-      obj.to_js()
+      obj.to_any()
     }
   }
 }
@@ -83,7 +83,7 @@ pub fn createBrowserRouter(routes : Array[Route]) -> Router {
     .get("__ReactRouterApi")
     .get("createBrowserRouter")
     .cast()
-  create_browser_router(routes.map(_.to_js()))
+  create_browser_router(routes.map(_.to_any()))
 }
 
 ///|

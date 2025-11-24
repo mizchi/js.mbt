@@ -16,7 +16,7 @@ test "Object creation and basic operations" {
 
 ///|
 test "Object::create" {
-  let obj = Object::create(@js.Object::new().to_js())
+  let obj = Object::create(@js.Object::new().to_any())
   assert_true(@js.is_object(obj))
 }
 
@@ -28,7 +28,7 @@ test "Object::keys, values, entries" {
   obj.set("city", "Tokyo")
 
   // Test keys
-  let keys = Object::keys(obj.to_js())
+  let keys = Object::keys(obj.to_any())
   assert_eq(keys.length(), 3)
   assert_true(keys.contains("name"))
   assert_true(keys.contains("age"))
@@ -141,10 +141,10 @@ test "Object::propertyIsEnumerable" {
 ///|
 test "Object::isPrototypeOf" {
   let parent = @js.Object::new()
-  let child = Object::create(parent.to_js())
-  assert_true(parent.isPrototypeOf(child.to_js()))
+  let child = Object::create(parent.to_any())
+  assert_true(parent.isPrototypeOf(child.to_any()))
   let child_obj : Object = @js.identity(child)
-  assert_false(child_obj.isPrototypeOf(parent.to_js()))
+  assert_false(child_obj.isPrototypeOf(parent.to_any()))
 }
 
 ///|
@@ -187,10 +187,10 @@ test "JsIterator::from converts iterable to iterator" {
   arr.push(3)
 
   // Use Iterator.from to convert iterable to iterator
-  let js_iter : JsIterator[@js.Any] = JsIterator::from(arr.to_js())
+  let js_iter : JsIterator[@js.Any] = JsIterator::from(arr.to_any())
 
   // Verify it's created (basic type check)
-  assert_true(@js.is_object(js_iter.to_js()))
+  assert_true(@js.is_object(js_iter.to_any()))
 }
 
 ///| Function tests
@@ -362,7 +362,7 @@ test "identity_option with Show types" {
 ///|
 test "identity_option for nullish detection" {
   let obj = @js.Object::new()
-  let result : @js.Object? = @js.identity_option(obj.to_js())
+  let result : @js.Object? = @js.identity_option(obj.to_any())
   assert_false(result is None)
   let null_result : @js.Object? = @js.identity_option(@js.null_())
   assert_true(null_result is None)
@@ -415,13 +415,13 @@ test "Js Show trait for different types" {
   let arr = @js.JsArray::new()
   arr.push(1)
   arr.push(2)
-  let arr_str = arr.to_js().to_string()
+  let arr_str = arr.to_any().to_string()
   assert_true(arr_str.contains("1") && arr_str.contains("2"))
 
   // Objects
   let obj = @js.Object::new()
   obj.set("key", "value")
-  let obj_str = obj.to_js().to_string()
+  let obj_str = obj.to_any().to_string()
   assert_true(obj_str.contains("key") && obj_str.contains("value"))
 }
 

@@ -5,7 +5,7 @@
 test "setImmediate returns Immediate object" {
   let immediate = setImmediate(fn() { () })
   // Just verify it returns without error
-  immediate.to_js() |> ignore
+  immediate.to_any() |> ignore
 }
 
 ///|

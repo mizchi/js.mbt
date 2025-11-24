@@ -7,7 +7,7 @@
 // - from_entries_option() - Convert optional tuple array to JS Object
 // - from_fn0/1/2/3() - Convert MoonBit functions to JS functions
 // - from_json() - Convert MoonBit Json type to JS Object
-// - to_json() / to_js() - Bidirectional conversion between Json and Js
+// - to_json() / to_any() - Bidirectional conversion between Json and Js
 
 ///| JsImpl implementations for MoonBit primitive types
 
@@ -39,22 +39,22 @@ pub impl JsImpl for BigInt
 
 ///|
 /// Convert an Array of Js-implementing types to a JavaScript array.
-pub impl JsImpl for Array[&JsImpl] with to_js(self) {
+pub impl JsImpl for Array[&JsImpl] with to_any(self) {
   from_array(self)
 }
 
 ///|
-pub impl JsImpl for Map[String, &JsImpl] with to_js(self) {
+pub impl JsImpl for Map[String, &JsImpl] with to_any(self) {
   let v = Object::new()
   for k, val in self {
-    v.set(k, val.to_js())
+    v.set(k, val.to_any())
   }
-  v.to_js()
+  v.to_any()
 }
 
 ///|
 /// Convert an Option to a JavaScript value.
-pub impl[T] JsImpl for T? with to_js(self) {
+pub impl[T] JsImpl for T? with to_any(self) {
   identity(self)
 }
 
@@ -63,7 +63,7 @@ pub impl[T] JsImpl for T? with to_js(self) {
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
 pub fn[T : JsImpl] from_array(v : Array[T]) -> Any {
-  identity(v.map(_.to_js()))
+  identity(v.map(_.to_any()))
 }
 
 ///|
@@ -78,10 +78,10 @@ pub fn[T : JsImpl] from_array(v : Array[T]) -> Any {
 pub fn from_map(map : Map[String, Any]) -> Any {
   let obj = Object::new()
   for k, v in map {
-    let v : Any = JsImpl::to_js(v)
+    let v : Any = JsImpl::to_any(v)
     obj.set(k, v)
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -97,9 +97,9 @@ pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Any {
   let obj = Object::new()
   for entry in entries {
     let (k, v) = entry
-    obj.set(k, v.to_js())
+    obj.set(k, v.to_any())
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -125,11 +125,11 @@ pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Any {
   for entry in entries {
     let (k, v) = entry
     match v {
-      Some(val) => obj.set(k, val.to_js())
+      Some(val) => obj.set(k, val.to_any())
       None => ()
     }
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -155,11 +155,11 @@ pub fn[T : JsImpl] from_entries_option_cast(
   for entry in entries {
     let (k, v) = entry
     match v {
-      Some(val) => obj.set(k, val.to_js())
+      Some(val) => obj.set(k, val.to_any())
       None => ()
     }
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -207,7 +207,7 @@ pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Any {
 /// let js_obj = JSON.parse(json_str)
 /// ```
 pub fn from_json(j : Json) -> Any {
-  JsImpl::to_js(j)
+  JsImpl::to_any(j)
 }
 
 ///|
@@ -253,7 +253,7 @@ pub impl ToJson for Any with to_json(self) -> Json {
 }
 
 ///|
-pub impl JsImpl for Json with to_js(self) -> Any {
+pub impl JsImpl for Json with to_any(self) -> Any {
   match self {
     Null => null_()
     String(s) => js(s)
@@ -263,18 +263,18 @@ pub impl JsImpl for Json with to_js(self) -> Any {
     Object(o) => {
       let obj = Object::new()
       for k, v in o {
-        let v : Any = JsImpl::to_js(v)
+        let v : Any = JsImpl::to_any(v)
         obj.set(k, v)
       }
-      obj.to_js()
+      obj.to_any()
     }
     Array(a) => {
       let arr = JsArray::new()
       for v in a {
-        let v : Any = JsImpl::to_js(v)
+        let v : Any = JsImpl::to_any(v)
         arr.call("push", [v]) |> ignore
       }
-      arr.to_js()
+      arr.to_any()
     }
   }
 }
@@ -302,7 +302,7 @@ pub fn[A, B] identity(v : A) -> B = "%identity"
 /// Cast any JsImpl type to a JavaScript Val safely.
 /// When you can not, use `unsafe_js()`.
 pub fn js(a : &JsImpl) -> Any {
-  identity(a.to_js())
+  identity(a.to_any())
 }
 
 ///|
@@ -351,7 +351,7 @@ pub fn[A] identity_option(v : Any) -> A? {
 /// - `identity_option(Js) -> A?` - Inverse conversion (Js to Option)
 pub fn[A : JsImpl] from_option(opt : A?) -> Any {
   match opt {
-    Some(v) => v.to_js()
+    Some(v) => v.to_any()
     None => ffi_null()
   }
 }
@@ -359,31 +359,31 @@ pub fn[A : JsImpl] from_option(opt : A?) -> Any {
 ///|
 /// JS: Array.isArray(v)
 pub fn[T : JsImpl] is_array(v : T) -> Bool {
-  ffi_is_array(v.to_js())
+  ffi_is_array(v.to_any())
 }
 
 ///|
 /// JS: typeof v === "object" && v !== null && !Array.isArray(v)
 pub fn[T : JsImpl] is_object(v : T) -> Bool {
-  ffi_is_object(v.to_js())
+  ffi_is_object(v.to_any())
 }
 
 ///|
 /// JS: v === null
 pub fn[T : JsImpl] is_null(v : T) -> Bool {
-  ffi_is_null(v.to_js())
+  ffi_is_null(v.to_any())
 }
 
 ///|
 /// JS: v === undefined
 pub fn[T : JsImpl] is_undefined(v : T) -> Bool {
-  ffi_is_undefined(v.to_js())
+  ffi_is_undefined(v.to_any())
 }
 
 ///|
 /// JS: v == undefined
 pub fn[T : JsImpl] is_nullish(v : T) -> Bool {
-  ffi_is_nullish(v.to_js())
+  ffi_is_nullish(v.to_any())
 }
 
 ///|

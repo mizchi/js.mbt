@@ -8,7 +8,7 @@ pub enum RequestId {
 } derive(Show, Eq)
 
 ///|
-pub fn RequestId::to_js(self : RequestId) -> @js.Any {
+pub fn RequestId::to_any(self : RequestId) -> @js.Any {
   match self {
     String(s) => @js.identity(s)
     Number(n) => @js.identity(n)
@@ -39,10 +39,10 @@ pub struct JsonRpcRequest {
 }
 
 ///|
-pub fn JsonRpcRequest::to_js(self : JsonRpcRequest) -> @js.Object {
+pub fn JsonRpcRequest::to_any(self : JsonRpcRequest) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("jsonrpc", self.jsonrpc)
-  obj.set("id", self.id.to_js())
+  obj.set("id", self.id.to_any())
   obj.set("method", self.method_name)
   match self.params {
     Some(p) => obj.set("params", p)
@@ -82,10 +82,10 @@ pub struct JsonRpcResponse {
 }
 
 ///|
-pub fn JsonRpcResponse::to_js(self : JsonRpcResponse) -> @js.Object {
+pub fn JsonRpcResponse::to_any(self : JsonRpcResponse) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("jsonrpc", self.jsonrpc)
-  obj.set("id", self.id.to_js())
+  obj.set("id", self.id.to_any())
   obj.set("result", self.result)
   obj
 }
@@ -99,7 +99,7 @@ pub struct JsonRpcError {
 }
 
 ///|
-pub fn JsonRpcError::to_js(self : JsonRpcError) -> @js.Object {
+pub fn JsonRpcError::to_any(self : JsonRpcError) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("code", self.code)
   obj.set("message", self.message)
@@ -118,11 +118,11 @@ pub struct JsonRpcErrorResponse {
 }
 
 ///|
-pub fn JsonRpcErrorResponse::to_js(self : JsonRpcErrorResponse) -> @js.Object {
+pub fn JsonRpcErrorResponse::to_any(self : JsonRpcErrorResponse) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("jsonrpc", self.jsonrpc)
-  obj.set("id", self.id.to_js())
-  obj.set("error", self.error.to_js())
+  obj.set("id", self.id.to_any())
+  obj.set("error", self.error.to_any())
   obj
 }
 
@@ -135,7 +135,7 @@ pub(all) struct JsonRpcNotification {
 }
 
 ///|
-pub fn JsonRpcNotification::to_js(self : JsonRpcNotification) -> @js.Object {
+pub fn JsonRpcNotification::to_any(self : JsonRpcNotification) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("jsonrpc", self.jsonrpc)
   obj.set("method", self.method_name)

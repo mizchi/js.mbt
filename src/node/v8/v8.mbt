@@ -79,14 +79,14 @@ pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
 /// Serialize a value to a Buffer
 pub fn serialize(value : &@js.JsImpl) -> @buffer.Buffer {
   let v8 = ffi_require_v8()
-  @js.identity(v8.call("serialize", [value.to_js()]))
+  @js.identity(v8.call("serialize", [value.to_any()]))
 }
 
 ///|
 /// Deserialize a Buffer to a value
 pub fn deserialize(buffer : @buffer.Buffer) -> @js.Any {
   let v8 = ffi_require_v8()
-  v8.call("deserialize", [buffer.to_js()])
+  v8.call("deserialize", [buffer.to_any()])
 }
 
 ///| Serializer Class
@@ -119,7 +119,7 @@ pub fn Serializer::writeHeader(self : Self) -> Unit {
 /// Write a value
 #alias(write_value)
 pub fn Serializer::writeValue(self : Self, value : &@js.JsImpl) -> Bool {
-  self.call("writeValue", [value.to_js()]).cast()
+  self.call("writeValue", [value.to_any()]).cast()
 }
 
 ///|
@@ -158,7 +158,7 @@ pub fn Serializer::write_double(self : Self, value : Double) -> Unit {
 /// Write raw bytes
 #alias(writeRawBytes)
 pub fn Serializer::write_raw_bytes(self : Self, buffer : &@js.JsImpl) -> Unit {
-  self.call("writeRawBytes", [buffer.to_js()]) |> ignore
+  self.call("writeRawBytes", [buffer.to_any()]) |> ignore
 }
 
 ///| Deserializer Class
@@ -177,7 +177,7 @@ extern "js" fn ffi_new_deserializer(buffer : @js.Any) -> @js.Any =
 ///|
 /// Create a new Deserializer
 pub fn Deserializer::new(buffer : @buffer.Buffer) -> Deserializer {
-  @js.identity(ffi_new_deserializer(buffer.to_js()))
+  @js.identity(ffi_new_deserializer(buffer.to_any()))
 }
 
 ///|

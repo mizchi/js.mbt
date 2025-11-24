@@ -2,7 +2,7 @@
 /// Test LookupOptions creation
 test "LookupOptions::new creates options" {
   let options = LookupOptions::new()
-  let js_obj = options.to_js()
+  let js_obj = options.to_any()
   inspect(@js.typeof_(js_obj), content="object")
 }
 
@@ -10,5 +10,5 @@ test "LookupOptions::new creates options" {
 /// Test get_servers returns array
 test "get_servers returns array" {
   let servers = get_servers()
-  inspect(@js.typeof_(servers.to_js()), content="object")
+  inspect(@js.typeof_(servers.to_any()), content="object")
 }

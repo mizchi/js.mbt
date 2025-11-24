@@ -12,7 +12,7 @@ pub impl @js.JsImpl for Blob
 /// Get the content type of the Blob
 #alias(content_type)
 pub fn Blob::contentType(self : Self) -> String {
-  self.to_js().get("type").cast()
+  self.to_any().get("type").cast()
 }
 
 ///|
@@ -30,7 +30,7 @@ pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
     i = i + 1
   }
   ffi_new_blob(
-    arr.to_js(),
+    arr.to_any(),
     @js.from_entries_option_cast([("type", content_type)]),
   ).cast()
 }
@@ -39,13 +39,13 @@ pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
 /// Get the Blob contents as ArrayBuffer
 #alias(arrayBuffer)
 pub fn Blob::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.to_js().call0("arrayBuffer").cast()
+  self.to_any().call0("arrayBuffer").cast()
 }
 
 ///|
 /// Get the Blob contents as text
 pub fn Blob::text(self : Self) -> @js.Promise[String] {
-  self.to_js().call0("text").cast()
+  self.to_any().call0("text").cast()
 }
 
 ///|
@@ -56,7 +56,7 @@ pub fn Blob::slice(
   end? : Int,
   content_type? : String,
 ) -> Blob {
-  let js = self.to_js()
+  let js = self.to_any()
   match (start, end, content_type) {
     (None, None, None) => js.call0("slice").cast()
     (Some(s), None, None) => js.call("slice", [s]).cast()
@@ -81,5 +81,5 @@ pub fn Blob::slice(
 ///|
 /// Get a ReadableStream for the Blob contents
 pub fn Blob::stream(self : Self) -> @streams.ReadableStream {
-  self.to_js().call0("stream").cast()
+  self.to_any().call0("stream").cast()
 }

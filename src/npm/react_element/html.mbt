@@ -39,7 +39,7 @@ fn[T] common_node(
     for k, v in style {
       style_obj.set(k, v)
     }
-    props.set("style", style_obj.to_js())
+    props.set("style", style_obj.to_any())
   }
   if ref_ is Some(ref_) {
     props.set("ref", ref_ |> @js.js)
@@ -88,7 +88,7 @@ fn[T] common_node(
     props.set("onDrop", f |> @js.from_fn1)
   }
   let children_js = children.map(_.to_react_node()) |> @js.from_array
-  @react.createElementDirect(tag_name, props.to_js(), children_js)
+  @react.createElementDirect(tag_name, props.to_any(), children_js)
 }
 
 ///|

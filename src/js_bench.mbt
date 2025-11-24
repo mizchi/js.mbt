@@ -35,8 +35,8 @@ test "bench: JsImpl call0 method" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: call1 with Int argument (needs to_js conversion)
-test "bench: call1 with Int (to_js conversion)" (b : @bench.T) {
+/// Benchmark: call1 with Int argument (needs to_any conversion)
+test "bench: call1 with Int (to_any conversion)" (b : @bench.T) {
   let obj = get_test_obj()
   b.bench(fn() { b.keep(obj.call1("identity", 42)) })
 }
@@ -49,7 +49,7 @@ test "bench: call2 with two Ints" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: call with Array (requires map + to_js for each element)
+/// Benchmark: call with Array (requires map + to_any for each element)
 test "bench: call with Array[Int] (map overhead)" (b : @bench.T) {
   let obj = get_test_obj()
   let args : Array[&JsImpl] = [1, 2, 3, 4, 5]
@@ -67,7 +67,7 @@ test "bench: call with Array[Any] (no conversion)" (b : @bench.T) {
 ///|
 /// Benchmark: Object creation
 test "bench: Object::new()" (b : @bench.T) {
-  b.bench(fn() { b.keep(Object::new().to_js()) })
+  b.bench(fn() { b.keep(Object::new().to_any()) })
 }
 
 ///|
@@ -76,7 +76,7 @@ test "bench: Object set (single property)" (b : @bench.T) {
   b.bench(fn() {
     let obj = Object::new()
     obj.set("value", 42)
-    b.keep(obj.to_js())
+    b.keep(obj.to_any())
   })
 }
 
@@ -90,7 +90,7 @@ test "bench: Object set (5 properties)" (b : @bench.T) {
     obj.set("c", 3)
     obj.set("d", 4)
     obj.set("e", 5)
-    b.keep(obj.to_js())
+    b.keep(obj.to_any())
   })
 }
 
@@ -111,20 +111,20 @@ test "bench: from_array (5 Ints)" (b : @bench.T) {
 
 ///|
 /// Benchmark: Array creation with direct map
-test "bench: Array map to_js (5 Ints)" (b : @bench.T) {
+test "bench: Array map to_any (5 Ints)" (b : @bench.T) {
   let arr = [1, 2, 3, 4, 5]
   b.bench(fn() { b.keep(arr.map(fn(x) { js(x) })) })
 }
 
 ///|
-/// Benchmark: to_js trait call overhead (Int)
-test "bench: Int to_js conversion" (b : @bench.T) {
+/// Benchmark: to_any trait call overhead (Int)
+test "bench: Int to_any conversion" (b : @bench.T) {
   b.bench(fn() { b.keep(js(42)) })
 }
 
 ///|
-/// Benchmark: to_js trait call overhead (String)
-test "bench: String to_js conversion" (b : @bench.T) {
+/// Benchmark: to_any trait call overhead (String)
+test "bench: String to_any conversion" (b : @bench.T) {
   b.bench(fn() { b.keep(js("hello")) })
 }
 
@@ -160,7 +160,7 @@ test "bench: Object::new() + set (5 properties, FFI)" (b : @bench.T) {
     obj.set("c", js(3))
     obj.set("d", js(4))
     obj.set("e", js(5))
-    b.keep(obj.to_js())
+    b.keep(obj.to_any())
   })
 }
 
@@ -255,7 +255,7 @@ test "bench: create nested object (realistic)" (b : @bench.T) {
     user.set("address", address)
     let tags = from_array(["developer", "moonbit", "javascript"])
     user.set("tags", tags)
-    b.keep(user.to_js())
+    b.keep(user.to_any())
   })
 }
 

@@ -57,7 +57,7 @@ pub impl @js.JsImpl for D1PreparedStatement
 pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Any]) -> Self {
   // Cloudflare's bind() expects variadic arguments, not an array
   // We need to spread the array when calling bind
-  let stmt_js = self.to_js()
+  let stmt_js = self.to_any()
   let bind_fn = stmt_js.get("bind")
 
   // Convert MoonBit array to JavaScript array
@@ -148,7 +148,7 @@ pub(all) struct D1RawOptions {
 }
 
 ///|
-pub impl @js.JsImpl for D1RawOptions with to_js(self) {
+pub impl @js.JsImpl for D1RawOptions with to_any(self) {
   @js.from_entries_option_cast([("columnNames", self.columnNames)])
 }
 

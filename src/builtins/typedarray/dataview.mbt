@@ -22,7 +22,7 @@ pub fn DataView::new(
   byte_offset? : UInt = 0,
   byte_length? : UInt,
 ) -> DataView {
-  @js.identity(ffi_new_dataview(buffer.to_js(), byte_offset, byte_length))
+  @js.identity(ffi_new_dataview(buffer.to_any(), byte_offset, byte_length))
 }
 
 ///|

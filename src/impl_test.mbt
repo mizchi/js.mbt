@@ -17,13 +17,13 @@ fn TestEnum::from_js(v : @js.Any) -> Self raise {
 }
 
 ///|
-impl JsImpl for TestEnum with to_js(self) {
+impl JsImpl for TestEnum with to_any(self) {
   match self {
     A(value~) => {
       let obj = @js.Object::new()
       obj.set("tag", "A")
       obj.set("value", value)
-      obj.to_js()
+      obj.to_any()
     }
   }
 }
@@ -63,7 +63,7 @@ test "identity converts struct to Any object" {
 ///|
 test "JsImpl trait converts enum to Any and back" {
   let v : TestEnum = A(value=123)
-  let v : @js.Any = v.to_js()
+  let v : @js.Any = v.to_any()
   assert_eq(@js.identity(v.get("tag")), "A")
   assert_eq(@js.identity(v.get("value")), 123)
   let recovered : TestEnum = TestEnum::from_js(v)
@@ -219,8 +219,8 @@ test "Val Show trait" {
   assert_eq(js(true).to_string(), "true")
   assert_eq(js(false).to_string(), "false")
   assert_eq(null_().to_string(), "null")
-  assert_eq(Object::new().to_js().to_string(), "{}")
-  assert_eq(JsArray::new().to_js().to_string(), "[]")
+  assert_eq(Object::new().to_any().to_string(), "{}")
+  assert_eq(JsArray::new().to_any().to_string(), "[]")
 }
 
 ///|
@@ -245,31 +245,31 @@ test "Val with mixed types in object" {
 ///|
 test "Js trait for primitives" {
   // String
-  let str_js : @js.Any = JsImpl::to_js("hello")
+  let str_js : @js.Any = JsImpl::to_any("hello")
   assert_eq(@js.identity(str_js), "hello")
 
   // Int
-  let int_js : @js.Any = JsImpl::to_js(42)
+  let int_js : @js.Any = JsImpl::to_any(42)
   assert_eq(@js.identity(int_js), 42)
 
   // Double
-  let double_js : @js.Any = JsImpl::to_js(3.14)
+  let double_js : @js.Any = JsImpl::to_any(3.14)
   assert_eq(@js.identity(double_js), 3.14)
 
   // Bool
-  let bool_js : @js.Any = JsImpl::to_js(true)
+  let bool_js : @js.Any = JsImpl::to_any(true)
   assert_eq(@js.identity(bool_js), true)
 
   // Val (identity)
   let val = @js.js(100)
-  let val_js : @js.Any = JsImpl::to_js(val)
+  let val_js : @js.Any = JsImpl::to_any(val)
   assert_eq(val_js, val)
 }
 
 ///|
 test "JsImpl for Array[&JsImpl]" {
   let arr : Array[&JsImpl] = ["hello", 42, 3.14, true]
-  let val = JsImpl::to_js(arr)
+  let val = JsImpl::to_any(arr)
   assert_true(@js.is_array(val))
   assert_eq(@js.identity(val.get(0)), "hello")
   assert_eq(@js.identity(val.get(1)), 42)
@@ -281,12 +281,12 @@ test "JsImpl for Array[&JsImpl]" {
 test "JsImpl for Option[T]" {
   // Some value
   let some_val : Int? = Some(42)
-  let some_js = JsImpl::to_js(some_val)
+  let some_js = JsImpl::to_any(some_val)
   assert_eq(@js.identity(some_js), 42)
 
   // None value - represented as undefined in MoonBit
   let none_val : Int? = None
-  let none_js = JsImpl::to_js(none_val)
+  let none_js = JsImpl::to_any(none_val)
   assert_true(@js.is_undefined(none_js))
 }
 
@@ -309,7 +309,7 @@ test "Js numeric edge cases" {
 test "Js Show trait" {
   let obj = @js.Object::new()
   obj.set("name", "test")
-  let str = obj.to_js().to_string()
+  let str = obj.to_any().to_string()
   assert_true(str.contains("Object") || str.length() > 0)
 }
 
@@ -562,7 +562,7 @@ test "JsIterator::drop" {
   arr.push(3)
   arr.push(4)
   arr.push(5)
-  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr.to_js())
+  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr.to_any())
   let dropped = iter.drop(2)
   let result = dropped.toArray()
   inspect(result.length(), content="3")
@@ -579,7 +579,7 @@ test "JsIterator::take" {
   arr.push(3)
   arr.push(4)
   arr.push(5)
-  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr.to_js())
+  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr.to_any())
   let taken = iter.take(3)
   let result = taken.toArray()
   inspect(result.length(), content="3")
@@ -594,7 +594,7 @@ test "JsIterator::drop and take combined" {
   for i = 0; i < 10; i = i + 1 {
     arr.push(i)
   }
-  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr.to_js())
+  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr.to_any())
   let result = iter.drop(2).take(5).toArray()
   inspect(result.length(), content="5")
   inspect(result[0], content="2")

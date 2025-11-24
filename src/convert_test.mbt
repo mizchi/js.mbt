@@ -1,7 +1,7 @@
 ///|
-test "JsImpl::to_js converts builtin Json to Js" {
+test "JsImpl::to_any converts builtin Json to Js" {
   let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
-  let v : @js.Any = JsImpl::to_js(j)
+  let v : @js.Any = JsImpl::to_any(j)
   assert_eq(@js.identity(v.get("items").get(0)), 1)
   assert_eq(@js.identity(v.get("nested").get("key")), "value")
 }
@@ -54,7 +54,7 @@ extern "js" fn ffi_point_new(x : Int, y : Int) -> Any =
 ///|
 test "from builtin struct" {
   let p = Point::{ x: 10, y: 20 }
-  let v : @js.Any = JsImpl::to_js(p)
+  let v : @js.Any = JsImpl::to_any(p)
   assert_eq(@js.identity(v.get("x")), 10)
   assert_eq(@js.identity(v.get("y")), 20)
   inspect(p, content="{x: 10, y: 20}")
@@ -393,7 +393,7 @@ test "from_entries_option_cast with Int options" {
 ///|
 test "JsImpl for Map[String, &JsImpl]" {
   let map : Map[String, &JsImpl] = { "name": "Bob", "age": 25, "active": true }
-  let obj : @js.Any = JsImpl::to_js(map)
+  let obj : @js.Any = JsImpl::to_any(map)
   assert_eq(@js.identity(obj.get("name")), "Bob")
   assert_eq(@js.identity(obj.get("age")), 25)
   assert_eq(@js.identity(obj.get("active")), true)
@@ -402,7 +402,7 @@ test "JsImpl for Map[String, &JsImpl]" {
 ///|
 test "JsImpl for Array[&JsImpl]" {
   let arr : Array[&JsImpl] = [1, "hello", true, 3.14]
-  let js_arr : @js.Any = JsImpl::to_js(arr)
+  let js_arr : @js.Any = JsImpl::to_any(arr)
   assert_true(@js.is_array(js_arr))
   assert_eq(@js.identity(js_arr.get(0)), 1)
   assert_eq(@js.identity(js_arr.get(1)), "hello")
@@ -414,8 +414,8 @@ test "JsImpl for Array[&JsImpl]" {
 test "JsImpl for Option types" {
   let some_val : Int? = Some(42)
   let none_val : Int? = None
-  let js_some : @js.Any = JsImpl::to_js(some_val)
-  let js_none : @js.Any = JsImpl::to_js(none_val)
+  let js_some : @js.Any = JsImpl::to_any(some_val)
+  let js_none : @js.Any = JsImpl::to_any(none_val)
   assert_eq(@js.identity(js_some), 42)
   assert_true(is_undefined(js_none))
 }

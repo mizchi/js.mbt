@@ -45,7 +45,7 @@ pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
 ///|
 /// Send a message to the child process (for IPC)
 pub fn ChildProcess::send(self : Self, message : &@js.JsImpl) -> Bool {
-  self.call("send", [message.to_js()]).cast()
+  self.call("send", [message.to_any()]).cast()
 }
 
 ///|
@@ -89,7 +89,7 @@ pub fn spawn(
     ("env", env.map(x => x)),
     ("shell", shell.map(x => x)),
     ("timeout", timeout.map(x => x)),
-    ("signal", signal.map(x => x.to_js())),
+    ("signal", signal.map(x => x.to_any())),
   ])
   match args {
     Some(a) => cp.call("spawn", [command, a |> @js.from_array, options]).cast()
@@ -117,7 +117,7 @@ pub fn exec(
     ("shell", shell.map(x => x)),
     ("timeout", timeout.map(x => x)),
     ("maxBuffer", max_buffer.map(x => x)),
-    ("signal", signal.map(x => x.to_js())),
+    ("signal", signal.map(x => x.to_any())),
   ])
   cp.call("exec", [command |> @js.js, options, @js.identity(callback)]).cast()
 }
@@ -142,7 +142,7 @@ pub fn execFile(
     ("env", env.map(x => x)),
     ("timeout", timeout.map(x => x)),
     ("maxBuffer", max_buffer.map(x => x)),
-    ("signal", signal.map(x => x.to_js())),
+    ("signal", signal.map(x => x.to_any())),
   ])
   cp
   .call("execFile", [
@@ -172,7 +172,7 @@ pub fn fork(
     ("env", env.map(x => x)),
     ("silent", silent.map(x => x)),
     ("timeout", timeout.map(x => x)),
-    ("signal", signal.map(x => x.to_js())),
+    ("signal", signal.map(x => x.to_any())),
   ])
   match args {
     Some(a) =>

@@ -29,21 +29,21 @@ pub fn MutationObserver::observe(
   target : @dom.Element,
   options : @js.Any,
 ) -> Unit {
-  self.to_js().call2("observe", target |> @js.js, options) |> ignore
+  self.to_any().call2("observe", target |> @js.js, options) |> ignore
 }
 
 ///|
 /// Stops observing
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/disconnect
 pub fn MutationObserver::disconnect(self : Self) -> Unit {
-  self.to_js().call0("disconnect") |> ignore
+  self.to_any().call0("disconnect") |> ignore
 }
 
 ///|
 /// Returns all pending mutation records
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/takeRecords
 pub fn MutationObserver::take_records(self : Self) -> @js.Any {
-  self.to_js().call0("takeRecords")
+  self.to_any().call0("takeRecords")
 }
 
 ///|
@@ -63,7 +63,7 @@ pub(all) struct MutationRecord {
 ///|
 /// Get the type of mutation
 pub fn MutationRecord::mutation_type(self : Self) -> String {
-  self.to_js().get("type").cast()
+  self.to_any().get("type").cast()
 }
 
 ///|
@@ -99,7 +99,7 @@ pub fn IntersectionObserver::observe(
   self : Self,
   target : @dom.Element,
 ) -> Unit {
-  self.to_js().call("observe", [target]) |> ignore
+  self.to_any().call("observe", [target]) |> ignore
 }
 
 ///|
@@ -109,21 +109,21 @@ pub fn IntersectionObserver::unobserve(
   self : Self,
   target : @dom.Element,
 ) -> Unit {
-  self.to_js().call("unobserve", [target]) |> ignore
+  self.to_any().call("unobserve", [target]) |> ignore
 }
 
 ///|
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/disconnect
 pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
-  self.to_js().call0("disconnect") |> ignore
+  self.to_any().call0("disconnect") |> ignore
 }
 
 ///|
 /// Returns all pending intersection records
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords
 pub fn IntersectionObserver::take_records(self : Self) -> @js.Any {
-  self.to_js().call0("takeRecords")
+  self.to_any().call0("takeRecords")
 }
 
 ///|
@@ -165,7 +165,7 @@ pub fn ResizeObserver::new(
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
 pub fn ResizeObserver::observe(self : Self, target : @dom.Element) -> Unit {
-  self.to_js().call("observe", [target |> @js.js]) |> ignore
+  self.to_any().call("observe", [target |> @js.js]) |> ignore
 }
 
 ///|
@@ -175,21 +175,21 @@ pub fn ResizeObserver::observe_with_options(
   target : @dom.Element,
   options : @js.Any,
 ) -> Unit {
-  self.to_js().call2("observe", target |> @js.js, options) |> ignore
+  self.to_any().call2("observe", target |> @js.js, options) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve
 pub fn ResizeObserver::unobserve(self : Self, target : @dom.Element) -> Unit {
-  self.to_js().call("unobserve", [target |> @js.js]) |> ignore
+  self.to_any().call("unobserve", [target |> @js.js]) |> ignore
 }
 
 ///|
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/disconnect
 pub fn ResizeObserver::disconnect(self : Self) -> Unit {
-  self.to_js().call0("disconnect") |> ignore
+  self.to_any().call0("disconnect") |> ignore
 }
 
 ///|

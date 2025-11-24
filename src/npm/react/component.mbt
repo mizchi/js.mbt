@@ -40,7 +40,7 @@ pub fn fragment(children : Array[&ReactNode], key? : String) -> Element {
   if key is Some(key) {
     val.set("key", key)
   }
-  ffi_create_element(tag, val.to_js(), children) |> @js.identity
+  ffi_create_element(tag, val.to_any(), children) |> @js.identity
 }
 
 ///|

@@ -37,16 +37,29 @@ pub async fn[X] run_promise(f : (AbortSignal) -> Promise[X]) -> X {
 ///|
 /// Moonbit Async Function to JS Promise Function
 pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
-  (
-  // Use moonbitlang/async/js_async for better async support
-  ) => @js_async.Promise::from_async(f) |> identity
+  () => {
+    let { promise, resolve, reject } = Promise::withResolvers()
+    run_async(async fn() noraise {
+      try f() |> resolve catch {
+        e => reject(e)
+      }
+    })
+    promise
+  }
 }
 
 ///|
 /// Moonbit Async Function to JS Promise Function
 pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
-  // Use moonbitlang/async/js_async for better async support
-  a => @js_async.Promise::from_async(async fn() { f(a) }) |> identity
+  a => {
+    let { promise, resolve, reject } = Promise::withResolvers()
+    run_async(async fn() noraise {
+      try f(a) |> resolve catch {
+        e => reject(e)
+      }
+    })
+    promise
+  }
 }
 
 ///|
@@ -54,11 +67,15 @@ pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
 pub fn[A, B, R] promisify2(
   f : async (A, B) -> R,
 ) -> (A, B) -> Promise[R] noraise {
-  (
-    a,
-    b,
-    // Use moonbitlang/async/js_async for better async support
-  ) => @js_async.Promise::from_async(async fn() { f(a, b) }) |> identity
+  (a, b) => {
+    let { promise, resolve, reject } = Promise::withResolvers()
+    run_async(async fn() noraise {
+      try f(a, b) |> resolve catch {
+        e => reject(e)
+      }
+    })
+    promise
+  }
 }
 
 ///|

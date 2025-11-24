@@ -97,7 +97,7 @@ pub fn Proxy::new(
     let js_fn : @js.Any = @js.identity(trap)
     handler.set("defineProperty", js_fn)
   }
-  @js.new_(proxy_class(), [target.to_js(), handler.to_js()]).cast()
+  @js.new_(proxy_class(), [target.to_any(), handler.to_any()]).cast()
 }
 
 ///|
@@ -173,5 +173,5 @@ pub fn Proxy::revocable(
     let js_fn : @js.Any = @js.identity(trap)
     handler.set("defineProperty", js_fn)
   }
-  proxy_class().call2("revocable", target.to_js(), handler.to_js())
+  proxy_class().call2("revocable", target.to_any(), handler.to_any())
 }

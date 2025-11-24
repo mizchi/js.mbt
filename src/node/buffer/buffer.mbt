@@ -52,7 +52,7 @@ pub fn Buffer::from_arraybuffer(
 /// Create a Buffer by copying another buffer
 pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call("from", [buf.to_js()]).cast()
+  ctor.call("from", [buf.to_any()]).cast()
 }
 
 ///|
@@ -82,7 +82,7 @@ pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
 #alias(is_buffer)
 pub fn Buffer::isBuffer(obj : &@js.JsImpl) -> Bool {
   let ctor = buffer_constructor()
-  ctor.call("isBuffer", [obj.to_js()]).cast()
+  ctor.call("isBuffer", [obj.to_any()]).cast()
 }
 
 ///|
@@ -97,7 +97,7 @@ pub fn Buffer::isEncoding(encoding : String) -> Bool {
 /// Compare two buffers
 pub fn Buffer::compare(buf1 : Buffer, buf2 : Buffer) -> Int {
   let ctor = buffer_constructor()
-  ctor.call2("compare", buf1.to_js(), buf2.to_js()).cast()
+  ctor.call2("compare", buf1.to_any(), buf2.to_any()).cast()
 }
 
 ///|
@@ -154,7 +154,7 @@ pub fn Buffer::write(
   length? : Int,
   encoding? : String = "utf-8",
 ) -> Int {
-  let buf_js = self.to_js()
+  let buf_js = self.to_any()
   match length {
     Some(len) => buf_js.call("write", [str, offset, len, encoding]).cast()
     None => buf_js.call("write", [str, offset, encoding]).cast()
@@ -164,7 +164,7 @@ pub fn Buffer::write(
 ///|
 /// Create a view of a portion of the buffer
 pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
-  let buf_js = self.to_js()
+  let buf_js = self.to_any()
   match end {
     Some(e) => buf_js.call2("slice", start, e).cast()
     None => buf_js.call("slice", [start]).cast()
@@ -174,7 +174,7 @@ pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
 ///|
 /// Create a subarray (TypedArray-compatible view)
 pub fn Buffer::subarray(self : Self, start? : Int = 0, end? : Int) -> Buffer {
-  let buf_js = self.to_js()
+  let buf_js = self.to_any()
   match end {
     Some(e) => buf_js.call2("subarray", start, e).cast()
     None => buf_js.call("subarray", [start]).cast()
@@ -190,14 +190,14 @@ pub fn Buffer::copy(
   source_start? : Int = 0,
   source_end? : Int,
 ) -> Int {
-  let buf_js = self.to_js()
+  let buf_js = self.to_any()
   match source_end {
     Some(se) =>
       buf_js
-      .call("copy", [target.to_js(), target_start, source_start, se])
+      .call("copy", [target.to_any(), target_start, source_start, se])
       .cast()
     None =>
-      buf_js.call("copy", [target.to_js(), target_start, source_start]).cast()
+      buf_js.call("copy", [target.to_any(), target_start, source_start]).cast()
   }
 }
 
@@ -210,7 +210,7 @@ pub fn Buffer::fill(
   end? : Int,
   encoding? : String = "utf-8",
 ) -> Buffer {
-  let buf_js = self.to_js()
+  let buf_js = self.to_any()
   match end {
     Some(e) => buf_js.call("fill", [value, offset, e, encoding]).cast()
     None => buf_js.call2("fill", value, offset).cast()
@@ -220,7 +220,7 @@ pub fn Buffer::fill(
 ///|
 /// Test if this buffer equals another buffer
 pub fn Buffer::equals(self : Self, other : Buffer) -> Bool {
-  self.call("equals", [other.to_js()]).cast()
+  self.call("equals", [other.to_any()]).cast()
 }
 
 ///|
@@ -233,9 +233,9 @@ pub fn Buffer::compare_with(
   source_start? : Int = 0,
   source_end? : Int,
 ) -> Int {
-  let buf_js = self.to_js()
+  let buf_js = self.to_any()
   let args = @js.JsArray::new()
-  args.call("push", [target.to_js()]) |> ignore
+  args.call("push", [target.to_any()]) |> ignore
   args.call("push", [target_start]) |> ignore
   match target_end {
     Some(te) => args.call("push", [te]) |> ignore
@@ -283,7 +283,7 @@ pub fn Buffer::lastIndexOf(
   byte_offset? : Int,
   encoding? : String = "utf-8",
 ) -> Int {
-  let buf_js = self.to_js()
+  let buf_js = self.to_any()
   match byte_offset {
     Some(offset) => buf_js.call("lastIndexOf", [value, offset, encoding]).cast()
     None => buf_js.call2("lastIndexOf", value, encoding).cast()
@@ -301,13 +301,13 @@ pub fn Buffer::lastIndexOf(
 ///|
 /// Get a byte at a specific index
 // pub fn Buffer::get(self : Self, index : Int) -> Int {
-//   ffi_get_index(self.to_js(), index).cast()
+//   ffi_get_index(self.to_any(), index).cast()
 // }
 
 // ///|
 // /// Set a byte at a specific index
 // pub fn Buffer::set(self : Self, index : Int, value : Int) -> Unit {
-//   ffi_set_index(self.to_js(), index, js(value))
+//   ffi_set_index(self.to_any(), index, js(value))
 // }
 
 ///|

@@ -100,7 +100,7 @@ pub fn ServerOptions::new() -> ServerOptions {
 
 ///|
 /// Convert ServerOptions to JavaScript object
-pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Any {
+pub fn ServerOptions::to_any(self : ServerOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.allow_http1 {
     Some(v) => obj.set("allowHTTP1", v)
@@ -130,7 +130,7 @@ pub fn ServerOptions::to_js(self : ServerOptions) -> @js.Any {
     Some(v) => obj.set("paddingStrategy", v)
     None => ()
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -151,7 +151,7 @@ pub fn SecureServerOptions::new() -> SecureServerOptions {
 
 ///|
 /// Convert SecureServerOptions to JavaScript object
-pub fn SecureServerOptions::to_js(self : SecureServerOptions) -> @js.Any {
+pub fn SecureServerOptions::to_any(self : SecureServerOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.key {
     Some(v) => obj.set("key", v)
@@ -173,7 +173,7 @@ pub fn SecureServerOptions::to_js(self : SecureServerOptions) -> @js.Any {
     Some(v) => obj.set("allowHTTP1", v)
     None => ()
   }
-  obj.to_js()
+  obj.to_any()
 }
 
 ///|
@@ -192,7 +192,7 @@ pub fn create_server(
   options : ServerOptions,
   request_handler : (@js.Object, @js.Object) -> Unit,
 ) -> Http2Server {
-  ffi_create_server(options.to_js(), @js.from_fn2(request_handler))
+  ffi_create_server(options.to_any(), @js.from_fn2(request_handler))
 }
 
 ///|
@@ -211,7 +211,7 @@ pub fn create_secure_server(
   options : SecureServerOptions,
   request_handler : (@js.Object, @js.Object) -> Unit,
 ) -> Http2SecureServer {
-  ffi_create_secure_server(options.to_js(), @js.from_fn2(request_handler))
+  ffi_create_secure_server(options.to_any(), @js.from_fn2(request_handler))
 }
 
 ///|
@@ -275,7 +275,7 @@ pub fn Http2Session::request(
   self : Http2Session,
   headers : @js.Object,
 ) -> ClientHttp2Stream {
-  self.call("request", [headers.to_js()]).cast()
+  self.call("request", [headers.to_any()]).cast()
 }
 
 ///|
@@ -297,7 +297,7 @@ pub fn ServerHttp2Stream::respond(
   self : ServerHttp2Stream,
   headers : @js.Object,
 ) -> Unit {
-  self.call("respond", [headers.to_js()]) |> ignore
+  self.call("respond", [headers.to_any()]) |> ignore
 }
 
 ///|

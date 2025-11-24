@@ -43,7 +43,7 @@ pub fn InterfaceOptions::new(
 
 ///|
 /// Convert InterfaceOptions to JS object
-pub fn InterfaceOptions::to_js(self : InterfaceOptions) -> @js.Object {
+pub fn InterfaceOptions::to_any(self : InterfaceOptions) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("input", self.input)
   match self.output {
@@ -84,7 +84,7 @@ pub fn InterfaceOptions::to_js(self : InterfaceOptions) -> @js.Object {
 ///|
 /// Create a readline interface
 pub fn create_interface(options : InterfaceOptions) -> Interface {
-  create_interface_impl(options.to_js())
+  create_interface_impl(options.to_any())
 }
 
 ///|

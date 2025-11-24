@@ -53,7 +53,7 @@ pub struct InterfaceOptions {
   tab_size : Int?
 }
 fn InterfaceOptions::new(@stream.Readable, @stream.Writable?) -> Self
-fn InterfaceOptions::to_js(Self) -> @js.Object
+fn InterfaceOptions::to_any(Self) -> @js.Object
 
 // Type aliases
 

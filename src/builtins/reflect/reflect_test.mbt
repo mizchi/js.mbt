@@ -117,7 +117,7 @@ test "Reflect.set with receiver" {
   let obj = @js.Object::new()
   obj.set("x", 10)
   let receiver = @js.Object::new()
-  let result = set(obj, "x", 20, Some(receiver.to_js()))
+  let result = set(obj, "x", 20, Some(receiver.to_any()))
   assert_true(result)
 }
 
@@ -126,7 +126,7 @@ test "Reflect.get with receiver" {
   let obj = @js.Object::new()
   obj.set("value", 100)
   let receiver = @js.Object::new()
-  let result = @reflect.get(obj, "value", Some(receiver.to_js()))
+  let result = @reflect.get(obj, "value", Some(receiver.to_any()))
   assert_eq(@js.identity(result), 100)
 }
 

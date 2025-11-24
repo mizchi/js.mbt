@@ -109,7 +109,7 @@ pub async fn createServer(
     None => ()
   }
   let promise : @js.Promise[ViteDevServer] = @js.identity(
-    ffi_createServer(config.to_js()),
+    ffi_createServer(config.to_any()),
   )
   promise.wait()
 }
@@ -157,7 +157,7 @@ pub async fn build(
     None => ()
   }
   let promise : @js.Promise[RollupOutput] = @js.identity(
-    ffi_build(config.to_js()),
+    ffi_build(config.to_any()),
   )
   promise.wait()
 }
@@ -205,7 +205,7 @@ pub async fn preview(
     None => ()
   }
   let promise : @js.Promise[PreviewServer] = @js.identity(
-    ffi_preview(config.to_js()),
+    ffi_preview(config.to_any()),
   )
   promise.wait()
 }
@@ -230,7 +230,7 @@ pub async fn ViteDevServer::listen(
     None => ()
   }
   let promise : @js.Promise[ViteDevServer] = @js.identity(
-    self.call("listen", [options.to_js()]),
+    self.call("listen", [options.to_any()]),
   )
   promise.wait()
 }
@@ -264,7 +264,7 @@ pub async fn ViteDevServer::restart(
     None => ()
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("restart", [options.to_js()]),
+    self.call("restart", [options.to_any()]),
   )
   promise.wait()
 }

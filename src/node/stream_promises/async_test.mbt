@@ -57,7 +57,7 @@ extern "js" fn get_chunks_promises(writable : @js.Any) -> Array[String] =
 async test "Node Stream Promises: pipeline with promises - basic" {
   let readable = create_readable_from_array(["hello", "world"])
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Any] = [readable.to_js(), writable_js]
+  let streams : Array[@js.Any] = [readable.to_any(), writable_js]
   let promise = promises_pipeline(streams)
   ignore(promise.wait())
   let chunks = get_chunks_promises(writable_js)
@@ -72,8 +72,8 @@ async test "Node Stream Promises: pipeline with promises - with transform" {
   let transform = create_transform_uppercase_promises()
   let writable_js = create_writable_to_array_promises()
   let streams : Array[@js.Any] = [
-    readable.to_js(),
-    transform.to_js(),
+    readable.to_any(),
+    transform.to_any(),
     writable_js,
   ]
   let promise = promises_pipeline(streams)
@@ -91,9 +91,9 @@ async test "Node Stream Promises: pipeline with promises - multiple transforms" 
   let transform2 = create_passthrough_promises()
   let writable_js = create_writable_to_array_promises()
   let streams : Array[@js.Any] = [
-    readable.to_js(),
-    transform1.to_js(),
-    transform2.to_js(),
+    readable.to_any(),
+    transform1.to_any(),
+    transform2.to_any(),
     writable_js,
   ]
   let promise = promises_pipeline(streams)
@@ -112,8 +112,8 @@ async test "Node Stream Promises: pipeline with promises - async operations" {
     let transform = create_transform_uppercase_promises()
     let writable_js = create_writable_to_array_promises()
     let streams : Array[@js.Any] = [
-      readable.to_js(),
-      transform.to_js(),
+      readable.to_any(),
+      transform.to_any(),
       writable_js,
     ]
     let promise = promises_pipeline(streams)
@@ -134,7 +134,7 @@ async test "Node Stream Promises: pipeline with promises - successful completion
   // Test that pipeline promise resolves successfully
   let readable = create_readable_from_array(["test", "data"])
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Any] = [readable.to_js(), writable_js]
+  let streams : Array[@js.Any] = [readable.to_any(), writable_js]
   let promise = promises_pipeline(streams)
   // Use then to verify completion
   let resolved = promise.then(fn(_) { @js.Promise::resolve(true) })
@@ -148,7 +148,7 @@ async test "Node Stream Promises: pipeline with promises - successful completion
 async test "Node Stream Promises: pipeline with promises - then chain" {
   let readable = create_readable_from_array(["chain", "test"])
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Any] = [readable.to_js(), writable_js]
+  let streams : Array[@js.Any] = [readable.to_any(), writable_js]
   let promise = promises_pipeline(streams)
   let result_promise = promise.then(fn(_) {
     let chunks = get_chunks_promises(writable_js)
@@ -168,7 +168,7 @@ async test "Node Stream Promises: pipeline with promises - large data" {
   }
   let readable = create_readable_from_array(items)
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@js.Any] = [readable.to_js(), writable_js]
+  let streams : Array[@js.Any] = [readable.to_any(), writable_js]
   let promise = promises_pipeline(streams)
   ignore(promise.wait())
   let chunks = get_chunks_promises(writable_js)
@@ -186,7 +186,7 @@ async test "Node Stream Promises: finished with promises - writable" {
   // Write some data
   let _ = writable.write(@js.identity("test"))
   // End the stream
-  ignore(writable.to_js().call0("end"))
+  ignore(writable.to_any().call0("end"))
   // Wait for finish
   let promise = promises_finished(writable_js)
   promise.wait()
@@ -200,7 +200,7 @@ async test "Node Stream Promises: finished with promises - readable" {
   let _ = readable.read()
   let _ = readable.read()
   // Wait for end
-  let promise = promises_finished(readable.to_js())
+  let promise = promises_finished(readable.to_any())
   promise.wait()
   assert_eq(readable.readableEnded(), true)
 }
@@ -212,8 +212,8 @@ async test "Node Stream Promises: finished with promises - multiple streams" {
   let writable2_js = create_writable_to_array_promises()
   let writable2 : @stream.Writable = @js.identity(writable2_js)
   // End both streams
-  ignore(writable1.to_js().call0("end"))
-  ignore(writable2.to_js().call0("end"))
+  ignore(writable1.to_any().call0("end"))
+  ignore(writable2.to_any().call0("end"))
   // Wait for both to finish
   let promise1 = promises_finished(writable1_js)
   let promise2 = promises_finished(writable2_js)

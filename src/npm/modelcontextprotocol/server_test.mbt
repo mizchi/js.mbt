@@ -7,8 +7,8 @@ test "McpServer::new creates server with correct info" {
 }
 
 ///|
-test "JsonRpcRequest to_js" {
-  // Test using from_js and to_js roundtrip instead of direct construction
+test "JsonRpcRequest to_any" {
+  // Test using from_js and to_any roundtrip instead of direct construction
   let obj = @js.Object::new()
   obj.set("jsonrpc", "2.0")
   obj.set("id", "test-123")
@@ -16,7 +16,7 @@ test "JsonRpcRequest to_js" {
   let request = JsonRpcRequest::from_js(@js.identity(obj))
   match request {
     Some(req) => {
-      let result = req.to_js()
+      let result = req.to_any()
       let jsonrpc : String = @js.identity(result.get("jsonrpc"))
       let method_name : String = @js.identity(result.get("method"))
       inspect(jsonrpc, content="2.0")

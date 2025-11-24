@@ -37,7 +37,7 @@ pub struct Content {
 fn Content::image(String, String) -> Self
 fn Content::resource(String) -> Self
 fn Content::text(String) -> Self
-fn Content::to_js(Self) -> @js.Object
+fn Content::to_any(Self) -> @js.Object
 impl Show for Content
 
 pub enum ContentType {
@@ -54,21 +54,21 @@ pub struct JsonRpcError {
   message : String
   data : @js.Any?
 }
-fn JsonRpcError::to_js(Self) -> @js.Object
+fn JsonRpcError::to_any(Self) -> @js.Object
 
 pub struct JsonRpcErrorResponse {
   jsonrpc : String
   id : RequestId
   error : JsonRpcError
 }
-fn JsonRpcErrorResponse::to_js(Self) -> @js.Object
+fn JsonRpcErrorResponse::to_any(Self) -> @js.Object
 
 pub(all) struct JsonRpcNotification {
   jsonrpc : String
   method_name : String
   params : @js.Object?
 }
-fn JsonRpcNotification::to_js(Self) -> @js.Object
+fn JsonRpcNotification::to_any(Self) -> @js.Object
 
 pub struct JsonRpcRequest {
   jsonrpc : String
@@ -77,14 +77,14 @@ pub struct JsonRpcRequest {
   params : @js.Object?
 }
 fn JsonRpcRequest::from_js(@js.Any) -> Self?
-fn JsonRpcRequest::to_js(Self) -> @js.Object
+fn JsonRpcRequest::to_any(Self) -> @js.Object
 
 pub struct JsonRpcResponse {
   jsonrpc : String
   id : RequestId
   result : @js.Any
 }
-fn JsonRpcResponse::to_js(Self) -> @js.Object
+fn JsonRpcResponse::to_any(Self) -> @js.Object
 
 pub struct McpClient {
   server_info : ServerInfo?
@@ -112,7 +112,7 @@ pub(all) struct Prompt {
   description : String?
   arguments : Array[PromptArgument]
 }
-fn Prompt::to_js(Self) -> @js.Object
+fn Prompt::to_any(Self) -> @js.Object
 impl Show for Prompt
 
 pub(all) struct PromptArgument {
@@ -120,7 +120,7 @@ pub(all) struct PromptArgument {
   description : String?
   required : Bool
 }
-fn PromptArgument::to_js(Self) -> @js.Object
+fn PromptArgument::to_any(Self) -> @js.Object
 impl Show for PromptArgument
 
 pub enum RequestId {
@@ -128,7 +128,7 @@ pub enum RequestId {
   Number(Int)
 }
 fn RequestId::from_js(@js.Any) -> Self?
-fn RequestId::to_js(Self) -> @js.Any
+fn RequestId::to_any(Self) -> @js.Any
 impl Eq for RequestId
 impl Show for RequestId
 
@@ -138,7 +138,7 @@ pub(all) struct Resource {
   description : String?
   mime_type : String?
 }
-fn Resource::to_js(Self) -> @js.Object
+fn Resource::to_any(Self) -> @js.Object
 impl Show for Resource
 
 pub struct ServerCapabilities {
@@ -146,14 +146,14 @@ pub struct ServerCapabilities {
   resources : Bool
   prompts : Bool
 }
-fn ServerCapabilities::to_js(Self) -> @js.Object
+fn ServerCapabilities::to_any(Self) -> @js.Object
 impl Show for ServerCapabilities
 
 pub struct ServerInfo {
   name : String
   version : String
 }
-fn ServerInfo::to_js(Self) -> @js.Object
+fn ServerInfo::to_any(Self) -> @js.Object
 impl Show for ServerInfo
 
 pub(all) struct Tool {
@@ -161,7 +161,7 @@ pub(all) struct Tool {
   description : String
   input_schema : @js.Object
 }
-fn Tool::to_js(Self) -> @js.Object
+fn Tool::to_any(Self) -> @js.Object
 
 // Type aliases
 pub type PromptHandler = (@js.Object) -> @js.Promise[Array[Content]]

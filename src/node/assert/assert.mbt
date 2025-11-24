@@ -26,8 +26,8 @@ pub fn equal(
   let a = assert_module()
   match message {
     Some(msg) =>
-      a.call("equal", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call2("equal", actual.to_js(), expected.to_js()) |> ignore
+      a.call("equal", [actual.to_any(), expected.to_any(), msg]) |> ignore
+    None => a.call2("equal", actual.to_any(), expected.to_any()) |> ignore
   }
 }
 
@@ -41,8 +41,8 @@ pub fn notEqual(
   let a = assert_module()
   match message {
     Some(msg) =>
-      a.call("notEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call2("notEqual", actual.to_js(), expected.to_js()) |> ignore
+      a.call("notEqual", [actual.to_any(), expected.to_any(), msg]) |> ignore
+    None => a.call2("notEqual", actual.to_any(), expected.to_any()) |> ignore
   }
 }
 
@@ -56,8 +56,8 @@ pub fn deepEqual(
   let a = assert_module()
   match message {
     Some(msg) =>
-      a.call("deepEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call2("deepEqual", actual.to_js(), expected.to_js()) |> ignore
+      a.call("deepEqual", [actual.to_any(), expected.to_any(), msg]) |> ignore
+    None => a.call2("deepEqual", actual.to_any(), expected.to_any()) |> ignore
   }
 }
 
@@ -71,8 +71,10 @@ pub fn notDeepEqual(
   let a = assert_module()
   match message {
     Some(msg) =>
-      a.call("notDeepEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call2("notDeepEqual", actual.to_js(), expected.to_js()) |> ignore
+      a.call("notDeepEqual", [actual.to_any(), expected.to_any(), msg])
+      |> ignore
+    None =>
+      a.call2("notDeepEqual", actual.to_any(), expected.to_any()) |> ignore
   }
 }
 
@@ -86,8 +88,8 @@ pub fn strictEqual(
   let a = assert_module()
   match message {
     Some(msg) =>
-      a.call("strictEqual", [actual.to_js(), expected.to_js(), msg]) |> ignore
-    None => a.call2("strictEqual", actual.to_js(), expected.to_js()) |> ignore
+      a.call("strictEqual", [actual.to_any(), expected.to_any(), msg]) |> ignore
+    None => a.call2("strictEqual", actual.to_any(), expected.to_any()) |> ignore
   }
 }
 
@@ -101,10 +103,10 @@ pub fn notStrictEqual(
   let a = assert_module()
   match message {
     Some(msg) =>
-      a.call("notStrictEqual", [actual.to_js(), expected.to_js(), msg])
+      a.call("notStrictEqual", [actual.to_any(), expected.to_any(), msg])
       |> ignore
     None =>
-      a.call2("notStrictEqual", actual.to_js(), expected.to_js()) |> ignore
+      a.call2("notStrictEqual", actual.to_any(), expected.to_any()) |> ignore
   }
 }
 
@@ -140,10 +142,11 @@ pub fn rejects(
   let a = assert_module()
   match (error, message) {
     (Some(err), Some(msg)) =>
-      a.call("rejects", [promise.to_js(), err.to_js(), msg]).cast()
-    (Some(err), None) => a.call2("rejects", promise.to_js(), err.to_js()).cast()
-    (None, Some(msg)) => a.call2("rejects", promise.to_js(), msg).cast()
-    (None, None) => a.call("rejects", [promise.to_js()]).cast()
+      a.call("rejects", [promise.to_any(), err.to_any(), msg]).cast()
+    (Some(err), None) =>
+      a.call2("rejects", promise.to_any(), err.to_any()).cast()
+    (None, Some(msg)) => a.call2("rejects", promise.to_any(), msg).cast()
+    (None, None) => a.call("rejects", [promise.to_any()]).cast()
   }
 }
 
@@ -155,8 +158,8 @@ pub fn doesNotReject(
 ) -> @js.Promise[Unit] {
   let a = assert_module()
   match message {
-    Some(msg) => a.call2("doesNotReject", promise.to_js(), msg).cast()
-    None => a.call("doesNotReject", [promise.to_js()]).cast()
+    Some(msg) => a.call2("doesNotReject", promise.to_any(), msg).cast()
+    None => a.call("doesNotReject", [promise.to_any()]).cast()
   }
 }
 
@@ -213,8 +216,8 @@ pub fn instanceOf(
   let a = assert_module()
   match message {
     Some(msg) =>
-      a.call("instanceOf", [value.to_js(), ctor.to_js(), msg]) |> ignore
-    None => a.call2("instanceOf", value.to_js(), ctor.to_js()) |> ignore
+      a.call("instanceOf", [value.to_any(), ctor.to_any(), msg]) |> ignore
+    None => a.call2("instanceOf", value.to_any(), ctor.to_any()) |> ignore
   }
 }
 
@@ -228,7 +231,7 @@ pub fn notInstanceOf(
   let a = assert_module()
   match message {
     Some(msg) =>
-      a.call("notInstanceOf", [value.to_js(), ctor.to_js(), msg]) |> ignore
-    None => a.call2("notInstanceOf", value.to_js(), ctor.to_js()) |> ignore
+      a.call("notInstanceOf", [value.to_any(), ctor.to_any(), msg]) |> ignore
+    None => a.call2("notInstanceOf", value.to_any(), ctor.to_any()) |> ignore
   }
 }

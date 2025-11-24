@@ -88,7 +88,7 @@ async test "Node Stream: Readable unpipe" {
 async test "Node Stream: Readable destroy" {
   let readable = create_readable_from_string("destroy test")
   // Destroy without error - stream will handle it
-  ignore(readable.to_js().call0("destroy"))
+  ignore(readable.to_any().call0("destroy"))
   @js.sleep(16)
   // After destroy, stream should be closed
   assert_eq(readable.closed(), true)
@@ -124,7 +124,7 @@ async test "Node Stream: Writable cork/uncork" {
 async test "Node Stream: Writable destroy" {
   let writable : @stream.Writable = @js.identity(create_writable_to_array())
   // Destroy without error - stream will handle it
-  ignore(writable.to_js().call0("destroy"))
+  ignore(writable.to_any().call0("destroy"))
   @js.sleep(16)
   assert_eq(writable.closed(), true)
 }
@@ -133,7 +133,7 @@ async test "Node Stream: Writable destroy" {
 async test "Node Stream: Writable end" {
   let writable : @stream.Writable = @js.identity(create_writable_to_array())
   // Call end without chunk - use call directly
-  ignore(writable.to_js().call0("end"))
+  ignore(writable.to_any().call0("end"))
   @js.sleep(16)
   assert_eq(writable.writableEnded(), true)
 }
@@ -155,9 +155,7 @@ async test "Node Stream: pipe - Readable to Writable" {
 ///|
 async test "Node Stream: Transform stream - uppercase" {
   let readable = create_readable_from_string("hello transform")
-  let transform : @stream.Readable = @js.identity(
-    create_transform_uppercase(),
-  )
+  let transform : @stream.Readable = @js.identity(create_transform_uppercase())
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.identity(writable_js)
   let piped : @stream.Readable = @js.identity(
@@ -288,11 +286,7 @@ async test "Node Stream: async pipeline with Promise" {
       resolver.resolve(success)
     })
     let _ = @stream.pipeline(
-      [
-        @js.identity(readable),
-        @js.identity(transform),
-        @js.identity(writable),
-      ],
+      [@js.identity(readable), @js.identity(transform), @js.identity(writable)],
       callback~,
     )
 

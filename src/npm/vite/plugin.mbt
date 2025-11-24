@@ -126,5 +126,5 @@ pub fn define_plugin(
     Some(v) => plugin.set("closeBundle", @js.identity(v))
     None => ()
   }
-  plugin.to_js()
+  plugin.to_any()
 }

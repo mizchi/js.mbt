@@ -180,7 +180,7 @@ extern "js" fn ffi_new_module(bytes : @js.Any) -> WebAssemblyModule =
 pub fn WebAssemblyModule::from_bytes(
   bytes : @typedarray.Uint8Array,
 ) -> WebAssemblyModule {
-  ffi_new_module(bytes.to_js())
+  ffi_new_module(bytes.to_any())
 }
 
 ///|
@@ -188,7 +188,7 @@ pub fn WebAssemblyModule::from_bytes(
 pub fn WebAssemblyModule::from_buffer(
   buffer : @js.ArrayBuffer,
 ) -> WebAssemblyModule {
-  ffi_new_module(buffer.to_js())
+  ffi_new_module(buffer.to_any())
 }
 
 ///|
@@ -228,7 +228,7 @@ pub fn instantiate_bytes(
     Some(obj) => obj
     None => @js.undefined()
   }
-  let result = ffi_instantiate(bytes.to_js(), imports)
+  let result = ffi_instantiate(bytes.to_any(), imports)
   let wasm_module : WebAssemblyModule = result.get("module").cast()
   let instance : WebAssemblyInstance = result.get("instance").cast()
   (wasm_module, instance)
@@ -244,7 +244,7 @@ pub fn instantiate_module(
     Some(obj) => obj
     None => @js.undefined()
   }
-  ffi_instantiate(wasm_module.to_js(), imports).cast()
+  ffi_instantiate(wasm_module.to_any(), imports).cast()
 }
 
 ///|
@@ -254,7 +254,7 @@ extern "js" fn ffi_validate(bytes : @js.Any) -> Bool =
 ///|
 /// Validate WebAssembly bytes
 pub fn validate(bytes : @typedarray.Uint8Array) -> Bool {
-  ffi_validate(bytes.to_js())
+  ffi_validate(bytes.to_any())
 }
 
 ///|
@@ -264,5 +264,5 @@ extern "js" fn ffi_compile(bytes : @js.Any) -> @js.Any =
 ///|
 /// Compile a WebAssembly module (async)
 pub fn compile(bytes : @typedarray.Uint8Array) -> @js.Any {
-  ffi_compile(bytes.to_js())
+  ffi_compile(bytes.to_any())
 }

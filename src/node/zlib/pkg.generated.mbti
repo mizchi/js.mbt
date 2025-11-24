@@ -67,7 +67,7 @@ pub struct ZlibOptions {
   window_bits : Int?
 }
 fn ZlibOptions::new() -> Self
-fn ZlibOptions::to_js(Self) -> @js.Any
+fn ZlibOptions::to_any(Self) -> @js.Any
 
 // Type aliases
 

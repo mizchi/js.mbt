@@ -49,7 +49,7 @@ pub fn Content::resource(uri : String) -> Content {
 }
 
 ///|
-pub fn Content::to_js(self : Content) -> @js.Object {
+pub fn Content::to_any(self : Content) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("type", self.type_.to_string())
   match self.text {
@@ -80,7 +80,7 @@ pub(all) struct Tool {
 }
 
 ///|
-pub fn Tool::to_js(self : Tool) -> @js.Object {
+pub fn Tool::to_any(self : Tool) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("name", self.name)
   obj.set("description", self.description)
@@ -98,7 +98,7 @@ pub(all) struct Resource {
 } derive(Show)
 
 ///|
-pub fn Resource::to_js(self : Resource) -> @js.Object {
+pub fn Resource::to_any(self : Resource) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("uri", self.uri)
   obj.set("name", self.name)
@@ -129,7 +129,7 @@ pub(all) struct PromptArgument {
 } derive(Show)
 
 ///|
-pub fn PromptArgument::to_js(self : PromptArgument) -> @js.Object {
+pub fn PromptArgument::to_any(self : PromptArgument) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("name", self.name)
   match self.description {
@@ -141,7 +141,7 @@ pub fn PromptArgument::to_js(self : PromptArgument) -> @js.Object {
 }
 
 ///|
-pub fn Prompt::to_js(self : Prompt) -> @js.Object {
+pub fn Prompt::to_any(self : Prompt) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("name", self.name)
   match self.description {
@@ -150,7 +150,7 @@ pub fn Prompt::to_js(self : Prompt) -> @js.Object {
   }
   let args_array = @js.JsArray::new()
   for i = 0; i < self.arguments.length(); i = i + 1 {
-    args_array.push(self.arguments[i].to_js())
+    args_array.push(self.arguments[i].to_any())
   }
   obj.set("arguments", args_array)
   obj
@@ -165,7 +165,7 @@ pub struct ServerCapabilities {
 } derive(Show)
 
 ///|
-pub fn ServerCapabilities::to_js(self : ServerCapabilities) -> @js.Object {
+pub fn ServerCapabilities::to_any(self : ServerCapabilities) -> @js.Object {
   let obj = @js.Object::new()
   let capabilities = @js.Object::new()
   if self.tools {
@@ -189,7 +189,7 @@ pub struct ServerInfo {
 } derive(Show)
 
 ///|
-pub fn ServerInfo::to_js(self : ServerInfo) -> @js.Object {
+pub fn ServerInfo::to_any(self : ServerInfo) -> @js.Object {
   let obj = @js.Object::new()
   obj.set("name", self.name)
   obj.set("version", self.version)

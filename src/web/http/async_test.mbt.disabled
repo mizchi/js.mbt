@@ -15,7 +15,7 @@ async test "Response: read body as text" {
   let response = ffi_new_response_async("Hello, async world!")
 
   // Read body as text
-  let text_result : @js.Js = response.to_js().call0("text")
+  let text_result : @js.Js = response.to_any().call0("text")
   let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
 
@@ -29,7 +29,7 @@ async test "Response: read body as JSON" {
   let response = ffi_new_response_async(json_str)
 
   // Read body as JSON
-  let json_result : @js.Js = response.to_js().call0("json")
+  let json_result : @js.Js = response.to_any().call0("json")
   let json_promise : @js.Promise[@js.Js] = @js.identity(json_result)
   let json_obj = json_promise.wait()
 
@@ -56,7 +56,7 @@ async test "Response: read body stream chunk by chunk" {
       // Read all chunks
       let mut done = false
       while not(done) {
-        let result : @js.Js = reader.to_js().call0("read")
+        let result : @js.Js = reader.to_any().call0("read")
         let promise : @js.Promise[@js.Js] = @js.identity(result)
         let data = promise.wait()
 
@@ -84,12 +84,12 @@ async test "Response: clone and read both bodies" {
   let cloned = response.clone()
 
   // Read original
-  let text1_result : @js.Js = response.to_js().call0("text")
+  let text1_result : @js.Js = response.to_any().call0("text")
   let text1_promise : @js.Promise[String] = @js.identity(text1_result)
   let text1 = text1_promise.wait()
 
   // Read cloned
-  let text2_result : @js.Js = cloned.to_js().call0("text")
+  let text2_result : @js.Js = cloned.to_any().call0("text")
   let text2_promise : @js.Promise[String] = @js.identity(text2_result)
   let text2 = text2_promise.wait()
 
@@ -103,14 +103,14 @@ async test "Response: read body multiple times fails after first read" {
   let response = ffi_new_response_async("single read")
 
   // First read succeeds
-  let text1_result : @js.Js = response.to_js().call0("text")
+  let text1_result : @js.Js = response.to_any().call0("text")
   let text1_promise : @js.Promise[String] = @js.identity(text1_result)
   let text1 = text1_promise.wait()
   assert_eq(text1, "single read")
 
   // Second read should fail (body already consumed)
   // We can verify this by checking bodyUsed property
-  let body_used : Bool = @js.identity(response.to_js().get("bodyUsed"))
+  let body_used : Bool = @js.identity(response.to_any().get("bodyUsed"))
   assert_eq(body_used, true)
 }
 
@@ -127,7 +127,7 @@ async test "Response: read large body in chunks" {
 
   let response = ffi_new_response_async(large_content)
 
-  let text_result : @js.Js = response.to_js().call0("text")
+  let text_result : @js.Js = response.to_any().call0("text")
   let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
 
@@ -150,7 +150,7 @@ async test "Response: body stream with defer cleanup" {
       assert_eq(stream.locked, true)
 
       // Read one chunk
-      let result : @js.Js = reader.to_js().call0("read")
+      let result : @js.Js = reader.to_any().call0("read")
       let promise : @js.Promise[@js.Js] = @js.identity(result)
       let _data = promise.wait()
 
@@ -165,7 +165,7 @@ async test "Response: body stream with defer cleanup" {
 async test "Response: arrayBuffer method" {
   let response = ffi_new_response_async("buffer test")
 
-  let buffer_result : @js.Js = response.to_js().call0("arrayBuffer")
+  let buffer_result : @js.Js = response.to_any().call0("arrayBuffer")
   let buffer_promise : @js.Promise[@js.Js] = @js.identity(buffer_result)
   let buffer = buffer_promise.wait()
 
@@ -183,7 +183,7 @@ async test "Response: arrayBuffer method" {
 async test "Response: blob method" {
   let response = ffi_new_response_async("blob content")
 
-  let blob_result : @js.Js = response.to_js().call0("blob")
+  let blob_result : @js.Js = response.to_any().call0("blob")
   let blob_promise : @js.Promise[@js.Js] = @js.identity(blob_result)
   let blob = blob_promise.wait()
 

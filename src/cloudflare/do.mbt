@@ -31,7 +31,7 @@ pub fn DurableObjectNamespace::get_by_name(
   self : Self,
   name : String,
 ) -> DurableObjectStub {
-  self.call("get", [self.id_from_name(name).to_js()]).cast()
+  self.call("get", [self.id_from_name(name).to_any()]).cast()
 }
 
 ///|
@@ -46,7 +46,7 @@ pub fn DurableObjectNamespace::new_unique_id_with_options(
   self : Self,
   options : DurableObjectIdOptions,
 ) -> DurableObjectId {
-  self.call("newUniqueId", [options.to_js()]).cast()
+  self.call("newUniqueId", [options.to_any()]).cast()
 }
 
 ///|
@@ -74,7 +74,7 @@ pub(all) struct DurableObjectIdOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectIdOptions with to_js(self) {
+pub impl @js.JsImpl for DurableObjectIdOptions with to_any(self) {
   @js.from_entries_option_cast([("jurisdiction", self.jurisdiction)])
 }
 
@@ -95,7 +95,7 @@ pub fn DurableObjectId::to_string(self : Self) -> String {
 ///|
 /// Check if two IDs are equal
 pub fn DurableObjectId::equals(self : Self, other : DurableObjectId) -> Bool {
-  self.call("equals", [other.to_js()]).cast()
+  self.call("equals", [other.to_any()]).cast()
 }
 
 ///|
@@ -252,7 +252,7 @@ pub fn DurableObjectStorage::get_multiple_with_options(
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call2("get", keys_js, options.to_js()).cast()
+  self.call2("get", keys_js, options.to_any()).cast()
 }
 
 ///|
@@ -292,7 +292,7 @@ pub fn DurableObjectStorage::put_multiple_with_options(
   entries : @js.Any,
   options : DurableObjectPutOptions,
 ) -> @js.Promise[Unit] {
-  self.call2("put", entries, options.to_js()).cast()
+  self.call2("put", entries, options.to_any()).cast()
 }
 
 ///|
@@ -342,7 +342,7 @@ pub fn DurableObjectStorage::delete_multiple_with_options(
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call2("delete", keys_js, options.to_js()).cast()
+  self.call2("delete", keys_js, options.to_any()).cast()
 }
 
 ///|
@@ -357,7 +357,7 @@ pub fn DurableObjectStorage::delete_all_with_options(
   self : Self,
   options : DurableObjectPutOptions,
 ) -> @js.Promise[Unit] {
-  self.call("deleteAll", [options.to_js()]).cast()
+  self.call("deleteAll", [options.to_any()]).cast()
 }
 
 ///|
@@ -372,7 +372,7 @@ pub fn DurableObjectStorage::list_with_options(
   self : Self,
   options : DurableObjectListOptions,
 ) -> @js.Promise[@js.Any] {
-  self.call("list", [options.to_js()]).cast()
+  self.call("list", [options.to_any()]).cast()
 }
 
 ///|
@@ -396,7 +396,7 @@ pub fn DurableObjectStorage::get_alarm_with_options(
   self : Self,
   options : DurableObjectGetAlarmOptions,
 ) -> @js.Promise[Int?] {
-  self.call("getAlarm", [options.to_js()]).cast()
+  self.call("getAlarm", [options.to_any()]).cast()
 }
 
 ///|
@@ -430,7 +430,7 @@ pub fn DurableObjectStorage::delete_alarm_with_options(
   self : Self,
   options : DurableObjectSetAlarmOptions,
 ) -> @js.Promise[Unit] {
-  self.call("deleteAlarm", [options.to_js()]).cast()
+  self.call("deleteAlarm", [options.to_any()]).cast()
 }
 
 ///|
@@ -447,7 +447,7 @@ pub(all) struct DurableObjectGetOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectGetOptions with to_js(self) {
+pub impl @js.JsImpl for DurableObjectGetOptions with to_any(self) {
   @js.from_entries_option_cast([
     ("allowConcurrency", self.allowConcurrency),
     ("noCache", self.noCache),
@@ -463,7 +463,7 @@ pub(all) struct DurableObjectPutOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectPutOptions with to_js(self) {
+pub impl @js.JsImpl for DurableObjectPutOptions with to_any(self) {
   @js.from_entries_option_cast([
     ("allowConcurrency", self.allowConcurrency),
     ("allowUnconfirmed", self.allowUnconfirmed),
@@ -485,7 +485,7 @@ pub(all) struct DurableObjectListOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectListOptions with to_js(self) {
+pub impl @js.JsImpl for DurableObjectListOptions with to_any(self) {
   @js.from_entries_option([
     ("start", self.start.map(x => x)),
     ("startAfter", self.startAfter.map(x => x)),
@@ -505,7 +505,7 @@ pub(all) struct DurableObjectGetAlarmOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectGetAlarmOptions with to_js(self) {
+pub impl @js.JsImpl for DurableObjectGetAlarmOptions with to_any(self) {
   @js.from_entries_option_cast([("allowConcurrency", self.allowConcurrency)])
 }
 
@@ -517,7 +517,7 @@ pub(all) struct DurableObjectSetAlarmOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectSetAlarmOptions with to_js(self) {
+pub impl @js.JsImpl for DurableObjectSetAlarmOptions with to_any(self) {
   @js.from_entries_option_cast([
     ("allowConcurrency", self.allowConcurrency),
     ("allowUnconfirmed", self.allowUnconfirmed),
@@ -617,7 +617,7 @@ pub fn DurableObjectTransaction::list_with_options(
   self : Self,
   options : DurableObjectListOptions,
 ) -> @js.Promise[@js.Any] {
-  self.call("list", [options.to_js()]).cast()
+  self.call("list", [options.to_any()]).cast()
 }
 
 ///|

@@ -106,7 +106,7 @@ pub fn KVNamespace::list(
 ) -> @js.Promise[KVListResult] {
   match options {
     None => self.call0("list").cast()
-    Some(opts) => self.call("list", [opts.to_js()]).cast()
+    Some(opts) => self.call("list", [opts.to_any()]).cast()
   }
 }
 
@@ -118,7 +118,7 @@ pub(all) struct KVGetOptions {
 }
 
 ///|
-pub impl @js.JsImpl for KVGetOptions with to_js(self) {
+pub impl @js.JsImpl for KVGetOptions with to_any(self) {
   @js.from_entries_option([
     ("type", self.type_.map(x => x)),
     ("cacheTtl", self.cacheTtl.map(x => x)),
@@ -134,7 +134,7 @@ pub(all) struct KVPutOptions {
 }
 
 ///|
-pub impl @js.JsImpl for KVPutOptions with to_js(self) {
+pub impl @js.JsImpl for KVPutOptions with to_any(self) {
   @js.from_entries_option([
     ("expiration", self.expiration.map(x => x)),
     ("expirationTtl", self.expirationTtl.map(x => x)),
@@ -151,7 +151,7 @@ pub(all) struct KVListOptions {
 }
 
 ///|
-pub impl @js.JsImpl for KVListOptions with to_js(self) {
+pub impl @js.JsImpl for KVListOptions with to_any(self) {
   @js.from_entries_option([
     ("prefix", self.prefix.map(x => x)),
     ("limit", self.limit.map(x => x)),

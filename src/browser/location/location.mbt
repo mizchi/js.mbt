@@ -25,26 +25,26 @@ pub extern "js" fn location() -> Location =
 /// Loads the resource at the URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/assign
 pub fn Location::assign(self : Self, url : String) -> Unit {
-  ignore(self.to_js().call("assign", [url]))
+  ignore(self.to_any().call("assign", [url]))
 }
 
 ///|
 /// Replaces the current resource with the one at the provided URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/replace
 pub fn Location::replace(self : Self, url : String) -> Unit {
-  ignore(self.to_js().call("replace", [url]))
+  ignore(self.to_any().call("replace", [url]))
 }
 
 ///|
 /// Reloads the current URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/reload
 pub fn Location::reload(self : Self) -> Unit {
-  ignore(self.to_js().call0("reload"))
+  ignore(self.to_any().call0("reload"))
 }
 
 ///|
 /// Returns the URL as a string
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/toString
 pub fn Location::to_string(self : Self) -> String {
-  self.to_js().call0("toString").cast()
+  self.to_any().call0("toString").cast()
 }

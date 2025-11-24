@@ -82,7 +82,7 @@ test "build options object" {
   headers.set("Accept", "application/json")
   options.set("headers", headers)
   inspect(
-    options.to_js(),
+    options.to_any(),
     content=(
       #|{"method":"POST","mode":"cors","headers":{"Content-Type":"application/json","Accept":"application/json"}}
     ),
@@ -233,7 +233,7 @@ test "type conversion helpers" {
   let js_obj = @js.from_map(moonbit_map)
   let expected =
     #|{"x":10,"y":20}
-  inspect(js_obj.to_js(), content=expected)
+  inspect(js_obj.to_any(), content=expected)
 
   // js() for basic types
   let num_js = @js.js(42)
@@ -310,9 +310,9 @@ test "type checking utilities" {
 test "instanceof checking" {
   let arr = @js.JsArray::new()
   let array_constructor = @js.globalThis().get("Array")
-  assert_eq(@js.instanceof_(arr.to_js(), array_constructor), true)
+  assert_eq(@js.instanceof_(arr.to_any(), array_constructor), true)
   let obj = @js.Object::new()
-  assert_eq(@js.instanceof_(obj.to_js(), array_constructor), false)
+  assert_eq(@js.instanceof_(obj.to_any(), array_constructor), false)
 }
 ```
 
@@ -326,7 +326,7 @@ test "error handling with throwable" {
   let result = @js.throwable(fn() -> @js.Any {
     let obj = @js.Object::new()
     obj.set("value", 42)
-    obj.to_js()
+    obj.to_any()
   }) catch {
     _ => @js.undefined()
   }

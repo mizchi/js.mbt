@@ -119,7 +119,7 @@ pub fn watch(
     Some(v) => options.set("atomic", @js.js(v))
     None => ()
   }
-  @js.identity(ffi_watch(paths, options.to_js()))
+  @js.identity(ffi_watch(paths, options.to_any()))
 }
 
 ///| FSWatcher Methods

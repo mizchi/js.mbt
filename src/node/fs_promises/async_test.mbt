@@ -52,8 +52,8 @@ async test "Node FS Promises: chown changes ownership" {
   let promise = @fs_promises.writeFile(test_file, "chown test")
     .then(fn(_) { @fs_promises.stat(test_file) })
     .then(fn(stats) {
-      let uid : Int = stats.to_js().get("uid").cast()
-      let gid : Int = stats.to_js().get("gid").cast()
+      let uid : Int = stats.to_any().get("uid").cast()
+      let gid : Int = stats.to_any().get("gid").cast()
       @fs_promises.chown(test_file, uid, gid)
     })
     .then(fn(_) {

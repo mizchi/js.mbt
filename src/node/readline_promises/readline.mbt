@@ -25,7 +25,7 @@ pub fn createInterface(
   signal? : @js.AbortSignal,
 ) -> Interface {
   let opts = @js.from_entries_option([
-    ("input", Some(input.to_js())),
+    ("input", Some(input.to_any())),
     ("output", output.map(x => x)),
     ("completer", completer.map(x => x |> @js.from_fn1)),
     ("terminator", terminator.map(x => x)),

@@ -83,7 +83,7 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 ### Runtime-Specific
 
 - **[mizchi/js/node](src/node/README.md)** - Node.js runtime APIs
-- **[mizchi/js/browser/dom](src/browser/dom/README.md)** - Browser DOM APIs
+- **[mizchi/js/browser](src/browser/README.md)** - Browser DOM APIs
 - **[mizchi/js/deno](src/deno/README.md)** - Deno runtime APIs
 - **[mizchi/js/cloudflare](src/cloudflare/README.md)** - Cloudflare Workers platform
 

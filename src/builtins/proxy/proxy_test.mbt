@@ -181,9 +181,9 @@ test "Proxy with construct trap" {
     let arr : @js.JsArray = @js.identity(args)
     let first : Int = @js.identity(arr.get("0"))
     obj.set("constructed", first * 100)
-    obj.to_js()
+    obj.to_any()
   })
-  let instance = @js.new_(proxy.to_js(), [@js.js(5)])
+  let instance = @js.new_(proxy.to_any(), [@js.js(5)])
   let value : Int = @js.identity(instance.get("constructed"))
   inspect(value, content="500")
 }
@@ -203,7 +203,7 @@ test "Proxy with ownKeys trap" {
       keys.push("x")
       keys.push("y")
       keys.push("z")
-      keys.to_js()
+      keys.to_any()
     },
     getOwnPropertyDescriptor=fn(_target, _prop) {
       // Need to return valid descriptor for Object.keys() to work
@@ -212,7 +212,7 @@ test "Proxy with ownKeys trap" {
       descriptor.set("writable", true)
       descriptor.set("enumerable", true)
       descriptor.set("configurable", true)
-      descriptor.to_js()
+      descriptor.to_any()
     },
   )
   let object_class = @js.globalThis().get("Object")
@@ -230,7 +230,7 @@ test "Proxy with getPrototypeOf trap" {
   let custom_proto = @js.Object::new()
   custom_proto.set("custom", true)
   let proxy = Proxy::new(target, getPrototypeOf=fn(_target) {
-    custom_proto.to_js()
+    custom_proto.to_any()
   })
   let object_class = @js.globalThis().get("Object")
   let proto = object_class.call1("getPrototypeOf", proxy)
@@ -291,7 +291,7 @@ test "Proxy with getOwnPropertyDescriptor trap" {
     descriptor.set("writable", true)
     descriptor.set("enumerable", true)
     descriptor.set("configurable", true)
-    descriptor.to_js()
+    descriptor.to_any()
   })
   let object_class = @js.globalThis().get("Object")
   let descriptor = object_class.call2("getOwnPropertyDescriptor", proxy, "x")
@@ -320,9 +320,9 @@ test "Proxy with defineProperty trap" {
   descriptor.set("writable", true)
   let object_class = @js.globalThis().get("Object")
   object_class.call("defineProperty", [
-    proxy.to_js(),
+    proxy.to_any(),
     @js.js("newProp"),
-    descriptor.to_js(),
+    descriptor.to_any(),
   ])
   |> ignore
   inspect(define_called, content="true")

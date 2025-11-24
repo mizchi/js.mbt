@@ -2,7 +2,7 @@
 /// Test MessageChannel::new creates a channel
 test "MessageChannel::new creates a channel" {
   let channel = @message.MessageChannel::new()
-  inspect(@js.typeof_(channel.to_js()), content="object")
+  inspect(@js.typeof_(channel.to_any()), content="object")
 }
 
 ///|
@@ -11,8 +11,8 @@ test "MessageChannel::port1 and port2 return MessagePort" {
   let channel = @message.MessageChannel::new()
   let port1 = @message.MessageChannel::port1(channel)
   let port2 = @message.MessageChannel::port2(channel)
-  inspect(@js.typeof_(port1.to_js()), content="object")
-  inspect(@js.typeof_(port2.to_js()), content="object")
+  inspect(@js.typeof_(port1.to_any()), content="object")
+  inspect(@js.typeof_(port2.to_any()), content="object")
 }
 
 ///|
@@ -21,7 +21,7 @@ test "MessagePort::start can be called" {
   let channel = @message.MessageChannel::new()
   let port1 = @message.MessageChannel::port1(channel)
   @message.MessagePort::start(port1)
-  inspect(@js.typeof_(port1.to_js()), content="object")
+  inspect(@js.typeof_(port1.to_any()), content="object")
 }
 
 ///|
@@ -30,7 +30,7 @@ test "MessagePort::close disconnects the port" {
   let channel = @message.MessageChannel::new()
   let port1 = @message.MessageChannel::port1(channel)
   @message.MessagePort::close(port1)
-  inspect(@js.typeof_(port1.to_js()), content="object")
+  inspect(@js.typeof_(port1.to_any()), content="object")
 }
 
 // ///|
@@ -42,7 +42,7 @@ test "MessagePort::close disconnects the port" {
 //   port1.start()
 //   port2.start()
 //   port1.post_message("Hello from port1")
-//   inspect(@js.typeof_(port1.to_js()), content="object")
+//   inspect(@js.typeof_(port1.to_any()), content="object")
 // }
 
 // ///|
@@ -53,7 +53,7 @@ test "MessagePort::post_message sends a number" {
   let channel = @message.MessageChannel::new()
   let port1 = @message.MessageChannel::port1(channel)
   @message.MessagePort::post_message(port1, 42)
-  inspect(@js.typeof_(port1.to_js()), content="object")
+  inspect(@js.typeof_(port1.to_any()), content="object")
 }
 
 // ///|
@@ -63,7 +63,7 @@ test "MessagePort::post_message sends a number" {
 //   let port1 = channel.port1()
 //   let data = @js.from_json({ "type": "test", "value": 123 })
 //   port1.post_message(data)
-//   inspect(@js.typeof_(port1.to_js()), content="object")
+//   inspect(@js.typeof_(port1.to_any()), content="object")
 // }
 
 // ///|
@@ -77,6 +77,6 @@ test "MessagePort::post_message sends a number" {
 //   let transfer_port = transfer_channel.port1()
 
 //   // Send message with transfer
-//   port1.post_message_with_transfer("Transfer test", [transfer_port.to_js()])
-//   inspect(@js.typeof_(port1.to_js()), content="object")
+//   port1.post_message_with_transfer("Transfer test", [transfer_port.to_any()])
+//   inspect(@js.typeof_(port1.to_any()), content="object")
 // }

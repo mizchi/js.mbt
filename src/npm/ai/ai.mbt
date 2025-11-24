@@ -8,7 +8,7 @@ pub(all) enum MessageContent {
 }
 
 ///|
-pub impl @js.JsImpl for MessageContent with to_js(self) {
+pub impl @js.JsImpl for MessageContent with to_any(self) {
   match self {
     Message(m) => m |> @js.js
   }
@@ -22,22 +22,22 @@ pub(all) enum ModelMessage {
 }
 
 ///|
-pub impl @js.JsImpl for ModelMessage with to_js(self) {
+pub impl @js.JsImpl for ModelMessage with to_any(self) {
   match self {
     AssitantMessage(content~) =>
       @js.from_map({
         "type": "assitant" |> @js.js,
-        "content": @js.JsImpl::to_js(content),
+        "content": @js.JsImpl::to_any(content),
       })
     UserMessage(content~) =>
       @js.from_map({
         "role": "user" |> @js.js,
-        "content": @js.JsImpl::to_js(content),
+        "content": @js.JsImpl::to_any(content),
       })
     SystemMessage(content~) =>
       @js.from_map({
         "role": "system" |> @js.js,
-        "content": @js.JsImpl::to_js(content),
+        "content": @js.JsImpl::to_any(content),
       })
   }
 }
@@ -68,12 +68,12 @@ pub fn Ai::generate_text(
 ) -> @js.Promise[@js.Any] {
   @js.identity(
     self
-    .to_js()
+    .to_any()
     .get("generateText")
     .call_self([
       @js.from_map({
         "model": model |> @js.identity,
-        "messages": messages.map(_.to_js()) |> @js.from_array,
+        "messages": messages.map(_.to_any()) |> @js.from_array,
       }),
     ]),
   )

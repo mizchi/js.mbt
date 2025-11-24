@@ -87,7 +87,7 @@ pub fn Uint8Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint8Array {
-  @js.identity(ffi_uint8array_from_buffer(buffer.to_js(), byte_offset, length))
+  @js.identity(ffi_uint8array_from_buffer(buffer.to_any(), byte_offset, length))
 }
 
 ///|
@@ -216,7 +216,9 @@ pub fn Uint16Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint16Array {
-  @js.identity(ffi_uint16array_from_buffer(buffer.to_js(), byte_offset, length))
+  @js.identity(
+    ffi_uint16array_from_buffer(buffer.to_any(), byte_offset, length),
+  )
 }
 
 ///|
@@ -344,7 +346,9 @@ pub fn Uint32Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Uint32Array {
-  @js.identity(ffi_uint32array_from_buffer(buffer.to_js(), byte_offset, length))
+  @js.identity(
+    ffi_uint32array_from_buffer(buffer.to_any(), byte_offset, length),
+  )
 }
 
 ///|
@@ -472,7 +476,7 @@ pub fn Int8Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Int8Array {
-  @js.identity(ffi_int8array_from_buffer(buffer.to_js(), byte_offset, length))
+  @js.identity(ffi_int8array_from_buffer(buffer.to_any(), byte_offset, length))
 }
 
 ///|
@@ -600,7 +604,7 @@ pub fn Int16Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Int16Array {
-  @js.identity(ffi_int16array_from_buffer(buffer.to_js(), byte_offset, length))
+  @js.identity(ffi_int16array_from_buffer(buffer.to_any(), byte_offset, length))
 }
 
 ///|
@@ -728,7 +732,7 @@ pub fn Int32Array::from_array_buffer(
   byte_offset? : UInt = 0,
   length? : UInt,
 ) -> Int32Array {
-  @js.identity(ffi_int32array_from_buffer(buffer.to_js(), byte_offset, length))
+  @js.identity(ffi_int32array_from_buffer(buffer.to_any(), byte_offset, length))
 }
 
 ///|
@@ -857,7 +861,7 @@ pub fn Float32Array::from_array_buffer(
   length? : UInt,
 ) -> Float32Array {
   @js.identity(
-    ffi_float32array_from_buffer(buffer.to_js(), byte_offset, length),
+    ffi_float32array_from_buffer(buffer.to_any(), byte_offset, length),
   )
 }
 
@@ -987,7 +991,7 @@ pub fn Float64Array::from_array_buffer(
   length? : UInt,
 ) -> Float64Array {
   @js.identity(
-    ffi_float64array_from_buffer(buffer.to_js(), byte_offset, length),
+    ffi_float64array_from_buffer(buffer.to_any(), byte_offset, length),
   )
 }
 
@@ -1117,7 +1121,7 @@ pub fn Uint8ClampedArray::from_array_buffer(
   length? : UInt,
 ) -> Uint8ClampedArray {
   @js.identity(
-    ffi_uint8clampedarray_from_buffer(buffer.to_js(), byte_offset, length),
+    ffi_uint8clampedarray_from_buffer(buffer.to_any(), byte_offset, length),
   )
 }
 
@@ -1266,7 +1270,7 @@ pub fn BigUint64Array::from_array_buffer(
   length? : UInt,
 ) -> BigUint64Array {
   @js.identity(
-    ffi_biguint64array_from_buffer(buffer.to_js(), byte_offset, length),
+    ffi_biguint64array_from_buffer(buffer.to_any(), byte_offset, length),
   )
 }
 
@@ -1418,7 +1422,7 @@ pub fn BigInt64Array::from_array_buffer(
   length? : UInt,
 ) -> BigInt64Array {
   @js.identity(
-    ffi_bigint64array_from_buffer(buffer.to_js(), byte_offset, length),
+    ffi_bigint64array_from_buffer(buffer.to_any(), byte_offset, length),
   )
 }
 
