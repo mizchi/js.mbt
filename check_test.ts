@@ -52,10 +52,17 @@ async function runTests(timeout: number = 120000): Promise<RunResult> {
     const proc = spawn("moon", ["test", "--target", "js", "--verbose"], {
       cwd: process.cwd(),
       stdio: ["ignore", "pipe", "pipe"],
+      timeout: 100000,
     });
 
     const timer = setTimeout(() => {
       proc.kill("SIGTERM");
+
+      // Clean up event listeners on timeout
+      proc.stdout?.removeAllListeners();
+      proc.stderr?.removeAllListeners();
+      proc.removeAllListeners();
+
       resolve({
         tests,
         totalTests: tests.length,
@@ -96,6 +103,12 @@ async function runTests(timeout: number = 120000): Promise<RunResult> {
 
     proc.on("close", (_code) => {
       clearTimeout(timer);
+
+      // Clean up event listeners to prevent hanging
+      proc.stdout?.removeAllListeners();
+      proc.stderr?.removeAllListeners();
+      proc.removeAllListeners();
+
       const duration = Date.now() - startTime;
 
       // Parse summary line: Total tests: 1465, passed: 1465, failed: 0.
@@ -124,6 +137,12 @@ async function runTests(timeout: number = 120000): Promise<RunResult> {
 
     proc.on("error", (err) => {
       clearTimeout(timer);
+
+      // Clean up event listeners on error
+      proc.stdout?.removeAllListeners();
+      proc.stderr?.removeAllListeners();
+      proc.removeAllListeners();
+
       reject(err);
     });
   });
