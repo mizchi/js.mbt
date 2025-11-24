@@ -33,7 +33,6 @@ async test "JS Async: setTimeout with zero delay" {
 async test "JS Async: multiple setTimeouts" {
   let order = []
   let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
-
   let _ = @js.setTimeout(
     () => {
       order.push(1)
@@ -61,7 +60,6 @@ async test "JS Async: multiple setTimeouts" {
     },
     48,
   )
-
   let count = resolver.promise.wait()
   assert_eq(count, 3)
   assert_eq(order[0], 1) // 16ms

@@ -215,9 +215,7 @@ async test "Node FS Promises: rmdir with recursive removes nested dirs" {
 async test "Node FS Promises: rm with recursive and force" {
   let test_dir = "test_async_rm"
   let promise = @fs_promises.mkdir("\{test_dir}/sub", recursive=true)
-    .then(fn(_) {
-      @fs_promises.writeFile("\{test_dir}/sub/file.txt", "test")
-    })
+    .then(fn(_) { @fs_promises.writeFile("\{test_dir}/sub/file.txt", "test") })
     .then(fn(_) { @fs_promises.rm(test_dir, recursive=true, force=true) })
     .then(fn(_) { @js.Promise::resolve(()) })
   ignore(promise.wait())

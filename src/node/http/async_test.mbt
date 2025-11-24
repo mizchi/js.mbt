@@ -43,9 +43,7 @@ async test "Node HTTP: HTTP server can listen and close properly" {
   let server = createServerNoListener()
 
   // Start listening
-  server.listen(0, host="127.0.0.1", callback=fn() {
-    listening_called = true
-  })
+  server.listen(0, host="127.0.0.1", callback=fn() { listening_called = true })
   |> ignore
 
   // Wait for server to start

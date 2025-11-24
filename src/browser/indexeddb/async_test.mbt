@@ -63,9 +63,7 @@ fn open_request_to_promise(
 async test "IndexedDB: open and close database" {
   init_fake_indexeddb()
   let request = @indexeddb.open("test-open-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -84,9 +82,7 @@ async test "IndexedDB: open and close database" {
 ///|
 async test "IndexedDB: add and get item" {
   let request = @indexeddb.open("test-add-get-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -113,9 +109,7 @@ async test "IndexedDB: add and get item" {
 ///|
 async test "IndexedDB: put updates existing item" {
   let request = @indexeddb.open("test-put-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -144,9 +138,7 @@ async test "IndexedDB: put updates existing item" {
 ///|
 async test "IndexedDB: delete removes item" {
   let request = @indexeddb.open("test-delete-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -174,9 +166,7 @@ async test "IndexedDB: delete removes item" {
 ///|
 async test "IndexedDB: clear removes all items" {
   let request = @indexeddb.open("test-clear-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -210,9 +200,7 @@ async test "IndexedDB: clear removes all items" {
 ///|
 async test "IndexedDB: getAll returns all items" {
   let request = @indexeddb.open("test-getall-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -248,9 +236,7 @@ async test "IndexedDB: getAll returns all items" {
 ///|
 async test "IndexedDB: count returns correct number" {
   let request = @indexeddb.open("test-count-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -279,9 +265,7 @@ async test "IndexedDB: count returns correct number" {
 ///|
 async test "IndexedDB: transaction modes work correctly" {
   let request = @indexeddb.open("test-tx-mode-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -306,9 +290,7 @@ async test "IndexedDB: transaction modes work correctly" {
 ///|
 async test "IndexedDB: IDBKeyRange operations" {
   let request = @indexeddb.open("test-keyrange-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -382,9 +364,7 @@ struct Order {
 ///|
 async test "IndexedDB: store and retrieve User struct with full type safety" {
   let request = @indexeddb.open("typed-user-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -429,9 +409,7 @@ async test "IndexedDB: store and retrieve User struct with full type safety" {
 ///|
 async test "IndexedDB: manage products with Product struct type safety" {
   let request = @indexeddb.open("typed-product-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )
@@ -459,9 +437,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
 
   // Type-safe store: @indexeddb.IDBObjectStore[Product]
   let tx = db.transaction(["products"], mode="readwrite")
-  let store : @indexeddb.IDBObjectStore[Product] = tx.objectStore(
-      "products",
-    )
+  let store : @indexeddb.IDBObjectStore[Product] = tx.objectStore("products")
     |> @js.unsafe_cast
 
   // Add Product directly - internal casting handled by IndexedDB
@@ -469,9 +445,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
   request_to_promise(store.add(mouse)).wait() |> ignore
 
   // Get with IDBRequest[Product]
-  let laptop_request : @indexeddb.IDBRequest[Product] = store.get(
-    "LAPTOP-001",
-  )
+  let laptop_request : @indexeddb.IDBRequest[Product] = store.get("LAPTOP-001")
   let laptop_result = request_to_promise(laptop_request).wait()
   let retrieved_laptop : Product = laptop_result |> @js.unsafe_cast
 
@@ -482,9 +456,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
   assert_eq(retrieved_laptop.stock, 15)
 
   // Query all electronics using index
-  let category_index : @indexeddb.IDBIndex[Product] = store.index(
-    "category",
-  )
+  let category_index : @indexeddb.IDBIndex[Product] = store.index("category")
   let electronics_request = category_index.getAll(query="electronics")
   let electronics_array = request_to_promise(electronics_request).wait()
 
@@ -503,9 +475,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
 ///|
 async test "IndexedDB: iterate orders with IDBCursorWithValue and Order struct" {
   let request = @indexeddb.open("typed-orders-db", version=1)
-  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(
-    event,
-  ) {
+  let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.unsafe_cast(
       event.get("target").get("result"),
     )

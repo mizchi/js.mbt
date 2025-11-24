@@ -77,9 +77,7 @@ async test "Node Stream: Readable setEncoding" {
 ///|
 async test "Node Stream: Readable unpipe" {
   let readable = create_readable_from_string("unpipe test")
-  let writable : @stream.Writable = @js.unsafe_cast(
-    create_writable_to_array(),
-  )
+  let writable : @stream.Writable = @js.unsafe_cast(create_writable_to_array())
   let _ = readable.pipe(writable)
   let _ = readable.unpipe(destination=writable)
   // Stream should be unpiped
@@ -100,9 +98,7 @@ async test "Node Stream: Readable destroy" {
 
 ///|
 async test "Node Stream: Writable stream - write and properties" {
-  let writable : @stream.Writable = @js.unsafe_cast(
-    create_writable_to_array(),
-  )
+  let writable : @stream.Writable = @js.unsafe_cast(create_writable_to_array())
   assert_eq(writable.writable(), true)
   assert_eq(writable.writableObjectMode(), false)
   let success = writable.write(@js.unsafe_cast("test"))
@@ -126,9 +122,7 @@ async test "Node Stream: Writable cork/uncork" {
 
 ///|
 async test "Node Stream: Writable destroy" {
-  let writable : @stream.Writable = @js.unsafe_cast(
-    create_writable_to_array(),
-  )
+  let writable : @stream.Writable = @js.unsafe_cast(create_writable_to_array())
   // Destroy without error - stream will handle it
   ignore(writable.to_js().call0("destroy"))
   @js.sleep(16)
@@ -137,9 +131,7 @@ async test "Node Stream: Writable destroy" {
 
 ///|
 async test "Node Stream: Writable end" {
-  let writable : @stream.Writable = @js.unsafe_cast(
-    create_writable_to_array(),
-  )
+  let writable : @stream.Writable = @js.unsafe_cast(create_writable_to_array())
   // Call end without chunk - use call directly
   ignore(writable.to_js().call0("end"))
   @js.sleep(16)
@@ -181,9 +173,7 @@ async test "Node Stream: Transform stream - uppercase" {
 ///|
 async test "Node Stream: PassThrough stream" {
   let readable = create_readable_from_string("passthrough test")
-  let passthrough : @stream.Readable = @js.unsafe_cast(
-    create_passthrough(),
-  )
+  let passthrough : @stream.Readable = @js.unsafe_cast(create_passthrough())
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.unsafe_cast(writable_js)
   let piped : @stream.Readable = @js.unsafe_cast(

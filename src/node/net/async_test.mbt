@@ -66,9 +66,7 @@ async test "Node Net: Server can be created with options" {
 async test "Node Net: Server listen with callback" {
   let mut callback_called = false
   let server = createNetServer()
-  server.listen(0, host="127.0.0.1", callback=fn() {
-    callback_called = true
-  })
+  server.listen(0, host="127.0.0.1", callback=fn() { callback_called = true })
   |> ignore
   @js.sleep(96)
   inspect(callback_called, content="true")
