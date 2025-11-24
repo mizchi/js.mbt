@@ -23,13 +23,13 @@ pub fn inspect(
   maxStringLength? : Int,
 ) -> String {
   let opt = @js.from_map({
-    "depth": depth |> @js.js,
-    "colors": colors |> @js.js,
-    "compact": compact |> @js.js,
-    "sorted": sorted |> @js.js,
-    "breakLength": breakLength |> @js.js,
-    "maxArrayLength": maxArrayLength |> @js.js,
-    "maxStringLength": maxStringLength |> @js.js,
+    "depth": depth |> @js.any,
+    "colors": colors |> @js.any,
+    "compact": compact |> @js.any,
+    "sorted": sorted |> @js.any,
+    "breakLength": breakLength |> @js.any,
+    "maxArrayLength": maxArrayLength |> @js.any,
+    "maxStringLength": maxStringLength |> @js.any,
   })
   @js.identity(util().get("inspect").call_self([value, opt]))
 }

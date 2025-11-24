@@ -18,7 +18,7 @@ async test "Promise: @js.Promise::then" {
 async test "Promise: @js.Promise::catch_" {
   let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
-  let recovered = p.catch_(_ => @js.Promise::resolve(42 |> @js.js))
+  let recovered = p.catch_(_ => @js.Promise::resolve(42 |> @js.any))
   let result : @js.Any = recovered.wait()
   let v : Int = @js.identity(result)
   assert_eq(v, 42)
@@ -489,7 +489,7 @@ async test "Promise: @js.Promise::withResolvers multiple resolve calls" {
 async test "Promise: Promise chain with error recovery" {
   let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
-    .catch_(_ => @js.Promise::resolve(10 |> @js.js))
+    .catch_(_ => @js.Promise::resolve(10 |> @js.any))
     .then(v => {
       let i : Int = @js.identity(v)
       @js.Promise::resolve(i * 2)
@@ -552,13 +552,13 @@ async test "Promise: rejection propagates through then chain" {
   let p = @js.Promise::reject(err_val)
     .then(v => {
       let _ignored : @js.Any = v
-      @js.Promise::resolve(99 |> @js.js)
+      @js.Promise::resolve(99 |> @js.any)
     })
     .then(v => {
       let _ignored : @js.Any = v
-      @js.Promise::resolve(100 |> @js.js)
+      @js.Promise::resolve(100 |> @js.any)
     })
-  let result : @js.Any = p.wait() catch { _e => @js.js(-1) }
+  let result : @js.Any = p.wait() catch { _e => @js.any(-1) }
   let num : Int = @js.identity(result)
   inspect(num, content="-1")
 }
@@ -572,11 +572,11 @@ async test "Promise: multiple catch handlers in chain" {
   let p = @js.Promise::reject(err_val)
     .catch_(_ => {
       first_catch_called = true
-      @js.Promise::resolve(42 |> @js.js)
+      @js.Promise::resolve(42 |> @js.any)
     })
     .catch_(_ => {
       second_catch_called = true
-      @js.Promise::resolve(99 |> @js.js)
+      @js.Promise::resolve(99 |> @js.any)
     })
   let result : @js.Any = p.wait()
   let num : Int = @js.identity(result)
@@ -591,7 +591,7 @@ async test "Promise: catch then finally chain" {
   let mut finally_called = false
   let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
-    .catch_(_ => @js.Promise::resolve(42 |> @js.js))
+    .catch_(_ => @js.Promise::resolve(42 |> @js.any))
     .finally_(fn() { finally_called = true })
   let result : @js.Any = p.wait()
   let num : Int = @js.identity(result)
@@ -615,7 +615,7 @@ async test "Promise: nested catch handlers" {
   let err_val : @js.Any = @js.identity(@js.Object::new())
   let p = @js.Promise::reject(err_val)
     .catch_(_ => @js.Promise::reject(@js.identity(@js.Object::new())))
-    .catch_(_ => @js.Promise::resolve(100 |> @js.js))
+    .catch_(_ => @js.Promise::resolve(100 |> @js.any))
   let result : @js.Any = p.wait()
   let num : Int = @js.identity(result)
   inspect(num, content="100")

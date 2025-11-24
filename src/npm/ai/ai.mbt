@@ -10,7 +10,7 @@ pub(all) enum MessageContent {
 ///|
 pub impl @js.JsImpl for MessageContent with to_any(self) {
   match self {
-    Message(m) => m |> @js.js
+    Message(m) => m |> @js.any
   }
 }
 
@@ -26,17 +26,17 @@ pub impl @js.JsImpl for ModelMessage with to_any(self) {
   match self {
     AssitantMessage(content~) =>
       @js.from_map({
-        "type": "assitant" |> @js.js,
+        "type": "assitant" |> @js.any,
         "content": @js.JsImpl::to_any(content),
       })
     UserMessage(content~) =>
       @js.from_map({
-        "role": "user" |> @js.js,
+        "role": "user" |> @js.any,
         "content": @js.JsImpl::to_any(content),
       })
     SystemMessage(content~) =>
       @js.from_map({
-        "role": "system" |> @js.js,
+        "role": "system" |> @js.any,
         "content": @js.JsImpl::to_any(content),
       })
   }

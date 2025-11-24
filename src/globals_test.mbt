@@ -11,7 +11,7 @@ test "globalThis" {
 
 ///|
 test "global isNaN" {
-  let nan_val = @js.js(0.0 / 0.0)
+  let nan_val = @js.any(0.0 / 0.0)
   assert_true(@js.isNaN(nan_val))
   assert_false(@js.isNaN(42))
   assert_false(@js.isNaN(3.14))
@@ -95,7 +95,11 @@ test "JSON::stringify" {
       #|]
     ),
   )
-  let v = from_map({ "key1": 123 |> js, "key2": 456 |> js, "key3": 789 |> js })
+  let v = from_map({
+    "key1": 123 |> any,
+    "key2": 456 |> any,
+    "key3": 789 |> any,
+  })
   JSON::stringify(v, space=2)
   |> inspect(
     content=(

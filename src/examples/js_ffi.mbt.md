@@ -146,9 +146,9 @@ test "call0, call1, call2 methods" {
 ///|
 test "js() for type conversion" {
   // Convert MoonBit types to Js
-  let num = @js.js(42)
-  let str = @js.js("hello")
-  let bool = @js.js(true)
+  let num = @js.any(42)
+  let str = @js.any("hello")
+  let bool = @js.any(true)
 
   // Convert back
   let num_back : Int = @js.identity(num)
@@ -187,9 +187,9 @@ test "javascript arrays" {
 ///|
 test "map to javascript object" {
   let map = Map::new()
-  map.set("name", @js.js("MoonBit"))
-  map.set("version", @js.js(1))
-  map.set("active", @js.js(true))
+  map.set("name", @js.any("MoonBit"))
+  map.set("version", @js.any(1))
+  map.set("active", @js.any(true))
   let obj = @js.from_map(map)
   assert_eq(@js.identity(obj.get("name")), "MoonBit")
   assert_eq(@js.identity(obj.get("version")), 1)
@@ -410,7 +410,7 @@ test "instanceof and typeof" {
   // typeof check
   let type_str = @js.typeof_(arr)
   inspect(type_str, content="object")
-  let num = @js.js(42)
+  let num = @js.any(42)
   let num_type = @js.typeof_(num)
   inspect(num_type, content="number")
 }

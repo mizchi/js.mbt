@@ -64,7 +64,7 @@ pub fn watch(
 ) -> FSWatcher {
   let options = @js.Object::new()
   match persistent {
-    Some(v) => options.set("persistent", @js.js(v))
+    Some(v) => options.set("persistent", @js.any(v))
     None => ()
   }
   match ignored {
@@ -72,39 +72,39 @@ pub fn watch(
     None => ()
   }
   match ignoreInitial {
-    Some(v) => options.set("ignoreInitial", @js.js(v))
+    Some(v) => options.set("ignoreInitial", @js.any(v))
     None => ()
   }
   match followSymlinks {
-    Some(v) => options.set("followSymlinks", @js.js(v))
+    Some(v) => options.set("followSymlinks", @js.any(v))
     None => ()
   }
   match cwd {
-    Some(v) => options.set("cwd", @js.js(v))
+    Some(v) => options.set("cwd", @js.any(v))
     None => ()
   }
   match disableGlobbing {
-    Some(v) => options.set("disableGlobbing", @js.js(v))
+    Some(v) => options.set("disableGlobbing", @js.any(v))
     None => ()
   }
   match usePolling {
-    Some(v) => options.set("usePolling", @js.js(v))
+    Some(v) => options.set("usePolling", @js.any(v))
     None => ()
   }
   match interval {
-    Some(v) => options.set("interval", @js.js(v))
+    Some(v) => options.set("interval", @js.any(v))
     None => ()
   }
   match binaryInterval {
-    Some(v) => options.set("binaryInterval", @js.js(v))
+    Some(v) => options.set("binaryInterval", @js.any(v))
     None => ()
   }
   match alwaysStat {
-    Some(v) => options.set("alwaysStat", @js.js(v))
+    Some(v) => options.set("alwaysStat", @js.any(v))
     None => ()
   }
   match depth {
-    Some(v) => options.set("depth", @js.js(v))
+    Some(v) => options.set("depth", @js.any(v))
     None => ()
   }
   match awaitWriteFinish {
@@ -112,11 +112,11 @@ pub fn watch(
     None => ()
   }
   match ignorePermissionErrors {
-    Some(v) => options.set("ignorePermissionErrors", @js.js(v))
+    Some(v) => options.set("ignorePermissionErrors", @js.any(v))
     None => ()
   }
   match atomic_ {
-    Some(v) => options.set("atomic", @js.js(v))
+    Some(v) => options.set("atomic", @js.any(v))
     None => ()
   }
   @js.identity(ffi_watch(paths, options.to_any()))
@@ -163,7 +163,7 @@ pub fn FSWatcher::on(
   event : String,
   callback : @js.Any,
 ) -> FSWatcher {
-  @js.identity(self.call("on", [@js.js(event), callback]))
+  @js.identity(self.call("on", [@js.any(event), callback]))
 }
 
 ///|
@@ -174,5 +174,5 @@ pub fn FSWatcher::off(
   event : String,
   callback : @js.Any,
 ) -> FSWatcher {
-  @js.identity(self.call("off", [@js.js(event), callback]))
+  @js.identity(self.call("off", [@js.any(event), callback]))
 }

@@ -119,7 +119,7 @@ pub fn exec(
     ("maxBuffer", max_buffer.map(x => x)),
     ("signal", signal.map(x => x.to_any())),
   ])
-  cp.call("exec", [command |> @js.js, options, @js.identity(callback)]).cast()
+  cp.call("exec", [command |> @js.any, options, @js.identity(callback)]).cast()
 }
 
 ///|
@@ -177,9 +177,9 @@ pub fn fork(
   match args {
     Some(a) =>
       cp
-      .call("fork", [module_path |> @js.js, a |> @js.from_array, options])
+      .call("fork", [module_path |> @js.any, a |> @js.from_array, options])
       .cast()
-    None => cp.call2("fork", module_path |> @js.js, options).cast()
+    None => cp.call2("fork", module_path |> @js.any, options).cast()
   }
 }
 
@@ -226,7 +226,7 @@ pub fn spawnSync(
     match args {
       Some(a) =>
         cp.call("spawnSync", [command, a |> @js.from_array, options]).cast()
-      None => cp.call2("spawnSync", command |> @js.js, options).cast()
+      None => cp.call2("spawnSync", command |> @js.any, options).cast()
     }
   })
 }
@@ -258,7 +258,7 @@ pub fn execSync(
       ("encoding", Some(encoding.unwrap_or("utf8"))),
       ("stdio", stdio.map(x => x)),
     ])
-    cp.call2("execSync", command |> @js.js, options).cast()
+    cp.call2("execSync", command |> @js.any, options).cast()
   })
 }
 

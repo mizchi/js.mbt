@@ -320,9 +320,9 @@ pub fn throw_(v : &JsImpl) -> Unit {
 /// Create a new JavaScript Error object.
 pub fn JsError::new(message : String, cause? : JsError) -> JsError {
   let args : Array[Any] = if cause is Some(cause) {
-    [message |> js, from_map({ "cause": cause |> identity() })]
+    [message |> any, from_map({ "cause": cause |> identity() })]
   } else {
-    [message |> js]
+    [message |> any]
   }
   ffi_new_error(args)
 }
@@ -429,7 +429,7 @@ pub fn JSON::stringify(
   replacer? : Any = undefined(),
   space? : Int = 2,
 ) -> String {
-  ffi_json_stringify(v.to_any(), replacer, space |> js)
+  ffi_json_stringify(v.to_any(), replacer, space |> any)
 }
 
 ///|

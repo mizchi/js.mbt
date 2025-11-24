@@ -65,13 +65,13 @@ pub fn define_plugin(
   closeBundle? : () -> Unit,
 ) -> Plugin {
   let plugin = @js.Object::new()
-  plugin.set("name", @js.js(name))
+  plugin.set("name", @js.any(name))
   match enforce {
-    Some(v) => plugin.set("enforce", @js.js(v))
+    Some(v) => plugin.set("enforce", @js.any(v))
     None => ()
   }
   match apply {
-    Some(v) => plugin.set("apply", @js.js(v))
+    Some(v) => plugin.set("apply", @js.any(v))
     None => ()
   }
   match config {

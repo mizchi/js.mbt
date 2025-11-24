@@ -22,7 +22,7 @@ pub impl @js.JsImpl for SuiteContext
 ///|
 pub fn TestContext::skip(self : Self, message? : String) -> Unit {
   match message {
-    Some(msg) => self.call("skip", [@js.js(msg)]) |> ignore
+    Some(msg) => self.call("skip", [@js.any(msg)]) |> ignore
     None => self.call0("skip") |> ignore
   }
 }
@@ -30,24 +30,24 @@ pub fn TestContext::skip(self : Self, message? : String) -> Unit {
 ///|
 pub fn TestContext::todo(self : Self, message? : String) -> Unit {
   match message {
-    Some(msg) => self.call("todo", [@js.js(msg)]) |> ignore
+    Some(msg) => self.call("todo", [@js.any(msg)]) |> ignore
     None => self.call0("todo") |> ignore
   }
 }
 
 ///|
 pub fn TestContext::diagnostic(self : Self, message : String) -> Unit {
-  self.call("diagnostic", [@js.js(message)]) |> ignore
+  self.call("diagnostic", [@js.any(message)]) |> ignore
 }
 
 ///|
 pub fn TestContext::plan(self : Self, count : Int) -> Unit {
-  self.call("plan", [@js.js(count)]) |> ignore
+  self.call("plan", [@js.any(count)]) |> ignore
 }
 
 ///|
 pub fn TestContext::runOnly(self : Self, shouldRunOnlyTests : Bool) -> Unit {
-  self.call("runOnly", [@js.js(shouldRunOnlyTests)]) |> ignore
+  self.call("runOnly", [@js.any(shouldRunOnlyTests)]) |> ignore
 }
 
 ///| TestContext assertion methods

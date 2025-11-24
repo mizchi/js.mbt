@@ -60,7 +60,7 @@ test "bench: call with Array[Int] (map overhead)" (b : @bench.T) {
 /// Benchmark: call with pre-converted Array[Any]
 test "bench: call with Array[Any] (no conversion)" (b : @bench.T) {
   let obj = get_test_obj()
-  let args : Array[Any] = [js(1), js(2), js(3), js(4), js(5)]
+  let args : Array[Any] = [any(1), any(2), any(3), any(4), any(5)]
   b.bench(fn() { b.keep(ffi_call(obj, "sum", args)) })
 }
 
@@ -113,19 +113,19 @@ test "bench: from_array (5 Ints)" (b : @bench.T) {
 /// Benchmark: Array creation with direct map
 test "bench: Array map to_any (5 Ints)" (b : @bench.T) {
   let arr = [1, 2, 3, 4, 5]
-  b.bench(fn() { b.keep(arr.map(fn(x) { js(x) })) })
+  b.bench(fn() { b.keep(arr.map(fn(x) { any(x) })) })
 }
 
 ///|
 /// Benchmark: to_any trait call overhead (Int)
 test "bench: Int to_any conversion" (b : @bench.T) {
-  b.bench(fn() { b.keep(js(42)) })
+  b.bench(fn() { b.keep(any(42)) })
 }
 
 ///|
 /// Benchmark: to_any trait call overhead (String)
 test "bench: String to_any conversion" (b : @bench.T) {
-  b.bench(fn() { b.keep(js("hello")) })
+  b.bench(fn() { b.keep(any("hello")) })
 }
 
 ///|
@@ -141,11 +141,11 @@ test "bench: identity Int to Js" (b : @bench.T) {
 /// Benchmark: Map to Object conversion
 test "bench: from_map (5 entries)" (b : @bench.T) {
   let map : Map[String, Any] = {
-    "a": js(1),
-    "b": js(2),
-    "c": js(3),
-    "d": js(4),
-    "e": js(5),
+    "a": any(1),
+    "b": any(2),
+    "c": any(3),
+    "d": any(4),
+    "e": any(5),
   }
   b.bench(fn() { b.keep(from_map(map)) })
 }
@@ -155,11 +155,11 @@ test "bench: from_map (5 entries)" (b : @bench.T) {
 test "bench: Object::new() + set (5 properties, FFI)" (b : @bench.T) {
   b.bench(fn() {
     let obj = Object::new()
-    obj.set("a", js(1))
-    obj.set("b", js(2))
-    obj.set("c", js(3))
-    obj.set("d", js(4))
-    obj.set("e", js(5))
+    obj.set("a", any(1))
+    obj.set("b", any(2))
+    obj.set("c", any(3))
+    obj.set("d", any(4))
+    obj.set("e", any(5))
     b.keep(obj.to_any())
   })
 }
@@ -168,11 +168,11 @@ test "bench: Object::new() + set (5 properties, FFI)" (b : @bench.T) {
 /// Benchmark: Object creation from Map (goes through MoonBit iteration)
 test "bench: from_map vs Object::new (5 properties)" (b : @bench.T) {
   let map : Map[String, Any] = {
-    "a": js(1),
-    "b": js(2),
-    "c": js(3),
-    "d": js(4),
-    "e": js(5),
+    "a": any(1),
+    "b": any(2),
+    "c": any(3),
+    "d": any(4),
+    "e": any(5),
   }
   b.bench(fn() { b.keep(from_map(map)) })
 }
@@ -219,7 +219,7 @@ test "bench: from_entries_option (3 Some, 2 None)" (b : @bench.T) {
 ///|
 /// Benchmark: typeof_ operation
 test "bench: typeof_ check" (b : @bench.T) {
-  let val = js(42)
+  let val = any(42)
   b.bench(fn() { b.keep(typeof_(val)) })
 }
 

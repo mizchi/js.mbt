@@ -57,7 +57,7 @@ pub fn SubtleCrypto::digest(
   algorithm : String,
   data : &@js.JsImpl,
 ) -> @js.Promise[@js.Any] {
-  self.call2("digest", algorithm |> @js.js, data.to_any()).cast()
+  self.call2("digest", algorithm |> @js.any, data.to_any()).cast()
 }
 
 ///|

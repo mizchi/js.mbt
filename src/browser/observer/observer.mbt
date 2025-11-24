@@ -29,7 +29,7 @@ pub fn MutationObserver::observe(
   target : @dom.Element,
   options : @js.Any,
 ) -> Unit {
-  self.to_any().call2("observe", target |> @js.js, options) |> ignore
+  self.to_any().call2("observe", target |> @js.any, options) |> ignore
 }
 
 ///|
@@ -165,7 +165,7 @@ pub fn ResizeObserver::new(
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
 pub fn ResizeObserver::observe(self : Self, target : @dom.Element) -> Unit {
-  self.to_any().call("observe", [target |> @js.js]) |> ignore
+  self.to_any().call("observe", [target |> @js.any]) |> ignore
 }
 
 ///|
@@ -175,14 +175,14 @@ pub fn ResizeObserver::observe_with_options(
   target : @dom.Element,
   options : @js.Any,
 ) -> Unit {
-  self.to_any().call2("observe", target |> @js.js, options) |> ignore
+  self.to_any().call2("observe", target |> @js.any, options) |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve
 pub fn ResizeObserver::unobserve(self : Self, target : @dom.Element) -> Unit {
-  self.to_any().call("unobserve", [target |> @js.js]) |> ignore
+  self.to_any().call("unobserve", [target |> @js.any]) |> ignore
 }
 
 ///|

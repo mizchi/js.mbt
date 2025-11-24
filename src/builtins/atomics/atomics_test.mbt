@@ -23,7 +23,7 @@ test "Atomics isLockFree checks size support" {
 ///|
 test "Atomics add operation" {
   // Create a SharedArrayBuffer (or regular ArrayBuffer for testing)
-  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.js(16)])
+  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.any(16)])
   let ta = @js.new_(@js.globalThis().get("Int32Array"), [buffer])
 
   // Test add operation
@@ -35,7 +35,7 @@ test "Atomics add operation" {
 
 ///|
 test "Atomics load and store operations" {
-  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.js(16)])
+  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.any(16)])
   let ta = @js.new_(@js.globalThis().get("Int32Array"), [buffer])
 
   // Store a value
@@ -49,7 +49,7 @@ test "Atomics load and store operations" {
 
 ///|
 test "Atomics sub operation" {
-  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.js(16)])
+  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.any(16)])
   let ta = @js.new_(@js.globalThis().get("Int32Array"), [buffer])
 
   // Set initial value
@@ -64,7 +64,7 @@ test "Atomics sub operation" {
 
 ///|
 test "Atomics and_ bitwise operation" {
-  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.js(16)])
+  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.any(16)])
   let ta = @js.new_(@js.globalThis().get("Int32Array"), [buffer])
 
   // Set initial value (binary: 1111)
@@ -79,7 +79,7 @@ test "Atomics and_ bitwise operation" {
 
 ///|
 test "Atomics or_ bitwise operation" {
-  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.js(16)])
+  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.any(16)])
   let ta = @js.new_(@js.globalThis().get("Int32Array"), [buffer])
 
   // Set initial value (binary: 0101)
@@ -94,7 +94,7 @@ test "Atomics or_ bitwise operation" {
 
 ///|
 test "Atomics xor bitwise operation" {
-  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.js(16)])
+  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.any(16)])
   let ta = @js.new_(@js.globalThis().get("Int32Array"), [buffer])
   // Set initial value (binary: 1111)
   @atomics.store(ta, 0, 15) |> ignore
@@ -108,7 +108,7 @@ test "Atomics xor bitwise operation" {
 
 ///|
 test "Atomics exchange operation" {
-  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.js(16)])
+  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.any(16)])
   let ta = @js.new_(@js.globalThis().get("Int32Array"), [buffer])
 
   // Set initial value
@@ -123,7 +123,7 @@ test "Atomics exchange operation" {
 
 ///|
 test "Atomics compareExchange operation" {
-  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.js(16)])
+  let buffer = @js.new_(@js.globalThis().get("ArrayBuffer"), [@js.any(16)])
   let ta = @js.new_(@js.globalThis().get("Int32Array"), [buffer])
 
   // Set initial value

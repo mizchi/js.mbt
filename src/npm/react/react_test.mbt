@@ -19,7 +19,7 @@ test "React createElement" {
   let with_attrs = @react.createElement(
     "button",
     props={
-      "className": "my-button" |> @js.js,
+      "className": "my-button" |> @js.any,
       "onClick": @js.from_fn0(fn() { @js.log("Button clicked") }),
     },
     [],

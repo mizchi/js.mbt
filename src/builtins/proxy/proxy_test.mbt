@@ -68,9 +68,9 @@ test "Proxy with get trap" {
   let proxy = Proxy::new(target, get=fn(_target, prop, _receiver) {
     let key : String = @js.identity(prop)
     if key == "x" {
-      @js.js(100)
+      @js.any(100)
     } else {
-      @js.js(200)
+      @js.any(200)
     }
   })
   assert_eq(@js.identity(proxy.get("x")), 100)
@@ -114,7 +114,7 @@ test "Proxy with multiple traps" {
   let target = @js.Object::new()
   let proxy = Proxy::new(
     target,
-    get=fn(_target, _prop, _receiver) { @js.js("intercepted") },
+    get=fn(_target, _prop, _receiver) { @js.any("intercepted") },
     set=fn(target_obj, prop, value, _receiver) {
       let key : String = @js.identity(prop)
       let obj : @js.Object = @js.identity(target_obj)
@@ -151,15 +151,15 @@ test "Proxy with deleteProperty trap" {
 test "Proxy with apply trap for function" {
   let target_fn = @js.from_fn1(fn(x : @js.Any) -> @js.Any {
     let n : Int = @js.identity(x)
-    @js.js(n * 2)
+    @js.any(n * 2)
   })
   let proxy = Proxy::new(target_fn, apply=fn(_target, _this, args) {
     // Intercept function call and return modified result
     let arr : @js.JsArray = @js.identity(args)
     let first : Int = @js.identity(arr.get("0"))
-    @js.js(first * 10)
+    @js.any(first * 10)
   })
-  let result : Int = @js.identity(proxy.call_self([@js.js(5)]))
+  let result : Int = @js.identity(proxy.call_self([@js.any(5)]))
   inspect(result, content="50")
 }
 
@@ -168,7 +168,7 @@ test "Proxy with construct trap" {
   // Create a constructor function using JS eval
   let global = @js.globalThis()
   global.call("eval", [
-    @js.js("globalThis.TestConstructor = function(x) { this.value = x; }"),
+    @js.any("globalThis.TestConstructor = function(x) { this.value = x; }"),
   ])
   |> ignore
   let constructor_fn = global.get("TestConstructor")
@@ -183,7 +183,7 @@ test "Proxy with construct trap" {
     obj.set("constructed", first * 100)
     obj.to_any()
   })
-  let instance = @js.new_(proxy.to_any(), [@js.js(5)])
+  let instance = @js.new_(proxy.to_any(), [@js.any(5)])
   let value : Int = @js.identity(instance.get("constructed"))
   inspect(value, content="500")
 }
@@ -321,7 +321,7 @@ test "Proxy with defineProperty trap" {
   let object_class = @js.globalThis().get("Object")
   object_class.call("defineProperty", [
     proxy.to_any(),
-    @js.js("newProp"),
+    @js.any("newProp"),
     descriptor.to_any(),
   ])
   |> ignore

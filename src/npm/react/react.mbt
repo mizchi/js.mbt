@@ -16,7 +16,7 @@ pub fn createElement(
   ref_? : ReactRef[@dom.Element],
   key? : String,
 ) -> Element {
-  let tag = @js.js(tag)
+  let tag = @js.any(tag)
   let children = children.map(_.to_react_node()) |> @js.from_array
   let val = @js.Object::new()
   if props is Some(props) {
@@ -25,7 +25,7 @@ pub fn createElement(
     }
   }
   if ref_ is Some(ref_) {
-    val.set("ref", ref_ |> @js.js)
+    val.set("ref", ref_ |> @js.any)
   }
   if key is Some(key) {
     val.set("key", key)
@@ -48,5 +48,5 @@ pub fn createElementDirect(
   props : @js.Any,
   children : @js.Any,
 ) -> Element {
-  @js.identity(ffi_create_element(tag |> @js.js, props, children))
+  @js.identity(ffi_create_element(tag |> @js.any, props, children))
 }

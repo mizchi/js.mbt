@@ -72,7 +72,10 @@ test "identity to struct" {
 
 ///|
 test "from_map converts MoonBit Map to Any object" {
-  let map : Map[String, @js.Any] = { "name": js("Alice"), "age": js(30) }
+  let map : Map[String, @js.Any] = {
+    "name": @js.any("Alice"),
+    "age": @js.any(30),
+  }
   let obj : @js.Any = from_map(map)
   assert_eq(@js.identity(obj.get("name")), "Alice")
   assert_eq(@js.identity(obj.get("age")), 30)
@@ -80,7 +83,10 @@ test "from_map converts MoonBit Map to Any object" {
 
 ///|
 test "from_map and to_string" {
-  let map : Map[String, @js.Any] = { "name": js("Alice"), "age": js(30) }
+  let map : Map[String, @js.Any] = {
+    "name": @js.any("Alice"),
+    "age": @js.any(30),
+  }
   let obj : @js.Any = from_map(map)
   inspect(
     obj.to_string(),
@@ -93,9 +99,9 @@ test "from_map and to_string" {
 ///|
 test "from_map" {
   let map : Map[String, @js.Any] = {
-    "name": js("Alice"),
-    "age": js(30),
-    "active": js(true),
+    "name": @js.any("Alice"),
+    "age": @js.any(30),
+    "active": @js.any(true),
   }
   let obj = from_map(map)
   assert_eq(@js.identity(obj.get("name")), "Alice")
@@ -118,7 +124,7 @@ test "from_fn2 converts 2-arg function to Js" {
   let add = fn(a : Int, b : Int) -> Int { a + b }
   let js_add : @js.Any = from_fn2(add)
   assert_eq(@js.typeof_(js_add), "function")
-  let result = js_add.call_self([js(5), js(3)])
+  let result = js_add.call_self([@js.any(5), @js.any(3)])
   assert_eq(@js.identity(result), 8)
 }
 
@@ -240,7 +246,7 @@ test "globalThis" {
 
 ///|
 test "global isNaN" {
-  let nan_val = @js.js(0.0 / 0.0)
+  let nan_val = @js.any(0.0 / 0.0)
   assert_true(@js.isNaN(nan_val))
   assert_false(@js.isNaN(42))
   assert_false(@js.isNaN(3.14))
@@ -324,7 +330,11 @@ test "JSON::stringify" {
       #|]
     ),
   )
-  let v = from_map({ "key1": 123 |> js, "key2": 456 |> js, "key3": 789 |> js })
+  let v = from_map({
+    "key1": 123 |> @js.any,
+    "key2": 456 |> @js.any,
+    "key3": 789 |> @js.any,
+  })
   JSON::stringify(v, space=2)
   |> inspect(
     content=(
@@ -351,7 +361,7 @@ test "from_fn1 converts 1-arg function to Js" {
   let double = fn(x : Int) -> Int { x * 2 }
   let js_double : @js.Any = from_fn1(double)
   assert_eq(@js.typeof_(js_double), "function")
-  let result = js_double.call_self([js(5)])
+  let result = js_double.call_self([@js.any(5)])
   assert_eq(@js.identity(result), 10)
 }
 
@@ -360,7 +370,7 @@ test "from_fn3 converts 3-arg function to Js" {
   let add3 = fn(a : Int, b : Int, c : Int) -> Int { a + b + c }
   let js_add3 : @js.Any = from_fn3(add3)
   assert_eq(@js.typeof_(js_add3), "function")
-  let result = js_add3.call_self([js(1), js(2), js(3)])
+  let result = js_add3.call_self([@js.any(1), @js.any(2), @js.any(3)])
   assert_eq(@js.identity(result), 6)
 }
 
@@ -444,7 +454,7 @@ test "throwable catches RangeError" {
   throwable(fn() {
     // Creating array with invalid length throws RangeError
     let arr = JsArray::new()
-    arr.set("length", js(-1)) |> ignore
+    arr.set("length", @js.any(-1)) |> ignore
   }) catch {
     ThrowError::RangeError(_) => caught_range_error = true
     _ => assert_true(false) // Should not catch other error types
@@ -488,7 +498,7 @@ test "throwable catches ReferenceError" {
   throwable(fn() {
     // Accessing undefined variable throws ReferenceError
     let code = "nonExistentVariable"
-    globalThis().call("eval", [js(code)]) |> ignore
+    globalThis().call("eval", [@js.any(code)]) |> ignore
   }) catch {
     ThrowError::ReferenceError(_) => caught_reference_error = true
     _ => assert_true(false) // Should not catch other error types
@@ -555,7 +565,7 @@ test "throwable catches non-error value" {
   let mut caught_value = false
   throwable(fn() {
     // Throw a non-Error value (string)
-    throw_(js("custom error string"))
+    throw_(@js.any("custom error string"))
   }) catch {
     ThrowError::Value(val) => {
       caught_value = true
@@ -605,7 +615,7 @@ test "ThrowError Show trait works for all variants" {
   }
 
   // Test Value variant - direct to_string on ThrowError
-  throwable(fn() { throw_(js(42)) }) catch {
+  throwable(fn() { throw_(@js.any(42)) }) catch {
     err => {
       // Test ThrowError's to_string() implementation
       let msg = err.to_string()

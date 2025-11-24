@@ -37,7 +37,7 @@ pub fn MockTimers::enable(
 /// Advance mocked time by milliseconds
 /// mock.timers.tick(milliseconds)
 pub fn MockTimers::tick(self : MockTimers, milliseconds : Int) -> Unit {
-  self.call("tick", [@js.js(milliseconds)]) |> ignore
+  self.call("tick", [@js.any(milliseconds)]) |> ignore
 }
 
 ///|
@@ -58,5 +58,5 @@ pub fn MockTimers::reset(self : MockTimers) -> Unit {
 /// Set absolute time
 /// mock.timers.setTime(milliseconds)
 pub fn MockTimers::setTime(self : MockTimers, milliseconds : Int) -> Unit {
-  self.call("setTime", [@js.js(milliseconds)]) |> ignore
+  self.call("setTime", [@js.any(milliseconds)]) |> ignore
 }

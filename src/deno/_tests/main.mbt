@@ -185,7 +185,7 @@ fn main {
 
     // Create binary data using TextEncoder
     let encoder = new_text_encoder()
-    let arr = encoder.call("encode", [@js.js("binary test data")])
+    let arr = encoder.call("encode", [@js.any("binary test data")])
     d.writeFile(test_file, arr).wait()
     let data = d.readFile(test_file).wait()
     assert_true(@js.typeof_(data) == "object")
@@ -278,7 +278,7 @@ fn main {
     // Create and write using file handle
     let file = d.create(test_file).wait()
     let encoder = new_text_encoder()
-    let data = encoder.call("encode", [@js.js("file handle test")])
+    let data = encoder.call("encode", [@js.any("file handle test")])
     let written = file.write(data).wait()
     assert_true(written > 0)
     file.close()

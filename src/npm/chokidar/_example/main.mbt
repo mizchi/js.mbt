@@ -6,8 +6,8 @@ fn main {
   // Create a watcher
   // Ignore dotfiles with regex pattern
   let watcher = @chokidar.watch(
-    @js.js("."),
-    ignored?=Some(@js.js("/(^|[\/\\])\\../")),
+    @js.any("."),
+    ignored?=Some(@js.any("/(^|[\/\\])\\../")),
     persistent?=Some(true),
     ignoreInitial?=Some(true),
   )

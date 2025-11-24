@@ -35,12 +35,12 @@ priv enum TestConstantEnum {
 
 ///|
 test "identity converts between Any and MoonBit types" {
-  assert_eq(js(42), js(42))
-  let v1 = js(42)
-  let v2 = js(42)
+  assert_eq(@js.any(42), @js.any(42))
+  let v1 = @js.any(42)
+  let v2 = @js.any(42)
   assert_eq(v1, v2)
-  assert_eq(@js.identity(TestConstantEnum::NotFound), js(404))
-  let s1 : String? = js("hello") |> @js.identity_option()
+  assert_eq(@js.identity(TestConstantEnum::NotFound), @js.any(404))
+  let s1 : String? = @js.any("hello") |> @js.identity_option()
   assert_eq(s1, Some("hello"))
   let s2 : String? = undefined() |> @js.identity_option()
   assert_eq(s2, None)
@@ -72,10 +72,10 @@ test "JsImpl trait converts enum to Any and back" {
 
 ///|
 test "JsImpl::to_string" {
-  assert_eq(js(42).to_string(), "42")
+  assert_eq(@js.any(42).to_string(), "42")
   assert_eq(null_().to_string(), "null")
-  assert_eq(js(true).to_string(), "true")
-  assert_eq(js("hello").to_string(), "hello")
+  assert_eq(@js.any(true).to_string(), "true")
+  assert_eq(@js.any("hello").to_string(), "hello")
   assert_true(@js.is_undefined(undefined()))
   assert_true(@js.is_null(null_()))
   assert_eq(@js.Object::new().to_string(), "{}")
@@ -83,7 +83,7 @@ test "JsImpl::to_string" {
   from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
   let expected =
     #|{"a":1,"b":2}
-  from_map({ "a": 1 |> js, "b": 2 |> js }).to_string() |> assert_eq(expected)
+  from_map({ "a": 1 |> any, "b": 2 |> any }).to_string() |> assert_eq(expected)
 }
 
 ///|
@@ -102,27 +102,27 @@ test "type checking" {
   // Test is_null
   assert_true(@js.is_null(null_()))
   assert_false(@js.is_null(undefined()))
-  assert_false(@js.is_null(js(42)))
+  assert_false(@js.is_null(@js.any(42)))
 
   // Test is_undefined
   assert_true(@js.is_undefined(undefined()))
   assert_false(@js.is_undefined(null_()))
-  assert_false(@js.is_undefined(js(42)))
+  assert_false(@js.is_undefined(@js.any(42)))
 
   // Test is_some and is_none
-  assert_false(js(42) |> @js.is_nullish())
+  assert_false(@js.any(42) |> @js.is_nullish())
   assert_true(undefined() |> @js.is_nullish())
-  assert_false(js(42) |> @js.is_nullish())
+  assert_false(@js.any(42) |> @js.is_nullish())
   assert_true(undefined() |> @js.is_nullish())
   assert_true(null_() |> @js.is_nullish())
 }
 
 ///|
 test "Js typeof_" {
-  assert_eq(@js.typeof_(js(42)), "number")
-  assert_eq(@js.typeof_(js(3.14)), "number")
-  assert_eq(@js.typeof_(js("hello")), "string")
-  assert_eq(@js.typeof_(js(true)), "boolean")
+  assert_eq(@js.typeof_(@js.any(42)), "number")
+  assert_eq(@js.typeof_(@js.any(3.14)), "number")
+  assert_eq(@js.typeof_(@js.any("hello")), "string")
+  assert_eq(@js.typeof_(@js.any(true)), "boolean")
   assert_eq(@js.typeof_(undefined()), "undefined")
   assert_eq(@js.typeof_(Object::new()), "object")
   assert_eq(@js.typeof_(JsArray::new()), "object")
@@ -162,13 +162,13 @@ test "JsImpl::delete and hasOwnProperty" {
 ///|
 test "JsImpl::equal" {
   // Same values should be equal
-  assert_eq(js(42), js(42))
-  assert_eq(js("hello"), js("hello"))
-  assert_eq(js(true), js(true))
+  assert_eq(@js.any(42), @js.any(42))
+  assert_eq(@js.any("hello"), @js.any("hello"))
+  assert_eq(@js.any(true), @js.any(true))
 
   // Different values should not be equal
-  assert_false(js(42) == js(43))
-  assert_false(js("hello") == js("world"))
+  assert_false(@js.any(42) == @js.any(43))
+  assert_false(@js.any("hello") == @js.any("world"))
 
   // Special values
   assert_eq(null_(), null_())
@@ -213,11 +213,11 @@ test "Js with nested structures" {
 
 ///|
 test "Val Show trait" {
-  assert_eq(js(42).to_string(), "42")
-  assert_eq(js(3.14).to_string(), "3.14")
-  assert_eq(js("hello").to_string(), "hello")
-  assert_eq(js(true).to_string(), "true")
-  assert_eq(js(false).to_string(), "false")
+  assert_eq(@js.any(42).to_string(), "42")
+  assert_eq(@js.any(3.14).to_string(), "3.14")
+  assert_eq(@js.any("hello").to_string(), "hello")
+  assert_eq(@js.any(true).to_string(), "true")
+  assert_eq(@js.any(false).to_string(), "false")
   assert_eq(null_().to_string(), "null")
   assert_eq(Object::new().to_any().to_string(), "{}")
   assert_eq(JsArray::new().to_any().to_string(), "[]")
@@ -261,7 +261,7 @@ test "Js trait for primitives" {
   assert_eq(@js.identity(bool_js), true)
 
   // Val (identity)
-  let val = @js.js(100)
+  let val = @js.any(100)
   let val_js : @js.Any = JsImpl::to_any(val)
   assert_eq(val_js, val)
 }
@@ -293,15 +293,15 @@ test "JsImpl for Option[T]" {
 ///|
 test "Js numeric edge cases" {
   // Large integers
-  let large = js(1000000)
+  let large = @js.any(1000000)
   assert_eq(@js.identity(large), 1000000)
 
   // Negative numbers
-  let negative = js(-42)
+  let negative = @js.any(-42)
   assert_eq(@js.identity(negative), -42)
 
   // Very small float
-  let small = js(0.0001)
+  let small = @js.any(0.0001)
   assert_eq(@js.identity(small), 0.0001)
 }
 
@@ -428,7 +428,7 @@ test "ThrowError Show through throwable" {
 test "ThrowError::from_js with TypeError" {
   let global = @js.globalThis()
   global.call("eval", [
-    @js.js("globalThis.testTypeError = new TypeError('Type error')"),
+    @js.any("globalThis.testTypeError = new TypeError('Type error')"),
   ])
   |> ignore
   let js_error = global.get("testTypeError")
@@ -443,7 +443,7 @@ test "ThrowError::from_js with TypeError" {
 test "ThrowError::from_js with RangeError" {
   let global = @js.globalThis()
   global.call("eval", [
-    @js.js("globalThis.testRangeError = new RangeError('Range error')"),
+    @js.any("globalThis.testRangeError = new RangeError('Range error')"),
   ])
   |> ignore
   let js_error = global.get("testRangeError")
@@ -458,7 +458,7 @@ test "ThrowError::from_js with RangeError" {
 test "ThrowError::from_js with ReferenceError" {
   let global = @js.globalThis()
   global.call("eval", [
-    @js.js("globalThis.testRefError = new ReferenceError('Ref error')"),
+    @js.any("globalThis.testRefError = new ReferenceError('Ref error')"),
   ])
   |> ignore
   let js_error = global.get("testRefError")
@@ -473,7 +473,7 @@ test "ThrowError::from_js with ReferenceError" {
 test "ThrowError::from_js with SyntaxError" {
   let global = @js.globalThis()
   global.call("eval", [
-    @js.js("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
+    @js.any("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
   ])
   |> ignore
   let js_error = global.get("testSyntaxError")
@@ -488,7 +488,7 @@ test "ThrowError::from_js with SyntaxError" {
 test "ThrowError::from_js with URIError" {
   let global = @js.globalThis()
   global.call("eval", [
-    @js.js("globalThis.testURIError = new URIError('URI error')"),
+    @js.any("globalThis.testURIError = new URIError('URI error')"),
   ])
   |> ignore
   let js_error = global.get("testURIError")
@@ -503,7 +503,7 @@ test "ThrowError::from_js with URIError" {
 test "ThrowError::from_js with EvalError" {
   let global = @js.globalThis()
   global.call("eval", [
-    @js.js("globalThis.testEvalError = new EvalError('Eval error')"),
+    @js.any("globalThis.testEvalError = new EvalError('Eval error')"),
   ])
   |> ignore
   let js_error = global.get("testEvalError")
@@ -518,7 +518,7 @@ test "ThrowError::from_js with EvalError" {
 test "ThrowError::from_js with AggregateError" {
   let global = @js.globalThis()
   global.call("eval", [
-    @js.js("globalThis.testAggError = new AggregateError([], 'Agg error')"),
+    @js.any("globalThis.testAggError = new AggregateError([], 'Agg error')"),
   ])
   |> ignore
   let js_error = global.get("testAggError")
@@ -533,7 +533,7 @@ test "ThrowError::from_js with AggregateError" {
 test "ThrowError::from_js with generic Error" {
   let global = @js.globalThis()
   global.call("eval", [
-    @js.js("globalThis.testGenericError = new Error('Generic error')"),
+    @js.any("globalThis.testGenericError = new Error('Generic error')"),
   ])
   |> ignore
   let js_error = global.get("testGenericError")
@@ -546,7 +546,7 @@ test "ThrowError::from_js with generic Error" {
 
 ///|
 test "ThrowError::from_js with non-error value" {
-  let value = @js.js("plain string value")
+  let value = @js.any("plain string value")
   let throw_error = ThrowError::from_js(value)
   match throw_error {
     ThrowError::Value(_) => inspect(true, content="true")

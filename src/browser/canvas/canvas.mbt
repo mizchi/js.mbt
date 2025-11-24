@@ -387,7 +387,7 @@ extern "js" fn ffi_new_image_data_with_data(
 
 ///|
 pub fn ImageData::new(width : Int, height : Int) -> ImageData {
-  @js.identity(ffi_new_image_data(width |> @js.js, height |> @js.js))
+  @js.identity(ffi_new_image_data(width |> @js.any, height |> @js.any))
 }
 
 ///|
@@ -399,8 +399,8 @@ pub fn ImageData::from_data(
   @js.identity(
     ffi_new_image_data_with_data(
       data.to_any(),
-      width |> @js.js,
-      height |> @js.js,
+      width |> @js.any,
+      height |> @js.any,
     ),
   )
 }
@@ -458,10 +458,10 @@ pub fn createImageBitmapRect(
   @js.identity(
     ffi_create_image_bitmap_with_rect(
       image.to_any(),
-      sx |> @js.js,
-      sy |> @js.js,
-      sw |> @js.js,
-      sh |> @js.js,
+      sx |> @js.any,
+      sy |> @js.any,
+      sw |> @js.any,
+      sh |> @js.any,
     ),
   )
 }

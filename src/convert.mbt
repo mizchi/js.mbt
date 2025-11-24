@@ -72,7 +72,7 @@ pub fn[T : JsImpl] from_array(v : Array[T]) -> Any {
 /// # Example
 ///
 /// ```moonbit
-/// let _obj = from_map({ "name": js("Alice"), "age": js(30) })
+/// let _obj = from_map({ "name": @js.any("Alice"), "age": @js.any(30) })
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
 pub fn from_map(map : Map[String, Any]) -> Any {
@@ -256,10 +256,10 @@ pub impl ToJson for Any with to_json(self) -> Json {
 pub impl JsImpl for Json with to_any(self) -> Any {
   match self {
     Null => null_()
-    String(s) => js(s)
-    Number(n, ..) => js(n)
-    True => js(true)
-    False => js(false)
+    String(s) => any(s)
+    Number(n, ..) => any(n)
+    True => any(true)
+    False => any(false)
     Object(o) => {
       let obj = Object::new()
       for k, v in o {
@@ -301,7 +301,7 @@ pub fn[A, B] identity(v : A) -> B = "%identity"
 ///|
 /// Cast any JsImpl type to a JavaScript Val safely.
 /// When you can not, use `unsafe_js()`.
-pub fn js(a : &JsImpl) -> Any {
+pub fn any(a : &JsImpl) -> Any {
   identity(a.to_any())
 }
 

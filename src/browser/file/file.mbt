@@ -44,7 +44,7 @@ pub fn File::new(
   }
   ffi_new_file(
     arr.to_any(),
-    filename |> @js.js,
+    filename |> @js.any,
     @js.from_entries_option([
       ("type", content_type.map(x => x)),
       ("lastModified", last_modified.map(x => x)),

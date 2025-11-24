@@ -101,7 +101,7 @@ pub fn MockTracker::module_(
   if namedExports is Some(exp) {
     options.set("namedExports", exp)
   }
-  self.call2("module", @js.js(specifier), options) |> ignore
+  self.call2("module", @js.any(specifier), options) |> ignore
 }
 
 ///|

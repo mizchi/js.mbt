@@ -19,7 +19,7 @@ using @react {
 using @react_router {router_provider}
 
 ///|
-using @js {log, js, identity, sleep, run_async}
+using @js {log, identity, sleep, run_async}
 
 ///|
 using @react_element {
@@ -78,7 +78,7 @@ fn use_myctx() -> MyContextProps {
 ///|
 fn ctx_consumer(_ : EmptyProps) -> @react.Element {
   let ctx_value = use_myctx()
-  createElement("div", props={ "className": "context-value" |> js }, [
+  createElement("div", props={ "className": "context-value" |> @js.any }, [
     "Context value: \{ctx_value.v}",
   ])
 }

@@ -78,14 +78,14 @@ test "Reflect.setPrototypeOf" {
 ///|
 test "Reflect.apply" {
   let add_fn = @js.globalThis().get("Math").get("max")
-  let result = apply(add_fn, @js.undefined(), [@js.js(10), @js.js(20)])
+  let result = apply(add_fn, @js.undefined(), [@js.any(10), @js.any(20)])
   assert_eq(@js.identity(result), 20)
 }
 
 ///|
 test "Reflect.construct" {
   let array_constructor = @js.globalThis().get("Array")
-  let arr = construct(array_constructor, [@js.js(3)], None)
+  let arr = construct(array_constructor, [@js.any(3)], None)
   assert_true(@js.is_array(arr))
 }
 

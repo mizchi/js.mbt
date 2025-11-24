@@ -81,27 +81,27 @@ pub async fn createServer(
 ) -> ViteDevServer {
   let config = @js.Object::new()
   match root {
-    Some(v) => config.set("root", @js.js(v))
+    Some(v) => config.set("root", @js.any(v))
     None => ()
   }
   match base {
-    Some(v) => config.set("base", @js.js(v))
+    Some(v) => config.set("base", @js.any(v))
     None => ()
   }
   match mode {
-    Some(v) => config.set("mode", @js.js(v))
+    Some(v) => config.set("mode", @js.any(v))
     None => ()
   }
   match configFile {
-    Some(v) => config.set("configFile", @js.js(v))
+    Some(v) => config.set("configFile", @js.any(v))
     None => ()
   }
   match logLevel {
-    Some(v) => config.set("logLevel", @js.js(v))
+    Some(v) => config.set("logLevel", @js.any(v))
     None => ()
   }
   match clearScreen {
-    Some(v) => config.set("clearScreen", @js.js(v))
+    Some(v) => config.set("clearScreen", @js.any(v))
     None => ()
   }
   match server {
@@ -129,27 +129,27 @@ pub async fn build(
 ) -> RollupOutput {
   let config = @js.Object::new()
   match root {
-    Some(v) => config.set("root", @js.js(v))
+    Some(v) => config.set("root", @js.any(v))
     None => ()
   }
   match base {
-    Some(v) => config.set("base", @js.js(v))
+    Some(v) => config.set("base", @js.any(v))
     None => ()
   }
   match mode {
-    Some(v) => config.set("mode", @js.js(v))
+    Some(v) => config.set("mode", @js.any(v))
     None => ()
   }
   match configFile {
-    Some(v) => config.set("configFile", @js.js(v))
+    Some(v) => config.set("configFile", @js.any(v))
     None => ()
   }
   match logLevel {
-    Some(v) => config.set("logLevel", @js.js(v))
+    Some(v) => config.set("logLevel", @js.any(v))
     None => ()
   }
   match clearScreen {
-    Some(v) => config.set("clearScreen", @js.js(v))
+    Some(v) => config.set("clearScreen", @js.any(v))
     None => ()
   }
   match build {
@@ -177,27 +177,27 @@ pub async fn preview(
 ) -> PreviewServer {
   let config = @js.Object::new()
   match root {
-    Some(v) => config.set("root", @js.js(v))
+    Some(v) => config.set("root", @js.any(v))
     None => ()
   }
   match base {
-    Some(v) => config.set("base", @js.js(v))
+    Some(v) => config.set("base", @js.any(v))
     None => ()
   }
   match mode {
-    Some(v) => config.set("mode", @js.js(v))
+    Some(v) => config.set("mode", @js.any(v))
     None => ()
   }
   match configFile {
-    Some(v) => config.set("configFile", @js.js(v))
+    Some(v) => config.set("configFile", @js.any(v))
     None => ()
   }
   match logLevel {
-    Some(v) => config.set("logLevel", @js.js(v))
+    Some(v) => config.set("logLevel", @js.any(v))
     None => ()
   }
   match clearScreen {
-    Some(v) => config.set("clearScreen", @js.js(v))
+    Some(v) => config.set("clearScreen", @js.any(v))
     None => ()
   }
   match preview {
@@ -222,11 +222,11 @@ pub async fn ViteDevServer::listen(
 ) -> ViteDevServer {
   let options = @js.Object::new()
   match port {
-    Some(v) => options.set("port", @js.js(v))
+    Some(v) => options.set("port", @js.any(v))
     None => ()
   }
   match host {
-    Some(v) => options.set("host", @js.js(v))
+    Some(v) => options.set("host", @js.any(v))
     None => ()
   }
   let promise : @js.Promise[ViteDevServer] = @js.identity(
@@ -260,7 +260,7 @@ pub async fn ViteDevServer::restart(
 ) -> Unit {
   let options = @js.Object::new()
   match forceOptimize {
-    Some(v) => options.set("forceOptimize", @js.js(v))
+    Some(v) => options.set("forceOptimize", @js.any(v))
     None => ()
   }
   let promise : @js.Promise[Unit] = @js.identity(

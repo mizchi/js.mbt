@@ -159,7 +159,7 @@ pub fn ServerResponse::set_statusCode(
   self : ServerResponse,
   code : Int,
 ) -> Unit {
-  self.set("statusCode", code |> @js.js)
+  self.set("statusCode", code |> @js.any)
 }
 
 ///|
@@ -257,7 +257,7 @@ pub fn Server::maxHeadersCount(self : Server) -> Int? {
 ///|
 /// Set max headers count
 pub fn Server::set_maxHeadersCount(self : Server, max : Int) -> Unit {
-  self.set("maxHeadersCount", max |> @js.js)
+  self.set("maxHeadersCount", max |> @js.any)
 }
 
 ///|
@@ -283,7 +283,7 @@ pub fn Server::timeout(self : Server) -> Int {
 ///|
 /// Set timeout value
 pub fn Server::set_timeout(self : Server, msecs : Int) -> Unit {
-  self.set("timeout", msecs |> @js.js)
+  self.set("timeout", msecs |> @js.any)
 }
 
 ///| ClientRequest class

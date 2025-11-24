@@ -37,7 +37,7 @@ extern "js" fn ffi_create_image_data_with_data(
 
 ///|
 fn create_test_canvas(width : Int, height : Int) -> @dom.HTMLCanvasElement {
-  @js.identity(ffi_create_test_canvas(width |> @js.js, height |> @js.js))
+  @js.identity(ffi_create_test_canvas(width |> @js.any, height |> @js.any))
 }
 
 ///|
@@ -386,7 +386,7 @@ test "createImageData creates new ImageData" {
 ///|
 test "ImageData constructor works" {
   let image_data : ImageData = @js.identity(
-    ffi_create_image_data(10 |> @js.js, 20 |> @js.js),
+    ffi_create_image_data(10 |> @js.any, 20 |> @js.any),
   )
   inspect(image_data.width, content="10")
   inspect(image_data.height, content="20")
@@ -395,7 +395,7 @@ test "ImageData constructor works" {
 ///|
 test "ImageData data property returns Uint8Array" {
   let image_data : ImageData = @js.identity(
-    ffi_create_image_data(10 |> @js.js, 10 |> @js.js),
+    ffi_create_image_data(10 |> @js.any, 10 |> @js.any),
   )
   let data = image_data.data
   let length = data.length()
@@ -407,7 +407,7 @@ test "ImageData data property returns Uint8Array" {
 test "ImageData from_data creates ImageData from Uint8Array" {
   let data = @typedarray.Uint8Array::from_size(40) // 10 * 1 * 4 (RGBA)
   let image_data : ImageData = @js.identity(
-    ffi_create_image_data_with_data(data.to_any(), 10 |> @js.js, 1 |> @js.js),
+    ffi_create_image_data_with_data(data.to_any(), 10 |> @js.any, 1 |> @js.any),
   )
   inspect(image_data.width, content="10")
   inspect(image_data.height, content="1")
@@ -429,7 +429,7 @@ test "putImageData writes pixel data to canvas" {
   let canvas = create_test_canvas(100, 100)
   let ctx : CanvasRenderingContext2D = @js.identity(canvas.getContext("2d"))
   let image_data : ImageData = @js.identity(
-    ffi_create_image_data(50 |> @js.js, 50 |> @js.js),
+    ffi_create_image_data(50 |> @js.any, 50 |> @js.any),
   )
   ctx.putImageData(image_data, 10.0, 10.0)
   // Test passes if no error is thrown

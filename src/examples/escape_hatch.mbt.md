@@ -111,7 +111,7 @@ test "array methods via call()" {
   // Use map
   let map_fn = fn(x : @js.Any) -> @js.Any {
     let num : Int = @js.identity(x)
-    @js.js(num * 2)
+    @js.any(num * 2)
   }
   let mapped = arr.call1("map", @js.from_fn1(map_fn))
   inspect(mapped, content="[2,4,6,8,10]")
@@ -228,17 +228,17 @@ test "type conversion helpers" {
 
   // from_map
   let moonbit_map = Map::new()
-  moonbit_map.set("x", @js.js(10))
-  moonbit_map.set("y", @js.js(20))
+  moonbit_map.set("x", @js.any(10))
+  moonbit_map.set("y", @js.any(20))
   let js_obj = @js.from_map(moonbit_map)
   let expected =
     #|{"x":10,"y":20}
   inspect(js_obj.to_any(), content=expected)
 
   // js() for basic types
-  let num_js = @js.js(42)
-  let str_js = @js.js("hello")
-  let bool_js = @js.js(true)
+  let num_js = @js.any(42)
+  let str_js = @js.any("hello")
+  let bool_js = @js.any(true)
   let num : Int = @js.identity(num_js)
   let str : String = @js.identity(str_js)
   let bool : Bool = @js.identity(bool_js)
@@ -280,7 +280,7 @@ test "type checking utilities" {
   let obj = @js.Object::new()
   let arr = @js.JsArray::new()
   let undef = @js.undefined()
-  let num = @js.js(42)
+  let num = @js.any(42)
 
   // is_undefined
   assert_eq(@js.is_undefined(undef), true)

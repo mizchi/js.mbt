@@ -39,7 +39,7 @@ extern "js" fn ffi_new_worker(script_url : String, option : @js.Any) -> Worker =
 ///|
 pub fn Worker::new(script_url : String, type_? : String) -> Worker {
   let option = if type_ is Some(v) {
-    @js.from_map({ "type": @js.js(v) })
+    @js.from_map({ "type": @js.any(v) })
   } else {
     @js.undefined()
   }

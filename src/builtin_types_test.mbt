@@ -270,10 +270,10 @@ test "Symbol creation and well-known symbols" {
   let iter_sym = Symbol::iterator()
   let dispose_sym = Symbol::dispose()
   let async_dispose_sym = Symbol::asyncDispose()
-  assert_eq(@js.typeof_(js(sym)), "symbol")
-  assert_eq(@js.typeof_(js(iter_sym)), "symbol")
-  assert_eq(@js.typeof_(js(dispose_sym)), "symbol")
-  assert_eq(@js.typeof_(js(async_dispose_sym)), "symbol")
+  assert_eq(@js.typeof_(any(sym)), "symbol")
+  assert_eq(@js.typeof_(any(iter_sym)), "symbol")
+  assert_eq(@js.typeof_(any(dispose_sym)), "symbol")
+  assert_eq(@js.typeof_(any(async_dispose_sym)), "symbol")
 }
 
 ///|
@@ -310,16 +310,16 @@ test "JsString::fromCodePoint" {
 
 ///|
 test "Primitive type casting" {
-  let int_val = js(42)
+  let int_val = @js.any(42)
   let int_result : Int = @js.identity(int_val)
   assert_eq(int_result, 42)
-  let double_val = js(3.14)
+  let double_val = @js.any(3.14)
   let double_result : Double = @js.identity(double_val)
   assert_eq(double_result, 3.14)
-  let str_val = js("hello")
+  let str_val = @js.any("hello")
   let str_result : String = @js.identity(str_val)
   assert_eq(str_result, "hello")
-  let bool_val = js(true)
+  let bool_val = @js.any(true)
   let bool_result : Bool = @js.identity(bool_val)
   assert_eq(bool_result, true)
 }
@@ -327,9 +327,9 @@ test "Primitive type casting" {
 ///|
 test "identity_option" {
   // Some cases
-  let some_str : String? = js("hello") |> @js.identity_option()
+  let some_str : String? = @js.any("hello") |> @js.identity_option()
   assert_eq(some_str, Some("hello"))
-  let some_int : Int? = js(42) |> @js.identity_option()
+  let some_int : Int? = @js.any(42) |> @js.identity_option()
   assert_eq(some_int, Some(42))
 
   // None cases
@@ -341,10 +341,10 @@ test "identity_option" {
 
 ///|
 test "identity_option with Show types" {
-  let num_val = @js.js(42)
+  let num_val = @js.any(42)
   let num_opt : Int? = @js.identity_option(num_val)
   assert_eq(num_opt, Some(42))
-  let str_val = @js.js("hello")
+  let str_val = @js.any("hello")
   let str_opt : String? = @js.identity_option(str_val)
   assert_eq(str_opt, Some("hello"))
 
@@ -400,15 +400,15 @@ test "Conditional property setting with Option" {
 ///|
 test "Js Show trait for different types" {
   // Numbers
-  let num = @js.js(123)
+  let num = @js.any(123)
   assert_eq(num.to_string(), "123")
 
   // Strings
-  let str = @js.js("test")
+  let str = @js.any("test")
   assert_eq(str.to_string(), "test")
 
   // Booleans
-  let bool_val = @js.js(true)
+  let bool_val = @js.any(true)
   assert_eq(bool_val.to_string(), "true")
 
   // Arrays

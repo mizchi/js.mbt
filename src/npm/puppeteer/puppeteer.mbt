@@ -44,7 +44,7 @@ pub async fn launch(
 ) -> Browser {
   let js_opts = @js.from_entries([])
   match headless {
-    Some(h) => js_opts.set("headless", @js.js(h))
+    Some(h) => js_opts.set("headless", @js.any(h))
     None => ()
   }
   match args {
@@ -52,23 +52,23 @@ pub async fn launch(
     None => ()
   }
   match executablePath {
-    Some(p) => js_opts.set("executablePath", @js.js(p))
+    Some(p) => js_opts.set("executablePath", @js.any(p))
     None => ()
   }
   match devtools {
-    Some(d) => js_opts.set("devtools", @js.js(d))
+    Some(d) => js_opts.set("devtools", @js.any(d))
     None => ()
   }
   match timeout {
-    Some(t) => js_opts.set("timeout", @js.js(t))
+    Some(t) => js_opts.set("timeout", @js.any(t))
     None => ()
   }
   match userDataDir {
-    Some(u) => js_opts.set("userDataDir", @js.js(u))
+    Some(u) => js_opts.set("userDataDir", @js.any(u))
     None => ()
   }
   match dumpio {
-    Some(d) => js_opts.set("dumpio", @js.js(d))
+    Some(d) => js_opts.set("dumpio", @js.any(d))
     None => ()
   }
   match env {
@@ -76,31 +76,31 @@ pub async fn launch(
     None => ()
   }
   match pipe {
-    Some(p) => js_opts.set("pipe", @js.js(p))
+    Some(p) => js_opts.set("pipe", @js.any(p))
     None => ()
   }
   match ignoreDefaultArgs {
-    Some(i) => js_opts.set("ignoreDefaultArgs", @js.js(i))
+    Some(i) => js_opts.set("ignoreDefaultArgs", @js.any(i))
     None => ()
   }
   match waitForInitialPage {
-    Some(w) => js_opts.set("waitForInitialPage", @js.js(w))
+    Some(w) => js_opts.set("waitForInitialPage", @js.any(w))
     None => ()
   }
   match debuggingPort {
-    Some(d) => js_opts.set("debuggingPort", @js.js(d))
+    Some(d) => js_opts.set("debuggingPort", @js.any(d))
     None => ()
   }
   match handleSIGHUP {
-    Some(h) => js_opts.set("handleSIGHUP", @js.js(h))
+    Some(h) => js_opts.set("handleSIGHUP", @js.any(h))
     None => ()
   }
   match handleSIGINT {
-    Some(h) => js_opts.set("handleSIGINT", @js.js(h))
+    Some(h) => js_opts.set("handleSIGINT", @js.any(h))
     None => ()
   }
   match handleSIGTERM {
-    Some(h) => js_opts.set("handleSIGTERM", @js.js(h))
+    Some(h) => js_opts.set("handleSIGTERM", @js.any(h))
     None => ()
   }
   let promise : @js.Promise[Browser] = @js.identity(ffi_launch(js_opts))

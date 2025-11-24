@@ -117,10 +117,10 @@ test "sqlite custom function" {
     "double",
     fn(args) {
       if args.length() == 0 {
-        return @js.js(0)
+        return @js.any(0)
       }
       let value : Int = @js.identity(args[0])
-      @js.js(value * 2)
+      @js.any(value * 2)
     },
     varargs=true,
   )
@@ -207,7 +207,7 @@ test "sqlite type-safe anonymous parameters" {
   let insert = database.prepare(
     "INSERT INTO products (name, price, stock) VALUES (?, ?, ?)",
   )
-  // Now we can pass direct values without wrapping in @js.js()
+  // Now we can pass direct values without wrapping in @js.any()
   insert.run(anonymous_parameters=["Apple", 1.5, 100]) |> ignore
   insert.run(anonymous_parameters=["Banana", 0.8, 150]) |> ignore
   insert.run(anonymous_parameters=["Orange", 2.0, 75]) |> ignore
@@ -682,10 +682,10 @@ test "sqlite function with options" {
     "add_one",
     fn(args) {
       if args.length() == 0 {
-        return @js.js(0)
+        return @js.any(0)
       }
       let value : Int = @js.identity(args[0])
-      @js.js(value + 1)
+      @js.any(value + 1)
     },
     deterministic=true,
     directOnly=false,

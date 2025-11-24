@@ -7,7 +7,7 @@
 /// # Example
 ///
 /// ```moonbit
-/// let num: @js.Any = @js.js(42) // MoonBit Int -> @js.Any
+/// let num: @js.Any = @js.any(42) // MoonBit Int -> @js.Any
 /// let _val : Int = num.cast()   // Any -> MoonBit Int (unsafe)
 /// ```
 #external

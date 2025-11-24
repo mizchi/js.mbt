@@ -4,7 +4,7 @@
 test "WeakMap::set and get - store and retrieve values" {
   let wm : WeakMap[@js.Any, @js.Any] = WeakMap::new()
   let key = @js.Object::new().to_any()
-  let value = @js.js("test value")
+  let value = @js.any("test value")
   wm.set(key, value) |> ignore
   let result = wm.get(key)
   assert_false(result is None)
@@ -14,7 +14,7 @@ test "WeakMap::set and get - store and retrieve values" {
 test "WeakMap::has - check if key exists" {
   let wm : WeakMap[@js.Any, @js.Any] = WeakMap::new()
   let key = @js.Object::new().to_any()
-  let value = @js.js("test")
+  let value = @js.any("test")
   let has_before = wm.has(key)
   wm.set(key, value) |> ignore
   let has_after = wm.has(key)
@@ -26,7 +26,7 @@ test "WeakMap::has - check if key exists" {
 test "WeakMap::delete - remove a key-value pair" {
   let wm : WeakMap[@js.Any, @js.Any] = WeakMap::new()
   let key = @js.Object::new().to_any()
-  let value = @js.js("test")
+  let value = @js.any("test")
   wm.set(key, value) |> ignore
   let deleted = wm.delete(key)
   let has_after = wm.has(key)
@@ -89,7 +89,7 @@ test "FinalizationRegistry::register - register an object" {
   })
   let target = @js.Object::new()
   let held_value = "cleanup info"
-  registry.register(target, held_value |> @js.js)
+  registry.register(target, held_value |> @js.any)
   // Registry was created successfully
   assert_true(true)
 }
@@ -106,7 +106,7 @@ test "FinalizationRegistry::unregister - unregister with token" {
   let token = @js.Object::new()
   registry.register(
     target,
-    held_value |> @js.js,
+    held_value |> @js.any,
     unregister_token=token.to_any(),
   )
   let unregistered = registry.unregister(token.to_any())

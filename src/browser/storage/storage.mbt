@@ -60,7 +60,7 @@ pub fn Storage::clear(self : Storage) -> Unit {
 /// Returns the key at the specified index
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/key
 pub fn Storage::key(self : Storage, index : Int) -> String? {
-  self.call("key", [index |> @js.js]) |> @js.identity_option()
+  self.call("key", [index |> @js.any]) |> @js.identity_option()
 }
 
 ///|

@@ -150,9 +150,9 @@ Converting between MoonBit and JavaScript types:
 ///|
 test "type conversion" {
   // JsImpl is implemented for basic types
-  let num_js = @js.js(42)
-  let str_js = @js.js("hello")
-  let bool_js = @js.js(true)
+  let num_js = @js.any(42)
+  let str_js = @js.any("hello")
+  let bool_js = @js.any(true)
   inspect(num_js, content="42")
   inspect(str_js, content="hello")
   inspect(bool_js, content="true")
@@ -176,9 +176,9 @@ Converting MoonBit Maps to JavaScript objects:
 ///|
 test "map to object conversion" {
   let map = Map::new()
-  map.set("name", @js.js("MoonBit"))
-  map.set("version", @js.js(1))
-  map.set("active", @js.js(true))
+  map.set("name", @js.any("MoonBit"))
+  map.set("version", @js.any(1))
+  map.set("active", @js.any(true))
   let obj = @js.from_map(map)
   inspect(
     obj,

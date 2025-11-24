@@ -56,7 +56,7 @@ pub fn normalize(path : String) -> String {
 /// JS: path.resolve(...paths)
 pub fn resolve(paths : Array[String]) -> String {
   let path_module = @node.require("node:path")
-  path_module.call("resolve", paths.map(p => @js.js(p))).cast()
+  path_module.call("resolve", paths.map(p => @js.any(p))).cast()
 }
 
 ///|

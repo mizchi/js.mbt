@@ -94,7 +94,7 @@ async test "IndexedDB: add and get item" {
   // Add an item
   let tx = db.transaction(["items"], mode="readwrite")
   let store = tx.objectStore("items")
-  let item = @js.from_map({ "id": @js.js(1), "name": @js.js("Test") })
+  let item = @js.from_map({ "id": @js.any(1), "name": @js.any("Test") })
   let add_request = store.add(item)
   let _ = request_to_promise(add_request).wait()
 
@@ -121,11 +121,11 @@ async test "IndexedDB: put updates existing item" {
   let store = tx.objectStore("records")
 
   // Add initial item
-  let item1 = @js.from_map({ "id": @js.js(1), "value": @js.js("initial") })
+  let item1 = @js.from_map({ "id": @js.any(1), "value": @js.any("initial") })
   request_to_promise(store.add(item1)).wait() |> ignore
 
   // Update with put
-  let item2 = @js.from_map({ "id": @js.js(1), "value": @js.js("updated") })
+  let item2 = @js.from_map({ "id": @js.any(1), "value": @js.any("updated") })
   request_to_promise(store.put(item2)).wait() |> ignore
 
   // Get and verify
@@ -150,7 +150,7 @@ async test "IndexedDB: delete removes item" {
   let store = tx.objectStore("todos")
 
   // Add item
-  let item = @js.from_map({ "id": @js.js(1), "task": @js.js("Do it") })
+  let item = @js.from_map({ "id": @js.any(1), "task": @js.any("Do it") })
   request_to_promise(store.add(item)).wait() |> ignore
 
   // Delete it
@@ -179,11 +179,11 @@ async test "IndexedDB: clear removes all items" {
 
   // Add multiple items
   request_to_promise(
-    store.add(@js.from_map({ "id": @js.js(1), "v": @js.js("a") })),
+    store.add(@js.from_map({ "id": @js.any(1), "v": @js.any("a") })),
   ).wait()
   |> ignore
   request_to_promise(
-    store.add(@js.from_map({ "id": @js.js(2), "v": @js.js("b") })),
+    store.add(@js.from_map({ "id": @js.any(2), "v": @js.any("b") })),
   ).wait()
   |> ignore
 
@@ -213,15 +213,15 @@ async test "IndexedDB: getAll returns all items" {
 
   // Add items
   request_to_promise(
-    store.add(@js.from_map({ "id": @js.js(1), "name": @js.js("Alice") })),
+    store.add(@js.from_map({ "id": @js.any(1), "name": @js.any("Alice") })),
   ).wait()
   |> ignore
   request_to_promise(
-    store.add(@js.from_map({ "id": @js.js(2), "name": @js.js("Bob") })),
+    store.add(@js.from_map({ "id": @js.any(2), "name": @js.any("Bob") })),
   ).wait()
   |> ignore
   request_to_promise(
-    store.add(@js.from_map({ "id": @js.js(3), "name": @js.js("Charlie") })),
+    store.add(@js.from_map({ "id": @js.any(3), "name": @js.any("Charlie") })),
   ).wait()
   |> ignore
 
@@ -248,11 +248,11 @@ async test "IndexedDB: count returns correct number" {
   let store = tx.objectStore("counters")
 
   // Add items
-  request_to_promise(store.add(@js.from_map({ "id": @js.js(1) }))).wait()
+  request_to_promise(store.add(@js.from_map({ "id": @js.any(1) }))).wait()
   |> ignore
-  request_to_promise(store.add(@js.from_map({ "id": @js.js(2) }))).wait()
+  request_to_promise(store.add(@js.from_map({ "id": @js.any(2) }))).wait()
   |> ignore
-  request_to_promise(store.add(@js.from_map({ "id": @js.js(3) }))).wait()
+  request_to_promise(store.add(@js.from_map({ "id": @js.any(3) }))).wait()
   |> ignore
 
   // Count
@@ -303,7 +303,7 @@ async test "IndexedDB: IDBKeyRange operations" {
 
   // Add numbers 1-10
   for i = 1; i <= 10; i = i + 1 {
-    request_to_promise(store.add(@js.from_map({ "id": @js.js(i) }))).wait()
+    request_to_promise(store.add(@js.from_map({ "id": @js.any(i) }))).wait()
     |> ignore
   }
 

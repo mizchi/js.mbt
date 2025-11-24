@@ -61,23 +61,23 @@ pub fn defineConfig(
 ) -> @js.Any {
   let obj = @js.Object::new()
   match root {
-    Some(v) => obj.set("root", @js.js(v))
+    Some(v) => obj.set("root", @js.any(v))
     None => ()
   }
   match base {
-    Some(v) => obj.set("base", @js.js(v))
+    Some(v) => obj.set("base", @js.any(v))
     None => ()
   }
   match mode {
-    Some(v) => obj.set("mode", @js.js(v))
+    Some(v) => obj.set("mode", @js.any(v))
     None => ()
   }
   match logLevel {
-    Some(v) => obj.set("logLevel", @js.js(v))
+    Some(v) => obj.set("logLevel", @js.any(v))
     None => ()
   }
   match clearScreen {
-    Some(v) => obj.set("clearScreen", @js.js(v))
+    Some(v) => obj.set("clearScreen", @js.any(v))
     None => ()
   }
   match server {
@@ -101,11 +101,11 @@ pub fn defineConfig(
     None => ()
   }
   match publicDir {
-    Some(v) => obj.set("publicDir", @js.js(v))
+    Some(v) => obj.set("publicDir", @js.any(v))
     None => ()
   }
   match cacheDir {
-    Some(v) => obj.set("cacheDir", @js.js(v))
+    Some(v) => obj.set("cacheDir", @js.any(v))
     None => ()
   }
   match resolve {
@@ -129,11 +129,11 @@ pub fn defineConfig(
     None => ()
   }
   match envDir {
-    Some(v) => obj.set("envDir", @js.js(v))
+    Some(v) => obj.set("envDir", @js.any(v))
     None => ()
   }
   match envPrefix {
-    Some(v) => obj.set("envPrefix", @js.js(v))
+    Some(v) => obj.set("envPrefix", @js.any(v))
     None => ()
   }
   ffi_defineConfig(obj.to_any())

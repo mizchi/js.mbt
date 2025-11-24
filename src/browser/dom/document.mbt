@@ -69,7 +69,7 @@ pub fn Document::readyState(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
 pub fn Document::getElementById(self : Self, id : String) -> Element? {
-  self.call("getElementById", [id |> @js.js]) |> @js.identity_option()
+  self.call("getElementById", [id |> @js.any]) |> @js.identity_option()
 }
 
 ///|

@@ -190,7 +190,7 @@ pub fn Server::maxConnections(self : Server) -> Int? {
 ///|
 /// Set max connections
 pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
-  self.set("maxConnections", max |> @js.js)
+  self.set("maxConnections", max |> @js.any)
 }
 
 ///| Module functions
