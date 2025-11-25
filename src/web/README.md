@@ -46,11 +46,14 @@ These APIs work consistently across:
 | MessageChannel | `mizchi/js/web/message` | 🧪 Tested | Channel messaging |
 | **WebAssembly** |
 | WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
+| **WebGPU** |
+| WebGPU | `mizchi/js/web/webgpu` | 🧪 Experimental | GPU compute/rendering (Deno only) |
 
 ### Status Legend
 
 - 🆗 **Reviewed**: Human reviewed (AI agents cannot change this status)
 - 🧪 **Tested**: Comprehensive test coverage
+- 🧪 **Experimental**: Early stage, limited platform support
 - 🤖 **AI Generated**: FFI bindings created, needs testing
 - 📅 **Planned**: Scheduled for future implementation
 
@@ -75,6 +78,7 @@ This package provides comprehensive bindings to **Web Standard APIs** - the comm
 - **Streams**: ReadableStream, WritableStream, TransformStream for efficient data processing
 - **Cryptography**: Web Crypto API for secure operations (hashing, encryption, key generation)
 - **Workers**: Web Workers and MessageChannel for concurrency (browser and Node.js)
+- **WebGPU**: GPU compute and rendering (experimental, Deno `--unstable-webgpu` required)
 
 ## Installation
 
@@ -92,6 +96,7 @@ Add specific sub-packages to your `moon.pkg.json`:
     "mizchi/js/web/streams",
     "mizchi/js/web/url",
     "mizchi/js/web/webassembly",
+    "mizchi/js/web/webgpu",
     "mizchi/js/web/websocket",
     "mizchi/js/web/worker"
   ]
@@ -336,6 +341,7 @@ fn connect_to_server() -> @websocket.WebSocket {
 | Streams | ✅ | ✅ (16+) | ✅ | ✅ | ✅ | ✅ |
 | Web Crypto | ✅ | ✅ (15+) | ✅ | ✅ | ✅ | ✅ |
 | Workers | ✅ | ✅ (10+) | ✅ | ✅ | ✅ (Durable Objects) | ❌ |
+| WebGPU | ✅ | ❌ | ✅ (unstable) | ❌ | ❌ | ❌ |
 
 ## When to Use web/* vs Other Packages
 
@@ -383,6 +389,7 @@ All APIs follow official **WHATWG** and **W3C** specifications, ensuring compati
 - [Web Workers](https://html.spec.whatwg.org/multipage/workers.html) - Background processing
 - [URL Standard](https://url.spec.whatwg.org/) - URL parsing and manipulation
 - [WebAssembly JavaScript Interface](https://webassembly.github.io/spec/js-api/) - WASM integration
+- [WebGPU API](https://www.w3.org/TR/webgpu/) - GPU compute and rendering (experimental)
 
 These bindings follow [WinterCG (Web-interoperable Runtimes Community Group)](https://wintercg.org/) standards, specifically:
 - [Minimum Common Web Platform API](https://common-min-api.proposal.wintercg.org/) - Core APIs that work across all JavaScript runtimes
