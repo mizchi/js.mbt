@@ -16,6 +16,55 @@ async fn Ai::generate_text(Self, model~ : Model, messages~ : Array[ModelMessage]
 fn Ai::require() -> Self
 impl @js.JsImpl for Ai
 
+pub(all) struct CallWarning {
+  type_ : String
+  message : String?
+  raw : @js.Any
+}
+fn CallWarning::from_any(@js.Any) -> Self
+
+pub(all) enum FinishReason {
+  Stop
+  Length
+  ContentFilter
+  ToolCalls
+  Error
+  Other
+  Unknown
+}
+fn FinishReason::from_string(String) -> Self
+fn FinishReason::to_string(Self) -> String
+impl Eq for FinishReason
+impl Show for FinishReason
+
+pub(all) struct GeneratedFile {
+  name : String?
+  media_type : String?
+  data : @js.Any
+  raw : @js.Any
+}
+fn GeneratedFile::from_any(@js.Any) -> Self
+
+pub(all) struct LanguageModelRequestMetadata {
+  raw : @js.Any
+}
+fn LanguageModelRequestMetadata::from_any(@js.Any) -> Self
+
+pub(all) struct LanguageModelResponseMetadata {
+  id : String?
+  model_id : String?
+  timestamp : @js.Any?
+  raw : @js.Any
+}
+fn LanguageModelResponseMetadata::from_any(@js.Any) -> Self
+
+pub(all) struct LanguageModelUsage {
+  prompt_tokens : Int
+  completion_tokens : Int
+  total_tokens : Int
+}
+fn LanguageModelUsage::from_any(@js.Any) -> Self
+
 pub(all) enum MessageContent {
   Message(String)
 }
@@ -30,6 +79,94 @@ pub(all) enum ModelMessage {
   SystemMessage(content~ : MessageContent)
 }
 impl @js.JsImpl for ModelMessage
+
+pub(all) struct ProviderMetadata {
+  raw : @js.Any
+}
+fn ProviderMetadata::from_any(@js.Any) -> Self?
+fn ProviderMetadata::to_any(Self) -> @js.Any
+
+pub(all) enum Source {
+  UrlSource(SourceUrl)
+  DocumentSource(SourceDocument)
+}
+fn Source::from_any(@js.Any) -> Self
+
+pub(all) struct SourceDocument {
+  id : String
+  title : String?
+  provider_metadata : ProviderMetadata?
+}
+
+pub(all) enum SourceType {
+  Url
+  Document
+}
+fn SourceType::from_string(String) -> Self
+impl Eq for SourceType
+impl Show for SourceType
+
+pub(all) struct SourceUrl {
+  id : String
+  url : String
+  title : String?
+  provider_metadata : ProviderMetadata?
+}
+
+pub(all) enum TextStreamPart {
+  TextStart(id~ : String, provider_metadata~ : ProviderMetadata?)
+  TextEnd(id~ : String, provider_metadata~ : ProviderMetadata?)
+  TextDelta(id~ : String, text~ : String, provider_metadata~ : ProviderMetadata?)
+  ReasoningStart(id~ : String, provider_metadata~ : ProviderMetadata?)
+  ReasoningEnd(id~ : String, provider_metadata~ : ProviderMetadata?)
+  ReasoningDelta(id~ : String, text~ : String, provider_metadata~ : ProviderMetadata?)
+  ToolInputStart(id~ : String, tool_name~ : String, provider_metadata~ : ProviderMetadata?, provider_executed~ : Bool?, dynamic~ : Bool?, title~ : String?)
+  ToolInputEnd(id~ : String, provider_metadata~ : ProviderMetadata?)
+  ToolInputDelta(id~ : String, delta~ : String, provider_metadata~ : ProviderMetadata?)
+  SourcePart(source~ : Source)
+  FilePart(file~ : GeneratedFile)
+  ToolCallPart(tool_call~ : ToolCall)
+  ToolResultPart(tool_result~ : ToolResult)
+  ToolErrorPart(tool_error~ : ToolError)
+  StartStep(request~ : LanguageModelRequestMetadata, warnings~ : Array[CallWarning])
+  FinishStep(response~ : LanguageModelResponseMetadata, usage~ : LanguageModelUsage, finish_reason~ : FinishReason, provider_metadata~ : ProviderMetadata?)
+  Start
+  Finish(finish_reason~ : FinishReason, total_usage~ : LanguageModelUsage)
+  Abort
+  Error(error~ : @js.Any)
+  Raw(raw_value~ : @js.Any)
+  Unknown(type_~ : String, raw~ : @js.Any)
+}
+fn TextStreamPart::from_any(@js.Any) -> Self
+fn TextStreamPart::get_reasoning_text(Self) -> String?
+fn TextStreamPart::get_text(Self) -> String?
+fn TextStreamPart::is_reasoning_part(Self) -> Bool
+fn TextStreamPart::is_text_part(Self) -> Bool
+fn TextStreamPart::is_tool_part(Self) -> Bool
+fn TextStreamPart::type_string(Self) -> String
+
+pub(all) struct ToolCall {
+  tool_call_id : String
+  tool_name : String
+  args : @js.Any
+}
+fn ToolCall::from_any(@js.Any) -> Self
+
+pub(all) struct ToolError {
+  tool_call_id : String
+  tool_name : String
+  args : @js.Any
+  error : @js.Any
+}
+fn ToolError::from_any(@js.Any) -> Self
+
+pub(all) struct ToolResult {
+  tool_call_id : String
+  tool_name : String
+  args : @js.Any
+  result : @js.Any
+}
+fn ToolResult::from_any(@js.Any) -> Self
 
 // Type aliases
 
