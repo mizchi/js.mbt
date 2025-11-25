@@ -5,6 +5,7 @@ Common usage patterns for the `mizchi/js` library.
 ## Object Operations
 
 ```moonbit
+
 ///|
 test "basic object operations" {
   let obj = @js.Object::new()
@@ -28,6 +29,7 @@ test "basic object operations" {
 ## Arrays
 
 ```moonbit
+
 ///|
 test "array operations" {
   let arr = @js.JsArray::from([1, 2, 3])
@@ -46,6 +48,7 @@ test "array operations" {
 ## Type Conversion
 
 ```moonbit
+
 ///|
 test "type conversion" {
   // MoonBit -> JS
@@ -71,6 +74,7 @@ test "type conversion" {
 ## Type Checking
 
 ```moonbit
+
 ///|
 test "type checking" {
   let arr = @js.JsArray::from([1, 2, 3])
@@ -87,6 +91,7 @@ test "type checking" {
 ## Method Calls
 
 ```moonbit
+
 ///|
 test "method calls" {
   let obj = @js.Object::new()
@@ -105,6 +110,7 @@ test "method calls" {
 ## Function Conversion
 
 ```moonbit
+
 ///|
 test "function conversion" {
   // MoonBit function -> JS function
@@ -122,6 +128,7 @@ test "function conversion" {
 ## Constructors
 
 ```moonbit
+
 ///|
 test "constructors" {
   let array_ctor = @js.globalThis().get("Array")
@@ -133,6 +140,7 @@ test "constructors" {
 ## Symbols
 
 ```moonbit
+
 ///|
 test "symbols" {
   let obj = @js.Object::new()
@@ -149,6 +157,7 @@ test "symbols" {
 ## JSON
 
 ```moonbit
+
 ///|
 test "json" {
   let obj = @js.Object::new()
@@ -165,10 +174,11 @@ test "json" {
 ## Async / Promise
 
 ```moonbit
+
 ///|
 async fn fetch_example() -> Unit {
   // Async functions return values directly (no .wait() needed by caller)
-  let response = @http.fetch("https://api.example.com/data")
+  let response = @http.fetch("https://api.example.com/data", method_="GET")
   let json = response.json()
   @js.log(json)
 }
@@ -181,7 +191,7 @@ async fn promise_combinators() -> Unit {
 
   // Wait for all (async fn, no .wait() needed)
   let results = @js.Promise::all([p1, p2])
-  @js.log(results)  // [1, 2]
+  @js.log(results) // [1, 2]
 
   // Race - first to resolve wins
   let first = @js.Promise::race([p1, p2])
@@ -191,9 +201,7 @@ async fn promise_combinators() -> Unit {
 ///|
 fn callback_to_promise() -> @js.Promise[String] {
   // Convert callback-based API to Promise
-  @js.Promise::new(fn(resolve, _reject) {
-    resolve("done")
-  })
+  @js.Promise::new(fn(resolve, _reject) { resolve("done") })
 }
 
 ///|
@@ -207,6 +215,7 @@ async fn sleep_example() -> Unit {
 ## Global Functions
 
 ```moonbit
+
 ///|
 test "global functions" {
   // URI encoding
@@ -224,6 +233,7 @@ test "global functions" {
 ## BigInt
 
 ```moonbit
+
 ///|
 test "bigint" {
   let a = @bigint.JsBigInt::from_int(42)

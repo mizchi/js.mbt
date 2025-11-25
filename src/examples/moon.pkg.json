@@ -2,6 +2,10 @@
   "import": [
     "moonbitlang/async",
     "mizchi/js",
+    "mizchi/js/web/http",
+    "mizchi/js/browser/dom",
+    "mizchi/js/browser/storage",
+    "mizchi/js/browser/canvas",
     "mizchi/js/builtins/bigint",
     "mizchi/js/node/path",
     "mizchi/js/node/os",

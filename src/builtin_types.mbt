@@ -635,7 +635,7 @@ pub extern "js" fn AbortController::new() -> AbortController =
 
 ///|
 /// JS: abortController.abort()
-pub fn AbortController::abort(self : Self) -> AbortController {
+pub fn AbortController::abort(self : Self) -> Unit {
   self.call0("abort") |> identity
 }
 

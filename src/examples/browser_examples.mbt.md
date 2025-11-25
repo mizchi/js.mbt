@@ -7,6 +7,7 @@ Practical examples for working with Browser DOM APIs in MoonBit.
 ### Basic DOM Operations
 
 ```moonbit
+
 ///|
 fn basic_dom_example() -> Unit {
   let doc = @dom.document()
@@ -29,6 +30,7 @@ fn basic_dom_example() -> Unit {
 ### Query Selectors
 
 ```moonbit
+
 ///|
 fn query_example() -> Unit {
   let doc = @dom.document()
@@ -52,6 +54,7 @@ fn query_example() -> Unit {
 ### Node Tree Manipulation
 
 ```moonbit
+
 ///|
 fn tree_manipulation() -> Unit {
   let doc = @dom.document()
@@ -85,6 +88,7 @@ fn tree_manipulation() -> Unit {
 ### Adding Event Listeners
 
 ```moonbit
+
 ///|
 fn event_listener_example() -> Unit {
   let doc = @dom.document()
@@ -115,6 +119,7 @@ fn event_listener_example() -> Unit {
 ### Event with AbortController
 
 ```moonbit
+
 ///|
 fn abort_controller_example() -> Unit {
   let doc = @dom.document()
@@ -123,7 +128,7 @@ fn abort_controller_example() -> Unit {
   doc.addEventListener(
     "mousemove",
     fn(_event) { @js.log("Mouse moved") },
-    signal=controller.signal,
+    signal=controller.signal(),
   )
 
   // Later: remove the listener
@@ -136,6 +141,7 @@ fn abort_controller_example() -> Unit {
 ### localStorage / sessionStorage
 
 ```moonbit
+
 ///|
 fn storage_example() -> Unit {
   let storage = @storage.localStorage()
@@ -179,6 +185,7 @@ fn storage_example() -> Unit {
 ### Window Object
 
 ```moonbit
+
 ///|
 fn window_example() -> Unit {
   let win = @dom.window()
@@ -189,8 +196,8 @@ fn window_example() -> Unit {
   @js.log("Window size: " + width.to_string() + "x" + height.to_string())
 
   // Scroll
-  win.scrollTo(x=0.0, y=100.0)
-  win.scrollBy(x=0.0, y=50.0)
+  win.scrollTo(0, 100)
+  win.scrollBy(0, 50)
 
   // Timers
   let timer_id = win.setTimeout(fn() {
@@ -208,57 +215,23 @@ fn window_example() -> Unit {
 }
 ```
 
-### Location & History
-
-```moonbit
-///|
-fn location_example() -> Unit {
-  let loc = @location.location()
-
-  // Read URL parts
-  @js.log(loc.href)      // Full URL
-  @js.log(loc.pathname)  // Path only
-  @js.log(loc.search)    // Query string
-  @js.log(loc.hash)      // Hash fragment
-  @js.log(loc.hostname)  // Domain
-
-  // Navigate
-  loc.assign("https://example.com")  // Navigate (adds to history)
-  loc.replace("https://example.com") // Navigate (replaces history)
-  loc.reload()                        // Reload page
-}
-
-///|
-fn history_example() -> Unit {
-  let hist = @history.history()
-
-  // Navigate history
-  hist.back()
-  hist.forward()
-  hist.go(-2)  // Go back 2 pages
-
-  // Push/replace state
-  hist.pushState(@js.null(), "", "/new-path")
-  hist.replaceState(@js.null(), "", "/replaced-path")
-}
-```
-
 ## Canvas (2D)
 
 ### Basic Canvas Drawing
 
 ```moonbit
+
 ///|
 fn canvas_example() -> Unit {
   let doc = @dom.document()
   guard doc.querySelector("canvas") is Some(canvas_el) else { return }
-  let canvas : @dom.HTMLCanvasElement = canvas_el.cast()
+  let canvas : @dom.HTMLCanvasElement = canvas_el |> @js.identity
 
   // Get 2D context
   let ctx : @canvas.CanvasRenderingContext2D = canvas.getContext("2d").cast()
 
   // Draw rectangle
-  ctx.fillStyle("blue")
+  ctx.fillStyle = "blue"
   ctx.fillRect(10.0, 10.0, 100.0, 50.0)
 
   // Draw path
@@ -267,12 +240,12 @@ fn canvas_example() -> Unit {
   ctx.lineTo(250.0, 100.0)
   ctx.lineTo(150.0, 100.0)
   ctx.closePath()
-  ctx.fillStyle("red")
+  ctx.fillStyle = "red"
   ctx.fill()
 
   // Draw text
-  ctx.font("24px Arial")
-  ctx.fillStyle("black")
+  ctx.font = "24px Arial"
+  ctx.fillStyle = "black"
   ctx.fillText("Hello Canvas!", 50.0, 200.0)
 }
 ```
@@ -280,67 +253,16 @@ fn canvas_example() -> Unit {
 ### Canvas to Blob (async)
 
 ```moonbit
+
 ///|
 async fn canvas_to_blob_example() -> Unit {
   let doc = @dom.document()
   guard doc.querySelector("canvas") is Some(canvas_el) else { return }
-  let canvas : @dom.HTMLCanvasElement = canvas_el.cast()
+  let canvas : @dom.HTMLCanvasElement = canvas_el |> @js.identity
 
   // Convert to blob (async)
   let blob = canvas.toBlob(image_type="image/png")
   @js.log(blob)
-}
-```
-
-## File & FileReader
-
-### Reading Files
-
-```moonbit
-///|
-async fn file_reader_example(file : @file.File) -> Unit {
-  // Read as text
-  let text = file.text()
-  @js.log(text)
-
-  // Read as ArrayBuffer
-  let buffer = file.arrayBuffer()
-  @js.log(buffer)
-
-  // Using FileReader for progress tracking
-  let reader = @file.FileReader::new()
-  reader.readAsText(file)
-
-  // Read result when ready
-  // (In practice, use onload event)
-}
-```
-
-## Custom Elements
-
-### Defining Custom Elements
-
-```moonbit
-///|
-fn custom_element_example() -> Unit {
-  let registry = @dom.customElements()
-
-  // Define a custom element class in JavaScript first
-  // then register it
-  extern "js" fn get_my_element_class() -> @js.Any =
-    #| () => class MyElement extends HTMLElement {
-    #|   connectedCallback() {
-    #|     this.innerHTML = '<p>Custom Element!</p>';
-    #|   }
-    #| }
-
-  registry.define("my-element", get_my_element_class())
-
-  // Use it
-  let doc = @dom.document()
-  let el = doc.createElement("my-element")
-  guard doc.body() is Some(body) else { return }
-  body.appendChild(el) |> ignore
 }
 ```
 
