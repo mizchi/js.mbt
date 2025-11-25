@@ -207,25 +207,12 @@ fn DurableObjectTransaction::rollback(Self) -> Unit
 fn DurableObjectTransaction::set_alarm(Self, Int) -> @js.Promise[Unit]
 impl @js.JsImpl for DurableObjectTransaction
 
-pub(all) struct KVGetOptions {
-  type_ : String?
-  cacheTtl : Int?
-}
-impl @js.JsImpl for KVGetOptions
-
 pub(all) struct KVKey {
   name : String
   expiration : Int?
   metadata : @js.Any?
 }
 impl @js.JsImpl for KVKey
-
-pub(all) struct KVListOptions {
-  prefix : String?
-  limit : Int?
-  cursor : String?
-}
-impl @js.JsImpl for KVListOptions
 
 pub(all) struct KVListResult {
   keys : Array[KVKey]
@@ -237,22 +224,15 @@ impl @js.JsImpl for KVListResult
 #external
 pub type KVNamespace
 fn KVNamespace::delete(Self, String) -> @js.Promise[Unit]
-fn KVNamespace::get(Self, String, KVGetOptions?) -> @js.Promise[String?]
+fn KVNamespace::get(Self, String, type_? : String, cacheTtl? : Int) -> @js.Promise[String?]
 fn KVNamespace::get_array_buffer(Self, String) -> @js.Promise[@js.Any?]
 fn KVNamespace::get_json(Self, String) -> @js.Promise[@js.Any?]
 fn KVNamespace::get_stream(Self, String) -> @js.Promise[@js.Any?]
-fn KVNamespace::get_with_metadata(Self, String, KVGetOptions?) -> @js.Promise[KVValueWithMetadata]
-fn KVNamespace::list(Self, KVListOptions?) -> @js.Promise[KVListResult]
-fn KVNamespace::put(Self, String, String, KVPutOptions?) -> @js.Promise[Unit]
+fn KVNamespace::get_with_metadata(Self, String, type_? : String, cacheTtl? : Int) -> @js.Promise[KVValueWithMetadata]
+fn KVNamespace::list(Self, prefix? : String, limit? : Int, cursor? : String) -> @js.Promise[KVListResult]
+fn KVNamespace::put(Self, String, String, expiration? : Int, expirationTtl? : Int, metadata? : @js.Any) -> @js.Promise[Unit]
 fn KVNamespace::put_with_metadata(Self, String, String, @js.Any) -> @js.Promise[Unit]
 impl @js.JsImpl for KVNamespace
-
-pub(all) struct KVPutOptions {
-  expiration : Int?
-  expirationTtl : Int?
-  metadata : @js.Any?
-}
-impl @js.JsImpl for KVPutOptions
 
 pub(all) struct KVValueWithMetadata {
   value : @js.Any?

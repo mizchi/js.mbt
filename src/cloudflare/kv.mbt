@@ -8,17 +8,37 @@ pub type KVNamespace
 pub impl @js.JsImpl for KVNamespace
 
 ///|
-/// Get a value from KV store
-/// Returns null if key doesn't exist
-pub extern "js" fn KVNamespace::get(
+extern "js" fn KVNamespace::get_impl(
   self : Self,
   key : String,
-  options : KVGetOptions?,
+  options : @js.Any?,
 ) -> @js.Promise[String?] =
   #| async (self, key, options) => {
   #|   const result = options === undefined ? await self.get(key) : await self.get(key, options);
   #|   return result === null ? undefined : result;
   #| }
+
+///|
+/// Get a value from KV store
+/// Returns null if key doesn't exist
+pub fn KVNamespace::get(
+  self : Self,
+  key : String,
+  type_? : String,
+  cacheTtl? : Int,
+) -> @js.Promise[String?] {
+  let options = if type_ is None && cacheTtl is None {
+    None
+  } else {
+    Some(
+      @js.from_entries_option([
+        ("type", type_.map(x => x)),
+        ("cacheTtl", cacheTtl.map(x => x)),
+      ]),
+    )
+  }
+  self.get_impl(key, options)
+}
 
 ///|
 /// Get a value as ArrayBuffer
@@ -55,15 +75,14 @@ pub fn KVNamespace::get_stream(
 pub fn KVNamespace::get_with_metadata(
   self : Self,
   key : String,
-  options : KVGetOptions?,
+  type_? : String,
+  cacheTtl? : Int,
 ) -> @js.Promise[KVValueWithMetadata] {
-  match options {
-    None => {
-      let opts_js = @js.from_entries([("type", "text")])
-      self.call2("getWithMetadata", key, opts_js).cast()
-    }
-    Some(opts) => self.call2("getWithMetadata", key, opts).cast()
-  }
+  let opts_js = @js.from_entries_option([
+    ("type", Some(type_.unwrap_or("text"))),
+    ("cacheTtl", cacheTtl.map(x => x)),
+  ])
+  self.call2("getWithMetadata", key, opts_js).cast()
 }
 
 ///|
@@ -72,11 +91,19 @@ pub fn KVNamespace::put(
   self : Self,
   key : String,
   value : String,
-  options : KVPutOptions?,
+  expiration? : Int,
+  expirationTtl? : Int,
+  metadata? : @js.Any,
 ) -> @js.Promise[Unit] {
-  match options {
-    None => self.call2("put", key, value).cast()
-    Some(opts) => self.call("put", [key, value, opts]).cast()
+  if expiration is None && expirationTtl is None && metadata is None {
+    self.call2("put", key, value).cast()
+  } else {
+    let opts = @js.from_entries_option([
+      ("expiration", expiration.map(x => x)),
+      ("expirationTtl", expirationTtl.map(x => x)),
+      ("metadata", metadata.map(x => x)),
+    ])
+    self.call("put", [key, value, opts]).cast()
   }
 }
 
@@ -102,61 +129,20 @@ pub fn KVNamespace::delete(self : Self, key : String) -> @js.Promise[Unit] {
 /// List keys in the KV namespace
 pub fn KVNamespace::list(
   self : Self,
-  options : KVListOptions?,
+  prefix? : String,
+  limit? : Int,
+  cursor? : String,
 ) -> @js.Promise[KVListResult] {
-  match options {
-    None => self.call0("list").cast()
-    Some(opts) => self.call("list", [opts.to_any()]).cast()
+  if prefix is None && limit is None && cursor is None {
+    self.call0("list").cast()
+  } else {
+    let opts = @js.from_entries_option([
+      ("prefix", prefix.map(x => x)),
+      ("limit", limit.map(x => x)),
+      ("cursor", cursor.map(x => x)),
+    ])
+    self.call("list", [opts]).cast()
   }
-}
-
-///|
-/// Options for KV get operations
-pub(all) struct KVGetOptions {
-  type_ : String? // "text" | "json" | "arrayBuffer" | "stream"
-  cacheTtl : Int? // Cache TTL in seconds
-}
-
-///|
-pub impl @js.JsImpl for KVGetOptions with to_any(self) {
-  @js.from_entries_option([
-    ("type", self.type_.map(x => x)),
-    ("cacheTtl", self.cacheTtl.map(x => x)),
-  ])
-}
-
-///|
-/// Options for KV put operations
-pub(all) struct KVPutOptions {
-  expiration : Int? // Absolute expiration time (unix timestamp)
-  expirationTtl : Int? // TTL in seconds
-  metadata : @js.Any? // Custom metadata
-}
-
-///|
-pub impl @js.JsImpl for KVPutOptions with to_any(self) {
-  @js.from_entries_option([
-    ("expiration", self.expiration.map(x => x)),
-    ("expirationTtl", self.expirationTtl.map(x => x)),
-    ("metadata", self.metadata.map(x => x)),
-  ])
-}
-
-///|
-/// Options for KV list operations
-pub(all) struct KVListOptions {
-  prefix : String? // Filter by prefix
-  limit : Int? // Maximum number of keys to return (default 1000, max 1000)
-  cursor : String? // Cursor for pagination
-}
-
-///|
-pub impl @js.JsImpl for KVListOptions with to_any(self) {
-  @js.from_entries_option([
-    ("prefix", self.prefix.map(x => x)),
-    ("limit", self.limit.map(x => x)),
-    ("cursor", self.cursor.map(x => x)),
-  ])
 }
 
 ///|

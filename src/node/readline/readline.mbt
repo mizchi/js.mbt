@@ -9,7 +9,7 @@ pub type Interface
 ///|
 /// Wrap MoonBit completer function to JavaScript function
 extern "js" fn wrap_completer(
-  f : (String) -> (Array[String], String)
+  f : (String) -> (Array[String], String),
 ) -> @js.Any =
   #|(f) => (line) => {
   #|  const result = f(line);
