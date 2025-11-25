@@ -7,92 +7,63 @@
 pub type Interface
 
 ///|
-/// Options for createInterface
-pub struct InterfaceOptions {
-  input : @stream.Readable
-  output : @stream.Writable?
-  completer : ((String) -> (Array[String], String))?
-  terminal : Bool?
-  history_size : Int?
-  prompt : String?
-  cr_lf_delay : Int?
-  remove_history_duplicates : Bool?
-  escape_code_timeout : Int?
-  tab_size : Int?
-}
-
-///|
-/// Create a readline interface with minimal options
-pub fn InterfaceOptions::new(
-  input : @stream.Readable,
-  output : @stream.Writable?,
-) -> InterfaceOptions {
-  {
-    input,
-    output,
-    completer: None,
-    terminal: None,
-    history_size: None,
-    prompt: None,
-    cr_lf_delay: None,
-    remove_history_duplicates: None,
-    escape_code_timeout: None,
-    tab_size: None,
-  }
-}
-
-///|
-/// Convert InterfaceOptions to JS object
-pub fn InterfaceOptions::to_any(self : InterfaceOptions) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("input", self.input)
-  match self.output {
-    Some(o) => obj.set("output", o)
-    None => ()
-  }
-  match self.terminal {
-    Some(t) => obj.set("terminal", t)
-    None => ()
-  }
-  match self.history_size {
-    Some(h) => obj.set("historySize", h)
-    None => ()
-  }
-  match self.prompt {
-    Some(p) => obj.set("prompt", p)
-    None => ()
-  }
-  match self.cr_lf_delay {
-    Some(d) => obj.set("crlfDelay", d)
-    None => ()
-  }
-  match self.remove_history_duplicates {
-    Some(r) => obj.set("removeHistoryDuplicates", r)
-    None => ()
-  }
-  match self.escape_code_timeout {
-    Some(e) => obj.set("escapeCodeTimeout", e)
-    None => ()
-  }
-  match self.tab_size {
-    Some(t) => obj.set("tabSize", t)
-    None => ()
-  }
-  obj
-}
-
-///|
-/// Create a readline interface
-pub fn create_interface(options : InterfaceOptions) -> Interface {
-  create_interface_impl(options.to_any())
-}
-
-///|
 extern "js" fn create_interface_impl(options : @js.Object) -> Interface =
   #|(options) => {
   #|  const readline = require('node:readline');
   #|  return readline.createInterface(options);
   #|}
+
+///|
+/// Create a readline interface
+#alias(create_interface)
+pub fn createInterface(
+  input : @stream.Readable,
+  output? : @stream.Writable,
+  completer? : (String) -> (Array[String], String),
+  terminal? : Bool,
+  history_size? : Int,
+  prompt? : String,
+  cr_lf_delay? : Int,
+  remove_history_duplicates? : Bool,
+  escape_code_timeout? : Int,
+  tab_size? : Int,
+) -> Interface {
+  let obj = @js.Object::new()
+  obj.set("input", input)
+  match output {
+    Some(o) => obj.set("output", o)
+    None => ()
+  }
+  match terminal {
+    Some(t) => obj.set("terminal", t)
+    None => ()
+  }
+  match history_size {
+    Some(h) => obj.set("historySize", h)
+    None => ()
+  }
+  match prompt {
+    Some(p) => obj.set("prompt", p)
+    None => ()
+  }
+  match cr_lf_delay {
+    Some(d) => obj.set("crlfDelay", d)
+    None => ()
+  }
+  match remove_history_duplicates {
+    Some(r) => obj.set("removeHistoryDuplicates", r)
+    None => ()
+  }
+  match escape_code_timeout {
+    Some(e) => obj.set("escapeCodeTimeout", e)
+    None => ()
+  }
+  match tab_size {
+    Some(t) => obj.set("tabSize", t)
+    None => ()
+  }
+  create_interface_impl(obj)
+}
 
 ///|
 /// Set the prompt

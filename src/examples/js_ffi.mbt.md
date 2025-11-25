@@ -7,7 +7,6 @@ For comprehensive documentation, see [docs/moonbit-js-ffi.md](../../docs/moonbit
 ## PropertyKey - String, Int, Symbol
 
 ```moonbit
-
 ///|
 test "property key types" {
   let obj = @js.Object::new()
@@ -31,7 +30,6 @@ test "property key types" {
 ## Pattern: Simple FFI Function
 
 ```moonbit
-
 ///|
 test "simple ffi with encodeURIComponent" {
   let text = "hello world"
@@ -45,7 +43,6 @@ test "simple ffi with encodeURIComponent" {
 ## Pattern: Optional Parameters
 
 ```moonbit
-
 ///|
 test "optional parameters" {
   let obj = @js.Object::new()
@@ -71,7 +68,6 @@ test "optional parameters" {
 ## Pattern: Handling Null/Undefined
 
 ```moonbit
-
 ///|
 test "identity_option for nullable values" {
   let obj = @js.Object::new()
@@ -94,7 +90,6 @@ test "identity_option for nullable values" {
 ## Pattern: Object Methods and Properties
 
 ```moonbit
-
 ///|
 test "object methods - keys, values, entries" {
   let obj = @js.Object::new()
@@ -119,7 +114,6 @@ test "object methods - keys, values, entries" {
 ## Pattern: Method Calls with Different Arities
 
 ```moonbit
-
 ///|
 test "call0, call1, call2 methods" {
   let obj = @js.Object::new()
@@ -142,7 +136,6 @@ test "call0, call1, call2 methods" {
 ## Pattern: Type Conversion
 
 ```moonbit
-
 ///|
 test "js() for type conversion" {
   // Convert MoonBit types to Js
@@ -163,7 +156,6 @@ test "js() for type conversion" {
 ## Pattern: Arrays
 
 ```moonbit
-
 ///|
 test "javascript arrays" {
   // Create from MoonBit array
@@ -183,7 +175,6 @@ test "javascript arrays" {
 ## Pattern: Map to Object
 
 ```moonbit
-
 ///|
 test "map to javascript object" {
   let map = Map::new()
@@ -200,7 +191,6 @@ test "map to javascript object" {
 ## Pattern: Type Checking
 
 ```moonbit
-
 ///|
 test "type checking helpers" {
   let arr = @js.JsArray::new()
@@ -220,7 +210,6 @@ test "type checking helpers" {
 ## Pattern: BigInt Operations
 
 ```moonbit
-
 ///|
 test "bigint arithmetic" {
   let big1 = @bigint.JsBigInt::from_int(100)
@@ -246,7 +235,6 @@ test "bigint arithmetic" {
 ## Pattern: JSON Operations
 
 ```moonbit
-
 ///|
 test "json stringify and parse" {
   let obj = @js.Object::new()
@@ -275,7 +263,6 @@ test "json stringify and parse" {
 ## Pattern: Symbols
 
 ```moonbit
-
 ///|
 test "symbol operations" {
   let obj = @js.Object::new()
@@ -301,7 +288,6 @@ test "symbol operations" {
 ## Pattern: Global Functions
 
 ```moonbit
-
 ///|
 test "global javascript functions" {
   // Base64 encoding
@@ -326,7 +312,6 @@ test "global javascript functions" {
 ## Pattern: Constructors with new_
 
 ```moonbit
-
 ///|
 test "constructor with new operator" {
   // Using new_ helper
@@ -344,7 +329,6 @@ test "constructor with new operator" {
 ## Pattern: Function Calls with call_self
 
 ```moonbit
-
 ///|
 test "call_self for direct function calls" {
   // parseInt is a function
@@ -363,7 +347,6 @@ test "call_self for direct function calls" {
 ## Pattern: Object Seal and Freeze
 
 ```moonbit
-
 ///|
 test "object immutability" {
   let obj = @js.Object::new()
@@ -384,7 +367,6 @@ test "object immutability" {
 ## Pattern: Property Delete
 
 ```moonbit
-
 ///|
 test "delete property" {
   let obj = @js.Object::new()
@@ -398,7 +380,6 @@ test "delete property" {
 ## Pattern: instanceOf and typeOf
 
 ```moonbit
-
 ///|
 test "instanceof and typeof" {
   let arr = @js.JsArray::new()
@@ -446,7 +427,6 @@ fn process[T : JsImpl](data : T) -> @js.Any {
 
 **Example:**
 ```moonbit
-
 ///|
 test "types implementing JsImpl" {
   // Types implementing JsImpl can be converted to @js.Any
@@ -498,7 +478,6 @@ For complex JavaScript objects with known structure, define MoonBit structs inst
 
 **Example:**
 ```moonbit
-
 ///|
 pub struct Stats {
   isFile : Bool
@@ -537,7 +516,6 @@ For highly flexible APIs (like Streams options or complex configuration objects)
 
 **Example - Acceptable use of @js.Any:**
 ```moonbit
-
 ///|
 fn create_readable_stream(options : @js.Any) -> @js.Any {
   let ctor = @js.globalThis().get("ReadableStream")
@@ -736,7 +714,6 @@ fn example_safe_access(reader : SafeFileReader) -> Unit {
 For converting Option back to Js (e.g., when passing to JavaScript), use the built-in `@js.from_option` function:
 
 ```moonbit
-
 ///|
 test "converting Option to Js" {
   let some_value : String? = Some("hello")

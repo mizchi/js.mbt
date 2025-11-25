@@ -15,60 +15,6 @@ fn wasi_module() -> WasiModule {
   @node.require("node:wasi").cast()
 }
 
-///| WASI Options
-
-///|
-/// WASI options for constructor
-pub(all) struct WasiOptions {
-  /// Command-line arguments visible to the WebAssembly application
-  args : Array[String]?
-  /// Environment variables accessible to the WebAssembly application
-  env : Map[String, String]?
-  /// Maps virtual directories to real host paths
-  preopens : Map[String, String]?
-  /// When true, start() returns the exit code instead of terminating the process
-  returnOnExit : Bool?
-  /// File descriptor for standard input
-  stdin : Int?
-  /// File descriptor for standard output
-  stdout : Int?
-  /// File descriptor for standard error
-  stderr : Int?
-  /// WASI version - either "unstable" or "preview1" (required)
-  version : String
-}
-
-///|
-/// Convert WasiOptions to JS object
-fn WasiOptions::to_any(self : WasiOptions) -> @js.Any {
-  let env_obj = match self.env {
-    Some(env) => {
-      let obj = @js.Object::new()
-      env.each(fn(key, value) { obj.set(key, value) })
-      Some(obj)
-    }
-    None => None
-  }
-  let preopens_obj = match self.preopens {
-    Some(preopens) => {
-      let obj = @js.Object::new()
-      preopens.each(fn(key, value) { obj.set(key, value) })
-      Some(obj)
-    }
-    None => None
-  }
-  @js.from_entries_option([
-    ("version", Some(self.version)),
-    ("args", self.args.map(x => x |> @js.from_array)),
-    ("env", env_obj.map(x => x)),
-    ("preopens", preopens_obj.map(x => x)),
-    ("returnOnExit", self.returnOnExit.map(x => x)),
-    ("stdin", self.stdin.map(x => x)),
-    ("stdout", self.stdout.map(x => x)),
-    ("stderr", self.stderr.map(x => x)),
-  ])
-}
-
 ///|
 extern "js" fn ffi_new_wasi(wasi_class : @js.Any, options : @js.Any) -> @js.Any =
   #| (WasiClass, options) => new WasiClass(options)
@@ -82,10 +28,54 @@ pub impl @js.JsImpl for WASI
 
 ///|
 /// Create a new WASI instance
-pub fn WASI::new(options : WasiOptions) -> WASI {
+///
+/// @param version WASI version - either "unstable" or "preview1" (required)
+/// @param args Command-line arguments visible to the WebAssembly application
+/// @param env Environment variables accessible to the WebAssembly application
+/// @param preopens Maps virtual directories to real host paths
+/// @param returnOnExit When true, start() returns the exit code instead of terminating the process
+/// @param stdin File descriptor for standard input
+/// @param stdout File descriptor for standard output
+/// @param stderr File descriptor for standard error
+pub fn WASI::new(
+  version : String,
+  args? : Array[String],
+  env? : Map[String, String],
+  preopens? : Map[String, String],
+  returnOnExit? : Bool,
+  stdin? : Int,
+  stdout? : Int,
+  stderr? : Int,
+) -> WASI {
+  let env_obj = match env {
+    Some(env) => {
+      let obj = @js.Object::new()
+      env.each(fn(key, value) { obj.set(key, value) })
+      Some(obj)
+    }
+    None => None
+  }
+  let preopens_obj = match preopens {
+    Some(preopens) => {
+      let obj = @js.Object::new()
+      preopens.each(fn(key, value) { obj.set(key, value) })
+      Some(obj)
+    }
+    None => None
+  }
+  let options = @js.from_entries_option([
+    ("version", Some(version)),
+    ("args", args.map(x => x |> @js.from_array)),
+    ("env", env_obj.map(x => x)),
+    ("preopens", preopens_obj.map(x => x)),
+    ("returnOnExit", returnOnExit.map(x => x)),
+    ("stdin", stdin.map(x => x)),
+    ("stdout", stdout.map(x => x)),
+    ("stderr", stderr.map(x => x)),
+  ])
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.get("WASI")
-  let instance = ffi_new_wasi(wasi_class, options.to_any())
+  let instance = ffi_new_wasi(wasi_class, options)
   instance.cast()
 }
 

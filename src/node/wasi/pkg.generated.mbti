@@ -15,7 +15,7 @@ import(
 pub type WASI
 fn WASI::getImportObject(Self) -> @js.Any
 fn WASI::initialize(Self, @webassembly.WebAssemblyInstance) -> Unit
-fn WASI::new(WasiOptions) -> Self
+fn WASI::new(String, args? : Array[String], env? : Map[String, String], preopens? : Map[String, String], returnOnExit? : Bool, stdin? : Int, stdout? : Int, stderr? : Int) -> Self
 fn WASI::start(Self, @webassembly.WebAssemblyInstance) -> Unit
 fn WASI::wasiImport(Self) -> @js.Any
 impl @js.JsImpl for WASI
@@ -23,17 +23,6 @@ impl @js.JsImpl for WASI
 #external
 pub type WasiModule
 impl @js.JsImpl for WasiModule
-
-pub(all) struct WasiOptions {
-  args : Array[String]?
-  env : Map[String, String]?
-  preopens : Map[String, String]?
-  returnOnExit : Bool?
-  stdin : Int?
-  stdout : Int?
-  stderr : Int?
-  version : String
-}
 
 // Type aliases
 

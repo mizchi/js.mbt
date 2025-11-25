@@ -11,7 +11,8 @@ fn clear_line(@stream.Writable, Int) -> Bool
 
 fn clear_screen_down(@stream.Writable) -> Bool
 
-fn create_interface(InterfaceOptions) -> Interface
+#alias(create_interface)
+fn createInterface(@stream.Readable, output? : @stream.Writable, completer? : (String) -> (Array[String], String), terminal? : Bool, history_size? : Int, prompt? : String, cr_lf_delay? : Int, remove_history_duplicates? : Bool, escape_code_timeout? : Int, tab_size? : Int) -> Interface
 
 fn cursor_to(@stream.Writable, Int, Int?) -> Bool
 
@@ -39,21 +40,6 @@ fn Interface::prompt(Self, Bool) -> Unit
 fn Interface::resume_(Self) -> Unit
 fn Interface::set_prompt(Self, String) -> Unit
 fn Interface::write(Self, String, @js.Object?) -> Unit
-
-pub struct InterfaceOptions {
-  input : @stream.Readable
-  output : @stream.Writable?
-  completer : ((String) -> (Array[String], String))?
-  terminal : Bool?
-  history_size : Int?
-  prompt : String?
-  cr_lf_delay : Int?
-  remove_history_duplicates : Bool?
-  escape_code_timeout : Int?
-  tab_size : Int?
-}
-fn InterfaceOptions::new(@stream.Readable, @stream.Writable?) -> Self
-fn InterfaceOptions::to_any(Self) -> @js.Object
 
 // Type aliases
 
