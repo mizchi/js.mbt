@@ -88,41 +88,15 @@ extern "js" fn ffi_object_entries(obj : Any) -> Array[Any] =
 
 ///|
 extern "js" fn ffi_call(obj : Any, key : String, args : Array[Any]) -> Any =
-  #| (obj, key, args) => {
-  #|   // DEBUG: Check for trait object cast error
-  #|   // if (obj && typeof obj === 'object' && 'self' in obj && Object.keys(obj).length === 1) {
-  #|   //   throw new Error(`[DEBUG] Trait object incorrectly cast to JS: ${JSON.stringify(obj)} when calling ${key}`);
-  #|   // }
-  #|   // for (let i = 0; i < args.length; i++) {
-  #|   //   if (args[i] && typeof args[i] === 'object' && 'self' in args[i] && Object.keys(args[i]).length === 1) {
-  #|   //     throw new Error(`[DEBUG] Trait object incorrectly cast to JS in args[${i}]: ${JSON.stringify(args[i])} when calling ${key}`);
-  #|   //   }
-  #|   // }
-  #|   return obj[key](...args);
-  #| }
+  #| (obj, key, args) => obj[key](...args)
 
 ///|
 extern "js" fn ffi_call0(obj : Any, key : String) -> Any =
-  #| (obj, key) => {
-  #|   // DEBUG: Check for trait object cast error
-  #|   // if (obj && typeof obj === 'object' && 'self' in obj && Object.keys(obj).length === 1) {
-  #|   //   throw new Error(`[DEBUG] Trait object incorrectly cast to JS: ${JSON.stringify(obj)} when calling ${key}`);
-  #|   // }
-  #|   return obj[key]();
-  #| }
+  #| (obj, key) => obj[key]()
 
 ///|
 extern "js" fn ffi_call1(obj : Any, key : String, arg1 : Any) -> Any =
-  #| (obj, key, arg1) => {
-  #|   // DEBUG: Check for trait object cast error
-  #|   // if (obj && typeof obj === 'object' && 'self' in obj && Object.keys(obj).length === 1) {
-  #|   //   throw new Error(`[DEBUG] Trait object incorrectly cast to JS: ${JSON.stringify(obj)} when calling ${key}`);
-  #|   // }
-  #|   // if (arg1 && typeof arg1 === 'object' && 'self' in arg1 && Object.keys(arg1).length === 1) {
-  #|   //   throw new Error(`[DEBUG] Trait object incorrectly cast to JS in arg1: ${JSON.stringify(arg1)} when calling ${key}`);
-  #|   // }
-  #|   return obj[key](arg1);
-  #| }
+  #| (obj, key, arg1) => obj[key](arg1)
 
 ///|
 extern "js" fn ffi_call2(
@@ -131,44 +105,15 @@ extern "js" fn ffi_call2(
   arg1 : Any,
   arg2 : Any,
 ) -> Any =
-  #| (obj, key, arg1, arg2) => {
-  #|   // DEBUG: Check for trait object cast error
-  #|   // if (obj && typeof obj === 'object' && 'self' in obj && Object.keys(obj).length === 1) {
-  #|   //   throw new Error(`[DEBUG] Trait object incorrectly cast to JS: ${JSON.stringify(obj)} when calling ${key}`);
-  #|   // }
-  #|   // if (arg1 && typeof arg1 === 'object' && 'self' in arg1 && Object.keys(arg1).length === 1) {
-  #|   //   throw new Error(`[DEBUG] Trait object incorrectly cast to JS in arg1: ${JSON.stringify(arg1)} when calling ${key}`);
-  #|   // }
-  #|   // if (arg2 && typeof arg2 === 'object' && 'self' in arg2 && Object.keys(arg2).length === 1) {
-  #|   //   throw new Error(`[DEBUG] Trait object incorrectly cast to JS in arg2: ${JSON.stringify(arg2)} when calling ${key}`);
-  #|   // }
-  #|   return obj[key](arg1, arg2);
-  #| }
+  #| (obj, key, arg1, arg2) => obj[key](arg1, arg2)
 
 ///|
 extern "js" fn ffi_call_self(func : Any, args : Array[Any]) -> Any =
-  #| (func, args) => {
-  #|   // DEBUG: Check for trait object cast error
-  #|   // if (func && typeof func === 'object' && 'self' in func && Object.keys(func).length === 1) {
-  #|   //   throw new Error(`[DEBUG] Trait object incorrectly cast to JS: ${JSON.stringify(func)} when calling function`);
-  #|   // }
-  #|   // for (let i = 0; i < args.length; i++) {
-  #|   //   if (args[i] && typeof args[i] === 'object' && 'self' in args[i] && Object.keys(args[i]).length === 1) {
-  #|   //     throw new Error(`[DEBUG] Trait object incorrectly cast to JS in args[${i}]: ${JSON.stringify(args[i])} when calling function`);
-  #|   //   }
-  #|   // }
-  #|   return func(...args);
-  #| }
+  #| (func, args) => func(...args)
 
 ///|
 extern "js" fn ffi_call_self0(func : Any) -> Any =
-  #| (func) => {
-  #|   // DEBUG: Check for trait object cast error
-  #|   // if (func && typeof func === 'object' && 'self' in func && Object.keys(func).length === 1) {
-  #|   //   throw new Error(`[DEBUG] Trait object incorrectly cast to JS: ${JSON.stringify(func)} when calling function`);
-  #|   // }
-  #|   return func();
-  #| }
+  #| (func) => func()
 
 ///|
 extern "js" fn ffi_new(cls : Any, args : Array[Any]) -> Any =

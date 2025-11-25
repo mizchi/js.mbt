@@ -620,3 +620,68 @@ async test "Promise: nested catch handlers" {
   let num : Int = @js.identity(result)
   inspect(num, content="100")
 }
+
+///| Promise::from_async tests
+
+///|
+async test "Promise: @js.Promise::from_async with resolve" {
+  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
+    resolve,
+    _reject,
+  ) {
+    resolve(42)
+  })
+  let result = p.wait()
+  assert_eq(result, 42)
+}
+
+///|
+async test "Promise: @js.Promise::from_async with reject" {
+  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
+    _resolve,
+    reject,
+  ) {
+    reject(Failure("test error"))
+  })
+  let result = try? p.wait()
+  assert_true(result is Err(_))
+}
+
+///|
+async test "Promise: @js.Promise::from_async with async operation" {
+  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
+    resolve,
+    _reject,
+  ) {
+    @js.sleep(16)
+    resolve(100)
+  })
+  let result = p.wait()
+  assert_eq(result, 100)
+}
+
+///|
+async test "Promise: @js.Promise::from_async with await inside" {
+  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
+    resolve,
+    _reject,
+  ) {
+    let inner = @js.Promise::resolve(10)
+    let v = inner.wait()
+    resolve(v * 2)
+  })
+  let result = p.wait()
+  assert_eq(result, 20)
+}
+
+///|
+async test "Promise: @js.Promise::from_async auto-rejects on error" {
+  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
+    _resolve,
+    _reject,
+  ) {
+    fail("auto reject error")
+  })
+  let result = try? p.wait()
+  assert_true(result is Err(_))
+}

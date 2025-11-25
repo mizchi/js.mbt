@@ -24,6 +24,27 @@ pub fn[A] Promise::new(
 }
 
 ///|
+/// Create a Promise from an async executor function.
+/// ```moonbit no-check
+/// let p: Promise[Int] = Promise::from_async(async fn (resolve, _reject) {
+///    let result = some_async_operation!()
+///    resolve(result)
+/// })
+/// ```
+pub fn[A] Promise::from_async(
+  f : async ((A) -> Unit, (Error) -> Unit) -> Unit,
+) -> Promise[A] {
+  ffi_new_promise(fn(resolve, reject) {
+    run_async(fn() {
+      f(a => a |> identity |> resolve, e => e |> identity |> reject) catch {
+        e => e |> identity |> reject
+      }
+    })
+  })
+  |> identity
+}
+
+///|
 /// js: Promise.resolve(value)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve
 pub fn[A] Promise::resolve(x : A) -> Self[A] {
