@@ -155,7 +155,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Refactoring**
   - Simplified IncomingMessage with from_callback helper
   - Merged promise tests and removed using declarations
-  - Used Set.symmetricDifference for test comparison
 
 ## [0.4.0] - 2025-11-24
 
