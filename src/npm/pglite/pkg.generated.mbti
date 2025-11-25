@@ -1,0 +1,46 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/pglite"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type PGlite
+async fn PGlite::close(Self) -> Unit
+#alias(close_sync)
+fn PGlite::closeSync(Self) -> @js.Promise[Unit]
+async fn PGlite::create() -> Self
+#alias(create_with_dir)
+async fn PGlite::createWithDir(String) -> Self
+#alias(create_with_options)
+async fn PGlite::createWithOptions(String, debug? : Int, relaxed_durability? : Bool, username? : String, database? : String) -> Self
+async fn PGlite::exec(Self, String) -> @js.Any
+async fn PGlite::query(Self, String, params? : Array[@js.Any]) -> Results
+async fn PGlite::transaction(Self, (Transaction) -> Unit) -> @js.Any
+impl @js.JsImpl for PGlite
+
+#external
+pub type Results
+#alias(affected_rows)
+fn Results::affectedRows(Self) -> Int
+fn Results::fields(Self) -> @js.Any
+fn Results::rows(Self) -> @js.Any
+fn[T] Results::rows_array(Self) -> Array[T]
+impl @js.JsImpl for Results
+
+#external
+pub type Transaction
+async fn Transaction::query(Self, String, params? : Array[@js.Any]) -> Results
+async fn Transaction::rollback(Self) -> Unit
+impl @js.JsImpl for Transaction
+
+// Type aliases
+
+// Traits
+
