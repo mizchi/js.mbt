@@ -19,8 +19,8 @@ test "basic object operations" {
   obj.set(sym, "symbol value")  // Symbol key
 
   // Object methods
-  let keys = @js.Object::keys(obj)
-  let values = @js.Object::values(obj)
+  let _keys = @js.Object::keys(obj)
+  let _values = @js.Object::values(obj)
   @js.Object::freeze(obj) |> ignore
   assert_eq(@js.Object::isFrozen(obj), true)
 }

@@ -75,11 +75,11 @@ fn tree_manipulation() -> Unit {
   parent.insertBefore(item0, Some(item1)) |> ignore
 
   // Clone node (deep)
-  let cloned = parent.cloneNode(true)
+  let _cloned = parent.cloneNode(true)
 
   // Check relationships
-  let has_children = parent.hasChildNodes()  // true
-  let contains_item = parent.contains(Some(item1))  // true
+  let _has_children = parent.hasChildNodes()  // true
+  let _contains_item = parent.contains(Some(item1))  // true
 }
 ```
 
