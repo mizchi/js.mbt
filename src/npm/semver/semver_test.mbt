@@ -5,7 +5,8 @@ test "parse" {
   inspect(
     result,
     content=(
-      #|{"options":{},"loose":false,"includePrerelease":false,"raw":"1.2.3","major":1,"minor":2,"patch":3,"prerelease":[],"build":[],"version":"1.2.3"}
+      #|Some("1.2.3")
+
     ),
   )
 }
@@ -13,15 +14,19 @@ test "parse" {
 ///|
 test "valid" {
   let result = valid("1.2.3")
-  inspect(result, content="1.2.3")
+  inspect(result, content=(
+    #|Some("1.2.3")
+  ))
   let invalid = valid("not a version")
-  inspect(invalid, content="null")
+  inspect(invalid, content="None")
 }
 
 ///|
 test "clean" {
   let result = clean("  =v1.2.3   ")
-  inspect(result, content="1.2.3")
+  inspect(result, content=(
+    #|Some("1.2.3")
+  ))
 }
 
 ///|
@@ -53,10 +58,18 @@ test "satisfies" {
 
 ///|
 test "inc" {
-  inspect(inc("1.2.3", "major"), content="2.0.0")
-  inspect(inc("1.2.3", "minor"), content="1.3.0")
-  inspect(inc("1.2.3", "patch"), content="1.2.4")
-  inspect(inc("1.2.3", "prerelease", identifier="beta"), content="1.2.4-beta.0")
+  inspect(inc("1.2.3", "major"), content=(
+    #|Some("2.0.0")
+  ))
+  inspect(inc("1.2.3", "minor"), content=(
+    #|Some("1.3.0")
+  ))
+  inspect(inc("1.2.3", "patch"), content=(
+    #|Some("1.2.4")
+  ))
+  inspect(inc("1.2.3", "prerelease", identifier="beta"), content=(
+    #|Some("1.2.4-beta.0")
+  ))
 }
 
 ///|
@@ -79,22 +92,36 @@ test "prerelease" {
 
 ///|
 test "diff" {
-  inspect(diff("1.2.3", "1.2.4"), content="patch")
-  inspect(diff("1.2.3", "1.3.0"), content="minor")
-  inspect(diff("1.2.3", "2.0.0"), content="major")
+  inspect(diff("1.2.3", "1.2.4"), content=(
+    #|Some("patch")
+  ))
+  inspect(diff("1.2.3", "1.3.0"), content=(
+    #|Some("minor")
+  ))
+  inspect(diff("1.2.3", "2.0.0"), content=(
+    #|Some("major")
+  ))
 }
 
 ///|
 test "coerce" {
-  inspect(coerce("v1.2.3"), content="1.2.3")
-  inspect(coerce("1.2.3.4"), content="1.2.3")
-  inspect(coerce("1.2"), content="1.2.0")
+  inspect(coerce("v1.2.3"), content=(
+    #|Some("1.2.3")
+  ))
+  inspect(coerce("1.2.3.4"), content=(
+    #|Some("1.2.3")
+  ))
+  inspect(coerce("1.2"), content=(
+    #|Some("1.2.0")
+  ))
 }
 
 ///|
 test "valid_range" {
-  inspect(valid_range("1.x || >=2.5.0"), content=">=1.0.0 <2.0.0-0||>=2.5.0")
-  inspect(valid_range("not a range"), content="null")
+  inspect(valid_range("1.x || >=2.5.0"), content=(
+    #|Some(">=1.0.0 <2.0.0-0||>=2.5.0")
+  ))
+  inspect(valid_range("not a range"), content="None")
 }
 
 ///|
@@ -103,13 +130,15 @@ test "sort" {
   inspect(
     sort(versions),
     content=(
-      #|["1.0.0","1.2.3","1.5.0","2.0.0"]
+      #|["1.0.0", "1.2.3", "1.5.0", "2.0.0"]
+
     ),
   )
   inspect(
     rsort(versions),
     content=(
-      #|["2.0.0","1.5.0","1.2.3","1.0.0"]
+      #|["2.0.0", "1.5.0", "1.2.3", "1.0.0"]
+
     ),
   )
 }
@@ -122,8 +151,12 @@ test "compare_loose" {
 ///|
 test "max_satisfying and min_satisfying" {
   let versions = ["1.2.3", "1.0.0", "2.0.0", "1.5.0"]
-  inspect(max_satisfying(versions, "^1.0.0"), content="1.5.0")
-  inspect(min_satisfying(versions, "^1.0.0"), content="1.0.0")
+  inspect(max_satisfying(versions, "^1.0.0"), content=(
+    #|Some("1.5.0")
+  ))
+  inspect(min_satisfying(versions, "^1.0.0"), content=(
+    #|Some("1.0.0")
+  ))
 }
 
 ///|

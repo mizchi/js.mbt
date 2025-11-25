@@ -17,22 +17,37 @@ pub type SemVer
 /// Parse a semantic version string
 /// Returns null if invalid
 /// https://github.com/npm/node-semver#usage
-pub fn parse(version : String) -> @js.Any {
-  semver().call("parse", [version])
+pub fn parse(version : String) -> String? {
+  let result = semver().call("parse", [version])
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(result.get("version") |> @js.identity)
+  }
 }
 
 ///|
 /// Return the parsed version, or null if it's not valid
 /// https://github.com/npm/node-semver#usage
-pub fn valid(version : String) -> @js.Any {
-  semver().call("valid", [version])
+pub fn valid(version : String) -> String? {
+  let result = semver().call("valid", [version])
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(@js.identity(result))
+  }
 }
 
 ///|
 /// Return a cleaned version string, or null if invalid
 /// https://github.com/npm/node-semver#usage
-pub fn clean(version : String) -> @js.Any {
-  semver().call("clean", [version])
+pub fn clean(version : String) -> String? {
+  let result = semver().call("clean", [version])
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(@js.identity(result))
+  }
 }
 
 ///|
@@ -102,34 +117,64 @@ pub fn satisfies(version : String, range : String) -> Bool {
 ///|
 /// Return the highest version in the list that satisfies the range, or null if none of them do
 /// https://github.com/npm/node-semver#ranges
-pub fn max_satisfying(versions : Array[String], range : String) -> @js.Any {
-  semver().call("maxSatisfying", [@js.from_array(versions), range])
+pub fn max_satisfying(versions : Array[String], range : String) -> String? {
+  let result = semver().call("maxSatisfying", [@js.from_array(versions), range])
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(@js.identity(result))
+  }
 }
 
 ///|
 /// Return the lowest version in the list that satisfies the range, or null if none of them do
 /// https://github.com/npm/node-semver#ranges
-pub fn min_satisfying(versions : Array[String], range : String) -> @js.Any {
-  semver().call("minSatisfying", [@js.from_array(versions), range])
+pub fn min_satisfying(versions : Array[String], range : String) -> String? {
+  let result = semver().call("minSatisfying", [@js.from_array(versions), range])
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(@js.identity(result))
+  }
 }
 
 ///|
-/// Return the highest version in the list
-/// https://github.com/npm/node-semver#ranges
-pub extern "js" fn max(versions : Array[String]) -> @js.Any =
+extern "js" fn ffi_max(versions : Array[String]) -> @js.Any =
   #| (versions) => {
   #|   const semver = require('semver');
   #|   return semver.max(versions);
   #| }
 
 ///|
-/// Return the lowest version in the list
+/// Return the highest version in the list
 /// https://github.com/npm/node-semver#ranges
-pub extern "js" fn min(versions : Array[String]) -> @js.Any =
+pub fn max(versions : Array[String]) -> String? {
+  let result = ffi_max(versions)
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(@js.identity(result))
+  }
+}
+
+///|
+extern "js" fn ffi_min(versions : Array[String]) -> @js.Any =
   #| (versions) => {
   #|   const semver = require('semver');
   #|   return semver.min(versions);
   #| }
+
+///|
+/// Return the lowest version in the list
+/// https://github.com/npm/node-semver#ranges
+pub fn min(versions : Array[String]) -> String? {
+  let result = ffi_min(versions)
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(@js.identity(result))
+  }
+}
 
 ///|
 /// Return true if the version is greater than all the versions in the range
@@ -155,8 +200,13 @@ pub fn outside(version : String, range : String, hilo : String) -> Bool {
 ///|
 /// Return the valid range or null if it's not valid
 /// https://github.com/npm/node-semver#ranges
-pub fn valid_range(range : String) -> @js.Any {
-  semver().call("validRange", [range])
+pub fn valid_range(range : String) -> String? {
+  let result = semver().call("validRange", [range])
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(@js.identity(result))
+  }
 }
 
 ///|
@@ -167,11 +217,16 @@ pub fn inc(
   version : String,
   release_type : String,
   identifier? : String = "",
-) -> @js.Any {
-  if identifier == "" {
+) -> String? {
+  let result = if identifier == "" {
     semver().call("inc", [version, release_type])
   } else {
     semver().call("inc", [version, release_type, identifier])
+  }
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(@js.identity(result))
   }
 }
 
@@ -207,32 +262,37 @@ pub fn prerelease(version : String) -> @js.Any {
 /// Return the difference between two versions
 /// Returns: 'major', 'premajor', 'minor', 'preminor', 'patch', 'prepatch', or 'prerelease'
 /// https://github.com/npm/node-semver#functions
-pub fn diff(v1 : String, v2 : String) -> @js.Any {
-  semver().call("diff", [v1, v2])
+pub fn diff(v1 : String, v2 : String) -> String? {
+  let result = semver().call("diff", [v1, v2])
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(@js.identity(result))
+  }
 }
 
 ///|
 /// Sort an array of semver strings
 /// https://github.com/npm/node-semver#functions
-pub fn sort(versions : Array[String]) -> @js.Any {
-  semver().call("sort", [@js.from_array(versions)])
+pub fn sort(versions : Array[String]) -> Array[String] {
+  semver().call("sort", [@js.from_array(versions)]) |> @js.identity
 }
 
 ///|
 /// Sort an array of semver strings in reverse order
 /// https://github.com/npm/node-semver#functions
-pub fn rsort(versions : Array[String]) -> @js.Any {
-  semver().call("rsort", [@js.from_array(versions)])
+pub fn rsort(versions : Array[String]) -> Array[String] {
+  semver().call("rsort", [@js.from_array(versions)]) |> @js.identity
 }
 
 ///|
 /// Coerce a string to semver if possible
 /// https://github.com/npm/node-semver#coercion
-pub fn coerce(version : String) -> @js.Any {
+pub fn coerce(version : String) -> String? {
   let result = semver().call("coerce", [version])
   if @js.is_null(result) {
-    result
+    None
   } else {
-    result.get("version")
+    Some(result.get("version") |> @js.identity)
   }
 }

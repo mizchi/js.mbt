@@ -379,17 +379,17 @@ pub fn addAbortSignal(signal : @js.Any, stream : @js.Any) -> @js.Any {
 }
 
 ///|
-pub fn isErrored(stream : @js.Any) -> Bool {
+pub fn isErrored(stream : &StreamImpl) -> Bool {
   stream_module().call("isErrored", [stream]).cast()
 }
 
 ///|
-pub fn isReadable(stream : @js.Any) -> Bool {
+pub fn isReadable(stream : &StreamImpl) -> Bool {
   stream_module().call("isReadable", [stream]).cast()
 }
 
 ///|
-pub fn isWritable(stream : @js.Any) -> Bool {
+pub fn isWritable(stream : &StreamImpl) -> Bool {
   stream_module().call("isWritable", [stream]).cast()
 }
 

@@ -11,7 +11,7 @@ fn arch() -> String
 #alias(available_parallelism)
 fn availableParallelism() -> Int
 
-fn cpus() -> Array[@js.Any]
+fn cpus() -> Array[CpuInfo]
 
 #alias(dev_null)
 fn devNull() -> String
@@ -52,16 +52,35 @@ fn type_() -> String
 fn uptime() -> Double
 
 #alias(userinfo)
-fn userInfo() -> @js.Any
+fn userInfo() -> UserInfo
 
 #alias(userinfo_with_encoding)
-fn userInfoWithEncoding(String) -> @js.Any
+fn userInfoWithEncoding(String) -> UserInfo
 
 fn version() -> String
 
 // Errors
 
 // Types and methods
+#external
+pub type CpuInfo
+fn CpuInfo::model(Self) -> String
+fn CpuInfo::speed(Self) -> Int
+fn CpuInfo::times_idle(Self) -> Int
+fn CpuInfo::times_irq(Self) -> Int
+fn CpuInfo::times_nice(Self) -> Int
+fn CpuInfo::times_sys(Self) -> Int
+fn CpuInfo::times_user(Self) -> Int
+impl @js.JsImpl for CpuInfo
+
+#external
+pub type UserInfo
+fn UserInfo::gid(Self) -> Int
+fn UserInfo::homedir(Self) -> String
+fn UserInfo::shell(Self) -> String?
+fn UserInfo::uid(Self) -> Int
+fn UserInfo::username(Self) -> String
+impl @js.JsImpl for UserInfo
 
 // Type aliases
 

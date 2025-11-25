@@ -8,6 +8,99 @@ fn os_module() -> @js.Any {
   @node.require("node:os")
 }
 
+///|
+/// CPU information returned by cpus()
+#external
+pub type CpuInfo
+
+///|
+pub impl @js.JsImpl for CpuInfo
+
+///|
+/// Get the CPU model name
+pub fn CpuInfo::model(self : CpuInfo) -> String {
+  self.get("model") |> @js.identity
+}
+
+///|
+/// Get the CPU speed in MHz
+pub fn CpuInfo::speed(self : CpuInfo) -> Int {
+  self.get("speed") |> @js.identity
+}
+
+///|
+/// Get user CPU time in milliseconds
+pub fn CpuInfo::times_user(self : CpuInfo) -> Int {
+  self.get("times").get("user") |> @js.identity
+}
+
+///|
+/// Get nice CPU time in milliseconds
+pub fn CpuInfo::times_nice(self : CpuInfo) -> Int {
+  self.get("times").get("nice") |> @js.identity
+}
+
+///|
+/// Get system CPU time in milliseconds
+pub fn CpuInfo::times_sys(self : CpuInfo) -> Int {
+  self.get("times").get("sys") |> @js.identity
+}
+
+///|
+/// Get idle CPU time in milliseconds
+pub fn CpuInfo::times_idle(self : CpuInfo) -> Int {
+  self.get("times").get("idle") |> @js.identity
+}
+
+///|
+/// Get IRQ CPU time in milliseconds
+pub fn CpuInfo::times_irq(self : CpuInfo) -> Int {
+  self.get("times").get("irq") |> @js.identity
+}
+
+///|
+/// User information returned by userInfo()
+#external
+pub type UserInfo
+
+///|
+pub impl @js.JsImpl for UserInfo
+
+///|
+/// Get the username
+pub fn UserInfo::username(self : UserInfo) -> String {
+  self.get("username") |> @js.identity
+}
+
+///|
+/// Get the user ID (uid)
+pub fn UserInfo::uid(self : UserInfo) -> Int {
+  self.get("uid") |> @js.identity
+}
+
+///|
+/// Get the group ID (gid)
+pub fn UserInfo::gid(self : UserInfo) -> Int {
+  self.get("gid") |> @js.identity
+}
+
+///|
+/// Get the user's shell (may be null on Windows)
+pub fn UserInfo::shell(self : UserInfo) -> String? {
+  let v = self.get("shell")
+  if @js.is_null(v) {
+    None
+  } else {
+    Some(@js.identity(v))
+  }
+}
+
+///|
+/// Get the user's home directory
+pub fn UserInfo::homedir(self : UserInfo) -> String {
+  self.get("homedir") |> @js.identity
+}
+
 ///| System Information
 
 ///|
@@ -28,7 +121,7 @@ pub fn arch() -> String {
 /// An array of CPU information objects
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn cpus() -> Array[@js.Any] {
+pub fn cpus() -> Array[CpuInfo] {
   @js.identity(os_module().call0("cpus"))
 }
 
@@ -134,8 +227,8 @@ pub fn uptime() -> Double {
 ///
 /// An object containing uid, gid, username, homedir, shell
 #alias(userinfo)
-pub fn userInfo() -> @js.Any {
-  os_module().call0("userInfo")
+pub fn userInfo() -> UserInfo {
+  os_module().call0("userInfo").cast()
 }
 
 ///|
@@ -145,8 +238,10 @@ pub fn userInfo() -> @js.Any {
 ///
 /// - `encoding`: The character encoding to use (default: 'utf8')
 #alias(userinfo_with_encoding)
-pub fn userInfoWithEncoding(encoding : String) -> @js.Any {
-  os_module().call1("userInfo", @js.from_entries([("encoding", encoding)]))
+pub fn userInfoWithEncoding(encoding : String) -> UserInfo {
+  os_module()
+  .call1("userInfo", @js.from_entries([("encoding", encoding)]))
+  .cast()
 }
 
 ///|

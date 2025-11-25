@@ -16,11 +16,11 @@ fn finished(@js.Any, callback? : @js.Any) -> @js.Any
 
 fn getDefaultHighWaterMark(Bool) -> Int
 
-fn isErrored(@js.Any) -> Bool
+fn isErrored(&StreamImpl) -> Bool
 
-fn isReadable(@js.Any) -> Bool
+fn isReadable(&StreamImpl) -> Bool
 
-fn isWritable(@js.Any) -> Bool
+fn isWritable(&StreamImpl) -> Bool
 
 fn pipeline(Array[@js.Any], callback? : @js.Any) -> @js.Any
 

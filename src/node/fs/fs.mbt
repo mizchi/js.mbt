@@ -97,10 +97,10 @@ pub fn existsSync(path : String) -> Bool {
 ///|
 /// Get file statistics
 #alias(stat_sync)
-pub fn statSync(path : String) -> @js.Any raise @js.ThrowError {
+pub fn statSync(path : String) -> Stat raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call1("statSync", path)
+    fs.call1("statSync", path).cast()
   })
 }
 

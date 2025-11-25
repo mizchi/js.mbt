@@ -80,7 +80,7 @@ fn rmSync(String, recursive? : Bool, force? : Bool) -> Unit raise @js.ThrowError
 fn rmdirSync(String, recursive? : Bool) -> Unit raise @js.ThrowError
 
 #alias(stat_sync)
-fn statSync(String) -> @js.Any raise @js.ThrowError
+fn statSync(String) -> Stat raise @js.ThrowError
 
 #alias(symlink_sync)
 fn symlinkSync(String, String, type_? : String) -> Unit raise @js.ThrowError
