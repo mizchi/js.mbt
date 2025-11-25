@@ -7,55 +7,55 @@ import(
 )
 
 // Values
-fn access(String, mode? : Int) -> @js.Promise[Unit]
+async fn access(String, mode? : Int) -> Unit
 
-fn appendFile(String, String, encoding? : String) -> @js.Promise[Unit]
+async fn appendFile(String, String, encoding? : String) -> Unit
 
-fn chmod(String, Int) -> @js.Promise[Unit]
+async fn chmod(String, Int) -> Unit
 
-fn chown(String, Int, Int) -> @js.Promise[Unit]
+async fn chown(String, Int, Int) -> Unit
 
-fn copyFile(String, String) -> @js.Promise[Unit]
+async fn copyFile(String, String) -> Unit
 
-fn cp(String, String, recursive? : Bool) -> @js.Promise[Unit]
+async fn cp(String, String, recursive? : Bool) -> Unit
 
 fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[String]
 
 fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[Dirent]
 
-fn mkdir(String, recursive? : Bool) -> @js.Promise[Unit]
+async fn mkdir(String, recursive? : Bool) -> Unit
 
-fn open(String) -> @js.Promise[FileHandle]
+async fn open(String) -> FileHandle
 
 #alias(read_file)
-fn readFile(String, encoding? : String) -> @js.Promise[String]
+async fn readFile(String, encoding? : String) -> String
 
-fn read_file_as_buffer(String) -> @js.Promise[@buffer.Buffer]
+async fn read_file_as_buffer(String) -> @buffer.Buffer
 
-fn read_file_as_string(String, encoding? : String) -> @js.Promise[String]
+async fn read_file_as_string(String, encoding? : String) -> String
 
-fn readdir(String) -> @js.Promise[Array[String]]
+async fn readdir(String) -> Array[String]
 
-fn readlink(String) -> @js.Promise[String]
+async fn readlink(String) -> String
 
-fn realpath(String) -> @js.Promise[String]
+async fn realpath(String) -> String
 
-fn rename(String, String) -> @js.Promise[Unit]
+async fn rename(String, String) -> Unit
 
-fn rm(String, recursive? : Bool, force? : Bool) -> @js.Promise[Unit]
+async fn rm(String, recursive? : Bool, force? : Bool) -> Unit
 
-fn rmdir(String, recursive? : Bool) -> @js.Promise[Unit]
+async fn rmdir(String, recursive? : Bool) -> Unit
 
-fn stat(String) -> @js.Promise[Stat]
+async fn stat(String) -> Stat
 
-fn symlink(String, String, type_? : String) -> @js.Promise[Unit]
+async fn symlink(String, String, type_? : String) -> Unit
 
-fn truncate(String, len? : Int) -> @js.Promise[Unit]
+async fn truncate(String, len? : Int) -> Unit
 
-fn unlink(String) -> @js.Promise[Unit]
+async fn unlink(String) -> Unit
 
 #alias(write_file)
-fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js.AbortSignal) -> @js.Promise[Unit]
+async fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js.AbortSignal) -> Unit
 
 // Errors
 

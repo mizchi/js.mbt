@@ -58,7 +58,7 @@ test "write_heap_snapshot returns filename" {
   inspect(filename.length() > 0, content="true")
   // Clean up snapshot file
   @js.run_async(async fn() noraise {
-    try @fs_promises.rm(filename).wait() |> ignore catch {
+    @fs_promises.rm(filename) catch {
       _ => ()
     }
   })
@@ -72,7 +72,7 @@ test "write_heap_snapshot with custom filename" {
   inspect(filename == custom_name, content="true")
   // Clean up snapshot file
   @js.run_async(async fn() noraise {
-    try @fs_promises.rm(filename).wait() |> ignore catch {
+    @fs_promises.rm(filename) catch {
       _ => ()
     }
   })
