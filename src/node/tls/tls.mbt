@@ -60,10 +60,7 @@ pub fn create_server(
   alpn_protocols? : Array[String],
 ) -> Server {
   let cb : @js.Any = @js.identity(secureConnectionListener)
-  let alpn_js : @js.Any? = match alpn_protocols {
-    Some(v) => Some(array_to_js_array(v).to_any())
-    None => None
-  }
+  let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).to_any() })
   let opts = @js.from_entries_option([
     ("key", key.map(x => x)),
     ("cert", cert.map(x => x)),
@@ -113,10 +110,7 @@ pub fn connect(
   session? : @js.Object,
 ) -> TLSSocket {
   let cb : @js.Any = @js.identity(callback)
-  let alpn_js : @js.Any? = match alpn_protocols {
-    Some(v) => Some(array_to_js_array(v).to_any())
-    None => None
-  }
+  let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).to_any() })
   let opts = @js.from_entries_option([
     ("port", Some(port)),
     ("host", Some(host)),

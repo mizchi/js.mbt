@@ -129,34 +129,25 @@ pub fn request(
   rejectUnauthorized? : Bool,
 ) -> ClientRequest {
   let cb : @js.Any = @js.identity(callback)
-  let obj = match headers {
-    Some(h) => h
-    None => @js.Object::new()
-  }
+  let obj = headers.unwrap_or(@js.Object::new())
   obj.set("url", url)
-  match method_ {
-    Some(v) => obj.set("method", v)
-    None => ()
+  if method_ is Some(v) {
+    obj.set("method", v)
   }
-  match host {
-    Some(v) => obj.set("host", v)
-    None => ()
+  if host is Some(v) {
+    obj.set("host", v)
   }
-  match port {
-    Some(v) => obj.set("port", v)
-    None => ()
+  if port is Some(v) {
+    obj.set("port", v)
   }
-  match path {
-    Some(v) => obj.set("path", v)
-    None => ()
+  if path is Some(v) {
+    obj.set("path", v)
   }
-  match agent {
-    Some(v) => obj.set("agent", v.to_any())
-    None => ()
+  if agent is Some(v) {
+    obj.set("agent", v.to_any())
   }
-  match rejectUnauthorized {
-    Some(v) => obj.set("rejectUnauthorized", v)
-    None => ()
+  if rejectUnauthorized is Some(v) {
+    obj.set("rejectUnauthorized", v)
   }
   ffi_request(obj.to_any(), cb)
 }
