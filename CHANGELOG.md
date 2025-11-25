@@ -34,9 +34,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Preferred over `identity` for explicit type casts
   - Usage: `value.cast()` instead of `identity(value)`
 
+- **`from_entries*` → `from_map` / `from_option_map`** - Removed deprecated object creation functions
+  - `@js.from_entries()` removed - Use `@js.from_map()` instead
+  - `@js.from_entries_option()` removed - Use `@js.from_option_map()` instead
+  - `@js.from_entries_option_cast()` removed - Use `@js.from_option_map()` instead
+  - `ToMapValue` trait removed
+  - Migration: Replace `from_entries([("key", value)])` with `from_map({ "key": @js.any(value) })`
+  - New: `@js.from_option_map_or_undefined()` returns `undefined` if all properties are `None`
+
 ### Added
 
 - **`Js::cast()` method** - Type-safe casting for JavaScript values
+- **`@js.from_option_map_or_undefined()`** - Returns `undefined` if all properties are `None`
+  - Useful for JS APIs that distinguish between missing options object and empty options
 - **Test stability checker** (`scripts/check_test.ts`)
   - Detect flaky tests by running multiple iterations
   - Progress display and diff tracking
@@ -412,6 +422,22 @@ let typed_value : MyType = js_value.cast()
 
 // Also valid
 let typed_value : MyType = @js.identity(js_value)
+```
+
+#### Replace from_entries with from_map
+
+```moonbit
+// Before (v0.4.0)
+let obj = @js.from_entries([("name", "Alice"), ("age", 30)])
+let opts = @js.from_entries_option([("timeout", Some(1000)), ("retries", None)])
+
+// After (v0.5.0)
+let obj = @js.from_map({ "name": @js.any("Alice"), "age": @js.any(30) })
+let opts = @js.from_option_map({ "timeout": Some(@js.any(1000)), "retries": None })
+
+// New: returns undefined if all properties are None
+let opts = @js.from_option_map_or_undefined({ "timeout": None, "retries": None })
+// Returns undefined instead of {}
 ```
 
 ### From v0.2.0 to v0.4.0
