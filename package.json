@@ -6,6 +6,8 @@
   },
   "devDependencies": {
     "@ai-sdk/anthropic": "2.0.43",
+    "@ai-sdk/google": "^2.0.43",
+    "@ai-sdk/openai": "^2.0.72",
     "@cloudflare/vitest-pool-workers": "^0.10.10",
     "@cloudflare/workers-types": "^4.20251125.0",
     "@electric-sql/pglite": "^0.3.14",
