@@ -60,7 +60,7 @@ test "File text returns content as string" {
   @js.run_async(async fn() noraise {
     try {
       let file = File::new(["Hello, File!"], "test.txt")
-      let text = file.text().wait()
+      let text = file.text()
       inspect(text == "Hello, File!", content="true")
     } catch {
       _ => ()
@@ -74,7 +74,7 @@ test "File array_buffer returns ArrayBuffer" {
   @js.run_async(async fn() noraise {
     try {
       let file = File::new(["test"], "test.txt")
-      let buffer = file.array_buffer().wait()
+      let buffer = file.array_buffer()
       inspect(buffer.byte_length() > 0, content="true")
     } catch {
       _ => ()

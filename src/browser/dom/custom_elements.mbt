@@ -124,11 +124,12 @@ pub fn CustomElementRegistry::getName(
 ///|
 /// Returns a promise that resolves when the custom element is defined
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/whenDefined
-pub fn CustomElementRegistry::whenDefined(
+pub async fn CustomElementRegistry::whenDefined(
   self : Self,
   name : String,
-) -> @js.Promise[Unit] {
-  self.call1("whenDefined", name).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self.call1("whenDefined", name).cast()
+  promise.wait()
 }
 
 ///|

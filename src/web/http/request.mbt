@@ -33,26 +33,31 @@ pub fn Request::clone(self : Request) -> Request {
 }
 
 ///|
-pub fn Request::json(self : Request) -> @js.Promise[@js.Any] {
-  self.call0("json").cast()
+pub async fn Request::json(self : Request) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call0("json").cast()
+  promise.wait()
 }
 
 ///|
-pub fn Request::text(self : Request) -> @js.Promise[String] {
-  self.call0("text").cast()
+pub async fn Request::text(self : Request) -> String {
+  let promise : @js.Promise[String] = self.call0("text").cast()
+  promise.wait()
 }
 
 ///|
-pub fn Request::arraybuffer(self : Request) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer").cast()
+pub async fn Request::arraybuffer(self : Request) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self.call0("arrayBuffer").cast()
+  promise.wait()
 }
 
 ///|
-pub fn Request::blob(self : Request) -> @js.Promise[@blob.Blob] {
-  self.call0("blob").cast()
+pub async fn Request::blob(self : Request) -> @blob.Blob {
+  let promise : @js.Promise[@blob.Blob] = self.call0("blob").cast()
+  promise.wait()
 }
 
 ///|
-pub fn Request::bytes(self : Request) -> @js.Promise[@typedarray.Uint8Array] {
-  self.call0("bytes").cast()
+pub async fn Request::bytes(self : Request) -> @typedarray.Uint8Array {
+  let promise : @js.Promise[@typedarray.Uint8Array] = self.call0("bytes").cast()
+  promise.wait()
 }

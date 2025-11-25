@@ -9,151 +9,178 @@ pub impl @js.JsImpl for SubtleCrypto
 
 ///|
 /// SubtleCrypto - Encryption/Decryption
-pub fn SubtleCrypto::encrypt(
+pub async fn SubtleCrypto::encrypt(
   self : Self,
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Promise[@js.Any] {
-  self.call("encrypt", [algorithm, key, data]).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("encrypt", [algorithm, key, data])
+    .cast()
+  promise.wait()
 }
 
 ///|
-pub fn SubtleCrypto::decrypt(
+pub async fn SubtleCrypto::decrypt(
   self : Self,
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Promise[@js.Any] {
-  self.call("decrypt", [algorithm, key, data]).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("decrypt", [algorithm, key, data])
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// SubtleCrypto - Signing/Verification
-pub fn SubtleCrypto::sign(
+pub async fn SubtleCrypto::sign(
   self : Self,
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Promise[@js.Any] {
-  self.call("sign", [algorithm, key, data]).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("sign", [algorithm, key, data])
+    .cast()
+  promise.wait()
 }
 
 ///|
-pub fn SubtleCrypto::verify(
+pub async fn SubtleCrypto::verify(
   self : Self,
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   signature : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Promise[Bool] {
-  self.call("verify", [algorithm, key, signature, data]).cast()
+) -> Bool {
+  let promise : @js.Promise[Bool] = self
+    .call("verify", [algorithm, key, signature, data])
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// SubtleCrypto - Digest
-pub fn SubtleCrypto::digest(
+pub async fn SubtleCrypto::digest(
   self : Self,
   algorithm : String,
   data : &@js.JsImpl,
-) -> @js.Promise[@js.Any] {
-  self.call2("digest", algorithm |> @js.any, data.to_any()).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call2("digest", algorithm |> @js.any, data.to_any())
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// SubtleCrypto - Key Generation
 #alias(generate_key)
-pub fn SubtleCrypto::generateKey(
+pub async fn SubtleCrypto::generateKey(
   self : Self,
   algorithm : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Promise[@js.Any] {
-  self
-  .call("generateKey", [algorithm, extractable, key_usages |> @js.from_array])
-  .cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("generateKey", [algorithm, extractable, key_usages |> @js.from_array])
+    .cast()
+  promise.wait()
 }
 
 ///|
 #alias(derive_key)
-pub fn SubtleCrypto::deriveKey(
+pub async fn SubtleCrypto::deriveKey(
   self : Self,
   algorithm : &@js.JsImpl,
   base_key : &@js.JsImpl,
   derived_key_type : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Promise[@js.Any] {
-  self
-  .call("deriveKey", [
-    algorithm,
-    base_key,
-    derived_key_type,
-    extractable,
-    key_usages |> @js.from_array,
-  ])
-  .cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("deriveKey", [
+      algorithm,
+      base_key,
+      derived_key_type,
+      extractable,
+      key_usages |> @js.from_array,
+    ])
+    .cast()
+  promise.wait()
 }
 
 ///|
 #alias(derive_bits)
-pub fn SubtleCrypto::deriveBits(
+pub async fn SubtleCrypto::deriveBits(
   self : Self,
   algorithm : &@js.JsImpl,
   base_key : &@js.JsImpl,
   length : Int,
-) -> @js.Promise[@js.Any] {
-  self.call("deriveBits", [algorithm, base_key, length]).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("deriveBits", [algorithm, base_key, length])
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// SubtleCrypto - Key Import/Export
 #alias(import_key)
-pub fn SubtleCrypto::importKey(
+pub async fn SubtleCrypto::importKey(
   self : Self,
   format : String,
   key_data : &@js.JsImpl,
   algorithm : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Promise[@js.Any] {
-  self
-  .call("importKey", [
-    format,
-    key_data,
-    algorithm,
-    extractable,
-    key_usages |> @js.from_array,
-  ])
-  .cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("importKey", [
+      format,
+      key_data,
+      algorithm,
+      extractable,
+      key_usages |> @js.from_array,
+    ])
+    .cast()
+  promise.wait()
 }
 
 ///|
 #alias(export_key)
-pub fn SubtleCrypto::exportKey(
+pub async fn SubtleCrypto::exportKey(
   self : Self,
   format : String,
   key : &@js.JsImpl,
-) -> @js.Promise[@js.Any] {
-  self.call2("exportKey", format, key).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call2("exportKey", format, key)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// SubtleCrypto - Key Wrapping
 #alias(wrap_key)
-pub fn SubtleCrypto::wrapKey(
+pub async fn SubtleCrypto::wrapKey(
   self : Self,
   format : String,
   key : &@js.JsImpl,
   wrapping_key : &@js.JsImpl,
   wrap_algorithm : &@js.JsImpl,
-) -> @js.Promise[@js.Any] {
-  self.call("wrapKey", [format, key, wrapping_key, wrap_algorithm]).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("wrapKey", [format, key, wrapping_key, wrap_algorithm])
+    .cast()
+  promise.wait()
 }
 
 ///|
 #alias(unwrap_key)
-pub fn SubtleCrypto::unwrapKey(
+pub async fn SubtleCrypto::unwrapKey(
   self : Self,
   format : String,
   wrapped_key : &@js.JsImpl,
@@ -162,18 +189,19 @@ pub fn SubtleCrypto::unwrapKey(
   unwrapped_key_algorithm : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Promise[@js.Any] {
-  self
-  .call("unwrapKey", [
-    format,
-    wrapped_key,
-    unwrapping_key,
-    unwrap_algorithm,
-    unwrapped_key_algorithm,
-    extractable,
-    key_usages |> @js.from_array,
-  ])
-  .cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("unwrapKey", [
+      format,
+      wrapped_key,
+      unwrapping_key,
+      unwrap_algorithm,
+      unwrapped_key_algorithm,
+      extractable,
+      key_usages |> @js.from_array,
+    ])
+    .cast()
+  promise.wait()
 }
 
 ///|

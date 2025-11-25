@@ -17,13 +17,13 @@ pub(all) struct File {
   size : Int
 }
 #alias(arrayBuffer)
-fn File::array_buffer(Self) -> @js.Promise[@js.ArrayBuffer]
+async fn File::array_buffer(Self) -> @js.ArrayBuffer
 fn File::as_blob(Self) -> @blob.Blob
 #alias(content_type)
 fn File::contentType(Self) -> String
 fn File::new(Array[&@js.JsImpl], String, content_type? : String, last_modified? : Int) -> Self
 fn File::slice(Self, start? : Int, end? : Int) -> @blob.Blob
-fn File::text(Self) -> @js.Promise[String]
+async fn File::text(Self) -> String
 impl @js.JsImpl for File
 
 pub(all) struct FileReader {

@@ -9,7 +9,7 @@ extern "js" fn ffi_fetch_request(request : Request) -> @js.Promise[Response] =
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/fetch
-pub fn fetch(
+pub async fn fetch(
   url : String,
   method_~ : String,
   headers? : Map[String, String] = {},
@@ -24,7 +24,7 @@ pub fn fetch(
   referrer? : String,
   referrerPolicy? : String,
   signal? : @js.AbortSignal,
-) -> @js.Promise[Response] {
+) -> Response {
   let header_obj = @js.Object::new()
   for k, v in headers {
     header_obj.set(k, v)
@@ -44,34 +44,32 @@ pub fn fetch(
     "referrerPolicy": referrerPolicy.map(fn(x) { @js.any(x) }),
     "signal": signal.map(fn(x) { x.to_any() }),
   })
-  ffi_fetch(url, init_obj)
+  ffi_fetch(url, init_obj).wait()
 }
 
 ///|
-pub fn fetch_request(request : Request) -> @js.Promise[Response] {
-  ffi_fetch_request(request)
+pub async fn fetch_request(request : Request) -> Response {
+  ffi_fetch_request(request).wait()
 }
 
 ///|
 #skip("fetch test requires network")
-test "fetch" {
-  @js.run_async(() => {
-    let response = fetch(
-      "https://jsonplaceholder.typicode.com/todos/1",
-      method_="GET",
-      headers={ "Accept": "application/json" },
-    ).wait() catch {
-      e => {
-        @js.log("Fetch error: " + e.to_string())
-        return
-      }
+async test "fetch" {
+  let response = fetch(
+    "https://jsonplaceholder.typicode.com/todos/1",
+    method_="GET",
+    headers={ "Accept": "application/json" },
+  ) catch {
+    e => {
+      @js.log("Fetch error: " + e.to_string())
+      return
     }
-    let value = response.json().wait() catch {
-        e => {
-          @js.log("Error parsing JSON: " + e.to_string())
-          return
-        }
-      }
-    @js.log(value)
-  })
+  }
+  let value = response.json() catch {
+    e => {
+      @js.log("Error parsing JSON: " + e.to_string())
+      return
+    }
+  }
+  @js.log(value)
 }

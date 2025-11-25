@@ -8,6 +8,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Breaking Changes
 
+#### Async Function Conversion
+- **Promise-returning functions → `async fn`** - Major API change for async operations
+  - Functions that returned `@js.Promise[T]` now return `T` directly using `async fn`
+  - Callers no longer need `.wait()` - values are awaited automatically
+  - Migration: Remove `.wait()` calls from affected function results
+
+  **Affected packages:**
+  - `web/http`: `fetch`, `fetch_request`, `Request::json/text/arraybuffer/blob/bytes`, `Response::json/text/form_data/bytes`
+  - `web/crypto`: All `SubtleCrypto` methods (`encrypt`, `decrypt`, `sign`, `verify`, `digest`, `generateKey`, `importKey`, `exportKey`, `wrapKey`, `unwrapKey`, `deriveKey`, `deriveBits`)
+  - `web/streams`: `ReadableStream::cancel/pipeTo`, `ReadableStreamDefaultReader::read`, `WritableStream::abort/close`, `WritableStreamDefaultWriter::write/close`
+  - `web/blob`: `Blob::array_buffer/text`
+  - `browser/dom`: `CustomElementRegistry::whenDefined`, `Window::fetch`
+  - `browser/canvas`: `createImageBitmapRect`, `OffscreenCanvas::convertToBlob`
+  - `browser/file`: `File::array_buffer/text`
+  - `npm/hono`: `ClientEndpoint::get_/post_/put_/delete_/patch_`
+  - `npm/react_dom_server`: `renderToReadableStream`
+
+  ```moonbit
+  // Before (v0.4.0)
+  let response = fetch("https://example.com", method_="GET").wait()
+  let json = response.json().wait()
+
+  // After (v0.5.0)
+  let response = fetch("https://example.com", method_="GET")
+  let json = response.json()
+  ```
+
 #### Type System Changes
 - **`@js.Js` → `@js.Any`** - Renamed core JavaScript interop type
   - All `Js` type references must be updated to `Any`
@@ -44,6 +71,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Deno.Command API** - Subprocess management for Deno runtime
+  - `Command::new(program, args?, cwd?, env?, stdin?, stdout?, stderr?)` - Create subprocess command
+  - `Command::output()` - Run command and get output (async)
+  - `Command::output_sync()` - Run command synchronously
+  - `Command::spawn()` - Spawn child process
+  - `CommandOutput` - Output with `stdout`, `stderr`, `success`, `code`, `signal`
+  - `CommandStatus` - Status with `success`, `code`, `signal`
+  - `ChildProcess` - Process handle with `status()`, `pid`, `stdin`, `stdout`, `stderr`, `ref_()`, `unref()`, `kill()`
 - **`Js::cast()` method** - Type-safe casting for JavaScript values
 - **`@js.from_option_map_or_undefined()`** - Returns `undefined` if all properties are `None`
   - Useful for JS APIs that distinguish between missing options object and empty options
@@ -369,6 +404,28 @@ Initial releases and earlier changes are not documented in this changelog.
 ## Migration Guide
 
 ### From v0.4.0 to v0.5.0
+
+#### Remove .wait() from async functions
+
+All Promise-returning functions are now `async fn` and return values directly:
+
+```moonbit
+// Before (v0.4.0)
+async test "fetch example" {
+  let response = fetch("https://api.example.com", method_="GET").wait()
+  let data = response.json().wait()
+  let text = response.text().wait()
+}
+
+// After (v0.5.0)
+async test "fetch example" {
+  let response = fetch("https://api.example.com", method_="GET")
+  let data = response.json()
+  let text = response.text()
+}
+```
+
+This applies to all packages listed in the "Async Function Conversion" breaking changes section above.
 
 #### Update Type References
 

@@ -28,25 +28,25 @@ impl @js.JsImpl for Crypto
 
 #external
 pub type SubtleCrypto
-fn SubtleCrypto::decrypt(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> @js.Promise[@js.Any]
+async fn SubtleCrypto::decrypt(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> @js.Any
 #alias(derive_bits)
-fn SubtleCrypto::deriveBits(Self, &@js.JsImpl, &@js.JsImpl, Int) -> @js.Promise[@js.Any]
+async fn SubtleCrypto::deriveBits(Self, &@js.JsImpl, &@js.JsImpl, Int) -> @js.Any
 #alias(derive_key)
-fn SubtleCrypto::deriveKey(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl, Bool, Array[String]) -> @js.Promise[@js.Any]
-fn SubtleCrypto::digest(Self, String, &@js.JsImpl) -> @js.Promise[@js.Any]
-fn SubtleCrypto::encrypt(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> @js.Promise[@js.Any]
+async fn SubtleCrypto::deriveKey(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl, Bool, Array[String]) -> @js.Any
+async fn SubtleCrypto::digest(Self, String, &@js.JsImpl) -> @js.Any
+async fn SubtleCrypto::encrypt(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> @js.Any
 #alias(export_key)
-fn SubtleCrypto::exportKey(Self, String, &@js.JsImpl) -> @js.Promise[@js.Any]
+async fn SubtleCrypto::exportKey(Self, String, &@js.JsImpl) -> @js.Any
 #alias(generate_key)
-fn SubtleCrypto::generateKey(Self, &@js.JsImpl, Bool, Array[String]) -> @js.Promise[@js.Any]
+async fn SubtleCrypto::generateKey(Self, &@js.JsImpl, Bool, Array[String]) -> @js.Any
 #alias(import_key)
-fn SubtleCrypto::importKey(Self, String, &@js.JsImpl, &@js.JsImpl, Bool, Array[String]) -> @js.Promise[@js.Any]
-fn SubtleCrypto::sign(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> @js.Promise[@js.Any]
+async fn SubtleCrypto::importKey(Self, String, &@js.JsImpl, &@js.JsImpl, Bool, Array[String]) -> @js.Any
+async fn SubtleCrypto::sign(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> @js.Any
 #alias(unwrap_key)
-fn SubtleCrypto::unwrapKey(Self, String, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl, Bool, Array[String]) -> @js.Promise[@js.Any]
-fn SubtleCrypto::verify(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> @js.Promise[Bool]
+async fn SubtleCrypto::unwrapKey(Self, String, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl, Bool, Array[String]) -> @js.Any
+async fn SubtleCrypto::verify(Self, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> Bool
 #alias(wrap_key)
-fn SubtleCrypto::wrapKey(Self, String, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> @js.Promise[@js.Any]
+async fn SubtleCrypto::wrapKey(Self, String, &@js.JsImpl, &@js.JsImpl, &@js.JsImpl) -> @js.Any
 impl @js.JsImpl for SubtleCrypto
 
 // Type aliases

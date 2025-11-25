@@ -14,7 +14,7 @@ import(
 fn createImageBitmap(&@js.JsImpl) -> ImageBitmap
 
 #alias(create_image_bitmap_rect)
-fn createImageBitmapRect(&@js.JsImpl, Int, Int, Int, Int) -> @js.Promise[ImageBitmap]
+async fn createImageBitmapRect(&@js.JsImpl, Int, Int, Int, Int) -> ImageBitmap
 
 // Errors
 
@@ -89,7 +89,7 @@ impl @js.JsImpl for ImageData
 
 #external
 pub type OffscreenCanvas
-fn OffscreenCanvas::convertToBlob(Self, options? : String) -> @js.Promise[@blob.Blob]
+async fn OffscreenCanvas::convertToBlob(Self, options? : String) -> @blob.Blob
 fn OffscreenCanvas::getContext(Self, String) -> CanvasRenderingContext2D
 fn OffscreenCanvas::height(Self) -> Int
 fn OffscreenCanvas::new(Int, Int) -> Self

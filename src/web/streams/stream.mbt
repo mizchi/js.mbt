@@ -21,14 +21,12 @@ pub fn ReadableStream::new(underlying_source : @js.Any) -> ReadableStream {
 
 ///|
 /// Cancel the stream
-pub fn ReadableStream::cancel(
-  self : Self,
-  reason? : @js.Any,
-) -> @js.Promise[Unit] {
-  match reason {
+pub async fn ReadableStream::cancel(self : Self, reason? : @js.Any) -> Unit {
+  let promise : @js.Promise[Unit] = match reason {
     Some(r) => self.call("cancel", [r]).cast()
     None => self.call0("cancel").cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -41,15 +39,16 @@ pub fn ReadableStream::getReader(self : Self) -> ReadableStreamDefaultReader {
 ///|
 /// Pipe this stream to a WritableStream
 #alias(pipe_to)
-pub fn ReadableStream::pipeTo(
+pub async fn ReadableStream::pipeTo(
   self : Self,
   destination : WritableStream,
   options? : @js.Any,
-) -> @js.Promise[Unit] {
-  match options {
+) -> Unit {
+  let promise : @js.Promise[Unit] = match options {
     Some(opts) => self.call2("pipeTo", destination, opts).cast()
     None => self.call("pipeTo", [destination]).cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -90,8 +89,9 @@ pub impl @js.JsImpl for ReadableStreamDefaultReader
 
 ///|
 /// Read a chunk from the stream
-pub fn ReadableStreamDefaultReader::read(self : Self) -> @js.Promise[@js.Any] {
-  self.call0("read").cast()
+pub async fn ReadableStreamDefaultReader::read(self : Self) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call0("read").cast()
+  promise.wait()
 }
 
 ///|
@@ -103,14 +103,15 @@ pub fn ReadableStreamDefaultReader::releaseLock(self : Self) -> Unit {
 
 ///|
 /// Cancel the stream
-pub fn ReadableStreamDefaultReader::cancel(
+pub async fn ReadableStreamDefaultReader::cancel(
   self : Self,
   reason? : @js.Any,
-) -> @js.Promise[Unit] {
-  match reason {
+) -> Unit {
+  let promise : @js.Promise[Unit] = match reason {
     Some(r) => self.call("cancel", [r]).cast()
     None => self.call0("cancel").cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -135,20 +136,19 @@ pub fn WritableStream::new(underlying_sink : @js.Any) -> WritableStream {
 
 ///|
 /// Abort the stream
-pub fn WritableStream::abort(
-  self : Self,
-  reason? : @js.Any,
-) -> @js.Promise[Unit] {
-  match reason {
+pub async fn WritableStream::abort(self : Self, reason? : @js.Any) -> Unit {
+  let promise : @js.Promise[Unit] = match reason {
     Some(r) => self.call("abort", [r]).cast()
     None => self.call0("abort").cast()
   }
+  promise.wait()
 }
 
 ///|
 /// Close the stream
-pub fn WritableStream::close(self : Self) -> @js.Promise[Unit] {
-  self.call0("close").cast()
+pub async fn WritableStream::close(self : Self) -> Unit {
+  let promise : @js.Promise[Unit] = self.call0("close").cast()
+  promise.wait()
 }
 
 ///|
@@ -171,29 +171,32 @@ pub impl @js.JsImpl for WritableStreamDefaultWriter
 
 ///|
 /// Write a chunk to the stream
-pub fn WritableStreamDefaultWriter::write(
+pub async fn WritableStreamDefaultWriter::write(
   self : Self,
   chunk : @js.Any,
-) -> @js.Promise[Unit] {
-  self.call("write", [chunk]).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self.call("write", [chunk]).cast()
+  promise.wait()
 }
 
 ///|
 /// Close the writer
-pub fn WritableStreamDefaultWriter::close(self : Self) -> @js.Promise[Unit] {
-  self.call0("close").cast()
+pub async fn WritableStreamDefaultWriter::close(self : Self) -> Unit {
+  let promise : @js.Promise[Unit] = self.call0("close").cast()
+  promise.wait()
 }
 
 ///|
 /// Abort the writer
-pub fn WritableStreamDefaultWriter::abort(
+pub async fn WritableStreamDefaultWriter::abort(
   self : Self,
   reason? : @js.Any,
-) -> @js.Promise[Unit] {
-  match reason {
+) -> Unit {
+  let promise : @js.Promise[Unit] = match reason {
     Some(r) => self.call("abort", [r]).cast()
     None => self.call0("abort").cast()
   }
+  promise.wait()
 }
 
 ///|

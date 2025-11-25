@@ -41,7 +41,7 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
       let res = fetch(
         "https://jsonplaceholder.typicode.com/todos/1",
         method_="GET",
-      ).wait() catch {
+      ) catch {
         e => {
           log("Error: " + e.to_string())
           let data = @js.Object::new()

@@ -12,6 +12,42 @@ fn deno() -> Deno
 
 // Types and methods
 #external
+pub type ChildProcess
+fn ChildProcess::kill(Self, signal? : String) -> Unit
+fn ChildProcess::pid(Self) -> Int
+fn ChildProcess::ref_(Self) -> Unit
+async fn ChildProcess::status(Self) -> CommandStatus
+fn ChildProcess::stderr(Self) -> @js.Any
+fn ChildProcess::stdin(Self) -> @js.Any
+fn ChildProcess::stdout(Self) -> @js.Any
+fn ChildProcess::unref(Self) -> Unit
+impl @js.JsImpl for ChildProcess
+
+#external
+pub type Command
+fn Command::new(String, args? : Array[String], cwd? : String, env? : @js.Any, stdin? : String, stdout? : String, stderr? : String) -> Self
+async fn Command::output(Self) -> CommandOutput
+fn Command::output_sync(Self) -> CommandOutput
+fn Command::spawn(Self) -> ChildProcess
+impl @js.JsImpl for Command
+
+#external
+pub type CommandOutput
+fn CommandOutput::code(Self) -> Int
+fn CommandOutput::signal(Self) -> String?
+fn CommandOutput::stderr(Self) -> @js.Any
+fn CommandOutput::stdout(Self) -> @js.Any
+fn CommandOutput::success(Self) -> Bool
+impl @js.JsImpl for CommandOutput
+
+#external
+pub type CommandStatus
+fn CommandStatus::code(Self) -> Int
+fn CommandStatus::signal(Self) -> String?
+fn CommandStatus::success(Self) -> Bool
+impl @js.JsImpl for CommandStatus
+
+#external
 pub type Deno
 fn Deno::args(Self) -> Array[String]
 fn Deno::build_arch(Self) -> String

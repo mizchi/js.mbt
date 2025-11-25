@@ -355,11 +355,11 @@ extern "js" fn text_decoder_decode(
 async test "React DOM Server: renderToReadableStream should return a Promise of ReadableStream" {
   init_react()
   let element = @react.createElement("div", [])
-  let stream = @react_dom_server.renderToReadableStream(element).wait()
+  let stream = @react_dom_server.renderToReadableStream(element)
   let reader = stream.getReader()
 
   // Read first chunk
-  let result : @js.Any = reader.read().wait()
+  let result : @js.Any = reader.read()
   let done : Bool = @js.identity(result.get("done"))
 
   // Should have at least one chunk
@@ -371,14 +371,14 @@ async test "React DOM Server: renderToReadableStream should return a Promise of 
 async test "React DOM Server: renderToReadableStream should render HTML content" {
   init_react()
   let element = @react.createElement("h1", ["Test Title"])
-  let stream = @react_dom_server.renderToReadableStream(element).wait()
+  let stream = @react_dom_server.renderToReadableStream(element)
   let reader = stream.getReader()
   let html_parts : Array[String] = []
   let decoder = text_decoder_new()
 
   // Read all chunks
   while true {
-    let result : @js.Any = reader.read().wait()
+    let result : @js.Any = reader.read()
     let done : Bool = @js.identity(result.get("done"))
     if done {
       break
@@ -401,14 +401,14 @@ async test "React DOM Server: renderToReadableStream should handle nested elemen
   init_react()
   let inner = @react.createElement("span", ["Inner"])
   let outer = @react.createElement("div", [inner])
-  let stream = @react_dom_server.renderToReadableStream(outer).wait()
+  let stream = @react_dom_server.renderToReadableStream(outer)
   let reader = stream.getReader()
   let html_parts : Array[String] = []
   let decoder = text_decoder_new()
 
   // Read all chunks
   while true {
-    let result : @js.Any = reader.read().wait()
+    let result : @js.Any = reader.read()
     let done : Bool = @js.identity(result.get("done"))
     if done {
       break

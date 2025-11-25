@@ -447,14 +447,14 @@ pub fn createImageBitmap(image : &@js.JsImpl) -> ImageBitmap {
 
 ///|
 #alias(create_image_bitmap_rect)
-pub fn createImageBitmapRect(
+pub async fn createImageBitmapRect(
   image : &@js.JsImpl,
   sx : Int,
   sy : Int,
   sw : Int,
   sh : Int,
-) -> @js.Promise[ImageBitmap] {
-  @js.identity(
+) -> ImageBitmap {
+  let promise : @js.Promise[ImageBitmap] = @js.identity(
     ffi_create_image_bitmap_with_rect(
       image.to_any(),
       sx |> @js.any,
@@ -463,4 +463,5 @@ pub fn createImageBitmapRect(
       sh |> @js.any,
     ),
   )
+  promise.wait()
 }

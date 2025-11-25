@@ -111,24 +111,46 @@ pub extern "js" fn Response::error() -> Response =
   #| () => Response.error()
 
 ///|
-/// https://developer.mozilla.org/ja/docs/Web/API/Response/json
-pub extern "js" fn Response::json(self : Self) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_response_json(response : Response) -> @js.Promise[@js.Any] =
   #| (v) => v.json()
 
 ///|
-/// https://developer.mozilla.org/ja/docs/Web/API/Response/text
-pub extern "js" fn Response::text(self : Self) -> @js.Promise[String] =
+/// https://developer.mozilla.org/ja/docs/Web/API/Response/json
+pub async fn Response::json(self : Self) -> @js.Any {
+  ffi_response_json(self).wait()
+}
+
+///|
+extern "js" fn ffi_response_text(response : Response) -> @js.Promise[String] =
   #| (v) => v.text()
 
 ///|
-pub extern "js" fn Response::form_data(self : Self) -> @js.Promise[FormData] =
+/// https://developer.mozilla.org/ja/docs/Web/API/Response/text
+pub async fn Response::text(self : Self) -> String {
+  ffi_response_text(self).wait()
+}
+
+///|
+extern "js" fn ffi_response_form_data(
+  response : Response,
+) -> @js.Promise[FormData] =
   #| (v) => v.formData()
 
 ///|
-pub extern "js" fn Response::bytes(
-  self : Self,
+pub async fn Response::form_data(self : Self) -> FormData {
+  ffi_response_form_data(self).wait()
+}
+
+///|
+extern "js" fn ffi_response_bytes(
+  response : Response,
 ) -> @js.Promise[@typedarray.Uint8Array] =
   #| (v) => v.bytes()
+
+///|
+pub async fn Response::bytes(self : Self) -> @typedarray.Uint8Array {
+  ffi_response_bytes(self).wait()
+}
 
 ///|
 pub extern "js" fn Response::clone(self : Self) -> Response =

@@ -266,15 +266,16 @@ pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
 ///|
 /// Starts the process of fetching a resource from the network
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch
-pub fn Window::fetch(
+pub async fn Window::fetch(
   self : Self,
   input : String,
   init? : @js.Any,
-) -> @js.Promise[@js.Any] {
-  match init {
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = match init {
     Some(i) => self.call2("fetch", input, i).cast()
     None => self.call1("fetch", input).cast()
   }
+  promise.wait()
 }
 
 ///|

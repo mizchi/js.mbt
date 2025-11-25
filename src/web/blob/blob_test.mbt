@@ -50,7 +50,7 @@ test "Blob text returns content as string" {
   @js.run_async(async fn() noraise {
     try {
       let blob = Blob::new(["Hello, Blob!"])
-      let text = blob.text().wait()
+      let text = blob.text()
       inspect(text == "Hello, Blob!", content="true")
     } catch {
       _ => ()
@@ -64,7 +64,7 @@ test "Blob array_buffer returns ArrayBuffer" {
   @js.run_async(async fn() noraise {
     try {
       let blob = Blob::new(["test"])
-      let buffer = blob.array_buffer().wait()
+      let buffer = blob.array_buffer()
       inspect(buffer.byte_length() > 0, content="true")
     } catch {
       _ => ()
@@ -132,7 +132,7 @@ test "Blob slice and text work together" {
     try {
       let blob = Blob::new(["Hello, World!"])
       let sliced = blob.slice(start=0, end=5)
-      let text = sliced.text().wait()
+      let text = sliced.text()
       inspect(text == "Hello", content="true")
     } catch {
       _ => ()

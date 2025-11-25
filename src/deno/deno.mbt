@@ -536,3 +536,208 @@ pub fn Deno::test_only(
   )
   |> ignore
 }
+
+///| Subprocess APIs (Deno.Command)
+
+///|
+/// Command type for creating subprocesses
+/// https://docs.deno.com/api/deno/~/Deno.Command
+#external
+pub type Command
+
+///|
+pub impl @js.JsImpl for Command
+
+///|
+/// Create a new Command
+/// https://docs.deno.com/api/deno/~/Deno.Command
+extern "js" fn ffi_new_command(
+  program : String,
+  args : @js.Any,
+  cwd : @js.Any,
+  env : @js.Any,
+  stdin : @js.Any,
+  stdout : @js.Any,
+  stderr : @js.Any,
+) -> Command =
+  #| (program, args, cwd, env, stdin, stdout, stderr) => {
+  #|   const opts = {};
+  #|   if (args !== undefined) opts.args = args;
+  #|   if (cwd !== undefined) opts.cwd = cwd;
+  #|   if (env !== undefined) opts.env = env;
+  #|   if (stdin !== undefined) opts.stdin = stdin;
+  #|   if (stdout !== undefined) opts.stdout = stdout;
+  #|   if (stderr !== undefined) opts.stderr = stderr;
+  #|   return new Deno.Command(program, opts);
+  #| }
+
+///|
+/// Create a new Command to run a program
+pub fn Command::new(
+  program : String,
+  args? : Array[String],
+  cwd? : String,
+  env? : @js.Any,
+  stdin? : String,
+  stdout? : String,
+  stderr? : String,
+) -> Command {
+  ffi_new_command(
+    program,
+    args
+    .map(fn(a) { @js.from_array(a.map(fn(s) { @js.any(s) })) })
+    .unwrap_or(@js.undefined()),
+    cwd.map(fn(c) { @js.any(c) }).unwrap_or(@js.undefined()),
+    env.unwrap_or(@js.undefined()),
+    stdin.map(fn(s) { @js.any(s) }).unwrap_or(@js.undefined()),
+    stdout.map(fn(s) { @js.any(s) }).unwrap_or(@js.undefined()),
+    stderr.map(fn(s) { @js.any(s) }).unwrap_or(@js.undefined()),
+  )
+}
+
+///|
+/// CommandOutput - result of Command.output()
+#external
+pub type CommandOutput
+
+///|
+pub impl @js.JsImpl for CommandOutput
+
+///|
+/// Get exit code from CommandOutput
+pub fn CommandOutput::code(self : CommandOutput) -> Int {
+  self.get("code").cast()
+}
+
+///|
+/// Check if command succeeded (exit code 0)
+pub fn CommandOutput::success(self : CommandOutput) -> Bool {
+  self.get("success").cast()
+}
+
+///|
+/// Get stdout as Uint8Array
+pub fn CommandOutput::stdout(self : CommandOutput) -> @js.Any {
+  self.get("stdout")
+}
+
+///|
+/// Get stderr as Uint8Array
+pub fn CommandOutput::stderr(self : CommandOutput) -> @js.Any {
+  self.get("stderr")
+}
+
+///|
+/// Get signal that terminated the process (if any)
+pub fn CommandOutput::signal(self : CommandOutput) -> String? {
+  self.get("signal").cast() |> @js.identity_option
+}
+
+///|
+/// Execute command and collect output
+/// https://docs.deno.com/api/deno/~/Deno.Command#method_output_0
+pub async fn Command::output(self : Command) -> CommandOutput {
+  let promise : @js.Promise[CommandOutput] = self.call0("output").cast()
+  promise.wait()
+}
+
+///|
+/// Execute command synchronously and collect output
+/// https://docs.deno.com/api/deno/~/Deno.Command#method_outputSync_0
+pub fn Command::output_sync(self : Command) -> CommandOutput {
+  self.call0("outputSync").cast()
+}
+
+///|
+/// ChildProcess - spawned subprocess
+/// https://docs.deno.com/api/deno/~/Deno.ChildProcess
+#external
+pub type ChildProcess
+
+///|
+pub impl @js.JsImpl for ChildProcess
+
+///|
+/// Get process ID
+pub fn ChildProcess::pid(self : ChildProcess) -> Int {
+  self.get("pid").cast()
+}
+
+///|
+/// Get stdin stream (WritableStream)
+pub fn ChildProcess::stdin(self : ChildProcess) -> @js.Any {
+  self.get("stdin")
+}
+
+///|
+/// Get stdout stream (ReadableStream)
+pub fn ChildProcess::stdout(self : ChildProcess) -> @js.Any {
+  self.get("stdout")
+}
+
+///|
+/// Get stderr stream (ReadableStream)
+pub fn ChildProcess::stderr(self : ChildProcess) -> @js.Any {
+  self.get("stderr")
+}
+
+///|
+/// CommandStatus - result of waiting for process
+#external
+pub type CommandStatus
+
+///|
+pub impl @js.JsImpl for CommandStatus
+
+///|
+/// Get exit code from CommandStatus
+pub fn CommandStatus::code(self : CommandStatus) -> Int {
+  self.get("code").cast()
+}
+
+///|
+/// Check if command succeeded
+pub fn CommandStatus::success(self : CommandStatus) -> Bool {
+  self.get("success").cast()
+}
+
+///|
+/// Get signal that terminated the process (if any)
+pub fn CommandStatus::signal(self : CommandStatus) -> String? {
+  self.get("signal").cast() |> @js.identity_option
+}
+
+///|
+/// Wait for process to complete
+pub async fn ChildProcess::status(self : ChildProcess) -> CommandStatus {
+  let promise : @js.Promise[CommandStatus] = self.get("status").cast()
+  promise.wait()
+}
+
+///|
+/// Send signal to process
+pub fn ChildProcess::kill(self : ChildProcess, signal? : String) -> Unit {
+  match signal {
+    Some(s) => self.call1("kill", @js.any(s)) |> ignore
+    None => self.call0("kill") |> ignore
+  }
+}
+
+///|
+/// Prevent process from keeping event loop alive
+pub fn ChildProcess::unref(self : ChildProcess) -> Unit {
+  self.call0("unref") |> ignore
+}
+
+///|
+/// Allow process to keep event loop alive (default)
+pub fn ChildProcess::ref_(self : ChildProcess) -> Unit {
+  self.call0("ref") |> ignore
+}
+
+///|
+/// Spawn a subprocess
+/// https://docs.deno.com/api/deno/~/Deno.Command#method_spawn_0
+pub fn Command::spawn(self : Command) -> ChildProcess {
+  self.call0("spawn").cast()
+}

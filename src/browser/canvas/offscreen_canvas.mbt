@@ -52,14 +52,15 @@ pub fn OffscreenCanvas::getContext(
 }
 
 ///|
-pub fn OffscreenCanvas::convertToBlob(
+pub async fn OffscreenCanvas::convertToBlob(
   self : Self,
   options? : String,
-) -> @js.Promise[@blob.Blob] {
-  match options {
+) -> @blob.Blob {
+  let promise : @js.Promise[@blob.Blob] = match options {
     Some(opts) => self.call("convertToBlob", [opts]).cast()
     None => self.call0("convertToBlob").cast()
   }
+  promise.wait()
 }
 
 ///|

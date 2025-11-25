@@ -15,11 +15,11 @@ fn[Env, ExecutionContext] test_client(Hono[Env, ExecutionContext]) -> HonoClient
 
 // Types and methods
 pub type ClientEndpoint
-fn ClientEndpoint::delete_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> @js.Promise[ClientResponse]
-fn ClientEndpoint::get_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> @js.Promise[ClientResponse]
-fn ClientEndpoint::patch_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> @js.Promise[ClientResponse]
-fn ClientEndpoint::post_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> @js.Promise[ClientResponse]
-fn ClientEndpoint::put_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> @js.Promise[ClientResponse]
+async fn ClientEndpoint::delete_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
+async fn ClientEndpoint::get_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
+async fn ClientEndpoint::patch_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
+async fn ClientEndpoint::post_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
+async fn ClientEndpoint::put_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
 fn ClientEndpoint::url_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> String
 impl @js.JsImpl for ClientEndpoint
 

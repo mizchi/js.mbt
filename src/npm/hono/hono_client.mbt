@@ -125,7 +125,7 @@ extern "js" fn ffi_call_dollar_get(
 ///|
 /// Make a GET request to the endpoint
 /// Original: endpoint.$get(options)
-pub fn ClientEndpoint::get_(
+pub async fn ClientEndpoint::get_(
   self : ClientEndpoint,
   query? : @js.Any,
   form? : @js.Any,
@@ -133,14 +133,14 @@ pub fn ClientEndpoint::get_(
   param? : @js.Any,
   header? : @js.Any,
   init? : @js.Any,
-) -> @js.Promise[ClientResponse] {
+) -> ClientResponse {
   let has_options = query is Some(_) ||
     form is Some(_) ||
     json is Some(_) ||
     param is Some(_) ||
     header is Some(_) ||
     init is Some(_)
-  if has_options {
+  let promise : @js.Promise[ClientResponse] = if has_options {
     let opts = build_request_options(
       query.unwrap_or(@js.undefined()),
       form.unwrap_or(@js.undefined()),
@@ -153,6 +153,7 @@ pub fn ClientEndpoint::get_(
   } else {
     ffi_call_dollar_get(@js.identity(self), @js.undefined()).cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -171,7 +172,7 @@ extern "js" fn ffi_call_dollar_post(
 ///|
 /// Make a POST request to the endpoint
 /// Original: endpoint.$post(options)
-pub fn ClientEndpoint::post_(
+pub async fn ClientEndpoint::post_(
   self : ClientEndpoint,
   query? : @js.Any,
   form? : @js.Any,
@@ -179,14 +180,14 @@ pub fn ClientEndpoint::post_(
   param? : @js.Any,
   header? : @js.Any,
   init? : @js.Any,
-) -> @js.Promise[ClientResponse] {
+) -> ClientResponse {
   let has_options = query is Some(_) ||
     form is Some(_) ||
     json is Some(_) ||
     param is Some(_) ||
     header is Some(_) ||
     init is Some(_)
-  if has_options {
+  let promise : @js.Promise[ClientResponse] = if has_options {
     let opts = build_request_options(
       query.unwrap_or(@js.undefined()),
       form.unwrap_or(@js.undefined()),
@@ -199,6 +200,7 @@ pub fn ClientEndpoint::post_(
   } else {
     ffi_call_dollar_post(@js.identity(self), @js.undefined()).cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -217,7 +219,7 @@ extern "js" fn ffi_call_dollar_put(
 ///|
 /// Make a PUT request to the endpoint
 /// Original: endpoint.$put(options)
-pub fn ClientEndpoint::put_(
+pub async fn ClientEndpoint::put_(
   self : ClientEndpoint,
   query? : @js.Any,
   form? : @js.Any,
@@ -225,14 +227,14 @@ pub fn ClientEndpoint::put_(
   param? : @js.Any,
   header? : @js.Any,
   init? : @js.Any,
-) -> @js.Promise[ClientResponse] {
+) -> ClientResponse {
   let has_options = query is Some(_) ||
     form is Some(_) ||
     json is Some(_) ||
     param is Some(_) ||
     header is Some(_) ||
     init is Some(_)
-  if has_options {
+  let promise : @js.Promise[ClientResponse] = if has_options {
     let opts = build_request_options(
       query.unwrap_or(@js.undefined()),
       form.unwrap_or(@js.undefined()),
@@ -245,6 +247,7 @@ pub fn ClientEndpoint::put_(
   } else {
     ffi_call_dollar_put(@js.identity(self), @js.undefined()).cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -263,7 +266,7 @@ extern "js" fn ffi_call_dollar_delete(
 ///|
 /// Make a DELETE request to the endpoint
 /// Original: endpoint.$delete(options)
-pub fn ClientEndpoint::delete_(
+pub async fn ClientEndpoint::delete_(
   self : ClientEndpoint,
   query? : @js.Any,
   form? : @js.Any,
@@ -271,14 +274,14 @@ pub fn ClientEndpoint::delete_(
   param? : @js.Any,
   header? : @js.Any,
   init? : @js.Any,
-) -> @js.Promise[ClientResponse] {
+) -> ClientResponse {
   let has_options = query is Some(_) ||
     form is Some(_) ||
     json is Some(_) ||
     param is Some(_) ||
     header is Some(_) ||
     init is Some(_)
-  if has_options {
+  let promise : @js.Promise[ClientResponse] = if has_options {
     let opts = build_request_options(
       query.unwrap_or(@js.undefined()),
       form.unwrap_or(@js.undefined()),
@@ -291,6 +294,7 @@ pub fn ClientEndpoint::delete_(
   } else {
     ffi_call_dollar_delete(@js.identity(self), @js.undefined()).cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -309,7 +313,7 @@ extern "js" fn ffi_call_dollar_patch(
 ///|
 /// Make a PATCH request to the endpoint
 /// Original: endpoint.$patch(options)
-pub fn ClientEndpoint::patch_(
+pub async fn ClientEndpoint::patch_(
   self : ClientEndpoint,
   query? : @js.Any,
   form? : @js.Any,
@@ -317,14 +321,14 @@ pub fn ClientEndpoint::patch_(
   param? : @js.Any,
   header? : @js.Any,
   init? : @js.Any,
-) -> @js.Promise[ClientResponse] {
+) -> ClientResponse {
   let has_options = query is Some(_) ||
     form is Some(_) ||
     json is Some(_) ||
     param is Some(_) ||
     header is Some(_) ||
     init is Some(_)
-  if has_options {
+  let promise : @js.Promise[ClientResponse] = if has_options {
     let opts = build_request_options(
       query.unwrap_or(@js.undefined()),
       form.unwrap_or(@js.undefined()),
@@ -337,6 +341,7 @@ pub fn ClientEndpoint::patch_(
   } else {
     ffi_call_dollar_patch(@js.identity(self), @js.undefined()).cast()
   }
+  promise.wait()
 }
 
 ///|

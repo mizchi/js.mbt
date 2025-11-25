@@ -114,7 +114,7 @@ fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomEle
 fn CustomElementRegistry::get(Self, String) -> @js.Any?
 fn CustomElementRegistry::getName(Self, @js.Any) -> String?
 fn CustomElementRegistry::upgrade(Self, Node) -> Unit
-fn CustomElementRegistry::whenDefined(Self, String) -> @js.Promise[Unit]
+async fn CustomElementRegistry::whenDefined(Self, String) -> Unit
 impl @js.JsImpl for CustomElementRegistry
 
 pub(all) struct DOMRect {
@@ -786,7 +786,7 @@ fn Window::console(Self) -> @js.Any
 #alias(device_pixel_ratio)
 fn Window::devicePixelRatio(Self) -> Double
 fn Window::document(Self) -> Document
-fn Window::fetch(Self, String, init? : @js.Any) -> @js.Promise[@js.Any]
+async fn Window::fetch(Self, String, init? : @js.Any) -> @js.Any
 #alias(get_computed_style)
 fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @js.Any
 #alias(get_selection)

@@ -8,9 +8,21 @@ extern "js" fn new_text_encoder() -> @js.Any =
   #| () => new TextEncoder()
 
 ///|
+/// Helper to create TextDecoder
+extern "js" fn new_text_decoder() -> @js.Any =
+  #| () => new TextDecoder()
+
+///|
 /// Helper to create Uint8Array
 extern "js" fn new_uint8array(size : Int) -> @js.Any =
   #| (size) => new Uint8Array(size)
+
+///|
+/// Decode Uint8Array to string
+fn decode_uint8array(arr : @js.Any) -> String {
+  let decoder = new_text_decoder()
+  decoder.call("decode", [arr]).cast()
+}
 
 ///|
 fn main {
@@ -409,5 +421,86 @@ fn main {
     let content2 = d.readTextFile(test_file)
     assert_eq(content2, "updated")
     d.remove(test_file)
+  })
+
+  // Test Command.output() - run echo command
+  d.test_async("Command output", async fn(_ctx) {
+    let cmd = @deno.Command::new("echo", args=["Hello", "from", "MoonBit"])
+    let output = cmd.output()
+    assert_true(output.success())
+    assert_eq(output.code(), 0)
+    let stdout_text = decode_uint8array(output.stdout())
+    assert_true(stdout_text.contains("Hello"))
+    assert_true(stdout_text.contains("MoonBit"))
+  })
+
+  // Test Command.output_sync() - synchronous execution
+  d.test_async("Command outputSync", async fn(_ctx) {
+    let cmd = @deno.Command::new("echo", args=["sync", "test"])
+    let output = cmd.output_sync()
+    assert_true(output.success())
+    assert_eq(output.code(), 0)
+    let stdout_text = decode_uint8array(output.stdout())
+    assert_true(stdout_text.contains("sync"))
+  })
+
+  // Test Command with cwd option
+  d.test_async("Command with cwd", async fn(_ctx) {
+    let cwd = d.cwd()
+    let cmd = @deno.Command::new("pwd", cwd~)
+    let output = cmd.output()
+    assert_true(output.success())
+    let stdout_text = decode_uint8array(output.stdout())
+    assert_true(stdout_text.length() > 0)
+  })
+
+  // Test Command spawn and status
+  d.test_async("Command spawn", async fn(_ctx) {
+    // Use null for stdout/stderr to avoid stream leak issues
+    let cmd = @deno.Command::new(
+      "echo",
+      args=["spawn", "test"],
+      stdout="null",
+      stderr="null",
+    )
+    let child = cmd.spawn()
+    assert_true(child.pid() > 0)
+    let status = child.status()
+    assert_true(status.success())
+    assert_eq(status.code(), 0)
+  })
+
+  // Test Command with exit code
+  d.test_async("Command exit code", async fn(_ctx) {
+    // Use sh -c to run a command that exits with code 1
+    let cmd = @deno.Command::new("sh", args=["-c", "exit 1"])
+    let output = cmd.output()
+    assert_false(output.success())
+    assert_eq(output.code(), 1)
+  })
+
+  // Test Command stderr
+  d.test_async("Command stderr", async fn(_ctx) {
+    // Use sh -c to write to stderr
+    let cmd = @deno.Command::new(
+      "sh",
+      args=["-c", "echo error message >&2"],
+      stderr="piped",
+    )
+    let output = cmd.output()
+    assert_true(output.success())
+    let stderr_text = decode_uint8array(output.stderr())
+    assert_true(stderr_text.contains("error message"))
+  })
+
+  // Test Command with multiple arguments
+  d.test_async("Command multiple args", async fn(_ctx) {
+    let cmd = @deno.Command::new("sh", args=[
+      "-c", "echo $0 $1 $2", "arg1", "arg2", "arg3",
+    ])
+    let output = cmd.output()
+    assert_true(output.success())
+    let stdout_text = decode_uint8array(output.stdout())
+    assert_true(stdout_text.contains("arg1"))
   })
 }

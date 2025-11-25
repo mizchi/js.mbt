@@ -62,14 +62,16 @@ pub fn File::as_blob(self : Self) -> @blob.Blob {
 ///|
 /// Get the file contents as ArrayBuffer (inherited from Blob)
 #alias(arrayBuffer)
-pub fn File::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer") |> @js.identity
+pub async fn File::array_buffer(self : Self) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self.call0("arrayBuffer").cast()
+  promise.wait()
 }
 
 ///|
 /// Get the file contents as text (inherited from Blob)
-pub fn File::text(self : Self) -> @js.Promise[String] {
-  self.call0("text").cast()
+pub async fn File::text(self : Self) -> String {
+  let promise : @js.Promise[String] = self.call0("text").cast()
+  promise.wait()
 }
 
 ///|

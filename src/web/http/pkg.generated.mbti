@@ -9,9 +9,9 @@ import(
 )
 
 // Values
-fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.JsImpl, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js.AbortSignal) -> @js.Promise[Response]
+async fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.JsImpl, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js.AbortSignal) -> Response
 
-fn fetch_request(Request) -> @js.Promise[Response]
+async fn fetch_request(Request) -> Response
 
 // Errors
 
@@ -31,14 +31,14 @@ pub(all) struct Request {
   url : String
   credentials : String
 }
-fn Request::arraybuffer(Self) -> @js.Promise[@js.ArrayBuffer]
-fn Request::blob(Self) -> @js.Promise[@blob.Blob]
-fn Request::bytes(Self) -> @js.Promise[@typedarray.Uint8Array]
+async fn Request::arraybuffer(Self) -> @js.ArrayBuffer
+async fn Request::blob(Self) -> @blob.Blob
+async fn Request::bytes(Self) -> @typedarray.Uint8Array
 fn Request::clone(Self) -> Self
-fn Request::json(Self) -> @js.Promise[@js.Any]
+async fn Request::json(Self) -> @js.Any
 fn Request::method_(Self) -> String
 fn Request::new(String) -> Self
-fn Request::text(Self) -> @js.Promise[String]
+async fn Request::text(Self) -> String
 impl @js.JsImpl for Request
 
 pub(all) struct Response {
@@ -48,16 +48,16 @@ pub(all) struct Response {
   redirected : Bool
 }
 fn Response::body(Self) -> @streams.ReadableStream?
-fn Response::bytes(Self) -> @js.Promise[@typedarray.Uint8Array]
+async fn Response::bytes(Self) -> @typedarray.Uint8Array
 fn Response::clone(Self) -> Self
 fn Response::error() -> Self
-fn Response::form_data(Self) -> @js.Promise[FormData]
+async fn Response::form_data(Self) -> FormData
 fn Response::html(String, Int) -> Self
-fn Response::json(Self) -> @js.Promise[@js.Any]
+async fn Response::json(Self) -> @js.Any
 fn Response::json_(&@js.JsImpl, options? : &@js.JsImpl) -> Self
 fn Response::new(body? : String, status? : Int, statusText? : String, headers? : &@js.JsImpl) -> Self
 fn Response::redirect(String, status? : Int) -> Self
-fn Response::text(Self) -> @js.Promise[String]
+async fn Response::text(Self) -> String
 fn Response::text_(String, Int) -> Self
 fn Response::type_(Self) -> String
 impl @js.JsImpl for Response
