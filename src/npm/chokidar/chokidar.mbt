@@ -42,61 +42,47 @@ fn watch_impl(
   atomic_? : Bool,
 ) -> FSWatcher {
   let options = @js.Object::new()
-  match persistent {
-    Some(v) => options.set("persistent", @js.any(v))
-    None => ()
+  if persistent is Some(v) {
+    options.set("persistent", @js.any(v))
   }
-  match ignored {
-    Some(v) => options.set("ignored", v)
-    None => ()
+  if ignored is Some(v) {
+    options.set("ignored", v)
   }
-  match ignoreInitial {
-    Some(v) => options.set("ignoreInitial", @js.any(v))
-    None => ()
+  if ignoreInitial is Some(v) {
+    options.set("ignoreInitial", @js.any(v))
   }
-  match followSymlinks {
-    Some(v) => options.set("followSymlinks", @js.any(v))
-    None => ()
+  if followSymlinks is Some(v) {
+    options.set("followSymlinks", @js.any(v))
   }
-  match cwd {
-    Some(v) => options.set("cwd", @js.any(v))
-    None => ()
+  if cwd is Some(v) {
+    options.set("cwd", @js.any(v))
   }
-  match disableGlobbing {
-    Some(v) => options.set("disableGlobbing", @js.any(v))
-    None => ()
+  if disableGlobbing is Some(v) {
+    options.set("disableGlobbing", @js.any(v))
   }
-  match usePolling {
-    Some(v) => options.set("usePolling", @js.any(v))
-    None => ()
+  if usePolling is Some(v) {
+    options.set("usePolling", @js.any(v))
   }
-  match interval {
-    Some(v) => options.set("interval", @js.any(v))
-    None => ()
+  if interval is Some(v) {
+    options.set("interval", @js.any(v))
   }
-  match binaryInterval {
-    Some(v) => options.set("binaryInterval", @js.any(v))
-    None => ()
+  if binaryInterval is Some(v) {
+    options.set("binaryInterval", @js.any(v))
   }
-  match alwaysStat {
-    Some(v) => options.set("alwaysStat", @js.any(v))
-    None => ()
+  if alwaysStat is Some(v) {
+    options.set("alwaysStat", @js.any(v))
   }
-  match depth {
-    Some(v) => options.set("depth", @js.any(v))
-    None => ()
+  if depth is Some(v) {
+    options.set("depth", @js.any(v))
   }
-  match awaitWriteFinish {
-    Some(v) => options.set("awaitWriteFinish", v)
-    None => ()
+  if awaitWriteFinish is Some(v) {
+    options.set("awaitWriteFinish", v)
   }
-  match ignorePermissionErrors {
-    Some(v) => options.set("ignorePermissionErrors", @js.any(v))
-    None => ()
+  if ignorePermissionErrors is Some(v) {
+    options.set("ignorePermissionErrors", @js.any(v))
   }
-  match atomic_ {
-    Some(v) => options.set("atomic", @js.any(v))
-    None => ()
+  if atomic_ is Some(v) {
+    options.set("atomic", @js.any(v))
   }
   @js.identity(ffi_watch(paths, options.to_any()))
 }
