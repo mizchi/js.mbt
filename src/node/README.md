@@ -9,22 +9,17 @@ This package will move to `mizchi/node` in future.
 - cjs
   - [x] `require`
   - [x] `require.resolve`
-  - [ ] `module`
+  - [x] `module` by `module_`
   - [x] `__filename`
   - [x] `__dirname`
+  - [x] `Buffer`
+  - [x] `process`
 - esm
   - [x] `import.meta.url`
   - [x] `import.meta.resolve`
   - [x] `import.meta.resolve`
   - [x] `import.meta.filename`
   - [x] `import.meta.dirname`  
-
-Not Supported
-
-- `process`
-  - Use `mizchi/js/node/process`
-- `Buffer`
-  - Use `mizchi/js/node/buffer`
 
 ## Node.js Module Support Status
 

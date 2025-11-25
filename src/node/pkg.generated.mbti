@@ -3,6 +3,8 @@ package "mizchi/js/node"
 
 import(
   "mizchi/js"
+  "mizchi/js/node/buffer"
+  "mizchi/js/node/process"
 )
 
 // Values
@@ -17,6 +19,8 @@ fn import_meta_resolve(String) -> Unit
 fn import_meta_url() -> String
 
 fn module_() -> @js.Any
+
+fn process() -> @process.Process
 
 fn require(String) -> @js.Any
 
@@ -36,6 +40,9 @@ pub type Immediate
 impl @js.JsImpl for Immediate
 
 // Type aliases
+pub using @buffer {type Buffer}
+
+pub using @process {type Process}
 
 // Traits
 
