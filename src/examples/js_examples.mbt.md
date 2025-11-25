@@ -221,13 +221,11 @@ test "conditional property setting for optional properties" {
   // Only sets if value is Some
   let name_opt : String? = Some("MoonBit")
   let version_opt : String? = None
-  match name_opt {
-    Some(v) => obj.set("name", v)
-    None => ()
+  if name_opt is Some(v) {
+    obj.set("name", v)
   }
-  match version_opt {
-    Some(v) => obj.set("version", v)
-    None => ()
+  if version_opt is Some(v) {
+    obj.set("version", v)
   }
   inspect(
     obj.to_any(),
@@ -410,5 +408,81 @@ test "constructor with new_" {
   let array_constructor = @js.globalThis().get("Array")
   let arr = @js.new_(array_constructor, [3])
   inspect(arr, content="[null,null,null]")
+}
+```
+
+## Building Nested Options Objects
+
+Creating complex nested configuration objects:
+
+```moonbit
+///|
+test "build nested options object" {
+  let options = @js.Object::new()
+  options.set("method", "POST")
+  options.set("mode", "cors")
+
+  let headers = @js.Object::new()
+  headers.set("Content-Type", "application/json")
+  headers.set("Accept", "application/json")
+  options.set("headers", headers)
+
+  inspect(
+    options.to_any(),
+    content=(
+      #|{"method":"POST","mode":"cors","headers":{"Content-Type":"application/json","Accept":"application/json"}}
+    ),
+  )
+}
+```
+
+## Array Higher-Order Methods
+
+Using filter and map with JavaScript callbacks:
+
+```moonbit
+///|
+test "array filter and map" {
+  let arr = @js.JsArray::from([1, 2, 3, 4, 5])
+
+  // filter
+  let filter_fn = fn(x : @js.Any) -> Bool {
+    let num : Int = @js.identity(x)
+    num > 2
+  }
+  let filtered = arr.call1("filter", @js.from_fn1(filter_fn))
+  inspect(filtered, content="[3,4,5]")
+
+  // map
+  let map_fn = fn(x : @js.Any) -> @js.Any {
+    let num : Int = @js.identity(x)
+    @js.any(num * 2)
+  }
+  let mapped = arr.call1("map", @js.from_fn1(map_fn))
+  inspect(mapped, content="[2,4,6,8,10]")
+}
+```
+
+## Function Conversion
+
+Converting MoonBit functions to JavaScript functions:
+
+```moonbit
+///|
+test "function conversion with from_fn" {
+  // from_fn0 - no arguments
+  let fn0 = @js.from_fn0(fn() -> Int { 42 })
+  let result0 : Int = @js.identity(fn0.call_self0())
+  assert_eq(result0, 42)
+
+  // from_fn1 - one argument
+  let fn1 = @js.from_fn1(fn(x : Int) -> Int { x * 2 })
+  let result1 : Int = @js.identity(fn1.call_self([10]))
+  assert_eq(result1, 20)
+
+  // from_fn2 - two arguments
+  let fn2 = @js.from_fn2(fn(a : Int, b : Int) -> Int { a + b })
+  let result2 : Int = @js.identity(fn2.call_self([5, 3]))
+  assert_eq(result2, 8)
 }
 ```

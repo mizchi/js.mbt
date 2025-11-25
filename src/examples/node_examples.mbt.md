@@ -8,22 +8,18 @@ Working with the Node.js file system API:
 
 ```moonbit
 ///|
-test "file write and read operations" {
-  @js.run_async(() => try {
-    let tmpdir = @os.tmpdir()
-    let outpath = @path.join([tmpdir, "moonbit_test.txt"])
-    let content = "Hello from MoonBit!"
+async test "file write and read operations" {
+  let tmpdir = @os.tmpdir()
+  let outpath = @path.join([tmpdir, "moonbit_test.txt"])
+  let content = "Hello from MoonBit!"
 
-    // Write file
-    @fs_promises.writeFile(outpath, content).wait()
+  // Write file
+  @fs_promises.writeFile(outpath, content).wait()
 
-    // Read file
-    let read_content = @fs_promises.readFile(outpath).wait()
-    inspect(read_content, content="Hello from MoonBit!")
-    assert_eq(content, read_content)
-  } catch {
-    _ => ()
-  })
+  // Read file
+  let read_content = @fs_promises.readFile(outpath).wait()
+  inspect(read_content, content="Hello from MoonBit!")
+  assert_eq(content, read_content)
 }
 ```
 
@@ -33,20 +29,16 @@ Getting file statistics:
 
 ```moonbit
 ///|
-test "file stats" {
-  @js.run_async(() => try {
-    let tmpdir = @os.tmpdir()
-    let filepath = @path.join([tmpdir, "moonbit_stat_test.txt"])
-    let content = "File stats test"
-    @fs_promises.writeFile(filepath, content).wait()
-    let stat = @fs_promises.stat(filepath).wait()
-    inspect(stat.isFile(), content="true")
-    inspect(stat.isDirectory(), content="false")
-    assert_true(stat.isFile())
-    assert_false(stat.isDirectory())
-  } catch {
-    _ => ()
-  })
+async test "file stats" {
+  let tmpdir = @os.tmpdir()
+  let filepath = @path.join([tmpdir, "moonbit_stat_test.txt"])
+  let content = "File stats test"
+  @fs_promises.writeFile(filepath, content).wait()
+  let stat = @fs_promises.stat(filepath).wait()
+  inspect(stat.isFile(), content="true")
+  inspect(stat.isDirectory(), content="false")
+  assert_true(stat.isFile())
+  assert_false(stat.isDirectory())
 }
 ```
 
@@ -88,24 +80,22 @@ Creating and checking directories:
 
 ```moonbit
 ///|
-test "directory operations" {
-  @js.run_async(() => try {
-    let tmpdir = @os.tmpdir()
-    let test_dir = @path.join([tmpdir, "moonbit_test_dir"])
+async test "directory operations" {
+  let tmpdir = @os.tmpdir()
+  let test_dir = @path.join([tmpdir, "moonbit_test_dir"])
 
-    // Create directory
-    @fs_promises.mkdir(test_dir).wait()
-
-    // Check if it exists and is a directory
-    let stat = @fs_promises.stat(test_dir).wait()
-    inspect(stat.isDirectory(), content="true")
-    assert_true(stat.isDirectory())
-
-    // Clean up
-    @fs_promises.rmdir(test_dir).wait()
-  } catch {
+  // Create directory (ignore if exists)
+  @fs_promises.mkdir(test_dir).wait() catch {
     _ => ()
-  })
+  }
+
+  // Check if it exists and is a directory
+  let stat = @fs_promises.stat(test_dir).wait()
+  inspect(stat.isDirectory(), content="true")
+  assert_true(stat.isDirectory())
+
+  // Clean up
+  @fs_promises.rmdir(test_dir).wait()
 }
 ```
 
@@ -115,26 +105,22 @@ Checking if files or directories exist:
 
 ```moonbit
 ///|
-test "file existence check" {
-  @js.run_async(() => try {
-    let tmpdir = @os.tmpdir()
-    let test_file = @path.join([tmpdir, "moonbit_exists_test.txt"])
+async test "file existence check" {
+  let tmpdir = @os.tmpdir()
+  let test_file = @path.join([tmpdir, "moonbit_exists_test.txt"])
 
-    // Write a file
-    @fs_promises.writeFile(test_file, "exists").wait()
+  // Write a file
+  @fs_promises.writeFile(test_file, "exists").wait()
 
-    // Check existence using stat (will throw if not exists)
-    let exists = try {
-      @fs_promises.stat(test_file).wait() |> ignore
-      true
-    } catch {
-      _ => false
-    }
-    inspect(exists, content="true")
-    assert_true(exists)
+  // Check existence using stat (will throw if not exists)
+  let exists = try {
+    @fs_promises.stat(test_file).wait() |> ignore
+    true
   } catch {
-    _ => ()
-  })
+    _ => false
+  }
+  inspect(exists, content="true")
+  assert_true(exists)
 }
 ```
 
@@ -144,30 +130,33 @@ List files in a directory:
 
 ```moonbit
 ///|
-test "read directory contents" {
-  @js.run_async(() => try {
-    let tmpdir = @os.tmpdir()
-    let test_dir = @path.join([tmpdir, "moonbit_readdir_test"])
+async test "read directory contents" {
+  let tmpdir = @os.tmpdir()
+  let test_dir = @path.join([tmpdir, "moonbit_readdir_test"])
 
-    // Create test directory
-    @fs_promises.mkdir(test_dir).wait()
-
-    // Create some test files
-    @fs_promises.writeFile(@path.join([test_dir, "file1.txt"]), "content1").wait()
-    @fs_promises.writeFile(@path.join([test_dir, "file2.txt"]), "content2").wait()
-
-    // Read directory
-    let entries = @fs_promises.readdir(test_dir).wait()
-    inspect(entries)
-    assert_true(entries.length() >= 2)
-
-    // Clean up
-    @fs_promises.unlink(@path.join([test_dir, "file1.txt"])).wait()
-    @fs_promises.unlink(@path.join([test_dir, "file2.txt"])).wait()
-    @fs_promises.rmdir(test_dir).wait()
-  } catch {
+  // Create test directory (ignore if exists)
+  @fs_promises.mkdir(test_dir).wait() catch {
     _ => ()
-  })
+  }
+
+  // Create some test files
+  @fs_promises.writeFile(@path.join([test_dir, "file1.txt"]), "content1").wait()
+  @fs_promises.writeFile(@path.join([test_dir, "file2.txt"]), "content2").wait()
+
+  // Read directory
+  let entries = @fs_promises.readdir(test_dir).wait()
+  inspect(
+    entries,
+    content=(
+      #|["file1.txt", "file2.txt"]
+    ),
+  )
+  assert_true(entries.length() >= 2)
+
+  // Clean up
+  @fs_promises.unlink(@path.join([test_dir, "file1.txt"])).wait()
+  @fs_promises.unlink(@path.join([test_dir, "file2.txt"])).wait()
+  @fs_promises.rmdir(test_dir).wait()
 }
 ```
 
@@ -177,26 +166,22 @@ Append content to existing files:
 
 ```moonbit
 ///|
-test "append to file" {
-  @js.run_async(() => try {
-    let tmpdir = @os.tmpdir()
-    let filepath = @path.join([tmpdir, "moonbit_append_test.txt"])
+async test "append to file" {
+  let tmpdir = @os.tmpdir()
+  let filepath = @path.join([tmpdir, "moonbit_append_test.txt"])
 
-    // Write initial content
-    @fs_promises.writeFile(filepath, "Line 1\n").wait()
+  // Write initial content
+  @fs_promises.writeFile(filepath, "Line 1\n").wait()
 
-    // Append more content
-    @fs_promises.appendFile(filepath, "Line 2\n").wait()
-    @fs_promises.appendFile(filepath, "Line 3\n").wait()
+  // Append more content
+  @fs_promises.appendFile(filepath, "Line 2\n").wait()
+  @fs_promises.appendFile(filepath, "Line 3\n").wait()
 
-    // Read and verify
-    let content = @fs_promises.readFile(filepath).wait()
-    inspect(content, content="Line 1\nLine 2\nLine 3\n")
-    assert_true(content.contains("Line 1"))
-    assert_true(content.contains("Line 2"))
-    assert_true(content.contains("Line 3"))
-  } catch {
-    _ => ()
-  })
+  // Read and verify
+  let content = @fs_promises.readFile(filepath).wait()
+  inspect(content, content="Line 1\nLine 2\nLine 3\n")
+  assert_true(content.contains("Line 1"))
+  assert_true(content.contains("Line 2"))
+  assert_true(content.contains("Line 3"))
 }
 ```

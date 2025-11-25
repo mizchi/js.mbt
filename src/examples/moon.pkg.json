@@ -1,19 +1,11 @@
 {
   "import": [
+    "moonbitlang/async",
     "mizchi/js",
     "mizchi/js/builtins/bigint",
-    {
-      "path": "mizchi/js/node/path",
-      "alias": "path"
-    },
-    {
-      "path": "mizchi/js/node/os",
-      "alias": "os"
-    },
-    {
-      "path": "mizchi/js/node/fs_promises",
-      "alias": "fs_promises"
-    }
+    "mizchi/js/node/path",
+    "mizchi/js/node/os",
+    "mizchi/js/node/fs_promises"
   ],
   "warn-list": "-1-3-6-7-9"
 }
