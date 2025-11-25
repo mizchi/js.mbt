@@ -11,11 +11,10 @@ This package provides bindings to Node.js's `readline` module for reading input 
 ### Creating a Readline Interface
 
 ```moonbit
-let options = InterfaceOptions::new(
+let rl = @readline.create_interface(
   @process.stdin,
-  output=Some(@process.stdout)
+  output?=Some(@process.stdout)
 )
-let rl = @readline.create_interface(options)
 ```
 
 ### Handling Line Input
@@ -47,13 +46,12 @@ rl.close()
 ### Types
 
 - `Interface` - The readline interface type
-- `InterfaceOptions` - Configuration options for creating an interface
 
 ### Functions
 
 #### Interface Creation
 
-- `create_interface(options: InterfaceOptions) -> Interface` - Create a new readline interface
+- `create_interface(input, output?, completer?, terminal?, history_size?, prompt?, cr_lf_delay?, remove_history_duplicates?, escape_code_timeout?, tab_size?) -> Interface` - Create a new readline interface with labeled optional arguments
 
 #### Interface Methods
 

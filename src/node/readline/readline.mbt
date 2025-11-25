@@ -40,41 +40,32 @@ pub fn createInterface(
 ) -> Interface {
   let obj = @js.Object::new()
   obj.set("input", input)
-  match output {
-    Some(o) => obj.set("output", o)
-    None => ()
+  if output is Some(o) {
+    obj.set("output", o)
   }
-  match completer {
-    Some(c) => obj.set("completer", wrap_completer(c))
-    None => ()
+  if completer is Some(c) {
+    obj.set("completer", wrap_completer(c))
   }
-  match terminal {
-    Some(t) => obj.set("terminal", t)
-    None => ()
+  if terminal is Some(t) {
+    obj.set("terminal", t)
   }
-  match history_size {
-    Some(h) => obj.set("historySize", h)
-    None => ()
+  if history_size is Some(h) {
+    obj.set("historySize", h)
   }
-  match prompt {
-    Some(p) => obj.set("prompt", p)
-    None => ()
+  if prompt is Some(p) {
+    obj.set("prompt", p)
   }
-  match cr_lf_delay {
-    Some(d) => obj.set("crlfDelay", d)
-    None => ()
+  if cr_lf_delay is Some(d) {
+    obj.set("crlfDelay", d)
   }
-  match remove_history_duplicates {
-    Some(r) => obj.set("removeHistoryDuplicates", r)
-    None => ()
+  if remove_history_duplicates is Some(r) {
+    obj.set("removeHistoryDuplicates", r)
   }
-  match escape_code_timeout {
-    Some(e) => obj.set("escapeCodeTimeout", e)
-    None => ()
+  if escape_code_timeout is Some(e) {
+    obj.set("escapeCodeTimeout", e)
   }
-  match tab_size {
-    Some(t) => obj.set("tabSize", t)
-    None => ()
+  if tab_size is Some(t) {
+    obj.set("tabSize", t)
   }
   create_interface_impl(obj)
 }
