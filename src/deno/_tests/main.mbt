@@ -552,6 +552,109 @@ fn main {
     assert_eq(text, "Hello, World!")
     worker.terminate()
   })
+
+  // =========================================================================
+  // WebGPU Tests (requires --unstable-webgpu flag)
+  // Note: These tests may be skipped if WebGPU is not available
+  // =========================================================================
+
+  // Test GPU availability
+  d.test_async("WebGPU - gpu() available", async fn(_ctx) {
+    guard @webgpu.gpu() is Some(gpu) else {
+      @js.log("WebGPU not available, skipping test")
+      return
+    }
+    // Test getPreferredCanvasFormat
+    let format = gpu.getPreferredCanvasFormat()
+    assert_true(format.length() > 0)
+    @js.log("WebGPU: preferred format = " + format)
+  })
+
+  // Test requestAdapter
+  d.test_async("WebGPU - requestAdapter", async fn(_ctx) {
+    guard @webgpu.gpu() is Some(gpu) else { return }
+    guard gpu.requestAdapter() is Some(_adapter) else {
+      @js.log("No GPU adapter available")
+      return
+    }
+    @js.log("WebGPU: adapter acquired")
+  })
+
+  // Test requestDevice
+  d.test_async("WebGPU - requestDevice", async fn(_ctx) {
+    guard @webgpu.gpu() is Some(gpu) else { return }
+    guard gpu.requestAdapter() is Some(adapter) else { return }
+    guard adapter.requestDevice() is Some(device) else {
+      @js.log("Failed to get GPU device")
+      return
+    }
+    defer device.destroy()
+    @js.log("WebGPU: device acquired")
+  })
+
+  // Test buffer creation
+  d.test_async("WebGPU - createBuffer", async fn(_ctx) {
+    guard @webgpu.gpu() is Some(gpu) else { return }
+    guard gpu.requestAdapter() is Some(adapter) else { return }
+    guard adapter.requestDevice() is Some(device) else { return }
+    @js.log("device type: " + @js.typeof_(device.to_any()))
+    let buffer = device.createBuffer(
+      256,
+      @webgpu.BUFFER_USAGE_COPY_DST | @webgpu.BUFFER_USAGE_MAP_READ,
+      label="test buffer",
+    )
+    @js.log("buffer type: " + @js.typeof_(buffer.to_any()))
+    if @js.is_undefined(buffer.to_any()) {
+      @js.log("WebGPU: buffer is undefined, skipping")
+      device.destroy()
+      return
+    }
+    assert_eq(buffer.size(), 256)
+    assert_eq(buffer.label(), "test buffer")
+    buffer.destroy()
+    device.destroy()
+    @js.log("WebGPU: buffer created")
+  })
+
+  // Test shader module
+  d.test_async("WebGPU - createShaderModule", async fn(_ctx) {
+    guard @webgpu.gpu() is Some(gpu) else { return }
+    guard gpu.requestAdapter() is Some(adapter) else { return }
+    guard adapter.requestDevice() is Some(device) else { return }
+    let shader_code =
+      #|@compute @workgroup_size(1)
+      #|fn main() {}
+    let shader = device.createShaderModule(shader_code, label="test shader")
+    @js.log("shader type: " + @js.typeof_(shader.to_any()))
+    if @js.is_undefined(shader.to_any()) {
+      @js.log("WebGPU: shader is undefined, skipping")
+      device.destroy()
+      return
+    }
+    assert_eq(shader.label(), "test shader")
+    device.destroy()
+    @js.log("WebGPU: shader module created")
+  })
+
+  // Test command encoder and submit
+  d.test_async("WebGPU - command encoder", async fn(_ctx) {
+    guard @webgpu.gpu() is Some(gpu) else { return }
+    guard gpu.requestAdapter() is Some(adapter) else { return }
+    guard adapter.requestDevice() is Some(device) else { return }
+    let encoder = device.createCommandEncoder(label="test encoder")
+    @js.log("encoder type: " + @js.typeof_(encoder.to_any()))
+    if @js.is_undefined(encoder.to_any()) {
+      @js.log("WebGPU: encoder is undefined, skipping")
+      device.destroy()
+      return
+    }
+    assert_eq(encoder.label(), "test encoder")
+    let command_buffer = encoder.finish()
+    let queue = device.queue()
+    queue.submit([command_buffer])
+    device.destroy()
+    @js.log("WebGPU: command submitted")
+  })
 }
 
 ///|

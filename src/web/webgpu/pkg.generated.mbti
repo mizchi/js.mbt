@@ -1,0 +1,257 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/webgpu"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+const BUFFER_USAGE_COPY_DST : Int = 0x0008
+
+const BUFFER_USAGE_COPY_SRC : Int = 0x0004
+
+const BUFFER_USAGE_INDEX : Int = 0x0010
+
+const BUFFER_USAGE_INDIRECT : Int = 0x0100
+
+const BUFFER_USAGE_MAP_READ : Int = 0x0001
+
+const BUFFER_USAGE_MAP_WRITE : Int = 0x0002
+
+const BUFFER_USAGE_QUERY_RESOLVE : Int = 0x0200
+
+const BUFFER_USAGE_STORAGE : Int = 0x0080
+
+const BUFFER_USAGE_UNIFORM : Int = 0x0040
+
+const BUFFER_USAGE_VERTEX : Int = 0x0020
+
+const TEXTURE_USAGE_COPY_DST : Int = 0x02
+
+const TEXTURE_USAGE_COPY_SRC : Int = 0x01
+
+const TEXTURE_USAGE_RENDER_ATTACHMENT : Int = 0x10
+
+const TEXTURE_USAGE_STORAGE_BINDING : Int = 0x08
+
+const TEXTURE_USAGE_TEXTURE_BINDING : Int = 0x04
+
+fn gpu() -> GPU?
+
+// Errors
+
+// Types and methods
+pub(all) struct GPU {
+}
+fn GPU::getPreferredCanvasFormat(Self) -> String
+async fn GPU::requestAdapter(Self, power_preference? : String, force_fallback_adapter? : Bool) -> GPUAdapter?
+fn GPU::wgslLanguageFeatures(Self) -> @js.Any
+impl @js.JsImpl for GPU
+
+pub(all) struct GPUAdapter {
+}
+fn GPUAdapter::features(Self) -> GPUSupportedFeatures
+fn GPUAdapter::info(Self) -> GPUAdapterInfo
+fn GPUAdapter::isFallbackAdapter(Self) -> Bool
+fn GPUAdapter::limits(Self) -> GPUSupportedLimits
+async fn GPUAdapter::requestDevice(Self, label? : String, required_features? : Array[String], required_limits? : @js.Any) -> GPUDevice?
+impl @js.JsImpl for GPUAdapter
+
+pub(all) struct GPUAdapterInfo {
+}
+fn GPUAdapterInfo::architecture(Self) -> String
+fn GPUAdapterInfo::description(Self) -> String
+fn GPUAdapterInfo::device(Self) -> String
+fn GPUAdapterInfo::vendor(Self) -> String
+impl @js.JsImpl for GPUAdapterInfo
+
+pub(all) struct GPUBindGroup {
+}
+fn GPUBindGroup::label(Self) -> String
+impl @js.JsImpl for GPUBindGroup
+
+pub(all) struct GPUBindGroupLayout {
+}
+fn GPUBindGroupLayout::label(Self) -> String
+impl @js.JsImpl for GPUBindGroupLayout
+
+pub(all) struct GPUBuffer {
+}
+fn GPUBuffer::destroy(Self) -> Unit
+fn GPUBuffer::getMappedRange(Self, offset? : Int, size? : Int) -> @js.ArrayBuffer
+fn GPUBuffer::label(Self) -> String
+async fn GPUBuffer::mapAsync(Self, Int, offset? : Int, size? : Int) -> Unit
+fn GPUBuffer::mapState(Self) -> String
+fn GPUBuffer::size(Self) -> Int
+fn GPUBuffer::unmap(Self) -> Unit
+fn GPUBuffer::usage(Self) -> Int
+impl @js.JsImpl for GPUBuffer
+
+pub(all) struct GPUCommandBuffer {
+}
+fn GPUCommandBuffer::label(Self) -> String
+impl @js.JsImpl for GPUCommandBuffer
+
+pub(all) struct GPUCommandEncoder {
+}
+fn GPUCommandEncoder::beginComputePass(Self, label? : String) -> GPUComputePassEncoder
+fn GPUCommandEncoder::beginRenderPass(Self, @js.Any) -> GPURenderPassEncoder
+fn GPUCommandEncoder::clearBuffer(Self, GPUBuffer, offset? : Int, size? : Int) -> Unit
+fn GPUCommandEncoder::copyBufferToBuffer(Self, GPUBuffer, Int, GPUBuffer, Int, Int) -> Unit
+fn GPUCommandEncoder::copyBufferToTexture(Self, @js.Any, @js.Any, GPUExtent3D) -> Unit
+fn GPUCommandEncoder::copyTextureToBuffer(Self, @js.Any, @js.Any, GPUExtent3D) -> Unit
+fn GPUCommandEncoder::copyTextureToTexture(Self, @js.Any, @js.Any, GPUExtent3D) -> Unit
+fn GPUCommandEncoder::finish(Self, label? : String) -> GPUCommandBuffer
+fn GPUCommandEncoder::label(Self) -> String
+impl @js.JsImpl for GPUCommandEncoder
+
+pub(all) struct GPUCompilationInfo {
+}
+fn GPUCompilationInfo::messages(Self) -> @js.JsArray
+impl @js.JsImpl for GPUCompilationInfo
+
+pub(all) struct GPUCompilationMessage {
+}
+fn GPUCompilationMessage::lineNum(Self) -> Int
+fn GPUCompilationMessage::linePos(Self) -> Int
+fn GPUCompilationMessage::message(Self) -> String
+fn GPUCompilationMessage::type_(Self) -> String
+impl @js.JsImpl for GPUCompilationMessage
+
+pub(all) struct GPUComputePassEncoder {
+}
+fn GPUComputePassEncoder::dispatchWorkgroups(Self, Int, workgroup_count_y? : Int, workgroup_count_z? : Int) -> Unit
+fn GPUComputePassEncoder::dispatchWorkgroupsIndirect(Self, GPUBuffer, Int) -> Unit
+fn GPUComputePassEncoder::end(Self) -> Unit
+fn GPUComputePassEncoder::setBindGroup(Self, Int, GPUBindGroup) -> Unit
+fn GPUComputePassEncoder::setPipeline(Self, GPUComputePipeline) -> Unit
+impl @js.JsImpl for GPUComputePassEncoder
+
+pub(all) struct GPUComputePipeline {
+}
+fn GPUComputePipeline::getBindGroupLayout(Self, Int) -> GPUBindGroupLayout
+fn GPUComputePipeline::label(Self) -> String
+impl @js.JsImpl for GPUComputePipeline
+
+pub(all) struct GPUDevice {
+}
+fn GPUDevice::createBindGroup(Self, GPUBindGroupLayout, @js.Any, label? : String) -> GPUBindGroup
+fn GPUDevice::createBindGroupLayout(Self, @js.Any, label? : String) -> GPUBindGroupLayout
+fn GPUDevice::createBuffer(Self, Int, Int, label? : String, mapped_at_creation? : Bool) -> GPUBuffer
+fn GPUDevice::createCommandEncoder(Self, label? : String) -> GPUCommandEncoder
+fn GPUDevice::createComputePipeline(Self, @js.Any) -> GPUComputePipeline
+fn GPUDevice::createPipelineLayout(Self, Array[GPUBindGroupLayout], label? : String) -> GPUPipelineLayout
+fn GPUDevice::createRenderPipeline(Self, @js.Any) -> GPURenderPipeline
+fn GPUDevice::createSampler(Self, label? : String, address_mode_u? : String, address_mode_v? : String, address_mode_w? : String, mag_filter? : String, min_filter? : String, mipmap_filter? : String, lod_min_clamp? : Double, lod_max_clamp? : Double, compare? : String, max_anisotropy? : Int) -> GPUSampler
+fn GPUDevice::createShaderModule(Self, String, label? : String) -> GPUShaderModule
+fn GPUDevice::createTexture(Self, GPUExtent3D, String, Int, label? : String, mip_level_count? : Int, sample_count? : Int, dimension? : String, view_formats? : Array[String]) -> GPUTexture
+fn GPUDevice::destroy(Self) -> Unit
+fn GPUDevice::features(Self) -> GPUSupportedFeatures
+fn GPUDevice::label(Self) -> String
+fn GPUDevice::limits(Self) -> GPUSupportedLimits
+fn GPUDevice::lost(Self) -> @js.Promise[GPUDeviceLostInfo]
+async fn GPUDevice::popErrorScope(Self) -> GPUError?
+fn GPUDevice::pushErrorScope(Self, String) -> Unit
+fn GPUDevice::queue(Self) -> GPUQueue
+fn GPUDevice::set_label(Self, String) -> Unit
+impl @js.JsImpl for GPUDevice
+
+pub(all) struct GPUDeviceLostInfo {
+}
+fn GPUDeviceLostInfo::message(Self) -> String
+fn GPUDeviceLostInfo::reason(Self) -> String
+impl @js.JsImpl for GPUDeviceLostInfo
+
+pub(all) struct GPUError {
+}
+fn GPUError::message(Self) -> String
+impl @js.JsImpl for GPUError
+
+pub(all) struct GPUExtent3D {
+}
+fn GPUExtent3D::from_array(Array[Int]) -> Self
+fn GPUExtent3D::new(Int, height? : Int, depth_or_array_layers? : Int) -> Self
+impl @js.JsImpl for GPUExtent3D
+
+pub(all) struct GPUPipelineLayout {
+}
+fn GPUPipelineLayout::label(Self) -> String
+impl @js.JsImpl for GPUPipelineLayout
+
+pub(all) struct GPUQueue {
+}
+async fn GPUQueue::onSubmittedWorkDone(Self) -> Unit
+fn GPUQueue::submit(Self, Array[GPUCommandBuffer]) -> Unit
+fn GPUQueue::writeBuffer(Self, GPUBuffer, Int, @js.Any, data_offset? : Int, size? : Int) -> Unit
+fn GPUQueue::writeTexture(Self, @js.Any, @js.Any, @js.Any, GPUExtent3D) -> Unit
+impl @js.JsImpl for GPUQueue
+
+pub(all) struct GPURenderPassEncoder {
+}
+fn GPURenderPassEncoder::draw(Self, Int, instance_count? : Int, first_vertex? : Int, first_instance? : Int) -> Unit
+fn GPURenderPassEncoder::drawIndexed(Self, Int, instance_count? : Int, first_index? : Int, base_vertex? : Int, first_instance? : Int) -> Unit
+fn GPURenderPassEncoder::end(Self) -> Unit
+fn GPURenderPassEncoder::setBindGroup(Self, Int, GPUBindGroup) -> Unit
+fn GPURenderPassEncoder::setBlendConstant(Self, @js.Any) -> Unit
+fn GPURenderPassEncoder::setIndexBuffer(Self, GPUBuffer, String, offset? : Int, size? : Int) -> Unit
+fn GPURenderPassEncoder::setPipeline(Self, GPURenderPipeline) -> Unit
+fn GPURenderPassEncoder::setScissorRect(Self, Int, Int, Int, Int) -> Unit
+fn GPURenderPassEncoder::setStencilReference(Self, Int) -> Unit
+fn GPURenderPassEncoder::setVertexBuffer(Self, Int, GPUBuffer, offset? : Int, size? : Int) -> Unit
+fn GPURenderPassEncoder::setViewport(Self, Double, Double, Double, Double, Double, Double) -> Unit
+impl @js.JsImpl for GPURenderPassEncoder
+
+pub(all) struct GPURenderPipeline {
+}
+fn GPURenderPipeline::getBindGroupLayout(Self, Int) -> GPUBindGroupLayout
+fn GPURenderPipeline::label(Self) -> String
+impl @js.JsImpl for GPURenderPipeline
+
+pub(all) struct GPUSampler {
+}
+fn GPUSampler::label(Self) -> String
+impl @js.JsImpl for GPUSampler
+
+pub(all) struct GPUShaderModule {
+}
+async fn GPUShaderModule::getCompilationInfo(Self) -> GPUCompilationInfo
+fn GPUShaderModule::label(Self) -> String
+impl @js.JsImpl for GPUShaderModule
+
+pub(all) struct GPUSupportedFeatures {
+}
+fn GPUSupportedFeatures::has(Self, String) -> Bool
+impl @js.JsImpl for GPUSupportedFeatures
+
+pub(all) struct GPUSupportedLimits {
+}
+fn GPUSupportedLimits::maxBindGroups(Self) -> Int
+fn GPUSupportedLimits::maxBufferSize(Self) -> Int
+fn GPUSupportedLimits::maxTextureDimension1D(Self) -> Int
+fn GPUSupportedLimits::maxTextureDimension2D(Self) -> Int
+fn GPUSupportedLimits::maxTextureDimension3D(Self) -> Int
+impl @js.JsImpl for GPUSupportedLimits
+
+pub(all) struct GPUTexture {
+}
+fn GPUTexture::createView(Self, format? : String, dimension? : String, aspect? : String, base_mip_level? : Int, mip_level_count? : Int, base_array_layer? : Int, array_layer_count? : Int, label? : String) -> GPUTextureView
+fn GPUTexture::depthOrArrayLayers(Self) -> Int
+fn GPUTexture::destroy(Self) -> Unit
+fn GPUTexture::dimension(Self) -> String
+fn GPUTexture::format(Self) -> String
+fn GPUTexture::height(Self) -> Int
+fn GPUTexture::mipLevelCount(Self) -> Int
+fn GPUTexture::sampleCount(Self) -> Int
+fn GPUTexture::usage(Self) -> Int
+fn GPUTexture::width(Self) -> Int
+impl @js.JsImpl for GPUTexture
+
+pub(all) struct GPUTextureView {
+}
+fn GPUTextureView::label(Self) -> String
+impl @js.JsImpl for GPUTextureView
+
+// Type aliases
+
+// Traits
+
