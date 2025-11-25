@@ -19,7 +19,7 @@ extern "js" fn create_interface_impl(options : @js.Object) -> Interface =
 pub fn createInterface(
   input : @stream.Readable,
   output? : @stream.Writable,
-  _completer? : (String) -> (Array[String], String),
+  completer? : @js.Any,
   terminal? : Bool,
   history_size? : Int,
   prompt? : String,
@@ -32,6 +32,10 @@ pub fn createInterface(
   obj.set("input", input)
   match output {
     Some(o) => obj.set("output", o)
+    None => ()
+  }
+  match completer {
+    Some(c) => obj.set("completer", c)
     None => ()
   }
   match terminal {
