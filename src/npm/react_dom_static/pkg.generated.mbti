@@ -1,0 +1,38 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/react_dom_static"
+
+import(
+  "mizchi/js"
+  "mizchi/js/node/stream"
+  "mizchi/js/npm/react"
+  "mizchi/js/web/streams"
+  "moonbitlang/async/js_async"
+)
+
+// Values
+async fn dynamic_import() -> ReactDOMStatic
+
+// Errors
+
+// Types and methods
+pub struct PrerenderResult {
+  prelude : @streams.ReadableStream
+  postponed : @js.Any
+}
+
+pub struct PrerenderToNodeStreamResult {
+  prelude : @stream.Readable
+  postponed : @js.Any
+}
+
+#external
+pub type ReactDOMStatic
+async fn ReactDOMStatic::prerender(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@js.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderResult
+#alias(prerender_to_node_stream)
+async fn ReactDOMStatic::prerenderToNodeStream(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@js.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderToNodeStreamResult
+impl @js.JsImpl for ReactDOMStatic
+
+// Type aliases
+
+// Traits
+

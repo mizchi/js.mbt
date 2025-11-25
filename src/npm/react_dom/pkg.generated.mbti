@@ -1,0 +1,27 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/react_dom"
+
+import(
+  "mizchi/js"
+  "mizchi/js/browser/dom"
+  "mizchi/js/npm/react"
+)
+
+// Values
+async fn dynamic_import() -> ReactDOM
+
+// Errors
+
+// Types and methods
+#external
+pub type ReactDOM
+#alias(create_portal)
+fn ReactDOM::createPortal(Self, @react.Element, &@dom.ElementImpl, key? : String) -> @react.Element
+#alias(flush_sync)
+fn[T] ReactDOM::flushSync(Self, () -> T) -> T
+impl @js.JsImpl for ReactDOM
+
+// Type aliases
+
+// Traits
+

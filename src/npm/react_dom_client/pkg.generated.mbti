@@ -17,11 +17,14 @@ async fn dynamic_import() -> ReactDOMClient
 pub type ReactDOMClient
 #alias(create_root)
 fn ReactDOMClient::createRoot(Self, &@dom.ElementImpl) -> ReactDOMRoot
+#alias(hydrate_root)
+fn ReactDOMClient::hydrateRoot(Self, &@dom.ElementImpl, @react.Element) -> ReactDOMRoot
 impl @js.JsImpl for ReactDOMClient
 
 #external
 pub type ReactDOMRoot
 fn ReactDOMRoot::render(Self, @react.Element) -> Unit
+fn ReactDOMRoot::unmount(Self) -> Unit
 impl @js.JsImpl for ReactDOMRoot
 
 // Type aliases

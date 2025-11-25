@@ -5,6 +5,7 @@
     "mizchi/js/browser/dom",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react_element",
+    "mizchi/js/npm/react_dom_client",
     "mizchi/js/npm/react_testing_library",
     "mizchi/js/node"
   ]

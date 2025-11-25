@@ -1,0 +1,12 @@
+{
+  "supported-targets": ["js"],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/web/streams",
+    "mizchi/js/web/encoding",
+    "mizchi/js/node/stream",
+    "mizchi/js/node",
+    "mizchi/js/npm/react",
+    "mizchi/js/npm/react_element"
+  ]
+}
