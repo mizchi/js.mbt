@@ -3,6 +3,27 @@
 pub type Buffer
 
 ///|
+/// BufferJSON - Result of Buffer.toJSON()
+/// Contains the type string "Buffer" and the data as an array of bytes
+#external
+pub type BufferJSON
+
+///|
+pub impl @js.JsImpl for BufferJSON
+
+///|
+/// Get the type field (always "Buffer")
+pub fn BufferJSON::type_(self : BufferJSON) -> String {
+  self.get("type") |> @js.identity
+}
+
+///|
+/// Get the data as an array of bytes
+pub fn BufferJSON::data(self : BufferJSON) -> Array[Int] {
+  self.get("data") |> @js.identity
+}
+
+///|
 pub impl @js.JsImpl for Buffer
 
 ///|
@@ -326,6 +347,6 @@ pub fn Buffer::byteOffset(self : Self) -> Int {
 ///|
 /// Convert buffer to JSON representation
 #alias(to_json)
-pub fn Buffer::toJSON(self : Self) -> @js.Any {
-  self.call0("toJSON")
+pub fn Buffer::toJSON(self : Self) -> BufferJSON {
+  self.call0("toJSON").cast()
 }

@@ -4,6 +4,32 @@ fn net_module() -> @js.Any {
   @node.require("node:net")
 }
 
+///|
+/// AddressInfo - Result of server.address() when listening on TCP
+#external
+pub type AddressInfo
+
+///|
+pub impl @js.JsImpl for AddressInfo
+
+///|
+/// Get the port number
+pub fn AddressInfo::port(self : AddressInfo) -> Int {
+  self.get("port") |> @js.identity
+}
+
+///|
+/// Get the IP address (e.g., "127.0.0.1" or "::1")
+pub fn AddressInfo::address(self : AddressInfo) -> String {
+  self.get("address") |> @js.identity
+}
+
+///|
+/// Get the IP family ("IPv4" or "IPv6")
+pub fn AddressInfo::family(self : AddressInfo) -> String {
+  self.get("family") |> @js.identity
+}
+
 ///| Socket class
 
 ///|
@@ -171,8 +197,14 @@ pub fn Server::close(self : Server) -> Server {
 
 ///|
 /// Get the server address
-pub fn Server::address(self : Server) -> @js.Any? {
-  self.call0("address") |> @js.identity_option
+/// Returns AddressInfo for TCP servers, or null if not listening
+pub fn Server::address(self : Server) -> AddressInfo? {
+  let result = self.call0("address")
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(result.cast())
+  }
 }
 
 ///|

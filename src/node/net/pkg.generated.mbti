@@ -24,8 +24,15 @@ fn isIPv6(String) -> Bool
 
 // Types and methods
 #external
+pub type AddressInfo
+fn AddressInfo::address(Self) -> String
+fn AddressInfo::family(Self) -> String
+fn AddressInfo::port(Self) -> Int
+impl @js.JsImpl for AddressInfo
+
+#external
 pub type Server
-fn Server::address(Self) -> @js.Any?
+fn Server::address(Self) -> AddressInfo?
 fn Server::close(Self) -> Self
 fn Server::listen(Self, Int, host? : String, backlog? : Int, callback? : () -> Unit) -> Self
 fn Server::listening(Self) -> Bool

@@ -43,11 +43,17 @@ fn Buffer::length(Self) -> Int
 fn Buffer::slice(Self, start? : Int, end? : Int) -> Self
 fn Buffer::subarray(Self, start? : Int, end? : Int) -> Self
 #alias(to_json)
-fn Buffer::toJSON(Self) -> @js.Any
+fn Buffer::toJSON(Self) -> BufferJSON
 #alias(to_string)
 fn Buffer::toString(Self, encoding? : String, start? : Int, end? : Int) -> String
 fn Buffer::write(Self, String, offset? : Int, length? : Int, encoding? : String) -> Int
 impl @js.JsImpl for Buffer
+
+#external
+pub type BufferJSON
+fn BufferJSON::data(Self) -> Array[Int]
+fn BufferJSON::type_(Self) -> String
+impl @js.JsImpl for BufferJSON
 
 // Type aliases
 

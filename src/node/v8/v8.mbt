@@ -6,14 +6,157 @@
 extern "js" fn ffi_require_v8() -> @js.Any =
   #|() => require("node:v8")
 
+///|
+/// HeapStatistics - Result of getHeapStatistics()
+#external
+pub type HeapStatistics
+
+///|
+pub impl @js.JsImpl for HeapStatistics
+
+///|
+pub fn HeapStatistics::total_heap_size(self : HeapStatistics) -> Int {
+  self.get("total_heap_size") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::total_heap_size_executable(self : HeapStatistics) -> Int {
+  self.get("total_heap_size_executable") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::total_physical_size(self : HeapStatistics) -> Int {
+  self.get("total_physical_size") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::total_available_size(self : HeapStatistics) -> Int {
+  self.get("total_available_size") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::used_heap_size(self : HeapStatistics) -> Int {
+  self.get("used_heap_size") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::heap_size_limit(self : HeapStatistics) -> Int {
+  self.get("heap_size_limit") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::malloced_memory(self : HeapStatistics) -> Int {
+  self.get("malloced_memory") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::peak_malloced_memory(self : HeapStatistics) -> Int {
+  self.get("peak_malloced_memory") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::does_zap_garbage(self : HeapStatistics) -> Int {
+  self.get("does_zap_garbage") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::number_of_native_contexts(self : HeapStatistics) -> Int {
+  self.get("number_of_native_contexts") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::number_of_detached_contexts(
+  self : HeapStatistics,
+) -> Int {
+  self.get("number_of_detached_contexts") |> @js.identity
+}
+
+///|
+pub fn HeapStatistics::external_memory(self : HeapStatistics) -> Int {
+  self.get("external_memory") |> @js.identity
+}
+
+///|
+/// HeapCodeStatistics - Result of getHeapCodeStatistics()
+#external
+pub type HeapCodeStatistics
+
+///|
+pub impl @js.JsImpl for HeapCodeStatistics
+
+///|
+pub fn HeapCodeStatistics::code_and_metadata_size(
+  self : HeapCodeStatistics,
+) -> Int {
+  self.get("code_and_metadata_size") |> @js.identity
+}
+
+///|
+pub fn HeapCodeStatistics::bytecode_and_metadata_size(
+  self : HeapCodeStatistics,
+) -> Int {
+  self.get("bytecode_and_metadata_size") |> @js.identity
+}
+
+///|
+pub fn HeapCodeStatistics::external_script_source_size(
+  self : HeapCodeStatistics,
+) -> Int {
+  self.get("external_script_source_size") |> @js.identity
+}
+
+///|
+pub fn HeapCodeStatistics::cpu_profiler_metadata_size(
+  self : HeapCodeStatistics,
+) -> Int {
+  self.get("cpu_profiler_metadata_size") |> @js.identity
+}
+
+///|
+/// HeapSpaceStatistics - Element of getHeapSpaceStatistics() array
+#external
+pub type HeapSpaceStatistics
+
+///|
+pub impl @js.JsImpl for HeapSpaceStatistics
+
+///|
+pub fn HeapSpaceStatistics::space_name(self : HeapSpaceStatistics) -> String {
+  self.get("space_name") |> @js.identity
+}
+
+///|
+pub fn HeapSpaceStatistics::space_size(self : HeapSpaceStatistics) -> Int {
+  self.get("space_size") |> @js.identity
+}
+
+///|
+pub fn HeapSpaceStatistics::space_used_size(self : HeapSpaceStatistics) -> Int {
+  self.get("space_used_size") |> @js.identity
+}
+
+///|
+pub fn HeapSpaceStatistics::space_available_size(
+  self : HeapSpaceStatistics,
+) -> Int {
+  self.get("space_available_size") |> @js.identity
+}
+
+///|
+pub fn HeapSpaceStatistics::physical_space_size(
+  self : HeapSpaceStatistics,
+) -> Int {
+  self.get("physical_space_size") |> @js.identity
+}
+
 ///| Heap Statistics Functions
 
 ///|
 /// Get heap statistics
 #alias(get_heap_statistics)
-pub fn getHeapStatistics() -> @js.Any {
+pub fn getHeapStatistics() -> HeapStatistics {
   let v8 = ffi_require_v8()
-  v8.call0("getHeapStatistics")
+  v8.call0("getHeapStatistics").cast()
 }
 
 ///|
@@ -21,17 +164,17 @@ pub fn getHeapStatistics() -> @js.Any {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(get_heap_space_statistics)
-pub fn getHeapSpaceStatistics() -> Array[@js.Any] {
+pub fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics] {
   let v8 = ffi_require_v8()
-  v8.call0("getHeapSpaceStatistics").cast()
+  v8.call0("getHeapSpaceStatistics") |> @js.identity
 }
 
 ///|
 /// Get heap code statistics
 #alias(get_heap_code_statistics)
-pub fn getHeapCodeStatistics() -> @js.Any {
+pub fn getHeapCodeStatistics() -> HeapCodeStatistics {
   let v8 = ffi_require_v8()
-  v8.call0("getHeapCodeStatistics")
+  v8.call0("getHeapCodeStatistics").cast()
 }
 
 ///|

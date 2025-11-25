@@ -238,8 +238,14 @@ pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
 
 ///|
 /// Get the server address
-pub fn Server::address(self : Server) -> @js.Any? {
-  self.call0("address") |> @js.identity_option
+/// Returns AddressInfo for TCP servers, or null if not listening
+pub fn Server::address(self : Server) -> @net.AddressInfo? {
+  let result = self.call0("address")
+  if @js.is_null(result) {
+    None
+  } else {
+    Some(result.cast())
+  }
 }
 
 ///|

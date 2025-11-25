@@ -13,16 +13,16 @@ fn cachedDataVersionTag() -> Int
 fn deserialize(@buffer.Buffer) -> @js.Any
 
 #alias(get_heap_code_statistics)
-fn getHeapCodeStatistics() -> @js.Any
+fn getHeapCodeStatistics() -> HeapCodeStatistics
 
 #alias(get_heap_snapshot)
 fn getHeapSnapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @js.Any
 
 #alias(get_heap_space_statistics)
-fn getHeapSpaceStatistics() -> Array[@js.Any]
+fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics]
 
 #alias(get_heap_statistics)
-fn getHeapStatistics() -> @js.Any
+fn getHeapStatistics() -> HeapStatistics
 
 fn serialize(&@js.JsImpl) -> @buffer.Buffer
 
@@ -62,6 +62,39 @@ fn Deserializer::readValue(Self) -> @js.Any
 #alias(transferArrayBuffer)
 fn Deserializer::transfer_array_buffer(Self, Int, @js.ArrayBuffer) -> Unit
 impl @js.JsImpl for Deserializer
+
+#external
+pub type HeapCodeStatistics
+fn HeapCodeStatistics::bytecode_and_metadata_size(Self) -> Int
+fn HeapCodeStatistics::code_and_metadata_size(Self) -> Int
+fn HeapCodeStatistics::cpu_profiler_metadata_size(Self) -> Int
+fn HeapCodeStatistics::external_script_source_size(Self) -> Int
+impl @js.JsImpl for HeapCodeStatistics
+
+#external
+pub type HeapSpaceStatistics
+fn HeapSpaceStatistics::physical_space_size(Self) -> Int
+fn HeapSpaceStatistics::space_available_size(Self) -> Int
+fn HeapSpaceStatistics::space_name(Self) -> String
+fn HeapSpaceStatistics::space_size(Self) -> Int
+fn HeapSpaceStatistics::space_used_size(Self) -> Int
+impl @js.JsImpl for HeapSpaceStatistics
+
+#external
+pub type HeapStatistics
+fn HeapStatistics::does_zap_garbage(Self) -> Int
+fn HeapStatistics::external_memory(Self) -> Int
+fn HeapStatistics::heap_size_limit(Self) -> Int
+fn HeapStatistics::malloced_memory(Self) -> Int
+fn HeapStatistics::number_of_detached_contexts(Self) -> Int
+fn HeapStatistics::number_of_native_contexts(Self) -> Int
+fn HeapStatistics::peak_malloced_memory(Self) -> Int
+fn HeapStatistics::total_available_size(Self) -> Int
+fn HeapStatistics::total_heap_size(Self) -> Int
+fn HeapStatistics::total_heap_size_executable(Self) -> Int
+fn HeapStatistics::total_physical_size(Self) -> Int
+fn HeapStatistics::used_heap_size(Self) -> Int
+impl @js.JsImpl for HeapStatistics
 
 #external
 pub type Serializer
