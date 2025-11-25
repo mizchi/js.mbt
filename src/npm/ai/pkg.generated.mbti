@@ -20,6 +20,8 @@ fn convert_array_to_readable_stream(Array[@js.Any]) -> @js.Any
 
 async fn convert_readable_stream_to_array(@js.Any) -> Array[@js.Any]
 
+fn cosineSimilarity(Array[Double], Array[Double]) -> Double
+
 fn finish_chunk(String, MockUsage) -> @js.Any
 
 fn google(String) -> Model
@@ -70,6 +72,12 @@ fn StopCondition::to_any(Self) -> @js.Any
 // Types and methods
 #external
 pub type Ai
+fn Ai::cosineSimilarity(Self, Array[Double], Array[Double]) -> Double
+async fn Ai::embed(Self, model~ : EmbeddingModel, value~ : String, max_retries? : Int, abort_signal? : @js.Any, headers? : @js.Any) -> EmbedResult
+async fn Ai::embedMany(Self, model~ : EmbeddingModel, values~ : Array[String], max_parallel_calls? : Int, max_retries? : Int, abort_signal? : @js.Any, headers? : @js.Any) -> EmbedManyResult
+async fn Ai::generateImage(Self, model~ : ImageModel, prompt~ : String, n? : Int, size? : String, aspect_ratio? : String, seed? : Int, provider_options? : @js.Any, max_retries? : Int, abort_signal? : @js.Any, headers? : @js.Any) -> GenerateImageResult
+async fn Ai::generateObject(Self, model~ : Model, schema~ : @js.Any, schema_name? : String, schema_description? : String, output? : OutputStrategy, enum_values? : Array[String], prompt? : String, system? : String, messages? : Array[ModelMessage], max_tokens? : Int, temperature? : Double, max_retries? : Int, abort_signal? : @js.Any) -> GenerateObjectResult
+async fn Ai::generateObjectWithZod(Self, model~ : Model, zod_schema~ : @js.Any, schema_name? : String, schema_description? : String, prompt? : String, system? : String, messages? : Array[ModelMessage], max_tokens? : Int, temperature? : Double) -> GenerateObjectResult
 async fn Ai::generateText(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int, stop_when? : StopCondition, prepare_step? : PrepareStep, active_tools? : Array[String]) -> GenerateTextResult
 fn Ai::require() -> Self
 fn Ai::streamText(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int, stop_when? : StopCondition, prepare_step? : PrepareStep, active_tools? : Array[String]) -> StreamTextResultHandle
@@ -107,6 +115,29 @@ pub(all) enum ContentPart {
 }
 fn ContentPart::from_any(@js.Any) -> Self
 
+pub(all) struct EmbedManyResult {
+  embeddings : Array[Array[Double]]
+  usage : EmbeddingUsage
+  raw : @js.Any
+}
+fn EmbedManyResult::from_any(@js.Any) -> Self
+
+pub(all) struct EmbedResult {
+  embedding : Array[Double]
+  usage : EmbeddingUsage
+  raw : @js.Any
+}
+fn EmbedResult::from_any(@js.Any) -> Self
+
+#external
+pub type EmbeddingModel
+impl @js.JsImpl for EmbeddingModel
+
+pub(all) struct EmbeddingUsage {
+  tokens : Int
+}
+fn EmbeddingUsage::from_any(@js.Any) -> Self
+
 pub(all) enum FinishReason {
   Stop
   Length
@@ -120,6 +151,27 @@ fn FinishReason::from_string(String) -> Self
 fn FinishReason::to_string(Self) -> String
 impl Eq for FinishReason
 impl Show for FinishReason
+
+pub(all) struct GenerateImageResult {
+  image : GeneratedImage
+  images : Array[GeneratedImage]
+  warnings : Array[CallWarning]
+  provider_metadata : ProviderMetadata?
+  raw : @js.Any
+}
+fn GenerateImageResult::from_any(@js.Any) -> Self
+
+pub(all) struct GenerateObjectResult {
+  object : @js.Any
+  finish_reason : FinishReason
+  usage : LanguageModelUsage
+  warnings : Array[CallWarning]
+  response : LanguageModelResponseMetadata
+  provider_metadata : ProviderMetadata?
+  raw : @js.Any
+}
+fn GenerateObjectResult::from_any(@js.Any) -> Self
+fn[T] GenerateObjectResult::get_object(Self) -> T
 
 pub(all) struct GenerateTextResult {
   content : Array[ContentPart]
@@ -148,6 +200,13 @@ pub(all) struct GeneratedFile {
 }
 fn GeneratedFile::from_any(@js.Any) -> Self
 
+pub(all) struct GeneratedImage {
+  base64 : String
+  uint8_array : @js.Any
+  raw : @js.Any
+}
+fn GeneratedImage::from_any(@js.Any) -> Self
+
 pub(all) struct GoogleOptions {
   api_key : String?
   base_url : String?
@@ -161,6 +220,10 @@ fn GoogleProvider::create(GoogleOptions) -> Self
 fn GoogleProvider::model(Self, String) -> Model
 fn GoogleProvider::require() -> Self
 impl @js.JsImpl for GoogleProvider
+
+#external
+pub type ImageModel
+impl @js.JsImpl for ImageModel
 
 pub(all) struct LanguageModelRequestMetadata {
   raw : @js.Any
@@ -275,6 +338,14 @@ fn OpenAIProvider::create(OpenAIOptions) -> Self
 fn OpenAIProvider::model(Self, String) -> Model
 fn OpenAIProvider::require() -> Self
 impl @js.JsImpl for OpenAIProvider
+
+pub(all) enum OutputStrategy {
+  Object
+  Array
+  Enum
+  NoSchema
+}
+fn OutputStrategy::to_string(Self) -> String
 
 pub(all) struct PrepareStepContext {
   step_number : Int
