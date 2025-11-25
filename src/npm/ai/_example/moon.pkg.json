@@ -1,0 +1,17 @@
+{
+  "is-main": true,
+  "import": [
+    "mizchi/js",
+    "mizchi/js/node",
+    "mizchi/js/node/process",
+    "mizchi/js/node/stream",
+    "mizchi/js/npm/ai"
+  ],
+  "test-import": [],
+  "link": {
+    "js": {
+      "exports": [],
+      "format": "esm"
+    }
+  }
+}

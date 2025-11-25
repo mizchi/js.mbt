@@ -122,7 +122,8 @@ pub impl @js.JsImpl for StreamTextResultHandle
 
 ///|
 /// Stream text using the AI SDK (streaming)
-pub async fn Ai::stream_text(
+/// Note: This returns synchronously but the stream itself is async
+pub fn Ai::stream_text(
   self : Self,
   model~ : Model,
   messages? : Array[ModelMessage],
@@ -159,18 +160,26 @@ pub async fn Ai::stream_text(
 
 ///|
 /// Get the full stream of TextStreamParts (raw iterator)
+/// Note: fullStream is an AsyncIterable, so we call [Symbol.asyncIterator]()
 pub fn StreamTextResultHandle::full_stream_raw(
   self : StreamTextResultHandle,
 ) -> @js.AsyncIterator[@js.Any] {
-  @js.identity(self.to_any().get("fullStream"))
+  let iterable = self.to_any().get("fullStream")
+  // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
+  let iter = iterable.call(@js.Symbol::asyncIterator(), [])
+  @js.identity(iter)
 }
 
 ///|
 /// Get the text stream (only text deltas)
+/// Note: textStream is an AsyncIterable (ReadableStream), so we call [Symbol.asyncIterator]()
 pub fn StreamTextResultHandle::text_stream(
   self : StreamTextResultHandle,
 ) -> @js.AsyncIterator[String] {
-  @js.identity(self.to_any().get("textStream"))
+  let iterable = self.to_any().get("textStream")
+  // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
+  let iter = iterable.call(@js.Symbol::asyncIterator(), [])
+  @js.identity(iter)
 }
 
 ///|
@@ -248,16 +257,8 @@ async test "ai stream_text" {
     .get("anthropic")
     .call_self(["claude-sonnet-4-20250514"]),
   )
-  let stream = ai.stream_text(model~, prompt="Count from 1 to 5") catch {
-    @js.ThrowError::Error(e) => {
-      @js.log(e)
-      return
-    }
-    e => {
-      @js.log(e)
-      return
-    }
-  }
+  // stream_text is synchronous
+  let stream = ai.stream_text(model~, prompt="Count from 1 to 5")
   // Iterate over the text stream using async iterator
   let text_iter = stream.text_stream()
   while true {

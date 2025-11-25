@@ -14,7 +14,7 @@ import(
 pub type Ai
 async fn Ai::generate_text(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double) -> GenerateTextResult
 fn Ai::require() -> Self
-async fn Ai::stream_text(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double) -> StreamTextResultHandle
+fn Ai::stream_text(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double) -> StreamTextResultHandle
 impl @js.JsImpl for Ai
 
 pub(all) struct CallWarning {
