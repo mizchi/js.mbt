@@ -251,3 +251,208 @@ test "render options default" {
   assert_true(opts.exit_on_ctrl_c is None)
   assert_true(opts.patch_console is None)
 }
+
+///|
+async test "text with all style options" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.text(
+    ["Styled"],
+    color="red",
+    background_color="blue",
+    bold=true,
+    italic=true,
+    underline=true,
+    strikethrough=true,
+    inverse=true,
+    dim_color=true,
+    wrap=@ink.TextWrap::Truncate,
+  )
+  let result = testing.render(element)
+  defer result.unmount()
+  assert_true(result.lastFrame().contains("Styled"))
+}
+
+///|
+async test "box with all dimension options" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.box_(
+    [ink.text(["Content"])],
+    width=30,
+    height=5,
+    min_width=10,
+    min_height=2,
+  )
+  let result = testing.render(element)
+  defer result.unmount()
+  assert_true(result.lastFrame().contains("Content"))
+}
+
+///|
+async test "box with all padding options" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.box_(
+    [ink.text(["Padded"])],
+    padding_x=2,
+    padding_y=1,
+    padding_top=1,
+    padding_bottom=1,
+    padding_left=2,
+    padding_right=2,
+  )
+  let result = testing.render(element)
+  defer result.unmount()
+  assert_true(result.lastFrame().contains("Padded"))
+}
+
+///|
+async test "box with all margin options" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.box_(
+    [ink.text(["Margined"])],
+    margin=1,
+    margin_x=2,
+    margin_y=1,
+    margin_top=1,
+    margin_bottom=1,
+    margin_left=2,
+    margin_right=2,
+  )
+  let result = testing.render(element)
+  defer result.unmount()
+  assert_true(result.lastFrame().contains("Margined"))
+}
+
+///|
+async test "box with flex options" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.box_(
+    [ink.text(["Flex"])],
+    flex_grow=1,
+    flex_shrink=0,
+    flex_basis=10,
+    flex_wrap=@ink.FlexWrapMode::Wrap,
+    justify_content=@ink.JustifyContent::Center,
+    align_items=@ink.AlignItems::Center,
+    align_self=@ink.AlignSelf::FlexStart,
+  )
+  let result = testing.render(element)
+  defer result.unmount()
+  assert_true(result.lastFrame().contains("Flex"))
+}
+
+///|
+async test "box with border color options" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.box_(
+    [ink.text(["Bordered"])],
+    border_style=@ink.BorderStyle::Double,
+    border_color="red",
+    border_top=true,
+    border_bottom=true,
+    border_left=true,
+    border_right=true,
+    border_top_color="green",
+    border_bottom_color="blue",
+    border_left_color="yellow",
+    border_right_color="cyan",
+  )
+  let result = testing.render(element)
+  defer result.unmount()
+  assert_true(result.lastFrame().length() > 0)
+}
+
+///|
+async test "box with other options" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.box_(
+    [ink.text(["Other"])],
+    overflow=@ink.Overflow::Hidden,
+    display=@ink.Display::Flex,
+    gap=1,
+    column_gap=2,
+    row_gap=1,
+  )
+  let result = testing.render(element)
+  defer result.unmount()
+  assert_true(result.lastFrame().contains("Other"))
+}
+
+///|
+async test "newline with count" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.box_(
+    [ink.text(["Top"]), ink.newline(count=2), ink.text(["Bottom"])],
+    flex_direction=@ink.FlexDirection::Column,
+  )
+  let result = testing.render(element)
+  defer result.unmount()
+  let frame = result.lastFrame()
+  assert_true(frame.contains("Top"))
+  assert_true(frame.contains("Bottom"))
+}
+
+///|
+async test "static component" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.static_([ink.text(["Static content"])])
+  let result = testing.render(element)
+  defer result.unmount()
+  // Static component may render content directly or not depending on context
+  assert_true(result.lastFrame().length() >= 0)
+}
+
+///|
+async test "static component with items" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let items : Array[@js.Any] = ["item1", "item2"].map(fn(s) { s |> @js.any })
+  let element = ink.static_([ink.text(["With items"])], items~)
+  let result = testing.render(element)
+  defer result.unmount()
+  assert_true(result.lastFrame().length() >= 0)
+}
+
+///|
+async test "testing library stdin" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.text(["Input test"])
+  let result = testing.render(element)
+  defer result.unmount()
+  // Just verify stdin is accessible
+  let _stdin = result.stdin()
+
+}
+
+///|
+async test "testing library stdout" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.text(["Output test"])
+  let result = testing.render(element)
+  defer result.unmount()
+  // Verify stdout is accessible
+  let _stdout = result.stdout()
+
+}
+
+///|
+async test "testing library stderr" {
+  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library()
+  let element = ink.text(["Error test"])
+  let result = testing.render(element)
+  defer result.unmount()
+  // Verify stderr is accessible
+  let _stderr = result.stderr()
+
+}

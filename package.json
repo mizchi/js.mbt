@@ -11,6 +11,7 @@
     "@cloudflare/vitest-pool-workers": "^0.10.10",
     "@cloudflare/workers-types": "^4.20251125.0",
     "@electric-sql/pglite": "^0.3.14",
+    "@inkjs/ui": "^2.0.0",
     "@modelcontextprotocol/sdk": "^1.22.0",
     "@testing-library/react": "16.3.0",
     "@types/node": "^24.10.1",

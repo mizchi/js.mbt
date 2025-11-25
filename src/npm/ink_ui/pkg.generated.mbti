@@ -1,0 +1,69 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/ink_ui"
+
+import(
+  "mizchi/js"
+  "mizchi/js/npm/react"
+)
+
+// Values
+async fn dynamic_import() -> InkUI
+
+// Errors
+
+// Types and methods
+pub(all) enum BadgeColor {
+  Green
+  Red
+  Yellow
+  Blue
+  Cyan
+  Magenta
+  White
+  Gray
+}
+fn BadgeColor::to_string(Self) -> String
+
+#external
+pub type InkUI
+fn InkUI::alert(Self, Array[&@react.ReactNode], StatusVariant, title? : String) -> @react.Element
+fn InkUI::badge(Self, Array[&@react.ReactNode], color? : BadgeColor) -> @react.Element
+fn InkUI::confirm_input(Self, on_confirm? : () -> Unit, on_cancel? : () -> Unit, is_disabled? : Bool) -> @react.Element
+fn InkUI::default_theme(Self) -> Theme
+fn InkUI::email_input(Self, placeholder? : String, default_value? : String, domains? : Array[String], on_submit? : (String) -> Unit, on_change? : (String) -> Unit, is_disabled? : Bool) -> @react.Element
+fn InkUI::extend_theme(Self, @js.Any) -> Theme
+fn InkUI::multi_select(Self, Array[SelectOption], on_change? : (Array[String]) -> Unit, default_value? : Array[String], visible_option_count? : Int, is_disabled? : Bool) -> @react.Element
+fn InkUI::ordered_list(Self, Array[&@react.ReactNode]) -> @react.Element
+fn InkUI::ordered_list_item(Self, Array[&@react.ReactNode]) -> @react.Element
+fn InkUI::password_input(Self, placeholder? : String, mask? : String, on_submit? : (String) -> Unit, on_change? : (String) -> Unit, is_disabled? : Bool) -> @react.Element
+fn InkUI::progress_bar(Self, Int) -> @react.Element
+fn InkUI::select(Self, Array[SelectOption], on_change? : (String) -> Unit, default_value? : String, visible_option_count? : Int, is_disabled? : Bool) -> @react.Element
+fn InkUI::spinner(Self, label? : String) -> @react.Element
+fn InkUI::status_message(Self, Array[&@react.ReactNode], StatusVariant) -> @react.Element
+fn InkUI::text_input(Self, placeholder? : String, default_value? : String, on_submit? : (String) -> Unit, on_change? : (String) -> Unit, is_disabled? : Bool) -> @react.Element
+fn InkUI::theme_provider(Self, Array[&@react.ReactNode], Theme) -> @react.Element
+fn InkUI::unordered_list(Self, Array[&@react.ReactNode]) -> @react.Element
+fn InkUI::unordered_list_item(Self, Array[&@react.ReactNode]) -> @react.Element
+impl @js.JsImpl for InkUI
+
+pub(all) struct SelectOption {
+  label : String
+  value : String
+}
+
+pub(all) enum StatusVariant {
+  Success
+  Error
+  Warning
+  Info
+}
+fn StatusVariant::to_string(Self) -> String
+
+#external
+pub type Theme
+impl @js.JsImpl for Theme
+
+// Type aliases
+
+// Traits
+
