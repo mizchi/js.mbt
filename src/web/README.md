@@ -41,9 +41,9 @@ These APIs work consistently across:
 | Crypto | `mizchi/js/web/crypto` | 🆗 Reviewed | Web Crypto API |
 | SubtleCrypto | `mizchi/js/web/crypto` | 🤖 AI Generated | Cryptographic operations |
 | **Workers & Concurrency** |
-| Worker | `mizchi/js/web/worker` | 🤖 AI Generated | Web Workers |
-| MessagePort | `mizchi/js/web/worker` | 🤖 AI Generated | Message passing |
-| MessageChannel | `mizchi/js/web/message` | 🤖 AI Generated | Channel messaging |
+| Worker | `mizchi/js/web/worker` | 🧪 Tested | Web Workers |
+| MessagePort | `mizchi/js/web/worker` | 🧪 Tested | Message passing |
+| MessageChannel | `mizchi/js/web/message` | 🧪 Tested | Channel messaging |
 | **WebAssembly** |
 | WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
 

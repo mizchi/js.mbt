@@ -26,7 +26,7 @@ Add to your `moon.pkg.json`:
 |----------|--------------|----------|--------|
 | **Core JavaScript** | [src/README.md](src/README.md) | [js_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_examples.mbt.md) | 🧪 Tested |
 | **Browser** | [src/browser/README.md](src/browser/README.md) | [browser_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/browser_examples.mbt.md) | 🧪 Tested |
-| **Node.js** | [src/node/README.md](src/node/README.md) | [node_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/node_examples.mbt.md) | 🚧 Partially |
+| **Node.js** | [src/node/README.md](src/node/README.md) | [node_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/node_examples.mbt.md) | 🧪 Tested |
 | **Deno** | [src/deno/README.md](src/deno/README.md) | - | 🧪 Tested |
 | **Cloudflare Workers** | [src/cloudflare/README.md](src/cloudflare/README.md) | [cfw/](src/examples/cfw/) | 🧪 Tested |
 | **React** | [src/npm/react/](src/npm/react/) | [react_app/](src/examples/react_app/) | 🧪 Tested |
@@ -122,9 +122,9 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 | Platform | Package | Status | Documentation |
 |----------|---------|--------|---------------|
-| Node.js | `mizchi/js/node/*` | 🚧 Partially | [Node.js README](src/node/README.md) |
+| Node.js | `mizchi/js/node/*` | 🧪 Tested | [Node.js README](src/node/README.md) |
 | Browser API | `mizchi/js/browser/*` | 🧪 Tested | [Browser README](src/browser/README.md) |
-| Deno | `mizchi/js/deno` | 🤖 AI Generated | [Deno README](src/deno/README.md) |
+| Deno | `mizchi/js/deno` | 🧪 Tested | [Deno README](src/deno/README.md) |
 | Cloudflare Workers | `mizchi/js/cloudflare` | 🧪 Tested | [Cloudflare README](src/cloudflare/README.md) |
 
 ### NPM Package Bindings
@@ -160,7 +160,7 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 - Provide comprehensive JavaScript bindings for MoonBit
 - **Platform Coverage**
   - ✅ Browser + React for frontend development
-  - 🚧 Node.js/Deno support to replace TypeScript
+  - ✅ Node.js/Deno support to replace TypeScript
   - ✅ Cloudflare Workers for edge computing
   - 📅 MCP server/client support
 

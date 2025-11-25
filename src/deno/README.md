@@ -18,9 +18,12 @@ MoonBit bindings for Deno runtime APIs.
 | **Permissions** |
 | Query/Request/Revoke | `permissions_*` | 🧪 Tested | Permission management |
 | PermissionStatus | `state/is_granted` | 🧪 Tested | Permission state |
+| **Subprocess** |
+| Command | `Command::new/output/outputSync/spawn` | 🧪 Tested | Process spawning |
+| CommandOutput | `code/success/stdout/stderr` | 🧪 Tested | Subprocess output |
+| ChildProcess | `status/output/stdin/stdout/stderr` | 🧪 Tested | Spawned process |
 | **Planned APIs** |
 | Network | `connect/listen/serve` | 📅 Planned | TCP/HTTP networking |
-| Subprocess | `Command/run` | 📅 Planned | Process spawning |
 | KV | `openKv` | 📅 Planned | Key-value storage |
 | FFI | `dlopen` | 📅 Planned | Foreign function interface |
 | WebGPU | `Deno.gpu` | 📅 Planned | GPU acceleration |
