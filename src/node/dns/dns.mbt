@@ -1,39 +1,4 @@
 ///|
-
-///|
-/// DNS lookup options
-pub struct LookupOptions {
-  family : Int?
-  all : Bool?
-  order : String?
-}
-
-///|
-/// Create default lookup options
-pub fn LookupOptions::new() -> LookupOptions {
-  { family: None, all: None, order: None }
-}
-
-///|
-/// Convert LookupOptions to JavaScript object
-pub fn LookupOptions::to_any(self : LookupOptions) -> @js.Any {
-  let obj = @js.Object::new()
-  match self.family {
-    Some(v) => obj.set("family", v)
-    None => ()
-  }
-  match self.all {
-    Some(v) => obj.set("all", v)
-    None => ()
-  }
-  match self.order {
-    Some(v) => obj.set("order", v)
-    None => ()
-  }
-  obj.to_any()
-}
-
-///|
 extern "js" fn ffi_lookup(
   hostname : String,
   options : @js.Any,
@@ -48,11 +13,22 @@ extern "js" fn ffi_lookup(
 /// Resolve a hostname to an IP address using OS facilities
 pub fn lookup(
   hostname : String,
-  options : LookupOptions,
   callback : (@js.Object?, @js.Object) -> Unit,
+  family? : Int,
+  all? : Bool,
+  order? : String,
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
-  ffi_lookup(hostname, options.to_any(), cb)
+  if family is None && all is None && order is None {
+    ffi_lookup(hostname, @js.Object::new().to_any(), cb)
+  } else {
+    let opts = @js.from_entries_option([
+      ("family", family.map(x => x)),
+      ("all", all.map(x => x)),
+      ("order", order.map(x => x)),
+    ])
+    ffi_lookup(hostname, opts, cb)
+  }
 }
 
 ///|

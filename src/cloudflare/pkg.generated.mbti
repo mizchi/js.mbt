@@ -65,15 +65,9 @@ fn D1PreparedStatement::bind2(Self, @js.Any, @js.Any) -> Self
 fn D1PreparedStatement::bind3(Self, @js.Any, @js.Any, @js.Any) -> Self
 fn D1PreparedStatement::first(Self) -> @js.Promise[@js.Any?]
 fn D1PreparedStatement::first_col(Self, String) -> @js.Promise[@js.Any?]
-fn D1PreparedStatement::raw(Self) -> @js.Promise[Array[@js.Any]]
-fn D1PreparedStatement::raw_with_options(Self, D1RawOptions) -> @js.Promise[Array[@js.Any]]
+fn D1PreparedStatement::raw(Self, columnNames? : Bool) -> @js.Promise[Array[@js.Any]]
 fn D1PreparedStatement::run(Self) -> @js.Promise[D1Result]
 impl @js.JsImpl for D1PreparedStatement
-
-pub(all) struct D1RawOptions {
-  columnNames : Bool?
-}
-impl @js.JsImpl for D1RawOptions
 
 #alias(D1ResultSet)
 pub(all) struct D1Result {

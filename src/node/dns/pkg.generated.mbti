@@ -8,7 +8,7 @@ import(
 // Values
 fn get_servers() -> @js.JsArray
 
-fn lookup(String, LookupOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+fn lookup(String, (@js.Object?, @js.Object) -> Unit, family? : Int, all? : Bool, order? : String) -> Unit
 
 fn resolve(String, String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
@@ -33,13 +33,6 @@ fn set_servers(Array[String]) -> Unit
 // Errors
 
 // Types and methods
-pub struct LookupOptions {
-  family : Int?
-  all : Bool?
-  order : String?
-}
-fn LookupOptions::new() -> Self
-fn LookupOptions::to_any(Self) -> @js.Any
 
 // Type aliases
 

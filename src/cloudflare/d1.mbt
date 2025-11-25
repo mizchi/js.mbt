@@ -128,28 +128,16 @@ pub fn D1PreparedStatement::run(self : Self) -> @js.Promise[D1Result] {
 
 ///|
 /// Execute and return raw results
-pub fn D1PreparedStatement::raw(self : Self) -> @js.Promise[Array[@js.Any]] {
-  self.call0("raw").cast()
-}
-
-///|
-/// Execute and return raw results with options
-pub fn D1PreparedStatement::raw_with_options(
+pub fn D1PreparedStatement::raw(
   self : Self,
-  options : D1RawOptions,
+  columnNames? : Bool,
 ) -> @js.Promise[Array[@js.Any]] {
-  self.call1("raw", options).cast()
-}
-
-///|
-/// Options for raw query
-pub(all) struct D1RawOptions {
-  columnNames : Bool? // Include column names as first row
-}
-
-///|
-pub impl @js.JsImpl for D1RawOptions with to_any(self) {
-  @js.from_entries_option_cast([("columnNames", self.columnNames)])
+  if columnNames is None {
+    self.call0("raw").cast()
+  } else {
+    let opts = @js.from_entries_option_cast([("columnNames", columnNames)])
+    self.call1("raw", opts).cast()
+  }
 }
 
 ///|
