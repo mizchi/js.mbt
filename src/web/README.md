@@ -48,6 +48,11 @@ These APIs work consistently across:
 | WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
 | **WebGPU** |
 | WebGPU | `mizchi/js/web/webgpu` | 🧪 Experimental | GPU compute/rendering (Deno only) |
+| **WebGL** |
+| WebGL | `mizchi/js/web/webgl` | 📅 Planned | 2D/3D graphics rendering |
+| WebGL2 | `mizchi/js/web/webgl` | 📅 Planned | WebGL 2.0 API |
+| **WebTransport** |
+| WebTransport | `mizchi/js/web/webtransport` | 📅 Planned | HTTP/3 based transport |
 
 ### Status Legend
 
