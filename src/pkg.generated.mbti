@@ -158,6 +158,10 @@ impl Show for ThrowError
 #external
 pub type Any
 fn[T] Any::cast(Self) -> T
+#alias("_[_]")
+fn Any::get_property(Self, &PropertyKey) -> Self
+#alias("_[_]=_")
+fn Any::set_property(Self, &PropertyKey, &JsImpl) -> Unit
 impl JsImpl for Any
 impl Eq for Any
 impl Show for Any
@@ -216,7 +220,7 @@ impl JsImpl for Function
 #external
 pub type JSON
 fn JSON::parse(String, reviver? : Any?) -> Any raise ThrowError
-fn JSON::stringify(Any, replacer? : Any, space? : Int) -> String
+fn JSON::stringify(&JsImpl, replacer? : Any, space? : Int) -> String
 
 #external
 pub type JsArray
@@ -269,8 +273,15 @@ fn[T] Nullish::to_option(Self[T]) -> T?
 pub type Object
 fn Object::assign(&JsImpl, &JsImpl) -> Any
 fn Object::create(&JsImpl) -> Any
+fn Object::defineProperties(&JsImpl, Any) -> Any
+fn Object::defineProperty(&JsImpl, &PropertyKey, value? : Any, writable? : Bool, enumerable? : Bool, configurable? : Bool, get? : () -> Any, set? : (Any) -> Unit) -> Any
 fn Object::entries(&JsImpl) -> Array[(String, Any)]
 fn Object::freeze(&JsImpl) -> Any
+fn Object::getOwnPropertyDescriptor(&JsImpl, &PropertyKey) -> PropertyDescriptor?
+fn Object::getOwnPropertyDescriptors(&JsImpl) -> Any
+fn Object::getOwnPropertyNames(&JsImpl) -> Array[String]
+fn Object::getOwnPropertySymbols(&JsImpl) -> Array[Symbol]
+fn[T : JsImpl] Object::groupBy(Array[T], (T, Int) -> String) -> Any
 fn Object::hasOwnProperty(Self, &PropertyKey) -> Bool
 fn Object::isExtensible(Self) -> Bool
 fn Object::isExtensible_static(&JsImpl) -> Bool
@@ -302,6 +313,15 @@ fn[A] Promise::resolve(A) -> Self[A]
 fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
 async fn[T] Promise::wait(Self[T]) -> T
 fn[T] Promise::withResolvers() -> Resolvers[T]
+
+pub(all) struct PropertyDescriptor {
+  value : Any?
+  writable : Bool?
+  enumerable : Bool?
+  configurable : Bool?
+  get : (() -> Any)?
+  set : ((Any) -> Unit)?
+}
 
 pub(all) struct Resolvers[T] {
   promise : Promise[T]

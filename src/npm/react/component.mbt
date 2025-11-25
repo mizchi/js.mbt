@@ -1,7 +1,4 @@
 ///|
-pub(all) struct EmptyProps {} derive(Default)
-
-///|
 pub type Component[T] = (T) -> Element
 
 ///|
@@ -17,7 +14,13 @@ pub fn[T] component(
   let tag = @js.identity(tag)
   let children = children.map(_.to_react_node()) |> @js.from_array
   let val : @js.Any = props |> @js.identity
+  // Handle key: if props is undefined/null (e.g. Unit), create a new object
   if key is Some(key) {
+    if @js.is_nullish(val) {
+      let obj = @js.Object::new()
+      obj.set("key", key)
+      return ffi_create_element(tag, obj.to_any(), children) |> @js.identity
+    }
     val.set("key", key)
   }
   ffi_create_element(tag, val, children) |> @js.identity

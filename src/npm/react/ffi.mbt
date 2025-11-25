@@ -91,11 +91,11 @@ extern "js" fn ffi_react_use(v : @js.Any) -> @js.Any =
   #| (v) => __ReactApi.use(v)
 
 ///|
-extern "js" fn get_fragment() -> Component[EmptyProps] =
+extern "js" fn get_fragment() -> Component[Unit] =
   #| () => __ReactApi.Fragment
 
 ///|
-extern "js" fn get_strict_mode() -> Component[EmptyProps] =
+extern "js" fn get_strict_mode() -> Component[Unit] =
   #| () => __ReactApi.StrictMode
 
 ///|

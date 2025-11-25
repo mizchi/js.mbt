@@ -10,7 +10,7 @@ fn init_jsdom() -> Unit {
 test "useState_lazy" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let (count, set_count) = use_state_lazy(fn() { 10 })
     let on_click : @dom.MouseEventHandler = _ => set_count(count + 1) |> ignore
     @react_element.div([
@@ -18,8 +18,7 @@ test "useState_lazy" {
       @react_element.button(on_click~, ["increment"], id="btn"),
     ])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen()
   .getByText("Count: 10")
   .get("textContent")
@@ -39,7 +38,7 @@ test "useState_lazy" {
 test "useCallback" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let (count, set_count) = useState(0)
     let on_click = useCallback(fn() { set_count(count + 1) }, [count])
     @react_element.div([
@@ -47,8 +46,7 @@ test "useCallback" {
       @react_element.button(on_click=_ => on_click(), ["increment"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("increment"),
   )
@@ -63,7 +61,7 @@ test "useCallback" {
 test "useEffect" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let (mounted, set_mounted) = useState(false)
     useEffect(
       fn() {
@@ -74,8 +72,7 @@ test "useEffect" {
     )
     @react_element.div([if mounted { "Mounted" } else { "Not mounted" }])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen().getByText("Mounted").get("textContent").cast()
   |> assert_eq("Mounted")
 }
@@ -84,7 +81,7 @@ test "useEffect" {
 test "useLayoutEffect" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let (mounted, set_mounted) = useState(false)
     useLayoutEffect(
       fn() {
@@ -95,8 +92,7 @@ test "useLayoutEffect" {
     )
     @react_element.div([if mounted { "Layout mounted" } else { "Not mounted" }])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen()
   .getByText("Layout mounted")
   .get("textContent")
@@ -108,7 +104,7 @@ test "useLayoutEffect" {
 test "useMemo" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let (count, set_count) = useState(1)
     let doubled = useMemo(fn() { count * 2 }, [count])
     @react_element.div([
@@ -116,8 +112,7 @@ test "useMemo" {
       @react_element.button(on_click=_ => set_count(count + 1), ["increment"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen()
   .getByText("Doubled: 2")
   .get("textContent")
@@ -137,14 +132,13 @@ test "useMemo" {
 test "useRef with Some" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(
       Some(@js.identity(@js.Object::new())),
     )
     @react_element.div(ref_=r, ["Ref test"])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen()
   .getByText("Ref test")
   .get("textContent")
@@ -156,12 +150,11 @@ test "useRef with Some" {
 test "useRef with None" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(None)
     @react_element.div(ref_=r, ["Ref None test"])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen()
   .getByText("Ref None test")
   .get("textContent")
@@ -173,7 +166,7 @@ test "useRef with None" {
 test "ReactRef::current and set_current" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let (text, set_text) = useState("initial")
     let r : ReactRef[@dom.HTMLSpanElement] = useRef(None)
     let on_click : @dom.MouseEventHandler = _ => match r.get_current() {
@@ -188,8 +181,7 @@ test "ReactRef::current and set_current" {
       @react_element.button(on_click~, ["update"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("update"),
   )
@@ -201,7 +193,7 @@ test "ReactRef::current and set_current" {
 test "ReactRef::current None case" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let (msg, set_msg) = useState("waiting")
     let r : ReactRef[@dom.Element] = useRef(None)
     let on_click : @dom.MouseEventHandler = _ => match r.get_current() {
@@ -213,8 +205,7 @@ test "ReactRef::current None case" {
       @react_element.button(on_click~, ["check"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("check"),
   )
@@ -226,7 +217,7 @@ test "ReactRef::current None case" {
 test "ReactRef::set_current" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let (msg, set_msg) = useState("initial")
     let r : ReactRef[@js.Any] = useRef(None)
     let on_click : @dom.MouseEventHandler = _ => {
@@ -244,8 +235,7 @@ test "ReactRef::set_current" {
       @react_element.button(on_click~, ["set"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("set"),
   )
@@ -261,15 +251,11 @@ test "useContext" {
   init_jsdom()
   @react_testing_library.cleanup()
   let ctx : Context[Int] = create_context(Some(42))
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let value = use_context(ctx)
     @react_element.div(["Context value: \{value}"])
   }
-  let el = provider(
-    ctx,
-    [@react.component(comp, EmptyProps::default())],
-    value=99,
-  )
+  let el = provider(ctx, [@react.component(comp, ())], value=99)
   @react_testing_library.render(el) |> ignore
   @react_testing_library.screen()
   .getByText("Context value: 99")
@@ -289,7 +275,7 @@ enum CounterAction {
 test "useReducer" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let reducer = fn(state : Int, action : CounterAction) {
       match action {
         Increment => state + 1
@@ -305,8 +291,7 @@ test "useReducer" {
       @react_element.button(on_click=_ => dispatch(Reset), ["reset"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("+"),
   )
@@ -345,7 +330,7 @@ test "useReducer" {
 test "useActionState" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let action : async (Int, Int) -> Int noraise = async fn(
       state,
       _delta,
@@ -359,8 +344,7 @@ test "useActionState" {
       @react_element.button(on_click=_ => dispatch(1), ["dispatch"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen()
   .getByText("State: 0")
   .get("textContent")
@@ -372,7 +356,7 @@ test "useActionState" {
 test "startTransition" {
   init_jsdom()
   @react_testing_library.cleanup()
-  let comp = (_props : EmptyProps) => {
+  let comp = (_props : Unit) => {
     let (count, set_count) = useState(0)
     let on_click : @dom.MouseEventHandler = _ => start_transition(fn() {
       set_count(count + 1)
@@ -382,8 +366,7 @@ test "startTransition" {
       @react_element.button(on_click~, ["transition"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, EmptyProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("transition"),
   )

@@ -1,9 +1,8 @@
 ///|
-/// Represents an unsafe JavaScript value.
-/// Like TypeScript's `any`, `@js.Any` can hold any JavaScript value including primitives, objects, arrays, functions, etc.
+/// Represents an unsafe JavaScript value like TypeScript's `any`
 /// It can hold any JavaScript value including primitives, objects, arrays, functions, etc.
 ///
-/// # Example
+/// ## Example
 ///
 /// ```moonbit
 /// let num: @js.Any = @js.any(42) // MoonBit Int -> @js.Any
@@ -16,6 +15,20 @@ pub type Any
 /// Unsafe cast the `Any` value to a specific MoonBit type.
 pub fn[T] Any::cast(self : Self) -> T {
   identity(self)
+}
+
+///|
+/// JS: value[key]
+#alias("_[_]")
+pub fn Any::get_property(self : Any, key : &PropertyKey) -> Any {
+  self.get(key)
+}
+
+///|
+/// JS: value[key] = val
+#alias("_[_]=_")
+pub fn Any::set_property(self : Any, key : &PropertyKey, val : &JsImpl) -> Unit {
+  self.set(key, val)
 }
 
 ///|

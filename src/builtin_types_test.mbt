@@ -515,3 +515,155 @@ test "ThrowError Show output" {
     Ok(_) => fail("Expected error")
   }
 }
+
+///| Object.defineProperty tests
+
+///|
+test "Object::defineProperty with value" {
+  let obj = @js.Object::new()
+  Object::defineProperty(obj, "name", value="Alice" |> @js.any, writable=true)
+  |> ignore
+  assert_eq(@js.identity(obj.get("name")), "Alice")
+  // Should be writable
+  obj.set("name", "Bob")
+  assert_eq(@js.identity(obj.get("name")), "Bob")
+}
+
+///|
+test "Object::defineProperty with non-writable" {
+  let obj = @js.Object::new()
+  Object::defineProperty(
+    obj,
+    "id",
+    value=123 |> @js.any,
+    writable=false,
+    configurable=true,
+  )
+  |> ignore
+  assert_eq(@js.identity(obj.get("id")), 123)
+  // Attempting to write won't work in strict mode, but in non-strict mode it's silently ignored
+  obj.set("id", 456)
+  // Value should still be 123 (write ignored)
+  assert_eq(@js.identity(obj.get("id")), 123)
+}
+
+///|
+test "Object::defineProperty with getter/setter" {
+  let obj = @js.Object::new()
+  let storage : Ref[Int] = { val: 0 }
+  Object::defineProperty(
+    obj,
+    "value",
+    get=fn() { storage.val |> @js.any },
+    set=fn(v) { storage.val = @js.identity(v) },
+    enumerable=true,
+    configurable=true,
+  )
+  |> ignore
+  // Test getter
+  assert_eq(@js.identity(obj.get("value")), 0)
+  // Test setter
+  obj.set("value", 42)
+  assert_eq(@js.identity(obj.get("value")), 42)
+  assert_eq(storage.val, 42)
+}
+
+///|
+test "Object::getOwnPropertyDescriptor" {
+  let obj = @js.Object::new()
+  obj.set("name", "Alice")
+  let desc = Object::getOwnPropertyDescriptor(obj, "name")
+  assert_true(desc is Some(_))
+  guard desc is Some(d)
+  assert_eq(@js.identity(d.value.unwrap()), "Alice")
+  assert_eq(d.writable, Some(true))
+  assert_eq(d.enumerable, Some(true))
+  assert_eq(d.configurable, Some(true))
+}
+
+///|
+test "Object::getOwnPropertyDescriptor returns None for non-existent" {
+  let obj = @js.Object::new()
+  let desc = Object::getOwnPropertyDescriptor(obj, "nonexistent")
+  assert_true(desc is None)
+}
+
+///|
+test "Object::getOwnPropertyNames" {
+  let obj = @js.Object::new()
+  obj.set("a", 1)
+  obj.set("b", 2)
+  Object::defineProperty(obj, "c", value=3 |> @js.any, enumerable=false)
+  |> ignore
+  let names = Object::getOwnPropertyNames(obj)
+  // Should include non-enumerable property "c"
+  assert_true(names.contains("a"))
+  assert_true(names.contains("b"))
+  assert_true(names.contains("c"))
+}
+
+///|
+test "Object::getOwnPropertySymbols" {
+  let obj = @js.Object::new()
+  let sym = @js.symbol("mySymbol")
+  obj.set(sym, "symbol value")
+  let symbols = Object::getOwnPropertySymbols(obj)
+  assert_eq(symbols.length(), 1)
+}
+
+///|
+test "Object::defineProperties" {
+  let obj = @js.Object::new()
+  let props = @js.Object::new()
+  let x_desc = @js.Object::new()
+  x_desc.set("value", 10)
+  x_desc.set("writable", true)
+  props.set("x", x_desc)
+  let y_desc = @js.Object::new()
+  y_desc.set("value", 20)
+  y_desc.set("writable", true)
+  props.set("y", y_desc)
+  Object::defineProperties(obj, props) |> ignore
+  assert_eq(@js.identity(obj.get("x")), 10)
+  assert_eq(@js.identity(obj.get("y")), 20)
+}
+
+///| Object.groupBy tests
+
+///|
+test "Object::groupBy basic" {
+  let items : Array[@js.Any] = [1, 2, 3, 4, 5].map(fn(x) { x |> @js.any })
+  let result = Object::groupBy(items, fn(item, _index) {
+    let n : Int = item |> @js.identity
+    if n % 2 == 0 {
+      "even"
+    } else {
+      "odd"
+    }
+  })
+  let odd : Array[Int] = result.get("odd") |> @js.identity
+  let even : Array[Int] = result.get("even") |> @js.identity
+  assert_eq(odd, [1, 3, 5])
+  assert_eq(even, [2, 4])
+}
+
+///|
+test "Object::groupBy with objects" {
+  let inventory = @js.Object::new()
+  inventory.set("name", "apple")
+  inventory.set("type", "fruit")
+  let inventory2 = @js.Object::new()
+  inventory2.set("name", "beef")
+  inventory2.set("type", "meat")
+  let inventory3 = @js.Object::new()
+  inventory3.set("name", "banana")
+  inventory3.set("type", "fruit")
+  let items = [inventory, inventory2, inventory3]
+  let result = Object::groupBy(items, fn(item, _index) {
+    item.get("type") |> @js.identity
+  })
+  let fruits : Array[@js.Any] = result.get("fruit") |> @js.identity
+  let meats : Array[@js.Any] = result.get("meat") |> @js.identity
+  assert_eq(fruits.length(), 2)
+  assert_eq(meats.length(), 1)
+}

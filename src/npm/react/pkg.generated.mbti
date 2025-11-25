@@ -31,6 +31,8 @@ fn[T] create_context(T?) -> Context[T]
 
 async fn dynamic_import() -> Unit
 
+fn error_boundary(children~ : Array[&ReactNode], fallback? : (@js.Any, () -> Unit) -> Element, on_error? : (@js.Any, @js.Any) -> Unit) -> Element
+
 fn fragment(Array[&ReactNode], key? : String) -> Element
 
 fn init_react_api(@js.Any, global_key? : String) -> Unit
@@ -119,10 +121,6 @@ pub type Context[T]
 pub type Element
 impl @js.JsImpl for Element
 impl ReactNode for Element
-
-pub(all) struct EmptyProps {
-}
-impl Default for EmptyProps
 
 pub(all) struct ReactRef[T] {
   current : @js.Any

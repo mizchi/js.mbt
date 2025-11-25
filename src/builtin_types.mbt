@@ -434,7 +434,7 @@ pub type JSON
 ///|
 /// JS: JSON.stringify(v, replacer, space)
 pub fn JSON::stringify(
-  v : Any,
+  v : &JsImpl,
   replacer? : Any = undefined(),
   space? : Int = 2,
 ) -> String {

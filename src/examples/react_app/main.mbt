@@ -1,7 +1,6 @@
 ///|
 using @react {
   type Context,
-  type EmptyProps,
   createElement,
   component,
   fragment,
@@ -76,7 +75,7 @@ fn use_myctx() -> MyContextProps {
 }
 
 ///|
-fn ctx_consumer(_ : EmptyProps) -> @react.Element {
+fn ctx_consumer(_ : Unit) -> @react.Element {
   let ctx_value = use_myctx()
   createElement("div", props={ "className": "context-value" |> @js.any }, [
     "Context value: \{ctx_value.v}",
@@ -89,7 +88,7 @@ enum CounterAction {
 }
 
 ///|
-fn counter(_ : EmptyProps) -> @react.Element {
+fn counter(_ : Unit) -> @react.Element {
   let (count, dispatch) = useReducer(
     (state : Int, action : CounterAction) => match action {
       CounterAction::Increment => state + 1
@@ -109,7 +108,7 @@ fn counter(_ : EmptyProps) -> @react.Element {
 }
 
 ///|
-fn async_counter(_ : EmptyProps) -> @react.Element {
+fn async_counter(_ : Unit) -> @react.Element {
   let (count, dispatch, is_pending) = useActionState(
     async fn(state : Int, action : CounterAction) -> Int noraise {
       match action {
@@ -214,9 +213,9 @@ fn app(props : AppProps) -> @react.Element {
             [component(item_component, { name: item }, key=idx.to_string())],
           )),
         ),
-        component(ctx_consumer, EmptyProps::default()),
-        component(counter, EmptyProps::default()),
-        component(async_counter, EmptyProps::default()),
+        component(ctx_consumer, ()),
+        component(counter, ()),
+        component(async_counter, ()),
         hr(),
         form(
           method_="post",

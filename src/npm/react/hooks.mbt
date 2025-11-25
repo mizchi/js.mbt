@@ -43,7 +43,7 @@ pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[&@js.JsImpl]) -> Unit 
 ///|
 /// React.useMemo
 /// ```mbt
-/// fn my_component(_props : EmptyProps) -> Element {
+/// fn my_component(_props : Unit) -> Element {
 ///   let _result = useMemo(() => {
 ///     42
 ///   }, [])
@@ -60,7 +60,7 @@ pub fn[T] useMemo(f : () -> T, keys : Array[&@js.JsImpl]) -> T {
 ///|
 /// JS: React.useRef
 /// ```mbt
-/// fn my_component(_props : EmptyProps) -> Element {
+/// fn my_component(_props : Unit) -> Element {
 ///   let my_ref : ReactRef[@dom.Element] = useRef(None)
 ///   createElement("div", ref_=my_ref, ["Hello"])
 /// }
@@ -140,7 +140,7 @@ pub fn[T] use_promise(promise : @js.Promise[T]) -> T {
 /// enum CounterAction {
 ///   Increment
 /// }
-/// fn my_component(_props : EmptyProps) -> Element {
+/// fn my_component(_props : Unit) -> Element {
 ///   let (_state, _dispatch) = use_reducer((s: Int, a: CounterAction) => match a {
 ///     Increment => s + 1
 ///   }, 0)
@@ -199,11 +199,11 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 /// The import function should return a module with a `default` export of ComponentType[T].
 ///
 /// ```moonbit skip
-/// // For components with EmptyProps
+/// // For components with Unit
 /// extern "js" fn load_my_component() -> @js.Promise[@js.Any] =
 ///   #| () => import("./MyComponent")
 ///
-/// let my_component : ComponentType[EmptyProps] = lazy_(load_my_component)
+/// let my_component : ComponentType[Unit] = lazy_(load_my_component)
 ///
 /// // For components with custom props
 /// struct MyProps { name : String }

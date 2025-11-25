@@ -92,7 +92,7 @@ test "type checking" {
 ///|
 test "method calls" {
   let obj = @js.Object::new()
-  obj.set("name", "test")
+  obj["name"] = "test"
 
   // Specific arities (optimized)
   inspect(obj.call0("toString"), content="[object Object]")
@@ -132,30 +132,13 @@ test "constructors" {
 }
 ```
 
-## Symbols
-
-```moonbit
-///|
-test "symbols" {
-  let obj = @js.Object::new()
-  let sym = @js.symbol("custom")
-  obj.set(sym, "symbol value")
-  assert_eq(@js.identity(obj.get(sym)), "symbol value")
-
-  // Well-known symbols
-  let _iter = @js.Symbol::iterator()
-  let _tag = @js.Symbol::toStringTag()
-
-}
-```
-
 ## JSON
 
 ```moonbit
 ///|
 test "json" {
   let obj = @js.Object::new()
-  obj.set("name", "MoonBit")
+  obj["name"] = "Moonbit"
   let json_str = @js.JSON::stringify(obj.to_any())
   assert_eq(json_str.contains("name"), true)
   let parsed = @js.JSON::parse(json_str) catch { _ => @js.undefined() }
