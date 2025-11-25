@@ -19,7 +19,7 @@ extern "js" fn create_interface_impl(options : @js.Object) -> Interface =
 pub fn createInterface(
   input : @stream.Readable,
   output? : @stream.Writable,
-  completer? : (String) -> (Array[String], String),
+  _completer? : (String) -> (Array[String], String),
   terminal? : Bool,
   history_size? : Int,
   prompt? : String,
