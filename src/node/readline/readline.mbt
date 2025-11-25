@@ -7,6 +7,16 @@
 pub type Interface
 
 ///|
+/// Wrap MoonBit completer function to JavaScript function
+extern "js" fn wrap_completer(
+  f : (String) -> (Array[String], String)
+) -> @js.Any =
+  #|(f) => (line) => {
+  #|  const result = f(line);
+  #|  return result;
+  #|}
+
+///|
 extern "js" fn create_interface_impl(options : @js.Object) -> Interface =
   #|(options) => {
   #|  const readline = require('node:readline');
@@ -19,7 +29,7 @@ extern "js" fn create_interface_impl(options : @js.Object) -> Interface =
 pub fn createInterface(
   input : @stream.Readable,
   output? : @stream.Writable,
-  completer? : @js.Any,
+  completer? : (String) -> (Array[String], String),
   terminal? : Bool,
   history_size? : Int,
   prompt? : String,
@@ -35,7 +45,7 @@ pub fn createInterface(
     None => ()
   }
   match completer {
-    Some(c) => obj.set("completer", c)
+    Some(c) => obj.set("completer", wrap_completer(c))
     None => ()
   }
   match terminal {
