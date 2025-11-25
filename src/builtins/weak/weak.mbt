@@ -140,9 +140,8 @@ pub fn[T : @js.JsImpl, U : @js.JsImpl] FinalizationRegistry::register(
   unregister_token? : @js.Any,
 ) -> Unit {
   match unregister_token {
-    Some(token) =>
-      self.to_any().call("register", [target, held_value, token]) |> ignore
-    None => self.to_any().call2("register", target, held_value) |> ignore
+    Some(token) => self.call("register", [target, held_value, token]) |> ignore
+    None => self.call2("register", target, held_value) |> ignore
   }
 }
 
@@ -151,5 +150,5 @@ pub fn[T] FinalizationRegistry::unregister(
   self : FinalizationRegistry[T],
   unregister_token : @js.Any,
 ) -> Bool {
-  self.to_any().call("unregister", [unregister_token]).cast()
+  self.call("unregister", [unregister_token]).cast()
 }

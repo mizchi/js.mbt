@@ -63,13 +63,13 @@ pub fn File::as_blob(self : Self) -> @blob.Blob {
 /// Get the file contents as ArrayBuffer (inherited from Blob)
 #alias(arrayBuffer)
 pub fn File::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.to_any().call0("arrayBuffer") |> @js.identity
+  self.call0("arrayBuffer") |> @js.identity
 }
 
 ///|
 /// Get the file contents as text (inherited from Blob)
 pub fn File::text(self : Self) -> @js.Promise[String] {
-  self.to_any().call0("text").cast()
+  self.call0("text").cast()
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn FileReader::new() -> FileReader {
 /// Read file as ArrayBuffer
 #alias(readAsArrayBuffer)
 pub fn FileReader::read_as_array_buffer(self : Self, blob : @blob.Blob) -> Unit {
-  self.to_any().call("readAsArrayBuffer", [blob.to_any()]) |> ignore
+  self.call("readAsArrayBuffer", [blob.to_any()]) |> ignore
 }
 
 ///|
@@ -134,13 +134,13 @@ pub fn FileReader::read_as_text(
 /// Read file as Data URL
 #alias(readAsDataURL)
 pub fn FileReader::read_as_data_url(self : Self, blob : @blob.Blob) -> Unit {
-  self.to_any().call("readAsDataURL", [blob.to_any()]) |> ignore
+  self.call("readAsDataURL", [blob.to_any()]) |> ignore
 }
 
 ///|
 /// Abort the read operation
 pub fn FileReader::abort(self : Self) -> Unit {
-  self.to_any().call0("abort") |> ignore
+  self.call0("abort") |> ignore
 }
 
 ///|

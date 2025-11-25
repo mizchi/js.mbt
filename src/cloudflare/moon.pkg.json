@@ -3,10 +3,8 @@
   "import": [
     "mizchi/js",
     "mizchi/js/builtins/date",
-    "mizchi/js/builtins/typedarray",
     "mizchi/js/web/blob",
     "mizchi/js/web/http",
-    "mizchi/js/web/url",
     "mizchi/js/web/streams"
   ]
 }

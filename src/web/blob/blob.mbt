@@ -39,13 +39,13 @@ pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
 /// Get the Blob contents as ArrayBuffer
 #alias(arrayBuffer)
 pub fn Blob::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.to_any().call0("arrayBuffer").cast()
+  self.call0("arrayBuffer").cast()
 }
 
 ///|
 /// Get the Blob contents as text
 pub fn Blob::text(self : Self) -> @js.Promise[String] {
-  self.to_any().call0("text").cast()
+  self.call0("text").cast()
 }
 
 ///|
@@ -81,5 +81,5 @@ pub fn Blob::slice(
 ///|
 /// Get a ReadableStream for the Blob contents
 pub fn Blob::stream(self : Self) -> @streams.ReadableStream {
-  self.to_any().call0("stream").cast()
+  self.call0("stream").cast()
 }

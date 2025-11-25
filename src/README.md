@@ -1,187 +1,279 @@
-# mizchi/js - MoonBit JavaScript Bindings
+# mizchi/js - Core Package
 
-Comprehensive JavaScript FFI bindings for MoonBit, providing type-safe access to JavaScript APIs across browsers, Node.js, and edge runtimes.
+Core JavaScript FFI bindings package. This is the foundation package that provides:
 
-## Core JavaScript API Support Status
-
-| Category | Package | Status | Note |
-|----------|---------|--------|------|
-| **Core JS** |
-| Core FFI | `mizchi/js` | 🧪 Tested | `get`, `set`, `call`, etc. |
-| Object | `mizchi/js` | 🧪 Tested | Object manipulation |
-| Function | `mizchi/js` | 🧪 Tested | Function operations |
-| Promise | `mizchi/js` | 🧪 Tested | Async/Promise API |
-| Error | `mizchi/js` | 🧪 Tested | Error handling |
-| JSON | `mizchi/js` | 🧪 Tested | JSON parse/stringify |
-| Iterator | `mizchi/js` | 🧪 Tested | JS Iterator protocol |
-| AsyncIterator | `mizchi/js` | 🧪 Tested | Async iteration |
-| WeakMap/Set/Ref | `mizchi/js` | 🧪 Tested | Weak references |
-| **Async Helpers** |
-| run_async | `mizchi/js` | 🧪 Tested | Async execution |
-| suspend | `mizchi/js` | 🧪 Tested | Promise suspension |
-| sleep | `mizchi/js` | 🧪 Tested | Delay execution |
-| promisify | `mizchi/js` | 🧪 Tested | Callback → Promise |
-| **Binary Data** |
-| ArrayBuffer | `mizchi/js/arraybuffer` | 🧪 Tested | Binary buffers |
-| TypedArrays | `mizchi/js/arraybuffer` | 🧪 Tested | Uint8Array, etc. |
-| DataView | `mizchi/js/arraybuffer` | 🧪 Tested | Buffer views |
-| SharedArrayBuffer | `mizchi/js/arraybuffer` | 🤖 AI Generated | Shared memory |
-| **Standard APIs** |
-| RegExp | `mizchi/js/regexp` | 🧪 Tested | Regular expressions |
-| Date | `mizchi/js/date` | 🧪 Tested | Date/time operations |
-| Console | `mizchi/js/console` | 🧪 Tested | Console logging |
-| Performance | `mizchi/js/performance` | 🤖 AI Generated | Performance API |
-| Math | `mizchi/js/math` | 🧪 Tested | Math operations |
-| Reflect | `mizchi/js/reflect` | 🤖 AI Generated | Reflection API |
-| **Web Standard APIs** |
-| fetch | `mizchi/js/web/http` | 🧪 Tested | HTTP requests |
-| Request | `mizchi/js/web/http` | 🧪 Tested | Request objects |
-| Response | `mizchi/js/web/http` | 🧪 Tested | Response objects |
-| Headers | `mizchi/js/web/http` | 🧪 Tested | HTTP headers |
-| FormData | `mizchi/js/web/http` | 🧪 Tested | Form data |
-| URL | `mizchi/js/web/url` | 🧪 Tested | URL parsing |
-| URLSearchParams | `mizchi/js/web/url` | 🧪 Tested | Query strings |
-| URLPattern | `mizchi/js/web/url` | 🧪 Tested | URL pattern matching |
-| Blob | `mizchi/js/web/blob` | 🧪 Tested | Binary data |
-| Streams | `mizchi/js/web/streams` | 🧪 Tested | ReadableStream, etc. |
-| CompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate compression |
-| DecompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate decompression |
-| TextEncoder | `mizchi/js/web/encoding` | 🧪 Tested | String to Uint8Array |
-| TextDecoder | `mizchi/js/web/encoding` | 🧪 Tested | Uint8Array to String |
-| Event | `mizchi/js/web/event` | 🧪 Tested | Event objects |
-| CustomEvent | `mizchi/js/web/event` | 🧪 Tested | Custom events |
-| Crypto | `mizchi/js/web/crypto` | 🧪 Tested | Web Crypto API |
-| WebSocket | `mizchi/js/web/websocket` | 🧪 Tested | WebSocket API |
-| Worker | `mizchi/js/web/worker` | 🧪 Tested | Web Workers |
-| MessageChannel | `mizchi/js/web/worker` | 🧪 Tested | Message passing |
-| WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
-| **Platform-Specific** |
-| Node.js APIs | `mizchi/js/node/*` | 🚧 Partially | See [node/README](./node/README.md) |
-| DOM APIs | `mizchi/js/browser/*` | 🧪 Tested | See [browser/dom/README](./browser/dom/README.md) |
-| Cloudflare | `mizchi/js/cloudflare/*` | 🤖 AI Generated | Workers/D1/KV/R2 |
-| Deno | `mizchi/js/deno/*` | 🤖 AI Generated | Deno-specific APIs |
-| **NPM Packages** |
-| React | `mizchi/js/npm/react` | 🧪 Tested | React bindings |
-| React DOM | `mizchi/js/npm/react_dom_*` | 🧪 Tested | React rendering |
-| Hono | `mizchi/js/npm/hono` | 🧪 Tested | Hono web framework |
-| semver | `mizchi/js/npm/semver` | 🤖 AI Generated | Version parsing |
-
-### Status Legend
-
-- 🧪 **Tested**: Comprehensive test coverage, production ready
-- 🚧 **Partially**: Core functionality implemented, tests incomplete
-- 🤖 **AI Generated**: FFI bindings created, needs testing
-- 📅 **Planned**: Scheduled for future implementation
-- ❌ **Not Supported**: Technical limitations
-
-## Not Supported
-
-| Feature | Reason |
-|---------|--------|
-| `eval()` | Security and type safety |
-| `new Function()` | Security and type safety |
-| `DisposableStack` | No `using` keyword in MoonBit |
-| `AsyncDisposableStack` | No `await using` keyword in MoonBit |
-
-## Package Structure
-
-```
-mizchi/js/
-├── Core (js.mbt)              - Core FFI primitives
-├── arraybuffer/               - Binary data handling
-├── console/                   - Console API
-├── date/                      - Date/time operations
-├── math/                      - Math operations
-├── performance/               - Performance API
-├── reflect/                   - Reflection API
-├── regexp/                    - Regular expressions
-├── webassembly/               - WebAssembly API
-├── web/                       - Web Standard APIs (platform-independent)
-│   ├── blob/                  - Blob API
-│   ├── crypto/                - Web Crypto API
-│   ├── encoding/              - TextEncoder/TextDecoder
-│   ├── event/                 - Event APIs
-│   ├── http/                  - Fetch API (Request/Response/Headers/FormData)
-│   ├── streams/               - Streams API (ReadableStream/WritableStream)
-│   ├── url/                   - URL APIs (URL/URLSearchParams/URLPattern)
-│   ├── webassembly/           - WebAssembly API
-│   ├── websocket/             - WebSocket API
-│   └── worker/                - Web Workers API
-├── browser/                   - Browser-specific APIs
-│   └── dom/                   - DOM APIs (see browser/dom/README.md)
-├── node/                      - Node.js APIs (see node/README.md)
-├── cloudflare/                - Cloudflare Workers APIs
-├── deno/                      - Deno runtime APIs
-└── npm/                       - NPM package bindings
-    ├── hono/                  - Hono web framework
-    ├── react/                 - React library
-    ├── react_dom_server/      - React SSR
-    ├── react_dom_client/      - React CSR
-    └── semver/                - Semantic versioning
-```
+- Core FFI operations (`get`, `set`, `call`, `cast`, etc.)
+- JavaScript built-in types (Object, Array, Promise, Function, Error, etc.)
+- Async helpers (run_async, suspend, sleep, promisify)
+- Type conversion utilities
 
 ## Installation
+
+```bash
+moon add mizchi/js
+```
 
 Add to your `moon.pkg.json`:
 
 ```json
 {
-  "import": [
-    "mizchi/js"
-  ]
+  "import": ["mizchi/js"]
 }
 ```
 
-For specific APIs, import additional packages:
+## Basic Usage
 
-```json
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js/browser/dom",
-    "mizchi/js/node",
-    "mizchi/js/web/http"
-  ]
-}
-```
-
-## Quick Start
-
-### Basic FFI Operations
+### Core FFI Operations
 
 ```moonbit
-let obj = @js.from_entries([("name", "Alice"), ("age", 30)])
-let name = obj.get("name")  // Get property
-obj.set("age", 31)          // Set property
-let result = obj.call("toString", [])  // Call method
+// Create objects
+let obj = @js.Object::new()
+obj.set("name", "Alice")
+obj.set("age", 30)
+
+// Get properties
+let name = obj.get("name")  // Returns @js.Any
+let age: Int = obj.get("age").cast()  // Type-safe casting
+
+// Call methods
+let has_name: Bool = obj.call("hasOwnProperty", ["name"]).cast()
+
+// Create from entries
+let obj2 = @js.from_entries([("x", 10), ("y", 20)])
 ```
 
-### Async/Await
+### Type Casting
 
 ```moonbit
-fn fetch_data() -> Unit {
-  @js.run_async(fn() {
-    let response = @http.fetch("https://api.example.com/data").await
-    let json = response.json().await
-    // Process json
-  })
-}
+// Using cast() method (recommended)
+let value: Int = js_value.cast()
+let str: String = js_value.cast()
+
+// Using identity() for low-level FFI
+let value: Int = @js.identity(js_value)
+
+// Optional types
+let nullable: Int? = @js.identity_option(js_value)
 ```
 
-### Promise Handling
+### Promises and Async
 
 ```moonbit
+// Create and use promises
 let promise = @js.Promise::resolve(42)
 promise.then_(fn(value) {
   @console.log(value)
 })
+
+// Async/await
+async fn example() -> Int {
+  let promise = @js.Promise::resolve(42)
+  let value = promise.wait()
+  value
+}
+
+// Run async code
+@js.run_async(async fn() {
+  let value = some_promise.wait()
+  @console.log(value)
+})
 ```
 
-## Related Documentation
+### Async Helpers
 
-- [DOM APIs](./dom/README.md) - Browser DOM bindings
-- [Node.js APIs](./node/README.md) - Node.js runtime bindings
-- [Examples](./examples/) - Usage examples
+```moonbit
+// Sleep
+async fn delayed() -> Unit {
+  @js.sleep(1000)  // Sleep for 1 second
+  @console.log("Delayed!")
+}
+
+// Promisify callbacks
+let async_fn = async fn(x: Int) -> String {
+  @js.sleep(100)
+  x.to_string()
+}
+let promise_fn = @js.promisify1(async_fn)
+let promise = promise_fn(42)  // Returns Promise[String]
+```
+
+### Arrays
+
+```moonbit
+// Create arrays
+let arr = @js.JsArray::new()
+arr.push(1)
+arr.push(2)
+arr.push(3)
+
+// Array operations
+let length = arr.length()
+let first = arr.get(0)
+arr.set(1, 42)
+
+// From MoonBit Array
+let mbt_arr = [1, 2, 3]
+let js_arr = @js.JsArray::from_array(mbt_arr)
+```
+
+### Error Handling
+
+```moonbit
+// Create errors
+let err = @js.Error::new("Something went wrong")
+
+// Throw errors (use in FFI functions marked with `raise`)
+fn example() -> Int raise {
+  fail("Error message")
+}
+
+// Catch errors in async
+async fn safe_operation() -> Unit {
+  try {
+    let result = risky_operation().wait()
+    @console.log(result)
+  } catch {
+    e => @console.error("Error: " + e.to_string())
+  }
+}
+```
+
+### JSON Operations
+
+```moonbit
+// Parse JSON
+let json_str = "{\"name\":\"Alice\",\"age\":30}"
+let obj = @js.JSON::parse(json_str)
+
+// Stringify
+let obj = @js.from_entries([("name", "Alice"), ("age", 30)])
+let json_str = @js.JSON::stringify(obj)
+
+// With formatting
+let pretty = @js.JSON::stringify_with_indent(obj, 2)
+```
+
+### Nullish Handling
+
+```moonbit
+// Nullish[T] handles both null and undefined
+let nullish: @js.Nullish[Int] = @js.null()
+
+match nullish.to_option() {
+  Some(value) => @console.log(value)
+  None => @console.log("null or undefined")
+}
+
+// Nullable[T] only handles null
+let nullable: @js.Nullable[Int] = @js.Nullable::null()
+```
+
+### Iterators
+
+```moonbit
+// JavaScript iterator
+let iter = js_array.values()
+loop {
+  let next = iter.next()
+  if next.done {
+    break
+  }
+  @console.log(next.value)
+}
+
+// Async iterator
+async fn iterate_async(iter: @js.AsyncIterator) -> Unit {
+  loop {
+    let next = iter.next().wait()
+    if next.done {
+      break
+    }
+    @console.log(next.value)
+  }
+}
+```
+
+## Advanced Patterns
+
+### Escape Hatch Pattern
+
+When you need to access JavaScript APIs not yet wrapped in this library:
+
+```moonbit
+// Define external FFI function
+extern "js" fn ffi_my_custom_api(arg: @js.Any) -> @js.Any =
+  #|arg => {
+  #|  // JavaScript code here
+  #|  return arg.customMethod();
+  #|}
+
+// Wrap it in a type-safe function
+pub fn my_custom_api(value: String) -> String {
+  let result = ffi_my_custom_api(value)
+  result.cast()
+}
+```
+
+See [escape_hatch.mbt.md](examples/escape_hatch.mbt.md) for more patterns.
+
+## Type Reference
+
+### Core Types
+
+- `@js.Any` - Universal JavaScript value type (was `@js.Js` before v0.5.0)
+- `@js.Object` - JavaScript object
+- `@js.JsArray` - JavaScript array
+- `@js.Promise[T]` - JavaScript Promise
+- `@js.Function` - JavaScript function
+- `@js.Error` - JavaScript Error
+
+### Nullish Types
+
+- `@js.Nullish[T]` - Handles both null and undefined (converts to `Option[T]`)
+- `@js.Nullable[T]` - Handles only null
+- `@js.Undefinedable[T]` - Handles only undefined
+
+### Binary Data
+
+See `mizchi/js/builtins/arraybuffer` and `mizchi/js/builtins/typedarray` packages.
+
+## Related Packages
+
+This core package is used by:
+
+- `mizchi/js/web/*` - Web Standard APIs
+- `mizchi/js/browser/*` - Browser DOM APIs
+- `mizchi/js/node/*` - Node.js runtime APIs
+- `mizchi/js/cloudflare/*` - Cloudflare Workers APIs
+- `mizchi/js/npm/*` - NPM package bindings
+
+See the main [project README](../README.md) for the complete package list.
+
+## Migration from v0.4.0
+
+### Breaking Changes in v0.5.0
+
+```moonbit
+// Type rename
+// Before: @js.Js
+// After: @js.Any
+let value: @js.Any = obj.get("key")
+
+// Method rename
+// Before: obj.to_js()
+// After: obj.to_any()
+let any = obj.to_any()
+
+// Function rename
+// Before: @js.js(value)
+// After: @js.any(value)
+let converted = @js.any(value)
+
+// Casting
+// Before: @js.unsafe_cast(value)
+// After: @js.identity(value) or value.cast()
+let typed: Int = value.cast()
+```
 
 ## Contributing
 
