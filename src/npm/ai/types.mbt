@@ -23,18 +23,22 @@ pub fn ProviderMetadata::to_any(self : ProviderMetadata) -> @js.Any {
 
 ///|
 /// Language model usage statistics
+/// Note: AI SDK v6 uses inputTokens/outputTokens instead of promptTokens/completionTokens
 pub(all) struct LanguageModelUsage {
-  prompt_tokens : Int
-  completion_tokens : Int
+  input_tokens : Int
+  output_tokens : Int
   total_tokens : Int
+  cached_input_tokens : Int
 }
 
 ///|
 pub fn LanguageModelUsage::from_any(value : @js.Any) -> LanguageModelUsage {
+  let cached = value.get("cachedInputTokens")
   {
-    prompt_tokens: value.get("promptTokens").cast(),
-    completion_tokens: value.get("completionTokens").cast(),
+    input_tokens: value.get("inputTokens").cast(),
+    output_tokens: value.get("outputTokens").cast(),
     total_tokens: value.get("totalTokens").cast(),
+    cached_input_tokens: if @js.is_undefined(cached) { 0 } else { cached.cast() },
   }
 }
 

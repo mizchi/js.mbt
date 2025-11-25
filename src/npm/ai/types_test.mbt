@@ -29,13 +29,28 @@ test "FinishReason to_string" {
 ///|
 test "LanguageModelUsage from_any" {
   let obj = @js.Object::new()
-  obj.set("promptTokens", 10)
-  obj.set("completionTokens", 20)
+  obj.set("inputTokens", 10)
+  obj.set("outputTokens", 20)
+  obj.set("totalTokens", 30)
+  obj.set("cachedInputTokens", 5)
+  let usage = LanguageModelUsage::from_any(obj.to_any())
+  assert_eq(usage.input_tokens, 10)
+  assert_eq(usage.output_tokens, 20)
+  assert_eq(usage.total_tokens, 30)
+  assert_eq(usage.cached_input_tokens, 5)
+}
+
+///|
+test "LanguageModelUsage from_any without cached" {
+  let obj = @js.Object::new()
+  obj.set("inputTokens", 10)
+  obj.set("outputTokens", 20)
   obj.set("totalTokens", 30)
   let usage = LanguageModelUsage::from_any(obj.to_any())
-  assert_eq(usage.prompt_tokens, 10)
-  assert_eq(usage.completion_tokens, 20)
+  assert_eq(usage.input_tokens, 10)
+  assert_eq(usage.output_tokens, 20)
   assert_eq(usage.total_tokens, 30)
+  assert_eq(usage.cached_input_tokens, 0)
 }
 
 ///|

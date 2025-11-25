@@ -30,10 +30,10 @@ async fn run_generate_text() -> Unit {
   @js.log("Text: " + result.text)
   @js.log("Finish reason: " + result.finish_reason.to_string())
   @js.log(
-    "Usage - Prompt: " +
-    result.usage.prompt_tokens.to_string() +
-    ", Completion: " +
-    result.usage.completion_tokens.to_string() +
+    "Usage - Input: " +
+    result.usage.input_tokens.to_string() +
+    ", Output: " +
+    result.usage.output_tokens.to_string() +
     ", Total: " +
     result.usage.total_tokens.to_string(),
   )
