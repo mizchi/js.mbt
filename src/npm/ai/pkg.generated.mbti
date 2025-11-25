@@ -8,6 +8,10 @@ import(
 // Values
 fn all_of(Array[StopCondition]) -> StopCondition
 
+fn anthropic(String) -> Model
+
+fn anthropic_with_options(String, AnthropicOptions) -> Model
+
 fn any_of(Array[StopCondition]) -> StopCondition
 
 fn convert_array_to_async_iterable(Array[@js.Any]) -> @js.Any
@@ -17,6 +21,10 @@ fn convert_array_to_readable_stream(Array[@js.Any]) -> @js.Any
 async fn convert_readable_stream_to_array(@js.Any) -> Array[@js.Any]
 
 fn finish_chunk(String, MockUsage) -> @js.Any
+
+fn google(String) -> Model
+
+fn google_with_options(String, GoogleOptions) -> Model
 
 fn has_any_tool_call(Array[String]) -> StopCondition
 
@@ -33,6 +41,10 @@ fn mock_model_with_text(String) -> @js.Any
 fn mock_values_js(Array[@js.Any]) -> @js.Any
 
 fn model_finished() -> StopCondition
+
+fn openai(String) -> Model
+
+fn openai_with_options(String, OpenAIOptions) -> Model
 
 fn require_test() -> @js.Any
 
@@ -62,6 +74,20 @@ async fn Ai::generateText(Self, model~ : Model, messages? : Array[ModelMessage],
 fn Ai::require() -> Self
 fn Ai::streamText(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int, stop_when? : StopCondition, prepare_step? : PrepareStep, active_tools? : Array[String]) -> StreamTextResultHandle
 impl @js.JsImpl for Ai
+
+pub(all) struct AnthropicOptions {
+  api_key : String?
+  base_url : String?
+}
+fn AnthropicOptions::default() -> Self
+fn AnthropicOptions::to_any(Self) -> @js.Any
+
+#external
+pub type AnthropicProvider
+fn AnthropicProvider::create(AnthropicOptions) -> Self
+fn AnthropicProvider::model(Self, String) -> Model
+fn AnthropicProvider::require() -> Self
+impl @js.JsImpl for AnthropicProvider
 
 pub(all) struct CallWarning {
   type_ : String
@@ -121,6 +147,20 @@ pub(all) struct GeneratedFile {
   raw : @js.Any
 }
 fn GeneratedFile::from_any(@js.Any) -> Self
+
+pub(all) struct GoogleOptions {
+  api_key : String?
+  base_url : String?
+}
+fn GoogleOptions::default() -> Self
+fn GoogleOptions::to_any(Self) -> @js.Any
+
+#external
+pub type GoogleProvider
+fn GoogleProvider::create(GoogleOptions) -> Self
+fn GoogleProvider::model(Self, String) -> Model
+fn GoogleProvider::require() -> Self
+impl @js.JsImpl for GoogleProvider
 
 pub(all) struct LanguageModelRequestMetadata {
   raw : @js.Any
@@ -220,6 +260,21 @@ pub(all) enum ModelMessage {
   ToolMessage(content~ : MessageContent)
 }
 impl @js.JsImpl for ModelMessage
+
+pub(all) struct OpenAIOptions {
+  api_key : String?
+  base_url : String?
+  organization : String?
+}
+fn OpenAIOptions::default() -> Self
+fn OpenAIOptions::to_any(Self) -> @js.Any
+
+#external
+pub type OpenAIProvider
+fn OpenAIProvider::create(OpenAIOptions) -> Self
+fn OpenAIProvider::model(Self, String) -> Model
+fn OpenAIProvider::require() -> Self
+impl @js.JsImpl for OpenAIProvider
 
 pub(all) struct PrepareStepContext {
   step_number : Int
