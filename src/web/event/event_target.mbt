@@ -57,7 +57,7 @@ impl EventTargetImpl with addEventListener(
       "capture": Some(@js.any(capture)),
       "once": Some(@js.any(once)),
       "passive": Some(@js.any(passive)),
-      "signal": signal.map(fn(x) { x.to_any() }),
+      "signal": signal.map(fn(x) { x |> @js.identity }),
     }),
   ])
   |> ignore
@@ -82,3 +82,14 @@ impl EventTargetImpl with removeEventListener(
 impl EventTargetImpl with dispatchEvent(self, event) -> Bool {
   self.call("dispatchEvent", [event]).cast()
 }
+
+///|
+/// https://developer.mozilla.org/en-US/docs/Web/API/Event/target
+#external
+pub type EventTarget
+
+///|
+pub impl @js.JsImpl for EventTarget
+
+///|
+pub impl EventTargetImpl for EventTarget

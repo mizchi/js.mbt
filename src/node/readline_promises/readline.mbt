@@ -35,7 +35,7 @@ pub fn createInterface(
     "crlfDelay": crlfDelay.map(fn(x) { @js.any(x) }),
     "escapeCodeTimeout": escapeCodeTimeout.map(fn(x) { @js.any(x) }),
     "tabSize": tabSize.map(fn(x) { @js.any(x) }),
-    "signal": signal.map(fn(x) { x.to_any() }),
+    "signal": signal.map(fn(x) { x |> @js.identity }),
   })
   @js.identity(
     @node.require("node:readline/promises")

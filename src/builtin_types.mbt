@@ -622,33 +622,35 @@ pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
 
 ///|
 /// JavaScript: AbortController
-#external
-pub type AbortController
+// #external
+// pub type AbortController
+
+pub using @js_async {type AbortController, type AbortSignal}
 
 ///|
-pub impl JsImpl for AbortController
+// pub impl JsImpl for AbortController
 
-///|
-/// JS: new AbortController()
-pub extern "js" fn AbortController::new() -> AbortController =
-  #| () => new AbortController()
+// ///|
+// /// JS: new AbortController()
+// pub extern "js" fn AbortController::new() -> AbortController =
+//   #| () => new AbortController()
 
-///|
-/// JS: abortController.abort()
-pub fn AbortController::abort(self : Self) -> Unit {
-  self.call0("abort") |> identity
-}
+// ///|
+// /// JS: abortController.abort()
+// pub fn AbortController::abort(self : Self) -> Unit {
+//   self.call0("abort") |> identity
+// }
 
-///|
-/// JavaScript: AbortSignal
-#external
-pub type AbortSignal
+// ///|
+// /// JavaScript: AbortSignal
+// #external
+// pub type AbortSignal
 
-///|
-pub impl JsImpl for AbortSignal
+// ///|
+// pub impl JsImpl for AbortSignal
 
 ///|
 /// JS: abortController.signal
-pub fn AbortController::signal(self : Self) -> AbortSignal {
-  self.get("signal") |> identity
-}
+// pub fn AbortController::signal(self : Self) -> AbortSignal {
+//   self.get("signal") |> identity
+// }

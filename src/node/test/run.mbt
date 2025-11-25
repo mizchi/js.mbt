@@ -56,7 +56,7 @@ pub fn run(
     "coverageIncludeGlobs": coverageIncludeGlobs.map(fn(x) { @js.from_array(x) }),
     "coverageExcludeGlobs": coverageExcludeGlobs.map(fn(x) { @js.from_array(x) }),
     "watch": watch.map(fn(x) { @js.any(x) }),
-    "signal": signal.map(fn(x) { x.to_any() }),
+    "signal": signal.map(fn(x) { x |> @js.identity }),
     "testNamePatterns": testNamePatterns.map(fn(x) { @js.from_array(x) }),
     "testSkipPatterns": testSkipPatterns.map(fn(x) { @js.from_array(x) }),
     "timeout": timeout.map(fn(x) { @js.any(x) }),

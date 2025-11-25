@@ -191,7 +191,7 @@ pub async fn writeFile(
         "mode": Some(@js.any(mode)),
         "flag": Some(@js.any(flag)),
         "flush": Some(@js.any(flush)),
-        "signal": signal.map(fn(x) { x.to_any() }),
+        "signal": signal.map(fn(x) { x |> @js.identity }),
       }),
     ]),
   )

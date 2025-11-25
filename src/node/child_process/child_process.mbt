@@ -89,7 +89,7 @@ pub fn spawn(
     "env": env,
     "shell": shell.map(fn(x) { @js.any(x) }),
     "timeout": timeout.map(fn(x) { @js.any(x) }),
-    "signal": signal.map(fn(x) { x.to_any() }),
+    "signal": signal.map(fn(x) { x |> @js.identity }),
   })
   match args {
     Some(a) => cp.call("spawn", [command, a |> @js.from_array, options]).cast()
@@ -117,7 +117,7 @@ pub fn exec(
     "shell": shell.map(fn(x) { @js.any(x) }),
     "timeout": timeout.map(fn(x) { @js.any(x) }),
     "maxBuffer": max_buffer.map(fn(x) { @js.any(x) }),
-    "signal": signal.map(fn(x) { x.to_any() }),
+    "signal": signal.map(fn(x) { x |> @js.identity }),
   })
   cp.call("exec", [command |> @js.any, options, @js.identity(callback)]).cast()
 }
@@ -142,7 +142,7 @@ pub fn execFile(
     "env": env,
     "timeout": timeout.map(fn(x) { @js.any(x) }),
     "maxBuffer": max_buffer.map(fn(x) { @js.any(x) }),
-    "signal": signal.map(fn(x) { x.to_any() }),
+    "signal": signal.map(fn(x) { x |> @js.identity }),
   })
   cp
   .call("execFile", [
@@ -170,9 +170,9 @@ pub fn fork(
   let options = @js.from_option_map({
     "cwd": cwd.map(fn(x) { @js.any(x) }),
     "env": env,
-    "silent": silent.map(fn(x) { @js.any(x) }),
+    "silent": silent.map(x => x |> @js.any),
     "timeout": timeout.map(fn(x) { @js.any(x) }),
-    "signal": signal.map(fn(x) { x.to_any() }),
+    "signal": signal.map(x => x |> @js.identity),
   })
   match args {
     Some(a) =>

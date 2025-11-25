@@ -42,7 +42,7 @@ pub async fn fetch(
     "redirect": redirect.map(fn(x) { @js.any(x) }),
     "referrer": referrer.map(fn(x) { @js.any(x) }),
     "referrerPolicy": referrerPolicy.map(fn(x) { @js.any(x) }),
-    "signal": signal.map(fn(x) { x.to_any() }),
+    "signal": signal.map(fn(x) { x |> @js.identity }),
   })
   ffi_fetch(url, init_obj).wait()
 }

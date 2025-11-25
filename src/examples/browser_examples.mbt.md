@@ -63,7 +63,7 @@ fn tree_manipulation() -> Unit {
   // Create and append children
   let item1 = doc.createElement("li")
   item1.setTextContent("Item 1")
-  let item2 = doc.createElement("li")
+  let item2: @dom.HTMLLIElement = doc.createElement("li").to_any().cast()
   item2.setTextContent("Item 2")
 
   parent.appendChild(item1) |> ignore
