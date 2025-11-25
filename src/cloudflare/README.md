@@ -60,39 +60,44 @@ Cloudflare KV is a global, low-latency key-value data store.
 
 ```moonbit
 // Get a value
-let value = kv.get("my-key", None).await()
+let value = kv.get("my-key").await()
 
 // Put a value
-kv.put("my-key", "my-value", None).await()
+kv.put("my-key", "my-value").await()
 
 // Delete a value
 kv.delete("my-key").await()
 
 // List keys
-let result = kv.list(None).await()
+let result = kv.list().await()
 ```
 
 **Advanced Operations:**
 
 ```moonbit
 // Get with options
-let options = { type_: Some("json"), cache_ttl: Some(60) }
-let value = kv.get("my-key", Some(options)).await()
+let value = kv.get(
+  "my-key",
+  type_?=Some("json"),
+  cacheTtl?=Some(60)
+).await()
 
 // Get as JSON
 let json_data = kv.get_json("my-data").await()
 
 // Put with metadata and TTL
-let put_opts = { 
-  expiration: None,
-  expiration_ttl: Some(3600), 
-  metadata: Some(js({"version": 1}))
-}
-kv.put("my-key", "my-value", Some(put_opts)).await()
+kv.put(
+  "my-key",
+  "my-value",
+  expirationTtl?=Some(3600),
+  metadata?=Some(js({"version": 1}))
+).await()
 
 // List with filtering
-let list_opts = { prefix: Some("user:"), limit: Some(100), cursor: None }
-let result = kv.list(Some(list_opts)).await()
+let result = kv.list(
+  prefix?=Some("user:"),
+  limit?=Some(100)
+).await()
 ```
 
 ### D1 (SQL Database)
@@ -165,41 +170,40 @@ let objects = bucket.list().await()
 
 ```moonbit
 // Put with metadata
-let http_meta = {
-  content_type: Some("text/plain"),
-  content_language: Some("en"),
-  cache_control: Some("max-age=3600"),
-  content_disposition: None,
-  content_encoding: None,
-  cache_expiry: None
+let http_meta = R2HttpMetadata::{
+  contentType: Some("text/plain"),
+  contentLanguage: Some("en"),
+  cacheControl: Some("max-age=3600"),
+  contentDisposition: None,
+  contentEncoding: None,
+  cacheExpiry: None
 }
-let put_opts = { 
-  http_metadata: Some(http_meta),
-  custom_metadata: Some(js({"author": "Alice"})),
-  md5: None, sha1: None, sha256: None, sha384: None, sha512: None
-}
-bucket.put_with_options("file.txt", js("content"), put_opts).await()
+bucket.put(
+  "file.txt",
+  js("content"),
+  httpMetadata?=Some(http_meta),
+  customMetadata?=Some(js({"author": "Alice"}))
+).await()
 
 // Conditional get
-let cond = {
-  etag_matches: Some("abc123"),
-  etag_does_not_match: None,
-  uploaded_before: None,
-  uploaded_after: None
+let cond = R2Conditional::{
+  etagMatches: Some("abc123"),
+  etagDoesNotMatch: None,
+  uploadedBefore: None,
+  uploadedAfter: None
 }
-let get_opts = { only_if: Some(cond), range: None }
-let obj = bucket.get_with_options("file.txt", get_opts).await()
+let obj = bucket.get(
+  "file.txt",
+  onlyIf?=Some(cond)
+).await()
 
 // List with filtering
-let list_opts = {
-  limit: Some(1000),
-  prefix: Some("images/"),
-  cursor: None,
-  delimiter: Some("/"),
-  start_after: None,
-  include_: Some(["httpMetadata", "customMetadata"])
-}
-let result = bucket.list_with_options(list_opts).await()
+let result = bucket.list(
+  limit?=Some(1000),
+  prefix?=Some("images/"),
+  delimiter?=Some("/"),
+  include_?=Some(["httpMetadata", "customMetadata"])
+).await()
 
 // Multipart upload
 let upload = bucket.create_multipart_upload("large-file.bin").await()
@@ -223,8 +227,7 @@ let id = namespace.new_unique_id()
 let stub = namespace.get(id)
 
 // Get with jurisdiction
-let opts = { jurisdiction: Some("eu") }
-let id = namespace.new_unique_id_with_options(opts)
+let id = namespace.new_unique_id(jurisdiction?=Some("eu"))
 ```
 
 **Calling Durable Objects:**
@@ -250,14 +253,10 @@ storage.put("counter", js(42)).await()
 storage.delete("key").await()
 
 // List keys
-let list_opts = {
-  prefix: Some("user:"),
-  limit: Some(100),
-  start: None, start_after: None, end: None,
-  reverse: None,
-  allow_concurrency: None, no_cache: None
-}
-let entries = storage.list_with_options(list_opts).await()
+let entries = storage.list(
+  prefix?=Some("user:"),
+  limit?=Some(100)
+).await()
 
 // Transactions
 let closure = js(/* transaction function */)
@@ -280,16 +279,20 @@ state.block_concurrency_while(callback).await()
 
 ```moonbit
 // Get with options
-let opts = { allow_concurrency: Some(true), no_cache: Some(false) }
-let value = storage.get_with_options("key", opts).await()
+let value = storage.get(
+  "key",
+  allowConcurrency?=Some(true),
+  noCache?=Some(false)
+).await()
 
 // Put with options
-let opts = { 
-  allow_concurrency: Some(true), 
-  allow_unconfirmed: Some(false),
-  no_cache: Some(false)
-}
-storage.put_with_options("key", js(value), opts).await()
+storage.put(
+  "key",
+  js(value),
+  allowConcurrency?=Some(true),
+  allowUnconfirmed?=Some(false),
+  noCache?=Some(false)
+).await()
 ```
 
 ## Type Conversions
