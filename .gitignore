@@ -10,7 +10,6 @@ fs_test.txt
 .DS_Store
 # Test files
 test_*.txt
-test_*
 .test_baseline.json
 bisect.coverage
 .env

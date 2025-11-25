@@ -6,6 +6,35 @@ import(
 )
 
 // Values
+fn convert_array_to_async_iterable(Array[@js.Any]) -> @js.Any
+
+fn convert_array_to_readable_stream(Array[@js.Any]) -> @js.Any
+
+async fn convert_readable_stream_to_array(@js.Any) -> Array[@js.Any]
+
+fn finish_chunk(String, MockUsage) -> @js.Any
+
+fn mock_id() -> MockId
+
+fn mock_language_model(MockLanguageModelOptions) -> @js.Any
+
+fn mock_model_with_stream(Array[@js.Any]) -> @js.Any
+
+fn mock_model_with_text(String) -> @js.Any
+
+fn mock_values_js(Array[@js.Any]) -> @js.Any
+
+fn require_test() -> @js.Any
+
+fn simulate_readable_stream(SimulateStreamOptions) -> @js.Any
+
+fn simulate_stream(Array[@js.Any]) -> @js.Any
+
+fn simulate_stream_with_delay(Array[@js.Any], Int) -> @js.Any
+
+fn text_delta_chunk(String) -> @js.Any
+
+fn tool_call_chunk(String, String, @js.Any) -> @js.Any
 
 // Errors
 
@@ -103,6 +132,66 @@ pub(all) enum MessageContent {
 }
 impl @js.JsImpl for MessageContent
 
+pub(all) enum MockContentPart {
+  Text(String)
+  ToolCall(tool_call_id~ : String, tool_name~ : String, args~ : @js.Any)
+}
+fn MockContentPart::to_any(Self) -> @js.Any
+
+pub(all) enum MockGenerateHandler {
+  Result(MockGenerateResult)
+  Results(Array[MockGenerateResult])
+  Fn(@js.Any)
+}
+
+pub(all) struct MockGenerateResult {
+  finish_reason : String
+  usage : MockUsage
+  content : Array[MockContentPart]
+  warnings : Array[@js.Any]
+}
+fn MockGenerateResult::to_any(Self) -> @js.Any
+
+pub(all) struct MockId {
+  mut counter : Int
+}
+fn MockId::new() -> Self
+fn MockId::next(Self) -> Int
+fn MockId::next_string(Self) -> String
+fn MockId::reset(Self) -> Unit
+
+pub(all) struct MockLanguageModelOptions {
+  provider : String?
+  model_id : String?
+  do_generate : MockGenerateHandler?
+  do_stream : MockStreamHandler?
+}
+
+pub(all) enum MockStreamHandler {
+  Result(MockStreamResult)
+  Results(Array[MockStreamResult])
+  Fn(@js.Any)
+}
+
+pub(all) struct MockStreamResult {
+  stream : @js.Any
+}
+fn MockStreamResult::to_any(Self) -> @js.Any
+
+pub(all) struct MockUsage {
+  input_tokens : Int
+  output_tokens : Int
+  total_tokens : Int
+}
+
+pub(all) struct MockValues[T] {
+  values : Array[T]
+  mut counter : Int
+}
+fn[T] MockValues::new(Array[T]) -> Self[T]
+fn[T] MockValues::next(Self[T]) -> T
+fn[T] MockValues::reset(Self[T]) -> Unit
+
 #external
 pub type Model
 impl @js.JsImpl for Model
@@ -126,6 +215,12 @@ pub(all) struct ReasoningOutput {
   provider_metadata : ProviderMetadata?
 }
 fn ReasoningOutput::from_any(@js.Any) -> Self
+
+pub(all) struct SimulateStreamOptions {
+  chunks : Array[@js.Any]
+  initial_delay_ms : Int?
+  chunk_delay_ms : Int?
+}
 
 pub(all) enum Source {
   UrlSource(SourceUrl)
