@@ -12,11 +12,17 @@ fn array(ZodSchema) -> ZodSchema
 
 fn bigint() -> ZodSchema
 
+fn bool() -> Schema
+
 fn boolean() -> ZodSchema
 
 fn date() -> ZodSchema
 
+fn email() -> Schema
+
 fn enum_(Array[String]) -> ZodSchema
+
+fn int_() -> Schema
 
 fn literal(@js.Any) -> ZodSchema
 
@@ -24,15 +30,31 @@ fn map(ZodSchema, ZodSchema) -> ZodSchema
 
 fn never() -> ZodSchema
 
+fn nonnegative_int() -> Schema
+
 fn null_() -> ZodSchema
+
+fn nullable(Schema) -> Schema
+
+fn nullish(Schema) -> Schema
+
+fn num() -> Schema
 
 fn number() -> ZodSchema
 
 fn object(@js.Any) -> ZodSchema
 
+fn optional(Schema) -> Schema
+
+fn parse_schema(Schema, @js.Any) -> @js.Any
+
+fn positive_int() -> Schema
+
 fn record(ZodSchema, ZodSchema) -> ZodSchema
 
 fn set(ZodSchema) -> ZodSchema
+
+fn str() -> Schema
 
 fn string() -> ZodSchema
 
@@ -44,17 +66,96 @@ fn union(Array[ZodSchema]) -> ZodSchema
 
 fn unknown() -> ZodSchema
 
+fn url_string() -> Schema
+
+fn uuid_string() -> Schema
+
+fn validate(Schema, @js.Any) -> SafeParseResult
+
 fn void_() -> ZodSchema
+
+fn with_default(Schema, @js.Any) -> Schema
 
 // Errors
 
 // Types and methods
+pub enum ArrayRule {
+  Min(Int)
+  Max(Int)
+  Length(Int)
+  Nonempty
+}
+
+pub enum Modifier {
+  Optional
+  Nullable
+  Nullish
+  Default(@js.Any)
+}
+
+pub enum NumberRule {
+  Gt(Int)
+  Gte(Int)
+  Lt(Int)
+  Lte(Int)
+  Int
+  Positive
+  Negative
+  Nonnegative
+  Nonpositive
+  Finite
+}
+
+pub enum ObjectRule {
+  Strict
+  Passthrough
+  Strip
+  Partial
+}
+
 #external
 pub type SafeParseResult
 fn SafeParseResult::data(Self) -> @js.Any
 fn SafeParseResult::error(Self) -> ZodError
 fn SafeParseResult::success(Self) -> Bool
 impl @js.JsImpl for SafeParseResult
+
+pub enum Schema {
+  String(Array[StringRule])
+  Number(Array[NumberRule])
+  Boolean
+  BigInt
+  Date
+  Array(Schema, Array[ArrayRule])
+  Object(Array[(String, Schema)], Array[ObjectRule])
+  Record(Schema, Schema)
+  Tuple(Array[Schema])
+  Union(Array[Schema])
+  Enum(Array[String])
+  Literal(@js.Any)
+  Any
+  Unknown
+  Never
+  Null
+  Undefined
+  WithModifier(Schema, Modifier)
+}
+fn Schema::build(Self) -> ZodSchema
+
+pub enum StringRule {
+  Min(Int)
+  Max(Int)
+  Length(Int)
+  Email
+  Url
+  Uuid
+  Regex(String)
+  StartsWith(String)
+  EndsWith(String)
+  Trim
+  ToLowerCase
+  ToUpperCase
+}
 
 #external
 pub type ZodError
