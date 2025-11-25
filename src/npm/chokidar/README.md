@@ -350,29 +350,6 @@ fn main {
 
 External type representing a Chokidar watcher instance.
 
-### WatchOptions
-
-Internal struct for type documentation (not directly used):
-
-```moonbit
-pub(all) struct WatchOptions {
-  persistent : Bool?
-  ignored : @js.Any?
-  ignoreInitial : Bool?
-  followSymlinks : Bool?
-  cwd : String?
-  disableGlobbing : Bool?
-  usePolling : Bool?
-  interval : Int?
-  binaryInterval : Int?
-  alwaysStat : Bool?
-  depth : Int?
-  awaitWriteFinish : @js.Any?
-  ignorePermissionErrors : Bool?
-  atomic_ : Bool?
-} derive(Show)
-```
-
 ## References
 
 - [Chokidar GitHub](https://github.com/paulmillr/chokidar)
