@@ -569,3 +569,104 @@ test "ThrowError Show trait works for all variants" {
     }
   }
 }
+
+///| Any.to_json tests
+
+///|
+test "Any.to_json with null" {
+  let null_val = null_()
+  let json = null_val.to_json()
+  assert_eq(json, Json::null())
+}
+
+///|
+test "Any.to_json with boolean" {
+  let true_val = @js.any(true)
+  let json_true = true_val.to_json()
+  assert_true(json_true is True)
+  let false_val = @js.any(false)
+  let json_false = false_val.to_json()
+  assert_true(json_false is False)
+}
+
+///|
+test "Any.to_json with number" {
+  let num_val = @js.any(42.5)
+  let json = num_val.to_json()
+  match json {
+    Number(n, ..) => assert_eq(n, 42.5)
+    _ => fail("Expected Number")
+  }
+}
+
+///|
+test "Any.to_json with string" {
+  let str_val = @js.any("hello")
+  let json = str_val.to_json()
+  match json {
+    String(s) => assert_eq(s, "hello")
+    _ => fail("Expected String")
+  }
+}
+
+///|
+test "Any.to_json with array" {
+  let arr = from_array([@js.any(1), @js.any(2), @js.any(3)])
+  let json = arr.to_json()
+  match json {
+    Array(items) => assert_eq(items.length(), 3)
+    _ => fail("Expected Array")
+  }
+}
+
+///|
+test "Any.to_json with object" {
+  let obj = from_map({ "name": @js.any("Alice"), "age": @js.any(30) })
+  let json = obj.to_json()
+  match json {
+    Object(map) => {
+      assert_true(map.contains("name"))
+      assert_true(map.contains("age"))
+    }
+    _ => fail("Expected Object")
+  }
+}
+
+///| Json to Any conversion tests
+
+///|
+test "Json::True to Any" {
+  let json_true : Json = true
+  let any_val : @js.Any = JsImpl::to_any(json_true)
+  let result : Bool = @js.identity(any_val)
+  assert_eq(result, true)
+}
+
+///|
+test "Json::False to Any" {
+  let json_false : Json = false
+  let any_val : @js.Any = JsImpl::to_any(json_false)
+  let result : Bool = @js.identity(any_val)
+  assert_eq(result, false)
+}
+
+///| call_self_throwable tests
+
+///|
+test "call_self_throwable success" {
+  let parse_int = @js.globalThis().get("parseInt")
+  let result = parse_int.call_self_throwable([@js.any("42")])
+  let num : Int = @js.identity(result)
+  assert_eq(num, 42)
+}
+
+///|
+test "call_self_throwable with error" {
+  // Create a function that throws
+  let throw_fn = @js.globalThis().call1(
+    "eval",
+    @js.any("(function() { throw new Error('test'); })"),
+  )
+  let result = try? throw_fn.call_self_throwable([])
+  assert_true(result is Err(_))
+}

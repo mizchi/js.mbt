@@ -431,3 +431,87 @@ test "JsError Show implementation" {
   let shown = err.to_string()
   assert_true(shown.contains("Test error"))
 }
+
+///| Object::to_string tests
+
+///|
+test "Object::to_string" {
+  let obj = @js.Object::new()
+  obj.set("name", "Alice")
+  obj.set("age", 30)
+  let obj_typed : Object = @js.identity(obj)
+  let str = obj_typed.to_string()
+  assert_true(str.contains("name"))
+  assert_true(str.contains("Alice"))
+  assert_true(str.contains("age"))
+  assert_true(str.contains("30"))
+}
+
+///| JsArray::to_string tests
+
+///|
+test "JsArray::to_string" {
+  let arr : JsArray = @js.identity(JsArray::new())
+  arr.push(1)
+  arr.push(2)
+  arr.push(3)
+  let str = arr.to_string()
+  assert_true(str.contains("1"))
+  assert_true(str.contains("2"))
+  assert_true(str.contains("3"))
+}
+
+///| Symbol::asyncIterator tests
+
+///|
+test "Symbol::asyncIterator" {
+  let async_iter_sym = Symbol::asyncIterator()
+  assert_eq(@js.typeof_(async_iter_sym), "symbol")
+}
+
+///| AbortController tests
+
+///|
+test "AbortController::signal and abort" {
+  let controller = AbortController::new()
+  let signal = controller.signal()
+  let aborted_before : Bool = @js.identity(signal.get("aborted"))
+  assert_false(aborted_before)
+  controller.abort() |> ignore
+  let aborted_after : Bool = @js.identity(signal.get("aborted"))
+  assert_true(aborted_after)
+}
+
+///| instanceof_ tests
+
+///|
+test "instanceof_" {
+  let arr = @js.from_array([1, 2, 3])
+  let array_class = @js.globalThis().get("Array")
+  assert_true(@js.instanceof_(arr, array_class))
+  let obj = @js.Object::new()
+  let object_class = @js.globalThis().get("Object")
+  assert_true(@js.instanceof_(obj, object_class))
+}
+
+///| Show trait tests
+
+///|
+test "JsError Show output" {
+  let err = JsError::new("test message")
+  // Using inspect triggers Show::output
+  inspect(err, content="test message")
+}
+
+///|
+test "ThrowError Show output" {
+  let result = try? @js.globalThis().call_throwable("nonexistentMethod", [])
+  match result {
+    Err(throw_err) => {
+      // Using inspect triggers Show::output
+      let str = throw_err.to_string()
+      assert_true(str.length() > 0)
+    }
+    Ok(_) => fail("Expected error")
+  }
+}

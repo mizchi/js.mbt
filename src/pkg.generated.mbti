@@ -37,8 +37,6 @@ fn encodeURIComponent(String) -> String
 
 fn[T : JsImpl] from_array(Array[T]) -> Any
 
-async fn[T] from_callback(((T) -> Unit) -> Unit) -> T
-
 fn[R] from_fn0(() -> R) -> Any
 
 fn[A, R] from_fn1((A) -> R) -> Any
@@ -281,13 +279,12 @@ fn[A] Promise::allSettled(Array[Self[A]]) -> Self[Array[SettledResult[A]]]
 fn[T] Promise::any(Array[Self[T]]) -> Self[T]
 fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
 fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
-fn[A] Promise::from_async(async ((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
-fn[A] Promise::new(((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
+fn[A] Promise::from_async(async () -> A) -> Self[A]
+fn[A] Promise::new(async ((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
 fn[T] Promise::race(Array[Self[T]]) -> Self[T]
 fn Promise::reject(Any) -> Self[Any]
 fn[A] Promise::resolve(A) -> Self[A]
 fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
-fn[R] Promise::try_(async () -> R) -> Self[R]
 async fn[T] Promise::wait(Self[T]) -> T
 fn[T] Promise::withResolvers() -> Resolvers[T]
 

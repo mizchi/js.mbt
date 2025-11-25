@@ -69,22 +69,20 @@ async test "Promise: @js.Promise::race" {
 
 ///|
 async test "Promise: @js.Promise::new" {
-  let p : @js.Promise[Int] = @js.Promise::new((resolve, _reject) => @js.run_async(() => {
-      @js.sleep(16)
-      resolve(42)
-    },
-  ))
+  let p : @js.Promise[Int] = @js.Promise::new(async fn(resolve, _reject) {
+    @js.sleep(16)
+    resolve(42)
+  })
   let result = p.wait()
   assert_eq(result, 42)
 }
 
 ///|
 async test "Promise: @js.Promise::new with reject" {
-  let p : @js.Promise[Int] = @js.Promise::new((_resolve, reject) => @js.run_async(() => {
-      @js.sleep(16)
-      reject(Failure("test error"))
-    },
-  ))
+  let p : @js.Promise[Int] = @js.Promise::new(async fn(_resolve, reject) {
+    @js.sleep(16)
+    reject(Failure("test error"))
+  })
   let result = try? p.wait()
   assert_true(result is Err(_))
 }
@@ -151,22 +149,8 @@ async test "Promise: @js.Promise::allSettled handles both fulfilled and rejected
 ///| Advanced operations and error handling
 
 ///|
-async test "Promise: @js.Promise::try_ success" {
-  let p = @js.Promise::try_(async fn() { 123 })
-  let result = p.wait()
-  assert_eq(result, 123)
-}
-
-///|
-async test "Promise: @js.Promise::try_ failure" {
-  let p : @js.Promise[Unit] = @js.Promise::try_(async fn() { fail("error") })
-  let result = try? p.wait()
-  assert_true(result is Err(_))
-}
-
-///|
 async test "Promise: async function to Promise and back" {
-  let result = @js.Promise::try_(async fn() { 42 }).wait()
+  let result = @js.Promise::from_async(async fn() { 42 }).wait()
   inspect(result, content="42")
 }
 
@@ -231,16 +215,16 @@ async test "Promise: Promise.all with async unwrap" {
 ///|
 async test "Promise: async function with error converts to rejected Promise" {
   let async_fn = async fn() -> Int { fail("test error") }
-  let promise = @js.Promise::try_(async_fn)
+  let promise = @js.Promise::from_async(async_fn)
   let result = promise.wait() catch { _e => -1 }
   inspect(result, content="-1")
 }
 
 ///|
 async test "Promise: Promise.new to async unwrap" {
-  let promise : @js.Promise[Int] = @js.Promise::new((resolve, _reject) => resolve(
-    999,
-  ))
+  let promise : @js.Promise[Int] = @js.Promise::new(async fn(resolve, _reject) {
+    resolve(999)
+  })
   let result = promise.wait()
   inspect(result, content="999")
 }
@@ -262,13 +246,13 @@ async test "Promise: chaining async and Promise operations" {
 async test "Promise: Promise and async are interchangeable" {
   // async -> Promise
   let async_value = async fn() { 42 }
-  let as_promise = @js.Promise::try_(async_value)
+  let as_promise = @js.Promise::from_async(async_value)
 
   // Promise -> async (unwrap)
   let back_to_async = async fn() { as_promise.wait() }
 
   // 再度 Promise へ
-  let promise_again = @js.Promise::try_(back_to_async)
+  let promise_again = @js.Promise::from_async(back_to_async)
 
   // 最終結果を取得
   let final_result = promise_again.wait()
@@ -624,37 +608,17 @@ async test "Promise: nested catch handlers" {
 ///| Promise::from_async tests
 
 ///|
-async test "Promise: @js.Promise::from_async with resolve" {
-  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
-    resolve,
-    _reject,
-  ) {
-    resolve(42)
-  })
+async test "Promise: @js.Promise::from_async basic" {
+  let p : @js.Promise[Int] = @js.Promise::from_async(async fn() { 42 })
   let result = p.wait()
   assert_eq(result, 42)
 }
 
 ///|
-async test "Promise: @js.Promise::from_async with reject" {
-  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
-    _resolve,
-    reject,
-  ) {
-    reject(Failure("test error"))
-  })
-  let result = try? p.wait()
-  assert_true(result is Err(_))
-}
-
-///|
 async test "Promise: @js.Promise::from_async with async operation" {
-  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
-    resolve,
-    _reject,
-  ) {
+  let p : @js.Promise[Int] = @js.Promise::from_async(async fn() {
     @js.sleep(16)
-    resolve(100)
+    100
   })
   let result = p.wait()
   assert_eq(result, 100)
@@ -662,13 +626,10 @@ async test "Promise: @js.Promise::from_async with async operation" {
 
 ///|
 async test "Promise: @js.Promise::from_async with await inside" {
-  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
-    resolve,
-    _reject,
-  ) {
+  let p : @js.Promise[Int] = @js.Promise::from_async(async fn() {
     let inner = @js.Promise::resolve(10)
     let v = inner.wait()
-    resolve(v * 2)
+    v * 2
   })
   let result = p.wait()
   assert_eq(result, 20)
@@ -676,12 +637,19 @@ async test "Promise: @js.Promise::from_async with await inside" {
 
 ///|
 async test "Promise: @js.Promise::from_async auto-rejects on error" {
-  let p : @js.Promise[Int] = @js.Promise::from_async(async fn(
-    _resolve,
-    _reject,
-  ) {
+  let p : @js.Promise[Int] = @js.Promise::from_async(async fn() {
     fail("auto reject error")
   })
   let result = try? p.wait()
+  assert_true(result is Err(_))
+}
+
+///| Resolvers::reject tests
+
+///|
+async test "Promise: Resolvers::reject" {
+  let resolvers : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  @js.run_async(fn() { resolvers.reject(Failure("rejected")) })
+  let result = try? resolvers.promise.wait()
   assert_true(result is Err(_))
 }

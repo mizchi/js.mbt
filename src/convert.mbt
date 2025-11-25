@@ -218,7 +218,7 @@ pub impl ToJson for Any with to_json(self) -> Json {
     _ => ()
   }
   if is_array(self) {
-    let len : Int = self.call0("length").cast()
+    let len : Int = self.get("length").cast()
     let arr : Array[Json] = []
     for i = 0; i < len; i = i + 1 {
       let v = self.get(i.to_string())

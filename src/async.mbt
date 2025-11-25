@@ -105,28 +105,3 @@ pub async fn sleep(ms : Int) -> Unit noraise {
     _ => panic()
   }
 }
-
-///|
-/// Convert a callback-based async operation using suspend
-///
-/// This allows you to convert Node.js-style callback-based APIs
-/// into async/await style without sleep polling.
-///
-/// Example:
-/// ```moonbit no-check
-/// async test "wait for server" {
-///   let server = createServer()
-///   defer server.close() |> ignore
-///
-///   // Instead of sleep, use from_callback
-///   from_callback(fn(resolve) {
-///     server.listen(port, host, callback=fn() { resolve() })
-///   }) catch { _ => () }
-///
-///   // Server is now listening
-///   inspect(server.listening(), content="true")
-/// }
-/// ```
-pub async fn[T] from_callback(f : ((T) -> Unit) -> Unit) -> T raise Error {
-  suspend(fn(resolve, _reject) { f(resolve) })
-}

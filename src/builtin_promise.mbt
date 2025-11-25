@@ -8,30 +8,15 @@ pub type Promise[T]
 impl[T] JsImpl for Promise[T]
 
 ///|
-/// JS: Promise.new((resolve, reject) => { ... })
-/// ```
-/// let _p: Promise[Int] = Promise::new((resolve, _reject) => {
-///    resolve(10)
-/// })
-/// ```
-pub fn[A] Promise::new(
-  f : ((A) -> Unit, (Error) -> Unit) -> Unit,
-) -> Promise[A] {
-  ffi_new_promise(fn(resolve, reject) {
-    f(a => a |> identity |> resolve, e => e |> identity |> reject)
-  })
-  |> identity
-}
-
-///|
-/// Create a Promise from an async executor function.
+/// JS: new Promise((resolve, reject) => { ... })
+/// Create a Promise from an async executor function with resolve/reject callbacks.
 /// ```moonbit no-check
-/// let p: Promise[Int] = Promise::from_async(async fn (resolve, _reject) {
-///    let result = some_async_operation!()
+/// let p: Promise[Int] = Promise::new(async fn (resolve, _reject) {
+///    let result = some_async_operation()
 ///    resolve(result)
 /// })
 /// ```
-pub fn[A] Promise::from_async(
+pub fn[A] Promise::new(
   f : async ((A) -> Unit, (Error) -> Unit) -> Unit,
 ) -> Promise[A] {
   ffi_new_promise(fn(resolve, reject) {
@@ -42,6 +27,24 @@ pub fn[A] Promise::from_async(
     })
   })
   |> identity
+}
+
+///|
+/// Convert an async function to a Promise.
+/// ```moonbit no-check
+/// let p: Promise[Int] = Promise::from_async(async fn () {
+///    let result = some_async_operation()
+///    result
+/// })
+/// ```
+pub fn[A] Promise::from_async(f : async () -> A) -> Promise[A] noraise {
+  let { promise, resolve, reject } = Promise::withResolvers()
+  run_async(fn() {
+    try f() |> resolve catch {
+      e => reject(e)
+    }
+  })
+  promise
 }
 
 ///|
@@ -132,23 +135,6 @@ pub fn[A] Promise::allSettled(
   promises : Array[Promise[A]],
 ) -> Promise[Array[SettledResult[A]]] {
   ffi_promise_all(promises |> identity) |> identity
-}
-
-///|
-/// Converts an async raise function to a Promise.
-/// ```moonbit nocheck
-/// let p = Promise::try_(async fn () { 42 })
-/// // Promise resolves to 42
-///
-/// let p2 = Promise::try_(async fn () { fail("error") })
-/// // Promise rejects with error
-/// ```
-pub fn[R] Promise::try_(f : async () -> R) -> Promise[R] noraise {
-  let { promise, resolve, reject } = Promise::withResolvers()
-  run_async(() => try f() |> resolve catch {
-    e => reject(e)
-  })
-  promise
 }
 
 ///|
