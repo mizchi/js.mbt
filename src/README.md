@@ -254,24 +254,16 @@ See the main [project README](../README.md) for the complete package list.
 ### Breaking Changes in v0.5.0
 
 ```moonbit
-// Type rename
-// Before: @js.Js
-// After: @js.Any
+// Type rename: @js.Js → @js.Any
 let value: @js.Any = obj.get("key")
 
-// Method rename
-// Before: obj.to_js()
-// After: obj.to_any()
+// Method rename: to_js() → to_any()
 let any = obj.to_any()
 
-// Function rename
-// Before: @js.js(value)
-// After: @js.any(value)
+// Function rename: @js.js() → @js.any()
 let converted = @js.any(value)
 
-// Casting
-// Before: @js.unsafe_cast(value)
-// After: @js.identity(value) or value.cast()
+// Casting: unsafe_cast() → identity() or cast()
 let typed: Int = value.cast()
 ```
 
