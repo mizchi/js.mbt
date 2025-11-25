@@ -188,9 +188,31 @@ fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
 impl JsImpl for ArrayBuffer
 
 #external
+pub type AsyncDisposableStack
+fn[T : JsImpl] AsyncDisposableStack::adopt(Self, T, (T) -> Unit) -> T
+fn AsyncDisposableStack::defer_(Self, () -> Unit) -> Unit
+async fn AsyncDisposableStack::disposeAsync(Self) -> Unit
+fn AsyncDisposableStack::disposed(Self) -> Bool
+fn AsyncDisposableStack::move_(Self) -> Self
+fn AsyncDisposableStack::new() -> Self
+fn[T : JsImpl] AsyncDisposableStack::use_(Self, T) -> T
+impl JsImpl for AsyncDisposableStack
+
+#external
 pub(all) type AsyncIterator[T]
 async fn[T] AsyncIterator::next(Self[T]) -> T?
 impl[T] JsImpl for AsyncIterator[T]
+
+#external
+pub type DisposableStack
+fn[T : JsImpl] DisposableStack::adopt(Self, T, (T) -> Unit) -> T
+fn DisposableStack::defer_(Self, () -> Unit) -> Unit
+fn DisposableStack::dispose(Self) -> Unit
+fn DisposableStack::disposed(Self) -> Bool
+fn DisposableStack::move_(Self) -> Self
+fn DisposableStack::new() -> Self
+fn[T : JsImpl] DisposableStack::use_(Self, T) -> T
+impl JsImpl for DisposableStack
 
 #external
 pub type Function
