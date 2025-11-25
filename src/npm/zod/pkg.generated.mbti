@@ -28,9 +28,21 @@ fn bool() -> Schema
 
 fn boolean() -> ZodSchema
 
+fn coerce_bigint() -> ZodSchema
+
+fn coerce_boolean() -> ZodSchema
+
+fn coerce_date() -> ZodSchema
+
+fn coerce_number() -> ZodSchema
+
+fn coerce_string() -> ZodSchema
+
 fn date() -> ZodSchema
 
 fn date_() -> Schema
+
+fn discriminated_union(String, Array[ZodSchema]) -> ZodSchema
 
 fn email() -> Schema
 
@@ -48,11 +60,17 @@ fn generate_struct(JsonSchema, String, CodegenConfig) -> String
 
 fn int_() -> Schema
 
+fn intersection(ZodSchema, ZodSchema) -> ZodSchema
+
+fn lazy_(() -> ZodSchema) -> ZodSchema
+
 fn literal(@js.Any) -> ZodSchema
 
 fn literal_(@js.Any) -> Schema
 
 fn map(ZodSchema, ZodSchema) -> ZodSchema
+
+fn native_enum(@js.Any) -> ZodSchema
 
 fn never() -> ZodSchema
 
@@ -101,6 +119,8 @@ fn optional(Schema) -> Schema
 fn parse_schema(Schema, @js.Any) -> @js.Any
 
 fn positive_int() -> Schema
+
+fn promise(ZodSchema) -> ZodSchema
 
 fn record(ZodSchema, ZodSchema) -> ZodSchema
 
@@ -295,21 +315,37 @@ pub struct ZodIssue {
 
 #external
 pub type ZodSchema
+fn ZodSchema::base64(Self) -> Self
+fn ZodSchema::brand(Self, String) -> Self
+fn ZodSchema::catch_(Self, @js.Any) -> Self
+fn ZodSchema::coerce(Self) -> Self
+fn ZodSchema::contains(Self, String) -> Self
+fn ZodSchema::cuid(Self) -> Self
+fn ZodSchema::cuid2(Self) -> Self
+fn ZodSchema::datetime(Self) -> Self
 fn ZodSchema::default_(Self, @js.Any) -> Self
+fn ZodSchema::describe(Self, String) -> Self
 fn ZodSchema::email(Self) -> Self
+fn ZodSchema::emoji(Self) -> Self
 #alias(ends_with)
 fn ZodSchema::endsWith(Self, String) -> Self
 fn ZodSchema::extend(Self, @js.Any) -> Self
 fn ZodSchema::finite(Self) -> Self
 fn ZodSchema::gt(Self, Int) -> Self
 fn ZodSchema::gte(Self, Int) -> Self
+fn ZodSchema::includes(Self, String) -> Self
 fn ZodSchema::int(Self) -> Self
+fn ZodSchema::ipv4(Self) -> Self
+fn ZodSchema::ipv6(Self) -> Self
 fn ZodSchema::length(Self, Int) -> Self
 fn ZodSchema::lt(Self, Int) -> Self
 fn ZodSchema::lte(Self, Int) -> Self
 fn ZodSchema::max(Self, Int) -> Self
+fn ZodSchema::max_date(Self, @js.Any) -> Self
 fn ZodSchema::merge(Self, Self) -> Self
 fn ZodSchema::min(Self, Int) -> Self
+fn ZodSchema::min_date(Self, @js.Any) -> Self
+fn ZodSchema::multipleOf(Self, Int) -> Self
 fn ZodSchema::negative(Self) -> Self
 fn ZodSchema::nonempty(Self) -> Self
 fn ZodSchema::nonnegative(Self) -> Self
@@ -322,9 +358,13 @@ fn ZodSchema::parse(Self, @js.Any) -> @js.Any
 fn ZodSchema::partial(Self) -> Self
 fn ZodSchema::passthrough(Self) -> Self
 fn ZodSchema::pick(Self, @js.Any) -> Self
+fn ZodSchema::pipe(Self, Self) -> Self
 fn ZodSchema::positive(Self) -> Self
+fn ZodSchema::refine(Self, (@js.Any) -> Bool, message? : String) -> Self
+fn ZodSchema::refine_with_path(Self, (@js.Any) -> Bool, String, Array[String]) -> Self
 fn ZodSchema::regex(Self, String) -> Self
 fn ZodSchema::required_(Self) -> Self
+fn ZodSchema::safe(Self) -> Self
 #alias(safe_parse)
 fn ZodSchema::safeParse(Self, @js.Any) -> SafeParseResult
 #alias(starts_with)
@@ -337,6 +377,7 @@ fn ZodSchema::toLowerCase(Self) -> Self
 fn ZodSchema::toUpperCase(Self) -> Self
 fn ZodSchema::transform(Self, (@js.Any) -> @js.Any) -> Self
 fn ZodSchema::trim(Self) -> Self
+fn ZodSchema::ulid(Self) -> Self
 fn ZodSchema::url(Self) -> Self
 fn ZodSchema::uuid(Self) -> Self
 impl @js.JsImpl for ZodSchema

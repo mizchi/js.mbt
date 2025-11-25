@@ -163,6 +163,73 @@ pub fn set(element : ZodSchema) -> ZodSchema {
   zod().call1("set", element).cast()
 }
 
+///|
+/// Create an intersection schema
+pub fn intersection(left : ZodSchema, right : ZodSchema) -> ZodSchema {
+  zod().call2("intersection", left, right).cast()
+}
+
+///|
+/// Create a discriminated union schema
+pub fn discriminated_union(
+  discriminator : String,
+  options : Array[ZodSchema],
+) -> ZodSchema {
+  zod()
+  .call2("discriminatedUnion", discriminator, @js.from_array(options))
+  .cast()
+}
+
+///|
+/// Create a promise schema
+pub fn promise(schema : ZodSchema) -> ZodSchema {
+  zod().call1("promise", schema).cast()
+}
+
+///|
+/// Create a lazy schema (for recursive types)
+pub fn lazy_(getter : () -> ZodSchema) -> ZodSchema {
+  zod().call1("lazy", @js.from_fn0(fn() { getter().to_any() })).cast()
+}
+
+///|
+/// Create a native enum schema from JS object
+pub fn native_enum(enum_obj : @js.Any) -> ZodSchema {
+  zod().call1("nativeEnum", enum_obj).cast()
+}
+
+///| Coercion schemas (convert input to type before validation)
+
+///|
+/// Create a coerced string schema (converts input to string)
+pub fn coerce_string() -> ZodSchema {
+  zod().get("coerce").call0("string").cast()
+}
+
+///|
+/// Create a coerced number schema (converts input to number)
+pub fn coerce_number() -> ZodSchema {
+  zod().get("coerce").call0("number").cast()
+}
+
+///|
+/// Create a coerced boolean schema (converts input to boolean)
+pub fn coerce_boolean() -> ZodSchema {
+  zod().get("coerce").call0("boolean").cast()
+}
+
+///|
+/// Create a coerced bigint schema (converts input to bigint)
+pub fn coerce_bigint() -> ZodSchema {
+  zod().get("coerce").call0("bigint").cast()
+}
+
+///|
+/// Create a coerced date schema (converts input to Date)
+pub fn coerce_date() -> ZodSchema {
+  zod().get("coerce").call0("date").cast()
+}
+
 ///| Schema methods
 
 ///|
@@ -212,6 +279,70 @@ pub fn ZodSchema::transform(
   fn_ : (@js.Any) -> @js.Any,
 ) -> ZodSchema {
   self.call1("transform", @js.from_fn1(fn_)).cast()
+}
+
+///|
+/// Custom refinement validation
+/// The predicate returns true if validation passes
+pub fn ZodSchema::refine(
+  self : ZodSchema,
+  predicate : (@js.Any) -> Bool,
+  message? : String,
+) -> ZodSchema {
+  match message {
+    Some(msg) => {
+      let opts = @js.Object::new()
+      opts.set("message", msg)
+      self.call2("refine", @js.from_fn1(predicate), opts.to_any()).cast()
+    }
+    None => self.call1("refine", @js.from_fn1(predicate)).cast()
+  }
+}
+
+///|
+/// Custom refinement with custom error path and params
+pub fn ZodSchema::refine_with_path(
+  self : ZodSchema,
+  predicate : (@js.Any) -> Bool,
+  message : String,
+  path : Array[String],
+) -> ZodSchema {
+  let opts = @js.Object::new()
+  opts.set("message", message)
+  opts.set("path", path |> @js.from_array)
+  self.call2("refine", @js.from_fn1(predicate), opts.to_any()).cast()
+}
+
+///|
+/// Coerce input to the schema type before validation
+pub fn ZodSchema::coerce(self : ZodSchema) -> ZodSchema {
+  // Note: coerce is typically used at schema creation, not as a method
+  // This is a passthrough for schemas that support coercion
+  self
+}
+
+///|
+/// Describe the schema (adds description metadata)
+pub fn ZodSchema::describe(self : ZodSchema, description : String) -> ZodSchema {
+  self.call1("describe", description).cast()
+}
+
+///|
+/// Catch errors and return default value
+pub fn ZodSchema::catch_(self : ZodSchema, value : @js.Any) -> ZodSchema {
+  self.call1("catch", value).cast()
+}
+
+///|
+/// Brand a schema with a type tag (for nominal typing)
+pub fn ZodSchema::brand(self : ZodSchema, brand : String) -> ZodSchema {
+  self.call1("brand", brand).cast()
+}
+
+///|
+/// Pipe output to another schema
+pub fn ZodSchema::pipe(self : ZodSchema, schema : ZodSchema) -> ZodSchema {
+  self.call1("pipe", schema).cast()
 }
 
 ///| String schema methods
@@ -292,6 +423,78 @@ pub fn ZodSchema::toUpperCase(self : ZodSchema) -> ZodSchema {
   self.call0("toUpperCase").cast()
 }
 
+///|
+/// String cuid validation
+pub fn ZodSchema::cuid(self : ZodSchema) -> ZodSchema {
+  self.call0("cuid").cast()
+}
+
+///|
+/// String cuid2 validation
+pub fn ZodSchema::cuid2(self : ZodSchema) -> ZodSchema {
+  self.call0("cuid2").cast()
+}
+
+///|
+/// String ulid validation
+pub fn ZodSchema::ulid(self : ZodSchema) -> ZodSchema {
+  self.call0("ulid").cast()
+}
+
+///|
+/// String emoji validation
+pub fn ZodSchema::emoji(self : ZodSchema) -> ZodSchema {
+  self.call0("emoji").cast()
+}
+
+///|
+/// String datetime validation (ISO 8601)
+pub fn ZodSchema::datetime(self : ZodSchema) -> ZodSchema {
+  self.call0("datetime").cast()
+}
+
+///|
+/// String ipv4 address validation
+pub fn ZodSchema::ipv4(self : ZodSchema) -> ZodSchema {
+  self.call0("ipv4").cast()
+}
+
+///|
+/// String ipv6 address validation
+pub fn ZodSchema::ipv6(self : ZodSchema) -> ZodSchema {
+  self.call0("ipv6").cast()
+}
+
+///|
+/// String base64 validation
+pub fn ZodSchema::base64(self : ZodSchema) -> ZodSchema {
+  self.call0("base64").cast()
+}
+
+///|
+/// String includes substring
+pub fn ZodSchema::includes(self : ZodSchema, value : String) -> ZodSchema {
+  self.call1("includes", value).cast()
+}
+
+///|
+/// String contains substring (alias for includes)
+pub fn ZodSchema::contains(self : ZodSchema, value : String) -> ZodSchema {
+  self.call1("includes", value).cast()
+}
+
+///|
+/// Date schema - minimum date
+pub fn ZodSchema::min_date(self : ZodSchema, date : @js.Any) -> ZodSchema {
+  self.call1("min", date).cast()
+}
+
+///|
+/// Date schema - maximum date
+pub fn ZodSchema::max_date(self : ZodSchema, date : @js.Any) -> ZodSchema {
+  self.call1("max", date).cast()
+}
+
 ///| Number schema methods
 
 ///|
@@ -352,6 +555,18 @@ pub fn ZodSchema::nonpositive(self : ZodSchema) -> ZodSchema {
 /// Number finite
 pub fn ZodSchema::finite(self : ZodSchema) -> ZodSchema {
   self.call0("finite").cast()
+}
+
+///|
+/// Number multipleOf (step validation)
+pub fn ZodSchema::multipleOf(self : ZodSchema, value : Int) -> ZodSchema {
+  self.call1("multipleOf", value).cast()
+}
+
+///|
+/// Number safe (within JavaScript safe integer range)
+pub fn ZodSchema::safe(self : ZodSchema) -> ZodSchema {
+  self.call0("safe").cast()
 }
 
 ///| Array schema methods
