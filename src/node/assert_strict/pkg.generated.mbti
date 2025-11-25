@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/node/assert"
+package "mizchi/js/node/assert_strict"
 
 import(
   "mizchi/js"
@@ -22,8 +22,6 @@ fn fail(message? : String) -> Unit
 
 fn ifError(@js.Any) -> Unit
 
-fn instanceOf(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
-
 fn match_(String, String, message? : String) -> Unit
 
 fn notDeepEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
@@ -32,11 +30,11 @@ fn notDeepStrictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
 
 fn notEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
 
-fn notInstanceOf(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
-
 fn notStrictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
 
 fn ok(Bool, message? : String) -> Unit
+
+fn partialDeepStrictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
 
 async fn rejects(&@js.JsImpl, error? : &@js.JsImpl, message? : String) -> Unit
 

@@ -1,14 +1,23 @@
 ///|
-/// node:assert module
-extern "js" fn assert_module() -> @js.Any =
-  #| () => require("node:assert")
+/// node:assert/strict module - Strict assertion mode
+/// https://nodejs.org/api/assert.html#strict-assertion-mode
+///
+/// In strict assertion mode:
+/// - equal() uses strictEqual() (===)
+/// - notEqual() uses notStrictEqual() (!==)
+/// - deepEqual() uses deepStrictEqual()
+/// - notDeepEqual() uses notDeepStrictEqual()
+
+///|
+extern "js" fn assert_strict_module() -> @js.Any =
+  #| () => require("node:assert/strict")
 
 ///| Basic Assertions
 
 ///|
 /// Assert that a value is truthy
 pub fn ok(value : Bool, message? : String) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) => a.call2("ok", value, msg) |> ignore
     None => a.call("ok", [value]) |> ignore
@@ -16,13 +25,14 @@ pub fn ok(value : Bool, message? : String) -> Unit {
 }
 
 ///|
-/// Assert equality (==)
+/// Assert strict equality (===)
+/// In strict mode, equal() is an alias for strictEqual()
 pub fn equal(
   actual : &@js.JsImpl,
   expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) =>
       a.call("equal", [actual.to_any(), expected.to_any(), msg]) |> ignore
@@ -31,13 +41,14 @@ pub fn equal(
 }
 
 ///|
-/// Assert inequality (!=)
+/// Assert strict inequality (!==)
+/// In strict mode, notEqual() is an alias for notStrictEqual()
 pub fn notEqual(
   actual : &@js.JsImpl,
   expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) =>
       a.call("notEqual", [actual.to_any(), expected.to_any(), msg]) |> ignore
@@ -46,13 +57,14 @@ pub fn notEqual(
 }
 
 ///|
-/// Assert deep equality
+/// Assert deep strict equality
+/// In strict mode, deepEqual() is an alias for deepStrictEqual()
 pub fn deepEqual(
   actual : &@js.JsImpl,
   expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) =>
       a.call("deepEqual", [actual.to_any(), expected.to_any(), msg]) |> ignore
@@ -61,13 +73,14 @@ pub fn deepEqual(
 }
 
 ///|
-/// Assert deep inequality
+/// Assert deep strict inequality
+/// In strict mode, notDeepEqual() is an alias for notDeepStrictEqual()
 pub fn notDeepEqual(
   actual : &@js.JsImpl,
   expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) =>
       a.call("notDeepEqual", [actual.to_any(), expected.to_any(), msg])
@@ -78,13 +91,13 @@ pub fn notDeepEqual(
 }
 
 ///|
-/// Assert strict equality (===)
+/// Assert strict equality (===) using Object.is()
 pub fn strictEqual(
   actual : &@js.JsImpl,
   expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) =>
       a.call("strictEqual", [actual.to_any(), expected.to_any(), msg]) |> ignore
@@ -99,7 +112,7 @@ pub fn notStrictEqual(
   expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) =>
       a.call("notStrictEqual", [actual.to_any(), expected.to_any(), msg])
@@ -116,7 +129,7 @@ pub fn deepStrictEqual(
   expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) =>
       a.call("deepStrictEqual", [actual.to_any(), expected.to_any(), msg])
@@ -133,7 +146,7 @@ pub fn notDeepStrictEqual(
   expected : &@js.JsImpl,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) =>
       a.call("notDeepStrictEqual", [actual.to_any(), expected.to_any(), msg])
@@ -149,7 +162,7 @@ pub fn notDeepStrictEqual(
 ///|
 /// Assert that a function throws
 pub fn throws(fn_ : () -> Unit, message? : String) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) => a.call2("throws", @js.from_fn0(fn_), msg) |> ignore
     None => a.call("throws", [@js.from_fn0(fn_)]) |> ignore
@@ -159,7 +172,7 @@ pub fn throws(fn_ : () -> Unit, message? : String) -> Unit {
 ///|
 /// Assert that a function does not throw
 pub fn doesNotThrow(fn_ : () -> Unit, message? : String) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) => a.call2("doesNotThrow", @js.from_fn0(fn_), msg) |> ignore
     None => a.call("doesNotThrow", [@js.from_fn0(fn_)]) |> ignore
@@ -173,7 +186,7 @@ pub async fn rejects(
   error? : &@js.JsImpl,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   let p : @js.Promise[Unit] = match (error, message) {
     (Some(err), Some(msg)) =>
       a.call("rejects", [promise.to_any(), err.to_any(), msg]).cast()
@@ -188,7 +201,7 @@ pub async fn rejects(
 ///|
 /// Assert that a promise does not reject
 pub async fn doesNotReject(promise : &@js.JsImpl, message? : String) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   let p : @js.Promise[Unit] = match message {
     Some(msg) => a.call2("doesNotReject", promise.to_any(), msg).cast()
     None => a.call("doesNotReject", [promise.to_any()]).cast()
@@ -199,9 +212,9 @@ pub async fn doesNotReject(promise : &@js.JsImpl, message? : String) -> Unit {
 ///| Other Assertions
 
 ///|
-/// Always fails
+/// Always fails with AssertionError
 pub fn fail(message? : String) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   match message {
     Some(msg) => a.call("fail", [msg]) |> ignore
     None => a.call0("fail") |> ignore
@@ -216,7 +229,7 @@ extern "js" fn create_regexp(pattern : String) -> @js.Any =
 ///|
 /// Assert regex match
 pub fn match_(actual : String, regexp : String, message? : String) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   let regex = create_regexp(regexp)
   match message {
     Some(msg) => a.call("match", [actual, regex, msg]) |> ignore
@@ -231,7 +244,7 @@ pub fn doesNotMatch(
   regexp : String,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   let regex = create_regexp(regexp)
   match message {
     Some(msg) => a.call("doesNotMatch", [actual, regex, msg]) |> ignore
@@ -240,39 +253,29 @@ pub fn doesNotMatch(
 }
 
 ///|
-/// Assert that value is instance of constructor
-pub fn instanceOf(
-  value : &@js.JsImpl,
-  ctor : &@js.JsImpl,
-  message? : String,
-) -> Unit {
-  let a = assert_module()
-  match message {
-    Some(msg) =>
-      a.call("instanceOf", [value.to_any(), ctor.to_any(), msg]) |> ignore
-    None => a.call2("instanceOf", value.to_any(), ctor.to_any()) |> ignore
-  }
-}
-
-///|
-/// Assert that value is not instance of constructor
-pub fn notInstanceOf(
-  value : &@js.JsImpl,
-  ctor : &@js.JsImpl,
-  message? : String,
-) -> Unit {
-  let a = assert_module()
-  match message {
-    Some(msg) =>
-      a.call("notInstanceOf", [value.to_any(), ctor.to_any(), msg]) |> ignore
-    None => a.call2("notInstanceOf", value.to_any(), ctor.to_any()) |> ignore
-  }
-}
-
-///|
 /// Throws value if value is not undefined or null
 /// Useful for testing error argument in callbacks
 pub fn ifError(value : @js.Any) -> Unit {
-  let a = assert_module()
+  let a = assert_strict_module()
   a.call("ifError", [value]) |> ignore
+}
+
+///|
+/// Assert partial deep strict equality (Node.js 20+)
+/// Tests that expected is a subset of actual
+#alert(deprecated, "This function is experimental in Node.js")
+pub fn partialDeepStrictEqual(
+  actual : &@js.JsImpl,
+  expected : &@js.JsImpl,
+  message? : String,
+) -> Unit {
+  let a = assert_strict_module()
+  match message {
+    Some(msg) =>
+      a.call("partialDeepStrictEqual", [actual.to_any(), expected.to_any(), msg])
+      |> ignore
+    None =>
+      a.call2("partialDeepStrictEqual", actual.to_any(), expected.to_any())
+      |> ignore
+  }
 }

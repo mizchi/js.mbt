@@ -74,7 +74,7 @@ fn tree_manipulation() -> Unit {
   // Check relationships
   let _has_children = parent.hasChildNodes() // true
   let _contains_item = parent.contains(Some(item1))
-   // true
+  // true
 }
 ```
 
