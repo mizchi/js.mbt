@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased]
+
+### Added
+
+#### Object APIs
+- **Object.defineProperty** - Define property with labeled arguments (`value?`, `writable?`, `enumerable?`, `configurable?`, `get?`, `set?`)
+- **Object.defineProperties** - Define multiple properties at once
+- **Object.getOwnPropertyDescriptor** - Get property descriptor
+- **Object.getOwnPropertyDescriptors** - Get all property descriptors
+- **Object.getOwnPropertyNames** - Get all property names
+- **Object.getOwnPropertySymbols** - Get all symbol properties
+- **Object.groupBy** - Group array elements by callback result
+- **PropertyDescriptor struct** - Type-safe property descriptor representation
+
+#### React
+- **ErrorBoundary component** - DSL-friendly error boundary with `children~`, `fallback?`, `on_error?` parameters
+- Replace `EmptyProps` with `Unit` for props-less components
+
+#### WebGPU API (Experimental)
+- **`web/webgpu`** - Comprehensive WebGPU bindings
+  - Core: `GPU`, `GPUAdapter`, `GPUDevice`
+  - Resources: `GPUBuffer`, `GPUTexture`, `GPUTextureView`
+  - Commands: `GPUQueue`, `GPUCommandEncoder`, `GPUCommandBuffer`
+  - Passes: `GPURenderPassEncoder`, `GPUComputePassEncoder`
+  - Pipelines: `GPURenderPipeline`, `GPUComputePipeline`
+  - Other: `GPUShaderModule`, `GPUSampler`, `GPUBindGroup`, `GPUBindGroupLayout`
+  - Buffer/Texture usage flag constants
+
+#### Node.js APIs
+- **`node/assert_strict`** - Strict assertion mode module
+  - `equal()` uses `===` comparison (maps to `strictEqual`)
+  - `deepEqual()` uses strict comparison (maps to `deepStrictEqual`)
+- **assert module extensions** - Added missing functions:
+  - `deepStrictEqual()`, `notDeepStrictEqual()`, `ifError()`
+
+#### Core
+- **`Any::get_property`** and **`Any::set_property`** - Property access methods with `_[_]` operator aliases
+
+### Testing
+- Added WebGPU tests for Deno with graceful skipping for unsupported environments
+- Added Web Worker tests for Deno runtime
+
+---
+
 ## [0.5.0] - 2025-11-25
 
 ### Breaking Changes
