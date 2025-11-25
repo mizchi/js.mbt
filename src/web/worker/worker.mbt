@@ -66,7 +66,8 @@ pub fn Worker::postMessage(worker : Worker, message : &@js.JsImpl) -> Unit {
 }
 
 ///|
-pub fn Worker::post_message_with_transfer(
+#alias(post_message_with_transfer)
+pub fn Worker::postMessageWithTransfer(
   worker : Worker,
   message : &@js.JsImpl,
   transfer : Array[@js.Any],

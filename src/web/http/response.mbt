@@ -137,7 +137,8 @@ extern "js" fn ffi_response_form_data(
   #| (v) => v.formData()
 
 ///|
-pub async fn Response::form_data(self : Self) -> FormData {
+#alias(form_data)
+pub async fn Response::formData(self : Self) -> FormData {
   ffi_response_form_data(self).wait()
 }
 

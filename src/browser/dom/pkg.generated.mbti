@@ -284,7 +284,7 @@ pub(all) struct HTMLCanvasElement {
   mut height : Int
 }
 fn HTMLCanvasElement::getContext(Self, String) -> @js.Any
-fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @js.Promise[@blob.Blob]
+async fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @blob.Blob
 fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
 impl @js.JsImpl for HTMLCanvasElement
 impl ElementImpl for HTMLCanvasElement

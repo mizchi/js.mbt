@@ -23,7 +23,7 @@ extern "js" fn import_react() -> @js.Promise[@js.Any] =
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
 ///
 /// Implementation detail: Stores the module in globalThis for internal use.
-pub async fn dynamic_import_async() -> Unit {
+pub async fn dynamic_import() -> Unit {
   if @js.is_nullish(@js.global_this().get("__ReactApi")) {
     let react : @js.Any = import_react().wait()
     @js.global_this().set("__ReactApi", react)
@@ -31,8 +31,8 @@ pub async fn dynamic_import_async() -> Unit {
 }
 
 ///|
-/// @deprecated Use dynamic_import_async() instead
+/// @deprecated Use dynamic_import() instead
 #alias(initReactAsync)
 pub async fn init_react_async() -> Unit {
-  dynamic_import_async()
+  dynamic_import()
 }

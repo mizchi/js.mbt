@@ -16,8 +16,8 @@ pub(all) struct File {
   lastModified : Int
   size : Int
 }
-#alias(arrayBuffer)
-async fn File::array_buffer(Self) -> @js.ArrayBuffer
+#alias(array_buffer)
+async fn File::arrayBuffer(Self) -> @js.ArrayBuffer
 fn File::as_blob(Self) -> @blob.Blob
 #alias(content_type)
 fn File::contentType(Self) -> String
@@ -33,12 +33,12 @@ pub(all) struct FileReader {
 }
 fn FileReader::abort(Self) -> Unit
 fn FileReader::new() -> Self
-#alias(readAsArrayBuffer)
-fn FileReader::read_as_array_buffer(Self, @blob.Blob) -> Unit
-#alias(readAsDataURL)
-fn FileReader::read_as_data_url(Self, @blob.Blob) -> Unit
-#alias(readAsText)
-fn FileReader::read_as_text(Self, @blob.Blob, encoding? : String) -> Unit
+#alias(read_as_array_buffer)
+fn FileReader::readAsArrayBuffer(Self, @blob.Blob) -> Unit
+#alias(read_as_data_url)
+fn FileReader::readAsDataURL(Self, @blob.Blob) -> Unit
+#alias(read_as_text)
+fn FileReader::readAsText(Self, @blob.Blob, encoding? : String) -> Unit
 fn FileReader::set_onerror(Self, (@js.Any) -> Unit) -> Unit
 fn FileReader::set_onload(Self, (@js.Any) -> Unit) -> Unit
 fn FileReader::set_onloadend(Self, (@js.Any) -> Unit) -> Unit

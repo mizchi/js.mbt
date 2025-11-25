@@ -7,7 +7,7 @@ import(
 )
 
 // Values
-fn act(() -> Unit) -> @js.Promise[Unit]
+async fn act(() -> Unit) -> Unit
 
 #alias(actAsync)
 async fn act_async(async () -> Unit) -> Unit
@@ -29,7 +29,7 @@ fn createElementDirect(String, @js.Any, @js.Any) -> Element
 #alias(createContext)
 fn[T] create_context(T?) -> Context[T]
 
-async fn dynamic_import_async() -> Unit
+async fn dynamic_import() -> Unit
 
 fn fragment(Array[&ReactNode], key? : String) -> Element
 

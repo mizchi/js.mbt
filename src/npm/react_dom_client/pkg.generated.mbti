@@ -8,9 +8,7 @@ import(
 )
 
 // Values
-async fn dynamic_import_async() -> ReactDOMClient
-
-fn import_react_dom_client() -> @js.Promise[ReactDOMClient]
+async fn dynamic_import() -> ReactDOMClient
 
 // Errors
 

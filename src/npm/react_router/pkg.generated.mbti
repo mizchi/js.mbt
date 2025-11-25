@@ -9,7 +9,7 @@ import(
 #alias(create_browser_router)
 fn createBrowserRouter(Array[Route]) -> Router
 
-async fn dynamic_import_async() -> Unit
+async fn dynamic_import() -> Unit
 
 async fn init_react_router_async() -> Unit
 

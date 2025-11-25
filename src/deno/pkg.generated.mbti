@@ -27,7 +27,8 @@ impl @js.JsImpl for ChildProcess
 pub type Command
 fn Command::new(String, args? : Array[String], cwd? : String, env? : @js.Any, stdin? : String, stdout? : String, stderr? : String) -> Self
 async fn Command::output(Self) -> CommandOutput
-fn Command::output_sync(Self) -> CommandOutput
+#alias(output_sync)
+fn Command::outputSync(Self) -> CommandOutput
 fn Command::spawn(Self) -> ChildProcess
 impl @js.JsImpl for Command
 

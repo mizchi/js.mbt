@@ -63,16 +63,17 @@ pub fn HTMLCanvasElement::toDataURL(
 }
 
 ///|
-pub fn HTMLCanvasElement::toBlob(
+pub async fn HTMLCanvasElement::toBlob(
   self : Self,
   image_type? : String,
   quality? : Double,
-) -> @js.Promise[@blob.Blob] {
-  match (image_type, quality) {
+) -> @blob.Blob {
+  let promise : @js.Promise[@blob.Blob] = match (image_type, quality) {
     (Some(t), Some(q)) => self.call2("toBlob", t, q).cast()
     (Some(t), None) => self.call("toBlob", [t]).cast()
     (None, _) => self.call0("toBlob").cast()
   }
+  promise.wait()
 }
 
 ///|

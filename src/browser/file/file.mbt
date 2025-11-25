@@ -61,8 +61,8 @@ pub fn File::as_blob(self : Self) -> @blob.Blob {
 
 ///|
 /// Get the file contents as ArrayBuffer (inherited from Blob)
-#alias(arrayBuffer)
-pub async fn File::array_buffer(self : Self) -> @js.ArrayBuffer {
+#alias(array_buffer)
+pub async fn File::arrayBuffer(self : Self) -> @js.ArrayBuffer {
   let promise : @js.Promise[@js.ArrayBuffer] = self.call0("arrayBuffer").cast()
   promise.wait()
 }
@@ -112,15 +112,15 @@ pub fn FileReader::new() -> FileReader {
 
 ///|
 /// Read file as ArrayBuffer
-#alias(readAsArrayBuffer)
-pub fn FileReader::read_as_array_buffer(self : Self, blob : @blob.Blob) -> Unit {
+#alias(read_as_array_buffer)
+pub fn FileReader::readAsArrayBuffer(self : Self, blob : @blob.Blob) -> Unit {
   self.call("readAsArrayBuffer", [blob.to_any()]) |> ignore
 }
 
 ///|
 /// Read file as text with optional encoding
-#alias(readAsText)
-pub fn FileReader::read_as_text(
+#alias(read_as_text)
+pub fn FileReader::readAsText(
   self : Self,
   blob : @blob.Blob,
   encoding? : String,
@@ -134,8 +134,8 @@ pub fn FileReader::read_as_text(
 
 ///|
 /// Read file as Data URL
-#alias(readAsDataURL)
-pub fn FileReader::read_as_data_url(self : Self, blob : @blob.Blob) -> Unit {
+#alias(read_as_data_url)
+pub fn FileReader::readAsDataURL(self : Self, blob : @blob.Blob) -> Unit {
   self.call("readAsDataURL", [blob.to_any()]) |> ignore
 }
 

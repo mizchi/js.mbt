@@ -22,7 +22,8 @@ pub type Worker
 fn Worker::new(String, type_? : String) -> Self
 #alias(post_message)
 fn Worker::postMessage(Self, &@js.JsImpl) -> Unit
-fn Worker::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
+#alias(post_message_with_transfer)
+fn Worker::postMessageWithTransfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
 fn Worker::terminate(Self) -> Unit
 impl @js.JsImpl for Worker
 impl @event.EventTargetImpl for Worker

@@ -434,10 +434,10 @@ fn main {
     assert_true(stdout_text.contains("MoonBit"))
   })
 
-  // Test Command.output_sync() - synchronous execution
+  // Test Command.outputSync() - synchronous execution
   d.test_async("Command outputSync", async fn(_ctx) {
     let cmd = @deno.Command::new("echo", args=["sync", "test"])
-    let output = cmd.output_sync()
+    let output = cmd.outputSync()
     assert_true(output.success())
     assert_eq(output.code(), 0)
     let stdout_text = decode_uint8array(output.stdout())

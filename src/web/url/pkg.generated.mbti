@@ -80,8 +80,8 @@ pub(all) struct URLSearchParams {
 fn URLSearchParams::append(Self, String, String) -> Unit
 fn URLSearchParams::delete(Self, String) -> Unit
 fn URLSearchParams::get(Self, String) -> String?
-#alias(getAll)
-fn URLSearchParams::get_all(Self, String) -> Array[String]
+#alias(get_all)
+fn URLSearchParams::getAll(Self, String) -> Array[String]
 fn URLSearchParams::has(Self, String) -> Bool
 fn URLSearchParams::set(Self, String, String) -> Unit
 fn URLSearchParams::sort(Self) -> Unit

@@ -15,15 +15,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Migration: Remove `.wait()` calls from affected function results
 
   **Affected packages:**
-  - `web/http`: `fetch`, `fetch_request`, `Request::json/text/arraybuffer/blob/bytes`, `Response::json/text/form_data/bytes`
+  - `web/http`: `fetch`, `fetch_request`, `Request::json/text/arraybuffer/blob/bytes`, `Response::json/text/formData/bytes`
   - `web/crypto`: All `SubtleCrypto` methods (`encrypt`, `decrypt`, `sign`, `verify`, `digest`, `generateKey`, `importKey`, `exportKey`, `wrapKey`, `unwrapKey`, `deriveKey`, `deriveBits`)
   - `web/streams`: `ReadableStream::cancel/pipeTo`, `ReadableStreamDefaultReader::read`, `WritableStream::abort/close`, `WritableStreamDefaultWriter::write/close`
-  - `web/blob`: `Blob::array_buffer/text`
-  - `browser/dom`: `CustomElementRegistry::whenDefined`, `Window::fetch`
+  - `web/blob`: `Blob::arrayBuffer/text`
+  - `browser/dom`: `CustomElementRegistry::whenDefined`, `Window::fetch`, `HTMLCanvasElement::toBlob`
   - `browser/canvas`: `createImageBitmapRect`, `OffscreenCanvas::convertToBlob`
-  - `browser/file`: `File::array_buffer/text`
+  - `browser/file`: `File::arrayBuffer/text`
   - `npm/hono`: `ClientEndpoint::get_/post_/put_/delete_/patch_`
+  - `npm/react`: `act`
   - `npm/react_dom_server`: `renderToReadableStream`
+  - `npm/react_testing_library`: All `Screen::findBy*` and `Screen::findAllBy*` methods
 
   ```moonbit
   // Before (v0.4.0)
@@ -69,12 +71,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Migration: Replace `from_entries([("key", value)])` with `from_map({ "key": @js.any(value) })`
   - New: `@js.from_option_map_or_undefined()` returns `undefined` if all properties are `None`
 
+- **Naming convention: camelCase for JS API wrappers** - Standardized function names
+  - Functions now use camelCase (matching JS APIs), with snake_case aliases for compatibility
+  - `File::array_buffer` → `File::arrayBuffer` (alias: `array_buffer`)
+  - `FileReader::read_as_*` → `FileReader::readAs*` (aliases available)
+  - `Response::form_data` → `Response::formData` (alias: `form_data`)
+  - `MessagePort::post_message*` → `MessagePort::postMessage*` (aliases available)
+  - `URLSearchParams::get_all` → `URLSearchParams::getAll` (alias: `get_all`)
+  - `Worker::post_message_with_transfer` → `Worker::postMessageWithTransfer`
+  - `Command::output_sync` → `Command::outputSync` (alias: `output_sync`)
+  - `CloudflareContext::wait_until` → `CloudflareContext::waitUntil`
+  - `CloudflareContext::pass_through_exception` → `CloudflareContext::passThroughOnException`
+
+- **`dynamic_import_async` → `dynamic_import`** - Renamed async import functions
+  - `@react.dynamic_import_async()` → `@react.dynamic_import()`
+  - `@react_router.dynamic_import_async()` → `@react_router.dynamic_import()`
+  - `@react_dom_client.dynamic_import_async()` → `@react_dom_client.dynamic_import()`
+
+- **`import_react_dom_client` removed** - Use `@react_dom_client.dynamic_import()` instead
+
 ### Added
 
 - **Deno.Command API** - Subprocess management for Deno runtime
   - `Command::new(program, args?, cwd?, env?, stdin?, stdout?, stderr?)` - Create subprocess command
   - `Command::output()` - Run command and get output (async)
-  - `Command::output_sync()` - Run command synchronously
+  - `Command::outputSync()` - Run command synchronously
   - `Command::spawn()` - Spawn child process
   - `CommandOutput` - Output with `stdout`, `stderr`, `success`, `code`, `signal`
   - `CommandStatus` - Status with `success`, `code`, `signal`

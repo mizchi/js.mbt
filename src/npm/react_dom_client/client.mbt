@@ -23,14 +23,9 @@ extern "js" fn import_react_dom_client_internal() -> @js.Promise[ReactDOMClient]
 /// Dynamic import for react-dom/client module
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-pub async fn dynamic_import_async() -> ReactDOMClient {
+pub async fn dynamic_import() -> ReactDOMClient {
   import_react_dom_client_internal().wait()
 }
-
-///|
-/// @deprecated Use dynamic_import_async() instead
-pub extern "js" fn import_react_dom_client() -> @js.Promise[ReactDOMClient] =
-  #| () => import("react-dom/client")
 
 ///|
 #alias(create_root)

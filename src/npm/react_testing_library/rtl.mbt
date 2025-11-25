@@ -359,78 +359,93 @@ pub fn Screen::queryByTestId(self : Screen, testId : String) -> ScreenResult? {
   self.call1("queryByTestId", testId).cast()
 }
 
-///| findBy* queries - return Promise
+///| findBy* queries - async, throw error if not found
 
 ///|
 /// JS: screen.findByRole(role, options?)
-pub fn Screen::findByRole(
-  self : Screen,
-  role : String,
-) -> @js.Promise[ScreenResult] {
-  self.call1("findByRole", role).cast()
+pub async fn Screen::findByRole(self : Screen, role : String) -> ScreenResult {
+  let promise : @js.Promise[ScreenResult] = self
+    .call1("findByRole", role)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findByLabelText(text, options?)
-pub fn Screen::findByLabelText(
+pub async fn Screen::findByLabelText(
   self : Screen,
   text : String,
-) -> @js.Promise[ScreenResult] {
-  self.call1("findByLabelText", text).cast()
+) -> ScreenResult {
+  let promise : @js.Promise[ScreenResult] = self
+    .call1("findByLabelText", text)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findByPlaceholderText(text, options?)
-pub fn Screen::findByPlaceholderText(
+pub async fn Screen::findByPlaceholderText(
   self : Screen,
   text : String,
-) -> @js.Promise[ScreenResult] {
-  self.call1("findByPlaceholderText", text).cast()
+) -> ScreenResult {
+  let promise : @js.Promise[ScreenResult] = self
+    .call1("findByPlaceholderText", text)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findByText(text, options?)
-pub fn Screen::findByText(
-  self : Screen,
-  text : String,
-) -> @js.Promise[ScreenResult] {
-  self.call1("findByText", text).cast()
+pub async fn Screen::findByText(self : Screen, text : String) -> ScreenResult {
+  let promise : @js.Promise[ScreenResult] = self
+    .call1("findByText", text)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findByDisplayValue(value, options?)
-pub fn Screen::findByDisplayValue(
+pub async fn Screen::findByDisplayValue(
   self : Screen,
   value : String,
-) -> @js.Promise[ScreenResult] {
-  self.call1("findByDisplayValue", value).cast()
+) -> ScreenResult {
+  let promise : @js.Promise[ScreenResult] = self
+    .call1("findByDisplayValue", value)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findByAltText(text, options?)
-pub fn Screen::findByAltText(
+pub async fn Screen::findByAltText(
   self : Screen,
   text : String,
-) -> @js.Promise[ScreenResult] {
-  self.call1("findByAltText", text).cast()
+) -> ScreenResult {
+  let promise : @js.Promise[ScreenResult] = self
+    .call1("findByAltText", text)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findByTitle(title, options?)
-pub fn Screen::findByTitle(
-  self : Screen,
-  title : String,
-) -> @js.Promise[ScreenResult] {
-  self.call1("findByTitle", title).cast()
+pub async fn Screen::findByTitle(self : Screen, title : String) -> ScreenResult {
+  let promise : @js.Promise[ScreenResult] = self
+    .call1("findByTitle", title)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findByTestId(testId)
-pub fn Screen::findByTestId(
+pub async fn Screen::findByTestId(
   self : Screen,
   testId : String,
-) -> @js.Promise[ScreenResult] {
-  self.call1("findByTestId", testId).cast()
+) -> ScreenResult {
+  let promise : @js.Promise[ScreenResult] = self
+    .call1("findByTestId", testId)
+    .cast()
+  promise.wait()
 }
 
 ///| getAllBy* queries - return array, throw if not found
@@ -551,78 +566,102 @@ pub fn Screen::queryAllByTestId(
   self.call1("queryAllByTestId", testId).cast()
 }
 
-///| findAllBy* queries - return Promise<array>
+///| findAllBy* queries - async, return array
 
 ///|
 /// JS: screen.findAllByRole(role, options?)
-pub fn Screen::findAllByRole(
+pub async fn Screen::findAllByRole(
   self : Screen,
   role : String,
-) -> @js.Promise[ScreenResults] {
-  self.call1("findAllByRole", role).cast()
+) -> ScreenResults {
+  let promise : @js.Promise[ScreenResults] = self
+    .call1("findAllByRole", role)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findAllByLabelText(text, options?)
-pub fn Screen::findAllByLabelText(
+pub async fn Screen::findAllByLabelText(
   self : Screen,
   text : String,
-) -> @js.Promise[ScreenResults] {
-  self.call1("findAllByLabelText", text).cast()
+) -> ScreenResults {
+  let promise : @js.Promise[ScreenResults] = self
+    .call1("findAllByLabelText", text)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findAllByPlaceholderText(text, options?)
-pub fn Screen::findAllByPlaceholderText(
+pub async fn Screen::findAllByPlaceholderText(
   self : Screen,
   text : String,
-) -> @js.Promise[ScreenResults] {
-  self.call1("findAllByPlaceholderText", text).cast()
+) -> ScreenResults {
+  let promise : @js.Promise[ScreenResults] = self
+    .call1("findAllByPlaceholderText", text)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findAllByText(text, options?)
-pub fn Screen::findAllByText(
+pub async fn Screen::findAllByText(
   self : Screen,
   text : String,
-) -> @js.Promise[ScreenResults] {
-  self.call1("findAllByText", text).cast()
+) -> ScreenResults {
+  let promise : @js.Promise[ScreenResults] = self
+    .call1("findAllByText", text)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findAllByDisplayValue(value, options?)
-pub fn Screen::findAllByDisplayValue(
+pub async fn Screen::findAllByDisplayValue(
   self : Screen,
   value : String,
-) -> @js.Promise[ScreenResults] {
-  self.call1("findAllByDisplayValue", value).cast()
+) -> ScreenResults {
+  let promise : @js.Promise[ScreenResults] = self
+    .call1("findAllByDisplayValue", value)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findAllByAltText(text, options?)
-pub fn Screen::findAllByAltText(
+pub async fn Screen::findAllByAltText(
   self : Screen,
   text : String,
-) -> @js.Promise[ScreenResults] {
-  self.call1("findAllByAltText", text).cast()
+) -> ScreenResults {
+  let promise : @js.Promise[ScreenResults] = self
+    .call1("findAllByAltText", text)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findAllByTitle(title, options?)
-pub fn Screen::findAllByTitle(
+pub async fn Screen::findAllByTitle(
   self : Screen,
   title : String,
-) -> @js.Promise[ScreenResults] {
-  self.call1("findAllByTitle", title).cast()
+) -> ScreenResults {
+  let promise : @js.Promise[ScreenResults] = self
+    .call1("findAllByTitle", title)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// JS: screen.findAllByTestId(testId)
-pub fn Screen::findAllByTestId(
+pub async fn Screen::findAllByTestId(
   self : Screen,
   testId : String,
-) -> @js.Promise[ScreenResults] {
-  self.call1("findAllByTestId", testId).cast()
+) -> ScreenResults {
+  let promise : @js.Promise[ScreenResults] = self
+    .call1("findAllByTestId", testId)
+    .cast()
+  promise.wait()
 }
 
 ///| Helper functions to reduce @js.identity in tests

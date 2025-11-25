@@ -37,8 +37,8 @@ pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
 
 ///|
 /// Get the Blob contents as ArrayBuffer
-#alias(arrayBuffer)
-pub async fn Blob::array_buffer(self : Self) -> @js.ArrayBuffer {
+#alias(array_buffer)
+pub async fn Blob::arrayBuffer(self : Self) -> @js.ArrayBuffer {
   let promise : @js.Promise[@js.ArrayBuffer] = self.call0("arrayBuffer").cast()
   promise.wait()
 }

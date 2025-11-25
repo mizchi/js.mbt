@@ -253,9 +253,9 @@ fn app(props : AppProps) -> @react.Element {
 
 ///|
 async fn main {
-  @react.dynamic_import_async()
-  @react_router.dynamic_import_async()
-  let client = @react_dom_client.dynamic_import_async()
+  @react.dynamic_import()
+  @react_router.dynamic_import()
+  let client = @react_dom_client.dynamic_import()
   guard @dom.document().querySelector("#app") is Some(app_root)
   init_myctx()
   let index = (_props : @react_router.RouteProps) => component(app, {

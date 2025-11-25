@@ -22,8 +22,8 @@ pub fn URLSearchParams::get(self : URLSearchParams, name : String) -> String? {
 }
 
 ///|
-#alias(getAll)
-pub fn URLSearchParams::get_all(
+#alias(get_all)
+pub fn URLSearchParams::getAll(
   self : URLSearchParams,
   name : String,
 ) -> Array[String] {

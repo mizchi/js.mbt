@@ -15,8 +15,8 @@ pub type CloudflareContext
 impl @js.JsImpl for CloudflareContext
 
 ///|
-#alias(waitUntil)
-pub fn CloudflareContext::wait_until(
+#alias(wait_until)
+pub fn CloudflareContext::waitUntil(
   self : CloudflareContext,
   promise : @js.Promise[Unit],
 ) -> Unit {
@@ -24,11 +24,11 @@ pub fn CloudflareContext::wait_until(
 }
 
 ///|
-#alias(passThroughException)
-pub fn CloudflareContext::pass_through_exception(
+#alias(pass_through_exception)
+pub fn CloudflareContext::passThroughOnException(
   self : CloudflareContext,
 ) -> Unit {
-  self.get("passThroughException").call_self([]) |> ignore
+  self.get("passThroughOnException").call_self([]) |> ignore
 }
 
 ///|

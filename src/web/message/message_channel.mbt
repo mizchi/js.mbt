@@ -45,8 +45,8 @@ pub impl Show for MessagePort with to_string(_self) {
 ///|
 /// Sends a message through the port
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/postMessage
-#alias(postMessage)
-pub fn MessagePort::post_message(
+#alias(post_message)
+pub fn MessagePort::postMessage(
   port : MessagePort,
   message : &@js.JsImpl,
 ) -> Unit {
@@ -55,7 +55,8 @@ pub fn MessagePort::post_message(
 
 ///|
 /// Sends a message with transferable objects through the port
-pub fn MessagePort::post_message_with_transfer(
+#alias(post_message_with_transfer)
+pub fn MessagePort::postMessageWithTransfer(
   port : MessagePort,
   message : &@js.JsImpl,
   transfer : Array[@js.Any],

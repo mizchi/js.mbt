@@ -51,7 +51,8 @@ fn Response::body(Self) -> @streams.ReadableStream?
 async fn Response::bytes(Self) -> @typedarray.Uint8Array
 fn Response::clone(Self) -> Self
 fn Response::error() -> Self
-async fn Response::form_data(Self) -> FormData
+#alias(form_data)
+async fn Response::formData(Self) -> FormData
 fn Response::html(String, Int) -> Self
 async fn Response::json(Self) -> @js.Any
 fn Response::json_(&@js.JsImpl, options? : &@js.JsImpl) -> Self

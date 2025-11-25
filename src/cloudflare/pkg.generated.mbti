@@ -16,10 +16,10 @@ import(
 // Types and methods
 #external
 pub type CloudflareContext
-#alias(passThroughException)
-fn CloudflareContext::pass_through_exception(Self) -> Unit
-#alias(waitUntil)
-fn CloudflareContext::wait_until(Self, @js.Promise[Unit]) -> Unit
+#alias(pass_through_exception)
+fn CloudflareContext::passThroughOnException(Self) -> Unit
+#alias(wait_until)
+fn CloudflareContext::waitUntil(Self, @js.Promise[Unit]) -> Unit
 
 #external
 pub type CloudflareEnv

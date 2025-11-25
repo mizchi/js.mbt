@@ -11,6 +11,7 @@ Practical, executable examples of JavaScript FFI patterns using `mizchi/js`.
 - Use `&@js.JsImpl` for generic JS values, but always call `.to_any()` before passing to FFI
 - Return concrete types, avoid redundant conversions
 - Follow naming conventions (camelCase for Web APIs, snake_case for wrappers)
+- Use `async fn` with `promise.wait()` internally for Promise-returning functions
 
 | Type | Handles | Use Case |
 |------|---------|----------|
@@ -73,7 +74,7 @@ pub fn MyValue::method_(self : Self) -> String {
 ///|
 test "type conversion" {
   // Convert MoonBit types to Js
-  let num = @js.any(42)
+  let num : @js.Any = @js.any(42)
   let str = @js.any("hello")
   let bool = @js.any(true)
 
@@ -204,7 +205,7 @@ Use `&@js.JsImpl` to accept any type implementing JsImpl (Int, String, Object, e
 
 ```moonbit no-check
 // Accept any JsImpl type
-fn setProperty(obj : @js.Object, key : String, value : &@js.JsImpl) -> Unit {
+fn setProperty(obj : @js.Any, key : String, value : &@js.JsImpl) -> Unit {
   // IMPORTANT: Always call .to_any() when passing to FFI
   obj.set(key, value.to_any())
 }
@@ -248,7 +249,7 @@ self.call("digest", [algorithm, data])
 - **Web Standard APIs**: Use camelCase
   ```
   fn createElement(tag : String) -> Element
-  fn getElementById(id : String) -> Element?
+  fn getElementById(id : String) -> @js.Nullable[Element]
   ```
 
 - **MoonBit-specific wrappers**: Use snake_case
@@ -269,4 +270,45 @@ pub fn Document::create_element(self : Document, tag : String) -> Element
 pub fn statSync(path : String) -> Stats
 ```
 
-For more details, see [docs/moonbit-js-ffi.md](../../docs/moonbit-js-ffi.md).
+## Async Function Patterns
+
+### Wrapping Promise-Returning Functions
+
+When wrapping JavaScript functions that return Promises, use `async fn` and call `promise.wait()` internally:
+
+```moonbit no-check
+// FFI declaration - returns Promise
+extern "js" fn ffi_fetch(url : String) -> @js.Promise[Response] =
+  #|(url) => fetch(url)
+
+// Public API - async fn returns value directly
+pub async fn fetch(url : String) -> Response {
+  ffi_fetch(url).wait()
+}
+```
+
+**Benefits:**
+- Callers don't need to call `.wait()` - values are awaited automatically
+- Type signatures are cleaner (`-> T` instead of `-> @js.Promise[T]`)
+- Consistent with MoonBit's async model
+
+### Pattern: FFI + Async Wrapper
+
+The standard pattern for async FFI functions:
+
+```moonbit no-check
+// 1. FFI function (private) - returns Promise
+extern "js" fn ffi_read_file(path : String) -> @js.Promise[String] =
+  #|(path) => fs.promises.readFile(path, 'utf-8')
+
+// 2. Public async function - wraps the Promise
+pub async fn read_file(path : String) -> String {
+  ffi_read_file(path).wait()
+}
+
+// Usage in async context
+async test "read file" {
+  let content = read_file("./test.txt")  // No .wait() needed
+  inspect(content.length() > 0, content="true")
+}
+```

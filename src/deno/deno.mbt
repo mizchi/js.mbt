@@ -644,7 +644,8 @@ pub async fn Command::output(self : Command) -> CommandOutput {
 ///|
 /// Execute command synchronously and collect output
 /// https://docs.deno.com/api/deno/~/Deno.Command#method_outputSync_0
-pub fn Command::output_sync(self : Command) -> CommandOutput {
+#alias(output_sync)
+pub fn Command::outputSync(self : Command) -> CommandOutput {
   self.call0("outputSync").cast()
 }
 

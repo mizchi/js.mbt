@@ -431,8 +431,10 @@ extern "js" fn ffi_act(callback : @js.Any) -> @js.Any =
 ///|
 /// React.act - Wrap test code to apply updates before assertions
 /// see: https://react.dev/reference/react/act
-pub fn act(callback : () -> Unit) -> @js.Promise[Unit] {
-  ffi_act(callback |> @js.unsafe_any) |> @js.identity
+pub async fn act(callback : () -> Unit) -> Unit {
+  let promise : @js.Promise[Unit] = ffi_act(callback |> @js.unsafe_any)
+    |> @js.identity
+  promise.wait()
 }
 
 ///|

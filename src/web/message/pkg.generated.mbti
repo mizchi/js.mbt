@@ -32,9 +32,10 @@ impl Show for MessageEvent
 #external
 pub type MessagePort
 fn MessagePort::close(Self) -> Unit
-#alias(postMessage)
-fn MessagePort::post_message(Self, &@js.JsImpl) -> Unit
-fn MessagePort::post_message_with_transfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
+#alias(post_message)
+fn MessagePort::postMessage(Self, &@js.JsImpl) -> Unit
+#alias(post_message_with_transfer)
+fn MessagePort::postMessageWithTransfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
 fn MessagePort::start(Self) -> Unit
 impl @js.JsImpl for MessagePort
 impl @event.EventTargetImpl for MessagePort

@@ -69,22 +69,22 @@ impl @js.JsImpl for RenderResult
 #external
 pub type Screen
 fn Screen::debug(Self) -> Unit
-fn Screen::findAllByAltText(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
-fn Screen::findAllByDisplayValue(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
-fn Screen::findAllByLabelText(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
-fn Screen::findAllByPlaceholderText(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
-fn Screen::findAllByRole(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
-fn Screen::findAllByTestId(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
-fn Screen::findAllByText(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
-fn Screen::findAllByTitle(Self, String) -> @js.Promise[Array[@dom.HTMLElement]]
-fn Screen::findByAltText(Self, String) -> @js.Promise[@dom.HTMLElement]
-fn Screen::findByDisplayValue(Self, String) -> @js.Promise[@dom.HTMLElement]
-fn Screen::findByLabelText(Self, String) -> @js.Promise[@dom.HTMLElement]
-fn Screen::findByPlaceholderText(Self, String) -> @js.Promise[@dom.HTMLElement]
-fn Screen::findByRole(Self, String) -> @js.Promise[@dom.HTMLElement]
-fn Screen::findByTestId(Self, String) -> @js.Promise[@dom.HTMLElement]
-fn Screen::findByText(Self, String) -> @js.Promise[@dom.HTMLElement]
-fn Screen::findByTitle(Self, String) -> @js.Promise[@dom.HTMLElement]
+async fn Screen::findAllByAltText(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByDisplayValue(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByLabelText(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByPlaceholderText(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByRole(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByTestId(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByText(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByTitle(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findByAltText(Self, String) -> @dom.HTMLElement
+async fn Screen::findByDisplayValue(Self, String) -> @dom.HTMLElement
+async fn Screen::findByLabelText(Self, String) -> @dom.HTMLElement
+async fn Screen::findByPlaceholderText(Self, String) -> @dom.HTMLElement
+async fn Screen::findByRole(Self, String) -> @dom.HTMLElement
+async fn Screen::findByTestId(Self, String) -> @dom.HTMLElement
+async fn Screen::findByText(Self, String) -> @dom.HTMLElement
+async fn Screen::findByTitle(Self, String) -> @dom.HTMLElement
 fn Screen::getAllByAltText(Self, String) -> Array[@dom.HTMLElement]
 fn Screen::getAllByDisplayValue(Self, String) -> Array[@dom.HTMLElement]
 fn Screen::getAllByLabelText(Self, String) -> Array[@dom.HTMLElement]
