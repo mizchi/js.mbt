@@ -3,7 +3,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/web/http",
-    { "path": "mizchi/js/web/url", "alias": "weburl" },
-    "mizchi/js/node"
+    { "path": "mizchi/js/web/url", "alias": "weburl" }
   ]
 }

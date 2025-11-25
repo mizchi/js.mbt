@@ -96,8 +96,7 @@ test "WASI can run hello-wasi.wasm" {
   let wasi = WASI::new("preview1", args=["hello-wasi"], returnOnExit=true)
 
   // Read WASM file
-  let fs = @node.require("node:fs")
-  let wasm_bytes = fs.call("readFileSync", ["fixtures/hello-wasi.wasm"])
+  let wasm_bytes = @fs.readFileSync("fixtures/hello-wasi.wasm")
 
   // Instantiate WASM module with WASI imports
   let import_obj = wasi.getImportObject()

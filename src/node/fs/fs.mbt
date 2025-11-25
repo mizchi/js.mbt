@@ -3,9 +3,8 @@
 
 ///|
 /// Get fs module
-fn fs_module() -> @js.Any {
-  @node.require("node:fs")
-}
+extern "js" fn fs_module() -> @js.Any =
+  #| () => require("node:fs")
 
 ///| File Reading
 

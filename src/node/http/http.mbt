@@ -1,8 +1,7 @@
 ///|
 /// node:http module
-fn http_module() -> @js.Any {
-  @node.require("node:http")
-}
+extern "js" fn http_module() -> @js.Any =
+  #| () => require("node:http")
 
 ///| IncomingMessage class
 

@@ -1,8 +1,7 @@
 ///|
 /// node:vm module
-fn vm_module() -> @js.Any {
-  @node.require("node:vm")
-}
+extern "js" fn vm_module() -> @js.Any =
+  #| () => require("node:vm")
 
 ///|
 /// TODO: Add vm.Module support

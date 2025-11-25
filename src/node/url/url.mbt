@@ -1,8 +1,12 @@
 ///|
+extern "js" fn url_module() -> @js.Any =
+  #| () => require("node:url")
+
+///|
 /// Convert a file URL to a file path
 #alias(file_url_to_path)
 pub fn fileURLToPath(url : String, windows? : Bool) -> String {
-  let url_module = @node.require("node:url")
+  let url_module = url_module()
   match windows {
     Some(w) =>
       url_module
@@ -20,7 +24,7 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
 /// Convert a file URL object to a file path
 #alias(file_url_to_path_from_url)
 pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
-  let url_module = @node.require("node:url")
+  let url_module = url_module()
   match windows {
     Some(w) =>
       url_module
@@ -38,7 +42,7 @@ pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
 /// Convert a file path to a file URL
 #alias(path_to_file_url)
 pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
-  let url_module = @node.require("node:url")
+  let url_module = url_module()
   match windows {
     Some(w) =>
       url_module
@@ -56,13 +60,13 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
 /// Convert URL to HTTP options object
 #alias(url_to_http_options)
 pub fn urlToHttpOptions(url : @weburl.URL) -> @js.Any {
-  let url_module = @node.require("node:url")
+  let url_module = url_module()
   url_module.call1("urlToHttpOptions", url)
 }
 
 ///|
 /// Format a URL object to string (legacy API)
 pub fn format(url : @weburl.URL) -> String {
-  let url_module = @node.require("node:url")
+  let url_module = url_module()
   url_module.call1("format", url).cast()
 }

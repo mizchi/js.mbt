@@ -5,13 +5,14 @@ import(
   "mizchi/js"
   "mizchi/js/node/events"
   "mizchi/js/web/streams"
+  "moonbitlang/async/js_async"
 )
 
 // Values
-fn exec(String, (@js.Any?, String, String) -> Unit, cwd? : String, env? : @js.Any, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
+fn exec(String, (@js.Any?, String, String) -> Unit, cwd? : String, env? : @js.Any, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(exec_file)
-fn execFile(String, Array[String], (@js.Any?, String, String) -> Unit, cwd? : String, env? : @js.Any, timeout? : Int, max_buffer? : Int, signal? : @js.AbortSignal) -> ChildProcess
+fn execFile(String, Array[String], (@js.Any?, String, String) -> Unit, cwd? : String, env? : @js.Any, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(exec_file_sync)
 fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Any, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String raise @js.ThrowError
@@ -19,9 +20,9 @@ fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Any, ti
 #alias(exec_sync)
 fn execSync(String, cwd? : String, env? : @js.Any, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String, stdio? : String) -> String raise @js.ThrowError
 
-fn fork(String, args? : Array[String], cwd? : String, env? : @js.Any, silent? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
+fn fork(String, args? : Array[String], cwd? : String, env? : @js.Any, silent? : Bool, timeout? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
-fn spawn(String, args? : Array[String], cwd? : String, env? : @js.Any, shell? : Bool, timeout? : Int, signal? : @js.AbortSignal) -> ChildProcess
+fn spawn(String, args? : Array[String], cwd? : String, env? : @js.Any, shell? : Bool, timeout? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(spawn_sync)
 fn spawnSync(String, args? : Array[String], cwd? : String, env? : @js.Any, shell? : Bool, timeout? : Int, input? : String, stdio? : String) -> SpawnSyncResult raise @js.ThrowError

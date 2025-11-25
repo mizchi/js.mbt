@@ -2,7 +2,6 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/node",
     "mizchi/js/node/stream",
     "mizchi/js/builtins/regexp"
   ]

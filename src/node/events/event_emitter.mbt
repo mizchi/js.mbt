@@ -1,6 +1,8 @@
 /// https://nodejs.org/api/events.html#emittereventnames
 
 ///|
+extern "js" fn event_emitter_constructor() -> @js.Any =
+  #| () => require("events").EventEmitter
 
 ///|
 /// EventEmitter trait for Node.js event emitter pattern
@@ -101,6 +103,5 @@ pub impl EventEmitterImpl for EventEmitter
 
 ///|
 pub fn EventEmitter::new() -> EventEmitter {
-  let ee = @node.require("events").get("EventEmitter")
-  @js.identity(@js.new_(ee, []))
+  @js.identity(@js.new_(event_emitter_constructor(), []))
 }

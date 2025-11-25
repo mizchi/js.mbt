@@ -1,8 +1,7 @@
 ///|
 /// node:assert module
-fn assert_module() -> @js.Any {
-  @node.require("node:assert")
-}
+extern "js" fn assert_module() -> @js.Any =
+  #| () => require("node:assert")
 
 ///| Basic Assertions
 

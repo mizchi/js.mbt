@@ -1,4 +1,8 @@
 ///|
+extern "js" fn fs_promises_module() -> @js.Any =
+  #| () => require("node:fs/promises")
+
+///|
 #external
 pub type Stat
 
@@ -29,7 +33,7 @@ pub fn Stat::mtime_ms(self : Self) -> Float {
 ///|
 /// node:fs/promises.stat
 pub async fn stat(path : String) -> Stat {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Stat] = @js.identity(fs.call("stat", [path]))
   promise.wait()
 }
@@ -37,7 +41,7 @@ pub async fn stat(path : String) -> Stat {
 ///|
 /// node:fs/promises.mkdir
 pub async fn mkdir(path : String, recursive? : Bool) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = @js.identity(
     fs.call("mkdir", [
       path,
@@ -55,7 +59,7 @@ pub fn glob(
   exclude? : Array[String],
   exclude_fn? : (String) -> Bool,
 ) -> @js.AsyncIterator[String] {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
   let exclude_opt : @js.Any? = match (exclude, exclude_fn) {
     (Some(arr), _) => Some(arr |> @js.from_array)
@@ -104,7 +108,7 @@ pub fn glob_with_filetype(
   exclude? : Array[String],
   exclude_fn? : (String) -> Bool,
 ) -> @js.AsyncIterator[Dirent] {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
   let exclude_opt : @js.Any? = match (exclude, exclude_fn) {
     (Some(arr), _) => Some(arr |> @js.from_array)
@@ -130,7 +134,7 @@ pub type FileHandle
 
 ///|
 pub async fn open(path : String) -> FileHandle {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[FileHandle] = @js.identity(fs.call("open", [path]))
   promise.wait()
 }
@@ -138,7 +142,7 @@ pub async fn open(path : String) -> FileHandle {
 ///|
 #alias(read_file)
 pub async fn readFile(path : String, encoding? : String = "utf-8") -> String {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[String] = fs
     .call2("readFile", path, encoding)
     .cast()
@@ -152,7 +156,7 @@ pub async fn read_file_as_string(
   path : String,
   encoding? : String = "utf8",
 ) -> String {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[String] = fs
     .call2("readFile", path, encoding)
     .cast()
@@ -163,7 +167,7 @@ pub async fn read_file_as_string(
 /// Read file asynchronously as Buffer
 /// JS: fs.promises.readFile(path)
 pub async fn read_file_as_buffer(path : String) -> @buffer.Buffer {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[@buffer.Buffer] = @js.identity(
     fs.call("readFile", [path]),
   )
@@ -181,7 +185,7 @@ pub async fn writeFile(
   flush? : Bool = false,
   signal? : @js.AbortSignal,
 ) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = @js.identity(
     fs.call("writeFile", [
       path,
@@ -200,14 +204,14 @@ pub async fn writeFile(
 
 ///|
 pub async fn rename(path : String, dest : String) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = fs.call2("rename", path, dest).cast()
   promise.wait()
 }
 
 ///|
 pub async fn rm(path : String, recursive? : Bool, force? : Bool) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = @js.identity(
     fs.call("rm", [
       path,
@@ -222,7 +226,7 @@ pub async fn rm(path : String, recursive? : Bool, force? : Bool) -> Unit {
 
 ///|
 pub async fn cp(path : String, dest : String, recursive? : Bool) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = @js.identity(
     fs.call("cp", [
       path,
@@ -238,7 +242,7 @@ pub async fn cp(path : String, dest : String, recursive? : Bool) -> Unit {
 ///|
 /// Change file permissions
 pub async fn chmod(path : String, mode : Int) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = fs.call2("chmod", path, mode).cast()
   promise.wait()
 }
@@ -246,7 +250,7 @@ pub async fn chmod(path : String, mode : Int) -> Unit {
 ///|
 /// Change file owner
 pub async fn chown(path : String, uid : Int, gid : Int) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = @js.identity(
     fs.call("chown", [path, uid, gid]),
   )
@@ -256,7 +260,7 @@ pub async fn chown(path : String, uid : Int, gid : Int) -> Unit {
 ///|
 /// Create symbolic link
 pub async fn symlink(target : String, path : String, type_? : String) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = match type_ {
     Some(t) => @js.identity(fs.call("symlink", [target, path, t]))
     None => fs.call2("symlink", target, path).cast()
@@ -267,7 +271,7 @@ pub async fn symlink(target : String, path : String, type_? : String) -> Unit {
 ///|
 /// Read symbolic link
 pub async fn readlink(path : String) -> String {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[String] = @js.identity(fs.call("readlink", [path]))
   promise.wait()
 }
@@ -275,7 +279,7 @@ pub async fn readlink(path : String) -> String {
 ///|
 /// Get real path
 pub async fn realpath(path : String) -> String {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[String] = @js.identity(fs.call("realpath", [path]))
   promise.wait()
 }
@@ -283,7 +287,7 @@ pub async fn realpath(path : String) -> String {
 ///|
 /// Truncate file
 pub async fn truncate(path : String, len? : Int) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = match len {
     Some(l) => fs.call2("truncate", path, l).cast()
     None => @js.identity(fs.call("truncate", [path]))
@@ -294,7 +298,7 @@ pub async fn truncate(path : String, len? : Int) -> Unit {
 ///|
 /// Remove directory
 pub async fn rmdir(path : String, recursive? : Bool) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = @js.identity(
     fs.call("rmdir", [
       path,
@@ -307,7 +311,7 @@ pub async fn rmdir(path : String, recursive? : Bool) -> Unit {
 ///|
 /// Check file access
 pub async fn access(path : String, mode? : Int) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = match mode {
     Some(m) => fs.call2("access", path, m).cast()
     None => @js.identity(fs.call("access", [path]))
@@ -322,7 +326,7 @@ pub async fn appendFile(
   data : String,
   encoding? : String,
 ) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = match encoding {
     Some(enc) =>
       @js.identity(
@@ -340,7 +344,7 @@ pub async fn appendFile(
 ///|
 /// Copy file
 pub async fn copyFile(src : String, dest : String) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = fs.call2("copyFile", src, dest).cast()
   promise.wait()
 }
@@ -348,7 +352,7 @@ pub async fn copyFile(src : String, dest : String) -> Unit {
 ///|
 /// Read directory contents
 pub async fn readdir(path : String) -> Array[String] {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Array[String]] = @js.identity(
     fs.call("readdir", [path]),
   )
@@ -358,7 +362,7 @@ pub async fn readdir(path : String) -> Array[String] {
 ///|
 /// Unlink (delete) file
 pub async fn unlink(path : String) -> Unit {
-  let fs = @node.require("node:fs/promises")
+  let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = @js.identity(fs.call("unlink", [path]))
   promise.wait()
 }

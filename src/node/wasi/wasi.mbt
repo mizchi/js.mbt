@@ -2,6 +2,10 @@
 // WebAssembly System Interface (WASI) API
 
 ///|
+extern "js" fn wasi_module_ffi() -> @js.Any =
+  #| () => require("node:wasi")
+
+///|
 /// WASI Module
 #external
 pub type WasiModule
@@ -12,7 +16,7 @@ pub impl @js.JsImpl for WasiModule
 ///|
 /// Get wasi module
 fn wasi_module() -> WasiModule {
-  @node.require("node:wasi").cast()
+  wasi_module_ffi().cast()
 }
 
 ///|

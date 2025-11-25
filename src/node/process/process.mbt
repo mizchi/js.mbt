@@ -1,4 +1,8 @@
 ///|
+extern "js" fn process_module() -> @js.Any =
+  #| () => require("node:process")
+
+///|
 #external
 pub type Process
 
@@ -7,13 +11,13 @@ pub impl @js.JsImpl for Process
 
 ///|
 pub fn process() -> Process {
-  @js.identity(@node.require("node:process"))
+  @js.identity(process_module())
 }
 
 ///|
 /// JS: process.env
 pub fn env() -> ProcessEnv {
-  @node.require("node:process").get("env").cast()
+  process_module().get("env").cast()
 }
 
 ///|

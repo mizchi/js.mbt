@@ -42,7 +42,12 @@
 ///
 /// This module requires Node.js with SQLite support (Node.js 22.5.0+).
 /// SQLite is an experimental feature in Node.js.
-///
+
+///|
+extern "js" fn sqlite_module() -> @js.Any =
+  #| () => require("node:sqlite")
+
+///|
 #external
 pub type DatabaseSync
 
@@ -81,8 +86,7 @@ pub fn DatabaseSync::new(
     }),
     "defensive": defensive.map(fn(x) { @js.any(x) }),
   })
-  let v = @node.require("node:sqlite").get("DatabaseSync")
-    |> @js.new_([path, opts])
+  let v = sqlite_module().get("DatabaseSync") |> @js.new_([path, opts])
   @js.identity(v)
 }
 
@@ -480,15 +484,14 @@ pub fn backup(
   if progress is Some(f) {
     opts.set("progress", f |> @js.from_fn1)
   }
-  let backup : @js.Any = @node.require("node:sqlite").get("backup")
+  let backup : @js.Any = sqlite_module().get("backup")
   backup.call_self([source_db.to_any(), db_path, opts]) |> ignore
 }
 
 ///|
 /// SQLite constants accessor
 fn get_constants() -> @js.Any {
-  let sqlite = @node.require("node:sqlite")
-  sqlite.get("constants")
+  sqlite_module().get("constants")
 }
 
 ///|

@@ -1,4 +1,8 @@
 ///|
+extern "js" fn util_module() -> @js.Any =
+  #| () => require("node:util")
+
+///|
 #external
 pub type Util
 
@@ -7,7 +11,7 @@ pub impl @js.JsImpl for Util
 
 ///|
 fn util() -> Util {
-  @node.require("node:util") |> @js.identity
+  util_module() |> @js.identity
 }
 
 ///|

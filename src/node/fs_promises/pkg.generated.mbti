@@ -3,7 +3,8 @@ package "mizchi/js/node/fs_promises"
 
 import(
   "mizchi/js"
-  "moonbitlang/core/buffer"
+  "mizchi/js/node/buffer"
+  "moonbitlang/async/js_async"
 )
 
 // Values
@@ -55,7 +56,7 @@ async fn truncate(String, len? : Int) -> Unit
 async fn unlink(String) -> Unit
 
 #alias(write_file)
-async fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js.AbortSignal) -> Unit
+async fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js_async.AbortSignal) -> Unit
 
 // Errors
 

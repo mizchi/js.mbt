@@ -1,7 +1,6 @@
 ///|
-fn nodetest() -> @js.Any {
-  @js.identity(@node.require("node:test"))
-}
+extern "js" fn nodetest() -> @js.Any =
+  #| () => require("node:test")
 
 ///|
 #external

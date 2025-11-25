@@ -4,6 +4,10 @@
 /// https://nodejs.org/api/async_context.html#class-asynclocalstorage
 
 ///|
+extern "js" fn async_local_storage_constructor() -> @js.Any =
+  #| () => require("async_hooks").AsyncLocalStorage
+
+///|
 /// AsyncLocalStorage class for managing async context with type safety
 #external
 pub type AsyncLocalStorage[T]
@@ -14,8 +18,7 @@ pub impl[T] @js.JsImpl for AsyncLocalStorage[T]
 ///|
 /// Create a new AsyncLocalStorage instance
 pub fn[T] AsyncLocalStorage::new() -> AsyncLocalStorage[T] {
-  let als = @node.require("async_hooks").get("AsyncLocalStorage")
-  @js.identity(@js.new_(als, []))
+  @js.identity(@js.new_(async_local_storage_constructor(), []))
 }
 
 ///|

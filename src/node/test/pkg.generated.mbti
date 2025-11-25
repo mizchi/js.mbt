@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/builtins/regexp"
   "mizchi/js/node/stream"
+  "moonbitlang/async/js_async"
 )
 
 // Values
@@ -32,7 +33,7 @@ fn mock() -> MockTracker
 
 fn mock_timers() -> MockTimers
 
-fn run(files? : Array[String], cwd? : String, forceExit? : Bool, inspectPort? : Int, only? : Bool, concurrency? : Int, globPatterns? : Array[String], isolation? : Bool, execArgv? : Array[String], argv? : Array[String], watch? : Bool, shard? : TestShard, signal? : @js.AbortSignal, testNamePatterns? : Array[String], testSkipPatterns? : Array[String], timeout? : Int, rerunFailuresFilePath? : String, setup? : () -> Unit, coverage? : Bool, lineCoverage? : Bool, functionCoverage? : Bool, branchCoverage? : Bool, coverageIncludeGlobs? : Array[String], coverageExcludeGlobs? : Array[String]) -> @stream.Stream
+fn run(files? : Array[String], cwd? : String, forceExit? : Bool, inspectPort? : Int, only? : Bool, concurrency? : Int, globPatterns? : Array[String], isolation? : Bool, execArgv? : Array[String], argv? : Array[String], watch? : Bool, shard? : TestShard, signal? : @js_async.AbortSignal, testNamePatterns? : Array[String], testSkipPatterns? : Array[String], timeout? : Int, rerunFailuresFilePath? : String, setup? : () -> Unit, coverage? : Bool, lineCoverage? : Bool, functionCoverage? : Bool, branchCoverage? : Bool, coverageIncludeGlobs? : Array[String], coverageExcludeGlobs? : Array[String]) -> @stream.Stream
 
 fn setDefaultSnapshotSerializers(Array[&@js.JsImpl]) -> Unit
 

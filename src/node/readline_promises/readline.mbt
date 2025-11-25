@@ -1,4 +1,8 @@
 ///|
+extern "js" fn readline_promises_module() -> @js.Any =
+  #| () => require("node:readline/promises")
+
+///|
 #external
 pub type Interface
 
@@ -38,9 +42,7 @@ pub fn createInterface(
     "signal": signal.map(fn(x) { x |> @js.identity }),
   })
   @js.identity(
-    @node.require("node:readline/promises")
-    .get("createInterface")
-    .call_self([opts]),
+    readline_promises_module().get("createInterface").call_self([opts]),
   )
 }
 

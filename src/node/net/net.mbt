@@ -1,8 +1,7 @@
 ///|
 /// node:net module
-fn net_module() -> @js.Any {
-  @node.require("node:net")
-}
+extern "js" fn net_module() -> @js.Any =
+  #| () => require("node:net")
 
 ///|
 /// AddressInfo - Result of server.address() when listening on TCP

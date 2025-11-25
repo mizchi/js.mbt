@@ -28,9 +28,8 @@ pub impl @js.JsImpl for Buffer
 
 ///|
 /// Get the Buffer constructor
-fn buffer_constructor() -> @js.Any {
-  @node.require("node:buffer").get("Buffer")
-}
+extern "js" fn buffer_constructor() -> @js.Any =
+  #| () => require("node:buffer").Buffer
 
 ///|
 /// Create a Buffer from a string with optional encoding

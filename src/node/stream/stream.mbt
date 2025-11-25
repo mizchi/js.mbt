@@ -1,12 +1,7 @@
 ///|
-
-///|
-
-///|
 /// node:stream
-fn stream_module() -> @js.Any {
-  @node.require("node:stream")
-}
+extern "js" fn stream_module() -> @js.Any =
+  #| () => require("node:stream")
 
 ///|
 /// WIP

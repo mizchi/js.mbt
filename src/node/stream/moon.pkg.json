@@ -2,7 +2,6 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/node",
     {
       "path": "mizchi/js/web/streams",
       "alias": "web"

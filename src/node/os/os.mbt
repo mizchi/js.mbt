@@ -3,10 +3,8 @@
 // https://nodejs.org/api/os.html
 
 ///|
-/// Get os module
-fn os_module() -> @js.Any {
-  @node.require("node:os")
-}
+extern "js" fn os_module() -> @js.Any =
+  #| () => require("node:os")
 
 ///|
 /// CPU information returned by cpus()
