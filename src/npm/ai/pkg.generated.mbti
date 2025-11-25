@@ -6,6 +6,10 @@ import(
 )
 
 // Values
+fn all_of(Array[StopCondition]) -> StopCondition
+
+fn any_of(Array[StopCondition]) -> StopCondition
+
 fn convert_array_to_async_iterable(Array[@js.Any]) -> @js.Any
 
 fn convert_array_to_readable_stream(Array[@js.Any]) -> @js.Any
@@ -13,6 +17,10 @@ fn convert_array_to_readable_stream(Array[@js.Any]) -> @js.Any
 async fn convert_readable_stream_to_array(@js.Any) -> Array[@js.Any]
 
 fn finish_chunk(String, MockUsage) -> @js.Any
+
+fn has_any_tool_call(Array[String]) -> StopCondition
+
+fn has_tool_call(String) -> StopCondition
 
 fn mock_id() -> MockId
 
@@ -24,6 +32,8 @@ fn mock_model_with_text(String) -> @js.Any
 
 fn mock_values_js(Array[@js.Any]) -> @js.Any
 
+fn model_finished() -> StopCondition
+
 fn require_test() -> @js.Any
 
 fn simulate_readable_stream(SimulateStreamOptions) -> @js.Any
@@ -32,18 +42,25 @@ fn simulate_stream(Array[@js.Any]) -> @js.Any
 
 fn simulate_stream_with_delay(Array[@js.Any], Int) -> @js.Any
 
+fn step_count_is(Int) -> StopCondition
+
 fn text_delta_chunk(String) -> @js.Any
 
 fn tool_call_chunk(String, String, @js.Any) -> @js.Any
 
 // Errors
+pub suberror PrepareStep async (PrepareStepContext) -> PrepareStepResult
+fn PrepareStep::to_any(Self) -> @js.Any
+
+pub suberror StopCondition (StopConditionContext) -> Bool
+fn StopCondition::to_any(Self) -> @js.Any
 
 // Types and methods
 #external
 pub type Ai
-async fn Ai::generateText(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int) -> GenerateTextResult
+async fn Ai::generateText(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int, stop_when? : StopCondition, prepare_step? : PrepareStep, active_tools? : Array[String]) -> GenerateTextResult
 fn Ai::require() -> Self
-fn Ai::streamText(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int) -> StreamTextResultHandle
+fn Ai::streamText(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int, stop_when? : StopCondition, prepare_step? : PrepareStep, active_tools? : Array[String]) -> StreamTextResultHandle
 impl @js.JsImpl for Ai
 
 pub(all) struct CallWarning {
@@ -204,6 +221,26 @@ pub(all) enum ModelMessage {
 }
 impl @js.JsImpl for ModelMessage
 
+pub(all) struct PrepareStepContext {
+  step_number : Int
+  messages : Array[@js.Any]
+  steps : Array[StepResult]
+}
+
+pub(all) struct PrepareStepResult {
+  model : Model?
+  active_tools : Array[String]?
+  messages : Array[@js.Any]?
+  system : String?
+  max_tokens : Int?
+  temperature : Double?
+}
+fn PrepareStepResult::empty() -> Self
+fn PrepareStepResult::to_any(Self) -> @js.Any
+fn PrepareStepResult::with_active_tools(Array[String]) -> Self
+fn PrepareStepResult::with_messages(Array[@js.Any]) -> Self
+fn PrepareStepResult::with_model(Model) -> Self
+
 pub(all) struct ProviderMetadata {
   raw : @js.Any
 }
@@ -260,6 +297,13 @@ pub(all) struct StepResult {
   raw : @js.Any
 }
 fn StepResult::from_any(@js.Any) -> Self
+
+pub(all) struct StopConditionContext {
+  step_number : Int
+  messages : Array[@js.Any]
+  tool_calls : Array[ToolCall]
+  finish_reason : FinishReason
+}
 
 #external
 pub type StreamTextResultHandle

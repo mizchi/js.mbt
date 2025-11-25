@@ -85,6 +85,9 @@ pub async fn Ai::generateText(
   tools? : Tools,
   tool_choice? : ToolChoice,
   max_steps? : Int,
+  stop_when? : StopCondition,
+  prepare_step? : PrepareStep,
+  active_tools? : Array[String],
 ) -> GenerateTextResult {
   let opts = @js.Object::new()
   opts.set("model", model.to_any())
@@ -111,6 +114,15 @@ pub async fn Ai::generateText(
   }
   if max_steps is Some(ms) {
     opts.set("maxSteps", ms)
+  }
+  if stop_when is Some(sw) {
+    opts.set("stopWhen", sw.to_any())
+  }
+  if prepare_step is Some(ps) {
+    opts.set("prepareStep", ps.to_any())
+  }
+  if active_tools is Some(at) {
+    opts.set("activeTools", at |> @js.from_array)
   }
   let promise : @js.Promise[@js.Any] = self.call("generateText", [opts])
     |> @js.identity
@@ -140,6 +152,9 @@ pub fn Ai::streamText(
   tools? : Tools,
   tool_choice? : ToolChoice,
   max_steps? : Int,
+  stop_when? : StopCondition,
+  prepare_step? : PrepareStep,
+  active_tools? : Array[String],
 ) -> StreamTextResultHandle {
   let opts = @js.Object::new()
   opts.set("model", model.to_any())
@@ -166,6 +181,15 @@ pub fn Ai::streamText(
   }
   if max_steps is Some(ms) {
     opts.set("maxSteps", ms)
+  }
+  if stop_when is Some(sw) {
+    opts.set("stopWhen", sw.to_any())
+  }
+  if prepare_step is Some(ps) {
+    opts.set("prepareStep", ps.to_any())
+  }
+  if active_tools is Some(at) {
+    opts.set("activeTools", at |> @js.from_array)
   }
   let result = self.to_any().get("streamText").call_self([opts.to_any()])
   @js.identity(result)
