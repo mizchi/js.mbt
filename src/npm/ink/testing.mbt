@@ -2,8 +2,28 @@
 /// Bindings for https://github.com/vadimdemedes/ink-testing-library
 
 ///|
-fn require_ink_testing_library() -> @js.Any {
-  @node.require("ink-testing-library")
+/// Ink Testing Library module handle
+#external
+pub type InkTestingLibrary
+
+///|
+pub impl @js.JsImpl for InkTestingLibrary
+
+///|
+/// Dynamic import for ink-testing-library module (internal)
+/// NOTE: This uses dynamic import which doesn't support tree-shaking.
+/// When MoonBit adds native ESM support, this should be replaced with static imports.
+extern "js" fn import_ink_testing_library_internal() -> @js.Promise[
+  InkTestingLibrary,
+] =
+  #| () => import("ink-testing-library")
+
+///|
+/// Dynamic import for ink-testing-library module
+/// NOTE: This uses dynamic import which doesn't support tree-shaking.
+/// When MoonBit adds native ESM support, this should be replaced with static imports.
+pub async fn dynamic_import_testing_library() -> InkTestingLibrary {
+  import_ink_testing_library_internal().wait()
 }
 
 // ============================================================
@@ -127,8 +147,10 @@ pub fn StreamOutput::frames(self : StreamOutput) -> Array[String] {
 ///|
 /// Render a React element for testing
 /// Returns a RenderResult with utilities for assertions and interactions
-pub fn render_for_test(element : @react.Element) -> RenderResult {
-  let lib = require_ink_testing_library()
-  let render_fn = lib.get("render")
+pub fn InkTestingLibrary::render(
+  self : InkTestingLibrary,
+  element : @react.Element,
+) -> RenderResult {
+  let render_fn = self.to_any().get("render")
   render_fn.call_self([element.to_any()]) |> @js.identity
 }

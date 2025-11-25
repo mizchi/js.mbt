@@ -2,9 +2,9 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
-    "mizchi/js/node",
-    "mizchi/js/npm/react",
-    "moonbitlang/async"
+    "mizchi/js/npm/react"
   ],
-  "test-import": []
+  "test-import": [
+    "moonbitlang/async"
+  ]
 }

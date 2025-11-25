@@ -1,9 +1,31 @@
 ///| Ink - React for interactive command-line apps
 /// Bindings for https://github.com/vadimdemedes/ink
 
+// ============================================================
+// Dynamic Import
+// ============================================================
+
 ///|
-fn require_ink() -> @js.Any {
-  @node.require("ink")
+/// Ink module handle
+#external
+pub type Ink
+
+///|
+pub impl @js.JsImpl for Ink
+
+///|
+/// Dynamic import for ink module (internal)
+/// NOTE: This uses dynamic import which doesn't support tree-shaking.
+/// When MoonBit adds native ESM support, this should be replaced with static imports.
+extern "js" fn import_ink_internal() -> @js.Promise[Ink] =
+  #| () => import("ink")
+
+///|
+/// Dynamic import for ink module
+/// NOTE: This uses dynamic import which doesn't support tree-shaking.
+/// When MoonBit adds native ESM support, this should be replaced with static imports.
+pub async fn dynamic_import() -> Ink {
+  import_ink_internal().wait()
 }
 
 // ============================================================
@@ -190,7 +212,8 @@ pub fn Display::to_string(self : Display) -> String {
 ///|
 /// Text component for displaying styled text in the terminal
 /// Only accepts text nodes and nested <Text> components
-pub fn text(
+pub fn Ink::text(
+  self : Ink,
   children : Array[&@react.ReactNode],
   color? : String,
   background_color? : String,
@@ -202,8 +225,7 @@ pub fn text(
   dim_color? : Bool,
   wrap? : TextWrap,
 ) -> @react.Element {
-  let ink = require_ink()
-  let text_component = ink.get("Text")
+  let text_component = self.to_any().get("Text")
   let props = @js.Object::new()
   if color is Some(c) {
     props.set("color", c)
@@ -239,7 +261,8 @@ pub fn text(
 
 ///|
 /// Box component for layout using Flexbox
-pub fn box_(
+pub fn Ink::box_(
+  self : Ink,
   children : Array[&@react.ReactNode],
   // Dimensions
   width? : Int,
@@ -289,8 +312,7 @@ pub fn box_(
   column_gap? : Int,
   row_gap? : Int,
 ) -> @react.Element {
-  let ink = require_ink()
-  let box_component = ink.get("Box")
+  let box_component = self.to_any().get("Box")
   let props = @js.Object::new()
   // Dimensions
   if width is Some(w) {
@@ -428,9 +450,8 @@ pub fn box_(
 
 ///|
 /// Newline component - renders a newline character
-pub fn newline(count? : Int) -> @react.Element {
-  let ink = require_ink()
-  let newline_component = ink.get("Newline")
+pub fn Ink::newline(self : Ink, count? : Int) -> @react.Element {
+  let newline_component = self.to_any().get("Newline")
   let props = @js.Object::new()
   if count is Some(c) {
     props.set("count", c)
@@ -441,9 +462,8 @@ pub fn newline(count? : Int) -> @react.Element {
 
 ///|
 /// Spacer component - fills available space (flex-grow: 1)
-pub fn spacer() -> @react.Element {
-  let ink = require_ink()
-  let spacer_component = ink.get("Spacer")
+pub fn Ink::spacer(self : Ink) -> @react.Element {
+  let spacer_component = self.to_any().get("Spacer")
   ffi_create_element(
     spacer_component,
     @js.Object::new().to_any(),
@@ -454,12 +474,12 @@ pub fn spacer() -> @react.Element {
 
 ///|
 /// Static component - renders content that won't update after initial render
-pub fn static_(
+pub fn Ink::static_(
+  self : Ink,
   children : Array[&@react.ReactNode],
   items? : Array[@js.Any],
 ) -> @react.Element {
-  let ink = require_ink()
-  let static_component = ink.get("Static")
+  let static_component = self.to_any().get("Static")
   let props = @js.Object::new()
   if items is Some(i) {
     props.set("items", i |> @js.from_array)
@@ -471,12 +491,12 @@ pub fn static_(
 
 ///|
 /// Transform component - applies transformations to output content
-pub fn transform(
+pub fn Ink::transform(
+  self : Ink,
   children : Array[&@react.ReactNode],
   transform_fn : (String) -> String,
 ) -> @react.Element {
-  let ink = require_ink()
-  let transform_component = ink.get("Transform")
+  let transform_component = self.to_any().get("Transform")
   let props = @js.Object::new()
   let wrapped_fn = ffi_wrap_transform(transform_fn)
   props.set("transform", wrapped_fn)
@@ -568,12 +588,12 @@ fn RenderOptions::to_any(self : RenderOptions) -> @js.Any {
 
 ///|
 /// Render a React element to the terminal
-pub fn render(
+pub fn Ink::render(
+  self : Ink,
   element : @react.Element,
   options? : RenderOptions,
 ) -> InkInstance {
-  let ink = require_ink()
-  let render_fn = ink.get("render")
+  let render_fn = self.to_any().get("render")
   let opts = match options {
     Some(o) => o.to_any()
     None => @js.undefined()

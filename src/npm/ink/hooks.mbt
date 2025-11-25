@@ -22,9 +22,8 @@ pub fn UseAppResult::exit(self : UseAppResult, error? : @js.Any) -> Unit {
 
 ///|
 /// useApp hook - provides exit functionality
-pub fn useApp() -> UseAppResult {
-  let ink = @node.require("ink")
-  let use_app = ink.get("useApp")
+pub fn Ink::useApp(self : Ink) -> UseAppResult {
+  let use_app = self.to_any().get("useApp")
   let result = use_app.call_self([])
   let exit_fn = result.get("exit")
   { exit_fn, }
@@ -97,12 +96,12 @@ pub(all) struct UseInputOptions {
 ///|
 /// useInput hook - captures keyboard input
 /// Handler receives input character and key information
-pub fn useInput(
+pub fn Ink::useInput(
+  self : Ink,
   handler : (String, KeyInfo) -> Unit,
   options? : UseInputOptions,
 ) -> Unit {
-  let ink = @node.require("ink")
-  let use_input = ink.get("useInput")
+  let use_input = self.to_any().get("useInput")
   let wrapped_handler = ffi_wrap_input_handler(fn(
     input : @js.Any,
     key : @js.Any,
@@ -153,9 +152,8 @@ pub(all) struct UseFocusOptions {
 
 ///|
 /// useFocus hook - manages focus state for interactive components
-pub fn useFocus(options? : UseFocusOptions) -> UseFocusResult {
-  let ink = @node.require("ink")
-  let use_focus = ink.get("useFocus")
+pub fn Ink::useFocus(self : Ink, options? : UseFocusOptions) -> UseFocusResult {
+  let use_focus = self.to_any().get("useFocus")
   let result = match options {
     Some(opts) => {
       let opts_obj = @js.Object::new()
@@ -224,9 +222,8 @@ pub fn UseFocusManagerResult::focus(
 
 ///|
 /// useFocusManager hook - programmatically manage focus
-pub fn useFocusManager() -> UseFocusManagerResult {
-  let ink = @node.require("ink")
-  let use_focus_manager = ink.get("useFocusManager")
+pub fn Ink::useFocusManager(self : Ink) -> UseFocusManagerResult {
+  let use_focus_manager = self.to_any().get("useFocusManager")
   let result = use_focus_manager.call_self([])
   { raw: result }
 }
@@ -254,9 +251,8 @@ pub fn UseStdinResult::setRawMode(self : UseStdinResult, value : Bool) -> Unit {
 
 ///|
 /// useStdin hook - access stdin stream
-pub fn useStdin() -> UseStdinResult {
-  let ink = @node.require("ink")
-  let use_stdin = ink.get("useStdin")
+pub fn Ink::useStdin(self : Ink) -> UseStdinResult {
+  let use_stdin = self.to_any().get("useStdin")
   let result = use_stdin.call_self([])
   {
     stdin: result.get("stdin"),
@@ -286,9 +282,8 @@ pub fn UseStdoutResult::write(self : UseStdoutResult, data : String) -> Unit {
 
 ///|
 /// useStdout hook - access stdout stream
-pub fn useStdout() -> UseStdoutResult {
-  let ink = @node.require("ink")
-  let use_stdout = ink.get("useStdout")
+pub fn Ink::useStdout(self : Ink) -> UseStdoutResult {
+  let use_stdout = self.to_any().get("useStdout")
   let result = use_stdout.call_self([])
   { stdout: result.get("stdout"), write_fn: result.get("write") }
 }
@@ -314,9 +309,8 @@ pub fn UseStderrResult::write(self : UseStderrResult, data : String) -> Unit {
 
 ///|
 /// useStderr hook - access stderr stream
-pub fn useStderr() -> UseStderrResult {
-  let ink = @node.require("ink")
-  let use_stderr = ink.get("useStderr")
+pub fn Ink::useStderr(self : Ink) -> UseStderrResult {
+  let use_stderr = self.to_any().get("useStderr")
   let result = use_stderr.call_self([])
   { stderr: result.get("stderr"), write_fn: result.get("write") }
 }
