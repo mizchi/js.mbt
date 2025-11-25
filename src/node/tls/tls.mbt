@@ -25,78 +25,15 @@ pub impl @js.JsImpl for TLSSocket
 pub impl @event.EventTargetImpl for TLSSocket
 
 ///|
-/// Options for creating a TLS server
-pub struct ServerOptions {
-  key : String?
-  cert : String?
-  ca : String?
-  pfx : String?
-  passphrase : String?
-  rejectUnauthorized : Bool?
-  requestCert : Bool?
-  alpn_protocols : Array[String]?
-}
-
-///|
-/// Create default server options
-pub fn ServerOptions::new() -> ServerOptions {
-  {
-    key: None,
-    cert: None,
-    ca: None,
-    pfx: None,
-    passphrase: None,
-    rejectUnauthorized: None,
-    requestCert: None,
-    alpn_protocols: None,
+/// Helper function to convert Array[String] to JavaScript array
+fn array_to_js_array(arr : Array[String]) -> @js.JsArray {
+  let js_arr = @js.JsArray::new()
+  let mut i = 0
+  while i < arr.length() {
+    js_arr.call("push", [arr[i]]) |> ignore
+    i = i + 1
   }
-}
-
-///|
-/// Convert ServerOptions to JavaScript object
-pub fn ServerOptions::to_any(self : ServerOptions) -> @js.Any {
-  let obj = @js.Object::new()
-  match self.key {
-    Some(v) => obj.set("key", v)
-    None => ()
-  }
-  match self.cert {
-    Some(v) => obj.set("cert", v)
-    None => ()
-  }
-  match self.ca {
-    Some(v) => obj.set("ca", v)
-    None => ()
-  }
-  match self.pfx {
-    Some(v) => obj.set("pfx", v)
-    None => ()
-  }
-  match self.passphrase {
-    Some(v) => obj.set("passphrase", v)
-    None => ()
-  }
-  match self.rejectUnauthorized {
-    Some(v) => obj.set("rejectUnauthorized", v)
-    None => ()
-  }
-  match self.requestCert {
-    Some(v) => obj.set("requestCert", v)
-    None => ()
-  }
-  match self.alpn_protocols {
-    Some(v) => {
-      let arr = @js.JsArray::new()
-      let mut i = 0
-      while i < v.length() {
-        arr.call("push", [v[i]]) |> ignore
-        i = i + 1
-      }
-      obj.set("ALPNProtocols", arr)
-    }
-    None => ()
-  }
-  obj.to_any()
+  js_arr
 }
 
 ///|
@@ -112,11 +49,32 @@ extern "js" fn ffi_create_server(
 ///|
 /// Create a TLS server
 pub fn create_server(
-  options : ServerOptions,
   secureConnectionListener : (TLSSocket) -> Unit,
+  key? : String,
+  cert? : String,
+  ca? : String,
+  pfx? : String,
+  passphrase? : String,
+  rejectUnauthorized? : Bool,
+  requestCert? : Bool,
+  alpn_protocols? : Array[String],
 ) -> Server {
   let cb : @js.Any = @js.identity(secureConnectionListener)
-  ffi_create_server(options.to_any(), cb)
+  let alpn_js : @js.Any? = match alpn_protocols {
+    Some(v) => Some(array_to_js_array(v).to_any())
+    None => None
+  }
+  let opts = @js.from_entries_option([
+    ("key", key.map(x => x)),
+    ("cert", cert.map(x => x)),
+    ("ca", ca.map(x => x)),
+    ("pfx", pfx.map(x => x)),
+    ("passphrase", passphrase.map(x => x)),
+    ("rejectUnauthorized", rejectUnauthorized.map(x => x)),
+    ("requestCert", requestCert.map(x => x)),
+    ("ALPNProtocols", alpn_js.map(x => x)),
+  ])
+  ffi_create_server(opts, cb)
 }
 
 ///|
@@ -134,87 +92,6 @@ pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
 }
 
 ///|
-/// Options for TLS connection
-pub struct ConnectOptions {
-  host : String?
-  port : Int?
-  servername : String?
-  key : String?
-  cert : String?
-  ca : String?
-  rejectUnauthorized : Bool?
-  alpn_protocols : Array[String]?
-  session : @js.Object?
-}
-
-///|
-/// Create default connect options
-pub fn ConnectOptions::new(port : Int, host : String) -> ConnectOptions {
-  {
-    host: Some(host),
-    port: Some(port),
-    servername: None,
-    key: None,
-    cert: None,
-    ca: None,
-    rejectUnauthorized: None,
-    alpn_protocols: None,
-    session: None,
-  }
-}
-
-///|
-/// Convert ConnectOptions to JavaScript object
-pub fn ConnectOptions::to_any(self : ConnectOptions) -> @js.Any {
-  let obj = @js.Object::new()
-  match self.host {
-    Some(v) => obj.set("host", v)
-    None => ()
-  }
-  match self.port {
-    Some(v) => obj.set("port", v)
-    None => ()
-  }
-  match self.servername {
-    Some(v) => obj.set("servername", v)
-    None => ()
-  }
-  match self.key {
-    Some(v) => obj.set("key", v)
-    None => ()
-  }
-  match self.cert {
-    Some(v) => obj.set("cert", v)
-    None => ()
-  }
-  match self.ca {
-    Some(v) => obj.set("ca", v)
-    None => ()
-  }
-  match self.rejectUnauthorized {
-    Some(v) => obj.set("rejectUnauthorized", v)
-    None => ()
-  }
-  match self.alpn_protocols {
-    Some(v) => {
-      let arr = @js.JsArray::new()
-      let mut i = 0
-      while i < v.length() {
-        arr.call("push", [v[i]]) |> ignore
-        i = i + 1
-      }
-      obj.set("ALPNProtocols", arr)
-    }
-    None => ()
-  }
-  match self.session {
-    Some(v) => obj.set("session", v)
-    None => ()
-  }
-  obj.to_any()
-}
-
-///|
 extern "js" fn ffi_connect(options : @js.Any, callback : @js.Any) -> TLSSocket =
   #| (options, callback) => {
   #|   const tls = require('tls');
@@ -223,9 +100,35 @@ extern "js" fn ffi_connect(options : @js.Any, callback : @js.Any) -> TLSSocket =
 
 ///|
 /// Connect to a TLS server
-pub fn connect(options : ConnectOptions, callback : () -> Unit) -> TLSSocket {
+pub fn connect(
+  port : Int,
+  host : String,
+  callback : () -> Unit,
+  servername? : String,
+  key? : String,
+  cert? : String,
+  ca? : String,
+  rejectUnauthorized? : Bool,
+  alpn_protocols? : Array[String],
+  session? : @js.Object,
+) -> TLSSocket {
   let cb : @js.Any = @js.identity(callback)
-  ffi_connect(options.to_any(), cb)
+  let alpn_js : @js.Any? = match alpn_protocols {
+    Some(v) => Some(array_to_js_array(v).to_any())
+    None => None
+  }
+  let opts = @js.from_entries_option([
+    ("port", Some(port)),
+    ("host", Some(host)),
+    ("servername", servername.map(x => x)),
+    ("key", key.map(x => x)),
+    ("cert", cert.map(x => x)),
+    ("ca", ca.map(x => x)),
+    ("rejectUnauthorized", rejectUnauthorized.map(x => x)),
+    ("ALPNProtocols", alpn_js.map(x => x)),
+    ("session", session.map(x => x)),
+  ])
+  ffi_connect(opts, cb)
 }
 
 ///|

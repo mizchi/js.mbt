@@ -7,46 +7,19 @@ import(
 )
 
 // Values
-fn connect(ConnectOptions, () -> Unit) -> TLSSocket
+fn connect(Int, String, () -> Unit, servername? : String, key? : String, cert? : String, ca? : String, rejectUnauthorized? : Bool, alpn_protocols? : Array[String], session? : @js.Object) -> TLSSocket
 
-fn create_server(ServerOptions, (TLSSocket) -> Unit) -> Server
+fn create_server((TLSSocket) -> Unit, key? : String, cert? : String, ca? : String, pfx? : String, passphrase? : String, rejectUnauthorized? : Bool, requestCert? : Bool, alpn_protocols? : Array[String]) -> Server
 
 // Errors
 
 // Types and methods
-pub struct ConnectOptions {
-  host : String?
-  port : Int?
-  servername : String?
-  key : String?
-  cert : String?
-  ca : String?
-  rejectUnauthorized : Bool?
-  alpn_protocols : Array[String]?
-  session : @js.Object?
-}
-fn ConnectOptions::new(Int, String) -> Self
-fn ConnectOptions::to_any(Self) -> @js.Any
-
 #external
 pub type Server
 fn Server::close(Self, () -> Unit) -> Unit
 fn Server::listen(Self, Int, () -> Unit) -> Unit
 impl @js.JsImpl for Server
 impl @event.EventTargetImpl for Server
-
-pub struct ServerOptions {
-  key : String?
-  cert : String?
-  ca : String?
-  pfx : String?
-  passphrase : String?
-  rejectUnauthorized : Bool?
-  requestCert : Bool?
-  alpn_protocols : Array[String]?
-}
-fn ServerOptions::new() -> Self
-fn ServerOptions::to_any(Self) -> @js.Any
 
 #external
 pub type TLSSocket
