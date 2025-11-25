@@ -1,0 +1,51 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/duckdb"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+#alias(import_module)
+async fn importModule() -> DuckDBModule
+
+#alias(instantiate_node)
+async fn instantiateNode(DuckDBModule) -> AsyncDuckDB
+
+// Errors
+
+// Types and methods
+#external
+pub type AsyncDuckDB
+async fn AsyncDuckDB::close(Self) -> Unit
+#alias(close_sync)
+fn AsyncDuckDB::closeSync(Self) -> @js.Promise[Unit]
+async fn AsyncDuckDB::connect(Self) -> AsyncDuckDBConnection
+impl @js.JsImpl for AsyncDuckDB
+
+#external
+pub type AsyncDuckDBConnection
+async fn AsyncDuckDBConnection::close(Self) -> Unit
+#alias(close_sync)
+fn AsyncDuckDBConnection::closeSync(Self) -> @js.Promise[Unit]
+async fn AsyncDuckDBConnection::query(Self, String) -> QueryResult
+impl @js.JsImpl for AsyncDuckDBConnection
+
+#external
+pub type DuckDBModule
+impl @js.JsImpl for DuckDBModule
+
+#external
+pub type QueryResult
+#alias(num_cols)
+fn QueryResult::numCols(Self) -> Int
+#alias(num_rows)
+fn QueryResult::numRows(Self) -> Int
+fn QueryResult::schema(Self) -> @js.Any
+fn QueryResult::toArray(Self) -> @js.Any
+impl @js.JsImpl for QueryResult
+
+// Type aliases
+
+// Traits
+
