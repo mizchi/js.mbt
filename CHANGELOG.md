@@ -42,6 +42,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Progress display and diff tracking
   - Proper Ctrl-C handling and cleanup
 - **`run_promise()` function** - Cancellable promise execution support
+- **Struct-based FFI types** - Converted getter-heavy types to `pub(all) struct`
+  - CloudFlare: `CloudflareRequest`, `DurableObjectId`, `DurableObjectStub`, `DurableObjectState`
+  - Node.js: `SourceMap`, `SourceMapEntry`
+  - Hono: `HonoRequest`
+  - Direct field access instead of getter methods for better ergonomics
 
 ### Changed
 
@@ -50,10 +55,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Added `defer` resource cleanup for servers and connections
   - Improved resource management to prevent test hangs
   - Proper cleanup of event listeners and network resources
+  - Re-enabled previously disabled async tests for web streams, http, and message APIs
 
 - **Promise API improvements**
   - Integration with `moonbitlang/async/js_async`
   - Better interoperability with MoonBit's async system
+
+- **FFI type improvements**
+  - Converted getter-heavy external types to `pub(all) struct`
+  - Simplified method calls: removed redundant `to_any()` conversions
+  - Better type safety with direct field access
+  - CloudFlare example code updated to use direct field access (e.g., `req.url` instead of `req.url()`)
 
 ### Fixed
 
@@ -62,6 +74,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Fixed event listener cleanup to prevent process hanging
   - Converted setTimeout tests to Promise-based synchronization
   - Improved async test resource management
+
+### Improved
+
+- **Test coverage**
+  - Added tests for `Nullish::to_option()` covering null, undefined, and actual values
+  - Added error handling tests for all promisify functions (promisify0-3)
+  - Achieved 100% coverage on `src/any.mbt`
+  - Improved coverage on `src/async.mbt` (67% improvement)
+  - Total: 1493 tests passing
 
 ### Internal
 
