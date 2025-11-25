@@ -52,17 +52,15 @@ async test "Promise: @js.Promise::all" {
 
 ///|
 async test "Promise: @js.Promise::race" {
-  let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  @js.run_async(() => {
+  let p1 = @js.Promise::from_async(async fn() {
     @js.sleep(16)
-    resolver1.resolve(100)
+    100
   })
-  @js.run_async(() => {
-    @js.sleep(16)
-    resolver2.resolve(200)
+  let p2 = @js.Promise::from_async(async fn() {
+    @js.sleep(32)
+    200
   })
-  let race = @js.Promise::race([resolver1.promise, resolver2.promise])
+  let race = @js.Promise::race([p1, p2])
   let result = race.wait()
   assert_eq(result, 100)
 }
@@ -114,34 +112,30 @@ async test "Promise: @js.Promise::race with single promise" {
 
 ///|
 async test "Promise: @js.Promise::any returns first fulfilled promise" {
-  let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  @js.run_async(() => {
+  let p1 = @js.Promise::from_async(async fn() {
     @js.sleep(48)
-    resolver1.resolve(100)
+    100
   })
-  @js.run_async(() => {
+  let p2 = @js.Promise::from_async(async fn() {
     @js.sleep(16)
-    resolver2.resolve(200)
+    200
   })
-  let any_result = @js.Promise::any([resolver1.promise, resolver2.promise])
+  let any_result = @js.Promise::any([p1, p2])
   let result = any_result.wait()
   inspect(result, content="200")
 }
 
 ///|
 async test "Promise: @js.Promise::allSettled handles both fulfilled and rejected" {
-  let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  @js.run_async(() => {
+  let p1 = @js.Promise::from_async(async fn() {
     @js.sleep(16)
-    resolver1.resolve(42)
+    42
   })
-  @js.run_async(() => {
+  let p2 = @js.Promise::from_async(async fn() {
     @js.sleep(16)
-    resolver2.resolve(100)
+    100
   })
-  let settled = @js.Promise::allSettled([resolver1.promise, resolver2.promise])
+  let settled = @js.Promise::allSettled([p1, p2])
   let results = settled.wait()
   inspect(results.length(), content="2")
 }
@@ -432,26 +426,19 @@ async test "Promise: nested promises" {
 
 ///|
 async test "Promise: @js.Promise::all with mixed resolution times" {
-  let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver3 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  @js.run_async(() => {
+  let p1 = @js.Promise::from_async(async fn() {
     @js.sleep(16)
-    resolver1.resolve(1)
+    1
   })
-  @js.run_async(() => {
-    @js.sleep(16)
-    resolver2.resolve(2)
+  let p2 = @js.Promise::from_async(async fn() {
+    @js.sleep(32)
+    2
   })
-  @js.run_async(() => {
-    @js.sleep(16)
-    resolver3.resolve(3)
+  let p3 = @js.Promise::from_async(async fn() {
+    @js.sleep(48)
+    3
   })
-  let all = @js.Promise::all([
-    resolver1.promise,
-    resolver2.promise,
-    resolver3.promise,
-  ])
+  let all = @js.Promise::all([p1, p2, p3])
   let results = all.wait()
   assert_eq(results[0], 1)
   assert_eq(results[1], 2)
@@ -496,17 +483,15 @@ async test "Promise: @js.Promise::then with raise and catch" {
 ///|
 /// @js.Promise::any resolves with first fulfilled promise
 async test "Promise: @js.Promise::any returns first fulfilled promise (2)" {
-  let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  @js.run_async(() => {
+  let p1 = @js.Promise::from_async(async fn() {
     @js.sleep(200)
-    resolver1.resolve(100)
+    100
   })
-  @js.run_async(() => {
+  let p2 = @js.Promise::from_async(async fn() {
     @js.sleep(16)
-    resolver2.resolve(200)
+    200
   })
-  let any_result = @js.Promise::any([resolver1.promise, resolver2.promise])
+  let any_result = @js.Promise::any([p1, p2])
   let result = any_result.wait()
   inspect(result, content="200")
 }
@@ -514,17 +499,15 @@ async test "Promise: @js.Promise::any returns first fulfilled promise (2)" {
 ///|
 /// @js.Promise::allSettled waits for all promises
 async test "Promise: @js.Promise::allSettled handles both fulfilled and rejected (2)" {
-  let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  @js.run_async(() => {
+  let p1 = @js.Promise::from_async(async fn() {
     @js.sleep(16)
-    resolver1.resolve(42)
+    42
   })
-  @js.run_async(() => {
+  let p2 = @js.Promise::from_async(async fn() {
     @js.sleep(16)
-    resolver2.resolve(100)
+    100
   })
-  let settled = @js.Promise::allSettled([resolver1.promise, resolver2.promise])
+  let settled = @js.Promise::allSettled([p1, p2])
   let results = settled.wait()
   inspect(results.length(), content="2")
 }
