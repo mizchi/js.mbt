@@ -13,3 +13,4 @@ test_*.txt
 test_*
 .test_baseline.json
 bisect.coverage
+.env

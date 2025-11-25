@@ -7,7 +7,7 @@
   "devDependencies": {
     "@ai-sdk/anthropic": "2.0.43",
     "@cloudflare/vitest-pool-workers": "^0.10.10",
-    "@cloudflare/workers-types": "^4.20251121.0",
+    "@cloudflare/workers-types": "^4.20251125.0",
     "@electric-sql/pglite": "^0.3.14",
     "@modelcontextprotocol/sdk": "^1.22.0",
     "@testing-library/react": "16.3.0",
@@ -30,7 +30,8 @@
     "vite": "^7.2.4",
     "vitest": "^3.2.4",
     "wrangler": "^4.50.0",
-    "zod": "^4.1.12"
+    "zod": "^4.1.13",
+    "zod-to-json-schema": "^3.25.0"
   },
   "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b",
   "dependencies": {
