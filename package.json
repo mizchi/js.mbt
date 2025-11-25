@@ -22,6 +22,8 @@
     "fake-indexeddb": "^6.2.5",
     "global-jsdom": "27.0.0",
     "hono": "^4.10.6",
+    "ink": "^6.5.1",
+    "ink-testing-library": "^4.0.0",
     "jsdom": "27.0.1",
     "puppeteer": "^24.31.0",
     "react": "19.2.0",
