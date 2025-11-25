@@ -503,4 +503,83 @@ fn main {
     let stdout_text = decode_uint8array(output.stdout())
     assert_true(stdout_text.contains("arg1"))
   })
+
+  // Test Web Worker (Deno supports Web Workers natively)
+  d.test_async("Web Worker basic", async fn(_ctx) {
+    // Create an inline worker using Blob URL
+    let worker_code =
+      #|self.onmessage = (e) => {
+      #|  const result = e.data * 2;
+      #|  self.postMessage(result);
+      #|};
+    let worker = create_inline_worker(worker_code)
+
+    // Set up message handler and wait for response
+    let result = worker_round_trip(worker, @js.any(21))
+    let value : Int = @js.identity(result)
+    assert_eq(value, 42)
+    worker.terminate()
+  })
+
+  // Test Web Worker with object message
+  d.test_async("Web Worker object message", async fn(_ctx) {
+    let worker_code =
+      #|self.onmessage = (e) => {
+      #|  const { a, b } = e.data;
+      #|  self.postMessage({ sum: a + b, product: a * b });
+      #|};
+    let worker = create_inline_worker(worker_code)
+    let msg = @js.Object::new()
+    msg.set("a", 3)
+    msg.set("b", 4)
+    let result = worker_round_trip(worker, msg.to_any())
+    let sum : Int = @js.identity(result.get("sum"))
+    let product : Int = @js.identity(result.get("product"))
+    assert_eq(sum, 7)
+    assert_eq(product, 12)
+    worker.terminate()
+  })
+
+  // Test Web Worker with string message
+  d.test_async("Web Worker string message", async fn(_ctx) {
+    let worker_code =
+      #|self.onmessage = (e) => {
+      #|  self.postMessage("Hello, " + e.data + "!");
+      #|};
+    let worker = create_inline_worker(worker_code)
+    let result = worker_round_trip(worker, @js.any("World"))
+    let text : String = @js.identity(result)
+    assert_eq(text, "Hello, World!")
+    worker.terminate()
+  })
+}
+
+///|
+/// Create an inline Web Worker from JavaScript code string
+extern "js" fn create_inline_worker(code : String) -> @worker.Worker =
+  #| (code) => {
+  #|   const blob = new Blob([code], { type: "application/javascript" });
+  #|   const url = URL.createObjectURL(blob);
+  #|   return new Worker(url, { type: "module" });
+  #| }
+
+///|
+/// Send message to worker and wait for response (Promise-based)
+extern "js" fn worker_round_trip_ffi(
+  worker : @worker.Worker,
+  message : @js.Any,
+) -> @js.Promise[@js.Any] =
+  #| (worker, message) => {
+  #|   return new Promise((resolve) => {
+  #|     worker.onmessage = (e) => resolve(e.data);
+  #|     worker.postMessage(message);
+  #|   });
+  #| }
+
+///|
+async fn worker_round_trip(
+  worker : @worker.Worker,
+  message : @js.Any,
+) -> @js.Any {
+  worker_round_trip_ffi(worker, message).wait()
 }
