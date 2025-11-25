@@ -105,3 +105,12 @@ pub async fn sleep(ms : Int) -> Unit noraise {
     _ => panic()
   }
 }
+
+///|
+/// Async dispose (Symbol.asyncDispose)
+/// Usage: defer value |> dispose_async
+pub async fn dispose_async(value : &JsImpl) -> Unit {
+  let dispose_fn = value.to_any().get(Symbol::asyncDispose())
+  let promise : Promise[Unit] = dispose_fn.call_self0() |> identity
+  promise.wait()
+}

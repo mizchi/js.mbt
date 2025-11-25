@@ -350,6 +350,8 @@ pub suberror ThrowError {
   EvalError(JsError)
   /// AggregateError - Multiple errors wrapped together
   AggregateError(JsError)
+  /// SuppressedError - Error suppressed during disposal
+  SuppressedError(JsError)
   /// Generic JavaScript Error including custom errors
   Error(JsError)
   /// Non-error value thrown
@@ -374,7 +376,8 @@ pub impl Show for ThrowError with to_string(self) {
     | SyntaxError(err)
     | URIError(err)
     | EvalError(err)
-    | AggregateError(err) => err.message
+    | AggregateError(err)
+    | SuppressedError(err) => err.message
     Value(val) => val.to_string()
   }
 }
@@ -410,6 +413,8 @@ pub fn ThrowError::from_js(value : Any) -> ThrowError {
     ThrowError::EvalError(identity(value))
   } else if ffi_instance_of(value, global.get("AggregateError")) {
     ThrowError::AggregateError(identity(value))
+  } else if ffi_instance_of(value, global.get("SuppressedError")) {
+    ThrowError::SuppressedError(identity(value))
   } else if JsError::isError(value) {
     // Generic Error or custom error types
     ThrowError::Error(identity(value))

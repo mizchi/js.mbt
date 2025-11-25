@@ -670,3 +670,22 @@ test "call_self_throwable with error" {
   let result = try? throw_fn.call_self_throwable([])
   assert_true(result is Err(_))
 }
+
+///| SuppressedError tests
+
+///|
+test "SuppressedError instanceof check" {
+  let suppressed_error_cls = globalThis().get("SuppressedError")
+  let err1 = JsError::new("Error 1")
+  let err2 = JsError::new("Error 2")
+  let suppressed_err = new_(suppressed_error_cls, [
+    err1.to_any(),
+    err2.to_any(),
+    @js.any("Suppressed error message"),
+  ])
+  // Check instanceof
+  assert_true(@js.instanceof_(suppressed_err, suppressed_error_cls))
+  // Check ThrowError::from_js
+  let throw_err = ThrowError::from_js(suppressed_err)
+  inspect(throw_err, content="Suppressed error message")
+}

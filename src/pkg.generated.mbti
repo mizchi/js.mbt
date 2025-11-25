@@ -26,6 +26,8 @@ fn decodeURI(String) -> String
 #alias(decode_uri_component)
 fn decodeURIComponent(String) -> String
 
+async fn dispose_async(&JsImpl) -> Unit
+
 #alias(dynamic_import)
 fn dynamicImport(String) -> Any
 
@@ -143,6 +145,7 @@ pub suberror ThrowError {
   URIError(JsError)
   EvalError(JsError)
   AggregateError(JsError)
+  SuppressedError(JsError)
   Error(JsError)
   Value(Any)
 }
