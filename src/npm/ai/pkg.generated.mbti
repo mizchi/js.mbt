@@ -12,9 +12,9 @@ import(
 // Types and methods
 #external
 pub type Ai
-async fn Ai::generate_text(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double) -> GenerateTextResult
+async fn Ai::generateText(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int) -> GenerateTextResult
 fn Ai::require() -> Self
-fn Ai::stream_text(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double) -> StreamTextResultHandle
+fn Ai::streamText(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int) -> StreamTextResultHandle
 impl @js.JsImpl for Ai
 
 pub(all) struct CallWarning {
@@ -90,9 +90,10 @@ pub(all) struct LanguageModelResponseMetadata {
 fn LanguageModelResponseMetadata::from_any(@js.Any) -> Self
 
 pub(all) struct LanguageModelUsage {
-  prompt_tokens : Int
-  completion_tokens : Int
+  input_tokens : Int
+  output_tokens : Int
   total_tokens : Int
+  cached_input_tokens : Int
 }
 fn LanguageModelUsage::from_any(@js.Any) -> Self
 
@@ -167,11 +168,12 @@ fn StepResult::from_any(@js.Any) -> Self
 
 #external
 pub type StreamTextResultHandle
-async fn StreamTextResultHandle::finish_reason(Self) -> FinishReason
-fn StreamTextResultHandle::full_stream_raw(Self) -> @js.AsyncIterator[@js.Any]
+async fn StreamTextResultHandle::finishReason(Self) -> FinishReason
+fn StreamTextResultHandle::fullStream(Self) -> TextStreamPartIterator
+fn StreamTextResultHandle::fullStreamRaw(Self) -> @js.AsyncIterator[@js.Any]
 async fn StreamTextResultHandle::steps(Self) -> Array[StepResult]
 async fn StreamTextResultHandle::text(Self) -> String
-fn StreamTextResultHandle::text_stream(Self) -> @js.AsyncIterator[String]
+fn StreamTextResultHandle::textStream(Self) -> @js.AsyncIterator[String]
 async fn StreamTextResultHandle::usage(Self) -> LanguageModelUsage
 impl @js.JsImpl for StreamTextResultHandle
 
@@ -190,6 +192,8 @@ pub(all) enum TextStreamPart {
   ToolCallPart(tool_call~ : ToolCall)
   ToolResultPart(tool_result~ : ToolResult)
   ToolErrorPart(tool_error~ : ToolError)
+  ToolOutputDeniedPart(tool_output_denied~ : ToolOutputDenied)
+  ToolApprovalRequestPart(tool_approval_request~ : ToolApprovalRequest)
   StartStep(request~ : LanguageModelRequestMetadata, warnings~ : Array[CallWarning])
   FinishStep(response~ : LanguageModelResponseMetadata, usage~ : LanguageModelUsage, finish_reason~ : FinishReason, provider_metadata~ : ProviderMetadata?)
   Start
@@ -207,12 +211,41 @@ fn TextStreamPart::is_text_part(Self) -> Bool
 fn TextStreamPart::is_tool_part(Self) -> Bool
 fn TextStreamPart::type_string(Self) -> String
 
+pub(all) struct TextStreamPartIterator {
+  raw : @js.AsyncIterator[@js.Any]
+}
+async fn TextStreamPartIterator::next(Self) -> TextStreamPart?
+
+pub(all) struct Tool {
+  description : String
+  input_schema : @js.Any
+  execute : (@js.Any) -> @js.Any
+}
+fn Tool::to_any(Self) -> @js.Any
+fn[Input, Output : ToJson] Tool::typed(description~ : String, input_schema~ : Json, (Input) -> Output) -> Self
+fn[Input, Output : ToJson] Tool::typed_async(description~ : String, input_schema~ : Json, async (Input) -> Output) -> Self
+
+pub(all) struct ToolApprovalRequest {
+  tool_call_id : String
+  tool_name : String
+  input : @js.Any
+}
+fn ToolApprovalRequest::from_any(@js.Any) -> Self
+
 pub(all) struct ToolCall {
   tool_call_id : String
   tool_name : String
-  args : @js.Any
+  input : @js.Any
 }
 fn ToolCall::from_any(@js.Any) -> Self
+
+pub(all) enum ToolChoice {
+  Auto
+  Required
+  None_
+  Tool(String)
+}
+fn ToolChoice::to_any(Self) -> @js.Any
 
 pub(all) struct ToolError {
   tool_call_id : String
@@ -222,13 +255,27 @@ pub(all) struct ToolError {
 }
 fn ToolError::from_any(@js.Any) -> Self
 
+pub(all) struct ToolOutputDenied {
+  tool_call_id : String
+  tool_name : String
+  input : @js.Any
+}
+fn ToolOutputDenied::from_any(@js.Any) -> Self
+
 pub(all) struct ToolResult {
   tool_call_id : String
   tool_name : String
-  args : @js.Any
-  result : @js.Any
+  input : @js.Any
+  output : @js.Any
 }
 fn ToolResult::from_any(@js.Any) -> Self
+
+pub(all) struct Tools {
+  tools : Map[String, Tool]
+}
+fn Tools::add(Self, String, Tool) -> Self
+fn Tools::new() -> Self
+fn Tools::to_any(Self) -> @js.Any
 
 // Type aliases
 

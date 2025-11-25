@@ -74,7 +74,7 @@ pub fn Ai::require() -> Self {
 
 ///|
 /// Generate text using the AI SDK (non-streaming)
-pub async fn Ai::generate_text(
+pub async fn Ai::generateText(
   self : Self,
   model~ : Model,
   messages? : Array[ModelMessage],
@@ -82,32 +82,38 @@ pub async fn Ai::generate_text(
   system? : String,
   max_tokens? : Int,
   temperature? : Double,
+  tools? : Tools,
+  tool_choice? : ToolChoice,
+  max_steps? : Int,
 ) -> GenerateTextResult {
   let opts = @js.Object::new()
   opts.set("model", model.to_any())
-  match messages {
-    Some(msgs) => opts.set("messages", msgs.map(_.to_any()) |> @js.from_array)
-    None => ()
+  if messages is Some(msgs) {
+    opts.set("messages", msgs.map(_.to_any()) |> @js.from_array)
   }
-  match prompt {
-    Some(p) => opts.set("prompt", p)
-    None => ()
+  if prompt is Some(p) {
+    opts.set("prompt", p)
   }
-  match system {
-    Some(s) => opts.set("system", s)
-    None => ()
+  if system is Some(s) {
+    opts.set("system", s)
   }
-  match max_tokens {
-    Some(t) => opts.set("maxTokens", t)
-    None => ()
+  if max_tokens is Some(t) {
+    opts.set("maxTokens", t)
   }
-  match temperature {
-    Some(t) => opts.set("temperature", t)
-    None => ()
+  if temperature is Some(t) {
+    opts.set("temperature", t)
   }
-  let promise : @js.Promise[@js.Any] = @js.identity(
-    self.to_any().get("generateText").call_self([opts.to_any()]),
-  )
+  if tools is Some(t) {
+    opts.set("tools", t.to_any())
+  }
+  if tool_choice is Some(tc) {
+    opts.set("toolChoice", tc.to_any())
+  }
+  if max_steps is Some(ms) {
+    opts.set("maxSteps", ms)
+  }
+  let promise : @js.Promise[@js.Any] = self.call("generateText", [opts])
+    |> @js.identity
   let result = promise.wait()
   GenerateTextResult::from_any(result)
 }
@@ -123,7 +129,7 @@ pub impl @js.JsImpl for StreamTextResultHandle
 ///|
 /// Stream text using the AI SDK (streaming)
 /// Note: This returns synchronously but the stream itself is async
-pub fn Ai::stream_text(
+pub fn Ai::streamText(
   self : Self,
   model~ : Model,
   messages? : Array[ModelMessage],
@@ -131,28 +137,35 @@ pub fn Ai::stream_text(
   system? : String,
   max_tokens? : Int,
   temperature? : Double,
+  tools? : Tools,
+  tool_choice? : ToolChoice,
+  max_steps? : Int,
 ) -> StreamTextResultHandle {
   let opts = @js.Object::new()
   opts.set("model", model.to_any())
-  match messages {
-    Some(msgs) => opts.set("messages", msgs.map(_.to_any()) |> @js.from_array)
-    None => ()
+  if messages is Some(msgs) {
+    opts.set("messages", msgs.map(_.to_any()) |> @js.from_array)
   }
-  match prompt {
-    Some(p) => opts.set("prompt", p)
-    None => ()
+  if prompt is Some(p) {
+    opts.set("prompt", p)
   }
-  match system {
-    Some(s) => opts.set("system", s)
-    None => ()
+  if system is Some(s) {
+    opts.set("system", s)
   }
-  match max_tokens {
-    Some(t) => opts.set("maxTokens", t)
-    None => ()
+  if max_tokens is Some(t) {
+    opts.set("maxTokens", t)
   }
-  match temperature {
-    Some(t) => opts.set("temperature", t)
-    None => ()
+  if temperature is Some(t) {
+    opts.set("temperature", t)
+  }
+  if tools is Some(t) {
+    opts.set("tools", t.to_any())
+  }
+  if tool_choice is Some(tc) {
+    opts.set("toolChoice", tc.to_any())
+  }
+  if max_steps is Some(ms) {
+    opts.set("maxSteps", ms)
   }
   let result = self.to_any().get("streamText").call_self([opts.to_any()])
   @js.identity(result)
@@ -161,7 +174,7 @@ pub fn Ai::stream_text(
 ///|
 /// Get the full stream of TextStreamParts (raw iterator)
 /// Note: fullStream is an AsyncIterable, so we call [Symbol.asyncIterator]()
-pub fn StreamTextResultHandle::full_stream_raw(
+pub fn StreamTextResultHandle::fullStreamRaw(
   self : StreamTextResultHandle,
 ) -> @js.AsyncIterator[@js.Any] {
   let iterable = self.to_any().get("fullStream")
@@ -171,9 +184,36 @@ pub fn StreamTextResultHandle::full_stream_raw(
 }
 
 ///|
+/// Typed async iterator wrapper that converts raw JS values to TextStreamPart
+pub(all) struct TextStreamPartIterator {
+  raw : @js.AsyncIterator[@js.Any]
+}
+
+///|
+/// Get next TextStreamPart from the stream
+pub async fn TextStreamPartIterator::next(
+  self : TextStreamPartIterator,
+) -> TextStreamPart? {
+  match self.raw.next() {
+    Some(raw) => Some(TextStreamPart::from_any(raw))
+    None => None
+  }
+}
+
+///|
+/// Get the full stream as typed TextStreamPart iterator
+pub fn StreamTextResultHandle::fullStream(
+  self : StreamTextResultHandle,
+) -> TextStreamPartIterator {
+  let iterable = self.to_any().get("fullStream")
+  let iter = iterable.call(@js.Symbol::asyncIterator(), [])
+  { raw: @js.identity(iter) }
+}
+
+///|
 /// Get the text stream (only text deltas)
 /// Note: textStream is an AsyncIterable (ReadableStream), so we call [Symbol.asyncIterator]()
-pub fn StreamTextResultHandle::text_stream(
+pub fn StreamTextResultHandle::textStream(
   self : StreamTextResultHandle,
 ) -> @js.AsyncIterator[String] {
   let iterable = self.to_any().get("textStream")
@@ -193,7 +233,7 @@ pub async fn StreamTextResultHandle::text(
 
 ///|
 /// Get the finish reason (consumes stream)
-pub async fn StreamTextResultHandle::finish_reason(
+pub async fn StreamTextResultHandle::finishReason(
   self : StreamTextResultHandle,
 ) -> FinishReason {
   let promise : @js.Promise[@js.Any] = @js.identity(
@@ -233,7 +273,7 @@ async test "ai generate_text" {
     .get("anthropic")
     .call_self(["claude-sonnet-4-20250514"]),
   )
-  let result = ai.generate_text(model~, prompt="Say hello in one word") catch {
+  let result = ai.generateText(model~, prompt="Say hello in one word") catch {
     @js.ThrowError::Error(e) => {
       @js.log(e)
       return
@@ -258,9 +298,9 @@ async test "ai stream_text" {
     .call_self(["claude-sonnet-4-20250514"]),
   )
   // stream_text is synchronous
-  let stream = ai.stream_text(model~, prompt="Count from 1 to 5")
+  let stream = ai.streamText(model~, prompt="Count from 1 to 5")
   // Iterate over the text stream using async iterator
-  let text_iter = stream.text_stream()
+  let text_iter = stream.textStream()
   while true {
     match text_iter.next() {
       Some(chunk) => @js.log("Chunk: " + chunk)

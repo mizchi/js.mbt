@@ -1,6 +1,7 @@
 {
   "is-main": true,
   "import": [
+    "moonbitlang/async",
     "mizchi/js",
     "mizchi/js/node",
     "mizchi/js/node/process",

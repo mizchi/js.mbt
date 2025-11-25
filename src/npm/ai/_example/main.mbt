@@ -1,127 +1,174 @@
 ///| AI SDK Example - Generate Text
 
 ///|
-fn get_anthropic_model(model_id : String) -> @ai.Model {
-  @js.identity(
-    @node.require("@ai-sdk/anthropic").get("anthropic").call_self([model_id]),
-  )
+/// Helper to create Anthropic model
+fn anthropic(model_id : String) -> @ai.Model {
+  @node.require("@ai-sdk/anthropic")
+  .get("anthropic")
+  .call_self([model_id])
+  .cast()
 }
 
 ///|
-async fn run_generate_text() -> Unit {
-  let ai = @ai.Ai::require()
-  let model = get_anthropic_model("claude-sonnet-4-20250514")
-  @js.log("=== Generate Text Test ===")
-  let result = ai.generate_text(
+/// Format usage for display
+fn format_usage(usage : @ai.LanguageModelUsage) -> String {
+  "Input: \{usage.input_tokens}, Output: \{usage.output_tokens}, Total: \{usage.total_tokens}"
+}
+
+///|
+/// Example: generate_text - simple one-shot generation
+async fn example_generate_text(ai : @ai.Ai, model : @ai.Model) -> Unit {
+  @js.log("=== Generate Text ===")
+  let result = ai.generateText(
     model~,
-    prompt="Say hello in exactly one word.",
+    prompt="Say hello in one word.",
     max_tokens=50,
   ) catch {
-    @js.ThrowError::Error(e) => {
-      @js.log("Error: " + e.message)
-      @js.log("Stack: " + e.stack)
-      return
-    }
     e => {
-      @js.log(e)
+      @js.log("Error: \{e}")
       return
     }
   }
-  @js.log("Text: " + result.text)
-  @js.log("Finish reason: " + result.finish_reason.to_string())
-  @js.log(
-    "Usage - Input: " +
-    result.usage.input_tokens.to_string() +
-    ", Output: " +
-    result.usage.output_tokens.to_string() +
-    ", Total: " +
-    result.usage.total_tokens.to_string(),
-  )
-  // Check response metadata
-  match result.response.model_id {
-    Some(id) => @js.log("Model ID: " + id)
-    None => @js.log("Model ID: (none)")
-  }
+  @js.log("Text: \{result.text}")
+  @js.log("Finish: \{result.finish_reason}")
+  @js.log("Usage: \{format_usage(result.usage)}")
 }
 
 ///|
-async fn run_stream_text() -> Unit {
-  let ai = @ai.Ai::require()
-  let model = get_anthropic_model("claude-sonnet-4-20250514")
-  @js.log("\n=== Stream Text Test ===")
-  // stream_text is synchronous, stream consumption is async
-  let stream = ai.stream_text(
+/// Example: stream_text - streaming text chunks
+async fn example_stream_text(ai : @ai.Ai, model : @ai.Model) -> Unit {
+  @js.log("\n=== Stream Text ===")
+  let stream = ai.streamText(
     model~,
-    prompt="Count from 1 to 5, one number per line.",
+    prompt="Count from 1 to 5.",
     max_tokens=100,
   )
-  // Stream text chunks
-  @js.log("Streaming chunks:")
-  let text_iter = stream.text_stream()
-  while true {
-    match text_iter.next() {
-      Some(chunk) => @process.stdout().call("write", [chunk]) |> ignore
-      None => break
+
+  // Stream text chunks to stdout
+  let iter = stream.textStream()
+  loop iter.next() {
+    Some(chunk) => {
+      @process.stdout().call("write", [chunk]) |> ignore
+      continue iter.next()
     }
+    None => ()
   }
-  @js.log("\n\nStream completed.")
-  // Get final usage
+  @js.log("")
+
+  // Final stats
   let usage = stream.usage() catch {
     e => {
-      @js.log(e)
+      @js.log("Error: \{e}")
       return
     }
   }
-  @js.log("Total tokens: " + usage.total_tokens.to_string())
-  let finish = stream.finish_reason() catch {
+  let finish = stream.finishReason() catch {
     e => {
-      @js.log(e)
+      @js.log("Error: \{e}")
       return
     }
   }
-  @js.log("Finish reason: " + finish.to_string())
+  @js.log("Finish: \{finish}, Tokens: \{usage.total_tokens}")
 }
 
 ///|
-async fn run_full_stream() -> Unit {
-  let ai = @ai.Ai::require()
-  let model = get_anthropic_model("claude-sonnet-4-20250514")
-  @js.log("\n=== Full Stream Test ===")
-  // stream_text is synchronous
-  let stream = ai.stream_text(model~, prompt="Hi!", max_tokens=20)
-  // Use full_stream_raw to see all stream parts
-  let full_iter = stream.full_stream_raw()
-  while true {
-    match full_iter.next() {
-      Some(part) => {
-        let parsed = @ai.TextStreamPart::from_any(part)
-        @js.log("Part type: " + parsed.type_string())
-        match parsed.get_text() {
-          Some(text) => @js.log("  Text: " + text)
-          None => ()
-        }
+/// Example: full_stream - typed stream parts
+async fn example_full_stream(ai : @ai.Ai, model : @ai.Model) -> Unit {
+  @js.log("\n=== Full Stream (typed) ===")
+  let stream = ai.streamText(model~, prompt="Hi!", max_tokens=20)
+  // Use typed fullStream() instead of fullStreamRaw()
+  let iter = stream.fullStream()
+  loop iter.next() {
+    None => ()
+    Some(part) => {
+      // part is already TextStreamPart, no need for from_any
+      let text = match part.get_text() {
+        Some(t) => " -> \"\{t}\""
+        None => ""
       }
-      None => break
+      @js.log("[\{part.type_string()}]\{text}")
+      continue iter.next()
     }
   }
-  @js.log("Full stream completed.")
 }
 
 ///|
-async fn run_all() -> Unit noraise {
-  run_generate_text() catch {
-    _ => ()
+/// Input type for weather tool - fields map to JSON schema properties
+pub(all) struct WeatherInput {
+  location : String
+}
+
+///|
+/// Output type for weather tool
+pub(all) struct WeatherOutput {
+  location : String
+  temperature : Int
+  condition : String
+} derive(ToJson)
+
+///|
+/// Example: tools - function calling with typed tools
+async fn example_tools(ai : @ai.Ai, model : @ai.Model) -> Unit {
+  // Create async typed tool with Tool::typed_async
+  let weather_tool = @ai.Tool::typed_async(
+    description="Get the current weather for a location",
+    input_schema={
+      "type": "object",
+      "properties": {
+        "location": { "type": "string", "description": "The city name" },
+      },
+      "required": ["location"],
+    },
+    async fn(input : WeatherInput) -> WeatherOutput {
+      // Can perform async operations here (API calls, DB queries, etc.)
+      { location: input.location, temperature: 22, condition: "sunny" }
+    },
+  )
+  let tools = @ai.Tools::new().add("getWeather", weather_tool)
+
+  // Call with tools
+  let result = ai.generateText(
+    model~,
+    prompt="What's the weather in Tokyo?",
+    tools~,
+    max_steps=2,
+    max_tokens=200,
+  ) catch {
+    @js.ThrowError::Error(e) => {
+      @js.log("Error: \{e.message}")
+      @js.log("Stack: \{e.stack}")
+      return
+    }
+    e => {
+      @js.log("Error: \{e}")
+      return
+    }
   }
-  run_stream_text() catch {
-    _ => ()
+
+  // Show tool calls
+  if result.tool_calls.length() > 0 {
+    @js.log("Tool calls:")
+    for tc in result.tool_calls {
+      let input_str = @js.JSON::stringify(tc.input)
+      @js.log("  - \{tc.tool_name}(\{input_str})")
+    }
   }
-  run_full_stream() catch {
-    _ => ()
+
+  // Show tool results
+  if result.tool_results.length() > 0 {
+    for tr in result.tool_results {
+      let output_str = @js.JSON::stringify(tr.output)
+      @js.log("  - \{tr.tool_name}: \{output_str}")
+    }
   }
 }
 
 ///|
-fn main {
-  @js.log("AI SDK MoonBit Bindings Test\n")
-  @js.run_async(run_all)
+async fn main {
+  let ai = @ai.Ai::require()
+  let model = anthropic("claude-sonnet-4-20250514")
+  example_generate_text(ai, model)
+  example_stream_text(ai, model)
+  example_full_stream(ai, model)
+  example_tools(ai, model)
 }

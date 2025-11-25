@@ -130,13 +130,13 @@ test "ToolCall from_any" {
   let obj = @js.Object::new()
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "get_weather")
-  let args_obj = @js.Object::new()
-  args_obj.set("city", "Tokyo")
-  obj.set("args", args_obj)
+  let input_obj = @js.Object::new()
+  input_obj.set("city", "Tokyo")
+  obj.set("input", input_obj)
   let tool_call = ToolCall::from_any(obj.to_any())
   assert_eq(tool_call.tool_call_id, "call-1")
   assert_eq(tool_call.tool_name, "get_weather")
-  let city : String = tool_call.args.get("city").cast()
+  let city : String = tool_call.input.get("city").cast()
   assert_eq(city, "Tokyo")
 }
 
@@ -145,15 +145,15 @@ test "ToolResult from_any" {
   let obj = @js.Object::new()
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "get_weather")
-  let args_obj = @js.Object::new()
-  args_obj.set("city", "Tokyo")
-  obj.set("args", args_obj)
-  obj.set("result", "Sunny, 25°C")
+  let input_obj = @js.Object::new()
+  input_obj.set("city", "Tokyo")
+  obj.set("input", input_obj)
+  obj.set("output", "Sunny, 25°C")
   let tool_result = ToolResult::from_any(obj.to_any())
   assert_eq(tool_result.tool_call_id, "call-1")
   assert_eq(tool_result.tool_name, "get_weather")
-  let result : String = tool_result.result.cast()
-  assert_eq(result, "Sunny, 25°C")
+  let output : String = tool_result.output.cast()
+  assert_eq(output, "Sunny, 25°C")
 }
 
 ///|
@@ -262,6 +262,70 @@ test "TextStreamPart from_any unknown" {
   let part = TextStreamPart::from_any(obj.to_any())
   guard part is Unknown(type_~, ..)
   assert_eq(type_, "custom-type")
+}
+
+///|
+test "ToolOutputDenied from_any" {
+  let obj = @js.Object::new()
+  obj.set("toolCallId", "call-1")
+  obj.set("toolName", "get_weather")
+  let input_obj = @js.Object::new()
+  input_obj.set("city", "Tokyo")
+  obj.set("input", input_obj)
+  let denied = ToolOutputDenied::from_any(obj.to_any())
+  assert_eq(denied.tool_call_id, "call-1")
+  assert_eq(denied.tool_name, "get_weather")
+  let city : String = denied.input.get("city").cast()
+  assert_eq(city, "Tokyo")
+}
+
+///|
+test "ToolApprovalRequest from_any" {
+  let obj = @js.Object::new()
+  obj.set("toolCallId", "call-2")
+  obj.set("toolName", "delete_file")
+  let input_obj = @js.Object::new()
+  input_obj.set("path", "/tmp/test.txt")
+  obj.set("input", input_obj)
+  let request = ToolApprovalRequest::from_any(obj.to_any())
+  assert_eq(request.tool_call_id, "call-2")
+  assert_eq(request.tool_name, "delete_file")
+  let path : String = request.input.get("path").cast()
+  assert_eq(path, "/tmp/test.txt")
+}
+
+///|
+test "TextStreamPart from_any tool-output-denied" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-output-denied")
+  obj.set("toolCallId", "call-1")
+  obj.set("toolName", "get_weather")
+  let input_obj = @js.Object::new()
+  input_obj.set("city", "Tokyo")
+  obj.set("input", input_obj)
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is ToolOutputDeniedPart(tool_output_denied~)
+  assert_eq(tool_output_denied.tool_call_id, "call-1")
+  assert_eq(tool_output_denied.tool_name, "get_weather")
+  assert_eq(part.type_string(), "tool-output-denied")
+  assert_eq(part.is_tool_part(), true)
+}
+
+///|
+test "TextStreamPart from_any tool-approval-request" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-approval-request")
+  obj.set("toolCallId", "call-2")
+  obj.set("toolName", "delete_file")
+  let input_obj = @js.Object::new()
+  input_obj.set("path", "/tmp/test.txt")
+  obj.set("input", input_obj)
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is ToolApprovalRequestPart(tool_approval_request~)
+  assert_eq(tool_approval_request.tool_call_id, "call-2")
+  assert_eq(tool_approval_request.tool_name, "delete_file")
+  assert_eq(part.type_string(), "tool-approval-request")
+  assert_eq(part.is_tool_part(), true)
 }
 
 ///|

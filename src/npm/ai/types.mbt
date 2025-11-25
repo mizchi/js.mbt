@@ -38,7 +38,11 @@ pub fn LanguageModelUsage::from_any(value : @js.Any) -> LanguageModelUsage {
     input_tokens: value.get("inputTokens").cast(),
     output_tokens: value.get("outputTokens").cast(),
     total_tokens: value.get("totalTokens").cast(),
-    cached_input_tokens: if @js.is_undefined(cached) { 0 } else { cached.cast() },
+    cached_input_tokens: if @js.is_undefined(cached) {
+      0
+    } else {
+      cached.cast()
+    },
   }
 }
 
@@ -216,10 +220,11 @@ pub fn GeneratedFile::from_any(value : @js.Any) -> GeneratedFile {
 
 ///|
 /// Tool call information
+/// Note: AI SDK v6 uses 'input' instead of 'args'
 pub(all) struct ToolCall {
   tool_call_id : String
   tool_name : String
-  args : @js.Any
+  input : @js.Any
 }
 
 ///|
@@ -227,17 +232,18 @@ pub fn ToolCall::from_any(value : @js.Any) -> ToolCall {
   {
     tool_call_id: value.get("toolCallId").cast(),
     tool_name: value.get("toolName").cast(),
-    args: value.get("args"),
+    input: value.get("input"),
   }
 }
 
 ///|
 /// Tool result information
+/// Note: AI SDK v6 uses 'input' and 'output' instead of 'args' and 'result'
 pub(all) struct ToolResult {
   tool_call_id : String
   tool_name : String
-  args : @js.Any
-  result : @js.Any
+  input : @js.Any
+  output : @js.Any
 }
 
 ///|
@@ -245,8 +251,8 @@ pub fn ToolResult::from_any(value : @js.Any) -> ToolResult {
   {
     tool_call_id: value.get("toolCallId").cast(),
     tool_name: value.get("toolName").cast(),
-    args: value.get("args"),
-    result: value.get("result"),
+    input: value.get("input"),
+    output: value.get("output"),
   }
 }
 
@@ -266,6 +272,172 @@ pub fn ToolError::from_any(value : @js.Any) -> ToolError {
     tool_name: value.get("toolName").cast(),
     args: value.get("args"),
     error: value.get("error"),
+  }
+}
+
+///|
+/// Tool output denied information
+/// Represents when tool output is denied (e.g., by human-in-the-loop validation)
+pub(all) struct ToolOutputDenied {
+  tool_call_id : String
+  tool_name : String
+  input : @js.Any
+}
+
+///|
+pub fn ToolOutputDenied::from_any(value : @js.Any) -> ToolOutputDenied {
+  {
+    tool_call_id: value.get("toolCallId").cast(),
+    tool_name: value.get("toolName").cast(),
+    input: value.get("input"),
+  }
+}
+
+///|
+/// Tool approval request information
+/// Represents a request for human approval before executing a tool
+pub(all) struct ToolApprovalRequest {
+  tool_call_id : String
+  tool_name : String
+  input : @js.Any
+}
+
+///|
+pub fn ToolApprovalRequest::from_any(value : @js.Any) -> ToolApprovalRequest {
+  {
+    tool_call_id: value.get("toolCallId").cast(),
+    tool_name: value.get("toolName").cast(),
+    input: value.get("input"),
+  }
+}
+
+///|
+/// Tool definition for AI SDK
+pub(all) struct Tool {
+  /// Tool description for the model
+  description : String
+  /// JSON Schema for input parameters (raw JSON schema object)
+  input_schema : @js.Any
+  /// Execute function (receives parsed args, returns result)
+  execute : (@js.Any) -> @js.Any
+}
+
+///|
+/// Create a typed tool with input/output type conversion.
+/// Input type must be convertible from @js.Any (via @js.identity cast).
+/// Output type must implement ToJson for serialization.
+pub fn[Input, Output : ToJson] Tool::typed(
+  description~ : String,
+  input_schema~ : Json,
+  execute : (Input) -> Output,
+) -> Tool {
+  {
+    description,
+    input_schema: @js.from_json(input_schema),
+    execute: fn(args) {
+      let typed_input : Input = @js.identity(args)
+      let result = execute(typed_input)
+      @js.from_json(result.to_json())
+    },
+  }
+}
+
+///|
+/// Create an async typed tool with input/output type conversion.
+/// Input type must be convertible from @js.Any (via @js.identity cast).
+/// Output type must implement ToJson for serialization.
+/// The execute function can be async for API calls, database access, etc.
+pub fn[Input, Output : ToJson] Tool::typed_async(
+  description~ : String,
+  input_schema~ : Json,
+  execute : async (Input) -> Output,
+) -> Tool {
+  // Wrap async function with promisify1 to return a Promise
+  let promisified = @js.promisify1(async fn(args : @js.Any) -> @js.Any {
+    let typed_input : Input = @js.identity(args)
+    let result = execute(typed_input)
+    @js.from_json(result.to_json())
+  })
+  {
+    description,
+    input_schema: @js.from_json(input_schema),
+    execute: fn(args) { promisified(args) |> @js.identity },
+  }
+}
+
+///|
+/// Convert Tool to JS object format expected by AI SDK
+/// Note: AI SDK v6 requires inputSchema to be wrapped with jsonSchema()
+pub fn Tool::to_any(self : Tool) -> @js.Any {
+  let ai_module = @node.require("ai")
+  let json_schema_fn = ai_module.get("jsonSchema")
+  let obj = @js.Object::new()
+  obj.set("description", self.description)
+  // Wrap with jsonSchema() helper from AI SDK
+  let wrapped_schema = json_schema_fn.call_self([self.input_schema])
+  obj.set("inputSchema", wrapped_schema)
+  // Wrap execute function
+  let execute_fn : @js.Any = @js.identity(fn(args : @js.Any) -> @js.Any {
+    (self.execute)(args)
+  })
+  obj.set("execute", execute_fn)
+  obj.to_any()
+}
+
+///|
+/// Tool collection - maps tool names to tool definitions
+pub(all) struct Tools {
+  tools : Map[String, Tool]
+}
+
+///|
+/// Create empty tools collection
+pub fn Tools::new() -> Tools {
+  { tools: {} }
+}
+
+///|
+/// Add a tool to the collection
+pub fn Tools::add(self : Tools, name : String, tool : Tool) -> Tools {
+  self.tools[name] = tool
+  self
+}
+
+///|
+/// Convert Tools to JS object format
+pub fn Tools::to_any(self : Tools) -> @js.Any {
+  let obj = @js.Object::new()
+  for name, tool in self.tools {
+    obj.set(name, tool.to_any())
+  }
+  obj.to_any()
+}
+
+///|
+/// Tool choice options
+pub(all) enum ToolChoice {
+  /// Model decides whether to use tools
+  Auto
+  /// Model must use at least one tool
+  Required
+  /// Model cannot use tools
+  None_
+  /// Force specific tool
+  Tool(String)
+}
+
+///|
+pub fn ToolChoice::to_any(self : ToolChoice) -> @js.Any {
+  match self {
+    Auto => "auto" |> @js.any
+    Required => "required" |> @js.any
+    None_ => "none" |> @js.any
+    Tool(name) => {
+      let obj = @js.Object::new()
+      obj.set("type", "tool")
+      obj.set("toolName", name)
+      obj.to_any()
+    }
   }
 }
 
@@ -366,6 +538,8 @@ pub(all) enum TextStreamPart {
   ToolCallPart(tool_call~ : ToolCall)
   ToolResultPart(tool_result~ : ToolResult)
   ToolErrorPart(tool_error~ : ToolError)
+  ToolOutputDeniedPart(tool_output_denied~ : ToolOutputDenied)
+  ToolApprovalRequestPart(tool_approval_request~ : ToolApprovalRequest)
   // Step parts
   StartStep(
     request~ : LanguageModelRequestMetadata,
@@ -489,6 +663,12 @@ pub fn TextStreamPart::from_any(value : @js.Any) -> TextStreamPart {
     "tool-call" => ToolCallPart(tool_call=ToolCall::from_any(value))
     "tool-result" => ToolResultPart(tool_result=ToolResult::from_any(value))
     "tool-error" => ToolErrorPart(tool_error=ToolError::from_any(value))
+    "tool-output-denied" =>
+      ToolOutputDeniedPart(tool_output_denied=ToolOutputDenied::from_any(value))
+    "tool-approval-request" =>
+      ToolApprovalRequestPart(
+        tool_approval_request=ToolApprovalRequest::from_any(value),
+      )
     "start-step" => {
       let warnings_raw = value.get("warnings")
       let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) {
@@ -546,6 +726,8 @@ pub fn TextStreamPart::type_string(self : TextStreamPart) -> String {
     ToolCallPart(..) => "tool-call"
     ToolResultPart(..) => "tool-result"
     ToolErrorPart(..) => "tool-error"
+    ToolOutputDeniedPart(..) => "tool-output-denied"
+    ToolApprovalRequestPart(..) => "tool-approval-request"
     StartStep(..) => "start-step"
     FinishStep(..) => "finish-step"
     Start => "start"
@@ -584,7 +766,9 @@ pub fn TextStreamPart::is_tool_part(self : TextStreamPart) -> Bool {
     | ToolInputDelta(..)
     | ToolCallPart(..)
     | ToolResultPart(..)
-    | ToolErrorPart(..) => true
+    | ToolErrorPart(..)
+    | ToolOutputDeniedPart(..)
+    | ToolApprovalRequestPart(..) => true
     _ => false
   }
 }

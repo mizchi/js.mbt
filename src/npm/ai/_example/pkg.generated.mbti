@@ -6,6 +6,16 @@ package "mizchi/js/npm/ai/_example"
 // Errors
 
 // Types and methods
+pub(all) struct WeatherInput {
+  location : String
+}
+
+pub(all) struct WeatherOutput {
+  location : String
+  temperature : Int
+  condition : String
+}
+impl ToJson for WeatherOutput
 
 // Type aliases
 
