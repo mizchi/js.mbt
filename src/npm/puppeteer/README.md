@@ -161,11 +161,11 @@ page.goForward()!
 let cookies = page.cookies()!
 
 // Set cookies
-let cookie = @js.from_entries([
-  ("name", "session"),
-  ("value", "abc123"),
-  ("domain", ".example.com")
-])
+let cookie = @js.from_map({
+  "name": @js.any("session"),
+  "value": @js.any("abc123"),
+  "domain": @js.any(".example.com")
+})
 page.setCookie([cookie])!
 ```
 
@@ -203,22 +203,22 @@ page.on("request", fn(req: HTTPRequest) {
   if req.isInterceptResolutionHandled() {
     return
   }
-  let overrides = @js.from_entries([
-    ("headers", @js.from_entries([
-      ("User-Agent", "Custom User Agent")
-    ]))
-  ])
+  let overrides = @js.from_map({
+    "headers": @js.from_map({
+      "User-Agent": @js.any("Custom User Agent")
+    })
+  })
   req.continue_with(overrides)!
 })!
 
 // Mock response
 page.on("request", fn(req: HTTPRequest) {
   if req.url().contains("/api/data") {
-    let response = @js.from_entries([
-      ("status", 200),
-      ("contentType", "application/json"),
-      ("body", "{\"mock\": true}")
-    ])
+    let response = @js.from_map({
+      "status": @js.any(200),
+      "contentType": @js.any("application/json"),
+      "body": @js.any("{\"mock\": true}")
+    })
     req.respond(response)!
   } else {
     req.continue_()!
@@ -268,9 +268,9 @@ println("CSS coverage entries: \{cssCoverage.length()}")
 **Coverage with options:**
 ```moonbit
 // Start JS coverage with anonymous scripts reporting
-let options = @js.from_entries([
-  ("reportAnonymousScripts", true)
-])
+let options = @js.from_map({
+  "reportAnonymousScripts": @js.any(true)
+})
 coverage.startJSCoverage_with(options)!
 ```
 
@@ -287,9 +287,9 @@ let sessionId = session.id()
 println("Session ID: \{sessionId}")
 
 // Send CDP commands
-let params = @js.from_entries([
-  ("enabled", true)
-])
+let params = @js.from_map({
+  "enabled": @js.any(true)
+})
 session.send("Network.enable", params)!
 
 // Send command without params
@@ -305,9 +305,9 @@ session.detach()!
 session.send_simple("Network.enable")!
 
 // Set user agent override
-let uaParams = @js.from_entries([
-  ("userAgent", "Custom User Agent")
-])
+let uaParams = @js.from_map({
+  "userAgent": @js.any("Custom User Agent")
+})
 session.send("Network.setUserAgentOverride", uaParams)!
 
 // Enable DOM snapshot

@@ -31,13 +31,13 @@ pub fn Script::new(
 ) -> Script {
   let vm = vm_module()
   let script_constructor = vm.get("Script")
-  let options = @js.from_entries_option([
-    ("filename", filename.map(fn(x) { x })),
-    ("lineOffset", lineOffset.map(fn(x) { x })),
-    ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("cachedData", cachedData.map(fn(x) { x.to_any() })),
-    ("produceCachedData", produceCachedData.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "filename": filename.map(fn(x) { @js.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @js.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @js.any(x) }),
+    "cachedData": cachedData.map(fn(x) { x.to_any() }),
+    "produceCachedData": produceCachedData.map(fn(x) { @js.any(x) }),
+  })
   @js.new_(script_constructor, [code, options]) |> @js.identity
 }
 
@@ -52,14 +52,14 @@ pub fn Script::runInThisContext(
   timeout? : Int,
   breakOnSigint? : Bool,
 ) -> @js.Any {
-  let options = @js.from_entries_option([
-    ("filename", filename.map(fn(x) { x })),
-    ("lineOffset", lineOffset.map(fn(x) { x })),
-    ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("displayErrors", displayErrors.map(fn(x) { x })),
-    ("timeout", timeout.map(fn(x) { x })),
-    ("breakOnSigint", breakOnSigint.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "filename": filename.map(fn(x) { @js.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @js.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @js.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @js.any(x) }),
+  })
   self.call1("runInThisContext", options)
 }
 
@@ -78,17 +78,17 @@ pub fn Script::runInNewContext(
   contextOrigin? : String,
   microtaskMode? : String,
 ) -> @js.Any {
-  let options = @js.from_entries_option([
-    ("filename", filename.map(fn(x) { x })),
-    ("lineOffset", lineOffset.map(fn(x) { x })),
-    ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("displayErrors", displayErrors.map(fn(x) { x })),
-    ("timeout", timeout.map(fn(x) { x })),
-    ("breakOnSigint", breakOnSigint.map(fn(x) { x })),
-    ("contextName", contextName.map(fn(x) { x })),
-    ("contextOrigin", contextOrigin.map(fn(x) { x })),
-    ("microtaskMode", microtaskMode.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "filename": filename.map(fn(x) { @js.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @js.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @js.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @js.any(x) }),
+    "contextName": contextName.map(fn(x) { @js.any(x) }),
+    "contextOrigin": contextOrigin.map(fn(x) { @js.any(x) }),
+    "microtaskMode": microtaskMode.map(fn(x) { @js.any(x) }),
+  })
   match contextObject {
     Some(ctx) => self.call2("runInNewContext", ctx, options)
     None => self.call1("runInNewContext", options)
@@ -107,14 +107,14 @@ pub fn Script::runInContext(
   timeout? : Int,
   breakOnSigint? : Bool,
 ) -> @js.Any {
-  let options = @js.from_entries_option([
-    ("filename", filename.map(fn(x) { x })),
-    ("lineOffset", lineOffset.map(fn(x) { x })),
-    ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("displayErrors", displayErrors.map(fn(x) { x })),
-    ("timeout", timeout.map(fn(x) { x })),
-    ("breakOnSigint", breakOnSigint.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "filename": filename.map(fn(x) { @js.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @js.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @js.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @js.any(x) }),
+  })
   self.call2("runInContext", contextifiedObject, options)
 }
 
@@ -150,14 +150,14 @@ pub fn runInThisContext(
   breakOnSigint? : Bool,
 ) -> @js.Any {
   let vm = vm_module()
-  let options = @js.from_entries_option([
-    ("filename", filename.map(fn(x) { x })),
-    ("lineOffset", lineOffset.map(fn(x) { x })),
-    ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("displayErrors", displayErrors.map(fn(x) { x })),
-    ("timeout", timeout.map(fn(x) { x })),
-    ("breakOnSigint", breakOnSigint.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "filename": filename.map(fn(x) { @js.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @js.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @js.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @js.any(x) }),
+  })
   vm.call2("runInThisContext", code, options)
 }
 
@@ -177,17 +177,17 @@ pub fn runInNewContext(
   microtaskMode? : String,
 ) -> @js.Any {
   let vm = vm_module()
-  let options = @js.from_entries_option([
-    ("filename", filename.map(fn(x) { x })),
-    ("lineOffset", lineOffset.map(fn(x) { x })),
-    ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("displayErrors", displayErrors.map(fn(x) { x })),
-    ("timeout", timeout.map(fn(x) { x })),
-    ("breakOnSigint", breakOnSigint.map(fn(x) { x })),
-    ("contextName", contextName.map(fn(x) { x })),
-    ("contextOrigin", contextOrigin.map(fn(x) { x })),
-    ("microtaskMode", microtaskMode.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "filename": filename.map(fn(x) { @js.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @js.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @js.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @js.any(x) }),
+    "contextName": contextName.map(fn(x) { @js.any(x) }),
+    "contextOrigin": contextOrigin.map(fn(x) { @js.any(x) }),
+    "microtaskMode": microtaskMode.map(fn(x) { @js.any(x) }),
+  })
   match contextObject {
     Some(ctx) => vm.call("runInNewContext", [code, ctx, options])
     None => vm.call2("runInNewContext", code, options)
@@ -207,14 +207,14 @@ pub fn runInContext(
   breakOnSigint? : Bool,
 ) -> @js.Any {
   let vm = vm_module()
-  let options = @js.from_entries_option([
-    ("filename", filename.map(fn(x) { x })),
-    ("lineOffset", lineOffset.map(fn(x) { x })),
-    ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("displayErrors", displayErrors.map(fn(x) { x })),
-    ("timeout", timeout.map(fn(x) { x })),
-    ("breakOnSigint", breakOnSigint.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "filename": filename.map(fn(x) { @js.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @js.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @js.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @js.any(x) }),
+  })
   vm.call("runInContext", [code, contextifiedObject, options])
 }
 
@@ -227,11 +227,11 @@ pub fn createContext(
   microtaskMode? : String,
 ) -> @js.Any {
   let vm = vm_module()
-  let options = @js.from_entries_option([
-    ("name", name.map(fn(x) { x })),
-    ("origin", origin.map(fn(x) { x })),
-    ("microtaskMode", microtaskMode.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "name": name.map(fn(x) { @js.any(x) }),
+    "origin": origin.map(fn(x) { @js.any(x) }),
+    "microtaskMode": microtaskMode.map(fn(x) { @js.any(x) }),
+  })
   match contextObject {
     Some(ctx) => vm.call2("createContext", ctx, options)
     None => vm.call1("createContext", options)
@@ -259,15 +259,15 @@ pub fn compileFunction(
   contextExtensions? : Array[@js.Any],
 ) -> @js.Any {
   let vm = vm_module()
-  let options = @js.from_entries_option([
-    ("filename", filename.map(fn(x) { x })),
-    ("lineOffset", lineOffset.map(fn(x) { x })),
-    ("columnOffset", columnOffset.map(fn(x) { x })),
-    ("cachedData", cachedData.map(fn(x) { x.to_any() })),
-    ("produceCachedData", produceCachedData.map(fn(x) { x })),
-    ("parsingContext", parsingContext.map(fn(x) { x })),
-    ("contextExtensions", contextExtensions.map(fn(x) { @js.from_array(x) })),
-  ])
+  let options = @js.from_option_map({
+    "filename": filename.map(fn(x) { @js.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @js.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @js.any(x) }),
+    "cachedData": cachedData.map(fn(x) { x.to_any() }),
+    "produceCachedData": produceCachedData.map(fn(x) { @js.any(x) }),
+    "parsingContext": parsingContext,
+    "contextExtensions": contextExtensions.map(fn(x) { @js.from_array(x) }),
+  })
   match params {
     Some(p) => {
       let params_js = @js.from_array(p.map(fn(s) { s }))

@@ -28,10 +28,13 @@ Practical, executable examples of JavaScript FFI patterns using `mizchi/js`.
 Use `#external pub type` for types created by JavaScript runtime:
 
 ```moonbit
+///|
 #external
 pub type Value
 
 // Allow .get(key), set(key, val), .call()
+
+///|
 impl @js.JsImpl for Value
 ```
 
@@ -40,6 +43,7 @@ impl @js.JsImpl for Value
 Use `pub(all) struct` for data containers with known fields:
 
 ```moonbit
+///|
 pub(all) struct DOMRect {
   x : Double
   y : Double
@@ -51,13 +55,14 @@ pub(all) struct DOMRect {
 Avoid MoonBit reserved words (`method`, `ref`, `type`). Use getter functions as fallback:
 
 ```moonbit
-
 ///|
 pub struct MyValue {}
 
+///|
 pub impl @js.JsImpl for MyValue
 
-pub fn MyValue::method_(self: Self) -> String {
+///|
+pub fn MyValue::method_(self : Self) -> String {
   self.get("method").cast()
 }
 ```
@@ -65,7 +70,6 @@ pub fn MyValue::method_(self: Self) -> String {
 ## Type Conversion
 
 ```moonbit
-
 ///|
 test "type conversion" {
   // Convert MoonBit types to Js
@@ -110,17 +114,14 @@ pub(all) struct Config {
 Use `identity_option` to safely convert nullable values from JS objects:
 
 ```moonbit
-
 ///|
 test "identity_option for nullable values" {
   let obj = @js.Object::new()
   obj.set("exists", "value")
-
   let exists : String? = @js.identity_option(obj.get("exists"))
   let missing : String? = @js.identity_option(obj.get("missing"))
   assert_eq(exists, Some("value"))
   assert_eq(missing, None)
-
   match exists {
     Some(v) => assert_eq(v, "value")
     None => fail("Should have value")
@@ -131,7 +132,6 @@ test "identity_option for nullable values" {
 ## Method Calls
 
 ```moonbit
-
 ///|
 test "call0, call1, call2 methods" {
   let obj = @js.Object::new()
@@ -253,7 +253,7 @@ self.call("digest", [algorithm, data])
 
 - **MoonBit-specific wrappers**: Use snake_case
   ```
-  fn from_entries(entries : Array[(String, @js.Any)]) -> @js.Any
+  fn from_map(map : Map[String, @js.Any]) -> @js.Any
   fn to_string_radix(n : Int) -> String
   ```
 

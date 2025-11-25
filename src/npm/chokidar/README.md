@@ -247,10 +247,10 @@ Wait for file writes to complete before emitting events:
 ```moonbit
 let watcher = @chokidar.watch(
   @js.Any("downloads"),
-  awaitWriteFinish?=Some(@js.from_entries([
-    ("stabilityThreshold", 2000),
-    ("pollInterval", 100)
-  ])),
+  awaitWriteFinish?=Some(@js.from_map({
+    "stabilityThreshold": @js.any(2000),
+    "pollInterval": @js.any(100)
+  })),
   ignoreInitial?=Some(true)
 )
 ```
@@ -303,10 +303,10 @@ fn main {
     ignored?=Some(@js.Any("/(^|[\/\\])\\../")),
     persistent?=Some(true),
     ignoreInitial?=Some(true),
-    awaitWriteFinish?=Some(@js.from_entries([
-      ("stabilityThreshold", 1000),
-      ("pollInterval", 100)
-    ]))
+    awaitWriteFinish?=Some(@js.from_map({
+      "stabilityThreshold": @js.any(1000),
+      "pollInterval": @js.any(100)
+    }))
   )
 
   // Set up event handlers

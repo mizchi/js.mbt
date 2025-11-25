@@ -39,12 +39,6 @@ fn[T : JsImpl] from_array(Array[T]) -> Any
 
 async fn[T] from_callback(((T) -> Unit) -> Unit) -> T
 
-fn from_entries(Array[(String, &JsImpl)]) -> Any
-
-fn from_entries_option(Array[(String, &JsImpl?)]) -> Any
-
-fn[T : JsImpl] from_entries_option_cast(Array[(String, T?)]) -> Any
-
 fn[R] from_fn0(() -> R) -> Any
 
 fn[A, R] from_fn1((A) -> R) -> Any
@@ -58,6 +52,10 @@ fn from_json(Json) -> Any
 fn from_map(Map[String, Any]) -> Any
 
 fn[A : JsImpl] from_option(A?) -> Any
+
+fn from_option_map(Map[String, Any?]) -> Any
+
+fn from_option_map_or_undefined(Map[String, Any?]) -> Any
 
 #alias(global_this)
 fn globalThis() -> Any

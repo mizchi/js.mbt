@@ -38,8 +38,8 @@ let age: Int = obj.get("age").cast()  // Type-safe casting
 // Call methods
 let has_name: Bool = obj.call("hasOwnProperty", ["name"]).cast()
 
-// Create from entries
-let obj2 = @js.from_entries([("x", 10), ("y", 20)])
+// Create from map
+let obj2 = @js.from_map({ "x": @js.any(10), "y": @js.any(20) })
 ```
 
 ### Type Casting
@@ -146,7 +146,7 @@ let json_str = "{\"name\":\"Alice\",\"age\":30}"
 let obj = @js.JSON::parse(json_str)
 
 // Stringify
-let obj = @js.from_entries([("name", "Alice"), ("age", 30)])
+let obj = @js.from_map({ "name": @js.any("Alice"), "age": @js.any(30) })
 let json_str = @js.JSON::stringify(obj)
 
 // With formatting

@@ -2,9 +2,9 @@
 //
 // Main functions:
 // - from_array() - Convert MoonBit Array to JS Array
-// - from_map() - Convert MoonBit Map to JS Object
-// - from_entries() - Convert tuple array to JS Object
-// - from_entries_option() - Convert optional tuple array to JS Object
+// - from_map() - Convert MoonBit Map to JS Object (all keys set)
+// - from_option_map() - Convert MoonBit Map to JS Object (skip None keys)
+// - from_option_map_or_undefined() - Same as above, returns undefined if empty
 // - from_fn0/1/2/3() - Convert MoonBit functions to JS functions
 // - from_json() - Convert MoonBit Json type to JS Object
 // - to_json() / to_any() - Bidirectional conversion between Json and Js
@@ -85,81 +85,67 @@ pub fn from_map(map : Map[String, Any]) -> Any {
 }
 
 ///|
-/// Convert an array of tuples to a JavaScript object.
+/// Convert a MoonBit Map with optional values to a JavaScript object.
+/// Only sets properties where the value is Some and not nullish.
 ///
 /// # Example
 ///
 /// ```moonbit
-/// let _obj = from_entries([("name", "Alice"), ("age", 30)])
+/// let _obj = from_option_map({
+///   "name": Some(@js.any("Alice")),
+///   "age": Some(@js.any(30)),
+///   "email": None
+/// })
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
-pub fn from_entries(entries : Array[(String, &JsImpl)]) -> Any {
+pub fn from_option_map(map : Map[String, Any?]) -> Any {
   let obj = Object::new()
-  for entry in entries {
-    let (k, v) = entry
-    obj.set(k, v.to_any())
-  }
-  obj.to_any()
-}
-
-///|
-/// Convert an array of tuples with optional values to a JavaScript object.
-/// Only sets properties where the value is Some.
-///
-/// **Use this when values have mixed types (String, Int, Bool, etc).**
-/// For single-type values, use `from_entries_option_cast` which has better type inference.
-///
-/// # Example
-///
-/// ```moonbit
-/// let _obj = from_entries_option([
-///   ("name", Some("Alice")),  // String
-///   ("age", Some(30)),        // Int
-///   ("active", Some(true)),   // Bool - mixed types!
-///   ("email", None)
-/// ])
-/// // JavaScript: { name: "Alice", age: 30, active: true }
-/// ```
-pub fn from_entries_option(entries : Array[(String, &JsImpl?)]) -> Any {
-  let obj = Object::new()
-  for entry in entries {
-    let (k, v) = entry
-    match v {
-      Some(val) => obj.set(k, val.to_any())
-      None => ()
+  for k, v in map {
+    if v is Some(val) && not(ffi_is_nullish(val)) {
+      obj.set(k, val)
     }
   }
   obj.to_any()
 }
 
 ///|
-/// Convert an array of tuples with optional values to a JavaScript object.
-/// Accepts Option[T] where T: JsImpl directly without requiring .map().
-/// Only sets properties where the value is Some.
+/// Convert a MoonBit Map with optional values to a JavaScript object,
+/// returning undefined if all properties are None or nullish.
+///
+/// This is useful for JS APIs where passing undefined means "use defaults"
+/// while passing an empty object `{}` might have different behavior.
 ///
 /// # Example
 ///
 /// ```moonbit
-/// // All values are Bool - use this function!
-/// let _obj = from_entries_option_cast([
-///   ("open", Some(true)),
-///   ("readOnly", Some(false)),
-///   ("timeout", None)
-/// ])
-/// // JavaScript: { open: true, readOnly: false }
+/// // All None - returns undefined
+/// let _result = from_option_map_or_undefined({
+///   "timeout": None,
+///   "retries": None
+/// })
+/// // JavaScript: undefined
+///
+/// // Some values - returns object
+/// let _result = from_option_map_or_undefined({
+///   "timeout": Some(@js.any(5000)),
+///   "retries": None
+/// })
+/// // JavaScript: { timeout: 5000 }
 /// ```
-pub fn[T : JsImpl] from_entries_option_cast(
-  entries : Array[(String, T?)],
-) -> Any {
+pub fn from_option_map_or_undefined(map : Map[String, Any?]) -> Any {
   let obj = Object::new()
-  for entry in entries {
-    let (k, v) = entry
-    match v {
-      Some(val) => obj.set(k, val.to_any())
-      None => ()
+  let mut has_value = false
+  for k, v in map {
+    if v is Some(val) && not(ffi_is_nullish(val)) {
+      obj.set(k, val)
+      has_value = true
     }
   }
-  obj.to_any()
+  if has_value {
+    obj.to_any()
+  } else {
+    undefined()
+  }
 }
 
 ///|

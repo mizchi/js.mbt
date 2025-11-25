@@ -22,11 +22,11 @@ pub fn lookup(
   if family is None && all is None && order is None {
     ffi_lookup(hostname, @js.Object::new().to_any(), cb)
   } else {
-    let opts = @js.from_entries_option([
-      ("family", family.map(x => x)),
-      ("all", all.map(x => x)),
-      ("order", order.map(x => x)),
-    ])
+    let opts = @js.from_option_map({
+      "family": family.map(fn(x) { @js.any(x) }),
+      "all": all.map(fn(x) { @js.any(x) }),
+      "order": order.map(fn(x) { @js.any(x) }),
+    })
     ffi_lookup(hostname, opts, cb)
   }
 }

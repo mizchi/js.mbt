@@ -5,7 +5,6 @@ When `mizchi/js` doesn't provide a wrapper for a JavaScript API you need, use th
 ## Pattern: Accessing Missing Properties
 
 ```moonbit
-
 ///|
 test "access globalThis properties" {
   // Access global object
@@ -24,7 +23,6 @@ test "access globalThis properties" {
 ## Pattern: Calling Missing Methods
 
 ```moonbit
-
 ///|
 test "call methods with call()" {
   let obj = @js.Object::new()
@@ -48,7 +46,6 @@ test "call methods with call()" {
 ## Pattern: Checking API Availability
 
 ```moonbit
-
 ///|
 test "feature detection" {
   // Check if Math exists
@@ -66,7 +63,6 @@ test "feature detection" {
 ## Pattern: Accessing Nested Properties
 
 ```moonbit
-
 ///|
 test "nested property access" {
   // Create nested structure
@@ -88,7 +84,6 @@ test "nested property access" {
 ## Pattern: Safe Nested Access
 
 ```moonbit
-
 ///|
 test "safe nested access with undefined checks" {
   let obj = @js.Object::new()
@@ -101,6 +96,7 @@ test "safe nested access with undefined checks" {
     let api = config.get("api")
     if !@js.is_undefined(api) {
       let _ = api.get("endpoint")
+
     }
   }
 }
@@ -109,7 +105,6 @@ test "safe nested access with undefined checks" {
 ## Pattern: Error Handling with throwable
 
 ```moonbit
-
 ///|
 test "error handling with throwable" {
   let result = @js.throwable(fn() -> @js.Any {
@@ -127,7 +122,6 @@ test "error handling with throwable" {
 ## Pattern: Creating Instances with new_
 
 ```moonbit
-
 ///|
 test "create instances of unsupported classes" {
   // Access constructor from globalThis
@@ -138,7 +132,6 @@ test "create instances of unsupported classes" {
   map.call("set", ["key", "value"]) |> ignore
   let value = map.call1("get", "key")
   inspect(value, content="value")
-
   let size : Int = @js.identity(map.get("size"))
   assert_eq(size, 1)
 }

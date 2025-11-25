@@ -151,7 +151,7 @@ pub fn Deno::remove(
       self
       .call("remove", [
         @js.any(path),
-        @js.from_entries_option_cast([("recursive", Some(r))]),
+        @js.from_option_map({ "recursive": Some(@js.any(r)) }),
       ])
       .cast()
     None => self.call("remove", [@js.any(path)]).cast()
@@ -170,7 +170,7 @@ pub fn Deno::mkdir(
       self
       .call("mkdir", [
         @js.any(path),
-        @js.from_entries_option_cast([("recursive", Some(r))]),
+        @js.from_option_map({ "recursive": Some(@js.any(r)) }),
       ])
       .cast()
     None => self.call("mkdir", [@js.any(path)]).cast()
@@ -259,7 +259,7 @@ pub fn Deno::makeTempDir(self : Deno, prefix? : String) -> @js.Promise[String] {
   match prefix {
     Some(p) =>
       self
-      .call("makeTempDir", [@js.from_entries_option_cast([("prefix", Some(p))])])
+      .call("makeTempDir", [@js.from_option_map({ "prefix": Some(@js.any(p)) })])
       .cast()
     None => self.call("makeTempDir", []).cast()
   }
@@ -272,7 +272,7 @@ pub fn Deno::makeTempFile(self : Deno, prefix? : String) -> @js.Promise[String] 
     Some(p) =>
       self
       .call("makeTempFile", [
-        @js.from_entries_option_cast([("prefix", Some(p))]),
+        @js.from_option_map({ "prefix": Some(@js.any(p)) }),
       ])
       .cast()
     None => self.call("makeTempFile", []).cast()
@@ -339,7 +339,9 @@ pub fn Deno::connect(
   port : Int,
 ) -> @js.Promise[@js.Any] {
   self
-  .call("connect", [@js.from_entries([("hostname", hostname), ("port", port)])])
+  .call("connect", [
+    @js.from_map({ "hostname": @js.any(hostname), "port": @js.any(port) }),
+  ])
   .cast()
 }
 
@@ -347,7 +349,7 @@ pub fn Deno::connect(
 /// Listen on a network address (TCP server)
 pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> @js.Any {
   self.call("listen", [
-    @js.from_entries([("hostname", hostname), ("port", port)]),
+    @js.from_map({ "hostname": @js.any(hostname), "port": @js.any(port) }),
   ])
 }
 
@@ -366,7 +368,10 @@ pub fn Deno::resolveDns(
 ///|
 /// Serve HTTP requests (simplified version)
 pub fn Deno::serve(self : Deno, port : Int, handler : @js.Any) -> @js.Any {
-  self.call1("serve", @js.from_entries([("port", port), ("handler", handler)]))
+  self.call1(
+    "serve",
+    @js.from_map({ "port": @js.any(port), "handler": handler }),
+  )
 }
 
 ///| Permissions APIs
@@ -379,7 +384,7 @@ pub fn Deno::request_permission(
 ) -> @js.Promise[@js.Any] {
   self
   .get("permissions")
-  .call1("request", @js.from_entries([("name", name)]))
+  .call1("request", @js.from_map({ "name": @js.any(name) }))
   .cast()
 }
 
@@ -391,7 +396,7 @@ pub fn Deno::query_permission(
 ) -> @js.Promise[@js.Any] {
   self
   .get("permissions")
-  .call1("query", @js.from_entries([("name", name)]))
+  .call1("query", @js.from_map({ "name": @js.any(name) }))
   .cast()
 }
 
@@ -403,7 +408,7 @@ pub fn Deno::revoke_permission(
 ) -> @js.Promise[@js.Any] {
   self
   .get("permissions")
-  .call1("revoke", @js.from_entries([("name", name)]))
+  .call1("revoke", @js.from_map({ "name": @js.any(name) }))
   .cast()
 }
 
@@ -435,11 +440,11 @@ pub fn Deno::open(
   self
   .call("open", [
     @js.any(path),
-    @js.from_entries_option_cast([
-      ("create", create),
-      ("write", write),
-      ("read", read),
-    ]),
+    @js.from_option_map({
+      "create": create.map(fn(x) { @js.any(x) }),
+      "write": write.map(fn(x) { @js.any(x) }),
+      "read": read.map(fn(x) { @js.any(x) }),
+    }),
   ])
   .cast()
 }
@@ -516,11 +521,11 @@ pub fn Deno::test_only(
   f : async (TestContext) -> Unit,
 ) -> Unit {
   self.call("test", [
-    @js.from_entries([
-      ("name", name),
-      ("only", true),
-      ("fn", @js.promisify1(f) |> @js.from_fn1),
-    ]),
+    @js.from_map({
+      "name": @js.any(name),
+      "only": @js.any(true),
+      "fn": @js.promisify1(f) |> @js.from_fn1,
+    }),
   ])
   |> ignore
 }

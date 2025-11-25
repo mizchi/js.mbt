@@ -29,21 +29,21 @@ pub fn fetch(
   for k, v in headers {
     header_obj.set(k, v)
   }
-  let init_obj = @js.from_entries_option([
-    ("method", Some(method_)),
-    ("headers", Some(header_obj)),
-    ("body", body.map(x => x)),
-    ("cache", cache.map(x => x)),
-    ("mode", mode.map(x => x)),
-    ("credentials", credentials.map(x => x)),
-    ("integrity", integrity.map(x => x)),
-    ("keepalive", keepalive.map(x => x)),
-    ("priority", priority.map(x => x)),
-    ("redirect", redirect.map(x => x)),
-    ("referrer", referrer.map(x => x)),
-    ("referrerPolicy", referrerPolicy.map(x => x)),
-    ("signal", signal.map(x => x)),
-  ])
+  let init_obj = @js.from_option_map({
+    "method": Some(@js.any(method_)),
+    "headers": Some(header_obj.to_any()),
+    "body": body.map(fn(x) { x.to_any() }),
+    "cache": cache.map(fn(x) { @js.any(x) }),
+    "mode": mode.map(fn(x) { @js.any(x) }),
+    "credentials": credentials.map(fn(x) { @js.any(x) }),
+    "integrity": integrity.map(fn(x) { @js.any(x) }),
+    "keepalive": keepalive.map(fn(x) { @js.any(x) }),
+    "priority": priority.map(fn(x) { @js.any(x) }),
+    "redirect": redirect.map(fn(x) { @js.any(x) }),
+    "referrer": referrer.map(fn(x) { @js.any(x) }),
+    "referrerPolicy": referrerPolicy.map(fn(x) { @js.any(x) }),
+    "signal": signal.map(fn(x) { x.to_any() }),
+  })
   ffi_fetch(url, init_obj)
 }
 

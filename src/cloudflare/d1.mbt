@@ -135,7 +135,9 @@ pub fn D1PreparedStatement::raw(
   if columnNames is None {
     self.call0("raw").cast()
   } else {
-    let opts = @js.from_entries_option_cast([("columnNames", columnNames)])
+    let opts = @js.from_option_map({
+      "columnNames": columnNames.map(fn(x) { @js.any(x) }),
+    })
     self.call1("raw", opts).cast()
   }
 }

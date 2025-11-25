@@ -40,7 +40,7 @@ pub fn mkdir(path : String, recursive? : Bool) -> @js.Promise[Unit] {
   @js.identity(
     fs.call("mkdir", [
       path,
-      @js.from_entries_option_cast([("recursive", recursive)]),
+      @js.from_option_map({ "recursive": recursive.map(fn(x) { @js.any(x) }) }),
     ]),
   )
 }
@@ -54,14 +54,19 @@ pub fn glob(
   exclude_fn? : (String) -> Bool,
 ) -> @js.AsyncIterator[String] {
   let fs = @node.require("node:fs/promises")
+  // exclude can be either an array of patterns or a function
+  let exclude_opt : @js.Any? = match (exclude, exclude_fn) {
+    (Some(arr), _) => Some(arr |> @js.from_array)
+    (None, Some(f)) => Some(f |> @js.from_fn1)
+    (None, None) => None
+  }
   @js.identity(
     fs.call("glob", [
       path,
-      @js.from_entries_option([
-        ("cwd", cwd.map(x => x)),
-        ("exclude", exclude.map(fn(x) { x |> @js.from_array })),
-        ("exclude", exclude_fn.map(fn(x) { x |> @js.from_fn1 })),
-      ]),
+      @js.from_option_map({
+        "cwd": cwd.map(fn(x) { @js.any(x) }),
+        "exclude": exclude_opt,
+      }),
     ]),
   )
 }
@@ -98,15 +103,20 @@ pub fn glob_with_filetype(
   exclude_fn? : (String) -> Bool,
 ) -> @js.AsyncIterator[Dirent] {
   let fs = @node.require("node:fs/promises")
+  // exclude can be either an array of patterns or a function
+  let exclude_opt : @js.Any? = match (exclude, exclude_fn) {
+    (Some(arr), _) => Some(arr |> @js.from_array)
+    (None, Some(f)) => Some(f |> @js.from_fn1)
+    (None, None) => None
+  }
   @js.identity(
     fs.call("glob", [
       path,
-      @js.from_entries_option([
-        ("withFileTypes", Some(true)),
-        ("cwd", cwd.map(x => x)),
-        ("exclude", exclude.map(fn(x) { x |> @js.from_array })),
-        ("exclude", exclude_fn.map(fn(x) { x |> @js.from_fn1 })),
-      ]),
+      @js.from_option_map({
+        "withFileTypes": Some(@js.any(true)),
+        "cwd": cwd.map(fn(x) { @js.any(x) }),
+        "exclude": exclude_opt,
+      }),
     ]),
   )
 }
@@ -167,13 +177,13 @@ pub fn writeFile(
     fs.call("writeFile", [
       path,
       content,
-      @js.from_entries_option([
-        ("encoding", Some(encoding)),
-        ("mode", Some(mode)),
-        ("flag", Some(flag)),
-        ("flush", Some(flush)),
-        ("signal", signal.map(x => x)),
-      ]),
+      @js.from_option_map({
+        "encoding": Some(@js.any(encoding)),
+        "mode": Some(@js.any(mode)),
+        "flag": Some(@js.any(flag)),
+        "flush": Some(@js.any(flush)),
+        "signal": signal.map(fn(x) { x.to_any() }),
+      }),
     ]),
   )
 }
@@ -190,7 +200,10 @@ pub fn rm(path : String, recursive? : Bool, force? : Bool) -> @js.Promise[Unit] 
   @js.identity(
     fs.call("rm", [
       path,
-      @js.from_entries_option_cast([("recursive", recursive), ("force", force)]),
+      @js.from_option_map({
+        "recursive": recursive.map(fn(x) { @js.any(x) }),
+        "force": force.map(fn(x) { @js.any(x) }),
+      }),
     ]),
   )
 }
@@ -202,7 +215,7 @@ pub fn cp(path : String, dest : String, recursive? : Bool) -> @js.Promise[Unit] 
     fs.call("cp", [
       path,
       dest,
-      @js.from_entries_option_cast([("recursive", recursive)]),
+      @js.from_option_map({ "recursive": recursive.map(fn(x) { @js.any(x) }) }),
     ]),
   )
 }
@@ -268,7 +281,7 @@ pub fn rmdir(path : String, recursive? : Bool) -> @js.Promise[Unit] {
   @js.identity(
     fs.call("rmdir", [
       path,
-      @js.from_entries_option_cast([("recursive", recursive)]),
+      @js.from_option_map({ "recursive": recursive.map(fn(x) { @js.any(x) }) }),
     ]),
   )
 }
@@ -297,7 +310,7 @@ pub fn appendFile(
         fs.call("appendFile", [
           path,
           data,
-          @js.from_entries_option_cast([("encoding", Some(enc))]),
+          @js.from_option_map({ "encoding": Some(@js.any(enc)) }),
         ]),
       )
     None => fs.call2("appendFile", path, data).cast()

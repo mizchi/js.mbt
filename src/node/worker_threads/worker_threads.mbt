@@ -48,15 +48,15 @@ pub fn Worker::new(
 ) -> Worker {
   let wt = ffi_require_worker_threads()
   let worker_class = wt.get("Worker")
-  let js_opts = @js.from_entries_option([
-    ("workerData", workerData.map(fn(x) { x })),
-    ("env", env.map(fn(x) { x })),
-    ("stdin", stdin.map(fn(x) { x })),
-    ("stdout", stdout.map(fn(x) { x })),
-    ("stderr", stderr.map(fn(x) { x })),
-    ("execArgv", execArgv.map(fn(x) { @js.from_array(x) })),
-    ("resourceLimits", resourceLimits.map(fn(x) { x })),
-  ])
+  let js_opts = @js.from_option_map({
+    "workerData": workerData,
+    "env": env,
+    "stdin": stdin.map(fn(x) { @js.any(x) }),
+    "stdout": stdout.map(fn(x) { @js.any(x) }),
+    "stderr": stderr.map(fn(x) { @js.any(x) }),
+    "execArgv": execArgv.map(fn(x) { @js.from_array(x) }),
+    "resourceLimits": resourceLimits,
+  })
   @js.identity(@js.new_(worker_class, [filename, js_opts]))
 }
 

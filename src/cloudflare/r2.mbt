@@ -21,30 +21,27 @@ pub fn R2Bucket::get(
     let onlyIf_js : @js.Any? = match onlyIf {
       Some(cond) =>
         Some(
-          @js.from_entries_option([
-            ("etagMatches", cond.etagMatches.map(x => x)),
-            ("etagDoesNotMatch", cond.etagDoesNotMatch.map(x => x)),
-            ("uploadedBefore", cond.uploadedBefore.map(x => x)),
-            ("uploadedAfter", cond.uploadedAfter.map(x => x)),
-          ]),
+          @js.from_option_map({
+            "etagMatches": cond.etagMatches.map(fn(x) { @js.any(x) }),
+            "etagDoesNotMatch": cond.etagDoesNotMatch.map(fn(x) { @js.any(x) }),
+            "uploadedBefore": cond.uploadedBefore.map(fn(x) { x.to_any() }),
+            "uploadedAfter": cond.uploadedAfter.map(fn(x) { x.to_any() }),
+          }),
         )
       None => None
     }
     let range_js : @js.Any? = match range {
       Some(r) =>
         Some(
-          @js.from_entries_option([
-            ("offset", r.offset.map(x => x)),
-            ("length", r.length.map(x => x)),
-            ("suffix", r.suffix.map(x => x)),
-          ]),
+          @js.from_option_map({
+            "offset": r.offset.map(fn(x) { @js.any(x) }),
+            "length": r.length.map(fn(x) { @js.any(x) }),
+            "suffix": r.suffix.map(fn(x) { @js.any(x) }),
+          }),
         )
       None => None
     }
-    let opts = @js.from_entries_option([
-      ("onlyIf", onlyIf_js.map(x => x)),
-      ("range", range_js.map(x => x)),
-    ])
+    let opts = @js.from_option_map({ "onlyIf": onlyIf_js, "range": range_js })
     self.call2("get", key, opts).cast()
   }
 }
@@ -82,15 +79,15 @@ pub fn R2Bucket::put(
       Some(meta) => Some(meta.to_any())
       None => None
     }
-    let opts = @js.from_entries_option([
-      ("httpMetadata", httpMetadata_js.map(x => x)),
-      ("customMetadata", customMetadata.map(x => x)),
-      ("md5", md5.map(x => x)),
-      ("sha1", sha1.map(x => x)),
-      ("sha256", sha256.map(x => x)),
-      ("sha384", sha384.map(x => x)),
-      ("sha512", sha512.map(x => x)),
-    ])
+    let opts = @js.from_option_map({
+      "httpMetadata": httpMetadata_js,
+      "customMetadata": customMetadata,
+      "md5": md5.map(fn(x) { @js.any(x) }),
+      "sha1": sha1.map(fn(x) { @js.any(x) }),
+      "sha256": sha256.map(fn(x) { @js.any(x) }),
+      "sha384": sha384.map(fn(x) { @js.any(x) }),
+      "sha512": sha512.map(fn(x) { @js.any(x) }),
+    })
     self.call("put", [key, value, opts]).cast()
   }
 }
@@ -139,14 +136,14 @@ pub fn R2Bucket::list(
       Some(inc) => Some(@js.from_array(inc))
       None => None
     }
-    let opts = @js.from_entries_option([
-      ("limit", limit.map(x => x)),
-      ("prefix", prefix.map(x => x)),
-      ("cursor", cursor.map(x => x)),
-      ("delimiter", delimiter.map(x => x)),
-      ("startAfter", startAfter.map(x => x)),
-      ("include", include_js.map(x => x)),
-    ])
+    let opts = @js.from_option_map({
+      "limit": limit.map(fn(x) { @js.any(x) }),
+      "prefix": prefix.map(fn(x) { @js.any(x) }),
+      "cursor": cursor.map(fn(x) { @js.any(x) }),
+      "delimiter": delimiter.map(fn(x) { @js.any(x) }),
+      "startAfter": startAfter.map(fn(x) { @js.any(x) }),
+      "include": include_js,
+    })
     self.call("list", [opts]).cast()
   }
 }
@@ -177,15 +174,15 @@ pub fn R2Bucket::create_multipart_upload(
       Some(meta) => Some(meta.to_any())
       None => None
     }
-    let opts = @js.from_entries_option([
-      ("httpMetadata", httpMetadata_js.map(x => x)),
-      ("customMetadata", customMetadata.map(x => x)),
-      ("md5", md5.map(x => x)),
-      ("sha1", sha1.map(x => x)),
-      ("sha256", sha256.map(x => x)),
-      ("sha384", sha384.map(x => x)),
-      ("sha512", sha512.map(x => x)),
-    ])
+    let opts = @js.from_option_map({
+      "httpMetadata": httpMetadata_js,
+      "customMetadata": customMetadata,
+      "md5": md5.map(fn(x) { @js.any(x) }),
+      "sha1": sha1.map(fn(x) { @js.any(x) }),
+      "sha256": sha256.map(fn(x) { @js.any(x) }),
+      "sha384": sha384.map(fn(x) { @js.any(x) }),
+      "sha512": sha512.map(fn(x) { @js.any(x) }),
+    })
     self.call2("createMultipartUpload", key, opts).cast()
   }
 }
@@ -230,17 +227,14 @@ pub(all) struct R2HttpMetadata {
 
 ///|
 pub impl @js.JsImpl for R2HttpMetadata with to_any(self) {
-  @js.from_entries_option([
-    ("contentType", self.contentType.map(fn(x) { x as &@js.JsImpl })),
-    ("contentLanguage", self.contentLanguage.map(fn(x) { x as &@js.JsImpl })),
-    (
-      "contentDisposition",
-      self.contentDisposition.map(fn(x) { x as &@js.JsImpl }),
-    ),
-    ("contentEncoding", self.contentEncoding.map(fn(x) { x as &@js.JsImpl })),
-    ("cacheControl", self.cacheControl.map(fn(x) { x as &@js.JsImpl })),
-    ("cacheExpiry", self.cacheExpiry.map(fn(x) { x as &@js.JsImpl })),
-  ])
+  @js.from_option_map({
+    "contentType": self.contentType.map(fn(x) { @js.any(x) }),
+    "contentLanguage": self.contentLanguage.map(fn(x) { @js.any(x) }),
+    "contentDisposition": self.contentDisposition.map(fn(x) { @js.any(x) }),
+    "contentEncoding": self.contentEncoding.map(fn(x) { @js.any(x) }),
+    "cacheControl": self.cacheControl.map(fn(x) { @js.any(x) }),
+    "cacheExpiry": self.cacheExpiry.map(fn(x) { x.to_any() }),
+  })
 }
 
 ///|
@@ -407,5 +401,8 @@ pub(all) struct R2UploadedPart {
 
 ///|
 pub impl @js.JsImpl for R2UploadedPart with to_any(self) {
-  @js.from_entries([("partNumber", self.partNumber), ("etag", self.etag)])
+  @js.from_map({
+    "partNumber": @js.any(self.partNumber),
+    "etag": @js.any(self.etag),
+  })
 }

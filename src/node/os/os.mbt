@@ -240,7 +240,7 @@ pub fn userInfo() -> UserInfo {
 #alias(userinfo_with_encoding)
 pub fn userInfoWithEncoding(encoding : String) -> UserInfo {
   os_module()
-  .call1("userInfo", @js.from_entries([("encoding", encoding)]))
+  .call1("userInfo", @js.from_map({ "encoding": @js.any(encoding) }))
   .cast()
 }
 

@@ -9,7 +9,7 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
       .call2(
         "fileURLToPath",
         url,
-        @js.from_entries_option_cast([("windows", Some(w))]),
+        @js.from_option_map({ "windows": Some(@js.any(w)) }),
       )
       .cast()
     None => url_module.call1("fileURLToPath", url).cast()
@@ -27,7 +27,7 @@ pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
       .call2(
         "fileURLToPath",
         url,
-        @js.from_entries_option_cast([("windows", Some(w))]),
+        @js.from_option_map({ "windows": Some(@js.any(w)) }),
       )
       .cast()
     None => url_module.call1("fileURLToPath", url).cast()
@@ -45,7 +45,7 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
       .call2(
         "pathToFileURL",
         path,
-        @js.from_entries_option_cast([("windows", Some(w))]),
+        @js.from_option_map({ "windows": Some(@js.any(w)) }),
       )
       .cast()
     None => url_module.call1("pathToFileURL", path).cast()

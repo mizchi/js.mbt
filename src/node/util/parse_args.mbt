@@ -16,14 +16,14 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 impl @js.JsImpl for ParseArgsOption with to_any(self) -> @js.Any {
   match self {
     Boolean(short~, ..) =>
-      @js.from_entries([("type", "boolean"), ("short", short)])
+      @js.from_map({ "type": @js.any("boolean"), "short": @js.any(short) })
     String(short~, multiple~, default~, ..) =>
-      @js.from_entries_option([
-        ("type", Some("string")),
-        ("short", Some(short)),
-        ("multiple", Some(multiple)),
-        ("default", default.map(x => x)),
-      ])
+      @js.from_option_map({
+        "type": Some(@js.any("string")),
+        "short": Some(@js.any(short)),
+        "multiple": Some(@js.any(multiple)),
+        "default": default.map(fn(x) { @js.any(x) }),
+      })
   }
 }
 
@@ -51,11 +51,11 @@ pub fn parseArgs(
     }
     o
   }
-  let result = @js.from_entries([
-    ("args", args |> @js.from_array),
-    ("options", opts_obj),
-    ("allowPositionals", allow_positionals),
-  ])
+  let result = @js.from_map({
+    "args": args |> @js.from_array,
+    "options": opts_obj.to_any(),
+    "allowPositionals": @js.any(allow_positionals),
+  })
   // result["tokens"] = tokens
   let r : @js.Any = @js.identity(util().get("parseArgs").call_self([result]))
   let values : Map[String, @js.Any] = {}

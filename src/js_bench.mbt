@@ -178,42 +178,29 @@ test "bench: from_map vs Object::new (5 properties)" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: Object creation from tuple array
-test "bench: from_entries (5 tuples)" (b : @bench.T) {
-  let entries : Array[(String, &JsImpl)] = [
-    ("a", 1),
-    ("b", 2),
-    ("c", 3),
-    ("d", 4),
-    ("e", 5),
-  ]
-  b.bench(fn() { b.keep(from_entries(entries)) })
+/// Benchmark: Object creation from option map (all Some)
+test "bench: from_option_map (5 Some)" (b : @bench.T) {
+  let map : Map[String, Any?] = {
+    "a": Some(any(1)),
+    "b": Some(any(2)),
+    "c": Some(any(3)),
+    "d": Some(any(4)),
+    "e": Some(any(5)),
+  }
+  b.bench(fn() { b.keep(from_option_map(map)) })
 }
 
 ///|
-/// Benchmark: Object creation from optional tuple array (all Some)
-test "bench: from_entries_option (5 Some)" (b : @bench.T) {
-  let entries : Array[(String, &JsImpl?)] = [
-    ("a", Some(1)),
-    ("b", Some(2)),
-    ("c", Some(3)),
-    ("d", Some(4)),
-    ("e", Some(5)),
-  ]
-  b.bench(fn() { b.keep(from_entries_option(entries)) })
-}
-
-///|
-/// Benchmark: Object creation from optional tuple array (mixed)
-test "bench: from_entries_option (3 Some, 2 None)" (b : @bench.T) {
-  let entries : Array[(String, &JsImpl?)] = [
-    ("a", Some(1)),
-    ("b", None),
-    ("c", Some(3)),
-    ("d", None),
-    ("e", Some(5)),
-  ]
-  b.bench(fn() { b.keep(from_entries_option(entries)) })
+/// Benchmark: Object creation from option map (mixed)
+test "bench: from_option_map (3 Some, 2 None)" (b : @bench.T) {
+  let map : Map[String, Any?] = {
+    "a": Some(any(1)),
+    "b": None,
+    "c": Some(any(3)),
+    "d": None,
+    "e": Some(any(5)),
+  }
+  b.bench(fn() { b.keep(from_option_map(map)) })
 }
 
 ///|

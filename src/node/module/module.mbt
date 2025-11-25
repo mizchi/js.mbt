@@ -61,7 +61,7 @@ pub fn enableCompileCache(cache_dir? : String) -> Unit {
   match cache_dir {
     Some(dir) =>
       mod.call("enableCompileCache", [
-        @js.from_entries_option_cast([("cacheDir", Some(dir))]),
+        @js.from_option_map({ "cacheDir": Some(@js.any(dir)) }),
       ])
       |> ignore
     None => mod.call0("enableCompileCache") |> ignore
@@ -106,11 +106,11 @@ pub fn stripTypeScriptTypes(
       @js.identity(
         mod.call("stripTypeScriptTypes", [
           code,
-          @js.from_entries_option([
-            ("mode", mode.map(x => x)),
-            ("sourceMap", source_map.map(x => x)),
-            ("sourceUrl", source_url.map(x => x)),
-          ]),
+          @js.from_option_map({
+            "mode": mode.map(fn(x) { @js.any(x) }),
+            "sourceMap": source_map.map(fn(x) { @js.any(x) }),
+            "sourceUrl": source_url.map(fn(x) { @js.any(x) }),
+          }),
         ]),
       )
   }

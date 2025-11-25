@@ -27,15 +27,15 @@ pub fn Agent::new(
   max_free_sockets? : Int,
   timeout? : Int,
 ) -> Agent {
-  let opts = @js.from_entries_option([
-    ("maxCachedSessions", max_cached_sessions.map(x => x)),
-    ("servername", servername.map(x => x)),
-    ("keepAlive", keep_alive.map(x => x)),
-    ("keepAliveMsecs", keep_alive_msecs.map(x => x)),
-    ("maxSockets", max_sockets.map(x => x)),
-    ("maxFreeSockets", max_free_sockets.map(x => x)),
-    ("timeout", timeout.map(x => x)),
-  ])
+  let opts = @js.from_option_map({
+    "maxCachedSessions": max_cached_sessions.map(fn(x) { @js.any(x) }),
+    "servername": servername.map(fn(x) { @js.any(x) }),
+    "keepAlive": keep_alive.map(fn(x) { @js.any(x) }),
+    "keepAliveMsecs": keep_alive_msecs.map(fn(x) { @js.any(x) }),
+    "maxSockets": max_sockets.map(fn(x) { @js.any(x) }),
+    "maxFreeSockets": max_free_sockets.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+  })
   ffi_new_agent(opts)
 }
 
@@ -71,12 +71,12 @@ pub fn create_server(
   passphrase? : String,
 ) -> Server {
   let listener = @js.from_fn2(request_listener)
-  let opts = @js.from_entries_option([
-    ("key", key.map(x => x)),
-    ("cert", cert.map(x => x)),
-    ("pfx", pfx.map(x => x)),
-    ("passphrase", passphrase.map(x => x)),
-  ])
+  let opts = @js.from_option_map({
+    "key": key.map(fn(x) { @js.any(x) }),
+    "cert": cert.map(fn(x) { @js.any(x) }),
+    "pfx": pfx.map(fn(x) { @js.any(x) }),
+    "passphrase": passphrase.map(fn(x) { @js.any(x) }),
+  })
   ffi_create_server(opts, listener)
 }
 

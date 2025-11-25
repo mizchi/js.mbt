@@ -189,10 +189,10 @@ pub fn getHeapSnapshot(
     (None, None) => v8.call0("getHeapSnapshot")
     _ =>
       v8.call("getHeapSnapshot", [
-        @js.from_entries_option_cast([
-          ("exposeInternals", expose_internals),
-          ("exposeNumericValues", expose_numeric_values),
-        ]),
+        @js.from_option_map({
+          "exposeInternals": expose_internals.map(fn(x) { @js.any(x) }),
+          "exposeNumericValues": expose_numeric_values.map(fn(x) { @js.any(x) }),
+        }),
       ])
   }
 }

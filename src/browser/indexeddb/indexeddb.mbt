@@ -103,10 +103,10 @@ pub fn IDBDatabase::createObjectStore(
   keyPath? : String,
   autoIncrement? : Bool,
 ) -> IDBObjectStore[@js.Any] {
-  let options = @js.from_entries_option([
-    ("keyPath", keyPath.map(fn(x) { x })),
-    ("autoIncrement", autoIncrement.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "keyPath": keyPath.map(fn(x) { @js.any(x) }),
+    "autoIncrement": autoIncrement.map(fn(x) { @js.any(x) }),
+  })
   self.call2("createObjectStore", name, options).cast()
 }
 
@@ -308,10 +308,10 @@ pub fn[T] IDBObjectStore::createIndex(
   unique? : Bool,
   multiEntry? : Bool,
 ) -> IDBIndex[T] {
-  let options = @js.from_entries_option([
-    ("unique", unique.map(fn(x) { x })),
-    ("multiEntry", multiEntry.map(fn(x) { x })),
-  ])
+  let options = @js.from_option_map({
+    "unique": unique.map(fn(x) { @js.any(x) }),
+    "multiEntry": multiEntry.map(fn(x) { @js.any(x) }),
+  })
   self.call("createIndex", [name, keyPath, options]).cast()
 }
 

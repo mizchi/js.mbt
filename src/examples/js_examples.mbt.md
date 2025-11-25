@@ -421,12 +421,10 @@ test "build nested options object" {
   let options = @js.Object::new()
   options.set("method", "POST")
   options.set("mode", "cors")
-
   let headers = @js.Object::new()
   headers.set("Content-Type", "application/json")
   headers.set("Accept", "application/json")
   options.set("headers", headers)
-
   inspect(
     options.to_any(),
     content=(

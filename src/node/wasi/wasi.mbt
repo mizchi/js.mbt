@@ -63,16 +63,16 @@ pub fn WASI::new(
     }
     None => None
   }
-  let options = @js.from_entries_option([
-    ("version", Some(version)),
-    ("args", args.map(x => x |> @js.from_array)),
-    ("env", env_obj.map(x => x)),
-    ("preopens", preopens_obj.map(x => x)),
-    ("returnOnExit", returnOnExit.map(x => x)),
-    ("stdin", stdin.map(x => x)),
-    ("stdout", stdout.map(x => x)),
-    ("stderr", stderr.map(x => x)),
-  ])
+  let options = @js.from_option_map({
+    "version": Some(@js.any(version)),
+    "args": args.map(fn(x) { @js.from_array(x) }),
+    "env": env_obj.map(fn(x) { x.to_any() }),
+    "preopens": preopens_obj.map(fn(x) { x.to_any() }),
+    "returnOnExit": returnOnExit.map(fn(x) { @js.any(x) }),
+    "stdin": stdin.map(fn(x) { @js.any(x) }),
+    "stdout": stdout.map(fn(x) { @js.any(x) }),
+    "stderr": stderr.map(fn(x) { @js.any(x) }),
+  })
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.get("WASI")
   let instance = ffi_new_wasi(wasi_class, options)

@@ -31,10 +31,10 @@ pub fn KVNamespace::get(
     None
   } else {
     Some(
-      @js.from_entries_option([
-        ("type", type_.map(x => x)),
-        ("cacheTtl", cacheTtl.map(x => x)),
-      ]),
+      @js.from_option_map({
+        "type": type_.map(fn(x) { @js.any(x) }),
+        "cacheTtl": cacheTtl.map(fn(x) { @js.any(x) }),
+      }),
     )
   }
   self.get_impl(key, options)
@@ -46,7 +46,7 @@ pub fn KVNamespace::get_array_buffer(
   self : Self,
   key : String,
 ) -> @js.Promise[@js.Any?] {
-  let opts_js = @js.from_entries([("type", "arrayBuffer")])
+  let opts_js = @js.from_map({ "type": @js.any("arrayBuffer") })
   self.call2("get", key, opts_js).cast()
 }
 
@@ -56,7 +56,7 @@ pub fn KVNamespace::get_json(
   self : Self,
   key : String,
 ) -> @js.Promise[@js.Any?] {
-  let opts_js = @js.from_entries([("type", "json")])
+  let opts_js = @js.from_map({ "type": @js.any("json") })
   self.call2("get", key, opts_js).cast()
 }
 
@@ -66,7 +66,7 @@ pub fn KVNamespace::get_stream(
   self : Self,
   key : String,
 ) -> @js.Promise[@js.Any?] {
-  let opts_js = @js.from_entries([("type", "stream")])
+  let opts_js = @js.from_map({ "type": @js.any("stream") })
   self.call2("get", key, opts_js).cast()
 }
 
@@ -78,10 +78,10 @@ pub fn KVNamespace::get_with_metadata(
   type_? : String,
   cacheTtl? : Int,
 ) -> @js.Promise[KVValueWithMetadata] {
-  let opts_js = @js.from_entries_option([
-    ("type", Some(type_.unwrap_or("text"))),
-    ("cacheTtl", cacheTtl.map(x => x)),
-  ])
+  let opts_js = @js.from_option_map({
+    "type": Some(@js.any(type_.unwrap_or("text"))),
+    "cacheTtl": cacheTtl.map(fn(x) { @js.any(x) }),
+  })
   self.call2("getWithMetadata", key, opts_js).cast()
 }
 
@@ -98,11 +98,11 @@ pub fn KVNamespace::put(
   if expiration is None && expirationTtl is None && metadata is None {
     self.call2("put", key, value).cast()
   } else {
-    let opts = @js.from_entries_option([
-      ("expiration", expiration.map(x => x)),
-      ("expirationTtl", expirationTtl.map(x => x)),
-      ("metadata", metadata.map(x => x)),
-    ])
+    let opts = @js.from_option_map({
+      "expiration": expiration.map(fn(x) { @js.any(x) }),
+      "expirationTtl": expirationTtl.map(fn(x) { @js.any(x) }),
+      "metadata": metadata,
+    })
     self.call("put", [key, value, opts]).cast()
   }
 }
@@ -115,7 +115,7 @@ pub fn KVNamespace::put_with_metadata(
   value : String,
   metadata : @js.Any,
 ) -> @js.Promise[Unit] {
-  let opts_js = @js.from_entries([("metadata", metadata)])
+  let opts_js = @js.from_map({ "metadata": metadata })
   self.call("put", [key, value, opts_js]).cast()
 }
 
@@ -136,11 +136,11 @@ pub fn KVNamespace::list(
   if prefix is None && limit is None && cursor is None {
     self.call0("list").cast()
   } else {
-    let opts = @js.from_entries_option([
-      ("prefix", prefix.map(x => x)),
-      ("limit", limit.map(x => x)),
-      ("cursor", cursor.map(x => x)),
-    ])
+    let opts = @js.from_option_map({
+      "prefix": prefix.map(fn(x) { @js.any(x) }),
+      "limit": limit.map(fn(x) { @js.any(x) }),
+      "cursor": cursor.map(fn(x) { @js.any(x) }),
+    })
     self.call("list", [opts]).cast()
   }
 }

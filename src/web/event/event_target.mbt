@@ -53,12 +53,12 @@ impl EventTargetImpl with addEventListener(
   self.call("addEventListener", [
     event_type,
     @js.from_fn1(handler),
-    @js.from_entries_option([
-      ("capture", Some(capture)),
-      ("once", Some(once)),
-      ("passive", Some(passive)),
-      ("signal", signal.map(x => x)),
-    ]),
+    @js.from_option_map({
+      "capture": Some(@js.any(capture)),
+      "once": Some(@js.any(once)),
+      "passive": Some(@js.any(passive)),
+      "signal": signal.map(fn(x) { x.to_any() }),
+    }),
   ])
   |> ignore
 }
@@ -73,7 +73,7 @@ impl EventTargetImpl with removeEventListener(
   self.call("removeEventListener", [
     event_type,
     @js.from_fn1(handler),
-    @js.from_entries_option_cast([("capture", Some(capture))]),
+    @js.from_option_map({ "capture": Some(@js.any(capture)) }),
   ])
   |> ignore
 }

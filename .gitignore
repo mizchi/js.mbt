@@ -12,3 +12,4 @@ fs_test.txt
 test_*.txt
 test_*
 .test_baseline.json
+bisect.coverage

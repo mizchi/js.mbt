@@ -20,10 +20,10 @@ let config = @vite.defineConfig(
   root?=Some("."),
   base?=Some("/"),
   mode?=Some("development"),
-  server?=Some(@js.from_entries([
-    ("port", 3000),
-    ("host", "localhost")
-  ]))
+  server?=Some(@js.from_map({
+    "port": @js.any(3000),
+    "host": @js.any("localhost")
+  }))
 )
 ```
 
@@ -121,15 +121,15 @@ let config = @vite.defineConfig(
   base?=Some("/"),
   mode?=Some("development"),
   plugins?=Some(@js.from_array([])),
-  server?=Some(@js.from_entries([
-    ("port", 5173),
-    ("host", "0.0.0.0"),
-    ("open", true)
-  ])),
-  build?=Some(@js.from_entries([
-    ("outDir", "dist"),
-    ("sourcemap", true)
-  ]))
+  server?=Some(@js.from_map({
+    "port": @js.any(5173),
+    "host": @js.any("0.0.0.0"),
+    "open": @js.any(true)
+  })),
+  build?=Some(@js.from_map({
+    "outDir": @js.any("dist"),
+    "sourcemap": @js.any(true)
+  }))
 )
 ```
 
@@ -363,12 +363,12 @@ pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @js.Any
 ### Custom Server Options
 
 ```moonbit
-let serverConfig = @js.from_entries([
-  ("port", 3000),
-  ("host", "localhost"),
-  ("open", true),
-  ("cors", true)
-])
+let serverConfig = @js.from_map({
+  "port": @js.any(3000),
+  "host": @js.any("localhost"),
+  "open": @js.any(true),
+  "cors": @js.any(true)
+})
 
 let server = @vite.createServer(
   root?=Some("."),
@@ -379,11 +379,11 @@ let server = @vite.createServer(
 ### Custom Build Options
 
 ```moonbit
-let buildConfig = @js.from_entries([
-  ("outDir", "dist"),
-  ("minify", true),
-  ("sourcemap", true)
-])
+let buildConfig = @js.from_map({
+  "outDir": @js.any("dist"),
+  "minify": @js.any(true),
+  "sourcemap": @js.any(true)
+})
 
 let output = @vite.build(
   root?=Some("."),

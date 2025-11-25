@@ -24,19 +24,19 @@ pub fn createInterface(
   tabSize? : Int,
   signal? : @js.AbortSignal,
 ) -> Interface {
-  let opts = @js.from_entries_option([
-    ("input", Some(input.to_any())),
-    ("output", output.map(x => x)),
-    ("completer", completer.map(x => x |> @js.from_fn1)),
-    ("terminator", terminator.map(x => x)),
-    ("history", history.map(x => x |> @js.from_array)),
-    ("removeHistoryDuplicates", removeHistoryDuplicates.map(x => x)),
-    ("prompt", prompt.map(x => x)),
-    ("crlfDelay", crlfDelay.map(x => x)),
-    ("escapeCodeTimeout", escapeCodeTimeout.map(x => x)),
-    ("tabSize", tabSize.map(x => x)),
-    ("signal", signal.map(x => x)),
-  ])
+  let opts = @js.from_option_map({
+    "input": Some(input.to_any()),
+    "output": output.map(fn(x) { x.to_any() }),
+    "completer": completer.map(fn(x) { @js.from_fn1(x) }),
+    "terminator": terminator.map(fn(x) { @js.any(x) }),
+    "history": history.map(fn(x) { @js.from_array(x) }),
+    "removeHistoryDuplicates": removeHistoryDuplicates.map(fn(x) { @js.any(x) }),
+    "prompt": prompt.map(fn(x) { @js.any(x) }),
+    "crlfDelay": crlfDelay.map(fn(x) { @js.any(x) }),
+    "escapeCodeTimeout": escapeCodeTimeout.map(fn(x) { @js.any(x) }),
+    "tabSize": tabSize.map(fn(x) { @js.any(x) }),
+    "signal": signal.map(fn(x) { x.to_any() }),
+  })
   @js.identity(
     @node.require("node:readline/promises")
     .get("createInterface")

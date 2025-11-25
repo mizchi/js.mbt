@@ -84,13 +84,13 @@ pub fn spawn(
   signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.from_entries_option([
-    ("cwd", cwd.map(x => x)),
-    ("env", env.map(x => x)),
-    ("shell", shell.map(x => x)),
-    ("timeout", timeout.map(x => x)),
-    ("signal", signal.map(x => x.to_any())),
-  ])
+  let options = @js.from_option_map({
+    "cwd": cwd.map(fn(x) { @js.any(x) }),
+    "env": env,
+    "shell": shell.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "signal": signal.map(fn(x) { x.to_any() }),
+  })
   match args {
     Some(a) => cp.call("spawn", [command, a |> @js.from_array, options]).cast()
     None => cp.call2("spawn", command, options).cast()
@@ -111,14 +111,14 @@ pub fn exec(
   signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.from_entries_option([
-    ("cwd", cwd.map(x => x)),
-    ("env", env.map(x => x)),
-    ("shell", shell.map(x => x)),
-    ("timeout", timeout.map(x => x)),
-    ("maxBuffer", max_buffer.map(x => x)),
-    ("signal", signal.map(x => x.to_any())),
-  ])
+  let options = @js.from_option_map({
+    "cwd": cwd.map(fn(x) { @js.any(x) }),
+    "env": env,
+    "shell": shell.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "maxBuffer": max_buffer.map(fn(x) { @js.any(x) }),
+    "signal": signal.map(fn(x) { x.to_any() }),
+  })
   cp.call("exec", [command |> @js.any, options, @js.identity(callback)]).cast()
 }
 
@@ -137,13 +137,13 @@ pub fn execFile(
   signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.from_entries_option([
-    ("cwd", cwd.map(x => x)),
-    ("env", env.map(x => x)),
-    ("timeout", timeout.map(x => x)),
-    ("maxBuffer", max_buffer.map(x => x)),
-    ("signal", signal.map(x => x.to_any())),
-  ])
+  let options = @js.from_option_map({
+    "cwd": cwd.map(fn(x) { @js.any(x) }),
+    "env": env,
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "maxBuffer": max_buffer.map(fn(x) { @js.any(x) }),
+    "signal": signal.map(fn(x) { x.to_any() }),
+  })
   cp
   .call("execFile", [
     file,
@@ -167,13 +167,13 @@ pub fn fork(
   signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
-  let options = @js.from_entries_option([
-    ("cwd", cwd.map(x => x)),
-    ("env", env.map(x => x)),
-    ("silent", silent.map(x => x)),
-    ("timeout", timeout.map(x => x)),
-    ("signal", signal.map(x => x.to_any())),
-  ])
+  let options = @js.from_option_map({
+    "cwd": cwd.map(fn(x) { @js.any(x) }),
+    "env": env,
+    "silent": silent.map(fn(x) { @js.any(x) }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "signal": signal.map(fn(x) { x.to_any() }),
+  })
   match args {
     Some(a) =>
       cp
@@ -215,14 +215,14 @@ pub fn spawnSync(
 ) -> SpawnSyncResult raise @js.ThrowError {
   @js.throwable(fn() {
     let cp = ffi_require_child_process()
-    let options = @js.from_entries_option([
-      ("cwd", cwd.map(x => x)),
-      ("env", env.map(x => x)),
-      ("shell", shell.map(x => x)),
-      ("timeout", timeout.map(x => x)),
-      ("input", input.map(x => x)),
-      ("stdio", stdio.map(x => x)),
-    ])
+    let options = @js.from_option_map({
+      "cwd": cwd.map(fn(x) { @js.any(x) }),
+      "env": env,
+      "shell": shell.map(fn(x) { @js.any(x) }),
+      "timeout": timeout.map(fn(x) { @js.any(x) }),
+      "input": input.map(fn(x) { @js.any(x) }),
+      "stdio": stdio.map(fn(x) { @js.any(x) }),
+    })
     match args {
       Some(a) =>
         cp.call("spawnSync", [command, a |> @js.from_array, options]).cast()
@@ -248,16 +248,16 @@ pub fn execSync(
 ) -> String raise @js.ThrowError {
   @js.throwable(fn() {
     let cp = ffi_require_child_process()
-    let options = @js.from_entries_option([
-      ("cwd", cwd.map(x => x)),
-      ("env", env.map(x => x)),
-      ("shell", shell.map(x => x)),
-      ("timeout", timeout.map(x => x)),
-      ("maxBuffer", maxBuffer.map(x => x)),
-      ("input", input.map(x => x)),
-      ("encoding", Some(encoding.unwrap_or("utf8"))),
-      ("stdio", stdio.map(x => x)),
-    ])
+    let options = @js.from_option_map({
+      "cwd": cwd.map(fn(x) { @js.any(x) }),
+      "env": env,
+      "shell": shell.map(fn(x) { @js.any(x) }),
+      "timeout": timeout.map(fn(x) { @js.any(x) }),
+      "maxBuffer": maxBuffer.map(fn(x) { @js.any(x) }),
+      "input": input.map(fn(x) { @js.any(x) }),
+      "encoding": Some(@js.any(encoding.unwrap_or("utf8"))),
+      "stdio": stdio.map(fn(x) { @js.any(x) }),
+    })
     cp.call2("execSync", command |> @js.any, options).cast()
   })
 }
@@ -278,14 +278,14 @@ pub fn execFileSync(
 ) -> String raise @js.ThrowError {
   @js.throwable(fn() {
     let cp = ffi_require_child_process()
-    let options = @js.from_entries_option([
-      ("cwd", cwd.map(x => x)),
-      ("env", env.map(x => x)),
-      ("timeout", timeout.map(x => x)),
-      ("maxBuffer", maxBuffer.map(x => x)),
-      ("input", input.map(x => x)),
-      ("encoding", Some(encoding.unwrap_or("utf8"))),
-    ])
+    let options = @js.from_option_map({
+      "cwd": cwd.map(fn(x) { @js.any(x) }),
+      "env": env,
+      "timeout": timeout.map(fn(x) { @js.any(x) }),
+      "maxBuffer": maxBuffer.map(fn(x) { @js.any(x) }),
+      "input": input.map(fn(x) { @js.any(x) }),
+      "encoding": Some(@js.any(encoding.unwrap_or("utf8"))),
+    })
     match args {
       Some(a) =>
         cp.call("execFileSync", [file, a |> @js.from_array, options]).cast()

@@ -181,10 +181,10 @@ pub fn rmSync(
         fs.call2(
           "rmSync",
           path,
-          @js.from_entries_option_cast([
-            ("recursive", recursive),
-            ("force", force),
-          ]),
+          @js.from_option_map({
+            "recursive": recursive.map(fn(x) { @js.any(x) }),
+            "force": force.map(fn(x) { @js.any(x) }),
+          }),
         )
         |> ignore
     }

@@ -110,6 +110,82 @@ test "from_map" {
 }
 
 ///|
+test "from_option_map filters None and nullish values" {
+  let map : Map[String, @js.Any?] = {
+    "name": Some(@js.any("Alice")),
+    "age": Some(@js.any(30)),
+    "email": None,
+    "nullValue": Some(@js.null_()),
+  }
+  let obj = from_option_map(map)
+  assert_eq(@js.identity(obj.get("name")), "Alice")
+  assert_eq(@js.identity(obj.get("age")), 30)
+  assert_eq(obj.hasOwnProperty("email"), false)
+  assert_eq(obj.hasOwnProperty("nullValue"), false)
+}
+
+///|
+/// from_map vs from_option_map: from_map sets all keys (including null/undefined values),
+/// from_option_map skips None and nullish values (key does not exist)
+test "from_map sets null values as property" {
+  let map : Map[String, @js.Any] = {
+    "name": @js.any("Alice"),
+    "email": @js.null_(),
+    "bio": @js.undefined(),
+  }
+  let obj = from_map(map)
+  // from_map: all keys exist, even if value is null/undefined
+  assert_eq(obj.hasOwnProperty("name"), true)
+  assert_eq(obj.hasOwnProperty("email"), true)
+  assert_eq(obj.hasOwnProperty("bio"), true)
+  assert_eq(@js.is_null(obj.get("email")), true)
+  assert_eq(@js.is_undefined(obj.get("bio")), true)
+}
+
+///|
+/// from_option_map skips None and nullish, so the key does not exist
+test "from_option_map skips keys for None values" {
+  let map : Map[String, @js.Any?] = {
+    "name": Some(@js.any("Alice")),
+    "email": None,
+    "bio": Some(@js.null_()),
+  }
+  let obj = from_option_map(map)
+  // from_option_map: None values are skipped (key does not exist)
+  assert_eq(obj.hasOwnProperty("name"), true)
+  assert_eq(obj.hasOwnProperty("email"), false)
+  // nullish values in Some are also skipped
+  assert_eq(obj.hasOwnProperty("bio"), false)
+}
+
+///|
+/// from_option_map_or_undefined returns undefined when all properties are None
+test "from_option_map_or_undefined returns undefined when all None" {
+  let map : Map[String, @js.Any?] = { "name": None, "age": None }
+  let result = from_option_map_or_undefined(map)
+  assert_eq(@js.is_undefined(result), true)
+}
+
+///|
+test "from_option_map_or_undefined returns object when some values exist" {
+  let map : Map[String, @js.Any?] = {
+    "name": Some(@js.any("Alice")),
+    "age": None,
+  }
+  let result = from_option_map_or_undefined(map)
+  assert_eq(@js.is_undefined(result), false)
+  assert_eq(result.hasOwnProperty("name"), true)
+  assert_eq(result.hasOwnProperty("age"), false)
+}
+
+///|
+test "from_option_map_or_undefined returns undefined for empty map" {
+  let map : Map[String, @js.Any?] = {}
+  let result = from_option_map_or_undefined(map)
+  assert_eq(@js.is_undefined(result), true)
+}
+
+///|
 test "from_array" {
   let arr = [1, 2, 3, 4, 5]
   let val = from_array(arr)
@@ -126,111 +202,6 @@ test "from_fn2 converts 2-arg function to Js" {
   assert_eq(@js.typeof_(js_add), "function")
   let result = js_add.call_self([@js.any(5), @js.any(3)])
   assert_eq(@js.identity(result), 8)
-}
-
-///|
-test "from_entries converts tuple array to Any object" {
-  let entries : Array[(String, &JsImpl)] = [
-    ("name", "Alice"),
-    ("age", 30),
-    ("active", true),
-  ]
-  let obj = from_entries(entries)
-  assert_eq(@js.identity(obj.get("name")), "Alice")
-  assert_eq(@js.identity(obj.get("age")), 30)
-  assert_eq(@js.identity(obj.get("active")), true)
-}
-
-///|
-test "from_entries with mixed types" {
-  let entries : Array[(String, &JsImpl)] = [
-    ("str", "hello"),
-    ("num", 42),
-    ("bool", false),
-    ("float", 3.14),
-  ]
-  let obj = from_entries(entries)
-  assert_eq(@js.identity(obj.get("str")), "hello")
-  assert_eq(@js.identity(obj.get("num")), 42)
-  assert_eq(@js.identity(obj.get("bool")), false)
-  assert_eq(@js.identity(obj.get("float")), 3.14)
-}
-
-///|
-test "from_entries with empty array" {
-  let entries : Array[(String, &JsImpl)] = []
-  let obj = from_entries(entries)
-  inspect(obj.to_string(), content="{}")
-}
-
-///|
-test "from_entries_option filters None values" {
-  let entries : Array[(String, &JsImpl?)] = [
-    ("name", Some("Alice")),
-    ("age", Some(30)),
-    ("email", None),
-    ("active", Some(true)),
-    ("address", None),
-  ]
-  let obj = from_entries_option(entries)
-  assert_eq(@js.identity(obj.get("name")), "Alice")
-  assert_eq(@js.identity(obj.get("age")), 30)
-  assert_eq(@js.identity(obj.get("active")), true)
-  // None values should not be set
-  assert_true(is_undefined(obj.get("email")))
-  assert_true(is_undefined(obj.get("address")))
-}
-
-///|
-test "from_entries_option with all Some" {
-  let entries : Array[(String, &JsImpl?)] = [
-    ("a", Some(1)),
-    ("b", Some(2)),
-    ("c", Some(3)),
-  ]
-  let obj = from_entries_option(entries)
-  assert_eq(@js.identity(obj.get("a")), 1)
-  assert_eq(@js.identity(obj.get("b")), 2)
-  assert_eq(@js.identity(obj.get("c")), 3)
-}
-
-///|
-test "from_entries_option with all None" {
-  let entries : Array[(String, &JsImpl?)] = [
-    ("a", None),
-    ("b", None),
-    ("c", None),
-  ]
-  let obj = from_entries_option(entries)
-  inspect(obj.to_string(), content="{}")
-}
-
-///|
-test "from_entries_option with empty array" {
-  let entries : Array[(String, &JsImpl?)] = []
-  let obj = from_entries_option(entries)
-  inspect(obj.to_string(), content="{}")
-}
-
-///|
-test "from_entries with direct array (type inference)" {
-  // 直接配列を渡した場合、型推論が効くかテスト
-  let obj = from_entries([("name", "Bob"), ("age", 25)])
-  assert_eq(@js.identity(obj.get("name")), "Bob")
-  assert_eq(@js.identity(obj.get("age")), 25)
-}
-
-///|
-test "from_entries_option with direct array (type inference)" {
-  // 直接配列を渡した場合、型推論が効くかテスト
-  let obj = from_entries_option([
-    ("name", Some("Charlie")),
-    ("age", Some(40)),
-    ("email", None),
-  ])
-  assert_eq(@js.identity(obj.get("name")), "Charlie")
-  assert_eq(@js.identity(obj.get("age")), 40)
-  assert_true(is_undefined(obj.get("email")))
 }
 
 ///| Global Objects
@@ -372,32 +343,6 @@ test "from_fn3 converts 3-arg function to Js" {
   assert_eq(@js.typeof_(js_add3), "function")
   let result = js_add3.call_self([@js.any(1), @js.any(2), @js.any(3)])
   assert_eq(@js.identity(result), 6)
-}
-
-///|
-test "from_entries_option_cast with Bool options" {
-  let entries : Array[(String, Bool?)] = [
-    ("open", Some(true)),
-    ("readOnly", Some(false)),
-    ("timeout", None),
-  ]
-  let obj = from_entries_option_cast(entries)
-  assert_eq(@js.identity(obj.get("open")), true)
-  assert_eq(@js.identity(obj.get("readOnly")), false)
-  assert_true(is_undefined(obj.get("timeout")))
-}
-
-///|
-test "from_entries_option_cast with Int options" {
-  let entries : Array[(String, Int?)] = [
-    ("width", Some(100)),
-    ("height", Some(200)),
-    ("depth", None),
-  ]
-  let obj = from_entries_option_cast(entries)
-  assert_eq(@js.identity(obj.get("width")), 100)
-  assert_eq(@js.identity(obj.get("height")), 200)
-  assert_true(is_undefined(obj.get("depth")))
 }
 
 ///|

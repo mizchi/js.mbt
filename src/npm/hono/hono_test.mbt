@@ -187,7 +187,7 @@ async test "testClient with JSON response" {
 
   // Define a JSON route
   app.get("/api/user", fn(c) {
-    let user = @js.from_entries([("name", "Alice"), ("age", 25)])
+    let user = @js.from_map({ "name": @js.any("Alice"), "age": @js.any(25) })
     c.json(user)
   })
   |> ignore

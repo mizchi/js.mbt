@@ -63,18 +63,24 @@ pub fn DatabaseSync::new(
   allowUnknownNamedParameters? : Bool,
   defensive? : Bool,
 ) -> DatabaseSync {
-  let opts = @js.from_entries_option([
-    ("open", open.map(x => x)),
-    ("readOnly", readOnly.map(x => x)),
-    ("allowExtension", allowExtension.map(x => x)),
-    ("enableForeignKeyConstraints", enableForeignKeyConstraints.map(x => x)),
-    ("timeout", timeout.map(x => x)),
-    ("readBigInts", readBigInts.map(x => x)),
-    ("returnArrays", returnArrays.map(x => x)),
-    ("allowBareNamedParameters", allowBareNamedParameters.map(x => x)),
-    ("allowUnknownNamedParameters", allowUnknownNamedParameters.map(x => x)),
-    ("defensive", defensive.map(x => x)),
-  ])
+  let opts = @js.from_option_map({
+    "open": open.map(fn(x) { @js.any(x) }),
+    "readOnly": readOnly.map(fn(x) { @js.any(x) }),
+    "allowExtension": allowExtension.map(fn(x) { @js.any(x) }),
+    "enableForeignKeyConstraints": enableForeignKeyConstraints.map(fn(x) {
+      @js.any(x)
+    }),
+    "timeout": timeout.map(fn(x) { @js.any(x) }),
+    "readBigInts": readBigInts.map(fn(x) { @js.any(x) }),
+    "returnArrays": returnArrays.map(fn(x) { @js.any(x) }),
+    "allowBareNamedParameters": allowBareNamedParameters.map(fn(x) {
+      @js.any(x)
+    }),
+    "allowUnknownNamedParameters": allowUnknownNamedParameters.map(fn(x) {
+      @js.any(x)
+    }),
+    "defensive": defensive.map(fn(x) { @js.any(x) }),
+  })
   let v = @node.require("node:sqlite").get("DatabaseSync")
     |> @js.new_([path, opts])
   @js.identity(v)
@@ -93,16 +99,16 @@ pub fn[T, U] DatabaseSync::aggregate(
   inverse? : (T, U) -> T,
   result? : (T) -> @js.Any,
 ) -> Unit {
-  let opts = @js.from_entries_option([
-    ("deterministic", deterministic.map(x => x)),
-    ("directOnly", directOnly.map(x => x)),
-    ("useBigIntArguments", useBigIntArguments.map(x => x)),
-    ("varargs", varargs.map(x => x)),
-    ("start", start.map(fn(x) { x |> @js.unsafe_any })),
-    ("step", step.map(fn(x) { x |> @js.unsafe_any })),
-    ("inverse", inverse.map(fn(x) { x |> @js.unsafe_any })),
-    ("result", result.map(fn(x) { x |> @js.unsafe_any })),
-  ])
+  let opts = @js.from_option_map({
+    "deterministic": deterministic.map(fn(x) { @js.any(x) }),
+    "directOnly": directOnly.map(fn(x) { @js.any(x) }),
+    "useBigIntArguments": useBigIntArguments.map(fn(x) { @js.any(x) }),
+    "varargs": varargs.map(fn(x) { @js.any(x) }),
+    "start": start.map(fn(x) { @js.unsafe_any(x) }),
+    "step": step.map(fn(x) { @js.unsafe_any(x) }),
+    "inverse": inverse.map(fn(x) { @js.unsafe_any(x) }),
+    "result": result.map(fn(x) { @js.unsafe_any(x) }),
+  })
   self.call2("aggregate", name, opts) |> ignore
 }
 
@@ -116,12 +122,12 @@ pub fn DatabaseSync::function(
   useBigIntArguments? : Bool,
   varargs? : Bool,
 ) -> Unit {
-  let opts = @js.from_entries_option_cast([
-    ("deterministic", deterministic),
-    ("directOnly", directOnly),
-    ("useBigIntArguments", useBigIntArguments),
-    ("varargs", varargs),
-  ])
+  let opts = @js.from_option_map({
+    "deterministic": deterministic.map(fn(x) { @js.any(x) }),
+    "directOnly": directOnly.map(fn(x) { @js.any(x) }),
+    "useBigIntArguments": useBigIntArguments.map(fn(x) { @js.any(x) }),
+    "varargs": varargs.map(fn(x) { @js.any(x) }),
+  })
   self.call("function", [name, func |> @js.identity, opts]) |> ignore
 }
 
@@ -204,7 +210,10 @@ pub fn DatabaseSync::createSession(
   table? : String,
   db? : String,
 ) -> Session {
-  let v = @js.from_entries_option_cast([("table", table), ("db", db)])
+  let v = @js.from_option_map({
+    "table": table.map(fn(x) { @js.any(x) }),
+    "db": db.map(fn(x) { @js.any(x) }),
+  })
   self.call("createSession", [v]).cast()
 }
 
@@ -226,10 +235,10 @@ pub fn DatabaseSync::applyChangeset(
   filter? : (@js.Any) -> Bool,
   onConflict? : (@js.Any?, @js.Any) -> Bool,
 ) -> Bool {
-  let opts = @js.from_entries_option_cast([
-    ("filter", filter.map(fn(f) { f |> @js.from_fn1 })),
-    ("onConflict", onConflict.map(fn(oc) { oc |> @js.from_fn2 })),
-  ])
+  let opts = @js.from_option_map({
+    "filter": filter.map(fn(f) { f |> @js.from_fn1 }),
+    "onConflict": onConflict.map(fn(oc) { oc |> @js.from_fn2 }),
+  })
   self.call2("applyChangeset", changeset, opts) |> @js.identity
 }
 

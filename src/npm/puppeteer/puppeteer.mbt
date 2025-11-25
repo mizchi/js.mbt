@@ -42,7 +42,7 @@ pub async fn launch(
   handleSIGINT? : Bool,
   handleSIGTERM? : Bool,
 ) -> Browser {
-  let js_opts = @js.from_entries([])
+  let js_opts = @js.Object::new()
   match headless {
     Some(h) => js_opts.set("headless", @js.any(h))
     None => ()
@@ -103,7 +103,9 @@ pub async fn launch(
     Some(h) => js_opts.set("handleSIGTERM", @js.any(h))
     None => ()
   }
-  let promise : @js.Promise[Browser] = @js.identity(ffi_launch(js_opts))
+  let promise : @js.Promise[Browser] = @js.identity(
+    ffi_launch(js_opts.to_any()),
+  )
   promise.wait()
 }
 

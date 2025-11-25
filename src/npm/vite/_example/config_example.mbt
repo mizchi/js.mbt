@@ -10,14 +10,18 @@ pub fn config_example() -> Unit {
     base?=Some("/"),
     mode?=Some("development"),
     server?=Some(
-      @js.from_entries([("port", 3000), ("host", "localhost"), ("open", false)]),
+      @js.from_map({
+        "port": @js.any(3000),
+        "host": @js.any("localhost"),
+        "open": @js.any(false),
+      }),
     ),
     build?=Some(
-      @js.from_entries([
-        ("outDir", "dist"),
-        ("sourcemap", true),
-        ("minify", true),
-      ]),
+      @js.from_map({
+        "outDir": @js.any("dist"),
+        "sourcemap": @js.any(true),
+        "minify": @js.any(true),
+      }),
     ),
   )
   println("✓ Config created with defineConfig")

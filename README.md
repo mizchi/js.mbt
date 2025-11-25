@@ -178,7 +178,7 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 ```moonbit
 // Create JavaScript objects
-let obj = @js.from_entries([("name", "Alice"), ("age", 30)])
+let obj = @js.from_map({ "name": @js.any("Alice"), "age": @js.any(30) })
 
 // Get property
 let name = obj.get("name")

@@ -61,16 +61,16 @@ pub fn create_server(
 ) -> Server {
   let cb : @js.Any = @js.identity(secureConnectionListener)
   let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).to_any() })
-  let opts = @js.from_entries_option([
-    ("key", key.map(x => x)),
-    ("cert", cert.map(x => x)),
-    ("ca", ca.map(x => x)),
-    ("pfx", pfx.map(x => x)),
-    ("passphrase", passphrase.map(x => x)),
-    ("rejectUnauthorized", rejectUnauthorized.map(x => x)),
-    ("requestCert", requestCert.map(x => x)),
-    ("ALPNProtocols", alpn_js.map(x => x)),
-  ])
+  let opts = @js.from_option_map({
+    "key": key.map(fn(x) { @js.any(x) }),
+    "cert": cert.map(fn(x) { @js.any(x) }),
+    "ca": ca.map(fn(x) { @js.any(x) }),
+    "pfx": pfx.map(fn(x) { @js.any(x) }),
+    "passphrase": passphrase.map(fn(x) { @js.any(x) }),
+    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @js.any(x) }),
+    "requestCert": requestCert.map(fn(x) { @js.any(x) }),
+    "ALPNProtocols": alpn_js,
+  })
   ffi_create_server(opts, cb)
 }
 
@@ -111,17 +111,17 @@ pub fn connect(
 ) -> TLSSocket {
   let cb : @js.Any = @js.identity(callback)
   let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).to_any() })
-  let opts = @js.from_entries_option([
-    ("port", Some(port)),
-    ("host", Some(host)),
-    ("servername", servername.map(x => x)),
-    ("key", key.map(x => x)),
-    ("cert", cert.map(x => x)),
-    ("ca", ca.map(x => x)),
-    ("rejectUnauthorized", rejectUnauthorized.map(x => x)),
-    ("ALPNProtocols", alpn_js.map(x => x)),
-    ("session", session.map(x => x)),
-  ])
+  let opts = @js.from_option_map({
+    "port": Some(@js.any(port)),
+    "host": Some(@js.any(host)),
+    "servername": servername.map(fn(x) { @js.any(x) }),
+    "key": key.map(fn(x) { @js.any(x) }),
+    "cert": cert.map(fn(x) { @js.any(x) }),
+    "ca": ca.map(fn(x) { @js.any(x) }),
+    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @js.any(x) }),
+    "ALPNProtocols": alpn_js,
+    "session": session.map(fn(x) { x.to_any() }),
+  })
   ffi_connect(opts, cb)
 }
 

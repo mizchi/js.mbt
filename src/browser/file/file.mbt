@@ -45,10 +45,10 @@ pub fn File::new(
   ffi_new_file(
     arr.to_any(),
     filename |> @js.any,
-    @js.from_entries_option([
-      ("type", content_type.map(x => x)),
-      ("lastModified", last_modified.map(x => x)),
-    ]),
+    @js.from_option_map({
+      "type": content_type.map(fn(x) { @js.any(x) }),
+      "lastModified": last_modified.map(fn(x) { @js.any(x) }),
+    }),
   )
   |> @js.identity
 }

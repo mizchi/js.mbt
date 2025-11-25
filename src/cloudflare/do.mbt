@@ -75,7 +75,9 @@ pub(all) struct DurableObjectIdOptions {
 
 ///|
 pub impl @js.JsImpl for DurableObjectIdOptions with to_any(self) {
-  @js.from_entries_option_cast([("jurisdiction", self.jurisdiction)])
+  @js.from_option_map({
+    "jurisdiction": self.jurisdiction.map(fn(x) { @js.any(x) }),
+  })
 }
 
 ///|
@@ -423,10 +425,10 @@ pub(all) struct DurableObjectGetOptions {
 
 ///|
 pub impl @js.JsImpl for DurableObjectGetOptions with to_any(self) {
-  @js.from_entries_option_cast([
-    ("allowConcurrency", self.allowConcurrency),
-    ("noCache", self.noCache),
-  ])
+  @js.from_option_map({
+    "allowConcurrency": self.allowConcurrency.map(fn(x) { @js.any(x) }),
+    "noCache": self.noCache.map(fn(x) { @js.any(x) }),
+  })
 }
 
 ///|
@@ -439,11 +441,11 @@ pub(all) struct DurableObjectPutOptions {
 
 ///|
 pub impl @js.JsImpl for DurableObjectPutOptions with to_any(self) {
-  @js.from_entries_option_cast([
-    ("allowConcurrency", self.allowConcurrency),
-    ("allowUnconfirmed", self.allowUnconfirmed),
-    ("noCache", self.noCache),
-  ])
+  @js.from_option_map({
+    "allowConcurrency": self.allowConcurrency.map(fn(x) { @js.any(x) }),
+    "allowUnconfirmed": self.allowUnconfirmed.map(fn(x) { @js.any(x) }),
+    "noCache": self.noCache.map(fn(x) { @js.any(x) }),
+  })
 }
 
 ///|
@@ -461,16 +463,16 @@ pub(all) struct DurableObjectListOptions {
 
 ///|
 pub impl @js.JsImpl for DurableObjectListOptions with to_any(self) {
-  @js.from_entries_option([
-    ("start", self.start.map(x => x)),
-    ("startAfter", self.startAfter.map(x => x)),
-    ("end", self.end.map(x => x)),
-    ("prefix", self.prefix.map(x => x)),
-    ("reverse", self.reverse.map(x => x)),
-    ("limit", self.limit.map(x => x)),
-    ("allowConcurrency", self.allowConcurrency.map(x => x)),
-    ("noCache", self.noCache.map(x => x)),
-  ])
+  @js.from_option_map({
+    "start": self.start.map(fn(x) { @js.any(x) }),
+    "startAfter": self.startAfter.map(fn(x) { @js.any(x) }),
+    "end": self.end.map(fn(x) { @js.any(x) }),
+    "prefix": self.prefix.map(fn(x) { @js.any(x) }),
+    "reverse": self.reverse.map(fn(x) { @js.any(x) }),
+    "limit": self.limit.map(fn(x) { @js.any(x) }),
+    "allowConcurrency": self.allowConcurrency.map(fn(x) { @js.any(x) }),
+    "noCache": self.noCache.map(fn(x) { @js.any(x) }),
+  })
 }
 
 ///|
@@ -481,7 +483,9 @@ pub(all) struct DurableObjectGetAlarmOptions {
 
 ///|
 pub impl @js.JsImpl for DurableObjectGetAlarmOptions with to_any(self) {
-  @js.from_entries_option_cast([("allowConcurrency", self.allowConcurrency)])
+  @js.from_option_map({
+    "allowConcurrency": self.allowConcurrency.map(fn(x) { @js.any(x) }),
+  })
 }
 
 ///|
@@ -493,10 +497,10 @@ pub(all) struct DurableObjectSetAlarmOptions {
 
 ///|
 pub impl @js.JsImpl for DurableObjectSetAlarmOptions with to_any(self) {
-  @js.from_entries_option_cast([
-    ("allowConcurrency", self.allowConcurrency),
-    ("allowUnconfirmed", self.allowUnconfirmed),
-  ])
+  @js.from_option_map({
+    "allowConcurrency": self.allowConcurrency.map(fn(x) { @js.any(x) }),
+    "allowUnconfirmed": self.allowUnconfirmed.map(fn(x) { @js.any(x) }),
+  })
 }
 
 ///|

@@ -258,13 +258,13 @@ pub fn createServer(
     keepAliveInitialDelay is Some(_)
   if has_options {
     net_module().call("createServer", [
-      @js.from_entries_option([
-        ("allowHalfOpen", allowHalfOpen.map(x => x)),
-        ("pauseOnConnect", pauseOnConnect.map(x => x)),
-        ("noDelay", noDelay.map(x => x)),
-        ("keepAlive", keepAlive.map(x => x)),
-        ("keepAliveInitialDelay", keepAliveInitialDelay.map(x => x)),
-      ]),
+      @js.from_option_map({
+        "allowHalfOpen": allowHalfOpen.map(fn(x) { @js.any(x) }),
+        "pauseOnConnect": pauseOnConnect.map(fn(x) { @js.any(x) }),
+        "noDelay": noDelay.map(fn(x) { @js.any(x) }),
+        "keepAlive": keepAlive.map(fn(x) { @js.any(x) }),
+        "keepAliveInitialDelay": keepAliveInitialDelay.map(fn(x) { @js.any(x) }),
+      }),
     ])
     |> @js.identity
   } else {
