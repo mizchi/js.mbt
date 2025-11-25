@@ -162,6 +162,49 @@ test "json" {
 }
 ```
 
+## Async / Promise
+
+```moonbit
+///|
+async fn fetch_example() -> Unit {
+  // Async functions return values directly (no .wait() needed by caller)
+  let response = @http.fetch("https://api.example.com/data")
+  let json = response.json()
+  @js.log(json)
+}
+
+///|
+async fn promise_combinators() -> Unit {
+  // Create promises from async functions
+  let p1 = @js.Promise::from_async(async fn() -> Int { 1 })
+  let p2 = @js.Promise::from_async(async fn() -> Int { 2 })
+
+  // Wait for all
+  let results = @js.Promise::all([p1.to_any(), p2.to_any()]).wait()
+  @js.log(results)  // [1, 2]
+
+  // Race - first to resolve wins
+  let first = @js.Promise::race([p1.to_any(), p2.to_any()]).wait()
+  @js.log(first)
+}
+
+///|
+fn callback_to_promise() -> @js.Promise[String] {
+  // Convert callback-based API to Promise
+  @js.Promise::new(fn(resolve, _reject) {
+    // Simulate async callback
+    resolve("done")
+  })
+}
+
+///|
+async fn sleep_example() -> Unit {
+  @js.log("start")
+  @js.sleep(1000).wait()  // Sleep 1 second
+  @js.log("after 1 second")
+}
+```
+
 ## Global Functions
 
 ```moonbit

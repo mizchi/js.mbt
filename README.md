@@ -185,16 +185,6 @@ let result = obj.call("toString", [])
 let age: Int = obj.get("age").cast()
 ```
 
-### Async/Await
-
-```moonbit
-async fn fetch_data() -> Unit {
-  let response = @http.fetch("https://api.example.com/data").wait()
-  let json = response.json().wait()
-  @js.log(json)
-}
-```
-
 ## LICENSE
 
 MIT
