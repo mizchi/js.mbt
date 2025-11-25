@@ -9,9 +9,9 @@ import(
 // Values
 fn connect(String) -> Http2Session
 
-fn create_secure_server(SecureServerOptions, (@js.Object, @js.Object) -> Unit) -> Http2SecureServer
+fn create_secure_server((@js.Object, @js.Object) -> Unit, key? : String, cert? : String, pfx? : String, passphrase? : String, allow_http1? : Bool) -> Http2SecureServer
 
-fn create_server(ServerOptions, (@js.Object, @js.Object) -> Unit) -> Http2Server
+fn create_server((@js.Object, @js.Object) -> Unit, allow_http1? : Bool, max_deflate_dynamic_table_size? : Int, max_session_memory? : Int, max_header_list_size? : Int, max_outstanding_pings? : Int, max_send_header_block_length? : Int, padding_strategy? : Int) -> Http2Server
 
 // Errors
 
@@ -53,34 +53,12 @@ pub type Http2Stream
 impl @js.JsImpl for Http2Stream
 impl @event.EventTargetImpl for Http2Stream
 
-pub struct SecureServerOptions {
-  key : String?
-  cert : String?
-  pfx : String?
-  passphrase : String?
-  allow_http1 : Bool?
-}
-fn SecureServerOptions::new() -> Self
-fn SecureServerOptions::to_any(Self) -> @js.Any
-
 #external
 pub type ServerHttp2Stream
 fn ServerHttp2Stream::end(Self, String) -> Unit
 fn ServerHttp2Stream::respond(Self, @js.Object) -> Unit
 impl @js.JsImpl for ServerHttp2Stream
 impl @event.EventTargetImpl for ServerHttp2Stream
-
-pub struct ServerOptions {
-  allow_http1 : Bool?
-  max_deflate_dynamic_table_size : Int?
-  max_session_memory : Int?
-  max_header_list_size : Int?
-  max_outstanding_pings : Int?
-  max_send_header_block_length : Int?
-  padding_strategy : Int?
-}
-fn ServerOptions::new() -> Self
-fn ServerOptions::to_any(Self) -> @js.Any
 
 // Type aliases
 

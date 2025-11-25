@@ -73,110 +73,6 @@ pub impl @js.JsImpl for ServerHttp2Stream
 pub impl @event.EventTargetImpl for ServerHttp2Stream
 
 ///|
-/// Options for creating HTTP/2 server
-pub struct ServerOptions {
-  allow_http1 : Bool?
-  max_deflate_dynamic_table_size : Int?
-  max_session_memory : Int?
-  max_header_list_size : Int?
-  max_outstanding_pings : Int?
-  max_send_header_block_length : Int?
-  padding_strategy : Int?
-}
-
-///|
-/// Create default server options
-pub fn ServerOptions::new() -> ServerOptions {
-  {
-    allow_http1: None,
-    max_deflate_dynamic_table_size: None,
-    max_session_memory: None,
-    max_header_list_size: None,
-    max_outstanding_pings: None,
-    max_send_header_block_length: None,
-    padding_strategy: None,
-  }
-}
-
-///|
-/// Convert ServerOptions to JavaScript object
-pub fn ServerOptions::to_any(self : ServerOptions) -> @js.Any {
-  let obj = @js.Object::new()
-  match self.allow_http1 {
-    Some(v) => obj.set("allowHTTP1", v)
-    None => ()
-  }
-  match self.max_deflate_dynamic_table_size {
-    Some(v) => obj.set("maxDeflateDynamicTableSize", v)
-    None => ()
-  }
-  match self.max_session_memory {
-    Some(v) => obj.set("maxSessionMemory", v)
-    None => ()
-  }
-  match self.max_header_list_size {
-    Some(v) => obj.set("maxHeaderListSize", v)
-    None => ()
-  }
-  match self.max_outstanding_pings {
-    Some(v) => obj.set("maxOutstandingPings", v)
-    None => ()
-  }
-  match self.max_send_header_block_length {
-    Some(v) => obj.set("maxSendHeaderBlockLength", v)
-    None => ()
-  }
-  match self.padding_strategy {
-    Some(v) => obj.set("paddingStrategy", v)
-    None => ()
-  }
-  obj.to_any()
-}
-
-///|
-/// Secure server options (extends ServerOptions with TLS)
-pub struct SecureServerOptions {
-  key : String?
-  cert : String?
-  pfx : String?
-  passphrase : String?
-  allow_http1 : Bool?
-}
-
-///|
-/// Create default secure server options
-pub fn SecureServerOptions::new() -> SecureServerOptions {
-  { key: None, cert: None, pfx: None, passphrase: None, allow_http1: None }
-}
-
-///|
-/// Convert SecureServerOptions to JavaScript object
-pub fn SecureServerOptions::to_any(self : SecureServerOptions) -> @js.Any {
-  let obj = @js.Object::new()
-  match self.key {
-    Some(v) => obj.set("key", v)
-    None => ()
-  }
-  match self.cert {
-    Some(v) => obj.set("cert", v)
-    None => ()
-  }
-  match self.pfx {
-    Some(v) => obj.set("pfx", v)
-    None => ()
-  }
-  match self.passphrase {
-    Some(v) => obj.set("passphrase", v)
-    None => ()
-  }
-  match self.allow_http1 {
-    Some(v) => obj.set("allowHTTP1", v)
-    None => ()
-  }
-  obj.to_any()
-}
-
-///|
 extern "js" fn ffi_create_server(
   options : @js.Any,
   request_handler : @js.Any,
@@ -189,10 +85,25 @@ extern "js" fn ffi_create_server(
 ///|
 /// Create an unencrypted HTTP/2 server
 pub fn create_server(
-  options : ServerOptions,
   request_handler : (@js.Object, @js.Object) -> Unit,
+  allow_http1? : Bool,
+  max_deflate_dynamic_table_size? : Int,
+  max_session_memory? : Int,
+  max_header_list_size? : Int,
+  max_outstanding_pings? : Int,
+  max_send_header_block_length? : Int,
+  padding_strategy? : Int,
 ) -> Http2Server {
-  ffi_create_server(options.to_any(), @js.from_fn2(request_handler))
+  let opts = @js.from_entries_option([
+    ("allowHTTP1", allow_http1.map(x => x)),
+    ("maxDeflateDynamicTableSize", max_deflate_dynamic_table_size.map(x => x)),
+    ("maxSessionMemory", max_session_memory.map(x => x)),
+    ("maxHeaderListSize", max_header_list_size.map(x => x)),
+    ("maxOutstandingPings", max_outstanding_pings.map(x => x)),
+    ("maxSendHeaderBlockLength", max_send_header_block_length.map(x => x)),
+    ("paddingStrategy", padding_strategy.map(x => x)),
+  ])
+  ffi_create_server(opts, @js.from_fn2(request_handler))
 }
 
 ///|
@@ -208,10 +119,21 @@ extern "js" fn ffi_create_secure_server(
 ///|
 /// Create a TLS-encrypted HTTP/2 server
 pub fn create_secure_server(
-  options : SecureServerOptions,
   request_handler : (@js.Object, @js.Object) -> Unit,
+  key? : String,
+  cert? : String,
+  pfx? : String,
+  passphrase? : String,
+  allow_http1? : Bool,
 ) -> Http2SecureServer {
-  ffi_create_secure_server(options.to_any(), @js.from_fn2(request_handler))
+  let opts = @js.from_entries_option([
+    ("key", key.map(x => x)),
+    ("cert", cert.map(x => x)),
+    ("pfx", pfx.map(x => x)),
+    ("passphrase", passphrase.map(x => x)),
+    ("allowHTTP1", allow_http1.map(x => x)),
+  ])
+  ffi_create_secure_server(opts, @js.from_fn2(request_handler))
 }
 
 ///|
