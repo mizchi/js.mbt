@@ -134,13 +134,13 @@ pub fn doesNotThrow(fn_ : () -> Unit, message? : String) -> Unit {
 
 ///|
 /// Assert that a promise rejects
-pub fn rejects(
+pub async fn rejects(
   promise : &@js.JsImpl,
   error? : &@js.JsImpl,
   message? : String,
-) -> @js.Promise[Unit] {
+) -> Unit {
   let a = assert_module()
-  match (error, message) {
+  let p : @js.Promise[Unit] = match (error, message) {
     (Some(err), Some(msg)) =>
       a.call("rejects", [promise.to_any(), err.to_any(), msg]).cast()
     (Some(err), None) =>
@@ -148,19 +148,18 @@ pub fn rejects(
     (None, Some(msg)) => a.call2("rejects", promise.to_any(), msg).cast()
     (None, None) => a.call("rejects", [promise.to_any()]).cast()
   }
+  p.wait()
 }
 
 ///|
 /// Assert that a promise does not reject
-pub fn doesNotReject(
-  promise : &@js.JsImpl,
-  message? : String,
-) -> @js.Promise[Unit] {
+pub async fn doesNotReject(promise : &@js.JsImpl, message? : String) -> Unit {
   let a = assert_module()
-  match message {
+  let p : @js.Promise[Unit] = match message {
     Some(msg) => a.call2("doesNotReject", promise.to_any(), msg).cast()
     None => a.call("doesNotReject", [promise.to_any()]).cast()
   }
+  p.wait()
 }
 
 ///| Other Assertions

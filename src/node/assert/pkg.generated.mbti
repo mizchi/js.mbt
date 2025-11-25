@@ -10,7 +10,7 @@ fn deepEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
 
 fn doesNotMatch(String, String, message? : String) -> Unit
 
-fn doesNotReject(&@js.JsImpl, message? : String) -> @js.Promise[Unit]
+async fn doesNotReject(&@js.JsImpl, message? : String) -> Unit
 
 fn doesNotThrow(() -> Unit, message? : String) -> Unit
 
@@ -32,7 +32,7 @@ fn notStrictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
 
 fn ok(Bool, message? : String) -> Unit
 
-fn rejects(&@js.JsImpl, error? : &@js.JsImpl, message? : String) -> @js.Promise[Unit]
+async fn rejects(&@js.JsImpl, error? : &@js.JsImpl, message? : String) -> Unit
 
 fn strictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
 

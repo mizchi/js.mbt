@@ -45,13 +45,15 @@ pub fn createInterface(
 }
 
 ///|
-pub fn Interface::question(self : Self, query : String) -> @js.Promise[String] {
-  self.call("question", [query]).cast()
+pub async fn Interface::question(self : Self, query : String) -> String {
+  let promise : @js.Promise[String] = self.call("question", [query]).cast()
+  promise.wait()
 }
 
 ///|
-pub fn Interface::commit(self : Self) -> @js.Promise[Unit] {
-  self.call0("commit").cast()
+pub async fn Interface::commit(self : Self) -> Unit {
+  let promise : @js.Promise[Unit] = self.call0("commit").cast()
+  promise.wait()
 }
 
 ///|
@@ -61,18 +63,16 @@ pub fn Interface::rollback(self : Self) -> Self {
 
 ///|
 #alias(cursor_to)
-pub fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> @js.Promise[Unit] {
-  self.call2("cursorTo", x, y).cast()
+pub async fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Unit {
+  let promise : @js.Promise[Unit] = self.call2("cursorTo", x, y).cast()
+  promise.wait()
 }
 
 ///|
 #alias(move_cursor)
-pub fn Interface::moveCursor(
-  self : Self,
-  dx : Int,
-  dy? : Int,
-) -> @js.Promise[Unit] {
-  self.call2("moveCursor", dx, dy).cast()
+pub async fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Unit {
+  let promise : @js.Promise[Unit] = self.call2("moveCursor", dx, dy).cast()
+  promise.wait()
 }
 
 ///|

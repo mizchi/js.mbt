@@ -7,9 +7,9 @@ import(
 )
 
 // Values
-fn finished(@js.Any) -> @js.Promise[Unit]
+async fn finished(@js.Any) -> Unit
 
-fn pipeline(Array[@js.Any]) -> @js.Promise[@stream.Stream]
+async fn pipeline(Array[@js.Any]) -> @stream.Stream
 
 // Errors
 

@@ -20,12 +20,12 @@ pub type Interface
 fn Interface::clearLine(Self, Int) -> Self
 #alias(clear_screen_down)
 fn Interface::clearScreenDown(Self, Int) -> Self
-fn Interface::commit(Self) -> @js.Promise[Unit]
+async fn Interface::commit(Self) -> Unit
 #alias(cursor_to)
-fn Interface::cursorTo(Self, Int, y? : Int) -> @js.Promise[Unit]
+async fn Interface::cursorTo(Self, Int, y? : Int) -> Unit
 #alias(move_cursor)
-fn Interface::moveCursor(Self, Int, dy? : Int) -> @js.Promise[Unit]
-fn Interface::question(Self, String) -> @js.Promise[String]
+async fn Interface::moveCursor(Self, Int, dy? : Int) -> Unit
+async fn Interface::question(Self, String) -> String
 fn Interface::rollback(Self) -> Self
 impl @events.EventEmitterImpl for Interface
 

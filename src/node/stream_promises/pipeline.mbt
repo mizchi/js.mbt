@@ -13,11 +13,15 @@ extern "js" fn ffi_stream_promises_finished(stream : @js.Any) -> @js.Any =
   #| }
 
 ///|
-pub fn pipeline(streams : Array[@js.Any]) -> @js.Promise[@stream.Stream] {
-  ffi_stream_promises_pipeline(@js.identity(streams)).cast()
+pub async fn pipeline(streams : Array[@js.Any]) -> @stream.Stream {
+  let promise : @js.Promise[@stream.Stream] = ffi_stream_promises_pipeline(
+    @js.identity(streams),
+  ).cast()
+  promise.wait()
 }
 
 ///|
-pub fn finished(stream : @js.Any) -> @js.Promise[Unit] {
-  ffi_stream_promises_finished(stream).cast()
+pub async fn finished(stream : @js.Any) -> Unit {
+  let promise : @js.Promise[Unit] = ffi_stream_promises_finished(stream).cast()
+  promise.wait()
 }
