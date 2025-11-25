@@ -23,10 +23,8 @@ extern "js" fn ffi_watch(paths : @js.Any, options : @js.Any) -> @js.Any =
 ///| Public API
 
 ///|
-/// Create a file system watcher
-/// JS: chokidar.watch(paths, options)
-/// See: https://github.com/paulmillr/chokidar#api
-pub fn watch(
+/// Internal implementation for watch
+fn watch_impl(
   paths : @js.Any,
   persistent? : Bool,
   ignored? : @js.Any,
@@ -103,20 +101,138 @@ pub fn watch(
   @js.identity(ffi_watch(paths, options.to_any()))
 }
 
-///| FSWatcher Methods
-
 ///|
-/// Add files or directories to watch
-/// JS: watcher.add(paths)
-pub fn FSWatcher::add(self : FSWatcher, paths : @js.Any) -> FSWatcher {
-  @js.identity(self.call("add", [paths]))
+/// Create a file system watcher for a single path
+/// JS: chokidar.watch(path, options)
+/// See: https://github.com/paulmillr/chokidar#api
+pub fn watch(
+  path : String,
+  persistent? : Bool,
+  ignored? : @js.Any,
+  ignoreInitial? : Bool,
+  followSymlinks? : Bool,
+  cwd? : String,
+  disableGlobbing? : Bool,
+  usePolling? : Bool,
+  interval? : Int,
+  binaryInterval? : Int,
+  alwaysStat? : Bool,
+  depth? : Int,
+  awaitWriteFinish? : @js.Any,
+  ignorePermissionErrors? : Bool,
+  atomic_? : Bool,
+) -> FSWatcher {
+  watch_impl(
+    @js.any(path),
+    persistent?,
+    ignored?,
+    ignoreInitial?,
+    followSymlinks?,
+    cwd?,
+    disableGlobbing?,
+    usePolling?,
+    interval?,
+    binaryInterval?,
+    alwaysStat?,
+    depth?,
+    awaitWriteFinish?,
+    ignorePermissionErrors?,
+    atomic_?,
+  )
 }
 
 ///|
-/// Stop watching files or directories
+/// Create a file system watcher for multiple paths
+/// JS: chokidar.watch(paths, options)
+/// See: https://github.com/paulmillr/chokidar#api
+pub fn watch_paths(
+  paths : Array[String],
+  persistent? : Bool,
+  ignored? : @js.Any,
+  ignoreInitial? : Bool,
+  followSymlinks? : Bool,
+  cwd? : String,
+  disableGlobbing? : Bool,
+  usePolling? : Bool,
+  interval? : Int,
+  binaryInterval? : Int,
+  alwaysStat? : Bool,
+  depth? : Int,
+  awaitWriteFinish? : @js.Any,
+  ignorePermissionErrors? : Bool,
+  atomic_? : Bool,
+) -> FSWatcher {
+  let arr = @js.JsArray::new()
+  let mut i = 0
+  while i < paths.length() {
+    arr.call("push", [paths[i]]) |> ignore
+    i = i + 1
+  }
+  watch_impl(
+    arr.to_any(),
+    persistent?,
+    ignored?,
+    ignoreInitial?,
+    followSymlinks?,
+    cwd?,
+    disableGlobbing?,
+    usePolling?,
+    interval?,
+    binaryInterval?,
+    alwaysStat?,
+    depth?,
+    awaitWriteFinish?,
+    ignorePermissionErrors?,
+    atomic_?,
+  )
+}
+
+///| FSWatcher Methods
+
+///|
+/// Add a file or directory to watch
+/// JS: watcher.add(path)
+pub fn FSWatcher::add(self : FSWatcher, path : String) -> FSWatcher {
+  @js.identity(self.call("add", [path]))
+}
+
+///|
+/// Add multiple files or directories to watch
+/// JS: watcher.add(paths)
+pub fn FSWatcher::add_paths(
+  self : FSWatcher,
+  paths : Array[String],
+) -> FSWatcher {
+  let arr = @js.JsArray::new()
+  let mut i = 0
+  while i < paths.length() {
+    arr.call("push", [paths[i]]) |> ignore
+    i = i + 1
+  }
+  @js.identity(self.call("add", [arr]))
+}
+
+///|
+/// Stop watching a file or directory
+/// JS: watcher.unwatch(path)
+pub fn FSWatcher::unwatch(self : FSWatcher, path : String) -> FSWatcher {
+  @js.identity(self.call("unwatch", [path]))
+}
+
+///|
+/// Stop watching multiple files or directories
 /// JS: watcher.unwatch(paths)
-pub fn FSWatcher::unwatch(self : FSWatcher, paths : @js.Any) -> FSWatcher {
-  @js.identity(self.call("unwatch", [paths]))
+pub fn FSWatcher::unwatch_paths(
+  self : FSWatcher,
+  paths : Array[String],
+) -> FSWatcher {
+  let arr = @js.JsArray::new()
+  let mut i = 0
+  while i < paths.length() {
+    arr.call("push", [paths[i]]) |> ignore
+    i = i + 1
+  }
+  @js.identity(self.call("unwatch", [arr]))
 }
 
 ///|

@@ -6,19 +6,23 @@ import(
 )
 
 // Values
-fn watch(@js.Any, persistent? : Bool, ignored? : @js.Any, ignoreInitial? : Bool, followSymlinks? : Bool, cwd? : String, disableGlobbing? : Bool, usePolling? : Bool, interval? : Int, binaryInterval? : Int, alwaysStat? : Bool, depth? : Int, awaitWriteFinish? : @js.Any, ignorePermissionErrors? : Bool, atomic_? : Bool) -> FSWatcher
+fn watch(String, persistent? : Bool, ignored? : @js.Any, ignoreInitial? : Bool, followSymlinks? : Bool, cwd? : String, disableGlobbing? : Bool, usePolling? : Bool, interval? : Int, binaryInterval? : Int, alwaysStat? : Bool, depth? : Int, awaitWriteFinish? : @js.Any, ignorePermissionErrors? : Bool, atomic_? : Bool) -> FSWatcher
+
+fn watch_paths(Array[String], persistent? : Bool, ignored? : @js.Any, ignoreInitial? : Bool, followSymlinks? : Bool, cwd? : String, disableGlobbing? : Bool, usePolling? : Bool, interval? : Int, binaryInterval? : Int, alwaysStat? : Bool, depth? : Int, awaitWriteFinish? : @js.Any, ignorePermissionErrors? : Bool, atomic_? : Bool) -> FSWatcher
 
 // Errors
 
 // Types and methods
 #external
 pub type FSWatcher
-fn FSWatcher::add(Self, @js.Any) -> Self
+fn FSWatcher::add(Self, String) -> Self
+fn FSWatcher::add_paths(Self, Array[String]) -> Self
 async fn FSWatcher::close(Self) -> Unit
 fn FSWatcher::getWatched(Self) -> @js.Any
 fn FSWatcher::off(Self, String, @js.Any) -> Self
 fn FSWatcher::on(Self, String, @js.Any) -> Self
-fn FSWatcher::unwatch(Self, @js.Any) -> Self
+fn FSWatcher::unwatch(Self, String) -> Self
+fn FSWatcher::unwatch_paths(Self, Array[String]) -> Self
 impl @js.JsImpl for FSWatcher
 
 // Type aliases
