@@ -99,6 +99,12 @@ pub async fn[T] Promise::wait(self : Self[T]) -> T {
 ///|
 /// JS: Promise.all(promises)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+/// ```moonbit no-check
+/// let results = Promise::all([
+///   Promise::from_async(async fn() { fetch_user() }),
+///   Promise::from_async(async fn() { fetch_posts() }),
+/// ]).wait()
+/// ```
 pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
   ffi_promise_all(promises |> identity) |> identity
 }
@@ -106,6 +112,12 @@ pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
 ///|
 /// JS: Promise.race(promises)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/race
+/// ```moonbit no-check
+/// let first = Promise::race([
+///   Promise::from_async(async fn() { sleep(100); "slow" }),
+///   Promise::from_async(async fn() { sleep(10); "fast" }),
+/// ]).wait() // "fast"
+/// ```
 pub fn[T] Promise::race(promises : Array[Promise[T]]) -> Promise[T] {
   ffi_promise_race(promises |> identity) |> identity
 }
@@ -113,6 +125,12 @@ pub fn[T] Promise::race(promises : Array[Promise[T]]) -> Promise[T] {
 ///|
 /// JS: Promise.any(promises)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/any
+/// ```moonbit no-check
+/// let first_success = Promise::any([
+///   Promise::from_async(async fn() { fetch_from_mirror1() }),
+///   Promise::from_async(async fn() { fetch_from_mirror2() }),
+/// ]).wait()
+/// ```
 pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
   ffi_promise_any(promises |> identity) |> identity
 }
@@ -131,6 +149,14 @@ pub impl[T] JsImpl for SettledResult[T]
 ///|
 /// JS: Promise.allSettled(promises)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
+/// ```moonbit no-check
+/// let results = Promise::allSettled([
+///   Promise::from_async(async fn() { 1 }),
+///   Promise::from_async(async fn() { fail("error") }),
+/// ]).wait()
+/// // results[0].status == "fulfilled", results[0].value == Some(1)
+/// // results[1].status == "rejected", results[1].reason != null
+/// ```
 pub fn[A] Promise::allSettled(
   promises : Array[Promise[A]],
 ) -> Promise[Array[SettledResult[A]]] {
