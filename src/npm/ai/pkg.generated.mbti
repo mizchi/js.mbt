@@ -12,8 +12,9 @@ import(
 // Types and methods
 #external
 pub type Ai
-async fn Ai::generate_text(Self, model~ : Model, messages~ : Array[ModelMessage]) -> @js.Any
+async fn Ai::generate_text(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double) -> GenerateTextResult
 fn Ai::require() -> Self
+async fn Ai::stream_text(Self, model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double) -> StreamTextResultHandle
 impl @js.JsImpl for Ai
 
 pub(all) struct CallWarning {
@@ -22,6 +23,17 @@ pub(all) struct CallWarning {
   raw : @js.Any
 }
 fn CallWarning::from_any(@js.Any) -> Self
+
+pub(all) enum ContentPart {
+  TextPart(text~ : String, provider_metadata~ : ProviderMetadata?)
+  ReasoningPart(reasoning~ : ReasoningOutput)
+  SourceContentPart(source~ : Source)
+  FilePart(file~ : GeneratedFile, provider_metadata~ : ProviderMetadata?)
+  ToolCallContentPart(tool_call~ : ToolCall, provider_metadata~ : ProviderMetadata?)
+  ToolResultContentPart(tool_result~ : ToolResult, provider_metadata~ : ProviderMetadata?)
+  ToolErrorContentPart(tool_error~ : ToolError, provider_metadata~ : ProviderMetadata?)
+}
+fn ContentPart::from_any(@js.Any) -> Self
 
 pub(all) enum FinishReason {
   Stop
@@ -36,6 +48,25 @@ fn FinishReason::from_string(String) -> Self
 fn FinishReason::to_string(Self) -> String
 impl Eq for FinishReason
 impl Show for FinishReason
+
+pub(all) struct GenerateTextResult {
+  content : Array[ContentPart]
+  text : String
+  reasoning : Array[ReasoningOutput]
+  reasoning_text : String?
+  files : Array[GeneratedFile]
+  sources : Array[Source]
+  tool_calls : Array[ToolCall]
+  tool_results : Array[ToolResult]
+  finish_reason : FinishReason
+  usage : LanguageModelUsage
+  total_usage : LanguageModelUsage
+  warnings : Array[CallWarning]
+  request : LanguageModelRequestMetadata
+  response : LanguageModelResponseMetadata
+  raw : @js.Any
+}
+fn GenerateTextResult::from_any(@js.Any) -> Self
 
 pub(all) struct GeneratedFile {
   name : String?
@@ -66,17 +97,20 @@ pub(all) struct LanguageModelUsage {
 fn LanguageModelUsage::from_any(@js.Any) -> Self
 
 pub(all) enum MessageContent {
-  Message(String)
+  Text(String)
+  Parts(Array[@js.Any])
 }
 impl @js.JsImpl for MessageContent
 
 #external
 pub type Model
+impl @js.JsImpl for Model
 
 pub(all) enum ModelMessage {
   UserMessage(content~ : MessageContent)
-  AssitantMessage(content~ : MessageContent)
+  AssistantMessage(content~ : MessageContent)
   SystemMessage(content~ : MessageContent)
+  ToolMessage(content~ : MessageContent)
 }
 impl @js.JsImpl for ModelMessage
 
@@ -85,6 +119,12 @@ pub(all) struct ProviderMetadata {
 }
 fn ProviderMetadata::from_any(@js.Any) -> Self?
 fn ProviderMetadata::to_any(Self) -> @js.Any
+
+pub(all) struct ReasoningOutput {
+  text : String
+  provider_metadata : ProviderMetadata?
+}
+fn ReasoningOutput::from_any(@js.Any) -> Self
 
 pub(all) enum Source {
   UrlSource(SourceUrl)
@@ -112,6 +152,28 @@ pub(all) struct SourceUrl {
   title : String?
   provider_metadata : ProviderMetadata?
 }
+
+pub(all) struct StepResult {
+  content : Array[ContentPart]
+  text : String
+  reasoning : Array[ReasoningOutput]
+  finish_reason : FinishReason
+  usage : LanguageModelUsage
+  warnings : Array[CallWarning]
+  response : LanguageModelResponseMetadata
+  raw : @js.Any
+}
+fn StepResult::from_any(@js.Any) -> Self
+
+#external
+pub type StreamTextResultHandle
+async fn StreamTextResultHandle::finish_reason(Self) -> FinishReason
+fn StreamTextResultHandle::full_stream_raw(Self) -> @js.AsyncIterator[@js.Any]
+async fn StreamTextResultHandle::steps(Self) -> Array[StepResult]
+async fn StreamTextResultHandle::text(Self) -> String
+fn StreamTextResultHandle::text_stream(Self) -> @js.AsyncIterator[String]
+async fn StreamTextResultHandle::usage(Self) -> LanguageModelUsage
+impl @js.JsImpl for StreamTextResultHandle
 
 pub(all) enum TextStreamPart {
   TextStart(id~ : String, provider_metadata~ : ProviderMetadata?)

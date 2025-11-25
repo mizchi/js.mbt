@@ -602,3 +602,279 @@ pub fn TextStreamPart::get_reasoning_text(self : TextStreamPart) -> String? {
     _ => None
   }
 }
+
+///|
+/// Reasoning output from model
+pub(all) struct ReasoningOutput {
+  text : String
+  provider_metadata : ProviderMetadata?
+}
+
+///|
+pub fn ReasoningOutput::from_any(value : @js.Any) -> ReasoningOutput {
+  {
+    text: value.get("text").cast(),
+    provider_metadata: ProviderMetadata::from_any(value.get("providerMetadata")),
+  }
+}
+
+///|
+/// Content part types for model output
+pub(all) enum ContentPart {
+  TextPart(text~ : String, provider_metadata~ : ProviderMetadata?)
+  ReasoningPart(reasoning~ : ReasoningOutput)
+  SourceContentPart(source~ : Source)
+  FilePart(file~ : GeneratedFile, provider_metadata~ : ProviderMetadata?)
+  ToolCallContentPart(
+    tool_call~ : ToolCall,
+    provider_metadata~ : ProviderMetadata?
+  )
+  ToolResultContentPart(
+    tool_result~ : ToolResult,
+    provider_metadata~ : ProviderMetadata?
+  )
+  ToolErrorContentPart(
+    tool_error~ : ToolError,
+    provider_metadata~ : ProviderMetadata?
+  )
+}
+
+///|
+pub fn ContentPart::from_any(value : @js.Any) -> ContentPart {
+  let type_str : String = value.get("type").cast()
+  match type_str {
+    "text" =>
+      TextPart(
+        text=value.get("text").cast(),
+        provider_metadata=ProviderMetadata::from_any(
+          value.get("providerMetadata"),
+        ),
+      )
+    "reasoning" => ReasoningPart(reasoning=ReasoningOutput::from_any(value))
+    "source" => SourceContentPart(source=Source::from_any(value))
+    "file" =>
+      FilePart(
+        file=GeneratedFile::from_any(value.get("file")),
+        provider_metadata=ProviderMetadata::from_any(
+          value.get("providerMetadata"),
+        ),
+      )
+    "tool-call" =>
+      ToolCallContentPart(
+        tool_call=ToolCall::from_any(value),
+        provider_metadata=ProviderMetadata::from_any(
+          value.get("providerMetadata"),
+        ),
+      )
+    "tool-result" =>
+      ToolResultContentPart(
+        tool_result=ToolResult::from_any(value),
+        provider_metadata=ProviderMetadata::from_any(
+          value.get("providerMetadata"),
+        ),
+      )
+    "tool-error" =>
+      ToolErrorContentPart(
+        tool_error=ToolError::from_any(value),
+        provider_metadata=ProviderMetadata::from_any(
+          value.get("providerMetadata"),
+        ),
+      )
+    _ =>
+      TextPart(
+        text="",
+        provider_metadata=ProviderMetadata::from_any(
+          value.get("providerMetadata"),
+        ),
+      )
+  }
+}
+
+///|
+/// Result from generateText call
+pub(all) struct GenerateTextResult {
+  /// The content that was generated
+  content : Array[ContentPart]
+  /// The text that was generated
+  text : String
+  /// The full reasoning from the model
+  reasoning : Array[ReasoningOutput]
+  /// The reasoning text (convenience accessor)
+  reasoning_text : String?
+  /// Generated files
+  files : Array[GeneratedFile]
+  /// Sources used as references
+  sources : Array[Source]
+  /// Tool calls made
+  tool_calls : Array[ToolCall]
+  /// Tool results
+  tool_results : Array[ToolResult]
+  /// Why generation finished
+  finish_reason : FinishReason
+  /// Token usage for last step
+  usage : LanguageModelUsage
+  /// Total token usage across all steps
+  total_usage : LanguageModelUsage
+  /// Warnings from provider
+  warnings : Array[CallWarning]
+  /// Request metadata
+  request : LanguageModelRequestMetadata
+  /// Response metadata
+  response : LanguageModelResponseMetadata
+  /// Raw result object
+  raw : @js.Any
+}
+
+///|
+pub fn GenerateTextResult::from_any(value : @js.Any) -> GenerateTextResult {
+  // Parse content array
+  let content_raw = value.get("content")
+  let content : Array[ContentPart] = if @js.is_undefined(content_raw) ||
+    @js.is_null(content_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(content_raw)
+    arr.map(ContentPart::from_any)
+  }
+  // Parse reasoning array
+  let reasoning_raw = value.get("reasoning")
+  let reasoning : Array[ReasoningOutput] = if @js.is_undefined(reasoning_raw) ||
+    @js.is_null(reasoning_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(reasoning_raw)
+    arr.map(ReasoningOutput::from_any)
+  }
+  // Parse files array
+  let files_raw = value.get("files")
+  let files : Array[GeneratedFile] = if @js.is_undefined(files_raw) ||
+    @js.is_null(files_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(files_raw)
+    arr.map(GeneratedFile::from_any)
+  }
+  // Parse sources array
+  let sources_raw = value.get("sources")
+  let sources : Array[Source] = if @js.is_undefined(sources_raw) ||
+    @js.is_null(sources_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(sources_raw)
+    arr.map(Source::from_any)
+  }
+  // Parse tool_calls array
+  let tool_calls_raw = value.get("toolCalls")
+  let tool_calls : Array[ToolCall] = if @js.is_undefined(tool_calls_raw) ||
+    @js.is_null(tool_calls_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(tool_calls_raw)
+    arr.map(ToolCall::from_any)
+  }
+  // Parse tool_results array
+  let tool_results_raw = value.get("toolResults")
+  let tool_results : Array[ToolResult] = if @js.is_undefined(tool_results_raw) ||
+    @js.is_null(tool_results_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(tool_results_raw)
+    arr.map(ToolResult::from_any)
+  }
+  // Parse warnings array
+  let warnings_raw = value.get("warnings")
+  let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
+    @js.is_null(warnings_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(warnings_raw)
+    arr.map(CallWarning::from_any)
+  }
+  // Parse reasoning_text
+  let reasoning_text_raw = value.get("reasoningText")
+  let reasoning_text : String? = if @js.is_undefined(reasoning_text_raw) ||
+    @js.is_null(reasoning_text_raw) {
+    None
+  } else {
+    Some(reasoning_text_raw.cast())
+  }
+  {
+    content,
+    text: value.get("text").cast(),
+    reasoning,
+    reasoning_text,
+    files,
+    sources,
+    tool_calls,
+    tool_results,
+    finish_reason: FinishReason::from_string(value.get("finishReason").cast()),
+    usage: LanguageModelUsage::from_any(value.get("usage")),
+    total_usage: LanguageModelUsage::from_any(value.get("totalUsage")),
+    warnings,
+    request: LanguageModelRequestMetadata::from_any(value.get("request")),
+    response: LanguageModelResponseMetadata::from_any(value.get("response")),
+    raw: value,
+  }
+}
+
+///|
+/// Step result from multi-step generation
+pub(all) struct StepResult {
+  /// Step content
+  content : Array[ContentPart]
+  /// Step text
+  text : String
+  /// Step reasoning
+  reasoning : Array[ReasoningOutput]
+  /// Step finish reason
+  finish_reason : FinishReason
+  /// Step usage
+  usage : LanguageModelUsage
+  /// Step warnings
+  warnings : Array[CallWarning]
+  /// Step response metadata
+  response : LanguageModelResponseMetadata
+  /// Raw step object
+  raw : @js.Any
+}
+
+///|
+pub fn StepResult::from_any(value : @js.Any) -> StepResult {
+  // Parse content array
+  let content_raw = value.get("content")
+  let content : Array[ContentPart] = if @js.is_undefined(content_raw) ||
+    @js.is_null(content_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(content_raw)
+    arr.map(ContentPart::from_any)
+  }
+  // Parse reasoning array
+  let reasoning_raw = value.get("reasoning")
+  let reasoning : Array[ReasoningOutput] = if @js.is_undefined(reasoning_raw) ||
+    @js.is_null(reasoning_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(reasoning_raw)
+    arr.map(ReasoningOutput::from_any)
+  }
+  // Parse warnings array
+  let warnings_raw = value.get("warnings")
+  let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
+    @js.is_null(warnings_raw) {
+    []
+  } else {
+    let arr : Array[@js.Any] = @js.identity(warnings_raw)
+    arr.map(CallWarning::from_any)
+  }
+  {
+    content,
+    text: value.get("text").cast(),
+    reasoning,
+    finish_reason: FinishReason::from_string(value.get("finishReason").cast()),
+    usage: LanguageModelUsage::from_any(value.get("usage")),
+    warnings,
+    response: LanguageModelResponseMetadata::from_any(value.get("response")),
+    raw: value,
+  }
+}
