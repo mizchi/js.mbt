@@ -7,7 +7,6 @@ Practical examples for working with Browser DOM APIs in MoonBit.
 ### Basic DOM Operations
 
 ```moonbit
-
 ///|
 fn basic_dom_example() -> Unit {
   let doc = @dom.document()
@@ -30,7 +29,6 @@ fn basic_dom_example() -> Unit {
 ### Query Selectors
 
 ```moonbit
-
 ///|
 fn query_example() -> Unit {
   let doc = @dom.document()
@@ -41,9 +39,7 @@ fn query_example() -> Unit {
 
   // Multiple elements
   let items = doc.querySelectorAll("li")
-  items.iter().each(fn(item) {
-    @js.log(item.textContent())
-  })
+  items.iter().each(fn(item) { @js.log(item.textContent()) })
 
   // By ID
   guard doc.getElementById("header") is Some(header) else { return }
@@ -54,7 +50,6 @@ fn query_example() -> Unit {
 ### Node Tree Manipulation
 
 ```moonbit
-
 ///|
 fn tree_manipulation() -> Unit {
   let doc = @dom.document()
@@ -63,9 +58,8 @@ fn tree_manipulation() -> Unit {
   // Create and append children
   let item1 = doc.createElement("li")
   item1.setTextContent("Item 1")
-  let item2: @dom.HTMLLIElement = doc.createElement("li").to_any().cast()
+  let item2 : @dom.HTMLLIElement = doc.createElement("li").to_any().cast()
   item2.setTextContent("Item 2")
-
   parent.appendChild(item1) |> ignore
   parent.appendChild(item2) |> ignore
 
@@ -78,8 +72,9 @@ fn tree_manipulation() -> Unit {
   let _cloned = parent.cloneNode(true)
 
   // Check relationships
-  let _has_children = parent.hasChildNodes()  // true
-  let _contains_item = parent.contains(Some(item1))  // true
+  let _has_children = parent.hasChildNodes() // true
+  let _contains_item = parent.contains(Some(item1))
+   // true
 }
 ```
 
@@ -88,7 +83,6 @@ fn tree_manipulation() -> Unit {
 ### Adding Event Listeners
 
 ```moonbit
-
 ///|
 fn event_listener_example() -> Unit {
   let doc = @dom.document()
@@ -97,7 +91,7 @@ fn event_listener_example() -> Unit {
   // Basic click handler
   button.addEventListener("click", fn(event) {
     @js.log("Button clicked!")
-    @js.log(event)  // MouseEvent object
+    @js.log(event) // MouseEvent object
   })
 
   // With options
@@ -119,12 +113,10 @@ fn event_listener_example() -> Unit {
 ### Event with AbortController
 
 ```moonbit
-
 ///|
 fn abort_controller_example() -> Unit {
   let doc = @dom.document()
   let controller = @js.AbortController::new()
-
   doc.addEventListener(
     "mousemove",
     fn(_event) { @js.log("Mouse moved") },
@@ -141,7 +133,6 @@ fn abort_controller_example() -> Unit {
 ### localStorage / sessionStorage
 
 ```moonbit
-
 ///|
 fn storage_example() -> Unit {
   let storage = @storage.localStorage()
@@ -167,7 +158,9 @@ fn storage_example() -> Unit {
 
   // Get all entries
   let entries = storage.entries()
-  entries.iter().each(fn(entry) {
+  entries
+  .iter()
+  .each(fn(entry) {
     let (key, value) = entry
     @js.log(key + ": " + value)
   })
@@ -185,7 +178,6 @@ fn storage_example() -> Unit {
 ### Window Object
 
 ```moonbit
-
 ///|
 fn window_example() -> Unit {
   let win = @dom.window()
@@ -200,17 +192,13 @@ fn window_example() -> Unit {
   win.scrollBy(0, 50)
 
   // Timers
-  let timer_id = win.setTimeout(fn() {
-    @js.log("Timeout fired!")
-  }, 1000)
+  let timer_id = win.setTimeout(fn() { @js.log("Timeout fired!") }, 1000)
 
   // Cancel if needed
   win.clearTimeout(timer_id)
 
   // Interval
-  let interval_id = win.setInterval(fn() {
-    @js.log("Interval tick")
-  }, 1000)
+  let interval_id = win.setInterval(fn() { @js.log("Interval tick") }, 1000)
   win.clearInterval(interval_id)
 }
 ```
@@ -220,7 +208,6 @@ fn window_example() -> Unit {
 ### Basic Canvas Drawing
 
 ```moonbit
-
 ///|
 fn canvas_example() -> Unit {
   let doc = @dom.document()
@@ -253,7 +240,6 @@ fn canvas_example() -> Unit {
 ### Canvas to Blob (async)
 
 ```moonbit
-
 ///|
 async fn canvas_to_blob_example() -> Unit {
   let doc = @dom.document()

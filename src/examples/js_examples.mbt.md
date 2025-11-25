@@ -5,7 +5,6 @@ Common usage patterns for the `mizchi/js` library.
 ## Object Operations
 
 ```moonbit
-
 ///|
 test "basic object operations" {
   let obj = @js.Object::new()
@@ -14,9 +13,9 @@ test "basic object operations" {
   inspect(obj.to_any(), content="{\"name\":\"MoonBit\",\"version\":1}")
 
   // Property access with different key types
-  obj.set(0, "first")  // Int key
+  obj.set(0, "first") // Int key
   let sym = @js.symbol("custom")
-  obj.set(sym, "symbol value")  // Symbol key
+  obj.set(sym, "symbol value") // Symbol key
 
   // Object methods
   let _keys = @js.Object::keys(obj)
@@ -29,7 +28,6 @@ test "basic object operations" {
 ## Arrays
 
 ```moonbit
-
 ///|
 test "array operations" {
   let arr = @js.JsArray::from([1, 2, 3])
@@ -37,10 +35,13 @@ test "array operations" {
   inspect(arr.to_any(), content="[1,2,3,4]")
 
   // Higher-order methods
-  let filtered = arr.call1("filter", @js.from_fn1(fn(x : @js.Any) -> Bool {
-    let n : Int = @js.identity(x)
-    n > 2
-  }))
+  let filtered = arr.call1(
+    "filter",
+    @js.from_fn1(fn(x : @js.Any) -> Bool {
+      let n : Int = @js.identity(x)
+      n > 2
+    }),
+  )
   inspect(filtered, content="[3,4]")
 }
 ```
@@ -48,7 +49,6 @@ test "array operations" {
 ## Type Conversion
 
 ```moonbit
-
 ///|
 test "type conversion" {
   // MoonBit -> JS
@@ -74,13 +74,11 @@ test "type conversion" {
 ## Type Checking
 
 ```moonbit
-
 ///|
 test "type checking" {
   let arr = @js.JsArray::from([1, 2, 3])
   let obj = @js.Object::new()
   let undef = @js.undefined()
-
   assert_eq(@js.is_array(arr), true)
   assert_eq(@js.is_object(obj), true)
   assert_eq(@js.is_undefined(undef), true)
@@ -91,7 +89,6 @@ test "type checking" {
 ## Method Calls
 
 ```moonbit
-
 ///|
 test "method calls" {
   let obj = @js.Object::new()
@@ -110,7 +107,6 @@ test "method calls" {
 ## Function Conversion
 
 ```moonbit
-
 ///|
 test "function conversion" {
   // MoonBit function -> JS function
@@ -128,7 +124,6 @@ test "function conversion" {
 ## Constructors
 
 ```moonbit
-
 ///|
 test "constructors" {
   let array_ctor = @js.globalThis().get("Array")
@@ -140,7 +135,6 @@ test "constructors" {
 ## Symbols
 
 ```moonbit
-
 ///|
 test "symbols" {
   let obj = @js.Object::new()
@@ -151,21 +145,19 @@ test "symbols" {
   // Well-known symbols
   let _iter = @js.Symbol::iterator()
   let _tag = @js.Symbol::toStringTag()
+
 }
 ```
 
 ## JSON
 
 ```moonbit
-
 ///|
 test "json" {
   let obj = @js.Object::new()
   obj.set("name", "MoonBit")
-
   let json_str = @js.JSON::stringify(obj.to_any())
   assert_eq(json_str.contains("name"), true)
-
   let parsed = @js.JSON::parse(json_str) catch { _ => @js.undefined() }
   assert_eq(@js.is_object(parsed), true)
 }
@@ -174,7 +166,6 @@ test "json" {
 ## Async / Promise
 
 ```moonbit
-
 ///|
 async fn fetch_example() -> Unit {
   // Async functions return values directly (no .wait() needed by caller)
@@ -207,7 +198,7 @@ fn callback_to_promise() -> @js.Promise[String] {
 ///|
 async fn sleep_example() -> Unit {
   @js.log("start")
-  @js.sleep(1000)  // Sleep 1 second
+  @js.sleep(1000) // Sleep 1 second
   @js.log("after 1 second")
 }
 ```
@@ -215,7 +206,6 @@ async fn sleep_example() -> Unit {
 ## Global Functions
 
 ```moonbit
-
 ///|
 test "global functions" {
   // URI encoding
@@ -233,7 +223,6 @@ test "global functions" {
 ## BigInt
 
 ```moonbit
-
 ///|
 test "bigint" {
   let a = @bigint.JsBigInt::from_int(42)
