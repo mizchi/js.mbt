@@ -252,15 +252,14 @@ pub impl JsImpl for Json with to_any(self) -> Any {
         let v : Any = JsImpl::to_any(v)
         obj.set(k, v)
       }
-      obj.to_any()
+      obj
     }
     Array(a) => {
-      let arr = JsArray::new()
+      let arr : Array[Any] = []
       for v in a {
-        let v : Any = JsImpl::to_any(v)
-        arr.call("push", [v]) |> ignore
+        arr.push(JsImpl::to_any(v))
       }
-      arr.to_any()
+      from_array(arr)
     }
   }
 }

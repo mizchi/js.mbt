@@ -38,10 +38,10 @@ pub fn ReactDOMClient::createRoot(
   self : Self,
   container : &@dom.ElementImpl,
 ) -> ReactDOMRoot {
-  self.call("createRoot", [container.to_any()]).cast()
+  self.call1("createRoot", container.to_any()).cast()
 }
 
 ///|
 pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : @react.Element) -> Unit {
-  self.call("render", [vdom]) |> ignore
+  self.call1("render", vdom) |> ignore
 }

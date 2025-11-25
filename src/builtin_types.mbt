@@ -57,8 +57,10 @@ pub impl JsImpl for Object
 
 ///|
 /// JS: new Object()
-pub fn Object::new() -> Self {
-  ffi_new_object() |> identity
+/// Returns Any directly - use from_map() for creating objects with initial properties
+/// Example: `let obj = @js.from_map({ "key": @js.any(value) })` for typed object creation
+pub fn Object::new() -> Any {
+  ffi_new_object()
 }
 
 ///|
@@ -73,7 +75,7 @@ fn object_class() -> Any {
 /// Returns an array of a given object's own enumerable property names.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::keys(v : &JsImpl) -> Array[String] {
-  object_class().call("keys", [v.to_any()]) |> identity
+  object_class().call1("keys", v.to_any()) |> identity
 }
 
 ///|
@@ -82,7 +84,7 @@ pub fn Object::keys(v : &JsImpl) -> Array[String] {
 /// Returns an array of a given object's own enumerable property values.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::values(v : &JsImpl) -> Array[Any] {
-  object_class().call("values", [v.to_any()]) |> identity
+  object_class().call1("values", v.to_any()) |> identity
 }
 
 ///|
@@ -210,8 +212,10 @@ pub fn[T] JsArray::from(items : Array[T]) -> JsArray {
 
 ///|
 /// JS: new Array()
-pub fn JsArray::new() -> JsArray {
-  ffi_new_array() |> identity
+/// **Avoid using this directly** - Use MoonBit Array literals with from_array() instead
+/// Example: `let arr = @js.from_array([1, 2, 3])` instead of `JsArray::new()`
+pub fn JsArray::new() -> Any {
+  ffi_new_array()
 }
 
 ///|
@@ -461,7 +465,7 @@ pub fn symbol(name : String) -> Symbol {
 ///|
 /// JS: Symbol.for(name)
 pub fn Symbol::for_(name : String) -> Symbol {
-  symbol_class().call("for", [name]) |> identity
+  symbol_class().call1("for", name) |> identity
 }
 
 ///|
@@ -561,14 +565,14 @@ pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
 /// JS: iterator.drop(limit)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/drop
 pub fn[T] JsIterator::drop(self : Self[T], limit : Int) -> Self[T] {
-  self.call("drop", [limit]) |> identity
+  self.call1("drop", limit) |> identity
 }
 
 ///|
 /// JS: iterator.take(limit)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/take
 pub fn[T] JsIterator::take(self : Self[T], limit : Int) -> Self[T] {
-  self.call("take", [limit]) |> identity
+  self.call1("take", limit) |> identity
 }
 
 ///|

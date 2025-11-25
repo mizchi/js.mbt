@@ -25,7 +25,7 @@ pub impl @js.JsImpl for RenderResult
 /// Returns: RenderResult with queries, container, baseElement, debug, rerender, unmount, asFragment
 pub fn render(element : @react.Element) -> RenderResult {
   let rtl = testing_library()
-  rtl.call("render", [element]).cast()
+  rtl.call1("render", element).cast()
 }
 
 ///|
@@ -52,7 +52,7 @@ pub fn RenderResult::rerender(
   self : RenderResult,
   element : @react.Element,
 ) -> Unit {
-  self.call("rerender", [element]) |> ignore
+  self.call1("rerender", element) |> ignore
 }
 
 ///|
@@ -78,14 +78,14 @@ pub fn cleanup() -> Unit {
 /// JS: act(callback)
 pub fn act(callback : () -> Unit) -> @js.Any {
   let rtl = testing_library()
-  rtl.call("act", [@js.identity(callback)])
+  rtl.call1("act", @js.identity(callback))
 }
 
 ///|
 /// JS: configure(options)
 pub fn configure(options : @js.Any) -> Unit {
   let rtl = testing_library()
-  rtl.call("configure", [options]) |> ignore
+  rtl.call1("configure", options) |> ignore
 }
 
 ///|
@@ -100,7 +100,7 @@ pub impl @js.JsImpl for RenderHookResult
 /// JS: renderHook(hook, options?)
 pub fn renderHook(hook : @js.Any) -> RenderHookResult {
   let rtl = testing_library()
-  rtl.call("renderHook", [hook]).cast()
+  rtl.call1("renderHook", hook).cast()
 }
 
 ///|
@@ -115,7 +115,7 @@ pub fn RenderHookResult::rerender(
   self : RenderHookResult,
   props : @js.Any,
 ) -> Unit {
-  self.call("rerender", [props]) |> ignore
+  self.call1("rerender", props) |> ignore
 }
 
 ///|
@@ -143,7 +143,7 @@ pub fn fireEvent() -> FireEvent {
 ///|
 /// JS: fireEvent.click(target)
 pub fn FireEvent::click(self : FireEvent, target : @dom.HTMLElement) -> Unit {
-  self.call("click", [target]) |> ignore
+  self.call1("click", target) |> ignore
 }
 
 ///|
@@ -153,7 +153,7 @@ pub fn FireEvent::change(
   target : @dom.HTMLElement,
   event : @js.Any,
 ) -> Unit {
-  self.call("change", [target, event]) |> ignore
+  self.call2("change", target, event) |> ignore
 }
 
 ///|
@@ -163,25 +163,25 @@ pub fn FireEvent::input(
   target : @dom.HTMLElement,
   event : @js.Any,
 ) -> Unit {
-  self.call("input", [target, event]) |> ignore
+  self.call2("input", target, event) |> ignore
 }
 
 ///|
 /// JS: fireEvent.submit(target)
 pub fn FireEvent::submit(self : FireEvent, target : @dom.HTMLElement) -> Unit {
-  self.call("submit", [target]) |> ignore
+  self.call1("submit", target) |> ignore
 }
 
 ///|
 /// JS: fireEvent.focus(target)
 pub fn FireEvent::focus(self : FireEvent, target : @dom.HTMLElement) -> Unit {
-  self.call("focus", [target]) |> ignore
+  self.call1("focus", target) |> ignore
 }
 
 ///|
 /// JS: fireEvent.blur(target)
 pub fn FireEvent::blur(self : FireEvent, target : @dom.HTMLElement) -> Unit {
-  self.call("blur", [target]) |> ignore
+  self.call1("blur", target) |> ignore
 }
 
 ///|
@@ -191,7 +191,7 @@ pub fn FireEvent::keyDown(
   target : @dom.HTMLElement,
   event : @js.Any,
 ) -> Unit {
-  self.call("keyDown", [target, event]) |> ignore
+  self.call2("keyDown", target, event) |> ignore
 }
 
 ///|
@@ -201,7 +201,7 @@ pub fn FireEvent::keyUp(
   target : @dom.HTMLElement,
   event : @js.Any,
 ) -> Unit {
-  self.call("keyUp", [target, event]) |> ignore
+  self.call2("keyUp", target, event) |> ignore
 }
 
 ///|
@@ -210,7 +210,7 @@ pub fn FireEvent::mouseEnter(
   self : FireEvent,
   target : @dom.HTMLElement,
 ) -> Unit {
-  self.call("mouseEnter", [target]) |> ignore
+  self.call1("mouseEnter", target) |> ignore
 }
 
 ///|
@@ -219,7 +219,7 @@ pub fn FireEvent::mouseLeave(
   self : FireEvent,
   target : @dom.HTMLElement,
 ) -> Unit {
-  self.call("mouseLeave", [target]) |> ignore
+  self.call1("mouseLeave", target) |> ignore
 }
 
 ///|
@@ -255,13 +255,13 @@ pub type ScreenResults = Array[@dom.HTMLElement]
 ///|
 /// JS: screen.getByRole(role, options?)
 pub fn Screen::getByRole(self : Screen, role : String) -> ScreenResult {
-  self.call("getByRole", [role]).cast()
+  self.call1("getByRole", role).cast()
 }
 
 ///|
 /// JS: screen.getByLabelText(text, options?)
 pub fn Screen::getByLabelText(self : Screen, text : String) -> ScreenResult {
-  self.call("getByLabelText", [text]).cast()
+  self.call1("getByLabelText", text).cast()
 }
 
 ///|
@@ -270,37 +270,37 @@ pub fn Screen::getByPlaceholderText(
   self : Screen,
   text : String,
 ) -> ScreenResult {
-  self.call("getByPlaceholderText", [text]).cast()
+  self.call1("getByPlaceholderText", text).cast()
 }
 
 ///|
 /// JS: screen.getByText(text, options?)
 pub fn Screen::getByText(self : Screen, text : String) -> ScreenResult {
-  self.call("getByText", [text]).cast()
+  self.call1("getByText", text).cast()
 }
 
 ///|
 /// JS: screen.getByDisplayValue(value, options?)
 pub fn Screen::getByDisplayValue(self : Screen, value : String) -> ScreenResult {
-  self.call("getByDisplayValue", [value]).cast()
+  self.call1("getByDisplayValue", value).cast()
 }
 
 ///|
 /// JS: screen.getByAltText(text, options?)
 pub fn Screen::getByAltText(self : Screen, text : String) -> ScreenResult {
-  self.call("getByAltText", [text]).cast()
+  self.call1("getByAltText", text).cast()
 }
 
 ///|
 /// JS: screen.getByTitle(title, options?)
 pub fn Screen::getByTitle(self : Screen, title : String) -> ScreenResult {
-  self.call("getByTitle", [title]).cast()
+  self.call1("getByTitle", title).cast()
 }
 
 ///|
 /// JS: screen.getByTestId(testId)
 pub fn Screen::getByTestId(self : Screen, testId : String) -> ScreenResult {
-  self.call("getByTestId", [testId]).cast()
+  self.call1("getByTestId", testId).cast()
 }
 
 ///| queryBy* queries - return null if not found
@@ -308,13 +308,13 @@ pub fn Screen::getByTestId(self : Screen, testId : String) -> ScreenResult {
 ///|
 /// JS: screen.queryByRole(role, options?)
 pub fn Screen::queryByRole(self : Screen, role : String) -> ScreenResult? {
-  self.call("queryByRole", [role]).cast()
+  self.call1("queryByRole", role).cast()
 }
 
 ///|
 /// JS: screen.queryByLabelText(text, options?)
 pub fn Screen::queryByLabelText(self : Screen, text : String) -> ScreenResult? {
-  self.call("queryByLabelText", [text]).cast()
+  self.call1("queryByLabelText", text).cast()
 }
 
 ///|
@@ -323,13 +323,13 @@ pub fn Screen::queryByPlaceholderText(
   self : Screen,
   text : String,
 ) -> ScreenResult? {
-  self.call("queryByPlaceholderText", [text]).cast()
+  self.call1("queryByPlaceholderText", text).cast()
 }
 
 ///|
 /// JS: screen.queryByText(text, options?)
 pub fn Screen::queryByText(self : Screen, text : String) -> ScreenResult? {
-  self.call("queryByText", [text]).cast()
+  self.call1("queryByText", text).cast()
 }
 
 ///|
@@ -338,25 +338,25 @@ pub fn Screen::queryByDisplayValue(
   self : Screen,
   value : String,
 ) -> ScreenResult? {
-  self.call("queryByDisplayValue", [value]).cast()
+  self.call1("queryByDisplayValue", value).cast()
 }
 
 ///|
 /// JS: screen.queryByAltText(text, options?)
 pub fn Screen::queryByAltText(self : Screen, text : String) -> ScreenResult? {
-  self.call("queryByAltText", [text]).cast()
+  self.call1("queryByAltText", text).cast()
 }
 
 ///|
 /// JS: screen.queryByTitle(title, options?)
 pub fn Screen::queryByTitle(self : Screen, title : String) -> ScreenResult? {
-  self.call("queryByTitle", [title]).cast()
+  self.call1("queryByTitle", title).cast()
 }
 
 ///|
 /// JS: screen.queryByTestId(testId)
 pub fn Screen::queryByTestId(self : Screen, testId : String) -> ScreenResult? {
-  self.call("queryByTestId", [testId]).cast()
+  self.call1("queryByTestId", testId).cast()
 }
 
 ///| findBy* queries - return Promise
@@ -367,7 +367,7 @@ pub fn Screen::findByRole(
   self : Screen,
   role : String,
 ) -> @js.Promise[ScreenResult] {
-  self.call("findByRole", [role]).cast()
+  self.call1("findByRole", role).cast()
 }
 
 ///|
@@ -376,7 +376,7 @@ pub fn Screen::findByLabelText(
   self : Screen,
   text : String,
 ) -> @js.Promise[ScreenResult] {
-  self.call("findByLabelText", [text]).cast()
+  self.call1("findByLabelText", text).cast()
 }
 
 ///|
@@ -385,7 +385,7 @@ pub fn Screen::findByPlaceholderText(
   self : Screen,
   text : String,
 ) -> @js.Promise[ScreenResult] {
-  self.call("findByPlaceholderText", [text]).cast()
+  self.call1("findByPlaceholderText", text).cast()
 }
 
 ///|
@@ -394,7 +394,7 @@ pub fn Screen::findByText(
   self : Screen,
   text : String,
 ) -> @js.Promise[ScreenResult] {
-  self.call("findByText", [text]).cast()
+  self.call1("findByText", text).cast()
 }
 
 ///|
@@ -403,7 +403,7 @@ pub fn Screen::findByDisplayValue(
   self : Screen,
   value : String,
 ) -> @js.Promise[ScreenResult] {
-  self.call("findByDisplayValue", [value]).cast()
+  self.call1("findByDisplayValue", value).cast()
 }
 
 ///|
@@ -412,7 +412,7 @@ pub fn Screen::findByAltText(
   self : Screen,
   text : String,
 ) -> @js.Promise[ScreenResult] {
-  self.call("findByAltText", [text]).cast()
+  self.call1("findByAltText", text).cast()
 }
 
 ///|
@@ -421,7 +421,7 @@ pub fn Screen::findByTitle(
   self : Screen,
   title : String,
 ) -> @js.Promise[ScreenResult] {
-  self.call("findByTitle", [title]).cast()
+  self.call1("findByTitle", title).cast()
 }
 
 ///|
@@ -430,7 +430,7 @@ pub fn Screen::findByTestId(
   self : Screen,
   testId : String,
 ) -> @js.Promise[ScreenResult] {
-  self.call("findByTestId", [testId]).cast()
+  self.call1("findByTestId", testId).cast()
 }
 
 ///| getAllBy* queries - return array, throw if not found
@@ -438,13 +438,13 @@ pub fn Screen::findByTestId(
 ///|
 /// JS: screen.getAllByRole(role, options?)
 pub fn Screen::getAllByRole(self : Screen, role : String) -> ScreenResults {
-  self.call("getAllByRole", [role]).cast()
+  self.call1("getAllByRole", role).cast()
 }
 
 ///|
 /// JS: screen.getAllByLabelText(text, options?)
 pub fn Screen::getAllByLabelText(self : Screen, text : String) -> ScreenResults {
-  self.call("getAllByLabelText", [text]).cast()
+  self.call1("getAllByLabelText", text).cast()
 }
 
 ///|
@@ -453,13 +453,13 @@ pub fn Screen::getAllByPlaceholderText(
   self : Screen,
   text : String,
 ) -> ScreenResults {
-  self.call("getAllByPlaceholderText", [text]).cast()
+  self.call1("getAllByPlaceholderText", text).cast()
 }
 
 ///|
 /// JS: screen.getAllByText(text, options?)
 pub fn Screen::getAllByText(self : Screen, text : String) -> ScreenResults {
-  self.call("getAllByText", [text]).cast()
+  self.call1("getAllByText", text).cast()
 }
 
 ///|
@@ -468,25 +468,25 @@ pub fn Screen::getAllByDisplayValue(
   self : Screen,
   value : String,
 ) -> ScreenResults {
-  self.call("getAllByDisplayValue", [value]).cast()
+  self.call1("getAllByDisplayValue", value).cast()
 }
 
 ///|
 /// JS: screen.getAllByAltText(text, options?)
 pub fn Screen::getAllByAltText(self : Screen, text : String) -> ScreenResults {
-  self.call("getAllByAltText", [text]).cast()
+  self.call1("getAllByAltText", text).cast()
 }
 
 ///|
 /// JS: screen.getAllByTitle(title, options?)
 pub fn Screen::getAllByTitle(self : Screen, title : String) -> ScreenResults {
-  self.call("getAllByTitle", [title]).cast()
+  self.call1("getAllByTitle", title).cast()
 }
 
 ///|
 /// JS: screen.getAllByTestId(testId)
 pub fn Screen::getAllByTestId(self : Screen, testId : String) -> ScreenResults {
-  self.call("getAllByTestId", [testId]).cast()
+  self.call1("getAllByTestId", testId).cast()
 }
 
 ///| queryAllBy* queries - return array, empty if not found
@@ -494,7 +494,7 @@ pub fn Screen::getAllByTestId(self : Screen, testId : String) -> ScreenResults {
 ///|
 /// JS: screen.queryAllByRole(role, options?)
 pub fn Screen::queryAllByRole(self : Screen, role : String) -> ScreenResults {
-  self.call("queryAllByRole", [role]).cast()
+  self.call1("queryAllByRole", role).cast()
 }
 
 ///|
@@ -503,7 +503,7 @@ pub fn Screen::queryAllByLabelText(
   self : Screen,
   text : String,
 ) -> ScreenResults {
-  self.call("queryAllByLabelText", [text]).cast()
+  self.call1("queryAllByLabelText", text).cast()
 }
 
 ///|
@@ -512,13 +512,13 @@ pub fn Screen::queryAllByPlaceholderText(
   self : Screen,
   text : String,
 ) -> ScreenResults {
-  self.call("queryAllByPlaceholderText", [text]).cast()
+  self.call1("queryAllByPlaceholderText", text).cast()
 }
 
 ///|
 /// JS: screen.queryAllByText(text, options?)
 pub fn Screen::queryAllByText(self : Screen, text : String) -> ScreenResults {
-  self.call("queryAllByText", [text]).cast()
+  self.call1("queryAllByText", text).cast()
 }
 
 ///|
@@ -527,19 +527,19 @@ pub fn Screen::queryAllByDisplayValue(
   self : Screen,
   value : String,
 ) -> ScreenResults {
-  self.call("queryAllByDisplayValue", [value]).cast()
+  self.call1("queryAllByDisplayValue", value).cast()
 }
 
 ///|
 /// JS: screen.queryAllByAltText(text, options?)
 pub fn Screen::queryAllByAltText(self : Screen, text : String) -> ScreenResults {
-  self.call("queryAllByAltText", [text]).cast()
+  self.call1("queryAllByAltText", text).cast()
 }
 
 ///|
 /// JS: screen.queryAllByTitle(title, options?)
 pub fn Screen::queryAllByTitle(self : Screen, title : String) -> ScreenResults {
-  self.call("queryAllByTitle", [title]).cast()
+  self.call1("queryAllByTitle", title).cast()
 }
 
 ///|
@@ -548,7 +548,7 @@ pub fn Screen::queryAllByTestId(
   self : Screen,
   testId : String,
 ) -> ScreenResults {
-  self.call("queryAllByTestId", [testId]).cast()
+  self.call1("queryAllByTestId", testId).cast()
 }
 
 ///| findAllBy* queries - return Promise<array>
@@ -559,7 +559,7 @@ pub fn Screen::findAllByRole(
   self : Screen,
   role : String,
 ) -> @js.Promise[ScreenResults] {
-  self.call("findAllByRole", [role]).cast()
+  self.call1("findAllByRole", role).cast()
 }
 
 ///|
@@ -568,7 +568,7 @@ pub fn Screen::findAllByLabelText(
   self : Screen,
   text : String,
 ) -> @js.Promise[ScreenResults] {
-  self.call("findAllByLabelText", [text]).cast()
+  self.call1("findAllByLabelText", text).cast()
 }
 
 ///|
@@ -577,7 +577,7 @@ pub fn Screen::findAllByPlaceholderText(
   self : Screen,
   text : String,
 ) -> @js.Promise[ScreenResults] {
-  self.call("findAllByPlaceholderText", [text]).cast()
+  self.call1("findAllByPlaceholderText", text).cast()
 }
 
 ///|
@@ -586,7 +586,7 @@ pub fn Screen::findAllByText(
   self : Screen,
   text : String,
 ) -> @js.Promise[ScreenResults] {
-  self.call("findAllByText", [text]).cast()
+  self.call1("findAllByText", text).cast()
 }
 
 ///|
@@ -595,7 +595,7 @@ pub fn Screen::findAllByDisplayValue(
   self : Screen,
   value : String,
 ) -> @js.Promise[ScreenResults] {
-  self.call("findAllByDisplayValue", [value]).cast()
+  self.call1("findAllByDisplayValue", value).cast()
 }
 
 ///|
@@ -604,7 +604,7 @@ pub fn Screen::findAllByAltText(
   self : Screen,
   text : String,
 ) -> @js.Promise[ScreenResults] {
-  self.call("findAllByAltText", [text]).cast()
+  self.call1("findAllByAltText", text).cast()
 }
 
 ///|
@@ -613,7 +613,7 @@ pub fn Screen::findAllByTitle(
   self : Screen,
   title : String,
 ) -> @js.Promise[ScreenResults] {
-  self.call("findAllByTitle", [title]).cast()
+  self.call1("findAllByTitle", title).cast()
 }
 
 ///|
@@ -622,7 +622,7 @@ pub fn Screen::findAllByTestId(
   self : Screen,
   testId : String,
 ) -> @js.Promise[ScreenResults] {
-  self.call("findAllByTestId", [testId]).cast()
+  self.call1("findAllByTestId", testId).cast()
 }
 
 ///| Helper functions to reduce @js.identity in tests

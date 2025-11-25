@@ -2,9 +2,21 @@
 
 Comprehensive JavaScript/ FFI bindings for MoonBit, supporting multiple runtimes and platforms.
 
+## Installation
+
 ```bash
 $ moon add mizchi/js
 ```
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": ["mizchi/js"]
+}
+```
+
+> **⚠️ Future Plans**: Platform-specific APIs (Node.js, Browser, Deno, Cloudflare Workers) will be split into separate packages in the future. The core `mizchi/js` package will focus on JavaScript built-ins and Web Standard APIs.
 
 ## Quick Links
 
@@ -22,29 +34,9 @@ $ moon add mizchi/js
 ### 📖 Learning Resources
 
 - [MoonBit Cheatsheet](https://github.com/mizchi/js.mbt/blob/main/src/examples/moonbit_cheatsheet.mbt.md) - Quick reference for MoonBit syntax
-- [FFI Guide](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_ffi.mbt.md) - Understanding MoonBit JavaScript FFI
+- [FFI Bestpractice](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_ffi.mbt.md) - Bestpractice for MoonBit JavaScript FFI
 - [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/src/examples/escape_hatch.mbt.md) - Advanced FFI techniques
 - [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/src/examples/for_ts_user.mbt.md) - Migration guide from TypeScript
-
-> 💡 To search available MoonBit packages, use [`mooncheat`](#mooncheat---moonbit-reference-cli)
-
----
-
-## Installation
-
-```bash
-moon add mizchi/js
-```
-
-Add to your `moon.pkg.json`:
-
-```json
-{
-  "import": ["mizchi/js"]
-}
-```
-
-> **⚠️ Future Plans**: Platform-specific APIs (Node.js, Browser, Deno, Cloudflare Workers) will be split into separate packages in the future. The core `mizchi/js` package will focus on JavaScript built-ins and Web Standard APIs.
 
 ## Supported Modules
 
@@ -131,9 +123,9 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 | Platform | Package | Status | Documentation |
 |----------|---------|--------|---------------|
 | Node.js | `mizchi/js/node/*` | 🚧 Partially | [Node.js README](src/node/README.md) |
-| Browser DOM | `mizchi/js/browser/*` | 🧪 Tested | [Browser README](src/browser/README.md) |
-| Deno | `mizchi/js/deno/*` | 🤖 AI Generated | [Deno README](src/deno/README.md) |
-| Cloudflare Workers | `mizchi/js/cloudflare/*` | 🧪 Tested | [Cloudflare README](src/cloudflare/README.md) |
+| Browser API | `mizchi/js/browser/*` | 🧪 Tested | [Browser README](src/browser/README.md) |
+| Deno | `mizchi/js/deno` | 🤖 AI Generated | [Deno README](src/deno/README.md) |
+| Cloudflare Workers | `mizchi/js/cloudflare` | 🧪 Tested | [Cloudflare README](src/cloudflare/README.md) |
 
 ### NPM Package Bindings
 
@@ -196,72 +188,12 @@ let age: Int = obj.get("age").cast()
 ### Async/Await
 
 ```moonbit
-fn fetch_data() -> Unit {
-  @js.run_async(async fn() {
-    let response = @http.fetch("https://api.example.com/data").wait()
-    let json = response.json().wait()
-    @console.log(json)
-  })
+async fn fetch_data() -> Unit {
+  let response = @http.fetch("https://api.example.com/data").wait()
+  let json = response.json().wait()
+  @js.log(json)
 }
 ```
-
-### Promise Handling
-
-```moonbit
-let promise = @js.Promise::resolve(42)
-promise.then_(fn(value) {
-  @console.log(value)
-})
-
-// Or use async/await
-async fn example() -> Int {
-  let value = promise.wait()
-  value
-}
-```
-
-### Error Handling
-
-```moonbit
-async fn safe_fetch() -> Unit {
-  try {
-    let response = @http.fetch("https://api.example.com/data").wait()
-    @console.log(response)
-  } catch {
-    e => @console.error("Failed to fetch: " + e.to_string())
-  }
-}
-```
-
-> 📖 **More Examples**: See [escape_hatch.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/escape_hatch.mbt.md) for advanced FFI patterns
-
-## Development Scripts
-
-### mooncheat - MoonBit Reference CLI
-
-Search and browse MoonBit packages, core library, and project symbols:
-
-```bash
-# Browse registry packages
-npx tsx scripts/mooncheat.ts pkg --all
-npx tsx scripts/mooncheat.ts pkg --search json
-
-# Browse core library
-npx tsx scripts/mooncheat.ts core --pkgs                # List all core packages
-npx tsx scripts/mooncheat.ts core --builtin-symbols    # Show prelude (globally available)
-npx tsx scripts/mooncheat.ts core mbti builtin         # Show .mbti file
-
-# Browse current project
-npx tsx scripts/mooncheat.ts self --symbols            # Show project symbols
-
-# Pipe to less for easier browsing
-npx tsx scripts/mooncheat.ts core --builtin-symbols | less
-```
-
-The tool reads from:
-- `~/.moon/registry/index/` - Package registry
-- `~/.moon/lib/core/` - Core library
-- Current directory - Project symbols
 
 ## LICENSE
 

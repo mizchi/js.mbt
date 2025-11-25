@@ -46,13 +46,7 @@ pub fn Buffer::from_string(
 /// Create a Buffer from an array of bytes
 pub fn Buffer::from_array(arr : Array[Int]) -> Buffer {
   let ctor = buffer_constructor()
-  let arr_js = @js.JsArray::new()
-  let mut i = 0
-  while i < arr.length() {
-    arr_js.call("push", [arr[i]]) |> ignore
-    i = i + 1
-  }
-  ctor.call("from", [arr_js]).cast()
+  ctor.call1("from", @js.from_array(arr)).cast()
 }
 
 ///|
@@ -73,7 +67,7 @@ pub fn Buffer::from_arraybuffer(
 /// Create a Buffer by copying another buffer
 pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call("from", [buf.to_any()]).cast()
+  ctor.call1("from", buf.to_any()).cast()
 }
 
 ///|
@@ -86,7 +80,7 @@ pub fn Buffer::alloc(
   let ctor = buffer_constructor()
   match fill {
     Some(f) => ctor.call("alloc", [size, f, encoding]).cast()
-    None => ctor.call("alloc", [size]).cast()
+    None => ctor.call1("alloc", size).cast()
   }
 }
 
@@ -95,7 +89,7 @@ pub fn Buffer::alloc(
 #alias(alloc_unsafe)
 pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call("allocUnsafe", [size]).cast()
+  ctor.call1("allocUnsafe", size).cast()
 }
 
 ///|
@@ -103,7 +97,7 @@ pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
 #alias(is_buffer)
 pub fn Buffer::isBuffer(obj : &@js.JsImpl) -> Bool {
   let ctor = buffer_constructor()
-  ctor.call("isBuffer", [obj.to_any()]).cast()
+  ctor.call1("isBuffer", obj.to_any()).cast()
 }
 
 ///|
@@ -111,7 +105,7 @@ pub fn Buffer::isBuffer(obj : &@js.JsImpl) -> Bool {
 #alias(is_encoding)
 pub fn Buffer::isEncoding(encoding : String) -> Bool {
   let ctor = buffer_constructor()
-  ctor.call("isEncoding", [encoding]).cast()
+  ctor.call1("isEncoding", encoding).cast()
 }
 
 ///|
@@ -125,15 +119,10 @@ pub fn Buffer::compare(buf1 : Buffer, buf2 : Buffer) -> Int {
 /// Concatenate an array of buffers
 pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
   let ctor = buffer_constructor()
-  let list_js = @js.JsArray::new()
-  let mut i = 0
-  while i < list.length() {
-    list_js.call("push", [list[i]]) |> ignore
-    i = i + 1
-  }
+  let list_js = @js.from_array(list)
   match total_length {
     Some(len) => ctor.call2("concat", list_js, len).cast()
-    None => ctor.call("concat", [list_js]).cast()
+    None => ctor.call1("concat", list_js).cast()
   }
 }
 
@@ -188,7 +177,7 @@ pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.to_any()
   match end {
     Some(e) => buf_js.call2("slice", start, e).cast()
-    None => buf_js.call("slice", [start]).cast()
+    None => buf_js.call1("slice", start).cast()
   }
 }
 
@@ -198,7 +187,7 @@ pub fn Buffer::subarray(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.to_any()
   match end {
     Some(e) => buf_js.call2("subarray", start, e).cast()
-    None => buf_js.call("subarray", [start]).cast()
+    None => buf_js.call1("subarray", start).cast()
   }
 }
 
@@ -241,7 +230,7 @@ pub fn Buffer::fill(
 ///|
 /// Test if this buffer equals another buffer
 pub fn Buffer::equals(self : Self, other : Buffer) -> Bool {
-  self.call("equals", [other.to_any()]).cast()
+  self.call1("equals", other.to_any()).cast()
 }
 
 ///|
@@ -255,21 +244,17 @@ pub fn Buffer::compare_with(
   source_end? : Int,
 ) -> Int {
   let buf_js = self.to_any()
-  let args = @js.JsArray::new()
-  args.call("push", [target.to_any()]) |> ignore
-  args.call("push", [target_start]) |> ignore
-  match target_end {
-    Some(te) => args.call("push", [te]) |> ignore
-    None => ()
+  let args : Array[@js.Any] = [target.to_any(), @js.any(target_start)]
+  if target_end is Some(te) {
+    args.push(@js.any(te))
   }
-  args.call("push", [source_start]) |> ignore
-  match source_end {
-    Some(se) => args.call("push", [se]) |> ignore
-    None => ()
+  args.push(@js.any(source_start))
+  if source_end is Some(se) {
+    args.push(@js.any(se))
   }
   let compare_fn = buf_js.get("compare")
   let apply = compare_fn.get("apply")
-  apply.call("call", [compare_fn, buf_js, args]).cast()
+  apply.call("call", [compare_fn, buf_js, @js.from_array(args)]).cast()
 }
 
 ///|

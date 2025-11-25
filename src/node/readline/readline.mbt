@@ -17,7 +17,7 @@ extern "js" fn wrap_completer(
   #|}
 
 ///|
-extern "js" fn create_interface_impl(options : @js.Object) -> Interface =
+extern "js" fn create_interface_impl(options : @js.Any) -> Interface =
   #|(options) => {
   #|  const readline = require('node:readline');
   #|  return readline.createInterface(options);

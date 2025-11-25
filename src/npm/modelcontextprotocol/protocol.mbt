@@ -49,26 +49,14 @@ pub fn Content::resource(uri : String) -> Content {
 }
 
 ///|
-pub fn Content::to_any(self : Content) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("type", self.type_.to_string())
-  match self.text {
-    Some(t) => obj.set("text", t)
-    None => ()
-  }
-  match self.data {
-    Some(d) => obj.set("data", d)
-    None => ()
-  }
-  match self.mime_type {
-    Some(m) => obj.set("mimeType", m)
-    None => ()
-  }
-  match self.uri {
-    Some(u) => obj.set("uri", u)
-    None => ()
-  }
-  obj
+pub fn Content::to_any(self : Content) -> @js.Any {
+  @js.from_option_map({
+    "type": Some(@js.any(self.type_.to_string())),
+    "text": self.text.map(fn(t) { @js.any(t) }),
+    "data": self.data.map(fn(d) { @js.any(d) }),
+    "mimeType": self.mime_type.map(fn(m) { @js.any(m) }),
+    "uri": self.uri.map(fn(u) { @js.any(u) }),
+  })
 }
 
 ///|
@@ -76,16 +64,16 @@ pub fn Content::to_any(self : Content) -> @js.Object {
 pub(all) struct Tool {
   name : String
   description : String
-  input_schema : @js.Object
+  input_schema : @js.Any
 }
 
 ///|
-pub fn Tool::to_any(self : Tool) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("name", self.name)
-  obj.set("description", self.description)
-  obj.set("inputSchema", self.input_schema)
-  obj
+pub fn Tool::to_any(self : Tool) -> @js.Any {
+  @js.from_map({
+    "name": @js.any(self.name),
+    "description": @js.any(self.description),
+    "inputSchema": self.input_schema,
+  })
 }
 
 ///|
@@ -98,19 +86,13 @@ pub(all) struct Resource {
 } derive(Show)
 
 ///|
-pub fn Resource::to_any(self : Resource) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("uri", self.uri)
-  obj.set("name", self.name)
-  match self.description {
-    Some(d) => obj.set("description", d)
-    None => ()
-  }
-  match self.mime_type {
-    Some(m) => obj.set("mimeType", m)
-    None => ()
-  }
-  obj
+pub fn Resource::to_any(self : Resource) -> @js.Any {
+  @js.from_option_map({
+    "uri": Some(@js.any(self.uri)),
+    "name": Some(@js.any(self.name)),
+    "description": self.description.map(fn(d) { @js.any(d) }),
+    "mimeType": self.mime_type.map(fn(m) { @js.any(m) }),
+  })
 }
 
 ///|
@@ -129,31 +111,25 @@ pub(all) struct PromptArgument {
 } derive(Show)
 
 ///|
-pub fn PromptArgument::to_any(self : PromptArgument) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("name", self.name)
-  match self.description {
-    Some(d) => obj.set("description", d)
-    None => ()
-  }
-  obj.set("required", self.required)
-  obj
+pub fn PromptArgument::to_any(self : PromptArgument) -> @js.Any {
+  @js.from_option_map({
+    "name": Some(@js.any(self.name)),
+    "description": self.description.map(fn(d) { @js.any(d) }),
+    "required": Some(@js.any(self.required)),
+  })
 }
 
 ///|
-pub fn Prompt::to_any(self : Prompt) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("name", self.name)
-  match self.description {
-    Some(d) => obj.set("description", d)
-    None => ()
-  }
-  let args_array = @js.JsArray::new()
+pub fn Prompt::to_any(self : Prompt) -> @js.Any {
+  let args : Array[@js.Any] = []
   for i = 0; i < self.arguments.length(); i = i + 1 {
-    args_array.push(self.arguments[i].to_any())
+    args.push(self.arguments[i].to_any())
   }
-  obj.set("arguments", args_array)
-  obj
+  @js.from_option_map({
+    "name": Some(@js.any(self.name)),
+    "description": self.description.map(fn(d) { @js.any(d) }),
+    "arguments": Some(@js.from_array(args)),
+  })
 }
 
 ///|
@@ -165,8 +141,7 @@ pub struct ServerCapabilities {
 } derive(Show)
 
 ///|
-pub fn ServerCapabilities::to_any(self : ServerCapabilities) -> @js.Object {
-  let obj = @js.Object::new()
+pub fn ServerCapabilities::to_any(self : ServerCapabilities) -> @js.Any {
   let capabilities = @js.Object::new()
   if self.tools {
     capabilities.set("tools", @js.Object::new())
@@ -177,8 +152,7 @@ pub fn ServerCapabilities::to_any(self : ServerCapabilities) -> @js.Object {
   if self.prompts {
     capabilities.set("prompts", @js.Object::new())
   }
-  obj.set("capabilities", capabilities)
-  obj
+  @js.from_map({ "capabilities": capabilities })
 }
 
 ///|
@@ -189,11 +163,8 @@ pub struct ServerInfo {
 } derive(Show)
 
 ///|
-pub fn ServerInfo::to_any(self : ServerInfo) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("name", self.name)
-  obj.set("version", self.version)
-  obj
+pub fn ServerInfo::to_any(self : ServerInfo) -> @js.Any {
+  @js.from_map({ "name": @js.any(self.name), "version": @js.any(self.version) })
 }
 
 ///|

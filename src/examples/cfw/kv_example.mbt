@@ -151,7 +151,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       while i < keys.length() {
         let key = keys[i]
         let name = key.name
-        keys_json.call("push", [@js.any(name)]) |> ignore
+        keys_json.call1("push", @js.any(name)) |> ignore
         i = i + 1
       }
       let response_json = @js.Object::new()

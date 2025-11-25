@@ -3,7 +3,7 @@
 ///|
 fn[T] common_node(
   tag_name : String,
-  props : @js.Object,
+  props : @js.Any,
   children~ : Array[&@react.ReactNode],
   id~ : String?,
   class~ : String?,
@@ -96,7 +96,7 @@ pub fn div(
   // common props
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -153,7 +153,7 @@ pub fn pre(
   // common props
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -210,7 +210,7 @@ pub fn blockquote(
   // common props
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -266,7 +266,7 @@ pub fn blockquote(
 pub fn span(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -322,7 +322,7 @@ pub fn span(
 pub fn nav(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -378,7 +378,7 @@ pub fn nav(
 pub fn p(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -440,7 +440,7 @@ pub fn textarea(
   default_value? : String,
   placeholder? : String,
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -463,8 +463,8 @@ pub fn textarea(
   on_dragover? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
   on_drop? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   if rows is Some(r) {
@@ -514,7 +514,7 @@ pub fn textarea(
 ///|
 pub fn input(
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   name? : String,
@@ -542,8 +542,8 @@ pub fn input(
   on_dragover? : @react.DragEventHandler[@dom.HTMLInputElement],
   on_drop? : @react.DragEventHandler[@dom.HTMLInputElement],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   if name is Some(n) {
@@ -591,7 +591,7 @@ pub fn input(
 pub fn main_(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -647,7 +647,7 @@ pub fn main_(
 pub fn header(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -704,7 +704,7 @@ pub fn header(
 pub fn footer(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -761,7 +761,7 @@ pub fn footer(
 pub fn ul(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -818,7 +818,7 @@ pub fn ul(
 pub fn ol(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -875,7 +875,7 @@ pub fn ol(
 pub fn article(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -931,7 +931,7 @@ pub fn article(
 pub fn aside(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -987,7 +987,7 @@ pub fn aside(
 pub fn section(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1051,7 +1051,7 @@ pub fn form(
   action? : (@http.FormData) -> Unit,
   on_submit? : (@dom.FormEvent) -> Unit,
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1075,8 +1075,8 @@ pub fn form(
   on_dragover? : @react.DragEventHandler[@dom.HTMLFormElement],
   on_drop? : @react.DragEventHandler[@dom.HTMLFormElement],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   if disabled is Some(d) {
@@ -1133,7 +1133,7 @@ pub fn select(
   disabled? : Bool,
   name? : String,
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1156,8 +1156,8 @@ pub fn select(
   on_dragover? : @react.DragEventHandler[@dom.HTMLSelectElement],
   on_drop? : @react.DragEventHandler[@dom.HTMLSelectElement],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   if multiple is Some(m) {
@@ -1201,7 +1201,7 @@ pub fn option(
   value~ : String,
   selected? : Bool,
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1225,8 +1225,8 @@ pub fn option(
   on_dragover? : @react.DragEventHandler[@dom.HTMLOptionElement],
   on_drop? : @react.DragEventHandler[@dom.HTMLOptionElement],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   custom_props.set("value", value)
@@ -1264,7 +1264,7 @@ pub fn label(
   children : Array[&@react.ReactNode],
   htmlFor : String,
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1288,8 +1288,8 @@ pub fn label(
   on_dragover? : @react.DragEventHandler[@dom.HTMLLabelElement],
   on_drop? : @react.DragEventHandler[@dom.HTMLLabelElement],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   custom_props.set("htmlFor", htmlFor)
@@ -1323,7 +1323,7 @@ pub fn label(
 pub fn li(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1380,7 +1380,7 @@ pub fn li(
 pub fn code(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1437,7 +1437,7 @@ pub fn code(
 pub fn details(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1494,7 +1494,7 @@ pub fn details(
 pub fn summary(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1557,7 +1557,7 @@ pub fn a(
   target? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1581,8 +1581,8 @@ pub fn a(
   on_dragover? : @react.DragEventHandler[@dom.HTMLAnchorElement],
   on_drop? : @react.DragEventHandler[@dom.HTMLAnchorElement],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   custom_props.set("href", href)
@@ -1632,7 +1632,7 @@ pub fn iframe(
   allowfullscreen? : Bool,
   loading? : String,
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1654,8 +1654,8 @@ pub fn iframe(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   custom_props.set("src", src)
@@ -1720,7 +1720,7 @@ pub fn img(
   sizes? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1744,8 +1744,8 @@ pub fn img(
   on_dragover? : @react.DragEventHandler[@dom.HTMLImageElement],
   on_drop? : @react.DragEventHandler[@dom.HTMLImageElement],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   custom_props.set("src", src)
@@ -1810,7 +1810,7 @@ pub fn video(
   controls? : Bool,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1834,8 +1834,8 @@ pub fn video(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   if controls is Some(c) {
@@ -1874,7 +1874,7 @@ pub fn source(
   type_? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1898,8 +1898,8 @@ pub fn source(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   custom_props.set("src", src |> @js.unsafe_any)
@@ -1935,7 +1935,7 @@ pub fn source(
 ///|
 pub fn hr(
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1992,7 +1992,7 @@ pub fn hr(
 pub fn h1(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2049,7 +2049,7 @@ pub fn h1(
 pub fn h2(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2106,7 +2106,7 @@ pub fn h2(
 pub fn h3(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2163,7 +2163,7 @@ pub fn h3(
 pub fn h4(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2220,7 +2220,7 @@ pub fn h4(
 pub fn h5(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2278,7 +2278,7 @@ pub fn button(
   children : Array[&@react.ReactNode],
   type_? : String,
   disabled? : Bool,
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2299,8 +2299,8 @@ pub fn button(
   on_dragover? : @react.DragEventHandler[@dom.HTMLButtonElement],
   on_drop? : @react.DragEventHandler[@dom.HTMLButtonElement],
 ) -> @react.Element {
-  let custom_props : @js.Object = match props {
-    Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
+  let custom_props = match props {
+    Some(p) => @js.Object::assign(@js.Object::new(), p)
     None => @js.Object::new()
   }
   if type_ is Some(t) {

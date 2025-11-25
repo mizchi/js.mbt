@@ -26,14 +26,8 @@ pub impl @event.EventTargetImpl for TLSSocket
 
 ///|
 /// Helper function to convert Array[String] to JavaScript array
-fn array_to_js_array(arr : Array[String]) -> @js.JsArray {
-  let js_arr = @js.JsArray::new()
-  let mut i = 0
-  while i < arr.length() {
-    js_arr.call("push", [arr[i]]) |> ignore
-    i = i + 1
-  }
-  js_arr
+fn array_to_js_array(arr : Array[String]) -> @js.Any {
+  @js.from_array(arr)
 }
 
 ///|

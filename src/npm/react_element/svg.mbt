@@ -6,7 +6,7 @@ pub fn svg(
   height~ : Double,
   view_box? : String,
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -30,10 +30,10 @@ pub fn svg(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   // Optimize: avoid Object.assign when props is provided but reuse if empty
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -81,7 +81,7 @@ pub fn circle(
   fill? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -99,10 +99,10 @@ pub fn circle(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -158,7 +158,7 @@ pub fn ellipse(
   fill? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -181,10 +181,10 @@ pub fn ellipse(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -241,7 +241,7 @@ pub fn rect(
   fill? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -264,10 +264,10 @@ pub fn rect(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -324,7 +324,7 @@ pub fn line(
   fill? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -347,10 +347,10 @@ pub fn line(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -404,7 +404,7 @@ pub fn path(
   fill? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -427,10 +427,10 @@ pub fn path(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -478,7 +478,7 @@ pub fn use_(
   href~ : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -501,10 +501,10 @@ pub fn use_(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -546,7 +546,7 @@ pub fn polygon(
   fill? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -569,10 +569,10 @@ pub fn polygon(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -623,7 +623,7 @@ pub fn polyline(
   fill? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -646,10 +646,10 @@ pub fn polyline(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -700,7 +700,7 @@ pub fn g(
   fill? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -723,10 +723,10 @@ pub fn g(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -771,7 +771,7 @@ pub fn g(
 pub fn defs(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -794,10 +794,10 @@ pub fn defs(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -845,7 +845,7 @@ pub fn text(
   fill? : String,
 
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -868,10 +868,10 @@ pub fn text(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }
@@ -935,7 +935,7 @@ pub fn image(
   y~ : Double,
   href~ : String,
   // shared
-  props? : @js.Object,
+  props? : @js.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -958,10 +958,10 @@ pub fn image(
   on_dragover? : @react.DragEventHandler[@dom.Element],
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
-  let attrs : @js.Object = match props {
+  let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@js.Object::new(), p) |> @js.identity
+        @js.Object::assign(@js.Object::new(), p)
       } else {
         p
       }

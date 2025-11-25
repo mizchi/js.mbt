@@ -40,7 +40,7 @@ impl ElementImpl with tagName(self) {
 
 ///|
 impl ElementImpl with append(self, child) {
-  self.call("append", [child.to_any()]).cast()
+  self.call1("append", child.to_any()).cast()
 }
 
 ///|
@@ -65,7 +65,7 @@ impl ElementImpl with setId(self, id) -> Unit {
 
 ///|
 impl ElementImpl with getAttribute(self, name) -> String? {
-  self.call("getAttribute", [name]) |> @js.identity_option
+  self.call1("getAttribute", name) |> @js.identity_option
 }
 
 ///|
@@ -75,19 +75,19 @@ impl ElementImpl with setAttribute(self, name, value) -> Unit {
 
 ///|
 impl ElementImpl with removeAttribute(self, name) -> Unit {
-  ignore(self.call("removeAttribute", [name]))
+  ignore(self.call1("removeAttribute", name))
 }
 
 ///|
 impl ElementImpl with hasAttribute(self, name) -> Bool {
-  self.call("hasAttribute", [name]).cast()
+  self.call1("hasAttribute", name).cast()
 }
 
 ///|
 /// Returns a static array of elements with the specified tag name.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
-  @js.array_from(self.call("getElementsByTagName", [tag_name])).map(fn(v) {
+  @js.array_from(self.call1("getElementsByTagName", tag_name)).map(fn(v) {
     @js.identity(v)
   })
 }
@@ -96,14 +96,14 @@ impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
 /// Returns a static array of elements with the specified class name.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element] {
-  @js.array_from(self.call("getElementsByClassName", [class_name])).map(fn(v) {
+  @js.array_from(self.call1("getElementsByClassName", class_name)).map(fn(v) {
     @js.identity(v)
   })
 }
 
 ///|
 impl ElementImpl with querySelector(self, selector) -> Element? {
-  self.call("querySelector", [selector]) |> @js.identity_option
+  self.call1("querySelector", selector) |> @js.identity_option
 }
 
 ///|
@@ -116,5 +116,5 @@ impl ElementImpl with querySelector(self, selector) -> Element? {
 /// Returns a static array of elements matching the specified CSS selector.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
-  @js.array_from(self.call("querySelectorAll", [selector])).map(@js.identity(_))
+  @js.array_from(self.call1("querySelectorAll", selector)).map(@js.identity(_))
 }

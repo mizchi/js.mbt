@@ -26,7 +26,7 @@ pub fn CSSStyleDeclaration::get_property_value(
   self : Self,
   property : String,
 ) -> String {
-  self.call("getPropertyValue", [property]).cast()
+  self.call1("getPropertyValue", property).cast()
 }
 
 ///|
@@ -56,7 +56,7 @@ pub fn CSSStyleDeclaration::remove_property(
   self : Self,
   property : String,
 ) -> String {
-  self.call("removeProperty", [property]).cast()
+  self.call1("removeProperty", property).cast()
 }
 
 ///|
@@ -65,7 +65,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
   self : Self,
   property : String,
 ) -> String {
-  self.call("getPropertyPriority", [property]).cast()
+  self.call1("getPropertyPriority", property).cast()
 }
 
 ///|
@@ -127,7 +127,7 @@ pub fn CSSStyleSheet::cssRules(self : Self) -> @js.Any {
 /// Inserts a CSS rule
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
 pub fn CSSStyleSheet::insertRule(self : Self, rule : String) -> Int {
-  self.call("insertRule", [rule]).cast()
+  self.call1("insertRule", rule).cast()
 }
 
 ///|
@@ -144,7 +144,7 @@ pub fn CSSStyleSheet::insertRuleAt(
 /// Deletes a CSS rule at index
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/deleteRule
 pub fn CSSStyleSheet::deleteRule(self : Self, index : Int) -> Unit {
-  self.call("deleteRule", [index]) |> ignore
+  self.call1("deleteRule", index) |> ignore
 }
 
 ///|
@@ -199,7 +199,7 @@ pub impl @js.JsImpl for MediaQueryList
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
-  @js.identity(@js.global_this().call("matchMedia", [query]))
+  @js.identity(@js.global_this().call1("matchMedia", query))
 }
 
 ///|
@@ -209,7 +209,7 @@ pub fn MediaQueryList::addListener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.call("addListener", [listener |> @js.from_fn1]) |> ignore
+  self.call1("addListener", listener |> @js.from_fn1) |> ignore
 }
 
 ///|
@@ -219,7 +219,7 @@ pub fn MediaQueryList::removeListener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.call("removeListener", [listener |> @js.from_fn1]) |> ignore
+  self.call1("removeListener", listener |> @js.from_fn1) |> ignore
 }
 
 ///|
@@ -250,7 +250,7 @@ pub fn MediaQueryList::removeChangeListener(
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
   let css_obj = @js.global_this().get("CSS")
-  @js.identity(css_obj.call("escape", [value]))
+  @js.identity(css_obj.call1("escape", value))
 }
 
 ///|
@@ -267,7 +267,7 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
   let css_obj = @js.global_this().get("CSS")
-  @js.identity(css_obj.call("supports", [condition]))
+  @js.identity(css_obj.call1("supports", condition))
 }
 
 ///|
@@ -282,7 +282,7 @@ pub fn Document::styleSheets(self : Self) -> @js.Any {
 pub fn Document::createStylesheet(self : Self) -> CSSStyleSheet {
   let style = self.create_element("style")
   match self.head() {
-    Some(head) => head.call("appendChild", [style]) |> ignore
+    Some(head) => head.call1("appendChild", style) |> ignore
     None => ()
   }
   style.get("sheet").cast()

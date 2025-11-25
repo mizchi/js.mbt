@@ -556,13 +556,8 @@ test "ThrowError::from_js with non-error value" {
 
 ///|
 test "JsIterator::drop" {
-  let arr = @js.JsArray::new()
-  arr.push(1)
-  arr.push(2)
-  arr.push(3)
-  arr.push(4)
-  arr.push(5)
-  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr.to_any())
+  let arr = @js.from_array([1, 2, 3, 4, 5])
+  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr)
   let dropped = iter.drop(2)
   let result = dropped.toArray()
   inspect(result.length(), content="3")
@@ -573,13 +568,8 @@ test "JsIterator::drop" {
 
 ///|
 test "JsIterator::take" {
-  let arr = @js.JsArray::new()
-  arr.push(1)
-  arr.push(2)
-  arr.push(3)
-  arr.push(4)
-  arr.push(5)
-  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr.to_any())
+  let arr = @js.from_array([1, 2, 3, 4, 5])
+  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr)
   let taken = iter.take(3)
   let result = taken.toArray()
   inspect(result.length(), content="3")
@@ -590,11 +580,8 @@ test "JsIterator::take" {
 
 ///|
 test "JsIterator::drop and take combined" {
-  let arr = @js.JsArray::new()
-  for i = 0; i < 10; i = i + 1 {
-    arr.push(i)
-  }
-  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr.to_any())
+  let arr = @js.from_array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+  let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr)
   let result = iter.drop(2).take(5).toArray()
   inspect(result.length(), content="5")
   inspect(result[0], content="2")

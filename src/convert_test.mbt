@@ -443,7 +443,7 @@ test "throwable catches ReferenceError" {
   throwable(fn() {
     // Accessing undefined variable throws ReferenceError
     let code = "nonExistentVariable"
-    globalThis().call("eval", [@js.any(code)]) |> ignore
+    globalThis().call1("eval", @js.any(code)) |> ignore
   }) catch {
     ThrowError::ReferenceError(_) => caught_reference_error = true
     _ => assert_true(false) // Should not catch other error types
@@ -473,9 +473,10 @@ test "throwable catches AggregateError" {
   let mut caught_aggregate_error = false
   throwable(fn() {
     // Create AggregateError with multiple errors
-    let errors = JsArray::new()
-    errors.push(JsError::new("Error 1"))
-    errors.push(JsError::new("Error 2"))
+    let errors = from_array([
+      JsError::new("Error 1").to_any(),
+      JsError::new("Error 2").to_any(),
+    ])
     let agg_error_cls = globalThis().get("AggregateError")
     let agg_err = new_(agg_error_cls, [errors, "Multiple errors"])
     throw_(agg_err)

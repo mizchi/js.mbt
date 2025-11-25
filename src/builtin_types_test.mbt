@@ -10,13 +10,14 @@ test "Object creation and basic operations" {
   obj.set("age", 30)
   assert_eq(@js.identity(obj.get("name")), "Alice")
   assert_eq(@js.identity(obj.get("age")), 30)
-  assert_true(obj.hasOwnProperty("name"))
-  assert_false(obj.hasOwnProperty("nonexistent"))
+  let obj_typed : Object = @js.identity(obj)
+  assert_true(obj_typed.hasOwnProperty("name"))
+  assert_false(obj_typed.hasOwnProperty("nonexistent"))
 }
 
 ///|
 test "Object::create" {
-  let obj = Object::create(@js.Object::new().to_any())
+  let obj = Object::create(@js.Object::new())
   assert_true(@js.is_object(obj))
 }
 
@@ -134,26 +135,29 @@ test "Object freeze, seal, preventExtensions" {
 test "Object::propertyIsEnumerable" {
   let obj = @js.Object::new()
   obj.set("enumerable", "value")
-  assert_true(obj.propertyIsEnumerable("enumerable"))
-  assert_false(obj.propertyIsEnumerable("nonexistent"))
+  let obj_typed : Object = @js.identity(obj)
+  assert_true(obj_typed.propertyIsEnumerable("enumerable"))
+  assert_false(obj_typed.propertyIsEnumerable("nonexistent"))
 }
 
 ///|
 test "Object::isPrototypeOf" {
   let parent = @js.Object::new()
-  let child = Object::create(parent.to_any())
-  assert_true(parent.isPrototypeOf(child.to_any()))
+  let parent_typed : Object = @js.identity(parent)
+  let child = Object::create(parent)
+  assert_true(parent_typed.isPrototypeOf(child))
   let child_obj : Object = @js.identity(child)
-  assert_false(child_obj.isPrototypeOf(parent.to_any()))
+  assert_false(child_obj.isPrototypeOf(parent))
 }
 
 ///|
 test "Object::isExtensible instance method" {
   let obj = @js.Object::new()
   obj.set("prop", "value")
-  assert_true(obj.isExtensible())
+  let obj_typed : Object = @js.identity(obj)
+  assert_true(obj_typed.isExtensible())
   Object::preventExtensions(obj) |> ignore
-  assert_false(obj.isExtensible())
+  assert_false(obj_typed.isExtensible())
 }
 
 ///|
@@ -161,7 +165,8 @@ test "Object with empty strings" {
   let obj = @js.Object::new()
   obj.set("empty", "")
   assert_eq(@js.identity(obj.get("empty")), "")
-  assert_true(obj.hasOwnProperty("empty"))
+  let obj_typed : Object = @js.identity(obj)
+  assert_true(obj_typed.hasOwnProperty("empty"))
 }
 
 ///| Array tests
@@ -181,13 +186,10 @@ test "JsArray creation and type checking" {
 ///|
 test "JsIterator::from converts iterable to iterator" {
   // Create an array - arrays are iterable in JavaScript
-  let arr = JsArray::new()
-  arr.push(1)
-  arr.push(2)
-  arr.push(3)
+  let arr = @js.from_array([1, 2, 3])
 
   // Use Iterator.from to convert iterable to iterator
-  let js_iter : JsIterator[@js.Any] = JsIterator::from(arr.to_any())
+  let js_iter : JsIterator[@js.Any] = JsIterator::from(arr)
 
   // Verify it's created (basic type check)
   assert_true(@js.is_object(js_iter.to_any()))
@@ -412,10 +414,8 @@ test "Js Show trait for different types" {
   assert_eq(bool_val.to_string(), "true")
 
   // Arrays
-  let arr = @js.JsArray::new()
-  arr.push(1)
-  arr.push(2)
-  let arr_str = arr.to_any().to_string()
+  let arr = @js.from_array([1, 2])
+  let arr_str = arr.to_string()
   assert_true(arr_str.contains("1") && arr_str.contains("2"))
 
   // Objects

@@ -13,7 +13,7 @@ fn get(String, (@js.Object) -> Unit) -> ClientRequest
 
 fn global_agent() -> Agent
 
-fn request(String, (@js.Object) -> Unit, method_? : String, host? : String, port? : Int, path? : String, headers? : @js.Object, agent? : Agent, rejectUnauthorized? : Bool) -> ClientRequest
+fn request(String, (@js.Any) -> Unit, method_? : String, host? : String, port? : Int, path? : String, headers? : @js.Any, agent? : Agent, rejectUnauthorized? : Bool) -> ClientRequest
 
 // Errors
 

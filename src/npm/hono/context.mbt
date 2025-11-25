@@ -32,7 +32,7 @@ pub fn[Env, ExecutionContext, T] Context::json(
     Some(s) => s
     None => 200
   }
-  self.call("json", [@js.identity(data), status_code]).cast()
+  self.call2("json", @js.identity(data), status_code).cast()
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn[Env, ExecutionContext] Context::text(
     Some(s) => s
     None => 200
   }
-  self.call("text", [text, status_code]).cast()
+  self.call2("text", text, status_code).cast()
 }
 
 ///|
@@ -62,7 +62,7 @@ pub fn[Env, ExecutionContext] Context::html(
     Some(s) => s
     None => 200
   }
-  self.call("html", [html, status_code]).cast()
+  self.call2("html", html, status_code).cast()
 }
 
 ///|
@@ -77,7 +77,7 @@ pub fn[Env, ExecutionContext] Context::redirect(
     Some(s) => s
     None => 302
   }
-  self.call("redirect", [url, status_code]).cast()
+  self.call2("redirect", url, status_code).cast()
 }
 
 ///|
@@ -98,7 +98,7 @@ pub fn[Env, ExecutionContext] Context::header(
   name : String,
   value : String,
 ) -> Unit {
-  self.call("header", [name, value]) |> ignore
+  self.call2("header", name, value) |> ignore
 }
 
 ///|
@@ -108,7 +108,7 @@ pub fn[Env, ExecutionContext] Context::status(
   self : Context[Env, ExecutionContext],
   code : Int,
 ) -> Unit {
-  self.call("status", [code]) |> ignore
+  self.call1("status", code) |> ignore
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn[Env, ExecutionContext] Context::set(
   key : String,
   value : @js.Any,
 ) -> Unit {
-  self.call("set", [key, value]) |> ignore
+  self.call2("set", key, value) |> ignore
 }
 
 ///|
@@ -129,7 +129,7 @@ pub fn[Env, ExecutionContext] Context::getValue(
   self : Context[Env, ExecutionContext],
   key : String,
 ) -> @js.Any {
-  self.call("get", [key])
+  self.call1("get", key)
 }
 
 ///|
@@ -162,8 +162,8 @@ pub fn[Env, ExecutionContext] Context::body(
 ) -> @http.Response {
   match (status, headers) {
     (Some(s), Some(h)) => self.call("body", [body, s, h]).cast()
-    (Some(s), None) => self.call("body", [body, s]).cast()
-    _ => self.call("body", [body]).cast()
+    (Some(s), None) => self.call2("body", body, s).cast()
+    _ => self.call1("body", body).cast()
   }
 }
 
@@ -175,7 +175,7 @@ pub fn[Env, ExecutionContext] Context::setRenderer(
   self : Context[Env, ExecutionContext],
   renderer : (String) -> @http.Response,
 ) -> Unit {
-  self.call("setRenderer", [@js.unsafe_any(renderer)]) |> ignore
+  self.call1("setRenderer", @js.unsafe_any(renderer)) |> ignore
 }
 
 ///|
@@ -185,5 +185,5 @@ pub fn[Env, ExecutionContext] Context::render(
   self : Context[Env, ExecutionContext],
   content : String,
 ) -> @http.Response {
-  self.call("render", [content]).cast()
+  self.call1("render", content).cast()
 }

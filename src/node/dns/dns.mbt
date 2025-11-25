@@ -203,7 +203,7 @@ pub fn get_servers() -> @js.JsArray {
 }
 
 ///|
-extern "js" fn ffi_set_servers(servers : @js.JsArray) -> Unit =
+extern "js" fn ffi_set_servers(servers : Array[String]) -> Unit =
   #| (servers) => {
   #|   const dns = require('dns');
   #|   dns.setServers(servers);
@@ -212,11 +212,5 @@ extern "js" fn ffi_set_servers(servers : @js.JsArray) -> Unit =
 ///|
 /// Set the DNS server addresses
 pub fn set_servers(servers : Array[String]) -> Unit {
-  let arr = @js.JsArray::new()
-  let mut i = 0
-  while i < servers.length() {
-    arr.call("push", [servers[i]]) |> ignore
-    i = i + 1
-  }
-  ffi_set_servers(arr)
+  ffi_set_servers(servers)
 }

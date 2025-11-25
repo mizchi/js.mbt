@@ -119,12 +119,12 @@ extern "js" fn ffi_request(
 /// Make an HTTPS request
 pub fn request(
   url : String,
-  callback : (@js.Object) -> Unit,
+  callback : (@js.Any) -> Unit,
   method_? : String,
   host? : String,
   port? : Int,
   path? : String,
-  headers? : @js.Object,
+  headers? : @js.Any,
   agent? : Agent,
   rejectUnauthorized? : Bool,
 ) -> ClientRequest {
@@ -149,7 +149,7 @@ pub fn request(
   if rejectUnauthorized is Some(v) {
     obj.set("rejectUnauthorized", v)
   }
-  ffi_request(obj.to_any(), cb)
+  ffi_request(obj, cb)
 }
 
 ///|

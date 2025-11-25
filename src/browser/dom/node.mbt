@@ -77,12 +77,12 @@ impl NodeImpl with nextSibling(self) -> Node? {
 
 ///|
 impl NodeImpl with appendChild(self, child) -> Node {
-  self.call("appendChild", [child.to_any()]).cast()
+  self.call1("appendChild", child.to_any()).cast()
 }
 
 ///|
 impl NodeImpl with removeChild(self, child) -> Node {
-  self.call("removeChild", [child.to_any()]).cast()
+  self.call1("removeChild", child.to_any()).cast()
 }
 
 ///|
@@ -104,14 +104,14 @@ impl NodeImpl with replaceChild(self, new_child, old_child) -> Node {
 
 ///|
 impl NodeImpl with cloneNode(self, deep) {
-  self.call("cloneNode", [deep]).cast()
+  self.call1("cloneNode", deep).cast()
 }
 
 ///|
 impl NodeImpl with contains(self, other) {
   match other {
-    Some(node) => self.call("contains", [node.to_any()]).cast()
-    None => self.call("contains", [@js.null_()]).cast()
+    Some(node) => self.call1("contains", node.to_any()).cast()
+    None => self.call1("contains", @js.null_()).cast()
   }
 }
 

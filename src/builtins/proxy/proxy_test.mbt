@@ -41,10 +41,7 @@ test "Proxy::revocable creates revocable proxy" {
 
 ///|
 test "Proxy with target array" {
-  let target = @js.JsArray::new()
-  target.push(1)
-  target.push(2)
-  target.push(3)
+  let target = @js.from_array([1, 2, 3])
   let proxy = Proxy::new(target)
 
   // Transparent proxy works with arrays
@@ -199,20 +196,16 @@ test "Proxy with ownKeys trap" {
     ownKeys=fn(_target) {
       ownkeys_called = true
       // Return custom keys
-      let keys = @js.JsArray::new()
-      keys.push("x")
-      keys.push("y")
-      keys.push("z")
-      keys.to_any()
+      @js.from_array(["x", "y", "z"])
     },
     getOwnPropertyDescriptor=fn(_target, _prop) {
       // Need to return valid descriptor for Object.keys() to work
-      let descriptor = @js.Object::new()
-      descriptor.set("value", 42)
-      descriptor.set("writable", true)
-      descriptor.set("enumerable", true)
-      descriptor.set("configurable", true)
-      descriptor.to_any()
+      @js.from_map({
+        "value": @js.any(42),
+        "writable": @js.any(true),
+        "enumerable": @js.any(true),
+        "configurable": @js.any(true),
+      })
     },
   )
   let object_class = @js.globalThis().get("Object")

@@ -53,13 +53,13 @@ pub fn[A, B] Promise::catch_(
   self : Self[A],
   f : (Error) -> Promise[B],
 ) -> Promise[B] {
-  self.call("catch", [from_fn1(f)]) |> identity
+  self.call1("catch", from_fn1(f)) |> identity
 }
 
 ///|
 /// JS: promise.finally(() => { ... })
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
-  self.call("finally", [from_fn0(f)]) |> identity
+  self.call1("finally", from_fn0(f)) |> identity
 }
 
 ///|
@@ -67,8 +67,8 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[T] Promise::wait(self : Self[T]) -> T {
   suspend((ok, err) => self
-    .call("then", [from_fn1(ok)])
-    .call("catch", [from_fn1(err)])
+    .call1("then", from_fn1(ok))
+    .call1("catch", from_fn1(err))
     |> ignore)
 }
 

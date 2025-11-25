@@ -104,6 +104,6 @@ pub fn SharedArrayBuffer::slice(
 ) -> SharedArrayBuffer {
   match end {
     Some(e) => self.call2("slice", begin, e) |> identity
-    None => identity(self.call("slice", [begin]))
+    None => self.call1("slice", begin) |> identity
   }
 }

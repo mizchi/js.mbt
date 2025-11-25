@@ -51,9 +51,7 @@ pub fn Page::coverage(self : Page) -> Coverage {
 /// JS: coverage.startJSCoverage(options)
 /// See: https://pptr.dev/api/puppeteer.coverage.startjscoverage
 pub async fn Coverage::startJSCoverage(self : Coverage) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("startJSCoverage", []),
-  )
+  let promise : @js.Promise[Unit] = @js.identity(self.call0("startJSCoverage"))
   promise.wait()
 }
 
@@ -65,7 +63,7 @@ pub async fn Coverage::startJSCoverage_with(
   options : @js.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("startJSCoverage", [options]),
+    self.call1("startJSCoverage", options),
   )
   promise.wait()
 }
@@ -77,7 +75,7 @@ pub async fn Coverage::startJSCoverage_with(
 /// Returns array of coverage entries
 pub async fn Coverage::stopJSCoverage(self : Coverage) -> Array[@js.Any] {
   let promise : @js.Promise[Array[@js.Any]] = @js.identity(
-    self.call("stopJSCoverage", []),
+    self.call0("stopJSCoverage"),
   )
   promise.wait()
 }
@@ -87,9 +85,7 @@ pub async fn Coverage::stopJSCoverage(self : Coverage) -> Array[@js.Any] {
 /// JS: coverage.startCSSCoverage(options)
 /// See: https://pptr.dev/api/puppeteer.coverage.startcsscoverage
 pub async fn Coverage::startCSSCoverage(self : Coverage) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("startCSSCoverage", []),
-  )
+  let promise : @js.Promise[Unit] = @js.identity(self.call0("startCSSCoverage"))
   promise.wait()
 }
 
@@ -101,7 +97,7 @@ pub async fn Coverage::startCSSCoverage_with(
   options : @js.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("startCSSCoverage", [options]),
+    self.call1("startCSSCoverage", options),
   )
   promise.wait()
 }
@@ -113,7 +109,7 @@ pub async fn Coverage::startCSSCoverage_with(
 /// Returns array of coverage entries
 pub async fn Coverage::stopCSSCoverage(self : Coverage) -> Array[@js.Any] {
   let promise : @js.Promise[Array[@js.Any]] = @js.identity(
-    self.call("stopCSSCoverage", []),
+    self.call0("stopCSSCoverage"),
   )
   promise.wait()
 }

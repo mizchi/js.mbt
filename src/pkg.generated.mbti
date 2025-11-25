@@ -210,7 +210,7 @@ pub type JsArray
 fn[T] JsArray::as_builtin_array(Self) -> Array[T]
 fn[T] JsArray::from(Array[T]) -> Self
 fn[T : JsImpl] JsArray::isArray(T) -> Bool
-fn JsArray::new() -> Self
+fn JsArray::new() -> Any
 fn JsArray::push(Self, &JsImpl) -> Unit
 fn JsArray::to_string(Self) -> String
 impl JsImpl for JsArray
@@ -266,7 +266,7 @@ fn Object::isPrototypeOf(Self, Any) -> Bool
 fn Object::isSealed(&JsImpl) -> Bool
 fn Object::is_(&JsImpl, &JsImpl) -> Bool
 fn Object::keys(&JsImpl) -> Array[String]
-fn Object::new() -> Self
+fn Object::new() -> Any
 fn Object::preventExtensions(&JsImpl) -> Any
 fn Object::propertyIsEnumerable(Self, &PropertyKey) -> Bool
 fn Object::seal(&JsImpl) -> Any

@@ -148,14 +148,8 @@ pub fn watch_paths(
   ignorePermissionErrors? : Bool,
   atomic_? : Bool,
 ) -> FSWatcher {
-  let arr = @js.JsArray::new()
-  let mut i = 0
-  while i < paths.length() {
-    arr.call("push", [paths[i]]) |> ignore
-    i = i + 1
-  }
   watch_impl(
-    arr.to_any(),
+    @js.from_array(paths),
     persistent?,
     ignored?,
     ignoreInitial?,
@@ -189,13 +183,7 @@ pub fn FSWatcher::add_paths(
   self : FSWatcher,
   paths : Array[String],
 ) -> FSWatcher {
-  let arr = @js.JsArray::new()
-  let mut i = 0
-  while i < paths.length() {
-    arr.call("push", [paths[i]]) |> ignore
-    i = i + 1
-  }
-  @js.identity(self.call("add", [arr]))
+  @js.identity(self.call("add", [@js.from_array(paths)]))
 }
 
 ///|
@@ -212,13 +200,7 @@ pub fn FSWatcher::unwatch_paths(
   self : FSWatcher,
   paths : Array[String],
 ) -> FSWatcher {
-  let arr = @js.JsArray::new()
-  let mut i = 0
-  while i < paths.length() {
-    arr.call("push", [paths[i]]) |> ignore
-    i = i + 1
-  }
-  @js.identity(self.call("unwatch", [arr]))
+  @js.identity(self.call("unwatch", [@js.from_array(paths)]))
 }
 
 ///|

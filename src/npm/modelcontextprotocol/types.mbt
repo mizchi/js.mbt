@@ -39,16 +39,13 @@ pub struct JsonRpcRequest {
 }
 
 ///|
-pub fn JsonRpcRequest::to_any(self : JsonRpcRequest) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("jsonrpc", self.jsonrpc)
-  obj.set("id", self.id.to_any())
-  obj.set("method", self.method_name)
-  match self.params {
-    Some(p) => obj.set("params", p)
-    None => ()
-  }
-  obj
+pub fn JsonRpcRequest::to_any(self : JsonRpcRequest) -> @js.Any {
+  @js.from_option_map({
+    "jsonrpc": Some(@js.any(self.jsonrpc)),
+    "id": Some(self.id.to_any()),
+    "method": Some(@js.any(self.method_name)),
+    "params": self.params.map(fn(p) { p.to_any() }),
+  })
 }
 
 ///|
@@ -82,12 +79,12 @@ pub struct JsonRpcResponse {
 }
 
 ///|
-pub fn JsonRpcResponse::to_any(self : JsonRpcResponse) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("jsonrpc", self.jsonrpc)
-  obj.set("id", self.id.to_any())
-  obj.set("result", self.result)
-  obj
+pub fn JsonRpcResponse::to_any(self : JsonRpcResponse) -> @js.Any {
+  @js.from_map({
+    "jsonrpc": @js.any(self.jsonrpc),
+    "id": self.id.to_any(),
+    "result": self.result,
+  })
 }
 
 ///|
@@ -99,15 +96,12 @@ pub struct JsonRpcError {
 }
 
 ///|
-pub fn JsonRpcError::to_any(self : JsonRpcError) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("code", self.code)
-  obj.set("message", self.message)
-  match self.data {
-    Some(d) => obj.set("data", d)
-    None => ()
-  }
-  obj
+pub fn JsonRpcError::to_any(self : JsonRpcError) -> @js.Any {
+  @js.from_option_map({
+    "code": Some(@js.any(self.code)),
+    "message": Some(@js.any(self.message)),
+    "data": self.data,
+  })
 }
 
 ///|
@@ -118,12 +112,12 @@ pub struct JsonRpcErrorResponse {
 }
 
 ///|
-pub fn JsonRpcErrorResponse::to_any(self : JsonRpcErrorResponse) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("jsonrpc", self.jsonrpc)
-  obj.set("id", self.id.to_any())
-  obj.set("error", self.error.to_any())
-  obj
+pub fn JsonRpcErrorResponse::to_any(self : JsonRpcErrorResponse) -> @js.Any {
+  @js.from_map({
+    "jsonrpc": @js.any(self.jsonrpc),
+    "id": self.id.to_any(),
+    "error": self.error.to_any(),
+  })
 }
 
 ///|
@@ -135,15 +129,12 @@ pub(all) struct JsonRpcNotification {
 }
 
 ///|
-pub fn JsonRpcNotification::to_any(self : JsonRpcNotification) -> @js.Object {
-  let obj = @js.Object::new()
-  obj.set("jsonrpc", self.jsonrpc)
-  obj.set("method", self.method_name)
-  match self.params {
-    Some(p) => obj.set("params", p)
-    None => ()
-  }
-  obj
+pub fn JsonRpcNotification::to_any(self : JsonRpcNotification) -> @js.Any {
+  @js.from_option_map({
+    "jsonrpc": Some(@js.any(self.jsonrpc)),
+    "method": Some(@js.any(self.method_name)),
+    "params": self.params.map(fn(p) { p.to_any() }),
+  })
 }
 
 ///|

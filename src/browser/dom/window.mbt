@@ -123,14 +123,14 @@ pub fn Window::devicePixelRatio(self : Self) -> Double {
 /// Displays an alert dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
 pub fn Window::alert(self : Self, message : String) -> Unit {
-  ignore(self.call("alert", [message]))
+  self.call1("alert", message) |> ignore
 }
 
 ///|
 /// Displays a confirm dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
 pub fn Window::confirm(self : Self, message : String) -> Bool {
-  self.call("confirm", [message]).cast()
+  self.call1("confirm", message).cast()
 }
 
 ///|
@@ -143,7 +143,7 @@ pub fn Window::prompt(
 ) -> String? {
   match default {
     Some(d) => self.call2("prompt", message, d) |> @js.identity_option()
-    None => self.call("prompt", [message]) |> @js.identity_option()
+    None => self.call1("prompt", message) |> @js.identity_option()
   }
 }
 
@@ -160,7 +160,7 @@ pub fn Window::open(
     (Some(u), Some(t), Some(f)) =>
       self.call("open", [u, t, f]) |> @js.identity_option
     (Some(u), Some(t), None) => self.call2("open", u, t) |> @js.identity_option
-    (Some(u), None, _) => self.call("open", [u]) |> @js.identity_option
+    (Some(u), None, _) => self.call1("open", u) |> @js.identity_option
     (None, _, _) => self.call0("open") |> @js.identity_option
   }
 }
@@ -221,7 +221,7 @@ pub fn Window::setTimeout(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
 #alias(clear_timeout)
 pub fn Window::clearTimeout(self : Self, id : Int) -> Unit {
-  ignore(self.call("clearTimeout", [id]))
+  self.call1("clearTimeout", id) |> ignore
 }
 
 ///|
@@ -241,7 +241,7 @@ pub fn Window::setInterval(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
 #alias(clear_interval)
 pub fn Window::clearInterval(self : Self, id : Int) -> Unit {
-  ignore(self.call("clearInterval", [id]))
+  self.call1("clearInterval", id) |> ignore
 }
 
 ///|
@@ -252,7 +252,7 @@ pub fn Window::requestAnimationFrame(
   self : Self,
   callback : (Double) -> Unit,
 ) -> Int {
-  self.call("requestAnimationFrame", [@js.unsafe_any(callback)]).cast()
+  self.call1("requestAnimationFrame", @js.unsafe_any(callback)).cast()
 }
 
 ///|
@@ -260,7 +260,7 @@ pub fn Window::requestAnimationFrame(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame
 #alias(cancel_animation_frame)
 pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
-  ignore(self.call("cancelAnimationFrame", [id]))
+  self.call1("cancelAnimationFrame", id) |> ignore
 }
 
 ///|
@@ -273,7 +273,7 @@ pub fn Window::fetch(
 ) -> @js.Promise[@js.Any] {
   match init {
     Some(i) => self.call2("fetch", input, i).cast()
-    None => self.call("fetch", [input]).cast()
+    None => self.call1("fetch", input).cast()
   }
 }
 
@@ -296,7 +296,7 @@ pub fn Window::getComputedStyle(
 ) -> @js.Any {
   match pseudo_elt {
     Some(p) => self.call2("getComputedStyle", element.to_any(), p).cast()
-    None => self.call("getComputedStyle", [element.to_any()]).cast()
+    None => self.call1("getComputedStyle", element.to_any()).cast()
   }
 }
 
@@ -305,7 +305,7 @@ pub fn Window::getComputedStyle(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn Window::matchMedia(self : Self, query : String) -> @js.Any {
-  self.call("matchMedia", [query]).cast()
+  self.call1("matchMedia", query).cast()
 }
 
 ///|

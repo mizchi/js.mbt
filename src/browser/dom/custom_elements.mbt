@@ -108,7 +108,7 @@ pub fn CustomElementRegistry::define_element_with_attributes(
 /// Returns the constructor for the custom element with the given name
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
 pub fn CustomElementRegistry::get(self : Self, name : String) -> @js.Any? {
-  self.call("get", [name]) |> @js.identity_option
+  self.call1("get", name) |> @js.identity_option
 }
 
 ///|
@@ -118,7 +118,7 @@ pub fn CustomElementRegistry::getName(
   self : Self,
   element_constructor : @js.Any,
 ) -> String? {
-  self.call("getName", [element_constructor]) |> @js.identity_option
+  self.call1("getName", element_constructor) |> @js.identity_option
 }
 
 ///|
@@ -128,14 +128,14 @@ pub fn CustomElementRegistry::whenDefined(
   self : Self,
   name : String,
 ) -> @js.Promise[Unit] {
-  self.call("whenDefined", [name]).cast()
+  self.call1("whenDefined", name).cast()
 }
 
 ///|
 /// Upgrades a custom element in the shadow root before it is connected
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/upgrade
 pub fn CustomElementRegistry::upgrade(self : Self, root : Node) -> Unit {
-  ignore(self.call("upgrade", [root.to_any()]))
+  self.call1("upgrade", root.to_any()) |> ignore
 }
 
 ///|

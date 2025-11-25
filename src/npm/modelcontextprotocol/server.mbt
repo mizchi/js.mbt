@@ -97,17 +97,17 @@ fn McpServer::handle_initialize(
   id : RequestId,
   _params : @js.Object?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let result = @js.Object::new()
-  result.set("protocolVersion", "2024-11-05")
-  result.set("serverInfo", self.info.to_any())
-
   // Build capabilities dynamically
   let capabilities : ServerCapabilities = {
     tools: self.tools.length() > 0,
     resources: self.resources.length() > 0,
     prompts: self.prompts.length() > 0,
   }
-  result.set("capabilities", capabilities.to_any())
+  let result = @js.from_map({
+    "protocolVersion": @js.any("2024-11-05"),
+    "serverInfo": self.info.to_any(),
+    "capabilities": capabilities.to_any(),
+  })
   @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
 }
 
@@ -116,13 +116,12 @@ fn McpServer::handle_tools_list(
   self : McpServer,
   id : RequestId,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let tools_array = @js.JsArray::new()
+  let tools : Array[@js.Any] = []
   self.tools.each(fn(_, value) {
     let (tool, _) = value
-    tools_array.push(tool.to_any())
+    tools.push(tool.to_any())
   })
-  let result = @js.Object::new()
-  result.set("tools", tools_array)
+  let result = @js.from_map({ "tools": @js.from_array(tools) })
   @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
 }
 
@@ -157,15 +156,16 @@ fn McpServer::handle_tools_call(
               let arguments : @js.Object = match
                 (p.get("arguments") |> @js.identity_option()) {
                 Some(args) => args
-                None => @js.Object::new()
+                None => @js.identity(@js.Object::new())
               }
               handler(arguments).then(fn(content) {
-                let content_array = @js.JsArray::new()
+                let content_arr : Array[@js.Any] = []
                 for i = 0; i < content.length(); i = i + 1 {
-                  content_array.push(content[i].to_any())
+                  content_arr.push(content[i].to_any())
                 }
-                let result = @js.Object::new()
-                result.set("content", content_array)
+                let result = @js.from_map({
+                  "content": @js.from_array(content_arr),
+                })
                 @js.Promise::resolve(
                   Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
                 )
@@ -182,13 +182,12 @@ fn McpServer::handle_resources_list(
   self : McpServer,
   id : RequestId,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let resources_array = @js.JsArray::new()
+  let resources : Array[@js.Any] = []
   self.resources.each(fn(_, value) {
     let (resource, _) = value
-    resources_array.push(resource.to_any())
+    resources.push(resource.to_any())
   })
-  let result = @js.Object::new()
-  result.set("resources", resources_array)
+  let result = @js.from_map({ "resources": @js.from_array(resources) })
   @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
 }
 
@@ -221,12 +220,13 @@ fn McpServer::handle_resources_read(
               )
             Some((_, handler)) =>
               handler(resource_uri).then(fn(content) {
-                let content_array = @js.JsArray::new()
+                let content_arr : Array[@js.Any] = []
                 for i = 0; i < content.length(); i = i + 1 {
-                  content_array.push(content[i].to_any())
+                  content_arr.push(content[i].to_any())
                 }
-                let result = @js.Object::new()
-                result.set("contents", content_array)
+                let result = @js.from_map({
+                  "contents": @js.from_array(content_arr),
+                })
                 @js.Promise::resolve(
                   Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
                 )
@@ -242,13 +242,12 @@ fn McpServer::handle_prompts_list(
   self : McpServer,
   id : RequestId,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let prompts_array = @js.JsArray::new()
+  let prompts : Array[@js.Any] = []
   self.prompts.each(fn(_, value) {
     let (prompt, _) = value
-    prompts_array.push(prompt.to_any())
+    prompts.push(prompt.to_any())
   })
-  let result = @js.Object::new()
-  result.set("prompts", prompts_array)
+  let result = @js.from_map({ "prompts": @js.from_array(prompts) })
   @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
 }
 
@@ -283,15 +282,16 @@ fn McpServer::handle_prompts_get(
               let arguments : @js.Object = match
                 (p.get("arguments") |> @js.identity_option()) {
                 Some(args) => args
-                None => @js.Object::new()
+                None => @js.identity(@js.Object::new())
               }
               handler(arguments).then(fn(content) {
-                let content_array = @js.JsArray::new()
+                let content_arr : Array[@js.Any] = []
                 for i = 0; i < content.length(); i = i + 1 {
-                  content_array.push(content[i].to_any())
+                  content_arr.push(content[i].to_any())
                 }
-                let result = @js.Object::new()
-                result.set("messages", content_array)
+                let result = @js.from_map({
+                  "messages": @js.from_array(content_arr),
+                })
                 @js.Promise::resolve(
                   Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
                 )
