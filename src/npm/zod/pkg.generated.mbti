@@ -22,6 +22,14 @@ fn email() -> Schema
 
 fn enum_(Array[String]) -> ZodSchema
 
+fn generate_all_types(JsonSchema, String, config? : CodegenConfig) -> Array[GeneratedType]
+
+fn generate_file(Array[GeneratedType], package_doc? : String) -> String
+
+fn generate_from_zod(ZodSchema, String, config? : CodegenConfig) -> String
+
+fn generate_struct(JsonSchema, String, CodegenConfig) -> String
+
 fn int_() -> Schema
 
 fn literal(@js.Any) -> ZodSchema
@@ -58,6 +66,10 @@ fn str() -> Schema
 
 fn string() -> ZodSchema
 
+fn to_json_schema(ZodSchema) -> @js.Any
+
+fn to_json_schema_with_options(ZodSchema, name? : String, io? : String, unrepresentable? : String, override_? : @js.Any) -> @js.Any
+
 fn tuple(Array[ZodSchema]) -> ZodSchema
 
 fn undefined_() -> ZodSchema
@@ -85,6 +97,43 @@ pub enum ArrayRule {
   Length(Int)
   Nonempty
 }
+
+pub struct CodegenConfig {
+  type_prefix : String
+  derive_json : Bool
+  add_docs : Bool
+}
+fn CodegenConfig::default() -> Self
+
+pub struct GeneratedType {
+  name : String
+  code : String
+}
+
+pub struct JsonSchema {
+  raw : @js.Any
+}
+fn JsonSchema::additional_properties(Self) -> Self?
+fn JsonSchema::any_of(Self) -> Array[Self]?
+fn JsonSchema::const_value(Self) -> @js.Any?
+fn JsonSchema::default_value(Self) -> @js.Any?
+fn JsonSchema::definitions(Self) -> @js.Any
+fn JsonSchema::description(Self) -> String?
+fn JsonSchema::enum_values(Self) -> Array[String]?
+fn JsonSchema::format(Self) -> String?
+fn JsonSchema::from_zod(ZodSchema) -> Self
+fn JsonSchema::from_zod_with_name(ZodSchema, String) -> Self
+fn JsonSchema::items(Self) -> Self?
+fn JsonSchema::max_length(Self) -> Int?
+fn JsonSchema::maximum(Self) -> Double?
+fn JsonSchema::min_length(Self) -> Int?
+fn JsonSchema::minimum(Self) -> Double?
+fn JsonSchema::properties(Self) -> @js.Any
+fn JsonSchema::ref_(Self) -> String?
+fn JsonSchema::required(Self) -> Array[String]
+fn JsonSchema::to_any(Self) -> @js.Any
+fn JsonSchema::to_json(Self) -> String
+fn JsonSchema::type_(Self) -> String?
 
 pub enum Modifier {
   Optional
