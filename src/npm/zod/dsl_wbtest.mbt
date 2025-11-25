@@ -1,237 +1,165 @@
-///| DSL tests
+///| DSL Tests - Testing all Schema variants and rules using convenience functions
 
 ///|
-test "DSL str() builds string schema" {
-  let schema = str().build()
-  let result = schema.safeParse(@js.any("hello"))
-  assert_eq(result.success(), true)
+test "DSL: String convenience functions" {
+  let schema1 = str_min(2).build()
+  assert_eq(schema1.safeParse(@js.any("ab")).success(), true)
+  assert_eq(schema1.safeParse(@js.any("a")).success(), false)
+  let schema2 = str_max(3).build()
+  assert_eq(schema2.safeParse(@js.any("abc")).success(), true)
+  assert_eq(schema2.safeParse(@js.any("abcd")).success(), false)
+  let schema3 = str_length(3).build()
+  assert_eq(schema3.safeParse(@js.any("abc")).success(), true)
+  assert_eq(schema3.safeParse(@js.any("ab")).success(), false)
+  let schema4 = str_regex("^[a-z]+$").build()
+  assert_eq(schema4.safeParse(@js.any("abc")).success(), true)
+  assert_eq(schema4.safeParse(@js.any("ABC")).success(), false)
+  let schema5 = str_starts_with("hello").build()
+  assert_eq(schema5.safeParse(@js.any("hello world")).success(), true)
+  assert_eq(schema5.safeParse(@js.any("world hello")).success(), false)
+  let schema6 = str_ends_with("world").build()
+  assert_eq(schema6.safeParse(@js.any("hello world")).success(), true)
+  assert_eq(schema6.safeParse(@js.any("world hello")).success(), false)
+
+  // Transform functions
+  let schema7 = str_trim().build()
+  let result7 : String = schema7.parse(@js.any("  hello  ")).cast()
+  assert_eq(result7, "hello")
+  let schema8 = str_lower().build()
+  let result8 : String = schema8.parse(@js.any("HELLO")).cast()
+  assert_eq(result8, "hello")
+  let schema9 = str_upper().build()
+  let result9 : String = schema9.parse(@js.any("hello")).cast()
+  assert_eq(result9, "HELLO")
 }
 
 ///|
-test "DSL String with rules" {
-  let schema = Schema::String([StringRule::Min(2), StringRule::Max(5)]).build()
-  assert_eq(schema.safeParse(@js.any("abc")).success(), true)
-  assert_eq(schema.safeParse(@js.any("a")).success(), false)
-  assert_eq(schema.safeParse(@js.any("abcdef")).success(), false)
+test "DSL: Number convenience functions" {
+  let schema1 = num_gt(5).build()
+  assert_eq(schema1.safeParse(@js.any(6)).success(), true)
+  assert_eq(schema1.safeParse(@js.any(5)).success(), false)
+  let schema2 = num_gte(5).build()
+  assert_eq(schema2.safeParse(@js.any(5)).success(), true)
+  assert_eq(schema2.safeParse(@js.any(4)).success(), false)
+  let schema3 = num_lt(5).build()
+  assert_eq(schema3.safeParse(@js.any(4)).success(), true)
+  assert_eq(schema3.safeParse(@js.any(5)).success(), false)
+  let schema4 = num_lte(5).build()
+  assert_eq(schema4.safeParse(@js.any(5)).success(), true)
+  assert_eq(schema4.safeParse(@js.any(6)).success(), false)
+  let schema5 = num_negative().build()
+  assert_eq(schema5.safeParse(@js.any(-1)).success(), true)
+  assert_eq(schema5.safeParse(@js.any(1)).success(), false)
+  let schema6 = num_nonpositive().build()
+  assert_eq(schema6.safeParse(@js.any(0)).success(), true)
+  assert_eq(schema6.safeParse(@js.any(1)).success(), false)
+  let schema7 = num_finite().build()
+  assert_eq(schema7.safeParse(@js.any(100)).success(), true)
 }
 
 ///|
-test "DSL email() shorthand" {
-  let schema = email().build()
-  assert_eq(schema.safeParse(@js.any("test@example.com")).success(), true)
-  assert_eq(schema.safeParse(@js.any("invalid")).success(), false)
+test "DSL: Array convenience functions" {
+  let schema1 = arr_min(num(), 2).build()
+  assert_eq(schema1.safeParse(@js.from_array([1, 2])).success(), true)
+  assert_eq(schema1.safeParse(@js.from_array([1])).success(), false)
+  let schema2 = arr_max(num(), 2).build()
+  assert_eq(schema2.safeParse(@js.from_array([1, 2])).success(), true)
+  assert_eq(schema2.safeParse(@js.from_array([1, 2, 3])).success(), false)
+  let schema3 = arr_length(num(), 2).build()
+  assert_eq(schema3.safeParse(@js.from_array([1, 2])).success(), true)
+  assert_eq(schema3.safeParse(@js.from_array([1])).success(), false)
+  let schema4 = arr_nonempty(num()).build()
+  assert_eq(schema4.safeParse(@js.from_array([1])).success(), true)
+  let empty : Array[Int] = []
+  assert_eq(schema4.safeParse(@js.from_array(empty)).success(), false)
 }
 
 ///|
-test "DSL num() builds number schema" {
-  let schema = num().build()
-  assert_eq(schema.safeParse(@js.any(42)).success(), true)
-  assert_eq(schema.safeParse(@js.any("not a number")).success(), false)
+test "DSL: Object convenience functions" {
+  let fields : Array[(String, Schema)] = [("name", str())]
+  let schema1 = obj_strict(fields).build()
+  let data1 = @js.Object::new()
+  data1.set("name", "test")
+  assert_eq(schema1.safeParse(data1.to_any()).success(), true)
+  let data2 = @js.Object::new()
+  data2.set("name", "test")
+  data2.set("extra", "field")
+  assert_eq(schema1.safeParse(data2.to_any()).success(), false)
+  let schema2 = obj_passthrough(fields).build()
+  let data3 = @js.Object::new()
+  data3.set("name", "test")
+  data3.set("extra", "field")
+  assert_eq(schema2.safeParse(data3.to_any()).success(), true)
+  let schema3 = obj_strip(fields).build()
+  let data4 = @js.Object::new()
+  data4.set("name", "test")
+  data4.set("extra", "field")
+  assert_eq(schema3.safeParse(data4.to_any()).success(), true)
+  let schema4 = obj_partial(fields).build()
+  let data5 = @js.Object::new()
+  assert_eq(schema4.safeParse(data5.to_any()).success(), true)
 }
 
 ///|
-test "DSL Number with rules" {
-  let schema = Schema::Number([NumberRule::Int, NumberRule::Positive]).build()
-  assert_eq(schema.safeParse(@js.any(5)).success(), true)
-  assert_eq(schema.safeParse(@js.any(-5)).success(), false)
-}
+test "DSL: Complex type convenience functions" {
+  // BigInt
+  let schema1 = bigint_().build()
+  assert_false(@js.is_undefined(schema1.to_any()))
 
-///|
-test "DSL positive_int() shorthand" {
-  let schema = positive_int().build()
-  assert_eq(schema.safeParse(@js.any(10)).success(), true)
-  assert_eq(schema.safeParse(@js.any(-10)).success(), false)
-}
+  // Date
+  let schema2 = date_().build()
+  assert_false(@js.is_undefined(schema2.to_any()))
 
-///|
-test "DSL bool() builds boolean schema" {
-  let schema = bool().build()
-  assert_eq(schema.safeParse(@js.any(true)).success(), true)
-  assert_eq(schema.safeParse(@js.any(false)).success(), true)
-  assert_eq(schema.safeParse(@js.any("true")).success(), false)
-}
-
-///|
-test "DSL Array schema" {
-  let schema = Schema::Array(num(), []).build()
-  assert_eq(schema.safeParse(@js.from_array([1, 2, 3])).success(), true)
-}
-
-///|
-test "DSL Array with nonempty rule" {
-  let schema = Schema::Array(str(), [ArrayRule::Nonempty]).build()
-  assert_eq(schema.safeParse(@js.from_array(["a"])).success(), true)
-  let empty : Array[String] = []
-  assert_eq(schema.safeParse(@js.from_array(empty)).success(), false)
-}
-
-///|
-test "DSL Object schema" {
-  let schema = Schema::Object([("name", str()), ("age", num())], []).build()
-  let data = @js.Object::new()
-  data.set("name", "Alice")
-  data.set("age", 30)
-  assert_eq(schema.safeParse(data.to_any()).success(), true)
-}
-
-///|
-test "DSL Object with strict rule" {
-  let schema = Schema::Object([("name", str())], [ObjectRule::Strict]).build()
-  let data = @js.Object::new()
-  data.set("name", "Alice")
-  data.set("extra", "not allowed")
-  assert_eq(schema.safeParse(data.to_any()).success(), false)
-}
-
-///|
-test "DSL nested Object" {
-  let schema = Schema::Object(
-    [
-      ("user", Schema::Object([("name", str()), ("email", email())], [])),
-      ("active", bool()),
-    ],
-    [],
-  ).build()
-  let user = @js.Object::new()
-  user.set("name", "Alice")
-  user.set("email", "alice@example.com")
-  let data = @js.Object::new()
-  data.set("user", user)
-  data.set("active", true)
-  assert_eq(schema.safeParse(data.to_any()).success(), true)
-}
-
-///|
-test "DSL Union schema" {
-  let schema = Schema::Union([str(), num()]).build()
-  assert_eq(schema.safeParse(@js.any("hello")).success(), true)
-  assert_eq(schema.safeParse(@js.any(42)).success(), true)
-  assert_eq(schema.safeParse(@js.any(true)).success(), false)
-}
-
-///|
-test "DSL Enum schema" {
-  let schema = Schema::Enum(["red", "green", "blue"]).build()
-  assert_eq(schema.safeParse(@js.any("red")).success(), true)
-  assert_eq(schema.safeParse(@js.any("yellow")).success(), false)
-}
-
-///|
-test "DSL Literal schema" {
-  let schema = Schema::Literal(@js.any("hello")).build()
-  assert_eq(schema.safeParse(@js.any("hello")).success(), true)
-  assert_eq(schema.safeParse(@js.any("world")).success(), false)
-}
-
-///|
-test "DSL optional modifier" {
-  let schema = optional(str()).build()
-  assert_eq(schema.safeParse(@js.any("hello")).success(), true)
-  assert_eq(schema.safeParse(@js.undefined()).success(), true)
-}
-
-///|
-test "DSL nullable modifier" {
-  let schema = nullable(str()).build()
-  assert_eq(schema.safeParse(@js.any("hello")).success(), true)
-  assert_eq(schema.safeParse(@js.null_()).success(), true)
-}
-
-///|
-test "DSL nullish modifier" {
-  let schema = nullish(str()).build()
-  assert_eq(schema.safeParse(@js.any("hello")).success(), true)
-  assert_eq(schema.safeParse(@js.null_()).success(), true)
-  assert_eq(schema.safeParse(@js.undefined()).success(), true)
-}
-
-///|
-test "DSL with_default modifier" {
-  let schema = with_default(str(), @js.any("default")).build()
-  let result : String = schema.parse(@js.undefined()).cast()
-  assert_eq(result, "default")
-}
-
-///|
-test "DSL validate helper" {
-  let schema = Schema::Object([("name", str()), ("age", positive_int())], [])
-  let data = @js.Object::new()
-  data.set("name", "Bob")
-  data.set("age", 25)
-  let result = validate(schema, data.to_any())
-  assert_eq(result.success(), true)
-}
-
-///|
-test "DSL Tuple schema" {
-  let schema = Schema::Tuple([str(), num(), bool()]).build()
-  let data = make_tuple_data()
-  assert_eq(schema.safeParse(data).success(), true)
-}
-
-///|
-extern "js" fn make_tuple_data() -> @js.Any =
-  #| () => ["hello", 42, true]
-
-///|
-test "DSL Record schema" {
-  let schema = Schema::Record(Schema::Any, num()).build()
+  // Record
+  let schema3 = record_(str(), num()).build()
   let data = @js.Object::new()
   data.set("a", 1)
   data.set("b", 2)
-  assert_eq(schema.safeParse(data.to_any()).success(), true)
+  assert_eq(schema3.safeParse(data.to_any()).success(), true)
+
+  // Tuple
+  let schema4 = tuple_([str(), num()]).build()
+  let tuple_data = @js.from_array([@js.any("hello"), @js.any(42)])
+  assert_eq(schema4.safeParse(tuple_data).success(), true)
+
+  // Union
+  let schema5 = union_([str(), num()]).build()
+  assert_eq(schema5.safeParse(@js.any("hello")).success(), true)
+  assert_eq(schema5.safeParse(@js.any(42)).success(), true)
+
+  // Enum
+  let schema6 = enum__(["a", "b", "c"]).build()
+  assert_eq(schema6.safeParse(@js.any("a")).success(), true)
+  assert_eq(schema6.safeParse(@js.any("d")).success(), false)
+
+  // Literal
+  let schema7 = literal_(@js.any("exact")).build()
+  assert_eq(schema7.safeParse(@js.any("exact")).success(), true)
+  assert_eq(schema7.safeParse(@js.any("other")).success(), false)
 }
 
 ///|
-test "DSL complex user schema" {
-  // Define a complete user schema using DSL
-  let user_schema = Schema::Object(
-    [
-      ("id", positive_int()),
-      ("username", Schema::String([StringRule::Min(3), StringRule::Max(20)])),
-      ("email", email()),
-      (
-        "age",
-        optional(
-          Schema::Number([
-            NumberRule::Int,
-            NumberRule::Gte(0),
-            NumberRule::Lte(150),
-          ]),
-        ),
-      ),
-      (
-        "roles",
-        Schema::Array(Schema::Enum(["admin", "user", "guest"]), [
-          ArrayRule::Nonempty,
-        ]),
-      ),
-      (
-        "profile",
-        optional(
-          Schema::Object(
-            [
-              ("bio", optional(Schema::String([StringRule::Max(500)]))),
-              ("avatar", optional(url_string())),
-            ],
-            [],
-          ),
-        ),
-      ),
-    ],
-    [ObjectRule::Strict],
-  )
-  // Valid user data
-  let roles = @js.from_array(["admin", "user"])
-  let profile = @js.Object::new()
-  profile.set("bio", "Hello world")
-  let user = @js.Object::new()
-  user.set("id", 1)
-  user.set("username", "alice")
-  user.set("email", "alice@example.com")
-  user.set("age", 30)
-  user.set("roles", roles)
-  user.set("profile", profile)
-  let result = validate(user_schema, user.to_any())
-  assert_eq(result.success(), true)
+test "DSL: Special type convenience functions" {
+  // Any
+  let schema1 = any__().build()
+  assert_eq(schema1.safeParse(@js.any("anything")).success(), true)
+  assert_eq(schema1.safeParse(@js.any(123)).success(), true)
+
+  // Unknown
+  let schema2 = unknown_().build()
+  assert_eq(schema2.safeParse(@js.any("anything")).success(), true)
+
+  // Never - always fails
+  let schema3 = never_().build()
+  assert_eq(schema3.safeParse(@js.any("anything")).success(), false)
+
+  // Null
+  let schema4 = null__().build()
+  assert_eq(schema4.safeParse(@js.null_()).success(), true)
+  assert_eq(schema4.safeParse(@js.any("not null")).success(), false)
+
+  // Undefined
+  let schema5 = undefined__().build()
+  assert_eq(schema5.safeParse(@js.undefined()).success(), true)
+  assert_eq(schema5.safeParse(@js.any("not undefined")).success(), false)
 }

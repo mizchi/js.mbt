@@ -8,9 +8,21 @@ import(
 // Values
 fn any_() -> ZodSchema
 
+fn any__() -> Schema
+
+fn arr_length(Schema, Int) -> Schema
+
+fn arr_max(Schema, Int) -> Schema
+
+fn arr_min(Schema, Int) -> Schema
+
+fn arr_nonempty(Schema) -> Schema
+
 fn array(ZodSchema) -> ZodSchema
 
 fn bigint() -> ZodSchema
+
+fn bigint_() -> Schema
 
 fn bool() -> Schema
 
@@ -18,9 +30,13 @@ fn boolean() -> ZodSchema
 
 fn date() -> ZodSchema
 
+fn date_() -> Schema
+
 fn email() -> Schema
 
 fn enum_(Array[String]) -> ZodSchema
+
+fn enum__(Array[String]) -> Schema
 
 fn generate_all_types(JsonSchema, String, config? : CodegenConfig) -> Array[GeneratedType]
 
@@ -34,13 +50,19 @@ fn int_() -> Schema
 
 fn literal(@js.Any) -> ZodSchema
 
+fn literal_(@js.Any) -> Schema
+
 fn map(ZodSchema, ZodSchema) -> ZodSchema
 
 fn never() -> ZodSchema
 
+fn never_() -> Schema
+
 fn nonnegative_int() -> Schema
 
 fn null_() -> ZodSchema
+
+fn null__() -> Schema
 
 fn nullable(Schema) -> Schema
 
@@ -48,7 +70,29 @@ fn nullish(Schema) -> Schema
 
 fn num() -> Schema
 
+fn num_finite() -> Schema
+
+fn num_gt(Int) -> Schema
+
+fn num_gte(Int) -> Schema
+
+fn num_lt(Int) -> Schema
+
+fn num_lte(Int) -> Schema
+
+fn num_negative() -> Schema
+
+fn num_nonpositive() -> Schema
+
 fn number() -> ZodSchema
+
+fn obj_partial(Array[(String, Schema)]) -> Schema
+
+fn obj_passthrough(Array[(String, Schema)]) -> Schema
+
+fn obj_strict(Array[(String, Schema)]) -> Schema
+
+fn obj_strip(Array[(String, Schema)]) -> Schema
 
 fn object(@js.Any) -> ZodSchema
 
@@ -60,9 +104,29 @@ fn positive_int() -> Schema
 
 fn record(ZodSchema, ZodSchema) -> ZodSchema
 
+fn record_(Schema, Schema) -> Schema
+
 fn set(ZodSchema) -> ZodSchema
 
 fn str() -> Schema
+
+fn str_ends_with(String) -> Schema
+
+fn str_length(Int) -> Schema
+
+fn str_lower() -> Schema
+
+fn str_max(Int) -> Schema
+
+fn str_min(Int) -> Schema
+
+fn str_regex(String) -> Schema
+
+fn str_starts_with(String) -> Schema
+
+fn str_trim() -> Schema
+
+fn str_upper() -> Schema
 
 fn string() -> ZodSchema
 
@@ -72,11 +136,19 @@ fn to_json_schema_with_options(ZodSchema, name? : String, io? : String, unrepres
 
 fn tuple(Array[ZodSchema]) -> ZodSchema
 
+fn tuple_(Array[Schema]) -> Schema
+
 fn undefined_() -> ZodSchema
+
+fn undefined__() -> Schema
 
 fn union(Array[ZodSchema]) -> ZodSchema
 
+fn union_(Array[Schema]) -> Schema
+
 fn unknown() -> ZodSchema
+
+fn unknown_() -> Schema
 
 fn url_string() -> Schema
 

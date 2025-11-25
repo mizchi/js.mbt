@@ -3,6 +3,5 @@
   "import": [
     "mizchi/js",
     "mizchi/js/node"
-  ],
-  "warn-list": "-6"
+  ]
 }

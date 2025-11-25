@@ -310,6 +310,224 @@ pub fn with_default(schema : Schema, value : @js.Any) -> Schema {
   WithModifier(schema, Default(value))
 }
 
+///| Additional convenience constructors
+
+///|
+/// String with min length
+pub fn str_min(n : Int) -> Schema {
+  String([Min(n)])
+}
+
+///|
+/// String with max length
+pub fn str_max(n : Int) -> Schema {
+  String([Max(n)])
+}
+
+///|
+/// String with exact length
+pub fn str_length(n : Int) -> Schema {
+  String([Length(n)])
+}
+
+///|
+/// String with regex pattern
+pub fn str_regex(pattern : String) -> Schema {
+  String([Regex(pattern)])
+}
+
+///|
+/// String that starts with prefix
+pub fn str_starts_with(prefix : String) -> Schema {
+  String([StartsWith(prefix)])
+}
+
+///|
+/// String that ends with suffix
+pub fn str_ends_with(suffix : String) -> Schema {
+  String([EndsWith(suffix)])
+}
+
+///|
+/// String with trim transformation
+pub fn str_trim() -> Schema {
+  String([Trim])
+}
+
+///|
+/// String with toLowerCase transformation
+pub fn str_lower() -> Schema {
+  String([ToLowerCase])
+}
+
+///|
+/// String with toUpperCase transformation
+pub fn str_upper() -> Schema {
+  String([ToUpperCase])
+}
+
+///|
+/// Number greater than
+pub fn num_gt(n : Int) -> Schema {
+  Number([Gt(n)])
+}
+
+///|
+/// Number greater than or equal
+pub fn num_gte(n : Int) -> Schema {
+  Number([Gte(n)])
+}
+
+///|
+/// Number less than
+pub fn num_lt(n : Int) -> Schema {
+  Number([Lt(n)])
+}
+
+///|
+/// Number less than or equal
+pub fn num_lte(n : Int) -> Schema {
+  Number([Lte(n)])
+}
+
+///|
+/// Negative number
+pub fn num_negative() -> Schema {
+  Number([Negative])
+}
+
+///|
+/// Non-positive number
+pub fn num_nonpositive() -> Schema {
+  Number([Nonpositive])
+}
+
+///|
+/// Finite number
+pub fn num_finite() -> Schema {
+  Number([Finite])
+}
+
+///|
+/// Array with min length
+pub fn arr_min(element : Schema, n : Int) -> Schema {
+  Array(element, [ArrayRule::Min(n)])
+}
+
+///|
+/// Array with max length
+pub fn arr_max(element : Schema, n : Int) -> Schema {
+  Array(element, [ArrayRule::Max(n)])
+}
+
+///|
+/// Array with exact length
+pub fn arr_length(element : Schema, n : Int) -> Schema {
+  Array(element, [ArrayRule::Length(n)])
+}
+
+///|
+/// Non-empty array
+pub fn arr_nonempty(element : Schema) -> Schema {
+  Array(element, [Nonempty])
+}
+
+///|
+/// Object with strict mode
+pub fn obj_strict(fields : Array[(String, Schema)]) -> Schema {
+  Object(fields, [Strict])
+}
+
+///|
+/// Object with passthrough mode
+pub fn obj_passthrough(fields : Array[(String, Schema)]) -> Schema {
+  Object(fields, [Passthrough])
+}
+
+///|
+/// Object with strip mode
+pub fn obj_strip(fields : Array[(String, Schema)]) -> Schema {
+  Object(fields, [Strip])
+}
+
+///|
+/// Partial object (all fields optional)
+pub fn obj_partial(fields : Array[(String, Schema)]) -> Schema {
+  Object(fields, [Partial])
+}
+
+///|
+/// BigInt schema
+pub fn bigint_() -> Schema {
+  BigInt
+}
+
+///|
+/// Date schema
+pub fn date_() -> Schema {
+  Date
+}
+
+///|
+/// Record schema
+pub fn record_(key : Schema, value : Schema) -> Schema {
+  Record(key, value)
+}
+
+///|
+/// Tuple schema
+pub fn tuple_(items : Array[Schema]) -> Schema {
+  Tuple(items)
+}
+
+///|
+/// Union schema
+pub fn union_(options : Array[Schema]) -> Schema {
+  Union(options)
+}
+
+///|
+/// Enum schema
+pub fn enum__(values : Array[String]) -> Schema {
+  Enum(values)
+}
+
+///|
+/// Literal schema
+pub fn literal_(value : @js.Any) -> Schema {
+  Literal(value)
+}
+
+///|
+/// Any schema
+pub fn any__() -> Schema {
+  Any
+}
+
+///|
+/// Unknown schema
+pub fn unknown_() -> Schema {
+  Unknown
+}
+
+///|
+/// Never schema
+pub fn never_() -> Schema {
+  Never
+}
+
+///|
+/// Null schema
+pub fn null__() -> Schema {
+  Null
+}
+
+///|
+/// Undefined schema
+pub fn undefined__() -> Schema {
+  Undefined
+}
+
 ///| Validation helpers
 
 ///|
