@@ -242,17 +242,13 @@ impl @js.JsImpl for KVValueWithMetadata
 
 #external
 pub type R2Bucket
-fn R2Bucket::create_multipart_upload(Self, String) -> @js.Promise[R2MultipartUpload]
-fn R2Bucket::create_multipart_upload_with_options(Self, String, R2PutOptions) -> @js.Promise[R2MultipartUpload]
+fn R2Bucket::create_multipart_upload(Self, String, httpMetadata? : R2HttpMetadata, customMetadata? : @js.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> @js.Promise[R2MultipartUpload]
 fn R2Bucket::delete(Self, String) -> @js.Promise[Unit]
 fn R2Bucket::delete_multiple(Self, Array[String]) -> @js.Promise[Unit]
-fn R2Bucket::get(Self, String) -> @js.Promise[R2Object?]
-fn R2Bucket::get_with_options(Self, String, R2GetOptions) -> @js.Promise[R2Object?]
+fn R2Bucket::get(Self, String, onlyIf? : R2Conditional, range? : R2Range) -> @js.Promise[R2Object?]
 fn R2Bucket::head(Self, String) -> @js.Promise[R2Object?]
-fn R2Bucket::list(Self) -> @js.Promise[R2Objects]
-fn R2Bucket::list_with_options(Self, R2ListOptions) -> @js.Promise[R2Objects]
-fn R2Bucket::put(Self, String, @js.Any) -> @js.Promise[R2Object]
-fn R2Bucket::put_with_options(Self, String, @js.Any, R2PutOptions) -> @js.Promise[R2Object]
+fn R2Bucket::list(Self, limit? : Int, prefix? : String, cursor? : String, delimiter? : String, startAfter? : String, include_? : Array[String]) -> @js.Promise[R2Objects]
+fn R2Bucket::put(Self, String, @js.Any, httpMetadata? : R2HttpMetadata, customMetadata? : @js.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> @js.Promise[R2Object]
 fn R2Bucket::resume_multipart_upload(Self, String, String) -> R2MultipartUpload
 impl @js.JsImpl for R2Bucket
 
@@ -263,12 +259,6 @@ pub(all) struct R2Conditional {
   uploadedAfter : @date.Date?
 }
 
-pub(all) struct R2GetOptions {
-  onlyIf : R2Conditional?
-  range : R2Range?
-}
-impl @js.JsImpl for R2GetOptions
-
 pub(all) struct R2HttpMetadata {
   contentType : String?
   contentLanguage : String?
@@ -278,16 +268,6 @@ pub(all) struct R2HttpMetadata {
   cacheExpiry : @date.Date?
 }
 impl @js.JsImpl for R2HttpMetadata
-
-pub(all) struct R2ListOptions {
-  limit : Int?
-  prefix : String?
-  cursor : String?
-  delimiter : String?
-  startAfter : String?
-  include_ : Array[String]?
-}
-impl @js.JsImpl for R2ListOptions
 
 #external
 pub type R2MultipartUpload
@@ -323,17 +303,6 @@ pub(all) struct R2Objects {
   delimitedPrefixes : Array[String]
 }
 impl @js.JsImpl for R2Objects
-
-pub(all) struct R2PutOptions {
-  httpMetadata : R2HttpMetadata?
-  customMetadata : @js.Any?
-  md5 : String?
-  sha1 : String?
-  sha256 : String?
-  sha384 : String?
-  sha512 : String?
-}
-impl @js.JsImpl for R2PutOptions
 
 pub(all) struct R2Range {
   offset : Int?

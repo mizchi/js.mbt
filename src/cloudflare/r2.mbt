@@ -9,18 +9,44 @@ pub impl @js.JsImpl for R2Bucket
 
 ///|
 /// Get an object from R2
-pub fn R2Bucket::get(self : Self, key : String) -> @js.Promise[R2Object?] {
-  self.call("get", [key]).cast()
-}
-
-///|
-/// Get an object from R2 with options
-pub fn R2Bucket::get_with_options(
+pub fn R2Bucket::get(
   self : Self,
   key : String,
-  options : R2GetOptions,
+  onlyIf? : R2Conditional,
+  range? : R2Range,
 ) -> @js.Promise[R2Object?] {
-  self.call2("get", key, options).cast()
+  if onlyIf is None && range is None {
+    self.call("get", [key]).cast()
+  } else {
+    let onlyIf_js : @js.Any? = match onlyIf {
+      Some(cond) =>
+        Some(
+          @js.from_entries_option([
+            ("etagMatches", cond.etagMatches.map(x => x)),
+            ("etagDoesNotMatch", cond.etagDoesNotMatch.map(x => x)),
+            ("uploadedBefore", cond.uploadedBefore.map(x => x)),
+            ("uploadedAfter", cond.uploadedAfter.map(x => x)),
+          ]),
+        )
+      None => None
+    }
+    let range_js : @js.Any? = match range {
+      Some(r) =>
+        Some(
+          @js.from_entries_option([
+            ("offset", r.offset.map(x => x)),
+            ("length", r.length.map(x => x)),
+            ("suffix", r.suffix.map(x => x)),
+          ]),
+        )
+      None => None
+    }
+    let opts = @js.from_entries_option([
+      ("onlyIf", onlyIf_js.map(x => x)),
+      ("range", range_js.map(x => x)),
+    ])
+    self.call2("get", key, opts).cast()
+  }
 }
 
 ///|
@@ -35,19 +61,38 @@ pub fn R2Bucket::put(
   self : Self,
   key : String,
   value : @js.Any,
+  httpMetadata? : R2HttpMetadata,
+  customMetadata? : @js.Any,
+  md5? : String,
+  sha1? : String,
+  sha256? : String,
+  sha384? : String,
+  sha512? : String,
 ) -> @js.Promise[R2Object] {
-  self.call2("put", key, value).cast()
-}
-
-///|
-/// Put an object into R2 with options
-pub fn R2Bucket::put_with_options(
-  self : Self,
-  key : String,
-  value : @js.Any,
-  options : R2PutOptions,
-) -> @js.Promise[R2Object] {
-  self.call("put", [key, value, options]).cast()
+  if httpMetadata is None &&
+    customMetadata is None &&
+    md5 is None &&
+    sha1 is None &&
+    sha256 is None &&
+    sha384 is None &&
+    sha512 is None {
+    self.call2("put", key, value).cast()
+  } else {
+    let httpMetadata_js : @js.Any? = match httpMetadata {
+      Some(meta) => Some(meta.to_any())
+      None => None
+    }
+    let opts = @js.from_entries_option([
+      ("httpMetadata", httpMetadata_js.map(x => x)),
+      ("customMetadata", customMetadata.map(x => x)),
+      ("md5", md5.map(x => x)),
+      ("sha1", sha1.map(x => x)),
+      ("sha256", sha256.map(x => x)),
+      ("sha384", sha384.map(x => x)),
+      ("sha512", sha512.map(x => x)),
+    ])
+    self.call("put", [key, value, opts]).cast()
+  }
 }
 
 ///|
@@ -73,17 +118,37 @@ pub fn R2Bucket::delete_multiple(
 
 ///|
 /// List objects in the bucket
-pub fn R2Bucket::list(self : Self) -> @js.Promise[R2Objects] {
-  self.call0("list").cast()
-}
-
-///|
-/// List objects with options
-pub fn R2Bucket::list_with_options(
+pub fn R2Bucket::list(
   self : Self,
-  options : R2ListOptions,
+  limit? : Int,
+  prefix? : String,
+  cursor? : String,
+  delimiter? : String,
+  startAfter? : String,
+  include_? : Array[String],
 ) -> @js.Promise[R2Objects] {
-  self.call("list", [options]).cast()
+  if limit is None &&
+    prefix is None &&
+    cursor is None &&
+    delimiter is None &&
+    startAfter is None &&
+    include_ is None {
+    self.call0("list").cast()
+  } else {
+    let include_js : @js.Any? = match include_ {
+      Some(inc) => Some(@js.from_array(inc))
+      None => None
+    }
+    let opts = @js.from_entries_option([
+      ("limit", limit.map(x => x)),
+      ("prefix", prefix.map(x => x)),
+      ("cursor", cursor.map(x => x)),
+      ("delimiter", delimiter.map(x => x)),
+      ("startAfter", startAfter.map(x => x)),
+      ("include", include_js.map(x => x)),
+    ])
+    self.call("list", [opts]).cast()
+  }
 }
 
 ///|
@@ -91,18 +156,38 @@ pub fn R2Bucket::list_with_options(
 pub fn R2Bucket::create_multipart_upload(
   self : Self,
   key : String,
+  httpMetadata? : R2HttpMetadata,
+  customMetadata? : @js.Any,
+  md5? : String,
+  sha1? : String,
+  sha256? : String,
+  sha384? : String,
+  sha512? : String,
 ) -> @js.Promise[R2MultipartUpload] {
-  self.call("createMultipartUpload", [key]).cast()
-}
-
-///|
-/// Create a multipart upload with options
-pub fn R2Bucket::create_multipart_upload_with_options(
-  self : Self,
-  key : String,
-  options : R2PutOptions,
-) -> @js.Promise[R2MultipartUpload] {
-  self.call2("createMultipartUpload", key, options).cast()
+  if httpMetadata is None &&
+    customMetadata is None &&
+    md5 is None &&
+    sha1 is None &&
+    sha256 is None &&
+    sha384 is None &&
+    sha512 is None {
+    self.call("createMultipartUpload", [key]).cast()
+  } else {
+    let httpMetadata_js : @js.Any? = match httpMetadata {
+      Some(meta) => Some(meta.to_any())
+      None => None
+    }
+    let opts = @js.from_entries_option([
+      ("httpMetadata", httpMetadata_js.map(x => x)),
+      ("customMetadata", customMetadata.map(x => x)),
+      ("md5", md5.map(x => x)),
+      ("sha1", sha1.map(x => x)),
+      ("sha256", sha256.map(x => x)),
+      ("sha384", sha384.map(x => x)),
+      ("sha512", sha512.map(x => x)),
+    ])
+    self.call2("createMultipartUpload", key, opts).cast()
+  }
 }
 
 ///|
@@ -113,50 +198,6 @@ pub fn R2Bucket::resume_multipart_upload(
   upload_id : String,
 ) -> R2MultipartUpload {
   self.call2("resumeMultipartUpload", key, upload_id).cast()
-}
-
-///|
-/// Options for R2 get operations
-pub(all) struct R2GetOptions {
-  onlyIf : R2Conditional?
-  range : R2Range?
-}
-
-///|
-pub impl @js.JsImpl for R2GetOptions with to_any(self) {
-  let onlyIf_js : @js.Any? = match self.onlyIf {
-    Some(cond) =>
-      Some(
-        @js.from_entries_option([
-          ("etagMatches", cond.etagMatches.map(fn(x) { x as &@js.JsImpl })),
-          (
-            "etagDoesNotMatch",
-            cond.etagDoesNotMatch.map(fn(x) { x as &@js.JsImpl }),
-          ),
-          (
-            "uploadedBefore",
-            cond.uploadedBefore.map(fn(x) { x as &@js.JsImpl }),
-          ),
-          ("uploadedAfter", cond.uploadedAfter.map(fn(x) { x as &@js.JsImpl })),
-        ]),
-      )
-    None => None
-  }
-  let range_js : @js.Any? = match self.range {
-    Some(r) =>
-      Some(
-        @js.from_entries_option([
-          ("offset", r.offset.map(fn(x) { x as &@js.JsImpl })),
-          ("length", r.length.map(fn(x) { x as &@js.JsImpl })),
-          ("suffix", r.suffix.map(fn(x) { x as &@js.JsImpl })),
-        ]),
-      )
-    None => None
-  }
-  @js.from_entries_option([
-    ("onlyIf", onlyIf_js.map(fn(x) { x as &@js.JsImpl })),
-    ("range", range_js.map(fn(x) { x as &@js.JsImpl })),
-  ])
 }
 
 ///|
@@ -174,35 +215,6 @@ pub(all) struct R2Range {
   offset : Int?
   length : Int?
   suffix : Int?
-}
-
-///|
-/// Options for R2 put operations
-pub(all) struct R2PutOptions {
-  httpMetadata : R2HttpMetadata?
-  customMetadata : @js.Any?
-  md5 : String?
-  sha1 : String?
-  sha256 : String?
-  sha384 : String?
-  sha512 : String?
-}
-
-///|
-pub impl @js.JsImpl for R2PutOptions with to_any(self) {
-  let httpMetadata_js : @js.Any? = match self.httpMetadata {
-    Some(meta) => Some(meta.to_any())
-    None => None
-  }
-  @js.from_entries_option([
-    ("httpMetadata", httpMetadata_js.map(fn(x) { x as &@js.JsImpl })),
-    ("customMetadata", self.customMetadata.map(fn(x) { x as &@js.JsImpl })),
-    ("md5", self.md5.map(fn(x) { x as &@js.JsImpl })),
-    ("sha1", self.sha1.map(fn(x) { x as &@js.JsImpl })),
-    ("sha256", self.sha256.map(fn(x) { x as &@js.JsImpl })),
-    ("sha384", self.sha384.map(fn(x) { x as &@js.JsImpl })),
-    ("sha512", self.sha512.map(fn(x) { x as &@js.JsImpl })),
-  ])
 }
 
 ///|
@@ -228,33 +240,6 @@ pub impl @js.JsImpl for R2HttpMetadata with to_any(self) {
     ("contentEncoding", self.contentEncoding.map(fn(x) { x as &@js.JsImpl })),
     ("cacheControl", self.cacheControl.map(fn(x) { x as &@js.JsImpl })),
     ("cacheExpiry", self.cacheExpiry.map(fn(x) { x as &@js.JsImpl })),
-  ])
-}
-
-///|
-/// Options for R2 list operations
-pub(all) struct R2ListOptions {
-  limit : Int?
-  prefix : String?
-  cursor : String?
-  delimiter : String?
-  startAfter : String?
-  include_ : Array[String]?
-}
-
-///|
-pub impl @js.JsImpl for R2ListOptions with to_any(self) {
-  let include_js : @js.Any? = match self.include_ {
-    Some(inc) => Some(@js.from_array(inc))
-    None => None
-  }
-  @js.from_entries_option([
-    ("limit", self.limit.map(fn(x) { x as &@js.JsImpl })),
-    ("prefix", self.prefix.map(fn(x) { x as &@js.JsImpl })),
-    ("cursor", self.cursor.map(fn(x) { x as &@js.JsImpl })),
-    ("delimiter", self.delimiter.map(fn(x) { x as &@js.JsImpl })),
-    ("startAfter", self.startAfter.map(fn(x) { x as &@js.JsImpl })),
-    ("include", include_js.map(fn(x) { x as &@js.JsImpl })),
   ])
 }
 
