@@ -2,6 +2,7 @@
 package "mizchi/js"
 
 import(
+  "moonbitlang/async/js_async"
   "moonbitlang/core/bigint"
 )
 
@@ -110,7 +111,7 @@ fn queueMicrotask(() -> Unit) -> Unit
 
 fn run_async(async () -> Unit noraise) -> Unit
 
-async fn[X] run_promise((AbortSignal) -> Promise[X]) -> X
+async fn[X] run_promise((@js_async.AbortSignal) -> Promise[X]) -> X
 
 #alias(set_interval)
 fn setInterval(() -> Unit, Int) -> JsTimer
@@ -154,17 +155,6 @@ impl JsImpl for ThrowError
 impl Show for ThrowError
 
 // Types and methods
-#external
-pub type AbortController
-fn AbortController::abort(Self) -> Self
-fn AbortController::new() -> Self
-fn AbortController::signal(Self) -> AbortSignal
-impl JsImpl for AbortController
-
-#external
-pub type AbortSignal
-impl JsImpl for AbortSignal
-
 #external
 pub type Any
 fn[T] Any::cast(Self) -> T
@@ -348,6 +338,9 @@ impl JsImpl for Symbol
 impl PropertyKey for Symbol
 
 // Type aliases
+pub using @js_async {type AbortController}
+
+pub using @js_async {type AbortSignal}
 
 // Traits
 pub(open) trait JsImpl {

@@ -6,10 +6,11 @@ import(
   "mizchi/js/builtins/typedarray"
   "mizchi/js/web/blob"
   "mizchi/js/web/streams"
+  "moonbitlang/async/js_async"
 )
 
 // Values
-async fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.JsImpl, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js.AbortSignal) -> Response
+async fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.JsImpl, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js_async.AbortSignal) -> Response
 
 async fn fetch_request(Request) -> Response
 

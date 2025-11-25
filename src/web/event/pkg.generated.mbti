@@ -3,6 +3,7 @@ package "mizchi/js/web/event"
 
 import(
   "mizchi/js"
+  "moonbitlang/async/js_async"
 )
 
 // Values
@@ -34,11 +35,16 @@ fn EventSource::set_onopen(Self, (@js.Any) -> Unit) -> Unit
 impl @js.JsImpl for EventSource
 impl EventTargetImpl for EventSource
 
+#external
+pub type EventTarget
+impl @js.JsImpl for EventTarget
+impl EventTargetImpl for EventTarget
+
 // Type aliases
 
 // Traits
 pub(open) trait EventTargetImpl : @js.JsImpl {
-  addEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js.AbortSignal) -> Unit = _
+  addEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit = _
   removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit = _
   dispatchEvent(Self, @js.Any) -> Bool = _
 }
