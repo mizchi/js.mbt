@@ -89,64 +89,85 @@ pub fn Deno::build_arch(self : Deno) -> String {
 
 ///|
 /// Read all data from stdin
-pub fn Deno::stdin_read(self : Deno) -> @js.Promise[@js.Any] {
-  self.get("stdin").call0("read").cast()
+pub async fn Deno::stdin_read(self : Deno) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.get("stdin").call0("read").cast()
+  promise.wait()
 }
 
 ///|
 /// Write to stdout
-pub fn Deno::stdout_write(self : Deno, data : @js.Any) -> @js.Promise[Int] {
-  self.get("stdout").call1("write", data).cast()
+pub async fn Deno::stdout_write(self : Deno, data : @js.Any) -> Int {
+  let promise : @js.Promise[Int] = self
+    .get("stdout")
+    .call1("write", data)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Write to stderr
-pub fn Deno::stderr_write(self : Deno, data : @js.Any) -> @js.Promise[Int] {
-  self.get("stderr").call1("write", data).cast()
+pub async fn Deno::stderr_write(self : Deno, data : @js.Any) -> Int {
+  let promise : @js.Promise[Int] = self
+    .get("stderr")
+    .call1("write", data)
+    .cast()
+  promise.wait()
 }
 
 ///| File System APIs
 
 ///|
 /// Read text file
-pub fn Deno::readTextFile(self : Deno, path : String) -> @js.Promise[String] {
-  self.call1("readTextFile", @js.any(path)).cast()
+pub async fn Deno::readTextFile(self : Deno, path : String) -> String {
+  let promise : @js.Promise[String] = self
+    .call1("readTextFile", @js.any(path))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Write text file
-pub fn Deno::writeTextFile(
+pub async fn Deno::writeTextFile(
   self : Deno,
   path : String,
   data : String,
-) -> @js.Promise[Unit] {
-  self.call2("writeTextFile", @js.any(path), @js.any(data)).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call2("writeTextFile", @js.any(path), @js.any(data))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Read file as Uint8Array
-pub fn Deno::readFile(self : Deno, path : String) -> @js.Promise[@js.Any] {
-  self.call1("readFile", @js.any(path)).cast()
+pub async fn Deno::readFile(self : Deno, path : String) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call1("readFile", @js.any(path))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Write file from Uint8Array
-pub fn Deno::writeFile(
+pub async fn Deno::writeFile(
   self : Deno,
   path : String,
   data : @js.Any,
-) -> @js.Promise[Unit] {
-  self.call2("writeFile", @js.any(path), data).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call2("writeFile", @js.any(path), data)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Remove file or directory
-pub fn Deno::remove(
+pub async fn Deno::remove(
   self : Deno,
   path : String,
   recursive? : Bool,
-) -> @js.Promise[Unit] {
-  match recursive {
+) -> Unit {
+  let promise : @js.Promise[Unit] = match recursive {
     Some(r) =>
       self
       .call2(
@@ -157,16 +178,13 @@ pub fn Deno::remove(
       .cast()
     None => self.call1("remove", @js.any(path)).cast()
   }
+  promise.wait()
 }
 
 ///|
 /// Create directory
-pub fn Deno::mkdir(
-  self : Deno,
-  path : String,
-  recursive? : Bool,
-) -> @js.Promise[Unit] {
-  match recursive {
+pub async fn Deno::mkdir(self : Deno, path : String, recursive? : Bool) -> Unit {
+  let promise : @js.Promise[Unit] = match recursive {
     Some(r) =>
       self
       .call2(
@@ -177,6 +195,7 @@ pub fn Deno::mkdir(
       .cast()
     None => self.call1("mkdir", @js.any(path)).cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -187,90 +206,102 @@ pub fn Deno::readDir(self : Deno, path : String) -> @js.Any {
 
 ///|
 /// Rename/move file or directory
-pub fn Deno::rename(
+pub async fn Deno::rename(
   self : Deno,
   oldpath : String,
   newpath : String,
-) -> @js.Promise[Unit] {
-  self.call2("rename", @js.any(oldpath), @js.any(newpath)).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call2("rename", @js.any(oldpath), @js.any(newpath))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Copy file
-pub fn Deno::copyFile(
-  self : Deno,
-  from : String,
-  to : String,
-) -> @js.Promise[Unit] {
-  self.call2("copyFile", @js.any(from), @js.any(to)).cast()
+pub async fn Deno::copyFile(self : Deno, from : String, to : String) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call2("copyFile", @js.any(from), @js.any(to))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Check if path exists
-pub fn Deno::stat(self : Deno, path : String) -> @js.Promise[@js.Any] {
-  self.call1("stat", @js.any(path)).cast()
+pub async fn Deno::stat(self : Deno, path : String) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call1("stat", @js.any(path)).cast()
+  promise.wait()
 }
 
 ///|
 /// Check if path exists (returns null if not found instead of throwing)
-pub fn Deno::lstat(self : Deno, path : String) -> @js.Promise[@js.Any] {
-  self.call1("lstat", @js.any(path)).cast()
+pub async fn Deno::lstat(self : Deno, path : String) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call1("lstat", @js.any(path)).cast()
+  promise.wait()
 }
 
 ///|
 /// Read link target
-pub fn Deno::readLink(self : Deno, path : String) -> @js.Promise[String] {
-  self.call1("readLink", @js.any(path)).cast()
+pub async fn Deno::readLink(self : Deno, path : String) -> String {
+  let promise : @js.Promise[String] = self
+    .call1("readLink", @js.any(path))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Create symbolic link
-pub fn Deno::symlink(
-  self : Deno,
-  target : String,
-  path : String,
-) -> @js.Promise[Unit] {
-  self.call2("symlink", @js.any(target), @js.any(path)).cast()
+pub async fn Deno::symlink(self : Deno, target : String, path : String) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call2("symlink", @js.any(target), @js.any(path))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Change file permissions (Unix only)
-pub fn Deno::chmod(self : Deno, path : String, mode : Int) -> @js.Promise[Unit] {
-  self.call2("chmod", @js.any(path), @js.any(mode)).cast()
+pub async fn Deno::chmod(self : Deno, path : String, mode : Int) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call2("chmod", @js.any(path), @js.any(mode))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Get real path (resolves symlinks)
-pub fn Deno::realPath(self : Deno, path : String) -> @js.Promise[String] {
-  self.call1("realPath", @js.any(path)).cast()
+pub async fn Deno::realPath(self : Deno, path : String) -> String {
+  let promise : @js.Promise[String] = self
+    .call1("realPath", @js.any(path))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Truncate or extend a file to specified length
-pub fn Deno::truncate(
-  self : Deno,
-  name : String,
-  len : Int,
-) -> @js.Promise[Unit] {
-  self.call2("truncate", @js.any(name), @js.any(len)).cast()
+pub async fn Deno::truncate(self : Deno, name : String, len : Int) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call2("truncate", @js.any(name), @js.any(len))
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Make temporary directory
-pub fn Deno::makeTempDir(self : Deno, prefix? : String) -> @js.Promise[String] {
-  match prefix {
+pub async fn Deno::makeTempDir(self : Deno, prefix? : String) -> String {
+  let promise : @js.Promise[String] = match prefix {
     Some(p) =>
       self
       .call1("makeTempDir", @js.from_option_map({ "prefix": Some(@js.any(p)) }))
       .cast()
     None => self.call0("makeTempDir").cast()
   }
+  promise.wait()
 }
 
 ///|
 /// Make temporary file
-pub fn Deno::makeTempFile(self : Deno, prefix? : String) -> @js.Promise[String] {
-  match prefix {
+pub async fn Deno::makeTempFile(self : Deno, prefix? : String) -> String {
+  let promise : @js.Promise[String] = match prefix {
     Some(p) =>
       self
       .call1(
@@ -280,6 +311,7 @@ pub fn Deno::makeTempFile(self : Deno, prefix? : String) -> @js.Promise[String] 
       .cast()
     None => self.call0("makeTempFile").cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -336,17 +368,18 @@ pub fn Deno::gid(self : Deno) -> Int? {
 
 ///|
 /// Open a network connection (TCP)
-pub fn Deno::connect(
+pub async fn Deno::connect(
   self : Self,
   hostname : String,
   port : Int,
-) -> @js.Promise[@js.Any] {
-  self
-  .call1(
-    "connect",
-    @js.from_map({ "hostname": @js.any(hostname), "port": @js.any(port) }),
-  )
-  .cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call1(
+      "connect",
+      @js.from_map({ "hostname": @js.any(hostname), "port": @js.any(port) }),
+    )
+    .cast()
+  promise.wait()
 }
 
 ///|
@@ -360,12 +393,15 @@ pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> @js.Any {
 
 ///|
 /// Resolve DNS hostname to IP addresses
-pub fn Deno::resolveDns(
+pub async fn Deno::resolveDns(
   self : Deno,
   query : String,
   recordType : String,
-) -> @js.Promise[@js.Any] {
-  self.call2("resolveDns", @js.any(query), @js.any(recordType)).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call2("resolveDns", @js.any(query), @js.any(recordType))
+    .cast()
+  promise.wait()
 }
 
 ///| HTTP Server APIs
@@ -377,44 +413,6 @@ pub fn Deno::serve(self : Deno, port : Int, handler : @js.Any) -> @js.Any {
     "serve",
     @js.from_map({ "port": @js.any(port), "handler": handler }),
   )
-}
-
-///| Permissions APIs
-
-///|
-/// Request permission
-pub fn Deno::request_permission(
-  self : Self,
-  name : String,
-) -> @js.Promise[@js.Any] {
-  self
-  .get("permissions")
-  .call1("request", @js.from_map({ "name": @js.any(name) }))
-  .cast()
-}
-
-///|
-/// Query permission status
-pub fn Deno::query_permission(
-  self : Deno,
-  name : String,
-) -> @js.Promise[@js.Any] {
-  self
-  .get("permissions")
-  .call1("query", @js.from_map({ "name": @js.any(name) }))
-  .cast()
-}
-
-///|
-/// Revoke permission
-pub fn Deno::revoke_permission(
-  self : Deno,
-  name : String,
-) -> @js.Promise[@js.Any] {
-  self
-  .get("permissions")
-  .call1("revoke", @js.from_map({ "name": @js.any(name) }))
-  .cast()
 }
 
 ///| Time and Performance APIs
@@ -435,30 +433,32 @@ impl @js.JsImpl for FsFile
 
 ///|
 /// Open a file
-pub fn Deno::open(
+pub async fn Deno::open(
   self : Deno,
   path : String,
   create? : Bool,
   write? : Bool,
   read? : Bool,
-) -> @js.Promise[FsFile] {
-  self
-  .call2(
-    "open",
-    @js.any(path),
-    @js.from_option_map({
-      "create": create.map(fn(x) { @js.any(x) }),
-      "write": write.map(fn(x) { @js.any(x) }),
-      "read": read.map(fn(x) { @js.any(x) }),
-    }),
-  )
-  .cast()
+) -> FsFile {
+  let promise : @js.Promise[FsFile] = self
+    .call2(
+      "open",
+      @js.any(path),
+      @js.from_option_map({
+        "create": create.map(fn(x) { @js.any(x) }),
+        "write": write.map(fn(x) { @js.any(x) }),
+        "read": read.map(fn(x) { @js.any(x) }),
+      }),
+    )
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Create a file
-pub fn Deno::create(self : Deno, path : String) -> @js.Promise[FsFile] {
-  self.call1("create", @js.any(path)).cast()
+pub async fn Deno::create(self : Deno, path : String) -> FsFile {
+  let promise : @js.Promise[FsFile] = self.call1("create", @js.any(path)).cast()
+  promise.wait()
 }
 
 ///|
@@ -469,24 +469,25 @@ pub fn FsFile::close(self : FsFile) -> Unit {
 
 ///|
 /// Read from file
-pub fn FsFile::read(self : FsFile, buffer : @js.Any) -> @js.Promise[Int] {
-  self.call1("read", buffer).cast()
+pub async fn FsFile::read(self : FsFile, buffer : @js.Any) -> Int {
+  let promise : @js.Promise[Int] = self.call1("read", buffer).cast()
+  promise.wait()
 }
 
 ///|
 /// Write to file
-pub fn FsFile::write(self : FsFile, data : @js.Any) -> @js.Promise[Int] {
-  self.call1("write", data).cast()
+pub async fn FsFile::write(self : FsFile, data : @js.Any) -> Int {
+  let promise : @js.Promise[Int] = self.call1("write", data).cast()
+  promise.wait()
 }
 
 ///|
 /// Seek file position
-pub fn FsFile::seek(
-  self : FsFile,
-  offset : Int,
-  whence : Int,
-) -> @js.Promise[Int] {
-  self.call2("seek", @js.any(offset), @js.any(whence)).cast()
+pub async fn FsFile::seek(self : FsFile, offset : Int, whence : Int) -> Int {
+  let promise : @js.Promise[Int] = self
+    .call2("seek", @js.any(offset), @js.any(whence))
+    .cast()
+  promise.wait()
 }
 
 ///| Test APIs

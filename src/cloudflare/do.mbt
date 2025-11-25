@@ -113,40 +113,41 @@ pub impl @js.JsImpl for DurableObjectStub
 
 ///|
 /// Send a fetch request to the Durable Object
-pub fn DurableObjectStub::fetch(
+pub async fn DurableObjectStub::fetch(
   self : Self,
   request : @js.Any,
-) -> @js.Promise[@js.Any] {
-  self.call("fetch", [request]).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call("fetch", [request]).cast()
+  promise.wait()
 }
 
 ///|
 /// Send a fetch request with init options
-pub fn DurableObjectStub::fetch_with_init(
+pub async fn DurableObjectStub::fetch_with_init(
   self : Self,
   request : @js.Any,
   init : @js.Any,
-) -> @js.Promise[@js.Any] {
-  self.call2("fetch", request, init).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call2("fetch", request, init).cast()
+  promise.wait()
 }
 
 ///|
 /// Send a fetch request by URL
-pub fn DurableObjectStub::fetch_url(
-  self : Self,
-  url : String,
-) -> @js.Promise[@js.Any] {
-  self.call("fetch", [url]).cast()
+pub async fn DurableObjectStub::fetch_url(self : Self, url : String) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call("fetch", [url]).cast()
+  promise.wait()
 }
 
 ///|
 /// Send a fetch request by URL with init options
-pub fn DurableObjectStub::fetch_url_with_init(
+pub async fn DurableObjectStub::fetch_url_with_init(
   self : Self,
   url : String,
   init : @js.Any,
-) -> @js.Promise[@js.Any] {
-  self.call2("fetch", url, init).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call2("fetch", url, init).cast()
+  promise.wait()
 }
 
 ///|
@@ -167,11 +168,14 @@ pub fn DurableObjectState::wait_until(self : Self, promise : @js.Any) -> Unit {
 
 ///|
 /// Block concurrent requests until callback completes
-pub fn DurableObjectState::block_concurrency_while(
+pub async fn DurableObjectState::block_concurrency_while(
   self : Self,
   callback : @js.Any,
-) -> @js.Promise[Unit] {
-  self.call("blockConcurrencyWhile", [callback]).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call("blockConcurrencyWhile", [callback])
+    .cast()
+  promise.wait()
 }
 
 ///|
@@ -184,236 +188,262 @@ pub impl @js.JsImpl for DurableObjectStorage
 
 ///|
 /// Get a value from storage
-pub fn DurableObjectStorage::get(
-  self : Self,
-  key : String,
-) -> @js.Promise[@js.Any?] {
-  self.call("get", [key]).cast()
+pub async fn DurableObjectStorage::get(self : Self, key : String) -> @js.Any? {
+  let promise : @js.Promise[@js.Any?] = self.call("get", [key]).cast()
+  promise.wait()
 }
 
 ///|
 /// Get a value with options
-pub fn DurableObjectStorage::get_with_options(
+pub async fn DurableObjectStorage::get_with_options(
   self : Self,
   key : String,
   options : DurableObjectGetOptions,
-) -> @js.Promise[@js.Any?] {
-  self.call2("get", key, options).cast()
+) -> @js.Any? {
+  let promise : @js.Promise[@js.Any?] = self.call2("get", key, options).cast()
+  promise.wait()
 }
 
 ///|
 /// Get multiple values from storage
-pub fn DurableObjectStorage::get_multiple(
+pub async fn DurableObjectStorage::get_multiple(
   self : Self,
   keys : Array[String],
-) -> @js.Promise[@js.Any] {
+) -> @js.Any {
   let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call("get", [keys_js]).cast()
+  let promise : @js.Promise[@js.Any] = self.call("get", [keys_js]).cast()
+  promise.wait()
 }
 
 ///|
 /// Get multiple values with options
-pub fn DurableObjectStorage::get_multiple_with_options(
+pub async fn DurableObjectStorage::get_multiple_with_options(
   self : Self,
   keys : Array[String],
   options : DurableObjectGetOptions,
-) -> @js.Promise[@js.Any] {
+) -> @js.Any {
   let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call2("get", keys_js, options).cast()
+  let promise : @js.Promise[@js.Any] = self
+    .call2("get", keys_js, options)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Put a value into storage
-pub fn DurableObjectStorage::put(
+pub async fn DurableObjectStorage::put(
   self : Self,
   key : String,
   value : @js.Any,
-) -> @js.Promise[Unit] {
-  self.call2("put", key, value).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self.call2("put", key, value).cast()
+  promise.wait()
 }
 
 ///|
 /// Put a value with options
-pub fn DurableObjectStorage::put_with_options(
+pub async fn DurableObjectStorage::put_with_options(
   self : Self,
   key : String,
   value : @js.Any,
   options : DurableObjectPutOptions,
-) -> @js.Promise[Unit] {
-  self.call("put", [key, value, options]).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call("put", [key, value, options])
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Put multiple values into storage
-pub fn DurableObjectStorage::put_multiple(
+pub async fn DurableObjectStorage::put_multiple(
   self : Self,
   entries : @js.Any,
-) -> @js.Promise[Unit] {
-  self.call("put", [entries]).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self.call("put", [entries]).cast()
+  promise.wait()
 }
 
 ///|
 /// Put multiple values with options
-pub fn DurableObjectStorage::put_multiple_with_options(
+pub async fn DurableObjectStorage::put_multiple_with_options(
   self : Self,
   entries : @js.Any,
   options : DurableObjectPutOptions,
-) -> @js.Promise[Unit] {
-  self.call2("put", entries, options).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self.call2("put", entries, options).cast()
+  promise.wait()
 }
 
 ///|
 /// Delete a key from storage
-pub fn DurableObjectStorage::delete(
-  self : Self,
-  key : String,
-) -> @js.Promise[Bool] {
-  self.call("delete", [key]).cast()
+pub async fn DurableObjectStorage::delete(self : Self, key : String) -> Bool {
+  let promise : @js.Promise[Bool] = self.call("delete", [key]).cast()
+  promise.wait()
 }
 
 ///|
 /// Delete a key with options
-pub fn DurableObjectStorage::delete_with_options(
+pub async fn DurableObjectStorage::delete_with_options(
   self : Self,
   key : String,
   options : DurableObjectPutOptions,
-) -> @js.Promise[Bool] {
-  self.call2("delete", key, options).cast()
+) -> Bool {
+  let promise : @js.Promise[Bool] = self.call2("delete", key, options).cast()
+  promise.wait()
 }
 
 ///|
 /// Delete multiple keys from storage
-pub fn DurableObjectStorage::delete_multiple(
+pub async fn DurableObjectStorage::delete_multiple(
   self : Self,
   keys : Array[String],
-) -> @js.Promise[Int] {
+) -> Int {
   let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call("delete", [keys_js]).cast()
+  let promise : @js.Promise[Int] = self.call("delete", [keys_js]).cast()
+  promise.wait()
 }
 
 ///|
 /// Delete multiple keys with options
-pub fn DurableObjectStorage::delete_multiple_with_options(
+pub async fn DurableObjectStorage::delete_multiple_with_options(
   self : Self,
   keys : Array[String],
   options : DurableObjectPutOptions,
-) -> @js.Promise[Int] {
+) -> Int {
   let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call2("delete", keys_js, options).cast()
+  let promise : @js.Promise[Int] = self.call2("delete", keys_js, options).cast()
+  promise.wait()
 }
 
 ///|
 /// Delete all keys in storage
-pub fn DurableObjectStorage::delete_all(self : Self) -> @js.Promise[Unit] {
-  self.call0("deleteAll").cast()
+pub async fn DurableObjectStorage::delete_all(self : Self) -> Unit {
+  let promise : @js.Promise[Unit] = self.call0("deleteAll").cast()
+  promise.wait()
 }
 
 ///|
 /// Delete all keys with options
-pub fn DurableObjectStorage::delete_all_with_options(
+pub async fn DurableObjectStorage::delete_all_with_options(
   self : Self,
   options : DurableObjectPutOptions,
-) -> @js.Promise[Unit] {
-  self.call1("deleteAll", options).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self.call1("deleteAll", options).cast()
+  promise.wait()
 }
 
 ///|
 /// List keys in storage
-pub fn DurableObjectStorage::list(self : Self) -> @js.Promise[@js.Any] {
-  self.call0("list").cast()
+pub async fn DurableObjectStorage::list(self : Self) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call0("list").cast()
+  promise.wait()
 }
 
 ///|
 /// List keys with options
-pub fn DurableObjectStorage::list_with_options(
+pub async fn DurableObjectStorage::list_with_options(
   self : Self,
   options : DurableObjectListOptions,
-) -> @js.Promise[@js.Any] {
-  self.call1("list", options).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call1("list", options).cast()
+  promise.wait()
 }
 
 ///|
 /// Execute a transaction
-pub fn DurableObjectStorage::transaction(
+pub async fn DurableObjectStorage::transaction(
   self : Self,
   closure : @js.Any,
-) -> @js.Promise[@js.Any] {
-  self.call1("transaction", closure).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call1("transaction", closure).cast()
+  promise.wait()
 }
 
 ///|
 /// Get current alarm time
-pub fn DurableObjectStorage::get_alarm(self : Self) -> @js.Promise[Int?] {
-  self.call0("getAlarm").cast()
+pub async fn DurableObjectStorage::get_alarm(self : Self) -> Int? {
+  let promise : @js.Promise[Int?] = self.call0("getAlarm").cast()
+  promise.wait()
 }
 
 ///|
 /// Get alarm with options
-pub fn DurableObjectStorage::get_alarm_with_options(
+pub async fn DurableObjectStorage::get_alarm_with_options(
   self : Self,
   options : DurableObjectGetAlarmOptions,
-) -> @js.Promise[Int?] {
-  self.call1("getAlarm", options).cast()
+) -> Int? {
+  let promise : @js.Promise[Int?] = self.call1("getAlarm", options).cast()
+  promise.wait()
 }
 
 ///|
 /// Set an alarm
-pub fn DurableObjectStorage::set_alarm(
+pub async fn DurableObjectStorage::set_alarm(
   self : Self,
   scheduled_time : Int,
-) -> @js.Promise[Unit] {
-  self.call1("setAlarm", scheduled_time).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call1("setAlarm", scheduled_time)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Set alarm with options
-pub fn DurableObjectStorage::set_alarm_with_options(
+pub async fn DurableObjectStorage::set_alarm_with_options(
   self : Self,
   scheduled_time : Int,
   options : DurableObjectSetAlarmOptions,
-) -> @js.Promise[Unit] {
-  self.call2("setAlarm", scheduled_time, options).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call2("setAlarm", scheduled_time, options)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Delete the alarm
-pub fn DurableObjectStorage::delete_alarm(self : Self) -> @js.Promise[Unit] {
-  self.call0("deleteAlarm").cast()
+pub async fn DurableObjectStorage::delete_alarm(self : Self) -> Unit {
+  let promise : @js.Promise[Unit] = self.call0("deleteAlarm").cast()
+  promise.wait()
 }
 
 ///|
 /// Delete alarm with options
-pub fn DurableObjectStorage::delete_alarm_with_options(
+pub async fn DurableObjectStorage::delete_alarm_with_options(
   self : Self,
   options : DurableObjectSetAlarmOptions,
-) -> @js.Promise[Unit] {
-  self.call1("deleteAlarm", options).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self.call1("deleteAlarm", options).cast()
+  promise.wait()
 }
 
 ///|
 /// Sync storage to disk
-pub fn DurableObjectStorage::sync(self : Self) -> @js.Promise[Unit] {
-  self.call0("sync").cast()
+pub async fn DurableObjectStorage::sync(self : Self) -> Unit {
+  let promise : @js.Promise[Unit] = self.call0("sync").cast()
+  promise.wait()
 }
 
 ///|
@@ -513,90 +543,101 @@ pub impl @js.JsImpl for DurableObjectTransaction
 
 ///|
 /// Get a value in transaction
-pub fn DurableObjectTransaction::get(
+pub async fn DurableObjectTransaction::get(
   self : Self,
   key : String,
-) -> @js.Promise[@js.Any?] {
-  self.call("get", [key]).cast()
+) -> @js.Any? {
+  let promise : @js.Promise[@js.Any?] = self.call("get", [key]).cast()
+  promise.wait()
 }
 
 ///|
 /// Get multiple values in transaction
-pub fn DurableObjectTransaction::get_multiple(
+pub async fn DurableObjectTransaction::get_multiple(
   self : Self,
   keys : Array[String],
-) -> @js.Promise[@js.Any] {
+) -> @js.Any {
   let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call1("get", keys_js).cast()
+  let promise : @js.Promise[@js.Any] = self.call1("get", keys_js).cast()
+  promise.wait()
 }
 
 ///|
 /// Put a value in transaction
-pub fn DurableObjectTransaction::put(
+pub async fn DurableObjectTransaction::put(
   self : Self,
   key : String,
   value : @js.Any,
-) -> @js.Promise[Unit] {
-  self.call2("put", key, value).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self.call2("put", key, value).cast()
+  promise.wait()
 }
 
 ///|
 /// Put multiple values in transaction
-pub fn DurableObjectTransaction::put_multiple(
+pub async fn DurableObjectTransaction::put_multiple(
   self : Self,
   entries : @js.Any,
-) -> @js.Promise[Unit] {
-  self.call("put", [entries]).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self.call("put", [entries]).cast()
+  promise.wait()
 }
 
 ///|
 /// Delete a key in transaction
-pub fn DurableObjectTransaction::delete(
+pub async fn DurableObjectTransaction::delete(
   self : Self,
   key : String,
-) -> @js.Promise[Bool] {
-  self.call("delete", [key]).cast()
+) -> Bool {
+  let promise : @js.Promise[Bool] = self.call("delete", [key]).cast()
+  promise.wait()
 }
 
 ///|
 /// Delete multiple keys in transaction
-pub fn DurableObjectTransaction::delete_multiple(
+pub async fn DurableObjectTransaction::delete_multiple(
   self : Self,
   keys : Array[String],
-) -> @js.Promise[Int] {
+) -> Int {
   let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call("delete", [keys_js]).cast()
+  let promise : @js.Promise[Int] = self.call("delete", [keys_js]).cast()
+  promise.wait()
 }
 
 ///|
 /// Delete all keys in transaction
-pub fn DurableObjectTransaction::delete_all(self : Self) -> @js.Promise[Unit] {
-  self.call0("deleteAll").cast()
+pub async fn DurableObjectTransaction::delete_all(self : Self) -> Unit {
+  let promise : @js.Promise[Unit] = self.call0("deleteAll").cast()
+  promise.wait()
 }
 
 ///|
 /// List keys in transaction
-pub fn DurableObjectTransaction::list(self : Self) -> @js.Promise[@js.Any] {
-  self.call0("list").cast()
+pub async fn DurableObjectTransaction::list(self : Self) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call0("list").cast()
+  promise.wait()
 }
 
 ///|
 /// List keys with options in transaction
-pub fn DurableObjectTransaction::list_with_options(
+pub async fn DurableObjectTransaction::list_with_options(
   self : Self,
   options : DurableObjectListOptions,
-) -> @js.Promise[@js.Any] {
-  self.call("list", [options.to_any()]).cast()
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self
+    .call("list", [options.to_any()])
+    .cast()
+  promise.wait()
 }
 
 ///|
@@ -607,21 +648,26 @@ pub fn DurableObjectTransaction::rollback(self : Self) -> Unit {
 
 ///|
 /// Get alarm in transaction
-pub fn DurableObjectTransaction::get_alarm(self : Self) -> @js.Promise[Int?] {
-  self.call0("getAlarm").cast()
+pub async fn DurableObjectTransaction::get_alarm(self : Self) -> Int? {
+  let promise : @js.Promise[Int?] = self.call0("getAlarm").cast()
+  promise.wait()
 }
 
 ///|
 /// Set alarm in transaction
-pub fn DurableObjectTransaction::set_alarm(
+pub async fn DurableObjectTransaction::set_alarm(
   self : Self,
   scheduled_time : Int,
-) -> @js.Promise[Unit] {
-  self.call("setAlarm", [scheduled_time]).cast()
+) -> Unit {
+  let promise : @js.Promise[Unit] = self
+    .call("setAlarm", [scheduled_time])
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Delete alarm in transaction
-pub fn DurableObjectTransaction::delete_alarm(self : Self) -> @js.Promise[Unit] {
-  self.call0("deleteAlarm").cast()
+pub async fn DurableObjectTransaction::delete_alarm(self : Self) -> Unit {
+  let promise : @js.Promise[Unit] = self.call0("deleteAlarm").cast()
+  promise.wait()
 }

@@ -56,12 +56,10 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       let key = url.searchParams().get("key")
       match key {
         Some(k) => {
-          let value = kv.get(k).wait() catch {
-              _ =>
-                return kv_json_response(
-                  "{\"error\":\"Failed to get key\"}", 500,
-                )
-            }
+          let value = kv.get(k) catch {
+            _ =>
+              return kv_json_response("{\"error\":\"Failed to get key\"}", 500)
+          }
           match value {
             Some(v) =>
               kv_json_response(
@@ -79,7 +77,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       let value = url.searchParams().get("value")
       match (key, value) {
         (Some(k), Some(v)) => {
-          kv.put(k, v).wait() catch {
+          kv.put(k, v) catch {
             _ =>
               return kv_json_response("{\"error\":\"Failed to put key\"}", 500)
           }
@@ -95,7 +93,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       let key = url.searchParams().get("key")
       match key {
         Some(k) => {
-          kv.delete(k).wait() catch {
+          kv.delete(k) catch {
             _ =>
               return kv_json_response(
                 "{\"error\":\"Failed to delete key\"}", 500,
@@ -107,19 +105,17 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       }
     } else if pathname == "/kv/counter/increment" {
       // Increment a counter
-      let current_str = kv.get("counter").wait() catch {
-          _ =>
-            return kv_json_response(
-              "{\"error\":\"Failed to get counter\"}", 500,
-            )
-        }
+      let current_str = kv.get("counter") catch {
+        _ =>
+          return kv_json_response("{\"error\":\"Failed to get counter\"}", 500)
+      }
       let current = match current_str {
         Some(s) => parse_int(s)
         None => 0
       }
       let new_value = current + 1
       let new_value_str = new_value.to_string()
-      kv.put("counter", new_value_str).wait() catch {
+      kv.put("counter", new_value_str) catch {
         _ =>
           return kv_json_response(
             "{\"error\":\"Failed to update counter\"}", 500,
@@ -128,12 +124,10 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       kv_json_response("{\"counter\":" + new_value_str + "}", 200)
     } else if pathname == "/kv/counter/get" {
       // Get current counter value
-      let current_str = kv.get("counter").wait() catch {
-          _ =>
-            return kv_json_response(
-              "{\"error\":\"Failed to get counter\"}", 500,
-            )
-        }
+      let current_str = kv.get("counter") catch {
+        _ =>
+          return kv_json_response("{\"error\":\"Failed to get counter\"}", 500)
+      }
       let current = match current_str {
         Some(s) => s
         None => "0"
@@ -141,10 +135,9 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       kv_json_response("{\"counter\":" + current + "}", 200)
     } else if pathname == "/kv/list" {
       // List all keys
-      let result = kv.list().wait() catch {
-          _ =>
-            return kv_json_response("{\"error\":\"Failed to list keys\"}", 500)
-        }
+      let result = kv.list() catch {
+        _ => return kv_json_response("{\"error\":\"Failed to list keys\"}", 500)
+      }
       let keys = result.keys
       let keys_json = @js.JsArray::new()
       let mut i = 0

@@ -29,54 +29,57 @@ pub fn Deno::permissions(self : Deno) -> @js.Any {
 
 ///|
 /// Query permission status
-pub fn Deno::permissions_query(
+pub async fn Deno::permissions_query(
   self : Deno,
   name : String,
   path? : String,
-) -> @js.Promise[PermissionStatus] {
+) -> PermissionStatus {
   let perms = self.permissions()
-  perms
-  .call("query", [
-    @js.from_option_map({
-      "name": Some(@js.any(name)),
-      "path": path.map(fn(x) { @js.any(x) }),
-    }),
-  ])
-  .cast()
+  let promise : @js.Promise[PermissionStatus] = perms
+    .call("query", [
+      @js.from_option_map({
+        "name": Some(@js.any(name)),
+        "path": path.map(fn(x) { @js.any(x) }),
+      }),
+    ])
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Request permission
-pub fn Deno::permissions_request(
+pub async fn Deno::permissions_request(
   self : Deno,
   name : String,
   path? : String,
-) -> @js.Promise[PermissionStatus] {
+) -> PermissionStatus {
   let perms = self.permissions()
-  perms
-  .call("request", [
-    @js.from_option_map({
-      "name": Some(@js.any(name)),
-      "path": path.map(fn(x) { @js.any(x) }),
-    }),
-  ])
-  .cast()
+  let promise : @js.Promise[PermissionStatus] = perms
+    .call("request", [
+      @js.from_option_map({
+        "name": Some(@js.any(name)),
+        "path": path.map(fn(x) { @js.any(x) }),
+      }),
+    ])
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Revoke permission
-pub fn Deno::permissions_revoke(
+pub async fn Deno::permissions_revoke(
   self : Deno,
   name : String,
   path? : String,
-) -> @js.Promise[PermissionStatus] {
+) -> PermissionStatus {
   let perms = self.permissions()
-  perms
-  .call("revoke", [
-    @js.from_option_map({
-      "name": Some(@js.any(name)),
-      "path": path.map(fn(x) { @js.any(x) }),
-    }),
-  ])
-  .cast()
+  let promise : @js.Promise[PermissionStatus] = perms
+    .call("revoke", [
+      @js.from_option_map({
+        "name": Some(@js.any(name)),
+        "path": path.map(fn(x) { @js.any(x) }),
+      }),
+    ])
+    .cast()
+  promise.wait()
 }

@@ -25,13 +25,13 @@ impl @js.JsImpl for ClientEndpoint
 
 pub type ClientResponse
 #alias(array_buffer)
-fn ClientResponse::arrayBuffer(Self) -> @js.Promise[@js.ArrayBuffer]
-fn ClientResponse::blob(Self) -> @js.Promise[@js.Any]
+async fn ClientResponse::arrayBuffer(Self) -> @js.ArrayBuffer
+async fn ClientResponse::blob(Self) -> @js.Any
 fn ClientResponse::headers(Self) -> @js.Any
-fn ClientResponse::json(Self) -> @js.Promise[@js.Any]
+async fn ClientResponse::json(Self) -> @js.Any
 fn ClientResponse::ok(Self) -> Bool
 fn ClientResponse::status(Self) -> Int
-fn ClientResponse::text(Self) -> @js.Promise[String]
+async fn ClientResponse::text(Self) -> String
 impl @js.JsImpl for ClientResponse
 
 pub(all) struct Context[Env, ExecutionContext] {
@@ -93,23 +93,23 @@ pub(all) struct HonoRequest {
   bodyUsed : Bool
 }
 #alias(array_buffer)
-fn HonoRequest::arrayBuffer(Self) -> @js.Promise[@js.ArrayBuffer]
-fn HonoRequest::blob(Self) -> @js.Promise[@js.Any]
+async fn HonoRequest::arrayBuffer(Self) -> @js.ArrayBuffer
+async fn HonoRequest::blob(Self) -> @js.Any
 #alias(form_data)
-fn HonoRequest::formData(Self) -> @js.Promise[@http.FormData]
+async fn HonoRequest::formData(Self) -> @http.FormData
 fn HonoRequest::header(Self, String) -> String?
-fn HonoRequest::json(Self) -> @js.Promise[@js.Any]
+async fn HonoRequest::json(Self) -> @js.Any
 fn HonoRequest::method_(Self) -> String
 fn HonoRequest::param(Self, String) -> String?
 #alias(param_all)
 fn HonoRequest::paramAll(Self) -> @js.Any
 #alias(parse_body)
-fn HonoRequest::parseBody(Self, options? : @js.Any) -> @js.Promise[@js.Any]
+async fn HonoRequest::parseBody(Self, options? : @js.Any) -> @js.Any
 fn HonoRequest::path(Self) -> String
 fn HonoRequest::query(Self, String) -> String?
 #alias(query_all)
 fn HonoRequest::queryAll(Self) -> @js.Any
-fn HonoRequest::text(Self) -> @js.Promise[String]
+async fn HonoRequest::text(Self) -> String
 impl @js.JsImpl for HonoRequest
 
 // Type aliases

@@ -66,29 +66,33 @@ pub fn ClientResponse::status(self : ClientResponse) -> Int {
 
 ///|
 /// Parse response as JSON
-pub fn ClientResponse::json(self : ClientResponse) -> @js.Promise[@js.Any] {
-  self.call0("json").cast()
+pub async fn ClientResponse::json(self : ClientResponse) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call0("json").cast()
+  promise.wait()
 }
 
 ///|
 /// Parse response as text
-pub fn ClientResponse::text(self : ClientResponse) -> @js.Promise[String] {
-  self.call0("text").cast()
+pub async fn ClientResponse::text(self : ClientResponse) -> String {
+  let promise : @js.Promise[String] = self.call0("text").cast()
+  promise.wait()
 }
 
 ///|
 /// Parse response as array buffer
 #alias(array_buffer)
-pub fn ClientResponse::arrayBuffer(
+pub async fn ClientResponse::arrayBuffer(
   self : ClientResponse,
-) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer").cast()
+) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self.call0("arrayBuffer").cast()
+  promise.wait()
 }
 
 ///|
 /// Parse response as blob
-pub fn ClientResponse::blob(self : ClientResponse) -> @js.Promise[@js.Any] {
-  self.call0("blob").cast()
+pub async fn ClientResponse::blob(self : ClientResponse) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call0("blob").cast()
+  promise.wait()
 }
 
 ///|

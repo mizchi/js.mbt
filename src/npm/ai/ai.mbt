@@ -60,13 +60,13 @@ pub fn Ai::require() -> Self {
 }
 
 ///|
-pub fn Ai::generate_text(
+pub async fn Ai::generate_text(
   self : Self,
   model~ : Model,
   messages~ : Array[ModelMessage],
   // prompt?: String
-) -> @js.Promise[@js.Any] {
-  @js.identity(
+) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = @js.identity(
     self
     .to_any()
     .get("generateText")
@@ -77,11 +77,12 @@ pub fn Ai::generate_text(
       }),
     ]),
   )
+  promise.wait()
 }
 
 ///|
 #skip
-test "ai" {
+async test "ai" {
   let ai : Ai = @js.identity(@node.require("ai"))
   let model : Model = @js.identity(
     @node.require("@ai-sdk/anthropic")
@@ -89,11 +90,15 @@ test "ai" {
     .call_self(["claude-sonnet-4-20250514"]),
   )
   let messages : Array[ModelMessage] = [UserMessage(content=Message("hello"))]
-  @js.run_async(() => try {
-    let result = ai.generate_text(model~, messages~).wait()
-    @js.log(result)
-  } catch {
-    @js.ThrowError::Error(e) => @js.log(e)
-    e => @js.log(e)
-  })
+  let result = ai.generate_text(model~, messages~) catch {
+    @js.ThrowError::Error(e) => {
+      @js.log(e)
+      return
+    }
+    e => {
+      @js.log(e)
+      return
+    }
+  }
+  @js.log(result)
 }

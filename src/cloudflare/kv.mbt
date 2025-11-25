@@ -21,12 +21,12 @@ extern "js" fn KVNamespace::get_impl(
 ///|
 /// Get a value from KV store
 /// Returns null if key doesn't exist
-pub fn KVNamespace::get(
+pub async fn KVNamespace::get(
   self : Self,
   key : String,
   type_? : String,
   cacheTtl? : Int,
-) -> @js.Promise[String?] {
+) -> String? {
   let options = if type_ is None && cacheTtl is None {
     None
   } else {
@@ -37,65 +37,67 @@ pub fn KVNamespace::get(
       }),
     )
   }
-  self.get_impl(key, options)
+  self.get_impl(key, options).wait()
 }
 
 ///|
 /// Get a value as ArrayBuffer
-pub fn KVNamespace::get_array_buffer(
+pub async fn KVNamespace::get_array_buffer(
   self : Self,
   key : String,
-) -> @js.Promise[@js.Any?] {
+) -> @js.Any? {
   let opts_js = @js.from_map({ "type": @js.any("arrayBuffer") })
-  self.call2("get", key, opts_js).cast()
+  let promise : @js.Promise[@js.Any?] = self.call2("get", key, opts_js).cast()
+  promise.wait()
 }
 
 ///|
 /// Get a value as JSON
-pub fn KVNamespace::get_json(
-  self : Self,
-  key : String,
-) -> @js.Promise[@js.Any?] {
+pub async fn KVNamespace::get_json(self : Self, key : String) -> @js.Any? {
   let opts_js = @js.from_map({ "type": @js.any("json") })
-  self.call2("get", key, opts_js).cast()
+  let promise : @js.Promise[@js.Any?] = self.call2("get", key, opts_js).cast()
+  promise.wait()
 }
 
 ///|
 /// Get a value as stream
-pub fn KVNamespace::get_stream(
-  self : Self,
-  key : String,
-) -> @js.Promise[@js.Any?] {
+pub async fn KVNamespace::get_stream(self : Self, key : String) -> @js.Any? {
   let opts_js = @js.from_map({ "type": @js.any("stream") })
-  self.call2("get", key, opts_js).cast()
+  let promise : @js.Promise[@js.Any?] = self.call2("get", key, opts_js).cast()
+  promise.wait()
 }
 
 ///|
 /// Get value with metadata
-pub fn KVNamespace::get_with_metadata(
+pub async fn KVNamespace::get_with_metadata(
   self : Self,
   key : String,
   type_? : String,
   cacheTtl? : Int,
-) -> @js.Promise[KVValueWithMetadata] {
+) -> KVValueWithMetadata {
   let opts_js = @js.from_option_map({
     "type": Some(@js.any(type_.unwrap_or("text"))),
     "cacheTtl": cacheTtl.map(fn(x) { @js.any(x) }),
   })
-  self.call2("getWithMetadata", key, opts_js).cast()
+  let promise : @js.Promise[KVValueWithMetadata] = self
+    .call2("getWithMetadata", key, opts_js)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Put a value into KV store
-pub fn KVNamespace::put(
+pub async fn KVNamespace::put(
   self : Self,
   key : String,
   value : String,
   expiration? : Int,
   expirationTtl? : Int,
   metadata? : @js.Any,
-) -> @js.Promise[Unit] {
-  if expiration is None && expirationTtl is None && metadata is None {
+) -> Unit {
+  let promise : @js.Promise[Unit] = if expiration is None &&
+    expirationTtl is None &&
+    metadata is None {
     self.call2("put", key, value).cast()
   } else {
     let opts = @js.from_option_map({
@@ -105,35 +107,42 @@ pub fn KVNamespace::put(
     })
     self.call("put", [key, value, opts]).cast()
   }
+  promise.wait()
 }
 
 ///|
 /// Put a value with metadata
-pub fn KVNamespace::put_with_metadata(
+pub async fn KVNamespace::put_with_metadata(
   self : Self,
   key : String,
   value : String,
   metadata : @js.Any,
-) -> @js.Promise[Unit] {
+) -> Unit {
   let opts_js = @js.from_map({ "metadata": metadata })
-  self.call("put", [key, value, opts_js]).cast()
+  let promise : @js.Promise[Unit] = self
+    .call("put", [key, value, opts_js])
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Delete a key from KV store
-pub fn KVNamespace::delete(self : Self, key : String) -> @js.Promise[Unit] {
-  self.call("delete", [key]).cast()
+pub async fn KVNamespace::delete(self : Self, key : String) -> Unit {
+  let promise : @js.Promise[Unit] = self.call("delete", [key]).cast()
+  promise.wait()
 }
 
 ///|
 /// List keys in the KV namespace
-pub fn KVNamespace::list(
+pub async fn KVNamespace::list(
   self : Self,
   prefix? : String,
   limit? : Int,
   cursor? : String,
-) -> @js.Promise[KVListResult] {
-  if prefix is None && limit is None && cursor is None {
+) -> KVListResult {
+  let promise : @js.Promise[KVListResult] = if prefix is None &&
+    limit is None &&
+    cursor is None {
     self.call0("list").cast()
   } else {
     let opts = @js.from_option_map({
@@ -143,6 +152,7 @@ pub fn KVNamespace::list(
     })
     self.call("list", [opts]).cast()
   }
+  promise.wait()
 }
 
 ///|

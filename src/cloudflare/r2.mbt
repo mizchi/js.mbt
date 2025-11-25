@@ -9,13 +9,13 @@ pub impl @js.JsImpl for R2Bucket
 
 ///|
 /// Get an object from R2
-pub fn R2Bucket::get(
+pub async fn R2Bucket::get(
   self : Self,
   key : String,
   onlyIf? : R2Conditional,
   range? : R2Range,
-) -> @js.Promise[R2Object?] {
-  if onlyIf is None && range is None {
+) -> R2Object? {
+  let promise : @js.Promise[R2Object?] = if onlyIf is None && range is None {
     self.call("get", [key]).cast()
   } else {
     let onlyIf_js : @js.Any? = match onlyIf {
@@ -44,17 +44,19 @@ pub fn R2Bucket::get(
     let opts = @js.from_option_map({ "onlyIf": onlyIf_js, "range": range_js })
     self.call2("get", key, opts).cast()
   }
+  promise.wait()
 }
 
 ///|
 /// Get object metadata without body
-pub fn R2Bucket::head(self : Self, key : String) -> @js.Promise[R2Object?] {
-  self.call("head", [key]).cast()
+pub async fn R2Bucket::head(self : Self, key : String) -> R2Object? {
+  let promise : @js.Promise[R2Object?] = self.call("head", [key]).cast()
+  promise.wait()
 }
 
 ///|
 /// Put an object into R2
-pub fn R2Bucket::put(
+pub async fn R2Bucket::put(
   self : Self,
   key : String,
   value : @js.Any,
@@ -65,8 +67,8 @@ pub fn R2Bucket::put(
   sha256? : String,
   sha384? : String,
   sha512? : String,
-) -> @js.Promise[R2Object] {
-  if httpMetadata is None &&
+) -> R2Object {
+  let promise : @js.Promise[R2Object] = if httpMetadata is None &&
     customMetadata is None &&
     md5 is None &&
     sha1 is None &&
@@ -90,32 +92,35 @@ pub fn R2Bucket::put(
     })
     self.call("put", [key, value, opts]).cast()
   }
+  promise.wait()
 }
 
 ///|
 /// Delete an object from R2
-pub fn R2Bucket::delete(self : Self, key : String) -> @js.Promise[Unit] {
-  self.call("delete", [key]).cast()
+pub async fn R2Bucket::delete(self : Self, key : String) -> Unit {
+  let promise : @js.Promise[Unit] = self.call("delete", [key]).cast()
+  promise.wait()
 }
 
 ///|
 /// Delete multiple objects from R2
-pub fn R2Bucket::delete_multiple(
+pub async fn R2Bucket::delete_multiple(
   self : Self,
   keys : Array[String],
-) -> @js.Promise[Unit] {
+) -> Unit {
   let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
     keys_js.call("push", [keys[i]]) |> ignore
     i = i + 1
   }
-  self.call("delete", [keys_js]).cast()
+  let promise : @js.Promise[Unit] = self.call("delete", [keys_js]).cast()
+  promise.wait()
 }
 
 ///|
 /// List objects in the bucket
-pub fn R2Bucket::list(
+pub async fn R2Bucket::list(
   self : Self,
   limit? : Int,
   prefix? : String,
@@ -123,8 +128,8 @@ pub fn R2Bucket::list(
   delimiter? : String,
   startAfter? : String,
   include_? : Array[String],
-) -> @js.Promise[R2Objects] {
-  if limit is None &&
+) -> R2Objects {
+  let promise : @js.Promise[R2Objects] = if limit is None &&
     prefix is None &&
     cursor is None &&
     delimiter is None &&
@@ -146,11 +151,12 @@ pub fn R2Bucket::list(
     })
     self.call("list", [opts]).cast()
   }
+  promise.wait()
 }
 
 ///|
 /// Create a multipart upload
-pub fn R2Bucket::create_multipart_upload(
+pub async fn R2Bucket::create_multipart_upload(
   self : Self,
   key : String,
   httpMetadata? : R2HttpMetadata,
@@ -160,8 +166,8 @@ pub fn R2Bucket::create_multipart_upload(
   sha256? : String,
   sha384? : String,
   sha512? : String,
-) -> @js.Promise[R2MultipartUpload] {
-  if httpMetadata is None &&
+) -> R2MultipartUpload {
+  let promise : @js.Promise[R2MultipartUpload] = if httpMetadata is None &&
     customMetadata is None &&
     md5 is None &&
     sha1 is None &&
@@ -185,6 +191,7 @@ pub fn R2Bucket::create_multipart_upload(
     })
     self.call2("createMultipartUpload", key, opts).cast()
   }
+  promise.wait()
 }
 
 ///|
@@ -289,26 +296,30 @@ pub fn R2Object::uploaded(self : Self) -> @js.Any {
 
 ///|
 /// Get object body as ArrayBuffer
-pub fn R2Object::array_buffer(self : Self) -> @js.Promise[@js.ArrayBuffer] {
-  self.call0("arrayBuffer").cast()
+pub async fn R2Object::array_buffer(self : Self) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self.call0("arrayBuffer").cast()
+  promise.wait()
 }
 
 ///|
 /// Get object body as text
-pub fn R2Object::text(self : Self) -> @js.Promise[String] {
-  self.call0("text").cast()
+pub async fn R2Object::text(self : Self) -> String {
+  let promise : @js.Promise[String] = self.call0("text").cast()
+  promise.wait()
 }
 
 ///|
 /// Get object body as JSON
-pub fn R2Object::json(self : Self) -> @js.Promise[@js.Any] {
-  self.call0("json").cast()
+pub async fn R2Object::json(self : Self) -> @js.Any {
+  let promise : @js.Promise[@js.Any] = self.call0("json").cast()
+  promise.wait()
 }
 
 ///|
 /// Get object body as blob
-pub fn R2Object::blob(self : Self) -> @js.Promise[@blob.Blob] {
-  self.call0("blob").cast()
+pub async fn R2Object::blob(self : Self) -> @blob.Blob {
+  let promise : @js.Promise[@blob.Blob] = self.call0("blob").cast()
+  promise.wait()
 }
 
 ///|
@@ -363,33 +374,38 @@ pub fn R2MultipartUpload::uploadId(self : Self) -> String {
 
 ///|
 /// Upload a part
-pub fn R2MultipartUpload::upload_part(
+pub async fn R2MultipartUpload::upload_part(
   self : Self,
   part_number : Int,
   value : @js.Any,
-) -> @js.Promise[R2UploadedPart] {
-  self.call2("uploadPart", part_number, value).cast()
+) -> R2UploadedPart {
+  let promise : @js.Promise[R2UploadedPart] = self
+    .call2("uploadPart", part_number, value)
+    .cast()
+  promise.wait()
 }
 
 ///|
 /// Abort the multipart upload
-pub fn R2MultipartUpload::abort(self : Self) -> @js.Promise[Unit] {
-  self.call0("abort").cast()
+pub async fn R2MultipartUpload::abort(self : Self) -> Unit {
+  let promise : @js.Promise[Unit] = self.call0("abort").cast()
+  promise.wait()
 }
 
 ///|
 /// Complete the multipart upload
-pub fn R2MultipartUpload::complete(
+pub async fn R2MultipartUpload::complete(
   self : Self,
   parts : Array[R2UploadedPart],
-) -> @js.Promise[R2Object] {
+) -> R2Object {
   let parts_js = @js.JsArray::new()
   let mut i = 0
   while i < parts.length() {
     parts_js.call("push", [parts[i]]) |> ignore
     i = i + 1
   }
-  self.call("complete", [parts_js]).cast()
+  let promise : @js.Promise[R2Object] = self.call("complete", [parts_js]).cast()
+  promise.wait()
 }
 
 ///|
