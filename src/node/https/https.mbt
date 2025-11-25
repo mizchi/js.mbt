@@ -10,67 +10,6 @@ pub type Agent
 pub impl @js.JsImpl for Agent
 
 ///|
-/// Options for creating an HTTPS Agent
-pub struct AgentOptions {
-  max_cached_sessions : Int?
-  servername : String?
-  keep_alive : Bool?
-  keep_alive_msecs : Int?
-  max_sockets : Int?
-  max_free_sockets : Int?
-  timeout : Int?
-}
-
-///|
-/// Create a new HTTPS Agent with default options
-pub fn AgentOptions::new() -> AgentOptions {
-  {
-    max_cached_sessions: None,
-    servername: None,
-    keep_alive: None,
-    keep_alive_msecs: None,
-    max_sockets: None,
-    max_free_sockets: None,
-    timeout: None,
-  }
-}
-
-///|
-/// Convert AgentOptions to JavaScript object
-pub fn AgentOptions::to_any(self : AgentOptions) -> @js.Any {
-  let obj = @js.Object::new()
-  match self.max_cached_sessions {
-    Some(v) => obj.set("maxCachedSessions", v)
-    None => ()
-  }
-  match self.servername {
-    Some(v) => obj.set("servername", v)
-    None => ()
-  }
-  match self.keep_alive {
-    Some(v) => obj.set("keepAlive", v)
-    None => ()
-  }
-  match self.keep_alive_msecs {
-    Some(v) => obj.set("keepAliveMsecs", v)
-    None => ()
-  }
-  match self.max_sockets {
-    Some(v) => obj.set("maxSockets", v)
-    None => ()
-  }
-  match self.max_free_sockets {
-    Some(v) => obj.set("maxFreeSockets", v)
-    None => ()
-  }
-  match self.timeout {
-    Some(v) => obj.set("timeout", v)
-    None => ()
-  }
-  obj.to_any()
-}
-
-///|
 extern "js" fn ffi_new_agent(options : @js.Any) -> Agent =
   #| (options) => {
   #|   const https = require('https');
@@ -79,8 +18,25 @@ extern "js" fn ffi_new_agent(options : @js.Any) -> Agent =
 
 ///|
 /// Create a new HTTPS Agent
-pub fn Agent::new(options : AgentOptions) -> Agent {
-  ffi_new_agent(options.to_any())
+pub fn Agent::new(
+  max_cached_sessions? : Int,
+  servername? : String,
+  keep_alive? : Bool,
+  keep_alive_msecs? : Int,
+  max_sockets? : Int,
+  max_free_sockets? : Int,
+  timeout? : Int,
+) -> Agent {
+  let opts = @js.from_entries_option([
+    ("maxCachedSessions", max_cached_sessions.map(x => x)),
+    ("servername", servername.map(x => x)),
+    ("keepAlive", keep_alive.map(x => x)),
+    ("keepAliveMsecs", keep_alive_msecs.map(x => x)),
+    ("maxSockets", max_sockets.map(x => x)),
+    ("maxFreeSockets", max_free_sockets.map(x => x)),
+    ("timeout", timeout.map(x => x)),
+  ])
+  ffi_new_agent(opts)
 }
 
 ///|
@@ -96,44 +52,6 @@ pub impl @js.JsImpl for Server
 pub impl @event.EventTargetImpl for Server
 
 ///|
-/// Options for creating an HTTPS Server
-pub struct ServerOptions {
-  key : String?
-  cert : String?
-  pfx : String?
-  passphrase : String?
-}
-
-///|
-/// Create a new ServerOptions with default values
-pub fn ServerOptions::new() -> ServerOptions {
-  { key: None, cert: None, pfx: None, passphrase: None }
-}
-
-///|
-/// Convert ServerOptions to JavaScript object
-pub fn ServerOptions::to_any(self : ServerOptions) -> @js.Any {
-  let obj = @js.Object::new()
-  match self.key {
-    Some(v) => obj.set("key", v)
-    None => ()
-  }
-  match self.cert {
-    Some(v) => obj.set("cert", v)
-    None => ()
-  }
-  match self.pfx {
-    Some(v) => obj.set("pfx", v)
-    None => ()
-  }
-  match self.passphrase {
-    Some(v) => obj.set("passphrase", v)
-    None => ()
-  }
-  obj.to_any()
-}
-
-///|
 extern "js" fn ffi_create_server(
   options : @js.Any,
   request_listener : @js.Any,
@@ -146,11 +64,20 @@ extern "js" fn ffi_create_server(
 ///|
 /// Create an HTTPS server
 pub fn create_server(
-  options : ServerOptions,
   request_listener : (@js.Object, @js.Object) -> Unit,
+  key? : String,
+  cert? : String,
+  pfx? : String,
+  passphrase? : String,
 ) -> Server {
   let listener = @js.from_fn2(request_listener)
-  ffi_create_server(options.to_any(), listener)
+  let opts = @js.from_entries_option([
+    ("key", key.map(x => x)),
+    ("cert", cert.map(x => x)),
+    ("pfx", pfx.map(x => x)),
+    ("passphrase", passphrase.map(x => x)),
+  ])
+  ffi_create_server(opts, listener)
 }
 
 ///|
@@ -179,68 +106,6 @@ pub impl @js.JsImpl for ClientRequest
 pub impl @event.EventTargetImpl for ClientRequest
 
 ///|
-/// Options for making HTTPS requests
-pub struct RequestOptions {
-  method_ : String?
-  host : String?
-  port : Int?
-  path : String?
-  headers : @js.Object?
-  agent : Agent?
-  rejectUnauthorized : Bool?
-}
-
-///|
-/// Create a new RequestOptions with default values
-pub fn RequestOptions::new(url : String) -> RequestOptions {
-  let obj = @js.Object::new()
-  obj.set("url", url)
-  {
-    method_: None,
-    host: None,
-    port: None,
-    path: None,
-    headers: Some(obj),
-    agent: None,
-    rejectUnauthorized: None,
-  }
-}
-
-///|
-/// Convert RequestOptions to JavaScript object
-pub fn RequestOptions::to_any(self : RequestOptions) -> @js.Any {
-  let obj = match self.headers {
-    Some(h) => h
-    None => @js.Object::new()
-  }
-  match self.method_ {
-    Some(v) => obj.set("method", v)
-    None => ()
-  }
-  match self.host {
-    Some(v) => obj.set("host", v)
-    None => ()
-  }
-  match self.port {
-    Some(v) => obj.set("port", v)
-    None => ()
-  }
-  match self.path {
-    Some(v) => obj.set("path", v)
-    None => ()
-  }
-  match self.agent {
-    Some(v) => obj.set("agent", v.to_any())
-    None => ()
-  }
-  match self.rejectUnauthorized {
-    Some(v) => obj.set("rejectUnauthorized", v)
-    None => ()
-  }
-  obj.to_any()
-}
-
-///|
 extern "js" fn ffi_request(
   options : @js.Any,
   callback : @js.Any,
@@ -253,11 +118,47 @@ extern "js" fn ffi_request(
 ///|
 /// Make an HTTPS request
 pub fn request(
-  options : RequestOptions,
+  url : String,
   callback : (@js.Object) -> Unit,
+  method_? : String,
+  host? : String,
+  port? : Int,
+  path? : String,
+  headers? : @js.Object,
+  agent? : Agent,
+  rejectUnauthorized? : Bool,
 ) -> ClientRequest {
   let cb : @js.Any = @js.identity(callback)
-  ffi_request(options.to_any(), cb)
+  let obj = match headers {
+    Some(h) => h
+    None => @js.Object::new()
+  }
+  obj.set("url", url)
+  match method_ {
+    Some(v) => obj.set("method", v)
+    None => ()
+  }
+  match host {
+    Some(v) => obj.set("host", v)
+    None => ()
+  }
+  match port {
+    Some(v) => obj.set("port", v)
+    None => ()
+  }
+  match path {
+    Some(v) => obj.set("path", v)
+    None => ()
+  }
+  match agent {
+    Some(v) => obj.set("agent", v.to_any())
+    None => ()
+  }
+  match rejectUnauthorized {
+    Some(v) => obj.set("rejectUnauthorized", v)
+    None => ()
+  }
+  ffi_request(obj.to_any(), cb)
 }
 
 ///|

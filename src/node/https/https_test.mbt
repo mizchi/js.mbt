@@ -1,25 +1,15 @@
 ///|
 /// Test HTTPS Agent creation
 test "Agent::new creates an agent" {
-  let options = AgentOptions::new()
-  let agent = Agent::new(options)
+  let agent = Agent::new()
   inspect(@js.typeof_(agent.to_any()), content="object")
 }
 
 ///|
-/// Test ServerOptions creation
-test "ServerOptions::new creates options" {
-  let options = ServerOptions::new()
-  let js_obj = options.to_any()
-  inspect(@js.typeof_(js_obj), content="object")
-}
-
-///|
-/// Test RequestOptions creation
-test "RequestOptions::new creates options" {
-  let options = RequestOptions::new("https://example.com")
-  let js_obj = options.to_any()
-  inspect(@js.typeof_(js_obj), content="object")
+/// Test HTTPS Agent with options
+test "Agent::new with options creates an agent" {
+  let agent = Agent::new(keep_alive=true, timeout=5000)
+  inspect(@js.typeof_(agent.to_any()), content="object")
 }
 
 ///|

@@ -7,33 +7,21 @@ import(
 )
 
 // Values
-fn create_server(ServerOptions, (@js.Object, @js.Object) -> Unit) -> Server
+fn create_server((@js.Object, @js.Object) -> Unit, key? : String, cert? : String, pfx? : String, passphrase? : String) -> Server
 
 fn get(String, (@js.Object) -> Unit) -> ClientRequest
 
 fn global_agent() -> Agent
 
-fn request(RequestOptions, (@js.Object) -> Unit) -> ClientRequest
+fn request(String, (@js.Object) -> Unit, method_? : String, host? : String, port? : Int, path? : String, headers? : @js.Object, agent? : Agent, rejectUnauthorized? : Bool) -> ClientRequest
 
 // Errors
 
 // Types and methods
 #external
 pub type Agent
-fn Agent::new(AgentOptions) -> Self
+fn Agent::new(max_cached_sessions? : Int, servername? : String, keep_alive? : Bool, keep_alive_msecs? : Int, max_sockets? : Int, max_free_sockets? : Int, timeout? : Int) -> Self
 impl @js.JsImpl for Agent
-
-pub struct AgentOptions {
-  max_cached_sessions : Int?
-  servername : String?
-  keep_alive : Bool?
-  keep_alive_msecs : Int?
-  max_sockets : Int?
-  max_free_sockets : Int?
-  timeout : Int?
-}
-fn AgentOptions::new() -> Self
-fn AgentOptions::to_any(Self) -> @js.Any
 
 #external
 pub type ClientRequest
@@ -42,33 +30,12 @@ fn ClientRequest::write(Self, String) -> Unit
 impl @js.JsImpl for ClientRequest
 impl @event.EventTargetImpl for ClientRequest
 
-pub struct RequestOptions {
-  method_ : String?
-  host : String?
-  port : Int?
-  path : String?
-  headers : @js.Object?
-  agent : Agent?
-  rejectUnauthorized : Bool?
-}
-fn RequestOptions::new(String) -> Self
-fn RequestOptions::to_any(Self) -> @js.Any
-
 #external
 pub type Server
 fn Server::close(Self, () -> Unit) -> Unit
 fn Server::listen(Self, Int, () -> Unit) -> Unit
 impl @js.JsImpl for Server
 impl @event.EventTargetImpl for Server
-
-pub struct ServerOptions {
-  key : String?
-  cert : String?
-  pfx : String?
-  passphrase : String?
-}
-fn ServerOptions::new() -> Self
-fn ServerOptions::to_any(Self) -> @js.Any
 
 // Type aliases
 
