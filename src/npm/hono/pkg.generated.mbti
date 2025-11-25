@@ -88,13 +88,13 @@ pub type HonoClient
 fn HonoClient::path(Self, String) -> ClientEndpoint
 impl @js.JsImpl for HonoClient
 
-#external
-pub type HonoRequest
+pub(all) struct HonoRequest {
+  url : String
+  bodyUsed : Bool
+}
 #alias(array_buffer)
 fn HonoRequest::arrayBuffer(Self) -> @js.Promise[@js.ArrayBuffer]
 fn HonoRequest::blob(Self) -> @js.Promise[@js.Any]
-#alias(body_used)
-fn HonoRequest::bodyUsed(Self) -> Bool
 #alias(form_data)
 fn HonoRequest::formData(Self) -> @js.Promise[@http.FormData]
 fn HonoRequest::header(Self, String) -> String?
@@ -110,7 +110,6 @@ fn HonoRequest::query(Self, String) -> String?
 #alias(query_all)
 fn HonoRequest::queryAll(Self) -> @js.Any
 fn HonoRequest::text(Self) -> @js.Promise[String]
-fn HonoRequest::url(Self) -> String
 impl @js.JsImpl for HonoRequest
 
 // Type aliases

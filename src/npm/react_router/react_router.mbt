@@ -64,13 +64,13 @@ impl @js.JsImpl for Route with to_any(self) {
     Route::Component(path~, component~) => {
       let obj = @js.Object::new()
       obj.set("path", path)
-      obj.set("Component", component |> @js.unsafe_js)
+      obj.set("Component", component |> @js.unsafe_any)
       obj.to_any()
     }
     Route::Element(path~, element~) => {
       let obj = @js.Object::new()
       obj.set("path", path)
-      obj.set("element", element |> @js.unsafe_js)
+      obj.set("element", element |> @js.unsafe_any)
       obj.to_any()
     }
   }

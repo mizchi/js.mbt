@@ -175,7 +175,7 @@ pub fn[Env, ExecutionContext] Context::setRenderer(
   self : Context[Env, ExecutionContext],
   renderer : (String) -> @http.Response,
 ) -> Unit {
-  self.call("setRenderer", [@js.unsafe_js(renderer)]) |> ignore
+  self.call("setRenderer", [@js.unsafe_any(renderer)]) |> ignore
 }
 
 ///|

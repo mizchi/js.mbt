@@ -6,6 +6,8 @@ import(
 )
 
 // Values
+fn any(&JsImpl) -> Any
+
 fn array_from(Any) -> Array[Any]
 
 fn atob(String) -> String raise ThrowError
@@ -83,8 +85,6 @@ fn[T : JsImpl] is_object(T) -> Bool
 
 fn[T : JsImpl] is_undefined(T) -> Bool
 
-fn js(&JsImpl) -> Any
-
 fn[T] log(T) -> Unit
 
 fn[T, U] log2(T, U) -> Unit
@@ -136,7 +136,7 @@ fn[T : JsImpl] typeof_(T) -> String
 
 fn undefined() -> Any
 
-fn[T] unsafe_js(T) -> Any
+fn[T] unsafe_any(T) -> Any
 
 // Errors
 pub suberror ThrowError {
@@ -249,6 +249,10 @@ pub type JsTimer
 pub type Nullable[T]
 fn[T] Nullable::is_null(Self[T]) -> Bool
 fn[T] Nullable::to_option(Self[T]) -> T?
+
+#external
+pub type Nullish[T]
+fn[T] Nullish::to_option(Self[T]) -> T?
 
 #external
 pub type Object

@@ -2,7 +2,6 @@
 /// MessageChannel async messaging tests
 
 ///|
-#skip
 async test "MessageChannel: send and receive message between ports" {
   let resolver : @js.Resolvers[String] = @js.Promise::withResolvers()
   let channel = MessageChannel::new()
@@ -12,13 +11,10 @@ async test "MessageChannel: send and receive message between ports" {
   defer MessagePort::close(port2)
 
   // Setup receiver on port2
-  port2.addEventListener(
-    "message",
-    fn(event : @js.Js) {
-      let data : String = @js.identity(event.get("data"))
-      resolver.resolve(data)
-    },
-  )
+  port2.addEventListener("message", fn(event : @js.Any) {
+    let data : String = @js.identity(event.get("data"))
+    resolver.resolve(data)
+  })
 
   // Start listening
   MessagePort::start(port2)
@@ -32,7 +28,6 @@ async test "MessageChannel: send and receive message between ports" {
 }
 
 ///|
-#skip
 async test "MessageChannel: bidirectional messaging" {
   let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
   let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
@@ -43,21 +38,14 @@ async test "MessageChannel: bidirectional messaging" {
   defer MessagePort::close(port2)
 
   // Setup receivers
-  port1.addEventListener(
-    "message",
-    fn(event : @js.Js) {
-      let data : Int = @js.identity(event.get("data"))
-      resolver1.resolve(data)
-    },
-  )
-
-  port2.addEventListener(
-    "message",
-    fn(event : @js.Js) {
-      let data : Int = @js.identity(event.get("data"))
-      resolver2.resolve(data)
-    },
-  )
+  port1.addEventListener("message", fn(event : @js.Any) {
+    let data : Int = @js.identity(event.get("data"))
+    resolver1.resolve(data)
+  })
+  port2.addEventListener("message", fn(event : @js.Any) {
+    let data : Int = @js.identity(event.get("data"))
+    resolver2.resolve(data)
+  })
 
   // Start both ports
   MessagePort::start(port1)
@@ -70,13 +58,11 @@ async test "MessageChannel: bidirectional messaging" {
   // Wait for both messages
   let msg1 = resolver1.promise.wait()
   let msg2 = resolver2.promise.wait()
-
-  assert_eq(msg1, 99)  // port1 receives from port2
-  assert_eq(msg2, 42)  // port2 receives from port1
+  assert_eq(msg1, 99) // port1 receives from port2
+  assert_eq(msg2, 42) // port2 receives from port1
 }
 
 ///|
-#skip
 async test "MessageChannel: multiple messages in sequence" {
   let messages : Array[String] = []
   let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
@@ -85,20 +71,15 @@ async test "MessageChannel: multiple messages in sequence" {
   let port2 = channel.port2()
   defer MessagePort::close(port1)
   defer MessagePort::close(port2)
-
   let mut count = 0
-  port2.addEventListener(
-    "message",
-    fn(event : @js.Js) {
-      let data : String = @js.identity(event.get("data"))
-      messages.push(data)
-      count = count + 1
-      if count == 3 {
-        resolver.resolve(count)
-      }
-    },
-  )
-
+  port2.addEventListener("message", fn(event : @js.Any) {
+    let data : String = @js.identity(event.get("data"))
+    messages.push(data)
+    count = count + 1
+    if count == 3 {
+      resolver.resolve(count)
+    }
+  })
   MessagePort::start(port2)
 
   // Send multiple messages
@@ -116,21 +97,16 @@ async test "MessageChannel: multiple messages in sequence" {
 }
 
 ///|
-#skip
 async test "MessageChannel: port closes properly" {
   let resolver : @js.Resolvers[Bool] = @js.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
-
-  port2.addEventListener(
-    "message",
-    fn(_event : @js.Js) { resolver.resolve(true) },
-  )
-
+  port2.addEventListener("message", fn(_event : @js.Any) {
+    resolver.resolve(true)
+  })
   MessagePort::start(port2)
   MessagePort::post_message(port1, "test")
-
   let received = resolver.promise.wait()
   assert_eq(received, true)
 
@@ -144,26 +120,21 @@ async test "MessageChannel: port closes properly" {
 }
 
 ///|
-#skip
 async test "MessageChannel: message event properties" {
-  let resolver : @js.Resolvers[@js.Js] = @js.Promise::withResolvers()
+  let resolver : @js.Resolvers[@js.Any] = @js.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
   defer MessagePort::close(port1)
   defer MessagePort::close(port2)
-
-  port2.addEventListener(
-    "message",
-    fn(event : @js.Js) { resolver.resolve(event) },
-  )
-
+  port2.addEventListener("message", fn(event : @js.Any) {
+    resolver.resolve(event)
+  })
   MessagePort::start(port2)
   let obj = @js.from_map({ "key": @js.identity("value") })
   MessagePort::post_message(port1, obj)
-
   let event = resolver.promise.wait()
-  let data : @js.Js = event.get("data")
+  let data : @js.Any = event.get("data")
   let key_value : String = @js.identity(data.get("key"))
   assert_eq(key_value, "value")
 }

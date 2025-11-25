@@ -5,28 +5,14 @@
 pub type CloudflareEnv
 
 ///|
+pub impl @js.JsImpl for CloudflareEnv
+
+///|
 #external
 pub type CloudflareContext
 
 ///|
 impl @js.JsImpl for CloudflareContext
-
-///|
-#external
-pub type CloudflareRequest
-
-///|
-pub impl @js.JsImpl for CloudflareRequest
-
-///|
-pub fn CloudflareRequest::cf(self : CloudflareRequest) -> CloudflareContext {
-  self.get("cf").cast()
-}
-
-///|
-pub fn CloudflareRequest::url(self : CloudflareRequest) -> String {
-  self.get("url").cast()
-}
 
 ///|
 #alias(waitUntil)
@@ -44,6 +30,15 @@ pub fn CloudflareContext::pass_through_exception(
 ) -> Unit {
   self.get("passThroughException").call_self([]) |> ignore
 }
+
+///|
+pub(all) struct CloudflareRequest {
+  cf : CloudflareContext
+  url : String
+}
+
+///|
+pub impl @js.JsImpl for CloudflareRequest
 
 ///|
 /// CloudflareFetchHandler is a type alias for Cloudflare Worker fetch handler

@@ -37,7 +37,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
     env : @cloudflare.CloudflareEnv,
     _ctx : @cloudflare.CloudflareContext,
   ) -> @http.Response {
-    let url_str = req.url()
+    let url_str = req.url
     let url = @url.URL::new(url_str)
     let pathname = url.pathname
 

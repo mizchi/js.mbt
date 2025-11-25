@@ -98,10 +98,10 @@ pub fn[T, U] DatabaseSync::aggregate(
     ("directOnly", directOnly.map(x => x)),
     ("useBigIntArguments", useBigIntArguments.map(x => x)),
     ("varargs", varargs.map(x => x)),
-    ("start", start.map(fn(x) { x |> @js.unsafe_js })),
-    ("step", step.map(fn(x) { x |> @js.unsafe_js })),
-    ("inverse", inverse.map(fn(x) { x |> @js.unsafe_js })),
-    ("result", result.map(fn(x) { x |> @js.unsafe_js })),
+    ("start", start.map(fn(x) { x |> @js.unsafe_any })),
+    ("step", step.map(fn(x) { x |> @js.unsafe_any })),
+    ("inverse", inverse.map(fn(x) { x |> @js.unsafe_any })),
+    ("result", result.map(fn(x) { x |> @js.unsafe_any })),
   ])
   self.call2("aggregate", name, opts) |> ignore
 }
@@ -131,7 +131,7 @@ pub fn DatabaseSync::setAuthorizer(
   self : Self,
   callback : (Int, String?, String?, String?, String?) -> Int,
 ) -> Unit {
-  self.call("setAuthorizer", [callback |> @js.unsafe_js]) |> ignore
+  self.call("setAuthorizer", [callback |> @js.unsafe_any]) |> ignore
 }
 
 ///|

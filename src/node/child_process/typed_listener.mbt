@@ -10,10 +10,7 @@ pub fn ChildProcess::on_exit(
   self.call("on", [
     "exit",
     @js.identity(fn(code : @js.Any, signal : @js.Any) {
-      callback(
-        code |> @js.identity_option(),
-        signal |> @js.identity_option(),
-      )
+      callback(code |> @js.identity_option(), signal |> @js.identity_option())
     }),
   ])
   |> ignore
@@ -29,10 +26,7 @@ pub fn ChildProcess::on_close(
   self.call("on", [
     "close",
     @js.identity(fn(code : @js.Any, signal : @js.Any) {
-      callback(
-        code |> @js.identity_option(),
-        signal |> @js.identity_option(),
-      )
+      callback(code |> @js.identity_option(), signal |> @js.identity_option())
     }),
   ])
   |> ignore

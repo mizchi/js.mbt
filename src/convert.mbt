@@ -295,20 +295,20 @@ extern "js" fn ffi_wrap_sync(
 
 ///|
 /// Unsafely cast a value from one type to another.
-/// When you cast to `Js`, use `js(v)` or `unsafe_js(v)` instead.
+/// When you cast to `Js`, use `js(v)` or `unsafe_any(v)` instead.
 pub fn[A, B] identity(v : A) -> B = "%identity"
 
 ///|
 /// Cast any JsImpl type to a JavaScript Val safely.
-/// When you can not, use `unsafe_js()`.
+/// When you can not, use `unsafe_any()`.
 pub fn any(a : &JsImpl) -> Any {
   identity(a.to_any())
 }
 
 ///|
 /// Convert any MoonBit value to a JavaScript Val.
-/// Use `unsafe_js()` if you can
-pub fn[T] unsafe_js(v : T) -> Any {
+/// Use `unsafe_any()` if you can
+pub fn[T] unsafe_any(v : T) -> Any {
   identity(v)
 }
 

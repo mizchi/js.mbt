@@ -252,7 +252,7 @@ pub fn Window::requestAnimationFrame(
   self : Self,
   callback : (Double) -> Unit,
 ) -> Int {
-  self.call("requestAnimationFrame", [@js.unsafe_js(callback)]).cast()
+  self.call("requestAnimationFrame", [@js.unsafe_any(callback)]).cast()
 }
 
 ///|
@@ -333,6 +333,6 @@ pub fn[T : @worker.Transferable] Window::post_message_with_transfer(
   ignore(
     self
     .to_any()
-    .call("postMessage", [message, target_origin, @js.unsafe_js(transfer_vals)]),
+    .call("postMessage", [message, target_origin, @js.unsafe_any(transfer_vals)]),
   )
 }

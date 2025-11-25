@@ -23,11 +23,12 @@ fn CloudflareContext::wait_until(Self, @js.Promise[Unit]) -> Unit
 
 #external
 pub type CloudflareEnv
+impl @js.JsImpl for CloudflareEnv
 
-#external
-pub type CloudflareRequest
-fn CloudflareRequest::cf(Self) -> CloudflareContext
-fn CloudflareRequest::url(Self) -> String
+pub(all) struct CloudflareRequest {
+  cf : CloudflareContext
+  url : String
+}
 impl @js.JsImpl for CloudflareRequest
 
 #external
@@ -95,10 +96,10 @@ pub(all) struct DurableObjectGetOptions {
 }
 impl @js.JsImpl for DurableObjectGetOptions
 
-#external
-pub type DurableObjectId
+pub(all) struct DurableObjectId {
+  name : String?
+}
 fn DurableObjectId::equals(Self, Self) -> Bool
-fn DurableObjectId::name(Self) -> String?
 fn DurableObjectId::to_string(Self) -> String
 impl @js.JsImpl for DurableObjectId
 
@@ -143,11 +144,11 @@ pub(all) struct DurableObjectSetAlarmOptions {
 }
 impl @js.JsImpl for DurableObjectSetAlarmOptions
 
-#external
-pub type DurableObjectState
+pub(all) struct DurableObjectState {
+  id : DurableObjectId
+  storage : DurableObjectStorage
+}
 fn DurableObjectState::block_concurrency_while(Self, @js.Any) -> @js.Promise[Unit]
-fn DurableObjectState::id(Self) -> DurableObjectId
-fn DurableObjectState::storage(Self) -> DurableObjectStorage
 fn DurableObjectState::wait_until(Self, @js.Any) -> Unit
 impl @js.JsImpl for DurableObjectState
 
@@ -179,14 +180,14 @@ fn DurableObjectStorage::sync(Self) -> @js.Promise[Unit]
 fn DurableObjectStorage::transaction(Self, @js.Any) -> @js.Promise[@js.Any]
 impl @js.JsImpl for DurableObjectStorage
 
-#external
-pub type DurableObjectStub
+pub(all) struct DurableObjectStub {
+  id : DurableObjectId
+  name : String?
+}
 fn DurableObjectStub::fetch(Self, @js.Any) -> @js.Promise[@js.Any]
 fn DurableObjectStub::fetch_url(Self, String) -> @js.Promise[@js.Any]
 fn DurableObjectStub::fetch_url_with_init(Self, String, @js.Any) -> @js.Promise[@js.Any]
 fn DurableObjectStub::fetch_with_init(Self, @js.Any, @js.Any) -> @js.Promise[@js.Any]
-fn DurableObjectStub::id(Self) -> DurableObjectId
-fn DurableObjectStub::name(Self) -> String?
 impl @js.JsImpl for DurableObjectStub
 
 #external

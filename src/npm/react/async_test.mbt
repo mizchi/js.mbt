@@ -34,7 +34,10 @@ extern "js" fn text_decoder_new() -> @js.Any =
   #|() => new TextDecoder()
 
 ///|
-extern "js" fn text_decoder_decode(decoder : @js.Any, value : @js.Any) -> String =
+extern "js" fn text_decoder_decode(
+  decoder : @js.Any,
+  value : @js.Any,
+) -> String =
   #|(decoder, value) => decoder.decode(value)
 
 ///|

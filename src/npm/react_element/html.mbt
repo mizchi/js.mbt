@@ -1839,7 +1839,7 @@ pub fn video(
     None => @js.Object::new()
   }
   if controls is Some(c) {
-    custom_props.set("controls", c |> @js.unsafe_js)
+    custom_props.set("controls", c |> @js.unsafe_any)
   }
   common_node(
     "video",
@@ -1902,9 +1902,9 @@ pub fn source(
     Some(p) => @js.Object::assign(@js.Object::new(), p).cast()
     None => @js.Object::new()
   }
-  custom_props.set("src", src |> @js.unsafe_js)
+  custom_props.set("src", src |> @js.unsafe_any)
   if type_ is Some(t) {
-    custom_props.set("type", t |> @js.unsafe_js)
+    custom_props.set("type", t |> @js.unsafe_any)
   }
   common_node(
     "video",

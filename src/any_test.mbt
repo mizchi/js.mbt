@@ -239,3 +239,61 @@ test "multiple Nullable fields - mixed null and non-null" {
   assert_false(record.int_field.is_null())
   assert_true(record.bool_field.is_null())
 }
+
+///| @js.Nullish[T] type tests
+/// Tests for the @js.Nullish[T] type which handles both null and undefined
+
+///|
+test "@js.Nullish[Int]::to_option() - null value returns None" {
+  let nullish : @js.Nullish[Int] = create_null() |> identity
+  match nullish.to_option() {
+    Some(_) => fail("Expected None for null value")
+    None => ()
+  }
+}
+
+///|
+test "@js.Nullish[Int]::to_option() - undefined returns None" {
+  let nullish : @js.Nullish[Int] = create_undefined() |> identity
+  match nullish.to_option() {
+    Some(_) => fail("Expected None for undefined")
+    None => ()
+  }
+}
+
+///|
+test "@js.Nullish[Int]::to_option() - actual value returns Some" {
+  let nullish : @js.Nullish[Int] = create_value(42) |> identity
+  match nullish.to_option() {
+    Some(v) => assert_eq(v, 42)
+    None => fail("Expected Some(42) for actual value")
+  }
+}
+
+///|
+test "@js.Nullish[String]::to_option() - null returns None" {
+  let nullish : @js.Nullish[String] = create_null() |> identity
+  match nullish.to_option() {
+    Some(_) => fail("Expected None for null")
+    None => ()
+  }
+}
+
+///|
+test "@js.Nullish[String]::to_option() - undefined returns None" {
+  let nullish : @js.Nullish[String] = create_undefined() |> identity
+  match nullish.to_option() {
+    Some(_) => fail("Expected None for undefined")
+    None => ()
+  }
+}
+
+///|
+test "@js.Nullish[String]::to_option() - actual value returns Some" {
+  let js_str : @js.Any = @js.identity("hello")
+  let nullish : @js.Nullish[String] = js_str |> identity
+  match nullish.to_option() {
+    Some(s) => assert_eq(s, "hello")
+    None => fail("Expected Some for actual string")
+  }
+}

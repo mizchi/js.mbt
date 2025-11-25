@@ -39,7 +39,7 @@ pub fn[K, V] JsMap::from_entries(entries : Array[(K, V)]) -> JsMap[K, V] {
 pub fn[K, V] JsMap::set(self : JsMap[K, V], key : K, value : V) -> JsMap[K, V] {
   self
   |> @js.identity
-  |> @js.Any::call("set", [@js.unsafe_js(key), @js.unsafe_js(value)])
+  |> @js.Any::call("set", [@js.unsafe_any(key), @js.unsafe_any(value)])
   |> @js.identity
 }
 
@@ -48,7 +48,7 @@ pub fn[K, V] JsMap::set(self : JsMap[K, V], key : K, value : V) -> JsMap[K, V] {
 pub fn[K, V] JsMap::get(self : JsMap[K, V], key : K) -> V? {
   let result : @js.Any = self
     |> @js.identity
-    |> @js.Any::call("get", [@js.unsafe_js(key)])
+    |> @js.Any::call("get", [@js.unsafe_any(key)])
     |> @js.identity
   if @js.is_undefined(result) {
     None
@@ -62,7 +62,7 @@ pub fn[K, V] JsMap::get(self : JsMap[K, V], key : K) -> V? {
 pub fn[K, V] JsMap::has(self : JsMap[K, V], key : K) -> Bool {
   self
   |> @js.identity
-  |> @js.Any::call("has", [@js.unsafe_js(key)])
+  |> @js.Any::call("has", [@js.unsafe_any(key)])
   |> @js.identity
 }
 
@@ -71,7 +71,7 @@ pub fn[K, V] JsMap::has(self : JsMap[K, V], key : K) -> Bool {
 pub fn[K, V] JsMap::delete(self : JsMap[K, V], key : K) -> Bool {
   self
   |> @js.identity
-  |> @js.Any::call("delete", [@js.unsafe_js(key)])
+  |> @js.Any::call("delete", [@js.unsafe_any(key)])
   |> @js.identity
 }
 
@@ -113,7 +113,7 @@ pub fn[K, V] JsMap::forEach(
 ) -> Unit {
   self
   |> @js.identity
-  |> @js.Any::call("forEach", [@js.unsafe_js(callback)])
+  |> @js.Any::call("forEach", [@js.unsafe_any(callback)])
   |> ignore
 }
 
@@ -153,7 +153,7 @@ pub fn[T] JsSet::from_array(values : Array[T]) -> JsSet[T] {
 pub fn[T] JsSet::add(self : JsSet[T], value : T) -> JsSet[T] {
   self
   |> @js.identity
-  |> @js.Any::call("add", [@js.unsafe_js(value)])
+  |> @js.Any::call("add", [@js.unsafe_any(value)])
   |> @js.identity
 }
 
@@ -162,7 +162,7 @@ pub fn[T] JsSet::add(self : JsSet[T], value : T) -> JsSet[T] {
 pub fn[T] JsSet::has(self : JsSet[T], value : T) -> Bool {
   self
   |> @js.identity
-  |> @js.Any::call("has", [@js.unsafe_js(value)])
+  |> @js.Any::call("has", [@js.unsafe_any(value)])
   |> @js.identity
 }
 
@@ -171,7 +171,7 @@ pub fn[T] JsSet::has(self : JsSet[T], value : T) -> Bool {
 pub fn[T] JsSet::delete(self : JsSet[T], value : T) -> Bool {
   self
   |> @js.identity
-  |> @js.Any::call("delete", [@js.unsafe_js(value)])
+  |> @js.Any::call("delete", [@js.unsafe_any(value)])
   |> @js.identity
 }
 
@@ -210,6 +210,6 @@ pub fn[T] JsSet::entries(self : JsSet[T]) -> @js.JsIterator[(T, T)] {
 pub fn[T] JsSet::forEach(self : JsSet[T], callback : (T) -> Unit) -> Unit {
   self
   |> @js.identity
-  |> @js.Any::call("forEach", [@js.unsafe_js(callback)])
+  |> @js.Any::call("forEach", [@js.unsafe_any(callback)])
   |> ignore
 }

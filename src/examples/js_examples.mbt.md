@@ -7,7 +7,6 @@ This document demonstrates common usage patterns for the `mizchi/js` library.
 Creating and manipulating JavaScript objects:
 
 ```moonbit
-
 ///|
 test "basic object operations" {
   let obj = @js.Object::new()
@@ -30,7 +29,6 @@ test "basic object operations" {
 Properties can be accessed with different key types:
 
 ```moonbit
-
 ///|
 test "property keys - string, int, symbol" {
   let obj = @js.Object::new()
@@ -58,7 +56,6 @@ test "property keys - string, int, symbol" {
 Working with JavaScript arrays:
 
 ```moonbit
-
 ///|
 test "array operations" {
   // Create from MoonBit array
@@ -78,7 +75,6 @@ test "array operations" {
 Calling JavaScript methods with specific number of arguments:
 
 ```moonbit
-
 ///|
 test "method call arities" {
   let obj = @js.Object::new()
@@ -108,7 +104,6 @@ test "method call arities" {
 Using Object static methods:
 
 ```moonbit
-
 ///|
 test "object helper methods" {
   let obj = @js.Object::new()
@@ -146,7 +141,6 @@ test "object helper methods" {
 Converting between MoonBit and JavaScript types:
 
 ```moonbit
-
 ///|
 test "type conversion" {
   // JsImpl is implemented for basic types
@@ -172,7 +166,6 @@ test "type conversion" {
 Converting MoonBit Maps to JavaScript objects:
 
 ```moonbit
-
 ///|
 test "map to object conversion" {
   let map = Map::new()
@@ -196,7 +189,6 @@ test "map to object conversion" {
 Safe handling of nullable JavaScript values:
 
 ```moonbit
-
 ///|
 test "optional values with identity_option" {
   let obj = @js.Object::new()
@@ -222,7 +214,6 @@ test "optional values with identity_option" {
 Using `set_if_exists` for optional values:
 
 ```moonbit
-
 ///|
 test "conditional property setting for optional properties" {
   let obj = @js.Object::new()
@@ -254,7 +245,6 @@ test "conditional property setting for optional properties" {
 Checking JavaScript value types:
 
 ```moonbit
-
 ///|
 test "javascript type checking" {
   let arr = @js.JsArray::from([1, 2, 3])
@@ -276,7 +266,6 @@ test "javascript type checking" {
 Working with JavaScript Symbols:
 
 ```moonbit
-
 ///|
 test "symbol operations" {
   let obj = @js.Object::new()
@@ -298,7 +287,6 @@ test "symbol operations" {
 Working with arbitrary precision integers:
 
 ```moonbit
-
 ///|
 test "bigint arithmetic operations" {
   let big1 = @bigint.JsBigInt::from_int(42)
@@ -321,7 +309,6 @@ test "bigint arithmetic operations" {
 Using global JavaScript functions:
 
 ```moonbit
-
 ///|
 test "global encoding functions" {
   // URI encoding
@@ -346,7 +333,6 @@ test "global encoding functions" {
 Working with JSON:
 
 ```moonbit
-
 ///|
 test "json stringify and parse" {
   let obj = @js.Object::new()
@@ -388,7 +374,6 @@ test "json stringify and parse" {
 Calling JavaScript values as functions:
 
 ```moonbit
-
 ///|
 test "call_self for direct function calls" {
   // Get a JavaScript function
@@ -411,7 +396,6 @@ test "call_self for direct function calls" {
 Creating instances with the `new` operator:
 
 ```moonbit
-
 ///|
 test "constructor with new_" {
   // Get constructor

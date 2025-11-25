@@ -24,7 +24,7 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 #alias(use_callback)
 pub fn[F] useCallback(f : F, keys : Array[&@js.JsImpl]) -> F {
   let keys = keys.map(k => k.to_any())
-  @js.identity(ffi_react_use_callback(f |> @js.unsafe_js, keys))
+  @js.identity(ffi_react_use_callback(f |> @js.unsafe_any, keys))
 }
 
 ///|
@@ -115,7 +115,7 @@ pub type Context[T]
 ///|
 #alias(createContext)
 pub fn[T] create_context(initial : T?) -> Context[T] {
-  let v = ffi_react_create_context(initial |> @js.unsafe_js)
+  let v = ffi_react_create_context(initial |> @js.unsafe_any)
   @js.identity(v)
 }
 
@@ -153,7 +153,7 @@ pub fn[T, U] use_reducer(
   initial : T,
 ) -> (T, (U) -> Unit) {
   let val = ffi_react_use_reducer(
-    reducer |> @js.unsafe_js,
+    reducer |> @js.unsafe_any,
     initial |> @js.identity,
   )
   (val.get(0).cast(), val.get(1).cast())
@@ -176,8 +176,8 @@ pub fn[T, U] use_action_state(
 ) -> (T, (U) -> Unit, Bool) {
   let w = @js.promisify2((s, a) => f(s, a))
   let val : @js.Any = use_action_state_internal(
-    w |> @js.unsafe_js,
-    initial |> @js.unsafe_js,
+    w |> @js.unsafe_any,
+    initial |> @js.unsafe_any,
   )
   (val.get(0).cast(), val.get(1).cast(), val.get(2).cast())
 }
@@ -214,7 +214,7 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 /// let custom_component : ComponentType[MyProps] = lazy_(load_custom_component)
 /// ```
 pub fn[T] lazy_(f : () -> @js.Promise[@js.Any]) -> Component[T] {
-  ffi_react_lazy(f |> @js.unsafe_js) |> @js.identity
+  ffi_react_lazy(f |> @js.unsafe_any) |> @js.identity
 }
 
 ///|
@@ -231,10 +231,10 @@ extern "js" fn ffi_use_deferred_value(
 #alias(useDeferredValue)
 pub fn[T] use_deferred_value(value : T, initial_value? : T) -> T {
   let initial = match initial_value {
-    Some(v) => v |> @js.unsafe_js
+    Some(v) => v |> @js.unsafe_any
     None => @js.undefined()
   }
-  ffi_use_deferred_value(value |> @js.unsafe_js, initial) |> @js.identity
+  ffi_use_deferred_value(value |> @js.unsafe_any, initial) |> @js.identity
 }
 
 ///|
@@ -251,8 +251,8 @@ extern "js" fn ffi_use_debug_value(
 #alias(useDebugValue)
 pub fn[T, R] use_debug_value(value : T, format? : (T) -> R) -> Unit {
   match format {
-    Some(f) => ffi_use_debug_value(value |> @js.unsafe_js, f |> @js.unsafe_js)
-    None => ffi_use_debug_value(value |> @js.unsafe_js, @js.undefined())
+    Some(f) => ffi_use_debug_value(value |> @js.unsafe_any, f |> @js.unsafe_any)
+    None => ffi_use_debug_value(value |> @js.unsafe_any, @js.undefined())
   }
 }
 
@@ -300,8 +300,8 @@ pub fn[S, A] use_optimistic(
   update_fn : (S, A) -> S,
 ) -> (S, (A) -> Unit) {
   let result = ffi_use_optimistic(
-    state |> @js.unsafe_js,
-    update_fn |> @js.unsafe_js,
+    state |> @js.unsafe_any,
+    update_fn |> @js.unsafe_any,
   )
   (result.get(0).cast(), result.get(1).cast())
 }
@@ -323,7 +323,7 @@ pub fn use_insertion_effect(
   keys : Array[&@js.JsImpl],
 ) -> Unit {
   let deps = keys.map(_.to_any()) |> @js.from_array
-  ffi_use_insertion_effect(f |> @js.unsafe_js, deps)
+  ffi_use_insertion_effect(f |> @js.unsafe_any, deps)
 }
 
 ///|
@@ -345,12 +345,12 @@ pub fn[Snapshot] use_sync_external_store(
   get_server_snapshot? : () -> Snapshot,
 ) -> Snapshot {
   let server_snapshot = match get_server_snapshot {
-    Some(f) => f |> @js.unsafe_js
+    Some(f) => f |> @js.unsafe_any
     None => @js.undefined()
   }
   ffi_use_sync_external_store(
-    subscribe |> @js.unsafe_js,
-    get_snapshot |> @js.unsafe_js,
+    subscribe |> @js.unsafe_any,
+    get_snapshot |> @js.unsafe_any,
     server_snapshot,
   )
   |> @js.identity
@@ -376,8 +376,8 @@ pub fn[T] use_imperative_handle(
 ) -> Unit {
   let deps = keys.map(_.to_any()) |> @js.from_array
   ffi_use_imperative_handle(
-    ref_ |> @js.unsafe_js,
-    create |> @js.unsafe_js,
+    ref_ |> @js.unsafe_any,
+    create |> @js.unsafe_any,
     deps,
   )
 }
@@ -421,7 +421,7 @@ extern "js" fn ffi_react_cache(fn_ : @js.Any) -> @js.Any =
 /// see: https://react.dev/reference/react/cache
 #alias(reactCache)
 pub fn[T, R] react_cache(f : (T) -> R) -> (T) -> R {
-  ffi_react_cache(f |> @js.unsafe_js) |> @js.identity
+  ffi_react_cache(f |> @js.unsafe_any) |> @js.identity
 }
 
 ///|
@@ -432,7 +432,7 @@ extern "js" fn ffi_act(callback : @js.Any) -> @js.Any =
 /// React.act - Wrap test code to apply updates before assertions
 /// see: https://react.dev/reference/react/act
 pub fn act(callback : () -> Unit) -> @js.Promise[Unit] {
-  ffi_act(callback |> @js.unsafe_js) |> @js.identity
+  ffi_act(callback |> @js.unsafe_any) |> @js.identity
 }
 
 ///|
@@ -445,5 +445,5 @@ extern "js" fn ffi_act_async(callback : @js.Any) -> @js.Promise[Unit] =
 #alias(actAsync)
 pub async fn act_async(callback : async () -> Unit) -> Unit {
   let promise_fn = @js.promisify0(callback)
-  ffi_act_async(promise_fn |> @js.unsafe_js).wait()
+  ffi_act_async(promise_fn |> @js.unsafe_any).wait()
 }

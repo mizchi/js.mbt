@@ -120,17 +120,12 @@ pub fn stripTypeScriptTypes(
 
 ///|
 /// Represents a source map for debugging
-#external
-pub type SourceMap
+pub(all) struct SourceMap {
+  payload : @js.Any
+}
 
 ///|
 pub impl @js.JsImpl for SourceMap
-
-///|
-/// Get the payload (the actual source map data)
-pub fn SourceMap::payload(self : Self) -> @js.Any {
-  self.get("payload")
-}
 
 ///|
 /// findEntry(lineNumber, columnNumber)
@@ -141,56 +136,22 @@ pub fn SourceMap::findEntry(
   line_number : Int,
   column_number : Int,
 ) -> SourceMapEntry? {
-  self.call2("findEntry", line_number, column_number) |> @js.identity_option()
+  self.to_any().call2("findEntry", line_number, column_number)
+  |> @js.identity_option()
 }
 
 ///| SourceMapEntry Type
 
 ///|
 /// Represents an entry in a source map
-#external
-pub type SourceMapEntry
+pub(all) struct SourceMapEntry {
+  originalLine : Int
+  originalColumn : Int
+  originalSource : String
+  generatedLine : Int
+  generatedColumn : Int
+  name : String?
+}
 
 ///|
 pub impl @js.JsImpl for SourceMapEntry
-
-///|
-/// Get the original line number
-#alias(original_line)
-pub fn SourceMapEntry::originalLine(self : Self) -> Int {
-  self.get("originalLine").cast()
-}
-
-///|
-/// Get the original column number
-#alias(original_column)
-pub fn SourceMapEntry::originalColumn(self : Self) -> Int {
-  self.get("originalColumn").cast()
-}
-
-///|
-/// Get the original source file name
-#alias(original_source)
-pub fn SourceMapEntry::originalSource(self : Self) -> String {
-  self.get("originalSource").cast()
-}
-
-///|
-/// Get the generated line number
-#alias(generated_line)
-pub fn SourceMapEntry::generatedLine(self : Self) -> Int {
-  self.get("generatedLine").cast()
-}
-
-///|
-/// Get the generated column number
-#alias(generated_column)
-pub fn SourceMapEntry::generatedColumn(self : Self) -> Int {
-  self.get("generatedColumn").cast()
-}
-
-///|
-/// Get the name (if available)
-pub fn SourceMapEntry::name(self : Self) -> String? {
-  self.get("name") |> @js.identity_option()
-}

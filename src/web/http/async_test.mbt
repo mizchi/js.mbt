@@ -6,64 +6,55 @@ extern "js" fn ffi_new_response_async(content : String) -> Response =
   #|(content) => new Response(content)
 
 ///|
-extern "js" fn ffi_decode_uint8array(uint8array : @js.Js) -> String =
+extern "js" fn ffi_decode_uint8array(uint8array : @js.Any) -> String =
   #|(uint8array) => new TextDecoder().decode(uint8array)
 
 ///|
-#skip
 async test "Response: read body as text" {
   let response = ffi_new_response_async("Hello, async world!")
 
   // Read body as text
-  let text_result : @js.Js = response.to_any().call0("text")
+  let text_result : @js.Any = response.to_any().call0("text")
   let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
-
   assert_eq(text, "Hello, async world!")
 }
 
 ///|
-#skip
 async test "Response: read body as JSON" {
   let json_str = "{\"name\":\"test\",\"value\":42}"
   let response = ffi_new_response_async(json_str)
 
   // Read body as JSON
-  let json_result : @js.Js = response.to_any().call0("json")
-  let json_promise : @js.Promise[@js.Js] = @js.identity(json_result)
+  let json_result : @js.Any = response.to_any().call0("json")
+  let json_promise : @js.Promise[@js.Any] = @js.identity(json_result)
   let json_obj = json_promise.wait()
-
   let name : String = @js.identity(json_obj.get("name"))
   let value : Int = @js.identity(json_obj.get("value"))
-
   assert_eq(name, "test")
   assert_eq(value, 42)
 }
 
 ///|
-#skip
 async test "Response: read body stream chunk by chunk" {
   let response = ffi_new_response_async("chunk1chunk2chunk3")
   let body = response.body()
-
   match body {
     Some(stream) => {
       let reader = stream.get_reader()
       defer reader.release_lock()
-
       let chunks : Array[String] = []
 
       // Read all chunks
       let mut done = false
       while not(done) {
-        let result : @js.Js = reader.to_any().call0("read")
-        let promise : @js.Promise[@js.Js] = @js.identity(result)
+        let result : @js.Any = reader.to_any().call0("read")
+        let promise : @js.Promise[@js.Any] = @js.identity(result)
         let data = promise.wait()
-
         done = @js.identity(data.get("done"))
         if not(done) {
           // Decode Uint8Array to string using TextDecoder
-          let value : @js.Js = data.get("value")
+          let value : @js.Any = data.get("value")
           // Create TextDecoder using FFI
           let text : String = ffi_decode_uint8array(value)
           chunks.push(text)
@@ -78,32 +69,29 @@ async test "Response: read body stream chunk by chunk" {
 }
 
 ///|
-#skip
 async test "Response: clone and read both bodies" {
   let response = ffi_new_response_async("original content")
   let cloned = response.clone()
 
   // Read original
-  let text1_result : @js.Js = response.to_any().call0("text")
+  let text1_result : @js.Any = response.to_any().call0("text")
   let text1_promise : @js.Promise[String] = @js.identity(text1_result)
   let text1 = text1_promise.wait()
 
   // Read cloned
-  let text2_result : @js.Js = cloned.to_any().call0("text")
+  let text2_result : @js.Any = cloned.to_any().call0("text")
   let text2_promise : @js.Promise[String] = @js.identity(text2_result)
   let text2 = text2_promise.wait()
-
   assert_eq(text1, "original content")
   assert_eq(text2, "original content")
 }
 
 ///|
-#skip
 async test "Response: read body multiple times fails after first read" {
   let response = ffi_new_response_async("single read")
 
   // First read succeeds
-  let text1_result : @js.Js = response.to_any().call0("text")
+  let text1_result : @js.Any = response.to_any().call0("text")
   let text1_promise : @js.Promise[String] = @js.identity(text1_result)
   let text1 = text1_promise.wait()
   assert_eq(text1, "single read")
@@ -115,7 +103,6 @@ async test "Response: read body multiple times fails after first read" {
 }
 
 ///|
-#skip
 async test "Response: read large body in chunks" {
   // Create a larger response
   let mut large_content = ""
@@ -124,23 +111,18 @@ async test "Response: read large body in chunks" {
     large_content = large_content + "data\{i},"
     i = i + 1
   }
-
   let response = ffi_new_response_async(large_content)
-
-  let text_result : @js.Js = response.to_any().call0("text")
+  let text_result : @js.Any = response.to_any().call0("text")
   let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
-
   assert_eq(text, large_content)
   assert_true(text.length() > 500)
 }
 
 ///|
-#skip
 async test "Response: body stream with defer cleanup" {
   let response = ffi_new_response_async("test cleanup")
   let body = response.body()
-
   match body {
     Some(stream) => {
       let reader = stream.get_reader()
@@ -150,8 +132,8 @@ async test "Response: body stream with defer cleanup" {
       assert_eq(stream.locked, true)
 
       // Read one chunk
-      let result : @js.Js = reader.to_any().call0("read")
-      let promise : @js.Promise[@js.Js] = @js.identity(result)
+      let result : @js.Any = reader.to_any().call0("read")
+      let promise : @js.Promise[@js.Any] = @js.identity(result)
       let _data = promise.wait()
 
       // defer will automatically call release_lock
@@ -161,12 +143,10 @@ async test "Response: body stream with defer cleanup" {
 }
 
 ///|
-#skip
 async test "Response: arrayBuffer method" {
   let response = ffi_new_response_async("buffer test")
-
-  let buffer_result : @js.Js = response.to_any().call0("arrayBuffer")
-  let buffer_promise : @js.Promise[@js.Js] = @js.identity(buffer_result)
+  let buffer_result : @js.Any = response.to_any().call0("arrayBuffer")
+  let buffer_promise : @js.Promise[@js.Any] = @js.identity(buffer_result)
   let buffer = buffer_promise.wait()
 
   // Verify we got an ArrayBuffer
@@ -179,12 +159,10 @@ async test "Response: arrayBuffer method" {
 }
 
 ///|
-#skip
 async test "Response: blob method" {
   let response = ffi_new_response_async("blob content")
-
-  let blob_result : @js.Js = response.to_any().call0("blob")
-  let blob_promise : @js.Promise[@js.Js] = @js.identity(blob_result)
+  let blob_result : @js.Any = response.to_any().call0("blob")
+  let blob_promise : @js.Promise[@js.Any] = @js.identity(blob_result)
   let blob = blob_promise.wait()
 
   // Verify we got a Blob

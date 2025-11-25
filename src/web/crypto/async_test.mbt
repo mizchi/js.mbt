@@ -20,7 +20,10 @@ extern "js" fn ffi_create_aes_algorithm(name : String, length : Int) -> @js.Any 
   #|(name, length) => ({ name, length })
 
 ///|
-extern "js" fn ffi_create_aes_gcm_params(name : String, iv : @js.Any) -> @js.Any =
+extern "js" fn ffi_create_aes_gcm_params(
+  name : String,
+  iv : @js.Any,
+) -> @js.Any =
   #|(name, iv) => ({ name, iv })
 
 ///|

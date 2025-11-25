@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Affects all FFI function signatures and type annotations
   - Migration: Replace `@js.Js` with `@js.Any` throughout your codebase
 
+- **`to_js()` → `to_any()`** - Renamed JsImpl trait method
+  - The `JsImpl` trait method `to_js()` is now `to_any()`
+  - Aligns with the `Js` → `Any` type rename
+  - Migration: Replace `.to_js()` with `.to_any()` in your code
+
+- **`@js.js()` → `@js.any()`** - Renamed standalone conversion function
+  - The global function `@js.js()` is now `@js.any()`
+  - Used for converting values to the `Any` type
+  - Migration: Replace `@js.js(value)` with `@js.any(value)`
+
 - **`unsafe_cast` → `identity`** - Renamed unsafe type conversion function
   - `@js.unsafe_cast()` is now `@js.identity()`
   - Used for FFI conversions between MoonBit and JavaScript types
@@ -347,6 +357,20 @@ fn my_function(value : @js.Any) -> @js.Any {
 }
 
 extern "js" fn ffi_call() -> @js.Any = #|() => {}
+```
+
+#### Update method and function names
+
+Replace `to_js()` with `to_any()` and `@js.js()` with `@js.any()`:
+
+```moonbit
+// Before (v0.4.0)
+let js_val = my_object.to_js()
+let converted = @js.js(value)
+
+// After (v0.5.0)
+let js_val = my_object.to_any()
+let converted = @js.any(value)
 ```
 
 #### Replace unsafe_cast with identity

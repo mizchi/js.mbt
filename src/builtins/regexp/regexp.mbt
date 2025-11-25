@@ -472,7 +472,7 @@ pub fn RegExp::replace_fn(
     }
     replacer(matched, groups, offset, input)
   }
-  ffi_string_replace_fn(string, self, @js.unsafe_js(wrapper))
+  ffi_string_replace_fn(string, self, @js.unsafe_any(wrapper))
 }
 
 ///|
@@ -503,7 +503,7 @@ pub fn RegExp::replace_all_fn(
     }
     replacer(matched, groups, offset, input)
   }
-  ffi_string_replace_all_fn(string, self, @js.unsafe_js(wrapper))
+  ffi_string_replace_all_fn(string, self, @js.unsafe_any(wrapper))
 }
 
 ///|

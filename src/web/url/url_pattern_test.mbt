@@ -104,9 +104,7 @@ test "URLPattern multiple path parameters" {
   )
   match pattern.exec("https://example.com/books/42/chapters/3") {
     Some(result) => {
-      let book_id : String = @js.identity(
-        result.pathname.groups.get("bookId"),
-      )
+      let book_id : String = @js.identity(result.pathname.groups.get("bookId"))
       let chapter_id : String = @js.identity(
         result.pathname.groups.get("chapterId"),
       )

@@ -53,7 +53,7 @@ pub impl @js.JsImpl for URLPatternResult
 ///|
 /// Create a new URLPattern from a pattern string
 pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
-  let pattern_val = @js.unsafe_js(pattern)
+  let pattern_val = @js.unsafe_any(pattern)
   match base {
     Some(b) => @js.identity(ffi_new_url_pattern_with_base(pattern_val, b))
     None => @js.identity(ffi_new_url_pattern(pattern_val))

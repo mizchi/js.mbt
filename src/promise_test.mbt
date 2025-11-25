@@ -515,7 +515,7 @@ async test "Promise: @js.Promise::any returns first fulfilled promise (2)" {
   let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
   let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
   @js.run_async(() => {
-    @js.sleep(32)
+    @js.sleep(200)
     resolver1.resolve(100)
   })
   @js.run_async(() => {

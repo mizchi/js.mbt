@@ -36,26 +36,21 @@ fn syncBuiltinESMExports() -> Unit
 // Errors
 
 // Types and methods
-#external
-pub type SourceMap
+pub(all) struct SourceMap {
+  payload : @js.Any
+}
 #alias(find_entry)
 fn SourceMap::findEntry(Self, Int, Int) -> SourceMapEntry?
-fn SourceMap::payload(Self) -> @js.Any
 impl @js.JsImpl for SourceMap
 
-#external
-pub type SourceMapEntry
-#alias(generated_column)
-fn SourceMapEntry::generatedColumn(Self) -> Int
-#alias(generated_line)
-fn SourceMapEntry::generatedLine(Self) -> Int
-fn SourceMapEntry::name(Self) -> String?
-#alias(original_column)
-fn SourceMapEntry::originalColumn(Self) -> Int
-#alias(original_line)
-fn SourceMapEntry::originalLine(Self) -> Int
-#alias(original_source)
-fn SourceMapEntry::originalSource(Self) -> String
+pub(all) struct SourceMapEntry {
+  originalLine : Int
+  originalColumn : Int
+  originalSource : String
+  generatedLine : Int
+  generatedColumn : Int
+  name : String?
+}
 impl @js.JsImpl for SourceMapEntry
 
 // Type aliases

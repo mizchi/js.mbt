@@ -154,7 +154,7 @@ pub async fn Page::focus(
 ) -> Unit raise @js.ThrowError {
   let promise : @js.Promise[Unit] = @js.identity(self.call("focus", [selector]))
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_js(e))
+    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
   }
 }
 
@@ -166,7 +166,7 @@ pub async fn Page::hover(
 ) -> Unit raise @js.ThrowError {
   let promise : @js.Promise[Unit] = @js.identity(self.call("hover", [selector]))
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_js(e))
+    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
   }
 }
 
@@ -183,7 +183,7 @@ pub async fn Page::select(
     self.call("select", [selector, js_values]),
   )
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_js(e))
+    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
   }
 }
 
@@ -249,7 +249,7 @@ pub async fn Page::cookies(self : Page) -> Array[@js.Any] raise @js.ThrowError {
     self.call("cookies", []),
   )
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_js(e))
+    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
   }
 }
 
@@ -284,7 +284,7 @@ pub async fn Page::pdf(self : Page, path : String) -> Unit raise @js.ThrowError 
   let opts = @js.from_entries([("path", path)])
   let promise : @js.Promise[Unit] = @js.identity(self.call("pdf", [opts]))
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_js(e))
+    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
   }
 }
 

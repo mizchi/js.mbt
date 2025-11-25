@@ -189,7 +189,7 @@ test "sqlite aggregate with window function" {
     "running_total",
     start=0,
     step=fn(acc, value) { acc + value },
-    result=fn(acc) { @js.unsafe_js(acc) },
+    result=fn(acc) { @js.unsafe_any(acc) },
   )
   let stmt = database.prepare(
     "SELECT product, running_total(amount) as total FROM sales GROUP BY product",
@@ -665,7 +665,7 @@ test "sqlite aggregate with all options" {
     varargs=false,
     start=0,
     step=fn(acc, value) { acc + value },
-    result=fn(acc) { @js.unsafe_js(acc) },
+    result=fn(acc) { @js.unsafe_any(acc) },
   )
   let stmt = db.prepare("SELECT test_agg(x) as total FROM test")
   let result = stmt.get_()

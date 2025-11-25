@@ -1,7 +1,6 @@
 ///|
 /// Represents an unsafe JavaScript value.
-///
-/// `Any` is the core type for FFI operations between MoonBit and JavaScript.
+/// Like TypeScript's `any`, `@js.Any` can hold any JavaScript value including primitives, objects, arrays, functions, etc.
 /// It can hold any JavaScript value including primitives, objects, arrays, functions, etc.
 ///
 /// # Example
@@ -27,12 +26,12 @@ pub impl Show for Any with output(self, logger) {
 ///|
 pub impl Show for Any with to_string(self) {
   if is_array(self) {
-    return ffi_json_stringify(self, undefined(), undefined())
+    ffi_json_stringify(self, undefined(), undefined())
+  } else if is_object(self) {
+    ffi_json_stringify(self, undefined(), undefined())
+  } else {
+    ffi_to_string(self)
   }
-  if is_object(self) {
-    return ffi_json_stringify(self, undefined(), undefined())
-  }
-  ffi_to_string(self)
 }
 
 ///|
@@ -90,4 +89,18 @@ pub fn[T] Nullable::to_option(self : Nullable[T]) -> T? {
 pub fn[T] Nullable::is_null(self : Nullable[T]) -> Bool {
   let js_value : Any = self |> identity
   ffi_is_null(js_value)
+}
+
+///|
+#external
+pub type Nullish[T]
+
+///|
+pub fn[T] Nullish::to_option(self : Nullish[T]) -> T? {
+  let js_value : Any = self |> identity
+  if ffi_is_nullish(js_value) {
+    None
+  } else {
+    Some(self |> identity)
+  }
 }

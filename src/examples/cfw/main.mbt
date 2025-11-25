@@ -14,7 +14,7 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
     _env : @cloudflare.CloudflareEnv,
     _ctx : @cloudflare.CloudflareContext,
   ) -> Response {
-    let url_str = req.url()
+    let url_str = req.url
     let url = URL::new(url_str)
     let pathname = url.pathname
 

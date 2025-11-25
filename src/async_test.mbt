@@ -100,6 +100,94 @@ async test "JS Async: sleep multiple times" {
   assert_eq(count, 3)
 }
 
+///| Promisify error handling tests
+
+///|
+async test "promisify0: handles error by rejecting promise" {
+  let failing_fn = async fn() -> Int { fail("test error") }
+  let promise_fn = promisify0(failing_fn)
+  let promise = promise_fn()
+
+  // Promise should be rejected
+  try {
+    let _ = promise.wait()
+    fail("Expected promise to be rejected")
+  } catch {
+    _e =>
+      // Expected to catch error
+      assert_true(true)
+  }
+}
+
+///|
+async test "promisify1: handles error by rejecting promise" {
+  let failing_fn = async fn(x : Int) -> Int {
+    if x < 0 {
+      fail("negative value")
+    } else {
+      x * 2
+    }
+  }
+  let promise_fn = promisify1(failing_fn)
+  let promise = promise_fn(-5)
+
+  // Promise should be rejected
+  try {
+    let _ = promise.wait()
+    fail("Expected promise to be rejected")
+  } catch {
+    _e =>
+      // Expected to catch error
+      assert_true(true)
+  }
+}
+
+///|
+async test "promisify2: handles error by rejecting promise" {
+  let failing_fn = async fn(x : Int, y : Int) -> Int {
+    if x + y < 0 {
+      fail("sum is negative")
+    } else {
+      x + y
+    }
+  }
+  let promise_fn = promisify2(failing_fn)
+  let promise = promise_fn(-10, 5)
+
+  // Promise should be rejected
+  try {
+    let _ = promise.wait()
+    fail("Expected promise to be rejected")
+  } catch {
+    _e =>
+      // Expected to catch error
+      assert_true(true)
+  }
+}
+
+///|
+async test "promisify3: handles error by rejecting promise" {
+  let failing_fn = async fn(x : Int, y : Int, z : Int) -> Int {
+    if x + y + z < 0 {
+      fail("sum is negative")
+    } else {
+      x + y + z
+    }
+  }
+  let promise_fn = promisify3(failing_fn)
+  let promise = promise_fn(-10, 3, 2)
+
+  // Promise should be rejected
+  try {
+    let _ = promise.wait()
+    fail("Expected promise to be rejected")
+  } catch {
+    _e =>
+      // Expected to catch error
+      assert_true(true)
+  }
+}
+
 ///|
 #skip("Flaky test, needs investigation")
 async test "JS Async: nested run_async" {

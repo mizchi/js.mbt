@@ -80,8 +80,9 @@ pub impl @js.JsImpl for DurableObjectIdOptions with to_any(self) {
 
 ///|
 /// Durable Object ID
-#external
-pub type DurableObjectId
+pub(all) struct DurableObjectId {
+  name : String?
+}
 
 ///|
 pub impl @js.JsImpl for DurableObjectId
@@ -89,40 +90,24 @@ pub impl @js.JsImpl for DurableObjectId
 ///|
 /// Convert ID to string
 pub fn DurableObjectId::to_string(self : Self) -> String {
-  self.call0("toString").cast()
+  self.to_any().call0("toString").cast()
 }
 
 ///|
 /// Check if two IDs are equal
 pub fn DurableObjectId::equals(self : Self, other : DurableObjectId) -> Bool {
-  self.call("equals", [other.to_any()]).cast()
-}
-
-///|
-/// Get ID name (if created from name)
-pub fn DurableObjectId::name(self : Self) -> String? {
-  self.get("name").cast()
+  self.to_any().call("equals", [other.to_any()]).cast()
 }
 
 ///|
 /// Durable Object Stub (client interface)
-#external
-pub type DurableObjectStub
+pub(all) struct DurableObjectStub {
+  id : DurableObjectId
+  name : String?
+}
 
 ///|
 pub impl @js.JsImpl for DurableObjectStub
-
-///|
-/// Get the ID of this stub
-pub fn DurableObjectStub::id(self : Self) -> DurableObjectId {
-  self.get("id").cast()
-}
-
-///|
-/// Get the name of this stub
-pub fn DurableObjectStub::name(self : Self) -> String? {
-  self.get("name").cast()
-}
 
 ///|
 /// Send a fetch request to the Durable Object
@@ -130,7 +115,7 @@ pub fn DurableObjectStub::fetch(
   self : Self,
   request : @js.Any,
 ) -> @js.Promise[@js.Any] {
-  self.call("fetch", [request]).cast()
+  self.to_any().call("fetch", [request]).cast()
 }
 
 ///|
@@ -140,7 +125,7 @@ pub fn DurableObjectStub::fetch_with_init(
   request : @js.Any,
   init : @js.Any,
 ) -> @js.Promise[@js.Any] {
-  self.call2("fetch", request, init).cast()
+  self.to_any().call2("fetch", request, init).cast()
 }
 
 ///|
@@ -149,7 +134,7 @@ pub fn DurableObjectStub::fetch_url(
   self : Self,
   url : String,
 ) -> @js.Promise[@js.Any] {
-  self.call("fetch", [url]).cast()
+  self.to_any().call("fetch", [url]).cast()
 }
 
 ///|
@@ -159,33 +144,23 @@ pub fn DurableObjectStub::fetch_url_with_init(
   url : String,
   init : @js.Any,
 ) -> @js.Promise[@js.Any] {
-  self.call2("fetch", url, init).cast()
+  self.to_any().call2("fetch", url, init).cast()
 }
 
 ///|
 /// Durable Object State (available inside DO class)
-#external
-pub type DurableObjectState
+pub(all) struct DurableObjectState {
+  id : DurableObjectId
+  storage : DurableObjectStorage
+}
 
 ///|
 pub impl @js.JsImpl for DurableObjectState
 
 ///|
-/// Get the ID of this Durable Object
-pub fn DurableObjectState::id(self : Self) -> DurableObjectId {
-  self.get("id").cast()
-}
-
-///|
-/// Get the storage interface
-pub fn DurableObjectState::storage(self : Self) -> DurableObjectStorage {
-  self.get("storage").cast()
-}
-
-///|
 /// Wait until a promise completes before confirming writes
 pub fn DurableObjectState::wait_until(self : Self, promise : @js.Any) -> Unit {
-  self.call("waitUntil", [promise]).cast()
+  self.to_any().call("waitUntil", [promise]).cast()
 }
 
 ///|
@@ -194,7 +169,7 @@ pub fn DurableObjectState::block_concurrency_while(
   self : Self,
   callback : @js.Any,
 ) -> @js.Promise[Unit] {
-  self.call("blockConcurrencyWhile", [callback]).cast()
+  self.to_any().call("blockConcurrencyWhile", [callback]).cast()
 }
 
 ///|

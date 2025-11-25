@@ -251,7 +251,10 @@ extern "js" fn ffi_atomics_notify(
   #| (typedArray, index, count) => Atomics.notify(typedArray, index, count)
 
 ///|
-extern "js" fn ffi_atomics_notify_2(typedArray : @js.Any, index : Int) -> @js.Any =
+extern "js" fn ffi_atomics_notify_2(
+  typedArray : @js.Any,
+  index : Int,
+) -> @js.Any =
   #| (typedArray, index) => Atomics.notify(typedArray, index)
 
 ///|
