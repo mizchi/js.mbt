@@ -1,0 +1,50 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/dotenv"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn config(path? : String, encoding? : String, debug? : Bool, override_existing? : Bool) -> DotenvConfigOutput
+
+#alias(config_paths)
+fn configPaths(Array[String]) -> DotenvConfigOutput
+
+#alias(delete_env)
+fn deleteEnv(String) -> Unit
+
+#alias(get_env)
+fn getEnv(String) -> String?
+
+fn parse(String) -> DotenvParseOutput
+
+#alias(parse_with_options)
+fn parseWithOptions(String, debug? : Bool) -> DotenvParseOutput
+
+fn populate(@js.Any, @js.Any, override_existing? : Bool) -> Unit
+
+#alias(process_env)
+fn processEnv() -> @js.Any
+
+#alias(set_env)
+fn setEnv(String, String) -> Unit
+
+// Errors
+
+// Types and methods
+pub struct DotenvConfigOutput {
+  parsed : @js.Any?
+  error : @js.Any?
+}
+
+#external
+pub type DotenvParseOutput
+fn DotenvParseOutput::get_(Self, String) -> String?
+fn DotenvParseOutput::keys(Self) -> Array[String]
+impl @js.JsImpl for DotenvParseOutput
+
+// Type aliases
+
+// Traits
+

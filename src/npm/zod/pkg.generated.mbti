@@ -1,0 +1,125 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/zod"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn any_() -> ZodSchema
+
+fn array(ZodSchema) -> ZodSchema
+
+fn bigint() -> ZodSchema
+
+fn boolean() -> ZodSchema
+
+fn date() -> ZodSchema
+
+fn enum_(Array[String]) -> ZodSchema
+
+fn literal(@js.Any) -> ZodSchema
+
+fn map(ZodSchema, ZodSchema) -> ZodSchema
+
+fn never() -> ZodSchema
+
+fn null_() -> ZodSchema
+
+fn number() -> ZodSchema
+
+fn object(@js.Any) -> ZodSchema
+
+fn record(ZodSchema, ZodSchema) -> ZodSchema
+
+fn set(ZodSchema) -> ZodSchema
+
+fn string() -> ZodSchema
+
+fn tuple(Array[ZodSchema]) -> ZodSchema
+
+fn undefined_() -> ZodSchema
+
+fn union(Array[ZodSchema]) -> ZodSchema
+
+fn unknown() -> ZodSchema
+
+fn void_() -> ZodSchema
+
+// Errors
+
+// Types and methods
+#external
+pub type SafeParseResult
+fn SafeParseResult::data(Self) -> @js.Any
+fn SafeParseResult::error(Self) -> ZodError
+fn SafeParseResult::success(Self) -> Bool
+impl @js.JsImpl for SafeParseResult
+
+#external
+pub type ZodError
+fn ZodError::flatten(Self) -> @js.Any
+fn ZodError::format(Self) -> @js.Any
+fn ZodError::issues(Self) -> @js.Any
+#alias(issues_array)
+fn ZodError::issuesArray(Self) -> Array[ZodIssue]
+impl @js.JsImpl for ZodError
+
+pub struct ZodIssue {
+  code : String
+  path : Array[String]
+  message : String
+}
+
+#external
+pub type ZodSchema
+fn ZodSchema::default_(Self, @js.Any) -> Self
+fn ZodSchema::email(Self) -> Self
+#alias(ends_with)
+fn ZodSchema::endsWith(Self, String) -> Self
+fn ZodSchema::extend(Self, @js.Any) -> Self
+fn ZodSchema::finite(Self) -> Self
+fn ZodSchema::gt(Self, Int) -> Self
+fn ZodSchema::gte(Self, Int) -> Self
+fn ZodSchema::int(Self) -> Self
+fn ZodSchema::length(Self, Int) -> Self
+fn ZodSchema::lt(Self, Int) -> Self
+fn ZodSchema::lte(Self, Int) -> Self
+fn ZodSchema::max(Self, Int) -> Self
+fn ZodSchema::merge(Self, Self) -> Self
+fn ZodSchema::min(Self, Int) -> Self
+fn ZodSchema::negative(Self) -> Self
+fn ZodSchema::nonempty(Self) -> Self
+fn ZodSchema::nonnegative(Self) -> Self
+fn ZodSchema::nonpositive(Self) -> Self
+fn ZodSchema::nullable(Self) -> Self
+fn ZodSchema::nullish(Self) -> Self
+fn ZodSchema::omit(Self, @js.Any) -> Self
+fn ZodSchema::optional(Self) -> Self
+fn ZodSchema::parse(Self, @js.Any) -> @js.Any
+fn ZodSchema::partial(Self) -> Self
+fn ZodSchema::passthrough(Self) -> Self
+fn ZodSchema::pick(Self, @js.Any) -> Self
+fn ZodSchema::positive(Self) -> Self
+fn ZodSchema::regex(Self, String) -> Self
+fn ZodSchema::required_(Self) -> Self
+#alias(safe_parse)
+fn ZodSchema::safeParse(Self, @js.Any) -> SafeParseResult
+#alias(starts_with)
+fn ZodSchema::startsWith(Self, String) -> Self
+fn ZodSchema::strict(Self) -> Self
+fn ZodSchema::strip(Self) -> Self
+#alias(to_lower_case)
+fn ZodSchema::toLowerCase(Self) -> Self
+#alias(to_upper_case)
+fn ZodSchema::toUpperCase(Self) -> Self
+fn ZodSchema::transform(Self, (@js.Any) -> @js.Any) -> Self
+fn ZodSchema::trim(Self) -> Self
+fn ZodSchema::url(Self) -> Self
+fn ZodSchema::uuid(Self) -> Self
+impl @js.JsImpl for ZodSchema
+
+// Type aliases
+
+// Traits
+

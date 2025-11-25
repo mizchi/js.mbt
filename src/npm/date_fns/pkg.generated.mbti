@@ -1,0 +1,200 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/date_fns"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn add(@js.Any, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @js.Any
+
+#alias(add_days)
+fn addDays(@js.Any, Int) -> @js.Any
+
+#alias(add_hours)
+fn addHours(@js.Any, Int) -> @js.Any
+
+#alias(add_minutes)
+fn addMinutes(@js.Any, Int) -> @js.Any
+
+#alias(add_months)
+fn addMonths(@js.Any, Int) -> @js.Any
+
+#alias(add_years)
+fn addYears(@js.Any, Int) -> @js.Any
+
+#alias(compare_asc)
+fn compareAsc(@js.Any, @js.Any) -> Int
+
+#alias(compare_desc)
+fn compareDesc(@js.Any, @js.Any) -> Int
+
+#alias(difference_in_days)
+fn differenceInDays(@js.Any, @js.Any) -> Int
+
+#alias(difference_in_hours)
+fn differenceInHours(@js.Any, @js.Any) -> Int
+
+#alias(difference_in_milliseconds)
+fn differenceInMilliseconds(@js.Any, @js.Any) -> Int
+
+#alias(difference_in_minutes)
+fn differenceInMinutes(@js.Any, @js.Any) -> Int
+
+#alias(difference_in_months)
+fn differenceInMonths(@js.Any, @js.Any) -> Int
+
+#alias(difference_in_seconds)
+fn differenceInSeconds(@js.Any, @js.Any) -> Int
+
+#alias(difference_in_weeks)
+fn differenceInWeeks(@js.Any, @js.Any) -> Int
+
+#alias(difference_in_years)
+fn differenceInYears(@js.Any, @js.Any) -> Int
+
+#alias(end_of_day)
+fn endOfDay(@js.Any) -> @js.Any
+
+#alias(end_of_month)
+fn endOfMonth(@js.Any) -> @js.Any
+
+#alias(end_of_week)
+fn endOfWeek(@js.Any) -> @js.Any
+
+#alias(end_of_year)
+fn endOfYear(@js.Any) -> @js.Any
+
+fn format(@js.Any, String) -> String
+
+#alias(format_distance)
+fn formatDistance(@js.Any, @js.Any) -> String
+
+#alias(format_distance_to_now)
+fn formatDistanceToNow(@js.Any) -> String
+
+#alias(format_iso)
+fn formatISO(@js.Any) -> String
+
+#alias(format_relative)
+fn formatRelative(@js.Any, @js.Any) -> String
+
+#alias(from_time)
+fn fromTime(Int) -> @js.Any
+
+#alias(from_unix_time)
+fn fromUnixTime(Int) -> @js.Any
+
+#alias(from_ymd)
+fn fromYMD(Int, Int, Int) -> @js.Any
+
+#alias(get_date)
+fn getDate(@js.Any) -> Int
+
+#alias(get_day)
+fn getDay(@js.Any) -> Int
+
+#alias(get_hours)
+fn getHours(@js.Any) -> Int
+
+#alias(get_minutes)
+fn getMinutes(@js.Any) -> Int
+
+#alias(get_month)
+fn getMonth(@js.Any) -> Int
+
+#alias(get_seconds)
+fn getSeconds(@js.Any) -> Int
+
+#alias(get_time)
+fn getTime(@js.Any) -> Int
+
+#alias(get_unix_time)
+fn getUnixTime(@js.Any) -> Int
+
+#alias(get_year)
+fn getYear(@js.Any) -> Int
+
+#alias(is_after)
+fn isAfter(@js.Any, @js.Any) -> Bool
+
+#alias(is_before)
+fn isBefore(@js.Any, @js.Any) -> Bool
+
+#alias(is_equal)
+fn isEqual(@js.Any, @js.Any) -> Bool
+
+#alias(is_same_day)
+fn isSameDay(@js.Any, @js.Any) -> Bool
+
+#alias(is_same_month)
+fn isSameMonth(@js.Any, @js.Any) -> Bool
+
+#alias(is_same_year)
+fn isSameYear(@js.Any, @js.Any) -> Bool
+
+#alias(is_valid)
+fn isValid(@js.Any) -> Bool
+
+fn now() -> @js.Any
+
+fn parse(String, String, @js.Any) -> @js.Any
+
+#alias(parse_iso)
+fn parseISO(String) -> @js.Any
+
+#alias(set_date)
+fn setDate(@js.Any, Int) -> @js.Any
+
+#alias(set_hours)
+fn setHours(@js.Any, Int) -> @js.Any
+
+#alias(set_minutes)
+fn setMinutes(@js.Any, Int) -> @js.Any
+
+#alias(set_month)
+fn setMonth(@js.Any, Int) -> @js.Any
+
+#alias(set_seconds)
+fn setSeconds(@js.Any, Int) -> @js.Any
+
+#alias(set_year)
+fn setYear(@js.Any, Int) -> @js.Any
+
+#alias(start_of_day)
+fn startOfDay(@js.Any) -> @js.Any
+
+#alias(start_of_month)
+fn startOfMonth(@js.Any) -> @js.Any
+
+#alias(start_of_week)
+fn startOfWeek(@js.Any) -> @js.Any
+
+#alias(start_of_year)
+fn startOfYear(@js.Any) -> @js.Any
+
+fn sub(@js.Any, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @js.Any
+
+#alias(sub_days)
+fn subDays(@js.Any, Int) -> @js.Any
+
+#alias(sub_hours)
+fn subHours(@js.Any, Int) -> @js.Any
+
+#alias(sub_minutes)
+fn subMinutes(@js.Any, Int) -> @js.Any
+
+#alias(sub_months)
+fn subMonths(@js.Any, Int) -> @js.Any
+
+#alias(sub_years)
+fn subYears(@js.Any, Int) -> @js.Any
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

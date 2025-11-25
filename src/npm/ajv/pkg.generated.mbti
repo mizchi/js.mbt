@@ -1,0 +1,49 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/ajv"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn schema() -> @js.Any
+
+fn schema_from_json(String) -> @js.Any raise @js.ThrowError
+
+// Errors
+
+// Types and methods
+#external
+pub type Ajv
+#alias(add_schema)
+fn Ajv::addSchema(Self, @js.Any, key? : String) -> Self
+fn Ajv::compile(Self, @js.Any) -> ValidateFunction
+fn Ajv::errors(Self) -> @js.Any
+#alias(get_schema)
+fn Ajv::getSchema(Self, String) -> ValidateFunction?
+fn Ajv::new(all_errors? : Bool, verbose? : Bool, strict? : Bool, coerce_types? : Bool, use_defaults? : Bool, remove_additional? : Bool) -> Self
+#alias(remove_schema)
+fn Ajv::removeSchema(Self, String) -> Self
+fn Ajv::validate(Self, @js.Any, @js.Any) -> Bool
+impl @js.JsImpl for Ajv
+
+#external
+pub type ValidateFunction
+fn ValidateFunction::call(Self, @js.Any) -> Bool
+fn ValidateFunction::errors(Self) -> @js.Any
+fn ValidateFunction::errors_array(Self) -> Array[ValidationError]
+fn ValidateFunction::validate(Self, @js.Any) -> Bool
+impl @js.JsImpl for ValidateFunction
+
+pub struct ValidationError {
+  instance_path : String
+  schema_path : String
+  keyword : String
+  params : @js.Any
+  message : String?
+}
+
+// Type aliases
+
+// Traits
+
