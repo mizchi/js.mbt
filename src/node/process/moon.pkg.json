@@ -1,4 +1,4 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/node/stream"]
+  "import": ["mizchi/js", "mizchi/js/node/stream", "mizchi/js/node/tty"]
 }

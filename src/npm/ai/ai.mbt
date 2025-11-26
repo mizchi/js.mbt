@@ -51,31 +51,21 @@ pub impl @js.JsImpl for ModelMessage with to_any(self) {
 }
 
 ///|
-/// npm:ai module handle
-#external
-pub type Ai
-
-///|
 /// Language model handle
 #external
 pub type Model
 
 ///|
-pub impl @js.JsImpl for Ai
-
-///|
 pub impl @js.JsImpl for Model
 
 ///|
-/// Load the AI SDK module
-pub fn Ai::require() -> Self {
-  @node.require("ai") |> @js.identity
+fn ai_module() -> @js.Any {
+  @node.require("ai")
 }
 
 ///|
 /// Generate text using the AI SDK (non-streaming)
-pub async fn Ai::generateText(
-  self : Self,
+pub async fn generateText(
   model~ : Model,
   messages? : Array[ModelMessage],
   prompt? : String,
@@ -124,7 +114,9 @@ pub async fn Ai::generateText(
   if active_tools is Some(at) {
     opts.set("activeTools", at |> @js.from_array)
   }
-  let promise : @js.Promise[@js.Any] = self.call("generateText", [opts])
+  let promise : @js.Promise[@js.Any] = ai_module()
+    .get("generateText")
+    .call_self([opts.to_any()])
     |> @js.identity
   let result = promise.wait()
   GenerateTextResult::from_any(result)
@@ -141,8 +133,7 @@ pub impl @js.JsImpl for StreamTextResultHandle
 ///|
 /// Stream text using the AI SDK (streaming)
 /// Note: This returns synchronously but the stream itself is async
-pub fn Ai::streamText(
-  self : Self,
+pub fn streamText(
   model~ : Model,
   messages? : Array[ModelMessage],
   prompt? : String,
@@ -191,7 +182,7 @@ pub fn Ai::streamText(
   if active_tools is Some(at) {
     opts.set("activeTools", at |> @js.from_array)
   }
-  let result = self.to_any().get("streamText").call_self([opts.to_any()])
+  let result = ai_module().get("streamText").call_self([opts.to_any()])
   @js.identity(result)
 }
 
@@ -291,13 +282,8 @@ pub async fn StreamTextResultHandle::steps(
 ///|
 #skip
 async test "ai generate_text" {
-  let ai : Ai = @js.identity(@node.require("ai"))
-  let model : Model = @js.identity(
-    @node.require("@ai-sdk/anthropic")
-    .get("anthropic")
-    .call_self(["claude-sonnet-4-20250514"]),
-  )
-  let result = ai.generateText(model~, prompt="Say hello in one word") catch {
+  let model = anthropic("claude-sonnet-4-20250514")
+  let result = generateText(model~, prompt="Say hello in one word") catch {
     @js.ThrowError::Error(e) => {
       @js.log(e)
       return
@@ -315,14 +301,9 @@ async test "ai generate_text" {
 ///|
 #skip
 async test "ai stream_text" {
-  let ai : Ai = @js.identity(@node.require("ai"))
-  let model : Model = @js.identity(
-    @node.require("@ai-sdk/anthropic")
-    .get("anthropic")
-    .call_self(["claude-sonnet-4-20250514"]),
-  )
+  let model = anthropic("claude-sonnet-4-20250514")
   // stream_text is synchronous
-  let stream = ai.streamText(model~, prompt="Count from 1 to 5")
+  let stream = streamText(model~, prompt="Count from 1 to 5")
   // Iterate over the text stream using async iterator
   let text_iter = stream.textStream()
   while true {

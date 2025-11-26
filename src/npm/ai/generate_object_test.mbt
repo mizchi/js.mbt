@@ -52,12 +52,7 @@ test "generate object result get_object" {
 #skip
 async test "generateObject with mock" {
   // This test requires actual API key, so skip by default
-  let ai = @ai.Ai::require()
-  let model : @ai.Model = @js.identity(
-    @node.require("@ai-sdk/anthropic")
-    .get("anthropic")
-    .call_self(["claude-sonnet-4-20250514"]),
-  )
+  let model = @ai.anthropic("claude-sonnet-4-20250514")
   let schema = @js.from_map({
     "type": "object" |> @js.any,
     "properties": @js.from_map({
@@ -66,7 +61,7 @@ async test "generateObject with mock" {
     }),
     "required": @js.from_array(["name" |> @js.any, "age" |> @js.any]) |> @js.any,
   })
-  let result = ai.generateObject(
+  let result = @ai.generateObject(
     model~,
     schema~,
     prompt="Generate a person with name Alice and age 25",

@@ -36,6 +36,7 @@ pub fn ReadStream::set_raw_mode(self : ReadStream, mode : Bool) -> Unit {
 ///|
 /// TTY WriteStream - represents the writable side of a terminal
 /// https://nodejs.org/api/tty.html#class-ttywritestream
+/// Extends net.Socket which extends stream.Duplex
 #external
 pub type WriteStream
 
@@ -50,6 +51,28 @@ pub impl @event.EventTargetImpl for WriteStream
 pub fn WriteStream::is_tty(self : WriteStream) -> Bool {
   let val : @js.Any = self.get("isTTY")
   @js.identity(val)
+}
+
+///|
+/// Write data to the stream (inherited from stream.Writable)
+pub fn[T : @js.JsImpl] WriteStream::write(
+  self : WriteStream,
+  chunk : T,
+  encoding? : String,
+  callback? : @js.Any,
+) -> Bool {
+  self.call("write", [chunk.to_any(), encoding, callback]).cast()
+}
+
+///|
+/// End the stream (inherited from stream.Writable)
+pub fn WriteStream::end(
+  self : WriteStream,
+  chunk? : @js.Any,
+  encoding? : String,
+  callback? : @js.Any,
+) -> WriteStream {
+  self.call("end", [chunk, encoding, callback]).cast()
 }
 
 ///|

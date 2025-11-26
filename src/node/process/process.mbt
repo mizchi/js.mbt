@@ -31,7 +31,7 @@ pub fn argv() -> Array[String] {
 ///|
 /// JS: process.cwd()
 pub fn cwd() -> String {
-  @js.identity(process().get("cwd").call_self([]))
+  process().call0("cwd").cast()
 }
 
 ///|
@@ -71,17 +71,23 @@ pub fn exitCode() -> Int {
 }
 
 ///|
-pub fn stdin() -> @stream.Stream {
+/// JS: process.stdin
+/// Returns tty.ReadStream when connected to a TTY, otherwise stream.Readable
+pub fn stdin() -> @tty.ReadStream {
   @js.identity(process().get("stdin"))
 }
 
 ///|
-pub fn stdout() -> @stream.Stream {
+/// JS: process.stdout
+/// Returns tty.WriteStream when connected to a TTY, otherwise stream.Writable
+pub fn stdout() -> @tty.WriteStream {
   @js.identity(process().get("stdout"))
 }
 
 ///|
-pub fn stderr() -> @stream.Stream {
+/// JS: process.stderr
+/// Returns tty.WriteStream when connected to a TTY, otherwise stream.Writable
+pub fn stderr() -> @tty.WriteStream {
   @js.identity(process().get("stderr"))
 }
 

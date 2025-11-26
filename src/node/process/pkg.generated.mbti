@@ -3,7 +3,7 @@ package "mizchi/js/node/process"
 
 import(
   "mizchi/js"
-  "mizchi/js/node/stream"
+  "mizchi/js/node/tty"
 )
 
 // Values
@@ -27,11 +27,11 @@ fn on(String, () -> Unit) -> Unit
 
 fn process() -> Process
 
-fn stderr() -> @stream.Stream
+fn stderr() -> @tty.WriteStream
 
-fn stdin() -> @stream.Stream
+fn stdin() -> @tty.ReadStream
 
-fn stdout() -> @stream.Stream
+fn stdout() -> @tty.WriteStream
 
 fn version() -> String
 

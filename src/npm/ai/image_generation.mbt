@@ -92,8 +92,7 @@ pub fn GenerateImageResult::from_any(value : @js.Any) -> GenerateImageResult {
 ///|
 /// Generate images from a text prompt
 /// Note: This is still experimental in AI SDK v6
-pub async fn Ai::generateImage(
-  self : Ai,
+pub async fn generateImage(
   /// Image generation model to use
   model~ : ImageModel,
   /// Text description of the desired image
@@ -143,8 +142,9 @@ pub async fn Ai::generateImage(
     opts.set("headers", h)
   }
   // Use experimental_generateImage function
-  let generate_fn = self.to_any().get("experimental_generateImage")
-  let promise : @js.Promise[@js.Any] = generate_fn.call_self([opts.to_any()])
+  let promise : @js.Promise[@js.Any] = ai_module()
+    .get("experimental_generateImage")
+    .call_self([opts.to_any()])
     |> @js.identity
   let result = promise.wait()
   GenerateImageResult::from_any(result)

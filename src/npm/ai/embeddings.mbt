@@ -82,8 +82,7 @@ pub fn EmbedManyResult::from_any(value : @js.Any) -> EmbedManyResult {
 
 ///|
 /// Convert a single value into an embedding vector
-pub async fn Ai::embed(
-  self : Ai,
+pub async fn embed(
   /// Embedding model to use
   model~ : EmbeddingModel,
   /// The text to embed
@@ -107,7 +106,9 @@ pub async fn Ai::embed(
   if headers is Some(h) {
     opts.set("headers", h)
   }
-  let promise : @js.Promise[@js.Any] = self.call("embed", [opts])
+  let promise : @js.Promise[@js.Any] = ai_module()
+    .get("embed")
+    .call_self([opts.to_any()])
     |> @js.identity
   let result = promise.wait()
   EmbedResult::from_any(result)
@@ -115,8 +116,7 @@ pub async fn Ai::embed(
 
 ///|
 /// Batch embedding of multiple values for efficiency
-pub async fn Ai::embedMany(
-  self : Ai,
+pub async fn embedMany(
   /// Embedding model to use
   model~ : EmbeddingModel,
   /// Array of texts to embed
@@ -145,7 +145,9 @@ pub async fn Ai::embedMany(
   if headers is Some(h) {
     opts.set("headers", h)
   }
-  let promise : @js.Promise[@js.Any] = self.call("embedMany", [opts])
+  let promise : @js.Promise[@js.Any] = ai_module()
+    .get("embedMany")
+    .call_self([opts.to_any()])
     |> @js.identity
   let result = promise.wait()
   EmbedManyResult::from_any(result)
@@ -176,16 +178,4 @@ pub fn cosineSimilarity(a : Array[Double], b : Array[Double]) -> Double {
   } else {
     dot_product / magnitude
   }
-}
-
-///|
-/// Use cosineSimilarity from AI SDK (delegates to JS implementation)
-pub fn Ai::cosineSimilarity(
-  self : Ai,
-  a : Array[Double],
-  b : Array[Double],
-) -> Double {
-  let cos_fn = self.to_any().get("cosineSimilarity")
-  let result = cos_fn.call_self([a |> @js.from_array, b |> @js.from_array])
-  @js.identity(result)
 }

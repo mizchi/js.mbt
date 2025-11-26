@@ -86,8 +86,7 @@ pub fn[T] GenerateObjectResult::get_object(self : GenerateObjectResult) -> T {
 ///|
 /// Generate structured data from a prompt
 /// The schema is used to validate and type the generated data
-pub async fn Ai::generateObject(
-  self : Ai,
+pub async fn generateObject(
   model~ : Model,
   /// JSON schema for the output object
   schema~ : @js.Any,
@@ -117,8 +116,7 @@ pub async fn Ai::generateObject(
   let opts = @js.Object::new()
   opts.set("model", model.to_any())
   // Wrap schema with jsonSchema() helper
-  let ai_module = @node.require("ai")
-  let json_schema_fn = ai_module.get("jsonSchema")
+  let json_schema_fn = ai_module().get("jsonSchema")
   let wrapped_schema = json_schema_fn.call_self([schema])
   opts.set("schema", wrapped_schema)
   if schema_name is Some(n) {
@@ -154,7 +152,9 @@ pub async fn Ai::generateObject(
   if abort_signal is Some(s) {
     opts.set("abortSignal", s)
   }
-  let promise : @js.Promise[@js.Any] = self.call("generateObject", [opts])
+  let promise : @js.Promise[@js.Any] = ai_module()
+    .get("generateObject")
+    .call_self([opts.to_any()])
     |> @js.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)
@@ -163,8 +163,7 @@ pub async fn Ai::generateObject(
 ///|
 /// Generate structured data with a Zod schema
 /// This version accepts a zod schema object directly
-pub async fn Ai::generateObjectWithZod(
-  self : Ai,
+pub async fn generateObjectWithZod(
   model~ : Model,
   /// Zod schema object (from @zod)
   zod_schema~ : @js.Any,
@@ -207,7 +206,9 @@ pub async fn Ai::generateObjectWithZod(
   if temperature is Some(t) {
     opts.set("temperature", t)
   }
-  let promise : @js.Promise[@js.Any] = self.call("generateObject", [opts])
+  let promise : @js.Promise[@js.Any] = ai_module()
+    .get("generateObject")
+    .call_self([opts.to_any()])
     |> @js.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)

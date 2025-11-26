@@ -5,7 +5,7 @@
     "mizchi/js",
     "mizchi/js/node",
     "mizchi/js/node/process",
-    "mizchi/js/node/stream",
+    "mizchi/js/node/tty",
     "mizchi/js/npm/ai"
   ],
   "test-import": [],

@@ -17,9 +17,9 @@ fn format_usage(usage : @ai.LanguageModelUsage) -> String {
 
 ///|
 /// Example: generate_text - simple one-shot generation
-async fn example_generate_text(ai : @ai.Ai, model : @ai.Model) -> Unit {
+async fn example_generate_text(model : @ai.Model) -> Unit {
   @js.log("=== Generate Text ===")
-  let result = ai.generateText(
+  let result = @ai.generateText(
     model~,
     prompt="Say hello in one word.",
     max_tokens=50,
@@ -36,9 +36,9 @@ async fn example_generate_text(ai : @ai.Ai, model : @ai.Model) -> Unit {
 
 ///|
 /// Example: stream_text - streaming text chunks
-async fn example_stream_text(ai : @ai.Ai, model : @ai.Model) -> Unit {
+async fn example_stream_text(model : @ai.Model) -> Unit {
   @js.log("\n=== Stream Text ===")
-  let stream = ai.streamText(
+  let stream = @ai.streamText(
     model~,
     prompt="Count from 1 to 5.",
     max_tokens=100,
@@ -48,7 +48,7 @@ async fn example_stream_text(ai : @ai.Ai, model : @ai.Model) -> Unit {
   let iter = stream.textStream()
   loop iter.next() {
     Some(chunk) => {
-      @process.stdout().call("write", [chunk]) |> ignore
+      @process.stdout().write(chunk) |> ignore
       continue iter.next()
     }
     None => ()
@@ -73,9 +73,9 @@ async fn example_stream_text(ai : @ai.Ai, model : @ai.Model) -> Unit {
 
 ///|
 /// Example: full_stream - typed stream parts
-async fn example_full_stream(ai : @ai.Ai, model : @ai.Model) -> Unit {
+async fn example_full_stream(model : @ai.Model) -> Unit {
   @js.log("\n=== Full Stream (typed) ===")
-  let stream = ai.streamText(model~, prompt="Hi!", max_tokens=20)
+  let stream = @ai.streamText(model~, prompt="Hi!", max_tokens=20)
   // Use typed fullStream() instead of fullStreamRaw()
   let iter = stream.fullStream()
   loop iter.next() {
@@ -108,7 +108,7 @@ pub(all) struct WeatherOutput {
 
 ///|
 /// Example: tools - function calling with typed tools
-async fn example_tools(ai : @ai.Ai, model : @ai.Model) -> Unit {
+async fn example_tools(model : @ai.Model) -> Unit {
   // Create async typed tool with Tool::typed_async
   let weather_tool = @ai.Tool::typed_async(
     description="Get the current weather for a location",
@@ -127,7 +127,7 @@ async fn example_tools(ai : @ai.Ai, model : @ai.Model) -> Unit {
   let tools = @ai.Tools::new().add("getWeather", weather_tool)
 
   // Call with tools
-  let result = ai.generateText(
+  let result = @ai.generateText(
     model~,
     prompt="What's the weather in Tokyo?",
     tools~,
@@ -165,10 +165,9 @@ async fn example_tools(ai : @ai.Ai, model : @ai.Model) -> Unit {
 
 ///|
 async fn main {
-  let ai = @ai.Ai::require()
   let model = anthropic("claude-sonnet-4-20250514")
-  example_generate_text(ai, model)
-  example_stream_text(ai, model)
-  example_full_stream(ai, model)
-  example_tools(ai, model)
+  example_generate_text(model)
+  example_stream_text(model)
+  example_full_stream(model)
+  example_tools(model)
 }

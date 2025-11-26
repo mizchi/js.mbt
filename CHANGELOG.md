@@ -4,9 +4,87 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.5.2] (Unreleased)
+
+### Changed
+
+#### Zod Package
+- **ZodSchema methods use `Self` type** - Changed `self : ZodSchema` to `self : Self` for cleaner method signatures
+- **ZodParseError suberror type** - Added `pub suberror ZodParseError ZodError` for type-safe error handling
+- **SafeParseResult is now internal** - Changed from `pub type` to `priv type`
+- **`parse()` accepts `JsImpl` trait bound** - Generic type parameter for more flexible input types
+- **Tests use idiomatic `try...catch...noraise` pattern** - Replaced `guard (try? ...)` with proper error handling syntax
+
+### Internal
+
+- Skip slow PGlite tests to improve `moon test` performance
+- Reorganized package.json dependencies (moved duckdb, dotenv to devDependencies, added chokidar)
+
+---
+
 ## [0.5.1]
 
 ### Added
+
+#### NPM Package Bindings
+
+##### AI SDK (`npm/ai`)
+- **Core API** - `generateText`, `streamText` with typed results
+- **generateObject** - Structured output generation with Zod schema validation
+- **Embeddings** - `embed`, `embedMany` for text embeddings
+- **Image Generation** - `generateImage` API support
+- **Tools Support** - Type-safe tool definitions and execution
+- **Streaming** - `TextStreamPart` union type for typed streaming responses
+- **Loop Control** - Agent loop utilities for multi-step AI interactions
+- **Provider Adapters** - OpenAI, Anthropic, Google provider support
+- **Testing Utilities** - Mock providers for testing
+
+##### Ink CLI (`npm/ink`, `npm/ink_ui`)
+- **ink** - React-based CLI library bindings
+  - Components: `Text`, `Box`, `Newline`, `Spacer`, `Static`, `Transform`
+  - Layout: Flexbox-based layout with `FlexDirection`, `JustifyContent`, `AlignItems`
+  - Styling: `TextWrap`, `BorderStyle`, `Overflow`, `Display` enums
+  - Rendering: `render()`, `InkInstance` with `rerender`, `unmount`, `waitUntilExit`, `clear`
+  - Hooks: `useInput`, `useApp`, `useFocus`, `useFocusManager`, `useStdin`, `useStdout`, `useStderr`
+  - Testing: `render` testing utility with `lastFrame`, `frames`, `stdin`
+- **@inkjs/ui** - UI components
+  - `TextInput`, `PasswordInput`, `EmailInput`, `UncontrolledTextInput`
+  - `Select`, `MultiSelect`, `ConfirmInput`
+  - `Spinner`, `ProgressBar`, `StatusMessage`, `Badge`, `Alert`
+  - `OrderedList`, `UnorderedList`, `ThemeProvider`
+- Dynamic import for ESM compatibility
+
+##### Model Context Protocol (`npm/modelcontextprotocol`)
+- **MCP Server** - TypeScript SDK bindings for building MCP servers
+- Typed handler interfaces for tools, resources, prompts
+
+##### Zod Schema Validation (`npm/zod`)
+- **Complete Zod API** - Full validation library bindings
+- **DSL Convenience Functions** - `string()`, `number()`, `object()`, etc.
+- **JSON Schema Conversion** - `JsonSchema::from_zod()` for schema interop
+- **MoonBit Code Generator** - Generate structs from Zod schemas
+
+##### Zod Codegen (`npm/zod_codegen`)
+- **Extracted from zod package** - Separate code generation utilities
+- **Nested type generation** - Handle complex nested object schemas
+- **Snapshot testing** - Verify generated code with snapshots
+
+##### Other NPM Packages
+- **PGlite** (`npm/pglite`) - In-memory PostgreSQL via WASM
+- **DuckDB-WASM** (`npm/duckdb`) - In-memory analytics database
+- **date-fns** (`npm/date_fns`) - Date manipulation library
+  - `DateArgs` trait for flexible date input (String, Int, Date)
+  - Formatting: `format`, `formatISO`, `formatDistance`, `formatDistanceToNow`, `formatRelative`
+  - Parsing: `parse`, `parseISO`
+  - Comparison: `isBefore`, `isAfter`, `isEqual`, `isSameDay`, `isSameMonth`, `isSameYear`, `compareAsc`, `compareDesc`
+  - Difference: `differenceInDays`, `differenceInMonths`, `differenceInYears`, etc.
+  - Add/Subtract: `add`, `sub`, `addDays`, `subDays`, `addMonths`, etc.
+  - Getters/Setters: `getYear`, `setYear`, `getMonth`, `setMonth`, etc.
+  - Period: `startOfDay`, `endOfDay`, `startOfMonth`, `endOfMonth`, `startOfYear`, `endOfYear`
+- **chalk** (`npm/chalk`) - Terminal styling
+- **dotenv** (`npm/dotenv`) - Environment variable management
+- **chokidar** (`npm/chokidar`) - File watching with typed event handlers
+- **ajv** (`npm/ajv`) - JSON Schema validation
 
 #### Object APIs
 - **Object.defineProperty** - Define property with labeled arguments (`value?`, `writable?`, `enumerable?`, `configurable?`, `get?`, `set?`)
@@ -20,6 +98,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 #### React
 - **ErrorBoundary component** - DSL-friendly error boundary with `children~`, `fallback?`, `on_error?` parameters
+- **hydrateRoot** - Client-side hydration API
+- **createPortal** - Portal rendering support
+- **react-dom/static** - Static rendering APIs
 - Replace `EmptyProps` with `Unit` for props-less components
 
 #### WebGPU API (Experimental)
@@ -45,6 +126,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Testing
 - Added WebGPU tests for Deno with graceful skipping for unsupported environments
 - Added Web Worker tests for Deno runtime
+- Comprehensive AI SDK type tests
 
 ---
 
