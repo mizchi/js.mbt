@@ -27,6 +27,7 @@ test "useState_lazy" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("increment"),
   )
+  |> ignore
   @react_testing_library.screen()
   .getByText("Count: 11")
   .get("textContent")
@@ -50,6 +51,7 @@ test "useCallback" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("increment"),
   )
+  |> ignore
   @react_testing_library.screen()
   .getByText("Count: 1")
   .get("textContent")
@@ -73,7 +75,7 @@ test "useEffect" {
     @react_element.div([if mounted { "Mounted" } else { "Not mounted" }])
   }
   @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.screen().getByText("Mounted").get("textContent").cast()
+  @react_testing_library.screen().getByText("Mounted").textContent()
   |> assert_eq("Mounted")
 }
 
@@ -121,6 +123,7 @@ test "useMemo" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("increment"),
   )
+  |> ignore
   @react_testing_library.screen()
   .getByText("Doubled: 4")
   .get("textContent")
@@ -185,7 +188,8 @@ test "ReactRef::current and set_current" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("update"),
   )
-  @react_testing_library.screen().getByText("updated").get("textContent").cast()
+  |> ignore
+  @react_testing_library.screen().getByText("updated").textContent()
   |> assert_eq("updated")
 }
 
@@ -209,7 +213,8 @@ test "ReactRef::current None case" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("check"),
   )
-  @react_testing_library.screen().getByText("no ref").get("textContent").cast()
+  |> ignore
+  @react_testing_library.screen().getByText("no ref").textContent()
   |> assert_eq("no ref")
 }
 
@@ -239,6 +244,7 @@ test "ReactRef::set_current" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("set"),
   )
+  |> ignore
   @react_testing_library.screen()
   .getByText("custom value")
   .get("textContent")
@@ -295,6 +301,7 @@ test "useReducer" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("+"),
   )
+  |> ignore
   @react_testing_library.screen()
   .getByText("Count: 1")
   .get("textContent")
@@ -303,6 +310,7 @@ test "useReducer" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("+"),
   )
+  |> ignore
   @react_testing_library.screen()
   .getByText("Count: 2")
   .get("textContent")
@@ -311,6 +319,7 @@ test "useReducer" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("-"),
   )
+  |> ignore
   @react_testing_library.screen()
   .getByText("Count: 1")
   .get("textContent")
@@ -319,6 +328,7 @@ test "useReducer" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("reset"),
   )
+  |> ignore
   @react_testing_library.screen()
   .getByText("Count: 0")
   .get("textContent")
@@ -370,6 +380,7 @@ test "startTransition" {
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("transition"),
   )
+  |> ignore
   @react_testing_library.screen()
   .getByText("Count: 1")
   .get("textContent")

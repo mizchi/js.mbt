@@ -1,14 +1,8 @@
 ///|
+// priv struct () {} derive(Default)
 
 ///|
-
-///|
-
-///|
-priv struct AppProps {} derive(Default)
-
-///|
-fn app(_props : AppProps) -> @react.Element {
+fn app(_props : Unit) -> @react.Element {
   let (cnt, set_cnt) = @react.use_state(0)
   let on_click : @dom.MouseEventHandler = _ => set_cnt(cnt + 1) |> ignore
   @react_element.div([
@@ -24,13 +18,13 @@ test "testing-library/react" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  @react_testing_library.render(@react.component(app, AppProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(app, ())) |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("click me"),
   )
+  |> ignore
   // @react_testing_library.screen().debug()
-  text_content(@react_testing_library.screen().getByText("Count: 1"))
+  @react_testing_library.screen().getByText("Count: 1").textContent()
   |> assert_eq("Count: 1")
 }
 
@@ -39,13 +33,11 @@ test "RenderResult methods" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => @react_element.div(
+  let comp = (_props : Unit) => @react_element.div(
     ["Test Content"],
     id="test-id",
   )
-  let result = @react_testing_library.render(
-    @react.component(comp, AppProps::default()),
-  )
+  let result = @react_testing_library.render(@react.component(comp, ()))
   // Test container
   let container = result.container()
   @js.typeof_(container) |> assert_eq("object")
@@ -55,9 +47,9 @@ test "RenderResult methods" {
   // Test debug (should not throw)
   // result.debug()
   // Test rerender
-  let comp2 = (_props : AppProps) => @react_element.div(["Rerendered Content"])
-  result.rerender(@react.component(comp2, AppProps::default()))
-  text_content(@react_testing_library.screen().getByText("Rerendered Content"))
+  let comp2 = (_props : Unit) => @react_element.div(["Rerendered Content"])
+  result.rerender(@react.component(comp2, ()))
+  @react_testing_library.screen().getByText("Rerendered Content").textContent()
   |> assert_eq("Rerendered Content")
   // Test unmount
   result.unmount()
@@ -68,9 +60,8 @@ test "queryBy methods return None when not found" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => @react_element.div(["Existing text"])
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
+  let comp = (_props : Unit) => @react_element.div(["Existing text"])
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   // queryByText returns null (converted to None in JS) for non-existent text
   let result : @js.Any = @react_testing_library.screen().call("queryByText", [
     "Non-existent",
@@ -84,8 +75,8 @@ test "queryBy methods return None when not found" {
   let is_null2 = @js.is_null(existing)
   assert_eq(is_null2, false)
   // Verify the text content
-  let text = text_content(@js.identity(existing))
-  assert_eq(text, "Existing text")
+  let el : @dom.HTMLElement = @js.identity(existing)
+  assert_eq(el.textContent(), "Existing text")
 }
 
 ///|
@@ -93,13 +84,12 @@ test "getAllBy and queryAllBy methods" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => @react_element.div([
+  let comp = (_props : Unit) => @react_element.div([
     @react_element.button(["Button 1"]),
     @react_element.button(["Button 2"]),
     @react_element.button(["Button 3"]),
   ])
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   // getAllByRole returns array of all buttons
   let buttons = @react_testing_library.screen().getAllByRole("button")
   buttons.length() |> assert_eq(3)
@@ -116,15 +106,14 @@ test "getByRole query" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => @react_element.div([
+  let comp = (_props : Unit) => @react_element.div([
     @react_element.button(["Click me"]),
     @react_element.input(type_="text"),
   ])
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   // getByRole finds button
   let btn = @react_testing_library.screen().getByRole("button")
-  text_content(btn) |> assert_eq("Click me")
+  btn.textContent() |> assert_eq("Click me")
   // getByRole finds textbox
   let input_el = @react_testing_library.screen().getByRole("textbox")
   @js.typeof_(input_el) |> assert_eq("object")
@@ -135,15 +124,14 @@ test "getByPlaceholderText query" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => @react_element.div([
+  let comp = (_props : Unit) => @react_element.div([
     @react_element.input(placeholder="Enter your name"),
   ])
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
-  let input_el = @react_testing_library.screen().getByPlaceholderText(
-    "Enter your name",
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
+  let input_el : @dom.HTMLInputElement = @js.identity(
+    @react_testing_library.screen().getByPlaceholderText("Enter your name"),
   )
-  get_string_property(input_el, "placeholder") |> assert_eq("Enter your name")
+  input_el.placeholder |> assert_eq("Enter your name")
 }
 
 ///|
@@ -151,27 +139,27 @@ test "getByDisplayValue query" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => @react_element.div([
+  let comp = (_props : Unit) => @react_element.div([
     @react_element.input(value="test value", on_change=fn(_) { () }),
   ])
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
-  let input_el = @react_testing_library.screen().getByDisplayValue("test value")
-  get_string_property(input_el, "value") |> assert_eq("test value")
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
+  let input_el : @dom.HTMLInputElement = @js.identity(
+    @react_testing_library.screen().getByDisplayValue("test value"),
+  )
+  input_el.value |> assert_eq("test value")
 }
 
 ///|
-test "getByText with multiple results" {
+test "getAllByText with multiple results" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => @react_element.div([
+  let comp = (_props : Unit) => @react_element.div([
     @react_element.div(["Item"]),
     @react_element.div(["Item"]),
     @react_element.div(["Item"]),
   ])
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   // getAllByText returns all matching elements
   let items = @react_testing_library.screen().getAllByText("Item")
   items.length() |> assert_eq(3)
@@ -182,7 +170,7 @@ test "fireEvent click on button" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => {
+  let comp = (_props : Unit) => {
     let (clicked, set_clicked) = @react.use_state(false)
     let on_click : @dom.MouseEventHandler = _ => set_clicked(true)
     @react_element.div([
@@ -190,13 +178,13 @@ test "fireEvent click on button" {
       @react_element.div([if clicked { "Clicked!" } else { "Not clicked" }]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen().getByText("Not clicked") |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("Click me"),
   )
-  text_content(@react_testing_library.screen().getByText("Clicked!"))
+  |> ignore
+  @react_testing_library.screen().getByText("Clicked!").textContent()
   |> assert_eq("Clicked!")
 }
 
@@ -205,7 +193,7 @@ test "fireEvent change on input" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => {
+  let comp = (_props : Unit) => {
     let (value, set_value) = @react.use_state("")
     let on_change : @dom.ChangeEventHandler = e => {
       let target : @js.Any = e.get("target")
@@ -217,8 +205,7 @@ test "fireEvent change on input" {
       @react_element.div(["Value: \{value}"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   let input_el = @react_testing_library.screen().getByPlaceholderText(
     "Type here",
   )
@@ -227,8 +214,8 @@ test "fireEvent change on input" {
   let target = @js.Object::new()
   target.set("value", "hello")
   event.set("target", target.to_any())
-  @react_testing_library.fireEvent().change(input_el, event.to_any())
-  text_content(@react_testing_library.screen().getByText("Value: hello"))
+  @react_testing_library.fireEvent().change(input_el, event.to_any()) |> ignore
+  @react_testing_library.screen().getByText("Value: hello").textContent()
   |> assert_eq("Value: hello")
 }
 
@@ -237,7 +224,7 @@ test "fireEvent submit on form" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => {
+  let comp = (_props : Unit) => {
     let (submitted, set_submitted) = @react.use_state(false)
     let on_submit = fn(e : @js.Any) {
       e.call0("preventDefault") |> ignore
@@ -256,15 +243,14 @@ test "fireEvent submit on form" {
       },
     ])
   }
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen().getByText("Not submitted") |> ignore
-  let form_el = get_property(
-    @react_testing_library.screen().getByText("Submit"),
-    "form",
-  ).cast()
-  @react_testing_library.fireEvent().submit(form_el)
-  text_content(@react_testing_library.screen().getByText("Form submitted"))
+  let form_el : @dom.HTMLElement = @react_testing_library.screen()
+    .getByText("Submit")
+    .get("form")
+    .cast()
+  @react_testing_library.fireEvent().submit(form_el) |> ignore
+  @react_testing_library.screen().getByText("Form submitted").textContent()
   |> assert_eq("Form submitted")
 }
 
@@ -273,7 +259,7 @@ test "fireEvent focus and blur on input" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => {
+  let comp = (_props : Unit) => {
     let (focused, set_focused) = @react.use_state(false)
     let on_focus = fn(_e : @js.Any) { set_focused(true) }
     let on_blur = fn(_e : @js.Any) { set_focused(false) }
@@ -286,16 +272,15 @@ test "fireEvent focus and blur on input" {
       @react_element.div([if focused { "Focused" } else { "Not focused" }]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   let input_el = @react_testing_library.screen().getByPlaceholderText(
     "Focus me",
   )
-  @react_testing_library.fireEvent().focus(input_el)
-  text_content(@react_testing_library.screen().getByText("Focused"))
+  @react_testing_library.fireEvent().focus(input_el) |> ignore
+  @react_testing_library.screen().getByText("Focused").textContent()
   |> assert_eq("Focused")
-  @react_testing_library.fireEvent().blur(input_el)
-  text_content(@react_testing_library.screen().getByText("Not focused"))
+  @react_testing_library.fireEvent().blur(input_el) |> ignore
+  @react_testing_library.screen().getByText("Not focused").textContent()
   |> assert_eq("Not focused")
 }
 
@@ -304,7 +289,7 @@ test "fireEvent keyDown on input" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => {
+  let comp = (_props : Unit) => {
     let (key, set_key) = @react.use_state("")
     let on_keydown = fn(e : @js.Any) {
       let k : String = e.get("key").cast()
@@ -318,15 +303,14 @@ test "fireEvent keyDown on input" {
       @react_element.div([if key == "" { "No key pressed" } else { key }]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
   let input_el = @react_testing_library.screen().getByPlaceholderText(
     "Press a key",
   )
   let event = @js.Object::new()
   event.set("key", "Enter")
-  @react_testing_library.fireEvent().keyDown(input_el, event.to_any())
-  text_content(@react_testing_library.screen().getByText("Key: Enter"))
+  @react_testing_library.fireEvent().keyDown(input_el, event.to_any()) |> ignore
+  @react_testing_library.screen().getByText("Key: Enter").textContent()
   |> assert_eq("Key: Enter")
 }
 
@@ -520,17 +504,14 @@ test "useId hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => {
+  let comp = (_props : Unit) => {
     let id = @react.use_id()
     @react_element.div([@react_element.span(["The ID is: \{id}"])])
   }
-  let result = @react_testing_library.render(
-    @react.component(comp, AppProps::default()),
-  )
+  let result = @react_testing_library.render(@react.component(comp, ()))
   // useId generates IDs that contain _ character
   let container = result.container()
-  let text = text_content(container)
-  assert_eq(text.contains("The ID is:"), true)
+  assert_eq(container.textContent().contains("The ID is:"), true)
 }
 
 ///|
@@ -538,7 +519,7 @@ test "useTransition hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => {
+  let comp = (_props : Unit) => {
     let (count, set_count) = @react.use_state(0)
     let (is_pending, start_transition) = @react.use_transition()
     let on_click : @dom.MouseEventHandler = _ => start_transition(fn() {
@@ -550,14 +531,14 @@ test "useTransition hook" {
       @react_element.button(on_click~, ["Increment"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
-  text_content(@react_testing_library.screen().getByText("Count: 0"))
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
+  @react_testing_library.screen().getByText("Count: 0").textContent()
   |> assert_eq("Count: 0")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("Increment"),
   )
-  text_content(@react_testing_library.screen().getByText("Count: 1"))
+  |> ignore
+  @react_testing_library.screen().getByText("Count: 1").textContent()
   |> assert_eq("Count: 1")
 }
 
@@ -566,7 +547,7 @@ test "useDeferredValue hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => {
+  let comp = (_props : Unit) => {
     let (value, set_value) = @react.use_state(0)
     let deferred = @react.use_deferred_value(value)
     let on_click : @dom.MouseEventHandler = _ => set_value(value + 1)
@@ -575,19 +556,19 @@ test "useDeferredValue hook" {
       @react_element.button(on_click~, ["Update"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
-  text_content(
-    @react_testing_library.screen().getByText("Value: 0, Deferred: 0"),
-  )
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
+  @react_testing_library.screen()
+  .getByText("Value: 0, Deferred: 0")
+  .textContent()
   |> assert_eq("Value: 0, Deferred: 0")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("Update"),
   )
+  |> ignore
   // After update, both should eventually match
-  text_content(
-    @react_testing_library.screen().getByText("Value: 1, Deferred: 1"),
-  )
+  @react_testing_library.screen()
+  .getByText("Value: 1, Deferred: 1")
+  .textContent()
   |> assert_eq("Value: 1, Deferred: 1")
 }
 
@@ -596,7 +577,7 @@ test "useOptimistic hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  let comp = (_props : AppProps) => {
+  let comp = (_props : Unit) => {
     let (count, set_count) = @react.use_state(0)
     let (optimistic, add_optimistic) = @react.use_optimistic(count, fn(
       state,
@@ -614,14 +595,14 @@ test "useOptimistic hook" {
       @react_element.button(on_click~, ["Add"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, AppProps::default()))
-  |> ignore
-  text_content(@react_testing_library.screen().getByText("Optimistic: 0"))
+  @react_testing_library.render(@react.component(comp, ())) |> ignore
+  @react_testing_library.screen().getByText("Optimistic: 0").textContent()
   |> assert_eq("Optimistic: 0")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("Add"),
   )
-  text_content(@react_testing_library.screen().getByText("Optimistic: 1"))
+  |> ignore
+  @react_testing_library.screen().getByText("Optimistic: 1").textContent()
   |> assert_eq("Optimistic: 1")
 }
 
@@ -640,7 +621,7 @@ fn child_component(_props : ChildProps) -> @react.Element {
 }
 
 ///|
-fn parent_component(_props : AppProps) -> @react.Element {
+fn parent_component(_props : Unit) -> @react.Element {
   @react_element.div([@react.component(child_component, ChildProps::default())])
 }
 
@@ -649,11 +630,9 @@ test "useImperativeHandle hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_testing_library.cleanup()
-  @react_testing_library.render(
-    @react.component(parent_component, AppProps::default()),
-  )
+  @react_testing_library.render(@react.component(parent_component, ()))
   |> ignore
-  text_content(@react_testing_library.screen().getByText("Child"))
+  @react_testing_library.screen().getByText("Child").textContent()
   |> assert_eq("Child")
 }
 
@@ -698,7 +677,7 @@ async test "react-router: basic routing with memory router" {
     initial_index: None,
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
-  text_content(@react_testing_library.screen().getByText("Home Page"))
+  @react_testing_library.screen().getByText("Home Page").textContent()
   |> assert_eq("Home Page")
 }
 
@@ -714,7 +693,7 @@ async test "react-router: navigate to different route" {
     initial_index: None,
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
-  text_content(@react_testing_library.screen().getByText("About Page"))
+  @react_testing_library.screen().getByText("About Page").textContent()
   |> assert_eq("About Page")
 }
 
@@ -729,7 +708,7 @@ async test "react-router: route with params" {
     initial_index: None,
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
-  text_content(@react_testing_library.screen().getByText("User: 456"))
+  @react_testing_library.screen().getByText("User: 456").textContent()
   |> assert_eq("User: 456")
 }
 
@@ -746,7 +725,7 @@ async test "react-router: Link component renders" {
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
   // Home page should render
-  text_content(@react_testing_library.screen().getByText("Home Page"))
+  @react_testing_library.screen().getByText("Home Page").textContent()
   |> assert_eq("Home Page")
 }
 
@@ -770,6 +749,6 @@ async test "react-router: useLocation hook" {
     initial_index: None,
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
-  text_content(@react_testing_library.screen().getByText("Path: /test/path"))
+  @react_testing_library.screen().getByText("Path: /test/path").textContent()
   |> assert_eq("Path: /test/path")
 }

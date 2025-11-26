@@ -17,33 +17,53 @@ fn configure(@js.Any) -> Unit
 #alias(fire_event)
 fn fireEvent() -> FireEvent
 
-fn get_property(@dom.HTMLElement, String) -> @js.Any
-
-fn get_string_property(@dom.HTMLElement, String) -> String
-
 fn render(@react.Element) -> RenderResult
 
 fn renderHook(@js.Any) -> RenderHookResult
 
 fn screen() -> Screen
 
-fn text_content(@dom.HTMLElement) -> String
-
 // Errors
 
 // Types and methods
 #external
 pub type FireEvent
-fn FireEvent::blur(Self, @dom.HTMLElement) -> Unit
-fn FireEvent::change(Self, @dom.HTMLElement, @js.Any) -> Unit
-fn FireEvent::click(Self, @dom.HTMLElement) -> Unit
-fn FireEvent::focus(Self, @dom.HTMLElement) -> Unit
-fn FireEvent::input(Self, @dom.HTMLElement, @js.Any) -> Unit
-fn FireEvent::keyDown(Self, @dom.HTMLElement, @js.Any) -> Unit
-fn FireEvent::keyUp(Self, @dom.HTMLElement, @js.Any) -> Unit
-fn FireEvent::mouseEnter(Self, @dom.HTMLElement) -> Unit
-fn FireEvent::mouseLeave(Self, @dom.HTMLElement) -> Unit
-fn FireEvent::submit(Self, @dom.HTMLElement) -> Unit
+fn FireEvent::blur(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::change(Self, @dom.HTMLElement, @js.Any) -> Bool
+fn FireEvent::click(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::contextMenu(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::copy(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::cut(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::dblClick(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::drag(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::dragEnd(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::dragEnter(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::dragLeave(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::dragOver(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::dragStart(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::drop(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::error(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::focus(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::input(Self, @dom.HTMLElement, @js.Any) -> Bool
+fn FireEvent::keyDown(Self, @dom.HTMLElement, @js.Any) -> Bool
+fn FireEvent::keyPress(Self, @dom.HTMLElement, @js.Any) -> Bool
+fn FireEvent::keyUp(Self, @dom.HTMLElement, @js.Any) -> Bool
+fn FireEvent::load(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::mouseDown(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::mouseEnter(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::mouseLeave(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::mouseMove(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::mouseOut(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::mouseOver(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::mouseUp(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::paste(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::scroll(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::select(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::submit(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::touchCancel(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::touchEnd(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::touchMove(Self, @dom.HTMLElement) -> Bool
+fn FireEvent::touchStart(Self, @dom.HTMLElement) -> Bool
 impl @js.JsImpl for FireEvent
 
 #external
@@ -69,54 +89,54 @@ impl @js.JsImpl for RenderResult
 #external
 pub type Screen
 fn Screen::debug(Self) -> Unit
-async fn Screen::findAllByAltText(Self, String) -> Array[@dom.HTMLElement]
-async fn Screen::findAllByDisplayValue(Self, String) -> Array[@dom.HTMLElement]
-async fn Screen::findAllByLabelText(Self, String) -> Array[@dom.HTMLElement]
-async fn Screen::findAllByPlaceholderText(Self, String) -> Array[@dom.HTMLElement]
-async fn Screen::findAllByRole(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByAltText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByDisplayValue(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByLabelText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByPlaceholderText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> Array[@dom.HTMLElement]
 async fn Screen::findAllByTestId(Self, String) -> Array[@dom.HTMLElement]
-async fn Screen::findAllByText(Self, String) -> Array[@dom.HTMLElement]
-async fn Screen::findAllByTitle(Self, String) -> Array[@dom.HTMLElement]
-async fn Screen::findByAltText(Self, String) -> @dom.HTMLElement
-async fn Screen::findByDisplayValue(Self, String) -> @dom.HTMLElement
-async fn Screen::findByLabelText(Self, String) -> @dom.HTMLElement
-async fn Screen::findByPlaceholderText(Self, String) -> @dom.HTMLElement
-async fn Screen::findByRole(Self, String) -> @dom.HTMLElement
+async fn Screen::findAllByText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[@dom.HTMLElement]
+async fn Screen::findAllByTitle(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+async fn Screen::findByAltText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement
+async fn Screen::findByDisplayValue(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement
+async fn Screen::findByLabelText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @dom.HTMLElement
+async fn Screen::findByPlaceholderText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement
+async fn Screen::findByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> @dom.HTMLElement
 async fn Screen::findByTestId(Self, String) -> @dom.HTMLElement
-async fn Screen::findByText(Self, String) -> @dom.HTMLElement
-async fn Screen::findByTitle(Self, String) -> @dom.HTMLElement
-fn Screen::getAllByAltText(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::getAllByDisplayValue(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::getAllByLabelText(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::getAllByPlaceholderText(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::getAllByRole(Self, String) -> Array[@dom.HTMLElement]
+async fn Screen::findByText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @dom.HTMLElement
+async fn Screen::findByTitle(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement
+fn Screen::getAllByAltText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+fn Screen::getAllByDisplayValue(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+fn Screen::getAllByLabelText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[@dom.HTMLElement]
+fn Screen::getAllByPlaceholderText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+fn Screen::getAllByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> Array[@dom.HTMLElement]
 fn Screen::getAllByTestId(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::getAllByText(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::getAllByTitle(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::getByAltText(Self, String) -> @dom.HTMLElement
-fn Screen::getByDisplayValue(Self, String) -> @dom.HTMLElement
-fn Screen::getByLabelText(Self, String) -> @dom.HTMLElement
-fn Screen::getByPlaceholderText(Self, String) -> @dom.HTMLElement
-fn Screen::getByRole(Self, String) -> @dom.HTMLElement
+fn Screen::getAllByText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[@dom.HTMLElement]
+fn Screen::getAllByTitle(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+fn Screen::getByAltText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement
+fn Screen::getByDisplayValue(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement
+fn Screen::getByLabelText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @dom.HTMLElement
+fn Screen::getByPlaceholderText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement
+fn Screen::getByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> @dom.HTMLElement
 fn Screen::getByTestId(Self, String) -> @dom.HTMLElement
-fn Screen::getByText(Self, String) -> @dom.HTMLElement
-fn Screen::getByTitle(Self, String) -> @dom.HTMLElement
-fn Screen::queryAllByAltText(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::queryAllByDisplayValue(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::queryAllByLabelText(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::queryAllByPlaceholderText(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::queryAllByRole(Self, String) -> Array[@dom.HTMLElement]
+fn Screen::getByText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @dom.HTMLElement
+fn Screen::getByTitle(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement
+fn Screen::queryAllByAltText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByDisplayValue(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByLabelText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByPlaceholderText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> Array[@dom.HTMLElement]
 fn Screen::queryAllByTestId(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::queryAllByText(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::queryAllByTitle(Self, String) -> Array[@dom.HTMLElement]
-fn Screen::queryByAltText(Self, String) -> @dom.HTMLElement?
-fn Screen::queryByDisplayValue(Self, String) -> @dom.HTMLElement?
-fn Screen::queryByLabelText(Self, String) -> @dom.HTMLElement?
-fn Screen::queryByPlaceholderText(Self, String) -> @dom.HTMLElement?
-fn Screen::queryByRole(Self, String) -> @dom.HTMLElement?
+fn Screen::queryAllByText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[@dom.HTMLElement]
+fn Screen::queryAllByTitle(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[@dom.HTMLElement]
+fn Screen::queryByAltText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement?
+fn Screen::queryByDisplayValue(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement?
+fn Screen::queryByLabelText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @dom.HTMLElement?
+fn Screen::queryByPlaceholderText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement?
+fn Screen::queryByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> @dom.HTMLElement?
 fn Screen::queryByTestId(Self, String) -> @dom.HTMLElement?
-fn Screen::queryByText(Self, String) -> @dom.HTMLElement?
-fn Screen::queryByTitle(Self, String) -> @dom.HTMLElement?
+fn Screen::queryByText(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @dom.HTMLElement?
+fn Screen::queryByTitle(Self, String, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @dom.HTMLElement?
 impl @js.JsImpl for Screen
 
 // Type aliases
