@@ -71,7 +71,8 @@ test "processEnv returns object" {
 ///|
 test "config without .env file" {
   // This will likely fail if no .env exists, but should not throw
-  let result = config(path="/nonexistent/.env")
+  // quiet=true to suppress console output
+  let result = config(path="/nonexistent/.env", quiet=true)
   // Error should be set since file doesn't exist
   guard result.error is Some(_)
 }

@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-fn config(path? : String, encoding? : String, debug? : Bool, override_existing? : Bool) -> DotenvConfigOutput
+fn config(path? : String, encoding? : String, debug? : Bool, override_existing? : Bool, quiet? : Bool) -> DotenvConfigOutput
 
 #alias(config_paths)
 fn configPaths(Array[String]) -> DotenvConfigOutput

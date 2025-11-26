@@ -30,6 +30,7 @@ pub fn config(
   encoding? : String,
   debug? : Bool,
   override_existing? : Bool,
+  quiet? : Bool,
 ) -> DotenvConfigOutput {
   let opts = @js.Object::new()
   match path {
@@ -46,6 +47,10 @@ pub fn config(
   }
   match override_existing {
     Some(v) => opts.set("override", v)
+    None => ()
+  }
+  match quiet {
+    Some(v) => opts.set("quiet", v)
     None => ()
   }
   let result = dotenv().call1("config", opts.to_any())

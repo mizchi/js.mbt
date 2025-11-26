@@ -86,7 +86,7 @@ fn JsonRpcErrorResponse::to_any(Self) -> @js.Any
 pub(all) struct JsonRpcNotification {
   jsonrpc : String
   method_name : String
-  params : @js.Object?
+  params : @js.Any?
 }
 fn JsonRpcNotification::to_any(Self) -> @js.Any
 
@@ -94,7 +94,7 @@ pub struct JsonRpcRequest {
   jsonrpc : String
   id : RequestId
   method_name : String
-  params : @js.Object?
+  params : @js.Any?
 }
 fn JsonRpcRequest::from_js(@js.Any) -> Self?
 fn JsonRpcRequest::to_any(Self) -> @js.Any
@@ -126,7 +126,8 @@ pub struct McpClient {
   mut request_id : Int
   endpoint : String
 }
-fn McpClient::create_request(Self, String, @js.Object?) -> JsonRpcRequest
+fn McpClient::create_request(Self, String) -> JsonRpcRequest
+fn McpClient::create_request_with_params(Self, String, &@js.JsImpl) -> JsonRpcRequest
 fn McpClient::get_server_info(Self) -> ServerInfo?
 fn McpClient::new(String) -> Self
 
@@ -136,9 +137,9 @@ pub struct McpServer {
   mut resources : @hashmap.HashMap[String, (Resource, (String) -> @js.Promise[Array[Content]])]
   mut prompts : @hashmap.HashMap[String, (Prompt, (@js.Any) -> @js.Promise[Array[Content]])]
 }
-fn McpServer::add_prompt(Self, Prompt, (@js.Any) -> @js.Promise[Array[Content]]) -> Unit
-fn McpServer::add_resource(Self, Resource, (String) -> @js.Promise[Array[Content]]) -> Unit
-fn McpServer::add_tool(Self, Tool, (@js.Any) -> @js.Promise[Array[Content]]) -> Unit
+fn[T] McpServer::add_prompt(Self, Prompt, async (T) -> Array[Content]) -> Unit
+fn McpServer::add_resource(Self, Resource, async (String) -> Array[Content]) -> Unit
+fn[T] McpServer::add_tool(Self, Tool, async (T) -> Array[Content]) -> Unit
 fn McpServer::handle_request(Self, JsonRpcRequest) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]]
 fn McpServer::new(String, String) -> Self
 
@@ -288,11 +289,11 @@ pub(all) struct ToolInfo {
 }
 
 // Type aliases
-pub type PromptHandler = (@js.Any) -> @js.Promise[Array[Content]]
+pub type PromptHandler[T] = async (T) -> Array[Content]
 
-pub type ResourceHandler = (String) -> @js.Promise[Array[Content]]
+pub type ResourceHandler = async (String) -> Array[Content]
 
-pub type ToolHandler = (@js.Any) -> @js.Promise[Array[Content]]
+pub type ToolHandler[T] = async (T) -> Array[Content]
 
 // Traits
 

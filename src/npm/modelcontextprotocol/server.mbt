@@ -1,24 +1,38 @@
 ///| MCP Server Implementation
 
 ///|
-/// Tool Handler - takes params and returns content
-pub type ToolHandler = (@js.Any) -> @js.Promise[Array[Content]]
+/// Tool Handler - async function that takes typed params and returns content
+pub type ToolHandler[T] = async (T) -> Array[Content]
 
 ///|
-/// Resource Handler - returns content for a resource URI
-pub type ResourceHandler = (String) -> @js.Promise[Array[Content]]
+/// Resource Handler - async function that returns content for a resource URI
+pub type ResourceHandler = async (String) -> Array[Content]
 
 ///|
-/// Prompt Handler - takes arguments and returns messages
-pub type PromptHandler = (@js.Any) -> @js.Promise[Array[Content]]
+/// Prompt Handler - async function that takes arguments and returns messages
+pub type PromptHandler[T] = async (T) -> Array[Content]
+
+// Internal handler type aliases (promisified versions)
+
+///|
+type InternalToolHandler = (@js.Any) -> @js.Promise[Array[Content]]
+
+///|
+type InternalResourceHandler = (String) -> @js.Promise[Array[Content]]
+
+///|
+type InternalPromptHandler = (@js.Any) -> @js.Promise[Array[Content]]
 
 ///|
 /// MCP Server
 pub struct McpServer {
   info : ServerInfo
-  mut tools : @immut/hashmap.HashMap[String, (Tool, ToolHandler)]
-  mut resources : @immut/hashmap.HashMap[String, (Resource, ResourceHandler)]
-  mut prompts : @immut/hashmap.HashMap[String, (Prompt, PromptHandler)]
+  mut tools : @immut/hashmap.HashMap[String, (Tool, InternalToolHandler)]
+  mut resources : @immut/hashmap.HashMap[
+    String,
+    (Resource, InternalResourceHandler),
+  ]
+  mut prompts : @immut/hashmap.HashMap[String, (Prompt, InternalPromptHandler)]
 }
 
 ///|
@@ -32,13 +46,17 @@ pub fn McpServer::new(name : String, version : String) -> McpServer {
 }
 
 ///|
-/// Register a tool
-pub fn McpServer::add_tool(
+/// Register a tool with typed handler
+pub fn[T] McpServer::add_tool(
   self : McpServer,
   tool : Tool,
-  handler : ToolHandler,
+  handler : ToolHandler[T],
 ) -> Unit {
-  self.tools = self.tools.add(tool.name, (tool, handler))
+  let wrapped : async (@js.Any) -> Array[Content] = async fn(args) {
+    handler(@js.identity(args))
+  }
+  let promisified : InternalToolHandler = @js.promisify1(wrapped)
+  self.tools = self.tools.add(tool.name, (tool, promisified))
 }
 
 ///|
@@ -48,17 +66,22 @@ pub fn McpServer::add_resource(
   resource : Resource,
   handler : ResourceHandler,
 ) -> Unit {
-  self.resources = self.resources.add(resource.uri, (resource, handler))
+  let promisified : InternalResourceHandler = @js.promisify1(handler)
+  self.resources = self.resources.add(resource.uri, (resource, promisified))
 }
 
 ///|
-/// Register a prompt
-pub fn McpServer::add_prompt(
+/// Register a prompt with typed handler
+pub fn[T] McpServer::add_prompt(
   self : McpServer,
   prompt : Prompt,
-  handler : PromptHandler,
+  handler : PromptHandler[T],
 ) -> Unit {
-  self.prompts = self.prompts.add(prompt.name, (prompt, handler))
+  let wrapped : async (@js.Any) -> Array[Content] = async fn(args) {
+    handler(@js.identity(args))
+  }
+  let promisified : InternalPromptHandler = @js.promisify1(wrapped)
+  self.prompts = self.prompts.add(prompt.name, (prompt, promisified))
 }
 
 ///|
@@ -95,7 +118,7 @@ pub fn McpServer::handle_request(
 fn McpServer::handle_initialize(
   self : McpServer,
   id : RequestId,
-  _params : @js.Object?,
+  _params : @js.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   // Build capabilities dynamically
   let capabilities : ServerCapabilities = {
@@ -129,7 +152,7 @@ fn McpServer::handle_tools_list(
 fn McpServer::handle_tools_call(
   self : McpServer,
   id : RequestId,
-  params : @js.Object?,
+  params : @js.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
     @js.identity_option(p.get("name")) is Some(tool_name) else {
@@ -143,7 +166,7 @@ fn McpServer::handle_tools_call(
     )
   }
   let arguments : @js.Any = @js.identity_option(p.get("arguments")).unwrap_or(
-    @js.identity(@js.Object::new()),
+    @js.Object::new(),
   )
   handler(arguments).then(fn(content) {
     let result = @js.from_map({
@@ -173,7 +196,7 @@ fn McpServer::handle_resources_list(
 fn McpServer::handle_resources_read(
   self : McpServer,
   id : RequestId,
-  params : @js.Object?,
+  params : @js.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
     @js.identity_option(p.get("uri")) is Some(resource_uri) else {
@@ -216,7 +239,7 @@ fn McpServer::handle_prompts_list(
 fn McpServer::handle_prompts_get(
   self : McpServer,
   id : RequestId,
-  params : @js.Object?,
+  params : @js.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
     @js.identity_option(p.get("name")) is Some(prompt_name) else {

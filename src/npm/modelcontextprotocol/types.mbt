@@ -35,7 +35,7 @@ pub struct JsonRpcRequest {
   jsonrpc : String // Always "2.0"
   id : RequestId
   method_name : String
-  params : @js.Object?
+  params : @js.Any?
 }
 
 ///|
@@ -44,7 +44,7 @@ pub fn JsonRpcRequest::to_any(self : JsonRpcRequest) -> @js.Any {
     "jsonrpc": Some(@js.any(self.jsonrpc)),
     "id": Some(self.id.to_any()),
     "method": Some(@js.any(self.method_name)),
-    "params": self.params.map(fn(p) { p.to_any() }),
+    "params": self.params,
   })
 }
 
@@ -125,7 +125,7 @@ pub fn JsonRpcErrorResponse::to_any(self : JsonRpcErrorResponse) -> @js.Any {
 pub(all) struct JsonRpcNotification {
   jsonrpc : String // Always "2.0"
   method_name : String
-  params : @js.Object?
+  params : @js.Any?
 }
 
 ///|
@@ -133,7 +133,7 @@ pub fn JsonRpcNotification::to_any(self : JsonRpcNotification) -> @js.Any {
   @js.from_option_map({
     "jsonrpc": Some(@js.any(self.jsonrpc)),
     "method": Some(@js.any(self.method_name)),
-    "params": self.params.map(fn(p) { p.to_any() }),
+    "params": self.params,
   })
 }
 
