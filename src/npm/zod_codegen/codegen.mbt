@@ -346,8 +346,13 @@ pub fn generate_file(
     Some(doc) => code = "///| " + doc + "\n\n"
     None => ()
   }
-  for t in types {
-    code = code + "///|\n" + t.code + "\n"
+  let last_idx = types.length() - 1
+  for i, t in types {
+    code = code + "///|\n" + t.code
+    // Add separator newline between types, but only single trailing newline at end
+    if i < last_idx {
+      code = code + "\n"
+    }
   }
   code
 }

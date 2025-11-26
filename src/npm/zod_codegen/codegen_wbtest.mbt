@@ -242,7 +242,6 @@ test "generate_file creates complete file" {
       #|  title : String
       #|}
       #|
-      #|
     ),
   )
 }
@@ -402,6 +401,6 @@ test "generate types snapshot" (t : @test.Test) {
     types,
     package_doc="Generated types for type checking",
   )
-  t.writeln(code)
+  t.write(code)
   t.snapshot(filename="_generated_test.mbt")
 }
