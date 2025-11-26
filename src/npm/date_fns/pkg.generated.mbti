@@ -3,192 +3,193 @@ package "mizchi/js/npm/date_fns"
 
 import(
   "mizchi/js"
+  "mizchi/js/builtins/date"
 )
 
 // Values
-fn add(@js.Any, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @js.Any
+fn add(&DateArgs, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @date.Date
 
 #alias(add_days)
-fn addDays(@js.Any, Int) -> @js.Any
+fn addDays(&DateArgs, Int) -> @date.Date
 
 #alias(add_hours)
-fn addHours(@js.Any, Int) -> @js.Any
+fn addHours(&DateArgs, Int) -> @date.Date
 
 #alias(add_minutes)
-fn addMinutes(@js.Any, Int) -> @js.Any
+fn addMinutes(&DateArgs, Int) -> @date.Date
 
 #alias(add_months)
-fn addMonths(@js.Any, Int) -> @js.Any
+fn addMonths(&DateArgs, Int) -> @date.Date
 
 #alias(add_years)
-fn addYears(@js.Any, Int) -> @js.Any
+fn addYears(&DateArgs, Int) -> @date.Date
 
 #alias(compare_asc)
-fn compareAsc(@js.Any, @js.Any) -> Int
+fn compareAsc(&DateArgs, &DateArgs) -> Int
 
 #alias(compare_desc)
-fn compareDesc(@js.Any, @js.Any) -> Int
+fn compareDesc(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_days)
-fn differenceInDays(@js.Any, @js.Any) -> Int
+fn differenceInDays(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_hours)
-fn differenceInHours(@js.Any, @js.Any) -> Int
+fn differenceInHours(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_milliseconds)
-fn differenceInMilliseconds(@js.Any, @js.Any) -> Int
+fn differenceInMilliseconds(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_minutes)
-fn differenceInMinutes(@js.Any, @js.Any) -> Int
+fn differenceInMinutes(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_months)
-fn differenceInMonths(@js.Any, @js.Any) -> Int
+fn differenceInMonths(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_seconds)
-fn differenceInSeconds(@js.Any, @js.Any) -> Int
+fn differenceInSeconds(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_weeks)
-fn differenceInWeeks(@js.Any, @js.Any) -> Int
+fn differenceInWeeks(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_years)
-fn differenceInYears(@js.Any, @js.Any) -> Int
+fn differenceInYears(&DateArgs, &DateArgs) -> Int
 
 #alias(end_of_day)
-fn endOfDay(@js.Any) -> @js.Any
+fn endOfDay(&DateArgs) -> @date.Date
 
 #alias(end_of_month)
-fn endOfMonth(@js.Any) -> @js.Any
+fn endOfMonth(&DateArgs) -> @date.Date
 
 #alias(end_of_week)
-fn endOfWeek(@js.Any) -> @js.Any
+fn endOfWeek(&DateArgs) -> @date.Date
 
 #alias(end_of_year)
-fn endOfYear(@js.Any) -> @js.Any
+fn endOfYear(&DateArgs) -> @date.Date
 
-fn format(@js.Any, String) -> String
+fn format(&DateArgs, String) -> String
 
 #alias(format_distance)
-fn formatDistance(@js.Any, @js.Any) -> String
+fn formatDistance(&DateArgs, &DateArgs) -> String
 
 #alias(format_distance_to_now)
-fn formatDistanceToNow(@js.Any) -> String
+fn formatDistanceToNow(&DateArgs) -> String
 
 #alias(format_iso)
-fn formatISO(@js.Any) -> String
+fn formatISO(&DateArgs) -> String
 
 #alias(format_relative)
-fn formatRelative(@js.Any, @js.Any) -> String
+fn formatRelative(&DateArgs, &DateArgs) -> String
 
 #alias(from_time)
-fn fromTime(Int) -> @js.Any
+fn fromTime(Int) -> @date.Date
 
 #alias(from_unix_time)
-fn fromUnixTime(Int) -> @js.Any
+fn fromUnixTime(Int) -> @date.Date
 
 #alias(from_ymd)
-fn fromYMD(Int, Int, Int) -> @js.Any
+fn fromYMD(Int, Int, Int) -> @date.Date
 
 #alias(get_date)
-fn getDate(@js.Any) -> Int
+fn getDate(&DateArgs) -> Int
 
 #alias(get_day)
-fn getDay(@js.Any) -> Int
+fn getDay(&DateArgs) -> Int
 
 #alias(get_hours)
-fn getHours(@js.Any) -> Int
+fn getHours(&DateArgs) -> Int
 
 #alias(get_minutes)
-fn getMinutes(@js.Any) -> Int
+fn getMinutes(&DateArgs) -> Int
 
 #alias(get_month)
-fn getMonth(@js.Any) -> Int
+fn getMonth(&DateArgs) -> Int
 
 #alias(get_seconds)
-fn getSeconds(@js.Any) -> Int
+fn getSeconds(&DateArgs) -> Int
 
 #alias(get_time)
-fn getTime(@js.Any) -> Int
+fn getTime(&DateArgs) -> Int
 
 #alias(get_unix_time)
-fn getUnixTime(@js.Any) -> Int
+fn getUnixTime(&DateArgs) -> Int
 
 #alias(get_year)
-fn getYear(@js.Any) -> Int
+fn getYear(&DateArgs) -> Int
 
 #alias(is_after)
-fn isAfter(@js.Any, @js.Any) -> Bool
+fn isAfter(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_before)
-fn isBefore(@js.Any, @js.Any) -> Bool
+fn isBefore(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_equal)
-fn isEqual(@js.Any, @js.Any) -> Bool
+fn isEqual(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_same_day)
-fn isSameDay(@js.Any, @js.Any) -> Bool
+fn isSameDay(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_same_month)
-fn isSameMonth(@js.Any, @js.Any) -> Bool
+fn isSameMonth(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_same_year)
-fn isSameYear(@js.Any, @js.Any) -> Bool
+fn isSameYear(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_valid)
-fn isValid(@js.Any) -> Bool
+fn isValid(&DateArgs) -> Bool
 
-fn now() -> @js.Any
+fn now() -> @date.Date
 
-fn parse(String, String, @js.Any) -> @js.Any
+fn parse(String, String, &DateArgs) -> @date.Date
 
 #alias(parse_iso)
-fn parseISO(String) -> @js.Any
+fn parseISO(String) -> @date.Date
 
 #alias(set_date)
-fn setDate(@js.Any, Int) -> @js.Any
+fn setDate(&DateArgs, Int) -> @date.Date
 
 #alias(set_hours)
-fn setHours(@js.Any, Int) -> @js.Any
+fn setHours(&DateArgs, Int) -> @date.Date
 
 #alias(set_minutes)
-fn setMinutes(@js.Any, Int) -> @js.Any
+fn setMinutes(&DateArgs, Int) -> @date.Date
 
 #alias(set_month)
-fn setMonth(@js.Any, Int) -> @js.Any
+fn setMonth(&DateArgs, Int) -> @date.Date
 
 #alias(set_seconds)
-fn setSeconds(@js.Any, Int) -> @js.Any
+fn setSeconds(&DateArgs, Int) -> @date.Date
 
 #alias(set_year)
-fn setYear(@js.Any, Int) -> @js.Any
+fn setYear(&DateArgs, Int) -> @date.Date
 
 #alias(start_of_day)
-fn startOfDay(@js.Any) -> @js.Any
+fn startOfDay(&DateArgs) -> @date.Date
 
 #alias(start_of_month)
-fn startOfMonth(@js.Any) -> @js.Any
+fn startOfMonth(&DateArgs) -> @date.Date
 
 #alias(start_of_week)
-fn startOfWeek(@js.Any) -> @js.Any
+fn startOfWeek(&DateArgs) -> @date.Date
 
 #alias(start_of_year)
-fn startOfYear(@js.Any) -> @js.Any
+fn startOfYear(&DateArgs) -> @date.Date
 
-fn sub(@js.Any, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @js.Any
+fn sub(&DateArgs, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @date.Date
 
 #alias(sub_days)
-fn subDays(@js.Any, Int) -> @js.Any
+fn subDays(&DateArgs, Int) -> @date.Date
 
 #alias(sub_hours)
-fn subHours(@js.Any, Int) -> @js.Any
+fn subHours(&DateArgs, Int) -> @date.Date
 
 #alias(sub_minutes)
-fn subMinutes(@js.Any, Int) -> @js.Any
+fn subMinutes(&DateArgs, Int) -> @date.Date
 
 #alias(sub_months)
-fn subMonths(@js.Any, Int) -> @js.Any
+fn subMonths(&DateArgs, Int) -> @date.Date
 
 #alias(sub_years)
-fn subYears(@js.Any, Int) -> @js.Any
+fn subYears(&DateArgs, Int) -> @date.Date
 
 // Errors
 
@@ -197,4 +198,10 @@ fn subYears(@js.Any, Int) -> @js.Any
 // Type aliases
 
 // Traits
+pub(open) trait DateArgs {
+  to_date(Self) -> @js.Any = _
+}
+impl DateArgs for Int
+impl DateArgs for String
+impl DateArgs for @date.Date
 

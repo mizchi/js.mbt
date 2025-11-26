@@ -3,6 +3,39 @@
 /// See: https://github.com/paulmillr/chokidar
 
 ///|
+/// Event name enum for file system events
+pub enum EventName {
+  Add
+  AddDir
+  Change
+  Unlink
+  UnlinkDir
+} derive(Show, Eq)
+
+///|
+pub fn EventName::from_string(s : String) -> EventName? {
+  match s {
+    "add" => Some(Add)
+    "addDir" => Some(AddDir)
+    "change" => Some(Change)
+    "unlink" => Some(Unlink)
+    "unlinkDir" => Some(UnlinkDir)
+    _ => None
+  }
+}
+
+///|
+pub fn EventName::to_string(self : EventName) -> String {
+  match self {
+    Add => "add"
+    AddDir => "addDir"
+    Change => "change"
+    Unlink => "unlink"
+    UnlinkDir => "unlinkDir"
+  }
+}
+
+///|
 /// FSWatcher type - File system watcher instance
 #external
 pub type FSWatcher
@@ -240,4 +273,101 @@ pub fn FSWatcher::off(
   callback : @js.Any,
 ) -> FSWatcher {
   @js.identity(self.call("off", [@js.any(event), callback]))
+}
+
+///| Typed Event Handlers
+
+///|
+/// Listen for file add event
+/// Callback receives: (path: String, stats?: fs.Stats)
+pub fn FSWatcher::on_add(
+  self : FSWatcher,
+  callback : (String, @js.Any) -> Unit,
+) -> FSWatcher {
+  self.on("add", @js.identity(callback))
+}
+
+///|
+/// Listen for file change event
+/// Callback receives: (path: String, stats?: fs.Stats)
+pub fn FSWatcher::on_change(
+  self : FSWatcher,
+  callback : (String, @js.Any) -> Unit,
+) -> FSWatcher {
+  self.on("change", @js.identity(callback))
+}
+
+///|
+/// Listen for directory add event
+/// Callback receives: (path: String, stats?: fs.Stats)
+pub fn FSWatcher::on_add_dir(
+  self : FSWatcher,
+  callback : (String, @js.Any) -> Unit,
+) -> FSWatcher {
+  self.on("addDir", @js.identity(callback))
+}
+
+///|
+/// Listen for file unlink (delete) event
+/// Callback receives: (path: String)
+pub fn FSWatcher::on_unlink(
+  self : FSWatcher,
+  callback : (String) -> Unit,
+) -> FSWatcher {
+  self.on("unlink", @js.identity(callback))
+}
+
+///|
+/// Listen for directory unlink (delete) event
+/// Callback receives: (path: String)
+pub fn FSWatcher::on_unlink_dir(
+  self : FSWatcher,
+  callback : (String) -> Unit,
+) -> FSWatcher {
+  self.on("unlinkDir", @js.identity(callback))
+}
+
+///|
+/// Listen for ready event (initial scan complete)
+/// Callback receives: ()
+pub fn FSWatcher::on_ready(
+  self : FSWatcher,
+  callback : () -> Unit,
+) -> FSWatcher {
+  self.on("ready", @js.identity(callback))
+}
+
+///|
+/// Listen for error event
+/// Callback receives: (error: Error)
+pub fn FSWatcher::on_error(
+  self : FSWatcher,
+  callback : (@js.Any) -> Unit,
+) -> FSWatcher {
+  self.on("error", @js.identity(callback))
+}
+
+///|
+/// Listen for all events (raw)
+/// Callback receives: (eventName: String, path: String, stats?: fs.Stats)
+pub fn FSWatcher::on_all_raw(
+  self : FSWatcher,
+  callback : (String, String, @js.Any) -> Unit,
+) -> FSWatcher {
+  self.on("all", @js.identity(callback))
+}
+
+///|
+/// Listen for all events (typed)
+/// Callback receives: (eventName: EventName, path: String, stats?: fs.Stats)
+pub fn FSWatcher::on_all(
+  self : FSWatcher,
+  callback : (EventName, String, @js.Any) -> Unit,
+) -> FSWatcher {
+  let wrapped = fn(event_str : String, path : String, stats : @js.Any) {
+    if EventName::from_string(event_str) is Some(event) {
+      callback(event, path, stats)
+    }
+  }
+  self.on("all", @js.identity(wrapped))
 }

@@ -357,6 +357,40 @@ fn Symbol::toStringTag() -> Self
 impl JsImpl for Symbol
 impl PropertyKey for Symbol
 
+#external
+pub type Union2[A, B]
+fn[A, B] Union2::from(&JsImpl) -> Self[A, B]
+fn[A, B] Union2::to0(Self[A, B]) -> A
+fn[A, B] Union2::to1(Self[A, B]) -> B
+impl[A, B] JsImpl for Union2[A, B]
+
+#external
+pub type Union3[A, B, C]
+fn[A, B, C] Union3::from(&JsImpl) -> Self[A, B, C]
+fn[A, B, C] Union3::to0(Self[A, B, C]) -> A
+fn[A, B, C] Union3::to1(Self[A, B, C]) -> B
+fn[A, B, C] Union3::to2(Self[A, B, C]) -> C
+impl[A, B, C] JsImpl for Union3[A, B, C]
+
+#external
+pub type Union4[A, B, C, D]
+fn[A, B, C, D] Union4::from(&JsImpl) -> Self[A, B, C, D]
+fn[A, B, C, D] Union4::to0(Self[A, B, C, D]) -> A
+fn[A, B, C, D] Union4::to1(Self[A, B, C, D]) -> B
+fn[A, B, C, D] Union4::to2(Self[A, B, C, D]) -> C
+fn[A, B, C, D] Union4::to3(Self[A, B, C, D]) -> D
+impl[A, B, C, D] JsImpl for Union4[A, B, C, D]
+
+#external
+pub type Union5[A, B, C, D, E]
+fn[A, B, C, D, E] Union5::from(&JsImpl) -> Self[A, B, C, D, E]
+fn[A, B, C, D, E] Union5::to0(Self[A, B, C, D, E]) -> A
+fn[A, B, C, D, E] Union5::to1(Self[A, B, C, D, E]) -> B
+fn[A, B, C, D, E] Union5::to2(Self[A, B, C, D, E]) -> C
+fn[A, B, C, D, E] Union5::to3(Self[A, B, C, D, E]) -> D
+fn[A, B, C, D, E] Union5::to4(Self[A, B, C, D, E]) -> E
+impl[A, B, C, D, E] JsImpl for Union5[A, B, C, D, E]
+
 // Type aliases
 pub using @js_async {type AbortController}
 

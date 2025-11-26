@@ -13,6 +13,18 @@ fn watch_paths(Array[String], persistent? : Bool, ignored? : @js.Any, ignoreInit
 // Errors
 
 // Types and methods
+pub enum EventName {
+  Add
+  AddDir
+  Change
+  Unlink
+  UnlinkDir
+}
+fn EventName::from_string(String) -> Self?
+fn EventName::to_string(Self) -> String
+impl Eq for EventName
+impl Show for EventName
+
 #external
 pub type FSWatcher
 fn FSWatcher::add(Self, String) -> Self
@@ -21,6 +33,15 @@ async fn FSWatcher::close(Self) -> Unit
 fn FSWatcher::getWatched(Self) -> @js.Any
 fn FSWatcher::off(Self, String, @js.Any) -> Self
 fn FSWatcher::on(Self, String, @js.Any) -> Self
+fn FSWatcher::on_add(Self, (String, @js.Any) -> Unit) -> Self
+fn FSWatcher::on_add_dir(Self, (String, @js.Any) -> Unit) -> Self
+fn FSWatcher::on_all(Self, (EventName, String, @js.Any) -> Unit) -> Self
+fn FSWatcher::on_all_raw(Self, (String, String, @js.Any) -> Unit) -> Self
+fn FSWatcher::on_change(Self, (String, @js.Any) -> Unit) -> Self
+fn FSWatcher::on_error(Self, (@js.Any) -> Unit) -> Self
+fn FSWatcher::on_ready(Self, () -> Unit) -> Self
+fn FSWatcher::on_unlink(Self, (String) -> Unit) -> Self
+fn FSWatcher::on_unlink_dir(Self, (String) -> Unit) -> Self
 fn FSWatcher::unwatch(Self, String) -> Self
 fn FSWatcher::unwatch_paths(Self, Array[String]) -> Self
 impl @js.JsImpl for FSWatcher
