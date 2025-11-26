@@ -1,27 +1,27 @@
 ///|
 test "string schema parse" {
-  let schema = string()
+  let schema = @zod.string()
   let result : String = schema.parse(@js.any("hello")).cast()
   assert_eq(result, "hello")
 }
 
 ///|
 test "number schema parse" {
-  let schema = number()
+  let schema = @zod.number()
   let result : Int = schema.parse(@js.any(42)).cast()
   assert_eq(result, 42)
 }
 
 ///|
 test "boolean schema parse" {
-  let schema = boolean()
+  let schema = @zod.boolean()
   let result : Bool = schema.parse(@js.any(true)).cast()
   assert_eq(result, true)
 }
 
 ///|
 test "string safeParse success" {
-  let schema = string()
+  let schema = @zod.string()
   let result = schema.safeParse(@js.any("hello"))
   assert_eq(result.success(), true)
   let data : String = result.data().cast()
@@ -39,7 +39,7 @@ test "string safeParse failure" {
 
 ///|
 test "string min max" {
-  let schema = string().min(2).max(5)
+  let schema = @zod.string().min(2).max(5)
   // Valid
   let r1 = schema.safeParse(@js.any("abc"))
   assert_eq(r1.success(), true)
@@ -71,10 +71,7 @@ test "number int positive" {
 
 ///|
 test "object schema" {
-  let shape = @js.Object::new()
-  shape.set("name", string())
-  shape.set("age", number())
-  let schema = object(shape.to_any())
+  let schema = object({ "name": string(), "age": number() })
   let data = @js.Object::new()
   data.set("name", "Alice")
   data.set("age", 30)
@@ -84,10 +81,7 @@ test "object schema" {
 
 ///|
 test "object schema invalid" {
-  let shape = @js.Object::new()
-  shape.set("name", string())
-  shape.set("age", number())
-  let schema = object(shape.to_any())
+  let schema = object({ "name": string(), "age": number() })
   let data = @js.Object::new()
   data.set("name", 123) // should be string
   data.set("age", "not a number") // should be number
@@ -177,18 +171,8 @@ test "transform" {
 
 ///|
 test "ZodIssue path" {
-  let shape = @js.Object::new()
-  shape.set(
-    "user",
-    object(
-      {
-        let inner = @js.Object::new()
-        inner.set("name", string())
-        inner.to_any()
-      },
-    ),
-  )
-  let schema = object(shape.to_any())
+  let inner_schema = object({ "name": string() })
+  let schema = object({ "user": inner_schema })
   let data = @js.Object::new()
   let user = @js.Object::new()
   user.set("name", 123) // should be string
@@ -356,11 +340,9 @@ test "record schema" {
 
 ///|
 test "intersection schema" {
-  let shape1 = @js.Object::new()
-  shape1.set("name", string())
-  let shape2 = @js.Object::new()
-  shape2.set("age", number())
-  let schema = intersection(object(shape1.to_any()), object(shape2.to_any()))
+  let schema1 = object({ "name": string() })
+  let schema2 = object({ "age": number() })
+  let schema = intersection(schema1, schema2)
   let valid = @js.Object::new()
   valid.set("name", "Alice")
   valid.set("age", 30)
@@ -373,9 +355,7 @@ test "intersection schema" {
 
 ///|
 test "object extend" {
-  let shape = @js.Object::new()
-  shape.set("name", string())
-  let base_schema = object(shape.to_any())
+  let base_schema = object({ "name": string() })
   let ext_shape = @js.Object::new()
   ext_shape.set("age", number())
   let extended = base_schema.extend(ext_shape.to_any())
@@ -387,11 +367,7 @@ test "object extend" {
 
 ///|
 test "object pick and omit" {
-  let shape = @js.Object::new()
-  shape.set("name", string())
-  shape.set("age", number())
-  shape.set("email", string())
-  let schema = object(shape.to_any())
+  let schema = object({ "name": string(), "age": number(), "email": string() })
   // Pick only name
   let pick_keys = @js.Object::new()
   pick_keys.set("name", @js.any(true))
@@ -411,10 +387,7 @@ test "object pick and omit" {
 
 ///|
 test "object partial and required" {
-  let shape = @js.Object::new()
-  shape.set("name", string())
-  shape.set("age", number())
-  let schema = object(shape.to_any())
+  let schema = object({ "name": string(), "age": number() })
   // Partial - all optional
   let partial_schema = schema.partial()
   let empty = @js.Object::new()
@@ -426,19 +399,18 @@ test "object partial and required" {
 
 ///|
 test "object passthrough strict strip" {
-  let shape = @js.Object::new()
-  shape.set("name", string())
+  let schema = object({ "name": string() })
   // Passthrough - allows extra keys
-  let passthrough_schema = object(shape.to_any()).passthrough()
+  let passthrough_schema = schema.passthrough()
   let data = @js.Object::new()
   data.set("name", "Alice")
   data.set("extra", "field")
   assert_eq(passthrough_schema.safeParse(data.to_any()).success(), true)
   // Strict - rejects extra keys
-  let strict_schema = object(shape.to_any()).strict()
+  let strict_schema = object({ "name": string() }).strict()
   assert_eq(strict_schema.safeParse(data.to_any()).success(), false)
   // Strip - removes extra keys (still valid)
-  let strip_schema = object(shape.to_any()).strip()
+  let strip_schema = object({ "name": string() }).strip()
   assert_eq(strip_schema.safeParse(data.to_any()).success(), true)
 }
 
@@ -526,4 +498,30 @@ test "set schema" {
   let schema = set(number())
   // Sets require specific JS Set constructor, so just verify schema creation
   assert_false(@js.is_undefined(schema.to_any()))
+}
+
+///|
+test "safeParse to_result success" {
+  let schema = string()
+  let result = schema.safeParse(@js.any("hello")).to_result()
+  match result {
+    Ok(data) => {
+      let s : String = data.cast()
+      assert_eq(s, "hello")
+    }
+    Err(_) => assert_true(false)
+  }
+}
+
+///|
+test "safeParse to_result failure" {
+  let schema = string()
+  let result = schema.safeParse(@js.any(123)).to_result()
+  match result {
+    Ok(_) => assert_true(false)
+    Err(err) => {
+      let issues = err.issuesArray()
+      assert_true(issues.length() > 0)
+    }
+  }
 }

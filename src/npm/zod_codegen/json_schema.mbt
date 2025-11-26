@@ -8,14 +8,14 @@ fn zod_module() -> @js.Any {
 
 ///|
 /// Convert a ZodSchema to JSON Schema (zod v4 built-in)
-pub fn to_json_schema(schema : ZodSchema) -> @js.Any {
+pub fn to_json_schema(schema : @zod.ZodSchema) -> @js.Any {
   zod_module().call1("toJSONSchema", schema.to_any())
 }
 
 ///|
 /// Convert a ZodSchema to JSON Schema with options
 pub fn to_json_schema_with_options(
-  schema : ZodSchema,
+  schema : @zod.ZodSchema,
   name? : String,
   io? : String,
   unrepresentable? : String,
@@ -48,16 +48,22 @@ pub struct JsonSchema {
 }
 
 ///|
-pub fn JsonSchema::from_zod(schema : ZodSchema) -> JsonSchema {
+pub fn JsonSchema::from_zod(schema : @zod.ZodSchema) -> JsonSchema {
   { raw: to_json_schema(schema) }
 }
 
 ///|
 pub fn JsonSchema::from_zod_with_name(
-  schema : ZodSchema,
+  schema : @zod.ZodSchema,
   name : String,
 ) -> JsonSchema {
   { raw: to_json_schema_with_options(schema, name~) }
+}
+
+///|
+/// Create JsonSchema from raw @js.Any value
+pub fn JsonSchema::from_any(raw : @js.Any) -> JsonSchema {
+  { raw, }
 }
 
 ///|

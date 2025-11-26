@@ -110,8 +110,16 @@ pub fn never() -> ZodSchema {
 ///| Complex schemas
 
 ///|
-/// Create an object schema from a shape
-pub fn object(shape : @js.Any) -> ZodSchema {
+/// Create an object schema from a Map
+pub fn object(shape : Map[String, ZodSchema]) -> ZodSchema {
+  let obj = @js.Object::new()
+  shape.each(fn(key, value) { obj.set(key, value) })
+  zod().call1("object", obj.to_any()).cast()
+}
+
+///|
+/// Create an object schema from raw @js.Any
+pub fn object_from_any(shape : @js.Any) -> ZodSchema {
   zod().call1("object", shape).cast()
 }
 
@@ -122,13 +130,13 @@ pub fn array(element : ZodSchema) -> ZodSchema {
 }
 
 ///|
-/// Create a tuple schema
+/// Create a tuple schema from an Array
 pub fn tuple(items : Array[ZodSchema]) -> ZodSchema {
   zod().call1("tuple", @js.from_array(items)).cast()
 }
 
 ///|
-/// Create a union schema
+/// Create a union schema from an Array
 pub fn union(options : Array[ZodSchema]) -> ZodSchema {
   zod().call1("union", @js.from_array(options)).cast()
 }
@@ -651,6 +659,18 @@ pub fn SafeParseResult::data(self : SafeParseResult) -> @js.Any {
 /// Get error (only valid if not success)
 pub fn SafeParseResult::error(self : SafeParseResult) -> ZodError {
   self.get("error").cast()
+}
+
+///|
+/// Convert SafeParseResult to MoonBit Result type
+pub fn SafeParseResult::to_result(
+  self : SafeParseResult,
+) -> Result[@js.Any, ZodError] {
+  if self.success() {
+    Ok(self.data())
+  } else {
+    Err(self.error())
+  }
 }
 
 ///| ZodError methods

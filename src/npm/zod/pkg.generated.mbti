@@ -8,23 +8,9 @@ import(
 // Values
 fn any_() -> ZodSchema
 
-fn any__() -> Schema
-
-fn arr_length(Schema, Int) -> Schema
-
-fn arr_max(Schema, Int) -> Schema
-
-fn arr_min(Schema, Int) -> Schema
-
-fn arr_nonempty(Schema) -> Schema
-
 fn array(ZodSchema) -> ZodSchema
 
 fn bigint() -> ZodSchema
-
-fn bigint_() -> Schema
-
-fn bool() -> Schema
 
 fn boolean() -> ZodSchema
 
@@ -40,25 +26,9 @@ fn coerce_string() -> ZodSchema
 
 fn date() -> ZodSchema
 
-fn date_() -> Schema
-
 fn discriminated_union(String, Array[ZodSchema]) -> ZodSchema
 
-fn email() -> Schema
-
 fn enum_(Array[String]) -> ZodSchema
-
-fn enum__(Array[String]) -> Schema
-
-fn generate_all_types(JsonSchema, String, config? : CodegenConfig) -> Array[GeneratedType]
-
-fn generate_file(Array[GeneratedType], package_doc? : String) -> String
-
-fn generate_from_zod(ZodSchema, String, config? : CodegenConfig) -> String
-
-fn generate_struct(JsonSchema, String, CodegenConfig) -> String
-
-fn int_() -> Schema
 
 fn intersection(ZodSchema, ZodSchema) -> ZodSchema
 
@@ -66,237 +36,48 @@ fn lazy_(() -> ZodSchema) -> ZodSchema
 
 fn literal(@js.Any) -> ZodSchema
 
-fn literal_(@js.Any) -> Schema
-
 fn map(ZodSchema, ZodSchema) -> ZodSchema
 
 fn native_enum(@js.Any) -> ZodSchema
 
 fn never() -> ZodSchema
 
-fn never_() -> Schema
-
-fn nonnegative_int() -> Schema
-
 fn null_() -> ZodSchema
-
-fn null__() -> Schema
-
-fn nullable(Schema) -> Schema
-
-fn nullish(Schema) -> Schema
-
-fn num() -> Schema
-
-fn num_finite() -> Schema
-
-fn num_gt(Int) -> Schema
-
-fn num_gte(Int) -> Schema
-
-fn num_lt(Int) -> Schema
-
-fn num_lte(Int) -> Schema
-
-fn num_negative() -> Schema
-
-fn num_nonpositive() -> Schema
 
 fn number() -> ZodSchema
 
-fn obj_partial(Array[(String, Schema)]) -> Schema
+fn object(Map[String, ZodSchema]) -> ZodSchema
 
-fn obj_passthrough(Array[(String, Schema)]) -> Schema
-
-fn obj_strict(Array[(String, Schema)]) -> Schema
-
-fn obj_strip(Array[(String, Schema)]) -> Schema
-
-fn object(@js.Any) -> ZodSchema
-
-fn optional(Schema) -> Schema
-
-fn parse_schema(Schema, @js.Any) -> @js.Any
-
-fn positive_int() -> Schema
+fn object_from_any(@js.Any) -> ZodSchema
 
 fn promise(ZodSchema) -> ZodSchema
 
 fn record(ZodSchema, ZodSchema) -> ZodSchema
 
-fn record_(Schema, Schema) -> Schema
-
 fn set(ZodSchema) -> ZodSchema
-
-fn str() -> Schema
-
-fn str_ends_with(String) -> Schema
-
-fn str_length(Int) -> Schema
-
-fn str_lower() -> Schema
-
-fn str_max(Int) -> Schema
-
-fn str_min(Int) -> Schema
-
-fn str_regex(String) -> Schema
-
-fn str_starts_with(String) -> Schema
-
-fn str_trim() -> Schema
-
-fn str_upper() -> Schema
 
 fn string() -> ZodSchema
 
-fn to_json_schema(ZodSchema) -> @js.Any
-
-fn to_json_schema_with_options(ZodSchema, name? : String, io? : String, unrepresentable? : String, override_? : @js.Any) -> @js.Any
-
 fn tuple(Array[ZodSchema]) -> ZodSchema
-
-fn tuple_(Array[Schema]) -> Schema
 
 fn undefined_() -> ZodSchema
 
-fn undefined__() -> Schema
-
 fn union(Array[ZodSchema]) -> ZodSchema
-
-fn union_(Array[Schema]) -> Schema
 
 fn unknown() -> ZodSchema
 
-fn unknown_() -> Schema
-
-fn url_string() -> Schema
-
-fn uuid_string() -> Schema
-
-fn validate(Schema, @js.Any) -> SafeParseResult
-
 fn void_() -> ZodSchema
-
-fn with_default(Schema, @js.Any) -> Schema
 
 // Errors
 
 // Types and methods
-pub enum ArrayRule {
-  Min(Int)
-  Max(Int)
-  Length(Int)
-  Nonempty
-}
-
-pub struct CodegenConfig {
-  type_prefix : String
-  derive_json : Bool
-  add_docs : Bool
-}
-fn CodegenConfig::default() -> Self
-
-pub struct GeneratedType {
-  name : String
-  code : String
-}
-
-pub struct JsonSchema {
-  raw : @js.Any
-}
-fn JsonSchema::additional_properties(Self) -> Self?
-fn JsonSchema::any_of(Self) -> Array[Self]?
-fn JsonSchema::const_value(Self) -> @js.Any?
-fn JsonSchema::default_value(Self) -> @js.Any?
-fn JsonSchema::definitions(Self) -> @js.Any
-fn JsonSchema::description(Self) -> String?
-fn JsonSchema::enum_values(Self) -> Array[String]?
-fn JsonSchema::format(Self) -> String?
-fn JsonSchema::from_zod(ZodSchema) -> Self
-fn JsonSchema::from_zod_with_name(ZodSchema, String) -> Self
-fn JsonSchema::items(Self) -> Self?
-fn JsonSchema::max_length(Self) -> Int?
-fn JsonSchema::maximum(Self) -> Double?
-fn JsonSchema::min_length(Self) -> Int?
-fn JsonSchema::minimum(Self) -> Double?
-fn JsonSchema::properties(Self) -> @js.Any
-fn JsonSchema::ref_(Self) -> String?
-fn JsonSchema::required(Self) -> Array[String]
-fn JsonSchema::to_any(Self) -> @js.Any
-fn JsonSchema::to_json(Self) -> String
-fn JsonSchema::type_(Self) -> String?
-
-pub enum Modifier {
-  Optional
-  Nullable
-  Nullish
-  Default(@js.Any)
-}
-
-pub enum NumberRule {
-  Gt(Int)
-  Gte(Int)
-  Lt(Int)
-  Lte(Int)
-  Int
-  Positive
-  Negative
-  Nonnegative
-  Nonpositive
-  Finite
-}
-
-pub enum ObjectRule {
-  Strict
-  Passthrough
-  Strip
-  Partial
-}
-
 #external
 pub type SafeParseResult
 fn SafeParseResult::data(Self) -> @js.Any
 fn SafeParseResult::error(Self) -> ZodError
 fn SafeParseResult::success(Self) -> Bool
+fn SafeParseResult::to_result(Self) -> Result[@js.Any, ZodError]
 impl @js.JsImpl for SafeParseResult
-
-pub enum Schema {
-  String(Array[StringRule])
-  Number(Array[NumberRule])
-  Boolean
-  BigInt
-  Date
-  Array(Schema, Array[ArrayRule])
-  Object(Array[(String, Schema)], Array[ObjectRule])
-  Record(Schema, Schema)
-  Tuple(Array[Schema])
-  Union(Array[Schema])
-  Enum(Array[String])
-  Literal(@js.Any)
-  Any
-  Unknown
-  Never
-  Null
-  Undefined
-  WithModifier(Schema, Modifier)
-}
-fn Schema::build(Self) -> ZodSchema
-
-pub enum StringRule {
-  Min(Int)
-  Max(Int)
-  Length(Int)
-  Email
-  Url
-  Uuid
-  Regex(String)
-  StartsWith(String)
-  EndsWith(String)
-  Trim
-  ToLowerCase
-  ToUpperCase
-}
 
 #external
 pub type ZodError

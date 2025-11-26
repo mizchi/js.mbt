@@ -1,0 +1,69 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/zod_codegen"
+
+import(
+  "mizchi/js"
+  "mizchi/js/npm/zod"
+)
+
+// Values
+fn generate_all_types(JsonSchema, String, config? : CodegenConfig) -> Array[GeneratedType]
+
+fn generate_file(Array[GeneratedType], package_doc? : String) -> String
+
+fn generate_from_zod(@zod.ZodSchema, String, config? : CodegenConfig) -> String
+
+fn generate_from_zod_nested(@zod.ZodSchema, String, config? : CodegenConfig) -> Array[GeneratedType]
+
+fn generate_struct(JsonSchema, String, CodegenConfig) -> String
+
+fn to_json_schema(@zod.ZodSchema) -> @js.Any
+
+fn to_json_schema_with_options(@zod.ZodSchema, name? : String, io? : String, unrepresentable? : String, override_? : @js.Any) -> @js.Any
+
+// Errors
+
+// Types and methods
+pub struct CodegenConfig {
+  type_prefix : String
+  derive_json : Bool
+  add_docs : Bool
+}
+fn CodegenConfig::default() -> Self
+
+pub struct GeneratedType {
+  name : String
+  path : Array[String]
+  code : String
+}
+
+pub struct JsonSchema {
+  raw : @js.Any
+}
+fn JsonSchema::additional_properties(Self) -> Self?
+fn JsonSchema::any_of(Self) -> Array[Self]?
+fn JsonSchema::const_value(Self) -> @js.Any?
+fn JsonSchema::default_value(Self) -> @js.Any?
+fn JsonSchema::definitions(Self) -> @js.Any
+fn JsonSchema::description(Self) -> String?
+fn JsonSchema::enum_values(Self) -> Array[String]?
+fn JsonSchema::format(Self) -> String?
+fn JsonSchema::from_any(@js.Any) -> Self
+fn JsonSchema::from_zod(@zod.ZodSchema) -> Self
+fn JsonSchema::from_zod_with_name(@zod.ZodSchema, String) -> Self
+fn JsonSchema::items(Self) -> Self?
+fn JsonSchema::max_length(Self) -> Int?
+fn JsonSchema::maximum(Self) -> Double?
+fn JsonSchema::min_length(Self) -> Int?
+fn JsonSchema::minimum(Self) -> Double?
+fn JsonSchema::properties(Self) -> @js.Any
+fn JsonSchema::ref_(Self) -> String?
+fn JsonSchema::required(Self) -> Array[String]
+fn JsonSchema::to_any(Self) -> @js.Any
+fn JsonSchema::to_json(Self) -> String
+fn JsonSchema::type_(Self) -> String?
+
+// Type aliases
+
+// Traits
+
