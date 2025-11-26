@@ -359,3 +359,446 @@ test "TextStreamPart get_text returns None for non-text-delta" {
   let part = TextStreamPart::from_any(obj.to_any())
   guard part.get_text() is None
 }
+
+///|
+test "TextStreamPart get_reasoning_text returns None for non-reasoning" {
+  let obj = @js.Object::new()
+  obj.set("type", "text-delta")
+  obj.set("id", "text-1")
+  obj.set("text", "Hello")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part.get_reasoning_text() is None
+}
+
+///|
+test "TextStreamPart from_any text-end" {
+  let obj = @js.Object::new()
+  obj.set("type", "text-end")
+  obj.set("id", "text-1")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is TextEnd(id~, ..)
+  assert_eq(id, "text-1")
+  assert_eq(part.type_string(), "text-end")
+  assert_eq(part.is_text_part(), true)
+}
+
+///|
+test "TextStreamPart from_any reasoning-start" {
+  let obj = @js.Object::new()
+  obj.set("type", "reasoning-start")
+  obj.set("id", "reason-1")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is ReasoningStart(id~, ..)
+  assert_eq(id, "reason-1")
+  assert_eq(part.type_string(), "reasoning-start")
+  assert_eq(part.is_reasoning_part(), true)
+}
+
+///|
+test "TextStreamPart from_any reasoning-end" {
+  let obj = @js.Object::new()
+  obj.set("type", "reasoning-end")
+  obj.set("id", "reason-1")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is ReasoningEnd(id~, ..)
+  assert_eq(id, "reason-1")
+  assert_eq(part.type_string(), "reasoning-end")
+  assert_eq(part.is_reasoning_part(), true)
+}
+
+///|
+test "TextStreamPart from_any tool-input-end" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-input-end")
+  obj.set("id", "tool-1")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is ToolInputEnd(id~, ..)
+  assert_eq(id, "tool-1")
+  assert_eq(part.type_string(), "tool-input-end")
+  assert_eq(part.is_tool_part(), true)
+}
+
+///|
+test "TextStreamPart from_any tool-input-delta" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-input-delta")
+  obj.set("id", "tool-1")
+  obj.set("delta", "{\"query\":")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is ToolInputDelta(id~, delta~, ..)
+  assert_eq(id, "tool-1")
+  assert_eq(delta, "{\"query\":")
+  assert_eq(part.type_string(), "tool-input-delta")
+  assert_eq(part.is_tool_part(), true)
+}
+
+///|
+test "TextStreamPart from_any tool-call" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-call")
+  obj.set("toolCallId", "call-1")
+  obj.set("toolName", "search")
+  let input_obj = @js.Object::new()
+  input_obj.set("query", "weather")
+  obj.set("input", input_obj)
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is ToolCallPart(tool_call~)
+  assert_eq(tool_call.tool_call_id, "call-1")
+  assert_eq(tool_call.tool_name, "search")
+  assert_eq(part.type_string(), "tool-call")
+  assert_eq(part.is_tool_part(), true)
+}
+
+///|
+test "TextStreamPart from_any tool-result" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-result")
+  obj.set("toolCallId", "call-1")
+  obj.set("toolName", "search")
+  let input_obj = @js.Object::new()
+  input_obj.set("query", "weather")
+  obj.set("input", input_obj)
+  obj.set("output", "Sunny")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is ToolResultPart(tool_result~)
+  assert_eq(tool_result.tool_call_id, "call-1")
+  assert_eq(tool_result.tool_name, "search")
+  assert_eq(part.type_string(), "tool-result")
+  assert_eq(part.is_tool_part(), true)
+}
+
+///|
+test "TextStreamPart from_any tool-error" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-error")
+  obj.set("toolCallId", "call-1")
+  obj.set("toolName", "search")
+  let args_obj = @js.Object::new()
+  args_obj.set("query", "weather")
+  obj.set("args", args_obj)
+  obj.set("error", "Network error")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is ToolErrorPart(tool_error~)
+  assert_eq(tool_error.tool_call_id, "call-1")
+  assert_eq(tool_error.tool_name, "search")
+  assert_eq(part.type_string(), "tool-error")
+  assert_eq(part.is_tool_part(), true)
+}
+
+///|
+test "TextStreamPart from_any raw" {
+  let obj = @js.Object::new()
+  obj.set("type", "raw")
+  obj.set("rawValue", "raw data")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is Raw(raw_value~)
+  let val : String = raw_value.cast()
+  assert_eq(val, "raw data")
+  assert_eq(part.type_string(), "raw")
+}
+
+///|
+test "TextStreamPart from_any start-step" {
+  let obj = @js.Object::new()
+  obj.set("type", "start-step")
+  let request_obj = @js.Object::new()
+  request_obj.set("id", "req-1")
+  obj.set("request", request_obj)
+  let warning_obj = @js.Object::new()
+  warning_obj.set("type", "test-warning")
+  obj.set("warnings", [warning_obj] |> @js.from_array)
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is StartStep(request~, warnings~)
+  ignore(request)
+  assert_eq(warnings.length(), 1)
+  assert_eq(part.type_string(), "start-step")
+}
+
+///|
+test "TextStreamPart from_any source" {
+  let obj = @js.Object::new()
+  obj.set("type", "source")
+  obj.set("sourceType", "url")
+  obj.set("id", "src-1")
+  obj.set("url", "https://example.com")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is SourcePart(source~)
+  guard source is UrlSource(src)
+  assert_eq(src.id, "src-1")
+  assert_eq(part.type_string(), "source")
+}
+
+///|
+test "TextStreamPart from_any file" {
+  let obj = @js.Object::new()
+  obj.set("type", "file")
+  let file_obj = @js.Object::new()
+  file_obj.set("name", "image.png")
+  file_obj.set("mediaType", "image/png")
+  file_obj.set("data", "base64data")
+  obj.set("file", file_obj)
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part is FilePart(file~)
+  guard file.name is Some(name)
+  assert_eq(name, "image.png")
+  assert_eq(part.type_string(), "file")
+}
+
+///|
+test "ToolError from_any" {
+  let obj = @js.Object::new()
+  obj.set("toolCallId", "call-1")
+  obj.set("toolName", "search")
+  let args_obj = @js.Object::new()
+  args_obj.set("query", "weather")
+  obj.set("args", args_obj)
+  obj.set("error", "Network error")
+  let error = ToolError::from_any(obj.to_any())
+  assert_eq(error.tool_call_id, "call-1")
+  assert_eq(error.tool_name, "search")
+  let err : String = error.error.cast()
+  assert_eq(err, "Network error")
+}
+
+///|
+test "GeneratedFile from_any" {
+  let obj = @js.Object::new()
+  obj.set("name", "output.png")
+  obj.set("mediaType", "image/png")
+  obj.set("data", "base64encodeddata")
+  let file = GeneratedFile::from_any(obj.to_any())
+  guard file.name is Some(name)
+  assert_eq(name, "output.png")
+  guard file.media_type is Some(media_type)
+  assert_eq(media_type, "image/png")
+}
+
+///|
+test "GeneratedFile from_any without optional fields" {
+  let obj = @js.Object::new()
+  obj.set("data", "base64encodeddata")
+  let file = GeneratedFile::from_any(obj.to_any())
+  guard file.name is None
+  guard file.media_type is None
+}
+
+///|
+test "ReasoningOutput from_any" {
+  let obj = @js.Object::new()
+  obj.set("text", "Let me think about this...")
+  let output = ReasoningOutput::from_any(obj.to_any())
+  assert_eq(output.text, "Let me think about this...")
+}
+
+///|
+test "ContentPart from_any text" {
+  let obj = @js.Object::new()
+  obj.set("type", "text")
+  obj.set("text", "Hello world")
+  let part = ContentPart::from_any(obj.to_any())
+  guard part is TextPart(text~, ..)
+  assert_eq(text, "Hello world")
+}
+
+///|
+test "ContentPart from_any reasoning" {
+  let obj = @js.Object::new()
+  obj.set("type", "reasoning")
+  obj.set("text", "Thinking...")
+  let part = ContentPart::from_any(obj.to_any())
+  guard part is ReasoningPart(reasoning~)
+  assert_eq(reasoning.text, "Thinking...")
+}
+
+///|
+test "ContentPart from_any source" {
+  let obj = @js.Object::new()
+  obj.set("type", "source")
+  obj.set("sourceType", "url")
+  obj.set("id", "src-1")
+  obj.set("url", "https://example.com")
+  let part = ContentPart::from_any(obj.to_any())
+  guard part is SourceContentPart(source~)
+  guard source is UrlSource(src)
+  assert_eq(src.id, "src-1")
+}
+
+///|
+test "ContentPart from_any file" {
+  let obj = @js.Object::new()
+  obj.set("type", "file")
+  let file_obj = @js.Object::new()
+  file_obj.set("name", "doc.pdf")
+  file_obj.set("data", "data")
+  obj.set("file", file_obj)
+  let part = ContentPart::from_any(obj.to_any())
+  guard part is FilePart(file~, ..)
+  guard file.name is Some(name)
+  assert_eq(name, "doc.pdf")
+}
+
+///|
+test "ContentPart from_any tool-call" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-call")
+  obj.set("toolCallId", "call-1")
+  obj.set("toolName", "search")
+  let input_obj = @js.Object::new()
+  input_obj.set("q", "test")
+  obj.set("input", input_obj)
+  let part = ContentPart::from_any(obj.to_any())
+  guard part is ToolCallContentPart(tool_call~, ..)
+  assert_eq(tool_call.tool_call_id, "call-1")
+}
+
+///|
+test "ContentPart from_any tool-result" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-result")
+  obj.set("toolCallId", "call-1")
+  obj.set("toolName", "search")
+  let input_obj = @js.Object::new()
+  obj.set("input", input_obj)
+  obj.set("output", "result")
+  let part = ContentPart::from_any(obj.to_any())
+  guard part is ToolResultContentPart(tool_result~, ..)
+  assert_eq(tool_result.tool_call_id, "call-1")
+}
+
+///|
+test "ContentPart from_any tool-error" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-error")
+  obj.set("toolCallId", "call-1")
+  obj.set("toolName", "search")
+  let args_obj = @js.Object::new()
+  obj.set("args", args_obj)
+  obj.set("error", "Error message")
+  let part = ContentPart::from_any(obj.to_any())
+  guard part is ToolErrorContentPart(tool_error~, ..)
+  assert_eq(tool_error.tool_call_id, "call-1")
+}
+
+///|
+test "ContentPart from_any unknown type" {
+  let obj = @js.Object::new()
+  obj.set("type", "unknown-type")
+  let part = ContentPart::from_any(obj.to_any())
+  // Unknown types fall through to TextPart with empty text
+  guard part is TextPart(text~, ..)
+  assert_eq(text, "")
+}
+
+///|
+test "LanguageModelResponseMetadata from_any" {
+  let obj = @js.Object::new()
+  obj.set("id", "resp-123")
+  obj.set("modelId", "gpt-4")
+  obj.set("timestamp", "2024-01-01T00:00:00Z")
+  let meta = LanguageModelResponseMetadata::from_any(obj.to_any())
+  guard meta.id is Some(id)
+  assert_eq(id, "resp-123")
+  guard meta.model_id is Some(model_id)
+  assert_eq(model_id, "gpt-4")
+  guard meta.timestamp is Some(_)
+}
+
+///|
+test "LanguageModelResponseMetadata from_any without optional" {
+  let obj = @js.Object::new()
+  let meta = LanguageModelResponseMetadata::from_any(obj.to_any())
+  guard meta.id is None
+  guard meta.model_id is None
+  guard meta.timestamp is None
+}
+
+///|
+test "Tools new and add" {
+  let tools = Tools::new()
+  let tool = Tool::typed(
+    description="Test tool",
+    input_schema={
+      "type": "object",
+      "properties": { "x": { "type": "number" } },
+    },
+    fn(input : @js.Any) -> Int { input.get("x").cast() },
+  )
+  let updated = tools.add("test_tool", tool)
+  assert_eq(updated.tools.length(), 1)
+}
+
+///|
+test "ToolChoice to_any auto" {
+  let choice = ToolChoice::Auto
+  let any = choice.to_any()
+  let val : String = any.cast()
+  assert_eq(val, "auto")
+}
+
+///|
+test "ToolChoice to_any required" {
+  let choice = ToolChoice::Required
+  let any = choice.to_any()
+  let val : String = any.cast()
+  assert_eq(val, "required")
+}
+
+///|
+test "ToolChoice to_any none" {
+  let choice = ToolChoice::None_
+  let any = choice.to_any()
+  let val : String = any.cast()
+  assert_eq(val, "none")
+}
+
+///|
+test "ToolChoice to_any tool" {
+  let choice = ToolChoice::Tool("my_tool")
+  let any = choice.to_any()
+  let type_val : String = any.get("type").cast()
+  let name_val : String = any.get("toolName").cast()
+  assert_eq(type_val, "tool")
+  assert_eq(name_val, "my_tool")
+}
+
+///|
+test "ProviderMetadata to_any" {
+  let obj = @js.Object::new()
+  obj.set("key", "value")
+  let meta : ProviderMetadata = { raw: obj.to_any() }
+  let any = meta.to_any()
+  let val : String = any.get("key").cast()
+  assert_eq(val, "value")
+}
+
+///|
+test "LanguageModelRequestMetadata from_any" {
+  let obj = @js.Object::new()
+  obj.set("requestId", "req-1")
+  let meta = LanguageModelRequestMetadata::from_any(obj.to_any())
+  // Just verify it can be created
+  let val : String = meta.raw.get("requestId").cast()
+  assert_eq(val, "req-1")
+}
+
+///|
+test "ToolInputStart with all optional fields" {
+  let obj = @js.Object::new()
+  obj.set("type", "tool-input-start")
+  obj.set("id", "tool-1")
+  obj.set("toolName", "search")
+  obj.set("providerExecuted", true)
+  obj.set("dynamic", false)
+  obj.set("title", "Search Tool")
+  let part = TextStreamPart::from_any(obj.to_any())
+  guard part
+    is ToolInputStart(id~, tool_name~, provider_executed~, dynamic~, title~, ..)
+  assert_eq(id, "tool-1")
+  assert_eq(tool_name, "search")
+  guard provider_executed is Some(pe)
+  assert_eq(pe, true)
+  guard dynamic is Some(d)
+  assert_eq(d, false)
+  guard title is Some(t)
+  assert_eq(t, "Search Tool")
+}

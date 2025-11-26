@@ -17,10 +17,11 @@ test "generate image result from_any" {
     "base64": "base64data" |> @js.any,
     "uint8Array": @js.undefined(),
   })
+  let empty_warnings : Array[@js.Any] = []
   let raw = @js.from_map({
     "image": image_raw,
     "images": @js.from_array([image_raw]),
-    "warnings": @js.from_array([]) |> @js.any,
+    "warnings": @js.from_array(empty_warnings),
   })
   let result = @ai.GenerateImageResult::from_any(raw)
   assert_eq(result.image.base64, "base64data")
@@ -38,10 +39,11 @@ test "generate image result multiple images" {
     "base64": "image2base64" |> @js.any,
     "uint8Array": @js.undefined(),
   })
+  let empty_warnings : Array[@js.Any] = []
   let raw = @js.from_map({
     "image": image1,
     "images": @js.from_array([image1, image2]),
-    "warnings": @js.from_array([]) |> @js.any,
+    "warnings": @js.from_array(empty_warnings),
   })
   let result = @ai.GenerateImageResult::from_any(raw)
   assert_eq(result.images.length(), 2)

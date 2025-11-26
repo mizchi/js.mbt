@@ -10,6 +10,7 @@ test "output strategy to_string" {
 
 ///|
 test "generate object result from_any" {
+  let empty_warnings : Array[@js.Any] = []
   let raw = @js.from_map({
     "object": @js.from_map({ "name": "test" |> @js.any }),
     "finishReason": "stop" |> @js.any,
@@ -18,7 +19,7 @@ test "generate object result from_any" {
       "outputTokens": 20 |> @js.any,
       "totalTokens": 30 |> @js.any,
     }),
-    "warnings": @js.from_array([]) |> @js.any,
+    "warnings": @js.from_array(empty_warnings),
     "response": @js.from_map({ "id": "resp-123" |> @js.any }),
   })
   let result = @ai.GenerateObjectResult::from_any(raw)
@@ -28,6 +29,7 @@ test "generate object result from_any" {
 
 ///|
 test "generate object result get_object" {
+  let empty_warnings : Array[@js.Any] = []
   let raw = @js.from_map({
     "object": @js.from_map({ "name": "John" |> @js.any, "age": 30 |> @js.any }),
     "finishReason": "stop" |> @js.any,
@@ -36,7 +38,7 @@ test "generate object result get_object" {
       "outputTokens": 20 |> @js.any,
       "totalTokens": 30 |> @js.any,
     }),
-    "warnings": @js.from_array([]) |> @js.any,
+    "warnings": @js.from_array(empty_warnings),
     "response": @js.from_map({}),
   })
   let result = @ai.GenerateObjectResult::from_any(raw)
