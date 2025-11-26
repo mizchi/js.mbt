@@ -13,25 +13,30 @@ fn app(_ : Unit) -> @react.Element {
 }
 
 ///|
-test "testing-library/react" {
-  // @global_jsdom.register()
-  @node.require("global-jsdom/register") |> ignore
+fn setup_rtl() -> Unit {
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
+  @react_testing_library.setup_matchers()
+  @react_testing_library.cleanup()
+}
+
+///|
+test "testing-library/react" {
+  setup_rtl()
   defer @react_testing_library.cleanup()
   @react_testing_library.render(@react.component(app, ())) |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("click me"),
   )
   |> ignore
-  // @react_testing_library.screen().debug()
-  @react_testing_library.screen().getByText("Count: 1").textContent()
-  |> assert_eq("Count: 1")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Count: 1"),
+  )..toHaveTextContent("Count: 1")
 }
 
 ///|
 test "RenderResult methods" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div(id="test-id", [
     "Test Content",
@@ -45,16 +50,16 @@ test "RenderResult methods" {
   @js.typeof_(base) |> assert_eq("object")
   let comp2 = (_props : Unit) => @react_element.div(["Rerendered Content"])
   result.rerender(@react.component(comp2, ()))
-  @react_testing_library.screen().getByText("Rerendered Content").textContent()
-  |> assert_eq("Rerendered Content")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Rerendered Content"),
+  )..toHaveTextContent("Rerendered Content")
   // Test unmount
   result.unmount()
 }
 
 ///|
 test "queryBy methods return None when not found" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div(["Existing text"])
   @react_testing_library.render(@react.component(comp, ())) |> ignore
@@ -70,15 +75,14 @@ test "queryBy methods return None when not found" {
   ])
   let is_null2 = @js.is_null(existing)
   assert_eq(is_null2, false)
-  // Verify the text content
+  // Verify the text content using raw HTMLElement
   let el : @dom.HTMLElement = @js.identity(existing)
   assert_eq(el.textContent(), "Existing text")
 }
 
 ///|
 test "getAllBy and queryAllBy methods" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.button(["Button 1"]),
@@ -99,8 +103,7 @@ test "getAllBy and queryAllBy methods" {
 
 ///|
 test "getByRole query" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.button(["Click me"]),
@@ -108,47 +111,42 @@ test "getByRole query" {
   ])
   @react_testing_library.render(@react.component(comp, ())) |> ignore
   // getByRole finds button
-  let btn = @react_testing_library.screen().getByRole("button")
-  btn.textContent() |> assert_eq("Click me")
-  // getByRole finds textbox
-  let input_el = @react_testing_library.screen().getByRole("textbox")
-  @js.typeof_(input_el) |> assert_eq("object")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByRole("button"),
+  )..toHaveTextContent("Click me")
+  // getByRole finds textbox (just verify it exists)
+  @react_testing_library.screen().getByRole("textbox") |> ignore
 }
 
 ///|
 test "getByPlaceholderText query" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.input(placeholder="Enter your name"),
   ])
   @react_testing_library.render(@react.component(comp, ())) |> ignore
-  let input_el : @dom.HTMLInputElement = @js.identity(
+  @react_testing_library.expect(
     @react_testing_library.screen().getByPlaceholderText("Enter your name"),
-  )
-  input_el.placeholder |> assert_eq("Enter your name")
+  )..toHaveAttribute("placeholder")
 }
 
 ///|
 test "getByDisplayValue query" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.input(value="test value", on_change=fn(_) { () }),
   ])
   @react_testing_library.render(@react.component(comp, ())) |> ignore
-  let input_el : @dom.HTMLInputElement = @js.identity(
+  @react_testing_library.expect(
     @react_testing_library.screen().getByDisplayValue("test value"),
-  )
-  input_el.value |> assert_eq("test value")
+  )..toHaveValue("test value")
 }
 
 ///|
 test "getAllByText with multiple results" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.div(["Item"]),
@@ -163,8 +161,7 @@ test "getAllByText with multiple results" {
 
 ///|
 test "fireEvent click on button" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (clicked, set_clicked) = @react.use_state(false)
@@ -180,14 +177,14 @@ test "fireEvent click on button" {
     @react_testing_library.screen().getByText("Click me"),
   )
   |> ignore
-  @react_testing_library.screen().getByText("Clicked!").textContent()
-  |> assert_eq("Clicked!")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Clicked!"),
+  )..toHaveTextContent("Clicked!")
 }
 
 ///|
 test "fireEvent change on input" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (value, set_value) = @react.use_state("")
@@ -211,14 +208,14 @@ test "fireEvent change on input" {
   target.set("value", "hello")
   event.set("target", target.to_any())
   @react_testing_library.fireEvent().change(input_el, event.to_any()) |> ignore
-  @react_testing_library.screen().getByText("Value: hello").textContent()
-  |> assert_eq("Value: hello")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Value: hello"),
+  )..toHaveTextContent("Value: hello")
 }
 
 ///|
 test "fireEvent submit on form" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (submitted, set_submitted) = @react.use_state(false)
@@ -241,19 +238,22 @@ test "fireEvent submit on form" {
   }
   @react_testing_library.render(@react.component(comp, ())) |> ignore
   @react_testing_library.screen().getByText("Not submitted") |> ignore
-  let form_el : @dom.HTMLElement = @react_testing_library.screen()
-    .getByText("Submit")
-    .get("form")
-    .cast()
+  // Get form element via container
+  let result = @react_testing_library.render(@react.component(comp, ()))
+  let form_el : @dom.HTMLElement = result
+    .container()
+    .querySelector("form")
+    .unwrap()
+    |> @js.identity
   @react_testing_library.fireEvent().submit(form_el) |> ignore
-  @react_testing_library.screen().getByText("Form submitted").textContent()
-  |> assert_eq("Form submitted")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Form submitted"),
+  )..toHaveTextContent("Form submitted")
 }
 
 ///|
 test "fireEvent focus and blur on input" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (focused, set_focused) = @react.use_state(false)
@@ -273,17 +273,18 @@ test "fireEvent focus and blur on input" {
     "Focus me",
   )
   @react_testing_library.fireEvent().focus(input_el) |> ignore
-  @react_testing_library.screen().getByText("Focused").textContent()
-  |> assert_eq("Focused")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Focused"),
+  )..toHaveTextContent("Focused")
   @react_testing_library.fireEvent().blur(input_el) |> ignore
-  @react_testing_library.screen().getByText("Not focused").textContent()
-  |> assert_eq("Not focused")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Not focused"),
+  )..toHaveTextContent("Not focused")
 }
 
 ///|
 test "fireEvent keyDown on input" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (key, set_key) = @react.use_state("")
@@ -306,13 +307,14 @@ test "fireEvent keyDown on input" {
   let event = @js.Object::new()
   event.set("key", "Enter")
   @react_testing_library.fireEvent().keyDown(input_el, event.to_any()) |> ignore
-  @react_testing_library.screen().getByText("Key: Enter").textContent()
-  |> assert_eq("Key: Enter")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Key: Enter"),
+  )..toHaveTextContent("Key: Enter")
 }
 
 ///|
 test "configure function exists" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   // Just test that configure can be called without error
@@ -324,7 +326,7 @@ test "configure function exists" {
 
 ///|
 test "renderHook: useState" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let hook = fn() {
@@ -341,7 +343,7 @@ test "renderHook: useState" {
 
 ///|
 test "renderHook: useState with updates" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   // Test that we can get the initial state value
@@ -360,7 +362,7 @@ test "renderHook: useState with updates" {
 
 ///|
 test "renderHook: useEffect" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let hook = () => {
@@ -383,7 +385,7 @@ test "renderHook: useEffect" {
 
 ///|
 test "renderHook: useCallback" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let hook = fn() {
@@ -398,7 +400,7 @@ test "renderHook: useCallback" {
 
 ///|
 test "renderHook: useMemo" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let hook = fn() {
@@ -413,7 +415,7 @@ test "renderHook: useMemo" {
 
 ///|
 test "renderHook: useRef" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let hook = fn() { @react.useRef(Some(42)) }
@@ -427,7 +429,7 @@ test "renderHook: useRef" {
 
 ///|
 test "renderHook: useContext" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let ctx : @react.Context[Int] = @react.create_context(Some(100))
@@ -440,7 +442,7 @@ test "renderHook: useContext" {
 
 ///|
 test "renderHook: useReducer" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let reducer = fn(state : Int, action : Int) { state + action }
@@ -458,7 +460,7 @@ test "renderHook: useReducer" {
 
 ///|
 test "renderHook: rerender method" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   // Use a simple hook that doesn't need props
@@ -481,7 +483,7 @@ test "renderHook: rerender method" {
 
 ///|
 test "renderHook: unmount method" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let hook = fn() { @react.use_state(0) }
@@ -495,7 +497,7 @@ test "renderHook: unmount method" {
 
 ///|
 test "useId hook" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
@@ -510,7 +512,7 @@ test "useId hook" {
 
 ///|
 test "useTransition hook" {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
@@ -526,20 +528,21 @@ test "useTransition hook" {
     ])
   }
   @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.screen().getByText("Count: 0").textContent()
-  |> assert_eq("Count: 0")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Count: 0"),
+  )..toHaveTextContent("Count: 0")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("Increment"),
   )
   |> ignore
-  @react_testing_library.screen().getByText("Count: 1").textContent()
-  |> assert_eq("Count: 1")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Count: 1"),
+  )..toHaveTextContent("Count: 1")
 }
 
 ///|
 test "useDeferredValue hook" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (value, set_value) = @react.use_state(0)
@@ -551,25 +554,22 @@ test "useDeferredValue hook" {
     ])
   }
   @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.screen()
-  .getByText("Value: 0, Deferred: 0")
-  .textContent()
-  |> assert_eq("Value: 0, Deferred: 0")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Value: 0, Deferred: 0"),
+  )..toHaveTextContent("Value: 0, Deferred: 0")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("Update"),
   )
   |> ignore
   // After update, both should eventually match
-  @react_testing_library.screen()
-  .getByText("Value: 1, Deferred: 1")
-  .textContent()
-  |> assert_eq("Value: 1, Deferred: 1")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Value: 1, Deferred: 1"),
+  )..toHaveTextContent("Value: 1, Deferred: 1")
 }
 
 ///|
 test "useOptimistic hook" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = @react.use_state(0)
@@ -590,14 +590,16 @@ test "useOptimistic hook" {
     ])
   }
   @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.screen().getByText("Optimistic: 0").textContent()
-  |> assert_eq("Optimistic: 0")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Optimistic: 0"),
+  )..toHaveTextContent("Optimistic: 0")
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("Add"),
   )
   |> ignore
-  @react_testing_library.screen().getByText("Optimistic: 1").textContent()
-  |> assert_eq("Optimistic: 1")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Optimistic: 1"),
+  )..toHaveTextContent("Optimistic: 1")
 }
 
 ///|
@@ -621,13 +623,13 @@ fn parent_component(_props : Unit) -> @react.Element {
 
 ///|
 test "useImperativeHandle hook" {
-  @node.require("global-jsdom/register") |> ignore
-  @react.init_react_api(@node.require("react"))
+  setup_rtl()
   defer @react_testing_library.cleanup()
   @react_testing_library.render(@react.component(parent_component, ()))
   |> ignore
-  @react_testing_library.screen().getByText("Child").textContent()
-  |> assert_eq("Child")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Child"),
+  )..toHaveTextContent("Child")
 }
 
 // =============================================================================
@@ -636,11 +638,11 @@ test "useImperativeHandle hook" {
 
 ///|
 async fn init_react_router() -> Unit {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
+  @react_testing_library.setup_matchers()
+  @react_testing_library.cleanup()
   @react_router.dynamic_import()
-  defer @react_testing_library.cleanup()
-
 }
 
 ///|
@@ -672,13 +674,15 @@ async test "react-router: basic routing with memory router" {
     initial_index: None,
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
-  @react_testing_library.screen().getByText("Home Page").textContent()
-  |> assert_eq("Home Page")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Home Page"),
+  )..toHaveTextContent("Home Page")
 }
 
 ///|
 async test "react-router: navigate to different route" {
   init_react_router()
+  defer @react_testing_library.cleanup()
   let routes = [
     @react_router.Route::Component(path="/", component=home_component),
     @react_router.Route::Component(path="/about", component=about_component),
@@ -688,13 +692,15 @@ async test "react-router: navigate to different route" {
     initial_index: None,
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
-  @react_testing_library.screen().getByText("About Page").textContent()
-  |> assert_eq("About Page")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("About Page"),
+  )..toHaveTextContent("About Page")
 }
 
 ///|
 async test "react-router: route with params" {
   init_react_router()
+  defer @react_testing_library.cleanup()
   let routes = [
     @react_router.Route::Component(path="/users/:id", component=user_component),
   ]
@@ -703,13 +709,15 @@ async test "react-router: route with params" {
     initial_index: None,
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
-  @react_testing_library.screen().getByText("User: 456").textContent()
-  |> assert_eq("User: 456")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("User: 456"),
+  )..toHaveTextContent("User: 456")
 }
 
 ///|
 async test "react-router: Link component renders" {
   init_react_router()
+  defer @react_testing_library.cleanup()
   let routes = [
     @react_router.Route::Component(path="/", component=home_component),
     @react_router.Route::Component(path="/about", component=about_component),
@@ -720,8 +728,9 @@ async test "react-router: Link component renders" {
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
   // Home page should render
-  @react_testing_library.screen().getByText("Home Page").textContent()
-  |> assert_eq("Home Page")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Home Page"),
+  )..toHaveTextContent("Home Page")
 }
 
 ///|
@@ -733,6 +742,7 @@ fn location_display(_props : @react_router.RouteProps) -> @react.Element {
 ///|
 async test "react-router: useLocation hook" {
   init_react_router()
+  defer @react_testing_library.cleanup()
   let routes = [
     @react_router.Route::Component(
       path="/test/path",
@@ -744,6 +754,7 @@ async test "react-router: useLocation hook" {
     initial_index: None,
   })
   @react_testing_library.render(@react_router.router_provider(router)) |> ignore
-  @react_testing_library.screen().getByText("Path: /test/path").textContent()
-  |> assert_eq("Path: /test/path")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Path: /test/path"),
+  )..toHaveTextContent("Path: /test/path")
 }

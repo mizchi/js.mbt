@@ -1,7 +1,9 @@
 ///|
 fn init_jsdom() -> Unit {
-  @node.require("global-jsdom/register") |> ignore
+  @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
+  @react_testing_library.setup_matchers()
+  @react_testing_library.cleanup()
 }
 
 ///|
@@ -120,17 +122,13 @@ test "createPortal renders to target" {
   )
   |> ignore
   // Verify main content
-  @react_testing_library.screen()
-  .getByText("Main Content")
-  .get("textContent")
-  .cast()
-  |> assert_eq("Main Content")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Main Content"),
+  ).toHaveTextContent("Main Content")
   // Verify portal content
-  @react_testing_library.screen()
-  .getByText("Portal Content")
-  .get("textContent")
-  .cast()
-  |> assert_eq("Portal Content")
+  @react_testing_library.expect(
+    @react_testing_library.screen().getByText("Portal Content"),
+  ).toHaveTextContent("Portal Content")
   // Cleanup
   @react_testing_library.cleanup()
   body.removeChild(portal_target) |> ignore

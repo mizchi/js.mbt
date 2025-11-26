@@ -20,11 +20,14 @@ pub fn Screen::debug(self : Self) -> Unit {
 }
 
 ///|
-/// Query Result Types
-pub type ScreenResult = @dom.HTMLElement
+/// Query Result Types - opaque wrapper around HTMLElement
+#external
+pub type ScreenResult
 
 ///|
-pub type ScreenResults = Array[@dom.HTMLElement]
+pub fn ScreenResult::as_element(self : ScreenResult) -> @dom.HTMLElement {
+  @js.identity(self)
+}
 
 ///| getBy* queries - throw error if not found
 
@@ -538,7 +541,7 @@ pub fn Screen::getAllByRole(
   expanded? : Bool? = None,
   level? : Int? = None,
   description? : String? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match
     build_role_options(
       name~,
@@ -564,7 +567,7 @@ pub fn Screen::getAllByLabelText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match
     build_selector_matcher_options(
       exact~,
@@ -585,7 +588,7 @@ pub fn Screen::getAllByPlaceholderText(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getAllByPlaceholderText", text, opts).cast()
     None => self.call1("getAllByPlaceholderText", text).cast()
@@ -601,7 +604,7 @@ pub fn Screen::getAllByText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match
     build_selector_matcher_options(
       exact~,
@@ -622,7 +625,7 @@ pub fn Screen::getAllByDisplayValue(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getAllByDisplayValue", value, opts).cast()
     None => self.call1("getAllByDisplayValue", value).cast()
@@ -637,7 +640,7 @@ pub fn Screen::getAllByAltText(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getAllByAltText", text, opts).cast()
     None => self.call1("getAllByAltText", text).cast()
@@ -652,7 +655,7 @@ pub fn Screen::getAllByTitle(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getAllByTitle", title, opts).cast()
     None => self.call1("getAllByTitle", title).cast()
@@ -661,7 +664,10 @@ pub fn Screen::getAllByTitle(
 
 ///|
 /// JS: screen.getAllByTestId(testId)
-pub fn Screen::getAllByTestId(self : Screen, testId : String) -> ScreenResults {
+pub fn Screen::getAllByTestId(
+  self : Screen,
+  testId : String,
+) -> Array[ScreenResult] {
   self.call1("getAllByTestId", testId).cast()
 }
 
@@ -680,7 +686,7 @@ pub fn Screen::queryAllByRole(
   expanded? : Bool? = None,
   level? : Int? = None,
   description? : String? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match
     build_role_options(
       name~,
@@ -706,7 +712,7 @@ pub fn Screen::queryAllByLabelText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match
     build_selector_matcher_options(
       exact~,
@@ -727,7 +733,7 @@ pub fn Screen::queryAllByPlaceholderText(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("queryAllByPlaceholderText", text, opts).cast()
     None => self.call1("queryAllByPlaceholderText", text).cast()
@@ -743,7 +749,7 @@ pub fn Screen::queryAllByText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match
     build_selector_matcher_options(
       exact~,
@@ -764,7 +770,7 @@ pub fn Screen::queryAllByDisplayValue(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("queryAllByDisplayValue", value, opts).cast()
     None => self.call1("queryAllByDisplayValue", value).cast()
@@ -779,7 +785,7 @@ pub fn Screen::queryAllByAltText(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("queryAllByAltText", text, opts).cast()
     None => self.call1("queryAllByAltText", text).cast()
@@ -794,7 +800,7 @@ pub fn Screen::queryAllByTitle(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("queryAllByTitle", title, opts).cast()
     None => self.call1("queryAllByTitle", title).cast()
@@ -806,7 +812,7 @@ pub fn Screen::queryAllByTitle(
 pub fn Screen::queryAllByTestId(
   self : Screen,
   testId : String,
-) -> ScreenResults {
+) -> Array[ScreenResult] {
   self.call1("queryAllByTestId", testId).cast()
 }
 
@@ -825,8 +831,8 @@ pub async fn Screen::findAllByRole(
   expanded? : Bool? = None,
   level? : Int? = None,
   description? : String? = None,
-) -> ScreenResults {
-  let promise : @js.Promise[ScreenResults] = match
+) -> Array[ScreenResult] {
+  let promise : @js.Promise[Array[ScreenResult]] = match
     build_role_options(
       name~,
       hidden~,
@@ -852,8 +858,8 @@ pub async fn Screen::findAllByLabelText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
-) -> ScreenResults {
-  let promise : @js.Promise[ScreenResults] = match
+) -> Array[ScreenResult] {
+  let promise : @js.Promise[Array[ScreenResult]] = match
     build_selector_matcher_options(
       exact~,
       trim~,
@@ -874,8 +880,8 @@ pub async fn Screen::findAllByPlaceholderText(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
-  let promise : @js.Promise[ScreenResults] = match
+) -> Array[ScreenResult] {
+  let promise : @js.Promise[Array[ScreenResult]] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findAllByPlaceholderText", text, opts).cast()
     None => self.call1("findAllByPlaceholderText", text).cast()
@@ -892,8 +898,8 @@ pub async fn Screen::findAllByText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
-) -> ScreenResults {
-  let promise : @js.Promise[ScreenResults] = match
+) -> Array[ScreenResult] {
+  let promise : @js.Promise[Array[ScreenResult]] = match
     build_selector_matcher_options(
       exact~,
       trim~,
@@ -914,8 +920,8 @@ pub async fn Screen::findAllByDisplayValue(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
-  let promise : @js.Promise[ScreenResults] = match
+) -> Array[ScreenResult] {
+  let promise : @js.Promise[Array[ScreenResult]] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findAllByDisplayValue", value, opts).cast()
     None => self.call1("findAllByDisplayValue", value).cast()
@@ -931,8 +937,8 @@ pub async fn Screen::findAllByAltText(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
-  let promise : @js.Promise[ScreenResults] = match
+) -> Array[ScreenResult] {
+  let promise : @js.Promise[Array[ScreenResult]] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findAllByAltText", text, opts).cast()
     None => self.call1("findAllByAltText", text).cast()
@@ -948,8 +954,8 @@ pub async fn Screen::findAllByTitle(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> ScreenResults {
-  let promise : @js.Promise[ScreenResults] = match
+) -> Array[ScreenResult] {
+  let promise : @js.Promise[Array[ScreenResult]] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findAllByTitle", title, opts).cast()
     None => self.call1("findAllByTitle", title).cast()
@@ -962,8 +968,8 @@ pub async fn Screen::findAllByTitle(
 pub async fn Screen::findAllByTestId(
   self : Screen,
   testId : String,
-) -> ScreenResults {
-  let promise : @js.Promise[ScreenResults] = self
+) -> Array[ScreenResult] {
+  let promise : @js.Promise[Array[ScreenResult]] = self
     .call1("findAllByTestId", testId)
     .cast()
   promise.wait()

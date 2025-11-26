@@ -5,7 +5,7 @@ React Testing Library bindings for testing React components in Node.js environme
 ## Installation
 
 ```bash
-npm add @testing-library/react react react-dom
+npm add @testing-library/react @testing-library/jest-dom　global-jsdom
 ```
 
 Add to your `moon.pkg.json`:
@@ -15,10 +15,15 @@ Add to your `moon.pkg.json`:
   "import": [
     "mizchi/js",
     "mizchi/js/npm/react",
-    "mizchi/js/npm/react_testing_library"
+    {
+      "path": "mizchi/js/npm/react_testing_library",
+      "alias": "rtl"
+    }
   ]
 }
 ```
+
+`rtl` is shorthand
 
 ## Usage
 

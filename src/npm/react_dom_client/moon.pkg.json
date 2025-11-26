@@ -6,6 +6,7 @@
     "mizchi/js/npm/react",
     "mizchi/js/npm/react_element",
     "mizchi/js/npm/react_testing_library",
+    "mizchi/js/npm/global_jsdom",
     "mizchi/js/node"
   ]
 }
