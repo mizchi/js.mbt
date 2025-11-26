@@ -5,12 +5,10 @@
     "mizchi/js/browser/dom",
     "mizchi/js/builtins/regexp",
     "mizchi/js/node",
+    "mizchi/js/npm/global_jsdom",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react_element",
     "moonbitlang/async"
   ],
-  "test-import": [
-    "mizchi/js/npm/global_jsdom",
-    "mizchi/js/npm/react_router"
-  ]
+  "test-import": ["mizchi/js/npm/react_router"]
 }

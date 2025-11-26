@@ -3,40 +3,52 @@
 // is preferred over fully qualified paths for better test readability.
 
 ///|
-fn setup_once() -> Unit {
+/// Setup React Testing Library environment.
+/// Returns a dispose function that should be called via defer.
+/// Usage: let dispose = setup(); defer dispose()
+fn setup() -> () -> Unit {
   @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
-  setup_matchers()
+  @react_testing_library.setup_matchers()
   cleanup()
+  () => cleanup()
 }
 
 ///|
 test "toHaveTextContent with string" {
-  setup_once()
-  defer cleanup()
-  let comp = (_props : Unit) => @react_element.div(["Hello World"])
+  let dispose = setup()
+  defer dispose()
+  let comp = _ => @react_element.div(["Hello World"])
   render(@react.component(comp, ())) |> ignore
   expect(screen().getByText("Hello World")).toHaveTextContent("Hello World")
 }
 
 ///|
 test "toHaveTextContent with regex" {
-  setup_once()
-  defer cleanup()
-  let comp = (_props : Unit) => @react_element.div(["Hello Regex"])
+  let dispose = setup()
+  defer dispose()
+  let comp = _ => @react_element.div(["Hello Regex"])
   render(@react.component(comp, ())) |> ignore
-  expect(screen().getByText("Hello Regex")).toHaveTextContentMatch(
+  expect(screen().getByText("Hello Regex")).toHaveTextContent(
     @regexp.RegExp::new("Hello"),
   )
 }
 
 ///|
+test "getByText with regex" {
+  let dispose = setup()
+  defer dispose()
+  let comp = _ => @react_element.div(["Hello Pattern Match"])
+  render(@react.component(comp, ())) |> ignore
+  // Using RegExp with getByText via TextMatch trait
+  expect(screen().getByText(@regexp.RegExp::new("Pattern"))).toBeInTheDocument()
+}
+
+///|
 test "toHaveClass" {
-  setup_once()
-  defer cleanup()
-  let comp = (_props : Unit) => @react_element.div(class="greeting active", [
-    "Test Class",
-  ])
+  let dispose = setup()
+  defer dispose()
+  let comp = _ => @react_element.div(class="greeting active", ["Test Class"])
   render(@react.component(comp, ())) |> ignore
   expect(screen().getByText("Test Class"))
   ..toHaveClass("greeting")
@@ -45,14 +57,11 @@ test "toHaveClass" {
 
 ///|
 test "toHaveAttribute" {
-  setup_once()
-  defer cleanup()
-  let comp = (_props : Unit) => @react_element.input(
-    type_="text",
-    placeholder="Enter name",
-  )
+  let dispose = setup()
+  defer dispose()
+  let comp = _ => @react_element.input(type_="text", placeholder="Enter name")
   render(@react.component(comp, ())) |> ignore
-  expect(screen().getByPlaceholderText("Enter name"))
+  expect(screen().get_by_placeholder_text("Enter name"))
   ..toHaveAttribute("type")
   ..toHaveAttributeValue("type", "text")
   ..toHaveAttributeValue("placeholder", "Enter name")
@@ -60,18 +69,18 @@ test "toHaveAttribute" {
 
 ///|
 test "toBeInTheDocument" {
-  setup_once()
-  defer cleanup()
-  let comp = (_props : Unit) => @react_element.span(["Test InDoc"])
+  let dispose = setup()
+  defer dispose()
+  let comp = _ => @react_element.span(["Test InDoc"])
   render(@react.component(comp, ())) |> ignore
   expect(screen().getByText("Test InDoc")).toBeInTheDocument()
 }
 
 ///|
 test "toBeDisabled and toBeEnabled" {
-  setup_once()
-  defer cleanup()
-  let comp = (_props : Unit) => @react_element.div([
+  let dispose = setup()
+  defer dispose()
+  let comp = _ => @react_element.div([
     @react_element.button(disabled=true, ["Disabled Btn"]),
     @react_element.button(["Enabled Btn"]),
   ])
@@ -82,9 +91,9 @@ test "toBeDisabled and toBeEnabled" {
 
 ///|
 test "toHaveValue for input" {
-  setup_once()
-  defer cleanup()
-  let comp = (_props : Unit) => @react_element.input(
+  let dispose = setup()
+  defer dispose()
+  let comp = _ => @react_element.input(
     type_="text",
     default_value="hello",
     placeholder="value test",
@@ -95,8 +104,8 @@ test "toHaveValue for input" {
 
 ///|
 test "chained matchers" {
-  setup_once()
-  defer cleanup()
+  let dispose = setup()
+  defer dispose()
   let comp = _ => @react_element.button(class="btn primary", type_="submit", [
     "Submit",
   ])

@@ -148,23 +148,15 @@ pub fn expect(result : ScreenResult) -> Expect {
 // ============================================================
 
 ///|
-/// Assert element has expected text content
+/// Assert element has expected text content (String or RegExp)
 /// Usage: expect(element)..toHaveTextContent("Hello World")
-pub fn Expect::toHaveTextContent(
+/// Usage: expect(element)..toHaveTextContent(@regexp.new("Hello"))
+#alias(to_have_text_content)
+pub fn[T : TextMatch] Expect::toHaveTextContent(
   self : Expect,
-  expected : String,
+  expected : T,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveTextContent", [expected])
-}
-
-///|
-/// Assert element has text content matching pattern
-/// Usage: expect(element)..toHaveTextContentMatch(@regexp.new("Hello"))
-pub fn Expect::toHaveTextContentMatch(
-  self : Expect,
-  pattern : @regexp.RegExp,
-) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveTextContent", [pattern])
+  assert_matcher(self.element, "toHaveTextContent", [expected.to_any()])
 }
 
 // ============================================================
@@ -174,6 +166,7 @@ pub fn Expect::toHaveTextContentMatch(
 ///|
 /// Assert element has attribute
 /// Usage: expect(element)..toHaveAttribute("disabled")
+#alias(to_have_attribute)
 pub fn Expect::toHaveAttribute(
   self : Expect,
   attr : String,
@@ -184,6 +177,7 @@ pub fn Expect::toHaveAttribute(
 ///|
 /// Assert element has attribute with value
 /// Usage: expect(element)..toHaveAttributeValue("type", "submit")
+#alias(to_have_attribute_value)
 pub fn Expect::toHaveAttributeValue(
   self : Expect,
   attr : String,
@@ -195,6 +189,7 @@ pub fn Expect::toHaveAttributeValue(
 ///|
 /// Assert element has class
 /// Usage: expect(element)..toHaveClass("active")
+#alias(to_have_class)
 pub fn Expect::toHaveClass(
   self : Expect,
   class_name : String,
@@ -205,6 +200,7 @@ pub fn Expect::toHaveClass(
 ///|
 /// Assert element has style
 /// Usage: expect(element)..toHaveStyle("display: none")
+#alias(to_have_style)
 pub fn Expect::toHaveStyle(
   self : Expect,
   style : String,
@@ -215,6 +211,7 @@ pub fn Expect::toHaveStyle(
 ///|
 /// Assert element has value (for inputs)
 /// Usage: expect(input)..toHaveValue("hello")
+#alias(to_have_value)
 pub fn Expect::toHaveValue(
   self : Expect,
   value : String,
@@ -225,6 +222,7 @@ pub fn Expect::toHaveValue(
 ///|
 /// Assert element has display value (for inputs/selects)
 /// Usage: expect(select)..toHaveDisplayValue("Option 1")
+#alias(to_have_display_value)
 pub fn Expect::toHaveDisplayValue(
   self : Expect,
   value : String,
@@ -239,6 +237,7 @@ pub fn Expect::toHaveDisplayValue(
 ///|
 /// Assert element is in the document
 /// Usage: expect(element)..toBeInTheDocument()
+#alias(to_be_in_the_document)
 pub fn Expect::toBeInTheDocument(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toBeInTheDocument", [])
 }
@@ -246,6 +245,7 @@ pub fn Expect::toBeInTheDocument(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element is visible
 /// Usage: expect(element)..toBeVisible()
+#alias(to_be_visible)
 pub fn Expect::toBeVisible(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toBeVisible", [])
 }
@@ -253,6 +253,7 @@ pub fn Expect::toBeVisible(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element is disabled
 /// Usage: expect(button)..toBeDisabled()
+#alias(to_be_disabled)
 pub fn Expect::toBeDisabled(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toBeDisabled", [])
 }
@@ -260,6 +261,7 @@ pub fn Expect::toBeDisabled(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element is enabled
 /// Usage: expect(button)..toBeEnabled()
+#alias(to_be_enabled)
 pub fn Expect::toBeEnabled(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toBeEnabled", [])
 }
@@ -267,6 +269,7 @@ pub fn Expect::toBeEnabled(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element is checked (checkbox/radio)
 /// Usage: expect(checkbox)..toBeChecked()
+#alias(to_be_checked)
 pub fn Expect::toBeChecked(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toBeChecked", [])
 }
@@ -274,6 +277,7 @@ pub fn Expect::toBeChecked(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element is required
 /// Usage: expect(input)..toBeRequired()
+#alias(to_be_required)
 pub fn Expect::toBeRequired(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toBeRequired", [])
 }
@@ -281,6 +285,7 @@ pub fn Expect::toBeRequired(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element is valid
 /// Usage: expect(input)..toBeValid()
+#alias(to_be_valid)
 pub fn Expect::toBeValid(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toBeValid", [])
 }
@@ -288,6 +293,7 @@ pub fn Expect::toBeValid(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element is invalid
 /// Usage: expect(input)..toBeInvalid()
+#alias(to_be_invalid)
 pub fn Expect::toBeInvalid(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toBeInvalid", [])
 }
@@ -295,6 +301,7 @@ pub fn Expect::toBeInvalid(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element has focus
 /// Usage: expect(input)..toHaveFocus()
+#alias(to_have_focus)
 pub fn Expect::toHaveFocus(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toHaveFocus", [])
 }
@@ -302,6 +309,7 @@ pub fn Expect::toHaveFocus(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element is empty
 /// Usage: expect(container)..toBeEmptyDOMElement()
+#alias(to_be_empty_dom_element)
 pub fn Expect::toBeEmptyDOMElement(self : Expect) -> Unit raise ExpectError {
   assert_matcher(self.element, "toBeEmptyDOMElement", [])
 }
@@ -313,6 +321,7 @@ pub fn Expect::toBeEmptyDOMElement(self : Expect) -> Unit raise ExpectError {
 ///|
 /// Assert element has accessible name
 /// Usage: expect(button)..toHaveAccessibleName("Submit")
+#alias(to_have_accessible_name)
 pub fn Expect::toHaveAccessibleName(
   self : Expect,
   name : String,
@@ -323,6 +332,7 @@ pub fn Expect::toHaveAccessibleName(
 ///|
 /// Assert element has accessible description
 /// Usage: expect(input)..toHaveAccessibleDescription("Enter your name")
+#alias(to_have_accessible_description)
 pub fn Expect::toHaveAccessibleDescription(
   self : Expect,
   desc : String,
@@ -333,6 +343,7 @@ pub fn Expect::toHaveAccessibleDescription(
 ///|
 /// Assert element has role
 /// Usage: expect(element)..toHaveRole("button")
+#alias(to_have_role)
 pub fn Expect::toHaveRole(
   self : Expect,
   role : String,
@@ -347,6 +358,7 @@ pub fn Expect::toHaveRole(
 ///|
 /// Assert element contains another element
 /// Usage: expect(container)..toContainElement(child)
+#alias(to_contain_element)
 pub fn Expect::toContainElement(
   self : Expect,
   child : @dom.HTMLElement,
@@ -357,6 +369,7 @@ pub fn Expect::toContainElement(
 ///|
 /// Assert element contains HTML
 /// Usage: expect(container)..toContainHTML("<span>Hello</span>")
+#alias(to_contain_html)
 pub fn Expect::toContainHTML(
   self : Expect,
   html : String,
