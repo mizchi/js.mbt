@@ -101,7 +101,7 @@ async test "Node Stream: Writable stream - write and properties" {
   let writable : @stream.Writable = @js.identity(create_writable_to_array())
   assert_eq(writable.writable(), true)
   assert_eq(writable.writableObjectMode(), false)
-  let success = writable.write(@js.identity("test"))
+  let success = writable.write("test")
   assert_eq(success, true)
 }
 
@@ -111,8 +111,8 @@ async test "Node Stream: Writable cork/uncork" {
   let writable : @stream.Writable = @js.identity(writable_js)
   writable.cork()
   assert_eq(writable.writableCorked(), 1)
-  let _ = writable.write(@js.identity("corked1"))
-  let _ = writable.write(@js.identity("corked2"))
+  let _ = writable.write("corked1")
+  let _ = writable.write("corked2")
   writable.uncork()
   assert_eq(writable.writableCorked(), 0)
   @js.sleep(16)

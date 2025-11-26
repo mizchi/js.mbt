@@ -71,9 +71,9 @@ pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
 
 ///|
 /// Allocate a new zero-filled buffer
-pub fn[T : @js.JsImpl] Buffer::alloc(
+pub fn Buffer::alloc(
   size : Int,
-  fill? : T,
+  fill? : &@js.JsImpl,
   encoding? : String = "utf-8",
 ) -> Buffer {
   let ctor = buffer_constructor()

@@ -163,7 +163,7 @@ async test "Node Stream Promises: finished with promises - writable" {
   let writable_js = create_writable_to_array_promises()
   let writable : @stream.Writable = @js.identity(writable_js)
   // Write some data
-  let _ = writable.write(@js.identity("test"))
+  let _ = writable.write("test")
   // End the stream
   ignore(writable.to_any().call0("end"))
   // Wait for finish
