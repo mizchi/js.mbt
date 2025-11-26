@@ -4,7 +4,54 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.5.3] (Unreleased)
+## [0.5.6] (Unreleased)
+
+### Added
+
+#### React Testing Library (`npm/react_testing_library`)
+- **TextMatch trait** - Queries now accept both `String` and `@regexp.RegExp` for text matching
+  - Applies to all text-based queries: `getByText`, `getByLabelText`, `getByPlaceholderText`, etc.
+  - Example: `screen().getByText(@regexp.RegExp::new("Hello"))` now works
+- **jest-dom matchers** - Full expect/matcher API for assertions
+  - `expect(element).toHaveTextContent("text")` - Assert text content (String or RegExp)
+  - `expect(element).toHaveClass("class")` - Assert CSS class
+  - `expect(element).toHaveAttribute("attr")` / `toHaveAttributeValue("attr", "value")`
+  - `expect(element).toBeInTheDocument()` - Assert element exists in DOM
+  - `expect(element).toBeVisible()` / `toBeDisabled()` / `toBeEnabled()`
+  - `expect(element).toBeChecked()` / `toBeRequired()` / `toBeValid()` / `toBeInvalid()`
+  - `expect(element).toHaveFocus()` / `toBeEmptyDOMElement()`
+  - `expect(element).toHaveValue("value")` / `toHaveDisplayValue("value")`
+  - `expect(element).toHaveStyle("css")` / `toHaveRole("role")`
+  - `expect(element).toHaveAccessibleName("name")` / `toHaveAccessibleDescription("desc")`
+  - `expect(element).toContainElement(child)` / `toContainHTML("<html>")`
+  - Chained assertions: `expect(el)..toBeInTheDocument()..toHaveClass("btn")`
+- **snake_case aliases** - All Screen queries and Expect matchers have `#alias` for snake_case
+  - `getByText` → `get_by_text`, `toHaveTextContent` → `to_have_text_content`, etc.
+- **setup() with dispose pattern** - `setup()` returns dispose function for use with `defer`
+  ```moonbit
+  let dispose = setup()
+  defer dispose()
+  ```
+
+### Changed
+
+#### React Testing Library
+- **Removed `toHaveTextContentMatch`** - Use `toHaveTextContent(@regexp.RegExp::new(...))` instead
+- **Split into separate files** - `rtl.mbt`, `screen.mbt`, `fire_event.mbt`, `jest_dom_matchers.mbt`
+- **Improved test setup** - Uses `@global_jsdom.register()` and dispose pattern
+
+#### SPA Support (`browser/events`, `npm/react_router`)
+- **Browser events** - Added `popstate`, `hashchange` event support
+- **React Router improvements** - Enhanced SPA navigation support
+
+### Fixed
+
+#### Zod Codegen (`npm/zod_codegen`)
+- **Trailing newlines** - Prevent extra trailing newlines in generated output
+
+---
+
+## [0.5.3]
 
 ### Changed
 
