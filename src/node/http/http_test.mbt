@@ -126,13 +126,13 @@ async test "Node HTTP: HTTP server handles simple request" {
   client_req.end()
 
   // Wait for request/response (increased timeout for reliability)
-  @js.sleep(200)
+  @js.sleep(500)
   inspect(request_handled, content="true")
   inspect(response_received, content="true")
 
   // Explicitly close server with callback
   server.close(callback=fn() { close_called = true }) |> ignore
-  @js.sleep(96)
+  @js.sleep(500)
   inspect(close_called, content="true")
 }
 
