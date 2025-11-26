@@ -15,10 +15,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **`parse()` accepts `JsImpl` trait bound** - Generic type parameter for more flexible input types
 - **Tests use idiomatic `try...catch...noraise` pattern** - Replaced `guard (try? ...)` with proper error handling syntax
 
+#### AI SDK (`npm/ai`)
+- **snake_case aliases** - Added `#alias(snake_case)` for all camelCase functions:
+  - `generateText` → `generate_text`
+  - `streamText` → `stream_text`
+  - `generateObject` → `generate_object`
+  - `generateObjectWithZod` → `generate_object_with_zod`
+  - `generateImage` → `generate_image`
+  - `embedMany` → `embed_many`
+  - `cosineSimilarity` → `cosine_similarity`
+  - `StreamTextResultHandle` methods: `finishReason`, `fullStream`, `fullStreamRaw`, `textStream`
+
+#### Type Safety Improvements
+- **`@js.Any` → `&@js.JsImpl`** - Improved type safety for JS interop parameters:
+  - `node/buffer`: `fill`, `includes`, `indexOf`, `lastIndexOf`
+  - `node/stream`: `Readable::from`, `unshift`, `Duplex::from`, `fromWeb`, `addAbortSignal`
+  - `node/util`: `inspect`
+  - `node/assert`: `ifError`
+  - `node/tty`: `WriteStream::cursorTo`, `moveCursor`, `clearLine`, `clearScreenDown`
+  - `web/streams`: `ReadableStream::from`, `pipeTo`, `pipeThrough`, `tee`
+
+#### Node.js Child Process
+- **`@js.Nullish[@js.JsError]`** - Error-first callbacks now use typed nullish errors:
+  - `exec`, `execFile` callbacks
+  - `on_error` uses `@js.JsError` directly
+
 ### Internal
 
 - Skip slow PGlite tests to improve `moon test` performance
 - Reorganized package.json dependencies (moved duckdb, dotenv to devDependencies, added chokidar)
+- Updated examples/aisdk to use snake_case API
 
 ---
 
