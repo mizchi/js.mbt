@@ -7,15 +7,15 @@ import(
 )
 
 // Values
-fn generate_all_types(JsonSchema, String, config? : CodegenConfig) -> Array[GeneratedType]
+fn generate_all_types(JsonSchema, String, type_prefix? : String, struct_prefix? : String, struct_postfix? : String, add_docs? : Bool) -> Array[GeneratedType]
 
 fn generate_file(Array[GeneratedType], package_doc? : String) -> String
 
-fn generate_from_zod(@zod.ZodSchema, String, config? : CodegenConfig) -> String
+fn generate_from_zod(@zod.ZodSchema, String, type_prefix? : String, struct_prefix? : String, struct_postfix? : String, add_docs? : Bool) -> String
 
-fn generate_from_zod_nested(@zod.ZodSchema, String, config? : CodegenConfig) -> Array[GeneratedType]
+fn generate_from_zod_nested(@zod.ZodSchema, String, type_prefix? : String, struct_prefix? : String, struct_postfix? : String, add_docs? : Bool) -> Array[GeneratedType]
 
-fn generate_struct(JsonSchema, String, CodegenConfig) -> String
+fn generate_struct(JsonSchema, String, type_prefix? : String, struct_prefix? : String, struct_postfix? : String, add_docs? : Bool) -> String
 
 fn to_json_schema(@zod.ZodSchema) -> @js.Any
 
@@ -24,13 +24,6 @@ fn to_json_schema_with_options(@zod.ZodSchema, name? : String, io? : String, unr
 // Errors
 
 // Types and methods
-pub struct CodegenConfig {
-  type_prefix : String
-  derive_json : Bool
-  add_docs : Bool
-}
-fn CodegenConfig::default() -> Self
-
 pub struct GeneratedType {
   name : String
   path : Array[String]

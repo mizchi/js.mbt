@@ -14,33 +14,18 @@ pub struct GeneratedType {
 ///|
 /// Internal context for code generation with nested types
 priv struct CodegenContext {
-  config : CodegenConfig
+  /// Prefix for generated type names (e.g., "Api" -> "ApiUser")
+  type_prefix : String
+  /// Prefix before "struct" keyword (e.g., "pub ", "pub(all) ")
+  struct_prefix : String
+  /// Postfix after struct definition (e.g., "derive(ToJson)")
+  struct_postfix : String
+  /// Add description as doc comments
+  add_docs : Bool
   /// Current path from root type
   current_path : Array[String]
   /// Accumulated nested types during generation
   nested_types : Array[GeneratedType]
-}
-
-///|
-/// Code generator configuration
-pub struct CodegenConfig {
-  /// Prefix for generated types
-  type_prefix : String
-  /// Whether to generate derive macros
-  derive_json : Bool
-  /// Add description as doc comments
-  add_docs : Bool
-}
-
-///|
-pub fn CodegenConfig::default() -> CodegenConfig {
-  { type_prefix: "", derive_json: false, add_docs: true }
-}
-
-///|
-/// Convert JSON Schema type to MoonBit type (simple version without context)
-fn json_type_to_moonbit(schema : JsonSchema) -> String {
-  json_type_to_moonbit_ctx(schema, None, "")
 }
 
 ///|
@@ -90,7 +75,7 @@ fn handle_object_type(
   // Generate nested struct
   let code = generate_struct_ctx(schema, type_name, root_name, context)
   context.nested_types.push({ name: type_name, path, code })
-  context.config.type_prefix + type_name
+  context.type_prefix + type_name
 }
 
 ///|
@@ -166,16 +151,16 @@ fn generate_struct_ctx(
   root_name : String,
   ctx : CodegenContext,
 ) -> String {
-  let config = ctx.config
   let mut code = ""
   // Add doc comment if available
-  if config.add_docs {
+  if ctx.add_docs {
     match schema.description() {
       Some(desc) => code = code + "/// " + desc + "\n"
       None => ()
     }
   }
-  code = code + "pub struct " + config.type_prefix + name + " {\n"
+  // Add struct prefix (includes visibility like "pub" or "pub(all)")
+  code = code + ctx.struct_prefix + "struct " + ctx.type_prefix + name + " {\n"
   // Get properties
   let props = schema.properties()
   if not(@js.is_undefined(props)) {
@@ -199,34 +184,39 @@ fn generate_struct_ctx(
         field_type = field_type + "?"
       }
       // Add field doc comment
-      if config.add_docs {
+      if ctx.add_docs {
         match prop_schema.description() {
           Some(desc) => code = code + "  /// " + desc + "\n"
           None => ()
         }
       }
       // Add field
-      if field_name != key {
-        // Need @json.field annotation for different names
-        code = code +
-          "  #json(name=\"" +
-          key +
-          "\")\n  " +
-          field_name +
-          " : " +
-          field_type +
-          "\n"
-      } else {
-        code = code + "  " + field_name + " : " + field_type + "\n"
-      }
+      code = code + "  " + field_name + " : " + field_type + "\n"
     }
   }
   code = code + "}"
-  // Add derive clause after struct definition
-  if config.derive_json {
-    code = code + " derive(ToJson, @json.FromJson)"
+  // Add struct postfix if specified (e.g., derive clauses)
+  if ctx.struct_postfix != "" {
+    code = code + " " + ctx.struct_postfix
   }
   code + "\n"
+}
+
+///|
+fn make_context(
+  type_prefix : String,
+  struct_prefix : String,
+  struct_postfix : String,
+  add_docs : Bool,
+) -> CodegenContext {
+  {
+    type_prefix,
+    struct_prefix,
+    struct_postfix,
+    add_docs,
+    current_path: [],
+    nested_types: [],
+  }
 }
 
 ///|
@@ -234,9 +224,12 @@ fn generate_struct_ctx(
 pub fn generate_struct(
   schema : JsonSchema,
   name : String,
-  config : CodegenConfig,
+  type_prefix? : String = "",
+  struct_prefix? : String = "pub ",
+  struct_postfix? : String = "",
+  add_docs? : Bool = true,
 ) -> String {
-  let ctx : CodegenContext = { config, current_path: [], nested_types: [] }
+  let ctx = make_context(type_prefix, struct_prefix, struct_postfix, add_docs)
   generate_struct_ctx(schema, name, name, ctx)
 }
 
@@ -245,10 +238,20 @@ pub fn generate_struct(
 pub fn generate_from_zod(
   schema : @zod.ZodSchema,
   name : String,
-  config? : CodegenConfig = CodegenConfig::default(),
+  type_prefix? : String = "",
+  struct_prefix? : String = "pub ",
+  struct_postfix? : String = "",
+  add_docs? : Bool = true,
 ) -> String {
   let json_schema = JsonSchema::from_zod_with_name(schema, name)
-  generate_struct(json_schema, name, config)
+  generate_struct(
+    json_schema,
+    name,
+    type_prefix~,
+    struct_prefix~,
+    struct_postfix~,
+    add_docs~,
+  )
 }
 
 ///|
@@ -256,10 +259,13 @@ pub fn generate_from_zod(
 pub fn generate_from_zod_nested(
   schema : @zod.ZodSchema,
   name : String,
-  config? : CodegenConfig = CodegenConfig::default(),
+  type_prefix? : String = "",
+  struct_prefix? : String = "pub ",
+  struct_postfix? : String = "",
+  add_docs? : Bool = true,
 ) -> Array[GeneratedType] {
   let json_schema = JsonSchema::from_zod_with_name(schema, name)
-  let ctx : CodegenContext = { config, current_path: [], nested_types: [] }
+  let ctx = make_context(type_prefix, struct_prefix, struct_postfix, add_docs)
   let root_code = generate_struct_ctx(json_schema, name, name, ctx)
   // Return nested types first, then root type
   let result : Array[GeneratedType] = []
@@ -275,7 +281,10 @@ pub fn generate_from_zod_nested(
 pub fn generate_all_types(
   schema : JsonSchema,
   root_name : String,
-  config? : CodegenConfig = CodegenConfig::default(),
+  type_prefix? : String = "",
+  struct_prefix? : String = "pub ",
+  struct_postfix? : String = "",
+  add_docs? : Bool = true,
 ) -> Array[GeneratedType] {
   let types : Array[GeneratedType] = []
   // Generate definitions first
@@ -284,12 +293,26 @@ pub fn generate_all_types(
     let keys : Array[String] = @js.Object::keys(defs) |> @js.identity
     for key in keys {
       let def_schema = JsonSchema::from_any(defs.get(key))
-      let code = generate_struct(def_schema, key, config)
+      let code = generate_struct(
+        def_schema,
+        key,
+        type_prefix~,
+        struct_prefix~,
+        struct_postfix~,
+        add_docs~,
+      )
       types.push({ name: key, path: [], code })
     }
   }
   // Generate root type
-  let root_code = generate_struct(schema, root_name, config)
+  let root_code = generate_struct(
+    schema,
+    root_name,
+    type_prefix~,
+    struct_prefix~,
+    struct_postfix~,
+    add_docs~,
+  )
   types.push({ name: root_name, path: [], code: root_code })
   types
 }

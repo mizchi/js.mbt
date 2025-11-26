@@ -92,29 +92,10 @@ test "to_snake_case converts PascalCase" {
 }
 
 ///|
-test "json_type_to_moonbit converts basic types" {
-  let str_schema = JsonSchema::from_zod(@zod.string())
-  assert_eq(json_type_to_moonbit(str_schema), "String")
-  let num_schema = JsonSchema::from_zod(@zod.number())
-  assert_eq(json_type_to_moonbit(num_schema), "Double")
-  let int_schema = JsonSchema::from_zod(@zod.number().int())
-  assert_eq(json_type_to_moonbit(int_schema), "Int")
-  let bool_schema = JsonSchema::from_zod(@zod.boolean())
-  assert_eq(json_type_to_moonbit(bool_schema), "Bool")
-}
-
-///|
-test "json_type_to_moonbit converts array" {
-  let arr_schema = JsonSchema::from_zod(@zod.array(@zod.string()))
-  assert_eq(json_type_to_moonbit(arr_schema), "Array[String]")
-}
-
-///|
 test "generate_struct creates simple struct" {
   let schema = @zod.object({ "name": @zod.string(), "age": @zod.number().int() })
   let json_schema = JsonSchema::from_zod(schema)
-  let config = CodegenConfig::default()
-  let code = generate_struct(json_schema, "User", config)
+  let code = generate_struct(json_schema, "User")
   inspect(
     code,
     content=(
@@ -153,7 +134,7 @@ test "generate_struct with optional fields" {
     "bio": @zod.string().optional(),
   })
   let json_schema = JsonSchema::from_zod(schema)
-  let code = generate_struct(json_schema, "Profile", CodegenConfig::default())
+  let code = generate_struct(json_schema, "Profile")
   inspect(
     code,
     content=(
@@ -173,7 +154,7 @@ test "generate_struct with nullable fields" {
     "nickname": @zod.string().nullable(),
   })
   let json_schema = JsonSchema::from_zod(schema)
-  let code = generate_struct(json_schema, "Person", CodegenConfig::default())
+  let code = generate_struct(json_schema, "Person")
   inspect(
     code,
     content=(
@@ -190,7 +171,7 @@ test "generate_struct with nullable fields" {
 test "generate_struct with nested array" {
   let schema = @zod.object({ "tags": @zod.array(@zod.string()) })
   let json_schema = JsonSchema::from_zod(schema)
-  let code = generate_struct(json_schema, "Post", CodegenConfig::default())
+  let code = generate_struct(json_schema, "Post")
   inspect(
     code,
     content=(
@@ -203,15 +184,15 @@ test "generate_struct with nested array" {
 }
 
 ///|
-test "generate_struct with derive" {
+test "generate_struct with postfix" {
   let schema = @zod.object({ "id": @zod.number().int() })
   let json_schema = JsonSchema::from_zod(schema)
-  let config : CodegenConfig = {
-    type_prefix: "",
-    derive_json: true,
-    add_docs: false,
-  }
-  let code = generate_struct(json_schema, "Simple", config)
+  let code = generate_struct(
+    json_schema,
+    "Simple",
+    struct_postfix="derive(ToJson, @json.FromJson)",
+    add_docs=false,
+  )
   inspect(
     code,
     content=(
@@ -227,12 +208,7 @@ test "generate_struct with derive" {
 test "generate_struct with type prefix" {
   let schema = @zod.object({ "id": @zod.number().int() })
   let json_schema = JsonSchema::from_zod(schema)
-  let config : CodegenConfig = {
-    type_prefix: "Api",
-    derive_json: false,
-    add_docs: true,
-  }
-  let code = generate_struct(json_schema, "User", config)
+  let code = generate_struct(json_schema, "User", type_prefix="Api")
   inspect(
     code,
     content=(
@@ -331,7 +307,6 @@ test "generate_from_zod_nested with nested object" {
       #|pub struct User_address {
       #|  street : String
       #|  city : String
-      #|  #json(name="zipCode")
       #|  zip_code : String
       #|}
       #|
@@ -396,4 +371,37 @@ test "generate_from_zod_nested with optional nested object" {
       #|
     ),
   )
+}
+
+///|
+/// Generate MoonBit code and output to snapshot file for type checking
+test "generate types snapshot" (t : @test.Test) {
+  // Complex schema with nested objects, arrays, optional fields
+  let address_schema = @zod.object({
+    "street": @zod.string(),
+    "city": @zod.string(),
+    "zipCode": @zod.string(),
+    "country": @zod.string().optional(),
+  })
+  let user_schema = @zod.object({
+    "id": @zod.number().int(),
+    "name": @zod.string(),
+    "email": @zod.string().email(),
+    "age": @zod.number().int().optional(),
+    "roles": @zod.array(@zod.string()),
+    "address": address_schema,
+    "tags": @zod.array(@zod.string()).optional(),
+  })
+  let types = generate_from_zod_nested(
+    user_schema,
+    "User",
+    struct_prefix="pub(all) ",
+    add_docs=false,
+  )
+  let code = generate_file(
+    types,
+    package_doc="Generated types for type checking",
+  )
+  t.writeln(code)
+  t.snapshot(filename="_generated_test.mbt")
 }

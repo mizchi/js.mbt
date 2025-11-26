@@ -69,16 +69,9 @@ fn unknown() -> ZodSchema
 fn void_() -> ZodSchema
 
 // Errors
+pub suberror ZodParseError ZodError
 
 // Types and methods
-#external
-pub type SafeParseResult
-fn SafeParseResult::data(Self) -> @js.Any
-fn SafeParseResult::error(Self) -> ZodError
-fn SafeParseResult::success(Self) -> Bool
-fn SafeParseResult::to_result(Self) -> Result[@js.Any, ZodError]
-impl @js.JsImpl for SafeParseResult
-
 #external
 pub type ZodError
 fn ZodError::flatten(Self) -> @js.Any
@@ -135,7 +128,7 @@ fn ZodSchema::nullable(Self) -> Self
 fn ZodSchema::nullish(Self) -> Self
 fn ZodSchema::omit(Self, @js.Any) -> Self
 fn ZodSchema::optional(Self) -> Self
-fn ZodSchema::parse(Self, @js.Any) -> @js.Any
+fn[T : @js.JsImpl] ZodSchema::parse(Self, T) -> @js.Any raise ZodParseError
 fn ZodSchema::partial(Self) -> Self
 fn ZodSchema::passthrough(Self) -> Self
 fn ZodSchema::pick(Self, @js.Any) -> Self
@@ -147,7 +140,7 @@ fn ZodSchema::regex(Self, String) -> Self
 fn ZodSchema::required_(Self) -> Self
 fn ZodSchema::safe(Self) -> Self
 #alias(safe_parse)
-fn ZodSchema::safeParse(Self, @js.Any) -> SafeParseResult
+fn[T : @js.JsImpl] ZodSchema::safeParse(Self, T) -> Result[@js.Any, ZodError]
 #alias(starts_with)
 fn ZodSchema::startsWith(Self, String) -> Self
 fn ZodSchema::strict(Self) -> Self
