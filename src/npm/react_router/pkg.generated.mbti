@@ -74,7 +74,7 @@ pub(all) struct NavLinkRenderProps {
 }
 impl @js.JsImpl for NavLinkRenderProps
 
-pub struct NavigateFunction((@js.Any, @js.Any?) -> Unit)
+pub(all) struct NavigateFunction((@js.Any, @js.Any?) -> Unit)
 fn NavigateFunction::back(Self) -> Unit
 fn NavigateFunction::forward(Self) -> Unit
 fn NavigateFunction::go(Self, Int) -> Unit

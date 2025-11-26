@@ -215,7 +215,7 @@ pub fn useParams() -> Params {
 
 ///|
 /// NavigateFunction type for programmatic navigation
-pub struct NavigateFunction((@js.Any, @js.Any?) -> Unit)
+pub(all) struct NavigateFunction((@js.Any, @js.Any?) -> Unit)
 
 ///|
 /// NavigateOptions for navigate function

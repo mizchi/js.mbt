@@ -2,7 +2,7 @@
 // priv struct () {} derive(Default)
 
 ///|
-fn app(_props : Unit) -> @react.Element {
+fn app(_ : Unit) -> @react.Element {
   let (cnt, set_cnt) = @react.use_state(0)
   let on_click : @dom.MouseEventHandler = _ => set_cnt(cnt + 1) |> ignore
   @react_element.div([
@@ -17,7 +17,7 @@ test "testing-library/react" {
   // @global_jsdom.register()
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   @react_testing_library.render(@react.component(app, ())) |> ignore
   @react_testing_library.fireEvent().click(
     @react_testing_library.screen().getByText("click me"),
@@ -32,11 +32,10 @@ test "testing-library/react" {
 test "RenderResult methods" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
-  let comp = (_props : Unit) => @react_element.div(
-    ["Test Content"],
-    id="test-id",
-  )
+  defer @react_testing_library.cleanup()
+  let comp = (_props : Unit) => @react_element.div(id="test-id", [
+    "Test Content",
+  ])
   let result = @react_testing_library.render(@react.component(comp, ()))
   // Test container
   let container = result.container()
@@ -44,9 +43,6 @@ test "RenderResult methods" {
   // Test baseElement
   let base = result.baseElement()
   @js.typeof_(base) |> assert_eq("object")
-  // Test debug (should not throw)
-  // result.debug()
-  // Test rerender
   let comp2 = (_props : Unit) => @react_element.div(["Rerendered Content"])
   result.rerender(@react.component(comp2, ()))
   @react_testing_library.screen().getByText("Rerendered Content").textContent()
@@ -59,7 +55,7 @@ test "RenderResult methods" {
 test "queryBy methods return None when not found" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div(["Existing text"])
   @react_testing_library.render(@react.component(comp, ())) |> ignore
   // queryByText returns null (converted to None in JS) for non-existent text
@@ -83,7 +79,7 @@ test "queryBy methods return None when not found" {
 test "getAllBy and queryAllBy methods" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.button(["Button 1"]),
     @react_element.button(["Button 2"]),
@@ -105,7 +101,7 @@ test "getAllBy and queryAllBy methods" {
 test "getByRole query" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.button(["Click me"]),
     @react_element.input(type_="text"),
@@ -123,7 +119,7 @@ test "getByRole query" {
 test "getByPlaceholderText query" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.input(placeholder="Enter your name"),
   ])
@@ -138,7 +134,7 @@ test "getByPlaceholderText query" {
 test "getByDisplayValue query" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.input(value="test value", on_change=fn(_) { () }),
   ])
@@ -153,7 +149,7 @@ test "getByDisplayValue query" {
 test "getAllByText with multiple results" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => @react_element.div([
     @react_element.div(["Item"]),
     @react_element.div(["Item"]),
@@ -169,7 +165,7 @@ test "getAllByText with multiple results" {
 test "fireEvent click on button" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (clicked, set_clicked) = @react.use_state(false)
     let on_click : @dom.MouseEventHandler = _ => set_clicked(true)
@@ -192,7 +188,7 @@ test "fireEvent click on button" {
 test "fireEvent change on input" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (value, set_value) = @react.use_state("")
     let on_change : @dom.ChangeEventHandler = e => {
@@ -223,7 +219,7 @@ test "fireEvent change on input" {
 test "fireEvent submit on form" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (submitted, set_submitted) = @react.use_state(false)
     let on_submit = fn(e : @js.Any) {
@@ -258,7 +254,7 @@ test "fireEvent submit on form" {
 test "fireEvent focus and blur on input" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (focused, set_focused) = @react.use_state(false)
     let on_focus = fn(_e : @js.Any) { set_focused(true) }
@@ -288,7 +284,7 @@ test "fireEvent focus and blur on input" {
 test "fireEvent keyDown on input" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (key, set_key) = @react.use_state("")
     let on_keydown = fn(e : @js.Any) {
@@ -318,12 +314,10 @@ test "fireEvent keyDown on input" {
 test "configure function exists" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   // Just test that configure can be called without error
   let config = @js.Object::new()
   configure(config.to_any())
-  // If we get here without error, the test passes
-  assert_eq(1, 1)
 }
 
 ///| React Hooks Tests with renderHook
@@ -332,7 +326,7 @@ test "configure function exists" {
 test "renderHook: useState" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let hook = fn() {
     let (state, _set_state) = @react.use_state(0)
     state
@@ -349,7 +343,7 @@ test "renderHook: useState" {
 test "renderHook: useState with updates" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   // Test that we can get the initial state value
   let hook = fn() {
     let (state, _set_state) = @react.use_state(0)
@@ -368,13 +362,13 @@ test "renderHook: useState with updates" {
 test "renderHook: useEffect" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
-  let hook = fn() {
+  defer @react_testing_library.cleanup()
+  let hook = () => {
     let (count, set_count) = @react.use_state(0)
     @react.useEffect(
-      fn() {
+      () => {
         set_count(count + 1)
-        fn() { () }
+        () => ()
       },
       [],
     )
@@ -391,7 +385,7 @@ test "renderHook: useEffect" {
 test "renderHook: useCallback" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let hook = fn() {
     let (count, _set_count) = @react.use_state(0)
     @react.useCallback(fn() { count * 2 }, [count])
@@ -406,7 +400,7 @@ test "renderHook: useCallback" {
 test "renderHook: useMemo" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let hook = fn() {
     let (count, _set_count) = @react.use_state(5)
     @react.useMemo(fn() { count * 2 }, [count])
@@ -421,7 +415,7 @@ test "renderHook: useMemo" {
 test "renderHook: useRef" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let hook = fn() { @react.useRef(Some(42)) }
   let result = renderHook(@js.identity(hook))
   let current = result.result().get("current")
@@ -435,7 +429,7 @@ test "renderHook: useRef" {
 test "renderHook: useContext" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let ctx : @react.Context[Int] = @react.create_context(Some(100))
   let hook = fn() { @react.use_context(ctx) }
   let result = renderHook(@js.identity(hook))
@@ -448,7 +442,7 @@ test "renderHook: useContext" {
 test "renderHook: useReducer" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let reducer = fn(state : Int, action : Int) { state + action }
   let hook = fn() {
     let (state, _dispatch) = @react.use_reducer(reducer, 0)
@@ -466,7 +460,7 @@ test "renderHook: useReducer" {
 test "renderHook: rerender method" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   // Use a simple hook that doesn't need props
   let multiplier_ref : Ref[Int] = { val: 2 }
   let hook = fn() {
@@ -489,7 +483,7 @@ test "renderHook: rerender method" {
 test "renderHook: unmount method" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let hook = fn() { @react.use_state(0) }
   let result = renderHook(@js.identity(hook))
   // Verify hook is mounted
@@ -503,7 +497,7 @@ test "renderHook: unmount method" {
 test "useId hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let id = @react.use_id()
     @react_element.div([@react_element.span(["The ID is: \{id}"])])
@@ -518,7 +512,7 @@ test "useId hook" {
 test "useTransition hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = @react.use_state(0)
     let (is_pending, start_transition) = @react.use_transition()
@@ -546,7 +540,7 @@ test "useTransition hook" {
 test "useDeferredValue hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (value, set_value) = @react.use_state(0)
     let deferred = @react.use_deferred_value(value)
@@ -576,7 +570,7 @@ test "useDeferredValue hook" {
 test "useOptimistic hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = @react.use_state(0)
     let (optimistic, add_optimistic) = @react.use_optimistic(count, fn(
@@ -629,7 +623,7 @@ fn parent_component(_props : Unit) -> @react.Element {
 test "useImperativeHandle hook" {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
   @react_testing_library.render(@react.component(parent_component, ()))
   |> ignore
   @react_testing_library.screen().getByText("Child").textContent()
@@ -645,7 +639,8 @@ async fn init_react_router() -> Unit {
   @node.require("global-jsdom/register") |> ignore
   @react.init_react_api(@node.require("react"))
   @react_router.dynamic_import()
-  @react_testing_library.cleanup()
+  defer @react_testing_library.cleanup()
+
 }
 
 ///|
