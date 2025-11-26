@@ -1,6 +1,4 @@
 ///|
-
-///|
 fn createServer(
   listener : (@http.IncomingMessage, @http.ServerResponse) -> Unit,
 ) -> @http.Server {
@@ -46,7 +44,7 @@ async test "Node HTTP: HTTP server can listen and close properly" {
   defer server.close() |> ignore // Cleanup to prevent leaks
 
   // Start listening
-  server.listen(0, host="127.0.0.1", callback=fn() { listening_called = true })
+  server.listen(0, host="127.0.0.1", callback=() => listening_called = true)
   |> ignore
 
   // Wait for server to start
@@ -73,7 +71,7 @@ async test "Node HTTP: HTTP server can get address after listening" {
   inspect(address is None, content="false")
   match address {
     Some(addr) => {
-      let port : Int = @js.identity(addr.get("port"))
+      let port : Int = addr.get("port") |> @js.identity
       inspect(port > 0, content="true")
     }
     None => ()

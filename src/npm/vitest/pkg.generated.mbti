@@ -8,7 +8,7 @@ import(
 // Values
 fn[T : @js.JsImpl] expect(T) -> Expect
 
-fn setup() -> Unit
+fn setup_standalone() -> Unit
 
 // Errors
 
