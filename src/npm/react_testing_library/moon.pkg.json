@@ -5,7 +5,11 @@
     "mizchi/js/browser/dom",
     "mizchi/js/node",
     "mizchi/js/npm/react",
-    "mizchi/js/npm/react_element"
+    "mizchi/js/npm/react_element",
+    "moonbitlang/async"
   ],
-  "test-import": ["mizchi/js/npm/global_jsdom"]
+  "test-import": [
+    "mizchi/js/npm/global_jsdom",
+    "mizchi/js/npm/react_router"
+  ]
 }

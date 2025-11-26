@@ -12,7 +12,7 @@ import(
 // Types and methods
 #external
 pub type Buffer
-fn[T : @js.JsImpl] Buffer::alloc(Int, fill? : T, encoding? : String) -> Self
+fn Buffer::alloc(Int, fill? : &@js.JsImpl, encoding? : String) -> Self
 #alias(alloc_unsafe)
 fn Buffer::allocUnsafe(Int) -> Self
 fn Buffer::buffer(Self) -> @js.ArrayBuffer

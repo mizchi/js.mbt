@@ -356,3 +356,79 @@ pub impl EventImpl for MessageEvent
 pub fn MessageEvent::source(self : Self) -> Window? {
   self.get("source") |> @js.identity_option()
 }
+
+///|
+/// PopStateEvent represents an event fired when the active history entry changes
+/// https://developer.mozilla.org/en-US/docs/Web/API/PopStateEvent
+#external
+pub type PopStateEvent
+
+///|
+pub impl @js.JsImpl for PopStateEvent
+
+///|
+pub impl EventImpl for PopStateEvent
+
+///|
+/// Returns the state associated with the history entry
+/// https://developer.mozilla.org/en-US/docs/Web/API/PopStateEvent/state
+pub fn PopStateEvent::state(self : Self) -> @js.Any? {
+  self.get("state") |> @js.identity_option()
+}
+
+///|
+/// HashChangeEvent represents an event fired when the fragment identifier of the URL has changed
+/// https://developer.mozilla.org/en-US/docs/Web/API/HashChangeEvent
+pub(all) struct HashChangeEvent {
+  /// The previous URL from which the window was navigated
+  oldURL : String
+  /// The new URL to which the window is navigating
+  newURL : String
+} derive(Show)
+
+///|
+pub impl @js.JsImpl for HashChangeEvent
+
+///|
+pub impl EventImpl for HashChangeEvent
+
+///|
+/// BeforeUnloadEvent represents an event fired when the window is about to be unloaded
+/// https://developer.mozilla.org/en-US/docs/Web/API/BeforeUnloadEvent
+#external
+pub type BeforeUnloadEvent
+
+///|
+pub impl @js.JsImpl for BeforeUnloadEvent
+
+///|
+pub impl EventImpl for BeforeUnloadEvent
+
+///|
+/// Sets the return value to show a confirmation dialog
+/// https://developer.mozilla.org/en-US/docs/Web/API/BeforeUnloadEvent/returnValue
+#alias(set_return_value)
+pub fn BeforeUnloadEvent::setReturnValue(self : Self, value : String) -> Unit {
+  self.set("returnValue", value)
+}
+
+///|
+/// Gets the return value
+#alias(return_value)
+pub fn BeforeUnloadEvent::returnValue(self : Self) -> String {
+  self.get("returnValue").cast()
+}
+
+///|
+/// PageTransitionEvent represents an event fired when a document is being loaded or unloaded
+/// https://developer.mozilla.org/en-US/docs/Web/API/PageTransitionEvent
+pub(all) struct PageTransitionEvent {
+  /// Indicates if the page is being loaded from a cache
+  persisted : Bool
+} derive(Show)
+
+///|
+pub impl @js.JsImpl for PageTransitionEvent
+
+///|
+pub impl EventImpl for PageTransitionEvent

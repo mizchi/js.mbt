@@ -317,23 +317,70 @@ pub fn Window::postMessage(
   self : Self,
   message : @js.Any,
   target_origin : String,
+  transfer? : Array[@js.Any],
 ) -> Unit {
-  ignore(self.call2("postMessage", message, target_origin))
+  match transfer {
+    Some(t) =>
+      ignore(
+        self
+        .to_any()
+        .call("postMessage", [message, target_origin, @js.from_array(t)]),
+      )
+    None => ignore(self.call2("postMessage", message, target_origin))
+  }
 }
 
 ///|
-/// Posts a message to the window with transfer
-/// https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
-pub fn[T : @worker.Transferable] Window::post_message_with_transfer(
+/// Adds a popstate event listener (fired when active history entry changes)
+/// Equivalent to: window.addEventListener("popstate", handler)
+/// https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
+pub fn Window::add_popstate_listener(
   self : Self,
-  message : @js.Any,
-  target_origin : String,
-  transfer : Array[T],
+  handler : (PopStateEvent) -> Unit,
 ) -> Unit {
-  let transfer_vals = transfer.map(fn(t) { t.to_transferable() })
-  ignore(
-    self
-    .to_any()
-    .call("postMessage", [message, target_origin, @js.unsafe_any(transfer_vals)]),
-  )
+  self.addEventListener("popstate", fn(event) { handler(event.cast()) })
+}
+
+///|
+/// Adds a hashchange event listener (fired when URL fragment changes)
+/// Equivalent to: window.addEventListener("hashchange", handler)
+/// https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event
+pub fn Window::add_hashchange_listener(
+  self : Self,
+  handler : (HashChangeEvent) -> Unit,
+) -> Unit {
+  self.addEventListener("hashchange", fn(event) { handler(event.cast()) })
+}
+
+///|
+/// Adds a beforeunload event listener (fired before the window unloads)
+/// Equivalent to: window.addEventListener("beforeunload", handler)
+/// https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event
+pub fn Window::add_beforeunload_listener(
+  self : Self,
+  handler : (BeforeUnloadEvent) -> Unit,
+) -> Unit {
+  self.addEventListener("beforeunload", fn(event) { handler(event.cast()) })
+}
+
+///|
+/// Adds a pagehide event listener (fired when a session history entry becomes hidden)
+/// Equivalent to: window.addEventListener("pagehide", handler)
+/// https://developer.mozilla.org/en-US/docs/Web/API/Window/pagehide_event
+pub fn Window::add_pagehide_listener(
+  self : Self,
+  handler : (PageTransitionEvent) -> Unit,
+) -> Unit {
+  self.addEventListener("pagehide", fn(event) { handler(event.cast()) })
+}
+
+///|
+/// Adds a pageshow event listener (fired when a session history entry becomes visible)
+/// Equivalent to: window.addEventListener("pageshow", handler)
+/// https://developer.mozilla.org/en-US/docs/Web/API/Window/pageshow_event
+pub fn Window::add_pageshow_listener(
+  self : Self,
+  handler : (PageTransitionEvent) -> Unit,
+) -> Unit {
+  self.addEventListener("pageshow", fn(event) { handler(event.cast()) })
 }

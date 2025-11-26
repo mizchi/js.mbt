@@ -7,7 +7,6 @@ import(
   "mizchi/js/web/event"
   "mizchi/js/web/http"
   "mizchi/js/web/message"
-  "mizchi/js/web/worker"
 )
 
 // Values
@@ -47,6 +46,15 @@ pub(all) struct AnimationEvent {
 impl @js.JsImpl for AnimationEvent
 impl EventImpl for AnimationEvent
 impl Show for AnimationEvent
+
+#external
+pub type BeforeUnloadEvent
+#alias(return_value)
+fn BeforeUnloadEvent::returnValue(Self) -> String
+#alias(set_return_value)
+fn BeforeUnloadEvent::setReturnValue(Self, String) -> Unit
+impl @js.JsImpl for BeforeUnloadEvent
+impl EventImpl for BeforeUnloadEvent
 
 #external
 pub type CSSRule
@@ -466,6 +474,14 @@ impl HTMLElementImpl for HTMLUListElement
 impl NodeImpl for HTMLUListElement
 impl @event.EventTargetImpl for HTMLUListElement
 
+pub(all) struct HashChangeEvent {
+  oldURL : String
+  newURL : String
+}
+impl @js.JsImpl for HashChangeEvent
+impl EventImpl for HashChangeEvent
+impl Show for HashChangeEvent
+
 pub(all) struct InputEvent {
   data : @js.Nullable[String]
   dataTransfer : @js.Nullable[DataTransfer]
@@ -542,6 +558,13 @@ impl @js.JsImpl for Node
 impl NodeImpl for Node
 impl @event.EventTargetImpl for Node
 
+pub(all) struct PageTransitionEvent {
+  persisted : Bool
+}
+impl @js.JsImpl for PageTransitionEvent
+impl EventImpl for PageTransitionEvent
+impl Show for PageTransitionEvent
+
 pub(all) struct PointerEvent {
   pointerId : Int
   width : Double
@@ -559,6 +582,12 @@ pub(all) struct PointerEvent {
 impl @js.JsImpl for PointerEvent
 impl EventImpl for PointerEvent
 impl Show for PointerEvent
+
+#external
+pub type PopStateEvent
+fn PopStateEvent::state(Self) -> @js.Any?
+impl @js.JsImpl for PopStateEvent
+impl EventImpl for PopStateEvent
 
 pub(all) struct SVGCircleElement {
 }
@@ -773,6 +802,11 @@ impl Show for WheelEvent
 
 #external
 pub type Window
+fn Window::add_beforeunload_listener(Self, (BeforeUnloadEvent) -> Unit) -> Unit
+fn Window::add_hashchange_listener(Self, (HashChangeEvent) -> Unit) -> Unit
+fn Window::add_pagehide_listener(Self, (PageTransitionEvent) -> Unit) -> Unit
+fn Window::add_pageshow_listener(Self, (PageTransitionEvent) -> Unit) -> Unit
+fn Window::add_popstate_listener(Self, (PopStateEvent) -> Unit) -> Unit
 fn Window::alert(Self, String) -> Unit
 #alias(cancel_animation_frame)
 fn Window::cancelAnimationFrame(Self, Int) -> Unit
@@ -808,8 +842,7 @@ fn Window::outerHeight(Self) -> Int
 #alias(outer_width)
 fn Window::outerWidth(Self) -> Int
 #alias(post_message)
-fn Window::postMessage(Self, @js.Any, String) -> Unit
-fn[T : @worker.Transferable] Window::post_message_with_transfer(Self, @js.Any, String, Array[T]) -> Unit
+fn Window::postMessage(Self, @js.Any, String, transfer? : Array[@js.Any]) -> Unit
 fn Window::prompt(Self, String, default? : String) -> String?
 #alias(request_animation_frame)
 fn Window::requestAnimationFrame(Self, (Double) -> Unit) -> Int

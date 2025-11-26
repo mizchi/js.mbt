@@ -656,3 +656,120 @@ test "useImperativeHandle hook" {
   text_content(@react_testing_library.screen().getByText("Child"))
   |> assert_eq("Child")
 }
+
+// =============================================================================
+// React Router Tests
+// =============================================================================
+
+///|
+async fn init_react_router() -> Unit {
+  @node.require("global-jsdom/register") |> ignore
+  @react.init_react_api(@node.require("react"))
+  @react_router.dynamic_import()
+  @react_testing_library.cleanup()
+}
+
+///|
+fn home_component(_props : @react_router.RouteProps) -> @react.Element {
+  @react_element.div(["Home Page"], id="home")
+}
+
+///|
+fn about_component(_props : @react_router.RouteProps) -> @react.Element {
+  @react_element.div(["About Page"], id="about")
+}
+
+///|
+fn user_component(_props : @react_router.RouteProps) -> @react.Element {
+  let params = @react_router.useParams()
+  let user_id = params.get("id").unwrap_or("unknown")
+  @react_element.div(["User: \{user_id}"], id="user")
+}
+
+///|
+async test "react-router: basic routing with memory router" {
+  init_react_router()
+  let routes = [
+    @react_router.Route::Component(path="/", component=home_component),
+    @react_router.Route::Component(path="/about", component=about_component),
+  ]
+  let router = @react_router.create_memory_router(routes, options=@react_router.MemoryRouterOptions::{
+    initial_entries: Some(["/"]),
+    initial_index: None,
+  })
+  @react_testing_library.render(@react_router.router_provider(router)) |> ignore
+  text_content(@react_testing_library.screen().getByText("Home Page"))
+  |> assert_eq("Home Page")
+}
+
+///|
+async test "react-router: navigate to different route" {
+  init_react_router()
+  let routes = [
+    @react_router.Route::Component(path="/", component=home_component),
+    @react_router.Route::Component(path="/about", component=about_component),
+  ]
+  let router = @react_router.create_memory_router(routes, options=@react_router.MemoryRouterOptions::{
+    initial_entries: Some(["/about"]),
+    initial_index: None,
+  })
+  @react_testing_library.render(@react_router.router_provider(router)) |> ignore
+  text_content(@react_testing_library.screen().getByText("About Page"))
+  |> assert_eq("About Page")
+}
+
+///|
+async test "react-router: route with params" {
+  init_react_router()
+  let routes = [
+    @react_router.Route::Component(path="/users/:id", component=user_component),
+  ]
+  let router = @react_router.create_memory_router(routes, options=@react_router.MemoryRouterOptions::{
+    initial_entries: Some(["/users/456"]),
+    initial_index: None,
+  })
+  @react_testing_library.render(@react_router.router_provider(router)) |> ignore
+  text_content(@react_testing_library.screen().getByText("User: 456"))
+  |> assert_eq("User: 456")
+}
+
+///|
+async test "react-router: Link component renders" {
+  init_react_router()
+  let routes = [
+    @react_router.Route::Component(path="/", component=home_component),
+    @react_router.Route::Component(path="/about", component=about_component),
+  ]
+  let router = @react_router.create_memory_router(routes, options=@react_router.MemoryRouterOptions::{
+    initial_entries: Some(["/"]),
+    initial_index: None,
+  })
+  @react_testing_library.render(@react_router.router_provider(router)) |> ignore
+  // Home page should render
+  text_content(@react_testing_library.screen().getByText("Home Page"))
+  |> assert_eq("Home Page")
+}
+
+///|
+fn location_display(_props : @react_router.RouteProps) -> @react.Element {
+  let location = @react_router.useLocation()
+  @react_element.div(["Path: \{location.pathname}"], id="location")
+}
+
+///|
+async test "react-router: useLocation hook" {
+  init_react_router()
+  let routes = [
+    @react_router.Route::Component(
+      path="/test/path",
+      component=location_display,
+    ),
+  ]
+  let router = @react_router.create_memory_router(routes, options=@react_router.MemoryRouterOptions::{
+    initial_entries: Some(["/test/path"]),
+    initial_index: None,
+  })
+  @react_testing_library.render(@react_router.router_provider(router)) |> ignore
+  text_content(@react_testing_library.screen().getByText("Path: /test/path"))
+  |> assert_eq("Path: /test/path")
+}

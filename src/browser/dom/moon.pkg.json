@@ -4,7 +4,6 @@
     "mizchi/js",
     "mizchi/js/web/event",
     "mizchi/js/web/blob",
-    "mizchi/js/web/worker",
     "mizchi/js/web/message",
     "mizchi/js/web/http"
   ],

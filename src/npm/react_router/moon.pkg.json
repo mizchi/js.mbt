@@ -4,6 +4,7 @@
   ],
   "import": [
     "mizchi/js",
-    "mizchi/js/npm/react"
+    "mizchi/js/npm/react",
+    "mizchi/js/web/url"
   ]
 }
