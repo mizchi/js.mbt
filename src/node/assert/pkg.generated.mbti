@@ -20,7 +20,7 @@ fn equal(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
 
 fn fail(message? : String) -> Unit
 
-fn ifError(@js.Any) -> Unit
+fn ifError(&@js.JsImpl) -> Unit
 
 fn instanceOf(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
 

@@ -34,10 +34,10 @@ pub fn ChildProcess::on_close(
 
 ///|
 /// Listen for 'error' event with typed callback
-/// Callback receives: error (@js.Any)
+/// Callback receives: error (JsError)
 pub fn ChildProcess::on_error(
   self : Self,
-  callback : (@js.Any) -> Unit noraise,
+  callback : (@js.JsError) -> Unit noraise,
 ) -> Unit {
   self.call2("on", "error", @js.identity(callback)) |> ignore
 }

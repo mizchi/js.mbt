@@ -20,20 +20,26 @@ fn convert_array_to_readable_stream(Array[@js.Any]) -> @js.Any
 
 async fn convert_readable_stream_to_array(@js.Any) -> Array[@js.Any]
 
+#alias(cosine_similarity)
 fn cosineSimilarity(Array[Double], Array[Double]) -> Double
 
 async fn embed(model~ : EmbeddingModel, value~ : String, max_retries? : Int, abort_signal? : @js.Any, headers? : @js.Any) -> EmbedResult
 
+#alias(embed_many)
 async fn embedMany(model~ : EmbeddingModel, values~ : Array[String], max_parallel_calls? : Int, max_retries? : Int, abort_signal? : @js.Any, headers? : @js.Any) -> EmbedManyResult
 
 fn finish_chunk(String, MockUsage) -> @js.Any
 
+#alias(generate_image)
 async fn generateImage(model~ : ImageModel, prompt~ : String, n? : Int, size? : String, aspect_ratio? : String, seed? : Int, provider_options? : @js.Any, max_retries? : Int, abort_signal? : @js.Any, headers? : @js.Any) -> GenerateImageResult
 
+#alias(generate_object)
 async fn generateObject(model~ : Model, schema~ : @js.Any, schema_name? : String, schema_description? : String, output? : OutputStrategy, enum_values? : Array[String], prompt? : String, system? : String, messages? : Array[ModelMessage], max_tokens? : Int, temperature? : Double, max_retries? : Int, abort_signal? : @js.Any) -> GenerateObjectResult
 
+#alias(generate_object_with_zod)
 async fn generateObjectWithZod(model~ : Model, zod_schema~ : @js.Any, schema_name? : String, schema_description? : String, prompt? : String, system? : String, messages? : Array[ModelMessage], max_tokens? : Int, temperature? : Double) -> GenerateObjectResult
 
+#alias(generate_text)
 async fn generateText(model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int, stop_when? : StopCondition, prepare_step? : PrepareStep, active_tools? : Array[String]) -> GenerateTextResult
 
 fn google(String) -> Model
@@ -70,6 +76,7 @@ fn simulate_stream_with_delay(Array[@js.Any], Int) -> @js.Any
 
 fn step_count_is(Int) -> StopCondition
 
+#alias(stream_text)
 fn streamText(model~ : Model, messages? : Array[ModelMessage], prompt? : String, system? : String, max_tokens? : Int, temperature? : Double, tools? : Tools, tool_choice? : ToolChoice, max_steps? : Int, stop_when? : StopCondition, prepare_step? : PrepareStep, active_tools? : Array[String]) -> StreamTextResultHandle
 
 fn text_delta_chunk(String) -> @js.Any
@@ -434,11 +441,15 @@ pub(all) struct StopConditionContext {
 
 #external
 pub type StreamTextResultHandle
+#alias(finish_reason)
 async fn StreamTextResultHandle::finishReason(Self) -> FinishReason
+#alias(full_stream)
 fn StreamTextResultHandle::fullStream(Self) -> TextStreamPartIterator
+#alias(full_stream_raw)
 fn StreamTextResultHandle::fullStreamRaw(Self) -> @js.AsyncIterator[@js.Any]
 async fn StreamTextResultHandle::steps(Self) -> Array[StepResult]
 async fn StreamTextResultHandle::text(Self) -> String
+#alias(text_stream)
 fn StreamTextResultHandle::textStream(Self) -> @js.AsyncIterator[String]
 async fn StreamTextResultHandle::usage(Self) -> LanguageModelUsage
 impl @js.JsImpl for StreamTextResultHandle

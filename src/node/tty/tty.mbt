@@ -66,13 +66,17 @@ pub fn[T : @js.JsImpl] WriteStream::write(
 
 ///|
 /// End the stream (inherited from stream.Writable)
-pub fn WriteStream::end(
+pub fn[T : @js.JsImpl] WriteStream::end(
   self : WriteStream,
-  chunk? : @js.Any,
+  chunk? : T,
   encoding? : String,
   callback? : @js.Any,
 ) -> WriteStream {
-  self.call("end", [chunk, encoding, callback]).cast()
+  let chunk_any : @js.Any = match chunk {
+    Some(c) => c.to_any()
+    None => @js.undefined()
+  }
+  self.call("end", [chunk_any, encoding, callback]).cast()
 }
 
 ///|

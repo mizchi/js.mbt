@@ -17,7 +17,7 @@ fn util() -> Util {
 ///|
 /// util.inspect
 pub fn inspect(
-  value : @js.Any,
+  value : &@js.JsImpl,
   depth? : Int,
   colors? : Bool,
   compact? : Bool,
@@ -35,5 +35,5 @@ pub fn inspect(
     "maxArrayLength": maxArrayLength |> @js.any,
     "maxStringLength": maxStringLength |> @js.any,
   })
-  @js.identity(util().get("inspect").call_self([value, opt]))
+  @js.identity(util().get("inspect").call_self([value.to_any(), opt]))
 }

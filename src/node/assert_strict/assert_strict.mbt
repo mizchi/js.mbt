@@ -255,9 +255,9 @@ pub fn doesNotMatch(
 ///|
 /// Throws value if value is not undefined or null
 /// Useful for testing error argument in callbacks
-pub fn ifError(value : @js.Any) -> Unit {
+pub fn ifError(value : &@js.JsImpl) -> Unit {
   let a = assert_strict_module()
-  a.call("ifError", [value]) |> ignore
+  a.call("ifError", [value.to_any()]) |> ignore
 }
 
 ///|

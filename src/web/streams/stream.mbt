@@ -21,9 +21,12 @@ pub fn ReadableStream::new(underlying_source : @js.Any) -> ReadableStream {
 
 ///|
 /// Cancel the stream
-pub async fn ReadableStream::cancel(self : Self, reason? : @js.Any) -> Unit {
+pub async fn[T : @js.JsImpl] ReadableStream::cancel(
+  self : Self,
+  reason? : T,
+) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("cancel", [r]).cast()
+    Some(r) => self.call("cancel", [r.to_any()]).cast()
     None => self.call0("cancel").cast()
   }
   promise.wait()
@@ -54,14 +57,15 @@ pub async fn ReadableStream::pipeTo(
 ///|
 /// Pipe through a transform stream
 #alias(pipe_through)
-pub fn ReadableStream::pipeThrough(
+pub fn[T : @js.JsImpl, O : @js.JsImpl] ReadableStream::pipeThrough(
   self : Self,
-  transform : @js.Any,
-  options? : @js.Any,
+  transform : T,
+  options? : O,
 ) -> ReadableStream {
   match options {
-    Some(opts) => self.call2("pipeThrough", transform, opts).cast()
-    None => self.call("pipeThrough", [transform]).cast()
+    Some(opts) =>
+      self.call2("pipeThrough", transform.to_any(), opts.to_any()).cast()
+    None => self.call("pipeThrough", [transform.to_any()]).cast()
   }
 }
 
@@ -103,12 +107,12 @@ pub fn ReadableStreamDefaultReader::releaseLock(self : Self) -> Unit {
 
 ///|
 /// Cancel the stream
-pub async fn ReadableStreamDefaultReader::cancel(
+pub async fn[T : @js.JsImpl] ReadableStreamDefaultReader::cancel(
   self : Self,
-  reason? : @js.Any,
+  reason? : T,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("cancel", [r]).cast()
+    Some(r) => self.call("cancel", [r.to_any()]).cast()
     None => self.call0("cancel").cast()
   }
   promise.wait()
@@ -136,9 +140,12 @@ pub fn WritableStream::new(underlying_sink : @js.Any) -> WritableStream {
 
 ///|
 /// Abort the stream
-pub async fn WritableStream::abort(self : Self, reason? : @js.Any) -> Unit {
+pub async fn[T : @js.JsImpl] WritableStream::abort(
+  self : Self,
+  reason? : T,
+) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("abort", [r]).cast()
+    Some(r) => self.call("abort", [r.to_any()]).cast()
     None => self.call0("abort").cast()
   }
   promise.wait()
@@ -171,11 +178,11 @@ pub impl @js.JsImpl for WritableStreamDefaultWriter
 
 ///|
 /// Write a chunk to the stream
-pub async fn WritableStreamDefaultWriter::write(
+pub async fn[T : @js.JsImpl] WritableStreamDefaultWriter::write(
   self : Self,
-  chunk : @js.Any,
+  chunk : T,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = self.call("write", [chunk]).cast()
+  let promise : @js.Promise[Unit] = self.call("write", [chunk.to_any()]).cast()
   promise.wait()
 }
 
@@ -188,12 +195,12 @@ pub async fn WritableStreamDefaultWriter::close(self : Self) -> Unit {
 
 ///|
 /// Abort the writer
-pub async fn WritableStreamDefaultWriter::abort(
+pub async fn[T : @js.JsImpl] WritableStreamDefaultWriter::abort(
   self : Self,
-  reason? : @js.Any,
+  reason? : T,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("abort", [r]).cast()
+    Some(r) => self.call("abort", [r.to_any()]).cast()
     None => self.call0("abort").cast()
   }
   promise.wait()

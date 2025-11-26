@@ -116,6 +116,7 @@ pub async fn embed(
 
 ///|
 /// Batch embedding of multiple values for efficiency
+#alias(embed_many)
 pub async fn embedMany(
   /// Embedding model to use
   model~ : EmbeddingModel,
@@ -160,6 +161,7 @@ pub async fn embedMany(
 ///|
 /// Calculate cosine similarity between two embedding vectors
 /// Returns a value between -1 and 1, where 1 means identical
+#alias(cosine_similarity)
 pub fn cosineSimilarity(a : Array[Double], b : Array[Double]) -> Double {
   if a.length() != b.length() {
     abort("Embedding vectors must have the same length")

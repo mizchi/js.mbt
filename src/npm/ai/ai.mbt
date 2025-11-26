@@ -65,6 +65,7 @@ fn ai_module() -> @js.Any {
 
 ///|
 /// Generate text using the AI SDK (non-streaming)
+#alias(generate_text)
 pub async fn generateText(
   model~ : Model,
   messages? : Array[ModelMessage],
@@ -133,6 +134,7 @@ pub impl @js.JsImpl for StreamTextResultHandle
 ///|
 /// Stream text using the AI SDK (streaming)
 /// Note: This returns synchronously but the stream itself is async
+#alias(stream_text)
 pub fn streamText(
   model~ : Model,
   messages? : Array[ModelMessage],
@@ -189,6 +191,7 @@ pub fn streamText(
 ///|
 /// Get the full stream of TextStreamParts (raw iterator)
 /// Note: fullStream is an AsyncIterable, so we call [Symbol.asyncIterator]()
+#alias(full_stream_raw)
 pub fn StreamTextResultHandle::fullStreamRaw(
   self : StreamTextResultHandle,
 ) -> @js.AsyncIterator[@js.Any] {
@@ -217,6 +220,7 @@ pub async fn TextStreamPartIterator::next(
 
 ///|
 /// Get the full stream as typed TextStreamPart iterator
+#alias(full_stream)
 pub fn StreamTextResultHandle::fullStream(
   self : StreamTextResultHandle,
 ) -> TextStreamPartIterator {
@@ -228,6 +232,7 @@ pub fn StreamTextResultHandle::fullStream(
 ///|
 /// Get the text stream (only text deltas)
 /// Note: textStream is an AsyncIterable (ReadableStream), so we call [Symbol.asyncIterator]()
+#alias(text_stream)
 pub fn StreamTextResultHandle::textStream(
   self : StreamTextResultHandle,
 ) -> @js.AsyncIterator[String] {
@@ -248,6 +253,7 @@ pub async fn StreamTextResultHandle::text(
 
 ///|
 /// Get the finish reason (consumes stream)
+#alias(finish_reason)
 pub async fn StreamTextResultHandle::finishReason(
   self : StreamTextResultHandle,
 ) -> FinishReason {

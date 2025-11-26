@@ -27,12 +27,12 @@ impl @js.JsImpl for DecompressionStream
 pub(all) struct ReadableStream {
   locked : Bool
 }
-async fn ReadableStream::cancel(Self, reason? : @js.Any) -> Unit
+async fn[T : @js.JsImpl] ReadableStream::cancel(Self, reason? : T) -> Unit
 #alias(get_reader)
 fn ReadableStream::getReader(Self) -> ReadableStreamDefaultReader
 fn ReadableStream::new(@js.Any) -> Self
 #alias(pipe_through)
-fn ReadableStream::pipeThrough(Self, @js.Any, options? : @js.Any) -> Self
+fn[T : @js.JsImpl, O : @js.JsImpl] ReadableStream::pipeThrough(Self, T, options? : O) -> Self
 #alias(pipe_to)
 async fn ReadableStream::pipeTo(Self, WritableStream, options? : @js.Any) -> Unit
 fn ReadableStream::tee(Self) -> (Self, Self)
@@ -41,7 +41,7 @@ impl @js.JsImpl for ReadableStream
 pub(all) struct ReadableStreamDefaultReader {
   closed : @js.Promise[Unit]
 }
-async fn ReadableStreamDefaultReader::cancel(Self, reason? : @js.Any) -> Unit
+async fn[T : @js.JsImpl] ReadableStreamDefaultReader::cancel(Self, reason? : T) -> Unit
 async fn ReadableStreamDefaultReader::read(Self) -> @js.Any
 #alias(release_lock)
 fn ReadableStreamDefaultReader::releaseLock(Self) -> Unit
@@ -59,7 +59,7 @@ impl @js.JsImpl for TransformStream
 pub(all) struct WritableStream {
   locked : Bool
 }
-async fn WritableStream::abort(Self, reason? : @js.Any) -> Unit
+async fn[T : @js.JsImpl] WritableStream::abort(Self, reason? : T) -> Unit
 async fn WritableStream::close(Self) -> Unit
 #alias(get_writer)
 fn WritableStream::getWriter(Self) -> WritableStreamDefaultWriter
@@ -71,11 +71,11 @@ pub(all) struct WritableStreamDefaultWriter {
   ready : @js.Promise[Unit]
   desiredSize : @js.Nullable[Int]
 }
-async fn WritableStreamDefaultWriter::abort(Self, reason? : @js.Any) -> Unit
+async fn[T : @js.JsImpl] WritableStreamDefaultWriter::abort(Self, reason? : T) -> Unit
 async fn WritableStreamDefaultWriter::close(Self) -> Unit
 #alias(release_lock)
 fn WritableStreamDefaultWriter::releaseLock(Self) -> Unit
-async fn WritableStreamDefaultWriter::write(Self, @js.Any) -> Unit
+async fn[T : @js.JsImpl] WritableStreamDefaultWriter::write(Self, T) -> Unit
 impl @js.JsImpl for WritableStreamDefaultWriter
 
 // Type aliases

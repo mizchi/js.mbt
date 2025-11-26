@@ -26,7 +26,7 @@ fn WriteStream::clear_line(Self, Int, () -> Unit) -> Unit
 fn WriteStream::clear_screen_down(Self, () -> Unit) -> Unit
 fn WriteStream::columns(Self) -> Int
 fn WriteStream::cursor_to(Self, Int, Int, () -> Unit) -> Unit
-fn WriteStream::end(Self, chunk? : @js.Any, encoding? : String, callback? : @js.Any) -> Self
+fn[T : @js.JsImpl] WriteStream::end(Self, chunk? : T, encoding? : String, callback? : @js.Any) -> Self
 fn WriteStream::get_color_depth(Self) -> Int
 fn WriteStream::get_window_size(Self) -> (Int, Int)
 fn WriteStream::has_colors(Self, Int) -> Bool

@@ -86,6 +86,7 @@ pub fn[T] GenerateObjectResult::get_object(self : GenerateObjectResult) -> T {
 ///|
 /// Generate structured data from a prompt
 /// The schema is used to validate and type the generated data
+#alias(generate_object)
 pub async fn generateObject(
   model~ : Model,
   /// JSON schema for the output object
@@ -163,6 +164,7 @@ pub async fn generateObject(
 ///|
 /// Generate structured data with a Zod schema
 /// This version accepts a zod schema object directly
+#alias(generate_object_with_zod)
 pub async fn generateObjectWithZod(
   model~ : Model,
   /// Zod schema object (from @zod)

@@ -9,10 +9,10 @@ import(
 )
 
 // Values
-fn exec(String, (@js.Any?, String, String) -> Unit, cwd? : String, env? : @js.Any, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
+fn exec(String, (@js.Nullish[@js.JsError], String, String) -> Unit, cwd? : String, env? : @js.Any, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(exec_file)
-fn execFile(String, Array[String], (@js.Any?, String, String) -> Unit, cwd? : String, env? : @js.Any, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
+fn execFile(String, Array[String], (@js.Nullish[@js.JsError], String, String) -> Unit, cwd? : String, env? : @js.Any, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(exec_file_sync)
 fn execFileSync(String, args? : Array[String], cwd? : String, env? : @js.Any, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String raise @js.ThrowError
@@ -43,7 +43,7 @@ fn ChildProcess::disconnect(Self) -> Unit
 fn ChildProcess::kill(Self, signal? : String) -> Bool
 fn ChildProcess::on_close(Self, (Int?, String?) -> Unit) -> Unit
 fn ChildProcess::on_disconnect(Self, () -> Unit) -> Unit
-fn ChildProcess::on_error(Self, (@js.Any) -> Unit) -> Unit
+fn ChildProcess::on_error(Self, (@js.JsError) -> Unit) -> Unit
 fn ChildProcess::on_exit(Self, (Int?, String?) -> Unit) -> Unit
 fn ChildProcess::on_message(Self, (@js.Any, @js.Any?) -> Unit) -> Unit
 fn ChildProcess::on_spawn(Self, () -> Unit) -> Unit

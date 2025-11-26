@@ -102,7 +102,7 @@ pub fn spawn(
 /// Spawns a shell and executes a command, buffering the output
 pub fn exec(
   command : String,
-  callback : (@js.Any?, String, String) -> Unit noraise,
+  callback : (@js.Nullish[@js.JsError], String, String) -> Unit noraise,
   cwd? : String,
   env? : @js.Any,
   shell? : String,
@@ -129,7 +129,7 @@ pub fn exec(
 pub fn execFile(
   file : String,
   args : Array[String],
-  callback : (@js.Any?, String, String) -> Unit noraise,
+  callback : (@js.Nullish[@js.JsError], String, String) -> Unit noraise,
   cwd? : String,
   env? : @js.Any,
   timeout? : Int,

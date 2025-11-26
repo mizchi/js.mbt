@@ -8,7 +8,7 @@ import(
 )
 
 // Values
-fn addAbortSignal(@js.Any, @js.Any) -> @js.Any
+fn addAbortSignal(&@js.JsImpl, &@js.JsImpl) -> @js.Any
 
 fn compose(Array[@js.Any]) -> @js.Any
 
@@ -32,8 +32,8 @@ fn setDefaultHighWaterMark(Bool, Int) -> Unit
 #external
 pub type Duplex
 fn Duplex::allowHalfOpen(Self) -> Bool
-fn Duplex::from(@js.Any) -> Self
-fn Duplex::fromWeb(@js.Any) -> Self
+fn Duplex::from(&@js.JsImpl) -> Self
+fn Duplex::fromWeb(&@js.JsImpl) -> Self
 fn Duplex::toWeb(Self) -> @js.Any
 impl @js.JsImpl for Duplex
 impl @events.EventEmitterImpl for Duplex
@@ -50,7 +50,7 @@ pub type Readable
 fn Readable::closed(Self) -> Bool
 fn Readable::destroy(Self, error? : @js.Any) -> Self
 fn Readable::errored(Self) -> @js.Any
-fn Readable::from(@js.Any) -> Self
+fn Readable::from(&@js.JsImpl) -> Self
 fn Readable::fromWeb(@streams.ReadableStream) -> Self
 fn Readable::isPaused(Self) -> Bool
 fn Readable::pause(Self) -> Self
@@ -67,7 +67,7 @@ fn Readable::resume_(Self) -> Self
 fn Readable::setEncoding(Self, String) -> Self
 fn Readable::toWeb(Self) -> @streams.ReadableStream
 fn Readable::unpipe(Self, destination? : Writable) -> Self
-fn Readable::unshift(Self, @js.Any, encoding? : String) -> Unit
+fn Readable::unshift(Self, &@js.JsImpl, encoding? : String) -> Unit
 impl @js.JsImpl for Readable
 impl @events.EventEmitterImpl for Readable
 impl StreamImpl for Readable
@@ -89,7 +89,7 @@ pub type Writable
 fn Writable::closed(Self) -> Bool
 fn Writable::cork(Self) -> Unit
 fn Writable::destroy(Self, error? : @js.Any) -> Self
-fn Writable::end(Self, chunk? : @js.Any, encoding? : String, callback? : @js.Any) -> Self
+fn[T : @js.JsImpl] Writable::end(Self, chunk? : T, encoding? : String, callback? : @js.Any) -> Self
 fn Writable::errored(Self) -> @js.Any
 fn Writable::fromWeb(@streams.WritableStream) -> Self
 fn Writable::setDefaultEncoding(Self, String) -> Self
@@ -102,7 +102,7 @@ fn Writable::writableFinished(Self) -> Bool
 fn Writable::writableHighWaterMark(Self) -> Int
 fn Writable::writableLength(Self) -> Int
 fn Writable::writableObjectMode(Self) -> Bool
-fn Writable::write(Self, @js.Any, encoding? : String, callback? : @js.Any) -> Bool
+fn[T : @js.JsImpl] Writable::write(Self, T, encoding? : String, callback? : @js.Any) -> Bool
 impl @js.JsImpl for Writable
 impl @events.EventEmitterImpl for Writable
 impl StreamImpl for Writable

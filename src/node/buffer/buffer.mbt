@@ -71,14 +71,14 @@ pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
 
 ///|
 /// Allocate a new zero-filled buffer
-pub fn Buffer::alloc(
+pub fn[T : @js.JsImpl] Buffer::alloc(
   size : Int,
-  fill? : @js.Any,
+  fill? : T,
   encoding? : String = "utf-8",
 ) -> Buffer {
   let ctor = buffer_constructor()
   match fill {
-    Some(f) => ctor.call("alloc", [size, f, encoding]).cast()
+    Some(f) => ctor.call("alloc", [size, f.to_any(), encoding]).cast()
     None => ctor.call1("alloc", size).cast()
   }
 }
@@ -214,15 +214,15 @@ pub fn Buffer::copy(
 /// Fill the buffer with a value
 pub fn Buffer::fill(
   self : Self,
-  value : @js.Any,
+  value : &@js.JsImpl,
   offset? : Int = 0,
   end? : Int,
   encoding? : String = "utf-8",
 ) -> Buffer {
   let buf_js = self.to_any()
   match end {
-    Some(e) => buf_js.call("fill", [value, offset, e, encoding]).cast()
-    None => buf_js.call2("fill", value, offset).cast()
+    Some(e) => buf_js.call("fill", [value.to_any(), offset, e, encoding]).cast()
+    None => buf_js.call2("fill", value.to_any(), offset).cast()
   }
 }
 
@@ -260,11 +260,11 @@ pub fn Buffer::compare_with(
 /// Check if the buffer includes a value
 pub fn Buffer::includes(
   self : Self,
-  value : @js.Any,
+  value : &@js.JsImpl,
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Bool {
-  self.call("includes", [value, byte_offset, encoding]).cast()
+  self.call("includes", [value.to_any(), byte_offset, encoding]).cast()
 }
 
 ///|
@@ -272,11 +272,11 @@ pub fn Buffer::includes(
 #alias(index_of)
 pub fn Buffer::indexOf(
   self : Self,
-  value : @js.Any,
+  value : &@js.JsImpl,
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Int {
-  self.call("indexOf", [value, byte_offset, encoding]).cast()
+  self.call("indexOf", [value.to_any(), byte_offset, encoding]).cast()
 }
 
 ///|
@@ -284,14 +284,15 @@ pub fn Buffer::indexOf(
 #alias(last_index_of)
 pub fn Buffer::lastIndexOf(
   self : Self,
-  value : @js.Any,
+  value : &@js.JsImpl,
   byte_offset? : Int,
   encoding? : String = "utf-8",
 ) -> Int {
   let buf_js = self.to_any()
   match byte_offset {
-    Some(offset) => buf_js.call("lastIndexOf", [value, offset, encoding]).cast()
-    None => buf_js.call2("lastIndexOf", value, encoding).cast()
+    Some(offset) =>
+      buf_js.call("lastIndexOf", [value.to_any(), offset, encoding]).cast()
+    None => buf_js.call2("lastIndexOf", value.to_any(), encoding).cast()
   }
 }
 

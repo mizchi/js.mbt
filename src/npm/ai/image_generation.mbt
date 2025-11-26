@@ -92,6 +92,7 @@ pub fn GenerateImageResult::from_any(value : @js.Any) -> GenerateImageResult {
 ///|
 /// Generate images from a text prompt
 /// Note: This is still experimental in AI SDK v6
+#alias(generate_image)
 pub async fn generateImage(
   /// Image generation model to use
   model~ : ImageModel,
