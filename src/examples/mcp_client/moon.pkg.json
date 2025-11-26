@@ -1,0 +1,8 @@
+{
+  "is-main": true,
+  "import": [
+    "mizchi/js",
+    { "path": "mizchi/js/npm/modelcontextprotocol", "alias": "mcp" },
+    "moonbitlang/async"
+  ]
+}

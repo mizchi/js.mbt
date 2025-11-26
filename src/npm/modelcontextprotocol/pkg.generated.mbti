@@ -20,6 +20,12 @@ let parse_error : Int
 // Errors
 
 // Types and methods
+pub(all) struct CallToolResult {
+  content : Array[ContentResult]
+  is_error : Bool?
+  raw : @js.Any
+}
+
 pub struct ClientInfo {
   name : String
   version : String
@@ -40,6 +46,14 @@ fn Content::text(String) -> Self
 fn Content::to_any(Self) -> @js.Any
 impl Show for Content
 
+pub(all) struct ContentResult {
+  text : String?
+  data : String?
+  mime_type : String?
+  raw : @js.Any
+}
+fn ContentResult::type_(Self) -> String
+
 pub enum ContentType {
   Text
   Image
@@ -48,6 +62,12 @@ pub enum ContentType {
 fn ContentType::to_string(Self) -> String
 impl Eq for ContentType
 impl Show for ContentType
+
+pub(all) struct GetPromptResult {
+  description : String?
+  messages : Array[PromptMessageResult]
+  raw : @js.Any
+}
 
 pub struct JsonRpcError {
   code : Int
@@ -86,6 +106,21 @@ pub struct JsonRpcResponse {
 }
 fn JsonRpcResponse::to_any(Self) -> @js.Any
 
+pub(all) struct ListPromptsResult {
+  prompts : Array[PromptInfo]
+  raw : @js.Any
+}
+
+pub(all) struct ListResourcesResult {
+  resources : Array[ResourceInfo]
+  raw : @js.Any
+}
+
+pub(all) struct ListToolsResult {
+  tools : Array[ToolInfo]
+  raw : @js.Any
+}
+
 pub struct McpClient {
   server_info : ServerInfo?
   mut request_id : Int
@@ -97,13 +132,13 @@ fn McpClient::new(String) -> Self
 
 pub struct McpServer {
   info : ServerInfo
-  mut tools : @hashmap.HashMap[String, (Tool, (@js.Object) -> @js.Promise[Array[Content]])]
+  mut tools : @hashmap.HashMap[String, (Tool, (@js.Any) -> @js.Promise[Array[Content]])]
   mut resources : @hashmap.HashMap[String, (Resource, (String) -> @js.Promise[Array[Content]])]
-  mut prompts : @hashmap.HashMap[String, (Prompt, (@js.Object) -> @js.Promise[Array[Content]])]
+  mut prompts : @hashmap.HashMap[String, (Prompt, (@js.Any) -> @js.Promise[Array[Content]])]
 }
-fn McpServer::add_prompt(Self, Prompt, (@js.Object) -> @js.Promise[Array[Content]]) -> Unit
+fn McpServer::add_prompt(Self, Prompt, (@js.Any) -> @js.Promise[Array[Content]]) -> Unit
 fn McpServer::add_resource(Self, Resource, (String) -> @js.Promise[Array[Content]]) -> Unit
-fn McpServer::add_tool(Self, Tool, (@js.Object) -> @js.Promise[Array[Content]]) -> Unit
+fn McpServer::add_tool(Self, Tool, (@js.Any) -> @js.Promise[Array[Content]]) -> Unit
 fn McpServer::handle_request(Self, JsonRpcRequest) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]]
 fn McpServer::new(String, String) -> Self
 
@@ -123,6 +158,40 @@ pub(all) struct PromptArgument {
 fn PromptArgument::to_any(Self) -> @js.Any
 impl Show for PromptArgument
 
+pub(all) struct PromptArgumentInfo {
+  name : String
+  description : String?
+  required : Bool?
+}
+
+pub(all) struct PromptInfo {
+  name : String
+  description : String?
+  arguments : Array[PromptArgumentInfo]?
+}
+
+pub(all) struct PromptMessage {
+  role : String
+  content : Content
+}
+fn PromptMessage::to_any(Self) -> @js.Any
+
+pub(all) struct PromptMessageResult {
+  role : String
+  content : ContentResult
+}
+
+pub(all) struct PromptResult {
+  description : String?
+  messages : Array[PromptMessage]
+}
+fn PromptResult::to_any(Self) -> @js.Any
+
+pub(all) struct ReadResourceResult {
+  contents : Array[ContentResult]
+  raw : @js.Any
+}
+
 pub enum RequestId {
   String(String)
   Number(Int)
@@ -141,6 +210,43 @@ pub(all) struct Resource {
 fn Resource::to_any(Self) -> @js.Any
 impl Show for Resource
 
+pub(all) struct ResourceInfo {
+  uri : String
+  name : String
+  description : String?
+  mime_type : String?
+}
+
+#external
+pub type SdkClient
+async fn SdkClient::call_tool(Self, String, &@js.JsImpl) -> CallToolResult
+async fn SdkClient::close(Self) -> Unit
+async fn SdkClient::connect(Self, StdioClientTransport) -> Unit
+async fn SdkClient::get_prompt(Self, String, @js.Any?) -> GetPromptResult
+async fn SdkClient::list_prompts(Self) -> ListPromptsResult
+async fn SdkClient::list_resources(Self) -> ListResourcesResult
+async fn SdkClient::list_tools(Self) -> ListToolsResult
+fn SdkClient::new(String, String) -> Self
+fn SdkClient::on_log_message(Self, (String, String, @js.Any) -> Unit) -> Unit
+async fn SdkClient::read_resource(Self, String) -> ReadResourceResult
+fn SdkClient::set_notification_handler(Self, String, (@js.Any) -> Unit) -> Unit
+impl @js.JsImpl for SdkClient
+
+#external
+pub type SdkServer
+async fn SdkServer::close(Self) -> Unit
+async fn SdkServer::connect(Self, StdioServerTransport) -> Unit
+fn SdkServer::log(Self, String, String) -> Unit
+fn SdkServer::new(String, String, tools? : Bool, resources? : Bool, prompts? : Bool) -> Self
+fn SdkServer::send_notification(Self, String, &@js.JsImpl) -> Unit
+fn SdkServer::set_prompts_get_handler(Self, async (String, @js.Any) -> PromptResult) -> Unit
+fn SdkServer::set_prompts_list_handler(Self, () -> Array[Prompt]) -> Unit
+fn SdkServer::set_resources_list_handler(Self, () -> Array[Resource]) -> Unit
+fn SdkServer::set_resources_read_handler(Self, async (String) -> Array[Content]) -> Unit
+fn SdkServer::set_tools_call_handler(Self, async (String, @js.Any) -> Array[Content]) -> Unit
+fn SdkServer::set_tools_list_handler(Self, () -> Array[Tool]) -> Unit
+impl @js.JsImpl for SdkServer
+
 pub struct ServerCapabilities {
   tools : Bool
   resources : Bool
@@ -156,6 +262,18 @@ pub struct ServerInfo {
 fn ServerInfo::to_any(Self) -> @js.Any
 impl Show for ServerInfo
 
+#external
+pub type StdioClientTransport
+async fn StdioClientTransport::close(Self) -> Unit
+fn StdioClientTransport::new(String, Array[String], env? : @js.Any, cwd? : String) -> Self
+async fn StdioClientTransport::start(Self) -> Unit
+impl @js.JsImpl for StdioClientTransport
+
+#external
+pub type StdioServerTransport
+fn StdioServerTransport::new() -> Self
+impl @js.JsImpl for StdioServerTransport
+
 pub(all) struct Tool {
   name : String
   description : String
@@ -163,12 +281,18 @@ pub(all) struct Tool {
 }
 fn Tool::to_any(Self) -> @js.Any
 
+pub(all) struct ToolInfo {
+  name : String
+  description : String?
+  input_schema : @js.Any
+}
+
 // Type aliases
-pub type PromptHandler = (@js.Object) -> @js.Promise[Array[Content]]
+pub type PromptHandler = (@js.Any) -> @js.Promise[Array[Content]]
 
 pub type ResourceHandler = (String) -> @js.Promise[Array[Content]]
 
-pub type ToolHandler = (@js.Object) -> @js.Promise[Array[Content]]
+pub type ToolHandler = (@js.Any) -> @js.Promise[Array[Content]]
 
 // Traits
 

@@ -2,7 +2,7 @@
 
 ///|
 /// Tool Handler - takes params and returns content
-pub type ToolHandler = (@js.Object) -> @js.Promise[Array[Content]]
+pub type ToolHandler = (@js.Any) -> @js.Promise[Array[Content]]
 
 ///|
 /// Resource Handler - returns content for a resource URI
@@ -10,7 +10,7 @@ pub type ResourceHandler = (String) -> @js.Promise[Array[Content]]
 
 ///|
 /// Prompt Handler - takes arguments and returns messages
-pub type PromptHandler = (@js.Object) -> @js.Promise[Array[Content]]
+pub type PromptHandler = (@js.Any) -> @js.Promise[Array[Content]]
 
 ///|
 /// MCP Server
@@ -131,50 +131,28 @@ fn McpServer::handle_tools_call(
   id : RequestId,
   params : @js.Object?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  match params {
-    None =>
-      @js.Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
-    Some(p) => {
-      let name : String? = p.get("name") |> @js.identity_option()
-      match name {
-        None =>
-          @js.Promise::resolve(
-            Err(self.invalid_params_error(id, "Missing tool name")),
-          )
-        Some(tool_name) =>
-          match self.tools.get(tool_name) {
-            None =>
-              @js.Promise::resolve(
-                Err(
-                  self.method_not_found_error(
-                    id,
-                    "Tool not found: " + tool_name,
-                  ),
-                ),
-              )
-            Some((_, handler)) => {
-              let arguments : @js.Object = match
-                (p.get("arguments") |> @js.identity_option()) {
-                Some(args) => args
-                None => @js.identity(@js.Object::new())
-              }
-              handler(arguments).then(fn(content) {
-                let content_arr : Array[@js.Any] = []
-                for i = 0; i < content.length(); i = i + 1 {
-                  content_arr.push(content[i].to_any())
-                }
-                let result = @js.from_map({
-                  "content": @js.from_array(content_arr),
-                })
-                @js.Promise::resolve(
-                  Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
-                )
-              })
-            }
-          }
-      }
-    }
+  guard params is Some(p) &&
+    @js.identity_option(p.get("name")) is Some(tool_name) else {
+    return @js.Promise::resolve(
+      Err(self.invalid_params_error(id, "Missing tool name")),
+    )
   }
+  guard self.tools.get(tool_name) is Some((_, handler)) else {
+    return @js.Promise::resolve(
+      Err(self.method_not_found_error(id, "Tool not found: " + tool_name)),
+    )
+  }
+  let arguments : @js.Any = @js.identity_option(p.get("arguments")).unwrap_or(
+    @js.identity(@js.Object::new()),
+  )
+  handler(arguments).then(fn(content) {
+    let result = @js.from_map({
+      "content": @js.from_array(content.map(fn(c) { c.to_any() })),
+    })
+    @js.Promise::resolve(
+      Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
+    )
+  })
 }
 
 ///|
@@ -197,44 +175,27 @@ fn McpServer::handle_resources_read(
   id : RequestId,
   params : @js.Object?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  match params {
-    None =>
-      @js.Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
-    Some(p) => {
-      let uri : String? = p.get("uri") |> @js.identity_option()
-      match uri {
-        None =>
-          @js.Promise::resolve(
-            Err(self.invalid_params_error(id, "Missing resource URI")),
-          )
-        Some(resource_uri) =>
-          match self.resources.get(resource_uri) {
-            None =>
-              @js.Promise::resolve(
-                Err(
-                  self.method_not_found_error(
-                    id,
-                    "Resource not found: " + resource_uri,
-                  ),
-                ),
-              )
-            Some((_, handler)) =>
-              handler(resource_uri).then(fn(content) {
-                let content_arr : Array[@js.Any] = []
-                for i = 0; i < content.length(); i = i + 1 {
-                  content_arr.push(content[i].to_any())
-                }
-                let result = @js.from_map({
-                  "contents": @js.from_array(content_arr),
-                })
-                @js.Promise::resolve(
-                  Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
-                )
-              })
-          }
-      }
-    }
+  guard params is Some(p) &&
+    @js.identity_option(p.get("uri")) is Some(resource_uri) else {
+    return @js.Promise::resolve(
+      Err(self.invalid_params_error(id, "Missing resource URI")),
+    )
   }
+  guard self.resources.get(resource_uri) is Some((_, handler)) else {
+    return @js.Promise::resolve(
+      Err(
+        self.method_not_found_error(id, "Resource not found: " + resource_uri),
+      ),
+    )
+  }
+  handler(resource_uri).then(fn(content) {
+    let result = @js.from_map({
+      "contents": @js.from_array(content.map(fn(c) { c.to_any() })),
+    })
+    @js.Promise::resolve(
+      Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
+    )
+  })
 }
 
 ///|
@@ -257,50 +218,28 @@ fn McpServer::handle_prompts_get(
   id : RequestId,
   params : @js.Object?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  match params {
-    None =>
-      @js.Promise::resolve(Err(self.invalid_params_error(id, "Missing params")))
-    Some(p) => {
-      let name : String? = p.get("name") |> @js.identity_option()
-      match name {
-        None =>
-          @js.Promise::resolve(
-            Err(self.invalid_params_error(id, "Missing prompt name")),
-          )
-        Some(prompt_name) =>
-          match self.prompts.get(prompt_name) {
-            None =>
-              @js.Promise::resolve(
-                Err(
-                  self.method_not_found_error(
-                    id,
-                    "Prompt not found: " + prompt_name,
-                  ),
-                ),
-              )
-            Some((_, handler)) => {
-              let arguments : @js.Object = match
-                (p.get("arguments") |> @js.identity_option()) {
-                Some(args) => args
-                None => @js.identity(@js.Object::new())
-              }
-              handler(arguments).then(fn(content) {
-                let content_arr : Array[@js.Any] = []
-                for i = 0; i < content.length(); i = i + 1 {
-                  content_arr.push(content[i].to_any())
-                }
-                let result = @js.from_map({
-                  "messages": @js.from_array(content_arr),
-                })
-                @js.Promise::resolve(
-                  Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
-                )
-              })
-            }
-          }
-      }
-    }
+  guard params is Some(p) &&
+    @js.identity_option(p.get("name")) is Some(prompt_name) else {
+    return @js.Promise::resolve(
+      Err(self.invalid_params_error(id, "Missing prompt name")),
+    )
   }
+  guard self.prompts.get(prompt_name) is Some((_, handler)) else {
+    return @js.Promise::resolve(
+      Err(self.method_not_found_error(id, "Prompt not found: " + prompt_name)),
+    )
+  }
+  let arguments : @js.Any = @js.identity_option(p.get("arguments")).unwrap_or(
+    @js.Object::new(),
+  )
+  handler(arguments).then(fn(content) {
+    let result = @js.from_map({
+      "messages": @js.from_array(content.map(fn(c) { c.to_any() })),
+    })
+    @js.Promise::resolve(
+      Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
+    )
+  })
 }
 
 ///|
