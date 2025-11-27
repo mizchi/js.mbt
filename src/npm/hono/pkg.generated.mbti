@@ -14,6 +14,10 @@ fn cors(origin? : String, allowMethods? : Array[String], allowHeaders? : Array[S
 
 fn[T] create_context(T?) -> HonoContext[T]
 
+fn css(String) -> CssClass
+
+fn cx(Array[CssClass]) -> CssClass
+
 fn[Env, ExecutionContext] delete_cookie(Context[Env, ExecutionContext], String, path? : String, secure? : Bool, domain? : String) -> String?
 
 fn fragment(Array[&HonoNode], key? : String) -> JSXNode
@@ -28,7 +32,8 @@ fn hc(String) -> HonoClient
 
 fn html(String) -> HtmlEscapedString
 
-fn jsx(String, Array[&HonoNode], props? : Map[String, @js.Any], style? : Map[String, String], class? : String, id? : String, key? : String) -> JSXNode
+#alias(h)
+fn jsx(String, Array[&HonoNode], props? : Map[String, @js.Any], style? : Map[String, String], class? : &CssClassName, id? : String, key? : String) -> JSXNode
 
 fn[T] jsx_component((T) -> JSXNode, T, children? : Array[&HonoNode], key? : String) -> JSXNode
 
@@ -39,6 +44,8 @@ async fn jwt_sign(@js.Any, String, alg? : JwtAlgorithm) -> String
 async fn jwt_sign_payload(JwtPayload, String, alg? : JwtAlgorithm) -> String
 
 async fn jwt_verify(String, String, alg? : JwtAlgorithm) -> @js.Any
+
+fn keyframes(String) -> CssClass
 
 fn[T] memo((T) -> JSXNode) -> (T) -> JSXNode
 
@@ -53,6 +60,8 @@ fn render_to_string(JSXNode) -> String
 fn[Env, ExecutionContext] set_cookie(Context[Env, ExecutionContext], String, String, domain? : String, expires? : @js.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
 
 async fn[Env, ExecutionContext] set_signed_cookie(Context[Env, ExecutionContext], String, String, String, domain? : String, expires? : @js.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
+
+fn style_component(nonce? : String) -> JSXNode
 
 fn[Env, ExecutionContext] test_client(Hono[Env, ExecutionContext]) -> HonoClient
 
@@ -114,6 +123,12 @@ impl[Env, ExecutionContext] @js.JsImpl for Context[Env, ExecutionContext]
 #external
 pub type CorsMiddleware
 impl @js.JsImpl for CorsMiddleware
+
+#external
+pub type CssClass
+fn CssClass::to_string(Self) -> String
+impl @js.JsImpl for CssClass
+impl CssClassName for CssClass
 
 #external
 pub type Hono[Env, ExecutionContext]
@@ -183,7 +198,7 @@ pub type JSXNode
 impl @js.JsImpl for JSXNode
 impl HonoNode for JSXNode
 
-pub enum JwtAlgorithm {
+pub(all) enum JwtAlgorithm {
   HS256
   HS384
   HS512
@@ -223,6 +238,11 @@ pub type Handler[Env, ExecutionContext] = async (Context[Env, ExecutionContext])
 pub type Middleware[Env, ExecutionContext] = (Context[Env, ExecutionContext], () -> @js.Promise[@http.Response]) -> @js.Promise[@http.Response]
 
 // Traits
+pub trait CssClassName {
+  value(Self) -> @js.Any
+}
+impl CssClassName for String
+
 pub trait HonoNode {
   toHonoNode(Self) -> @js.Any
 }

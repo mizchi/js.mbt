@@ -4,7 +4,7 @@
 
 ///|
 /// JWT Algorithm types
-pub enum JwtAlgorithm {
+pub(all) enum JwtAlgorithm {
   HS256
   HS384
   HS512

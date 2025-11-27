@@ -145,17 +145,6 @@ pub fn[Env, ExecutionContext] set_cookie(
 }
 
 ///|
-extern "js" fn ffi_set_cookie(
-  c : @js.Any,
-  name : String,
-  value : String,
-) -> Unit =
-  #|(c, name, value) => {
-  #|  const { setCookie } = require('hono/cookie');
-  #|  setCookie(c, name, value);
-  #|}
-
-///|
 extern "js" fn ffi_set_cookie_with_options(
   c : @js.Any,
   name : String,
@@ -185,13 +174,6 @@ pub fn[Env, ExecutionContext] delete_cookie(
     Some(result.cast())
   }
 }
-
-///|
-extern "js" fn ffi_delete_cookie(c : @js.Any, name : String) -> @js.Any =
-  #|(c, name) => {
-  #|  const { deleteCookie } = require('hono/cookie');
-  #|  return deleteCookie(c, name);
-  #|}
 
 ///|
 extern "js" fn ffi_delete_cookie_with_options(
@@ -270,18 +252,6 @@ pub async fn[Env, ExecutionContext] set_signed_cookie(
     opts,
   ).wait()
 }
-
-///|
-extern "js" fn ffi_set_signed_cookie(
-  c : @js.Any,
-  name : String,
-  value : String,
-  secret : String,
-) -> @js.Promise[Unit] =
-  #|(c, name, value, secret) => {
-  #|  const { setSignedCookie } = require('hono/cookie');
-  #|  return setSignedCookie(c, name, value, secret);
-  #|}
 
 ///|
 extern "js" fn ffi_set_signed_cookie_with_options(

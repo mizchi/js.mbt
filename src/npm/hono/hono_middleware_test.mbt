@@ -86,3 +86,45 @@ async test "Hono::cors applies cors to specific path" {
   let client = @hono.test_client(app)
   @js.typeof_(client) |> assert_eq("function")
 }
+
+// ============ CSS Tests ============
+
+///|
+test "css returns CssClass" {
+  let class_name = @hono.css("color: red;")
+  assert_true(class_name.to_string().length() > 0)
+}
+
+///|
+test "CssClass::to_string" {
+  let class_name = @hono.css("color: blue;")
+  let str = class_name.to_string()
+  assert_true(str.length() > 0)
+}
+
+///|
+test "keyframes returns CssClass animation" {
+  let animation = @hono.keyframes("from { opacity: 0; } to { opacity: 1; }")
+  assert_true(animation.to_string().length() > 0)
+}
+
+///|
+test "cx combines CssClass instances" {
+  let c1 = @hono.css("color: red;")
+  let c2 = @hono.css("color: blue;")
+  let combined = @hono.cx([c1, c2])
+  assert_true(combined.to_string().length() > 0)
+}
+
+///|
+test "style_component returns JSXNode" {
+  let style = @hono.style_component()
+  @js.typeof_(style) |> assert_eq("object")
+}
+
+///|
+test "jsx alias h works" {
+  // Test that h alias works the same as jsx
+  let node = @hono.h("div", ["Hello"])
+  @js.typeof_(node) |> assert_eq("object")
+}

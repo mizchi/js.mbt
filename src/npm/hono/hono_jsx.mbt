@@ -52,12 +52,14 @@ pub type FC[T] = (T) -> JSXNode
 
 ///|
 /// Create a JSX element
+/// class parameter accepts String or CssClass via CssClassName trait
+#alias(h)
 pub fn jsx(
   tag : String,
   children : Array[&HonoNode],
   props? : Map[String, @js.Any],
   style? : Map[String, String],
-  class? : String,
+  class? : &CssClassName,
   id? : String,
   key? : String,
 ) -> JSXNode {
@@ -77,7 +79,7 @@ pub fn jsx(
     val.set("style", style_obj)
   }
   if class is Some(c) {
-    val.set("class", c)
+    val.set("class", c.value())
   }
   if id is Some(i) {
     val.set("id", i)
