@@ -37,6 +37,7 @@
     "ink": "^6.5.1",
     "ink-testing-library": "^4.0.0",
     "jsdom": "27.0.1",
+    "playwright": "^1.57.0",
     "preact": "^10.27.2",
     "puppeteer": "^24.31.0",
     "react": "19.2.0",
