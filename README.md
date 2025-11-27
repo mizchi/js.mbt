@@ -129,13 +129,19 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 ### NPM Package Bindings
 
-| Package | Package Name | Status | Documentation |
-|---------|--------------|--------|---------------|
-| React | `mizchi/js/npm/react` | 🧪 Tested | [React README](src/npm/react/) |
-| React DOM (Client) | `mizchi/js/npm/react_dom_client` | 🧪 Tested | [React DOM Client](src/npm/react_dom_client/) |
-| React DOM (Server) | `mizchi/js/npm/react_dom_server` | 🧪 Tested | [React DOM Server](src/npm/react_dom_server/) |
-| Hono | `mizchi/js/npm/hono` | 🧪 Tested | [Hono README](src/npm/hono/) |
-| semver | `mizchi/js/npm/semver` | 🤖 AI Generated | [semver](src/npm/semver/) |
+> See **[src/npm/README.md](src/npm/README.md)** for full npm package documentation
+
+| Category | Packages | Status |
+|----------|----------|--------|
+| **UI Frameworks** | React, React DOM, React Router, Preact, Ink | 🧪 Tested |
+| **Web Frameworks** | Hono, better-auth | 🧪 Tested |
+| **AI / LLM** | Vercel AI SDK, MCP SDK | 🧪 Tested |
+| **Cloud Services** | @aws-sdk/client-s3 (S3, R2, GCS, MinIO) | 🧪 Tested |
+| **Database** | PGlite, DuckDB | 🧪 Tested |
+| **Validation** | Zod, AJV | 🧪 Tested |
+| **Build Tools** | Terser | 🧪 Tested |
+| **Utilities** | date-fns, semver, chalk, dotenv, chokidar | 🧪 Tested |
+| **Testing** | Testing Library, Puppeteer, Vitest, JSDOM | 🧪 Tested |
 
 ### Not Supported APIs
 

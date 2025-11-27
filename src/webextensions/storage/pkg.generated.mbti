@@ -1,0 +1,41 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/webextensions/storage"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn local_storage() -> StorageArea
+
+fn on_changed((@js.Any, String) -> Unit) -> Unit
+
+fn session_storage() -> StorageArea
+
+fn sync_storage() -> StorageArea
+
+// Errors
+
+// Types and methods
+#external
+pub type StorageArea
+async fn StorageArea::clear(Self) -> Unit
+async fn StorageArea::get(Self, @js.Any) -> @js.Any
+async fn StorageArea::get_all(Self) -> @js.Any
+async fn StorageArea::get_item(Self, String) -> @js.Any
+async fn StorageArea::remove(Self, @js.Any) -> Unit
+async fn StorageArea::remove_item(Self, String) -> Unit
+async fn StorageArea::set(Self, @js.Any) -> Unit
+async fn StorageArea::set_item(Self, String, @js.Any) -> Unit
+impl @js.JsImpl for StorageArea
+
+pub struct StorageChange {
+  old_value : @js.Any
+  new_value : @js.Any
+}
+fn StorageChange::from_any(@js.Any) -> Self
+
+// Type aliases
+
+// Traits
+

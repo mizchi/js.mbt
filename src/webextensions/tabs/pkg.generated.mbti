@@ -1,0 +1,91 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/webextensions/tabs"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+async fn create(options? : CreateOptions) -> Tab
+
+async fn duplicate(Int) -> Tab
+
+async fn get(Int) -> Tab
+
+async fn get_current() -> Tab?
+
+fn on_activated((@js.Any) -> Unit) -> Unit
+
+fn on_created((Tab) -> Unit) -> Unit
+
+fn on_removed((Int, @js.Any) -> Unit) -> Unit
+
+fn on_updated((Int, @js.Any, Tab) -> Unit) -> Unit
+
+async fn query(options? : QueryOptions) -> Array[Tab]
+
+async fn reload(Int, bypass_cache? : Bool) -> Unit
+
+async fn remove(Array[Int]) -> Unit
+
+async fn remove_tab(Int) -> Unit
+
+async fn send_message(Int, @js.Any) -> @js.Any
+
+async fn update(Int, UpdateOptions) -> Tab
+
+// Errors
+
+// Types and methods
+pub(all) struct CreateOptions {
+  url : String?
+  active : Bool?
+  pinned : Bool?
+  window_id : Int?
+  index : Int?
+  opener_tab_id : Int?
+}
+fn CreateOptions::default() -> Self
+
+pub(all) struct QueryOptions {
+  active : Bool?
+  current_window : Bool?
+  highlighted : Bool?
+  pinned : Bool?
+  url : String?
+  window_id : Int?
+  index : Int?
+  status : String?
+}
+fn QueryOptions::default() -> Self
+
+pub struct Tab {
+  id : Int?
+  index : Int
+  window_id : Int
+  highlighted : Bool
+  active : Bool
+  pinned : Bool
+  url : String?
+  title : String?
+  fav_icon_url : String?
+  status : String?
+  incognito : Bool
+  width : Int?
+  height : Int?
+}
+fn Tab::from_any(@js.Any) -> Self
+
+pub(all) struct UpdateOptions {
+  url : String?
+  active : Bool?
+  pinned : Bool?
+  highlighted : Bool?
+  muted : Bool?
+}
+fn UpdateOptions::default() -> Self
+
+// Type aliases
+
+// Traits
+

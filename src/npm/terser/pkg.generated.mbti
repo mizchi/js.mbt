@@ -1,0 +1,34 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/terser"
+
+// Values
+async fn minify(String, options? : MinifyOptions) -> MinifyResult
+
+async fn minify_simple(String) -> String
+
+fn minify_simple_sync(String) -> String
+
+fn minify_sync(String, options? : MinifyOptions) -> MinifyResult
+
+// Errors
+
+// Types and methods
+pub(all) struct MinifyOptions {
+  compress : Bool
+  mangle : Bool
+  sourceMap : Bool
+  toplevel : Bool
+  keep_fnames : Bool
+  keep_classnames : Bool
+}
+fn MinifyOptions::default() -> Self
+
+pub struct MinifyResult {
+  code : String
+  map : String?
+}
+
+// Type aliases
+
+// Traits
+
