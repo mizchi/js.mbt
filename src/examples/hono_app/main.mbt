@@ -1,6 +1,14 @@
 ///|
 /// Hono Application Example
 /// Demonstrates routing, JSON responses, and JSX rendering
+/// 
+type Env = Unit
+
+///|
+type ExecutionContext = Unit
+
+///|
+type App = @hono.Hono[Env, ExecutionContext]
 
 ///|
 /// Alias for @hono.jsx
@@ -48,8 +56,8 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
 
 ///|
 /// Create the Hono application
-pub fn create_app() -> @hono.Hono[Unit, Unit] {
-  let app : @hono.Hono[Unit, Unit] = @hono.Hono::new()
+pub fn create_app() -> App {
+  let app : App = @hono.Hono::new()
   // Home page with JSX
   app
   .get("/", fn(c) {
@@ -79,8 +87,7 @@ pub fn create_app() -> @hono.Hono[Unit, Unit] {
         h("h1", ["About"]),
         h("p", ["This is a Hono application built with MoonBit."]),
         h("p", [
-          "Hono is a fast, lightweight web framework. ",
-          "MoonBit is a modern programming language.",
+          "Hono is a fast, lightweight web framework. ", "MoonBit is a modern programming language.",
         ]),
       ],
     })
@@ -105,7 +112,7 @@ pub fn create_app() -> @hono.Hono[Unit, Unit] {
 
 ///|
 /// Serve the Hono app using @hono/node-server
-fn serve(app : @hono.Hono[Unit, Unit], port : Int) -> Unit {
+fn serve(app : App, port : Int) -> Unit {
   ffi_serve(app |> @js.identity, port)
 }
 
