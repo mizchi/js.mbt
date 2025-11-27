@@ -86,6 +86,26 @@ This runs 18+ tests including:
 - KV store operations
 - Request/response handling
 
+### 4. Playwright Tests
+
+Playwright tests require browser installation and run separately from the main test suite.
+
+```bash
+# Install Chromium browser (first time only)
+npx playwright install chromium
+
+# Run Playwright tests
+PLAYWRIGHT_TEST=1 moon test --no-parallelize -p mizchi/js/npm/playwright
+```
+
+These tests cover:
+- Browser automation (Chromium, Firefox, WebKit)
+- Page navigation and content
+- Locators and element interactions
+- Forms, clicks, and user actions
+
+> **Note**: Playwright tests run in a separate CI workflow and only trigger on changes to `src/npm/playwright/**` or `src/npm/playwright_test/**`. See [Playwright README](src/npm/playwright/README.md) for more details.
+
 ### Running All Tests
 
 To verify all tests pass:
