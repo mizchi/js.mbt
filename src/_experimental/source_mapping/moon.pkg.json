@@ -1,0 +1,8 @@
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/npm/source_map",
+    "mizchi/js/npm/error_stack_parser"
+  ],
+  "test-import": ["moonbitlang/async"]
+}
