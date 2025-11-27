@@ -1,0 +1,373 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/drizzle"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn and_(Array[SQL]) -> SQL
+
+fn asc(Column) -> @js.Any
+
+fn avg(Column) -> SQL
+
+fn[A : @js.JsImpl, B : @js.JsImpl] between(Column, A, B) -> SQL
+
+#alias(big_serial)
+fn bigserial(name? : String) -> Column
+
+fn boolean(name? : String) -> Column
+
+fn count(column? : Column) -> SQL
+
+fn desc(Column) -> @js.Any
+
+fn drizzle(String) -> DrizzleDB
+
+#alias(drizzle_better_sqlite)
+fn drizzleBetterSqlite(String) -> DrizzleDB
+
+#alias(drizzle_better_sqlite_db)
+fn drizzleBetterSqliteDb(@js.Any) -> DrizzleDB
+
+fn drizzleLibsql(String) -> DrizzleDB
+
+fn drizzleLibsqlClient(@js.Any) -> DrizzleDB
+
+#alias(drizzle_with_config)
+fn drizzleWithConfig(@js.Any) -> DrizzleDB
+
+#alias(drizzle_with_pool)
+fn drizzleWithPool(@js.Any) -> DrizzleDB
+
+fn[V : @js.JsImpl] eq(Column, V) -> SQL
+
+fn[V : @js.JsImpl] gt(Column, V) -> SQL
+
+fn[V : @js.JsImpl] gte(Column, V) -> SQL
+
+fn ilike(Column, String) -> SQL
+
+fn inArray(Column, Array[@js.Any]) -> SQL
+
+fn integer(name? : String) -> Column
+
+#alias(is_not_null)
+fn isNotNull(Column) -> SQL
+
+#alias(is_null)
+fn isNull(Column) -> SQL
+
+fn json(name? : String) -> Column
+
+fn jsonb(name? : String) -> Column
+
+fn like(Column, String) -> SQL
+
+fn[V : @js.JsImpl] lt(Column, V) -> SQL
+
+fn[V : @js.JsImpl] lte(Column, V) -> SQL
+
+fn max_(Column) -> SQL
+
+fn min_(Column) -> SQL
+
+fn[V : @js.JsImpl] ne(Column, V) -> SQL
+
+#alias(not_in_array)
+fn notInArray(Column, Array[@js.Any]) -> SQL
+
+fn not_(SQL) -> SQL
+
+fn numeric(name? : String, precision? : Int, scale? : Int) -> Column
+
+fn or_(Array[SQL]) -> SQL
+
+#alias(pg_check)
+fn pgCheck(String, SQL) -> @js.Any
+
+#alias(pg_foreign_key)
+fn pgForeignKey(Array[Column], Array[Column], name? : String) -> @js.Any
+
+#alias(pg_index)
+fn pgIndex(String) -> PgIndexBuilder
+
+#alias(pg_primary_key)
+fn pgPrimaryKey(Array[Column], name? : String) -> @js.Any
+
+#alias(pg_table)
+fn pgTable(String, @js.Any) -> Table
+
+#alias(pg_table_from_map)
+fn pgTableFromMap(String, Map[String, Column]) -> Table
+
+#alias(pg_unique)
+fn pgUnique(name? : String) -> UniqueBuilder
+
+#alias(pg_unique_index)
+fn pgUniqueIndex(String) -> PgIndexBuilder
+
+fn placeholder(String) -> @js.Any
+
+fn rows(Array[Row]) -> @js.Any
+
+fn serial(name? : String) -> Column
+
+#alias(sql_add)
+fn sqlAdd(@js.Any, @js.Any) -> SQL
+
+#alias(sql_div)
+fn sqlDiv(@js.Any, @js.Any) -> SQL
+
+#alias(sql_mul)
+fn sqlMul(@js.Any, @js.Any) -> SQL
+
+#alias(sql_raw)
+fn sqlRaw(String) -> SQL
+
+#alias(sql_sub)
+fn sqlSub(@js.Any, @js.Any) -> SQL
+
+#alias(sql_template)
+fn sqlTemplate(Array[String], Array[@js.Any]) -> SQL
+
+fn sql_expr(String) -> SQL
+
+#alias(sqlite_blob)
+fn sqliteBlob(name? : String, mode? : String) -> Column
+
+#alias(sqlite_check)
+fn sqliteCheck(String, SQL) -> @js.Any
+
+#alias(sqlite_foreign_key)
+fn sqliteForeignKey(Array[Column], Array[Column], name? : String) -> @js.Any
+
+#alias(sqlite_index)
+fn sqliteIndex(String) -> IndexBuilder
+
+#alias(sqlite_int)
+fn sqliteInt(name? : String) -> Column
+
+#alias(sqlite_integer)
+fn sqliteInteger(name? : String, mode? : String) -> Column
+
+#alias(sqlite_numeric)
+fn sqliteNumeric(name? : String) -> Column
+
+#alias(sqlite_primary_key)
+fn sqlitePrimaryKey(Array[Column], name? : String) -> @js.Any
+
+#alias(sqlite_real)
+fn sqliteReal(name? : String) -> Column
+
+#alias(sqlite_table)
+fn sqliteTable(String, @js.Any) -> Table
+
+#alias(sqlite_table_from_map)
+fn sqliteTableFromMap(String, Map[String, Column]) -> Table
+
+#alias(sqlite_table_with_config)
+fn sqliteTableWithConfig(String, @js.Any, (Table) -> @js.Any) -> Table
+
+#alias(sqlite_text)
+fn sqliteText(name? : String, mode? : String) -> Column
+
+#alias(sqlite_unique)
+fn sqliteUnique(name? : String) -> UniqueBuilder
+
+#alias(sqlite_unique_index)
+fn sqliteUniqueIndex(String) -> IndexBuilder
+
+fn sum(Column) -> SQL
+
+fn text(name? : String) -> Column
+
+fn timestamp(name? : String, with_timezone? : Bool) -> Column
+
+fn uuid(name? : String) -> Column
+
+fn varchar(name? : String, length? : Int) -> Column
+
+// Errors
+
+// Types and methods
+#external
+pub type Column
+fn Column::asc_(Self) -> @js.Any
+#alias(default_now)
+fn Column::defaultNow(Self) -> Self
+#alias(default_value)
+fn[V : @js.JsImpl] Column::defaultValue(Self, V) -> Self
+fn Column::desc_(Self) -> @js.Any
+#alias(generated_always_as_identity)
+fn Column::generatedAlwaysAsIdentity(Self) -> Self
+#alias(not_null)
+fn Column::notNull(Self) -> Self
+#alias(nulls_first)
+fn Column::nullsFirst(Self) -> @js.Any
+#alias(nulls_last)
+fn Column::nullsLast(Self) -> @js.Any
+#alias(on_delete)
+fn Column::onDelete(Self, ForeignKeyAction) -> Self
+#alias(on_update)
+fn Column::onUpdate(Self, ForeignKeyAction) -> Self
+#alias(primary_key)
+fn Column::primaryKey(Self) -> Self
+#alias(primary_key_auto_increment)
+fn Column::primaryKeyAutoIncrement(Self) -> Self
+fn Column::references(Self, () -> Self) -> Self
+fn Column::unique(Self) -> Self
+impl @js.JsImpl for Column
+
+#external
+pub type DrizzleDB
+fn DrizzleDB::delete(Self, Table) -> QueryBuilder
+fn DrizzleDB::insert(Self, Table) -> QueryBuilder
+#alias(pg_transaction)
+async fn DrizzleDB::pgTransaction(Self, (Transaction) -> Unit, isolation_level? : PgIsolationLevel, access_mode? : PgAccessMode, deferrable? : Bool) -> @js.Any
+fn DrizzleDB::select(Self, fields? : @js.Any) -> QueryBuilder
+#alias(select_distinct)
+fn DrizzleDB::selectDistinct(Self) -> QueryBuilder
+#alias(sqlite_transaction)
+async fn DrizzleDB::sqliteTransaction(Self, SqliteBehavior, (Transaction) -> Unit) -> @js.Any
+async fn DrizzleDB::transaction(Self, (Transaction) -> Unit) -> @js.Any
+#alias(transaction_async)
+async fn DrizzleDB::transactionAsync(Self, (Transaction) -> @js.Promise[@js.Any]) -> @js.Any
+fn DrizzleDB::update(Self, Table) -> QueryBuilder
+impl @js.JsImpl for DrizzleDB
+
+pub(all) enum ForeignKeyAction {
+  Cascade
+  Restrict
+  NoAction
+  SetNull
+  SetDefault
+}
+fn ForeignKeyAction::to_string(Self) -> String
+impl Eq for ForeignKeyAction
+impl Show for ForeignKeyAction
+
+#external
+pub type IndexBuilder
+#alias(index_where)
+fn IndexBuilder::filter(Self, SQL) -> Self
+fn IndexBuilder::on(Self, Array[Column]) -> Self
+impl @js.JsImpl for IndexBuilder
+
+pub(all) enum PgAccessMode {
+  ReadOnly
+  ReadWrite
+}
+fn PgAccessMode::to_string(Self) -> String
+impl Eq for PgAccessMode
+impl Show for PgAccessMode
+
+#external
+pub type PgIndexBuilder
+fn PgIndexBuilder::concurrently(Self) -> Self
+fn PgIndexBuilder::filter(Self, SQL) -> Self
+fn PgIndexBuilder::on(Self, Array[Column]) -> Self
+#alias(using_method)
+fn PgIndexBuilder::usingMethod(Self, String, Array[@js.Any]) -> Self
+impl @js.JsImpl for PgIndexBuilder
+
+pub(all) enum PgIsolationLevel {
+  ReadUncommitted
+  ReadCommitted
+  RepeatableRead
+  Serializable
+}
+fn PgIsolationLevel::to_string(Self) -> String
+impl Eq for PgIsolationLevel
+impl Show for PgIsolationLevel
+
+#external
+pub type PreparedQuery
+async fn PreparedQuery::execute(Self, params? : @js.Any) -> @js.Any
+async fn[T] PreparedQuery::execute_array(Self, params? : @js.Any) -> Array[T]
+impl @js.JsImpl for PreparedQuery
+
+#external
+pub type QueryBuilder
+fn QueryBuilder::as_(Self, String) -> @js.Any
+fn QueryBuilder::except(Self, Self) -> Self
+async fn QueryBuilder::execute(Self) -> @js.Any
+async fn[T] QueryBuilder::execute_array(Self) -> Array[T]
+fn QueryBuilder::filter(Self, SQL) -> Self
+fn QueryBuilder::from(Self, Table) -> Self
+#alias(group_by)
+fn QueryBuilder::groupBy(Self, Array[Column]) -> Self
+fn QueryBuilder::having(Self, SQL) -> Self
+#alias(inner_join)
+fn QueryBuilder::innerJoin(Self, Table, SQL) -> Self
+fn QueryBuilder::intersect(Self, Self) -> Self
+#alias(left_join)
+fn QueryBuilder::leftJoin(Self, Table, SQL) -> Self
+fn QueryBuilder::limit(Self, Int) -> Self
+fn QueryBuilder::offset(Self, Int) -> Self
+#alias(on_conflict_do_nothing)
+fn QueryBuilder::onConflictDoNothing(Self) -> Self
+#alias(on_conflict_do_update)
+fn QueryBuilder::onConflictDoUpdate(Self, Array[Column], @js.Any) -> Self
+#alias(order_by)
+fn QueryBuilder::orderBy(Self, Array[@js.Any]) -> Self
+fn QueryBuilder::prepare(Self, String) -> PreparedQuery
+fn QueryBuilder::returning(Self) -> Self
+fn[D : @js.JsImpl] QueryBuilder::set(Self, D) -> Self
+fn QueryBuilder::union(Self, Self) -> Self
+#alias(union_all)
+fn QueryBuilder::unionAll(Self, Self) -> Self
+fn[D : @js.JsImpl] QueryBuilder::values(Self, D) -> Self
+impl @js.JsImpl for QueryBuilder
+
+pub struct Row {
+  // private fields
+}
+fn Row::bool(Self, String, Bool) -> Self
+fn Row::build(Self) -> @js.Any
+fn Row::double(Self, String, Double) -> Self
+fn Row::int(Self, String, Int) -> Self
+fn Row::new() -> Self
+fn Row::null(Self, String) -> Self
+fn[V : @js.JsImpl] Row::set(Self, String, V) -> Self
+fn Row::str(Self, String, String) -> Self
+impl @js.JsImpl for Row
+
+#external
+pub type SQL
+impl @js.JsImpl for SQL
+
+pub(all) enum SqliteBehavior {
+  Deferred
+  Immediate
+  Exclusive
+}
+fn SqliteBehavior::to_string(Self) -> String
+impl Eq for SqliteBehavior
+impl Show for SqliteBehavior
+
+#external
+pub type Table
+impl @js.JsImpl for Table
+
+#external
+pub type Transaction
+fn Transaction::delete(Self, Table) -> QueryBuilder
+fn Transaction::insert(Self, Table) -> QueryBuilder
+fn Transaction::rollback(Self) -> Unit
+fn Transaction::select(Self, fields? : @js.Any) -> QueryBuilder
+fn Transaction::update(Self, Table) -> QueryBuilder
+impl @js.JsImpl for Transaction
+
+#external
+pub type UniqueBuilder
+#alias(nulls_not_distinct)
+fn UniqueBuilder::nullsNotDistinct(Self) -> Self
+fn UniqueBuilder::on(Self, Array[Column]) -> Self
+impl @js.JsImpl for UniqueBuilder
+
+// Type aliases
+
+// Traits
+
