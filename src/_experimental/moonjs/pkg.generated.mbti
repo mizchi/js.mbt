@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/_experimental/moonjs"
+
+// Values
+
+// Errors
+
+// Types and methods
+type CommandStatus
+
+type ProjectType
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,16 @@
+{
+  "is_main": true,
+  "import": [
+    "moonbitlang/async",
+    "mizchi/js",
+    "mizchi/js/node/process",
+    "mizchi/js/node/fs",
+    "mizchi/js/node/path",
+    "mizchi/js/node/child_process",
+    "mizchi/js/_experimental/moon_api",
+    "mizchi/js/npm/chalk",
+    "mizchi/js/npm/ink",
+    "mizchi/js/npm/ink_ui",
+    "mizchi/js/npm/react"
+  ]
+}
