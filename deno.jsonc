@@ -1,5 +1,8 @@
 {
+  "name": "@mizchi/moonjs",
   "test": {
-    "include": ["target/js/release/build/deno/_tests/_tests.js"],
+    "include": [
+      "target/js/release/build/deno/_tests/_tests.js"
+    ],
   },
 }
