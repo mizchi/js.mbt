@@ -1,0 +1,70 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/yargs"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn yargs() -> Yargs
+
+fn yargs_with_args(Array[String]) -> Yargs
+
+// Errors
+
+// Types and methods
+#external
+pub type Argv
+fn Argv::get_array(Self, String) -> Array[String]?
+fn Argv::get_bool(Self, String) -> Bool?
+fn Argv::get_int(Self, String) -> Int?
+fn Argv::get_string(Self, String) -> String?
+fn Argv::has(Self, String) -> Bool
+fn Argv::positionals(Self) -> Array[String]
+fn Argv::script_name(Self) -> String
+impl @js.JsImpl for Argv
+
+#external
+pub type Yargs
+fn Yargs::alias_(Self, String, String) -> Self
+fn Yargs::argv(Self) -> Argv
+fn Yargs::array(Self, String) -> Self
+fn Yargs::boolean(Self, String) -> Self
+fn Yargs::choices(Self, String, Array[String]) -> Self
+fn Yargs::command(Self, String, String) -> Self
+fn Yargs::command_module(Self, @js.Any) -> Self
+fn Yargs::command_with_handler(Self, String, String, @js.Any, @js.Any) -> Self
+fn Yargs::count(Self, String) -> Self
+fn Yargs::default(Self, String, @js.Any) -> Self
+fn Yargs::demandCommand(Self, Int) -> Self
+fn Yargs::demandCommand_full(Self, Int, Int, minMsg? : String, maxMsg? : String) -> Self
+fn Yargs::demandOption(Self, String, message? : String) -> Self
+fn Yargs::describe(Self, String, String) -> Self
+fn Yargs::epilog(Self, String) -> Self
+fn Yargs::example(Self, String, String) -> Self
+fn Yargs::exitProcess(Self, Bool) -> Self
+fn Yargs::help(Self, option? : String, description? : String) -> Self
+fn Yargs::locale(Self, String) -> Self
+fn Yargs::number(Self, String) -> Self
+fn Yargs::option(Self, String, alias_? : String, type_? : String, description? : String, default? : @js.Any, demandOption? : Bool, choices? : Array[String], array? : Bool) -> Self
+fn Yargs::parse(Self) -> Argv
+async fn Yargs::parseAsync(Self) -> Argv
+async fn Yargs::parseAsync_args(Self, Array[String]) -> Argv
+fn Yargs::parse_args(Self, Array[String]) -> Argv
+fn Yargs::positional(Self, String, type_? : String, description? : String, default? : @js.Any, choices? : Array[String]) -> Self
+fn Yargs::scriptName(Self, String) -> Self
+fn Yargs::showHelp(Self) -> Unit
+fn Yargs::showVersion(Self) -> Unit
+fn Yargs::strict(Self, enabled? : Bool) -> Self
+fn Yargs::strictCommands(Self, enabled? : Bool) -> Self
+fn Yargs::strictOptions(Self, enabled? : Bool) -> Self
+fn Yargs::string(Self, String) -> Self
+fn Yargs::usage(Self, String) -> Self
+fn Yargs::version(Self, version? : String, option? : String, description? : String) -> Self
+fn Yargs::wrap(Self, Int) -> Self
+impl @js.JsImpl for Yargs
+
+// Type aliases
+
+// Traits
+

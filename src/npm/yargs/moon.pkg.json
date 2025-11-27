@@ -1,0 +1,6 @@
+{
+  "import": [
+    "mizchi/js"
+  ],
+  "test-import": ["mizchi/js/node/process"]
+}
