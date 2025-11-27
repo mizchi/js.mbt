@@ -4,7 +4,46 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.5.6] (Unreleased)
+## [0.5.7] (Unreleased)
+
+### Added
+
+#### Preact (`npm/preact`)
+- **Core Preact API** - Full Preact bindings for building UI components
+  - `VNode` type for virtual DOM nodes
+  - `h()` / `createElement()` - Create virtual DOM elements with props, style, ref, key support
+  - `component()` - Create component elements from function components
+  - `fragment()` - Create fragment elements
+  - `render()` / `hydrate()` - Mount/hydrate Preact apps to DOM
+  - `createContext()` / `provider()` - Context API for state sharing
+  - `createRef()` / `cloneElement()` / `toChildArray()` - Utility functions
+- **Preact Hooks** - All standard hooks from preact/hooks
+  - `useState` / `useStateLazy` - State management
+  - `useEffect` / `useLayoutEffect` - Side effects
+  - `useMemo` / `useCallback` - Memoization
+  - `useRef` - Mutable references
+  - `useReducer` - Reducer-based state
+  - `useContext` - Context consumption
+  - `useId` - Unique ID generation
+  - `useErrorBoundary` - Error handling
+  - `useImperativeHandle` / `useDebugValue` - Advanced hooks
+- **PreactNode trait** - Type-safe children (VNode, String, Int, Double, Bool, Array, Option)
+- **Dynamic import** - `dynamic_import()` for async module loading
+- **snake_case aliases** - All hooks have `#alias` for snake_case naming
+
+#### Preact Testing Library (`npm/preact_testing_library`)
+- **render()** - Render Preact components for testing
+- **screen** - Query rendered elements (same API as React Testing Library)
+  - `getBy*` / `queryBy*` / `findBy*` / `getAllBy*` / `queryAllBy*` / `findAllBy*`
+  - Queries: Role, LabelText, PlaceholderText, Text, DisplayValue, AltText, Title, TestId
+- **fireEvent** - Simulate user events (click, change, input, keyboard, mouse, etc.)
+- **TextMatch trait** - Accept String or RegExp for text matching
+- **Utilities** - `cleanup()`, `act()`, `waitFor()`, `renderHook()`
+- **RenderResult** - `container()`, `baseElement()`, `debug()`, `rerender()`, `unmount()`, `asFragment()`
+
+---
+
+## [0.5.6]
 
 ### Added
 

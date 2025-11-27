@@ -1,0 +1,175 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/preact"
+
+import(
+  "mizchi/js"
+  "mizchi/js/browser/dom"
+)
+
+// Values
+#alias(batch_updates)
+fn batch(() -> Unit) -> Unit
+
+#alias(clone_element)
+fn cloneElement(VNode, props? : @js.Any) -> VNode
+
+#alias(c)
+fn[T] component((T) -> VNode, T, children? : Array[&PreactNode], key? : String) -> VNode
+
+#alias(create_computed)
+fn[T] computed(() -> T) -> ReadonlySignal[T]
+
+#alias(create_context)
+fn[T] createContext(T?) -> Context[T]
+
+#alias(create_ref)
+fn[T] createRef() -> Ref[T]
+
+fn[T : @js.JsImpl] createResource(() -> @js.Promise[T]) -> Resource[T]
+
+async fn dynamic_import() -> Unit
+
+#alias(create_effect)
+fn effect(() -> Unit) -> () -> Unit
+
+#alias(create_effect_with_cleanup)
+fn effectWithCleanup(() -> () -> Unit) -> () -> Unit
+
+fn fragment(Array[&PreactNode], key? : String) -> VNode
+
+#alias(createElement)
+fn h(String, Array[&PreactNode], props? : Map[String, @js.Any], style? : Map[String, String], ref_? : Ref[@dom.Element], key? : String) -> VNode
+
+fn hydrate(VNode, @dom.Element) -> Unit
+
+fn init_preact_api(@js.Any, @js.Any, global_key? : String) -> Unit
+
+fn init_preact_signals(@js.Any) -> Unit
+
+fn init_preact_ssr(@js.Any) -> Unit
+
+fn[T] provider(Context[T], Array[&PreactNode], value~ : T) -> VNode
+
+fn render(VNode, @dom.Element) -> Unit
+
+fn renderToString(VNode) -> String
+
+async fn renderToStringAsync(VNode) -> String
+
+#alias(create_signal)
+fn[T : @js.JsImpl] signal(T) -> Signal[T]
+
+#alias(to_child_array)
+fn toChildArray(@js.Any) -> Array[VNode]
+
+fn[T] untracked(() -> T) -> T
+
+#alias(use_callback)
+fn[F] useCallback(F, Array[&@js.JsImpl]) -> F
+
+#alias(use_computed)
+fn[T] useComputed(() -> T) -> ReadonlySignal[T]
+
+#alias(use_context)
+fn[T] useContext(Context[T]) -> T
+
+#alias(use_debug_value)
+fn[T] useDebugValue(T) -> Unit
+
+#alias(use_effect)
+fn useEffect(() -> () -> Unit, Array[&@js.JsImpl]) -> Unit
+
+#alias(use_error_boundary)
+fn useErrorBoundary(callback? : (@js.Any) -> Unit) -> (@js.Any?, () -> Unit)
+
+#alias(use_id)
+fn useId() -> String
+
+#alias(use_imperative_handle)
+fn[T] useImperativeHandle(Ref[T], () -> T, Array[&@js.JsImpl]) -> Unit
+
+#alias(use_layout_effect)
+fn useLayoutEffect(() -> () -> Unit, Array[&@js.JsImpl]) -> Unit
+
+#alias(use_memo)
+fn[T] useMemo(() -> T, Array[&@js.JsImpl]) -> T
+
+#alias(use_reducer)
+fn[T, U] useReducer((T, U) -> T, T) -> (T, (U) -> Unit)
+
+#alias(use_ref)
+fn[T] useRef(T?) -> Ref[T]
+
+#alias(use_signal)
+fn[T : @js.JsImpl] useSignal(T) -> Signal[T]
+
+#alias(use_signal_effect)
+fn useSignalEffect(() -> Unit) -> Unit
+
+#alias(use_state)
+fn[T : @js.JsImpl] useState(T) -> (T, (T) -> Unit)
+
+#alias(use_state_lazy)
+fn[T] useStateLazy(() -> T) -> (T, (T) -> Unit)
+
+// Errors
+
+// Types and methods
+#external
+pub type Context[T]
+impl[T] @js.JsImpl for Context[T]
+
+#external
+pub type ReadonlySignal[T]
+fn[T] ReadonlySignal::peek(Self[T]) -> T
+fn[T] ReadonlySignal::subscribe(Self[T], (T) -> Unit) -> () -> Unit
+fn[T] ReadonlySignal::value(Self[T]) -> T
+impl[T] @js.JsImpl for ReadonlySignal[T]
+
+pub(all) struct Ref[T] {
+  current : @js.Any
+}
+fn[T] Ref::get_current(Self[T]) -> T?
+fn[T] Ref::set_current(Self[T], T?) -> Unit
+impl[T] @js.JsImpl for Ref[T]
+
+pub struct Resource[T] {
+  data : Signal[T?]
+  is_loading : Signal[Bool]
+  error : Signal[@js.Any?]
+  refetch : () -> Unit
+}
+fn[T] Resource::get_error(Self[T]) -> @js.Any?
+fn[T] Resource::has_error(Self[T]) -> Bool
+fn[T] Resource::loading(Self[T]) -> Bool
+fn[T] Resource::refetch(Self[T]) -> Unit
+fn[T] Resource::try_value(Self[T]) -> T?
+fn[T] Resource::value(Self[T]) -> T
+
+#external
+pub type Signal[T]
+fn[T] Signal::peek(Self[T]) -> T
+fn[T : @js.JsImpl] Signal::set_value(Self[T], T) -> Unit
+fn[T] Signal::subscribe(Self[T], (T) -> Unit) -> () -> Unit
+fn[T] Signal::value(Self[T]) -> T
+impl[T] @js.JsImpl for Signal[T]
+
+#external
+pub type VNode
+impl @js.JsImpl for VNode
+impl PreactNode for VNode
+
+// Type aliases
+pub type Component[T] = (T) -> VNode
+
+// Traits
+pub trait PreactNode {
+  to_preact_node(Self) -> @js.Any
+}
+impl PreactNode for Bool
+impl PreactNode for Int
+impl PreactNode for Double
+impl PreactNode for String
+impl[T : PreactNode] PreactNode for T?
+impl[T : PreactNode] PreactNode for Array[T]
+

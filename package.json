@@ -16,6 +16,7 @@
     "@inkjs/ui": "^2.0.0",
     "@modelcontextprotocol/sdk": "^1.23.0",
     "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/preact": "^3.2.4",
     "@testing-library/react": "16.3.0",
     "@types/node": "^24.10.1",
     "@vitest/expect": "^4.0.14",
@@ -33,6 +34,7 @@
     "ink": "^6.5.1",
     "ink-testing-library": "^4.0.0",
     "jsdom": "27.0.1",
+    "preact": "^10.27.2",
     "puppeteer": "^24.31.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
@@ -45,5 +47,9 @@
     "zod": "^4.1.13",
     "zod-to-json-schema": "^3.25.0"
   },
-  "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b"
+  "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b",
+  "dependencies": {
+    "@preact/signals": "^2.5.1",
+    "preact-render-to-string": "^6.6.3"
+  }
 }
