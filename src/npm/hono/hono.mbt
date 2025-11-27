@@ -53,7 +53,7 @@ pub fn[Env, ExecutionContext] Hono::new(
 
 ///|
 /// Handler function type: (Context) -> Response | Promise[Response]
-pub type Handler[Env, ExecutionContext] = (Context[Env, ExecutionContext]) -> @http.Response
+pub type Handler[Env, ExecutionContext] = async (Context[Env, ExecutionContext]) -> @http.Response
 
 ///|
 /// Middleware function type
@@ -70,7 +70,7 @@ pub fn[Env, ExecutionContext] Hono::get(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call2("get", path, @js.unsafe_any(handler)).cast()
+  self.call2("get", path, @js.promisify1(handler) |> @js.from_fn1).cast()
 }
 
 ///|
@@ -80,7 +80,7 @@ pub fn[Env, ExecutionContext] Hono::post(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call2("post", path, @js.unsafe_any(handler)).cast()
+  self.call2("post", path, @js.promisify1(handler) |> @js.from_fn1).cast()
 }
 
 ///|
@@ -90,7 +90,7 @@ pub fn[Env, ExecutionContext] Hono::put(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call2("put", path, @js.unsafe_any(handler)).cast()
+  self.call2("put", path, @js.promisify1(handler) |> @js.from_fn1).cast()
 }
 
 ///|
@@ -100,7 +100,7 @@ pub fn[Env, ExecutionContext] Hono::delete(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call2("delete", path, @js.unsafe_any(handler)).cast()
+  self.call2("delete", path, @js.promisify1(handler) |> @js.from_fn1).cast()
 }
 
 ///|
@@ -110,7 +110,7 @@ pub fn[Env, ExecutionContext] Hono::patch(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call2("patch", path, @js.unsafe_any(handler)).cast()
+  self.call2("patch", path, @js.promisify1(handler) |> @js.from_fn1).cast()
 }
 
 ///|
@@ -120,7 +120,7 @@ pub fn[Env, ExecutionContext] Hono::options(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call2("options", path, @js.unsafe_any(handler)).cast()
+  self.call2("options", path, @js.promisify1(handler) |> @js.from_fn1).cast()
 }
 
 ///|
@@ -130,7 +130,7 @@ pub fn[Env, ExecutionContext] Hono::all(
   path : String,
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call2("all", path, @js.unsafe_any(handler)).cast()
+  self.call2("all", path, @js.promisify1(handler) |> @js.from_fn1).cast()
 }
 
 ///|
@@ -191,7 +191,7 @@ pub fn[Env, ExecutionContext] Hono::notFound(
   self : Hono[Env, ExecutionContext],
   handler : Handler[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self.call1("notFound", @js.unsafe_any(handler)).cast()
+  self.call1("notFound", @js.promisify1(handler) |> @js.from_fn1).cast()
 }
 
 ///|

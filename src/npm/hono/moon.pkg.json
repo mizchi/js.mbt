@@ -4,7 +4,8 @@
     "mizchi/js/web/http",
     "mizchi/js/web/url",
     "mizchi/js/builtins/typedarray",
-    "mizchi/js/node"
+    "mizchi/js/node",
+    "mizchi/js/npm/better_auth"
   ],
   "test-import": ["moonbitlang/async"]
 }

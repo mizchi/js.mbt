@@ -1,0 +1,19 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/examples/hono_app"
+
+import(
+  "mizchi/js/npm/hono"
+)
+
+// Values
+fn create_app() -> @hono.Hono[Unit, Unit]
+
+// Errors
+
+// Types and methods
+type LayoutProps
+
+// Type aliases
+
+// Traits
+

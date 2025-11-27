@@ -22,6 +22,7 @@
     "@vitest/expect": "^4.0.14",
     "ai": "6.0.0-beta.95",
     "ajv": "^8.17.1",
+    "better-auth": "^1.4.3",
     "canvas": "^3.2.0",
     "chai": "^6.2.1",
     "chalk": "^5.6.2",
@@ -49,6 +50,7 @@
   },
   "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b",
   "dependencies": {
+    "@hono/node-server": "^1.19.6",
     "@preact/signals": "^2.5.1",
     "preact-render-to-string": "^6.6.3"
   }
