@@ -59,7 +59,7 @@ pub struct ListBucketsOutput {
   buckets : Array[Bucket]
 }
 
-pub struct ListObjectsV2Output {
+pub(all) struct ListObjectsV2Output {
   contents : Array[S3Object]
   is_truncated : Bool?
   next_continuation_token : String?

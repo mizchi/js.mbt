@@ -22,16 +22,16 @@ pub fn S3Client::new(
   forcePathStyle? : Bool = false,
 ) -> S3Client {
   let config = @js.Object::new()
-  config.set("region", region)
+  config["region"] = region
   if endpoint is Some(ep) {
-    config.set("endpoint", ep)
+    config["endpoint"] = ep
   }
-  config.set("forcePathStyle", forcePathStyle)
+  config["forcePathStyle"] = forcePathStyle
   if accessKeyId is Some(ak) && secretAccessKey is Some(sk) {
     let creds = @js.Object::new()
-    creds.set("accessKeyId", ak)
-    creds.set("secretAccessKey", sk)
-    config.set("credentials", creds.to_any())
+    creds["accessKeyId"] = ak
+    creds["secretAccessKey"] = sk
+    config["credentials"] = creds.to_any()
   }
   ffi_new_s3_client(config.to_any()) |> @js.identity
 }
@@ -53,14 +53,14 @@ pub async fn put_object(
   contentType? : String,
 ) -> PutObjectOutput {
   let input = @js.Object::new()
-  input.set("Bucket", bucket)
-  input.set("Key", key)
-  input.set("Body", body)
+  input["Bucket"] = bucket
+  input["Key"] = key
+  input["Body"] = body
   if contentType is Some(ct) {
-    input.set("ContentType", ct)
+    input["ContentType"] = ct
   }
-  let result = ffi_put_object(client |> @js.identity, input.to_any()).wait()
-  { etag: result.get("ETag") |> @js.identity }
+  let result = ffi_put_object(client |> @js.identity, input).wait()
+  { etag: result["ETag"].cast() }
 }
 
 ///|
@@ -88,14 +88,14 @@ pub async fn put_object_bytes(
   contentType? : String,
 ) -> PutObjectOutput {
   let input = @js.Object::new()
-  input.set("Bucket", bucket)
-  input.set("Key", key)
-  input.set("Body", @typedarray.bytes_to_uint8array(body))
+  input["Bucket"] = bucket
+  input["Key"] = key
+  input["Body"] = @typedarray.bytes_to_uint8array(body)
   if contentType is Some(ct) {
-    input.set("ContentType", ct)
+    input["ContentType"] = ct
   }
-  let result = ffi_put_object(client |> @js.identity, input.to_any()).wait()
-  { etag: result.get("ETag") |> @js.identity }
+  let result = ffi_put_object(client |> @js.identity, input).wait()
+  { etag: result["ETag"].cast() }
 }
 
 ///|
@@ -106,14 +106,14 @@ pub async fn get_object(
   key : String,
 ) -> GetObjectOutput {
   let input = @js.Object::new()
-  input.set("Bucket", bucket)
-  input.set("Key", key)
-  let result = ffi_get_object(client |> @js.identity, input.to_any()).wait()
+  input["Bucket"] = bucket
+  input["Key"] = key
+  let result = ffi_get_object(client |> @js.identity, input).wait()
   {
-    body: result.get("Body") |> @js.identity,
-    content_type: result.get("ContentType") |> @js.identity,
-    content_length: result.get("ContentLength") |> @js.identity,
-    etag: result.get("ETag") |> @js.identity,
+    body: result["Body"].cast(),
+    content_type: result["ContentType"].cast(),
+    content_length: result["ContentLength"].cast(),
+    etag: result["ETag"].cast(),
   }
 }
 
@@ -159,10 +159,10 @@ pub async fn delete_object(
   key : String,
 ) -> DeleteObjectOutput {
   let input = @js.Object::new()
-  input.set("Bucket", bucket)
-  input.set("Key", key)
-  let result = ffi_delete_object(client |> @js.identity, input.to_any()).wait()
-  { delete_marker: result.get("DeleteMarker") |> @js.identity }
+  input["Bucket"] = bucket
+  input["Key"] = key
+  let result = ffi_delete_object(client |> @js.identity, input).wait()
+  { delete_marker: result["DeleteMarker"].cast() }
 }
 
 ///|
@@ -188,13 +188,13 @@ pub async fn head_object(
   key : String,
 ) -> HeadObjectOutput {
   let input = @js.Object::new()
-  input.set("Bucket", bucket)
-  input.set("Key", key)
+  input["Bucket"] = bucket
+  input["Key"] = key
   let result = ffi_head_object(client |> @js.identity, input.to_any()).wait()
   {
-    content_type: result.get("ContentType") |> @js.identity,
-    content_length: result.get("ContentLength") |> @js.identity,
-    etag: result.get("ETag") |> @js.identity,
+    content_type: result["ContentType"].cast(),
+    content_length: result["ContentLength"].cast(),
+    etag: result["ETag"].cast(),
   }
 }
 
@@ -225,35 +225,35 @@ pub async fn list_objects_v2(
   continuationToken? : String,
 ) -> ListObjectsV2Output {
   let input = @js.Object::new()
-  input.set("Bucket", bucket)
+  input["Bucket"] = bucket
   if prefix is Some(p) {
-    input.set("Prefix", p)
+    input["Prefix"] = p
   }
   if maxKeys is Some(mk) {
-    input.set("MaxKeys", mk)
+    input["MaxKeys"] = mk
   }
   if continuationToken is Some(ct) {
-    input.set("ContinuationToken", ct)
+    input["ContinuationToken"] = ct
   }
-  let result = ffi_list_objects_v2(client |> @js.identity, input.to_any()).wait()
-  let contents_raw : Array[@js.Any] = result.get("Contents") |> @js.identity
+  let result = ffi_list_objects_v2(client |> @js.identity, input).wait()
+  let contents_raw : Array[@js.Any] = result["Contents"] |> @js.identity
   let contents = contents_raw.map(fn(obj) {
     {
-      key: obj.get("Key") |> @js.identity,
-      size: obj.get("Size") |> @js.identity,
-      etag: obj.get("ETag") |> @js.identity,
-      last_modified: obj.get("LastModified") |> @js.identity,
+      key: obj["Key"].cast(),
+      size: obj["Size"].cast(),
+      etag: obj["ETag"].cast(),
+      last_modified: obj["LastModified"].cast(),
     }
   })
   {
     contents,
-    is_truncated: result.get("IsTruncated") |> @js.identity,
-    next_continuation_token: result.get("NextContinuationToken") |> @js.identity,
+    is_truncated: result["IsTruncated"].cast(),
+    next_continuation_token: result["NextContinuationToken"].cast(),
   }
 }
 
 ///|
-pub struct ListObjectsV2Output {
+pub(all) struct ListObjectsV2Output {
   contents : Array[S3Object]
   is_truncated : Bool?
   next_continuation_token : String?
@@ -282,7 +282,7 @@ extern "js" fn ffi_list_objects_v2(
 /// CreateBucket - create a new bucket
 pub async fn create_bucket(client : S3Client, bucket : String) -> Unit {
   let input = @js.Object::new()
-  input.set("Bucket", bucket)
+  input["Bucket"] = bucket
   ffi_create_bucket(client |> @js.identity, input.to_any()).wait() |> ignore
 }
 
@@ -300,7 +300,7 @@ extern "js" fn ffi_create_bucket(
 /// DeleteBucket - delete a bucket
 pub async fn delete_bucket(client : S3Client, bucket : String) -> Unit {
   let input = @js.Object::new()
-  input.set("Bucket", bucket)
+  input["Bucket"] = bucket
   ffi_delete_bucket(client |> @js.identity, input.to_any()).wait() |> ignore
 }
 
@@ -318,10 +318,8 @@ extern "js" fn ffi_delete_bucket(
 /// ListBuckets - list all buckets
 pub async fn list_buckets(client : S3Client) -> ListBucketsOutput {
   let result = ffi_list_buckets(client |> @js.identity).wait()
-  let buckets_raw : Array[@js.Any] = result.get("Buckets") |> @js.identity
-  let buckets = buckets_raw.map(fn(b) {
-    { name: b.get("Name") |> @js.identity }
-  })
+  let buckets_raw : Array[@js.Any] = result["Buckets"].cast()
+  let buckets = buckets_raw.map(fn(b) { { name: b["Name"].cast() } })
   { buckets, }
 }
 
@@ -353,8 +351,8 @@ pub async fn copy_object(
   destKey : String,
 ) -> CopyObjectOutput {
   let input = @js.Object::new()
-  input.set("CopySource", sourceBucket + "/" + sourceKey)
-  input.set("Bucket", destBucket)
+  input["CopySource"] = sourceBucket + "/" + sourceKey
+  input["Bucket"] = destBucket
   input.set("Key", destKey)
   let result = ffi_copy_object(client |> @js.identity, input.to_any()).wait()
   let copy_result = result.get("CopyObjectResult")

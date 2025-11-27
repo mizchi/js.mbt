@@ -76,46 +76,46 @@ fn watch_impl(
 ) -> FSWatcher {
   let options = @js.Object::new()
   if persistent is Some(v) {
-    options.set("persistent", @js.any(v))
+    options["persistent"] = v
   }
   if ignored is Some(v) {
-    options.set("ignored", v)
+    options["ignored"] = v
   }
   if ignoreInitial is Some(v) {
-    options.set("ignoreInitial", @js.any(v))
+    options["ignoreInitial"] = v
   }
   if followSymlinks is Some(v) {
-    options.set("followSymlinks", @js.any(v))
+    options["followSymlinks"] = v
   }
   if cwd is Some(v) {
-    options.set("cwd", @js.any(v))
+    options["cwd"] = v
   }
   if disableGlobbing is Some(v) {
-    options.set("disableGlobbing", @js.any(v))
+    options["disableGlobbing"] = v
   }
   if usePolling is Some(v) {
-    options.set("usePolling", @js.any(v))
+    options["usePolling"] = v
   }
   if interval is Some(v) {
-    options.set("interval", @js.any(v))
+    options["interval"] = v
   }
   if binaryInterval is Some(v) {
-    options.set("binaryInterval", @js.any(v))
+    options["binaryInterval"] = v
   }
   if alwaysStat is Some(v) {
-    options.set("alwaysStat", @js.any(v))
+    options["alwaysStat"] = v
   }
   if depth is Some(v) {
-    options.set("depth", @js.any(v))
+    options["depth"] = v
   }
   if awaitWriteFinish is Some(v) {
-    options.set("awaitWriteFinish", v)
+    options["awaitWriteFinish"] = v
   }
   if ignorePermissionErrors is Some(v) {
-    options.set("ignorePermissionErrors", @js.any(v))
+    options["ignorePermissionErrors"] = v
   }
   if atomic_ is Some(v) {
-    options.set("atomic", @js.any(v))
+    options["atomic"] = v
   }
   @js.identity(ffi_watch(paths, options.to_any()))
 }
@@ -304,7 +304,7 @@ pub fn FSWatcher::on_add_dir(
   self : FSWatcher,
   callback : (String, @js.Any) -> Unit,
 ) -> FSWatcher {
-  self.on("addDir", @js.identity(callback))
+  self.on("addDir", callback |> @js.from_fn2)
 }
 
 ///|
@@ -314,7 +314,7 @@ pub fn FSWatcher::on_unlink(
   self : FSWatcher,
   callback : (String) -> Unit,
 ) -> FSWatcher {
-  self.on("unlink", @js.identity(callback))
+  self.on("unlink", callback |> @js.from_fn1)
 }
 
 ///|
@@ -324,7 +324,7 @@ pub fn FSWatcher::on_unlink_dir(
   self : FSWatcher,
   callback : (String) -> Unit,
 ) -> FSWatcher {
-  self.on("unlinkDir", @js.identity(callback))
+  self.on("unlinkDir", callback |> @js.from_fn1)
 }
 
 ///|
@@ -344,7 +344,7 @@ pub fn FSWatcher::on_error(
   self : FSWatcher,
   callback : (@js.Any) -> Unit,
 ) -> FSWatcher {
-  self.on("error", @js.identity(callback))
+  self.on("error", callback |> @js.from_fn1)
 }
 
 ///|
@@ -354,7 +354,7 @@ pub fn FSWatcher::on_all_raw(
   self : FSWatcher,
   callback : (String, String, @js.Any) -> Unit,
 ) -> FSWatcher {
-  self.on("all", @js.identity(callback))
+  self.on("all", callback |> @js.from_fn3)
 }
 
 ///|
@@ -369,5 +369,5 @@ pub fn FSWatcher::on_all(
       callback(event, path, stats)
     }
   }
-  self.on("all", @js.identity(wrapped))
+  self.on("all", wrapped |> @js.from_fn3)
 }
