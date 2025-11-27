@@ -1,0 +1,103 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/better_auth"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn betterAuth(database~ : @js.Any, providers~ : Array[&Provider], base_url? : String, secret? : String) -> Auth
+
+fn createAuthClient(base_url~ : String) -> AuthClient
+
+// Errors
+
+// Types and methods
+#external
+pub type Auth
+fn Auth::api(Self) -> AuthApi
+fn Auth::handler(Self) -> @js.Any
+impl @js.JsImpl for Auth
+
+#external
+pub type AuthApi
+async fn AuthApi::getSession(Self, @js.Any) -> @js.Any
+async fn AuthApi::signInEmail(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String, headers? : @js.Any) -> AuthResponse
+async fn AuthApi::signInSocial(Self, provider~ : String, callback_url? : String) -> @js.Any
+async fn AuthApi::signOut(Self, @js.Any) -> Unit
+async fn AuthApi::signUpEmail(Self, name~ : String, email~ : String, password~ : String, image? : String, callback_url? : String) -> AuthResponse
+impl @js.JsImpl for AuthApi
+
+#external
+pub type AuthClient
+async fn AuthClient::getSession(Self) -> @js.Any
+fn AuthClient::signIn(Self) -> SignInClient
+async fn AuthClient::signOut(Self) -> Unit
+fn AuthClient::signUp(Self) -> SignUpClient
+impl @js.JsImpl for AuthClient
+
+#external
+pub type AuthResponse
+fn AuthResponse::session(Self) -> Session
+fn AuthResponse::user(Self) -> User
+impl @js.JsImpl for AuthResponse
+
+pub(all) struct EmailPassword {
+  enabled : Bool
+}
+impl Provider for EmailPassword
+
+pub(all) struct GitHub {
+  client_id : String
+  client_secret : String
+}
+impl Provider for GitHub
+
+pub(all) struct Google {
+  client_id : String
+  client_secret : String
+}
+impl Provider for Google
+
+#external
+pub type Session
+fn Session::expiresAt(Self) -> @js.Any
+fn Session::id(Self) -> String
+fn Session::token(Self) -> String
+fn Session::userId(Self) -> String
+impl @js.JsImpl for Session
+
+#external
+pub type SignInClient
+async fn SignInClient::email(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String) -> AuthResponse
+async fn SignInClient::social(Self, provider~ : String, callback_url? : String) -> @js.Any
+impl @js.JsImpl for SignInClient
+
+#external
+pub type SignUpClient
+async fn SignUpClient::email(Self, name~ : String, email~ : String, password~ : String, image? : String, callback_url? : String) -> AuthResponse
+impl @js.JsImpl for SignUpClient
+
+#external
+pub type UseSessionResult
+fn UseSessionResult::data(Self) -> @js.Any
+fn UseSessionResult::error(Self) -> @js.Any?
+fn UseSessionResult::isPending(Self) -> Bool
+impl @js.JsImpl for UseSessionResult
+
+#external
+pub type User
+fn User::email(Self) -> String
+fn User::emailVerified(Self) -> Bool
+fn User::id(Self) -> String
+fn User::image(Self) -> String?
+fn User::name(Self) -> String?
+impl @js.JsImpl for User
+
+// Type aliases
+
+// Traits
+pub trait Provider {
+  apply(Self, @js.Any) -> Unit
+}
+
