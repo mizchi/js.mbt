@@ -74,3 +74,6 @@ dev-react: build
 # Development workflow: format, info, check
 dev-cf: build
     pnpm wrangler dev fixtures/cf-worker.js
+
+test-playwright: build
+    PLAYWRIGHT_TEST=1 moon test --no-parallelize ./src/npm/playwright/playwright_test.mbt 

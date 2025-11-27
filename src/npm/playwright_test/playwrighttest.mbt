@@ -81,7 +81,11 @@ pub fn expect_fn() -> Expect {
 
 ///|
 /// Call test function directly (test is callable)
-extern "js" fn ffi_call_test(t : Test, name : String, callback : @js.Any) -> Unit =
+extern "js" fn ffi_call_test(
+  t : Test,
+  name : String,
+  callback : @js.Any,
+) -> Unit =
   #| (t, name, callback) => t(name, callback)
 
 ///|
@@ -92,7 +96,11 @@ pub fn Test::run(self : Test, name : String, callback : @js.Any) -> Unit {
 
 ///|
 /// Define a test describe block
-extern "js" fn ffi_describe(t : Test, name : String, callback : @js.Any) -> Unit =
+extern "js" fn ffi_describe(
+  t : Test,
+  name : String,
+  callback : @js.Any,
+) -> Unit =
   #| (t, name, callback) => t.describe(name, callback)
 
 ///|
@@ -131,6 +139,7 @@ pub fn Test::slow(self : Test) -> Unit {
 /// Set test timeout
 pub fn Test::setTimeout(self : Test, timeout_ms : Int) -> Unit {
   let _ = self.call("setTimeout", [timeout_ms])
+
 }
 
 ///|
@@ -405,7 +414,11 @@ pub async fn LocatorAssertions::toHaveAttribute(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toHaveAttribute", [@js.any(name), @js.any(value), options.to_any()]),
+    self.call("toHaveAttribute", [
+      @js.any(name),
+      @js.any(value),
+      options.to_any(),
+    ]),
   )
   promise.wait()
 }
@@ -515,9 +528,11 @@ pub fn TestInfo::skip(self : TestInfo, message? : String) -> Unit {
   match message {
     Some(m) => {
       let _ = self.call("skip", [@js.any(true), @js.any(m)])
+
     }
     None => {
       let _ = self.call("skip", [@js.any(true)])
+
     }
   }
 }
@@ -528,9 +543,11 @@ pub fn TestInfo::fail(self : TestInfo, message? : String) -> Unit {
   match message {
     Some(m) => {
       let _ = self.call("fail", [@js.any(true), @js.any(m)])
+
     }
     None => {
       let _ = self.call("fail", [@js.any(true)])
+
     }
   }
 }
@@ -539,6 +556,7 @@ pub fn TestInfo::fail(self : TestInfo, message? : String) -> Unit {
 /// Mark test as slow
 pub fn TestInfo::slow(self : TestInfo) -> Unit {
   let _ = self.call("slow", [@js.any(true)])
+
 }
 
 ///|

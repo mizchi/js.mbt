@@ -1,3 +1,7 @@
+Under development
+
+----
+
 # @playwright/test Bindings
 
 MoonBit bindings for [@playwright/test](https://playwright.dev/docs/api/class-test), the Playwright Test framework.
@@ -5,7 +9,7 @@ MoonBit bindings for [@playwright/test](https://playwright.dev/docs/api/class-te
 ## Installation
 
 ```bash
-npm install @playwright/test
+npm install playwright @playwright/test
 npx playwright install chromium
 ```
 
@@ -15,31 +19,35 @@ This module provides bindings for Playwright Test's API, intended for use when i
 
 ```moonbit
 // Get test and expect functions
-let test = @playwright_test.test_fn()
-let expect = @playwright_test.expect_fn()
+async fn main {
+  let t = @playwright_test.test_fn()
+  let expect = @playwright_test.expect_fn()
 
-// Define a test
-test.run("my test", @js.from_fn1(async fn(fixtures) {
-  let page : @playwright.Page = @js.identity(fixtures.get("page"))
-  let _ = page.goto("https://example.com")
-
-  // Use assertions
-  expect.page(page).toHaveTitle("Example Domain")
-  expect.locator(page.locator("h1")).toBeVisible()
-}))
-
-// Define a describe block
-test.describe("my suite", @js.from_fn0(fn() {
-  test.beforeEach(@js.from_fn1(async fn(fixtures) {
+  // Define a test
+  t.run("my test", @js.from_fn1(async fn(fixtures) {
     let page : @playwright.Page = @js.identity(fixtures.get("page"))
+    defer page.close() |> ignore
     let _ = page.goto("https://example.com")
+
+    // Use assertions
+    expect.page(page).toHaveTitle("Example Domain")
+    expect.locator(page.locator("h1")).toBeVisible()
   }))
 
-  test.run("has title", @js.from_fn1(async fn(fixtures) {
-    let page : @playwright.Page = @js.identity(fixtures.get("page"))
-    expect.page(page).toHaveTitle("Example Domain")
+  // Define a describe block
+  t.describe("my suite", @js.from_fn0(fn() {
+    t.beforeEach(@js.from_fn1(async fn(fixtures) {
+      let page : @playwright.Page = @js.identity(fixtures.get("page"))
+      let _ = page.goto("https://example.com")
+    }))
+
+    t.run("has title", @js.from_fn1(async fn(fixtures) {
+      let page : @playwright.Page = @js.identity(fixtures.get("page"))
+      expect.page(page).toHaveTitle("Example Domain")
+    }))
   }))
-}))
+}
+
 ```
 
 ## Available Types
