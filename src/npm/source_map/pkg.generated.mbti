@@ -16,12 +16,6 @@ pub(all) struct GeneratedPosition {
 }
 fn GeneratedPosition::new(Int, Int) -> Self
 
-pub(all) struct GeneratorOptions {
-  file : String?
-  source_root : String?
-}
-fn GeneratorOptions::default() -> Self
-
 pub(all) struct Mapping {
   generated : GeneratedPosition
   original : GeneratedPosition?
@@ -41,21 +35,21 @@ impl Show for OriginalPosition
 #external
 pub type SourceMapConsumer
 fn SourceMapConsumer::destroy(Self) -> Unit
-fn SourceMapConsumer::each_mapping(Self, (Mapping) -> Unit) -> Unit
+fn SourceMapConsumer::eachMapping(Self, (Mapping) -> Unit) -> Unit
 async fn SourceMapConsumer::from_json(String) -> Self
 async fn SourceMapConsumer::from_raw(@js.Any) -> Self
-fn SourceMapConsumer::original_position_for(Self, Int, Int) -> OriginalPosition
-fn SourceMapConsumer::source_content_for(Self, String) -> String?
+fn SourceMapConsumer::originalPositionFor(Self, Int, Int) -> OriginalPosition
+fn SourceMapConsumer::sourceContentFor(Self, String) -> String?
 fn SourceMapConsumer::sources(Self) -> Array[String]
 impl @js.JsImpl for SourceMapConsumer
 
 #external
 pub type SourceMapGenerator
-fn SourceMapGenerator::add_mapping(Self, GeneratedPosition, original? : GeneratedPosition, source? : String, name? : String) -> Unit
-fn SourceMapGenerator::new(options? : GeneratorOptions) -> Self
-fn SourceMapGenerator::set_source_content(Self, String, String) -> Unit
-fn SourceMapGenerator::to_json(Self) -> String
-fn SourceMapGenerator::to_object(Self) -> @js.Any
+fn SourceMapGenerator::addMapping(Self, GeneratedPosition, original? : GeneratedPosition, source? : String, name? : String) -> Unit
+fn SourceMapGenerator::new(file? : String, sourceRoot? : String) -> Self
+fn SourceMapGenerator::setSourceContent(Self, String, String) -> Unit
+fn SourceMapGenerator::toJSON(Self) -> String
+fn SourceMapGenerator::toObject(Self) -> @js.Any
 impl @js.JsImpl for SourceMapGenerator
 
 // Type aliases

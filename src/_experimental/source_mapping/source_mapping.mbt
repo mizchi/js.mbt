@@ -73,7 +73,7 @@ pub fn ErrorTracer::resolve_frame(
         Some(consumer) => {
           let line = frame.line_number.unwrap_or(1)
           let col = frame.column_number.unwrap_or(0)
-          Some(consumer.original_position_for(line, col))
+          Some(consumer.originalPositionFor(line, col))
         }
         None => None
       }

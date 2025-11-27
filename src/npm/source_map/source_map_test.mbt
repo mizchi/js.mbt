@@ -4,7 +4,7 @@
 
 ///|
 /// Test SourceMapConsumer with a sample source map
-async test "SourceMapConsumer::from_json and original_position_for" {
+async test "SourceMapConsumer::from_json and originalPositionFor" {
   // Sample source map (minified -> original)
   let source_map_json =
     #|{
@@ -17,28 +17,25 @@ async test "SourceMapConsumer::from_json and original_position_for" {
   let consumer = @source_map.SourceMapConsumer::from_json(source_map_json)
   defer consumer.destroy()
   // Query position
-  let pos = consumer.original_position_for(1, 0)
+  let pos = consumer.originalPositionFor(1, 0)
   inspect(pos.source, content="Some(\"foo.mbt\")")
   inspect(pos.line, content="Some(1)")
 }
 
 ///|
 /// Test SourceMapGenerator
-test "SourceMapGenerator::add_mapping and to_json" {
-  let gen = @source_map.SourceMapGenerator::new(options={
-    file: Some("output.js"),
-    source_root: None,
-  })
+test "SourceMapGenerator::addMapping and toJSON" {
+  let gen = @source_map.SourceMapGenerator::new(file="output.js")
   // Add a mapping
-  gen.add_mapping(
+  gen.addMapping(
     @source_map.GeneratedPosition::new(1, 0),
     original=@source_map.GeneratedPosition::new(1, 0),
     source="input.mbt",
     name="main",
   )
-  gen.set_source_content("input.mbt", "fn main() { }")
+  gen.setSourceContent("input.mbt", "fn main() { }")
   // Get result
-  let json = gen.to_json()
+  let json = gen.toJSON()
   // Verify the JSON contains expected data
   assert_true(json.contains("input.mbt"))
   assert_true(json.contains("fn main()"))

@@ -100,7 +100,7 @@ extern "js" fn ffi_create_consumer_raw(
 
 ///|
 /// Get the original position for a generated position
-pub fn SourceMapConsumer::original_position_for(
+pub fn SourceMapConsumer::originalPositionFor(
   self : SourceMapConsumer,
   line : Int,
   column : Int,
@@ -123,7 +123,7 @@ pub fn SourceMapConsumer::sources(self : SourceMapConsumer) -> Array[String] {
 
 ///|
 /// Get source content for a source file
-pub fn SourceMapConsumer::source_content_for(
+pub fn SourceMapConsumer::sourceContentFor(
   self : SourceMapConsumer,
   source : String,
 ) -> String? {
@@ -132,7 +132,7 @@ pub fn SourceMapConsumer::source_content_for(
 
 ///|
 /// Iterate over each mapping
-pub fn SourceMapConsumer::each_mapping(
+pub fn SourceMapConsumer::eachMapping(
   self : SourceMapConsumer,
   callback : (Mapping) -> Unit,
 ) -> Unit {
@@ -192,28 +192,17 @@ pub type SourceMapGenerator
 pub impl @js.JsImpl for SourceMapGenerator
 
 ///|
-/// Source map generator options
-pub(all) struct GeneratorOptions {
-  file : String?
-  source_root : String?
-}
-
-///|
-pub fn GeneratorOptions::default() -> GeneratorOptions {
-  { file: None, source_root: None }
-}
-
-///|
 /// Create a new SourceMapGenerator
 pub fn SourceMapGenerator::new(
-  options? : GeneratorOptions = GeneratorOptions::default(),
+  file? : String,
+  sourceRoot? : String,
 ) -> SourceMapGenerator {
   let js_opts = @js.Object::new()
-  match options.file {
+  match file {
     Some(f) => js_opts.set("file", f)
     None => ()
   }
-  match options.source_root {
+  match sourceRoot {
     Some(sr) => js_opts.set("sourceRoot", sr)
     None => ()
   }
@@ -229,7 +218,7 @@ extern "js" fn ffi_create_generator(options : @js.Any) -> @js.Any =
 
 ///|
 /// Add a mapping to the generator
-pub fn SourceMapGenerator::add_mapping(
+pub fn SourceMapGenerator::addMapping(
   self : SourceMapGenerator,
   generated : GeneratedPosition,
   original? : GeneratedPosition,
@@ -264,7 +253,7 @@ pub fn SourceMapGenerator::add_mapping(
 
 ///|
 /// Set source content for a source file
-pub fn SourceMapGenerator::set_source_content(
+pub fn SourceMapGenerator::setSourceContent(
   self : SourceMapGenerator,
   source : String,
   content : String,
@@ -276,14 +265,14 @@ pub fn SourceMapGenerator::set_source_content(
 
 ///|
 /// Generate the source map as a JSON string
-pub fn SourceMapGenerator::to_json(self : SourceMapGenerator) -> String {
+pub fn SourceMapGenerator::toJSON(self : SourceMapGenerator) -> String {
   let gen : @js.Any = self |> @js.identity
   gen.call("toString", []) |> @js.identity
 }
 
 ///|
 /// Generate the source map as an object
-pub fn SourceMapGenerator::to_object(self : SourceMapGenerator) -> @js.Any {
+pub fn SourceMapGenerator::toObject(self : SourceMapGenerator) -> @js.Any {
   let gen : @js.Any = self |> @js.identity
   gen.call("toJSON", [])
 }
