@@ -1,0 +1,195 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/playwright"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn chromium() -> BrowserType
+
+fn firefox() -> BrowserType
+
+fn webkit() -> BrowserType
+
+// Errors
+
+// Types and methods
+#external
+pub type Browser
+async fn Browser::close(Self) -> Unit
+fn Browser::contexts(Self) -> Array[BrowserContext]
+fn Browser::isConnected(Self) -> Bool
+async fn Browser::newContext(Self, viewport? : (Int, Int), userAgent? : String, locale? : String, timezoneId? : String, geolocation? : (Double, Double), permissions? : Array[String], colorScheme? : String, reducedMotion? : String, forcedColors? : String, acceptDownloads? : Bool, ignoreHTTPSErrors? : Bool, javaScriptEnabled? : Bool, bypassCSP? : Bool, offline? : Bool, deviceScaleFactor? : Double, isMobile? : Bool, hasTouch? : Bool) -> BrowserContext
+async fn Browser::newPage(Self, viewport? : (Int, Int), userAgent? : String, locale? : String, timezoneId? : String, ignoreHTTPSErrors? : Bool, javaScriptEnabled? : Bool, bypassCSP? : Bool, offline? : Bool, colorScheme? : String, deviceScaleFactor? : Double, isMobile? : Bool, hasTouch? : Bool) -> Page
+fn Browser::version(Self) -> String
+impl @js.JsImpl for Browser
+
+#external
+pub type BrowserContext
+async fn BrowserContext::addCookies(Self, @js.Any) -> Unit
+async fn BrowserContext::clearCookies(Self) -> Unit
+async fn BrowserContext::clearPermissions(Self) -> Unit
+async fn BrowserContext::close(Self) -> Unit
+async fn BrowserContext::cookies(Self, urls? : Array[String]) -> @js.Any
+async fn BrowserContext::grantPermissions(Self, Array[String], origin? : String) -> Unit
+async fn BrowserContext::newPage(Self) -> Page
+fn BrowserContext::pages(Self) -> Array[Page]
+fn BrowserContext::setDefaultNavigationTimeout(Self, Int) -> Unit
+fn BrowserContext::setDefaultTimeout(Self, Int) -> Unit
+async fn BrowserContext::setGeolocation(Self, Double, Double, accuracy? : Double) -> Unit
+async fn BrowserContext::setOffline(Self, Bool) -> Unit
+impl @js.JsImpl for BrowserContext
+
+#external
+pub type BrowserType
+async fn BrowserType::launch(Self, headless? : Bool, args? : Array[String], channel? : String, chromiumSandbox? : Bool, devtools? : Bool, downloadsPath? : String, executablePath? : String, handleSIGHUP? : Bool, handleSIGINT? : Bool, handleSIGTERM? : Bool, slowMo? : Int, timeout? : Int) -> Browser
+async fn BrowserType::launchPersistentContext(Self, String, headless? : Bool, args? : Array[String], channel? : String, slowMo? : Int, timeout? : Int) -> BrowserContext
+fn BrowserType::name(Self) -> String
+impl @js.JsImpl for BrowserType
+
+#external
+pub type Frame
+fn Frame::childFrames(Self) -> Array[Self]
+async fn Frame::content(Self) -> String
+async fn Frame::goto(Self, String, timeout? : Int, waitUntil? : String) -> Response?
+fn Frame::isDetached(Self) -> Bool
+fn Frame::locator(Self, String) -> Locator
+fn Frame::name(Self) -> String
+fn Frame::parentFrame(Self) -> Self?
+async fn Frame::title(Self) -> String
+fn Frame::url(Self) -> String
+impl @js.JsImpl for Frame
+
+#external
+pub type Locator
+async fn Locator::allInnerTexts(Self) -> Array[String]
+async fn Locator::allTextContents(Self) -> Array[String]
+async fn Locator::blur(Self, timeout? : Int) -> Unit
+async fn Locator::boundingBox(Self, timeout? : Int) -> @js.Any
+async fn Locator::check(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Locator::clear(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Locator::click(Self, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
+async fn Locator::count(Self) -> Int
+async fn Locator::dblclick(Self, timeout? : Int, force? : Bool) -> Unit
+async fn Locator::evaluate(Self, String, arg? : @js.Any, timeout? : Int) -> @js.Any
+async fn Locator::evaluateAll(Self, String, arg? : @js.Any) -> @js.Any
+async fn Locator::fill(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+fn Locator::filter(Self, has? : Self, hasNot? : Self, hasText? : String, hasNotText? : String) -> Self
+fn Locator::first(Self) -> Self
+async fn Locator::focus(Self, timeout? : Int) -> Unit
+async fn Locator::getAttribute(Self, String, timeout? : Int) -> String?
+fn Locator::getByLabel(Self, String, exact? : Bool) -> Self
+fn Locator::getByPlaceholder(Self, String, exact? : Bool) -> Self
+fn Locator::getByRole(Self, String, name? : String, exact? : Bool) -> Self
+fn Locator::getByTestId(Self, String) -> Self
+fn Locator::getByText(Self, String, exact? : Bool) -> Self
+async fn Locator::hover(Self, force? : Bool, modifiers? : Array[String], position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
+async fn Locator::innerHTML(Self, timeout? : Int) -> String
+async fn Locator::innerText(Self, timeout? : Int) -> String
+async fn Locator::inputValue(Self, timeout? : Int) -> String
+async fn Locator::isChecked(Self, timeout? : Int) -> Bool
+async fn Locator::isDisabled(Self, timeout? : Int) -> Bool
+async fn Locator::isEditable(Self, timeout? : Int) -> Bool
+async fn Locator::isEnabled(Self, timeout? : Int) -> Bool
+async fn Locator::isHidden(Self, timeout? : Int) -> Bool
+async fn Locator::isVisible(Self, timeout? : Int) -> Bool
+fn Locator::last(Self) -> Self
+fn Locator::locator(Self, String) -> Self
+fn Locator::nth(Self, Int) -> Self
+async fn Locator::press(Self, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Locator::screenshot(Self, path? : String, type_? : String, quality? : Int, omitBackground? : Bool, timeout? : Int, scale? : String) -> @js.Any
+async fn Locator::scrollIntoViewIfNeeded(Self, timeout? : Int) -> Unit
+async fn Locator::selectOption(Self, @js.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
+async fn Locator::setChecked(Self, Bool, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Locator::textContent(Self, timeout? : Int) -> String?
+async fn Locator::type_(Self, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Locator::uncheck(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Locator::waitFor(Self, state? : String, timeout? : Int) -> Unit
+impl @js.JsImpl for Locator
+
+#external
+pub type Page
+async fn Page::addScriptTag(Self, url? : String, path? : String, content? : String, type_? : String) -> @js.Any
+async fn Page::addStyleTag(Self, url? : String, path? : String, content? : String) -> @js.Any
+async fn Page::bringToFront(Self) -> Unit
+async fn Page::check(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Page::click(Self, String, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
+async fn Page::close(Self, runBeforeUnload? : Bool) -> Unit
+async fn Page::content(Self) -> String
+async fn Page::dblclick(Self, String, timeout? : Int, force? : Bool) -> Unit
+async fn Page::evaluate(Self, String, arg? : @js.Any) -> @js.Any
+async fn Page::evaluateHandle(Self, String, arg? : @js.Any) -> @js.Any
+async fn Page::exposeFunction(Self, String, @js.Any) -> Unit
+async fn Page::fill(Self, String, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Page::focus(Self, String, timeout? : Int) -> Unit
+fn Page::getByAltText(Self, String, exact? : Bool) -> Locator
+fn Page::getByLabel(Self, String, exact? : Bool) -> Locator
+fn Page::getByPlaceholder(Self, String, exact? : Bool) -> Locator
+fn Page::getByRole(Self, String, name? : String, exact? : Bool) -> Locator
+fn Page::getByTestId(Self, String) -> Locator
+fn Page::getByText(Self, String, exact? : Bool) -> Locator
+fn Page::getByTitle(Self, String, exact? : Bool) -> Locator
+async fn Page::goBack(Self, timeout? : Int, waitUntil? : String) -> Response?
+async fn Page::goForward(Self, timeout? : Int, waitUntil? : String) -> Response?
+async fn Page::goto(Self, String, timeout? : Int, waitUntil? : String, referer? : String) -> Response?
+async fn Page::hover(Self, String, force? : Bool, modifiers? : Array[String], position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
+fn Page::isClosed(Self) -> Bool
+fn Page::locator(Self, String) -> Locator
+async fn Page::pdf(Self, path? : String, scale? : Double, displayHeaderFooter? : Bool, headerTemplate? : String, footerTemplate? : String, printBackground? : Bool, landscape? : Bool, pageRanges? : String, format? : String, width? : String, height? : String, margin? : @js.Any, preferCSSPageSize? : Bool) -> @js.Any
+async fn Page::press(Self, String, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Page::reload(Self, timeout? : Int, waitUntil? : String) -> Response?
+async fn Page::screenshot(Self, path? : String, type_? : String, quality? : Int, fullPage? : Bool, clip? : @js.Any, omitBackground? : Bool, timeout? : Int, scale? : String) -> @js.Any
+async fn Page::selectOption(Self, String, @js.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
+async fn Page::setContent(Self, String, timeout? : Int, waitUntil? : String) -> Unit
+fn Page::setDefaultNavigationTimeout(Self, Int) -> Unit
+fn Page::setDefaultTimeout(Self, Int) -> Unit
+async fn Page::setExtraHTTPHeaders(Self, @js.Any) -> Unit
+async fn Page::setViewportSize(Self, Int, Int) -> Unit
+async fn Page::title(Self) -> String
+async fn Page::type_(Self, String, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
+async fn Page::uncheck(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+fn Page::url(Self) -> String
+fn Page::viewportSize(Self) -> (Int, Int)?
+async fn Page::waitForFunction(Self, String, arg? : @js.Any, polling? : Int, timeout? : Int) -> @js.Any
+async fn Page::waitForLoadState(Self, state? : String, timeout? : Int) -> Unit
+async fn Page::waitForNavigation(Self, timeout? : Int, url? : String, waitUntil? : String) -> Response?
+async fn Page::waitForSelector(Self, String, state? : String, timeout? : Int, strict? : Bool) -> @js.Any
+async fn Page::waitForTimeout(Self, Int) -> Unit
+async fn Page::waitForURL(Self, String, timeout? : Int, waitUntil? : String) -> Unit
+impl @js.JsImpl for Page
+
+#external
+pub type Request
+async fn Request::allHeaders(Self) -> @js.Any
+fn Request::headers(Self) -> @js.Any
+fn Request::isNavigationRequest(Self) -> Bool
+fn Request::method_(Self) -> String
+fn Request::postData(Self) -> String?
+fn Request::postDataJSON(Self) -> @js.Any
+fn Request::resourceType(Self) -> String
+async fn Request::response(Self) -> Response?
+fn Request::url(Self) -> String
+impl @js.JsImpl for Request
+
+#external
+pub type Response
+async fn Response::allHeaders(Self) -> @js.Any
+async fn Response::body(Self) -> @js.Any
+fn Response::frame(Self) -> Frame
+fn Response::fromCache(Self) -> Bool
+fn Response::fromServiceWorker(Self) -> Bool
+fn Response::headers(Self) -> @js.Any
+async fn Response::json(Self) -> @js.Any
+fn Response::ok(Self) -> Bool
+fn Response::request(Self) -> Request
+fn Response::status(Self) -> Int
+fn Response::statusText(Self) -> String
+async fn Response::text(Self) -> String
+fn Response::url(Self) -> String
+impl @js.JsImpl for Response
+
+// Type aliases
+
+// Traits
+
