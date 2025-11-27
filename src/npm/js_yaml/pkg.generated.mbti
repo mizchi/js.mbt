@@ -1,0 +1,47 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/js_yaml"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn core_schema() -> Schema
+
+fn default_schema() -> Schema
+
+fn dump(@js.Any) -> String
+
+fn dump_object(@js.Object) -> String
+
+fn dump_with_options(@js.Any, indent? : Int, no_array_indent? : Bool, skip_invalid? : Bool, flow_level? : Int, sort_keys? : Bool, line_width? : Int, no_refs? : Bool, no_compat_mode? : Bool, condense_flow? : Bool, quoting_type? : String, force_quotes? : Bool, schema? : Schema) -> String
+
+fn failsafe_schema() -> Schema
+
+fn json_schema() -> Schema
+
+fn json_to_yaml(String) -> String raise
+
+fn load(String) -> @js.Any
+
+fn load_all(String) -> Array[@js.Any]
+
+fn load_all_with_options(String, filename? : String, schema? : Schema, json? : Bool) -> Array[@js.Any]
+
+fn load_object(String) -> @js.Object
+
+fn load_with_options(String, filename? : String, schema? : Schema, json? : Bool) -> @js.Any
+
+fn yaml_to_json(String) -> String
+
+// Errors
+
+// Types and methods
+#external
+pub type Schema
+impl @js.JsImpl for Schema
+
+// Type aliases
+
+// Traits
+
