@@ -1,0 +1,11 @@
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/node/child_process",
+    "mizchi/js/node/process"
+  ],
+  "test-import": [
+    "moonbitlang/async",
+    "mizchi/js/_experimental/runtime"
+  ]
+}
