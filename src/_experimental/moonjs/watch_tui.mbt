@@ -125,7 +125,7 @@ async fn cmd_vite_tui() -> Unit {
           ink_ui.spinner(label="...")
         }
       Success => ink_ui.badge(["OK"], color=@ink_ui.Green)
-      Failed(_) => ink_ui.badge(["FAIL"], color=@ink_ui.Red)
+      Failed(_msg) => ink_ui.badge(["FAIL"], color=@ink_ui.Red)
     }
   }
   // Render function
