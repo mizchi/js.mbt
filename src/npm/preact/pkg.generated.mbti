@@ -119,11 +119,11 @@ fn[T] useStateLazy(() -> T) -> (T, (T) -> Unit)
 pub type Context[T]
 impl[T] @js.JsImpl for Context[T]
 
-#external
-pub type ReadonlySignal[T]
+pub(all) struct ReadonlySignal[T] {
+  value : T
+}
 fn[T] ReadonlySignal::peek(Self[T]) -> T
 fn[T] ReadonlySignal::subscribe(Self[T], (T) -> Unit) -> () -> Unit
-fn[T] ReadonlySignal::value(Self[T]) -> T
 impl[T] @js.JsImpl for ReadonlySignal[T]
 
 pub(all) struct Ref[T] {
@@ -146,12 +146,11 @@ fn[T] Resource::refetch(Self[T]) -> Unit
 fn[T] Resource::try_value(Self[T]) -> T?
 fn[T] Resource::value(Self[T]) -> T
 
-#external
-pub type Signal[T]
+pub(all) struct Signal[T] {
+  mut value : T
+}
 fn[T] Signal::peek(Self[T]) -> T
-fn[T : @js.JsImpl] Signal::set_value(Self[T], T) -> Unit
 fn[T] Signal::subscribe(Self[T], (T) -> Unit) -> () -> Unit
-fn[T] Signal::value(Self[T]) -> T
 impl[T] @js.JsImpl for Signal[T]
 
 #external

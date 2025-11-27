@@ -29,8 +29,7 @@ pub impl @js.JsImpl for Screen
 ///|
 /// JS: import { screen } from '@testing-library/preact'
 pub fn screen() -> Screen {
-  let rtl = testing_library()
-  rtl.get("screen").cast()
+  testing_library().get("screen").cast()
 }
 
 ///|
