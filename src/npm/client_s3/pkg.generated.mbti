@@ -1,0 +1,87 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/client_s3"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+async fn copy_object(S3Client, String, String, String, String) -> CopyObjectOutput
+
+async fn create_bucket(S3Client, String) -> Unit
+
+async fn delete_bucket(S3Client, String) -> Unit
+
+async fn delete_object(S3Client, String, String) -> DeleteObjectOutput
+
+async fn get_object(S3Client, String, String) -> GetObjectOutput
+
+async fn head_object(S3Client, String, String) -> HeadObjectOutput
+
+async fn list_buckets(S3Client) -> ListBucketsOutput
+
+async fn list_objects_v2(S3Client, String, prefix? : String, maxKeys? : Int, continuationToken? : String) -> ListObjectsV2Output
+
+async fn put_object(S3Client, String, String, String, contentType? : String) -> PutObjectOutput
+
+async fn put_object_bytes(S3Client, String, String, Bytes, contentType? : String) -> PutObjectOutput
+
+// Errors
+
+// Types and methods
+pub struct Bucket {
+  name : String?
+}
+
+pub struct CopyObjectOutput {
+  etag : String?
+}
+
+pub struct DeleteObjectOutput {
+  delete_marker : Bool?
+}
+
+pub struct GetObjectOutput {
+  body : @js.Any
+  content_type : String?
+  content_length : Int?
+  etag : String?
+}
+async fn GetObjectOutput::body_as_string(Self) -> String
+
+pub struct HeadObjectOutput {
+  content_type : String?
+  content_length : Int?
+  etag : String?
+}
+
+pub struct ListBucketsOutput {
+  buckets : Array[Bucket]
+}
+
+pub struct ListObjectsV2Output {
+  contents : Array[S3Object]
+  is_truncated : Bool?
+  next_continuation_token : String?
+}
+
+pub struct PutObjectOutput {
+  etag : String?
+}
+
+#external
+pub type S3Client
+fn S3Client::new(region? : String, endpoint? : String, accessKeyId? : String, secretAccessKey? : String, forcePathStyle? : Bool) -> Self
+impl @js.JsImpl for S3Client
+
+pub struct S3Object {
+  key : String?
+  size : Int?
+  etag : String?
+  last_modified : @js.Any
+}
+
+// Type aliases
+
+// Traits
+

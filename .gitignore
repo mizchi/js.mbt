@@ -13,3 +13,4 @@ test_*.txt
 .test_baseline.json
 bisect.coverage
 .env
+.minio-data
