@@ -377,7 +377,7 @@ pub fn Tool::to_any(self : Tool) -> @js.Any {
   let wrapped_schema = json_schema_fn.call_self([self.input_schema])
   obj.set("inputSchema", wrapped_schema)
   // Wrap execute function
-  let execute_fn : @js.Any = @js.identity(fn(args : @js.Any) -> @js.Any {
+  let execute_fn : @js.Any = @js.from_fn1(fn(args : @js.Any) -> @js.Any {
     (self.execute)(args)
   })
   obj.set("execute", execute_fn)

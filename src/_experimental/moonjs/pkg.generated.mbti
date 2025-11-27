@@ -8,6 +8,8 @@ package "mizchi/js/_experimental/moonjs"
 // Types and methods
 type CommandStatus
 
+type MenuItem
+
 type ProjectType
 
 // Type aliases

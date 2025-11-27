@@ -176,7 +176,7 @@ pub fn PrepareStepResult::to_any(self : PrepareStepResult) -> @js.Any {
 /// Convert StopCondition to JS function for AI SDK
 pub fn StopCondition::to_any(self : StopCondition) -> @js.Any {
   let StopCondition(f) = self
-  @js.identity(fn(ctx_raw : @js.Any) -> Bool {
+  @js.from_fn1(fn(ctx_raw : @js.Any) -> Bool {
     let step_number : Int = ctx_raw.get("stepNumber").cast()
     let messages : Array[@js.Any] = @js.identity(ctx_raw.get("messages"))
     let tool_calls_raw = ctx_raw.get("toolCalls")

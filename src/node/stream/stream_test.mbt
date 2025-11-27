@@ -241,7 +241,7 @@ async test "Node Stream: pipeline with callback" {
   let readable = create_readable_from_string("callback test")
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.identity(writable_js)
-  let callback : @js.Any = @js.identity(fn(err : @js.Any) -> Unit {
+  let callback : @js.Any = @js.from_fn1(fn(err : @js.Any) -> Unit {
     callback_called = true
     ignore(err)
   })
@@ -261,7 +261,7 @@ async test "Node Stream: finished - stream completion" {
   let readable = create_readable_from_string("finished test")
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.identity(writable_js)
-  let callback : @js.Any = @js.identity(fn(err : @js.Any) -> Unit {
+  let callback : @js.Any = @js.from_fn1(fn(err : @js.Any) -> Unit {
     finished_called = true
     ignore(err)
   })
@@ -279,7 +279,7 @@ async test "Node Stream: async pipeline with Promise" {
     let transform = create_transform_uppercase()
     let writable_js = create_writable_to_array()
     let writable : @stream.Writable = @js.identity(writable_js)
-    let callback : @js.Any = @js.identity(fn(err : @js.Any) -> Unit {
+    let callback : @js.Any = @js.from_fn1(fn(err : @js.Any) -> Unit {
       ignore(err)
       let chunks = get_chunks(writable_js)
       let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"
