@@ -182,10 +182,25 @@ pub fn BrowserType::name(self : BrowserType) -> String {
 ///| Browser Methods
 
 ///|
-/// Close browser
+/// Close browser (async)
 pub async fn Browser::close(self : Browser) -> Unit {
   let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
   promise.wait()
+}
+
+///|
+/// Close browser with error callback (for use with defer)
+/// Note: This initiates close but doesn't wait for completion
+pub fn Browser::close_with_error_callback(
+  self : Browser,
+  on_error : (Error) -> Unit,
+) -> Unit {
+  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
+  let _ = promise.catch_(fn(e) {
+    on_error(e)
+    @js.Promise::resolve(())
+  })
+
 }
 
 ///|
@@ -362,6 +377,21 @@ pub fn Browser::version(self : Browser) -> String {
 pub async fn BrowserContext::close(self : BrowserContext) -> Unit {
   let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
   promise.wait()
+}
+
+///|
+/// Close context with error callback (for use with defer)
+/// Note: This initiates close but doesn't wait for completion
+pub fn BrowserContext::close_with_error_callback(
+  self : BrowserContext,
+  on_error : (Error) -> Unit,
+) -> Unit {
+  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
+  let _ = promise.catch_(fn(e) {
+    on_error(e)
+    @js.Promise::resolve(())
+  })
+
 }
 
 ///|

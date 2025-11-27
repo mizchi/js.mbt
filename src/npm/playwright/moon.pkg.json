@@ -2,5 +2,5 @@
   "import": [
     "mizchi/js"
   ],
-  "test-import": ["moonbitlang/async"]
+  "test-import": ["moonbitlang/async", "mizchi/js/node/process"]
 }

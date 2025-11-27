@@ -821,6 +821,21 @@ pub async fn Page::close(self : Page, runBeforeUnload? : Bool) -> Unit {
 }
 
 ///|
+/// Close page with error callback (for use with defer)
+/// Note: This initiates close but doesn't wait for completion
+pub fn Page::close_with_error_callback(
+  self : Page,
+  on_error : (Error) -> Unit,
+) -> Unit {
+  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
+  let _ = promise.catch_(fn(e) {
+    on_error(e)
+    @js.Promise::resolve(())
+  })
+
+}
+
+///|
 /// Check if page is closed
 pub fn Page::isClosed(self : Page) -> Bool {
   self.call("isClosed", []).cast()

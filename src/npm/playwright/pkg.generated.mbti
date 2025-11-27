@@ -18,6 +18,7 @@ fn webkit() -> BrowserType
 #external
 pub type Browser
 async fn Browser::close(Self) -> Unit
+fn Browser::close_with_error_callback(Self, (Error) -> Unit) -> Unit
 fn Browser::contexts(Self) -> Array[BrowserContext]
 fn Browser::isConnected(Self) -> Bool
 async fn Browser::newContext(Self, viewport? : (Int, Int), userAgent? : String, locale? : String, timezoneId? : String, geolocation? : (Double, Double), permissions? : Array[String], colorScheme? : String, reducedMotion? : String, forcedColors? : String, acceptDownloads? : Bool, ignoreHTTPSErrors? : Bool, javaScriptEnabled? : Bool, bypassCSP? : Bool, offline? : Bool, deviceScaleFactor? : Double, isMobile? : Bool, hasTouch? : Bool) -> BrowserContext
@@ -31,6 +32,7 @@ async fn BrowserContext::addCookies(Self, @js.Any) -> Unit
 async fn BrowserContext::clearCookies(Self) -> Unit
 async fn BrowserContext::clearPermissions(Self) -> Unit
 async fn BrowserContext::close(Self) -> Unit
+fn BrowserContext::close_with_error_callback(Self, (Error) -> Unit) -> Unit
 async fn BrowserContext::cookies(Self, urls? : Array[String]) -> @js.Any
 async fn BrowserContext::grantPermissions(Self, Array[String], origin? : String) -> Unit
 async fn BrowserContext::newPage(Self) -> Page
@@ -116,6 +118,7 @@ async fn Page::bringToFront(Self) -> Unit
 async fn Page::check(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Page::click(Self, String, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
 async fn Page::close(Self, runBeforeUnload? : Bool) -> Unit
+fn Page::close_with_error_callback(Self, (Error) -> Unit) -> Unit
 async fn Page::content(Self) -> String
 async fn Page::dblclick(Self, String, timeout? : Int, force? : Bool) -> Unit
 async fn Page::evaluate(Self, String, arg? : @js.Any) -> @js.Any
