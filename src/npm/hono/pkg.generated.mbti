@@ -10,9 +10,19 @@ import(
 // Values
 fn[T] context_provider(HonoContext[T], Array[&HonoNode], value~ : T) -> JSXNode
 
+fn cors(origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> CorsMiddleware
+
 fn[T] create_context(T?) -> HonoContext[T]
 
+fn[Env, ExecutionContext] delete_cookie(Context[Env, ExecutionContext], String, path? : String, secure? : Bool, domain? : String) -> String?
+
 fn fragment(Array[&HonoNode], key? : String) -> JSXNode
+
+fn[Env, ExecutionContext] get_all_cookies(Context[Env, ExecutionContext]) -> Map[String, String]
+
+fn[Env, ExecutionContext] get_cookie(Context[Env, ExecutionContext], String, prefix? : String) -> String?
+
+async fn[Env, ExecutionContext] get_signed_cookie(Context[Env, ExecutionContext], String, String) -> String?
 
 fn hc(String) -> HonoClient
 
@@ -21,6 +31,14 @@ fn html(String) -> HtmlEscapedString
 fn jsx(String, Array[&HonoNode], props? : Map[String, @js.Any], style? : Map[String, String], class? : String, id? : String, key? : String) -> JSXNode
 
 fn[T] jsx_component((T) -> JSXNode, T, children? : Array[&HonoNode], key? : String) -> JSXNode
+
+fn jwt_decode(String) -> JwtDecoded
+
+async fn jwt_sign(@js.Any, String, alg? : JwtAlgorithm) -> String
+
+async fn jwt_sign_payload(JwtPayload, String, alg? : JwtAlgorithm) -> String
+
+async fn jwt_verify(String, String, alg? : JwtAlgorithm) -> @js.Any
 
 fn[T] memo((T) -> JSXNode) -> (T) -> JSXNode
 
@@ -31,6 +49,10 @@ fn raw(String) -> JSXNode
 fn render_to_readable_stream(JSXNode) -> @js.Any
 
 fn render_to_string(JSXNode) -> String
+
+fn[Env, ExecutionContext] set_cookie(Context[Env, ExecutionContext], String, String, domain? : String, expires? : @js.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
+
+async fn[Env, ExecutionContext] set_signed_cookie(Context[Env, ExecutionContext], String, String, String, domain? : String, expires? : @js.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
 
 fn[Env, ExecutionContext] test_client(Hono[Env, ExecutionContext]) -> HonoClient
 
@@ -90,10 +112,16 @@ fn[Env, ExecutionContext] Context::var_(Self[Env, ExecutionContext], String) -> 
 impl[Env, ExecutionContext] @js.JsImpl for Context[Env, ExecutionContext]
 
 #external
+pub type CorsMiddleware
+impl @js.JsImpl for CorsMiddleware
+
+#external
 pub type Hono[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::all(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 #alias(base_path)
 fn[Env, ExecutionContext] Hono::basePath(Self[Env, ExecutionContext], String) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::cors(Self[Env, ExecutionContext], String, origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::cors_all(Self[Env, ExecutionContext], origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::delete(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::fetch(Self[Env, ExecutionContext], @http.Request) -> @js.Promise[@http.Response]
 fn[Env, ExecutionContext] Hono::fire(Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
@@ -154,6 +182,38 @@ impl HonoNode for HtmlEscapedString
 pub type JSXNode
 impl @js.JsImpl for JSXNode
 impl HonoNode for JSXNode
+
+pub enum JwtAlgorithm {
+  HS256
+  HS384
+  HS512
+  RS256
+  RS384
+  RS512
+  PS256
+  PS384
+  PS512
+  ES256
+  ES384
+  ES512
+  EdDSA
+}
+
+pub struct JwtDecoded {
+  header : @js.Any
+  payload : @js.Any
+}
+
+pub(all) struct JwtPayload {
+  sub : String?
+  iss : String?
+  aud : String?
+  exp : Int?
+  nbf : Int?
+  iat : Int?
+  jti : String?
+}
+fn JwtPayload::default() -> Self
 
 // Type aliases
 pub type FC[T] = (T) -> JSXNode
