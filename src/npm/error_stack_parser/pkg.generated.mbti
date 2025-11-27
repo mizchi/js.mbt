@@ -1,0 +1,36 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/error_stack_parser"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn capture_stack_trace() -> Array[StackFrame]
+
+fn filter_by_file(Array[StackFrame], String) -> Array[StackFrame]
+
+fn first_user_frame(Array[StackFrame]) -> StackFrame?
+
+fn format_stack(Array[StackFrame]) -> String
+
+fn parse(@js.Any) -> Array[StackFrame]
+
+fn parse_string(String) -> Array[StackFrame]
+
+// Errors
+
+// Types and methods
+pub(all) struct StackFrame {
+  function_name : String?
+  file_name : String?
+  line_number : Int?
+  column_number : Int?
+  source : String?
+}
+impl Show for StackFrame
+
+// Type aliases
+
+// Traits
+

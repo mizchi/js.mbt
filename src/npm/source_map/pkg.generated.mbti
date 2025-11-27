@@ -1,0 +1,64 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/source_map"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct GeneratedPosition {
+  line : Int
+  column : Int
+}
+fn GeneratedPosition::new(Int, Int) -> Self
+
+pub(all) struct GeneratorOptions {
+  file : String?
+  source_root : String?
+}
+fn GeneratorOptions::default() -> Self
+
+pub(all) struct Mapping {
+  generated : GeneratedPosition
+  original : GeneratedPosition?
+  source : String?
+  name : String?
+}
+
+pub(all) struct OriginalPosition {
+  source : String?
+  line : Int?
+  column : Int?
+  name : String?
+}
+fn OriginalPosition::is_found(Self) -> Bool
+impl Show for OriginalPosition
+
+#external
+pub type SourceMapConsumer
+fn SourceMapConsumer::destroy(Self) -> Unit
+fn SourceMapConsumer::each_mapping(Self, (Mapping) -> Unit) -> Unit
+async fn SourceMapConsumer::from_json(String) -> Self
+async fn SourceMapConsumer::from_raw(@js.Any) -> Self
+fn SourceMapConsumer::original_position_for(Self, Int, Int) -> OriginalPosition
+fn SourceMapConsumer::source_content_for(Self, String) -> String?
+fn SourceMapConsumer::sources(Self) -> Array[String]
+impl @js.JsImpl for SourceMapConsumer
+
+#external
+pub type SourceMapGenerator
+fn SourceMapGenerator::add_mapping(Self, GeneratedPosition, original? : GeneratedPosition, source? : String, name? : String) -> Unit
+fn SourceMapGenerator::new(options? : GeneratorOptions) -> Self
+fn SourceMapGenerator::set_source_content(Self, String, String) -> Unit
+fn SourceMapGenerator::to_json(Self) -> String
+fn SourceMapGenerator::to_object(Self) -> @js.Any
+impl @js.JsImpl for SourceMapGenerator
+
+// Type aliases
+
+// Traits
+
