@@ -23,15 +23,15 @@ let watcher = @chokidar.watch(
 )
 
 // Listen for events
-let _ = watcher.on("add", @js.identity(fn(path) {
+let _ = watcher.on("add", @js.from_fn1(fn(path) {
   println("File added: \{path}")
 }))
 
-let _ = watcher.on("change", @js.identity(fn(path) {
+let _ = watcher.on("change", @js.from_fn1(fn(path) {
   println("File changed: \{path}")
 }))
 
-let _ = watcher.on("unlink", @js.identity(fn(path) {
+let _ = watcher.on("unlink", @js.from_fn1(fn(path) {
   println("File removed: \{path}")
 }))
 ```
@@ -221,7 +221,7 @@ pub fn FSWatcher::on(
 
 **Example:**
 ```moonbit
-let _ = watcher.on("change", @js.identity(fn(path) {
+let _ = watcher.on("change", @js.from_fn1(fn(path) {
   println("Changed: \{path}")
 }))
 ```
@@ -284,11 +284,11 @@ let watcher = @chokidar.watch(
 ```moonbit
 let watcher = @chokidar.watch(@js.Any("src"))
 
-let _ = watcher.on("error", @js.identity(fn(error) {
+let _ = watcher.on("error", @js.from_fn1(fn(error) {
   println("Watcher error: \{error}")
 }))
 
-let _ = watcher.on("ready", @js.identity(fn() {
+let _ = watcher.on("ready", @js.from_fn0(fn() {
   println("Initial scan complete")
 }))
 ```
@@ -311,19 +311,19 @@ fn main {
 
   // Set up event handlers
   let _ = watcher
-    .on("add", @js.identity(fn(path) {
+    .on("add", @js.from_fn1(fn(path) {
       println("File \{path} has been added")
     }))
-    .on("change", @js.identity(fn(path) {
+    .on("change", @js.from_fn1(fn(path) {
       println("File \{path} has been changed")
     }))
-    .on("unlink", @js.identity(fn(path) {
+    .on("unlink", @js.from_fn1(fn(path) {
       println("File \{path} has been removed")
     }))
-    .on("error", @js.identity(fn(error) {
+    .on("error", @js.from_fn1(fn(error) {
       println("Error occurred: \{error}")
     }))
-    .on("ready", @js.identity(fn() {
+    .on("ready", @js.from_fn0(fn() {
       println("Ready for changes")
     }))
 
