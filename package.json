@@ -16,6 +16,7 @@
     "@electric-sql/pglite": "^0.3.14",
     "@inkjs/ui": "^2.0.0",
     "@modelcontextprotocol/sdk": "^1.23.0",
+    "@playwright/test": "^1.57.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/preact": "^3.2.4",
     "@testing-library/react": "16.3.0",

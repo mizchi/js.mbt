@@ -1,0 +1,7 @@
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/npm/playwright"
+  ],
+  "test-import": ["mizchi/js/node/process"]
+}

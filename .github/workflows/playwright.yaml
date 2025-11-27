@@ -1,0 +1,56 @@
+name: playwright
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/npm/playwright/**'
+      - 'src/npm/playwright_test/**'
+      - '.github/workflows/playwright.yaml'
+  pull_request:
+    paths:
+      - 'src/npm/playwright/**'
+      - 'src/npm/playwright_test/**'
+      - '.github/workflows/playwright.yaml'
+
+jobs:
+  playwright-test:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - name: Install dependencies
+        run: pnpm install
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: "pnpm"
+      - name: Setup Moon
+        uses: illusory0x0/setup-moonbit@v0.1.0
+        with:
+          version: stable
+      - name: moon version
+        run: |
+          moon version --all
+      - name: install module dependencies
+        run: |
+          moon update
+          moon install
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+      - name: moon check
+        run: moon check --deny-warn
+      - name: moon test playwright
+        run: |
+          moon test --no-parallelize -p mizchi/js/npm/playwright
+        env:
+          NODE_OPTIONS: "--experimental-wasm-modules --no-warnings=ExperimentalWarnings"
+          PLAYWRIGHT_TEST: "1"
