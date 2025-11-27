@@ -1,11 +1,76 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/npm/playwright_test"
 
+import(
+  "mizchi/js"
+  "mizchi/js/npm/playwright"
+)
+
 // Values
+fn expect_fn() -> Expect
+
+fn test_fn() -> Test
 
 // Errors
 
 // Types and methods
+#external
+pub type Expect
+fn Expect::locator(Self, @playwright.Locator) -> LocatorAssertions
+fn Expect::page(Self, @playwright.Page) -> PageAssertions
+fn Expect::value(Self, @js.Any) -> @js.Any
+impl @js.JsImpl for Expect
+
+#external
+pub type LocatorAssertions
+async fn LocatorAssertions::toBeChecked(Self, checked? : Bool, timeout? : Int) -> Unit
+async fn LocatorAssertions::toBeDisabled(Self, timeout? : Int) -> Unit
+async fn LocatorAssertions::toBeEnabled(Self, timeout? : Int) -> Unit
+async fn LocatorAssertions::toBeFocused(Self, timeout? : Int) -> Unit
+async fn LocatorAssertions::toBeHidden(Self, timeout? : Int) -> Unit
+async fn LocatorAssertions::toBeVisible(Self, timeout? : Int) -> Unit
+async fn LocatorAssertions::toContainText(Self, String, ignoreCase? : Bool, timeout? : Int) -> Unit
+async fn LocatorAssertions::toHaveAttribute(Self, String, String, timeout? : Int) -> Unit
+async fn LocatorAssertions::toHaveClass(Self, String, timeout? : Int) -> Unit
+async fn LocatorAssertions::toHaveCount(Self, Int, timeout? : Int) -> Unit
+async fn LocatorAssertions::toHaveText(Self, String, ignoreCase? : Bool, timeout? : Int) -> Unit
+async fn LocatorAssertions::toHaveValue(Self, String, timeout? : Int) -> Unit
+impl @js.JsImpl for LocatorAssertions
+
+#external
+pub type PageAssertions
+async fn PageAssertions::toHaveTitle(Self, String, timeout? : Int) -> Unit
+async fn PageAssertions::toHaveURL(Self, String, timeout? : Int) -> Unit
+impl @js.JsImpl for PageAssertions
+
+#external
+pub type Test
+fn Test::afterAll(Self, @js.Any) -> Unit
+fn Test::afterEach(Self, @js.Any) -> Unit
+fn Test::beforeAll(Self, @js.Any) -> Unit
+fn Test::beforeEach(Self, @js.Any) -> Unit
+fn Test::describe(Self, String, @js.Any) -> Unit
+fn Test::run(Self, String, @js.Any) -> Unit
+fn Test::setTimeout(Self, Int) -> Unit
+fn Test::skip(Self, condition? : Bool) -> Unit
+fn Test::slow(Self) -> Unit
+fn Test::use_options(Self, @js.Any) -> Unit
+impl @js.JsImpl for Test
+
+#external
+pub type TestInfo
+async fn TestInfo::attach(Self, String, path? : String, body? : String, contentType? : String) -> Unit
+fn TestInfo::column(Self) -> Int
+fn TestInfo::fail(Self, message? : String) -> Unit
+fn TestInfo::file(Self) -> String
+fn TestInfo::line(Self) -> Int
+fn TestInfo::retry(Self) -> Int
+fn TestInfo::skip(Self, message? : String) -> Unit
+fn TestInfo::slow(Self) -> Unit
+fn TestInfo::status(Self) -> String?
+fn TestInfo::timeout(Self) -> Int
+fn TestInfo::title(Self) -> String
+impl @js.JsImpl for TestInfo
 
 // Type aliases
 
