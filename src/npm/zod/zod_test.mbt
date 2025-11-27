@@ -91,18 +91,14 @@ test "number int positive" {
 ///|
 test "object schema" {
   let schema = @zod.object({ "name": @zod.string(), "age": @zod.number() })
-  let data = @js.Object::new()
-  data.set("name", "Alice")
-  data.set("age", 30)
+  let data = @js.from_json({ "name": "Alice", "age": 30 })
   assert_true(schema.safeParse(data) is Ok(_))
 }
 
 ///|
 test "object schema invalid" {
   let schema = @zod.object({ "name": @zod.string(), "age": @zod.number() })
-  let data = @js.Object::new()
-  data.set("name", 123) // should be string
-  data.set("age", "not a number") // should be number
+  let data = @js.from_json({ "name": 123, "age": "not a number" })
   assert_true(schema.safeParse(data) is Err(_))
 }
 
@@ -189,10 +185,7 @@ test "transform" {
 test "ZodIssue path" {
   let inner_schema = @zod.object({ "name": @zod.string() })
   let schema = @zod.object({ "user": inner_schema })
-  let data = @js.Object::new()
-  let user = @js.Object::new()
-  user.set("name", 123) // should be string
-  data.set("user", user)
+  let data = @js.from_json({ "user": { "name": 123 } })
   match schema.safeParse(data) {
     Ok(_) => assert_true(false)
     Err(err) => {
@@ -357,12 +350,9 @@ test "tuple schema" {
 ///|
 test "record schema" {
   let schema = @zod.record(@zod.string(), @zod.number())
-  let data = @js.Object::new()
-  data.set("a", 1)
-  data.set("b", 2)
+  let data = @js.from_json({ "a": 1, "b": 2 })
   assert_true(schema.safeParse(data) is Ok(_))
-  let invalid = @js.Object::new()
-  invalid.set("a", "not-a-number")
+  let invalid = @js.from_json({ "a": "not-a-number" })
   assert_true(schema.safeParse(invalid) is Err(_))
 }
 
@@ -371,12 +361,9 @@ test "intersection schema" {
   let schema1 = @zod.object({ "name": @zod.string() })
   let schema2 = @zod.object({ "age": @zod.number() })
   let schema = @zod.intersection(schema1, schema2)
-  let valid = @js.Object::new()
-  valid.set("name", "Alice")
-  valid.set("age", 30)
+  let valid = @js.from_json({ "name": "Alice", "age": 30 })
   assert_true(schema.safeParse(valid) is Ok(_))
-  let invalid = @js.Object::new()
-  invalid.set("name", "Alice")
+  let invalid = @js.from_json({ "name": "Alice" })
   // missing age
   assert_true(schema.safeParse(invalid) is Err(_))
 }
@@ -387,9 +374,7 @@ test "object extend" {
   let ext_shape = @js.Object::new()
   ext_shape.set("age", @zod.number())
   let extended = base_schema.extend(ext_shape.to_any())
-  let data = @js.Object::new()
-  data.set("name", "Alice")
-  data.set("age", 30)
+  let data = @js.from_json({ "name": "Alice", "age": 30 })
   assert_true(extended.safeParse(data) is Ok(_))
 }
 
@@ -401,19 +386,14 @@ test "object pick and omit" {
     "email": @zod.string(),
   })
   // Pick only name
-  let pick_keys = @js.Object::new()
-  pick_keys.set("name", @js.any(true))
-  let picked = schema.pick(pick_keys.to_any())
-  let pick_data = @js.Object::new()
-  pick_data.set("name", "Alice")
+  let pick_keys = @js.from_json({ "name": true })
+  let picked = schema.pick(pick_keys)
+  let pick_data = @js.from_json({ "name": "Alice" })
   assert_true(picked.safeParse(pick_data) is Ok(_))
   // Omit email
-  let omit_keys = @js.Object::new()
-  omit_keys.set("email", @js.any(true))
-  let omitted = schema.omit(omit_keys.to_any())
-  let omit_data = @js.Object::new()
-  omit_data.set("name", "Alice")
-  omit_data.set("age", 30)
+  let omit_keys = @js.from_json({ "email": true })
+  let omitted = schema.omit(omit_keys)
+  let omit_data = @js.from_json({ "name": "Alice", "age": 30 })
   assert_true(omitted.safeParse(omit_data) is Ok(_))
 }
 
@@ -434,9 +414,7 @@ test "object passthrough strict strip" {
   let schema = @zod.object({ "name": @zod.string() })
   // Passthrough - allows extra keys
   let passthrough_schema = schema.passthrough()
-  let data = @js.Object::new()
-  data.set("name", "Alice")
-  data.set("extra", "field")
+  let data = @js.from_json({ "name": "Alice", "extra": "field" })
   assert_true(passthrough_schema.safeParse(data) is Ok(_))
   // Strict - rejects extra keys
   let strict_schema = @zod.object({ "name": @zod.string() }).strict()

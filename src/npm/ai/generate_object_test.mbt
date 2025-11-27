@@ -39,7 +39,7 @@ test "generate object result get_object" {
       "totalTokens": 30 |> @js.any,
     }),
     "warnings": @js.from_array(empty_warnings),
-    "response": @js.from_map({}),
+    "response": @js.Object::new().to_any(),
   })
   let result = @ai.GenerateObjectResult::from_any(raw)
   // Get object as raw Any

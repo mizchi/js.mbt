@@ -202,12 +202,11 @@ test "fireEvent change on input" {
   let input_el = @react_testing_library.screen().getByPlaceholderText(
     "Type here",
   )
-  // Create event object
-  let event = @js.Object::new()
-  let target = @js.Object::new()
-  target.set("value", "hello")
-  event.set("target", target.to_any())
-  @react_testing_library.fireEvent().change(input_el, event.to_any()) |> ignore
+  // Create event object using from_map
+  let event = @js.from_map({
+    "target": @js.from_map({ "value": @js.any("hello") }),
+  })
+  @react_testing_library.fireEvent().change(input_el, event) |> ignore
   @react_testing_library.expect(
     @react_testing_library.screen().getByText("Value: hello"),
   )..toHaveTextContent("Value: hello")
@@ -304,9 +303,8 @@ test "fireEvent keyDown on input" {
   let input_el = @react_testing_library.screen().getByPlaceholderText(
     "Press a key",
   )
-  let event = @js.Object::new()
-  event.set("key", "Enter")
-  @react_testing_library.fireEvent().keyDown(input_el, event.to_any()) |> ignore
+  let event = @js.from_map({ "key": @js.any("Enter") })
+  @react_testing_library.fireEvent().keyDown(input_el, event) |> ignore
   @react_testing_library.expect(
     @react_testing_library.screen().getByText("Key: Enter"),
   )..toHaveTextContent("Key: Enter")
