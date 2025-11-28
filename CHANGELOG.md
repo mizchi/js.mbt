@@ -4,9 +4,97 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.5.7] (Unreleased)
+## [0.6.0] - 2025-11-28
 
 ### Added
+
+#### New NPM Package Bindings
+
+##### Playwright (`npm/playwright`, `npm/playwright_test`)
+- **Browser automation** - Full Playwright bindings for browser testing
+  - `Browser`, `BrowserContext`, `Page` types
+  - Navigation: `goto()`, `goBack()`, `goForward()`, `reload()`
+  - Interactions: `click()`, `fill()`, `type()`, `press()`, `hover()`, `focus()`, `blur()`
+  - Locators: `locator()`, `getByRole()`, `getByText()`, `getByLabel()`, `getByTestId()`
+  - Assertions: `expect()` with `toBeVisible()`, `toHaveText()`, `toHaveValue()`, etc.
+  - Screenshots and PDFs: `screenshot()`, `pdf()`
+- **@playwright/test** - Test framework integration with fixtures
+
+##### MSW (`npm/msw`)
+- **API mocking** - Mock Service Worker for HTTP mocking
+  - `http.get()`, `http.post()`, `http.put()`, `http.patch()`, `http.delete()`
+  - `HttpResponse::json()`, `text()`, `arrayBuffer()`, `formData()`
+  - `setupServer()` for Node.js and `setupWorker()` for browser
+  - Request handlers and response utilities
+
+##### Comlink (`npm/comlink`)
+- **Web Worker RPC** - Type-safe Worker communication
+  - `wrap()` / `expose()` for proxy-based API
+  - `transfer()` / `proxy()` for data transfer modes
+  - Typed `Worker` and `MessagePort` support
+  - `Remote[T]` type for type-safe remote calls
+
+##### Build Tools
+- **Vite** (`npm/vite`) - Vite Environment API bindings
+  - `DevEnvironment`, `ModuleRunner` types
+  - Hot Module Replacement support
+  - Plugin API types
+- **Unplugin** (`npm/unplugin`) - Unified plugin system
+  - `createUnplugin()` for cross-bundler plugins
+  - Supports Vite, Rollup, Webpack, esbuild
+  - `UnpluginOptions` with load, transform, resolveId hooks
+- **Lighthouse** (`npm/lighthouse`) - Web performance auditing
+  - `lighthouse()` function for performance testing
+  - `LighthouseResult`, `AuditResult` types
+  - Configuration options for audits
+
+##### Utilities
+- **simple-git** (`npm/simple_git`) - Git operations
+  - `simpleGit()` for repository operations
+  - `status()`, `log()`, `diff()`, `add()`, `commit()`, `push()`, `pull()`
+  - `branch()`, `checkout()`, `merge()`, `rebase()`, `stash()`
+- **ignore** (`npm/ignore`) - .gitignore parsing
+  - `ignore()` factory function
+  - `add()`, `filter()`, `ignores()`, `createFilter()`
+- **memfs** (`npm/memfs`) - In-memory filesystem
+  - `createFsFromVolume()`, `Volume` types
+  - Full fs API compatibility for testing
+- **yargs** (`npm/yargs`) - CLI argument parsing
+  - Builder pattern for command options
+  - `command()`, `option()`, `positional()`, `demandOption()`
+- **debug** (`npm/debug`) - Debug logging
+  - `debug()` factory with namespace support
+  - `enabled()`, `extend()` utilities
+
+##### Parsing
+- **htmlparser2** (`npm/htmlparser2`) - HTML/XML parser
+  - `Parser`, `DomHandler` types
+  - Event-based parsing with callbacks
+  - `parseDocument()`, `DomUtils` utilities
+- **js-yaml** (`npm/js_yaml`) - YAML parser
+  - `load()`, `dump()` functions
+  - `LoadOptions`, `DumpOptions` configuration
+
+##### Database
+- **drizzle** (`npm/drizzle`) - Drizzle ORM bindings
+  - `drizzle()` factory for PostgreSQL and D1
+  - Schema definition with `pgTable()`, `serial()`, `text()`, `integer()`
+  - Query builder: `select()`, `insert()`, `update()`, `delete()`
+  - Cloudflare D1 support
+- **pg** (`npm/pg`) - PostgreSQL client
+  - `Client`, `Pool` types
+  - `connect()`, `query()`, `end()` methods
+
+##### AI/LLM
+- **Claude Code SDK** (`npm/claude_code_sdk`) - Claude Code SDK bindings
+  - Agent conversation API
+  - Message and tool types
+
+##### Browser APIs
+- **Service Worker** (`browser/service_worker`) - Service Worker API
+  - `ServiceWorkerContainer`, `ServiceWorkerRegistration`
+  - `register()`, `ready`, `controller` properties
+  - `Clients`, `Client` types for communication
 
 #### Preact (`npm/preact`)
 - **Core Preact API** - Full Preact bindings for building UI components
@@ -40,6 +128,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **TextMatch trait** - Accept String or RegExp for text matching
 - **Utilities** - `cleanup()`, `act()`, `waitFor()`, `renderHook()`
 - **RenderResult** - `container()`, `baseElement()`, `debug()`, `rerender()`, `unmount()`, `asFragment()`
+
+### Changed
+
+#### Type Safety Improvements
+- **Public API type refinement** - Replaced `Any` types with concrete types in public APIs
+  - Improved type safety across comlink, source_map, and other packages
+  - Better IDE support and compile-time error detection
+
+#### Refactoring
+- **Callback conversion** - Migrated to `from_fn0`/`from_fn1` pattern for callback conversion
+  - Cleaner API for event handlers and callbacks
+  - Better type inference for callback parameters
+- **camelCase FFI methods** - Standardized FFI method naming to match JavaScript APIs
+  - source_map, htmlparser2, js-yaml use camelCase internally
+
+### Fixed
+
+- **Unused variable warnings** - Suppressed warnings in watch_tui.mbt
+- **Playwright test fixture** - Fixed page.evaluate compatibility
 
 ---
 
