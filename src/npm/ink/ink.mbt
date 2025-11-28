@@ -540,65 +540,50 @@ pub type InkInstance
 pub impl @js.JsImpl for InkInstance
 
 ///|
-/// Render options
-pub(all) struct RenderOptions {
-  stdout : @js.Any?
-  stdin : @js.Any?
-  stderr : @js.Any?
-  debug : Bool?
-  exit_on_ctrl_c : Bool?
-  patch_console : Bool?
-}
-
-///|
-pub fn RenderOptions::default() -> RenderOptions {
-  {
-    stdout: None,
-    stdin: None,
-    stderr: None,
-    debug: None,
-    exit_on_ctrl_c: None,
-    patch_console: None,
-  }
-}
-
-///|
-fn RenderOptions::to_any(self : RenderOptions) -> @js.Any {
-  let obj = @js.Object::new()
-  if self.stdout is Some(s) {
-    obj.set("stdout", s)
-  }
-  if self.stdin is Some(s) {
-    obj.set("stdin", s)
-  }
-  if self.stderr is Some(s) {
-    obj.set("stderr", s)
-  }
-  if self.debug is Some(d) {
-    obj.set("debug", d)
-  }
-  if self.exit_on_ctrl_c is Some(e) {
-    obj.set("exitOnCtrlC", e)
-  }
-  if self.patch_console is Some(p) {
-    obj.set("patchConsole", p)
-  }
-  obj.to_any()
-}
-
-///|
 /// Render a React element to the terminal
 pub fn Ink::render(
   self : Ink,
   element : @react.Element,
-  options? : RenderOptions,
+  stdout? : @js.Any,
+  stdin? : @js.Any,
+  stderr? : @js.Any,
+  debug? : Bool,
+  exitOnCtrlC? : Bool,
+  patchConsole? : Bool,
+  incrementalRendering? : Bool,
+  maxFps? : Int,
+  onRender? : () -> Unit,
 ) -> InkInstance {
   let render_fn = self.to_any().get("render")
-  let opts = match options {
-    Some(o) => o.to_any()
-    None => @js.undefined()
+  let obj = @js.Object::new()
+  if stdout is Some(s) {
+    obj.set("stdout", s)
   }
-  render_fn.call_self([element.to_any(), opts]) |> @js.identity
+  if stdin is Some(s) {
+    obj.set("stdin", s)
+  }
+  if stderr is Some(s) {
+    obj.set("stderr", s)
+  }
+  if debug is Some(d) {
+    obj.set("debug", d)
+  }
+  if exitOnCtrlC is Some(e) {
+    obj.set("exitOnCtrlC", e)
+  }
+  if patchConsole is Some(p) {
+    obj.set("patchConsole", p)
+  }
+  if incrementalRendering is Some(i) {
+    obj.set("incrementalRendering", i)
+  }
+  if maxFps is Some(f) {
+    obj.set("maxFps", f)
+  }
+  if onRender is Some(callback) {
+    obj.set("onRender", @js.from_fn0(callback))
+  }
+  render_fn.call_self([element.to_any(), obj.to_any()]) |> @js.identity
 }
 
 ///|

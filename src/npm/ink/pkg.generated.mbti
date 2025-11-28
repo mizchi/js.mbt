@@ -68,7 +68,7 @@ fn FlexWrapMode::to_string(Self) -> String
 pub type Ink
 fn Ink::box_(Self, Array[&@react.ReactNode], width? : Int, height? : Int, min_width? : Int, min_height? : Int, padding? : Int, padding_x? : Int, padding_y? : Int, padding_top? : Int, padding_bottom? : Int, padding_left? : Int, padding_right? : Int, margin? : Int, margin_x? : Int, margin_y? : Int, margin_top? : Int, margin_bottom? : Int, margin_left? : Int, margin_right? : Int, flex_direction? : FlexDirection, flex_grow? : Int, flex_shrink? : Int, flex_basis? : Int, flex_wrap? : FlexWrapMode, justify_content? : JustifyContent, align_items? : AlignItems, align_self? : AlignSelf, border_style? : BorderStyle, border_color? : String, border_top? : Bool, border_bottom? : Bool, border_left? : Bool, border_right? : Bool, border_top_color? : String, border_bottom_color? : String, border_left_color? : String, border_right_color? : String, overflow? : Overflow, display? : Display, gap? : Int, column_gap? : Int, row_gap? : Int) -> @react.Element
 fn Ink::newline(Self, count? : Int) -> @react.Element
-fn Ink::render(Self, @react.Element, options? : RenderOptions) -> InkInstance
+fn Ink::render(Self, @react.Element, stdout? : @js.Any, stdin? : @js.Any, stderr? : @js.Any, debug? : Bool, exitOnCtrlC? : Bool, patchConsole? : Bool, incrementalRendering? : Bool, maxFps? : Int, onRender? : () -> Unit) -> InkInstance
 fn Ink::spacer(Self) -> @react.Element
 fn Ink::static_(Self, Array[&@react.ReactNode], items? : Array[@js.Any]) -> @react.Element
 fn Ink::text(Self, Array[&@react.ReactNode], color? : String, background_color? : String, bold? : Bool, italic? : Bool, underline? : Bool, strikethrough? : Bool, inverse? : Bool, dim_color? : Bool, wrap? : TextWrap) -> @react.Element
@@ -127,16 +127,6 @@ pub(all) enum Overflow {
   Hidden
 }
 fn Overflow::to_string(Self) -> String
-
-pub(all) struct RenderOptions {
-  stdout : @js.Any?
-  stdin : @js.Any?
-  stderr : @js.Any?
-  debug : Bool?
-  exit_on_ctrl_c : Bool?
-  patch_console : Bool?
-}
-fn RenderOptions::default() -> Self
 
 #external
 pub type RenderResult

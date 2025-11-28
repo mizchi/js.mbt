@@ -242,17 +242,6 @@ test "display enum variants" {
 }
 
 ///|
-test "render options default" {
-  let opts = @ink.RenderOptions::default()
-  assert_true(opts.stdout is None)
-  assert_true(opts.stdin is None)
-  assert_true(opts.stderr is None)
-  assert_true(opts.debug is None)
-  assert_true(opts.exit_on_ctrl_c is None)
-  assert_true(opts.patch_console is None)
-}
-
-///|
 async test "text with all style options" {
   let ink = @ink.dynamic_import()
   let testing = @ink.dynamic_import_testing_library()
