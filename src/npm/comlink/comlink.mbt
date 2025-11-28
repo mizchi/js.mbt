@@ -105,8 +105,14 @@ pub fn wrap(endpoint : @js.Any) -> Remote {
 
 ///|
 /// Wrap a Worker directly
-pub fn wrapWorker(worker : @js.Any) -> Remote {
-  ffi_wrap(worker)
+pub fn wrapWorker(worker : @worker.Worker) -> Remote {
+  ffi_wrap(worker.to_any())
+}
+
+///|
+/// Wrap a MessagePort
+pub fn wrapMessagePort(port : @message.MessagePort) -> Remote {
+  ffi_wrap(port.to_any())
 }
 
 ///|
@@ -117,6 +123,18 @@ pub fn expose(obj : @js.Any, endpoint? : @js.Any) -> Unit {
     Some(ep) => ffi_expose(obj, ep)
     None => ffi_expose_self(obj)
   }
+}
+
+///|
+/// Expose an object to a Worker
+pub fn exposeToWorker(obj : @js.Any, worker : @worker.Worker) -> Unit {
+  ffi_expose(obj, worker.to_any())
+}
+
+///|
+/// Expose an object to a MessagePort
+pub fn exposeToMessagePort(obj : @js.Any, port : @message.MessagePort) -> Unit {
+  ffi_expose(obj, port.to_any())
 }
 
 ///|
@@ -190,7 +208,7 @@ extern "js" fn ffi_remote_release(remote : Remote) -> Unit =
 ///|
 extern "js" fn ffi_remote_create_endpoint(
   remote : Remote,
-) -> @js.Promise[@js.Any] =
+) -> @js.Promise[@message.MessagePort] =
   #| (remote) => remote[require('comlink').createEndpoint]()
 
 ///|
@@ -244,8 +262,10 @@ pub fn Remote::release(self : Remote) -> Unit {
 }
 
 ///|
-/// Create a new endpoint from the proxy
-pub fn Remote::createEndpoint(self : Remote) -> @js.Promise[@js.Any] {
+/// Create a new endpoint (MessagePort) from the proxy
+pub fn Remote::createEndpoint(
+  self : Remote,
+) -> @js.Promise[@message.MessagePort] {
   ffi_remote_create_endpoint(self)
 }
 

@@ -1,5 +1,7 @@
 {
   "import": [
-    "mizchi/js"
+    "mizchi/js",
+    "mizchi/js/web/worker",
+    "mizchi/js/web/message"
   ]
 }

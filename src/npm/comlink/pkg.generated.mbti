@@ -3,12 +3,18 @@ package "mizchi/js/npm/comlink"
 
 import(
   "mizchi/js"
+  "mizchi/js/web/message"
+  "mizchi/js/web/worker"
 )
 
 // Values
 fn createEndpointSymbol() -> @js.Any
 
 fn expose(@js.Any, endpoint? : @js.Any) -> Unit
+
+fn exposeToMessagePort(@js.Any, @message.MessagePort) -> Unit
+
+fn exposeToWorker(@js.Any, @worker.Worker) -> Unit
 
 fn proxy(@js.Any) -> ProxyMarked
 
@@ -30,7 +36,9 @@ fn windowEndpoint(@js.Any, context? : @js.Any, target_origin? : String) -> Endpo
 
 fn wrap(@js.Any) -> Remote
 
-fn wrapWorker(@js.Any) -> Remote
+fn wrapMessagePort(@message.MessagePort) -> Remote
+
+fn wrapWorker(@worker.Worker) -> Remote
 
 // Errors
 
@@ -49,7 +57,7 @@ fn Remote::call0(Self, String) -> @js.Promise[@js.Any]
 fn Remote::call1(Self, String, @js.Any) -> @js.Promise[@js.Any]
 fn Remote::call2(Self, String, @js.Any, @js.Any) -> @js.Promise[@js.Any]
 fn Remote::callMethod(Self, String, Array[@js.Any]) -> @js.Promise[@js.Any]
-fn Remote::createEndpoint(Self) -> @js.Promise[@js.Any]
+fn Remote::createEndpoint(Self) -> @js.Promise[@message.MessagePort]
 fn Remote::get(Self, String) -> @js.Promise[@js.Any]
 fn Remote::release(Self) -> Unit
 impl @js.JsImpl for Remote
