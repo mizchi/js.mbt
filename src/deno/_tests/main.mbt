@@ -19,9 +19,9 @@ extern "js" fn new_uint8array(size : Int) -> @js.Any =
 
 ///|
 /// Decode Uint8Array to string
-fn decode_uint8array(arr : @js.Any) -> String {
+fn decode_uint8array(arr : &@js.JsImpl) -> String {
   let decoder = new_text_decoder()
-  decoder.call("decode", [arr]).cast()
+  decoder.call1("decode", arr).cast()
 }
 
 ///|

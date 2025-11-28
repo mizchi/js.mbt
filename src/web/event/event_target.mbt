@@ -1,4 +1,87 @@
 ///|
+/// Event - Base interface for all DOM events
+/// https://developer.mozilla.org/en-US/docs/Web/API/Event
+#external
+pub type Event
+
+///|
+pub impl @js.JsImpl for Event
+
+///|
+/// Create a new Event
+pub fn Event::new(
+  event_type : String,
+  bubbles? : Bool,
+  cancelable? : Bool,
+) -> Event {
+  ffi_new_event(
+    event_type,
+    @js.from_option_map({
+      "bubbles": bubbles.map(fn(x) { @js.any(x) }),
+      "cancelable": cancelable.map(fn(x) { @js.any(x) }),
+    }),
+  )
+}
+
+///|
+extern "js" fn ffi_new_event(event_type : String, options : @js.Any) -> Event =
+  #|(type, options) => new Event(type, options)
+
+///|
+/// Get the event type
+pub fn Event::type_(self : Event) -> String {
+  self.get("type").cast()
+}
+
+///|
+/// Get the event target
+pub fn Event::target(self : Event) -> EventTarget? {
+  self.get("target") |> @js.identity_option
+}
+
+///|
+/// Get the current target
+pub fn Event::currentTarget(self : Event) -> EventTarget? {
+  self.get("currentTarget") |> @js.identity_option
+}
+
+///|
+/// Check if the event bubbles
+pub fn Event::bubbles(self : Event) -> Bool {
+  self.get("bubbles").cast()
+}
+
+///|
+/// Check if the event is cancelable
+pub fn Event::cancelable(self : Event) -> Bool {
+  self.get("cancelable").cast()
+}
+
+///|
+/// Prevent the default action
+pub fn Event::preventDefault(self : Event) -> Unit {
+  self.call0("preventDefault") |> ignore
+}
+
+///|
+/// Stop event propagation
+pub fn Event::stopPropagation(self : Event) -> Unit {
+  self.call0("stopPropagation") |> ignore
+}
+
+///|
+/// Stop immediate propagation
+pub fn Event::stopImmediatePropagation(self : Event) -> Unit {
+  self.call0("stopImmediatePropagation") |> ignore
+}
+
+///|
+/// Check if default was prevented
+pub fn Event::defaultPrevented(self : Event) -> Bool {
+  self.get("defaultPrevented").cast()
+}
+
+///|
 /// Generic EventTarget trait for objects that can receive events
 /// This is a base trait used by DOM, Worker, WebSocket, and other Web APIs
 ///
@@ -36,7 +119,8 @@ pub(open) trait EventTargetImpl: @js.JsImpl {
   removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit = _
 
   /// Dispatch an event to this target
-  dispatchEvent(Self, @js.Any) -> Bool = _
+  /// Accepts Event or any subtype (CustomEvent, MouseEvent, etc.)
+  dispatchEvent(Self, &@js.JsImpl) -> Bool = _
 }
 
 ///|

@@ -1,4 +1,24 @@
 ///|
+/// CryptoKey Type
+/// https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
+#external
+pub type CryptoKey
+
+///|
+pub impl @js.JsImpl for CryptoKey
+
+///|
+/// CryptoKeyPair - returned by generateKey for asymmetric algorithms
+/// https://developer.mozilla.org/en-US/docs/Web/API/CryptoKeyPair
+pub(all) struct CryptoKeyPair {
+  publicKey : CryptoKey
+  privateKey : CryptoKey
+}
+
+///|
+pub impl @js.JsImpl for CryptoKeyPair
+
+///|
 /// SubtleCrypto Type
 /// https://developer.mozilla.org/ja/docs/Web/API/SubtleCrypto
 #external
@@ -14,8 +34,8 @@ pub async fn SubtleCrypto::encrypt(
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self
     .call("encrypt", [algorithm, key, data])
     .cast()
   promise.wait()
@@ -27,8 +47,8 @@ pub async fn SubtleCrypto::decrypt(
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self
     .call("decrypt", [algorithm, key, data])
     .cast()
   promise.wait()
@@ -41,8 +61,8 @@ pub async fn SubtleCrypto::sign(
   algorithm : &@js.JsImpl,
   key : &@js.JsImpl,
   data : &@js.JsImpl,
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self
     .call("sign", [algorithm, key, data])
     .cast()
   promise.wait()
@@ -68,8 +88,8 @@ pub async fn SubtleCrypto::digest(
   self : Self,
   algorithm : String,
   data : &@js.JsImpl,
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self
     .call2("digest", algorithm |> @js.any, data.to_any())
     .cast()
   promise.wait()
@@ -77,14 +97,15 @@ pub async fn SubtleCrypto::digest(
 
 ///|
 /// SubtleCrypto - Key Generation
+/// Returns CryptoKey for symmetric algorithms, CryptoKeyPair for asymmetric algorithms
 #alias(generate_key)
 pub async fn SubtleCrypto::generateKey(
   self : Self,
   algorithm : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> @js.Union2[CryptoKey, CryptoKeyPair] {
+  let promise : @js.Promise[@js.Union2[CryptoKey, CryptoKeyPair]] = self
     .call("generateKey", [algorithm, extractable, key_usages |> @js.from_array])
     .cast()
   promise.wait()
@@ -99,8 +120,8 @@ pub async fn SubtleCrypto::deriveKey(
   derived_key_type : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> CryptoKey {
+  let promise : @js.Promise[CryptoKey] = self
     .call("deriveKey", [
       algorithm,
       base_key,
@@ -119,8 +140,8 @@ pub async fn SubtleCrypto::deriveBits(
   algorithm : &@js.JsImpl,
   base_key : &@js.JsImpl,
   length : Int,
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self
     .call("deriveBits", [algorithm, base_key, length])
     .cast()
   promise.wait()
@@ -136,8 +157,8 @@ pub async fn SubtleCrypto::importKey(
   algorithm : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> CryptoKey {
+  let promise : @js.Promise[CryptoKey] = self
     .call("importKey", [
       format,
       key_data,
@@ -171,8 +192,8 @@ pub async fn SubtleCrypto::wrapKey(
   key : &@js.JsImpl,
   wrapping_key : &@js.JsImpl,
   wrap_algorithm : &@js.JsImpl,
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> @js.ArrayBuffer {
+  let promise : @js.Promise[@js.ArrayBuffer] = self
     .call("wrapKey", [format, key, wrapping_key, wrap_algorithm])
     .cast()
   promise.wait()
@@ -189,8 +210,8 @@ pub async fn SubtleCrypto::unwrapKey(
   unwrapped_key_algorithm : &@js.JsImpl,
   extractable : Bool,
   key_usages : Array[String],
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+) -> CryptoKey {
+  let promise : @js.Promise[CryptoKey] = self
     .call("unwrapKey", [
       format,
       wrapped_key,

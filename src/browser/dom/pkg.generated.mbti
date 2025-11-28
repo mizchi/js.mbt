@@ -3,6 +3,7 @@ package "mizchi/js/browser/dom"
 
 import(
   "mizchi/js"
+  "mizchi/js/browser/history"
   "mizchi/js/web/blob"
   "mizchi/js/web/event"
   "mizchi/js/web/http"
@@ -820,12 +821,12 @@ fn Window::console(Self) -> @js.Any
 #alias(device_pixel_ratio)
 fn Window::devicePixelRatio(Self) -> Double
 fn Window::document(Self) -> Document
-async fn Window::fetch(Self, String, init? : @js.Any) -> @js.Any
+async fn Window::fetch(Self, String, init? : @http.RequestInit) -> @http.Response
 #alias(get_computed_style)
 fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @js.Any
 #alias(get_selection)
 fn Window::getSelection(Self) -> @js.Any?
-fn Window::history(Self) -> @js.Any
+fn Window::history(Self) -> @history.History
 #alias(inner_height)
 fn Window::innerHeight(Self) -> Int
 #alias(inner_width)

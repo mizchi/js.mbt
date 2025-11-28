@@ -22,6 +22,20 @@ fn get_last_event_id(@js.Any) -> String
 // Errors
 
 // Types and methods
+#external
+pub type Event
+fn Event::bubbles(Self) -> Bool
+fn Event::cancelable(Self) -> Bool
+fn Event::currentTarget(Self) -> EventTarget?
+fn Event::defaultPrevented(Self) -> Bool
+fn Event::new(String, bubbles? : Bool, cancelable? : Bool) -> Self
+fn Event::preventDefault(Self) -> Unit
+fn Event::stopImmediatePropagation(Self) -> Unit
+fn Event::stopPropagation(Self) -> Unit
+fn Event::target(Self) -> EventTarget?
+fn Event::type_(Self) -> String
+impl @js.JsImpl for Event
+
 pub(all) struct EventSource {
   url : String
   readyState : Int
@@ -46,6 +60,6 @@ impl EventTargetImpl for EventTarget
 pub(open) trait EventTargetImpl : @js.JsImpl {
   addEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit = _
   removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit = _
-  dispatchEvent(Self, @js.Any) -> Bool = _
+  dispatchEvent(Self, &@js.JsImpl) -> Bool = _
 }
 

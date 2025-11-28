@@ -66,7 +66,7 @@ pub fn Worker::new(
 pub fn Worker::postMessage(
   self : Worker,
   value : &@js.JsImpl,
-  transferList? : Array[@js.Any],
+  transferList? : Array[&@js.JsImpl],
 ) -> Unit {
   match transferList {
     Some(list) =>
@@ -123,7 +123,7 @@ pub fn Worker::stderr(self : Worker) -> @streams.ReadableStream? {
 pub fn MessagePort::postMessage(
   self : MessagePort,
   value : &@js.JsImpl,
-  transferList? : Array[@js.Any],
+  transferList? : Array[&@js.JsImpl],
 ) -> Unit {
   match transferList {
     Some(list) =>

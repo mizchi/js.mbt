@@ -3,6 +3,7 @@ package "mizchi/js/deno"
 
 import(
   "mizchi/js"
+  "mizchi/js/builtins/typedarray"
 )
 
 // Values
@@ -36,8 +37,8 @@ impl @js.JsImpl for Command
 pub type CommandOutput
 fn CommandOutput::code(Self) -> Int
 fn CommandOutput::signal(Self) -> String?
-fn CommandOutput::stderr(Self) -> @js.Any
-fn CommandOutput::stdout(Self) -> @js.Any
+fn CommandOutput::stderr(Self) -> @typedarray.Uint8Array
+fn CommandOutput::stdout(Self) -> @typedarray.Uint8Array
 fn CommandOutput::success(Self) -> Bool
 impl @js.JsImpl for CommandOutput
 
@@ -83,7 +84,7 @@ async fn Deno::permissions_revoke(Self, String, path? : String) -> PermissionSta
 fn Deno::pid(Self) -> Int
 fn Deno::ppid(Self) -> Int
 fn Deno::readDir(Self, String) -> @js.Any
-async fn Deno::readFile(Self, String) -> @js.Any
+async fn Deno::readFile(Self, String) -> @typedarray.Uint8Array
 async fn Deno::readLink(Self, String) -> String
 async fn Deno::readTextFile(Self, String) -> String
 async fn Deno::realPath(Self, String) -> String
@@ -102,7 +103,7 @@ fn Deno::test_async(Self, String, async (TestContext) -> Unit) -> Unit
 fn Deno::test_only(Self, String, async (TestContext) -> Unit) -> Unit
 async fn Deno::truncate(Self, String, Int) -> Unit
 fn Deno::uid(Self) -> Int?
-async fn Deno::writeFile(Self, String, @js.Any) -> Unit
+async fn Deno::writeFile(Self, String, &@js.JsImpl) -> Unit
 async fn Deno::writeTextFile(Self, String, String) -> Unit
 
 #external

@@ -84,11 +84,11 @@ extern "js" fn ffi_text_encoder_encode(text : String) -> @js.Any =
   #|(text) => new TextEncoder().encode(text)
 
 ///|
-extern "js" fn ffi_text_decoder_decode(data : @js.Any) -> String =
+extern "js" fn ffi_text_decoder_decode(data : @js.ArrayBuffer) -> String =
   #|(data) => new TextDecoder().decode(data)
 
 ///|
-extern "js" fn ffi_array_buffer_to_hex(buffer : @js.Any) -> String =
+extern "js" fn ffi_array_buffer_to_hex(buffer : @js.ArrayBuffer) -> String =
   #|(buffer) => Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('')
 
 ///|

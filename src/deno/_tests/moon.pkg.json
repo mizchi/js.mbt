@@ -5,6 +5,7 @@
     "mizchi/js",
     "mizchi/js/deno",
     "mizchi/js/web/worker",
-    "mizchi/js/web/webgpu"
+    "mizchi/js/web/webgpu",
+    "mizchi/js/builtins/typedarray"
   ]
 }

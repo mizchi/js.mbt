@@ -66,10 +66,8 @@ pub fn Window::console(self : Self) -> @js.Any {
 ///|
 /// Returns the history object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/history
-///
-/// For typed access to History methods, use the `mizchi/js/browser/history` package.
-pub fn Window::history(self : Self) -> @js.Any {
-  self.get("history")
+pub fn Window::history(self : Self) -> @history.History {
+  self.get("history").cast()
 }
 
 ///|
@@ -269,9 +267,9 @@ pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
 pub async fn Window::fetch(
   self : Self,
   input : String,
-  init? : @js.Any,
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = match init {
+  init? : @http.RequestInit,
+) -> @http.Response {
+  let promise : @js.Promise[@http.Response] = match init {
     Some(i) => self.call2("fetch", input, i).cast()
     None => self.call1("fetch", input).cast()
   }

@@ -26,6 +26,7 @@ impl @js.JsImpl for FormData
 
 #external
 pub type Headers
+impl @js.JsImpl for Headers
 
 pub(all) struct Request {
   bodyUsed : Bool
@@ -39,8 +40,28 @@ fn Request::clone(Self) -> Self
 async fn Request::json(Self) -> @js.Any
 fn Request::method_(Self) -> String
 fn Request::new(String) -> Self
+fn Request::new_with_init(String, RequestInit) -> Self
 async fn Request::text(Self) -> String
 impl @js.JsImpl for Request
+
+pub struct RequestInit {
+  // private fields
+}
+fn RequestInit::get_body(Self) -> @js.Any?
+fn RequestInit::get_cache(Self) -> String?
+fn RequestInit::get_credentials(Self) -> String?
+fn RequestInit::get_headers(Self) -> Headers?
+fn RequestInit::get_integrity(Self) -> String?
+fn RequestInit::get_keepalive(Self) -> Bool?
+fn RequestInit::get_method(Self) -> String?
+fn RequestInit::get_mode(Self) -> String?
+fn RequestInit::get_priority(Self) -> String?
+fn RequestInit::get_redirect(Self) -> String?
+fn RequestInit::get_referrer(Self) -> String?
+fn RequestInit::get_referrerPolicy(Self) -> String?
+fn RequestInit::get_signal(Self) -> @js_async.AbortSignal?
+fn RequestInit::new(http_method? : String, headers? : Headers, body? : &@js.JsImpl, mode? : String, credentials? : String, cache? : String, redirect? : String, referrer? : String, referrerPolicy? : String, integrity? : String, keepalive? : Bool, signal? : @js_async.AbortSignal, priority? : String) -> Self
+impl @js.JsImpl for RequestInit
 
 pub(all) struct Response {
   ok : Bool

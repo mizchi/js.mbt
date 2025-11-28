@@ -22,7 +22,7 @@ fn workerData() -> @js.Any?
 #external
 pub type MessagePort
 fn MessagePort::close(Self) -> Unit
-fn MessagePort::postMessage(Self, &@js.JsImpl, transferList? : Array[@js.Any]) -> Unit
+fn MessagePort::postMessage(Self, &@js.JsImpl, transferList? : Array[&@js.JsImpl]) -> Unit
 fn MessagePort::start(Self) -> Unit
 impl @js.JsImpl for MessagePort
 impl @events.EventEmitterImpl for MessagePort
@@ -30,7 +30,7 @@ impl @events.EventEmitterImpl for MessagePort
 #external
 pub type Worker
 fn Worker::new(String, workerData? : @js.Any, env? : @js.Any, stdin? : Bool, stdout? : Bool, stderr? : Bool, execArgv? : Array[String], resourceLimits? : @js.Any) -> Self
-fn Worker::postMessage(Self, &@js.JsImpl, transferList? : Array[@js.Any]) -> Unit
+fn Worker::postMessage(Self, &@js.JsImpl, transferList? : Array[&@js.JsImpl]) -> Unit
 fn Worker::ref_(Self) -> Unit
 fn Worker::stderr(Self) -> @streams.ReadableStream?
 fn Worker::stdin(Self) -> @streams.WritableStream?

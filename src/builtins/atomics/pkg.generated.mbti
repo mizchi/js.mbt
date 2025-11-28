@@ -6,29 +6,29 @@ import(
 )
 
 // Values
-fn add(@js.Any, Int, Int) -> Int
+fn add(&@js.JsImpl, Int, Int) -> Int
 
-fn and_(@js.Any, Int, Int) -> Int
+fn and_(&@js.JsImpl, Int, Int) -> Int
 
-fn compareExchange(@js.Any, Int, Int, Int) -> Int
+fn compareExchange(&@js.JsImpl, Int, Int, Int) -> Int
 
-fn exchange(@js.Any, Int, Int) -> Int
+fn exchange(&@js.JsImpl, Int, Int) -> Int
 
 fn isLockFree(Int) -> Bool
 
-fn load(@js.Any, Int) -> Int
+fn load(&@js.JsImpl, Int) -> Int
 
-fn notify(@js.Any, Int, count? : Int) -> Int
+fn notify(&@js.JsImpl, Int, count? : Int) -> Int
 
-fn or_(@js.Any, Int, Int) -> Int
+fn or_(&@js.JsImpl, Int, Int) -> Int
 
-fn store(@js.Any, Int, Int) -> Int
+fn store(&@js.JsImpl, Int, Int) -> Int
 
-fn sub(@js.Any, Int, Int) -> Int
+fn sub(&@js.JsImpl, Int, Int) -> Int
 
-fn wait(@js.Any, Int, Int, timeout? : Int) -> AtomicsWaitResult
+fn wait(&@js.JsImpl, Int, Int, timeout? : Int) -> AtomicsWaitResult
 
-fn xor(@js.Any, Int, Int) -> Int
+fn xor(&@js.JsImpl, Int, Int) -> Int
 
 // Errors
 

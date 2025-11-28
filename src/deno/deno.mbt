@@ -140,19 +140,22 @@ pub async fn Deno::writeTextFile(
 
 ///|
 /// Read file as Uint8Array
-pub async fn Deno::readFile(self : Deno, path : String) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self
+pub async fn Deno::readFile(
+  self : Deno,
+  path : String,
+) -> @typedarray.Uint8Array {
+  let promise : @js.Promise[@typedarray.Uint8Array] = self
     .call1("readFile", @js.any(path))
     .cast()
   promise.wait()
 }
 
 ///|
-/// Write file from Uint8Array
+/// Write file from Uint8Array or ArrayBuffer
 pub async fn Deno::writeFile(
   self : Deno,
   path : String,
-  data : @js.Any,
+  data : &@js.JsImpl,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self
     .call2("writeFile", @js.any(path), data)
@@ -617,14 +620,14 @@ pub fn CommandOutput::success(self : CommandOutput) -> Bool {
 
 ///|
 /// Get stdout as Uint8Array
-pub fn CommandOutput::stdout(self : CommandOutput) -> @js.Any {
-  self.get("stdout")
+pub fn CommandOutput::stdout(self : CommandOutput) -> @typedarray.Uint8Array {
+  self.get("stdout").cast()
 }
 
 ///|
 /// Get stderr as Uint8Array
-pub fn CommandOutput::stderr(self : CommandOutput) -> @js.Any {
-  self.get("stderr")
+pub fn CommandOutput::stderr(self : CommandOutput) -> @typedarray.Uint8Array {
+  self.get("stderr").cast()
 }
 
 ///|
