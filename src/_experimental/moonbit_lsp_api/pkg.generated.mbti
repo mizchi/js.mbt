@@ -1,0 +1,331 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/_experimental/moonbit_lsp_api"
+
+import(
+  "mizchi/js"
+  "mizchi/js/node/child_process"
+)
+
+// Values
+const COMPLETION_KIND_CLASS : Int = 7
+
+const COMPLETION_KIND_COLOR : Int = 16
+
+const COMPLETION_KIND_CONSTANT : Int = 21
+
+const COMPLETION_KIND_CONSTRUCTOR : Int = 4
+
+const COMPLETION_KIND_ENUM : Int = 13
+
+const COMPLETION_KIND_ENUM_MEMBER : Int = 20
+
+const COMPLETION_KIND_EVENT : Int = 23
+
+const COMPLETION_KIND_FIELD : Int = 5
+
+const COMPLETION_KIND_FILE : Int = 17
+
+const COMPLETION_KIND_FOLDER : Int = 19
+
+const COMPLETION_KIND_FUNCTION : Int = 3
+
+const COMPLETION_KIND_INTERFACE : Int = 8
+
+const COMPLETION_KIND_KEYWORD : Int = 14
+
+const COMPLETION_KIND_METHOD : Int = 2
+
+const COMPLETION_KIND_MODULE : Int = 9
+
+const COMPLETION_KIND_OPERATOR : Int = 24
+
+const COMPLETION_KIND_PROPERTY : Int = 10
+
+const COMPLETION_KIND_REFERENCE : Int = 18
+
+const COMPLETION_KIND_SNIPPET : Int = 15
+
+const COMPLETION_KIND_STRUCT : Int = 22
+
+const COMPLETION_KIND_TEXT : Int = 1
+
+const COMPLETION_KIND_TYPE_PARAMETER : Int = 25
+
+const COMPLETION_KIND_UNIT : Int = 11
+
+const COMPLETION_KIND_VALUE : Int = 12
+
+const COMPLETION_KIND_VARIABLE : Int = 6
+
+const SYMBOL_KIND_ARRAY : Int = 18
+
+const SYMBOL_KIND_BOOLEAN : Int = 17
+
+const SYMBOL_KIND_CLASS : Int = 5
+
+const SYMBOL_KIND_CONSTANT : Int = 14
+
+const SYMBOL_KIND_CONSTRUCTOR : Int = 9
+
+const SYMBOL_KIND_ENUM : Int = 10
+
+const SYMBOL_KIND_ENUM_MEMBER : Int = 22
+
+const SYMBOL_KIND_EVENT : Int = 24
+
+const SYMBOL_KIND_FIELD : Int = 8
+
+const SYMBOL_KIND_FILE : Int = 1
+
+const SYMBOL_KIND_FUNCTION : Int = 12
+
+const SYMBOL_KIND_INTERFACE : Int = 11
+
+const SYMBOL_KIND_KEY : Int = 20
+
+const SYMBOL_KIND_METHOD : Int = 6
+
+const SYMBOL_KIND_MODULE : Int = 2
+
+const SYMBOL_KIND_NAMESPACE : Int = 3
+
+const SYMBOL_KIND_NULL : Int = 21
+
+const SYMBOL_KIND_NUMBER : Int = 16
+
+const SYMBOL_KIND_OBJECT : Int = 19
+
+const SYMBOL_KIND_OPERATOR : Int = 25
+
+const SYMBOL_KIND_PACKAGE : Int = 4
+
+const SYMBOL_KIND_PROPERTY : Int = 7
+
+const SYMBOL_KIND_STRING : Int = 15
+
+const SYMBOL_KIND_STRUCT : Int = 23
+
+const SYMBOL_KIND_TYPE_PARAMETER : Int = 26
+
+const SYMBOL_KIND_VARIABLE : Int = 13
+
+fn path_to_uri(String) -> String
+
+fn uri_to_path(String) -> String
+
+async fn[T] with_lsp_client(String, async (LspClient) -> T raise LspError) -> T raise LspError
+
+// Errors
+pub suberror LspError {
+  ServerError(code~ : Int, message~ : String)
+}
+impl Show for LspError
+
+// Types and methods
+pub(all) struct CallHierarchyIncomingCall {
+  from : CallHierarchyItem
+  from_ranges : Array[Range]
+}
+fn CallHierarchyIncomingCall::from_json(@js.Any) -> Self
+
+pub(all) struct CallHierarchyItem {
+  name : String
+  kind : Int
+  detail : String?
+  uri : String
+  range : Range
+  selection_range : Range
+}
+fn CallHierarchyItem::from_json(@js.Any) -> Self
+
+pub(all) struct CallHierarchyOutgoingCall {
+  to : CallHierarchyItem
+  from_ranges : Array[Range]
+}
+fn CallHierarchyOutgoingCall::from_json(@js.Any) -> Self
+
+pub(all) struct CodeAction {
+  title : String
+  kind : String?
+  diagnostics : Array[@js.Any]
+  is_preferred : Bool?
+  edit : WorkspaceEdit?
+}
+fn CodeAction::from_json(@js.Any) -> Self
+
+pub(all) struct CompletionItem {
+  label : String
+  kind : Int?
+  detail : String?
+  documentation : String?
+  insert_text : String?
+  insert_text_format : Int?
+}
+fn CompletionItem::from_json(@js.Any) -> Self
+
+pub(all) struct CompletionList {
+  is_incomplete : Bool
+  items : Array[CompletionItem]
+}
+fn CompletionList::from_json(@js.Any) -> Self
+
+pub(all) struct DocumentSymbol {
+  name : String
+  detail : String?
+  kind : Int
+  range : Range
+  selection_range : Range
+  children : Array[DocumentSymbol]
+}
+fn DocumentSymbol::from_json(@js.Any) -> Self
+
+pub(all) struct Hover {
+  contents : MarkupContent
+  range : Range?
+}
+fn Hover::from_json(@js.Any) -> Self
+
+pub(all) struct InlayHint {
+  position : Position
+  label : String
+  kind : Int?
+  padding_left : Bool?
+  padding_right : Bool?
+}
+fn InlayHint::from_json(@js.Any) -> Self
+
+pub(all) struct Location {
+  uri : String
+  range : Range
+}
+fn Location::from_json(@js.Any) -> Self
+impl @js.JsImpl for Location
+
+pub struct LspClient {
+  process : @child_process.ChildProcess
+  mut request_id : Int
+  pending_requests : Map[Int, (@js.Any) -> Unit]
+  mut is_initialized : Bool
+  mut buffer : String
+}
+fn LspClient::close_document(Self, String) -> Unit
+fn LspClient::code_action(Self, String, Range, (Result[Array[CodeAction], LspError]) -> Unit) -> Unit
+async fn LspClient::code_action_async(Self, String, Range) -> Array[CodeAction] raise LspError
+fn LspClient::completion(Self, String, Int, Int, (Result[CompletionList, LspError]) -> Unit) -> Unit
+async fn LspClient::completion_async(Self, String, Int, Int) -> CompletionList raise LspError
+fn LspClient::definition(Self, String, Int, Int, (Result[Array[Location], LspError]) -> Unit) -> Unit
+async fn LspClient::definition_async(Self, String, Int, Int) -> Array[Location] raise LspError
+fn LspClient::document_symbol(Self, String, (Result[Array[DocumentSymbol], LspError]) -> Unit) -> Unit
+async fn LspClient::document_symbol_async(Self, String) -> Array[DocumentSymbol] raise LspError
+fn LspClient::exit(Self) -> Unit
+fn LspClient::formatting(Self, String, tab_size? : Int, insert_spaces? : Bool, (Result[Array[TextEdit], LspError]) -> Unit) -> Unit
+async fn LspClient::formatting_async(Self, String, tab_size? : Int, insert_spaces? : Bool) -> Array[TextEdit] raise LspError
+fn LspClient::hover(Self, String, Int, Int, (Result[Hover?, LspError]) -> Unit) -> Unit
+async fn LspClient::hover_async(Self, String, Int, Int) -> Hover? raise LspError
+fn LspClient::incoming_calls(Self, CallHierarchyItem, (Result[Array[CallHierarchyIncomingCall], LspError]) -> Unit) -> Unit
+async fn LspClient::incoming_calls_async(Self, CallHierarchyItem) -> Array[CallHierarchyIncomingCall] raise LspError
+fn LspClient::initialize(Self, String, (Result[@js.Any, LspError]) -> Unit) -> Unit
+async fn LspClient::initialize_async(Self, String) -> @js.Any raise LspError
+fn LspClient::inlay_hint(Self, String, Range, (Result[Array[InlayHint], LspError]) -> Unit) -> Unit
+async fn LspClient::inlay_hint_async(Self, String, Range) -> Array[InlayHint] raise LspError
+fn LspClient::new() -> Self
+fn LspClient::open_document(Self, String, String, Int, String) -> Unit
+fn LspClient::outgoing_calls(Self, CallHierarchyItem, (Result[Array[CallHierarchyOutgoingCall], LspError]) -> Unit) -> Unit
+async fn LspClient::outgoing_calls_async(Self, CallHierarchyItem) -> Array[CallHierarchyOutgoingCall] raise LspError
+fn LspClient::prepare_call_hierarchy(Self, String, Int, Int, (Result[Array[CallHierarchyItem], LspError]) -> Unit) -> Unit
+async fn LspClient::prepare_call_hierarchy_async(Self, String, Int, Int) -> Array[CallHierarchyItem] raise LspError
+fn LspClient::references(Self, String, Int, Int, include_declaration? : Bool, (Result[Array[Location], LspError]) -> Unit) -> Unit
+async fn LspClient::references_async(Self, String, Int, Int, include_declaration? : Bool) -> Array[Location] raise LspError
+fn LspClient::rename(Self, String, Int, Int, String, (Result[WorkspaceEdit, LspError]) -> Unit) -> Unit
+async fn LspClient::rename_async(Self, String, Int, Int, String) -> WorkspaceEdit raise LspError
+fn LspClient::shutdown(Self, (Result[Unit, LspError]) -> Unit) -> Unit
+async fn LspClient::shutdown_async(Self) -> Unit raise LspError
+fn LspClient::signature_help(Self, String, Int, Int, (Result[SignatureHelp?, LspError]) -> Unit) -> Unit
+async fn LspClient::signature_help_async(Self, String, Int, Int) -> SignatureHelp? raise LspError
+fn LspClient::workspace_symbol(Self, String, (Result[Array[SymbolInformation], LspError]) -> Unit) -> Unit
+async fn LspClient::workspace_symbol_async(Self, String) -> Array[SymbolInformation] raise LspError
+
+pub(all) struct MarkupContent {
+  kind : String
+  value : String
+}
+fn MarkupContent::from_json(@js.Any) -> Self
+
+pub(all) struct ParameterInformation {
+  label : String
+  documentation : String?
+}
+fn ParameterInformation::from_json(@js.Any) -> Self
+
+pub(all) struct Position {
+  line : Int
+  character : Int
+}
+fn Position::from_json(@js.Any) -> Self
+fn Position::to_json(Self) -> @js.Any
+impl @js.JsImpl for Position
+
+pub(all) struct Range {
+  start : Position
+  end_ : Position
+}
+fn Range::from_json(@js.Any) -> Self
+fn Range::to_json(Self) -> @js.Any
+impl @js.JsImpl for Range
+
+pub(all) struct RenameParams {
+  text_document : TextDocumentIdentifier
+  position : Position
+  new_name : String
+}
+fn RenameParams::to_json(Self) -> @js.Any
+
+pub(all) struct SignatureHelp {
+  signatures : Array[SignatureInformation]
+  active_signature : Int?
+  active_parameter : Int?
+}
+fn SignatureHelp::from_json(@js.Any) -> Self
+
+pub(all) struct SignatureInformation {
+  label : String
+  documentation : String?
+  parameters : Array[ParameterInformation]
+}
+fn SignatureInformation::from_json(@js.Any) -> Self
+
+pub(all) struct SymbolInformation {
+  name : String
+  kind : Int
+  location : Location
+  container_name : String?
+}
+fn SymbolInformation::from_json(@js.Any) -> Self
+
+pub(all) struct TextDocumentIdentifier {
+  uri : String
+}
+fn TextDocumentIdentifier::to_json(Self) -> @js.Any
+
+pub(all) struct TextDocumentPositionParams {
+  text_document : TextDocumentIdentifier
+  position : Position
+}
+fn TextDocumentPositionParams::to_json(Self) -> @js.Any
+
+pub(all) struct TextEdit {
+  range : Range
+  new_text : String
+}
+fn TextEdit::from_json(@js.Any) -> Self
+impl @js.JsImpl for TextEdit
+
+pub(all) struct WorkspaceEdit {
+  changes : Map[String, Array[TextEdit]]
+}
+fn WorkspaceEdit::from_json(@js.Any) -> Self
+
+// Type aliases
+
+// Traits
+
