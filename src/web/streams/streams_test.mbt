@@ -44,7 +44,9 @@ extern "js" fn test_ffi_writable_collector() -> @js.Any =
 
 ///|
 /// [Test Helper] Retrieves the collected chunks from a collector stream.
-extern "js" fn test_ffi_get_collected_chunks(writable : @js.Any) -> Array[String] =
+extern "js" fn test_ffi_get_collected_chunks(
+  writable : @js.Any,
+) -> Array[String] =
   #| (writable) => writable.chunks || []
 
 ///|
@@ -60,7 +62,10 @@ extern "js" fn test_ffi_uppercase_transformer() -> @js.Any =
 ///|
 /// [Test Helper] Writes a chunk to a WritableStreamDefaultWriter.
 /// Writer.write() is not yet wrapped in the library's public API.
-extern "js" fn test_ffi_writer_write(writer : @js.Any, chunk : String) -> @js.Any =
+extern "js" fn test_ffi_writer_write(
+  writer : @js.Any,
+  chunk : String,
+) -> @js.Any =
   #| (writer, chunk) => writer.write(chunk)
 
 ///|

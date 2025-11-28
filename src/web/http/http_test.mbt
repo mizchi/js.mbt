@@ -19,7 +19,6 @@
 extern "js" fn test_ffi_new_response(content : String) -> Response =
   #|(content) => new Response(content)
 
-
 ///|
 async test "Response: read body as text" {
   let response = test_ffi_new_response("Hello, async world!")

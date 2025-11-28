@@ -116,8 +116,6 @@ fn pgUniqueIndex(String) -> PgIndexBuilder
 
 fn placeholder(String) -> @js.Any
 
-fn rows(Array[Row]) -> @js.Any
-
 fn serial(name? : String) -> Column
 
 #alias(sql_add)
@@ -326,19 +324,6 @@ fn QueryBuilder::union(Self, Self) -> Self
 fn QueryBuilder::unionAll(Self, Self) -> Self
 fn[D : @js.JsImpl] QueryBuilder::values(Self, D) -> Self
 impl @js.JsImpl for QueryBuilder
-
-pub struct Row {
-  // private fields
-}
-fn Row::bool(Self, String, Bool) -> Self
-fn Row::build(Self) -> @js.Any
-fn Row::double(Self, String, Double) -> Self
-fn Row::int(Self, String, Int) -> Self
-fn Row::new() -> Self
-fn Row::null(Self, String) -> Self
-fn[V : @js.JsImpl] Row::set(Self, String, V) -> Self
-fn Row::str(Self, String, String) -> Self
-impl @js.JsImpl for Row
 
 #external
 pub type SQL

@@ -15,7 +15,9 @@ extern "js" fn test_ffi_new_response_as_any(content : String) -> @js.Any =
 ///|
 test "Response body returns ReadableStream" {
   // Create a simple Response with text content
-  let response : Response = @js.identity(test_ffi_new_response_as_any("Hello, World!"))
+  let response : Response = @js.identity(
+    test_ffi_new_response_as_any("Hello, World!"),
+  )
 
   // Get the body as ReadableStream
   let body = response.body()
@@ -29,7 +31,9 @@ test "Response body returns ReadableStream" {
 
 ///|
 test "Response body can be read with reader" {
-  let response : Response = @js.identity(test_ffi_new_response_as_any("test data"))
+  let response : Response = @js.identity(
+    test_ffi_new_response_as_any("test data"),
+  )
   match response.body() {
     Some(stream) => {
       let reader = stream.get_reader()
@@ -54,7 +58,9 @@ test "Response error has no body" {
 
 ///|
 test "Response clone has independent body stream" {
-  let response : Response = @js.identity(test_ffi_new_response_as_any("original"))
+  let response : Response = @js.identity(
+    test_ffi_new_response_as_any("original"),
+  )
   let cloned = response.clone()
 
   // Both should have bodies
@@ -77,7 +83,9 @@ test "Response clone has independent body stream" {
 
 ///|
 test "Response body can be teed" {
-  let response : Response = @js.identity(test_ffi_new_response_as_any("tee test"))
+  let response : Response = @js.identity(
+    test_ffi_new_response_as_any("tee test"),
+  )
   match response.body() {
     Some(stream) => {
       let (branch1, branch2) = stream.tee()

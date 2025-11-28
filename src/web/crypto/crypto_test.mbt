@@ -100,18 +100,12 @@ extern "js" fn test_ffi_aes_algorithm(name : String, length : Int) -> @js.Any =
 
 ///|
 /// [Test Helper] Creates AES-GCM encryption parameters with IV.
-extern "js" fn test_ffi_aes_gcm_params(
-  name : String,
-  iv : @js.Any,
-) -> @js.Any =
+extern "js" fn test_ffi_aes_gcm_params(name : String, iv : @js.Any) -> @js.Any =
   #|(name, iv) => ({ name, iv })
 
 ///|
 /// [Test Helper] Creates HMAC algorithm parameters.
-extern "js" fn test_ffi_hmac_algorithm(
-  name : String,
-  hash : String,
-) -> @js.Any =
+extern "js" fn test_ffi_hmac_algorithm(name : String, hash : String) -> @js.Any =
   #|(name, hash) => ({ name, hash })
 
 ///|
