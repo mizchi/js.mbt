@@ -51,56 +51,56 @@ pub impl @js.JsImpl for ResponseResolverInfo
 ///|
 extern "js" fn ffi_http_get(
   path : String,
-  resolver : @js.Any,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler =
   #| (path, resolver) => require('msw').http.get(path, resolver)
 
 ///|
 extern "js" fn ffi_http_post(
   path : String,
-  resolver : @js.Any,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler =
   #| (path, resolver) => require('msw').http.post(path, resolver)
 
 ///|
 extern "js" fn ffi_http_put(
   path : String,
-  resolver : @js.Any,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler =
   #| (path, resolver) => require('msw').http.put(path, resolver)
 
 ///|
 extern "js" fn ffi_http_patch(
   path : String,
-  resolver : @js.Any,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler =
   #| (path, resolver) => require('msw').http.patch(path, resolver)
 
 ///|
 extern "js" fn ffi_http_delete(
   path : String,
-  resolver : @js.Any,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler =
   #| (path, resolver) => require('msw').http.delete(path, resolver)
 
 ///|
 extern "js" fn ffi_http_options(
   path : String,
-  resolver : @js.Any,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler =
   #| (path, resolver) => require('msw').http.options(path, resolver)
 
 ///|
 extern "js" fn ffi_http_head(
   path : String,
-  resolver : @js.Any,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler =
   #| (path, resolver) => require('msw').http.head(path, resolver)
 
 ///|
 extern "js" fn ffi_http_all(
   path : String,
-  resolver : @js.Any,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler =
   #| (path, resolver) => require('msw').http.all(path, resolver)
 
@@ -251,7 +251,7 @@ pub fn httpGet(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler {
-  ffi_http_get(path, @js.from_fn1(resolver))
+  ffi_http_get(path, resolver)
 }
 
 ///|
@@ -260,7 +260,7 @@ pub fn httpPost(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler {
-  ffi_http_post(path, @js.from_fn1(resolver))
+  ffi_http_post(path, resolver)
 }
 
 ///|
@@ -269,7 +269,7 @@ pub fn httpPut(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler {
-  ffi_http_put(path, @js.from_fn1(resolver))
+  ffi_http_put(path, resolver)
 }
 
 ///|
@@ -278,7 +278,7 @@ pub fn httpPatch(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler {
-  ffi_http_patch(path, @js.from_fn1(resolver))
+  ffi_http_patch(path, resolver)
 }
 
 ///|
@@ -287,7 +287,7 @@ pub fn httpDelete(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler {
-  ffi_http_delete(path, @js.from_fn1(resolver))
+  ffi_http_delete(path, resolver)
 }
 
 ///|
@@ -296,7 +296,7 @@ pub fn httpOptions(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler {
-  ffi_http_options(path, @js.from_fn1(resolver))
+  ffi_http_options(path, resolver)
 }
 
 ///|
@@ -305,7 +305,7 @@ pub fn httpHead(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler {
-  ffi_http_head(path, @js.from_fn1(resolver))
+  ffi_http_head(path, resolver)
 }
 
 ///|
@@ -314,7 +314,7 @@ pub fn httpAll(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler {
-  ffi_http_all(path, @js.from_fn1(resolver))
+  ffi_http_all(path, resolver)
 }
 
 ///| HTTP Response Methods
