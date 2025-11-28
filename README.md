@@ -34,9 +34,9 @@ Add to your `moon.pkg.json`:
 ### 📖 Learning Resources
 
 - [MoonBit Cheatsheet](https://github.com/mizchi/js.mbt/blob/main/src/examples/moonbit_cheatsheet.mbt.md) - Quick reference for MoonBit syntax
-- [FFI Bestpractice](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_ffi.mbt.md) - Bestpractice for MoonBit JavaScript FFI
+- [FFI Best Practice](https://github.com/mizchi/js.mbt/blob/main/src/examples/ffi_bestpractice.mbt.md) - Best practice for MoonBit JavaScript FFI
 - [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/src/examples/escape_hatch.mbt.md) - Advanced FFI techniques
-- [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/src/examples/for_ts_user.mbt.md) - Migration guide from TypeScript
+- [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/src/examples/moonbit_for_ts_user.mbt.md) - Migration guide from TypeScript
 
 ## Supported Modules
 
@@ -135,13 +135,15 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 |----------|----------|--------|
 | **UI Frameworks** | React, React DOM, React Router, Preact, Ink | 🧪 Tested |
 | **Web Frameworks** | Hono, better-auth | 🧪 Tested |
-| **AI / LLM** | Vercel AI SDK, MCP SDK | 🧪 Tested |
+| **AI / LLM** | Vercel AI SDK, MCP SDK, Claude Code SDK | 🧪 Tested |
 | **Cloud Services** | @aws-sdk/client-s3 (S3, R2, GCS, MinIO) | 🧪 Tested |
-| **Database** | PGlite, DuckDB | 🧪 Tested |
+| **Database** | PGlite, DuckDB, Drizzle, pg | 🧪 Tested |
 | **Validation** | Zod, AJV | 🧪 Tested |
-| **Build Tools** | Terser | 🧪 Tested |
-| **Utilities** | date-fns, semver, chalk, dotenv, chokidar | 🧪 Tested |
-| **Testing** | Testing Library, Puppeteer, Vitest, JSDOM | 🧪 Tested |
+| **Build Tools** | Terser, Vite, Unplugin, Lighthouse | 🧪 Tested |
+| **Utilities** | date-fns, semver, chalk, dotenv, chokidar, yargs, debug | 🧪 Tested |
+| **Testing** | Testing Library, Puppeteer, Playwright, Vitest, JSDOM, MSW | 🧪 Tested |
+| **Parsing** | htmlparser2, js-yaml | 🧪 Tested |
+| **Other** | simple-git, ignore, memfs, source-map, comlink | 🧪 Tested |
 
 ### Not Supported APIs
 
@@ -168,7 +170,7 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
   - ✅ Browser + React for frontend development
   - ✅ Node.js/Deno support to replace TypeScript
   - ✅ Cloudflare Workers for edge computing
-  - 📅 MCP server/client support
+  - ✅ MCP server/client support
 
 ## Quick Start
 

@@ -449,7 +449,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Worker creation tests temporarily disabled due to async timing issues
 - threadId test skipped due to FFI casting investigation
 
-## [Unreleased]
+## Historical Changes (v0.3.0 - v0.4.0)
+
+These features were added between v0.3.0 and v0.4.0.
 
 ### React
 

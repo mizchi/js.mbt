@@ -44,6 +44,7 @@ MoonBit bindings for popular npm packages.
 |---------|-----|--------|------|
 | [ai](ai/) | `ai` (Vercel AI SDK) | 🧪 Tested | AI/LLM integration |
 | [modelcontextprotocol](modelcontextprotocol/) | `@modelcontextprotocol/sdk` | 🧪 Tested | MCP server/client |
+| [claude_code_sdk](claude_code_sdk/) | `@anthropic-ai/claude-code-sdk` | 🧪 Tested | Claude Code SDK |
 
 ### Cloud Services
 
@@ -57,6 +58,8 @@ MoonBit bindings for popular npm packages.
 |---------|-----|--------|------|
 | [pglite](pglite/) | `@electric-sql/pglite` | 🧪 Tested | Embedded PostgreSQL |
 | [duckdb](duckdb/) | `@duckdb/duckdb-wasm` | 🧪 Tested | Analytical database |
+| [drizzle](drizzle/) | `drizzle-orm` | 🧪 Tested | TypeScript ORM |
+| [pg](pg/) | `pg` | 🧪 Tested | PostgreSQL client |
 
 ### Validation / Schema
 
@@ -71,6 +74,9 @@ MoonBit bindings for popular npm packages.
 | Package | npm | Status | Note |
 |---------|-----|--------|------|
 | [terser](terser/) | `terser` | 🧪 Tested | JavaScript minifier |
+| [vite](vite/) | `vite` | 🧪 Tested | Next-gen build tool |
+| [unplugin](unplugin/) | `unplugin` | 🧪 Tested | Unified plugin system |
+| [lighthouse](lighthouse/) | `lighthouse` | 🧪 Tested | Web performance auditing |
 
 ### Utilities
 
@@ -81,6 +87,12 @@ MoonBit bindings for popular npm packages.
 | [chalk](chalk/) | `chalk` | 🧪 Tested | Terminal styling |
 | [dotenv](dotenv/) | `dotenv` | 🧪 Tested | Environment variables |
 | [chokidar](chokidar/) | `chokidar` | 🧪 Tested | File watching |
+| [yargs](yargs/) | `yargs` | 🧪 Tested | CLI argument parsing |
+| [debug](debug/) | `debug` | 🧪 Tested | Debug logging |
+| [simple_git](simple_git/) | `simple-git` | 🧪 Tested | Git operations |
+| [ignore](ignore/) | `ignore` | 🧪 Tested | .gitignore parsing |
+| [memfs](memfs/) | `memfs` | 🧪 Tested | In-memory file system |
+| [comlink](comlink/) | `comlink` | 🧪 Tested | Web Worker RPC |
 
 ### Testing / Development
 
@@ -88,8 +100,19 @@ MoonBit bindings for popular npm packages.
 |---------|-----|--------|------|
 | [vitest](vitest/) | `vitest` | 🚧 Partial | Test runner |
 | [puppeteer](puppeteer/) | `puppeteer` | 🧪 Tested | Browser automation |
+| [playwright](playwright/) | `playwright` | 🧪 Tested | Browser automation |
+| [playwright_test](playwright_test/) | `@playwright/test` | 🧪 Tested | Playwright test framework |
 | [global_jsdom](global_jsdom/) | `global-jsdom` | 🧪 Tested | JSDOM for testing |
-| [vite](vite/) | `vite` | 🧪 Tested | Build tool integration |
+| [msw](msw/) | `msw` | 🧪 Tested | Mock Service Worker |
+
+### Parsing
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [htmlparser2](htmlparser2/) | `htmlparser2` | 🧪 Tested | HTML/XML parser |
+| [js_yaml](js_yaml/) | `js-yaml` | 🧪 Tested | YAML parser |
+| [source_map](source_map/) | `source-map` | 🧪 Tested | Source map utilities |
+| [error_stack_parser](error_stack_parser/) | `error-stack-parser` | 🧪 Tested | Stack trace parsing |
 
 ## Status Legend
 
@@ -99,16 +122,14 @@ MoonBit bindings for popular npm packages.
 
 ## Dynamic Import Usage
 
-Until MoonBit adds native ESM support, use `dynamic_import_async()` for frontend packages:
+Until MoonBit adds native ESM support, use `dynamic_import()` for frontend packages:
 
 ```moonbit
 fn main {
-  @js.run_async(fn() try {
-    @react.dynamic_import_async()
-    @react_dom_client.dynamic_import_async()
+  @js.run_async(async fn() {
+    @react.dynamic_import()
+    @react_dom_client.dynamic_import()
     // Modules ready to use
-  } catch {
-    err => @js.log("Error: \{err}")
   })
 }
 ```
