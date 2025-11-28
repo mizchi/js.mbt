@@ -4,6 +4,7 @@
     "mizchi/js",
     "mizchi/js/builtins/typedarray",
     "mizchi/js/web/blob",
+    "mizchi/js/web/encoding",
     "mizchi/js/web/streams",
     "mizchi/js/web/url",
     "moonbitlang/async"

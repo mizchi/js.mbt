@@ -1,8 +1,21 @@
 ///|
 /// ReadableStream and WritableStream async operations tests
 
+// =============================================================================
+// Test Helper FFI Functions
+// =============================================================================
+// These FFI functions are used ONLY for testing purposes.
+// They create test fixtures (streams with predefined data) that would normally
+// be obtained from fetch(), file reads, or other I/O operations in real apps.
+//
+// The library provides ReadableStream/WritableStream types for consuming
+// streams, but creating them with custom data requires JavaScript interop.
+// =============================================================================
+
 ///|
-extern "js" fn create_readable_with_chunks(
+/// [Test Helper] Creates a ReadableStream that emits predefined string chunks.
+/// In real applications, ReadableStreams come from fetch().body, file reads, etc.
+extern "js" fn test_ffi_readable_from_chunks(
   chunks : Array[String],
 ) -> ReadableStream =
   #| (chunks) => {
@@ -15,7 +28,9 @@ extern "js" fn create_readable_with_chunks(
   #| }
 
 ///|
-extern "js" fn create_writable_collector() -> @js.Any =
+/// [Test Helper] Creates a WritableStream that collects all written chunks.
+/// Returns the stream as @js.Any because it has a custom `.chunks` property.
+extern "js" fn test_ffi_writable_collector() -> @js.Any =
   #| () => {
   #|   const chunks = [];
   #|   const writable = new WritableStream({
@@ -28,11 +43,14 @@ extern "js" fn create_writable_collector() -> @js.Any =
   #| }
 
 ///|
-extern "js" fn get_collected_chunks(writable : @js.Any) -> Array[String] =
+/// [Test Helper] Retrieves the collected chunks from a collector stream.
+extern "js" fn test_ffi_get_collected_chunks(writable : @js.Any) -> Array[String] =
   #| (writable) => writable.chunks || []
 
 ///|
-extern "js" fn ffi_create_uppercase_transformer() -> @js.Any =
+/// [Test Helper] Creates a transformer object that uppercases string chunks.
+/// TransformStream constructor requires a JavaScript object with transform method.
+extern "js" fn test_ffi_uppercase_transformer() -> @js.Any =
   #| () => ({
   #|   transform(chunk, controller) {
   #|     controller.enqueue(chunk.toString().toUpperCase());
@@ -40,20 +58,24 @@ extern "js" fn ffi_create_uppercase_transformer() -> @js.Any =
   #| })
 
 ///|
-extern "js" fn ffi_writer_write(writer : @js.Any, chunk : String) -> @js.Any =
+/// [Test Helper] Writes a chunk to a WritableStreamDefaultWriter.
+/// Writer.write() is not yet wrapped in the library's public API.
+extern "js" fn test_ffi_writer_write(writer : @js.Any, chunk : String) -> @js.Any =
   #| (writer, chunk) => writer.write(chunk)
 
 ///|
-extern "js" fn ffi_writer_close(writer : @js.Any) -> @js.Any =
+/// [Test Helper] Closes a WritableStreamDefaultWriter.
+extern "js" fn test_ffi_writer_close(writer : @js.Any) -> @js.Any =
   #| (writer) => writer.close()
 
 ///|
-extern "js" fn ffi_writer_abort(writer : @js.Any) -> @js.Any =
+/// [Test Helper] Aborts a WritableStreamDefaultWriter.
+extern "js" fn test_ffi_writer_abort(writer : @js.Any) -> @js.Any =
   #| (writer) => writer.abort()
 
 ///|
 async test "ReadableStream: read chunks sequentially" {
-  let stream = create_readable_with_chunks(["chunk1", "chunk2", "chunk3"])
+  let stream = test_ffi_readable_from_chunks(["chunk1", "chunk2", "chunk3"])
   let reader = stream.get_reader()
   defer reader.release_lock()
 
@@ -90,29 +112,29 @@ async test "ReadableStream: read chunks sequentially" {
 
 ///|
 async test "WritableStream: write chunks sequentially" {
-  let writable_js = create_writable_collector()
+  let writable_js = test_ffi_writable_collector()
   let writable : WritableStream = @js.identity(writable_js)
   let writer = writable.get_writer()
   defer writer.release_lock()
 
   // Write multiple chunks
-  let write1 = ffi_writer_write(writer.to_any(), "first")
+  let write1 = test_ffi_writer_write(writer.to_any(), "first")
   let promise1 : @js.Promise[Unit] = @js.identity(write1)
   promise1.wait()
-  let write2 = ffi_writer_write(writer.to_any(), "second")
+  let write2 = test_ffi_writer_write(writer.to_any(), "second")
   let promise2 : @js.Promise[Unit] = @js.identity(write2)
   promise2.wait()
-  let write3 = ffi_writer_write(writer.to_any(), "third")
+  let write3 = test_ffi_writer_write(writer.to_any(), "third")
   let promise3 : @js.Promise[Unit] = @js.identity(write3)
   promise3.wait()
 
   // Close writer
-  let close_result = ffi_writer_close(writer.to_any())
+  let close_result = test_ffi_writer_close(writer.to_any())
   let close_promise : @js.Promise[Unit] = @js.identity(close_result)
   close_promise.wait()
 
   // Verify collected chunks
-  let chunks = get_collected_chunks(writable_js)
+  let chunks = test_ffi_get_collected_chunks(writable_js)
   assert_eq(chunks.length(), 3)
   assert_eq(chunks[0], "first")
   assert_eq(chunks[1], "second")
@@ -121,8 +143,8 @@ async test "WritableStream: write chunks sequentially" {
 
 ///|
 async test "ReadableStream: pipe to WritableStream" {
-  let readable = create_readable_with_chunks(["data1", "data2", "data3"])
-  let writable_js = create_writable_collector()
+  let readable = test_ffi_readable_from_chunks(["data1", "data2", "data3"])
+  let writable_js = test_ffi_writable_collector()
   let writable : WritableStream = @js.identity(writable_js)
 
   // Pipe readable to writable
@@ -133,7 +155,7 @@ async test "ReadableStream: pipe to WritableStream" {
   pipe_promise.wait()
 
   // Verify all chunks were piped
-  let chunks = get_collected_chunks(writable_js)
+  let chunks = test_ffi_get_collected_chunks(writable_js)
   assert_eq(chunks.length(), 3)
   assert_eq(chunks[0], "data1")
   assert_eq(chunks[1], "data2")
@@ -142,12 +164,12 @@ async test "ReadableStream: pipe to WritableStream" {
 
 ///|
 async test "TransformStream: transform data through pipeline" {
-  let readable = create_readable_with_chunks(["hello", "world"])
-  let writable_js = create_writable_collector()
+  let readable = test_ffi_readable_from_chunks(["hello", "world"])
+  let writable_js = test_ffi_writable_collector()
   let writable : WritableStream = @js.identity(writable_js)
 
   // Create uppercase transformer using FFI
-  let transformer = ffi_create_uppercase_transformer()
+  let transformer = test_ffi_uppercase_transformer()
   let transform = TransformStream::new(transformer)
 
   // Pipe through transform
@@ -163,7 +185,7 @@ async test "TransformStream: transform data through pipeline" {
   promise2.wait()
 
   // Verify transformed chunks
-  let chunks = get_collected_chunks(writable_js)
+  let chunks = test_ffi_get_collected_chunks(writable_js)
   assert_eq(chunks.length(), 2)
   assert_eq(chunks[0], "HELLO")
   assert_eq(chunks[1], "WORLD")
@@ -171,7 +193,7 @@ async test "TransformStream: transform data through pipeline" {
 
 ///|
 async test "ReadableStream: tee creates independent branches" {
-  let stream = create_readable_with_chunks(["item1", "item2"])
+  let stream = test_ffi_readable_from_chunks(["item1", "item2"])
   let (branch1, branch2) = stream.tee()
   let reader1 = branch1.get_reader()
   let reader2 = branch2.get_reader()
@@ -195,7 +217,7 @@ async test "ReadableStream: tee creates independent branches" {
 
 ///|
 async test "ReadableStream: cancel stops reading" {
-  let stream = create_readable_with_chunks(["a", "b", "c", "d", "e"])
+  let stream = test_ffi_readable_from_chunks(["a", "b", "c", "d", "e"])
   let reader = stream.get_reader()
   defer reader.release_lock()
 
@@ -221,23 +243,23 @@ async test "ReadableStream: cancel stops reading" {
 
 ///|
 async test "WritableStream: abort stops writing" {
-  let writable_js = create_writable_collector()
+  let writable_js = test_ffi_writable_collector()
   let writable : WritableStream = @js.identity(writable_js)
   let writer = writable.get_writer()
   defer writer.release_lock()
 
   // Write one chunk
-  let write1 = ffi_writer_write(writer.to_any(), "chunk1")
+  let write1 = test_ffi_writer_write(writer.to_any(), "chunk1")
   let promise1 : @js.Promise[Unit] = @js.identity(write1)
   promise1.wait()
 
   // Abort the stream
-  let abort_result = ffi_writer_abort(writer.to_any())
+  let abort_result = test_ffi_writer_abort(writer.to_any())
   let abort_promise : @js.Promise[Unit] = @js.identity(abort_result)
   abort_promise.wait()
 
   // Verify only one chunk was written
-  let chunks = get_collected_chunks(writable_js)
+  let chunks = test_ffi_get_collected_chunks(writable_js)
   assert_eq(chunks.length(), 1)
   assert_eq(chunks[0], "chunk1")
 }

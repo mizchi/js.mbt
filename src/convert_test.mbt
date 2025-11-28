@@ -47,8 +47,17 @@ fn Point::x2(self : Self) -> Int {
 ///|
 impl JsImpl for Point
 
+// =============================================================================
+// Test Helper FFI Functions
+// =============================================================================
+// This FFI function creates a JavaScript object with x/y properties for testing
+// the identity cast from JS objects to MoonBit structs.
+// =============================================================================
+
 ///|
-extern "js" fn ffi_point_new(x : Int, y : Int) -> Any =
+/// [Test Helper] Creates a plain JS object with x and y properties.
+/// Used to test @js.identity casting JS objects to MoonBit structs.
+extern "js" fn test_ffi_point_new(x : Int, y : Int) -> Any =
   #|(x, y) => ({ x: x, y: y })
 
 ///|
@@ -62,7 +71,7 @@ test "from builtin struct" {
 
 ///|
 test "identity to struct" {
-  let v : @js.Any = ffi_point_new(5, 15)
+  let v : @js.Any = test_ffi_point_new(5, 15)
   let p : Point = @js.identity(v)
   assert_eq(p.x, 5)
   assert_eq(p.y, 15)

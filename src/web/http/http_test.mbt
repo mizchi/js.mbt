@@ -1,17 +1,28 @@
 ///|
 /// Response body async reading tests
 
-///|
-extern "js" fn ffi_new_response_async(content : String) -> Response =
-  #|(content) => new Response(content)
+// =============================================================================
+// Test Helper FFI Functions
+// =============================================================================
+// These FFI functions are used ONLY for testing purposes.
+// They provide functionality that is either:
+// 1. Not yet wrapped in the library's public API
+// 2. Needed to create test fixtures (like Response objects)
+//
+// In production code, you would typically receive Response objects from
+// fetch() or other Web APIs, not construct them directly.
+// =============================================================================
 
 ///|
-extern "js" fn ffi_decode_uint8array(uint8array : @js.Any) -> String =
-  #|(uint8array) => new TextDecoder().decode(uint8array)
+/// [Test Helper] Creates a new Response object with the given content.
+/// In real applications, Response objects come from fetch() or similar APIs.
+extern "js" fn test_ffi_new_response(content : String) -> Response =
+  #|(content) => new Response(content)
+
 
 ///|
 async test "Response: read body as text" {
-  let response = ffi_new_response_async("Hello, async world!")
+  let response = test_ffi_new_response("Hello, async world!")
 
   // Read body as text
   let text_result : @js.Any = response.to_any().call0("text")
@@ -23,7 +34,7 @@ async test "Response: read body as text" {
 ///|
 async test "Response: read body as JSON" {
   let json_str = "{\"name\":\"test\",\"value\":42}"
-  let response = ffi_new_response_async(json_str)
+  let response = test_ffi_new_response(json_str)
 
   // Read body as JSON
   let json_result : @js.Any = response.to_any().call0("json")
@@ -37,7 +48,7 @@ async test "Response: read body as JSON" {
 
 ///|
 async test "Response: read body stream chunk by chunk" {
-  let response = ffi_new_response_async("chunk1chunk2chunk3")
+  let response = test_ffi_new_response("chunk1chunk2chunk3")
   let body = response.body()
   match body {
     Some(stream) => {
@@ -53,10 +64,10 @@ async test "Response: read body stream chunk by chunk" {
         let data = promise.wait()
         done = @js.identity(data.get("done"))
         if not(done) {
-          // Decode Uint8Array to string using TextDecoder
-          let value : @js.Any = data.get("value")
-          // Create TextDecoder using FFI
-          let text : String = ffi_decode_uint8array(value)
+          // Decode Uint8Array to string using TextDecoder from @encoding
+          let value : @typedarray.Uint8Array = data.get("value").cast()
+          let decoder = @encoding.TextDecoder::new()
+          let text = decoder.decode(value)
           chunks.push(text)
         }
       }
@@ -70,7 +81,7 @@ async test "Response: read body stream chunk by chunk" {
 
 ///|
 async test "Response: clone and read both bodies" {
-  let response = ffi_new_response_async("original content")
+  let response = test_ffi_new_response("original content")
   let cloned = response.clone()
 
   // Read original
@@ -88,7 +99,7 @@ async test "Response: clone and read both bodies" {
 
 ///|
 async test "Response: read body multiple times fails after first read" {
-  let response = ffi_new_response_async("single read")
+  let response = test_ffi_new_response("single read")
 
   // First read succeeds
   let text1_result : @js.Any = response.to_any().call0("text")
@@ -111,7 +122,7 @@ async test "Response: read large body in chunks" {
     large_content = large_content + "data\{i},"
     i = i + 1
   }
-  let response = ffi_new_response_async(large_content)
+  let response = test_ffi_new_response(large_content)
   let text_result : @js.Any = response.to_any().call0("text")
   let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
@@ -121,7 +132,7 @@ async test "Response: read large body in chunks" {
 
 ///|
 async test "Response: body stream with defer cleanup" {
-  let response = ffi_new_response_async("test cleanup")
+  let response = test_ffi_new_response("test cleanup")
   let body = response.body()
   match body {
     Some(stream) => {
@@ -144,7 +155,7 @@ async test "Response: body stream with defer cleanup" {
 
 ///|
 async test "Response: arrayBuffer method" {
-  let response = ffi_new_response_async("buffer test")
+  let response = test_ffi_new_response("buffer test")
   let buffer_result : @js.Any = response.to_any().call0("arrayBuffer")
   let buffer_promise : @js.Promise[@js.Any] = @js.identity(buffer_result)
   let buffer = buffer_promise.wait()
@@ -160,7 +171,7 @@ async test "Response: arrayBuffer method" {
 
 ///|
 async test "Response: blob method" {
-  let response = ffi_new_response_async("blob content")
+  let response = test_ffi_new_response("blob content")
   let blob_result : @js.Any = response.to_any().call0("blob")
   let blob_promise : @js.Promise[@js.Any] = @js.identity(blob_result)
   let blob = blob_promise.wait()

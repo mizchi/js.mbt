@@ -76,41 +76,47 @@ test "Crypto::get returns Crypto instance" {
 
 ///|
 /// Web Crypto API Tests
-/// Note: @test {it, describe} and @js {Promise} are already imported in deps.mbt
+
+// =============================================================================
+// Test Helper FFI Functions
+// =============================================================================
+// These FFI functions are used ONLY for testing purposes.
+// They create algorithm parameter objects for Web Crypto API methods.
+//
+// For TextEncoder/TextDecoder, use @encoding package instead of FFI.
+// =============================================================================
 
 ///|
-/// Helper Functions
-extern "js" fn ffi_text_encoder_encode(text : String) -> @js.Any =
-  #|(text) => new TextEncoder().encode(text)
-
-///|
-extern "js" fn ffi_text_decoder_decode(data : @js.ArrayBuffer) -> String =
-  #|(data) => new TextDecoder().decode(data)
-
-///|
-extern "js" fn ffi_array_buffer_to_hex(buffer : @js.ArrayBuffer) -> String =
+/// [Test Helper] Converts ArrayBuffer to hex string for verification.
+/// Useful for comparing digest/hash outputs.
+extern "js" fn test_ffi_array_buffer_to_hex(buffer : @js.ArrayBuffer) -> String =
   #|(buffer) => Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('')
 
 ///|
-extern "js" fn ffi_create_aes_algorithm(name : String, length : Int) -> @js.Any =
+/// [Test Helper] Creates an AES algorithm parameter object.
+/// Web Crypto API requires algorithm objects, not just strings.
+extern "js" fn test_ffi_aes_algorithm(name : String, length : Int) -> @js.Any =
   #|(name, length) => ({ name, length })
 
 ///|
-extern "js" fn ffi_create_aes_gcm_params(
+/// [Test Helper] Creates AES-GCM encryption parameters with IV.
+extern "js" fn test_ffi_aes_gcm_params(
   name : String,
   iv : @js.Any,
 ) -> @js.Any =
   #|(name, iv) => ({ name, iv })
 
 ///|
-extern "js" fn ffi_create_hmac_algorithm(
+/// [Test Helper] Creates HMAC algorithm parameters.
+extern "js" fn test_ffi_hmac_algorithm(
   name : String,
   hash : String,
 ) -> @js.Any =
   #|(name, hash) => ({ name, hash })
 
 ///|
-extern "js" fn ffi_random_values(length : Int) -> @js.Any =
+/// [Test Helper] Generates random bytes for IV (initialization vector).
+extern "js" fn test_ffi_random_bytes(length : Int) -> @js.Any =
   #|(length) => crypto.getRandomValues(new Uint8Array(length))
 
 ///| Digest Tests
@@ -119,9 +125,9 @@ extern "js" fn ffi_random_values(length : Int) -> @js.Any =
 async test "Web Crypto API: SubtleCrypto digest SHA-256" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let data = ffi_text_encoder_encode("Hello, World!")
+  let data = @encoding.TextEncoder::new().encode("Hello, World!").to_any()
   let digest = subtle.digest("SHA-256", data)
-  let hex = ffi_array_buffer_to_hex(digest)
+  let hex = test_ffi_array_buffer_to_hex(digest)
   assert_eq(hex.length(), 64)
 }
 
@@ -129,9 +135,9 @@ async test "Web Crypto API: SubtleCrypto digest SHA-256" {
 async test "Web Crypto API: SubtleCrypto digest SHA-384" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let data = ffi_text_encoder_encode("Hello, World!")
+  let data = @encoding.TextEncoder::new().encode("Hello, World!").to_any()
   let digest = subtle.digest("SHA-384", data)
-  let hex = ffi_array_buffer_to_hex(digest)
+  let hex = test_ffi_array_buffer_to_hex(digest)
   assert_eq(hex.length(), 96)
 }
 
@@ -139,9 +145,9 @@ async test "Web Crypto API: SubtleCrypto digest SHA-384" {
 async test "Web Crypto API: SubtleCrypto digest SHA-512" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let data = ffi_text_encoder_encode("Hello, World!")
+  let data = @encoding.TextEncoder::new().encode("Hello, World!").to_any()
   let digest = subtle.digest("SHA-512", data)
-  let hex = ffi_array_buffer_to_hex(digest)
+  let hex = test_ffi_array_buffer_to_hex(digest)
   assert_eq(hex.length(), 128)
 }
 
@@ -151,7 +157,7 @@ async test "Web Crypto API: SubtleCrypto digest SHA-512" {
 async test "Web Crypto API: SubtleCrypto generateKey AES-GCM" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
+  let algorithm = test_ffi_aes_algorithm("AES-GCM", 256)
   let key_usages = ["encrypt", "decrypt"]
   let key = subtle.generateKey(algorithm, true, key_usages)
   let key_type : String = @js.identity(key.get("type"))
@@ -162,7 +168,7 @@ async test "Web Crypto API: SubtleCrypto generateKey AES-GCM" {
 async test "Web Crypto API: SubtleCrypto generateKey HMAC" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
+  let algorithm = test_ffi_hmac_algorithm("HMAC", "SHA-256")
   let key_usages = ["sign", "verify"]
   let key = subtle.generateKey(algorithm, true, key_usages)
   let key_type : String = @js.identity(key.get("type"))
@@ -175,15 +181,17 @@ async test "Web Crypto API: SubtleCrypto generateKey HMAC" {
 async test "Web Crypto API: SubtleCrypto encrypt and decrypt with AES-GCM" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
+  let algorithm = test_ffi_aes_algorithm("AES-GCM", 256)
   let key_usages = ["encrypt", "decrypt"]
   let key = subtle.generateKey(algorithm, true, key_usages)
-  let iv = ffi_random_values(12)
-  let plaintext = ffi_text_encoder_encode("Secret message")
-  let enc_algorithm = ffi_create_aes_gcm_params("AES-GCM", iv)
+  let iv = test_ffi_random_bytes(12)
+  let plaintext = @encoding.TextEncoder::new().encode("Secret message").to_any()
+  let enc_algorithm = test_ffi_aes_gcm_params("AES-GCM", iv)
   let encrypted = subtle.encrypt(enc_algorithm, key, plaintext)
   let decrypted = subtle.decrypt(enc_algorithm, key, encrypted)
-  let result = ffi_text_decoder_decode(decrypted)
+  // Convert ArrayBuffer to Uint8Array for TextDecoder
+  let decrypted_bytes = @typedarray.Uint8Array::from_array_buffer(decrypted)
+  let result = @encoding.TextDecoder::new().decode(decrypted_bytes)
   assert_eq(result, "Secret message")
 }
 
@@ -193,10 +201,10 @@ async test "Web Crypto API: SubtleCrypto encrypt and decrypt with AES-GCM" {
 async test "Web Crypto API: SubtleCrypto sign and verify with HMAC" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm = ffi_create_hmac_algorithm("HMAC", "SHA-256")
+  let algorithm = test_ffi_hmac_algorithm("HMAC", "SHA-256")
   let key_usages = ["sign", "verify"]
   let key = subtle.generateKey(algorithm, true, key_usages)
-  let data = ffi_text_encoder_encode("Message to sign")
+  let data = @encoding.TextEncoder::new().encode("Message to sign").to_any()
   let signature = subtle.sign(algorithm, key, data)
   let is_valid : Bool = @js.identity(
     subtle.verify(algorithm, key, signature, data),
@@ -210,7 +218,7 @@ async test "Web Crypto API: SubtleCrypto sign and verify with HMAC" {
 async test "Web Crypto API: SubtleCrypto exportKey and importKey with AES-GCM" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm = ffi_create_aes_algorithm("AES-GCM", 256)
+  let algorithm = test_ffi_aes_algorithm("AES-GCM", 256)
   let key_usages = ["encrypt", "decrypt"]
   let original_key = subtle.generateKey(algorithm, true, key_usages)
   let exported = subtle.exportKey("raw", original_key)
@@ -227,8 +235,8 @@ async test "Web Crypto API: SubtleCrypto exportKey and importKey with AES-GCM" {
 async test "Web Crypto API: getCrypto returns Crypto instance" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let data = ffi_text_encoder_encode("test")
+  let data = @encoding.TextEncoder::new().encode("test").to_any()
   let digest = subtle.digest("SHA-256", data)
-  let hex = ffi_array_buffer_to_hex(digest)
+  let hex = test_ffi_array_buffer_to_hex(digest)
   assert_true(hex.length() > 0)
 }

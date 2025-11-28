@@ -1,7 +1,16 @@
 ///| drizzle-orm libsql tests
 
+// =============================================================================
+// Test Helper FFI Functions
+// =============================================================================
+// This FFI function is used for testing raw SQL execution with drizzle.
+// The DrizzleDB.run() method is not yet wrapped in the library's public API.
+// =============================================================================
+
 ///|
-extern "js" fn ffi_db_run(db : DrizzleDB, sql : SQL) -> @js.Promise[@js.Any] =
+/// [Test Helper] Executes raw SQL using DrizzleDB.run().
+/// Used for DDL operations like CREATE TABLE in tests.
+extern "js" fn test_ffi_db_run(db : DrizzleDB, sql : SQL) -> @js.Promise[@js.Any] =
   #| (db, sql) => db.run(sql)
 
 // Schema definition for tests using Map
@@ -33,7 +42,7 @@ async test "drizzle libsql - create table and insert" {
   let db = drizzleLibsql("file::memory:")
 
   // Create table using raw SQL
-  let _ = ffi_db_run(
+  let _ = test_ffi_db_run(
     db,
     sqlRaw(
       "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT UNIQUE, age INTEGER)",
@@ -60,7 +69,7 @@ async test "drizzle libsql - multiple inserts and select" {
   let db = drizzleLibsql("file::memory:")
 
   // Create table
-  let _ = ffi_db_run(
+  let _ = test_ffi_db_run(
     db,
     sqlRaw(
       "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT UNIQUE, age INTEGER)",
@@ -102,7 +111,7 @@ async test "drizzle libsql - update and delete" {
   let db = drizzleLibsql("file::memory:")
 
   // Create table and insert data
-  let _ = ffi_db_run(
+  let _ = test_ffi_db_run(
     db,
     sqlRaw(
       "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT, age INTEGER)",
@@ -143,7 +152,7 @@ async test "drizzle libsql - update and delete" {
 ///|
 async test "drizzle libsql - order by and limit" {
   let db = drizzleLibsql("file::memory:")
-  let _ = ffi_db_run(
+  let _ = test_ffi_db_run(
     db,
     sqlRaw(
       "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, age INTEGER)",
@@ -173,7 +182,7 @@ async test "drizzle libsql - order by and limit" {
 ///|
 async test "drizzle libsql - SQL operators" {
   let db = drizzleLibsql("file::memory:")
-  let _ = ffi_db_run(
+  let _ = test_ffi_db_run(
     db,
     sqlRaw(
       "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, age INTEGER)",

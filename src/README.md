@@ -193,6 +193,143 @@ async fn iterate_async(iter: @js.AsyncIterator) -> Unit {
 }
 ```
 
+## Understanding Core FFI Types
+
+When reading test code or using this library, you'll encounter several core types and functions for bridging MoonBit and JavaScript. This section explains what they are and when to use them.
+
+### `@js.Any` - The Universal JavaScript Type
+
+`@js.Any` represents any JavaScript value (similar to TypeScript's `any`). It's the foundation type for all JavaScript interop.
+
+```moonbit
+// @js.Any can hold any JavaScript value
+let num : @js.Any = @js.any(42)        // number
+let str : @js.Any = @js.any("hello")   // string
+let obj : @js.Any = @js.Object::new()  // object
+```
+
+**When you see `@js.Any` in code**: This value came from JavaScript and its type is unknown at compile time.
+
+### `@js.any()` - Converting MoonBit Values to JavaScript
+
+`@js.any()` converts MoonBit values that implement `JsImpl` trait to `@js.Any`.
+
+```moonbit
+// Convert MoonBit values to JavaScript
+let js_int = @js.any(42)           // Int → @js.Any
+let js_str = @js.any("hello")      // String → @js.Any
+let js_bool = @js.any(true)        // Bool → @js.Any
+let js_arr = @js.any([1, 2, 3])    // Array → @js.Any
+```
+
+**When to use**: When passing MoonBit values to JavaScript APIs that expect dynamic types.
+
+### `@js.identity()` - Unsafe Type Casting
+
+`@js.identity()` performs an unsafe cast between any two types. It's used to convert `@js.Any` back to typed MoonBit values.
+
+```moonbit
+// Cast @js.Any to specific types (unsafe!)
+let js_value : @js.Any = obj.get("count")
+let count : Int = @js.identity(js_value)
+
+// Common pattern: inline casting
+let name : String = @js.identity(obj.get("name"))
+```
+
+**Warning**: `@js.identity()` does no runtime checking. If the JavaScript value isn't the expected type, you'll get undefined behavior.
+
+**Alternative**: Use `.cast()` method which is equivalent but more readable:
+```moonbit
+let count : Int = obj.get("count").cast()
+```
+
+### `JsImpl` Trait - Types That Can Interop with JavaScript
+
+`JsImpl` is a trait for types that can be safely converted to JavaScript values. All JavaScript wrapper types and MoonBit primitives implement this trait.
+
+```moonbit
+// These types implement JsImpl:
+// - @js.Any, @js.Object, @js.JsArray, @js.Promise[T], etc.
+// - MoonBit primitives: String, Int, Double, Bool, etc.
+// - Array[T] where T : JsImpl
+
+// JsImpl provides these methods:
+trait JsImpl {
+  to_any(Self) -> Any           // Convert to @js.Any
+  get(Self, key) -> Any         // JS: self[key]
+  set(Self, key, val) -> Unit   // JS: self[key] = val
+  call(Self, key, args) -> Any  // JS: self[key](...args)
+  // ... and more
+}
+```
+
+**When you see `&JsImpl` in function signatures**: The function accepts any type that can be converted to JavaScript.
+
+### Common Patterns in Test Code
+
+#### Pattern 1: Getting typed values from JavaScript objects
+
+```moonbit
+// JavaScript: const name = obj.name
+let name : String = @js.identity(obj.get("name"))
+
+// Alternative using cast()
+let age : Int = obj.get("age").cast()
+```
+
+#### Pattern 2: Creating JavaScript objects with MoonBit values
+
+```moonbit
+// Using from_map (recommended)
+let obj = @js.from_map({
+  "name": @js.any("Alice"),
+  "age": @js.any(30)
+})
+
+// Manual construction
+let obj = @js.Object::new()
+obj.set("name", "Alice")  // String implements JsImpl
+obj.set("age", 30)        // Int implements JsImpl
+```
+
+#### Pattern 3: Handling nullable/optional values
+
+```moonbit
+// JavaScript null/undefined → MoonBit Option
+let maybe_value : Int? = @js.identity_option(obj.get("optional_field"))
+
+// MoonBit Option → JavaScript null
+let js_value = @js.from_option(Some(42))  // → 42
+let js_null = @js.from_option(None)       // → null
+```
+
+#### Pattern 4: Calling JavaScript methods
+
+```moonbit
+// No arguments: obj.method()
+let result = obj.call0("method")
+
+// With arguments: obj.method(arg1, arg2)
+let result = obj.call("method", [arg1, arg2])
+
+// With type casting
+let str_result : String = obj.call0("toString").cast()
+```
+
+### Summary Table
+
+| Function/Type | Purpose | Example |
+|---------------|---------|---------|
+| `@js.Any` | Universal JS value type | `let v : @js.Any = ...` |
+| `@js.any(x)` | MoonBit → JS conversion | `@js.any(42)` |
+| `@js.identity(x)` | Unsafe type cast | `let n : Int = @js.identity(v)` |
+| `.cast()` | Same as identity (method) | `v.cast()` |
+| `JsImpl` | Trait for JS-compatible types | `fn foo(x : &JsImpl)` |
+| `.to_any()` | Convert to @js.Any | `obj.to_any()` |
+| `.get(key)` | Property access | `obj.get("name")` |
+| `.set(key, val)` | Property assignment | `obj.set("age", 30)` |
+
 ## Advanced Patterns
 
 ### Escape Hatch Pattern
