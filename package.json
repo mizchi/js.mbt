@@ -67,6 +67,7 @@
     "ignore": "^7.0.5",
     "js-yaml": "^4.1.1",
     "memfs": "^4.51.0",
+    "minimatch": "^10.1.1",
     "msw": "^2.12.3",
     "preact-render-to-string": "^6.6.3",
     "simple-git": "^3.30.0",

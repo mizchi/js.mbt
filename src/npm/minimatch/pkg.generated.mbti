@@ -1,0 +1,73 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/minimatch"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn escape(String) -> String
+
+fn escape_with_options(String, MinimatchOptions) -> String
+
+fn filter(String) -> (@js.Any) -> Bool
+
+fn filter_with_options(String, MinimatchOptions) -> (@js.Any) -> Bool
+
+fn has_magic(String) -> Bool
+
+fn has_magic_with_options(String, MinimatchOptions) -> Bool
+
+fn make_re(String) -> @js.Any?
+
+fn make_re_with_options(String, MinimatchOptions) -> @js.Any?
+
+fn match_list(Array[String], String) -> Array[String]
+
+fn match_list_with_options(Array[String], String, MinimatchOptions) -> Array[String]
+
+fn minimatch(String, String) -> Bool
+
+fn minimatch_with_options(String, String, MinimatchOptions) -> Bool
+
+fn unescape(String) -> String
+
+fn unescape_with_options(String, MinimatchOptions) -> String
+
+// Errors
+
+// Types and methods
+pub struct Minimatch(@js.Any)
+fn Minimatch::comment(Self) -> Bool
+fn Minimatch::empty(Self) -> Bool
+fn Minimatch::has_magic(Self) -> Bool
+#deprecated
+fn Minimatch::inner(Self) -> @js.Any
+fn Minimatch::match_(Self, String) -> Bool
+fn Minimatch::negate(Self) -> Bool
+fn Minimatch::new(String) -> Self
+fn Minimatch::new_with_options(String, MinimatchOptions) -> Self
+fn Minimatch::pattern(Self) -> String
+fn Minimatch::regexp(Self) -> @js.Any?
+
+pub(all) struct MinimatchOptions {
+  debug : Bool
+  nobrace : Bool
+  noglobstar : Bool
+  dot : Bool
+  nonull : Bool
+  match_base : Bool
+  nocomment : Bool
+  nonegate : Bool
+  flip_negate : Bool
+  partial : Bool
+  magical_braces : Bool
+  windows_paths_no_escape : Bool
+  nocase : Bool
+}
+fn MinimatchOptions::default() -> Self
+
+// Type aliases
+
+// Traits
+
