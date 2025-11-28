@@ -1,0 +1,37 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/ignore"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn ignore(ignorecase? : Bool, allowRelativePaths? : Bool) -> Ignore
+
+fn isPathValid(String) -> Bool
+
+// Errors
+
+// Types and methods
+#external
+pub type Ignore
+fn Ignore::add(Self, String) -> Self
+fn Ignore::addFromContent(Self, String) -> Self
+fn Ignore::addPatterns(Self, Array[String]) -> Self
+fn Ignore::createFilter(Self) -> @js.Any
+fn Ignore::filter(Self, Array[String]) -> Array[String]
+fn Ignore::ignores(Self, String) -> Bool
+fn Ignore::testPath(Self, String) -> TestResult
+impl @js.JsImpl for Ignore
+
+#external
+pub type TestResult
+fn TestResult::ignored(Self) -> Bool
+fn TestResult::rule(Self) -> @js.Any
+fn TestResult::unignored(Self) -> Bool
+impl @js.JsImpl for TestResult
+
+// Type aliases
+
+// Traits
+
