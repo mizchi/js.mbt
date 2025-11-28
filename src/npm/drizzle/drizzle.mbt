@@ -159,6 +159,37 @@ pub fn drizzleWithConfig(config : @js.Any) -> DrizzleDB {
   ffi_drizzle_with_pool(config)
 }
 
+// ============ Cloudflare D1 ============
+
+///|
+extern "js" fn ffi_drizzle_d1(d1_database : @js.Any) -> DrizzleDB =
+  #| (d1) => require("drizzle-orm/d1").drizzle(d1)
+
+///|
+/// Create a Drizzle instance with Cloudflare D1 database binding
+/// Usage: drizzleD1(env.DB) where env.DB is D1Database from Cloudflare Workers
+#alias(drizzle_d1)
+pub fn drizzleD1(d1_database : @js.Any) -> DrizzleDB {
+  ffi_drizzle_d1(d1_database)
+}
+
+///|
+extern "js" fn ffi_drizzle_d1_with_schema(
+  d1_database : @js.Any,
+  schema : @js.Any,
+) -> DrizzleDB =
+  #| (d1, schema) => require("drizzle-orm/d1").drizzle(d1, { schema })
+
+///|
+/// Create a Drizzle instance with D1 and schema for relational queries
+#alias(drizzle_d1_with_schema)
+pub fn drizzleD1WithSchema(
+  d1_database : @js.Any,
+  schema : @js.Any,
+) -> DrizzleDB {
+  ffi_drizzle_d1_with_schema(d1_database, schema)
+}
+
 // ============ Schema Definition ============
 
 ///|

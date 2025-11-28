@@ -31,6 +31,12 @@ fn drizzleBetterSqlite(String) -> DrizzleDB
 #alias(drizzle_better_sqlite_db)
 fn drizzleBetterSqliteDb(@js.Any) -> DrizzleDB
 
+#alias(drizzle_d1)
+fn drizzleD1(@js.Any) -> DrizzleDB
+
+#alias(drizzle_d1_with_schema)
+fn drizzleD1WithSchema(@js.Any, @js.Any) -> DrizzleDB
+
 fn drizzleLibsql(String) -> DrizzleDB
 
 fn drizzleLibsqlClient(@js.Any) -> DrizzleDB
