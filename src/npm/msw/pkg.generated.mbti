@@ -63,8 +63,10 @@ fn ResponseResolverInfo::cookies(Self) -> @js.Any
 fn ResponseResolverInfo::getParam(Self, String) -> String
 fn ResponseResolverInfo::headers(Self) -> @js.Any
 fn ResponseResolverInfo::httpMethod(Self) -> String
+fn ResponseResolverInfo::json(Self) -> @js.Promise[@js.Any]
 fn ResponseResolverInfo::params(Self) -> @js.Any
 fn ResponseResolverInfo::request(Self) -> @js.Any
+fn ResponseResolverInfo::text(Self) -> @js.Promise[String]
 fn ResponseResolverInfo::url(Self) -> String
 impl @js.JsImpl for ResponseResolverInfo
 

@@ -482,6 +482,24 @@ pub fn ResponseResolverInfo::headers(self : ResponseResolverInfo) -> @js.Any {
   ffi_request_headers(self.request())
 }
 
+///| Request body methods
+
+///|
+/// Get request body as JSON (returns Promise)
+pub fn ResponseResolverInfo::json(
+  self : ResponseResolverInfo,
+) -> @js.Promise[@js.Any] {
+  ffi_request_json(self.request())
+}
+
+///|
+/// Get request body as text (returns Promise)
+pub fn ResponseResolverInfo::text(
+  self : ResponseResolverInfo,
+) -> @js.Promise[String] {
+  ffi_request_text(self.request())
+}
+
 ///| Param helper
 
 ///|
