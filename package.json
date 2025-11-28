@@ -65,6 +65,7 @@
     "htmlparser2": "^10.0.0",
     "js-yaml": "^4.1.1",
     "preact-render-to-string": "^6.6.3",
+    "simple-git": "^3.30.0",
     "yargs": "^18.0.0"
   }
 }

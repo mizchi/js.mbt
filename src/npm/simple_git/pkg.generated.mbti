@@ -1,0 +1,109 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/simple_git"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn simpleGit(base_dir? : String, binary? : String, maxConcurrentProcesses? : Int, trimmed? : Bool) -> SimpleGit
+
+// Errors
+
+// Types and methods
+#external
+pub type BranchSummary
+fn BranchSummary::all(Self) -> Array[String]
+fn BranchSummary::branches(Self) -> @js.Any
+fn BranchSummary::current(Self) -> String
+impl @js.JsImpl for BranchSummary
+
+#external
+pub type CommitResult
+fn CommitResult::branch(Self) -> String
+fn CommitResult::commit(Self) -> String
+fn CommitResult::summary(Self) -> @js.Any
+impl @js.JsImpl for CommitResult
+
+#external
+pub type DiffResult
+fn DiffResult::changed(Self) -> Int
+fn DiffResult::deletions(Self) -> Int
+fn DiffResult::files(Self) -> @js.Any
+fn DiffResult::insertions(Self) -> Int
+impl @js.JsImpl for DiffResult
+
+#external
+pub type FetchResult
+impl @js.JsImpl for FetchResult
+
+#external
+pub type LogResult
+fn LogResult::all(Self) -> @js.Any
+fn LogResult::latest(Self) -> @js.Any
+fn LogResult::total(Self) -> Int
+impl @js.JsImpl for LogResult
+
+#external
+pub type PullResult
+impl @js.JsImpl for PullResult
+
+#external
+pub type SimpleGit
+async fn SimpleGit::add(Self, Array[String]) -> Unit
+async fn SimpleGit::addAll(Self) -> Unit
+async fn SimpleGit::addAnnotatedTag(Self, String, String) -> Unit
+async fn SimpleGit::addFile(Self, String) -> Unit
+async fn SimpleGit::addRemote(Self, String, String) -> Unit
+async fn SimpleGit::addTag(Self, String) -> Unit
+async fn SimpleGit::branch(Self) -> BranchSummary
+async fn SimpleGit::branchLocal(Self) -> BranchSummary
+async fn SimpleGit::checkout(Self, String) -> Unit
+async fn SimpleGit::checkoutBranch(Self, String, String) -> Unit
+async fn SimpleGit::checkoutFile(Self, String, commit? : String) -> Unit
+async fn SimpleGit::checkoutLocalBranch(Self, String) -> Unit
+async fn SimpleGit::clone(Self, String, String, branch? : String, depth? : Int) -> String
+async fn SimpleGit::commit(Self, String, files? : Array[String], author? : String) -> CommitResult
+async fn SimpleGit::deleteLocalBranch(Self, String, force? : Bool) -> Unit
+async fn SimpleGit::diff(Self, staged? : Bool, nameOnly? : Bool) -> String
+async fn SimpleGit::diffSummary(Self) -> DiffResult
+async fn SimpleGit::fetch(Self, remote? : String, branch? : String) -> FetchResult
+async fn SimpleGit::getHeadSha(Self) -> String
+async fn SimpleGit::getRemotes(Self, verbose? : Bool) -> @js.Any
+async fn SimpleGit::init(Self, bare? : Bool) -> Unit
+async fn SimpleGit::log(Self, max_count? : Int, from? : String, to? : String, file? : String) -> LogResult
+async fn SimpleGit::merge(Self, String) -> Unit
+async fn SimpleGit::pull(Self, remote? : String, branch? : String) -> PullResult
+async fn SimpleGit::push(Self, remote? : String, branch? : String, set_upstream? : Bool, force? : Bool, tags? : Bool) -> Unit
+async fn SimpleGit::raw(Self, Array[String]) -> String
+async fn SimpleGit::rebase(Self, String) -> Unit
+async fn SimpleGit::removeRemote(Self, String) -> Unit
+async fn SimpleGit::reset(Self, mode? : String, commit? : String) -> Unit
+async fn SimpleGit::revparse(Self, String) -> String
+async fn SimpleGit::show(Self, commit? : String) -> String
+async fn SimpleGit::stash(Self) -> Unit
+async fn SimpleGit::stashList(Self) -> @js.Any
+async fn SimpleGit::stashPop(Self) -> Unit
+async fn SimpleGit::status(Self) -> StatusResult
+async fn SimpleGit::tags(Self) -> @js.Any
+impl @js.JsImpl for SimpleGit
+
+#external
+pub type StatusResult
+fn StatusResult::ahead(Self) -> Int
+fn StatusResult::behind(Self) -> Int
+fn StatusResult::conflicted(Self) -> Array[String]
+fn StatusResult::created(Self) -> Array[String]
+fn StatusResult::current(Self) -> String
+fn StatusResult::deleted(Self) -> Array[String]
+fn StatusResult::isClean(Self) -> Bool
+fn StatusResult::modified(Self) -> Array[String]
+fn StatusResult::notAdded(Self) -> Array[String]
+fn StatusResult::staged(Self) -> Array[String]
+fn StatusResult::tracking(Self) -> String
+impl @js.JsImpl for StatusResult
+
+// Type aliases
+
+// Traits
+
