@@ -1,0 +1,27 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/examples/realworld/client"
+
+import(
+  "mizchi/js"
+  "mizchi/js/npm/better_auth"
+)
+
+// Values
+fn create_api_client(String) -> ApiClient
+
+fn create_auth_client(String) -> @better_auth.AuthClient
+
+// Errors
+
+// Types and methods
+#external
+pub type ApiClient
+async fn ApiClient::add_todo(Self, String) -> Unit
+async fn ApiClient::delete_todo(Self, Int) -> Unit
+async fn ApiClient::fetch_todos(Self) -> Array[@js.Any]
+impl @js.JsImpl for ApiClient
+
+// Type aliases
+
+// Traits
+

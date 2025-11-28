@@ -21,7 +21,7 @@ impl @js.JsImpl for Auth
 
 #external
 pub type AuthApi
-async fn AuthApi::getSession(Self, @js.Any) -> @js.Any
+async fn AuthApi::getSession(Self, @js.Any) -> SessionResponse?
 async fn AuthApi::signInEmail(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String, headers? : @js.Any) -> AuthResponse
 async fn AuthApi::signInSocial(Self, provider~ : String, callback_url? : String) -> @js.Any
 async fn AuthApi::signOut(Self, @js.Any) -> Unit
@@ -38,7 +38,10 @@ impl @js.JsImpl for AuthClient
 
 #external
 pub type AuthResponse
-fn AuthResponse::session(Self) -> Session
+fn AuthResponse::error(Self) -> @js.Any
+fn AuthResponse::errorMessage(Self) -> String?
+fn AuthResponse::hasError(Self) -> Bool
+fn AuthResponse::token(Self) -> String
 fn AuthResponse::user(Self) -> User
 impl @js.JsImpl for AuthResponse
 
@@ -61,11 +64,19 @@ impl Provider for Google
 
 #external
 pub type Session
-fn Session::expiresAt(Self) -> @js.Any
+fn Session::expiresAt(Self) -> String
 fn Session::id(Self) -> String
+fn Session::ipAddress(Self) -> String?
 fn Session::token(Self) -> String
+fn Session::userAgent(Self) -> String?
 fn Session::userId(Self) -> String
 impl @js.JsImpl for Session
+
+#external
+pub type SessionResponse
+fn SessionResponse::session(Self) -> Session
+fn SessionResponse::user(Self) -> User
+impl @js.JsImpl for SessionResponse
 
 #external
 pub type SignInClient
@@ -87,11 +98,13 @@ impl @js.JsImpl for UseSessionResult
 
 #external
 pub type User
+fn User::createdAt(Self) -> String
 fn User::email(Self) -> String
 fn User::emailVerified(Self) -> Bool
 fn User::id(Self) -> String
 fn User::image(Self) -> String?
 fn User::name(Self) -> String?
+fn User::updatedAt(Self) -> String
 impl @js.JsImpl for User
 
 // Type aliases

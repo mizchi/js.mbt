@@ -1,0 +1,8 @@
+{
+  "supported-targets": ["js"],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/npm/react",
+    "mizchi/js/npm/better_auth"
+  ]
+}

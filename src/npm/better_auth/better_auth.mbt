@@ -1,6 +1,15 @@
 ///|
 /// Better Auth - Authentication library for TypeScript
-/// https://www.better-auth.com/
+///
+/// Documentation: https://www.better-auth.com/
+///
+/// Database Setup:
+///   Before using better-auth, you need to generate and run migrations:
+///   ```bash
+///   npx @better-auth/cli@latest generate
+///   npx @better-auth/cli@latest migrate
+///   ```
+///   See: https://www.better-auth.com/docs/adapters/sqlite
 
 ///|
 /// Auth instance
@@ -11,7 +20,7 @@ pub type Auth
 pub impl @js.JsImpl for Auth
 
 ///|
-/// User type
+/// User type returned from better-auth API
 #external
 pub type User
 
@@ -49,7 +58,19 @@ pub fn User::emailVerified(self : User) -> Bool {
 }
 
 ///|
-/// Session type
+/// Get user createdAt
+pub fn User::createdAt(self : User) -> String {
+  self.get("createdAt").cast()
+}
+
+///|
+/// Get user updatedAt
+pub fn User::updatedAt(self : User) -> String {
+  self.get("updatedAt").cast()
+}
+
+///|
+/// Session type stored in database
 #external
 pub type Session
 
@@ -76,8 +97,20 @@ pub fn Session::token(self : Session) -> String {
 
 ///|
 /// Get session expiresAt
-pub fn Session::expiresAt(self : Session) -> @js.Any {
-  self.get("expiresAt")
+pub fn Session::expiresAt(self : Session) -> String {
+  self.get("expiresAt").cast()
+}
+
+///|
+/// Get session ipAddress
+pub fn Session::ipAddress(self : Session) -> String? {
+  @js.identity_option(self.get("ipAddress"))
+}
+
+///|
+/// Get session userAgent
+pub fn Session::userAgent(self : Session) -> String? {
+  @js.identity_option(self.get("userAgent"))
 }
 
 ///|
@@ -194,7 +227,8 @@ extern "js" fn ffi_better_auth(config : @js.Any) -> @js.Any =
   #|}
 
 ///|
-/// Auth response containing user and session
+/// Auth response from signUpEmail/signInEmail API
+/// Returns { token, user } on success, or { error } on failure
 #external
 pub type AuthResponse
 
@@ -208,9 +242,33 @@ pub fn AuthResponse::user(self : AuthResponse) -> User {
 }
 
 ///|
-/// Get session from response
-pub fn AuthResponse::session(self : AuthResponse) -> Session {
-  self.get("session").cast()
+/// Get session token from response (for cookie setting)
+/// Note: signInEmail returns token directly, not nested in session
+pub fn AuthResponse::token(self : AuthResponse) -> String {
+  self.get("token").cast()
+}
+
+///|
+/// Check if response has error
+pub fn AuthResponse::hasError(self : AuthResponse) -> Bool {
+  not(@js.is_nullish(self.get("error")))
+}
+
+///|
+/// Get error from response if present
+pub fn AuthResponse::error(self : AuthResponse) -> @js.Any {
+  self.get("error")
+}
+
+///|
+/// Get error message from response if present
+pub fn AuthResponse::errorMessage(self : AuthResponse) -> String? {
+  let err = self.get("error")
+  if @js.is_nullish(err) {
+    None
+  } else {
+    Some(err.get("message").cast())
+  }
 }
 
 ///|
@@ -235,10 +293,7 @@ pub async fn AuthApi::signUpEmail(
   }
   let req_obj = @js.Object::new()
   req_obj.set("body", body)
-  let promise : @js.Promise[AuthResponse] = self
-    .get("signUpEmail")
-    .call_self([req_obj])
-    .cast()
+  let promise = ffi_call_auth_api_with_catch(self.get("signUpEmail"), req_obj)
   promise.wait()
 }
 
@@ -266,10 +321,7 @@ pub async fn AuthApi::signInEmail(
   if headers is Some(h) {
     req_obj.set("headers", h)
   }
-  let promise : @js.Promise[AuthResponse] = self
-    .get("signInEmail")
-    .call_self([req_obj])
-    .cast()
+  let promise = ffi_call_auth_api_with_catch(self.get("signInEmail"), req_obj)
   promise.wait()
 }
 
@@ -295,15 +347,45 @@ pub async fn AuthApi::signInSocial(
 }
 
 ///|
+/// Session response from getSession API
+/// Returns { session, user } on success, or null if not authenticated
+#external
+pub type SessionResponse
+
+///|
+pub impl @js.JsImpl for SessionResponse
+
+///|
+/// Get session from response
+pub fn SessionResponse::session(self : SessionResponse) -> Session {
+  self.get("session").cast()
+}
+
+///|
+/// Get user from response
+pub fn SessionResponse::user(self : SessionResponse) -> User {
+  self.get("user").cast()
+}
+
+///|
 /// Get session from request headers
-pub async fn AuthApi::getSession(self : AuthApi, headers : @js.Any) -> @js.Any {
+/// Returns SessionResponse with { session, user } if authenticated, or null
+pub async fn AuthApi::getSession(
+  self : AuthApi,
+  headers : @js.Any,
+) -> SessionResponse? {
   let req_obj = @js.Object::new()
   req_obj.set("headers", headers)
   let promise : @js.Promise[@js.Any] = self
     .get("getSession")
     .call_self([req_obj])
     .cast()
-  promise.wait()
+  let result = promise.wait()
+  if @js.is_nullish(result) || @js.is_nullish(result.get("user")) {
+    None
+  } else {
+    Some(result.cast())
+  }
 }
 
 ///|
@@ -317,3 +399,17 @@ pub async fn AuthApi::signOut(self : AuthApi, headers : @js.Any) -> Unit {
     .cast()
   promise.wait()
 }
+
+///|
+/// Helper to call auth API methods and catch errors, converting them to { error: { message } }
+extern "js" fn ffi_call_auth_api_with_catch(
+  fn_ : @js.Any,
+  args : @js.Any,
+) -> @js.Promise[AuthResponse] =
+  #|(fn_, args) => {
+  #|  return fn_(args).catch(err => {
+  #|    // Convert error to { error: { message } } format
+  #|    const message = err.body?.message || err.message || 'Unknown error';
+  #|    return { error: { message, code: err.body?.code || 'ERROR' } };
+  #|  });
+  #|}

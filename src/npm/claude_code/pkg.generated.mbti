@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/npm/claude_code_sdk"
+package "mizchi/js/npm/claude_code"
 
 import(
   "mizchi/js"

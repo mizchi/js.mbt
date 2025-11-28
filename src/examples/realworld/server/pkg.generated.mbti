@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/examples/realworld/server"
+
+import(
+  "mizchi/js/node/sqlite"
+  "mizchi/js/npm/better_auth"
+  "mizchi/js/npm/hono"
+)
+
+// Values
+fn create_app(@sqlite.DatabaseSync, @better_auth.Auth) -> @hono.Hono[Unit, Unit]
+
+fn create_auth(@sqlite.DatabaseSync) -> @better_auth.Auth
+
+fn init_db() -> @sqlite.DatabaseSync
+
+fn serve(@hono.Hono[Unit, Unit], Int) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

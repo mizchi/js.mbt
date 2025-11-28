@@ -10,7 +10,10 @@
 ///|
 /// [Test Helper] Executes raw SQL using DrizzleDB.run().
 /// Used for DDL operations like CREATE TABLE in tests.
-extern "js" fn test_ffi_db_run(db : DrizzleDB, sql : SQL) -> @js.Promise[@js.Any] =
+extern "js" fn test_ffi_db_run(
+  db : DrizzleDB,
+  sql : SQL,
+) -> @js.Promise[@js.Any] =
   #| (db, sql) => db.run(sql)
 
 // Schema definition for tests using Map
