@@ -1,0 +1,85 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/msw"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn arrayBufferResponse(@js.Any, status? : Int) -> HttpResponse
+
+fn errorResponse() -> HttpResponse
+
+fn htmlResponse(String, status? : Int) -> HttpResponse
+
+fn httpAll(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+
+fn httpDelete(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+
+fn httpGet(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+
+fn httpHead(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+
+fn httpOptions(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+
+fn httpPatch(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+
+fn httpPost(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+
+fn httpPut(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+
+fn jsonResponse(@js.Any, status? : Int) -> HttpResponse
+
+fn mockError(String, Int, String) -> RequestHandler
+
+fn mockGet(String, @js.Any) -> RequestHandler
+
+fn mockPost(String, @js.Any) -> RequestHandler
+
+fn setupServer(Array[RequestHandler]) -> SetupServer
+
+fn textResponse(String, status? : Int) -> HttpResponse
+
+fn xmlResponse(String, status? : Int) -> HttpResponse
+
+// Errors
+
+// Types and methods
+#external
+pub type HttpResponse
+impl @js.JsImpl for HttpResponse
+
+#external
+pub type RequestHandler
+impl @js.JsImpl for RequestHandler
+
+#external
+pub type RequestInfo
+impl @js.JsImpl for RequestInfo
+
+#external
+pub type ResponseResolverInfo
+fn ResponseResolverInfo::cookies(Self) -> @js.Any
+fn ResponseResolverInfo::getParam(Self, String) -> String
+fn ResponseResolverInfo::headers(Self) -> @js.Any
+fn ResponseResolverInfo::httpMethod(Self) -> String
+fn ResponseResolverInfo::params(Self) -> @js.Any
+fn ResponseResolverInfo::request(Self) -> @js.Any
+fn ResponseResolverInfo::url(Self) -> String
+impl @js.JsImpl for ResponseResolverInfo
+
+#external
+pub type SetupServer
+fn SetupServer::close(Self) -> Unit
+fn SetupServer::listHandlers(Self) -> @js.Any
+fn SetupServer::listen(Self, onUnhandledRequest? : String) -> Unit
+fn SetupServer::resetHandlers(Self) -> Unit
+fn SetupServer::resetHandlersWith(Self, Array[RequestHandler]) -> Unit
+fn SetupServer::restoreHandlers(Self) -> Unit
+fn SetupServer::useHandlers(Self, Array[RequestHandler]) -> Unit
+impl @js.JsImpl for SetupServer
+
+// Type aliases
+
+// Traits
+
