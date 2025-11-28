@@ -1,0 +1,56 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/browser/serviceworker"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn serviceWorkerContainer() -> ServiceWorkerContainer
+
+// Errors
+
+// Types and methods
+#external
+pub type RegistrationOptions
+impl @js.JsImpl for RegistrationOptions
+
+#external
+pub type ServiceWorker
+fn ServiceWorker::onError(Self, (@js.Any) -> Unit) -> Unit
+fn ServiceWorker::onStateChange(Self, (@js.Any) -> Unit) -> Unit
+fn ServiceWorker::postMessage(Self, @js.Any) -> Unit
+fn ServiceWorker::postMessageWithTransfer(Self, @js.Any, Array[@js.Any]) -> Unit
+fn ServiceWorker::scriptUrl(Self) -> String
+fn ServiceWorker::state(Self) -> String
+impl @js.JsImpl for ServiceWorker
+
+#external
+pub type ServiceWorkerContainer
+fn ServiceWorkerContainer::controller(Self) -> ServiceWorker?
+async fn ServiceWorkerContainer::getRegistration(Self, client_url? : String) -> ServiceWorkerRegistration?
+async fn ServiceWorkerContainer::getRegistrations(Self) -> Array[ServiceWorkerRegistration]
+fn ServiceWorkerContainer::onControllerChange(Self, (@js.Any) -> Unit) -> Unit
+fn ServiceWorkerContainer::onMessage(Self, (@js.Any) -> Unit) -> Unit
+fn ServiceWorkerContainer::onMessageError(Self, (@js.Any) -> Unit) -> Unit
+fn ServiceWorkerContainer::ready(Self) -> @js.Promise[ServiceWorkerRegistration]
+async fn ServiceWorkerContainer::register(Self, String, scope? : String, type_? : String, update_via_cache? : String) -> ServiceWorkerRegistration
+fn ServiceWorkerContainer::startMessages(Self) -> Unit
+impl @js.JsImpl for ServiceWorkerContainer
+
+#external
+pub type ServiceWorkerRegistration
+fn ServiceWorkerRegistration::active(Self) -> ServiceWorker?
+fn ServiceWorkerRegistration::installing(Self) -> ServiceWorker?
+fn ServiceWorkerRegistration::onUpdateFound(Self, (@js.Any) -> Unit) -> Unit
+fn ServiceWorkerRegistration::scope(Self) -> String
+async fn ServiceWorkerRegistration::unregister(Self) -> Bool
+async fn ServiceWorkerRegistration::update(Self) -> Self
+fn ServiceWorkerRegistration::updateViaCache(Self) -> String
+fn ServiceWorkerRegistration::waiting(Self) -> ServiceWorker?
+impl @js.JsImpl for ServiceWorkerRegistration
+
+// Type aliases
+
+// Traits
+
