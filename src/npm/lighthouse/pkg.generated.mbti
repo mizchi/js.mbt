@@ -1,0 +1,97 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/lighthouse"
+
+import(
+  "mizchi/js"
+  "mizchi/js/npm/puppeteer"
+)
+
+// Values
+let accessibility_only : Array[String]
+
+let all_categories : Array[String]
+
+fn desktop_config() -> @js.Any
+
+fn mobile_config() -> @js.Any
+
+let performance_only : Array[String]
+
+async fn run(String, page? : @puppeteer.Page, flags? : LighthouseFlags, config? : @js.Any) -> RunnerResult
+
+async fn run_with_port(String, Int, flags? : LighthouseFlags, config? : @js.Any) -> RunnerResult
+
+// Errors
+
+// Types and methods
+#external
+pub type Audit
+fn Audit::description(Self) -> String
+fn Audit::displayValue(Self) -> String?
+fn Audit::id(Self) -> String
+fn Audit::numericUnit(Self) -> String?
+fn Audit::numericValue(Self) -> Double?
+fn Audit::score(Self) -> Double?
+fn Audit::scoreDisplayMode(Self) -> String
+fn Audit::title(Self) -> String
+impl @js.JsImpl for Audit
+
+#external
+pub type Categories
+fn Categories::accessibility(Self) -> Category?
+fn Categories::bestPractices(Self) -> Category?
+fn Categories::performance(Self) -> Category?
+fn Categories::pwa(Self) -> Category?
+fn Categories::seo(Self) -> Category?
+impl @js.JsImpl for Categories
+
+#external
+pub type Category
+fn Category::id(Self) -> String
+fn Category::score(Self) -> Double
+fn Category::scorePercent(Self) -> Int
+fn Category::title(Self) -> String
+impl @js.JsImpl for Category
+
+pub(all) struct LighthouseFlags {
+  logLevel : String?
+  output : String?
+  onlyCategories : Array[String]?
+  skipAudits : Array[String]?
+  onlyAudits : Array[String]?
+  port : Int?
+  formFactor : String?
+  screenEmulation : @js.Any?
+  throttling : @js.Any?
+  throttlingMethod : String?
+  extraHeaders : @js.Any?
+  maxWaitForLoad : Int?
+  disableStorageReset : Bool?
+}
+fn LighthouseFlags::new(logLevel? : String, output? : String, onlyCategories? : Array[String], skipAudits? : Array[String], onlyAudits? : Array[String], port? : Int, formFactor? : String, screenEmulation? : @js.Any, throttling? : @js.Any, throttlingMethod? : String, extraHeaders? : @js.Any, maxWaitForLoad? : Int, disableStorageReset? : Bool) -> Self
+impl @js.JsImpl for LighthouseFlags
+
+#external
+pub type LighthouseResult
+fn LighthouseResult::audit(Self, String) -> Audit?
+fn LighthouseResult::audits(Self) -> @js.Any
+fn LighthouseResult::categories(Self) -> Categories
+fn LighthouseResult::fetchTime(Self) -> String
+fn LighthouseResult::finalDisplayedUrl(Self) -> String
+fn LighthouseResult::finalUrl(Self) -> String
+fn LighthouseResult::lighthouseVersion(Self) -> String
+fn LighthouseResult::requestedUrl(Self) -> String
+fn LighthouseResult::userAgent(Self) -> String
+impl @js.JsImpl for LighthouseResult
+
+#external
+pub type RunnerResult
+fn RunnerResult::artifacts(Self) -> @js.Any
+fn RunnerResult::lhr(Self) -> LighthouseResult
+fn RunnerResult::report(Self) -> String
+impl @js.JsImpl for RunnerResult
+
+// Type aliases
+
+// Traits
+
