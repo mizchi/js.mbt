@@ -209,41 +209,25 @@ pub struct LspClient {
   mut buffer : String
 }
 fn LspClient::close_document(Self, String) -> Unit
-fn LspClient::code_action(Self, String, Range, (Result[Array[CodeAction], LspError]) -> Unit) -> Unit
-async fn LspClient::code_action_async(Self, String, Range) -> Array[CodeAction] raise LspError
-fn LspClient::completion(Self, String, Int, Int, (Result[CompletionList, LspError]) -> Unit) -> Unit
-async fn LspClient::completion_async(Self, String, Int, Int) -> CompletionList raise LspError
-fn LspClient::definition(Self, String, Int, Int, (Result[Array[Location], LspError]) -> Unit) -> Unit
-async fn LspClient::definition_async(Self, String, Int, Int) -> Array[Location] raise LspError
-fn LspClient::document_symbol(Self, String, (Result[Array[DocumentSymbol], LspError]) -> Unit) -> Unit
-async fn LspClient::document_symbol_async(Self, String) -> Array[DocumentSymbol] raise LspError
+async fn LspClient::code_action(Self, String, Range) -> Array[CodeAction] raise LspError
+async fn LspClient::completion(Self, String, Int, Int) -> CompletionList raise LspError
+async fn LspClient::definition(Self, String, Int, Int) -> Array[Location] raise LspError
+async fn LspClient::document_symbol(Self, String) -> Array[DocumentSymbol] raise LspError
 fn LspClient::exit(Self) -> Unit
-fn LspClient::formatting(Self, String, tab_size? : Int, insert_spaces? : Bool, (Result[Array[TextEdit], LspError]) -> Unit) -> Unit
-async fn LspClient::formatting_async(Self, String, tab_size? : Int, insert_spaces? : Bool) -> Array[TextEdit] raise LspError
-fn LspClient::hover(Self, String, Int, Int, (Result[Hover?, LspError]) -> Unit) -> Unit
-async fn LspClient::hover_async(Self, String, Int, Int) -> Hover? raise LspError
-fn LspClient::incoming_calls(Self, CallHierarchyItem, (Result[Array[CallHierarchyIncomingCall], LspError]) -> Unit) -> Unit
-async fn LspClient::incoming_calls_async(Self, CallHierarchyItem) -> Array[CallHierarchyIncomingCall] raise LspError
-fn LspClient::initialize(Self, String, (Result[@js.Any, LspError]) -> Unit) -> Unit
-async fn LspClient::initialize_async(Self, String) -> @js.Any raise LspError
-fn LspClient::inlay_hint(Self, String, Range, (Result[Array[InlayHint], LspError]) -> Unit) -> Unit
-async fn LspClient::inlay_hint_async(Self, String, Range) -> Array[InlayHint] raise LspError
+async fn LspClient::formatting(Self, String, tab_size? : Int, insert_spaces? : Bool) -> Array[TextEdit] raise LspError
+async fn LspClient::hover(Self, String, Int, Int) -> Hover? raise LspError
+async fn LspClient::incoming_calls(Self, CallHierarchyItem) -> Array[CallHierarchyIncomingCall] raise LspError
+async fn LspClient::initialize(Self, String) -> @js.Any raise LspError
+async fn LspClient::inlay_hint(Self, String, Range) -> Array[InlayHint] raise LspError
 fn LspClient::new() -> Self
 fn LspClient::open_document(Self, String, String, Int, String) -> Unit
-fn LspClient::outgoing_calls(Self, CallHierarchyItem, (Result[Array[CallHierarchyOutgoingCall], LspError]) -> Unit) -> Unit
-async fn LspClient::outgoing_calls_async(Self, CallHierarchyItem) -> Array[CallHierarchyOutgoingCall] raise LspError
-fn LspClient::prepare_call_hierarchy(Self, String, Int, Int, (Result[Array[CallHierarchyItem], LspError]) -> Unit) -> Unit
-async fn LspClient::prepare_call_hierarchy_async(Self, String, Int, Int) -> Array[CallHierarchyItem] raise LspError
-fn LspClient::references(Self, String, Int, Int, include_declaration? : Bool, (Result[Array[Location], LspError]) -> Unit) -> Unit
-async fn LspClient::references_async(Self, String, Int, Int, include_declaration? : Bool) -> Array[Location] raise LspError
-fn LspClient::rename(Self, String, Int, Int, String, (Result[WorkspaceEdit, LspError]) -> Unit) -> Unit
-async fn LspClient::rename_async(Self, String, Int, Int, String) -> WorkspaceEdit raise LspError
-fn LspClient::shutdown(Self, (Result[Unit, LspError]) -> Unit) -> Unit
-async fn LspClient::shutdown_async(Self) -> Unit raise LspError
-fn LspClient::signature_help(Self, String, Int, Int, (Result[SignatureHelp?, LspError]) -> Unit) -> Unit
-async fn LspClient::signature_help_async(Self, String, Int, Int) -> SignatureHelp? raise LspError
-fn LspClient::workspace_symbol(Self, String, (Result[Array[SymbolInformation], LspError]) -> Unit) -> Unit
-async fn LspClient::workspace_symbol_async(Self, String) -> Array[SymbolInformation] raise LspError
+async fn LspClient::outgoing_calls(Self, CallHierarchyItem) -> Array[CallHierarchyOutgoingCall] raise LspError
+async fn LspClient::prepare_call_hierarchy(Self, String, Int, Int) -> Array[CallHierarchyItem] raise LspError
+async fn LspClient::references(Self, String, Int, Int, include_declaration? : Bool) -> Array[Location] raise LspError
+async fn LspClient::rename(Self, String, Int, Int, String) -> WorkspaceEdit raise LspError
+async fn LspClient::shutdown(Self) -> Unit raise LspError
+async fn LspClient::signature_help(Self, String, Int, Int) -> SignatureHelp? raise LspError
+async fn LspClient::workspace_symbol(Self, String) -> Array[SymbolInformation] raise LspError
 
 pub(all) struct MarkupContent {
   kind : String
@@ -278,7 +262,6 @@ pub(all) struct RenameParams {
   position : Position
   new_name : String
 }
-fn RenameParams::to_json(Self) -> @js.Any
 
 pub(all) struct SignatureHelp {
   signatures : Array[SignatureInformation]
@@ -305,13 +288,11 @@ fn SymbolInformation::from_json(@js.Any) -> Self
 pub(all) struct TextDocumentIdentifier {
   uri : String
 }
-fn TextDocumentIdentifier::to_json(Self) -> @js.Any
 
 pub(all) struct TextDocumentPositionParams {
   text_document : TextDocumentIdentifier
   position : Position
 }
-fn TextDocumentPositionParams::to_json(Self) -> @js.Any
 
 pub(all) struct TextEdit {
   range : Range

@@ -4,7 +4,7 @@ MoonBit language server client library for programmatic access to moonbit-lsp ca
 
 ## Overview
 
-This package provides a type-safe API for interacting with the MoonBit Language Server Protocol (LSP) server. It spawns `moonbit-lsp` as a child process and communicates via JSON-RPC 2.0 over stdio.
+This package provides a type-safe async API for interacting with the MoonBit Language Server Protocol (LSP) server. It spawns `moonbit-lsp` as a child process and communicates via JSON-RPC 2.0 over stdio.
 
 ## Supported Capabilities
 
@@ -32,44 +32,6 @@ Based on moonbit-lsp server capabilities:
 
 ## Usage
 
-### Callback-based API
-
-```moonbit
-fn main {
-  let client = LspClient::new()
-
-  // Initialize the client
-  client.initialize("file:///path/to/project", fn(result) {
-    match result {
-      Ok(_) => {
-        // Open a document
-        client.open_document(
-          "file:///path/to/file.mbt",
-          "moonbit",
-          1,
-          "fn main { ... }",
-        )
-
-        // Get hover information
-        client.hover("file:///path/to/file.mbt", 0, 3, fn(result) {
-          match result {
-            Ok(Some(hover)) => println(hover.contents.value)
-            Ok(None) => println("No hover info")
-            Err(error) => println("Error: " + error.to_string())
-          }
-        })
-
-        // Shutdown when done
-        client.shutdown(fn(_) { client.exit() })
-      }
-      Err(error) => println("Failed to initialize: " + error.to_string())
-    }
-  })
-}
-```
-
-### Async API
-
 ```moonbit
 async fn main_async() -> Unit raise LspError {
   let root_uri = path_to_uri("/path/to/project")
@@ -81,26 +43,26 @@ async fn main_async() -> Unit raise LspError {
     client.open_document(uri, "moonbit", 1, "fn main { ... }")
 
     // Get hover information
-    let hover = client.hover_async(uri, 0, 3)
+    let hover = client.hover(uri, 0, 3)
     match hover {
       Some(h) => println(h.contents.value)
       None => println("No hover info")
     }
 
     // Get completions
-    let completions = client.completion_async(uri, 0, 10)
+    let completions = client.completion(uri, 0, 10)
     for item in completions.items {
       println(item.label)
     }
 
     // Get document symbols
-    let symbols = client.document_symbol_async(uri)
+    let symbols = client.document_symbol(uri)
     for sym in symbols {
       println(sym.name)
     }
 
     // Rename a symbol
-    let edit = client.rename_async(uri, 0, 3, "new_name")
+    let edit = client.rename(uri, 0, 3, "new_name")
     for entry in edit.changes {
       println("File: " + entry.0)
     }
@@ -135,64 +97,45 @@ async fn main_async() -> Unit raise LspError {
 
 ### LspClient Methods
 
+All methods are async and raise `LspError` on failure.
+
 #### Lifecycle
 
 - `new()` - Create a new LSP client
-- `initialize(root_uri, callback)` - Initialize the server
-- `shutdown(callback)` - Shutdown the server
-- `exit()` - Exit the server process
+- `initialize(root_uri)` -> `@js.Any` - Initialize the server
+- `shutdown()` -> `Unit` - Shutdown the server
+- `exit()` - Exit the server process (sync)
 
-#### Document Management
+#### Document Management (sync)
 
 - `open_document(uri, language_id, version, text)` - Open a document
 - `close_document(uri)` - Close a document
 
 #### Navigation
 
-- `definition(uri, line, character, callback)` - Go to definition
-- `references(uri, line, character, include_declaration?, callback)` - Find references
+- `definition(uri, line, character)` -> `Array[Location]`
+- `references(uri, line, character, include_declaration?)` -> `Array[Location]`
 
 #### Information
 
-- `hover(uri, line, character, callback)` - Get hover information
-- `completion(uri, line, character, callback)` - Get completions
-- `signature_help(uri, line, character, callback)` - Get signature help
-- `document_symbol(uri, callback)` - Get document symbols
-- `workspace_symbol(query, callback)` - Search workspace symbols
-- `inlay_hint(uri, range, callback)` - Get inlay hints
+- `hover(uri, line, character)` -> `Hover?`
+- `completion(uri, line, character)` -> `CompletionList`
+- `signature_help(uri, line, character)` -> `SignatureHelp?`
+- `document_symbol(uri)` -> `Array[DocumentSymbol]`
+- `workspace_symbol(query)` -> `Array[SymbolInformation]`
+- `inlay_hint(uri, range)` -> `Array[InlayHint]`
 
 #### Refactoring
 
-- `rename(uri, line, character, new_name, callback)` - Rename symbol
-- `formatting(uri, tab_size?, insert_spaces?, callback)` - Format document
-- `code_action(uri, range, callback)` - Get code actions
+- `rename(uri, line, character, new_name)` -> `WorkspaceEdit`
+- `formatting(uri, tab_size?, insert_spaces?)` -> `Array[TextEdit]`
+- `code_action(uri, range)` -> `Array[CodeAction]`
 
 #### Call Hierarchy
 
-- `prepare_call_hierarchy(uri, line, character, callback)` - Prepare call hierarchy
-- `incoming_calls(item, callback)` - Get incoming calls
-- `outgoing_calls(item, callback)` - Get outgoing calls
-
-### Async Methods
-
-All callback-based methods have async versions with `_async` suffix:
-
-- `initialize_async(root_uri)` -> `@js.Any`
-- `shutdown_async()` -> `Unit`
-- `definition_async(uri, line, character)` -> `Array[Location]`
-- `references_async(uri, line, character, include_declaration?)` -> `Array[Location]`
-- `hover_async(uri, line, character)` -> `Hover?`
-- `completion_async(uri, line, character)` -> `CompletionList`
-- `signature_help_async(uri, line, character)` -> `SignatureHelp?`
-- `document_symbol_async(uri)` -> `Array[DocumentSymbol]`
-- `workspace_symbol_async(query)` -> `Array[SymbolInformation]`
-- `formatting_async(uri, tab_size?, insert_spaces?)` -> `Array[TextEdit]`
-- `code_action_async(uri, range)` -> `Array[CodeAction]`
-- `prepare_call_hierarchy_async(uri, line, character)` -> `Array[CallHierarchyItem]`
-- `incoming_calls_async(item)` -> `Array[CallHierarchyIncomingCall]`
-- `outgoing_calls_async(item)` -> `Array[CallHierarchyOutgoingCall]`
-- `inlay_hint_async(uri, range)` -> `Array[InlayHint]`
-- `rename_async(uri, line, character, new_name)` -> `WorkspaceEdit`
+- `prepare_call_hierarchy(uri, line, character)` -> `Array[CallHierarchyItem]`
+- `incoming_calls(item)` -> `Array[CallHierarchyIncomingCall]`
+- `outgoing_calls(item)` -> `Array[CallHierarchyOutgoingCall]`
 
 ### Utility Functions
 
@@ -263,7 +206,7 @@ COMPLETION_KIND_TYPE_PARAMETER = 25
 
 ## Error Handling
 
-All operations can fail with `LspError`:
+All async operations can fail with `LspError`:
 
 ```moonbit
 pub suberror LspError {
@@ -271,7 +214,7 @@ pub suberror LspError {
 }
 ```
 
-For async operations, errors are raised and can be caught with try-catch.
+Errors are raised and can be caught with try-catch.
 
 ## Requirements
 

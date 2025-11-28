@@ -80,9 +80,7 @@ pub(all) struct TextDocumentIdentifier {
 }
 
 ///|
-pub fn TextDocumentIdentifier::to_json(
-  self : TextDocumentIdentifier,
-) -> @js.Any {
+fn TextDocumentIdentifier::to_json(self : TextDocumentIdentifier) -> @js.Any {
   @js.from_map({ "uri": @js.any(self.uri) })
 }
 
@@ -94,7 +92,7 @@ pub(all) struct TextDocumentPositionParams {
 }
 
 ///|
-pub fn TextDocumentPositionParams::to_json(
+fn TextDocumentPositionParams::to_json(
   self : TextDocumentPositionParams,
 ) -> @js.Any {
   @js.from_map({
@@ -112,7 +110,7 @@ pub(all) struct RenameParams {
 }
 
 ///|
-pub fn RenameParams::to_json(self : RenameParams) -> @js.Any {
+fn RenameParams::to_json(self : RenameParams) -> @js.Any {
   @js.from_map({
     "textDocument": self.text_document.to_json(),
     "position": self.position.to_json(),
@@ -345,70 +343,70 @@ fn LspClient::send_notification(
 }
 
 ///|
-/// Initialize the LSP server
-pub fn LspClient::initialize(
-  self : LspClient,
-  root_uri : String,
-  callback : (Result[@js.Any, LspError]) -> Unit,
-) -> Unit {
-  let params = @js.from_map({
-    "processId": @js.any(ffi_get_pid()),
-    "rootUri": @js.any(root_uri),
-    "capabilities": @js.from_map({
-      "textDocument": @js.from_map({
-        "definition": @js.from_map({ "dynamicRegistration": @js.any(true) }),
-        "references": @js.from_map({ "dynamicRegistration": @js.any(true) }),
-        "rename": @js.from_map({
-          "dynamicRegistration": @js.any(true),
-          "prepareSupport": @js.any(true),
-        }),
-      }),
-    }),
-  })
-  self.send_request("initialize", params, fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      self.is_initialized = true
-      // Send initialized notification
-      self.send_notification("initialized", @js.from_map({}))
-      callback(Ok(response.get("result")))
-    }
-  })
-}
-
-///|
 extern "js" fn ffi_get_pid() -> Int =
   #|() => process.pid
 
 ///|
-/// Shutdown the LSP server
-pub fn LspClient::shutdown(
+extern "js" fn ffi_is_array(value : @js.Any) -> Bool =
+  #|(value) => Array.isArray(value)
+
+///|
+/// Initialize the LSP server
+pub async fn LspClient::initialize(
   self : LspClient,
-  callback : (Result[Unit, LspError]) -> Unit,
-) -> Unit {
-  self.send_request("shutdown", @js.null_(), fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
+  root_uri : String,
+) -> @js.Any raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = @js.from_map({
+      "processId": @js.any(ffi_get_pid()),
+      "rootUri": @js.any(root_uri),
+      "capabilities": @js.from_map({
+        "textDocument": @js.from_map({
+          "definition": @js.from_map({ "dynamicRegistration": @js.any(true) }),
+          "references": @js.from_map({ "dynamicRegistration": @js.any(true) }),
+          "rename": @js.from_map({
+            "dynamicRegistration": @js.any(true),
+            "prepareSupport": @js.any(true),
+          }),
+        }),
+      }),
+    })
+    self.send_request("initialize", params, fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
           ServerError(
             code=error.get("code").cast(),
             message=error.get("message").cast(),
           ),
-        ),
-      )
-    } else {
-      callback(Ok(()))
-    }
+        )
+      } else {
+        self.is_initialized = true
+        // Send initialized notification
+        self.send_notification("initialized", @js.from_map({}))
+        resolve(response.get("result"))
+      }
+    })
+  })
+}
+
+///|
+/// Shutdown the LSP server
+pub async fn LspClient::shutdown(self : LspClient) -> Unit raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    self.send_request("shutdown", @js.null_(), fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        resolve(())
+      }
+    })
   })
 }
 
@@ -450,130 +448,531 @@ pub fn LspClient::close_document(self : LspClient, uri : String) -> Unit {
 
 ///|
 /// Go to definition
-pub fn LspClient::definition(
+pub async fn LspClient::definition(
   self : LspClient,
   uri : String,
   line : Int,
   character : Int,
-  callback : (Result[Array[Location], LspError]) -> Unit,
-) -> Unit {
-  let params = TextDocumentPositionParams::{
-    text_document: { uri, },
-    position: { line, character },
-  }
-  self.send_request("textDocument/definition", params.to_json(), fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
+) -> Array[Location] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = TextDocumentPositionParams::{
+      text_document: { uri, },
+      position: { line, character },
+    }
+    self.send_request("textDocument/definition", params.to_json(), fn(
+      response,
+    ) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
           ServerError(
             code=error.get("code").cast(),
             message=error.get("message").cast(),
           ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let locations : Array[Location] = []
-      if not(@js.is_nullish(result)) {
-        // Result can be Location | Location[] | null
-        if ffi_is_array(result) {
-          let len : Int = result.get("length").cast()
-          for i in 0..<len {
-            locations.push(Location::from_json(result.get(i)))
+        )
+      } else {
+        let result = response.get("result")
+        let locations : Array[Location] = []
+        if not(@js.is_nullish(result)) {
+          // Result can be Location | Location[] | null
+          if ffi_is_array(result) {
+            let len : Int = result.get("length").cast()
+            for i in 0..<len {
+              locations.push(Location::from_json(result.get(i)))
+            }
+          } else {
+            locations.push(Location::from_json(result))
           }
-        } else {
-          locations.push(Location::from_json(result))
         }
+        resolve(locations)
       }
-      callback(Ok(locations))
-    }
+    })
   })
 }
 
 ///|
-extern "js" fn ffi_is_array(value : @js.Any) -> Bool =
-  #|(value) => Array.isArray(value)
-
-///|
 /// Find all references
-pub fn LspClient::references(
+pub async fn LspClient::references(
   self : LspClient,
   uri : String,
   line : Int,
   character : Int,
   include_declaration? : Bool,
-  callback : (Result[Array[Location], LspError]) -> Unit,
-) -> Unit {
-  let params = @js.from_map({
-    "textDocument": @js.from_map({ "uri": @js.any(uri) }),
-    "position": @js.from_map({
-      "line": @js.any(line),
-      "character": @js.any(character),
-    }),
-    "context": @js.from_map({
-      "includeDeclaration": @js.any(include_declaration.unwrap_or(true)),
-    }),
-  })
-  self.send_request("textDocument/references", params, fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
+) -> Array[Location] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = @js.from_map({
+      "textDocument": @js.from_map({ "uri": @js.any(uri) }),
+      "position": @js.from_map({
+        "line": @js.any(line),
+        "character": @js.any(character),
+      }),
+      "context": @js.from_map({
+        "includeDeclaration": @js.any(include_declaration.unwrap_or(true)),
+      }),
+    })
+    self.send_request("textDocument/references", params, fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
           ServerError(
             code=error.get("code").cast(),
             message=error.get("message").cast(),
           ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let locations : Array[Location] = []
-      if not(@js.is_nullish(result)) {
-        let len : Int = result.get("length").cast()
-        for i in 0..<len {
-          locations.push(Location::from_json(result.get(i)))
+        )
+      } else {
+        let result = response.get("result")
+        let locations : Array[Location] = []
+        if not(@js.is_nullish(result)) {
+          let len : Int = result.get("length").cast()
+          for i in 0..<len {
+            locations.push(Location::from_json(result.get(i)))
+          }
         }
+        resolve(locations)
       }
-      callback(Ok(locations))
-    }
+    })
   })
 }
 
 ///|
 /// Rename symbol
-pub fn LspClient::rename(
+pub async fn LspClient::rename(
   self : LspClient,
   uri : String,
   line : Int,
   character : Int,
   new_name : String,
-  callback : (Result[WorkspaceEdit, LspError]) -> Unit,
-) -> Unit {
-  let params = RenameParams::{
-    text_document: { uri, },
-    position: { line, character },
-    new_name,
-  }
-  self.send_request("textDocument/rename", params.to_json(), fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
+) -> WorkspaceEdit raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = RenameParams::{
+      text_document: { uri, },
+      position: { line, character },
+      new_name,
+    }
+    self.send_request("textDocument/rename", params.to_json(), fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
           ServerError(
             code=error.get("code").cast(),
             message=error.get("message").cast(),
           ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      if @js.is_nullish(result) {
-        callback(Ok({ changes: {} }))
+        )
       } else {
-        callback(Ok(WorkspaceEdit::from_json(result)))
+        let result = response.get("result")
+        if @js.is_nullish(result) {
+          resolve({ changes: {} })
+        } else {
+          resolve(WorkspaceEdit::from_json(result))
+        }
       }
+    })
+  })
+}
+
+///|
+/// Get hover information
+pub async fn LspClient::hover(
+  self : LspClient,
+  uri : String,
+  line : Int,
+  character : Int,
+) -> Hover? raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = TextDocumentPositionParams::{
+      text_document: { uri, },
+      position: { line, character },
     }
+    self.send_request("textDocument/hover", params.to_json(), fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        if @js.is_nullish(result) {
+          resolve(None)
+        } else {
+          resolve(Some(Hover::from_json(result)))
+        }
+      }
+    })
+  })
+}
+
+///|
+/// Get completion items
+pub async fn LspClient::completion(
+  self : LspClient,
+  uri : String,
+  line : Int,
+  character : Int,
+) -> CompletionList raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = TextDocumentPositionParams::{
+      text_document: { uri, },
+      position: { line, character },
+    }
+    self.send_request("textDocument/completion", params.to_json(), fn(
+      response,
+    ) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        if @js.is_nullish(result) {
+          resolve({ is_incomplete: false, items: [] })
+        } else {
+          resolve(CompletionList::from_json(result))
+        }
+      }
+    })
+  })
+}
+
+///|
+/// Get signature help
+pub async fn LspClient::signature_help(
+  self : LspClient,
+  uri : String,
+  line : Int,
+  character : Int,
+) -> SignatureHelp? raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = TextDocumentPositionParams::{
+      text_document: { uri, },
+      position: { line, character },
+    }
+    self.send_request("textDocument/signatureHelp", params.to_json(), fn(
+      response,
+    ) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        if @js.is_nullish(result) {
+          resolve(None)
+        } else {
+          resolve(Some(SignatureHelp::from_json(result)))
+        }
+      }
+    })
+  })
+}
+
+///|
+/// Get document symbols
+pub async fn LspClient::document_symbol(
+  self : LspClient,
+  uri : String,
+) -> Array[DocumentSymbol] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = @js.from_map({
+      "textDocument": @js.from_map({ "uri": @js.any(uri) }),
+    })
+    self.send_request("textDocument/documentSymbol", params, fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        let symbols : Array[DocumentSymbol] = []
+        if not(@js.is_nullish(result)) {
+          let len : Int = result.get("length").cast()
+          for i in 0..<len {
+            symbols.push(DocumentSymbol::from_json(result.get(i)))
+          }
+        }
+        resolve(symbols)
+      }
+    })
+  })
+}
+
+///|
+/// Search workspace symbols
+pub async fn LspClient::workspace_symbol(
+  self : LspClient,
+  query : String,
+) -> Array[SymbolInformation] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = @js.from_map({ "query": @js.any(query) })
+    self.send_request("workspace/symbol", params, fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        let symbols : Array[SymbolInformation] = []
+        if not(@js.is_nullish(result)) {
+          let len : Int = result.get("length").cast()
+          for i in 0..<len {
+            symbols.push(SymbolInformation::from_json(result.get(i)))
+          }
+        }
+        resolve(symbols)
+      }
+    })
+  })
+}
+
+///|
+/// Format document
+pub async fn LspClient::formatting(
+  self : LspClient,
+  uri : String,
+  tab_size? : Int,
+  insert_spaces? : Bool,
+) -> Array[TextEdit] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = @js.from_map({
+      "textDocument": @js.from_map({ "uri": @js.any(uri) }),
+      "options": @js.from_map({
+        "tabSize": @js.any(tab_size.unwrap_or(2)),
+        "insertSpaces": @js.any(insert_spaces.unwrap_or(true)),
+      }),
+    })
+    self.send_request("textDocument/formatting", params, fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        let edits : Array[TextEdit] = []
+        if not(@js.is_nullish(result)) {
+          let len : Int = result.get("length").cast()
+          for i in 0..<len {
+            edits.push(TextEdit::from_json(result.get(i)))
+          }
+        }
+        resolve(edits)
+      }
+    })
+  })
+}
+
+///|
+/// Get code actions
+pub async fn LspClient::code_action(
+  self : LspClient,
+  uri : String,
+  range : Range,
+) -> Array[CodeAction] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = @js.from_map({
+      "textDocument": @js.from_map({ "uri": @js.any(uri) }),
+      "range": range.to_json(),
+      "context": @js.from_map({
+        "diagnostics": @js.from_array(([] : Array[@js.Any])),
+      }),
+    })
+    self.send_request("textDocument/codeAction", params, fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        let actions : Array[CodeAction] = []
+        if not(@js.is_nullish(result)) {
+          let len : Int = result.get("length").cast()
+          for i in 0..<len {
+            actions.push(CodeAction::from_json(result.get(i)))
+          }
+        }
+        resolve(actions)
+      }
+    })
+  })
+}
+
+///|
+/// Prepare call hierarchy
+pub async fn LspClient::prepare_call_hierarchy(
+  self : LspClient,
+  uri : String,
+  line : Int,
+  character : Int,
+) -> Array[CallHierarchyItem] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = TextDocumentPositionParams::{
+      text_document: { uri, },
+      position: { line, character },
+    }
+    self.send_request("textDocument/prepareCallHierarchy", params.to_json(), fn(
+      response,
+    ) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        let items : Array[CallHierarchyItem] = []
+        if not(@js.is_nullish(result)) {
+          let len : Int = result.get("length").cast()
+          for i in 0..<len {
+            items.push(CallHierarchyItem::from_json(result.get(i)))
+          }
+        }
+        resolve(items)
+      }
+    })
+  })
+}
+
+///|
+/// Get incoming calls
+pub async fn LspClient::incoming_calls(
+  self : LspClient,
+  item : CallHierarchyItem,
+) -> Array[CallHierarchyIncomingCall] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = @js.from_map({
+      "item": @js.from_map({
+        "name": @js.any(item.name),
+        "kind": @js.any(item.kind),
+        "uri": @js.any(item.uri),
+        "range": item.range.to_json(),
+        "selectionRange": item.selection_range.to_json(),
+      }),
+    })
+    self.send_request("callHierarchy/incomingCalls", params, fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        let calls : Array[CallHierarchyIncomingCall] = []
+        if not(@js.is_nullish(result)) {
+          let len : Int = result.get("length").cast()
+          for i in 0..<len {
+            calls.push(CallHierarchyIncomingCall::from_json(result.get(i)))
+          }
+        }
+        resolve(calls)
+      }
+    })
+  })
+}
+
+///|
+/// Get outgoing calls
+pub async fn LspClient::outgoing_calls(
+  self : LspClient,
+  item : CallHierarchyItem,
+) -> Array[CallHierarchyOutgoingCall] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = @js.from_map({
+      "item": @js.from_map({
+        "name": @js.any(item.name),
+        "kind": @js.any(item.kind),
+        "uri": @js.any(item.uri),
+        "range": item.range.to_json(),
+        "selectionRange": item.selection_range.to_json(),
+      }),
+    })
+    self.send_request("callHierarchy/outgoingCalls", params, fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        let calls : Array[CallHierarchyOutgoingCall] = []
+        if not(@js.is_nullish(result)) {
+          let len : Int = result.get("length").cast()
+          for i in 0..<len {
+            calls.push(CallHierarchyOutgoingCall::from_json(result.get(i)))
+          }
+        }
+        resolve(calls)
+      }
+    })
+  })
+}
+
+///|
+/// Get inlay hints
+pub async fn LspClient::inlay_hint(
+  self : LspClient,
+  uri : String,
+  range : Range,
+) -> Array[InlayHint] raise LspError {
+  @js.suspend(fn(resolve, reject) {
+    let params = @js.from_map({
+      "textDocument": @js.from_map({ "uri": @js.any(uri) }),
+      "range": range.to_json(),
+    })
+    self.send_request("textDocument/inlayHint", params, fn(response) {
+      let error = response.get("error")
+      if not(@js.is_nullish(error)) {
+        reject(
+          ServerError(
+            code=error.get("code").cast(),
+            message=error.get("message").cast(),
+          ),
+        )
+      } else {
+        let result = response.get("result")
+        let hints : Array[InlayHint] = []
+        if not(@js.is_nullish(result)) {
+          let len : Int = result.get("length").cast()
+          for i in 0..<len {
+            hints.push(InlayHint::from_json(result.get(i)))
+          }
+        }
+        resolve(hints)
+      }
+    })
   })
 }
 
@@ -605,416 +1004,17 @@ extern "js" fn ffi_uri_to_path(uri : String) -> String =
   #|}
 
 ///|
-/// Get hover information
-pub fn LspClient::hover(
-  self : LspClient,
-  uri : String,
-  line : Int,
-  character : Int,
-  callback : (Result[Hover?, LspError]) -> Unit,
-) -> Unit {
-  let params = TextDocumentPositionParams::{
-    text_document: { uri, },
-    position: { line, character },
-  }
-  self.send_request("textDocument/hover", params.to_json(), fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      if @js.is_nullish(result) {
-        callback(Ok(None))
-      } else {
-        callback(Ok(Some(Hover::from_json(result))))
-      }
-    }
-  })
-}
-
-///|
-/// Get completion items
-pub fn LspClient::completion(
-  self : LspClient,
-  uri : String,
-  line : Int,
-  character : Int,
-  callback : (Result[CompletionList, LspError]) -> Unit,
-) -> Unit {
-  let params = TextDocumentPositionParams::{
-    text_document: { uri, },
-    position: { line, character },
-  }
-  self.send_request("textDocument/completion", params.to_json(), fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      if @js.is_nullish(result) {
-        callback(Ok({ is_incomplete: false, items: [] }))
-      } else {
-        callback(Ok(CompletionList::from_json(result)))
-      }
-    }
-  })
-}
-
-///|
-/// Get signature help
-pub fn LspClient::signature_help(
-  self : LspClient,
-  uri : String,
-  line : Int,
-  character : Int,
-  callback : (Result[SignatureHelp?, LspError]) -> Unit,
-) -> Unit {
-  let params = TextDocumentPositionParams::{
-    text_document: { uri, },
-    position: { line, character },
-  }
-  self.send_request("textDocument/signatureHelp", params.to_json(), fn(
-    response,
-  ) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      if @js.is_nullish(result) {
-        callback(Ok(None))
-      } else {
-        callback(Ok(Some(SignatureHelp::from_json(result))))
-      }
-    }
-  })
-}
-
-///|
-/// Get document symbols
-pub fn LspClient::document_symbol(
-  self : LspClient,
-  uri : String,
-  callback : (Result[Array[DocumentSymbol], LspError]) -> Unit,
-) -> Unit {
-  let params = @js.from_map({
-    "textDocument": @js.from_map({ "uri": @js.any(uri) }),
-  })
-  self.send_request("textDocument/documentSymbol", params, fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let symbols : Array[DocumentSymbol] = []
-      if not(@js.is_nullish(result)) {
-        let len : Int = result.get("length").cast()
-        for i in 0..<len {
-          symbols.push(DocumentSymbol::from_json(result.get(i)))
-        }
-      }
-      callback(Ok(symbols))
-    }
-  })
-}
-
-///|
-/// Search workspace symbols
-pub fn LspClient::workspace_symbol(
-  self : LspClient,
-  query : String,
-  callback : (Result[Array[SymbolInformation], LspError]) -> Unit,
-) -> Unit {
-  let params = @js.from_map({ "query": @js.any(query) })
-  self.send_request("workspace/symbol", params, fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let symbols : Array[SymbolInformation] = []
-      if not(@js.is_nullish(result)) {
-        let len : Int = result.get("length").cast()
-        for i in 0..<len {
-          symbols.push(SymbolInformation::from_json(result.get(i)))
-        }
-      }
-      callback(Ok(symbols))
-    }
-  })
-}
-
-///|
-/// Format document
-pub fn LspClient::formatting(
-  self : LspClient,
-  uri : String,
-  tab_size? : Int,
-  insert_spaces? : Bool,
-  callback : (Result[Array[TextEdit], LspError]) -> Unit,
-) -> Unit {
-  let params = @js.from_map({
-    "textDocument": @js.from_map({ "uri": @js.any(uri) }),
-    "options": @js.from_map({
-      "tabSize": @js.any(tab_size.unwrap_or(2)),
-      "insertSpaces": @js.any(insert_spaces.unwrap_or(true)),
-    }),
-  })
-  self.send_request("textDocument/formatting", params, fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let edits : Array[TextEdit] = []
-      if not(@js.is_nullish(result)) {
-        let len : Int = result.get("length").cast()
-        for i in 0..<len {
-          edits.push(TextEdit::from_json(result.get(i)))
-        }
-      }
-      callback(Ok(edits))
-    }
-  })
-}
-
-///|
-/// Get code actions
-pub fn LspClient::code_action(
-  self : LspClient,
-  uri : String,
-  range : Range,
-  callback : (Result[Array[CodeAction], LspError]) -> Unit,
-) -> Unit {
-  let params = @js.from_map({
-    "textDocument": @js.from_map({ "uri": @js.any(uri) }),
-    "range": range.to_json(),
-    "context": @js.from_map({
-      "diagnostics": @js.from_array(([] : Array[@js.Any])),
-    }),
-  })
-  self.send_request("textDocument/codeAction", params, fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let actions : Array[CodeAction] = []
-      if not(@js.is_nullish(result)) {
-        let len : Int = result.get("length").cast()
-        for i in 0..<len {
-          actions.push(CodeAction::from_json(result.get(i)))
-        }
-      }
-      callback(Ok(actions))
-    }
-  })
-}
-
-///|
-/// Prepare call hierarchy
-pub fn LspClient::prepare_call_hierarchy(
-  self : LspClient,
-  uri : String,
-  line : Int,
-  character : Int,
-  callback : (Result[Array[CallHierarchyItem], LspError]) -> Unit,
-) -> Unit {
-  let params = TextDocumentPositionParams::{
-    text_document: { uri, },
-    position: { line, character },
-  }
-  self.send_request("textDocument/prepareCallHierarchy", params.to_json(), fn(
-    response,
-  ) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let items : Array[CallHierarchyItem] = []
-      if not(@js.is_nullish(result)) {
-        let len : Int = result.get("length").cast()
-        for i in 0..<len {
-          items.push(CallHierarchyItem::from_json(result.get(i)))
-        }
-      }
-      callback(Ok(items))
-    }
-  })
-}
-
-///|
-/// Get incoming calls
-pub fn LspClient::incoming_calls(
-  self : LspClient,
-  item : CallHierarchyItem,
-  callback : (Result[Array[CallHierarchyIncomingCall], LspError]) -> Unit,
-) -> Unit {
-  let params = @js.from_map({
-    "item": @js.from_map({
-      "name": @js.any(item.name),
-      "kind": @js.any(item.kind),
-      "uri": @js.any(item.uri),
-      "range": item.range.to_json(),
-      "selectionRange": item.selection_range.to_json(),
-    }),
-  })
-  self.send_request("callHierarchy/incomingCalls", params, fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let calls : Array[CallHierarchyIncomingCall] = []
-      if not(@js.is_nullish(result)) {
-        let len : Int = result.get("length").cast()
-        for i in 0..<len {
-          calls.push(CallHierarchyIncomingCall::from_json(result.get(i)))
-        }
-      }
-      callback(Ok(calls))
-    }
-  })
-}
-
-///|
-/// Get outgoing calls
-pub fn LspClient::outgoing_calls(
-  self : LspClient,
-  item : CallHierarchyItem,
-  callback : (Result[Array[CallHierarchyOutgoingCall], LspError]) -> Unit,
-) -> Unit {
-  let params = @js.from_map({
-    "item": @js.from_map({
-      "name": @js.any(item.name),
-      "kind": @js.any(item.kind),
-      "uri": @js.any(item.uri),
-      "range": item.range.to_json(),
-      "selectionRange": item.selection_range.to_json(),
-    }),
-  })
-  self.send_request("callHierarchy/outgoingCalls", params, fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let calls : Array[CallHierarchyOutgoingCall] = []
-      if not(@js.is_nullish(result)) {
-        let len : Int = result.get("length").cast()
-        for i in 0..<len {
-          calls.push(CallHierarchyOutgoingCall::from_json(result.get(i)))
-        }
-      }
-      callback(Ok(calls))
-    }
-  })
-}
-
-///|
-/// Get inlay hints
-pub fn LspClient::inlay_hint(
-  self : LspClient,
-  uri : String,
-  range : Range,
-  callback : (Result[Array[InlayHint], LspError]) -> Unit,
-) -> Unit {
-  let params = @js.from_map({
-    "textDocument": @js.from_map({ "uri": @js.any(uri) }),
-    "range": range.to_json(),
-  })
-  self.send_request("textDocument/inlayHint", params, fn(response) {
-    let error = response.get("error")
-    if not(@js.is_nullish(error)) {
-      callback(
-        Err(
-          ServerError(
-            code=error.get("code").cast(),
-            message=error.get("message").cast(),
-          ),
-        ),
-      )
-    } else {
-      let result = response.get("result")
-      let hints : Array[InlayHint] = []
-      if not(@js.is_nullish(result)) {
-        let len : Int = result.get("length").cast()
-        for i in 0..<len {
-          hints.push(InlayHint::from_json(result.get(i)))
-        }
-      }
-      callback(Ok(hints))
-    }
-  })
+/// Helper: Create client, initialize, run action, then shutdown and exit
+pub async fn[T] with_lsp_client(
+  root_uri : String,
+  action : async (LspClient) -> T raise LspError,
+) -> T raise LspError {
+  let client = LspClient::new()
+  let _ = client.initialize(root_uri)
+  // Give the server time to initialize
+  @js.sleep(100)
+  let result = action(client)
+  client.shutdown()
+  client.exit()
+  result
 }

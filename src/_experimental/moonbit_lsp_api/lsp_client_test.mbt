@@ -48,39 +48,6 @@ test "Range::to_json creates correct JSON" {
 }
 
 ///|
-test "TextDocumentIdentifier::to_json creates correct JSON" {
-  let doc = TextDocumentIdentifier::{ uri: "file:///test.mbt" }
-  let json = doc.to_json()
-  let uri : String = json.get("uri").cast()
-  inspect(uri, content="file:///test.mbt")
-}
-
-///|
-test "TextDocumentPositionParams::to_json creates correct JSON" {
-  let params = TextDocumentPositionParams::{
-    text_document: { uri: "file:///test.mbt" },
-    position: { line: 5, character: 10 },
-  }
-  let json = params.to_json()
-  let uri : String = json.get("textDocument").get("uri").cast()
-  let line : Int = json.get("position").get("line").cast()
-  inspect(uri, content="file:///test.mbt")
-  inspect(line, content="5")
-}
-
-///|
-test "RenameParams::to_json creates correct JSON" {
-  let params = RenameParams::{
-    text_document: { uri: "file:///test.mbt" },
-    position: { line: 10, character: 5 },
-    new_name: "new_function_name",
-  }
-  let json = params.to_json()
-  let new_name : String = json.get("newName").cast()
-  inspect(new_name, content="new_function_name")
-}
-
-///|
 test "Location::from_json parses correctly" {
   let json = @js.from_map({
     "uri": @js.any("file:///test.mbt"),
