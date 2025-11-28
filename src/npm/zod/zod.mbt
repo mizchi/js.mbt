@@ -3,9 +3,9 @@
 /// https://github.com/colinhacks/zod
 
 ///|
-fn zod() -> @js.Any {
-  @node.require("zod")
-}
+// TODO: migrate to dynamic import when MoonBit supports ESM
+extern "js" fn zod() -> @js.Any =
+  #| () => require("zod")
 
 ///|
 /// ZodSchema - base schema type

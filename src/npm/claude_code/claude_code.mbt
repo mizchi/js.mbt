@@ -7,13 +7,6 @@ fn claude_code_module() -> @js.Any {
 }
 
 ///|
-/// AbortController from global
-fn new_abort_controller() -> @js.Any {
-  let abort_controller_class = @js.globalThis().get("AbortController")
-  @reflect.construct(abort_controller_class, [], None)
-}
-
-///|
 /// Query handle for async iteration
 #external
 pub type Query
@@ -109,8 +102,9 @@ pub fn queryWithAbort(
 ) -> (SDKMessageIterator, AbortHandle) {
   let opts = @js.Object::new()
   opts.set("prompt", prompt)
-  let abort_controller = new_abort_controller()
-  opts.set("abortSignal", abort_controller.get("signal"))
+  let abort_controller = @js.AbortController::new()
+  let signal : @js.Any = @js.identity(abort_controller.signal())
+  opts.set("abortSignal", signal)
   if options is Some(o) {
     let options_any = o.to_any()
     let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity

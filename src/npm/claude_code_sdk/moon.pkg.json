@@ -1,5 +1,0 @@
-{
-  "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/node", "mizchi/js/builtins/reflect", "moonbitlang/async"],
-  "warn-list": "-4-6-7-27"
-}
