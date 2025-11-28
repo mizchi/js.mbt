@@ -65,6 +65,7 @@
     "htmlparser2": "^10.0.0",
     "ignore": "^7.0.5",
     "js-yaml": "^4.1.1",
+    "memfs": "^4.51.0",
     "preact-render-to-string": "^6.6.3",
     "simple-git": "^3.30.0",
     "yargs": "^18.0.0"

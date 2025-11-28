@@ -1,0 +1,76 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/memfs"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn createFsFromVolume(Volume) -> MemFS
+
+fn createVolume() -> Volume
+
+fn createVolumeFromJSON(@js.Any) -> Volume
+
+fn memfs() -> (Volume, MemFS)
+
+fn memfsFromJSON(@js.Any) -> (Volume, MemFS)
+
+// Errors
+
+// Types and methods
+#external
+pub type Dirent
+impl @js.JsImpl for Dirent
+
+#external
+pub type MemFS
+fn MemFS::appendFileSync(Self, String, String) -> Unit
+fn MemFS::chmodSync(Self, String, Int) -> Unit
+fn MemFS::copyFileSync(Self, String, String) -> Unit
+fn MemFS::existsSync(Self, String) -> Bool
+fn MemFS::lstatSync(Self, String) -> Stats
+async fn MemFS::mkdir(Self, String, recursive? : Bool) -> Unit
+fn MemFS::mkdirSync(Self, String, recursive? : Bool) -> Unit
+async fn MemFS::readFile(Self, String) -> String
+fn MemFS::readFileSync(Self, String) -> String
+fn MemFS::readFileSyncBuffer(Self, String) -> @js.Any
+async fn MemFS::readdir(Self, String) -> Array[String]
+fn MemFS::readdirSync(Self, String) -> Array[String]
+fn MemFS::readlinkSync(Self, String) -> String
+fn MemFS::realpathSync(Self, String) -> String
+async fn MemFS::rename(Self, String, String) -> Unit
+fn MemFS::renameSync(Self, String, String) -> Unit
+async fn MemFS::rmdir(Self, String) -> Unit
+fn MemFS::rmdirSync(Self, String, recursive? : Bool) -> Unit
+async fn MemFS::stat(Self, String) -> Stats
+fn MemFS::statSync(Self, String) -> Stats
+fn MemFS::symlinkSync(Self, String, String) -> Unit
+async fn MemFS::unlink(Self, String) -> Unit
+fn MemFS::unlinkSync(Self, String) -> Unit
+async fn MemFS::writeFile(Self, String, String) -> Unit
+fn MemFS::writeFileSync(Self, String, String) -> Unit
+impl @js.JsImpl for MemFS
+
+#external
+pub type Stats
+fn Stats::atime(Self) -> @js.Any
+fn Stats::ctime(Self) -> @js.Any
+fn Stats::isDirectory(Self) -> Bool
+fn Stats::isFile(Self) -> Bool
+fn Stats::isSymbolicLink(Self) -> Bool
+fn Stats::mode(Self) -> Int
+fn Stats::mtime(Self) -> @js.Any
+fn Stats::size(Self) -> Int
+impl @js.JsImpl for Stats
+
+#external
+pub type Volume
+fn Volume::reset(Self) -> Unit
+fn Volume::toJSON(Self) -> @js.Any
+impl @js.JsImpl for Volume
+
+// Type aliases
+
+// Traits
+
