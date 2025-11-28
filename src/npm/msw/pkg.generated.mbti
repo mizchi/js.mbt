@@ -38,6 +38,8 @@ fn mockPost(String, @js.Any) -> RequestHandler
 
 fn setupServer(Array[RequestHandler]) -> SetupServer
 
+fn setupWorker(Array[RequestHandler]) -> SetupWorker
+
 fn textResponse(String, status? : Int) -> HttpResponse
 
 fn xmlResponse(String, status? : Int) -> HttpResponse
@@ -80,6 +82,21 @@ fn SetupServer::resetHandlersWith(Self, Array[RequestHandler]) -> Unit
 fn SetupServer::restoreHandlers(Self) -> Unit
 fn SetupServer::useHandlers(Self, Array[RequestHandler]) -> Unit
 impl @js.JsImpl for SetupServer
+
+#external
+pub type SetupWorker
+fn SetupWorker::listHandlers(Self) -> @js.Any
+fn SetupWorker::resetHandlers(Self) -> Unit
+fn SetupWorker::resetHandlersWith(Self, Array[RequestHandler]) -> Unit
+fn SetupWorker::restoreHandlers(Self) -> Unit
+async fn SetupWorker::start(Self, serviceWorkerUrl? : String, quiet? : Bool, onUnhandledRequest? : String) -> Unit
+fn SetupWorker::stop(Self) -> Unit
+fn SetupWorker::useHandlers(Self, Array[RequestHandler]) -> Unit
+impl @js.JsImpl for SetupWorker
+
+#external
+pub type StartOptions
+impl @js.JsImpl for StartOptions
 
 // Type aliases
 

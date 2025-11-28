@@ -23,6 +23,22 @@ pub type SetupServer
 pub impl @js.JsImpl for SetupServer
 
 ///|
+/// Mock worker instance (Browser)
+#external
+pub type SetupWorker
+
+///|
+pub impl @js.JsImpl for SetupWorker
+
+///|
+/// StartOptions for worker.start()
+#external
+pub type StartOptions
+
+///|
+pub impl @js.JsImpl for StartOptions
+
+///|
 /// HTTP response
 #external
 pub type HttpResponse
@@ -208,6 +224,54 @@ extern "js" fn ffi_server_restore_handlers(server : SetupServer) -> Unit =
 ///|
 extern "js" fn ffi_server_list_handlers(server : SetupServer) -> @js.Any =
   #| (server) => server.listHandlers()
+
+///| Worker FFI (msw/browser)
+
+///|
+extern "js" fn ffi_setup_worker(handlers : @js.Any) -> SetupWorker =
+  #| (handlers) => require('msw/browser').setupWorker(...handlers)
+
+///|
+extern "js" fn ffi_setup_worker_empty() -> SetupWorker =
+  #| () => require('msw/browser').setupWorker()
+
+///|
+extern "js" fn ffi_worker_start(worker : SetupWorker) -> @js.Promise[Unit] =
+  #| (worker) => worker.start()
+
+///|
+extern "js" fn ffi_worker_start_with_options(
+  worker : SetupWorker,
+  options : @js.Any,
+) -> @js.Promise[Unit] =
+  #| (worker, options) => worker.start(options)
+
+///|
+extern "js" fn ffi_worker_stop(worker : SetupWorker) -> Unit =
+  #| (worker) => worker.stop()
+
+///|
+extern "js" fn ffi_worker_reset_handlers(worker : SetupWorker) -> Unit =
+  #| (worker) => worker.resetHandlers()
+
+///|
+extern "js" fn ffi_worker_reset_handlers_with(
+  worker : SetupWorker,
+  handlers : @js.Any,
+) -> Unit =
+  #| (worker, handlers) => worker.resetHandlers(...handlers)
+
+///|
+extern "js" fn ffi_worker_use(worker : SetupWorker, handlers : @js.Any) -> Unit =
+  #| (worker, handlers) => worker.use(...handlers)
+
+///|
+extern "js" fn ffi_worker_restore_handlers(worker : SetupWorker) -> Unit =
+  #| (worker) => worker.restoreHandlers()
+
+///|
+extern "js" fn ffi_worker_list_handlers(worker : SetupWorker) -> @js.Any =
+  #| (worker) => worker.listHandlers()
 
 ///| Request/Response Info FFI
 
@@ -442,6 +506,98 @@ pub fn SetupServer::restoreHandlers(self : SetupServer) -> Unit {
 /// List all current handlers
 pub fn SetupServer::listHandlers(self : SetupServer) -> @js.Any {
   ffi_server_list_handlers(self)
+}
+
+///| Worker Methods (Browser)
+
+///|
+/// Setup mock worker with handlers (Browser)
+pub fn setupWorker(handlers : Array[RequestHandler]) -> SetupWorker {
+  if handlers.length() == 0 {
+    ffi_setup_worker_empty()
+  } else {
+    ffi_setup_worker(@js.from_array(handlers.map(fn(h) { h.to_any() })))
+  }
+}
+
+///|
+/// Start the service worker (async)
+pub async fn SetupWorker::start(
+  self : SetupWorker,
+  serviceWorkerUrl? : String,
+  quiet? : Bool,
+  onUnhandledRequest? : String,
+) -> Unit {
+  let has_options = serviceWorkerUrl is Some(_) ||
+    quiet is Some(_) ||
+    onUnhandledRequest is Some(_)
+  if has_options {
+    let options = @js.Object::new()
+    match serviceWorkerUrl {
+      Some(url) => {
+        let sw = @js.Object::new()
+        sw.set("url", url)
+        options.set("serviceWorker", sw)
+      }
+      None => ()
+    }
+    match quiet {
+      Some(q) => options.set("quiet", q)
+      None => ()
+    }
+    match onUnhandledRequest {
+      Some(mode) => options.set("onUnhandledRequest", mode)
+      None => ()
+    }
+    ffi_worker_start_with_options(self, options.to_any()).wait()
+  } else {
+    ffi_worker_start(self).wait()
+  }
+}
+
+///|
+/// Stop the service worker
+pub fn SetupWorker::stop(self : SetupWorker) -> Unit {
+  ffi_worker_stop(self)
+}
+
+///|
+/// Reset handlers to initial state
+pub fn SetupWorker::resetHandlers(self : SetupWorker) -> Unit {
+  ffi_worker_reset_handlers(self)
+}
+
+///|
+/// Reset handlers with new handlers
+pub fn SetupWorker::resetHandlersWith(
+  self : SetupWorker,
+  handlers : Array[RequestHandler],
+) -> Unit {
+  ffi_worker_reset_handlers_with(
+    self,
+    @js.from_array(handlers.map(fn(h) { h.to_any() })),
+  )
+}
+
+///|
+/// Add runtime request handlers
+pub fn SetupWorker::useHandlers(
+  self : SetupWorker,
+  handlers : Array[RequestHandler],
+) -> Unit {
+  ffi_worker_use(self, @js.from_array(handlers.map(fn(h) { h.to_any() })))
+}
+
+///|
+/// Restore handlers to initial state
+pub fn SetupWorker::restoreHandlers(self : SetupWorker) -> Unit {
+  ffi_worker_restore_handlers(self)
+}
+
+///|
+/// List all current handlers
+pub fn SetupWorker::listHandlers(self : SetupWorker) -> @js.Any {
+  ffi_worker_list_handlers(self)
 }
 
 ///| ResponseResolverInfo Methods
