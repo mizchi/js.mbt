@@ -6,15 +6,13 @@ import(
 )
 
 // Values
-async fn build(root? : String, base? : String, mode? : String, configFile? : String, logLevel? : String, clearScreen? : Bool, build? : @js.Any) -> RollupOutput
+async fn createServer(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @js.Any, plugins? : @js.Any) -> ViteDevServer
 
-async fn createServer(root? : String, base? : String, mode? : String, configFile? : String, logLevel? : String, clearScreen? : Bool, server? : @js.Any) -> ViteDevServer
+async fn createServerWithConfig(@js.Any) -> ViteDevServer
 
 fn defineConfig(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @js.Any, build? : @js.Any, preview? : @js.Any, optimizeDeps? : @js.Any, plugins? : @js.Any, publicDir? : String, cacheDir? : String, resolve? : @js.Any, css? : @js.Any, json? : @js.Any, esbuild? : @js.Any, assetsInclude? : @js.Any, envDir? : String, envPrefix? : String) -> @js.Any
 
 fn define_plugin(String, enforce? : String, apply? : String, config? : (@js.Any) -> Unit, configResolved? : (@js.Any) -> Unit, configureServer? : (@js.Any) -> Unit, configurePreviewServer? : (@js.Any) -> Unit, transformIndexHtml? : (@js.Any) -> @js.Any, handleHotUpdate? : (@js.Any) -> Unit, options? : (@js.Any) -> Unit, buildStart? : (@js.Any) -> Unit, resolveId? : (String, String?, @js.Any) -> String?, load? : (String) -> String?, transform? : (String, String) -> String?, buildEnd? : (@js.Any?) -> Unit, closeBundle? : () -> Unit) -> @js.Any
-
-async fn preview(root? : String, base? : String, mode? : String, configFile? : String, logLevel? : String, clearScreen? : Bool, preview? : @js.Any) -> PreviewServer
 
 // Errors
 
@@ -43,26 +41,73 @@ pub(all) struct Config {
 impl Show for Config
 
 #external
-pub type PreviewServer
-fn PreviewServer::printUrls(Self) -> Unit
-fn PreviewServer::resolvedUrls(Self) -> @js.Any
-impl @js.JsImpl for PreviewServer
+pub type DevEnvironment
+async fn DevEnvironment::fetchModule(Self, String, importer? : String) -> FetchResult
+fn DevEnvironment::hot(Self) -> HotChannel
+fn DevEnvironment::moduleGraph(Self) -> ModuleGraph
+fn DevEnvironment::name(Self) -> String
+fn DevEnvironment::pluginContainer(Self) -> PluginContainer
+async fn DevEnvironment::transformRequest(Self, String) -> TransformResult?
+fn DevEnvironment::warmupRequest(Self, String) -> Unit
+impl @js.JsImpl for DevEnvironment
 
 #external
-pub type ResolvedConfig
-impl @js.JsImpl for ResolvedConfig
+pub type FetchResult
+impl @js.JsImpl for FetchResult
 
 #external
-pub type RollupOutput
-impl @js.JsImpl for RollupOutput
+pub type HotChannel
+fn HotChannel::off(Self, String, (@js.Any) -> Unit) -> Unit
+fn HotChannel::on(Self, String, (@js.Any) -> Unit) -> Unit
+fn HotChannel::send(Self, @js.Any) -> Unit
+impl @js.JsImpl for HotChannel
+
+#external
+pub type ModuleGraph
+fn ModuleGraph::getModuleById(Self, String) -> ModuleNode?
+async fn ModuleGraph::getModuleByUrl(Self, String) -> ModuleNode?
+fn ModuleGraph::invalidateModule(Self, ModuleNode) -> Unit
+impl @js.JsImpl for ModuleGraph
+
+#external
+pub type ModuleNode
+fn ModuleNode::file(Self) -> String?
+fn ModuleNode::id(Self) -> String?
+fn ModuleNode::importedModules(Self) -> Array[Self]
+fn ModuleNode::importers(Self) -> Array[Self]
+fn ModuleNode::moduleType(Self) -> String
+fn ModuleNode::url(Self) -> String
+impl @js.JsImpl for ModuleNode
+
+#external
+pub type ModuleRunner
+fn ModuleRunner::clearCache(Self) -> Unit
+async fn ModuleRunner::close(Self) -> Unit
+async fn ModuleRunner::importModule(Self, String) -> @js.Any
+fn ModuleRunner::isClosed(Self) -> Bool
+impl @js.JsImpl for ModuleRunner
+
+#external
+pub type PluginContainer
+impl @js.JsImpl for PluginContainer
+
+#external
+pub type TransformResult
+fn TransformResult::code(Self) -> String
+fn TransformResult::etag(Self) -> String?
+fn TransformResult::map(Self) -> @js.Any
+impl @js.JsImpl for TransformResult
 
 #external
 pub type ViteDevServer
+fn ViteDevServer::client(Self) -> DevEnvironment
 async fn ViteDevServer::close(Self) -> Unit
-async fn ViteDevServer::listen(Self, port? : Int, host? : String) -> Self
+fn ViteDevServer::environments(Self) -> @js.Any
+fn ViteDevServer::getEnvironment(Self, String) -> DevEnvironment
+async fn ViteDevServer::listen(Self, port? : Int) -> Self
 fn ViteDevServer::printUrls(Self) -> Unit
 fn ViteDevServer::resolvedUrls(Self) -> @js.Any
-async fn ViteDevServer::restart(Self, forceOptimize? : Bool) -> Unit
+fn ViteDevServer::ssr(Self) -> DevEnvironment
 impl @js.JsImpl for ViteDevServer
 
 // Type aliases
