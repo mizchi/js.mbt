@@ -61,6 +61,7 @@
   "dependencies": {
     "@hono/node-server": "^1.19.6",
     "@preact/signals": "^2.5.1",
+    "comlink": "^4.4.2",
     "debug": "^4.4.3",
     "htmlparser2": "^10.0.0",
     "ignore": "^7.0.5",

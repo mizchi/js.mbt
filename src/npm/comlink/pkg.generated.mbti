@@ -1,0 +1,64 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/comlink"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn createEndpointSymbol() -> @js.Any
+
+fn expose(@js.Any, endpoint? : @js.Any) -> Unit
+
+fn proxy(@js.Any) -> ProxyMarked
+
+fn proxyCallback((@js.Any) -> Unit) -> ProxyMarked
+
+fn proxyFunction((@js.Any) -> @js.Any) -> ProxyMarked
+
+fn proxyMarkerSymbol() -> @js.Any
+
+fn releaseProxySymbol() -> @js.Any
+
+fn transfer(@js.Any, Array[@js.Any]) -> @js.Any
+
+fn transferArrayBuffer(@js.Any) -> @js.Any
+
+fn transferHandlers() -> @js.Any
+
+fn windowEndpoint(@js.Any, context? : @js.Any, target_origin? : String) -> Endpoint
+
+fn wrap(@js.Any) -> Remote
+
+fn wrapWorker(@js.Any) -> Remote
+
+// Errors
+
+// Types and methods
+#external
+pub type Endpoint
+impl @js.JsImpl for Endpoint
+
+#external
+pub type ProxyMarked
+impl @js.JsImpl for ProxyMarked
+
+#external
+pub type Remote
+fn Remote::call0(Self, String) -> @js.Promise[@js.Any]
+fn Remote::call1(Self, String, @js.Any) -> @js.Promise[@js.Any]
+fn Remote::call2(Self, String, @js.Any, @js.Any) -> @js.Promise[@js.Any]
+fn Remote::callMethod(Self, String, Array[@js.Any]) -> @js.Promise[@js.Any]
+fn Remote::createEndpoint(Self) -> @js.Promise[@js.Any]
+fn Remote::get(Self, String) -> @js.Promise[@js.Any]
+fn Remote::release(Self) -> Unit
+impl @js.JsImpl for Remote
+
+#external
+pub type TransferHandler
+impl @js.JsImpl for TransferHandler
+
+// Type aliases
+
+// Traits
+
