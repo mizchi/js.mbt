@@ -12,30 +12,15 @@ extern "js" fn fs_promises() -> @nostd.Any =
   #| () => require("node:fs/promises")
 
 ///|
-/// MoonBit builtin %async.suspend
-async fn[T, E : Error] suspend(
-  f : ((T) -> Unit, (E) -> Unit) -> Unit,
-) -> T raise E = "%async.suspend"
-
-///|
-/// MoonBit builtin %async.run
-fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
-
-///|
-/// Await a JS Promise using suspend
-async fn[T] wait(promise : @nostd.Any) -> T {
-  suspend(fn(resolve, reject) {
-    promise._call("then", [@nostd.any(resolve)]) |> ignore
-    promise._call("catch", [@nostd.any(reject)]) |> ignore
-  })
-}
-
-///|
 /// nostd version of fs_promises.readFile
 async fn read_file(path : String, encoding : String) -> String {
   let fs = fs_promises()
-  let promise = fs._call("readFile", [@nostd.any(path), @nostd.any(encoding)])
-  wait(promise)
+  let promise : @nostd.Promise[String] = fs._call("readFile", [
+      @nostd.any(path),
+      @nostd.any(encoding),
+    ])
+    |> @nostd.identity
+  promise.wait()
 }
 
 ///|
@@ -46,7 +31,7 @@ fn log(con : @nostd.Any, msg : String) -> Unit {
 ///|
 fn main {
   let con = get_console()
-  run_async(async fn() noraise {
+  @nostd.run_async(async fn() noraise {
     // Read package.json (exists in project root)
     let content : String = read_file("package.json", "utf-8") catch {
       _ => "read error"

@@ -203,3 +203,5 @@ test "export_sync - converts MoonBit error to JS exception" {
   // derive(Show) produces "TestError(\"MoonBit error\")"
   assert_true(msg.contains("MoonBit error"))
 }
+
+// Promise tests - Note: run_async is non-blocking so we test via size2_promise example

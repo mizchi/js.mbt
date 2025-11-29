@@ -1,0 +1,15 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/nostd/_tests/size4_err"
+
+// Values
+
+// Errors
+type AppError
+impl Show for AppError
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

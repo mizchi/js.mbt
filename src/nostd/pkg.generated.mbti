@@ -22,6 +22,10 @@ fn is_undefined(Any) -> Bool
 
 fn null() -> Any
 
+fn run_async(async () -> Unit noraise) -> Unit
+
+async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
+
 fn throw_error(String) -> Unit
 
 fn try_sync(() -> Any) -> Any raise JsError
@@ -53,6 +57,14 @@ fn[T] Nullish::to_option(Self[T]) -> T?
 #external
 pub type Object
 fn Object::new() -> Any
+
+#external
+pub type Promise[T]
+fn[T] Promise::async_fn(async () -> T noraise) -> Self[T]
+fn[T] Promise::new(((T) -> Unit, (Any) -> Unit) -> Unit) -> Self[T]
+fn Promise::reject(Any) -> Self[Any]
+fn[T] Promise::resolve(T) -> Self[T]
+async fn[T] Promise::wait(Self[T]) -> T
 
 // Type aliases
 

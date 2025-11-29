@@ -47,7 +47,6 @@ fn main {
   } catch {
     @nostd.JsError(msg) => log(con, "Error: " + msg)
   }
-
   try {
     let _ = @nostd.try_sync(js_throwing_op)
     log(con, "Should not reach here")

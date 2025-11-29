@@ -5,14 +5,14 @@
     "withFfi": 224
   },
   "size2_promise": {
-    "original": 6493,
-    "minifyOnly": 1185,
-    "withFfi": 1175
+    "original": 6444,
+    "minifyOnly": 1193,
+    "withFfi": 1183
   },
   "size3_fs_read": {
-    "original": 3377,
-    "minifyOnly": 696,
-    "withFfi": 686
+    "original": 3354,
+    "minifyOnly": 704,
+    "withFfi": 694
   },
   "size4_err": {
     "original": 10581,
