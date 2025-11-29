@@ -137,3 +137,32 @@ test "nested property access with bracket syntax" {
   let n : Double = pi.cast()
   assert_true(n > 3.14 && n < 3.15)
 }
+
+// Error handling tests
+
+///|
+extern "js" fn throwing_op() -> Any =
+  #| () => { throw new Error("Test error"); }
+
+///|
+extern "js" fn succeeding_op() -> Any =
+  #| () => 42
+
+///|
+test "try_sync - success" {
+  let result = try_sync(succeeding_op) catch { JsError(_) => any(-1) }
+  let n : Int = result.cast()
+  assert_eq(n, 42)
+}
+
+///|
+test "try_sync - catch error" {
+  let caught = try_sync(throwing_op) catch {
+    JsError(msg) => {
+      assert_eq(msg, "Test error")
+      any(true)
+    }
+  }
+  let success : Bool = caught.cast()
+  assert_eq(success, true)
+}

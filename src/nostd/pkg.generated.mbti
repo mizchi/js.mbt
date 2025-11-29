@@ -6,6 +6,8 @@ fn[T] any(T) -> Any
 
 fn equal(Any, Any) -> Bool
 
+fn ffi_wrap_sync(() -> Any, (Any) -> Unit, (Any) -> Unit) -> Unit
+
 fn global_this() -> Any
 
 fn[A, B] identity(A) -> B
@@ -18,9 +20,12 @@ fn is_undefined(Any) -> Bool
 
 fn null() -> Any
 
+fn try_sync(() -> Any) -> Any raise JsError
+
 fn undefined() -> Any
 
 // Errors
+pub suberror JsError String
 
 // Types and methods
 #external
