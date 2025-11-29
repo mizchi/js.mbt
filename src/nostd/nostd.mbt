@@ -89,10 +89,6 @@ extern "js" fn ffi_null() -> JsValue =
   #| () => null
 
 ///|
-extern "js" fn ffi_is_nullish(v : JsValue) -> Bool =
-  #|(v) => v == null
-
-///|
 extern "js" fn ffi_console_log(msg : String) -> Unit =
   #| (msg) => console.log(msg)
 
@@ -112,9 +108,9 @@ pub fn null() -> JsValue {
 }
 
 ///|
-pub fn is_nullish(v : JsValue) -> Bool {
-  ffi_is_nullish(v)
-}
+/// Check if value is null or undefined
+pub extern "js" fn is_nullish(v : JsValue) -> Bool =
+  #|(v) => v == null
 
 ///|
 pub fn console_log(msg : String) -> Unit {
