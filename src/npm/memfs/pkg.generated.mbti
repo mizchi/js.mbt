@@ -3,6 +3,7 @@ package "mizchi/js/npm/memfs"
 
 import(
   "mizchi/js"
+  "mizchi/js/node/fs"
 )
 
 // Values
@@ -29,7 +30,7 @@ fn MemFS::appendFileSync(Self, String, String) -> Unit
 fn MemFS::chmodSync(Self, String, Int) -> Unit
 fn MemFS::copyFileSync(Self, String, String) -> Unit
 fn MemFS::existsSync(Self, String) -> Bool
-fn MemFS::lstatSync(Self, String) -> Stats
+fn MemFS::lstatSync(Self, String) -> @fs.Stat
 async fn MemFS::mkdir(Self, String, recursive? : Bool) -> Unit
 fn MemFS::mkdirSync(Self, String, recursive? : Bool) -> Unit
 async fn MemFS::readFile(Self, String) -> String
@@ -43,26 +44,14 @@ async fn MemFS::rename(Self, String, String) -> Unit
 fn MemFS::renameSync(Self, String, String) -> Unit
 async fn MemFS::rmdir(Self, String) -> Unit
 fn MemFS::rmdirSync(Self, String, recursive? : Bool) -> Unit
-async fn MemFS::stat(Self, String) -> Stats
-fn MemFS::statSync(Self, String) -> Stats
+async fn MemFS::stat(Self, String) -> @fs.Stat
+fn MemFS::statSync(Self, String) -> @fs.Stat
 fn MemFS::symlinkSync(Self, String, String) -> Unit
 async fn MemFS::unlink(Self, String) -> Unit
 fn MemFS::unlinkSync(Self, String) -> Unit
 async fn MemFS::writeFile(Self, String, String) -> Unit
 fn MemFS::writeFileSync(Self, String, String) -> Unit
 impl @js.JsImpl for MemFS
-
-#external
-pub type Stats
-fn Stats::atime(Self) -> @js.Any
-fn Stats::ctime(Self) -> @js.Any
-fn Stats::isDirectory(Self) -> Bool
-fn Stats::isFile(Self) -> Bool
-fn Stats::isSymbolicLink(Self) -> Bool
-fn Stats::mode(Self) -> Int
-fn Stats::mtime(Self) -> @js.Any
-fn Stats::size(Self) -> Int
-impl @js.JsImpl for Stats
 
 #external
 pub type Volume

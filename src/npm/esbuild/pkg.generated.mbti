@@ -12,7 +12,7 @@ fn esbuild() -> Esbuild
 
 // Types and methods
 #external
-pub type BuildResult
+pub(all) type BuildResult
 fn BuildResult::errors(Self) -> Array[Message]
 fn BuildResult::output_files(Self) -> Array[OutputFile]
 fn BuildResult::warnings(Self) -> Array[Message]
@@ -50,12 +50,12 @@ pub(all) enum Loader {
 fn Loader::to_string(Self) -> String
 
 #external
-pub type Message
+pub(all) type Message
 fn Message::text(Self) -> String
 impl @js.JsImpl for Message
 
 #external
-pub type OutputFile
+pub(all) type OutputFile
 fn OutputFile::contents(Self) -> @js.Any
 fn OutputFile::path(Self) -> String
 fn OutputFile::text(Self) -> String
