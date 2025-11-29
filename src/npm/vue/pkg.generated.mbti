@@ -1,0 +1,154 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/vue"
+
+import(
+  "mizchi/js"
+  "mizchi/js/browser/dom"
+)
+
+// Values
+#alias(c)
+fn[T] component((T) -> VNode, T, children? : Array[&VueNode], key? : String) -> VNode
+
+fn[T] computed(() -> T) -> Ref[T]
+
+fn[T] computedWritable(() -> T, (T) -> Unit) -> Ref[T]
+
+fn createApp(@js.Any, props? : @js.Any) -> @js.Any
+
+async fn dynamic_import() -> Unit
+
+fn fragment(Array[&VueNode], key? : String) -> VNode
+
+#alias(get_current_instance)
+fn getCurrentInstance() -> @js.Any?
+
+fn h(String, Array[&VueNode], props? : Map[String, @js.Any], style? : Map[String, String], ref_? : Ref[@dom.Element], key? : String) -> VNode
+
+fn init_vue_api(@js.Any, global_key? : String) -> Unit
+
+fn init_vue_ssr(@js.Any) -> Unit
+
+fn[T] inject(String, default_value? : T) -> T
+
+fn isReactive(@js.Any) -> Bool
+
+fn isReadonly(@js.Any) -> Bool
+
+fn isRef(@js.Any) -> Bool
+
+fn[T] markRaw(T) -> T
+
+fn mount(@js.Any, @dom.Element) -> Unit
+
+#alias(next_tick)
+async fn nextTick() -> Unit
+
+#alias(next_tick_with_callback)
+fn nextTickCallback(() -> Unit) -> Unit
+
+#alias(on_activated)
+fn onActivated(() -> Unit) -> Unit
+
+#alias(on_before_mount)
+fn onBeforeMount(() -> Unit) -> Unit
+
+#alias(on_before_unmount)
+fn onBeforeUnmount(() -> Unit) -> Unit
+
+#alias(on_before_update)
+fn onBeforeUpdate(() -> Unit) -> Unit
+
+#alias(on_deactivated)
+fn onDeactivated(() -> Unit) -> Unit
+
+#alias(on_error_captured)
+fn onErrorCaptured((@js.Any, @js.Any, String) -> Bool?) -> Unit
+
+#alias(on_mounted)
+fn onMounted(() -> Unit) -> Unit
+
+#alias(on_unmounted)
+fn onUnmounted(() -> Unit) -> Unit
+
+#alias(on_updated)
+fn onUpdated(() -> Unit) -> Unit
+
+fn[T : @js.JsImpl] provide(String, T) -> Unit
+
+fn[T] reactive(T) -> T
+
+fn[T] readonly_(T) -> T
+
+#alias(create_ref)
+fn[T : @js.JsImpl] ref_(T) -> Ref[T]
+
+fn render(VNode, @dom.Element) -> Unit
+
+async fn renderToStaticMarkup(VNode) -> String
+
+fn renderToStream(VNode) -> @js.Any
+
+async fn renderToString(VNode) -> String
+
+fn[T] shallowReactive(T) -> T
+
+fn[T] shallowReadonly(T) -> T
+
+fn[T : @js.JsImpl] shallowRef(T) -> Ref[T]
+
+fn[T] toRaw(T) -> T
+
+fn[T] toRef(@js.Any, String) -> Ref[T]
+
+fn toRefs(@js.Any) -> @js.Any
+
+fn[T] triggerRef(Ref[T]) -> Unit
+
+fn[T] unref(Ref[T]) -> T
+
+#alias(use_attrs)
+fn useAttrs() -> @js.Any
+
+#alias(use_slots)
+fn useSlots() -> @js.Any
+
+fn[T] watch(Ref[T], (T, T) -> Unit, immediate? : Bool, deep? : Bool) -> () -> Unit
+
+fn watchEffect(() -> Unit, flush? : String) -> () -> Unit
+
+fn watchPostEffect(() -> Unit) -> () -> Unit
+
+fn watchSyncEffect(() -> Unit) -> () -> Unit
+
+// Errors
+
+// Types and methods
+pub(all) struct Ref[T] {
+  value : @js.Any
+}
+fn[T] Ref::get_value(Self[T]) -> T
+fn[T : @js.JsImpl] Ref::set_value(Self[T], T) -> Unit
+impl[T] @js.JsImpl for Ref[T]
+
+#external
+pub type VNode
+impl @js.JsImpl for VNode
+impl VueNode for VNode
+
+// Type aliases
+pub type Component[T] = (T) -> VNode
+
+pub type WatchStopHandle = () -> Unit
+
+// Traits
+pub trait VueNode {
+  to_vue_node(Self) -> @js.Any
+}
+impl VueNode for Bool
+impl VueNode for Int
+impl VueNode for Double
+impl VueNode for String
+impl[T : VueNode] VueNode for T?
+impl[T : VueNode] VueNode for Array[T]
+

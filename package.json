@@ -63,6 +63,8 @@
   "dependencies": {
     "@hono/node-server": "^1.19.6",
     "@preact/signals": "^2.5.1",
+    "@testing-library/vue": "^8.1.0",
+    "@vue/server-renderer": "^3.5.25",
     "comlink": "^4.4.2",
     "debug": "^4.4.3",
     "htmlparser2": "^10.0.0",
@@ -73,6 +75,7 @@
     "msw": "^2.12.3",
     "preact-render-to-string": "^6.6.3",
     "simple-git": "^3.30.0",
+    "vue": "^3.5.25",
     "yargs": "^18.0.0"
   }
 }

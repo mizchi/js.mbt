@@ -1,0 +1,127 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/vue_testing_library"
+
+import(
+  "mizchi/js"
+  "mizchi/js/browser/dom"
+  "mizchi/js/builtins/regexp"
+  "mizchi/js/npm/vue"
+)
+
+// Values
+fn cleanup() -> Unit
+
+fn configure(@js.Any) -> Unit
+
+#alias(fire_event)
+fn fireEvent() -> FireEvent
+
+fn render(@vue.VNode) -> RenderResult
+
+fn renderWithProps(@vue.VNode, @js.Any) -> RenderResult
+
+fn screen() -> Screen
+
+async fn waitFor(() -> Unit) -> Unit
+
+async fn waitForElementToBeRemoved(() -> @js.Any) -> Unit
+
+// Errors
+
+// Types and methods
+#external
+pub type FireEvent
+fn FireEvent::blur(Self, ScreenResult) -> Bool
+fn FireEvent::change(Self, ScreenResult, @js.Any) -> Bool
+fn FireEvent::click(Self, ScreenResult) -> Bool
+fn FireEvent::dblClick(Self, ScreenResult) -> Bool
+fn FireEvent::focus(Self, ScreenResult) -> Bool
+fn FireEvent::input(Self, ScreenResult, @js.Any) -> Bool
+fn FireEvent::keyDown(Self, ScreenResult, @js.Any) -> Bool
+fn FireEvent::keyPress(Self, ScreenResult, @js.Any) -> Bool
+fn FireEvent::keyUp(Self, ScreenResult, @js.Any) -> Bool
+fn FireEvent::mouseDown(Self, ScreenResult) -> Bool
+fn FireEvent::mouseEnter(Self, ScreenResult) -> Bool
+fn FireEvent::mouseLeave(Self, ScreenResult) -> Bool
+fn FireEvent::mouseUp(Self, ScreenResult) -> Bool
+fn FireEvent::scroll(Self, ScreenResult) -> Bool
+fn FireEvent::submit(Self, @dom.HTMLElement) -> Bool
+impl @js.JsImpl for FireEvent
+
+#external
+pub type RenderResult
+fn RenderResult::baseElement(Self) -> @dom.HTMLElement
+fn RenderResult::container(Self) -> @dom.HTMLElement
+fn RenderResult::debug(Self) -> Unit
+fn RenderResult::html(Self) -> String
+fn RenderResult::rerender(Self, @js.Any) -> Unit
+fn RenderResult::unmount(Self) -> Unit
+impl @js.JsImpl for RenderResult
+
+#external
+pub type Screen
+fn Screen::debug(Self) -> Unit
+#alias(find_all_by_role)
+fn Screen::findAllByRole(Self, String) -> Array[ScreenResult]
+#alias(find_all_by_test_id)
+fn Screen::findAllByTestId(Self, String) -> Array[ScreenResult]
+#alias(find_all_by_text)
+fn Screen::findAllByText(Self, String) -> Array[ScreenResult]
+#alias(find_by_role)
+fn Screen::findByRole(Self, String) -> ScreenResult
+#alias(find_by_test_id)
+fn Screen::findByTestId(Self, String) -> ScreenResult
+#alias(find_by_text)
+fn Screen::findByText(Self, String) -> ScreenResult
+#alias(get_all_by_role)
+fn Screen::getAllByRole(Self, String, name? : String?) -> Array[ScreenResult]
+#alias(get_all_by_test_id)
+fn Screen::getAllByTestId(Self, String) -> Array[ScreenResult]
+#alias(get_all_by_text)
+fn[T : TextMatch] Screen::getAllByText(Self, T) -> Array[ScreenResult]
+#alias(get_by_alt_text)
+fn[T : TextMatch] Screen::getByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+#alias(get_by_display_value)
+fn[T : TextMatch] Screen::getByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+#alias(get_by_label_text)
+fn[T : TextMatch] Screen::getByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
+#alias(get_by_placeholder_text)
+fn[T : TextMatch] Screen::getByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+#alias(get_by_role)
+fn Screen::getByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> ScreenResult
+#alias(get_by_test_id)
+fn Screen::getByTestId(Self, String) -> ScreenResult
+#alias(get_by_text)
+fn[T : TextMatch] Screen::getByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
+#alias(get_by_title)
+fn[T : TextMatch] Screen::getByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+#alias(query_all_by_role)
+fn Screen::queryAllByRole(Self, String, name? : String?) -> Array[ScreenResult]
+#alias(query_all_by_test_id)
+fn Screen::queryAllByTestId(Self, String) -> Array[ScreenResult]
+#alias(query_all_by_text)
+fn[T : TextMatch] Screen::queryAllByText(Self, T) -> Array[ScreenResult]
+#alias(query_by_role)
+fn Screen::queryByRole(Self, String, name? : String?) -> ScreenResult?
+#alias(query_by_test_id)
+fn Screen::queryByTestId(Self, String) -> ScreenResult?
+#alias(query_by_text)
+fn[T : TextMatch] Screen::queryByText(Self, T) -> ScreenResult?
+impl @js.JsImpl for Screen
+
+#external
+pub type ScreenResult
+fn ScreenResult::as_element(Self) -> @dom.HTMLElement
+
+#external
+pub type VueTestingLibrary
+
+// Type aliases
+
+// Traits
+pub trait TextMatch {
+  to_any(Self) -> @js.Any
+}
+impl TextMatch for String
+impl TextMatch for @regexp.RegExp
+
