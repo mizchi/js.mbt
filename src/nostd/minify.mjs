@@ -274,7 +274,7 @@ function removeUnused(ast, inlineableFns) {
   return ast;
 }
 
-function inlineFfi(code) {
+export function inlineFfi(code) {
   const ast = acorn.parse(code, { ecmaVersion: 'latest', sourceType: 'module' });
   const inlineableFns = findInlineableFunctions(ast);
   const { ast: inlinedAst, inlineCount } = inlineCalls(ast, inlineableFns);
@@ -409,16 +409,18 @@ async function checkSize(testName, { print = false } = {}) {
   }
 }
 
-// CLI
-const args = process.argv.slice(2);
-if (args[0] === '--check') {
-  const printFlag = args.includes('--print');
-  const testName = args.find(a => a !== '--check' && a !== '--print');
-  checkSize(testName, { print: printFlag }).catch(e => { console.error(e); process.exit(1); });
-} else if (args.length === 0) {
-  console.log('Usage: node minify.mjs <input.js> [output.js]');
-  console.log('       node minify.mjs --check [testName] [--print]  # Build and check size');
-  process.exit(1);
-} else {
-  processFile(args[0], args[1]).catch(e => { console.error(e); process.exit(1); });
+// CLI - only run when executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const args = process.argv.slice(2);
+  if (args[0] === '--check') {
+    const printFlag = args.includes('--print');
+    const testName = args.find(a => a !== '--check' && a !== '--print');
+    checkSize(testName, { print: printFlag }).catch(e => { console.error(e); process.exit(1); });
+  } else if (args.length === 0) {
+    console.log('Usage: node minify.mjs <input.js> [output.js]');
+    console.log('       node minify.mjs --check [testName] [--print]  # Build and check size');
+    process.exit(1);
+  } else {
+    processFile(args[0], args[1]).catch(e => { console.error(e); process.exit(1); });
+  }
 }
