@@ -1,0 +1,12 @@
+{
+  "supported-targets": ["js"],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/node",
+    "mizchi/js/npm/react",
+    "mizchi/js/npm/ink"
+  ],
+  "test-import": [
+    "moonbitlang/async"
+  ]
+}
