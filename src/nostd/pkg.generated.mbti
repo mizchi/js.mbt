@@ -2,9 +2,17 @@
 package "mizchi/js/nostd"
 
 // Values
+fn equal(JsValue, JsValue) -> Bool
+
 fn global_this() -> JsValue
 
+fn[A, B] identity(A) -> B
+
+fn is_null(JsValue) -> Bool
+
 fn is_nullish(JsValue) -> Bool
+
+fn is_undefined(JsValue) -> Bool
 
 fn null() -> JsValue
 
@@ -28,6 +36,18 @@ fn JsValue::_invoke(Self, JsArray) -> Self
 fn JsValue::_set(Self, String, Self) -> Unit
 fn[T] JsValue::cast(Self) -> T
 fn[T] JsValue::from(T) -> Self
+
+#external
+pub type Nullable
+fn Nullable::to_optional(Self) -> JsValue?
+
+#external
+pub type Nullish
+fn Nullish::to_optional(Self) -> JsValue?
+
+#external
+pub type Object
+fn Object::new() -> JsValue
 
 // Type aliases
 

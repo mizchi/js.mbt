@@ -88,10 +88,30 @@ function analyzeArrowFunction(body, params) {
     const argsIdx = paramNames.indexOf(body.arguments[0].argument.name);
     if (funcIdx !== -1 && argsIdx !== -1) return { type: 'func_call', funcIdx, argsIdx };
   }
+  // v == null (nullish check)
   if (body.type === 'BinaryExpression' && body.operator === '==' &&
       body.left.type === 'Identifier' && body.right.type === 'Literal' && body.right.value === null) {
     const paramIdx = paramNames.indexOf(body.left.name);
     if (paramIdx !== -1) return { type: 'nullish_check', paramIdx };
+  }
+  // v === null (strict null check)
+  if (body.type === 'BinaryExpression' && body.operator === '===' &&
+      body.left.type === 'Identifier' && body.right.type === 'Literal' && body.right.value === null) {
+    const paramIdx = paramNames.indexOf(body.left.name);
+    if (paramIdx !== -1) return { type: 'null_check', paramIdx };
+  }
+  // v === undefined (strict undefined check)
+  if (body.type === 'BinaryExpression' && body.operator === '===' &&
+      body.left.type === 'Identifier' && body.right.type === 'Identifier' && body.right.name === 'undefined') {
+    const paramIdx = paramNames.indexOf(body.left.name);
+    if (paramIdx !== -1) return { type: 'undefined_check', paramIdx };
+  }
+  // a === b (strict equality)
+  if (body.type === 'BinaryExpression' && body.operator === '===' &&
+      body.left.type === 'Identifier' && body.right.type === 'Identifier') {
+    const leftIdx = paramNames.indexOf(body.left.name);
+    const rightIdx = paramNames.indexOf(body.right.name);
+    if (leftIdx !== -1 && rightIdx !== -1) return { type: 'strict_equal', leftIdx, rightIdx };
   }
   return null;
 }
@@ -181,6 +201,21 @@ function buildInlinedExpr(pattern, callArgs) {
       return {
         type: 'BinaryExpression', operator: '==',
         left: args[pattern.paramIdx], right: { type: 'Literal', value: null, raw: 'null' }
+      };
+    case 'null_check':
+      return {
+        type: 'BinaryExpression', operator: '===',
+        left: args[pattern.paramIdx], right: { type: 'Literal', value: null, raw: 'null' }
+      };
+    case 'undefined_check':
+      return {
+        type: 'BinaryExpression', operator: '===',
+        left: args[pattern.paramIdx], right: { type: 'Identifier', name: 'undefined' }
+      };
+    case 'strict_equal':
+      return {
+        type: 'BinaryExpression', operator: '===',
+        left: args[pattern.leftIdx], right: args[pattern.rightIdx]
       };
     default: return null;
   }

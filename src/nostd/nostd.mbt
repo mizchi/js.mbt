@@ -11,8 +11,19 @@ pub type JsValue
 #external
 pub type JsArray
 
+///|
+#external
+pub type Object
+
+///|
+pub extern "js" fn Object::new() -> JsValue =
+  #| () => {}
+
 ///| Zero-cost type conversions using %identity
 /// These are compile-time only and produce no runtime code
+
+///|
+pub fn[A, B] identity(value : A) -> B = "%identity"
 
 ///|
 pub fn[T] JsValue::from(value : T) -> JsValue = "%identity"
@@ -82,3 +93,18 @@ pub extern "js" fn null() -> JsValue =
 /// Check if value is null or undefined
 pub extern "js" fn is_nullish(v : JsValue) -> Bool =
   #|(v) => v == null
+
+///|
+/// Check if value is null
+pub extern "js" fn is_null(v : JsValue) -> Bool =
+  #|(v) => v === null
+
+///|
+/// Check if value is null
+pub extern "js" fn is_undefined(v : JsValue) -> Bool =
+  #|(v) => v === undefined
+
+///|
+/// Check if value is null or undefined
+pub extern "js" fn equal(a : JsValue, b : JsValue) -> Bool =
+  #|(a, b) => a === b
