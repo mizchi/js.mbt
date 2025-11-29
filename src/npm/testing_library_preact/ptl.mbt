@@ -1,35 +1,26 @@
 ///|
 #external
-pub type ReactTestingLibrary
+pub type PreactTestingLibrary
 
 ///|
-impl @js.JsImpl for ReactTestingLibrary
+impl @js.JsImpl for PreactTestingLibrary
 
 ///|
-fn testing_library() -> ReactTestingLibrary {
-  @node.require("@testing-library/react").cast()
+fn testing_library() -> PreactTestingLibrary {
+  @node.require("@testing-library/preact").cast()
 }
 
 ///|
-/// Helper to set optional value on JS object, returns true if value was set
-fn[T : @js.JsImpl] set_opt(obj : @js.Any, key : String, val : T?) -> Bool {
-  match val {
-    Some(v) => {
-      obj.set(key, v)
-      true
-    }
-    None => false
-  }
+/// JS: import { screen } from '@testing-library/preact'
+pub fn screen() -> @testing_library.Screen {
+  testing_library().get("screen").cast()
 }
 
 ///|
-/// Helper to convert object to Some if any options were set, None otherwise
-fn to_options(obj : @js.Any, has_any : Bool) -> @js.Any? {
-  if has_any {
-    Some(obj)
-  } else {
-    None
-  }
+/// JS: import { fireEvent } from '@testing-library/preact'
+#alias(fire_event)
+pub fn fireEvent() -> @testing_library.FireEvent {
+  testing_library().get("fireEvent").cast()
 }
 
 ///|
@@ -43,7 +34,7 @@ pub impl @js.JsImpl for RenderResult
 ///|
 /// JS: render(element, options?)
 /// Returns: RenderResult with queries, container, baseElement, debug, rerender, unmount, asFragment
-pub fn render(element : @react.Element) -> RenderResult {
+pub fn render(element : @preact.VNode) -> RenderResult {
   let rtl = testing_library()
   rtl.call1("render", element).cast()
 }
@@ -70,7 +61,7 @@ pub fn RenderResult::debug(self : RenderResult) -> Unit {
 /// JS: result.rerender(element)
 pub fn RenderResult::rerender(
   self : RenderResult,
-  element : @react.Element,
+  element : @preact.VNode,
 ) -> Unit {
   self.call1("rerender", element) |> ignore
 }
@@ -119,8 +110,8 @@ pub impl @js.JsImpl for RenderHookResult
 ///|
 /// JS: renderHook(hook, options?)
 pub fn renderHook(hook : @js.Any) -> RenderHookResult {
-  let rtl = testing_library()
-  rtl.call1("renderHook", hook).cast()
+  let ptl = testing_library()
+  ptl.call1("renderHook", hook).cast()
 }
 
 ///|
@@ -142,4 +133,14 @@ pub fn RenderHookResult::rerender(
 /// JS: result.unmount()
 pub fn RenderHookResult::unmount(self : RenderHookResult) -> Unit {
   self.call0("unmount") |> ignore
+}
+
+///|
+/// JS: waitFor(callback, options?)
+pub async fn waitFor(callback : () -> Unit) -> Unit {
+  let ptl = testing_library()
+  let promise : @js.Promise[Unit] = ptl
+    .call1("waitFor", @js.identity(callback))
+    .cast()
+  promise.wait()
 }

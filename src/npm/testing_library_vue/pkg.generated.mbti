@@ -1,0 +1,48 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/testing_library_vue"
+
+import(
+  "mizchi/js"
+  "mizchi/js/browser/dom"
+  "mizchi/js/npm/testing_library"
+  "mizchi/js/npm/vue"
+)
+
+// Values
+fn cleanup() -> Unit
+
+fn configure(@js.Any) -> Unit
+
+#alias(fire_event)
+fn fireEvent() -> @testing_library.FireEvent
+
+fn render(@vue.VNode) -> RenderResult
+
+fn renderWithProps(@vue.VNode, @js.Any) -> RenderResult
+
+fn screen() -> @testing_library.Screen
+
+async fn waitFor(() -> Unit) -> Unit
+
+async fn waitForElementToBeRemoved(() -> @js.Any) -> Unit
+
+// Errors
+
+// Types and methods
+#external
+pub type RenderResult
+fn RenderResult::baseElement(Self) -> @dom.HTMLElement
+fn RenderResult::container(Self) -> @dom.HTMLElement
+fn RenderResult::debug(Self) -> Unit
+fn RenderResult::html(Self) -> String
+fn RenderResult::rerender(Self, @js.Any) -> Unit
+fn RenderResult::unmount(Self) -> Unit
+impl @js.JsImpl for RenderResult
+
+#external
+pub type VueTestingLibrary
+
+// Type aliases
+
+// Traits
+

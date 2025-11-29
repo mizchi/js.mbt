@@ -2,14 +2,14 @@
 fn init_jsdom() -> Unit {
   @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.setup_matchers()
-  @react_testing_library.cleanup()
+  @testing_library_react.setup_matchers()
+  @testing_library_react.cleanup()
 }
 
 ///|
 test "useState_lazy" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = use_state_lazy(fn() { 10 })
     let on_click : @dom.MouseEventHandler = _ => set_count(count + 1) |> ignore
@@ -18,23 +18,23 @@ test "useState_lazy" {
       @react_element.button(on_click~, ["increment"], id="btn"),
     ])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Count: 10"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Count: 10"),
   )..toHaveTextContent("Count: 10")
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("increment"),
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("increment"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Count: 11"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Count: 11"),
   )..toHaveTextContent("Count: 11")
 }
 
 ///|
 test "useCallback" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = useState(0)
     let on_click = useCallback(fn() { set_count(count + 1) }, [count])
@@ -43,20 +43,20 @@ test "useCallback" {
       @react_element.button(on_click=_ => on_click(), ["increment"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("increment"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("increment"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Count: 1"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Count: 1"),
   )..toHaveTextContent("Count: 1")
 }
 
 ///|
 test "useEffect" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (mounted, set_mounted) = useState(false)
     useEffect(
@@ -68,16 +68,16 @@ test "useEffect" {
     )
     @react_element.div([if mounted { "Mounted" } else { "Not mounted" }])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Mounted"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Mounted"),
   )..toHaveTextContent("Mounted")
 }
 
 ///|
 test "useLayoutEffect" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (mounted, set_mounted) = useState(false)
     useLayoutEffect(
@@ -89,16 +89,16 @@ test "useLayoutEffect" {
     )
     @react_element.div([if mounted { "Layout mounted" } else { "Not mounted" }])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Layout mounted"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Layout mounted"),
   )..toHaveTextContent("Layout mounted")
 }
 
 ///|
 test "useMemo" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = useState(1)
     let doubled = useMemo(fn() { count * 2 }, [count])
@@ -107,53 +107,53 @@ test "useMemo" {
       @react_element.button(on_click=_ => set_count(count + 1), ["increment"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Doubled: 2"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Doubled: 2"),
   )..toHaveTextContent("Doubled: 2")
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("increment"),
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("increment"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Doubled: 4"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Doubled: 4"),
   )..toHaveTextContent("Doubled: 4")
 }
 
 ///|
 test "useRef with Some" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(
       Some(@js.identity(@js.Object::new())),
     )
     @react_element.div(ref_=r, ["Ref test"])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Ref test"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Ref test"),
   )..toHaveTextContent("Ref test")
 }
 
 ///|
 test "useRef with None" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(None)
     @react_element.div(ref_=r, ["Ref None test"])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Ref None test"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Ref None test"),
   )..toHaveTextContent("Ref None test")
 }
 
 ///|
 test "ReactRef::current and set_current" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (text, set_text) = useState("initial")
     let r : ReactRef[@dom.HTMLSpanElement] = useRef(None)
@@ -169,20 +169,20 @@ test "ReactRef::current and set_current" {
       @react_element.button(on_click~, ["update"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("update"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("update"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("updated"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("updated"),
   )..toHaveTextContent("updated")
 }
 
 ///|
 test "ReactRef::current None case" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (msg, set_msg) = useState("waiting")
     let r : ReactRef[@dom.Element] = useRef(None)
@@ -195,20 +195,20 @@ test "ReactRef::current None case" {
       @react_element.button(on_click~, ["check"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("check"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("check"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("no ref"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("no ref"),
   )..toHaveTextContent("no ref")
 }
 
 ///|
 test "ReactRef::set_current" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (msg, set_msg) = useState("initial")
     let r : ReactRef[@js.Any] = useRef(None)
@@ -227,29 +227,29 @@ test "ReactRef::set_current" {
       @react_element.button(on_click~, ["set"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("set"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("set"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("custom value"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("custom value"),
   )..toHaveTextContent("custom value")
 }
 
 ///|
 test "useContext" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let ctx : Context[Int] = create_context(Some(42))
   let comp = (_props : Unit) => {
     let value = use_context(ctx)
     @react_element.div(["Context value: \{value}"])
   }
   let el = provider(ctx, [@react.component(comp, ())], value=99)
-  @react_testing_library.render(el) |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Context value: 99"),
+  @testing_library_react.render(el) |> ignore
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Context value: 99"),
   )..toHaveTextContent("Context value: 99")
 }
 
@@ -263,7 +263,7 @@ enum CounterAction {
 ///|
 test "useReducer" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let reducer = fn(state : Int, action : CounterAction) {
       match action {
@@ -280,41 +280,41 @@ test "useReducer" {
       @react_element.button(on_click=_ => dispatch(Reset), ["reset"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("+"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("+"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Count: 1"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Count: 1"),
   )..toHaveTextContent("Count: 1")
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("+"),
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("+"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Count: 2"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Count: 2"),
   )..toHaveTextContent("Count: 2")
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("-"),
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("-"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Count: 1"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Count: 1"),
   )..toHaveTextContent("Count: 1")
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("reset"),
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("reset"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Count: 0"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Count: 0"),
   )..toHaveTextContent("Count: 0")
 }
 
 ///|
 test "useActionState" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let action : async (Int, Int) -> Int noraise = async fn(
       state,
@@ -329,16 +329,16 @@ test "useActionState" {
       @react_element.button(on_click=_ => dispatch(1), ["dispatch"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("State: 0"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("State: 0"),
   )..toHaveTextContent("State: 0")
 }
 
 ///|
 test "startTransition" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = useState(0)
     let on_click : @dom.MouseEventHandler = _ => start_transition(fn() {
@@ -349,12 +349,12 @@ test "startTransition" {
       @react_element.button(on_click~, ["transition"]),
     ])
   }
-  @react_testing_library.render(@react.component(comp, ())) |> ignore
-  @react_testing_library.fireEvent().click(
-    @react_testing_library.screen().getByText("transition"),
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
+  @testing_library_react.fireEvent().click(
+    @testing_library_react.screen().getByText("transition"),
   )
   |> ignore
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Count: 1"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Count: 1"),
   )..toHaveTextContent("Count: 1")
 }

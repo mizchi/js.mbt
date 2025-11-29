@@ -9,7 +9,7 @@
 fn setup() -> () -> Unit {
   @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.setup_matchers()
+  @testing_library_react.setup_matchers()
   cleanup()
   () => cleanup()
 }

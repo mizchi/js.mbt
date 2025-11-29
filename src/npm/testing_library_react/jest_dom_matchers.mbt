@@ -139,7 +139,7 @@ pub struct Expect {
 
 ///|
 /// Create an Expect wrapper for a ScreenResult (from screen queries)
-pub fn expect(result : ScreenResult) -> Expect {
+pub fn expect(result : @testing_library.ScreenResult) -> Expect {
   { element: result.as_element() }
 }
 
@@ -152,7 +152,7 @@ pub fn expect(result : ScreenResult) -> Expect {
 /// Usage: expect(element)..toHaveTextContent("Hello World")
 /// Usage: expect(element)..toHaveTextContent(@regexp.new("Hello"))
 #alias(to_have_text_content)
-pub fn[T : TextMatch] Expect::toHaveTextContent(
+pub fn[T : @testing_library.TextMatch] Expect::toHaveTextContent(
   self : Expect,
   expected : T,
 ) -> Unit raise ExpectError {

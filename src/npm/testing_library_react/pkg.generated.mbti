@@ -1,0 +1,106 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/testing_library_react"
+
+import(
+  "mizchi/js"
+  "mizchi/js/browser/dom"
+  "mizchi/js/npm/react"
+  "mizchi/js/npm/testing_library"
+)
+
+// Values
+fn act(() -> Unit) -> @js.Any
+
+fn cleanup() -> Unit
+
+fn configure(@js.Any) -> Unit
+
+fn expect(@testing_library.ScreenResult) -> Expect
+
+#alias(fire_event)
+fn fireEvent() -> @testing_library.FireEvent
+
+fn render(@react.Element) -> RenderResult
+
+fn renderHook(@js.Any) -> RenderHookResult
+
+fn screen() -> @testing_library.Screen
+
+fn setup_matchers() -> Unit
+
+// Errors
+pub suberror ExpectError String
+
+// Types and methods
+pub struct Expect {
+  element : @dom.HTMLElement
+}
+#alias(to_be_checked)
+fn Expect::toBeChecked(Self) -> Unit raise ExpectError
+#alias(to_be_disabled)
+fn Expect::toBeDisabled(Self) -> Unit raise ExpectError
+#alias(to_be_empty_dom_element)
+fn Expect::toBeEmptyDOMElement(Self) -> Unit raise ExpectError
+#alias(to_be_enabled)
+fn Expect::toBeEnabled(Self) -> Unit raise ExpectError
+#alias(to_be_in_the_document)
+fn Expect::toBeInTheDocument(Self) -> Unit raise ExpectError
+#alias(to_be_invalid)
+fn Expect::toBeInvalid(Self) -> Unit raise ExpectError
+#alias(to_be_required)
+fn Expect::toBeRequired(Self) -> Unit raise ExpectError
+#alias(to_be_valid)
+fn Expect::toBeValid(Self) -> Unit raise ExpectError
+#alias(to_be_visible)
+fn Expect::toBeVisible(Self) -> Unit raise ExpectError
+#alias(to_contain_element)
+fn Expect::toContainElement(Self, @dom.HTMLElement) -> Unit raise ExpectError
+#alias(to_contain_html)
+fn Expect::toContainHTML(Self, String) -> Unit raise ExpectError
+#alias(to_have_accessible_description)
+fn Expect::toHaveAccessibleDescription(Self, String) -> Unit raise ExpectError
+#alias(to_have_accessible_name)
+fn Expect::toHaveAccessibleName(Self, String) -> Unit raise ExpectError
+#alias(to_have_attribute)
+fn Expect::toHaveAttribute(Self, String) -> Unit raise ExpectError
+#alias(to_have_attribute_value)
+fn Expect::toHaveAttributeValue(Self, String, String) -> Unit raise ExpectError
+#alias(to_have_class)
+fn Expect::toHaveClass(Self, String) -> Unit raise ExpectError
+#alias(to_have_display_value)
+fn Expect::toHaveDisplayValue(Self, String) -> Unit raise ExpectError
+#alias(to_have_focus)
+fn Expect::toHaveFocus(Self) -> Unit raise ExpectError
+#alias(to_have_role)
+fn Expect::toHaveRole(Self, String) -> Unit raise ExpectError
+#alias(to_have_style)
+fn Expect::toHaveStyle(Self, String) -> Unit raise ExpectError
+#alias(to_have_text_content)
+fn[T : @testing_library.TextMatch] Expect::toHaveTextContent(Self, T) -> Unit raise ExpectError
+#alias(to_have_value)
+fn Expect::toHaveValue(Self, String) -> Unit raise ExpectError
+
+#external
+pub type ReactTestingLibrary
+
+#external
+pub type RenderHookResult
+fn RenderHookResult::rerender(Self, @js.Any) -> Unit
+fn RenderHookResult::result(Self) -> @js.Any
+fn RenderHookResult::unmount(Self) -> Unit
+impl @js.JsImpl for RenderHookResult
+
+#external
+pub type RenderResult
+fn RenderResult::asFragment(Self) -> @js.Any
+fn RenderResult::baseElement(Self) -> @dom.HTMLElement
+fn RenderResult::container(Self) -> @dom.HTMLElement
+fn RenderResult::debug(Self) -> Unit
+fn RenderResult::rerender(Self, @react.Element) -> Unit
+fn RenderResult::unmount(Self) -> Unit
+impl @js.JsImpl for RenderResult
+
+// Type aliases
+
+// Traits
+

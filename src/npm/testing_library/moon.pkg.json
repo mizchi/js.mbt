@@ -1,0 +1,9 @@
+{
+  "supported-targets": ["js"],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/browser/dom",
+    "mizchi/js/builtins/regexp",
+    "moonbitlang/async"
+  ]
+}

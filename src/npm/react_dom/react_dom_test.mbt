@@ -2,8 +2,8 @@
 fn init_jsdom() -> Unit {
   @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.setup_matchers()
-  @react_testing_library.cleanup()
+  @testing_library_react.setup_matchers()
+  @testing_library_react.cleanup()
 }
 
 ///|
@@ -28,7 +28,7 @@ test "flushSync exists on ReactDOM" {
 ///|
 test "createPortal returns React element" {
   init_jsdom()
-  @react_testing_library.cleanup()
+  @testing_library_react.cleanup()
   let react_dom = get_react_dom()
   let document : @dom.Document = @js.globalThis().get("document").cast()
   guard document.body() is Some(body)
@@ -49,7 +49,7 @@ test "createPortal returns React element" {
 ///|
 test "createPortal with key" {
   init_jsdom()
-  @react_testing_library.cleanup()
+  @testing_library_react.cleanup()
   let react_dom = get_react_dom()
   let document : @dom.Document = @js.globalThis().get("document").cast()
   guard document.body() is Some(body)
@@ -109,7 +109,7 @@ fn portal_test_component(props : PortalTestProps) -> @react.Element {
 ///|
 test "createPortal renders to target" {
   init_jsdom()
-  @react_testing_library.cleanup()
+  @testing_library_react.cleanup()
   let document : @dom.Document = @js.globalThis().get("document").cast()
   guard document.body() is Some(body)
   // Create portal target
@@ -117,19 +117,19 @@ test "createPortal renders to target" {
   portal_target.set("id", "portal-root")
   body.appendChild(portal_target) |> ignore
   // Render component with portal
-  @react_testing_library.render(
+  @testing_library_react.render(
     @react.component(portal_test_component, { portal_target, }),
   )
   |> ignore
   // Verify main content
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Main Content"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Main Content"),
   ).toHaveTextContent("Main Content")
   // Verify portal content
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Portal Content"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Portal Content"),
   ).toHaveTextContent("Portal Content")
   // Cleanup
-  @react_testing_library.cleanup()
+  @testing_library_react.cleanup()
   body.removeChild(portal_target) |> ignore
 }

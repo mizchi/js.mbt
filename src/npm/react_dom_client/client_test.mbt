@@ -2,8 +2,8 @@
 fn init_jsdom() -> Unit {
   @global_jsdom.register()
   @react.init_react_api(@node.require("react"))
-  @react_testing_library.setup_matchers()
-  @react_testing_library.cleanup()
+  @testing_library_react.setup_matchers()
+  @testing_library_react.cleanup()
 }
 
 ///|
@@ -38,13 +38,13 @@ test "hydrateRoot exists on ReactDOMClient" {
 ///|
 test "createRoot and render" {
   init_jsdom()
-  defer @react_testing_library.cleanup()
+  defer @testing_library_react.cleanup()
   // Use React Testing Library's render which handles all the setup
-  let result = @react_testing_library.render(
+  let result = @testing_library_react.render(
     @react.component(simple_component, { text: "Hello createRoot" }),
   )
-  @react_testing_library.expect(
-    @react_testing_library.screen().getByText("Hello createRoot"),
+  @testing_library_react.expect(
+    @testing_library_react.screen().getByText("Hello createRoot"),
   ).toHaveTextContent("Hello createRoot")
   result.unmount()
 }

@@ -11,6 +11,19 @@ fn testing_library() -> VueTestingLibrary {
 }
 
 ///|
+/// JS: import { screen } from '@testing-library/vue'
+pub fn screen() -> @testing_library.Screen {
+  testing_library().get("screen").cast()
+}
+
+///|
+/// JS: import { fireEvent } from '@testing-library/vue'
+#alias(fire_event)
+pub fn fireEvent() -> @testing_library.FireEvent {
+  testing_library().get("fireEvent").cast()
+}
+
+///|
 /// RenderResult returned by render()
 #external
 pub type RenderResult

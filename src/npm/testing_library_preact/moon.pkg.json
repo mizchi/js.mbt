@@ -3,10 +3,10 @@
   "import": [
     "mizchi/js",
     "mizchi/js/browser/dom",
-    "mizchi/js/builtins/regexp",
     "mizchi/js/node",
     "mizchi/js/npm/global_jsdom",
     "mizchi/js/npm/preact",
+    "mizchi/js/npm/testing_library",
     "moonbitlang/async"
   ]
 }

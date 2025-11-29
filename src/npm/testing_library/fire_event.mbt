@@ -1,18 +1,10 @@
 ///|
-/// PreactTestingLibrary.FireEvent
+/// FireEvent type - common for all testing libraries
 #external
 pub type FireEvent
 
 ///|
 pub impl @js.JsImpl for FireEvent
-
-///|
-/// JS: import { fireEvent } from '@testing-library/preact'
-#alias(fire_event)
-pub fn fireEvent() -> FireEvent {
-  let rtl = testing_library()
-  rtl.get("fireEvent").cast()
-}
 
 ///|
 /// JS: fireEvent.click(target)

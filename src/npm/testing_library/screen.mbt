@@ -1,25 +1,5 @@
 ///|
-/// TextMatch trait - allows String or RegExp to be used as text matchers
-/// This matches the TypeScript type: string | RegExp | ((content: string, element: Element) => boolean)
-pub trait TextMatch {
-  to_any(Self) -> @js.Any = _
-}
-
-///|
-impl TextMatch with to_any(self) -> @js.Any {
-  @js.identity(self)
-}
-
-///|
-/// String implements TextMatch
-pub impl TextMatch for String
-
-///|
-/// RegExp implements TextMatch
-pub impl TextMatch for @regexp.RegExp
-
-///|
-/// PreactTestingLibrary.Screen
+/// Screen type - common for all testing libraries
 #external
 pub type Screen
 
@@ -27,82 +7,12 @@ pub type Screen
 pub impl @js.JsImpl for Screen
 
 ///|
-/// JS: import { screen } from '@testing-library/preact'
-pub fn screen() -> Screen {
-  testing_library().get("screen").cast()
-}
-
-///|
 /// JS: screen.debug()
-pub fn Screen::debug(self : Self) -> Unit {
+pub fn Screen::debug(self : Screen) -> Unit {
   self.call0("debug") |> ignore
 }
 
-///|
-/// Query Result Types - opaque wrapper around HTMLElement
-#external
-pub type ScreenResult
-
-///|
-pub fn ScreenResult::as_element(self : ScreenResult) -> @dom.HTMLElement {
-  @js.identity(self)
-}
-
 ///| getBy* queries - throw error if not found
-
-///|
-/// Helper to build MatcherOptions object for text-based queries
-fn build_matcher_options(
-  exact? : Bool? = None,
-  trim? : Bool? = None,
-  collapse_whitespace? : Bool? = None,
-) -> @js.Any? {
-  let obj = @js.Object::new()
-  let has = set_opt(obj, "exact", exact) ||
-    set_opt(obj, "trim", trim) ||
-    set_opt(obj, "collapseWhitespace", collapse_whitespace)
-  to_options(obj, has)
-}
-
-///|
-/// Helper to build SelectorMatcherOptions object for label queries
-fn build_selector_matcher_options(
-  exact? : Bool? = None,
-  trim? : Bool? = None,
-  collapse_whitespace? : Bool? = None,
-  selector? : String? = None,
-) -> @js.Any? {
-  let obj = @js.Object::new()
-  let has = set_opt(obj, "exact", exact) ||
-    set_opt(obj, "trim", trim) ||
-    set_opt(obj, "collapseWhitespace", collapse_whitespace) ||
-    set_opt(obj, "selector", selector)
-  to_options(obj, has)
-}
-
-///|
-/// Helper to build ByRoleOptions object
-fn build_role_options(
-  name? : String? = None,
-  hidden? : Bool? = None,
-  selected? : Bool? = None,
-  checked? : Bool? = None,
-  pressed? : Bool? = None,
-  expanded? : Bool? = None,
-  level? : Int? = None,
-  description? : String? = None,
-) -> @js.Any? {
-  let obj = @js.Object::new()
-  let has = set_opt(obj, "name", name) ||
-    set_opt(obj, "hidden", hidden) ||
-    set_opt(obj, "selected", selected) ||
-    set_opt(obj, "checked", checked) ||
-    set_opt(obj, "pressed", pressed) ||
-    set_opt(obj, "expanded", expanded) ||
-    set_opt(obj, "level", level) ||
-    set_opt(obj, "description", description)
-  to_options(obj, has)
-}
 
 ///|
 /// JS: screen.getByRole(role, options?)
@@ -286,8 +196,8 @@ pub fn Screen::queryByRole(
       level~,
       description~,
     ) {
-    Some(opts) => self.call2("queryByRole", role, opts).cast()
-    None => self.call1("queryByRole", role).cast()
+    Some(opts) => @js.identity_option(self.call2("queryByRole", role, opts))
+    None => @js.identity_option(self.call1("queryByRole", role))
   }
 }
 
@@ -310,8 +220,9 @@ pub fn[T : TextMatch] Screen::queryByLabelText(
       collapse_whitespace~,
       selector~,
     ) {
-    Some(opts) => self.call2("queryByLabelText", text_js, opts).cast()
-    None => self.call1("queryByLabelText", text_js).cast()
+    Some(opts) =>
+      @js.identity_option(self.call2("queryByLabelText", text_js, opts))
+    None => @js.identity_option(self.call1("queryByLabelText", text_js))
   }
 }
 
@@ -327,8 +238,9 @@ pub fn[T : TextMatch] Screen::queryByPlaceholderText(
 ) -> ScreenResult? {
   let text_js = text.to_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
-    Some(opts) => self.call2("queryByPlaceholderText", text_js, opts).cast()
-    None => self.call1("queryByPlaceholderText", text_js).cast()
+    Some(opts) =>
+      @js.identity_option(self.call2("queryByPlaceholderText", text_js, opts))
+    None => @js.identity_option(self.call1("queryByPlaceholderText", text_js))
   }
 }
 
@@ -351,8 +263,8 @@ pub fn[T : TextMatch] Screen::queryByText(
       collapse_whitespace~,
       selector~,
     ) {
-    Some(opts) => self.call2("queryByText", text_js, opts).cast()
-    None => self.call1("queryByText", text_js).cast()
+    Some(opts) => @js.identity_option(self.call2("queryByText", text_js, opts))
+    None => @js.identity_option(self.call1("queryByText", text_js))
   }
 }
 
@@ -368,8 +280,9 @@ pub fn[T : TextMatch] Screen::queryByDisplayValue(
 ) -> ScreenResult? {
   let value_js = value.to_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
-    Some(opts) => self.call2("queryByDisplayValue", value_js, opts).cast()
-    None => self.call1("queryByDisplayValue", value_js).cast()
+    Some(opts) =>
+      @js.identity_option(self.call2("queryByDisplayValue", value_js, opts))
+    None => @js.identity_option(self.call1("queryByDisplayValue", value_js))
   }
 }
 
@@ -385,8 +298,9 @@ pub fn[T : TextMatch] Screen::queryByAltText(
 ) -> ScreenResult? {
   let text_js = text.to_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
-    Some(opts) => self.call2("queryByAltText", text_js, opts).cast()
-    None => self.call1("queryByAltText", text_js).cast()
+    Some(opts) =>
+      @js.identity_option(self.call2("queryByAltText", text_js, opts))
+    None => @js.identity_option(self.call1("queryByAltText", text_js))
   }
 }
 
@@ -402,8 +316,9 @@ pub fn[T : TextMatch] Screen::queryByTitle(
 ) -> ScreenResult? {
   let title_js = title.to_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
-    Some(opts) => self.call2("queryByTitle", title_js, opts).cast()
-    None => self.call1("queryByTitle", title_js).cast()
+    Some(opts) =>
+      @js.identity_option(self.call2("queryByTitle", title_js, opts))
+    None => @js.identity_option(self.call1("queryByTitle", title_js))
   }
 }
 
@@ -411,7 +326,7 @@ pub fn[T : TextMatch] Screen::queryByTitle(
 /// JS: screen.queryByTestId(testId)
 #alias(query_by_test_id)
 pub fn Screen::queryByTestId(self : Screen, testId : String) -> ScreenResult? {
-  self.call1("queryByTestId", testId).cast()
+  @js.identity_option(self.call1("queryByTestId", testId))
 }
 
 ///| findBy* queries - async, throw error if not found
