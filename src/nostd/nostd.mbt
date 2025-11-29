@@ -7,11 +7,6 @@
 pub type JsValue
 
 ///|
-/// Opaque type for JavaScript arrays (for --nostd compatibility)
-#external
-pub type JsArray
-
-///|
 #external
 pub type Object
 
@@ -31,16 +26,6 @@ pub fn[T] JsValue::from(value : T) -> JsValue = "%identity"
 ///|
 pub fn[T] JsValue::cast(self : JsValue) -> T = "%identity"
 
-///| JsArray operations
-
-///|
-pub extern "js" fn JsArray::new() -> JsArray =
-  #| () => []
-
-///|
-pub extern "js" fn JsArray::_push(self : Self, value : JsValue) -> Unit =
-  #| (arr, value) => arr.push(value)
-
 ///| JsValue methods
 
 ///|
@@ -55,17 +40,20 @@ pub extern "js" fn JsValue::_set(
   #| (obj, key, value) => { obj[key] = value }
 
 ///|
-/// Call method: obj._call("method", args)
+/// Call method: obj._call("method", [arg1, arg2])
 pub extern "js" fn JsValue::_call(
   self : JsValue,
   key : String,
-  args : JsArray,
+  args : Array[JsValue],
 ) -> JsValue =
   #| (obj, key, args) => obj[key](...args)
 
 ///|
-/// Call function: func._invoke(args)
-pub extern "js" fn JsValue::_invoke(self : JsValue, args : JsArray) -> JsValue =
+/// Call function: func._invoke([arg1, arg2])
+pub extern "js" fn JsValue::_invoke(
+  self : JsValue,
+  args : Array[JsValue],
+) -> JsValue =
   #| (func, args) => func(...args)
 
 ///|

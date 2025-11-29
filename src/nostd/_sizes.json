@@ -1,7 +1,17 @@
 {
-  "size1": {
-    "original": 1225,
-    "minifyOnly": 320,
-    "withFfi": 245
+  "size1_basic": {
+    "original": 922,
+    "minifyOnly": 251,
+    "withFfi": 209
+  },
+  "size2_promise": {
+    "original": 6509,
+    "minifyOnly": 1185,
+    "withFfi": 1135
+  },
+  "size3_fs_read": {
+    "original": 3397,
+    "minifyOnly": 696,
+    "withFfi": 640
   }
 }

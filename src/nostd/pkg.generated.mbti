@@ -22,28 +22,23 @@ fn undefined() -> JsValue
 
 // Types and methods
 #external
-pub type JsArray
-fn JsArray::_push(Self, JsValue) -> Unit
-fn JsArray::new() -> Self
-
-#external
 pub type JsValue
-fn JsValue::_call(Self, String, JsArray) -> Self
+fn JsValue::_call(Self, String, Array[Self]) -> Self
 #alias("_[_]")
 fn JsValue::_get(Self, String) -> Self
-fn JsValue::_invoke(Self, JsArray) -> Self
+fn JsValue::_invoke(Self, Array[Self]) -> Self
 #alias("_[_]=_")
 fn JsValue::_set(Self, String, Self) -> Unit
 fn[T] JsValue::cast(Self) -> T
 fn[T] JsValue::from(T) -> Self
 
 #external
-pub type Nullable
-fn Nullable::to_optional(Self) -> JsValue?
+pub type Nullable[T]
+fn[T] Nullable::to_option(Self[T]) -> T?
 
 #external
-pub type Nullish
-fn Nullish::to_optional(Self) -> JsValue?
+pub type Nullish[T]
+fn[T] Nullish::to_option(Self[T]) -> T?
 
 #external
 pub type Object

@@ -296,12 +296,11 @@ test "deeply nested struct - all present" {
   let js_obj = create_deeply_nested()
   let l1 : Level1 = js_obj.cast()
   match l1.level2.to_option() {
-    Some(l2) => {
+    Some(l2) =>
       match l2.level3.to_option() {
         Some(l3) => assert_eq(l3.value, 42)
         None => assert_true(false)
       }
-    }
     None => assert_true(false)
   }
 }
@@ -311,10 +310,9 @@ test "deeply nested struct - level3 is null" {
   let js_obj = create_deeply_nested_with_null_level3()
   let l1 : Level1 = js_obj.cast()
   match l1.level2.to_option() {
-    Some(l2) => {
+    Some(l2) =>
       // level3 is null, should be None
       assert_true(l2.level3.to_option() is None)
-    }
     None => assert_true(false)
   }
 }

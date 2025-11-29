@@ -3,9 +3,7 @@ test "get and set property" {
   let global = global_this()
   let obj = global["Object"]
   // Object.create(null) to create empty object
-  let args = JsArray::new()
-  args._push(null())
-  let empty_obj = obj._call("create", args)
+  let empty_obj = obj._call("create", [null()])
   empty_obj["foo"] = JsValue::from("bar")
   let value = empty_obj["foo"]
   // value should be "bar" but we can't easily assert without std lib
@@ -15,13 +13,10 @@ test "get and set property" {
 }
 
 ///|
-test "call method with JsArray" {
+test "call method with Array[JsValue]" {
   let global = global_this()
   let console = global["console"]
-  let args = JsArray::new()
-  args._push(JsValue::from("test message from nostd"))
-  let _ = console._call("log", args)
-
+  console._call("log", [JsValue::from("test message from nostd")]) |> ignore
 }
 
 ///|
@@ -50,9 +45,7 @@ test "int conversion" {
 test "invoke" {
   let global = global_this()
   let parse_int = global["parseInt"]
-  let args = JsArray::new()
-  args._push(JsValue::from("42"))
-  let result = parse_int._invoke(args)
+  let result = parse_int._invoke([JsValue::from("42")])
   let _ = result
   // verify no runtime error
 }
@@ -100,9 +93,7 @@ test "parseInt with JsValue::from" {
   // Use JsValue::from instead of str() for zero-cost conversion
   let global = global_this()
   let parse_int = global["parseInt"]
-  let args = JsArray::new()
-  args._push(JsValue::from("123"))
-  let result = parse_int._invoke(args)
+  let result = parse_int._invoke([JsValue::from("123")])
   let n : Int = result.cast()
   assert_eq(n, 123)
 }
@@ -111,9 +102,7 @@ test "parseInt with JsValue::from" {
 test "Math operations with cast" {
   let global = global_this()
   let math = global["Math"]
-  let args = JsArray::new()
-  args._push(JsValue::from(16.0))
-  let result = math._call("sqrt", args)
+  let result = math._call("sqrt", [JsValue::from(16.0)])
   let n : Double = result.cast()
   assert_eq(n, 4.0)
 }
@@ -132,9 +121,7 @@ test "JsValue::_get with bracket syntax" {
 test "JsValue::_set with bracket syntax" {
   let global = global_this()
   let obj = global["Object"]
-  let args = JsArray::new()
-  args._push(null())
-  let empty_obj = obj._call("create", args)
+  let empty_obj = obj._call("create", [null()])
   // Using bracket syntax: empty_obj["foo"] = value
   empty_obj["foo"] = JsValue::from("bar")
   let value = empty_obj["foo"]
