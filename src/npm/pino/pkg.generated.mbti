@@ -1,0 +1,58 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/pino"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn pino(level? : Level, name? : String, timestamp? : Bool) -> Logger
+
+fn pino_default() -> Logger
+
+fn pino_module() -> Pino
+
+// Errors
+
+// Types and methods
+pub(all) enum Level {
+  Trace
+  Debug
+  Info
+  Warn
+  Error
+  Fatal
+  Silent
+}
+fn Level::to_number(Self) -> Int
+fn Level::to_string(Self) -> String
+
+#external
+pub type Logger
+fn Logger::child(Self, @js.Object) -> Self
+fn Logger::debug(Self, String) -> Unit
+fn Logger::debug_obj(Self, @js.Object, String) -> Unit
+fn Logger::error(Self, String) -> Unit
+fn Logger::error_obj(Self, @js.Object, String) -> Unit
+fn Logger::fatal(Self, String) -> Unit
+fn Logger::fatal_obj(Self, @js.Object, String) -> Unit
+fn Logger::flush(Self) -> Unit
+fn Logger::info(Self, String) -> Unit
+fn Logger::info_obj(Self, @js.Object, String) -> Unit
+fn Logger::is_level_enabled(Self, Level) -> Bool
+fn Logger::level(Self) -> String
+fn Logger::set_level(Self, Level) -> Unit
+fn Logger::trace(Self, String) -> Unit
+fn Logger::trace_obj(Self, @js.Object, String) -> Unit
+fn Logger::warn(Self, String) -> Unit
+fn Logger::warn_obj(Self, @js.Object, String) -> Unit
+impl @js.JsImpl for Logger
+
+#external
+pub type Pino
+impl @js.JsImpl for Pino
+
+// Type aliases
+
+// Traits
+
