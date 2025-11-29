@@ -15,8 +15,8 @@
     "withFfi": 686
   },
   "size4_err": {
-    "original": 3410,
-    "minifyOnly": 990,
-    "withFfi": 980
+    "original": 10581,
+    "minifyOnly": 3069,
+    "withFfi": 3035
   }
 }
