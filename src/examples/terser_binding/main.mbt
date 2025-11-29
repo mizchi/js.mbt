@@ -6,20 +6,20 @@
 fn create_options(passes : Int) -> @nostd.JsValue {
   let global = @nostd.global_this()
   let object = global["Object"]
-  let args = @nostd.array_new()
-  @nostd.array_push(args, @nostd.null())
+  let args = @nostd.JsArray::new()
+  args._push(@nostd.null())
   let options = object._call("create", args)
 
   // compress: { passes: n }
-  let compress_args = @nostd.array_new()
-  @nostd.array_push(compress_args, @nostd.null())
+  let compress_args = @nostd.JsArray::new()
+  compress_args._push(@nostd.null())
   let compress = object._call("create", compress_args)
   compress["passes"] = @nostd.JsValue::from(passes)
   options["compress"] = compress
 
   // mangle: { toplevel: true }
-  let mangle_args = @nostd.array_new()
-  @nostd.array_push(mangle_args, @nostd.null())
+  let mangle_args = @nostd.JsArray::new()
+  mangle_args._push(@nostd.null())
   let mangle = object._call("create", mangle_args)
   mangle["toplevel"] = @nostd.JsValue::from(true)
   options["mangle"] = mangle
@@ -33,23 +33,26 @@ fn terser_minify(
   code : String,
   options : @nostd.JsValue,
 ) -> @nostd.JsValue {
-  let args = @nostd.array_new()
-  @nostd.array_push(args, @nostd.JsValue::from(code))
-  @nostd.array_push(args, options)
+  let args = @nostd.JsArray::new()
+  args._push(@nostd.JsValue::from(code))
+  args._push(options)
   terser._call("minify", args)
 }
 
 ///|
 fn main {
-  @nostd.console_log("[terser_binding] Demo")
-
   // Get terser module (assumed to be injected via globalThis.terser)
   let global = @nostd.global_this()
+  let console = global["console"]
   let terser = global["terser"]
   if @nostd.is_nullish(terser) {
-    @nostd.console_log(
-      "Error: terser not found. Run with: node -e \"globalThis.terser = require('terser')\" -r ./terser_binding.js",
+    let args = @nostd.JsArray::new()
+    args._push(
+      @nostd.JsValue::from(
+        "Error: terser not found. Run with: node -e \"globalThis.terser = require('terser')\" -r ./terser_binding.js",
+      ),
     )
+    let _ = console._call("log", args)
     return
   }
 
@@ -63,13 +66,16 @@ fn main {
   let promise = terser_minify(terser, code, options)
 
   // promise.then(result => console.log(result.code))
-  let args = @nostd.array_new()
+  let args = @nostd.JsArray::new()
 
   // Create callback: result => console.log(result.code)
   let callback = create_then_callback()
-  @nostd.array_push(args, callback)
+  args._push(callback)
   let _ = promise._call("then", args)
-  @nostd.console_log("[terser_binding] Promise started")
+  let log_args = @nostd.JsArray::new()
+  log_args._push(@nostd.JsValue::from("[terser_binding] Promise started"))
+  let _ = console._call("log", log_args)
+
 }
 
 ///|

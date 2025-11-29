@@ -23,11 +23,11 @@ pub fn[T] JsValue::cast(self : JsValue) -> T = "%identity"
 ///| JsArray operations
 
 ///|
-pub extern "js" fn array_new() -> JsArray =
+pub extern "js" fn JsArray::new() -> JsArray =
   #| () => []
 
 ///|
-pub extern "js" fn array_push(arr : JsArray, value : JsValue) -> Unit =
+pub extern "js" fn JsArray::_push(self : JsArray, value : JsValue) -> Unit =
   #| (arr, value) => arr.push(value)
 
 ///| JsValue methods
@@ -53,8 +53,8 @@ pub extern "js" fn JsValue::_call(
   #| (obj, key, args) => obj[key](...args)
 
 ///|
-/// Call function: func.invoke(args)
-pub extern "js" fn JsValue::invoke(self : JsValue, args : JsArray) -> JsValue =
+/// Call function: func._invoke(args)
+pub extern "js" fn JsValue::_invoke(self : JsValue, args : JsArray) -> JsValue =
   #| (func, args) => func(...args)
 
 ///|
@@ -77,10 +77,6 @@ pub extern "js" fn undefined() -> JsValue =
 ///|
 pub extern "js" fn null() -> JsValue =
   #| () => null
-
-///|
-pub extern "js" fn console_log(msg : String) -> Unit =
-  #| (msg) => console.log(msg)
 
 ///|
 /// Check if value is null or undefined

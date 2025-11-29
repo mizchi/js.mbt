@@ -27,13 +27,26 @@ function analyzeArrowFunction(body, params) {
   if (params.length === 1 && body.type === 'Identifier' && body.name === paramNames[0]) {
     return { type: 'identity', paramIdx: 0 };
   }
+  // Check array_push pattern first (more specific than static_method_call)
+  if (body.type === 'CallExpression' && body.callee.type === 'MemberExpression' &&
+      !body.callee.computed && body.callee.property.type === 'Identifier' &&
+      body.callee.property.name === 'push' && body.callee.object.type === 'Identifier' &&
+      body.arguments.length === 1 && body.arguments[0].type === 'Identifier') {
+    const arrIdx = paramNames.indexOf(body.callee.object.name);
+    const valIdx = paramNames.indexOf(body.arguments[0].name);
+    if (arrIdx !== -1 && valIdx !== -1) return { type: 'array_push', arrIdx, valIdx };
+  }
+  // static_method_call: object is NOT a parameter (e.g., console.log)
   if (body.type === 'CallExpression' && body.callee.type === 'MemberExpression' &&
       !body.callee.computed && body.callee.object.type === 'Identifier') {
     const objName = body.callee.object.name;
     const methodName = body.callee.property.name;
-    const argMappings = body.arguments.map(arg => arg.type === 'Identifier' ? paramNames.indexOf(arg.name) : -1);
-    if (argMappings.every(i => i !== -1)) {
-      return { type: 'static_method_call', object: objName, method: methodName, argMappings };
+    // Only match if object is NOT a parameter (static object like console, Math)
+    if (!paramNames.includes(objName)) {
+      const argMappings = body.arguments.map(arg => arg.type === 'Identifier' ? paramNames.indexOf(arg.name) : -1);
+      if (argMappings.every(i => i !== -1)) {
+        return { type: 'static_method_call', object: objName, method: methodName, argMappings };
+      }
     }
   }
   if (body.type === 'MemberExpression' && body.computed &&
@@ -75,14 +88,6 @@ function analyzeArrowFunction(body, params) {
     const argsIdx = paramNames.indexOf(body.arguments[0].argument.name);
     if (funcIdx !== -1 && argsIdx !== -1) return { type: 'func_call', funcIdx, argsIdx };
   }
-  if (body.type === 'CallExpression' && body.callee.type === 'MemberExpression' &&
-      !body.callee.computed && body.callee.property.type === 'Identifier' &&
-      body.callee.property.name === 'push' && body.callee.object.type === 'Identifier' &&
-      body.arguments.length === 1 && body.arguments[0].type === 'Identifier') {
-    const arrIdx = paramNames.indexOf(body.callee.object.name);
-    const valIdx = paramNames.indexOf(body.arguments[0].name);
-    if (arrIdx !== -1 && valIdx !== -1) return { type: 'array_push', arrIdx, valIdx };
-  }
   if (body.type === 'BinaryExpression' && body.operator === '==' &&
       body.left.type === 'Identifier' && body.right.type === 'Literal' && body.right.value === null) {
     const paramIdx = paramNames.indexOf(body.left.name);
@@ -109,67 +114,73 @@ function findInlineableFunctions(ast) {
   return inlineable;
 }
 
+function cloneNode(node) {
+  return JSON.parse(JSON.stringify(node));
+}
+
 function buildInlinedExpr(pattern, callArgs) {
+  // Clone callArgs to avoid AST mutation issues
+  const args = callArgs.map(cloneNode);
   switch (pattern.type) {
-    case 'constant': return JSON.parse(JSON.stringify(pattern.body));
-    case 'identity': return callArgs[pattern.paramIdx];
+    case 'constant': return cloneNode(pattern.body);
+    case 'identity': return args[pattern.paramIdx];
     case 'static_method_call':
       return {
         type: 'CallExpression',
         callee: { type: 'MemberExpression', object: { type: 'Identifier', name: pattern.object },
                   property: { type: 'Identifier', name: pattern.method }, computed: false, optional: false },
-        arguments: pattern.argMappings.map(i => callArgs[i]), optional: false
+        arguments: pattern.argMappings.map(i => args[i]), optional: false
       };
     case 'member_get': {
-      const keyArg = callArgs[pattern.keyIdx];
+      const keyArg = args[pattern.keyIdx];
       const isStringLiteral = keyArg.type === 'Literal' && typeof keyArg.value === 'string';
       const canUseDotNotation = isStringLiteral && isValidIdentifier(keyArg.value);
       return {
-        type: 'MemberExpression', object: callArgs[pattern.objIdx],
+        type: 'MemberExpression', object: args[pattern.objIdx],
         property: canUseDotNotation ? { type: 'Identifier', name: keyArg.value } : keyArg,
         computed: !canUseDotNotation, optional: false
       };
     }
     case 'member_set': {
-      const keyArg = callArgs[pattern.keyIdx];
+      const keyArg = args[pattern.keyIdx];
       const isStringLiteral = keyArg.type === 'Literal' && typeof keyArg.value === 'string';
       const canUseDotNotation = isStringLiteral && isValidIdentifier(keyArg.value);
       return {
         type: 'AssignmentExpression', operator: '=',
-        left: { type: 'MemberExpression', object: callArgs[pattern.objIdx],
+        left: { type: 'MemberExpression', object: args[pattern.objIdx],
                 property: canUseDotNotation ? { type: 'Identifier', name: keyArg.value } : keyArg,
                 computed: !canUseDotNotation, optional: false },
-        right: callArgs[pattern.valIdx]
+        right: args[pattern.valIdx]
       };
     }
     case 'member_call': {
-      const keyArg = callArgs[pattern.keyIdx];
+      const keyArg = args[pattern.keyIdx];
       const isStringLiteral = keyArg.type === 'Literal' && typeof keyArg.value === 'string';
       const canUseDotNotation = isStringLiteral && isValidIdentifier(keyArg.value);
       return {
         type: 'CallExpression',
-        callee: { type: 'MemberExpression', object: callArgs[pattern.objIdx],
+        callee: { type: 'MemberExpression', object: args[pattern.objIdx],
                   property: canUseDotNotation ? { type: 'Identifier', name: keyArg.value } : keyArg,
                   computed: !canUseDotNotation, optional: false },
-        arguments: [{ type: 'SpreadElement', argument: callArgs[pattern.argsIdx] }], optional: false
+        arguments: [{ type: 'SpreadElement', argument: args[pattern.argsIdx] }], optional: false
       };
     }
     case 'func_call':
       return {
-        type: 'CallExpression', callee: callArgs[pattern.funcIdx],
-        arguments: [{ type: 'SpreadElement', argument: callArgs[pattern.argsIdx] }], optional: false
+        type: 'CallExpression', callee: args[pattern.funcIdx],
+        arguments: [{ type: 'SpreadElement', argument: args[pattern.argsIdx] }], optional: false
       };
     case 'array_push':
       return {
         type: 'CallExpression',
-        callee: { type: 'MemberExpression', object: callArgs[pattern.arrIdx],
+        callee: { type: 'MemberExpression', object: args[pattern.arrIdx],
                   property: { type: 'Identifier', name: 'push' }, computed: false, optional: false },
-        arguments: [callArgs[pattern.valIdx]], optional: false
+        arguments: [args[pattern.valIdx]], optional: false
       };
     case 'nullish_check':
       return {
         type: 'BinaryExpression', operator: '==',
-        left: callArgs[pattern.paramIdx], right: { type: 'Literal', value: null, raw: 'null' }
+        left: args[pattern.paramIdx], right: { type: 'Literal', value: null, raw: 'null' }
       };
     default: return null;
   }
