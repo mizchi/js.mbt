@@ -21,7 +21,6 @@ const __dirname = path.dirname(__filename);
 async function minifyCode(code: string): Promise<string> {
   const result = await minify('input.js', code, {
     mangle: { toplevel: true },
-    compress: { passes: 3 }
   });
   return result.code;
 }
@@ -50,13 +49,25 @@ async function processFile(inputPath: string, outputPath?: string) {
   return { originalSize, inlinedSize, minifiedSize };
 }
 
-interface CheckSizeOptions {
-  print?: boolean;
+interface SizeRecord {
+  original: number;
+  minifyOnly: number;
+  withFfi: number;
 }
 
-async function checkSize(testName?: string, { print = false }: CheckSizeOptions = {}) {
+interface SizesJson {
+  [testName: string]: SizeRecord;
+}
+
+interface CheckSizeOptions {
+  print?: boolean;
+  update?: boolean;
+}
+
+async function checkSize(testName?: string, { print = false, update = false }: CheckSizeOptions = {}) {
   const scriptDir = __dirname;
   const projectRoot = path.resolve(scriptDir, '../..');
+  const sizesJsonPath = path.join(scriptDir, '_sizes.json');
 
   console.error('Building...');
   execSync('moon build --target js', { cwd: projectRoot, stdio: 'inherit' });
@@ -66,12 +77,23 @@ async function checkSize(testName?: string, { print = false }: CheckSizeOptions 
     ? [testName]
     : fs.readdirSync(testsDir).filter(d => fs.statSync(path.join(testsDir, d)).isDirectory());
 
+  // Load previous sizes if exists
+  let previousSizes: SizesJson = {};
+  if (fs.existsSync(sizesJsonPath)) {
+    try {
+      previousSizes = JSON.parse(fs.readFileSync(sizesJsonPath, 'utf-8'));
+    } catch {
+      previousSizes = {};
+    }
+  }
+
+  const currentSizes: SizesJson = {};
   const results: Array<{
     name: string;
     originalSize: number;
     minifiedOnlySize: number;
-    inlinedSize: number;
     minifiedSize: number;
+    prevMinifiedSize?: number;
   }> = [];
 
   for (const dir of testDirs) {
@@ -90,14 +112,13 @@ async function checkSize(testName?: string, { print = false }: CheckSizeOptions 
     const minifiedOnlySize = minifiedOnly.length;
 
     const { code: inlinedCode, inlineCount, inlineableFns } = transform(code);
-    const inlinedSize = inlinedCode.length;
     const minifiedCode = await minifyCode(inlinedCode);
     const minifiedSize = minifiedCode.length;
 
     console.error(`Inlineable functions: ${inlineableFns}`);
     console.error(`Inlined calls: ${inlineCount}`);
     console.error(`Size: ${originalSize} -> ${minifiedOnlySize} bytes (minify only)`);
-    console.error(`Size: ${originalSize} -> ${inlinedSize} -> ${minifiedSize} bytes (inline + minify)`);
+    console.error(`Size: ${originalSize} -> ${minifiedSize} bytes (inline + minify)`);
     console.error(`FFI transform saves: ${minifiedOnlySize - minifiedSize} bytes`);
 
     if (print) {
@@ -119,23 +140,60 @@ async function checkSize(testName?: string, { print = false }: CheckSizeOptions 
       console.error(`Error running ${dir}: ${(e as Error).message}`);
     }
 
-    results.push({ name: dir, originalSize, minifiedOnlySize, inlinedSize, minifiedSize });
+    currentSizes[dir] = {
+      original: originalSize,
+      minifyOnly: minifiedOnlySize,
+      withFfi: minifiedSize,
+    };
+
+    results.push({
+      name: dir,
+      originalSize,
+      minifiedOnlySize,
+      minifiedSize,
+      prevMinifiedSize: previousSizes[dir]?.withFfi,
+    });
   }
 
+  // Print summary with diff
   console.error(`\n=== Size Summary ===`);
-  console.error('Test           | Original | Minify Only | With FFI | Saved');
-  console.error('---------------|----------|-------------|----------|------');
+  console.error('Test           | Original | Minify Only | With FFI |  Diff');
+  console.error('---------------|----------|-------------|----------|-------');
+
+  let hasRegression = false;
   for (const r of results) {
-    const saved = r.minifiedOnlySize - r.minifiedSize;
-    console.error(`${r.name.padEnd(14)} | ${String(r.originalSize).padStart(8)} | ${String(r.minifiedOnlySize).padStart(11)} | ${String(r.minifiedSize).padStart(8)} | ${String(saved).padStart(5)}`);
+    const diff = r.prevMinifiedSize !== undefined
+      ? r.minifiedSize - r.prevMinifiedSize
+      : undefined;
+
+    let diffStr: string;
+    if (diff === undefined) {
+      diffStr = '  new';
+    } else if (diff === 0) {
+      diffStr = '    0';
+    } else if (diff > 0) {
+      diffStr = `  +${diff}`;
+      hasRegression = true;
+    } else {
+      diffStr = `  ${diff}`;
+    }
+
+    console.error(
+      `${r.name.padEnd(14)} | ${String(r.originalSize).padStart(8)} | ${String(r.minifiedOnlySize).padStart(11)} | ${String(r.minifiedSize).padStart(8)} | ${diffStr}`
+    );
   }
 
-  const failed = results.filter(r => r.minifiedSize > 500);
-  if (failed.length > 0) {
-    console.error(`\n  Warning: ${failed.length} test(s) exceed 500 bytes`);
+  // Update or check
+  if (update) {
+    // Merge with existing sizes (keep entries not in current test run)
+    const mergedSizes = { ...previousSizes, ...currentSizes };
+    fs.writeFileSync(sizesJsonPath, JSON.stringify(mergedSizes, null, 2) + '\n');
+    console.error(`\n✓ Updated ${sizesJsonPath}`);
+  } else if (hasRegression) {
+    console.error(`\n✗ Size regression detected! Run with --update to accept new sizes.`);
     process.exit(1);
   } else {
-    console.error(`\n All size checks passed`);
+    console.error(`\n✓ All size checks passed`);
   }
 }
 
@@ -143,11 +201,12 @@ async function checkSize(testName?: string, { print = false }: CheckSizeOptions 
 const args = process.argv.slice(2);
 if (args[0] === '--check') {
   const printFlag = args.includes('--print');
-  const testName = args.find(a => a !== '--check' && a !== '--print');
-  checkSize(testName, { print: printFlag }).catch(e => { console.error(e); process.exit(1); });
+  const updateFlag = args.includes('--update');
+  const testName = args.find(a => !a.startsWith('--'));
+  checkSize(testName, { print: printFlag, update: updateFlag }).catch(e => { console.error(e); process.exit(1); });
 } else if (args.length === 0) {
-  console.log('Usage: npx tsx src/nostd/cli.ts <input.js> [output.js]');
-  console.log('       npx tsx src/nostd/cli.ts --check [testName] [--print]');
+  console.log('Usage: node src/nostd/cli.ts <input.js> [output.js]');
+  console.log('       node src/nostd/cli.ts --check [testName] [--print] [--update]');
   process.exit(1);
 } else {
   processFile(args[0], args[1]).catch(e => { console.error(e); process.exit(1); });

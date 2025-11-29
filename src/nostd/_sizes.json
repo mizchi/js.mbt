@@ -1,0 +1,7 @@
+{
+  "size1": {
+    "original": 1225,
+    "minifyOnly": 320,
+    "withFfi": 245
+  }
+}

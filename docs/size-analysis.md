@@ -268,7 +268,7 @@ moon build --target js
 ./scripts/check_sizes.ts --output-files
 
 # Run analysis script
-node tmp/analyze_size.js
+# node tmp/analyze_size.js
 ```
 
 ## Related Files

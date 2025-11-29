@@ -1,27 +1,27 @@
 ///|
 /// null | undefined | T
 #external
-pub type Nullish
+pub type Nullish[T]
 
 ///|
-pub fn Nullish::to_optional(self : Self) -> JsValue? {
+pub fn[T] Nullish::to_option(self : Nullish[T]) -> T? {
   if is_nullish(self |> JsValue::from) {
     None
   } else {
-    Some(self |> JsValue::from)
+    Some(self |> identity)
   }
 }
 
 ///|
 /// null or T
 #external
-pub type Nullable
+pub type Nullable[T]
 
 ///|
-pub fn Nullable::to_optional(self : Self) -> JsValue? {
+pub fn[T] Nullable::to_option(self : Nullable[T]) -> T? {
   if is_null(self |> JsValue::from) {
     None
   } else {
-    Some(self |> JsValue::from)
+    Some(self |> identity)
   }
 }
