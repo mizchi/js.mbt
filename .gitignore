@@ -11,7 +11,9 @@ fs_test.txt
 # Test files
 test_*.txt
 .test_baseline.json
+.bundle_size_baseline.json
 bisect.coverage
 .env
 .minio-data
 test-results
+tmp
