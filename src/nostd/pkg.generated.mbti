@@ -4,6 +4,10 @@ package "mizchi/js/nostd"
 // Values
 fn[T] any(T) -> Any
 
+fn assert_throws(() -> Any) -> String raise JsError
+
+fn assert_throws_with(() -> Any, String) -> Unit
+
 fn equal(Any, Any) -> Bool
 
 fn[E : Show + Error] export_sync(() -> Any raise E) -> Any

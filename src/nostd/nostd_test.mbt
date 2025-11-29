@@ -205,3 +205,28 @@ test "export_sync - converts MoonBit error to JS exception" {
 }
 
 // Promise tests - Note: run_async is non-blocking so we test via size2_promise example
+
+// assert_throws tests
+
+///|
+test "assert_throws - catches exception" {
+  let msg = assert_throws(throwing_op) catch { JsError(m) => m }
+  assert_eq(msg, "Test error")
+}
+
+///|
+test "assert_throws - fails when no exception" {
+  // assert_throws raises JsError when no exception is thrown
+  let result = assert_throws(succeeding_op) catch { JsError(m) => m }
+  assert_true(result.contains("Expected exception"))
+}
+
+///|
+test "assert_throws_with - passes on matching message" {
+  assert_throws_with(throwing_op, "Test error")
+}
+
+///|
+test "assert_throws_with - partial match" {
+  assert_throws_with(throwing_op, "error")
+}

@@ -46,3 +46,27 @@ pub fn[E : Show + Error] export_sync(op : () -> Any raise E) -> Any {
     }
   }
 }
+
+///|
+/// Test helper: assert that op throws a JS exception
+/// Returns the error message if thrown, fails if no exception
+pub fn assert_throws(op : () -> Any) -> String raise JsError {
+  try_sync(op) |> ignore
+  raise JsError("Expected exception but none was thrown")
+}
+
+///|
+/// Test helper: assert that op throws with specific message (contains check)
+pub fn assert_throws_with(op : () -> Any, expected_msg : String) -> Unit {
+  let msg = assert_throws(op) catch { JsError(m) => m }
+  if not(msg.contains(expected_msg)) {
+    let _ = throw_error(
+      "Expected error containing \"" +
+      expected_msg +
+      "\" but got \"" +
+      msg +
+      "\"",
+    )
+
+  }
+}
