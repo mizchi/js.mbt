@@ -23,22 +23,12 @@ pub fn[T] JsValue::cast(self : JsValue) -> T = "%identity"
 ///| JsArray operations
 
 ///|
-extern "js" fn ffi_array_new() -> JsArray =
+pub extern "js" fn array_new() -> JsArray =
   #| () => []
 
 ///|
-extern "js" fn ffi_array_push(arr : JsArray, value : JsValue) -> Unit =
+pub extern "js" fn array_push(arr : JsArray, value : JsValue) -> Unit =
   #| (arr, value) => arr.push(value)
-
-///|
-pub fn array_new() -> JsArray {
-  ffi_array_new()
-}
-
-///|
-pub fn array_push(arr : JsArray, value : JsValue) -> Unit {
-  ffi_array_push(arr, value)
-}
 
 ///| JsValue methods
 
@@ -77,42 +67,22 @@ pub extern "js" fn JsValue::_get(self : JsValue, key : String) -> JsValue =
 ///| Global functions
 
 ///|
-extern "js" fn ffi_global_this() -> JsValue =
+pub extern "js" fn global_this() -> JsValue =
   #| () => globalThis
 
 ///|
-extern "js" fn ffi_undefined() -> JsValue =
+pub extern "js" fn undefined() -> JsValue =
   #| () => undefined
 
 ///|
-extern "js" fn ffi_null() -> JsValue =
+pub extern "js" fn null() -> JsValue =
   #| () => null
 
 ///|
-extern "js" fn ffi_console_log(msg : String) -> Unit =
+pub extern "js" fn console_log(msg : String) -> Unit =
   #| (msg) => console.log(msg)
-
-///|
-pub fn global_this() -> JsValue {
-  ffi_global_this()
-}
-
-///|
-pub fn undefined() -> JsValue {
-  ffi_undefined()
-}
-
-///|
-pub fn null() -> JsValue {
-  ffi_null()
-}
 
 ///|
 /// Check if value is null or undefined
 pub extern "js" fn is_nullish(v : JsValue) -> Bool =
   #|(v) => v == null
-
-///|
-pub fn console_log(msg : String) -> Unit {
-  ffi_console_log(msg)
-}
