@@ -1,22 +1,3 @@
-// =============================================================================
-// Test Helper FFI Functions
-// =============================================================================
-// These FFI functions are used ONLY for testing React element rendering.
-// In real applications, you would use React DOM's render or hydrate methods
-// in a browser environment.
-//
-// Requires: npm install react react-dom
-// =============================================================================
-
-///|
-/// [Test Helper] Invokes ReactDOMServer.renderToString with a React element.
-/// This is used to verify that elements render correctly to HTML strings.
-extern "js" fn test_ffi_render_to_string(
-  render_fn : @js.Any,
-  element : @js.Any,
-) -> String =
-  #|(renderFn, element) => renderFn(element)
-
 ///|
 /// Helper function to get a render function for tests.
 /// Initializes React and returns a function that renders elements to HTML strings.
@@ -26,7 +7,7 @@ fn get_render_to_string() -> (@react.Element) -> String {
   let react_dom_server = @node.require("react-dom/server")
   let render_fn : @js.Any = react_dom_server.get("renderToString")
   fn(element : @react.Element) -> String {
-    test_ffi_render_to_string(render_fn, element.to_any())
+    @js.identity(render_fn.call_self([element.to_any()]))
   }
 }
 

@@ -1,27 +1,9 @@
 ///|
 /// Response body async reading tests
 
-// =============================================================================
-// Test Helper FFI Functions
-// =============================================================================
-// These FFI functions are used ONLY for testing purposes.
-// They provide functionality that is either:
-// 1. Not yet wrapped in the library's public API
-// 2. Needed to create test fixtures (like Response objects)
-//
-// In production code, you would typically receive Response objects from
-// fetch() or other Web APIs, not construct them directly.
-// =============================================================================
-
-///|
-/// [Test Helper] Creates a new Response object with the given content.
-/// In real applications, Response objects come from fetch() or similar APIs.
-extern "js" fn test_ffi_new_response(content : String) -> Response =
-  #|(content) => new Response(content)
-
 ///|
 async test "Response: read body as text" {
-  let response = test_ffi_new_response("Hello, async world!")
+  let response = Response::new(body="Hello, async world!")
 
   // Read body as text
   let text_result : @js.Any = response.to_any().call0("text")
@@ -33,7 +15,7 @@ async test "Response: read body as text" {
 ///|
 async test "Response: read body as JSON" {
   let json_str = "{\"name\":\"test\",\"value\":42}"
-  let response = test_ffi_new_response(json_str)
+  let response = Response::new(body=json_str)
 
   // Read body as JSON
   let json_result : @js.Any = response.to_any().call0("json")
@@ -47,7 +29,7 @@ async test "Response: read body as JSON" {
 
 ///|
 async test "Response: read body stream chunk by chunk" {
-  let response = test_ffi_new_response("chunk1chunk2chunk3")
+  let response = Response::new(body="chunk1chunk2chunk3")
   let body = response.body()
   match body {
     Some(stream) => {
@@ -80,7 +62,7 @@ async test "Response: read body stream chunk by chunk" {
 
 ///|
 async test "Response: clone and read both bodies" {
-  let response = test_ffi_new_response("original content")
+  let response = Response::new(body="original content")
   let cloned = response.clone()
 
   // Read original
@@ -98,7 +80,7 @@ async test "Response: clone and read both bodies" {
 
 ///|
 async test "Response: read body multiple times fails after first read" {
-  let response = test_ffi_new_response("single read")
+  let response = Response::new(body="single read")
 
   // First read succeeds
   let text1_result : @js.Any = response.to_any().call0("text")
@@ -121,7 +103,7 @@ async test "Response: read large body in chunks" {
     large_content = large_content + "data\{i},"
     i = i + 1
   }
-  let response = test_ffi_new_response(large_content)
+  let response = Response::new(body=large_content)
   let text_result : @js.Any = response.to_any().call0("text")
   let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
@@ -131,7 +113,7 @@ async test "Response: read large body in chunks" {
 
 ///|
 async test "Response: body stream with defer cleanup" {
-  let response = test_ffi_new_response("test cleanup")
+  let response = Response::new(body="test cleanup")
   let body = response.body()
   match body {
     Some(stream) => {
@@ -154,7 +136,7 @@ async test "Response: body stream with defer cleanup" {
 
 ///|
 async test "Response: arrayBuffer method" {
-  let response = test_ffi_new_response("buffer test")
+  let response = Response::new(body="buffer test")
   let buffer_result : @js.Any = response.to_any().call0("arrayBuffer")
   let buffer_promise : @js.Promise[@js.Any] = @js.identity(buffer_result)
   let buffer = buffer_promise.wait()
@@ -170,7 +152,7 @@ async test "Response: arrayBuffer method" {
 
 ///|
 async test "Response: blob method" {
-  let response = test_ffi_new_response("blob content")
+  let response = Response::new(body="blob content")
   let blob_result : @js.Any = response.to_any().call0("blob")
   let blob_promise : @js.Promise[@js.Any] = @js.identity(blob_result)
   let blob = blob_promise.wait()
