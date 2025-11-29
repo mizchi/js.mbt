@@ -5,7 +5,7 @@ pub type Nullish[T]
 
 ///|
 pub fn[T] Nullish::to_option(self : Nullish[T]) -> T? {
-  if is_nullish(self |> JsValue::from) {
+  if is_nullish(self |> any) {
     None
   } else {
     Some(self |> identity)
@@ -19,7 +19,7 @@ pub type Nullable[T]
 
 ///|
 pub fn[T] Nullable::to_option(self : Nullable[T]) -> T? {
-  if is_null(self |> JsValue::from) {
+  if is_null(self |> any) {
     None
   } else {
     Some(self |> identity)

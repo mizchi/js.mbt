@@ -3,12 +3,12 @@
 /// Measures size of a practical Node.js file reading use case
 
 ///|
-extern "js" fn get_console() -> @nostd.JsValue =
+extern "js" fn get_console() -> @nostd.Any =
   #| () => console
 
 ///|
 /// node:fs/promises module
-extern "js" fn fs_promises() -> @nostd.JsValue =
+extern "js" fn fs_promises() -> @nostd.Any =
   #| () => require("node:fs/promises")
 
 ///|
@@ -23,10 +23,10 @@ fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
 
 ///|
 /// Await a JS Promise using suspend
-async fn[T] wait(promise : @nostd.JsValue) -> T {
+async fn[T] wait(promise : @nostd.Any) -> T {
   suspend(fn(resolve, reject) {
-    promise._call("then", [@nostd.JsValue::from(resolve)]) |> ignore
-    promise._call("catch", [@nostd.JsValue::from(reject)]) |> ignore
+    promise._call("then", [@nostd.any(resolve)]) |> ignore
+    promise._call("catch", [@nostd.any(reject)]) |> ignore
   })
 }
 
@@ -34,16 +34,13 @@ async fn[T] wait(promise : @nostd.JsValue) -> T {
 /// nostd version of fs_promises.readFile
 async fn read_file(path : String, encoding : String) -> String {
   let fs = fs_promises()
-  let promise = fs._call("readFile", [
-    @nostd.JsValue::from(path),
-    @nostd.JsValue::from(encoding),
-  ])
+  let promise = fs._call("readFile", [@nostd.any(path), @nostd.any(encoding)])
   wait(promise)
 }
 
 ///|
-fn log(con : @nostd.JsValue, msg : String) -> Unit {
-  con._call("log", [@nostd.JsValue::from(msg)]) |> ignore
+fn log(con : @nostd.Any, msg : String) -> Unit {
+  con._call("log", [@nostd.any(msg)]) |> ignore
 }
 
 ///|

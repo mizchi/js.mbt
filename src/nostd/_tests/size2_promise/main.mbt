@@ -3,12 +3,12 @@
 /// Test case for measuring Promise wait overhead with multiple awaits
 
 ///|
-extern "js" fn get_console() -> @nostd.JsValue =
+extern "js" fn get_console() -> @nostd.Any =
   #| () => console
 
 ///|
 /// JS: new Promise((resolve) => setTimeout(() => resolve(value), ms))
-extern "js" fn delay_string(ms : Int, value : String) -> @nostd.JsValue =
+extern "js" fn delay_string(ms : Int, value : String) -> @nostd.Any =
   #| (ms, value) => new Promise(r => setTimeout(() => r(value), ms))
 
 ///|
@@ -23,16 +23,16 @@ fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
 
 ///|
 /// Await a JS Promise using suspend
-async fn[T] wait(promise : @nostd.JsValue) -> T {
+async fn[T] wait(promise : @nostd.Any) -> T {
   suspend(fn(resolve, reject) {
-    promise._call("then", [@nostd.JsValue::from(resolve)]) |> ignore
-    promise._call("catch", [@nostd.JsValue::from(reject)]) |> ignore
+    promise._call("then", [@nostd.any(resolve)]) |> ignore
+    promise._call("catch", [@nostd.any(reject)]) |> ignore
   })
 }
 
 ///|
-fn log(con : @nostd.JsValue, msg : String) -> Unit {
-  con._call("log", [@nostd.JsValue::from(msg)]) |> ignore
+fn log(con : @nostd.Any, msg : String) -> Unit {
+  con._call("log", [@nostd.any(msg)]) |> ignore
 }
 
 ///|

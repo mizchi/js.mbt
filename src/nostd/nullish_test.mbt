@@ -3,27 +3,27 @@
 // using identity directly could result in Some(null)
 
 ///|
-extern "js" fn create_object_with_null_field() -> JsValue =
+extern "js" fn create_object_with_null_field() -> @nostd.Any =
   #| () => ({ value: null })
 
 ///|
-extern "js" fn create_object_with_undefined_field() -> JsValue =
+extern "js" fn create_object_with_undefined_field() -> @nostd.Any =
   #| () => ({ value: undefined })
 
 ///|
-extern "js" fn create_object_with_value() -> JsValue =
+extern "js" fn create_object_with_value() -> @nostd.Any =
   #| () => ({ value: 42 })
 
 ///|
-extern "js" fn create_object_with_missing_field() -> JsValue =
+extern "js" fn create_object_with_missing_field() -> @nostd.Any =
   #| () => ({})
 
 ///|
-extern "js" fn get_null_callback() -> JsValue =
+extern "js" fn get_null_callback() -> @nostd.Any =
   #| () => null
 
 ///|
-extern "js" fn get_valid_callback() -> JsValue =
+extern "js" fn get_valid_callback() -> @nostd.Any =
   #| () => (() => 42)
 
 // Test Nullish[T] type behavior
@@ -86,7 +86,7 @@ test "Nullable[T]::to_option with undefined value" {
   // When T=JsValue, undefined becomes Some(undefined)
   // But when T=Int, we get Some(NaN) which is problematic
   // For JsValue, we can verify it works correctly:
-  let field : Nullable[JsValue] = obj["value"].cast()
+  let field : Nullable[Any] = obj["value"].cast()
   let opt = field.to_option()
   // undefined is NOT null, so Nullable should return Some(undefined)
   assert_true(not(opt is None))
@@ -114,7 +114,7 @@ test "Nullable[T]::to_option with actual value" {
 
 ///|
 test "null callback with Nullish[T]" {
-  let callback : Nullish[JsValue] = get_null_callback().cast()
+  let callback : Nullish[Any] = get_null_callback().cast()
   let opt = callback.to_option()
   // null callback should become None
   assert_true(opt is None)
@@ -122,7 +122,7 @@ test "null callback with Nullish[T]" {
 
 ///|
 test "valid callback with Nullish[T]" {
-  let callback : Nullish[JsValue] = get_valid_callback().cast()
+  let callback : Nullish[@nostd.Any] = get_valid_callback().cast()
   let opt = callback.to_option()
   // valid callback should become Some
   assert_true(not(opt is None))
@@ -130,7 +130,7 @@ test "valid callback with Nullish[T]" {
 
 ///|
 test "null callback with Nullable[T]" {
-  let callback : Nullable[JsValue] = get_null_callback().cast()
+  let callback : Nullable[@nostd.Any] = get_null_callback().cast()
   let opt = callback.to_option()
   // null callback should become None
   assert_true(opt is None)
@@ -148,15 +148,15 @@ priv struct MyStruct {
 }
 
 ///|
-extern "js" fn create_struct_with_null_foo() -> JsValue =
+extern "js" fn create_struct_with_null_foo() -> Any =
   #| () => ({ foo: null })
 
 ///|
-extern "js" fn create_struct_with_undefined_foo() -> JsValue =
+extern "js" fn create_struct_with_undefined_foo() -> Any =
   #| () => ({ foo: undefined })
 
 ///|
-extern "js" fn create_struct_with_value_foo() -> JsValue =
+extern "js" fn create_struct_with_value_foo() -> @nostd.Any =
   #| () => ({ foo: 123 })
 
 ///|
@@ -217,15 +217,15 @@ priv struct Outer {
 }
 
 ///|
-extern "js" fn create_outer_with_inner() -> JsValue =
+extern "js" fn create_outer_with_inner() -> @nostd.Any =
   #| () => ({ inner: { x: 10, y: "hello" }, name: "outer" })
 
 ///|
-extern "js" fn create_outer_with_null_inner() -> JsValue =
+extern "js" fn create_outer_with_null_inner() -> @nostd.Any =
   #| () => ({ inner: null, name: "outer-null" })
 
 ///|
-extern "js" fn create_outer_with_undefined_inner() -> JsValue =
+extern "js" fn create_outer_with_undefined_inner() -> @nostd.Any =
   #| () => ({ inner: undefined, name: "outer-undef" })
 
 ///|
@@ -280,15 +280,15 @@ priv struct Level1 {
 }
 
 ///|
-extern "js" fn create_deeply_nested() -> JsValue =
+extern "js" fn create_deeply_nested() -> @nostd.Any =
   #| () => ({ level2: { level3: { value: 42 } } })
 
 ///|
-extern "js" fn create_deeply_nested_with_null_level3() -> JsValue =
+extern "js" fn create_deeply_nested_with_null_level3() -> @nostd.Any =
   #| () => ({ level2: { level3: null } })
 
 ///|
-extern "js" fn create_deeply_nested_with_null_level2() -> JsValue =
+extern "js" fn create_deeply_nested_with_null_level2() -> @nostd.Any =
   #| () => ({ level2: null })
 
 ///|
@@ -343,15 +343,15 @@ priv struct NullishContainer[T] {
 }
 
 ///|
-extern "js" fn create_container_int() -> JsValue =
+extern "js" fn create_container_int() -> @nostd.Any =
   #| () => ({ value: 100, label: "int-container" })
 
 ///|
-extern "js" fn create_container_string() -> JsValue =
+extern "js" fn create_container_string() -> @nostd.Any =
   #| () => ({ value: "hello world", label: "string-container" })
 
 ///|
-extern "js" fn create_container_nested() -> JsValue =
+extern "js" fn create_container_nested() -> @nostd.Any =
   #| () => ({ value: { x: 1, y: 2 }, label: "nested-container" })
 
 ///|
@@ -388,19 +388,19 @@ test "generic struct Container[Point] - nested struct in generic" {
 // Test generic struct with Nullish[T] field
 
 ///|
-extern "js" fn create_nullish_container_with_value() -> JsValue =
+extern "js" fn create_nullish_container_with_value() -> @nostd.Any =
   #| () => ({ data: 42, id: 1 })
 
 ///|
-extern "js" fn create_nullish_container_with_null() -> JsValue =
+extern "js" fn create_nullish_container_with_null() -> @nostd.Any =
   #| () => ({ data: null, id: 2 })
 
 ///|
-extern "js" fn create_nullish_container_with_nested() -> JsValue =
+extern "js" fn create_nullish_container_with_nested() -> @nostd.Any =
   #| () => ({ data: { x: 10, y: 20 }, id: 3 })
 
 ///|
-extern "js" fn create_nullish_container_with_null_nested() -> JsValue =
+extern "js" fn create_nullish_container_with_null_nested() -> @nostd.Any =
   #| () => ({ data: null, id: 4 })
 
 ///|
@@ -455,19 +455,19 @@ priv struct Pair[A, B] {
 }
 
 ///|
-extern "js" fn create_pair_both_present() -> JsValue =
+extern "js" fn create_pair_both_present() -> @nostd.Any =
   #| () => ({ first: 123, second: "abc" })
 
 ///|
-extern "js" fn create_pair_first_null() -> JsValue =
+extern "js" fn create_pair_first_null() -> @nostd.Any =
   #| () => ({ first: null, second: "abc" })
 
 ///|
-extern "js" fn create_pair_second_null() -> JsValue =
+extern "js" fn create_pair_second_null() -> @nostd.Any =
   #| () => ({ first: 123, second: null })
 
 ///|
-extern "js" fn create_pair_both_null() -> JsValue =
+extern "js" fn create_pair_both_null() -> @nostd.Any =
   #| () => ({ first: null, second: null })
 
 ///|
@@ -514,11 +514,11 @@ test "generic struct Pair[Int, String] - both null" {
 }
 
 ///|
-extern "js" fn create_struct_with_null_bar() -> JsValue =
+extern "js" fn create_struct_with_null_bar() -> @nostd.Any =
   #| () => ({ bar: null })
 
 ///|
-extern "js" fn create_struct_with_value_bar() -> JsValue =
+extern "js" fn create_struct_with_value_bar() -> @nostd.Any =
   #| () => ({ bar: 456 })
 
 ///|

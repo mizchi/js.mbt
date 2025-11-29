@@ -3,19 +3,19 @@
 
 ///|
 /// Create options object: { compress: { passes: n }, mangle: { toplevel: true } }
-fn create_options(passes : Int) -> @nostd.JsValue {
+fn create_options(passes : Int) -> @nostd.Any {
   let global = @nostd.global_this()
   let object = global["Object"]
   let options = object._call("create", [@nostd.null()])
 
   // compress: { passes: n }
   let compress = object._call("create", [@nostd.null()])
-  compress["passes"] = @nostd.JsValue::from(passes)
+  compress["passes"] = @nostd.any(passes)
   options["compress"] = compress
 
   // mangle: { toplevel: true }
   let mangle = object._call("create", [@nostd.null()])
-  mangle["toplevel"] = @nostd.JsValue::from(true)
+  mangle["toplevel"] = @nostd.any(true)
   options["mangle"] = mangle
   options
 }
@@ -23,11 +23,11 @@ fn create_options(passes : Int) -> @nostd.JsValue {
 ///|
 /// Call terser.minify(code, options) and return Promise
 fn terser_minify(
-  terser : @nostd.JsValue,
+  terser : @nostd.Any,
   code : String,
-  options : @nostd.JsValue,
-) -> @nostd.JsValue {
-  terser._call("minify", [@nostd.JsValue::from(code), options])
+  options : @nostd.Any,
+) -> @nostd.Any {
+  terser._call("minify", [@nostd.any(code), options])
 }
 
 ///|
@@ -38,7 +38,7 @@ fn main {
   let terser = global["terser"]
   if @nostd.is_nullish(terser) {
     console._call("log", [
-      @nostd.JsValue::from(
+      @nostd.any(
         "Error: terser not found. Run with: node -e \"globalThis.terser = require('terser')\" -r ./terser_binding.js",
       ),
     ])
@@ -59,12 +59,10 @@ fn main {
   // Create callback: result => console.log(result.code)
   let callback = create_then_callback()
   promise._call("then", [callback]) |> ignore
-  console._call("log", [
-    @nostd.JsValue::from("[terser_binding] Promise started"),
-  ])
+  console._call("log", [@nostd.any("[terser_binding] Promise started")])
   |> ignore
 }
 
 ///|
-extern "js" fn create_then_callback() -> @nostd.JsValue =
+extern "js" fn create_then_callback() -> @nostd.Any =
   #| () => (result) => console.log("Minified:", result.code)

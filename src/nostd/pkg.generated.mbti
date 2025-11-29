@@ -2,35 +2,36 @@
 package "mizchi/js/nostd"
 
 // Values
-fn equal(JsValue, JsValue) -> Bool
+fn[T] any(T) -> Any
 
-fn global_this() -> JsValue
+fn equal(Any, Any) -> Bool
+
+fn global_this() -> Any
 
 fn[A, B] identity(A) -> B
 
-fn is_null(JsValue) -> Bool
+fn is_null(Any) -> Bool
 
-fn is_nullish(JsValue) -> Bool
+fn is_nullish(Any) -> Bool
 
-fn is_undefined(JsValue) -> Bool
+fn is_undefined(Any) -> Bool
 
-fn null() -> JsValue
+fn null() -> Any
 
-fn undefined() -> JsValue
+fn undefined() -> Any
 
 // Errors
 
 // Types and methods
 #external
-pub type JsValue
-fn JsValue::_call(Self, String, Array[Self]) -> Self
+pub type Any
+fn Any::_call(Self, String, Array[Self]) -> Self
 #alias("_[_]")
-fn JsValue::_get(Self, String) -> Self
-fn JsValue::_invoke(Self, Array[Self]) -> Self
+fn Any::_get(Self, String) -> Self
+fn Any::_invoke(Self, Array[Self]) -> Self
 #alias("_[_]=_")
-fn JsValue::_set(Self, String, Self) -> Unit
-fn[T] JsValue::cast(Self) -> T
-fn[T] JsValue::from(T) -> Self
+fn Any::_set(Self, String, Self) -> Unit
+fn[T] Any::cast(Self) -> T
 
 #external
 pub type Nullable[T]
@@ -42,7 +43,7 @@ fn[T] Nullish::to_option(Self[T]) -> T?
 
 #external
 pub type Object
-fn Object::new() -> JsValue
+fn Object::new() -> Any
 
 // Type aliases
 

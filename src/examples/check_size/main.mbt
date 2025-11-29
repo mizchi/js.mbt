@@ -7,7 +7,7 @@ fn main {
 
   // Call console.log with a string (using method syntax)
   console._call("log", [
-    @nostd.JsValue::from("Hello from MoonBit with lightweight JsValue!"),
+    @nostd.any("Hello from MoonBit with lightweight JsValue!"),
   ])
   |> ignore
 
