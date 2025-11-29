@@ -1,23 +1,26 @@
 ///|
-fn main {
-  // Simple test using lightweight JsValue API (no trait vtable)
-  // Uses @nostd package for direct FFI methods
-  let global = @nostd.global_this()
-  let console = global["console"]
+extern "js" fn get_console() -> @nostd.JsValue =
+  #| () => console
 
-  // Call console.log with a string (using method syntax)
+///|
+fn main {
+  // Get console directly via extern
+  let con = get_console()
+
+  // Call console.log with a string
   let msg = @nostd.JsValue::from("Hello from MoonBit with lightweight JsValue!")
   let args = @nostd.JsArray::new()
   args._push(msg)
-  let _ = console._call("log", args)
+  let _ = con._call("log", args)
 
-  // Simple object property access
+  // Check process.version if available
+  let global = @nostd.global_this()
   let process = global["process"]
   if @nostd.is_nullish(process) == false {
     let version = process["version"]
     let args2 = @nostd.JsArray::new()
     args2._push(version)
-    let _ = console._call("log", args2)
+    let _ = con._call("log", args2)
 
   }
 }

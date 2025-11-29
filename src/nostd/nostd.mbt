@@ -27,7 +27,7 @@ pub extern "js" fn JsArray::new() -> JsArray =
   #| () => []
 
 ///|
-pub extern "js" fn JsArray::_push(self : JsArray, value : JsValue) -> Unit =
+pub extern "js" fn JsArray::_push(self : Self, value : JsValue) -> Unit =
   #| (arr, value) => arr.push(value)
 
 ///| JsValue methods
