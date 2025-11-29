@@ -1,0 +1,43 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/nostd"
+
+// Values
+fn array_new() -> JsArray
+
+fn array_push(JsArray, JsValue) -> Unit
+
+fn console_log(String) -> Unit
+
+fn global_this() -> JsValue
+
+fn int(Int) -> JsValue
+
+fn is_nullish(JsValue) -> Bool
+
+fn null() -> JsValue
+
+fn str(String) -> JsValue
+
+fn undefined() -> JsValue
+
+// Errors
+
+// Types and methods
+#external
+pub type JsArray
+
+#external
+pub type JsValue
+fn JsValue::_call(Self, String, JsArray) -> Self
+#alias("_[_]")
+fn JsValue::_get(Self, String) -> Self
+#alias("_[_]=_")
+fn JsValue::_set(Self, String, Self) -> Unit
+fn[T] JsValue::cast(Self) -> T
+fn[T] JsValue::from(T) -> Self
+fn JsValue::invoke(Self, JsArray) -> Self
+
+// Type aliases
+
+// Traits
+
