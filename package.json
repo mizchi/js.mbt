@@ -80,6 +80,7 @@
     "memfs": "^4.51.0",
     "minimatch": "^10.1.1",
     "msw": "^2.12.3",
+    "oxc-transform": "^0.99.0",
     "preact-render-to-string": "^6.6.3",
     "simple-git": "^3.30.0",
     "vue": "^3.5.25",
