@@ -18,11 +18,15 @@ fn global_this() -> Any
 
 fn[A, B] identity(A) -> B
 
+fn instance_of(Any, Any) -> Bool
+
 fn is_null(Any) -> Bool
 
 fn is_nullish(Any) -> Bool
 
 fn is_undefined(Any) -> Bool
+
+fn new(Any, Array[Any]) -> Any
 
 fn null() -> Any
 
@@ -33,6 +37,8 @@ async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 fn throw_error(String) -> Unit
 
 fn try_sync(() -> Any) -> Any raise JsError
+
+fn type_of(Any) -> String
 
 fn undefined() -> Any
 

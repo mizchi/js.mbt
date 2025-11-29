@@ -11,7 +11,7 @@ pub type Object
 
 ///|
 pub extern "js" fn Object::new() -> Any =
-  #| () => {}
+  #| () => ({})
 
 ///| Zero-cost type conversions using %identity
 /// These are compile-time only and produce no runtime code
@@ -88,3 +88,18 @@ pub extern "js" fn is_undefined(v : Any) -> Bool =
 /// Check if value is null or undefined
 pub extern "js" fn equal(a : Any, b : Any) -> Bool =
   #|(a, b) => a === b
+
+///|
+/// JS: typeof value
+pub extern "js" fn type_of(value : Any) -> String =
+  #|(value) => typeof value
+
+///|
+/// JS: value instanceof cls
+pub extern "js" fn instance_of(value : Any, cls : Any) -> Bool =
+  #|(value, cls) => value instanceof cls
+
+///|
+/// JS: new cls(...args)
+pub extern "js" fn new(cls : Any, args : Array[Any]) -> Any =
+  #|(cls, args) => new cls(...args)

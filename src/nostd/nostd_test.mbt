@@ -235,6 +235,45 @@ test "assert_throws_with - partial match" {
 extern "js" fn throw_custom_error() -> Any =
   #| () => { throw new Error("Custom error message"); }
 
+// type_of, instance_of, new tests
+
+///|
+test "type_of" {
+  assert_eq(type_of(any(42)), "number")
+  assert_eq(type_of(any("hello")), "string")
+  assert_eq(type_of(any(true)), "boolean")
+  assert_eq(type_of(undefined()), "undefined")
+  assert_eq(type_of(null()), "object") // JS quirk
+  assert_eq(type_of(Object::new()), "object")
+}
+
+///|
+test "instance_of" {
+  let global = global_this()
+  let arr : Any = global["Array"]._call("from", [any([1, 2, 3])])
+  assert_true(instance_of(arr, global["Array"]))
+  assert_true(instance_of(arr, global["Object"]))
+  assert_true(not(instance_of(arr, global["String"])))
+}
+
+///|
+test "new - create Date" {
+  let global = global_this()
+  let date = new(global["Date"], [any(0)]) // Unix epoch
+  assert_true(instance_of(date, global["Date"]))
+  let time : Int = date._call("getTime", []).cast()
+  assert_eq(time, 0)
+}
+
+///|
+test "new - create Error" {
+  let global = global_this()
+  let err = new(global["Error"], [any("test error")])
+  assert_true(instance_of(err, global["Error"]))
+  let msg : String = err["message"].cast()
+  assert_eq(msg, "test error")
+}
+
 ///|
 test "assert_throws_with - fails on mismatch" {
   // assert_throws_with throws when message doesn't match
