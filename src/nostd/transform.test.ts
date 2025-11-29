@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert';
-import { transform } from './transform';
+import { transform } from './transform.ts';
 
 describe('transform', () => {
   // ============================================================================

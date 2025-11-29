@@ -11,7 +11,7 @@
  *   unplugin.vite()
  */
 import { createUnplugin } from 'unplugin';
-import { transform } from './transform';
+import { transform } from './transform.ts';
 
 // ============================================================================
 // Plugin Options
