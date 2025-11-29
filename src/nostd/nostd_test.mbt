@@ -230,3 +230,31 @@ test "assert_throws_with - passes on matching message" {
 test "assert_throws_with - partial match" {
   assert_throws_with(throwing_op, "error")
 }
+
+///|
+extern "js" fn throw_custom_error() -> Any =
+  #| () => { throw new Error("Custom error message"); }
+
+///|
+test "assert_throws_with - fails on mismatch" {
+  // assert_throws_with throws when message doesn't match
+  let result : String = try_sync(fn() {
+    assert_throws_with(throw_custom_error, "wrong message")
+    any(())
+  }).cast() catch {
+    JsError(m) => m
+  }
+  assert_true(result.contains("Expected error containing"))
+}
+
+///|
+test "assert_throws_with - no exception throws" {
+  // assert_throws_with fails when op doesn't throw
+  let result : String = try_sync(fn() {
+    assert_throws_with(succeeding_op, "any message")
+    any(())
+  }).cast() catch {
+    JsError(m) => m
+  }
+  assert_true(result.contains("Expected exception"))
+}
