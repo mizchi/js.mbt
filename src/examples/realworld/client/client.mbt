@@ -14,7 +14,7 @@ pub impl @js.JsImpl for ApiClient
 /// Create a new API client
 pub fn create_api_client(base_url : String) -> ApiClient {
   let obj = @js.Object::new()
-  obj.set("baseUrl", base_url)
+  obj["baseUrl"] = base_url
   obj.to_any().cast()
 }
 

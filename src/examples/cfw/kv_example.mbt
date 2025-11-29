@@ -148,8 +148,8 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
         i = i + 1
       }
       let response_json = @js.Object::new()
-      response_json.set("keys", keys_json)
-      response_json.set("count", keys.length())
+      response_json["keys"] = keys_json
+      response_json["count"] = keys.length()
 
       // Convert to JSON string
       let json_str = json_stringify(response_json.to_any())

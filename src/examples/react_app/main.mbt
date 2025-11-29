@@ -195,8 +195,8 @@ fn app(props : AppProps) -> @react.Element {
             on_change~,
             props={
               let obj = @js.Object::new()
-              obj.set("rows", 4)
-              obj.set("cols", 40)
+              obj["rows"] = 4
+              obj["cols"] = 40
               obj
             },
             ref_=textarea_ref,

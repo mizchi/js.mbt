@@ -26,15 +26,15 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
       )
     } else if pathname == "/api/hello" {
       let data = @js.Object::new()
-      data.set("message", "Hello from MoonBit Worker!")
+      data["message"] = "Hello from MoonBit Worker!"
       let options = @js.Object::new()
-      options.set("status", 200)
+      options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/echo" {
       let data = @js.Object::new()
-      data.set("url", url_str)
+      data["url"] = url_str
       let options = @js.Object::new()
-      options.set("status", 200)
+      options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/fetch" {
       // Fetch external API
@@ -45,48 +45,48 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
         e => {
           log("Error: " + e.to_string())
           let data = @js.Object::new()
-          data.set("error", "Failed to fetch")
+          data["error"] = "Failed to fetch"
           let options = @js.Object::new()
-          options.set("status", 500)
+          options["status"] = 500
           return Response::json_(data, options~)
         }
       }
       res
     } else if pathname == "/api/json" {
       let data = @js.Object::new()
-      data.set("status", "ok")
+      data["status"] = "ok"
       let inner_data = @js.Object::new()
-      inner_data.set("foo", "bar")
-      inner_data.set("num", 42)
-      data.set("data", inner_data)
-      data.set("timestamp", 1234567890)
+      inner_data["foo"] = "bar"
+      inner_data["num"] = 42
+      data["data"] = inner_data
+      data["timestamp"] = 1234567890
       let options = @js.Object::new()
-      options.set("status", 200)
+      options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/redirect" {
       Response::redirect("/", status=302)
     } else if pathname == "/api/headers" {
       let headers = @js.Object::new()
-      headers.set("Content-Type", "application/json")
-      headers.set("x-custom-header", "MoonBit-Worker")
-      headers.set("x-powered-by", "Cloudflare")
+      headers["Content-Type"] = "application/json"
+      headers["x-custom-header"] = "MoonBit-Worker"
+      headers["x-powered-by"] = "Cloudflare"
       let data = @js.Object::new()
-      data.set("message", "Check the headers")
+      data["message"] = "Check the headers"
       let options = @js.Object::new()
-      options.set("status", 200)
-      options.set("headers", headers)
+      options["status"] = 200
+      options["headers"] = headers
       Response::json_(data, options~)
     } else if pathname == "/api/status/404" {
       let data = @js.Object::new()
-      data.set("error", "Not Found")
+      data["error"] = "Not Found"
       let options = @js.Object::new()
-      options.set("status", 404)
+      options["status"] = 404
       Response::json_(data, options~)
     } else if pathname == "/api/status/500" {
       let data = @js.Object::new()
-      data.set("error", "Internal Server Error")
+      data["error"] = "Internal Server Error"
       let options = @js.Object::new()
-      options.set("status", 500)
+      options["status"] = 500
       Response::json_(data, options~)
     } else if pathname == "/api/text" {
       Response::text_("Plain text response from MoonBit", 200)
@@ -102,34 +102,34 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
         None => "Hello"
       }
       let data = @js.Object::new()
-      data.set("greeting", message + ", " + name + "!")
+      data["greeting"] = message + ", " + name + "!"
       let options = @js.Object::new()
-      options.set("status", 200)
+      options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/time" {
       let data = @js.Object::new()
-      data.set("timestamp", 1234567890)
+      data["timestamp"] = 1234567890
       let options = @js.Object::new()
-      options.set("status", 200)
+      options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/user-agent" {
       let data = @js.Object::new()
-      data.set("userAgent", "unknown")
+      data["userAgent"] = "unknown"
       let options = @js.Object::new()
-      options.set("status", 200)
+      options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/method" {
       let data = @js.Object::new()
-      data.set("method", "unknown")
+      data["method"] = "unknown"
       let options = @js.Object::new()
-      options.set("status", 200)
+      options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/health" {
       let data = @js.Object::new()
-      data.set("status", "healthy")
-      data.set("service", "moonbit-worker")
+      data["status"] = "healthy"
+      data["service"] = "moonbit-worker"
       let options = @js.Object::new()
-      options.set("status", 200)
+      options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/math/add" {
       let params = url.searchParams()
@@ -138,24 +138,24 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
       match (a_str, b_str) {
         (Some(a), Some(b)) => {
           let data = @js.Object::new()
-          data.set("result", a + "+" + b)
+          data["result"] = a + "+" + b
           let options = @js.Object::new()
-          options.set("status", 200)
+          options["status"] = 200
           Response::json_(data, options~)
         }
         _ => {
           let data = @js.Object::new()
-          data.set("error", "Missing parameters a or b")
+          data["error"] = "Missing parameters a or b"
           let options = @js.Object::new()
-          options.set("status", 400)
+          options["status"] = 400
           Response::json_(data, options~)
         }
       }
     } else {
       let data = @js.Object::new()
-      data.set("error", "Route not found")
+      data["error"] = "Route not found"
       let options = @js.Object::new()
-      options.set("status", 404)
+      options["status"] = 404
       Response::json_(data, options~)
     }
   }
