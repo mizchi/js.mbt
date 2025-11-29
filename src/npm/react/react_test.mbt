@@ -341,17 +341,6 @@ async test "React DOM Server: renderToString should render an element with text"
 ///| renderToReadableStream tests
 
 ///|
-extern "js" fn text_decoder_new() -> @js.Any =
-  #|() => new TextDecoder()
-
-///|
-extern "js" fn text_decoder_decode(
-  decoder : @js.Any,
-  value : @js.Any,
-) -> String =
-  #|(decoder, value) => decoder.decode(value)
-
-///|
 async test "React DOM Server: renderToReadableStream should return a Promise of ReadableStream" {
   init_react()
   let element = @react.createElement("div", [])
@@ -374,7 +363,7 @@ async test "React DOM Server: renderToReadableStream should render HTML content"
   let stream = @react_dom_server.renderToReadableStream(element)
   let reader = stream.getReader()
   let html_parts : Array[String] = []
-  let decoder = text_decoder_new()
+  let decoder = @encoding.TextDecoder::new()
 
   // Read all chunks
   while true {
@@ -383,8 +372,8 @@ async test "React DOM Server: renderToReadableStream should render HTML content"
     if done {
       break
     }
-    let value : @js.Any = result.get("value")
-    let chunk = text_decoder_decode(decoder, value)
+    let value : @typedarray.Uint8Array = result.get("value").cast()
+    let chunk = decoder.decode(value)
     html_parts.push(chunk)
   }
   reader.releaseLock()
@@ -404,7 +393,7 @@ async test "React DOM Server: renderToReadableStream should handle nested elemen
   let stream = @react_dom_server.renderToReadableStream(outer)
   let reader = stream.getReader()
   let html_parts : Array[String] = []
-  let decoder = text_decoder_new()
+  let decoder = @encoding.TextDecoder::new()
 
   // Read all chunks
   while true {
@@ -413,8 +402,8 @@ async test "React DOM Server: renderToReadableStream should handle nested elemen
     if done {
       break
     }
-    let value : @js.Any = result.get("value")
-    let chunk = text_decoder_decode(decoder, value)
+    let value : @typedarray.Uint8Array = result.get("value").cast()
+    let chunk = decoder.decode(value)
     html_parts.push(chunk)
   }
   reader.releaseLock()

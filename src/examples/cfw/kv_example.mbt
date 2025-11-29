@@ -3,16 +3,6 @@
 /// This demonstrates KV operations for a simple counter and key-value storage
 
 ///|
-/// Parse integer from string
-extern "js" fn parse_int(s : String) -> Int =
-  #| (s) => parseInt(s, 10) || 0
-
-///|
-/// Stringify JSON
-extern "js" fn json_stringify(obj : @js.Any) -> String =
-  #| (obj) => JSON.stringify(obj)
-
-///|
 /// Create JSON response (local to KV handler)
 extern "js" fn kv_json_response(body : String, status : Int) -> @http.Response =
   #| (body, status) => new Response(body, { status, headers: { "Content-Type": "application/json" } })
@@ -110,7 +100,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
           return kv_json_response("{\"error\":\"Failed to get counter\"}", 500)
       }
       let current = match current_str {
-        Some(s) => parse_int(s)
+        Some(s) => @js.parseInt(s).unwrap_or(0)
         None => 0
       }
       let new_value = current + 1
@@ -152,7 +142,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       response_json["count"] = keys.length()
 
       // Convert to JSON string
-      let json_str = json_stringify(response_json.to_any())
+      let json_str = @js.JSON::stringify(response_json)
       kv_json_response(json_str, 200)
     } else {
       // Help/index page

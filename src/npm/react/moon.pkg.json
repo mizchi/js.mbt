@@ -9,7 +9,9 @@
     "mizchi/js/npm/react_dom_server",
     "mizchi/js/npm/global_jsdom",
     "mizchi/js/npm/testing_library",
-    "mizchi/js/web/streams"
+    "mizchi/js/web/streams",
+    "mizchi/js/web/encoding",
+    "mizchi/js/builtins/typedarray"
   ],
   "warn-list": "-1-5-6"
 }

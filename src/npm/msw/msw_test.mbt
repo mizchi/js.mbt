@@ -218,12 +218,8 @@ test "handler with resolver accessing info" {
 }
 
 ///|
-extern "js" fn create_array_buffer() -> @js.Any =
-  #| () => new ArrayBuffer(8)
-
-///|
 test "array buffer response" {
-  let buffer = create_array_buffer()
-  let response = @msw.arrayBufferResponse(buffer)
+  let buffer = @js.ArrayBuffer::new(8)
+  let response = @msw.arrayBufferResponse(buffer.to_any())
   inspect(response.to_any() |> @js.is_nullish |> not, content="true")
 }

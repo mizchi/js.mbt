@@ -3,25 +3,9 @@
 /// Run with: moon build --target js && deno test --allow-all target/js/release/build/examples/deno/deno.js
 
 ///|
-/// Helper to create TextEncoder
-extern "js" fn new_text_encoder() -> @js.Any =
-  #| () => new TextEncoder()
-
-///|
-/// Helper to create TextDecoder
-extern "js" fn new_text_decoder() -> @js.Any =
-  #| () => new TextDecoder()
-
-///|
-/// Helper to create Uint8Array
-extern "js" fn new_uint8array(size : Int) -> @js.Any =
-  #| (size) => new Uint8Array(size)
-
-///|
-/// Decode Uint8Array to string
-fn decode_uint8array(arr : &@js.JsImpl) -> String {
-  let decoder = new_text_decoder()
-  decoder.call1("decode", arr).cast()
+/// Decode Uint8Array to string using @encoding.TextDecoder
+fn decode_uint8array(arr : @typedarray.Uint8Array) -> String {
+  @encoding.TextDecoder::new().decode(arr)
 }
 
 ///|
@@ -195,10 +179,10 @@ fn main {
   d.test_async("binary file read/write", async fn(_ctx) {
     let test_file = "test_binary.bin"
 
-    // Create binary data using TextEncoder
-    let encoder = new_text_encoder()
-    let arr = encoder.call("encode", [@js.any("binary test data")])
-    d.writeFile(test_file, arr)
+    // Create binary data using @encoding.TextEncoder
+    let encoder = @encoding.TextEncoder::new()
+    let arr = encoder.encode("binary test data")
+    d.writeFile(test_file, arr.to_any())
     let data = d.readFile(test_file)
     assert_true(@js.typeof_(data) == "object")
     d.remove(test_file)
@@ -289,16 +273,16 @@ fn main {
 
     // Create and write using file handle
     let file = d.create(test_file)
-    let encoder = new_text_encoder()
-    let data = encoder.call("encode", [@js.any("file handle test")])
-    let written = file.write(data)
+    let encoder = @encoding.TextEncoder::new()
+    let data = encoder.encode("file handle test")
+    let written = file.write(data.to_any())
     assert_true(written > 0)
     file.close()
 
     // Read back using file handle
     let read_file = d.open(test_file, read=true)
-    let buffer = new_uint8array(100)
-    let read_bytes = read_file.read(buffer)
+    let buffer = @typedarray.Uint8Array::from_size(100)
+    let read_bytes = read_file.read(buffer.to_any())
     assert_true(read_bytes > 0)
     read_file.close()
 
