@@ -116,13 +116,3 @@ pub extern "js" fn is_nullish(v : JsValue) -> Bool =
 pub fn console_log(msg : String) -> Unit {
   ffi_console_log(msg)
 }
-
-///|
-pub fn str(s : String) -> JsValue {
-  JsValue::from(s)
-}
-
-///|
-pub fn int(n : Int) -> JsValue {
-  JsValue::from(n)
-}

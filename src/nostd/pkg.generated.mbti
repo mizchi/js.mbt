@@ -10,13 +10,9 @@ fn console_log(String) -> Unit
 
 fn global_this() -> JsValue
 
-fn int(Int) -> JsValue
-
 fn is_nullish(JsValue) -> Bool
 
 fn null() -> JsValue
-
-fn str(String) -> JsValue
 
 fn undefined() -> JsValue
 

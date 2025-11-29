@@ -9,7 +9,7 @@ fn main {
   let console = global["console"]
 
   // Call console.log with a string (using method syntax)
-  let msg = @nostd.str("Hello from MoonBit with lightweight JsValue!")
+  let msg = @nostd.JsValue::from("Hello from MoonBit with lightweight JsValue!")
   let args = @nostd.array_new()
   @nostd.array_push(args, msg)
   let _ = console._call("log", args)

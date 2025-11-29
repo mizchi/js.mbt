@@ -6,7 +6,7 @@ test "get and set property" {
   let args = array_new()
   array_push(args, null())
   let empty_obj = obj._call("create", args)
-  empty_obj["foo"] = str("bar")
+  empty_obj["foo"] = JsValue::from("bar")
   let value = empty_obj["foo"]
   // value should be "bar" but we can't easily assert without std lib
   // just verify no runtime error
@@ -19,7 +19,7 @@ test "call method with JsArray" {
   let global = global_this()
   let console = global["console"]
   let args = array_new()
-  array_push(args, str("test message from nostd"))
+  array_push(args, JsValue::from("test message from nostd"))
   let _ = console._call("log", args)
 
 }
@@ -41,7 +41,7 @@ test "undefined" {
 
 ///|
 test "int conversion" {
-  let n = int(42)
+  let n = JsValue::from(42)
   let _ = n
   // verify no runtime error
 }
@@ -51,7 +51,7 @@ test "invoke" {
   let global = global_this()
   let parse_int = global["parseInt"]
   let args = array_new()
-  array_push(args, str("42"))
+  array_push(args, JsValue::from("42"))
   let result = parse_int.invoke(args)
   let _ = result
   // verify no runtime error
