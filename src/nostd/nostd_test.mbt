@@ -166,3 +166,40 @@ test "try_sync - catch error" {
   let success : Bool = caught.cast()
   assert_eq(success, true)
 }
+
+///|
+suberror TestError String derive(Show)
+
+///|
+fn moonbit_throwing_op() -> Any raise TestError {
+  raise TestError("MoonBit error")
+}
+
+///|
+fn moonbit_success_op() -> Any raise TestError {
+  any(123)
+}
+
+///|
+/// JS wrapper to test export_sync catches MoonBit errors
+extern "js" fn js_catch_moonbit_error(op : () -> Any) -> Any =
+  #| (op) => { try { return { ok: true, value: op() }; } catch (e) { return { ok: false, message: e.message }; } }
+
+///|
+test "export_sync - success" {
+  let result = js_catch_moonbit_error(fn() { export_sync(moonbit_success_op) })
+  let ok : Bool = result["ok"].cast()
+  assert_eq(ok, true)
+  let value : Int = result["value"].cast()
+  assert_eq(value, 123)
+}
+
+///|
+test "export_sync - converts MoonBit error to JS exception" {
+  let result = js_catch_moonbit_error(fn() { export_sync(moonbit_throwing_op) })
+  let ok : Bool = result["ok"].cast()
+  assert_eq(ok, false)
+  let msg : String = result["message"].cast()
+  // derive(Show) produces "TestError(\"MoonBit error\")"
+  assert_true(msg.contains("MoonBit error"))
+}

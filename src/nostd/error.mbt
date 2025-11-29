@@ -29,3 +29,20 @@ pub fn try_sync(op : () -> Any) -> Any raise JsError {
       }
   }
 }
+
+///|
+/// Throw a JS Error with the given message
+pub extern "js" fn throw_error(msg : String) -> Unit =
+  #| (msg) => { throw new Error(msg); }
+
+///|
+/// Wrap a MoonBit operation that may raise, converting errors to JS exceptions
+/// Usage: export_sync(fn() { may_raise_error() })
+pub fn[E : Show + Error] export_sync(op : () -> Any raise E) -> Any {
+  op() catch {
+    e => {
+      throw_error(e.to_string())
+      undefined()
+    }
+  }
+}

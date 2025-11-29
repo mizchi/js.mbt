@@ -6,6 +6,8 @@ fn[T] any(T) -> Any
 
 fn equal(Any, Any) -> Bool
 
+fn[E : Show + Error] export_sync(() -> Any raise E) -> Any
+
 fn ffi_wrap_sync(() -> Any, (Any) -> Unit, (Any) -> Unit) -> Unit
 
 fn global_this() -> Any
@@ -19,6 +21,8 @@ fn is_nullish(Any) -> Bool
 fn is_undefined(Any) -> Bool
 
 fn null() -> Any
+
+fn throw_error(String) -> Unit
 
 fn try_sync(() -> Any) -> Any raise JsError
 
