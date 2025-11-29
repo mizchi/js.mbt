@@ -1,8 +1,8 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert';
-import { inlineFfi } from './minify.mjs';
+import { transform } from './transform';
 
-describe('inlineFfi', () => {
+describe('transform', () => {
   // ============================================================================
   // Named pattern tests (MoonBit FFI naming conventions)
   // namespace$$funcName pattern, only 'nostd' namespace is inlined
@@ -14,7 +14,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$global_this = () => globalThis;
         const g = pkg$nostd$$global_this();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('const g = globalThis'));
       assert.ok(!result.includes('pkg$nostd$$global_this'));
     });
@@ -24,7 +24,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$undefined = () => undefined;
         const u = pkg$nostd$$undefined();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('const u = undefined'));
       assert.ok(!result.includes('pkg$nostd$$undefined'));
     });
@@ -34,7 +34,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$null = () => null;
         const n = pkg$nostd$$null();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('const n = null'));
       assert.ok(!result.includes('pkg$nostd$$null'));
     });
@@ -44,7 +44,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$JsArray$new = () => [];
         const arr = pkg$nostd$$JsArray$new();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('const arr = []'));
       assert.ok(!result.includes('pkg$nostd$$JsArray$new'));
     });
@@ -54,7 +54,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$Object$new = () => ({});
         const obj = pkg$nostd$$Object$new();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('const obj = {}'));
       assert.ok(!result.includes('pkg$nostd$$Object$new'));
     });
@@ -64,7 +64,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$is_nullish = (v) => v == null;
         const x = pkg$nostd$$is_nullish(foo);
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('foo == null'));
       assert.ok(!result.includes('pkg$nostd$$is_nullish'));
     });
@@ -74,7 +74,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$is_null = (v) => v === null;
         const x = pkg$nostd$$is_null(foo);
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('foo === null'));
       assert.ok(!result.includes('pkg$nostd$$is_null'));
     });
@@ -84,7 +84,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$is_undefined = (v) => v === undefined;
         const x = pkg$nostd$$is_undefined(foo);
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('foo === undefined'));
       assert.ok(!result.includes('pkg$nostd$$is_undefined'));
     });
@@ -94,7 +94,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$equal = (a, b) => a === b;
         const x = pkg$nostd$$equal(foo, bar);
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('foo === bar'));
       assert.ok(!result.includes('pkg$nostd$$equal'));
     });
@@ -105,7 +105,7 @@ describe('inlineFfi', () => {
         const a = [];
         pkg$nostd$$JsArray$_push(a, 1);
       `;
-      const { code: result, inlineCount } = inlineFfi(code);
+      const { code: result, inlineCount } = transform(code);
       assert.ok(result.includes('a.push(1)'));
       assert.strictEqual(inlineCount, 1);
     });
@@ -115,7 +115,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$JsValue$_get = (obj, key) => obj[key];
         const x = pkg$nostd$$JsValue$_get(foo, "bar");
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('foo.bar'));
       assert.ok(!result.includes('pkg$nostd$$JsValue$_get'));
     });
@@ -125,7 +125,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$JsValue$_get = (obj, key) => obj[key];
         const x = pkg$nostd$$JsValue$_get(foo, "123invalid");
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('foo["123invalid"]'));
     });
 
@@ -134,7 +134,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$JsValue$_set = (obj, key, val) => { obj[key] = val };
         pkg$nostd$$JsValue$_set(foo, "bar", 123);
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('foo.bar = 123'));
       assert.ok(!result.includes('pkg$nostd$$JsValue$_set'));
     });
@@ -144,7 +144,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$JsValue$_call = (obj, key, args) => obj[key](...args);
         const result = pkg$nostd$$JsValue$_call(console, "log", myArgs);
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('console.log(...myArgs)'));
       assert.ok(!result.includes('pkg$nostd$$JsValue$_call'));
     });
@@ -154,7 +154,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$JsValue$_invoke = (fn, args) => fn(...args);
         const result = pkg$nostd$$JsValue$_invoke(myFunc, myArgs);
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('myFunc(...myArgs)'));
       assert.ok(!result.includes('pkg$nostd$$JsValue$_invoke'));
     });
@@ -170,7 +170,7 @@ describe('inlineFfi', () => {
         const pkg$other$$global_this = () => globalThis;
         const g = pkg$other$$global_this();
       `;
-      const { code: result, inlineCount } = inlineFfi(code);
+      const { code: result, inlineCount } = transform(code);
       // Should not be inlined because namespace is 'other', not 'nostd'
       assert.ok(result.includes('pkg$other$$global_this'));
       assert.strictEqual(inlineCount, 0);
@@ -187,7 +187,7 @@ describe('inlineFfi', () => {
         const get_console = () => console;
         const x = get_console();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('const x = console'));
       assert.ok(!result.includes('get_console'));
     });
@@ -197,7 +197,7 @@ describe('inlineFfi', () => {
         const get_42 = () => 42;
         const x = get_42();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('const x = 42'));
       assert.ok(!result.includes('get_42'));
     });
@@ -207,7 +207,7 @@ describe('inlineFfi', () => {
         const empty_array = () => [];
         const x = empty_array();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('const x = []'));
       assert.ok(!result.includes('empty_array'));
     });
@@ -217,7 +217,7 @@ describe('inlineFfi', () => {
         const empty_obj = () => ({});
         const x = empty_obj();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(result.includes('const x = {}'));
       assert.ok(!result.includes('empty_obj'));
     });
@@ -240,7 +240,7 @@ describe('inlineFfi', () => {
         const args = pkg$nostd$$JsArray$new();
         pkg$nostd$$JsArray$_push(args, "hello");
       `;
-      const { code: result, inlineCount } = inlineFfi(code);
+      const { code: result, inlineCount } = transform(code);
       assert.ok(result.includes('const g = globalThis'));
       assert.ok(result.includes('const args = []'));
       assert.ok(result.includes('args.push("hello")'));
@@ -253,7 +253,7 @@ describe('inlineFfi', () => {
         const complex = (a, b) => a + b * 2;
         const x = complex(1, 2);
       `;
-      const { code: result, inlineCount } = inlineFfi(code);
+      const { code: result, inlineCount } = transform(code);
       assert.ok(result.includes('const complex'));
       assert.ok(result.includes('complex(1, 2)'));
       assert.strictEqual(inlineCount, 0);
@@ -265,7 +265,7 @@ describe('inlineFfi', () => {
         const pkg$nostd$$undefined = () => undefined;
         const x = pkg$nostd$$global_this();
       `;
-      const { code: result } = inlineFfi(code);
+      const { code: result } = transform(code);
       assert.ok(!result.includes('pkg$nostd$$global_this'));
       assert.ok(!result.includes('pkg$nostd$$undefined'));
       assert.ok(result.includes('const x = globalThis'));
@@ -292,7 +292,7 @@ describe('inlineFfi', () => {
           }
         })();
       `;
-      const { code: result, inlineCount } = inlineFfi(code);
+      const { code: result, inlineCount } = transform(code);
       assert.ok(result.includes('const con = console'));
       assert.ok(result.includes('const args = []'));
       assert.ok(result.includes('args.push("hello")'));
@@ -301,6 +301,16 @@ describe('inlineFfi', () => {
       assert.ok(result.includes('global.process'));
       assert.ok(result.includes('process == null'));
       assert.strictEqual(inlineCount, 7);
+    });
+
+    test('sourcemap generation', () => {
+      const code = `
+        const pkg$nostd$$global_this = () => globalThis;
+        const g = pkg$nostd$$global_this();
+      `;
+      const { map } = transform(code, { sourcemap: true });
+      assert.ok(map);
+      assert.ok(map.mappings);
     });
   });
 });

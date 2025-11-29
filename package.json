@@ -59,6 +59,7 @@
     "source-map": "^0.7.6",
     "terser": "^5.44.1",
     "typescript": "5.9.3",
+    "unplugin": "^2.3.11",
     "vite": "^7.2.4",
     "vitest": "^3.2.4",
     "wrangler": "^4.51.0",
