@@ -1,0 +1,74 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/magic_string"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Bundle
+fn Bundle::add_source(Self, MagicString) -> Self
+fn Bundle::add_source_with_filename(Self, String, MagicString) -> Self
+fn Bundle::append(Self, String) -> Self
+fn Bundle::generate_map(Self, file? : String, include_content? : Bool, hires? : Bool) -> SourceMap
+fn Bundle::indent(Self, prefix? : String) -> Self
+fn Bundle::new() -> Self
+fn Bundle::prepend(Self, String) -> Self
+fn Bundle::to_string(Self) -> String
+impl @js.JsImpl for Bundle
+
+#external
+pub type MagicString
+fn MagicString::add_sourcemap_location(Self, Int) -> Unit
+fn MagicString::append(Self, String) -> Self
+fn MagicString::append_left(Self, Int, String) -> Self
+fn MagicString::append_right(Self, Int, String) -> Self
+fn MagicString::clone(Self) -> Self
+fn MagicString::generate_decoded_map(Self, file? : String, source? : String, include_content? : Bool, hires? : Bool) -> @js.Any
+fn MagicString::generate_map(Self, file? : String, source? : String, include_content? : Bool, hires? : Bool) -> SourceMap
+fn MagicString::get_offset(Self) -> Int
+fn MagicString::has_changed(Self) -> Bool
+fn MagicString::indent(Self, prefix? : String) -> Self
+fn MagicString::is_empty(Self) -> Bool
+fn MagicString::new(String, filename? : String, offset? : Int) -> Self
+fn MagicString::original(Self) -> String
+fn MagicString::overwrite(Self, Int, Int, String, store_name? : Bool, content_only? : Bool) -> Self
+fn MagicString::prepend(Self, String) -> Self
+fn MagicString::prepend_left(Self, Int, String) -> Self
+fn MagicString::prepend_right(Self, Int, String) -> Self
+fn MagicString::relocate(Self, Int, Int, Int) -> Self
+fn MagicString::remove(Self, Int, Int) -> Self
+fn MagicString::replace(Self, String, String) -> Self
+fn MagicString::replace_all(Self, String, String) -> Self
+fn MagicString::replace_regex(Self, @js.Any, String) -> Self
+fn MagicString::reset(Self, Int, Int) -> Self
+fn MagicString::set_offset(Self, Int) -> Unit
+fn MagicString::slice(Self, Int, Int) -> String
+fn MagicString::snip(Self, Int, Int) -> Self
+fn MagicString::to_string(Self) -> String
+fn MagicString::trim(Self, char_type? : String) -> Self
+fn MagicString::trim_end(Self, char_type? : String) -> Self
+fn MagicString::trim_lines(Self) -> Self
+fn MagicString::trim_start(Self, char_type? : String) -> Self
+fn MagicString::update(Self, Int, Int, String, store_name? : Bool, overwrite? : Bool) -> Self
+impl @js.JsImpl for MagicString
+
+#external
+pub type SourceMap
+fn SourceMap::file(Self) -> String?
+fn SourceMap::mappings(Self) -> String
+fn SourceMap::sources(Self) -> Array[String]
+fn SourceMap::sources_content(Self) -> Array[String]?
+fn SourceMap::to_string(Self) -> String
+fn SourceMap::to_url(Self) -> String
+impl @js.JsImpl for SourceMap
+
+// Type aliases
+
+// Traits
+

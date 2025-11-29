@@ -159,6 +159,9 @@ importers:
       jsdom:
         specifier: 27.0.1
         version: 27.0.1(canvas@3.2.0)
+      magic-string:
+        specifier: ^0.30.21
+        version: 0.30.21
       playwright:
         specifier: ^1.57.0
         version: 1.57.0
