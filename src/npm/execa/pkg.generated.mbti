@@ -1,0 +1,70 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/execa"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+async fn execa(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @js.Any, shell? : Bool, options? : @js.Any) -> ExecaResult
+
+async fn execaCommand(String, cwd? : String, input? : String, timeout? : Int, env? : @js.Any, options? : @js.Any) -> ExecaResult
+
+fn execaCommandSync(String, cwd? : String, input? : String, timeout? : Int, env? : @js.Any, options? : @js.Any) -> ExecaResult
+
+async fn execaNode(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @js.Any, options? : @js.Any) -> ExecaResult
+
+fn execaSync(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @js.Any, shell? : Bool, options? : @js.Any) -> ExecaResult
+
+fn options(cwd? : String, env? : @js.Any, input? : String, stdin? : String, stdout? : String, stderr? : String, all? : Bool, lines? : Bool, shell? : Bool, timeout? : Int, maxBuffer? : Int, killSignal? : String, preferLocal? : Bool, reject? : Bool, cleanup? : Bool, detached? : Bool, encoding? : String, stripFinalNewline? : Bool, windowsHide? : Bool) -> @js.Any
+
+async fn shell(String, cwd? : String, input? : String, timeout? : Int, env? : @js.Any, options? : @js.Any) -> ExecaResult
+
+fn subprocess(String, Array[String], options? : @js.Any) -> Subprocess
+
+// Errors
+
+// Types and methods
+#external
+pub type ExecaError
+fn ExecaError::command(Self) -> String
+fn ExecaError::exitCode(Self) -> Int?
+fn ExecaError::message(Self) -> String
+fn ExecaError::originalMessage(Self) -> String?
+fn ExecaError::shortMessage(Self) -> String
+fn ExecaError::stderr(Self) -> String
+fn ExecaError::stdout(Self) -> String
+impl @js.JsImpl for ExecaError
+
+#external
+pub type ExecaResult
+fn ExecaResult::all(Self) -> String?
+fn ExecaResult::command(Self) -> String
+fn ExecaResult::escapedCommand(Self) -> String
+fn ExecaResult::exitCode(Self) -> Int
+fn ExecaResult::failed(Self) -> Bool
+fn ExecaResult::killed(Self) -> Bool
+fn ExecaResult::pid(Self) -> Int?
+fn ExecaResult::signal(Self) -> String?
+fn ExecaResult::signalDescription(Self) -> String?
+fn ExecaResult::stderr(Self) -> String
+fn ExecaResult::stderrLines(Self) -> Array[String]
+fn ExecaResult::stdout(Self) -> String
+fn ExecaResult::stdoutLines(Self) -> Array[String]
+fn ExecaResult::timedOut(Self) -> Bool
+impl @js.JsImpl for ExecaResult
+
+#external
+pub type Subprocess
+fn Subprocess::kill(Self, signal? : String) -> Unit
+fn Subprocess::pid(Self) -> Int
+fn Subprocess::stderr(Self) -> @js.Any
+fn Subprocess::stdin(Self) -> @js.Any
+fn Subprocess::stdout(Self) -> @js.Any
+async fn Subprocess::wait(Self) -> ExecaResult
+impl @js.JsImpl for Subprocess
+
+// Type aliases
+
+// Traits
+

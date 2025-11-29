@@ -122,3 +122,8 @@ Tables are auto-created on first run. To reset, delete `realworld.db`.
 - `GET /api/todos` - Get all TODOs (JSON)
 - `POST /api/todos` - Create TODO (JSON)
 - `DELETE /api/todos/:id` - Delete TODO
+
+## TODO
+
+- [ ] Migrate from node:sqlite to PostgreSQL (pg) for production use
+- [ ] Split into a separate repository
