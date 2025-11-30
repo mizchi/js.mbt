@@ -9,7 +9,6 @@ pub fn Node::as_any(self : Node) -> @nostd.Any = "%identity"
 pub fn Node::as_event_target(self : Node) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for Node
 
 ///|
 pub impl NodeImpl for Node with as_any(self) -> @nostd.Any {
@@ -101,15 +100,24 @@ impl NodeImpl with removeChild(self, child : Node) -> Node {
 impl NodeImpl with insertBefore(self, new_node : Node, ref_node : Node?) -> Node {
   match ref_node {
     Some(node) =>
-      self.as_any()._call("insertBefore", [new_node.as_any(), node.as_any()]).cast()
+      self
+      .as_any()
+      ._call("insertBefore", [new_node.as_any(), node.as_any()])
+      .cast()
     None =>
-      self.as_any()._call("insertBefore", [new_node.as_any(), @nostd.null()]).cast()
+      self
+      .as_any()
+      ._call("insertBefore", [new_node.as_any(), @nostd.null()])
+      .cast()
   }
 }
 
 ///|
 impl NodeImpl with replaceChild(self, new_child : Node, old_child : Node) -> Node {
-  self.as_any()._call("replaceChild", [new_child.as_any(), old_child.as_any()]).cast()
+  self
+  .as_any()
+  ._call("replaceChild", [new_child.as_any(), old_child.as_any()])
+  .cast()
 }
 
 ///|

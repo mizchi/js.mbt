@@ -34,8 +34,8 @@ test "createPortal returns React element" {
   guard document.body() is Some(body)
   // Create portal target
   let portal_target = document.createElement("div")
-  portal_target.set("id", "portal-root")
-  body.appendChild(portal_target) |> ignore
+  portal_target.setId("portal-root")
+  body.as_node().appendChild(portal_target.as_node()) |> ignore
   // Create portal
   let portal_content = @react_element.div(id="modal", ["Modal Content"])
   let portal = react_dom.createPortal(portal_content, portal_target)
@@ -43,7 +43,7 @@ test "createPortal returns React element" {
   @nostd.typeof_(portal.as_any()) |> assert_eq("object")
   @nostd.is_null(portal.as_any()) |> assert_eq(false)
   // Cleanup
-  body.removeChild(portal_target) |> ignore
+  body.as_node().removeChild(portal_target.as_node()) |> ignore
 }
 
 ///|
@@ -55,7 +55,7 @@ test "createPortal with key" {
   guard document.body() is Some(body)
   // Create portal target
   let portal_target = document.createElement("div")
-  body.appendChild(portal_target) |> ignore
+  body.as_node().appendChild(portal_target.as_node()) |> ignore
   // Create portal with key
   let portal_content = @react_element.div(["Portal with key"])
   let portal = react_dom.createPortal(
@@ -66,7 +66,7 @@ test "createPortal with key" {
   // Verify portal is created
   @nostd.typeof_(portal.as_any()) |> assert_eq("object")
   // Cleanup
-  body.removeChild(portal_target) |> ignore
+  body.as_node().removeChild(portal_target.as_node()) |> ignore
 }
 
 ///|
@@ -114,8 +114,8 @@ test "createPortal renders to target" {
   guard document.body() is Some(body)
   // Create portal target
   let portal_target = document.createElement("div")
-  portal_target.set("id", "portal-root")
-  body.appendChild(portal_target) |> ignore
+  portal_target.setId("portal-root")
+  body.as_node().appendChild(portal_target.as_node()) |> ignore
   // Render component with portal
   @testing_library_react.render(
     @react.component(portal_test_component, { portal_target, }),
@@ -131,5 +131,5 @@ test "createPortal renders to target" {
   ).toHaveTextContent("Portal Content")
   // Cleanup
   @testing_library_react.cleanup()
-  body.removeChild(portal_target) |> ignore
+  body.as_node().removeChild(portal_target.as_node()) |> ignore
 }

@@ -1,6 +1,7 @@
 ///|
 /// EventImpl trait - base interface for all DOM events
-pub(open) trait EventImpl: @js.JsImpl {
+pub(open) trait EventImpl {
+  as_any(Self) -> @nostd.Any
   preventDefault(Self) -> Unit = _
   stopPropagation(Self) -> Unit = _
   stopImmediatePropagation(Self) -> Unit = _
@@ -14,47 +15,47 @@ pub(open) trait EventImpl: @js.JsImpl {
 
 ///|
 impl EventImpl with preventDefault(self) -> Unit {
-  ignore(self.call0("preventDefault"))
+  self.as_any()._call("preventDefault", []) |> ignore
 }
 
 ///|
 impl EventImpl with stopPropagation(self) -> Unit {
-  ignore(self.call0("stopPropagation"))
+  self.as_any()._call("stopPropagation", []) |> ignore
 }
 
 ///|
 impl EventImpl with stopImmediatePropagation(self) -> Unit {
-  ignore(self.call0("stopImmediatePropagation"))
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
 }
 
 ///|
 impl EventImpl with target(self) -> Element {
-  self.get("target").cast()
+  self.as_any()._get("target").cast()
 }
 
 ///|
 impl EventImpl with currentTarget(self) -> Element {
-  self.get("currentTarget").cast()
+  self.as_any()._get("currentTarget").cast()
 }
 
 ///|
 impl EventImpl with eventType(self) -> String {
-  self.get("type").cast()
+  self.as_any()._get("type").cast()
 }
 
 ///|
 impl EventImpl with bubbles(self) -> Bool {
-  self.get("bubbles").cast()
+  self.as_any()._get("bubbles").cast()
 }
 
 ///|
 impl EventImpl with cancelable(self) -> Bool {
-  self.get("cancelable").cast()
+  self.as_any()._get("cancelable").cast()
 }
 
 ///|
 impl EventImpl with defaultPrevented(self) -> Bool {
-  self.get("defaultPrevented").cast()
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -67,10 +68,12 @@ pub type Event
 pub fn Event::as_any(self : Event) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Event
+pub fn Event::as_event(self : Event) -> @event.Event = "%identity"
 
 ///|
-pub impl EventImpl for Event
+pub impl EventImpl for Event with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// PointerEvent represents a pointer event
@@ -91,10 +94,12 @@ pub(all) struct PointerEvent {
 } derive(Show)
 
 ///|
-pub impl @js.JsImpl for PointerEvent
+pub fn PointerEvent::as_any(self : PointerEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for PointerEvent
+pub impl EventImpl for PointerEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// MouseEvent represents a mouse event
@@ -122,10 +127,9 @@ pub(all) struct MouseEvent {
 pub fn MouseEvent::as_any(self : MouseEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for MouseEvent
-
-///|
-pub impl EventImpl for MouseEvent
+pub impl EventImpl for MouseEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Returns the secondary target for the mouse event
@@ -153,20 +157,24 @@ pub(all) struct KeyboardEvent {
 } derive(Show)
 
 ///|
-pub impl @js.JsImpl for KeyboardEvent
+pub fn KeyboardEvent::as_any(self : KeyboardEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for KeyboardEvent
+pub impl EventImpl for KeyboardEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// ChangeEvent represents a change event
 pub(all) struct ChangeEvent {} derive(Show)
 
 ///|
-pub impl @js.JsImpl for ChangeEvent
+pub fn ChangeEvent::as_any(self : ChangeEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for ChangeEvent
+pub impl EventImpl for ChangeEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// FocusEvent represents a focus event
@@ -178,10 +186,11 @@ pub type FocusEvent
 pub fn FocusEvent::as_any(self : FocusEvent) -> @nostd.Any = "%identity"
 
 ///|
-impl @js.JsImpl for FocusEvent
 
 ///|
-pub impl EventImpl for FocusEvent
+pub impl EventImpl for FocusEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Returns the related target (element losing/gaining focus)
@@ -197,10 +206,12 @@ pub(all) struct FormEvent {
 }
 
 ///|
-pub impl @js.JsImpl for FormEvent
+pub fn FormEvent::as_any(self : FormEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for FormEvent
+pub impl EventImpl for FormEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// DragEvent represents a drag and drop event
@@ -210,10 +221,12 @@ pub(all) struct DragEvent {
 }
 
 ///|
-pub impl @js.JsImpl for DragEvent
+pub fn DragEvent::as_any(self : DragEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for DragEvent
+pub impl EventImpl for DragEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// InputEvent represents an input event
@@ -226,10 +239,12 @@ pub(all) struct InputEvent {
 }
 
 ///|
-pub impl @js.JsImpl for InputEvent
+pub fn InputEvent::as_any(self : InputEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for InputEvent
+pub impl EventImpl for InputEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// WheelEvent represents a wheel event
@@ -242,10 +257,12 @@ pub(all) struct WheelEvent {
 } derive(Show)
 
 ///|
-pub impl @js.JsImpl for WheelEvent
+pub fn WheelEvent::as_any(self : WheelEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for WheelEvent
+pub impl EventImpl for WheelEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// TouchEvent represents a touch event
@@ -261,10 +278,12 @@ pub(all) struct TouchEvent {
 } derive(Show)
 
 ///|
-pub impl @js.JsImpl for TouchEvent
+pub fn TouchEvent::as_any(self : TouchEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for TouchEvent
+pub impl EventImpl for TouchEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Touch represents a single touch point
@@ -287,7 +306,6 @@ pub(all) struct Touch {
 pub fn Touch::as_any(self : Touch) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Touch
 
 ///|
 /// Returns the target element
@@ -303,10 +321,12 @@ pub(all) struct ClipboardEvent {
 }
 
 ///|
-pub impl @js.JsImpl for ClipboardEvent
+pub fn ClipboardEvent::as_any(self : ClipboardEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for ClipboardEvent
+pub impl EventImpl for ClipboardEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// TransitionEvent represents a CSS transition event
@@ -318,10 +338,12 @@ pub(all) struct TransitionEvent {
 } derive(Show)
 
 ///|
-pub impl @js.JsImpl for TransitionEvent
+pub fn TransitionEvent::as_any(self : TransitionEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for TransitionEvent
+pub impl EventImpl for TransitionEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// AnimationEvent represents a CSS animation event
@@ -333,20 +355,24 @@ pub(all) struct AnimationEvent {
 } derive(Show)
 
 ///|
-pub impl @js.JsImpl for AnimationEvent
+pub fn AnimationEvent::as_any(self : AnimationEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for AnimationEvent
+pub impl EventImpl for AnimationEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// ScrollEvent represents a scroll event
 pub(all) struct ScrollEvent {} derive(Show)
 
 ///|
-pub impl @js.JsImpl for ScrollEvent
+pub fn ScrollEvent::as_any(self : ScrollEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for ScrollEvent
+pub impl EventImpl for ScrollEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// MessageEvent is fired when a message is received from another browsing context
@@ -362,10 +388,11 @@ pub(all) struct MessageEvent {
 pub fn MessageEvent::as_any(self : MessageEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for MessageEvent
 
 ///|
-pub impl EventImpl for MessageEvent
+pub impl EventImpl for MessageEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Returns the source window of the message
@@ -385,10 +412,11 @@ pub type PopStateEvent
 pub fn PopStateEvent::as_any(self : PopStateEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for PopStateEvent
 
 ///|
-pub impl EventImpl for PopStateEvent
+pub impl EventImpl for PopStateEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Returns the state associated with the history entry
@@ -409,10 +437,12 @@ pub(all) struct HashChangeEvent {
 } derive(Show)
 
 ///|
-pub impl @js.JsImpl for HashChangeEvent
+pub fn HashChangeEvent::as_any(self : HashChangeEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for HashChangeEvent
+pub impl EventImpl for HashChangeEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// BeforeUnloadEvent represents an event fired when the window is about to be unloaded
@@ -424,10 +454,11 @@ pub type BeforeUnloadEvent
 pub fn BeforeUnloadEvent::as_any(self : BeforeUnloadEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for BeforeUnloadEvent
 
 ///|
-pub impl EventImpl for BeforeUnloadEvent
+pub impl EventImpl for BeforeUnloadEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Sets the return value to show a confirmation dialog
@@ -453,7 +484,9 @@ pub(all) struct PageTransitionEvent {
 } derive(Show)
 
 ///|
-pub impl @js.JsImpl for PageTransitionEvent
+pub fn PageTransitionEvent::as_any(self : PageTransitionEvent) -> @nostd.Any = "%identity"
 
 ///|
-pub impl EventImpl for PageTransitionEvent
+pub impl EventImpl for PageTransitionEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}

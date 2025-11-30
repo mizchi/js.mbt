@@ -96,7 +96,7 @@ pub fn setup_matchers() -> Unit {
 fn call_matcher(
   element : @dom.HTMLElement,
   matcher_name : String,
-  args : Array[&@js.JsImpl],
+  args : Array[@nostd.Any],
 ) -> MatcherResult {
   guard jest_dom_matchers.val is Some(matchers) else {
     abort("setup_matchers() must be called before using matchers")
@@ -104,13 +104,13 @@ fn call_matcher(
   guard matcher_context.val is Some(ctx) else {
     abort("setup_matchers() must be called before using matchers")
   }
-  let matcher = matchers.get(matcher_name)
+  let matcher : @nostd.Any = matchers.get(matcher_name) |> @nostd.identity
   // matcher.call(ctx, element, ...args)
-  let all_args : Array[&@js.JsImpl] = [ctx, element]
+  let all_args : Array[@nostd.Any] = [@nostd.identity(ctx), element.as_any()]
   for arg in args {
     all_args.push(arg)
   }
-  matcher.call("call", all_args).cast()
+  matcher._call("call", all_args).cast()
 }
 
 ///|
@@ -118,7 +118,7 @@ fn call_matcher(
 fn assert_matcher(
   element : @dom.HTMLElement,
   matcher_name : String,
-  args : Array[&@js.JsImpl],
+  args : Array[@nostd.Any],
 ) -> Unit raise ExpectError {
   let result = call_matcher(element, matcher_name, args)
   if not(result.pass()) {
@@ -156,7 +156,11 @@ pub fn[T : @testing_library.TextMatch] Expect::toHaveTextContent(
   self : Expect,
   expected : T,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveTextContent", [expected.as_any()])
+  assert_matcher(
+    self.element,
+    "toHaveTextContent",
+    [expected.as_any()].map(@nostd.any),
+  )
 }
 
 // ============================================================
@@ -171,7 +175,7 @@ pub fn Expect::toHaveAttribute(
   self : Expect,
   attr : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveAttribute", [attr])
+  assert_matcher(self.element, "toHaveAttribute", [attr].map(@nostd.any))
 }
 
 ///|
@@ -183,7 +187,7 @@ pub fn Expect::toHaveAttributeValue(
   attr : String,
   value : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveAttribute", [attr, value])
+  assert_matcher(self.element, "toHaveAttribute", [attr, value].map(@nostd.any))
 }
 
 ///|
@@ -194,7 +198,7 @@ pub fn Expect::toHaveClass(
   self : Expect,
   class_name : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveClass", [class_name])
+  assert_matcher(self.element, "toHaveClass", [class_name].map(@nostd.any))
 }
 
 ///|
@@ -205,7 +209,7 @@ pub fn Expect::toHaveStyle(
   self : Expect,
   style : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveStyle", [style])
+  assert_matcher(self.element, "toHaveStyle", [style].map(@nostd.any))
 }
 
 ///|
@@ -216,7 +220,7 @@ pub fn Expect::toHaveValue(
   self : Expect,
   value : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveValue", [value])
+  assert_matcher(self.element, "toHaveValue", [value].map(@nostd.any))
 }
 
 ///|
@@ -227,7 +231,7 @@ pub fn Expect::toHaveDisplayValue(
   self : Expect,
   value : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveDisplayValue", [value])
+  assert_matcher(self.element, "toHaveDisplayValue", [value].map(@nostd.any))
 }
 
 // ============================================================
@@ -239,7 +243,7 @@ pub fn Expect::toHaveDisplayValue(
 /// Usage: expect(element)..toBeInTheDocument()
 #alias(to_be_in_the_document)
 pub fn Expect::toBeInTheDocument(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toBeInTheDocument", [])
+  assert_matcher(self.element, "toBeInTheDocument", ([] : Array[@nostd.Any]))
 }
 
 ///|
@@ -247,7 +251,7 @@ pub fn Expect::toBeInTheDocument(self : Expect) -> Unit raise ExpectError {
 /// Usage: expect(element)..toBeVisible()
 #alias(to_be_visible)
 pub fn Expect::toBeVisible(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toBeVisible", [])
+  assert_matcher(self.element, "toBeVisible", ([] : Array[@nostd.Any]))
 }
 
 ///|
@@ -255,7 +259,7 @@ pub fn Expect::toBeVisible(self : Expect) -> Unit raise ExpectError {
 /// Usage: expect(button)..toBeDisabled()
 #alias(to_be_disabled)
 pub fn Expect::toBeDisabled(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toBeDisabled", [])
+  assert_matcher(self.element, "toBeDisabled", ([] : Array[@nostd.Any]))
 }
 
 ///|
@@ -263,7 +267,7 @@ pub fn Expect::toBeDisabled(self : Expect) -> Unit raise ExpectError {
 /// Usage: expect(button)..toBeEnabled()
 #alias(to_be_enabled)
 pub fn Expect::toBeEnabled(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toBeEnabled", [])
+  assert_matcher(self.element, "toBeEnabled", ([] : Array[@nostd.Any]))
 }
 
 ///|
@@ -271,7 +275,7 @@ pub fn Expect::toBeEnabled(self : Expect) -> Unit raise ExpectError {
 /// Usage: expect(checkbox)..toBeChecked()
 #alias(to_be_checked)
 pub fn Expect::toBeChecked(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toBeChecked", [])
+  assert_matcher(self.element, "toBeChecked", ([] : Array[@nostd.Any]))
 }
 
 ///|
@@ -279,7 +283,7 @@ pub fn Expect::toBeChecked(self : Expect) -> Unit raise ExpectError {
 /// Usage: expect(input)..toBeRequired()
 #alias(to_be_required)
 pub fn Expect::toBeRequired(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toBeRequired", [])
+  assert_matcher(self.element, "toBeRequired", ([] : Array[@nostd.Any]))
 }
 
 ///|
@@ -287,7 +291,7 @@ pub fn Expect::toBeRequired(self : Expect) -> Unit raise ExpectError {
 /// Usage: expect(input)..toBeValid()
 #alias(to_be_valid)
 pub fn Expect::toBeValid(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toBeValid", [])
+  assert_matcher(self.element, "toBeValid", ([] : Array[@nostd.Any]))
 }
 
 ///|
@@ -295,7 +299,7 @@ pub fn Expect::toBeValid(self : Expect) -> Unit raise ExpectError {
 /// Usage: expect(input)..toBeInvalid()
 #alias(to_be_invalid)
 pub fn Expect::toBeInvalid(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toBeInvalid", [])
+  assert_matcher(self.element, "toBeInvalid", ([] : Array[@nostd.Any]))
 }
 
 ///|
@@ -303,7 +307,7 @@ pub fn Expect::toBeInvalid(self : Expect) -> Unit raise ExpectError {
 /// Usage: expect(input)..toHaveFocus()
 #alias(to_have_focus)
 pub fn Expect::toHaveFocus(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveFocus", [])
+  assert_matcher(self.element, "toHaveFocus", ([] : Array[@nostd.Any]))
 }
 
 ///|
@@ -311,7 +315,7 @@ pub fn Expect::toHaveFocus(self : Expect) -> Unit raise ExpectError {
 /// Usage: expect(container)..toBeEmptyDOMElement()
 #alias(to_be_empty_dom_element)
 pub fn Expect::toBeEmptyDOMElement(self : Expect) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toBeEmptyDOMElement", [])
+  assert_matcher(self.element, "toBeEmptyDOMElement", ([] : Array[@nostd.Any]))
 }
 
 // ============================================================
@@ -326,7 +330,7 @@ pub fn Expect::toHaveAccessibleName(
   self : Expect,
   name : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveAccessibleName", [name])
+  assert_matcher(self.element, "toHaveAccessibleName", [name].map(@nostd.any))
 }
 
 ///|
@@ -337,7 +341,11 @@ pub fn Expect::toHaveAccessibleDescription(
   self : Expect,
   desc : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveAccessibleDescription", [desc])
+  assert_matcher(
+    self.element,
+    "toHaveAccessibleDescription",
+    [desc].map(@nostd.any),
+  )
 }
 
 ///|
@@ -348,7 +356,7 @@ pub fn Expect::toHaveRole(
   self : Expect,
   role : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveRole", [role])
+  assert_matcher(self.element, "toHaveRole", [role].map(@nostd.any))
 }
 
 // ============================================================
@@ -363,7 +371,7 @@ pub fn Expect::toContainElement(
   self : Expect,
   child : @dom.HTMLElement,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toContainElement", [child])
+  assert_matcher(self.element, "toContainElement", [child].map(@nostd.any))
 }
 
 ///|
@@ -374,5 +382,5 @@ pub fn Expect::toContainHTML(
   self : Expect,
   html : String,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toContainHTML", [html])
+  assert_matcher(self.element, "toContainHTML", [html].map(@nostd.any))
 }

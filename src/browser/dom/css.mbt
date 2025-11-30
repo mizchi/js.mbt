@@ -311,8 +311,8 @@ pub fn Document::styleSheets(self : Self) -> @js.Any {
 pub fn Document::createStylesheet(self : Self) -> CSSStyleSheet {
   let style = self.create_element("style")
   match self.head() {
-    Some(head) => head.call1("appendChild", style) |> ignore
+    Some(head) => head.as_node().appendChild(style.as_node()) |> ignore
     None => ()
   }
-  style.get("sheet").cast()
+  style.as_any()._get("sheet").cast()
 }

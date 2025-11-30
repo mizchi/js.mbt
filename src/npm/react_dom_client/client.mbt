@@ -7,12 +7,6 @@ pub type ReactDOMClient
 pub type ReactDOMRoot
 
 ///|
-pub impl @js.JsImpl for ReactDOMRoot
-
-///|
-pub impl @js.JsImpl for ReactDOMClient
-
-///|
 /// Dynamic import for react-dom/client module (internal)
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
@@ -28,18 +22,24 @@ pub async fn dynamic_import() -> ReactDOMClient {
 }
 
 ///|
+pub fn ReactDOMClient::as_any(self : ReactDOMClient) -> @nostd.Any = "%identity"
+
+///|
 #alias(create_root)
 pub fn ReactDOMClient::createRoot(
   self : Self,
   container : &@dom.ElementImpl,
 ) -> ReactDOMRoot {
-  self.call1("createRoot", container.as_any()).cast()
+  self.as_any()._call("createRoot", [container.as_any()]).cast()
 }
 
 ///|
+pub fn ReactDOMRoot::as_any(self : ReactDOMRoot) -> @nostd.Any = "%identity"
+
+///|
 pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : @react.Element) -> Unit {
-  let vdom_js : @js.Any = vdom.as_any().cast()
-  self.call1("render", vdom_js) |> ignore
+  let vdom_js : @nostd.Any = vdom.as_any().cast()
+  self.as_any()._call("render", [vdom_js]) |> ignore
 }
 
 ///|
@@ -52,11 +52,11 @@ pub fn ReactDOMClient::hydrateRoot(
   dom_node : &@dom.ElementImpl,
   react_node : @react.Element,
 ) -> ReactDOMRoot {
-  let react_node_js : @js.Any = react_node.as_any().cast()
-  self.call2("hydrateRoot", dom_node.as_any(), react_node_js).cast()
+  let react_node_js : @nostd.Any = react_node.as_any().cast()
+  self.as_any()._call("hydrateRoot", [dom_node.as_any(), react_node_js]).cast()
 }
 
 ///|
 pub fn ReactDOMRoot::unmount(self : ReactDOMRoot) -> Unit {
-  self.call0("unmount") |> ignore
+  self.as_any()._call("unmount", []) |> ignore
 }

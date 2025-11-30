@@ -70,9 +70,10 @@ impl EventTargetImpl for EventTarget
 // Type aliases
 
 // Traits
-pub(open) trait EventTargetImpl : @js.JsImpl {
+pub(open) trait EventTargetImpl {
+  as_any(Self) -> @nostd.Any
   addEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit = _
   removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit = _
-  dispatchEvent(Self, &@js.JsImpl) -> Bool = _
+  dispatchEvent(Self, Event) -> Bool = _
 }
 

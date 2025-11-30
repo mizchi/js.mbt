@@ -14,7 +14,6 @@ pub fn Document::as_event_target(self : Document) -> @event.EventTarget = "%iden
 pub fn Document::as_node(self : Document) -> Node = "%identity"
 
 ///|
-pub impl @js.JsImpl for Document
 
 ///|
 /// Returns the global document object
@@ -69,7 +68,10 @@ pub fn Document::readyState(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
 pub fn Document::getElementById(self : Self, id : String) -> Element? {
-  let v : @js.Any = self.as_any()._call("getElementById", [@nostd.any(id)]).cast()
+  let v : @js.Any = self
+    .as_any()
+    ._call("getElementById", [@nostd.any(id)])
+    .cast()
   v |> @js.identity_option()
 }
 
@@ -83,7 +85,10 @@ pub fn Document::getElementsByClassName(
   self : Self,
   class_name : String,
 ) -> Array[Element] {
-  let arr : @js.Any = self.as_any()._call("getElementsByClassName", [@nostd.any(class_name)]).cast()
+  let arr : @js.Any = self
+    .as_any()
+    ._call("getElementsByClassName", [@nostd.any(class_name)])
+    .cast()
   @js.array_from(arr).map(fn(v) { v |> @js.identity })
 }
 
@@ -97,7 +102,10 @@ pub fn Document::getElementsByTagName(
   self : Self,
   tagName : String,
 ) -> Array[Element] {
-  let arr : @js.Any = self.as_any()._call("getElementsByTagName", [@nostd.any(tagName)]).cast()
+  let arr : @js.Any = self
+    .as_any()
+    ._call("getElementsByTagName", [@nostd.any(tagName)])
+    .cast()
   @js.array_from(arr).map(_.cast())
 }
 
@@ -261,7 +269,10 @@ pub fn Document::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  let v : @js.Any = self.as_any()._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)]).cast()
+  let v : @js.Any = self
+    .as_any()
+    ._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)])
+    .cast()
   v |> @js.identity_option()
 }
 
@@ -275,6 +286,9 @@ pub fn Document::elementsFromPoint(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  let arr : @js.Any = self.as_any()._call("elementsFromPoint", [@nostd.any(x), @nostd.any(y)]).cast()
+  let arr : @js.Any = self
+    .as_any()
+    ._call("elementsFromPoint", [@nostd.any(x), @nostd.any(y)])
+    .cast()
   @js.array_from(arr).map(fn(v) { @js.identity(v) })
 }

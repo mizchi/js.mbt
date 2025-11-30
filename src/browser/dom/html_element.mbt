@@ -29,7 +29,6 @@ pub fn HTMLElement::as_node(self : HTMLElement) -> Node = "%identity"
 pub fn HTMLElement::as_element(self : HTMLElement) -> Element = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLElement
 
 ///|
 pub impl ElementImpl for HTMLElement with as_any(self) -> @nostd.Any {

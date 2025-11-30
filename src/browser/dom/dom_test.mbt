@@ -5,14 +5,14 @@ test "dom test" {
   let div = doc.createElement("div")
   div.setAttribute("id", "test-div")
   div.setAttribute("data-value", "123")
-  div.setTextContent("Hello, World!")
-  assert_eq(div.textContent(), "Hello, World!")
+  div.as_node().setTextContent("Hello, World!")
+  assert_eq(div.as_node().textContent(), "Hello, World!")
   let body = doc.body().unwrap()
-  body.append(div)
+  body.append(div.as_node())
   assert_eq(div.getAttribute("id").unwrap(), "test-div")
   assert_eq(div.id(), "test-div")
   // println("Added div to body")
-  body.append(doc.createElement("p"))
+  body.append(doc.createElement("p").as_node())
   body.innerHTML()
   |> inspect(
     content=(
@@ -30,17 +30,17 @@ test "Node trait - appendChild, removeChild, childNodes" {
   let child2 = doc.createElement("p")
 
   // appendChild test
-  parent.appendChild(child1) |> ignore
-  parent.appendChild(child2) |> ignore
-  assert_eq(parent.childNodes().length(), 2)
+  parent.as_node().appendChild(child1.as_node()) |> ignore
+  parent.as_node().appendChild(child2.as_node()) |> ignore
+  assert_eq(parent.as_node().childNodes().length(), 2)
 
   // childNodes test
-  let children = parent.childNodes()
+  let children = parent.as_node().childNodes()
   assert_eq(children.length(), 2)
 
   // removeChild test
-  parent.removeChild(child1) |> ignore
-  assert_eq(parent.childNodes().length(), 1)
+  parent.as_node().removeChild(child1.as_node()) |> ignore
+  assert_eq(parent.as_node().childNodes().length(), 1)
 }
 
 ///|
@@ -51,18 +51,19 @@ test "Node trait - insertBefore, replaceChild" {
   let child1 = doc.createElement("span")
   let child2 = doc.createElement("p")
   let child3 = doc.createElement("a")
-  parent.appendChild(child1) |> ignore
-  parent.appendChild(child2) |> ignore
+  parent.as_node().appendChild(child1.as_node()) |> ignore
+  parent.as_node().appendChild(child2.as_node()) |> ignore
 
   // insertBefore test
-  parent.insertBefore(child3, Some(child2)) |> ignore
-  let children = parent.childNodes()
+  parent.as_node().insertBefore(child3.as_node(), Some(child2.as_node()))
+  |> ignore
+  let children = parent.as_node().childNodes()
   assert_eq(children.length(), 3)
 
   // replaceChild test
   let new_child = doc.createElement("div")
-  parent.replaceChild(new_child, child3) |> ignore
-  assert_eq(parent.childNodes().length(), 3)
+  parent.as_node().replaceChild(new_child.as_node(), child3.as_node()) |> ignore
+  assert_eq(parent.as_node().childNodes().length(), 3)
 }
 
 ///|
@@ -71,22 +72,22 @@ test "Node trait - cloneNode, contains, hasChildNodes" {
   let doc = document()
   let parent = doc.createElement("div")
   let child = doc.createElement("span")
-  parent.appendChild(child) |> ignore
+  parent.as_node().appendChild(child.as_node()) |> ignore
 
   // hasChildNodes test
-  assert_eq(parent.hasChildNodes(), true)
+  assert_eq(parent.as_node().hasChildNodes(), true)
 
   // cloneNode shallow
-  let shallow_clone = parent.cloneNode(false)
+  let shallow_clone = parent.as_node().cloneNode(false)
   shallow_clone.hasChildNodes() |> inspect(content="false")
 
   // cloneNode deep
-  let deep_clone = parent.cloneNode(true)
+  let deep_clone = parent.as_node().cloneNode(true)
   deep_clone.hasChildNodes() |> inspect(content="true")
 
   // contains test
-  assert_eq(parent.contains(Some(child)), true)
-  assert_eq(parent.contains(None), false)
+  assert_eq(parent.as_node().contains(Some(child.as_node())), true)
+  assert_eq(parent.as_node().contains(None), false)
 }
 
 ///|
@@ -96,21 +97,21 @@ test "Node trait - node properties" {
   let div = doc.createElement("div")
   let span = doc.createElement("span")
   let text = doc.createTextNode("test")
-  div.appendChild(span) |> ignore
-  span.appendChild(text) |> ignore
+  div.as_node().appendChild(span.as_node()) |> ignore
+  span.as_node().appendChild(text.as_node()) |> ignore
 
   // nodeName test
-  div.nodeName() |> inspect(content="DIV")
+  div.as_node().nodeName() |> inspect(content="DIV")
 
   // nodeType test (1 = ELEMENT_NODE)
-  div.nodeType() |> inspect(content="1")
+  div.as_node().nodeType() |> inspect(content="1")
 
   // firstChild, lastChild test
-  assert_eq(div.firstChild() is None, false)
-  assert_eq(div.lastChild() is None, false)
+  assert_eq(div.as_node().firstChild() is None, false)
+  assert_eq(div.as_node().lastChild() is None, false)
 
   // parentNode test
-  assert_eq(span.parentNode() is None, false)
+  assert_eq(span.as_node().parentNode() is None, false)
 }
 
 ///|
@@ -120,16 +121,16 @@ test "Node trait - sibling navigation" {
   let parent = doc.createElement("div")
   let child1 = doc.createElement("span")
   let child2 = doc.createElement("p")
-  parent.appendChild(child1) |> ignore
-  parent.appendChild(child2) |> ignore
+  parent.as_node().appendChild(child1.as_node()) |> ignore
+  parent.as_node().appendChild(child2.as_node()) |> ignore
 
   // Test that parent has children
-  assert_eq(parent.hasChildNodes(), true)
-  assert_eq(parent.childNodes().length(), 2)
+  assert_eq(parent.as_node().hasChildNodes(), true)
+  assert_eq(parent.as_node().childNodes().length(), 2)
 
   // Test firstChild and lastChild
-  assert_eq(parent.firstChild() is None, false)
-  assert_eq(parent.lastChild() is None, false)
+  assert_eq(parent.as_node().firstChild() is None, false)
+  assert_eq(parent.as_node().lastChild() is None, false)
 }
 
 ///|
@@ -182,11 +183,11 @@ test "Element trait - querySelector and querySelectorAll" {
   child1.setClassName("test-class")
   child2.setClassName("test-class")
   child3.setId("unique-id")
-  parent.appendChild(child1) |> ignore
-  parent.appendChild(child2) |> ignore
-  parent.appendChild(child3) |> ignore
+  parent.as_node().appendChild(child1.as_node()) |> ignore
+  parent.as_node().appendChild(child2.as_node()) |> ignore
+  parent.as_node().appendChild(child3.as_node()) |> ignore
   let body = doc.body().unwrap()
-  body.appendChild(parent) |> ignore
+  body.as_node().appendChild(parent.as_node()) |> ignore
 
   // querySelector test
   let found = parent.querySelector(".test-class")
@@ -211,9 +212,9 @@ test "Element trait - getElementsByTagName and getElementsByClassName" {
   let p = doc.createElement("p")
   span1.setClassName("highlight")
   span2.setClassName("highlight")
-  parent.appendChild(span1) |> ignore
-  parent.appendChild(span2) |> ignore
-  parent.appendChild(p) |> ignore
+  parent.as_node().appendChild(span1.as_node()) |> ignore
+  parent.as_node().appendChild(span2.as_node()) |> ignore
+  parent.as_node().appendChild(p.as_node()) |> ignore
 
   // getElementsByTagName test
   let spans = parent.getElementsByTagName("span")
@@ -265,7 +266,7 @@ test "Document - createElement and createTextNode" {
 
   // createTextNode test
   let text = doc.createTextNode("Hello, World!")
-  text.textContent() |> inspect(content="Hello, World!")
+  text.as_node().textContent() |> inspect(content="Hello, World!")
 }
 
 ///|
@@ -297,7 +298,7 @@ test "Document - getElementById and document element accessors" {
   let div = doc.createElement("div")
   div.setId("test-element")
   let body = doc.body().unwrap()
-  body.appendChild(div) |> ignore
+  body.as_node().appendChild(div.as_node()) |> ignore
 
   // getElementById test
   let found = doc.getElementById("test-element")
@@ -340,15 +341,22 @@ test "EventTarget - addEventListener and dispatchEvent" {
 
   // addEventListener test
   let handler = fn(_event) { event_fired = true }
-  div.addEventListener("click", handler)
-  defer div.removeEventListener("click", handler)
+  div.as_event_target().addEventListener("click", handler)
+  defer div.as_event_target().removeEventListener("click", handler)
 
   // Create and dispatch custom event
   let event = doc.createEvent("Event")
-  event.call("initEvent", ["click", false, false]) |> ignore
+  event
+  .as_any()
+  ._call("initEvent", [
+    @nostd.any("click"),
+    @nostd.any(false),
+    @nostd.any(false),
+  ])
+  |> ignore
 
   // dispatchEvent test
-  let result = div.dispatchEvent(event)
+  let result = div.as_event_target().dispatchEvent(event.as_event())
   assert_eq(result, true)
   assert_eq(event_fired, true)
 }
@@ -362,21 +370,35 @@ test "EventTarget - removeEventListener" {
   let handler = fn(_event) { call_count = call_count + 1 }
 
   // Add event listener
-  div.addEventListener("test-event", handler)
+  div.as_event_target().addEventListener("test-event", handler)
 
   // Create and dispatch event
   let event = doc.createEvent("Event")
-  event.call("initEvent", ["test-event", false, false]) |> ignore
-  div.dispatchEvent(event) |> ignore
+  event
+  .as_any()
+  ._call("initEvent", [
+    @nostd.any("test-event"),
+    @nostd.any(false),
+    @nostd.any(false),
+  ])
+  |> ignore
+  div.as_event_target().dispatchEvent(event.as_event()) |> ignore
   assert_eq(call_count, 1)
 
   // Remove event listener
-  div.removeEventListener("test-event", handler)
+  div.as_event_target().removeEventListener("test-event", handler)
 
   // Dispatch event again - should not fire
   let event2 = doc.createEvent("Event")
-  event2.call("initEvent", ["test-event", false, false]) |> ignore
-  div.dispatchEvent(event2) |> ignore
+  event2
+  .as_any()
+  ._call("initEvent", [
+    @nostd.any("test-event"),
+    @nostd.any(false),
+    @nostd.any(false),
+  ])
+  |> ignore
+  div.as_event_target().dispatchEvent(event2.as_event()) |> ignore
 
   // Count should still be 1
   assert_eq(call_count, 1)

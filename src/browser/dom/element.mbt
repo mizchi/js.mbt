@@ -12,7 +12,6 @@ pub fn Element::as_event_target(self : Element) -> @event.EventTarget = "%identi
 pub fn Element::as_node(self : Element) -> Node = "%identity"
 
 ///|
-pub impl @js.JsImpl for Element
 
 ///|
 pub impl ElementImpl for Element with as_any(self) -> @nostd.Any {
@@ -71,13 +70,17 @@ impl ElementImpl with setId(self, id) -> Unit {
 
 ///|
 impl ElementImpl with getAttribute(self, name) -> String? {
-  let v : @js.Any = self.as_any()._call("getAttribute", [@nostd.any(name)]).cast()
+  let v : @js.Any = self
+    .as_any()
+    ._call("getAttribute", [@nostd.any(name)])
+    .cast()
   v |> @js.identity_option
 }
 
 ///|
 impl ElementImpl with setAttribute(self, name, value) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -94,7 +97,10 @@ impl ElementImpl with hasAttribute(self, name) -> Bool {
 /// Returns a static array of elements with the specified tag name.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
-  let arr : @js.Any = self.as_any()._call("getElementsByTagName", [@nostd.any(tag_name)]).cast()
+  let arr : @js.Any = self
+    .as_any()
+    ._call("getElementsByTagName", [@nostd.any(tag_name)])
+    .cast()
   @js.array_from(arr).map(fn(v) { @js.identity(v) })
 }
 
@@ -102,13 +108,19 @@ impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
 /// Returns a static array of elements with the specified class name.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element] {
-  let arr : @js.Any = self.as_any()._call("getElementsByClassName", [@nostd.any(class_name)]).cast()
+  let arr : @js.Any = self
+    .as_any()
+    ._call("getElementsByClassName", [@nostd.any(class_name)])
+    .cast()
   @js.array_from(arr).map(fn(v) { @js.identity(v) })
 }
 
 ///|
 impl ElementImpl with querySelector(self, selector) -> Element? {
-  let v : @js.Any = self.as_any()._call("querySelector", [@nostd.any(selector)]).cast()
+  let v : @js.Any = self
+    .as_any()
+    ._call("querySelector", [@nostd.any(selector)])
+    .cast()
   v |> @js.identity_option
 }
 
@@ -116,6 +128,9 @@ impl ElementImpl with querySelector(self, selector) -> Element? {
 /// Returns a static array of elements matching the specified CSS selector.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
-  let arr : @js.Any = self.as_any()._call("querySelectorAll", [@nostd.any(selector)]).cast()
+  let arr : @js.Any = self
+    .as_any()
+    ._call("querySelectorAll", [@nostd.any(selector)])
+    .cast()
   @js.array_from(arr).map(@js.identity(_))
 }

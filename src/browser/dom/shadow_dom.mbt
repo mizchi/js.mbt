@@ -18,7 +18,6 @@ pub fn ShadowRoot::as_event_target(self : ShadowRoot) -> @event.EventTarget = "%
 pub fn ShadowRoot::as_node(self : ShadowRoot) -> Node = "%identity"
 
 ///|
-pub impl @js.JsImpl for ShadowRoot
 
 ///|
 /// Returns the mode of the shadow root
@@ -77,7 +76,10 @@ pub fn ShadowRoot::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  let v : @js.Any = self.as_any()._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)]).cast()
+  let v : @js.Any = self
+    .as_any()
+    ._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)])
+    .cast()
   v |> @js.identity_option()
 }
 
@@ -91,7 +93,10 @@ pub fn ShadowRoot::elementsFromPoint(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  let arr : @js.Any = self.as_any()._call("elementsFromPoint", [@nostd.any(x), @nostd.any(y)]).cast()
+  let arr : @js.Any = self
+    .as_any()
+    ._call("elementsFromPoint", [@nostd.any(x), @nostd.any(y)])
+    .cast()
   @js.array_from(arr).map(_.cast())
 }
 

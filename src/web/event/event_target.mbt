@@ -114,7 +114,9 @@ impl EventTargetImpl with addEventListener(
   passive? : Bool = false,
   signal? : @js.AbortSignal,
 ) -> Unit {
-  self.as_any()._call("addEventListener", [
+  self
+  .as_any()
+  ._call("addEventListener", [
     @nostd.any(event_type),
     @nostd.any(@js.from_fn1(handler)),
     @nostd.any(
@@ -136,7 +138,9 @@ impl EventTargetImpl with removeEventListener(
   handler,
   capture? : Bool = false,
 ) -> Unit {
-  self.as_any()._call("removeEventListener", [
+  self
+  .as_any()
+  ._call("removeEventListener", [
     @nostd.any(event_type),
     @nostd.any(@js.from_fn1(handler)),
     @nostd.any(@js.from_option_map({ "capture": Some(@js.any(capture)) })),

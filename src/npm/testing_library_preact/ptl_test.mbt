@@ -70,7 +70,7 @@ test "render result container" {
   let vnode = @preact.h("span", ["Test Content"])
   let result = render(vnode)
   let container = result.container()
-  let inner_html : String = container.get("innerHTML").cast()
+  let inner_html : String = container.innerHTML()
   inspect(inner_html, content="<span>Test Content</span>")
 }
 
@@ -81,11 +81,11 @@ test "rerender component" {
   let vnode1 = @preact.h("div", ["Initial"])
   let result = render(vnode1)
   let container = result.container()
-  let html1 : String = container.get("innerHTML").cast()
+  let html1 : String = container.innerHTML()
   inspect(html1, content="<div>Initial</div>")
   let vnode2 = @preact.h("div", ["Updated"])
   result.rerender(vnode2)
-  let html2 : String = container.get("innerHTML").cast()
+  let html2 : String = container.innerHTML()
   inspect(html2, content="<div>Updated</div>")
 }
 
@@ -96,10 +96,10 @@ test "unmount removes content" {
   let vnode = @preact.h("div", ["Will be removed"])
   let result = render(vnode)
   let container = result.container()
-  let html1 : String = container.get("innerHTML").cast()
+  let html1 : String = container.innerHTML()
   inspect(html1, content="<div>Will be removed</div>")
   result.unmount()
-  let html2 : String = container.get("innerHTML").cast()
+  let html2 : String = container.innerHTML()
   inspect(html2, content="")
 }
 
@@ -150,9 +150,9 @@ test "fireEvent change" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event = @js.from_map({
-    "target": @js.from_map({ "value": @js.any("hello") }),
-  })
+  let event : @nostd.Any = @nostd.identity(
+    @js.from_map({ "target": @js.from_map({ "value": @js.any("hello") }) }),
+  )
   fireEvent().change(input, event) |> ignore
   inspect(value.val, content="hello")
 }
@@ -173,9 +173,9 @@ test "fireEvent input" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event = @js.from_map({
-    "target": @js.from_map({ "value": @js.any("world") }),
-  })
+  let event : @nostd.Any = @nostd.identity(
+    @js.from_map({ "target": @js.from_map({ "value": @js.any("world") }) }),
+  )
   fireEvent().input(input, event) |> ignore
   inspect(value.val, content="world")
 }
@@ -216,7 +216,9 @@ test "fireEvent keyDown" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event = @js.from_map({ "key": @js.any("Enter") })
+  let event : @nostd.Any = @nostd.identity(
+    @js.from_map({ "key": @js.any("Enter") }),
+  )
   fireEvent().keyDown(input, event) |> ignore
   inspect(key_pressed.val, content="Enter")
 }
@@ -236,7 +238,9 @@ test "fireEvent keyUp" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event = @js.from_map({ "key": @js.any("Escape") })
+  let event : @nostd.Any = @nostd.identity(
+    @js.from_map({ "key": @js.any("Escape") }),
+  )
   fireEvent().keyUp(input, event) |> ignore
   inspect(key_released.val, content="Escape")
 }
@@ -307,7 +311,7 @@ test "render result baseElement" {
   let result = render(vnode)
   let base = result.baseElement()
   // baseElement should be the body element
-  let tag_name : String = base.get("tagName").cast()
+  let tag_name : String = base.tagName()
   inspect(tag_name, content="BODY")
 }
 
@@ -549,7 +553,7 @@ test "getByRole with name option" {
   render(vnode) |> ignore
   let s = screen()
   let submit = s.getByRole("button", name=Some("Submit"))
-  let text : String = submit.as_element().get("textContent").cast()
+  let text : String = submit.as_element().as_node().textContent()
   inspect(text, content="Submit")
 }
 
@@ -590,7 +594,11 @@ test "fireEvent submit" {
     props={ "onSubmit": handler |> @js.identity },
   )
   let result = render(vnode)
-  let form : @dom.HTMLElement = result.container().get("firstChild").cast()
+  let form : @dom.HTMLElement = match
+    result.container().as_node().firstChild() {
+    Some(node) => @nostd.identity(node)
+    None => abort("firstChild not found")
+  }
   fireEvent().submit(form) |> ignore
   inspect(submitted.val, content="true")
 }

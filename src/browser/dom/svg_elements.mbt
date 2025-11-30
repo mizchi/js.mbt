@@ -17,7 +17,6 @@ pub fn SVGElement::as_node(self : SVGElement) -> Node = "%identity"
 pub fn SVGElement::as_element(self : SVGElement) -> Element = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGElement
 
 ///|
 
@@ -32,13 +31,17 @@ pub fn SVGElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
 /// Gets an attribute from the SVG element
 pub fn SVGElement::getAttribute(self : Self, name : String) -> String? {
-  let v : @js.Any = self.as_any()._call("getAttribute", [@nostd.any(name)]).cast()
+  let v : @js.Any = self
+    .as_any()
+    ._call("getAttribute", [@nostd.any(name)])
+    .cast()
   v |> @js.identity_option()
 }
 
@@ -66,7 +69,6 @@ pub fn SVGSVGElement::as_element(self : SVGSVGElement) -> Element = "%identity"
 pub fn SVGSVGElement::as_svg_element(self : SVGSVGElement) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGSVGElement
 
 ///|
 
@@ -93,13 +95,17 @@ pub fn SVGSVGElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
 /// Gets an attribute from the SVG element
 pub fn SVGSVGElement::getAttribute(self : Self, name : String) -> String? {
-  let v : @js.Any = self.as_any()._call("getAttribute", [@nostd.any(name)]).cast()
+  let v : @js.Any = self
+    .as_any()
+    ._call("getAttribute", [@nostd.any(name)])
+    .cast()
   v |> @js.identity_option
 }
 
@@ -127,7 +133,6 @@ pub fn SVGCircleElement::as_element(self : SVGCircleElement) -> Element = "%iden
 pub fn SVGCircleElement::as_svg_element(self : SVGCircleElement) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGCircleElement
 
 ///|
 
@@ -160,7 +165,8 @@ pub fn SVGCircleElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -187,7 +193,6 @@ pub fn SVGRectElement::as_element(self : SVGRectElement) -> Element = "%identity
 pub fn SVGRectElement::as_svg_element(self : SVGRectElement) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGRectElement
 
 ///|
 
@@ -226,7 +231,8 @@ pub fn SVGRectElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -255,7 +261,6 @@ pub fn SVGEllipseElement::as_svg_element(
 ) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGEllipseElement
 
 ///|
 
@@ -294,7 +299,8 @@ pub fn SVGEllipseElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -321,7 +327,6 @@ pub fn SVGLineElement::as_element(self : SVGLineElement) -> Element = "%identity
 pub fn SVGLineElement::as_svg_element(self : SVGLineElement) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGLineElement
 
 ///|
 
@@ -360,7 +365,8 @@ pub fn SVGLineElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -389,7 +395,6 @@ pub fn SVGPolygonElement::as_svg_element(
 ) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGPolygonElement
 
 ///|
 
@@ -404,7 +409,8 @@ pub fn SVGPolygonElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -433,7 +439,6 @@ pub fn SVGPolylineElement::as_svg_element(
 ) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGPolylineElement
 
 ///|
 
@@ -448,7 +453,8 @@ pub fn SVGPolylineElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -475,7 +481,6 @@ pub fn SVGPathElement::as_element(self : SVGPathElement) -> Element = "%identity
 pub fn SVGPathElement::as_svg_element(self : SVGPathElement) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGPathElement
 
 ///|
 
@@ -503,7 +508,8 @@ pub fn SVGPathElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -530,7 +536,6 @@ pub fn SVGTextElement::as_element(self : SVGTextElement) -> Element = "%identity
 pub fn SVGTextElement::as_svg_element(self : SVGTextElement) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGTextElement
 
 ///|
 
@@ -541,13 +546,25 @@ pub impl @js.JsImpl for SVGTextElement
 ///|
 /// Gets the x coordinate
 pub fn SVGTextElement::x(self : Self) -> Double {
-  self.as_any()._get("x")._get("baseVal")._call("at", [@nostd.any(0)])._get("value").cast()
+  self
+  .as_any()
+  ._get("x")
+  ._get("baseVal")
+  ._call("at", [@nostd.any(0)])
+  ._get("value")
+  .cast()
 }
 
 ///|
 /// Gets the y coordinate
 pub fn SVGTextElement::y(self : Self) -> Double {
-  self.as_any()._get("y")._get("baseVal")._call("at", [@nostd.any(0)])._get("value").cast()
+  self
+  .as_any()
+  ._get("y")
+  ._get("baseVal")
+  ._call("at", [@nostd.any(0)])
+  ._get("value")
+  .cast()
 }
 
 ///|
@@ -557,7 +574,8 @@ pub fn SVGTextElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -584,7 +602,6 @@ pub fn SVGImageElement::as_element(self : SVGImageElement) -> Element = "%identi
 pub fn SVGImageElement::as_svg_element(self : SVGImageElement) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGImageElement
 
 ///|
 
@@ -629,7 +646,8 @@ pub fn SVGImageElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }
 
 ///|
@@ -654,7 +672,6 @@ pub fn SVGGElement::as_element(self : SVGGElement) -> Element = "%identity"
 pub fn SVGGElement::as_svg_element(self : SVGGElement) -> SVGElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for SVGGElement
 
 ///|
 
@@ -669,5 +686,6 @@ pub fn SVGGElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
 }

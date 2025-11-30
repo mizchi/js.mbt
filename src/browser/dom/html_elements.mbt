@@ -20,7 +20,6 @@ pub fn HTMLDivElement::as_element(self : HTMLDivElement) -> Element = "%identity
 pub fn HTMLDivElement::as_html_element(self : HTMLDivElement) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLDivElement
 
 ///|
 
@@ -31,10 +30,14 @@ pub impl @js.JsImpl for HTMLDivElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLDivElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLDivElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLDivElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLDivElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTMLCanvasElement represents a <canvas> element
@@ -64,7 +67,6 @@ pub fn HTMLCanvasElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLCanvasElement
 
 ///|
 
@@ -75,10 +77,14 @@ pub impl @js.JsImpl for HTMLCanvasElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Canvas methods
@@ -98,8 +104,7 @@ pub fn HTMLCanvasElement::toDataURL(
   match (image_type, quality) {
     (Some(t), Some(q)) =>
       self.as_any()._call("toDataURL", [@nostd.any(t), @nostd.any(q)]).cast()
-    (Some(t), None) =>
-      self.as_any()._call("toDataURL", [@nostd.any(t)]).cast()
+    (Some(t), None) => self.as_any()._call("toDataURL", [@nostd.any(t)]).cast()
     (None, _) => self.as_any()._call("toDataURL", []).cast()
   }
 }
@@ -141,7 +146,6 @@ pub fn HTMLBodyElement::as_element(self : HTMLBodyElement) -> Element = "%identi
 pub fn HTMLBodyElement::as_html_element(self : HTMLBodyElement) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLBodyElement
 
 ///|
 
@@ -152,10 +156,14 @@ pub impl @js.JsImpl for HTMLBodyElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLBodyElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLBodyElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLBodyElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLBodyElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 #external
@@ -179,7 +187,6 @@ pub fn HTMLHeadElement::as_element(self : HTMLHeadElement) -> Element = "%identi
 pub fn HTMLHeadElement::as_html_element(self : HTMLHeadElement) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLHeadElement
 
 ///|
 
@@ -190,10 +197,14 @@ pub impl @js.JsImpl for HTMLHeadElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLHeadElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLHeadElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLHeadElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLHeadElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 #external
@@ -217,7 +228,6 @@ pub fn HTMLHtmlElement::as_element(self : HTMLHtmlElement) -> Element = "%identi
 pub fn HTMLHtmlElement::as_html_element(self : HTMLHtmlElement) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLHtmlElement
 
 ///|
 
@@ -228,10 +238,14 @@ pub impl @js.JsImpl for HTMLHtmlElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLHtmlElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLHtmlElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLHtmlElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLHtmlElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 #external
@@ -255,7 +269,6 @@ pub fn HTMLSpanElement::as_element(self : HTMLSpanElement) -> Element = "%identi
 pub fn HTMLSpanElement::as_html_element(self : HTMLSpanElement) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLSpanElement
 
 ///|
 
@@ -266,10 +279,14 @@ pub impl @js.JsImpl for HTMLSpanElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLSpanElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLSpanElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLSpanElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLSpanElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTMLAnchorElement represents an <a> element
@@ -299,7 +316,6 @@ pub fn HTMLAnchorElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLAnchorElement
 
 ///|
 
@@ -310,10 +326,14 @@ pub impl @js.JsImpl for HTMLAnchorElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLAnchorElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLAnchorElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLAnchorElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLAnchorElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTMLButtonElement represents a <button> element
@@ -342,7 +362,6 @@ pub fn HTMLButtonElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLButtonElement
 
 ///|
 
@@ -353,10 +372,14 @@ pub impl @js.JsImpl for HTMLButtonElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLButtonElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLButtonElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLButtonElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLButtonElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 // #external
@@ -387,7 +410,6 @@ pub fn HTMLInputElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLInputElement
 
 ///|
 
@@ -398,10 +420,14 @@ pub impl @js.JsImpl for HTMLInputElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLInputElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLInputElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLInputElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLInputElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Returns the type of the input
@@ -447,7 +473,6 @@ pub fn HTMLTextAreaElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLTextAreaElement
 
 ///|
 
@@ -458,10 +483,14 @@ pub impl @js.JsImpl for HTMLTextAreaElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLTextAreaElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLTextAreaElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLTextAreaElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLTextAreaElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTMLIFrameElement represents an <iframe> element
@@ -494,7 +523,6 @@ pub fn HTMLIFrameElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLIFrameElement
 
 ///|
 
@@ -505,10 +533,14 @@ pub impl @js.JsImpl for HTMLIFrameElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Returns the content window
@@ -548,7 +580,6 @@ pub fn HTMLFormElement::as_element(self : HTMLFormElement) -> Element = "%identi
 pub fn HTMLFormElement::as_html_element(self : HTMLFormElement) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLFormElement
 
 ///|
 
@@ -559,10 +590,14 @@ pub impl @js.JsImpl for HTMLFormElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLFormElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLFormElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLFormElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLFormElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTMLSelectElement represents a <select> element
@@ -592,7 +627,6 @@ pub fn HTMLSelectElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLSelectElement
 
 ///|
 
@@ -603,10 +637,14 @@ pub impl @js.JsImpl for HTMLSelectElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLSelectElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLSelectElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLSelectElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLSelectElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTMLOptionElement represents an <option> element
@@ -636,7 +674,6 @@ pub fn HTMLOptionElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLOptionElement
 
 ///|
 
@@ -647,10 +684,14 @@ pub impl @js.JsImpl for HTMLOptionElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLOptionElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLOptionElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLOptionElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLOptionElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTMLLabelElement represents a <label> element
@@ -679,7 +720,6 @@ pub fn HTMLLabelElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLLabelElement
 
 ///|
 
@@ -690,10 +730,14 @@ pub impl @js.JsImpl for HTMLLabelElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLLabelElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLLabelElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLLabelElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLLabelElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTMLImageElement represents an <img> element
@@ -723,7 +767,6 @@ pub fn HTMLImageElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLImageElement
 
 ///|
 
@@ -734,10 +777,14 @@ pub impl @js.JsImpl for HTMLImageElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLImageElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLImageElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLImageElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLImageElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 #external
@@ -763,7 +810,6 @@ pub fn HTMLParagraphElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLParagraphElement
 
 ///|
 
@@ -774,10 +820,14 @@ pub impl @js.JsImpl for HTMLParagraphElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLParagraphElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLParagraphElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLParagraphElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLParagraphElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 #external
@@ -803,7 +853,6 @@ pub fn HTMLHeadingElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLHeadingElement
 
 ///|
 
@@ -814,10 +863,14 @@ pub impl @js.JsImpl for HTMLHeadingElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLHeadingElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLHeadingElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLHeadingElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLHeadingElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 #external
@@ -843,7 +896,6 @@ pub fn HTMLUListElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLUListElement
 
 ///|
 
@@ -854,10 +906,14 @@ pub impl @js.JsImpl for HTMLUListElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLUListElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLUListElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLUListElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLUListElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 #external
@@ -883,7 +939,6 @@ pub fn HTMLOListElement::as_html_element(
 ) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLOListElement
 
 ///|
 
@@ -894,10 +949,14 @@ pub impl @js.JsImpl for HTMLOListElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLOListElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLOListElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLOListElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLOListElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 #external
@@ -921,7 +980,6 @@ pub fn HTMLLIElement::as_element(self : HTMLLIElement) -> Element = "%identity"
 pub fn HTMLLIElement::as_html_element(self : HTMLLIElement) -> HTMLElement = "%identity"
 
 ///|
-pub impl @js.JsImpl for HTMLLIElement
 
 ///|
 
@@ -932,7 +990,11 @@ pub impl @js.JsImpl for HTMLLIElement
 ///|
 
 ///|
-pub impl ElementImpl for HTMLLIElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl ElementImpl for HTMLLIElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
-pub impl HTMLElementImpl for HTMLLIElement with as_any(self) -> @nostd.Any { self.as_any() }
+pub impl HTMLElementImpl for HTMLLIElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}

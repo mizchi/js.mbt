@@ -325,8 +325,7 @@ pub fn Window::getComputedStyle(
       .as_any()
       ._call("getComputedStyle", [element.as_any(), @nostd.any(p)])
       .cast()
-    None =>
-      self.as_any()._call("getComputedStyle", [element.as_any()]).cast()
+    None => self.as_any()._call("getComputedStyle", [element.as_any()]).cast()
   }
 }
 

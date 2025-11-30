@@ -255,7 +255,7 @@ async fn main {
   @react.dynamic_import()
   @react_router.dynamic_import()
   let client = @react_dom_client.dynamic_import()
-  guard @dom.document().querySelector("#app") is Some(app_root)
+  guard @dom.document().getElementById("app") is Some(app_root)
   init_myctx()
   let index = (_props : @react_router.RouteProps) => component(app, {
     x: 42,

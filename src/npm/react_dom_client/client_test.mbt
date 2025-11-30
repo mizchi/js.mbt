@@ -25,14 +25,14 @@ fn simple_component(props : SimpleProps) -> @react.Element {
 test "createRoot exists on ReactDOMClient" {
   init_jsdom()
   let client = get_react_dom_client()
-  @js.typeof_(client.get("createRoot")) |> assert_eq("function")
+  @nostd.typeof_(client.as_any()._get("createRoot")) |> assert_eq("function")
 }
 
 ///|
 test "hydrateRoot exists on ReactDOMClient" {
   init_jsdom()
   let client = get_react_dom_client()
-  @js.typeof_(client.get("hydrateRoot")) |> assert_eq("function")
+  @nostd.typeof_(client.as_any()._get("hydrateRoot")) |> assert_eq("function")
 }
 
 ///|
@@ -56,12 +56,12 @@ test "ReactDOMRoot has render method" {
   let document : @dom.Document = @js.globalThis().get("document").cast()
   guard document.body() is Some(body)
   let container = document.createElement("div")
-  body.appendChild(container) |> ignore
+  body.as_node().appendChild(container.as_node()) |> ignore
   let root = client.createRoot(container)
   // Verify render method exists
-  @js.typeof_(root.get("render")) |> assert_eq("function")
+  @nostd.typeof_(root.as_any()._get("render")) |> assert_eq("function")
   // Verify unmount method exists
-  @js.typeof_(root.get("unmount")) |> assert_eq("function")
+  @nostd.typeof_(root.as_any()._get("unmount")) |> assert_eq("function")
   root.unmount()
-  body.removeChild(container) |> ignore
+  body.as_node().removeChild(container.as_node()) |> ignore
 }

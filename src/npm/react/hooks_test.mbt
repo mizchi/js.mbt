@@ -161,7 +161,7 @@ test "ReactRef::current and set_current" {
     let r : ReactRef[@dom.HTMLSpanElement] = useRef(None)
     let on_click : @dom.MouseEventHandler = _ => match r.get_current() {
       Some(el) => {
-        el.set("textContent", "Updated by ref")
+        el.as_node().setTextContent("Updated by ref")
         set_text("updated")
       }
       None => ()

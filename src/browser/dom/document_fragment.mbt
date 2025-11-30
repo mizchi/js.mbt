@@ -16,4 +16,3 @@ pub fn DocumentFragment::as_event_target(
 pub fn DocumentFragment::as_node(self : DocumentFragment) -> Node = "%identity"
 
 ///|
-pub impl @js.JsImpl for DocumentFragment

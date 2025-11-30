@@ -16,11 +16,11 @@ fn setup() -> () -> Unit {
 }
 
 ///|
-fn get_container() -> @dom.Element {
+fn get_container() -> @dom.HTMLElement {
   let doc = @dom.document()
-  let container = doc.createElement("div")
+  let container : @dom.HTMLElement = @nostd.identity(doc.createElement("div"))
   guard doc.body() is Some(body) else { abort("body not found") }
-  body.appendChild(container) |> ignore
+  body.as_node().appendChild(container.as_node()) |> ignore
   container
 }
 
@@ -74,8 +74,8 @@ test "render to container" {
   defer dispose()
   let container = get_container()
   let vnode = h("div", ["Rendered"])
-  render(vnode, container)
-  let inner_html : String = container.get("innerHTML").cast()
+  render(vnode, container.as_element())
+  let inner_html : String = container.innerHTML()
   inspect(inner_html, content="<div>Rendered</div>")
 }
 
@@ -88,8 +88,8 @@ test "useState hook" {
     let (count, _set_count) = useState(0)
     h("span", [count])
   }
-  render(component(counter_component, ()), container)
-  let inner_html : String = container.get("innerHTML").cast()
+  render(component(counter_component, ()), container.as_element())
+  let inner_html : String = container.innerHTML()
   inspect(inner_html, content="<span>0</span>")
 }
 
@@ -103,8 +103,11 @@ test "createContext and useContext" {
     let value = useContext(ctx)
     h("span", [value.to_string()])
   }
-  render(provider(ctx, [component(consumer, ())], value=100), container)
-  let inner_html : String = container.get("innerHTML").cast()
+  render(
+    provider(ctx, [component(consumer, ())], value=100),
+    container.as_element(),
+  )
+  let inner_html : String = container.innerHTML()
   inspect(inner_html, content="<span>100</span>")
 }
 
@@ -123,8 +126,8 @@ test "useRef" {
       },
     ])
   }
-  render(component(ref_component, ()), container)
-  let inner_html : String = container.get("innerHTML").cast()
+  render(component(ref_component, ()), container.as_element())
+  let inner_html : String = container.innerHTML()
   inspect(inner_html, content="<span>42</span>")
 }
 
@@ -137,8 +140,8 @@ test "useMemo" {
     let result = useMemo(() => 21 * 2, [])
     h("span", [result.to_string()])
   }
-  render(component(memo_component, ()), container)
-  let inner_html : String = container.get("innerHTML").cast()
+  render(component(memo_component, ()), container.as_element())
+  let inner_html : String = container.innerHTML()
   inspect(inner_html, content="<span>42</span>")
 }
 
@@ -348,11 +351,11 @@ test "SSR then hydrate" {
   inspect(html, content="<div id=\"app\"><button>Click me</button></div>")
   // 2. Set up DOM with SSR HTML
   let container = get_container()
-  container.set("innerHTML", html)
+  container.setInnerHTML(html)
   // 3. Hydrate: attach event handlers
-  hydrate(component(app, ()), container)
+  hydrate(component(app, ()), container.as_element())
   // 4. Verify DOM is intact after hydration
-  let inner_html : String = container.get("innerHTML").cast()
+  let inner_html : String = container.innerHTML()
   inspect(inner_html, content="<div id=\"app\"><button>Click me</button></div>")
 }
 
@@ -379,10 +382,10 @@ async test "SSR async component then hydrate" {
   inspect(html, content="<article><p>loaded</p></article>")
   // 2. Set up DOM
   let container = get_container()
-  container.set("innerHTML", @js.any(html))
+  container.setInnerHTML(html)
   // 3. Hydrate
-  hydrate(component(async_app, ()), container)
-  let inner_html : String = container.get("innerHTML").cast()
+  hydrate(component(async_app, ()), container.as_element())
+  let inner_html : String = container.innerHTML()
   inspect(inner_html, content="<article><p>loaded</p></article>")
 }
 

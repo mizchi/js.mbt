@@ -44,10 +44,10 @@ test "RenderResult methods" {
   let result = @testing_library_react.render(@react.component(comp, ()))
   // Test container
   let container = result.container()
-  @js.typeof_(container) |> assert_eq("object")
+  @nostd.typeof_(container) |> assert_eq("object")
   // Test baseElement
   let base = result.baseElement()
-  @js.typeof_(base) |> assert_eq("object")
+  @nostd.typeof_(base) |> assert_eq("object")
   let comp2 = (_props : Unit) => @react_element.div(["Rerendered Content"])
   result.rerender(@react.component(comp2, ()))
   @testing_library_react.expect(
@@ -77,7 +77,7 @@ test "queryBy methods return None when not found" {
   assert_eq(is_null2, false)
   // Verify the text content using raw HTMLElement
   let el : @dom.HTMLElement = @js.identity(existing)
-  assert_eq(el.textContent(), "Existing text")
+  assert_eq(el.as_node().textContent(), "Existing text")
 }
 
 ///|
@@ -189,8 +189,8 @@ test "fireEvent change on input" {
   let comp = (_props : Unit) => {
     let (value, set_value) = @react.use_state("")
     let on_change : @dom.ChangeEventHandler = e => {
-      let target : @js.Any = e.get("target")
-      let new_value : String = target.get("value").cast()
+      let target : @nostd.Any = e.as_any()._get("target")
+      let new_value : String = target._get("value").cast()
       set_value(new_value)
     }
     @react_element.div([
@@ -203,9 +203,9 @@ test "fireEvent change on input" {
     "Type here",
   )
   // Create event object using from_map
-  let event = @js.from_map({
-    "target": @js.from_map({ "value": @js.any("hello") }),
-  })
+  let event : @nostd.Any = @nostd.identity(
+    @js.from_map({ "target": @js.from_map({ "value": @js.any("hello") }) }),
+  )
   @testing_library_react.fireEvent().change(input_el, event) |> ignore
   @testing_library_react.expect(
     @testing_library_react.screen().getByText("Value: hello"),
@@ -303,7 +303,9 @@ test "fireEvent keyDown on input" {
   let input_el = @testing_library_react.screen().getByPlaceholderText(
     "Press a key",
   )
-  let event = @js.from_map({ "key": @js.any("Enter") })
+  let event : @nostd.Any = @nostd.identity(
+    @js.from_map({ "key": @js.any("Enter") }),
+  )
   @testing_library_react.fireEvent().keyDown(input_el, event) |> ignore
   @testing_library_react.expect(
     @testing_library_react.screen().getByText("Key: Enter"),
@@ -506,7 +508,7 @@ test "useId hook" {
   let result = @testing_library_react.render(@react.component(comp, ()))
   // useId generates IDs that contain _ character
   let container = result.container()
-  assert_eq(container.textContent().contains("The ID is:"), true)
+  assert_eq(container.as_node().textContent().contains("The ID is:"), true)
 }
 
 ///|

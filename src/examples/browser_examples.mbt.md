@@ -15,14 +15,14 @@ fn basic_dom_example() -> Unit {
   let div = doc.createElement("div")
   div.setId("my-div")
   div.setClassName("container")
-  div.setTextContent("Hello, World!")
+  div.as_node().setTextContent("Hello, World!")
 
   // Set attributes
   div.setAttribute("data-value", "123")
 
   // Query elements
   guard doc.getElementById("app") is Some(app) else { return }
-  app.appendChild(div) |> ignore
+  app.as_node().appendChild(div.as_node()) |> ignore
 }
 ```
 
@@ -34,12 +34,16 @@ fn query_example() -> Unit {
   let doc = @dom.document()
 
   // Single element
-  guard doc.querySelector(".my-class") is Some(el) else { return }
+  guard doc.documentElement().querySelector(".my-class") is Some(el) else {
+    return
+  }
   @js.log(el.tagName())
 
   // Multiple elements
-  let items = doc.querySelectorAll("li")
-  items.iter().each(fn(item) { @js.log(item.textContent()) })
+  let items = doc.documentElement().querySelectorAll("li")
+  for item in items {
+    @js.log(item.as_node().textContent())
+  }
 
   // By ID
   guard doc.getElementById("header") is Some(header) else { return }
@@ -57,23 +61,24 @@ fn tree_manipulation() -> Unit {
 
   // Create and append children
   let item1 = doc.createElement("li")
-  item1.setTextContent("Item 1")
+  item1.as_node().setTextContent("Item 1")
   let item2 : @dom.HTMLLIElement = doc.createElement("li").as_any().cast()
-  item2.setTextContent("Item 2")
-  parent.appendChild(item1) |> ignore
-  parent.appendChild(item2) |> ignore
+  item2.as_node().setTextContent("Item 2")
+  parent.as_node().appendChild(item1.as_node()) |> ignore
+  parent.as_node().appendChild(item2.as_node()) |> ignore
 
   // Insert before
   let item0 = doc.createElement("li")
-  item0.setTextContent("Item 0")
-  parent.insertBefore(item0, Some(item1)) |> ignore
+  item0.as_node().setTextContent("Item 0")
+  parent.as_node().insertBefore(item0.as_node(), Some(item1.as_node()))
+  |> ignore
 
   // Clone node (deep)
-  let _cloned = parent.cloneNode(true)
+  let _cloned = parent.as_node().cloneNode(true)
 
   // Check relationships
-  let _has_children = parent.hasChildNodes() // true
-  let _contains_item = parent.contains(Some(item1))
+  let _has_children = parent.as_node().hasChildNodes() // true
+  let _contains_item = parent.as_node().contains(Some(item1.as_node()))
   // true
 }
 ```
@@ -86,23 +91,27 @@ fn tree_manipulation() -> Unit {
 ///|
 fn event_listener_example() -> Unit {
   let doc = @dom.document()
-  guard doc.querySelector("#my-button") is Some(button) else { return }
+  guard doc.documentElement().querySelector("#my-button") is Some(button) else {
+    return
+  }
 
   // Basic click handler
-  button.addEventListener("click", fn(event) {
+  button
+  .as_event_target()
+  .addEventListener("click", fn(event) {
     @js.log("Button clicked!")
     @js.log(event) // MouseEvent object
   })
 
   // With options
-  button.addEventListener(
-    "click",
-    fn(_event) { @js.log("Once only!") },
-    once=true,
-  )
+  button
+  .as_event_target()
+  .addEventListener("click", fn(_event) { @js.log("Once only!") }, once=true)
 
   // Passive listener (for scroll performance)
-  doc.addEventListener(
+  doc
+  .as_event_target()
+  .addEventListener(
     "scroll",
     fn(_event) { @js.log("Scrolling...") },
     passive=true,
@@ -117,7 +126,9 @@ fn event_listener_example() -> Unit {
 fn abort_controller_example() -> Unit {
   let doc = @dom.document()
   let controller = @js.AbortController::new()
-  doc.addEventListener(
+  doc
+  .as_event_target()
+  .addEventListener(
     "mousemove",
     fn(_event) { @js.log("Mouse moved") },
     signal=controller.signal(),
@@ -211,7 +222,9 @@ fn window_example() -> Unit {
 ///|
 fn canvas_example() -> Unit {
   let doc = @dom.document()
-  guard doc.querySelector("canvas") is Some(canvas_el) else { return }
+  guard doc.documentElement().querySelector("canvas") is Some(canvas_el) else {
+    return
+  }
   let canvas : @dom.HTMLCanvasElement = canvas_el |> @js.identity
 
   // Get 2D context
@@ -243,7 +256,9 @@ fn canvas_example() -> Unit {
 ///|
 async fn canvas_to_blob_example() -> Unit {
   let doc = @dom.document()
-  guard doc.querySelector("canvas") is Some(canvas_el) else { return }
+  guard doc.documentElement().querySelector("canvas") is Some(canvas_el) else {
+    return
+  }
   let canvas : @dom.HTMLCanvasElement = canvas_el |> @js.identity
 
   // Convert to blob (async)
