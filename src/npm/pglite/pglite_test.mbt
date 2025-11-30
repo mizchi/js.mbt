@@ -3,7 +3,7 @@
 async test "PGlite create in-memory database" {
   let db = PGlite::create()
   defer db.closeSync() |> ignore
-  @js.typeof_(db) |> assert_eq("object")
+  @nostd.typeof_(db.as_any()) |> assert_eq("object")
 }
 
 ///|
@@ -70,7 +70,7 @@ async test "Results fields" {
   defer db.closeSync() |> ignore
   let result = db.query("SELECT 1 as num, 'hello' as msg")
   let fields = result.fields()
-  @js.typeof_(fields) |> assert_eq("object")
+  @nostd.typeof_(fields.as_any()) |> assert_eq("object")
 }
 
 ///|

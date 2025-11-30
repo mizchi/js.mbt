@@ -47,12 +47,10 @@ fn wrapWorker(@worker.Worker) -> Remote
 #external
 pub type Endpoint
 fn Endpoint::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for Endpoint
 
 #external
 pub type ProxyMarked
 fn ProxyMarked::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for ProxyMarked
 
 #external
 pub type Remote
@@ -64,12 +62,10 @@ fn Remote::callMethod(Self, String, Array[@js.Any]) -> @js.Promise[@js.Any]
 fn Remote::createEndpoint(Self) -> @js.Promise[@message.MessagePort]
 fn Remote::get(Self, String) -> @js.Promise[@js.Any]
 fn Remote::release(Self) -> Unit
-impl @js.JsImpl for Remote
 
 #external
 pub type TransferHandler
 fn TransferHandler::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for TransferHandler
 
 // Type aliases
 

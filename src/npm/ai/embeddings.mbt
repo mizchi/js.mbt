@@ -11,7 +11,7 @@
 pub type EmbeddingModel
 
 ///|
-pub impl @js.JsImpl for EmbeddingModel
+pub fn EmbeddingModel::as_any(self : EmbeddingModel) -> @nostd.Any = "%identity"
 
 // ============================================================
 // Embedding Usage
@@ -95,7 +95,8 @@ pub async fn embed(
   headers? : @js.Any,
 ) -> EmbedResult {
   let opts = @js.Object::new()
-  opts.set("model", model.as_any())
+  let model_any : @js.Any = model.as_any().cast()
+  opts.set("model", model_any)
   opts.set("value", value)
   if max_retries is Some(r) {
     opts.set("maxRetries", r)
@@ -132,7 +133,8 @@ pub async fn embedMany(
   headers? : @js.Any,
 ) -> EmbedManyResult {
   let opts = @js.Object::new()
-  opts.set("model", model.as_any())
+  let model_any : @js.Any = model.as_any().cast()
+  opts.set("model", model_any)
   opts.set("values", values |> @js.from_array)
   if max_parallel_calls is Some(c) {
     opts.set("maxParallelCalls", c)

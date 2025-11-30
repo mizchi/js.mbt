@@ -3,6 +3,7 @@ package "mizchi/js/npm/duckdb"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -17,33 +18,33 @@ async fn instantiateNode(DuckDBModule) -> AsyncDuckDB
 // Types and methods
 #external
 pub type AsyncDuckDB
+fn AsyncDuckDB::as_any(Self) -> @nostd.Any
 async fn AsyncDuckDB::close(Self) -> Unit
 #alias(close_sync)
 fn AsyncDuckDB::closeSync(Self) -> @js.Promise[Unit]
 async fn AsyncDuckDB::connect(Self) -> AsyncDuckDBConnection
-impl @js.JsImpl for AsyncDuckDB
 
 #external
 pub type AsyncDuckDBConnection
+fn AsyncDuckDBConnection::as_any(Self) -> @nostd.Any
 async fn AsyncDuckDBConnection::close(Self) -> Unit
 #alias(close_sync)
 fn AsyncDuckDBConnection::closeSync(Self) -> @js.Promise[Unit]
 async fn AsyncDuckDBConnection::query(Self, String) -> QueryResult
-impl @js.JsImpl for AsyncDuckDBConnection
 
 #external
 pub type DuckDBModule
-impl @js.JsImpl for DuckDBModule
+fn DuckDBModule::as_any(Self) -> @nostd.Any
 
 #external
 pub type QueryResult
+fn QueryResult::as_any(Self) -> @nostd.Any
 #alias(num_cols)
 fn QueryResult::numCols(Self) -> Int
 #alias(num_rows)
 fn QueryResult::numRows(Self) -> Int
 fn QueryResult::schema(Self) -> @js.Any
 fn QueryResult::toArray(Self) -> @js.Any
-impl @js.JsImpl for QueryResult
 
 // Type aliases
 

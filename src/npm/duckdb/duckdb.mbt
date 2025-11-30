@@ -11,7 +11,7 @@
 pub type DuckDBModule
 
 ///|
-pub impl @js.JsImpl for DuckDBModule
+pub fn DuckDBModule::as_any(self : DuckDBModule) -> @nostd.Any = "%identity"
 
 ///|
 /// AsyncDuckDB database instance
@@ -19,7 +19,7 @@ pub impl @js.JsImpl for DuckDBModule
 pub type AsyncDuckDB
 
 ///|
-pub impl @js.JsImpl for AsyncDuckDB
+pub fn AsyncDuckDB::as_any(self : AsyncDuckDB) -> @nostd.Any = "%identity"
 
 ///|
 /// AsyncDuckDBConnection
@@ -27,7 +27,9 @@ pub impl @js.JsImpl for AsyncDuckDB
 pub type AsyncDuckDBConnection
 
 ///|
-pub impl @js.JsImpl for AsyncDuckDBConnection
+pub fn AsyncDuckDBConnection::as_any(
+  self : AsyncDuckDBConnection,
+) -> @nostd.Any = "%identity"
 
 ///|
 /// Query result
@@ -35,7 +37,7 @@ pub impl @js.JsImpl for AsyncDuckDBConnection
 pub type QueryResult
 
 ///|
-pub impl @js.JsImpl for QueryResult
+pub fn QueryResult::as_any(self : QueryResult) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_import_duckdb() -> @js.Promise[@js.Any] =
@@ -151,25 +153,25 @@ pub fn AsyncDuckDBConnection::closeSync(
 ///|
 /// Get rows as array from query result
 pub fn QueryResult::toArray(self : QueryResult) -> @js.Any {
-  self.call0("toArray")
+  self.as_any()._call("toArray", []).cast()
 }
 
 ///|
 /// Get number of rows
 #alias(num_rows)
 pub fn QueryResult::numRows(self : QueryResult) -> Int {
-  self.get("numRows").cast()
+  self.as_any()["numRows"].cast()
 }
 
 ///|
 /// Get number of columns
 #alias(num_cols)
 pub fn QueryResult::numCols(self : QueryResult) -> Int {
-  self.get("numCols").cast()
+  self.as_any()["numCols"].cast()
 }
 
 ///|
 /// Get schema
 pub fn QueryResult::schema(self : QueryResult) -> @js.Any {
-  self.get("schema")
+  self.as_any()["schema"].cast()
 }

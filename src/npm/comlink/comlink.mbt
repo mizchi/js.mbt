@@ -16,18 +16,12 @@ pub type Endpoint
 pub fn Endpoint::as_any(self : Endpoint) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Endpoint
-
-///|
 /// Remote - a proxy to a remote object
 #external
 pub type Remote
 
 ///|
 pub fn Remote::as_any(self : Remote) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for Remote
 
 ///|
 /// ProxyMarked - marks a value to be proxied
@@ -38,18 +32,12 @@ pub type ProxyMarked
 pub fn ProxyMarked::as_any(self : ProxyMarked) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for ProxyMarked
-
-///|
 /// TransferHandler - custom transfer handler for complex types
 #external
 pub type TransferHandler
 
 ///|
 pub fn TransferHandler::as_any(self : TransferHandler) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for TransferHandler
 
 ///| Core FFI
 

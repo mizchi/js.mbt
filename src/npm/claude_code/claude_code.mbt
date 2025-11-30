@@ -12,12 +12,13 @@ fn claude_code_module() -> @js.Any {
 pub type Query
 
 ///|
-pub impl @js.JsImpl for Query
+pub fn Query::as_any(self : Query) -> @nostd.Any = "%identity"
 
 ///|
 /// Get async iterator from Query
 pub fn Query::async_iterator(self : Query) -> @js.AsyncIterator[@js.Any] {
-  let iter = self.as_any().call(@js.Symbol::asyncIterator(), [])
+  let any : @js.Any = self.as_any().cast()
+  let iter = any.call(@js.Symbol::asyncIterator(), [])
   @js.identity(iter)
 }
 
@@ -83,12 +84,13 @@ pub fn queryStream(
 pub type AbortHandle
 
 ///|
-pub impl @js.JsImpl for AbortHandle
+pub fn AbortHandle::as_any(self : AbortHandle) -> @nostd.Any = "%identity"
 
 ///|
 /// Abort the current query
 pub fn AbortHandle::abort(self : AbortHandle) -> Unit {
-  let _ = self.as_any().get("abort").call_self([])
+  let abort_fn : @js.Any = self.as_any()["abort"].cast()
+  let _ = abort_fn.call_self([])
 
 }
 

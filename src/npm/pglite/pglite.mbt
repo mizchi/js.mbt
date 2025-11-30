@@ -8,7 +8,7 @@
 pub type PGlite
 
 ///|
-pub impl @js.JsImpl for PGlite
+pub fn PGlite::as_any(self : PGlite) -> @nostd.Any = "%identity"
 
 ///|
 /// Transaction handle
@@ -16,7 +16,7 @@ pub impl @js.JsImpl for PGlite
 pub type Transaction
 
 ///|
-pub impl @js.JsImpl for Transaction
+pub fn Transaction::as_any(self : Transaction) -> @nostd.Any = "%identity"
 
 ///|
 /// Query results
@@ -24,7 +24,7 @@ pub impl @js.JsImpl for Transaction
 pub type Results
 
 ///|
-pub impl @js.JsImpl for Results
+pub fn Results::as_any(self : Results) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_pglite_create(data_dir : String) -> @js.Promise[PGlite] =
@@ -216,21 +216,21 @@ pub async fn Transaction::rollback(self : Transaction) -> Unit {
 ///|
 /// Get rows from query results
 pub fn Results::rows(self : Results) -> @js.Any {
-  self.get("rows")
+  self.as_any()["rows"].cast()
 }
 
 ///|
 /// Get rows as array
 pub fn[T] Results::rows_array(self : Results) -> Array[T] {
-  self.get("rows") |> @js.identity
+  self.as_any()["rows"].cast()
 }
 
 ///|
 /// Get affected row count
 #alias(affected_rows)
 pub fn Results::affectedRows(self : Results) -> Int {
-  let v = self.get("affectedRows")
-  if @js.is_undefined(v) {
+  let v = self.as_any()["affectedRows"]
+  if @nostd.is_undefined(v) {
     0
   } else {
     v.cast()
@@ -240,5 +240,5 @@ pub fn Results::affectedRows(self : Results) -> Int {
 ///|
 /// Get field descriptions
 pub fn Results::fields(self : Results) -> @js.Any {
-  self.get("fields")
+  self.as_any()["fields"].cast()
 }

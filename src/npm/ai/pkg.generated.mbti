@@ -3,6 +3,7 @@ package "mizchi/js/npm/ai"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -139,7 +140,7 @@ fn EmbedResult::from_any(@js.Any) -> Self
 
 #external
 pub type EmbeddingModel
-impl @js.JsImpl for EmbeddingModel
+fn EmbeddingModel::as_any(Self) -> @nostd.Any
 
 pub(all) struct EmbeddingUsage {
   tokens : Int
@@ -231,7 +232,7 @@ impl @js.JsImpl for GoogleProvider
 
 #external
 pub type ImageModel
-impl @js.JsImpl for ImageModel
+fn ImageModel::as_any(Self) -> @nostd.Any
 
 pub(all) struct LanguageModelRequestMetadata {
   raw : @js.Any

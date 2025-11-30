@@ -11,7 +11,7 @@
 pub type ImageModel
 
 ///|
-pub impl @js.JsImpl for ImageModel
+pub fn ImageModel::as_any(self : ImageModel) -> @nostd.Any = "%identity"
 
 // ============================================================
 // Generated Image
@@ -116,7 +116,8 @@ pub async fn generateImage(
   headers? : @js.Any,
 ) -> GenerateImageResult {
   let opts = @js.Object::new()
-  opts.set("model", model.as_any())
+  let model_any : @js.Any = model.as_any().cast()
+  opts.set("model", model_any)
   opts.set("prompt", prompt)
   if n is Some(num) {
     opts.set("n", num)

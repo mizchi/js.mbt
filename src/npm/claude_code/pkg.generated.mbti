@@ -3,6 +3,7 @@ package "mizchi/js/npm/claude_code"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -30,7 +31,7 @@ async fn simpleQuery(prompt~ : String, options? : QueryOptions) -> String
 #external
 pub type AbortHandle
 fn AbortHandle::abort(Self) -> Unit
-impl @js.JsImpl for AbortHandle
+fn AbortHandle::as_any(Self) -> @nostd.Any
 
 pub(all) struct AgentDefinition {
   description : String
@@ -104,8 +105,8 @@ impl Show for PermissionMode
 
 #external
 pub type Query
+fn Query::as_any(Self) -> @nostd.Any
 fn Query::async_iterator(Self) -> @js.AsyncIterator[@js.Any]
-impl @js.JsImpl for Query
 
 pub(all) struct QueryOptions {
   model : ClaudeModel?
