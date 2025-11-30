@@ -8,9 +8,6 @@ pub type KVNamespace
 pub fn KVNamespace::as_any(self : KVNamespace) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for KVNamespace
-
-///|
 extern "js" fn KVNamespace::get_impl(
   self : Self,
   key : String,
@@ -187,9 +184,6 @@ pub(all) struct KVListResult {
 pub fn KVListResult::as_any(self : KVListResult) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for KVListResult
-
-///|
 /// Key information in list result
 pub(all) struct KVKey {
   name : String
@@ -201,9 +195,6 @@ pub(all) struct KVKey {
 pub fn KVKey::as_any(self : KVKey) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for KVKey
-
-///|
 /// Value with metadata from getWithMetadata
 pub(all) struct KVValueWithMetadata {
   value : @js.Any?
@@ -212,6 +203,3 @@ pub(all) struct KVValueWithMetadata {
 
 ///|
 pub fn KVValueWithMetadata::as_any(self : KVValueWithMetadata) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for KVValueWithMetadata

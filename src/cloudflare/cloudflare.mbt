@@ -8,17 +8,11 @@ pub type CloudflareEnv
 pub fn CloudflareEnv::as_any(self : CloudflareEnv) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for CloudflareEnv
-
-///|
 #external
 pub type CloudflareContext
 
 ///|
 pub fn CloudflareContext::as_any(self : CloudflareContext) -> @nostd.Any = "%identity"
-
-///|
-impl @js.JsImpl for CloudflareContext
 
 ///|
 #alias(wait_until)
@@ -44,7 +38,7 @@ pub(all) struct CloudflareRequest {
 }
 
 ///|
-pub impl @js.JsImpl for CloudflareRequest
+pub fn CloudflareRequest::as_any(self : CloudflareRequest) -> @nostd.Any = "%identity"
 
 ///|
 /// CloudflareFetchHandler is a type alias for Cloudflare Worker fetch handler

@@ -26,13 +26,12 @@ fn CloudflareContext::waitUntil(Self, @js.Promise[Unit]) -> Unit
 #external
 pub type CloudflareEnv
 fn CloudflareEnv::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for CloudflareEnv
 
 pub(all) struct CloudflareRequest {
   cf : CloudflareContext
   url : String
 }
-impl @js.JsImpl for CloudflareRequest
+fn CloudflareRequest::as_any(Self) -> @nostd.Any
 
 #external
 pub type D1Database
@@ -221,7 +220,6 @@ pub(all) struct KVKey {
   metadata : @js.Any?
 }
 fn KVKey::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for KVKey
 
 pub(all) struct KVListResult {
   keys : Array[KVKey]
@@ -229,7 +227,6 @@ pub(all) struct KVListResult {
   cursor : String?
 }
 fn KVListResult::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for KVListResult
 
 #external
 pub type KVNamespace
@@ -243,14 +240,12 @@ async fn KVNamespace::get_with_metadata(Self, String, type_? : String, cacheTtl?
 async fn KVNamespace::list(Self, prefix? : String, limit? : Int, cursor? : String) -> KVListResult
 async fn KVNamespace::put(Self, String, String, expiration? : Int, expirationTtl? : Int, metadata? : @js.Any) -> Unit
 async fn KVNamespace::put_with_metadata(Self, String, String, @js.Any) -> Unit
-impl @js.JsImpl for KVNamespace
 
 pub(all) struct KVValueWithMetadata {
   value : @js.Any?
   metadata : @js.Any?
 }
 fn KVValueWithMetadata::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for KVValueWithMetadata
 
 #external
 pub type R2Bucket
