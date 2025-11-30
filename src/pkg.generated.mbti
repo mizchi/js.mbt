@@ -397,6 +397,7 @@ pub using @js_async {type AbortController}
 pub using @js_async {type AbortSignal}
 
 // Traits
+#deprecated
 pub(open) trait JsImpl {
   as_any(Self) -> Any = _
   get(Self, &PropertyKey) -> Any = _

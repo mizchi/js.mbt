@@ -35,6 +35,7 @@ pub fn new_(cls : Any, args : Array[&JsImpl]) -> Any {
 /// }
 /// let _obj = create_object("Alice", 30)  // Strings and Ints implement Js
 /// ```
+#deprecated("trait inlining is too heavy. Use @nostd.Any")
 pub(open) trait JsImpl {
   as_any(Self) -> Any = _
   get(Self, &PropertyKey) -> Any = _

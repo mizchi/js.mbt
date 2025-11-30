@@ -83,6 +83,9 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 - `@js.JsImpl` は段階的に削除。依存先が移行完了するまで後方互換として維持
 - 新規コードでは `@nostd.any(value)._call([...])` パターンを使用
 - ジェネリクス引数は `value : @nostd.Any` で受ける
+- データ変換を伴わない純粋な FFI 呼び出しは `pub extern "js" fn ...` による直接実装を優先する
+  - 例: `pub extern "js" fn close(self : Self) -> Unit = #| ...`
+  - ラッパー関数より直接 FFI の方がバンドルサイズが小さくなる
 
 ---
 
