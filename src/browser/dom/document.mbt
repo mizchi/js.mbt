@@ -70,7 +70,7 @@ pub extern "js" fn Document::createTextNode(self : Self, data : String) -> Text 
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
 #alias(ready_state)
 pub fn Document::readyState(self : Self) -> String {
-  self.get("readyState").cast()
+  self.as_any()._get("readyState").cast()
 }
 
 ///|
@@ -78,7 +78,8 @@ pub fn Document::readyState(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
 pub fn Document::getElementById(self : Self, id : String) -> Element? {
-  self.call("getElementById", [id |> @js.any]) |> @js.identity_option()
+  let v : @js.Any = self.as_any()._call("getElementById", [@nostd.any(id)]).cast()
+  v |> @js.identity_option()
 }
 
 ///|
@@ -91,9 +92,8 @@ pub fn Document::getElementsByClassName(
   self : Self,
   class_name : String,
 ) -> Array[Element] {
-  @js.array_from(self.call("getElementsByClassName", [class_name])).map(fn(v) {
-    v |> @js.identity
-  })
+  let arr : @js.Any = self.as_any()._call("getElementsByClassName", [@nostd.any(class_name)]).cast()
+  @js.array_from(arr).map(fn(v) { v |> @js.identity })
 }
 
 ///|
@@ -106,7 +106,8 @@ pub fn Document::getElementsByTagName(
   self : Self,
   tagName : String,
 ) -> Array[Element] {
-  @js.array_from(self.call("getElementsByTagName", [tagName])).map(_.cast())
+  let arr : @js.Any = self.as_any()._call("getElementsByTagName", [@nostd.any(tagName)]).cast()
+  @js.array_from(arr).map(_.cast())
 }
 
 ///|
@@ -124,56 +125,58 @@ pub extern "js" fn Document::set_cookie(self : Self, content : String) -> Unit =
 /// Returns the document's body element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/body
 pub fn Document::body(self : Self) -> HTMLBodyElement? {
-  self.get("body") |> @js.identity_option()
+  let v : @js.Any = self.as_any()._get("body").cast()
+  v |> @js.identity_option()
 }
 
 ///|
 /// Sets the document's body element
 #alias(set_body)
 pub fn Document::setBody(self : Self, body : HTMLBodyElement) -> Unit {
-  self.set("body", body) |> ignore
+  self.as_any()._set("body", body.as_any()) |> ignore
 }
 
 ///|
 /// Returns the document's head element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/head
 pub fn Document::head(self : Self) -> HTMLHeadElement? {
-  self.get("head") |> @js.identity_option()
+  let v : @js.Any = self.as_any()._get("head").cast()
+  v |> @js.identity_option()
 }
 
 ///|
 /// Returns the document's title
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/title
 pub fn Document::title(self : Self) -> String {
-  self.get("title").cast()
+  self.as_any()._get("title").cast()
 }
 
 ///|
 /// Sets the document's title
 #alias(set_title)
 pub fn Document::setTitle(self : Self, title : String) -> Unit {
-  self.set("title", title) |> ignore
+  self.as_any()._set("title", @nostd.any(title)) |> ignore
 }
 
 ///|
 /// Returns the document's URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/URL
 pub fn Document::url(self : Self) -> String {
-  self.get("URL").cast()
+  self.as_any()._get("URL").cast()
 }
 
 ///|
 /// Returns the document's domain
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/domain
 pub fn Document::domain(self : Self) -> String {
-  self.get("domain").cast()
+  self.as_any()._get("domain").cast()
 }
 
 ///|
 /// Returns the document's referrer
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/referrer
 pub fn Document::referrer(self : Self) -> String {
-  self.get("referrer").cast()
+  self.as_any()._get("referrer").cast()
 }
 
 ///|
@@ -181,7 +184,7 @@ pub fn Document::referrer(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
 #alias(create_document_fragment)
 pub fn Document::createDocumentFragment(self : Self) -> DocumentFragment {
-  self.call0("createDocumentFragment") |> @js.identity
+  self.as_any()._call("createDocumentFragment", []).cast()
 }
 
 ///|
@@ -189,7 +192,7 @@ pub fn Document::createDocumentFragment(self : Self) -> DocumentFragment {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 #alias(create_comment)
 pub fn Document::createComment(self : Self, data : String) -> Node {
-  self.call("createComment", [data]).cast()
+  self.as_any()._call("createComment", [@nostd.any(data)]).cast()
 }
 
 ///|
@@ -197,7 +200,7 @@ pub fn Document::createComment(self : Self, data : String) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentElement
 #alias(document_element)
 pub fn Document::documentElement(self : Self) -> Element {
-  self.get("documentElement").cast()
+  self.as_any()._get("documentElement").cast()
 }
 
 ///|
@@ -205,7 +208,7 @@ pub fn Document::documentElement(self : Self) -> Element {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/documentURI
 #alias(document_uri)
 pub fn Document::documentURI(self : Self) -> String {
-  self.get("documentURI").cast()
+  self.as_any()._get("documentURI").cast()
 }
 
 ///|
@@ -213,7 +216,7 @@ pub fn Document::documentURI(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/characterSet
 #alias(character_set)
 pub fn Document::characterSet(self : Self) -> String {
-  self.get("characterSet").cast()
+  self.as_any()._get("characterSet").cast()
 }
 
 ///|
@@ -221,14 +224,15 @@ pub fn Document::characterSet(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/contentType
 #alias(content_type)
 pub fn Document::contentType(self : Self) -> String {
-  self.get("contentType").cast()
+  self.as_any()._get("contentType").cast()
 }
 
 ///|
 /// Returns the document type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
 pub fn Document::doctype(self : Self) -> @js.Any? {
-  self.get("doctype") |> @js.identity_option()
+  let v : @js.Any = self.as_any()._get("doctype").cast()
+  v |> @js.identity_option()
 }
 
 ///|
@@ -255,7 +259,7 @@ pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
 #alias(create_event)
 pub fn Document::createEvent(self : Self, event_type : String) -> Event {
-  self.call("createEvent", [event_type]).cast()
+  self.as_any()._call("createEvent", [@nostd.any(event_type)]).cast()
 }
 
 ///|
@@ -266,7 +270,8 @@ pub fn Document::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  self.call2("elementFromPoint", x, y) |> @js.identity_option()
+  let v : @js.Any = self.as_any()._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)]).cast()
+  v |> @js.identity_option()
 }
 
 ///|
@@ -279,7 +284,6 @@ pub fn Document::elementsFromPoint(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  @js.array_from(self.call2("elementsFromPoint", x, y)).map(fn(v) {
-    @js.identity(v)
-  })
+  let arr : @js.Any = self.as_any()._call("elementsFromPoint", [@nostd.any(x), @nostd.any(y)]).cast()
+  @js.array_from(arr).map(fn(v) { @js.identity(v) })
 }

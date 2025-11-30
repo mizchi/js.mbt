@@ -303,7 +303,7 @@ pub fn cssSupportsCondition(condition : String) -> Bool {
 /// Access document stylesheets
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/styleSheets
 pub fn Document::styleSheets(self : Self) -> @js.Any {
-  self.get("styleSheets")
+  self.as_any()._get("styleSheets").cast()
 }
 
 ///|

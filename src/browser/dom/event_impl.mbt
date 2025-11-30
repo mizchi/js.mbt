@@ -119,6 +119,9 @@ pub(all) struct MouseEvent {
 } derive(Show)
 
 ///|
+pub fn MouseEvent::as_any(self : MouseEvent) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for MouseEvent
 
 ///|
@@ -128,7 +131,8 @@ pub impl EventImpl for MouseEvent
 /// Returns the secondary target for the mouse event
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/relatedTarget
 pub fn MouseEvent::relatedTarget(self : Self) -> Element? {
-  self.get("relatedTarget") |> @js.identity_option
+  let v : @js.Any = self.as_any()._get("relatedTarget").cast()
+  v |> @js.identity_option
 }
 
 ///|
@@ -182,7 +186,8 @@ pub impl EventImpl for FocusEvent
 ///|
 /// Returns the related target (element losing/gaining focus)
 pub fn FocusEvent::relatedTarget(self : FocusEvent) -> Element? {
-  self.get("relatedTarget") |> @js.identity_option
+  let v : @js.Any = self.as_any()._get("relatedTarget").cast()
+  v |> @js.identity_option
 }
 
 ///|
@@ -279,12 +284,15 @@ pub(all) struct Touch {
 } derive(Show)
 
 ///|
+pub fn Touch::as_any(self : Touch) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Touch
 
 ///|
 /// Returns the target element
 pub fn Touch::target(self : Self) -> Element {
-  self.get("target").cast()
+  self.as_any()._get("target").cast()
 }
 
 ///|
@@ -351,6 +359,9 @@ pub(all) struct MessageEvent {
 } derive(Show)
 
 ///|
+pub fn MessageEvent::as_any(self : MessageEvent) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for MessageEvent
 
 ///|
@@ -360,7 +371,8 @@ pub impl EventImpl for MessageEvent
 /// Returns the source window of the message
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/source
 pub fn MessageEvent::source(self : Self) -> Window? {
-  self.get("source") |> @js.identity_option()
+  let v : @js.Any = self.as_any()._get("source").cast()
+  v |> @js.identity_option()
 }
 
 ///|
@@ -382,7 +394,8 @@ pub impl EventImpl for PopStateEvent
 /// Returns the state associated with the history entry
 /// https://developer.mozilla.org/en-US/docs/Web/API/PopStateEvent/state
 pub fn PopStateEvent::state(self : Self) -> @js.Any? {
-  self.get("state") |> @js.identity_option()
+  let v : @js.Any = self.as_any()._get("state").cast()
+  v |> @js.identity_option()
 }
 
 ///|
@@ -421,14 +434,14 @@ pub impl EventImpl for BeforeUnloadEvent
 /// https://developer.mozilla.org/en-US/docs/Web/API/BeforeUnloadEvent/returnValue
 #alias(set_return_value)
 pub fn BeforeUnloadEvent::setReturnValue(self : Self, value : String) -> Unit {
-  self.set("returnValue", value)
+  self.as_any()._set("returnValue", @nostd.any(value)) |> ignore
 }
 
 ///|
 /// Gets the return value
 #alias(return_value)
 pub fn BeforeUnloadEvent::returnValue(self : Self) -> String {
-  self.get("returnValue").cast()
+  self.as_any()._get("returnValue").cast()
 }
 
 ///|

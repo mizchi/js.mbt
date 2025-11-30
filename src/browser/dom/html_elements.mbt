@@ -82,7 +82,7 @@ pub fn HTMLCanvasElement::getContext(
   self : Self,
   context_type : String,
 ) -> @js.Any {
-  self.call("getContext", [context_type])
+  self.as_any()._call("getContext", [@nostd.any(context_type)]).cast()
 }
 
 ///|
@@ -92,9 +92,11 @@ pub fn HTMLCanvasElement::toDataURL(
   quality? : Double,
 ) -> String {
   match (image_type, quality) {
-    (Some(t), Some(q)) => self.call2("toDataURL", t, q).cast()
-    (Some(t), None) => self.call("toDataURL", [t]).cast()
-    (None, _) => self.call0("toDataURL").cast()
+    (Some(t), Some(q)) =>
+      self.as_any()._call("toDataURL", [@nostd.any(t), @nostd.any(q)]).cast()
+    (Some(t), None) =>
+      self.as_any()._call("toDataURL", [@nostd.any(t)]).cast()
+    (None, _) => self.as_any()._call("toDataURL", []).cast()
   }
 }
 
@@ -105,9 +107,10 @@ pub async fn HTMLCanvasElement::toBlob(
   quality? : Double,
 ) -> @blob.Blob {
   let promise : @js.Promise[@blob.Blob] = match (image_type, quality) {
-    (Some(t), Some(q)) => self.call2("toBlob", t, q).cast()
-    (Some(t), None) => self.call("toBlob", [t]).cast()
-    (None, _) => self.call0("toBlob").cast()
+    (Some(t), Some(q)) =>
+      self.as_any()._call("toBlob", [@nostd.any(t), @nostd.any(q)]).cast()
+    (Some(t), None) => self.as_any()._call("toBlob", [@nostd.any(t)]).cast()
+    (None, _) => self.as_any()._call("toBlob", []).cast()
   }
   promise.wait()
 }
@@ -385,13 +388,13 @@ pub impl HTMLElementImpl for HTMLInputElement
 ///|
 /// Returns the type of the input
 pub fn HTMLInputElement::type_(self : Self) -> String {
-  self.get("type").cast()
+  self.as_any()._get("type").cast()
 }
 
 ///|
 /// Sets the type of the input
 pub fn HTMLInputElement::setType(self : Self, input_type : String) -> Unit {
-  self.set("type", input_type)
+  self.as_any()._set("type", @nostd.any(input_type)) |> ignore
 }
 
 ///|
@@ -489,14 +492,16 @@ pub impl HTMLElementImpl for HTMLIFrameElement
 /// Returns the content window
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
 pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
-  self.get("contentWindow").cast() |> @js.identity_option
+  let v : @js.Any = self.as_any()._get("contentWindow").cast()
+  v |> @js.identity_option
 }
 
 ///|
 /// Returns the content document
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
 pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
-  self.get("contentDocument").cast() |> @js.identity_option
+  let v : @js.Any = self.as_any()._get("contentDocument").cast()
+  v |> @js.identity_option
 }
 
 ///|

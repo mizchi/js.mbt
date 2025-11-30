@@ -25,7 +25,7 @@ pub extern "js" fn window() -> Window =
 /// Returns the document contained in the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/document
 pub fn Window::document(self : Self) -> Document {
-  self.get("document").cast()
+  self.as_any()._get("document").cast()
 }
 
 ///|
@@ -34,7 +34,7 @@ pub fn Window::document(self : Self) -> Document {
 ///
 /// For typed access to Navigator methods, use the `mizchi/js/browser/navigator` package.
 pub fn Window::navigator(self : Self) -> @js.Any {
-  self.get("navigator")
+  self.as_any()._get("navigator").cast()
 }
 
 ///|
@@ -43,7 +43,7 @@ pub fn Window::navigator(self : Self) -> @js.Any {
 ///
 /// For typed access to Location methods, use the `mizchi/js/browser/location` package.
 pub fn Window::location(self : Self) -> @js.Any {
-  self.get("location")
+  self.as_any()._get("location").cast()
 }
 
 ///|
@@ -51,7 +51,7 @@ pub fn Window::location(self : Self) -> @js.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 #alias(local_storage)
 pub fn Window::localStorage(self : Self) -> @js.Any {
-  self.get("localStorage").cast()
+  self.as_any()._get("localStorage").cast()
 }
 
 ///|
@@ -59,21 +59,21 @@ pub fn Window::localStorage(self : Self) -> @js.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 #alias(session_storage)
 pub fn Window::sessionStorage(self : Self) -> @js.Any {
-  self.get("sessionStorage").cast()
+  self.as_any()._get("sessionStorage").cast()
 }
 
 ///|
 /// Returns the console object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/console
 pub fn Window::console(self : Self) -> @js.Any {
-  self.get("console").cast()
+  self.as_any()._get("console").cast()
 }
 
 ///|
 /// Returns the history object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/history
 pub fn Window::history(self : Self) -> @history.History {
-  self.get("history").cast()
+  self.as_any()._get("history").cast()
 }
 
 ///|
@@ -81,7 +81,7 @@ pub fn Window::history(self : Self) -> @history.History {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
 #alias(inner_width)
 pub fn Window::innerWidth(self : Self) -> Int {
-  self.get("innerWidth").cast()
+  self.as_any()._get("innerWidth").cast()
 }
 
 ///|
@@ -89,7 +89,7 @@ pub fn Window::innerWidth(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
 #alias(inner_height)
 pub fn Window::innerHeight(self : Self) -> Int {
-  self.get("innerHeight").cast()
+  self.as_any()._get("innerHeight").cast()
 }
 
 ///|
@@ -97,7 +97,7 @@ pub fn Window::innerHeight(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerWidth
 #alias(outer_width)
 pub fn Window::outerWidth(self : Self) -> Int {
-  self.get("outerWidth").cast()
+  self.as_any()._get("outerWidth").cast()
 }
 
 ///|
@@ -105,14 +105,14 @@ pub fn Window::outerWidth(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/outerHeight
 #alias(outer_height)
 pub fn Window::outerHeight(self : Self) -> Int {
-  self.get("outerHeight").cast()
+  self.as_any()._get("outerHeight").cast()
 }
 
 ///|
 /// Returns the screen object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/screen
 pub fn Window::screen(self : Self) -> @js.Any {
-  self.get("screen").cast()
+  self.as_any()._get("screen").cast()
 }
 
 ///|
@@ -120,21 +120,21 @@ pub fn Window::screen(self : Self) -> @js.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
 #alias(device_pixel_ratio)
 pub fn Window::devicePixelRatio(self : Self) -> Double {
-  self.get("devicePixelRatio").cast()
+  self.as_any()._get("devicePixelRatio").cast()
 }
 
 ///|
 /// Displays an alert dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
 pub fn Window::alert(self : Self, message : String) -> Unit {
-  self.call1("alert", message) |> ignore
+  self.as_any()._call("alert", [@nostd.any(message)]) |> ignore
 }
 
 ///|
 /// Displays a confirm dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
 pub fn Window::confirm(self : Self, message : String) -> Bool {
-  self.call1("confirm", message).cast()
+  self.as_any()._call("confirm", [@nostd.any(message)]).cast()
 }
 
 ///|
@@ -145,10 +145,12 @@ pub fn Window::prompt(
   message : String,
   default? : String,
 ) -> String? {
-  match default {
-    Some(d) => self.call2("prompt", message, d) |> @js.identity_option()
-    None => self.call1("prompt", message) |> @js.identity_option()
+  let v : @js.Any = match default {
+    Some(d) =>
+      self.as_any()._call("prompt", [@nostd.any(message), @nostd.any(d)]).cast()
+    None => self.as_any()._call("prompt", [@nostd.any(message)]).cast()
   }
+  v |> @js.identity_option()
 }
 
 ///|
@@ -160,20 +162,25 @@ pub fn Window::open(
   target? : String,
   features? : String,
 ) -> Window? {
-  match (url, target, features) {
+  let v : @js.Any = match (url, target, features) {
     (Some(u), Some(t), Some(f)) =>
-      self.call("open", [u, t, f]) |> @js.identity_option
-    (Some(u), Some(t), None) => self.call2("open", u, t) |> @js.identity_option
-    (Some(u), None, _) => self.call1("open", u) |> @js.identity_option
-    (None, _, _) => self.call0("open") |> @js.identity_option
+      self
+      .as_any()
+      ._call("open", [@nostd.any(u), @nostd.any(t), @nostd.any(f)])
+      .cast()
+    (Some(u), Some(t), None) =>
+      self.as_any()._call("open", [@nostd.any(u), @nostd.any(t)]).cast()
+    (Some(u), None, _) => self.as_any()._call("open", [@nostd.any(u)]).cast()
+    (None, _, _) => self.as_any()._call("open", []).cast()
   }
+  v |> @js.identity_option
 }
 
 ///|
 /// Closes the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/close
 pub fn Window::close(self : Self) -> Unit {
-  ignore(self.call0("close"))
+  self.as_any()._call("close", []) |> ignore
 }
 
 ///|
@@ -181,7 +188,7 @@ pub fn Window::close(self : Self) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
 #alias(scroll_to)
 pub fn Window::scrollTo(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.call2("scrollTo", x, y))
+  self.as_any()._call("scrollTo", [@nostd.any(x), @nostd.any(y)]) |> ignore
 }
 
 ///|
@@ -189,7 +196,7 @@ pub fn Window::scrollTo(self : Self, x : Int, y : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollBy
 #alias(scroll_by)
 pub fn Window::scrollBy(self : Self, x : Int, y : Int) -> Unit {
-  ignore(self.call2("scrollBy", x, y))
+  self.as_any()._call("scrollBy", [@nostd.any(x), @nostd.any(y)]) |> ignore
 }
 
 ///|
@@ -197,7 +204,7 @@ pub fn Window::scrollBy(self : Self, x : Int, y : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
 #alias(scroll_x)
 pub fn Window::scrollX(self : Self) -> Double {
-  self.get("scrollX").cast()
+  self.as_any()._get("scrollX").cast()
 }
 
 ///|
@@ -205,7 +212,7 @@ pub fn Window::scrollX(self : Self) -> Double {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY
 #alias(scroll_y)
 pub fn Window::scrollY(self : Self) -> Double {
-  self.get("scrollY").cast()
+  self.as_any()._get("scrollY").cast()
 }
 
 ///|
@@ -217,7 +224,10 @@ pub fn Window::setTimeout(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.call2("setTimeout", @js.from_fn0(handler), delay).cast()
+  self
+  .as_any()
+  ._call("setTimeout", [@nostd.any(@js.from_fn0(handler)), @nostd.any(delay)])
+  .cast()
 }
 
 ///|
@@ -225,7 +235,7 @@ pub fn Window::setTimeout(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
 #alias(clear_timeout)
 pub fn Window::clearTimeout(self : Self, id : Int) -> Unit {
-  self.call1("clearTimeout", id) |> ignore
+  self.as_any()._call("clearTimeout", [@nostd.any(id)]) |> ignore
 }
 
 ///|
@@ -237,7 +247,10 @@ pub fn Window::setInterval(
   handler : () -> Unit,
   delay : Int,
 ) -> Int {
-  self.call2("setInterval", @js.from_fn0(handler), delay).cast()
+  self
+  .as_any()
+  ._call("setInterval", [@nostd.any(@js.from_fn0(handler)), @nostd.any(delay)])
+  .cast()
 }
 
 ///|
@@ -245,7 +258,7 @@ pub fn Window::setInterval(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
 #alias(clear_interval)
 pub fn Window::clearInterval(self : Self, id : Int) -> Unit {
-  self.call1("clearInterval", id) |> ignore
+  self.as_any()._call("clearInterval", [@nostd.any(id)]) |> ignore
 }
 
 ///|
@@ -256,7 +269,10 @@ pub fn Window::requestAnimationFrame(
   self : Self,
   callback : (Double) -> Unit,
 ) -> Int {
-  self.call1("requestAnimationFrame", @js.unsafe_any(callback)).cast()
+  self
+  .as_any()
+  ._call("requestAnimationFrame", [@nostd.any(@js.unsafe_any(callback))])
+  .cast()
 }
 
 ///|
@@ -264,7 +280,7 @@ pub fn Window::requestAnimationFrame(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame
 #alias(cancel_animation_frame)
 pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
-  self.call1("cancelAnimationFrame", id) |> ignore
+  self.as_any()._call("cancelAnimationFrame", [@nostd.any(id)]) |> ignore
 }
 
 ///|
@@ -276,8 +292,9 @@ pub async fn Window::fetch(
   init? : @http.RequestInit,
 ) -> @http.Response {
   let promise : @js.Promise[@http.Response] = match init {
-    Some(i) => self.call2("fetch", input, i).cast()
-    None => self.call1("fetch", input).cast()
+    Some(i) =>
+      self.as_any()._call("fetch", [@nostd.any(input), @nostd.any(i)]).cast()
+    None => self.as_any()._call("fetch", [@nostd.any(input)]).cast()
   }
   promise.wait()
 }
@@ -287,7 +304,8 @@ pub async fn Window::fetch(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 #alias(get_selection)
 pub fn Window::getSelection(self : Self) -> @js.Any? {
-  self.call0("getSelection") |> @js.identity_option
+  let v : @js.Any = self.as_any()._call("getSelection", []).cast()
+  v |> @js.identity_option
 }
 
 ///|
@@ -299,11 +317,14 @@ pub fn Window::getComputedStyle(
   element : Element,
   pseudo_elt? : String,
 ) -> @js.Any {
-  let self_js : @js.Any = self.as_any().cast()
-  let element_js : @js.Any = element.as_any().cast()
   match pseudo_elt {
-    Some(p) => self_js.call2("getComputedStyle", element_js, p).cast()
-    None => self_js.call1("getComputedStyle", element_js).cast()
+    Some(p) =>
+      self
+      .as_any()
+      ._call("getComputedStyle", [element.as_any(), @nostd.any(p)])
+      .cast()
+    None =>
+      self.as_any()._call("getComputedStyle", [element.as_any()]).cast()
   }
 }
 
@@ -312,7 +333,7 @@ pub fn Window::getComputedStyle(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn Window::matchMedia(self : Self, query : String) -> @js.Any {
-  self.call1("matchMedia", query).cast()
+  self.as_any()._call("matchMedia", [@nostd.any(query)]).cast()
 }
 
 ///|
@@ -325,13 +346,21 @@ pub fn Window::postMessage(
   target_origin : String,
   transfer? : Array[@js.Any],
 ) -> Unit {
-  let self_js : @js.Any = self.as_any().cast()
   match transfer {
     Some(t) =>
-      ignore(
-        self_js.call("postMessage", [message, target_origin, @js.from_array(t)]),
-      )
-    None => ignore(self_js.call2("postMessage", message, target_origin))
+      self
+      .as_any()
+      ._call("postMessage", [
+        @nostd.any(message),
+        @nostd.any(target_origin),
+        @nostd.any(@js.from_array(t)),
+      ])
+      |> ignore
+    None =>
+      self
+      .as_any()
+      ._call("postMessage", [@nostd.any(message), @nostd.any(target_origin)])
+      |> ignore
   }
 }
 
@@ -343,7 +372,7 @@ pub fn Window::add_popstate_listener(
   self : Self,
   handler : (PopStateEvent) -> Unit,
 ) -> Unit {
-  self.addEventListener("popstate", fn(event) { handler(event.cast()) })
+  self.as_event_target().on("popstate", fn(event) { handler(event.cast()) })
 }
 
 ///|
@@ -354,7 +383,7 @@ pub fn Window::add_hashchange_listener(
   self : Self,
   handler : (HashChangeEvent) -> Unit,
 ) -> Unit {
-  self.addEventListener("hashchange", fn(event) { handler(event.cast()) })
+  self.as_event_target().on("hashchange", fn(event) { handler(event.cast()) })
 }
 
 ///|
@@ -365,7 +394,7 @@ pub fn Window::add_beforeunload_listener(
   self : Self,
   handler : (BeforeUnloadEvent) -> Unit,
 ) -> Unit {
-  self.addEventListener("beforeunload", fn(event) { handler(event.cast()) })
+  self.as_event_target().on("beforeunload", fn(event) { handler(event.cast()) })
 }
 
 ///|
@@ -376,7 +405,7 @@ pub fn Window::add_pagehide_listener(
   self : Self,
   handler : (PageTransitionEvent) -> Unit,
 ) -> Unit {
-  self.addEventListener("pagehide", fn(event) { handler(event.cast()) })
+  self.as_event_target().on("pagehide", fn(event) { handler(event.cast()) })
 }
 
 ///|
@@ -387,5 +416,5 @@ pub fn Window::add_pageshow_listener(
   self : Self,
   handler : (PageTransitionEvent) -> Unit,
 ) -> Unit {
-  self.addEventListener("pageshow", fn(event) { handler(event.cast()) })
+  self.as_event_target().on("pageshow", fn(event) { handler(event.cast()) })
 }
