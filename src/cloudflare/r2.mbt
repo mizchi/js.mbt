@@ -24,8 +24,10 @@ pub async fn R2Bucket::get(
           @js.from_option_map({
             "etagMatches": cond.etagMatches.map(fn(x) { @js.any(x) }),
             "etagDoesNotMatch": cond.etagDoesNotMatch.map(fn(x) { @js.any(x) }),
-            "uploadedBefore": cond.uploadedBefore.map(fn(x) { x.to_any() }),
-            "uploadedAfter": cond.uploadedAfter.map(fn(x) { x.to_any() }),
+            "uploadedBefore": cond.uploadedBefore.map(fn(x) {
+              @nostd.identity(x)
+            }),
+            "uploadedAfter": cond.uploadedAfter.map(fn(x) { @nostd.identity(x) }),
           }),
         )
       None => None
@@ -78,7 +80,7 @@ pub async fn R2Bucket::put(
     self.call2("put", key, value).cast()
   } else {
     let httpMetadata_js : @js.Any? = match httpMetadata {
-      Some(meta) => Some(meta.to_any())
+      Some(meta) => Some(meta.as_any())
       None => None
     }
     let opts = @js.from_option_map({
@@ -177,7 +179,7 @@ pub async fn R2Bucket::create_multipart_upload(
     self.call("createMultipartUpload", [key]).cast()
   } else {
     let httpMetadata_js : @js.Any? = match httpMetadata {
-      Some(meta) => Some(meta.to_any())
+      Some(meta) => Some(meta.as_any())
       None => None
     }
     let opts = @js.from_option_map({
@@ -233,14 +235,14 @@ pub(all) struct R2HttpMetadata {
 }
 
 ///|
-pub impl @js.JsImpl for R2HttpMetadata with to_any(self) {
+pub impl @js.JsImpl for R2HttpMetadata with as_any(self) {
   @js.from_option_map({
     "contentType": self.contentType.map(fn(x) { @js.any(x) }),
     "contentLanguage": self.contentLanguage.map(fn(x) { @js.any(x) }),
     "contentDisposition": self.contentDisposition.map(fn(x) { @js.any(x) }),
     "contentEncoding": self.contentEncoding.map(fn(x) { @js.any(x) }),
     "cacheControl": self.cacheControl.map(fn(x) { @js.any(x) }),
-    "cacheExpiry": self.cacheExpiry.map(fn(x) { x.to_any() }),
+    "cacheExpiry": self.cacheExpiry.map(fn(x) { @nostd.identity(x) }),
   })
 }
 
@@ -416,7 +418,7 @@ pub(all) struct R2UploadedPart {
 }
 
 ///|
-pub impl @js.JsImpl for R2UploadedPart with to_any(self) {
+pub impl @js.JsImpl for R2UploadedPart with as_any(self) {
   @js.from_map({
     "partNumber": @js.any(self.partNumber),
     "etag": @js.any(self.etag),

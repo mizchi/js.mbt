@@ -3,6 +3,7 @@ package "mizchi/js/builtins/proxy"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -12,8 +13,9 @@ import(
 // Types and methods
 #external
 pub type Proxy
-fn Proxy::new(&@js.JsImpl, get? : (@js.Any, @js.Any, @js.Any) -> @js.Any, set? : (@js.Any, @js.Any, @js.Any, @js.Any) -> Bool, has? : (@js.Any, @js.Any) -> Bool, deleteProperty? : (@js.Any, @js.Any) -> Bool, apply? : (@js.Any, @js.Any, @js.Any) -> @js.Any, construct? : (@js.Any, @js.Any, @js.Any) -> @js.Any, ownKeys? : (@js.Any) -> @js.Any, getPrototypeOf? : (@js.Any) -> @js.Any, setPrototypeOf? : (@js.Any, @js.Any) -> Bool, isExtensible? : (@js.Any) -> Bool, preventExtensions? : (@js.Any) -> Bool, getOwnPropertyDescriptor? : (@js.Any, @js.Any) -> @js.Any, defineProperty? : (@js.Any, @js.Any, @js.Any) -> Bool) -> Self
-fn Proxy::revocable(&@js.JsImpl, get? : (@js.Any, @js.Any, @js.Any) -> @js.Any, set? : (@js.Any, @js.Any, @js.Any, @js.Any) -> Bool, has? : (@js.Any, @js.Any) -> Bool, deleteProperty? : (@js.Any, @js.Any) -> Bool, apply? : (@js.Any, @js.Any, @js.Any) -> @js.Any, construct? : (@js.Any, @js.Any, @js.Any) -> @js.Any, ownKeys? : (@js.Any) -> @js.Any, getPrototypeOf? : (@js.Any) -> @js.Any, setPrototypeOf? : (@js.Any, @js.Any) -> Bool, isExtensible? : (@js.Any) -> Bool, preventExtensions? : (@js.Any) -> Bool, getOwnPropertyDescriptor? : (@js.Any, @js.Any) -> @js.Any, defineProperty? : (@js.Any, @js.Any, @js.Any) -> Bool) -> @js.Any
+fn Proxy::as_any(Self) -> @nostd.Any
+fn Proxy::new(@nostd.Any, get? : (@nostd.Any, @nostd.Any, @nostd.Any) -> @nostd.Any, set? : (@nostd.Any, @nostd.Any, @nostd.Any, @nostd.Any) -> Bool, has? : (@nostd.Any, @nostd.Any) -> Bool, deleteProperty? : (@nostd.Any, @nostd.Any) -> Bool, apply? : (@nostd.Any, @nostd.Any, @nostd.Any) -> @nostd.Any, construct? : (@nostd.Any, @nostd.Any, @nostd.Any) -> @nostd.Any, ownKeys? : (@nostd.Any) -> @nostd.Any, getPrototypeOf? : (@nostd.Any) -> @nostd.Any, setPrototypeOf? : (@nostd.Any, @nostd.Any) -> Bool, isExtensible? : (@nostd.Any) -> Bool, preventExtensions? : (@nostd.Any) -> Bool, getOwnPropertyDescriptor? : (@nostd.Any, @nostd.Any) -> @nostd.Any, defineProperty? : (@nostd.Any, @nostd.Any, @nostd.Any) -> Bool) -> Self
+fn Proxy::revocable(@nostd.Any, get? : (@nostd.Any, @nostd.Any, @nostd.Any) -> @nostd.Any, set? : (@nostd.Any, @nostd.Any, @nostd.Any, @nostd.Any) -> Bool, has? : (@nostd.Any, @nostd.Any) -> Bool, deleteProperty? : (@nostd.Any, @nostd.Any) -> Bool, apply? : (@nostd.Any, @nostd.Any, @nostd.Any) -> @nostd.Any, construct? : (@nostd.Any, @nostd.Any, @nostd.Any) -> @nostd.Any, ownKeys? : (@nostd.Any) -> @nostd.Any, getPrototypeOf? : (@nostd.Any) -> @nostd.Any, setPrototypeOf? : (@nostd.Any, @nostd.Any) -> Bool, isExtensible? : (@nostd.Any) -> Bool, preventExtensions? : (@nostd.Any) -> Bool, getOwnPropertyDescriptor? : (@nostd.Any, @nostd.Any) -> @nostd.Any, defineProperty? : (@nostd.Any, @nostd.Any, @nostd.Any) -> Bool) -> @nostd.Any
 impl @js.JsImpl for Proxy
 
 // Type aliases

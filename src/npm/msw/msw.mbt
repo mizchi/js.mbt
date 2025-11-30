@@ -443,7 +443,7 @@ pub fn setupServer(handlers : Array[RequestHandler]) -> SetupServer {
   if handlers.length() == 0 {
     ffi_setup_server_empty()
   } else {
-    ffi_setup_server(@js.from_array(handlers.map(fn(h) { h.to_any() })))
+    ffi_setup_server(@js.from_array(handlers.map(fn(h) { h.as_any() })))
   }
 }
 
@@ -457,7 +457,7 @@ pub fn SetupServer::listen(
     Some(mode) => {
       let options = @js.Object::new()
       options.set("onUnhandledRequest", mode)
-      ffi_server_listen_with_options(self, options.to_any())
+      ffi_server_listen_with_options(self, options.as_any())
     }
     None => ffi_server_listen(self)
   }
@@ -483,7 +483,7 @@ pub fn SetupServer::resetHandlersWith(
 ) -> Unit {
   ffi_server_reset_handlers_with(
     self,
-    @js.from_array(handlers.map(fn(h) { h.to_any() })),
+    @js.from_array(handlers.map(fn(h) { h.as_any() })),
   )
 }
 
@@ -493,7 +493,7 @@ pub fn SetupServer::useHandlers(
   self : SetupServer,
   handlers : Array[RequestHandler],
 ) -> Unit {
-  ffi_server_use(self, @js.from_array(handlers.map(fn(h) { h.to_any() })))
+  ffi_server_use(self, @js.from_array(handlers.map(fn(h) { h.as_any() })))
 }
 
 ///|
@@ -516,7 +516,7 @@ pub fn setupWorker(handlers : Array[RequestHandler]) -> SetupWorker {
   if handlers.length() == 0 {
     ffi_setup_worker_empty()
   } else {
-    ffi_setup_worker(@js.from_array(handlers.map(fn(h) { h.to_any() })))
+    ffi_setup_worker(@js.from_array(handlers.map(fn(h) { h.as_any() })))
   }
 }
 
@@ -549,7 +549,7 @@ pub async fn SetupWorker::start(
       Some(mode) => options.set("onUnhandledRequest", mode)
       None => ()
     }
-    ffi_worker_start_with_options(self, options.to_any()).wait()
+    ffi_worker_start_with_options(self, options.as_any()).wait()
   } else {
     ffi_worker_start(self).wait()
   }
@@ -575,7 +575,7 @@ pub fn SetupWorker::resetHandlersWith(
 ) -> Unit {
   ffi_worker_reset_handlers_with(
     self,
-    @js.from_array(handlers.map(fn(h) { h.to_any() })),
+    @js.from_array(handlers.map(fn(h) { h.as_any() })),
   )
 }
 
@@ -585,7 +585,7 @@ pub fn SetupWorker::useHandlers(
   self : SetupWorker,
   handlers : Array[RequestHandler],
 ) -> Unit {
-  ffi_worker_use(self, @js.from_array(handlers.map(fn(h) { h.to_any() })))
+  ffi_worker_use(self, @js.from_array(handlers.map(fn(h) { h.as_any() })))
 }
 
 ///|
@@ -691,6 +691,6 @@ pub fn mockError(
   httpGet(path, fn(_info) {
     let body = @js.Object::new()
     body.set("error", message)
-    jsonResponse(body.to_any(), status~)
+    jsonResponse(body.as_any(), status~)
   })
 }

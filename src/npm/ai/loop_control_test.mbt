@@ -256,9 +256,9 @@ test "PrepareStepResult::with_messages should set messages" {
 }
 
 ///|
-test "PrepareStepResult::to_any with empty" {
+test "PrepareStepResult::as_any with empty" {
   let result = @ai.PrepareStepResult::empty()
-  let js_obj = result.to_any()
+  let js_obj = result.as_any()
   assert_true(@js.is_undefined(js_obj.get("model")))
   assert_true(@js.is_undefined(js_obj.get("activeTools")))
   assert_true(@js.is_undefined(js_obj.get("messages")))
@@ -268,22 +268,22 @@ test "PrepareStepResult::to_any with empty" {
 }
 
 ///|
-test "PrepareStepResult::to_any with active_tools" {
+test "PrepareStepResult::as_any with active_tools" {
   let result = @ai.PrepareStepResult::with_active_tools(["tool1", "tool2"])
-  let js_obj = result.to_any()
+  let js_obj = result.as_any()
   let tools_arr : Array[String] = @js.identity(js_obj.get("activeTools"))
   assert_eq(tools_arr.length(), 2)
   assert_eq(tools_arr[0], "tool1")
 }
 
 ///|
-test "PrepareStepResult::to_any with system and temperature" {
+test "PrepareStepResult::as_any with system and temperature" {
   let result : @ai.PrepareStepResult = {
     ..@ai.PrepareStepResult::empty(),
     system: Some("You are a helpful assistant"),
     temperature: Some(0.7),
   }
-  let js_obj = result.to_any()
+  let js_obj = result.as_any()
   let system : String = js_obj.get("system").cast()
   assert_eq(system, "You are a helpful assistant")
   let temp : Double = js_obj.get("temperature").cast()
@@ -291,20 +291,20 @@ test "PrepareStepResult::to_any with system and temperature" {
 }
 
 ///|
-test "PrepareStepResult::to_any with max_tokens" {
+test "PrepareStepResult::as_any with max_tokens" {
   let result : @ai.PrepareStepResult = {
     ..@ai.PrepareStepResult::empty(),
     max_tokens: Some(1000),
   }
-  let js_obj = result.to_any()
+  let js_obj = result.as_any()
   let max_tokens : Int = js_obj.get("maxTokens").cast()
   assert_eq(max_tokens, 1000)
 }
 
 ///|
-test "StopCondition::to_any creates JS function" {
+test "StopCondition::as_any creates JS function" {
   let condition = @ai.step_count_is(5)
-  let js_fn = condition.to_any()
+  let js_fn = condition.as_any()
   // The result should be a function
   assert_false(@js.is_undefined(js_fn))
   assert_false(@js.is_null(js_fn))

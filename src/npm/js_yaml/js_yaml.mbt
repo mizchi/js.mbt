@@ -12,12 +12,13 @@
 pub type Schema
 
 ///|
-pub impl @js.JsImpl for Schema
+pub extern "js" fn Schema::as_any(self : Schema) -> @nostd.Any =
+  #| (x) => x
 
 ///| FFI Functions
 
 ///|
-extern "js" fn ffi_load(str : String) -> @js.Any =
+extern "js" fn ffi_load(str : String) -> @nostd.Any =
   #| (str) => {
   #|   const yaml = require('js-yaml');
   #|   return yaml.load(str);
@@ -26,15 +27,15 @@ extern "js" fn ffi_load(str : String) -> @js.Any =
 ///|
 extern "js" fn ffi_load_with_options(
   str : String,
-  options : @js.Any,
-) -> @js.Any =
+  options : @nostd.Any,
+) -> @nostd.Any =
   #| (str, options) => {
   #|   const yaml = require('js-yaml');
   #|   return yaml.load(str, options);
   #| }
 
 ///|
-extern "js" fn ffi_load_all(str : String) -> @js.Any =
+extern "js" fn ffi_load_all(str : String) -> @nostd.Any =
   #| (str) => {
   #|   const yaml = require('js-yaml');
   #|   const result = [];
@@ -45,8 +46,8 @@ extern "js" fn ffi_load_all(str : String) -> @js.Any =
 ///|
 extern "js" fn ffi_load_all_with_options(
   str : String,
-  options : @js.Any,
-) -> @js.Any =
+  options : @nostd.Any,
+) -> @nostd.Any =
   #| (str, options) => {
   #|   const yaml = require('js-yaml');
   #|   const result = [];
@@ -55,7 +56,7 @@ extern "js" fn ffi_load_all_with_options(
   #| }
 
 ///|
-extern "js" fn ffi_dump(obj : @js.Any) -> String =
+extern "js" fn ffi_dump(obj : @nostd.Any) -> String =
   #| (obj) => {
   #|   const yaml = require('js-yaml');
   #|   return yaml.dump(obj);
@@ -63,8 +64,8 @@ extern "js" fn ffi_dump(obj : @js.Any) -> String =
 
 ///|
 extern "js" fn ffi_dump_with_options(
-  obj : @js.Any,
-  options : @js.Any,
+  obj : @nostd.Any,
+  options : @nostd.Any,
 ) -> String =
   #| (obj, options) => {
   #|   const yaml = require('js-yaml');
@@ -134,21 +135,21 @@ pub fn load(
   filename? : String,
   schema? : Schema,
   json? : Bool,
-) -> @js.Any {
+) -> @nostd.Any {
   if filename is None && schema is None && json is None {
     return ffi_load(str)
   }
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if filename is Some(v) {
-    options["filename"] = v
+    options["filename"] = @nostd.any(v)
   }
   if schema is Some(v) {
-    options["schema"] = v.to_any()
+    options["schema"] = v.as_any()
   }
   if json is Some(v) {
-    options["json"] = v
+    options["json"] = @nostd.any(v)
   }
-  ffi_load_with_options(str, options.to_any())
+  ffi_load_with_options(str, options)
 }
 
 ///|
@@ -158,21 +159,21 @@ pub fn loadAll(
   filename? : String,
   schema? : Schema,
   json? : Bool,
-) -> Array[@js.Any] {
+) -> Array[@nostd.Any] {
   if filename is None && schema is None && json is None {
-    return @js.identity(ffi_load_all(str))
+    return ffi_load_all(str).cast()
   }
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if filename is Some(v) {
-    options["filename"] = v
+    options["filename"] = @nostd.any(v)
   }
   if schema is Some(v) {
-    options["schema"] = v.to_any()
+    options["schema"] = v.as_any()
   }
   if json is Some(v) {
-    options["json"] = v
+    options["json"] = @nostd.any(v)
   }
-  @js.identity(ffi_load_all_with_options(str, options.to_any()))
+  ffi_load_all_with_options(str, options).cast()
 }
 
 ///| Dump Functions
@@ -180,7 +181,7 @@ pub fn loadAll(
 ///|
 /// Serialize JavaScript value to YAML string
 pub fn dump(
-  obj : @js.Any,
+  obj : @nostd.Any,
   indent? : Int,
   noArrayIndent? : Bool,
   skipInvalid? : Bool,
@@ -208,70 +209,78 @@ pub fn dump(
     schema is None {
     return ffi_dump(obj)
   }
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if indent is Some(v) {
-    options["indent"] = v
+    options["indent"] = @nostd.any(v)
   }
   if noArrayIndent is Some(v) {
-    options["noArrayIndent"] = v
+    options["noArrayIndent"] = @nostd.any(v)
   }
   if skipInvalid is Some(v) {
-    options["skipInvalid"] = v
+    options["skipInvalid"] = @nostd.any(v)
   }
   if flowLevel is Some(v) {
-    options["flowLevel"] = v
+    options["flowLevel"] = @nostd.any(v)
   }
   if sortKeys is Some(v) {
-    options["sortKeys"] = v
+    options["sortKeys"] = @nostd.any(v)
   }
   if lineWidth is Some(v) {
-    options["lineWidth"] = v
+    options["lineWidth"] = @nostd.any(v)
   }
   if noRefs is Some(v) {
-    options["noRefs"] = v
+    options["noRefs"] = @nostd.any(v)
   }
   if noCompatMode is Some(v) {
-    options["noCompatMode"] = v
+    options["noCompatMode"] = @nostd.any(v)
   }
   if condenseFlow is Some(v) {
-    options["condenseFlow"] = v
+    options["condenseFlow"] = @nostd.any(v)
   }
   if quotingType is Some(v) {
-    options["quotingType"] = v
+    options["quotingType"] = @nostd.any(v)
   }
   if forceQuotes is Some(v) {
-    options["forceQuotes"] = v
+    options["forceQuotes"] = @nostd.any(v)
   }
   if schema is Some(v) {
-    options["schema"] = v.to_any()
+    options["schema"] = v.as_any()
   }
-  ffi_dump_with_options(obj, options.to_any())
+  ffi_dump_with_options(obj, options)
 }
 
 ///| Convenience Functions
 
 ///|
 /// Parse YAML to Object
-pub fn loadObject(str : String) -> @js.Object {
-  @js.identity(ffi_load(str))
+pub fn loadObject(str : String) -> @nostd.Any {
+  ffi_load(str)
 }
 
 ///|
 /// Dump Object to YAML
-pub fn dumpObject(obj : @js.Object) -> String {
-  ffi_dump(obj.to_any())
+pub fn dumpObject(obj : @nostd.Any) -> String {
+  ffi_dump(obj)
 }
+
+///|
+extern "js" fn ffi_json_stringify(obj : @nostd.Any) -> String =
+  #| (obj) => JSON.stringify(obj)
+
+///|
+extern "js" fn ffi_json_parse(str : String) -> @nostd.Any =
+  #| (str) => JSON.parse(str)
 
 ///|
 /// Parse YAML and convert to JSON string
 pub fn yamlToJson(yaml_str : String) -> String {
   let obj = ffi_load(yaml_str)
-  @js.JSON::stringify(obj)
+  ffi_json_stringify(obj)
 }
 
 ///|
 /// Parse JSON and convert to YAML string
-pub fn jsonToYaml(json_str : String) -> String raise {
-  let obj = @js.JSON::parse(json_str)
+pub fn jsonToYaml(json_str : String) -> String {
+  let obj = ffi_json_parse(json_str)
   ffi_dump(obj)
 }

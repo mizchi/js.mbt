@@ -13,6 +13,11 @@
 pub type ServiceWorkerContainer
 
 ///|
+pub fn ServiceWorkerContainer::as_any(
+  self : ServiceWorkerContainer,
+) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for ServiceWorkerContainer
 
 ///|
@@ -20,6 +25,11 @@ pub impl @js.JsImpl for ServiceWorkerContainer
 /// https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration
 #external
 pub type ServiceWorkerRegistration
+
+///|
+pub fn ServiceWorkerRegistration::as_any(
+  self : ServiceWorkerRegistration,
+) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for ServiceWorkerRegistration
@@ -31,12 +41,18 @@ pub impl @js.JsImpl for ServiceWorkerRegistration
 pub type ServiceWorker
 
 ///|
+pub fn ServiceWorker::as_any(self : ServiceWorker) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for ServiceWorker
 
 ///|
 /// RegistrationOptions for register()
 #external
 pub type RegistrationOptions
+
+///|
+pub fn RegistrationOptions::as_any(self : RegistrationOptions) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for RegistrationOptions
@@ -200,7 +216,7 @@ pub async fn ServiceWorkerContainer::register(
       Some(u) => options.set("updateViaCache", u)
       None => ()
     }
-    ffi_sw_register_with_options(self, script_url, options.to_any()).wait()
+    ffi_sw_register_with_options(self, script_url, options.as_any()).wait()
   } else {
     ffi_sw_register(self, script_url).wait()
   }
@@ -256,7 +272,7 @@ pub fn ServiceWorkerContainer::onControllerChange(
   self : ServiceWorkerContainer,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.to_any().set("oncontrollerchange", @js.from_fn1(handler))
+  self.as_any()["oncontrollerchange"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -265,7 +281,7 @@ pub fn ServiceWorkerContainer::onMessage(
   self : ServiceWorkerContainer,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.to_any().set("onmessage", @js.from_fn1(handler))
+  self.as_any()["onmessage"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -274,7 +290,7 @@ pub fn ServiceWorkerContainer::onMessageError(
   self : ServiceWorkerContainer,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.to_any().set("onmessageerror", @js.from_fn1(handler))
+  self.as_any()["onmessageerror"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///| ServiceWorkerRegistration Methods
@@ -341,7 +357,7 @@ pub fn ServiceWorkerRegistration::onUpdateFound(
   self : ServiceWorkerRegistration,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.to_any().set("onupdatefound", @js.from_fn1(handler))
+  self.as_any()["onupdatefound"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///| ServiceWorker Methods
@@ -383,7 +399,7 @@ pub fn ServiceWorker::onStateChange(
   self : ServiceWorker,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.to_any().set("onstatechange", @js.from_fn1(handler))
+  self.as_any()["onstatechange"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -392,5 +408,5 @@ pub fn ServiceWorker::onError(
   self : ServiceWorker,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.to_any().set("onerror", @js.from_fn1(handler))
+  self.as_any()["onerror"] = @nostd.any(@js.from_fn1(handler))
 }

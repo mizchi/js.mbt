@@ -78,7 +78,7 @@ pub fn h(
     }
     val.set("style", style_obj)
   }
-  @js.identity(ffi_h(tag, val.to_any(), children))
+  @js.identity(ffi_h(tag, val.as_any(), children))
 }
 
 ///|
@@ -97,7 +97,7 @@ pub fn[T] component(
     if @js.is_nullish(val) {
       let obj = @js.Object::new()
       obj.set("key", key)
-      return ffi_h(tag, obj.to_any(), children) |> @js.identity
+      return ffi_h(tag, obj.as_any(), children) |> @js.identity
     }
     val.set("key", key)
   }
@@ -113,7 +113,7 @@ pub fn fragment(children : Array[&PreactNode], key? : String) -> VNode {
   if key is Some(key) {
     val.set("key", key)
   }
-  ffi_h(tag, val.to_any(), children) |> @js.identity
+  ffi_h(tag, val.as_any(), children) |> @js.identity
 }
 
 ///|
@@ -149,7 +149,7 @@ pub fn[T] createRef() -> Ref[T] {
 pub fn cloneElement(element : VNode, props? : @js.Any) -> VNode {
   let props = match props {
     Some(p) => p
-    None => @js.Object::new().to_any()
+    None => @js.Object::new().as_any()
   }
   ffi_clone_element(element |> @js.identity, props) |> @js.identity
 }

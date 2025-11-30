@@ -3,6 +3,7 @@ package "mizchi/js/web/event"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "moonbitlang/async/js_async"
 )
 
@@ -41,6 +42,7 @@ pub(all) struct EventSource {
   readyState : Int
   withCredentials : Bool
 }
+fn EventSource::as_any(Self) -> @nostd.Any
 fn EventSource::close(Self) -> Unit
 fn EventSource::new(String, withCredentials? : Bool) -> Self
 fn EventSource::set_onerror(Self, (@js.Any) -> Unit) -> Unit

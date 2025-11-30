@@ -71,7 +71,7 @@ pub fn Ajv::new(
     Some(v) => opts.set("removeAdditional", v)
     None => ()
   }
-  ffi_new_ajv(opts.to_any())
+  ffi_new_ajv(opts.as_any())
 }
 
 ///|
@@ -131,7 +131,7 @@ pub fn Ajv::errors(self : Ajv) -> @js.Any {
 /// Validate data using the compiled function
 /// Returns true if valid
 pub fn ValidateFunction::call(self : ValidateFunction, data : @js.Any) -> Bool {
-  let fn_any : @js.Any = self.to_any()
+  let fn_any : @js.Any = self.as_any()
   fn_any.call1("call", data).cast()
 }
 

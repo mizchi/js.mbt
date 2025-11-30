@@ -62,7 +62,7 @@ extern "js" fn ffi_worker_post_message(
 ///|
 #alias(post_message)
 pub fn Worker::postMessage(worker : Worker, message : &@js.JsImpl) -> Unit {
-  ffi_worker_post_message(worker, message.to_any(), @js.undefined())
+  ffi_worker_post_message(worker, message.as_any(), @js.undefined())
 }
 
 ///|
@@ -78,7 +78,7 @@ pub fn Worker::postMessageWithTransfer(
     arr.call("push", [transfer[i]]) |> ignore
     i = i + 1
   }
-  ffi_worker_post_message(worker, message.to_any(), arr.to_any())
+  ffi_worker_post_message(worker, message.as_any(), arr.as_any())
 }
 
 ///|

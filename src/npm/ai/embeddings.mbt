@@ -95,7 +95,7 @@ pub async fn embed(
   headers? : @js.Any,
 ) -> EmbedResult {
   let opts = @js.Object::new()
-  opts.set("model", model.to_any())
+  opts.set("model", model.as_any())
   opts.set("value", value)
   if max_retries is Some(r) {
     opts.set("maxRetries", r)
@@ -108,7 +108,7 @@ pub async fn embed(
   }
   let promise : @js.Promise[@js.Any] = ai_module()
     .get("embed")
-    .call_self([opts.to_any()])
+    .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()
   EmbedResult::from_any(result)
@@ -132,7 +132,7 @@ pub async fn embedMany(
   headers? : @js.Any,
 ) -> EmbedManyResult {
   let opts = @js.Object::new()
-  opts.set("model", model.to_any())
+  opts.set("model", model.as_any())
   opts.set("values", values |> @js.from_array)
   if max_parallel_calls is Some(c) {
     opts.set("maxParallelCalls", c)
@@ -148,7 +148,7 @@ pub async fn embedMany(
   }
   let promise : @js.Promise[@js.Any] = ai_module()
     .get("embedMany")
-    .call_self([opts.to_any()])
+    .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()
   EmbedManyResult::from_any(result)

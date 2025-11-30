@@ -57,7 +57,7 @@ pub fn Object::defineProperty(
     ffi_set_property(descriptor, "set", setter |> identity)
   }
   object_class().call("defineProperty", [
-    obj.to_any(),
+    obj.as_any(),
     prop.to_key(),
     descriptor,
   ])
@@ -68,7 +68,7 @@ pub fn Object::defineProperty(
 /// Defines new or modifies existing properties directly on an object
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties
 pub fn Object::defineProperties(obj : &JsImpl, props : Any) -> Any {
-  object_class().call2("defineProperties", obj.to_any(), props)
+  object_class().call2("defineProperties", obj.as_any(), props)
 }
 
 ///|
@@ -81,7 +81,7 @@ pub fn Object::getOwnPropertyDescriptor(
 ) -> PropertyDescriptor? {
   let desc : Any = object_class().call2(
     "getOwnPropertyDescriptor",
-    obj.to_any(),
+    obj.as_any(),
     prop.to_key(),
   )
   if is_nullish(desc) {
@@ -127,7 +127,7 @@ pub fn Object::getOwnPropertyDescriptor(
 /// Returns all own property descriptors of an object
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors
 pub fn Object::getOwnPropertyDescriptors(obj : &JsImpl) -> Any {
-  object_class().call1("getOwnPropertyDescriptors", obj.to_any())
+  object_class().call1("getOwnPropertyDescriptors", obj.as_any())
 }
 
 ///|
@@ -135,7 +135,7 @@ pub fn Object::getOwnPropertyDescriptors(obj : &JsImpl) -> Any {
 /// Returns an array of all own property names (including non-enumerable)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
 pub fn Object::getOwnPropertyNames(obj : &JsImpl) -> Array[String] {
-  object_class().call1("getOwnPropertyNames", obj.to_any()) |> identity
+  object_class().call1("getOwnPropertyNames", obj.as_any()) |> identity
 }
 
 ///|
@@ -143,7 +143,7 @@ pub fn Object::getOwnPropertyNames(obj : &JsImpl) -> Array[String] {
 /// Returns an array of all own symbol properties
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols
 pub fn Object::getOwnPropertySymbols(obj : &JsImpl) -> Array[Symbol] {
-  object_class().call1("getOwnPropertySymbols", obj.to_any()) |> identity
+  object_class().call1("getOwnPropertySymbols", obj.as_any()) |> identity
 }
 
 ///|

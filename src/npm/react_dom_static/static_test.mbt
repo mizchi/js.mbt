@@ -64,7 +64,7 @@ test "build_options with all parameters" {
   let promise : @js.Any = static_.call2(
     "prerenderToNodeStream",
     @react.component(simple_component, { message: "Options Test" }),
-    opts.to_any(),
+    opts.as_any(),
   )
   @js.typeof_(promise) |> assert_eq("object")
   @js.typeof_(promise.get("then")) |> assert_eq("function")

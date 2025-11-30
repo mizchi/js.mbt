@@ -28,7 +28,7 @@ pub fn[T] Signal::subscribe(
   callback : (T) -> Unit,
 ) -> () -> Unit {
   let wrapped : (@js.Any) -> Unit = fn(v) { callback(v.cast()) }
-  ffi_signal_subscribe(self.to_any(), wrapped).cast()
+  ffi_signal_subscribe(self.as_any(), wrapped).cast()
 }
 
 ///|
@@ -67,14 +67,14 @@ pub fn[T] ReadonlySignal::subscribe(
   callback : (T) -> Unit,
 ) -> () -> Unit {
   let wrapped : (@js.Any) -> Unit = fn(v) { callback(v.cast()) }
-  ffi_signal_subscribe(self.to_any(), wrapped).cast()
+  ffi_signal_subscribe(self.as_any(), wrapped).cast()
 }
 
 ///|
 /// Create a new signal with an initial value
 #alias(create_signal)
 pub fn[T : @js.JsImpl] signal(initial : T) -> Signal[T] {
-  ffi_signal(initial.to_any()).cast()
+  ffi_signal(initial.as_any()).cast()
 }
 
 ///|
@@ -146,7 +146,7 @@ pub fn init_preact_signals(signals : @js.Any) -> Unit {
 /// useSignal hook - Create a signal that persists across renders
 #alias(use_signal)
 pub fn[T : @js.JsImpl] useSignal(initial : T) -> Signal[T] {
-  ffi_use_signal(initial.to_any()).cast()
+  ffi_use_signal(initial.as_any()).cast()
 }
 
 ///|

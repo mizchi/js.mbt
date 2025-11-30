@@ -12,7 +12,8 @@
 pub type Yargs
 
 ///|
-pub impl @js.JsImpl for Yargs
+pub extern "js" fn Yargs::as_any(self : Yargs) -> @nostd.Any =
+  #| (x) => x
 
 ///|
 /// Parsed arguments object
@@ -20,7 +21,8 @@ pub impl @js.JsImpl for Yargs
 pub type Argv
 
 ///|
-pub impl @js.JsImpl for Argv
+pub extern "js" fn Argv::as_any(self : Argv) -> @nostd.Any =
+  #| (x) => x
 
 ///| FFI Functions
 
@@ -32,7 +34,7 @@ extern "js" fn ffi_yargs() -> Yargs =
   #| }
 
 ///|
-extern "js" fn ffi_yargs_with_args(args : @js.Any) -> Yargs =
+extern "js" fn ffi_yargs_with_args(args : @nostd.Any) -> Yargs =
   #| (args) => {
   #|   const yargs = require('yargs');
   #|   return yargs(args);
@@ -49,7 +51,7 @@ pub fn yargs() -> Yargs {
 ///|
 /// Create a yargs instance with specific arguments
 pub fn yargs_with_args(args : Array[String]) -> Yargs {
-  ffi_yargs_with_args(@js.from_array(args))
+  ffi_yargs_with_args(@nostd.any(args))
 }
 
 ///| Yargs Methods - Option Configuration
@@ -62,34 +64,34 @@ pub fn Yargs::option(
   alias_? : String,
   type_? : String,
   description? : String,
-  default? : @js.Any,
+  default? : @nostd.Any,
   demandOption? : Bool,
   choices? : Array[String],
   array? : Bool,
 ) -> Yargs {
-  let opt = @js.Object::new()
+  let opt = @nostd.Object::new()
   if alias_ is Some(v) {
-    opt["alias"] = v
+    opt["alias"] = @nostd.any(v)
   }
   if type_ is Some(v) {
-    opt["type"] = v
+    opt["type"] = @nostd.any(v)
   }
   if description is Some(v) {
-    opt["describe"] = v
+    opt["describe"] = @nostd.any(v)
   }
   if default is Some(v) {
     opt["default"] = v
   }
   if demandOption is Some(v) {
-    opt["demandOption"] = v
+    opt["demandOption"] = @nostd.any(v)
   }
   if choices is Some(v) {
-    opt["choices"] = @js.from_array(v)
+    opt["choices"] = @nostd.any(v)
   }
   if array is Some(v) {
-    opt["array"] = v
+    opt["array"] = @nostd.any(v)
   }
-  @js.identity(self.call("option", [@js.any(key), opt.to_any()]))
+  self.as_any()._call("option", [@nostd.any(key), opt]).cast()
 }
 
 ///|
@@ -99,29 +101,29 @@ pub fn Yargs::positional(
   key : String,
   type_? : String,
   description? : String,
-  default? : @js.Any,
+  default? : @nostd.Any,
   choices? : Array[String],
 ) -> Yargs {
-  let opt = @js.Object::new()
+  let opt = @nostd.Object::new()
   if type_ is Some(v) {
-    opt["type"] = v
+    opt["type"] = @nostd.any(v)
   }
   if description is Some(v) {
-    opt["describe"] = v
+    opt["describe"] = @nostd.any(v)
   }
   if default is Some(v) {
     opt["default"] = v
   }
   if choices is Some(v) {
-    opt["choices"] = @js.from_array(v)
+    opt["choices"] = @nostd.any(v)
   }
-  @js.identity(self.call("positional", [@js.any(key), opt.to_any()]))
+  self.as_any()._call("positional", [@nostd.any(key), opt]).cast()
 }
 
 ///|
 /// Set an alias for an option
 pub fn Yargs::alias_(self : Yargs, key : String, alias_name : String) -> Yargs {
-  @js.identity(self.call("alias", [@js.any(key), @js.any(alias_name)]))
+  self.as_any()._call("alias", [@nostd.any(key), @nostd.any(alias_name)]).cast()
 }
 
 ///|
@@ -131,43 +133,46 @@ pub fn Yargs::describe(
   key : String,
   description : String,
 ) -> Yargs {
-  @js.identity(self.call("describe", [@js.any(key), @js.any(description)]))
+  self
+  .as_any()
+  ._call("describe", [@nostd.any(key), @nostd.any(description)])
+  .cast()
 }
 
 ///|
 /// Set default value for an option
-pub fn Yargs::default(self : Yargs, key : String, value : @js.Any) -> Yargs {
-  @js.identity(self.call("default", [@js.any(key), value]))
+pub fn Yargs::default(self : Yargs, key : String, value : @nostd.Any) -> Yargs {
+  self.as_any()._call("default", [@nostd.any(key), value]).cast()
 }
 
 ///|
 /// Mark option as boolean type
 pub fn Yargs::boolean(self : Yargs, key : String) -> Yargs {
-  @js.identity(self.call("boolean", [@js.any(key)]))
+  self.as_any()._call("boolean", [@nostd.any(key)]).cast()
 }
 
 ///|
 /// Mark option as string type
 pub fn Yargs::string(self : Yargs, key : String) -> Yargs {
-  @js.identity(self.call("string", [@js.any(key)]))
+  self.as_any()._call("string", [@nostd.any(key)]).cast()
 }
 
 ///|
 /// Mark option as number type
 pub fn Yargs::number(self : Yargs, key : String) -> Yargs {
-  @js.identity(self.call("number", [@js.any(key)]))
+  self.as_any()._call("number", [@nostd.any(key)]).cast()
 }
 
 ///|
 /// Mark option as array type
 pub fn Yargs::array(self : Yargs, key : String) -> Yargs {
-  @js.identity(self.call("array", [@js.any(key)]))
+  self.as_any()._call("array", [@nostd.any(key)]).cast()
 }
 
 ///|
 /// Mark option as count type (count occurrences)
 pub fn Yargs::count(self : Yargs, key : String) -> Yargs {
-  @js.identity(self.call("count", [@js.any(key)]))
+  self.as_any()._call("count", [@nostd.any(key)]).cast()
 }
 
 ///|
@@ -177,7 +182,7 @@ pub fn Yargs::choices(
   key : String,
   values : Array[String],
 ) -> Yargs {
-  @js.identity(self.call("choices", [@js.any(key), @js.from_array(values)]))
+  self.as_any()._call("choices", [@nostd.any(key), @nostd.any(values)]).cast()
 }
 
 ///| Yargs Methods - Validation
@@ -191,15 +196,18 @@ pub fn Yargs::demandOption(
 ) -> Yargs {
   match message {
     Some(msg) =>
-      @js.identity(self.call("demandOption", [@js.any(key), @js.any(msg)]))
-    None => @js.identity(self.call("demandOption", [@js.any(key)]))
+      self
+      .as_any()
+      ._call("demandOption", [@nostd.any(key), @nostd.any(msg)])
+      .cast()
+    None => self.as_any()._call("demandOption", [@nostd.any(key)]).cast()
   }
 }
 
 ///|
 /// Require at least n commands (min only)
 pub fn Yargs::demandCommand(self : Yargs, min : Int) -> Yargs {
-  @js.identity(self.call("demandCommand", [@js.any(min)]))
+  self.as_any()._call("demandCommand", [@nostd.any(min)]).cast()
 }
 
 ///|
@@ -213,19 +221,29 @@ pub fn Yargs::demandCommand_full(
 ) -> Yargs {
   match (minMsg, maxMsg) {
     (Some(minM), Some(maxM)) =>
-      @js.identity(
-        self.call("demandCommand", [
-          @js.any(min),
-          @js.any(max),
-          @js.any(minM),
-          @js.any(maxM),
-        ]),
-      )
+      self
+      .as_any()
+      ._call("demandCommand", [
+        @nostd.any(min),
+        @nostd.any(max),
+        @nostd.any(minM),
+        @nostd.any(maxM),
+      ])
+      .cast()
     (Some(minM), None) =>
-      @js.identity(
-        self.call("demandCommand", [@js.any(min), @js.any(max), @js.any(minM)]),
-      )
-    _ => @js.identity(self.call("demandCommand", [@js.any(min), @js.any(max)]))
+      self
+      .as_any()
+      ._call("demandCommand", [
+        @nostd.any(min),
+        @nostd.any(max),
+        @nostd.any(minM),
+      ])
+      .cast()
+    _ =>
+      self
+      .as_any()
+      ._call("demandCommand", [@nostd.any(min), @nostd.any(max)])
+      .cast()
   }
 }
 
@@ -233,8 +251,8 @@ pub fn Yargs::demandCommand_full(
 /// Enable strict mode (report unrecognized options as errors)
 pub fn Yargs::strict(self : Yargs, enabled? : Bool) -> Yargs {
   match enabled {
-    Some(v) => @js.identity(self.call("strict", [@js.any(v)]))
-    None => @js.identity(self.call("strict", []))
+    Some(v) => self.as_any()._call("strict", [@nostd.any(v)]).cast()
+    None => self.as_any()._call("strict", []).cast()
   }
 }
 
@@ -242,8 +260,8 @@ pub fn Yargs::strict(self : Yargs, enabled? : Bool) -> Yargs {
 /// Enable strict commands mode
 pub fn Yargs::strictCommands(self : Yargs, enabled? : Bool) -> Yargs {
   match enabled {
-    Some(v) => @js.identity(self.call("strictCommands", [@js.any(v)]))
-    None => @js.identity(self.call("strictCommands", []))
+    Some(v) => self.as_any()._call("strictCommands", [@nostd.any(v)]).cast()
+    None => self.as_any()._call("strictCommands", []).cast()
   }
 }
 
@@ -251,8 +269,8 @@ pub fn Yargs::strictCommands(self : Yargs, enabled? : Bool) -> Yargs {
 /// Enable strict options mode
 pub fn Yargs::strictOptions(self : Yargs, enabled? : Bool) -> Yargs {
   match enabled {
-    Some(v) => @js.identity(self.call("strictOptions", [@js.any(v)]))
-    None => @js.identity(self.call("strictOptions", []))
+    Some(v) => self.as_any()._call("strictOptions", [@nostd.any(v)]).cast()
+    None => self.as_any()._call("strictOptions", []).cast()
   }
 }
 
@@ -265,7 +283,10 @@ pub fn Yargs::command(
   cmd : String,
   description : String,
 ) -> Yargs {
-  @js.identity(self.call("command", [@js.any(cmd), @js.any(description)]))
+  self
+  .as_any()
+  ._call("command", [@nostd.any(cmd), @nostd.any(description)])
+  .cast()
 }
 
 ///|
@@ -274,18 +295,19 @@ pub fn Yargs::command_with_handler(
   self : Yargs,
   cmd : String,
   description : String,
-  builder : @js.Any,
-  handler : @js.Any,
+  builder : @nostd.Any,
+  handler : @nostd.Any,
 ) -> Yargs {
-  @js.identity(
-    self.call("command", [@js.any(cmd), @js.any(description), builder, handler]),
-  )
+  self
+  .as_any()
+  ._call("command", [@nostd.any(cmd), @nostd.any(description), builder, handler])
+  .cast()
 }
 
 ///|
 /// Define a command with object configuration
-pub fn Yargs::command_module(self : Yargs, mod : @js.Any) -> Yargs {
-  @js.identity(self.call("command", [mod]))
+pub fn Yargs::command_module(self : Yargs, mod : @nostd.Any) -> Yargs {
+  self.as_any()._call("command", [mod]).cast()
 }
 
 ///| Yargs Methods - Help & Version
@@ -299,9 +321,9 @@ pub fn Yargs::help(
 ) -> Yargs {
   match (option, description) {
     (Some(opt), Some(desc)) =>
-      @js.identity(self.call("help", [@js.any(opt), @js.any(desc)]))
-    (Some(opt), None) => @js.identity(self.call("help", [@js.any(opt)]))
-    (None, _) => @js.identity(self.call("help", []))
+      self.as_any()._call("help", [@nostd.any(opt), @nostd.any(desc)]).cast()
+    (Some(opt), None) => self.as_any()._call("help", [@nostd.any(opt)]).cast()
+    (None, _) => self.as_any()._call("help", []).cast()
   }
 }
 
@@ -315,21 +337,22 @@ pub fn Yargs::version(
 ) -> Yargs {
   match (option, description, version) {
     (Some(opt), Some(desc), Some(ver)) =>
-      @js.identity(
-        self.call("version", [@js.any(opt), @js.any(desc), @js.any(ver)]),
-      )
+      self
+      .as_any()
+      ._call("version", [@nostd.any(opt), @nostd.any(desc), @nostd.any(ver)])
+      .cast()
     (Some(opt), None, Some(ver)) =>
-      @js.identity(self.call("version", [@js.any(opt), @js.any(ver)]))
+      self.as_any()._call("version", [@nostd.any(opt), @nostd.any(ver)]).cast()
     (None, None, Some(ver)) =>
-      @js.identity(self.call("version", [@js.any(ver)]))
-    _ => @js.identity(self.call("version", []))
+      self.as_any()._call("version", [@nostd.any(ver)]).cast()
+    _ => self.as_any()._call("version", []).cast()
   }
 }
 
 ///|
 /// Set usage message
 pub fn Yargs::usage(self : Yargs, message : String) -> Yargs {
-  @js.identity(self.call("usage", [@js.any(message)]))
+  self.as_any()._call("usage", [@nostd.any(message)]).cast()
 }
 
 ///|
@@ -339,27 +362,28 @@ pub fn Yargs::example(
   cmd : String,
   description : String,
 ) -> Yargs {
-  @js.identity(self.call("example", [@js.any(cmd), @js.any(description)]))
+  self
+  .as_any()
+  ._call("example", [@nostd.any(cmd), @nostd.any(description)])
+  .cast()
 }
 
 ///|
 /// Set epilog message (shown at end of help)
 pub fn Yargs::epilog(self : Yargs, message : String) -> Yargs {
-  @js.identity(self.call("epilog", [@js.any(message)]))
+  self.as_any()._call("epilog", [@nostd.any(message)]).cast()
 }
 
 ///|
 /// Show help message
 pub fn Yargs::showHelp(self : Yargs) -> Unit {
-  let _ = self.call("showHelp", [])
-
+  self.as_any()._call("showHelp", []) |> ignore
 }
 
 ///|
 /// Show version
 pub fn Yargs::showVersion(self : Yargs) -> Unit {
-  let _ = self.call("showVersion", [])
-
+  self.as_any()._call("showVersion", []) |> ignore
 }
 
 ///| Yargs Methods - Parsing
@@ -367,35 +391,39 @@ pub fn Yargs::showVersion(self : Yargs) -> Unit {
 ///|
 /// Parse arguments and return argv object
 pub fn Yargs::parse(self : Yargs) -> Argv {
-  @js.identity(self.call("parse", []))
+  self.as_any()._call("parse", []).cast()
 }
 
 ///|
 /// Parse specific arguments
 pub fn Yargs::parse_args(self : Yargs, args : Array[String]) -> Argv {
-  @js.identity(self.call("parse", [@js.from_array(args)]))
+  self.as_any()._call("parse", [@nostd.any(args)]).cast()
 }
 
 ///|
 /// Parse arguments asynchronously
 pub async fn Yargs::parseAsync(self : Yargs) -> Argv {
-  let promise : @js.Promise[Argv] = @js.identity(self.call("parseAsync", []))
+  let promise : @nostd.Promise[Argv] = self
+    .as_any()
+    ._call("parseAsync", [])
+    .cast()
   promise.wait()
 }
 
 ///|
 /// Parse specific arguments asynchronously
 pub async fn Yargs::parseAsync_args(self : Yargs, args : Array[String]) -> Argv {
-  let promise : @js.Promise[Argv] = @js.identity(
-    self.call("parseAsync", [@js.from_array(args)]),
-  )
+  let promise : @nostd.Promise[Argv] = self
+    .as_any()
+    ._call("parseAsync", [@nostd.any(args)])
+    .cast()
   promise.wait()
 }
 
 ///|
 /// Get the argv object (property access)
 pub fn Yargs::argv(self : Yargs) -> Argv {
-  @js.identity(self.get("argv"))
+  self.as_any()["argv"].cast()
 }
 
 ///| Yargs Methods - Behavior
@@ -403,25 +431,25 @@ pub fn Yargs::argv(self : Yargs) -> Argv {
 ///|
 /// Control whether to exit on error
 pub fn Yargs::exitProcess(self : Yargs, enabled : Bool) -> Yargs {
-  @js.identity(self.call("exitProcess", [@js.any(enabled)]))
+  self.as_any()._call("exitProcess", [@nostd.any(enabled)]).cast()
 }
 
 ///|
 /// Set script name (shown in help)
 pub fn Yargs::scriptName(self : Yargs, name : String) -> Yargs {
-  @js.identity(self.call("scriptName", [@js.any(name)]))
+  self.as_any()._call("scriptName", [@nostd.any(name)]).cast()
 }
 
 ///|
 /// Wrap output at specified width
 pub fn Yargs::wrap(self : Yargs, columns : Int) -> Yargs {
-  @js.identity(self.call("wrap", [@js.any(columns)]))
+  self.as_any()._call("wrap", [@nostd.any(columns)]).cast()
 }
 
 ///|
 /// Set locale for error messages
 pub fn Yargs::locale(self : Yargs, locale : String) -> Yargs {
-  @js.identity(self.call("locale", [@js.any(locale)]))
+  self.as_any()._call("locale", [@nostd.any(locale)]).cast()
 }
 
 ///| Argv Methods
@@ -429,8 +457,8 @@ pub fn Yargs::locale(self : Yargs, locale : String) -> Yargs {
 ///|
 /// Get a string value from argv
 pub fn Argv::get_string(self : Argv, key : String) -> String? {
-  let value = self.get(key)
-  if @js.is_nullish(value) {
+  let value = self.as_any()[key]
+  if @nostd.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -440,8 +468,8 @@ pub fn Argv::get_string(self : Argv, key : String) -> String? {
 ///|
 /// Get an int value from argv
 pub fn Argv::get_int(self : Argv, key : String) -> Int? {
-  let value = self.get(key)
-  if @js.is_nullish(value) {
+  let value = self.as_any()[key]
+  if @nostd.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -451,8 +479,8 @@ pub fn Argv::get_int(self : Argv, key : String) -> Int? {
 ///|
 /// Get a bool value from argv
 pub fn Argv::get_bool(self : Argv, key : String) -> Bool? {
-  let value = self.get(key)
-  if @js.is_nullish(value) {
+  let value = self.as_any()[key]
+  if @nostd.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -462,28 +490,28 @@ pub fn Argv::get_bool(self : Argv, key : String) -> Bool? {
 ///|
 /// Get an array of strings from argv
 pub fn Argv::get_array(self : Argv, key : String) -> Array[String]? {
-  let value = self.get(key)
-  if @js.is_nullish(value) {
+  let value = self.as_any()[key]
+  if @nostd.is_nullish(value) {
     None
   } else {
-    Some(@js.identity(value))
+    Some(value.cast())
   }
 }
 
 ///|
 /// Get positional arguments (argv._)
 pub fn Argv::positionals(self : Argv) -> Array[String] {
-  @js.identity(self.get("_"))
+  self.as_any()["_"].cast()
 }
 
 ///|
 /// Get script name (argv.$0)
 pub fn Argv::script_name(self : Argv) -> String {
-  self.get("$0").cast()
+  self.as_any()["$0"].cast()
 }
 
 ///|
 /// Check if a flag was provided
 pub fn Argv::has(self : Argv, key : String) -> Bool {
-  not(@js.is_nullish(self.get(key)))
+  not(@nostd.is_nullish(self.as_any()[key]))
 }

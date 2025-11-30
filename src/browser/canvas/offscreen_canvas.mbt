@@ -8,7 +8,7 @@ pub impl @js.JsImpl for OffscreenCanvas
 
 ///|
 pub impl @worker.Transferable for OffscreenCanvas with to_transferable(self) -> @js.Any {
-  self.to_any()
+  self.as_any()
 }
 
 ///|

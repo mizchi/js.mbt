@@ -65,7 +65,7 @@ pub fn SdkServer::new(
     "version": version |> @js.any,
   })
   // Create server instance
-  let opts = @js.from_map({ "capabilities": capabilities.to_any() })
+  let opts = @js.from_map({ "capabilities": capabilities.as_any() })
   ffi_construct(server_class, [server_info, opts]) |> @js.identity
 }
 
@@ -86,10 +86,10 @@ pub fn SdkServer::set_tools_list_handler(
   let schema = types.get("ListToolsRequestSchema")
   let wrapped = fn(_request : @js.Any) -> @js.Any {
     let tools = handler()
-    let tools_arr : Array[@js.Any] = tools.map(fn(t) { t.to_any() })
+    let tools_arr : Array[@js.Any] = tools.map(fn(t) { t.as_any() })
     @js.from_map({ "tools": @js.from_array(tools_arr) })
   }
-  ffi_set_handler(self.to_any(), schema, wrapped)
+  ffi_set_handler(self.as_any(), schema, wrapped)
 }
 
 ///|
@@ -114,13 +114,13 @@ pub fn SdkServer::set_tools_call_handler(
     let args = params.get("arguments")
     let promise_handler = @js.promisify2(handler)
     promise_handler(name, args).then(fn(contents) {
-      let content_arr : Array[@js.Any] = contents.map(fn(c) { c.to_any() })
+      let content_arr : Array[@js.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
         @js.from_map({ "content": @js.from_array(content_arr) }),
       )
     })
   }
-  ffi_set_handler_async(self.to_any(), schema, wrapped)
+  ffi_set_handler_async(self.as_any(), schema, wrapped)
 }
 
 ///|
@@ -141,10 +141,10 @@ pub fn SdkServer::set_resources_list_handler(
   let schema = types.get("ListResourcesRequestSchema")
   let wrapped = fn(_request : @js.Any) -> @js.Any {
     let resources = handler()
-    let resources_arr : Array[@js.Any] = resources.map(fn(r) { r.to_any() })
+    let resources_arr : Array[@js.Any] = resources.map(fn(r) { r.as_any() })
     @js.from_map({ "resources": @js.from_array(resources_arr) })
   }
-  ffi_set_handler(self.to_any(), schema, wrapped)
+  ffi_set_handler(self.as_any(), schema, wrapped)
 }
 
 ///|
@@ -160,13 +160,13 @@ pub fn SdkServer::set_resources_read_handler(
     let uri : String = params.get("uri").cast()
     let promise_handler = @js.promisify1(handler)
     promise_handler(uri).then(fn(contents) {
-      let content_arr : Array[@js.Any] = contents.map(fn(c) { c.to_any() })
+      let content_arr : Array[@js.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
         @js.from_map({ "contents": @js.from_array(content_arr) }),
       )
     })
   }
-  ffi_set_handler_async(self.to_any(), schema, wrapped)
+  ffi_set_handler_async(self.as_any(), schema, wrapped)
 }
 
 ///|
@@ -179,10 +179,10 @@ pub fn SdkServer::set_prompts_list_handler(
   let schema = types.get("ListPromptsRequestSchema")
   let wrapped = fn(_request : @js.Any) -> @js.Any {
     let prompts = handler()
-    let prompts_arr : Array[@js.Any] = prompts.map(fn(p) { p.to_any() })
+    let prompts_arr : Array[@js.Any] = prompts.map(fn(p) { p.as_any() })
     @js.from_map({ "prompts": @js.from_array(prompts_arr) })
   }
-  ffi_set_handler(self.to_any(), schema, wrapped)
+  ffi_set_handler(self.as_any(), schema, wrapped)
 }
 
 ///|
@@ -199,10 +199,10 @@ pub fn SdkServer::set_prompts_get_handler(
     let args = params.get("arguments")
     let promise_handler = @js.promisify2(handler)
     promise_handler(name, args).then(fn(result) {
-      @js.Promise::resolve(result.to_any())
+      @js.Promise::resolve(result.as_any())
     })
   }
-  ffi_set_handler_async(self.to_any(), schema, wrapped)
+  ffi_set_handler_async(self.as_any(), schema, wrapped)
 }
 
 ///|
@@ -220,16 +220,16 @@ pub(all) struct PromptMessage {
 }
 
 ///|
-pub fn PromptMessage::to_any(self : PromptMessage) -> @js.Any {
+pub fn PromptMessage::as_any(self : PromptMessage) -> @js.Any {
   @js.from_map({
     "role": self.role |> @js.any,
-    "content": self.content.to_any(),
+    "content": self.content.as_any(),
   })
 }
 
 ///|
-pub fn PromptResult::to_any(self : PromptResult) -> @js.Any {
-  let messages_arr : Array[@js.Any] = self.messages.map(fn(m) { m.to_any() })
+pub fn PromptResult::as_any(self : PromptResult) -> @js.Any {
+  let messages_arr : Array[@js.Any] = self.messages.map(fn(m) { m.as_any() })
   @js.from_option_map({
     "description": self.description.map(fn(d) { d |> @js.any }),
     "messages": Some(@js.from_array(messages_arr)),
@@ -265,13 +265,13 @@ pub async fn SdkServer::connect(
   self : SdkServer,
   transport : StdioServerTransport,
 ) -> Unit {
-  ffi_server_connect(self.to_any(), transport.to_any()).wait()
+  ffi_server_connect(self.as_any(), transport.as_any()).wait()
 }
 
 ///|
 /// Close server
 pub async fn SdkServer::close(self : SdkServer) -> Unit {
-  ffi_server_close(self.to_any()).wait()
+  ffi_server_close(self.as_any()).wait()
 }
 
 ///|
@@ -283,9 +283,9 @@ pub fn SdkServer::send_notification(
 ) -> Unit {
   let notification = @js.from_map({
     "method": method_name |> @js.any,
-    "params": params.to_any(),
+    "params": params.as_any(),
   })
-  self.to_any().get("notification").call_self([notification]) |> ignore
+  self.as_any().get("notification").call_self([notification]) |> ignore
 }
 
 ///|

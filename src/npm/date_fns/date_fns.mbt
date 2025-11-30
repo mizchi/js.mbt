@@ -256,7 +256,7 @@ pub fn add(
     Some(v) => duration.set("seconds", v)
     None => ()
   }
-  date_fns().call2("add", date.to_date(), duration.to_any()).cast()
+  date_fns().call2("add", date.to_date(), duration.as_any()).cast()
 }
 
 ///|
@@ -300,7 +300,7 @@ pub fn sub(
     Some(v) => duration.set("seconds", v)
     None => ()
   }
-  date_fns().call2("sub", date.to_date(), duration.to_any()).cast()
+  date_fns().call2("sub", date.to_date(), duration.as_any()).cast()
 }
 
 ///|

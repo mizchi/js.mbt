@@ -99,7 +99,7 @@ extern "js" fn ffi_new_weakref(target : @js.Any) -> @js.Any =
 
 ///|
 pub fn[T : @js.JsImpl] WeakRef::new(target : T) -> WeakRef[T] {
-  ffi_new_weakref(target.to_any()).cast()
+  ffi_new_weakref(target.as_any()).cast()
 }
 
 ///|

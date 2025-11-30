@@ -6,6 +6,9 @@ pub(all) struct ReadableStream {
 }
 
 ///|
+pub fn ReadableStream::as_any(self : ReadableStream) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for ReadableStream
 
 ///|
@@ -26,7 +29,7 @@ pub async fn[T : @js.JsImpl] ReadableStream::cancel(
   reason? : T,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("cancel", [r.to_any()]).cast()
+    Some(r) => self.call("cancel", [r.as_any()]).cast()
     None => self.call0("cancel").cast()
   }
   promise.wait()
@@ -64,8 +67,8 @@ pub fn[T : @js.JsImpl, O : @js.JsImpl] ReadableStream::pipeThrough(
 ) -> ReadableStream {
   match options {
     Some(opts) =>
-      self.call2("pipeThrough", transform.to_any(), opts.to_any()).cast()
-    None => self.call("pipeThrough", [transform.to_any()]).cast()
+      self.call2("pipeThrough", transform.as_any(), opts.as_any()).cast()
+    None => self.call("pipeThrough", [transform.as_any()]).cast()
   }
 }
 
@@ -87,6 +90,11 @@ pub fn ReadableStream::tee(self : Self) -> (ReadableStream, ReadableStream) {
 pub(all) struct ReadableStreamDefaultReader {
   closed : @js.Promise[Unit]
 }
+
+///|
+pub fn ReadableStreamDefaultReader::as_any(
+  self : ReadableStreamDefaultReader,
+) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for ReadableStreamDefaultReader
@@ -112,7 +120,7 @@ pub async fn[T : @js.JsImpl] ReadableStreamDefaultReader::cancel(
   reason? : T,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("cancel", [r.to_any()]).cast()
+    Some(r) => self.call("cancel", [r.as_any()]).cast()
     None => self.call0("cancel").cast()
   }
   promise.wait()
@@ -123,6 +131,9 @@ pub async fn[T : @js.JsImpl] ReadableStreamDefaultReader::cancel(
 pub(all) struct WritableStream {
   locked : Bool
 }
+
+///|
+pub fn WritableStream::as_any(self : WritableStream) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for WritableStream
@@ -145,7 +156,7 @@ pub async fn[T : @js.JsImpl] WritableStream::abort(
   reason? : T,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("abort", [r.to_any()]).cast()
+    Some(r) => self.call("abort", [r.as_any()]).cast()
     None => self.call0("abort").cast()
   }
   promise.wait()
@@ -174,6 +185,11 @@ pub(all) struct WritableStreamDefaultWriter {
 }
 
 ///|
+pub fn WritableStreamDefaultWriter::as_any(
+  self : WritableStreamDefaultWriter,
+) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for WritableStreamDefaultWriter
 
 ///|
@@ -182,7 +198,7 @@ pub async fn[T : @js.JsImpl] WritableStreamDefaultWriter::write(
   self : Self,
   chunk : T,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = self.call("write", [chunk.to_any()]).cast()
+  let promise : @js.Promise[Unit] = self.call("write", [chunk.as_any()]).cast()
   promise.wait()
 }
 
@@ -200,7 +216,7 @@ pub async fn[T : @js.JsImpl] WritableStreamDefaultWriter::abort(
   reason? : T,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("abort", [r.to_any()]).cast()
+    Some(r) => self.call("abort", [r.as_any()]).cast()
     None => self.call0("abort").cast()
   }
   promise.wait()
@@ -219,6 +235,9 @@ pub(all) struct TransformStream {
   readable : ReadableStream
   writable : WritableStream
 }
+
+///|
+pub fn TransformStream::as_any(self : TransformStream) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for TransformStream

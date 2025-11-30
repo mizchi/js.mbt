@@ -33,7 +33,7 @@ pub fn ReactDOMClient::createRoot(
   self : Self,
   container : &@dom.ElementImpl,
 ) -> ReactDOMRoot {
-  self.call1("createRoot", container.to_any()).cast()
+  self.call1("createRoot", container.as_any()).cast()
 }
 
 ///|
@@ -51,7 +51,7 @@ pub fn ReactDOMClient::hydrateRoot(
   dom_node : &@dom.ElementImpl,
   react_node : @react.Element,
 ) -> ReactDOMRoot {
-  self.call2("hydrateRoot", dom_node.to_any(), react_node).cast()
+  self.call2("hydrateRoot", dom_node.as_any(), react_node).cast()
 }
 
 ///|

@@ -85,7 +85,11 @@ pub fn mock_values_js(values : Array[@js.Any]) -> @js.Any {
   let test_module = require_test()
   let mock_values_fn = test_module.get("mockValues")
   // Call mockValues(...values) using the spread pattern
-  @reflect.apply(mock_values_fn, @js.null_(), values)
+  @reflect.apply(
+    @nostd.any(mock_values_fn),
+    @nostd.any(@js.null_()),
+    @nostd.any(values).cast(),
+  ).cast()
 }
 
 ///|

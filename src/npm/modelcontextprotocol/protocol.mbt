@@ -49,7 +49,7 @@ pub fn Content::resource(uri : String) -> Content {
 }
 
 ///|
-pub fn Content::to_any(self : Content) -> @js.Any {
+pub fn Content::as_any(self : Content) -> @js.Any {
   @js.from_option_map({
     "type": Some(@js.any(self.type_.to_string())),
     "text": self.text.map(fn(t) { @js.any(t) }),
@@ -68,7 +68,7 @@ pub(all) struct Tool {
 }
 
 ///|
-pub fn Tool::to_any(self : Tool) -> @js.Any {
+pub fn Tool::as_any(self : Tool) -> @js.Any {
   @js.from_map({
     "name": @js.any(self.name),
     "description": @js.any(self.description),
@@ -86,7 +86,7 @@ pub(all) struct Resource {
 } derive(Show)
 
 ///|
-pub fn Resource::to_any(self : Resource) -> @js.Any {
+pub fn Resource::as_any(self : Resource) -> @js.Any {
   @js.from_option_map({
     "uri": Some(@js.any(self.uri)),
     "name": Some(@js.any(self.name)),
@@ -111,7 +111,7 @@ pub(all) struct PromptArgument {
 } derive(Show)
 
 ///|
-pub fn PromptArgument::to_any(self : PromptArgument) -> @js.Any {
+pub fn PromptArgument::as_any(self : PromptArgument) -> @js.Any {
   @js.from_option_map({
     "name": Some(@js.any(self.name)),
     "description": self.description.map(fn(d) { @js.any(d) }),
@@ -120,10 +120,10 @@ pub fn PromptArgument::to_any(self : PromptArgument) -> @js.Any {
 }
 
 ///|
-pub fn Prompt::to_any(self : Prompt) -> @js.Any {
+pub fn Prompt::as_any(self : Prompt) -> @js.Any {
   let args : Array[@js.Any] = []
   for i = 0; i < self.arguments.length(); i = i + 1 {
-    args.push(self.arguments[i].to_any())
+    args.push(self.arguments[i].as_any())
   }
   @js.from_option_map({
     "name": Some(@js.any(self.name)),
@@ -141,7 +141,7 @@ pub struct ServerCapabilities {
 } derive(Show)
 
 ///|
-pub fn ServerCapabilities::to_any(self : ServerCapabilities) -> @js.Any {
+pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @js.Any {
   let capabilities = @js.Object::new()
   if self.tools {
     capabilities.set("tools", @js.Object::new())
@@ -163,7 +163,7 @@ pub struct ServerInfo {
 } derive(Show)
 
 ///|
-pub fn ServerInfo::to_any(self : ServerInfo) -> @js.Any {
+pub fn ServerInfo::as_any(self : ServerInfo) -> @js.Any {
   @js.from_map({ "name": @js.any(self.name), "version": @js.any(self.version) })
 }
 

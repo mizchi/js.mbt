@@ -81,7 +81,7 @@ pub fn parse(path : String) -> ParsedPath {
 /// JS: path.format(parsed)
 pub fn format(parsed : ParsedPath) -> String {
   let path_module = path_module()
-  @js.identity(path_module.call("format", [parsed.to_any()]))
+  @js.identity(path_module.call("format", [parsed.as_any()]))
 }
 
 ///|

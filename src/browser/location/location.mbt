@@ -14,7 +14,7 @@ pub(all) struct Location {
 }
 
 ///|
-pub impl @js.JsImpl for Location
+pub fn Location::as_any(self : Location) -> @nostd.Any = "%identity"
 
 ///|
 /// Returns the global location object
@@ -24,27 +24,27 @@ pub extern "js" fn location() -> Location =
 ///|
 /// Loads the resource at the URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/assign
-pub fn Location::assign(self : Self, url : String) -> Unit {
-  ignore(self.call("assign", [url]))
+pub fn Location::assign(self : Location, url : String) -> Unit {
+  self.as_any()._call("assign", [@nostd.any(url)]) |> ignore
 }
 
 ///|
 /// Replaces the current resource with the one at the provided URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/replace
-pub fn Location::replace(self : Self, url : String) -> Unit {
-  ignore(self.call("replace", [url]))
+pub fn Location::replace(self : Location, url : String) -> Unit {
+  self.as_any()._call("replace", [@nostd.any(url)]) |> ignore
 }
 
 ///|
 /// Reloads the current URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/reload
-pub fn Location::reload(self : Self) -> Unit {
-  ignore(self.call0("reload"))
+pub fn Location::reload(self : Location) -> Unit {
+  self.as_any()._call("reload", []) |> ignore
 }
 
 ///|
 /// Returns the URL as a string
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/toString
-pub fn Location::to_string(self : Self) -> String {
-  self.call0("toString").cast()
+pub fn Location::to_string(self : Location) -> String {
+  self.as_any()._call("toString", []).cast()
 }

@@ -38,7 +38,7 @@ fn build_cors_options(
   if exposeHeaders is Some(v) {
     obj.set("exposeHeaders", v |> @js.from_array)
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|

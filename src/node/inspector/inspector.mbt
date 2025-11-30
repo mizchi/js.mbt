@@ -50,7 +50,7 @@ pub fn Session::post(
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
   match params {
-    Some(p) => self.call("post", [method_, p.to_any(), cb]) |> ignore
+    Some(p) => self.call("post", [method_, p.as_any(), cb]) |> ignore
     None => self.call("post", [method_, cb]) |> ignore
   }
 }

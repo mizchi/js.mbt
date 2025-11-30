@@ -33,8 +33,8 @@ pub fn ReactDOM::createPortal(
 ) -> @react.Element {
   let result : @js.Any = match key {
     Some(key) =>
-      self.call("createPortal", [children, dom_node.to_any(), @js.any(key)])
-    None => self.call2("createPortal", children, dom_node.to_any())
+      self.call("createPortal", [children, dom_node.as_any(), @js.any(key)])
+    None => self.call2("createPortal", children, dom_node.as_any())
   }
   result.cast()
 }

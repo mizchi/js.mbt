@@ -5,7 +5,7 @@ pub type Union2[A, B]
 
 ///|
 pub fn[A, B] Union2::from(x : &JsImpl) -> Self[A, B] {
-  x.to_any().cast()
+  x.as_any().cast()
 }
 
 ///|
@@ -28,7 +28,7 @@ pub type Union3[A, B, C]
 
 ///|
 pub fn[A, B, C] Union3::from(x : &JsImpl) -> Self[A, B, C] {
-  x.to_any().cast()
+  x.as_any().cast()
 }
 
 ///|
@@ -57,7 +57,7 @@ pub type Union4[A, B, C, D]
 
 ///|
 pub fn[A, B, C, D] Union4::from(x : &JsImpl) -> Self[A, B, C, D] {
-  x.to_any().cast()
+  x.as_any().cast()
 }
 
 ///|
@@ -90,7 +90,7 @@ pub type Union5[A, B, C, D, E]
 
 ///|
 pub fn[A, B, C, D, E] Union5::from(x : &JsImpl) -> Self[A, B, C, D, E] {
-  x.to_any().cast()
+  x.as_any().cast()
 }
 
 ///|

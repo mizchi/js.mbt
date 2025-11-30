@@ -3,6 +3,7 @@ package "mizchi/js/web/url"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -24,7 +25,8 @@ pub(all) struct URL {
   mut hash : String
   mut searchParams : URLSearchParams
 }
-fn URL::new(String, base? : String) -> Self raise @js.ThrowError
+fn URL::as_any(Self) -> @nostd.Any
+fn URL::new(String, base? : String) -> Self raise @nostd.JsError
 fn URL::searchParams(Self) -> URLSearchParams
 #alias(toJSON)
 fn URL::to_json(Self) -> String
@@ -45,21 +47,21 @@ pub(all) struct URLPattern {
   hash : String
   hasRegExpGroups : Bool
 }
+fn URLPattern::as_any(Self) -> @nostd.Any
 fn URLPattern::exec(Self, String) -> URLPatternResult?
 #alias(exec_with_base)
 fn URLPattern::execWithBase(Self, String, base? : String) -> URLPatternResult?
 fn URLPattern::new(String, base? : String) -> Self
 #alias(new_from_object)
-fn URLPattern::newFromObject(@js.Any, base? : String) -> Self
+fn URLPattern::newFromObject(@nostd.Any, base? : String) -> Self
 fn URLPattern::test_url(Self, String) -> Bool
 fn URLPattern::test_url_with_base(Self, String, base? : String) -> Bool
-impl @js.JsImpl for URLPattern
 
 pub(all) struct URLPatternComponentResult {
   input : String
-  groups : @js.Any
+  groups : @nostd.Any
 }
-impl @js.JsImpl for URLPatternComponentResult
+fn URLPatternComponentResult::as_any(Self) -> @nostd.Any
 
 pub(all) struct URLPatternResult {
   inputs : Array[String]
@@ -72,12 +74,13 @@ pub(all) struct URLPatternResult {
   search : URLPatternComponentResult
   hash : URLPatternComponentResult
 }
-impl @js.JsImpl for URLPatternResult
+fn URLPatternResult::as_any(Self) -> @nostd.Any
 
 pub(all) struct URLSearchParams {
   size : Int
 }
 fn URLSearchParams::append(Self, String, String) -> Unit
+fn URLSearchParams::as_any(Self) -> @nostd.Any
 fn URLSearchParams::delete(Self, String) -> Unit
 fn URLSearchParams::get(Self, String) -> String?
 #alias(get_all)

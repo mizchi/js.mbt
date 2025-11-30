@@ -8,7 +8,7 @@ pub(all) enum MessageContent {
 }
 
 ///|
-pub impl @js.JsImpl for MessageContent with to_any(self) {
+pub impl @js.JsImpl for MessageContent with as_any(self) {
   match self {
     Text(text) => text |> @js.any
     Parts(parts) => parts |> @js.from_array
@@ -25,27 +25,27 @@ pub(all) enum ModelMessage {
 }
 
 ///|
-pub impl @js.JsImpl for ModelMessage with to_any(self) {
+pub impl @js.JsImpl for ModelMessage with as_any(self) {
   match self {
     AssistantMessage(content~) =>
       @js.from_map({
         "role": "assistant" |> @js.any,
-        "content": @js.JsImpl::to_any(content),
+        "content": @js.JsImpl::as_any(content),
       })
     UserMessage(content~) =>
       @js.from_map({
         "role": "user" |> @js.any,
-        "content": @js.JsImpl::to_any(content),
+        "content": @js.JsImpl::as_any(content),
       })
     SystemMessage(content~) =>
       @js.from_map({
         "role": "system" |> @js.any,
-        "content": @js.JsImpl::to_any(content),
+        "content": @js.JsImpl::as_any(content),
       })
     ToolMessage(content~) =>
       @js.from_map({
         "role": "tool" |> @js.any,
-        "content": @js.JsImpl::to_any(content),
+        "content": @js.JsImpl::as_any(content),
       })
   }
 }
@@ -81,9 +81,9 @@ pub async fn generateText(
   active_tools? : Array[String],
 ) -> GenerateTextResult {
   let opts = @js.Object::new()
-  opts.set("model", model.to_any())
+  opts.set("model", model.as_any())
   if messages is Some(msgs) {
-    opts.set("messages", msgs.map(_.to_any()) |> @js.from_array)
+    opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
   }
   if prompt is Some(p) {
     opts.set("prompt", p)
@@ -98,26 +98,26 @@ pub async fn generateText(
     opts.set("temperature", t)
   }
   if tools is Some(t) {
-    opts.set("tools", t.to_any())
+    opts.set("tools", t.as_any())
   }
   if tool_choice is Some(tc) {
-    opts.set("toolChoice", tc.to_any())
+    opts.set("toolChoice", tc.as_any())
   }
   if max_steps is Some(ms) {
     opts.set("maxSteps", ms)
   }
   if stop_when is Some(sw) {
-    opts.set("stopWhen", sw.to_any())
+    opts.set("stopWhen", sw.as_any())
   }
   if prepare_step is Some(ps) {
-    opts.set("prepareStep", ps.to_any())
+    opts.set("prepareStep", ps.as_any())
   }
   if active_tools is Some(at) {
     opts.set("activeTools", at |> @js.from_array)
   }
   let promise : @js.Promise[@js.Any] = ai_module()
     .get("generateText")
-    .call_self([opts.to_any()])
+    .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()
   GenerateTextResult::from_any(result)
@@ -150,9 +150,9 @@ pub fn streamText(
   active_tools? : Array[String],
 ) -> StreamTextResultHandle {
   let opts = @js.Object::new()
-  opts.set("model", model.to_any())
+  opts.set("model", model.as_any())
   if messages is Some(msgs) {
-    opts.set("messages", msgs.map(_.to_any()) |> @js.from_array)
+    opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
   }
   if prompt is Some(p) {
     opts.set("prompt", p)
@@ -167,24 +167,24 @@ pub fn streamText(
     opts.set("temperature", t)
   }
   if tools is Some(t) {
-    opts.set("tools", t.to_any())
+    opts.set("tools", t.as_any())
   }
   if tool_choice is Some(tc) {
-    opts.set("toolChoice", tc.to_any())
+    opts.set("toolChoice", tc.as_any())
   }
   if max_steps is Some(ms) {
     opts.set("maxSteps", ms)
   }
   if stop_when is Some(sw) {
-    opts.set("stopWhen", sw.to_any())
+    opts.set("stopWhen", sw.as_any())
   }
   if prepare_step is Some(ps) {
-    opts.set("prepareStep", ps.to_any())
+    opts.set("prepareStep", ps.as_any())
   }
   if active_tools is Some(at) {
     opts.set("activeTools", at |> @js.from_array)
   }
-  let result = ai_module().get("streamText").call_self([opts.to_any()])
+  let result = ai_module().get("streamText").call_self([opts.as_any()])
   @js.identity(result)
 }
 
@@ -195,7 +195,7 @@ pub fn streamText(
 pub fn StreamTextResultHandle::fullStreamRaw(
   self : StreamTextResultHandle,
 ) -> @js.AsyncIterator[@js.Any] {
-  let iterable = self.to_any().get("fullStream")
+  let iterable = self.as_any().get("fullStream")
   // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
   let iter = iterable.call(@js.Symbol::asyncIterator(), [])
   @js.identity(iter)
@@ -224,7 +224,7 @@ pub async fn TextStreamPartIterator::next(
 pub fn StreamTextResultHandle::fullStream(
   self : StreamTextResultHandle,
 ) -> TextStreamPartIterator {
-  let iterable = self.to_any().get("fullStream")
+  let iterable = self.as_any().get("fullStream")
   let iter = iterable.call(@js.Symbol::asyncIterator(), [])
   { raw: @js.identity(iter) }
 }
@@ -236,7 +236,7 @@ pub fn StreamTextResultHandle::fullStream(
 pub fn StreamTextResultHandle::textStream(
   self : StreamTextResultHandle,
 ) -> @js.AsyncIterator[String] {
-  let iterable = self.to_any().get("textStream")
+  let iterable = self.as_any().get("textStream")
   // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
   let iter = iterable.call(@js.Symbol::asyncIterator(), [])
   @js.identity(iter)
@@ -247,7 +247,7 @@ pub fn StreamTextResultHandle::textStream(
 pub async fn StreamTextResultHandle::text(
   self : StreamTextResultHandle,
 ) -> String {
-  let promise : @js.Promise[String] = @js.identity(self.to_any().get("text"))
+  let promise : @js.Promise[String] = @js.identity(self.as_any().get("text"))
   promise.wait()
 }
 
@@ -258,7 +258,7 @@ pub async fn StreamTextResultHandle::finishReason(
   self : StreamTextResultHandle,
 ) -> FinishReason {
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.to_any().get("finishReason"),
+    self.as_any().get("finishReason"),
   )
   let result = promise.wait()
   FinishReason::from_string(result.cast())
@@ -269,7 +269,7 @@ pub async fn StreamTextResultHandle::finishReason(
 pub async fn StreamTextResultHandle::usage(
   self : StreamTextResultHandle,
 ) -> LanguageModelUsage {
-  let promise : @js.Promise[@js.Any] = @js.identity(self.to_any().get("usage"))
+  let promise : @js.Promise[@js.Any] = @js.identity(self.as_any().get("usage"))
   let result = promise.wait()
   LanguageModelUsage::from_any(result)
 }
@@ -279,7 +279,7 @@ pub async fn StreamTextResultHandle::usage(
 pub async fn StreamTextResultHandle::steps(
   self : StreamTextResultHandle,
 ) -> Array[StepResult] {
-  let promise : @js.Promise[@js.Any] = @js.identity(self.to_any().get("steps"))
+  let promise : @js.Promise[@js.Any] = @js.identity(self.as_any().get("steps"))
   let result = promise.wait()
   let arr : Array[@js.Any] = @js.identity(result)
   arr.map(StepResult::from_any)

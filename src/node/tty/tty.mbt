@@ -61,7 +61,7 @@ pub fn[T : @js.JsImpl] WriteStream::write(
   encoding? : String,
   callback? : @js.Any,
 ) -> Bool {
-  self.call("write", [chunk.to_any(), encoding, callback]).cast()
+  self.call("write", [chunk.as_any(), encoding, callback]).cast()
 }
 
 ///|
@@ -73,7 +73,7 @@ pub fn[T : @js.JsImpl] WriteStream::end(
   callback? : @js.Any,
 ) -> WriteStream {
   let chunk_any : @js.Any = match chunk {
-    Some(c) => c.to_any()
+    Some(c) => c.as_any()
     None => @js.undefined()
   }
   self.call("end", [chunk_any, encoding, callback]).cast()

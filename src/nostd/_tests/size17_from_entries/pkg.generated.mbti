@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/nostd/_tests/size17_from_entries"
+
+import(
+  "mizchi/js/nostd"
+)
+
+// Values
+fn from_entries(Array[(String, @nostd.Any)]) -> @nostd.Any
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -13,7 +13,7 @@ extern "js" fn zod() -> @nostd.Any =
 pub type ZodSchema
 
 ///|
-pub extern "js" fn ZodSchema::to_any(self : ZodSchema) -> @nostd.Any =
+pub extern "js" fn ZodSchema::as_any(self : ZodSchema) -> @nostd.Any =
   #| (x) => x
 
 ///|
@@ -22,7 +22,7 @@ pub extern "js" fn ZodSchema::to_any(self : ZodSchema) -> @nostd.Any =
 pub type ZodError
 
 ///|
-pub extern "js" fn ZodError::to_any(self : ZodError) -> @nostd.Any =
+pub extern "js" fn ZodError::as_any(self : ZodError) -> @nostd.Any =
   #| (x) => x
 
 ///|
@@ -34,7 +34,7 @@ pub suberror ZodParseError ZodError
 priv type SafeParseResult
 
 ///|
-extern "js" fn SafeParseResult::to_any(self : SafeParseResult) -> @nostd.Any =
+extern "js" fn SafeParseResult::as_any(self : SafeParseResult) -> @nostd.Any =
   #| (x) => x
 
 ///|
@@ -119,7 +119,7 @@ pub fn never() -> ZodSchema {
 /// Create an object schema from a Map
 pub fn object(shape : Map[String, ZodSchema]) -> ZodSchema {
   let obj = @nostd.Object::new()
-  shape.each(fn(key, value) { obj[key] = value.to_any() })
+  shape.each(fn(key, value) { obj[key] = value.as_any() })
   zod()._call("object", [obj]).cast()
 }
 
@@ -132,7 +132,7 @@ pub fn object_from_any(shape : @nostd.Any) -> ZodSchema {
 ///|
 /// Create an array schema
 pub fn array(element : ZodSchema) -> ZodSchema {
-  zod()._call("array", [element.to_any()]).cast()
+  zod()._call("array", [element.as_any()]).cast()
 }
 
 ///|
@@ -162,25 +162,25 @@ pub fn literal(value : @nostd.Any) -> ZodSchema {
 ///|
 /// Create a record schema (object with dynamic keys)
 pub fn record(key_schema : ZodSchema, value_schema : ZodSchema) -> ZodSchema {
-  zod()._call("record", [key_schema.to_any(), value_schema.to_any()]).cast()
+  zod()._call("record", [key_schema.as_any(), value_schema.as_any()]).cast()
 }
 
 ///|
 /// Create a map schema
 pub fn map(key_schema : ZodSchema, value_schema : ZodSchema) -> ZodSchema {
-  zod()._call("map", [key_schema.to_any(), value_schema.to_any()]).cast()
+  zod()._call("map", [key_schema.as_any(), value_schema.as_any()]).cast()
 }
 
 ///|
 /// Create a set schema
 pub fn set(element : ZodSchema) -> ZodSchema {
-  zod()._call("set", [element.to_any()]).cast()
+  zod()._call("set", [element.as_any()]).cast()
 }
 
 ///|
 /// Create an intersection schema
 pub fn intersection(left : ZodSchema, right : ZodSchema) -> ZodSchema {
-  zod()._call("intersection", [left.to_any(), right.to_any()]).cast()
+  zod()._call("intersection", [left.as_any(), right.as_any()]).cast()
 }
 
 ///|
@@ -200,13 +200,13 @@ pub fn discriminated_union(
 ///|
 /// Create a promise schema
 pub fn promise(schema : ZodSchema) -> ZodSchema {
-  zod()._call("promise", [schema.to_any()]).cast()
+  zod()._call("promise", [schema.as_any()]).cast()
 }
 
 ///|
 /// Create a lazy schema (for recursive types)
 pub fn lazy_(getter : () -> ZodSchema) -> ZodSchema {
-  zod()._call("lazy", [@nostd.from_fn0(fn() { getter().to_any() })]).cast()
+  zod()._call("lazy", [@nostd.from_fn0(fn() { getter().as_any() })]).cast()
 }
 
 ///|
@@ -255,7 +255,7 @@ pub fn ZodSchema::parse(
   self : Self,
   data : @nostd.Any,
 ) -> @nostd.Any raise ZodParseError {
-  let result : SafeParseResult = self.to_any()._call("safeParse", [data]).cast()
+  let result : SafeParseResult = self.as_any()._call("safeParse", [data]).cast()
   if result.success() {
     result.data()
   } else {
@@ -270,7 +270,7 @@ pub fn ZodSchema::safeParse(
   self : Self,
   data : @nostd.Any,
 ) -> Result[@nostd.Any, ZodError] {
-  let result : SafeParseResult = self.to_any()._call("safeParse", [data]).cast()
+  let result : SafeParseResult = self.as_any()._call("safeParse", [data]).cast()
   if result.success() {
     Ok(result.data())
   } else {
@@ -281,25 +281,25 @@ pub fn ZodSchema::safeParse(
 ///|
 /// Make schema optional
 pub fn ZodSchema::optional(self : Self) -> Self {
-  self.to_any()._call("optional", []).cast()
+  self.as_any()._call("optional", []).cast()
 }
 
 ///|
 /// Make schema nullable
 pub fn ZodSchema::nullable(self : Self) -> Self {
-  self.to_any()._call("nullable", []).cast()
+  self.as_any()._call("nullable", []).cast()
 }
 
 ///|
 /// Make schema nullish (optional + nullable)
 pub fn ZodSchema::nullish(self : Self) -> Self {
-  self.to_any()._call("nullish", []).cast()
+  self.as_any()._call("nullish", []).cast()
 }
 
 ///|
 /// Set default value
 pub fn ZodSchema::default_(self : Self, value : @nostd.Any) -> Self {
-  self.to_any()._call("default", [value]).cast()
+  self.as_any()._call("default", [value]).cast()
 }
 
 ///|
@@ -308,7 +308,7 @@ pub fn ZodSchema::transform(
   self : Self,
   fn_ : (@nostd.Any) -> @nostd.Any,
 ) -> Self {
-  self.to_any()._call("transform", [@nostd.from_fn1(fn_)]).cast()
+  self.as_any()._call("transform", [@nostd.from_fn1(fn_)]).cast()
 }
 
 ///|
@@ -323,9 +323,9 @@ pub fn ZodSchema::refine(
     Some(msg) => {
       let opts = @nostd.Object::new()
       opts["message"] = @nostd.any(msg)
-      self.to_any()._call("refine", [@nostd.from_fn1(predicate), opts]).cast()
+      self.as_any()._call("refine", [@nostd.from_fn1(predicate), opts]).cast()
     }
-    None => self.to_any()._call("refine", [@nostd.from_fn1(predicate)]).cast()
+    None => self.as_any()._call("refine", [@nostd.from_fn1(predicate)]).cast()
   }
 }
 
@@ -340,7 +340,7 @@ pub fn ZodSchema::refine_with_path(
   let opts = @nostd.Object::new()
   opts["message"] = @nostd.any(message)
   opts["path"] = path |> @nostd.identity
-  self.to_any()._call("refine", [@nostd.from_fn1(predicate), opts]).cast()
+  self.as_any()._call("refine", [@nostd.from_fn1(predicate), opts]).cast()
 }
 
 ///|
@@ -354,25 +354,25 @@ pub fn ZodSchema::coerce(self : Self) -> Self {
 ///|
 /// Describe the schema (adds description metadata)
 pub fn ZodSchema::describe(self : Self, description : String) -> Self {
-  self.to_any()._call("describe", [@nostd.any(description)]).cast()
+  self.as_any()._call("describe", [@nostd.any(description)]).cast()
 }
 
 ///|
 /// Catch errors and return default value
 pub fn ZodSchema::catch_(self : Self, value : @nostd.Any) -> Self {
-  self.to_any()._call("catch", [value]).cast()
+  self.as_any()._call("catch", [value]).cast()
 }
 
 ///|
 /// Brand a schema with a type tag (for nominal typing)
 pub fn ZodSchema::brand(self : Self, brand : String) -> Self {
-  self.to_any()._call("brand", [@nostd.any(brand)]).cast()
+  self.as_any()._call("brand", [@nostd.any(brand)]).cast()
 }
 
 ///|
 /// Pipe output to another schema
 pub fn ZodSchema::pipe(self : Self, schema : Self) -> Self {
-  self.to_any()._call("pipe", [schema.to_any()]).cast()
+  self.as_any()._call("pipe", [schema.as_any()]).cast()
 }
 
 ///| String schema methods
@@ -380,149 +380,149 @@ pub fn ZodSchema::pipe(self : Self, schema : Self) -> Self {
 ///|
 /// String min length
 pub fn ZodSchema::min(self : Self, length : Int) -> Self {
-  self.to_any()._call("min", [@nostd.any(length)]).cast()
+  self.as_any()._call("min", [@nostd.any(length)]).cast()
 }
 
 ///|
 /// String max length
 pub fn ZodSchema::max(self : Self, length : Int) -> Self {
-  self.to_any()._call("max", [@nostd.any(length)]).cast()
+  self.as_any()._call("max", [@nostd.any(length)]).cast()
 }
 
 ///|
 /// String length
 pub fn ZodSchema::length(self : Self, length : Int) -> Self {
-  self.to_any()._call("length", [@nostd.any(length)]).cast()
+  self.as_any()._call("length", [@nostd.any(length)]).cast()
 }
 
 ///|
 /// String email validation
 pub fn ZodSchema::email(self : Self) -> Self {
-  self.to_any()._call("email", []).cast()
+  self.as_any()._call("email", []).cast()
 }
 
 ///|
 /// String url validation
 pub fn ZodSchema::url(self : Self) -> Self {
-  self.to_any()._call("url", []).cast()
+  self.as_any()._call("url", []).cast()
 }
 
 ///|
 /// String uuid validation
 pub fn ZodSchema::uuid(self : Self) -> Self {
-  self.to_any()._call("uuid", []).cast()
+  self.as_any()._call("uuid", []).cast()
 }
 
 ///|
 /// String regex validation
 pub fn ZodSchema::regex(self : Self, pattern : String) -> Self {
-  self.to_any()._call("regex", [new_regexp(pattern)]).cast()
+  self.as_any()._call("regex", [new_regexp(pattern)]).cast()
 }
 
 ///|
 /// String starts with
 #alias(starts_with)
 pub fn ZodSchema::startsWith(self : Self, prefix : String) -> Self {
-  self.to_any()._call("startsWith", [@nostd.any(prefix)]).cast()
+  self.as_any()._call("startsWith", [@nostd.any(prefix)]).cast()
 }
 
 ///|
 /// String ends with
 #alias(ends_with)
 pub fn ZodSchema::endsWith(self : Self, suffix : String) -> Self {
-  self.to_any()._call("endsWith", [@nostd.any(suffix)]).cast()
+  self.as_any()._call("endsWith", [@nostd.any(suffix)]).cast()
 }
 
 ///|
 /// String trim
 pub fn ZodSchema::trim(self : Self) -> Self {
-  self.to_any()._call("trim", []).cast()
+  self.as_any()._call("trim", []).cast()
 }
 
 ///|
 /// String toLowerCase
 #alias(to_lower_case)
 pub fn ZodSchema::toLowerCase(self : Self) -> Self {
-  self.to_any()._call("toLowerCase", []).cast()
+  self.as_any()._call("toLowerCase", []).cast()
 }
 
 ///|
 /// String toUpperCase
 #alias(to_upper_case)
 pub fn ZodSchema::toUpperCase(self : Self) -> Self {
-  self.to_any()._call("toUpperCase", []).cast()
+  self.as_any()._call("toUpperCase", []).cast()
 }
 
 ///|
 /// String cuid validation
 pub fn ZodSchema::cuid(self : Self) -> Self {
-  self.to_any()._call("cuid", []).cast()
+  self.as_any()._call("cuid", []).cast()
 }
 
 ///|
 /// String cuid2 validation
 pub fn ZodSchema::cuid2(self : Self) -> Self {
-  self.to_any()._call("cuid2", []).cast()
+  self.as_any()._call("cuid2", []).cast()
 }
 
 ///|
 /// String ulid validation
 pub fn ZodSchema::ulid(self : Self) -> Self {
-  self.to_any()._call("ulid", []).cast()
+  self.as_any()._call("ulid", []).cast()
 }
 
 ///|
 /// String emoji validation
 pub fn ZodSchema::emoji(self : Self) -> Self {
-  self.to_any()._call("emoji", []).cast()
+  self.as_any()._call("emoji", []).cast()
 }
 
 ///|
 /// String datetime validation (ISO 8601)
 pub fn ZodSchema::datetime(self : Self) -> Self {
-  self.to_any()._call("datetime", []).cast()
+  self.as_any()._call("datetime", []).cast()
 }
 
 ///|
 /// String ipv4 address validation
 pub fn ZodSchema::ipv4(self : Self) -> Self {
-  self.to_any()._call("ipv4", []).cast()
+  self.as_any()._call("ipv4", []).cast()
 }
 
 ///|
 /// String ipv6 address validation
 pub fn ZodSchema::ipv6(self : Self) -> Self {
-  self.to_any()._call("ipv6", []).cast()
+  self.as_any()._call("ipv6", []).cast()
 }
 
 ///|
 /// String base64 validation
 pub fn ZodSchema::base64(self : Self) -> Self {
-  self.to_any()._call("base64", []).cast()
+  self.as_any()._call("base64", []).cast()
 }
 
 ///|
 /// String includes substring
 pub fn ZodSchema::includes(self : Self, value : String) -> Self {
-  self.to_any()._call("includes", [@nostd.any(value)]).cast()
+  self.as_any()._call("includes", [@nostd.any(value)]).cast()
 }
 
 ///|
 /// String contains substring (alias for includes)
 pub fn ZodSchema::contains(self : Self, value : String) -> Self {
-  self.to_any()._call("includes", [@nostd.any(value)]).cast()
+  self.as_any()._call("includes", [@nostd.any(value)]).cast()
 }
 
 ///|
 /// Date schema - minimum date
 pub fn ZodSchema::min_date(self : Self, date : @nostd.Any) -> Self {
-  self.to_any()._call("min", [date]).cast()
+  self.as_any()._call("min", [date]).cast()
 }
 
 ///|
 /// Date schema - maximum date
 pub fn ZodSchema::max_date(self : Self, date : @nostd.Any) -> Self {
-  self.to_any()._call("max", [date]).cast()
+  self.as_any()._call("max", [date]).cast()
 }
 
 ///| Number schema methods
@@ -530,73 +530,73 @@ pub fn ZodSchema::max_date(self : Self, date : @nostd.Any) -> Self {
 ///|
 /// Number greater than
 pub fn ZodSchema::gt(self : Self, value : Int) -> Self {
-  self.to_any()._call("gt", [@nostd.any(value)]).cast()
+  self.as_any()._call("gt", [@nostd.any(value)]).cast()
 }
 
 ///|
 /// Number greater than or equal
 pub fn ZodSchema::gte(self : Self, value : Int) -> Self {
-  self.to_any()._call("gte", [@nostd.any(value)]).cast()
+  self.as_any()._call("gte", [@nostd.any(value)]).cast()
 }
 
 ///|
 /// Number less than
 pub fn ZodSchema::lt(self : Self, value : Int) -> Self {
-  self.to_any()._call("lt", [@nostd.any(value)]).cast()
+  self.as_any()._call("lt", [@nostd.any(value)]).cast()
 }
 
 ///|
 /// Number less than or equal
 pub fn ZodSchema::lte(self : Self, value : Int) -> Self {
-  self.to_any()._call("lte", [@nostd.any(value)]).cast()
+  self.as_any()._call("lte", [@nostd.any(value)]).cast()
 }
 
 ///|
 /// Number integer
 pub fn ZodSchema::int(self : Self) -> Self {
-  self.to_any()._call("int", []).cast()
+  self.as_any()._call("int", []).cast()
 }
 
 ///|
 /// Number positive
 pub fn ZodSchema::positive(self : Self) -> Self {
-  self.to_any()._call("positive", []).cast()
+  self.as_any()._call("positive", []).cast()
 }
 
 ///|
 /// Number negative
 pub fn ZodSchema::negative(self : Self) -> Self {
-  self.to_any()._call("negative", []).cast()
+  self.as_any()._call("negative", []).cast()
 }
 
 ///|
 /// Number nonnegative
 pub fn ZodSchema::nonnegative(self : Self) -> Self {
-  self.to_any()._call("nonnegative", []).cast()
+  self.as_any()._call("nonnegative", []).cast()
 }
 
 ///|
 /// Number nonpositive
 pub fn ZodSchema::nonpositive(self : Self) -> Self {
-  self.to_any()._call("nonpositive", []).cast()
+  self.as_any()._call("nonpositive", []).cast()
 }
 
 ///|
 /// Number finite
 pub fn ZodSchema::finite(self : Self) -> Self {
-  self.to_any()._call("finite", []).cast()
+  self.as_any()._call("finite", []).cast()
 }
 
 ///|
 /// Number multipleOf (step validation)
 pub fn ZodSchema::multipleOf(self : Self, value : Int) -> Self {
-  self.to_any()._call("multipleOf", [@nostd.any(value)]).cast()
+  self.as_any()._call("multipleOf", [@nostd.any(value)]).cast()
 }
 
 ///|
 /// Number safe (within JavaScript safe integer range)
 pub fn ZodSchema::safe(self : Self) -> Self {
-  self.to_any()._call("safe", []).cast()
+  self.as_any()._call("safe", []).cast()
 }
 
 ///| Array schema methods
@@ -604,7 +604,7 @@ pub fn ZodSchema::safe(self : Self) -> Self {
 ///|
 /// Array nonempty
 pub fn ZodSchema::nonempty(self : Self) -> Self {
-  self.to_any()._call("nonempty", []).cast()
+  self.as_any()._call("nonempty", []).cast()
 }
 
 ///| Object schema methods
@@ -612,55 +612,55 @@ pub fn ZodSchema::nonempty(self : Self) -> Self {
 ///|
 /// Object extend with additional properties
 pub fn ZodSchema::extend(self : Self, shape : @nostd.Any) -> Self {
-  self.to_any()._call("extend", [shape]).cast()
+  self.as_any()._call("extend", [shape]).cast()
 }
 
 ///|
 /// Object merge with another object schema
 pub fn ZodSchema::merge(self : Self, other : Self) -> Self {
-  self.to_any()._call("merge", [other.to_any()]).cast()
+  self.as_any()._call("merge", [other.as_any()]).cast()
 }
 
 ///|
 /// Object pick certain keys
 pub fn ZodSchema::pick(self : Self, keys : @nostd.Any) -> Self {
-  self.to_any()._call("pick", [keys]).cast()
+  self.as_any()._call("pick", [keys]).cast()
 }
 
 ///|
 /// Object omit certain keys
 pub fn ZodSchema::omit(self : Self, keys : @nostd.Any) -> Self {
-  self.to_any()._call("omit", [keys]).cast()
+  self.as_any()._call("omit", [keys]).cast()
 }
 
 ///|
 /// Object partial (all properties optional)
 pub fn ZodSchema::partial(self : Self) -> Self {
-  self.to_any()._call("partial", []).cast()
+  self.as_any()._call("partial", []).cast()
 }
 
 ///|
 /// Object required (all properties required)
 pub fn ZodSchema::required_(self : Self) -> Self {
-  self.to_any()._call("required", []).cast()
+  self.as_any()._call("required", []).cast()
 }
 
 ///|
 /// Object passthrough (allow additional properties)
 pub fn ZodSchema::passthrough(self : Self) -> Self {
-  self.to_any()._call("passthrough", []).cast()
+  self.as_any()._call("passthrough", []).cast()
 }
 
 ///|
 /// Object strict (reject additional properties)
 pub fn ZodSchema::strict(self : Self) -> Self {
-  self.to_any()._call("strict", []).cast()
+  self.as_any()._call("strict", []).cast()
 }
 
 ///|
 /// Object strip (remove additional properties)
 pub fn ZodSchema::strip(self : Self) -> Self {
-  self.to_any()._call("strip", []).cast()
+  self.as_any()._call("strip", []).cast()
 }
 
 ///| SafeParseResult methods (internal)
@@ -668,19 +668,19 @@ pub fn ZodSchema::strip(self : Self) -> Self {
 ///|
 /// Check if parse was successful
 fn SafeParseResult::success(self : SafeParseResult) -> Bool {
-  self.to_any()["success"].cast()
+  self.as_any()["success"].cast()
 }
 
 ///|
 /// Get parsed data (only valid if success)
 fn SafeParseResult::data(self : SafeParseResult) -> @nostd.Any {
-  self.to_any()["data"]
+  self.as_any()["data"]
 }
 
 ///|
 /// Get error (only valid if not success)
 fn SafeParseResult::error(self : SafeParseResult) -> ZodError {
-  self.to_any()["error"].cast()
+  self.as_any()["error"].cast()
 }
 
 ///| ZodError methods
@@ -688,7 +688,7 @@ fn SafeParseResult::error(self : SafeParseResult) -> ZodError {
 ///|
 /// Get issues array
 pub fn ZodError::issues(self : ZodError) -> @nostd.Any {
-  self.to_any()["issues"]
+  self.as_any()["issues"]
 }
 
 ///|
@@ -717,13 +717,13 @@ pub fn ZodError::issuesArray(self : ZodError) -> Array[ZodIssue] {
 ///|
 /// Format error as string
 pub fn ZodError::format(self : ZodError) -> @nostd.Any {
-  self.to_any()._call("format", [])
+  self.as_any()._call("format", [])
 }
 
 ///|
 /// Flatten error
 pub fn ZodError::flatten(self : ZodError) -> @nostd.Any {
-  self.to_any()._call("flatten", [])
+  self.as_any()._call("flatten", [])
 }
 
 ///| Helper for creating regexp

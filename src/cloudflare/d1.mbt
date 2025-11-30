@@ -59,7 +59,7 @@ pub impl @js.JsImpl for D1PreparedStatement
 pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Any]) -> Self {
   // Cloudflare's bind() expects variadic arguments, not an array
   // We need to spread the array when calling bind
-  let stmt_js = self.to_any()
+  let stmt_js = self.as_any()
   let bind_fn = stmt_js.get("bind")
 
   // Convert MoonBit array to JavaScript array

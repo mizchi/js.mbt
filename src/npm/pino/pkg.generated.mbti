@@ -2,15 +2,13 @@
 package "mizchi/js/npm/pino"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
 fn pino(level? : Level, name? : String, timestamp? : Bool) -> Logger
 
 fn pino_default() -> Logger
-
-fn pino_module() -> Pino
 
 // Errors
 
@@ -29,28 +27,24 @@ fn Level::to_string(Self) -> String
 
 #external
 pub type Logger
-fn Logger::child(Self, @js.Object) -> Self
+fn Logger::as_any(Self) -> @nostd.Any
+fn Logger::child(Self, @nostd.Any) -> Self
 fn Logger::debug(Self, String) -> Unit
-fn Logger::debug_obj(Self, @js.Object, String) -> Unit
+fn Logger::debug_obj(Self, @nostd.Any, String) -> Unit
 fn Logger::error(Self, String) -> Unit
-fn Logger::error_obj(Self, @js.Object, String) -> Unit
+fn Logger::error_obj(Self, @nostd.Any, String) -> Unit
 fn Logger::fatal(Self, String) -> Unit
-fn Logger::fatal_obj(Self, @js.Object, String) -> Unit
+fn Logger::fatal_obj(Self, @nostd.Any, String) -> Unit
 fn Logger::flush(Self) -> Unit
 fn Logger::info(Self, String) -> Unit
-fn Logger::info_obj(Self, @js.Object, String) -> Unit
+fn Logger::info_obj(Self, @nostd.Any, String) -> Unit
 fn Logger::is_level_enabled(Self, Level) -> Bool
 fn Logger::level(Self) -> String
 fn Logger::set_level(Self, Level) -> Unit
 fn Logger::trace(Self, String) -> Unit
-fn Logger::trace_obj(Self, @js.Object, String) -> Unit
+fn Logger::trace_obj(Self, @nostd.Any, String) -> Unit
 fn Logger::warn(Self, String) -> Unit
-fn Logger::warn_obj(Self, @js.Object, String) -> Unit
-impl @js.JsImpl for Logger
-
-#external
-pub type Pino
-impl @js.JsImpl for Pino
+fn Logger::warn_obj(Self, @nostd.Any, String) -> Unit
 
 // Type aliases
 

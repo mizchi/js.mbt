@@ -67,7 +67,7 @@ pub fn QueryOptions::default() -> QueryOptions {
 }
 
 ///|
-fn QueryOptions::to_any(self : QueryOptions) -> @js.Any {
+fn QueryOptions::as_any(self : QueryOptions) -> @js.Any {
   let obj = @js.Object::new()
   if self.active is Some(v) {
     obj.set("active", v)
@@ -93,7 +93,7 @@ fn QueryOptions::to_any(self : QueryOptions) -> @js.Any {
   if self.status is Some(v) {
     obj.set("status", v)
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -101,7 +101,7 @@ fn QueryOptions::to_any(self : QueryOptions) -> @js.Any {
 pub async fn query(
   options? : QueryOptions = QueryOptions::default(),
 ) -> Array[Tab] {
-  let result = ffi_query(options.to_any()).wait()
+  let result = ffi_query(options.as_any()).wait()
   let arr : Array[@js.Any] = result |> @js.identity
   arr.map(Tab::from_any)
 }
@@ -166,7 +166,7 @@ pub fn CreateOptions::default() -> CreateOptions {
 }
 
 ///|
-fn CreateOptions::to_any(self : CreateOptions) -> @js.Any {
+fn CreateOptions::as_any(self : CreateOptions) -> @js.Any {
   let obj = @js.Object::new()
   if self.url is Some(v) {
     obj.set("url", v)
@@ -186,13 +186,13 @@ fn CreateOptions::to_any(self : CreateOptions) -> @js.Any {
   if self.opener_tab_id is Some(v) {
     obj.set("openerTabId", v)
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
 /// Create a new tab
 pub async fn create(options? : CreateOptions = CreateOptions::default()) -> Tab {
-  let result = ffi_create(options.to_any()).wait()
+  let result = ffi_create(options.as_any()).wait()
   Tab::from_any(result)
 }
 
@@ -219,7 +219,7 @@ pub fn UpdateOptions::default() -> UpdateOptions {
 }
 
 ///|
-fn UpdateOptions::to_any(self : UpdateOptions) -> @js.Any {
+fn UpdateOptions::as_any(self : UpdateOptions) -> @js.Any {
   let obj = @js.Object::new()
   if self.url is Some(v) {
     obj.set("url", v)
@@ -236,13 +236,13 @@ fn UpdateOptions::to_any(self : UpdateOptions) -> @js.Any {
   if self.muted is Some(v) {
     obj.set("muted", v)
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
 /// Update a tab
 pub async fn update(tab_id : Int, options : UpdateOptions) -> Tab {
-  let result = ffi_update(tab_id, options.to_any()).wait()
+  let result = ffi_update(tab_id, options.as_any()).wait()
   Tab::from_any(result)
 }
 
@@ -282,7 +282,7 @@ pub async fn reload(tab_id : Int, bypass_cache? : Bool = false) -> Unit {
   if bypass_cache {
     options.set("bypassCache", true)
   }
-  ffi_reload(tab_id, options.to_any()).wait()
+  ffi_reload(tab_id, options.as_any()).wait()
 }
 
 ///|

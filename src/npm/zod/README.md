@@ -36,7 +36,7 @@ data.set("name", "Alice")
 data.set("age", 30)
 data.set("email", "alice@example.com")
 
-let result = user_schema.safeParse(data.to_any())
+let result = user_schema.safeParse(data.as_any())
 assert_eq(result.success(), true)
 ```
 

@@ -35,21 +35,22 @@ fn parseDocumentWithOptions(String, xmlMode? : Bool, decodeEntities? : Bool, low
 // Types and methods
 #external
 pub type Document
+fn Document::as_any(Self) -> @nostd.Any
 fn Document::children(Self) -> Array[Node]
-fn Document::to_any(Self) -> @nostd.Any
 
 #external
 pub type Element
+fn Element::as_any(Self) -> @nostd.Any
 fn Element::attribs(Self) -> @nostd.Any
 fn Element::children(Self) -> Array[Node]
 fn Element::getAttribute(Self, String) -> String?
 fn Element::name(Self) -> String
 fn Element::parent(Self) -> Node?
-fn Element::to_any(Self) -> @nostd.Any
 
 #external
 pub type Node
 fn Node::asElement(Self) -> Element
+fn Node::as_any(Self) -> @nostd.Any
 fn Node::attribs(Self) -> @nostd.Any
 fn Node::children(Self) -> Array[Self]
 fn Node::data(Self) -> String
@@ -59,14 +60,13 @@ fn Node::isText(Self) -> Bool
 fn Node::name(Self) -> String
 fn Node::nodeType(Self) -> String
 fn Node::parent(Self) -> Self?
-fn Node::to_any(Self) -> @nostd.Any
 
 #external
 pub type Parser
+fn Parser::as_any(Self) -> @nostd.Any
 fn Parser::end(Self) -> Unit
 fn Parser::parseComplete(Self, String) -> Unit
 fn Parser::reset(Self) -> Unit
-fn Parser::to_any(Self) -> @nostd.Any
 fn Parser::write(Self, String) -> Unit
 
 // Type aliases

@@ -11,6 +11,9 @@ pub(all) struct EventSource {
 }
 
 ///|
+pub fn EventSource::as_any(self : EventSource) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for EventSource
 
 ///|
@@ -52,7 +55,7 @@ pub extern "js" fn EventSource::new(
 /// Close the connection
 /// JS: eventSource.close()
 pub fn EventSource::close(self : Self) -> Unit {
-  self.call0("close") |> ignore
+  self.as_any()._call("close", []) |> ignore
 }
 
 ///|
@@ -62,7 +65,7 @@ pub fn EventSource::set_onopen(
   self : Self,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.set("onopen", @js.from_fn1(handler))
+  self.as_any()["onopen"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -72,7 +75,7 @@ pub fn EventSource::set_onmessage(
   self : Self,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.set("onmessage", @js.from_fn1(handler))
+  self.as_any()["onmessage"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -82,7 +85,7 @@ pub fn EventSource::set_onerror(
   self : Self,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.set("onerror", @js.from_fn1(handler))
+  self.as_any()["onerror"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|

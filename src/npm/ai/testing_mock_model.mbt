@@ -15,7 +15,7 @@ pub(all) struct MockGenerateResult {
 }
 
 ///|
-pub fn MockGenerateResult::to_any(self : MockGenerateResult) -> @js.Any {
+pub fn MockGenerateResult::as_any(self : MockGenerateResult) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("finishReason", self.finish_reason)
   let usage_obj = @js.Object::new()
@@ -23,10 +23,10 @@ pub fn MockGenerateResult::to_any(self : MockGenerateResult) -> @js.Any {
   usage_obj.set("outputTokens", self.usage.output_tokens)
   usage_obj.set("totalTokens", self.usage.total_tokens)
   obj.set("usage", usage_obj)
-  let content_arr = self.content.map(MockContentPart::to_any)
+  let content_arr = self.content.map(MockContentPart::as_any)
   obj.set("content", content_arr |> @js.from_array)
   obj.set("warnings", self.warnings |> @js.from_array)
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -45,13 +45,13 @@ pub(all) enum MockContentPart {
 }
 
 ///|
-pub fn MockContentPart::to_any(self : MockContentPart) -> @js.Any {
+pub fn MockContentPart::as_any(self : MockContentPart) -> @js.Any {
   match self {
     Text(text) => {
       let obj = @js.Object::new()
       obj.set("type", "text")
       obj.set("text", text)
-      obj.to_any()
+      obj.as_any()
     }
     ToolCall(tool_call_id~, tool_name~, args~) => {
       let obj = @js.Object::new()
@@ -59,7 +59,7 @@ pub fn MockContentPart::to_any(self : MockContentPart) -> @js.Any {
       obj.set("toolCallId", tool_call_id)
       obj.set("toolName", tool_name)
       obj.set("args", args)
-      obj.to_any()
+      obj.as_any()
     }
   }
 }
@@ -72,10 +72,10 @@ pub(all) struct MockStreamResult {
 }
 
 ///|
-pub fn MockStreamResult::to_any(self : MockStreamResult) -> @js.Any {
+pub fn MockStreamResult::as_any(self : MockStreamResult) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("stream", self.stream)
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -127,25 +127,25 @@ pub fn mock_language_model(options : MockLanguageModelOptions) -> @js.Any {
   }
   // Handle doGenerate
   match options.do_generate {
-    Some(Result(r)) => opts.set("doGenerate", r.to_any())
+    Some(Result(r)) => opts.set("doGenerate", r.as_any())
     Some(Results(rs)) =>
       opts.set(
         "doGenerate",
-        rs.map(MockGenerateResult::to_any) |> @js.from_array,
+        rs.map(MockGenerateResult::as_any) |> @js.from_array,
       )
     Some(Fn(f)) => opts.set("doGenerate", f)
     None => ()
   }
   // Handle doStream
   match options.do_stream {
-    Some(Result(r)) => opts.set("doStream", r.to_any())
+    Some(Result(r)) => opts.set("doStream", r.as_any())
     Some(Results(rs)) =>
-      opts.set("doStream", rs.map(MockStreamResult::to_any) |> @js.from_array)
+      opts.set("doStream", rs.map(MockStreamResult::as_any) |> @js.from_array)
     Some(Fn(f)) => opts.set("doStream", f)
     None => ()
   }
   // Call new MockLanguageModelV3(opts)
-  @reflect.construct(mock_class, [opts.to_any()], None)
+  @reflect.construct(@nostd.any(mock_class), [@nostd.any(opts)], None).cast()
 }
 
 ///|
@@ -184,7 +184,7 @@ pub fn text_delta_chunk(text : String) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("type", "text-delta")
   obj.set("textDelta", text)
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn finish_chunk(finish_reason : String, usage : MockUsage) -> @js.Any {
   usage_obj.set("outputTokens", usage.output_tokens)
   usage_obj.set("totalTokens", usage.total_tokens)
   obj.set("usage", usage_obj)
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -213,5 +213,5 @@ pub fn tool_call_chunk(
   obj.set("toolCallId", tool_call_id)
   obj.set("toolName", tool_name)
   obj.set("args", args)
-  obj.to_any()
+  obj.as_any()
 }

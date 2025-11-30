@@ -2,16 +2,11 @@
 /// https://github.com/chalk/chalk
 
 ///|
-fn chalk() -> @js.Any {
-  let c = @node.require("chalk")
-  // Handle both default and non-default exports
-  let default_ = c.get("default")
-  if @js.is_undefined(default_) {
-    c
-  } else {
-    default_
-  }
-}
+extern "js" fn chalk() -> @nostd.Any =
+  #| () => {
+  #|   const c = require("chalk");
+  #|   return c.default !== undefined ? c.default : c;
+  #| }
 
 ///|
 /// ChalkInstance for chaining styles
@@ -19,68 +14,69 @@ fn chalk() -> @js.Any {
 pub type ChalkInstance
 
 ///|
-pub impl @js.JsImpl for ChalkInstance
+pub extern "js" fn ChalkInstance::as_any(self : ChalkInstance) -> @nostd.Any =
+  #| (x) => x
 
 ///| Basic colors (foreground)
 
 ///|
 /// Black text
 pub fn black(text : String) -> String {
-  chalk().call1("black", text).cast()
+  chalk()._call("black", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Red text
 pub fn red(text : String) -> String {
-  chalk().call1("red", text).cast()
+  chalk()._call("red", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Green text
 pub fn green(text : String) -> String {
-  chalk().call1("green", text).cast()
+  chalk()._call("green", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Yellow text
 pub fn yellow(text : String) -> String {
-  chalk().call1("yellow", text).cast()
+  chalk()._call("yellow", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Blue text
 pub fn blue(text : String) -> String {
-  chalk().call1("blue", text).cast()
+  chalk()._call("blue", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Magenta text
 pub fn magenta(text : String) -> String {
-  chalk().call1("magenta", text).cast()
+  chalk()._call("magenta", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Cyan text
 pub fn cyan(text : String) -> String {
-  chalk().call1("cyan", text).cast()
+  chalk()._call("cyan", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// White text
 pub fn white(text : String) -> String {
-  chalk().call1("white", text).cast()
+  chalk()._call("white", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Gray text
 pub fn gray(text : String) -> String {
-  chalk().call1("gray", text).cast()
+  chalk()._call("gray", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Grey text (alias)
 pub fn grey(text : String) -> String {
-  chalk().call1("grey", text).cast()
+  chalk()._call("grey", [@nostd.any(text)]).cast()
 }
 
 ///| Bright colors
@@ -89,49 +85,49 @@ pub fn grey(text : String) -> String {
 /// Bright red text
 #alias(red_bright)
 pub fn redBright(text : String) -> String {
-  chalk().call1("redBright", text).cast()
+  chalk()._call("redBright", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Bright green text
 #alias(green_bright)
 pub fn greenBright(text : String) -> String {
-  chalk().call1("greenBright", text).cast()
+  chalk()._call("greenBright", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Bright yellow text
 #alias(yellow_bright)
 pub fn yellowBright(text : String) -> String {
-  chalk().call1("yellowBright", text).cast()
+  chalk()._call("yellowBright", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Bright blue text
 #alias(blue_bright)
 pub fn blueBright(text : String) -> String {
-  chalk().call1("blueBright", text).cast()
+  chalk()._call("blueBright", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Bright magenta text
 #alias(magenta_bright)
 pub fn magentaBright(text : String) -> String {
-  chalk().call1("magentaBright", text).cast()
+  chalk()._call("magentaBright", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Bright cyan text
 #alias(cyan_bright)
 pub fn cyanBright(text : String) -> String {
-  chalk().call1("cyanBright", text).cast()
+  chalk()._call("cyanBright", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Bright white text
 #alias(white_bright)
 pub fn whiteBright(text : String) -> String {
-  chalk().call1("whiteBright", text).cast()
+  chalk()._call("whiteBright", [@nostd.any(text)]).cast()
 }
 
 ///| Background colors
@@ -140,56 +136,56 @@ pub fn whiteBright(text : String) -> String {
 /// Black background
 #alias(bg_black)
 pub fn bgBlack(text : String) -> String {
-  chalk().call1("bgBlack", text).cast()
+  chalk()._call("bgBlack", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Red background
 #alias(bg_red)
 pub fn bgRed(text : String) -> String {
-  chalk().call1("bgRed", text).cast()
+  chalk()._call("bgRed", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Green background
 #alias(bg_green)
 pub fn bgGreen(text : String) -> String {
-  chalk().call1("bgGreen", text).cast()
+  chalk()._call("bgGreen", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Yellow background
 #alias(bg_yellow)
 pub fn bgYellow(text : String) -> String {
-  chalk().call1("bgYellow", text).cast()
+  chalk()._call("bgYellow", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Blue background
 #alias(bg_blue)
 pub fn bgBlue(text : String) -> String {
-  chalk().call1("bgBlue", text).cast()
+  chalk()._call("bgBlue", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Magenta background
 #alias(bg_magenta)
 pub fn bgMagenta(text : String) -> String {
-  chalk().call1("bgMagenta", text).cast()
+  chalk()._call("bgMagenta", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Cyan background
 #alias(bg_cyan)
 pub fn bgCyan(text : String) -> String {
-  chalk().call1("bgCyan", text).cast()
+  chalk()._call("bgCyan", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// White background
 #alias(bg_white)
 pub fn bgWhite(text : String) -> String {
-  chalk().call1("bgWhite", text).cast()
+  chalk()._call("bgWhite", [@nostd.any(text)]).cast()
 }
 
 ///| Text modifiers
@@ -197,49 +193,49 @@ pub fn bgWhite(text : String) -> String {
 ///|
 /// Bold text
 pub fn bold(text : String) -> String {
-  chalk().call1("bold", text).cast()
+  chalk()._call("bold", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Dim text
 pub fn dim(text : String) -> String {
-  chalk().call1("dim", text).cast()
+  chalk()._call("dim", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Italic text
 pub fn italic(text : String) -> String {
-  chalk().call1("italic", text).cast()
+  chalk()._call("italic", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Underline text
 pub fn underline(text : String) -> String {
-  chalk().call1("underline", text).cast()
+  chalk()._call("underline", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Strikethrough text
 pub fn strikethrough(text : String) -> String {
-  chalk().call1("strikethrough", text).cast()
+  chalk()._call("strikethrough", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Inverse colors
 pub fn inverse(text : String) -> String {
-  chalk().call1("inverse", text).cast()
+  chalk()._call("inverse", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Hidden text
 pub fn hidden(text : String) -> String {
-  chalk().call1("hidden", text).cast()
+  chalk()._call("hidden", [@nostd.any(text)]).cast()
 }
 
 ///|
 /// Visible text
 pub fn visible(text : String) -> String {
-  chalk().call1("visible", text).cast()
+  chalk()._call("visible", [@nostd.any(text)]).cast()
 }
 
 ///| Chainable API
@@ -253,55 +249,54 @@ pub fn instance() -> ChalkInstance {
 ///|
 /// Apply the style to text
 pub fn ChalkInstance::apply(self : ChalkInstance, text : String) -> String {
-  let fn_ : @js.Any = self.to_any()
-  fn_.call1("call", text).cast()
+  self.as_any()._invoke([@nostd.any(text)]).cast()
 }
 
 ///| Chainable color methods
 
 ///|
 pub fn ChalkInstance::black(self : ChalkInstance) -> ChalkInstance {
-  self.get("black").cast()
+  self.as_any()["black"].cast()
 }
 
 ///|
 pub fn ChalkInstance::red(self : ChalkInstance) -> ChalkInstance {
-  self.get("red").cast()
+  self.as_any()["red"].cast()
 }
 
 ///|
 pub fn ChalkInstance::green(self : ChalkInstance) -> ChalkInstance {
-  self.get("green").cast()
+  self.as_any()["green"].cast()
 }
 
 ///|
 pub fn ChalkInstance::yellow(self : ChalkInstance) -> ChalkInstance {
-  self.get("yellow").cast()
+  self.as_any()["yellow"].cast()
 }
 
 ///|
 pub fn ChalkInstance::blue(self : ChalkInstance) -> ChalkInstance {
-  self.get("blue").cast()
+  self.as_any()["blue"].cast()
 }
 
 ///|
 pub fn ChalkInstance::magenta(self : ChalkInstance) -> ChalkInstance {
-  self.get("magenta").cast()
+  self.as_any()["magenta"].cast()
 }
 
 ///|
 pub fn ChalkInstance::cyan(self : ChalkInstance) -> ChalkInstance {
-  self.get("cyan").cast()
+  self.as_any()["cyan"].cast()
 }
 
 ///|
 pub fn ChalkInstance::white(self : ChalkInstance) -> ChalkInstance {
-  self.get("white").cast()
+  self.as_any()["white"].cast()
 }
 
 ///|
 pub fn ChalkInstance::gray(self : ChalkInstance) -> ChalkInstance {
-  self.get("gray").cast()
+  self.as_any()["gray"].cast()
 }
 
 ///| Chainable background colors
@@ -309,81 +304,81 @@ pub fn ChalkInstance::gray(self : ChalkInstance) -> ChalkInstance {
 ///|
 #alias(bg_black)
 pub fn ChalkInstance::bgBlack(self : ChalkInstance) -> ChalkInstance {
-  self.get("bgBlack").cast()
+  self.as_any()["bgBlack"].cast()
 }
 
 ///|
 #alias(bg_red)
 pub fn ChalkInstance::bgRed(self : ChalkInstance) -> ChalkInstance {
-  self.get("bgRed").cast()
+  self.as_any()["bgRed"].cast()
 }
 
 ///|
 #alias(bg_green)
 pub fn ChalkInstance::bgGreen(self : ChalkInstance) -> ChalkInstance {
-  self.get("bgGreen").cast()
+  self.as_any()["bgGreen"].cast()
 }
 
 ///|
 #alias(bg_yellow)
 pub fn ChalkInstance::bgYellow(self : ChalkInstance) -> ChalkInstance {
-  self.get("bgYellow").cast()
+  self.as_any()["bgYellow"].cast()
 }
 
 ///|
 #alias(bg_blue)
 pub fn ChalkInstance::bgBlue(self : ChalkInstance) -> ChalkInstance {
-  self.get("bgBlue").cast()
+  self.as_any()["bgBlue"].cast()
 }
 
 ///|
 #alias(bg_magenta)
 pub fn ChalkInstance::bgMagenta(self : ChalkInstance) -> ChalkInstance {
-  self.get("bgMagenta").cast()
+  self.as_any()["bgMagenta"].cast()
 }
 
 ///|
 #alias(bg_cyan)
 pub fn ChalkInstance::bgCyan(self : ChalkInstance) -> ChalkInstance {
-  self.get("bgCyan").cast()
+  self.as_any()["bgCyan"].cast()
 }
 
 ///|
 #alias(bg_white)
 pub fn ChalkInstance::bgWhite(self : ChalkInstance) -> ChalkInstance {
-  self.get("bgWhite").cast()
+  self.as_any()["bgWhite"].cast()
 }
 
 ///| Chainable modifiers
 
 ///|
 pub fn ChalkInstance::bold(self : ChalkInstance) -> ChalkInstance {
-  self.get("bold").cast()
+  self.as_any()["bold"].cast()
 }
 
 ///|
 pub fn ChalkInstance::dim(self : ChalkInstance) -> ChalkInstance {
-  self.get("dim").cast()
+  self.as_any()["dim"].cast()
 }
 
 ///|
 pub fn ChalkInstance::italic(self : ChalkInstance) -> ChalkInstance {
-  self.get("italic").cast()
+  self.as_any()["italic"].cast()
 }
 
 ///|
 pub fn ChalkInstance::underline(self : ChalkInstance) -> ChalkInstance {
-  self.get("underline").cast()
+  self.as_any()["underline"].cast()
 }
 
 ///|
 pub fn ChalkInstance::strikethrough(self : ChalkInstance) -> ChalkInstance {
-  self.get("strikethrough").cast()
+  self.as_any()["strikethrough"].cast()
 }
 
 ///|
 pub fn ChalkInstance::inverse(self : ChalkInstance) -> ChalkInstance {
-  self.get("inverse").cast()
+  self.as_any()["inverse"].cast()
 }
 
 ///| RGB and Hex colors
@@ -391,25 +386,25 @@ pub fn ChalkInstance::inverse(self : ChalkInstance) -> ChalkInstance {
 ///|
 /// RGB foreground color
 pub fn rgb(r : Int, g : Int, b : Int) -> ChalkInstance {
-  chalk().call("rgb", [r, g, b]).cast()
+  chalk()._call("rgb", [@nostd.any(r), @nostd.any(g), @nostd.any(b)]).cast()
 }
 
 ///|
 /// RGB background color
 #alias(bg_rgb)
 pub fn bgRgb(r : Int, g : Int, b : Int) -> ChalkInstance {
-  chalk().call("bgRgb", [r, g, b]).cast()
+  chalk()._call("bgRgb", [@nostd.any(r), @nostd.any(g), @nostd.any(b)]).cast()
 }
 
 ///|
 /// Hex foreground color
 pub fn hex(color : String) -> ChalkInstance {
-  chalk().call1("hex", color).cast()
+  chalk()._call("hex", [@nostd.any(color)]).cast()
 }
 
 ///|
 /// Hex background color
 #alias(bg_hex)
 pub fn bgHex(color : String) -> ChalkInstance {
-  chalk().call1("bgHex", color).cast()
+  chalk()._call("bgHex", [@nostd.any(color)]).cast()
 }

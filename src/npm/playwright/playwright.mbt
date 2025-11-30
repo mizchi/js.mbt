@@ -132,7 +132,7 @@ pub async fn BrowserType::launch(
     options["timeout"] = v
   }
   let promise : @js.Promise[Browser] = @js.identity(
-    self.call("launch", [options.to_any()]),
+    self.call("launch", [options.as_any()]),
   )
   promise.wait()
 }
@@ -167,7 +167,7 @@ pub async fn BrowserType::launchPersistentContext(
   let promise : @js.Promise[BrowserContext] = @js.identity(
     self.call("launchPersistentContext", [
       @js.any(userDataDir),
-      options.to_any(),
+      options.as_any(),
     ]),
   )
   promise.wait()
@@ -230,7 +230,7 @@ pub async fn Browser::newContext(
     let vp = @js.Object::new()
     vp["width"] = width
     vp["height"] = height
-    options["viewport"] = vp.to_any()
+    options["viewport"] = vp.as_any()
   }
   if userAgent is Some(v) {
     options["userAgent"] = v
@@ -245,7 +245,7 @@ pub async fn Browser::newContext(
     let geo = @js.Object::new()
     geo["latitude"] = latitude
     geo["longitude"] = longitude
-    options["geolocation"] = geo.to_any()
+    options["geolocation"] = geo.as_any()
   }
   if permissions is Some(v) {
     options["permissions"] = @js.from_array(v)
@@ -284,7 +284,7 @@ pub async fn Browser::newContext(
     options["hasTouch"] = v
   }
   let promise : @js.Promise[BrowserContext] = @js.identity(
-    self.call("newContext", [options.to_any()]),
+    self.call("newContext", [options.as_any()]),
   )
   promise.wait()
 }
@@ -311,7 +311,7 @@ pub async fn Browser::newPage(
     let vp = @js.Object::new()
     vp["width"] = width
     vp["height"] = height
-    options["viewport"] = vp.to_any()
+    options["viewport"] = vp.as_any()
   }
   if userAgent is Some(v) {
     options["userAgent"] = v
@@ -347,7 +347,7 @@ pub async fn Browser::newPage(
     options["hasTouch"] = v
   }
   let promise : @js.Promise[Page] = @js.identity(
-    self.call("newPage", [options.to_any()]),
+    self.call("newPage", [options.as_any()]),
   )
   promise.wait()
 }
@@ -473,7 +473,7 @@ pub async fn BrowserContext::grantPermissions(
   let promise : @js.Promise[Unit] = @js.identity(
     self.call("grantPermissions", [
       @js.from_array(permissions),
-      options.to_any(),
+      options.as_any(),
     ]),
   )
   promise.wait()
@@ -503,7 +503,7 @@ pub async fn BrowserContext::setGeolocation(
     geo["accuracy"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("setGeolocation", [geo.to_any()]),
+    self.call("setGeolocation", [geo.as_any()]),
   )
   promise.wait()
 }

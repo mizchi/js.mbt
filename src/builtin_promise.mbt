@@ -66,7 +66,7 @@ pub fn[A, B] Promise::then(
   self : Self[A],
   resolve : (A) -> Self[B] raise,
 ) -> Promise[B] {
-  ffi_promise_then(self.to_any(), a => (a |> identity |> resolve |> identity) catch {
+  ffi_promise_then(self.as_any(), a => (a |> identity |> resolve |> identity) catch {
     e => e |> ffi_promise_reject |> identity
   })
   |> identity

@@ -76,7 +76,7 @@ pub(all) struct StringFilter {
 }
 
 ///|
-pub impl @js.JsImpl for StringFilter with to_any(self) -> @js.Any {
+pub impl @js.JsImpl for StringFilter with as_any(self) -> @js.Any {
   @js.from_option_map({
     "include": self.includes.map(fn(x) { @js.from_array(x) }),
     "exclude": self.excludes.map(fn(x) { @js.from_array(x) }),
@@ -91,10 +91,10 @@ pub(all) struct HookFilter {
 }
 
 ///|
-pub impl @js.JsImpl for HookFilter with to_any(self) -> @js.Any {
+pub impl @js.JsImpl for HookFilter with as_any(self) -> @js.Any {
   @js.from_option_map({
-    "id": self.id.map(fn(x) { x.to_any() }),
-    "code": self.code.map(fn(x) { x.to_any() }),
+    "id": self.id.map(fn(x) { x.as_any() }),
+    "code": self.code.map(fn(x) { x.as_any() }),
   })
 }
 
@@ -223,7 +223,7 @@ pub fn UnpluginOptions::new(
 }
 
 ///|
-pub impl @js.JsImpl for UnpluginOptions with to_any(self) -> @js.Any {
+pub impl @js.JsImpl for UnpluginOptions with as_any(self) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("name", @js.any(self.name))
   match self.enforce {
@@ -244,9 +244,9 @@ pub impl @js.JsImpl for UnpluginOptions with to_any(self) -> @js.Any {
       match self.transformFilter {
         Some(filter) => {
           let hook = @js.Object::new()
-          hook.set("filter", filter.to_any())
+          hook.set("filter", filter.as_any())
           hook.set("handler", @js.from_fn2(handler))
-          obj.set("transform", hook.to_any())
+          obj.set("transform", hook.as_any())
         }
         None => obj.set("transform", @js.from_fn2(handler))
       }
@@ -258,9 +258,9 @@ pub impl @js.JsImpl for UnpluginOptions with to_any(self) -> @js.Any {
       match self.loadFilter {
         Some(filter) => {
           let hook = @js.Object::new()
-          hook.set("filter", filter.to_any())
+          hook.set("filter", filter.as_any())
           hook.set("handler", @js.from_fn1(handler))
-          obj.set("load", hook.to_any())
+          obj.set("load", hook.as_any())
         }
         None => obj.set("load", @js.from_fn1(handler))
       }
@@ -310,7 +310,7 @@ pub impl @js.JsImpl for UnpluginOptions with to_any(self) -> @js.Any {
     Some(v) => obj.set("bun", v)
     None => ()
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///| UnpluginInstance
@@ -395,7 +395,7 @@ pub fn[UserOptions] createUnplugin(
     let user_options : UserOptions = @js.identity(options)
     let context_meta = meta_from_js(meta)
     let unplugin_options = factory(user_options, context_meta)
-    unplugin_options.to_any()
+    unplugin_options.as_any()
   }
   let instance : @js.Any = create_fn.call_self([@js.from_fn2(js_factory)])
   fn(options : UserOptions) -> UnpluginInstance {
@@ -413,7 +413,7 @@ pub fn createUnpluginSimple(
   let js_factory = fn(_options : @js.Any, meta : @js.Any) -> @js.Any {
     let context_meta = meta_from_js(meta)
     let unplugin_options = factory(context_meta)
-    unplugin_options.to_any()
+    unplugin_options.as_any()
   }
   let instance : @js.Any = create_fn.call_self([@js.from_fn2(js_factory)])
   fn() -> UnpluginInstance { @js.identity(instance.call_self0()) }
@@ -430,7 +430,7 @@ pub async fn[UserOptions] createUnpluginAsync(
     let user_options : UserOptions = @js.identity(options)
     let context_meta = meta_from_js(meta)
     let unplugin_options = factory(user_options, context_meta)
-    unplugin_options.to_any()
+    unplugin_options.as_any()
   }
   let instance : @js.Any = create_fn.call_self([@js.from_fn2(js_factory)])
   fn(options : UserOptions) -> UnpluginInstance {
@@ -455,7 +455,7 @@ pub fn transform_result_with_map(
   let obj = @js.Object::new()
   obj.set("code", @js.any(code))
   obj.set("map", map)
-  obj.to_any()
+  obj.as_any()
 }
 
 ///| Resolve Result Helpers
@@ -466,7 +466,7 @@ pub fn resolve_external(id : String) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("id", @js.any(id))
   obj.set("external", @js.any(true))
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -474,5 +474,5 @@ pub fn resolve_external(id : String) -> @js.Any {
 pub fn resolve_id(id : String) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("id", @js.any(id))
-  obj.to_any()
+  obj.as_any()
 }

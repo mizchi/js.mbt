@@ -29,7 +29,7 @@ test "Object::keys, values, entries" {
   obj.set("city", "Tokyo")
 
   // Test keys
-  let keys = Object::keys(obj.to_any())
+  let keys = Object::keys(obj.as_any())
   assert_eq(keys.length(), 3)
   assert_true(keys.contains("name"))
   assert_true(keys.contains("age"))
@@ -192,7 +192,7 @@ test "JsIterator::from converts iterable to iterator" {
   let js_iter : JsIterator[@js.Any] = JsIterator::from(arr)
 
   // Verify it's created (basic type check)
-  assert_true(@js.is_object(js_iter.to_any()))
+  assert_true(@js.is_object(js_iter.as_any()))
 }
 
 ///| Function tests
@@ -364,7 +364,7 @@ test "identity_option with Show types" {
 ///|
 test "identity_option for nullish detection" {
   let obj = @js.Object::new()
-  let result : @js.Object? = @js.identity_option(obj.to_any())
+  let result : @js.Object? = @js.identity_option(obj.as_any())
   assert_false(result is None)
   let null_result : @js.Object? = @js.identity_option(@js.null_())
   assert_true(null_result is None)
@@ -421,7 +421,7 @@ test "Js Show trait for different types" {
   // Objects
   let obj = @js.Object::new()
   obj.set("key", "value")
-  let obj_str = obj.to_any().to_string()
+  let obj_str = obj.as_any().to_string()
   assert_true(obj_str.contains("key") && obj_str.contains("value"))
 }
 

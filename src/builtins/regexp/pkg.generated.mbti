@@ -3,6 +3,7 @@ package "mizchi/js/builtins/regexp"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -12,6 +13,7 @@ import(
 // Types and methods
 #external
 pub type RegExp
+fn RegExp::as_any(Self) -> @nostd.Any
 fn RegExp::dotAll(Self) -> Bool
 fn RegExp::exec(Self, String) -> RegExpResult?
 fn RegExp::flags(Self) -> String
@@ -43,6 +45,7 @@ pub struct RegExpMatchArray {
   input : String?
   groups : Map[String, String]?
 }
+fn RegExpMatchArray::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for RegExpMatchArray
 
 pub struct RegExpResult {
@@ -52,6 +55,7 @@ pub struct RegExpResult {
   lastIndex : Int
   groups : Map[String, String]?
 }
+fn RegExpResult::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for RegExpResult
 
 // Type aliases

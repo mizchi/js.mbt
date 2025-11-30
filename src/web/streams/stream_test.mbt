@@ -1,14 +1,14 @@
 ///|
 test "ReadableStream basic properties" {
   let source = @js.Object::new()
-  let stream = ReadableStream::new(source.to_any())
+  let stream = ReadableStream::new(source.as_any())
   assert_eq(stream.locked, false)
 }
 
 ///|
 test "ReadableStream get_reader locks stream" {
   let source = @js.Object::new()
-  let stream = ReadableStream::new(source.to_any())
+  let stream = ReadableStream::new(source.as_any())
   let reader = stream.get_reader()
   defer reader.release_lock()
   assert_eq(stream.locked, true)
@@ -17,7 +17,7 @@ test "ReadableStream get_reader locks stream" {
 ///|
 test "ReadableStream tee creates two branches" {
   let source = @js.Object::new()
-  let stream = ReadableStream::new(source.to_any())
+  let stream = ReadableStream::new(source.as_any())
   let (branch1, branch2) = stream.tee()
   assert_eq(branch1.locked, false)
   assert_eq(branch2.locked, false)
@@ -26,14 +26,14 @@ test "ReadableStream tee creates two branches" {
 ///|
 test "WritableStream basic properties" {
   let sink = @js.Object::new()
-  let stream = WritableStream::new(sink.to_any())
+  let stream = WritableStream::new(sink.as_any())
   assert_eq(stream.locked, false)
 }
 
 ///|
 test "WritableStream get_writer locks stream" {
   let sink = @js.Object::new()
-  let stream = WritableStream::new(sink.to_any())
+  let stream = WritableStream::new(sink.as_any())
   let writer = stream.get_writer()
   defer writer.release_lock()
   assert_eq(stream.locked, true)
@@ -42,7 +42,7 @@ test "WritableStream get_writer locks stream" {
 ///|
 test "ReadableStreamDefaultReader releaseLock unlocks stream" {
   let source = @js.Object::new()
-  let stream = ReadableStream::new(source.to_any())
+  let stream = ReadableStream::new(source.as_any())
   let reader = stream.get_reader()
   assert_eq(stream.locked, true)
   reader.release_lock()
@@ -52,7 +52,7 @@ test "ReadableStreamDefaultReader releaseLock unlocks stream" {
 ///|
 test "WritableStreamDefaultWriter releaseLock unlocks stream" {
   let sink = @js.Object::new()
-  let stream = WritableStream::new(sink.to_any())
+  let stream = WritableStream::new(sink.as_any())
   let writer = stream.get_writer()
   assert_eq(stream.locked, true)
   writer.release_lock()
@@ -62,7 +62,7 @@ test "WritableStreamDefaultWriter releaseLock unlocks stream" {
 ///|
 test "ReadableStream getReader alias" {
   let source = @js.Object::new()
-  let stream = ReadableStream::new(source.to_any())
+  let stream = ReadableStream::new(source.as_any())
   let reader = stream.getReader()
   defer reader.release_lock()
   assert_eq(stream.locked, true)
@@ -71,7 +71,7 @@ test "ReadableStream getReader alias" {
 ///|
 test "WritableStream getWriter alias" {
   let sink = @js.Object::new()
-  let stream = WritableStream::new(sink.to_any())
+  let stream = WritableStream::new(sink.as_any())
   let writer = stream.getWriter()
   defer writer.release_lock()
   assert_eq(stream.locked, true)
@@ -80,7 +80,7 @@ test "WritableStream getWriter alias" {
 ///|
 test "ReadableStreamDefaultReader releaseLock alias" {
   let source = @js.Object::new()
-  let stream = ReadableStream::new(source.to_any())
+  let stream = ReadableStream::new(source.as_any())
   let reader = stream.get_reader()
   reader.releaseLock()
   assert_eq(stream.locked, false)
@@ -89,7 +89,7 @@ test "ReadableStreamDefaultReader releaseLock alias" {
 ///|
 test "WritableStreamDefaultWriter releaseLock alias" {
   let sink = @js.Object::new()
-  let stream = WritableStream::new(sink.to_any())
+  let stream = WritableStream::new(sink.as_any())
   let writer = stream.get_writer()
   writer.releaseLock()
   assert_eq(stream.locked, false)
@@ -107,7 +107,7 @@ test "TransformStream identity creates readable and writable" {
 ///|
 test "TransformStream with transformer" {
   let transformer = @js.Object::new()
-  let transform = TransformStream::new(transformer.to_any())
+  let transform = TransformStream::new(transformer.as_any())
   let readable = transform.readable
   let writable = transform.writable
   assert_eq(readable.locked, false)

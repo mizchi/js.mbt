@@ -17,13 +17,13 @@ fn TestEnum::from_js(v : @js.Any) -> Self raise {
 }
 
 ///|
-impl JsImpl for TestEnum with to_any(self) {
+impl JsImpl for TestEnum with as_any(self) {
   match self {
     A(value~) => {
       let obj = @js.Object::new()
       obj.set("tag", "A")
       obj.set("value", value)
-      obj.to_any()
+      obj.as_any()
     }
   }
 }
@@ -63,7 +63,7 @@ test "identity converts struct to Any object" {
 ///|
 test "JsImpl trait converts enum to Any and back" {
   let v : TestEnum = A(value=123)
-  let v : @js.Any = v.to_any()
+  let v : @js.Any = v.as_any()
   assert_eq(@js.identity(v.get("tag")), "A")
   assert_eq(@js.identity(v.get("value")), 123)
   let recovered : TestEnum = TestEnum::from_js(v)
@@ -219,8 +219,8 @@ test "Val Show trait" {
   assert_eq(@js.any(true).to_string(), "true")
   assert_eq(@js.any(false).to_string(), "false")
   assert_eq(null_().to_string(), "null")
-  assert_eq(Object::new().to_any().to_string(), "{}")
-  assert_eq(JsArray::new().to_any().to_string(), "[]")
+  assert_eq(Object::new().as_any().to_string(), "{}")
+  assert_eq(JsArray::new().as_any().to_string(), "[]")
 }
 
 ///|
@@ -245,31 +245,31 @@ test "Val with mixed types in object" {
 ///|
 test "Js trait for primitives" {
   // String
-  let str_js : @js.Any = JsImpl::to_any("hello")
+  let str_js : @js.Any = JsImpl::as_any("hello")
   assert_eq(@js.identity(str_js), "hello")
 
   // Int
-  let int_js : @js.Any = JsImpl::to_any(42)
+  let int_js : @js.Any = JsImpl::as_any(42)
   assert_eq(@js.identity(int_js), 42)
 
   // Double
-  let double_js : @js.Any = JsImpl::to_any(3.14)
+  let double_js : @js.Any = JsImpl::as_any(3.14)
   assert_eq(@js.identity(double_js), 3.14)
 
   // Bool
-  let bool_js : @js.Any = JsImpl::to_any(true)
+  let bool_js : @js.Any = JsImpl::as_any(true)
   assert_eq(@js.identity(bool_js), true)
 
   // Val (identity)
   let val = @js.any(100)
-  let val_js : @js.Any = JsImpl::to_any(val)
+  let val_js : @js.Any = JsImpl::as_any(val)
   assert_eq(val_js, val)
 }
 
 ///|
 test "JsImpl for Array[&JsImpl]" {
   let arr : Array[&JsImpl] = ["hello", 42, 3.14, true]
-  let val = JsImpl::to_any(arr)
+  let val = JsImpl::as_any(arr)
   assert_true(@js.is_array(val))
   assert_eq(@js.identity(val.get(0)), "hello")
   assert_eq(@js.identity(val.get(1)), 42)
@@ -281,12 +281,12 @@ test "JsImpl for Array[&JsImpl]" {
 test "JsImpl for Option[T]" {
   // Some value
   let some_val : Int? = Some(42)
-  let some_js = JsImpl::to_any(some_val)
+  let some_js = JsImpl::as_any(some_val)
   assert_eq(@js.identity(some_js), 42)
 
   // None value - represented as undefined in MoonBit
   let none_val : Int? = None
-  let none_js = JsImpl::to_any(none_val)
+  let none_js = JsImpl::as_any(none_val)
   assert_true(@js.is_undefined(none_js))
 }
 
@@ -309,7 +309,7 @@ test "Js numeric edge cases" {
 test "Js Show trait" {
   let obj = @js.Object::new()
   obj.set("name", "test")
-  let str = obj.to_any().to_string()
+  let str = obj.as_any().to_string()
   assert_true(str.contains("Object") || str.length() > 0)
 }
 

@@ -1,7 +1,7 @@
 ///|
-test "JsImpl::to_any converts builtin Json to Js" {
+test "JsImpl::as_any converts builtin Json to Js" {
   let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
-  let v : @js.Any = JsImpl::to_any(j)
+  let v : @js.Any = JsImpl::as_any(j)
   assert_eq(@js.identity(v.get("items").get(0)), 1)
   assert_eq(@js.identity(v.get("nested").get("key")), "value")
 }
@@ -63,7 +63,7 @@ extern "js" fn test_ffi_point_new(x : Int, y : Int) -> Any =
 ///|
 test "from builtin struct" {
   let p = Point::{ x: 10, y: 20 }
-  let v : @js.Any = JsImpl::to_any(p)
+  let v : @js.Any = JsImpl::as_any(p)
   assert_eq(@js.identity(v.get("x")), 10)
   assert_eq(@js.identity(v.get("y")), 20)
   inspect(p, content="{x: 10, y: 20}")
@@ -357,7 +357,7 @@ test "from_fn3 converts 3-arg function to Js" {
 ///|
 test "JsImpl for Map[String, &JsImpl]" {
   let map : Map[String, &JsImpl] = { "name": "Bob", "age": 25, "active": true }
-  let obj : @js.Any = JsImpl::to_any(map)
+  let obj : @js.Any = JsImpl::as_any(map)
   assert_eq(@js.identity(obj.get("name")), "Bob")
   assert_eq(@js.identity(obj.get("age")), 25)
   assert_eq(@js.identity(obj.get("active")), true)
@@ -366,7 +366,7 @@ test "JsImpl for Map[String, &JsImpl]" {
 ///|
 test "JsImpl for Array[&JsImpl]" {
   let arr : Array[&JsImpl] = [1, "hello", true, 3.14]
-  let js_arr : @js.Any = JsImpl::to_any(arr)
+  let js_arr : @js.Any = JsImpl::as_any(arr)
   assert_true(@js.is_array(js_arr))
   assert_eq(@js.identity(js_arr.get(0)), 1)
   assert_eq(@js.identity(js_arr.get(1)), "hello")
@@ -378,8 +378,8 @@ test "JsImpl for Array[&JsImpl]" {
 test "JsImpl for Option types" {
   let some_val : Int? = Some(42)
   let none_val : Int? = None
-  let js_some : @js.Any = JsImpl::to_any(some_val)
-  let js_none : @js.Any = JsImpl::to_any(none_val)
+  let js_some : @js.Any = JsImpl::as_any(some_val)
+  let js_none : @js.Any = JsImpl::as_any(none_val)
   assert_eq(@js.identity(js_some), 42)
   assert_true(is_undefined(js_none))
 }
@@ -483,8 +483,8 @@ test "throwable catches AggregateError" {
   throwable(fn() {
     // Create AggregateError with multiple errors
     let errors = from_array([
-      JsError::new("Error 1").to_any(),
-      JsError::new("Error 2").to_any(),
+      JsError::new("Error 1").as_any(),
+      JsError::new("Error 2").as_any(),
     ])
     let agg_error_cls = globalThis().get("AggregateError")
     let agg_err = new_(agg_error_cls, [errors, "Multiple errors"])
@@ -646,7 +646,7 @@ test "Any.to_json with object" {
 ///|
 test "Json::True to Any" {
   let json_true : Json = true
-  let any_val : @js.Any = JsImpl::to_any(json_true)
+  let any_val : @js.Any = JsImpl::as_any(json_true)
   let result : Bool = @js.identity(any_val)
   assert_eq(result, true)
 }
@@ -654,7 +654,7 @@ test "Json::True to Any" {
 ///|
 test "Json::False to Any" {
   let json_false : Json = false
-  let any_val : @js.Any = JsImpl::to_any(json_false)
+  let any_val : @js.Any = JsImpl::as_any(json_false)
   let result : Bool = @js.identity(any_val)
   assert_eq(result, false)
 }
@@ -688,8 +688,8 @@ test "SuppressedError instanceof check" {
   let err1 = JsError::new("Error 1")
   let err2 = JsError::new("Error 2")
   let suppressed_err = new_(suppressed_error_cls, [
-    err1.to_any(),
-    err2.to_any(),
+    err1.as_any(),
+    err2.as_any(),
     @js.any("Suppressed error message"),
   ])
   // Check instanceof

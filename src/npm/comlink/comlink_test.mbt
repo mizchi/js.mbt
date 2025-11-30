@@ -6,20 +6,20 @@
 ///|
 test "proxy function" {
   let callback = @comlink.proxyCallback(fn(_event) { () })
-  inspect(callback.to_any() |> @js.is_nullish |> not, content="true")
+  inspect(@nostd.is_nullish(callback.as_any()) |> not, content="true")
 }
 
 ///|
 test "transfer array buffer" {
   let buffer = @js.Object::new()
-  let result = @comlink.transferArrayBuffer(buffer.to_any())
+  let result = @comlink.transferArrayBuffer(buffer.as_any())
   inspect(result |> @js.is_nullish |> not, content="true")
 }
 
 ///|
 test "transfer with transferables" {
   let data = @js.Object::new()
-  let result = @comlink.transfer(data.to_any(), [])
+  let result = @comlink.transfer(data.as_any(), [])
   inspect(result |> @js.is_nullish |> not, content="true")
 }
 
@@ -42,5 +42,5 @@ test "get transfer handlers" {
 ///|
 test "proxy with return value" {
   let func = @comlink.proxyFunction(fn(x) { x })
-  inspect(func.to_any() |> @js.is_nullish |> not, content="true")
+  inspect(@nostd.is_nullish(func.as_any()) |> not, content="true")
 }

@@ -3,6 +3,7 @@ package "mizchi/js/browser/serviceworker"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -13,10 +14,12 @@ fn serviceWorkerContainer() -> ServiceWorkerContainer
 // Types and methods
 #external
 pub type RegistrationOptions
+fn RegistrationOptions::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for RegistrationOptions
 
 #external
 pub type ServiceWorker
+fn ServiceWorker::as_any(Self) -> @nostd.Any
 fn ServiceWorker::onError(Self, (@js.Any) -> Unit) -> Unit
 fn ServiceWorker::onStateChange(Self, (@js.Any) -> Unit) -> Unit
 fn ServiceWorker::postMessage(Self, @js.Any) -> Unit
@@ -27,6 +30,7 @@ impl @js.JsImpl for ServiceWorker
 
 #external
 pub type ServiceWorkerContainer
+fn ServiceWorkerContainer::as_any(Self) -> @nostd.Any
 fn ServiceWorkerContainer::controller(Self) -> ServiceWorker?
 async fn ServiceWorkerContainer::getRegistration(Self, client_url? : String) -> ServiceWorkerRegistration?
 async fn ServiceWorkerContainer::getRegistrations(Self) -> Array[ServiceWorkerRegistration]
@@ -41,6 +45,7 @@ impl @js.JsImpl for ServiceWorkerContainer
 #external
 pub type ServiceWorkerRegistration
 fn ServiceWorkerRegistration::active(Self) -> ServiceWorker?
+fn ServiceWorkerRegistration::as_any(Self) -> @nostd.Any
 fn ServiceWorkerRegistration::installing(Self) -> ServiceWorker?
 fn ServiceWorkerRegistration::onUpdateFound(Self, (@js.Any) -> Unit) -> Unit
 fn ServiceWorkerRegistration::scope(Self) -> String

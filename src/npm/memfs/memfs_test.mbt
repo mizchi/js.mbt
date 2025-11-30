@@ -4,14 +4,14 @@
 ///|
 test "create volume" {
   let vol = @memfs.createVolume()
-  inspect(vol.to_any() |> @js.is_nullish |> not, content="true")
+  inspect(vol.as_any() |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
 test "create memfs" {
   let (vol, fs) = @memfs.memfs()
-  inspect(vol.to_any() |> @js.is_nullish |> not, content="true")
-  inspect(fs.to_any() |> @js.is_nullish |> not, content="true")
+  inspect(vol.as_any() |> @nostd.is_nullish |> not, content="true")
+  inspect(fs.as_any() |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
@@ -124,7 +124,7 @@ test "volume toJSON" {
   let (vol, fs) = @memfs.memfs()
   fs.writeFileSync("/test.txt", "content")
   let json = vol.toJSON()
-  inspect(json |> @js.is_nullish |> not, content="true")
+  inspect(json |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
@@ -138,10 +138,10 @@ test "volume reset" {
 
 ///|
 test "memfsFromJSON" {
-  let files = @js.Object::new()
-  files.set("/hello.txt", "Hello!")
-  files.set("/world.txt", "World!")
-  let (_, fs) = @memfs.memfsFromJSON(files.to_any())
+  let files = @nostd.Object::new()
+  files["/hello.txt"] = @nostd.any("Hello!")
+  files["/world.txt"] = @nostd.any("World!")
+  let (_, fs) = @memfs.memfsFromJSON(files)
   inspect(fs.readFileSync("/hello.txt"), content="Hello!")
   inspect(fs.readFileSync("/world.txt"), content="World!")
 }

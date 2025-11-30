@@ -6,7 +6,7 @@ async test "Response: read body as text" {
   let response = Response::new(body="Hello, async world!")
 
   // Read body as text
-  let text_result : @js.Any = response.to_any().call0("text")
+  let text_result : @js.Any = response.as_any().call0("text")
   let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
   assert_eq(text, "Hello, async world!")
@@ -18,7 +18,7 @@ async test "Response: read body as JSON" {
   let response = Response::new(body=json_str)
 
   // Read body as JSON
-  let json_result : @js.Any = response.to_any().call0("json")
+  let json_result : @js.Any = response.as_any().call0("json")
   let json_promise : @js.Promise[@js.Any] = @js.identity(json_result)
   let json_obj = json_promise.wait()
   let name : String = @js.identity(json_obj.get("name"))
@@ -40,7 +40,7 @@ async test "Response: read body stream chunk by chunk" {
       // Read all chunks
       let mut done = false
       while not(done) {
-        let result : @js.Any = reader.to_any().call0("read")
+        let result : @js.Any = reader.as_any()._call("read", []).cast()
         let promise : @js.Promise[@js.Any] = @js.identity(result)
         let data = promise.wait()
         done = @js.identity(data.get("done"))
@@ -66,12 +66,12 @@ async test "Response: clone and read both bodies" {
   let cloned = response.clone()
 
   // Read original
-  let text1_result : @js.Any = response.to_any().call0("text")
+  let text1_result : @js.Any = response.as_any().call0("text")
   let text1_promise : @js.Promise[String] = @js.identity(text1_result)
   let text1 = text1_promise.wait()
 
   // Read cloned
-  let text2_result : @js.Any = cloned.to_any().call0("text")
+  let text2_result : @js.Any = cloned.as_any().call0("text")
   let text2_promise : @js.Promise[String] = @js.identity(text2_result)
   let text2 = text2_promise.wait()
   assert_eq(text1, "original content")
@@ -83,14 +83,14 @@ async test "Response: read body multiple times fails after first read" {
   let response = Response::new(body="single read")
 
   // First read succeeds
-  let text1_result : @js.Any = response.to_any().call0("text")
+  let text1_result : @js.Any = response.as_any().call0("text")
   let text1_promise : @js.Promise[String] = @js.identity(text1_result)
   let text1 = text1_promise.wait()
   assert_eq(text1, "single read")
 
   // Second read should fail (body already consumed)
   // We can verify this by checking bodyUsed property
-  let body_used : Bool = @js.identity(response.to_any().get("bodyUsed"))
+  let body_used : Bool = @js.identity(response.as_any().get("bodyUsed"))
   assert_eq(body_used, true)
 }
 
@@ -104,7 +104,7 @@ async test "Response: read large body in chunks" {
     i = i + 1
   }
   let response = Response::new(body=large_content)
-  let text_result : @js.Any = response.to_any().call0("text")
+  let text_result : @js.Any = response.as_any().call0("text")
   let text_promise : @js.Promise[String] = @js.identity(text_result)
   let text = text_promise.wait()
   assert_eq(text, large_content)
@@ -124,7 +124,7 @@ async test "Response: body stream with defer cleanup" {
       assert_eq(stream.locked, true)
 
       // Read one chunk
-      let result : @js.Any = reader.to_any().call0("read")
+      let result : @js.Any = reader.as_any()._call("read", []).cast()
       let promise : @js.Promise[@js.Any] = @js.identity(result)
       let _data = promise.wait()
 
@@ -137,7 +137,7 @@ async test "Response: body stream with defer cleanup" {
 ///|
 async test "Response: arrayBuffer method" {
   let response = Response::new(body="buffer test")
-  let buffer_result : @js.Any = response.to_any().call0("arrayBuffer")
+  let buffer_result : @js.Any = response.as_any().call0("arrayBuffer")
   let buffer_promise : @js.Promise[@js.Any] = @js.identity(buffer_result)
   let buffer = buffer_promise.wait()
 
@@ -153,7 +153,7 @@ async test "Response: arrayBuffer method" {
 ///|
 async test "Response: blob method" {
   let response = Response::new(body="blob content")
-  let blob_result : @js.Any = response.to_any().call0("blob")
+  let blob_result : @js.Any = response.as_any().call0("blob")
   let blob_promise : @js.Promise[@js.Any] = @js.identity(blob_result)
   let blob = blob_promise.wait()
 

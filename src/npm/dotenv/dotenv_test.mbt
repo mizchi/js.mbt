@@ -65,7 +65,7 @@ test "getEnv and setEnv" {
 ///|
 test "processEnv returns object" {
   let env = processEnv()
-  @js.typeof_(env) |> assert_eq("object")
+  @nostd.type_of(env) |> assert_eq("object")
 }
 
 ///|
@@ -93,10 +93,10 @@ test "parse multiline" {
 
 ///|
 test "populate target object" {
-  let target = @js.Object::new()
-  let source = @js.Object::new()
-  source.set("MY_KEY", "my_value")
-  populate(target.to_any(), source.to_any())
-  let v : String = target.get("MY_KEY").cast()
+  let target = @nostd.Object::new()
+  let source = @nostd.Object::new()
+  source["MY_KEY"] = @nostd.any("my_value")
+  populate(target, source)
+  let v : String = target["MY_KEY"].cast()
   assert_eq(v, "my_value")
 }

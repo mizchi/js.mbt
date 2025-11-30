@@ -156,7 +156,7 @@ pub fn[T : @testing_library.TextMatch] Expect::toHaveTextContent(
   self : Expect,
   expected : T,
 ) -> Unit raise ExpectError {
-  assert_matcher(self.element, "toHaveTextContent", [expected.to_any()])
+  assert_matcher(self.element, "toHaveTextContent", [expected.as_any()])
 }
 
 // ============================================================

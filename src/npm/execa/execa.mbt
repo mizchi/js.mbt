@@ -24,61 +24,61 @@ pub type Subprocess
 ///| ExecaResult accessors
 
 ///|
-extern "js" fn ExecaResult::to_any(self : ExecaResult) -> @nostd.Any =
+extern "js" fn ExecaResult::as_any(self : ExecaResult) -> @nostd.Any =
   #| (x) => x
 
 ///|
 /// Get stdout as string
 pub fn ExecaResult::stdout(self : ExecaResult) -> String {
-  self.to_any()["stdout"].cast()
+  self.as_any()["stdout"].cast()
 }
 
 ///|
 /// Get stderr as string
 pub fn ExecaResult::stderr(self : ExecaResult) -> String {
-  self.to_any()["stderr"].cast()
+  self.as_any()["stderr"].cast()
 }
 
 ///|
 /// Get exit code
 pub fn ExecaResult::exitCode(self : ExecaResult) -> Int {
-  self.to_any()["exitCode"].cast()
+  self.as_any()["exitCode"].cast()
 }
 
 ///|
 /// Get the executed command
 pub fn ExecaResult::command(self : ExecaResult) -> String {
-  self.to_any()["command"].cast()
+  self.as_any()["command"].cast()
 }
 
 ///|
 /// Get escaped command (safe to copy/paste)
 pub fn ExecaResult::escapedCommand(self : ExecaResult) -> String {
-  self.to_any()["escapedCommand"].cast()
+  self.as_any()["escapedCommand"].cast()
 }
 
 ///|
 /// Check if process failed
 pub fn ExecaResult::failed(self : ExecaResult) -> Bool {
-  self.to_any()["failed"].cast()
+  self.as_any()["failed"].cast()
 }
 
 ///|
 /// Check if process timed out
 pub fn ExecaResult::timedOut(self : ExecaResult) -> Bool {
-  self.to_any()["timedOut"].cast()
+  self.as_any()["timedOut"].cast()
 }
 
 ///|
 /// Check if process was killed
 pub fn ExecaResult::killed(self : ExecaResult) -> Bool {
-  self.to_any()["killed"].cast()
+  self.as_any()["killed"].cast()
 }
 
 ///|
 /// Get signal name if killed by signal
 pub fn ExecaResult::signal(self : ExecaResult) -> String? {
-  let v = self.to_any()["signal"]
+  let v = self.as_any()["signal"]
   if @nostd.is_nullish(v) {
     None
   } else {
@@ -89,7 +89,7 @@ pub fn ExecaResult::signal(self : ExecaResult) -> String? {
 ///|
 /// Get signal description
 pub fn ExecaResult::signalDescription(self : ExecaResult) -> String? {
-  let v = self.to_any()["signalDescription"]
+  let v = self.as_any()["signalDescription"]
   if @nostd.is_nullish(v) {
     None
   } else {
@@ -100,7 +100,7 @@ pub fn ExecaResult::signalDescription(self : ExecaResult) -> String? {
 ///|
 /// Get combined stdout and stderr (if all option was true)
 pub fn ExecaResult::all(self : ExecaResult) -> String? {
-  let v = self.to_any()["all"]
+  let v = self.as_any()["all"]
   if @nostd.is_nullish(v) {
     None
   } else {
@@ -111,7 +111,7 @@ pub fn ExecaResult::all(self : ExecaResult) -> String? {
 ///|
 /// Get stdout as lines array (if lines option was true)
 pub fn ExecaResult::stdoutLines(self : ExecaResult) -> Array[String] {
-  let stdout = self.to_any()["stdout"]
+  let stdout = self.as_any()["stdout"]
   if @nostd.is_array(stdout) {
     @nostd.identity(stdout)
   } else {
@@ -122,7 +122,7 @@ pub fn ExecaResult::stdoutLines(self : ExecaResult) -> Array[String] {
 ///|
 /// Get stderr as lines array (if lines option was true)
 pub fn ExecaResult::stderrLines(self : ExecaResult) -> Array[String] {
-  let stderr = self.to_any()["stderr"]
+  let stderr = self.as_any()["stderr"]
   if @nostd.is_array(stderr) {
     @nostd.identity(stderr)
   } else {
@@ -133,7 +133,7 @@ pub fn ExecaResult::stderrLines(self : ExecaResult) -> Array[String] {
 ///|
 /// Get process ID
 pub fn ExecaResult::pid(self : ExecaResult) -> Int? {
-  let pid = self.to_any()["pid"]
+  let pid = self.as_any()["pid"]
   if @nostd.is_nullish(pid) {
     None
   } else {
@@ -144,25 +144,25 @@ pub fn ExecaResult::pid(self : ExecaResult) -> Int? {
 ///| ExecaError accessors
 
 ///|
-extern "js" fn ExecaError::to_any(self : ExecaError) -> @nostd.Any =
+extern "js" fn ExecaError::as_any(self : ExecaError) -> @nostd.Any =
   #| (x) => x
 
 ///|
 /// Get error message
 pub fn ExecaError::message(self : ExecaError) -> String {
-  self.to_any()["message"].cast()
+  self.as_any()["message"].cast()
 }
 
 ///|
 /// Get short error message
 pub fn ExecaError::shortMessage(self : ExecaError) -> String {
-  self.to_any()["shortMessage"].cast()
+  self.as_any()["shortMessage"].cast()
 }
 
 ///|
 /// Get original error (if any)
 pub fn ExecaError::originalMessage(self : ExecaError) -> String? {
-  let v = self.to_any()["originalMessage"]
+  let v = self.as_any()["originalMessage"]
   if @nostd.is_nullish(v) {
     None
   } else {
@@ -173,19 +173,19 @@ pub fn ExecaError::originalMessage(self : ExecaError) -> String? {
 ///|
 /// Get stdout from error
 pub fn ExecaError::stdout(self : ExecaError) -> String {
-  self.to_any()["stdout"].cast()
+  self.as_any()["stdout"].cast()
 }
 
 ///|
 /// Get stderr from error
 pub fn ExecaError::stderr(self : ExecaError) -> String {
-  self.to_any()["stderr"].cast()
+  self.as_any()["stderr"].cast()
 }
 
 ///|
 /// Get exit code from error
 pub fn ExecaError::exitCode(self : ExecaError) -> Int? {
-  let code = self.to_any()["exitCode"]
+  let code = self.as_any()["exitCode"]
   if @nostd.is_nullish(code) {
     None
   } else {
@@ -196,7 +196,7 @@ pub fn ExecaError::exitCode(self : ExecaError) -> Int? {
 ///|
 /// Get the executed command from error
 pub fn ExecaError::command(self : ExecaError) -> String {
-  self.to_any()["command"].cast()
+  self.as_any()["command"].cast()
 }
 
 ///| Options builder
@@ -621,7 +621,7 @@ pub async fn shell(
 ///| Subprocess control (advanced)
 
 ///|
-extern "js" fn Subprocess::to_any(self : Subprocess) -> @nostd.Any =
+extern "js" fn Subprocess::as_any(self : Subprocess) -> @nostd.Any =
   #| (x) => x
 
 ///|
@@ -651,7 +651,7 @@ pub fn subprocess(
 ///|
 /// Get subprocess PID
 pub fn Subprocess::pid(self : Subprocess) -> Int {
-  self.to_any()["pid"].cast()
+  self.as_any()["pid"].cast()
 }
 
 ///|
@@ -686,17 +686,17 @@ pub async fn Subprocess::wait(self : Subprocess) -> ExecaResult {
 ///|
 /// Get subprocess stdin stream
 pub fn Subprocess::stdin(self : Subprocess) -> @nostd.Any {
-  self.to_any()["stdin"]
+  self.as_any()["stdin"]
 }
 
 ///|
 /// Get subprocess stdout stream
 pub fn Subprocess::stdout(self : Subprocess) -> @nostd.Any {
-  self.to_any()["stdout"]
+  self.as_any()["stdout"]
 }
 
 ///|
 /// Get subprocess stderr stream
 pub fn Subprocess::stderr(self : Subprocess) -> @nostd.Any {
-  self.to_any()["stderr"]
+  self.as_any()["stderr"]
 }

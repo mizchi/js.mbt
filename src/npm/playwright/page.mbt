@@ -33,7 +33,7 @@ pub async fn Page::goto(
     options["referer"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("goto", [@js.any(url), options.to_any()]),
+    self.call("goto", [@js.any(url), options.as_any()]),
   )
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -58,7 +58,7 @@ pub async fn Page::reload(
     options["waitUntil"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("reload", [options.to_any()]),
+    self.call("reload", [options.as_any()]),
   )
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -83,7 +83,7 @@ pub async fn Page::goBack(
     options["waitUntil"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("goBack", [options.to_any()]),
+    self.call("goBack", [options.as_any()]),
   )
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -108,7 +108,7 @@ pub async fn Page::goForward(
     options["waitUntil"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("goForward", [options.to_any()]),
+    self.call("goForward", [options.as_any()]),
   )
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -156,7 +156,7 @@ pub async fn Page::setContent(
     options["waitUntil"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("setContent", [@js.any(html), options.to_any()]),
+    self.call("setContent", [@js.any(html), options.as_any()]),
   )
   promise.wait()
 }
@@ -184,7 +184,7 @@ pub fn Page::getByRole(
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByRole", [@js.any(role), options.to_any()]))
+  @js.identity(self.call("getByRole", [@js.any(role), options.as_any()]))
 }
 
 ///|
@@ -194,7 +194,7 @@ pub fn Page::getByText(self : Page, text : String, exact? : Bool) -> Locator {
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByText", [@js.any(text), options.to_any()]))
+  @js.identity(self.call("getByText", [@js.any(text), options.as_any()]))
 }
 
 ///|
@@ -204,7 +204,7 @@ pub fn Page::getByLabel(self : Page, text : String, exact? : Bool) -> Locator {
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByLabel", [@js.any(text), options.to_any()]))
+  @js.identity(self.call("getByLabel", [@js.any(text), options.as_any()]))
 }
 
 ///|
@@ -218,7 +218,7 @@ pub fn Page::getByPlaceholder(
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByPlaceholder", [@js.any(text), options.to_any()]))
+  @js.identity(self.call("getByPlaceholder", [@js.any(text), options.as_any()]))
 }
 
 ///|
@@ -228,7 +228,7 @@ pub fn Page::getByAltText(self : Page, text : String, exact? : Bool) -> Locator 
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByAltText", [@js.any(text), options.to_any()]))
+  @js.identity(self.call("getByAltText", [@js.any(text), options.as_any()]))
 }
 
 ///|
@@ -238,7 +238,7 @@ pub fn Page::getByTitle(self : Page, text : String, exact? : Bool) -> Locator {
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByTitle", [@js.any(text), options.to_any()]))
+  @js.identity(self.call("getByTitle", [@js.any(text), options.as_any()]))
 }
 
 ///|
@@ -287,7 +287,7 @@ pub async fn Page::click(
     let pos = @js.Object::new()
     pos["x"] = x
     pos["y"] = y
-    options["position"] = pos.to_any()
+    options["position"] = pos.as_any()
   }
   if timeout is Some(v) {
     options["timeout"] = v
@@ -296,7 +296,7 @@ pub async fn Page::click(
     options["trial"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("click", [@js.any(selector), options.to_any()]),
+    self.call("click", [@js.any(selector), options.as_any()]),
   )
   promise.wait()
 }
@@ -317,7 +317,7 @@ pub async fn Page::dblclick(
     options["force"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("dblclick", [@js.any(selector), options.to_any()]),
+    self.call("dblclick", [@js.any(selector), options.as_any()]),
   )
   promise.wait()
 }
@@ -343,7 +343,7 @@ pub async fn Page::fill(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("fill", [@js.any(selector), @js.any(value), options.to_any()]),
+    self.call("fill", [@js.any(selector), @js.any(value), options.as_any()]),
   )
   promise.wait()
 }
@@ -369,7 +369,7 @@ pub async fn Page::type_(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("type", [@js.any(selector), @js.any(text), options.to_any()]),
+    self.call("type", [@js.any(selector), @js.any(text), options.as_any()]),
   )
   promise.wait()
 }
@@ -395,7 +395,7 @@ pub async fn Page::press(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("press", [@js.any(selector), @js.any(key), options.to_any()]),
+    self.call("press", [@js.any(selector), @js.any(key), options.as_any()]),
   )
   promise.wait()
 }
@@ -420,7 +420,7 @@ pub async fn Page::check(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("check", [@js.any(selector), options.to_any()]),
+    self.call("check", [@js.any(selector), options.as_any()]),
   )
   promise.wait()
 }
@@ -445,7 +445,7 @@ pub async fn Page::uncheck(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("uncheck", [@js.any(selector), options.to_any()]),
+    self.call("uncheck", [@js.any(selector), options.as_any()]),
   )
   promise.wait()
 }
@@ -471,7 +471,7 @@ pub async fn Page::selectOption(
     options["timeout"] = v
   }
   let promise : @js.Promise[Array[String]] = @js.identity(
-    self.call("selectOption", [@js.any(selector), values, options.to_any()]),
+    self.call("selectOption", [@js.any(selector), values, options.as_any()]),
   )
   promise.wait()
 }
@@ -498,7 +498,7 @@ pub async fn Page::hover(
     let pos = @js.Object::new()
     pos["x"] = x
     pos["y"] = y
-    options["position"] = pos.to_any()
+    options["position"] = pos.as_any()
   }
   if timeout is Some(v) {
     options["timeout"] = v
@@ -507,7 +507,7 @@ pub async fn Page::hover(
     options["trial"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("hover", [@js.any(selector), options.to_any()]),
+    self.call("hover", [@js.any(selector), options.as_any()]),
   )
   promise.wait()
 }
@@ -524,7 +524,7 @@ pub async fn Page::focus(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("focus", [@js.any(selector), options.to_any()]),
+    self.call("focus", [@js.any(selector), options.as_any()]),
   )
   promise.wait()
 }
@@ -551,7 +551,7 @@ pub async fn Page::waitForSelector(
     options["strict"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("waitForSelector", [@js.any(selector), options.to_any()]),
+    self.call("waitForSelector", [@js.any(selector), options.as_any()]),
   )
   promise.wait()
 }
@@ -569,8 +569,8 @@ pub async fn Page::waitForLoadState(
   }
   let promise : @js.Promise[Unit] = match state {
     Some(s) =>
-      @js.identity(self.call("waitForLoadState", [s, options.to_any()]))
-    None => @js.identity(self.call("waitForLoadState", [options.to_any()]))
+      @js.identity(self.call("waitForLoadState", [s, options.as_any()]))
+    None => @js.identity(self.call("waitForLoadState", [options.as_any()]))
   }
   promise.wait()
 }
@@ -594,7 +594,7 @@ pub async fn Page::waitForNavigation(
     options["waitUntil"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("waitForNavigation", [options.to_any()]),
+    self.call("waitForNavigation", [options.as_any()]),
   )
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -620,7 +620,7 @@ pub async fn Page::waitForURL(
     options["waitUntil"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("waitForURL", [@js.any(url), options.to_any()]),
+    self.call("waitForURL", [@js.any(url), options.as_any()]),
   )
   promise.wait()
 }
@@ -653,11 +653,11 @@ pub async fn Page::waitForFunction(
   let promise : @js.Promise[@js.Any] = match arg {
     Some(a) =>
       @js.identity(
-        self.call("waitForFunction", [pageFunction, a, options.to_any()]),
+        self.call("waitForFunction", [pageFunction, a, options.as_any()]),
       )
     None =>
       @js.identity(
-        self.call("waitForFunction", [pageFunction, options.to_any()]),
+        self.call("waitForFunction", [pageFunction, options.as_any()]),
       )
   }
   promise.wait()
@@ -734,7 +734,7 @@ pub async fn Page::screenshot(
     options["scale"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("screenshot", [options.to_any()]),
+    self.call("screenshot", [options.as_any()]),
   )
   promise.wait()
 }
@@ -800,7 +800,7 @@ pub async fn Page::pdf(
     options["preferCSSPageSize"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("pdf", [options.to_any()]),
+    self.call("pdf", [options.as_any()]),
   )
   promise.wait()
 }
@@ -815,7 +815,7 @@ pub async fn Page::close(self : Page, runBeforeUnload? : Bool) -> Unit {
     options["runBeforeUnload"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("close", [options.to_any()]),
+    self.call("close", [options.as_any()]),
   )
   promise.wait()
 }
@@ -859,7 +859,7 @@ pub async fn Page::setViewportSize(
   viewport["width"] = width
   viewport["height"] = height
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("setViewportSize", [viewport.to_any()]),
+    self.call("setViewportSize", [viewport.as_any()]),
   )
   promise.wait()
 }
@@ -909,7 +909,7 @@ pub async fn Page::addScriptTag(
     options["type"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("addScriptTag", [options.to_any()]),
+    self.call("addScriptTag", [options.as_any()]),
   )
   promise.wait()
 }
@@ -933,7 +933,7 @@ pub async fn Page::addStyleTag(
     options["content"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("addStyleTag", [options.to_any()]),
+    self.call("addStyleTag", [options.as_any()]),
   )
   promise.wait()
 }

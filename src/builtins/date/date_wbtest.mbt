@@ -101,14 +101,14 @@ test "Date timezone offset is consistent" {
 }
 
 ///|
-/// Whitebox test for Date Js trait integration
-test "Date integrates with Js trait properly" {
+/// Whitebox test for Date Any conversion
+test "Date integrates with Any properly" {
   let date = Date::from_string("2024-01-01T00:00:00.000Z")
-  let val = date.to_any()
+  let val = date.as_any()
 
-  // Should convert to Val without being null or undefined
-  inspect(@js.is_null(val), content="false")
-  inspect(@js.is_undefined(val), content="false")
+  // Should convert to Any without being null or undefined
+  inspect(@nostd.is_null(val), content="false")
+  inspect(@nostd.is_undefined(val), content="false")
 }
 
 ///|

@@ -377,7 +377,7 @@ pub(all) struct McpServerStdio {
 }
 
 ///|
-pub fn McpServerStdio::to_any(self : McpServerStdio) -> @js.Any {
+pub fn McpServerStdio::as_any(self : McpServerStdio) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("type", "stdio")
   obj.set("command", self.command)
@@ -386,8 +386,8 @@ pub fn McpServerStdio::to_any(self : McpServerStdio) -> @js.Any {
   for k, v in self.env {
     env_obj.set(k, v)
   }
-  obj.set("env", env_obj.to_any())
-  obj.to_any()
+  obj.set("env", env_obj.as_any())
+  obj.as_any()
 }
 
 ///|
@@ -398,7 +398,7 @@ pub(all) struct McpServerSse {
 }
 
 ///|
-pub fn McpServerSse::to_any(self : McpServerSse) -> @js.Any {
+pub fn McpServerSse::as_any(self : McpServerSse) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("type", "sse")
   obj.set("url", self.url)
@@ -406,8 +406,8 @@ pub fn McpServerSse::to_any(self : McpServerSse) -> @js.Any {
   for k, v in self.headers {
     headers_obj.set(k, v)
   }
-  obj.set("headers", headers_obj.to_any())
-  obj.to_any()
+  obj.set("headers", headers_obj.as_any())
+  obj.as_any()
 }
 
 ///|
@@ -418,10 +418,10 @@ pub(all) enum McpServerConfig {
 }
 
 ///|
-pub fn McpServerConfig::to_any(self : McpServerConfig) -> @js.Any {
+pub fn McpServerConfig::as_any(self : McpServerConfig) -> @js.Any {
   match self {
-    Stdio(cfg) => cfg.to_any()
-    Sse(cfg) => cfg.to_any()
+    Stdio(cfg) => cfg.as_any()
+    Sse(cfg) => cfg.as_any()
   }
 }
 
@@ -441,7 +441,7 @@ pub(all) struct AgentDefinition {
 }
 
 ///|
-pub fn AgentDefinition::to_any(self : AgentDefinition) -> @js.Any {
+pub fn AgentDefinition::as_any(self : AgentDefinition) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("description", self.description)
   if self.allowed_tools is Some(tools) {
@@ -456,7 +456,7 @@ pub fn AgentDefinition::to_any(self : AgentDefinition) -> @js.Any {
   if self.model is Some(m) {
     obj.set("model", m.to_string())
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -510,7 +510,7 @@ pub fn QueryOptions::new() -> QueryOptions {
 }
 
 ///|
-pub fn QueryOptions::to_any(self : QueryOptions) -> @js.Any {
+pub fn QueryOptions::as_any(self : QueryOptions) -> @js.Any {
   let obj = @js.Object::new()
   if self.model is Some(m) {
     obj.set("model", m.to_string())
@@ -539,16 +539,16 @@ pub fn QueryOptions::to_any(self : QueryOptions) -> @js.Any {
   if self.mcp_servers is Some(servers) {
     let servers_obj = @js.Object::new()
     for name, config in servers {
-      servers_obj.set(name, config.to_any())
+      servers_obj.set(name, config.as_any())
     }
-    obj.set("mcpServers", servers_obj.to_any())
+    obj.set("mcpServers", servers_obj.as_any())
   }
   if self.agents is Some(agents) {
     let agents_obj = @js.Object::new()
     for name, agent in agents {
-      agents_obj.set(name, agent.to_any())
+      agents_obj.set(name, agent.as_any())
     }
-    obj.set("agents", agents_obj.to_any())
+    obj.set("agents", agents_obj.as_any())
   }
   if self.setting_sources is Some(sources) {
     obj.set(
@@ -562,5 +562,5 @@ pub fn QueryOptions::to_any(self : QueryOptions) -> @js.Any {
   if self.resume_session is Some(r) {
     obj.set("resume", r)
   }
-  obj.to_any()
+  obj.as_any()
 }

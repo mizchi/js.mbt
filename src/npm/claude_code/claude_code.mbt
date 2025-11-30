@@ -17,7 +17,7 @@ pub impl @js.JsImpl for Query
 ///|
 /// Get async iterator from Query
 pub fn Query::async_iterator(self : Query) -> @js.AsyncIterator[@js.Any] {
-  let iter = self.to_any().call(@js.Symbol::asyncIterator(), [])
+  let iter = self.as_any().call(@js.Symbol::asyncIterator(), [])
   @js.identity(iter)
 }
 
@@ -43,14 +43,14 @@ pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
   let opts = @js.Object::new()
   opts.set("prompt", prompt)
   if options is Some(o) {
-    let options_any = o.to_any()
+    let options_any = o.as_any()
     // Merge options into opts
     let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity
     for key in keys {
       opts.set(key, options_any.get(key))
     }
   }
-  let result = claude_code_module().get("query").call_self([opts.to_any()])
+  let result = claude_code_module().get("query").call_self([opts.as_any()])
   let iter = result.call(@js.Symbol::asyncIterator(), [])
   { raw: @js.identity(iter) }
 }
@@ -66,13 +66,13 @@ pub fn queryStream(
   let opts = @js.Object::new()
   opts.set("prompt", prompt)
   if options is Some(o) {
-    let options_any = o.to_any()
+    let options_any = o.as_any()
     let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity
     for key in keys {
       opts.set(key, options_any.get(key))
     }
   }
-  let result = claude_code_module().get("query").call_self([opts.to_any()])
+  let result = claude_code_module().get("query").call_self([opts.as_any()])
   let iter = result.call(@js.Symbol::asyncIterator(), [])
   { raw: @js.identity(iter) }
 }
@@ -88,7 +88,7 @@ pub impl @js.JsImpl for AbortHandle
 ///|
 /// Abort the current query
 pub fn AbortHandle::abort(self : AbortHandle) -> Unit {
-  let _ = self.to_any().get("abort").call_self([])
+  let _ = self.as_any().get("abort").call_self([])
 
 }
 
@@ -106,13 +106,13 @@ pub fn queryWithAbort(
   let signal : @js.Any = @js.identity(abort_controller.signal())
   opts.set("abortSignal", signal)
   if options is Some(o) {
-    let options_any = o.to_any()
+    let options_any = o.as_any()
     let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity
     for key in keys {
       opts.set(key, options_any.get(key))
     }
   }
-  let result = claude_code_module().get("query").call_self([opts.to_any()])
+  let result = claude_code_module().get("query").call_self([opts.as_any()])
   let iter = result.call(@js.Symbol::asyncIterator(), [])
   ({ raw: @js.identity(iter) }, @js.identity(abort_controller))
 }

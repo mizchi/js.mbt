@@ -312,7 +312,7 @@ pub async fn createServer(
     Some(v) => cfg.set("plugins", v)
     None => ()
   }
-  ffi_create_server(cfg.to_any()).wait()
+  ffi_create_server(cfg.as_any()).wait()
 }
 
 ///|

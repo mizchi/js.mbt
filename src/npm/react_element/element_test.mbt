@@ -7,7 +7,7 @@ fn get_render_to_string() -> (@react.Element) -> String {
   let react_dom_server = @node.require("react-dom/server")
   let render_fn : @js.Any = react_dom_server.get("renderToString")
   fn(element : @react.Element) -> String {
-    @js.identity(render_fn.call_self([element.to_any()]))
+    @js.identity(render_fn.call_self([element.as_any()]))
   }
 }
 

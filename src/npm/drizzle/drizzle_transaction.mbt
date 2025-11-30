@@ -117,7 +117,7 @@ pub async fn DrizzleDB::pgTransaction(
   ffi_pg_transaction_with_opts(
     self,
     ffi_wrap_tx_callback(callback),
-    opts.to_any(),
+    opts.as_any(),
   ).wait()
 }
 

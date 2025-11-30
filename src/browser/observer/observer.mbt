@@ -9,6 +9,9 @@
 pub type MutationObserver
 
 ///|
+pub fn MutationObserver::as_any(self : MutationObserver) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for MutationObserver
 
 ///|
@@ -29,21 +32,22 @@ pub fn MutationObserver::observe(
   target : @dom.Element,
   options : @js.Any,
 ) -> Unit {
-  self.call2("observe", target |> @js.any, options) |> ignore
+  self.as_any()._call("observe", [@nostd.any(target), @nostd.any(options)])
+  |> ignore
 }
 
 ///|
 /// Stops observing
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/disconnect
 pub fn MutationObserver::disconnect(self : Self) -> Unit {
-  self.call0("disconnect") |> ignore
+  self.as_any()._call("disconnect", []) |> ignore
 }
 
 ///|
 /// Returns all pending mutation records
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/takeRecords
 pub fn MutationObserver::take_records(self : Self) -> @js.Any {
-  self.call0("takeRecords")
+  self.as_any()._call("takeRecords", []).cast()
 }
 
 ///|
@@ -63,7 +67,7 @@ pub(all) struct MutationRecord {
 ///|
 /// Get the type of mutation
 pub fn MutationRecord::mutation_type(self : Self) -> String {
-  self.to_any().get("type").cast()
+  self.as_any().get("type").cast()
 }
 
 ///|
@@ -74,6 +78,9 @@ pub impl @js.JsImpl for MutationRecord
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver
 #external
 pub type IntersectionObserver
+
+///|
+pub fn IntersectionObserver::as_any(self : IntersectionObserver) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for IntersectionObserver
@@ -99,7 +106,7 @@ pub fn IntersectionObserver::observe(
   self : Self,
   target : @dom.Element,
 ) -> Unit {
-  self.call("observe", [target]) |> ignore
+  self.as_any()._call("observe", [@nostd.any(target)]) |> ignore
 }
 
 ///|
@@ -109,21 +116,21 @@ pub fn IntersectionObserver::unobserve(
   self : Self,
   target : @dom.Element,
 ) -> Unit {
-  self.call("unobserve", [target]) |> ignore
+  self.as_any()._call("unobserve", [@nostd.any(target)]) |> ignore
 }
 
 ///|
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/disconnect
 pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
-  self.call0("disconnect") |> ignore
+  self.as_any()._call("disconnect", []) |> ignore
 }
 
 ///|
 /// Returns all pending intersection records
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords
 pub fn IntersectionObserver::take_records(self : Self) -> @js.Any {
-  self.call0("takeRecords")
+  self.as_any()._call("takeRecords", []).cast()
 }
 
 ///|
@@ -149,6 +156,9 @@ pub impl @js.JsImpl for IntersectionObserverEntry
 pub type ResizeObserver
 
 ///|
+pub fn ResizeObserver::as_any(self : ResizeObserver) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for ResizeObserver
 
 ///|
@@ -165,7 +175,7 @@ pub fn ResizeObserver::new(
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
 pub fn ResizeObserver::observe(self : Self, target : @dom.Element) -> Unit {
-  self.call("observe", [target |> @js.any]) |> ignore
+  self.as_any()._call("observe", [@nostd.any(target)]) |> ignore
 }
 
 ///|
@@ -175,21 +185,22 @@ pub fn ResizeObserver::observe_with_options(
   target : @dom.Element,
   options : @js.Any,
 ) -> Unit {
-  self.call2("observe", target |> @js.any, options) |> ignore
+  self.as_any()._call("observe", [@nostd.any(target), @nostd.any(options)])
+  |> ignore
 }
 
 ///|
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve
 pub fn ResizeObserver::unobserve(self : Self, target : @dom.Element) -> Unit {
-  self.call("unobserve", [target |> @js.any]) |> ignore
+  self.as_any()._call("unobserve", [@nostd.any(target)]) |> ignore
 }
 
 ///|
 /// Stops observing all targets
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/disconnect
 pub fn ResizeObserver::disconnect(self : Self) -> Unit {
-  self.call0("disconnect") |> ignore
+  self.as_any()._call("disconnect", []) |> ignore
 }
 
 ///|

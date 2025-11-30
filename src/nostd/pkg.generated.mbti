@@ -4,6 +4,8 @@ package "mizchi/js/nostd"
 // Values
 fn[T] any(T) -> Any
 
+fn as_any(Any?) -> Any
+
 fn assert_throws(() -> Any) -> String raise JsError
 
 fn assert_throws_with(() -> Any, String) -> Unit
@@ -12,11 +14,23 @@ fn clear_interval(Int) -> Unit
 
 fn clear_timeout(Int) -> Unit
 
+fn console_debug(Any) -> Unit
+
+fn console_error(Any) -> Unit
+
+fn console_info(Any) -> Unit
+
+fn console_log(Any) -> Unit
+
+fn console_warn(Any) -> Unit
+
 fn equal(Any, Any) -> Bool
 
 fn[E : Show + Error] export_sync(() -> Any raise E) -> Any
 
 fn ffi_wrap_sync(() -> Any, (Any) -> Unit, (Any) -> Unit) -> Unit
+
+fn from_entries(Array[(String, Any)]) -> Any
 
 fn[A] from_fn0(() -> A) -> Any
 
@@ -30,6 +44,8 @@ fn global_this() -> Any
 
 fn[A, B] identity(A) -> B
 
+fn[T] identity_option(Any) -> T?
+
 fn instance_of(Any, Any) -> Bool
 
 fn is_array(Any) -> Bool
@@ -40,9 +56,17 @@ fn is_nullish(Any) -> Bool
 
 fn is_undefined(Any) -> Bool
 
+fn json_parse(String) -> Any
+
+fn json_stringify(Any) -> String
+
+fn json_stringify_pretty(Any, Int) -> String
+
 fn new(Any, Array[Any]) -> Any
 
 fn null() -> Any
+
+fn[T] nullable(T?) -> Any
 
 fn run_async(async () -> Unit noraise) -> Unit
 
@@ -57,6 +81,8 @@ fn throw_error(String) -> Unit
 fn try_sync(() -> Any) -> Any raise JsError
 
 fn type_of(Any) -> String
+
+fn[T] typeof_(T) -> String
 
 fn undefined() -> Any
 
@@ -73,6 +99,8 @@ fn Any::_invoke(Self, Array[Self]) -> Self
 #alias("_[_]=_")
 fn Any::_set(Self, String, Self) -> Unit
 fn[T] Any::cast(Self) -> T
+fn Any::to_string(Self) -> String
+impl Show for Any
 
 #external
 pub type Nullable[T]
@@ -84,7 +112,13 @@ fn[T] Nullish::to_option(Self[T]) -> T?
 
 #external
 pub type Object
+fn Object::assign(Any, Any) -> Any
+fn Object::entries(Any) -> Array[Any]
+fn Object::freeze(Any) -> Any
+fn Object::has_own(Any, String) -> Bool
+fn Object::keys(Any) -> Array[String]
 fn Object::new() -> Any
+fn Object::values(Any) -> Array[Any]
 
 #external
 pub type Promise[T]

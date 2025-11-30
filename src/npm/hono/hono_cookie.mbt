@@ -46,7 +46,7 @@ fn build_cookie_options(
   if partitioned is Some(v) {
     obj.set("partitioned", v)
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|

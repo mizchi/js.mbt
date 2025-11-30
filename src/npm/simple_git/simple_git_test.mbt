@@ -4,13 +4,13 @@
 ///|
 test "simpleGit constructor" {
   let git = @simple_git.simpleGit()
-  inspect(git.to_any() |> @js.is_nullish |> not, content="true")
+  inspect(git.as_any() |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
 test "simpleGit with base_dir" {
   let git = @simple_git.simpleGit(base_dir=".")
-  inspect(git.to_any() |> @js.is_nullish |> not, content="true")
+  inspect(git.as_any() |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
@@ -50,7 +50,7 @@ async test "git log latest" {
   let git = @simple_git.simpleGit(base_dir=".")
   let log = git.log(max_count=1)
   let latest = log.latest()
-  inspect(latest |> @js.is_nullish |> not, content="true")
+  inspect(latest |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
@@ -94,7 +94,7 @@ async test "git getRemotes" {
   let git = @simple_git.simpleGit(base_dir=".")
   let remotes = git.getRemotes()
   // Should return array (may be empty if no remotes)
-  inspect(remotes |> @js.is_nullish |> not, content="true")
+  inspect(remotes |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
@@ -102,7 +102,7 @@ async test "git tags" {
   let git = @simple_git.simpleGit(base_dir=".")
   let tags = git.tags()
   // Should return object (may have no tags)
-  inspect(tags |> @js.is_nullish |> not, content="true")
+  inspect(tags |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|

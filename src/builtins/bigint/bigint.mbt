@@ -6,55 +6,49 @@
 pub type JsBigInt
 
 ///|
+/// For backward compatibility with typedarray
 pub impl @js.JsImpl for JsBigInt
 
 ///|
-/// get the BigInt class
-fn bigint_class() -> @js.Any {
-  @js.identity(@js.globalThis().get("BigInt"))
-}
+pub fn JsBigInt::as_any(self : JsBigInt) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: BigInt(value)
-pub fn JsBigInt::from_int(value : Int) -> JsBigInt {
-  bigint_class().call_self([value]).cast()
-}
+pub extern "js" fn JsBigInt::from_int(value : Int) -> JsBigInt =
+  #|(value) => BigInt(value)
 
 ///|
 /// JS: BigInt(value)
-pub fn JsBigInt::from_string(value : String) -> JsBigInt {
-  bigint_class().call_self([value]).cast()
-}
+pub extern "js" fn JsBigInt::from_string(value : String) -> JsBigInt =
+  #|(value) => BigInt(value)
 
 ///|
 /// JS: BigInt.asIntN(bits, bigint)
-pub fn JsBigInt::asIntN(bits : Int, bigint : JsBigInt) -> JsBigInt {
-  bigint_class().call2("asIntN", bits, bigint).cast()
-}
+pub extern "js" fn JsBigInt::asIntN(bits : Int, bigint : JsBigInt) -> JsBigInt =
+  #|(bits, bigint) => BigInt.asIntN(bits, bigint)
 
 ///|
 /// JS: BigInt.asUintN(bits, bigint)
-pub fn JsBigInt::asUintN(bits : Int, bigint : JsBigInt) -> JsBigInt {
-  bigint_class().call2("asUintN", bits, bigint).cast()
-}
+pub extern "js" fn JsBigInt::asUintN(bits : Int, bigint : JsBigInt) -> JsBigInt =
+  #|(bits, bigint) => BigInt.asUintN(bits, bigint)
 
 ///|
 /// JS: bigint.toString()
-pub fn JsBigInt::to_string(self : Self) -> String {
-  self.call0("toString").cast()
-}
+pub extern "js" fn JsBigInt::to_string(self : JsBigInt) -> String =
+  #|(self) => self.toString()
 
 ///|
 /// JS: bigint.toString(radix)
-pub fn JsBigInt::to_string_radix(self : Self, radix : Int) -> String {
-  self.call1("toString", radix).cast()
-}
+pub extern "js" fn JsBigInt::to_string_radix(
+  self : JsBigInt,
+  radix : Int,
+) -> String =
+  #|(self, radix) => self.toString(radix)
 
 ///|
 /// JS: bigint.valueOf()
-pub fn JsBigInt::valueOf(self : Self) -> JsBigInt {
-  self.call0("valueOf").cast()
-}
+pub extern "js" fn JsBigInt::valueOf(self : JsBigInt) -> JsBigInt =
+  #|(self) => self.valueOf()
 
 ///|
 /// JS: a + b

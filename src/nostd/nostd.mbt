@@ -13,6 +13,80 @@ pub type Object
 pub extern "js" fn Object::new() -> Any =
   #| () => ({})
 
+///|
+/// JS: Object.keys(obj)
+pub extern "js" fn Object::keys(obj : Any) -> Array[String] =
+  #| (obj) => Object.keys(obj)
+
+///|
+/// JS: Object.values(obj)
+pub extern "js" fn Object::values(obj : Any) -> Array[Any] =
+  #| (obj) => Object.values(obj)
+
+///|
+/// JS: Object.entries(obj) - returns array of [key, value] pairs
+pub extern "js" fn Object::entries(obj : Any) -> Array[Any] =
+  #| (obj) => Object.entries(obj)
+
+///|
+/// JS: Object.assign(target, ...sources)
+pub extern "js" fn Object::assign(target : Any, source : Any) -> Any =
+  #| (target, source) => Object.assign(target, source)
+
+///|
+/// JS: Object.freeze(obj)
+pub extern "js" fn Object::freeze(obj : Any) -> Any =
+  #| (obj) => Object.freeze(obj)
+
+///|
+/// JS: Object.hasOwn(obj, key) or obj.hasOwnProperty(key)
+pub extern "js" fn Object::has_own(obj : Any, key : String) -> Bool =
+  #| (obj, key) => Object.hasOwn(obj, key)
+
+///| JSON functions
+
+///|
+/// JS: JSON.stringify(value)
+pub extern "js" fn json_stringify(value : Any) -> String =
+  #| (value) => JSON.stringify(value)
+
+///|
+/// JS: JSON.stringify(value, null, space)
+pub extern "js" fn json_stringify_pretty(value : Any, space : Int) -> String =
+  #| (value, space) => JSON.stringify(value, null, space)
+
+///|
+/// JS: JSON.parse(text)
+pub extern "js" fn json_parse(text : String) -> Any =
+  #| (text) => JSON.parse(text)
+
+///| Console functions
+
+///|
+/// JS: console.log(...args)
+pub extern "js" fn console_log(value : Any) -> Unit =
+  #| (value) => console.log(value)
+
+///|
+/// JS: console.error(...args)
+pub extern "js" fn console_error(value : Any) -> Unit =
+  #| (value) => console.error(value)
+
+///|
+/// JS: console.warn(...args)
+pub extern "js" fn console_warn(value : Any) -> Unit =
+  #| (value) => console.warn(value)
+
+///|
+/// JS: console.info(...args)
+pub extern "js" fn console_info(value : Any) -> Unit =
+  #| (value) => console.info(value)
+
+///|
+/// JS: console.debug(...args)
+pub extern "js" fn console_debug(value : Any) -> Unit =
+  #| (value) => console.debug(value)
+
 ///| Zero-cost type conversions using %identity
 /// These are compile-time only and produce no runtime code
 
@@ -24,6 +98,18 @@ pub fn[T] any(value : T) -> Any = "%identity"
 
 ///|
 pub fn[T] Any::cast(self : Any) -> T = "%identity"
+
+///|
+/// Convert Option[Any] to Any (None becomes undefined)
+/// Note: Any? is boxed, so we need FFI to extract the value
+pub extern "js" fn as_any(opt : Any?) -> Any =
+  #| (opt) => opt?._0
+
+///|
+/// Convert Option[T] to Any (None becomes undefined)
+/// Zero-cost: concrete Option[T] compiles to T | undefined in JS
+/// Usage: from_entries([("key", nullable(maybe_value))])
+pub fn[T] nullable(opt : T?) -> Any = "%identity"
 
 ///| JsValue methods
 
@@ -100,6 +186,12 @@ pub extern "js" fn type_of(value : Any) -> String =
   #|(value) => typeof value
 
 ///|
+/// JS: typeof value (alias for type_of)
+pub fn[T] typeof_(value : T) -> String {
+  type_of(any(value))
+}
+
+///|
 /// JS: value instanceof cls
 pub extern "js" fn instance_of(value : Any, cls : Any) -> Bool =
   #|(value, cls) => value instanceof cls
@@ -148,3 +240,30 @@ pub extern "js" fn set_interval(f : () -> Unit, ms : Int) -> Int =
 /// Clear an interval by its ID
 pub extern "js" fn clear_interval(id : Int) -> Unit =
   #| (id) => clearInterval(id)
+
+///|
+/// Convert Array of tuples to JS Object using Object.fromEntries
+/// Tuples compile to {_0, _1} objects, which are converted to [key, value] in FFI
+pub extern "js" fn from_entries(entries : Array[(String, Any)]) -> Any =
+  #| (entries) => Object.fromEntries(entries.map(e => [e._0, e._1]))
+
+///|
+/// Convert Any to string representation
+pub extern "js" fn Any::to_string(self : Any) -> String =
+  #| (self) => self == null ? String(self) : self.toString()
+
+///|
+pub impl Show for Any with output(self, logger) {
+  logger.write_string(self.to_string())
+}
+
+///|
+/// Convert a nullable JS value to Option
+/// Usage: identity_option(js_value) -> Some(value) or None
+pub fn[T] identity_option(v : Any) -> T? {
+  if is_nullish(v) {
+    None
+  } else {
+    Some(identity(v))
+  }
+}

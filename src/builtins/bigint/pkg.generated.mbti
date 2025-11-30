@@ -3,6 +3,7 @@ package "mizchi/js/builtins/bigint"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -15,6 +16,7 @@ pub type JsBigInt
 fn JsBigInt::add(Self, Self) -> Self
 fn JsBigInt::asIntN(Int, Self) -> Self
 fn JsBigInt::asUintN(Int, Self) -> Self
+fn JsBigInt::as_any(Self) -> @nostd.Any
 fn JsBigInt::bitand(Self, Self) -> Self
 fn JsBigInt::bitnot(Self) -> Self
 fn JsBigInt::bitor(Self, Self) -> Self

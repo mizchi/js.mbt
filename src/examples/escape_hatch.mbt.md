@@ -111,7 +111,7 @@ test "error handling with throwable" {
     // Risky JS operation
     let obj = @js.Object::new()
     obj.set("value", 42)
-    obj.to_any()
+    obj.as_any()
   }) catch {
     _ => @js.undefined()
   }

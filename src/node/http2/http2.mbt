@@ -201,7 +201,7 @@ pub fn Http2Session::request(
   self : Http2Session,
   headers : @js.Object,
 ) -> ClientHttp2Stream {
-  self.call("request", [headers.to_any()]).cast()
+  self.call("request", [headers.as_any()]).cast()
 }
 
 ///|
@@ -223,7 +223,7 @@ pub fn ServerHttp2Stream::respond(
   self : ServerHttp2Stream,
   headers : @js.Object,
 ) -> Unit {
-  self.call("respond", [headers.to_any()]) |> ignore
+  self.call("respond", [headers.as_any()]) |> ignore
 }
 
 ///|

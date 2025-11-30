@@ -226,7 +226,7 @@ test "PrepareStepResult::with_messages" {
 }
 
 ///|
-test "PrepareStepResult to_any creates JS object" {
+test "PrepareStepResult as_any creates JS object" {
   let result : PrepareStepResult = {
     model: None,
     active_tools: Some(["search"]),
@@ -235,7 +235,7 @@ test "PrepareStepResult to_any creates JS object" {
     max_tokens: Some(100),
     temperature: None,
   }
-  let js_obj = result.to_any()
+  let js_obj = result.as_any()
   // Check activeTools is set
   let active_tools = js_obj.get("activeTools")
   assert_false(@js.is_undefined(active_tools))
@@ -252,9 +252,9 @@ test "PrepareStepResult to_any creates JS object" {
 }
 
 ///|
-test "StopCondition to_any creates JS function" {
+test "StopCondition as_any creates JS function" {
   let cond = step_count_is(3)
-  let js_fn = cond.to_any()
+  let js_fn = cond.as_any()
   // Verify it's a function
   assert_false(@js.is_undefined(js_fn))
   // Call it with a mock context
@@ -264,10 +264,10 @@ test "StopCondition to_any creates JS function" {
   ctx.set("messages", empty_arr |> @js.from_array)
   ctx.set("toolCalls", empty_arr |> @js.from_array)
   ctx.set("finishReason", "stop")
-  let result1 : Bool = js_fn.call_self([ctx.to_any()]).cast()
+  let result1 : Bool = js_fn.call_self([ctx.as_any()]).cast()
   assert_eq(result1, false)
   // Call with step 3
   ctx.set("stepNumber", 3)
-  let result2 : Bool = js_fn.call_self([ctx.to_any()]).cast()
+  let result2 : Bool = js_fn.call_self([ctx.as_any()]).cast()
   assert_eq(result2, true)
 }

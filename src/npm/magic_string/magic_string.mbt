@@ -8,7 +8,7 @@
 pub type MagicString
 
 ///|
-pub extern "js" fn MagicString::to_any(self : MagicString) -> @nostd.Any =
+pub extern "js" fn MagicString::as_any(self : MagicString) -> @nostd.Any =
   #| (x) => x
 
 ///|
@@ -17,7 +17,7 @@ pub extern "js" fn MagicString::to_any(self : MagicString) -> @nostd.Any =
 pub type SourceMap
 
 ///|
-pub extern "js" fn SourceMap::to_any(self : SourceMap) -> @nostd.Any =
+pub extern "js" fn SourceMap::as_any(self : SourceMap) -> @nostd.Any =
   #| (x) => x
 
 ///|
@@ -26,7 +26,7 @@ pub extern "js" fn SourceMap::to_any(self : SourceMap) -> @nostd.Any =
 pub type Bundle
 
 ///|
-pub extern "js" fn Bundle::to_any(self : Bundle) -> @nostd.Any =
+pub extern "js" fn Bundle::as_any(self : Bundle) -> @nostd.Any =
   #| (x) => x
 
 // FFI imports
@@ -625,19 +625,19 @@ pub fn MagicString::is_empty(self : MagicString) -> Bool {
 ///|
 /// Get the original source string
 pub fn MagicString::original(self : MagicString) -> String {
-  self.to_any()["original"].cast()
+  self.as_any()["original"].cast()
 }
 
 ///|
 /// Get the current offset
 pub fn MagicString::get_offset(self : MagicString) -> Int {
-  self.to_any()["offset"].cast()
+  self.as_any()["offset"].cast()
 }
 
 ///|
 /// Set the offset for position adjustment
 pub fn MagicString::set_offset(self : MagicString, offset : Int) -> Unit {
-  self.to_any()["offset"] = @nostd.any(offset)
+  self.as_any()["offset"] = @nostd.any(offset)
 }
 
 // SourceMap methods
@@ -657,7 +657,7 @@ pub fn SourceMap::to_url(self : SourceMap) -> String {
 ///|
 /// Get the file name
 pub fn SourceMap::file(self : SourceMap) -> String? {
-  let f = self.to_any()["file"]
+  let f = self.as_any()["file"]
   if @nostd.is_nullish(f) {
     None
   } else {
@@ -668,13 +668,13 @@ pub fn SourceMap::file(self : SourceMap) -> String? {
 ///|
 /// Get the sources array
 pub fn SourceMap::sources(self : SourceMap) -> Array[String] {
-  self.to_any()["sources"].cast()
+  self.as_any()["sources"].cast()
 }
 
 ///|
 /// Get the sources content array
 pub fn SourceMap::sources_content(self : SourceMap) -> Array[String]? {
-  let sc = self.to_any()["sourcesContent"]
+  let sc = self.as_any()["sourcesContent"]
   if @nostd.is_nullish(sc) {
     None
   } else {
@@ -685,7 +685,7 @@ pub fn SourceMap::sources_content(self : SourceMap) -> Array[String]? {
 ///|
 /// Get the mappings string
 pub fn SourceMap::mappings(self : SourceMap) -> String {
-  self.to_any()["mappings"].cast()
+  self.as_any()["mappings"].cast()
 }
 
 // Bundle methods
@@ -693,7 +693,7 @@ pub fn SourceMap::mappings(self : SourceMap) -> String {
 ///|
 /// Add a MagicString source to the bundle
 pub fn Bundle::add_source(self : Bundle, source : MagicString) -> Bundle {
-  ffi_bundle_add_source(self, source.to_any())
+  ffi_bundle_add_source(self, source.as_any())
 }
 
 ///|
@@ -705,7 +705,7 @@ pub fn Bundle::add_source_with_filename(
 ) -> Bundle {
   let obj = @nostd.Object::new()
   obj["filename"] = @nostd.any(filename)
-  obj["content"] = content.to_any()
+  obj["content"] = content.as_any()
   ffi_bundle_add_source(self, obj)
 }
 

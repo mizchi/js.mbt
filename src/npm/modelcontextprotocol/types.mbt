@@ -8,7 +8,7 @@ pub enum RequestId {
 } derive(Show, Eq)
 
 ///|
-pub fn RequestId::to_any(self : RequestId) -> @js.Any {
+pub fn RequestId::as_any(self : RequestId) -> @js.Any {
   match self {
     String(s) => @js.identity(s)
     Number(n) => @js.identity(n)
@@ -39,10 +39,10 @@ pub struct JsonRpcRequest {
 }
 
 ///|
-pub fn JsonRpcRequest::to_any(self : JsonRpcRequest) -> @js.Any {
+pub fn JsonRpcRequest::as_any(self : JsonRpcRequest) -> @js.Any {
   @js.from_option_map({
     "jsonrpc": Some(@js.any(self.jsonrpc)),
-    "id": Some(self.id.to_any()),
+    "id": Some(self.id.as_any()),
     "method": Some(@js.any(self.method_name)),
     "params": self.params,
   })
@@ -79,10 +79,10 @@ pub struct JsonRpcResponse {
 }
 
 ///|
-pub fn JsonRpcResponse::to_any(self : JsonRpcResponse) -> @js.Any {
+pub fn JsonRpcResponse::as_any(self : JsonRpcResponse) -> @js.Any {
   @js.from_map({
     "jsonrpc": @js.any(self.jsonrpc),
-    "id": self.id.to_any(),
+    "id": self.id.as_any(),
     "result": self.result,
   })
 }
@@ -96,7 +96,7 @@ pub struct JsonRpcError {
 }
 
 ///|
-pub fn JsonRpcError::to_any(self : JsonRpcError) -> @js.Any {
+pub fn JsonRpcError::as_any(self : JsonRpcError) -> @js.Any {
   @js.from_option_map({
     "code": Some(@js.any(self.code)),
     "message": Some(@js.any(self.message)),
@@ -112,11 +112,11 @@ pub struct JsonRpcErrorResponse {
 }
 
 ///|
-pub fn JsonRpcErrorResponse::to_any(self : JsonRpcErrorResponse) -> @js.Any {
+pub fn JsonRpcErrorResponse::as_any(self : JsonRpcErrorResponse) -> @js.Any {
   @js.from_map({
     "jsonrpc": @js.any(self.jsonrpc),
-    "id": self.id.to_any(),
-    "error": self.error.to_any(),
+    "id": self.id.as_any(),
+    "error": self.error.as_any(),
   })
 }
 
@@ -129,7 +129,7 @@ pub(all) struct JsonRpcNotification {
 }
 
 ///|
-pub fn JsonRpcNotification::to_any(self : JsonRpcNotification) -> @js.Any {
+pub fn JsonRpcNotification::as_any(self : JsonRpcNotification) -> @js.Any {
   @js.from_option_map({
     "jsonrpc": Some(@js.any(self.jsonrpc)),
     "method": Some(@js.any(self.method_name)),

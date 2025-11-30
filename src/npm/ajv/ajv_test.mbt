@@ -71,7 +71,7 @@ test "validate required property" {
   let validate = ajv.compile(schema)
   // Missing required property
   let data = @js.Object::new()
-  assert_eq(validate.validate(data.to_any()), false)
+  assert_eq(validate.validate(data.as_any()), false)
   let errors = validate.errors_array()
   assert_eq(errors[0].keyword, "required")
 }

@@ -45,7 +45,7 @@ pub fn ChildProcess::kill(self : Self, signal? : String) -> Bool {
 ///|
 /// Send a message to the child process (for IPC)
 pub fn ChildProcess::send(self : Self, message : &@js.JsImpl) -> Bool {
-  self.call("send", [message.to_any()]).cast()
+  self.call("send", [message.as_any()]).cast()
 }
 
 ///|

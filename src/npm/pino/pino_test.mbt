@@ -21,35 +21,29 @@ test "Level enum to_number" {
 }
 
 ///|
-test "pino module exists" {
-  let mod = pino_module()
-  @js.typeof_(mod.get("default")) |> assert_eq("function")
-}
-
-///|
 test "create logger with silent level" {
   // Use silent level to avoid stdout output during tests
   let logger = pino(level=Silent)
-  @js.typeof_(logger.get("info")) |> assert_eq("function")
-  @js.typeof_(logger.get("error")) |> assert_eq("function")
+  assert_eq(@nostd.type_of(logger.as_any()["info"]), "function")
+  assert_eq(@nostd.type_of(logger.as_any()["error"]), "function")
 }
 
 ///|
 test "create logger with name option" {
   let logger = pino(level=Silent, name="test-logger")
   // Logger should be created successfully
-  @js.typeof_(logger.get("info")) |> assert_eq("function")
+  assert_eq(@nostd.type_of(logger.as_any()["info"]), "function")
 }
 
 ///|
 test "logger level methods exist" {
   let logger = pino(level=Silent)
-  @js.typeof_(logger.get("trace")) |> assert_eq("function")
-  @js.typeof_(logger.get("debug")) |> assert_eq("function")
-  @js.typeof_(logger.get("info")) |> assert_eq("function")
-  @js.typeof_(logger.get("warn")) |> assert_eq("function")
-  @js.typeof_(logger.get("error")) |> assert_eq("function")
-  @js.typeof_(logger.get("fatal")) |> assert_eq("function")
+  assert_eq(@nostd.type_of(logger.as_any()["trace"]), "function")
+  assert_eq(@nostd.type_of(logger.as_any()["debug"]), "function")
+  assert_eq(@nostd.type_of(logger.as_any()["info"]), "function")
+  assert_eq(@nostd.type_of(logger.as_any()["warn"]), "function")
+  assert_eq(@nostd.type_of(logger.as_any()["error"]), "function")
+  assert_eq(@nostd.type_of(logger.as_any()["fatal"]), "function")
 }
 
 ///|
@@ -63,19 +57,19 @@ test "logger info with silent level" {
 ///|
 test "logger with object silent level" {
   let logger = pino(level=Silent)
-  let obj = @js.Object::new()
-  obj["userId"] = 123
+  let obj = @nostd.Object::new()
+  obj["userId"] = @nostd.any(123)
   // Should not throw
-  logger.info_obj(obj.to_any().cast(), "user logged in")
+  logger.info_obj(obj, "user logged in")
 }
 
 ///|
 test "child logger" {
   let logger = pino(level=Silent)
-  let bindings = @js.Object::new()
-  bindings["requestId"] = "abc123"
-  let child = logger.child(bindings.to_any().cast())
-  @js.typeof_(child.get("info")) |> assert_eq("function")
+  let bindings = @nostd.Object::new()
+  bindings["requestId"] = @nostd.any("abc123")
+  let child = logger.child(bindings)
+  assert_eq(@nostd.type_of(child.as_any()["info"]), "function")
 }
 
 ///|
@@ -107,5 +101,5 @@ test "logger flush" {
 test "logger without timestamp" {
   let logger = pino(level=Silent, timestamp=false)
   // Should create logger without error
-  @js.typeof_(logger.get("info")) |> assert_eq("function")
+  assert_eq(@nostd.type_of(logger.as_any()["info"]), "function")
 }

@@ -42,7 +42,7 @@ pub fn InkUI::text_input(
   on_change? : (String) -> Unit,
   is_disabled? : Bool,
 ) -> @react.Element {
-  let component = self.to_any().get("TextInput")
+  let component = self.as_any().get("TextInput")
   let props = @js.Object::new()
   if placeholder is Some(p) {
     props.set("placeholder", p)
@@ -59,7 +59,7 @@ pub fn InkUI::text_input(
   if is_disabled is Some(d) {
     props.set("isDisabled", d)
   }
-  ffi_create_element(component, props.to_any(), @js.undefined()) |> @js.identity
+  ffi_create_element(component, props.as_any(), @js.undefined()) |> @js.identity
 }
 
 ///|
@@ -73,7 +73,7 @@ pub fn InkUI::email_input(
   on_change? : (String) -> Unit,
   is_disabled? : Bool,
 ) -> @react.Element {
-  let component = self.to_any().get("EmailInput")
+  let component = self.as_any().get("EmailInput")
   let props = @js.Object::new()
   if placeholder is Some(p) {
     props.set("placeholder", p)
@@ -93,7 +93,7 @@ pub fn InkUI::email_input(
   if is_disabled is Some(d) {
     props.set("isDisabled", d)
   }
-  ffi_create_element(component, props.to_any(), @js.undefined()) |> @js.identity
+  ffi_create_element(component, props.as_any(), @js.undefined()) |> @js.identity
 }
 
 ///|
@@ -106,7 +106,7 @@ pub fn InkUI::password_input(
   on_change? : (String) -> Unit,
   is_disabled? : Bool,
 ) -> @react.Element {
-  let component = self.to_any().get("PasswordInput")
+  let component = self.as_any().get("PasswordInput")
   let props = @js.Object::new()
   if placeholder is Some(p) {
     props.set("placeholder", p)
@@ -123,7 +123,7 @@ pub fn InkUI::password_input(
   if is_disabled is Some(d) {
     props.set("isDisabled", d)
   }
-  ffi_create_element(component, props.to_any(), @js.undefined()) |> @js.identity
+  ffi_create_element(component, props.as_any(), @js.undefined()) |> @js.identity
 }
 
 ///|
@@ -134,7 +134,7 @@ pub fn InkUI::confirm_input(
   on_cancel? : () -> Unit,
   is_disabled? : Bool,
 ) -> @react.Element {
-  let component = self.to_any().get("ConfirmInput")
+  let component = self.as_any().get("ConfirmInput")
   let props = @js.Object::new()
   if on_confirm is Some(f) {
     props.set("onConfirm", ffi_wrap_unit_callback(f))
@@ -145,7 +145,7 @@ pub fn InkUI::confirm_input(
   if is_disabled is Some(d) {
     props.set("isDisabled", d)
   }
-  ffi_create_element(component, props.to_any(), @js.undefined()) |> @js.identity
+  ffi_create_element(component, props.as_any(), @js.undefined()) |> @js.identity
 }
 
 // ============================================================
@@ -160,11 +160,11 @@ pub(all) struct SelectOption {
 }
 
 ///|
-fn SelectOption::to_any(self : SelectOption) -> @js.Any {
+fn SelectOption::as_any(self : SelectOption) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("label", self.label)
   obj.set("value", self.value)
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -177,9 +177,9 @@ pub fn InkUI::select(
   visible_option_count? : Int,
   is_disabled? : Bool,
 ) -> @react.Element {
-  let component = self.to_any().get("Select")
+  let component = self.as_any().get("Select")
   let props = @js.Object::new()
-  let opts_arr = options.map(fn(o) { o.to_any() }) |> @js.from_array
+  let opts_arr = options.map(fn(o) { o.as_any() }) |> @js.from_array
   props.set("options", opts_arr)
   if on_change is Some(f) {
     props.set("onChange", ffi_wrap_string_callback(f))
@@ -193,7 +193,7 @@ pub fn InkUI::select(
   if is_disabled is Some(d) {
     props.set("isDisabled", d)
   }
-  ffi_create_element(component, props.to_any(), @js.undefined()) |> @js.identity
+  ffi_create_element(component, props.as_any(), @js.undefined()) |> @js.identity
 }
 
 ///|
@@ -206,9 +206,9 @@ pub fn InkUI::multi_select(
   visible_option_count? : Int,
   is_disabled? : Bool,
 ) -> @react.Element {
-  let component = self.to_any().get("MultiSelect")
+  let component = self.as_any().get("MultiSelect")
   let props = @js.Object::new()
-  let opts_arr = options.map(fn(o) { o.to_any() }) |> @js.from_array
+  let opts_arr = options.map(fn(o) { o.as_any() }) |> @js.from_array
   props.set("options", opts_arr)
   if on_change is Some(f) {
     props.set("onChange", ffi_wrap_string_array_callback(f))
@@ -222,7 +222,7 @@ pub fn InkUI::multi_select(
   if is_disabled is Some(d) {
     props.set("isDisabled", d)
   }
-  ffi_create_element(component, props.to_any(), @js.undefined()) |> @js.identity
+  ffi_create_element(component, props.as_any(), @js.undefined()) |> @js.identity
 }
 
 // ============================================================
@@ -232,21 +232,21 @@ pub fn InkUI::multi_select(
 ///|
 /// Spinner component - Loading indicator
 pub fn InkUI::spinner(self : InkUI, label? : String) -> @react.Element {
-  let component = self.to_any().get("Spinner")
+  let component = self.as_any().get("Spinner")
   let props = @js.Object::new()
   if label is Some(l) {
     props.set("label", l)
   }
-  ffi_create_element(component, props.to_any(), @js.undefined()) |> @js.identity
+  ffi_create_element(component, props.as_any(), @js.undefined()) |> @js.identity
 }
 
 ///|
 /// ProgressBar component - Progress indicator (0-100)
 pub fn InkUI::progress_bar(self : InkUI, value : Int) -> @react.Element {
-  let component = self.to_any().get("ProgressBar")
+  let component = self.as_any().get("ProgressBar")
   let props = @js.Object::new()
   props.set("value", value)
-  ffi_create_element(component, props.to_any(), @js.undefined()) |> @js.identity
+  ffi_create_element(component, props.as_any(), @js.undefined()) |> @js.identity
 }
 
 ///|
@@ -283,13 +283,13 @@ pub fn InkUI::badge(
   children : Array[&@react.ReactNode],
   color? : BadgeColor,
 ) -> @react.Element {
-  let component = self.to_any().get("Badge")
+  let component = self.as_any().get("Badge")
   let props = @js.Object::new()
   if color is Some(c) {
     props.set("color", c.to_string())
   }
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(component, props.to_any(), children_arr) |> @js.identity
+  ffi_create_element(component, props.as_any(), children_arr) |> @js.identity
 }
 
 ///|
@@ -318,11 +318,11 @@ pub fn InkUI::status_message(
   children : Array[&@react.ReactNode],
   variant : StatusVariant,
 ) -> @react.Element {
-  let component = self.to_any().get("StatusMessage")
+  let component = self.as_any().get("StatusMessage")
   let props = @js.Object::new()
   props.set("variant", variant.to_string())
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(component, props.to_any(), children_arr) |> @js.identity
+  ffi_create_element(component, props.as_any(), children_arr) |> @js.identity
 }
 
 ///|
@@ -333,14 +333,14 @@ pub fn InkUI::alert(
   variant : StatusVariant,
   title? : String,
 ) -> @react.Element {
-  let component = self.to_any().get("Alert")
+  let component = self.as_any().get("Alert")
   let props = @js.Object::new()
   props.set("variant", variant.to_string())
   if title is Some(t) {
     props.set("title", t)
   }
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(component, props.to_any(), children_arr) |> @js.identity
+  ffi_create_element(component, props.as_any(), children_arr) |> @js.identity
 }
 
 // ============================================================
@@ -353,10 +353,10 @@ pub fn InkUI::unordered_list(
   self : InkUI,
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
-  let component = self.to_any().get("UnorderedList")
+  let component = self.as_any().get("UnorderedList")
   let props = @js.Object::new()
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(component, props.to_any(), children_arr) |> @js.identity
+  ffi_create_element(component, props.as_any(), children_arr) |> @js.identity
 }
 
 ///|
@@ -365,10 +365,10 @@ pub fn InkUI::unordered_list_item(
   self : InkUI,
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
-  let component = self.to_any().get("UnorderedList").get("Item")
+  let component = self.as_any().get("UnorderedList").get("Item")
   let props = @js.Object::new()
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(component, props.to_any(), children_arr) |> @js.identity
+  ffi_create_element(component, props.as_any(), children_arr) |> @js.identity
 }
 
 ///|
@@ -377,10 +377,10 @@ pub fn InkUI::ordered_list(
   self : InkUI,
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
-  let component = self.to_any().get("OrderedList")
+  let component = self.as_any().get("OrderedList")
   let props = @js.Object::new()
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(component, props.to_any(), children_arr) |> @js.identity
+  ffi_create_element(component, props.as_any(), children_arr) |> @js.identity
 }
 
 ///|
@@ -389,10 +389,10 @@ pub fn InkUI::ordered_list_item(
   self : InkUI,
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
-  let component = self.to_any().get("OrderedList").get("Item")
+  let component = self.as_any().get("OrderedList").get("Item")
   let props = @js.Object::new()
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(component, props.to_any(), children_arr) |> @js.identity
+  ffi_create_element(component, props.as_any(), children_arr) |> @js.identity
 }
 
 // ============================================================
@@ -410,7 +410,7 @@ pub impl @js.JsImpl for Theme
 ///|
 /// Get the default theme
 pub fn InkUI::default_theme(self : InkUI) -> Theme {
-  self.to_any().get("defaultTheme") |> @js.identity
+  self.as_any().get("defaultTheme") |> @js.identity
 }
 
 ///|
@@ -420,17 +420,17 @@ pub fn InkUI::theme_provider(
   children : Array[&@react.ReactNode],
   theme : Theme,
 ) -> @react.Element {
-  let component = self.to_any().get("ThemeProvider")
+  let component = self.as_any().get("ThemeProvider")
   let props = @js.Object::new()
-  props.set("theme", theme.to_any())
+  props.set("theme", theme.as_any())
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(component, props.to_any(), children_arr) |> @js.identity
+  ffi_create_element(component, props.as_any(), children_arr) |> @js.identity
 }
 
 ///|
 /// Extend the default theme with custom values
 pub fn InkUI::extend_theme(self : InkUI, extension : @js.Any) -> Theme {
-  let extend_fn = self.to_any().get("extendTheme")
+  let extend_fn = self.as_any().get("extendTheme")
   extend_fn.call_self([extension]) |> @js.identity
 }
 

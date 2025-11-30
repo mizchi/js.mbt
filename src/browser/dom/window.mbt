@@ -294,8 +294,8 @@ pub fn Window::getComputedStyle(
   pseudo_elt? : String,
 ) -> @js.Any {
   match pseudo_elt {
-    Some(p) => self.call2("getComputedStyle", element.to_any(), p).cast()
-    None => self.call1("getComputedStyle", element.to_any()).cast()
+    Some(p) => self.call2("getComputedStyle", element.as_any(), p).cast()
+    None => self.call1("getComputedStyle", element.as_any()).cast()
   }
 }
 
@@ -321,7 +321,7 @@ pub fn Window::postMessage(
     Some(t) =>
       ignore(
         self
-        .to_any()
+        .as_any()
         .call("postMessage", [message, target_origin, @js.from_array(t)]),
       )
     None => ignore(self.call2("postMessage", message, target_origin))

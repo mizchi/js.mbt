@@ -15,7 +15,7 @@ pub impl @js.JsImpl for AuthClient
 pub fn createAuthClient(base_url~ : String) -> AuthClient {
   let obj = @js.Object::new()
   obj.set("baseURL", base_url)
-  ffi_create_auth_client(obj.to_any()).cast()
+  ffi_create_auth_client(obj.as_any()).cast()
 }
 
 ///|

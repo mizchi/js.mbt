@@ -66,7 +66,7 @@ pub fn writeFileSync(
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call2("writeFileSync", path, data.to_any()) |> ignore
+    fs.call2("writeFileSync", path, data.as_any()) |> ignore
   })
 }
 
@@ -79,7 +79,7 @@ pub fn append_file_sync(
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
     let fs = fs_module()
-    fs.call2("appendFileSync", path, data.to_any()) |> ignore
+    fs.call2("appendFileSync", path, data.as_any()) |> ignore
   })
 }
 

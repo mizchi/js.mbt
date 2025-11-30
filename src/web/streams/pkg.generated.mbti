@@ -3,6 +3,7 @@ package "mizchi/js/web/streams"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -14,6 +15,7 @@ pub(all) struct CompressionStream {
   readable : ReadableStream
   writable : WritableStream
 }
+fn CompressionStream::as_any(Self) -> @nostd.Any
 fn CompressionStream::new(String) -> Self
 impl @js.JsImpl for CompressionStream
 
@@ -21,12 +23,14 @@ pub(all) struct DecompressionStream {
   readable : ReadableStream
   writable : WritableStream
 }
+fn DecompressionStream::as_any(Self) -> @nostd.Any
 fn DecompressionStream::new(String) -> Self
 impl @js.JsImpl for DecompressionStream
 
 pub(all) struct ReadableStream {
   locked : Bool
 }
+fn ReadableStream::as_any(Self) -> @nostd.Any
 async fn[T : @js.JsImpl] ReadableStream::cancel(Self, reason? : T) -> Unit
 #alias(get_reader)
 fn ReadableStream::getReader(Self) -> ReadableStreamDefaultReader
@@ -41,6 +45,7 @@ impl @js.JsImpl for ReadableStream
 pub(all) struct ReadableStreamDefaultReader {
   closed : @js.Promise[Unit]
 }
+fn ReadableStreamDefaultReader::as_any(Self) -> @nostd.Any
 async fn[T : @js.JsImpl] ReadableStreamDefaultReader::cancel(Self, reason? : T) -> Unit
 async fn ReadableStreamDefaultReader::read(Self) -> @js.Any
 #alias(release_lock)
@@ -51,6 +56,7 @@ pub(all) struct TransformStream {
   readable : ReadableStream
   writable : WritableStream
 }
+fn TransformStream::as_any(Self) -> @nostd.Any
 fn TransformStream::new(@js.Any) -> Self
 #alias(newIdentity)
 fn TransformStream::new_identity() -> Self
@@ -60,6 +66,7 @@ pub(all) struct WritableStream {
   locked : Bool
 }
 async fn[T : @js.JsImpl] WritableStream::abort(Self, reason? : T) -> Unit
+fn WritableStream::as_any(Self) -> @nostd.Any
 async fn WritableStream::close(Self) -> Unit
 #alias(get_writer)
 fn WritableStream::getWriter(Self) -> WritableStreamDefaultWriter
@@ -72,6 +79,7 @@ pub(all) struct WritableStreamDefaultWriter {
   desiredSize : @js.Nullable[Int]
 }
 async fn[T : @js.JsImpl] WritableStreamDefaultWriter::abort(Self, reason? : T) -> Unit
+fn WritableStreamDefaultWriter::as_any(Self) -> @nostd.Any
 async fn WritableStreamDefaultWriter::close(Self) -> Unit
 #alias(release_lock)
 fn WritableStreamDefaultWriter::releaseLock(Self) -> Unit

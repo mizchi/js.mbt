@@ -1,12 +1,12 @@
 ///|
-extern "js" fn ffi_new_url_pattern(pattern : @js.Any) -> @js.Any =
+extern "js" fn ffi_new_url_pattern(pattern : @nostd.Any) -> @nostd.Any =
   #|(pattern) => new URLPattern(pattern)
 
 ///|
 extern "js" fn ffi_new_url_pattern_with_base(
-  pattern : @js.Any,
+  pattern : @nostd.Any,
   base : String,
-) -> @js.Any =
+) -> @nostd.Any =
   #|(pattern, base) => new URLPattern(pattern, base)
 
 ///|
@@ -23,16 +23,18 @@ pub(all) struct URLPattern {
 }
 
 ///|
-pub impl @js.JsImpl for URLPattern
+pub fn URLPattern::as_any(self : URLPattern) -> @nostd.Any = "%identity"
 
 ///|
 pub(all) struct URLPatternComponentResult {
   input : String
-  groups : @js.Any
+  groups : @nostd.Any
 }
 
 ///|
-pub impl @js.JsImpl for URLPatternComponentResult
+pub fn URLPatternComponentResult::as_any(
+  self : URLPatternComponentResult,
+) -> @nostd.Any = "%identity"
 
 ///|
 pub(all) struct URLPatternResult {
@@ -48,15 +50,15 @@ pub(all) struct URLPatternResult {
 }
 
 ///|
-pub impl @js.JsImpl for URLPatternResult
+pub fn URLPatternResult::as_any(self : URLPatternResult) -> @nostd.Any = "%identity"
 
 ///|
 /// Create a new URLPattern from a pattern string
 pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
-  let pattern_val = @js.unsafe_any(pattern)
+  let pattern_val = @nostd.any(pattern)
   match base {
-    Some(b) => @js.identity(ffi_new_url_pattern_with_base(pattern_val, b))
-    None => @js.identity(ffi_new_url_pattern(pattern_val))
+    Some(b) => @nostd.identity(ffi_new_url_pattern_with_base(pattern_val, b))
+    None => @nostd.identity(ffi_new_url_pattern(pattern_val))
   }
 }
 
@@ -64,19 +66,19 @@ pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
 /// Create a new URLPattern from a pattern object
 #alias(new_from_object)
 pub fn URLPattern::newFromObject(
-  pattern : @js.Any,
+  pattern : @nostd.Any,
   base? : String,
 ) -> URLPattern {
   match base {
-    Some(b) => @js.identity(ffi_new_url_pattern_with_base(pattern, b))
-    None => @js.identity(ffi_new_url_pattern(pattern))
+    Some(b) => @nostd.identity(ffi_new_url_pattern_with_base(pattern, b))
+    None => @nostd.identity(ffi_new_url_pattern(pattern))
   }
 }
 
 ///|
 /// Test if a URL string matches the pattern
 pub fn URLPattern::test_url(self : Self, input : String) -> Bool {
-  self.call("test", [input]).cast()
+  self.as_any()._call("test", [@nostd.any(input)]).cast()
 }
 
 ///|
@@ -87,20 +89,17 @@ pub fn URLPattern::test_url_with_base(
   base? : String,
 ) -> Bool {
   match base {
-    Some(b) => self.call2("test", input, b).cast()
-    None => self.call("test", [input]).cast()
+    Some(b) =>
+      self.as_any()._call("test", [@nostd.any(input), @nostd.any(b)]).cast()
+    None => self.as_any()._call("test", [@nostd.any(input)]).cast()
   }
 }
 
 ///|
-extern "js" fn ffi_is_null(v : @js.Any) -> Bool =
-  #|(v) => v === null
-
-///|
 /// Execute the pattern against a URL and return match result
 pub fn URLPattern::exec(self : Self, input : String) -> URLPatternResult? {
-  let result = self.call("exec", [input])
-  if ffi_is_null(result) {
+  let result = self.as_any()._call("exec", [@nostd.any(input)])
+  if @nostd.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -116,10 +115,10 @@ pub fn URLPattern::execWithBase(
   base? : String,
 ) -> URLPatternResult? {
   let result = match base {
-    Some(b) => self.call2("exec", input, b)
-    None => self.call("exec", [input])
+    Some(b) => self.as_any()._call("exec", [@nostd.any(input), @nostd.any(b)])
+    None => self.as_any()._call("exec", [@nostd.any(input)])
   }
-  if ffi_is_null(result) {
+  if @nostd.is_nullish(result) {
     None
   } else {
     Some(result.cast())

@@ -88,7 +88,7 @@ async test "Node Stream: Readable unpipe" {
 async test "Node Stream: Readable destroy" {
   let readable = create_readable_from_string("destroy test")
   // Destroy without error - stream will handle it
-  ignore(readable.to_any().call0("destroy"))
+  ignore(readable.as_any().call0("destroy"))
   @js.sleep(16)
   // After destroy, stream should be closed
   assert_eq(readable.closed(), true)
@@ -124,7 +124,7 @@ async test "Node Stream: Writable cork/uncork" {
 async test "Node Stream: Writable destroy" {
   let writable : @stream.Writable = @js.identity(create_writable_to_array())
   // Destroy without error - stream will handle it
-  ignore(writable.to_any().call0("destroy"))
+  ignore(writable.as_any().call0("destroy"))
   @js.sleep(16)
   assert_eq(writable.closed(), true)
 }
@@ -133,7 +133,7 @@ async test "Node Stream: Writable destroy" {
 async test "Node Stream: Writable end" {
   let writable : @stream.Writable = @js.identity(create_writable_to_array())
   // Call end without chunk - use call directly
-  ignore(writable.to_any().call0("end"))
+  ignore(writable.as_any().call0("end"))
   @js.sleep(16)
   assert_eq(writable.writableEnded(), true)
 }

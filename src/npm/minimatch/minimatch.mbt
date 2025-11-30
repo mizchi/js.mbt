@@ -7,9 +7,8 @@
 
 ///|
 /// Get the minimatch module instance
-fn minimatch_mod() -> @js.Any {
-  @node.require("minimatch")
-}
+extern "js" fn minimatch_mod() -> @nostd.Any =
+  #| () => require("minimatch")
 
 ///|
 /// Minimatch options
@@ -64,46 +63,46 @@ pub fn MinimatchOptions::default() -> MinimatchOptions {
 
 ///|
 /// Convert options to JS object
-fn options_to_js(options : MinimatchOptions) -> @js.Any {
-  let obj = @js.Object::new()
+fn options_to_js(options : MinimatchOptions) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if options.debug {
-    obj.set("debug", @js.any(true))
+    obj["debug"] = @nostd.any(true)
   }
   if options.nobrace {
-    obj.set("nobrace", @js.any(true))
+    obj["nobrace"] = @nostd.any(true)
   }
   if options.noglobstar {
-    obj.set("noglobstar", @js.any(true))
+    obj["noglobstar"] = @nostd.any(true)
   }
   if options.dot {
-    obj.set("dot", @js.any(true))
+    obj["dot"] = @nostd.any(true)
   }
   if options.nonull {
-    obj.set("nonull", @js.any(true))
+    obj["nonull"] = @nostd.any(true)
   }
   if options.match_base {
-    obj.set("matchBase", @js.any(true))
+    obj["matchBase"] = @nostd.any(true)
   }
   if options.nocomment {
-    obj.set("nocomment", @js.any(true))
+    obj["nocomment"] = @nostd.any(true)
   }
   if options.nonegate {
-    obj.set("nonegate", @js.any(true))
+    obj["nonegate"] = @nostd.any(true)
   }
   if options.flip_negate {
-    obj.set("flipNegate", @js.any(true))
+    obj["flipNegate"] = @nostd.any(true)
   }
   if options.partial {
-    obj.set("partial", @js.any(true))
+    obj["partial"] = @nostd.any(true)
   }
   if options.magical_braces {
-    obj.set("magicalBraces", @js.any(true))
+    obj["magicalBraces"] = @nostd.any(true)
   }
   if options.windows_paths_no_escape {
-    obj.set("windowsPathsNoEscape", @js.any(true))
+    obj["windowsPathsNoEscape"] = @nostd.any(true)
   }
   if options.nocase {
-    obj.set("nocase", @js.any(true))
+    obj["nocase"] = @nostd.any(true)
   }
   obj
 }
@@ -117,7 +116,9 @@ fn options_to_js(options : MinimatchOptions) -> @js.Any {
 /// minimatch("bar.foo", "*.bar") // false
 /// ```
 pub fn minimatch(path : String, pattern : String) -> Bool {
-  minimatch_mod().call2("minimatch", path, pattern).cast()
+  minimatch_mod()
+  ._call("minimatch", [@nostd.any(path), @nostd.any(pattern)])
+  .cast()
 }
 
 ///|
@@ -128,7 +129,11 @@ pub fn minimatch_with_options(
   options : MinimatchOptions,
 ) -> Bool {
   minimatch_mod()
-  .call("minimatch", [path, pattern, options_to_js(options)])
+  ._call("minimatch", [
+    @nostd.any(path),
+    @nostd.any(pattern),
+    options_to_js(options),
+  ])
   .cast()
 }
 
@@ -136,7 +141,7 @@ pub fn minimatch_with_options(
 /// Match against a list of files
 /// Returns matching files, or pattern itself if nonull is set and nothing matches
 pub fn match_list(list : Array[String], pattern : String) -> Array[String] {
-  minimatch_mod().call("match", [@js.from_array(list), pattern]) |> @js.identity
+  minimatch_mod()._call("match", [@nostd.any(list), @nostd.any(pattern)]).cast()
 }
 
 ///|
@@ -146,20 +151,21 @@ pub fn match_list_with_options(
   pattern : String,
   options : MinimatchOptions,
 ) -> Array[String] {
-  minimatch_mod().call("match", [
-    @js.from_array(list),
-    pattern,
+  minimatch_mod()
+  ._call("match", [
+    @nostd.any(list),
+    @nostd.any(pattern),
     options_to_js(options),
   ])
-  |> @js.identity
+  .cast()
 }
 
 ///|
 /// Create a filter function suitable for Array.filter
 /// Returns the filter function
-pub fn filter(pattern : String) -> (@js.Any) -> Bool {
-  let filter_fn = minimatch_mod().call1("filter", pattern)
-  fn(item : @js.Any) -> Bool { filter_fn.call1("call", item).cast() }
+pub fn filter(pattern : String) -> (@nostd.Any) -> Bool {
+  let filter_fn = minimatch_mod()._call("filter", [@nostd.any(pattern)])
+  fn(item : @nostd.Any) -> Bool { filter_fn._call("call", [item]).cast() }
 }
 
 ///|
@@ -167,20 +173,20 @@ pub fn filter(pattern : String) -> (@js.Any) -> Bool {
 pub fn filter_with_options(
   pattern : String,
   options : MinimatchOptions,
-) -> (@js.Any) -> Bool {
-  let filter_fn = minimatch_mod().call("filter", [
-    pattern,
+) -> (@nostd.Any) -> Bool {
+  let filter_fn = minimatch_mod()._call("filter", [
+    @nostd.any(pattern),
     options_to_js(options),
   ])
-  fn(item : @js.Any) -> Bool { filter_fn.call1("call", item).cast() }
+  fn(item : @nostd.Any) -> Bool { filter_fn._call("call", [item]).cast() }
 }
 
 ///|
 /// Make a regular expression from the pattern
 /// Returns the RegExp object or None if pattern is invalid
-pub fn make_re(pattern : String) -> @js.Any? {
-  let result = minimatch_mod().call1("makeRe", pattern)
-  if @js.is_nullish(result) {
+pub fn make_re(pattern : String) -> @nostd.Any? {
+  let result = minimatch_mod()._call("makeRe", [@nostd.any(pattern)])
+  if @nostd.is_nullish(result) {
     None
   } else {
     Some(result)
@@ -192,9 +198,12 @@ pub fn make_re(pattern : String) -> @js.Any? {
 pub fn make_re_with_options(
   pattern : String,
   options : MinimatchOptions,
-) -> @js.Any? {
-  let result = minimatch_mod().call("makeRe", [pattern, options_to_js(options)])
-  if @js.is_nullish(result) {
+) -> @nostd.Any? {
+  let result = minimatch_mod()._call("makeRe", [
+    @nostd.any(pattern),
+    options_to_js(options),
+  ])
+  if @nostd.is_nullish(result) {
     None
   } else {
     Some(result)
@@ -205,7 +214,7 @@ pub fn make_re_with_options(
 /// Escape all magic characters in a glob pattern
 /// So it will only match literal strings
 pub fn escape(pattern : String) -> String {
-  minimatch_mod().call1("escape", pattern).cast()
+  minimatch_mod()._call("escape", [@nostd.any(pattern)]).cast()
 }
 
 ///|
@@ -214,13 +223,15 @@ pub fn escape_with_options(
   pattern : String,
   options : MinimatchOptions,
 ) -> String {
-  minimatch_mod().call("escape", [pattern, options_to_js(options)]).cast()
+  minimatch_mod()
+  ._call("escape", [@nostd.any(pattern), options_to_js(options)])
+  .cast()
 }
 
 ///|
 /// Un-escape a glob string that may contain escaped characters
 pub fn unescape(pattern : String) -> String {
-  minimatch_mod().call1("unescape", pattern).cast()
+  minimatch_mod()._call("unescape", [@nostd.any(pattern)]).cast()
 }
 
 ///|
@@ -229,15 +240,17 @@ pub fn unescape_with_options(
   pattern : String,
   options : MinimatchOptions,
 ) -> String {
-  minimatch_mod().call("unescape", [pattern, options_to_js(options)]).cast()
+  minimatch_mod()
+  ._call("unescape", [@nostd.any(pattern), options_to_js(options)])
+  .cast()
 }
 
 ///|
 /// Minimatch class instance for reusable pattern matching
-pub struct Minimatch(@js.Any)
+pub struct Minimatch(@nostd.Any)
 
 ///|
-extern "js" fn ffi_new_minimatch(pattern : String) -> @js.Any =
+extern "js" fn ffi_new_minimatch(pattern : String) -> @nostd.Any =
   #|(pattern) => {
   #|  const { Minimatch } = require('minimatch');
   #|  return new Minimatch(pattern);
@@ -246,8 +259,8 @@ extern "js" fn ffi_new_minimatch(pattern : String) -> @js.Any =
 ///|
 extern "js" fn ffi_new_minimatch_with_options(
   pattern : String,
-  options : @js.Any,
-) -> @js.Any =
+  options : @nostd.Any,
+) -> @nostd.Any =
   #|(pattern, options) => {
   #|  const { Minimatch } = require('minimatch');
   #|  return new Minimatch(pattern, options);
@@ -271,26 +284,26 @@ pub fn Minimatch::new_with_options(
 ///|
 /// Get the pattern string
 pub fn Minimatch::pattern(self : Minimatch) -> String {
-  self.0.get("pattern").cast()
+  self.0["pattern"].cast()
 }
 
 ///|
 /// Test if a path matches this pattern
 pub fn Minimatch::match_(self : Minimatch, path : String) -> Bool {
-  self.0.call1("match", path).cast()
+  self.0._call("match", [@nostd.any(path)]).cast()
 }
 
 ///|
 /// Check if the pattern has any magic glob characters
 pub fn Minimatch::has_magic(self : Minimatch) -> Bool {
-  self.0.call0("hasMagic").cast()
+  self.0._call("hasMagic", []).cast()
 }
 
 ///|
 /// Get the generated RegExp (may be false if pattern is invalid)
-pub fn Minimatch::regexp(self : Minimatch) -> @js.Any? {
-  let result = self.0.get("regexp")
-  if @js.is_nullish(result) || @js.typeof_(result) == "boolean" {
+pub fn Minimatch::regexp(self : Minimatch) -> @nostd.Any? {
+  let result = self.0["regexp"]
+  if @nostd.is_nullish(result) || @nostd.type_of(result) == "boolean" {
     None
   } else {
     Some(result)
@@ -300,19 +313,19 @@ pub fn Minimatch::regexp(self : Minimatch) -> @js.Any? {
 ///|
 /// Get the negate flag
 pub fn Minimatch::negate(self : Minimatch) -> Bool {
-  self.0.get("negate").cast()
+  self.0["negate"].cast()
 }
 
 ///|
 /// Get the comment flag (pattern starts with #)
 pub fn Minimatch::comment(self : Minimatch) -> Bool {
-  self.0.get("comment").cast()
+  self.0["comment"].cast()
 }
 
 ///|
 /// Get the empty flag (pattern is empty string)
 pub fn Minimatch::empty(self : Minimatch) -> Bool {
-  self.0.get("empty").cast()
+  self.0["empty"].cast()
 }
 
 ///|

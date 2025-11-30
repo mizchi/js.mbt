@@ -24,7 +24,7 @@ pub fn ZlibOptions::new() -> ZlibOptions {
 
 ///|
 /// Convert ZlibOptions to JavaScript object
-pub fn ZlibOptions::to_any(self : ZlibOptions) -> @js.Any {
+pub fn ZlibOptions::as_any(self : ZlibOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.level {
     Some(v) => obj.set("level", v)
@@ -46,7 +46,7 @@ pub fn ZlibOptions::to_any(self : ZlibOptions) -> @js.Any {
     Some(v) => obj.set("windowBits", v)
     None => ()
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -68,7 +68,7 @@ pub fn gzip(
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
-  ffi_gzip(buffer.to_any(), options.to_any(), cb)
+  ffi_gzip(buffer.as_any(), options.as_any(), cb)
 }
 
 ///|
@@ -90,7 +90,7 @@ pub fn gunzip(
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
-  ffi_gunzip(buffer.to_any(), options.to_any(), cb)
+  ffi_gunzip(buffer.as_any(), options.as_any(), cb)
 }
 
 ///|
@@ -112,7 +112,7 @@ pub fn deflate(
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
-  ffi_deflate(buffer.to_any(), options.to_any(), cb)
+  ffi_deflate(buffer.as_any(), options.as_any(), cb)
 }
 
 ///|
@@ -134,7 +134,7 @@ pub fn inflate(
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
-  ffi_inflate(buffer.to_any(), options.to_any(), cb)
+  ffi_inflate(buffer.as_any(), options.as_any(), cb)
 }
 
 ///|
@@ -156,7 +156,7 @@ pub fn brotli_compress(
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
-  ffi_brotli_compress(buffer.to_any(), options.to_any(), cb)
+  ffi_brotli_compress(buffer.as_any(), options.as_any(), cb)
 }
 
 ///|
@@ -178,7 +178,7 @@ pub fn brotli_decompress(
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
-  ffi_brotli_decompress(buffer.to_any(), options.to_any(), cb)
+  ffi_brotli_decompress(buffer.as_any(), options.as_any(), cb)
 }
 
 ///|
@@ -200,7 +200,7 @@ pub fn unzip(
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
-  ffi_unzip(buffer.to_any(), options.to_any(), cb)
+  ffi_unzip(buffer.as_any(), options.as_any(), cb)
 }
 
 ///|
@@ -221,7 +221,7 @@ extern "js" fn ffi_create_gzip(options : @js.Any) -> Gzip =
 ///|
 /// Create a Gzip compression stream
 pub fn create_gzip(options : ZlibOptions) -> Gzip {
-  ffi_create_gzip(options.to_any())
+  ffi_create_gzip(options.as_any())
 }
 
 ///|
@@ -242,7 +242,7 @@ extern "js" fn ffi_create_gunzip(options : @js.Any) -> Gunzip =
 ///|
 /// Create a Gunzip decompression stream
 pub fn create_gunzip(options : ZlibOptions) -> Gunzip {
-  ffi_create_gunzip(options.to_any())
+  ffi_create_gunzip(options.as_any())
 }
 
 ///|
@@ -263,7 +263,7 @@ extern "js" fn ffi_create_deflate(options : @js.Any) -> Deflate =
 ///|
 /// Create a Deflate compression stream
 pub fn create_deflate(options : ZlibOptions) -> Deflate {
-  ffi_create_deflate(options.to_any())
+  ffi_create_deflate(options.as_any())
 }
 
 ///|
@@ -284,7 +284,7 @@ extern "js" fn ffi_create_inflate(options : @js.Any) -> Inflate =
 ///|
 /// Create an Inflate decompression stream
 pub fn create_inflate(options : ZlibOptions) -> Inflate {
-  ffi_create_inflate(options.to_any())
+  ffi_create_inflate(options.as_any())
 }
 
 ///|
@@ -305,7 +305,7 @@ extern "js" fn ffi_create_brotli_compress(options : @js.Any) -> BrotliCompress =
 ///|
 /// Create a Brotli compression stream
 pub fn create_brotli_compress(options : ZlibOptions) -> BrotliCompress {
-  ffi_create_brotli_compress(options.to_any())
+  ffi_create_brotli_compress(options.as_any())
 }
 
 ///|
@@ -328,5 +328,5 @@ extern "js" fn ffi_create_brotli_decompress(
 ///|
 /// Create a Brotli decompression stream
 pub fn create_brotli_decompress(options : ZlibOptions) -> BrotliDecompress {
-  ffi_create_brotli_decompress(options.to_any())
+  ffi_create_brotli_decompress(options.as_any())
 }

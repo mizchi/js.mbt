@@ -2,11 +2,11 @@
 package "mizchi/js/web/console"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn assert_(Bool, &@js.JsImpl) -> Unit
+fn assert_(Bool, @nostd.Any) -> Unit
 
 fn clear() -> Unit
 
@@ -14,29 +14,29 @@ fn count(String) -> Unit
 
 fn countReset(String) -> Unit
 
-fn debug(&@js.JsImpl) -> Unit
+fn debug(@nostd.Any) -> Unit
 
-fn dir(&@js.JsImpl) -> Unit
+fn dir(@nostd.Any) -> Unit
 
-fn error(&@js.JsImpl) -> Unit
+fn error(@nostd.Any) -> Unit
 
 fn group(String) -> Unit
 
 fn groupEnd() -> Unit
 
-fn info(&@js.JsImpl) -> Unit
+fn info(@nostd.Any) -> Unit
 
-fn log(&@js.JsImpl) -> Unit
+fn log(@nostd.Any) -> Unit
 
-fn table(&@js.JsImpl, Array[String]) -> Unit
+fn table(@nostd.Any, Array[String]) -> Unit
 
 fn time(String) -> Unit
 
 fn timeEnd(String) -> Unit
 
-fn trace(&@js.JsImpl) -> Unit
+fn trace(@nostd.Any) -> Unit
 
-fn warn(&@js.JsImpl) -> Unit
+fn warn(@nostd.Any) -> Unit
 
 // Errors
 

@@ -2,7 +2,7 @@
 package "mizchi/js/npm/pg"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -12,47 +12,47 @@ import(
 // Types and methods
 #external
 pub type Client
+fn Client::as_any(Self) -> @nostd.Any
 async fn Client::connect(Self) -> Unit
 async fn Client::end(Self) -> Unit
 #alias(end_sync)
-fn Client::endSync(Self) -> @js.Promise[Unit]
+fn Client::endSync(Self) -> @nostd.Promise[Unit]
 #alias(new_client)
-fn Client::new(connection_string? : String, user? : String, password? : String, host? : String, port? : Int, database? : String, ssl? : @js.Any, statement_timeout? : Int, query_timeout? : Int, connection_timeout_millis? : Int, application_name? : String) -> Self
-async fn Client::query(Self, String, params? : Array[@js.Any]) -> QueryResult
-impl @js.JsImpl for Client
+fn Client::new(connection_string? : String, user? : String, password? : String, host? : String, port? : Int, database? : String, ssl? : @nostd.Any, statement_timeout? : Int, query_timeout? : Int, connection_timeout_millis? : Int, application_name? : String) -> Self
+async fn Client::query(Self, String, params? : Array[@nostd.Any]) -> QueryResult
 
 #external
 pub type Pool
+fn Pool::as_any(Self) -> @nostd.Any
 async fn Pool::connect(Self) -> PoolClient
 async fn Pool::end(Self) -> Unit
 #alias(end_sync)
-fn Pool::endSync(Self) -> @js.Promise[Unit]
+fn Pool::endSync(Self) -> @nostd.Promise[Unit]
 #alias(idle_count)
 fn Pool::idleCount(Self) -> Int
 #alias(new_pool)
-fn Pool::new(connection_string? : String, user? : String, password? : String, host? : String, port? : Int, database? : String, ssl? : @js.Any, max? : Int, min? : Int, idle_timeout_millis? : Int, connection_timeout_millis? : Int, max_lifetime_seconds? : Int, allow_exit_on_idle? : Bool) -> Self
-async fn Pool::query(Self, String, params? : Array[@js.Any]) -> QueryResult
+fn Pool::new(connection_string? : String, user? : String, password? : String, host? : String, port? : Int, database? : String, ssl? : @nostd.Any, max? : Int, min? : Int, idle_timeout_millis? : Int, connection_timeout_millis? : Int, max_lifetime_seconds? : Int, allow_exit_on_idle? : Bool) -> Self
+async fn Pool::query(Self, String, params? : Array[@nostd.Any]) -> QueryResult
 #alias(total_count)
 fn Pool::totalCount(Self) -> Int
 #alias(waiting_count)
 fn Pool::waitingCount(Self) -> Int
-impl @js.JsImpl for Pool
 
 #external
 pub type PoolClient
-async fn PoolClient::query(Self, String, params? : Array[@js.Any]) -> QueryResult
+fn PoolClient::as_any(Self) -> @nostd.Any
+async fn PoolClient::query(Self, String, params? : Array[@nostd.Any]) -> QueryResult
 fn PoolClient::release(Self, destroy? : Bool) -> Unit
-impl @js.JsImpl for PoolClient
 
 #external
 pub type QueryResult
+fn QueryResult::as_any(Self) -> @nostd.Any
 fn QueryResult::command(Self) -> String
-fn QueryResult::fields(Self) -> @js.Any
+fn QueryResult::fields(Self) -> @nostd.Any
 #alias(row_count)
 fn QueryResult::rowCount(Self) -> Int
-fn QueryResult::rows(Self) -> @js.Any
+fn QueryResult::rows(Self) -> @nostd.Any
 fn[T] QueryResult::rows_array(Self) -> Array[T]
-impl @js.JsImpl for QueryResult
 
 // Type aliases
 

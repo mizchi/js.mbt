@@ -9,13 +9,13 @@ test "OpenAIOptions::default creates empty options" {
 }
 
 ///|
-test "OpenAIOptions::to_any with all fields" {
+test "OpenAIOptions::as_any with all fields" {
   let opts : OpenAIOptions = {
     api_key: Some("test-key"),
     base_url: Some("https://api.openai.com/v1"),
     organization: Some("org-123"),
   }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   let api_key : String = js_obj.get("apiKey").cast()
   assert_eq(api_key, "test-key")
   let base_url : String = js_obj.get("baseURL").cast()
@@ -25,9 +25,9 @@ test "OpenAIOptions::to_any with all fields" {
 }
 
 ///|
-test "OpenAIOptions::to_any with empty options" {
+test "OpenAIOptions::as_any with empty options" {
   let opts = OpenAIOptions::default()
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   assert_true(@js.is_undefined(js_obj.get("apiKey")))
   assert_true(@js.is_undefined(js_obj.get("baseURL")))
   assert_true(@js.is_undefined(js_obj.get("organization")))
@@ -41,12 +41,12 @@ test "AnthropicOptions::default creates empty options" {
 }
 
 ///|
-test "AnthropicOptions::to_any with all fields" {
+test "AnthropicOptions::as_any with all fields" {
   let opts : AnthropicOptions = {
     api_key: Some("anthropic-key"),
     base_url: Some("https://api.anthropic.com/v1"),
   }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   let api_key : String = js_obj.get("apiKey").cast()
   assert_eq(api_key, "anthropic-key")
   let base_url : String = js_obj.get("baseURL").cast()
@@ -54,9 +54,9 @@ test "AnthropicOptions::to_any with all fields" {
 }
 
 ///|
-test "AnthropicOptions::to_any with empty options" {
+test "AnthropicOptions::as_any with empty options" {
   let opts = AnthropicOptions::default()
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   assert_true(@js.is_undefined(js_obj.get("apiKey")))
   assert_true(@js.is_undefined(js_obj.get("baseURL")))
 }
@@ -69,12 +69,12 @@ test "GoogleOptions::default creates empty options" {
 }
 
 ///|
-test "GoogleOptions::to_any with all fields" {
+test "GoogleOptions::as_any with all fields" {
   let opts : GoogleOptions = {
     api_key: Some("google-key"),
     base_url: Some("https://generativelanguage.googleapis.com/v1beta"),
   }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   let api_key : String = js_obj.get("apiKey").cast()
   assert_eq(api_key, "google-key")
   let base_url : String = js_obj.get("baseURL").cast()
@@ -82,21 +82,21 @@ test "GoogleOptions::to_any with all fields" {
 }
 
 ///|
-test "GoogleOptions::to_any with empty options" {
+test "GoogleOptions::as_any with empty options" {
   let opts = GoogleOptions::default()
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   assert_true(@js.is_undefined(js_obj.get("apiKey")))
   assert_true(@js.is_undefined(js_obj.get("baseURL")))
 }
 
 ///|
-test "OpenAIOptions::to_any with partial fields - api_key only" {
+test "OpenAIOptions::as_any with partial fields - api_key only" {
   let opts : OpenAIOptions = {
     api_key: Some("my-key"),
     base_url: None,
     organization: None,
   }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   let api_key : String = js_obj.get("apiKey").cast()
   assert_eq(api_key, "my-key")
   assert_true(@js.is_undefined(js_obj.get("baseURL")))
@@ -104,13 +104,13 @@ test "OpenAIOptions::to_any with partial fields - api_key only" {
 }
 
 ///|
-test "OpenAIOptions::to_any with partial fields - base_url only" {
+test "OpenAIOptions::as_any with partial fields - base_url only" {
   let opts : OpenAIOptions = {
     api_key: None,
     base_url: Some("https://custom.api.com"),
     organization: None,
   }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   assert_true(@js.is_undefined(js_obj.get("apiKey")))
   let base_url : String = js_obj.get("baseURL").cast()
   assert_eq(base_url, "https://custom.api.com")
@@ -118,13 +118,13 @@ test "OpenAIOptions::to_any with partial fields - base_url only" {
 }
 
 ///|
-test "OpenAIOptions::to_any with partial fields - organization only" {
+test "OpenAIOptions::as_any with partial fields - organization only" {
   let opts : OpenAIOptions = {
     api_key: None,
     base_url: None,
     organization: Some("my-org"),
   }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   assert_true(@js.is_undefined(js_obj.get("apiKey")))
   assert_true(@js.is_undefined(js_obj.get("baseURL")))
   let org : String = js_obj.get("organization").cast()
@@ -132,45 +132,45 @@ test "OpenAIOptions::to_any with partial fields - organization only" {
 }
 
 ///|
-test "AnthropicOptions::to_any with partial fields - api_key only" {
+test "AnthropicOptions::as_any with partial fields - api_key only" {
   let opts : AnthropicOptions = {
     api_key: Some("anthropic-key"),
     base_url: None,
   }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   let api_key : String = js_obj.get("apiKey").cast()
   assert_eq(api_key, "anthropic-key")
   assert_true(@js.is_undefined(js_obj.get("baseURL")))
 }
 
 ///|
-test "AnthropicOptions::to_any with partial fields - base_url only" {
+test "AnthropicOptions::as_any with partial fields - base_url only" {
   let opts : AnthropicOptions = {
     api_key: None,
     base_url: Some("https://custom.anthropic.com"),
   }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   assert_true(@js.is_undefined(js_obj.get("apiKey")))
   let base_url : String = js_obj.get("baseURL").cast()
   assert_eq(base_url, "https://custom.anthropic.com")
 }
 
 ///|
-test "GoogleOptions::to_any with partial fields - api_key only" {
+test "GoogleOptions::as_any with partial fields - api_key only" {
   let opts : GoogleOptions = { api_key: Some("google-key"), base_url: None }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   let api_key : String = js_obj.get("apiKey").cast()
   assert_eq(api_key, "google-key")
   assert_true(@js.is_undefined(js_obj.get("baseURL")))
 }
 
 ///|
-test "GoogleOptions::to_any with partial fields - base_url only" {
+test "GoogleOptions::as_any with partial fields - base_url only" {
   let opts : GoogleOptions = {
     api_key: None,
     base_url: Some("https://custom.google.com"),
   }
-  let js_obj = opts.to_any()
+  let js_obj = opts.as_any()
   assert_true(@js.is_undefined(js_obj.get("apiKey")))
   let base_url : String = js_obj.get("baseURL").cast()
   assert_eq(base_url, "https://custom.google.com")

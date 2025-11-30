@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/nostd/_tests/size16_from_tuple_array"
+
+import(
+  "mizchi/js/nostd"
+)
+
+// Values
+fn from_tuple_array(Array[(String, @nostd.Any)]) -> @nostd.Any
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

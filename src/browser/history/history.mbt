@@ -3,12 +3,12 @@
 /// https://developer.mozilla.org/en-US/docs/Web/API/History
 pub(all) struct History {
   length : Int
-  state : @js.Any?
+  state : @nostd.Any?
   mut scrollRestoration : String
 }
 
 ///|
-pub impl @js.JsImpl for History
+pub fn History::as_any(self : History) -> @nostd.Any = "%identity"
 
 ///|
 /// Returns the global history object
@@ -18,24 +18,25 @@ pub extern "js" fn history() -> History =
 ///|
 /// Loads the previous URL in the history list
 /// https://developer.mozilla.org/en-US/docs/Web/API/History/back
-pub fn History::back(self : Self) -> Unit {
-  ignore(self.call0("back"))
+pub fn History::back(self : History) -> Unit {
+  self.as_any()._call("back", []) |> ignore
 }
 
 ///|
 /// Loads the next URL in the history list
 /// https://developer.mozilla.org/en-US/docs/Web/API/History/forward
-pub fn History::forward(self : Self) -> Unit {
-  ignore(self.call0("forward"))
+pub fn History::forward(self : History) -> Unit {
+  self.as_any()._call("forward", []) |> ignore
 }
 
 ///|
 /// Loads a specific page from the session history
 /// https://developer.mozilla.org/en-US/docs/Web/API/History/go
-pub fn History::go(self : Self, delta? : Int) -> Unit {
+pub fn History::go(self : History, delta? : Int) -> Unit {
+  let s = self.as_any()
   match delta {
-    Some(d) => ignore(self.call("go", [d]))
-    None => ignore(self.call0("go"))
+    Some(d) => s._call("go", [@nostd.any(d)]) |> ignore
+    None => s._call("go", []) |> ignore
   }
 }
 
@@ -44,14 +45,16 @@ pub fn History::go(self : Self, delta? : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
 #alias(push_state)
 pub fn History::pushState(
-  self : Self,
-  state : @js.Any,
+  self : History,
+  state : @nostd.Any,
   unused : String,
   url? : String,
 ) -> Unit {
+  let s = self.as_any()
   match url {
-    Some(u) => ignore(self.call("pushState", [state, unused, u]))
-    None => ignore(self.call2("pushState", state, unused))
+    Some(u) =>
+      s._call("pushState", [state, @nostd.any(unused), @nostd.any(u)]) |> ignore
+    None => s._call("pushState", [state, @nostd.any(unused)]) |> ignore
   }
 }
 
@@ -60,13 +63,16 @@ pub fn History::pushState(
 /// https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState
 #alias(replace_state)
 pub fn History::replaceState(
-  self : Self,
-  state : @js.Any,
+  self : History,
+  state : @nostd.Any,
   unused : String,
   url? : String,
 ) -> Unit {
+  let s = self.as_any()
   match url {
-    Some(u) => ignore(self.call("replaceState", [state, unused, u]))
-    None => ignore(self.call2("replaceState", state, unused))
+    Some(u) =>
+      s._call("replaceState", [state, @nostd.any(unused), @nostd.any(u)])
+      |> ignore
+    None => s._call("replaceState", [state, @nostd.any(unused)]) |> ignore
   }
 }

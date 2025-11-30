@@ -8,7 +8,7 @@ Practical, executable examples of JavaScript FFI patterns using `mizchi/js`.
 - Use `@js.Nullable[T]`/`@js.Nullish[T]` for nullable struct fields (not `T?`)
 - Use `identity_option` for safe null handling
 - Use labeled optional arguments instead of Options structs
-- Use `&@js.JsImpl` for generic JS values, but always call `.to_any()` before passing to FFI
+- Use `&@js.JsImpl` for generic JS values, but always call `.as_any()` before passing to FFI
 - Return concrete types, avoid redundant conversions
 - Follow naming conventions (camelCase for Web APIs, snake_case for wrappers)
 - Use `async fn` with `promise.wait()` internally for Promise-returning functions
@@ -206,8 +206,8 @@ Use `&@js.JsImpl` to accept any type implementing JsImpl (Int, String, Object, e
 ```moonbit no-check
 // Accept any JsImpl type
 fn setProperty(obj : @js.Any, key : String, value : &@js.JsImpl) -> Unit {
-  // IMPORTANT: Always call .to_any() when passing to FFI
-  obj.set(key, value.to_any())
+  // IMPORTANT: Always call .as_any() when passing to FFI
+  obj.set(key, value.as_any())
 }
 
 // Usage
@@ -216,7 +216,7 @@ setProperty(obj, "name", "test")     // String
 setProperty(obj, "data", someObject) // Object
 ```
 
-**⚠️ Warning**: Always use `.to_any()` when passing `&JsImpl` to JavaScript FFI:
+**⚠️ Warning**: Always use `.as_any()` when passing `&JsImpl` to JavaScript FFI:
 
 ```moonbit no-check
 // ❌ WRONG: identity exposes internal structure
@@ -224,19 +224,19 @@ fn bad_example(value : &@js.JsImpl) -> @js.Any {
   @js.identity(value)  // Returns { "self": value, "method_0": ... }
 }
 
-// ✅ CORRECT: use .to_any()
+// ✅ CORRECT: use .as_any()
 fn good_example(value : &@js.JsImpl) -> @js.Any {
-  value.to_any()  // Returns the actual JS value
+  value.as_any()  // Returns the actual JS value
 }
 ```
 
 ### Avoid Redundant Conversions
 
-Types implementing `JsImpl` don't need `.to_any()` in Array contexts:
+Types implementing `JsImpl` don't need `.as_any()` in Array contexts:
 
 ```
 // Avoid
-self.call("digest", [algorithm, data.to_any()])
+self.call("digest", [algorithm, data.as_any()])
 
 // Prefer
 self.call("digest", [algorithm, data])

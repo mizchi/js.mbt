@@ -47,7 +47,7 @@ pub fn RequestInit::new(
   {
     method_: Some(http_method),
     headers,
-    body: body.map(fn(b) { b.to_any() }),
+    body: body.map(fn(b) { b.as_any() }),
     mode,
     credentials,
     cache,
@@ -62,10 +62,10 @@ pub fn RequestInit::new(
 }
 
 ///|
-pub impl @js.JsImpl for RequestInit with to_any(self) -> @js.Any {
+pub impl @js.JsImpl for RequestInit with as_any(self) -> @js.Any {
   @js.from_option_map({
     "method": self.method_.map(fn(x) { @js.any(x) }),
-    "headers": self.headers.map(fn(x) { x.to_any() }),
+    "headers": self.headers.map(fn(x) { x.as_any().cast() }),
     "body": self.body,
     "mode": self.mode.map(fn(x) { @js.any(x) }),
     "credentials": self.credentials.map(fn(x) { @js.any(x) }),
@@ -179,7 +179,7 @@ pub fn Request::new(url : String) -> Request {
 ///|
 /// Create a new Request with init options
 pub fn Request::new_with_init(url : String, init : RequestInit) -> Request {
-  let req = ffi_request_new_with_init(url, init.to_any())
+  let req = ffi_request_new_with_init(url, init.as_any())
   @js.identity(req)
 }
 

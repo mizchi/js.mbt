@@ -104,7 +104,7 @@ pub async fn launch(
     None => ()
   }
   let promise : @js.Promise[Browser] = @js.identity(
-    ffi_launch(js_opts.to_any()),
+    ffi_launch(js_opts.as_any()),
   )
   promise.wait()
 }

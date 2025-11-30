@@ -15,11 +15,11 @@ pub type Bundle
 fn Bundle::add_source(Self, MagicString) -> Self
 fn Bundle::add_source_with_filename(Self, String, MagicString) -> Self
 fn Bundle::append(Self, String) -> Self
+fn Bundle::as_any(Self) -> @nostd.Any
 fn Bundle::generate_map(Self, file? : String, include_content? : Bool, hires? : Bool) -> SourceMap
 fn Bundle::indent(Self, prefix? : String) -> Self
 fn Bundle::new() -> Self
 fn Bundle::prepend(Self, String) -> Self
-fn Bundle::to_any(Self) -> @nostd.Any
 fn Bundle::to_string(Self) -> String
 
 #external
@@ -28,6 +28,7 @@ fn MagicString::add_sourcemap_location(Self, Int) -> Unit
 fn MagicString::append(Self, String) -> Self
 fn MagicString::append_left(Self, Int, String) -> Self
 fn MagicString::append_right(Self, Int, String) -> Self
+fn MagicString::as_any(Self) -> @nostd.Any
 fn MagicString::clone(Self) -> Self
 fn MagicString::generate_decoded_map(Self, file? : String, source? : String, include_content? : Bool, hires? : Bool) -> @nostd.Any
 fn MagicString::generate_map(Self, file? : String, source? : String, include_content? : Bool, hires? : Bool) -> SourceMap
@@ -50,7 +51,6 @@ fn MagicString::reset(Self, Int, Int) -> Self
 fn MagicString::set_offset(Self, Int) -> Unit
 fn MagicString::slice(Self, Int, Int) -> String
 fn MagicString::snip(Self, Int, Int) -> Self
-fn MagicString::to_any(Self) -> @nostd.Any
 fn MagicString::to_string(Self) -> String
 fn MagicString::trim(Self, char_type? : String) -> Self
 fn MagicString::trim_end(Self, char_type? : String) -> Self
@@ -60,11 +60,11 @@ fn MagicString::update(Self, Int, Int, String, store_name? : Bool, overwrite? : 
 
 #external
 pub type SourceMap
+fn SourceMap::as_any(Self) -> @nostd.Any
 fn SourceMap::file(Self) -> String?
 fn SourceMap::mappings(Self) -> String
 fn SourceMap::sources(Self) -> Array[String]
 fn SourceMap::sources_content(Self) -> Array[String]?
-fn SourceMap::to_any(Self) -> @nostd.Any
 fn SourceMap::to_string(Self) -> String
 fn SourceMap::to_url(Self) -> String
 

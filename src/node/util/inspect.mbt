@@ -35,5 +35,5 @@ pub fn inspect(
     "maxArrayLength": maxArrayLength |> @js.any,
     "maxStringLength": maxStringLength |> @js.any,
   })
-  @js.identity(util().get("inspect").call_self([value.to_any(), opt]))
+  @js.identity(util().get("inspect").call_self([value.as_any(), opt]))
 }

@@ -321,7 +321,7 @@ pub fn LighthouseFlags::new(
 }
 
 ///|
-pub impl @js.JsImpl for LighthouseFlags with to_any(self) -> @js.Any {
+pub impl @js.JsImpl for LighthouseFlags with as_any(self) -> @js.Any {
   @js.from_option_map({
     "logLevel": self.logLevel.map(fn(x) { @js.any(x) }),
     "output": self.output.map(fn(x) { @js.any(x) }),
@@ -361,7 +361,7 @@ pub async fn run(
 ) -> RunnerResult {
   let lighthouse_fn = ffi_require_lighthouse()
   let js_flags = match flags {
-    Some(f) => f.to_any()
+    Some(f) => f.as_any()
     None => @js.undefined()
   }
   let js_config = match config {
@@ -369,7 +369,7 @@ pub async fn run(
     None => @js.undefined()
   }
   let js_page = match page {
-    Some(p) => p.to_any()
+    Some(p) => p.as_any()
     None => @js.undefined()
   }
   let promise : @js.Promise[RunnerResult] = @js.identity(
@@ -403,7 +403,7 @@ pub async fn run_with_port(
     None => @js.undefined()
   }
   let promise : @js.Promise[RunnerResult] = @js.identity(
-    lighthouse_fn.call_self([url, flags_with_port.to_any(), js_config]),
+    lighthouse_fn.call_self([url, flags_with_port.as_any(), js_config]),
   )
   promise.wait()
 }
@@ -422,14 +422,14 @@ pub fn desktop_config() -> @js.Any {
   screen.set("width", @js.any(1350))
   screen.set("height", @js.any(940))
   screen.set("deviceScaleFactor", @js.any(1))
-  settings.set("screenEmulation", screen.to_any())
+  settings.set("screenEmulation", screen.as_any())
   let throttling = @js.Object::new()
   throttling.set("rttMs", @js.any(40))
   throttling.set("throughputKbps", @js.any(10240))
   throttling.set("cpuSlowdownMultiplier", @js.any(1))
-  settings.set("throttling", throttling.to_any())
-  config.set("settings", settings.to_any())
-  config.to_any()
+  settings.set("throttling", throttling.as_any())
+  config.set("settings", settings.as_any())
+  config.as_any()
 }
 
 ///|
@@ -444,9 +444,9 @@ pub fn mobile_config() -> @js.Any {
   screen.set("width", @js.any(412))
   screen.set("height", @js.any(823))
   screen.set("deviceScaleFactor", @js.any(1.75))
-  settings.set("screenEmulation", screen.to_any())
-  config.set("settings", settings.to_any())
-  config.to_any()
+  settings.set("screenEmulation", screen.as_any())
+  config.set("settings", settings.as_any())
+  config.as_any()
 }
 
 ///| Common Categories

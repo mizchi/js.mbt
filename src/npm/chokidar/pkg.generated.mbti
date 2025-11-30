@@ -29,6 +29,7 @@ impl Show for EventName
 pub type FSWatcher
 fn FSWatcher::add(Self, String) -> Self
 fn FSWatcher::add_paths(Self, Array[String]) -> Self
+fn FSWatcher::as_any(Self) -> @nostd.Any
 async fn FSWatcher::close(Self) -> Unit
 fn FSWatcher::getWatched(Self) -> @nostd.Any
 fn FSWatcher::off(Self, String, @nostd.Any) -> Self
@@ -42,7 +43,6 @@ fn FSWatcher::on_error(Self, (@nostd.Any) -> Unit) -> Self
 fn FSWatcher::on_ready(Self, () -> Unit) -> Self
 fn FSWatcher::on_unlink(Self, (String) -> Unit) -> Self
 fn FSWatcher::on_unlink_dir(Self, (String) -> Unit) -> Self
-fn FSWatcher::to_any(Self) -> @nostd.Any
 fn FSWatcher::unwatch(Self, String) -> Self
 fn FSWatcher::unwatch_paths(Self, Array[String]) -> Self
 

@@ -26,22 +26,22 @@ pub type Element
 #external
 pub type Node
 
-///| to_any helpers
+///| as_any helpers
 
 ///|
-pub extern "js" fn Parser::to_any(self : Parser) -> @nostd.Any =
+pub extern "js" fn Parser::as_any(self : Parser) -> @nostd.Any =
   #| (x) => x
 
 ///|
-pub extern "js" fn Document::to_any(self : Document) -> @nostd.Any =
+pub extern "js" fn Document::as_any(self : Document) -> @nostd.Any =
   #| (x) => x
 
 ///|
-pub extern "js" fn Element::to_any(self : Element) -> @nostd.Any =
+pub extern "js" fn Element::as_any(self : Element) -> @nostd.Any =
   #| (x) => x
 
 ///|
-pub extern "js" fn Node::to_any(self : Node) -> @nostd.Any =
+pub extern "js" fn Node::as_any(self : Node) -> @nostd.Any =
   #| (x) => x
 
 ///| FFI Functions
@@ -305,7 +305,7 @@ pub fn Parser::parseComplete(self : Parser, input : String) -> Unit {
 ///|
 /// Get children of a document
 pub fn Document::children(self : Document) -> Array[Node] {
-  @nostd.identity(ffi_get_children(self.to_any()))
+  @nostd.identity(ffi_get_children(self.as_any()))
 }
 
 ///| Element Methods
@@ -313,13 +313,13 @@ pub fn Document::children(self : Document) -> Array[Node] {
 ///|
 /// Get element tag name
 pub fn Element::name(self : Element) -> String {
-  ffi_get_name(self.to_any())
+  ffi_get_name(self.as_any())
 }
 
 ///|
 /// Get element attributes as Object
 pub fn Element::attribs(self : Element) -> @nostd.Any {
-  ffi_get_attribs(self.to_any())
+  ffi_get_attribs(self.as_any())
 }
 
 ///|
@@ -337,13 +337,13 @@ pub fn Element::getAttribute(self : Element, name : String) -> String? {
 ///|
 /// Get children of an element
 pub fn Element::children(self : Element) -> Array[Node] {
-  @nostd.identity(ffi_get_children(self.to_any()))
+  @nostd.identity(ffi_get_children(self.as_any()))
 }
 
 ///|
 /// Get parent of an element
 pub fn Element::parent(self : Element) -> Node? {
-  let parent = ffi_get_parent(self.to_any())
+  let parent = ffi_get_parent(self.as_any())
   if @nostd.is_nullish(parent) {
     None
   } else {
@@ -356,19 +356,19 @@ pub fn Element::parent(self : Element) -> Node? {
 ///|
 /// Get node type ("tag", "text", "comment", "directive", etc.)
 pub fn Node::nodeType(self : Node) -> String {
-  ffi_get_type(self.to_any())
+  ffi_get_type(self.as_any())
 }
 
 ///|
 /// Get text content (for text nodes)
 pub fn Node::data(self : Node) -> String {
-  ffi_get_data(self.to_any())
+  ffi_get_data(self.as_any())
 }
 
 ///|
 /// Get node name (for element nodes)
 pub fn Node::name(self : Node) -> String {
-  ffi_get_name(self.to_any())
+  ffi_get_name(self.as_any())
 }
 
 ///|
@@ -392,19 +392,19 @@ pub fn Node::isComment(self : Node) -> Bool {
 ///|
 /// Cast node to element (unsafe)
 pub fn Node::asElement(self : Node) -> Element {
-  @nostd.identity(self.to_any())
+  @nostd.identity(self.as_any())
 }
 
 ///|
 /// Get children of a node
 pub fn Node::children(self : Node) -> Array[Node] {
-  @nostd.identity(ffi_get_children(self.to_any()))
+  @nostd.identity(ffi_get_children(self.as_any()))
 }
 
 ///|
 /// Get parent of a node
 pub fn Node::parent(self : Node) -> Node? {
-  let parent = ffi_get_parent(self.to_any())
+  let parent = ffi_get_parent(self.as_any())
   if @nostd.is_nullish(parent) {
     None
   } else {
@@ -415,7 +415,7 @@ pub fn Node::parent(self : Node) -> Node? {
 ///|
 /// Get attributes of a node (if element)
 pub fn Node::attribs(self : Node) -> @nostd.Any {
-  ffi_get_attribs(self.to_any())
+  ffi_get_attribs(self.as_any())
 }
 
 ///| DomUtils Functions
@@ -423,25 +423,25 @@ pub fn Node::attribs(self : Node) -> @nostd.Any {
 ///|
 /// Get inner HTML of a node
 pub fn getInnerHTML(node : Node) -> String {
-  ffi_dom_utils_get_inner_html(node.to_any())
+  ffi_dom_utils_get_inner_html(node.as_any())
 }
 
 ///|
 /// Get outer HTML of a node
 pub fn getOuterHTML(node : Node) -> String {
-  ffi_dom_utils_get_outer_html(node.to_any())
+  ffi_dom_utils_get_outer_html(node.as_any())
 }
 
 ///|
 /// Get text content of a node and its descendants
 pub fn getText(node : Node) -> String {
-  ffi_dom_utils_get_text(node.to_any())
+  ffi_dom_utils_get_text(node.as_any())
 }
 
 ///|
 /// Get text content of a document
 pub fn getTextFromDocument(doc : Document) -> String {
-  ffi_dom_utils_get_text(doc.to_any())
+  ffi_dom_utils_get_text(doc.as_any())
 }
 
 ///|
@@ -455,7 +455,7 @@ pub fn getElementsByTagName(
   @nostd.identity(
     ffi_dom_utils_get_elements_by_tag_name(
       name,
-      ffi_get_children(doc.to_any()),
+      ffi_get_children(doc.as_any()),
       recurse,
       limit,
     ),
@@ -467,7 +467,7 @@ pub fn getElementsByTagName(
 pub fn getElementById(doc : Document, id : String) -> Element? {
   let result = ffi_dom_utils_get_element_by_id(
     id,
-    ffi_get_children(doc.to_any()),
+    ffi_get_children(doc.as_any()),
     true,
   )
   if @nostd.is_nullish(result) {
@@ -485,7 +485,7 @@ pub fn findAll(doc : Document, predicate : (Element) -> Bool) -> Array[Element] 
     predicate(e)
   })
   @nostd.identity(
-    ffi_dom_utils_find_all(pred_fn, ffi_get_children(doc.to_any())),
+    ffi_dom_utils_find_all(pred_fn, ffi_get_children(doc.as_any())),
   )
 }
 
@@ -498,7 +498,7 @@ pub fn findOne(doc : Document, predicate : (Element) -> Bool) -> Element? {
   })
   let result = ffi_dom_utils_find_one(
     pred_fn,
-    ffi_get_children(doc.to_any()),
+    ffi_get_children(doc.as_any()),
     true,
   )
   if @nostd.is_nullish(result) {

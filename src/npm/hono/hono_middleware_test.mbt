@@ -19,7 +19,7 @@ async test "jwt_sign and verify roundtrip" {
   payload.set("sub", "user123")
   payload.set("role", "admin")
   let secret = "test-secret-key"
-  let token = @hono.jwt_sign(payload.to_any(), secret)
+  let token = @hono.jwt_sign(payload.as_any(), secret)
   assert_true(token.length() > 0)
   // Verify the token
   let verified = @hono.jwt_verify(token, secret)

@@ -1,4 +1,4 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "moonbitlang/async"]
+  "import": ["mizchi/js/nostd", "moonbitlang/async"]
 }

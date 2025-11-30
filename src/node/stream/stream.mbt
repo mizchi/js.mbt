@@ -81,7 +81,7 @@ pub fn Readable::unshift(
   chunk : &@js.JsImpl,
   encoding? : String,
 ) -> Unit {
-  ignore(self.call2("unshift", chunk.to_any(), encoding))
+  ignore(self.call2("unshift", chunk.as_any(), encoding))
 }
 
 ///|
@@ -143,7 +143,7 @@ pub fn Readable::fromWeb(s : @web.ReadableStream) -> Readable {
 
 ///|
 pub fn Readable::from(iterable : &@js.JsImpl) -> Readable {
-  stream_module().get("Readable").call("from", [iterable.to_any()]).cast()
+  stream_module().get("Readable").call("from", [iterable.as_any()]).cast()
 }
 
 ///|
@@ -167,7 +167,7 @@ pub fn[T : @js.JsImpl] Writable::write(
   encoding? : String,
   callback? : @js.Any,
 ) -> Bool {
-  self.call("write", [chunk.to_any(), encoding, callback]).cast()
+  self.call("write", [chunk.as_any(), encoding, callback]).cast()
 }
 
 ///|
@@ -178,7 +178,7 @@ pub fn[T : @js.JsImpl] Writable::end(
   callback? : @js.Any,
 ) -> Writable {
   let chunk_any : @js.Any = match chunk {
-    Some(c) => c.to_any()
+    Some(c) => c.as_any()
     None => @js.undefined()
   }
   self.call("end", [chunk_any, encoding, callback]).cast()
@@ -291,12 +291,12 @@ pub fn Duplex::toWeb(self : Duplex) -> @js.Any {
 
 ///|
 pub fn Duplex::fromWeb(pair : &@js.JsImpl) -> Duplex {
-  stream_module().get("Duplex").call("fromWeb", [pair.to_any()]).cast()
+  stream_module().get("Duplex").call("fromWeb", [pair.as_any()]).cast()
 }
 
 ///|
 pub fn Duplex::from(src : &@js.JsImpl) -> Duplex {
-  stream_module().get("Duplex").call("from", [src.to_any()]).cast()
+  stream_module().get("Duplex").call("from", [src.as_any()]).cast()
 }
 
 ///|
@@ -374,7 +374,7 @@ pub fn compose(streams : Array[@js.Any]) -> @js.Any {
 
 ///|
 pub fn addAbortSignal(signal : &@js.JsImpl, stream : &@js.JsImpl) -> @js.Any {
-  stream_module().call2("addAbortSignal", signal.to_any(), stream.to_any())
+  stream_module().call2("addAbortSignal", signal.as_any(), stream.as_any())
 }
 
 ///|

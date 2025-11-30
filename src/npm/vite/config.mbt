@@ -136,5 +136,5 @@ pub fn defineConfig(
     Some(v) => obj.set("envPrefix", @js.any(v))
     None => ()
   }
-  ffi_defineConfig(obj.to_any())
+  ffi_defineConfig(obj.as_any())
 }

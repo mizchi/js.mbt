@@ -6,18 +6,9 @@
 // ============================================================
 
 ///|
-/// Pino module handle
-#external
-pub type Pino
-
-///|
-pub impl @js.JsImpl for Pino
-
-///|
 /// Get the pino module
-pub fn pino_module() -> Pino {
-  @node.require("pino").cast()
-}
+extern "js" fn pino_module() -> @nostd.Any =
+  #| () => require("pino")
 
 // ============================================================
 // Level enum
@@ -71,7 +62,8 @@ pub fn Level::to_number(self : Level) -> Int {
 pub type Logger
 
 ///|
-pub impl @js.JsImpl for Logger
+pub extern "js" fn Logger::as_any(self : Logger) -> @nostd.Any =
+  #| (x) => x
 
 ///|
 /// Create a pino logger with options
@@ -81,20 +73,20 @@ pub fn pino(
   timestamp? : Bool = true,
 ) -> Logger {
   let mod = pino_module()
-  let opts = @js.Object::new()
-  opts["level"] = level.to_string()
+  let opts = @nostd.Object::new()
+  opts["level"] = @nostd.any(level.to_string())
   if name != "" {
-    opts["name"] = name
+    opts["name"] = @nostd.any(name)
   }
-  opts["timestamp"] = timestamp
-  mod.call1("default", opts).cast()
+  opts["timestamp"] = @nostd.any(timestamp)
+  mod._call("default", [opts]).cast()
 }
 
 ///|
 /// Create a pino logger with default options
 pub fn pino_default() -> Logger {
   let mod = pino_module()
-  mod.call0("default").cast()
+  mod._call("default", []).cast()
 }
 
 // ============================================================
@@ -104,73 +96,73 @@ pub fn pino_default() -> Logger {
 ///|
 /// Log at trace level
 pub fn Logger::trace(self : Logger, msg : String) -> Unit {
-  self.call1("trace", msg) |> ignore
+  self.as_any()._call("trace", [@nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at trace level with object
-pub fn Logger::trace_obj(self : Logger, obj : @js.Object, msg : String) -> Unit {
-  self.call2("trace", obj.to_any(), msg) |> ignore
+pub fn Logger::trace_obj(self : Logger, obj : @nostd.Any, msg : String) -> Unit {
+  self.as_any()._call("trace", [obj, @nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at debug level
 pub fn Logger::debug(self : Logger, msg : String) -> Unit {
-  self.call1("debug", msg) |> ignore
+  self.as_any()._call("debug", [@nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at debug level with object
-pub fn Logger::debug_obj(self : Logger, obj : @js.Object, msg : String) -> Unit {
-  self.call2("debug", obj.to_any(), msg) |> ignore
+pub fn Logger::debug_obj(self : Logger, obj : @nostd.Any, msg : String) -> Unit {
+  self.as_any()._call("debug", [obj, @nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at info level
 pub fn Logger::info(self : Logger, msg : String) -> Unit {
-  self.call1("info", msg) |> ignore
+  self.as_any()._call("info", [@nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at info level with object
-pub fn Logger::info_obj(self : Logger, obj : @js.Object, msg : String) -> Unit {
-  self.call2("info", obj.to_any(), msg) |> ignore
+pub fn Logger::info_obj(self : Logger, obj : @nostd.Any, msg : String) -> Unit {
+  self.as_any()._call("info", [obj, @nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at warn level
 pub fn Logger::warn(self : Logger, msg : String) -> Unit {
-  self.call1("warn", msg) |> ignore
+  self.as_any()._call("warn", [@nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at warn level with object
-pub fn Logger::warn_obj(self : Logger, obj : @js.Object, msg : String) -> Unit {
-  self.call2("warn", obj.to_any(), msg) |> ignore
+pub fn Logger::warn_obj(self : Logger, obj : @nostd.Any, msg : String) -> Unit {
+  self.as_any()._call("warn", [obj, @nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at error level
 pub fn Logger::error(self : Logger, msg : String) -> Unit {
-  self.call1("error", msg) |> ignore
+  self.as_any()._call("error", [@nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at error level with object
-pub fn Logger::error_obj(self : Logger, obj : @js.Object, msg : String) -> Unit {
-  self.call2("error", obj.to_any(), msg) |> ignore
+pub fn Logger::error_obj(self : Logger, obj : @nostd.Any, msg : String) -> Unit {
+  self.as_any()._call("error", [obj, @nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at fatal level
 pub fn Logger::fatal(self : Logger, msg : String) -> Unit {
-  self.call1("fatal", msg) |> ignore
+  self.as_any()._call("fatal", [@nostd.any(msg)]) |> ignore
 }
 
 ///|
 /// Log at fatal level with object
-pub fn Logger::fatal_obj(self : Logger, obj : @js.Object, msg : String) -> Unit {
-  self.call2("fatal", obj.to_any(), msg) |> ignore
+pub fn Logger::fatal_obj(self : Logger, obj : @nostd.Any, msg : String) -> Unit {
+  self.as_any()._call("fatal", [obj, @nostd.any(msg)]) |> ignore
 }
 
 // ============================================================
@@ -179,8 +171,8 @@ pub fn Logger::fatal_obj(self : Logger, obj : @js.Object, msg : String) -> Unit 
 
 ///|
 /// Create a child logger with additional bindings
-pub fn Logger::child(self : Logger, bindings : @js.Object) -> Logger {
-  self.call1("child", bindings.to_any()).cast()
+pub fn Logger::child(self : Logger, bindings : @nostd.Any) -> Logger {
+  self.as_any()._call("child", [bindings]).cast()
 }
 
 // ============================================================
@@ -190,23 +182,23 @@ pub fn Logger::child(self : Logger, bindings : @js.Object) -> Logger {
 ///|
 /// Get the current log level
 pub fn Logger::level(self : Logger) -> String {
-  @js.identity(self.get("level"))
+  self.as_any()["level"].cast()
 }
 
 ///|
 /// Set the log level
 pub fn Logger::set_level(self : Logger, level : Level) -> Unit {
-  self.set("level", level.to_string())
+  self.as_any()["level"] = @nostd.any(level.to_string())
 }
 
 ///|
 /// Check if a level is enabled
 pub fn Logger::is_level_enabled(self : Logger, level : Level) -> Bool {
-  @js.identity(self.call1("isLevelEnabled", level.to_string()))
+  self.as_any()._call("isLevelEnabled", [@nostd.any(level.to_string())]).cast()
 }
 
 ///|
 /// Flush the logger
 pub fn Logger::flush(self : Logger) -> Unit {
-  self.call0("flush") |> ignore
+  self.as_any()._call("flush", []) |> ignore
 }

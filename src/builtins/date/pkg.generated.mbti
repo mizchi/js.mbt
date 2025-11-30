@@ -2,7 +2,7 @@
 package "mizchi/js/builtins/date"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -12,6 +12,7 @@ import(
 // Types and methods
 #external
 pub type Date
+fn Date::as_any(Self) -> @nostd.Any
 fn Date::from_full(Int, Int, Int, Int, Int, Int, Int) -> Self
 fn Date::from_millis(Int) -> Self
 fn Date::from_string(String) -> Self
@@ -82,7 +83,6 @@ fn Date::to_time_string(Self) -> String
 fn Date::to_utc_string(Self) -> String
 fn Date::utc(Int, Int, Int, Int, Int, Int, Int) -> Int
 fn Date::value_of(Self) -> Int
-impl @js.JsImpl for Date
 
 // Type aliases
 

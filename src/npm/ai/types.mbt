@@ -17,7 +17,7 @@ pub fn ProviderMetadata::from_any(value : @js.Any) -> ProviderMetadata? {
 }
 
 ///|
-pub fn ProviderMetadata::to_any(self : ProviderMetadata) -> @js.Any {
+pub fn ProviderMetadata::as_any(self : ProviderMetadata) -> @js.Any {
   self.raw
 }
 
@@ -368,7 +368,7 @@ pub fn[Input, Output : ToJson] Tool::typed_async(
 ///|
 /// Convert Tool to JS object format expected by AI SDK
 /// Note: AI SDK v6 requires inputSchema to be wrapped with jsonSchema()
-pub fn Tool::to_any(self : Tool) -> @js.Any {
+pub fn Tool::as_any(self : Tool) -> @js.Any {
   let ai_module = @node.require("ai")
   let json_schema_fn = ai_module.get("jsonSchema")
   let obj = @js.Object::new()
@@ -381,7 +381,7 @@ pub fn Tool::to_any(self : Tool) -> @js.Any {
     (self.execute)(args)
   })
   obj.set("execute", execute_fn)
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -405,12 +405,12 @@ pub fn Tools::add(self : Tools, name : String, tool : Tool) -> Tools {
 
 ///|
 /// Convert Tools to JS object format
-pub fn Tools::to_any(self : Tools) -> @js.Any {
+pub fn Tools::as_any(self : Tools) -> @js.Any {
   let obj = @js.Object::new()
   for name, tool in self.tools {
-    obj.set(name, tool.to_any())
+    obj.set(name, tool.as_any())
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -427,7 +427,7 @@ pub(all) enum ToolChoice {
 }
 
 ///|
-pub fn ToolChoice::to_any(self : ToolChoice) -> @js.Any {
+pub fn ToolChoice::as_any(self : ToolChoice) -> @js.Any {
   match self {
     Auto => "auto" |> @js.any
     Required => "required" |> @js.any
@@ -436,7 +436,7 @@ pub fn ToolChoice::to_any(self : ToolChoice) -> @js.Any {
       let obj = @js.Object::new()
       obj.set("type", "tool")
       obj.set("toolName", name)
-      obj.to_any()
+      obj.as_any()
     }
   }
 }

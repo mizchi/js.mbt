@@ -14,6 +14,9 @@ pub(all) struct WebSocket {
 }
 
 ///|
+pub fn WebSocket::as_any(self : WebSocket) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for WebSocket
 
 ///|
@@ -70,9 +73,10 @@ pub extern "js" fn WebSocket::new(
 /// JS: webSocket.close(code?, reason?)
 pub fn WebSocket::close(self : Self, code? : Int, reason? : String) -> Unit {
   match (code, reason) {
-    (Some(c), Some(r)) => self.call("close", [c, r]) |> ignore
-    (Some(c), None) => self.call1("close", c) |> ignore
-    (None, _) => self.call0("close") |> ignore
+    (Some(c), Some(r)) =>
+      self.as_any()._call("close", [@nostd.any(c), @nostd.any(r)]) |> ignore
+    (Some(c), None) => self.as_any()._call("close", [@nostd.any(c)]) |> ignore
+    (None, _) => self.as_any()._call("close", []) |> ignore
   }
 }
 
@@ -80,35 +84,35 @@ pub fn WebSocket::close(self : Self, code? : Int, reason? : String) -> Unit {
 /// Send data
 /// JS: webSocket.send(data)
 pub fn WebSocket::send_string(self : Self, data : String) -> Unit {
-  self.call1("send", data) |> ignore
+  self.as_any()._call("send", [@nostd.any(data)]) |> ignore
 }
 
 ///|
 /// Send binary data
 /// JS: webSocket.send(data)
 pub fn WebSocket::send_buffer(self : Self, data : @buffer.Buffer) -> Unit {
-  self.call1("send", data) |> ignore
+  self.as_any()._call("send", [@nostd.any(data)]) |> ignore
 }
 
 ///|
 /// Send ArrayBuffer
 /// JS: webSocket.send(data)
 pub fn WebSocket::send_arraybuffer(self : Self, data : @js.ArrayBuffer) -> Unit {
-  self.call1("send", data) |> ignore
+  self.as_any()._call("send", [@nostd.any(data)]) |> ignore
 }
 
 ///|
 /// Send Blob
 /// JS: webSocket.send(data)
 pub fn WebSocket::send_blob(self : Self, data : @blob.Blob) -> Unit {
-  self.call1("send", data) |> ignore
+  self.as_any()._call("send", [@nostd.any(data)]) |> ignore
 }
 
 ///|
 /// Set onopen event handler
 /// JS: webSocket.onopen = handler
 pub fn WebSocket::set_onopen(self : Self, handler : (@js.Any) -> Unit) -> Unit {
-  self.set("onopen", @js.from_fn1(handler))
+  self.as_any()["onopen"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -118,21 +122,21 @@ pub fn WebSocket::set_onmessage(
   self : Self,
   handler : (@js.Any) -> Unit,
 ) -> Unit {
-  self.set("onmessage", @js.from_fn1(handler))
+  self.as_any()["onmessage"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|
 /// Set onerror event handler
 /// JS: webSocket.onerror = handler
 pub fn WebSocket::set_onerror(self : Self, handler : (@js.Any) -> Unit) -> Unit {
-  self.set("onerror", @js.from_fn1(handler))
+  self.as_any()["onerror"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|
 /// Set onclose event handler
 /// JS: webSocket.onclose = handler
 pub fn WebSocket::set_onclose(self : Self, handler : (@js.Any) -> Unit) -> Unit {
-  self.set("onclose", @js.from_fn1(handler))
+  self.as_any()["onclose"] = @nostd.any(@js.from_fn1(handler))
 }
 
 ///|

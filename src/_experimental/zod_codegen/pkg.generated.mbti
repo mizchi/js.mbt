@@ -35,6 +35,7 @@ pub struct JsonSchema {
 }
 fn JsonSchema::additional_properties(Self) -> Self?
 fn JsonSchema::any_of(Self) -> Array[Self]?
+fn JsonSchema::as_any(Self) -> @js.Any
 fn JsonSchema::const_value(Self) -> @js.Any?
 fn JsonSchema::default_value(Self) -> @js.Any?
 fn JsonSchema::definitions(Self) -> @js.Any
@@ -52,7 +53,6 @@ fn JsonSchema::minimum(Self) -> Double?
 fn JsonSchema::properties(Self) -> @js.Any
 fn JsonSchema::ref_(Self) -> String?
 fn JsonSchema::required(Self) -> Array[String]
-fn JsonSchema::to_any(Self) -> @js.Any
 fn JsonSchema::to_json(Self) -> String
 fn JsonSchema::type_(Self) -> String?
 

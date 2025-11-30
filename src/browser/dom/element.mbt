@@ -40,7 +40,7 @@ impl ElementImpl with tagName(self) {
 
 ///|
 impl ElementImpl with append(self, child) {
-  self.call1("append", child.to_any()).cast()
+  self.call1("append", child.as_any()).cast()
 }
 
 ///|

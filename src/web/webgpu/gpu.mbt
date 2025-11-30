@@ -48,7 +48,7 @@ pub async fn GPU::requestAdapter(
     None => ()
   }
   let promise : @js.Promise[@js.Any] = self
-    .call("requestAdapter", [options.to_any()])
+    .call("requestAdapter", [options.as_any()])
     .cast()
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -133,7 +133,7 @@ pub async fn GPUAdapter::requestDevice(
     None => ()
   }
   let promise : @js.Promise[@js.Any] = self
-    .call("requestDevice", [descriptor.to_any()])
+    .call("requestDevice", [descriptor.as_any()])
     .cast()
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -218,7 +218,7 @@ pub fn GPUDevice::createBuffer(
     Some(m) => descriptor.set("mappedAtCreation", m)
     None => ()
   }
-  self.call("createBuffer", [descriptor.to_any()]).cast()
+  self.call("createBuffer", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -262,7 +262,7 @@ pub fn GPUDevice::createTexture(
     }
     None => ()
   }
-  self.call("createTexture", [descriptor.to_any()]).cast()
+  self.call("createTexture", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -279,7 +279,7 @@ pub fn GPUDevice::createShaderModule(
     Some(l) => descriptor.set("label", l)
     None => ()
   }
-  self.call("createShaderModule", [descriptor.to_any()]).cast()
+  self.call("createShaderModule", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -344,7 +344,7 @@ pub fn GPUDevice::createSampler(
     Some(a) => descriptor.set("maxAnisotropy", a)
     None => ()
   }
-  self.call("createSampler", [descriptor.to_any()]).cast()
+  self.call("createSampler", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -359,7 +359,7 @@ pub fn GPUDevice::createCommandEncoder(
     Some(l) => descriptor.set("label", l)
     None => ()
   }
-  self.call("createCommandEncoder", [descriptor.to_any()]).cast()
+  self.call("createCommandEncoder", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -375,7 +375,7 @@ pub fn GPUDevice::createBindGroupLayout(
     Some(l) => descriptor.set("label", l)
     None => ()
   }
-  self.call("createBindGroupLayout", [descriptor.to_any()]).cast()
+  self.call("createBindGroupLayout", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -393,7 +393,7 @@ pub fn GPUDevice::createBindGroup(
     Some(l) => descriptor.set("label", l)
     None => ()
   }
-  self.call("createBindGroup", [descriptor.to_any()]).cast()
+  self.call("createBindGroup", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -404,13 +404,13 @@ pub fn GPUDevice::createPipelineLayout(
   label? : String,
 ) -> GPUPipelineLayout {
   let descriptor = @js.Object::new()
-  let arr = @js.JsArray::from(bind_group_layouts.map(fn(l) { l.to_any() }))
+  let arr = @js.JsArray::from(bind_group_layouts.map(fn(l) { l.as_any() }))
   descriptor.set("bindGroupLayouts", arr)
   match label {
     Some(l) => descriptor.set("label", l)
     None => ()
   }
-  self.call("createPipelineLayout", [descriptor.to_any()]).cast()
+  self.call("createPipelineLayout", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -683,7 +683,7 @@ pub fn GPUTexture::createView(
     Some(l) => descriptor.set("label", l)
     None => ()
   }
-  self.call("createView", [descriptor.to_any()]).cast()
+  self.call("createView", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -726,8 +726,8 @@ pub fn GPUQueue::submit(
   self : GPUQueue,
   command_buffers : Array[GPUCommandBuffer],
 ) -> Unit {
-  let arr = @js.JsArray::from(command_buffers.map(fn(cb) { cb.to_any() }))
-  self.call("submit", [arr.to_any()]) |> ignore
+  let arr = @js.JsArray::from(command_buffers.map(fn(cb) { cb.as_any() }))
+  self.call("submit", [arr.as_any()]) |> ignore
 }
 
 ///|
@@ -742,15 +742,15 @@ pub fn GPUQueue::writeBuffer(
 ) -> Unit {
   match (data_offset, size) {
     (None, None) =>
-      self.call("writeBuffer", [buffer.to_any(), buffer_offset, data]) |> ignore
+      self.call("writeBuffer", [buffer.as_any(), buffer_offset, data]) |> ignore
     (Some(do_), None) =>
-      self.call("writeBuffer", [buffer.to_any(), buffer_offset, data, do_])
+      self.call("writeBuffer", [buffer.as_any(), buffer_offset, data, do_])
       |> ignore
     (Some(do_), Some(s)) =>
-      self.call("writeBuffer", [buffer.to_any(), buffer_offset, data, do_, s])
+      self.call("writeBuffer", [buffer.as_any(), buffer_offset, data, do_, s])
       |> ignore
     (None, Some(s)) =>
-      self.call("writeBuffer", [buffer.to_any(), buffer_offset, data, 0, s])
+      self.call("writeBuffer", [buffer.as_any(), buffer_offset, data, 0, s])
       |> ignore
   }
 }
@@ -764,7 +764,7 @@ pub fn GPUQueue::writeTexture(
   data_layout : @js.Any,
   size : GPUExtent3D,
 ) -> Unit {
-  self.call("writeTexture", [destination, data, data_layout, size.to_any()])
+  self.call("writeTexture", [destination, data, data_layout, size.as_any()])
   |> ignore
 }
 
@@ -812,7 +812,7 @@ pub fn GPUCommandEncoder::beginComputePass(
     Some(l) => descriptor.set("label", l)
     None => ()
   }
-  self.call("beginComputePass", [descriptor.to_any()]).cast()
+  self.call("beginComputePass", [descriptor.as_any()]).cast()
 }
 
 ///|
@@ -826,9 +826,9 @@ pub fn GPUCommandEncoder::copyBufferToBuffer(
   size : Int,
 ) -> Unit {
   self.call("copyBufferToBuffer", [
-    source.to_any(),
+    source.as_any(),
     source_offset,
-    destination.to_any(),
+    destination.as_any(),
     destination_offset,
     size,
   ])
@@ -843,7 +843,7 @@ pub fn GPUCommandEncoder::copyBufferToTexture(
   destination : @js.Any,
   copy_size : GPUExtent3D,
 ) -> Unit {
-  self.call("copyBufferToTexture", [source, destination, copy_size.to_any()])
+  self.call("copyBufferToTexture", [source, destination, copy_size.as_any()])
   |> ignore
 }
 
@@ -855,7 +855,7 @@ pub fn GPUCommandEncoder::copyTextureToBuffer(
   destination : @js.Any,
   copy_size : GPUExtent3D,
 ) -> Unit {
-  self.call("copyTextureToBuffer", [source, destination, copy_size.to_any()])
+  self.call("copyTextureToBuffer", [source, destination, copy_size.as_any()])
   |> ignore
 }
 
@@ -867,7 +867,7 @@ pub fn GPUCommandEncoder::copyTextureToTexture(
   destination : @js.Any,
   copy_size : GPUExtent3D,
 ) -> Unit {
-  self.call("copyTextureToTexture", [source, destination, copy_size.to_any()])
+  self.call("copyTextureToTexture", [source, destination, copy_size.as_any()])
   |> ignore
 }
 
@@ -880,12 +880,12 @@ pub fn GPUCommandEncoder::clearBuffer(
   size? : Int,
 ) -> Unit {
   match (offset, size) {
-    (None, None) => self.call("clearBuffer", [buffer.to_any()]) |> ignore
-    (Some(o), None) => self.call2("clearBuffer", buffer.to_any(), o) |> ignore
+    (None, None) => self.call("clearBuffer", [buffer.as_any()]) |> ignore
+    (Some(o), None) => self.call2("clearBuffer", buffer.as_any(), o) |> ignore
     (Some(o), Some(s)) =>
-      self.call("clearBuffer", [buffer.to_any(), o, s]) |> ignore
+      self.call("clearBuffer", [buffer.as_any(), o, s]) |> ignore
     (None, Some(s)) =>
-      self.call("clearBuffer", [buffer.to_any(), 0, s]) |> ignore
+      self.call("clearBuffer", [buffer.as_any(), 0, s]) |> ignore
   }
 }
 
@@ -900,7 +900,7 @@ pub fn GPUCommandEncoder::finish(
     Some(l) => descriptor.set("label", l)
     None => ()
   }
-  self.call("finish", [descriptor.to_any()]).cast()
+  self.call("finish", [descriptor.as_any()]).cast()
 }
 
 // =============================================================================
@@ -936,7 +936,7 @@ pub fn GPURenderPassEncoder::setPipeline(
   self : GPURenderPassEncoder,
   pipeline : GPURenderPipeline,
 ) -> Unit {
-  self.call("setPipeline", [pipeline.to_any()]) |> ignore
+  self.call("setPipeline", [pipeline.as_any()]) |> ignore
 }
 
 ///|
@@ -946,7 +946,7 @@ pub fn GPURenderPassEncoder::setBindGroup(
   index : Int,
   bind_group : GPUBindGroup,
 ) -> Unit {
-  self.call2("setBindGroup", index, bind_group.to_any()) |> ignore
+  self.call2("setBindGroup", index, bind_group.as_any()) |> ignore
 }
 
 ///|
@@ -960,13 +960,13 @@ pub fn GPURenderPassEncoder::setVertexBuffer(
 ) -> Unit {
   match (offset, size) {
     (None, None) =>
-      self.call2("setVertexBuffer", slot, buffer.to_any()) |> ignore
+      self.call2("setVertexBuffer", slot, buffer.as_any()) |> ignore
     (Some(o), None) =>
-      self.call("setVertexBuffer", [slot, buffer.to_any(), o]) |> ignore
+      self.call("setVertexBuffer", [slot, buffer.as_any(), o]) |> ignore
     (Some(o), Some(s)) =>
-      self.call("setVertexBuffer", [slot, buffer.to_any(), o, s]) |> ignore
+      self.call("setVertexBuffer", [slot, buffer.as_any(), o, s]) |> ignore
     (None, Some(s)) =>
-      self.call("setVertexBuffer", [slot, buffer.to_any(), 0, s]) |> ignore
+      self.call("setVertexBuffer", [slot, buffer.as_any(), 0, s]) |> ignore
   }
 }
 
@@ -981,13 +981,13 @@ pub fn GPURenderPassEncoder::setIndexBuffer(
 ) -> Unit {
   match (offset, size) {
     (None, None) =>
-      self.call2("setIndexBuffer", buffer.to_any(), format) |> ignore
+      self.call2("setIndexBuffer", buffer.as_any(), format) |> ignore
     (Some(o), None) =>
-      self.call("setIndexBuffer", [buffer.to_any(), format, o]) |> ignore
+      self.call("setIndexBuffer", [buffer.as_any(), format, o]) |> ignore
     (Some(o), Some(s)) =>
-      self.call("setIndexBuffer", [buffer.to_any(), format, o, s]) |> ignore
+      self.call("setIndexBuffer", [buffer.as_any(), format, o, s]) |> ignore
     (None, Some(s)) =>
-      self.call("setIndexBuffer", [buffer.to_any(), format, 0, s]) |> ignore
+      self.call("setIndexBuffer", [buffer.as_any(), format, 0, s]) |> ignore
   }
 }
 
@@ -1112,7 +1112,7 @@ pub fn GPUComputePassEncoder::setPipeline(
   self : GPUComputePassEncoder,
   pipeline : GPUComputePipeline,
 ) -> Unit {
-  self.call("setPipeline", [pipeline.to_any()]) |> ignore
+  self.call("setPipeline", [pipeline.as_any()]) |> ignore
 }
 
 ///|
@@ -1122,7 +1122,7 @@ pub fn GPUComputePassEncoder::setBindGroup(
   index : Int,
   bind_group : GPUBindGroup,
 ) -> Unit {
-  self.call2("setBindGroup", index, bind_group.to_any()) |> ignore
+  self.call2("setBindGroup", index, bind_group.as_any()) |> ignore
 }
 
 ///|
@@ -1154,7 +1154,7 @@ pub fn GPUComputePassEncoder::dispatchWorkgroupsIndirect(
 ) -> Unit {
   self.call2(
     "dispatchWorkgroupsIndirect",
-    indirect_buffer.to_any(),
+    indirect_buffer.as_any(),
     indirect_offset,
   )
   |> ignore
@@ -1505,11 +1505,11 @@ pub fn GPUExtent3D::new(
     Some(d) => obj.set("depthOrArrayLayers", d)
     None => ()
   }
-  obj.to_any().cast()
+  obj.as_any().cast()
 }
 
 ///|
 /// Create GPUExtent3D from an array [width, height?, depthOrArrayLayers?]
 pub fn GPUExtent3D::from_array(arr : Array[Int]) -> GPUExtent3D {
-  @js.JsArray::from(arr.map(fn(x) { @js.any(x) })).to_any().cast()
+  @js.JsArray::from(arr.map(fn(x) { @js.any(x) })).as_any().cast()
 }

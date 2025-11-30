@@ -3,6 +3,7 @@ package "mizchi/js/npm/comlink"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/message"
   "mizchi/js/web/worker"
 )
@@ -45,14 +46,17 @@ fn wrapWorker(@worker.Worker) -> Remote
 // Types and methods
 #external
 pub type Endpoint
+fn Endpoint::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for Endpoint
 
 #external
 pub type ProxyMarked
+fn ProxyMarked::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for ProxyMarked
 
 #external
 pub type Remote
+fn Remote::as_any(Self) -> @nostd.Any
 fn Remote::call0(Self, String) -> @js.Promise[@js.Any]
 fn Remote::call1(Self, String, @js.Any) -> @js.Promise[@js.Any]
 fn Remote::call2(Self, String, @js.Any, @js.Any) -> @js.Promise[@js.Any]
@@ -64,6 +68,7 @@ impl @js.JsImpl for Remote
 
 #external
 pub type TransferHandler
+fn TransferHandler::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for TransferHandler
 
 // Type aliases

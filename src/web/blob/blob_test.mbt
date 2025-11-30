@@ -109,7 +109,7 @@ test "Blob slice with content_type sets MIME type" {
 test "Blob stream returns ReadableStream" {
   let blob = Blob::new(["test"])
   let stream = blob.stream()
-  inspect(@js.typeof_(stream.to_any()) == "object", content="true")
+  inspect(@js.typeof_(stream.as_any().cast()) == "object", content="true")
 }
 
 ///| Integration Tests

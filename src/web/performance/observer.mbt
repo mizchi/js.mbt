@@ -4,7 +4,7 @@
 pub type PerformanceObserver
 
 ///|
-pub impl @js.JsImpl for PerformanceObserver
+pub fn PerformanceObserver::as_any(self : PerformanceObserver) -> @nostd.Any = "%identity"
 
 ///|
 /// PerformanceObserverEntryList - list of observed performance entries
@@ -12,11 +12,13 @@ pub impl @js.JsImpl for PerformanceObserver
 pub type PerformanceObserverEntryList
 
 ///|
-pub impl @js.JsImpl for PerformanceObserverEntryList
+pub fn PerformanceObserverEntryList::as_any(
+  self : PerformanceObserverEntryList,
+) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_performance_observer(
-  callback : (@js.Any, @js.Any) -> Unit,
+  callback : (@nostd.Any, @nostd.Any) -> Unit,
 ) -> PerformanceObserver =
   #|(callback) => new PerformanceObserver(callback)
 
@@ -28,7 +30,7 @@ pub fn PerformanceObserver::new(
   callback : (PerformanceObserverEntryList, PerformanceObserver) -> Unit,
 ) -> PerformanceObserver {
   ffi_new_performance_observer(fn(list, observer) {
-    callback(@js.identity(list), @js.identity(observer))
+    callback(@nostd.identity(list), @nostd.identity(observer))
   })
 }
 
@@ -38,16 +40,16 @@ pub fn PerformanceObserver::new(
 /// Example: observer.observe({ entryTypes: ["measure", "mark"] })
 pub fn PerformanceObserver::observe(
   self : PerformanceObserver,
-  options : @js.Object,
+  options : @nostd.Any,
 ) -> Unit {
-  self.call("observe", [options]) |> ignore
+  self.as_any()._call("observe", [options]) |> ignore
 }
 
 ///|
 /// JS: observer.disconnect()
 /// Stop observing performance entries
 pub fn PerformanceObserver::disconnect(self : PerformanceObserver) -> Unit {
-  self.call0("disconnect") |> ignore
+  self.as_any()._call("disconnect", []) |> ignore
 }
 
 ///|
@@ -56,7 +58,7 @@ pub fn PerformanceObserver::disconnect(self : PerformanceObserver) -> Unit {
 pub fn PerformanceObserver::takeRecords(
   self : PerformanceObserver,
 ) -> Array[PerformanceEntry] {
-  self.call0("takeRecords").cast()
+  self.as_any()._call("takeRecords", []).cast()
 }
 
 ///|
@@ -65,7 +67,7 @@ pub fn PerformanceObserver::takeRecords(
 pub fn PerformanceObserverEntryList::getEntries(
   self : PerformanceObserverEntryList,
 ) -> Array[PerformanceEntry] {
-  self.call0("getEntries").cast()
+  self.as_any()._call("getEntries", []).cast()
 }
 
 ///|
@@ -75,7 +77,7 @@ pub fn PerformanceObserverEntryList::getEntriesByType(
   self : PerformanceObserverEntryList,
   entryType : String,
 ) -> Array[PerformanceEntry] {
-  self.call("getEntriesByType", [entryType]).cast()
+  self.as_any()._call("getEntriesByType", [@nostd.any(entryType)]).cast()
 }
 
 ///|
@@ -85,5 +87,5 @@ pub fn PerformanceObserverEntryList::getEntriesByName(
   self : PerformanceObserverEntryList,
   name : String,
 ) -> Array[PerformanceEntry] {
-  self.call("getEntriesByName", [name]).cast()
+  self.as_any()._call("getEntriesByName", [@nostd.any(name)]).cast()
 }

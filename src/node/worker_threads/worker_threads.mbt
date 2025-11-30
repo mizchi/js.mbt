@@ -70,8 +70,8 @@ pub fn Worker::postMessage(
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.call2("postMessage", value.to_any(), @js.from_array(list)) |> ignore
-    None => self.call("postMessage", [value.to_any()]) |> ignore
+      self.call2("postMessage", value.as_any(), @js.from_array(list)) |> ignore
+    None => self.call("postMessage", [value.as_any()]) |> ignore
   }
 }
 
@@ -127,8 +127,8 @@ pub fn MessagePort::postMessage(
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.call2("postMessage", value.to_any(), @js.from_array(list)) |> ignore
-    None => self.call("postMessage", [value.to_any()]) |> ignore
+      self.call2("postMessage", value.as_any(), @js.from_array(list)) |> ignore
+    None => self.call("postMessage", [value.as_any()]) |> ignore
   }
 }
 

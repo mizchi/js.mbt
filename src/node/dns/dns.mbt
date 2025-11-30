@@ -20,7 +20,7 @@ pub fn lookup(
 ) -> Unit {
   let cb : @js.Any = @js.identity(callback)
   if family is None && all is None && order is None {
-    ffi_lookup(hostname, @js.Object::new().to_any(), cb)
+    ffi_lookup(hostname, @js.Object::new().as_any(), cb)
   } else {
     let opts = @js.from_option_map({
       "family": family.map(fn(x) { @js.any(x) }),

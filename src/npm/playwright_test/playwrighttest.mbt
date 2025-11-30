@@ -208,7 +208,7 @@ pub fn Expect::value(self : Expect, value : @js.Any) -> @js.Any {
 ///|
 /// Create page assertions
 pub fn Expect::page(self : Expect, page : @playwright.Page) -> PageAssertions {
-  @js.identity(ffi_expect_value(self, page.to_any()))
+  @js.identity(ffi_expect_value(self, page.as_any()))
 }
 
 ///|
@@ -217,7 +217,7 @@ pub fn Expect::locator(
   self : Expect,
   locator : @playwright.Locator,
 ) -> LocatorAssertions {
-  @js.identity(ffi_expect_value(self, locator.to_any()))
+  @js.identity(ffi_expect_value(self, locator.as_any()))
 }
 
 ///| Page Assertions
@@ -234,7 +234,7 @@ pub async fn PageAssertions::toHaveTitle(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toHaveTitle", [@js.any(title), options.to_any()]),
+    self.call("toHaveTitle", [@js.any(title), options.as_any()]),
   )
   promise.wait()
 }
@@ -251,7 +251,7 @@ pub async fn PageAssertions::toHaveURL(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toHaveURL", [@js.any(url), options.to_any()]),
+    self.call("toHaveURL", [@js.any(url), options.as_any()]),
   )
   promise.wait()
 }
@@ -269,7 +269,7 @@ pub async fn LocatorAssertions::toBeVisible(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toBeVisible", [options.to_any()]),
+    self.call("toBeVisible", [options.as_any()]),
   )
   promise.wait()
 }
@@ -285,7 +285,7 @@ pub async fn LocatorAssertions::toBeHidden(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toBeHidden", [options.to_any()]),
+    self.call("toBeHidden", [options.as_any()]),
   )
   promise.wait()
 }
@@ -301,7 +301,7 @@ pub async fn LocatorAssertions::toBeEnabled(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toBeEnabled", [options.to_any()]),
+    self.call("toBeEnabled", [options.as_any()]),
   )
   promise.wait()
 }
@@ -317,7 +317,7 @@ pub async fn LocatorAssertions::toBeDisabled(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toBeDisabled", [options.to_any()]),
+    self.call("toBeDisabled", [options.as_any()]),
   )
   promise.wait()
 }
@@ -337,7 +337,7 @@ pub async fn LocatorAssertions::toBeChecked(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toBeChecked", [options.to_any()]),
+    self.call("toBeChecked", [options.as_any()]),
   )
   promise.wait()
 }
@@ -358,7 +358,7 @@ pub async fn LocatorAssertions::toHaveText(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toHaveText", [@js.any(text), options.to_any()]),
+    self.call("toHaveText", [@js.any(text), options.as_any()]),
   )
   promise.wait()
 }
@@ -379,7 +379,7 @@ pub async fn LocatorAssertions::toContainText(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toContainText", [@js.any(text), options.to_any()]),
+    self.call("toContainText", [@js.any(text), options.as_any()]),
   )
   promise.wait()
 }
@@ -396,7 +396,7 @@ pub async fn LocatorAssertions::toHaveValue(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toHaveValue", [@js.any(value), options.to_any()]),
+    self.call("toHaveValue", [@js.any(value), options.as_any()]),
   )
   promise.wait()
 }
@@ -417,7 +417,7 @@ pub async fn LocatorAssertions::toHaveAttribute(
     self.call("toHaveAttribute", [
       @js.any(name),
       @js.any(value),
-      options.to_any(),
+      options.as_any(),
     ]),
   )
   promise.wait()
@@ -435,7 +435,7 @@ pub async fn LocatorAssertions::toHaveClass(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toHaveClass", [@js.any(class_), options.to_any()]),
+    self.call("toHaveClass", [@js.any(class_), options.as_any()]),
   )
   promise.wait()
 }
@@ -452,7 +452,7 @@ pub async fn LocatorAssertions::toHaveCount(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toHaveCount", [@js.any(count), options.to_any()]),
+    self.call("toHaveCount", [@js.any(count), options.as_any()]),
   )
   promise.wait()
 }
@@ -468,7 +468,7 @@ pub async fn LocatorAssertions::toBeFocused(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("toBeFocused", [options.to_any()]),
+    self.call("toBeFocused", [options.as_any()]),
   )
   promise.wait()
 }
@@ -579,7 +579,7 @@ pub async fn TestInfo::attach(
     options["contentType"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("attach", [@js.any(name), options.to_any()]),
+    self.call("attach", [@js.any(name), options.as_any()]),
   )
   promise.wait()
 }

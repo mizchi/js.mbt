@@ -1,6 +1,9 @@
 {
   "is_main": false,
   "import": [
+    "mizchi/js/nostd"
+  ],
+  "test-import": [
     "mizchi/js"
   ]
 }

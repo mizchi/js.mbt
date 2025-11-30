@@ -3,7 +3,7 @@
 ///|
 test "TextEncoder::new - create encoder" {
   let encoder = TextEncoder::new()
-  assert_true(encoder |> @js.is_object())
+  assert_eq(@nostd.typeof_(encoder), "object")
 }
 
 ///|
@@ -57,7 +57,7 @@ test "TextEncoder::encode - special characters" {
 ///|
 test "TextDecoder::new - create decoder" {
   let decoder = TextDecoder::new()
-  assert_true(decoder |> @js.is_object())
+  assert_eq(@nostd.typeof_(decoder), "object")
 }
 
 ///|

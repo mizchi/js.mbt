@@ -31,7 +31,7 @@ pub fn drizzleLibsqlClient(client : @js.Any) -> DrizzleDB {
   let drizzle_fn = drizzle_libsql_module().get("drizzle")
   let config = @js.Object::new()
   config.set("client", client)
-  drizzle_fn.call_self([config.to_any()]) |> @js.identity
+  drizzle_fn.call_self([config.as_any()]) |> @js.identity
 }
 
 ///|
@@ -69,7 +69,7 @@ pub fn sqliteTableFromMap(
 ) -> Table {
   let obj = @js.Object::new()
   columns.each(fn(key, col) { obj.set(key, col) })
-  sqliteTable(name, obj.to_any())
+  sqliteTable(name, obj.as_any())
 }
 
 ///|
@@ -110,8 +110,8 @@ pub fn sqliteInteger(name? : String, mode? : String) -> Column {
     opts.set("mode", m)
   }
   match name {
-    Some(n) => fn_.call_self([n |> @js.any, opts.to_any()]) |> @js.identity
-    None => fn_.call_self([opts.to_any()]) |> @js.identity
+    Some(n) => fn_.call_self([n |> @js.any, opts.as_any()]) |> @js.identity
+    None => fn_.call_self([opts.as_any()]) |> @js.identity
   }
 }
 
@@ -127,13 +127,13 @@ pub fn sqliteText(name? : String, mode? : String) -> Column {
   match name {
     Some(n) =>
       if mode is Some(_) {
-        fn_.call_self([n |> @js.any, opts.to_any()]) |> @js.identity
+        fn_.call_self([n |> @js.any, opts.as_any()]) |> @js.identity
       } else {
         fn_.call_self([n |> @js.any]) |> @js.identity
       }
     None =>
       if mode is Some(_) {
-        fn_.call_self([opts.to_any()]) |> @js.identity
+        fn_.call_self([opts.as_any()]) |> @js.identity
       } else {
         fn_.call_self0() |> @js.identity
       }
@@ -163,13 +163,13 @@ pub fn sqliteBlob(name? : String, mode? : String) -> Column {
   match name {
     Some(n) =>
       if mode is Some(_) {
-        fn_.call_self([n |> @js.any, opts.to_any()]) |> @js.identity
+        fn_.call_self([n |> @js.any, opts.as_any()]) |> @js.identity
       } else {
         fn_.call_self([n |> @js.any]) |> @js.identity
       }
     None =>
       if mode is Some(_) {
-        fn_.call_self([opts.to_any()]) |> @js.identity
+        fn_.call_self([opts.as_any()]) |> @js.identity
       } else {
         fn_.call_self0() |> @js.identity
       }
@@ -195,7 +195,7 @@ pub fn sqliteNumeric(name? : String) -> Column {
 pub fn Column::primaryKeyAutoIncrement(self : Column) -> Column {
   let opts = @js.Object::new()
   opts.set("autoIncrement", true)
-  self.call1("primaryKey", opts.to_any()) |> @js.identity
+  self.call1("primaryKey", opts.as_any()) |> @js.identity
 }
 
 // ============ SQLite Specific Index ============
@@ -230,7 +230,7 @@ pub fn IndexBuilder::on(
   self : IndexBuilder,
   columns : Array[Column],
 ) -> IndexBuilder {
-  self.call("on", columns.map(fn(c) { c.to_any() })) |> @js.identity
+  self.call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
 }
 
 ///|

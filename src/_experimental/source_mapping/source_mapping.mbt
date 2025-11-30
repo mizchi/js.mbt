@@ -55,7 +55,7 @@ pub async fn ErrorTracer::add_source_map(
 pub async fn ErrorTracer::add_source_map_raw(
   self : ErrorTracer,
   file : String,
-  source_map : @js.Any,
+  source_map : @nostd.Any,
 ) -> Unit {
   let consumer = @source_map.SourceMapConsumer::from_raw(source_map)
   self.consumers.set(file, consumer)
@@ -86,9 +86,9 @@ pub fn ErrorTracer::resolve_frame(
 /// Resolve all frames from an error
 pub fn ErrorTracer::resolve_error(
   self : ErrorTracer,
-  error : @js.Any,
+  error : @nostd.Any,
 ) -> Array[ResolvedFrame] {
-  let frames = @error_stack_parser.parse(error |> @nostd.identity)
+  let frames = @error_stack_parser.parse(error)
   frames.map(fn(f) { self.resolve_frame(f) })
 }
 
@@ -126,12 +126,12 @@ pub fn format_resolved_stack(frames : Array[ResolvedFrame]) -> String {
 
 ///|
 /// Load source map from a URL (e.g., from .map file)
-pub async fn load_source_map_from_url(url : String) -> @js.Any {
+pub async fn load_source_map_from_url(url : String) -> @nostd.Any {
   ffi_fetch_source_map(url).wait()
 }
 
 ///|
-extern "js" fn ffi_fetch_source_map(url : String) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_fetch_source_map(url : String) -> @nostd.Promise[@nostd.Any] =
   #|async (url) => {
   #|  const response = await fetch(url);
   #|  return response.json();
@@ -140,12 +140,12 @@ extern "js" fn ffi_fetch_source_map(url : String) -> @js.Promise[@js.Any] =
 ///|
 /// Try to find and load source map for a JS file
 /// Looks for //# sourceMappingURL= comment or .map file
-pub async fn find_source_map_for_file(js_file_path : String) -> @js.Any? {
-  ffi_find_source_map(js_file_path).wait() |> @js.identity
+pub async fn find_source_map_for_file(js_file_path : String) -> @nostd.Any? {
+  ffi_find_source_map(js_file_path).wait().cast()
 }
 
 ///|
-extern "js" fn ffi_find_source_map(path : String) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_find_source_map(path : String) -> @nostd.Promise[@nostd.Any] =
   #|async (path) => {
   #|  const fs = require('fs').promises;
   #|  try {

@@ -70,8 +70,8 @@ pub fn WASI::new(
   let options = @js.from_option_map({
     "version": Some(@js.any(version)),
     "args": args.map(fn(x) { @js.from_array(x) }),
-    "env": env_obj.map(fn(x) { x.to_any() }),
-    "preopens": preopens_obj.map(fn(x) { x.to_any() }),
+    "env": env_obj.map(fn(x) { x.as_any() }),
+    "preopens": preopens_obj.map(fn(x) { x.as_any() }),
     "returnOnExit": returnOnExit.map(fn(x) { @js.any(x) }),
     "stdin": stdin.map(fn(x) { @js.any(x) }),
     "stdout": stdout.map(fn(x) { @js.any(x) }),
@@ -95,7 +95,7 @@ pub fn WASI::start(
   self : Self,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.call1("start", instance.to_any()) |> ignore
+  self.call1("start", instance.as_any()) |> ignore
 }
 
 ///|
@@ -104,7 +104,7 @@ pub fn WASI::initialize(
   self : WASI,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.call1("initialize", instance.to_any()) |> ignore
+  self.call1("initialize", instance.as_any()) |> ignore
 }
 
 ///|

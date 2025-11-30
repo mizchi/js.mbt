@@ -23,7 +23,7 @@ pub fn[T] Ref::get_value(self : Ref[T]) -> T {
 
 ///|
 pub fn[T : @js.JsImpl] Ref::set_value(self : Ref[T], value : T) -> Unit {
-  ffi_set_ref_value(self |> @js.identity, value.to_any())
+  ffi_set_ref_value(self |> @js.identity, value.as_any())
 }
 
 ///|
@@ -64,7 +64,7 @@ pub fn h(
     }
     val.set("style", style_obj)
   }
-  @js.identity(ffi_h(tag, val.to_any(), children))
+  @js.identity(ffi_h(tag, val.as_any(), children))
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn[T] component(
     if @js.is_nullish(val) {
       let obj = @js.Object::new()
       obj.set("key", key)
-      return ffi_h(tag, obj.to_any(), children) |> @js.identity
+      return ffi_h(tag, obj.as_any(), children) |> @js.identity
     }
     val.set("key", key)
   }
@@ -99,7 +99,7 @@ pub fn fragment(children : Array[&VueNode], key? : String) -> VNode {
   if key is Some(key) {
     val.set("key", key)
   }
-  ffi_h(tag, val.to_any(), children) |> @js.identity
+  ffi_h(tag, val.as_any(), children) |> @js.identity
 }
 
 ///|
@@ -113,7 +113,7 @@ pub fn render(vnode : VNode, container : @dom.Element) -> Unit {
 pub fn createApp(rootComponent : @js.Any, props? : @js.Any) -> @js.Any {
   let p = match props {
     Some(p) => p
-    None => @js.Object::new().to_any()
+    None => @js.Object::new().as_any()
   }
   ffi_create_app(rootComponent, p)
 }
@@ -128,7 +128,7 @@ pub fn mount(app : @js.Any, container : @dom.Element) -> Unit {
 /// Vue.ref - Create a reactive reference
 #alias(create_ref)
 pub fn[T : @js.JsImpl] ref_(initial : T) -> Ref[T] {
-  @js.identity(ffi_ref(initial.to_any()))
+  @js.identity(ffi_ref(initial.as_any()))
 }
 
 ///|
@@ -149,7 +149,7 @@ pub fn[T] computedWritable(get : () -> T, set : (T) -> Unit) -> Ref[T] {
   let options = @js.Object::new()
   options.set("get", get |> @js.unsafe_any)
   options.set("set", set |> @js.unsafe_any)
-  @js.identity(ffi_computed(options.to_any()))
+  @js.identity(ffi_computed(options.as_any()))
 }
 
 ///|
@@ -209,7 +209,7 @@ pub fn[T] markRaw(obj : T) -> T {
 ///|
 /// Vue.shallowRef - Create a shallow ref
 pub fn[T : @js.JsImpl] shallowRef(initial : T) -> Ref[T] {
-  @js.identity(ffi_shallow_ref(initial.to_any()))
+  @js.identity(ffi_shallow_ref(initial.as_any()))
 }
 
 ///|

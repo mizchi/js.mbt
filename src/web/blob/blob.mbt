@@ -12,7 +12,7 @@ pub impl @js.JsImpl for Blob
 /// Get the content type of the Blob
 #alias(content_type)
 pub fn Blob::contentType(self : Self) -> String {
-  self.to_any().get("type").cast()
+  self.as_any().get("type").cast()
 }
 
 ///|
@@ -30,7 +30,7 @@ pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
     i = i + 1
   }
   ffi_new_blob(
-    arr.to_any(),
+    arr.as_any(),
     @js.from_option_map({ "type": content_type.map(fn(x) { @js.any(x) }) }),
   ).cast()
 }
@@ -58,7 +58,7 @@ pub fn Blob::slice(
   end? : Int,
   content_type? : String,
 ) -> Blob {
-  let js = self.to_any()
+  let js = self.as_any()
   match (start, end, content_type) {
     (None, None, None) => js.call0("slice").cast()
     (Some(s), None, None) => js.call("slice", [s]).cast()

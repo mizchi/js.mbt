@@ -54,7 +54,7 @@ pub fn Row::null(self : Row, key : String) -> Row {
 ///|
 /// Set any JsImpl value
 pub fn[V : @js.JsImpl] Row::set(self : Row, key : String, value : V) -> Row {
-  self.obj.set(key, value.to_any())
+  self.obj.set(key, value.as_any())
   self
 }
 
@@ -65,7 +65,7 @@ pub fn Row::build(self : Row) -> @js.Any {
 }
 
 ///|
-pub impl @js.JsImpl for Row with to_any(self) {
+pub impl @js.JsImpl for Row with as_any(self) {
   self.obj
 }
 
@@ -209,7 +209,7 @@ pub fn pgTable(name : String, columns : @js.Any) -> Table {
 pub fn pgTableFromMap(name : String, columns : Map[String, Column]) -> Table {
   let obj = @js.Object::new()
   columns.each(fn(key, col) { obj.set(key, col) })
-  pgTable(name, obj.to_any())
+  pgTable(name, obj.as_any())
 }
 
 ///|
@@ -479,7 +479,7 @@ extern "js" fn ffi_default_value(col : Column, value : @js.Any) -> Column =
 /// Set default value (accepts any JsImpl type)
 #alias(default_value)
 pub fn[V : @js.JsImpl] Column::defaultValue(self : Column, value : V) -> Column {
-  ffi_default_value(self, value.to_any())
+  ffi_default_value(self, value.as_any())
 }
 
 ///|
@@ -612,7 +612,7 @@ pub fn[D : @js.JsImpl] QueryBuilder::values(
   self : QueryBuilder,
   data : D,
 ) -> QueryBuilder {
-  ffi_values(self, data.to_any())
+  ffi_values(self, data.as_any())
 }
 
 ///|
@@ -625,7 +625,7 @@ pub fn[D : @js.JsImpl] QueryBuilder::set(
   self : QueryBuilder,
   data : D,
 ) -> QueryBuilder {
-  ffi_set(self, data.to_any())
+  ffi_set(self, data.as_any())
 }
 
 ///|
@@ -739,7 +739,7 @@ extern "js" fn ffi_eq(column : Column, value : @js.Any) -> SQL =
 ///|
 /// Equal comparison (accepts any JsImpl type)
 pub fn[V : @js.JsImpl] eq(column : Column, value : V) -> SQL {
-  ffi_eq(column, value.to_any())
+  ffi_eq(column, value.as_any())
 }
 
 ///|
@@ -749,7 +749,7 @@ extern "js" fn ffi_ne(column : Column, value : @js.Any) -> SQL =
 ///|
 /// Not equal comparison (accepts any JsImpl type)
 pub fn[V : @js.JsImpl] ne(column : Column, value : V) -> SQL {
-  ffi_ne(column, value.to_any())
+  ffi_ne(column, value.as_any())
 }
 
 ///|
@@ -759,7 +759,7 @@ extern "js" fn ffi_gt(column : Column, value : @js.Any) -> SQL =
 ///|
 /// Greater than comparison (accepts any JsImpl type)
 pub fn[V : @js.JsImpl] gt(column : Column, value : V) -> SQL {
-  ffi_gt(column, value.to_any())
+  ffi_gt(column, value.as_any())
 }
 
 ///|
@@ -769,7 +769,7 @@ extern "js" fn ffi_gte(column : Column, value : @js.Any) -> SQL =
 ///|
 /// Greater than or equal comparison (accepts any JsImpl type)
 pub fn[V : @js.JsImpl] gte(column : Column, value : V) -> SQL {
-  ffi_gte(column, value.to_any())
+  ffi_gte(column, value.as_any())
 }
 
 ///|
@@ -779,7 +779,7 @@ extern "js" fn ffi_lt(column : Column, value : @js.Any) -> SQL =
 ///|
 /// Less than comparison (accepts any JsImpl type)
 pub fn[V : @js.JsImpl] lt(column : Column, value : V) -> SQL {
-  ffi_lt(column, value.to_any())
+  ffi_lt(column, value.as_any())
 }
 
 ///|
@@ -789,7 +789,7 @@ extern "js" fn ffi_lte(column : Column, value : @js.Any) -> SQL =
 ///|
 /// Less than or equal comparison (accepts any JsImpl type)
 pub fn[V : @js.JsImpl] lte(column : Column, value : V) -> SQL {
-  ffi_lte(column, value.to_any())
+  ffi_lte(column, value.as_any())
 }
 
 ///|
@@ -873,7 +873,7 @@ pub fn[A : @js.JsImpl, B : @js.JsImpl] between(
   min_val : A,
   max_val : B,
 ) -> SQL {
-  ffi_between(column, min_val.to_any(), max_val.to_any())
+  ffi_between(column, min_val.as_any(), max_val.as_any())
 }
 
 ///|

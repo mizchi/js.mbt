@@ -41,14 +41,14 @@ pub impl @js.JsImpl for RenderResult
 ///|
 /// Get the last rendered frame as a string
 pub fn RenderResult::lastFrame(self : RenderResult) -> String {
-  let result = self.to_any().get("lastFrame").call_self([])
+  let result = self.as_any().get("lastFrame").call_self([])
   @js.identity(result)
 }
 
 ///|
 /// Get all rendered frames
 pub fn RenderResult::frames(self : RenderResult) -> Array[String] {
-  let frames_arr = self.to_any().get("frames")
+  let frames_arr = self.as_any().get("frames")
   let len : Int = @js.identity(frames_arr.get("length"))
   let result : Array[String] = []
   for i = 0; i < len; i = i + 1 {
@@ -64,33 +64,33 @@ pub fn RenderResult::rerender(
   self : RenderResult,
   element : @react.Element,
 ) -> Unit {
-  self.to_any().get("rerender").call_self([element.to_any()]) |> ignore
+  self.as_any().get("rerender").call_self([element.as_any()]) |> ignore
 }
 
 ///|
 /// Unmount the component
 pub fn RenderResult::unmount(self : RenderResult) -> Unit {
-  self.to_any().get("unmount").call_self([]) |> ignore
+  self.as_any().get("unmount").call_self([]) |> ignore
 }
 
 ///|
 /// Get stdin for sending input
 pub fn RenderResult::stdin(self : RenderResult) -> StdinMock {
-  let stdin = self.to_any().get("stdin")
+  let stdin = self.as_any().get("stdin")
   { raw: stdin }
 }
 
 ///|
 /// Stdout stream access
 pub fn RenderResult::stdout(self : RenderResult) -> StreamOutput {
-  let stdout = self.to_any().get("stdout")
+  let stdout = self.as_any().get("stdout")
   { raw: stdout }
 }
 
 ///|
 /// Stderr stream access
 pub fn RenderResult::stderr(self : RenderResult) -> StreamOutput {
-  let stderr = self.to_any().get("stderr")
+  let stderr = self.as_any().get("stderr")
   { raw: stderr }
 }
 
@@ -151,6 +151,6 @@ pub fn InkTestingLibrary::render(
   self : InkTestingLibrary,
   element : @react.Element,
 ) -> RenderResult {
-  let render_fn = self.to_any().get("render")
-  render_fn.call_self([element.to_any()]) |> @js.identity
+  let render_fn = self.as_any().get("render")
+  render_fn.call_self([element.as_any()]) |> @js.identity
 }

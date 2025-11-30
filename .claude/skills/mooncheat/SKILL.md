@@ -4,8 +4,5 @@ description: Moonbit cheatsheet to check syntax and corelibrary usages
 allowed-tools: Read, Grep, Glob
 ---
 
-WIP
-
-```
-grep -r "unwrap_or" ~/.moon/lib/core
-```
+- grep `~/.moon/lib/core`
+- grep `.mooncakes/`

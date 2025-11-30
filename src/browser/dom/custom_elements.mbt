@@ -136,7 +136,7 @@ pub async fn CustomElementRegistry::whenDefined(
 /// Upgrades a custom element in the shadow root before it is connected
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/upgrade
 pub fn CustomElementRegistry::upgrade(self : Self, root : Node) -> Unit {
-  self.call1("upgrade", root.to_any()) |> ignore
+  self.call1("upgrade", root.as_any()) |> ignore
 }
 
 ///|

@@ -27,7 +27,7 @@ pub fn McpClient::create_request_with_params(
   params : &@js.JsImpl,
 ) -> JsonRpcRequest {
   let id = self.next_id()
-  { jsonrpc: "2.0", id, method_name, params: Some(params.to_any()) }
+  { jsonrpc: "2.0", id, method_name, params: Some(params.as_any()) }
 }
 
 ///|

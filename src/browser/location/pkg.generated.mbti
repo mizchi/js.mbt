@@ -2,7 +2,7 @@
 package "mizchi/js/browser/location"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -22,11 +22,11 @@ pub(all) struct Location {
   mut hash : String
   origin : String
 }
+fn Location::as_any(Self) -> @nostd.Any
 fn Location::assign(Self, String) -> Unit
 fn Location::reload(Self) -> Unit
 fn Location::replace(Self, String) -> Unit
 fn Location::to_string(Self) -> String
-impl @js.JsImpl for Location
 
 // Type aliases
 

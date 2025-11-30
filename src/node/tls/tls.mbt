@@ -54,7 +54,7 @@ pub fn create_server(
   alpn_protocols? : Array[String],
 ) -> Server {
   let cb : @js.Any = @js.identity(secureConnectionListener)
-  let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).to_any() })
+  let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).as_any() })
   let opts = @js.from_option_map({
     "key": key.map(fn(x) { @js.any(x) }),
     "cert": cert.map(fn(x) { @js.any(x) }),
@@ -104,7 +104,7 @@ pub fn connect(
   session? : @js.Object,
 ) -> TLSSocket {
   let cb : @js.Any = @js.identity(callback)
-  let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).to_any() })
+  let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).as_any() })
   let opts = @js.from_option_map({
     "port": Some(@js.any(port)),
     "host": Some(@js.any(host)),
@@ -114,7 +114,7 @@ pub fn connect(
     "ca": ca.map(fn(x) { @js.any(x) }),
     "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @js.any(x) }),
     "ALPNProtocols": alpn_js,
-    "session": session.map(fn(x) { x.to_any() }),
+    "session": session.map(fn(x) { x.as_any() }),
   })
   ffi_connect(opts, cb)
 }

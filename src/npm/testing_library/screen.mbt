@@ -56,7 +56,7 @@ pub fn[T : TextMatch] Screen::getByLabelText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> ScreenResult {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match
     build_selector_matcher_options(
       exact~,
@@ -79,7 +79,7 @@ pub fn[T : TextMatch] Screen::getByPlaceholderText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getByPlaceholderText", text_js, opts).cast()
     None => self.call1("getByPlaceholderText", text_js).cast()
@@ -97,7 +97,7 @@ pub fn[T : TextMatch] Screen::getByText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> ScreenResult {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match
     build_selector_matcher_options(
       exact~,
@@ -120,7 +120,7 @@ pub fn[T : TextMatch] Screen::getByDisplayValue(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult {
-  let value_js = value.to_any()
+  let value_js = value.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getByDisplayValue", value_js, opts).cast()
     None => self.call1("getByDisplayValue", value_js).cast()
@@ -137,7 +137,7 @@ pub fn[T : TextMatch] Screen::getByAltText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getByAltText", text_js, opts).cast()
     None => self.call1("getByAltText", text_js).cast()
@@ -154,7 +154,7 @@ pub fn[T : TextMatch] Screen::getByTitle(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult {
-  let title_js = title.to_any()
+  let title_js = title.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getByTitle", title_js, opts).cast()
     None => self.call1("getByTitle", title_js).cast()
@@ -212,7 +212,7 @@ pub fn[T : TextMatch] Screen::queryByLabelText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> ScreenResult? {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match
     build_selector_matcher_options(
       exact~,
@@ -236,7 +236,7 @@ pub fn[T : TextMatch] Screen::queryByPlaceholderText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult? {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) =>
       @js.identity_option(self.call2("queryByPlaceholderText", text_js, opts))
@@ -255,7 +255,7 @@ pub fn[T : TextMatch] Screen::queryByText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> ScreenResult? {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match
     build_selector_matcher_options(
       exact~,
@@ -278,7 +278,7 @@ pub fn[T : TextMatch] Screen::queryByDisplayValue(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult? {
-  let value_js = value.to_any()
+  let value_js = value.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) =>
       @js.identity_option(self.call2("queryByDisplayValue", value_js, opts))
@@ -296,7 +296,7 @@ pub fn[T : TextMatch] Screen::queryByAltText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult? {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) =>
       @js.identity_option(self.call2("queryByAltText", text_js, opts))
@@ -314,7 +314,7 @@ pub fn[T : TextMatch] Screen::queryByTitle(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult? {
-  let title_js = title.to_any()
+  let title_js = title.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) =>
       @js.identity_option(self.call2("queryByTitle", title_js, opts))
@@ -374,7 +374,7 @@ pub async fn[T : TextMatch] Screen::findByLabelText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> ScreenResult {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   let promise : @js.Promise[ScreenResult] = match
     build_selector_matcher_options(
       exact~,
@@ -398,7 +398,7 @@ pub async fn[T : TextMatch] Screen::findByPlaceholderText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   let promise : @js.Promise[ScreenResult] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findByPlaceholderText", text_js, opts).cast()
@@ -418,7 +418,7 @@ pub async fn[T : TextMatch] Screen::findByText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> ScreenResult {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   let promise : @js.Promise[ScreenResult] = match
     build_selector_matcher_options(
       exact~,
@@ -442,7 +442,7 @@ pub async fn[T : TextMatch] Screen::findByDisplayValue(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult {
-  let value_js = value.to_any()
+  let value_js = value.as_any()
   let promise : @js.Promise[ScreenResult] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findByDisplayValue", value_js, opts).cast()
@@ -461,7 +461,7 @@ pub async fn[T : TextMatch] Screen::findByAltText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   let promise : @js.Promise[ScreenResult] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findByAltText", text_js, opts).cast()
@@ -480,7 +480,7 @@ pub async fn[T : TextMatch] Screen::findByTitle(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> ScreenResult {
-  let title_js = title.to_any()
+  let title_js = title.as_any()
   let promise : @js.Promise[ScreenResult] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findByTitle", title_js, opts).cast()
@@ -546,7 +546,7 @@ pub fn[T : TextMatch] Screen::getAllByLabelText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match
     build_selector_matcher_options(
       exact~,
@@ -569,7 +569,7 @@ pub fn[T : TextMatch] Screen::getAllByPlaceholderText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getAllByPlaceholderText", text_js, opts).cast()
     None => self.call1("getAllByPlaceholderText", text_js).cast()
@@ -587,7 +587,7 @@ pub fn[T : TextMatch] Screen::getAllByText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match
     build_selector_matcher_options(
       exact~,
@@ -610,7 +610,7 @@ pub fn[T : TextMatch] Screen::getAllByDisplayValue(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let value_js = value.to_any()
+  let value_js = value.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getAllByDisplayValue", value_js, opts).cast()
     None => self.call1("getAllByDisplayValue", value_js).cast()
@@ -627,7 +627,7 @@ pub fn[T : TextMatch] Screen::getAllByAltText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getAllByAltText", text_js, opts).cast()
     None => self.call1("getAllByAltText", text_js).cast()
@@ -644,7 +644,7 @@ pub fn[T : TextMatch] Screen::getAllByTitle(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let title_js = title.to_any()
+  let title_js = title.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("getAllByTitle", title_js, opts).cast()
     None => self.call1("getAllByTitle", title_js).cast()
@@ -705,7 +705,7 @@ pub fn[T : TextMatch] Screen::queryAllByLabelText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match
     build_selector_matcher_options(
       exact~,
@@ -728,7 +728,7 @@ pub fn[T : TextMatch] Screen::queryAllByPlaceholderText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("queryAllByPlaceholderText", text_js, opts).cast()
     None => self.call1("queryAllByPlaceholderText", text_js).cast()
@@ -746,7 +746,7 @@ pub fn[T : TextMatch] Screen::queryAllByText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match
     build_selector_matcher_options(
       exact~,
@@ -769,7 +769,7 @@ pub fn[T : TextMatch] Screen::queryAllByDisplayValue(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let value_js = value.to_any()
+  let value_js = value.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("queryAllByDisplayValue", value_js, opts).cast()
     None => self.call1("queryAllByDisplayValue", value_js).cast()
@@ -786,7 +786,7 @@ pub fn[T : TextMatch] Screen::queryAllByAltText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("queryAllByAltText", text_js, opts).cast()
     None => self.call1("queryAllByAltText", text_js).cast()
@@ -803,7 +803,7 @@ pub fn[T : TextMatch] Screen::queryAllByTitle(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let title_js = title.to_any()
+  let title_js = title.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("queryAllByTitle", title_js, opts).cast()
     None => self.call1("queryAllByTitle", title_js).cast()
@@ -865,7 +865,7 @@ pub async fn[T : TextMatch] Screen::findAllByLabelText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   let promise : @js.Promise[Array[ScreenResult]] = match
     build_selector_matcher_options(
       exact~,
@@ -889,7 +889,7 @@ pub async fn[T : TextMatch] Screen::findAllByPlaceholderText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   let promise : @js.Promise[Array[ScreenResult]] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findAllByPlaceholderText", text_js, opts).cast()
@@ -909,7 +909,7 @@ pub async fn[T : TextMatch] Screen::findAllByText(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   let promise : @js.Promise[Array[ScreenResult]] = match
     build_selector_matcher_options(
       exact~,
@@ -933,7 +933,7 @@ pub async fn[T : TextMatch] Screen::findAllByDisplayValue(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let value_js = value.to_any()
+  let value_js = value.as_any()
   let promise : @js.Promise[Array[ScreenResult]] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findAllByDisplayValue", value_js, opts).cast()
@@ -952,7 +952,7 @@ pub async fn[T : TextMatch] Screen::findAllByAltText(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let text_js = text.to_any()
+  let text_js = text.as_any()
   let promise : @js.Promise[Array[ScreenResult]] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findAllByAltText", text_js, opts).cast()
@@ -971,7 +971,7 @@ pub async fn[T : TextMatch] Screen::findAllByTitle(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> Array[ScreenResult] {
-  let title_js = title.to_any()
+  let title_js = title.as_any()
   let promise : @js.Promise[Array[ScreenResult]] = match
     build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) => self.call2("findAllByTitle", title_js, opts).cast()

@@ -182,7 +182,7 @@ fn main {
     // Create binary data using @encoding.TextEncoder
     let encoder = @encoding.TextEncoder::new()
     let arr = encoder.encode("binary test data")
-    d.writeFile(test_file, arr.to_any())
+    d.writeFile(test_file, arr.as_any())
     let data = d.readFile(test_file)
     assert_true(@js.typeof_(data) == "object")
     d.remove(test_file)
@@ -275,14 +275,14 @@ fn main {
     let file = d.create(test_file)
     let encoder = @encoding.TextEncoder::new()
     let data = encoder.encode("file handle test")
-    let written = file.write(data.to_any())
+    let written = file.write(data.as_any())
     assert_true(written > 0)
     file.close()
 
     // Read back using file handle
     let read_file = d.open(test_file, read=true)
     let buffer = @typedarray.Uint8Array::from_size(100)
-    let read_bytes = read_file.read(buffer.to_any())
+    let read_bytes = read_file.read(buffer.as_any())
     assert_true(read_bytes > 0)
     read_file.close()
 
@@ -516,7 +516,7 @@ fn main {
     let msg = @js.Object::new()
     msg.set("a", 3)
     msg.set("b", 4)
-    let result = worker_round_trip(worker, msg.to_any())
+    let result = worker_round_trip(worker, msg.as_any())
     let sum : Int = @js.identity(result.get("sum"))
     let product : Int = @js.identity(result.get("product"))
     assert_eq(sum, 7)
@@ -581,14 +581,14 @@ fn main {
     guard @webgpu.gpu() is Some(gpu) else { return }
     guard gpu.requestAdapter() is Some(adapter) else { return }
     guard adapter.requestDevice() is Some(device) else { return }
-    @js.log("device type: " + @js.typeof_(device.to_any()))
+    @js.log("device type: " + @js.typeof_(device.as_any()))
     let buffer = device.createBuffer(
       256,
       @webgpu.BUFFER_USAGE_COPY_DST | @webgpu.BUFFER_USAGE_MAP_READ,
       label="test buffer",
     )
-    @js.log("buffer type: " + @js.typeof_(buffer.to_any()))
-    if @js.is_undefined(buffer.to_any()) {
+    @js.log("buffer type: " + @js.typeof_(buffer.as_any()))
+    if @js.is_undefined(buffer.as_any()) {
       @js.log("WebGPU: buffer is undefined, skipping")
       device.destroy()
       return
@@ -609,8 +609,8 @@ fn main {
       #|@compute @workgroup_size(1)
       #|fn main() {}
     let shader = device.createShaderModule(shader_code, label="test shader")
-    @js.log("shader type: " + @js.typeof_(shader.to_any()))
-    if @js.is_undefined(shader.to_any()) {
+    @js.log("shader type: " + @js.typeof_(shader.as_any()))
+    if @js.is_undefined(shader.as_any()) {
       @js.log("WebGPU: shader is undefined, skipping")
       device.destroy()
       return
@@ -626,8 +626,8 @@ fn main {
     guard gpu.requestAdapter() is Some(adapter) else { return }
     guard adapter.requestDevice() is Some(device) else { return }
     let encoder = device.createCommandEncoder(label="test encoder")
-    @js.log("encoder type: " + @js.typeof_(encoder.to_any()))
-    if @js.is_undefined(encoder.to_any()) {
+    @js.log("encoder type: " + @js.typeof_(encoder.as_any()))
+    if @js.is_undefined(encoder.as_any()) {
       @js.log("WebGPU: encoder is undefined, skipping")
       device.destroy()
       return

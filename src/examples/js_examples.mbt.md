@@ -10,7 +10,7 @@ test "basic object operations" {
   let obj = @js.Object::new()
   obj.set("name", "MoonBit")
   obj.set("version", 1)
-  inspect(obj.to_any(), content="{\"name\":\"MoonBit\",\"version\":1}")
+  inspect(obj.as_any(), content="{\"name\":\"MoonBit\",\"version\":1}")
 
   // Property access with different key types
   obj.set(0, "first") // Int key
@@ -32,7 +32,7 @@ test "basic object operations" {
 test "array operations" {
   let arr = @js.JsArray::from([1, 2, 3])
   arr.push(4)
-  inspect(arr.to_any(), content="[1,2,3,4]")
+  inspect(arr.as_any(), content="[1,2,3,4]")
 
   // Higher-order methods
   let filtered = arr.call1(
@@ -139,7 +139,7 @@ test "constructors" {
 test "json" {
   let obj = @js.Object::new()
   obj["name"] = "Moonbit"
-  let json_str = @js.JSON::stringify(obj.to_any())
+  let json_str = @js.JSON::stringify(obj.as_any())
   assert_eq(json_str.contains("name"), true)
   let parsed = @js.JSON::parse(json_str) catch { _ => @js.undefined() }
   assert_eq(@js.is_object(parsed), true)

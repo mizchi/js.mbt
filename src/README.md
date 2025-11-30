@@ -256,7 +256,7 @@ let count : Int = obj.get("count").cast()
 
 // JsImpl provides these methods:
 trait JsImpl {
-  to_any(Self) -> Any           // Convert to @js.Any
+  as_any(Self) -> Any           // Convert to @js.Any
   get(Self, key) -> Any         // JS: self[key]
   set(Self, key, val) -> Unit   // JS: self[key] = val
   call(Self, key, args) -> Any  // JS: self[key](...args)
@@ -326,7 +326,7 @@ let str_result : String = obj.call0("toString").cast()
 | `@js.identity(x)` | Unsafe type cast | `let n : Int = @js.identity(v)` |
 | `.cast()` | Same as identity (method) | `v.cast()` |
 | `JsImpl` | Trait for JS-compatible types | `fn foo(x : &JsImpl)` |
-| `.to_any()` | Convert to @js.Any | `obj.to_any()` |
+| `.as_any()` | Convert to @js.Any | `obj.as_any()` |
 | `.get(key)` | Property access | `obj.get("name")` |
 | `.set(key, val)` | Property assignment | `obj.set("age", 30)` |
 
@@ -394,8 +394,8 @@ See the main [project README](../README.md) for the complete package list.
 // Type rename: @js.Js → @js.Any
 let value: @js.Any = obj.get("key")
 
-// Method rename: to_js() → to_any()
-let any = obj.to_any()
+// Method rename: to_js() → as_any()
+let any = obj.as_any()
 
 // Function rename: @js.js() → @js.any()
 let converted = @js.any(value)

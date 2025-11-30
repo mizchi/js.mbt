@@ -87,7 +87,7 @@ pub fn jsx(
   if key is Some(k) {
     val.set("key", k)
   }
-  ffi_jsx(tag, val.to_any(), children_arr) |> @js.identity
+  ffi_jsx(tag, val.as_any(), children_arr) |> @js.identity
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn[T] jsx_component(
       let obj = @js.Object::new()
       obj.set("key", k)
       obj.set("children", children)
-      return ffi_jsx(tag, obj.to_any(), children) |> @js.identity
+      return ffi_jsx(tag, obj.as_any(), children) |> @js.identity
     }
     val.set("key", k)
   }
@@ -135,7 +135,7 @@ pub fn fragment(children : Array[&HonoNode], key? : String) -> JSXNode {
   if key is Some(k) {
     val.set("key", k)
   }
-  ffi_jsx(ffi_get_fragment(), val.to_any(), children_arr) |> @js.identity
+  ffi_jsx(ffi_get_fragment(), val.as_any(), children_arr) |> @js.identity
 }
 
 ///|
@@ -229,7 +229,7 @@ pub fn[T] context_provider(
   let props = @js.Object::new()
   props.set("value", value |> @js.identity)
   props.set("children", children)
-  ffi_jsx(ffi_get_provider(ctx |> @js.identity), props.to_any(), children)
+  ffi_jsx(ffi_get_provider(ctx |> @js.identity), props.as_any(), children)
   |> @js.identity
 }
 

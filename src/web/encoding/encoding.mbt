@@ -1,9 +1,9 @@
 ///|
-extern "js" fn ffi_new_text_encoder() -> @js.Any =
+extern "js" fn ffi_new_text_encoder() -> @nostd.Any =
   #| () => new TextEncoder()
 
 ///|
-extern "js" fn ffi_new_text_decoder() -> @js.Any =
+extern "js" fn ffi_new_text_decoder() -> @nostd.Any =
   #| () => new TextDecoder()
 
 ///|
@@ -11,11 +11,11 @@ extern "js" fn ffi_new_text_decoder() -> @js.Any =
 pub type TextEncoder
 
 ///|
-pub impl @js.JsImpl for TextEncoder
+pub fn TextEncoder::as_any(self : TextEncoder) -> @nostd.Any = "%identity"
 
 ///|
 pub fn TextEncoder::new() -> TextEncoder {
-  @js.identity(ffi_new_text_encoder())
+  @nostd.identity(ffi_new_text_encoder())
 }
 
 ///|
@@ -23,18 +23,18 @@ pub fn TextEncoder::encode(
   self : TextEncoder,
   input : String,
 ) -> @typedarray.Uint8Array {
-  self.call("encode", [input]).cast()
+  self.as_any()._call("encode", [@nostd.any(input)]).cast()
 }
 
 ///|
 pub type TextDecoder
 
 ///|
-pub impl @js.JsImpl for TextDecoder
+pub fn TextDecoder::as_any(self : TextDecoder) -> @nostd.Any = "%identity"
 
 ///|
 pub fn TextDecoder::new() -> TextDecoder {
-  @js.identity(ffi_new_text_decoder())
+  @nostd.identity(ffi_new_text_decoder())
 }
 
 ///|
@@ -42,5 +42,5 @@ pub fn TextDecoder::decode(
   self : TextDecoder,
   input : @typedarray.Uint8Array,
 ) -> String {
-  self.call("decode", [input]).cast()
+  self.as_any()._call("decode", [@nostd.any(input)]).cast()
 }

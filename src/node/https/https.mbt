@@ -144,7 +144,7 @@ pub fn request(
     obj.set("path", v)
   }
   if agent is Some(v) {
-    obj.set("agent", v.to_any())
+    obj.set("agent", v.as_any())
   }
   if rejectUnauthorized is Some(v) {
     obj.set("rejectUnauthorized", v)

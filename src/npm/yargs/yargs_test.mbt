@@ -33,7 +33,7 @@ test "yargs positional arguments" {
 ///|
 test "yargs default value" {
   let y = @yargs.yargs_with_args([])
-  let argv = y.option("port", type_="number", default=@js.any(8080)).parse()
+  let argv = y.option("port", type_="number", default=@nostd.any(8080)).parse()
   inspect(argv.get_int("port"), content="Some(8080)")
 }
 
@@ -73,7 +73,7 @@ test "yargs chaining" {
   let argv = @yargs.yargs_with_args(["--name", "test", "--debug"])
     .string("name")
     .boolean("debug")
-    .default("port", @js.any(3000))
+    .default("port", @nostd.any(3000))
     .parse()
   inspect(argv.get_string("name"), content="Some(\"test\")")
   inspect(argv.get_bool("debug"), content="Some(true)")

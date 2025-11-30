@@ -4,6 +4,7 @@ package "mizchi/js/browser/observer"
 import(
   "mizchi/js"
   "mizchi/js/browser/dom"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -13,6 +14,7 @@ import(
 // Types and methods
 #external
 pub type IntersectionObserver
+fn IntersectionObserver::as_any(Self) -> @nostd.Any
 fn IntersectionObserver::disconnect(Self) -> Unit
 fn IntersectionObserver::new((@js.Any?, Self) -> Unit, options? : @js.Any) -> Self
 fn IntersectionObserver::observe(Self, @dom.Element) -> Unit
@@ -33,6 +35,7 @@ impl @js.JsImpl for IntersectionObserverEntry
 
 #external
 pub type MutationObserver
+fn MutationObserver::as_any(Self) -> @nostd.Any
 fn MutationObserver::disconnect(Self) -> Unit
 fn MutationObserver::new((@js.Any?, Self) -> Unit) -> Self
 fn MutationObserver::observe(Self, @dom.Element, @js.Any) -> Unit
@@ -54,6 +57,7 @@ impl @js.JsImpl for MutationRecord
 
 #external
 pub type ResizeObserver
+fn ResizeObserver::as_any(Self) -> @nostd.Any
 fn ResizeObserver::disconnect(Self) -> Unit
 fn ResizeObserver::new((@js.Any?, Self) -> Unit) -> Self
 fn ResizeObserver::observe(Self, @dom.Element) -> Unit

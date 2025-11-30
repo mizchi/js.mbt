@@ -1,0 +1,23 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/nostd/_tests/size9_async_iterator"
+
+import(
+  "mizchi/js/nostd"
+)
+
+// Values
+fn async_iterator_from(@nostd.Any) -> AsyncIterator
+
+// Errors
+
+// Types and methods
+pub struct AsyncIterator {
+  raw : @nostd.Any
+}
+fn AsyncIterator::from_raw(@nostd.Any) -> Self
+async fn AsyncIterator::next(Self) -> @nostd.Any?
+
+// Type aliases
+
+// Traits
+

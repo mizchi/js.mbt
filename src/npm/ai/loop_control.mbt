@@ -149,10 +149,10 @@ pub suberror PrepareStep async (PrepareStepContext) -> PrepareStepResult
 
 ///|
 /// Convert PrepareStepResult to JS options object
-pub fn PrepareStepResult::to_any(self : PrepareStepResult) -> @js.Any {
+pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @js.Any {
   let obj = @js.Object::new()
   if self.model is Some(m) {
-    obj.set("model", m.to_any())
+    obj.set("model", m.as_any())
   }
   if self.active_tools is Some(tools) {
     obj.set("activeTools", tools |> @js.from_array)
@@ -169,12 +169,12 @@ pub fn PrepareStepResult::to_any(self : PrepareStepResult) -> @js.Any {
   if self.temperature is Some(t) {
     obj.set("temperature", t)
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
 /// Convert StopCondition to JS function for AI SDK
-pub fn StopCondition::to_any(self : StopCondition) -> @js.Any {
+pub fn StopCondition::as_any(self : StopCondition) -> @js.Any {
   let StopCondition(f) = self
   @js.from_fn1(fn(ctx_raw : @js.Any) -> Bool {
     let step_number : Int = ctx_raw.get("stepNumber").cast()
@@ -202,7 +202,7 @@ pub fn StopCondition::to_any(self : StopCondition) -> @js.Any {
 
 ///|
 /// Convert PrepareStep callback to JS function for AI SDK
-pub fn PrepareStep::to_any(self : PrepareStep) -> @js.Any {
+pub fn PrepareStep::as_any(self : PrepareStep) -> @js.Any {
   let PrepareStep(f) = self
   let promisified = @js.promisify1(async fn(ctx_raw : @js.Any) -> @js.Any {
     let step_number : Int = ctx_raw.get("stepNumber").cast()
@@ -217,7 +217,7 @@ pub fn PrepareStep::to_any(self : PrepareStep) -> @js.Any {
     }
     let ctx : PrepareStepContext = { step_number, messages, steps }
     let result = f(ctx)
-    result.to_any()
+    result.as_any()
   })
   @js.identity(promisified)
 }

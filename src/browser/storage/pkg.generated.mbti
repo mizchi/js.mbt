@@ -2,7 +2,7 @@
 package "mizchi/js/browser/storage"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -16,6 +16,7 @@ fn sessionStorage() -> Storage
 pub(all) struct Storage {
   length : Int
 }
+fn Storage::as_any(Self) -> @nostd.Any
 fn Storage::clear(Self) -> Unit
 fn Storage::entries(Self) -> Array[(String, String)]
 fn Storage::getItem(Self, String) -> String?
@@ -25,7 +26,6 @@ fn Storage::keys(Self) -> Array[String]
 fn Storage::removeItem(Self, String) -> Unit
 fn Storage::setItem(Self, String, String) -> Unit
 fn Storage::values(Self) -> Array[String]
-impl @js.JsImpl for Storage
 
 // Type aliases
 

@@ -9,7 +9,7 @@ fn zod_module() -> @js.Any {
 ///|
 /// Convert a ZodSchema to JSON Schema (zod v4 built-in)
 pub fn to_json_schema(schema : @zod.ZodSchema) -> @js.Any {
-  let schema_any : @js.Any = schema.to_any() |> @nostd.identity()
+  let schema_any : @js.Any = schema.as_any() |> @nostd.identity()
   zod_module().call1("toJSONSchema", schema_any)
 }
 
@@ -39,8 +39,8 @@ pub fn to_json_schema_with_options(
     Some(v) => opts.set("override", v)
     None => ()
   }
-  let schema_any : @js.Any = schema.to_any() |> @nostd.identity()
-  zod_module().call2("toJSONSchema", schema_any, opts.to_any())
+  let schema_any : @js.Any = schema.as_any() |> @nostd.identity()
+  zod_module().call2("toJSONSchema", schema_any, opts.as_any())
 }
 
 ///|
@@ -69,7 +69,7 @@ pub fn JsonSchema::from_any(raw : @js.Any) -> JsonSchema {
 }
 
 ///|
-pub fn JsonSchema::to_any(self : JsonSchema) -> @js.Any {
+pub fn JsonSchema::as_any(self : JsonSchema) -> @js.Any {
   self.raw
 }
 

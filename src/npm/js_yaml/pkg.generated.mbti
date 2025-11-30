@@ -2,7 +2,7 @@
 package "mizchi/js/npm/js_yaml"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -10,21 +10,21 @@ fn coreSchema() -> Schema
 
 fn defaultSchema() -> Schema
 
-fn dump(@js.Any, indent? : Int, noArrayIndent? : Bool, skipInvalid? : Bool, flowLevel? : Int, sortKeys? : Bool, lineWidth? : Int, noRefs? : Bool, noCompatMode? : Bool, condenseFlow? : Bool, quotingType? : String, forceQuotes? : Bool, schema? : Schema) -> String
+fn dump(@nostd.Any, indent? : Int, noArrayIndent? : Bool, skipInvalid? : Bool, flowLevel? : Int, sortKeys? : Bool, lineWidth? : Int, noRefs? : Bool, noCompatMode? : Bool, condenseFlow? : Bool, quotingType? : String, forceQuotes? : Bool, schema? : Schema) -> String
 
-fn dumpObject(@js.Object) -> String
+fn dumpObject(@nostd.Any) -> String
 
 fn failsafeSchema() -> Schema
 
 fn jsonSchema() -> Schema
 
-fn jsonToYaml(String) -> String raise
+fn jsonToYaml(String) -> String
 
-fn load(String, filename? : String, schema? : Schema, json? : Bool) -> @js.Any
+fn load(String, filename? : String, schema? : Schema, json? : Bool) -> @nostd.Any
 
-fn loadAll(String, filename? : String, schema? : Schema, json? : Bool) -> Array[@js.Any]
+fn loadAll(String, filename? : String, schema? : Schema, json? : Bool) -> Array[@nostd.Any]
 
-fn loadObject(String) -> @js.Object
+fn loadObject(String) -> @nostd.Any
 
 fn yamlToJson(String) -> String
 
@@ -33,7 +33,7 @@ fn yamlToJson(String) -> String
 // Types and methods
 #external
 pub type Schema
-impl @js.JsImpl for Schema
+fn Schema::as_any(Self) -> @nostd.Any
 
 // Type aliases
 

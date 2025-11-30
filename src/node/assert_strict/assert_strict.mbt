@@ -35,8 +35,8 @@ pub fn equal(
   let a = assert_strict_module()
   match message {
     Some(msg) =>
-      a.call("equal", [actual.to_any(), expected.to_any(), msg]) |> ignore
-    None => a.call2("equal", actual.to_any(), expected.to_any()) |> ignore
+      a.call("equal", [actual.as_any(), expected.as_any(), msg]) |> ignore
+    None => a.call2("equal", actual.as_any(), expected.as_any()) |> ignore
   }
 }
 
@@ -51,8 +51,8 @@ pub fn notEqual(
   let a = assert_strict_module()
   match message {
     Some(msg) =>
-      a.call("notEqual", [actual.to_any(), expected.to_any(), msg]) |> ignore
-    None => a.call2("notEqual", actual.to_any(), expected.to_any()) |> ignore
+      a.call("notEqual", [actual.as_any(), expected.as_any(), msg]) |> ignore
+    None => a.call2("notEqual", actual.as_any(), expected.as_any()) |> ignore
   }
 }
 
@@ -67,8 +67,8 @@ pub fn deepEqual(
   let a = assert_strict_module()
   match message {
     Some(msg) =>
-      a.call("deepEqual", [actual.to_any(), expected.to_any(), msg]) |> ignore
-    None => a.call2("deepEqual", actual.to_any(), expected.to_any()) |> ignore
+      a.call("deepEqual", [actual.as_any(), expected.as_any(), msg]) |> ignore
+    None => a.call2("deepEqual", actual.as_any(), expected.as_any()) |> ignore
   }
 }
 
@@ -83,10 +83,10 @@ pub fn notDeepEqual(
   let a = assert_strict_module()
   match message {
     Some(msg) =>
-      a.call("notDeepEqual", [actual.to_any(), expected.to_any(), msg])
+      a.call("notDeepEqual", [actual.as_any(), expected.as_any(), msg])
       |> ignore
     None =>
-      a.call2("notDeepEqual", actual.to_any(), expected.to_any()) |> ignore
+      a.call2("notDeepEqual", actual.as_any(), expected.as_any()) |> ignore
   }
 }
 
@@ -100,8 +100,8 @@ pub fn strictEqual(
   let a = assert_strict_module()
   match message {
     Some(msg) =>
-      a.call("strictEqual", [actual.to_any(), expected.to_any(), msg]) |> ignore
-    None => a.call2("strictEqual", actual.to_any(), expected.to_any()) |> ignore
+      a.call("strictEqual", [actual.as_any(), expected.as_any(), msg]) |> ignore
+    None => a.call2("strictEqual", actual.as_any(), expected.as_any()) |> ignore
   }
 }
 
@@ -115,10 +115,10 @@ pub fn notStrictEqual(
   let a = assert_strict_module()
   match message {
     Some(msg) =>
-      a.call("notStrictEqual", [actual.to_any(), expected.to_any(), msg])
+      a.call("notStrictEqual", [actual.as_any(), expected.as_any(), msg])
       |> ignore
     None =>
-      a.call2("notStrictEqual", actual.to_any(), expected.to_any()) |> ignore
+      a.call2("notStrictEqual", actual.as_any(), expected.as_any()) |> ignore
   }
 }
 
@@ -132,10 +132,10 @@ pub fn deepStrictEqual(
   let a = assert_strict_module()
   match message {
     Some(msg) =>
-      a.call("deepStrictEqual", [actual.to_any(), expected.to_any(), msg])
+      a.call("deepStrictEqual", [actual.as_any(), expected.as_any(), msg])
       |> ignore
     None =>
-      a.call2("deepStrictEqual", actual.to_any(), expected.to_any()) |> ignore
+      a.call2("deepStrictEqual", actual.as_any(), expected.as_any()) |> ignore
   }
 }
 
@@ -149,10 +149,10 @@ pub fn notDeepStrictEqual(
   let a = assert_strict_module()
   match message {
     Some(msg) =>
-      a.call("notDeepStrictEqual", [actual.to_any(), expected.to_any(), msg])
+      a.call("notDeepStrictEqual", [actual.as_any(), expected.as_any(), msg])
       |> ignore
     None =>
-      a.call2("notDeepStrictEqual", actual.to_any(), expected.to_any())
+      a.call2("notDeepStrictEqual", actual.as_any(), expected.as_any())
       |> ignore
   }
 }
@@ -189,11 +189,11 @@ pub async fn rejects(
   let a = assert_strict_module()
   let p : @js.Promise[Unit] = match (error, message) {
     (Some(err), Some(msg)) =>
-      a.call("rejects", [promise.to_any(), err.to_any(), msg]).cast()
+      a.call("rejects", [promise.as_any(), err.as_any(), msg]).cast()
     (Some(err), None) =>
-      a.call2("rejects", promise.to_any(), err.to_any()).cast()
-    (None, Some(msg)) => a.call2("rejects", promise.to_any(), msg).cast()
-    (None, None) => a.call("rejects", [promise.to_any()]).cast()
+      a.call2("rejects", promise.as_any(), err.as_any()).cast()
+    (None, Some(msg)) => a.call2("rejects", promise.as_any(), msg).cast()
+    (None, None) => a.call("rejects", [promise.as_any()]).cast()
   }
   p.wait()
 }
@@ -203,8 +203,8 @@ pub async fn rejects(
 pub async fn doesNotReject(promise : &@js.JsImpl, message? : String) -> Unit {
   let a = assert_strict_module()
   let p : @js.Promise[Unit] = match message {
-    Some(msg) => a.call2("doesNotReject", promise.to_any(), msg).cast()
-    None => a.call("doesNotReject", [promise.to_any()]).cast()
+    Some(msg) => a.call2("doesNotReject", promise.as_any(), msg).cast()
+    None => a.call("doesNotReject", [promise.as_any()]).cast()
   }
   p.wait()
 }
@@ -257,7 +257,7 @@ pub fn doesNotMatch(
 /// Useful for testing error argument in callbacks
 pub fn ifError(value : &@js.JsImpl) -> Unit {
   let a = assert_strict_module()
-  a.call("ifError", [value.to_any()]) |> ignore
+  a.call("ifError", [value.as_any()]) |> ignore
 }
 
 ///|
@@ -272,10 +272,10 @@ pub fn partialDeepStrictEqual(
   let a = assert_strict_module()
   match message {
     Some(msg) =>
-      a.call("partialDeepStrictEqual", [actual.to_any(), expected.to_any(), msg])
+      a.call("partialDeepStrictEqual", [actual.as_any(), expected.as_any(), msg])
       |> ignore
     None =>
-      a.call2("partialDeepStrictEqual", actual.to_any(), expected.to_any())
+      a.call2("partialDeepStrictEqual", actual.as_any(), expected.as_any())
       |> ignore
   }
 }

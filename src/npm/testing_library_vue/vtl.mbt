@@ -45,7 +45,7 @@ pub fn renderWithProps(component : @vue.VNode, props : @js.Any) -> RenderResult 
   let vtl = testing_library()
   let options = @js.Object::new()
   options.set("props", props)
-  vtl.call2("render", component, options.to_any()).cast()
+  vtl.call2("render", component, options.as_any()).cast()
 }
 
 ///|

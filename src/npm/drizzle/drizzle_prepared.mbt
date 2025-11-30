@@ -159,7 +159,7 @@ pub fn QueryBuilder::groupBy(
   self : QueryBuilder,
   columns : Array[Column],
 ) -> QueryBuilder {
-  ffi_group_by(self, @js.from_array(columns.map(fn(c) { c.to_any() })))
+  ffi_group_by(self, @js.from_array(columns.map(fn(c) { c.as_any() })))
 }
 
 ///|
@@ -235,7 +235,7 @@ pub fn QueryBuilder::onConflictDoUpdate(
   set_values : @js.Any,
 ) -> QueryBuilder {
   let config = @js.Object::new()
-  config.set("target", @js.from_array(target.map(fn(c) { c.to_any() })))
+  config.set("target", @js.from_array(target.map(fn(c) { c.as_any() })))
   config.set("set", set_values)
-  ffi_on_conflict_do_update(self, config.to_any())
+  ffi_on_conflict_do_update(self, config.as_any())
 }

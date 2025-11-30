@@ -89,7 +89,7 @@ fn payload_to_js(payload : JwtPayload) -> @js.Any {
   if payload.jti is Some(v) {
     obj.set("jti", v)
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|

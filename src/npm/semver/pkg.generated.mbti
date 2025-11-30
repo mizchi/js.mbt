@@ -2,7 +2,7 @@
 package "mizchi/js/npm/semver"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -52,7 +52,7 @@ fn parse(String) -> String?
 
 fn patch(String) -> Int
 
-fn prerelease(String) -> @js.Any
+fn prerelease(String) -> @nostd.Any
 
 fn rsort(Array[String]) -> Array[String]
 

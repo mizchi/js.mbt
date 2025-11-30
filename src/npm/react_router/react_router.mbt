@@ -70,19 +70,19 @@ pub(all) enum Route {
 }
 
 ///|
-impl @js.JsImpl for Route with to_any(self) {
+impl @js.JsImpl for Route with as_any(self) {
   match self {
     Route::Component(path~, component~) => {
       let obj = @js.Object::new()
       obj.set("path", path)
       obj.set("Component", component |> @js.unsafe_any)
-      obj.to_any()
+      obj.as_any()
     }
     Route::Element(path~, element~) => {
       let obj = @js.Object::new()
       obj.set("path", path)
       obj.set("element", element |> @js.unsafe_any)
-      obj.to_any()
+      obj.as_any()
     }
   }
 }
@@ -95,7 +95,7 @@ pub fn create_browser_router(routes : Array[Route]) -> Router {
     .get("__ReactRouterApi")
     .get("createBrowserRouter")
     .cast()
-  create_fn(routes.map(_.to_any()))
+  create_fn(routes.map(_.as_any()))
 }
 
 ///|
@@ -132,7 +132,7 @@ pub fn create_memory_router(
     }
     None => ()
   }
-  create_fn(routes.map(_.to_any()), opts.to_any())
+  create_fn(routes.map(_.as_any()), opts.as_any())
 }
 
 ///|
@@ -169,7 +169,7 @@ pub impl @js.JsImpl for Params
 ///|
 /// Get a parameter value by name
 pub fn Params::get(self : Self, name : String) -> String? {
-  let val = self.to_any().get(name)
+  let val = self.as_any().get(name)
   if @js.is_undefined(val) || @js.is_null(val) {
     None
   } else {
@@ -226,7 +226,7 @@ pub(all) struct NavigateOptions {
 }
 
 ///|
-impl @js.JsImpl for NavigateOptions with to_any(self) {
+impl @js.JsImpl for NavigateOptions with as_any(self) {
   let obj = @js.Object::new()
   match self.replace {
     Some(r) => obj.set("replace", r)
@@ -240,7 +240,7 @@ impl @js.JsImpl for NavigateOptions with to_any(self) {
     Some(r) => obj.set("relative", r)
     None => ()
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -267,7 +267,7 @@ pub fn NavigateFunction::to(
     (self.0)(path |> @js.unsafe_any, None)
   } else {
     let options = NavigateOptions::{ replace, state, relative }
-    (self.0)(path |> @js.unsafe_any, Some(options.to_any()))
+    (self.0)(path |> @js.unsafe_any, Some(options.as_any()))
   }
 }
 
@@ -394,7 +394,7 @@ pub fn nav_link(
   let children_js = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
   props.set("children", children_js)
   let empty : Array[@js.Any] = []
-  ffi_create_element(nav_link_component, props.to_any(), @js.from_array(empty))
+  ffi_create_element(nav_link_component, props.as_any(), @js.from_array(empty))
 }
 
 ///|
@@ -408,7 +408,7 @@ pub fn nav_link_render(
   props.set("to", to)
   props.set("children", @js.from_fn1(render))
   let empty : Array[@js.Any] = []
-  ffi_create_element(nav_link_component, props.to_any(), @js.from_array(empty))
+  ffi_create_element(nav_link_component, props.as_any(), @js.from_array(empty))
 }
 
 // =============================================================================
@@ -441,7 +441,7 @@ pub struct NavigateProps {
 }
 
 ///|
-impl @js.JsImpl for NavigateProps with to_any(self) {
+impl @js.JsImpl for NavigateProps with as_any(self) {
   let obj = @js.Object::new()
   obj.set("to", self.to)
   match self.replace {
@@ -456,7 +456,7 @@ impl @js.JsImpl for NavigateProps with to_any(self) {
     Some(r) => obj.set("relative", r)
     None => ()
   }
-  obj.to_any()
+  obj.as_any()
 }
 
 ///|
@@ -474,5 +474,5 @@ pub fn navigate(
 ) -> @react.Element {
   let nav_component = get_navigate_component()
   let props = NavigateProps::{ to, replace, state, relative }
-  nav_component(props.to_any())
+  nav_component(props.as_any())
 }

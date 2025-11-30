@@ -227,7 +227,7 @@ pub fn Document::doctype(self : Self) -> @js.Any? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
 #alias(adopt_node)
 pub fn Document::adoptNode(self : Self, node : Node) -> Node {
-  self.call("adoptNode", [node.to_any()]).cast()
+  self.call("adoptNode", [node.as_any()]).cast()
 }
 
 ///|
@@ -235,7 +235,7 @@ pub fn Document::adoptNode(self : Self, node : Node) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
 #alias(import_node)
 pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
-  self.call2("importNode", node.to_any(), deep) |> @js.identity
+  self.call2("importNode", node.as_any(), deep) |> @js.identity
 }
 
 ///|

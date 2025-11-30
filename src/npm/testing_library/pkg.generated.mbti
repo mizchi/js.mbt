@@ -170,7 +170,7 @@ fn ScreenResult::as_element(Self) -> @dom.HTMLElement
 
 // Traits
 pub trait TextMatch {
-  to_any(Self) -> @js.Any
+  as_any(Self) -> @js.Any
 }
 impl TextMatch for String
 impl TextMatch for @regexp.RegExp

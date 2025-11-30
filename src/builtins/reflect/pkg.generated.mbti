@@ -2,35 +2,35 @@
 package "mizchi/js/builtins/reflect"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn apply(&@js.JsImpl, &@js.JsImpl, Array[@js.Any]) -> @js.Any
+fn apply(@nostd.Any, @nostd.Any, Array[@nostd.Any]) -> @nostd.Any
 
-fn construct(&@js.JsImpl, Array[@js.Any], @js.Any?) -> @js.Any
+fn construct(@nostd.Any, Array[@nostd.Any], @nostd.Any?) -> @nostd.Any
 
-fn defineProperty(&@js.JsImpl, &@js.PropertyKey, &@js.JsImpl) -> Bool
+fn defineProperty(@nostd.Any, @nostd.Any, @nostd.Any) -> Bool
 
-fn deleteProperty(&@js.JsImpl, &@js.PropertyKey) -> Bool
+fn deleteProperty(@nostd.Any, @nostd.Any) -> Bool
 
-fn get(&@js.JsImpl, &@js.PropertyKey, @js.Any?) -> @js.Any
+fn get(@nostd.Any, @nostd.Any, @nostd.Any?) -> @nostd.Any
 
-fn getOwnPropertyDescriptor(&@js.JsImpl, &@js.PropertyKey) -> @js.Any
+fn getOwnPropertyDescriptor(@nostd.Any, @nostd.Any) -> @nostd.Any
 
-fn getPrototypeOf(&@js.JsImpl) -> @js.Any
+fn getPrototypeOf(@nostd.Any) -> @nostd.Any
 
-fn has(&@js.JsImpl, &@js.PropertyKey) -> Bool
+fn has(@nostd.Any, @nostd.Any) -> Bool
 
-fn isExtensible(&@js.JsImpl) -> Bool
+fn isExtensible(@nostd.Any) -> Bool
 
-fn ownKeys(&@js.JsImpl) -> Array[@js.Any]
+fn ownKeys(@nostd.Any) -> Array[@nostd.Any]
 
-fn preventExtensions(&@js.JsImpl) -> Bool
+fn preventExtensions(@nostd.Any) -> Bool
 
-fn set(&@js.JsImpl, &@js.PropertyKey, &@js.JsImpl, @js.Any?) -> Bool
+fn set(@nostd.Any, @nostd.Any, @nostd.Any, @nostd.Any?) -> Bool
 
-fn setPrototypeOf(&@js.JsImpl, &@js.JsImpl) -> Bool
+fn setPrototypeOf(@nostd.Any, @nostd.Any) -> Bool
 
 // Errors
 

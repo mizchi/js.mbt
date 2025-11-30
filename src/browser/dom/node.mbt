@@ -77,28 +77,28 @@ impl NodeImpl with nextSibling(self) -> Node? {
 
 ///|
 impl NodeImpl with appendChild(self, child) -> Node {
-  self.call1("appendChild", child.to_any()).cast()
+  self.call1("appendChild", child.as_any()).cast()
 }
 
 ///|
 impl NodeImpl with removeChild(self, child) -> Node {
-  self.call1("removeChild", child.to_any()).cast()
+  self.call1("removeChild", child.as_any()).cast()
 }
 
 ///|
 impl NodeImpl with insertBefore(self, new_node, ref_node) -> Node {
   match ref_node {
     Some(node) =>
-      @js.identity(self.call2("insertBefore", new_node.to_any(), node.to_any()))
+      @js.identity(self.call2("insertBefore", new_node.as_any(), node.as_any()))
     None =>
-      @js.identity(self.call2("insertBefore", new_node.to_any(), @js.null_()))
+      @js.identity(self.call2("insertBefore", new_node.as_any(), @js.null_()))
   }
 }
 
 ///|
 impl NodeImpl with replaceChild(self, new_child, old_child) -> Node {
   @js.identity(
-    self.call2("replaceChild", new_child.to_any(), old_child.to_any()),
+    self.call2("replaceChild", new_child.as_any(), old_child.as_any()),
   )
 }
 
@@ -110,7 +110,7 @@ impl NodeImpl with cloneNode(self, deep) {
 ///|
 impl NodeImpl with contains(self, other) {
   match other {
-    Some(node) => self.call1("contains", node.to_any()).cast()
+    Some(node) => self.call1("contains", node.as_any()).cast()
     None => self.call1("contains", @js.null_()).cast()
   }
 }

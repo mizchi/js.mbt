@@ -21,7 +21,7 @@ pub fn[T] watch(
     ffi_watch(
       source |> @js.identity,
       callback |> @js.unsafe_any,
-      options.to_any(),
+      options.as_any(),
     ),
   )
 }
@@ -33,7 +33,7 @@ pub fn watchEffect(effect : () -> Unit, flush? : String) -> WatchStopHandle {
   if flush is Some(v) {
     options.set("flush", v)
   }
-  @js.identity(ffi_watch_effect(effect |> @js.unsafe_any, options.to_any()))
+  @js.identity(ffi_watch_effect(effect |> @js.unsafe_any, options.as_any()))
 }
 
 ///|
@@ -114,7 +114,7 @@ pub fn onErrorCaptured(callback : (@js.Any, @js.Any, String) -> Bool?) -> Unit {
 ///|
 /// Vue.provide - Provide value for injection
 pub fn[T : @js.JsImpl] provide(key : String, value : T) -> Unit {
-  ffi_provide(@js.any(key), value.to_any())
+  ffi_provide(@js.any(key), value.as_any())
 }
 
 ///|

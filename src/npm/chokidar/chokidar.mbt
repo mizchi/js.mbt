@@ -41,7 +41,7 @@ pub fn EventName::to_string(self : EventName) -> String {
 pub type FSWatcher
 
 ///|
-pub extern "js" fn FSWatcher::to_any(self : FSWatcher) -> @nostd.Any =
+pub extern "js" fn FSWatcher::as_any(self : FSWatcher) -> @nostd.Any =
   #| (x) => x
 
 ///| Core API Functions - FFI
@@ -210,7 +210,7 @@ pub fn watch_paths(
 /// Add a file or directory to watch
 /// JS: watcher.add(path)
 pub fn FSWatcher::add(self : FSWatcher, path : String) -> FSWatcher {
-  @nostd.identity(self.to_any()._call("add", [@nostd.any(path)]))
+  @nostd.identity(self.as_any()._call("add", [@nostd.any(path)]))
 }
 
 ///|
@@ -220,14 +220,14 @@ pub fn FSWatcher::add_paths(
   self : FSWatcher,
   paths : Array[String],
 ) -> FSWatcher {
-  @nostd.identity(self.to_any()._call("add", [paths |> @nostd.identity]))
+  @nostd.identity(self.as_any()._call("add", [paths |> @nostd.identity]))
 }
 
 ///|
 /// Stop watching a file or directory
 /// JS: watcher.unwatch(path)
 pub fn FSWatcher::unwatch(self : FSWatcher, path : String) -> FSWatcher {
-  @nostd.identity(self.to_any()._call("unwatch", [@nostd.any(path)]))
+  @nostd.identity(self.as_any()._call("unwatch", [@nostd.any(path)]))
 }
 
 ///|
@@ -237,7 +237,7 @@ pub fn FSWatcher::unwatch_paths(
   self : FSWatcher,
   paths : Array[String],
 ) -> FSWatcher {
-  @nostd.identity(self.to_any()._call("unwatch", [paths |> @nostd.identity]))
+  @nostd.identity(self.as_any()._call("unwatch", [paths |> @nostd.identity]))
 }
 
 ///|
@@ -245,7 +245,7 @@ pub fn FSWatcher::unwatch_paths(
 /// JS: watcher.close()
 pub async fn FSWatcher::close(self : FSWatcher) -> Unit {
   let promise : @nostd.Promise[Unit] = @nostd.identity(
-    self.to_any()._call("close", []),
+    self.as_any()._call("close", []),
   )
   promise.wait()
 }
@@ -254,7 +254,7 @@ pub async fn FSWatcher::close(self : FSWatcher) -> Unit {
 /// Get object of watched paths
 /// JS: watcher.getWatched()
 pub fn FSWatcher::getWatched(self : FSWatcher) -> @nostd.Any {
-  self.to_any()._call("getWatched", [])
+  self.as_any()._call("getWatched", [])
 }
 
 ///|
@@ -267,7 +267,7 @@ pub fn FSWatcher::on(
   event : String,
   callback : @nostd.Any,
 ) -> FSWatcher {
-  @nostd.identity(self.to_any()._call("on", [@nostd.any(event), callback]))
+  @nostd.identity(self.as_any()._call("on", [@nostd.any(event), callback]))
 }
 
 ///|
@@ -278,7 +278,7 @@ pub fn FSWatcher::off(
   event : String,
   callback : @nostd.Any,
 ) -> FSWatcher {
-  @nostd.identity(self.to_any()._call("off", [@nostd.any(event), callback]))
+  @nostd.identity(self.as_any()._call("off", [@nostd.any(event), callback]))
 }
 
 ///| Typed Event Handlers

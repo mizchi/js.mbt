@@ -251,7 +251,7 @@ pub async fn Frame::goto(
     options["waitUntil"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("goto", [@js.any(url), options.to_any()]),
+    self.call("goto", [@js.any(url), options.as_any()]),
   )
   let result = promise.wait()
   if @js.is_nullish(result) {

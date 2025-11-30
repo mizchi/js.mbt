@@ -2,33 +2,33 @@
 package "mizchi/js/builtins/atomics"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn add(&@js.JsImpl, Int, Int) -> Int
+fn add(@nostd.Any, Int, Int) -> Int
 
-fn and_(&@js.JsImpl, Int, Int) -> Int
+fn and_(@nostd.Any, Int, Int) -> Int
 
-fn compareExchange(&@js.JsImpl, Int, Int, Int) -> Int
+fn compareExchange(@nostd.Any, Int, Int, Int) -> Int
 
-fn exchange(&@js.JsImpl, Int, Int) -> Int
+fn exchange(@nostd.Any, Int, Int) -> Int
 
 fn isLockFree(Int) -> Bool
 
-fn load(&@js.JsImpl, Int) -> Int
+fn load(@nostd.Any, Int) -> Int
 
-fn notify(&@js.JsImpl, Int, count? : Int) -> Int
+fn notify(@nostd.Any, Int, count? : Int) -> Int
 
-fn or_(&@js.JsImpl, Int, Int) -> Int
+fn or_(@nostd.Any, Int, Int) -> Int
 
-fn store(&@js.JsImpl, Int, Int) -> Int
+fn store(@nostd.Any, Int, Int) -> Int
 
-fn sub(&@js.JsImpl, Int, Int) -> Int
+fn sub(@nostd.Any, Int, Int) -> Int
 
-fn wait(&@js.JsImpl, Int, Int, timeout? : Int) -> AtomicsWaitResult
+fn wait(@nostd.Any, Int, Int, timeout? : Int) -> AtomicsWaitResult
 
-fn xor(&@js.JsImpl, Int, Int) -> Int
+fn xor(@nostd.Any, Int, Int) -> Int
 
 // Errors
 

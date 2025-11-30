@@ -115,7 +115,7 @@ pub async fn generateObject(
   abort_signal? : @js.Any,
 ) -> GenerateObjectResult {
   let opts = @js.Object::new()
-  opts.set("model", model.to_any())
+  opts.set("model", model.as_any())
   // Wrap schema with jsonSchema() helper
   let json_schema_fn = ai_module().get("jsonSchema")
   let wrapped_schema = json_schema_fn.call_self([schema])
@@ -139,7 +139,7 @@ pub async fn generateObject(
     opts.set("system", s)
   }
   if messages is Some(msgs) {
-    opts.set("messages", msgs.map(_.to_any()) |> @js.from_array)
+    opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
   }
   if max_tokens is Some(t) {
     opts.set("maxTokens", t)
@@ -155,7 +155,7 @@ pub async fn generateObject(
   }
   let promise : @js.Promise[@js.Any] = ai_module()
     .get("generateObject")
-    .call_self([opts.to_any()])
+    .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)
@@ -185,7 +185,7 @@ pub async fn generateObjectWithZod(
   temperature? : Double,
 ) -> GenerateObjectResult {
   let opts = @js.Object::new()
-  opts.set("model", model.to_any())
+  opts.set("model", model.as_any())
   opts.set("schema", zod_schema)
   if schema_name is Some(n) {
     opts.set("schemaName", n)
@@ -200,7 +200,7 @@ pub async fn generateObjectWithZod(
     opts.set("system", s)
   }
   if messages is Some(msgs) {
-    opts.set("messages", msgs.map(_.to_any()) |> @js.from_array)
+    opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
   }
   if max_tokens is Some(t) {
     opts.set("maxTokens", t)
@@ -210,7 +210,7 @@ pub async fn generateObjectWithZod(
   }
   let promise : @js.Promise[@js.Any] = ai_module()
     .get("generateObject")
-    .call_self([opts.to_any()])
+    .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)

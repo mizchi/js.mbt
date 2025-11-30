@@ -19,7 +19,7 @@ pub fn[T] component(
     if @js.is_nullish(val) {
       let obj = @js.Object::new()
       obj.set("key", key)
-      return ffi_create_element(tag, obj.to_any(), children) |> @js.identity
+      return ffi_create_element(tag, obj.as_any(), children) |> @js.identity
     }
     val.set("key", key)
   }
@@ -43,7 +43,7 @@ pub fn fragment(children : Array[&ReactNode], key? : String) -> Element {
   if key is Some(key) {
     val.set("key", key)
   }
-  ffi_create_element(tag, val.to_any(), children) |> @js.identity
+  ffi_create_element(tag, val.as_any(), children) |> @js.identity
 }
 
 ///|

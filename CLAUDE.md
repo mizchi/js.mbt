@@ -98,3 +98,30 @@ async test "Socket test example" {
 - Use `./scripts/check_flaky.ts` to verify test stability
 - Run multiple times to identify flaky tests: `./scripts/check_flaky.ts 10 12000`
 - All tests should consistently pass without timeouts
+
+## MoonBit to JavaScript Type Mapping
+
+### Primitive Types (Zero-cost)
+
+| MoonBit Type | JavaScript Type |
+|--------------|-----------------|
+| `String` | `string` |
+| `Bool` | `boolean` |
+| `Int`, `UInt`, `Float`, `Double` | `number` |
+| `BigInt` | `bigint` |
+| `Bytes` | `Uint8Array` |
+| `Array[T]` | `Array<T>` |
+| Function Type | `Function` |
+
+### Collection Type Conversion Overhead (minified)
+
+| MoonBit Type | Conversion | Overhead |
+|--------------|------------|----------|
+| `Array[T]` | `%identity` | +31B (zero-cost) |
+| `HashSet[T]` | iterate + push | +4.6KB |
+| `Map[String, T]` | iterate + set | +6.2KB |
+| `Json` | recursive match | +6.9KB |
+| `@immut/array.T[T]` | iterate + push | +7.2KB |
+| `@immut/hashmap.HashMap` | iterate + set | +11.6KB |
+
+See [docs/runtime-cost.md](docs/runtime-cost.md) for detailed analysis.

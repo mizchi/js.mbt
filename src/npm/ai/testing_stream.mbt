@@ -25,7 +25,7 @@ pub fn simulate_readable_stream(options : SimulateStreamOptions) -> @js.Any {
   if options.chunk_delay_ms is Some(delay) {
     opts.set("chunkDelayInMs", delay)
   }
-  test_module.get("simulateReadableStream").call_self([opts.to_any()])
+  test_module.get("simulateReadableStream").call_self([opts.as_any()])
 }
 
 ///|

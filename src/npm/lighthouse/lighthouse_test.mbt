@@ -30,7 +30,7 @@ test "lighthouse - flags serialization" {
     formFactor="desktop",
     port=9222,
   )
-  let js = flags.to_any()
+  let js = flags.as_any()
   let log_level : String = js.get("logLevel").cast()
   inspect(log_level, content="info")
   let output : String = js.get("output").cast()

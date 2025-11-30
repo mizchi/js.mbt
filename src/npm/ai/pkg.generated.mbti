@@ -85,18 +85,18 @@ fn tool_call_chunk(String, String, @js.Any) -> @js.Any
 
 // Errors
 pub suberror PrepareStep async (PrepareStepContext) -> PrepareStepResult
-fn PrepareStep::to_any(Self) -> @js.Any
+fn PrepareStep::as_any(Self) -> @js.Any
 
 pub suberror StopCondition (StopConditionContext) -> Bool
-fn StopCondition::to_any(Self) -> @js.Any
+fn StopCondition::as_any(Self) -> @js.Any
 
 // Types and methods
 pub(all) struct AnthropicOptions {
   api_key : String?
   base_url : String?
 }
+fn AnthropicOptions::as_any(Self) -> @js.Any
 fn AnthropicOptions::default() -> Self
-fn AnthropicOptions::to_any(Self) -> @js.Any
 
 #external
 pub type AnthropicProvider
@@ -219,8 +219,8 @@ pub(all) struct GoogleOptions {
   api_key : String?
   base_url : String?
 }
+fn GoogleOptions::as_any(Self) -> @js.Any
 fn GoogleOptions::default() -> Self
-fn GoogleOptions::to_any(Self) -> @js.Any
 
 #external
 pub type GoogleProvider
@@ -264,7 +264,7 @@ pub(all) enum MockContentPart {
   Text(String)
   ToolCall(tool_call_id~ : String, tool_name~ : String, args~ : @js.Any)
 }
-fn MockContentPart::to_any(Self) -> @js.Any
+fn MockContentPart::as_any(Self) -> @js.Any
 
 pub(all) enum MockGenerateHandler {
   Result(MockGenerateResult)
@@ -278,7 +278,7 @@ pub(all) struct MockGenerateResult {
   content : Array[MockContentPart]
   warnings : Array[@js.Any]
 }
-fn MockGenerateResult::to_any(Self) -> @js.Any
+fn MockGenerateResult::as_any(Self) -> @js.Any
 
 pub(all) struct MockId {
   mut counter : Int
@@ -304,7 +304,7 @@ pub(all) enum MockStreamHandler {
 pub(all) struct MockStreamResult {
   stream : @js.Any
 }
-fn MockStreamResult::to_any(Self) -> @js.Any
+fn MockStreamResult::as_any(Self) -> @js.Any
 
 pub(all) struct MockUsage {
   input_tokens : Int
@@ -337,8 +337,8 @@ pub(all) struct OpenAIOptions {
   base_url : String?
   organization : String?
 }
+fn OpenAIOptions::as_any(Self) -> @js.Any
 fn OpenAIOptions::default() -> Self
-fn OpenAIOptions::to_any(Self) -> @js.Any
 
 #external
 pub type OpenAIProvider
@@ -369,8 +369,8 @@ pub(all) struct PrepareStepResult {
   max_tokens : Int?
   temperature : Double?
 }
+fn PrepareStepResult::as_any(Self) -> @js.Any
 fn PrepareStepResult::empty() -> Self
-fn PrepareStepResult::to_any(Self) -> @js.Any
 fn PrepareStepResult::with_active_tools(Array[String]) -> Self
 fn PrepareStepResult::with_messages(Array[@js.Any]) -> Self
 fn PrepareStepResult::with_model(Model) -> Self
@@ -378,8 +378,8 @@ fn PrepareStepResult::with_model(Model) -> Self
 pub(all) struct ProviderMetadata {
   raw : @js.Any
 }
+fn ProviderMetadata::as_any(Self) -> @js.Any
 fn ProviderMetadata::from_any(@js.Any) -> Self?
-fn ProviderMetadata::to_any(Self) -> @js.Any
 
 pub(all) struct ReasoningOutput {
   text : String
@@ -498,7 +498,7 @@ pub(all) struct Tool {
   input_schema : @js.Any
   execute : (@js.Any) -> @js.Any
 }
-fn Tool::to_any(Self) -> @js.Any
+fn Tool::as_any(Self) -> @js.Any
 fn[Input, Output : ToJson] Tool::typed(description~ : String, input_schema~ : Json, (Input) -> Output) -> Self
 fn[Input, Output : ToJson] Tool::typed_async(description~ : String, input_schema~ : Json, async (Input) -> Output) -> Self
 
@@ -522,7 +522,7 @@ pub(all) enum ToolChoice {
   None_
   Tool(String)
 }
-fn ToolChoice::to_any(Self) -> @js.Any
+fn ToolChoice::as_any(Self) -> @js.Any
 
 pub(all) struct ToolError {
   tool_call_id : String
@@ -551,8 +551,8 @@ pub(all) struct Tools {
   tools : Map[String, Tool]
 }
 fn Tools::add(Self, String, Tool) -> Self
+fn Tools::as_any(Self) -> @js.Any
 fn Tools::new() -> Self
-fn Tools::to_any(Self) -> @js.Any
 
 // Type aliases
 

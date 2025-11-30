@@ -116,7 +116,7 @@ pub async fn generateImage(
   headers? : @js.Any,
 ) -> GenerateImageResult {
   let opts = @js.Object::new()
-  opts.set("model", model.to_any())
+  opts.set("model", model.as_any())
   opts.set("prompt", prompt)
   if n is Some(num) {
     opts.set("n", num)
@@ -145,7 +145,7 @@ pub async fn generateImage(
   // Use experimental_generateImage function
   let promise : @js.Promise[@js.Any] = ai_module()
     .get("experimental_generateImage")
-    .call_self([opts.to_any()])
+    .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()
   GenerateImageResult::from_any(result)

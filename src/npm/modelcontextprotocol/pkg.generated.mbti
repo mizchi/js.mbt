@@ -40,10 +40,10 @@ pub struct Content {
   mime_type : String?
   uri : String?
 }
+fn Content::as_any(Self) -> @js.Any
 fn Content::image(String, String) -> Self
 fn Content::resource(String) -> Self
 fn Content::text(String) -> Self
-fn Content::to_any(Self) -> @js.Any
 impl Show for Content
 
 pub(all) struct ContentResult {
@@ -74,21 +74,21 @@ pub struct JsonRpcError {
   message : String
   data : @js.Any?
 }
-fn JsonRpcError::to_any(Self) -> @js.Any
+fn JsonRpcError::as_any(Self) -> @js.Any
 
 pub struct JsonRpcErrorResponse {
   jsonrpc : String
   id : RequestId
   error : JsonRpcError
 }
-fn JsonRpcErrorResponse::to_any(Self) -> @js.Any
+fn JsonRpcErrorResponse::as_any(Self) -> @js.Any
 
 pub(all) struct JsonRpcNotification {
   jsonrpc : String
   method_name : String
   params : @js.Any?
 }
-fn JsonRpcNotification::to_any(Self) -> @js.Any
+fn JsonRpcNotification::as_any(Self) -> @js.Any
 
 pub struct JsonRpcRequest {
   jsonrpc : String
@@ -96,15 +96,15 @@ pub struct JsonRpcRequest {
   method_name : String
   params : @js.Any?
 }
+fn JsonRpcRequest::as_any(Self) -> @js.Any
 fn JsonRpcRequest::from_js(@js.Any) -> Self?
-fn JsonRpcRequest::to_any(Self) -> @js.Any
 
 pub struct JsonRpcResponse {
   jsonrpc : String
   id : RequestId
   result : @js.Any
 }
-fn JsonRpcResponse::to_any(Self) -> @js.Any
+fn JsonRpcResponse::as_any(Self) -> @js.Any
 
 pub(all) struct ListPromptsResult {
   prompts : Array[PromptInfo]
@@ -148,7 +148,7 @@ pub(all) struct Prompt {
   description : String?
   arguments : Array[PromptArgument]
 }
-fn Prompt::to_any(Self) -> @js.Any
+fn Prompt::as_any(Self) -> @js.Any
 impl Show for Prompt
 
 pub(all) struct PromptArgument {
@@ -156,7 +156,7 @@ pub(all) struct PromptArgument {
   description : String?
   required : Bool
 }
-fn PromptArgument::to_any(Self) -> @js.Any
+fn PromptArgument::as_any(Self) -> @js.Any
 impl Show for PromptArgument
 
 pub(all) struct PromptArgumentInfo {
@@ -175,7 +175,7 @@ pub(all) struct PromptMessage {
   role : String
   content : Content
 }
-fn PromptMessage::to_any(Self) -> @js.Any
+fn PromptMessage::as_any(Self) -> @js.Any
 
 pub(all) struct PromptMessageResult {
   role : String
@@ -186,7 +186,7 @@ pub(all) struct PromptResult {
   description : String?
   messages : Array[PromptMessage]
 }
-fn PromptResult::to_any(Self) -> @js.Any
+fn PromptResult::as_any(Self) -> @js.Any
 
 pub(all) struct ReadResourceResult {
   contents : Array[ContentResult]
@@ -197,8 +197,8 @@ pub enum RequestId {
   String(String)
   Number(Int)
 }
+fn RequestId::as_any(Self) -> @js.Any
 fn RequestId::from_js(@js.Any) -> Self?
-fn RequestId::to_any(Self) -> @js.Any
 impl Eq for RequestId
 impl Show for RequestId
 
@@ -208,7 +208,7 @@ pub(all) struct Resource {
   description : String?
   mime_type : String?
 }
-fn Resource::to_any(Self) -> @js.Any
+fn Resource::as_any(Self) -> @js.Any
 impl Show for Resource
 
 pub(all) struct ResourceInfo {
@@ -253,14 +253,14 @@ pub struct ServerCapabilities {
   resources : Bool
   prompts : Bool
 }
-fn ServerCapabilities::to_any(Self) -> @js.Any
+fn ServerCapabilities::as_any(Self) -> @js.Any
 impl Show for ServerCapabilities
 
 pub struct ServerInfo {
   name : String
   version : String
 }
-fn ServerInfo::to_any(Self) -> @js.Any
+fn ServerInfo::as_any(Self) -> @js.Any
 impl Show for ServerInfo
 
 #external
@@ -280,7 +280,7 @@ pub(all) struct Tool {
   description : String
   input_schema : @js.Any
 }
-fn Tool::to_any(Self) -> @js.Any
+fn Tool::as_any(Self) -> @js.Any
 
 pub(all) struct ToolInfo {
   name : String

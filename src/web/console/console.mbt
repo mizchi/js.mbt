@@ -1,96 +1,51 @@
 ///|
 /// JS: console.log(value)
 /// https://developer.mozilla.org/ja/docs/Web/API/console/log_static
-pub fn log(value : &@js.JsImpl) -> Unit {
-  log_impl(value.to_any())
-}
-
-///|
-extern "js" fn log_impl(value : @js.Any) -> Unit =
+pub extern "js" fn log(value : @nostd.Any) -> Unit =
   #| (value) => console.log(value)
 
 ///|
 /// JS: console.warn(value)
 /// https://developer.mozilla.org/ja/docs/Web/API/console/warn_static
-pub fn warn(value : &@js.JsImpl) -> Unit {
-  warn_impl(value.to_any())
-}
-
-///|
-extern "js" fn warn_impl(value : @js.Any) -> Unit =
+pub extern "js" fn warn(value : @nostd.Any) -> Unit =
   #| (value) => console.warn(value)
 
 ///|
 /// JS: console.error(value)
 /// https://developer.mozilla.org/ja/docs/Web/API/console/error_static
-pub fn error(value : &@js.JsImpl) -> Unit {
-  error_impl(value.to_any())
-}
-
-///|
-extern "js" fn error_impl(value : @js.Any) -> Unit =
+pub extern "js" fn error(value : @nostd.Any) -> Unit =
   #| (value) => console.error(value)
 
 ///|
 /// JS: console.info(value)
 /// https://developer.mozilla.org/ja/docs/Web/API/console/info_static
-pub fn info(value : &@js.JsImpl) -> Unit {
-  info_impl(value.to_any())
-}
-
-///|
-extern "js" fn info_impl(value : @js.Any) -> Unit =
+pub extern "js" fn info(value : @nostd.Any) -> Unit =
   #| (value) => console.info(value)
 
 ///|
 /// JS: console.debug(value)
 /// https://developer.mozilla.org/ja/docs/Web/API/console/debug_static
-pub fn debug(value : &@js.JsImpl) -> Unit {
-  debug_impl(value.to_any())
-}
-
-///|
-extern "js" fn debug_impl(value : @js.Any) -> Unit =
+pub extern "js" fn debug(value : @nostd.Any) -> Unit =
   #| (value) => console.debug(value)
 
 ///|
 /// JS: console.trace(value)
-pub fn trace(value : &@js.JsImpl) -> Unit {
-  trace_impl(value.to_any())
-}
-
-///|
-extern "js" fn trace_impl(value : @js.Any) -> Unit =
+pub extern "js" fn trace(value : @nostd.Any) -> Unit =
   #| (value) => console.trace(value)
 
 ///|
 /// JS: console.dir(value)
-pub fn dir(value : &@js.JsImpl) -> Unit {
-  dir_impl(value.to_any())
-}
-
-///|
-extern "js" fn dir_impl(value : @js.Any) -> Unit =
+pub extern "js" fn dir(value : @nostd.Any) -> Unit =
   #| (value) => console.dir(value)
 
 ///|
 /// JS: console.table(value, keys)
-pub fn table(value : &@js.JsImpl, keys : Array[String]) -> Unit {
-  table_impl(value.to_any(), keys)
-}
-
-///|
-extern "js" fn table_impl(value : @js.Any, keys : Array[String]) -> Unit =
+pub extern "js" fn table(value : @nostd.Any, keys : Array[String]) -> Unit =
   #| (value, keys) => console.table(value, keys)
 
 ///|
 /// JS: console.assert(condition, value)
-pub fn assert_(condition : Bool, value : &@js.JsImpl) -> Unit {
-  assert_impl(condition, value.to_any())
-}
-
-///|
-extern "js" fn assert_impl(condition : Bool, value : @js.Any) -> Unit =
+pub extern "js" fn assert_(condition : Bool, value : @nostd.Any) -> Unit =
   #| (condition, value) => console.assert(condition, value)
 
 ///|

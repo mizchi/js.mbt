@@ -31,9 +31,9 @@ pub fn S3Client::new(
     let creds = @js.Object::new()
     creds["accessKeyId"] = ak
     creds["secretAccessKey"] = sk
-    config["credentials"] = creds.to_any()
+    config["credentials"] = creds.as_any()
   }
-  ffi_new_s3_client(config.to_any()) |> @js.identity
+  ffi_new_s3_client(config.as_any()) |> @js.identity
 }
 
 ///|
@@ -190,7 +190,7 @@ pub async fn head_object(
   let input = @js.Object::new()
   input["Bucket"] = bucket
   input["Key"] = key
-  let result = ffi_head_object(client |> @js.identity, input.to_any()).wait()
+  let result = ffi_head_object(client |> @js.identity, input.as_any()).wait()
   {
     content_type: result["ContentType"].cast(),
     content_length: result["ContentLength"].cast(),
@@ -283,7 +283,7 @@ extern "js" fn ffi_list_objects_v2(
 pub async fn create_bucket(client : S3Client, bucket : String) -> Unit {
   let input = @js.Object::new()
   input["Bucket"] = bucket
-  ffi_create_bucket(client |> @js.identity, input.to_any()).wait() |> ignore
+  ffi_create_bucket(client |> @js.identity, input.as_any()).wait() |> ignore
 }
 
 ///|
@@ -301,7 +301,7 @@ extern "js" fn ffi_create_bucket(
 pub async fn delete_bucket(client : S3Client, bucket : String) -> Unit {
   let input = @js.Object::new()
   input["Bucket"] = bucket
-  ffi_delete_bucket(client |> @js.identity, input.to_any()).wait() |> ignore
+  ffi_delete_bucket(client |> @js.identity, input.as_any()).wait() |> ignore
 }
 
 ///|
@@ -354,7 +354,7 @@ pub async fn copy_object(
   input["CopySource"] = sourceBucket + "/" + sourceKey
   input["Bucket"] = destBucket
   input.set("Key", destKey)
-  let result = ffi_copy_object(client |> @js.identity, input.to_any()).wait()
+  let result = ffi_copy_object(client |> @js.identity, input.as_any()).wait()
   let copy_result = result.get("CopyObjectResult")
   { etag: copy_result.get("ETag") |> @js.identity }
 }

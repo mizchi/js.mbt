@@ -19,6 +19,10 @@ pub(all) struct URL {
 } derive(Eq, Show)
 
 ///|
+pub fn URL::as_any(self : URL) -> @nostd.Any = "%identity"
+
+///|
+/// For backward compatibility with node/url
 pub impl @js.JsImpl for URL
 
 ///|
@@ -28,26 +32,26 @@ extern "js" fn ffi_url_new(url : String, base? : String) -> URL =
 
 ///|
 /// Create a new URL
-pub fn URL::new(url : String, base? : String) -> URL raise @js.ThrowError {
-  @js.throwable(fn() { ffi_url_new(url, base?) })
+pub fn URL::new(url : String, base? : String) -> URL raise @nostd.JsError {
+  @nostd.try_sync(fn() { @nostd.any(ffi_url_new(url, base?)) }).cast()
 }
 
 ///|
 /// Get the searchParams property
 pub fn URL::searchParams(self : URL) -> URLSearchParams {
-  self.get("searchParams").cast()
+  self.as_any()["searchParams"].cast()
 }
 
 ///|
 /// Convert URL to string
 #alias(toString)
 pub fn URL::to_string(self : URL) -> String {
-  self.call0("toString").cast()
+  self.as_any()._call("toString", []).cast()
 }
 
 ///|
 /// Convert URL to JSON
 #alias(toJSON)
 pub fn URL::to_json(self : URL) -> String {
-  self.call0("toJSON").cast()
+  self.as_any()._call("toJSON", []).cast()
 }

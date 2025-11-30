@@ -94,7 +94,7 @@ pub fn CanvasRenderingContext2D::arc(
   end_angle : Double,
   counterclockwise? : Bool,
 ) -> Unit {
-  let js = self.to_any()
+  let js = self.as_any()
   match counterclockwise {
     Some(ccw) =>
       js.call("arc", [x, y, radius, start_angle, end_angle, ccw]) |> ignore
@@ -173,7 +173,7 @@ pub fn CanvasRenderingContext2D::fillText(
   y : Double,
   max_width? : Double,
 ) -> Unit {
-  let js = self.to_any()
+  let js = self.as_any()
   match max_width {
     Some(w) => js.call("fillText", [text, x, y, w]) |> ignore
     None => js.call("fillText", [text, x, y]) |> ignore
@@ -188,7 +188,7 @@ pub fn CanvasRenderingContext2D::strokeText(
   y : Double,
   max_width? : Double,
 ) -> Unit {
-  let js = self.to_any()
+  let js = self.as_any()
   match max_width {
     Some(w) => js.call("strokeText", [text, x, y, w]) |> ignore
     None => js.call("strokeText", [text, x, y]) |> ignore
@@ -266,7 +266,7 @@ pub fn CanvasRenderingContext2D::drawImage(
   dx : Double,
   dy : Double,
 ) -> Unit {
-  self.call("drawImage", [image.to_any(), dx, dy]) |> ignore
+  self.call("drawImage", [image.as_any(), dx, dy]) |> ignore
 }
 
 ///|
@@ -278,7 +278,7 @@ pub fn CanvasRenderingContext2D::drawImageScaled(
   d_width : Double,
   d_height : Double,
 ) -> Unit {
-  self.call("drawImage", [image.to_any(), dx, dy, d_width, d_height]) |> ignore
+  self.call("drawImage", [image.as_any(), dx, dy, d_width, d_height]) |> ignore
 }
 
 ///|
@@ -295,9 +295,9 @@ pub fn CanvasRenderingContext2D::drawImageSub(
   d_height : Double,
 ) -> Unit {
   self
-  .to_any()
+  .as_any()
   .call("drawImage", [
-    image.to_any(),
+    image.as_any(),
     sx,
     sy,
     s_width,
@@ -329,7 +329,7 @@ pub fn CanvasRenderingContext2D::putImageData(
   dx : Double,
   dy : Double,
 ) -> Unit {
-  self.call("putImageData", [image_data.to_any(), dx, dy]) |> ignore
+  self.call("putImageData", [image_data.as_any(), dx, dy]) |> ignore
 }
 
 ///|
@@ -397,7 +397,7 @@ pub fn ImageData::from_data(
 ) -> ImageData {
   @js.identity(
     ffi_new_image_data_with_data(
-      data.to_any(),
+      data.as_any(),
       width |> @js.any,
       height |> @js.any,
     ),
@@ -416,7 +416,7 @@ pub impl @js.JsImpl for ImageBitmap
 
 ///|
 pub impl @worker.Transferable for ImageBitmap with to_transferable(self) -> @js.Any {
-  self.to_any()
+  self.as_any()
 }
 
 ///|
@@ -442,7 +442,7 @@ extern "js" fn ffi_create_image_bitmap_with_rect(
 ///|
 #alias(create_image_bitmap)
 pub fn createImageBitmap(image : &@js.JsImpl) -> ImageBitmap {
-  @js.identity(ffi_create_image_bitmap(image.to_any()))
+  @js.identity(ffi_create_image_bitmap(image.as_any()))
 }
 
 ///|
@@ -456,7 +456,7 @@ pub async fn createImageBitmapRect(
 ) -> ImageBitmap {
   let promise : @js.Promise[ImageBitmap] = @js.identity(
     ffi_create_image_bitmap_with_rect(
-      image.to_any(),
+      image.as_any(),
       sx |> @js.any,
       sy |> @js.any,
       sw |> @js.any,

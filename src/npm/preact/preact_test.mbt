@@ -28,7 +28,7 @@ test "h creates VNode" {
   defer dispose()
   let vnode = h("div", ["Hello"])
   // VNode should be created
-  inspect(not(@js.is_nullish(vnode.to_any())), content="true")
+  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -36,7 +36,7 @@ test "h with props" {
   let dispose = setup()
   defer dispose()
   let vnode = h("button", ["Click me"], props={ "disabled": @js.any(true) })
-  inspect(not(@js.is_nullish(vnode.to_any())), content="true")
+  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -44,7 +44,7 @@ test "h with style" {
   let dispose = setup()
   defer dispose()
   let vnode = h("div", ["Styled"], style={ "color": "red", "fontSize": "16px" })
-  inspect(not(@js.is_nullish(vnode.to_any())), content="true")
+  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -52,7 +52,7 @@ test "fragment" {
   let dispose = setup()
   defer dispose()
   let vnode = fragment(["Hello", " ", "World"])
-  inspect(not(@js.is_nullish(vnode.to_any())), content="true")
+  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -63,7 +63,7 @@ test "component function" {
     h("div", ["Component content"])
   }
   let vnode = component(my_component, ())
-  inspect(not(@js.is_nullish(vnode.to_any())), content="true")
+  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|

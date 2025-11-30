@@ -31,8 +31,8 @@ pub async fn fetch(
   }
   let init_obj = @js.from_option_map({
     "method": Some(@js.any(method_)),
-    "headers": Some(header_obj.to_any()),
-    "body": body.map(fn(x) { x.to_any() }),
+    "headers": Some(header_obj.as_any()),
+    "body": body.map(fn(x) { x.as_any() }),
     "cache": cache.map(fn(x) { @js.any(x) }),
     "mode": mode.map(fn(x) { @js.any(x) }),
     "credentials": credentials.map(fn(x) { @js.any(x) }),

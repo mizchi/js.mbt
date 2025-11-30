@@ -74,7 +74,7 @@ pub(all) struct DurableObjectIdOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectIdOptions with to_any(self) {
+pub impl @js.JsImpl for DurableObjectIdOptions with as_any(self) {
   @js.from_option_map({
     "jurisdiction": self.jurisdiction.map(fn(x) { @js.any(x) }),
   })
@@ -98,7 +98,7 @@ pub fn DurableObjectId::to_string(self : Self) -> String {
 ///|
 /// Check if two IDs are equal
 pub fn DurableObjectId::equals(self : Self, other : DurableObjectId) -> Bool {
-  self.call("equals", [other.to_any()]).cast()
+  self.call("equals", [other.as_any()]).cast()
 }
 
 ///|
@@ -454,7 +454,7 @@ pub(all) struct DurableObjectGetOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectGetOptions with to_any(self) {
+pub impl @js.JsImpl for DurableObjectGetOptions with as_any(self) {
   @js.from_option_map({
     "allowConcurrency": self.allowConcurrency.map(fn(x) { @js.any(x) }),
     "noCache": self.noCache.map(fn(x) { @js.any(x) }),
@@ -470,7 +470,7 @@ pub(all) struct DurableObjectPutOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectPutOptions with to_any(self) {
+pub impl @js.JsImpl for DurableObjectPutOptions with as_any(self) {
   @js.from_option_map({
     "allowConcurrency": self.allowConcurrency.map(fn(x) { @js.any(x) }),
     "allowUnconfirmed": self.allowUnconfirmed.map(fn(x) { @js.any(x) }),
@@ -492,7 +492,7 @@ pub(all) struct DurableObjectListOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectListOptions with to_any(self) {
+pub impl @js.JsImpl for DurableObjectListOptions with as_any(self) {
   @js.from_option_map({
     "start": self.start.map(fn(x) { @js.any(x) }),
     "startAfter": self.startAfter.map(fn(x) { @js.any(x) }),
@@ -512,7 +512,7 @@ pub(all) struct DurableObjectGetAlarmOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectGetAlarmOptions with to_any(self) {
+pub impl @js.JsImpl for DurableObjectGetAlarmOptions with as_any(self) {
   @js.from_option_map({
     "allowConcurrency": self.allowConcurrency.map(fn(x) { @js.any(x) }),
   })
@@ -526,7 +526,7 @@ pub(all) struct DurableObjectSetAlarmOptions {
 }
 
 ///|
-pub impl @js.JsImpl for DurableObjectSetAlarmOptions with to_any(self) {
+pub impl @js.JsImpl for DurableObjectSetAlarmOptions with as_any(self) {
   @js.from_option_map({
     "allowConcurrency": self.allowConcurrency.map(fn(x) { @js.any(x) }),
     "allowUnconfirmed": self.allowUnconfirmed.map(fn(x) { @js.any(x) }),
@@ -635,7 +635,7 @@ pub async fn DurableObjectTransaction::list_with_options(
   options : DurableObjectListOptions,
 ) -> @js.Any {
   let promise : @js.Promise[@js.Any] = self
-    .call("list", [options.to_any()])
+    .call("list", [options.as_any()])
     .cast()
   promise.wait()
 }

@@ -2,7 +2,7 @@
 package "mizchi/js/npm/ignore"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -18,18 +18,18 @@ pub type Ignore
 fn Ignore::add(Self, String) -> Self
 fn Ignore::addFromContent(Self, String) -> Self
 fn Ignore::addPatterns(Self, Array[String]) -> Self
-fn Ignore::createFilter(Self) -> @js.Any
+fn Ignore::as_any(Self) -> @nostd.Any
+fn Ignore::createFilter(Self) -> @nostd.Any
 fn Ignore::filter(Self, Array[String]) -> Array[String]
 fn Ignore::ignores(Self, String) -> Bool
 fn Ignore::testPath(Self, String) -> TestResult
-impl @js.JsImpl for Ignore
 
 #external
 pub type TestResult
+fn TestResult::as_any(Self) -> @nostd.Any
 fn TestResult::ignored(Self) -> Bool
-fn TestResult::rule(Self) -> @js.Any
+fn TestResult::rule(Self) -> @nostd.Any
 fn TestResult::unignored(Self) -> Bool
-impl @js.JsImpl for TestResult
 
 // Type aliases
 

@@ -16,7 +16,7 @@ pub impl @js.JsImpl for File
 /// Get the content type of the File
 #alias(content_type)
 pub fn File::contentType(self : Self) -> String {
-  self.to_any().get("type").cast()
+  self.as_any().get("type").cast()
 }
 
 ///|
@@ -39,11 +39,11 @@ pub fn File::new(
   let arr = @js.JsArray::new()
   let mut i = 0
   while i < data.length() {
-    arr.call("push", [data[i].to_any()]) |> ignore
+    arr.call("push", [data[i].as_any()]) |> ignore
     i = i + 1
   }
   ffi_new_file(
-    arr.to_any(),
+    arr.as_any(),
     filename |> @js.any,
     @js.from_option_map({
       "type": content_type.map(fn(x) { @js.any(x) }),
@@ -56,7 +56,7 @@ pub fn File::new(
 ///|
 /// Cast File to Blob
 pub fn File::as_blob(self : Self) -> @blob.Blob {
-  self.to_any() |> @js.identity
+  self.as_any() |> @js.identity
 }
 
 ///|
@@ -77,7 +77,7 @@ pub async fn File::text(self : Self) -> String {
 ///|
 /// Create a new File containing a slice of this File (inherited from Blob)
 pub fn File::slice(self : Self, start? : Int, end? : Int) -> @blob.Blob {
-  let js = self.to_any()
+  let js = self.as_any()
   match (start, end) {
     (None, None) => js.call0("slice").cast()
     (Some(s), None) => js.call("slice", [s]).cast()
@@ -114,7 +114,7 @@ pub fn FileReader::new() -> FileReader {
 /// Read file as ArrayBuffer
 #alias(read_as_array_buffer)
 pub fn FileReader::readAsArrayBuffer(self : Self, blob : @blob.Blob) -> Unit {
-  self.call("readAsArrayBuffer", [blob.to_any()]) |> ignore
+  self.call("readAsArrayBuffer", [blob.as_any()]) |> ignore
 }
 
 ///|
@@ -125,10 +125,10 @@ pub fn FileReader::readAsText(
   blob : @blob.Blob,
   encoding? : String,
 ) -> Unit {
-  let js = self.to_any()
+  let js = self.as_any()
   match encoding {
     Some(enc) => js.call2("readAsText", blob, enc) |> ignore
-    None => js.call("readAsText", [blob.to_any()]) |> ignore
+    None => js.call("readAsText", [blob.as_any()]) |> ignore
   }
 }
 
@@ -136,7 +136,7 @@ pub fn FileReader::readAsText(
 /// Read file as Data URL
 #alias(read_as_data_url)
 pub fn FileReader::readAsDataURL(self : Self, blob : @blob.Blob) -> Unit {
-  self.call("readAsDataURL", [blob.to_any()]) |> ignore
+  self.call("readAsDataURL", [blob.as_any()]) |> ignore
 }
 
 ///|
@@ -151,7 +151,7 @@ pub fn FileReader::set_onload(
   self : Self,
   callback : (@js.Any) -> Unit noraise,
 ) -> Unit {
-  self.to_any().set("onload", callback |> @js.identity)
+  self.as_any().set("onload", callback |> @js.identity)
 }
 
 ///|
@@ -160,7 +160,7 @@ pub fn FileReader::set_onerror(
   self : Self,
   callback : (@js.Any) -> Unit noraise,
 ) -> Unit {
-  self.to_any().set("onerror", callback |> @js.identity)
+  self.as_any().set("onerror", callback |> @js.identity)
 }
 
 ///|
@@ -169,5 +169,5 @@ pub fn FileReader::set_onloadend(
   self : Self,
   callback : (@js.Any) -> Unit noraise,
 ) -> Unit {
-  self.to_any().set("onloadend", callback |> @js.identity)
+  self.as_any().set("onloadend", callback |> @js.identity)
 }

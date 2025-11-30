@@ -2,7 +2,7 @@
 package "mizchi/js/web/performance"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -14,6 +14,7 @@ fn performance() -> Performance
 pub(all) struct Performance {
   timeOrigin : Double
 }
+fn Performance::as_any(Self) -> @nostd.Any
 fn Performance::clearMarks(Self, name? : String) -> Unit
 fn Performance::clearMeasures(Self, name? : String) -> Unit
 fn Performance::getEntries(Self) -> Array[PerformanceEntry]
@@ -22,7 +23,6 @@ fn Performance::getEntriesByType(Self, String) -> Array[PerformanceEntry]
 fn Performance::mark(Self, String) -> PerformanceEntry
 fn Performance::measure(Self, String, startMark? : String, endMark? : String) -> PerformanceEntry
 fn Performance::now(Self) -> Double
-impl @js.JsImpl for Performance
 
 pub(all) struct PerformanceEntry {
   name : String
@@ -30,22 +30,22 @@ pub(all) struct PerformanceEntry {
   startTime : Double
   duration : Double
 }
-impl @js.JsImpl for PerformanceEntry
+fn PerformanceEntry::as_any(Self) -> @nostd.Any
 
 #external
 pub type PerformanceObserver
+fn PerformanceObserver::as_any(Self) -> @nostd.Any
 fn PerformanceObserver::disconnect(Self) -> Unit
 fn PerformanceObserver::new((PerformanceObserverEntryList, Self) -> Unit) -> Self
-fn PerformanceObserver::observe(Self, @js.Object) -> Unit
+fn PerformanceObserver::observe(Self, @nostd.Any) -> Unit
 fn PerformanceObserver::takeRecords(Self) -> Array[PerformanceEntry]
-impl @js.JsImpl for PerformanceObserver
 
 #external
 pub type PerformanceObserverEntryList
+fn PerformanceObserverEntryList::as_any(Self) -> @nostd.Any
 fn PerformanceObserverEntryList::getEntries(Self) -> Array[PerformanceEntry]
 fn PerformanceObserverEntryList::getEntriesByName(Self, String) -> Array[PerformanceEntry]
 fn PerformanceObserverEntryList::getEntriesByType(Self, String) -> Array[PerformanceEntry]
-impl @js.JsImpl for PerformanceObserverEntryList
 
 // Type aliases
 

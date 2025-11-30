@@ -60,7 +60,7 @@ pub fn run(
     "testNamePatterns": testNamePatterns.map(fn(x) { @js.from_array(x) }),
     "testSkipPatterns": testSkipPatterns.map(fn(x) { @js.from_array(x) }),
     "timeout": timeout.map(fn(x) { @js.any(x) }),
-    "shard": shard.map(fn(x) { x.to_any() }),
+    "shard": shard.map(fn(x) { x.as_any() }),
     "rerunFailuresFilePath": rerunFailuresFilePath.map(fn(x) { @js.any(x) }),
     "setup": setup.map(fn(x) { @js.from_fn0(x) }),
   })

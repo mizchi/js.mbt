@@ -13,12 +13,18 @@
 pub type Endpoint
 
 ///|
+pub fn Endpoint::as_any(self : Endpoint) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Endpoint
 
 ///|
 /// Remote - a proxy to a remote object
 #external
 pub type Remote
+
+///|
+pub fn Remote::as_any(self : Remote) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for Remote
@@ -29,12 +35,18 @@ pub impl @js.JsImpl for Remote
 pub type ProxyMarked
 
 ///|
+pub fn ProxyMarked::as_any(self : ProxyMarked) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for ProxyMarked
 
 ///|
 /// TransferHandler - custom transfer handler for complex types
 #external
 pub type TransferHandler
+
+///|
+pub fn TransferHandler::as_any(self : TransferHandler) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for TransferHandler
@@ -106,13 +118,13 @@ pub fn wrap(endpoint : @js.Any) -> Remote {
 ///|
 /// Wrap a Worker directly
 pub fn wrapWorker(worker : @worker.Worker) -> Remote {
-  ffi_wrap(worker.to_any())
+  ffi_wrap(worker.as_any())
 }
 
 ///|
 /// Wrap a MessagePort
 pub fn wrapMessagePort(port : @message.MessagePort) -> Remote {
-  ffi_wrap(port.to_any())
+  ffi_wrap(port.as_any())
 }
 
 ///|
@@ -128,13 +140,13 @@ pub fn expose(obj : @js.Any, endpoint? : @js.Any) -> Unit {
 ///|
 /// Expose an object to a Worker
 pub fn exposeToWorker(obj : @js.Any, worker : @worker.Worker) -> Unit {
-  ffi_expose(obj, worker.to_any())
+  ffi_expose(obj, worker.as_any())
 }
 
 ///|
 /// Expose an object to a MessagePort
 pub fn exposeToMessagePort(obj : @js.Any, port : @message.MessagePort) -> Unit {
-  ffi_expose(obj, port.to_any())
+  ffi_expose(obj, port.as_any())
 }
 
 ///|
@@ -225,7 +237,7 @@ pub fn Remote::callMethod(
 ///|
 /// Call remote with no arguments
 pub fn Remote::call0(self : Remote, name : String) -> @js.Promise[@js.Any] {
-  @js.identity(self.to_any().call0(name))
+  self.as_any()._call(name, []).cast()
 }
 
 ///|
@@ -235,7 +247,7 @@ pub fn Remote::call1(
   name : String,
   arg : @js.Any,
 ) -> @js.Promise[@js.Any] {
-  @js.identity(self.to_any().call1(name, arg))
+  self.as_any()._call(name, [@nostd.any(arg)]).cast()
 }
 
 ///|
@@ -246,13 +258,13 @@ pub fn Remote::call2(
   arg1 : @js.Any,
   arg2 : @js.Any,
 ) -> @js.Promise[@js.Any] {
-  @js.identity(self.to_any().call2(name, arg1, arg2))
+  self.as_any()._call(name, [@nostd.any(arg1), @nostd.any(arg2)]).cast()
 }
 
 ///|
 /// Get a property from the remote object
 pub fn Remote::get(self : Remote, prop : String) -> @js.Promise[@js.Any] {
-  @js.identity(self.to_any().get(prop))
+  self.as_any()[prop].cast()
 }
 
 ///|

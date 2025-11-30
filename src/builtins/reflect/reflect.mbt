@@ -1,21 +1,21 @@
 ///|
 /// get the Reflect class
-fn reflect_class() -> @js.Any {
-  @js.globalThis().get("Reflect")
+fn reflect_class() -> @nostd.Any {
+  @nostd.global_this()["Reflect"]
 }
 
 ///|
 /// JS: Reflect.apply(target, thisArgument, argumentsList)
 /// Calls a target function with arguments as specified
 pub fn apply(
-  target : &@js.JsImpl,
-  this_argument : &@js.JsImpl,
-  arguments_list : Array[@js.Any],
-) -> @js.Any {
-  reflect_class().call("apply", [
-    target.to_any(),
-    this_argument.to_any(),
-    @js.from_array(arguments_list),
+  target : @nostd.Any,
+  this_argument : @nostd.Any,
+  arguments_list : Array[@nostd.Any],
+) -> @nostd.Any {
+  reflect_class()._call("apply", [
+    target,
+    this_argument,
+    @nostd.any(arguments_list),
   ])
 }
 
@@ -23,22 +23,19 @@ pub fn apply(
 /// JS: Reflect.construct(target, argumentsList, newTarget?)
 /// Acts like the new operator as a function
 pub fn construct(
-  target : &@js.JsImpl,
-  arguments_list : Array[@js.Any],
-  new_target : @js.Any?,
-) -> @js.Any {
+  target : @nostd.Any,
+  arguments_list : Array[@nostd.Any],
+  new_target : @nostd.Any?,
+) -> @nostd.Any {
   match new_target {
     Some(nt) =>
-      reflect_class().call("construct", [
-        target.to_any(),
-        @js.from_array(arguments_list),
+      reflect_class()._call("construct", [
+        target,
+        @nostd.any(arguments_list),
         nt,
       ])
     None =>
-      reflect_class().call("construct", [
-        target.to_any(),
-        @js.from_array(arguments_list),
-      ])
+      reflect_class()._call("construct", [target, @nostd.any(arguments_list)])
   }
 }
 
@@ -46,43 +43,33 @@ pub fn construct(
 /// JS: Reflect.defineProperty(target, propertyKey, attributes)
 /// Similar to Object.defineProperty but returns a Boolean
 pub fn defineProperty(
-  target : &@js.JsImpl,
-  property_key : &@js.PropertyKey,
-  attributes : &@js.JsImpl,
+  target : @nostd.Any,
+  property_key : @nostd.Any,
+  attributes : @nostd.Any,
 ) -> Bool {
   reflect_class()
-  .call("defineProperty", [
-    target.to_any(),
-    property_key.to_key(),
-    attributes.to_any(),
-  ])
+  ._call("defineProperty", [target, property_key, attributes])
   .cast()
 }
 
 ///|
 /// JS: Reflect.deleteProperty(target, propertyKey)
 /// Deletes a property from an object
-pub fn deleteProperty(
-  target : &@js.JsImpl,
-  property_key : &@js.PropertyKey,
-) -> Bool {
-  reflect_class()
-  .call2("deleteProperty", target.to_any(), property_key.to_key())
-  .cast()
+pub fn deleteProperty(target : @nostd.Any, property_key : @nostd.Any) -> Bool {
+  reflect_class()._call("deleteProperty", [target, property_key]).cast()
 }
 
 ///|
 /// JS: Reflect.get(target, propertyKey, receiver?)
 /// Gets a property value from an object
 pub fn get(
-  target : &@js.JsImpl,
-  property_key : &@js.PropertyKey,
-  receiver : @js.Any?,
-) -> @js.Any {
+  target : @nostd.Any,
+  property_key : @nostd.Any,
+  receiver : @nostd.Any?,
+) -> @nostd.Any {
   match receiver {
-    Some(recv) =>
-      reflect_class().call("get", [target.to_any(), property_key.to_key(), recv])
-    None => reflect_class().call2("get", target.to_any(), property_key.to_key())
+    Some(recv) => reflect_class()._call("get", [target, property_key, recv])
+    None => reflect_class()._call("get", [target, property_key])
   }
 }
 
@@ -90,34 +77,31 @@ pub fn get(
 /// JS: Reflect.getOwnPropertyDescriptor(target, propertyKey)
 /// Gets the property descriptor of an own property
 pub fn getOwnPropertyDescriptor(
-  target : &@js.JsImpl,
-  property_key : &@js.PropertyKey,
-) -> @js.Any {
-  reflect_class().call("getOwnPropertyDescriptor", [
-    target.to_any(),
-    property_key.to_key(),
-  ])
+  target : @nostd.Any,
+  property_key : @nostd.Any,
+) -> @nostd.Any {
+  reflect_class()._call("getOwnPropertyDescriptor", [target, property_key])
 }
 
 ///|
 /// JS: Reflect.getPrototypeOf(target)
 /// Gets the prototype of an object
-pub fn getPrototypeOf(target : &@js.JsImpl) -> @js.Any {
-  reflect_class().call("getPrototypeOf", [target.to_any()])
+pub fn getPrototypeOf(target : @nostd.Any) -> @nostd.Any {
+  reflect_class()._call("getPrototypeOf", [target])
 }
 
 ///|
 /// JS: Reflect.has(target, propertyKey)
 /// Checks if an object has a property
-pub fn has(target : &@js.JsImpl, property_key : &@js.PropertyKey) -> Bool {
-  reflect_class().call2("has", target.to_any(), property_key.to_key()).cast()
+pub fn has(target : @nostd.Any, property_key : @nostd.Any) -> Bool {
+  reflect_class()._call("has", [target, property_key]).cast()
 }
 
 ///|
 /// JS: Reflect.isExtensible(target)
 /// Checks if an object is extensible
-pub fn isExtensible(target : &@js.JsImpl) -> Bool {
-  reflect_class().call("isExtensible", [target.to_any()]).cast()
+pub fn isExtensible(target : @nostd.Any) -> Bool {
+  reflect_class()._call("isExtensible", [target]).cast()
 }
 
 ///|
@@ -125,48 +109,36 @@ pub fn isExtensible(target : &@js.JsImpl) -> Bool {
 ///
 /// Returns an array of the target object's own property keys.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn ownKeys(target : &@js.JsImpl) -> Array[@js.Any] {
-  reflect_class().call("ownKeys", [target.to_any()]).cast()
+pub fn ownKeys(target : @nostd.Any) -> Array[@nostd.Any] {
+  reflect_class()._call("ownKeys", [target]).cast()
 }
 
 ///|
 /// JS: Reflect.preventExtensions(target)
 /// Prevents new properties from being added to an object
-pub fn preventExtensions(target : &@js.JsImpl) -> Bool {
-  reflect_class().call("preventExtensions", [target.to_any()]).cast()
+pub fn preventExtensions(target : @nostd.Any) -> Bool {
+  reflect_class()._call("preventExtensions", [target]).cast()
 }
 
 ///|
 /// JS: Reflect.set(target, propertyKey, value, receiver?)
 /// Sets a property value on an object
 pub fn set(
-  target : &@js.JsImpl,
-  property_key : &@js.PropertyKey,
-  value : &@js.JsImpl,
-  receiver : @js.Any?,
+  target : @nostd.Any,
+  property_key : @nostd.Any,
+  value : @nostd.Any,
+  receiver : @nostd.Any?,
 ) -> Bool {
   match receiver {
     Some(recv) =>
-      reflect_class()
-      .call("set", [
-        target.to_any(),
-        property_key.to_key(),
-        value.to_any(),
-        recv,
-      ])
-      .cast()
-    None =>
-      reflect_class()
-      .call("set", [target.to_any(), property_key.to_key(), value.to_any()])
-      .cast()
+      reflect_class()._call("set", [target, property_key, value, recv]).cast()
+    None => reflect_class()._call("set", [target, property_key, value]).cast()
   }
 }
 
 ///|
 /// JS: Reflect.setPrototypeOf(target, prototype)
 /// Sets the prototype of an object
-pub fn setPrototypeOf(target : &@js.JsImpl, prototype : &@js.JsImpl) -> Bool {
-  reflect_class()
-  .call2("setPrototypeOf", target.to_any(), prototype.to_any())
-  .cast()
+pub fn setPrototypeOf(target : @nostd.Any, prototype : @nostd.Any) -> Bool {
+  reflect_class()._call("setPrototypeOf", [target, prototype]).cast()
 }

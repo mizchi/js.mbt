@@ -39,7 +39,7 @@ pub(all) struct AgentDefinition {
   system_prompt : String?
   model : ClaudeModel?
 }
-fn AgentDefinition::to_any(Self) -> @js.Any
+fn AgentDefinition::as_any(Self) -> @js.Any
 
 pub(all) enum ClaudeModel {
   Sonnet
@@ -70,20 +70,20 @@ pub(all) enum McpServerConfig {
   Stdio(McpServerStdio)
   Sse(McpServerSse)
 }
-fn McpServerConfig::to_any(Self) -> @js.Any
+fn McpServerConfig::as_any(Self) -> @js.Any
 
 pub(all) struct McpServerSse {
   url : String
   headers : Map[String, String]
 }
-fn McpServerSse::to_any(Self) -> @js.Any
+fn McpServerSse::as_any(Self) -> @js.Any
 
 pub(all) struct McpServerStdio {
   command : String
   args : Array[String]
   env : Map[String, String]
 }
-fn McpServerStdio::to_any(Self) -> @js.Any
+fn McpServerStdio::as_any(Self) -> @js.Any
 
 pub(all) struct PermissionDenial {
   tool_name : String
@@ -122,8 +122,8 @@ pub(all) struct QueryOptions {
   include_partial_messages : Bool?
   resume_session : String?
 }
+fn QueryOptions::as_any(Self) -> @js.Any
 fn QueryOptions::new() -> Self
-fn QueryOptions::to_any(Self) -> @js.Any
 
 pub(all) struct SDKAssistantMessage {
   role : String

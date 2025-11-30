@@ -384,7 +384,7 @@ test "intersection schema" {
 test "object extend" {
   let base_schema = @zod.object({ "name": @zod.string() })
   let ext_shape = @nostd.Object::new()
-  ext_shape["age"] = @zod.number().to_any()
+  ext_shape["age"] = @zod.number().as_any()
   let extended = base_schema.extend(ext_shape)
   let data = @nostd.Object::new()
   data["name"] = @nostd.any("Alice")
@@ -566,12 +566,12 @@ test "describe adds description" {
 test "map schema" {
   let schema = @zod.map(@zod.string(), @zod.number())
   // Maps require specific JS Map constructor, so just verify schema creation
-  assert_false(@nostd.is_undefined(schema.to_any()))
+  assert_false(@nostd.is_undefined(schema.as_any()))
 }
 
 ///|
 test "set schema" {
   let schema = @zod.set(@zod.number())
   // Sets require specific JS Set constructor, so just verify schema creation
-  assert_false(@nostd.is_undefined(schema.to_any()))
+  assert_false(@nostd.is_undefined(schema.as_any()))
 }

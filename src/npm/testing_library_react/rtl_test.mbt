@@ -317,7 +317,7 @@ test "configure function exists" {
   defer @testing_library_react.cleanup()
   // Just test that configure can be called without error
   let config = @js.Object::new()
-  configure(config.to_any())
+  configure(config.as_any())
 }
 
 ///| React Hooks Tests with renderHook

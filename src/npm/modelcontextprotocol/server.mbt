@@ -128,8 +128,8 @@ fn McpServer::handle_initialize(
   }
   let result = @js.from_map({
     "protocolVersion": @js.any("2024-11-05"),
-    "serverInfo": self.info.to_any(),
-    "capabilities": capabilities.to_any(),
+    "serverInfo": self.info.as_any(),
+    "capabilities": capabilities.as_any(),
   })
   @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
 }
@@ -142,7 +142,7 @@ fn McpServer::handle_tools_list(
   let tools : Array[@js.Any] = []
   self.tools.each(fn(_, value) {
     let (tool, _) = value
-    tools.push(tool.to_any())
+    tools.push(tool.as_any())
   })
   let result = @js.from_map({ "tools": @js.from_array(tools) })
   @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
@@ -170,7 +170,7 @@ fn McpServer::handle_tools_call(
   )
   handler(arguments).then(fn(content) {
     let result = @js.from_map({
-      "content": @js.from_array(content.map(fn(c) { c.to_any() })),
+      "content": @js.from_array(content.map(fn(c) { c.as_any() })),
     })
     @js.Promise::resolve(
       Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
@@ -186,7 +186,7 @@ fn McpServer::handle_resources_list(
   let resources : Array[@js.Any] = []
   self.resources.each(fn(_, value) {
     let (resource, _) = value
-    resources.push(resource.to_any())
+    resources.push(resource.as_any())
   })
   let result = @js.from_map({ "resources": @js.from_array(resources) })
   @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
@@ -213,7 +213,7 @@ fn McpServer::handle_resources_read(
   }
   handler(resource_uri).then(fn(content) {
     let result = @js.from_map({
-      "contents": @js.from_array(content.map(fn(c) { c.to_any() })),
+      "contents": @js.from_array(content.map(fn(c) { c.as_any() })),
     })
     @js.Promise::resolve(
       Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
@@ -229,7 +229,7 @@ fn McpServer::handle_prompts_list(
   let prompts : Array[@js.Any] = []
   self.prompts.each(fn(_, value) {
     let (prompt, _) = value
-    prompts.push(prompt.to_any())
+    prompts.push(prompt.as_any())
   })
   let result = @js.from_map({ "prompts": @js.from_array(prompts) })
   @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
@@ -257,7 +257,7 @@ fn McpServer::handle_prompts_get(
   )
   handler(arguments).then(fn(content) {
     let result = @js.from_map({
-      "messages": @js.from_array(content.map(fn(c) { c.to_any() })),
+      "messages": @js.from_array(content.map(fn(c) { c.as_any() })),
     })
     @js.Promise::resolve(
       Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),

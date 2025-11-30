@@ -6,7 +6,7 @@ pub(all) struct Storage {
 }
 
 ///|
-pub impl @js.JsImpl for Storage
+pub fn Storage::as_any(self : Storage) -> @nostd.Any = "%identity"
 
 ///|
 /// Returns the localStorage object
@@ -53,14 +53,19 @@ pub extern "js" fn Storage::removeItem(self : Storage, key : String) -> Unit =
 /// Clears all items from storage
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear
 pub fn Storage::clear(self : Storage) -> Unit {
-  self.call0("clear") |> ignore
+  self.as_any()._call("clear", []) |> ignore
 }
 
 ///|
 /// Returns the key at the specified index
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/key
 pub fn Storage::key(self : Storage, index : Int) -> String? {
-  self.call("key", [index |> @js.any]) |> @js.identity_option()
+  let result = self.as_any()._call("key", [@nostd.any(index)])
+  if @nostd.is_nullish(result) {
+    None
+  } else {
+    Some(result.cast())
+  }
 }
 
 ///|

@@ -251,7 +251,7 @@ pub fn DatabaseSync::applyChangeset(
 pub type StatementSync
 
 ///|
-pub impl @js.JsImpl for StatementSync with to_any(self) {
+pub impl @js.JsImpl for StatementSync with as_any(self) {
   self |> @js.identity
 }
 
@@ -265,7 +265,7 @@ pub fn StatementSync::get_(
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
     for key, value in params {
-      obj.set(key, value.to_any())
+      obj.set(key, value.as_any())
     }
     args.push(obj)
   }
@@ -300,7 +300,7 @@ pub fn StatementSync::run(
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
     for key, value in params {
-      obj.set(key, value.to_any())
+      obj.set(key, value.as_any())
     }
     args.push(obj)
   }
@@ -322,7 +322,7 @@ pub fn StatementSync::all(
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
     for key, value in params {
-      obj.set(key, value.to_any())
+      obj.set(key, value.as_any())
     }
     args.push(obj)
   }
@@ -344,7 +344,7 @@ pub fn StatementSync::iterate(
   if named_parameters is Some(params) {
     let obj = @js.Object::new()
     for key, value in params {
-      obj.set(key, value.to_any())
+      obj.set(key, value.as_any())
     }
     args.push(obj)
   }
@@ -485,7 +485,7 @@ pub fn backup(
     opts.set("progress", f |> @js.from_fn1)
   }
   let backup : @js.Any = sqlite_module().get("backup")
-  backup.call_self([source_db.to_any(), db_path, opts]) |> ignore
+  backup.call_self([source_db.as_any(), db_path, opts]) |> ignore
 }
 
 ///|

@@ -11,6 +11,9 @@ pub(all) struct CompressionStream {
 }
 
 ///|
+pub fn CompressionStream::as_any(self : CompressionStream) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for CompressionStream
 
 ///|
@@ -40,6 +43,9 @@ pub(all) struct DecompressionStream {
   readable : ReadableStream
   writable : WritableStream
 }
+
+///|
+pub fn DecompressionStream::as_any(self : DecompressionStream) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for DecompressionStream

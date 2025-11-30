@@ -34,7 +34,7 @@ pub fn Locator::filter(
   if hasNotText is Some(v) {
     options["hasNotText"] = v
   }
-  @js.identity(self.call("filter", [options.to_any()]))
+  @js.identity(self.call("filter", [options.as_any()]))
 }
 
 ///|
@@ -76,7 +76,7 @@ pub fn Locator::getByRole(
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByRole", [@js.any(role), options.to_any()]))
+  @js.identity(self.call("getByRole", [@js.any(role), options.as_any()]))
 }
 
 ///|
@@ -90,7 +90,7 @@ pub fn Locator::getByText(
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByText", [@js.any(text), options.to_any()]))
+  @js.identity(self.call("getByText", [@js.any(text), options.as_any()]))
 }
 
 ///|
@@ -166,7 +166,7 @@ pub async fn Locator::click(
     let pos = @js.Object::new()
     pos["x"] = x
     pos["y"] = y
-    options["position"] = pos.to_any()
+    options["position"] = pos.as_any()
   }
   if timeout is Some(v) {
     options["timeout"] = v
@@ -175,7 +175,7 @@ pub async fn Locator::click(
     options["trial"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("click", [options.to_any()]),
+    self.call("click", [options.as_any()]),
   )
   promise.wait()
 }
@@ -195,7 +195,7 @@ pub async fn Locator::dblclick(
     options["force"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("dblclick", [options.to_any()]),
+    self.call("dblclick", [options.as_any()]),
   )
   promise.wait()
 }
@@ -220,7 +220,7 @@ pub async fn Locator::fill(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("fill", [@js.any(value), options.to_any()]),
+    self.call("fill", [@js.any(value), options.as_any()]),
   )
   promise.wait()
 }
@@ -244,7 +244,7 @@ pub async fn Locator::clear(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("clear", [options.to_any()]),
+    self.call("clear", [options.as_any()]),
   )
   promise.wait()
 }
@@ -269,7 +269,7 @@ pub async fn Locator::type_(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("type", [@js.any(text), options.to_any()]),
+    self.call("type", [@js.any(text), options.as_any()]),
   )
   promise.wait()
 }
@@ -294,7 +294,7 @@ pub async fn Locator::press(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("press", [@js.any(key), options.to_any()]),
+    self.call("press", [@js.any(key), options.as_any()]),
   )
   promise.wait()
 }
@@ -318,7 +318,7 @@ pub async fn Locator::check(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("check", [options.to_any()]),
+    self.call("check", [options.as_any()]),
   )
   promise.wait()
 }
@@ -342,7 +342,7 @@ pub async fn Locator::uncheck(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("uncheck", [options.to_any()]),
+    self.call("uncheck", [options.as_any()]),
   )
   promise.wait()
 }
@@ -367,7 +367,7 @@ pub async fn Locator::setChecked(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("setChecked", [@js.any(checked), options.to_any()]),
+    self.call("setChecked", [@js.any(checked), options.as_any()]),
   )
   promise.wait()
 }
@@ -392,7 +392,7 @@ pub async fn Locator::selectOption(
     options["timeout"] = v
   }
   let promise : @js.Promise[Array[String]] = @js.identity(
-    self.call("selectOption", [values, options.to_any()]),
+    self.call("selectOption", [values, options.as_any()]),
   )
   promise.wait()
 }
@@ -418,7 +418,7 @@ pub async fn Locator::hover(
     let pos = @js.Object::new()
     pos["x"] = x
     pos["y"] = y
-    options["position"] = pos.to_any()
+    options["position"] = pos.as_any()
   }
   if timeout is Some(v) {
     options["timeout"] = v
@@ -427,7 +427,7 @@ pub async fn Locator::hover(
     options["trial"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("hover", [options.to_any()]),
+    self.call("hover", [options.as_any()]),
   )
   promise.wait()
 }
@@ -440,7 +440,7 @@ pub async fn Locator::focus(self : Locator, timeout? : Int) -> Unit {
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("focus", [options.to_any()]),
+    self.call("focus", [options.as_any()]),
   )
   promise.wait()
 }
@@ -453,7 +453,7 @@ pub async fn Locator::blur(self : Locator, timeout? : Int) -> Unit {
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("blur", [options.to_any()]),
+    self.call("blur", [options.as_any()]),
   )
   promise.wait()
 }
@@ -469,7 +469,7 @@ pub async fn Locator::scrollIntoViewIfNeeded(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("scrollIntoViewIfNeeded", [options.to_any()]),
+    self.call("scrollIntoViewIfNeeded", [options.as_any()]),
   )
   promise.wait()
 }
@@ -484,7 +484,7 @@ pub async fn Locator::innerText(self : Locator, timeout? : Int) -> String {
     options["timeout"] = v
   }
   let promise : @js.Promise[String] = @js.identity(
-    self.call("innerText", [options.to_any()]),
+    self.call("innerText", [options.as_any()]),
   )
   promise.wait()
 }
@@ -497,7 +497,7 @@ pub async fn Locator::innerHTML(self : Locator, timeout? : Int) -> String {
     options["timeout"] = v
   }
   let promise : @js.Promise[String] = @js.identity(
-    self.call("innerHTML", [options.to_any()]),
+    self.call("innerHTML", [options.as_any()]),
   )
   promise.wait()
 }
@@ -510,7 +510,7 @@ pub async fn Locator::textContent(self : Locator, timeout? : Int) -> String? {
     options["timeout"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("textContent", [options.to_any()]),
+    self.call("textContent", [options.as_any()]),
   )
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -550,7 +550,7 @@ pub async fn Locator::getAttribute(
     options["timeout"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("getAttribute", [@js.any(name), options.to_any()]),
+    self.call("getAttribute", [@js.any(name), options.as_any()]),
   )
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -568,7 +568,7 @@ pub async fn Locator::inputValue(self : Locator, timeout? : Int) -> String {
     options["timeout"] = v
   }
   let promise : @js.Promise[String] = @js.identity(
-    self.call("inputValue", [options.to_any()]),
+    self.call("inputValue", [options.as_any()]),
   )
   promise.wait()
 }
@@ -581,7 +581,7 @@ pub async fn Locator::isVisible(self : Locator, timeout? : Int) -> Bool {
     options["timeout"] = v
   }
   let promise : @js.Promise[Bool] = @js.identity(
-    self.call("isVisible", [options.to_any()]),
+    self.call("isVisible", [options.as_any()]),
   )
   promise.wait()
 }
@@ -594,7 +594,7 @@ pub async fn Locator::isHidden(self : Locator, timeout? : Int) -> Bool {
     options["timeout"] = v
   }
   let promise : @js.Promise[Bool] = @js.identity(
-    self.call("isHidden", [options.to_any()]),
+    self.call("isHidden", [options.as_any()]),
   )
   promise.wait()
 }
@@ -607,7 +607,7 @@ pub async fn Locator::isEnabled(self : Locator, timeout? : Int) -> Bool {
     options["timeout"] = v
   }
   let promise : @js.Promise[Bool] = @js.identity(
-    self.call("isEnabled", [options.to_any()]),
+    self.call("isEnabled", [options.as_any()]),
   )
   promise.wait()
 }
@@ -620,7 +620,7 @@ pub async fn Locator::isDisabled(self : Locator, timeout? : Int) -> Bool {
     options["timeout"] = v
   }
   let promise : @js.Promise[Bool] = @js.identity(
-    self.call("isDisabled", [options.to_any()]),
+    self.call("isDisabled", [options.as_any()]),
   )
   promise.wait()
 }
@@ -633,7 +633,7 @@ pub async fn Locator::isEditable(self : Locator, timeout? : Int) -> Bool {
     options["timeout"] = v
   }
   let promise : @js.Promise[Bool] = @js.identity(
-    self.call("isEditable", [options.to_any()]),
+    self.call("isEditable", [options.as_any()]),
   )
   promise.wait()
 }
@@ -646,7 +646,7 @@ pub async fn Locator::isChecked(self : Locator, timeout? : Int) -> Bool {
     options["timeout"] = v
   }
   let promise : @js.Promise[Bool] = @js.identity(
-    self.call("isChecked", [options.to_any()]),
+    self.call("isChecked", [options.as_any()]),
   )
   promise.wait()
 }
@@ -666,7 +666,7 @@ pub async fn Locator::boundingBox(self : Locator, timeout? : Int) -> @js.Any {
     options["timeout"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("boundingBox", [options.to_any()]),
+    self.call("boundingBox", [options.as_any()]),
   )
   promise.wait()
 }
@@ -688,7 +688,7 @@ pub async fn Locator::waitFor(
     options["timeout"] = v
   }
   let promise : @js.Promise[Unit] = @js.identity(
-    self.call("waitFor", [options.to_any()]),
+    self.call("waitFor", [options.as_any()]),
   )
   promise.wait()
 }
@@ -726,7 +726,7 @@ pub async fn Locator::screenshot(
     options["scale"] = v
   }
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("screenshot", [options.to_any()]),
+    self.call("screenshot", [options.as_any()]),
   )
   promise.wait()
 }
@@ -747,9 +747,9 @@ pub async fn Locator::evaluate(
   }
   let promise : @js.Promise[@js.Any] = match arg {
     Some(a) =>
-      @js.identity(self.call("evaluate", [pageFunction, a, options.to_any()]))
+      @js.identity(self.call("evaluate", [pageFunction, a, options.as_any()]))
     None =>
-      @js.identity(self.call("evaluate", [pageFunction, options.to_any()]))
+      @js.identity(self.call("evaluate", [pageFunction, options.as_any()]))
   }
   promise.wait()
 }

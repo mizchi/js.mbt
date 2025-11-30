@@ -29,8 +29,8 @@ pub fn createInterface(
   signal? : @js.AbortSignal,
 ) -> Interface {
   let opts = @js.from_option_map({
-    "input": Some(input.to_any()),
-    "output": output.map(fn(x) { x.to_any() }),
+    "input": Some(input.as_any()),
+    "output": output.map(fn(x) { x.as_any() }),
     "completer": completer.map(fn(x) { @js.from_fn1(x) }),
     "terminator": terminator.map(fn(x) { @js.any(x) }),
     "history": history.map(fn(x) { @js.from_array(x) }),

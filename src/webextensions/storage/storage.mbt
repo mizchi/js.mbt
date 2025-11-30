@@ -63,7 +63,7 @@ pub async fn StorageArea::set_item(
 ) -> Unit {
   let items = @js.Object::new()
   items.set(key, value)
-  self.set(items.to_any())
+  self.set(items.as_any())
 }
 
 ///|

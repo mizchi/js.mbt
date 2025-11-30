@@ -11,9 +11,9 @@ test "mock_model_with_text creates working model" {
 }
 
 ///|
-test "MockContentPart Text to_any" {
+test "MockContentPart Text as_any" {
   let part = MockContentPart::Text("Hello")
-  let any = part.to_any()
+  let any = part.as_any()
   let type_ : String = any.get("type").cast()
   let text : String = any.get("text").cast()
   assert_eq(type_, "text")
@@ -21,13 +21,13 @@ test "MockContentPart Text to_any" {
 }
 
 ///|
-test "MockContentPart ToolCall to_any" {
+test "MockContentPart ToolCall as_any" {
   let part = MockContentPart::ToolCall(
     tool_call_id="call-1",
     tool_name="get_weather",
     args={ "location": "Tokyo" } |> @js.from_json,
   )
-  let any = part.to_any()
+  let any = part.as_any()
   let type_ : String = any.get("type").cast()
   let tool_name : String = any.get("toolName").cast()
   assert_eq(type_, "tool-call")
@@ -35,14 +35,14 @@ test "MockContentPart ToolCall to_any" {
 }
 
 ///|
-test "MockGenerateResult to_any" {
+test "MockGenerateResult as_any" {
   let result : MockGenerateResult = {
     finish_reason: "stop",
     usage: { input_tokens: 10, output_tokens: 20, total_tokens: 30 },
     content: [MockContentPart::Text("Hello")],
     warnings: [],
   }
-  let any = result.to_any()
+  let any = result.as_any()
   let finish_reason : String = any.get("finishReason").cast()
   let input_tokens : Int = any.get("usage").get("inputTokens").cast()
   assert_eq(finish_reason, "stop")

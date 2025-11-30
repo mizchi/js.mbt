@@ -398,7 +398,7 @@ pub using @js_async {type AbortSignal}
 
 // Traits
 pub(open) trait JsImpl {
-  to_any(Self) -> Any = _
+  as_any(Self) -> Any = _
   get(Self, &PropertyKey) -> Any = _
   set(Self, &PropertyKey, &JsImpl) -> Unit = _
   call(Self, &PropertyKey, Array[&JsImpl]) -> Any = _

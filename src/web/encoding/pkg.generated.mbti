@@ -2,8 +2,8 @@
 package "mizchi/js/web/encoding"
 
 import(
-  "mizchi/js"
   "mizchi/js/builtins/typedarray"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -12,15 +12,15 @@ import(
 
 // Types and methods
 pub type TextDecoder
+fn TextDecoder::as_any(Self) -> @nostd.Any
 fn TextDecoder::decode(Self, @typedarray.Uint8Array) -> String
 fn TextDecoder::new() -> Self
-impl @js.JsImpl for TextDecoder
 
 #external
 pub type TextEncoder
+fn TextEncoder::as_any(Self) -> @nostd.Any
 fn TextEncoder::encode(Self, String) -> @typedarray.Uint8Array
 fn TextEncoder::new() -> Self
-impl @js.JsImpl for TextEncoder
 
 // Type aliases
 

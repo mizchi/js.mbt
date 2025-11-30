@@ -11,7 +11,7 @@ pub impl @js.JsImpl for HonoRequest
 ///|
 /// Get request method
 pub fn HonoRequest::method_(self : Self) -> String {
-  self.to_any().get("method").cast()
+  self.as_any().get("method").cast()
 }
 
 ///|

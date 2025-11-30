@@ -348,7 +348,7 @@ test "EventTarget - addEventListener and dispatchEvent" {
   event.call("initEvent", ["click", false, false]) |> ignore
 
   // dispatchEvent test
-  let result = div.dispatchEvent(event.to_any())
+  let result = div.dispatchEvent(event.as_any())
   assert_eq(result, true)
   assert_eq(event_fired, true)
 }
@@ -367,7 +367,7 @@ test "EventTarget - removeEventListener" {
   // Create and dispatch event
   let event = doc.createEvent("Event")
   event.call("initEvent", ["test-event", false, false]) |> ignore
-  div.dispatchEvent(event.to_any()) |> ignore
+  div.dispatchEvent(event.as_any()) |> ignore
   assert_eq(call_count, 1)
 
   // Remove event listener
@@ -376,7 +376,7 @@ test "EventTarget - removeEventListener" {
   // Dispatch event again - should not fire
   let event2 = doc.createEvent("Event")
   event2.call("initEvent", ["test-event", false, false]) |> ignore
-  div.dispatchEvent(event2.to_any()) |> ignore
+  div.dispatchEvent(event2.as_any()) |> ignore
 
   // Count should still be 1
   assert_eq(call_count, 1)

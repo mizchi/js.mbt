@@ -25,15 +25,15 @@ pub fn Response::new(
   }
   match (status, statusText, headers) {
     (Some(s), Some(st), Some(h)) =>
-      new_impl_full(body_js, s, @js.identity(st), h.to_any())
+      new_impl_full(body_js, s, @js.identity(st), h.as_any())
     (Some(s), Some(st), None) =>
       new_impl_status_text(body_js, s, @js.identity(st))
-    (Some(s), None, Some(h)) => new_impl_status_headers(body_js, s, h.to_any())
+    (Some(s), None, Some(h)) => new_impl_status_headers(body_js, s, h.as_any())
     (Some(s), None, None) => new_impl_status(body_js, s)
     (None, Some(st), Some(h)) =>
-      new_impl_text_headers(body_js, @js.identity(st), h.to_any())
+      new_impl_text_headers(body_js, @js.identity(st), h.as_any())
     (None, Some(st), None) => new_impl_text(body_js, @js.identity(st))
-    (None, None, Some(h)) => new_impl_headers(body_js, h.to_any())
+    (None, None, Some(h)) => new_impl_headers(body_js, h.as_any())
     (None, None, None) => new_impl_plain(body_js)
   }
 }
@@ -96,8 +96,8 @@ pub extern "js" fn Response::redirect(url : String, status? : Int) -> Response =
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/json_static
 pub fn Response::json_(data : &@js.JsImpl, options? : &@js.JsImpl) -> Response {
   match options {
-    Some(opts) => json_impl(data.to_any(), opts.to_any())
-    None => json_impl(data.to_any(), @js.undefined())
+    Some(opts) => json_impl(data.as_any(), opts.as_any())
+    None => json_impl(data.as_any(), @js.undefined())
   }
 }
 

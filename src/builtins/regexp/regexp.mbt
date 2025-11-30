@@ -7,7 +7,11 @@
 pub type RegExp
 
 ///|
+/// For backward compatibility
 pub impl @js.JsImpl for RegExp
+
+///|
+pub fn RegExp::as_any(self : RegExp) -> @nostd.Any = "%identity"
 
 ///|
 /// Result of RegExp.exec() method.
@@ -23,7 +27,11 @@ pub struct RegExpResult {
 }
 
 ///|
+/// For backward compatibility
 pub impl @js.JsImpl for RegExpResult
+
+///|
+pub fn RegExpResult::as_any(self : RegExpResult) -> @nostd.Any = "%identity"
 
 ///|
 /// Result of String.match() or String.matchAll() methods.
@@ -39,7 +47,11 @@ pub struct RegExpMatchArray {
 }
 
 ///|
+/// For backward compatibility
 pub impl @js.JsImpl for RegExpMatchArray
+
+///|
+pub fn RegExpMatchArray::as_any(self : RegExpMatchArray) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_regexp_new(s : String, flags : String) -> RegExp =

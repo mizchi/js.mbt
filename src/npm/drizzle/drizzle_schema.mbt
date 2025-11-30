@@ -33,7 +33,7 @@ pub fn PgIndexBuilder::on(
   self : PgIndexBuilder,
   columns : Array[Column],
 ) -> PgIndexBuilder {
-  self.call("on", columns.map(fn(c) { c.to_any() })) |> @js.identity
+  self.call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
 }
 
 ///|
@@ -78,11 +78,11 @@ pub fn PgIndexBuilder::usingMethod(
 pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
   let fn_ = drizzle_pg_core().get("primaryKey")
   let opts = @js.Object::new()
-  opts.set("columns", @js.from_array(columns.map(fn(c) { c.to_any() })))
+  opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
     opts.set("name", n)
   }
-  fn_.call_self([opts.to_any()])
+  fn_.call_self([opts.as_any()])
 }
 
 ///|
@@ -91,11 +91,11 @@ pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
 pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
   let fn_ = drizzle_sqlite_core().get("primaryKey")
   let opts = @js.Object::new()
-  opts.set("columns", @js.from_array(columns.map(fn(c) { c.to_any() })))
+  opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
     opts.set("name", n)
   }
-  fn_.call_self([opts.to_any()])
+  fn_.call_self([opts.as_any()])
 }
 
 // ============ Composite Unique Constraint ============
@@ -136,7 +136,7 @@ pub fn UniqueBuilder::on(
   self : UniqueBuilder,
   columns : Array[Column],
 ) -> UniqueBuilder {
-  self.call("on", columns.map(fn(c) { c.to_any() })) |> @js.identity
+  self.call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
 }
 
 ///|
@@ -158,15 +158,15 @@ pub fn pgForeignKey(
 ) -> @js.Any {
   let fn_ = drizzle_pg_core().get("foreignKey")
   let opts = @js.Object::new()
-  opts.set("columns", @js.from_array(columns.map(fn(c) { c.to_any() })))
+  opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   opts.set(
     "foreignColumns",
-    @js.from_array(foreign_columns.map(fn(c) { c.to_any() })),
+    @js.from_array(foreign_columns.map(fn(c) { c.as_any() })),
   )
   if name is Some(n) {
     opts.set("name", n)
   }
-  fn_.call_self([opts.to_any()])
+  fn_.call_self([opts.as_any()])
 }
 
 ///|
@@ -179,15 +179,15 @@ pub fn sqliteForeignKey(
 ) -> @js.Any {
   let fn_ = drizzle_sqlite_core().get("foreignKey")
   let opts = @js.Object::new()
-  opts.set("columns", @js.from_array(columns.map(fn(c) { c.to_any() })))
+  opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   opts.set(
     "foreignColumns",
-    @js.from_array(foreign_columns.map(fn(c) { c.to_any() })),
+    @js.from_array(foreign_columns.map(fn(c) { c.as_any() })),
   )
   if name is Some(n) {
     opts.set("name", n)
   }
-  fn_.call_self([opts.to_any()])
+  fn_.call_self([opts.as_any()])
 }
 
 // ============ Check Constraint ============
@@ -197,7 +197,7 @@ pub fn sqliteForeignKey(
 #alias(pg_check)
 pub fn pgCheck(name : String, condition : SQL) -> @js.Any {
   let fn_ = drizzle_pg_core().get("check")
-  fn_.call_self([name |> @js.any, condition.to_any()])
+  fn_.call_self([name |> @js.any, condition.as_any()])
 }
 
 ///|
@@ -205,7 +205,7 @@ pub fn pgCheck(name : String, condition : SQL) -> @js.Any {
 #alias(sqlite_check)
 pub fn sqliteCheck(name : String, condition : SQL) -> @js.Any {
   let fn_ = drizzle_sqlite_core().get("check")
-  fn_.call_self([name |> @js.any, condition.to_any()])
+  fn_.call_self([name |> @js.any, condition.as_any()])
 }
 
 // ============ Column Order Modifiers for Index ============

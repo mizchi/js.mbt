@@ -225,7 +225,7 @@ pub fn Ink::text(
   dim_color? : Bool,
   wrap? : TextWrap,
 ) -> @react.Element {
-  let text_component = self.to_any().get("Text")
+  let text_component = self.as_any().get("Text")
   let props = @js.Object::new()
   if color is Some(c) {
     props.set("color", c)
@@ -255,7 +255,7 @@ pub fn Ink::text(
     props.set("wrap", w.to_string())
   }
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(text_component, props.to_any(), children_arr)
+  ffi_create_element(text_component, props.as_any(), children_arr)
   |> @js.identity
 }
 
@@ -312,7 +312,7 @@ pub fn Ink::box_(
   column_gap? : Int,
   row_gap? : Int,
 ) -> @react.Element {
-  let box_component = self.to_any().get("Box")
+  let box_component = self.as_any().get("Box")
   let props = @js.Object::new()
   // Dimensions
   if width is Some(w) {
@@ -444,29 +444,29 @@ pub fn Ink::box_(
     props.set("rowGap", g)
   }
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(box_component, props.to_any(), children_arr)
+  ffi_create_element(box_component, props.as_any(), children_arr)
   |> @js.identity
 }
 
 ///|
 /// Newline component - renders a newline character
 pub fn Ink::newline(self : Ink, count? : Int) -> @react.Element {
-  let newline_component = self.to_any().get("Newline")
+  let newline_component = self.as_any().get("Newline")
   let props = @js.Object::new()
   if count is Some(c) {
     props.set("count", c)
   }
-  ffi_create_element(newline_component, props.to_any(), @js.undefined())
+  ffi_create_element(newline_component, props.as_any(), @js.undefined())
   |> @js.identity
 }
 
 ///|
 /// Spacer component - fills available space (flex-grow: 1)
 pub fn Ink::spacer(self : Ink) -> @react.Element {
-  let spacer_component = self.to_any().get("Spacer")
+  let spacer_component = self.as_any().get("Spacer")
   ffi_create_element(
     spacer_component,
-    @js.Object::new().to_any(),
+    @js.Object::new().as_any(),
     @js.undefined(),
   )
   |> @js.identity
@@ -479,13 +479,13 @@ pub fn Ink::static_(
   children : Array[&@react.ReactNode],
   items? : Array[@js.Any],
 ) -> @react.Element {
-  let static_component = self.to_any().get("Static")
+  let static_component = self.as_any().get("Static")
   let props = @js.Object::new()
   if items is Some(i) {
     props.set("items", i |> @js.from_array)
   }
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(static_component, props.to_any(), children_arr)
+  ffi_create_element(static_component, props.as_any(), children_arr)
   |> @js.identity
 }
 
@@ -496,12 +496,12 @@ pub fn Ink::transform(
   children : Array[&@react.ReactNode],
   transform_fn : (String) -> String,
 ) -> @react.Element {
-  let transform_component = self.to_any().get("Transform")
+  let transform_component = self.as_any().get("Transform")
   let props = @js.Object::new()
   let wrapped_fn = ffi_wrap_transform(transform_fn)
   props.set("transform", wrapped_fn)
   let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(transform_component, props.to_any(), children_arr)
+  ffi_create_element(transform_component, props.as_any(), children_arr)
   |> @js.identity
 }
 
@@ -554,7 +554,7 @@ pub fn Ink::render(
   maxFps? : Int,
   onRender? : () -> Unit,
 ) -> InkInstance {
-  let render_fn = self.to_any().get("render")
+  let render_fn = self.as_any().get("render")
   let obj = @js.Object::new()
   if stdout is Some(s) {
     obj.set("stdout", s)
@@ -583,7 +583,7 @@ pub fn Ink::render(
   if onRender is Some(callback) {
     obj.set("onRender", @js.from_fn0(callback))
   }
-  render_fn.call_self([element.to_any(), obj.to_any()]) |> @js.identity
+  render_fn.call_self([element.as_any(), obj.as_any()]) |> @js.identity
 }
 
 ///|
@@ -592,20 +592,20 @@ pub fn InkInstance::rerender(
   self : InkInstance,
   element : @react.Element,
 ) -> Unit {
-  self.to_any().get("rerender").call_self([element.to_any()]) |> ignore
+  self.as_any().get("rerender").call_self([element.as_any()]) |> ignore
 }
 
 ///|
 /// Unmount the ink instance
 pub fn InkInstance::unmount(self : InkInstance) -> Unit {
-  self.to_any().get("unmount").call_self([]) |> ignore
+  self.as_any().get("unmount").call_self([]) |> ignore
 }
 
 ///|
 /// Wait for the instance to finish
 pub async fn InkInstance::waitUntilExit(self : InkInstance) -> Unit {
   let promise : @js.Promise[Unit] = self
-    .to_any()
+    .as_any()
     .get("waitUntilExit")
     .call_self([])
     |> @js.identity
@@ -615,5 +615,5 @@ pub async fn InkInstance::waitUntilExit(self : InkInstance) -> Unit {
 ///|
 /// Clear the output
 pub fn InkInstance::clear(self : InkInstance) -> Unit {
-  self.to_any().get("clear").call_self([]) |> ignore
+  self.as_any().get("clear").call_self([]) |> ignore
 }

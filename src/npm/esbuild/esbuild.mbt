@@ -298,7 +298,7 @@ pub async fn Esbuild::build(
       let (key, value) = pair
       defs.set(key, value)
     }
-    opts.set("define", defs.to_any())
+    opts.set("define", defs.as_any())
   }
   let promise : @js.Promise[BuildResult] = self.call1("build", opts).cast()
   promise.wait()
@@ -374,7 +374,7 @@ pub fn Esbuild::build_sync(
       let (key, value) = pair
       defs.set(key, value)
     }
-    opts.set("define", defs.to_any())
+    opts.set("define", defs.as_any())
   }
   self.call1("buildSync", opts).cast()
 }

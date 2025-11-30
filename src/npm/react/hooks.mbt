@@ -2,7 +2,7 @@
 /// React.useState
 #alias(use_state)
 pub fn[T : @js.JsImpl] useState(initial : T) -> (T, (T) -> Unit) {
-  let result = ffi_react_use_state(initial.to_any())
+  let result = ffi_react_use_state(initial.as_any())
   let value : T = result.get(0).cast()
   let update_fn : (T) -> Unit = result.get(1).cast()
   (value, update_fn)
@@ -23,7 +23,7 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 /// React.useCallback
 #alias(use_callback)
 pub fn[F] useCallback(f : F, keys : Array[&@js.JsImpl]) -> F {
-  let keys = keys.map(k => k.to_any())
+  let keys = keys.map(k => k.as_any())
   @js.identity(ffi_react_use_callback(f |> @js.unsafe_any, keys))
 }
 
@@ -31,13 +31,13 @@ pub fn[F] useCallback(f : F, keys : Array[&@js.JsImpl]) -> F {
 /// JS: React.useEffect
 #alias(use_effect)
 pub fn useEffect(f : () -> () -> Unit, keys : Array[&@js.JsImpl]) -> Unit {
-  ffi_react_use_effect(f, keys.map(_.to_any()))
+  ffi_react_use_effect(f, keys.map(_.as_any()))
 }
 
 ///|
 #alias(use_layout_effect)
 pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[&@js.JsImpl]) -> Unit {
-  ffi_react_use_layout_effect(f, keys.map(_.to_any()))
+  ffi_react_use_layout_effect(f, keys.map(_.as_any()))
 }
 
 ///|
@@ -53,7 +53,7 @@ pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[&@js.JsImpl]) -> Unit 
 #alias(use_memo)
 pub fn[T] useMemo(f : () -> T, keys : Array[&@js.JsImpl]) -> T {
   let f = () => f() |> @js.identity
-  let v : T = @js.identity(ffi_react_use_memo(f, keys.map(_.to_any())))
+  let v : T = @js.identity(ffi_react_use_memo(f, keys.map(_.as_any())))
   v
 }
 
@@ -322,7 +322,7 @@ pub fn use_insertion_effect(
   f : () -> () -> Unit,
   keys : Array[&@js.JsImpl],
 ) -> Unit {
-  let deps = keys.map(_.to_any()) |> @js.from_array
+  let deps = keys.map(_.as_any()) |> @js.from_array
   ffi_use_insertion_effect(f |> @js.unsafe_any, deps)
 }
 
@@ -374,7 +374,7 @@ pub fn[T] use_imperative_handle(
   create : () -> T,
   keys : Array[&@js.JsImpl],
 ) -> Unit {
-  let deps = keys.map(_.to_any()) |> @js.from_array
+  let deps = keys.map(_.as_any()) |> @js.from_array
   ffi_use_imperative_handle(
     ref_ |> @js.unsafe_any,
     create |> @js.unsafe_any,
