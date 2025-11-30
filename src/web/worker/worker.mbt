@@ -37,7 +37,9 @@ pub fn Worker::as_event_target(self : Worker) -> @event.EventTarget = "%identity
 pub impl @js.JsImpl for Worker
 
 ///|
-pub impl @event.EventTargetImpl for Worker
+pub impl @event.EventTargetImpl for Worker with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 extern "js" fn ffi_new_worker(script_url : String, option : @js.Any) -> Worker =

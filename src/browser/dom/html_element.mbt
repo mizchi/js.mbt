@@ -1,6 +1,7 @@
 ///|
 /// HTMLElement trait - base interface for HTML elements
-pub(open) trait HTMLElementImpl: @js.JsImpl + ElementImpl {
+pub(open) trait HTMLElementImpl {
+  as_any(Self) -> @nostd.Any
   innerText(Self) -> String = _
   setInnerText(Self, String) -> Unit = _
   innerHTML(Self) -> String = _
@@ -31,53 +32,46 @@ pub fn HTMLElement::as_element(self : HTMLElement) -> Element = "%identity"
 pub impl @js.JsImpl for HTMLElement
 
 ///|
-pub impl @event.EventTargetImpl for HTMLElement
-
-///|
-pub impl ElementImpl for HTMLElement
-
-///|
-pub impl NodeImpl for HTMLElement
-
-///|
-pub impl HTMLElementImpl for HTMLElement
+pub impl HTMLElementImpl for HTMLElement with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 impl HTMLElementImpl with innerText(self) -> String {
-  self.get("innerText").cast()
+  self.as_any()._get("innerText").cast()
 }
 
 ///|
 impl HTMLElementImpl with setInnerText(self, text) -> Unit {
-  self.set("innerText", text)
+  self.as_any()._set("innerText", @nostd.any(text)) |> ignore
 }
 
 ///|
 impl HTMLElementImpl with innerHTML(self) -> String {
-  self.get("innerHTML").cast()
+  self.as_any()._get("innerHTML").cast()
 }
 
 ///|
 impl HTMLElementImpl with setInnerHTML(self, html) -> Unit {
-  self.set("innerHTML", html)
+  self.as_any()._set("innerHTML", @nostd.any(html)) |> ignore
 }
 
 ///|
 impl HTMLElementImpl with outerHTML(self) -> String {
-  self.get("outerHTML").cast()
+  self.as_any()._get("outerHTML").cast()
 }
 
 ///|
 impl HTMLElementImpl with setOuterHTML(self, html) -> Unit {
-  self.set("outerHTML", html)
+  self.as_any()._set("outerHTML", @nostd.any(html)) |> ignore
 }
 
 ///|
 impl HTMLElementImpl with focus(self) -> Unit {
-  ignore(self.call0("focus"))
+  self.as_any()._call("focus", []) |> ignore
 }
 
 ///|
 impl HTMLElementImpl with click(self) -> Unit {
-  ignore(self.call0("click"))
+  self.as_any()._call("click", []) |> ignore
 }

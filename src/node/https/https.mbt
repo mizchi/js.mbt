@@ -55,7 +55,9 @@ pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity
 pub impl @js.JsImpl for Server
 
 ///|
-pub impl @event.EventTargetImpl for Server
+pub impl @event.EventTargetImpl for Server with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 extern "js" fn ffi_create_server(
@@ -117,7 +119,9 @@ pub fn ClientRequest::as_event_target(
 pub impl @js.JsImpl for ClientRequest
 
 ///|
-pub impl @event.EventTargetImpl for ClientRequest
+pub impl @event.EventTargetImpl for ClientRequest with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 extern "js" fn ffi_request(

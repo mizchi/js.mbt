@@ -17,7 +17,9 @@ pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity
 pub impl @js.JsImpl for Server
 
 ///|
-pub impl @event.EventTargetImpl for Server
+pub impl @event.EventTargetImpl for Server with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// TLS Socket for encrypted communications
@@ -36,7 +38,9 @@ pub fn TLSSocket::as_event_target(self : TLSSocket) -> @event.EventTarget = "%id
 pub impl @js.JsImpl for TLSSocket
 
 ///|
-pub impl @event.EventTargetImpl for TLSSocket
+pub impl @event.EventTargetImpl for TLSSocket with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Helper function to convert Array[String] to JavaScript array

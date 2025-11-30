@@ -22,7 +22,9 @@ pub fn MessageEvent::as_event_target(self : MessageEvent) -> @event.EventTarget 
 pub impl @js.JsImpl for MessageEvent
 
 ///|
-pub impl @event.EventTargetImpl for MessageEvent
+pub impl @event.EventTargetImpl for MessageEvent with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// MessagePort represents one end of a message channel
@@ -42,7 +44,9 @@ pub fn MessagePort::as_event_target(self : MessagePort) -> @event.EventTarget = 
 pub impl @js.JsImpl for MessagePort
 
 ///|
-pub impl @event.EventTargetImpl for MessagePort
+pub impl @event.EventTargetImpl for MessagePort with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 pub impl Show for MessagePort with output(self, logger) {

@@ -21,12 +21,6 @@ pub fn ShadowRoot::as_node(self : ShadowRoot) -> Node = "%identity"
 pub impl @js.JsImpl for ShadowRoot
 
 ///|
-pub impl @event.EventTargetImpl for ShadowRoot
-
-///|
-pub impl NodeImpl for ShadowRoot
-
-///|
 /// Returns the mode of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/mode
 pub fn ShadowRoot::mode(self : Self) -> String {

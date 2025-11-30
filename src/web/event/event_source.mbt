@@ -21,7 +21,9 @@ pub fn EventSource::as_event_target(self : EventSource) -> EventTarget = "%ident
 pub impl @js.JsImpl for EventSource
 
 ///|
-pub impl EventTargetImpl for EventSource
+pub impl EventTargetImpl for EventSource with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// EventSource ready state: CONNECTING

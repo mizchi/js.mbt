@@ -25,7 +25,9 @@ pub fn[T] IDBRequest::as_event_target(
 pub impl[T] @js.JsImpl for IDBRequest[T]
 
 ///|
-pub impl[T] @event.EventTargetImpl for IDBRequest[T]
+pub impl[T] @event.EventTargetImpl for IDBRequest[T] with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Check if request is pending
@@ -84,7 +86,9 @@ pub fn IDBOpenDBRequest::as_event_target(
 pub impl @js.JsImpl for IDBOpenDBRequest
 
 ///|
-pub impl @event.EventTargetImpl for IDBOpenDBRequest
+pub impl @event.EventTargetImpl for IDBOpenDBRequest with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///| IDBDatabase - Database connection
 

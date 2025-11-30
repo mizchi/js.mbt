@@ -14,9 +14,3 @@ pub fn Text::as_node(self : Text) -> Node = "%identity"
 
 ///|
 pub impl @js.JsImpl for Text
-
-///|
-pub impl @event.EventTargetImpl for Text
-
-///|
-pub impl NodeImpl for Text

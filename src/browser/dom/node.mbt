@@ -12,14 +12,14 @@ pub fn Node::as_event_target(self : Node) -> @event.EventTarget = "%identity"
 pub impl @js.JsImpl for Node
 
 ///|
-pub impl @event.EventTargetImpl for Node
-
-///|
-pub impl NodeImpl for Node
+pub impl NodeImpl for Node with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Node_ trait - base interface for DOM tree nodes
-pub(open) trait NodeImpl: @js.JsImpl + @event.EventTargetImpl {
+pub(open) trait NodeImpl {
+  as_any(Self) -> @nostd.Any
   nodeType(Self) -> Int = _
   nodeName(Self) -> String = _
   parentNode(Self) -> Node? = _
@@ -41,97 +41,101 @@ pub(open) trait NodeImpl: @js.JsImpl + @event.EventTargetImpl {
 
 ///|
 impl NodeImpl with nodeType(self) -> Int {
-  self.get("nodeType").cast()
+  self.as_any()._get("nodeType").cast()
 }
 
 ///|
 impl NodeImpl with nodeName(self) -> String {
-  self.get("nodeName").cast()
+  self.as_any()._get("nodeName").cast()
 }
 
 ///|
 impl NodeImpl with parentNode(self) -> Node? {
-  @js.identity_option(self.get("parentNode"))
+  let v : @js.Any = self.as_any()._get("parentNode").cast()
+  @js.identity_option(v)
 }
 
 ///|
 /// Returns a static array of child nodes.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl NodeImpl with childNodes(self) -> Array[Node] {
-  @js.array_from(self.get("childNodes")).map(v => @js.identity(v))
+  let arr : @js.Any = self.as_any()._get("childNodes").cast()
+  @js.array_from(arr).map(v => @js.identity(v))
 }
 
 ///|
 impl NodeImpl with firstChild(self) -> Node? {
-  @js.identity_option(self.get("firstChild"))
+  let v : @js.Any = self.as_any()._get("firstChild").cast()
+  @js.identity_option(v)
 }
 
 ///|
 impl NodeImpl with lastChild(self) -> Node? {
-  @js.identity_option(self.get("lastChild"))
+  let v : @js.Any = self.as_any()._get("lastChild").cast()
+  @js.identity_option(v)
 }
 
 ///|
 impl NodeImpl with previousSibling(self) -> Node? {
-  @js.identity_option(self.get("previousSibling"))
+  let v : @js.Any = self.as_any()._get("previousSibling").cast()
+  @js.identity_option(v)
 }
 
 ///|
 impl NodeImpl with nextSibling(self) -> Node? {
-  @js.identity_option(self.get("nextSibling"))
+  let v : @js.Any = self.as_any()._get("nextSibling").cast()
+  @js.identity_option(v)
 }
 
 ///|
 impl NodeImpl with appendChild(self, child) -> Node {
-  self.call1("appendChild", child.as_any()).cast()
+  self.as_any()._call("appendChild", [child.as_any()]).cast()
 }
 
 ///|
 impl NodeImpl with removeChild(self, child) -> Node {
-  self.call1("removeChild", child.as_any()).cast()
+  self.as_any()._call("removeChild", [child.as_any()]).cast()
 }
 
 ///|
 impl NodeImpl with insertBefore(self, new_node, ref_node) -> Node {
   match ref_node {
     Some(node) =>
-      @js.identity(self.call2("insertBefore", new_node.as_any(), node.as_any()))
+      self.as_any()._call("insertBefore", [new_node.as_any(), node.as_any()]).cast()
     None =>
-      @js.identity(self.call2("insertBefore", new_node.as_any(), @js.null_()))
+      self.as_any()._call("insertBefore", [new_node.as_any(), @nostd.null()]).cast()
   }
 }
 
 ///|
 impl NodeImpl with replaceChild(self, new_child, old_child) -> Node {
-  @js.identity(
-    self.call2("replaceChild", new_child.as_any(), old_child.as_any()),
-  )
+  self.as_any()._call("replaceChild", [new_child.as_any(), old_child.as_any()]).cast()
 }
 
 ///|
 impl NodeImpl with cloneNode(self, deep) {
-  self.call1("cloneNode", deep).cast()
+  self.as_any()._call("cloneNode", [@nostd.any(deep)]).cast()
 }
 
 ///|
 impl NodeImpl with contains(self, other) {
   match other {
-    Some(node) => self.call1("contains", node.as_any()).cast()
-    None => self.call1("contains", @js.null_()).cast()
+    Some(node) => self.as_any()._call("contains", [node.as_any()]).cast()
+    None => self.as_any()._call("contains", [@nostd.null()]).cast()
   }
 }
 
 ///|
 impl NodeImpl with hasChildNodes(self) -> Bool {
-  self.call0("hasChildNodes").cast()
+  self.as_any()._call("hasChildNodes", []).cast()
 }
 
 ///|
 impl NodeImpl with textContent(self) -> String {
-  self.get("textContent").cast()
+  self.as_any()._get("textContent").cast()
 }
 
 ///|
 impl NodeImpl with setTextContent(self, content) -> Unit {
-  self.set("textContent", content)
+  self.as_any()._set("textContent", @nostd.any(content)) |> ignore
 }

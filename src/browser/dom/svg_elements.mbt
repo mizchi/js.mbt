@@ -20,13 +20,10 @@ pub fn SVGElement::as_element(self : SVGElement) -> Element = "%identity"
 pub impl @js.JsImpl for SVGElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGElement
 
 ///|
-pub impl NodeImpl for SVGElement
 
 ///|
-pub impl ElementImpl for SVGElement
 
 ///|
 /// Sets an attribute on the SVG element
@@ -72,13 +69,10 @@ pub fn SVGSVGElement::as_svg_element(self : SVGSVGElement) -> SVGElement = "%ide
 pub impl @js.JsImpl for SVGSVGElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGSVGElement
 
 ///|
-pub impl NodeImpl for SVGSVGElement
 
 ///|
-pub impl ElementImpl for SVGSVGElement
 
 ///|
 /// Gets the current viewport width
@@ -136,13 +130,10 @@ pub fn SVGCircleElement::as_svg_element(self : SVGCircleElement) -> SVGElement =
 pub impl @js.JsImpl for SVGCircleElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGCircleElement
 
 ///|
-pub impl NodeImpl for SVGCircleElement
 
 ///|
-pub impl ElementImpl for SVGCircleElement
 
 ///|
 /// Gets the cx coordinate
@@ -199,13 +190,10 @@ pub fn SVGRectElement::as_svg_element(self : SVGRectElement) -> SVGElement = "%i
 pub impl @js.JsImpl for SVGRectElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGRectElement
 
 ///|
-pub impl NodeImpl for SVGRectElement
 
 ///|
-pub impl ElementImpl for SVGRectElement
 
 ///|
 /// Gets the x coordinate
@@ -270,13 +258,10 @@ pub fn SVGEllipseElement::as_svg_element(
 pub impl @js.JsImpl for SVGEllipseElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGEllipseElement
 
 ///|
-pub impl NodeImpl for SVGEllipseElement
 
 ///|
-pub impl ElementImpl for SVGEllipseElement
 
 ///|
 /// Gets the cx coordinate
@@ -339,13 +324,10 @@ pub fn SVGLineElement::as_svg_element(self : SVGLineElement) -> SVGElement = "%i
 pub impl @js.JsImpl for SVGLineElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGLineElement
 
 ///|
-pub impl NodeImpl for SVGLineElement
 
 ///|
-pub impl ElementImpl for SVGLineElement
 
 ///|
 /// Gets the x1 coordinate
@@ -410,13 +392,10 @@ pub fn SVGPolygonElement::as_svg_element(
 pub impl @js.JsImpl for SVGPolygonElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGPolygonElement
 
 ///|
-pub impl NodeImpl for SVGPolygonElement
 
 ///|
-pub impl ElementImpl for SVGPolygonElement
 
 ///|
 /// Sets an attribute on the SVG element
@@ -457,13 +436,10 @@ pub fn SVGPolylineElement::as_svg_element(
 pub impl @js.JsImpl for SVGPolylineElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGPolylineElement
 
 ///|
-pub impl NodeImpl for SVGPolylineElement
 
 ///|
-pub impl ElementImpl for SVGPolylineElement
 
 ///|
 /// Sets an attribute on the SVG element
@@ -502,13 +478,10 @@ pub fn SVGPathElement::as_svg_element(self : SVGPathElement) -> SVGElement = "%i
 pub impl @js.JsImpl for SVGPathElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGPathElement
 
 ///|
-pub impl NodeImpl for SVGPathElement
 
 ///|
-pub impl ElementImpl for SVGPathElement
 
 ///|
 /// Gets the path data
@@ -560,13 +533,10 @@ pub fn SVGTextElement::as_svg_element(self : SVGTextElement) -> SVGElement = "%i
 pub impl @js.JsImpl for SVGTextElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGTextElement
 
 ///|
-pub impl NodeImpl for SVGTextElement
 
 ///|
-pub impl ElementImpl for SVGTextElement
 
 ///|
 /// Gets the x coordinate
@@ -617,13 +587,10 @@ pub fn SVGImageElement::as_svg_element(self : SVGImageElement) -> SVGElement = "
 pub impl @js.JsImpl for SVGImageElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGImageElement
 
 ///|
-pub impl NodeImpl for SVGImageElement
 
 ///|
-pub impl ElementImpl for SVGImageElement
 
 ///|
 /// Gets the x coordinate
@@ -690,13 +657,10 @@ pub fn SVGGElement::as_svg_element(self : SVGGElement) -> SVGElement = "%identit
 pub impl @js.JsImpl for SVGGElement
 
 ///|
-pub impl @event.EventTargetImpl for SVGGElement
 
 ///|
-pub impl NodeImpl for SVGGElement
 
 ///|
-pub impl ElementImpl for SVGGElement
 
 ///|
 /// Sets an attribute on the SVG element

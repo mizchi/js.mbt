@@ -14,7 +14,9 @@ pub fn Window::as_event_target(self : Window) -> @event.EventTarget = "%identity
 pub impl @js.JsImpl for Window
 
 ///|
-pub impl @event.EventTargetImpl for Window
+pub impl @event.EventTargetImpl for Window with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Returns the global window object

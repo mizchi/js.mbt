@@ -17,15 +17,6 @@ pub fn Document::as_node(self : Document) -> Node = "%identity"
 pub impl @js.JsImpl for Document
 
 ///|
-pub impl @event.EventTargetImpl for Document
-
-///|
-pub impl NodeImpl for Document
-
-///|
-pub impl ElementImpl for Document
-
-///|
 /// Returns the global document object
 pub extern "js" fn document() -> Document =
   #| () => document

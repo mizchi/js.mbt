@@ -17,7 +17,9 @@ pub fn Session::as_event_target(self : Session) -> @event.EventTarget = "%identi
 pub impl @js.JsImpl for Session
 
 ///|
-pub impl @event.EventTargetImpl for Session
+pub impl @event.EventTargetImpl for Session with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Creates a new Inspector Session

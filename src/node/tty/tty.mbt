@@ -16,7 +16,9 @@ pub fn ReadStream::as_event_target(self : ReadStream) -> @event.EventTarget = "%
 pub impl @js.JsImpl for ReadStream
 
 ///|
-pub impl @event.EventTargetImpl for ReadStream
+pub impl @event.EventTargetImpl for ReadStream with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Check if ReadStream is a TTY
@@ -56,7 +58,9 @@ pub fn WriteStream::as_event_target(self : WriteStream) -> @event.EventTarget = 
 pub impl @js.JsImpl for WriteStream
 
 ///|
-pub impl @event.EventTargetImpl for WriteStream
+pub impl @event.EventTargetImpl for WriteStream with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Check if WriteStream is a TTY

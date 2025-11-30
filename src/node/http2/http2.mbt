@@ -16,7 +16,9 @@ pub fn Http2Session::as_event_target(self : Http2Session) -> @event.EventTarget 
 pub impl @js.JsImpl for Http2Session
 
 ///|
-pub impl @event.EventTargetImpl for Http2Session
+pub impl @event.EventTargetImpl for Http2Session with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTTP/2 Server (unencrypted)
@@ -34,7 +36,9 @@ pub fn Http2Server::as_event_target(self : Http2Server) -> @event.EventTarget = 
 pub impl @js.JsImpl for Http2Server
 
 ///|
-pub impl @event.EventTargetImpl for Http2Server
+pub impl @event.EventTargetImpl for Http2Server with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTTP/2 Secure Server (TLS-encrypted)
@@ -54,7 +58,9 @@ pub fn Http2SecureServer::as_event_target(
 pub impl @js.JsImpl for Http2SecureServer
 
 ///|
-pub impl @event.EventTargetImpl for Http2SecureServer
+pub impl @event.EventTargetImpl for Http2SecureServer with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// HTTP/2 Stream - bidirectional communications channel
@@ -72,7 +78,9 @@ pub fn Http2Stream::as_event_target(self : Http2Stream) -> @event.EventTarget = 
 pub impl @js.JsImpl for Http2Stream
 
 ///|
-pub impl @event.EventTargetImpl for Http2Stream
+pub impl @event.EventTargetImpl for Http2Stream with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Client-side HTTP/2 stream
@@ -92,7 +100,9 @@ pub fn ClientHttp2Stream::as_event_target(
 pub impl @js.JsImpl for ClientHttp2Stream
 
 ///|
-pub impl @event.EventTargetImpl for ClientHttp2Stream
+pub impl @event.EventTargetImpl for ClientHttp2Stream with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Server-side HTTP/2 stream
@@ -112,7 +122,9 @@ pub fn ServerHttp2Stream::as_event_target(
 pub impl @js.JsImpl for ServerHttp2Stream
 
 ///|
-pub impl @event.EventTargetImpl for ServerHttp2Stream
+pub impl @event.EventTargetImpl for ServerHttp2Stream with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 extern "js" fn ffi_create_server(

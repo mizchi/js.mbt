@@ -33,61 +33,64 @@ extern "js" fn ffi_new_event(event_type : String, options : @js.Any) -> Event =
 ///|
 /// Get the event type
 pub fn Event::type_(self : Event) -> String {
-  self.get("type").cast()
+  self.as_any()._get("type").cast()
 }
 
 ///|
 /// Get the event target
 pub fn Event::target(self : Event) -> EventTarget? {
-  self.get("target") |> @js.identity_option
+  let v : @js.Any = self.as_any()._get("target").cast()
+  v |> @js.identity_option
 }
 
 ///|
 /// Get the current target
 pub fn Event::currentTarget(self : Event) -> EventTarget? {
-  self.get("currentTarget") |> @js.identity_option
+  let v : @js.Any = self.as_any()._get("currentTarget").cast()
+  v |> @js.identity_option
 }
 
 ///|
 /// Check if the event bubbles
 pub fn Event::bubbles(self : Event) -> Bool {
-  self.get("bubbles").cast()
+  self.as_any()._get("bubbles").cast()
 }
 
 ///|
 /// Check if the event is cancelable
 pub fn Event::cancelable(self : Event) -> Bool {
-  self.get("cancelable").cast()
+  self.as_any()._get("cancelable").cast()
 }
 
 ///|
 /// Prevent the default action
 pub fn Event::preventDefault(self : Event) -> Unit {
-  self.call0("preventDefault") |> ignore
+  self.as_any()._call("preventDefault", []) |> ignore
 }
 
 ///|
 /// Stop event propagation
 pub fn Event::stopPropagation(self : Event) -> Unit {
-  self.call0("stopPropagation") |> ignore
+  self.as_any()._call("stopPropagation", []) |> ignore
 }
 
 ///|
 /// Stop immediate propagation
 pub fn Event::stopImmediatePropagation(self : Event) -> Unit {
-  self.call0("stopImmediatePropagation") |> ignore
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
 }
 
 ///|
 /// Check if default was prevented
 pub fn Event::defaultPrevented(self : Event) -> Bool {
-  self.get("defaultPrevented").cast()
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
 /// @deprecated Use as_event_target() pattern instead
 /// Generic event target trait - kept for backward compatibility
-pub(open) trait EventTargetImpl: @js.JsImpl {
+pub(open) trait EventTargetImpl {
+  as_any(Self) -> @nostd.Any
   addEventListener(
     Self,
     String,
@@ -98,7 +101,7 @@ pub(open) trait EventTargetImpl: @js.JsImpl {
     signal? : @js.AbortSignal,
   ) -> Unit = _
   removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit = _
-  dispatchEvent(Self, &@js.JsImpl) -> Bool = _
+  dispatchEvent(Self, Event) -> Bool = _
 }
 
 ///|
@@ -111,15 +114,17 @@ impl EventTargetImpl with addEventListener(
   passive? : Bool = false,
   signal? : @js.AbortSignal,
 ) -> Unit {
-  self.call("addEventListener", [
-    event_type,
-    @js.from_fn1(handler),
-    @js.from_option_map({
-      "capture": Some(@js.any(capture)),
-      "once": Some(@js.any(once)),
-      "passive": Some(@js.any(passive)),
-      "signal": signal.map(fn(x) { x |> @js.identity }),
-    }),
+  self.as_any()._call("addEventListener", [
+    @nostd.any(event_type),
+    @nostd.any(@js.from_fn1(handler)),
+    @nostd.any(
+      @js.from_option_map({
+        "capture": Some(@js.any(capture)),
+        "once": Some(@js.any(once)),
+        "passive": Some(@js.any(passive)),
+        "signal": signal.map(fn(x) { x |> @js.identity }),
+      }),
+    ),
   ])
   |> ignore
 }
@@ -131,17 +136,17 @@ impl EventTargetImpl with removeEventListener(
   handler,
   capture? : Bool = false,
 ) -> Unit {
-  self.call("removeEventListener", [
-    event_type,
-    @js.from_fn1(handler),
-    @js.from_option_map({ "capture": Some(@js.any(capture)) }),
+  self.as_any()._call("removeEventListener", [
+    @nostd.any(event_type),
+    @nostd.any(@js.from_fn1(handler)),
+    @nostd.any(@js.from_option_map({ "capture": Some(@js.any(capture)) })),
   ])
   |> ignore
 }
 
 ///|
 impl EventTargetImpl with dispatchEvent(self, event) -> Bool {
-  self.call("dispatchEvent", [event]).cast()
+  self.as_any()._call("dispatchEvent", [event.as_any()]).cast()
 }
 
 ///|
@@ -158,7 +163,9 @@ pub fn EventTarget::as_any(self : EventTarget) -> @nostd.Any = "%identity"
 pub impl @js.JsImpl for EventTarget
 
 ///|
-pub impl EventTargetImpl for EventTarget
+pub impl EventTargetImpl for EventTarget with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Add an event listener for the specified event type

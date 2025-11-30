@@ -15,17 +15,14 @@ pub fn Element::as_node(self : Element) -> Node = "%identity"
 pub impl @js.JsImpl for Element
 
 ///|
-pub impl @event.EventTargetImpl for Element
-
-///|
-pub impl NodeImpl for Element
-
-///|
-pub impl ElementImpl for Element
+pub impl ElementImpl for Element with as_any(self) -> @nostd.Any {
+  self.as_any()
+}
 
 ///|
 /// Element trait - base interface for element nodes
-pub(open) trait ElementImpl: @js.JsImpl + NodeImpl {
+pub(open) trait ElementImpl {
+  as_any(Self) -> @nostd.Any
   tagName(Self) -> String = _
   className(Self) -> String = _
   setClassName(Self, String) -> Unit = _
@@ -44,86 +41,81 @@ pub(open) trait ElementImpl: @js.JsImpl + NodeImpl {
 
 ///|
 impl ElementImpl with tagName(self) {
-  self.get("tagName").cast()
+  self.as_any()._get("tagName").cast()
 }
 
 ///|
 impl ElementImpl with append(self, child) {
-  self.call1("append", child.as_any()).cast()
+  self.as_any()._call("append", [child.as_any()]) |> ignore
 }
 
 ///|
 impl ElementImpl with className(self) -> String {
-  self.get("className").cast()
+  self.as_any()._get("className").cast()
 }
 
 ///|
 impl ElementImpl with setClassName(self, class_name) -> Unit {
-  self.set("className", class_name)
+  self.as_any()._set("className", @nostd.any(class_name)) |> ignore
 }
 
 ///|
 impl ElementImpl with id(self) -> String {
-  self.get("id").cast()
+  self.as_any()._get("id").cast()
 }
 
 ///|
 impl ElementImpl with setId(self, id) -> Unit {
-  self.set("id", id)
+  self.as_any()._set("id", @nostd.any(id)) |> ignore
 }
 
 ///|
 impl ElementImpl with getAttribute(self, name) -> String? {
-  self.call1("getAttribute", name) |> @js.identity_option
+  let v : @js.Any = self.as_any()._call("getAttribute", [@nostd.any(name)]).cast()
+  v |> @js.identity_option
 }
 
 ///|
 impl ElementImpl with setAttribute(self, name, value) -> Unit {
-  ignore(self.call2("setAttribute", name, value))
+  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)]) |> ignore
 }
 
 ///|
 impl ElementImpl with removeAttribute(self, name) -> Unit {
-  ignore(self.call1("removeAttribute", name))
+  self.as_any()._call("removeAttribute", [@nostd.any(name)]) |> ignore
 }
 
 ///|
 impl ElementImpl with hasAttribute(self, name) -> Bool {
-  self.call1("hasAttribute", name).cast()
+  self.as_any()._call("hasAttribute", [@nostd.any(name)]).cast()
 }
 
 ///|
 /// Returns a static array of elements with the specified tag name.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
-  @js.array_from(self.call1("getElementsByTagName", tag_name)).map(fn(v) {
-    @js.identity(v)
-  })
+  let arr : @js.Any = self.as_any()._call("getElementsByTagName", [@nostd.any(tag_name)]).cast()
+  @js.array_from(arr).map(fn(v) { @js.identity(v) })
 }
 
 ///|
 /// Returns a static array of elements with the specified class name.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element] {
-  @js.array_from(self.call1("getElementsByClassName", class_name)).map(fn(v) {
-    @js.identity(v)
-  })
+  let arr : @js.Any = self.as_any()._call("getElementsByClassName", [@nostd.any(class_name)]).cast()
+  @js.array_from(arr).map(fn(v) { @js.identity(v) })
 }
 
 ///|
 impl ElementImpl with querySelector(self, selector) -> Element? {
-  self.call1("querySelector", selector) |> @js.identity_option
+  let v : @js.Any = self.as_any()._call("querySelector", [@nostd.any(selector)]).cast()
+  v |> @js.identity_option
 }
-
-///|
-/// TODO: endless loop error occurs in some cases
-// impl ElementImpl with querySelector_endless_error(self, selector) -> Element? {
-//   self.call("querySelector", [selector]) |> @js.any
-// }
 
 ///|
 /// Returns a static array of elements matching the specified CSS selector.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
-  @js.array_from(self.call1("querySelectorAll", selector)).map(@js.identity(_))
+  let arr : @js.Any = self.as_any()._call("querySelectorAll", [@nostd.any(selector)]).cast()
+  @js.array_from(arr).map(@js.identity(_))
 }
