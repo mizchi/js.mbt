@@ -44,15 +44,12 @@
 /// SQLite is an experimental feature in Node.js.
 
 ///|
-extern "js" fn sqlite_module() -> @js.Any =
+extern "js" fn sqlite_module() -> @nostd.Any =
   #| () => require("node:sqlite")
 
 ///|
 #external
 pub type DatabaseSync
-
-///|
-pub impl @js.JsImpl for DatabaseSync
 
 ///|
 pub fn DatabaseSync::new(
@@ -68,31 +65,44 @@ pub fn DatabaseSync::new(
   allowUnknownNamedParameters? : Bool,
   defensive? : Bool,
 ) -> DatabaseSync {
-  let opts = @js.from_option_map({
-    "open": open.map(fn(x) { @js.any(x) }),
-    "readOnly": readOnly.map(fn(x) { @js.any(x) }),
-    "allowExtension": allowExtension.map(fn(x) { @js.any(x) }),
-    "enableForeignKeyConstraints": enableForeignKeyConstraints.map(fn(x) {
-      @js.any(x)
-    }),
-    "timeout": timeout.map(fn(x) { @js.any(x) }),
-    "readBigInts": readBigInts.map(fn(x) { @js.any(x) }),
-    "returnArrays": returnArrays.map(fn(x) { @js.any(x) }),
-    "allowBareNamedParameters": allowBareNamedParameters.map(fn(x) {
-      @js.any(x)
-    }),
-    "allowUnknownNamedParameters": allowUnknownNamedParameters.map(fn(x) {
-      @js.any(x)
-    }),
-    "defensive": defensive.map(fn(x) { @js.any(x) }),
-  })
-  let v = sqlite_module().get("DatabaseSync") |> @js.new_([path, opts])
-  @js.identity(v)
+  let opts = @nostd.Object::new()
+  if open is Some(v) {
+    opts["open"] = @nostd.any(v)
+  }
+  if readOnly is Some(v) {
+    opts["readOnly"] = @nostd.any(v)
+  }
+  if allowExtension is Some(v) {
+    opts["allowExtension"] = @nostd.any(v)
+  }
+  if enableForeignKeyConstraints is Some(v) {
+    opts["enableForeignKeyConstraints"] = @nostd.any(v)
+  }
+  if timeout is Some(v) {
+    opts["timeout"] = @nostd.any(v)
+  }
+  if readBigInts is Some(v) {
+    opts["readBigInts"] = @nostd.any(v)
+  }
+  if returnArrays is Some(v) {
+    opts["returnArrays"] = @nostd.any(v)
+  }
+  if allowBareNamedParameters is Some(v) {
+    opts["allowBareNamedParameters"] = @nostd.any(v)
+  }
+  if allowUnknownNamedParameters is Some(v) {
+    opts["allowUnknownNamedParameters"] = @nostd.any(v)
+  }
+  if defensive is Some(v) {
+    opts["defensive"] = @nostd.any(v)
+  }
+  let cls = sqlite_module()["DatabaseSync"]
+  @nostd.new(cls, [@nostd.any(path), opts]).cast()
 }
 
 ///|
 pub fn[T, U] DatabaseSync::aggregate(
-  self : Self,
+  self : DatabaseSync,
   name : String,
   deterministic? : Bool,
   directOnly? : Bool,
@@ -101,149 +111,181 @@ pub fn[T, U] DatabaseSync::aggregate(
   start? : U,
   step? : (T, U) -> T,
   inverse? : (T, U) -> T,
-  result? : (T) -> @js.Any,
+  result? : (T) -> @nostd.Any,
 ) -> Unit {
-  let opts = @js.from_option_map({
-    "deterministic": deterministic.map(fn(x) { @js.any(x) }),
-    "directOnly": directOnly.map(fn(x) { @js.any(x) }),
-    "useBigIntArguments": useBigIntArguments.map(fn(x) { @js.any(x) }),
-    "varargs": varargs.map(fn(x) { @js.any(x) }),
-    "start": start.map(fn(x) { @js.unsafe_any(x) }),
-    "step": step.map(fn(x) { @js.unsafe_any(x) }),
-    "inverse": inverse.map(fn(x) { @js.unsafe_any(x) }),
-    "result": result.map(fn(x) { @js.unsafe_any(x) }),
-  })
-  self.call2("aggregate", name, opts) |> ignore
+  let opts = @nostd.Object::new()
+  if deterministic is Some(v) {
+    opts["deterministic"] = @nostd.any(v)
+  }
+  if directOnly is Some(v) {
+    opts["directOnly"] = @nostd.any(v)
+  }
+  if useBigIntArguments is Some(v) {
+    opts["useBigIntArguments"] = @nostd.any(v)
+  }
+  if varargs is Some(v) {
+    opts["varargs"] = @nostd.any(v)
+  }
+  if start is Some(v) {
+    opts["start"] = @nostd.any(v)
+  }
+  if step is Some(v) {
+    opts["step"] = @nostd.any(v)
+  }
+  if inverse is Some(v) {
+    opts["inverse"] = @nostd.any(v)
+  }
+  if result is Some(v) {
+    opts["result"] = @nostd.any(v)
+  }
+  @nostd.any(self)._call("aggregate", [@nostd.any(name), opts]) |> ignore
 }
 
 ///|
 pub fn DatabaseSync::function(
-  self : Self,
+  self : DatabaseSync,
   name : String,
-  func : (Array[@js.Any]) -> @js.Any,
+  func : (Array[@nostd.Any]) -> @nostd.Any,
   deterministic? : Bool,
   directOnly? : Bool,
   useBigIntArguments? : Bool,
   varargs? : Bool,
 ) -> Unit {
-  let opts = @js.from_option_map({
-    "deterministic": deterministic.map(fn(x) { @js.any(x) }),
-    "directOnly": directOnly.map(fn(x) { @js.any(x) }),
-    "useBigIntArguments": useBigIntArguments.map(fn(x) { @js.any(x) }),
-    "varargs": varargs.map(fn(x) { @js.any(x) }),
-  })
-  self.call("function", [name, func |> @js.identity, opts]) |> ignore
+  let opts = @nostd.Object::new()
+  if deterministic is Some(v) {
+    opts["deterministic"] = @nostd.any(v)
+  }
+  if directOnly is Some(v) {
+    opts["directOnly"] = @nostd.any(v)
+  }
+  if useBigIntArguments is Some(v) {
+    opts["useBigIntArguments"] = @nostd.any(v)
+  }
+  if varargs is Some(v) {
+    opts["varargs"] = @nostd.any(v)
+  }
+  @nostd.any(self)._call("function", [@nostd.any(name), @nostd.any(func), opts])
+  |> ignore
 }
 
 ///|
 #alias(set_authorizer)
 pub fn DatabaseSync::setAuthorizer(
-  self : Self,
+  self : DatabaseSync,
   callback : (Int, String?, String?, String?, String?) -> Int,
 ) -> Unit {
-  self.call("setAuthorizer", [callback |> @js.unsafe_any]) |> ignore
+  @nostd.any(self)._call("setAuthorizer", [@nostd.any(callback)]) |> ignore
 }
 
 ///|
-pub fn DatabaseSync::location(self : Self, db_name? : String) -> String? {
-  let args : Array[&@js.JsImpl] = if db_name is Some(name) {
-    [name]
+pub fn DatabaseSync::location(self : DatabaseSync, db_name? : String) -> String? {
+  let args : Array[@nostd.Any] = if db_name is Some(name) {
+    [@nostd.any(name)]
   } else {
     []
   }
-  let result = self.call("location", args)
-  if @js.is_null(result) {
+  let result = @nostd.any(self)._call("location", args)
+  if @nostd.is_null(result) {
     None
   } else {
-    Some(@js.identity(result))
+    Some(result.cast())
   }
 }
 
 ///|
 #alias(load_extension)
-pub fn DatabaseSync::loadExtension(self : Self, path : String) -> Unit {
-  self.call("loadExtension", [path]) |> ignore
+pub fn DatabaseSync::loadExtension(self : DatabaseSync, path : String) -> Unit {
+  @nostd.any(self)._call("loadExtension", [@nostd.any(path)]) |> ignore
 }
 
 ///|
 #alias(enable_load_extension)
-pub fn DatabaseSync::enableLoadExtension(self : Self, allow : Bool) -> Unit {
-  self.call("enableLoadExtension", [allow]) |> ignore
+pub fn DatabaseSync::enableLoadExtension(
+  self : DatabaseSync,
+  allow : Bool,
+) -> Unit {
+  @nostd.any(self)._call("enableLoadExtension", [@nostd.any(allow)]) |> ignore
 }
 
 ///|
 #alias(is_open)
-pub fn DatabaseSync::isOpen(self : Self) -> Bool {
-  self.get("isOpen").cast()
+pub fn DatabaseSync::isOpen(self : DatabaseSync) -> Bool {
+  @nostd.any(self)["isOpen"].cast()
 }
 
 ///|
 #alias(is_transaction)
-pub fn DatabaseSync::isTransaction(self : Self) -> Bool {
-  self.get("isTransaction").cast()
+pub fn DatabaseSync::isTransaction(self : DatabaseSync) -> Bool {
+  @nostd.any(self)["isTransaction"].cast()
 }
 
 ///|
-pub fn DatabaseSync::open(self : Self) -> Unit {
-  self.call0("open") |> ignore
+pub fn DatabaseSync::open(self : DatabaseSync) -> Unit {
+  @nostd.any(self)._call("open", []) |> ignore
 }
 
 ///|
-pub fn DatabaseSync::close(self : Self) -> Unit {
-  self.call0("close") |> ignore
+pub fn DatabaseSync::close(self : DatabaseSync) -> Unit {
+  @nostd.any(self)._call("close", []) |> ignore
 }
 
 ///|
 #alias(create_tag_store)
 pub fn DatabaseSync::createTagStore(
-  self : Self,
+  self : DatabaseSync,
   max_size? : Int,
 ) -> SQLTagStore {
-  let args : Array[&@js.JsImpl] = if max_size is Some(size) {
-    [size]
+  let args : Array[@nostd.Any] = if max_size is Some(size) {
+    [@nostd.any(size)]
   } else {
     []
   }
-  self.call("createTagStore", args).cast()
+  @nostd.any(self)._call("createTagStore", args).cast()
 }
 
 ///|
 #alias(create_session)
 pub fn DatabaseSync::createSession(
-  self : Self,
+  self : DatabaseSync,
   table? : String,
   db? : String,
 ) -> Session {
-  let v = @js.from_option_map({
-    "table": table.map(fn(x) { @js.any(x) }),
-    "db": db.map(fn(x) { @js.any(x) }),
-  })
-  self.call("createSession", [v]).cast()
+  let opts = @nostd.Object::new()
+  if table is Some(v) {
+    opts["table"] = @nostd.any(v)
+  }
+  if db is Some(v) {
+    opts["db"] = @nostd.any(v)
+  }
+  @nostd.any(self)._call("createSession", [opts]).cast()
 }
 
 ///|
-pub fn DatabaseSync::exec(self : Self, query : String) -> Unit {
-  self.call("exec", [query]).cast()
+pub fn DatabaseSync::exec(self : DatabaseSync, query : String) -> Unit {
+  @nostd.any(self)._call("exec", [@nostd.any(query)]).cast()
 }
 
 ///|
-pub fn DatabaseSync::prepare(self : Self, query : String) -> StatementSync {
-  self.call("prepare", [query]).cast()
+pub fn DatabaseSync::prepare(self : DatabaseSync, query : String) -> StatementSync {
+  @nostd.any(self)._call("prepare", [@nostd.any(query)]).cast()
 }
 
 ///|
 #alias(apply_changeset)
 pub fn DatabaseSync::applyChangeset(
-  self : Self,
+  self : DatabaseSync,
   changeset : @typedarray.Uint8Array,
-  filter? : (@js.Any) -> Bool,
-  onConflict? : (@js.Any?, @js.Any) -> Bool,
+  filter? : (@nostd.Any) -> Bool,
+  onConflict? : (@nostd.Any?, @nostd.Any) -> Bool,
 ) -> Bool {
-  let opts = @js.from_option_map({
-    "filter": filter.map(fn(f) { f |> @js.from_fn1 }),
-    "onConflict": onConflict.map(fn(oc) { oc |> @js.from_fn2 }),
-  })
-  self.call2("applyChangeset", changeset, opts) |> @js.identity
+  let opts = @nostd.Object::new()
+  if filter is Some(f) {
+    opts["filter"] = @nostd.from_fn1(f)
+  }
+  if onConflict is Some(oc) {
+    opts["onConflict"] = @nostd.from_fn2(oc)
+  }
+  @nostd.any(self)._call("applyChangeset", [@nostd.any(changeset), opts]).cast()
 }
 
 ///|
@@ -251,21 +293,16 @@ pub fn DatabaseSync::applyChangeset(
 pub type StatementSync
 
 ///|
-pub impl @js.JsImpl for StatementSync with as_any(self) {
-  self |> @js.identity
-}
-
-///|
 pub fn StatementSync::get_(
-  self : Self,
-  named_parameters? : Map[String, &@js.JsImpl],
-  anonymous_parameters? : Array[&@js.JsImpl],
-) -> @js.Any? {
-  let args : Array[&@js.JsImpl] = []
+  self : StatementSync,
+  named_parameters? : Map[String, @nostd.Any],
+  anonymous_parameters? : Array[@nostd.Any],
+) -> @nostd.Any? {
+  let args : Array[@nostd.Any] = []
   if named_parameters is Some(params) {
-    let obj = @js.Object::new()
+    let obj = @nostd.Object::new()
     for key, value in params {
-      obj.set(key, value.as_any())
+      obj[key] = value
     }
     args.push(obj)
   }
@@ -274,8 +311,8 @@ pub fn StatementSync::get_(
       args.push(param)
     }
   }
-  let result = self.call("get", args)
-  if @js.is_undefined(result) {
+  let result = @nostd.any(self)._call("get", args)
+  if @nostd.is_undefined(result) {
     None
   } else {
     Some(result)
@@ -286,21 +323,21 @@ pub fn StatementSync::get_(
 /// Get column information
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn StatementSync::columns(self : Self) -> Array[@js.Any] {
-  self.call0("columns") |> @js.identity
+pub fn StatementSync::columns(self : StatementSync) -> Array[@nostd.Any] {
+  @nostd.any(self)._call("columns", []).cast()
 }
 
 ///|
 pub fn StatementSync::run(
-  self : Self,
-  named_parameters? : Map[String, &@js.JsImpl],
-  anonymous_parameters? : Array[&@js.JsImpl],
+  self : StatementSync,
+  named_parameters? : Map[String, @nostd.Any],
+  anonymous_parameters? : Array[@nostd.Any],
 ) -> StatementResultingChanges {
-  let args : Array[&@js.JsImpl] = []
+  let args : Array[@nostd.Any] = []
   if named_parameters is Some(params) {
-    let obj = @js.Object::new()
+    let obj = @nostd.Object::new()
     for key, value in params {
-      obj.set(key, value.as_any())
+      obj[key] = value
     }
     args.push(obj)
   }
@@ -309,20 +346,20 @@ pub fn StatementSync::run(
       args.push(param)
     }
   }
-  self.call("run", args).cast()
+  @nostd.any(self)._call("run", args).cast()
 }
 
 ///|
 pub fn StatementSync::all(
-  self : Self,
-  named_parameters? : Map[String, &@js.JsImpl],
-  anonymous_parameters? : Array[&@js.JsImpl],
-) -> Array[@js.Any] {
-  let args : Array[&@js.JsImpl] = []
+  self : StatementSync,
+  named_parameters? : Map[String, @nostd.Any],
+  anonymous_parameters? : Array[@nostd.Any],
+) -> Array[@nostd.Any] {
+  let args : Array[@nostd.Any] = []
   if named_parameters is Some(params) {
-    let obj = @js.Object::new()
+    let obj = @nostd.Object::new()
     for key, value in params {
-      obj.set(key, value.as_any())
+      obj[key] = value
     }
     args.push(obj)
   }
@@ -331,20 +368,20 @@ pub fn StatementSync::all(
       args.push(param)
     }
   }
-  self.call("all", args).cast()
+  @nostd.any(self)._call("all", args).cast()
 }
 
 ///|
 pub fn StatementSync::iterate(
-  self : Self,
-  named_parameters? : Map[String, &@js.JsImpl],
-  anonymous_parameters? : Array[&@js.JsImpl],
-) -> @js.JsIterator[@js.Any] {
-  let args : Array[&@js.JsImpl] = []
+  self : StatementSync,
+  named_parameters? : Map[String, @nostd.Any],
+  anonymous_parameters? : Array[@nostd.Any],
+) -> @js.JsIterator[@nostd.Any] {
+  let args : Array[@nostd.Any] = []
   if named_parameters is Some(params) {
-    let obj = @js.Object::new()
+    let obj = @nostd.Object::new()
     for key, value in params {
-      obj.set(key, value.as_any())
+      obj[key] = value
     }
     args.push(obj)
   }
@@ -353,49 +390,57 @@ pub fn StatementSync::iterate(
       args.push(param)
     }
   }
-  self.call("iterate", args).cast()
+  @nostd.any(self)._call("iterate", args).cast()
 }
 
 ///|
 #alias(expanded_sql)
-pub fn StatementSync::expandedSQL(self : Self) -> String {
-  self.get("expandedSQL").cast()
+pub fn StatementSync::expandedSQL(self : StatementSync) -> String {
+  @nostd.any(self)["expandedSQL"].cast()
 }
 
 ///|
 #alias(source_sql)
-pub fn StatementSync::sourceSQL(self : Self) -> String {
-  self.get("sourceSQL").cast()
+pub fn StatementSync::sourceSQL(self : StatementSync) -> String {
+  @nostd.any(self)["sourceSQL"].cast()
 }
 
 ///|
 #alias(set_allow_bare_named_parameters)
 pub fn StatementSync::setAllowBareNamedParameters(
-  self : Self,
+  self : StatementSync,
   enabled : Bool,
 ) -> Unit {
-  self.call("setAllowBareNamedParameters", [enabled]) |> ignore
+  @nostd.any(self)._call("setAllowBareNamedParameters", [@nostd.any(enabled)])
+  |> ignore
 }
 
 ///|
 #alias(set_allow_unknown_named_parameters)
 pub fn StatementSync::setAllowUnknownNamedParameters(
-  self : Self,
+  self : StatementSync,
   enabled : Bool,
 ) -> Unit {
-  self.call("setAllowUnknownNamedParameters", [enabled]) |> ignore
+  @nostd.any(self)._call("setAllowUnknownNamedParameters", [@nostd.any(enabled)])
+  |> ignore
 }
 
 ///|
 #alias(set_return_arrays)
-pub fn StatementSync::setReturnArrays(self : Self, enabled : Bool) -> Unit {
-  self.call("setReturnArrays", [enabled]) |> ignore
+pub fn StatementSync::setReturnArrays(
+  self : StatementSync,
+  enabled : Bool,
+) -> Unit {
+  @nostd.any(self)._call("setReturnArrays", [@nostd.any(enabled)]) |> ignore
 }
 
 ///|
 #alias(set_read_big_ints)
-pub fn StatementSync::setReadBigInts(self : Self, enabled : Bool) -> Unit {
-  self.call("setReadBigInts", [enabled]) |> ignore
+pub fn StatementSync::setReadBigInts(
+  self : StatementSync,
+  enabled : Bool,
+) -> Unit {
+  @nostd.any(self)._call("setReadBigInts", [@nostd.any(enabled)]) |> ignore
 }
 
 ///|
@@ -405,28 +450,22 @@ pub(all) struct StatementResultingChanges {
 } derive(Show)
 
 ///|
-pub impl @js.JsImpl for StatementResultingChanges
-
-///|
 #external
 pub type Session
 
 ///|
-pub impl @js.JsImpl for Session
-
-///|
-pub fn Session::changeset(self : Self) -> @typedarray.Uint8Array {
-  self.call0("changeset") |> @js.identity
+pub fn Session::changeset(self : Session) -> @typedarray.Uint8Array {
+  @nostd.any(self)._call("changeset", []).cast()
 }
 
 ///|
-pub fn Session::patchset(self : Self) -> @typedarray.Uint8Array {
-  self.call0("patchset") |> @js.identity
+pub fn Session::patchset(self : Session) -> @typedarray.Uint8Array {
+  @nostd.any(self)._call("patchset", []).cast()
 }
 
 ///|
-pub fn Session::close(self : Self) -> Unit {
-  self.call0("close") |> ignore
+pub fn Session::close(self : Session) -> Unit {
+  @nostd.any(self)._call("close", []) |> ignore
 }
 
 ///|
@@ -434,26 +473,23 @@ pub fn Session::close(self : Self) -> Unit {
 pub type SQLTagStore
 
 ///|
-pub impl @js.JsImpl for SQLTagStore
-
-///|
-pub fn SQLTagStore::capacity(self : Self) -> Int {
-  self.get("capacity").cast()
+pub fn SQLTagStore::capacity(self : SQLTagStore) -> Int {
+  @nostd.any(self)["capacity"].cast()
 }
 
 ///|
-pub fn SQLTagStore::size(self : Self) -> Int {
-  self.call0("size") |> @js.identity
+pub fn SQLTagStore::size(self : SQLTagStore) -> Int {
+  @nostd.any(self)._call("size", []).cast()
 }
 
 ///|
-pub fn SQLTagStore::clear(self : Self) -> Unit {
-  self.call0("clear") |> ignore
+pub fn SQLTagStore::clear(self : SQLTagStore) -> Unit {
+  @nostd.any(self)._call("clear", []) |> ignore
 }
 
 ///|
-pub fn SQLTagStore::db(self : Self) -> DatabaseSync {
-  self.get("db").cast()
+pub fn SQLTagStore::db(self : SQLTagStore) -> DatabaseSync {
+  @nostd.any(self)["db"].cast()
 }
 
 ///|
@@ -471,245 +507,245 @@ pub fn backup(
   target? : String,
   progress? : (BackupProgress) -> Unit,
 ) -> Unit {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   if rate is Some(v) {
-    opts.set("rate", v)
+    opts["rate"] = @nostd.any(v)
   }
   if source is Some(v) {
-    opts.set("source", v)
+    opts["source"] = @nostd.any(v)
   }
   if target is Some(v) {
-    opts.set("target", v)
+    opts["target"] = @nostd.any(v)
   }
   if progress is Some(f) {
-    opts.set("progress", f |> @js.from_fn1)
+    opts["progress"] = @nostd.from_fn1(f)
   }
-  let backup : @js.Any = sqlite_module().get("backup")
-  backup.call_self([source_db.as_any(), db_path, opts]) |> ignore
+  let backup_fn = sqlite_module()["backup"]
+  backup_fn._invoke([@nostd.any(source_db), @nostd.any(db_path), opts]) |> ignore
 }
 
 ///|
 /// SQLite constants accessor
-fn get_constants() -> @js.Any {
-  sqlite_module().get("constants")
+fn get_constants() -> @nostd.Any {
+  sqlite_module()["constants"]
 }
 
 ///|
 pub fn sqlite_changeset_data() -> Int {
-  @js.identity(get_constants().get("SQLITE_CHANGESET_DATA"))
+  get_constants()["SQLITE_CHANGESET_DATA"].cast()
 }
 
 ///|
 pub fn sqlite_changeset_notfound() -> Int {
-  @js.identity(get_constants().get("SQLITE_CHANGESET_NOTFOUND"))
+  get_constants()["SQLITE_CHANGESET_NOTFOUND"].cast()
 }
 
 ///|
 pub fn sqlite_changeset_conflict() -> Int {
-  @js.identity(get_constants().get("SQLITE_CHANGESET_CONFLICT"))
+  get_constants()["SQLITE_CHANGESET_CONFLICT"].cast()
 }
 
 ///|
 pub fn sqlite_changeset_foreign_key() -> Int {
-  @js.identity(get_constants().get("SQLITE_CHANGESET_FOREIGN_KEY"))
+  get_constants()["SQLITE_CHANGESET_FOREIGN_KEY"].cast()
 }
 
 ///|
 pub fn sqlite_changeset_omit() -> Int {
-  @js.identity(get_constants().get("SQLITE_CHANGESET_OMIT"))
+  get_constants()["SQLITE_CHANGESET_OMIT"].cast()
 }
 
 ///|
 pub fn sqlite_changeset_replace() -> Int {
-  @js.identity(get_constants().get("SQLITE_CHANGESET_REPLACE"))
+  get_constants()["SQLITE_CHANGESET_REPLACE"].cast()
 }
 
 ///|
 pub fn sqlite_changeset_abort() -> Int {
-  @js.identity(get_constants().get("SQLITE_CHANGESET_ABORT"))
+  get_constants()["SQLITE_CHANGESET_ABORT"].cast()
 }
 
 ///|
 pub fn sqlite_deny() -> Int {
-  @js.identity(get_constants().get("SQLITE_DENY"))
+  get_constants()["SQLITE_DENY"].cast()
 }
 
 ///|
 pub fn sqlite_ignore() -> Int {
-  @js.identity(get_constants().get("SQLITE_IGNORE"))
+  get_constants()["SQLITE_IGNORE"].cast()
 }
 
 ///|
 pub fn sqlite_ok() -> Int {
-  @js.identity(get_constants().get("SQLITE_OK"))
+  get_constants()["SQLITE_OK"].cast()
 }
 
 ///|
 pub fn sqlite_create_index() -> Int {
-  @js.identity(get_constants().get("SQLITE_CREATE_INDEX"))
+  get_constants()["SQLITE_CREATE_INDEX"].cast()
 }
 
 ///|
 pub fn sqlite_create_table() -> Int {
-  @js.identity(get_constants().get("SQLITE_CREATE_TABLE"))
+  get_constants()["SQLITE_CREATE_TABLE"].cast()
 }
 
 ///|
 pub fn sqlite_create_temp_index() -> Int {
-  @js.identity(get_constants().get("SQLITE_CREATE_TEMP_INDEX"))
+  get_constants()["SQLITE_CREATE_TEMP_INDEX"].cast()
 }
 
 ///|
 pub fn sqlite_create_temp_table() -> Int {
-  @js.identity(get_constants().get("SQLITE_CREATE_TEMP_TABLE"))
+  get_constants()["SQLITE_CREATE_TEMP_TABLE"].cast()
 }
 
 ///|
 pub fn sqlite_create_temp_trigger() -> Int {
-  @js.identity(get_constants().get("SQLITE_CREATE_TEMP_TRIGGER"))
+  get_constants()["SQLITE_CREATE_TEMP_TRIGGER"].cast()
 }
 
 ///|
 pub fn sqlite_create_temp_view() -> Int {
-  @js.identity(get_constants().get("SQLITE_CREATE_TEMP_VIEW"))
+  get_constants()["SQLITE_CREATE_TEMP_VIEW"].cast()
 }
 
 ///|
 pub fn sqlite_create_trigger() -> Int {
-  @js.identity(get_constants().get("SQLITE_CREATE_TRIGGER"))
+  get_constants()["SQLITE_CREATE_TRIGGER"].cast()
 }
 
 ///|
 pub fn sqlite_create_view() -> Int {
-  @js.identity(get_constants().get("SQLITE_CREATE_VIEW"))
+  get_constants()["SQLITE_CREATE_VIEW"].cast()
 }
 
 ///|
 pub fn sqlite_delete() -> Int {
-  @js.identity(get_constants().get("SQLITE_DELETE"))
+  get_constants()["SQLITE_DELETE"].cast()
 }
 
 ///|
 pub fn sqlite_drop_index() -> Int {
-  @js.identity(get_constants().get("SQLITE_DROP_INDEX"))
+  get_constants()["SQLITE_DROP_INDEX"].cast()
 }
 
 ///|
 pub fn sqlite_drop_table() -> Int {
-  @js.identity(get_constants().get("SQLITE_DROP_TABLE"))
+  get_constants()["SQLITE_DROP_TABLE"].cast()
 }
 
 ///|
 pub fn sqlite_drop_temp_index() -> Int {
-  @js.identity(get_constants().get("SQLITE_DROP_TEMP_INDEX"))
+  get_constants()["SQLITE_DROP_TEMP_INDEX"].cast()
 }
 
 ///|
 pub fn sqlite_drop_temp_table() -> Int {
-  @js.identity(get_constants().get("SQLITE_DROP_TEMP_TABLE"))
+  get_constants()["SQLITE_DROP_TEMP_TABLE"].cast()
 }
 
 ///|
 pub fn sqlite_drop_temp_trigger() -> Int {
-  @js.identity(get_constants().get("SQLITE_DROP_TEMP_TRIGGER"))
+  get_constants()["SQLITE_DROP_TEMP_TRIGGER"].cast()
 }
 
 ///|
 pub fn sqlite_drop_temp_view() -> Int {
-  @js.identity(get_constants().get("SQLITE_DROP_TEMP_VIEW"))
+  get_constants()["SQLITE_DROP_TEMP_VIEW"].cast()
 }
 
 ///|
 pub fn sqlite_drop_trigger() -> Int {
-  @js.identity(get_constants().get("SQLITE_DROP_TRIGGER"))
+  get_constants()["SQLITE_DROP_TRIGGER"].cast()
 }
 
 ///|
 pub fn sqlite_drop_view() -> Int {
-  @js.identity(get_constants().get("SQLITE_DROP_VIEW"))
+  get_constants()["SQLITE_DROP_VIEW"].cast()
 }
 
 ///|
 pub fn sqlite_insert() -> Int {
-  @js.identity(get_constants().get("SQLITE_INSERT"))
+  get_constants()["SQLITE_INSERT"].cast()
 }
 
 ///|
 pub fn sqlite_pragma() -> Int {
-  @js.identity(get_constants().get("SQLITE_PRAGMA"))
+  get_constants()["SQLITE_PRAGMA"].cast()
 }
 
 ///|
 pub fn sqlite_read() -> Int {
-  @js.identity(get_constants().get("SQLITE_READ"))
+  get_constants()["SQLITE_READ"].cast()
 }
 
 ///|
 pub fn sqlite_select() -> Int {
-  @js.identity(get_constants().get("SQLITE_SELECT"))
+  get_constants()["SQLITE_SELECT"].cast()
 }
 
 ///|
 pub fn sqlite_transaction() -> Int {
-  @js.identity(get_constants().get("SQLITE_TRANSACTION"))
+  get_constants()["SQLITE_TRANSACTION"].cast()
 }
 
 ///|
 pub fn sqlite_update() -> Int {
-  @js.identity(get_constants().get("SQLITE_UPDATE"))
+  get_constants()["SQLITE_UPDATE"].cast()
 }
 
 ///|
 pub fn sqlite_attach() -> Int {
-  @js.identity(get_constants().get("SQLITE_ATTACH"))
+  get_constants()["SQLITE_ATTACH"].cast()
 }
 
 ///|
 pub fn sqlite_detach() -> Int {
-  @js.identity(get_constants().get("SQLITE_DETACH"))
+  get_constants()["SQLITE_DETACH"].cast()
 }
 
 ///|
 pub fn sqlite_alter_table() -> Int {
-  @js.identity(get_constants().get("SQLITE_ALTER_TABLE"))
+  get_constants()["SQLITE_ALTER_TABLE"].cast()
 }
 
 ///|
 pub fn sqlite_reindex() -> Int {
-  @js.identity(get_constants().get("SQLITE_REINDEX"))
+  get_constants()["SQLITE_REINDEX"].cast()
 }
 
 ///|
 pub fn sqlite_analyze() -> Int {
-  @js.identity(get_constants().get("SQLITE_ANALYZE"))
+  get_constants()["SQLITE_ANALYZE"].cast()
 }
 
 ///|
 pub fn sqlite_create_vtable() -> Int {
-  @js.identity(get_constants().get("SQLITE_CREATE_VTABLE"))
+  get_constants()["SQLITE_CREATE_VTABLE"].cast()
 }
 
 ///|
 pub fn sqlite_drop_vtable() -> Int {
-  @js.identity(get_constants().get("SQLITE_DROP_VTABLE"))
+  get_constants()["SQLITE_DROP_VTABLE"].cast()
 }
 
 ///|
 pub fn sqlite_function() -> Int {
-  @js.identity(get_constants().get("SQLITE_FUNCTION"))
+  get_constants()["SQLITE_FUNCTION"].cast()
 }
 
 ///|
 pub fn sqlite_savepoint() -> Int {
-  @js.identity(get_constants().get("SQLITE_SAVEPOINT"))
+  get_constants()["SQLITE_SAVEPOINT"].cast()
 }
 
 ///|
 pub fn sqlite_copy() -> Int {
-  @js.identity(get_constants().get("SQLITE_COPY"))
+  get_constants()["SQLITE_COPY"].cast()
 }
 
 ///|
 pub fn sqlite_recursive() -> Int {
-  @js.identity(get_constants().get("SQLITE_RECURSIVE"))
+  get_constants()["SQLITE_RECURSIVE"].cast()
 }

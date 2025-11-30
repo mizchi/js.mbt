@@ -107,9 +107,9 @@ test "FinalizationRegistry::unregister - unregister with token" {
   registry.register(
     target,
     held_value |> @js.any,
-    unregister_token=token.as_any(),
+    unregister_token=@nostd.any(token),
   )
-  let unregistered = registry.unregister(token.as_any())
+  let unregistered = registry.unregister(@nostd.any(token))
   assert_true(unregistered)
 }
 
