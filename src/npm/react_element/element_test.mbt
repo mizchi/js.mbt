@@ -4,10 +4,10 @@
 fn get_render_to_string() -> (@react.Element) -> String {
   // Initialize React API
   @react.init_react_api(@node.require("react"))
-  let react_dom_server = @node.require("react-dom/server")
-  let render_fn : @js.Any = react_dom_server.get("renderToString")
+  let react_dom_server : @nostd.Any = @node.require("react-dom/server").cast()
+  let render_fn : @nostd.Any = react_dom_server["renderToString"]
   fn(element : @react.Element) -> String {
-    @js.identity(render_fn.call_self([element.as_any()]))
+    render_fn._invoke([element.as_any()]).cast()
   }
 }
 

@@ -222,7 +222,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
     [
       h("head", [
         h("title", [props.title]),
-        h("meta", [], props={ "charset": @js.any("UTF-8") }),
+        h("meta", [], props={ "charset": @nostd.any("UTF-8") }),
         style_component(),
       ]),
       h(
@@ -238,7 +238,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                   h(
                     "a",
                     ["Home"],
-                    props={ "href": @js.any("/") },
+                    props={ "href": @nostd.any("/") },
                     class=nav_link_style,
                   ),
                   match props.user {
@@ -248,7 +248,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                         h(
                           "a",
                           [" | Logout"],
-                          props={ "href": @js.any("/auth/logout") },
+                          props={ "href": @nostd.any("/auth/logout") },
                           class=nav_link_style,
                         ),
                       ])
@@ -257,13 +257,13 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                         h(
                           "a",
                           ["Login"],
-                          props={ "href": @js.any("/auth/login") },
+                          props={ "href": @nostd.any("/auth/login") },
                           class=nav_link_style,
                         ),
                         h(
                           "a",
                           ["Register"],
-                          props={ "href": @js.any("/auth/register") },
+                          props={ "href": @nostd.any("/auth/register") },
                           class=nav_link_style,
                         ),
                       ])
@@ -315,23 +315,23 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                       "input",
                       [],
                       props={
-                        "type": @js.any("text"),
-                        "name": @js.any("title"),
-                        "placeholder": @js.any("Add a new TODO..."),
-                        "required": @js.any(true),
+                        "type": @nostd.any("text"),
+                        "name": @nostd.any("title"),
+                        "placeholder": @nostd.any("Add a new TODO..."),
+                        "required": @nostd.any(true),
                       },
                       class=input_style,
                     ),
                     h(
                       "button",
                       ["Add"],
-                      props={ "type": @js.any("submit") },
+                      props={ "type": @nostd.any("submit") },
                       class=button_style,
                     ),
                   ],
                   props={
-                    "method": @js.any("POST"),
-                    "action": @js.any("/todos"),
+                    "method": @nostd.any("POST"),
+                    "action": @nostd.any("/todos"),
                   },
                 ),
               ],
@@ -347,13 +347,13 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                   "div",
                   [
                     h("input", [], props={
-                      "type": @js.any("checkbox"),
-                      "checked": @js.any(completed == 1),
-                      "onchange": @js.any("this.form.submit()"),
-                      "form": @js.any("toggle-" + id.to_string()),
+                      "type": @nostd.any("checkbox"),
+                      "checked": @nostd.any(completed == 1),
+                      "onchange": @nostd.any("this.form.submit()"),
+                      "form": @nostd.any("toggle-" + id.to_string()),
                     }),
                     h("span", [title], props={
-                      "style": @js.any(
+                      "style": @nostd.any(
                         if completed == 1 {
                           "text-decoration: line-through; color: #888;"
                         } else {
@@ -365,9 +365,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                       "form",
                       [
                         h("input", [], props={
-                          "type": @js.any("hidden"),
-                          "name": @js.any("completed"),
-                          "value": @js.any(
+                          "type": @nostd.any("hidden"),
+                          "name": @nostd.any("completed"),
+                          "value": @nostd.any(
                             if completed == 1 {
                               "false"
                             } else {
@@ -377,12 +377,12 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                         }),
                       ],
                       props={
-                        "id": @js.any("toggle-" + id.to_string()),
-                        "method": @js.any("POST"),
-                        "action": @js.any(
+                        "id": @nostd.any("toggle-" + id.to_string()),
+                        "method": @nostd.any("POST"),
+                        "action": @nostd.any(
                           "/todos/" + id.to_string() + "/toggle",
                         ),
-                        "style": @js.any("display: none;"),
+                        "style": @nostd.any("display: none;"),
                       },
                     ),
                     h(
@@ -391,16 +391,16 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                         h(
                           "button",
                           ["Delete"],
-                          props={ "type": @js.any("submit") },
+                          props={ "type": @nostd.any("submit") },
                           class=button_danger_style,
                         ),
                       ],
                       props={
-                        "method": @js.any("POST"),
-                        "action": @js.any(
+                        "method": @nostd.any("POST"),
+                        "action": @nostd.any(
                           "/todos/" + id.to_string() + "/delete",
                         ),
-                        "style": @js.any("margin-left: auto;"),
+                        "style": @nostd.any("margin-left: auto;"),
                       },
                     ),
                   ],
@@ -494,9 +494,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @js.any("email"),
-                      "name": @js.any("email"),
-                      "required": @js.any(true),
+                      "type": @nostd.any("email"),
+                      "name": @nostd.any("email"),
+                      "required": @nostd.any(true),
                     },
                     class=input_style,
                   ),
@@ -507,9 +507,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @js.any("password"),
-                      "name": @js.any("password"),
-                      "required": @js.any(true),
+                      "type": @nostd.any("password"),
+                      "name": @nostd.any("password"),
+                      "required": @nostd.any(true),
                     },
                     class=input_style,
                   ),
@@ -517,18 +517,20 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                 h(
                   "button",
                   ["Login"],
-                  props={ "type": @js.any("submit") },
+                  props={ "type": @nostd.any("submit") },
                   class=button_style,
                 ),
               ],
               props={
-                "method": @js.any("POST"),
-                "action": @js.any("/auth/login"),
+                "method": @nostd.any("POST"),
+                "action": @nostd.any("/auth/login"),
               },
             ),
             h("p", [
               "Don't have an account? ",
-              h("a", ["Register"], props={ "href": @js.any("/auth/register") }),
+              h("a", ["Register"], props={
+                "href": @nostd.any("/auth/register"),
+              }),
             ]),
           ],
           class=card_style,
@@ -564,7 +566,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
             [
               h("h1", ["Login Failed"]),
               h("p", [error_msg]),
-              h("a", ["Try again"], props={ "href": @js.any("/auth/login") }),
+              h("a", ["Try again"], props={ "href": @nostd.any("/auth/login") }),
             ],
             class=card_style,
           ),
@@ -595,9 +597,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @js.any("text"),
-                      "name": @js.any("name"),
-                      "required": @js.any(true),
+                      "type": @nostd.any("text"),
+                      "name": @nostd.any("name"),
+                      "required": @nostd.any(true),
                     },
                     class=input_style,
                   ),
@@ -608,9 +610,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @js.any("email"),
-                      "name": @js.any("email"),
-                      "required": @js.any(true),
+                      "type": @nostd.any("email"),
+                      "name": @nostd.any("email"),
+                      "required": @nostd.any(true),
                     },
                     class=input_style,
                   ),
@@ -621,10 +623,10 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @js.any("password"),
-                      "name": @js.any("password"),
-                      "required": @js.any(true),
-                      "minlength": @js.any(8),
+                      "type": @nostd.any("password"),
+                      "name": @nostd.any("password"),
+                      "required": @nostd.any(true),
+                      "minlength": @nostd.any(8),
                     },
                     class=input_style,
                   ),
@@ -632,18 +634,18 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                 h(
                   "button",
                   ["Register"],
-                  props={ "type": @js.any("submit") },
+                  props={ "type": @nostd.any("submit") },
                   class=button_style,
                 ),
               ],
               props={
-                "method": @js.any("POST"),
-                "action": @js.any("/auth/register"),
+                "method": @nostd.any("POST"),
+                "action": @nostd.any("/auth/register"),
               },
             ),
             h("p", [
               "Already have an account? ",
-              h("a", ["Login"], props={ "href": @js.any("/auth/login") }),
+              h("a", ["Login"], props={ "href": @nostd.any("/auth/login") }),
             ]),
           ],
           class=card_style,
@@ -671,7 +673,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
             [
               h("h1", ["Registration Failed"]),
               h("p", [error_msg]),
-              h("a", ["Try again"], props={ "href": @js.any("/auth/register") }),
+              h("a", ["Try again"], props={
+                "href": @nostd.any("/auth/register"),
+              }),
             ],
             class=card_style,
           ),

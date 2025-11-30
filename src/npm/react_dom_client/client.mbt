@@ -38,7 +38,8 @@ pub fn ReactDOMClient::createRoot(
 
 ///|
 pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : @react.Element) -> Unit {
-  self.call1("render", vdom) |> ignore
+  let vdom_js : @js.Any = vdom.as_any().cast()
+  self.call1("render", vdom_js) |> ignore
 }
 
 ///|
@@ -51,7 +52,8 @@ pub fn ReactDOMClient::hydrateRoot(
   dom_node : &@dom.ElementImpl,
   react_node : @react.Element,
 ) -> ReactDOMRoot {
-  self.call2("hydrateRoot", dom_node.as_any(), react_node).cast()
+  let react_node_js : @js.Any = react_node.as_any().cast()
+  self.call2("hydrateRoot", dom_node.as_any(), react_node_js).cast()
 }
 
 ///|

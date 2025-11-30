@@ -391,7 +391,11 @@ pub fn nav_link(
       )
     (None, None) => ()
   }
-  let children_js = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
+  let children_arr : Array[@nostd.Any] = children.map(fn(c) {
+    c.to_react_node()
+  })
+  let children_js : @js.Any = children_arr.map(fn(c) -> @js.Any { c.cast() })
+    |> @js.from_array
   props.set("children", children_js)
   let empty : Array[@js.Any] = []
   ffi_create_element(nav_link_component, props.as_any(), @js.from_array(empty))

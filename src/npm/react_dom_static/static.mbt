@@ -98,8 +98,9 @@ pub async fn ReactDOMStatic::prerender(
     progressive_chunk_size?,
     signal?,
   )
+  let react_node_js : @js.Any = react_node.as_any().cast()
   let promise : @js.Promise[@js.Any] = self
-    .call2("prerender", react_node, opts)
+    .call2("prerender", react_node_js, opts)
     .cast()
   let result = promise.wait()
   { prelude: result.get("prelude").cast(), postponed: result.get("postponed") }
@@ -131,8 +132,9 @@ pub async fn ReactDOMStatic::prerenderToNodeStream(
     progressive_chunk_size?,
     signal?,
   )
+  let react_node_js : @js.Any = react_node.as_any().cast()
   let promise : @js.Promise[@js.Any] = self
-    .call2("prerenderToNodeStream", react_node, opts)
+    .call2("prerenderToNodeStream", react_node_js, opts)
     .cast()
   let result = promise.wait()
   { prelude: result.get("prelude").cast(), postponed: result.get("postponed") }

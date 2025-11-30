@@ -2,25 +2,25 @@
 package "mizchi/js/npm/testing_library_preact"
 
 import(
-  "mizchi/js"
   "mizchi/js/browser/dom"
+  "mizchi/js/nostd"
   "mizchi/js/npm/preact"
   "mizchi/js/npm/testing_library"
 )
 
 // Values
-fn act(() -> Unit) -> @js.Any
+fn act(() -> Unit) -> @nostd.Any
 
 fn cleanup() -> Unit
 
-fn configure(@js.Any) -> Unit
+fn configure(@nostd.Any) -> Unit
 
 #alias(fire_event)
 fn fireEvent() -> @testing_library.FireEvent
 
 fn render(@preact.VNode) -> RenderResult
 
-fn renderHook(@js.Any) -> RenderHookResult
+fn renderHook(@nostd.Any) -> RenderHookResult
 
 fn screen() -> @testing_library.Screen
 
@@ -31,23 +31,24 @@ async fn waitFor(() -> Unit) -> Unit
 // Types and methods
 #external
 pub type PreactTestingLibrary
+fn PreactTestingLibrary::as_any(Self) -> @nostd.Any
 
 #external
 pub type RenderHookResult
-fn RenderHookResult::rerender(Self, @js.Any) -> Unit
-fn RenderHookResult::result(Self) -> @js.Any
+fn RenderHookResult::as_any(Self) -> @nostd.Any
+fn RenderHookResult::rerender(Self, @nostd.Any) -> Unit
+fn RenderHookResult::result(Self) -> @nostd.Any
 fn RenderHookResult::unmount(Self) -> Unit
-impl @js.JsImpl for RenderHookResult
 
 #external
 pub type RenderResult
-fn RenderResult::asFragment(Self) -> @js.Any
+fn RenderResult::asFragment(Self) -> @nostd.Any
+fn RenderResult::as_any(Self) -> @nostd.Any
 fn RenderResult::baseElement(Self) -> @dom.HTMLElement
 fn RenderResult::container(Self) -> @dom.HTMLElement
 fn RenderResult::debug(Self) -> Unit
 fn RenderResult::rerender(Self, @preact.VNode) -> Unit
 fn RenderResult::unmount(Self) -> Unit
-impl @js.JsImpl for RenderResult
 
 // Type aliases
 

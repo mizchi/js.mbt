@@ -255,8 +255,7 @@ extern "js" fn ffi_raw(html : String) -> JSXNode =
 pub type HtmlEscapedString
 
 ///|
-pub fn HtmlEscapedString::as_any(self : HtmlEscapedString) -> @nostd.Any =
-  "%identity"
+pub fn HtmlEscapedString::as_any(self : HtmlEscapedString) -> @nostd.Any = "%identity"
 
 ///|
 pub impl HonoNode for HtmlEscapedString with toHonoNode(self) {
@@ -288,7 +287,10 @@ pub fn[Env, ExecutionContext] Context::html_jsx(
     Some(s) => s
     None => 200
   }
-  self.as_any()._call("html", [@nostd.any(html_string), @nostd.any(status_code)]).cast()
+  self
+  .as_any()
+  ._call("html", [@nostd.any(html_string), @nostd.any(status_code)])
+  .cast()
 }
 
 ///|

@@ -4,6 +4,7 @@ package "mizchi/js/node/fs_promises"
 import(
   "mizchi/js"
   "mizchi/js/node/buffer"
+  "mizchi/js/nostd"
   "moonbitlang/async/js_async"
 )
 
@@ -63,6 +64,7 @@ async fn writeFile(String, String, encoding? : String, mode? : Int, flag? : Stri
 // Types and methods
 #external
 pub type Dirent
+fn Dirent::as_any(Self) -> @nostd.Any
 #alias(is_directory)
 fn Dirent::isDirectory(Self) -> Bool
 #alias(is_file)
@@ -72,9 +74,11 @@ impl @js.JsImpl for Dirent
 
 #external
 pub type FileHandle
+fn FileHandle::as_any(Self) -> @nostd.Any
 
 #external
 pub type Stat
+fn Stat::as_any(Self) -> @nostd.Any
 fn Stat::isDirectory(Self) -> Bool
 fn Stat::isFile(Self) -> Bool
 fn Stat::mtime_ms(Self) -> Float

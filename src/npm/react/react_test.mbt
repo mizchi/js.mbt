@@ -3,7 +3,8 @@
 ///|
 fn render_to_string(element : Element) -> String {
   let react_dom_server : @js.Any = @node.require("react-dom/server")
-  @js.identity(react_dom_server.get("renderToString").call_self([element]))
+  let element_js : @js.Any = element.as_any().cast()
+  react_dom_server.get("renderToString").call_self([element_js]).cast()
 }
 
 ///|
@@ -15,16 +16,18 @@ priv struct TestProps {
 test "React createElement" {
   @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", [])
-  assert_eq(@js.identity(el.get("type")), "div")
+  let el_type : String = el.as_any()["type"].cast()
+  assert_eq(el_type, "div")
   let with_attrs = @react.createElement(
     "button",
     props={
-      "className": "my-button" |> @js.any,
-      "onClick": @js.from_fn0(fn() { @js.log("Button clicked") }),
+      "className": @nostd.any("my-button"),
+      "onClick": @js.identity(@js.from_fn0(fn() { @js.log("Button clicked") })),
     },
     [],
   )
-  assert_eq(@js.identity(with_attrs.get("props").get("className")), "my-button")
+  let class_name : String = with_attrs.as_any()["props"]["className"].cast()
+  assert_eq(class_name, "my-button")
   let c1 = (_ : Unit) => {
     let r : ReactRef[@dom.Element] = useRef(None)
     @react.createElement("span", ref_=r, [])
@@ -46,7 +49,8 @@ test "render_to_string" {
 test "createElement with key" {
   @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", ["test"], key="my-key")
-  assert_eq(@js.identity(el.get("key")), "my-key")
+  let key : String = el.as_any()["key"].cast()
+  assert_eq(key, "my-key")
 }
 
 ///|
@@ -108,7 +112,8 @@ test "fragment" {
 test "fragment with key" {
   @react.init_react_api(@node.require("react"))
   let el = fragment([createElement("div", ["item"])], key="frag-key")
-  assert_eq(@js.identity(el.get("key")), "frag-key")
+  let key : String = el.as_any()["key"].cast()
+  assert_eq(key, "frag-key")
 }
 
 ///|
@@ -284,7 +289,7 @@ test "ReactNode conditional rendering in for expression" {
 }
 
 ///|
-extern "js" fn load_lazy_component_stub() -> @js.Promise[@js.Any] =
+extern "js" fn load_lazy_component_stub() -> @nostd.Promise[@nostd.Any] =
   #|() => Promise.resolve({ default: () => globalThis.__ReactApi.createElement("div", null, "lazy_component") })
 
 ///|
@@ -300,7 +305,7 @@ test "lazy_ with Unit" {
 }
 
 ///|
-extern "js" fn load_lazy_typed_component_stub() -> @js.Promise[@js.Any] =
+extern "js" fn load_lazy_typed_component_stub() -> @nostd.Promise[@nostd.Any] =
   #|() => Promise.resolve({ default: (props) => globalThis.__ReactApi.createElement("div", null, "Hello, " + props.v) })
 
 ///|
@@ -467,7 +472,7 @@ test "error_boundary structure with throwing component" {
   let _el = @react.error_boundary(
     children=[@react.component(throwing_comp, ())],
     fallback=fn(error, _reset) {
-      let msg : String = @js.identity(error.get("message"))
+      let msg : String = error["message"].cast()
       @react.createElement("div", ["Caught: " + msg])
     },
     on_error=fn(_error, _info) { () },

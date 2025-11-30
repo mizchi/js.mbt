@@ -31,18 +31,14 @@ pub fn ReactDOM::createPortal(
   dom_node : &@dom.ElementImpl,
   key? : String,
 ) -> @react.Element {
+  let dom_node_any : @nostd.Any = dom_node.as_any().cast()
   let result : @nostd.Any = match key {
     Some(key) =>
       self
       .as_any()
-      ._call(
-        "createPortal",
-        [children.as_any(), dom_node.as_any(), @nostd.any(key)],
-      )
+      ._call("createPortal", [children.as_any(), dom_node_any, @nostd.any(key)])
     None =>
-      self
-      .as_any()
-      ._call("createPortal", [children.as_any(), dom_node.as_any()])
+      self.as_any()._call("createPortal", [children.as_any(), dom_node_any])
   }
   result.cast()
 }

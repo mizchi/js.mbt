@@ -34,7 +34,10 @@ pub fn[Env, ExecutionContext, T] Context::json(
     Some(s) => s
     None => 200
   }
-  self.as_any()._call("json", [@nostd.any(data), @nostd.any(status_code)]).cast()
+  self
+  .as_any()
+  ._call("json", [@nostd.any(data), @nostd.any(status_code)])
+  .cast()
 }
 
 ///|
@@ -173,10 +176,7 @@ pub fn[Env, ExecutionContext] Context::body(
 ) -> @http.Response {
   match (status, headers) {
     (Some(s), Some(h)) =>
-      self
-      .as_any()
-      ._call("body", [@nostd.any(body), @nostd.any(s), h])
-      .cast()
+      self.as_any()._call("body", [@nostd.any(body), @nostd.any(s), h]).cast()
     (Some(s), None) =>
       self.as_any()._call("body", [@nostd.any(body), @nostd.any(s)]).cast()
     _ => self.as_any()._call("body", [@nostd.any(body)]).cast()

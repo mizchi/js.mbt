@@ -72,7 +72,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
     [
       h("head", [
         h("title", [props.title]),
-        h("meta", [], props={ "charset": @js.any("UTF-8") }),
+        h("meta", [], props={ "charset": @nostd.any("UTF-8") }),
         style_component(),
       ]),
       h(
@@ -86,19 +86,19 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                 h(
                   "a",
                   ["Home"],
-                  props={ "href": @js.any("/") },
+                  props={ "href": @nostd.any("/") },
                   class=nav_link_style,
                 ),
                 h(
                   "a",
                   ["About"],
-                  props={ "href": @js.any("/about") },
+                  props={ "href": @nostd.any("/about") },
                   class=nav_link_style,
                 ),
                 h(
                   "a",
                   ["Auth"],
-                  props={ "href": @js.any("/auth") },
+                  props={ "href": @nostd.any("/auth") },
                   class=nav_link_style,
                 ),
                 match props.user {
@@ -146,16 +146,16 @@ pub fn create_app() -> App {
         h("p", ["A fast, lightweight web framework with CSS-in-JS"]),
         h("h2", ["Pages"]),
         h("ul", [
-          h("li", [h("a", ["About"], props={ "href": @js.any("/about") })]),
-          h("li", [h("a", ["Auth Demo"], props={ "href": @js.any("/auth") })]),
+          h("li", [h("a", ["About"], props={ "href": @nostd.any("/about") })]),
+          h("li", [h("a", ["Auth Demo"], props={ "href": @nostd.any("/auth") })]),
         ]),
         h("h2", ["API Endpoints"]),
         h("ul", [
           h("li", [
-            h("a", ["API Hello"], props={ "href": @js.any("/api/hello") }),
+            h("a", ["API Hello"], props={ "href": @nostd.any("/api/hello") }),
           ]),
           h("li", [
-            h("a", ["Health Check"], props={ "href": @js.any("/health") }),
+            h("a", ["Health Check"], props={ "href": @nostd.any("/health") }),
           ]),
         ]),
       ],
@@ -195,13 +195,13 @@ pub fn create_app() -> App {
                 h(
                   "button",
                   ["Logout"],
-                  props={ "type": @js.any("submit") },
+                  props={ "type": @nostd.any("submit") },
                   class=button_style,
                 ),
               ],
               props={
-                "method": @js.any("POST"),
-                "action": @js.any("/auth/logout"),
+                "method": @nostd.any("POST"),
+                "action": @nostd.any("/auth/logout"),
               },
             ),
           ]
@@ -213,21 +213,21 @@ pub fn create_app() -> App {
               "form",
               [
                 h("input", [], props={
-                  "type": @js.any("text"),
-                  "name": @js.any("username"),
-                  "placeholder": @js.any("Username"),
-                  "required": @js.any(true),
+                  "type": @nostd.any("text"),
+                  "name": @nostd.any("username"),
+                  "placeholder": @nostd.any("Username"),
+                  "required": @nostd.any(true),
                 }),
                 h(
                   "button",
                   ["Login"],
-                  props={ "type": @js.any("submit") },
+                  props={ "type": @nostd.any("submit") },
                   class=button_style,
                 ),
               ],
               props={
-                "method": @js.any("POST"),
-                "action": @js.any("/auth/login"),
+                "method": @nostd.any("POST"),
+                "action": @nostd.any("/auth/login"),
               },
             ),
           ]
@@ -248,7 +248,7 @@ pub fn create_app() -> App {
         user: None,
         children: [
           h("div", ["Username is required"], class=error_style),
-          h("a", ["Back to login"], props={ "href": @js.any("/auth") }),
+          h("a", ["Back to login"], props={ "href": @nostd.any("/auth") }),
         ],
       })
       c.html_jsx(content, status=400)
@@ -278,7 +278,7 @@ pub fn create_app() -> App {
       children: [
         h("h1", ["404 - Page Not Found"]),
         h("p", ["The page you are looking for does not exist."]),
-        h("a", ["Go Home"], props={ "href": @js.any("/") }),
+        h("a", ["Go Home"], props={ "href": @nostd.any("/") }),
       ],
     })
     c.html_jsx(content, status=404)

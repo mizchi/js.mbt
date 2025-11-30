@@ -16,7 +16,10 @@ test "render basic component" {
   render(vnode) |> ignore
   let s = screen()
   let el = s.getByText("Hello World")
-  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -27,7 +30,10 @@ test "getByRole button" {
   render(vnode) |> ignore
   let s = screen()
   let button = s.getByRole("button")
-  inspect(not(@js.is_nullish(button.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(button.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -117,12 +123,15 @@ test "getByTestId finds element" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("div", ["Test"], props={
-    "data-testid": @js.any("my-test-id"),
+    "data-testid": @nostd.any("my-test-id"),
   })
   render(vnode) |> ignore
   let s = screen()
   let el = s.getByTestId("my-test-id")
-  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -135,7 +144,7 @@ test "fireEvent change" {
     value.val = target.get("value").cast()
   }
   let vnode = @preact.h("input", [], props={
-    "type": @js.any("text"),
+    "type": @nostd.any("text"),
     "onChange": handler |> @js.identity,
   })
   render(vnode) |> ignore
@@ -158,7 +167,7 @@ test "fireEvent input" {
     value.val = target.get("value").cast()
   }
   let vnode = @preact.h("input", [], props={
-    "type": @js.any("text"),
+    "type": @nostd.any("text"),
     "onInput": handler |> @js.identity,
   })
   render(vnode) |> ignore
@@ -179,7 +188,7 @@ test "fireEvent focus and blur" {
   let focus_handler : () -> Unit = fn() { focused.val = true }
   let blur_handler : () -> Unit = fn() { focused.val = false }
   let vnode = @preact.h("input", [], props={
-    "type": @js.any("text"),
+    "type": @nostd.any("text"),
     "onFocus": focus_handler |> @js.identity,
     "onBlur": blur_handler |> @js.identity,
   })
@@ -201,7 +210,7 @@ test "fireEvent keyDown" {
     key_pressed.val = e.get("key").cast()
   }
   let vnode = @preact.h("input", [], props={
-    "type": @js.any("text"),
+    "type": @nostd.any("text"),
     "onKeyDown": handler |> @js.identity,
   })
   render(vnode) |> ignore
@@ -221,7 +230,7 @@ test "fireEvent keyUp" {
     key_released.val = e.get("key").cast()
   }
   let vnode = @preact.h("input", [], props={
-    "type": @js.any("text"),
+    "type": @nostd.any("text"),
     "onKeyUp": handler |> @js.identity,
   })
   render(vnode) |> ignore
@@ -309,7 +318,7 @@ test "render result asFragment" {
   let vnode = @preact.h("div", ["Fragment Test"])
   let result = render(vnode)
   let frag = result.asFragment()
-  inspect(not(@js.is_nullish(frag)), content="true")
+  inspect(not(@nostd.is_nullish(frag)), content="true")
 }
 
 ///|
@@ -317,16 +326,21 @@ test "getByLabelText" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.fragment([
-    @preact.h("label", ["Username"], props={ "for": @js.any("username-input") }),
+    @preact.h("label", ["Username"], props={
+      "for": @nostd.any("username-input"),
+    }),
     @preact.h("input", [], props={
-      "id": @js.any("username-input"),
-      "type": @js.any("text"),
+      "id": @nostd.any("username-input"),
+      "type": @nostd.any("text"),
     }),
   ])
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByLabelText("Username")
-  inspect(not(@js.is_nullish(input.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(input.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -334,13 +348,16 @@ test "getByPlaceholderText" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("input", [], props={
-    "type": @js.any("text"),
-    "placeholder": @js.any("Enter your name"),
+    "type": @nostd.any("text"),
+    "placeholder": @nostd.any("Enter your name"),
   })
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByPlaceholderText("Enter your name")
-  inspect(not(@js.is_nullish(input.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(input.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -348,14 +365,17 @@ test "getByDisplayValue" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("input", [], props={
-    "type": @js.any("text"),
-    "value": @js.any("current value"),
+    "type": @nostd.any("text"),
+    "value": @nostd.any("current value"),
     "onChange": (fn() {  }) |> @js.identity,
   })
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByDisplayValue("current value")
-  inspect(not(@js.is_nullish(input.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(input.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -363,13 +383,16 @@ test "getByAltText" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("img", [], props={
-    "alt": @js.any("Profile picture"),
-    "src": @js.any("profile.jpg"),
+    "alt": @nostd.any("Profile picture"),
+    "src": @nostd.any("profile.jpg"),
   })
   render(vnode) |> ignore
   let s = screen()
   let img = s.getByAltText("Profile picture")
-  inspect(not(@js.is_nullish(img.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(img.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -377,12 +400,15 @@ test "getByTitle" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("span", ["Info"], props={
-    "title": @js.any("More information"),
+    "title": @nostd.any("More information"),
   })
   render(vnode) |> ignore
   let s = screen()
   let el = s.getByTitle("More information")
-  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -415,8 +441,8 @@ test "getAllByTestId returns multiple" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.fragment([
-    @preact.h("div", ["Item 1"], props={ "data-testid": @js.any("item") }),
-    @preact.h("div", ["Item 2"], props={ "data-testid": @js.any("item") }),
+    @preact.h("div", ["Item 1"], props={ "data-testid": @nostd.any("item") }),
+    @preact.h("div", ["Item 2"], props={ "data-testid": @nostd.any("item") }),
   ])
   render(vnode) |> ignore
   let s = screen()
@@ -432,7 +458,10 @@ async test "findByText" {
   render(vnode) |> ignore
   let s = screen()
   let el = s.findByText("Async content")
-  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -443,7 +472,10 @@ async test "findByRole" {
   render(vnode) |> ignore
   let s = screen()
   let button = s.findByRole("button")
-  inspect(not(@js.is_nullish(button.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(button.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -451,12 +483,15 @@ async test "findByTestId" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("div", ["Test"], props={
-    "data-testid": @js.any("async-test"),
+    "data-testid": @nostd.any("async-test"),
   })
   render(vnode) |> ignore
   let s = screen()
   let el = s.findByTestId("async-test")
-  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
+  inspect(
+    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    content="true",
+  )
 }
 
 ///|
@@ -494,8 +529,8 @@ async test "findAllByTestId" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.fragment([
-    @preact.h("li", ["A"], props={ "data-testid": @js.any("list-item") }),
-    @preact.h("li", ["B"], props={ "data-testid": @js.any("list-item") }),
+    @preact.h("li", ["A"], props={ "data-testid": @nostd.any("list-item") }),
+    @preact.h("li", ["B"], props={ "data-testid": @nostd.any("list-item") }),
   ])
   render(vnode) |> ignore
   let s = screen()
@@ -551,7 +586,7 @@ test "fireEvent submit" {
   }
   let vnode = @preact.h(
     "form",
-    [@preact.h("button", ["Submit"], props={ "type": @js.any("submit") })],
+    [@preact.h("button", ["Submit"], props={ "type": @nostd.any("submit") })],
     props={ "onSubmit": handler |> @js.identity },
   )
   let result = render(vnode)
@@ -566,12 +601,14 @@ test "fireEvent scroll" {
   defer dispose()
   let scrolled = Ref::new(false)
   let handler : () -> Unit = fn() { scrolled.val = true }
+  let style_obj : @js.Any = @js.from_map({
+    "overflow": @js.any("auto"),
+    "height": @js.any("100px"),
+  })
+  let handler_any : @nostd.Any = @js.identity(handler)
   let vnode = @preact.h("div", ["Scrollable"], props={
-    "onScroll": handler |> @js.identity,
-    "style": @js.from_map({
-      "overflow": @js.any("auto"),
-      "height": @js.any("100px"),
-    }),
+    "onScroll": handler_any,
+    "style": style_obj.cast(),
   })
   render(vnode) |> ignore
   let s = screen()

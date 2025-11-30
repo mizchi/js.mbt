@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/node/events"
   "mizchi/js/node/stream"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -26,6 +27,7 @@ fn isIPv6(String) -> Bool
 #external
 pub type AddressInfo
 fn AddressInfo::address(Self) -> String
+fn AddressInfo::as_any(Self) -> @nostd.Any
 fn AddressInfo::family(Self) -> String
 fn AddressInfo::port(Self) -> Int
 impl @js.JsImpl for AddressInfo
@@ -33,6 +35,7 @@ impl @js.JsImpl for AddressInfo
 #external
 pub type Server
 fn Server::address(Self) -> AddressInfo?
+fn Server::as_any(Self) -> @nostd.Any
 fn Server::close(Self) -> Self
 fn Server::listen(Self, Int, host? : String, backlog? : Int, callback? : () -> Unit) -> Self
 fn Server::listening(Self) -> Bool
@@ -43,6 +46,7 @@ impl @events.EventEmitterImpl for Server
 
 #external
 pub type Socket
+fn Socket::as_any(Self) -> @nostd.Any
 fn Socket::as_duplex(Self) -> @stream.Duplex
 fn Socket::bytesRead(Self) -> Int
 fn Socket::bytesWritten(Self) -> Int

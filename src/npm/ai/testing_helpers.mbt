@@ -83,12 +83,12 @@ pub fn mock_id() -> MockId {
 /// Returns a function that returns values in order, then the last value
 pub fn mock_values_js(values : Array[@js.Any]) -> @js.Any {
   let test_module = require_test()
-  let mock_values_fn = test_module.get("mockValues")
+  let mock_values_fn : @nostd.Any = test_module.get("mockValues").cast()
   // Call mockValues(...values) using the spread pattern
   @reflect.apply(
-    @nostd.any(mock_values_fn),
-    @nostd.any(@js.null_()),
-    @nostd.any(values).cast(),
+    mock_values_fn,
+    @nostd.null(),
+    values.map(fn(v) -> @nostd.Any { v.cast() }),
   ).cast()
 }
 

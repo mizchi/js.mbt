@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/node/buffer"
   "mizchi/js/node/stream"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -104,12 +105,14 @@ fn writeSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int raise @js.ThrowError
 // Types and methods
 #external
 pub type FSWatcher
+fn FSWatcher::as_any(Self) -> @nostd.Any
 fn FSWatcher::close(Self) -> Unit
 fn FSWatcher::on(Self, String, (String, String) -> Unit) -> Self
 impl @js.JsImpl for FSWatcher
 
 #external
 pub type Stat
+fn Stat::as_any(Self) -> @nostd.Any
 fn Stat::isDirectory(Self) -> Bool
 fn Stat::isFile(Self) -> Bool
 fn Stat::mtime_ms(Self) -> Float

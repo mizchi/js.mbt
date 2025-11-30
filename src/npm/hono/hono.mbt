@@ -74,10 +74,10 @@ pub fn[Env, ExecutionContext] Hono::get(
 ) -> Hono[Env, ExecutionContext] {
   self
   .as_any()
-  ._call(
-    "get",
-    [@nostd.any(path), @nostd.any(@js.promisify1(handler) |> @js.from_fn1)],
-  )
+  ._call("get", [
+    @nostd.any(path),
+    @nostd.any(@js.promisify1(handler) |> @js.from_fn1),
+  ])
   .cast()
 }
 
@@ -90,10 +90,10 @@ pub fn[Env, ExecutionContext] Hono::post(
 ) -> Hono[Env, ExecutionContext] {
   self
   .as_any()
-  ._call(
-    "post",
-    [@nostd.any(path), @nostd.any(@js.promisify1(handler) |> @js.from_fn1)],
-  )
+  ._call("post", [
+    @nostd.any(path),
+    @nostd.any(@js.promisify1(handler) |> @js.from_fn1),
+  ])
   .cast()
 }
 
@@ -106,10 +106,10 @@ pub fn[Env, ExecutionContext] Hono::put(
 ) -> Hono[Env, ExecutionContext] {
   self
   .as_any()
-  ._call(
-    "put",
-    [@nostd.any(path), @nostd.any(@js.promisify1(handler) |> @js.from_fn1)],
-  )
+  ._call("put", [
+    @nostd.any(path),
+    @nostd.any(@js.promisify1(handler) |> @js.from_fn1),
+  ])
   .cast()
 }
 
@@ -122,10 +122,10 @@ pub fn[Env, ExecutionContext] Hono::delete(
 ) -> Hono[Env, ExecutionContext] {
   self
   .as_any()
-  ._call(
-    "delete",
-    [@nostd.any(path), @nostd.any(@js.promisify1(handler) |> @js.from_fn1)],
-  )
+  ._call("delete", [
+    @nostd.any(path),
+    @nostd.any(@js.promisify1(handler) |> @js.from_fn1),
+  ])
   .cast()
 }
 
@@ -138,10 +138,10 @@ pub fn[Env, ExecutionContext] Hono::patch(
 ) -> Hono[Env, ExecutionContext] {
   self
   .as_any()
-  ._call(
-    "patch",
-    [@nostd.any(path), @nostd.any(@js.promisify1(handler) |> @js.from_fn1)],
-  )
+  ._call("patch", [
+    @nostd.any(path),
+    @nostd.any(@js.promisify1(handler) |> @js.from_fn1),
+  ])
   .cast()
 }
 
@@ -154,10 +154,10 @@ pub fn[Env, ExecutionContext] Hono::options(
 ) -> Hono[Env, ExecutionContext] {
   self
   .as_any()
-  ._call(
-    "options",
-    [@nostd.any(path), @nostd.any(@js.promisify1(handler) |> @js.from_fn1)],
-  )
+  ._call("options", [
+    @nostd.any(path),
+    @nostd.any(@js.promisify1(handler) |> @js.from_fn1),
+  ])
   .cast()
 }
 
@@ -170,10 +170,10 @@ pub fn[Env, ExecutionContext] Hono::all(
 ) -> Hono[Env, ExecutionContext] {
   self
   .as_any()
-  ._call(
-    "all",
-    [@nostd.any(path), @nostd.any(@js.promisify1(handler) |> @js.from_fn1)],
-  )
+  ._call("all", [
+    @nostd.any(path),
+    @nostd.any(@js.promisify1(handler) |> @js.from_fn1),
+  ])
   .cast()
 }
 
@@ -185,10 +185,7 @@ pub fn[Env, ExecutionContext] Hono::use_(
   path : String,
   middleware : Middleware[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self
-  .as_any()
-  ._call("use", [@nostd.any(path), @nostd.any(middleware)])
-  .cast()
+  self.as_any()._call("use", [@nostd.any(path), @nostd.any(middleware)]).cast()
 }
 
 ///|
@@ -263,10 +260,7 @@ pub fn[Env, ExecutionContext] Hono::mount(
   path : String,
   app : Hono[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self
-  .as_any()
-  ._call("mount", [@nostd.any(path), app.as_any()])
-  .cast()
+  self.as_any()._call("mount", [@nostd.any(path), app.as_any()]).cast()
 }
 
 ///|
@@ -277,8 +271,5 @@ pub fn[Env, ExecutionContext] Hono::route(
   path : String,
   app : Hono[Env, ExecutionContext],
 ) -> Hono[Env, ExecutionContext] {
-  self
-  .as_any()
-  ._call("route", [@nostd.any(path), app.as_any()])
-  .cast()
+  self.as_any()._call("route", [@nostd.any(path), app.as_any()]).cast()
 }

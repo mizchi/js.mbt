@@ -9,22 +9,22 @@ test "jwt_decode parses token structure" {
   // This is a valid JWT structure but with mock data
   let mock_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
   let decoded = @hono.jwt_decode(mock_token)
-  @js.typeof_(decoded.header) |> assert_eq("object")
-  @js.typeof_(decoded.payload) |> assert_eq("object")
+  @nostd.typeof_(decoded.header) |> assert_eq("object")
+  @nostd.typeof_(decoded.payload) |> assert_eq("object")
 }
 
 ///|
 async test "jwt_sign and verify roundtrip" {
-  let payload = @js.Object::new()
-  payload.set("sub", "user123")
-  payload.set("role", "admin")
+  let payload = @nostd.Object::new()
+  payload["sub"] = @nostd.any("user123")
+  payload["role"] = @nostd.any("admin")
   let secret = "test-secret-key"
-  let token = @hono.jwt_sign(payload.as_any(), secret)
+  let token = @hono.jwt_sign(payload, secret)
   assert_true(token.length() > 0)
   // Verify the token
   let verified = @hono.jwt_verify(token, secret)
-  verified.get("sub").cast() |> assert_eq("user123")
-  verified.get("role").cast() |> assert_eq("admin")
+  verified["sub"].cast() |> assert_eq("user123")
+  verified["role"].cast() |> assert_eq("admin")
 }
 
 ///|
@@ -47,7 +47,7 @@ async test "set_cookie in handler" {
   |> ignore
   let client = @hono.test_client(app)
   // test_client returns a function
-  @js.typeof_(client) |> assert_eq("function")
+  @nostd.typeof_(client.as_any()) |> assert_eq("function")
 }
 
 // ============ CORS Tests ============
@@ -55,7 +55,7 @@ async test "set_cookie in handler" {
 ///|
 test "cors creates middleware" {
   let middleware = @hono.cors()
-  @js.typeof_(middleware) |> assert_eq("function")
+  @nostd.typeof_(middleware.as_any()) |> assert_eq("function")
 }
 
 ///|
@@ -66,7 +66,7 @@ test "cors with options creates configured middleware" {
     allowMethods=["GET", "POST"],
     maxAge=3600,
   )
-  @js.typeof_(middleware) |> assert_eq("function")
+  @nostd.typeof_(middleware.as_any()) |> assert_eq("function")
 }
 
 ///|
@@ -75,7 +75,7 @@ async test "Hono::cors_all applies cors to all routes" {
   app.cors_all() |> ignore
   app.get("/test", fn(c) { c.text("OK") }) |> ignore
   let client = @hono.test_client(app)
-  @js.typeof_(client) |> assert_eq("function")
+  @nostd.typeof_(client.as_any()) |> assert_eq("function")
 }
 
 ///|
@@ -84,7 +84,7 @@ async test "Hono::cors applies cors to specific path" {
   app.cors("/api/*", origin="*", credentials=false) |> ignore
   app.get("/api/test", fn(c) { c.text("OK") }) |> ignore
   let client = @hono.test_client(app)
-  @js.typeof_(client) |> assert_eq("function")
+  @nostd.typeof_(client.as_any()) |> assert_eq("function")
 }
 
 // ============ CSS Tests ============
@@ -119,12 +119,12 @@ test "cx combines CssClass instances" {
 ///|
 test "style_component returns JSXNode" {
   let style = @hono.style_component()
-  @js.typeof_(style) |> assert_eq("object")
+  @nostd.typeof_(style.as_any()) |> assert_eq("object")
 }
 
 ///|
 test "jsx alias h works" {
   // Test that h alias works the same as jsx
   let node = @hono.h("div", ["Hello"])
-  @js.typeof_(node) |> assert_eq("object")
+  @nostd.typeof_(node.as_any()) |> assert_eq("object")
 }

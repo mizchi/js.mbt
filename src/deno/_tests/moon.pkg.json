@@ -3,6 +3,7 @@
   "supported-targets": ["js"],
   "import": [
     "mizchi/js",
+    "mizchi/js/nostd",
     "mizchi/js/deno",
     "mizchi/js/web/worker",
     "mizchi/js/web/webgpu",

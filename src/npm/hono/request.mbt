@@ -68,7 +68,10 @@ pub fn HonoRequest::header(self : Self, key : String) -> String? {
 /// Parse request body as JSON
 /// https://hono.dev/docs/api/request#json
 pub async fn HonoRequest::json(self : Self) -> @nostd.Any {
-  let promise : @nostd.Promise[@nostd.Any] = self.as_any()._call("json", []).cast()
+  let promise : @nostd.Promise[@nostd.Any] = self
+    .as_any()
+    ._call("json", [])
+    .cast()
   promise.wait()
 }
 

@@ -3,6 +3,7 @@ package "mizchi/js/node/async_hooks"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -12,6 +13,7 @@ import(
 // Types and methods
 #external
 pub type AsyncLocalStorage[T]
+fn[T] AsyncLocalStorage::as_any(Self[T]) -> @nostd.Any
 fn[T] AsyncLocalStorage::disable(Self[T]) -> Unit
 fn[T : @js.JsImpl] AsyncLocalStorage::enterWith(Self[T], T) -> Unit
 fn[T] AsyncLocalStorage::exit(Self[T], () -> Unit) -> Unit

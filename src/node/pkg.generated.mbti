@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/node/buffer"
   "mizchi/js/node/process"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -37,6 +38,7 @@ fn setImmediate(() -> Unit) -> Immediate
 // Types and methods
 #external
 pub type Immediate
+fn Immediate::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for Immediate
 
 // Type aliases

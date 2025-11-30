@@ -77,7 +77,7 @@ fn use_myctx() -> MyContextProps {
 ///|
 fn ctx_consumer(_ : Unit) -> @react.Element {
   let ctx_value = use_myctx()
-  createElement("div", props={ "className": "context-value" |> @js.any }, [
+  createElement("div", props={ "className": @nostd.any("context-value") }, [
     "Context value: \{ctx_value.v}",
   ])
 }
@@ -100,7 +100,7 @@ fn counter(_ : Unit) -> @react.Element {
       dispatch(CounterAction::Increment)
       log("Counter clicked: \{count + 1}")
     },
-    [count],
+    [@nostd.any(count)],
   )
   createElement("button", props={ "onClick": on_click |> identity }, [
     "Count: \{count}",
@@ -122,7 +122,7 @@ fn async_counter(_ : Unit) -> @react.Element {
       sleep(500)
       @react.startTransition(() => dispatch(Increment))
     }),
-    [count],
+    [@nostd.any(count)],
   )
   button(on_click~, [
     "Async Count: \{count}",
@@ -146,13 +146,13 @@ fn app(props : AppProps) -> @react.Element {
   let textarea_ref : @react.ReactRef[@dom.HTMLTextAreaElement] = @react.useRef(
     None,
   )
-  let handler = useCallback(_ => set_cnt(cnt + 1), [cnt])
+  let handler = useCallback(_ => set_cnt(cnt + 1), [@nostd.any(cnt)])
   useEffect(
     () => {
       log("mounted with x = \{props.x}")
       () => log("unmounted")
     },
-    [cnt, textarea_ref],
+    [@nostd.any(cnt), @nostd.any(textarea_ref)],
   )
   useEffect(
     () => {
@@ -175,7 +175,7 @@ fn app(props : AppProps) -> @react.Element {
       set_text(value)
       log("Textarea changed: \{value}")
     },
-    [input_text],
+    [@nostd.any(input_text)],
   )
   guard myctx.val is Some(myctx)
   provider(myctx, value={ v: "xxx" }, [

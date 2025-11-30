@@ -8,24 +8,24 @@
 ///|
 /// App context returned by useApp hook
 pub(all) struct UseAppResult {
-  exit_fn : @js.Any
+  exit_fn : @nostd.Any
 }
 
 ///|
 /// Exit the app with optional error
-pub fn UseAppResult::exit(self : UseAppResult, error? : @js.Any) -> Unit {
+pub fn UseAppResult::exit(self : UseAppResult, error? : @nostd.Any) -> Unit {
   match error {
-    Some(e) => self.exit_fn.call_self([e]) |> ignore
-    None => self.exit_fn.call_self([]) |> ignore
+    Some(e) => self.exit_fn._invoke([e]) |> ignore
+    None => self.exit_fn._invoke([]) |> ignore
   }
 }
 
 ///|
 /// useApp hook - provides exit functionality
 pub fn Ink::useApp(self : Ink) -> UseAppResult {
-  let use_app = self.as_any().get("useApp")
-  let result = use_app.call_self([])
-  let exit_fn = result.get("exit")
+  let use_app = self.as_any()["useApp"]
+  let result = use_app._invoke([])
+  let exit_fn = result["exit"]
   { exit_fn, }
 }
 
@@ -67,22 +67,22 @@ pub(all) struct KeyInfo {
 }
 
 ///|
-fn KeyInfo::from_any(raw : @js.Any) -> KeyInfo {
+fn KeyInfo::from_any(raw : @nostd.Any) -> KeyInfo {
   {
-    up_arrow: raw.get("upArrow") |> @js.identity,
-    down_arrow: raw.get("downArrow") |> @js.identity,
-    left_arrow: raw.get("leftArrow") |> @js.identity,
-    right_arrow: raw.get("rightArrow") |> @js.identity,
-    page_down: raw.get("pageDown") |> @js.identity,
-    page_up: raw.get("pageUp") |> @js.identity,
-    return_: raw.get("return") |> @js.identity,
-    escape: raw.get("escape") |> @js.identity,
-    ctrl: raw.get("ctrl") |> @js.identity,
-    shift: raw.get("shift") |> @js.identity,
-    tab: raw.get("tab") |> @js.identity,
-    backspace: raw.get("backspace") |> @js.identity,
-    delete: raw.get("delete") |> @js.identity,
-    meta: raw.get("meta") |> @js.identity,
+    up_arrow: raw["upArrow"].cast(),
+    down_arrow: raw["downArrow"].cast(),
+    left_arrow: raw["leftArrow"].cast(),
+    right_arrow: raw["rightArrow"].cast(),
+    page_down: raw["pageDown"].cast(),
+    page_up: raw["pageUp"].cast(),
+    return_: raw["return"].cast(),
+    escape: raw["escape"].cast(),
+    ctrl: raw["ctrl"].cast(),
+    shift: raw["shift"].cast(),
+    tab: raw["tab"].cast(),
+    backspace: raw["backspace"].cast(),
+    delete: raw["delete"].cast(),
+    meta: raw["meta"].cast(),
   }
 }
 
@@ -101,31 +101,31 @@ pub fn Ink::useInput(
   handler : (String, KeyInfo) -> Unit,
   options? : UseInputOptions,
 ) -> Unit {
-  let use_input = self.as_any().get("useInput")
+  let use_input = self.as_any()["useInput"]
   let wrapped_handler = ffi_wrap_input_handler(fn(
-    input : @js.Any,
-    key : @js.Any,
+    input : @nostd.Any,
+    key : @nostd.Any,
   ) {
-    let input_str : String = @js.identity(input)
+    let input_str : String = input.cast()
     let key_info = KeyInfo::from_any(key)
     handler(input_str, key_info)
   })
   match options {
     Some(opts) => {
-      let opts_obj = @js.Object::new()
+      let opts_obj = @nostd.Object::new()
       if opts.is_active is Some(active) {
-        opts_obj.set("isActive", active)
+        opts_obj["isActive"] = @nostd.any(active)
       }
-      use_input.call_self([wrapped_handler, opts_obj.as_any()]) |> ignore
+      use_input._invoke([wrapped_handler, opts_obj]) |> ignore
     }
-    None => use_input.call_self([wrapped_handler]) |> ignore
+    None => use_input._invoke([wrapped_handler]) |> ignore
   }
 }
 
 ///|
 extern "js" fn ffi_wrap_input_handler(
-  f : (@js.Any, @js.Any) -> Unit,
-) -> @js.Any =
+  f : (@nostd.Any, @nostd.Any) -> Unit,
+) -> @nostd.Any =
   #|(f) => f
 
 // ============================================================
@@ -153,24 +153,24 @@ pub(all) struct UseFocusOptions {
 ///|
 /// useFocus hook - manages focus state for interactive components
 pub fn Ink::useFocus(self : Ink, options? : UseFocusOptions) -> UseFocusResult {
-  let use_focus = self.as_any().get("useFocus")
+  let use_focus = self.as_any()["useFocus"]
   let result = match options {
     Some(opts) => {
-      let opts_obj = @js.Object::new()
+      let opts_obj = @nostd.Object::new()
       if opts.auto_focus is Some(af) {
-        opts_obj.set("autoFocus", af)
+        opts_obj["autoFocus"] = @nostd.any(af)
       }
       if opts.is_active is Some(active) {
-        opts_obj.set("isActive", active)
+        opts_obj["isActive"] = @nostd.any(active)
       }
       if opts.id is Some(id) {
-        opts_obj.set("id", id)
+        opts_obj["id"] = @nostd.any(id)
       }
-      use_focus.call_self([opts_obj.as_any()])
+      use_focus._invoke([opts_obj])
     }
-    None => use_focus.call_self([])
+    None => use_focus._invoke([])
   }
-  { is_focused: result.get("isFocused") |> @js.identity }
+  { is_focused: result["isFocused"].cast() }
 }
 
 // ============================================================
@@ -180,13 +180,13 @@ pub fn Ink::useFocus(self : Ink, options? : UseFocusOptions) -> UseFocusResult {
 ///|
 /// Focus manager for programmatic focus control
 pub(all) struct UseFocusManagerResult {
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
 /// Enable focus for the focused component
 pub fn UseFocusManagerResult::enableFocus(self : UseFocusManagerResult) -> Unit {
-  self.raw.get("enableFocus").call_self([]) |> ignore
+  self.raw["enableFocus"]._invoke([]) |> ignore
 }
 
 ///|
@@ -194,13 +194,13 @@ pub fn UseFocusManagerResult::enableFocus(self : UseFocusManagerResult) -> Unit 
 pub fn UseFocusManagerResult::disableFocus(
   self : UseFocusManagerResult,
 ) -> Unit {
-  self.raw.get("disableFocus").call_self([]) |> ignore
+  self.raw["disableFocus"]._invoke([]) |> ignore
 }
 
 ///|
 /// Focus next focusable component
 pub fn UseFocusManagerResult::focusNext(self : UseFocusManagerResult) -> Unit {
-  self.raw.get("focusNext").call_self([]) |> ignore
+  self.raw["focusNext"]._invoke([]) |> ignore
 }
 
 ///|
@@ -208,7 +208,7 @@ pub fn UseFocusManagerResult::focusNext(self : UseFocusManagerResult) -> Unit {
 pub fn UseFocusManagerResult::focusPrevious(
   self : UseFocusManagerResult,
 ) -> Unit {
-  self.raw.get("focusPrevious").call_self([]) |> ignore
+  self.raw["focusPrevious"]._invoke([]) |> ignore
 }
 
 ///|
@@ -217,14 +217,14 @@ pub fn UseFocusManagerResult::focus(
   self : UseFocusManagerResult,
   id : String,
 ) -> Unit {
-  self.raw.get("focus").call_self([id |> @js.any]) |> ignore
+  self.raw["focus"]._invoke([@nostd.any(id)]) |> ignore
 }
 
 ///|
 /// useFocusManager hook - programmatically manage focus
 pub fn Ink::useFocusManager(self : Ink) -> UseFocusManagerResult {
-  let use_focus_manager = self.as_any().get("useFocusManager")
-  let result = use_focus_manager.call_self([])
+  let use_focus_manager = self.as_any()["useFocusManager"]
+  let result = use_focus_manager._invoke([])
   { raw: result }
 }
 
@@ -236,28 +236,28 @@ pub fn Ink::useFocusManager(self : Ink) -> UseFocusManagerResult {
 /// Stdin result returned by useStdin hook
 pub(all) struct UseStdinResult {
   /// Standard input stream
-  stdin : @js.Any
+  stdin : @nostd.Any
   /// Whether stdin is in raw mode
   is_raw_mode_supported : Bool
   /// Set raw mode
-  set_raw_mode_fn : @js.Any
+  set_raw_mode_fn : @nostd.Any
 }
 
 ///|
 /// Set raw mode on stdin
 pub fn UseStdinResult::setRawMode(self : UseStdinResult, value : Bool) -> Unit {
-  self.set_raw_mode_fn.call_self([value |> @js.any]) |> ignore
+  self.set_raw_mode_fn._invoke([@nostd.any(value)]) |> ignore
 }
 
 ///|
 /// useStdin hook - access stdin stream
 pub fn Ink::useStdin(self : Ink) -> UseStdinResult {
-  let use_stdin = self.as_any().get("useStdin")
-  let result = use_stdin.call_self([])
+  let use_stdin = self.as_any()["useStdin"]
+  let result = use_stdin._invoke([])
   {
-    stdin: result.get("stdin"),
-    is_raw_mode_supported: result.get("isRawModeSupported") |> @js.identity,
-    set_raw_mode_fn: result.get("setRawMode"),
+    stdin: result["stdin"],
+    is_raw_mode_supported: result["isRawModeSupported"].cast(),
+    set_raw_mode_fn: result["setRawMode"],
   }
 }
 
@@ -269,23 +269,23 @@ pub fn Ink::useStdin(self : Ink) -> UseStdinResult {
 /// Stdout result returned by useStdout hook
 pub(all) struct UseStdoutResult {
   /// Standard output stream
-  stdout : @js.Any
+  stdout : @nostd.Any
   /// Write to stdout
-  write_fn : @js.Any
+  write_fn : @nostd.Any
 }
 
 ///|
 /// Write to stdout
 pub fn UseStdoutResult::write(self : UseStdoutResult, data : String) -> Unit {
-  self.write_fn.call_self([data |> @js.any]) |> ignore
+  self.write_fn._invoke([@nostd.any(data)]) |> ignore
 }
 
 ///|
 /// useStdout hook - access stdout stream
 pub fn Ink::useStdout(self : Ink) -> UseStdoutResult {
-  let use_stdout = self.as_any().get("useStdout")
-  let result = use_stdout.call_self([])
-  { stdout: result.get("stdout"), write_fn: result.get("write") }
+  let use_stdout = self.as_any()["useStdout"]
+  let result = use_stdout._invoke([])
+  { stdout: result["stdout"], write_fn: result["write"] }
 }
 
 // ============================================================
@@ -296,21 +296,21 @@ pub fn Ink::useStdout(self : Ink) -> UseStdoutResult {
 /// Stderr result returned by useStderr hook
 pub(all) struct UseStderrResult {
   /// Standard error stream
-  stderr : @js.Any
+  stderr : @nostd.Any
   /// Write to stderr
-  write_fn : @js.Any
+  write_fn : @nostd.Any
 }
 
 ///|
 /// Write to stderr
 pub fn UseStderrResult::write(self : UseStderrResult, data : String) -> Unit {
-  self.write_fn.call_self([data |> @js.any]) |> ignore
+  self.write_fn._invoke([@nostd.any(data)]) |> ignore
 }
 
 ///|
 /// useStderr hook - access stderr stream
 pub fn Ink::useStderr(self : Ink) -> UseStderrResult {
-  let use_stderr = self.as_any().get("useStderr")
-  let result = use_stderr.call_self([])
-  { stderr: result.get("stderr"), write_fn: result.get("write") }
+  let use_stderr = self.as_any()["useStderr"]
+  let result = use_stderr._invoke([])
+  { stderr: result["stderr"], write_fn: result["write"] }
 }

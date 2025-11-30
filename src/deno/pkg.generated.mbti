@@ -15,6 +15,7 @@ fn deno() -> Deno
 // Types and methods
 #external
 pub type ChildProcess
+fn ChildProcess::as_any(Self) -> @nostd.Any
 fn ChildProcess::kill(Self, signal? : String) -> Unit
 fn ChildProcess::pid(Self) -> Int
 fn ChildProcess::ref_(Self) -> Unit
@@ -23,36 +24,36 @@ fn ChildProcess::stderr(Self) -> @js.Any
 fn ChildProcess::stdin(Self) -> @js.Any
 fn ChildProcess::stdout(Self) -> @js.Any
 fn ChildProcess::unref(Self) -> Unit
-impl @js.JsImpl for ChildProcess
 
 #external
 pub type Command
+fn Command::as_any(Self) -> @nostd.Any
 fn Command::new(String, args? : Array[String], cwd? : String, env? : @js.Any, stdin? : String, stdout? : String, stderr? : String) -> Self
 async fn Command::output(Self) -> CommandOutput
 #alias(output_sync)
 fn Command::outputSync(Self) -> CommandOutput
 fn Command::spawn(Self) -> ChildProcess
-impl @js.JsImpl for Command
 
 #external
 pub type CommandOutput
+fn CommandOutput::as_any(Self) -> @nostd.Any
 fn CommandOutput::code(Self) -> Int
 fn CommandOutput::signal(Self) -> String?
 fn CommandOutput::stderr(Self) -> @typedarray.Uint8Array
 fn CommandOutput::stdout(Self) -> @typedarray.Uint8Array
 fn CommandOutput::success(Self) -> Bool
-impl @js.JsImpl for CommandOutput
 
 #external
 pub type CommandStatus
+fn CommandStatus::as_any(Self) -> @nostd.Any
 fn CommandStatus::code(Self) -> Int
 fn CommandStatus::signal(Self) -> String?
 fn CommandStatus::success(Self) -> Bool
-impl @js.JsImpl for CommandStatus
 
 #external
 pub type Deno
 fn Deno::args(Self) -> Array[String]
+fn Deno::as_any(Self) -> @nostd.Any
 fn Deno::build_arch(Self) -> String
 fn Deno::build_os(Self) -> String
 async fn Deno::chmod(Self, String, Int) -> Unit
@@ -104,11 +105,12 @@ fn Deno::test_async(Self, String, async (TestContext) -> Unit) -> Unit
 fn Deno::test_only(Self, String, async (TestContext) -> Unit) -> Unit
 async fn Deno::truncate(Self, String, Int) -> Unit
 fn Deno::uid(Self) -> Int?
-async fn Deno::writeFile(Self, String, &@js.JsImpl) -> Unit
+async fn Deno::writeFile(Self, String, @nostd.Any) -> Unit
 async fn Deno::writeTextFile(Self, String, String) -> Unit
 
 #external
 pub type FsFile
+fn FsFile::as_any(Self) -> @nostd.Any
 fn FsFile::close(Self) -> Unit
 async fn FsFile::read(Self, @js.Any) -> Int
 async fn FsFile::seek(Self, Int, Int) -> Int
@@ -119,11 +121,10 @@ pub type PermissionStatus
 fn PermissionStatus::as_any(Self) -> @nostd.Any
 fn PermissionStatus::is_granted(Self) -> Bool
 fn PermissionStatus::state(Self) -> String
-impl @js.JsImpl for PermissionStatus
 
 #external
 pub type TestContext
-impl @js.JsImpl for TestContext
+fn TestContext::as_any(Self) -> @nostd.Any
 
 // Type aliases
 

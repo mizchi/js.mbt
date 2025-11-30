@@ -37,7 +37,9 @@ test "useCallback" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = useState(0)
-    let on_click = useCallback(fn() { set_count(count + 1) }, [count])
+    let on_click = useCallback(fn() { set_count(count + 1) }, [
+      @nostd.any(count),
+    ])
     @react_element.div([
       @react_element.span(["Count: \{count}"]),
       @react_element.button(on_click=_ => on_click(), ["increment"]),
@@ -101,7 +103,7 @@ test "useMemo" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = useState(1)
-    let doubled = useMemo(fn() { count * 2 }, [count])
+    let doubled = useMemo(fn() { count * 2 }, [@nostd.any(count)])
     @react_element.div([
       @react_element.span(["Doubled: \{doubled}"]),
       @react_element.button(on_click=_ => set_count(count + 1), ["increment"]),

@@ -13,8 +13,7 @@ extern "js" fn async_local_storage_constructor() -> @js.Any =
 pub type AsyncLocalStorage[T]
 
 ///|
-pub fn[T] AsyncLocalStorage::as_any(self : AsyncLocalStorage[T]) -> @nostd.Any =
-  "%identity"
+pub fn[T] AsyncLocalStorage::as_any(self : AsyncLocalStorage[T]) -> @nostd.Any = "%identity"
 
 ///|
 pub impl[T] @js.JsImpl for AsyncLocalStorage[T]

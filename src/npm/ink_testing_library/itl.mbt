@@ -11,13 +11,13 @@
 pub type InkTestingLibrary
 
 ///|
-pub impl @js.JsImpl for InkTestingLibrary
+pub fn InkTestingLibrary::as_any(self : InkTestingLibrary) -> @nostd.Any = "%identity"
 
 ///|
 /// Dynamic import for ink-testing-library module (internal)
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-extern "js" fn import_ink_testing_library_internal() -> @js.Promise[
+extern "js" fn import_ink_testing_library_internal() -> @nostd.Promise[
   InkTestingLibrary,
 ] =
   #| () => import("ink-testing-library")
@@ -40,7 +40,7 @@ pub async fn dynamic_import() -> InkTestingLibrary {
 pub type RenderResult
 
 ///|
-pub impl @js.JsImpl for RenderResult
+pub fn RenderResult::as_any(self : RenderResult) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: InkTestingLibrary.render(element)
@@ -49,15 +49,15 @@ pub fn InkTestingLibrary::render(
   self : InkTestingLibrary,
   element : @react.Element,
 ) -> RenderResult {
-  self.call1("render", element).cast()
+  self.as_any()["render"]._invoke([element.as_any()]).cast()
 }
 
 ///|
 /// JS: result.lastFrame()
 /// Returns the last rendered frame as a string, or None if nothing was rendered
 pub fn RenderResult::lastFrame(self : RenderResult) -> String? {
-  let result = self.call0("lastFrame")
-  if @js.is_undefined(result) || @js.is_null(result) {
+  let result = self.as_any()["lastFrame"]._invoke([])
+  if @nostd.is_undefined(result) || @nostd.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -68,11 +68,11 @@ pub fn RenderResult::lastFrame(self : RenderResult) -> String? {
 /// JS: result.frames
 /// Returns all rendered frames as an array
 pub fn RenderResult::frames(self : RenderResult) -> Array[String] {
-  let frames_arr = self.get("frames")
-  let len : Int = @js.identity(frames_arr.get("length"))
+  let frames_arr = self.as_any()["frames"]
+  let len : Int = frames_arr["length"].cast()
   let result : Array[String] = []
   for i = 0; i < len; i = i + 1 {
-    let frame : String = @js.identity(frames_arr.get(i.to_string()))
+    let frame : String = frames_arr[i.to_string()].cast()
     result.push(frame)
   }
   result
@@ -85,14 +85,14 @@ pub fn RenderResult::rerender(
   self : RenderResult,
   element : @react.Element,
 ) -> Unit {
-  self.call1("rerender", element) |> ignore
+  self.as_any()["rerender"]._invoke([element.as_any()]) |> ignore
 }
 
 ///|
 /// JS: result.unmount()
 /// Unmount the rendered component
 pub fn RenderResult::unmount(self : RenderResult) -> Unit {
-  self.call0("unmount") |> ignore
+  self.as_any()["unmount"]._invoke([]) |> ignore
 }
 
 // ============================================================
@@ -105,20 +105,20 @@ pub fn RenderResult::unmount(self : RenderResult) -> Unit {
 pub type Stdin
 
 ///|
-pub impl @js.JsImpl for Stdin
+pub fn Stdin::as_any(self : Stdin) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: result.stdin
 /// Get the stdin object for simulating input
 pub fn RenderResult::stdin(self : RenderResult) -> Stdin {
-  self.get("stdin").cast()
+  self.as_any()["stdin"].cast()
 }
 
 ///|
 /// JS: stdin.write(data)
 /// Write data to stdin to simulate user input
 pub fn Stdin::write(self : Stdin, data : String) -> Unit {
-  self.call1("write", data) |> ignore
+  self.as_any()["write"]._invoke([@nostd.any(data)]) |> ignore
 }
 
 // ============================================================
@@ -131,21 +131,21 @@ pub fn Stdin::write(self : Stdin, data : String) -> Unit {
 pub type Stdout
 
 ///|
-pub impl @js.JsImpl for Stdout
+pub fn Stdout::as_any(self : Stdout) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: result.stdout
 /// Get the stdout object
 pub fn RenderResult::stdout(self : RenderResult) -> Stdout {
-  self.get("stdout").cast()
+  self.as_any()["stdout"].cast()
 }
 
 ///|
 /// JS: stdout.lastFrame()
 /// Returns the last frame written to stdout
 pub fn Stdout::lastFrame(self : Stdout) -> String? {
-  let result = self.call0("lastFrame")
-  if @js.is_undefined(result) || @js.is_null(result) {
+  let result = self.as_any()["lastFrame"]._invoke([])
+  if @nostd.is_undefined(result) || @nostd.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -156,11 +156,11 @@ pub fn Stdout::lastFrame(self : Stdout) -> String? {
 /// JS: stdout.frames
 /// Returns all frames written to stdout
 pub fn Stdout::frames(self : Stdout) -> Array[String] {
-  let frames_arr = self.get("frames")
-  let len : Int = @js.identity(frames_arr.get("length"))
+  let frames_arr = self.as_any()["frames"]
+  let len : Int = frames_arr["length"].cast()
   let result : Array[String] = []
   for i = 0; i < len; i = i + 1 {
-    let frame : String = @js.identity(frames_arr.get(i.to_string()))
+    let frame : String = frames_arr[i.to_string()].cast()
     result.push(frame)
   }
   result
@@ -176,21 +176,21 @@ pub fn Stdout::frames(self : Stdout) -> Array[String] {
 pub type Stderr
 
 ///|
-pub impl @js.JsImpl for Stderr
+pub fn Stderr::as_any(self : Stderr) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: result.stderr
 /// Get the stderr object
 pub fn RenderResult::stderr(self : RenderResult) -> Stderr {
-  self.get("stderr").cast()
+  self.as_any()["stderr"].cast()
 }
 
 ///|
 /// JS: stderr.lastFrame()
 /// Returns the last frame written to stderr
 pub fn Stderr::lastFrame(self : Stderr) -> String? {
-  let result = self.call0("lastFrame")
-  if @js.is_undefined(result) || @js.is_null(result) {
+  let result = self.as_any()["lastFrame"]._invoke([])
+  if @nostd.is_undefined(result) || @nostd.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -201,11 +201,11 @@ pub fn Stderr::lastFrame(self : Stderr) -> String? {
 /// JS: stderr.frames
 /// Returns all frames written to stderr
 pub fn Stderr::frames(self : Stderr) -> Array[String] {
-  let frames_arr = self.get("frames")
-  let len : Int = @js.identity(frames_arr.get("length"))
+  let frames_arr = self.as_any()["frames"]
+  let len : Int = frames_arr["length"].cast()
   let result : Array[String] = []
   for i = 0; i < len; i = i + 1 {
-    let frame : String = @js.identity(frames_arr.get(i.to_string()))
+    let frame : String = frames_arr[i.to_string()].cast()
     result.push(frame)
   }
   result

@@ -2,13 +2,13 @@
 package "mizchi/js/npm/ajv"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn schema() -> @js.Any
+fn schema() -> @nostd.Any
 
-fn schema_from_json(String) -> @js.Any raise @js.ThrowError
+fn schema_from_json(String) -> @nostd.Any
 
 // Errors
 
@@ -16,30 +16,29 @@ fn schema_from_json(String) -> @js.Any raise @js.ThrowError
 #external
 pub type Ajv
 #alias(add_schema)
-fn Ajv::addSchema(Self, @js.Any, key? : String) -> Self
-fn Ajv::compile(Self, @js.Any) -> ValidateFunction
-fn Ajv::errors(Self) -> @js.Any
+fn Ajv::addSchema(Self, @nostd.Any, key? : String) -> Self
+fn Ajv::as_any(Self) -> @nostd.Any
+fn Ajv::compile(Self, @nostd.Any) -> ValidateFunction
+fn Ajv::errors(Self) -> @nostd.Any
 #alias(get_schema)
 fn Ajv::getSchema(Self, String) -> ValidateFunction?
 fn Ajv::new(all_errors? : Bool, verbose? : Bool, strict? : Bool, coerce_types? : Bool, use_defaults? : Bool, remove_additional? : Bool) -> Self
 #alias(remove_schema)
 fn Ajv::removeSchema(Self, String) -> Self
-fn Ajv::validate(Self, @js.Any, @js.Any) -> Bool
-impl @js.JsImpl for Ajv
+fn Ajv::validate(Self, @nostd.Any, @nostd.Any) -> Bool
 
 #external
 pub type ValidateFunction
-fn ValidateFunction::call(Self, @js.Any) -> Bool
-fn ValidateFunction::errors(Self) -> @js.Any
+fn ValidateFunction::as_any(Self) -> @nostd.Any
+fn ValidateFunction::errors(Self) -> @nostd.Any
 fn ValidateFunction::errors_array(Self) -> Array[ValidationError]
-fn ValidateFunction::validate(Self, @js.Any) -> Bool
-impl @js.JsImpl for ValidateFunction
+fn ValidateFunction::validate(Self, @nostd.Any) -> Bool
 
 pub struct ValidationError {
   instance_path : String
   schema_path : String
   keyword : String
-  params : @js.Any
+  params : @nostd.Any
   message : String?
 }
 

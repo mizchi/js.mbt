@@ -4,6 +4,7 @@ package "mizchi/js/node/process"
 import(
   "mizchi/js"
   "mizchi/js/node/tty"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -42,10 +43,12 @@ fn versions() -> @js.Object
 // Types and methods
 #external
 pub type Process
+fn Process::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for Process
 
 #external
 pub type ProcessEnv
+fn ProcessEnv::as_any(Self) -> @nostd.Any
 fn ProcessEnv::get(Self, String) -> String?
 fn ProcessEnv::has(Self, String) -> Bool
 

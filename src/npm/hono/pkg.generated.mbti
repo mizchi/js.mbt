@@ -2,7 +2,7 @@
 package "mizchi/js/npm/hono"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/npm/better_auth"
   "mizchi/js/web/http"
 )
@@ -33,17 +33,17 @@ fn hc(String) -> HonoClient
 fn html(String) -> HtmlEscapedString
 
 #alias(h)
-fn jsx(String, Array[&HonoNode], props? : Map[String, @js.Any], style? : Map[String, String], class? : &CssClassName, id? : String, key? : String) -> JSXNode
+fn jsx(String, Array[&HonoNode], props? : Map[String, @nostd.Any], style? : Map[String, String], class? : &CssClassName, id? : String, key? : String) -> JSXNode
 
 fn[T] jsx_component((T) -> JSXNode, T, children? : Array[&HonoNode], key? : String) -> JSXNode
 
 fn jwt_decode(String) -> JwtDecoded
 
-async fn jwt_sign(@js.Any, String, alg? : JwtAlgorithm) -> String
+async fn jwt_sign(@nostd.Any, String, alg? : JwtAlgorithm) -> String
 
 async fn jwt_sign_payload(JwtPayload, String, alg? : JwtAlgorithm) -> String
 
-async fn jwt_verify(String, String, alg? : JwtAlgorithm) -> @js.Any
+async fn jwt_verify(String, String, alg? : JwtAlgorithm) -> @nostd.Any
 
 fn keyframes(String) -> CssClass
 
@@ -53,13 +53,13 @@ fn[Env, ExecutionContext] mount_auth(Hono[Env, ExecutionContext], @better_auth.A
 
 fn raw(String) -> JSXNode
 
-fn render_to_readable_stream(JSXNode) -> @js.Any
+fn render_to_readable_stream(JSXNode) -> @nostd.Any
 
 fn render_to_string(JSXNode) -> String
 
-fn[Env, ExecutionContext] set_cookie(Context[Env, ExecutionContext], String, String, domain? : String, expires? : @js.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
+fn[Env, ExecutionContext] set_cookie(Context[Env, ExecutionContext], String, String, domain? : String, expires? : @nostd.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
 
-async fn[Env, ExecutionContext] set_signed_cookie(Context[Env, ExecutionContext], String, String, String, domain? : String, expires? : @js.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
+async fn[Env, ExecutionContext] set_signed_cookie(Context[Env, ExecutionContext], String, String, String, domain? : String, expires? : @nostd.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
 
 fn style_component(nonce? : String) -> JSXNode
 
@@ -73,35 +73,36 @@ fn[T] use_context(HonoContext[T]) -> T
 
 // Types and methods
 pub type ClientEndpoint
-async fn ClientEndpoint::delete_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
-async fn ClientEndpoint::get_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
-async fn ClientEndpoint::patch_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
-async fn ClientEndpoint::post_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
-async fn ClientEndpoint::put_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> ClientResponse
-fn ClientEndpoint::url_(Self, query? : @js.Any, form? : @js.Any, json? : @js.Any, param? : @js.Any, header? : @js.Any, init? : @js.Any) -> String
-impl @js.JsImpl for ClientEndpoint
+fn ClientEndpoint::as_any(Self) -> @nostd.Any
+async fn ClientEndpoint::delete_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
+async fn ClientEndpoint::get_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
+async fn ClientEndpoint::patch_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
+async fn ClientEndpoint::post_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
+async fn ClientEndpoint::put_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
+fn ClientEndpoint::url_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> String
 
 pub type ClientResponse
 #alias(array_buffer)
-async fn ClientResponse::arrayBuffer(Self) -> @js.ArrayBuffer
-async fn ClientResponse::blob(Self) -> @js.Any
-fn ClientResponse::headers(Self) -> @js.Any
-async fn ClientResponse::json(Self) -> @js.Any
+async fn ClientResponse::arrayBuffer(Self) -> @nostd.Any
+fn ClientResponse::as_any(Self) -> @nostd.Any
+async fn ClientResponse::blob(Self) -> @nostd.Any
+fn ClientResponse::headers(Self) -> @nostd.Any
+async fn ClientResponse::json(Self) -> @nostd.Any
 fn ClientResponse::ok(Self) -> Bool
 fn ClientResponse::status(Self) -> Int
 async fn ClientResponse::text(Self) -> String
-impl @js.JsImpl for ClientResponse
 
 pub(all) struct Context[Env, ExecutionContext] {
   req : HonoRequest
   env : Env
   executionCtx : ExecutionContext
 }
-fn[Env, ExecutionContext] Context::body(Self[Env, ExecutionContext], String, status? : Int, headers? : @js.Any) -> @http.Response
+fn[Env, ExecutionContext] Context::as_any(Self[Env, ExecutionContext]) -> @nostd.Any
+fn[Env, ExecutionContext] Context::body(Self[Env, ExecutionContext], String, status? : Int, headers? : @nostd.Any) -> @http.Response
 #alias(execution_ctx)
 fn[Env, ExecutionContext] Context::executionCtx(Self[Env, ExecutionContext]) -> ExecutionContext
 #alias(get_value)
-fn[Env, ExecutionContext] Context::getValue(Self[Env, ExecutionContext], String) -> @js.Any
+fn[Env, ExecutionContext] Context::getValue(Self[Env, ExecutionContext], String) -> @nostd.Any
 fn[Env, ExecutionContext] Context::header(Self[Env, ExecutionContext], String, String) -> Unit
 fn[Env, ExecutionContext] Context::html(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
 fn[Env, ExecutionContext] Context::html_jsx(Self[Env, ExecutionContext], JSXNode, status? : Int) -> @http.Response
@@ -111,34 +112,34 @@ fn[Env, ExecutionContext] Context::notFound(Self[Env, ExecutionContext]) -> @htt
 fn[Env, ExecutionContext] Context::redirect(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
 fn[Env, ExecutionContext] Context::render(Self[Env, ExecutionContext], String) -> @http.Response
 fn[Env, ExecutionContext] Context::res(Self[Env, ExecutionContext]) -> @http.Response
-fn[Env, ExecutionContext] Context::set(Self[Env, ExecutionContext], String, @js.Any) -> Unit
+fn[Env, ExecutionContext] Context::set(Self[Env, ExecutionContext], String, @nostd.Any) -> Unit
 #alias(set_renderer)
 fn[Env, ExecutionContext] Context::setRenderer(Self[Env, ExecutionContext], (String) -> @http.Response) -> Unit
 fn[Env, ExecutionContext] Context::status(Self[Env, ExecutionContext], Int) -> Unit
 async fn[Env, ExecutionContext] Context::stream_jsx(Self[Env, ExecutionContext], JSXNode, status? : Int) -> @http.Response
 fn[Env, ExecutionContext] Context::text(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
-fn[Env, ExecutionContext] Context::var_(Self[Env, ExecutionContext], String) -> @js.Any
-impl[Env, ExecutionContext] @js.JsImpl for Context[Env, ExecutionContext]
+fn[Env, ExecutionContext] Context::var_(Self[Env, ExecutionContext], String) -> @nostd.Any
 
 #external
 pub type CorsMiddleware
-impl @js.JsImpl for CorsMiddleware
+fn CorsMiddleware::as_any(Self) -> @nostd.Any
 
 #external
 pub type CssClass
+fn CssClass::as_any(Self) -> @nostd.Any
 fn CssClass::to_string(Self) -> String
-impl @js.JsImpl for CssClass
 impl CssClassName for CssClass
 
 #external
 pub type Hono[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::all(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::as_any(Self[Env, ExecutionContext]) -> @nostd.Any
 #alias(base_path)
 fn[Env, ExecutionContext] Hono::basePath(Self[Env, ExecutionContext], String) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::cors(Self[Env, ExecutionContext], String, origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::cors_all(Self[Env, ExecutionContext], origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::delete(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::fetch(Self[Env, ExecutionContext], @http.Request) -> @js.Promise[@http.Response]
+fn[Env, ExecutionContext] Hono::fetch(Self[Env, ExecutionContext], @http.Request) -> @nostd.Promise[@http.Response]
 fn[Env, ExecutionContext] Hono::fire(Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::get(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::mount(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
@@ -146,56 +147,55 @@ fn[Env, ExecutionContext] Hono::new(strict? : Bool) -> Self[Env, ExecutionContex
 #alias(not_found)
 fn[Env, ExecutionContext] Hono::notFound(Self[Env, ExecutionContext], async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 #alias(on_error)
-fn[Env, ExecutionContext] Hono::onError(Self[Env, ExecutionContext], (@js.Any, Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::onError(Self[Env, ExecutionContext], (@nostd.Any, Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::options(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::patch(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::post(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::put(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 fn[Env, ExecutionContext] Hono::route(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::use_(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext], () -> @js.Promise[@http.Response]) -> @js.Promise[@http.Response]) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::useall(Self[Env, ExecutionContext], (Context[Env, ExecutionContext], () -> @js.Promise[@http.Response]) -> @js.Promise[@http.Response]) -> Self[Env, ExecutionContext]
-impl[Env, ExecutionContext] @js.JsImpl for Hono[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::use_(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext], () -> @nostd.Promise[@http.Response]) -> @nostd.Promise[@http.Response]) -> Self[Env, ExecutionContext]
+fn[Env, ExecutionContext] Hono::useall(Self[Env, ExecutionContext], (Context[Env, ExecutionContext], () -> @nostd.Promise[@http.Response]) -> @nostd.Promise[@http.Response]) -> Self[Env, ExecutionContext]
 
 pub type HonoClient
+fn HonoClient::as_any(Self) -> @nostd.Any
 fn HonoClient::path(Self, String) -> ClientEndpoint
-impl @js.JsImpl for HonoClient
 
 #external
 pub type HonoContext[T]
-impl[T] @js.JsImpl for HonoContext[T]
+fn[T] HonoContext::as_any(Self[T]) -> @nostd.Any
 
 pub(all) struct HonoRequest {
   url : String
   bodyUsed : Bool
 }
 #alias(array_buffer)
-async fn HonoRequest::arrayBuffer(Self) -> @js.ArrayBuffer
-async fn HonoRequest::blob(Self) -> @js.Any
+async fn HonoRequest::arrayBuffer(Self) -> @nostd.Any
+fn HonoRequest::as_any(Self) -> @nostd.Any
+async fn HonoRequest::blob(Self) -> @nostd.Any
 #alias(form_data)
 async fn HonoRequest::formData(Self) -> @http.FormData
 fn HonoRequest::header(Self, String) -> String?
-async fn HonoRequest::json(Self) -> @js.Any
+async fn HonoRequest::json(Self) -> @nostd.Any
 fn HonoRequest::method_(Self) -> String
 fn HonoRequest::param(Self, String) -> String?
 #alias(param_all)
-fn HonoRequest::paramAll(Self) -> @js.Any
+fn HonoRequest::paramAll(Self) -> @nostd.Any
 #alias(parse_body)
-async fn HonoRequest::parseBody(Self, options? : @js.Any) -> @js.Any
+async fn HonoRequest::parseBody(Self, options? : @nostd.Any) -> @nostd.Any
 fn HonoRequest::path(Self) -> String
 fn HonoRequest::query(Self, String) -> String?
 #alias(query_all)
-fn HonoRequest::queryAll(Self) -> @js.Any
+fn HonoRequest::queryAll(Self) -> @nostd.Any
 async fn HonoRequest::text(Self) -> String
-impl @js.JsImpl for HonoRequest
 
 #external
 pub type HtmlEscapedString
-impl @js.JsImpl for HtmlEscapedString
+fn HtmlEscapedString::as_any(Self) -> @nostd.Any
 impl HonoNode for HtmlEscapedString
 
 #external
 pub type JSXNode
-impl @js.JsImpl for JSXNode
+fn JSXNode::as_any(Self) -> @nostd.Any
 impl HonoNode for JSXNode
 
 pub(all) enum JwtAlgorithm {
@@ -215,8 +215,8 @@ pub(all) enum JwtAlgorithm {
 }
 
 pub struct JwtDecoded {
-  header : @js.Any
-  payload : @js.Any
+  header : @nostd.Any
+  payload : @nostd.Any
 }
 
 pub(all) struct JwtPayload {
@@ -235,16 +235,16 @@ pub type FC[T] = (T) -> JSXNode
 
 pub type Handler[Env, ExecutionContext] = async (Context[Env, ExecutionContext]) -> @http.Response
 
-pub type Middleware[Env, ExecutionContext] = (Context[Env, ExecutionContext], () -> @js.Promise[@http.Response]) -> @js.Promise[@http.Response]
+pub type Middleware[Env, ExecutionContext] = (Context[Env, ExecutionContext], () -> @nostd.Promise[@http.Response]) -> @nostd.Promise[@http.Response]
 
 // Traits
 pub trait CssClassName {
-  value(Self) -> @js.Any
+  value(Self) -> @nostd.Any
 }
 impl CssClassName for String
 
 pub trait HonoNode {
-  toHonoNode(Self) -> @js.Any
+  toHonoNode(Self) -> @nostd.Any
 }
 impl HonoNode for Bool
 impl HonoNode for Int

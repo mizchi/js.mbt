@@ -10,9 +10,6 @@ pub type PermissionStatus
 pub fn PermissionStatus::as_any(self : PermissionStatus) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for PermissionStatus
-
-///|
 /// Get permission state ("granted", "denied", "prompt")
 pub fn PermissionStatus::state(self : PermissionStatus) -> String {
   self.as_any()["state"].cast()
@@ -27,7 +24,7 @@ pub fn PermissionStatus::is_granted(self : PermissionStatus) -> Bool {
 ///|
 /// Get permissions object
 pub fn Deno::permissions(self : Deno) -> @js.Any {
-  self.get("permissions")
+  self.as_any()["permissions"].cast()
 }
 
 ///|
@@ -37,14 +34,13 @@ pub async fn Deno::permissions_query(
   name : String,
   path? : String,
 ) -> PermissionStatus {
-  let perms = self.permissions()
+  let perms : @nostd.Any = self.permissions().cast()
+  let opts : @nostd.Any = @js.from_option_map({
+    "name": Some(@js.any(name)),
+    "path": path.map(fn(x) { @js.any(x) }),
+  }).cast()
   let promise : @js.Promise[PermissionStatus] = perms
-    .call("query", [
-      @js.from_option_map({
-        "name": Some(@js.any(name)),
-        "path": path.map(fn(x) { @js.any(x) }),
-      }),
-    ])
+    ._call("query", [opts])
     .cast()
   promise.wait()
 }
@@ -56,14 +52,13 @@ pub async fn Deno::permissions_request(
   name : String,
   path? : String,
 ) -> PermissionStatus {
-  let perms = self.permissions()
+  let perms : @nostd.Any = self.permissions().cast()
+  let opts : @nostd.Any = @js.from_option_map({
+    "name": Some(@js.any(name)),
+    "path": path.map(fn(x) { @js.any(x) }),
+  }).cast()
   let promise : @js.Promise[PermissionStatus] = perms
-    .call("request", [
-      @js.from_option_map({
-        "name": Some(@js.any(name)),
-        "path": path.map(fn(x) { @js.any(x) }),
-      }),
-    ])
+    ._call("request", [opts])
     .cast()
   promise.wait()
 }
@@ -75,14 +70,13 @@ pub async fn Deno::permissions_revoke(
   name : String,
   path? : String,
 ) -> PermissionStatus {
-  let perms = self.permissions()
+  let perms : @nostd.Any = self.permissions().cast()
+  let opts : @nostd.Any = @js.from_option_map({
+    "name": Some(@js.any(name)),
+    "path": path.map(fn(x) { @js.any(x) }),
+  }).cast()
   let promise : @js.Promise[PermissionStatus] = perms
-    .call("revoke", [
-      @js.from_option_map({
-        "name": Some(@js.any(name)),
-        "path": path.map(fn(x) { @js.any(x) }),
-      }),
-    ])
+    ._call("revoke", [opts])
     .cast()
   promise.wait()
 }

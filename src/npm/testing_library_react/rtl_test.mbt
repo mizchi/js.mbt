@@ -317,7 +317,8 @@ test "configure function exists" {
   defer @testing_library_react.cleanup()
   // Just test that configure can be called without error
   let config = @js.Object::new()
-  configure(config.as_any())
+  let config_any : @nostd.Any = config.as_any().cast()
+  configure(config_any)
 }
 
 ///| React Hooks Tests with renderHook
@@ -334,8 +335,8 @@ test "renderHook: useState" {
   let result = renderHook(@js.identity(hook))
   let hook_result = result.result()
   // result.current is the hook return value
-  let current = hook_result.get("current")
-  let state : Int = @js.identity(current)
+  let current = hook_result["current"]
+  let state : Int = current.cast()
   assert_eq(state, 0)
 }
 
@@ -351,8 +352,8 @@ test "renderHook: useState with updates" {
   }
   let result = renderHook(@js.identity(hook))
   // Get initial state
-  let current1 = result.result().get("current")
-  let state1 : Int = @js.identity(current1)
+  let current1 = result.result()["current"]
+  let state1 : Int = current1.cast()
   assert_eq(state1, 0)
   // Note: Testing state updates with renderHook requires more complex setup
   // For now, we verify the hook returns the correct initial value
@@ -375,8 +376,8 @@ test "renderHook: useEffect" {
     count
   }
   let result = renderHook(@js.identity(hook))
-  let current = result.result().get("current")
-  let count : Int = @js.identity(current)
+  let current = result.result()["current"]
+  let count : Int = current.cast()
   // After useEffect runs, count should be 1
   assert_eq(count, 1)
 }
@@ -388,12 +389,12 @@ test "renderHook: useCallback" {
   defer @testing_library_react.cleanup()
   let hook = fn() {
     let (count, _set_count) = @react.use_state(0)
-    @react.useCallback(fn() { count * 2 }, [count])
+    @react.useCallback(fn() { count * 2 }, [@nostd.any(count)])
   }
   let result = renderHook(@js.identity(hook))
-  let current = result.result().get("current")
+  let current = result.result()["current"]
   // callback is a function
-  @js.typeof_(current) |> assert_eq("function")
+  @nostd.typeof_(current) |> assert_eq("function")
 }
 
 ///|
@@ -403,11 +404,11 @@ test "renderHook: useMemo" {
   defer @testing_library_react.cleanup()
   let hook = fn() {
     let (count, _set_count) = @react.use_state(5)
-    @react.useMemo(fn() { count * 2 }, [count])
+    @react.useMemo(fn() { count * 2 }, [@nostd.any(count)])
   }
   let result = renderHook(@js.identity(hook))
-  let current = result.result().get("current")
-  let doubled : Int = @js.identity(current)
+  let current = result.result()["current"]
+  let doubled : Int = current.cast()
   assert_eq(doubled, 10)
 }
 
@@ -418,9 +419,9 @@ test "renderHook: useRef" {
   defer @testing_library_react.cleanup()
   let hook = fn() { @react.useRef(Some(42)) }
   let result = renderHook(@js.identity(hook))
-  let current = result.result().get("current")
+  let current = result.result()["current"]
   // ref has a current property
-  let ref_current = current.get("current")
+  let ref_current = current["current"]
   let value : Int = @js.identity(ref_current)
   assert_eq(value, 42)
 }
@@ -433,8 +434,8 @@ test "renderHook: useContext" {
   let ctx : @react.Context[Int] = @react.create_context(Some(100))
   let hook = fn() { @react.use_context(ctx) }
   let result = renderHook(@js.identity(hook))
-  let current = result.result().get("current")
-  let value : Int = @js.identity(current)
+  let current = result.result()["current"]
+  let value : Int = current.cast()
   assert_eq(value, 100)
 }
 
@@ -449,8 +450,8 @@ test "renderHook: useReducer" {
     state
   }
   let result = renderHook(@js.identity(hook))
-  let current = result.result().get("current")
-  let state : Int = @js.identity(current)
+  let current = result.result()["current"]
+  let state : Int = current.cast()
   assert_eq(state, 0)
   // Note: Testing dispatch with renderHook requires more complex setup
   // For now, we verify the hook returns the correct initial state
@@ -468,14 +469,14 @@ test "renderHook: rerender method" {
     count * multiplier_ref.val
   }
   let result = renderHook(@js.identity(hook))
-  let current1 = result.result().get("current")
-  let value1 : Int = @js.identity(current1)
+  let current1 = result.result()["current"]
+  let value1 : Int = current1.cast()
   assert_eq(value1, 20)
   // Change multiplier and rerender
   multiplier_ref.val = 3
-  result.rerender(@js.undefined())
-  let current2 = result.result().get("current")
-  let value2 : Int = @js.identity(current2)
+  result.rerender(@nostd.undefined())
+  let current2 = result.result()["current"]
+  let value2 : Int = current2.cast()
   assert_eq(value2, 30)
 }
 
@@ -487,8 +488,8 @@ test "renderHook: unmount method" {
   let hook = fn() { @react.use_state(0) }
   let result = renderHook(@js.identity(hook))
   // Verify hook is mounted
-  let current = result.result().get("current")
-  @js.typeof_(current) |> assert_eq("object")
+  let current = result.result()["current"]
+  @nostd.typeof_(current) |> assert_eq("object")
   // Unmount should not throw
   result.unmount()
 }

@@ -4,6 +4,7 @@
   ],
   "import": [
     "mizchi/js",
+    "mizchi/js/nostd",
     "mizchi/js/npm/react",
     "mizchi/js/web/url"
   ]

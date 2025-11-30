@@ -379,7 +379,7 @@ async test "SSR async component then hydrate" {
   inspect(html, content="<article><p>loaded</p></article>")
   // 2. Set up DOM
   let container = get_container()
-  container.set("innerHTML", @nostd.any(html))
+  container.set("innerHTML", @js.any(html))
   // 3. Hydrate
   hydrate(component(async_app, ()), container)
   let inner_html : String = container.get("innerHTML").cast()

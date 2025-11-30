@@ -45,10 +45,28 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 - [x] `src/web/streams/stream` - 全ての stream 型に `as_any()` 追加
 - [x] `src/web/streams/compression` - `as_any()` 追加
 - [x] `@js.JsImpl` trait - `to_any` → `as_any` リネーム (TypeScript `as T` 構文に合わせて)
+- [x] `src/npm/ink` - nostd 移行完了、`as_any()` 追加
+- [x] `src/npm/ink_testing_library` - nostd 移行完了
+- [x] `src/npm/ink_ui` - nostd 移行完了
+- [x] `src/npm/react` - nostd 移行完了、`lazy_` 修正 (非async化)
+- [x] `src/npm/react_element` - nostd 移行完了、`ref_` 処理修正
+- [x] `src/npm/react_dom` - nostd 移行完了
+- [x] `src/npm/react_dom_client` - nostd 移行完了
+- [x] `src/npm/react_dom_server` - nostd 移行完了
+- [x] `src/npm/react_dom_static` - nostd 移行完了
+- [x] `src/npm/react_router` - nostd 移行完了
+- [x] `src/npm/testing_library_react` - nostd 移行完了
+- [x] `src/npm/testing_library_preact` - nostd 移行完了
+- [x] `src/npm/hono` - nostd 移行完了 (`@nostd.typeof_`, `@nostd.Object::new()` 使用)
+- [x] `src/npm/preact` - nostd 移行完了
+- [x] `src/npm/msw` - nostd 移行完了
+- [x] `src/npm/ajv` - nostd 移行完了
+- [x] `src/deno` - nostd 移行完了 (Deno, FsFile, TestContext, Command, ChildProcess, CommandOutput, CommandStatus, PermissionStatus)
 
 ### Progress
 
-- 残り: 約 100 パッケージ
+- npm パッケージの主要部分は移行完了
+- テスト: 2357 件パス
 
 ### In Progress
 
@@ -57,6 +75,11 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 - [ ] `src/builtins/weak` - `K : @js.JsImpl` trait 制約使用
 - [ ] `src/web/blob` - `@js.Promise`, `@js.ArrayBuffer`, `Array[&@js.JsImpl]` 依存
 - [ ] `src/node/` パッケージ群 - `&@js.JsImpl` trait 参照使用
+
+### Deferred (要設計検討)
+
+- [ ] `src/npm/ai` - `@js.JsImpl` を多用、`@reflect.apply`/`@reflect.construct` の引数型問題
+- [ ] `src/npm/drizzle` - `@js.JsImpl` trait 制約を広範に使用
 
 ### Blocked Patterns
 

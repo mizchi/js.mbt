@@ -408,8 +408,7 @@ pub impl EventImpl for HashChangeEvent
 pub type BeforeUnloadEvent
 
 ///|
-pub fn BeforeUnloadEvent::as_any(self : BeforeUnloadEvent) -> @nostd.Any =
-  "%identity"
+pub fn BeforeUnloadEvent::as_any(self : BeforeUnloadEvent) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for BeforeUnloadEvent

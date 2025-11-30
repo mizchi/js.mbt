@@ -4,6 +4,7 @@ package "mizchi/js/browser/dom"
 import(
   "mizchi/js"
   "mizchi/js/browser/history"
+  "mizchi/js/nostd"
   "mizchi/js/web/blob"
   "mizchi/js/web/event"
   "mizchi/js/web/http"
@@ -50,6 +51,7 @@ impl Show for AnimationEvent
 
 #external
 pub type BeforeUnloadEvent
+fn BeforeUnloadEvent::as_any(Self) -> @nostd.Any
 #alias(return_value)
 fn BeforeUnloadEvent::returnValue(Self) -> String
 #alias(set_return_value)
@@ -59,6 +61,7 @@ impl EventImpl for BeforeUnloadEvent
 
 #external
 pub type CSSRule
+fn CSSRule::as_any(Self) -> @nostd.Any
 fn CSSRule::css_text(Self) -> String
 fn CSSRule::parent_rule(Self) -> Self?
 fn CSSRule::parent_stylesheet(Self) -> CSSStyleSheet?
@@ -80,6 +83,7 @@ impl @js.JsImpl for CSSStyleDeclaration
 
 #external
 pub type CSSStyleSheet
+fn CSSStyleSheet::as_any(Self) -> @nostd.Any
 fn CSSStyleSheet::cssRules(Self) -> @js.Any
 fn CSSStyleSheet::deleteRule(Self, Int) -> Unit
 fn CSSStyleSheet::disabled(Self) -> Bool
@@ -166,6 +170,7 @@ impl @js.JsImpl for DataTransfer
 
 #external
 pub type DataTransferItem
+fn DataTransferItem::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for DataTransferItem
 
 #external
@@ -228,6 +233,7 @@ impl @event.EventTargetImpl for Document
 
 #external
 pub type DocumentFragment
+fn DocumentFragment::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for DocumentFragment
 impl NodeImpl for DocumentFragment
 impl @event.EventTargetImpl for DocumentFragment
@@ -247,11 +253,13 @@ impl @event.EventTargetImpl for Element
 
 #external
 pub type Event
+fn Event::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for Event
 impl EventImpl for Event
 
 #external
 pub type FocusEvent
+fn FocusEvent::as_any(Self) -> @nostd.Any
 fn FocusEvent::relatedTarget(Self) -> Element?
 impl EventImpl for FocusEvent
 
@@ -273,6 +281,7 @@ impl @event.EventTargetImpl for HTMLAnchorElement
 
 #external
 pub type HTMLBodyElement
+fn HTMLBodyElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLBodyElement
 impl ElementImpl for HTMLBodyElement
 impl HTMLElementImpl for HTMLBodyElement
@@ -304,6 +313,7 @@ impl Show for HTMLCanvasElement
 
 #external
 pub type HTMLDivElement
+fn HTMLDivElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLDivElement
 impl ElementImpl for HTMLDivElement
 impl HTMLElementImpl for HTMLDivElement
@@ -312,6 +322,7 @@ impl @event.EventTargetImpl for HTMLDivElement
 
 #external
 pub type HTMLElement
+fn HTMLElement::as_any(Self) -> @nostd.Any
 fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
 fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
 impl @js.JsImpl for HTMLElement
@@ -322,6 +333,7 @@ impl @event.EventTargetImpl for HTMLElement
 
 #external
 pub type HTMLFormElement
+fn HTMLFormElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLFormElement
 impl ElementImpl for HTMLFormElement
 impl HTMLElementImpl for HTMLFormElement
@@ -330,6 +342,7 @@ impl @event.EventTargetImpl for HTMLFormElement
 
 #external
 pub type HTMLHeadElement
+fn HTMLHeadElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLHeadElement
 impl ElementImpl for HTMLHeadElement
 impl HTMLElementImpl for HTMLHeadElement
@@ -338,6 +351,7 @@ impl @event.EventTargetImpl for HTMLHeadElement
 
 #external
 pub type HTMLHeadingElement
+fn HTMLHeadingElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLHeadingElement
 impl ElementImpl for HTMLHeadingElement
 impl HTMLElementImpl for HTMLHeadingElement
@@ -346,6 +360,7 @@ impl @event.EventTargetImpl for HTMLHeadingElement
 
 #external
 pub type HTMLHtmlElement
+fn HTMLHtmlElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLHtmlElement
 impl ElementImpl for HTMLHtmlElement
 impl HTMLElementImpl for HTMLHtmlElement
@@ -394,6 +409,7 @@ impl @event.EventTargetImpl for HTMLInputElement
 
 #external
 pub type HTMLLIElement
+fn HTMLLIElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLLIElement
 impl ElementImpl for HTMLLIElement
 impl HTMLElementImpl for HTMLLIElement
@@ -411,6 +427,7 @@ impl @event.EventTargetImpl for HTMLLabelElement
 
 #external
 pub type HTMLOListElement
+fn HTMLOListElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLOListElement
 impl ElementImpl for HTMLOListElement
 impl HTMLElementImpl for HTMLOListElement
@@ -429,6 +446,7 @@ impl @event.EventTargetImpl for HTMLOptionElement
 
 #external
 pub type HTMLParagraphElement
+fn HTMLParagraphElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLParagraphElement
 impl ElementImpl for HTMLParagraphElement
 impl HTMLElementImpl for HTMLParagraphElement
@@ -447,6 +465,7 @@ impl @event.EventTargetImpl for HTMLSelectElement
 
 #external
 pub type HTMLSpanElement
+fn HTMLSpanElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLSpanElement
 impl ElementImpl for HTMLSpanElement
 impl HTMLElementImpl for HTMLSpanElement
@@ -469,6 +488,7 @@ impl @event.EventTargetImpl for HTMLTextAreaElement
 
 #external
 pub type HTMLUListElement
+fn HTMLUListElement::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for HTMLUListElement
 impl ElementImpl for HTMLUListElement
 impl HTMLElementImpl for HTMLUListElement
@@ -586,6 +606,7 @@ impl Show for PointerEvent
 
 #external
 pub type PopStateEvent
+fn PopStateEvent::as_any(Self) -> @nostd.Any
 fn PopStateEvent::state(Self) -> @js.Any?
 impl @js.JsImpl for PopStateEvent
 impl EventImpl for PopStateEvent
@@ -604,6 +625,7 @@ impl Show for SVGCircleElement
 
 #external
 pub type SVGElement
+fn SVGElement::as_any(Self) -> @nostd.Any
 fn SVGElement::getAttribute(Self, String) -> String?
 fn SVGElement::setAttribute(Self, String, String) -> Unit
 impl @js.JsImpl for SVGElement
@@ -701,6 +723,7 @@ impl Show for SVGRectElement
 
 #external
 pub type SVGSVGElement
+fn SVGSVGElement::as_any(Self) -> @nostd.Any
 fn SVGSVGElement::getAttribute(Self, String) -> String?
 fn SVGSVGElement::height(Self) -> Double
 fn SVGSVGElement::setAttribute(Self, String, String) -> Unit
@@ -727,6 +750,7 @@ impl Show for ScrollEvent
 #external
 pub type ShadowRoot
 fn ShadowRoot::activeElement(Self) -> Element?
+fn ShadowRoot::as_any(Self) -> @nostd.Any
 fn ShadowRoot::delegatesFocus(Self) -> Bool
 fn ShadowRoot::elementFromPoint(Self, Double, Double) -> Element?
 fn ShadowRoot::elementsFromPoint(Self, Double, Double) -> Array[Element]
@@ -748,6 +772,7 @@ fn ShadowRootInit::new(String, delegatesFocus? : Bool, slotAssignment? : String)
 
 #external
 pub type Text
+fn Text::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for Text
 impl NodeImpl for Text
 impl @event.EventTargetImpl for Text

@@ -2,11 +2,11 @@
 package "mizchi/js/npm/msw"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn arrayBufferResponse(@js.Any, status? : Int) -> HttpResponse
+fn arrayBufferResponse(@nostd.Any, status? : Int) -> HttpResponse
 
 fn errorResponse() -> HttpResponse
 
@@ -28,13 +28,13 @@ fn httpPost(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
 fn httpPut(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-fn jsonResponse(@js.Any, status? : Int) -> HttpResponse
+fn jsonResponse(@nostd.Any, status? : Int) -> HttpResponse
 
 fn mockError(String, Int, String) -> RequestHandler
 
-fn mockGet(String, @js.Any) -> RequestHandler
+fn mockGet(String, @nostd.Any) -> RequestHandler
 
-fn mockPost(String, @js.Any) -> RequestHandler
+fn mockPost(String, @nostd.Any) -> RequestHandler
 
 fn setupServer(Array[RequestHandler]) -> SetupServer
 
@@ -49,54 +49,54 @@ fn xmlResponse(String, status? : Int) -> HttpResponse
 // Types and methods
 #external
 pub type HttpResponse
-impl @js.JsImpl for HttpResponse
+fn HttpResponse::as_any(Self) -> @nostd.Any
 
 #external
 pub type RequestHandler
-impl @js.JsImpl for RequestHandler
+fn RequestHandler::as_any(Self) -> @nostd.Any
 
 #external
 pub type RequestInfo
-impl @js.JsImpl for RequestInfo
+fn RequestInfo::as_any(Self) -> @nostd.Any
 
 #external
 pub type ResponseResolverInfo
-fn ResponseResolverInfo::cookies(Self) -> @js.Any
+fn ResponseResolverInfo::as_any(Self) -> @nostd.Any
+fn ResponseResolverInfo::cookies(Self) -> @nostd.Any
 fn ResponseResolverInfo::getParam(Self, String) -> String
-fn ResponseResolverInfo::headers(Self) -> @js.Any
+fn ResponseResolverInfo::headers(Self) -> @nostd.Any
 fn ResponseResolverInfo::httpMethod(Self) -> String
-fn ResponseResolverInfo::json(Self) -> @js.Promise[@js.Any]
-fn ResponseResolverInfo::params(Self) -> @js.Any
-fn ResponseResolverInfo::request(Self) -> @js.Any
-fn ResponseResolverInfo::text(Self) -> @js.Promise[String]
+fn ResponseResolverInfo::json(Self) -> @nostd.Promise[@nostd.Any]
+fn ResponseResolverInfo::params(Self) -> @nostd.Any
+fn ResponseResolverInfo::request(Self) -> @nostd.Any
+fn ResponseResolverInfo::text(Self) -> @nostd.Promise[String]
 fn ResponseResolverInfo::url(Self) -> String
-impl @js.JsImpl for ResponseResolverInfo
 
 #external
 pub type SetupServer
+fn SetupServer::as_any(Self) -> @nostd.Any
 fn SetupServer::close(Self) -> Unit
-fn SetupServer::listHandlers(Self) -> @js.Any
+fn SetupServer::listHandlers(Self) -> @nostd.Any
 fn SetupServer::listen(Self, onUnhandledRequest? : String) -> Unit
 fn SetupServer::resetHandlers(Self) -> Unit
 fn SetupServer::resetHandlersWith(Self, Array[RequestHandler]) -> Unit
 fn SetupServer::restoreHandlers(Self) -> Unit
 fn SetupServer::useHandlers(Self, Array[RequestHandler]) -> Unit
-impl @js.JsImpl for SetupServer
 
 #external
 pub type SetupWorker
-fn SetupWorker::listHandlers(Self) -> @js.Any
+fn SetupWorker::as_any(Self) -> @nostd.Any
+fn SetupWorker::listHandlers(Self) -> @nostd.Any
 fn SetupWorker::resetHandlers(Self) -> Unit
 fn SetupWorker::resetHandlersWith(Self, Array[RequestHandler]) -> Unit
 fn SetupWorker::restoreHandlers(Self) -> Unit
 async fn SetupWorker::start(Self, serviceWorkerUrl? : String, quiet? : Bool, onUnhandledRequest? : String) -> Unit
 fn SetupWorker::stop(Self) -> Unit
 fn SetupWorker::useHandlers(Self, Array[RequestHandler]) -> Unit
-impl @js.JsImpl for SetupWorker
 
 #external
 pub type StartOptions
-impl @js.JsImpl for StartOptions
+fn StartOptions::as_any(Self) -> @nostd.Any
 
 // Type aliases
 

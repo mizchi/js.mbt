@@ -11,13 +11,13 @@
 pub type Ink
 
 ///|
-pub impl @js.JsImpl for Ink
+pub fn Ink::as_any(self : Ink) -> @nostd.Any = "%identity"
 
 ///|
 /// Dynamic import for ink module (internal)
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-extern "js" fn import_ink_internal() -> @js.Promise[Ink] =
+extern "js" fn import_ink_internal() -> @nostd.Promise[Ink] =
   #| () => import("ink")
 
 ///|
@@ -225,38 +225,37 @@ pub fn Ink::text(
   dim_color? : Bool,
   wrap? : TextWrap,
 ) -> @react.Element {
-  let text_component = self.as_any().get("Text")
-  let props = @js.Object::new()
+  let text_component = self.as_any()["Text"]
+  let props = @nostd.Object::new()
   if color is Some(c) {
-    props.set("color", c)
+    props["color"] = @nostd.any(c)
   }
   if background_color is Some(c) {
-    props.set("backgroundColor", c)
+    props["backgroundColor"] = @nostd.any(c)
   }
   if bold is Some(b) {
-    props.set("bold", b)
+    props["bold"] = @nostd.any(b)
   }
   if italic is Some(i) {
-    props.set("italic", i)
+    props["italic"] = @nostd.any(i)
   }
   if underline is Some(u) {
-    props.set("underline", u)
+    props["underline"] = @nostd.any(u)
   }
   if strikethrough is Some(s) {
-    props.set("strikethrough", s)
+    props["strikethrough"] = @nostd.any(s)
   }
   if inverse is Some(i) {
-    props.set("inverse", i)
+    props["inverse"] = @nostd.any(i)
   }
   if dim_color is Some(d) {
-    props.set("dimColor", d)
+    props["dimColor"] = @nostd.any(d)
   }
   if wrap is Some(w) {
-    props.set("wrap", w.to_string())
+    props["wrap"] = @nostd.any(w.to_string())
   }
-  let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(text_component, props.as_any(), children_arr)
-  |> @js.identity
+  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  ffi_create_element(text_component, props, children_arr).cast()
 }
 
 ///|
@@ -312,164 +311,157 @@ pub fn Ink::box_(
   column_gap? : Int,
   row_gap? : Int,
 ) -> @react.Element {
-  let box_component = self.as_any().get("Box")
-  let props = @js.Object::new()
+  let box_component = self.as_any()["Box"]
+  let props = @nostd.Object::new()
   // Dimensions
   if width is Some(w) {
-    props.set("width", w)
+    props["width"] = @nostd.any(w)
   }
   if height is Some(h) {
-    props.set("height", h)
+    props["height"] = @nostd.any(h)
   }
   if min_width is Some(w) {
-    props.set("minWidth", w)
+    props["minWidth"] = @nostd.any(w)
   }
   if min_height is Some(h) {
-    props.set("minHeight", h)
+    props["minHeight"] = @nostd.any(h)
   }
   // Padding
   if padding is Some(p) {
-    props.set("padding", p)
+    props["padding"] = @nostd.any(p)
   }
   if padding_x is Some(p) {
-    props.set("paddingX", p)
+    props["paddingX"] = @nostd.any(p)
   }
   if padding_y is Some(p) {
-    props.set("paddingY", p)
+    props["paddingY"] = @nostd.any(p)
   }
   if padding_top is Some(p) {
-    props.set("paddingTop", p)
+    props["paddingTop"] = @nostd.any(p)
   }
   if padding_bottom is Some(p) {
-    props.set("paddingBottom", p)
+    props["paddingBottom"] = @nostd.any(p)
   }
   if padding_left is Some(p) {
-    props.set("paddingLeft", p)
+    props["paddingLeft"] = @nostd.any(p)
   }
   if padding_right is Some(p) {
-    props.set("paddingRight", p)
+    props["paddingRight"] = @nostd.any(p)
   }
   // Margin
   if margin is Some(m) {
-    props.set("margin", m)
+    props["margin"] = @nostd.any(m)
   }
   if margin_x is Some(m) {
-    props.set("marginX", m)
+    props["marginX"] = @nostd.any(m)
   }
   if margin_y is Some(m) {
-    props.set("marginY", m)
+    props["marginY"] = @nostd.any(m)
   }
   if margin_top is Some(m) {
-    props.set("marginTop", m)
+    props["marginTop"] = @nostd.any(m)
   }
   if margin_bottom is Some(m) {
-    props.set("marginBottom", m)
+    props["marginBottom"] = @nostd.any(m)
   }
   if margin_left is Some(m) {
-    props.set("marginLeft", m)
+    props["marginLeft"] = @nostd.any(m)
   }
   if margin_right is Some(m) {
-    props.set("marginRight", m)
+    props["marginRight"] = @nostd.any(m)
   }
   // Flex
   if flex_direction is Some(d) {
-    props.set("flexDirection", d.to_string())
+    props["flexDirection"] = @nostd.any(d.to_string())
   }
   if flex_grow is Some(g) {
-    props.set("flexGrow", g)
+    props["flexGrow"] = @nostd.any(g)
   }
   if flex_shrink is Some(s) {
-    props.set("flexShrink", s)
+    props["flexShrink"] = @nostd.any(s)
   }
   if flex_basis is Some(b) {
-    props.set("flexBasis", b)
+    props["flexBasis"] = @nostd.any(b)
   }
   if flex_wrap is Some(w) {
-    props.set("flexWrap", w.to_string())
+    props["flexWrap"] = @nostd.any(w.to_string())
   }
   if justify_content is Some(j) {
-    props.set("justifyContent", j.to_string())
+    props["justifyContent"] = @nostd.any(j.to_string())
   }
   if align_items is Some(a) {
-    props.set("alignItems", a.to_string())
+    props["alignItems"] = @nostd.any(a.to_string())
   }
   if align_self is Some(a) {
-    props.set("alignSelf", a.to_string())
+    props["alignSelf"] = @nostd.any(a.to_string())
   }
   // Border
   if border_style is Some(s) {
-    props.set("borderStyle", s.to_string())
+    props["borderStyle"] = @nostd.any(s.to_string())
   }
   if border_color is Some(c) {
-    props.set("borderColor", c)
+    props["borderColor"] = @nostd.any(c)
   }
   if border_top is Some(b) {
-    props.set("borderTop", b)
+    props["borderTop"] = @nostd.any(b)
   }
   if border_bottom is Some(b) {
-    props.set("borderBottom", b)
+    props["borderBottom"] = @nostd.any(b)
   }
   if border_left is Some(b) {
-    props.set("borderLeft", b)
+    props["borderLeft"] = @nostd.any(b)
   }
   if border_right is Some(b) {
-    props.set("borderRight", b)
+    props["borderRight"] = @nostd.any(b)
   }
   if border_top_color is Some(c) {
-    props.set("borderTopColor", c)
+    props["borderTopColor"] = @nostd.any(c)
   }
   if border_bottom_color is Some(c) {
-    props.set("borderBottomColor", c)
+    props["borderBottomColor"] = @nostd.any(c)
   }
   if border_left_color is Some(c) {
-    props.set("borderLeftColor", c)
+    props["borderLeftColor"] = @nostd.any(c)
   }
   if border_right_color is Some(c) {
-    props.set("borderRightColor", c)
+    props["borderRightColor"] = @nostd.any(c)
   }
   // Other
   if overflow is Some(o) {
-    props.set("overflow", o.to_string())
+    props["overflow"] = @nostd.any(o.to_string())
   }
   if display is Some(d) {
-    props.set("display", d.to_string())
+    props["display"] = @nostd.any(d.to_string())
   }
   if gap is Some(g) {
-    props.set("gap", g)
+    props["gap"] = @nostd.any(g)
   }
   if column_gap is Some(g) {
-    props.set("columnGap", g)
+    props["columnGap"] = @nostd.any(g)
   }
   if row_gap is Some(g) {
-    props.set("rowGap", g)
+    props["rowGap"] = @nostd.any(g)
   }
-  let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(box_component, props.as_any(), children_arr)
-  |> @js.identity
+  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  ffi_create_element(box_component, props, children_arr).cast()
 }
 
 ///|
 /// Newline component - renders a newline character
 pub fn Ink::newline(self : Ink, count? : Int) -> @react.Element {
-  let newline_component = self.as_any().get("Newline")
-  let props = @js.Object::new()
+  let newline_component = self.as_any()["Newline"]
+  let props = @nostd.Object::new()
   if count is Some(c) {
-    props.set("count", c)
+    props["count"] = @nostd.any(c)
   }
-  ffi_create_element(newline_component, props.as_any(), @js.undefined())
-  |> @js.identity
+  ffi_create_element(newline_component, props, @nostd.undefined()).cast()
 }
 
 ///|
 /// Spacer component - fills available space (flex-grow: 1)
 pub fn Ink::spacer(self : Ink) -> @react.Element {
-  let spacer_component = self.as_any().get("Spacer")
-  ffi_create_element(
-    spacer_component,
-    @js.Object::new().as_any(),
-    @js.undefined(),
-  )
-  |> @js.identity
+  let spacer_component = self.as_any()["Spacer"]
+  ffi_create_element(spacer_component, @nostd.Object::new(), @nostd.undefined()).cast()
 }
 
 ///|
@@ -477,16 +469,15 @@ pub fn Ink::spacer(self : Ink) -> @react.Element {
 pub fn Ink::static_(
   self : Ink,
   children : Array[&@react.ReactNode],
-  items? : Array[@js.Any],
+  items? : Array[@nostd.Any],
 ) -> @react.Element {
-  let static_component = self.as_any().get("Static")
-  let props = @js.Object::new()
+  let static_component = self.as_any()["Static"]
+  let props = @nostd.Object::new()
   if items is Some(i) {
-    props.set("items", i |> @js.from_array)
+    props["items"] = @nostd.any(i)
   }
-  let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(static_component, props.as_any(), children_arr)
-  |> @js.identity
+  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  ffi_create_element(static_component, props, children_arr).cast()
 }
 
 ///|
@@ -496,13 +487,12 @@ pub fn Ink::transform(
   children : Array[&@react.ReactNode],
   transform_fn : (String) -> String,
 ) -> @react.Element {
-  let transform_component = self.as_any().get("Transform")
-  let props = @js.Object::new()
+  let transform_component = self.as_any()["Transform"]
+  let props = @nostd.Object::new()
   let wrapped_fn = ffi_wrap_transform(transform_fn)
-  props.set("transform", wrapped_fn)
-  let children_arr = children.map(fn(c) { c.to_react_node() }) |> @js.from_array
-  ffi_create_element(transform_component, props.as_any(), children_arr)
-  |> @js.identity
+  props["transform"] = wrapped_fn
+  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  ffi_create_element(transform_component, props, children_arr).cast()
 }
 
 // ============================================================
@@ -511,10 +501,10 @@ pub fn Ink::transform(
 
 ///|
 extern "js" fn ffi_create_element(
-  tag : @js.Any,
-  props : @js.Any,
-  children : @js.Any,
-) -> @js.Any =
+  tag : @nostd.Any,
+  props : @nostd.Any,
+  children : @nostd.Any,
+) -> @nostd.Any =
   #|(tag, props, children) => {
   #|  const React = require('react');
   #|  if (children === undefined) {
@@ -524,8 +514,24 @@ extern "js" fn ffi_create_element(
   #|}
 
 ///|
-extern "js" fn ffi_wrap_transform(f : (String) -> String) -> @js.Any =
+extern "js" fn ffi_wrap_transform(f : (String) -> String) -> @nostd.Any =
   #|(f) => f
+
+///|
+extern "js" fn ffi_call_fn2(
+  fn_ : @nostd.Any,
+  arg1 : @nostd.Any,
+  arg2 : @nostd.Any,
+) -> @nostd.Any =
+  #|(fn, a1, a2) => fn(a1, a2)
+
+///|
+extern "js" fn ffi_call_fn1(fn_ : @nostd.Any, arg : @nostd.Any) -> @nostd.Any =
+  #|(fn, a) => fn(a)
+
+///|
+extern "js" fn ffi_call_fn0(fn_ : @nostd.Any) -> @nostd.Any =
+  #|(fn) => fn()
 
 // ============================================================
 // Render function
@@ -537,16 +543,16 @@ extern "js" fn ffi_wrap_transform(f : (String) -> String) -> @js.Any =
 pub type InkInstance
 
 ///|
-pub impl @js.JsImpl for InkInstance
+pub fn InkInstance::as_any(self : InkInstance) -> @nostd.Any = "%identity"
 
 ///|
 /// Render a React element to the terminal
 pub fn Ink::render(
   self : Ink,
   element : @react.Element,
-  stdout? : @js.Any,
-  stdin? : @js.Any,
-  stderr? : @js.Any,
+  stdout? : @nostd.Any,
+  stdin? : @nostd.Any,
+  stderr? : @nostd.Any,
   debug? : Bool,
   exitOnCtrlC? : Bool,
   patchConsole? : Bool,
@@ -554,36 +560,36 @@ pub fn Ink::render(
   maxFps? : Int,
   onRender? : () -> Unit,
 ) -> InkInstance {
-  let render_fn = self.as_any().get("render")
-  let obj = @js.Object::new()
+  let render_fn = self.as_any()["render"]
+  let obj = @nostd.Object::new()
   if stdout is Some(s) {
-    obj.set("stdout", s)
+    obj["stdout"] = s
   }
   if stdin is Some(s) {
-    obj.set("stdin", s)
+    obj["stdin"] = s
   }
   if stderr is Some(s) {
-    obj.set("stderr", s)
+    obj["stderr"] = s
   }
   if debug is Some(d) {
-    obj.set("debug", d)
+    obj["debug"] = @nostd.any(d)
   }
   if exitOnCtrlC is Some(e) {
-    obj.set("exitOnCtrlC", e)
+    obj["exitOnCtrlC"] = @nostd.any(e)
   }
   if patchConsole is Some(p) {
-    obj.set("patchConsole", p)
+    obj["patchConsole"] = @nostd.any(p)
   }
   if incrementalRendering is Some(i) {
-    obj.set("incrementalRendering", i)
+    obj["incrementalRendering"] = @nostd.any(i)
   }
   if maxFps is Some(f) {
-    obj.set("maxFps", f)
+    obj["maxFps"] = @nostd.any(f)
   }
   if onRender is Some(callback) {
-    obj.set("onRender", @js.from_fn0(callback))
+    obj["onRender"] = @nostd.any(callback)
   }
-  render_fn.call_self([element.as_any(), obj.as_any()]) |> @js.identity
+  ffi_call_fn2(render_fn, element.as_any(), obj).cast()
 }
 
 ///|
@@ -592,28 +598,26 @@ pub fn InkInstance::rerender(
   self : InkInstance,
   element : @react.Element,
 ) -> Unit {
-  self.as_any().get("rerender").call_self([element.as_any()]) |> ignore
+  ffi_call_fn1(self.as_any()["rerender"], element.as_any()) |> ignore
 }
 
 ///|
 /// Unmount the ink instance
 pub fn InkInstance::unmount(self : InkInstance) -> Unit {
-  self.as_any().get("unmount").call_self([]) |> ignore
+  ffi_call_fn0(self.as_any()["unmount"]) |> ignore
 }
 
 ///|
 /// Wait for the instance to finish
 pub async fn InkInstance::waitUntilExit(self : InkInstance) -> Unit {
-  let promise : @js.Promise[Unit] = self
-    .as_any()
-    .get("waitUntilExit")
-    .call_self([])
-    |> @js.identity
+  let promise : @nostd.Promise[Unit] = ffi_call_fn0(
+    self.as_any()["waitUntilExit"],
+  ).cast()
   promise.wait()
 }
 
 ///|
 /// Clear the output
 pub fn InkInstance::clear(self : InkInstance) -> Unit {
-  self.as_any().get("clear").call_self([]) |> ignore
+  ffi_call_fn0(self.as_any()["clear"]) |> ignore
 }

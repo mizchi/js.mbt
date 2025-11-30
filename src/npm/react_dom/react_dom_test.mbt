@@ -15,14 +15,14 @@ fn get_react_dom() -> ReactDOM {
 test "createPortal exists on ReactDOM" {
   init_jsdom()
   let react_dom = get_react_dom()
-  @js.typeof_(react_dom.get("createPortal")) |> assert_eq("function")
+  @nostd.typeof_(react_dom.as_any()["createPortal"]) |> assert_eq("function")
 }
 
 ///|
 test "flushSync exists on ReactDOM" {
   init_jsdom()
   let react_dom = get_react_dom()
-  @js.typeof_(react_dom.get("flushSync")) |> assert_eq("function")
+  @nostd.typeof_(react_dom.as_any()["flushSync"]) |> assert_eq("function")
 }
 
 ///|
@@ -40,8 +40,8 @@ test "createPortal returns React element" {
   let portal_content = @react_element.div(id="modal", ["Modal Content"])
   let portal = react_dom.createPortal(portal_content, portal_target)
   // Verify portal is a valid React element
-  @js.typeof_(portal) |> assert_eq("object")
-  @js.is_null(portal) |> assert_eq(false)
+  @nostd.typeof_(portal.as_any()) |> assert_eq("object")
+  @nostd.is_null(portal.as_any()) |> assert_eq(false)
   // Cleanup
   body.removeChild(portal_target) |> ignore
 }
@@ -64,7 +64,7 @@ test "createPortal with key" {
     key="my-portal-key",
   )
   // Verify portal is created
-  @js.typeof_(portal) |> assert_eq("object")
+  @nostd.typeof_(portal.as_any()) |> assert_eq("object")
   // Cleanup
   body.removeChild(portal_target) |> ignore
 }

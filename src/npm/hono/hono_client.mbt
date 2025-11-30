@@ -77,19 +77,14 @@ pub async fn ClientResponse::json(self : ClientResponse) -> @nostd.Any {
 ///|
 /// Parse response as text
 pub async fn ClientResponse::text(self : ClientResponse) -> String {
-  let promise : @nostd.Promise[String] = self
-    .as_any()
-    ._call("text", [])
-    .cast()
+  let promise : @nostd.Promise[String] = self.as_any()._call("text", []).cast()
   promise.wait()
 }
 
 ///|
 /// Parse response as array buffer
 #alias(array_buffer)
-pub async fn ClientResponse::arrayBuffer(
-  self : ClientResponse,
-) -> @nostd.Any {
+pub async fn ClientResponse::arrayBuffer(self : ClientResponse) -> @nostd.Any {
   let promise : @nostd.Promise[@nostd.Any] = self
     .as_any()
     ._call("arrayBuffer", [])

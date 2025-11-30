@@ -42,7 +42,7 @@ extern "js" fn ffi_react_use_context(ctx : @nostd.Any) -> @nostd.Any =
   #| (ctx) => globalThis.__ReactApi.useContext(ctx)
 
 ///|
-extern "js" fn ffi_react_lazy(f : @nostd.Any) -> @nostd.Promise[@nostd.Any] =
+extern "js" fn ffi_react_lazy(f : @nostd.Any) -> @nostd.Any =
   #| (f) => globalThis.__ReactApi.lazy(f)
 
 ///|

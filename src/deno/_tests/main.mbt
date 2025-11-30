@@ -182,7 +182,8 @@ fn main {
     // Create binary data using @encoding.TextEncoder
     let encoder = @encoding.TextEncoder::new()
     let arr = encoder.encode("binary test data")
-    d.writeFile(test_file, arr.as_any())
+    let arr_nostd : @nostd.Any = arr.as_any().cast()
+    d.writeFile(test_file, arr_nostd)
     let data = d.readFile(test_file)
     assert_true(@js.typeof_(data) == "object")
     d.remove(test_file)

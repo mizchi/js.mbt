@@ -91,10 +91,7 @@ pub fn[Env, ExecutionContext] Hono::cors(
     credentials?,
     exposeHeaders?,
   )
-  self
-  .as_any()
-  ._call("use", [@nostd.any(path), middleware.as_any()])
-  .cast()
+  self.as_any()._call("use", [@nostd.any(path), middleware.as_any()]).cast()
 }
 
 ///|

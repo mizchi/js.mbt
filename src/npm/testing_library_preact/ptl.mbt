@@ -3,9 +3,7 @@
 pub type PreactTestingLibrary
 
 ///|
-pub fn PreactTestingLibrary::as_any(
-  self : PreactTestingLibrary,
-) -> @nostd.Any = "%identity"
+pub fn PreactTestingLibrary::as_any(self : PreactTestingLibrary) -> @nostd.Any = "%identity"
 
 ///|
 fn testing_library() -> PreactTestingLibrary {

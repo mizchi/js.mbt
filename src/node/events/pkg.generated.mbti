@@ -3,6 +3,7 @@ package "mizchi/js/node/events"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -12,6 +13,7 @@ import(
 // Types and methods
 #external
 pub type EventEmitter
+fn EventEmitter::as_any(Self) -> @nostd.Any
 fn EventEmitter::new() -> Self
 impl @js.JsImpl for EventEmitter
 impl EventEmitterImpl for EventEmitter

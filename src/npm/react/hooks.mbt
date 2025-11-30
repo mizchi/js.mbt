@@ -211,8 +211,8 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 ///
 /// let custom_component : ComponentType[MyProps] = lazy_(load_custom_component)
 /// ```
-pub async fn[T] lazy_(f : () -> @nostd.Promise[@nostd.Any]) -> Component[T] {
-  ffi_react_lazy(@nostd.any(f)).wait().cast()
+pub fn[T] lazy_(f : () -> @nostd.Promise[@nostd.Any]) -> Component[T] {
+  ffi_react_lazy(@nostd.any(f)).cast()
 }
 
 ///|
@@ -313,7 +313,10 @@ extern "js" fn ffi_use_insertion_effect(
 /// TypeScript: function useInsertionEffect(effect: EffectCallback, deps?: DependencyList): void
 /// see: https://react.dev/reference/react/useInsertionEffect
 #alias(useInsertionEffect)
-pub fn use_insertion_effect(f : () -> () -> Unit, keys : Array[@nostd.Any]) -> Unit {
+pub fn use_insertion_effect(
+  f : () -> () -> Unit,
+  keys : Array[@nostd.Any],
+) -> Unit {
   ffi_use_insertion_effect(@nostd.any(f), @nostd.any(keys))
 }
 

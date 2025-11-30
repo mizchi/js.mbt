@@ -2,7 +2,8 @@
 #alias(render_to_string)
 pub fn renderToString(element : @react.Element) -> String {
   let react_dom_server = @node.require("react-dom/server")
-  react_dom_server.get("renderToString").call_self([element]).cast()
+  let element_js : @js.Any = element.as_any().cast()
+  react_dom_server.get("renderToString").call_self([element_js]).cast()
 }
 
 ///|
@@ -11,9 +12,10 @@ pub async fn renderToReadableStream(
   element : @react.Element,
 ) -> @streams.ReadableStream {
   let react_dom_server = @node.require("react-dom/server")
+  let element_js : @js.Any = element.as_any().cast()
   let promise : @js.Promise[@streams.ReadableStream] = react_dom_server
     .get("renderToReadableStream")
-    .call_self([element])
+    .call_self([element_js])
     .cast()
   promise.wait()
 }

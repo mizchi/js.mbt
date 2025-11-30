@@ -2,7 +2,7 @@
 package "mizchi/js/npm/ink"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/npm/react"
 )
 
@@ -66,11 +66,12 @@ fn FlexWrapMode::to_string(Self) -> String
 
 #external
 pub type Ink
+fn Ink::as_any(Self) -> @nostd.Any
 fn Ink::box_(Self, Array[&@react.ReactNode], width? : Int, height? : Int, min_width? : Int, min_height? : Int, padding? : Int, padding_x? : Int, padding_y? : Int, padding_top? : Int, padding_bottom? : Int, padding_left? : Int, padding_right? : Int, margin? : Int, margin_x? : Int, margin_y? : Int, margin_top? : Int, margin_bottom? : Int, margin_left? : Int, margin_right? : Int, flex_direction? : FlexDirection, flex_grow? : Int, flex_shrink? : Int, flex_basis? : Int, flex_wrap? : FlexWrapMode, justify_content? : JustifyContent, align_items? : AlignItems, align_self? : AlignSelf, border_style? : BorderStyle, border_color? : String, border_top? : Bool, border_bottom? : Bool, border_left? : Bool, border_right? : Bool, border_top_color? : String, border_bottom_color? : String, border_left_color? : String, border_right_color? : String, overflow? : Overflow, display? : Display, gap? : Int, column_gap? : Int, row_gap? : Int) -> @react.Element
 fn Ink::newline(Self, count? : Int) -> @react.Element
-fn Ink::render(Self, @react.Element, stdout? : @js.Any, stdin? : @js.Any, stderr? : @js.Any, debug? : Bool, exitOnCtrlC? : Bool, patchConsole? : Bool, incrementalRendering? : Bool, maxFps? : Int, onRender? : () -> Unit) -> InkInstance
+fn Ink::render(Self, @react.Element, stdout? : @nostd.Any, stdin? : @nostd.Any, stderr? : @nostd.Any, debug? : Bool, exitOnCtrlC? : Bool, patchConsole? : Bool, incrementalRendering? : Bool, maxFps? : Int, onRender? : () -> Unit) -> InkInstance
 fn Ink::spacer(Self) -> @react.Element
-fn Ink::static_(Self, Array[&@react.ReactNode], items? : Array[@js.Any]) -> @react.Element
+fn Ink::static_(Self, Array[&@react.ReactNode], items? : Array[@nostd.Any]) -> @react.Element
 fn Ink::text(Self, Array[&@react.ReactNode], color? : String, background_color? : String, bold? : Bool, italic? : Bool, underline? : Bool, strikethrough? : Bool, inverse? : Bool, dim_color? : Bool, wrap? : TextWrap) -> @react.Element
 fn Ink::transform(Self, Array[&@react.ReactNode], (String) -> String) -> @react.Element
 fn Ink::useApp(Self) -> UseAppResult
@@ -80,20 +81,19 @@ fn Ink::useInput(Self, (String, KeyInfo) -> Unit, options? : UseInputOptions) ->
 fn Ink::useStderr(Self) -> UseStderrResult
 fn Ink::useStdin(Self) -> UseStdinResult
 fn Ink::useStdout(Self) -> UseStdoutResult
-impl @js.JsImpl for Ink
 
 #external
 pub type InkInstance
+fn InkInstance::as_any(Self) -> @nostd.Any
 fn InkInstance::clear(Self) -> Unit
 fn InkInstance::rerender(Self, @react.Element) -> Unit
 fn InkInstance::unmount(Self) -> Unit
 async fn InkInstance::waitUntilExit(Self) -> Unit
-impl @js.JsImpl for InkInstance
 
 #external
 pub type InkTestingLibrary
+fn InkTestingLibrary::as_any(Self) -> @nostd.Any
 fn InkTestingLibrary::render(Self, @react.Element) -> RenderResult
-impl @js.JsImpl for InkTestingLibrary
 
 pub(all) enum JustifyContent {
   FlexStart
@@ -130,6 +130,7 @@ fn Overflow::to_string(Self) -> String
 
 #external
 pub type RenderResult
+fn RenderResult::as_any(Self) -> @nostd.Any
 fn RenderResult::frames(Self) -> Array[String]
 fn RenderResult::lastFrame(Self) -> String
 fn RenderResult::rerender(Self, @react.Element) -> Unit
@@ -137,15 +138,14 @@ fn RenderResult::stderr(Self) -> StreamOutput
 fn RenderResult::stdin(Self) -> StdinMock
 fn RenderResult::stdout(Self) -> StreamOutput
 fn RenderResult::unmount(Self) -> Unit
-impl @js.JsImpl for RenderResult
 
 pub(all) struct StdinMock {
-  raw : @js.Any
+  raw : @nostd.Any
 }
 fn StdinMock::write(Self, String) -> Unit
 
 pub(all) struct StreamOutput {
-  raw : @js.Any
+  raw : @nostd.Any
 }
 fn StreamOutput::frames(Self) -> Array[String]
 fn StreamOutput::lastFrame(Self) -> String
@@ -160,12 +160,12 @@ pub(all) enum TextWrap {
 fn TextWrap::to_string(Self) -> String
 
 pub(all) struct UseAppResult {
-  exit_fn : @js.Any
+  exit_fn : @nostd.Any
 }
-fn UseAppResult::exit(Self, error? : @js.Any) -> Unit
+fn UseAppResult::exit(Self, error? : @nostd.Any) -> Unit
 
 pub(all) struct UseFocusManagerResult {
-  raw : @js.Any
+  raw : @nostd.Any
 }
 fn UseFocusManagerResult::disableFocus(Self) -> Unit
 fn UseFocusManagerResult::enableFocus(Self) -> Unit
@@ -188,21 +188,21 @@ pub(all) struct UseInputOptions {
 }
 
 pub(all) struct UseStderrResult {
-  stderr : @js.Any
-  write_fn : @js.Any
+  stderr : @nostd.Any
+  write_fn : @nostd.Any
 }
 fn UseStderrResult::write(Self, String) -> Unit
 
 pub(all) struct UseStdinResult {
-  stdin : @js.Any
+  stdin : @nostd.Any
   is_raw_mode_supported : Bool
-  set_raw_mode_fn : @js.Any
+  set_raw_mode_fn : @nostd.Any
 }
 fn UseStdinResult::setRawMode(Self, Bool) -> Unit
 
 pub(all) struct UseStdoutResult {
-  stdout : @js.Any
-  write_fn : @js.Any
+  stdout : @nostd.Any
+  write_fn : @nostd.Any
 }
 fn UseStdoutResult::write(Self, String) -> Unit
 

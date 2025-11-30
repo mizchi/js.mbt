@@ -42,7 +42,8 @@ fn[T] common_node(
     props.set("style", style_obj.as_any())
   }
   if ref_ is Some(ref_) {
-    props.set("ref", ref_.as_any() |> @js.identity)
+    let ref_js : @js.Any = ref_.as_any().cast()
+    props.set("ref", ref_js)
   }
   if key is Some(key) {
     props.set("key", key)

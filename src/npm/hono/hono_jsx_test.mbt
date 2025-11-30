@@ -1,13 +1,13 @@
 ///|
 test "jsx creates element" {
   let node = @hono.jsx("div", ["Hello"])
-  @js.typeof_(node) |> assert_eq("object")
+  @nostd.typeof_(node) |> assert_eq("object")
 }
 
 ///|
 test "jsx with props" {
   let node = @hono.jsx("div", ["Hello"], class="container", id="main")
-  @js.typeof_(node) |> assert_eq("object")
+  @nostd.typeof_(node) |> assert_eq("object")
 }
 
 ///|
@@ -16,20 +16,20 @@ test "jsx with style" {
     "color": "red",
     "fontSize": "16px",
   })
-  @js.typeof_(node) |> assert_eq("object")
+  @nostd.typeof_(node) |> assert_eq("object")
 }
 
 ///|
 test "jsx nested elements" {
   let inner = @hono.jsx("span", ["Inner"])
   let outer = @hono.jsx("div", [inner])
-  @js.typeof_(outer) |> assert_eq("object")
+  @nostd.typeof_(outer) |> assert_eq("object")
 }
 
 ///|
 test "fragment creates element" {
   let node = @hono.fragment(["Hello", "World"])
-  @js.typeof_(node) |> assert_eq("object")
+  @nostd.typeof_(node) |> assert_eq("object")
 }
 
 ///|
@@ -52,7 +52,7 @@ test "renderToString with props" {
   let node = @hono.jsx("div", ["Content"], class="container", id="main")
   let html = @hono.render_to_string(node)
   // Note: attribute order may vary
-  @js.typeof_(html) |> assert_eq("string")
+  @nostd.typeof_(html) |> assert_eq("string")
   assert_true(html.contains("class=\"container\""))
   assert_true(html.contains("id=\"main\""))
 }
@@ -67,13 +67,13 @@ test "renderToString fragment" {
 ///|
 test "raw inserts unescaped html" {
   let node = @hono.raw("<b>Bold</b>")
-  @js.typeof_(node) |> assert_eq("object")
+  @nostd.typeof_(node) |> assert_eq("object")
 }
 
 ///|
 test "html creates escaped string" {
   let escaped = @hono.html("<div>Hello</div>")
-  @js.typeof_(escaped) |> assert_eq("object")
+  @nostd.typeof_(escaped) |> assert_eq("object")
 }
 
 ///|
@@ -108,7 +108,7 @@ test "memo wraps component" {
 test "createContext creates context" {
   let ctx : @hono.HonoContext[String] = @hono.create_context(Some("default"))
   // createContext returns a function in Hono
-  @js.typeof_(ctx) |> assert_eq("function")
+  @nostd.typeof_(ctx) |> assert_eq("function")
 }
 
 ///|
@@ -121,7 +121,7 @@ async test "Context::htmlJsx renders JSX response" {
   |> ignore
   let client = @hono.test_client(app)
   let endpoint = client.path("jsx")
-  @js.typeof_(endpoint) |> assert_eq("function")
+  @nostd.typeof_(endpoint) |> assert_eq("function")
 }
 
 ///|
@@ -140,7 +140,7 @@ async test "Context::htmlJsx with complex JSX" {
   |> ignore
   let client = @hono.test_client(app)
   let endpoint = client.path("page")
-  @js.typeof_(endpoint) |> assert_eq("function")
+  @nostd.typeof_(endpoint) |> assert_eq("function")
 }
 
 ///|
@@ -153,5 +153,5 @@ async test "Context::htmlJsx with status code" {
   |> ignore
   let client = @hono.test_client(app)
   let endpoint = client.path("not-found")
-  @js.typeof_(endpoint) |> assert_eq("function")
+  @nostd.typeof_(endpoint) |> assert_eq("function")
 }

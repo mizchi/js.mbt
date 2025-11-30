@@ -145,7 +145,9 @@ pub fn mock_language_model(options : MockLanguageModelOptions) -> @js.Any {
     None => ()
   }
   // Call new MockLanguageModelV3(opts)
-  @reflect.construct(@nostd.any(mock_class), [@nostd.any(opts)], None).cast()
+  let mock_class_any : @nostd.Any = mock_class.cast()
+  let opts_any : @nostd.Any = opts.as_any().cast()
+  @reflect.construct(mock_class_any, [opts_any], None).cast()
 }
 
 ///|

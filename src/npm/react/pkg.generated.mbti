@@ -4,6 +4,7 @@ package "mizchi/js/npm/react"
 import(
   "mizchi/js"
   "mizchi/js/browser/dom"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -13,25 +14,25 @@ async fn act(() -> Unit) -> Unit
 async fn act_async(async () -> Unit) -> Unit
 
 #alias(cacheSignal)
-fn cache_signal() -> @js.Any
+fn cache_signal() -> @nostd.Any
 
 #alias(captureOwnerStack)
-fn capture_owner_stack() -> @js.Any?
+fn capture_owner_stack() -> @nostd.Any?
 
 #alias(c)
 fn[T] component((T) -> Element, T, children? : Array[&ReactNode], key? : String) -> Element
 
 #alias(h)
-fn createElement(String, Array[&ReactNode], props? : Map[String, @js.Any], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
+fn createElement(String, Array[&ReactNode], props? : Map[String, @nostd.Any], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
 
-fn createElementDirect(String, @js.Any, @js.Any) -> Element
+fn createElementDirect(String, @nostd.Any, @nostd.Any) -> Element
 
 #alias(createContext)
 fn[T] create_context(T?) -> Context[T]
 
 async fn dynamic_import() -> Unit
 
-fn error_boundary(children~ : Array[&ReactNode], fallback? : (@js.Any, () -> Unit) -> Element, on_error? : (@js.Any, @js.Any) -> Unit) -> Element
+fn error_boundary(children~ : Array[&ReactNode], fallback? : (@nostd.Any, () -> Unit) -> Element, on_error? : (@nostd.Any, @nostd.Any) -> Unit) -> Element
 
 fn fragment(Array[&ReactNode], key? : String) -> Element
 
@@ -40,7 +41,7 @@ fn init_react_api(@js.Any, global_key? : String) -> Unit
 #alias(initReactAsync)
 async fn init_react_async() -> Unit
 
-fn[T] lazy_(() -> @js.Promise[@js.Any]) -> (T) -> Element
+fn[T] lazy_(() -> @nostd.Promise[@nostd.Any]) -> (T) -> Element
 
 fn[T] provider(Context[T], Array[&ReactNode], value~ : T) -> Element
 
@@ -55,22 +56,22 @@ fn strict_mode(Array[&ReactNode]) -> Element
 fn suspense(Array[&ReactNode], fallback~ : Element) -> Element
 
 #alias(use_callback)
-fn[F] useCallback(F, Array[&@js.JsImpl]) -> F
+fn[F] useCallback(F, Array[@nostd.Any]) -> F
 
 #alias(use_effect)
-fn useEffect(() -> () -> Unit, Array[&@js.JsImpl]) -> Unit
+fn useEffect(() -> () -> Unit, Array[@nostd.Any]) -> Unit
 
 #alias(use_layout_effect)
-fn useLayoutEffect(() -> () -> Unit, Array[&@js.JsImpl]) -> Unit
+fn useLayoutEffect(() -> () -> Unit, Array[@nostd.Any]) -> Unit
 
 #alias(use_memo)
-fn[T] useMemo(() -> T, Array[&@js.JsImpl]) -> T
+fn[T] useMemo(() -> T, Array[@nostd.Any]) -> T
 
 #alias(use_ref)
 fn[T] useRef(T?) -> ReactRef[T]
 
 #alias(use_state)
-fn[T : @js.JsImpl] useState(T) -> (T, (T) -> Unit)
+fn[T] useState(T) -> (T, (T) -> Unit)
 
 #alias(useActionState)
 fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)
@@ -88,16 +89,16 @@ fn[T] use_deferred_value(T, initial_value? : T) -> T
 fn use_id() -> String
 
 #alias(useImperativeHandle)
-fn[T] use_imperative_handle(ReactRef[T], () -> T, Array[&@js.JsImpl]) -> Unit
+fn[T] use_imperative_handle(ReactRef[T], () -> T, Array[@nostd.Any]) -> Unit
 
 #alias(useInsertionEffect)
-fn use_insertion_effect(() -> () -> Unit, Array[&@js.JsImpl]) -> Unit
+fn use_insertion_effect(() -> () -> Unit, Array[@nostd.Any]) -> Unit
 
 #alias(useOptimistic)
 fn[S, A] use_optimistic(S, (S, A) -> S) -> (S, (A) -> Unit)
 
 #alias(usePromise)
-fn[T] use_promise(@js.Promise[T]) -> T
+fn[T] use_promise(@nostd.Promise[T]) -> T
 
 #alias(useReducer)
 fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
@@ -116,18 +117,19 @@ fn use_transition() -> (Bool, (() -> Unit) -> Unit)
 // Types and methods
 #external
 pub type Context[T]
+fn[T] Context::as_any(Self[T]) -> @nostd.Any
 
 #external
 pub type Element
-impl @js.JsImpl for Element
+fn Element::as_any(Self) -> @nostd.Any
 impl ReactNode for Element
 
 pub(all) struct ReactRef[T] {
-  current : @js.Any
+  current : @nostd.Any
 }
+fn[T] ReactRef::as_any(Self[T]) -> @nostd.Any
 fn[T] ReactRef::get_current(Self[T]) -> T?
 fn[T] ReactRef::set_current(Self[T], T?) -> Unit
-impl[T] @js.JsImpl for ReactRef[T]
 
 // Type aliases
 pub type AnimationEventHandler[T] = (@dom.AnimationEvent) -> Unit
@@ -158,7 +160,7 @@ pub type WheelEventHandler[T] = (@dom.WheelEvent) -> Unit
 
 // Traits
 pub(open) trait ReactNode {
-  to_react_node(Self) -> @js.Any
+  to_react_node(Self) -> @nostd.Any
 }
 impl ReactNode for Bool
 impl ReactNode for Int

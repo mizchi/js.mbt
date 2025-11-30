@@ -6,6 +6,7 @@ import(
   "mizchi/js/node/events"
   "mizchi/js/node/net"
   "mizchi/js/node/stream"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -25,6 +26,7 @@ fn status_codes() -> @js.Any
 #external
 pub type ClientRequest
 fn ClientRequest::abort(Self) -> Unit
+fn ClientRequest::as_any(Self) -> @nostd.Any
 fn ClientRequest::as_writable(Self) -> @stream.Writable
 fn ClientRequest::end(Self, data? : String, encoding? : String) -> Unit
 fn ClientRequest::getHeader(Self, String) -> String?
@@ -53,6 +55,7 @@ impl @events.EventEmitterImpl for IncomingMessage
 #external
 pub type Server
 fn Server::address(Self) -> @net.AddressInfo?
+fn Server::as_any(Self) -> @nostd.Any
 fn Server::close(Self, callback? : () -> Unit) -> Self
 fn Server::listen(Self, Int, host? : String, backlog? : Int, callback? : () -> Unit) -> Self
 fn Server::listening(Self) -> Bool
@@ -66,6 +69,7 @@ impl @events.EventEmitterImpl for Server
 
 #external
 pub type ServerResponse
+fn ServerResponse::as_any(Self) -> @nostd.Any
 fn ServerResponse::as_writable(Self) -> @stream.Writable
 fn ServerResponse::end(Self, data? : String, encoding? : String) -> Unit
 fn ServerResponse::getHeader(Self, String) -> String?

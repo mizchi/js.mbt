@@ -16,8 +16,7 @@ pub fn Ajv::as_any(self : Ajv) -> @nostd.Any = "%identity"
 pub type ValidateFunction
 
 ///|
-pub fn ValidateFunction::as_any(self : ValidateFunction) -> @nostd.Any =
-  "%identity"
+pub fn ValidateFunction::as_any(self : ValidateFunction) -> @nostd.Any = "%identity"
 
 ///|
 /// ValidationError - represents a single validation error
@@ -85,7 +84,11 @@ pub fn Ajv::compile(self : Ajv, schema : @nostd.Any) -> ValidateFunction {
 ///|
 /// Validate data against a schema directly
 /// https://ajv.js.org/api.html#ajv-validate-schema-object-boolean-data-any-boolean
-pub fn Ajv::validate(self : Ajv, schema : @nostd.Any, data : @nostd.Any) -> Bool {
+pub fn Ajv::validate(
+  self : Ajv,
+  schema : @nostd.Any,
+  data : @nostd.Any,
+) -> Bool {
   self.as_any()._call("validate", [schema, data]).cast()
 }
 

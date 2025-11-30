@@ -14,7 +14,8 @@ pub type RequestHandler
 ///|
 pub fn RequestHandler::as_any(self : RequestHandler) -> @nostd.Any = "%identity"
 
-///| Mock server instance (Node.js)
+///|
+/// Mock server instance (Node.js)
 #external
 pub type SetupServer
 
@@ -59,8 +60,7 @@ pub fn RequestInfo::as_any(self : RequestInfo) -> @nostd.Any = "%identity"
 pub type ResponseResolverInfo
 
 ///|
-pub fn ResponseResolverInfo::as_any(self : ResponseResolverInfo) -> @nostd.Any =
-  "%identity"
+pub fn ResponseResolverInfo::as_any(self : ResponseResolverInfo) -> @nostd.Any = "%identity"
 
 ///| HTTP Handler FFI
 
@@ -130,7 +130,9 @@ extern "js" fn ffi_http_response_json(
   #| (body, status) => require('msw').HttpResponse.json(body, { status })
 
 ///|
-extern "js" fn ffi_http_response_json_default(body : @nostd.Any) -> HttpResponse =
+extern "js" fn ffi_http_response_json_default(
+  body : @nostd.Any,
+) -> HttpResponse =
   #| (body) => require('msw').HttpResponse.json(body)
 
 ///|
@@ -239,9 +241,7 @@ extern "js" fn ffi_setup_worker_empty() -> SetupWorker =
   #| () => require('msw/browser').setupWorker()
 
 ///|
-extern "js" fn ffi_worker_start(
-  worker : SetupWorker,
-) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_worker_start(worker : SetupWorker) -> @nostd.Promise[Unit] =
   #| (worker) => worker.start()
 
 ///|
@@ -617,9 +617,7 @@ pub fn SetupWorker::listHandlers(self : SetupWorker) -> @nostd.Any {
 
 ///|
 /// Get the request object
-pub fn ResponseResolverInfo::request(
-  self : ResponseResolverInfo,
-) -> @nostd.Any {
+pub fn ResponseResolverInfo::request(self : ResponseResolverInfo) -> @nostd.Any {
   ffi_info_request(self)
 }
 
@@ -649,9 +647,7 @@ pub fn ResponseResolverInfo::httpMethod(self : ResponseResolverInfo) -> String {
 
 ///|
 /// Get request headers
-pub fn ResponseResolverInfo::headers(
-  self : ResponseResolverInfo,
-) -> @nostd.Any {
+pub fn ResponseResolverInfo::headers(self : ResponseResolverInfo) -> @nostd.Any {
   ffi_request_headers(self.request())
 }
 
