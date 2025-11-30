@@ -29,6 +29,11 @@ pub impl @js.JsImpl for HTMLDivElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLDivElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLDivElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -66,6 +71,11 @@ pub impl @js.JsImpl for HTMLCanvasElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -140,6 +150,11 @@ pub impl @js.JsImpl for HTMLBodyElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLBodyElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLBodyElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -171,6 +186,11 @@ pub impl @js.JsImpl for HTMLHeadElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLHeadElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLHeadElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -206,6 +226,11 @@ pub impl @js.JsImpl for HTMLHtmlElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLHtmlElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLHtmlElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -237,6 +262,11 @@ pub impl @js.JsImpl for HTMLSpanElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLSpanElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLSpanElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -278,6 +308,11 @@ pub impl @js.JsImpl for HTMLAnchorElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLAnchorElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLAnchorElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -314,6 +349,11 @@ pub impl @js.JsImpl for HTMLButtonElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLButtonElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLButtonElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -354,6 +394,11 @@ pub impl @js.JsImpl for HTMLInputElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLInputElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLInputElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -411,6 +456,11 @@ pub impl @js.JsImpl for HTMLTextAreaElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLTextAreaElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLTextAreaElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -451,6 +501,11 @@ pub impl @js.JsImpl for HTMLIFrameElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -502,6 +557,11 @@ pub impl @js.JsImpl for HTMLFormElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLFormElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLFormElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -539,6 +599,11 @@ pub impl @js.JsImpl for HTMLSelectElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLSelectElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLSelectElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -580,6 +645,11 @@ pub impl @js.JsImpl for HTMLOptionElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLOptionElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLOptionElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -616,6 +686,11 @@ pub impl @js.JsImpl for HTMLLabelElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLLabelElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLLabelElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -657,6 +732,11 @@ pub impl @js.JsImpl for HTMLImageElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLImageElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLImageElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -690,6 +770,11 @@ pub impl @js.JsImpl for HTMLParagraphElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLParagraphElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLParagraphElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -727,6 +812,11 @@ pub impl @js.JsImpl for HTMLHeadingElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLHeadingElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLHeadingElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -760,6 +850,11 @@ pub impl @js.JsImpl for HTMLUListElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLUListElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLUListElement with as_any(self) -> @nostd.Any { self.as_any() }
@@ -797,6 +892,11 @@ pub impl @js.JsImpl for HTMLOListElement
 ///|
 
 ///|
+
+///|
+pub impl ElementImpl for HTMLOListElement with as_any(self) -> @nostd.Any { self.as_any() }
+
+///|
 pub impl HTMLElementImpl for HTMLOListElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
@@ -828,6 +928,11 @@ pub impl @js.JsImpl for HTMLLIElement
 ///|
 
 ///|
+
+///|
+
+///|
+pub impl ElementImpl for HTMLLIElement with as_any(self) -> @nostd.Any { self.as_any() }
 
 ///|
 pub impl HTMLElementImpl for HTMLLIElement with as_any(self) -> @nostd.Any { self.as_any() }

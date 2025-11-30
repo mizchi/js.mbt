@@ -28,12 +28,12 @@ pub(open) trait NodeImpl {
   lastChild(Self) -> Node? = _
   previousSibling(Self) -> Node? = _
   nextSibling(Self) -> Node? = _
-  appendChild(Self, &NodeImpl) -> Node = _
-  removeChild(Self, &NodeImpl) -> Node = _
-  insertBefore(Self, &NodeImpl, &NodeImpl?) -> Node = _
-  replaceChild(Self, &NodeImpl, &NodeImpl) -> Node = _
+  appendChild(Self, Node) -> Node = _
+  removeChild(Self, Node) -> Node = _
+  insertBefore(Self, Node, Node?) -> Node = _
+  replaceChild(Self, Node, Node) -> Node = _
   cloneNode(Self, Bool) -> Node = _
-  contains(Self, &NodeImpl?) -> Bool = _
+  contains(Self, Node?) -> Bool = _
   hasChildNodes(Self) -> Bool = _
   textContent(Self) -> String = _
   setTextContent(Self, String) -> Unit = _
@@ -88,17 +88,17 @@ impl NodeImpl with nextSibling(self) -> Node? {
 }
 
 ///|
-impl NodeImpl with appendChild(self, child) -> Node {
+impl NodeImpl with appendChild(self, child : Node) -> Node {
   self.as_any()._call("appendChild", [child.as_any()]).cast()
 }
 
 ///|
-impl NodeImpl with removeChild(self, child) -> Node {
+impl NodeImpl with removeChild(self, child : Node) -> Node {
   self.as_any()._call("removeChild", [child.as_any()]).cast()
 }
 
 ///|
-impl NodeImpl with insertBefore(self, new_node, ref_node) -> Node {
+impl NodeImpl with insertBefore(self, new_node : Node, ref_node : Node?) -> Node {
   match ref_node {
     Some(node) =>
       self.as_any()._call("insertBefore", [new_node.as_any(), node.as_any()]).cast()
@@ -108,7 +108,7 @@ impl NodeImpl with insertBefore(self, new_node, ref_node) -> Node {
 }
 
 ///|
-impl NodeImpl with replaceChild(self, new_child, old_child) -> Node {
+impl NodeImpl with replaceChild(self, new_child : Node, old_child : Node) -> Node {
   self.as_any()._call("replaceChild", [new_child.as_any(), old_child.as_any()]).cast()
 }
 
@@ -118,7 +118,7 @@ impl NodeImpl with cloneNode(self, deep) {
 }
 
 ///|
-impl NodeImpl with contains(self, other) {
+impl NodeImpl with contains(self, other : Node?) {
   match other {
     Some(node) => self.as_any()._call("contains", [node.as_any()]).cast()
     None => self.as_any()._call("contains", [@nostd.null()]).cast()

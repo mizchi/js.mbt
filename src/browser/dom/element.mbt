@@ -36,7 +36,7 @@ pub(open) trait ElementImpl {
   getElementsByClassName(Self, String) -> Array[Element] = _
   querySelector(Self, String) -> Element? = _
   querySelectorAll(Self, String) -> Array[Element] = _
-  append(Self, &NodeImpl) -> Unit = _
+  append(Self, Node) -> Unit = _
 }
 
 ///|
@@ -45,7 +45,7 @@ impl ElementImpl with tagName(self) {
 }
 
 ///|
-impl ElementImpl with append(self, child) {
+impl ElementImpl with append(self, child : Node) {
   self.as_any()._call("append", [child.as_any()]) |> ignore
 }
 
