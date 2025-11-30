@@ -2,7 +2,8 @@
 /// Test MessageChannel::new creates a channel
 test "MessageChannel::new creates a channel" {
   let channel = @message.MessageChannel::new()
-  inspect(@js.typeof_(channel.as_any()), content="object")
+  let channel_js : @js.Any = channel.as_any().cast()
+  inspect(@js.typeof_(channel_js), content="object")
 }
 
 ///|
@@ -11,8 +12,10 @@ test "MessageChannel::port1 and port2 return MessagePort" {
   let channel = @message.MessageChannel::new()
   let port1 = @message.MessageChannel::port1(channel)
   let port2 = @message.MessageChannel::port2(channel)
-  inspect(@js.typeof_(port1.as_any()), content="object")
-  inspect(@js.typeof_(port2.as_any()), content="object")
+  let port1_js : @js.Any = port1.as_any().cast()
+  let port2_js : @js.Any = port2.as_any().cast()
+  inspect(@js.typeof_(port1_js), content="object")
+  inspect(@js.typeof_(port2_js), content="object")
 }
 
 ///|
@@ -21,7 +24,8 @@ test "MessagePort::start can be called" {
   let channel = @message.MessageChannel::new()
   let port1 = @message.MessageChannel::port1(channel)
   @message.MessagePort::start(port1)
-  inspect(@js.typeof_(port1.as_any()), content="object")
+  let port1_js : @js.Any = port1.as_any().cast()
+  inspect(@js.typeof_(port1_js), content="object")
 }
 
 ///|
@@ -30,7 +34,8 @@ test "MessagePort::close disconnects the port" {
   let channel = @message.MessageChannel::new()
   let port1 = @message.MessageChannel::port1(channel)
   @message.MessagePort::close(port1)
-  inspect(@js.typeof_(port1.as_any()), content="object")
+  let port1_js : @js.Any = port1.as_any().cast()
+  inspect(@js.typeof_(port1_js), content="object")
 }
 
 // ///|
@@ -53,7 +58,8 @@ test "MessagePort::post_message sends a number" {
   let channel = @message.MessageChannel::new()
   let port1 = @message.MessageChannel::port1(channel)
   @message.MessagePort::post_message(port1, 42)
-  inspect(@js.typeof_(port1.as_any()), content="object")
+  let port1_js : @js.Any = port1.as_any().cast()
+  inspect(@js.typeof_(port1_js), content="object")
 }
 
 // ///|

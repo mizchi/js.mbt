@@ -46,6 +46,12 @@ pub fn Agent::new(
 pub type Server
 
 ///|
+pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
+
+///|
+pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for Server
 
 ///|
@@ -98,6 +104,14 @@ pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
 /// ClientRequest for making HTTPS requests
 #external
 pub type ClientRequest
+
+///|
+pub fn ClientRequest::as_any(self : ClientRequest) -> @nostd.Any = "%identity"
+
+///|
+pub fn ClientRequest::as_event_target(
+  self : ClientRequest,
+) -> @event.EventTarget = "%identity"
 
 ///|
 pub impl @js.JsImpl for ClientRequest

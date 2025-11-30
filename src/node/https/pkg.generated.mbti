@@ -3,6 +3,7 @@ package "mizchi/js/node/https"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/event"
 )
 
@@ -25,6 +26,8 @@ impl @js.JsImpl for Agent
 
 #external
 pub type ClientRequest
+fn ClientRequest::as_any(Self) -> @nostd.Any
+fn ClientRequest::as_event_target(Self) -> @event.EventTarget
 fn ClientRequest::end(Self) -> Unit
 fn ClientRequest::write(Self, String) -> Unit
 impl @js.JsImpl for ClientRequest
@@ -32,6 +35,8 @@ impl @event.EventTargetImpl for ClientRequest
 
 #external
 pub type Server
+fn Server::as_any(Self) -> @nostd.Any
+fn Server::as_event_target(Self) -> @event.EventTarget
 fn Server::close(Self, () -> Unit) -> Unit
 fn Server::listen(Self, Int, () -> Unit) -> Unit
 impl @js.JsImpl for Server

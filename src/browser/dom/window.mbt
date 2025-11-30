@@ -5,6 +5,12 @@
 pub type Window
 
 ///|
+pub fn Window::as_any(self : Window) -> @nostd.Any = "%identity"
+
+///|
+pub fn Window::as_event_target(self : Window) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for Window
 
 ///|
@@ -293,9 +299,11 @@ pub fn Window::getComputedStyle(
   element : Element,
   pseudo_elt? : String,
 ) -> @js.Any {
+  let self_js : @js.Any = self.as_any().cast()
+  let element_js : @js.Any = element.as_any().cast()
   match pseudo_elt {
-    Some(p) => self.call2("getComputedStyle", element.as_any(), p).cast()
-    None => self.call1("getComputedStyle", element.as_any()).cast()
+    Some(p) => self_js.call2("getComputedStyle", element_js, p).cast()
+    None => self_js.call1("getComputedStyle", element_js).cast()
   }
 }
 
@@ -317,14 +325,13 @@ pub fn Window::postMessage(
   target_origin : String,
   transfer? : Array[@js.Any],
 ) -> Unit {
+  let self_js : @js.Any = self.as_any().cast()
   match transfer {
     Some(t) =>
       ignore(
-        self
-        .as_any()
-        .call("postMessage", [message, target_origin, @js.from_array(t)]),
+        self_js.call("postMessage", [message, target_origin, @js.from_array(t)]),
       )
-    None => ignore(self.call2("postMessage", message, target_origin))
+    None => ignore(self_js.call2("postMessage", message, target_origin))
   }
 }
 

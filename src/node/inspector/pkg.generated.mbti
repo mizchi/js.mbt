@@ -3,6 +3,7 @@ package "mizchi/js/node/inspector"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/event"
 )
 
@@ -24,6 +25,8 @@ pub type Console
 impl @js.JsImpl for Console
 
 pub type Session
+fn Session::as_any(Self) -> @nostd.Any
+fn Session::as_event_target(Self) -> @event.EventTarget
 fn Session::connect(Self) -> Unit
 fn Session::connect_to_main_thread(Self) -> Unit
 fn Session::disconnect(Self) -> Unit

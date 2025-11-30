@@ -22,6 +22,7 @@ fn MessageEvent::as_any(Self) -> @nostd.Any
 #external
 pub type Worker
 fn Worker::as_any(Self) -> @nostd.Any
+fn Worker::as_event_target(Self) -> @event.EventTarget
 fn Worker::new(String, type_? : String) -> Self
 #alias(post_message)
 fn Worker::postMessage(Self, &@js.JsImpl) -> Unit

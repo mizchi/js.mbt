@@ -7,6 +7,13 @@
 pub type Server
 
 ///|
+pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
+
+///|
+/// Cast to EventTarget for event handling
+pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for Server
 
 ///|
@@ -17,6 +24,13 @@ pub impl @event.EventTargetImpl for Server
 /// https://nodejs.org/api/tls.html#class-tlstlssocket
 #external
 pub type TLSSocket
+
+///|
+pub fn TLSSocket::as_any(self : TLSSocket) -> @nostd.Any = "%identity"
+
+///|
+/// Cast to EventTarget for event handling
+pub fn TLSSocket::as_event_target(self : TLSSocket) -> @event.EventTarget = "%identity"
 
 ///|
 pub impl @js.JsImpl for TLSSocket

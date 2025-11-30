@@ -30,6 +30,7 @@ pub(all) struct WebSocket {
   mut binaryType : String
 }
 fn WebSocket::as_any(Self) -> @nostd.Any
+fn WebSocket::as_event_target(Self) -> @event.EventTarget
 fn WebSocket::close(Self, code? : Int, reason? : String) -> Unit
 fn WebSocket::new(String, protocols? : Array[String]) -> Self
 fn WebSocket::send_arraybuffer(Self, @js.ArrayBuffer) -> Unit

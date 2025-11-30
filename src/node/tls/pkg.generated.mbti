@@ -3,6 +3,7 @@ package "mizchi/js/node/tls"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/event"
 )
 
@@ -16,6 +17,8 @@ fn create_server((TLSSocket) -> Unit, key? : String, cert? : String, ca? : Strin
 // Types and methods
 #external
 pub type Server
+fn Server::as_any(Self) -> @nostd.Any
+fn Server::as_event_target(Self) -> @event.EventTarget
 fn Server::close(Self, () -> Unit) -> Unit
 fn Server::listen(Self, Int, () -> Unit) -> Unit
 impl @js.JsImpl for Server
@@ -23,6 +26,8 @@ impl @event.EventTargetImpl for Server
 
 #external
 pub type TLSSocket
+fn TLSSocket::as_any(Self) -> @nostd.Any
+fn TLSSocket::as_event_target(Self) -> @event.EventTarget
 fn TLSSocket::authorization_error(Self) -> String?
 fn TLSSocket::authorized(Self) -> Bool
 fn TLSSocket::end(Self) -> Unit

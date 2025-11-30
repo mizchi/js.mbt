@@ -30,6 +30,10 @@ pub type Worker
 pub fn Worker::as_any(self : Worker) -> @nostd.Any = "%identity"
 
 ///|
+/// Cast to EventTarget for event handling
+pub fn Worker::as_event_target(self : Worker) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for Worker
 
 ///|

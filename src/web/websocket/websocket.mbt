@@ -17,6 +17,10 @@ pub(all) struct WebSocket {
 pub fn WebSocket::as_any(self : WebSocket) -> @nostd.Any = "%identity"
 
 ///|
+/// Cast to EventTarget for event handling
+pub fn WebSocket::as_event_target(self : WebSocket) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for WebSocket
 
 ///|

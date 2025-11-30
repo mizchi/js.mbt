@@ -44,6 +44,7 @@ pub(all) struct EventSource {
   withCredentials : Bool
 }
 fn EventSource::as_any(Self) -> @nostd.Any
+fn EventSource::as_event_target(Self) -> EventTarget
 fn EventSource::close(Self) -> Unit
 fn EventSource::new(String, withCredentials? : Bool) -> Self
 fn EventSource::set_onerror(Self, (@js.Any) -> Unit) -> Unit
@@ -54,7 +55,15 @@ impl EventTargetImpl for EventSource
 
 #external
 pub type EventTarget
+#alias(add_event_listener)
+fn EventTarget::addEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 fn EventTarget::as_any(Self) -> @nostd.Any
+#alias(dispatch_event)
+fn EventTarget::dispatchEvent(Self, Event) -> Bool
+fn EventTarget::off(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit
+fn EventTarget::on(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
+#alias(remove_event_listener)
+fn EventTarget::removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit
 impl @js.JsImpl for EventTarget
 impl EventTargetImpl for EventTarget
 

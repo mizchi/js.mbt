@@ -3,6 +3,7 @@ package "mizchi/js/node/http2"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/event"
 )
 
@@ -18,6 +19,8 @@ fn create_server((@js.Object, @js.Object) -> Unit, allow_http1? : Bool, max_defl
 // Types and methods
 #external
 pub type ClientHttp2Stream
+fn ClientHttp2Stream::as_any(Self) -> @nostd.Any
+fn ClientHttp2Stream::as_event_target(Self) -> @event.EventTarget
 fn ClientHttp2Stream::end(Self) -> Unit
 fn ClientHttp2Stream::on_data(Self, (@js.Object) -> Unit) -> Self
 fn ClientHttp2Stream::on_end(Self, () -> Unit) -> Self
@@ -28,6 +31,8 @@ impl @event.EventTargetImpl for ClientHttp2Stream
 
 #external
 pub type Http2SecureServer
+fn Http2SecureServer::as_any(Self) -> @nostd.Any
+fn Http2SecureServer::as_event_target(Self) -> @event.EventTarget
 fn Http2SecureServer::close(Self, () -> Unit) -> Unit
 fn Http2SecureServer::listen(Self, Int, () -> Unit) -> Unit
 impl @js.JsImpl for Http2SecureServer
@@ -35,6 +40,8 @@ impl @event.EventTargetImpl for Http2SecureServer
 
 #external
 pub type Http2Server
+fn Http2Server::as_any(Self) -> @nostd.Any
+fn Http2Server::as_event_target(Self) -> @event.EventTarget
 fn Http2Server::close(Self, () -> Unit) -> Unit
 fn Http2Server::listen(Self, Int, () -> Unit) -> Unit
 impl @js.JsImpl for Http2Server
@@ -42,6 +49,8 @@ impl @event.EventTargetImpl for Http2Server
 
 #external
 pub type Http2Session
+fn Http2Session::as_any(Self) -> @nostd.Any
+fn Http2Session::as_event_target(Self) -> @event.EventTarget
 fn Http2Session::close(Self) -> Unit
 fn Http2Session::ping(Self, () -> Unit) -> Unit
 fn Http2Session::request(Self, @js.Object) -> ClientHttp2Stream
@@ -50,11 +59,15 @@ impl @event.EventTargetImpl for Http2Session
 
 #external
 pub type Http2Stream
+fn Http2Stream::as_any(Self) -> @nostd.Any
+fn Http2Stream::as_event_target(Self) -> @event.EventTarget
 impl @js.JsImpl for Http2Stream
 impl @event.EventTargetImpl for Http2Stream
 
 #external
 pub type ServerHttp2Stream
+fn ServerHttp2Stream::as_any(Self) -> @nostd.Any
+fn ServerHttp2Stream::as_event_target(Self) -> @event.EventTarget
 fn ServerHttp2Stream::end(Self, String) -> Unit
 fn ServerHttp2Stream::respond(Self, @js.Object) -> Unit
 impl @js.JsImpl for ServerHttp2Stream

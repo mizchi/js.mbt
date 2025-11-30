@@ -7,6 +7,13 @@
 pub type Session
 
 ///|
+pub fn Session::as_any(self : Session) -> @nostd.Any = "%identity"
+
+///|
+/// Cast to EventTarget for event handling
+pub fn Session::as_event_target(self : Session) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for Session
 
 ///|

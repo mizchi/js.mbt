@@ -179,6 +179,9 @@ pub type Document
 fn Document::activeElement(Self) -> Element
 #alias(adopt_node)
 fn Document::adoptNode(Self, Node) -> Node
+fn Document::as_any(Self) -> @nostd.Any
+fn Document::as_event_target(Self) -> @event.EventTarget
+fn Document::as_node(Self) -> Node
 fn Document::body(Self) -> HTMLBodyElement?
 #alias(character_set)
 fn Document::characterSet(Self) -> String
@@ -246,6 +249,9 @@ impl EventImpl for DragEvent
 
 #external
 pub type Element
+fn Element::as_any(Self) -> @nostd.Any
+fn Element::as_event_target(Self) -> @event.EventTarget
+fn Element::as_node(Self) -> Node
 impl @js.JsImpl for Element
 impl ElementImpl for Element
 impl NodeImpl for Element
@@ -575,6 +581,8 @@ impl Show for MouseEvent
 
 #external
 pub type Node
+fn Node::as_any(Self) -> @nostd.Any
+fn Node::as_event_target(Self) -> @event.EventTarget
 impl @js.JsImpl for Node
 impl NodeImpl for Node
 impl @event.EventTargetImpl for Node
@@ -834,6 +842,8 @@ fn Window::add_pagehide_listener(Self, (PageTransitionEvent) -> Unit) -> Unit
 fn Window::add_pageshow_listener(Self, (PageTransitionEvent) -> Unit) -> Unit
 fn Window::add_popstate_listener(Self, (PopStateEvent) -> Unit) -> Unit
 fn Window::alert(Self, String) -> Unit
+fn Window::as_any(Self) -> @nostd.Any
+fn Window::as_event_target(Self) -> @event.EventTarget
 #alias(cancel_animation_frame)
 fn Window::cancelAnimationFrame(Self, Int) -> Unit
 #alias(clear_interval)

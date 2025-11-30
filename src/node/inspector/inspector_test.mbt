@@ -2,7 +2,8 @@
 /// Test Session creation
 test "Session::new creates session" {
   let session = Session::new()
-  inspect(@js.typeof_(session.as_any()), content="object")
+  let session_js : @js.Any = session.as_any().cast()
+  inspect(@js.typeof_(session_js), content="object")
 }
 
 ///|
@@ -11,7 +12,8 @@ test "Session connect and disconnect" {
   let session = Session::new()
   session.connect()
   session.disconnect()
-  inspect(@js.typeof_(session.as_any()), content="object")
+  let session_js : @js.Any = session.as_any().cast()
+  inspect(@js.typeof_(session_js), content="object")
 }
 
 ///|
@@ -28,5 +30,6 @@ test "url returns string or undefined" {
 /// Test console function
 test "console returns Console instance" {
   let inspector_console = console()
-  inspect(@js.typeof_(inspector_console.as_any()), content="object")
+  let console_js : @js.Any = inspector_console.as_any().cast()
+  inspect(@js.typeof_(console_js), content="object")
 }

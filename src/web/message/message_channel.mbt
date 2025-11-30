@@ -13,6 +13,12 @@ pub(all) struct MessageEvent {
 } derive(Show)
 
 ///|
+pub fn MessageEvent::as_any(self : MessageEvent) -> @nostd.Any = "%identity"
+
+///|
+pub fn MessageEvent::as_event_target(self : MessageEvent) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for MessageEvent
 
 ///|
@@ -25,6 +31,12 @@ pub impl @event.EventTargetImpl for MessageEvent
 /// MessagePort implements the EventTarget trait for event handling.
 #external
 pub type MessagePort
+
+///|
+pub fn MessagePort::as_any(self : MessagePort) -> @nostd.Any = "%identity"
+
+///|
+pub fn MessagePort::as_event_target(self : MessagePort) -> @event.EventTarget = "%identity"
 
 ///|
 pub impl @js.JsImpl for MessagePort

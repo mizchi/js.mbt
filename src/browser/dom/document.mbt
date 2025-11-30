@@ -5,6 +5,15 @@
 pub type Document
 
 ///|
+pub fn Document::as_any(self : Document) -> @nostd.Any = "%identity"
+
+///|
+pub fn Document::as_event_target(self : Document) -> @event.EventTarget = "%identity"
+
+///|
+pub fn Document::as_node(self : Document) -> Node = "%identity"
+
+///|
 pub impl @js.JsImpl for Document
 
 ///|
@@ -227,7 +236,8 @@ pub fn Document::doctype(self : Self) -> @js.Any? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
 #alias(adopt_node)
 pub fn Document::adoptNode(self : Self, node : Node) -> Node {
-  self.call("adoptNode", [node.as_any()]).cast()
+  let self_js : @js.Any = self.as_any().cast()
+  self_js.call("adoptNode", [node.as_any().cast()]).cast()
 }
 
 ///|
@@ -235,7 +245,9 @@ pub fn Document::adoptNode(self : Self, node : Node) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
 #alias(import_node)
 pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
-  self.call2("importNode", node.as_any(), deep) |> @js.identity
+  let self_js : @js.Any = self.as_any().cast()
+  let node_js : @js.Any = node.as_any().cast()
+  self_js.call2("importNode", node_js, deep) |> @js.identity
 }
 
 ///|

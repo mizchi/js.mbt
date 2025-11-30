@@ -7,6 +7,12 @@
 pub type ReadStream
 
 ///|
+pub fn ReadStream::as_any(self : ReadStream) -> @nostd.Any = "%identity"
+
+///|
+pub fn ReadStream::as_event_target(self : ReadStream) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for ReadStream
 
 ///|
@@ -39,6 +45,12 @@ pub fn ReadStream::set_raw_mode(self : ReadStream, mode : Bool) -> Unit {
 /// Extends net.Socket which extends stream.Duplex
 #external
 pub type WriteStream
+
+///|
+pub fn WriteStream::as_any(self : WriteStream) -> @nostd.Any = "%identity"
+
+///|
+pub fn WriteStream::as_event_target(self : WriteStream) -> @event.EventTarget = "%identity"
 
 ///|
 pub impl @js.JsImpl for WriteStream

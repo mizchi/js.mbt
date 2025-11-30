@@ -85,27 +85,9 @@ pub fn Event::defaultPrevented(self : Event) -> Bool {
 }
 
 ///|
-/// Generic EventTarget trait for objects that can receive events
-/// This is a base trait used by DOM, Worker, WebSocket, and other Web APIs
-///
-/// Unlike the DOM-specific EventTarget, this trait uses generic Val for events
-/// to support various event types across different APIs.
-
-///|
-/// Generic event target trait - base interface for objects that can receive events
-/// This trait is implemented by:
-/// - DOM elements (Document, Element, Window, etc.)
-/// - Worker API (Worker, MessagePort, BroadcastChannel)
-/// - Network APIs (WebSocket, EventSource, XMLHttpRequest)
-/// - Media APIs (MediaStream, AudioContext, etc.)
+/// @deprecated Use as_event_target() pattern instead
+/// Generic event target trait - kept for backward compatibility
 pub(open) trait EventTargetImpl: @js.JsImpl {
-  /// Add an event listener for the specified event type
-  /// The listener receives a generic Val which should be cast to the appropriate event type
-  /// Options:
-  /// - capture: if true, the listener will be triggered during the capture phase
-  /// - once: if true, the listener will be automatically removed after being invoked once
-  /// - passive: if true, indicates that the listener will never call preventDefault()
-  /// - signal: an @js.AbortSignal to remove the listener when aborted
   addEventListener(
     Self,
     String,
@@ -115,19 +97,11 @@ pub(open) trait EventTargetImpl: @js.JsImpl {
     passive? : Bool,
     signal? : @js.AbortSignal,
   ) -> Unit = _
-
-  /// Remove a previously registered event listener
-  /// Options:
-  /// - capture: must match the capture value used when adding the listener
   removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit = _
-
-  /// Dispatch an event to this target
-  /// Accepts Event or any subtype (CustomEvent, MouseEvent, etc.)
   dispatchEvent(Self, &@js.JsImpl) -> Bool = _
 }
 
 ///|
-/// Default implementation using JavaScript's addEventListener/removeEventListener
 impl EventTargetImpl with addEventListener(
   self,
   event_type,
@@ -172,6 +146,8 @@ impl EventTargetImpl with dispatchEvent(self, event) -> Bool {
 
 ///|
 /// https://developer.mozilla.org/en-US/docs/Web/API/Event/target
+/// EventTarget is the base interface for objects that can receive events.
+/// Types that can be event targets should provide as_event_target() method.
 #external
 pub type EventTarget
 
@@ -183,3 +159,84 @@ pub impl @js.JsImpl for EventTarget
 
 ///|
 pub impl EventTargetImpl for EventTarget
+
+///|
+/// Add an event listener for the specified event type
+/// This is the primary method for registering event handlers
+#alias(add_event_listener)
+pub fn EventTarget::addEventListener(
+  self : EventTarget,
+  event_type : String,
+  handler : (@js.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js.AbortSignal,
+) -> Unit {
+  self
+  .as_any()
+  ._call("addEventListener", [
+    @nostd.any(event_type),
+    @nostd.any(@js.from_fn1(handler)),
+    @nostd.any(
+      @js.from_option_map({
+        "capture": Some(@js.any(capture)),
+        "once": Some(@js.any(once)),
+        "passive": Some(@js.any(passive)),
+        "signal": signal.map(fn(x) { x |> @js.identity }),
+      }),
+    ),
+  ])
+  |> ignore
+}
+
+///|
+/// Short alias for addEventListener
+pub fn EventTarget::on(
+  self : EventTarget,
+  event_type : String,
+  handler : (@js.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js.AbortSignal,
+) -> Unit {
+  self.addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Remove a previously registered event listener
+#alias(remove_event_listener)
+pub fn EventTarget::removeEventListener(
+  self : EventTarget,
+  event_type : String,
+  handler : (@js.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_any()
+  ._call("removeEventListener", [
+    @nostd.any(event_type),
+    @nostd.any(@js.from_fn1(handler)),
+    @nostd.any(@js.from_option_map({ "capture": Some(@js.any(capture)) })),
+  ])
+  |> ignore
+}
+
+///|
+/// Short alias for removeEventListener
+pub fn EventTarget::off(
+  self : EventTarget,
+  event_type : String,
+  handler : (@js.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self.removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Dispatch an event to this target
+#alias(dispatch_event)
+pub fn EventTarget::dispatchEvent(self : EventTarget, event : Event) -> Bool {
+  self.as_any()._call("dispatchEvent", [event.as_any()]).cast()
+}

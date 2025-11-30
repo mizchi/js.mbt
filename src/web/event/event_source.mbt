@@ -14,6 +14,10 @@ pub(all) struct EventSource {
 pub fn EventSource::as_any(self : EventSource) -> @nostd.Any = "%identity"
 
 ///|
+/// Cast to EventTarget for event handling
+pub fn EventSource::as_event_target(self : EventSource) -> EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for EventSource
 
 ///|

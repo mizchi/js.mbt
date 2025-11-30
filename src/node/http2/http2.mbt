@@ -7,6 +7,12 @@
 pub type Http2Session
 
 ///|
+pub fn Http2Session::as_any(self : Http2Session) -> @nostd.Any = "%identity"
+
+///|
+pub fn Http2Session::as_event_target(self : Http2Session) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for Http2Session
 
 ///|
@@ -17,6 +23,12 @@ pub impl @event.EventTargetImpl for Http2Session
 /// https://nodejs.org/api/http2.html#class-http2server
 #external
 pub type Http2Server
+
+///|
+pub fn Http2Server::as_any(self : Http2Server) -> @nostd.Any = "%identity"
+
+///|
+pub fn Http2Server::as_event_target(self : Http2Server) -> @event.EventTarget = "%identity"
 
 ///|
 pub impl @js.JsImpl for Http2Server
@@ -31,6 +43,14 @@ pub impl @event.EventTargetImpl for Http2Server
 pub type Http2SecureServer
 
 ///|
+pub fn Http2SecureServer::as_any(self : Http2SecureServer) -> @nostd.Any = "%identity"
+
+///|
+pub fn Http2SecureServer::as_event_target(
+  self : Http2SecureServer,
+) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for Http2SecureServer
 
 ///|
@@ -41,6 +61,12 @@ pub impl @event.EventTargetImpl for Http2SecureServer
 /// https://nodejs.org/api/http2.html#class-http2stream
 #external
 pub type Http2Stream
+
+///|
+pub fn Http2Stream::as_any(self : Http2Stream) -> @nostd.Any = "%identity"
+
+///|
+pub fn Http2Stream::as_event_target(self : Http2Stream) -> @event.EventTarget = "%identity"
 
 ///|
 pub impl @js.JsImpl for Http2Stream
@@ -55,6 +81,14 @@ pub impl @event.EventTargetImpl for Http2Stream
 pub type ClientHttp2Stream
 
 ///|
+pub fn ClientHttp2Stream::as_any(self : ClientHttp2Stream) -> @nostd.Any = "%identity"
+
+///|
+pub fn ClientHttp2Stream::as_event_target(
+  self : ClientHttp2Stream,
+) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for ClientHttp2Stream
 
 ///|
@@ -65,6 +99,14 @@ pub impl @event.EventTargetImpl for ClientHttp2Stream
 /// https://nodejs.org/api/http2.html#class-serverhttp2stream
 #external
 pub type ServerHttp2Stream
+
+///|
+pub fn ServerHttp2Stream::as_any(self : ServerHttp2Stream) -> @nostd.Any = "%identity"
+
+///|
+pub fn ServerHttp2Stream::as_event_target(
+  self : ServerHttp2Stream,
+) -> @event.EventTarget = "%identity"
 
 ///|
 pub impl @js.JsImpl for ServerHttp2Stream

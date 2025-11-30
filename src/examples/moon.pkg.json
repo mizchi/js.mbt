@@ -3,6 +3,7 @@
     "moonbitlang/async",
     "moonbitlang/async/js_async",
     "mizchi/js",
+    "mizchi/js/nostd",
     "mizchi/js/web/http",
     "mizchi/js/browser/dom",
     "mizchi/js/browser/storage",

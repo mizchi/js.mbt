@@ -3,6 +3,15 @@
 pub type Element
 
 ///|
+pub fn Element::as_any(self : Element) -> @nostd.Any = "%identity"
+
+///|
+pub fn Element::as_event_target(self : Element) -> @event.EventTarget = "%identity"
+
+///|
+pub fn Element::as_node(self : Element) -> Node = "%identity"
+
+///|
 pub impl @js.JsImpl for Element
 
 ///|

@@ -3,6 +3,12 @@
 pub type Node
 
 ///|
+pub fn Node::as_any(self : Node) -> @nostd.Any = "%identity"
+
+///|
+pub fn Node::as_event_target(self : Node) -> @event.EventTarget = "%identity"
+
+///|
 pub impl @js.JsImpl for Node
 
 ///|

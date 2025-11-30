@@ -3,6 +3,7 @@ package "mizchi/js/node/tty"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/event"
 )
 
@@ -14,6 +15,8 @@ fn isatty(Int) -> Bool
 // Types and methods
 #external
 pub type ReadStream
+fn ReadStream::as_any(Self) -> @nostd.Any
+fn ReadStream::as_event_target(Self) -> @event.EventTarget
 fn ReadStream::is_raw(Self) -> Bool
 fn ReadStream::is_tty(Self) -> Bool
 fn ReadStream::set_raw_mode(Self, Bool) -> Unit
@@ -22,6 +25,8 @@ impl @event.EventTargetImpl for ReadStream
 
 #external
 pub type WriteStream
+fn WriteStream::as_any(Self) -> @nostd.Any
+fn WriteStream::as_event_target(Self) -> @event.EventTarget
 fn WriteStream::clear_line(Self, Int, () -> Unit) -> Unit
 fn WriteStream::clear_screen_down(Self, () -> Unit) -> Unit
 fn WriteStream::columns(Self) -> Int
