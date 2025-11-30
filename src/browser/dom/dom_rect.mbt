@@ -13,7 +13,7 @@ pub(all) struct DOMRect {
 }
 
 ///|
-pub impl @js.JsImpl for DOMRect
+pub fn DOMRect::as_any(self : DOMRect) -> @nostd.Any = "%identity"
 
 ///|
 /// DOMRectReadOnly represents a read-only rectangle
@@ -30,4 +30,4 @@ pub(all) struct DOMRectReadOnly {
 }
 
 ///|
-pub impl @js.JsImpl for DOMRectReadOnly
+pub fn DOMRectReadOnly::as_any(self : DOMRectReadOnly) -> @nostd.Any = "%identity"

@@ -6,6 +6,20 @@ pub type HTMLDivElement
 pub fn HTMLDivElement::as_any(self : HTMLDivElement) -> @nostd.Any = "%identity"
 
 ///|
+pub fn HTMLDivElement::as_event_target(
+  self : HTMLDivElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLDivElement::as_node(self : HTMLDivElement) -> Node = "%identity"
+
+///|
+pub fn HTMLDivElement::as_element(self : HTMLDivElement) -> Element = "%identity"
+
+///|
+pub fn HTMLDivElement::as_html_element(self : HTMLDivElement) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLDivElement
 
 ///|
@@ -27,6 +41,25 @@ pub(all) struct HTMLCanvasElement {
   mut width : Int
   mut height : Int
 } derive(Show)
+
+///|
+pub fn HTMLCanvasElement::as_any(self : HTMLCanvasElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLCanvasElement::as_event_target(
+  self : HTMLCanvasElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLCanvasElement::as_node(self : HTMLCanvasElement) -> Node = "%identity"
+
+///|
+pub fn HTMLCanvasElement::as_element(self : HTMLCanvasElement) -> Element = "%identity"
+
+///|
+pub fn HTMLCanvasElement::as_html_element(
+  self : HTMLCanvasElement,
+) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLCanvasElement
@@ -87,6 +120,20 @@ pub type HTMLBodyElement
 pub fn HTMLBodyElement::as_any(self : HTMLBodyElement) -> @nostd.Any = "%identity"
 
 ///|
+pub fn HTMLBodyElement::as_event_target(
+  self : HTMLBodyElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLBodyElement::as_node(self : HTMLBodyElement) -> Node = "%identity"
+
+///|
+pub fn HTMLBodyElement::as_element(self : HTMLBodyElement) -> Element = "%identity"
+
+///|
+pub fn HTMLBodyElement::as_html_element(self : HTMLBodyElement) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLBodyElement
 
 ///|
@@ -107,6 +154,20 @@ pub type HTMLHeadElement
 
 ///|
 pub fn HTMLHeadElement::as_any(self : HTMLHeadElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLHeadElement::as_event_target(
+  self : HTMLHeadElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLHeadElement::as_node(self : HTMLHeadElement) -> Node = "%identity"
+
+///|
+pub fn HTMLHeadElement::as_element(self : HTMLHeadElement) -> Element = "%identity"
+
+///|
+pub fn HTMLHeadElement::as_html_element(self : HTMLHeadElement) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLHeadElement
@@ -131,6 +192,20 @@ pub type HTMLHtmlElement
 pub fn HTMLHtmlElement::as_any(self : HTMLHtmlElement) -> @nostd.Any = "%identity"
 
 ///|
+pub fn HTMLHtmlElement::as_event_target(
+  self : HTMLHtmlElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLHtmlElement::as_node(self : HTMLHtmlElement) -> Node = "%identity"
+
+///|
+pub fn HTMLHtmlElement::as_element(self : HTMLHtmlElement) -> Element = "%identity"
+
+///|
+pub fn HTMLHtmlElement::as_html_element(self : HTMLHtmlElement) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLHtmlElement
 
 ///|
@@ -151,6 +226,20 @@ pub type HTMLSpanElement
 
 ///|
 pub fn HTMLSpanElement::as_any(self : HTMLSpanElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLSpanElement::as_event_target(
+  self : HTMLSpanElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLSpanElement::as_node(self : HTMLSpanElement) -> Node = "%identity"
+
+///|
+pub fn HTMLSpanElement::as_element(self : HTMLSpanElement) -> Element = "%identity"
+
+///|
+pub fn HTMLSpanElement::as_html_element(self : HTMLSpanElement) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLSpanElement
@@ -176,6 +265,25 @@ pub(all) struct HTMLAnchorElement {
 }
 
 ///|
+pub fn HTMLAnchorElement::as_any(self : HTMLAnchorElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLAnchorElement::as_event_target(
+  self : HTMLAnchorElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLAnchorElement::as_node(self : HTMLAnchorElement) -> Node = "%identity"
+
+///|
+pub fn HTMLAnchorElement::as_element(self : HTMLAnchorElement) -> Element = "%identity"
+
+///|
+pub fn HTMLAnchorElement::as_html_element(
+  self : HTMLAnchorElement,
+) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLAnchorElement
 
 ///|
@@ -196,6 +304,25 @@ pub impl HTMLElementImpl for HTMLAnchorElement
 pub(all) struct HTMLButtonElement {
   mut disabled : Bool
 }
+
+///|
+pub fn HTMLButtonElement::as_any(self : HTMLButtonElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLButtonElement::as_event_target(
+  self : HTMLButtonElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLButtonElement::as_node(self : HTMLButtonElement) -> Node = "%identity"
+
+///|
+pub fn HTMLButtonElement::as_element(self : HTMLButtonElement) -> Element = "%identity"
+
+///|
+pub fn HTMLButtonElement::as_html_element(
+  self : HTMLButtonElement,
+) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLButtonElement
@@ -220,6 +347,25 @@ pub(all) struct HTMLInputElement {
   mut placeholder : String
   mut checked : Bool
 }
+
+///|
+pub fn HTMLInputElement::as_any(self : HTMLInputElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLInputElement::as_event_target(
+  self : HTMLInputElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLInputElement::as_node(self : HTMLInputElement) -> Node = "%identity"
+
+///|
+pub fn HTMLInputElement::as_element(self : HTMLInputElement) -> Element = "%identity"
+
+///|
+pub fn HTMLInputElement::as_html_element(
+  self : HTMLInputElement,
+) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLInputElement
@@ -261,6 +407,25 @@ pub(all) struct HTMLTextAreaElement {
 }
 
 ///|
+pub fn HTMLTextAreaElement::as_any(self : HTMLTextAreaElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLTextAreaElement::as_event_target(
+  self : HTMLTextAreaElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLTextAreaElement::as_node(self : HTMLTextAreaElement) -> Node = "%identity"
+
+///|
+pub fn HTMLTextAreaElement::as_element(self : HTMLTextAreaElement) -> Element = "%identity"
+
+///|
+pub fn HTMLTextAreaElement::as_html_element(
+  self : HTMLTextAreaElement,
+) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLTextAreaElement
 
 ///|
@@ -285,6 +450,25 @@ pub(all) struct HTMLIFrameElement {
   mut height : String
   mut name : String
 } derive(Show)
+
+///|
+pub fn HTMLIFrameElement::as_any(self : HTMLIFrameElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLIFrameElement::as_event_target(
+  self : HTMLIFrameElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLIFrameElement::as_node(self : HTMLIFrameElement) -> Node = "%identity"
+
+///|
+pub fn HTMLIFrameElement::as_element(self : HTMLIFrameElement) -> Element = "%identity"
+
+///|
+pub fn HTMLIFrameElement::as_html_element(
+  self : HTMLIFrameElement,
+) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLIFrameElement
@@ -323,6 +507,20 @@ pub type HTMLFormElement
 pub fn HTMLFormElement::as_any(self : HTMLFormElement) -> @nostd.Any = "%identity"
 
 ///|
+pub fn HTMLFormElement::as_event_target(
+  self : HTMLFormElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLFormElement::as_node(self : HTMLFormElement) -> Node = "%identity"
+
+///|
+pub fn HTMLFormElement::as_element(self : HTMLFormElement) -> Element = "%identity"
+
+///|
+pub fn HTMLFormElement::as_html_element(self : HTMLFormElement) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLFormElement
 
 ///|
@@ -344,6 +542,25 @@ pub(all) struct HTMLSelectElement {
   mut value : String
   mut disabled : Bool
 }
+
+///|
+pub fn HTMLSelectElement::as_any(self : HTMLSelectElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLSelectElement::as_event_target(
+  self : HTMLSelectElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLSelectElement::as_node(self : HTMLSelectElement) -> Node = "%identity"
+
+///|
+pub fn HTMLSelectElement::as_element(self : HTMLSelectElement) -> Element = "%identity"
+
+///|
+pub fn HTMLSelectElement::as_html_element(
+  self : HTMLSelectElement,
+) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLSelectElement
@@ -369,6 +586,25 @@ pub(all) struct HTMLOptionElement {
 }
 
 ///|
+pub fn HTMLOptionElement::as_any(self : HTMLOptionElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLOptionElement::as_event_target(
+  self : HTMLOptionElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLOptionElement::as_node(self : HTMLOptionElement) -> Node = "%identity"
+
+///|
+pub fn HTMLOptionElement::as_element(self : HTMLOptionElement) -> Element = "%identity"
+
+///|
+pub fn HTMLOptionElement::as_html_element(
+  self : HTMLOptionElement,
+) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLOptionElement
 
 ///|
@@ -389,6 +625,25 @@ pub impl HTMLElementImpl for HTMLOptionElement
 pub(all) struct HTMLLabelElement {
   mut htmlFor : String
 }
+
+///|
+pub fn HTMLLabelElement::as_any(self : HTMLLabelElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLLabelElement::as_event_target(
+  self : HTMLLabelElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLLabelElement::as_node(self : HTMLLabelElement) -> Node = "%identity"
+
+///|
+pub fn HTMLLabelElement::as_element(self : HTMLLabelElement) -> Element = "%identity"
+
+///|
+pub fn HTMLLabelElement::as_html_element(
+  self : HTMLLabelElement,
+) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLLabelElement
@@ -414,6 +669,25 @@ pub(all) struct HTMLImageElement {
 }
 
 ///|
+pub fn HTMLImageElement::as_any(self : HTMLImageElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLImageElement::as_event_target(
+  self : HTMLImageElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLImageElement::as_node(self : HTMLImageElement) -> Node = "%identity"
+
+///|
+pub fn HTMLImageElement::as_element(self : HTMLImageElement) -> Element = "%identity"
+
+///|
+pub fn HTMLImageElement::as_html_element(
+  self : HTMLImageElement,
+) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLImageElement
 
 ///|
@@ -434,6 +708,22 @@ pub type HTMLParagraphElement
 
 ///|
 pub fn HTMLParagraphElement::as_any(self : HTMLParagraphElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLParagraphElement::as_event_target(
+  self : HTMLParagraphElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLParagraphElement::as_node(self : HTMLParagraphElement) -> Node = "%identity"
+
+///|
+pub fn HTMLParagraphElement::as_element(self : HTMLParagraphElement) -> Element = "%identity"
+
+///|
+pub fn HTMLParagraphElement::as_html_element(
+  self : HTMLParagraphElement,
+) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLParagraphElement
@@ -458,6 +748,22 @@ pub type HTMLHeadingElement
 pub fn HTMLHeadingElement::as_any(self : HTMLHeadingElement) -> @nostd.Any = "%identity"
 
 ///|
+pub fn HTMLHeadingElement::as_event_target(
+  self : HTMLHeadingElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLHeadingElement::as_node(self : HTMLHeadingElement) -> Node = "%identity"
+
+///|
+pub fn HTMLHeadingElement::as_element(self : HTMLHeadingElement) -> Element = "%identity"
+
+///|
+pub fn HTMLHeadingElement::as_html_element(
+  self : HTMLHeadingElement,
+) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLHeadingElement
 
 ///|
@@ -478,6 +784,22 @@ pub type HTMLUListElement
 
 ///|
 pub fn HTMLUListElement::as_any(self : HTMLUListElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLUListElement::as_event_target(
+  self : HTMLUListElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLUListElement::as_node(self : HTMLUListElement) -> Node = "%identity"
+
+///|
+pub fn HTMLUListElement::as_element(self : HTMLUListElement) -> Element = "%identity"
+
+///|
+pub fn HTMLUListElement::as_html_element(
+  self : HTMLUListElement,
+) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLUListElement
@@ -502,6 +824,22 @@ pub type HTMLOListElement
 pub fn HTMLOListElement::as_any(self : HTMLOListElement) -> @nostd.Any = "%identity"
 
 ///|
+pub fn HTMLOListElement::as_event_target(
+  self : HTMLOListElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLOListElement::as_node(self : HTMLOListElement) -> Node = "%identity"
+
+///|
+pub fn HTMLOListElement::as_element(self : HTMLOListElement) -> Element = "%identity"
+
+///|
+pub fn HTMLOListElement::as_html_element(
+  self : HTMLOListElement,
+) -> HTMLElement = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLOListElement
 
 ///|
@@ -522,6 +860,20 @@ pub type HTMLLIElement
 
 ///|
 pub fn HTMLLIElement::as_any(self : HTMLLIElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn HTMLLIElement::as_event_target(
+  self : HTMLLIElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn HTMLLIElement::as_node(self : HTMLLIElement) -> Node = "%identity"
+
+///|
+pub fn HTMLLIElement::as_element(self : HTMLLIElement) -> Element = "%identity"
+
+///|
+pub fn HTMLLIElement::as_html_element(self : HTMLLIElement) -> HTMLElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLLIElement

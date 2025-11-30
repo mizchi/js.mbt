@@ -9,7 +9,9 @@
 pub type CustomElementRegistry
 
 ///|
-pub impl @js.JsImpl for CustomElementRegistry
+pub fn CustomElementRegistry::as_any(
+  self : CustomElementRegistry,
+) -> @nostd.Any = "%identity"
 
 ///|
 /// Returns the custom elements registry
@@ -60,7 +62,8 @@ pub fn CustomElementRegistry::define_(
   callbacks : CustomElementCallbacks,
 ) -> Unit {
   let element_class = create_custom_element_class(callbacks)
-  self.call2("define", name, element_class) |> ignore
+  self.as_any()._call("define", [@nostd.any(name), @nostd.any(element_class)])
+  |> ignore
 }
 
 ///|
@@ -101,14 +104,16 @@ pub fn CustomElementRegistry::define_element_with_attributes(
   let element_class = create_custom_element_class_with_attributes(
     callbacks, observed_attributes,
   )
-  self.call2("define", name, element_class) |> ignore
+  self.as_any()._call("define", [@nostd.any(name), @nostd.any(element_class)])
+  |> ignore
 }
 
 ///|
 /// Returns the constructor for the custom element with the given name
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
 pub fn CustomElementRegistry::get(self : Self, name : String) -> @js.Any? {
-  self.call1("get", name) |> @js.identity_option
+  let v : @js.Any = self.as_any()._call("get", [@nostd.any(name)]).cast()
+  v |> @js.identity_option
 }
 
 ///|
@@ -118,7 +123,11 @@ pub fn CustomElementRegistry::getName(
   self : Self,
   element_constructor : @js.Any,
 ) -> String? {
-  self.call1("getName", element_constructor) |> @js.identity_option
+  let v : @js.Any = self
+    .as_any()
+    ._call("getName", [@nostd.any(element_constructor)])
+    .cast()
+  v |> @js.identity_option
 }
 
 ///|
@@ -128,7 +137,10 @@ pub async fn CustomElementRegistry::whenDefined(
   self : Self,
   name : String,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = self.call1("whenDefined", name).cast()
+  let promise : @js.Promise[Unit] = self
+    .as_any()
+    ._call("whenDefined", [@nostd.any(name)])
+    .cast()
   promise.wait()
 }
 
@@ -136,8 +148,7 @@ pub async fn CustomElementRegistry::whenDefined(
 /// Upgrades a custom element in the shadow root before it is connected
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/upgrade
 pub fn CustomElementRegistry::upgrade(self : Self, root : Node) -> Unit {
-  let root_js : @js.Any = root.as_any().cast()
-  self.call1("upgrade", root_js) |> ignore
+  self.as_any()._call("upgrade", [root.as_any()]) |> ignore
 }
 
 ///|

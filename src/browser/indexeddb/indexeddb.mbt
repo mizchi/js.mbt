@@ -17,6 +17,11 @@ pub(all) struct IDBRequest[T] {
 pub fn[T] IDBRequest::as_any(self : IDBRequest[T]) -> @nostd.Any = "%identity"
 
 ///|
+pub fn[T] IDBRequest::as_event_target(
+  self : IDBRequest[T],
+) -> @event.EventTarget = "%identity"
+
+///|
 pub impl[T] @js.JsImpl for IDBRequest[T]
 
 ///|
@@ -69,6 +74,11 @@ pub(all) struct IDBOpenDBRequest {
 
 ///|
 pub fn IDBOpenDBRequest::as_any(self : IDBOpenDBRequest) -> @nostd.Any = "%identity"
+
+///|
+pub fn IDBOpenDBRequest::as_event_target(
+  self : IDBOpenDBRequest,
+) -> @event.EventTarget = "%identity"
 
 ///|
 pub impl @js.JsImpl for IDBOpenDBRequest

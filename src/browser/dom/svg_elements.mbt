@@ -8,7 +8,25 @@ pub type SVGElement
 pub fn SVGElement::as_any(self : SVGElement) -> @nostd.Any = "%identity"
 
 ///|
+pub fn SVGElement::as_event_target(self : SVGElement) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGElement::as_node(self : SVGElement) -> Node = "%identity"
+
+///|
+pub fn SVGElement::as_element(self : SVGElement) -> Element = "%identity"
+
+///|
 pub impl @js.JsImpl for SVGElement
+
+///|
+pub impl @event.EventTargetImpl for SVGElement
+
+///|
+pub impl NodeImpl for SVGElement
+
+///|
+pub impl ElementImpl for SVGElement
 
 ///|
 /// Sets an attribute on the SVG element
@@ -36,7 +54,30 @@ pub type SVGSVGElement
 pub fn SVGSVGElement::as_any(self : SVGSVGElement) -> @nostd.Any = "%identity"
 
 ///|
+pub fn SVGSVGElement::as_event_target(
+  self : SVGSVGElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGSVGElement::as_node(self : SVGSVGElement) -> Node = "%identity"
+
+///|
+pub fn SVGSVGElement::as_element(self : SVGSVGElement) -> Element = "%identity"
+
+///|
+pub fn SVGSVGElement::as_svg_element(self : SVGSVGElement) -> SVGElement = "%identity"
+
+///|
 pub impl @js.JsImpl for SVGSVGElement
+
+///|
+pub impl @event.EventTargetImpl for SVGSVGElement
+
+///|
+pub impl NodeImpl for SVGSVGElement
+
+///|
+pub impl ElementImpl for SVGSVGElement
 
 ///|
 /// Gets the current viewport width
@@ -69,7 +110,25 @@ pub fn SVGSVGElement::getAttribute(self : Self, name : String) -> String? {
 ///|
 /// SVGCircleElement represents a <circle> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement
-pub(all) struct SVGCircleElement {} derive(Show)
+#external
+pub type SVGCircleElement
+
+///|
+pub fn SVGCircleElement::as_any(self : SVGCircleElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGCircleElement::as_event_target(
+  self : SVGCircleElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGCircleElement::as_node(self : SVGCircleElement) -> Node = "%identity"
+
+///|
+pub fn SVGCircleElement::as_element(self : SVGCircleElement) -> Element = "%identity"
+
+///|
+pub fn SVGCircleElement::as_svg_element(self : SVGCircleElement) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGCircleElement
@@ -114,7 +173,25 @@ pub fn SVGCircleElement::setAttribute(
 ///|
 /// SVGRectElement represents a <rect> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGRectElement
-pub(all) struct SVGRectElement {} derive(Show)
+#external
+pub type SVGRectElement
+
+///|
+pub fn SVGRectElement::as_any(self : SVGRectElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGRectElement::as_event_target(
+  self : SVGRectElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGRectElement::as_node(self : SVGRectElement) -> Node = "%identity"
+
+///|
+pub fn SVGRectElement::as_element(self : SVGRectElement) -> Element = "%identity"
+
+///|
+pub fn SVGRectElement::as_svg_element(self : SVGRectElement) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGRectElement
@@ -165,7 +242,27 @@ pub fn SVGRectElement::setAttribute(
 ///|
 /// SVGEllipseElement represents an <ellipse> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGEllipseElement
-pub(all) struct SVGEllipseElement {} derive(Show)
+#external
+pub type SVGEllipseElement
+
+///|
+pub fn SVGEllipseElement::as_any(self : SVGEllipseElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGEllipseElement::as_event_target(
+  self : SVGEllipseElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGEllipseElement::as_node(self : SVGEllipseElement) -> Node = "%identity"
+
+///|
+pub fn SVGEllipseElement::as_element(self : SVGEllipseElement) -> Element = "%identity"
+
+///|
+pub fn SVGEllipseElement::as_svg_element(
+  self : SVGEllipseElement,
+) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGEllipseElement
@@ -216,7 +313,25 @@ pub fn SVGEllipseElement::setAttribute(
 ///|
 /// SVGLineElement represents a <line> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGLineElement
-pub(all) struct SVGLineElement {} derive(Show)
+#external
+pub type SVGLineElement
+
+///|
+pub fn SVGLineElement::as_any(self : SVGLineElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGLineElement::as_event_target(
+  self : SVGLineElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGLineElement::as_node(self : SVGLineElement) -> Node = "%identity"
+
+///|
+pub fn SVGLineElement::as_element(self : SVGLineElement) -> Element = "%identity"
+
+///|
+pub fn SVGLineElement::as_svg_element(self : SVGLineElement) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGLineElement
@@ -267,7 +382,27 @@ pub fn SVGLineElement::setAttribute(
 ///|
 /// SVGPolygonElement represents a <polygon> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGPolygonElement
-pub(all) struct SVGPolygonElement {} derive(Show)
+#external
+pub type SVGPolygonElement
+
+///|
+pub fn SVGPolygonElement::as_any(self : SVGPolygonElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGPolygonElement::as_event_target(
+  self : SVGPolygonElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGPolygonElement::as_node(self : SVGPolygonElement) -> Node = "%identity"
+
+///|
+pub fn SVGPolygonElement::as_element(self : SVGPolygonElement) -> Element = "%identity"
+
+///|
+pub fn SVGPolygonElement::as_svg_element(
+  self : SVGPolygonElement,
+) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGPolygonElement
@@ -294,7 +429,27 @@ pub fn SVGPolygonElement::setAttribute(
 ///|
 /// SVGPolylineElement represents a <polyline> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGPolylineElement
-pub(all) struct SVGPolylineElement {} derive(Show)
+#external
+pub type SVGPolylineElement
+
+///|
+pub fn SVGPolylineElement::as_any(self : SVGPolylineElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGPolylineElement::as_event_target(
+  self : SVGPolylineElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGPolylineElement::as_node(self : SVGPolylineElement) -> Node = "%identity"
+
+///|
+pub fn SVGPolylineElement::as_element(self : SVGPolylineElement) -> Element = "%identity"
+
+///|
+pub fn SVGPolylineElement::as_svg_element(
+  self : SVGPolylineElement,
+) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGPolylineElement
@@ -321,7 +476,25 @@ pub fn SVGPolylineElement::setAttribute(
 ///|
 /// SVGPathElement represents a <path> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGPathElement
-pub(all) struct SVGPathElement {} derive(Show)
+#external
+pub type SVGPathElement
+
+///|
+pub fn SVGPathElement::as_any(self : SVGPathElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGPathElement::as_event_target(
+  self : SVGPathElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGPathElement::as_node(self : SVGPathElement) -> Node = "%identity"
+
+///|
+pub fn SVGPathElement::as_element(self : SVGPathElement) -> Element = "%identity"
+
+///|
+pub fn SVGPathElement::as_svg_element(self : SVGPathElement) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGPathElement
@@ -361,7 +534,25 @@ pub fn SVGPathElement::setAttribute(
 ///|
 /// SVGTextElement represents a <text> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGTextElement
-pub(all) struct SVGTextElement {} derive(Show)
+#external
+pub type SVGTextElement
+
+///|
+pub fn SVGTextElement::as_any(self : SVGTextElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGTextElement::as_event_target(
+  self : SVGTextElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGTextElement::as_node(self : SVGTextElement) -> Node = "%identity"
+
+///|
+pub fn SVGTextElement::as_element(self : SVGTextElement) -> Element = "%identity"
+
+///|
+pub fn SVGTextElement::as_svg_element(self : SVGTextElement) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGTextElement
@@ -400,7 +591,25 @@ pub fn SVGTextElement::setAttribute(
 ///|
 /// SVGImageElement represents an <image> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGImageElement
-pub(all) struct SVGImageElement {} derive(Show)
+#external
+pub type SVGImageElement
+
+///|
+pub fn SVGImageElement::as_any(self : SVGImageElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGImageElement::as_event_target(
+  self : SVGImageElement,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGImageElement::as_node(self : SVGImageElement) -> Node = "%identity"
+
+///|
+pub fn SVGImageElement::as_element(self : SVGImageElement) -> Element = "%identity"
+
+///|
+pub fn SVGImageElement::as_svg_element(self : SVGImageElement) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGImageElement
@@ -457,7 +666,23 @@ pub fn SVGImageElement::setAttribute(
 ///|
 /// SVGGElement represents a <g> grouping element
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGGElement
-pub(all) struct SVGGElement {} derive(Show)
+#external
+pub type SVGGElement
+
+///|
+pub fn SVGGElement::as_any(self : SVGGElement) -> @nostd.Any = "%identity"
+
+///|
+pub fn SVGGElement::as_event_target(self : SVGGElement) -> @event.EventTarget = "%identity"
+
+///|
+pub fn SVGGElement::as_node(self : SVGGElement) -> Node = "%identity"
+
+///|
+pub fn SVGGElement::as_element(self : SVGGElement) -> Element = "%identity"
+
+///|
+pub fn SVGGElement::as_svg_element(self : SVGGElement) -> SVGElement = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGGElement

@@ -118,6 +118,7 @@ pub(all) struct IDBOpenDBRequest {
   readyState : String
 }
 fn IDBOpenDBRequest::as_any(Self) -> @nostd.Any
+fn IDBOpenDBRequest::as_event_target(Self) -> @event.EventTarget
 impl @js.JsImpl for IDBOpenDBRequest
 impl @event.EventTargetImpl for IDBOpenDBRequest
 
@@ -128,6 +129,7 @@ pub(all) struct IDBRequest[T] {
   readyState : String
 }
 fn[T] IDBRequest::as_any(Self[T]) -> @nostd.Any
+fn[T] IDBRequest::as_event_target(Self[T]) -> @event.EventTarget
 fn[T] IDBRequest::is_done(Self[T]) -> Bool
 fn[T] IDBRequest::is_pending(Self[T]) -> Bool
 fn[T, U] IDBRequest::source_as_cursor(Self[T]) -> IDBCursor[U]

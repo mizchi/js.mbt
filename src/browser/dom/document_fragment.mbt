@@ -8,6 +8,14 @@ pub type DocumentFragment
 pub fn DocumentFragment::as_any(self : DocumentFragment) -> @nostd.Any = "%identity"
 
 ///|
+pub fn DocumentFragment::as_event_target(
+  self : DocumentFragment,
+) -> @event.EventTarget = "%identity"
+
+///|
+pub fn DocumentFragment::as_node(self : DocumentFragment) -> Node = "%identity"
+
+///|
 pub impl @js.JsImpl for DocumentFragment
 
 ///|

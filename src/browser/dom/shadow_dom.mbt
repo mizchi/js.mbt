@@ -12,6 +12,12 @@ pub type ShadowRoot
 pub fn ShadowRoot::as_any(self : ShadowRoot) -> @nostd.Any = "%identity"
 
 ///|
+pub fn ShadowRoot::as_event_target(self : ShadowRoot) -> @event.EventTarget = "%identity"
+
+///|
+pub fn ShadowRoot::as_node(self : ShadowRoot) -> Node = "%identity"
+
+///|
 pub impl @js.JsImpl for ShadowRoot
 
 ///|

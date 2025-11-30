@@ -10,7 +10,7 @@ pub(all) struct DataTransfer {
 }
 
 ///|
-pub impl @js.JsImpl for DataTransfer
+pub fn DataTransfer::as_any(self : DataTransfer) -> @nostd.Any = "%identity"
 
 ///|
 /// Returns an array of files being dragged
@@ -27,7 +27,7 @@ pub fn DataTransfer::get_types(self : Self) -> Array[String] {
 ///|
 /// Retrieves the data for a given type
 pub fn DataTransfer::getData(self : Self, format : String) -> String {
-  self.call("getData", [format]).cast()
+  self.as_any()._call("getData", [@nostd.any(format)]).cast()
 }
 
 ///|
@@ -37,13 +37,14 @@ pub fn DataTransfer::setData(
   format : String,
   data : String,
 ) -> Unit {
-  ignore(self.call2("setData", format, data))
+  self.as_any()._call("setData", [@nostd.any(format), @nostd.any(data)])
+  |> ignore
 }
 
 ///|
 /// Removes the data for a given type
 pub fn DataTransfer::clearData(self : Self, format : String) -> Unit {
-  ignore(self.call("clearData", [format]))
+  self.as_any()._call("clearData", [@nostd.any(format)]) |> ignore
 }
 
 ///|
@@ -54,9 +55,6 @@ pub type DataTransferItem
 
 ///|
 pub fn DataTransferItem::as_any(self : DataTransferItem) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for DataTransferItem
 
 ///|
 /// ClipboardData provides access to clipboard data
