@@ -4,6 +4,7 @@ package "mizchi/js/web/webassembly"
 import(
   "mizchi/js"
   "mizchi/js/builtins/typedarray"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -37,6 +38,7 @@ pub(all) struct TableDescriptor {
 
 #external
 pub type WebAssemblyGlobal
+fn WebAssemblyGlobal::as_any(Self) -> @nostd.Any
 fn WebAssemblyGlobal::new(GlobalDescriptor, @js.Any) -> Self
 fn WebAssemblyGlobal::set_value(Self, @js.Any) -> Unit
 fn WebAssemblyGlobal::value(Self) -> @js.Any
@@ -44,12 +46,14 @@ impl @js.JsImpl for WebAssemblyGlobal
 
 #external
 pub type WebAssemblyInstance
+fn WebAssemblyInstance::as_any(Self) -> @nostd.Any
 fn WebAssemblyInstance::exports(Self) -> @js.Any
 fn WebAssemblyInstance::from_module(WebAssemblyModule, @js.Any?) -> Self
 impl @js.JsImpl for WebAssemblyInstance
 
 #external
 pub type WebAssemblyMemory
+fn WebAssemblyMemory::as_any(Self) -> @nostd.Any
 fn WebAssemblyMemory::buffer(Self) -> @js.ArrayBuffer
 fn WebAssemblyMemory::grow(Self, Int) -> Int
 fn WebAssemblyMemory::new(MemoryDescriptor) -> Self
@@ -57,12 +61,14 @@ impl @js.JsImpl for WebAssemblyMemory
 
 #external
 pub type WebAssemblyModule
+fn WebAssemblyModule::as_any(Self) -> @nostd.Any
 fn WebAssemblyModule::from_buffer(@js.ArrayBuffer) -> Self
 fn WebAssemblyModule::from_bytes(@typedarray.Uint8Array) -> Self
 impl @js.JsImpl for WebAssemblyModule
 
 #external
 pub type WebAssemblyTable
+fn WebAssemblyTable::as_any(Self) -> @nostd.Any
 fn WebAssemblyTable::grow(Self, Int, @js.Any) -> Int
 fn WebAssemblyTable::length(Self) -> Int
 fn WebAssemblyTable::new(TableDescriptor) -> Self

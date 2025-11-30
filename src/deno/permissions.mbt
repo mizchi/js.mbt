@@ -7,12 +7,15 @@
 pub type PermissionStatus
 
 ///|
+pub fn PermissionStatus::as_any(self : PermissionStatus) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for PermissionStatus
 
 ///|
 /// Get permission state ("granted", "denied", "prompt")
 pub fn PermissionStatus::state(self : PermissionStatus) -> String {
-  self.get("state").cast()
+  self.as_any()["state"].cast()
 }
 
 ///|

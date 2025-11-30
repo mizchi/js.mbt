@@ -5,11 +5,17 @@
 pub type CloudflareEnv
 
 ///|
+pub fn CloudflareEnv::as_any(self : CloudflareEnv) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for CloudflareEnv
 
 ///|
 #external
 pub type CloudflareContext
+
+///|
+pub fn CloudflareContext::as_any(self : CloudflareContext) -> @nostd.Any = "%identity"
 
 ///|
 impl @js.JsImpl for CloudflareContext
@@ -20,7 +26,7 @@ pub fn CloudflareContext::waitUntil(
   self : CloudflareContext,
   promise : @js.Promise[Unit],
 ) -> Unit {
-  @js.identity(self.get("waitUntil").call_self([promise |> @js.identity]))
+  self.as_any()._call("waitUntil", [@nostd.any(promise)]) |> ignore
 }
 
 ///|
@@ -28,7 +34,7 @@ pub fn CloudflareContext::waitUntil(
 pub fn CloudflareContext::passThroughOnException(
   self : CloudflareContext,
 ) -> Unit {
-  self.get("passThroughOnException").call_self([]) |> ignore
+  self.as_any()._call("passThroughOnException", []) |> ignore
 }
 
 ///|

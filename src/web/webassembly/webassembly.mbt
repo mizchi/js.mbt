@@ -10,6 +10,9 @@
 pub type WebAssemblyModule
 
 ///|
+pub fn WebAssemblyModule::as_any(self : WebAssemblyModule) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for WebAssemblyModule
 
 ///|
@@ -19,12 +22,15 @@ pub impl @js.JsImpl for WebAssemblyModule
 pub type WebAssemblyInstance
 
 ///|
+pub fn WebAssemblyInstance::as_any(self : WebAssemblyInstance) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for WebAssemblyInstance
 
 ///|
 /// Get the exports object from a WebAssembly instance
 pub fn WebAssemblyInstance::exports(self : Self) -> @js.Any {
-  self.get("exports")
+  self.as_any()["exports"].cast()
 }
 
 ///|
@@ -34,18 +40,21 @@ pub fn WebAssemblyInstance::exports(self : Self) -> @js.Any {
 pub type WebAssemblyMemory
 
 ///|
+pub fn WebAssemblyMemory::as_any(self : WebAssemblyMemory) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for WebAssemblyMemory
 
 ///|
 /// Get the buffer from WebAssembly memory
 pub fn WebAssemblyMemory::buffer(self : Self) -> @js.ArrayBuffer {
-  self.get("buffer").cast()
+  self.as_any()["buffer"].cast()
 }
 
 ///|
 /// Grow the memory by delta pages
 pub fn WebAssemblyMemory::grow(self : Self, delta : Int) -> Int {
-  self.call("grow", [delta]).cast()
+  self.as_any()._call("grow", [@nostd.any(delta)]).cast()
 }
 
 ///|
@@ -80,24 +89,27 @@ pub fn WebAssemblyMemory::new(
 pub type WebAssemblyTable
 
 ///|
+pub fn WebAssemblyTable::as_any(self : WebAssemblyTable) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for WebAssemblyTable
 
 ///|
 /// Get the length of the table
 pub fn WebAssemblyTable::length(self : Self) -> Int {
-  self.get("length").cast()
+  self.as_any()["length"].cast()
 }
 
 ///|
 /// Set a value in the table at the given index
 pub fn WebAssemblyTable::set(self : Self, index : Int, value : @js.Any) -> Unit {
-  ignore(self.call2("set", index, value))
+  ignore(self.as_any()._call("set", [@nostd.any(index), @nostd.any(value)]))
 }
 
 ///|
 /// Grow the table by delta elements
 pub fn WebAssemblyTable::grow(self : Self, delta : Int, value : @js.Any) -> Int {
-  self.call2("grow", delta, value).cast()
+  self.as_any()._call("grow", [@nostd.any(delta), @nostd.any(value)]).cast()
 }
 
 ///|
@@ -130,18 +142,21 @@ pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
 pub type WebAssemblyGlobal
 
 ///|
+pub fn WebAssemblyGlobal::as_any(self : WebAssemblyGlobal) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for WebAssemblyGlobal
 
 ///|
 /// Get the value of the global
 pub fn WebAssemblyGlobal::value(self : Self) -> @js.Any {
-  self.get("value")
+  self.as_any()["value"].cast()
 }
 
 ///|
 /// Set the value of the global (only for mutable globals)
 pub fn WebAssemblyGlobal::set_value(self : Self, value : @js.Any) -> Unit {
-  self.set("value", value)
+  self.as_any()["value"] = @nostd.any(value)
 }
 
 ///|
@@ -244,7 +259,7 @@ pub fn instantiate_module(
     Some(obj) => obj
     None => @js.undefined()
   }
-  ffi_instantiate(wasm_module.as_any(), imports).cast()
+  ffi_instantiate(wasm_module.as_any().cast(), imports).cast()
 }
 
 ///|

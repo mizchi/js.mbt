@@ -4,6 +4,7 @@ package "mizchi/js/cloudflare"
 import(
   "mizchi/js"
   "mizchi/js/builtins/date"
+  "mizchi/js/nostd"
   "mizchi/js/web/blob"
   "mizchi/js/web/http"
   "mizchi/js/web/streams"
@@ -16,6 +17,7 @@ import(
 // Types and methods
 #external
 pub type CloudflareContext
+fn CloudflareContext::as_any(Self) -> @nostd.Any
 #alias(pass_through_exception)
 fn CloudflareContext::passThroughOnException(Self) -> Unit
 #alias(wait_until)
@@ -23,6 +25,7 @@ fn CloudflareContext::waitUntil(Self, @js.Promise[Unit]) -> Unit
 
 #external
 pub type CloudflareEnv
+fn CloudflareEnv::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for CloudflareEnv
 
 pub(all) struct CloudflareRequest {
@@ -217,6 +220,7 @@ impl @js.JsImpl for KVListResult
 
 #external
 pub type KVNamespace
+fn KVNamespace::as_any(Self) -> @nostd.Any
 async fn KVNamespace::delete(Self, String) -> Unit
 async fn KVNamespace::get(Self, String, type_? : String, cacheTtl? : Int) -> String?
 async fn KVNamespace::get_array_buffer(Self, String) -> @js.Any?

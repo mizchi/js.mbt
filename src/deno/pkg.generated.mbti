@@ -4,6 +4,7 @@ package "mizchi/js/deno"
 import(
   "mizchi/js"
   "mizchi/js/builtins/typedarray"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -115,6 +116,7 @@ async fn FsFile::write(Self, @js.Any) -> Int
 
 #external
 pub type PermissionStatus
+fn PermissionStatus::as_any(Self) -> @nostd.Any
 fn PermissionStatus::is_granted(Self) -> Bool
 fn PermissionStatus::state(Self) -> String
 impl @js.JsImpl for PermissionStatus

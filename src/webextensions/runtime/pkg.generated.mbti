@@ -3,6 +3,7 @@ package "mizchi/js/webextensions/runtime"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -53,6 +54,7 @@ fn PlatformInfo::from_any(@js.Any) -> Self
 
 #external
 pub type Port
+fn Port::as_any(Self) -> @nostd.Any
 fn Port::disconnect(Self) -> Unit
 fn Port::name(Self) -> String
 fn Port::on_disconnect(Self, () -> Unit) -> Unit

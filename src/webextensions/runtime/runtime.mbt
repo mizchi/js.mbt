@@ -101,32 +101,33 @@ extern "js" fn ffi_on_message(
 pub type Port
 
 ///|
+pub fn Port::as_any(self : Port) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Port
 
 ///|
 /// Get port name
 pub fn Port::name(self : Port) -> String {
-  (self |> @js.identity : @js.Any).get("name") |> @js.identity
+  self.as_any()["name"].cast()
 }
 
 ///|
 /// Post message to port
 pub fn Port::post_message(self : Port, message : @js.Any) -> Unit {
-  let port : @js.Any = self |> @js.identity
-  port.call("postMessage", [message]) |> ignore
+  self.as_any()._call("postMessage", [@nostd.any(message)]) |> ignore
 }
 
 ///|
 /// Disconnect port
 pub fn Port::disconnect(self : Port) -> Unit {
-  let port : @js.Any = self |> @js.identity
-  port.call("disconnect", []) |> ignore
+  self.as_any()._call("disconnect", []) |> ignore
 }
 
 ///|
 /// Add message listener to port
 pub fn Port::on_message(self : Port, callback : (@js.Any) -> Unit) -> Unit {
-  ffi_port_on_message(self |> @js.identity, callback)
+  ffi_port_on_message(self.as_any().cast(), callback)
 }
 
 ///|
@@ -141,7 +142,7 @@ extern "js" fn ffi_port_on_message(
 ///|
 /// Add disconnect listener to port
 pub fn Port::on_disconnect(self : Port, callback : () -> Unit) -> Unit {
-  ffi_port_on_disconnect(self |> @js.identity, callback)
+  ffi_port_on_disconnect(self.as_any().cast(), callback)
 }
 
 ///|

@@ -95,7 +95,7 @@ pub fn WASI::start(
   self : Self,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.call1("start", instance.as_any()) |> ignore
+  self.call1("start", instance.as_any().cast()) |> ignore
 }
 
 ///|
@@ -104,7 +104,7 @@ pub fn WASI::initialize(
   self : WASI,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.call1("initialize", instance.as_any()) |> ignore
+  self.call1("initialize", instance.as_any().cast()) |> ignore
 }
 
 ///|
