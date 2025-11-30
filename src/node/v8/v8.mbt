@@ -229,7 +229,7 @@ pub fn serialize(value : &@js.JsImpl) -> @buffer.Buffer {
 /// Deserialize a Buffer to a value
 pub fn deserialize(buffer : @buffer.Buffer) -> @js.Any {
   let v8 = ffi_require_v8()
-  v8.call("deserialize", [buffer.as_any()])
+  v8.call("deserialize", [buffer])
 }
 
 ///| Serializer Class
@@ -318,9 +318,13 @@ extern "js" fn ffi_new_deserializer(buffer : @js.Any) -> @js.Any =
   #|(buffer) => { const v8 = require("node:v8"); return new v8.Deserializer(buffer); }
 
 ///|
+extern "js" fn buffer_to_js_any(buffer : @buffer.Buffer) -> @js.Any =
+  #| (b) => b
+
+///|
 /// Create a new Deserializer
 pub fn Deserializer::new(buffer : @buffer.Buffer) -> Deserializer {
-  @js.identity(ffi_new_deserializer(buffer.as_any()))
+  @js.identity(ffi_new_deserializer(buffer_to_js_any(buffer)))
 }
 
 ///|

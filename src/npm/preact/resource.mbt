@@ -7,7 +7,7 @@
 pub struct Resource[T] {
   data : Signal[T?]
   is_loading : Signal[Bool]
-  error : Signal[@js.Any?]
+  error : Signal[@nostd.Any?]
   refetch : () -> Unit
 }
 
@@ -45,7 +45,7 @@ pub fn[T] Resource::has_error(self : Resource[T]) -> Bool {
 
 ///|
 /// Get error if any
-pub fn[T] Resource::get_error(self : Resource[T]) -> @js.Any? {
+pub fn[T] Resource::get_error(self : Resource[T]) -> @nostd.Any? {
   self.error.value
 }
 
@@ -57,18 +57,16 @@ pub fn[T] Resource::refetch(self : Resource[T]) -> Unit {
 
 ///|
 /// Create a resource from an async fetcher function
-pub fn[T : @js.JsImpl] createResource(
-  fetcher : () -> @js.Promise[T],
-) -> Resource[T] {
+pub fn[T] createResource(fetcher : () -> @nostd.Promise[T]) -> Resource[T] {
   let data : Signal[T?] = signal(None)
   let is_loading : Signal[Bool] = signal(true)
-  let error : Signal[@js.Any?] = signal(None)
+  let error : Signal[@nostd.Any?] = signal(None)
   let do_fetch : () -> Unit = fn() {
     is_loading.value = true
     error.value = None
     let promise = fetcher()
     ffi_promise_then_catch(
-      @js.identity(promise),
+      @nostd.any(promise),
       fn(value) {
         data.value = Some(value.cast())
         is_loading.value = false
@@ -86,8 +84,8 @@ pub fn[T : @js.JsImpl] createResource(
 
 ///|
 extern "js" fn ffi_promise_then_catch(
-  promise : @js.Any,
-  on_resolve : (@js.Any) -> Unit,
-  on_reject : (@js.Any) -> Unit,
+  promise : @nostd.Any,
+  on_resolve : (@nostd.Any) -> Unit,
+  on_reject : (@nostd.Any) -> Unit,
 ) -> Unit =
   #|(p, resolve, reject) => p.then(resolve).catch(reject)

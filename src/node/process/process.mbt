@@ -7,6 +7,9 @@ extern "js" fn process_module() -> @js.Any =
 pub type Process
 
 ///|
+pub fn Process::as_any(self : Process) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Process
 
 ///|

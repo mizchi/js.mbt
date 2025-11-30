@@ -12,6 +12,9 @@ extern "js" fn os_module() -> @js.Any =
 pub type CpuInfo
 
 ///|
+pub fn CpuInfo::as_any(self : CpuInfo) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for CpuInfo
 
 ///|
@@ -60,6 +63,9 @@ pub fn CpuInfo::times_irq(self : CpuInfo) -> Int {
 /// User information returned by userInfo()
 #external
 pub type UserInfo
+
+///|
+pub fn UserInfo::as_any(self : UserInfo) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for UserInfo

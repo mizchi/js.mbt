@@ -5,6 +5,10 @@
 pub type DocumentFragment
 
 ///|
+pub fn DocumentFragment::as_any(self : DocumentFragment) -> @nostd.Any =
+  "%identity"
+
+///|
 pub impl @js.JsImpl for DocumentFragment
 
 ///|

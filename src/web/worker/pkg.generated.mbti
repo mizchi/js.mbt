@@ -3,6 +3,7 @@ package "mizchi/js/web/worker"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/event"
 )
 
@@ -16,9 +17,11 @@ pub(all) struct MessageEvent {
   origin : String
   source : @js.Any
 }
+fn MessageEvent::as_any(Self) -> @nostd.Any
 
 #external
 pub type Worker
+fn Worker::as_any(Self) -> @nostd.Any
 fn Worker::new(String, type_? : String) -> Self
 #alias(post_message)
 fn Worker::postMessage(Self, &@js.JsImpl) -> Unit

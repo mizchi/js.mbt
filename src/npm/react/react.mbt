@@ -4,40 +4,40 @@
 pub type Element
 
 ///|
-pub impl @js.JsImpl for Element
+pub fn Element::as_any(self : Element) -> @nostd.Any = "%identity"
 
 ///|
 #alias(h)
 pub fn createElement(
   tag : String,
   children : Array[&ReactNode],
-  props? : Map[String, @js.Any],
+  props? : Map[String, @nostd.Any],
   style? : Map[String, String],
   ref_? : ReactRef[@dom.Element],
   key? : String,
 ) -> Element {
-  let tag = @js.any(tag)
-  let children = children.map(_.to_react_node()) |> @js.from_array
-  let val = @js.Object::new()
+  let tag = @nostd.any(tag)
+  let children = @nostd.any(children.map(_.to_react_node()))
+  let val = @nostd.Object::new()
   if props is Some(props) {
     for k, v in props {
-      val.set(k, v)
+      val[k] = v
     }
   }
   if ref_ is Some(ref_) {
-    val.set("ref", ref_ |> @js.any)
+    val["ref"] = ref_.as_any()
   }
   if key is Some(key) {
-    val.set("key", key)
+    val["key"] = @nostd.any(key)
   }
   if style is Some(style) {
-    let style_obj = @js.Object::new()
+    let style_obj = @nostd.Object::new()
     for k, v in style {
-      style_obj.set(k, v)
+      style_obj[k] = @nostd.any(v)
     }
-    val.set("style", style_obj)
+    val["style"] = style_obj
   }
-  @js.identity(ffi_create_element(tag, val.as_any(), children))
+  ffi_create_element(tag, val, children).cast()
 }
 
 ///|
@@ -45,8 +45,8 @@ pub fn createElement(
 /// Directly create a React element with given tag, props, and children.
 pub fn createElementDirect(
   tag : String,
-  props : @js.Any,
-  children : @js.Any,
+  props : @nostd.Any,
+  children : @nostd.Any,
 ) -> Element {
-  @js.identity(ffi_create_element(tag |> @js.any, props, children))
+  ffi_create_element(@nostd.any(tag), props, children).cast()
 }

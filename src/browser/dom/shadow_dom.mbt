@@ -9,6 +9,9 @@
 pub type ShadowRoot
 
 ///|
+pub fn ShadowRoot::as_any(self : ShadowRoot) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for ShadowRoot
 
 ///|

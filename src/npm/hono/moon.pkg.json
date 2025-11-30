@@ -1,6 +1,7 @@
 {
   "import": [
     "mizchi/js",
+    "mizchi/js/nostd",
     "mizchi/js/web/http",
     "mizchi/js/web/url",
     "mizchi/js/builtins/typedarray",

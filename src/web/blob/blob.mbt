@@ -6,13 +6,16 @@ pub(all) struct Blob {
 }
 
 ///|
+pub fn Blob::as_any(self : Blob) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Blob
 
 ///|
 /// Get the content type of the Blob
 #alias(content_type)
 pub fn Blob::contentType(self : Self) -> String {
-  self.as_any().get("type").cast()
+  self.as_any()["type"].cast()
 }
 
 ///|
@@ -60,22 +63,31 @@ pub fn Blob::slice(
 ) -> Blob {
   let js = self.as_any()
   match (start, end, content_type) {
-    (None, None, None) => js.call0("slice").cast()
-    (Some(s), None, None) => js.call("slice", [s]).cast()
-    (Some(s), Some(e), None) => js.call2("slice", s, e).cast()
-    (Some(s), Some(e), Some(ct)) => js.call("slice", [s, e, ct]).cast()
+    (None, None, None) => js._call("slice", []).cast()
+    (Some(s), None, None) => js._call("slice", [@nostd.any(s)]).cast()
+    (Some(s), Some(e), None) =>
+      js._call("slice", [@nostd.any(s), @nostd.any(e)]).cast()
+    (Some(s), Some(e), Some(ct)) =>
+      js._call("slice", [@nostd.any(s), @nostd.any(e), @nostd.any(ct)]).cast()
     (None, Some(e), ct) =>
       match ct {
-        Some(t) => js.call("slice", [0, e, t]).cast()
-        None => js.call2("slice", 0, e).cast()
+        Some(t) =>
+          js
+          ._call("slice", [@nostd.any(0), @nostd.any(e), @nostd.any(t)])
+          .cast()
+        None => js._call("slice", [@nostd.any(0), @nostd.any(e)]).cast()
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size
-      js.call("slice", [s, size, ct]).cast()
+      js
+      ._call("slice", [@nostd.any(s), @nostd.any(size), @nostd.any(ct)])
+      .cast()
     }
     (None, None, Some(ct)) => {
       let size = self.size
-      js.call("slice", [0, size, ct]).cast()
+      js
+      ._call("slice", [@nostd.any(0), @nostd.any(size), @nostd.any(ct)])
+      .cast()
     }
   }
 }

@@ -3,6 +3,7 @@ package "mizchi/js/node/buffer"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -15,6 +16,7 @@ pub type Buffer
 fn Buffer::alloc(Int, fill? : &@js.JsImpl, encoding? : String) -> Self
 #alias(alloc_unsafe)
 fn Buffer::allocUnsafe(Int) -> Self
+fn Buffer::as_any(Self) -> @nostd.Any
 fn Buffer::buffer(Self) -> @js.ArrayBuffer
 #alias(byte_length)
 fn Buffer::byteLength(String, encoding? : String) -> Int
@@ -51,6 +53,7 @@ impl @js.JsImpl for Buffer
 
 #external
 pub type BufferJSON
+fn BufferJSON::as_any(Self) -> @nostd.Any
 fn BufferJSON::data(Self) -> Array[Int]
 fn BufferJSON::type_(Self) -> String
 impl @js.JsImpl for BufferJSON

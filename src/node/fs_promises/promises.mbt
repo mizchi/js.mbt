@@ -7,6 +7,9 @@ extern "js" fn fs_promises_module() -> @js.Any =
 pub type Stat
 
 ///|
+pub fn Stat::as_any(self : Stat) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Stat
 
 ///|
@@ -82,6 +85,9 @@ pub fn glob(
 pub type Dirent
 
 ///|
+pub fn Dirent::as_any(self : Dirent) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Dirent
 
 ///|
@@ -131,6 +137,9 @@ pub fn glob_with_filetype(
 /// WIP
 #external
 pub type FileHandle
+
+///|
+pub fn FileHandle::as_any(self : FileHandle) -> @nostd.Any = "%identity"
 
 ///|
 pub async fn open(path : String) -> FileHandle {

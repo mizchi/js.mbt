@@ -10,7 +10,7 @@ pub(all) struct Signal[T] {
 }
 
 ///|
-pub impl[T] @js.JsImpl for Signal[T]
+pub fn[T] Signal::as_any(self : Signal[T]) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the current value of a signal
@@ -18,7 +18,7 @@ pub impl[T] @js.JsImpl for Signal[T]
 ///|
 /// Peek at the value without subscribing
 pub fn[T] Signal::peek(self : Signal[T]) -> T {
-  self.call0("peek").cast()
+  self.as_any()._call("peek", []).cast()
 }
 
 ///|
@@ -27,15 +27,15 @@ pub fn[T] Signal::subscribe(
   self : Signal[T],
   callback : (T) -> Unit,
 ) -> () -> Unit {
-  let wrapped : (@js.Any) -> Unit = fn(v) { callback(v.cast()) }
+  let wrapped : (@nostd.Any) -> Unit = fn(v) { callback(v.cast()) }
   ffi_signal_subscribe(self.as_any(), wrapped).cast()
 }
 
 ///|
 extern "js" fn ffi_signal_subscribe(
-  signal : @js.Any,
-  callback : (@js.Any) -> Unit,
-) -> @js.Any =
+  signal : @nostd.Any,
+  callback : (@nostd.Any) -> Unit,
+) -> @nostd.Any =
   #|(s, cb) => s.subscribe(cb)
 
 ///|
@@ -46,7 +46,7 @@ pub(all) struct ReadonlySignal[T] {
 }
 
 ///|
-pub impl[T] @js.JsImpl for ReadonlySignal[T]
+pub fn[T] ReadonlySignal::as_any(self : ReadonlySignal[T]) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the current value of a readonly signal
@@ -57,7 +57,7 @@ pub impl[T] @js.JsImpl for ReadonlySignal[T]
 ///|
 /// Peek at the value without subscribing
 pub fn[T] ReadonlySignal::peek(self : ReadonlySignal[T]) -> T {
-  self.call0("peek").cast()
+  self.as_any()._call("peek", []).cast()
 }
 
 ///|
@@ -66,31 +66,31 @@ pub fn[T] ReadonlySignal::subscribe(
   self : ReadonlySignal[T],
   callback : (T) -> Unit,
 ) -> () -> Unit {
-  let wrapped : (@js.Any) -> Unit = fn(v) { callback(v.cast()) }
+  let wrapped : (@nostd.Any) -> Unit = fn(v) { callback(v.cast()) }
   ffi_signal_subscribe(self.as_any(), wrapped).cast()
 }
 
 ///|
 /// Create a new signal with an initial value
 #alias(create_signal)
-pub fn[T : @js.JsImpl] signal(initial : T) -> Signal[T] {
-  ffi_signal(initial.as_any()).cast()
+pub fn[T] signal(initial : T) -> Signal[T] {
+  ffi_signal(@nostd.any(initial)).cast()
 }
 
 ///|
-extern "js" fn ffi_signal(initial : @js.Any) -> @js.Any =
+extern "js" fn ffi_signal(initial : @nostd.Any) -> @nostd.Any =
   #|(v) => globalThis.__PreactSignals.signal(v)
 
 ///|
 /// Create a computed signal from a function
 #alias(create_computed)
 pub fn[T] computed(fn_ : () -> T) -> ReadonlySignal[T] {
-  let wrapped : () -> @js.Any = fn() { fn_() |> @js.identity }
-  ffi_computed(wrapped |> @js.identity).cast()
+  let wrapped : () -> @nostd.Any = fn() { @nostd.any(fn_()) }
+  ffi_computed(@nostd.any(wrapped)).cast()
 }
 
 ///|
-extern "js" fn ffi_computed(fn_ : @js.Any) -> @js.Any =
+extern "js" fn ffi_computed(fn_ : @nostd.Any) -> @nostd.Any =
   #|(fn) => globalThis.__PreactSignals.computed(fn)
 
 ///|
@@ -98,80 +98,80 @@ extern "js" fn ffi_computed(fn_ : @js.Any) -> @js.Any =
 /// Returns a dispose function to stop the effect
 #alias(create_effect)
 pub fn effect(fn_ : () -> Unit) -> () -> Unit {
-  ffi_effect(fn_ |> @js.identity).cast()
+  ffi_effect(@nostd.any(fn_)).cast()
 }
 
 ///|
 /// Effect with cleanup function
 #alias(create_effect_with_cleanup)
 pub fn effectWithCleanup(fn_ : () -> () -> Unit) -> () -> Unit {
-  ffi_effect(fn_ |> @js.identity).cast()
+  ffi_effect(@nostd.any(fn_)).cast()
 }
 
 ///|
-extern "js" fn ffi_effect(fn_ : @js.Any) -> @js.Any =
+extern "js" fn ffi_effect(fn_ : @nostd.Any) -> @nostd.Any =
   #|(fn) => globalThis.__PreactSignals.effect(fn)
 
 ///|
 /// Batch multiple signal updates together
 #alias(batch_updates)
 pub fn batch(fn_ : () -> Unit) -> Unit {
-  ffi_batch(fn_ |> @js.identity)
+  ffi_batch(@nostd.any(fn_))
 }
 
 ///|
-extern "js" fn ffi_batch(fn_ : @js.Any) -> Unit =
+extern "js" fn ffi_batch(fn_ : @nostd.Any) -> Unit =
   #|(fn) => globalThis.__PreactSignals.batch(fn)
 
 ///|
 /// Untracked read - read signals without subscribing
 pub fn[T] untracked(fn_ : () -> T) -> T {
-  let wrapped : () -> @js.Any = fn() { fn_() |> @js.identity }
-  ffi_untracked(wrapped |> @js.identity).cast()
+  let wrapped : () -> @nostd.Any = fn() { @nostd.any(fn_()) }
+  ffi_untracked(@nostd.any(wrapped)).cast()
 }
 
 ///|
-extern "js" fn ffi_untracked(fn_ : @js.Any) -> @js.Any =
+extern "js" fn ffi_untracked(fn_ : @nostd.Any) -> @nostd.Any =
   #|(fn) => globalThis.__PreactSignals.untracked(fn)
 
 ///|
 /// Initialize the Preact Signals API
-pub fn init_preact_signals(signals : @js.Any) -> Unit {
-  if @js.is_nullish(@js.global_this().get("__PreactSignals")) {
-    @js.global_this().set("__PreactSignals", signals)
+pub fn init_preact_signals(signals : @nostd.Any) -> Unit {
+  if @nostd.is_nullish(@nostd.global_this()["__PreactSignals"]) {
+    @nostd.global_this()["__PreactSignals"] = signals
   }
 }
 
 ///|
 /// useSignal hook - Create a signal that persists across renders
 #alias(use_signal)
-pub fn[T : @js.JsImpl] useSignal(initial : T) -> Signal[T] {
-  ffi_use_signal(initial.as_any()).cast()
+pub fn[T] useSignal(initial : T) -> Signal[T] {
+  ffi_use_signal(@nostd.any(initial)).cast()
 }
 
 ///|
-extern "js" fn ffi_use_signal(initial : @js.Any) -> @js.Any =
+extern "js" fn ffi_use_signal(initial : @nostd.Any) -> @nostd.Any =
   #|(v) => globalThis.__PreactSignals.useSignal(v)
 
 ///|
 /// useComputed hook - Create a computed signal in a component
 #alias(use_computed)
 pub fn[T] useComputed(fn_ : () -> T) -> ReadonlySignal[T] {
-  let wrapped : () -> @js.Any = fn() { fn_() |> @js.identity }
-  ffi_use_computed(wrapped |> @js.identity).cast()
+  let wrapped : () -> @nostd.Any = fn() { @nostd.any(fn_()) }
+  ffi_use_computed(@nostd.any(wrapped)).cast()
 }
 
 ///|
-extern "js" fn ffi_use_computed(fn_ : @js.Any) -> @js.Any =
+extern "js" fn ffi_use_computed(fn_ : @nostd.Any) -> @nostd.Any =
   #|(fn) => globalThis.__PreactSignals.useComputed(fn)
 
 ///|
 /// useSignalEffect hook - Run an effect that tracks signal dependencies
 #alias(use_signal_effect)
 pub fn useSignalEffect(fn_ : () -> Unit) -> Unit {
-  ffi_use_signal_effect(fn_ |> @js.identity)
+  ffi_use_signal_effect(@nostd.any(fn_))
 }
 
 ///|
-extern "js" fn ffi_use_signal_effect(fn_ : @js.Any) -> Unit =
+extern "js" fn ffi_use_signal_effect(fn_ : @nostd.Any) -> Unit =
   #|(fn) => globalThis.__PreactSignals.useSignalEffect(fn)

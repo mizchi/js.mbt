@@ -27,6 +27,9 @@ pub(open) trait Transferable {
 pub type Worker
 
 ///|
+pub fn Worker::as_any(self : Worker) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Worker
 
 ///|
@@ -89,3 +92,6 @@ pub(all) struct MessageEvent {
   origin : String
   source : @js.Any
 }
+
+///|
+pub fn MessageEvent::as_any(self : MessageEvent) -> @nostd.Any = "%identity"

@@ -36,6 +36,7 @@ impl @js.JsImpl for CloudflareRequest
 
 #external
 pub type D1Database
+fn D1Database::as_any(Self) -> @nostd.Any
 async fn D1Database::batch(Self, Array[D1PreparedStatement]) -> Array[D1Result]
 async fn D1Database::dump(Self) -> @js.Any
 async fn D1Database::exec(Self, String) -> D1ExecResult
@@ -46,6 +47,7 @@ pub(all) struct D1ExecResult {
   count : Int
   duration : Double
 }
+fn D1ExecResult::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for D1ExecResult
 
 pub(all) struct D1Meta {
@@ -57,11 +59,13 @@ pub(all) struct D1Meta {
   changes : Int?
   size_after : Int?
 }
+fn D1Meta::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for D1Meta
 
 #external
 pub type D1PreparedStatement
 async fn D1PreparedStatement::all(Self) -> D1Result
+fn D1PreparedStatement::as_any(Self) -> @nostd.Any
 fn D1PreparedStatement::bind(Self, Array[@js.Any]) -> Self
 fn D1PreparedStatement::bind1(Self, @js.Any) -> Self
 fn D1PreparedStatement::bind2(Self, @js.Any, @js.Any) -> Self
@@ -79,6 +83,7 @@ pub(all) struct D1Result {
   meta : D1Meta?
   error : String?
 }
+fn D1Result::as_any(Self) -> @nostd.Any
 fn D1Result::get_results(Self) -> Array[@js.Any]
 impl @js.JsImpl for D1Result
 
@@ -96,6 +101,7 @@ impl @js.JsImpl for DurableObjectGetOptions
 pub(all) struct DurableObjectId {
   name : String?
 }
+fn DurableObjectId::as_any(Self) -> @nostd.Any
 fn DurableObjectId::equals(Self, Self) -> Bool
 fn DurableObjectId::to_string(Self) -> String
 impl @js.JsImpl for DurableObjectId
@@ -119,6 +125,7 @@ impl @js.JsImpl for DurableObjectListOptions
 
 #external
 pub type DurableObjectNamespace
+fn DurableObjectNamespace::as_any(Self) -> @nostd.Any
 fn DurableObjectNamespace::get(Self, DurableObjectId) -> DurableObjectStub
 fn DurableObjectNamespace::get_by_id_string(Self, String) -> DurableObjectStub
 fn DurableObjectNamespace::get_by_name(Self, String) -> DurableObjectStub
@@ -145,12 +152,14 @@ pub(all) struct DurableObjectState {
   id : DurableObjectId
   storage : DurableObjectStorage
 }
+fn DurableObjectState::as_any(Self) -> @nostd.Any
 async fn DurableObjectState::block_concurrency_while(Self, @js.Any) -> Unit
 fn DurableObjectState::wait_until(Self, @js.Any) -> Unit
 impl @js.JsImpl for DurableObjectState
 
 #external
 pub type DurableObjectStorage
+fn DurableObjectStorage::as_any(Self) -> @nostd.Any
 async fn DurableObjectStorage::delete(Self, String) -> Bool
 async fn DurableObjectStorage::delete_alarm(Self) -> Unit
 async fn DurableObjectStorage::delete_alarm_with_options(Self, DurableObjectSetAlarmOptions) -> Unit
@@ -181,6 +190,7 @@ pub(all) struct DurableObjectStub {
   id : DurableObjectId
   name : String?
 }
+fn DurableObjectStub::as_any(Self) -> @nostd.Any
 async fn DurableObjectStub::fetch(Self, @js.Any) -> @js.Any
 async fn DurableObjectStub::fetch_url(Self, String) -> @js.Any
 async fn DurableObjectStub::fetch_url_with_init(Self, String, @js.Any) -> @js.Any
@@ -189,6 +199,7 @@ impl @js.JsImpl for DurableObjectStub
 
 #external
 pub type DurableObjectTransaction
+fn DurableObjectTransaction::as_any(Self) -> @nostd.Any
 async fn DurableObjectTransaction::delete(Self, String) -> Bool
 async fn DurableObjectTransaction::delete_alarm(Self) -> Unit
 async fn DurableObjectTransaction::delete_all(Self) -> Unit
@@ -209,6 +220,7 @@ pub(all) struct KVKey {
   expiration : Int?
   metadata : @js.Any?
 }
+fn KVKey::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for KVKey
 
 pub(all) struct KVListResult {
@@ -216,6 +228,7 @@ pub(all) struct KVListResult {
   list_complete : Bool
   cursor : String?
 }
+fn KVListResult::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for KVListResult
 
 #external
@@ -236,10 +249,12 @@ pub(all) struct KVValueWithMetadata {
   value : @js.Any?
   metadata : @js.Any?
 }
+fn KVValueWithMetadata::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for KVValueWithMetadata
 
 #external
 pub type R2Bucket
+fn R2Bucket::as_any(Self) -> @nostd.Any
 async fn R2Bucket::create_multipart_upload(Self, String, httpMetadata? : R2HttpMetadata, customMetadata? : @js.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> R2MultipartUpload
 async fn R2Bucket::delete(Self, String) -> Unit
 async fn R2Bucket::delete_multiple(Self, Array[String]) -> Unit
@@ -270,6 +285,7 @@ impl @js.JsImpl for R2HttpMetadata
 #external
 pub type R2MultipartUpload
 async fn R2MultipartUpload::abort(Self) -> Unit
+fn R2MultipartUpload::as_any(Self) -> @nostd.Any
 async fn R2MultipartUpload::complete(Self, Array[R2UploadedPart]) -> R2Object
 fn R2MultipartUpload::key(Self) -> String
 fn R2MultipartUpload::uploadId(Self) -> String
@@ -279,6 +295,7 @@ impl @js.JsImpl for R2MultipartUpload
 #external
 pub type R2Object
 async fn R2Object::array_buffer(Self) -> @js.ArrayBuffer
+fn R2Object::as_any(Self) -> @nostd.Any
 async fn R2Object::blob(Self) -> @blob.Blob
 fn R2Object::body(Self) -> @streams.ReadableStream
 fn R2Object::body_used(Self) -> Bool
@@ -300,6 +317,7 @@ pub(all) struct R2Objects {
   cursor : String?
   delimitedPrefixes : Array[String]
 }
+fn R2Objects::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for R2Objects
 
 pub(all) struct R2Range {

@@ -3,6 +3,9 @@
 pub type Stat
 
 ///|
+pub fn Stat::as_any(self : Stat) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Stat
 
 ///|

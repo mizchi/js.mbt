@@ -8,7 +8,7 @@
 pub type Ajv
 
 ///|
-pub impl @js.JsImpl for Ajv
+pub fn Ajv::as_any(self : Ajv) -> @nostd.Any = "%identity"
 
 ///|
 /// ValidateFunction - compiled validation function
@@ -16,7 +16,8 @@ pub impl @js.JsImpl for Ajv
 pub type ValidateFunction
 
 ///|
-pub impl @js.JsImpl for ValidateFunction
+pub fn ValidateFunction::as_any(self : ValidateFunction) -> @nostd.Any =
+  "%identity"
 
 ///|
 /// ValidationError - represents a single validation error
@@ -24,12 +25,12 @@ pub struct ValidationError {
   instance_path : String
   schema_path : String
   keyword : String
-  params : @js.Any
+  params : @nostd.Any
   message : String?
 }
 
 ///|
-extern "js" fn ffi_new_ajv(options : @js.Any) -> Ajv =
+extern "js" fn ffi_new_ajv(options : @nostd.Any) -> Ajv =
   #| (options) => {
   #|   const Ajv = require("ajv").default || require("ajv");
   #|   return new Ajv(options);
@@ -46,56 +47,56 @@ pub fn Ajv::new(
   use_defaults? : Bool,
   remove_additional? : Bool,
 ) -> Ajv {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   match all_errors {
-    Some(v) => opts.set("allErrors", v)
+    Some(v) => opts["allErrors"] = @nostd.any(v)
     None => ()
   }
   match verbose {
-    Some(v) => opts.set("verbose", v)
+    Some(v) => opts["verbose"] = @nostd.any(v)
     None => ()
   }
   match strict {
-    Some(v) => opts.set("strict", v)
+    Some(v) => opts["strict"] = @nostd.any(v)
     None => ()
   }
   match coerce_types {
-    Some(v) => opts.set("coerceTypes", v)
+    Some(v) => opts["coerceTypes"] = @nostd.any(v)
     None => ()
   }
   match use_defaults {
-    Some(v) => opts.set("useDefaults", v)
+    Some(v) => opts["useDefaults"] = @nostd.any(v)
     None => ()
   }
   match remove_additional {
-    Some(v) => opts.set("removeAdditional", v)
+    Some(v) => opts["removeAdditional"] = @nostd.any(v)
     None => ()
   }
-  ffi_new_ajv(opts.as_any())
+  ffi_new_ajv(opts)
 }
 
 ///|
 /// Compile a schema and return a validation function
 /// https://ajv.js.org/api.html#ajv-compile-schema-object-boolean-validate
-pub fn Ajv::compile(self : Ajv, schema : @js.Any) -> ValidateFunction {
-  self.call1("compile", schema).cast()
+pub fn Ajv::compile(self : Ajv, schema : @nostd.Any) -> ValidateFunction {
+  self.as_any()._call("compile", [schema]).cast()
 }
 
 ///|
 /// Validate data against a schema directly
 /// https://ajv.js.org/api.html#ajv-validate-schema-object-boolean-data-any-boolean
-pub fn Ajv::validate(self : Ajv, schema : @js.Any, data : @js.Any) -> Bool {
-  self.call2("validate", schema, data).cast()
+pub fn Ajv::validate(self : Ajv, schema : @nostd.Any, data : @nostd.Any) -> Bool {
+  self.as_any()._call("validate", [schema, data]).cast()
 }
 
 ///|
 /// Add schema to the instance
 /// https://ajv.js.org/api.html#ajv-addschema-schema-object-object-key-string-ajv
 #alias(add_schema)
-pub fn Ajv::addSchema(self : Ajv, schema : @js.Any, key? : String) -> Ajv {
+pub fn Ajv::addSchema(self : Ajv, schema : @nostd.Any, key? : String) -> Ajv {
   match key {
-    Some(k) => self.call2("addSchema", schema, k).cast()
-    None => self.call1("addSchema", schema).cast()
+    Some(k) => self.as_any()._call("addSchema", [schema, @nostd.any(k)]).cast()
+    None => self.as_any()._call("addSchema", [schema]).cast()
   }
 }
 
@@ -104,8 +105,8 @@ pub fn Ajv::addSchema(self : Ajv, schema : @js.Any, key? : String) -> Ajv {
 /// https://ajv.js.org/api.html#ajv-getschema-string-validate
 #alias(get_schema)
 pub fn Ajv::getSchema(self : Ajv, key : String) -> ValidateFunction? {
-  let result = self.call1("getSchema", key)
-  if @js.is_undefined(result) {
+  let result = self.as_any()._call("getSchema", [@nostd.any(key)])
+  if @nostd.is_undefined(result) {
     None
   } else {
     Some(result.cast())
@@ -117,28 +118,20 @@ pub fn Ajv::getSchema(self : Ajv, key : String) -> ValidateFunction? {
 /// https://ajv.js.org/api.html#ajv-removeschema-schema-object-string-regexp-ajv
 #alias(remove_schema)
 pub fn Ajv::removeSchema(self : Ajv, schema_key : String) -> Ajv {
-  self.call1("removeSchema", schema_key).cast()
+  self.as_any()._call("removeSchema", [@nostd.any(schema_key)]).cast()
 }
 
 ///|
 /// Get errors from the last validation
 /// Returns null if no errors
-pub fn Ajv::errors(self : Ajv) -> @js.Any {
-  self.get("errors")
-}
-
-///|
-/// Validate data using the compiled function
-/// Returns true if valid
-pub fn ValidateFunction::call(self : ValidateFunction, data : @js.Any) -> Bool {
-  let fn_any : @js.Any = self.as_any()
-  fn_any.call1("call", data).cast()
+pub fn Ajv::errors(self : Ajv) -> @nostd.Any {
+  self.as_any()["errors"]
 }
 
 ///|
 extern "js" fn ffi_validate_call(
   validate : ValidateFunction,
-  data : @js.Any,
+  data : @nostd.Any,
 ) -> Bool =
   #| (validate, data) => validate(data)
 
@@ -146,7 +139,7 @@ extern "js" fn ffi_validate_call(
 /// Validate data using the compiled function
 pub fn ValidateFunction::validate(
   self : ValidateFunction,
-  data : @js.Any,
+  data : @nostd.Any,
 ) -> Bool {
   ffi_validate_call(self, data)
 }
@@ -154,8 +147,8 @@ pub fn ValidateFunction::validate(
 ///|
 /// Get errors from the compiled validation function
 /// Returns null if no errors
-pub fn ValidateFunction::errors(self : ValidateFunction) -> @js.Any {
-  self.get("errors")
+pub fn ValidateFunction::errors(self : ValidateFunction) -> @nostd.Any {
+  self.as_any()["errors"]
 }
 
 ///|
@@ -164,19 +157,19 @@ pub fn ValidateFunction::errors_array(
   self : ValidateFunction,
 ) -> Array[ValidationError] {
   let errors = self.errors()
-  if @js.is_null(errors) || @js.is_undefined(errors) {
+  if @nostd.is_null(errors) || @nostd.is_undefined(errors) {
     return []
   }
-  let length : Int = errors.get("length").cast()
+  let length : Int = errors["length"].cast()
   let result : Array[ValidationError] = []
   for i = 0; i < length; i = i + 1 {
-    let err = errors.get(i.to_string())
-    let instance_path : String = err.get("instancePath").cast()
-    let schema_path : String = err.get("schemaPath").cast()
-    let keyword : String = err.get("keyword").cast()
-    let params = err.get("params")
-    let msg = err.get("message")
-    let message : String? = if @js.is_undefined(msg) || @js.is_null(msg) {
+    let err = errors[i.to_string()]
+    let instance_path : String = err["instancePath"].cast()
+    let schema_path : String = err["schemaPath"].cast()
+    let keyword : String = err["keyword"].cast()
+    let params = err["params"]
+    let msg = err["message"]
+    let message : String? = if @nostd.is_undefined(msg) || @nostd.is_null(msg) {
       None
     } else {
       Some(msg.cast())
@@ -188,13 +181,13 @@ pub fn ValidateFunction::errors_array(
 
 ///|
 /// Helper to create a JSON schema object
-pub fn schema() -> @js.Any {
-  @js.Object::new()
+pub fn schema() -> @nostd.Any {
+  @nostd.Object::new()
 }
 
 ///|
 /// Helper to create a schema from JSON string
 /// May throw if JSON is invalid
-pub fn schema_from_json(json_str : String) -> @js.Any raise @js.ThrowError {
-  @js.JSON::parse(json_str)
+pub fn schema_from_json(json_str : String) -> @nostd.Any {
+  @nostd.json_parse(json_str)
 }

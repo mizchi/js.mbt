@@ -5,6 +5,9 @@
 pub type FSWatcher
 
 ///|
+pub fn FSWatcher::as_any(self : FSWatcher) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for FSWatcher
 
 ///|

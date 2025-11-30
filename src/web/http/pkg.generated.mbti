@@ -37,6 +37,7 @@ pub(all) struct Request {
   credentials : String
 }
 async fn Request::arraybuffer(Self) -> @js.ArrayBuffer
+fn Request::as_any(Self) -> @nostd.Any
 async fn Request::blob(Self) -> @blob.Blob
 async fn Request::bytes(Self) -> @typedarray.Uint8Array
 fn Request::clone(Self) -> Self
@@ -72,6 +73,7 @@ pub(all) struct Response {
   statusText : String
   redirected : Bool
 }
+fn Response::as_any(Self) -> @nostd.Any
 fn Response::body(Self) -> @streams.ReadableStream?
 async fn Response::bytes(Self) -> @typedarray.Uint8Array
 fn Response::clone(Self) -> Self

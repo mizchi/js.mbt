@@ -167,6 +167,9 @@ pub(all) struct Request {
 }
 
 ///|
+pub fn Request::as_any(self : Request) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Request
 
 ///|

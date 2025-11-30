@@ -16,7 +16,7 @@ test "render basic component" {
   render(vnode) |> ignore
   let s = screen()
   let el = s.getByText("Hello World")
-  inspect(not(@js.is_nullish(el.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -27,7 +27,7 @@ test "getByRole button" {
   render(vnode) |> ignore
   let s = screen()
   let button = s.getByRole("button")
-  inspect(not(@js.is_nullish(button.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(button.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -122,7 +122,7 @@ test "getByTestId finds element" {
   render(vnode) |> ignore
   let s = screen()
   let el = s.getByTestId("my-test-id")
-  inspect(not(@js.is_nullish(el.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -326,7 +326,7 @@ test "getByLabelText" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByLabelText("Username")
-  inspect(not(@js.is_nullish(input.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(input.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -340,7 +340,7 @@ test "getByPlaceholderText" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByPlaceholderText("Enter your name")
-  inspect(not(@js.is_nullish(input.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(input.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -355,7 +355,7 @@ test "getByDisplayValue" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByDisplayValue("current value")
-  inspect(not(@js.is_nullish(input.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(input.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -369,7 +369,7 @@ test "getByAltText" {
   render(vnode) |> ignore
   let s = screen()
   let img = s.getByAltText("Profile picture")
-  inspect(not(@js.is_nullish(img.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(img.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -382,7 +382,7 @@ test "getByTitle" {
   render(vnode) |> ignore
   let s = screen()
   let el = s.getByTitle("More information")
-  inspect(not(@js.is_nullish(el.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -432,7 +432,7 @@ async test "findByText" {
   render(vnode) |> ignore
   let s = screen()
   let el = s.findByText("Async content")
-  inspect(not(@js.is_nullish(el.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -443,7 +443,7 @@ async test "findByRole" {
   render(vnode) |> ignore
   let s = screen()
   let button = s.findByRole("button")
-  inspect(not(@js.is_nullish(button.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(button.as_element().as_any().cast())), content="true")
 }
 
 ///|
@@ -456,7 +456,7 @@ async test "findByTestId" {
   render(vnode) |> ignore
   let s = screen()
   let el = s.findByTestId("async-test")
-  inspect(not(@js.is_nullish(el.as_element().as_any())), content="true")
+  inspect(not(@js.is_nullish(el.as_element().as_any().cast())), content="true")
 }
 
 ///|

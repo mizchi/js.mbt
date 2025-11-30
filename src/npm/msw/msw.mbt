@@ -12,15 +12,14 @@
 pub type RequestHandler
 
 ///|
-pub impl @js.JsImpl for RequestHandler
+pub fn RequestHandler::as_any(self : RequestHandler) -> @nostd.Any = "%identity"
 
-///|
-/// Mock server instance (Node.js)
+///| Mock server instance (Node.js)
 #external
 pub type SetupServer
 
 ///|
-pub impl @js.JsImpl for SetupServer
+pub fn SetupServer::as_any(self : SetupServer) -> @nostd.Any = "%identity"
 
 ///|
 /// Mock worker instance (Browser)
@@ -28,7 +27,7 @@ pub impl @js.JsImpl for SetupServer
 pub type SetupWorker
 
 ///|
-pub impl @js.JsImpl for SetupWorker
+pub fn SetupWorker::as_any(self : SetupWorker) -> @nostd.Any = "%identity"
 
 ///|
 /// StartOptions for worker.start()
@@ -36,7 +35,7 @@ pub impl @js.JsImpl for SetupWorker
 pub type StartOptions
 
 ///|
-pub impl @js.JsImpl for StartOptions
+pub fn StartOptions::as_any(self : StartOptions) -> @nostd.Any = "%identity"
 
 ///|
 /// HTTP response
@@ -44,7 +43,7 @@ pub impl @js.JsImpl for StartOptions
 pub type HttpResponse
 
 ///|
-pub impl @js.JsImpl for HttpResponse
+pub fn HttpResponse::as_any(self : HttpResponse) -> @nostd.Any = "%identity"
 
 ///|
 /// Request info
@@ -52,7 +51,7 @@ pub impl @js.JsImpl for HttpResponse
 pub type RequestInfo
 
 ///|
-pub impl @js.JsImpl for RequestInfo
+pub fn RequestInfo::as_any(self : RequestInfo) -> @nostd.Any = "%identity"
 
 ///|
 /// Response resolver context
@@ -60,7 +59,8 @@ pub impl @js.JsImpl for RequestInfo
 pub type ResponseResolverInfo
 
 ///|
-pub impl @js.JsImpl for ResponseResolverInfo
+pub fn ResponseResolverInfo::as_any(self : ResponseResolverInfo) -> @nostd.Any =
+  "%identity"
 
 ///| HTTP Handler FFI
 
@@ -124,13 +124,13 @@ extern "js" fn ffi_http_all(
 
 ///|
 extern "js" fn ffi_http_response_json(
-  body : @js.Any,
+  body : @nostd.Any,
   status : Int,
 ) -> HttpResponse =
   #| (body, status) => require('msw').HttpResponse.json(body, { status })
 
 ///|
-extern "js" fn ffi_http_response_json_default(body : @js.Any) -> HttpResponse =
+extern "js" fn ffi_http_response_json_default(body : @nostd.Any) -> HttpResponse =
   #| (body) => require('msw').HttpResponse.json(body)
 
 ///|
@@ -168,7 +168,7 @@ extern "js" fn ffi_http_response_html_default(body : String) -> HttpResponse =
 
 ///|
 extern "js" fn ffi_http_response_array_buffer(
-  body : @js.Any,
+  body : @nostd.Any,
   status : Int,
 ) -> HttpResponse =
   #| (body, status) => require('msw').HttpResponse.arrayBuffer(body, { status })
@@ -180,7 +180,7 @@ extern "js" fn ffi_http_response_error() -> HttpResponse =
 ///| Server FFI (msw/node)
 
 ///|
-extern "js" fn ffi_setup_server(handlers : @js.Any) -> SetupServer =
+extern "js" fn ffi_setup_server(handlers : @nostd.Any) -> SetupServer =
   #| (handlers) => require('msw/node').setupServer(...handlers)
 
 ///|
@@ -194,7 +194,7 @@ extern "js" fn ffi_server_listen(server : SetupServer) -> Unit =
 ///|
 extern "js" fn ffi_server_listen_with_options(
   server : SetupServer,
-  options : @js.Any,
+  options : @nostd.Any,
 ) -> Unit =
   #| (server, options) => server.listen(options)
 
@@ -209,12 +209,15 @@ extern "js" fn ffi_server_reset_handlers(server : SetupServer) -> Unit =
 ///|
 extern "js" fn ffi_server_reset_handlers_with(
   server : SetupServer,
-  handlers : @js.Any,
+  handlers : @nostd.Any,
 ) -> Unit =
   #| (server, handlers) => server.resetHandlers(...handlers)
 
 ///|
-extern "js" fn ffi_server_use(server : SetupServer, handlers : @js.Any) -> Unit =
+extern "js" fn ffi_server_use(
+  server : SetupServer,
+  handlers : @nostd.Any,
+) -> Unit =
   #| (server, handlers) => server.use(...handlers)
 
 ///|
@@ -222,13 +225,13 @@ extern "js" fn ffi_server_restore_handlers(server : SetupServer) -> Unit =
   #| (server) => server.restoreHandlers()
 
 ///|
-extern "js" fn ffi_server_list_handlers(server : SetupServer) -> @js.Any =
+extern "js" fn ffi_server_list_handlers(server : SetupServer) -> @nostd.Any =
   #| (server) => server.listHandlers()
 
 ///| Worker FFI (msw/browser)
 
 ///|
-extern "js" fn ffi_setup_worker(handlers : @js.Any) -> SetupWorker =
+extern "js" fn ffi_setup_worker(handlers : @nostd.Any) -> SetupWorker =
   #| (handlers) => require('msw/browser').setupWorker(...handlers)
 
 ///|
@@ -236,14 +239,16 @@ extern "js" fn ffi_setup_worker_empty() -> SetupWorker =
   #| () => require('msw/browser').setupWorker()
 
 ///|
-extern "js" fn ffi_worker_start(worker : SetupWorker) -> @js.Promise[Unit] =
+extern "js" fn ffi_worker_start(
+  worker : SetupWorker,
+) -> @nostd.Promise[Unit] =
   #| (worker) => worker.start()
 
 ///|
 extern "js" fn ffi_worker_start_with_options(
   worker : SetupWorker,
-  options : @js.Any,
-) -> @js.Promise[Unit] =
+  options : @nostd.Any,
+) -> @nostd.Promise[Unit] =
   #| (worker, options) => worker.start(options)
 
 ///|
@@ -257,12 +262,15 @@ extern "js" fn ffi_worker_reset_handlers(worker : SetupWorker) -> Unit =
 ///|
 extern "js" fn ffi_worker_reset_handlers_with(
   worker : SetupWorker,
-  handlers : @js.Any,
+  handlers : @nostd.Any,
 ) -> Unit =
   #| (worker, handlers) => worker.resetHandlers(...handlers)
 
 ///|
-extern "js" fn ffi_worker_use(worker : SetupWorker, handlers : @js.Any) -> Unit =
+extern "js" fn ffi_worker_use(
+  worker : SetupWorker,
+  handlers : @nostd.Any,
+) -> Unit =
   #| (worker, handlers) => worker.use(...handlers)
 
 ///|
@@ -270,41 +278,43 @@ extern "js" fn ffi_worker_restore_handlers(worker : SetupWorker) -> Unit =
   #| (worker) => worker.restoreHandlers()
 
 ///|
-extern "js" fn ffi_worker_list_handlers(worker : SetupWorker) -> @js.Any =
+extern "js" fn ffi_worker_list_handlers(worker : SetupWorker) -> @nostd.Any =
   #| (worker) => worker.listHandlers()
 
 ///| Request/Response Info FFI
 
 ///|
-extern "js" fn ffi_info_request(info : ResponseResolverInfo) -> @js.Any =
+extern "js" fn ffi_info_request(info : ResponseResolverInfo) -> @nostd.Any =
   #| (info) => info.request
 
 ///|
-extern "js" fn ffi_info_params(info : ResponseResolverInfo) -> @js.Any =
+extern "js" fn ffi_info_params(info : ResponseResolverInfo) -> @nostd.Any =
   #| (info) => info.params
 
 ///|
-extern "js" fn ffi_info_cookies(info : ResponseResolverInfo) -> @js.Any =
+extern "js" fn ffi_info_cookies(info : ResponseResolverInfo) -> @nostd.Any =
   #| (info) => info.cookies
 
 ///|
-extern "js" fn ffi_request_url(request : @js.Any) -> String =
+extern "js" fn ffi_request_url(request : @nostd.Any) -> String =
   #| (request) => request.url
 
 ///|
-extern "js" fn ffi_request_method(request : @js.Any) -> String =
+extern "js" fn ffi_request_method(request : @nostd.Any) -> String =
   #| (request) => request.method
 
 ///|
-extern "js" fn ffi_request_headers(request : @js.Any) -> @js.Any =
+extern "js" fn ffi_request_headers(request : @nostd.Any) -> @nostd.Any =
   #| (request) => request.headers
 
 ///|
-extern "js" fn ffi_request_json(request : @js.Any) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_request_json(
+  request : @nostd.Any,
+) -> @nostd.Promise[@nostd.Any] =
   #| (request) => request.json()
 
 ///|
-extern "js" fn ffi_request_text(request : @js.Any) -> @js.Promise[String] =
+extern "js" fn ffi_request_text(request : @nostd.Any) -> @nostd.Promise[String] =
   #| (request) => request.text()
 
 ///| HTTP Handler Methods
@@ -385,7 +395,7 @@ pub fn httpAll(
 
 ///|
 /// Create JSON response
-pub fn jsonResponse(body : @js.Any, status? : Int = 200) -> HttpResponse {
+pub fn jsonResponse(body : @nostd.Any, status? : Int = 200) -> HttpResponse {
   if status == 200 {
     ffi_http_response_json_default(body)
   } else {
@@ -425,7 +435,10 @@ pub fn htmlResponse(body : String, status? : Int = 200) -> HttpResponse {
 
 ///|
 /// Create array buffer response
-pub fn arrayBufferResponse(body : @js.Any, status? : Int = 200) -> HttpResponse {
+pub fn arrayBufferResponse(
+  body : @nostd.Any,
+  status? : Int = 200,
+) -> HttpResponse {
   ffi_http_response_array_buffer(body, status)
 }
 
@@ -443,7 +456,7 @@ pub fn setupServer(handlers : Array[RequestHandler]) -> SetupServer {
   if handlers.length() == 0 {
     ffi_setup_server_empty()
   } else {
-    ffi_setup_server(@js.from_array(handlers.map(fn(h) { h.as_any() })))
+    ffi_setup_server(@nostd.any(handlers.map(fn(h) { h.as_any() })))
   }
 }
 
@@ -455,9 +468,9 @@ pub fn SetupServer::listen(
 ) -> Unit {
   match onUnhandledRequest {
     Some(mode) => {
-      let options = @js.Object::new()
-      options.set("onUnhandledRequest", mode)
-      ffi_server_listen_with_options(self, options.as_any())
+      let options = @nostd.Object::new()
+      options["onUnhandledRequest"] = @nostd.any(mode)
+      ffi_server_listen_with_options(self, options)
     }
     None => ffi_server_listen(self)
   }
@@ -483,7 +496,7 @@ pub fn SetupServer::resetHandlersWith(
 ) -> Unit {
   ffi_server_reset_handlers_with(
     self,
-    @js.from_array(handlers.map(fn(h) { h.as_any() })),
+    @nostd.any(handlers.map(fn(h) { h.as_any() })),
   )
 }
 
@@ -493,7 +506,7 @@ pub fn SetupServer::useHandlers(
   self : SetupServer,
   handlers : Array[RequestHandler],
 ) -> Unit {
-  ffi_server_use(self, @js.from_array(handlers.map(fn(h) { h.as_any() })))
+  ffi_server_use(self, @nostd.any(handlers.map(fn(h) { h.as_any() })))
 }
 
 ///|
@@ -504,7 +517,7 @@ pub fn SetupServer::restoreHandlers(self : SetupServer) -> Unit {
 
 ///|
 /// List all current handlers
-pub fn SetupServer::listHandlers(self : SetupServer) -> @js.Any {
+pub fn SetupServer::listHandlers(self : SetupServer) -> @nostd.Any {
   ffi_server_list_handlers(self)
 }
 
@@ -516,7 +529,7 @@ pub fn setupWorker(handlers : Array[RequestHandler]) -> SetupWorker {
   if handlers.length() == 0 {
     ffi_setup_worker_empty()
   } else {
-    ffi_setup_worker(@js.from_array(handlers.map(fn(h) { h.as_any() })))
+    ffi_setup_worker(@nostd.any(handlers.map(fn(h) { h.as_any() })))
   }
 }
 
@@ -532,24 +545,24 @@ pub async fn SetupWorker::start(
     quiet is Some(_) ||
     onUnhandledRequest is Some(_)
   if has_options {
-    let options = @js.Object::new()
+    let options = @nostd.Object::new()
     match serviceWorkerUrl {
       Some(url) => {
-        let sw = @js.Object::new()
-        sw.set("url", url)
-        options.set("serviceWorker", sw)
+        let sw = @nostd.Object::new()
+        sw["url"] = @nostd.any(url)
+        options["serviceWorker"] = sw
       }
       None => ()
     }
     match quiet {
-      Some(q) => options.set("quiet", q)
+      Some(q) => options["quiet"] = @nostd.any(q)
       None => ()
     }
     match onUnhandledRequest {
-      Some(mode) => options.set("onUnhandledRequest", mode)
+      Some(mode) => options["onUnhandledRequest"] = @nostd.any(mode)
       None => ()
     }
-    ffi_worker_start_with_options(self, options.as_any()).wait()
+    ffi_worker_start_with_options(self, options).wait()
   } else {
     ffi_worker_start(self).wait()
   }
@@ -575,7 +588,7 @@ pub fn SetupWorker::resetHandlersWith(
 ) -> Unit {
   ffi_worker_reset_handlers_with(
     self,
-    @js.from_array(handlers.map(fn(h) { h.as_any() })),
+    @nostd.any(handlers.map(fn(h) { h.as_any() })),
   )
 }
 
@@ -585,7 +598,7 @@ pub fn SetupWorker::useHandlers(
   self : SetupWorker,
   handlers : Array[RequestHandler],
 ) -> Unit {
-  ffi_worker_use(self, @js.from_array(handlers.map(fn(h) { h.as_any() })))
+  ffi_worker_use(self, @nostd.any(handlers.map(fn(h) { h.as_any() })))
 }
 
 ///|
@@ -596,7 +609,7 @@ pub fn SetupWorker::restoreHandlers(self : SetupWorker) -> Unit {
 
 ///|
 /// List all current handlers
-pub fn SetupWorker::listHandlers(self : SetupWorker) -> @js.Any {
+pub fn SetupWorker::listHandlers(self : SetupWorker) -> @nostd.Any {
   ffi_worker_list_handlers(self)
 }
 
@@ -604,19 +617,21 @@ pub fn SetupWorker::listHandlers(self : SetupWorker) -> @js.Any {
 
 ///|
 /// Get the request object
-pub fn ResponseResolverInfo::request(self : ResponseResolverInfo) -> @js.Any {
+pub fn ResponseResolverInfo::request(
+  self : ResponseResolverInfo,
+) -> @nostd.Any {
   ffi_info_request(self)
 }
 
 ///|
 /// Get URL parameters
-pub fn ResponseResolverInfo::params(self : ResponseResolverInfo) -> @js.Any {
+pub fn ResponseResolverInfo::params(self : ResponseResolverInfo) -> @nostd.Any {
   ffi_info_params(self)
 }
 
 ///|
 /// Get cookies
-pub fn ResponseResolverInfo::cookies(self : ResponseResolverInfo) -> @js.Any {
+pub fn ResponseResolverInfo::cookies(self : ResponseResolverInfo) -> @nostd.Any {
   ffi_info_cookies(self)
 }
 
@@ -634,7 +649,9 @@ pub fn ResponseResolverInfo::httpMethod(self : ResponseResolverInfo) -> String {
 
 ///|
 /// Get request headers
-pub fn ResponseResolverInfo::headers(self : ResponseResolverInfo) -> @js.Any {
+pub fn ResponseResolverInfo::headers(
+  self : ResponseResolverInfo,
+) -> @nostd.Any {
   ffi_request_headers(self.request())
 }
 
@@ -644,7 +661,7 @@ pub fn ResponseResolverInfo::headers(self : ResponseResolverInfo) -> @js.Any {
 /// Get request body as JSON (returns Promise)
 pub fn ResponseResolverInfo::json(
   self : ResponseResolverInfo,
-) -> @js.Promise[@js.Any] {
+) -> @nostd.Promise[@nostd.Any] {
   ffi_request_json(self.request())
 }
 
@@ -652,7 +669,7 @@ pub fn ResponseResolverInfo::json(
 /// Get request body as text (returns Promise)
 pub fn ResponseResolverInfo::text(
   self : ResponseResolverInfo,
-) -> @js.Promise[String] {
+) -> @nostd.Promise[String] {
   ffi_request_text(self.request())
 }
 
@@ -664,20 +681,20 @@ pub fn ResponseResolverInfo::getParam(
   self : ResponseResolverInfo,
   name : String,
 ) -> String {
-  self.params().get(name).cast()
+  self.params()[name].cast()
 }
 
 ///| Convenience builders
 
 ///|
 /// Create a simple JSON GET handler
-pub fn mockGet(path : String, response_body : @js.Any) -> RequestHandler {
+pub fn mockGet(path : String, response_body : @nostd.Any) -> RequestHandler {
   httpGet(path, fn(_info) { jsonResponse(response_body) })
 }
 
 ///|
 /// Create a simple JSON POST handler
-pub fn mockPost(path : String, response_body : @js.Any) -> RequestHandler {
+pub fn mockPost(path : String, response_body : @nostd.Any) -> RequestHandler {
   httpPost(path, fn(_info) { jsonResponse(response_body) })
 }
 
@@ -689,8 +706,8 @@ pub fn mockError(
   message : String,
 ) -> RequestHandler {
   httpGet(path, fn(_info) {
-    let body = @js.Object::new()
-    body.set("error", message)
-    jsonResponse(body.as_any(), status~)
+    let body = @nostd.Object::new()
+    body["error"] = @nostd.any(message)
+    jsonResponse(body, status~)
   })
 }

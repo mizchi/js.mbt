@@ -53,6 +53,10 @@ pub fn DataTransfer::clearData(self : Self, format : String) -> Unit {
 pub type DataTransferItem
 
 ///|
+pub fn DataTransferItem::as_any(self : DataTransferItem) -> @nostd.Any =
+  "%identity"
+
+///|
 pub impl @js.JsImpl for DataTransferItem
 
 ///|

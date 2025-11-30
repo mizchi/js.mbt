@@ -8,7 +8,7 @@
 pub type CorsMiddleware
 
 ///|
-pub impl @js.JsImpl for CorsMiddleware
+pub fn CorsMiddleware::as_any(self : CorsMiddleware) -> @nostd.Any = "%identity"
 
 ///|
 fn build_cors_options(
@@ -18,27 +18,27 @@ fn build_cors_options(
   maxAge? : Int,
   credentials? : Bool,
   exposeHeaders? : Array[String],
-) -> @js.Any {
-  let obj = @js.Object::new()
+) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if origin is Some(v) {
-    obj.set("origin", v)
+    obj["origin"] = @nostd.any(v)
   }
   if allowMethods is Some(v) {
-    obj.set("allowMethods", v |> @js.from_array)
+    obj["allowMethods"] = @nostd.any(v)
   }
   if allowHeaders is Some(v) {
-    obj.set("allowHeaders", v |> @js.from_array)
+    obj["allowHeaders"] = @nostd.any(v)
   }
   if maxAge is Some(v) {
-    obj.set("maxAge", v)
+    obj["maxAge"] = @nostd.any(v)
   }
   if credentials is Some(v) {
-    obj.set("credentials", v)
+    obj["credentials"] = @nostd.any(v)
   }
   if exposeHeaders is Some(v) {
-    obj.set("exposeHeaders", v |> @js.from_array)
+    obj["exposeHeaders"] = @nostd.any(v)
   }
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -61,12 +61,11 @@ pub fn cors(
       credentials?,
       exposeHeaders?,
     ),
-  )
-  |> @js.identity
+  ).cast()
 }
 
 ///|
-extern "js" fn ffi_cors_with_options(options : @js.Any) -> @js.Any =
+extern "js" fn ffi_cors_with_options(options : @nostd.Any) -> @nostd.Any =
   #|(options) => {
   #|  const { cors } = require('hono/cors');
   #|  return cors(options);
@@ -92,7 +91,10 @@ pub fn[Env, ExecutionContext] Hono::cors(
     credentials?,
     exposeHeaders?,
   )
-  self.call2("use", path, @js.unsafe_any(middleware)).cast()
+  self
+  .as_any()
+  ._call("use", [@nostd.any(path), middleware.as_any()])
+  .cast()
 }
 
 ///|
@@ -114,5 +116,5 @@ pub fn[Env, ExecutionContext] Hono::cors_all(
     credentials?,
     exposeHeaders?,
   )
-  self.call1("use", @js.unsafe_any(middleware)).cast()
+  self.as_any()._call("use", [middleware.as_any()]).cast()
 }

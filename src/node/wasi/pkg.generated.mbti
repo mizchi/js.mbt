@@ -3,6 +3,7 @@ package "mizchi/js/node/wasi"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/webassembly"
 )
 
@@ -13,6 +14,7 @@ import(
 // Types and methods
 #external
 pub type WASI
+fn WASI::as_any(Self) -> @nostd.Any
 fn WASI::getImportObject(Self) -> @js.Any
 fn WASI::initialize(Self, @webassembly.WebAssemblyInstance) -> Unit
 fn WASI::new(String, args? : Array[String], env? : Map[String, String], preopens? : Map[String, String], returnOnExit? : Bool, stdin? : Int, stdout? : Int, stderr? : Int) -> Self
@@ -22,6 +24,7 @@ impl @js.JsImpl for WASI
 
 #external
 pub type WasiModule
+fn WasiModule::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for WasiModule
 
 // Type aliases

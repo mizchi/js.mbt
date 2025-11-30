@@ -1,7 +1,7 @@
 ///|
 /// Create ErrorBoundary class by extending React.Component
 /// This must be called after React is initialized
-extern "js" fn ffi_create_error_boundary_class() -> @js.Any =
+extern "js" fn ffi_create_error_boundary_class() -> @nostd.Any =
   #| () => {
   #|   const React = globalThis.__ReactApi;
   #|   if (!React || !React.Component) {
@@ -35,12 +35,12 @@ extern "js" fn ffi_create_error_boundary_class() -> @js.Any =
   #| }
 
 ///|
-let error_boundary_class : Ref[@js.Any?] = Ref::new(None)
+let error_boundary_class : Ref[@nostd.Any?] = Ref::new(None)
 
 ///|
 /// Get or create the ErrorBoundary component class
 /// This lazily creates the class on first use
-fn get_error_boundary_class() -> @js.Any {
+fn get_error_boundary_class() -> @nostd.Any {
   match error_boundary_class.val {
     Some(cls) => cls
     None => {
@@ -53,8 +53,8 @@ fn get_error_boundary_class() -> @js.Any {
 
 ///|
 /// Default fallback that renders nothing
-fn default_fallback(_error : @js.Any, _reset : () -> Unit) -> Element {
-  @js.null_() |> @js.identity
+fn default_fallback(_error : @nostd.Any, _reset : () -> Unit) -> Element {
+  @nostd.null().cast()
 }
 
 ///|
@@ -67,23 +67,22 @@ fn default_fallback(_error : @js.Any, _reset : () -> Unit) -> Element {
 ///   fallback=fn(error, reset) {
 ///     createElement("div", [
 ///       createElement("p", ["Something went wrong"]),
-///       createElement("button", ["Retry"], props={"onClick": @js.identity(reset)})
+///       createElement("button", ["Retry"], props={"onClick": @nostd.any(reset)})
 ///     ])
 ///   }
 /// )
 /// ```
 pub fn error_boundary(
   children~ : Array[&ReactNode],
-  fallback? : (@js.Any, () -> Unit) -> Element,
-  on_error? : (@js.Any, @js.Any) -> Unit,
+  fallback? : (@nostd.Any, () -> Unit) -> Element,
+  on_error? : (@nostd.Any, @nostd.Any) -> Unit,
 ) -> Element {
   let tag = get_error_boundary_class()
-  let children_js = children.map(_.to_react_node()) |> @js.from_array
-  let props : Map[String, @js.Any] = {
-    "fallback": fallback.unwrap_or(default_fallback) |> @js.identity,
-  }
+  let children_js = @nostd.any(children.map(_.to_react_node()))
+  let props = @nostd.Object::new()
+  props["fallback"] = @nostd.any(fallback.unwrap_or(default_fallback))
   if on_error is Some(f) {
-    props["on_error"] = f |> @js.identity
+    props["on_error"] = @nostd.any(f)
   }
-  ffi_create_element(tag, @js.from_map(props), children_js) |> @js.identity
+  ffi_create_element(tag, props, children_js).cast()
 }

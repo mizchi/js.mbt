@@ -3,6 +3,7 @@ package "mizchi/js/web/blob"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/streams"
 )
 
@@ -16,6 +17,7 @@ pub(all) struct Blob {
 }
 #alias(array_buffer)
 async fn Blob::arrayBuffer(Self) -> @js.ArrayBuffer
+fn Blob::as_any(Self) -> @nostd.Any
 #alias(content_type)
 fn Blob::contentType(Self) -> String
 fn Blob::new(Array[&@js.JsImpl], content_type? : String) -> Self

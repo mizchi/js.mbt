@@ -8,7 +8,9 @@ pub(all) struct Context[Env, ExecutionContext] {
 }
 
 ///|
-pub impl[Env, ExecutionContext] @js.JsImpl for Context[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Context::as_any(
+  self : Context[Env, ExecutionContext],
+) -> @nostd.Any = "%identity"
 
 ///|
 /// Get execution context (c.executionCtx)
@@ -32,7 +34,7 @@ pub fn[Env, ExecutionContext, T] Context::json(
     Some(s) => s
     None => 200
   }
-  self.call2("json", @js.identity(data), status_code).cast()
+  self.as_any()._call("json", [@nostd.any(data), @nostd.any(status_code)]).cast()
 }
 
 ///|
@@ -47,7 +49,10 @@ pub fn[Env, ExecutionContext] Context::text(
     Some(s) => s
     None => 200
   }
-  self.call2("text", text, status_code).cast()
+  self
+  .as_any()
+  ._call("text", [@nostd.any(text), @nostd.any(status_code)])
+  .cast()
 }
 
 ///|
@@ -62,7 +67,10 @@ pub fn[Env, ExecutionContext] Context::html(
     Some(s) => s
     None => 200
   }
-  self.call2("html", html, status_code).cast()
+  self
+  .as_any()
+  ._call("html", [@nostd.any(html), @nostd.any(status_code)])
+  .cast()
 }
 
 ///|
@@ -77,7 +85,10 @@ pub fn[Env, ExecutionContext] Context::redirect(
     Some(s) => s
     None => 302
   }
-  self.call2("redirect", url, status_code).cast()
+  self
+  .as_any()
+  ._call("redirect", [@nostd.any(url), @nostd.any(status_code)])
+  .cast()
 }
 
 ///|
@@ -87,7 +98,7 @@ pub fn[Env, ExecutionContext] Context::redirect(
 pub fn[Env, ExecutionContext] Context::notFound(
   self : Context[Env, ExecutionContext],
 ) -> @http.Response {
-  self.call0("notFound") |> @js.identity
+  self.as_any()._call("notFound", []).cast()
 }
 
 ///|
@@ -98,7 +109,7 @@ pub fn[Env, ExecutionContext] Context::header(
   name : String,
   value : String,
 ) -> Unit {
-  self.call2("header", name, value) |> ignore
+  self.as_any()._call("header", [@nostd.any(name), @nostd.any(value)]) |> ignore
 }
 
 ///|
@@ -108,7 +119,7 @@ pub fn[Env, ExecutionContext] Context::status(
   self : Context[Env, ExecutionContext],
   code : Int,
 ) -> Unit {
-  self.call1("status", code) |> ignore
+  self.as_any()._call("status", [@nostd.any(code)]) |> ignore
 }
 
 ///|
@@ -117,9 +128,9 @@ pub fn[Env, ExecutionContext] Context::status(
 pub fn[Env, ExecutionContext] Context::set(
   self : Context[Env, ExecutionContext],
   key : String,
-  value : @js.Any,
+  value : @nostd.Any,
 ) -> Unit {
-  self.call2("set", key, value) |> ignore
+  self.as_any()._call("set", [@nostd.any(key), value]) |> ignore
 }
 
 ///|
@@ -128,8 +139,8 @@ pub fn[Env, ExecutionContext] Context::set(
 pub fn[Env, ExecutionContext] Context::getValue(
   self : Context[Env, ExecutionContext],
   key : String,
-) -> @js.Any {
-  self.call1("get", key)
+) -> @nostd.Any {
+  self.as_any()._call("get", [@nostd.any(key)])
 }
 
 ///|
@@ -138,7 +149,7 @@ pub fn[Env, ExecutionContext] Context::getValue(
 pub fn[Env, ExecutionContext] Context::res(
   self : Context[Env, ExecutionContext],
 ) -> @http.Response {
-  self.get("res").cast()
+  self.as_any()["res"].cast()
 }
 
 ///|
@@ -147,8 +158,8 @@ pub fn[Env, ExecutionContext] Context::res(
 pub fn[Env, ExecutionContext] Context::var_(
   self : Context[Env, ExecutionContext],
   key : String,
-) -> @js.Any {
-  self.get("var").get(key)
+) -> @nostd.Any {
+  self.as_any()["var"][key]
 }
 
 ///|
@@ -158,12 +169,17 @@ pub fn[Env, ExecutionContext] Context::body(
   self : Context[Env, ExecutionContext],
   body : String,
   status? : Int,
-  headers? : @js.Any,
+  headers? : @nostd.Any,
 ) -> @http.Response {
   match (status, headers) {
-    (Some(s), Some(h)) => self.call("body", [body, s, h]).cast()
-    (Some(s), None) => self.call2("body", body, s).cast()
-    _ => self.call1("body", body).cast()
+    (Some(s), Some(h)) =>
+      self
+      .as_any()
+      ._call("body", [@nostd.any(body), @nostd.any(s), h])
+      .cast()
+    (Some(s), None) =>
+      self.as_any()._call("body", [@nostd.any(body), @nostd.any(s)]).cast()
+    _ => self.as_any()._call("body", [@nostd.any(body)]).cast()
   }
 }
 
@@ -175,7 +191,7 @@ pub fn[Env, ExecutionContext] Context::setRenderer(
   self : Context[Env, ExecutionContext],
   renderer : (String) -> @http.Response,
 ) -> Unit {
-  self.call1("setRenderer", @js.unsafe_any(renderer)) |> ignore
+  self.as_any()._call("setRenderer", [@nostd.any(renderer)]) |> ignore
 }
 
 ///|
@@ -185,5 +201,5 @@ pub fn[Env, ExecutionContext] Context::render(
   self : Context[Env, ExecutionContext],
   content : String,
 ) -> @http.Response {
-  self.call1("render", content).cast()
+  self.as_any()._call("render", [@nostd.any(content)]).cast()
 }

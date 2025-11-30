@@ -5,6 +5,9 @@
 pub type R2Bucket
 
 ///|
+pub fn R2Bucket::as_any(self : R2Bucket) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for R2Bucket
 
 ///|
@@ -252,6 +255,9 @@ pub impl @js.JsImpl for R2HttpMetadata with as_any(self) {
 pub type R2Object
 
 ///|
+pub fn R2Object::as_any(self : R2Object) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for R2Object
 
 ///|
@@ -352,12 +358,18 @@ pub(all) struct R2Objects {
 }
 
 ///|
+pub fn R2Objects::as_any(self : R2Objects) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for R2Objects
 
 ///|
 /// R2 Multipart Upload
 #external
 pub type R2MultipartUpload
+
+///|
+pub fn R2MultipartUpload::as_any(self : R2MultipartUpload) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for R2MultipartUpload

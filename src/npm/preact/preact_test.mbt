@@ -8,8 +8,10 @@ priv struct MutBox[T] {
 fn setup() -> () -> Unit {
   @global_jsdom.register()
   init_preact_api(@node.require("preact"), @node.require("preact/hooks"))
-  init_preact_signals(@node.require("@preact/signals"))
-  init_preact_ssr(@node.require("preact-render-to-string"))
+  let signals : @nostd.Any = @node.require("@preact/signals").cast()
+  init_preact_signals(signals)
+  let ssr : @nostd.Any = @node.require("preact-render-to-string").cast()
+  init_preact_ssr(ssr)
   fn() { () }
 }
 
@@ -28,15 +30,15 @@ test "h creates VNode" {
   defer dispose()
   let vnode = h("div", ["Hello"])
   // VNode should be created
-  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
+  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
 test "h with props" {
   let dispose = setup()
   defer dispose()
-  let vnode = h("button", ["Click me"], props={ "disabled": @js.any(true) })
-  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
+  let vnode = h("button", ["Click me"], props={ "disabled": @nostd.any(true) })
+  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -44,7 +46,7 @@ test "h with style" {
   let dispose = setup()
   defer dispose()
   let vnode = h("div", ["Styled"], style={ "color": "red", "fontSize": "16px" })
-  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
+  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -52,7 +54,7 @@ test "fragment" {
   let dispose = setup()
   defer dispose()
   let vnode = fragment(["Hello", " ", "World"])
-  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
+  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -63,7 +65,7 @@ test "component function" {
     h("div", ["Component content"])
   }
   let vnode = component(my_component, ())
-  inspect(not(@js.is_nullish(vnode.as_any())), content="true")
+  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -340,7 +342,7 @@ test "SSR then hydrate" {
   defer dispose()
   // 1. SSR: render component to string
   let app : Component[Unit] = fn(_props) {
-    h("div", [h("button", ["Click me"])], props={ "id": @js.any("app") })
+    h("div", [h("button", ["Click me"])], props={ "id": @nostd.any("app") })
   }
   let html = renderToString(component(app, ()))
   inspect(html, content="<div id=\"app\"><button>Click me</button></div>")
@@ -377,7 +379,7 @@ async test "SSR async component then hydrate" {
   inspect(html, content="<article><p>loaded</p></article>")
   // 2. Set up DOM
   let container = get_container()
-  container.set("innerHTML", @js.any(html))
+  container.set("innerHTML", @nostd.any(html))
   // 3. Hydrate
   hydrate(component(async_app, ()), container)
   let inner_html : String = container.get("innerHTML").cast()
@@ -390,7 +392,7 @@ async test "SSR async component then hydrate" {
 test "createResource - initial loading state" {
   let dispose = setup()
   defer dispose()
-  let resource = createResource(fn() { @js.Promise::resolve("fetched data") })
+  let resource = createResource(fn() { @nostd.Promise::resolve("fetched data") })
   // Resource starts in loading state
   inspect(resource.loading(), content="true")
   inspect(resource.try_value(), content="None")

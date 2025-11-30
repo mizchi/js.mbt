@@ -3,10 +3,16 @@
 pub type Buffer
 
 ///|
+pub fn Buffer::as_any(self : Buffer) -> @nostd.Any = "%identity"
+
+///|
 /// BufferJSON - Result of Buffer.toJSON()
 /// Contains the type string "Buffer" and the data as an array of bytes
 #external
 pub type BufferJSON
+
+///|
+pub fn BufferJSON::as_any(self : BufferJSON) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for BufferJSON
@@ -30,6 +36,11 @@ pub impl @js.JsImpl for Buffer
 /// Get the Buffer constructor
 extern "js" fn buffer_constructor() -> @js.Any =
   #| () => require("node:buffer").Buffer
+
+///|
+/// Convert Buffer to @js.Any for FFI calls
+extern "js" fn buffer_to_js_any(buf : Buffer) -> @js.Any =
+  #| (b) => b
 
 ///|
 /// Create a Buffer from a string with optional encoding
@@ -66,7 +77,7 @@ pub fn Buffer::from_arraybuffer(
 /// Create a Buffer by copying another buffer
 pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
   let ctor = buffer_constructor()
-  ctor.call1("from", buf.as_any()).cast()
+  ctor.call1("from", buffer_to_js_any(buf)).cast()
 }
 
 ///|
@@ -111,7 +122,7 @@ pub fn Buffer::isEncoding(encoding : String) -> Bool {
 /// Compare two buffers
 pub fn Buffer::compare(buf1 : Buffer, buf2 : Buffer) -> Int {
   let ctor = buffer_constructor()
-  ctor.call2("compare", buf1.as_any(), buf2.as_any()).cast()
+  ctor.call2("compare", buffer_to_js_any(buf1), buffer_to_js_any(buf2)).cast()
 }
 
 ///|
@@ -165,8 +176,23 @@ pub fn Buffer::write(
 ) -> Int {
   let buf_js = self.as_any()
   match length {
-    Some(len) => buf_js.call("write", [str, offset, len, encoding]).cast()
-    None => buf_js.call("write", [str, offset, encoding]).cast()
+    Some(len) =>
+      buf_js
+      ._call("write", [
+        @nostd.any(str),
+        @nostd.any(offset),
+        @nostd.any(len),
+        @nostd.any(encoding),
+      ])
+      .cast()
+    None =>
+      buf_js
+      ._call("write", [
+        @nostd.any(str),
+        @nostd.any(offset),
+        @nostd.any(encoding),
+      ])
+      .cast()
   }
 }
 
@@ -175,8 +201,8 @@ pub fn Buffer::write(
 pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.as_any()
   match end {
-    Some(e) => buf_js.call2("slice", start, e).cast()
-    None => buf_js.call1("slice", start).cast()
+    Some(e) => buf_js._call("slice", [@nostd.any(start), @nostd.any(e)]).cast()
+    None => buf_js._call("slice", [@nostd.any(start)]).cast()
   }
 }
 
@@ -185,8 +211,9 @@ pub fn Buffer::slice(self : Self, start? : Int = 0, end? : Int) -> Buffer {
 pub fn Buffer::subarray(self : Self, start? : Int = 0, end? : Int) -> Buffer {
   let buf_js = self.as_any()
   match end {
-    Some(e) => buf_js.call2("subarray", start, e).cast()
-    None => buf_js.call1("subarray", start).cast()
+    Some(e) =>
+      buf_js._call("subarray", [@nostd.any(start), @nostd.any(e)]).cast()
+    None => buf_js._call("subarray", [@nostd.any(start)]).cast()
   }
 }
 
@@ -203,10 +230,21 @@ pub fn Buffer::copy(
   match source_end {
     Some(se) =>
       buf_js
-      .call("copy", [target.as_any(), target_start, source_start, se])
+      ._call("copy", [
+        target.as_any(),
+        @nostd.any(target_start),
+        @nostd.any(source_start),
+        @nostd.any(se),
+      ])
       .cast()
     None =>
-      buf_js.call("copy", [target.as_any(), target_start, source_start]).cast()
+      buf_js
+      ._call("copy", [
+        target.as_any(),
+        @nostd.any(target_start),
+        @nostd.any(source_start),
+      ])
+      .cast()
   }
 }
 
@@ -221,15 +259,26 @@ pub fn Buffer::fill(
 ) -> Buffer {
   let buf_js = self.as_any()
   match end {
-    Some(e) => buf_js.call("fill", [value.as_any(), offset, e, encoding]).cast()
-    None => buf_js.call2("fill", value.as_any(), offset).cast()
+    Some(e) =>
+      buf_js
+      ._call("fill", [
+        @nostd.any(value.as_any()),
+        @nostd.any(offset),
+        @nostd.any(e),
+        @nostd.any(encoding),
+      ])
+      .cast()
+    None =>
+      buf_js
+      ._call("fill", [@nostd.any(value.as_any()), @nostd.any(offset)])
+      .cast()
   }
 }
 
 ///|
 /// Test if this buffer equals another buffer
 pub fn Buffer::equals(self : Self, other : Buffer) -> Bool {
-  self.call1("equals", other.as_any()).cast()
+  self.as_any()._call("equals", [other.as_any()]).cast()
 }
 
 ///|
@@ -243,7 +292,8 @@ pub fn Buffer::compare_with(
   source_end? : Int,
 ) -> Int {
   let buf_js = self.as_any()
-  let args : Array[@js.Any] = [target.as_any(), @js.any(target_start)]
+  // Build args as @js.Any array for @js.from_array compatibility
+  let args : Array[@js.Any] = [target.as_any().cast(), @js.any(target_start)]
   if target_end is Some(te) {
     args.push(@js.any(te))
   }
@@ -251,9 +301,11 @@ pub fn Buffer::compare_with(
   if source_end is Some(se) {
     args.push(@js.any(se))
   }
-  let compare_fn = buf_js.get("compare")
-  let apply = compare_fn.get("apply")
-  apply.call("call", [compare_fn, buf_js, @js.from_array(args)]).cast()
+  let compare_fn = buf_js["compare"]
+  let apply = compare_fn["apply"]
+  apply
+  ._call("call", [compare_fn, buf_js, @nostd.any(@js.from_array(args))])
+  .cast()
 }
 
 ///|
@@ -264,7 +316,14 @@ pub fn Buffer::includes(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Bool {
-  self.call("includes", [value.as_any(), byte_offset, encoding]).cast()
+  self
+  .as_any()
+  ._call("includes", [
+    @nostd.any(value.as_any()),
+    @nostd.any(byte_offset),
+    @nostd.any(encoding),
+  ])
+  .cast()
 }
 
 ///|
@@ -276,7 +335,14 @@ pub fn Buffer::indexOf(
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Int {
-  self.call("indexOf", [value.as_any(), byte_offset, encoding]).cast()
+  self
+  .as_any()
+  ._call("indexOf", [
+    @nostd.any(value.as_any()),
+    @nostd.any(byte_offset),
+    @nostd.any(encoding),
+  ])
+  .cast()
 }
 
 ///|
@@ -291,8 +357,17 @@ pub fn Buffer::lastIndexOf(
   let buf_js = self.as_any()
   match byte_offset {
     Some(offset) =>
-      buf_js.call("lastIndexOf", [value.as_any(), offset, encoding]).cast()
-    None => buf_js.call2("lastIndexOf", value.as_any(), encoding).cast()
+      buf_js
+      ._call("lastIndexOf", [
+        @nostd.any(value.as_any()),
+        @nostd.any(offset),
+        @nostd.any(encoding),
+      ])
+      .cast()
+    None =>
+      buf_js
+      ._call("lastIndexOf", [@nostd.any(value.as_any()), @nostd.any(encoding)])
+      .cast()
   }
 }
 

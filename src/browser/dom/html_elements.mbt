@@ -3,6 +3,9 @@
 pub type HTMLDivElement
 
 ///|
+pub fn HTMLDivElement::as_any(self : HTMLDivElement) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLDivElement
 
 ///|
@@ -81,6 +84,10 @@ pub async fn HTMLCanvasElement::toBlob(
 pub type HTMLBodyElement
 
 ///|
+pub fn HTMLBodyElement::as_any(self : HTMLBodyElement) -> @nostd.Any =
+  "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLBodyElement
 
 ///|
@@ -98,6 +105,10 @@ pub impl HTMLElementImpl for HTMLBodyElement
 ///|
 #external
 pub type HTMLHeadElement
+
+///|
+pub fn HTMLHeadElement::as_any(self : HTMLHeadElement) -> @nostd.Any =
+  "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLHeadElement
@@ -119,6 +130,10 @@ pub impl HTMLElementImpl for HTMLHeadElement
 pub type HTMLHtmlElement
 
 ///|
+pub fn HTMLHtmlElement::as_any(self : HTMLHtmlElement) -> @nostd.Any =
+  "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLHtmlElement
 
 ///|
@@ -136,6 +151,10 @@ pub impl HTMLElementImpl for HTMLHtmlElement
 ///|
 #external
 pub type HTMLSpanElement
+
+///|
+pub fn HTMLSpanElement::as_any(self : HTMLSpanElement) -> @nostd.Any =
+  "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLSpanElement
@@ -305,6 +324,10 @@ pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
 pub type HTMLFormElement
 
 ///|
+pub fn HTMLFormElement::as_any(self : HTMLFormElement) -> @nostd.Any =
+  "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLFormElement
 
 ///|
@@ -415,6 +438,10 @@ pub impl HTMLElementImpl for HTMLImageElement
 pub type HTMLParagraphElement
 
 ///|
+pub fn HTMLParagraphElement::as_any(self : HTMLParagraphElement) -> @nostd.Any =
+  "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLParagraphElement
 
 ///|
@@ -432,6 +459,10 @@ pub impl HTMLElementImpl for HTMLParagraphElement
 ///|
 #external
 pub type HTMLHeadingElement
+
+///|
+pub fn HTMLHeadingElement::as_any(self : HTMLHeadingElement) -> @nostd.Any =
+  "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLHeadingElement
@@ -453,6 +484,10 @@ pub impl HTMLElementImpl for HTMLHeadingElement
 pub type HTMLUListElement
 
 ///|
+pub fn HTMLUListElement::as_any(self : HTMLUListElement) -> @nostd.Any =
+  "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLUListElement
 
 ///|
@@ -472,6 +507,10 @@ pub impl HTMLElementImpl for HTMLUListElement
 pub type HTMLOListElement
 
 ///|
+pub fn HTMLOListElement::as_any(self : HTMLOListElement) -> @nostd.Any =
+  "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLOListElement
 
 ///|
@@ -489,6 +528,9 @@ pub impl HTMLElementImpl for HTMLOListElement
 ///|
 #external
 pub type HTMLLIElement
+
+///|
+pub fn HTMLLIElement::as_any(self : HTMLLIElement) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for HTMLLIElement

@@ -184,6 +184,9 @@ pub(all) struct KVListResult {
 }
 
 ///|
+pub fn KVListResult::as_any(self : KVListResult) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for KVListResult
 
 ///|
@@ -195,6 +198,9 @@ pub(all) struct KVKey {
 }
 
 ///|
+pub fn KVKey::as_any(self : KVKey) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for KVKey
 
 ///|
@@ -203,6 +209,9 @@ pub(all) struct KVValueWithMetadata {
   value : @js.Any?
   metadata : @js.Any?
 }
+
+///|
+pub fn KVValueWithMetadata::as_any(self : KVValueWithMetadata) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for KVValueWithMetadata

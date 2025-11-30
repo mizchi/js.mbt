@@ -9,6 +9,9 @@ extern "js" fn net_module() -> @js.Any =
 pub type AddressInfo
 
 ///|
+pub fn AddressInfo::as_any(self : AddressInfo) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for AddressInfo
 
 ///|
@@ -34,6 +37,9 @@ pub fn AddressInfo::family(self : AddressInfo) -> String {
 ///|
 #external
 pub type Socket
+
+///|
+pub fn Socket::as_any(self : Socket) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for Socket
@@ -157,6 +163,9 @@ pub fn Socket::bytesWritten(self : Socket) -> Int {
 ///|
 #external
 pub type Server
+
+///|
+pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for Server

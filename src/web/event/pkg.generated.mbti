@@ -25,6 +25,7 @@ fn get_last_event_id(@js.Any) -> String
 // Types and methods
 #external
 pub type Event
+fn Event::as_any(Self) -> @nostd.Any
 fn Event::bubbles(Self) -> Bool
 fn Event::cancelable(Self) -> Bool
 fn Event::currentTarget(Self) -> EventTarget?
@@ -53,6 +54,7 @@ impl EventTargetImpl for EventSource
 
 #external
 pub type EventTarget
+fn EventTarget::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for EventTarget
 impl EventTargetImpl for EventTarget
 

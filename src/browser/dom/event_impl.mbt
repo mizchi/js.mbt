@@ -64,6 +64,9 @@ impl EventImpl with defaultPrevented(self) -> Bool {
 pub type Event
 
 ///|
+pub fn Event::as_any(self : Event) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Event
 
 ///|
@@ -166,6 +169,9 @@ pub impl EventImpl for ChangeEvent
 /// https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent
 #external
 pub type FocusEvent
+
+///|
+pub fn FocusEvent::as_any(self : FocusEvent) -> @nostd.Any = "%identity"
 
 ///|
 impl @js.JsImpl for FocusEvent
@@ -364,6 +370,9 @@ pub fn MessageEvent::source(self : Self) -> Window? {
 pub type PopStateEvent
 
 ///|
+pub fn PopStateEvent::as_any(self : PopStateEvent) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for PopStateEvent
 
 ///|
@@ -397,6 +406,10 @@ pub impl EventImpl for HashChangeEvent
 /// https://developer.mozilla.org/en-US/docs/Web/API/BeforeUnloadEvent
 #external
 pub type BeforeUnloadEvent
+
+///|
+pub fn BeforeUnloadEvent::as_any(self : BeforeUnloadEvent) -> @nostd.Any =
+  "%identity"
 
 ///|
 pub impl @js.JsImpl for BeforeUnloadEvent

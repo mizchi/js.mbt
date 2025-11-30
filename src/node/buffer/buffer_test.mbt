@@ -36,7 +36,7 @@ test "Buffer.allocUnsafe" {
 ///|
 test "Buffer.isBuffer" {
   let buf = Buffer::from_string("test")
-  assert_eq(Buffer::isBuffer(buf.as_any()), true)
+  assert_eq(Buffer::isBuffer(buf), true)
   assert_eq(Buffer::isBuffer(@js.any("hello")), false)
 }
 

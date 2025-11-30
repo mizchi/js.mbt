@@ -5,7 +5,7 @@
 ///|
 fn build_cookie_options(
   domain? : String,
-  expires? : @js.Any,
+  expires? : @nostd.Any,
   httpOnly? : Bool,
   maxAge? : Int,
   path? : String,
@@ -14,39 +14,39 @@ fn build_cookie_options(
   priority? : String,
   prefix? : String,
   partitioned? : Bool,
-) -> @js.Any {
-  let obj = @js.Object::new()
+) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if domain is Some(v) {
-    obj.set("domain", v)
+    obj["domain"] = @nostd.any(v)
   }
   if expires is Some(v) {
-    obj.set("expires", v)
+    obj["expires"] = v
   }
   if httpOnly is Some(v) {
-    obj.set("httpOnly", v)
+    obj["httpOnly"] = @nostd.any(v)
   }
   if maxAge is Some(v) {
-    obj.set("maxAge", v)
+    obj["maxAge"] = @nostd.any(v)
   }
   if path is Some(v) {
-    obj.set("path", v)
+    obj["path"] = @nostd.any(v)
   }
   if secure is Some(v) {
-    obj.set("secure", v)
+    obj["secure"] = @nostd.any(v)
   }
   if sameSite is Some(v) {
-    obj.set("sameSite", v)
+    obj["sameSite"] = @nostd.any(v)
   }
   if priority is Some(v) {
-    obj.set("priority", v)
+    obj["priority"] = @nostd.any(v)
   }
   if prefix is Some(v) {
-    obj.set("prefix", v)
+    obj["prefix"] = @nostd.any(v)
   }
   if partitioned is Some(v) {
-    obj.set("partitioned", v)
+    obj["partitioned"] = @nostd.any(v)
   }
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -58,10 +58,10 @@ pub fn[Env, ExecutionContext] get_cookie(
   prefix? : String,
 ) -> String? {
   let result = match prefix {
-    Some(p) => ffi_get_cookie_with_prefix(c |> @js.identity, name, p)
-    None => ffi_get_cookie(c |> @js.identity, name)
+    Some(p) => ffi_get_cookie_with_prefix(c.as_any(), name, p)
+    None => ffi_get_cookie(c.as_any(), name)
   }
-  if @js.is_nullish(result) {
+  if @nostd.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -69,7 +69,7 @@ pub fn[Env, ExecutionContext] get_cookie(
 }
 
 ///|
-extern "js" fn ffi_get_cookie(c : @js.Any, name : String) -> @js.Any =
+extern "js" fn ffi_get_cookie(c : @nostd.Any, name : String) -> @nostd.Any =
   #|(c, name) => {
   #|  const { getCookie } = require('hono/cookie');
   #|  return getCookie(c, name);
@@ -77,10 +77,10 @@ extern "js" fn ffi_get_cookie(c : @js.Any, name : String) -> @js.Any =
 
 ///|
 extern "js" fn ffi_get_cookie_with_prefix(
-  c : @js.Any,
+  c : @nostd.Any,
   name : String,
   prefix : String,
-) -> @js.Any =
+) -> @nostd.Any =
   #|(c, name, prefix) => {
   #|  const { getCookie } = require('hono/cookie');
   #|  return getCookie(c, name, prefix);
@@ -91,13 +91,13 @@ extern "js" fn ffi_get_cookie_with_prefix(
 pub fn[Env, ExecutionContext] get_all_cookies(
   c : Context[Env, ExecutionContext],
 ) -> Map[String, String] {
-  let obj = ffi_get_all_cookies(c |> @js.identity)
+  let obj = ffi_get_all_cookies(c.as_any())
   let result : Map[String, String] = {}
-  let keys : Array[String] = @js.Object::keys(obj) |> @js.identity
+  let keys : Array[String] = @nostd.Object::keys(obj)
   for i = 0; i < keys.length(); i = i + 1 {
     let key = keys[i]
-    let value = obj.get(key)
-    if not(@js.is_nullish(value)) {
+    let value = obj[key]
+    if not(@nostd.is_nullish(value)) {
       result[key] = value.cast()
     }
   }
@@ -105,7 +105,7 @@ pub fn[Env, ExecutionContext] get_all_cookies(
 }
 
 ///|
-extern "js" fn ffi_get_all_cookies(c : @js.Any) -> @js.Any =
+extern "js" fn ffi_get_all_cookies(c : @nostd.Any) -> @nostd.Any =
   #|(c) => {
   #|  const { getCookie } = require('hono/cookie');
   #|  return getCookie(c);
@@ -119,7 +119,7 @@ pub fn[Env, ExecutionContext] set_cookie(
   name : String,
   value : String,
   domain? : String,
-  expires? : @js.Any,
+  expires? : @nostd.Any,
   httpOnly? : Bool,
   maxAge? : Int,
   path? : String,
@@ -141,15 +141,15 @@ pub fn[Env, ExecutionContext] set_cookie(
     prefix?,
     partitioned?,
   )
-  ffi_set_cookie_with_options(c |> @js.identity, name, value, opts)
+  ffi_set_cookie_with_options(c.as_any(), name, value, opts)
 }
 
 ///|
 extern "js" fn ffi_set_cookie_with_options(
-  c : @js.Any,
+  c : @nostd.Any,
   name : String,
   value : String,
-  options : @js.Any,
+  options : @nostd.Any,
 ) -> Unit =
   #|(c, name, value, options) => {
   #|  const { setCookie } = require('hono/cookie');
@@ -167,8 +167,8 @@ pub fn[Env, ExecutionContext] delete_cookie(
   domain? : String,
 ) -> String? {
   let opts = build_cookie_options(domain?, path?, secure?)
-  let result = ffi_delete_cookie_with_options(c |> @js.identity, name, opts)
-  if @js.is_nullish(result) {
+  let result = ffi_delete_cookie_with_options(c.as_any(), name, opts)
+  if @nostd.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -177,10 +177,10 @@ pub fn[Env, ExecutionContext] delete_cookie(
 
 ///|
 extern "js" fn ffi_delete_cookie_with_options(
-  c : @js.Any,
+  c : @nostd.Any,
   name : String,
-  options : @js.Any,
-) -> @js.Any =
+  options : @nostd.Any,
+) -> @nostd.Any =
   #|(c, name, options) => {
   #|  const { deleteCookie } = require('hono/cookie');
   #|  return deleteCookie(c, name, options);
@@ -194,8 +194,8 @@ pub async fn[Env, ExecutionContext] get_signed_cookie(
   secret : String,
   name : String,
 ) -> String? {
-  let result : @js.Any = ffi_get_signed_cookie(c |> @js.identity, secret, name).wait()
-  if @js.is_nullish(result) || result == @js.any(false) {
+  let result = ffi_get_signed_cookie(c.as_any(), secret, name).wait()
+  if @nostd.is_nullish(result) || @nostd.typeof_(result) == "boolean" {
     None
   } else {
     Some(result.cast())
@@ -204,10 +204,10 @@ pub async fn[Env, ExecutionContext] get_signed_cookie(
 
 ///|
 extern "js" fn ffi_get_signed_cookie(
-  c : @js.Any,
+  c : @nostd.Any,
   secret : String,
   name : String,
-) -> @js.Promise[@js.Any] =
+) -> @nostd.Promise[@nostd.Any] =
   #|(c, secret, name) => {
   #|  const { getSignedCookie } = require('hono/cookie');
   #|  return getSignedCookie(c, secret, name);
@@ -222,7 +222,7 @@ pub async fn[Env, ExecutionContext] set_signed_cookie(
   value : String,
   secret : String,
   domain? : String,
-  expires? : @js.Any,
+  expires? : @nostd.Any,
   httpOnly? : Bool,
   maxAge? : Int,
   path? : String,
@@ -244,23 +244,17 @@ pub async fn[Env, ExecutionContext] set_signed_cookie(
     prefix?,
     partitioned?,
   )
-  ffi_set_signed_cookie_with_options(
-    c |> @js.identity,
-    name,
-    value,
-    secret,
-    opts,
-  ).wait()
+  ffi_set_signed_cookie_with_options(c.as_any(), name, value, secret, opts).wait()
 }
 
 ///|
 extern "js" fn ffi_set_signed_cookie_with_options(
-  c : @js.Any,
+  c : @nostd.Any,
   name : String,
   value : String,
   secret : String,
-  options : @js.Any,
-) -> @js.Promise[Unit] =
+  options : @nostd.Any,
+) -> @nostd.Promise[Unit] =
   #|(c, name, value, secret, options) => {
   #|  const { setSignedCookie } = require('hono/cookie');
   #|  return setSignedCookie(c, name, value, secret, options);

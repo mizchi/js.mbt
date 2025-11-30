@@ -16,6 +16,9 @@ pub(open) trait HTMLElementImpl: @js.JsImpl + ElementImpl {
 pub type HTMLElement
 
 ///|
+pub fn HTMLElement::as_any(self : HTMLElement) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for HTMLElement
 
 ///|

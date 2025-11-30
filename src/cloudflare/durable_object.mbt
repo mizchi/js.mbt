@@ -5,6 +5,11 @@
 pub type DurableObjectNamespace
 
 ///|
+pub fn DurableObjectNamespace::as_any(
+  self : DurableObjectNamespace,
+) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for DurableObjectNamespace
 
 ///|
@@ -87,6 +92,9 @@ pub(all) struct DurableObjectId {
 }
 
 ///|
+pub fn DurableObjectId::as_any(self : DurableObjectId) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for DurableObjectId
 
 ///|
@@ -98,7 +106,7 @@ pub fn DurableObjectId::to_string(self : Self) -> String {
 ///|
 /// Check if two IDs are equal
 pub fn DurableObjectId::equals(self : Self, other : DurableObjectId) -> Bool {
-  self.call("equals", [other.as_any()]).cast()
+  self.call("equals", [other.as_any().cast()]).cast()
 }
 
 ///|
@@ -107,6 +115,9 @@ pub(all) struct DurableObjectStub {
   id : DurableObjectId
   name : String?
 }
+
+///|
+pub fn DurableObjectStub::as_any(self : DurableObjectStub) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for DurableObjectStub
@@ -158,6 +169,9 @@ pub(all) struct DurableObjectState {
 }
 
 ///|
+pub fn DurableObjectState::as_any(self : DurableObjectState) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for DurableObjectState
 
 ///|
@@ -182,6 +196,9 @@ pub async fn DurableObjectState::block_concurrency_while(
 /// Durable Object Storage
 #external
 pub type DurableObjectStorage
+
+///|
+pub fn DurableObjectStorage::as_any(self : DurableObjectStorage) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for DurableObjectStorage
@@ -537,6 +554,11 @@ pub impl @js.JsImpl for DurableObjectSetAlarmOptions with as_any(self) {
 /// Transaction context
 #external
 pub type DurableObjectTransaction
+
+///|
+pub fn DurableObjectTransaction::as_any(
+  self : DurableObjectTransaction,
+) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for DurableObjectTransaction

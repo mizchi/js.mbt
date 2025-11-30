@@ -3,6 +3,7 @@ package "mizchi/js/browser/file"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
   "mizchi/js/web/blob"
 )
 
@@ -18,6 +19,7 @@ pub(all) struct File {
 }
 #alias(array_buffer)
 async fn File::arrayBuffer(Self) -> @js.ArrayBuffer
+fn File::as_any(Self) -> @nostd.Any
 fn File::as_blob(Self) -> @blob.Blob
 #alias(content_type)
 fn File::contentType(Self) -> String
@@ -32,6 +34,7 @@ pub(all) struct FileReader {
   error : @js.Nullable[@js.Any]
 }
 fn FileReader::abort(Self) -> Unit
+fn FileReader::as_any(Self) -> @nostd.Any
 fn FileReader::new() -> Self
 #alias(read_as_array_buffer)
 fn FileReader::readAsArrayBuffer(Self, @blob.Blob) -> Unit

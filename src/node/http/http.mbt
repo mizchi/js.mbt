@@ -55,6 +55,9 @@ pub fn IncomingMessage::setTimeout(
 pub type ServerResponse
 
 ///|
+pub fn ServerResponse::as_any(self : ServerResponse) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for ServerResponse
 
 ///|
@@ -197,6 +200,9 @@ pub fn ServerResponse::setTimeout(
 pub type Server
 
 ///|
+pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Server
 
 ///|
@@ -296,6 +302,9 @@ pub fn Server::set_timeout(self : Server, msecs : Int) -> Unit {
 ///|
 #external
 pub type ClientRequest
+
+///|
+pub fn ClientRequest::as_any(self : ClientRequest) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for ClientRequest

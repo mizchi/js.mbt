@@ -3,13 +3,13 @@
 pub type ReactDOM
 
 ///|
-pub impl @js.JsImpl for ReactDOM
+pub fn ReactDOM::as_any(self : ReactDOM) -> @nostd.Any = "%identity"
 
 ///|
 /// Dynamic import for react-dom module (internal)
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-extern "js" fn import_react_dom_internal() -> @js.Promise[ReactDOM] =
+extern "js" fn import_react_dom_internal() -> @nostd.Promise[ReactDOM] =
   #| () => import("react-dom")
 
 ///|
@@ -31,10 +31,18 @@ pub fn ReactDOM::createPortal(
   dom_node : &@dom.ElementImpl,
   key? : String,
 ) -> @react.Element {
-  let result : @js.Any = match key {
+  let result : @nostd.Any = match key {
     Some(key) =>
-      self.call("createPortal", [children, dom_node.as_any(), @js.any(key)])
-    None => self.call2("createPortal", children, dom_node.as_any())
+      self
+      .as_any()
+      ._call(
+        "createPortal",
+        [children.as_any(), dom_node.as_any(), @nostd.any(key)],
+      )
+    None =>
+      self
+      .as_any()
+      ._call("createPortal", [children.as_any(), dom_node.as_any()])
   }
   result.cast()
 }
@@ -44,5 +52,5 @@ pub fn ReactDOM::createPortal(
 /// This ensures that the DOM is updated immediately.
 #alias(flush_sync)
 pub fn[T] ReactDOM::flushSync(self : ReactDOM, callback : () -> T) -> T {
-  self.call1("flushSync", @js.from_fn0(callback)).cast()
+  self.as_any()._call("flushSync", [@nostd.any(callback)]).cast()
 }

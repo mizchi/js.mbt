@@ -118,13 +118,13 @@ pub fn wrap(endpoint : @js.Any) -> Remote {
 ///|
 /// Wrap a Worker directly
 pub fn wrapWorker(worker : @worker.Worker) -> Remote {
-  ffi_wrap(worker.as_any())
+  ffi_wrap(worker.as_any().cast())
 }
 
 ///|
 /// Wrap a MessagePort
 pub fn wrapMessagePort(port : @message.MessagePort) -> Remote {
-  ffi_wrap(port.as_any())
+  ffi_wrap(port.as_any().cast())
 }
 
 ///|
@@ -140,13 +140,13 @@ pub fn expose(obj : @js.Any, endpoint? : @js.Any) -> Unit {
 ///|
 /// Expose an object to a Worker
 pub fn exposeToWorker(obj : @js.Any, worker : @worker.Worker) -> Unit {
-  ffi_expose(obj, worker.as_any())
+  ffi_expose(obj, worker.as_any().cast())
 }
 
 ///|
 /// Expose an object to a MessagePort
 pub fn exposeToMessagePort(obj : @js.Any, port : @message.MessagePort) -> Unit {
-  ffi_expose(obj, port.as_any())
+  ffi_expose(obj, port.as_any().cast())
 }
 
 ///|

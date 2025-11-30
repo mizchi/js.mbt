@@ -5,6 +5,9 @@
 pub type Event
 
 ///|
+pub fn Event::as_any(self : Event) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Event
 
 ///|
@@ -171,6 +174,9 @@ impl EventTargetImpl with dispatchEvent(self, event) -> Bool {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Event/target
 #external
 pub type EventTarget
+
+///|
+pub fn EventTarget::as_any(self : EventTarget) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for EventTarget

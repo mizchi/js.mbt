@@ -96,6 +96,9 @@ impl EventEmitterImpl with emit(self, name : String, payload : @js.Any) -> Unit 
 pub type EventEmitter
 
 ///|
+pub fn EventEmitter::as_any(self : EventEmitter) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for EventEmitter
 
 ///|

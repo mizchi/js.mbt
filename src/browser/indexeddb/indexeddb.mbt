@@ -14,6 +14,9 @@ pub(all) struct IDBRequest[T] {
 }
 
 ///|
+pub fn[T] IDBRequest::as_any(self : IDBRequest[T]) -> @nostd.Any = "%identity"
+
+///|
 pub impl[T] @js.JsImpl for IDBRequest[T]
 
 ///|
@@ -65,6 +68,9 @@ pub(all) struct IDBOpenDBRequest {
 }
 
 ///|
+pub fn IDBOpenDBRequest::as_any(self : IDBOpenDBRequest) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for IDBOpenDBRequest
 
 ///|
@@ -79,6 +85,9 @@ pub(all) struct IDBDatabase {
   version : Int
   objectStoreNames : @js.Any
 }
+
+///|
+pub fn IDBDatabase::as_any(self : IDBDatabase) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for IDBDatabase
@@ -134,6 +143,9 @@ pub(all) struct IDBTransaction[T] {
 }
 
 ///|
+pub fn[T] IDBTransaction::as_any(self : IDBTransaction[T]) -> @nostd.Any = "%identity"
+
+///|
 pub impl[T] @js.JsImpl for IDBTransaction[T]
 
 ///|
@@ -169,6 +181,9 @@ pub(all) struct IDBObjectStore[T] {
   indexNames : @js.Any
   transaction : IDBTransaction[T]
 }
+
+///|
+pub fn[T] IDBObjectStore::as_any(self : IDBObjectStore[T]) -> @nostd.Any = "%identity"
 
 ///|
 pub impl[T] @js.JsImpl for IDBObjectStore[T]
@@ -347,6 +362,9 @@ pub(all) struct IDBIndex[T] {
 }
 
 ///|
+pub fn[T] IDBIndex::as_any(self : IDBIndex[T]) -> @nostd.Any = "%identity"
+
+///|
 pub impl[T] @js.JsImpl for IDBIndex[T]
 
 ///|
@@ -439,6 +457,9 @@ pub(all) struct IDBCursor[T] {
 }
 
 ///|
+pub fn[T] IDBCursor::as_any(self : IDBCursor[T]) -> @nostd.Any = "%identity"
+
+///|
 pub impl[T] @js.JsImpl for IDBCursor[T]
 
 ///|
@@ -484,6 +505,11 @@ pub(all) struct IDBCursorWithValue[T] {
   source : @js.Any
   value : T
 }
+
+///|
+pub fn[T] IDBCursorWithValue::as_any(
+  self : IDBCursorWithValue[T],
+) -> @nostd.Any = "%identity"
 
 ///|
 pub impl[T] @js.JsImpl for IDBCursorWithValue[T]
@@ -537,6 +563,9 @@ pub(all) struct IDBKeyRange {
   lowerOpen : Bool
   upperOpen : Bool
 }
+
+///|
+pub fn IDBKeyRange::as_any(self : IDBKeyRange) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for IDBKeyRange

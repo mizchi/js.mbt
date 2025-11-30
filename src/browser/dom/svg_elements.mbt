@@ -5,6 +5,9 @@
 pub type SVGElement
 
 ///|
+pub fn SVGElement::as_any(self : SVGElement) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for SVGElement
 
 ///|
@@ -28,6 +31,9 @@ pub fn SVGElement::getAttribute(self : Self, name : String) -> String? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/SVGSVGElement
 #external
 pub type SVGSVGElement
+
+///|
+pub fn SVGSVGElement::as_any(self : SVGSVGElement) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for SVGSVGElement

@@ -11,6 +11,9 @@ extern "js" fn wasi_module_ffi() -> @js.Any =
 pub type WasiModule
 
 ///|
+pub fn WasiModule::as_any(self : WasiModule) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for WasiModule
 
 ///|
@@ -26,6 +29,9 @@ extern "js" fn ffi_new_wasi(wasi_class : @js.Any, options : @js.Any) -> @js.Any 
 ///|
 #external
 pub type WASI
+
+///|
+pub fn WASI::as_any(self : WASI) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for WASI

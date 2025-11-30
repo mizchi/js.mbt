@@ -75,6 +75,9 @@ pub fn CSSStyleDeclaration::get_property_priority(
 pub type CSSRule
 
 ///|
+pub fn CSSRule::as_any(self : CSSRule) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for CSSRule
 
 ///|
@@ -112,6 +115,9 @@ pub fn CSSRule::rule_type(self : Self) -> Int {
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet
 #external
 pub type CSSStyleSheet
+
+///|
+pub fn CSSStyleSheet::as_any(self : CSSStyleSheet) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for CSSStyleSheet

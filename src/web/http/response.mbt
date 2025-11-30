@@ -8,6 +8,9 @@ pub(all) struct Response {
 }
 
 ///|
+pub fn Response::as_any(self : Response) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for Response
 
 ///|

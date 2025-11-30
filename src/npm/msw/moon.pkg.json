@@ -1,5 +1,6 @@
 {
   "import": [
-    "mizchi/js"
+    "mizchi/js",
+    "mizchi/js/nostd"
   ]
 }

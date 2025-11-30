@@ -5,6 +5,9 @@
 pub type D1Database
 
 ///|
+pub fn D1Database::as_any(self : D1Database) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for D1Database
 
 ///|
@@ -51,6 +54,9 @@ pub async fn D1Database::dump(self : Self) -> @js.Any {
 pub type D1PreparedStatement
 
 ///|
+pub fn D1PreparedStatement::as_any(self : D1PreparedStatement) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for D1PreparedStatement
 
 ///|
@@ -60,7 +66,7 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Any]) -> Self {
   // Cloudflare's bind() expects variadic arguments, not an array
   // We need to spread the array when calling bind
   let stmt_js = self.as_any()
-  let bind_fn = stmt_js.get("bind")
+  let bind_fn = stmt_js["bind"]
 
   // Convert MoonBit array to JavaScript array
   let params_js = @js.JsArray::new()
@@ -71,7 +77,7 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Any]) -> Self {
   }
 
   // Use apply to spread the array as individual arguments
-  bind_fn.call2("apply", stmt_js, params_js).cast()
+  bind_fn._call("apply", [stmt_js, @nostd.any(params_js)]).cast()
 }
 
 ///|
@@ -159,6 +165,9 @@ pub(all) struct D1Result {
 }
 
 ///|
+pub fn D1Result::as_any(self : D1Result) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for D1Result
 
 ///|
@@ -185,6 +194,9 @@ pub(all) struct D1Meta {
 }
 
 ///|
+pub fn D1Meta::as_any(self : D1Meta) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for D1Meta
 
 ///|
@@ -193,6 +205,9 @@ pub(all) struct D1ExecResult {
   count : Int // Number of statements executed
   duration : Double // Total duration in milliseconds
 }
+
+///|
+pub fn D1ExecResult::as_any(self : D1ExecResult) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for D1ExecResult

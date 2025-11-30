@@ -66,44 +66,44 @@ pub fn JwtPayload::default() -> JwtPayload {
 }
 
 ///|
-fn payload_to_js(payload : JwtPayload) -> @js.Any {
-  let obj = @js.Object::new()
+fn payload_to_js(payload : JwtPayload) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if payload.sub is Some(v) {
-    obj.set("sub", v)
+    obj["sub"] = @nostd.any(v)
   }
   if payload.iss is Some(v) {
-    obj.set("iss", v)
+    obj["iss"] = @nostd.any(v)
   }
   if payload.aud is Some(v) {
-    obj.set("aud", v)
+    obj["aud"] = @nostd.any(v)
   }
   if payload.exp is Some(v) {
-    obj.set("exp", v)
+    obj["exp"] = @nostd.any(v)
   }
   if payload.nbf is Some(v) {
-    obj.set("nbf", v)
+    obj["nbf"] = @nostd.any(v)
   }
   if payload.iat is Some(v) {
-    obj.set("iat", v)
+    obj["iat"] = @nostd.any(v)
   }
   if payload.jti is Some(v) {
-    obj.set("jti", v)
+    obj["jti"] = @nostd.any(v)
   }
-  obj.as_any()
+  obj
 }
 
 ///|
 /// Decoded JWT result
 pub struct JwtDecoded {
-  header : @js.Any
-  payload : @js.Any
+  header : @nostd.Any
+  payload : @nostd.Any
 }
 
 ///|
 /// Sign a JWT token
 /// https://hono.dev/docs/helpers/jwt#sign
 pub async fn jwt_sign(
-  payload : @js.Any,
+  payload : @nostd.Any,
   secret : String,
   alg? : JwtAlgorithm,
 ) -> String {
@@ -126,9 +126,9 @@ pub async fn jwt_sign_payload(
 
 ///|
 extern "js" fn ffi_jwt_sign(
-  payload : @js.Any,
+  payload : @nostd.Any,
   secret : String,
-) -> @js.Promise[String] =
+) -> @nostd.Promise[String] =
   #|(payload, secret) => {
   #|  const { sign } = require('hono/jwt');
   #|  return sign(payload, secret);
@@ -136,10 +136,10 @@ extern "js" fn ffi_jwt_sign(
 
 ///|
 extern "js" fn ffi_jwt_sign_with_alg(
-  payload : @js.Any,
+  payload : @nostd.Any,
   secret : String,
   alg : String,
-) -> @js.Promise[String] =
+) -> @nostd.Promise[String] =
   #|(payload, secret, alg) => {
   #|  const { sign } = require('hono/jwt');
   #|  return sign(payload, secret, alg);
@@ -153,7 +153,7 @@ pub async fn jwt_verify(
   token : String,
   secret : String,
   alg? : JwtAlgorithm,
-) -> @js.Any {
+) -> @nostd.Any {
   match alg {
     Some(a) =>
       ffi_jwt_verify_with_alg(token, secret, algorithm_to_string(a)).wait()
@@ -165,7 +165,7 @@ pub async fn jwt_verify(
 extern "js" fn ffi_jwt_verify(
   token : String,
   secret : String,
-) -> @js.Promise[@js.Any] =
+) -> @nostd.Promise[@nostd.Any] =
   #|(token, secret) => {
   #|  const { verify } = require('hono/jwt');
   #|  return verify(token, secret);
@@ -176,7 +176,7 @@ extern "js" fn ffi_jwt_verify_with_alg(
   token : String,
   secret : String,
   alg : String,
-) -> @js.Promise[@js.Any] =
+) -> @nostd.Promise[@nostd.Any] =
   #|(token, secret, alg) => {
   #|  const { verify } = require('hono/jwt');
   #|  return verify(token, secret, alg);
@@ -187,11 +187,11 @@ extern "js" fn ffi_jwt_verify_with_alg(
 /// https://hono.dev/docs/helpers/jwt#decode
 pub fn jwt_decode(token : String) -> JwtDecoded {
   let result = ffi_jwt_decode(token)
-  { header: result.get("header"), payload: result.get("payload") }
+  { header: result["header"], payload: result["payload"] }
 }
 
 ///|
-extern "js" fn ffi_jwt_decode(token : String) -> @js.Any =
+extern "js" fn ffi_jwt_decode(token : String) -> @nostd.Any =
   #|(token) => {
   #|  const { decode } = require('hono/jwt');
   #|  return decode(token);

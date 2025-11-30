@@ -11,48 +11,49 @@ pub fn[T] component(
   children? : Array[&ReactNode] = [],
   key? : String,
 ) -> Element {
-  let tag = @js.identity(tag)
-  let children = children.map(_.to_react_node()) |> @js.from_array
-  let val : @js.Any = props |> @js.identity
+  let tag = @nostd.any(tag)
+  let children = @nostd.any(children.map(_.to_react_node()))
+  let val : @nostd.Any = @nostd.any(props)
   // Handle key: if props is undefined/null (e.g. Unit), create a new object
   if key is Some(key) {
-    if @js.is_nullish(val) {
-      let obj = @js.Object::new()
-      obj.set("key", key)
-      return ffi_create_element(tag, obj.as_any(), children) |> @js.identity
+    if @nostd.is_nullish(val) {
+      let obj = @nostd.Object::new()
+      obj["key"] = @nostd.any(key)
+      return ffi_create_element(tag, obj, children).cast()
     }
-    val.set("key", key)
+    val["key"] = @nostd.any(key)
   }
-  ffi_create_element(tag, val, children) |> @js.identity
+  ffi_create_element(tag, val, children).cast()
 }
 
 ///|
 /// JS: <React.Fragment key=...>{children}</React.Fragment>
 pub fn strict_mode(children : Array[&ReactNode]) -> Element {
-  let tag = @js.identity(get_strict_mode())
-  let children = children.map(_.to_react_node()) |> @js.from_array
-  ffi_create_element(tag, @js.undefined(), children) |> @js.identity
+  let tag = @nostd.any(get_strict_mode())
+  let children = @nostd.any(children.map(_.to_react_node()))
+  ffi_create_element(tag, @nostd.undefined(), children).cast()
 }
 
 ///|
 /// JS: <React.Fragment key=...>{children}</React.Fragment>
 pub fn fragment(children : Array[&ReactNode], key? : String) -> Element {
-  let tag = @js.identity(get_fragment())
-  let children = children.map(_.to_react_node()) |> @js.from_array
-  let val = @js.Object::new()
+  let tag = @nostd.any(get_fragment())
+  let children = @nostd.any(children.map(_.to_react_node()))
+  let val = @nostd.Object::new()
   if key is Some(key) {
-    val.set("key", key)
+    val["key"] = @nostd.any(key)
   }
-  ffi_create_element(tag, val.as_any(), children) |> @js.identity
+  ffi_create_element(tag, val, children).cast()
 }
 
 ///|
 /// JS: <React.Suspense fallback=...>{children}</React.Suspense>
 pub fn suspense(children : Array[&ReactNode], fallback~ : Element) -> Element {
-  let tag = get_suspense() |> @js.identity
-  let children = children.map(_.to_react_node()) |> @js.from_array
-  let props = @js.from_map({ "fallback": fallback |> @js.identity })
-  @js.identity(ffi_create_element(tag, props, children))
+  let tag = get_suspense()
+  let children = @nostd.any(children.map(_.to_react_node()))
+  let props = @nostd.Object::new()
+  props["fallback"] = fallback.as_any()
+  ffi_create_element(tag, props, children).cast()
 }
 
 ///|
@@ -63,7 +64,8 @@ pub fn[T] provider(
   children : Array[&ReactNode],
   value~ : T,
 ) -> Element {
-  let children = children.map(_.to_react_node()) |> @js.from_array
-  let props = @js.from_map({ "value": value |> @js.identity })
-  @js.identity(ffi_create_element(tag |> @js.identity, props, children))
+  let children = @nostd.any(children.map(_.to_react_node()))
+  let props = @nostd.Object::new()
+  props["value"] = @nostd.any(value)
+  ffi_create_element(tag.as_any(), props, children).cast()
 }
