@@ -120,14 +120,17 @@ pub fn[T, U] FinalizationRegistry::register(
 ) -> Unit {
   match unregister_token {
     Some(token) =>
-      @nostd
-        .any(self)
-        ._call("register", [@nostd.any(target), @nostd.any(held_value), token])
+      @nostd.any(self)._call("register", [
+        @nostd.any(target),
+        @nostd.any(held_value),
+        token,
+      ])
       |> ignore
     None =>
-      @nostd
-        .any(self)
-        ._call("register", [@nostd.any(target), @nostd.any(held_value)])
+      @nostd.any(self)._call("register", [
+        @nostd.any(target),
+        @nostd.any(held_value),
+      ])
       |> ignore
   }
 }

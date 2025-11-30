@@ -109,7 +109,7 @@ pub fn QueryBuilder::as_any(self : QueryBuilder) -> @js.Any = "%identity"
 
 ///|
 fn QueryBuilder::call0(self : QueryBuilder, name : String) -> @js.Any {
-  self.as_any().call(name, [])
+  @nostd.any(self)._call(name, []).cast()
 }
 
 ///|
@@ -118,7 +118,7 @@ fn QueryBuilder::call1(
   name : String,
   arg : @nostd.Any,
 ) -> @js.Any {
-  self.as_any().call(name, [@js.identity(arg)])
+  @nostd.any(self)._call(name, [arg]).cast()
 }
 
 ///|
@@ -147,16 +147,12 @@ pub fn Column::as_any(self : Column) -> @js.Any = "%identity"
 
 ///|
 fn Column::call0(self : Column, name : String) -> @js.Any {
-  self.as_any().call(name, [])
+  @nostd.any(self)._call(name, []).cast()
 }
 
 ///|
-fn Column::call1(
-  self : Column,
-  name : String,
-  arg : @nostd.Any,
-) -> @js.Any {
-  self.as_any().call(name, [@js.identity(arg)])
+fn Column::call1(self : Column, name : String, arg : @nostd.Any) -> @js.Any {
+  @nostd.any(self)._call(name, [arg]).cast()
 }
 
 ///|

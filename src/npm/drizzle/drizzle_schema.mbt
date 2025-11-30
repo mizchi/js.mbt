@@ -8,7 +8,7 @@
 #alias(pg_index)
 pub fn pgIndex(name : String) -> PgIndexBuilder {
   let fn_ = drizzle_pg_core().get("index")
-  fn_.call_self([name |> @js.any]) |> @js.identity
+  @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
 }
 
 ///|
@@ -16,7 +16,7 @@ pub fn pgIndex(name : String) -> PgIndexBuilder {
 #alias(pg_unique_index)
 pub fn pgUniqueIndex(name : String) -> PgIndexBuilder {
   let fn_ = drizzle_pg_core().get("uniqueIndex")
-  fn_.call_self([name |> @js.any]) |> @js.identity
+  @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
 }
 
 ///|
@@ -33,7 +33,7 @@ pub fn PgIndexBuilder::on(
   self : PgIndexBuilder,
   columns : Array[Column],
 ) -> PgIndexBuilder {
-  self.as_any().call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
+  @nostd.any(self)._call("on", columns.map(fn(c) { @nostd.any(c) })).cast()
 }
 
 ///|
@@ -42,13 +42,13 @@ pub fn PgIndexBuilder::filter(
   self : PgIndexBuilder,
   condition : SQL,
 ) -> PgIndexBuilder {
-  self.as_any().call("where", [condition.as_any()]) |> @js.identity
+  @nostd.any(self)._call("where", [@nostd.any(condition)]).cast()
 }
 
 ///|
 /// Build index concurrently (PostgreSQL)
 pub fn PgIndexBuilder::concurrently(self : PgIndexBuilder) -> PgIndexBuilder {
-  self.as_any().call("concurrently", []) |> @js.identity
+  @nostd.any(self)._call("concurrently", []).cast()
 }
 
 ///|
@@ -82,7 +82,7 @@ pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
   if name is Some(n) {
     opts.set("name", n)
   }
-  fn_.call_self([opts.as_any()])
+  @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
 }
 
 ///|
@@ -95,7 +95,7 @@ pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
   if name is Some(n) {
     opts.set("name", n)
   }
-  fn_.call_self([opts.as_any()])
+  @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
 }
 
 // ============ Composite Unique Constraint ============
@@ -106,8 +106,8 @@ pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
 pub fn pgUnique(name? : String) -> UniqueBuilder {
   let fn_ = drizzle_pg_core().get("unique")
   match name {
-    Some(n) => fn_.call_self([n |> @js.any]) |> @js.identity
-    None => fn_.call_self0() |> @js.identity
+    Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
+    None => @nostd.any(fn_)._invoke([]).cast()
   }
 }
 
@@ -117,8 +117,8 @@ pub fn pgUnique(name? : String) -> UniqueBuilder {
 pub fn sqliteUnique(name? : String) -> UniqueBuilder {
   let fn_ = drizzle_sqlite_core().get("unique")
   match name {
-    Some(n) => fn_.call_self([n |> @js.any]) |> @js.identity
-    None => fn_.call_self0() |> @js.identity
+    Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
+    None => @nostd.any(fn_)._invoke([]).cast()
   }
 }
 
@@ -136,14 +136,14 @@ pub fn UniqueBuilder::on(
   self : UniqueBuilder,
   columns : Array[Column],
 ) -> UniqueBuilder {
-  self.as_any().call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
+  @nostd.any(self)._call("on", columns.map(fn(c) { @nostd.any(c) })).cast()
 }
 
 ///|
 /// NULLS NOT DISTINCT (PostgreSQL 15+)
 #alias(nulls_not_distinct)
 pub fn UniqueBuilder::nullsNotDistinct(self : UniqueBuilder) -> UniqueBuilder {
-  self.as_any().call("nullsNotDistinct", []) |> @js.identity
+  @nostd.any(self)._call("nullsNotDistinct", []).cast()
 }
 
 // ============ Foreign Key ============
@@ -166,7 +166,7 @@ pub fn pgForeignKey(
   if name is Some(n) {
     opts.set("name", n)
   }
-  fn_.call_self([opts.as_any()])
+  @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
 }
 
 ///|
@@ -187,7 +187,7 @@ pub fn sqliteForeignKey(
   if name is Some(n) {
     opts.set("name", n)
   }
-  fn_.call_self([opts.as_any()])
+  @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
 }
 
 // ============ Check Constraint ============
@@ -197,7 +197,7 @@ pub fn sqliteForeignKey(
 #alias(pg_check)
 pub fn pgCheck(name : String, condition : SQL) -> @js.Any {
   let fn_ = drizzle_pg_core().get("check")
-  fn_.call_self([name |> @js.any, condition.as_any()])
+  @nostd.any(fn_)._invoke([@nostd.any(name), @nostd.any(condition)]).cast()
 }
 
 ///|
@@ -205,7 +205,7 @@ pub fn pgCheck(name : String, condition : SQL) -> @js.Any {
 #alias(sqlite_check)
 pub fn sqliteCheck(name : String, condition : SQL) -> @js.Any {
   let fn_ = drizzle_sqlite_core().get("check")
-  fn_.call_self([name |> @js.any, condition.as_any()])
+  @nostd.any(fn_)._invoke([@nostd.any(name), @nostd.any(condition)]).cast()
 }
 
 // ============ Column Order Modifiers for Index ============

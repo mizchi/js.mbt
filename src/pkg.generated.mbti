@@ -61,7 +61,7 @@ fn[T] log(T) -> Unit
 
 fn[T, U] log2(T, U) -> Unit
 
-fn new_(Any, Array[&JsImpl]) -> Any
+fn new_(Any, Array[Any]) -> Any
 
 fn null_() -> Any
 

@@ -241,14 +241,13 @@ async test "Node Stream: pipeline with callback" {
   let readable = create_readable_from_string("callback test")
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.identity(writable_js)
-  let callback : @nostd.Any = @nostd.any(@js.from_fn1(fn(err : @js.Any) -> Unit {
-    callback_called = true
-    ignore(err)
-  }))
-  let _ = @stream.pipeline(
-    [readable.as_any(), writable.as_any()],
-    callback~,
+  let callback : @nostd.Any = @nostd.any(
+    @js.from_fn1(fn(err : @js.Any) -> Unit {
+      callback_called = true
+      ignore(err)
+    }),
   )
+  let _ = @stream.pipeline([readable.as_any(), writable.as_any()], callback~)
   @js.sleep(32)
   assert_eq(callback_called, true)
   let chunks = get_chunks(writable_js)
@@ -261,10 +260,12 @@ async test "Node Stream: finished - stream completion" {
   let readable = create_readable_from_string("finished test")
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.identity(writable_js)
-  let callback : @nostd.Any = @nostd.any(@js.from_fn1(fn(err : @js.Any) -> Unit {
-    finished_called = true
-    ignore(err)
-  }))
+  let callback : @nostd.Any = @nostd.any(
+    @js.from_fn1(fn(err : @js.Any) -> Unit {
+      finished_called = true
+      ignore(err)
+    }),
+  )
   let _ = readable.pipe(writable)
   let _ = @stream.finished(writable.as_any(), callback~)
   @js.sleep(32)
@@ -279,12 +280,14 @@ async test "Node Stream: async pipeline with Promise" {
     let transform = create_transform_uppercase()
     let writable_js = create_writable_to_array()
     let writable : @stream.Writable = @js.identity(writable_js)
-    let callback : @nostd.Any = @nostd.any(@js.from_fn1(fn(err : @js.Any) -> Unit {
-      ignore(err)
-      let chunks = get_chunks(writable_js)
-      let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"
-      resolver.resolve(success)
-    }))
+    let callback : @nostd.Any = @nostd.any(
+      @js.from_fn1(fn(err : @js.Any) -> Unit {
+        ignore(err)
+        let chunks = get_chunks(writable_js)
+        let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"
+        resolver.resolve(success)
+      }),
+    )
     let _ = @stream.pipeline(
       [readable.as_any(), transform.as_any(), writable.as_any()],
       callback~,

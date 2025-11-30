@@ -467,7 +467,7 @@ test "throwable catches EvalError" {
   throwable(fn() {
     // Create EvalError manually since it's rarely thrown naturally
     let eval_error_cls = @global.global_this().get("EvalError")
-    let err = new_(eval_error_cls, ["Eval error message"])
+    let err = new_(eval_error_cls, [any("Eval error message")])
     throw_(err)
   }) catch {
     ThrowError::EvalError(_) => caught_eval_error = true
@@ -487,7 +487,7 @@ test "throwable catches AggregateError" {
       JsError::new("Error 2").as_any(),
     ])
     let agg_error_cls = @global.global_this().get("AggregateError")
-    let agg_err = new_(agg_error_cls, [errors, "Multiple errors"])
+    let agg_err = new_(agg_error_cls, [errors, any("Multiple errors")])
     throw_(agg_err)
   }) catch {
     ThrowError::AggregateError(_) => caught_aggregate_error = true

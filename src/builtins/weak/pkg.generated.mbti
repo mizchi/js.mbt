@@ -2,7 +2,7 @@
 package "mizchi/js/builtins/weak"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -12,33 +12,29 @@ import(
 // Types and methods
 #external
 pub type FinalizationRegistry[T]
-fn[T : @js.JsImpl] FinalizationRegistry::new((T) -> Unit) -> Self[T]
-fn[T : @js.JsImpl, U : @js.JsImpl] FinalizationRegistry::register(Self[T], U, T, unregister_token? : @js.Any) -> Unit
-fn[T] FinalizationRegistry::unregister(Self[T], @js.Any) -> Bool
-impl[T] @js.JsImpl for FinalizationRegistry[T]
+fn[T] FinalizationRegistry::new((T) -> Unit) -> Self[T]
+fn[T, U] FinalizationRegistry::register(Self[T], U, T, unregister_token? : @nostd.Any) -> Unit
+fn[T] FinalizationRegistry::unregister(Self[T], @nostd.Any) -> Bool
 
 #external
 pub type WeakMap[K, V]
-fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::delete(Self[K, V], K) -> Bool
-fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::get(Self[K, V], K) -> V?
-fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::has(Self[K, V], K) -> Bool
-fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::new() -> Self[K, V]
-fn[K : @js.JsImpl, V : @js.JsImpl] WeakMap::set(Self[K, V], K, V) -> Self[K, V]
-impl[K, V] @js.JsImpl for WeakMap[K, V]
+fn[K, V] WeakMap::delete(Self[K, V], K) -> Bool
+fn[K, V] WeakMap::get(Self[K, V], K) -> V?
+fn[K, V] WeakMap::has(Self[K, V], K) -> Bool
+fn[K, V] WeakMap::new() -> Self[K, V]
+fn[K, V] WeakMap::set(Self[K, V], K, V) -> Self[K, V]
 
 #external
 pub type WeakRef[T]
 fn[T] WeakRef::deref(Self[T]) -> T?
-fn[T : @js.JsImpl] WeakRef::new(T) -> Self[T]
-impl[T] @js.JsImpl for WeakRef[T]
+fn[T] WeakRef::new(T) -> Self[T]
 
 #external
 pub type WeakSet[T]
-fn[T : @js.JsImpl] WeakSet::add(Self[T], T) -> Self[T]
-fn[T : @js.JsImpl] WeakSet::delete(Self[T], T) -> Bool
-fn[T : @js.JsImpl] WeakSet::has(Self[T], T) -> Bool
-fn[T : @js.JsImpl] WeakSet::new() -> Self[T]
-impl[T] @js.JsImpl for WeakSet[T]
+fn[T] WeakSet::add(Self[T], T) -> Self[T]
+fn[T] WeakSet::delete(Self[T], T) -> Bool
+fn[T] WeakSet::has(Self[T], T) -> Bool
+fn[T] WeakSet::new() -> Self[T]
 
 // Type aliases
 

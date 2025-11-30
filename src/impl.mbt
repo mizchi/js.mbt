@@ -12,8 +12,8 @@ pub fn[T : JsImpl] typeof_(v : T) -> String {
 
 ///|
 /// JS: new cls(...args)
-pub fn new_(cls : Any, args : Array[&JsImpl]) -> Any {
-  ffi_new(cls, args.map(_.as_any()))
+pub fn new_(cls : Any, args : Array[Any]) -> Any {
+  ffi_new(cls, args)
 }
 
 ///|

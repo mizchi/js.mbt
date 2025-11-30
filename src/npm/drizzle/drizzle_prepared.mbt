@@ -77,7 +77,7 @@ pub fn sqlTemplate(strings : Array[String], values : Array[@js.Any]) -> SQL {
   }
   // Use sql.raw for raw SQL with placeholders
   let raw_fn = sql_fn.get("raw")
-  raw_fn.call_self([result |> @js.any]) |> @js.identity
+  @nostd.any(raw_fn)._invoke([@nostd.any(result)]).cast()
 }
 
 ///|
@@ -86,7 +86,7 @@ pub fn sqlTemplate(strings : Array[String], values : Array[@js.Any]) -> SQL {
 pub fn sqlRaw(query : String) -> SQL {
   let sql_fn = drizzle_orm().get("sql")
   let raw_fn = sql_fn.get("raw")
-  raw_fn.call_self([query |> @js.any]) |> @js.identity
+  @nostd.any(raw_fn)._invoke([@nostd.any(query)]).cast()
 }
 
 ///|
@@ -94,7 +94,7 @@ pub fn sqlRaw(query : String) -> SQL {
 pub fn placeholder(name : String) -> @js.Any {
   let sql_fn = drizzle_orm().get("sql")
   let placeholder_fn = sql_fn.get("placeholder")
-  placeholder_fn.call_self([name |> @js.any])
+  @nostd.any(placeholder_fn)._invoke([@nostd.any(name)]).cast()
 }
 
 // ============ SQL Operators for Expressions ============
@@ -104,8 +104,13 @@ pub fn placeholder(name : String) -> @js.Any {
 #alias(sql_add)
 pub fn sqlAdd(left : @js.Any, right : @js.Any) -> SQL {
   let sql_fn = drizzle_orm().get("sql")
-  sql_fn.call_self([["", " + ", ""] |> @js.from_array, left, right])
-  |> @js.identity
+  @nostd.any(sql_fn)
+  ._invoke([
+    @nostd.any(@js.from_array(["", " + ", ""])),
+    @nostd.any(left),
+    @nostd.any(right),
+  ])
+  .cast()
 }
 
 ///|
@@ -113,8 +118,13 @@ pub fn sqlAdd(left : @js.Any, right : @js.Any) -> SQL {
 #alias(sql_sub)
 pub fn sqlSub(left : @js.Any, right : @js.Any) -> SQL {
   let sql_fn = drizzle_orm().get("sql")
-  sql_fn.call_self([["", " - ", ""] |> @js.from_array, left, right])
-  |> @js.identity
+  @nostd.any(sql_fn)
+  ._invoke([
+    @nostd.any(@js.from_array(["", " - ", ""])),
+    @nostd.any(left),
+    @nostd.any(right),
+  ])
+  .cast()
 }
 
 ///|
@@ -122,8 +132,13 @@ pub fn sqlSub(left : @js.Any, right : @js.Any) -> SQL {
 #alias(sql_mul)
 pub fn sqlMul(left : @js.Any, right : @js.Any) -> SQL {
   let sql_fn = drizzle_orm().get("sql")
-  sql_fn.call_self([["", " * ", ""] |> @js.from_array, left, right])
-  |> @js.identity
+  @nostd.any(sql_fn)
+  ._invoke([
+    @nostd.any(@js.from_array(["", " * ", ""])),
+    @nostd.any(left),
+    @nostd.any(right),
+  ])
+  .cast()
 }
 
 ///|
@@ -131,8 +146,13 @@ pub fn sqlMul(left : @js.Any, right : @js.Any) -> SQL {
 #alias(sql_div)
 pub fn sqlDiv(left : @js.Any, right : @js.Any) -> SQL {
   let sql_fn = drizzle_orm().get("sql")
-  sql_fn.call_self([["", " / ", ""] |> @js.from_array, left, right])
-  |> @js.identity
+  @nostd.any(sql_fn)
+  ._invoke([
+    @nostd.any(@js.from_array(["", " / ", ""])),
+    @nostd.any(left),
+    @nostd.any(right),
+  ])
+  .cast()
 }
 
 // ============ Subqueries ============

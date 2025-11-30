@@ -127,7 +127,7 @@ test "function conversion" {
 ///|
 test "constructors" {
   let array_ctor = @js.globalThis().get("Array")
-  let arr = @js.new_(array_ctor, [3])
+  let arr = @js.new_(array_ctor, [@js.any(3)])
   inspect(arr, content="[null,null,null]")
 }
 ```

@@ -93,7 +93,10 @@ async test "drizzle libsql - multiple inserts and select" {
     .str("name", "Charlie")
     .str("email", "charlie@example.com")
     .int("age", 35)
-  let _ = db.insert(users).values(@nostd.any(rows([user1, user2, user3]))).execute()
+  let _ = db
+    .insert(users)
+    .values(@nostd.any(rows([user1, user2, user3])))
+    .execute()
 
   // Select all
   let all_users : Array[@js.Any] = db.select().from(users).execute_array()
@@ -197,7 +200,10 @@ async test "drizzle libsql - SQL operators" {
   let alice = Row::new().str("name", "Alice").int("age", 30)
   let bob = Row::new().str("name", "Bob").int("age", 25)
   let charlie = Row::new().str("name", "Charlie").int("age", 35)
-  let _ = db.insert(users).values(@nostd.any(rows([alice, bob, charlie]))).execute()
+  let _ = db
+    .insert(users)
+    .values(@nostd.any(rows([alice, bob, charlie])))
+    .execute()
 
   // Simple test - lt operator (which is similar to gt that works)
   let age_col : Column = users.get("age") |> @js.identity

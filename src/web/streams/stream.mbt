@@ -12,7 +12,9 @@ pub impl @js.JsImpl for ReadableStream
 
 ///|
 /// Create a new ReadableStream (typically constructed from JavaScript)
-extern "js" fn ffi_new_readable_stream(underlying_source : @nostd.Any) -> ReadableStream =
+extern "js" fn ffi_new_readable_stream(
+  underlying_source : @nostd.Any,
+) -> ReadableStream =
   #|(source) => new ReadableStream(source)
 
 ///|
@@ -37,7 +39,9 @@ pub async fn ReadableStream::cancel(
 ///|
 /// Get a reader for this stream
 #alias(get_reader)
-pub fn ReadableStream::getReader(self : ReadableStream) -> ReadableStreamDefaultReader {
+pub fn ReadableStream::getReader(
+  self : ReadableStream,
+) -> ReadableStreamDefaultReader {
   @nostd.any(self)._call("getReader", []).cast()
 }
 
@@ -52,8 +56,7 @@ pub async fn ReadableStream::pipeTo(
   let promise : @js.Promise[Unit] = match options {
     Some(opts) =>
       @nostd.any(self)._call("pipeTo", [@nostd.any(destination), opts]).cast()
-    None =>
-      @nostd.any(self)._call("pipeTo", [@nostd.any(destination)]).cast()
+    None => @nostd.any(self)._call("pipeTo", [@nostd.any(destination)]).cast()
   }
   promise.wait()
 }
@@ -69,8 +72,7 @@ pub fn ReadableStream::pipeThrough(
   match options {
     Some(opts) =>
       @nostd.any(self)._call("pipeThrough", [transform, opts]).cast()
-    None =>
-      @nostd.any(self)._call("pipeThrough", [transform]).cast()
+    None => @nostd.any(self)._call("pipeThrough", [transform]).cast()
   }
 }
 
@@ -80,7 +82,9 @@ extern "js" fn ffi_array_get(arr : @nostd.Any, index : Int) -> @nostd.Any =
 
 ///|
 /// Tee this stream into two branches
-pub fn ReadableStream::tee(self : ReadableStream) -> (ReadableStream, ReadableStream) {
+pub fn ReadableStream::tee(
+  self : ReadableStream,
+) -> (ReadableStream, ReadableStream) {
   let result = @nostd.any(self)._call("tee", [])
   let first : ReadableStream = ffi_array_get(result, 0).cast()
   let second : ReadableStream = ffi_array_get(result, 1).cast()
@@ -99,22 +103,30 @@ pub fn ReadableStream::locked(self : ReadableStream) -> Bool {
 pub type ReadableStreamDefaultReader
 
 ///|
-pub fn ReadableStreamDefaultReader::as_any(self : ReadableStreamDefaultReader) -> @nostd.Any = "%identity"
+pub fn ReadableStreamDefaultReader::as_any(
+  self : ReadableStreamDefaultReader,
+) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for ReadableStreamDefaultReader
 
 ///|
 /// Read a chunk from the stream
-pub async fn ReadableStreamDefaultReader::read(self : ReadableStreamDefaultReader) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)._call("read", []).cast()
+pub async fn ReadableStreamDefaultReader::read(
+  self : ReadableStreamDefaultReader,
+) -> @nostd.Any {
+  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
+    ._call("read", [])
+    .cast()
   promise.wait()
 }
 
 ///|
 /// Release the reader's lock on the stream
 #alias(release_lock)
-pub fn ReadableStreamDefaultReader::releaseLock(self : ReadableStreamDefaultReader) -> Unit {
+pub fn ReadableStreamDefaultReader::releaseLock(
+  self : ReadableStreamDefaultReader,
+) -> Unit {
   @nostd.any(self)._call("releaseLock", []) |> ignore
 }
 
@@ -133,7 +145,9 @@ pub async fn ReadableStreamDefaultReader::cancel(
 
 ///|
 /// Get the closed promise
-pub fn ReadableStreamDefaultReader::closed(self : ReadableStreamDefaultReader) -> @js.Promise[Unit] {
+pub fn ReadableStreamDefaultReader::closed(
+  self : ReadableStreamDefaultReader,
+) -> @js.Promise[Unit] {
   @nostd.any(self)["closed"].cast()
 }
 
@@ -150,7 +164,9 @@ pub impl @js.JsImpl for WritableStream
 
 ///|
 /// Create a new WritableStream
-extern "js" fn ffi_new_writable_stream(underlying_sink : @nostd.Any) -> WritableStream =
+extern "js" fn ffi_new_writable_stream(
+  underlying_sink : @nostd.Any,
+) -> WritableStream =
   #|(sink) => new WritableStream(sink)
 
 ///|
@@ -182,7 +198,9 @@ pub async fn WritableStream::close(self : WritableStream) -> Unit {
 ///|
 /// Get a writer for this stream
 #alias(get_writer)
-pub fn WritableStream::getWriter(self : WritableStream) -> WritableStreamDefaultWriter {
+pub fn WritableStream::getWriter(
+  self : WritableStream,
+) -> WritableStreamDefaultWriter {
   @nostd.any(self)._call("getWriter", []).cast()
 }
 
@@ -198,7 +216,9 @@ pub fn WritableStream::locked(self : WritableStream) -> Bool {
 pub type WritableStreamDefaultWriter
 
 ///|
-pub fn WritableStreamDefaultWriter::as_any(self : WritableStreamDefaultWriter) -> @nostd.Any = "%identity"
+pub fn WritableStreamDefaultWriter::as_any(
+  self : WritableStreamDefaultWriter,
+) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @js.JsImpl for WritableStreamDefaultWriter
@@ -209,13 +229,17 @@ pub async fn WritableStreamDefaultWriter::write(
   self : WritableStreamDefaultWriter,
   chunk : @nostd.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)._call("write", [chunk]).cast()
+  let promise : @js.Promise[Unit] = @nostd.any(self)
+    ._call("write", [chunk])
+    .cast()
   promise.wait()
 }
 
 ///|
 /// Close the writer
-pub async fn WritableStreamDefaultWriter::close(self : WritableStreamDefaultWriter) -> Unit {
+pub async fn WritableStreamDefaultWriter::close(
+  self : WritableStreamDefaultWriter,
+) -> Unit {
   let promise : @js.Promise[Unit] = @nostd.any(self)._call("close", []).cast()
   promise.wait()
 }
@@ -236,25 +260,33 @@ pub async fn WritableStreamDefaultWriter::abort(
 ///|
 /// Release the writer's lock on the stream
 #alias(release_lock)
-pub fn WritableStreamDefaultWriter::releaseLock(self : WritableStreamDefaultWriter) -> Unit {
+pub fn WritableStreamDefaultWriter::releaseLock(
+  self : WritableStreamDefaultWriter,
+) -> Unit {
   @nostd.any(self)._call("releaseLock", []) |> ignore
 }
 
 ///|
 /// Get the closed promise
-pub fn WritableStreamDefaultWriter::closed(self : WritableStreamDefaultWriter) -> @js.Promise[Unit] {
+pub fn WritableStreamDefaultWriter::closed(
+  self : WritableStreamDefaultWriter,
+) -> @js.Promise[Unit] {
   @nostd.any(self)["closed"].cast()
 }
 
 ///|
 /// Get the ready promise
-pub fn WritableStreamDefaultWriter::ready(self : WritableStreamDefaultWriter) -> @js.Promise[Unit] {
+pub fn WritableStreamDefaultWriter::ready(
+  self : WritableStreamDefaultWriter,
+) -> @js.Promise[Unit] {
   @nostd.any(self)["ready"].cast()
 }
 
 ///|
 /// Get the desired size
-pub fn WritableStreamDefaultWriter::desiredSize(self : WritableStreamDefaultWriter) -> @nostd.Any {
+pub fn WritableStreamDefaultWriter::desiredSize(
+  self : WritableStreamDefaultWriter,
+) -> @nostd.Any {
   @nostd.any(self)["desiredSize"]
 }
 
@@ -271,7 +303,9 @@ pub impl @js.JsImpl for TransformStream
 
 ///|
 /// Create a new TransformStream
-extern "js" fn ffi_new_transform_stream(transformer : @nostd.Any) -> TransformStream =
+extern "js" fn ffi_new_transform_stream(
+  transformer : @nostd.Any,
+) -> TransformStream =
   #|(transformer) => new TransformStream(transformer)
 
 ///|

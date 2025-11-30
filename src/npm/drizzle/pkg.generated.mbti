@@ -3,6 +3,7 @@ package "mizchi/js/npm/drizzle"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -12,7 +13,7 @@ fn asc(Column) -> @js.Any
 
 fn avg(Column) -> SQL
 
-fn[A : @js.JsImpl, B : @js.JsImpl] between(Column, A, B) -> SQL
+fn between(Column, @nostd.Any, @nostd.Any) -> SQL
 
 #alias(big_serial)
 fn bigserial(name? : String) -> Column
@@ -47,11 +48,11 @@ fn drizzleWithConfig(@js.Any) -> DrizzleDB
 #alias(drizzle_with_pool)
 fn drizzleWithPool(@js.Any) -> DrizzleDB
 
-fn[V : @js.JsImpl] eq(Column, V) -> SQL
+fn eq(Column, @nostd.Any) -> SQL
 
-fn[V : @js.JsImpl] gt(Column, V) -> SQL
+fn gt(Column, @nostd.Any) -> SQL
 
-fn[V : @js.JsImpl] gte(Column, V) -> SQL
+fn gte(Column, @nostd.Any) -> SQL
 
 fn ilike(Column, String) -> SQL
 
@@ -71,15 +72,15 @@ fn jsonb(name? : String) -> Column
 
 fn like(Column, String) -> SQL
 
-fn[V : @js.JsImpl] lt(Column, V) -> SQL
+fn lt(Column, @nostd.Any) -> SQL
 
-fn[V : @js.JsImpl] lte(Column, V) -> SQL
+fn lte(Column, @nostd.Any) -> SQL
 
 fn max_(Column) -> SQL
 
 fn min_(Column) -> SQL
 
-fn[V : @js.JsImpl] ne(Column, V) -> SQL
+fn ne(Column, @nostd.Any) -> SQL
 
 #alias(not_in_array)
 fn notInArray(Column, Array[@js.Any]) -> SQL
@@ -205,7 +206,7 @@ fn Column::asc_(Self) -> @js.Any
 #alias(default_now)
 fn Column::defaultNow(Self) -> Self
 #alias(default_value)
-fn[V : @js.JsImpl] Column::defaultValue(Self, V) -> Self
+fn Column::defaultValue(Self, @nostd.Any) -> Self
 fn Column::desc_(Self) -> @js.Any
 #alias(generated_always_as_identity)
 fn Column::generatedAlwaysAsIdentity(Self) -> Self
@@ -321,11 +322,11 @@ fn QueryBuilder::onConflictDoUpdate(Self, Array[Column], @js.Any) -> Self
 fn QueryBuilder::orderBy(Self, Array[@js.Any]) -> Self
 fn QueryBuilder::prepare(Self, String) -> PreparedQuery
 fn QueryBuilder::returning(Self) -> Self
-fn[D : @js.JsImpl] QueryBuilder::set(Self, D) -> Self
+fn QueryBuilder::set(Self, @nostd.Any) -> Self
 fn QueryBuilder::union(Self, Self) -> Self
 #alias(union_all)
 fn QueryBuilder::unionAll(Self, Self) -> Self
-fn[D : @js.JsImpl] QueryBuilder::values(Self, D) -> Self
+fn QueryBuilder::values(Self, @nostd.Any) -> Self
 
 pub struct Row {
   // private fields
@@ -337,7 +338,7 @@ fn Row::double(Self, String, Double) -> Self
 fn Row::int(Self, String, Int) -> Self
 fn Row::new() -> Self
 fn Row::null(Self, String) -> Self
-fn[V : @js.JsImpl] Row::set(Self, String, V) -> Self
+fn Row::set_(Self, String, @nostd.Any) -> Self
 fn Row::str(Self, String, String) -> Self
 
 #external

@@ -89,13 +89,13 @@ impl @js.JsImpl for D1Result
 pub(all) struct DurableObjectGetAlarmOptions {
   allowConcurrency : Bool?
 }
-impl @js.JsImpl for DurableObjectGetAlarmOptions
+fn DurableObjectGetAlarmOptions::to_js(Self) -> @nostd.Any
 
 pub(all) struct DurableObjectGetOptions {
   allowConcurrency : Bool?
   noCache : Bool?
 }
-impl @js.JsImpl for DurableObjectGetOptions
+fn DurableObjectGetOptions::to_js(Self) -> @nostd.Any
 
 pub(all) struct DurableObjectId {
   name : String?
@@ -103,12 +103,11 @@ pub(all) struct DurableObjectId {
 fn DurableObjectId::as_any(Self) -> @nostd.Any
 fn DurableObjectId::equals(Self, Self) -> Bool
 fn DurableObjectId::to_string(Self) -> String
-impl @js.JsImpl for DurableObjectId
 
 pub(all) struct DurableObjectIdOptions {
   jurisdiction : String?
 }
-impl @js.JsImpl for DurableObjectIdOptions
+fn DurableObjectIdOptions::to_js(Self) -> @nostd.Any
 
 pub(all) struct DurableObjectListOptions {
   start : String?
@@ -120,7 +119,7 @@ pub(all) struct DurableObjectListOptions {
   allowConcurrency : Bool?
   noCache : Bool?
 }
-impl @js.JsImpl for DurableObjectListOptions
+fn DurableObjectListOptions::to_js(Self) -> @nostd.Any
 
 #external
 pub type DurableObjectNamespace
@@ -132,29 +131,27 @@ fn DurableObjectNamespace::id_from_name(Self, String) -> DurableObjectId
 fn DurableObjectNamespace::id_from_string(Self, String) -> DurableObjectId
 fn DurableObjectNamespace::new_unique_id(Self) -> DurableObjectId
 fn DurableObjectNamespace::new_unique_id_with_options(Self, DurableObjectIdOptions) -> DurableObjectId
-impl @js.JsImpl for DurableObjectNamespace
 
 pub(all) struct DurableObjectPutOptions {
   allowConcurrency : Bool?
   allowUnconfirmed : Bool?
   noCache : Bool?
 }
-impl @js.JsImpl for DurableObjectPutOptions
+fn DurableObjectPutOptions::to_js(Self) -> @nostd.Any
 
 pub(all) struct DurableObjectSetAlarmOptions {
   allowConcurrency : Bool?
   allowUnconfirmed : Bool?
 }
-impl @js.JsImpl for DurableObjectSetAlarmOptions
+fn DurableObjectSetAlarmOptions::to_js(Self) -> @nostd.Any
 
 pub(all) struct DurableObjectState {
   id : DurableObjectId
   storage : DurableObjectStorage
 }
 fn DurableObjectState::as_any(Self) -> @nostd.Any
-async fn DurableObjectState::block_concurrency_while(Self, @js.Any) -> Unit
-fn DurableObjectState::wait_until(Self, @js.Any) -> Unit
-impl @js.JsImpl for DurableObjectState
+async fn DurableObjectState::block_concurrency_while(Self, @nostd.Any) -> Unit
+fn DurableObjectState::wait_until(Self, @nostd.Any) -> Unit
 
 #external
 pub type DurableObjectStorage
@@ -167,34 +164,32 @@ async fn DurableObjectStorage::delete_all_with_options(Self, DurableObjectPutOpt
 async fn DurableObjectStorage::delete_multiple(Self, Array[String]) -> Int
 async fn DurableObjectStorage::delete_multiple_with_options(Self, Array[String], DurableObjectPutOptions) -> Int
 async fn DurableObjectStorage::delete_with_options(Self, String, DurableObjectPutOptions) -> Bool
-async fn DurableObjectStorage::get(Self, String) -> @js.Any?
+async fn DurableObjectStorage::get(Self, String) -> @nostd.Any?
 async fn DurableObjectStorage::get_alarm(Self) -> Int?
 async fn DurableObjectStorage::get_alarm_with_options(Self, DurableObjectGetAlarmOptions) -> Int?
-async fn DurableObjectStorage::get_multiple(Self, Array[String]) -> @js.Any
-async fn DurableObjectStorage::get_multiple_with_options(Self, Array[String], DurableObjectGetOptions) -> @js.Any
-async fn DurableObjectStorage::get_with_options(Self, String, DurableObjectGetOptions) -> @js.Any?
-async fn DurableObjectStorage::list(Self) -> @js.Any
-async fn DurableObjectStorage::list_with_options(Self, DurableObjectListOptions) -> @js.Any
-async fn DurableObjectStorage::put(Self, String, @js.Any) -> Unit
-async fn DurableObjectStorage::put_multiple(Self, @js.Any) -> Unit
-async fn DurableObjectStorage::put_multiple_with_options(Self, @js.Any, DurableObjectPutOptions) -> Unit
-async fn DurableObjectStorage::put_with_options(Self, String, @js.Any, DurableObjectPutOptions) -> Unit
+async fn DurableObjectStorage::get_multiple(Self, Array[String]) -> @nostd.Any
+async fn DurableObjectStorage::get_multiple_with_options(Self, Array[String], DurableObjectGetOptions) -> @nostd.Any
+async fn DurableObjectStorage::get_with_options(Self, String, DurableObjectGetOptions) -> @nostd.Any?
+async fn DurableObjectStorage::list(Self) -> @nostd.Any
+async fn DurableObjectStorage::list_with_options(Self, DurableObjectListOptions) -> @nostd.Any
+async fn DurableObjectStorage::put(Self, String, @nostd.Any) -> Unit
+async fn DurableObjectStorage::put_multiple(Self, @nostd.Any) -> Unit
+async fn DurableObjectStorage::put_multiple_with_options(Self, @nostd.Any, DurableObjectPutOptions) -> Unit
+async fn DurableObjectStorage::put_with_options(Self, String, @nostd.Any, DurableObjectPutOptions) -> Unit
 async fn DurableObjectStorage::set_alarm(Self, Int) -> Unit
 async fn DurableObjectStorage::set_alarm_with_options(Self, Int, DurableObjectSetAlarmOptions) -> Unit
 async fn DurableObjectStorage::sync(Self) -> Unit
-async fn DurableObjectStorage::transaction(Self, @js.Any) -> @js.Any
-impl @js.JsImpl for DurableObjectStorage
+async fn DurableObjectStorage::transaction(Self, @nostd.Any) -> @nostd.Any
 
 pub(all) struct DurableObjectStub {
   id : DurableObjectId
   name : String?
 }
 fn DurableObjectStub::as_any(Self) -> @nostd.Any
-async fn DurableObjectStub::fetch(Self, @js.Any) -> @js.Any
-async fn DurableObjectStub::fetch_url(Self, String) -> @js.Any
-async fn DurableObjectStub::fetch_url_with_init(Self, String, @js.Any) -> @js.Any
-async fn DurableObjectStub::fetch_with_init(Self, @js.Any, @js.Any) -> @js.Any
-impl @js.JsImpl for DurableObjectStub
+async fn DurableObjectStub::fetch(Self, @nostd.Any) -> @nostd.Any
+async fn DurableObjectStub::fetch_url(Self, String) -> @nostd.Any
+async fn DurableObjectStub::fetch_url_with_init(Self, String, @nostd.Any) -> @nostd.Any
+async fn DurableObjectStub::fetch_with_init(Self, @nostd.Any, @nostd.Any) -> @nostd.Any
 
 #external
 pub type DurableObjectTransaction
@@ -203,16 +198,15 @@ async fn DurableObjectTransaction::delete(Self, String) -> Bool
 async fn DurableObjectTransaction::delete_alarm(Self) -> Unit
 async fn DurableObjectTransaction::delete_all(Self) -> Unit
 async fn DurableObjectTransaction::delete_multiple(Self, Array[String]) -> Int
-async fn DurableObjectTransaction::get(Self, String) -> @js.Any?
+async fn DurableObjectTransaction::get(Self, String) -> @nostd.Any?
 async fn DurableObjectTransaction::get_alarm(Self) -> Int?
-async fn DurableObjectTransaction::get_multiple(Self, Array[String]) -> @js.Any
-async fn DurableObjectTransaction::list(Self) -> @js.Any
-async fn DurableObjectTransaction::list_with_options(Self, DurableObjectListOptions) -> @js.Any
-async fn DurableObjectTransaction::put(Self, String, @js.Any) -> Unit
-async fn DurableObjectTransaction::put_multiple(Self, @js.Any) -> Unit
+async fn DurableObjectTransaction::get_multiple(Self, Array[String]) -> @nostd.Any
+async fn DurableObjectTransaction::list(Self) -> @nostd.Any
+async fn DurableObjectTransaction::list_with_options(Self, DurableObjectListOptions) -> @nostd.Any
+async fn DurableObjectTransaction::put(Self, String, @nostd.Any) -> Unit
+async fn DurableObjectTransaction::put_multiple(Self, @nostd.Any) -> Unit
 fn DurableObjectTransaction::rollback(Self) -> Unit
 async fn DurableObjectTransaction::set_alarm(Self, Int) -> Unit
-impl @js.JsImpl for DurableObjectTransaction
 
 pub(all) struct KVKey {
   name : String

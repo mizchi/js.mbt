@@ -3,26 +3,26 @@ package "mizchi/js/node/stream"
 
 import(
   "mizchi/js"
-  "mizchi/js/node/events"
+  "mizchi/js/nostd"
   "mizchi/js/web/streams"
 )
 
 // Values
-fn addAbortSignal(&@js.JsImpl, &@js.JsImpl) -> @js.Any
+fn addAbortSignal(@nostd.Any, @nostd.Any) -> @nostd.Any
 
-fn compose(Array[@js.Any]) -> @js.Any
+fn compose(Array[@nostd.Any]) -> @nostd.Any
 
-fn finished(@js.Any, callback? : @js.Any) -> @js.Any
+fn finished(@nostd.Any, callback? : @nostd.Any) -> @nostd.Any
 
 fn getDefaultHighWaterMark(Bool) -> Int
 
-fn isErrored(&StreamImpl) -> Bool
+fn isErrored(@nostd.Any) -> Bool
 
-fn isReadable(&StreamImpl) -> Bool
+fn isReadable(@nostd.Any) -> Bool
 
-fn isWritable(&StreamImpl) -> Bool
+fn isWritable(@nostd.Any) -> Bool
 
-fn pipeline(Array[@js.Any], callback? : @js.Any) -> @js.Any
+fn pipeline(Array[@nostd.Any], callback? : @nostd.Any) -> @nostd.Any
 
 fn setDefaultHighWaterMark(Bool, Int) -> Unit
 
@@ -32,34 +32,33 @@ fn setDefaultHighWaterMark(Bool, Int) -> Unit
 #external
 pub type Duplex
 fn Duplex::allowHalfOpen(Self) -> Bool
-fn Duplex::from(&@js.JsImpl) -> Self
-fn Duplex::fromWeb(&@js.JsImpl) -> Self
-fn Duplex::toWeb(Self) -> @js.Any
+fn Duplex::as_any(Self) -> @nostd.Any
+fn Duplex::from(@nostd.Any) -> Self
+fn Duplex::fromWeb(@nostd.Any) -> Self
+fn Duplex::toWeb(Self) -> @nostd.Any
 impl @js.JsImpl for Duplex
-impl @events.EventEmitterImpl for Duplex
-impl StreamImpl for Duplex
 
 #external
 pub type PassThrough
+fn PassThrough::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for PassThrough
-impl @events.EventEmitterImpl for PassThrough
-impl StreamImpl for PassThrough
 
 #external
 pub type Readable
+fn Readable::as_any(Self) -> @nostd.Any
 fn Readable::closed(Self) -> Bool
-fn Readable::destroy(Self, error? : @js.Any) -> Self
-fn Readable::errored(Self) -> @js.Any
-fn Readable::from(&@js.JsImpl) -> Self
+fn Readable::destroy(Self, error? : @nostd.Any) -> Self
+fn Readable::errored(Self) -> @nostd.Any
+fn Readable::from(@nostd.Any) -> Self
 fn Readable::fromWeb(@streams.ReadableStream) -> Self
 fn Readable::isPaused(Self) -> Bool
 fn Readable::pause(Self) -> Self
 fn Readable::pipe(Self, Writable) -> Writable
-fn Readable::read(Self, size? : Int) -> @js.Any
+fn Readable::read(Self, size? : Int) -> @nostd.Any
 fn Readable::readable(Self) -> Bool
-fn Readable::readableEncoding(Self) -> @js.Any
+fn Readable::readableEncoding(Self) -> @nostd.Any
 fn Readable::readableEnded(Self) -> Bool
-fn Readable::readableFlowing(Self) -> @js.Any
+fn Readable::readableFlowing(Self) -> @nostd.Any
 fn Readable::readableHighWaterMark(Self) -> Int
 fn Readable::readableLength(Self) -> Int
 fn Readable::readableObjectMode(Self) -> Bool
@@ -67,30 +66,27 @@ fn Readable::resume_(Self) -> Self
 fn Readable::setEncoding(Self, String) -> Self
 fn Readable::toWeb(Self) -> @streams.ReadableStream
 fn Readable::unpipe(Self, destination? : Writable) -> Self
-fn Readable::unshift(Self, &@js.JsImpl, encoding? : String) -> Unit
+fn Readable::unshift(Self, @nostd.Any, encoding? : String) -> Unit
 impl @js.JsImpl for Readable
-impl @events.EventEmitterImpl for Readable
-impl StreamImpl for Readable
 
 #external
 pub type Stream
+fn Stream::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for Stream
-impl @events.EventEmitterImpl for Stream
-impl StreamImpl for Stream
 
 #external
 pub type Transform
+fn Transform::as_any(Self) -> @nostd.Any
 impl @js.JsImpl for Transform
-impl @events.EventEmitterImpl for Transform
-impl StreamImpl for Transform
 
 #external
 pub type Writable
+fn Writable::as_any(Self) -> @nostd.Any
 fn Writable::closed(Self) -> Bool
 fn Writable::cork(Self) -> Unit
-fn Writable::destroy(Self, error? : @js.Any) -> Self
-fn[T : @js.JsImpl] Writable::end(Self, chunk? : T, encoding? : String, callback? : @js.Any) -> Self
-fn Writable::errored(Self) -> @js.Any
+fn Writable::destroy(Self, error? : @nostd.Any) -> Self
+fn Writable::end(Self, chunk? : @nostd.Any, encoding? : String, callback? : @nostd.Any) -> Self
+fn Writable::errored(Self) -> @nostd.Any
 fn Writable::fromWeb(@streams.WritableStream) -> Self
 fn Writable::setDefaultEncoding(Self, String) -> Self
 fn Writable::toWeb(Self) -> @streams.WritableStream
@@ -102,14 +98,10 @@ fn Writable::writableFinished(Self) -> Bool
 fn Writable::writableHighWaterMark(Self) -> Int
 fn Writable::writableLength(Self) -> Int
 fn Writable::writableObjectMode(Self) -> Bool
-fn[T : @js.JsImpl] Writable::write(Self, T, encoding? : String, callback? : @js.Any) -> Bool
+fn Writable::write(Self, @nostd.Any, encoding? : String, callback? : @nostd.Any) -> Bool
 impl @js.JsImpl for Writable
-impl @events.EventEmitterImpl for Writable
-impl StreamImpl for Writable
 
 // Type aliases
 
 // Traits
-pub(open) trait StreamImpl : @js.JsImpl + @events.EventEmitterImpl {
-}
 

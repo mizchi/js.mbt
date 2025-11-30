@@ -29,7 +29,8 @@ pub fn setup_standalone() -> Unit {
   let vitest_expect = @node.require("@vitest/expect")
   // use() plugins
   let use_fn = @nostd.any(chai)["use"]
-  use_fn._invoke([@nostd.any(vitest_expect)["JestAsymmetricMatchers"]]) |> ignore
+  use_fn._invoke([@nostd.any(vitest_expect)["JestAsymmetricMatchers"]])
+  |> ignore
   use_fn._invoke([@nostd.any(vitest_expect)["JestChaiExpect"]]) |> ignore
   use_fn._invoke([@nostd.any(vitest_expect)["JestExtend"]]) |> ignore
   chai_expect.val = Some(@nostd.any(chai)["expect"])
@@ -177,8 +178,7 @@ pub fn Expect::toBeCloseTo(
     Some(n) =>
       @nostd.any(self)._call("toBeCloseTo", [@nostd.any(value), @nostd.any(n)])
       |> ignore
-    None =>
-      @nostd.any(self)._call("toBeCloseTo", [@nostd.any(value)]) |> ignore
+    None => @nostd.any(self)._call("toBeCloseTo", [@nostd.any(value)]) |> ignore
   }
 }
 
@@ -219,7 +219,8 @@ pub fn Expect::toHaveProperty(
   match value {
     Some(v) =>
       @nostd.any(self)._call("toHaveProperty", [@nostd.any(key), v]) |> ignore
-    None => @nostd.any(self)._call("toHaveProperty", [@nostd.any(key)]) |> ignore
+    None =>
+      @nostd.any(self)._call("toHaveProperty", [@nostd.any(key)]) |> ignore
   }
 }
 
@@ -246,8 +247,7 @@ pub fn Expect::toMatchObject(self : Expect, expected : @nostd.Any) -> Unit {
 /// Asserts function throws an error
 pub fn Expect::toThrow(self : Expect, expected? : String) -> Unit {
   match expected {
-    Some(e) =>
-      @nostd.any(self)._call("toThrow", [@nostd.any(e)]) |> ignore
+    Some(e) => @nostd.any(self)._call("toThrow", [@nostd.any(e)]) |> ignore
     None => @nostd.any(self)._call("toThrow", []) |> ignore
   }
 }
@@ -257,8 +257,7 @@ pub fn Expect::toThrow(self : Expect, expected? : String) -> Unit {
 /// Alias for toThrow
 pub fn Expect::toThrowError(self : Expect, expected? : String) -> Unit {
   match expected {
-    Some(e) =>
-      @nostd.any(self)._call("toThrowError", [@nostd.any(e)]) |> ignore
+    Some(e) => @nostd.any(self)._call("toThrowError", [@nostd.any(e)]) |> ignore
     None => @nostd.any(self)._call("toThrowError", []) |> ignore
   }
 }
@@ -283,7 +282,8 @@ pub fn Expect::toHaveBeenCalled(self : Expect) -> Unit {
 ///|
 /// JS: expect(mock).toHaveBeenCalledTimes(amount)
 pub fn Expect::toHaveBeenCalledTimes(self : Expect, amount : Int) -> Unit {
-  @nostd.any(self)._call("toHaveBeenCalledTimes", [@nostd.any(amount)]) |> ignore
+  @nostd.any(self)._call("toHaveBeenCalledTimes", [@nostd.any(amount)])
+  |> ignore
 }
 
 ///|
@@ -338,7 +338,10 @@ pub fn Expect::toHaveReturnedWith(self : Expect, value : @nostd.Any) -> Unit {
 
 ///|
 /// JS: expect(mock).toHaveLastReturnedWith(value)
-pub fn Expect::toHaveLastReturnedWith(self : Expect, value : @nostd.Any) -> Unit {
+pub fn Expect::toHaveLastReturnedWith(
+  self : Expect,
+  value : @nostd.Any,
+) -> Unit {
   @nostd.any(self)._call("toHaveLastReturnedWith", [value]) |> ignore
 }
 

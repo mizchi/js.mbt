@@ -217,13 +217,18 @@ fn get_lsp_path() -> String {
 
 ///|
 fn LspClient::setup_response_handler(self : LspClient) -> Unit {
-  self.process.stdout().as_any()._call("on", [
+  self.process
+  .stdout()
+  .as_any()
+  ._call("on", [
     @nostd.any("data"),
-    @nostd.any(@js.from_fn1(fn(data : @js.Any) {
-      let chunk : String = @nostd.any(data)._call("toString", []).cast()
-      self.buffer = self.buffer + chunk
-      self.process_buffer()
-    })),
+    @nostd.any(
+      @js.from_fn1(fn(data : @js.Any) {
+        let chunk : String = @nostd.any(data)._call("toString", []).cast()
+        self.buffer = self.buffer + chunk
+        self.process_buffer()
+      }),
+    ),
   ])
   |> ignore
 }

@@ -358,7 +358,10 @@ extern "js" fn ffi_pipeline(
 
 ///|
 /// Utility functions
-pub fn pipeline(streams : Array[@nostd.Any], callback? : @nostd.Any) -> @nostd.Any {
+pub fn pipeline(
+  streams : Array[@nostd.Any],
+  callback? : @nostd.Any,
+) -> @nostd.Any {
   ffi_pipeline(@nostd.any(streams), callback)
 }
 
@@ -416,14 +419,16 @@ pub fn isWritable(stream : @nostd.Any) -> Bool {
 
 ///|
 pub fn getDefaultHighWaterMark(objectMode : Bool) -> Int {
-  stream_module()._call("getDefaultHighWaterMark", [@nostd.any(objectMode)]).cast()
+  stream_module()
+  ._call("getDefaultHighWaterMark", [@nostd.any(objectMode)])
+  .cast()
 }
 
 ///|
 pub fn setDefaultHighWaterMark(objectMode : Bool, value : Int) -> Unit {
-  stream_module()._call(
-    "setDefaultHighWaterMark",
-    [@nostd.any(objectMode), @nostd.any(value)],
-  )
+  stream_module()._call("setDefaultHighWaterMark", [
+    @nostd.any(objectMode),
+    @nostd.any(value),
+  ])
   |> ignore
 }

@@ -37,7 +37,8 @@ pub fn Script::new(
     "cachedData": cachedData.map(fn(x) { @nostd.any(x) }),
     "produceCachedData": produceCachedData.map(fn(x) { @nostd.any(x) }),
   })
-  @js.new_(script_constructor, [code, @js.identity(options)]) |> @js.identity
+  @js.new_(script_constructor, [@js.any(code), @js.identity(options)])
+  |> @js.identity
 }
 
 ///|
@@ -59,7 +60,7 @@ pub fn Script::runInThisContext(
     "timeout": timeout.map(fn(x) { @nostd.any(x) }),
     "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
   })
-  self.call1("runInThisContext", @js.identity(options))
+  @nostd.any(self)._call("runInThisContext", [options]).cast()
 }
 
 ///|
@@ -89,8 +90,11 @@ pub fn Script::runInNewContext(
     "microtaskMode": microtaskMode.map(fn(x) { @nostd.any(x) }),
   })
   match contextObject {
-    Some(ctx) => self.call2("runInNewContext", ctx, @js.identity(options))
-    None => self.call1("runInNewContext", @js.identity(options))
+    Some(ctx) =>
+      @nostd.any(self)
+      ._call("runInNewContext", [@nostd.any(ctx), options])
+      .cast()
+    None => @nostd.any(self)._call("runInNewContext", [options]).cast()
   }
 }
 
@@ -114,13 +118,15 @@ pub fn Script::runInContext(
     "timeout": timeout.map(fn(x) { @nostd.any(x) }),
     "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
   })
-  self.call2("runInContext", contextifiedObject, @js.identity(options))
+  @nostd.any(self)
+  ._call("runInContext", [@nostd.any(contextifiedObject), options])
+  .cast()
 }
 
 ///|
 /// Create cached data
 pub fn Script::createCachedData(self : Script) -> @buffer.Buffer {
-  self.call0("createCachedData") |> @js.identity
+  @nostd.any(self)._call("createCachedData", []).cast()
 }
 
 ///|
@@ -157,7 +163,7 @@ pub fn runInThisContext(
     "timeout": timeout.map(fn(x) { @nostd.any(x) }),
     "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
   })
-  vm.call2("runInThisContext", code, @js.identity(options))
+  @nostd.any(vm)._call("runInThisContext", [@nostd.any(code), options]).cast()
 }
 
 ///|
@@ -188,8 +194,14 @@ pub fn runInNewContext(
     "microtaskMode": microtaskMode.map(fn(x) { @nostd.any(x) }),
   })
   match contextObject {
-    Some(ctx) => vm.call("runInNewContext", [code, ctx, @js.identity(options)])
-    None => vm.call2("runInNewContext", code, @js.identity(options))
+    Some(ctx) =>
+      @nostd.any(vm)
+      ._call("runInNewContext", [@nostd.any(code), @nostd.any(ctx), options])
+      .cast()
+    None =>
+      @nostd.any(vm)
+      ._call("runInNewContext", [@nostd.any(code), options])
+      .cast()
   }
 }
 
@@ -214,7 +226,13 @@ pub fn runInContext(
     "timeout": timeout.map(fn(x) { @nostd.any(x) }),
     "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
   })
-  vm.call("runInContext", [code, contextifiedObject, @js.identity(options)])
+  @nostd.any(vm)
+  ._call("runInContext", [
+    @nostd.any(code),
+    @nostd.any(contextifiedObject),
+    options,
+  ])
+  .cast()
 }
 
 ///|
@@ -232,8 +250,9 @@ pub fn createContext(
     "microtaskMode": microtaskMode.map(fn(x) { @nostd.any(x) }),
   })
   match contextObject {
-    Some(ctx) => vm.call2("createContext", ctx, @js.identity(options))
-    None => vm.call1("createContext", @js.identity(options))
+    Some(ctx) =>
+      @nostd.any(vm)._call("createContext", [@nostd.any(ctx), options]).cast()
+    None => @nostd.any(vm)._call("createContext", [options]).cast()
   }
 }
 
@@ -241,7 +260,7 @@ pub fn createContext(
 /// Check if object is a context
 pub fn isContext(object : @js.Any) -> Bool {
   let vm = vm_module()
-  vm.call1("isContext", object) |> @js.identity
+  @nostd.any(vm)._call("isContext", [@nostd.any(object)]).cast()
 }
 
 ///|
@@ -270,8 +289,17 @@ pub fn compileFunction(
   match params {
     Some(p) => {
       let params_js = @js.from_array(p.map(fn(s) { s }))
-      vm.call("compileFunction", [code, params_js, @js.identity(options)])
+      @nostd.any(vm)
+      ._call("compileFunction", [
+        @nostd.any(code),
+        @nostd.any(params_js),
+        options,
+      ])
+      .cast()
     }
-    None => vm.call2("compileFunction", code, @js.identity(options))
+    None =>
+      @nostd.any(vm)
+      ._call("compileFunction", [@nostd.any(code), options])
+      .cast()
   }
 }

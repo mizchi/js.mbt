@@ -22,7 +22,7 @@ fn drizzle_sqlite_core() -> @js.Any {
 /// Create a Drizzle instance for SQLite with libsql (connection string)
 pub fn drizzleLibsql(connection_url : String) -> DrizzleDB {
   let drizzle_fn = drizzle_libsql_module().get("drizzle")
-  drizzle_fn.call_self([connection_url |> @js.any]) |> @js.identity
+  @nostd.any(drizzle_fn)._invoke([@nostd.any(connection_url)]).cast()
 }
 
 ///|
@@ -31,7 +31,7 @@ pub fn drizzleLibsqlClient(client : @js.Any) -> DrizzleDB {
   let drizzle_fn = drizzle_libsql_module().get("drizzle")
   let config = @js.Object::new()
   config.set("client", client)
-  drizzle_fn.call_self([config.as_any()]) |> @js.identity
+  @nostd.any(drizzle_fn)._invoke([@nostd.any(config)]).cast()
 }
 
 ///|
@@ -39,7 +39,7 @@ pub fn drizzleLibsqlClient(client : @js.Any) -> DrizzleDB {
 #alias(drizzle_better_sqlite)
 pub fn drizzleBetterSqlite(filename : String) -> DrizzleDB {
   let drizzle_fn = drizzle_better_sqlite3().get("drizzle")
-  drizzle_fn.call_self([filename |> @js.any]) |> @js.identity
+  @nostd.any(drizzle_fn)._invoke([@nostd.any(filename)]).cast()
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn drizzleBetterSqlite(filename : String) -> DrizzleDB {
 #alias(drizzle_better_sqlite_db)
 pub fn drizzleBetterSqliteDb(db : @js.Any) -> DrizzleDB {
   let drizzle_fn = drizzle_better_sqlite3().get("drizzle")
-  drizzle_fn.call_self([db]) |> @js.identity
+  @nostd.any(drizzle_fn)._invoke([@nostd.any(db)]).cast()
 }
 
 // ============ SQLite Schema Definition ============
@@ -57,7 +57,7 @@ pub fn drizzleBetterSqliteDb(db : @js.Any) -> DrizzleDB {
 #alias(sqlite_table)
 pub fn sqliteTable(name : String, columns : @js.Any) -> Table {
   let fn_ = drizzle_sqlite_core().get("sqliteTable")
-  fn_.call_self([name |> @js.any, columns]) |> @js.identity
+  @nostd.any(fn_)._invoke([@nostd.any(name), @nostd.any(columns)]).cast()
 }
 
 ///|
@@ -84,7 +84,9 @@ pub fn sqliteTableWithConfig(
   let extra_fn : @js.Any = @js.from_fn1(fn(t : @js.Any) -> @js.Any {
     extra(@js.identity(t))
   })
-  fn_.call_self([name |> @js.any, columns, extra_fn]) |> @js.identity
+  @nostd.any(fn_)
+  ._invoke([@nostd.any(name), @nostd.any(columns), @nostd.any(extra_fn)])
+  .cast()
 }
 
 // ============ SQLite Column Types ============
@@ -95,8 +97,8 @@ pub fn sqliteTableWithConfig(
 pub fn sqliteInt(name? : String) -> Column {
   let fn_ = drizzle_sqlite_core().get("int")
   match name {
-    Some(n) => fn_.call_self([n |> @js.any]) |> @js.identity
-    None => fn_.call_self0() |> @js.identity
+    Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
+    None => @nostd.any(fn_)._invoke([]).cast()
   }
 }
 
@@ -110,8 +112,8 @@ pub fn sqliteInteger(name? : String, mode? : String) -> Column {
     opts.set("mode", m)
   }
   match name {
-    Some(n) => fn_.call_self([n |> @js.any, opts.as_any()]) |> @js.identity
-    None => fn_.call_self([opts.as_any()]) |> @js.identity
+    Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n), @nostd.any(opts)]).cast()
+    None => @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
   }
 }
 
@@ -127,15 +129,15 @@ pub fn sqliteText(name? : String, mode? : String) -> Column {
   match name {
     Some(n) =>
       if mode is Some(_) {
-        fn_.call_self([n |> @js.any, opts.as_any()]) |> @js.identity
+        @nostd.any(fn_)._invoke([@nostd.any(n), @nostd.any(opts)]).cast()
       } else {
-        fn_.call_self([n |> @js.any]) |> @js.identity
+        @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
       }
     None =>
       if mode is Some(_) {
-        fn_.call_self([opts.as_any()]) |> @js.identity
+        @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
       } else {
-        fn_.call_self0() |> @js.identity
+        @nostd.any(fn_)._invoke([]).cast()
       }
   }
 }
@@ -146,8 +148,8 @@ pub fn sqliteText(name? : String, mode? : String) -> Column {
 pub fn sqliteReal(name? : String) -> Column {
   let fn_ = drizzle_sqlite_core().get("real")
   match name {
-    Some(n) => fn_.call_self([n |> @js.any]) |> @js.identity
-    None => fn_.call_self0() |> @js.identity
+    Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
+    None => @nostd.any(fn_)._invoke([]).cast()
   }
 }
 
@@ -163,15 +165,15 @@ pub fn sqliteBlob(name? : String, mode? : String) -> Column {
   match name {
     Some(n) =>
       if mode is Some(_) {
-        fn_.call_self([n |> @js.any, opts.as_any()]) |> @js.identity
+        @nostd.any(fn_)._invoke([@nostd.any(n), @nostd.any(opts)]).cast()
       } else {
-        fn_.call_self([n |> @js.any]) |> @js.identity
+        @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
       }
     None =>
       if mode is Some(_) {
-        fn_.call_self([opts.as_any()]) |> @js.identity
+        @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
       } else {
-        fn_.call_self0() |> @js.identity
+        @nostd.any(fn_)._invoke([]).cast()
       }
   }
 }
@@ -182,8 +184,8 @@ pub fn sqliteBlob(name? : String, mode? : String) -> Column {
 pub fn sqliteNumeric(name? : String) -> Column {
   let fn_ = drizzle_sqlite_core().get("numeric")
   match name {
-    Some(n) => fn_.call_self([n |> @js.any]) |> @js.identity
-    None => fn_.call_self0() |> @js.identity
+    Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
+    None => @nostd.any(fn_)._invoke([]).cast()
   }
 }
 
@@ -205,7 +207,7 @@ pub fn Column::primaryKeyAutoIncrement(self : Column) -> Column {
 #alias(sqlite_index)
 pub fn sqliteIndex(name : String) -> IndexBuilder {
   let fn_ = drizzle_sqlite_core().get("index")
-  fn_.call_self([name |> @js.any]) |> @js.identity
+  @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
 }
 
 ///|
@@ -213,7 +215,7 @@ pub fn sqliteIndex(name : String) -> IndexBuilder {
 #alias(sqlite_unique_index)
 pub fn sqliteUniqueIndex(name : String) -> IndexBuilder {
   let fn_ = drizzle_sqlite_core().get("uniqueIndex")
-  fn_.call_self([name |> @js.any]) |> @js.identity
+  @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
 }
 
 ///|
@@ -230,7 +232,7 @@ pub fn IndexBuilder::on(
   self : IndexBuilder,
   columns : Array[Column],
 ) -> IndexBuilder {
-  self.as_any().call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
+  @nostd.any(self)._call("on", columns.map(fn(c) { @nostd.any(c) })).cast()
 }
 
 ///|
@@ -240,5 +242,5 @@ pub fn IndexBuilder::filter(
   self : IndexBuilder,
   condition : SQL,
 ) -> IndexBuilder {
-  self.as_any().call("where", [condition.as_any()]) |> @js.identity
+  @nostd.any(self)._call("where", [@nostd.any(condition)]).cast()
 }

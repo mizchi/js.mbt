@@ -2,11 +2,11 @@
 package "mizchi/js/npm/vitest"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn[T : @js.JsImpl] expect(T) -> Expect
+fn expect(@nostd.Any) -> Expect
 
 fn setup_standalone() -> Unit
 
@@ -18,13 +18,13 @@ pub type Expect
 fn Expect::not_(Self) -> Self
 fn Expect::rejects(Self) -> Self
 fn Expect::resolves(Self) -> Self
-fn[T : @js.JsImpl] Expect::toBe(Self, T) -> Unit
+fn Expect::toBe(Self, @nostd.Any) -> Unit
 fn Expect::toBeCloseTo(Self, Double, num_digits? : Int) -> Unit
 fn Expect::toBeDefined(Self) -> Unit
 fn Expect::toBeFalsy(Self) -> Unit
 fn Expect::toBeGreaterThan(Self, Double) -> Unit
 fn Expect::toBeGreaterThanOrEqual(Self, Double) -> Unit
-fn[T : @js.JsImpl] Expect::toBeInstanceOf(Self, T) -> Unit
+fn Expect::toBeInstanceOf(Self, @nostd.Any) -> Unit
 fn Expect::toBeLessThan(Self, Double) -> Unit
 fn Expect::toBeLessThanOrEqual(Self, Double) -> Unit
 fn Expect::toBeNaN(Self) -> Unit
@@ -32,24 +32,24 @@ fn Expect::toBeNull(Self) -> Unit
 fn Expect::toBeTruthy(Self) -> Unit
 fn Expect::toBeTypeOf(Self, String) -> Unit
 fn Expect::toBeUndefined(Self) -> Unit
-fn[T : @js.JsImpl] Expect::toContain(Self, T) -> Unit
-fn[T : @js.JsImpl] Expect::toContainEqual(Self, T) -> Unit
-fn[T : @js.JsImpl] Expect::toEqual(Self, T) -> Unit
+fn Expect::toContain(Self, @nostd.Any) -> Unit
+fn Expect::toContainEqual(Self, @nostd.Any) -> Unit
+fn Expect::toEqual(Self, @nostd.Any) -> Unit
 fn Expect::toHaveBeenCalled(Self) -> Unit
 fn Expect::toHaveBeenCalledTimes(Self, Int) -> Unit
-fn Expect::toHaveBeenCalledWith(Self, Array[&@js.JsImpl]) -> Unit
-fn Expect::toHaveBeenLastCalledWith(Self, Array[&@js.JsImpl]) -> Unit
-fn Expect::toHaveBeenNthCalledWith(Self, Int, Array[&@js.JsImpl]) -> Unit
-fn[T : @js.JsImpl] Expect::toHaveLastReturnedWith(Self, T) -> Unit
+fn Expect::toHaveBeenCalledWith(Self, Array[@nostd.Any]) -> Unit
+fn Expect::toHaveBeenLastCalledWith(Self, Array[@nostd.Any]) -> Unit
+fn Expect::toHaveBeenNthCalledWith(Self, Int, Array[@nostd.Any]) -> Unit
+fn Expect::toHaveLastReturnedWith(Self, @nostd.Any) -> Unit
 fn Expect::toHaveLength(Self, Int) -> Unit
-fn Expect::toHaveProperty(Self, String, value? : @js.Any) -> Unit
+fn Expect::toHaveProperty(Self, String, value? : @nostd.Any) -> Unit
 fn Expect::toHaveReturned(Self) -> Unit
 fn Expect::toHaveReturnedTimes(Self, Int) -> Unit
-fn[T : @js.JsImpl] Expect::toHaveReturnedWith(Self, T) -> Unit
+fn Expect::toHaveReturnedWith(Self, @nostd.Any) -> Unit
 fn Expect::toMatch(Self, String) -> Unit
-fn[T : @js.JsImpl] Expect::toMatchObject(Self, T) -> Unit
-fn Expect::toSatisfy(Self, @js.Any) -> Unit
-fn[T : @js.JsImpl] Expect::toStrictEqual(Self, T) -> Unit
+fn Expect::toMatchObject(Self, @nostd.Any) -> Unit
+fn Expect::toSatisfy(Self, @nostd.Any) -> Unit
+fn Expect::toStrictEqual(Self, @nostd.Any) -> Unit
 fn Expect::toThrow(Self, expected? : String) -> Unit
 fn Expect::toThrowError(Self, expected? : String) -> Unit
 

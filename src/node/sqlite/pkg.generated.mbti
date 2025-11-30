@@ -4,6 +4,7 @@ package "mizchi/js/node/sqlite"
 import(
   "mizchi/js"
   "mizchi/js/builtins/typedarray"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -107,9 +108,9 @@ pub(all) struct BackupProgress {
 
 #external
 pub type DatabaseSync
-fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T, inverse? : (T, U) -> T, result? : (T) -> @js.Any) -> Unit
+fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T, inverse? : (T, U) -> T, result? : (T) -> @nostd.Any) -> Unit
 #alias(apply_changeset)
-fn DatabaseSync::applyChangeset(Self, @typedarray.Uint8Array, filter? : (@js.Any) -> Bool, onConflict? : (@js.Any?, @js.Any) -> Bool) -> Bool
+fn DatabaseSync::applyChangeset(Self, @typedarray.Uint8Array, filter? : (@nostd.Any) -> Bool, onConflict? : (@nostd.Any?, @nostd.Any) -> Bool) -> Bool
 fn DatabaseSync::close(Self) -> Unit
 #alias(create_session)
 fn DatabaseSync::createSession(Self, table? : String, db? : String) -> Session
@@ -118,7 +119,7 @@ fn DatabaseSync::createTagStore(Self, max_size? : Int) -> SQLTagStore
 #alias(enable_load_extension)
 fn DatabaseSync::enableLoadExtension(Self, Bool) -> Unit
 fn DatabaseSync::exec(Self, String) -> Unit
-fn DatabaseSync::function(Self, String, (Array[@js.Any]) -> @js.Any, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool) -> Unit
+fn DatabaseSync::function(Self, String, (Array[@nostd.Any]) -> @nostd.Any, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool) -> Unit
 #alias(is_open)
 fn DatabaseSync::isOpen(Self) -> Bool
 #alias(is_transaction)
@@ -131,7 +132,6 @@ fn DatabaseSync::open(Self) -> Unit
 fn DatabaseSync::prepare(Self, String) -> StatementSync
 #alias(set_authorizer)
 fn DatabaseSync::setAuthorizer(Self, (Int, String?, String?, String?, String?) -> Int) -> Unit
-impl @js.JsImpl for DatabaseSync
 
 #external
 pub type SQLTagStore
@@ -139,31 +139,28 @@ fn SQLTagStore::capacity(Self) -> Int
 fn SQLTagStore::clear(Self) -> Unit
 fn SQLTagStore::db(Self) -> DatabaseSync
 fn SQLTagStore::size(Self) -> Int
-impl @js.JsImpl for SQLTagStore
 
 #external
 pub type Session
 fn Session::changeset(Self) -> @typedarray.Uint8Array
 fn Session::close(Self) -> Unit
 fn Session::patchset(Self) -> @typedarray.Uint8Array
-impl @js.JsImpl for Session
 
 pub(all) struct StatementResultingChanges {
   changes : Int
   lastInsertRowid : Int
 }
-impl @js.JsImpl for StatementResultingChanges
 impl Show for StatementResultingChanges
 
 #external
 pub type StatementSync
-fn StatementSync::all(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> Array[@js.Any]
-fn StatementSync::columns(Self) -> Array[@js.Any]
+fn StatementSync::all(Self, named_parameters? : Map[String, @nostd.Any], anonymous_parameters? : Array[@nostd.Any]) -> Array[@nostd.Any]
+fn StatementSync::columns(Self) -> Array[@nostd.Any]
 #alias(expanded_sql)
 fn StatementSync::expandedSQL(Self) -> String
-fn StatementSync::get_(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> @js.Any?
-fn StatementSync::iterate(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> @js.JsIterator[@js.Any]
-fn StatementSync::run(Self, named_parameters? : Map[String, &@js.JsImpl], anonymous_parameters? : Array[&@js.JsImpl]) -> StatementResultingChanges
+fn StatementSync::get_(Self, named_parameters? : Map[String, @nostd.Any], anonymous_parameters? : Array[@nostd.Any]) -> @nostd.Any?
+fn StatementSync::iterate(Self, named_parameters? : Map[String, @nostd.Any], anonymous_parameters? : Array[@nostd.Any]) -> @js.JsIterator[@nostd.Any]
+fn StatementSync::run(Self, named_parameters? : Map[String, @nostd.Any], anonymous_parameters? : Array[@nostd.Any]) -> StatementResultingChanges
 #alias(set_allow_bare_named_parameters)
 fn StatementSync::setAllowBareNamedParameters(Self, Bool) -> Unit
 #alias(set_allow_unknown_named_parameters)
@@ -174,7 +171,6 @@ fn StatementSync::setReadBigInts(Self, Bool) -> Unit
 fn StatementSync::setReturnArrays(Self, Bool) -> Unit
 #alias(source_sql)
 fn StatementSync::sourceSQL(Self) -> String
-impl @js.JsImpl for StatementSync
 
 // Type aliases
 

@@ -57,7 +57,7 @@ pub fn Worker::new(
     "execArgv": execArgv.map(fn(x) { @js.from_array(x) }),
     "resourceLimits": resourceLimits,
   })
-  @js.identity(@js.new_(worker_class, [filename, js_opts]))
+  @js.identity(@js.new_(worker_class, [@js.any(filename), js_opts]))
 }
 
 ///|
