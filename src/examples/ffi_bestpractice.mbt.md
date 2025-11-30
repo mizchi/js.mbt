@@ -1,4 +1,4 @@
-# Bestpractice for MoonBit JavaScript FFI 
+# Bestpractice for MoonBit JavaScript FFI
 
 Practical, executable examples of JavaScript FFI patterns using `mizchi/js`.
 
@@ -8,7 +8,7 @@ Practical, executable examples of JavaScript FFI patterns using `mizchi/js`.
 - Use `@js.Nullable[T]`/`@js.Nullish[T]` for nullable struct fields (not `T?`)
 - Use `identity_option` for safe null handling
 - Use labeled optional arguments instead of Options structs
-- Use `&@js.JsImpl` for generic JS values, but always call `.as_any()` before passing to FFI
+- Use `@nostd.Any` for lightweight JS interop without trait overhead
 - Return concrete types, avoid redundant conversions
 - Follow naming conventions (camelCase for Web APIs, snake_case for wrappers)
 - Use `async fn` with `promise.wait()` internally for Promise-returning functions
@@ -16,6 +16,7 @@ Practical, executable examples of JavaScript FFI patterns using `mizchi/js`.
 | Type | Handles | Use Case |
 |------|---------|----------|
 | `@js.Any` | Any JS value | TypeScript `any` equivalent |
+| `@nostd.Any` | Any JS value (lightweight) | Low overhead JS interop |
 | `@js.Nullable[T]` | `T \| null` | API returns explicit null |
 | `@js.Nullish[T]` | `T \| null \| undefined` | Optional/missing fields |
 | `T?` | MoonBit Option | Function params/returns only |
@@ -33,10 +34,9 @@ Use `#external pub type` for types created by JavaScript runtime:
 #external
 pub type Value
 
-// Allow .get(key), set(key, val), .call()
-
 ///|
-impl @js.JsImpl for Value
+/// Provide as_any for JS interop
+pub fn Value::as_any(self : Value) -> @nostd.Any = "%identity"
 ```
 
 ### Data Containers with `struct`
@@ -57,14 +57,15 @@ Avoid MoonBit reserved words (`method`, `ref`, `type`). Use getter functions as 
 
 ```moonbit
 ///|
-pub struct MyValue {}
+#external
+pub type MyValue
 
 ///|
-pub impl @js.JsImpl for MyValue
+pub fn MyValue::as_any(self : MyValue) -> @nostd.Any = "%identity"
 
 ///|
 pub fn MyValue::method_(self : Self) -> String {
-  self.get("method").cast()
+  self.as_any()._get("method").cast()
 }
 ```
 
@@ -73,15 +74,15 @@ pub fn MyValue::method_(self : Self) -> String {
 ```moonbit
 ///|
 test "type conversion" {
-  // Convert MoonBit types to Js
-  let num : @js.Any = @js.any(42)
-  let str = @js.any("hello")
-  let bool = @js.any(true)
+  // Convert MoonBit types to Any
+  let num : @nostd.Any = @nostd.any(42)
+  let str = @nostd.any("hello")
+  let bool = @nostd.any(true)
 
   // Convert back
-  let num_back : Int = @js.identity(num)
-  let str_back : String = @js.identity(str)
-  let bool_back : Bool = @js.identity(bool)
+  let num_back : Int = num.cast()
+  let str_back : String = str.cast()
+  let bool_back : Bool = bool.cast()
   assert_eq(num_back, 42)
   assert_eq(str_back, "hello")
   assert_eq(bool_back, true)
@@ -117,10 +118,10 @@ Use `identity_option` to safely convert nullable values from JS objects:
 ```moonbit
 ///|
 test "identity_option for nullable values" {
-  let obj = @js.Object::new()
-  obj.set("exists", "value")
-  let exists : String? = @js.identity_option(obj.get("exists"))
-  let missing : String? = @js.identity_option(obj.get("missing"))
+  let obj = @nostd.Object::new()
+  obj._set("exists", @nostd.any("value"))
+  let exists : String? = @nostd.identity_option(obj._get("exists"))
+  let missing : String? = @nostd.identity_option(obj._get("missing"))
   assert_eq(exists, Some("value"))
   assert_eq(missing, None)
   match exists {
@@ -134,20 +135,20 @@ test "identity_option for nullable values" {
 
 ```moonbit
 ///|
-test "call0, call1, call2 methods" {
-  let obj = @js.Object::new()
-  obj.set("name", "test")
+test "_call methods" {
+  let obj = @nostd.Object::new()
+  obj._set("name", @nostd.any("test"))
 
-  // call0 - no arguments
-  let str_repr = obj.call0("toString")
+  // _call with no arguments
+  let str_repr : String = obj._call("toString", []).cast()
   inspect(str_repr, content="[object Object]")
 
-  // call1 - one argument
-  let has_name : Bool = @js.identity(obj.call1("hasOwnProperty", "name"))
+  // _call with one argument
+  let has_name : Bool = obj._call("hasOwnProperty", [@nostd.any("name")]).cast()
   assert_eq(has_name, true)
 
-  // call - variable arguments
-  let keys = @js.Object::keys(obj)
+  // Object.keys
+  let keys = @nostd.Object::keys(obj)
   assert_eq(keys.length(), 1)
 }
 ```
@@ -174,10 +175,10 @@ pub fn createServer(
   port? : Int,
   timeout? : Int,
 ) -> Server {
-  let options = @js.Object::new()
-  if host is Some(v) { options.set("host", v) }
-  if port is Some(v) { options.set("port", v) }
-  if timeout is Some(v) { options.set("timeout", v) }
+  let options = @nostd.Object::new()
+  if host is Some(v) { options._set("host", @nostd.any(v)) }
+  if port is Some(v) { options._set("port", @nostd.any(v)) }
+  if timeout is Some(v) { options._set("timeout", @nostd.any(v)) }
   ffi_create_server(options)
 }
 ```
@@ -199,48 +200,36 @@ fn Document::getElementById(self : Document, id : String) -> @js.Any?
 fn Document::getElementById(self : Document, id : String) -> Element?
 ```
 
-### Accepting Any JsImpl Type with `&JsImpl`
+### Using @nostd.Any for Lightweight JS Interop
 
-Use `&@js.JsImpl` to accept any type implementing JsImpl (Int, String, Object, etc.):
-
-```moonbit no-check
-// Accept any JsImpl type
-fn setProperty(obj : @js.Any, key : String, value : &@js.JsImpl) -> Unit {
-  // IMPORTANT: Always call .as_any() when passing to FFI
-  obj.set(key, value.as_any())
-}
-
-// Usage
-setProperty(obj, "count", 42)        // Int
-setProperty(obj, "name", "test")     // String
-setProperty(obj, "data", someObject) // Object
-```
-
-**⚠️ Warning**: Always use `.as_any()` when passing `&JsImpl` to JavaScript FFI:
+Use `@nostd.Any` with `_get`, `_set`, `_call` for low-overhead JS interop:
 
 ```moonbit no-check
-// ❌ WRONG: identity exposes internal structure
-fn bad_example(value : &@js.JsImpl) -> @js.Any {
-  @js.identity(value)  // Returns { "self": value, "method_0": ... }
+#external
+pub type MyObject
+
+pub fn MyObject::as_any(self : MyObject) -> @nostd.Any = "%identity"
+
+// Get property
+pub fn MyObject::name(self : MyObject) -> String {
+  self.as_any()._get("name").cast()
 }
 
-// ✅ CORRECT: use .as_any()
-fn good_example(value : &@js.JsImpl) -> @js.Any {
-  value.as_any()  // Returns the actual JS value
+// Set property
+pub fn MyObject::set_name(self : MyObject, name : String) -> Unit {
+  self.as_any()._set("name", @nostd.any(name)) |> ignore
+}
+
+// Call method
+pub fn MyObject::greet(self : MyObject, msg : String) -> String {
+  self.as_any()._call("greet", [@nostd.any(msg)]).cast()
 }
 ```
 
-### Avoid Redundant Conversions
-
-Types implementing `JsImpl` don't need `.as_any()` in Array contexts:
-
-```
-// Avoid
-self.call("digest", [algorithm, data.as_any()])
-
-// Prefer
-self.call("digest", [algorithm, data])
-```
+**Benefits of `@nostd.Any`:**
+- Zero trait vtable overhead
+- Direct FFI calls without intermediate conversions
+- Smaller generated code size
 
 ## Naming Conventions
 
@@ -278,7 +267,7 @@ When wrapping JavaScript functions that return Promises, use `async fn` and call
 
 ```moonbit no-check
 // FFI declaration - returns Promise
-extern "js" fn ffi_fetch(url : String) -> @js.Promise[Response] =
+extern "js" fn ffi_fetch(url : String) -> @nostd.Promise[Response] =
   #|(url) => fetch(url)
 
 // Public API - async fn returns value directly
@@ -298,7 +287,7 @@ The standard pattern for async FFI functions:
 
 ```moonbit no-check
 // 1. FFI function (private) - returns Promise
-extern "js" fn ffi_read_file(path : String) -> @js.Promise[String] =
+extern "js" fn ffi_read_file(path : String) -> @nostd.Promise[String] =
   #|(path) => fs.promises.readFile(path, 'utf-8')
 
 // 2. Public async function - wraps the Promise
