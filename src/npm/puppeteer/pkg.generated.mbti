@@ -13,20 +13,20 @@ async fn launch(headless? : Bool, args? : Array[String], executablePath? : Strin
 // Types and methods
 #external
 pub type Browser
+fn Browser::as_any(Self) -> @js.Any
 async fn Browser::close(Self) -> Unit
 async fn Browser::newPage(Self) -> Page
 async fn Browser::pages(Self) -> Array[Page]
 async fn Browser::userAgent(Self) -> String
 async fn Browser::version(Self) -> String
-impl @js.JsImpl for Browser
 
 #external
 pub type CDPSession
+fn CDPSession::as_any(Self) -> @js.Any
 async fn CDPSession::detach(Self) -> Unit
 fn CDPSession::id(Self) -> String
 async fn CDPSession::send(Self, String, @js.Any) -> @js.Any
 async fn CDPSession::send_simple(Self, String) -> Unit
-impl @js.JsImpl for CDPSession
 
 pub(all) struct CSSCoverageEntry {
   url : String
@@ -49,13 +49,13 @@ impl Show for Cookie
 
 #external
 pub type Coverage
+fn Coverage::as_any(Self) -> @js.Any
 async fn Coverage::startCSSCoverage(Self) -> Unit
 async fn Coverage::startCSSCoverage_with(Self, @js.Any) -> Unit
 async fn Coverage::startJSCoverage(Self) -> Unit
 async fn Coverage::startJSCoverage_with(Self, @js.Any) -> Unit
 async fn Coverage::stopCSSCoverage(Self) -> Array[@js.Any]
 async fn Coverage::stopJSCoverage(Self) -> Array[@js.Any]
-impl @js.JsImpl for Coverage
 
 pub(all) struct CoverageRange {
   start : Int
@@ -65,6 +65,7 @@ impl Show for CoverageRange
 
 #external
 pub type ElementHandle
+fn ElementHandle::as_any(Self) -> @js.Any
 async fn ElementHandle::click(Self) -> Unit
 async fn ElementHandle::focus(Self) -> Unit
 async fn ElementHandle::getProperty(Self, String) -> @js.Any
@@ -72,11 +73,11 @@ async fn ElementHandle::hover(Self) -> Unit
 async fn ElementHandle::query_selector(Self, String) -> Self?
 async fn ElementHandle::query_selector_all(Self, String) -> Array[Self]
 async fn ElementHandle::type_(Self, String) -> Unit
-impl @js.JsImpl for ElementHandle
 
 #external
 pub type HTTPRequest
 async fn HTTPRequest::abort(Self) -> Unit
+fn HTTPRequest::as_any(Self) -> @js.Any
 async fn HTTPRequest::continue_(Self) -> Unit
 async fn HTTPRequest::continue_with(Self, @js.Any) -> Unit
 async fn HTTPRequest::fetchPostData(Self) -> String
@@ -90,10 +91,10 @@ fn HTTPRequest::resourceType(Self) -> String
 async fn HTTPRequest::respond(Self, @js.Any) -> Unit
 fn HTTPRequest::response(Self) -> HTTPResponse?
 fn HTTPRequest::url(Self) -> String
-impl @js.JsImpl for HTTPRequest
 
 #external
 pub type HTTPResponse
+fn HTTPResponse::as_any(Self) -> @js.Any
 async fn HTTPResponse::buffer(Self) -> @js.Any
 fn HTTPResponse::fromCache(Self) -> Bool
 fn HTTPResponse::fromServiceWorker(Self) -> Bool
@@ -106,7 +107,6 @@ fn HTTPResponse::status(Self) -> Int
 fn HTTPResponse::statusText(Self) -> String
 async fn HTTPResponse::text(Self) -> String
 fn HTTPResponse::url(Self) -> String
-impl @js.JsImpl for HTTPResponse
 
 pub(all) struct JSCoverageEntry {
   url : String
@@ -117,6 +117,7 @@ impl Show for JSCoverageEntry
 
 #external
 pub type Page
+fn Page::as_any(Self) -> @js.Any
 async fn Page::click(Self, String) -> Unit
 async fn Page::content(Self) -> String
 async fn Page::cookies(Self) -> Array[@js.Any] raise @js.ThrowError
@@ -148,7 +149,6 @@ async fn Page::waitForFunction(Self, String) -> @js.Any
 async fn Page::waitForNavigation(Self) -> Unit
 async fn Page::waitForSelector(Self, String) -> ElementHandle?
 async fn Page::waitForTimeout(Self, Int) -> Unit
-impl @js.JsImpl for Page
 
 // Type aliases
 

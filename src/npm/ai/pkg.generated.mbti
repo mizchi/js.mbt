@@ -101,10 +101,10 @@ fn AnthropicOptions::default() -> Self
 
 #external
 pub type AnthropicProvider
+fn AnthropicProvider::as_any(Self) -> @js.Any
 fn AnthropicProvider::create(AnthropicOptions) -> Self
 fn AnthropicProvider::model(Self, String) -> Model
 fn AnthropicProvider::require() -> Self
-impl @js.JsImpl for AnthropicProvider
 
 pub(all) struct CallWarning {
   type_ : String
@@ -225,10 +225,10 @@ fn GoogleOptions::default() -> Self
 
 #external
 pub type GoogleProvider
+fn GoogleProvider::as_any(Self) -> @js.Any
 fn GoogleProvider::create(GoogleOptions) -> Self
 fn GoogleProvider::model(Self, String) -> Model
 fn GoogleProvider::require() -> Self
-impl @js.JsImpl for GoogleProvider
 
 #external
 pub type ImageModel
@@ -259,7 +259,7 @@ pub(all) enum MessageContent {
   Text(String)
   Parts(Array[@js.Any])
 }
-impl @js.JsImpl for MessageContent
+fn MessageContent::as_any(Self) -> @js.Any
 
 pub(all) enum MockContentPart {
   Text(String)
@@ -323,7 +323,7 @@ fn[T] MockValues::reset(Self[T]) -> Unit
 
 #external
 pub type Model
-impl @js.JsImpl for Model
+fn Model::as_any(Self) -> @js.Any
 
 pub(all) enum ModelMessage {
   UserMessage(content~ : MessageContent)
@@ -331,7 +331,7 @@ pub(all) enum ModelMessage {
   SystemMessage(content~ : MessageContent)
   ToolMessage(content~ : MessageContent)
 }
-impl @js.JsImpl for ModelMessage
+fn ModelMessage::as_any(Self) -> @js.Any
 
 pub(all) struct OpenAIOptions {
   api_key : String?
@@ -343,10 +343,10 @@ fn OpenAIOptions::default() -> Self
 
 #external
 pub type OpenAIProvider
+fn OpenAIProvider::as_any(Self) -> @js.Any
 fn OpenAIProvider::create(OpenAIOptions) -> Self
 fn OpenAIProvider::model(Self, String) -> Model
 fn OpenAIProvider::require() -> Self
-impl @js.JsImpl for OpenAIProvider
 
 pub(all) enum OutputStrategy {
   Object
@@ -442,6 +442,7 @@ pub(all) struct StopConditionContext {
 
 #external
 pub type StreamTextResultHandle
+fn StreamTextResultHandle::as_any(Self) -> @js.Any
 #alias(finish_reason)
 async fn StreamTextResultHandle::finishReason(Self) -> FinishReason
 #alias(full_stream)
@@ -453,7 +454,6 @@ async fn StreamTextResultHandle::text(Self) -> String
 #alias(text_stream)
 fn StreamTextResultHandle::textStream(Self) -> @js.AsyncIterator[String]
 async fn StreamTextResultHandle::usage(Self) -> LanguageModelUsage
-impl @js.JsImpl for StreamTextResultHandle
 
 pub(all) enum TextStreamPart {
   TextStart(id~ : String, provider_metadata~ : ProviderMetadata?)

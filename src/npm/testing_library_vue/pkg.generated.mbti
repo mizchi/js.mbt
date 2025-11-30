@@ -4,6 +4,7 @@ package "mizchi/js/npm/testing_library_vue"
 import(
   "mizchi/js"
   "mizchi/js/browser/dom"
+  "mizchi/js/nostd"
   "mizchi/js/npm/testing_library"
   "mizchi/js/npm/vue"
 )
@@ -31,13 +32,13 @@ async fn waitForElementToBeRemoved(() -> @js.Any) -> Unit
 // Types and methods
 #external
 pub type RenderResult
+fn RenderResult::as_any(Self) -> @nostd.Any
 fn RenderResult::baseElement(Self) -> @dom.HTMLElement
 fn RenderResult::container(Self) -> @dom.HTMLElement
 fn RenderResult::debug(Self) -> Unit
 fn RenderResult::html(Self) -> String
 fn RenderResult::rerender(Self, @js.Any) -> Unit
 fn RenderResult::unmount(Self) -> Unit
-impl @js.JsImpl for RenderResult
 
 #external
 pub type VueTestingLibrary

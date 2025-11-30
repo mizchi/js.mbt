@@ -60,7 +60,7 @@ async test "drizzle libsql - create table and insert" {
     .str("name", "Alice")
     .str("email", "alice@example.com")
     .int("age", 30)
-  let _ = db.insert(users).values(insert_data).execute()
+  let _ = db.insert(users).values(insert_data.as_any()).execute()
 
   // Query users
   let result : Array[@js.Any] = db.select().from(users).execute_array()
@@ -122,14 +122,14 @@ async test "drizzle libsql - update and delete" {
   ).wait()
   let users = get_users_table_with_email()
   let user = Row::new().str("name", "Alice").int("age", 30)
-  let _ = db.insert(users).values(user).execute()
+  let _ = db.insert(users).values(user.as_any()).execute()
 
   // Update
   let name_col : Column = users.get("name") |> @js.identity
   let update_data = Row::new().int("age", 31)
   let _ = db
     .update(users)
-    .set(update_data)
+    .set(update_data.as_any())
     .filter(eq(name_col, "Alice"))
     .execute()
 

@@ -68,7 +68,7 @@ pub fn sqliteTableFromMap(
   columns : Map[String, Column],
 ) -> Table {
   let obj = @js.Object::new()
-  columns.each(fn(key, col) { obj.set(key, col) })
+  columns.each(fn(key, col) { obj.set(key, col.as_any()) })
   sqliteTable(name, obj.as_any())
 }
 
@@ -222,7 +222,7 @@ pub fn sqliteUniqueIndex(name : String) -> IndexBuilder {
 pub type IndexBuilder
 
 ///|
-pub impl @js.JsImpl for IndexBuilder
+pub fn IndexBuilder::as_any(self : IndexBuilder) -> @js.Any = "%identity"
 
 ///|
 /// Specify columns for index
@@ -230,7 +230,7 @@ pub fn IndexBuilder::on(
   self : IndexBuilder,
   columns : Array[Column],
 ) -> IndexBuilder {
-  self.call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
+  self.as_any().call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
 }
 
 ///|
@@ -240,5 +240,5 @@ pub fn IndexBuilder::filter(
   self : IndexBuilder,
   condition : SQL,
 ) -> IndexBuilder {
-  self.call1("where", condition) |> @js.identity
+  self.as_any().call("where", [condition.as_any()]) |> @js.identity
 }

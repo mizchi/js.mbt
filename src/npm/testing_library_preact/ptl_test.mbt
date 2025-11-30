@@ -43,8 +43,8 @@ test "queryByText returns null for non-existent" {
   let vnode = @preact.h("div", ["Hello"])
   render(vnode) |> ignore
   let s = screen()
-  let result : @js.Any = s.call1("queryByText", "NonExistent")
-  inspect(@js.is_nullish(result), content="true")
+  let result = s.queryByText("NonExistent")
+  inspect(result is None, content="true")
 }
 
 ///|

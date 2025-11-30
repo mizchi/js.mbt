@@ -5,6 +5,7 @@ import(
   "mizchi/js"
   "mizchi/js/browser/dom"
   "mizchi/js/builtins/regexp"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -23,8 +24,9 @@ fn to_options(@js.Any, Bool) -> @js.Any?
 // Types and methods
 #external
 pub type FireEvent
+fn FireEvent::as_any(Self) -> @nostd.Any
 fn FireEvent::blur(Self, ScreenResult) -> Bool
-fn FireEvent::change(Self, ScreenResult, @js.Any) -> Bool
+fn FireEvent::change(Self, ScreenResult, @nostd.Any) -> Bool
 fn FireEvent::click(Self, ScreenResult) -> Bool
 fn FireEvent::contextMenu(Self, ScreenResult) -> Bool
 fn FireEvent::copy(Self, ScreenResult) -> Bool
@@ -39,10 +41,10 @@ fn FireEvent::dragStart(Self, ScreenResult) -> Bool
 fn FireEvent::drop(Self, ScreenResult) -> Bool
 fn FireEvent::error(Self, ScreenResult) -> Bool
 fn FireEvent::focus(Self, ScreenResult) -> Bool
-fn FireEvent::input(Self, ScreenResult, @js.Any) -> Bool
-fn FireEvent::keyDown(Self, ScreenResult, @js.Any) -> Bool
-fn FireEvent::keyPress(Self, ScreenResult, @js.Any) -> Bool
-fn FireEvent::keyUp(Self, ScreenResult, @js.Any) -> Bool
+fn FireEvent::input(Self, ScreenResult, @nostd.Any) -> Bool
+fn FireEvent::keyDown(Self, ScreenResult, @nostd.Any) -> Bool
+fn FireEvent::keyPress(Self, ScreenResult, @nostd.Any) -> Bool
+fn FireEvent::keyUp(Self, ScreenResult, @nostd.Any) -> Bool
 fn FireEvent::load(Self, ScreenResult) -> Bool
 fn FireEvent::mouseDown(Self, ScreenResult) -> Bool
 fn FireEvent::mouseEnter(Self, ScreenResult) -> Bool
@@ -59,10 +61,10 @@ fn FireEvent::touchCancel(Self, ScreenResult) -> Bool
 fn FireEvent::touchEnd(Self, ScreenResult) -> Bool
 fn FireEvent::touchMove(Self, ScreenResult) -> Bool
 fn FireEvent::touchStart(Self, ScreenResult) -> Bool
-impl @js.JsImpl for FireEvent
 
 #external
 pub type Screen
+fn Screen::as_any(Self) -> @nostd.Any
 fn Screen::debug(Self) -> Unit
 #alias(find_all_by_alt_text)
 async fn[T : TextMatch] Screen::findAllByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
@@ -160,7 +162,6 @@ fn Screen::queryByTestId(Self, String) -> ScreenResult?
 fn[T : TextMatch] Screen::queryByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult?
 #alias(query_by_title)
 fn[T : TextMatch] Screen::queryByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult?
-impl @js.JsImpl for Screen
 
 #external
 pub type ScreenResult

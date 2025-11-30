@@ -17,6 +17,7 @@ fn webkit() -> BrowserType
 // Types and methods
 #external
 pub type Browser
+fn Browser::as_any(Self) -> @js.Any
 async fn Browser::close(Self) -> Unit
 fn Browser::close_with_error_callback(Self, (Error) -> Unit) -> Unit
 fn Browser::contexts(Self) -> Array[BrowserContext]
@@ -24,11 +25,11 @@ fn Browser::isConnected(Self) -> Bool
 async fn Browser::newContext(Self, viewport? : (Int, Int), userAgent? : String, locale? : String, timezoneId? : String, geolocation? : (Double, Double), permissions? : Array[String], colorScheme? : String, reducedMotion? : String, forcedColors? : String, acceptDownloads? : Bool, ignoreHTTPSErrors? : Bool, javaScriptEnabled? : Bool, bypassCSP? : Bool, offline? : Bool, deviceScaleFactor? : Double, isMobile? : Bool, hasTouch? : Bool) -> BrowserContext
 async fn Browser::newPage(Self, viewport? : (Int, Int), userAgent? : String, locale? : String, timezoneId? : String, ignoreHTTPSErrors? : Bool, javaScriptEnabled? : Bool, bypassCSP? : Bool, offline? : Bool, colorScheme? : String, deviceScaleFactor? : Double, isMobile? : Bool, hasTouch? : Bool) -> Page
 fn Browser::version(Self) -> String
-impl @js.JsImpl for Browser
 
 #external
 pub type BrowserContext
 async fn BrowserContext::addCookies(Self, @js.Any) -> Unit
+fn BrowserContext::as_any(Self) -> @js.Any
 async fn BrowserContext::clearCookies(Self) -> Unit
 async fn BrowserContext::clearPermissions(Self) -> Unit
 async fn BrowserContext::close(Self) -> Unit
@@ -41,17 +42,17 @@ fn BrowserContext::setDefaultNavigationTimeout(Self, Int) -> Unit
 fn BrowserContext::setDefaultTimeout(Self, Int) -> Unit
 async fn BrowserContext::setGeolocation(Self, Double, Double, accuracy? : Double) -> Unit
 async fn BrowserContext::setOffline(Self, Bool) -> Unit
-impl @js.JsImpl for BrowserContext
 
 #external
 pub type BrowserType
+fn BrowserType::as_any(Self) -> @js.Any
 async fn BrowserType::launch(Self, headless? : Bool, args? : Array[String], channel? : String, chromiumSandbox? : Bool, devtools? : Bool, downloadsPath? : String, executablePath? : String, handleSIGHUP? : Bool, handleSIGINT? : Bool, handleSIGTERM? : Bool, slowMo? : Int, timeout? : Int) -> Browser
 async fn BrowserType::launchPersistentContext(Self, String, headless? : Bool, args? : Array[String], channel? : String, slowMo? : Int, timeout? : Int) -> BrowserContext
 fn BrowserType::name(Self) -> String
-impl @js.JsImpl for BrowserType
 
 #external
 pub type Frame
+fn Frame::as_any(Self) -> @js.Any
 fn Frame::childFrames(Self) -> Array[Self]
 async fn Frame::content(Self) -> String
 async fn Frame::goto(Self, String, timeout? : Int, waitUntil? : String) -> Response?
@@ -61,12 +62,12 @@ fn Frame::name(Self) -> String
 fn Frame::parentFrame(Self) -> Self?
 async fn Frame::title(Self) -> String
 fn Frame::url(Self) -> String
-impl @js.JsImpl for Frame
 
 #external
 pub type Locator
 async fn Locator::allInnerTexts(Self) -> Array[String]
 async fn Locator::allTextContents(Self) -> Array[String]
+fn Locator::as_any(Self) -> @js.Any
 async fn Locator::blur(Self, timeout? : Int) -> Unit
 async fn Locator::boundingBox(Self, timeout? : Int) -> @js.Any
 async fn Locator::check(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
@@ -108,12 +109,12 @@ async fn Locator::textContent(Self, timeout? : Int) -> String?
 async fn Locator::type_(Self, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Locator::uncheck(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Locator::waitFor(Self, state? : String, timeout? : Int) -> Unit
-impl @js.JsImpl for Locator
 
 #external
 pub type Page
 async fn Page::addScriptTag(Self, url? : String, path? : String, content? : String, type_? : String) -> @js.Any
 async fn Page::addStyleTag(Self, url? : String, path? : String, content? : String) -> @js.Any
+fn Page::as_any(Self) -> @js.Any
 async fn Page::bringToFront(Self) -> Unit
 async fn Page::check(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Page::click(Self, String, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
@@ -160,11 +161,11 @@ async fn Page::waitForNavigation(Self, timeout? : Int, url? : String, waitUntil?
 async fn Page::waitForSelector(Self, String, state? : String, timeout? : Int, strict? : Bool) -> @js.Any
 async fn Page::waitForTimeout(Self, Int) -> Unit
 async fn Page::waitForURL(Self, String, timeout? : Int, waitUntil? : String) -> Unit
-impl @js.JsImpl for Page
 
 #external
 pub type Request
 async fn Request::allHeaders(Self) -> @js.Any
+fn Request::as_any(Self) -> @js.Any
 fn Request::headers(Self) -> @js.Any
 fn Request::isNavigationRequest(Self) -> Bool
 fn Request::method_(Self) -> String
@@ -173,11 +174,11 @@ fn Request::postDataJSON(Self) -> @js.Any
 fn Request::resourceType(Self) -> String
 async fn Request::response(Self) -> Response?
 fn Request::url(Self) -> String
-impl @js.JsImpl for Request
 
 #external
 pub type Response
 async fn Response::allHeaders(Self) -> @js.Any
+fn Response::as_any(Self) -> @js.Any
 async fn Response::body(Self) -> @js.Any
 fn Response::frame(Self) -> Frame
 fn Response::fromCache(Self) -> Bool
@@ -190,7 +191,6 @@ fn Response::status(Self) -> Int
 fn Response::statusText(Self) -> String
 async fn Response::text(Self) -> String
 fn Response::url(Self) -> String
-impl @js.JsImpl for Response
 
 // Type aliases
 

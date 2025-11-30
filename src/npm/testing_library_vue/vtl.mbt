@@ -3,7 +3,7 @@
 pub type VueTestingLibrary
 
 ///|
-impl @js.JsImpl for VueTestingLibrary
+fn VueTestingLibrary::as_any(self : VueTestingLibrary) -> @nostd.Any = "%identity"
 
 ///|
 fn testing_library() -> VueTestingLibrary {
@@ -13,14 +13,14 @@ fn testing_library() -> VueTestingLibrary {
 ///|
 /// JS: import { screen } from '@testing-library/vue'
 pub fn screen() -> @testing_library.Screen {
-  testing_library().get("screen").cast()
+  testing_library().as_any()._get("screen").cast()
 }
 
 ///|
 /// JS: import { fireEvent } from '@testing-library/vue'
 #alias(fire_event)
 pub fn fireEvent() -> @testing_library.FireEvent {
-  testing_library().get("fireEvent").cast()
+  testing_library().as_any()._get("fireEvent").cast()
 }
 
 ///|
@@ -29,73 +29,76 @@ pub fn fireEvent() -> @testing_library.FireEvent {
 pub type RenderResult
 
 ///|
-pub impl @js.JsImpl for RenderResult
+pub fn RenderResult::as_any(self : RenderResult) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: render(component, options?)
 /// Returns: RenderResult with queries, container, baseElement, debug, rerender, unmount
 pub fn render(component : @vue.VNode) -> RenderResult {
   let vtl = testing_library()
-  vtl.call1("render", component).cast()
+  vtl.as_any()._call("render", [@nostd.identity(component.as_any())]).cast()
 }
 
 ///|
 /// JS: render(component, options?) with props
 pub fn renderWithProps(component : @vue.VNode, props : @js.Any) -> RenderResult {
   let vtl = testing_library()
-  let options = @js.Object::new()
-  options.set("props", props)
-  vtl.call2("render", component, options.as_any()).cast()
+  let options = @nostd.Object::new()
+  options._set("props", @nostd.identity(props))
+  vtl
+  .as_any()
+  ._call("render", [@nostd.identity(component.as_any()), options])
+  .cast()
 }
 
 ///|
 /// JS: result.container
 pub fn RenderResult::container(self : RenderResult) -> @dom.HTMLElement {
-  self.get("container").cast()
+  self.as_any()._get("container").cast()
 }
 
 ///|
 /// JS: result.baseElement
 pub fn RenderResult::baseElement(self : RenderResult) -> @dom.HTMLElement {
-  self.get("baseElement").cast()
+  self.as_any()._get("baseElement").cast()
 }
 
 ///|
 /// JS: result.debug()
 pub fn RenderResult::debug(self : RenderResult) -> Unit {
-  self.call0("debug") |> ignore
+  self.as_any()._call("debug", ([] : Array[@nostd.Any])) |> ignore
 }
 
 ///|
 /// JS: result.rerender(props)
 pub fn RenderResult::rerender(self : RenderResult, props : @js.Any) -> Unit {
-  self.call1("rerender", props) |> ignore
+  self.as_any()._call("rerender", [@nostd.identity(props)]) |> ignore
 }
 
 ///|
 /// JS: result.unmount()
 pub fn RenderResult::unmount(self : RenderResult) -> Unit {
-  self.call0("unmount") |> ignore
+  self.as_any()._call("unmount", ([] : Array[@nostd.Any])) |> ignore
 }
 
 ///|
 /// JS: result.html()
 pub fn RenderResult::html(self : RenderResult) -> String {
-  self.call0("html").cast()
+  self.as_any()._call("html", ([] : Array[@nostd.Any])).cast()
 }
 
 ///|
 /// JS: cleanup()
 pub fn cleanup() -> Unit {
   let vtl = testing_library()
-  vtl.call0("cleanup") |> ignore
+  vtl.as_any()._call("cleanup", ([] : Array[@nostd.Any])) |> ignore
 }
 
 ///|
 /// JS: configure(options)
 pub fn configure(options : @js.Any) -> Unit {
   let vtl = testing_library()
-  vtl.call1("configure", options) |> ignore
+  vtl.as_any()._call("configure", [@nostd.identity(options)]) |> ignore
 }
 
 ///|
@@ -103,7 +106,8 @@ pub fn configure(options : @js.Any) -> Unit {
 pub async fn waitFor(callback : () -> Unit) -> Unit {
   let vtl = testing_library()
   let promise : @js.Promise[Unit] = vtl
-    .call1("waitFor", @js.identity(callback))
+    .as_any()
+    ._call("waitFor", [@nostd.any(callback)])
     .cast()
   promise.wait()
 }
@@ -113,7 +117,8 @@ pub async fn waitFor(callback : () -> Unit) -> Unit {
 pub async fn waitForElementToBeRemoved(callback : () -> @js.Any) -> Unit {
   let vtl = testing_library()
   let promise : @js.Promise[Unit] = vtl
-    .call1("waitForElementToBeRemoved", @js.identity(callback))
+    .as_any()
+    ._call("waitForElementToBeRemoved", [@nostd.any(callback)])
     .cast()
   promise.wait()
 }

@@ -3,7 +3,19 @@
 pub type ReactDOMStatic
 
 ///|
-pub impl @js.JsImpl for ReactDOMStatic
+pub fn ReactDOMStatic::as_any(self : ReactDOMStatic) -> @js.Any = "%identity"
+
+// Internal helper for calling JS methods
+
+///|
+fn ReactDOMStatic::call2(
+  self : ReactDOMStatic,
+  name : String,
+  arg1 : @js.Any,
+  arg2 : @js.Any,
+) -> @js.Any {
+  self.as_any().call(name, [arg1, arg2])
+}
 
 ///|
 /// Dynamic import for react-dom/static module (internal)

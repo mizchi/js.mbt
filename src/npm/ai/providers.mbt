@@ -41,7 +41,7 @@ pub fn OpenAIOptions::as_any(self : OpenAIOptions) -> @js.Any {
 pub type OpenAIProvider
 
 ///|
-pub impl @js.JsImpl for OpenAIProvider
+pub fn OpenAIProvider::as_any(self : OpenAIProvider) -> @js.Any = "%identity"
 
 ///|
 /// Load the OpenAI provider module
@@ -112,7 +112,7 @@ pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @js.Any {
 pub type AnthropicProvider
 
 ///|
-pub impl @js.JsImpl for AnthropicProvider
+pub fn AnthropicProvider::as_any(self : AnthropicProvider) -> @js.Any = "%identity"
 
 ///|
 /// Load the Anthropic provider module
@@ -191,7 +191,7 @@ pub fn GoogleOptions::as_any(self : GoogleOptions) -> @js.Any {
 pub type GoogleProvider
 
 ///|
-pub impl @js.JsImpl for GoogleProvider
+pub fn GoogleProvider::as_any(self : GoogleProvider) -> @js.Any = "%identity"
 
 ///|
 /// Load the Google Generative AI provider module

@@ -74,14 +74,14 @@ fn onUnmounted(() -> Unit) -> Unit
 #alias(on_updated)
 fn onUpdated(() -> Unit) -> Unit
 
-fn[T : @js.JsImpl] provide(String, T) -> Unit
+fn[T] provide(String, T) -> Unit
 
 fn[T] reactive(T) -> T
 
 fn[T] readonly_(T) -> T
 
 #alias(create_ref)
-fn[T : @js.JsImpl] ref_(T) -> Ref[T]
+fn[T] ref_(T) -> Ref[T]
 
 fn render(VNode, @dom.Element) -> Unit
 
@@ -95,7 +95,7 @@ fn[T] shallowReactive(T) -> T
 
 fn[T] shallowReadonly(T) -> T
 
-fn[T : @js.JsImpl] shallowRef(T) -> Ref[T]
+fn[T] shallowRef(T) -> Ref[T]
 
 fn[T] toRaw(T) -> T
 
@@ -127,13 +127,13 @@ fn watchSyncEffect(() -> Unit) -> () -> Unit
 pub(all) struct Ref[T] {
   value : @js.Any
 }
+fn[T] Ref::as_any(Self[T]) -> @js.Any
 fn[T] Ref::get_value(Self[T]) -> T
-fn[T : @js.JsImpl] Ref::set_value(Self[T], T) -> Unit
-impl[T] @js.JsImpl for Ref[T]
+fn[T] Ref::set_value(Self[T], T) -> Unit
 
 #external
 pub type VNode
-impl @js.JsImpl for VNode
+fn VNode::as_any(Self) -> @js.Any
 impl VueNode for VNode
 
 // Type aliases

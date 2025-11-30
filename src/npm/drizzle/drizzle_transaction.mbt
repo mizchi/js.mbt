@@ -7,7 +7,7 @@
 pub type Transaction
 
 ///|
-pub impl @js.JsImpl for Transaction
+pub fn Transaction::as_any(self : Transaction) -> @js.Any = "%identity"
 
 // ============ Transaction Operations ============
 

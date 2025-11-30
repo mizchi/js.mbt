@@ -4,7 +4,29 @@
 pub type Screen
 
 ///|
-pub impl @js.JsImpl for Screen
+pub fn Screen::as_any(self : Screen) -> @nostd.Any = "%identity"
+
+// Internal helper functions for calling JS methods
+
+///|
+fn Screen::call0(self : Screen, name : String) -> @nostd.Any {
+  self.as_any()._call(name, ([] : Array[@nostd.Any]))
+}
+
+///|
+fn[T] Screen::call1(self : Screen, name : String, arg : T) -> @nostd.Any {
+  self.as_any()._call(name, [@nostd.any(arg)])
+}
+
+///|
+fn[T, U] Screen::call2(
+  self : Screen,
+  name : String,
+  arg1 : T,
+  arg2 : U,
+) -> @nostd.Any {
+  self.as_any()._call(name, [@nostd.any(arg1), @nostd.any(arg2)])
+}
 
 ///|
 /// JS: screen.debug()
@@ -196,8 +218,8 @@ pub fn Screen::queryByRole(
       level~,
       description~,
     ) {
-    Some(opts) => @js.identity_option(self.call2("queryByRole", role, opts))
-    None => @js.identity_option(self.call1("queryByRole", role))
+    Some(opts) => @nostd.identity_option(self.call2("queryByRole", role, opts))
+    None => @nostd.identity_option(self.call1("queryByRole", role))
   }
 }
 
@@ -221,8 +243,8 @@ pub fn[T : TextMatch] Screen::queryByLabelText(
       selector~,
     ) {
     Some(opts) =>
-      @js.identity_option(self.call2("queryByLabelText", text_js, opts))
-    None => @js.identity_option(self.call1("queryByLabelText", text_js))
+      @nostd.identity_option(self.call2("queryByLabelText", text_js, opts))
+    None => @nostd.identity_option(self.call1("queryByLabelText", text_js))
   }
 }
 
@@ -239,8 +261,11 @@ pub fn[T : TextMatch] Screen::queryByPlaceholderText(
   let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) =>
-      @js.identity_option(self.call2("queryByPlaceholderText", text_js, opts))
-    None => @js.identity_option(self.call1("queryByPlaceholderText", text_js))
+      @nostd.identity_option(
+        self.call2("queryByPlaceholderText", text_js, opts),
+      )
+    None =>
+      @nostd.identity_option(self.call1("queryByPlaceholderText", text_js))
   }
 }
 
@@ -263,8 +288,9 @@ pub fn[T : TextMatch] Screen::queryByText(
       collapse_whitespace~,
       selector~,
     ) {
-    Some(opts) => @js.identity_option(self.call2("queryByText", text_js, opts))
-    None => @js.identity_option(self.call1("queryByText", text_js))
+    Some(opts) =>
+      @nostd.identity_option(self.call2("queryByText", text_js, opts))
+    None => @nostd.identity_option(self.call1("queryByText", text_js))
   }
 }
 
@@ -281,8 +307,8 @@ pub fn[T : TextMatch] Screen::queryByDisplayValue(
   let value_js = value.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) =>
-      @js.identity_option(self.call2("queryByDisplayValue", value_js, opts))
-    None => @js.identity_option(self.call1("queryByDisplayValue", value_js))
+      @nostd.identity_option(self.call2("queryByDisplayValue", value_js, opts))
+    None => @nostd.identity_option(self.call1("queryByDisplayValue", value_js))
   }
 }
 
@@ -299,8 +325,8 @@ pub fn[T : TextMatch] Screen::queryByAltText(
   let text_js = text.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) =>
-      @js.identity_option(self.call2("queryByAltText", text_js, opts))
-    None => @js.identity_option(self.call1("queryByAltText", text_js))
+      @nostd.identity_option(self.call2("queryByAltText", text_js, opts))
+    None => @nostd.identity_option(self.call1("queryByAltText", text_js))
   }
 }
 
@@ -317,8 +343,8 @@ pub fn[T : TextMatch] Screen::queryByTitle(
   let title_js = title.as_any()
   match build_matcher_options(exact~, trim~, collapse_whitespace~) {
     Some(opts) =>
-      @js.identity_option(self.call2("queryByTitle", title_js, opts))
-    None => @js.identity_option(self.call1("queryByTitle", title_js))
+      @nostd.identity_option(self.call2("queryByTitle", title_js, opts))
+    None => @nostd.identity_option(self.call1("queryByTitle", title_js))
   }
 }
 
@@ -326,7 +352,7 @@ pub fn[T : TextMatch] Screen::queryByTitle(
 /// JS: screen.queryByTestId(testId)
 #alias(query_by_test_id)
 pub fn Screen::queryByTestId(self : Screen, testId : String) -> ScreenResult? {
-  @js.identity_option(self.call1("queryByTestId", testId))
+  @nostd.identity_option(self.call1("queryByTestId", testId))
 }
 
 ///| findBy* queries - async, throw error if not found

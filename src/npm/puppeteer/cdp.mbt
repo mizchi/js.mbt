@@ -9,7 +9,18 @@
 pub type CDPSession
 
 ///|
-pub impl @js.JsImpl for CDPSession
+pub fn CDPSession::as_any(self : CDPSession) -> @js.Any = "%identity"
+
+// Internal helper functions for method calls
+
+///|
+fn CDPSession::call(
+  self : CDPSession,
+  name : String,
+  args : Array[&@js.JsImpl],
+) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///| Page methods (CDP)
 
@@ -19,7 +30,7 @@ pub impl @js.JsImpl for CDPSession
 /// See: https://pptr.dev/api/puppeteer.page.createcdpsession
 pub async fn Page::createCDPSession(self : Page) -> CDPSession {
   let promise : @js.Promise[CDPSession] = @js.identity(
-    self.call("createCDPSession", []),
+    self.as_any().call("createCDPSession", []),
   )
   promise.wait()
 }
@@ -53,7 +64,7 @@ pub async fn CDPSession::send(
   params : @js.Any,
 ) -> @js.Any {
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("send", [method_, params]),
+    self.call("send", [@js.any(method_), params]),
   )
   promise.wait()
 }
@@ -66,7 +77,7 @@ pub async fn CDPSession::send_simple(
   method_ : String,
 ) -> Unit {
   let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("send", [method_]),
+    self.call("send", [@js.any(method_)]),
   )
   let _ = promise.wait()
 

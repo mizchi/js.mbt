@@ -70,7 +70,7 @@ pub(all) enum Route {
 }
 
 ///|
-impl @js.JsImpl for Route with as_any(self) {
+pub fn Route::as_any(self : Route) -> @js.Any {
   match self {
     Route::Component(path~, component~) => {
       let obj = @js.Object::new()
@@ -164,7 +164,7 @@ pub fn link(
 pub type Params
 
 ///|
-pub impl @js.JsImpl for Params
+pub fn Params::as_any(self : Params) -> @js.Any = "%identity"
 
 ///|
 /// Get a parameter value by name
@@ -189,7 +189,7 @@ pub(all) struct Location {
 }
 
 ///|
-pub impl @js.JsImpl for Location
+pub fn Location::as_any(self : Location) -> @js.Any = "%identity"
 
 ///|
 /// Hook: Returns the current location object
@@ -226,7 +226,7 @@ pub(all) struct NavigateOptions {
 }
 
 ///|
-impl @js.JsImpl for NavigateOptions with as_any(self) {
+pub fn NavigateOptions::as_any(self : NavigateOptions) -> @js.Any {
   let obj = @js.Object::new()
   match self.replace {
     Some(r) => obj.set("replace", r)
@@ -316,7 +316,7 @@ pub(all) struct Match {
 }
 
 ///|
-pub impl @js.JsImpl for Match
+pub fn Match::as_any(self : Match) -> @js.Any = "%identity"
 
 ///|
 /// Hook: Returns match data if the current location matches the given path pattern
@@ -347,7 +347,7 @@ pub(all) struct NavLinkRenderProps {
 }
 
 ///|
-pub impl @js.JsImpl for NavLinkRenderProps
+pub fn NavLinkRenderProps::as_any(self : NavLinkRenderProps) -> @js.Any = "%identity"
 
 ///|
 extern "js" fn get_nav_link() -> @js.Any =
@@ -445,7 +445,7 @@ pub struct NavigateProps {
 }
 
 ///|
-impl @js.JsImpl for NavigateProps with as_any(self) {
+pub fn NavigateProps::as_any(self : NavigateProps) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("to", self.to)
   match self.replace {

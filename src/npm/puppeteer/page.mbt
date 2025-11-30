@@ -4,7 +4,7 @@
 pub type Page
 
 ///|
-pub impl @js.JsImpl for Page
+pub fn Page::as_any(self : Page) -> @js.Any = "%identity"
 
 ///|
 /// ElementHandle type
@@ -12,7 +12,38 @@ pub impl @js.JsImpl for Page
 pub type ElementHandle
 
 ///|
-pub impl @js.JsImpl for ElementHandle
+pub fn ElementHandle::as_any(self : ElementHandle) -> @js.Any = "%identity"
+
+// Internal helper functions for method calls
+
+///|
+fn Page::call0(self : Page, name : String) -> @js.Any {
+  self.as_any().call(name, [])
+}
+
+///|
+fn[T] Page::call1(self : Page, name : String, arg : T) -> @js.Any {
+  self.as_any().call(name, [@js.identity(arg)])
+}
+
+///|
+fn[T, U] Page::call2(self : Page, name : String, arg1 : T, arg2 : U) -> @js.Any {
+  self.as_any().call(name, [@js.identity(arg1), @js.identity(arg2)])
+}
+
+///|
+fn ElementHandle::call0(self : ElementHandle, name : String) -> @js.Any {
+  self.as_any().call(name, [])
+}
+
+///|
+fn[T] ElementHandle::call1(
+  self : ElementHandle,
+  name : String,
+  arg : T,
+) -> @js.Any {
+  self.as_any().call(name, [@js.identity(arg)])
+}
 
 ///| Page methods (basic)
 

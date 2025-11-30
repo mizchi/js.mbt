@@ -12,7 +12,7 @@
 pub type ViteDevServer
 
 ///|
-pub impl @js.JsImpl for ViteDevServer
+pub fn ViteDevServer::as_any(self : ViteDevServer) -> @js.Any = "%identity"
 
 ///|
 /// DevEnvironment - development environment instance
@@ -20,7 +20,7 @@ pub impl @js.JsImpl for ViteDevServer
 pub type DevEnvironment
 
 ///|
-pub impl @js.JsImpl for DevEnvironment
+pub fn DevEnvironment::as_any(self : DevEnvironment) -> @js.Any = "%identity"
 
 ///|
 /// ModuleGraph - tracks import relationships between modules
@@ -28,7 +28,7 @@ pub impl @js.JsImpl for DevEnvironment
 pub type ModuleGraph
 
 ///|
-pub impl @js.JsImpl for ModuleGraph
+pub fn ModuleGraph::as_any(self : ModuleGraph) -> @js.Any = "%identity"
 
 ///|
 /// ModuleNode - represents a module in the graph
@@ -36,7 +36,7 @@ pub impl @js.JsImpl for ModuleGraph
 pub type ModuleNode
 
 ///|
-pub impl @js.JsImpl for ModuleNode
+pub fn ModuleNode::as_any(self : ModuleNode) -> @js.Any = "%identity"
 
 ///|
 /// HotChannel - communication channel with runtime
@@ -44,7 +44,7 @@ pub impl @js.JsImpl for ModuleNode
 pub type HotChannel
 
 ///|
-pub impl @js.JsImpl for HotChannel
+pub fn HotChannel::as_any(self : HotChannel) -> @js.Any = "%identity"
 
 ///|
 /// PluginContainer - plugin pipeline container
@@ -52,7 +52,7 @@ pub impl @js.JsImpl for HotChannel
 pub type PluginContainer
 
 ///|
-pub impl @js.JsImpl for PluginContainer
+pub fn PluginContainer::as_any(self : PluginContainer) -> @js.Any = "%identity"
 
 ///|
 /// ModuleRunner - runs modules in target runtime
@@ -60,7 +60,7 @@ pub impl @js.JsImpl for PluginContainer
 pub type ModuleRunner
 
 ///|
-pub impl @js.JsImpl for ModuleRunner
+pub fn ModuleRunner::as_any(self : ModuleRunner) -> @js.Any = "%identity"
 
 ///|
 /// TransformResult - result of module transformation
@@ -68,7 +68,7 @@ pub impl @js.JsImpl for ModuleRunner
 pub type TransformResult
 
 ///|
-pub impl @js.JsImpl for TransformResult
+pub fn TransformResult::as_any(self : TransformResult) -> @js.Any = "%identity"
 
 ///|
 /// FetchResult - result of module fetch
@@ -76,7 +76,7 @@ pub impl @js.JsImpl for TransformResult
 pub type FetchResult
 
 ///|
-pub impl @js.JsImpl for FetchResult
+pub fn FetchResult::as_any(self : FetchResult) -> @js.Any = "%identity"
 
 ///| ViteDevServer FFI
 

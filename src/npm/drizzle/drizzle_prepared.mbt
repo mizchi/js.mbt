@@ -7,7 +7,7 @@
 pub type PreparedQuery
 
 ///|
-pub impl @js.JsImpl for PreparedQuery
+pub fn PreparedQuery::as_any(self : PreparedQuery) -> @js.Any = "%identity"
 
 // ============ Prepared Statements ============
 
@@ -168,7 +168,7 @@ pub fn QueryBuilder::having(
   self : QueryBuilder,
   condition : SQL,
 ) -> QueryBuilder {
-  self.call1("having", condition) |> @js.identity
+  self.call1("having", condition.as_any()) |> @js.identity
 }
 
 // ============ UNION / INTERSECT / EXCEPT ============
@@ -179,7 +179,7 @@ pub fn QueryBuilder::union(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("union", other) |> @js.identity
+  self.call1("union", other.as_any()) |> @js.identity
 }
 
 ///|
@@ -189,7 +189,7 @@ pub fn QueryBuilder::unionAll(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("unionAll", other) |> @js.identity
+  self.call1("unionAll", other.as_any()) |> @js.identity
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn QueryBuilder::intersect(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("intersect", other) |> @js.identity
+  self.call1("intersect", other.as_any()) |> @js.identity
 }
 
 ///|
@@ -207,7 +207,7 @@ pub fn QueryBuilder::except(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("except", other) |> @js.identity
+  self.call1("except", other.as_any()) |> @js.identity
 }
 
 // ============ ON CONFLICT (Upsert) ============

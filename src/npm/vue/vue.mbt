@@ -4,7 +4,7 @@
 pub type VNode
 
 ///|
-pub impl @js.JsImpl for VNode
+pub fn VNode::as_any(self : VNode) -> @js.Any = "%identity"
 
 ///|
 /// Component function type (functional component)
@@ -22,8 +22,8 @@ pub fn[T] Ref::get_value(self : Ref[T]) -> T {
 }
 
 ///|
-pub fn[T : @js.JsImpl] Ref::set_value(self : Ref[T], value : T) -> Unit {
-  ffi_set_ref_value(self |> @js.identity, value.as_any())
+pub fn[T] Ref::set_value(self : Ref[T], value : T) -> Unit {
+  ffi_set_ref_value(self |> @js.identity, value |> @js.identity)
 }
 
 ///|
@@ -31,7 +31,9 @@ extern "js" fn ffi_set_ref_value(ref_obj : @js.Any, value : @js.Any) -> Unit =
   #|(ref, value) => { ref.value = value; }
 
 ///|
-pub impl[T] @js.JsImpl for Ref[T]
+pub fn[T] Ref::as_any(self : Ref[T]) -> @js.Any {
+  self.value
+}
 
 ///|
 /// Vue.h - Creates a virtual DOM element
@@ -52,7 +54,7 @@ pub fn h(
     }
   }
   if ref_ is Some(ref_) {
-    val.set("ref", ref_ |> @js.any)
+    val.set("ref", ref_.as_any())
   }
   if key is Some(key) {
     val.set("key", key)
@@ -127,8 +129,8 @@ pub fn mount(app : @js.Any, container : @dom.Element) -> Unit {
 ///|
 /// Vue.ref - Create a reactive reference
 #alias(create_ref)
-pub fn[T : @js.JsImpl] ref_(initial : T) -> Ref[T] {
-  @js.identity(ffi_ref(initial.as_any()))
+pub fn[T] ref_(initial : T) -> Ref[T] {
+  @js.identity(ffi_ref(initial |> @js.identity))
 }
 
 ///|
@@ -208,8 +210,8 @@ pub fn[T] markRaw(obj : T) -> T {
 
 ///|
 /// Vue.shallowRef - Create a shallow ref
-pub fn[T : @js.JsImpl] shallowRef(initial : T) -> Ref[T] {
-  @js.identity(ffi_shallow_ref(initial.as_any()))
+pub fn[T] shallowRef(initial : T) -> Ref[T] {
+  @js.identity(ffi_shallow_ref(initial |> @js.identity))
 }
 
 ///|

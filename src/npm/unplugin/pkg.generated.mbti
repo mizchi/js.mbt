@@ -40,22 +40,23 @@ pub(all) struct HookFilter {
   id : StringFilter?
   code : StringFilter?
 }
-impl @js.JsImpl for HookFilter
+fn HookFilter::as_any(Self) -> @js.Any
 
 pub(all) struct StringFilter {
   includes : Array[String]?
   excludes : Array[String]?
 }
-impl @js.JsImpl for StringFilter
+fn StringFilter::as_any(Self) -> @js.Any
 
 pub(all) struct UnpluginContextMeta {
   framework : Framework
   raw : @js.Any
 }
-impl @js.JsImpl for UnpluginContextMeta
+fn UnpluginContextMeta::as_any(Self) -> @js.Any
 
 #external
 pub type UnpluginInstance
+fn UnpluginInstance::as_any(Self) -> @js.Any
 fn UnpluginInstance::bun(Self) -> @js.Any
 fn UnpluginInstance::esbuild(Self) -> @js.Any
 fn UnpluginInstance::farm(Self) -> @js.Any
@@ -65,7 +66,6 @@ fn UnpluginInstance::rollup(Self) -> @js.Any
 fn UnpluginInstance::rspack(Self) -> @js.Any
 fn UnpluginInstance::vite(Self) -> @js.Any
 fn UnpluginInstance::webpack(Self) -> @js.Any
-impl @js.JsImpl for UnpluginInstance
 
 pub(all) struct UnpluginOptions {
   name : String
@@ -88,8 +88,8 @@ pub(all) struct UnpluginOptions {
   rolldown : @js.Any?
   bun : @js.Any?
 }
+fn UnpluginOptions::as_any(Self) -> @js.Any
 fn UnpluginOptions::new(String, enforce? : String, buildStart? : () -> Unit, buildEnd? : () -> Unit, transform? : (String, String) -> String?, transformFilter? : HookFilter, load? : (String) -> String?, loadFilter? : HookFilter, resolveId? : (String, String?, @js.Any) -> String?, watchChange? : (String, @js.Any) -> Unit, writeBundle? : () -> Unit, vite? : @js.Any, rollup? : @js.Any, webpack? : (@js.Any) -> Unit, rspack? : (@js.Any) -> Unit, esbuild? : @js.Any, farm? : @js.Any, rolldown? : @js.Any, bun? : @js.Any) -> Self
-impl @js.JsImpl for UnpluginOptions
 
 // Type aliases
 pub type BuildEndHook = () -> Unit

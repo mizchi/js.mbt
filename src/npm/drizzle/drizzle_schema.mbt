@@ -25,7 +25,7 @@ pub fn pgUniqueIndex(name : String) -> PgIndexBuilder {
 pub type PgIndexBuilder
 
 ///|
-pub impl @js.JsImpl for PgIndexBuilder
+pub fn PgIndexBuilder::as_any(self : PgIndexBuilder) -> @js.Any = "%identity"
 
 ///|
 /// Specify columns for index
@@ -33,7 +33,7 @@ pub fn PgIndexBuilder::on(
   self : PgIndexBuilder,
   columns : Array[Column],
 ) -> PgIndexBuilder {
-  self.call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
+  self.as_any().call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
 }
 
 ///|
@@ -42,13 +42,13 @@ pub fn PgIndexBuilder::filter(
   self : PgIndexBuilder,
   condition : SQL,
 ) -> PgIndexBuilder {
-  self.call1("where", condition) |> @js.identity
+  self.as_any().call("where", [condition.as_any()]) |> @js.identity
 }
 
 ///|
 /// Build index concurrently (PostgreSQL)
 pub fn PgIndexBuilder::concurrently(self : PgIndexBuilder) -> PgIndexBuilder {
-  self.call0("concurrently") |> @js.identity
+  self.as_any().call("concurrently", []) |> @js.identity
 }
 
 ///|
@@ -128,7 +128,7 @@ pub fn sqliteUnique(name? : String) -> UniqueBuilder {
 pub type UniqueBuilder
 
 ///|
-pub impl @js.JsImpl for UniqueBuilder
+pub fn UniqueBuilder::as_any(self : UniqueBuilder) -> @js.Any = "%identity"
 
 ///|
 /// Specify columns for unique constraint
@@ -136,14 +136,14 @@ pub fn UniqueBuilder::on(
   self : UniqueBuilder,
   columns : Array[Column],
 ) -> UniqueBuilder {
-  self.call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
+  self.as_any().call("on", columns.map(fn(c) { c.as_any() })) |> @js.identity
 }
 
 ///|
 /// NULLS NOT DISTINCT (PostgreSQL 15+)
 #alias(nulls_not_distinct)
 pub fn UniqueBuilder::nullsNotDistinct(self : UniqueBuilder) -> UniqueBuilder {
-  self.call0("nullsNotDistinct") |> @js.identity
+  self.as_any().call("nullsNotDistinct", []) |> @js.identity
 }
 
 // ============ Foreign Key ============

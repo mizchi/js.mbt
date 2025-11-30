@@ -200,6 +200,7 @@ fn varchar(name? : String, length? : Int) -> Column
 // Types and methods
 #external
 pub type Column
+fn Column::as_any(Self) -> @js.Any
 fn Column::asc_(Self) -> @js.Any
 #alias(default_now)
 fn Column::defaultNow(Self) -> Self
@@ -224,10 +225,10 @@ fn Column::primaryKey(Self) -> Self
 fn Column::primaryKeyAutoIncrement(Self) -> Self
 fn Column::references(Self, () -> Self) -> Self
 fn Column::unique(Self) -> Self
-impl @js.JsImpl for Column
 
 #external
 pub type DrizzleDB
+fn DrizzleDB::as_any(Self) -> @js.Any
 fn DrizzleDB::delete(Self, Table) -> QueryBuilder
 fn DrizzleDB::insert(Self, Table) -> QueryBuilder
 #alias(pg_transaction)
@@ -241,7 +242,6 @@ async fn DrizzleDB::transaction(Self, (Transaction) -> Unit) -> @js.Any
 #alias(transaction_async)
 async fn DrizzleDB::transactionAsync(Self, (Transaction) -> @js.Promise[@js.Any]) -> @js.Any
 fn DrizzleDB::update(Self, Table) -> QueryBuilder
-impl @js.JsImpl for DrizzleDB
 
 pub(all) enum ForeignKeyAction {
   Cascade
@@ -256,10 +256,10 @@ impl Show for ForeignKeyAction
 
 #external
 pub type IndexBuilder
+fn IndexBuilder::as_any(Self) -> @js.Any
 #alias(index_where)
 fn IndexBuilder::filter(Self, SQL) -> Self
 fn IndexBuilder::on(Self, Array[Column]) -> Self
-impl @js.JsImpl for IndexBuilder
 
 pub(all) enum PgAccessMode {
   ReadOnly
@@ -271,12 +271,12 @@ impl Show for PgAccessMode
 
 #external
 pub type PgIndexBuilder
+fn PgIndexBuilder::as_any(Self) -> @js.Any
 fn PgIndexBuilder::concurrently(Self) -> Self
 fn PgIndexBuilder::filter(Self, SQL) -> Self
 fn PgIndexBuilder::on(Self, Array[Column]) -> Self
 #alias(using_method)
 fn PgIndexBuilder::usingMethod(Self, String, Array[@js.Any]) -> Self
-impl @js.JsImpl for PgIndexBuilder
 
 pub(all) enum PgIsolationLevel {
   ReadUncommitted
@@ -290,13 +290,14 @@ impl Show for PgIsolationLevel
 
 #external
 pub type PreparedQuery
+fn PreparedQuery::as_any(Self) -> @js.Any
 async fn PreparedQuery::execute(Self, params? : @js.Any) -> @js.Any
 async fn[T] PreparedQuery::execute_array(Self, params? : @js.Any) -> Array[T]
-impl @js.JsImpl for PreparedQuery
 
 #external
 pub type QueryBuilder
 fn QueryBuilder::as_(Self, String) -> @js.Any
+fn QueryBuilder::as_any(Self) -> @js.Any
 fn QueryBuilder::except(Self, Self) -> Self
 async fn QueryBuilder::execute(Self) -> @js.Any
 async fn[T] QueryBuilder::execute_array(Self) -> Array[T]
@@ -325,11 +326,11 @@ fn QueryBuilder::union(Self, Self) -> Self
 #alias(union_all)
 fn QueryBuilder::unionAll(Self, Self) -> Self
 fn[D : @js.JsImpl] QueryBuilder::values(Self, D) -> Self
-impl @js.JsImpl for QueryBuilder
 
 pub struct Row {
   // private fields
 }
+fn Row::as_any(Self) -> @js.Any
 fn Row::bool(Self, String, Bool) -> Self
 fn Row::build(Self) -> @js.Any
 fn Row::double(Self, String, Double) -> Self
@@ -338,11 +339,10 @@ fn Row::new() -> Self
 fn Row::null(Self, String) -> Self
 fn[V : @js.JsImpl] Row::set(Self, String, V) -> Self
 fn Row::str(Self, String, String) -> Self
-impl @js.JsImpl for Row
 
 #external
 pub type SQL
-impl @js.JsImpl for SQL
+fn SQL::as_any(Self) -> @js.Any
 
 pub(all) enum SqliteBehavior {
   Deferred
@@ -355,23 +355,24 @@ impl Show for SqliteBehavior
 
 #external
 pub type Table
-impl @js.JsImpl for Table
+fn Table::as_any(Self) -> @js.Any
+fn Table::get(Self, String) -> @js.Any
 
 #external
 pub type Transaction
+fn Transaction::as_any(Self) -> @js.Any
 fn Transaction::delete(Self, Table) -> QueryBuilder
 fn Transaction::insert(Self, Table) -> QueryBuilder
 fn Transaction::rollback(Self) -> Unit
 fn Transaction::select(Self, fields? : @js.Any) -> QueryBuilder
 fn Transaction::update(Self, Table) -> QueryBuilder
-impl @js.JsImpl for Transaction
 
 #external
 pub type UniqueBuilder
+fn UniqueBuilder::as_any(Self) -> @js.Any
 #alias(nulls_not_distinct)
 fn UniqueBuilder::nullsNotDistinct(Self) -> Self
 fn UniqueBuilder::on(Self, Array[Column]) -> Self
-impl @js.JsImpl for UniqueBuilder
 
 // Type aliases
 

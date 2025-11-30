@@ -52,7 +52,7 @@ pub(all) struct Location {
   state : @js.Any
   key : String
 }
-impl @js.JsImpl for Location
+fn Location::as_any(Self) -> @js.Any
 
 pub(all) struct Match {
   params : Params
@@ -60,7 +60,7 @@ pub(all) struct Match {
   pathnameBase : String
   pattern : @js.Any
 }
-impl @js.JsImpl for Match
+fn Match::as_any(Self) -> @js.Any
 
 pub(all) struct MemoryRouterOptions {
   initial_entries : Array[String]?
@@ -72,7 +72,7 @@ pub(all) struct NavLinkRenderProps {
   isPending : Bool
   isTransitioning : Bool
 }
-impl @js.JsImpl for NavLinkRenderProps
+fn NavLinkRenderProps::as_any(Self) -> @js.Any
 
 pub(all) struct NavigateFunction((@js.Any, @js.Any?) -> Unit)
 fn NavigateFunction::back(Self) -> Unit
@@ -87,6 +87,7 @@ pub(all) struct NavigateOptions {
   state : @js.Any?
   relative : String?
 }
+fn NavigateOptions::as_any(Self) -> @js.Any
 
 pub struct NavigateProps {
   to : String
@@ -94,16 +95,18 @@ pub struct NavigateProps {
   state : @js.Any?
   relative : String?
 }
+fn NavigateProps::as_any(Self) -> @js.Any
 
 #external
 pub type Params
+fn Params::as_any(Self) -> @js.Any
 fn Params::get(Self, String) -> String?
-impl @js.JsImpl for Params
 
 pub(all) enum Route {
   Component(path~ : String, component~ : (RouteProps) -> @react.Element)
   Element(path~ : String, element~ : @react.Element)
 }
+fn Route::as_any(Self) -> @js.Any
 
 pub(all) struct RouteProps {
   pathname : String

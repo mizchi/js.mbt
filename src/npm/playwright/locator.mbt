@@ -8,7 +8,18 @@
 pub type Locator
 
 ///|
-pub impl @js.JsImpl for Locator
+pub fn Locator::as_any(self : Locator) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn Locator::call(
+  self : Locator,
+  name : String,
+  args : Array[&@js.JsImpl],
+) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///| Filtering Methods
 
@@ -23,10 +34,10 @@ pub fn Locator::filter(
 ) -> Locator {
   let options = @js.Object::new()
   if has is Some(v) {
-    options["has"] = v
+    options["has"] = v.as_any()
   }
   if hasNot is Some(v) {
-    options["hasNot"] = v
+    options["hasNot"] = v.as_any()
   }
   if hasText is Some(v) {
     options["hasText"] = v
@@ -104,7 +115,7 @@ pub fn Locator::getByLabel(
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByLabel", [text, options]))
+  @js.identity(self.call("getByLabel", [@js.any(text), options.as_any()]))
 }
 
 ///|
@@ -118,7 +129,7 @@ pub fn Locator::getByPlaceholder(
   if exact is Some(v) {
     options["exact"] = v
   }
-  @js.identity(self.call("getByPlaceholder", [text, options]))
+  @js.identity(self.call("getByPlaceholder", [@js.any(text), options.as_any()]))
 }
 
 ///|

@@ -8,7 +8,18 @@
 pub type Browser
 
 ///|
-pub impl @js.JsImpl for Browser
+pub fn Browser::as_any(self : Browser) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn Browser::call(
+  self : Browser,
+  name : String,
+  args : Array[&@js.JsImpl],
+) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///|
 /// FFI: Launch browser with options

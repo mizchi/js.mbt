@@ -13,7 +13,18 @@
 pub type BrowserType
 
 ///|
-pub impl @js.JsImpl for BrowserType
+pub fn BrowserType::as_any(self : BrowserType) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn BrowserType::call(
+  self : BrowserType,
+  name : String,
+  args : Array[&@js.JsImpl],
+) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///|
 /// Browser instance
@@ -21,7 +32,18 @@ pub impl @js.JsImpl for BrowserType
 pub type Browser
 
 ///|
-pub impl @js.JsImpl for Browser
+pub fn Browser::as_any(self : Browser) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn Browser::call(
+  self : Browser,
+  name : String,
+  args : Array[&@js.JsImpl],
+) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///|
 /// BrowserContext - isolated browser session
@@ -29,7 +51,18 @@ pub impl @js.JsImpl for Browser
 pub type BrowserContext
 
 ///|
-pub impl @js.JsImpl for BrowserContext
+pub fn BrowserContext::as_any(self : BrowserContext) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn BrowserContext::call(
+  self : BrowserContext,
+  name : String,
+  args : Array[&@js.JsImpl],
+) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///| FFI Functions
 

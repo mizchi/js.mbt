@@ -15,19 +15,19 @@ pub suberror ExpectError String
 priv type MatcherResult
 
 ///|
-impl @js.JsImpl for MatcherResult
+fn MatcherResult::as_any(self : MatcherResult) -> @nostd.Any = "%identity"
 
 ///|
 /// Check if matcher passed
 fn MatcherResult::pass(self : MatcherResult) -> Bool {
-  self.get("pass").cast()
+  self.as_any()._get("pass").cast()
 }
 
 ///|
 /// Get error message (call only on failure)
 fn MatcherResult::message(self : MatcherResult) -> String {
-  let msg_fn = self.get("message")
-  msg_fn.call_self0().cast()
+  let msg_fn = self.as_any()._get("message")
+  msg_fn._call("call", ([] : Array[@nostd.Any])).cast()
 }
 
 ///|

@@ -9,7 +9,19 @@
 pub type Coverage
 
 ///|
-pub impl @js.JsImpl for Coverage
+pub fn Coverage::as_any(self : Coverage) -> @js.Any = "%identity"
+
+// Internal helper functions for method calls
+
+///|
+fn Coverage::call0(self : Coverage, name : String) -> @js.Any {
+  self.as_any().call(name, [])
+}
+
+///|
+fn[T] Coverage::call1(self : Coverage, name : String, arg : T) -> @js.Any {
+  self.as_any().call(name, [@js.identity(arg)])
+}
 
 ///|
 /// CoverageRange type
@@ -41,7 +53,7 @@ pub(all) struct CSSCoverageEntry {
 /// Page: Get coverage instance
 /// JS: page.coverage
 pub fn Page::coverage(self : Page) -> Coverage {
-  self.get("coverage").cast()
+  self.as_any().get("coverage").cast()
 }
 
 ///| Coverage methods

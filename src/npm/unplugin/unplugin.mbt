@@ -59,7 +59,9 @@ pub(all) struct UnpluginContextMeta {
 }
 
 ///|
-pub impl @js.JsImpl for UnpluginContextMeta
+pub fn UnpluginContextMeta::as_any(self : UnpluginContextMeta) -> @js.Any {
+  self.raw
+}
 
 ///|
 /// Create UnpluginContextMeta from JS object
@@ -76,7 +78,7 @@ pub(all) struct StringFilter {
 }
 
 ///|
-pub impl @js.JsImpl for StringFilter with as_any(self) -> @js.Any {
+pub fn StringFilter::as_any(self : StringFilter) -> @js.Any {
   @js.from_option_map({
     "include": self.includes.map(fn(x) { @js.from_array(x) }),
     "exclude": self.excludes.map(fn(x) { @js.from_array(x) }),
@@ -91,7 +93,7 @@ pub(all) struct HookFilter {
 }
 
 ///|
-pub impl @js.JsImpl for HookFilter with as_any(self) -> @js.Any {
+pub fn HookFilter::as_any(self : HookFilter) -> @js.Any {
   @js.from_option_map({
     "id": self.id.map(fn(x) { x.as_any() }),
     "code": self.code.map(fn(x) { x.as_any() }),
@@ -223,7 +225,7 @@ pub fn UnpluginOptions::new(
 }
 
 ///|
-pub impl @js.JsImpl for UnpluginOptions with as_any(self) -> @js.Any {
+pub fn UnpluginOptions::as_any(self : UnpluginOptions) -> @js.Any {
   let obj = @js.Object::new()
   obj.set("name", @js.any(self.name))
   match self.enforce {
@@ -321,60 +323,60 @@ pub impl @js.JsImpl for UnpluginOptions with as_any(self) -> @js.Any {
 pub type UnpluginInstance
 
 ///|
-pub impl @js.JsImpl for UnpluginInstance
+pub fn UnpluginInstance::as_any(self : UnpluginInstance) -> @js.Any = "%identity"
 
 ///|
 /// Get Vite plugin from the unplugin instance
 pub fn UnpluginInstance::vite(self : UnpluginInstance) -> @js.Any {
-  self.get("vite")
+  self.as_any().get("vite")
 }
 
 ///|
 /// Get Rollup plugin from the unplugin instance
 pub fn UnpluginInstance::rollup(self : UnpluginInstance) -> @js.Any {
-  self.get("rollup")
+  self.as_any().get("rollup")
 }
 
 ///|
 /// Get webpack plugin from the unplugin instance
 pub fn UnpluginInstance::webpack(self : UnpluginInstance) -> @js.Any {
-  self.get("webpack")
+  self.as_any().get("webpack")
 }
 
 ///|
 /// Get Rspack plugin from the unplugin instance
 pub fn UnpluginInstance::rspack(self : UnpluginInstance) -> @js.Any {
-  self.get("rspack")
+  self.as_any().get("rspack")
 }
 
 ///|
 /// Get esbuild plugin from the unplugin instance
 pub fn UnpluginInstance::esbuild(self : UnpluginInstance) -> @js.Any {
-  self.get("esbuild")
+  self.as_any().get("esbuild")
 }
 
 ///|
 /// Get Farm plugin from the unplugin instance
 pub fn UnpluginInstance::farm(self : UnpluginInstance) -> @js.Any {
-  self.get("farm")
+  self.as_any().get("farm")
 }
 
 ///|
 /// Get Rolldown plugin from the unplugin instance
 pub fn UnpluginInstance::rolldown(self : UnpluginInstance) -> @js.Any {
-  self.get("rolldown")
+  self.as_any().get("rolldown")
 }
 
 ///|
 /// Get Bun plugin from the unplugin instance
 pub fn UnpluginInstance::bun(self : UnpluginInstance) -> @js.Any {
-  self.get("bun")
+  self.as_any().get("bun")
 }
 
 ///|
 /// Get raw plugin for any framework
 pub fn UnpluginInstance::raw(self : UnpluginInstance) -> @js.Any {
-  self.get("raw")
+  self.as_any().get("raw")
 }
 
 ///| Factory Functions

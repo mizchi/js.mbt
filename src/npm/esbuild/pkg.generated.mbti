@@ -13,18 +13,18 @@ fn esbuild() -> Esbuild
 // Types and methods
 #external
 pub(all) type BuildResult
+fn BuildResult::as_any(Self) -> @js.Any
 fn BuildResult::errors(Self) -> Array[Message]
 fn BuildResult::output_files(Self) -> Array[OutputFile]
 fn BuildResult::warnings(Self) -> Array[Message]
-impl @js.JsImpl for BuildResult
 
 #external
 pub type Esbuild
+fn Esbuild::as_any(Self) -> @js.Any
 async fn Esbuild::build(Self, entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
 fn Esbuild::build_sync(Self, entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
 async fn Esbuild::transform(Self, String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
 fn Esbuild::transform_sync(Self, String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
-impl @js.JsImpl for Esbuild
 
 pub(all) enum Format {
   Iife
@@ -51,15 +51,15 @@ fn Loader::to_string(Self) -> String
 
 #external
 pub(all) type Message
+fn Message::as_any(Self) -> @js.Any
 fn Message::text(Self) -> String
-impl @js.JsImpl for Message
 
 #external
 pub(all) type OutputFile
+fn OutputFile::as_any(Self) -> @js.Any
 fn OutputFile::contents(Self) -> @js.Any
 fn OutputFile::path(Self) -> String
 fn OutputFile::text(Self) -> String
-impl @js.JsImpl for OutputFile
 
 pub(all) enum Platform {
   Browser
@@ -70,10 +70,10 @@ fn Platform::to_string(Self) -> String
 
 #external
 pub(all) type TransformResult
+fn TransformResult::as_any(Self) -> @js.Any
 fn TransformResult::code(Self) -> String
 fn TransformResult::map(Self) -> String
 fn TransformResult::warnings(Self) -> Array[Message]
-impl @js.JsImpl for TransformResult
 
 // Type aliases
 

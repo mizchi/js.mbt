@@ -113,8 +113,8 @@ pub fn onErrorCaptured(callback : (@js.Any, @js.Any, String) -> Bool?) -> Unit {
 
 ///|
 /// Vue.provide - Provide value for injection
-pub fn[T : @js.JsImpl] provide(key : String, value : T) -> Unit {
-  ffi_provide(@js.any(key), value.as_any())
+pub fn[T] provide(key : String, value : T) -> Unit {
+  ffi_provide(@js.any(key), value |> @js.identity)
 }
 
 ///|

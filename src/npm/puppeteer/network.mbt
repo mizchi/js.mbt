@@ -9,7 +9,7 @@
 pub type HTTPRequest
 
 ///|
-pub impl @js.JsImpl for HTTPRequest
+pub fn HTTPRequest::as_any(self : HTTPRequest) -> @js.Any = "%identity"
 
 ///|
 /// HTTPResponse type
@@ -18,7 +18,24 @@ pub impl @js.JsImpl for HTTPRequest
 pub type HTTPResponse
 
 ///|
-pub impl @js.JsImpl for HTTPResponse
+pub fn HTTPResponse::as_any(self : HTTPResponse) -> @js.Any = "%identity"
+
+// Internal helper functions for method calls
+
+///|
+fn HTTPRequest::call0(self : HTTPRequest, name : String) -> @js.Any {
+  self.as_any().call(name, [])
+}
+
+///|
+fn[T] HTTPRequest::call1(self : HTTPRequest, name : String, arg : T) -> @js.Any {
+  self.as_any().call(name, [@js.identity(arg)])
+}
+
+///|
+fn HTTPResponse::call0(self : HTTPResponse, name : String) -> @js.Any {
+  self.as_any().call(name, [])
+}
 
 ///| Page methods (network interception)
 

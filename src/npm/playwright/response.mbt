@@ -8,7 +8,18 @@
 pub type Response
 
 ///|
-pub impl @js.JsImpl for Response
+pub fn Response::as_any(self : Response) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn Response::call(
+  self : Response,
+  name : String,
+  args : Array[&@js.JsImpl],
+) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///| Response Methods
 
@@ -102,7 +113,18 @@ pub fn Response::fromServiceWorker(self : Response) -> Bool {
 pub type Request
 
 ///|
-pub impl @js.JsImpl for Request
+pub fn Request::as_any(self : Request) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn Request::call(
+  self : Request,
+  name : String,
+  args : Array[&@js.JsImpl],
+) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///|
 /// Get request URL
@@ -178,7 +200,18 @@ pub async fn Request::response(self : Request) -> Response? {
 pub type Frame
 
 ///|
-pub impl @js.JsImpl for Frame
+pub fn Frame::as_any(self : Frame) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn Frame::call(
+  self : Frame,
+  name : String,
+  args : Array[&@js.JsImpl],
+) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///|
 /// Get frame URL

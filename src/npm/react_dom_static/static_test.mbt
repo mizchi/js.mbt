@@ -28,7 +28,9 @@ test "prerenderToNodeStream returns Promise" {
     })
     .as_any()
     .cast()
-  let promise : @js.Any = static_.call1("prerenderToNodeStream", element)
+  let promise : @js.Any = static_
+    .as_any()
+    .call("prerenderToNodeStream", [element])
   // Verify it returns a Promise (object with then method)
   @js.typeof_(promise) |> assert_eq("object")
   @js.typeof_(promise.get("then")) |> assert_eq("function")
@@ -39,7 +41,7 @@ test "prerender function exists" {
   init_react()
   let static_ = get_react_dom_static()
   // Verify prerender function exists
-  let prerender_fn = static_.get("prerender")
+  let prerender_fn = static_.as_any().get("prerender")
   @js.typeof_(prerender_fn) |> assert_eq("function")
 }
 
@@ -48,7 +50,7 @@ test "prerenderToNodeStream function exists" {
   init_react()
   let static_ = get_react_dom_static()
   // Verify prerenderToNodeStream function exists
-  let fn_ = static_.get("prerenderToNodeStream")
+  let fn_ = static_.as_any().get("prerenderToNodeStream")
   @js.typeof_(fn_) |> assert_eq("function")
 }
 
@@ -68,11 +70,9 @@ test "build_options with all parameters" {
     })
     .as_any()
     .cast()
-  let promise : @js.Any = static_.call2(
-    "prerenderToNodeStream",
-    element,
-    opts.as_any(),
-  )
+  let promise : @js.Any = static_
+    .as_any()
+    .call("prerenderToNodeStream", [element, opts.as_any()])
   @js.typeof_(promise) |> assert_eq("object")
   @js.typeof_(promise.get("then")) |> assert_eq("function")
 }
@@ -86,7 +86,7 @@ test "prerender returns Promise" {
     })
     .as_any()
     .cast()
-  let promise : @js.Any = static_.call1("prerender", element)
+  let promise : @js.Any = static_.as_any().call("prerender", [element])
   // Verify it returns a Promise
   @js.typeof_(promise) |> assert_eq("object")
   @js.typeof_(promise.get("then")) |> assert_eq("function")

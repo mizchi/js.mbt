@@ -65,7 +65,7 @@ pub fn Row::build(self : Row) -> @js.Any {
 }
 
 ///|
-pub impl @js.JsImpl for Row with as_any(self) {
+pub fn Row::as_any(self : Row) -> @js.Any {
   self.obj
 }
 
@@ -95,7 +95,7 @@ fn drizzle_orm() -> @js.Any {
 pub type DrizzleDB
 
 ///|
-pub impl @js.JsImpl for DrizzleDB
+pub fn DrizzleDB::as_any(self : DrizzleDB) -> @js.Any = "%identity"
 
 ///|
 /// Query builder
@@ -103,7 +103,23 @@ pub impl @js.JsImpl for DrizzleDB
 pub type QueryBuilder
 
 ///|
-pub impl @js.JsImpl for QueryBuilder
+pub fn QueryBuilder::as_any(self : QueryBuilder) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn QueryBuilder::call0(self : QueryBuilder, name : String) -> @js.Any {
+  self.as_any().call(name, [])
+}
+
+///|
+fn[T : @js.JsImpl] QueryBuilder::call1(
+  self : QueryBuilder,
+  name : String,
+  arg : T,
+) -> @js.Any {
+  self.as_any().call(name, [arg])
+}
 
 ///|
 /// Table definition
@@ -111,7 +127,13 @@ pub impl @js.JsImpl for QueryBuilder
 pub type Table
 
 ///|
-pub impl @js.JsImpl for Table
+pub fn Table::as_any(self : Table) -> @js.Any = "%identity"
+
+///|
+/// Get a column from a table by name
+pub fn Table::get(self : Table, name : String) -> @js.Any {
+  self.as_any().get(name)
+}
 
 ///|
 /// Column definition
@@ -119,7 +141,23 @@ pub impl @js.JsImpl for Table
 pub type Column
 
 ///|
-pub impl @js.JsImpl for Column
+pub fn Column::as_any(self : Column) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn Column::call0(self : Column, name : String) -> @js.Any {
+  self.as_any().call(name, [])
+}
+
+///|
+fn[T : @js.JsImpl] Column::call1(
+  self : Column,
+  name : String,
+  arg : T,
+) -> @js.Any {
+  self.as_any().call(name, [arg])
+}
 
 ///|
 /// SQL expression
@@ -127,7 +165,7 @@ pub impl @js.JsImpl for Column
 pub type SQL
 
 ///|
-pub impl @js.JsImpl for SQL
+pub fn SQL::as_any(self : SQL) -> @js.Any = "%identity"
 
 // ============ Database Creation ============
 
@@ -208,7 +246,7 @@ pub fn pgTable(name : String, columns : @js.Any) -> Table {
 #alias(pg_table_from_map)
 pub fn pgTableFromMap(name : String, columns : Map[String, Column]) -> Table {
   let obj = @js.Object::new()
-  columns.each(fn(key, col) { obj.set(key, col) })
+  columns.each(fn(key, col) { obj.set(key, col.as_any()) })
   pgTable(name, obj.as_any())
 }
 

@@ -64,20 +64,14 @@ test "queryBy methods return None when not found" {
   let comp = (_props : Unit) => @react_element.div(["Existing text"])
   @testing_library_react.render(@react.component(comp, ())) |> ignore
   // queryByText returns null (converted to None in JS) for non-existent text
-  let result : @js.Any = @testing_library_react.screen().call("queryByText", [
-    "Non-existent",
-  ])
-  let is_null = @js.is_null(result)
-  assert_eq(is_null, true)
+  let result = @testing_library_react.screen().queryByText("Non-existent")
+  assert_eq(result is None, true)
   // queryByText returns element for existing text
-  let existing : @js.Any = @testing_library_react.screen().call("queryByText", [
-    "Existing text",
-  ])
-  let is_null2 = @js.is_null(existing)
-  assert_eq(is_null2, false)
+  let existing = @testing_library_react.screen().queryByText("Existing text")
+  assert_eq(existing is Some(_), true)
   // Verify the text content using raw HTMLElement
-  let el : @dom.HTMLElement = @js.identity(existing)
-  assert_eq(el.as_node().textContent(), "Existing text")
+  guard existing is Some(el) else { fail("Expected element") }
+  assert_eq(el.as_element().as_node().textContent(), "Existing text")
 }
 
 ///|

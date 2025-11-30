@@ -8,7 +8,7 @@ pub(all) enum MessageContent {
 }
 
 ///|
-pub impl @js.JsImpl for MessageContent with as_any(self) {
+pub fn MessageContent::as_any(self : MessageContent) -> @js.Any {
   match self {
     Text(text) => text |> @js.any
     Parts(parts) => parts |> @js.from_array
@@ -25,28 +25,19 @@ pub(all) enum ModelMessage {
 }
 
 ///|
-pub impl @js.JsImpl for ModelMessage with as_any(self) {
+pub fn ModelMessage::as_any(self : ModelMessage) -> @js.Any {
   match self {
     AssistantMessage(content~) =>
       @js.from_map({
         "role": "assistant" |> @js.any,
-        "content": @js.JsImpl::as_any(content),
+        "content": content.as_any(),
       })
     UserMessage(content~) =>
-      @js.from_map({
-        "role": "user" |> @js.any,
-        "content": @js.JsImpl::as_any(content),
-      })
+      @js.from_map({ "role": "user" |> @js.any, "content": content.as_any() })
     SystemMessage(content~) =>
-      @js.from_map({
-        "role": "system" |> @js.any,
-        "content": @js.JsImpl::as_any(content),
-      })
+      @js.from_map({ "role": "system" |> @js.any, "content": content.as_any() })
     ToolMessage(content~) =>
-      @js.from_map({
-        "role": "tool" |> @js.any,
-        "content": @js.JsImpl::as_any(content),
-      })
+      @js.from_map({ "role": "tool" |> @js.any, "content": content.as_any() })
   }
 }
 
@@ -56,7 +47,7 @@ pub impl @js.JsImpl for ModelMessage with as_any(self) {
 pub type Model
 
 ///|
-pub impl @js.JsImpl for Model
+pub fn Model::as_any(self : Model) -> @js.Any = "%identity"
 
 ///|
 fn ai_module() -> @js.Any {
@@ -129,7 +120,7 @@ pub async fn generateText(
 pub type StreamTextResultHandle
 
 ///|
-pub impl @js.JsImpl for StreamTextResultHandle
+pub fn StreamTextResultHandle::as_any(self : StreamTextResultHandle) -> @js.Any = "%identity"
 
 ///|
 /// Stream text using the AI SDK (streaming)

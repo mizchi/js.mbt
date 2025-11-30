@@ -45,7 +45,7 @@ pub(all) struct AnimationEvent {
   elapsedTime : Double
   pseudoElement : String
 }
-impl @js.JsImpl for AnimationEvent
+fn AnimationEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for AnimationEvent
 impl Show for AnimationEvent
 
@@ -56,7 +56,6 @@ fn BeforeUnloadEvent::as_any(Self) -> @nostd.Any
 fn BeforeUnloadEvent::returnValue(Self) -> String
 #alias(set_return_value)
 fn BeforeUnloadEvent::setReturnValue(Self, String) -> Unit
-impl @js.JsImpl for BeforeUnloadEvent
 impl EventImpl for BeforeUnloadEvent
 
 #external
@@ -96,7 +95,7 @@ fn CSSStyleSheet::title(Self) -> String?
 
 pub(all) struct ChangeEvent {
 }
-impl @js.JsImpl for ChangeEvent
+fn ChangeEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for ChangeEvent
 impl Show for ChangeEvent
 
@@ -107,7 +106,7 @@ fn ClipboardData::inner(Self) -> DataTransfer
 pub(all) struct ClipboardEvent {
   clipboardData : ClipboardData?
 }
-impl @js.JsImpl for ClipboardEvent
+fn ClipboardEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for ClipboardEvent
 
 pub struct CustomElementCallbacks {
@@ -226,19 +225,17 @@ fn Document::set_cookie(Self, String) -> Unit
 fn Document::styleSheets(Self) -> @js.Any
 fn Document::title(Self) -> String
 fn Document::url(Self) -> String
-impl @js.JsImpl for Document
 
 #external
 pub type DocumentFragment
 fn DocumentFragment::as_any(Self) -> @nostd.Any
 fn DocumentFragment::as_event_target(Self) -> @event.EventTarget
 fn DocumentFragment::as_node(Self) -> Node
-impl @js.JsImpl for DocumentFragment
 
 pub(all) struct DragEvent {
   dataTransfer : @js.Nullable[DataTransfer]
 }
-impl @js.JsImpl for DragEvent
+fn DragEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for DragEvent
 
 #external
@@ -246,14 +243,12 @@ pub type Element
 fn Element::as_any(Self) -> @nostd.Any
 fn Element::as_event_target(Self) -> @event.EventTarget
 fn Element::as_node(Self) -> Node
-impl @js.JsImpl for Element
 impl ElementImpl for Element
 
 #external
 pub type Event
 fn Event::as_any(Self) -> @nostd.Any
 fn Event::as_event(Self) -> @event.Event
-impl @js.JsImpl for Event
 impl EventImpl for Event
 
 #external
@@ -265,7 +260,7 @@ impl EventImpl for FocusEvent
 pub(all) struct FormEvent {
   formData : @http.FormData?
 }
-impl @js.JsImpl for FormEvent
+fn FormEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for FormEvent
 
 pub(all) struct HTMLAnchorElement {
@@ -277,7 +272,6 @@ fn HTMLAnchorElement::as_element(Self) -> Element
 fn HTMLAnchorElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLAnchorElement::as_html_element(Self) -> HTMLElement
 fn HTMLAnchorElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLAnchorElement
 impl ElementImpl for HTMLAnchorElement
 impl HTMLElementImpl for HTMLAnchorElement
 
@@ -288,7 +282,6 @@ fn HTMLBodyElement::as_element(Self) -> Element
 fn HTMLBodyElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLBodyElement::as_html_element(Self) -> HTMLElement
 fn HTMLBodyElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLBodyElement
 impl ElementImpl for HTMLBodyElement
 impl HTMLElementImpl for HTMLBodyElement
 
@@ -300,7 +293,6 @@ fn HTMLButtonElement::as_element(Self) -> Element
 fn HTMLButtonElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLButtonElement::as_html_element(Self) -> HTMLElement
 fn HTMLButtonElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLButtonElement
 impl ElementImpl for HTMLButtonElement
 impl HTMLElementImpl for HTMLButtonElement
 
@@ -316,7 +308,6 @@ fn HTMLCanvasElement::as_node(Self) -> Node
 fn HTMLCanvasElement::getContext(Self, String) -> @js.Any
 async fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @blob.Blob
 fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
-impl @js.JsImpl for HTMLCanvasElement
 impl ElementImpl for HTMLCanvasElement
 impl HTMLElementImpl for HTMLCanvasElement
 impl Show for HTMLCanvasElement
@@ -328,7 +319,6 @@ fn HTMLDivElement::as_element(Self) -> Element
 fn HTMLDivElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLDivElement::as_html_element(Self) -> HTMLElement
 fn HTMLDivElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLDivElement
 impl ElementImpl for HTMLDivElement
 impl HTMLElementImpl for HTMLDivElement
 
@@ -340,7 +330,6 @@ fn HTMLElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLElement::as_node(Self) -> Node
 fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
 fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
-impl @js.JsImpl for HTMLElement
 impl ElementImpl for HTMLElement
 impl HTMLElementImpl for HTMLElement
 
@@ -351,7 +340,6 @@ fn HTMLFormElement::as_element(Self) -> Element
 fn HTMLFormElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLFormElement::as_html_element(Self) -> HTMLElement
 fn HTMLFormElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLFormElement
 impl ElementImpl for HTMLFormElement
 impl HTMLElementImpl for HTMLFormElement
 
@@ -362,7 +350,6 @@ fn HTMLHeadElement::as_element(Self) -> Element
 fn HTMLHeadElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLHeadElement::as_html_element(Self) -> HTMLElement
 fn HTMLHeadElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLHeadElement
 impl ElementImpl for HTMLHeadElement
 impl HTMLElementImpl for HTMLHeadElement
 
@@ -373,7 +360,6 @@ fn HTMLHeadingElement::as_element(Self) -> Element
 fn HTMLHeadingElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLHeadingElement::as_html_element(Self) -> HTMLElement
 fn HTMLHeadingElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLHeadingElement
 impl ElementImpl for HTMLHeadingElement
 impl HTMLElementImpl for HTMLHeadingElement
 
@@ -384,7 +370,6 @@ fn HTMLHtmlElement::as_element(Self) -> Element
 fn HTMLHtmlElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLHtmlElement::as_html_element(Self) -> HTMLElement
 fn HTMLHtmlElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLHtmlElement
 impl ElementImpl for HTMLHtmlElement
 impl HTMLElementImpl for HTMLHtmlElement
 
@@ -402,7 +387,6 @@ fn HTMLIFrameElement::as_html_element(Self) -> HTMLElement
 fn HTMLIFrameElement::as_node(Self) -> Node
 fn HTMLIFrameElement::contentDocument(Self) -> Document?
 fn HTMLIFrameElement::contentWindow(Self) -> Window?
-impl @js.JsImpl for HTMLIFrameElement
 impl ElementImpl for HTMLIFrameElement
 impl HTMLElementImpl for HTMLIFrameElement
 impl Show for HTMLIFrameElement
@@ -416,7 +400,6 @@ fn HTMLImageElement::as_element(Self) -> Element
 fn HTMLImageElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLImageElement::as_html_element(Self) -> HTMLElement
 fn HTMLImageElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLImageElement
 impl ElementImpl for HTMLImageElement
 impl HTMLElementImpl for HTMLImageElement
 
@@ -433,7 +416,6 @@ fn HTMLInputElement::as_html_element(Self) -> HTMLElement
 fn HTMLInputElement::as_node(Self) -> Node
 fn HTMLInputElement::setType(Self, String) -> Unit
 fn HTMLInputElement::type_(Self) -> String
-impl @js.JsImpl for HTMLInputElement
 impl ElementImpl for HTMLInputElement
 impl HTMLElementImpl for HTMLInputElement
 
@@ -444,7 +426,6 @@ fn HTMLLIElement::as_element(Self) -> Element
 fn HTMLLIElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLLIElement::as_html_element(Self) -> HTMLElement
 fn HTMLLIElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLLIElement
 impl ElementImpl for HTMLLIElement
 impl HTMLElementImpl for HTMLLIElement
 
@@ -456,7 +437,6 @@ fn HTMLLabelElement::as_element(Self) -> Element
 fn HTMLLabelElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLLabelElement::as_html_element(Self) -> HTMLElement
 fn HTMLLabelElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLLabelElement
 impl ElementImpl for HTMLLabelElement
 impl HTMLElementImpl for HTMLLabelElement
 
@@ -467,7 +447,6 @@ fn HTMLOListElement::as_element(Self) -> Element
 fn HTMLOListElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLOListElement::as_html_element(Self) -> HTMLElement
 fn HTMLOListElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLOListElement
 impl ElementImpl for HTMLOListElement
 impl HTMLElementImpl for HTMLOListElement
 
@@ -480,7 +459,6 @@ fn HTMLOptionElement::as_element(Self) -> Element
 fn HTMLOptionElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLOptionElement::as_html_element(Self) -> HTMLElement
 fn HTMLOptionElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLOptionElement
 impl ElementImpl for HTMLOptionElement
 impl HTMLElementImpl for HTMLOptionElement
 
@@ -491,7 +469,6 @@ fn HTMLParagraphElement::as_element(Self) -> Element
 fn HTMLParagraphElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLParagraphElement::as_html_element(Self) -> HTMLElement
 fn HTMLParagraphElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLParagraphElement
 impl ElementImpl for HTMLParagraphElement
 impl HTMLElementImpl for HTMLParagraphElement
 
@@ -504,7 +481,6 @@ fn HTMLSelectElement::as_element(Self) -> Element
 fn HTMLSelectElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLSelectElement::as_html_element(Self) -> HTMLElement
 fn HTMLSelectElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLSelectElement
 impl ElementImpl for HTMLSelectElement
 impl HTMLElementImpl for HTMLSelectElement
 
@@ -515,7 +491,6 @@ fn HTMLSpanElement::as_element(Self) -> Element
 fn HTMLSpanElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLSpanElement::as_html_element(Self) -> HTMLElement
 fn HTMLSpanElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLSpanElement
 impl ElementImpl for HTMLSpanElement
 impl HTMLElementImpl for HTMLSpanElement
 
@@ -532,7 +507,6 @@ fn HTMLTextAreaElement::as_element(Self) -> Element
 fn HTMLTextAreaElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLTextAreaElement::as_html_element(Self) -> HTMLElement
 fn HTMLTextAreaElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLTextAreaElement
 impl ElementImpl for HTMLTextAreaElement
 impl HTMLElementImpl for HTMLTextAreaElement
 
@@ -543,7 +517,6 @@ fn HTMLUListElement::as_element(Self) -> Element
 fn HTMLUListElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLUListElement::as_html_element(Self) -> HTMLElement
 fn HTMLUListElement::as_node(Self) -> Node
-impl @js.JsImpl for HTMLUListElement
 impl ElementImpl for HTMLUListElement
 impl HTMLElementImpl for HTMLUListElement
 
@@ -551,7 +524,7 @@ pub(all) struct HashChangeEvent {
   oldURL : String
   newURL : String
 }
-impl @js.JsImpl for HashChangeEvent
+fn HashChangeEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for HashChangeEvent
 impl Show for HashChangeEvent
 
@@ -561,7 +534,7 @@ pub(all) struct InputEvent {
   inputType : String
   isComposing : Bool
 }
-impl @js.JsImpl for InputEvent
+fn InputEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for InputEvent
 
 pub(all) struct KeyboardEvent {
@@ -577,7 +550,7 @@ pub(all) struct KeyboardEvent {
   location : Int
   isComposing : Bool
 }
-impl @js.JsImpl for KeyboardEvent
+fn KeyboardEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for KeyboardEvent
 impl Show for KeyboardEvent
 
@@ -599,7 +572,6 @@ pub(all) struct MessageEvent {
 }
 fn MessageEvent::as_any(Self) -> @nostd.Any
 fn MessageEvent::source(Self) -> Window?
-impl @js.JsImpl for MessageEvent
 impl EventImpl for MessageEvent
 impl Show for MessageEvent
 
@@ -623,7 +595,6 @@ pub(all) struct MouseEvent {
 }
 fn MouseEvent::as_any(Self) -> @nostd.Any
 fn MouseEvent::relatedTarget(Self) -> Element?
-impl @js.JsImpl for MouseEvent
 impl EventImpl for MouseEvent
 impl Show for MouseEvent
 
@@ -631,13 +602,12 @@ impl Show for MouseEvent
 pub type Node
 fn Node::as_any(Self) -> @nostd.Any
 fn Node::as_event_target(Self) -> @event.EventTarget
-impl @js.JsImpl for Node
 impl NodeImpl for Node
 
 pub(all) struct PageTransitionEvent {
   persisted : Bool
 }
-impl @js.JsImpl for PageTransitionEvent
+fn PageTransitionEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for PageTransitionEvent
 impl Show for PageTransitionEvent
 
@@ -655,7 +625,7 @@ pub(all) struct PointerEvent {
   pointerType : String
   isPrimary : Bool
 }
-impl @js.JsImpl for PointerEvent
+fn PointerEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for PointerEvent
 impl Show for PointerEvent
 
@@ -663,7 +633,6 @@ impl Show for PointerEvent
 pub type PopStateEvent
 fn PopStateEvent::as_any(Self) -> @nostd.Any
 fn PopStateEvent::state(Self) -> @js.Any?
-impl @js.JsImpl for PopStateEvent
 impl EventImpl for PopStateEvent
 
 #external
@@ -677,7 +646,6 @@ fn SVGCircleElement::cx(Self) -> Double
 fn SVGCircleElement::cy(Self) -> Double
 fn SVGCircleElement::r(Self) -> Double
 fn SVGCircleElement::setAttribute(Self, String, String) -> Unit
-impl @js.JsImpl for SVGCircleElement
 
 #external
 pub type SVGElement
@@ -687,7 +655,6 @@ fn SVGElement::as_event_target(Self) -> @event.EventTarget
 fn SVGElement::as_node(Self) -> Node
 fn SVGElement::getAttribute(Self, String) -> String?
 fn SVGElement::setAttribute(Self, String, String) -> Unit
-impl @js.JsImpl for SVGElement
 
 #external
 pub type SVGEllipseElement
@@ -701,7 +668,6 @@ fn SVGEllipseElement::cy(Self) -> Double
 fn SVGEllipseElement::rx(Self) -> Double
 fn SVGEllipseElement::ry(Self) -> Double
 fn SVGEllipseElement::setAttribute(Self, String, String) -> Unit
-impl @js.JsImpl for SVGEllipseElement
 
 #external
 pub type SVGGElement
@@ -711,7 +677,6 @@ fn SVGGElement::as_event_target(Self) -> @event.EventTarget
 fn SVGGElement::as_node(Self) -> Node
 fn SVGGElement::as_svg_element(Self) -> SVGElement
 fn SVGGElement::setAttribute(Self, String, String) -> Unit
-impl @js.JsImpl for SVGGElement
 
 #external
 pub type SVGImageElement
@@ -726,7 +691,6 @@ fn SVGImageElement::setAttribute(Self, String, String) -> Unit
 fn SVGImageElement::width(Self) -> Double
 fn SVGImageElement::x(Self) -> Double
 fn SVGImageElement::y(Self) -> Double
-impl @js.JsImpl for SVGImageElement
 
 #external
 pub type SVGLineElement
@@ -740,7 +704,6 @@ fn SVGLineElement::x1(Self) -> Double
 fn SVGLineElement::x2(Self) -> Double
 fn SVGLineElement::y1(Self) -> Double
 fn SVGLineElement::y2(Self) -> Double
-impl @js.JsImpl for SVGLineElement
 
 #external
 pub type SVGPathElement
@@ -752,7 +715,6 @@ fn SVGPathElement::as_svg_element(Self) -> SVGElement
 fn SVGPathElement::d(Self) -> String
 fn SVGPathElement::getTotalLength(Self) -> Double
 fn SVGPathElement::setAttribute(Self, String, String) -> Unit
-impl @js.JsImpl for SVGPathElement
 
 #external
 pub type SVGPolygonElement
@@ -762,7 +724,6 @@ fn SVGPolygonElement::as_event_target(Self) -> @event.EventTarget
 fn SVGPolygonElement::as_node(Self) -> Node
 fn SVGPolygonElement::as_svg_element(Self) -> SVGElement
 fn SVGPolygonElement::setAttribute(Self, String, String) -> Unit
-impl @js.JsImpl for SVGPolygonElement
 
 #external
 pub type SVGPolylineElement
@@ -772,7 +733,6 @@ fn SVGPolylineElement::as_event_target(Self) -> @event.EventTarget
 fn SVGPolylineElement::as_node(Self) -> Node
 fn SVGPolylineElement::as_svg_element(Self) -> SVGElement
 fn SVGPolylineElement::setAttribute(Self, String, String) -> Unit
-impl @js.JsImpl for SVGPolylineElement
 
 #external
 pub type SVGRectElement
@@ -786,7 +746,6 @@ fn SVGRectElement::setAttribute(Self, String, String) -> Unit
 fn SVGRectElement::width(Self) -> Double
 fn SVGRectElement::x(Self) -> Double
 fn SVGRectElement::y(Self) -> Double
-impl @js.JsImpl for SVGRectElement
 
 #external
 pub type SVGSVGElement
@@ -799,7 +758,6 @@ fn SVGSVGElement::getAttribute(Self, String) -> String?
 fn SVGSVGElement::height(Self) -> Double
 fn SVGSVGElement::setAttribute(Self, String, String) -> Unit
 fn SVGSVGElement::width(Self) -> Double
-impl @js.JsImpl for SVGSVGElement
 
 #external
 pub type SVGTextElement
@@ -811,11 +769,10 @@ fn SVGTextElement::as_svg_element(Self) -> SVGElement
 fn SVGTextElement::setAttribute(Self, String, String) -> Unit
 fn SVGTextElement::x(Self) -> Double
 fn SVGTextElement::y(Self) -> Double
-impl @js.JsImpl for SVGTextElement
 
 pub(all) struct ScrollEvent {
 }
-impl @js.JsImpl for ScrollEvent
+fn ScrollEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for ScrollEvent
 impl Show for ScrollEvent
 
@@ -833,7 +790,6 @@ fn ShadowRoot::innerHTML(Self) -> String
 fn ShadowRoot::mode(Self) -> String
 fn ShadowRoot::setInnerHTML(Self, String) -> Unit
 fn ShadowRoot::slotAssignment(Self) -> String
-impl @js.JsImpl for ShadowRoot
 
 pub struct ShadowRootInit {
   mode : String
@@ -847,7 +803,6 @@ pub type Text
 fn Text::as_any(Self) -> @nostd.Any
 fn Text::as_event_target(Self) -> @event.EventTarget
 fn Text::as_node(Self) -> Node
-impl @js.JsImpl for Text
 
 pub(all) struct Touch {
   identifier : Int
@@ -864,7 +819,6 @@ pub(all) struct Touch {
 }
 fn Touch::as_any(Self) -> @nostd.Any
 fn Touch::target(Self) -> Element
-impl @js.JsImpl for Touch
 impl Show for Touch
 
 pub(all) struct TouchEvent {
@@ -876,7 +830,7 @@ pub(all) struct TouchEvent {
   shiftKey : Bool
   metaKey : Bool
 }
-impl @js.JsImpl for TouchEvent
+fn TouchEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for TouchEvent
 impl Show for TouchEvent
 
@@ -885,7 +839,7 @@ pub(all) struct TransitionEvent {
   elapsedTime : Double
   pseudoElement : String
 }
-impl @js.JsImpl for TransitionEvent
+fn TransitionEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for TransitionEvent
 impl Show for TransitionEvent
 
@@ -895,7 +849,7 @@ pub(all) struct WheelEvent {
   deltaZ : Double
   deltaMode : Int
 }
-impl @js.JsImpl for WheelEvent
+fn WheelEvent::as_any(Self) -> @nostd.Any
 impl EventImpl for WheelEvent
 impl Show for WheelEvent
 
@@ -993,7 +947,8 @@ pub(open) trait ElementImpl {
   append(Self, Node) -> Unit = _
 }
 
-pub(open) trait EventImpl : @js.JsImpl {
+pub(open) trait EventImpl {
+  as_any(Self) -> @nostd.Any
   preventDefault(Self) -> Unit = _
   stopPropagation(Self) -> Unit = _
   stopImmediatePropagation(Self) -> Unit = _

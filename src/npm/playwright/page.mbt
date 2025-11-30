@@ -8,7 +8,14 @@
 pub type Page
 
 ///|
-pub impl @js.JsImpl for Page
+pub fn Page::as_any(self : Page) -> @js.Any = "%identity"
+
+// Internal helper for method calls
+
+///|
+fn Page::call(self : Page, name : String, args : Array[&@js.JsImpl]) -> @js.Any {
+  self.as_any().call(name, args)
+}
 
 ///| Navigation Methods
 
