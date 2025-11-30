@@ -3,6 +3,7 @@
   "import": [
     "moonbitlang/async",
     "mizchi/js",
+    "mizchi/js/nostd",
     "mizchi/js/node/process",
     "mizchi/js/node/fs",
     "mizchi/js/node/path",

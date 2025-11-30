@@ -303,7 +303,7 @@ async fn cmd_vite_tui() -> Unit {
       update_ui()
     })
     proc.on_stderr_data(fn(data) {
-      let text = ffi_to_string(data)
+      let text = ffi_to_string(data.cast())
       // Check for clear screen sequences
       if ffi_has_clear_screen(text) {
         build_output.val = ""
@@ -381,7 +381,7 @@ async fn cmd_vite_tui() -> Unit {
       update_ui()
     })
     proc.on_stderr_data(fn(data) {
-      let text = ffi_to_string(data)
+      let text = ffi_to_string(data.cast())
       // Check for clear screen sequences
       if ffi_has_clear_screen(text) {
         vite_output.val = ""

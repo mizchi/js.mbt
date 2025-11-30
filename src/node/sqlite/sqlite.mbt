@@ -178,7 +178,10 @@ pub fn DatabaseSync::setAuthorizer(
 }
 
 ///|
-pub fn DatabaseSync::location(self : DatabaseSync, db_name? : String) -> String? {
+pub fn DatabaseSync::location(
+  self : DatabaseSync,
+  db_name? : String,
+) -> String? {
   let args : Array[@nostd.Any] = if db_name is Some(name) {
     [@nostd.any(name)]
   } else {
@@ -266,7 +269,10 @@ pub fn DatabaseSync::exec(self : DatabaseSync, query : String) -> Unit {
 }
 
 ///|
-pub fn DatabaseSync::prepare(self : DatabaseSync, query : String) -> StatementSync {
+pub fn DatabaseSync::prepare(
+  self : DatabaseSync,
+  query : String,
+) -> StatementSync {
   @nostd.any(self)._call("prepare", [@nostd.any(query)]).cast()
 }
 
@@ -521,7 +527,8 @@ pub fn backup(
     opts["progress"] = @nostd.from_fn1(f)
   }
   let backup_fn = sqlite_module()["backup"]
-  backup_fn._invoke([@nostd.any(source_db), @nostd.any(db_path), opts]) |> ignore
+  backup_fn._invoke([@nostd.any(source_db), @nostd.any(db_path), opts])
+  |> ignore
 }
 
 ///|

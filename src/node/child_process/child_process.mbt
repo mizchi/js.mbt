@@ -9,10 +9,18 @@
 pub type ChildProcess
 
 ///|
+pub fn ChildProcess::as_any(self : ChildProcess) -> @nostd.Any = "%identity"
+
+///|
 pub impl @js.JsImpl for ChildProcess
 
 ///|
 pub impl @events.EventEmitterImpl for ChildProcess
+
+///|
+pub fn ChildProcess::as_event_emitter(
+  self : ChildProcess,
+) -> @events.EventEmitter = "%identity"
 
 ///|
 /// Get pid
@@ -63,7 +71,10 @@ pub fn ChildProcess::on_stderr_data(
   self : ChildProcess,
   callback : (@nostd.Any) -> Unit,
 ) -> Unit {
-  @nostd.any(self.stderr())._call("on", [@nostd.any("data"), @nostd.any(callback)])
+  @nostd.any(self.stderr())._call("on", [
+    @nostd.any("data"),
+    @nostd.any(callback),
+  ])
   |> ignore
 }
 
@@ -258,13 +269,17 @@ pub fn SpawnSyncResult::signal(self : SpawnSyncResult) -> String? {
 
 ///|
 /// Get stdout
-pub fn SpawnSyncResult::stdout(self : SpawnSyncResult) -> @streams.ReadableStream {
+pub fn SpawnSyncResult::stdout(
+  self : SpawnSyncResult,
+) -> @streams.ReadableStream {
   @nostd.any(self)["stdout"].cast()
 }
 
 ///|
 /// Get stderr
-pub fn SpawnSyncResult::stderr(self : SpawnSyncResult) -> @streams.ReadableStream {
+pub fn SpawnSyncResult::stderr(
+  self : SpawnSyncResult,
+) -> @streams.ReadableStream {
   @nostd.any(self)["stderr"].cast()
 }
 
@@ -300,7 +315,9 @@ pub fn spawnSync(
     })
     match args {
       Some(a) =>
-        cp._call("spawnSync", [@nostd.any(command), @nostd.any(a), options]).cast()
+        cp
+        ._call("spawnSync", [@nostd.any(command), @nostd.any(a), options])
+        .cast()
       None => cp._call("spawnSync", [@nostd.any(command), options]).cast()
     }
   })
@@ -363,7 +380,9 @@ pub fn execFileSync(
     })
     match args {
       Some(a) =>
-        cp._call("execFileSync", [@nostd.any(file), @nostd.any(a), options]).cast()
+        cp
+        ._call("execFileSync", [@nostd.any(file), @nostd.any(a), options])
+        .cast()
       None => cp._call("execFileSync", [@nostd.any(file), options]).cast()
     }
   })

@@ -195,7 +195,7 @@ pub fn sqliteNumeric(name? : String) -> Column {
 pub fn Column::primaryKeyAutoIncrement(self : Column) -> Column {
   let opts = @js.Object::new()
   opts.set("autoIncrement", true)
-  self.call1("primaryKey", opts.as_any()) |> @js.identity
+  self.call1("primaryKey", @nostd.any(opts.as_any())) |> @js.identity
 }
 
 // ============ SQLite Specific Index ============

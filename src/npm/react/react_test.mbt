@@ -353,8 +353,8 @@ async test "React DOM Server: renderToReadableStream should return a Promise of 
   let reader = stream.getReader()
 
   // Read first chunk
-  let result : @js.Any = reader.read()
-  let done : Bool = @js.identity(result.get("done"))
+  let result : @nostd.Any = reader.read()
+  let done : Bool = @nostd.identity(result._get("done"))
 
   // Should have at least one chunk
   inspect(done, content="false")
@@ -372,12 +372,12 @@ async test "React DOM Server: renderToReadableStream should render HTML content"
 
   // Read all chunks
   while true {
-    let result : @js.Any = reader.read()
-    let done : Bool = @js.identity(result.get("done"))
+    let result : @nostd.Any = reader.read()
+    let done : Bool = @nostd.identity(result._get("done"))
     if done {
       break
     }
-    let value : @typedarray.Uint8Array = result.get("value").cast()
+    let value : @typedarray.Uint8Array = result._get("value").cast()
     let chunk = decoder.decode(value)
     html_parts.push(chunk)
   }
@@ -402,12 +402,12 @@ async test "React DOM Server: renderToReadableStream should handle nested elemen
 
   // Read all chunks
   while true {
-    let result : @js.Any = reader.read()
-    let done : Bool = @js.identity(result.get("done"))
+    let result : @nostd.Any = reader.read()
+    let done : Bool = @nostd.identity(result._get("done"))
     if done {
       break
     }
-    let value : @typedarray.Uint8Array = result.get("value").cast()
+    let value : @typedarray.Uint8Array = result._get("value").cast()
     let chunk = decoder.decode(value)
     html_parts.push(chunk)
   }

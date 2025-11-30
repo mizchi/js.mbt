@@ -88,7 +88,7 @@ async test "Node Stream: Readable unpipe" {
 async test "Node Stream: Readable destroy" {
   let readable = create_readable_from_string("destroy test")
   // Destroy without error - stream will handle it
-  ignore(readable.as_any().call0("destroy"))
+  ignore(readable.as_any()._call("destroy", []))
   @js.sleep(16)
   // After destroy, stream should be closed
   assert_eq(readable.closed(), true)
@@ -101,7 +101,7 @@ async test "Node Stream: Writable stream - write and properties" {
   let writable : @stream.Writable = @js.identity(create_writable_to_array())
   assert_eq(writable.writable(), true)
   assert_eq(writable.writableObjectMode(), false)
-  let success = writable.write("test")
+  let success = writable.write(@nostd.any("test"))
   assert_eq(success, true)
 }
 
@@ -111,8 +111,8 @@ async test "Node Stream: Writable cork/uncork" {
   let writable : @stream.Writable = @js.identity(writable_js)
   writable.cork()
   assert_eq(writable.writableCorked(), 1)
-  let _ = writable.write("corked1")
-  let _ = writable.write("corked2")
+  let _ = writable.write(@nostd.any("corked1"))
+  let _ = writable.write(@nostd.any("corked2"))
   writable.uncork()
   assert_eq(writable.writableCorked(), 0)
   @js.sleep(16)
@@ -124,7 +124,7 @@ async test "Node Stream: Writable cork/uncork" {
 async test "Node Stream: Writable destroy" {
   let writable : @stream.Writable = @js.identity(create_writable_to_array())
   // Destroy without error - stream will handle it
-  ignore(writable.as_any().call0("destroy"))
+  ignore(writable.as_any()._call("destroy", []))
   @js.sleep(16)
   assert_eq(writable.closed(), true)
 }
@@ -133,7 +133,7 @@ async test "Node Stream: Writable destroy" {
 async test "Node Stream: Writable end" {
   let writable : @stream.Writable = @js.identity(create_writable_to_array())
   // Call end without chunk - use call directly
-  ignore(writable.as_any().call0("end"))
+  ignore(writable.as_any()._call("end", []))
   @js.sleep(16)
   assert_eq(writable.writableEnded(), true)
 }
@@ -241,12 +241,12 @@ async test "Node Stream: pipeline with callback" {
   let readable = create_readable_from_string("callback test")
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.identity(writable_js)
-  let callback : @js.Any = @js.from_fn1(fn(err : @js.Any) -> Unit {
+  let callback : @nostd.Any = @nostd.any(@js.from_fn1(fn(err : @js.Any) -> Unit {
     callback_called = true
     ignore(err)
-  })
+  }))
   let _ = @stream.pipeline(
-    [@js.identity(readable), @js.identity(writable)],
+    [readable.as_any(), writable.as_any()],
     callback~,
   )
   @js.sleep(32)
@@ -261,12 +261,12 @@ async test "Node Stream: finished - stream completion" {
   let readable = create_readable_from_string("finished test")
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.identity(writable_js)
-  let callback : @js.Any = @js.from_fn1(fn(err : @js.Any) -> Unit {
+  let callback : @nostd.Any = @nostd.any(@js.from_fn1(fn(err : @js.Any) -> Unit {
     finished_called = true
     ignore(err)
-  })
+  }))
   let _ = readable.pipe(writable)
-  let _ = @stream.finished(@js.identity(writable), callback~)
+  let _ = @stream.finished(writable.as_any(), callback~)
   @js.sleep(32)
   assert_eq(finished_called, true)
 }
@@ -279,14 +279,14 @@ async test "Node Stream: async pipeline with Promise" {
     let transform = create_transform_uppercase()
     let writable_js = create_writable_to_array()
     let writable : @stream.Writable = @js.identity(writable_js)
-    let callback : @js.Any = @js.from_fn1(fn(err : @js.Any) -> Unit {
+    let callback : @nostd.Any = @nostd.any(@js.from_fn1(fn(err : @js.Any) -> Unit {
       ignore(err)
       let chunks = get_chunks(writable_js)
       let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"
       resolver.resolve(success)
-    })
+    }))
     let _ = @stream.pipeline(
-      [@js.identity(readable), @js.identity(transform), @js.identity(writable)],
+      [readable.as_any(), transform.as_any(), writable.as_any()],
       callback~,
     )
 

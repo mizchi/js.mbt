@@ -5,6 +5,12 @@
 pub type ReadableStream
 
 ///|
+pub fn ReadableStream::as_any(self : ReadableStream) -> @nostd.Any = "%identity"
+
+///|
+pub impl @js.JsImpl for ReadableStream
+
+///|
 /// Create a new ReadableStream (typically constructed from JavaScript)
 extern "js" fn ffi_new_readable_stream(underlying_source : @nostd.Any) -> ReadableStream =
   #|(source) => new ReadableStream(source)
@@ -93,6 +99,12 @@ pub fn ReadableStream::locked(self : ReadableStream) -> Bool {
 pub type ReadableStreamDefaultReader
 
 ///|
+pub fn ReadableStreamDefaultReader::as_any(self : ReadableStreamDefaultReader) -> @nostd.Any = "%identity"
+
+///|
+pub impl @js.JsImpl for ReadableStreamDefaultReader
+
+///|
 /// Read a chunk from the stream
 pub async fn ReadableStreamDefaultReader::read(self : ReadableStreamDefaultReader) -> @nostd.Any {
   let promise : @js.Promise[@nostd.Any] = @nostd.any(self)._call("read", []).cast()
@@ -129,6 +141,12 @@ pub fn ReadableStreamDefaultReader::closed(self : ReadableStreamDefaultReader) -
 /// WritableStream represents a writable stream
 #external
 pub type WritableStream
+
+///|
+pub fn WritableStream::as_any(self : WritableStream) -> @nostd.Any = "%identity"
+
+///|
+pub impl @js.JsImpl for WritableStream
 
 ///|
 /// Create a new WritableStream
@@ -178,6 +196,12 @@ pub fn WritableStream::locked(self : WritableStream) -> Bool {
 /// WritableStreamDefaultWriter represents a default writer for writing to a WritableStream
 #external
 pub type WritableStreamDefaultWriter
+
+///|
+pub fn WritableStreamDefaultWriter::as_any(self : WritableStreamDefaultWriter) -> @nostd.Any = "%identity"
+
+///|
+pub impl @js.JsImpl for WritableStreamDefaultWriter
 
 ///|
 /// Write a chunk to the stream
@@ -238,6 +262,12 @@ pub fn WritableStreamDefaultWriter::desiredSize(self : WritableStreamDefaultWrit
 /// TransformStream represents a transform stream for piping data through a transformation
 #external
 pub type TransformStream
+
+///|
+pub fn TransformStream::as_any(self : TransformStream) -> @nostd.Any = "%identity"
+
+///|
+pub impl @js.JsImpl for TransformStream
 
 ///|
 /// Create a new TransformStream

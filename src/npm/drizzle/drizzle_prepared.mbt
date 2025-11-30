@@ -17,7 +17,7 @@ pub fn QueryBuilder::prepare(
   self : QueryBuilder,
   name : String,
 ) -> PreparedQuery {
-  self.call1("prepare", name) |> @js.identity
+  self.call1("prepare", @nostd.any(name)) |> @js.identity
 }
 
 ///|
@@ -140,7 +140,7 @@ pub fn sqlDiv(left : @js.Any, right : @js.Any) -> SQL {
 ///|
 /// Create a subquery alias
 pub fn QueryBuilder::as_(self : QueryBuilder, name : String) -> @js.Any {
-  self.call1("as", name)
+  self.call1("as", @nostd.any(name))
 }
 
 // ============ GROUP BY / HAVING ============
@@ -168,7 +168,7 @@ pub fn QueryBuilder::having(
   self : QueryBuilder,
   condition : SQL,
 ) -> QueryBuilder {
-  self.call1("having", condition.as_any()) |> @js.identity
+  self.call1("having", @nostd.any(condition.as_any())) |> @js.identity
 }
 
 // ============ UNION / INTERSECT / EXCEPT ============
@@ -179,7 +179,7 @@ pub fn QueryBuilder::union(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("union", other.as_any()) |> @js.identity
+  self.call1("union", @nostd.any(other.as_any())) |> @js.identity
 }
 
 ///|
@@ -189,7 +189,7 @@ pub fn QueryBuilder::unionAll(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("unionAll", other.as_any()) |> @js.identity
+  self.call1("unionAll", @nostd.any(other.as_any())) |> @js.identity
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn QueryBuilder::intersect(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("intersect", other.as_any()) |> @js.identity
+  self.call1("intersect", @nostd.any(other.as_any())) |> @js.identity
 }
 
 ///|
@@ -207,7 +207,7 @@ pub fn QueryBuilder::except(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("except", other.as_any()) |> @js.identity
+  self.call1("except", @nostd.any(other.as_any())) |> @js.identity
 }
 
 // ============ ON CONFLICT (Upsert) ============

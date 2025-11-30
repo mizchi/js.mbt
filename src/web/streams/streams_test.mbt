@@ -176,16 +176,17 @@ async test "TransformStream: transform data through pipeline" {
 
   // Create uppercase transformer using FFI
   let transformer = test_ffi_uppercase_transformer()
-  let transform = TransformStream::new(transformer)
+  let transform = TransformStream::new(@nostd.any(transformer))
 
   // Pipe through transform
   let pipe1 : @js.Any = readable
     .as_any()
-    ._call("pipeTo", [@nostd.any(transform.writable)])
+    ._call("pipeTo", [transform.writable().as_any()])
     .cast()
-  let pipe2 : @js.Any = transform.readable
+  let pipe2 : @js.Any = transform
+    .readable()
     .as_any()
-    ._call("pipeTo", [@nostd.any(writable)])
+    ._call("pipeTo", [writable.as_any()])
     .cast()
   let promise1 : @js.Promise[Unit] = @js.identity(pipe1)
   let promise2 : @js.Promise[Unit] = @js.identity(pipe2)

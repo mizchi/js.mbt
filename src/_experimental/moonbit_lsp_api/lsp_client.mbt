@@ -217,15 +217,14 @@ fn get_lsp_path() -> String {
 
 ///|
 fn LspClient::setup_response_handler(self : LspClient) -> Unit {
-  self.process.stdout.call2(
-    "on",
-    "data",
-    @js.from_fn1(fn(data : @js.Any) {
-      let chunk : String = data.call0("toString").cast()
+  self.process.stdout().as_any()._call("on", [
+    @nostd.any("data"),
+    @nostd.any(@js.from_fn1(fn(data : @js.Any) {
+      let chunk : String = @nostd.any(data)._call("toString", []).cast()
       self.buffer = self.buffer + chunk
       self.process_buffer()
-    }),
-  )
+    })),
+  ])
   |> ignore
 }
 
@@ -323,7 +322,7 @@ fn LspClient::send_request(
     "\r\n\r\n" +
     content
   self.pending_requests[id] = callback
-  self.process.stdin.call("write", [message]) |> ignore
+  self.process.stdin().as_any()._call("write", [@nostd.any(message)]) |> ignore
 }
 
 ///|
@@ -342,7 +341,7 @@ fn LspClient::send_notification(
     ffi_string_length(content).to_string() +
     "\r\n\r\n" +
     content
-  self.process.stdin.call("write", [message]) |> ignore
+  self.process.stdin().as_any()._call("write", [@nostd.any(message)]) |> ignore
 }
 
 ///|

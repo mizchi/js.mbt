@@ -121,7 +121,7 @@ async test "Response: body stream with defer cleanup" {
       defer reader.release_lock()
 
       // Verify stream is locked
-      assert_eq(stream.locked, true)
+      assert_eq(stream.locked(), true)
 
       // Read one chunk
       let result : @nostd.Any = reader.as_any()._call("read", [])

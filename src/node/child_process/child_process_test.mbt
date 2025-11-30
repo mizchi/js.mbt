@@ -98,29 +98,29 @@ test "execFileSync throws error for non-existent file" {
 /// Test spawnSync executes command synchronously
 test "spawnSync returns SpawnSyncResult" {
   let result = spawnSync("echo", args=["test"])
-  let pid = result.pid
+  let pid = result.pid()
   inspect(pid > 0, content="true")
 }
 
 ///|
 test "spawnSync executes command and returns result" {
   let result = spawnSync("echo", args=["hello", "world"])
-  assert_true(result.pid > 0)
-  let status = result.status
+  assert_true(result.pid() > 0)
+  let status = result.status()
   assert_eq(status, Some(0))
 }
 
 ///|
 test "spawnSync with shell option" {
   let result = spawnSync("echo $HOME", shell=true)
-  assert_true(result.pid > 0)
+  assert_true(result.pid() > 0)
 }
 
 ///|
 test "spawnSync with env option" {
   let env_obj = @mbtconv.from_map({ "TEST_VAR": @nostd.any("test_value") }).cast()
   let result = spawnSync("echo", args=["$TEST_VAR"], shell=true, env=env_obj)
-  let stdout = result.stdout
+  let stdout = result.stdout()
   let buffer : @buffer.Buffer = @js.identity(stdout)
   let stdout_str = buffer.toString()
   assert_true(stdout_str.contains("test_value"))
@@ -129,7 +129,7 @@ test "spawnSync with env option" {
 ///|
 test "spawnSync with timeout option" {
   let result = spawnSync("echo", args=["test"], timeout=5000)
-  assert_true(result.pid > 0)
+  assert_true(result.pid() > 0)
 }
 
 ///|
@@ -137,7 +137,7 @@ test "spawnSync handles non-existent command with error" {
   // Use stdio="pipe" to suppress error output to console
   let result = spawnSync("/nonexistent/command", stdio="pipe")
   // Error is a Js object (not nullish) when command is not found
-  let error = result.error
+  let error : @js.Any = result.error().cast()
   inspect(@js.is_nullish(error), content="false")
   // Verify it's an error object
   assert_true(@js.is_object(error))
@@ -147,7 +147,7 @@ test "spawnSync handles non-existent command with error" {
 test "spawnSync handles command not found" {
   // Use stdio="pipe" to suppress error output to console
   let result = spawnSync("/nonexistent/command", stdio="pipe")
-  let error = result.error
+  let error : @js.Any = result.error().cast()
   // Error field exists as a Js object
   assert_true(@js.is_object(error))
 }
@@ -155,7 +155,7 @@ test "spawnSync handles command not found" {
 ///|
 test "spawnSync captures output in result" {
   let result = spawnSync("echo", args=["captured"])
-  let stdout = result.stdout
+  let stdout = result.stdout()
   let buffer : @buffer.Buffer = @js.identity(stdout)
   let stdout_str = buffer.toString()
   assert_true(stdout_str.contains("captured"))
@@ -200,7 +200,7 @@ test "execFileSync with timeout option" {
 /// Test spawn returns ChildProcess
 test "spawn returns ChildProcess" {
   let proc = spawn("echo", args=["test"])
-  let pid = proc.pid
+  let pid = proc.pid()
   inspect(pid > 0, content="true")
 }
 
@@ -218,7 +218,7 @@ test "fork returns ChildProcess" {
 /// Test ChildProcess has pid property
 test "ChildProcess has pid property" {
   let proc = spawn("echo", args=["test"])
-  let pid = proc.pid
+  let pid = proc.pid()
   inspect(pid > 0, content="true")
 }
 
@@ -226,7 +226,7 @@ test "ChildProcess has pid property" {
 /// Test ChildProcess has killed property
 test "ChildProcess has killed property" {
   let proc = spawn("echo", args=["test"])
-  let killed = proc.killed
+  let killed = proc.killed()
   inspect(killed == false, content="true")
 }
 
@@ -235,9 +235,9 @@ test "ChildProcess has killed property" {
 test "ChildProcess implements EventEmitter trait" {
   let proc = spawn("echo", args=["test"])
 
-  // Test that we can use EventEmitter trait methods
-  proc.on("close", _ => ())
-  proc.once("exit", _ => ())
+  // Test that we can use EventEmitter trait methods via explicit trait call
+  @events.EventEmitterImpl::on(proc, "close", fn(_) { () })
+  @events.EventEmitterImpl::once(proc, "exit", fn(_) { () })
   inspect(true, content="true")
 }
 
@@ -292,7 +292,7 @@ test "ChildProcess ref_ method exists" {
 /// Test SpawnSyncResult has status property
 test "SpawnSyncResult has status property" {
   let result = spawnSync("echo", args=["test"])
-  let _status = result.status
+  let _status = result.status()
   inspect(true, content="true")
 }
 
@@ -300,8 +300,8 @@ test "SpawnSyncResult has status property" {
 /// Test SpawnSyncResult has stdout/stderr
 test "SpawnSyncResult has stdout and stderr" {
   let result = spawnSync("echo", args=["test"])
-  let _stdout = result.stdout
-  let _stderr = result.stderr
+  let _stdout = result.stdout()
+  let _stderr = result.stderr()
   inspect(true, content="true")
 }
 
@@ -317,23 +317,23 @@ test "SpawnSyncResult has stdout and stderr" {
 async test "Node Child Process: spawn creates child process with valid PID" {
   let proc = @child_process.spawn("echo", args=["test"])
   defer proc.kill() |> ignore
-  let pid = proc.pid
+  let pid = proc.pid()
   assert_true(pid > 0)
-  assert_false(proc.killed)
+  assert_false(proc.killed())
 }
 
 ///|
 async test "Node Child Process: spawn with shell option" {
   let proc = @child_process.spawn("echo test", shell=true)
   defer proc.kill() |> ignore
-  assert_true(proc.pid > 0)
+  assert_true(proc.pid() > 0)
 }
 
 ///|
 async test "Node Child Process: spawn with working directory" {
   let proc = @child_process.spawn("pwd", cwd="/tmp")
   defer proc.kill() |> ignore
-  assert_true(proc.pid > 0)
+  assert_true(proc.pid() > 0)
 }
 
 ///| ChildProcess Properties
@@ -342,8 +342,8 @@ async test "Node Child Process: spawn with working directory" {
 async test "Node Child Process: ChildProcess has stdout and stderr streams" {
   let proc = @child_process.spawn("echo", args=["test"])
   defer proc.kill() |> ignore
-  let stdout = proc.stdout
-  let stderr = proc.stderr
+  let stdout = proc.stdout()
+  let stderr = proc.stderr()
   assert_true(@js.is_object(stdout))
   assert_true(@js.is_object(stderr))
 }
@@ -352,7 +352,7 @@ async test "Node Child Process: ChildProcess has stdout and stderr streams" {
 async test "Node Child Process: ChildProcess exitCode is None for running process" {
   let proc = @child_process.spawn("sleep", args=["0.1"])
   defer proc.kill() |> ignore
-  let exit_code = proc.exitCode
+  let exit_code = proc.exitCode()
   // Process might still be running - exitCode is always Int now
   assert_true(exit_code >= 0 || exit_code < 0)
 }
@@ -379,17 +379,17 @@ async test "Node Child Process: ChildProcess unref and ref methods" {
   defer proc.kill() |> ignore
   proc.unref()
   proc.ref_()
-  assert_true(proc.pid > 0)
+  assert_true(proc.pid() > 0)
 }
 
 ///|
 async test "Node Child Process: ChildProcess has EventEmitter methods" {
   let proc = @child_process.spawn("echo", args=["test"])
   defer proc.kill() |> ignore
-  // Test EventEmitter trait methods are available
-  proc.on("exit", _ => ())
-  proc.once("close", _ => ())
-  let names = proc.eventNames()
+  // Test EventEmitter trait methods are available via explicit trait call
+  @events.EventEmitterImpl::on(proc, "exit", fn(_) { () })
+  @events.EventEmitterImpl::once(proc, "close", fn(_) { () })
+  let names = @events.EventEmitterImpl::eventNames(proc)
   assert_true(names.length() >= 0)
 }
 
@@ -399,7 +399,7 @@ async test "Node Child Process: ChildProcess has EventEmitter methods" {
 async test "Node Child Process: ChildProcess stdin is available" {
   let proc = @child_process.spawn("cat")
   defer proc.kill() |> ignore
-  let stdin = proc.stdin
+  let stdin = proc.stdin()
   assert_true(@js.is_object(stdin))
 }
 
@@ -409,7 +409,7 @@ async test "Node Child Process: ChildProcess signalCode returns signal" {
   defer proc.kill() |> ignore
   proc.kill(signal="SIGTERM") |> ignore
   // signalCode may not be available immediately
-  let _signal = proc.signalCode
+  let _signal = proc.signalCode()
   assert_true(true) // Just verify the field exists
 }
 

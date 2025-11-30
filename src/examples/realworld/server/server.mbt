@@ -192,7 +192,7 @@ async fn get_session_user(
       let stmt = db.prepare(
         "SELECT s.userId, u.id, u.name, u.email, u.emailVerified, u.image FROM session s JOIN user u ON s.userId = u.id WHERE s.token = ?",
       )
-      let results = stmt.all(anonymous_parameters=[token])
+      let results = stmt.all(anonymous_parameters=[token |> @nostd.any])
       if results.length() > 0 {
         Some(results[0].cast())
       } else {
@@ -768,7 +768,7 @@ fn get_todos(db : @sqlite.DatabaseSync, user_id : String) -> Array[@js.Any] {
   let stmt = db.prepare(
     "SELECT * FROM todos WHERE user_id = ? ORDER BY created_at DESC",
   )
-  stmt.all(anonymous_parameters=[user_id])
+  stmt.all(anonymous_parameters=[user_id |> @nostd.any]).map(fn(x) { x.cast() })
 }
 
 ///|
@@ -778,7 +778,8 @@ fn create_todo(
   title : String,
 ) -> Unit {
   let stmt = db.prepare("INSERT INTO todos (user_id, title) VALUES (?, ?)")
-  stmt.run(anonymous_parameters=[user_id, title]) |> ignore
+  stmt.run(anonymous_parameters=[user_id |> @nostd.any, title |> @nostd.any])
+  |> ignore
 }
 
 ///|
@@ -791,14 +792,23 @@ fn toggle_todo(
   let stmt = db.prepare(
     "UPDATE todos SET completed = ? WHERE id = ? AND user_id = ?",
   )
-  stmt.run(anonymous_parameters=[if completed { 1 } else { 0 }, id, user_id])
+  stmt.run(anonymous_parameters=[
+    if completed {
+      1 |> @nostd.any
+    } else {
+      0 |> @nostd.any
+    },
+    id |> @nostd.any,
+    user_id |> @nostd.any,
+  ])
   |> ignore
 }
 
 ///|
 fn delete_todo(db : @sqlite.DatabaseSync, user_id : String, id : Int) -> Unit {
   let stmt = db.prepare("DELETE FROM todos WHERE id = ? AND user_id = ?")
-  stmt.run(anonymous_parameters=[id, user_id]) |> ignore
+  stmt.run(anonymous_parameters=[id |> @nostd.any, user_id |> @nostd.any])
+  |> ignore
 }
 
 // ============ FFI ============

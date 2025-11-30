@@ -78,7 +78,7 @@ test "tool_call_chunk creates correct structure" {
   let chunk = tool_call_chunk(
     "call-1",
     "get_weather",
-    { "location": "Tokyo" } |> @js.from_json,
+    ({ "location": "Tokyo" } |> @mbtconv.from_json).cast(),
   )
   let type_ : String = chunk.get("type").cast()
   let tool_name : String = chunk.get("toolName").cast()
