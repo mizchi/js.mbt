@@ -6,7 +6,8 @@
       "path": "mizchi/js/web/streams",
       "alias": "web"
     },
-    "mizchi/js/node/events"
+    "mizchi/js/node/events",
+    "mizchi/js/builtins/global"
   ],
   "test-import": ["moonbitlang/async"]
 }

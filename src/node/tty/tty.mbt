@@ -90,7 +90,7 @@ pub fn[T : @js.JsImpl] WriteStream::end(
 ) -> WriteStream {
   let chunk_any : @js.Any = match chunk {
     Some(c) => c.as_any()
-    None => @js.undefined()
+    None => @global.undefined()
   }
   self.call("end", [chunk_any, encoding, callback]).cast()
 }

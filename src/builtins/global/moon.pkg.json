@@ -1,0 +1,4 @@
+{
+  "import": ["mizchi/js"],
+  "supported-targets": ["js"]
+}

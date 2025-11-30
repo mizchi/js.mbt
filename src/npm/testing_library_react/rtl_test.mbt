@@ -197,9 +197,9 @@ test "fireEvent change on input" {
     "Type here",
   )
   // Create event object using from_map
-  let event : @nostd.Any = @nostd.identity(
-    @js.from_map({ "target": @js.from_map({ "value": @js.any("hello") }) }),
-  )
+  let event : @nostd.Any = @mbtconv.from_map({
+    "target": @mbtconv.from_map({ "value": @nostd.any("hello") }).cast(),
+  }).cast()
   @testing_library_react.fireEvent().change(input_el, event) |> ignore
   @testing_library_react.expect(
     @testing_library_react.screen().getByText("Value: hello"),
@@ -297,9 +297,7 @@ test "fireEvent keyDown on input" {
   let input_el = @testing_library_react.screen().getByPlaceholderText(
     "Press a key",
   )
-  let event : @nostd.Any = @nostd.identity(
-    @js.from_map({ "key": @js.any("Enter") }),
-  )
+  let event : @nostd.Any = @mbtconv.from_map({ "key": @nostd.any("Enter") }).cast()
   @testing_library_react.fireEvent().keyDown(input_el, event) |> ignore
   @testing_library_react.expect(
     @testing_library_react.screen().getByText("Key: Enter"),

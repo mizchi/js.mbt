@@ -1,3 +1,8 @@
 {
-  "import": ["mizchi/js", "mizchi/js/web/http"]
+  "import": [
+    "mizchi/js",
+    "mizchi/js/web/http",
+    "mizchi/js/nostd",
+    "mizchi/js/mbtconv"
+  ]
 }

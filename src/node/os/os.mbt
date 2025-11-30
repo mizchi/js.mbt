@@ -244,7 +244,10 @@ pub fn userInfo() -> UserInfo {
 #alias(userinfo_with_encoding)
 pub fn userInfoWithEncoding(encoding : String) -> UserInfo {
   os_module()
-  .call1("userInfo", @js.from_map({ "encoding": @js.any(encoding) }))
+  .call1(
+    "userInfo",
+    @js.identity(@mbtconv.from_map({ "encoding": @nostd.any(encoding) })),
+  )
   .cast()
 }
 

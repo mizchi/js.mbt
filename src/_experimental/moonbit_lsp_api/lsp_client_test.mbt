@@ -26,7 +26,10 @@ test "Position::to_json creates correct JSON" {
 
 ///|
 test "Position::from_json parses JSON correctly" {
-  let json = @js.from_map({ "line": @js.any(20), "character": @js.any(15) })
+  let json = @mbtconv.from_map({
+    "line": @nostd.any(20),
+    "character": @nostd.any(15),
+  }).cast()
   let pos = Position::from_json(json)
   inspect(pos.line, content="20")
   inspect(pos.character, content="15")
@@ -49,13 +52,19 @@ test "Range::to_json creates correct JSON" {
 
 ///|
 test "Location::from_json parses correctly" {
-  let json = @js.from_map({
-    "uri": @js.any("file:///test.mbt"),
-    "range": @js.from_map({
-      "start": @js.from_map({ "line": @js.any(10), "character": @js.any(5) }),
-      "end": @js.from_map({ "line": @js.any(10), "character": @js.any(15) }),
-    }),
-  })
+  let json = @mbtconv.from_map({
+    "uri": @nostd.any("file:///test.mbt"),
+    "range": @mbtconv.from_map({
+      "start": @mbtconv.from_map({
+        "line": @nostd.any(10),
+        "character": @nostd.any(5),
+      }).cast(),
+      "end": @mbtconv.from_map({
+        "line": @nostd.any(10),
+        "character": @nostd.any(15),
+      }).cast(),
+    }).cast(),
+  }).cast()
   let loc = Location::from_json(json)
   inspect(loc.uri, content="file:///test.mbt")
   inspect(loc.range.start.line, content="10")
@@ -64,13 +73,19 @@ test "Location::from_json parses correctly" {
 
 ///|
 test "TextEdit::from_json parses correctly" {
-  let json = @js.from_map({
-    "range": @js.from_map({
-      "start": @js.from_map({ "line": @js.any(5), "character": @js.any(0) }),
-      "end": @js.from_map({ "line": @js.any(5), "character": @js.any(10) }),
-    }),
-    "newText": @js.any("new_text"),
-  })
+  let json = @mbtconv.from_map({
+    "range": @mbtconv.from_map({
+      "start": @mbtconv.from_map({
+        "line": @nostd.any(5),
+        "character": @nostd.any(0),
+      }).cast(),
+      "end": @mbtconv.from_map({
+        "line": @nostd.any(5),
+        "character": @nostd.any(10),
+      }).cast(),
+    }).cast(),
+    "newText": @nostd.any("new_text"),
+  }).cast()
   let edit = TextEdit::from_json(json)
   inspect(edit.new_text, content="new_text")
   inspect(edit.range.start.line, content="5")

@@ -13,21 +13,23 @@ test "WebSocketReadyState::from_int and to_int" {
 
 ///|
 test "get_close_code extracts code from event" {
-  let event = @js.from_map({ "code": @js.identity(1000) })
+  let event : @js.Any = @mbtconv.from_map({ "code": @nostd.any(1000) }).cast()
   let code = get_close_code(event)
   inspect(code, content="1000")
 }
 
 ///|
 test "get_close_reason extracts reason from event" {
-  let event = @js.from_map({ "reason": @js.identity("Normal closure") })
+  let event : @js.Any = @mbtconv.from_map({
+    "reason": @nostd.any("Normal closure"),
+  }).cast()
   let reason = get_close_reason(event)
   inspect(reason, content="Normal closure")
 }
 
 ///|
 test "get_close_was_clean extracts wasClean from event" {
-  let event = @js.from_map({ "wasClean": @js.identity(true) })
+  let event : @js.Any = @mbtconv.from_map({ "wasClean": @nostd.any(true) }).cast()
   let was_clean = get_close_was_clean(event)
   inspect(was_clean, content="true")
 }

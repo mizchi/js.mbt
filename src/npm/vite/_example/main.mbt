@@ -43,7 +43,7 @@ fn dev_server_example() -> Unit {
     println("URLs: \{urls}")
 
     // Wait a bit
-    let _ = @js.set_timeout(
+    let _ = @global.set_timeout(
       fn() {
         @js.run_async(async fn() -> Unit noraise {
           // Close server

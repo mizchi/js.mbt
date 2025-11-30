@@ -266,7 +266,7 @@ pub fn[T] IDBObjectStore::getAll(
   match (query, count) {
     (Some(q), Some(c)) => self.call2("getAll", q.as_any(), c).cast()
     (Some(q), None) => self.call1("getAll", q.as_any()).cast()
-    (None, Some(c)) => self.call2("getAll", @js.undefined(), c).cast()
+    (None, Some(c)) => self.call2("getAll", @global.undefined(), c).cast()
     (None, None) => self.call0("getAll").cast()
   }
 }
@@ -281,7 +281,7 @@ pub fn[T] IDBObjectStore::getAllKeys(
   match (query, count) {
     (Some(q), Some(c)) => self.call2("getAllKeys", q.as_any(), c).cast()
     (Some(q), None) => self.call1("getAllKeys", q.as_any()).cast()
-    (None, Some(c)) => self.call2("getAllKeys", @js.undefined(), c).cast()
+    (None, Some(c)) => self.call2("getAllKeys", @global.undefined(), c).cast()
     (None, None) => self.call0("getAllKeys").cast()
   }
 }
@@ -308,7 +308,7 @@ pub fn[T] IDBObjectStore::openCursor(
   match (query, direction) {
     (Some(q), Some(d)) => self.call2("openCursor", q.as_any(), d).cast()
     (Some(q), None) => self.call1("openCursor", q.as_any()).cast()
-    (None, Some(d)) => self.call2("openCursor", @js.undefined(), d).cast()
+    (None, Some(d)) => self.call2("openCursor", @global.undefined(), d).cast()
     (None, None) => self.call0("openCursor").cast()
   }
 }
@@ -323,7 +323,8 @@ pub fn[T] IDBObjectStore::openKeyCursor(
   match (query, direction) {
     (Some(q), Some(d)) => self.call2("openKeyCursor", q.as_any(), d).cast()
     (Some(q), None) => self.call1("openKeyCursor", q.as_any()).cast()
-    (None, Some(d)) => self.call2("openKeyCursor", @js.undefined(), d).cast()
+    (None, Some(d)) =>
+      self.call2("openKeyCursor", @global.undefined(), d).cast()
     (None, None) => self.call0("openKeyCursor").cast()
   }
 }
@@ -397,7 +398,7 @@ pub fn[T] IDBIndex::getAll(
   match (query, count) {
     (Some(q), Some(c)) => self.call2("getAll", q.as_any(), c).cast()
     (Some(q), None) => self.call1("getAll", q.as_any()).cast()
-    (None, Some(c)) => self.call2("getAll", @js.undefined(), c).cast()
+    (None, Some(c)) => self.call2("getAll", @global.undefined(), c).cast()
     (None, None) => self.call0("getAll").cast()
   }
 }
@@ -412,7 +413,7 @@ pub fn[T] IDBIndex::getAllKeys(
   match (query, count) {
     (Some(q), Some(c)) => self.call2("getAllKeys", q.as_any(), c).cast()
     (Some(q), None) => self.call1("getAllKeys", q.as_any()).cast()
-    (None, Some(c)) => self.call2("getAllKeys", @js.undefined(), c).cast()
+    (None, Some(c)) => self.call2("getAllKeys", @global.undefined(), c).cast()
     (None, None) => self.call0("getAllKeys").cast()
   }
 }
@@ -439,7 +440,7 @@ pub fn[T] IDBIndex::openCursor(
   match (query, direction) {
     (Some(q), Some(d)) => self.call2("openCursor", q.as_any(), d).cast()
     (Some(q), None) => self.call1("openCursor", q.as_any()).cast()
-    (None, Some(d)) => self.call2("openCursor", @js.undefined(), d).cast()
+    (None, Some(d)) => self.call2("openCursor", @global.undefined(), d).cast()
     (None, None) => self.call0("openCursor").cast()
   }
 }
@@ -454,7 +455,8 @@ pub fn[T] IDBIndex::openKeyCursor(
   match (query, direction) {
     (Some(q), Some(d)) => self.call2("openKeyCursor", q.as_any(), d).cast()
     (Some(q), None) => self.call1("openKeyCursor", q.as_any()).cast()
-    (None, Some(d)) => self.call2("openKeyCursor", @js.undefined(), d).cast()
+    (None, Some(d)) =>
+      self.call2("openKeyCursor", @global.undefined(), d).cast()
     (None, None) => self.call0("openKeyCursor").cast()
   }
 }
@@ -592,7 +594,7 @@ pub fn IDBKeyRange::bound(
   lowerOpen? : Bool,
   upperOpen? : Bool,
 ) -> IDBKeyRange {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   let idb_key_range = global.get("IDBKeyRange")
   idb_key_range.call("bound", [
     lower.as_any(),
@@ -606,7 +608,7 @@ pub fn IDBKeyRange::bound(
 ///|
 /// Create a key range with only one value
 pub fn IDBKeyRange::only(value : &@js.JsImpl) -> IDBKeyRange {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   let idb_key_range = global.get("IDBKeyRange")
   idb_key_range.call1("only", value.as_any()).cast()
 }
@@ -617,7 +619,7 @@ pub fn IDBKeyRange::lowerBound(
   lower : &@js.JsImpl,
   open? : Bool,
 ) -> IDBKeyRange {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   let idb_key_range = global.get("IDBKeyRange")
   idb_key_range.call2("lowerBound", lower.as_any(), open.unwrap_or(false))
   |> @js.identity
@@ -629,7 +631,7 @@ pub fn IDBKeyRange::upperBound(
   upper : &@js.JsImpl,
   open? : Bool,
 ) -> IDBKeyRange {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   let idb_key_range = global.get("IDBKeyRange")
   idb_key_range
   .call2("upperBound", upper.as_any(), open.unwrap_or(false))
@@ -647,7 +649,7 @@ pub fn IDBKeyRange::includes(self : Self, key : &@js.JsImpl) -> Bool {
 ///|
 /// Get the indexedDB factory instance from globalThis
 pub fn indexedDB() -> @js.Any {
-  @js.globalThis().get("indexedDB")
+  @global.global_this().get("indexedDB")
 }
 
 ///|

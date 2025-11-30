@@ -70,5 +70,5 @@ test "doesNotMatch - regex does not match" {
 ///|
 test "ifError - null and undefined pass" {
   ifError(@js.null_())
-  ifError(@js.undefined())
+  ifError(@global.undefined())
 }

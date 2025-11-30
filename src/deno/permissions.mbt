@@ -35,9 +35,9 @@ pub async fn Deno::permissions_query(
   path? : String,
 ) -> PermissionStatus {
   let perms : @nostd.Any = self.permissions().cast()
-  let opts : @nostd.Any = @js.from_option_map({
-    "name": Some(@js.any(name)),
-    "path": path.map(fn(x) { @js.any(x) }),
+  let opts : @nostd.Any = @mbtconv.from_option_map({
+    "name": Some(@nostd.any(name)),
+    "path": path.map(fn(x) { @nostd.any(x) }),
   }).cast()
   let promise : @js.Promise[PermissionStatus] = perms
     ._call("query", [opts])
@@ -53,9 +53,9 @@ pub async fn Deno::permissions_request(
   path? : String,
 ) -> PermissionStatus {
   let perms : @nostd.Any = self.permissions().cast()
-  let opts : @nostd.Any = @js.from_option_map({
-    "name": Some(@js.any(name)),
-    "path": path.map(fn(x) { @js.any(x) }),
+  let opts : @nostd.Any = @mbtconv.from_option_map({
+    "name": Some(@nostd.any(name)),
+    "path": path.map(fn(x) { @nostd.any(x) }),
   }).cast()
   let promise : @js.Promise[PermissionStatus] = perms
     ._call("request", [opts])
@@ -71,9 +71,9 @@ pub async fn Deno::permissions_revoke(
   path? : String,
 ) -> PermissionStatus {
   let perms : @nostd.Any = self.permissions().cast()
-  let opts : @nostd.Any = @js.from_option_map({
-    "name": Some(@js.any(name)),
-    "path": path.map(fn(x) { @js.any(x) }),
+  let opts : @nostd.Any = @mbtconv.from_option_map({
+    "name": Some(@nostd.any(name)),
+    "path": path.map(fn(x) { @nostd.any(x) }),
   }).cast()
   let promise : @js.Promise[PermissionStatus] = perms
     ._call("revoke", [opts])

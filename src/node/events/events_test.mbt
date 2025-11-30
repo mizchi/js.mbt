@@ -127,7 +127,7 @@ async test "Node Events: timer and promise coordination" {
   let mut timer_fired = false
   let mut promise_resolved = false
   let resolver : @js.Resolvers[Unit] = @js.Promise::withResolvers()
-  let _ = @js.setTimeout(
+  let _ = @global.set_timeout(
     () => {
       timer_fired = true
       resolver.resolve(())

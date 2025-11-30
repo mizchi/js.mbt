@@ -184,7 +184,7 @@ pub async fn Deno::remove(
       .as_any()
       ._call("remove", [
         @nostd.any(path),
-        @js.from_option_map({ "recursive": Some(@js.any(r)) }).cast(),
+        @mbtconv.from_option_map({ "recursive": Some(@nostd.any(r)) }).cast(),
       ])
       .cast()
     None => self.as_any()._call("remove", [@nostd.any(path)]).cast()
@@ -201,7 +201,7 @@ pub async fn Deno::mkdir(self : Deno, path : String, recursive? : Bool) -> Unit 
       .as_any()
       ._call("mkdir", [
         @nostd.any(path),
-        @js.from_option_map({ "recursive": Some(@js.any(r)) }).cast(),
+        @mbtconv.from_option_map({ "recursive": Some(@nostd.any(r)) }).cast(),
       ])
       .cast()
     None => self.as_any()._call("mkdir", [@nostd.any(path)]).cast()
@@ -317,7 +317,7 @@ pub async fn Deno::makeTempDir(self : Deno, prefix? : String) -> String {
       self
       .as_any()
       ._call("makeTempDir", [
-        @js.from_option_map({ "prefix": Some(@js.any(p)) }).cast(),
+        @mbtconv.from_option_map({ "prefix": Some(@nostd.any(p)) }).cast(),
       ])
       .cast()
     None => self.as_any()._call("makeTempDir", []).cast()
@@ -333,7 +333,7 @@ pub async fn Deno::makeTempFile(self : Deno, prefix? : String) -> String {
       self
       .as_any()
       ._call("makeTempFile", [
-        @js.from_option_map({ "prefix": Some(@js.any(p)) }).cast(),
+        @mbtconv.from_option_map({ "prefix": Some(@nostd.any(p)) }).cast(),
       ])
       .cast()
     None => self.as_any()._call("makeTempFile", []).cast()
@@ -400,9 +400,9 @@ pub async fn Deno::connect(
   hostname : String,
   port : Int,
 ) -> @js.Any {
-  let opts : @nostd.Any = @js.from_map({
-    "hostname": @js.any(hostname),
-    "port": @js.any(port),
+  let opts : @nostd.Any = @mbtconv.from_map({
+    "hostname": @nostd.any(hostname),
+    "port": @nostd.any(port),
   }).cast()
   let promise : @js.Promise[@js.Any] = self
     .as_any()
@@ -414,9 +414,9 @@ pub async fn Deno::connect(
 ///|
 /// Listen on a network address (TCP server)
 pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> @js.Any {
-  let opts : @nostd.Any = @js.from_map({
-    "hostname": @js.any(hostname),
-    "port": @js.any(port),
+  let opts : @nostd.Any = @mbtconv.from_map({
+    "hostname": @nostd.any(hostname),
+    "port": @nostd.any(port),
   }).cast()
   self.as_any()._call("listen", [opts]).cast()
 }
@@ -440,9 +440,9 @@ pub async fn Deno::resolveDns(
 ///|
 /// Serve HTTP requests (simplified version)
 pub fn Deno::serve(self : Deno, port : Int, handler : @js.Any) -> @js.Any {
-  let opts : @nostd.Any = @js.from_map({
-    "port": @js.any(port),
-    "handler": handler,
+  let opts : @nostd.Any = @mbtconv.from_map({
+    "port": @nostd.any(port),
+    "handler": handler.cast(),
   }).cast()
   self.as_any()._call("serve", [opts]).cast()
 }
@@ -472,10 +472,10 @@ pub async fn Deno::open(
   write? : Bool,
   read? : Bool,
 ) -> FsFile {
-  let opts : @nostd.Any = @js.from_option_map({
-    "create": create.map(fn(x) { @js.any(x) }),
-    "write": write.map(fn(x) { @js.any(x) }),
-    "read": read.map(fn(x) { @js.any(x) }),
+  let opts : @nostd.Any = @mbtconv.from_option_map({
+    "create": create.map(fn(x) { @nostd.any(x) }),
+    "write": write.map(fn(x) { @nostd.any(x) }),
+    "read": read.map(fn(x) { @nostd.any(x) }),
   }).cast()
   let promise : @js.Promise[FsFile] = self
     .as_any()
@@ -570,10 +570,10 @@ pub fn Deno::test_only(
   name : String,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let opts : @nostd.Any = @js.from_map({
-    "name": @js.any(name),
-    "only": @js.any(true),
-    "fn": @js.promisify1(f) |> @js.from_fn1,
+  let opts : @nostd.Any = @mbtconv.from_map({
+    "name": @nostd.any(name),
+    "only": @nostd.any(true),
+    "fn": (@js.promisify1(f) |> @js.from_fn1).cast(),
   }).cast()
   self.as_any()._call("test", [opts]) |> ignore
 }
@@ -627,12 +627,12 @@ pub fn Command::new(
     program,
     args
     .map(fn(a) { @js.from_array(a.map(fn(s) { @js.any(s) })) })
-    .unwrap_or(@js.undefined()),
-    cwd.map(fn(c) { @js.any(c) }).unwrap_or(@js.undefined()),
-    env.unwrap_or(@js.undefined()),
-    stdin.map(fn(s) { @js.any(s) }).unwrap_or(@js.undefined()),
-    stdout.map(fn(s) { @js.any(s) }).unwrap_or(@js.undefined()),
-    stderr.map(fn(s) { @js.any(s) }).unwrap_or(@js.undefined()),
+    .unwrap_or(@global.undefined()),
+    cwd.map(fn(c) { @js.any(c) }).unwrap_or(@global.undefined()),
+    env.unwrap_or(@global.undefined()),
+    stdin.map(fn(s) { @js.any(s) }).unwrap_or(@global.undefined()),
+    stdout.map(fn(s) { @js.any(s) }).unwrap_or(@global.undefined()),
+    stderr.map(fn(s) { @js.any(s) }).unwrap_or(@global.undefined()),
   )
 }
 

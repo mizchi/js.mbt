@@ -3,5 +3,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/node"
-  ]
+  ],
+  "test-import": ["mizchi/js/builtins/global"]
 }

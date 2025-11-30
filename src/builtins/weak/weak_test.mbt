@@ -116,7 +116,7 @@ test "FinalizationRegistry::unregister - unregister with token" {
 ///|
 test "WeakRef::deref returns None when target is collected" {
   // Create a mock WeakRef that returns undefined to simulate collected object
-  let undef_ref : @js.Any = @js.undefined()
+  let undef_ref : @js.Any = @global.undefined()
   let mock_weakref = @js.Object::new()
   mock_weakref.set("deref", @js.from_fn0(fn() { undef_ref }))
   let wr : WeakRef[@js.Any] = @js.identity(mock_weakref.as_any())

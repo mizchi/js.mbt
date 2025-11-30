@@ -150,9 +150,9 @@ test "fireEvent change" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @nostd.identity(
-    @js.from_map({ "target": @js.from_map({ "value": @js.any("hello") }) }),
-  )
+  let event : @nostd.Any = @mbtconv.from_map({
+    "target": @mbtconv.from_map({ "value": @nostd.any("hello") }).cast(),
+  }).cast()
   fireEvent().change(input, event) |> ignore
   inspect(value.val, content="hello")
 }
@@ -173,9 +173,9 @@ test "fireEvent input" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @nostd.identity(
-    @js.from_map({ "target": @js.from_map({ "value": @js.any("world") }) }),
-  )
+  let event : @nostd.Any = @mbtconv.from_map({
+    "target": @mbtconv.from_map({ "value": @nostd.any("world") }).cast(),
+  }).cast()
   fireEvent().input(input, event) |> ignore
   inspect(value.val, content="world")
 }
@@ -216,9 +216,7 @@ test "fireEvent keyDown" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @nostd.identity(
-    @js.from_map({ "key": @js.any("Enter") }),
-  )
+  let event : @nostd.Any = @mbtconv.from_map({ "key": @nostd.any("Enter") }).cast()
   fireEvent().keyDown(input, event) |> ignore
   inspect(key_pressed.val, content="Enter")
 }
@@ -238,9 +236,7 @@ test "fireEvent keyUp" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @nostd.identity(
-    @js.from_map({ "key": @js.any("Escape") }),
-  )
+  let event : @nostd.Any = @mbtconv.from_map({ "key": @nostd.any("Escape") }).cast()
   fireEvent().keyUp(input, event) |> ignore
   inspect(key_released.val, content="Escape")
 }
@@ -609,10 +605,10 @@ test "fireEvent scroll" {
   defer dispose()
   let scrolled = Ref::new(false)
   let handler : () -> Unit = fn() { scrolled.val = true }
-  let style_obj : @js.Any = @js.from_map({
-    "overflow": @js.any("auto"),
-    "height": @js.any("100px"),
-  })
+  let style_obj : @js.Any = @mbtconv.from_map({
+    "overflow": @nostd.any("auto"),
+    "height": @nostd.any("100px"),
+  }).cast()
   let handler_any : @nostd.Any = @js.identity(handler)
   let vnode = @preact.h("div", ["Scrollable"], props={
     "onScroll": handler_any,

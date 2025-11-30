@@ -11,32 +11,7 @@ fn any(&JsImpl) -> Any
 
 fn array_from(Any) -> Array[Any]
 
-fn atob(String) -> String raise ThrowError
-
-fn btoa(String) -> String raise ThrowError
-
-#alias(clear_interval)
-fn clearInterval(JsTimer) -> Unit
-
-#alias(clear_timeout)
-fn clearTimeout(JsTimer) -> Unit
-
-#alias(decode_uri)
-fn decodeURI(String) -> String
-
-#alias(decode_uri_component)
-fn decodeURIComponent(String) -> String
-
 async fn dispose_async(&JsImpl) -> Unit
-
-#alias(dynamic_import)
-fn dynamicImport(String) -> Any
-
-#alias(encode_uri)
-fn encodeURI(String) -> String
-
-#alias(encode_uri_component)
-fn encodeURIComponent(String) -> String
 
 fn[T : JsImpl] from_array(Array[T]) -> Any
 
@@ -48,17 +23,20 @@ fn[A, B, R] from_fn2((A, B) -> R) -> Any
 
 fn[A, B, C, R] from_fn3((A, B, C) -> R) -> Any
 
+#deprecated
 fn from_json(Json) -> Any
 
+#deprecated
 fn from_map(Map[String, Any]) -> Any
 
 fn[A : JsImpl] from_option(A?) -> Any
 
+#deprecated
 fn from_option_map(Map[String, Any?]) -> Any
 
+#deprecated
 fn from_option_map_or_undefined(Map[String, Any?]) -> Any
 
-#alias(global_this)
 fn globalThis() -> Any
 
 fn[A, B] identity(A) -> B
@@ -66,11 +44,6 @@ fn[A, B] identity(A) -> B
 fn[A] identity_option(Any) -> A?
 
 fn[T : JsImpl] instanceof_(T, T) -> Bool
-
-#alias(is_finite)
-fn isFinite(Double) -> Bool
-
-fn[T : JsImpl] isNaN(T) -> Bool
 
 fn[T : JsImpl] is_array(T) -> Bool
 
@@ -92,12 +65,6 @@ fn new_(Any, Array[&JsImpl]) -> Any
 
 fn null_() -> Any
 
-#alias(parse_float)
-fn parseFloat(String) -> Double?
-
-#alias(parse_int)
-fn parseInt(String, radix? : Int) -> Int?
-
 fn[R] promisify0(async () -> R) -> () -> Promise[R]
 
 fn[A, R] promisify1(async (A) -> R) -> (A) -> Promise[R]
@@ -106,18 +73,9 @@ fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> Promise[R]
 
 fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
 
-#alias(queue_microtask)
-fn queueMicrotask(() -> Unit) -> Unit
-
 fn run_async(async () -> Unit noraise) -> Unit
 
 async fn[X] run_promise((@js_async.AbortSignal) -> Promise[X]) -> X
-
-#alias(set_interval)
-fn setInterval(() -> Unit, Int) -> JsTimer
-
-#alias(set_timeout)
-fn setTimeout(() -> Unit, Int) -> JsTimer
 
 async fn sleep(Int) -> Unit noraise
 

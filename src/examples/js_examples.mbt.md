@@ -192,13 +192,13 @@ async fn sleep_example() -> Unit {
 ///|
 test "global functions" {
   // URI encoding
-  let encoded = @js.encodeURIComponent("hello world")
-  let decoded = @js.decodeURIComponent(encoded)
+  let encoded = @global.encode_uri_component("hello world")
+  let decoded = @global.decode_uri_component(encoded)
   assert_eq(decoded, "hello world")
 
   // Base64
-  let base64 = @js.btoa("hello")
-  let original = @js.atob(base64)
+  let base64 = @global.btoa("hello")
+  let original = @global.atob(base64)
   assert_eq(original, "hello")
 }
 ```

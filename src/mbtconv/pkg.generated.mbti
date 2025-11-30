@@ -1,0 +1,30 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/mbtconv"
+
+import(
+  "mizchi/js/nostd"
+)
+
+// Values
+fn from_json(Json) -> @nostd.Any
+
+fn from_map(Map[String, @nostd.Any]) -> @nostd.Any
+
+fn from_option(@nostd.Any?) -> @nostd.Any
+
+fn from_option_map(Map[String, @nostd.Any?]) -> @nostd.Any
+
+fn from_option_map_or_undefined(Map[String, @nostd.Any?]) -> @nostd.Any
+
+fn to_json(@nostd.Any) -> Json
+
+fn[A] to_option(@nostd.Any) -> A?
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

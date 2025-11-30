@@ -18,7 +18,7 @@ pub fn CustomElementRegistry::as_any(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements
 #alias(custom_elements)
 pub fn customElements() -> CustomElementRegistry {
-  @js.identity(@js.global_this().get("customElements"))
+  @js.identity(@global.global_this().get("customElements"))
 }
 
 ///|

@@ -51,7 +51,7 @@ test "Proxy with target array" {
 
 ///|
 test "Proxy with target function" {
-  let target_fn = @js.globalThis().get("Math").get("max")
+  let target_fn = @global.global_this().get("Math").get("max")
   let proxy = Proxy::new(@nostd.any(target_fn))
 
   // Proxy wraps function
@@ -171,7 +171,7 @@ test "Proxy with apply trap for function" {
 ///|
 test "Proxy with construct trap" {
   // Create a constructor function using JS eval
-  let global = @js.globalThis()
+  let global = @global.global_this()
   global.call("eval", [
     @js.any("globalThis.TestConstructor = function(x) { this.value = x; }"),
   ])
@@ -208,16 +208,16 @@ test "Proxy with ownKeys trap" {
     getOwnPropertyDescriptor=fn(_target, _prop) {
       // Need to return valid descriptor for Object.keys() to work
       @nostd.any(
-        @js.from_map({
-          "value": @js.any(42),
-          "writable": @js.any(true),
-          "enumerable": @js.any(true),
-          "configurable": @js.any(true),
+        @mbtconv.from_map({
+          "value": @nostd.any(42),
+          "writable": @nostd.any(true),
+          "enumerable": @nostd.any(true),
+          "configurable": @nostd.any(true),
         }),
       )
     },
   )
-  let object_class = @js.globalThis().get("Object")
+  let object_class = @global.global_this().get("Object")
   let keys : @js.JsArray = @js.identity(object_class.call1("keys", proxy))
   inspect(ownkeys_called, content="true")
   let length : Int = @js.identity(keys.get("length"))
@@ -234,7 +234,7 @@ test "Proxy with getPrototypeOf trap" {
   let proxy = Proxy::new(@nostd.any(target), getPrototypeOf=fn(_target) {
     @nostd.any(custom_proto)
   })
-  let object_class = @js.globalThis().get("Object")
+  let object_class = @global.global_this().get("Object")
   let proto = object_class.call1("getPrototypeOf", proxy)
   let has_custom : Bool = @js.identity(proto.get("custom"))
   inspect(has_custom, content="true")
@@ -252,7 +252,7 @@ test "Proxy with setPrototypeOf trap" {
     true
   })
   let new_proto = @js.Object::new()
-  let object_class = @js.globalThis().get("Object")
+  let object_class = @global.global_this().get("Object")
   object_class.call2("setPrototypeOf", proxy, new_proto) |> ignore
   inspect(set_proto_called, content="true")
 }
@@ -261,7 +261,7 @@ test "Proxy with setPrototypeOf trap" {
 test "Proxy with isExtensible trap" {
   let target = @js.Object::new()
   // Make target non-extensible first to match trap result
-  let object_class = @js.globalThis().get("Object")
+  let object_class = @global.global_this().get("Object")
   object_class.call1("preventExtensions", target) |> ignore
   let proxy = Proxy::new(@nostd.any(target), isExtensible=fn(_target) { false })
   let extensible : Bool = @js.identity(
@@ -277,12 +277,12 @@ test "Proxy with preventExtensions trap" {
   let proxy = Proxy::new(@nostd.any(target), preventExtensions=fn(target_obj) {
     prevent_called = true
     // Actually prevent extensions on target
-    let object_class = @js.globalThis().get("Object")
+    let object_class = @global.global_this().get("Object")
     let target_as_obj : @js.Object = target_obj.cast()
     object_class.call1("preventExtensions", target_as_obj) |> ignore
     true
   })
-  let object_class = @js.globalThis().get("Object")
+  let object_class = @global.global_this().get("Object")
   object_class.call1("preventExtensions", proxy) |> ignore
   inspect(prevent_called, content="true")
 }
@@ -302,7 +302,7 @@ test "Proxy with getOwnPropertyDescriptor trap" {
     descriptor.set("configurable", true)
     @nostd.any(descriptor)
   })
-  let object_class = @js.globalThis().get("Object")
+  let object_class = @global.global_this().get("Object")
   let descriptor = object_class.call2("getOwnPropertyDescriptor", proxy, "x")
   let value : Int = @js.identity(descriptor.get("value"))
   inspect(value, content="999")
@@ -327,7 +327,7 @@ test "Proxy with defineProperty trap" {
   let descriptor = @js.Object::new()
   descriptor.set("value", 123)
   descriptor.set("writable", true)
-  let object_class = @js.globalThis().get("Object")
+  let object_class = @global.global_this().get("Object")
   let proxy_obj : @js.Object = @js.identity(proxy)
   object_class.call("defineProperty", [
     proxy_obj.as_any(),

@@ -215,7 +215,7 @@ pub fn MediaQueryList::as_any(self : MediaQueryList) -> @nostd.Any = "%identity"
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
-  @js.identity(@js.global_this().call1("matchMedia", query))
+  @js.identity(@global.global_this().call1("matchMedia", query))
 }
 
 ///|
@@ -278,7 +278,7 @@ pub fn MediaQueryList::removeChangeListener(
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSS/escape
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
-  let css_obj = @js.global_this().get("CSS")
+  let css_obj = @global.global_this().get("CSS")
   @js.identity(css_obj.call1("escape", value))
 }
 
@@ -287,7 +287,7 @@ pub fn cssEscape(value : String) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSS/supports
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
-  let css_obj = @js.global_this().get("CSS")
+  let css_obj = @global.global_this().get("CSS")
   css_obj.call2("supports", property, value).cast()
 }
 
@@ -295,7 +295,7 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 /// Checks if a CSS condition is supported
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
-  let css_obj = @js.global_this().get("CSS")
+  let css_obj = @global.global_this().get("CSS")
   @js.identity(css_obj.call1("supports", condition))
 }
 

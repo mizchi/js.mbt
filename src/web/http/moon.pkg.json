@@ -8,6 +8,7 @@
     "mizchi/js/web/encoding",
     "mizchi/js/web/streams",
     "mizchi/js/web/url",
-    "moonbitlang/async"
+    "moonbitlang/async",
+    "mizchi/js/builtins/global"
   ]
 }

@@ -43,12 +43,16 @@ pub fn SdkClient::new(name : String, version : String) -> SdkClient {
   let sdk = require_mcp_client()
   let client_class = sdk.get("Client")
   // Build client info
-  let client_info = @js.from_map({
-    "name": name |> @js.any,
-    "version": version |> @js.any,
-  })
+  let client_info = @js.identity(
+    @mbtconv.from_map({
+      "name": name |> @nostd.any,
+      "version": version |> @nostd.any,
+    }),
+  )
   // Create client instance with empty capabilities
-  let opts = @js.from_map({ "capabilities": @js.Object::new().as_any() })
+  let opts = @js.identity(
+    @mbtconv.from_map({ "capabilities": @nostd.any(@js.Object::new().as_any()) }),
+  )
   ffi_construct_client(client_class, [client_info, opts]) |> @js.identity
 }
 
@@ -115,7 +119,9 @@ pub(all) struct ToolInfo {
 ///|
 /// List available tools
 pub async fn SdkClient::list_tools(self : SdkClient) -> ListToolsResult {
-  let request = @js.from_map({ "method": "tools/list" |> @js.any })
+  let request = @js.identity(
+    @mbtconv.from_map({ "method": "tools/list" |> @nostd.any }),
+  )
   let types = require_mcp_client_types()
   let schema = types.get("ListToolsResultSchema")
   let result = ffi_client_request(self.as_any(), request, schema).wait()
@@ -153,14 +159,18 @@ pub async fn SdkClient::call_tool(
   name : String,
   arguments : &@js.JsImpl,
 ) -> CallToolResult {
-  let params = @js.from_map({
-    "name": name |> @js.any,
-    "arguments": arguments.as_any(),
-  })
-  let request = @js.from_map({
-    "method": "tools/call" |> @js.any,
-    "params": params,
-  })
+  let params = @js.identity(
+    @mbtconv.from_map({
+      "name": name |> @nostd.any,
+      "arguments": @nostd.any(arguments.as_any()),
+    }),
+  )
+  let request = @js.identity(
+    @mbtconv.from_map({
+      "method": "tools/call" |> @nostd.any,
+      "params": @nostd.any(params),
+    }),
+  )
   let types = require_mcp_client_types()
   let schema = types.get("CallToolResultSchema")
   let result = ffi_client_request(self.as_any(), request, schema).wait()
@@ -192,7 +202,9 @@ pub(all) struct ResourceInfo {
 ///|
 /// List available resources
 pub async fn SdkClient::list_resources(self : SdkClient) -> ListResourcesResult {
-  let request = @js.from_map({ "method": "resources/list" |> @js.any })
+  let request = @js.identity(
+    @mbtconv.from_map({ "method": "resources/list" |> @nostd.any }),
+  )
   let types = require_mcp_client_types()
   let schema = types.get("ListResourcesResultSchema")
   let result = ffi_client_request(self.as_any(), request, schema).wait()
@@ -213,11 +225,13 @@ pub async fn SdkClient::read_resource(
   self : SdkClient,
   uri : String,
 ) -> ReadResourceResult {
-  let params = @js.from_map({ "uri": uri |> @js.any })
-  let request = @js.from_map({
-    "method": "resources/read" |> @js.any,
-    "params": params,
-  })
+  let params = @js.identity(@mbtconv.from_map({ "uri": uri |> @nostd.any }))
+  let request = @js.identity(
+    @mbtconv.from_map({
+      "method": "resources/read" |> @nostd.any,
+      "params": @nostd.any(params),
+    }),
+  )
   let types = require_mcp_client_types()
   let schema = types.get("ReadResourceResultSchema")
   let result = ffi_client_request(self.as_any(), request, schema).wait()
@@ -255,7 +269,9 @@ pub(all) struct PromptArgumentInfo {
 ///|
 /// List available prompts
 pub async fn SdkClient::list_prompts(self : SdkClient) -> ListPromptsResult {
-  let request = @js.from_map({ "method": "prompts/list" |> @js.any })
+  let request = @js.identity(
+    @mbtconv.from_map({ "method": "prompts/list" |> @nostd.any }),
+  )
   let types = require_mcp_client_types()
   let schema = types.get("ListPromptsResultSchema")
   let result = ffi_client_request(self.as_any(), request, schema).wait()
@@ -290,10 +306,12 @@ pub async fn SdkClient::get_prompt(
   if arguments is Some(args) {
     params.set("arguments", args)
   }
-  let request = @js.from_map({
-    "method": "prompts/get" |> @js.any,
-    "params": params.as_any(),
-  })
+  let request = @js.identity(
+    @mbtconv.from_map({
+      "method": "prompts/get" |> @nostd.any,
+      "params": @nostd.any(params.as_any()),
+    }),
+  )
   let types = require_mcp_client_types()
   let schema = types.get("GetPromptResultSchema")
   let result = ffi_client_request(self.as_any(), request, schema).wait()
@@ -363,7 +381,7 @@ pub fn SdkClient::set_notification_handler(
   .as_any()
   .get("setNotificationHandler")
   .call_self([
-    @js.from_map({ "method": method_name |> @js.any }),
+    @js.identity(@mbtconv.from_map({ "method": method_name |> @nostd.any })),
     @js.identity(handler),
   ])
   |> ignore

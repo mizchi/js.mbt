@@ -21,7 +21,7 @@ test "expect toEqual" {
 test "expect toBeDefined and toBeUndefined" {
   @vitest.setup_standalone()
   @vitest.expect(42).toBeDefined()
-  @vitest.expect(@js.undefined()).toBeUndefined()
+  @vitest.expect(@global.undefined()).toBeUndefined()
 }
 
 ///|

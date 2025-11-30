@@ -1,0 +1,55 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/global"
+
+import(
+  "mizchi/js"
+)
+
+// Values
+fn atob(String) -> String
+
+fn btoa(String) -> String
+
+fn clear_interval(Timer) -> Unit
+
+fn clear_timeout(Timer) -> Unit
+
+fn decode_uri(String) -> String
+
+fn decode_uri_component(String) -> String
+
+fn dynamic_import(String) -> @js.Any
+
+fn encode_uri(String) -> String
+
+fn encode_uri_component(String) -> String
+
+fn global_this() -> @js.Any
+
+fn is_finite(Double) -> Bool
+
+fn is_nan(@js.Any) -> Bool
+
+fn parse_float(String) -> Double?
+
+fn parse_int(String, radix? : Int) -> Int?
+
+fn queue_microtask(() -> Unit) -> Unit
+
+fn set_interval(() -> Unit, Int) -> Timer
+
+fn set_timeout(() -> Unit, Int) -> Timer
+
+fn undefined() -> @js.Any
+
+// Errors
+
+// Types and methods
+#external
+pub type Timer
+fn Timer::as_any(Self) -> @js.Any
+
+// Type aliases
+
+// Traits
+

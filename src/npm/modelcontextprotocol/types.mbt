@@ -80,11 +80,13 @@ pub struct JsonRpcResponse {
 
 ///|
 pub fn JsonRpcResponse::as_any(self : JsonRpcResponse) -> @js.Any {
-  @js.from_map({
-    "jsonrpc": @js.any(self.jsonrpc),
-    "id": self.id.as_any(),
-    "result": self.result,
-  })
+  @js.identity(
+    @mbtconv.from_map({
+      "jsonrpc": @nostd.any(self.jsonrpc),
+      "id": @nostd.any(self.id.as_any()),
+      "result": @nostd.any(self.result),
+    }),
+  )
 }
 
 ///|
@@ -113,11 +115,13 @@ pub struct JsonRpcErrorResponse {
 
 ///|
 pub fn JsonRpcErrorResponse::as_any(self : JsonRpcErrorResponse) -> @js.Any {
-  @js.from_map({
-    "jsonrpc": @js.any(self.jsonrpc),
-    "id": self.id.as_any(),
-    "error": self.error.as_any(),
-  })
+  @js.identity(
+    @mbtconv.from_map({
+      "jsonrpc": @nostd.any(self.jsonrpc),
+      "id": @nostd.any(self.id.as_any()),
+      "error": @nostd.any(self.error.as_any()),
+    }),
+  )
 }
 
 ///|

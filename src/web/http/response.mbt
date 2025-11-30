@@ -24,7 +24,7 @@ pub fn Response::new(
 ) -> Response {
   let body_js = match body {
     Some(b) => @js.identity(b)
-    None => @js.undefined()
+    None => @global.undefined()
   }
   match (status, statusText, headers) {
     (Some(s), Some(st), Some(h)) =>
@@ -100,7 +100,7 @@ pub extern "js" fn Response::redirect(url : String, status? : Int) -> Response =
 pub fn Response::json_(data : &@js.JsImpl, options? : &@js.JsImpl) -> Response {
   match options {
     Some(opts) => json_impl(data.as_any(), opts.as_any())
-    None => json_impl(data.as_any(), @js.undefined())
+    None => json_impl(data.as_any(), @global.undefined())
   }
 }
 

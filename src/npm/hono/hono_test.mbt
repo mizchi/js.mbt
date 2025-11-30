@@ -187,7 +187,10 @@ async test "testClient with JSON response" {
 
   // Define a JSON route
   app.get("/api/user", fn(c) {
-    let user = @js.from_map({ "name": @js.any("Alice"), "age": @js.any(25) })
+    let user = @mbtconv.from_map({
+      "name": @nostd.any("Alice"),
+      "age": @nostd.any(25),
+    }).cast()
     c.json(user)
   })
   |> ignore

@@ -43,10 +43,10 @@ test "PromptResult::as_any without description" {
 
 ///|
 test "ToolInfo identity cast" {
-  let raw = @js.from_map({
-    "name": "test-tool" |> @js.any,
-    "description": "A test tool" |> @js.any,
-    "inputSchema": @js.from_map({ "type": "object" |> @js.any }),
+  let raw = @mbtconv.from_map({
+    "name": "test-tool" |> @nostd.any,
+    "description": "A test tool" |> @nostd.any,
+    "inputSchema": @mbtconv.from_map({ "type": "object" |> @nostd.any }),
   })
   let info : ToolInfo = @js.identity(raw)
   assert_eq(info.name, "test-tool")
@@ -56,10 +56,10 @@ test "ToolInfo identity cast" {
 
 ///|
 test "ContentResult identity cast" {
-  let raw = @js.from_map({
-    "type": "text" |> @js.any,
-    "text": "Hello, world!" |> @js.any,
-    "raw": @js.from_map({ "type": "text" |> @js.any }),
+  let raw = @mbtconv.from_map({
+    "type": "text" |> @nostd.any,
+    "text": "Hello, world!" |> @nostd.any,
+    "raw": @mbtconv.from_map({ "type": "text" |> @nostd.any }),
   })
   let content : ContentResult = @js.identity(raw)
   assert_eq(content.type_(), "text")
@@ -69,11 +69,11 @@ test "ContentResult identity cast" {
 
 ///|
 test "ResourceInfo identity cast" {
-  let raw = @js.from_map({
-    "uri": "file:///test.txt" |> @js.any,
-    "name": "test.txt" |> @js.any,
-    "description": "A test file" |> @js.any,
-    "mime_type": "text/plain" |> @js.any,
+  let raw = @mbtconv.from_map({
+    "uri": "file:///test.txt" |> @nostd.any,
+    "name": "test.txt" |> @nostd.any,
+    "description": "A test file" |> @nostd.any,
+    "mime_type": "text/plain" |> @nostd.any,
   })
   let info : ResourceInfo = @js.identity(raw)
   assert_eq(info.uri, "file:///test.txt")
@@ -86,10 +86,10 @@ test "ResourceInfo identity cast" {
 
 ///|
 test "PromptArgumentInfo identity cast" {
-  let raw = @js.from_map({
-    "name": "query" |> @js.any,
-    "description": "The search query" |> @js.any,
-    "required": true |> @js.any,
+  let raw = @mbtconv.from_map({
+    "name": "query" |> @nostd.any,
+    "description": "The search query" |> @nostd.any,
+    "required": true |> @nostd.any,
   })
   let info : PromptArgumentInfo = @js.identity(raw)
   assert_eq(info.name, "query")
@@ -101,9 +101,9 @@ test "PromptArgumentInfo identity cast" {
 
 ///|
 test "PromptInfo identity cast" {
-  let raw = @js.from_map({
-    "name": "greeting" |> @js.any,
-    "description": "A greeting prompt" |> @js.any,
+  let raw = @mbtconv.from_map({
+    "name": "greeting" |> @nostd.any,
+    "description": "A greeting prompt" |> @nostd.any,
   })
   let info : PromptInfo = @js.identity(raw)
   assert_eq(info.name, "greeting")
@@ -113,12 +113,12 @@ test "PromptInfo identity cast" {
 
 ///|
 test "PromptMessageResult identity cast" {
-  let content_raw = @js.from_map({ "type": "text" |> @js.any })
-  let raw = @js.from_map({
-    "role": "assistant" |> @js.any,
-    "content": @js.from_map({
-      "type": "text" |> @js.any,
-      "text": "Hello!" |> @js.any,
+  let content_raw = @mbtconv.from_map({ "type": "text" |> @nostd.any })
+  let raw = @mbtconv.from_map({
+    "role": "assistant" |> @nostd.any,
+    "content": @mbtconv.from_map({
+      "type": "text" |> @nostd.any,
+      "text": "Hello!" |> @nostd.any,
       "raw": content_raw,
     }),
   })

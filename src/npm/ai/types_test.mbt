@@ -55,7 +55,7 @@ test "LanguageModelUsage from_any without cached" {
 
 ///|
 test "ProviderMetadata from_any with undefined" {
-  let result = ProviderMetadata::from_any(@js.undefined())
+  let result = ProviderMetadata::from_any(@global.undefined())
   guard result is None
 }
 

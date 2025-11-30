@@ -122,7 +122,7 @@ pub fn[T] provide(key : String, value : T) -> Unit {
 pub fn[T] inject(key : String, default_value? : T) -> T {
   let default_val = match default_value {
     Some(v) => v |> @js.identity
-    None => @js.undefined()
+    None => @global.undefined()
   }
   @js.identity(ffi_inject(@js.any(key), default_val))
 }
@@ -131,7 +131,9 @@ pub fn[T] inject(key : String, default_value? : T) -> T {
 /// Vue.nextTick - Execute callback after DOM update
 #alias(next_tick)
 pub async fn nextTick() -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(ffi_next_tick(@js.undefined()))
+  let promise : @js.Promise[Unit] = @js.identity(
+    ffi_next_tick(@global.undefined()),
+  )
   promise.wait()
 }
 

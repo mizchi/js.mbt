@@ -15,34 +15,34 @@ async fn run() -> Unit {
       {
         name: "greet",
         description: "Greet someone by name",
-        input_schema: @js.from_map({
-          "type": "object" |> @js.any,
-          "properties": @js.from_map({
-            "name": @js.from_map({
-              "type": "string" |> @js.any,
-              "description": "Name to greet" |> @js.any,
-            }),
-          }),
-          "required": @js.from_array(["name" |> @js.any]),
-        }),
+        input_schema: @mbtconv.from_map({
+          "type": @nostd.any("object"),
+          "properties": @mbtconv.from_map({
+            "name": @mbtconv.from_map({
+              "type": @nostd.any("string"),
+              "description": @nostd.any("Name to greet"),
+            }).cast(),
+          }).cast(),
+          "required": @nostd.any(["name"]),
+        }).cast(),
       },
       {
         name: "add",
         description: "Add two numbers",
-        input_schema: @js.from_map({
-          "type": "object" |> @js.any,
-          "properties": @js.from_map({
-            "a": @js.from_map({
-              "type": "number" |> @js.any,
-              "description": "First number" |> @js.any,
-            }),
-            "b": @js.from_map({
-              "type": "number" |> @js.any,
-              "description": "Second number" |> @js.any,
-            }),
-          }),
-          "required": @js.from_array(["a" |> @js.any, "b" |> @js.any]),
-        }),
+        input_schema: @mbtconv.from_map({
+          "type": @nostd.any("object"),
+          "properties": @mbtconv.from_map({
+            "a": @mbtconv.from_map({
+              "type": @nostd.any("number"),
+              "description": @nostd.any("First number"),
+            }).cast(),
+            "b": @mbtconv.from_map({
+              "type": @nostd.any("number"),
+              "description": @nostd.any("Second number"),
+            }).cast(),
+          }).cast(),
+          "required": @nostd.any(["a", "b"]),
+        }).cast(),
       },
     ]
   })

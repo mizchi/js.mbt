@@ -22,7 +22,7 @@ test "runInNewContext basic execution" {
 ///|
 /// Test runInNewContext with context object
 test "runInNewContext with context" {
-  let context = @js.from_map({ "x": @js.any(42) })
+  let context = @mbtconv.from_map({ "x": @nostd.any(42) }).cast()
   let result = runInNewContext("x * 2", contextObject=context)
   inspect(result, content="84")
 }
@@ -37,7 +37,7 @@ test "createContext creates context" {
 ///|
 /// Test createContext with object
 test "createContext with initial object" {
-  let obj = @js.from_map({ "foo": @js.any("bar") })
+  let obj = @mbtconv.from_map({ "foo": @nostd.any("bar") }).cast()
   let context = createContext(contextObject=obj)
   inspect(context |> @js.typeof_, content="object")
 }
@@ -45,7 +45,7 @@ test "createContext with initial object" {
 ///|
 /// Test isContext
 test "isContext on regular object" {
-  let obj = @js.from_map({ "foo": @js.any("bar") })
+  let obj = @mbtconv.from_map({ "foo": @nostd.any("bar") }).cast()
   let result = isContext(obj)
   inspect(result, content="false")
 }
@@ -61,7 +61,9 @@ test "isContext on contextified object" {
 ///|
 /// Test runInContext
 test "runInContext basic execution" {
-  let context = createContext(contextObject=@js.from_map({ "x": @js.any(10) }))
+  let context = createContext(
+    contextObject=@mbtconv.from_map({ "x": @nostd.any(10) }).cast(),
+  )
   let result = runInContext("x * 3", context)
   inspect(result, content="30")
 }
@@ -85,7 +87,7 @@ test "Script runInThisContext" {
 /// Test Script::runInNewContext
 test "Script runInNewContext" {
   let script = Script::new("a + b")
-  let context = @js.from_map({ "a": @js.any(10), "b": @js.any(20) })
+  let context = @mbtconv.from_map({ "a": @nostd.any(10), "b": @nostd.any(20) }).cast()
   let result = script.runInNewContext(contextObject=context)
   inspect(result, content="30")
 }
@@ -95,7 +97,7 @@ test "Script runInNewContext" {
 test "Script runInContext" {
   let script = Script::new("x * y")
   let context = createContext(
-    contextObject=@js.from_map({ "x": @js.any(5), "y": @js.any(6) }),
+    contextObject=@mbtconv.from_map({ "x": @nostd.any(5), "y": @nostd.any(6) }).cast(),
   )
   let result = script.runInContext(context)
   inspect(result, content="30")
@@ -105,8 +107,12 @@ test "Script runInContext" {
 /// Test Script can be reused
 test "Script reuse" {
   let script = Script::new("value * 2")
-  let ctx1 = createContext(contextObject=@js.from_map({ "value": @js.any(5) }))
-  let ctx2 = createContext(contextObject=@js.from_map({ "value": @js.any(10) }))
+  let ctx1 = createContext(
+    contextObject=@mbtconv.from_map({ "value": @nostd.any(5) }).cast(),
+  )
+  let ctx2 = createContext(
+    contextObject=@mbtconv.from_map({ "value": @nostd.any(10) }).cast(),
+  )
   let result1 = script.runInContext(ctx1)
   let result2 = script.runInContext(ctx2)
   inspect(result1, content="10")

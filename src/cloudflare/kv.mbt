@@ -31,10 +31,10 @@ pub async fn KVNamespace::get(
     None
   } else {
     Some(
-      @js.from_option_map({
-        "type": type_.map(fn(x) { @js.any(x) }),
-        "cacheTtl": cacheTtl.map(fn(x) { @js.any(x) }),
-      }),
+      @mbtconv.from_option_map({
+        "type": type_.map(fn(x) { @nostd.any(x) }),
+        "cacheTtl": cacheTtl.map(fn(x) { @nostd.any(x) }),
+      }).cast(),
     )
   }
   self.get_impl(key, options).wait()
@@ -46,7 +46,7 @@ pub async fn KVNamespace::get_array_buffer(
   self : Self,
   key : String,
 ) -> @js.Any? {
-  let opts_js = @js.from_map({ "type": @js.any("arrayBuffer") })
+  let opts_js = @mbtconv.from_map({ "type": @nostd.any("arrayBuffer") }).cast()
   let promise : @js.Promise[@js.Any?] = self
     .as_any()
     ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
@@ -57,7 +57,7 @@ pub async fn KVNamespace::get_array_buffer(
 ///|
 /// Get a value as JSON
 pub async fn KVNamespace::get_json(self : Self, key : String) -> @js.Any? {
-  let opts_js = @js.from_map({ "type": @js.any("json") })
+  let opts_js = @mbtconv.from_map({ "type": @nostd.any("json") }).cast()
   let promise : @js.Promise[@js.Any?] = self
     .as_any()
     ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
@@ -68,7 +68,7 @@ pub async fn KVNamespace::get_json(self : Self, key : String) -> @js.Any? {
 ///|
 /// Get a value as stream
 pub async fn KVNamespace::get_stream(self : Self, key : String) -> @js.Any? {
-  let opts_js = @js.from_map({ "type": @js.any("stream") })
+  let opts_js = @mbtconv.from_map({ "type": @nostd.any("stream") }).cast()
   let promise : @js.Promise[@js.Any?] = self
     .as_any()
     ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
@@ -84,10 +84,10 @@ pub async fn KVNamespace::get_with_metadata(
   type_? : String,
   cacheTtl? : Int,
 ) -> KVValueWithMetadata {
-  let opts_js = @js.from_option_map({
-    "type": Some(@js.any(type_.unwrap_or("text"))),
-    "cacheTtl": cacheTtl.map(fn(x) { @js.any(x) }),
-  })
+  let opts_js = @mbtconv.from_option_map({
+    "type": Some(@nostd.any(type_.unwrap_or("text"))),
+    "cacheTtl": cacheTtl.map(fn(x) { @nostd.any(x) }),
+  }).cast()
   let promise : @js.Promise[KVValueWithMetadata] = self
     .as_any()
     ._call("getWithMetadata", [@nostd.any(key), @nostd.any(opts_js)])
@@ -110,11 +110,11 @@ pub async fn KVNamespace::put(
     metadata is None {
     self.as_any()._call("put", [@nostd.any(key), @nostd.any(value)]).cast()
   } else {
-    let opts = @js.from_option_map({
-      "expiration": expiration.map(fn(x) { @js.any(x) }),
-      "expirationTtl": expirationTtl.map(fn(x) { @js.any(x) }),
-      "metadata": metadata,
-    })
+    let opts = @mbtconv.from_option_map({
+      "expiration": expiration.map(fn(x) { @nostd.any(x) }),
+      "expirationTtl": expirationTtl.map(fn(x) { @nostd.any(x) }),
+      "metadata": metadata.map(fn(x) { @nostd.any(x) }),
+    }).cast()
     self
     .as_any()
     ._call("put", [@nostd.any(key), @nostd.any(value), @nostd.any(opts)])
@@ -131,7 +131,7 @@ pub async fn KVNamespace::put_with_metadata(
   value : String,
   metadata : @js.Any,
 ) -> Unit {
-  let opts_js = @js.from_map({ "metadata": metadata })
+  let opts_js = @mbtconv.from_map({ "metadata": @nostd.any(metadata) }).cast()
   let promise : @js.Promise[Unit] = self
     .as_any()
     ._call("put", [@nostd.any(key), @nostd.any(value), @nostd.any(opts_js)])
@@ -162,11 +162,11 @@ pub async fn KVNamespace::list(
     cursor is None {
     self.as_any()._call("list", []).cast()
   } else {
-    let opts = @js.from_option_map({
-      "prefix": prefix.map(fn(x) { @js.any(x) }),
-      "limit": limit.map(fn(x) { @js.any(x) }),
-      "cursor": cursor.map(fn(x) { @js.any(x) }),
-    })
+    let opts = @mbtconv.from_option_map({
+      "prefix": prefix.map(fn(x) { @nostd.any(x) }),
+      "limit": limit.map(fn(x) { @nostd.any(x) }),
+      "cursor": cursor.map(fn(x) { @nostd.any(x) }),
+    }).cast()
     self.as_any()._call("list", [@nostd.any(opts)]).cast()
   }
   promise.wait()

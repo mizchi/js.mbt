@@ -94,7 +94,10 @@ async test "IndexedDB: add and get item" {
   // Add an item
   let tx = db.transaction(["items"], mode="readwrite")
   let store = tx.objectStore("items")
-  let item = @js.from_map({ "id": @js.any(1), "name": @js.any("Test") })
+  let item : @js.Any = @mbtconv.from_map({
+    "id": @nostd.any(1),
+    "name": @nostd.any("Test"),
+  }).cast()
   let add_request = store.add(item)
   let _ = request_to_promise(add_request).wait()
 
@@ -121,11 +124,17 @@ async test "IndexedDB: put updates existing item" {
   let store = tx.objectStore("records")
 
   // Add initial item
-  let item1 = @js.from_map({ "id": @js.any(1), "value": @js.any("initial") })
+  let item1 : @js.Any = @mbtconv.from_map({
+    "id": @nostd.any(1),
+    "value": @nostd.any("initial"),
+  }).cast()
   request_to_promise(store.add(item1)).wait() |> ignore
 
   // Update with put
-  let item2 = @js.from_map({ "id": @js.any(1), "value": @js.any("updated") })
+  let item2 : @js.Any = @mbtconv.from_map({
+    "id": @nostd.any(1),
+    "value": @nostd.any("updated"),
+  }).cast()
   request_to_promise(store.put(item2)).wait() |> ignore
 
   // Get and verify
@@ -150,7 +159,10 @@ async test "IndexedDB: delete removes item" {
   let store = tx.objectStore("todos")
 
   // Add item
-  let item = @js.from_map({ "id": @js.any(1), "task": @js.any("Do it") })
+  let item : @js.Any = @mbtconv.from_map({
+    "id": @nostd.any(1),
+    "task": @nostd.any("Do it"),
+  }).cast()
   request_to_promise(store.add(item)).wait() |> ignore
 
   // Delete it
@@ -178,14 +190,16 @@ async test "IndexedDB: clear removes all items" {
   let store = tx.objectStore("data")
 
   // Add multiple items
-  request_to_promise(
-    store.add(@js.from_map({ "id": @js.any(1), "v": @js.any("a") })),
-  ).wait()
-  |> ignore
-  request_to_promise(
-    store.add(@js.from_map({ "id": @js.any(2), "v": @js.any("b") })),
-  ).wait()
-  |> ignore
+  let item1 : @js.Any = @mbtconv.from_map({
+    "id": @nostd.any(1),
+    "v": @nostd.any("a"),
+  }).cast()
+  request_to_promise(store.add(item1)).wait() |> ignore
+  let item2 : @js.Any = @mbtconv.from_map({
+    "id": @nostd.any(2),
+    "v": @nostd.any("b"),
+  }).cast()
+  request_to_promise(store.add(item2)).wait() |> ignore
 
   // Clear all
   request_to_promise(store.clear()).wait() |> ignore
@@ -212,18 +226,21 @@ async test "IndexedDB: getAll returns all items" {
   let store = tx.objectStore("entries")
 
   // Add items
-  request_to_promise(
-    store.add(@js.from_map({ "id": @js.any(1), "name": @js.any("Alice") })),
-  ).wait()
-  |> ignore
-  request_to_promise(
-    store.add(@js.from_map({ "id": @js.any(2), "name": @js.any("Bob") })),
-  ).wait()
-  |> ignore
-  request_to_promise(
-    store.add(@js.from_map({ "id": @js.any(3), "name": @js.any("Charlie") })),
-  ).wait()
-  |> ignore
+  let alice : @js.Any = @mbtconv.from_map({
+    "id": @nostd.any(1),
+    "name": @nostd.any("Alice"),
+  }).cast()
+  request_to_promise(store.add(alice)).wait() |> ignore
+  let bob : @js.Any = @mbtconv.from_map({
+    "id": @nostd.any(2),
+    "name": @nostd.any("Bob"),
+  }).cast()
+  request_to_promise(store.add(bob)).wait() |> ignore
+  let charlie : @js.Any = @mbtconv.from_map({
+    "id": @nostd.any(3),
+    "name": @nostd.any("Charlie"),
+  }).cast()
+  request_to_promise(store.add(charlie)).wait() |> ignore
 
   // Get all
   let results = request_to_promise(store.getAll()).wait()
@@ -248,12 +265,12 @@ async test "IndexedDB: count returns correct number" {
   let store = tx.objectStore("counters")
 
   // Add items
-  request_to_promise(store.add(@js.from_map({ "id": @js.any(1) }))).wait()
-  |> ignore
-  request_to_promise(store.add(@js.from_map({ "id": @js.any(2) }))).wait()
-  |> ignore
-  request_to_promise(store.add(@js.from_map({ "id": @js.any(3) }))).wait()
-  |> ignore
+  let i1 : @js.Any = @mbtconv.from_map({ "id": @nostd.any(1) }).cast()
+  request_to_promise(store.add(i1)).wait() |> ignore
+  let i2 : @js.Any = @mbtconv.from_map({ "id": @nostd.any(2) }).cast()
+  request_to_promise(store.add(i2)).wait() |> ignore
+  let i3 : @js.Any = @mbtconv.from_map({ "id": @nostd.any(3) }).cast()
+  request_to_promise(store.add(i3)).wait() |> ignore
 
   // Count
   let count_result = request_to_promise(store.count()).wait()
@@ -303,8 +320,8 @@ async test "IndexedDB: IDBKeyRange operations" {
 
   // Add numbers 1-10
   for i = 1; i <= 10; i = i + 1 {
-    request_to_promise(store.add(@js.from_map({ "id": @js.any(i) }))).wait()
-    |> ignore
+    let item : @js.Any = @mbtconv.from_map({ "id": @nostd.any(i) }).cast()
+    request_to_promise(store.add(item)).wait() |> ignore
   }
 
   // Test key range queries

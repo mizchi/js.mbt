@@ -4,7 +4,9 @@
   "import": [
     "mizchi/js",
     "mizchi/js/nostd",
-    "mizchi/js/web/event"
+    "mizchi/js/mbtconv",
+    "mizchi/js/web/event",
+    "mizchi/js/builtins/global"
   ],
   "test-import": ["moonbitlang/async"],
   "warn-list": "-5"

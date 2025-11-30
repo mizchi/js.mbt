@@ -4,7 +4,7 @@
 ///|
 async test "JS Async: setTimeout" {
   let resolver : @js.Resolvers[Bool] = @js.Promise::withResolvers()
-  let _timer = @js.setTimeout(() => resolver.resolve(true), 16)
+  let _timer = @global.set_timeout(() => resolver.resolve(true), 16)
   let executed = resolver.promise.wait()
   assert_true(executed)
 }
@@ -12,9 +12,9 @@ async test "JS Async: setTimeout" {
 ///|
 async test "JS Async: clearTimeout" {
   let mut executed = false
-  let timer = @js.setTimeout(() => executed = true, 16)
-  defer @js.clearTimeout(timer)
-  @js.clearTimeout(timer)
+  let timer = @global.set_timeout(() => executed = true, 16)
+  defer @global.clear_timeout(timer)
+  @global.clear_timeout(timer)
   @js.sleep(32)
   assert_false(executed)
 }
@@ -23,7 +23,7 @@ async test "JS Async: clearTimeout" {
 #skip
 async test "JS Async: setTimeout with zero delay" {
   let mut executed = false
-  let _ = @js.setTimeout(() => executed = true, 0)
+  let _ = @global.set_timeout(() => executed = true, 0)
   @js.sleep(60)
   assert_true(executed)
 }
@@ -33,7 +33,7 @@ async test "JS Async: setTimeout with zero delay" {
 async test "JS Async: multiple setTimeouts" {
   let order = []
   let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let _ = @js.setTimeout(
+  let _ = @global.set_timeout(
     () => {
       order.push(1)
       if order.length() == 3 {
@@ -42,7 +42,7 @@ async test "JS Async: multiple setTimeouts" {
     },
     16,
   )
-  let _ = @js.setTimeout(
+  let _ = @global.set_timeout(
     () => {
       order.push(2)
       if order.length() == 3 {
@@ -51,7 +51,7 @@ async test "JS Async: multiple setTimeouts" {
     },
     32,
   )
-  let _ = @js.setTimeout(
+  let _ = @global.set_timeout(
     () => {
       order.push(3)
       if order.length() == 3 {
@@ -70,11 +70,11 @@ async test "JS Async: multiple setTimeouts" {
 ///|
 async test "JS Async: setInterval immediate execution" {
   let mut first_execution = false
-  let timer = @js.setInterval(
+  let timer = @global.set_interval(
     () => if not(first_execution) { first_execution = true },
     16,
   )
-  defer @js.clearInterval(timer)
+  defer @global.clear_interval(timer)
   @js.sleep(16)
   assert_true(first_execution)
 }

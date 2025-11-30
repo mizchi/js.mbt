@@ -23,9 +23,9 @@ extern "js" fn ffi_create_element(
 ///
 /// Implementation detail: Stores the module in globalThis for internal use.
 pub async fn dynamic_import() -> Unit {
-  if @js.is_undefined(@js.globalThis().get("__ReactRouterApi")) {
+  if @js.is_undefined(@global.global_this().get("__ReactRouterApi")) {
     let v = import_react_router().wait()
-    @js.globalThis().set("__ReactRouterApi", v)
+    @global.global_this().set("__ReactRouterApi", v)
   }
 }
 
@@ -91,7 +91,7 @@ pub fn Route::as_any(self : Route) -> @js.Any {
 /// Creates a browser router with the given routes
 /// https://reactrouter.com/en/main/routers/create-browser-router
 pub fn create_browser_router(routes : Array[Route]) -> Router {
-  let create_fn : (Array[@js.Any]) -> Router = @js.global_this()
+  let create_fn : (Array[@js.Any]) -> Router = @global.global_this()
     .get("__ReactRouterApi")
     .get("createBrowserRouter")
     .cast()
@@ -114,7 +114,7 @@ pub fn create_memory_router(
   routes : Array[Route],
   options? : MemoryRouterOptions,
 ) -> Router {
-  let create_fn : (Array[@js.Any], @js.Any) -> Router = @js.global_this()
+  let create_fn : (Array[@js.Any], @js.Any) -> Router = @global.global_this()
     .get("__ReactRouterApi")
     .get("createMemoryRouter")
     .cast()
@@ -195,7 +195,7 @@ pub fn Location::as_any(self : Location) -> @js.Any = "%identity"
 /// Hook: Returns the current location object
 /// https://reactrouter.com/en/main/hooks/use-location
 pub fn useLocation() -> Location {
-  let hook : () -> Location = @js.global_this()
+  let hook : () -> Location = @global.global_this()
     .get("__ReactRouterApi")
     .get("useLocation")
     .cast()
@@ -206,7 +206,7 @@ pub fn useLocation() -> Location {
 /// Hook: Returns the current URL params from the route
 /// https://reactrouter.com/en/main/hooks/use-params
 pub fn useParams() -> Params {
-  let hook : () -> Params = @js.global_this()
+  let hook : () -> Params = @global.global_this()
     .get("__ReactRouterApi")
     .get("useParams")
     .cast()
@@ -247,7 +247,7 @@ pub fn NavigateOptions::as_any(self : NavigateOptions) -> @js.Any {
 /// Hook: Returns a navigate function for programmatic navigation
 /// https://reactrouter.com/en/main/hooks/use-navigate
 pub fn useNavigate() -> NavigateFunction {
-  let hook : () -> NavigateFunction = @js.global_this()
+  let hook : () -> NavigateFunction = @global.global_this()
     .get("__ReactRouterApi")
     .get("useNavigate")
     .cast()
@@ -296,7 +296,7 @@ pub fn useSearchParams() -> (
   @url.URLSearchParams,
   (@url.URLSearchParams) -> Unit,
 ) {
-  let hook : () -> Array[@js.Any] = @js.global_this()
+  let hook : () -> Array[@js.Any] = @global.global_this()
     .get("__ReactRouterApi")
     .get("useSearchParams")
     .cast()
@@ -322,7 +322,7 @@ pub fn Match::as_any(self : Match) -> @js.Any = "%identity"
 /// Hook: Returns match data if the current location matches the given path pattern
 /// https://reactrouter.com/en/main/hooks/use-match
 pub fn useMatch(pattern : String) -> Match? {
-  let hook : (String) -> @js.Any = @js.global_this()
+  let hook : (String) -> @js.Any = @global.global_this()
     .get("__ReactRouterApi")
     .get("useMatch")
     .cast()

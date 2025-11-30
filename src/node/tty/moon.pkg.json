@@ -4,6 +4,7 @@
     "mizchi/js",
     "mizchi/js/nostd",
     "mizchi/js/web/event",
-    "mizchi/js/node/stream"
+    "mizchi/js/node/stream",
+    "mizchi/js/builtins/global"
   ]
 }

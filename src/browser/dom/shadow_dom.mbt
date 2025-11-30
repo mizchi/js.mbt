@@ -125,10 +125,10 @@ pub fn HTMLElement::attachShadow(
   self : Self,
   init : ShadowRootInit,
 ) -> ShadowRoot {
-  let options = @js.from_map({
-    "mode": @js.any(init.mode),
-    "delegatesFocus": @js.any(init.delegatesFocus),
-    "slotAssignment": @js.any(init.slotAssignment),
+  let options = @mbtconv.from_map({
+    "mode": @nostd.any(init.mode),
+    "delegatesFocus": @nostd.any(init.delegatesFocus),
+    "slotAssignment": @nostd.any(init.slotAssignment),
   })
   self.as_any()._call("attachShadow", [@nostd.any(options)]).cast()
 }

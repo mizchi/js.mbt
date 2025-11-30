@@ -87,8 +87,8 @@ test "Reflect.setPrototypeOf" {
 
 ///|
 test "Reflect.apply" {
-  let add_fn = @js.globalThis().get("Math").get("max")
-  let result = apply(@nostd.any(add_fn), @nostd.any(@js.undefined()), [
+  let add_fn = @global.global_this().get("Math").get("max")
+  let result = apply(@nostd.any(add_fn), @nostd.any(@global.undefined()), [
     @nostd.any(10),
     @nostd.any(20),
   ])
@@ -97,7 +97,7 @@ test "Reflect.apply" {
 
 ///|
 test "Reflect.construct" {
-  let array_constructor = @js.globalThis().get("Array")
+  let array_constructor = @global.global_this().get("Array")
   let arr = construct(@nostd.any(array_constructor), [@nostd.any(3)], None)
   assert_true(@js.is_array(arr.cast()))
 }

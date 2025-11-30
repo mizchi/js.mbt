@@ -317,79 +317,79 @@ test "Js Show trait" {
 
 ///|
 test "parseInt - parse decimal integers" {
-  assert_eq(parseInt("42"), Some(42))
-  assert_eq(parseInt("0"), Some(0))
-  assert_eq(parseInt("-123"), Some(-123))
-  assert_eq(parseInt("  456  "), Some(456)) // Leading/trailing whitespace
+  assert_eq(@global.parse_int("42"), Some(42))
+  assert_eq(@global.parse_int("0"), Some(0))
+  assert_eq(@global.parse_int("-123"), Some(-123))
+  assert_eq(@global.parse_int("  456  "), Some(456)) // Leading/trailing whitespace
 }
 
 ///|
 test "parseInt - parse with different radix" {
-  assert_eq(parseInt("ff", radix=16), Some(255))
-  assert_eq(parseInt("FF", radix=16), Some(255))
-  assert_eq(parseInt("101", radix=2), Some(5))
-  assert_eq(parseInt("77", radix=8), Some(63))
-  assert_eq(parseInt("z", radix=36), Some(35))
+  assert_eq(@global.parse_int("ff", radix=16), Some(255))
+  assert_eq(@global.parse_int("FF", radix=16), Some(255))
+  assert_eq(@global.parse_int("101", radix=2), Some(5))
+  assert_eq(@global.parse_int("77", radix=8), Some(63))
+  assert_eq(@global.parse_int("z", radix=36), Some(35))
 }
 
 ///|
 test "parseInt - return None for invalid input" {
-  assert_eq(parseInt("hello"), None)
-  assert_eq(parseInt(""), None)
-  assert_eq(parseInt("abc", radix=10), None)
+  assert_eq(@global.parse_int("hello"), None)
+  assert_eq(@global.parse_int(""), None)
+  assert_eq(@global.parse_int("abc", radix=10), None)
 }
 
 ///|
 test "parseInt - partial parsing" {
   // JavaScript parseInt parses as much as it can
-  assert_eq(parseInt("123abc"), Some(123))
-  assert_eq(parseInt("42.5"), Some(42))
+  assert_eq(@global.parse_int("123abc"), Some(123))
+  assert_eq(@global.parse_int("42.5"), Some(42))
 }
 
 ///|
 test "parseFloat - parse floating point numbers" {
-  assert_eq(parseFloat("3.14"), Some(3.14))
-  assert_eq(parseFloat("0.5"), Some(0.5))
-  assert_eq(parseFloat("-2.5"), Some(-2.5))
-  assert_eq(parseFloat("123"), Some(123.0))
+  assert_eq(@global.parse_float("3.14"), Some(3.14))
+  assert_eq(@global.parse_float("0.5"), Some(0.5))
+  assert_eq(@global.parse_float("-2.5"), Some(-2.5))
+  assert_eq(@global.parse_float("123"), Some(123.0))
 }
 
 ///|
 test "parseFloat - parse scientific notation" {
-  assert_eq(parseFloat("1.5e2"), Some(150.0))
-  assert_eq(parseFloat("1e-3"), Some(0.001))
+  assert_eq(@global.parse_float("1.5e2"), Some(150.0))
+  assert_eq(@global.parse_float("1e-3"), Some(0.001))
 }
 
 ///|
 test "parseFloat - return None for invalid input" {
-  assert_eq(parseFloat("hello"), None)
-  assert_eq(parseFloat(""), None)
+  assert_eq(@global.parse_float("hello"), None)
+  assert_eq(@global.parse_float(""), None)
 }
 
 ///|
 test "parseFloat - partial parsing" {
-  assert_eq(parseFloat("3.14abc"), Some(3.14))
+  assert_eq(@global.parse_float("3.14abc"), Some(3.14))
 }
 
 ///|
 test "isFinite - check finite numbers" {
-  assert_eq(isFinite(42.0), true)
-  assert_eq(isFinite(0.0), true)
-  assert_eq(isFinite(-123.456), true)
+  assert_eq(@global.is_finite(42.0), true)
+  assert_eq(@global.is_finite(0.0), true)
+  assert_eq(@global.is_finite(-123.456), true)
 }
 
 ///|
 test "isFinite - check infinite values" {
   let inf = 1.0 / 0.0
   let neg_inf = -1.0 / 0.0
-  assert_eq(isFinite(inf), false)
-  assert_eq(isFinite(neg_inf), false)
+  assert_eq(@global.is_finite(inf), false)
+  assert_eq(@global.is_finite(neg_inf), false)
 }
 
 ///|
 test "isFinite - check NaN" {
   let nan_val = 0.0 / 0.0
-  assert_eq(isFinite(nan_val), false)
+  assert_eq(@global.is_finite(nan_val), false)
 }
 
 ///| Show implementations and to_string methods
@@ -426,7 +426,7 @@ test "ThrowError Show through throwable" {
 
 ///|
 test "ThrowError::from_js with TypeError" {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   global.call("eval", [
     @js.any("globalThis.testTypeError = new TypeError('Type error')"),
   ])
@@ -441,7 +441,7 @@ test "ThrowError::from_js with TypeError" {
 
 ///|
 test "ThrowError::from_js with RangeError" {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   global.call("eval", [
     @js.any("globalThis.testRangeError = new RangeError('Range error')"),
   ])
@@ -456,7 +456,7 @@ test "ThrowError::from_js with RangeError" {
 
 ///|
 test "ThrowError::from_js with ReferenceError" {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   global.call("eval", [
     @js.any("globalThis.testRefError = new ReferenceError('Ref error')"),
   ])
@@ -471,7 +471,7 @@ test "ThrowError::from_js with ReferenceError" {
 
 ///|
 test "ThrowError::from_js with SyntaxError" {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   global.call("eval", [
     @js.any("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
   ])
@@ -486,7 +486,7 @@ test "ThrowError::from_js with SyntaxError" {
 
 ///|
 test "ThrowError::from_js with URIError" {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   global.call("eval", [
     @js.any("globalThis.testURIError = new URIError('URI error')"),
   ])
@@ -501,7 +501,7 @@ test "ThrowError::from_js with URIError" {
 
 ///|
 test "ThrowError::from_js with EvalError" {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   global.call("eval", [
     @js.any("globalThis.testEvalError = new EvalError('Eval error')"),
   ])
@@ -516,7 +516,7 @@ test "ThrowError::from_js with EvalError" {
 
 ///|
 test "ThrowError::from_js with AggregateError" {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   global.call("eval", [
     @js.any("globalThis.testAggError = new AggregateError([], 'Agg error')"),
   ])
@@ -531,7 +531,7 @@ test "ThrowError::from_js with AggregateError" {
 
 ///|
 test "ThrowError::from_js with generic Error" {
-  let global = @js.globalThis()
+  let global = @global.global_this()
   global.call("eval", [
     @js.any("globalThis.testGenericError = new Error('Generic error')"),
   ])

@@ -10,5 +10,5 @@
     "mizchi/js/npm/global_jsdom",
     "mizchi/js/node"
   ],
-  "test-import": ["mizchi/js/npm/testing_library"]
+  "test-import": ["mizchi/js/npm/testing_library", "mizchi/js/builtins/global"]
 }

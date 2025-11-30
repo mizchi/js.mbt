@@ -37,7 +37,7 @@ extern "js" fn ffi_render_to_static_markup(
 ///|
 /// Initialize the Vue SSR API
 pub fn init_vue_ssr(ssr : @js.Any) -> Unit {
-  if @js.is_nullish(@js.global_this().get("__VueSSR")) {
-    @js.global_this().set("__VueSSR", ssr)
+  if @js.is_nullish(@global.global_this().get("__VueSSR")) {
+    @global.global_this().set("__VueSSR", ssr)
   }
 }

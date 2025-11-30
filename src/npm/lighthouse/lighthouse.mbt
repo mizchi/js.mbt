@@ -362,15 +362,15 @@ pub async fn run(
   let lighthouse_fn = ffi_require_lighthouse()
   let js_flags = match flags {
     Some(f) => f.as_any()
-    None => @js.undefined()
+    None => @global.undefined()
   }
   let js_config = match config {
     Some(c) => c
-    None => @js.undefined()
+    None => @global.undefined()
   }
   let js_page = match page {
     Some(p) => p.as_any()
-    None => @js.undefined()
+    None => @global.undefined()
   }
   let promise : @js.Promise[RunnerResult] = @js.identity(
     lighthouse_fn.call_self([url, js_flags, js_config, js_page]),
@@ -400,7 +400,7 @@ pub async fn run_with_port(
   let flags_with_port = { ..base_flags, port: Some(port) }
   let js_config = match config {
     Some(c) => c
-    None => @js.undefined()
+    None => @global.undefined()
   }
   let promise : @js.Promise[RunnerResult] = @js.identity(
     lighthouse_fn.call_self([url, flags_with_port.as_any(), js_config]),

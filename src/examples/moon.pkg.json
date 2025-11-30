@@ -10,6 +10,7 @@
     "mizchi/js/browser/storage",
     "mizchi/js/browser/canvas",
     "mizchi/js/builtins/bigint",
+    "mizchi/js/builtins/global",
     "mizchi/js/node/path",
     "mizchi/js/node/os",
     "mizchi/js/node/fs_promises"

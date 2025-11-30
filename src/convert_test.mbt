@@ -140,7 +140,7 @@ test "from_map sets null values as property" {
   let map : Map[String, @js.Any] = {
     "name": @js.any("Alice"),
     "email": @js.null_(),
-    "bio": @js.undefined(),
+    "bio": @global.undefined(),
   }
   let obj = from_map(map)
   // from_map: all keys exist, even if value is null/undefined
@@ -217,7 +217,7 @@ test "from_fn2 converts 2-arg function to Js" {
 
 ///|
 test "globalThis" {
-  let global = globalThis()
+  let global = @global.global_this()
   assert_true(@js.is_object(global))
   assert_false(@js.is_null(global))
 }
@@ -227,30 +227,30 @@ test "globalThis" {
 ///|
 test "global isNaN" {
   let nan_val = @js.any(0.0 / 0.0)
-  assert_true(@js.isNaN(nan_val))
-  assert_false(@js.isNaN(42))
-  assert_false(@js.isNaN(3.14))
+  assert_true(@global.is_nan(nan_val))
+  assert_false(@global.is_nan(@js.any(42)))
+  assert_false(@global.is_nan(@js.any(3.14)))
 }
 
 ///| String Encoding (Base64)
 
 ///|
 test "btoa encodes string to base64" {
-  let encoded = btoa("Hello World")
+  let encoded = @global.btoa("Hello World")
   assert_eq(encoded, "SGVsbG8gV29ybGQ=")
 }
 
 ///|
 test "atob decodes base64 to string" {
-  let decoded = atob("SGVsbG8gV29ybGQ=")
+  let decoded = @global.atob("SGVsbG8gV29ybGQ=")
   assert_eq(decoded, "Hello World")
 }
 
 ///|
 test "btoa and atob round trip" {
   let original = "MoonBit is great!"
-  let encoded = btoa(original)
-  let decoded = atob(encoded)
+  let encoded = @global.btoa(original)
+  let decoded = @global.atob(encoded)
   assert_eq(decoded, original)
 }
 
@@ -259,40 +259,40 @@ test "btoa and atob round trip" {
 ///|
 test "encode_uri and decode_uri" {
   // Encode complete URI
-  let uri = encodeURI("https://example.com/path?name=John Doe")
+  let uri = @global.encode_uri("https://example.com/path?name=John Doe")
   assert_eq(uri, "https://example.com/path?name=John%20Doe")
 
   // Decode URI
-  let decoded = decodeURI("https://example.com/path?name=John%20Doe")
+  let decoded = @global.decode_uri("https://example.com/path?name=John%20Doe")
   assert_eq(decoded, "https://example.com/path?name=John Doe")
 
   // Round trip
   let original_uri = "https://example.com/path with spaces?query=value"
-  let encoded_uri = encodeURI(original_uri)
-  let decoded_uri = decodeURI(encoded_uri)
+  let encoded_uri = @global.encode_uri(original_uri)
+  let decoded_uri = @global.decode_uri(encoded_uri)
   assert_eq(decoded_uri, original_uri)
 }
 
 ///|
 test "encode_uri_component and decode_uri_component" {
   // Encode URI component
-  let encoded = encodeURIComponent("Hello World & Friends")
+  let encoded = @global.encode_uri_component("Hello World & Friends")
   assert_eq(encoded, "Hello%20World%20%26%20Friends")
 
   // Decode URI component
-  let decoded = decodeURIComponent("Hello%20World%20%26%20Friends")
+  let decoded = @global.decode_uri_component("Hello%20World%20%26%20Friends")
   assert_eq(decoded, "Hello World & Friends")
 
   // Special characters
-  let special = encodeURIComponent("key=value&foo=bar")
+  let special = @global.encode_uri_component("key=value&foo=bar")
   assert_eq(special, "key%3Dvalue%26foo%3Dbar")
-  let decoded_special = decodeURIComponent("key%3Dvalue%26foo%3Dbar")
+  let decoded_special = @global.decode_uri_component("key%3Dvalue%26foo%3Dbar")
   assert_eq(decoded_special, "key=value&foo=bar")
 
   // Round trip with various characters
   let original = "Test: @#$%^&*()+={}[]|\\:;\"'<>,.?/"
-  let encoded_component = encodeURIComponent(original)
-  let decoded_component = decodeURIComponent(encoded_component)
+  let encoded_component = @global.encode_uri_component(original)
+  let decoded_component = @global.decode_uri_component(encoded_component)
   assert_eq(decoded_component, original)
 }
 
@@ -437,7 +437,7 @@ test "throwable catches URIError" {
   let mut caught_uri_error = false
   throwable(fn() {
     // Invalid URI encoding throws URIError
-    decodeURIComponent("%E0%A4%A") |> ignore
+    @global.decode_uri_component("%E0%A4%A") |> ignore
   }) catch {
     ThrowError::URIError(_) => caught_uri_error = true
     _ => assert_true(false) // Should not catch other error types
@@ -452,7 +452,7 @@ test "throwable catches ReferenceError" {
   throwable(fn() {
     // Accessing undefined variable throws ReferenceError
     let code = "nonExistentVariable"
-    globalThis().call1("eval", @js.any(code)) |> ignore
+    @global.global_this().call1("eval", @js.any(code)) |> ignore
   }) catch {
     ThrowError::ReferenceError(_) => caught_reference_error = true
     _ => assert_true(false) // Should not catch other error types
@@ -466,7 +466,7 @@ test "throwable catches EvalError" {
   let mut caught_eval_error = false
   throwable(fn() {
     // Create EvalError manually since it's rarely thrown naturally
-    let eval_error_cls = globalThis().get("EvalError")
+    let eval_error_cls = @global.global_this().get("EvalError")
     let err = new_(eval_error_cls, ["Eval error message"])
     throw_(err)
   }) catch {
@@ -486,7 +486,7 @@ test "throwable catches AggregateError" {
       JsError::new("Error 1").as_any(),
       JsError::new("Error 2").as_any(),
     ])
-    let agg_error_cls = globalThis().get("AggregateError")
+    let agg_error_cls = @global.global_this().get("AggregateError")
     let agg_err = new_(agg_error_cls, [errors, "Multiple errors"])
     throw_(agg_err)
   }) catch {
@@ -663,7 +663,7 @@ test "Json::False to Any" {
 
 ///|
 test "call_self_throwable success" {
-  let parse_int = @js.globalThis().get("parseInt")
+  let parse_int = @global.global_this().get("parseInt")
   let result = parse_int.call_self_throwable([@js.any("42")])
   let num : Int = @js.identity(result)
   assert_eq(num, 42)
@@ -672,7 +672,7 @@ test "call_self_throwable success" {
 ///|
 test "call_self_throwable with error" {
   // Create a function that throws
-  let throw_fn = @js.globalThis().call1(
+  let throw_fn = @global.global_this().call1(
     "eval",
     @js.any("(function() { throw new Error('test'); })"),
   )
@@ -684,7 +684,7 @@ test "call_self_throwable with error" {
 
 ///|
 test "SuppressedError instanceof check" {
-  let suppressed_error_cls = globalThis().get("SuppressedError")
+  let suppressed_error_cls = @global.global_this().get("SuppressedError")
   let err1 = JsError::new("Error 1")
   let err2 = JsError::new("Error 2")
   let suppressed_err = new_(suppressed_error_cls, [

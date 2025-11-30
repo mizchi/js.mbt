@@ -20,7 +20,7 @@ pub impl @js.JsImpl for MutationObserver
 pub fn MutationObserver::new(
   callback : (@js.Any?, MutationObserver) -> Unit,
 ) -> MutationObserver {
-  let ctor = @js.global_this().get("MutationObserver")
+  let ctor = @global.global_this().get("MutationObserver")
   @js.new_(ctor, [callback |> @js.from_fn2]).cast()
 }
 
@@ -92,7 +92,7 @@ pub fn IntersectionObserver::new(
   callback : (@js.Any?, IntersectionObserver) -> Unit,
   options? : @js.Any,
 ) -> IntersectionObserver {
-  let ctor = @js.global_this().get("IntersectionObserver")
+  let ctor = @global.global_this().get("IntersectionObserver")
   match options {
     Some(opts) => @js.new_(ctor, [callback |> @js.from_fn2, opts]).cast()
     None => @js.new_(ctor, [callback |> @js.from_fn2]).cast()
@@ -167,7 +167,7 @@ pub impl @js.JsImpl for ResizeObserver
 pub fn ResizeObserver::new(
   callback : (@js.Any?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
-  let ctor = @js.global_this().get("ResizeObserver")
+  let ctor = @global.global_this().get("ResizeObserver")
   @js.new_(ctor, [callback |> @js.from_fn2]).cast()
 }
 

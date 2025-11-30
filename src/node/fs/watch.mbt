@@ -43,23 +43,23 @@ pub fn watch(
     not(recursive is None) ||
     not(encoding is None)
   if has_options {
-    let map : Map[String, @js.Any] = {
+    let map : Map[String, @nostd.Any] = {
       let m = Map::new()
       match persistent {
-        Some(p) => m.set("persistent", @js.identity(p))
+        Some(p) => m.set("persistent", @nostd.any(p))
         None => ()
       }
       match recursive {
-        Some(r) => m.set("recursive", @js.identity(r))
+        Some(r) => m.set("recursive", @nostd.any(r))
         None => ()
       }
       match encoding {
-        Some(e) => m.set("encoding", @js.identity(e))
+        Some(e) => m.set("encoding", @nostd.any(e))
         None => ()
       }
       m
     }
-    let options = @js.from_map(map)
+    let options : @js.Any = @mbtconv.from_map(map).cast()
     match listener {
       Some(l) => fs.call("watch", [filename, options, @js.from_fn2(l)]).cast()
       None => fs.call2("watch", filename, options).cast()

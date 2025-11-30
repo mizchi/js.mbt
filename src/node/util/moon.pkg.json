@@ -1,4 +1,4 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js"]
+  "import": ["mizchi/js", "mizchi/js/nostd", "mizchi/js/mbtconv"]
 }

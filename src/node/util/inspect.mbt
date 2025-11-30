@@ -26,14 +26,14 @@ pub fn inspect(
   maxArrayLength? : Int,
   maxStringLength? : Int,
 ) -> String {
-  let opt = @js.from_map({
-    "depth": depth |> @js.any,
-    "colors": colors |> @js.any,
-    "compact": compact |> @js.any,
-    "sorted": sorted |> @js.any,
-    "breakLength": breakLength |> @js.any,
-    "maxArrayLength": maxArrayLength |> @js.any,
-    "maxStringLength": maxStringLength |> @js.any,
-  })
+  let opt : @js.Any = @mbtconv.from_option_map({
+    "depth": depth.map(fn(x) { @nostd.any(x) }),
+    "colors": colors.map(fn(x) { @nostd.any(x) }),
+    "compact": compact.map(fn(x) { @nostd.any(x) }),
+    "sorted": sorted.map(fn(x) { @nostd.any(x) }),
+    "breakLength": breakLength.map(fn(x) { @nostd.any(x) }),
+    "maxArrayLength": maxArrayLength.map(fn(x) { @nostd.any(x) }),
+    "maxStringLength": maxStringLength.map(fn(x) { @nostd.any(x) }),
+  }).cast()
   @js.identity(util().get("inspect").call_self([value.as_any(), opt]))
 }

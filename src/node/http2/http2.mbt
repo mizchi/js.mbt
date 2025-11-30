@@ -246,7 +246,7 @@ extern "js" fn ffi_connect(
 ///|
 /// Connect to an HTTP/2 server
 pub fn connect(authority : String) -> Http2Session {
-  ffi_connect(authority, @js.undefined())
+  ffi_connect(authority, @global.undefined())
 }
 
 ///|

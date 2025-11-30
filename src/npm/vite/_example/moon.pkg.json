@@ -1,7 +1,10 @@
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/npm/vite"
+    "mizchi/js/nostd",
+    "mizchi/js/mbtconv",
+    "mizchi/js/npm/vite",
+    "mizchi/js/builtins/global"
   ],
   "is-main": true
 }

@@ -1,6 +1,6 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/builtins/typedarray", "mizchi/js/nostd"],
+  "import": ["mizchi/js", "mizchi/js/builtins/typedarray", "mizchi/js/nostd", "mizchi/js/mbtconv", "mizchi/js/builtins/global"],
   "test-import": [
     "mizchi/js/node/fs",
     "mizchi/js/node/path",

@@ -16,14 +16,17 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 impl @js.JsImpl for ParseArgsOption with as_any(self) -> @js.Any {
   match self {
     Boolean(short~, ..) =>
-      @js.from_map({ "type": @js.any("boolean"), "short": @js.any(short) })
+      @mbtconv.from_map({
+        "type": @nostd.any("boolean"),
+        "short": @nostd.any(short),
+      }).cast()
     String(short~, multiple~, default~, ..) =>
-      @js.from_option_map({
-        "type": Some(@js.any("string")),
-        "short": Some(@js.any(short)),
-        "multiple": Some(@js.any(multiple)),
-        "default": default.map(fn(x) { @js.any(x) }),
-      })
+      @mbtconv.from_option_map({
+        "type": Some(@nostd.any("string")),
+        "short": Some(@nostd.any(short)),
+        "multiple": Some(@nostd.any(multiple)),
+        "default": default.map(fn(x) { @nostd.any(x) }),
+      }).cast()
   }
 }
 
@@ -51,11 +54,11 @@ pub fn parseArgs(
     }
     o
   }
-  let result = @js.from_map({
-    "args": args |> @js.from_array,
-    "options": opts_obj.as_any(),
-    "allowPositionals": @js.any(allow_positionals),
-  })
+  let result : @js.Any = @mbtconv.from_map({
+    "args": @nostd.any(args),
+    "options": @nostd.any(opts_obj.as_any()),
+    "allowPositionals": @nostd.any(allow_positionals),
+  }).cast()
   // result["tokens"] = tokens
   let r : @js.Any = @js.identity(util().get("parseArgs").call_self([result]))
   let values : Map[String, @js.Any] = {}

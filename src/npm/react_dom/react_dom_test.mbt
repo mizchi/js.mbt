@@ -30,7 +30,7 @@ test "createPortal returns React element" {
   init_jsdom()
   @testing_library_react.cleanup()
   let react_dom = get_react_dom()
-  let document : @dom.Document = @js.globalThis().get("document").cast()
+  let document : @dom.Document = @global.global_this().get("document").cast()
   guard document.body() is Some(body)
   // Create portal target
   let portal_target = document.createElement("div")
@@ -51,7 +51,7 @@ test "createPortal with key" {
   init_jsdom()
   @testing_library_react.cleanup()
   let react_dom = get_react_dom()
-  let document : @dom.Document = @js.globalThis().get("document").cast()
+  let document : @dom.Document = @global.global_this().get("document").cast()
   guard document.body() is Some(body)
   // Create portal target
   let portal_target = document.createElement("div")
@@ -110,7 +110,7 @@ fn portal_test_component(props : PortalTestProps) -> @react.Element {
 test "createPortal renders to target" {
   init_jsdom()
   @testing_library_react.cleanup()
-  let document : @dom.Document = @js.globalThis().get("document").cast()
+  let document : @dom.Document = @global.global_this().get("document").cast()
   guard document.body() is Some(body)
   // Create portal target
   let portal_target = document.createElement("div")

@@ -27,7 +27,7 @@ test "execSync with input string" {
 
 ///|
 test "execSync with env option" {
-  let env_obj = @js.from_map({ "TEST_VAR": @js.any("custom_value") })
+  let env_obj = @mbtconv.from_map({ "TEST_VAR": @nostd.any("custom_value") }).cast()
   let output = execSync("echo $TEST_VAR", shell="/bin/sh", env=env_obj)
   assert_true(output.contains("custom_value"))
 }
@@ -118,7 +118,7 @@ test "spawnSync with shell option" {
 
 ///|
 test "spawnSync with env option" {
-  let env_obj = @js.from_map({ "TEST_VAR": @js.any("test_value") })
+  let env_obj = @mbtconv.from_map({ "TEST_VAR": @nostd.any("test_value") }).cast()
   let result = spawnSync("echo", args=["$TEST_VAR"], shell=true, env=env_obj)
   let stdout = result.stdout
   let buffer : @buffer.Buffer = @js.identity(stdout)
@@ -183,7 +183,7 @@ test "execFileSync with working directory" {
 
 ///|
 test "execFileSync with env option" {
-  let env_obj = @js.from_map({ "MY_VAR": @js.any("file_value") })
+  let env_obj = @mbtconv.from_map({ "MY_VAR": @nostd.any("file_value") }).cast()
   let output = execFileSync("sh", args=["-c", "echo $MY_VAR"], env=env_obj)
   assert_true(output.contains("file_value"))
 }
@@ -419,7 +419,7 @@ async test "Node Child Process: ChildProcess signalCode returns signal" {
 test "Node Child Process: Nullish to_option converts null to None" {
   // Test that Nullish type works correctly
   // Create a nullish value using undefined
-  let nullish_val : @js.Nullish[@js.JsError] = @js.identity(@js.undefined())
+  let nullish_val : @js.Nullish[@js.JsError] = @js.identity(@global.undefined())
   let opt = nullish_val.to_option()
   inspect(opt, content="None")
 }

@@ -60,12 +60,16 @@ pub fn SdkServer::new(
     capabilities.set("prompts", @js.Object::new())
   }
   // Build server info
-  let server_info = @js.from_map({
-    "name": name |> @js.any,
-    "version": version |> @js.any,
-  })
+  let server_info = @js.identity(
+    @mbtconv.from_map({
+      "name": name |> @nostd.any,
+      "version": version |> @nostd.any,
+    }),
+  )
   // Create server instance
-  let opts = @js.from_map({ "capabilities": capabilities.as_any() })
+  let opts = @js.identity(
+    @mbtconv.from_map({ "capabilities": @nostd.any(capabilities.as_any()) }),
+  )
   ffi_construct(server_class, [server_info, opts]) |> @js.identity
 }
 
@@ -87,7 +91,9 @@ pub fn SdkServer::set_tools_list_handler(
   let wrapped = fn(_request : @js.Any) -> @js.Any {
     let tools = handler()
     let tools_arr : Array[@js.Any] = tools.map(fn(t) { t.as_any() })
-    @js.from_map({ "tools": @js.from_array(tools_arr) })
+    @js.identity(
+      @mbtconv.from_map({ "tools": @nostd.any(@js.from_array(tools_arr)) }),
+    )
   }
   ffi_set_handler(self.as_any(), schema, wrapped)
 }
@@ -116,7 +122,11 @@ pub fn SdkServer::set_tools_call_handler(
     promise_handler(name, args).then(fn(contents) {
       let content_arr : Array[@js.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
-        @js.from_map({ "content": @js.from_array(content_arr) }),
+        @js.identity(
+          @mbtconv.from_map({
+            "content": @nostd.any(@js.from_array(content_arr)),
+          }),
+        ),
       )
     })
   }
@@ -142,7 +152,11 @@ pub fn SdkServer::set_resources_list_handler(
   let wrapped = fn(_request : @js.Any) -> @js.Any {
     let resources = handler()
     let resources_arr : Array[@js.Any] = resources.map(fn(r) { r.as_any() })
-    @js.from_map({ "resources": @js.from_array(resources_arr) })
+    @js.identity(
+      @mbtconv.from_map({
+        "resources": @nostd.any(@js.from_array(resources_arr)),
+      }),
+    )
   }
   ffi_set_handler(self.as_any(), schema, wrapped)
 }
@@ -162,7 +176,11 @@ pub fn SdkServer::set_resources_read_handler(
     promise_handler(uri).then(fn(contents) {
       let content_arr : Array[@js.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
-        @js.from_map({ "contents": @js.from_array(content_arr) }),
+        @js.identity(
+          @mbtconv.from_map({
+            "contents": @nostd.any(@js.from_array(content_arr)),
+          }),
+        ),
       )
     })
   }
@@ -180,7 +198,9 @@ pub fn SdkServer::set_prompts_list_handler(
   let wrapped = fn(_request : @js.Any) -> @js.Any {
     let prompts = handler()
     let prompts_arr : Array[@js.Any] = prompts.map(fn(p) { p.as_any() })
-    @js.from_map({ "prompts": @js.from_array(prompts_arr) })
+    @js.identity(
+      @mbtconv.from_map({ "prompts": @nostd.any(@js.from_array(prompts_arr)) }),
+    )
   }
   ffi_set_handler(self.as_any(), schema, wrapped)
 }
@@ -221,10 +241,12 @@ pub(all) struct PromptMessage {
 
 ///|
 pub fn PromptMessage::as_any(self : PromptMessage) -> @js.Any {
-  @js.from_map({
-    "role": self.role |> @js.any,
-    "content": self.content.as_any(),
-  })
+  @js.identity(
+    @mbtconv.from_map({
+      "role": self.role |> @nostd.any,
+      "content": @nostd.any(self.content.as_any()),
+    }),
+  )
 }
 
 ///|
@@ -281,10 +303,12 @@ pub fn SdkServer::send_notification(
   method_name : String,
   params : &@js.JsImpl,
 ) -> Unit {
-  let notification = @js.from_map({
-    "method": method_name |> @js.any,
-    "params": params.as_any(),
-  })
+  let notification = @js.identity(
+    @mbtconv.from_map({
+      "method": method_name |> @nostd.any,
+      "params": @nostd.any(params.as_any()),
+    }),
+  )
   self.as_any().get("notification").call_self([notification]) |> ignore
 }
 
@@ -295,10 +319,12 @@ pub fn SdkServer::log(
   level : String,
   message : String,
 ) -> Unit {
-  let params = @js.from_map({
-    "level": level |> @js.any,
-    "logger": "server" |> @js.any,
-    "data": message |> @js.any,
-  })
+  let params = @js.identity(
+    @mbtconv.from_map({
+      "level": level |> @nostd.any,
+      "logger": "server" |> @nostd.any,
+      "data": message |> @nostd.any,
+    }),
+  )
   self.send_notification("notifications/message", params)
 }

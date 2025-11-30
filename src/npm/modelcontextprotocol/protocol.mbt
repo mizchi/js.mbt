@@ -69,11 +69,13 @@ pub(all) struct Tool {
 
 ///|
 pub fn Tool::as_any(self : Tool) -> @js.Any {
-  @js.from_map({
-    "name": @js.any(self.name),
-    "description": @js.any(self.description),
-    "inputSchema": self.input_schema,
-  })
+  @js.identity(
+    @mbtconv.from_map({
+      "name": @nostd.any(self.name),
+      "description": @nostd.any(self.description),
+      "inputSchema": @nostd.any(self.input_schema),
+    }),
+  )
 }
 
 ///|
@@ -152,7 +154,7 @@ pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @js.Any {
   if self.prompts {
     capabilities.set("prompts", @js.Object::new())
   }
-  @js.from_map({ "capabilities": capabilities })
+  @js.identity(@mbtconv.from_map({ "capabilities": @nostd.any(capabilities) }))
 }
 
 ///|
@@ -164,7 +166,12 @@ pub struct ServerInfo {
 
 ///|
 pub fn ServerInfo::as_any(self : ServerInfo) -> @js.Any {
-  @js.from_map({ "name": @js.any(self.name), "version": @js.any(self.version) })
+  @js.identity(
+    @mbtconv.from_map({
+      "name": @nostd.any(self.name),
+      "version": @nostd.any(self.version),
+    }),
+  )
 }
 
 ///|

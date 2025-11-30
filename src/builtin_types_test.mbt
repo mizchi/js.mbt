@@ -199,7 +199,7 @@ test "JsIterator::from converts iterable to iterator" {
 
 ///|
 test "Function::to_string" {
-  let parse_int = @js.globalThis().get("parseInt")
+  let parse_int = @global.global_this().get("parseInt")
   let func : Function = @js.identity(parse_int)
   let func_str = func.to_string()
   assert_true(func_str.length() > 0)
@@ -207,7 +207,7 @@ test "Function::to_string" {
 
 ///|
 test "Function::name" {
-  let parse_int = @js.globalThis().get("parseInt")
+  let parse_int = @global.global_this().get("parseInt")
   let func : Function = @js.identity(parse_int)
   let name = func.name()
   assert_eq(name, "parseInt")
@@ -356,7 +356,7 @@ test "identity_option with Show types" {
   assert_eq(null_opt, None)
 
   // Test with undefined - should not cause infinite loop
-  let undef_val = @js.undefined()
+  let undef_val = @global.undefined()
   let undef_opt : String? = @js.identity_option(undef_val)
   assert_eq(undef_opt, None)
 }
@@ -368,7 +368,7 @@ test "identity_option for nullish detection" {
   assert_false(result is None)
   let null_result : @js.Object? = @js.identity_option(@js.null_())
   assert_true(null_result is None)
-  let undef_result : @js.Object? = @js.identity_option(@js.undefined())
+  let undef_result : @js.Object? = @js.identity_option(@global.undefined())
   assert_true(undef_result is None)
 }
 
@@ -487,10 +487,10 @@ test "AbortController::signal and abort" {
 ///|
 test "instanceof_" {
   let arr = @js.from_array([1, 2, 3])
-  let array_class = @js.globalThis().get("Array")
+  let array_class = @global.global_this().get("Array")
   assert_true(@js.instanceof_(arr, array_class))
   let obj = @js.Object::new()
-  let object_class = @js.globalThis().get("Object")
+  let object_class = @global.global_this().get("Object")
   assert_true(@js.instanceof_(obj, object_class))
 }
 
@@ -505,7 +505,7 @@ test "JsError Show output" {
 
 ///|
 test "ThrowError Show output" {
-  let result = try? @js.globalThis().call_throwable("nonexistentMethod", [])
+  let result = try? @global.global_this().call_throwable("nonexistentMethod", [])
   match result {
     Err(throw_err) => {
       // Using inspect triggers Show::output

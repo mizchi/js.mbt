@@ -100,7 +100,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
           return kv_json_response("{\"error\":\"Failed to get counter\"}", 500)
       }
       let current = match current_str {
-        Some(s) => @js.parseInt(s).unwrap_or(0)
+        Some(s) => @global.parse_int(s).unwrap_or(0)
         None => 0
       }
       let new_value = current + 1

@@ -9,6 +9,7 @@
     "mizchi/js",
     "mizchi/js/web/http",
     "mizchi/js/web/url",
-    "mizchi/js/cloudflare"
+    "mizchi/js/cloudflare",
+    "mizchi/js/builtins/global"
   ]
 }

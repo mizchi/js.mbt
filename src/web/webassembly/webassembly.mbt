@@ -179,10 +179,10 @@ pub fn WebAssemblyGlobal::new(
   descriptor : GlobalDescriptor,
   value : @js.Any,
 ) -> WebAssemblyGlobal {
-  let obj = @js.from_map({
-    "value": @js.any(descriptor.value),
-    "mutable": @js.any(descriptor.mutable),
-  })
+  let obj : @js.Any = @mbtconv.from_map({
+    "value": @nostd.any(descriptor.value),
+    "mutable": @nostd.any(descriptor.mutable),
+  }).cast()
   ffi_new_global(obj, value)
 }
 
@@ -221,7 +221,7 @@ pub fn WebAssemblyInstance::from_module(
 ) -> WebAssemblyInstance {
   let imports = match import_object {
     Some(obj) => obj
-    None => @js.undefined()
+    None => @global.undefined()
   }
   ffi_new_instance(wasm_module, imports)
 }
@@ -241,7 +241,7 @@ pub fn instantiate_bytes(
 ) -> (WebAssemblyModule, WebAssemblyInstance) {
   let imports = match import_object {
     Some(obj) => obj
-    None => @js.undefined()
+    None => @global.undefined()
   }
   let result = ffi_instantiate(bytes.as_any(), imports)
   let wasm_module : WebAssemblyModule = result.get("module").cast()
@@ -257,7 +257,7 @@ pub fn instantiate_module(
 ) -> WebAssemblyInstance {
   let imports = match import_object {
     Some(obj) => obj
-    None => @js.undefined()
+    None => @global.undefined()
   }
   ffi_instantiate(wasm_module.as_any().cast(), imports).cast()
 }

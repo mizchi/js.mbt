@@ -3,7 +3,9 @@
   "import": [
     "mizchi/js",
     "mizchi/js/nostd",
+    "mizchi/js/mbtconv",
     "mizchi/js/web/event",
-    "mizchi/js/web/message"
+    "mizchi/js/web/message",
+    "mizchi/js/builtins/global"
   ]
 }

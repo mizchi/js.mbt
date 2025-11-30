@@ -10,18 +10,18 @@ pub fn config_example() -> Unit {
     base?=Some("/"),
     mode?=Some("development"),
     server?=Some(
-      @js.from_map({
-        "port": @js.any(3000),
-        "host": @js.any("localhost"),
-        "open": @js.any(false),
-      }),
+      @mbtconv.from_map({
+        "port": @nostd.any(3000),
+        "host": @nostd.any("localhost"),
+        "open": @nostd.any(false),
+      }).cast(),
     ),
     build?=Some(
-      @js.from_map({
-        "outDir": @js.any("dist"),
-        "sourcemap": @js.any(true),
-        "minify": @js.any(true),
-      }),
+      @mbtconv.from_map({
+        "outDir": @nostd.any("dist"),
+        "sourcemap": @nostd.any(true),
+        "minify": @nostd.any(true),
+      }).cast(),
     ),
   )
   println("✓ Config created with defineConfig")

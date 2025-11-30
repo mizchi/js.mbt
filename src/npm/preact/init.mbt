@@ -6,7 +6,7 @@ pub fn init_preact_api(
   hooks : @js.Any,
   global_key? : String = "__PreactApi",
 ) -> Unit {
-  if @js.is_nullish(@js.global_this().get(global_key)) {
+  if @js.is_nullish(@global.global_this().get(global_key)) {
     // Merge preact and hooks into a single API object
     let api = @js.Object::new()
     // Copy preact exports
@@ -17,7 +17,7 @@ pub fn init_preact_api(
     for key in @js.Object::keys(hooks) {
       api.set(key, hooks.get(key))
     }
-    @js.global_this().set(global_key, api)
+    @global.global_this().set(global_key, api)
   }
 }
 
@@ -33,7 +33,7 @@ extern "js" fn import_preact_hooks() -> @js.Promise[@js.Any] =
 ///|
 /// Dynamic import and initialize Preact API asynchronously
 pub async fn dynamic_import() -> Unit {
-  if @js.is_nullish(@js.global_this().get("__PreactApi")) {
+  if @js.is_nullish(@global.global_this().get("__PreactApi")) {
     let preact : @js.Any = import_preact().wait()
     let hooks : @js.Any = import_preact_hooks().wait()
     init_preact_api(preact, hooks)

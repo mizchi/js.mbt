@@ -26,18 +26,20 @@ test "EventSource constructor exists" {
 
 ///|
 test "get_event_data extracts data from event" {
-  let event = @js.from_map({ "data": @js.identity("test data") })
+  let event : @js.Any = @mbtconv.from_map({ "data": @nostd.any("test data") }).cast()
   assert_eq(get_event_data(event), "test data")
 }
 
 ///|
 test "get_last_event_id extracts lastEventId from event" {
-  let event = @js.from_map({ "lastEventId": @js.identity("123") })
+  let event : @js.Any = @mbtconv.from_map({ "lastEventId": @nostd.any("123") }).cast()
   assert_eq(get_last_event_id(event), "123")
 }
 
 ///|
 test "get_event_origin extracts origin from event" {
-  let event = @js.from_map({ "origin": @js.identity("https://example.com") })
+  let event : @js.Any = @mbtconv.from_map({
+    "origin": @nostd.any("https://example.com"),
+  }).cast()
   assert_eq(get_event_origin(event), "https://example.com")
 }

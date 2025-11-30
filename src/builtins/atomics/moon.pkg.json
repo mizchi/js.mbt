@@ -4,6 +4,7 @@
     "mizchi/js/nostd"
   ],
   "test-import": [
-    "mizchi/js"
+    "mizchi/js",
+    "mizchi/js/builtins/global"
   ]
 }

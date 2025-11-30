@@ -24,29 +24,34 @@ pub async fn R2Bucket::get(
     let onlyIf_js : @js.Any? = match onlyIf {
       Some(cond) =>
         Some(
-          @js.from_option_map({
-            "etagMatches": cond.etagMatches.map(fn(x) { @js.any(x) }),
-            "etagDoesNotMatch": cond.etagDoesNotMatch.map(fn(x) { @js.any(x) }),
+          @mbtconv.from_option_map({
+            "etagMatches": cond.etagMatches.map(fn(x) { @nostd.any(x) }),
+            "etagDoesNotMatch": cond.etagDoesNotMatch.map(fn(x) {
+              @nostd.any(x)
+            }),
             "uploadedBefore": cond.uploadedBefore.map(fn(x) {
               @nostd.identity(x)
             }),
             "uploadedAfter": cond.uploadedAfter.map(fn(x) { @nostd.identity(x) }),
-          }),
+          }).cast(),
         )
       None => None
     }
     let range_js : @js.Any? = match range {
       Some(r) =>
         Some(
-          @js.from_option_map({
-            "offset": r.offset.map(fn(x) { @js.any(x) }),
-            "length": r.length.map(fn(x) { @js.any(x) }),
-            "suffix": r.suffix.map(fn(x) { @js.any(x) }),
-          }),
+          @mbtconv.from_option_map({
+            "offset": r.offset.map(fn(x) { @nostd.any(x) }),
+            "length": r.length.map(fn(x) { @nostd.any(x) }),
+            "suffix": r.suffix.map(fn(x) { @nostd.any(x) }),
+          }).cast(),
         )
       None => None
     }
-    let opts = @js.from_option_map({ "onlyIf": onlyIf_js, "range": range_js })
+    let opts = @mbtconv.from_option_map({
+      "onlyIf": onlyIf_js.map(fn(x) { @nostd.any(x) }),
+      "range": range_js.map(fn(x) { @nostd.any(x) }),
+    }).cast()
     self.call2("get", key, opts).cast()
   }
   promise.wait()
@@ -82,19 +87,22 @@ pub async fn R2Bucket::put(
     sha512 is None {
     self.call2("put", key, value).cast()
   } else {
-    let httpMetadata_js : @js.Any? = match httpMetadata {
-      Some(meta) => Some(meta.as_any())
+    let httpMetadata_js : @nostd.Any? = match httpMetadata {
+      Some(meta) => Some(@nostd.any(meta.as_any()))
       None => None
     }
-    let opts = @js.from_option_map({
-      "httpMetadata": httpMetadata_js,
-      "customMetadata": customMetadata,
-      "md5": md5.map(fn(x) { @js.any(x) }),
-      "sha1": sha1.map(fn(x) { @js.any(x) }),
-      "sha256": sha256.map(fn(x) { @js.any(x) }),
-      "sha384": sha384.map(fn(x) { @js.any(x) }),
-      "sha512": sha512.map(fn(x) { @js.any(x) }),
+    let customMetadata_js : @nostd.Any? = customMetadata.map(fn(x) {
+      @nostd.any(x)
     })
+    let opts = @mbtconv.from_option_map({
+      "httpMetadata": httpMetadata_js,
+      "customMetadata": customMetadata_js,
+      "md5": md5.map(fn(x) { @nostd.any(x) }),
+      "sha1": sha1.map(fn(x) { @nostd.any(x) }),
+      "sha256": sha256.map(fn(x) { @nostd.any(x) }),
+      "sha384": sha384.map(fn(x) { @nostd.any(x) }),
+      "sha512": sha512.map(fn(x) { @nostd.any(x) }),
+    }).cast()
     self.call("put", [key, value, opts]).cast()
   }
   promise.wait()
@@ -142,18 +150,18 @@ pub async fn R2Bucket::list(
     include_ is None {
     self.call0("list").cast()
   } else {
-    let include_js : @js.Any? = match include_ {
-      Some(inc) => Some(@js.from_array(inc))
+    let include_js : @nostd.Any? = match include_ {
+      Some(inc) => Some(@nostd.any(@js.from_array(inc)))
       None => None
     }
-    let opts = @js.from_option_map({
-      "limit": limit.map(fn(x) { @js.any(x) }),
-      "prefix": prefix.map(fn(x) { @js.any(x) }),
-      "cursor": cursor.map(fn(x) { @js.any(x) }),
-      "delimiter": delimiter.map(fn(x) { @js.any(x) }),
-      "startAfter": startAfter.map(fn(x) { @js.any(x) }),
+    let opts = @mbtconv.from_option_map({
+      "limit": limit.map(fn(x) { @nostd.any(x) }),
+      "prefix": prefix.map(fn(x) { @nostd.any(x) }),
+      "cursor": cursor.map(fn(x) { @nostd.any(x) }),
+      "delimiter": delimiter.map(fn(x) { @nostd.any(x) }),
+      "startAfter": startAfter.map(fn(x) { @nostd.any(x) }),
       "include": include_js,
-    })
+    }).cast()
     self.call("list", [opts]).cast()
   }
   promise.wait()
@@ -181,19 +189,22 @@ pub async fn R2Bucket::create_multipart_upload(
     sha512 is None {
     self.call("createMultipartUpload", [key]).cast()
   } else {
-    let httpMetadata_js : @js.Any? = match httpMetadata {
-      Some(meta) => Some(meta.as_any())
+    let httpMetadata_js : @nostd.Any? = match httpMetadata {
+      Some(meta) => Some(@nostd.any(meta.as_any()))
       None => None
     }
-    let opts = @js.from_option_map({
-      "httpMetadata": httpMetadata_js,
-      "customMetadata": customMetadata,
-      "md5": md5.map(fn(x) { @js.any(x) }),
-      "sha1": sha1.map(fn(x) { @js.any(x) }),
-      "sha256": sha256.map(fn(x) { @js.any(x) }),
-      "sha384": sha384.map(fn(x) { @js.any(x) }),
-      "sha512": sha512.map(fn(x) { @js.any(x) }),
+    let customMetadata_js : @nostd.Any? = customMetadata.map(fn(x) {
+      @nostd.any(x)
     })
+    let opts = @mbtconv.from_option_map({
+      "httpMetadata": httpMetadata_js,
+      "customMetadata": customMetadata_js,
+      "md5": md5.map(fn(x) { @nostd.any(x) }),
+      "sha1": sha1.map(fn(x) { @nostd.any(x) }),
+      "sha256": sha256.map(fn(x) { @nostd.any(x) }),
+      "sha384": sha384.map(fn(x) { @nostd.any(x) }),
+      "sha512": sha512.map(fn(x) { @nostd.any(x) }),
+    }).cast()
     self.call2("createMultipartUpload", key, opts).cast()
   }
   promise.wait()
@@ -239,14 +250,14 @@ pub(all) struct R2HttpMetadata {
 
 ///|
 pub impl @js.JsImpl for R2HttpMetadata with as_any(self) {
-  @js.from_option_map({
-    "contentType": self.contentType.map(fn(x) { @js.any(x) }),
-    "contentLanguage": self.contentLanguage.map(fn(x) { @js.any(x) }),
-    "contentDisposition": self.contentDisposition.map(fn(x) { @js.any(x) }),
-    "contentEncoding": self.contentEncoding.map(fn(x) { @js.any(x) }),
-    "cacheControl": self.cacheControl.map(fn(x) { @js.any(x) }),
+  @mbtconv.from_option_map({
+    "contentType": self.contentType.map(fn(x) { @nostd.any(x) }),
+    "contentLanguage": self.contentLanguage.map(fn(x) { @nostd.any(x) }),
+    "contentDisposition": self.contentDisposition.map(fn(x) { @nostd.any(x) }),
+    "contentEncoding": self.contentEncoding.map(fn(x) { @nostd.any(x) }),
+    "cacheControl": self.cacheControl.map(fn(x) { @nostd.any(x) }),
     "cacheExpiry": self.cacheExpiry.map(fn(x) { @nostd.identity(x) }),
-  })
+  }).cast()
 }
 
 ///|
@@ -431,8 +442,8 @@ pub(all) struct R2UploadedPart {
 
 ///|
 pub impl @js.JsImpl for R2UploadedPart with as_any(self) {
-  @js.from_map({
-    "partNumber": @js.any(self.partNumber),
-    "etag": @js.any(self.etag),
-  })
+  @mbtconv.from_map({
+    "partNumber": @nostd.any(self.partNumber),
+    "etag": @nostd.any(self.etag),
+  }).cast()
 }

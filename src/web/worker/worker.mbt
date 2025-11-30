@@ -47,10 +47,10 @@ extern "js" fn ffi_new_worker(script_url : String, option : @js.Any) -> Worker =
 
 ///|
 pub fn Worker::new(script_url : String, type_? : String) -> Worker {
-  let option = if type_ is Some(v) {
-    @js.from_map({ "type": @js.any(v) })
+  let option : @js.Any = if type_ is Some(v) {
+    @mbtconv.from_map({ "type": @nostd.any(v) }).cast()
   } else {
-    @js.undefined()
+    @global.undefined()
   }
   ffi_new_worker(script_url, option)
 }
@@ -71,7 +71,7 @@ extern "js" fn ffi_worker_post_message(
 ///|
 #alias(post_message)
 pub fn Worker::postMessage(worker : Worker, message : &@js.JsImpl) -> Unit {
-  ffi_worker_post_message(worker, message.as_any(), @js.undefined())
+  ffi_worker_post_message(worker, message.as_any(), @global.undefined())
 }
 
 ///|

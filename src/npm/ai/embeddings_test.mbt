@@ -2,7 +2,7 @@
 
 ///|
 test "embedding usage from_any" {
-  let raw = @js.from_map({ "tokens": 100 |> @js.any })
+  let raw = @mbtconv.from_map({ "tokens": 100 |> @nostd.any }).cast()
   let usage = @ai.EmbeddingUsage::from_any(raw)
   assert_eq(usage.tokens, 100)
 }
@@ -10,10 +10,10 @@ test "embedding usage from_any" {
 ///|
 test "embed result from_any" {
   let embedding_arr : Array[Double] = [0.1, 0.2, 0.3, 0.4, 0.5]
-  let raw = @js.from_map({
-    "embedding": embedding_arr |> @js.from_array,
-    "usage": @js.from_map({ "tokens": 50 |> @js.any }),
-  })
+  let raw = @mbtconv.from_map({
+    "embedding": embedding_arr |> @js.from_array |> @nostd.any,
+    "usage": @mbtconv.from_map({ "tokens": 50 |> @nostd.any }).cast(),
+  }).cast()
   let result = @ai.EmbedResult::from_any(raw)
   assert_eq(result.embedding.length(), 5)
   assert_eq(result.usage.tokens, 50)
@@ -24,10 +24,10 @@ test "embed many result from_any" {
   let emb1 : Array[Double] = [0.1, 0.2, 0.3]
   let emb2 : Array[Double] = [0.4, 0.5, 0.6]
   let embeddings_arr = [emb1 |> @js.from_array, emb2 |> @js.from_array]
-  let raw = @js.from_map({
-    "embeddings": embeddings_arr |> @js.from_array,
-    "usage": @js.from_map({ "tokens": 100 |> @js.any }),
-  })
+  let raw = @mbtconv.from_map({
+    "embeddings": embeddings_arr |> @js.from_array |> @nostd.any,
+    "usage": @mbtconv.from_map({ "tokens": 100 |> @nostd.any }).cast(),
+  }).cast()
   let result = @ai.EmbedManyResult::from_any(raw)
   assert_eq(result.embeddings.length(), 2)
   assert_eq(result.usage.tokens, 100)

@@ -111,7 +111,7 @@ pub fn mkdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
     let fs = fs_module()
     match recursive {
       Some(r) => {
-        let opts = @js.from_map({ "recursive": r |> @js.identity })
+        let opts : @js.Any = @mbtconv.from_map({ "recursive": @nostd.any(r) }).cast()
         fs.call2("mkdirSync", path, opts) |> ignore
       }
       None => fs.call1("mkdirSync", path) |> ignore
@@ -176,16 +176,13 @@ pub fn rmSync(
     let fs = fs_module()
     match (recursive, force) {
       (None, None) => fs.call1("rmSync", path) |> ignore
-      _ =>
-        fs.call2(
-          "rmSync",
-          path,
-          @js.from_option_map({
-            "recursive": recursive.map(fn(x) { @js.any(x) }),
-            "force": force.map(fn(x) { @js.any(x) }),
-          }),
-        )
-        |> ignore
+      _ => {
+        let opts : @js.Any = @mbtconv.from_option_map({
+          "recursive": recursive.map(fn(x) { @nostd.any(x) }),
+          "force": force.map(fn(x) { @nostd.any(x) }),
+        }).cast()
+        fs.call2("rmSync", path, opts) |> ignore
+      }
     }
   })
 }
@@ -286,7 +283,7 @@ pub fn rmdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
     let fs = fs_module()
     match recursive {
       Some(r) => {
-        let opts = @js.from_map({ "recursive": r |> @js.identity })
+        let opts : @js.Any = @mbtconv.from_map({ "recursive": @nostd.any(r) }).cast()
         fs.call2("rmdirSync", path, opts) |> ignore
       }
       None => fs.call1("rmdirSync", path) |> ignore
@@ -319,7 +316,7 @@ pub fn cpSync(
     let fs = fs_module()
     match recursive {
       Some(r) => {
-        let opts = @js.from_map({ "recursive": r |> @js.identity })
+        let opts : @js.Any = @mbtconv.from_map({ "recursive": @nostd.any(r) }).cast()
         fs.call("cpSync", [src, dest, opts]) |> ignore
       }
       None => fs.call2("cpSync", src, dest) |> ignore
