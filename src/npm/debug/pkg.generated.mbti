@@ -2,11 +2,11 @@
 package "mizchi/js/npm/debug"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn coerce(@js.Any) -> @js.Any
+fn coerce(@nostd.Any) -> @nostd.Any
 
 fn debug(String) -> Debug
 
@@ -25,13 +25,12 @@ fn Debug::extend(Self, String) -> Self
 fn Debug::get_namespace(Self) -> String
 fn Debug::is_enabled(Self) -> Bool
 fn Debug::log(Self, String) -> Unit
-fn[A : @js.JsImpl] Debug::log1(Self, String, A) -> Unit
-fn[A : @js.JsImpl, B : @js.JsImpl] Debug::log2(Self, String, A, B) -> Unit
-fn[A : @js.JsImpl, B : @js.JsImpl, C : @js.JsImpl] Debug::log3(Self, String, A, B, C) -> Unit
-fn[A : @js.JsImpl, B : @js.JsImpl, C : @js.JsImpl, D : @js.JsImpl] Debug::log4(Self, String, A, B, C, D) -> Unit
-fn Debug::log_with(Self, String, Array[@js.Any]) -> Unit
+fn Debug::log1(Self, String, @nostd.Any) -> Unit
+fn Debug::log2(Self, String, @nostd.Any, @nostd.Any) -> Unit
+fn Debug::log3(Self, String, @nostd.Any, @nostd.Any, @nostd.Any) -> Unit
+fn Debug::log4(Self, String, @nostd.Any, @nostd.Any, @nostd.Any, @nostd.Any) -> Unit
+fn Debug::log_with(Self, String, Array[@nostd.Any]) -> Unit
 fn Debug::set_enabled(Self, Bool) -> Unit
-impl @js.JsImpl for Debug
 
 // Type aliases
 

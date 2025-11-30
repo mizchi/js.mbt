@@ -2,7 +2,7 @@
 package "mizchi/js/npm/error_stack_parser"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -14,7 +14,7 @@ fn first_user_frame(Array[StackFrame]) -> StackFrame?
 
 fn format_stack(Array[StackFrame]) -> String
 
-fn parse(@js.Any) -> Array[StackFrame]
+fn parse(@nostd.Any) -> Array[StackFrame]
 
 fn parse_string(String) -> Array[StackFrame]
 

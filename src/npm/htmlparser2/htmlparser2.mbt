@@ -12,15 +12,9 @@
 pub type Parser
 
 ///|
-pub impl @js.JsImpl for Parser
-
-///|
 /// DOM Document node
 #external
 pub type Document
-
-///|
-pub impl @js.JsImpl for Document
 
 ///|
 /// DOM Element node
@@ -28,15 +22,27 @@ pub impl @js.JsImpl for Document
 pub type Element
 
 ///|
-pub impl @js.JsImpl for Element
-
-///|
 /// DOM Node (base type)
 #external
 pub type Node
 
+///| to_any helpers
+
 ///|
-pub impl @js.JsImpl for Node
+pub extern "js" fn Parser::to_any(self : Parser) -> @nostd.Any =
+  #| (x) => x
+
+///|
+pub extern "js" fn Document::to_any(self : Document) -> @nostd.Any =
+  #| (x) => x
+
+///|
+pub extern "js" fn Element::to_any(self : Element) -> @nostd.Any =
+  #| (x) => x
+
+///|
+pub extern "js" fn Node::to_any(self : Node) -> @nostd.Any =
+  #| (x) => x
 
 ///| FFI Functions
 
@@ -50,7 +56,7 @@ extern "js" fn ffi_parse_document(html : String) -> Document =
 ///|
 extern "js" fn ffi_parse_document_with_options(
   html : String,
-  options : @js.Any,
+  options : @nostd.Any,
 ) -> Document =
   #| (html, options) => {
   #|   const htmlparser2 = require('htmlparser2');
@@ -58,7 +64,7 @@ extern "js" fn ffi_parse_document_with_options(
   #| }
 
 ///|
-extern "js" fn ffi_create_parser(handlers : @js.Any) -> Parser =
+extern "js" fn ffi_create_parser(handlers : @nostd.Any) -> Parser =
   #| (handlers) => {
   #|   const htmlparser2 = require('htmlparser2');
   #|   return new htmlparser2.Parser(handlers);
@@ -66,8 +72,8 @@ extern "js" fn ffi_create_parser(handlers : @js.Any) -> Parser =
 
 ///|
 extern "js" fn ffi_create_parser_with_options(
-  handlers : @js.Any,
-  options : @js.Any,
+  handlers : @nostd.Any,
+  options : @nostd.Any,
 ) -> Parser =
   #| (handlers, options) => {
   #|   const htmlparser2 = require('htmlparser2');
@@ -104,57 +110,57 @@ extern "js" fn ffi_parser_parse_complete(
 ///| DOM Traversal FFI
 
 ///|
-extern "js" fn ffi_get_children(node : @js.Any) -> @js.Any =
+extern "js" fn ffi_get_children(node : @nostd.Any) -> @nostd.Any =
   #| (node) => {
   #|   return node.children || [];
   #| }
 
 ///|
-extern "js" fn ffi_get_parent(node : @js.Any) -> @js.Any =
+extern "js" fn ffi_get_parent(node : @nostd.Any) -> @nostd.Any =
   #| (node) => {
   #|   return node.parent;
   #| }
 
 ///|
-extern "js" fn ffi_get_name(node : @js.Any) -> String =
+extern "js" fn ffi_get_name(node : @nostd.Any) -> String =
   #| (node) => {
   #|   return node.name || '';
   #| }
 
 ///|
-extern "js" fn ffi_get_type(node : @js.Any) -> String =
+extern "js" fn ffi_get_type(node : @nostd.Any) -> String =
   #| (node) => {
   #|   return node.type || '';
   #| }
 
 ///|
-extern "js" fn ffi_get_data(node : @js.Any) -> String =
+extern "js" fn ffi_get_data(node : @nostd.Any) -> String =
   #| (node) => {
   #|   return node.data || '';
   #| }
 
 ///|
-extern "js" fn ffi_get_attribs(node : @js.Any) -> @js.Any =
+extern "js" fn ffi_get_attribs(node : @nostd.Any) -> @nostd.Any =
   #| (node) => {
   #|   return node.attribs || {};
   #| }
 
 ///|
-extern "js" fn ffi_dom_utils_get_inner_html(node : @js.Any) -> String =
+extern "js" fn ffi_dom_utils_get_inner_html(node : @nostd.Any) -> String =
   #| (node) => {
   #|   const { DomUtils } = require('htmlparser2');
   #|   return DomUtils.getInnerHTML(node);
   #| }
 
 ///|
-extern "js" fn ffi_dom_utils_get_outer_html(node : @js.Any) -> String =
+extern "js" fn ffi_dom_utils_get_outer_html(node : @nostd.Any) -> String =
   #| (node) => {
   #|   const { DomUtils } = require('htmlparser2');
   #|   return DomUtils.getOuterHTML(node);
   #| }
 
 ///|
-extern "js" fn ffi_dom_utils_get_text(node : @js.Any) -> String =
+extern "js" fn ffi_dom_utils_get_text(node : @nostd.Any) -> String =
   #| (node) => {
   #|   const { DomUtils } = require('htmlparser2');
   #|   return DomUtils.getText(node);
@@ -163,10 +169,10 @@ extern "js" fn ffi_dom_utils_get_text(node : @js.Any) -> String =
 ///|
 extern "js" fn ffi_dom_utils_get_elements_by_tag_name(
   name : String,
-  nodes : @js.Any,
+  nodes : @nostd.Any,
   recurse : Bool,
   limit : Int,
-) -> @js.Any =
+) -> @nostd.Any =
   #| (name, nodes, recurse, limit) => {
   #|   const { DomUtils } = require('htmlparser2');
   #|   return DomUtils.getElementsByTagName(name, nodes, recurse, limit);
@@ -175,9 +181,9 @@ extern "js" fn ffi_dom_utils_get_elements_by_tag_name(
 ///|
 extern "js" fn ffi_dom_utils_get_element_by_id(
   id : String,
-  nodes : @js.Any,
+  nodes : @nostd.Any,
   recurse : Bool,
-) -> @js.Any =
+) -> @nostd.Any =
   #| (id, nodes, recurse) => {
   #|   const { DomUtils } = require('htmlparser2');
   #|   return DomUtils.getElementById(id, nodes, recurse);
@@ -185,9 +191,9 @@ extern "js" fn ffi_dom_utils_get_element_by_id(
 
 ///|
 extern "js" fn ffi_dom_utils_find_all(
-  predicate : @js.Any,
-  nodes : @js.Any,
-) -> @js.Any =
+  predicate : @nostd.Any,
+  nodes : @nostd.Any,
+) -> @nostd.Any =
   #| (predicate, nodes) => {
   #|   const { DomUtils } = require('htmlparser2');
   #|   return DomUtils.findAll(predicate, nodes);
@@ -195,10 +201,10 @@ extern "js" fn ffi_dom_utils_find_all(
 
 ///|
 extern "js" fn ffi_dom_utils_find_one(
-  predicate : @js.Any,
-  nodes : @js.Any,
+  predicate : @nostd.Any,
+  nodes : @nostd.Any,
   recurse : Bool,
-) -> @js.Any =
+) -> @nostd.Any =
   #| (predicate, nodes, recurse) => {
   #|   const { DomUtils } = require('htmlparser2');
   #|   return DomUtils.findOne(predicate, nodes, recurse);
@@ -221,51 +227,51 @@ pub fn parseDocumentWithOptions(
   lowerCaseTags? : Bool,
   lowerCaseAttributeNames? : Bool,
 ) -> Document {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if xmlMode is Some(v) {
-    options["xmlMode"] = v
+    options["xmlMode"] = @nostd.any(v)
   }
   if decodeEntities is Some(v) {
-    options["decodeEntities"] = v
+    options["decodeEntities"] = @nostd.any(v)
   }
   if lowerCaseTags is Some(v) {
-    options["lowerCaseTags"] = v
+    options["lowerCaseTags"] = @nostd.any(v)
   }
   if lowerCaseAttributeNames is Some(v) {
-    options["lowerCaseAttributeNames"] = v
+    options["lowerCaseAttributeNames"] = @nostd.any(v)
   }
-  ffi_parse_document_with_options(html, options.to_any())
+  ffi_parse_document_with_options(html, options)
 }
 
 ///|
 /// Create a streaming parser with event handlers
-pub fn createParser(handlers : @js.Any) -> Parser {
+pub fn createParser(handlers : @nostd.Any) -> Parser {
   ffi_create_parser(handlers)
 }
 
 ///|
 /// Create a streaming parser with options
 pub fn createParserWithOptions(
-  handlers : @js.Any,
+  handlers : @nostd.Any,
   xmlMode? : Bool,
   decodeEntities? : Bool,
   lowerCaseTags? : Bool,
   lowerCaseAttributeNames? : Bool,
 ) -> Parser {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if xmlMode is Some(v) {
-    options["xmlMode"] = v
+    options["xmlMode"] = @nostd.any(v)
   }
   if decodeEntities is Some(v) {
-    options["decodeEntities"] = v
+    options["decodeEntities"] = @nostd.any(v)
   }
   if lowerCaseTags is Some(v) {
-    options["lowerCaseTags"] = v
+    options["lowerCaseTags"] = @nostd.any(v)
   }
   if lowerCaseAttributeNames is Some(v) {
-    options["lowerCaseAttributeNames"] = v
+    options["lowerCaseAttributeNames"] = @nostd.any(v)
   }
-  ffi_create_parser_with_options(handlers, options.to_any())
+  ffi_create_parser_with_options(handlers, options)
 }
 
 ///| Parser Methods
@@ -299,7 +305,7 @@ pub fn Parser::parseComplete(self : Parser, input : String) -> Unit {
 ///|
 /// Get children of a document
 pub fn Document::children(self : Document) -> Array[Node] {
-  @js.identity(ffi_get_children(self.to_any()))
+  @nostd.identity(ffi_get_children(self.to_any()))
 }
 
 ///| Element Methods
@@ -312,16 +318,16 @@ pub fn Element::name(self : Element) -> String {
 
 ///|
 /// Get element attributes as Object
-pub fn Element::attribs(self : Element) -> @js.Object {
-  @js.identity(ffi_get_attribs(self.to_any()))
+pub fn Element::attribs(self : Element) -> @nostd.Any {
+  ffi_get_attribs(self.to_any())
 }
 
 ///|
 /// Get a specific attribute value
 pub fn Element::getAttribute(self : Element, name : String) -> String? {
   let attribs = self.attribs()
-  let value = attribs.get(name)
-  if @js.is_nullish(value) {
+  let value = attribs[name]
+  if @nostd.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -331,17 +337,17 @@ pub fn Element::getAttribute(self : Element, name : String) -> String? {
 ///|
 /// Get children of an element
 pub fn Element::children(self : Element) -> Array[Node] {
-  @js.identity(ffi_get_children(self.to_any()))
+  @nostd.identity(ffi_get_children(self.to_any()))
 }
 
 ///|
 /// Get parent of an element
 pub fn Element::parent(self : Element) -> Node? {
   let parent = ffi_get_parent(self.to_any())
-  if @js.is_nullish(parent) {
+  if @nostd.is_nullish(parent) {
     None
   } else {
-    Some(@js.identity(parent))
+    Some(@nostd.identity(parent))
   }
 }
 
@@ -386,30 +392,30 @@ pub fn Node::isComment(self : Node) -> Bool {
 ///|
 /// Cast node to element (unsafe)
 pub fn Node::asElement(self : Node) -> Element {
-  @js.identity(self.to_any())
+  @nostd.identity(self.to_any())
 }
 
 ///|
 /// Get children of a node
 pub fn Node::children(self : Node) -> Array[Node] {
-  @js.identity(ffi_get_children(self.to_any()))
+  @nostd.identity(ffi_get_children(self.to_any()))
 }
 
 ///|
 /// Get parent of a node
 pub fn Node::parent(self : Node) -> Node? {
   let parent = ffi_get_parent(self.to_any())
-  if @js.is_nullish(parent) {
+  if @nostd.is_nullish(parent) {
     None
   } else {
-    Some(@js.identity(parent))
+    Some(@nostd.identity(parent))
   }
 }
 
 ///|
 /// Get attributes of a node (if element)
-pub fn Node::attribs(self : Node) -> @js.Object {
-  @js.identity(ffi_get_attribs(self.to_any()))
+pub fn Node::attribs(self : Node) -> @nostd.Any {
+  ffi_get_attribs(self.to_any())
 }
 
 ///| DomUtils Functions
@@ -446,7 +452,7 @@ pub fn getElementsByTagName(
   recurse? : Bool = true,
   limit? : Int = 0x7FFFFFFF,
 ) -> Array[Element] {
-  @js.identity(
+  @nostd.identity(
     ffi_dom_utils_get_elements_by_tag_name(
       name,
       ffi_get_children(doc.to_any()),
@@ -464,28 +470,30 @@ pub fn getElementById(doc : Document, id : String) -> Element? {
     ffi_get_children(doc.to_any()),
     true,
   )
-  if @js.is_nullish(result) {
+  if @nostd.is_nullish(result) {
     None
   } else {
-    Some(@js.identity(result))
+    Some(@nostd.identity(result))
   }
 }
 
 ///|
 /// Find all elements matching a predicate
 pub fn findAll(doc : Document, predicate : (Element) -> Bool) -> Array[Element] {
-  let pred_fn = @js.from_fn1(fn(elem : @js.Any) -> Bool {
-    let e : Element = @js.identity(elem)
+  let pred_fn = @nostd.from_fn1(fn(elem : @nostd.Any) -> Bool {
+    let e : Element = @nostd.identity(elem)
     predicate(e)
   })
-  @js.identity(ffi_dom_utils_find_all(pred_fn, ffi_get_children(doc.to_any())))
+  @nostd.identity(
+    ffi_dom_utils_find_all(pred_fn, ffi_get_children(doc.to_any())),
+  )
 }
 
 ///|
 /// Find first element matching a predicate
 pub fn findOne(doc : Document, predicate : (Element) -> Bool) -> Element? {
-  let pred_fn = @js.from_fn1(fn(elem : @js.Any) -> Bool {
-    let e : Element = @js.identity(elem)
+  let pred_fn = @nostd.from_fn1(fn(elem : @nostd.Any) -> Bool {
+    let e : Element = @nostd.identity(elem)
     predicate(e)
   })
   let result = ffi_dom_utils_find_one(
@@ -493,9 +501,9 @@ pub fn findOne(doc : Document, predicate : (Element) -> Bool) -> Element? {
     ffi_get_children(doc.to_any()),
     true,
   )
-  if @js.is_nullish(result) {
+  if @nostd.is_nullish(result) {
     None
   } else {
-    Some(@js.identity(result))
+    Some(@nostd.identity(result))
   }
 }

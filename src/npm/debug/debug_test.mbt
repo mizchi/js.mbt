@@ -73,8 +73,13 @@ test "debug log does not throw" {
   let log = @debug.debug("silent:log")
   // Should not throw even when disabled
   log.log("test message")
-  log.log1("formatted %s", @js.any("value"))
-  log.log2("two args %s %d", @js.any("str"), @js.any(42))
-  log.log3("three args %s %d %s", @js.any("a"), @js.any(1), @js.any("b"))
-  log.log_with("multiple args", [@js.any("x"), @js.any("y")])
+  log.log1("formatted %s", @nostd.any("value"))
+  log.log2("two args %s %d", @nostd.any("str"), @nostd.any(42))
+  log.log3(
+    "three args %s %d %s",
+    @nostd.any("a"),
+    @nostd.any(1),
+    @nostd.any("b"),
+  )
+  log.log_with("multiple args", [@nostd.any("x"), @nostd.any("y")])
 }

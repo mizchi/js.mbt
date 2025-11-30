@@ -1,5 +1,5 @@
 ///|
-/// debug bindings for MoonBit
+/// debug bindings for MoonBit (nostd)
 /// https://github.com/debug-js/debug
 ///
 /// A tiny JavaScript debugging utility.
@@ -10,9 +10,6 @@
 /// Debug logger instance
 #external
 pub type Debug
-
-///|
-pub impl @js.JsImpl for Debug
 
 ///| FFI Functions
 
@@ -45,14 +42,18 @@ extern "js" fn ffi_enabled(ns : String) -> Bool =
   #| }
 
 ///|
-extern "js" fn ffi_coerce(val : @js.Any) -> @js.Any =
+extern "js" fn ffi_coerce(val : @nostd.Any) -> @nostd.Any =
   #| (val) => {
   #|   const debug = require('debug');
   #|   return debug.coerce(val);
   #| }
 
 ///|
-extern "js" fn ffi_log(debug : Debug, message : String, args : @js.Any) -> Unit =
+extern "js" fn ffi_log(
+  debug : Debug,
+  message : String,
+  args : Array[@nostd.Any],
+) -> Unit =
   #| (debug, message, args) => {
   #|   debug(message, ...args);
   #| }
@@ -110,7 +111,7 @@ pub fn enabled(ns : String) -> Bool {
 
 ///|
 /// Coerce a value (useful for Error objects)
-pub fn coerce(val : @js.Any) -> @js.Any {
+pub fn coerce(val : @nostd.Any) -> @nostd.Any {
   ffi_coerce(val)
 }
 
@@ -121,15 +122,19 @@ extern "js" fn ffi_log0(debug : Debug, message : String) -> Unit =
   #| (debug, message) => debug(message)
 
 ///|
-extern "js" fn ffi_log1(debug : Debug, message : String, a1 : @js.Any) -> Unit =
+extern "js" fn ffi_log1(
+  debug : Debug,
+  message : String,
+  a1 : @nostd.Any,
+) -> Unit =
   #| (debug, message, a1) => debug(message, a1)
 
 ///|
 extern "js" fn ffi_log2(
   debug : Debug,
   message : String,
-  a1 : @js.Any,
-  a2 : @js.Any,
+  a1 : @nostd.Any,
+  a2 : @nostd.Any,
 ) -> Unit =
   #| (debug, message, a1, a2) => debug(message, a1, a2)
 
@@ -137,9 +142,9 @@ extern "js" fn ffi_log2(
 extern "js" fn ffi_log3(
   debug : Debug,
   message : String,
-  a1 : @js.Any,
-  a2 : @js.Any,
-  a3 : @js.Any,
+  a1 : @nostd.Any,
+  a2 : @nostd.Any,
+  a3 : @nostd.Any,
 ) -> Unit =
   #| (debug, message, a1, a2, a3) => debug(message, a1, a2, a3)
 
@@ -147,10 +152,10 @@ extern "js" fn ffi_log3(
 extern "js" fn ffi_log4(
   debug : Debug,
   message : String,
-  a1 : @js.Any,
-  a2 : @js.Any,
-  a3 : @js.Any,
-  a4 : @js.Any,
+  a1 : @nostd.Any,
+  a2 : @nostd.Any,
+  a3 : @nostd.Any,
+  a4 : @nostd.Any,
 ) -> Unit =
   #| (debug, message, a1, a2, a3, a4) => debug(message, a1, a2, a3, a4)
 
@@ -161,66 +166,55 @@ pub fn Debug::log(self : Debug, message : String) -> Unit {
 }
 
 ///|
-/// Log a debug message with format arguments (accepts any JsImpl)
+/// Log a debug message with format arguments
 pub fn Debug::log_with(
   self : Debug,
   message : String,
-  args : Array[@js.Any],
+  args : Array[@nostd.Any],
 ) -> Unit {
-  ffi_log(self, message, @js.from_array(args))
+  ffi_log(self, message, args)
 }
 
 ///|
-/// Log with a single argument (accepts any JsImpl type)
-pub fn[A : @js.JsImpl] Debug::log1(
-  self : Debug,
-  message : String,
-  arg1 : A,
-) -> Unit {
-  ffi_log1(self, message, arg1.to_any())
+/// Log with a single argument
+pub fn Debug::log1(self : Debug, message : String, arg1 : @nostd.Any) -> Unit {
+  ffi_log1(self, message, arg1)
 }
 
 ///|
-/// Log with two arguments (accepts any JsImpl types)
-pub fn[A : @js.JsImpl, B : @js.JsImpl] Debug::log2(
+/// Log with two arguments
+pub fn Debug::log2(
   self : Debug,
   message : String,
-  arg1 : A,
-  arg2 : B,
+  arg1 : @nostd.Any,
+  arg2 : @nostd.Any,
 ) -> Unit {
-  ffi_log2(self, message, arg1.to_any(), arg2.to_any())
+  ffi_log2(self, message, arg1, arg2)
 }
 
 ///|
-/// Log with three arguments (accepts any JsImpl types)
-pub fn[A : @js.JsImpl, B : @js.JsImpl, C : @js.JsImpl] Debug::log3(
+/// Log with three arguments
+pub fn Debug::log3(
   self : Debug,
   message : String,
-  arg1 : A,
-  arg2 : B,
-  arg3 : C,
+  arg1 : @nostd.Any,
+  arg2 : @nostd.Any,
+  arg3 : @nostd.Any,
 ) -> Unit {
-  ffi_log3(self, message, arg1.to_any(), arg2.to_any(), arg3.to_any())
+  ffi_log3(self, message, arg1, arg2, arg3)
 }
 
 ///|
-/// Log with four arguments (accepts any JsImpl types)
-pub fn[A : @js.JsImpl, B : @js.JsImpl, C : @js.JsImpl, D : @js.JsImpl] Debug::log4(
+/// Log with four arguments
+pub fn Debug::log4(
   self : Debug,
   message : String,
-  arg1 : A,
-  arg2 : B,
-  arg3 : C,
-  arg4 : D,
+  arg1 : @nostd.Any,
+  arg2 : @nostd.Any,
+  arg3 : @nostd.Any,
+  arg4 : @nostd.Any,
 ) -> Unit {
-  ffi_log4(
-    self,
-    message,
-    arg1.to_any(),
-    arg2.to_any(),
-    arg3.to_any(),
-    arg4.to_any(),
-  )
+  ffi_log4(self, message, arg1, arg2, arg3, arg4)
 }
 
 ///|

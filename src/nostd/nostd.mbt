@@ -90,6 +90,11 @@ pub extern "js" fn equal(a : Any, b : Any) -> Bool =
   #|(a, b) => a === b
 
 ///|
+/// Check if value is an array
+pub extern "js" fn is_array(v : Any) -> Bool =
+  #|(v) => Array.isArray(v)
+
+///|
 /// JS: typeof value
 pub extern "js" fn type_of(value : Any) -> String =
   #|(value) => typeof value
@@ -103,3 +108,43 @@ pub extern "js" fn instance_of(value : Any, cls : Any) -> Bool =
 /// JS: new cls(...args)
 pub extern "js" fn new(cls : Any, args : Array[Any]) -> Any =
   #|(cls, args) => new cls(...args)
+
+///| Function wrappers
+
+///|
+/// Wrap MoonBit function as JS function (0 args)
+pub fn[A] from_fn0(f : () -> A) -> Any = "%identity"
+
+///|
+/// Wrap MoonBit function as JS function (1 arg)
+pub fn[A, B] from_fn1(f : (A) -> B) -> Any = "%identity"
+
+///|
+/// Wrap MoonBit function as JS function (2 args)
+pub fn[A, B, C] from_fn2(f : (A, B) -> C) -> Any = "%identity"
+
+///|
+/// Wrap MoonBit function as JS function (3 args)
+pub fn[A, B, C, D] from_fn3(f : (A, B, C) -> D) -> Any = "%identity"
+
+///| Timer functions
+
+///|
+/// Set a timeout to call a function after ms milliseconds
+pub extern "js" fn set_timeout(f : () -> Unit, ms : Int) -> Int =
+  #| (f, ms) => setTimeout(f, ms)
+
+///|
+/// Clear a timeout by its ID
+pub extern "js" fn clear_timeout(id : Int) -> Unit =
+  #| (id) => clearTimeout(id)
+
+///|
+/// Set an interval to call a function every ms milliseconds
+pub extern "js" fn set_interval(f : () -> Unit, ms : Int) -> Int =
+  #| (f, ms) => setInterval(f, ms)
+
+///|
+/// Clear an interval by its ID
+pub extern "js" fn clear_interval(id : Int) -> Unit =
+  #| (id) => clearInterval(id)

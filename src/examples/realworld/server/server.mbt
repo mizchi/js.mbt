@@ -422,11 +422,11 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
     let user = get_session_user(db, c)
     match user {
       Some(u) => {
-        let body = ffi_parse_body(c).wait()
+        let body : @nostd.Any = ffi_parse_body(c).wait() |> @nostd.identity()
         let schema = create_todo_schema()
         match schema.safeParse(body) {
           Ok(data) => {
-            let title : String = data.get("title").cast()
+            let title : String = data["title"].cast()
             create_todo(db, u.id(), title)
           }
           Err(_) => ()
@@ -705,11 +705,11 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
     let user = get_session_user(db, c)
     match user {
       Some(u) => {
-        let body = c.req.json()
+        let body : @nostd.Any = c.req.json() |> @nostd.identity()
         let schema = create_todo_schema()
         match schema.safeParse(body) {
           Ok(data) => {
-            let title : String = data.get("title").cast()
+            let title : String = data["title"].cast()
             create_todo(db, u.id(), title)
             let obj = @js.Object::new()
             obj["success"] = true

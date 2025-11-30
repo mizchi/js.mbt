@@ -8,17 +8,31 @@ fn assert_throws(() -> Any) -> String raise JsError
 
 fn assert_throws_with(() -> Any, String) -> Unit
 
+fn clear_interval(Int) -> Unit
+
+fn clear_timeout(Int) -> Unit
+
 fn equal(Any, Any) -> Bool
 
 fn[E : Show + Error] export_sync(() -> Any raise E) -> Any
 
 fn ffi_wrap_sync(() -> Any, (Any) -> Unit, (Any) -> Unit) -> Unit
 
+fn[A] from_fn0(() -> A) -> Any
+
+fn[A, B] from_fn1((A) -> B) -> Any
+
+fn[A, B, C] from_fn2((A, B) -> C) -> Any
+
+fn[A, B, C, D] from_fn3((A, B, C) -> D) -> Any
+
 fn global_this() -> Any
 
 fn[A, B] identity(A) -> B
 
 fn instance_of(Any, Any) -> Bool
+
+fn is_array(Any) -> Bool
 
 fn is_null(Any) -> Bool
 
@@ -31,6 +45,10 @@ fn new(Any, Array[Any]) -> Any
 fn null() -> Any
 
 fn run_async(async () -> Unit noraise) -> Unit
+
+fn set_interval(() -> Unit, Int) -> Int
+
+fn set_timeout(() -> Unit, Int) -> Int
 
 async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 

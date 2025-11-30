@@ -88,7 +88,7 @@ pub fn ErrorTracer::resolve_error(
   self : ErrorTracer,
   error : @js.Any,
 ) -> Array[ResolvedFrame] {
-  let frames = @error_stack_parser.parse(error)
+  let frames = @error_stack_parser.parse(error |> @nostd.identity)
   frames.map(fn(f) { self.resolve_frame(f) })
 }
 

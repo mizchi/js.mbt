@@ -2,13 +2,13 @@
 package "mizchi/js/npm/chokidar"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn watch(String, persistent? : Bool, ignored? : @js.Any, ignoreInitial? : Bool, followSymlinks? : Bool, cwd? : String, disableGlobbing? : Bool, usePolling? : Bool, interval? : Int, binaryInterval? : Int, alwaysStat? : Bool, depth? : Int, awaitWriteFinish? : @js.Any, ignorePermissionErrors? : Bool, atomic_? : Bool) -> FSWatcher
+fn watch(String, persistent? : Bool, ignored? : @nostd.Any, ignoreInitial? : Bool, followSymlinks? : Bool, cwd? : String, disableGlobbing? : Bool, usePolling? : Bool, interval? : Int, binaryInterval? : Int, alwaysStat? : Bool, depth? : Int, awaitWriteFinish? : @nostd.Any, ignorePermissionErrors? : Bool, atomic_? : Bool) -> FSWatcher
 
-fn watch_paths(Array[String], persistent? : Bool, ignored? : @js.Any, ignoreInitial? : Bool, followSymlinks? : Bool, cwd? : String, disableGlobbing? : Bool, usePolling? : Bool, interval? : Int, binaryInterval? : Int, alwaysStat? : Bool, depth? : Int, awaitWriteFinish? : @js.Any, ignorePermissionErrors? : Bool, atomic_? : Bool) -> FSWatcher
+fn watch_paths(Array[String], persistent? : Bool, ignored? : @nostd.Any, ignoreInitial? : Bool, followSymlinks? : Bool, cwd? : String, disableGlobbing? : Bool, usePolling? : Bool, interval? : Int, binaryInterval? : Int, alwaysStat? : Bool, depth? : Int, awaitWriteFinish? : @nostd.Any, ignorePermissionErrors? : Bool, atomic_? : Bool) -> FSWatcher
 
 // Errors
 
@@ -30,21 +30,21 @@ pub type FSWatcher
 fn FSWatcher::add(Self, String) -> Self
 fn FSWatcher::add_paths(Self, Array[String]) -> Self
 async fn FSWatcher::close(Self) -> Unit
-fn FSWatcher::getWatched(Self) -> @js.Any
-fn FSWatcher::off(Self, String, @js.Any) -> Self
-fn FSWatcher::on(Self, String, @js.Any) -> Self
-fn FSWatcher::on_add(Self, (String, @js.Any) -> Unit) -> Self
-fn FSWatcher::on_add_dir(Self, (String, @js.Any) -> Unit) -> Self
-fn FSWatcher::on_all(Self, (EventName, String, @js.Any) -> Unit) -> Self
-fn FSWatcher::on_all_raw(Self, (String, String, @js.Any) -> Unit) -> Self
-fn FSWatcher::on_change(Self, (String, @js.Any) -> Unit) -> Self
-fn FSWatcher::on_error(Self, (@js.Any) -> Unit) -> Self
+fn FSWatcher::getWatched(Self) -> @nostd.Any
+fn FSWatcher::off(Self, String, @nostd.Any) -> Self
+fn FSWatcher::on(Self, String, @nostd.Any) -> Self
+fn FSWatcher::on_add(Self, (String, @nostd.Any) -> Unit) -> Self
+fn FSWatcher::on_add_dir(Self, (String, @nostd.Any) -> Unit) -> Self
+fn FSWatcher::on_all(Self, (EventName, String, @nostd.Any) -> Unit) -> Self
+fn FSWatcher::on_all_raw(Self, (String, String, @nostd.Any) -> Unit) -> Self
+fn FSWatcher::on_change(Self, (String, @nostd.Any) -> Unit) -> Self
+fn FSWatcher::on_error(Self, (@nostd.Any) -> Unit) -> Self
 fn FSWatcher::on_ready(Self, () -> Unit) -> Self
 fn FSWatcher::on_unlink(Self, (String) -> Unit) -> Self
 fn FSWatcher::on_unlink_dir(Self, (String) -> Unit) -> Self
+fn FSWatcher::to_any(Self) -> @nostd.Any
 fn FSWatcher::unwatch(Self, String) -> Self
 fn FSWatcher::unwatch_paths(Self, Array[String]) -> Self
-impl @js.JsImpl for FSWatcher
 
 // Type aliases
 

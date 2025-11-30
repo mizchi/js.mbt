@@ -2,25 +2,25 @@
 package "mizchi/js/npm/execa"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-async fn execa(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @js.Any, shell? : Bool, options? : @js.Any) -> ExecaResult
+async fn execa(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, shell? : Bool, options? : @nostd.Any) -> ExecaResult
 
-async fn execaCommand(String, cwd? : String, input? : String, timeout? : Int, env? : @js.Any, options? : @js.Any) -> ExecaResult
+async fn execaCommand(String, cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, options? : @nostd.Any) -> ExecaResult
 
-fn execaCommandSync(String, cwd? : String, input? : String, timeout? : Int, env? : @js.Any, options? : @js.Any) -> ExecaResult
+fn execaCommandSync(String, cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, options? : @nostd.Any) -> ExecaResult
 
-async fn execaNode(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @js.Any, options? : @js.Any) -> ExecaResult
+async fn execaNode(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, options? : @nostd.Any) -> ExecaResult
 
-fn execaSync(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @js.Any, shell? : Bool, options? : @js.Any) -> ExecaResult
+fn execaSync(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, shell? : Bool, options? : @nostd.Any) -> ExecaResult
 
-fn options(cwd? : String, env? : @js.Any, input? : String, stdin? : String, stdout? : String, stderr? : String, all? : Bool, lines? : Bool, shell? : Bool, timeout? : Int, maxBuffer? : Int, killSignal? : String, preferLocal? : Bool, reject? : Bool, cleanup? : Bool, detached? : Bool, encoding? : String, stripFinalNewline? : Bool, windowsHide? : Bool) -> @js.Any
+fn options(cwd? : String, env? : @nostd.Any, input? : String, stdin? : String, stdout? : String, stderr? : String, all? : Bool, lines? : Bool, shell? : Bool, timeout? : Int, maxBuffer? : Int, killSignal? : String, preferLocal? : Bool, reject? : Bool, cleanup? : Bool, detached? : Bool, encoding? : String, stripFinalNewline? : Bool, windowsHide? : Bool) -> @nostd.Any
 
-async fn shell(String, cwd? : String, input? : String, timeout? : Int, env? : @js.Any, options? : @js.Any) -> ExecaResult
+async fn shell(String, cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, options? : @nostd.Any) -> ExecaResult
 
-fn subprocess(String, Array[String], options? : @js.Any) -> Subprocess
+fn subprocess(String, Array[String], options? : @nostd.Any) -> Subprocess
 
 // Errors
 
@@ -34,7 +34,6 @@ fn ExecaError::originalMessage(Self) -> String?
 fn ExecaError::shortMessage(Self) -> String
 fn ExecaError::stderr(Self) -> String
 fn ExecaError::stdout(Self) -> String
-impl @js.JsImpl for ExecaError
 
 #external
 pub type ExecaResult
@@ -52,17 +51,15 @@ fn ExecaResult::stderrLines(Self) -> Array[String]
 fn ExecaResult::stdout(Self) -> String
 fn ExecaResult::stdoutLines(Self) -> Array[String]
 fn ExecaResult::timedOut(Self) -> Bool
-impl @js.JsImpl for ExecaResult
 
 #external
 pub type Subprocess
 fn Subprocess::kill(Self, signal? : String) -> Unit
 fn Subprocess::pid(Self) -> Int
-fn Subprocess::stderr(Self) -> @js.Any
-fn Subprocess::stdin(Self) -> @js.Any
-fn Subprocess::stdout(Self) -> @js.Any
+fn Subprocess::stderr(Self) -> @nostd.Any
+fn Subprocess::stdin(Self) -> @nostd.Any
+fn Subprocess::stdout(Self) -> @nostd.Any
 async fn Subprocess::wait(Self) -> ExecaResult
-impl @js.JsImpl for Subprocess
 
 // Type aliases
 

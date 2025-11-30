@@ -1,6 +1,7 @@
 {
   "import": [
     "mizchi/js",
+    "mizchi/js/nostd",
     "mizchi/js/npm/source_map",
     "mizchi/js/npm/error_stack_parser"
   ],
