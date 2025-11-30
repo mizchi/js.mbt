@@ -53,8 +53,8 @@ pub fn Row::null(self : Row, key : String) -> Row {
 
 ///|
 /// Set any JsImpl value
-pub fn[V : @js.JsImpl] Row::set(self : Row, key : String, value : V) -> Row {
-  self.obj.set(key, value.as_any())
+pub fn Row::set_(self : Row, key : String, value : @nostd.Any) -> Row {
+  @nostd.any(self.obj)[key] = value
   self
 }
 
@@ -113,12 +113,12 @@ fn QueryBuilder::call0(self : QueryBuilder, name : String) -> @js.Any {
 }
 
 ///|
-fn[T : @js.JsImpl] QueryBuilder::call1(
+fn QueryBuilder::call1(
   self : QueryBuilder,
   name : String,
-  arg : T,
+  arg : @nostd.Any,
 ) -> @js.Any {
-  self.as_any().call(name, [arg])
+  self.as_any().call(name, [@js.identity(arg)])
 }
 
 ///|
@@ -151,12 +151,12 @@ fn Column::call0(self : Column, name : String) -> @js.Any {
 }
 
 ///|
-fn[T : @js.JsImpl] Column::call1(
+fn Column::call1(
   self : Column,
   name : String,
-  arg : T,
+  arg : @nostd.Any,
 ) -> @js.Any {
-  self.as_any().call(name, [arg])
+  self.as_any().call(name, [@js.identity(arg)])
 }
 
 ///|
@@ -514,10 +514,10 @@ extern "js" fn ffi_default_value(col : Column, value : @js.Any) -> Column =
   #| (col, value) => col.default(value)
 
 ///|
-/// Set default value (accepts any JsImpl type)
+/// Set default value (accepts any value)
 #alias(default_value)
-pub fn[V : @js.JsImpl] Column::defaultValue(self : Column, value : V) -> Column {
-  ffi_default_value(self, value.as_any())
+pub fn Column::defaultValue(self : Column, value : @nostd.Any) -> Column {
+  ffi_default_value(self, @js.identity(value))
 }
 
 ///|
@@ -645,12 +645,12 @@ extern "js" fn ffi_values(qb : QueryBuilder, data : @js.Any) -> QueryBuilder =
   #| (qb, data) => qb.values(data)
 
 ///|
-/// VALUES for INSERT (accepts any JsImpl type)
-pub fn[D : @js.JsImpl] QueryBuilder::values(
+/// VALUES for INSERT (accepts any value)
+pub fn QueryBuilder::values(
   self : QueryBuilder,
-  data : D,
+  data : @nostd.Any,
 ) -> QueryBuilder {
-  ffi_values(self, data.as_any())
+  ffi_values(self, @js.identity(data))
 }
 
 ///|
@@ -658,12 +658,12 @@ extern "js" fn ffi_set(qb : QueryBuilder, data : @js.Any) -> QueryBuilder =
   #| (qb, data) => qb.set(data)
 
 ///|
-/// SET for UPDATE (accepts any JsImpl type)
-pub fn[D : @js.JsImpl] QueryBuilder::set(
+/// SET for UPDATE (accepts any value)
+pub fn QueryBuilder::set(
   self : QueryBuilder,
-  data : D,
+  data : @nostd.Any,
 ) -> QueryBuilder {
-  ffi_set(self, data.as_any())
+  ffi_set(self, @js.identity(data))
 }
 
 ///|
@@ -775,9 +775,9 @@ extern "js" fn ffi_eq(column : Column, value : @js.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").eq(column, value)
 
 ///|
-/// Equal comparison (accepts any JsImpl type)
-pub fn[V : @js.JsImpl] eq(column : Column, value : V) -> SQL {
-  ffi_eq(column, value.as_any())
+/// Equal comparison (accepts any value)
+pub fn eq(column : Column, value : @nostd.Any) -> SQL {
+  ffi_eq(column, @js.identity(value))
 }
 
 ///|
@@ -785,9 +785,9 @@ extern "js" fn ffi_ne(column : Column, value : @js.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").ne(column, value)
 
 ///|
-/// Not equal comparison (accepts any JsImpl type)
-pub fn[V : @js.JsImpl] ne(column : Column, value : V) -> SQL {
-  ffi_ne(column, value.as_any())
+/// Not equal comparison (accepts any value)
+pub fn ne(column : Column, value : @nostd.Any) -> SQL {
+  ffi_ne(column, @js.identity(value))
 }
 
 ///|
@@ -795,9 +795,9 @@ extern "js" fn ffi_gt(column : Column, value : @js.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").gt(column, value)
 
 ///|
-/// Greater than comparison (accepts any JsImpl type)
-pub fn[V : @js.JsImpl] gt(column : Column, value : V) -> SQL {
-  ffi_gt(column, value.as_any())
+/// Greater than comparison (accepts any value)
+pub fn gt(column : Column, value : @nostd.Any) -> SQL {
+  ffi_gt(column, @js.identity(value))
 }
 
 ///|
@@ -805,9 +805,9 @@ extern "js" fn ffi_gte(column : Column, value : @js.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").gte(column, value)
 
 ///|
-/// Greater than or equal comparison (accepts any JsImpl type)
-pub fn[V : @js.JsImpl] gte(column : Column, value : V) -> SQL {
-  ffi_gte(column, value.as_any())
+/// Greater than or equal comparison (accepts any value)
+pub fn gte(column : Column, value : @nostd.Any) -> SQL {
+  ffi_gte(column, @js.identity(value))
 }
 
 ///|
@@ -815,9 +815,9 @@ extern "js" fn ffi_lt(column : Column, value : @js.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").lt(column, value)
 
 ///|
-/// Less than comparison (accepts any JsImpl type)
-pub fn[V : @js.JsImpl] lt(column : Column, value : V) -> SQL {
-  ffi_lt(column, value.as_any())
+/// Less than comparison (accepts any value)
+pub fn lt(column : Column, value : @nostd.Any) -> SQL {
+  ffi_lt(column, @js.identity(value))
 }
 
 ///|
@@ -825,9 +825,9 @@ extern "js" fn ffi_lte(column : Column, value : @js.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").lte(column, value)
 
 ///|
-/// Less than or equal comparison (accepts any JsImpl type)
-pub fn[V : @js.JsImpl] lte(column : Column, value : V) -> SQL {
-  ffi_lte(column, value.as_any())
+/// Less than or equal comparison (accepts any value)
+pub fn lte(column : Column, value : @nostd.Any) -> SQL {
+  ffi_lte(column, @js.identity(value))
 }
 
 ///|
@@ -905,13 +905,13 @@ extern "js" fn ffi_between(
   #| (column, min, max) => require("drizzle-orm").between(column, min, max)
 
 ///|
-/// BETWEEN comparison (accepts any JsImpl types)
-pub fn[A : @js.JsImpl, B : @js.JsImpl] between(
+/// BETWEEN comparison (accepts any values)
+pub fn between(
   column : Column,
-  min_val : A,
-  max_val : B,
+  min_val : @nostd.Any,
+  max_val : @nostd.Any,
 ) -> SQL {
-  ffi_between(column, min_val.as_any(), max_val.as_any())
+  ffi_between(column, @js.identity(min_val), @js.identity(max_val))
 }
 
 ///|

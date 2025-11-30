@@ -1,36 +1,29 @@
 ///|
 /// ReadableStream represents a readable stream of byte data
 /// https://developer.mozilla.org/ja/docs/Web/API/ReadableStream
-pub(all) struct ReadableStream {
-  locked : Bool
-}
-
-///|
-pub fn ReadableStream::as_any(self : ReadableStream) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for ReadableStream
+#external
+pub type ReadableStream
 
 ///|
 /// Create a new ReadableStream (typically constructed from JavaScript)
-extern "js" fn ffi_new_readable_stream(underlying_source : @js.Any) -> @js.Any =
+extern "js" fn ffi_new_readable_stream(underlying_source : @nostd.Any) -> ReadableStream =
   #|(source) => new ReadableStream(source)
 
 ///|
 /// Create a new ReadableStream with an underlying source
-pub fn ReadableStream::new(underlying_source : @js.Any) -> ReadableStream {
-  @js.identity(ffi_new_readable_stream(underlying_source))
+pub fn ReadableStream::new(underlying_source : @nostd.Any) -> ReadableStream {
+  ffi_new_readable_stream(underlying_source)
 }
 
 ///|
 /// Cancel the stream
-pub async fn[T : @js.JsImpl] ReadableStream::cancel(
-  self : Self,
-  reason? : T,
+pub async fn ReadableStream::cancel(
+  self : ReadableStream,
+  reason? : @nostd.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("cancel", [r.as_any()]).cast()
-    None => self.call0("cancel").cast()
+    Some(r) => @nostd.any(self)._call("cancel", [r]).cast()
+    None => @nostd.any(self)._call("cancel", []).cast()
   }
   promise.wait()
 }
@@ -38,21 +31,23 @@ pub async fn[T : @js.JsImpl] ReadableStream::cancel(
 ///|
 /// Get a reader for this stream
 #alias(get_reader)
-pub fn ReadableStream::getReader(self : Self) -> ReadableStreamDefaultReader {
-  self.call0("getReader").cast()
+pub fn ReadableStream::getReader(self : ReadableStream) -> ReadableStreamDefaultReader {
+  @nostd.any(self)._call("getReader", []).cast()
 }
 
 ///|
 /// Pipe this stream to a WritableStream
 #alias(pipe_to)
 pub async fn ReadableStream::pipeTo(
-  self : Self,
+  self : ReadableStream,
   destination : WritableStream,
-  options? : @js.Any,
+  options? : @nostd.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match options {
-    Some(opts) => self.call2("pipeTo", destination, opts).cast()
-    None => self.call("pipeTo", [destination]).cast()
+    Some(opts) =>
+      @nostd.any(self)._call("pipeTo", [@nostd.any(destination), opts]).cast()
+    None =>
+      @nostd.any(self)._call("pipeTo", [@nostd.any(destination)]).cast()
   }
   promise.wait()
 }
@@ -60,164 +55,156 @@ pub async fn ReadableStream::pipeTo(
 ///|
 /// Pipe through a transform stream
 #alias(pipe_through)
-pub fn[T : @js.JsImpl, O : @js.JsImpl] ReadableStream::pipeThrough(
-  self : Self,
-  transform : T,
-  options? : O,
+pub fn ReadableStream::pipeThrough(
+  self : ReadableStream,
+  transform : @nostd.Any,
+  options? : @nostd.Any,
 ) -> ReadableStream {
   match options {
     Some(opts) =>
-      self.call2("pipeThrough", transform.as_any(), opts.as_any()).cast()
-    None => self.call("pipeThrough", [transform.as_any()]).cast()
+      @nostd.any(self)._call("pipeThrough", [transform, opts]).cast()
+    None =>
+      @nostd.any(self)._call("pipeThrough", [transform]).cast()
   }
 }
 
 ///|
-extern "js" fn ffi_array_get(arr : @js.Any, index : Int) -> @js.Any =
+extern "js" fn ffi_array_get(arr : @nostd.Any, index : Int) -> @nostd.Any =
   #|(arr, i) => arr[i]
 
 ///|
 /// Tee this stream into two branches
-pub fn ReadableStream::tee(self : Self) -> (ReadableStream, ReadableStream) {
-  let result = self.call0("tee")
-  let first : ReadableStream = @js.identity(ffi_array_get(result, 0))
-  let second : ReadableStream = @js.identity(ffi_array_get(result, 1))
+pub fn ReadableStream::tee(self : ReadableStream) -> (ReadableStream, ReadableStream) {
+  let result = @nostd.any(self)._call("tee", [])
+  let first : ReadableStream = ffi_array_get(result, 0).cast()
+  let second : ReadableStream = ffi_array_get(result, 1).cast()
   (first, second)
 }
 
 ///|
-/// ReadableStreamDefaultReader represents a default reader for reading from a ReadableStream
-pub(all) struct ReadableStreamDefaultReader {
-  closed : @js.Promise[Unit]
+/// Check if the stream is locked
+pub fn ReadableStream::locked(self : ReadableStream) -> Bool {
+  @nostd.any(self)["locked"].cast()
 }
 
 ///|
-pub fn ReadableStreamDefaultReader::as_any(
-  self : ReadableStreamDefaultReader,
-) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for ReadableStreamDefaultReader
+/// ReadableStreamDefaultReader represents a default reader for reading from a ReadableStream
+#external
+pub type ReadableStreamDefaultReader
 
 ///|
 /// Read a chunk from the stream
-pub async fn ReadableStreamDefaultReader::read(self : Self) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self.call0("read").cast()
+pub async fn ReadableStreamDefaultReader::read(self : ReadableStreamDefaultReader) -> @nostd.Any {
+  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)._call("read", []).cast()
   promise.wait()
 }
 
 ///|
 /// Release the reader's lock on the stream
 #alias(release_lock)
-pub fn ReadableStreamDefaultReader::releaseLock(self : Self) -> Unit {
-  self.call0("releaseLock") |> ignore
+pub fn ReadableStreamDefaultReader::releaseLock(self : ReadableStreamDefaultReader) -> Unit {
+  @nostd.any(self)._call("releaseLock", []) |> ignore
 }
 
 ///|
 /// Cancel the stream
-pub async fn[T : @js.JsImpl] ReadableStreamDefaultReader::cancel(
-  self : Self,
-  reason? : T,
+pub async fn ReadableStreamDefaultReader::cancel(
+  self : ReadableStreamDefaultReader,
+  reason? : @nostd.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("cancel", [r.as_any()]).cast()
-    None => self.call0("cancel").cast()
+    Some(r) => @nostd.any(self)._call("cancel", [r]).cast()
+    None => @nostd.any(self)._call("cancel", []).cast()
   }
   promise.wait()
 }
 
 ///|
-/// WritableStream represents a writable stream
-pub(all) struct WritableStream {
-  locked : Bool
+/// Get the closed promise
+pub fn ReadableStreamDefaultReader::closed(self : ReadableStreamDefaultReader) -> @js.Promise[Unit] {
+  @nostd.any(self)["closed"].cast()
 }
 
 ///|
-pub fn WritableStream::as_any(self : WritableStream) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for WritableStream
+/// WritableStream represents a writable stream
+#external
+pub type WritableStream
 
 ///|
 /// Create a new WritableStream
-extern "js" fn ffi_new_writable_stream(underlying_sink : @js.Any) -> @js.Any =
+extern "js" fn ffi_new_writable_stream(underlying_sink : @nostd.Any) -> WritableStream =
   #|(sink) => new WritableStream(sink)
 
 ///|
 /// Create a new WritableStream with an underlying sink
-pub fn WritableStream::new(underlying_sink : @js.Any) -> WritableStream {
-  @js.identity(ffi_new_writable_stream(underlying_sink))
+pub fn WritableStream::new(underlying_sink : @nostd.Any) -> WritableStream {
+  ffi_new_writable_stream(underlying_sink)
 }
 
 ///|
 /// Abort the stream
-pub async fn[T : @js.JsImpl] WritableStream::abort(
-  self : Self,
-  reason? : T,
+pub async fn WritableStream::abort(
+  self : WritableStream,
+  reason? : @nostd.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("abort", [r.as_any()]).cast()
-    None => self.call0("abort").cast()
+    Some(r) => @nostd.any(self)._call("abort", [r]).cast()
+    None => @nostd.any(self)._call("abort", []).cast()
   }
   promise.wait()
 }
 
 ///|
 /// Close the stream
-pub async fn WritableStream::close(self : Self) -> Unit {
-  let promise : @js.Promise[Unit] = self.call0("close").cast()
+pub async fn WritableStream::close(self : WritableStream) -> Unit {
+  let promise : @js.Promise[Unit] = @nostd.any(self)._call("close", []).cast()
   promise.wait()
 }
 
 ///|
 /// Get a writer for this stream
 #alias(get_writer)
-pub fn WritableStream::getWriter(self : Self) -> WritableStreamDefaultWriter {
-  self.call0("getWriter").cast()
+pub fn WritableStream::getWriter(self : WritableStream) -> WritableStreamDefaultWriter {
+  @nostd.any(self)._call("getWriter", []).cast()
+}
+
+///|
+/// Check if the stream is locked
+pub fn WritableStream::locked(self : WritableStream) -> Bool {
+  @nostd.any(self)["locked"].cast()
 }
 
 ///|
 /// WritableStreamDefaultWriter represents a default writer for writing to a WritableStream
-pub(all) struct WritableStreamDefaultWriter {
-  closed : @js.Promise[Unit]
-  ready : @js.Promise[Unit]
-  desiredSize : @js.Nullable[Int]
-}
-
-///|
-pub fn WritableStreamDefaultWriter::as_any(
-  self : WritableStreamDefaultWriter,
-) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for WritableStreamDefaultWriter
+#external
+pub type WritableStreamDefaultWriter
 
 ///|
 /// Write a chunk to the stream
-pub async fn[T : @js.JsImpl] WritableStreamDefaultWriter::write(
-  self : Self,
-  chunk : T,
+pub async fn WritableStreamDefaultWriter::write(
+  self : WritableStreamDefaultWriter,
+  chunk : @nostd.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = self.call("write", [chunk.as_any()]).cast()
+  let promise : @js.Promise[Unit] = @nostd.any(self)._call("write", [chunk]).cast()
   promise.wait()
 }
 
 ///|
 /// Close the writer
-pub async fn WritableStreamDefaultWriter::close(self : Self) -> Unit {
-  let promise : @js.Promise[Unit] = self.call0("close").cast()
+pub async fn WritableStreamDefaultWriter::close(self : WritableStreamDefaultWriter) -> Unit {
+  let promise : @js.Promise[Unit] = @nostd.any(self)._call("close", []).cast()
   promise.wait()
 }
 
 ///|
 /// Abort the writer
-pub async fn[T : @js.JsImpl] WritableStreamDefaultWriter::abort(
-  self : Self,
-  reason? : T,
+pub async fn WritableStreamDefaultWriter::abort(
+  self : WritableStreamDefaultWriter,
+  reason? : @nostd.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match reason {
-    Some(r) => self.call("abort", [r.as_any()]).cast()
-    None => self.call0("abort").cast()
+    Some(r) => @nostd.any(self)._call("abort", [r]).cast()
+    None => @nostd.any(self)._call("abort", []).cast()
   }
   promise.wait()
 }
@@ -225,42 +212,64 @@ pub async fn[T : @js.JsImpl] WritableStreamDefaultWriter::abort(
 ///|
 /// Release the writer's lock on the stream
 #alias(release_lock)
-pub fn WritableStreamDefaultWriter::releaseLock(self : Self) -> Unit {
-  self.call0("releaseLock") |> ignore
+pub fn WritableStreamDefaultWriter::releaseLock(self : WritableStreamDefaultWriter) -> Unit {
+  @nostd.any(self)._call("releaseLock", []) |> ignore
+}
+
+///|
+/// Get the closed promise
+pub fn WritableStreamDefaultWriter::closed(self : WritableStreamDefaultWriter) -> @js.Promise[Unit] {
+  @nostd.any(self)["closed"].cast()
+}
+
+///|
+/// Get the ready promise
+pub fn WritableStreamDefaultWriter::ready(self : WritableStreamDefaultWriter) -> @js.Promise[Unit] {
+  @nostd.any(self)["ready"].cast()
+}
+
+///|
+/// Get the desired size
+pub fn WritableStreamDefaultWriter::desiredSize(self : WritableStreamDefaultWriter) -> @nostd.Any {
+  @nostd.any(self)["desiredSize"]
 }
 
 ///|
 /// TransformStream represents a transform stream for piping data through a transformation
-pub(all) struct TransformStream {
-  readable : ReadableStream
-  writable : WritableStream
-}
-
-///|
-pub fn TransformStream::as_any(self : TransformStream) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for TransformStream
+#external
+pub type TransformStream
 
 ///|
 /// Create a new TransformStream
-extern "js" fn ffi_new_transform_stream(transformer : @js.Any) -> @js.Any =
+extern "js" fn ffi_new_transform_stream(transformer : @nostd.Any) -> TransformStream =
   #|(transformer) => new TransformStream(transformer)
 
 ///|
 /// Create a new TransformStream with a transformer
-pub fn TransformStream::new(transformer : @js.Any) -> TransformStream {
-  ffi_new_transform_stream(transformer).cast()
+pub fn TransformStream::new(transformer : @nostd.Any) -> TransformStream {
+  ffi_new_transform_stream(transformer)
 }
 
 ///|
 /// Create a new identity TransformStream (passes data through unmodified)
-extern "js" fn ffi_new_identity_transform_stream() -> @js.Any =
+extern "js" fn ffi_new_identity_transform_stream() -> TransformStream =
   #|() => new TransformStream()
 
 ///|
 /// Create a new identity TransformStream
 #alias(newIdentity)
 pub fn TransformStream::new_identity() -> TransformStream {
-  ffi_new_identity_transform_stream().cast()
+  ffi_new_identity_transform_stream()
+}
+
+///|
+/// Get the readable side of the transform stream
+pub fn TransformStream::readable(self : TransformStream) -> ReadableStream {
+  @nostd.any(self)["readable"].cast()
+}
+
+///|
+/// Get the writable side of the transform stream
+pub fn TransformStream::writable(self : TransformStream) -> WritableStream {
+  @nostd.any(self)["writable"].cast()
 }
