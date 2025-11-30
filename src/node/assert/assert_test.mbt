@@ -7,51 +7,51 @@ test "ok with truthy value" {
 
 ///|
 test "equal checks equality" {
-  let obj1 = @js.any(42)
-  let obj2 = @js.any(42)
+  let obj1 = @nostd.any(42)
+  let obj2 = @nostd.any(42)
   equal(obj1, obj2)
 }
 
 ///|
 test "notEqual checks inequality" {
-  let obj1 = @js.any(42)
-  let obj2 = @js.any(43)
+  let obj1 = @nostd.any(42)
+  let obj2 = @nostd.any(43)
   notEqual(obj1, obj2)
 }
 
 ///|
 test "deepEqual checks deep equality" {
-  let obj1 = @js.Object::new()
-  obj1.set("a", 1)
-  obj1.set("b", 2)
-  let obj2 = @js.Object::new()
-  obj2.set("a", 1)
-  obj2.set("b", 2)
+  let obj1 = @nostd.Object::new()
+  obj1["a"] = @nostd.any(1)
+  obj1["b"] = @nostd.any(2)
+  let obj2 = @nostd.Object::new()
+  obj2["a"] = @nostd.any(1)
+  obj2["b"] = @nostd.any(2)
   deepEqual(obj1, obj2)
 }
 
 ///|
 test "notDeepEqual checks deep inequality" {
-  let obj1 = @js.Object::new()
-  obj1.set("a", 1)
-  obj1.set("b", 2)
-  let obj2 = @js.Object::new()
-  obj2.set("a", 1)
-  obj2.set("b", 3)
+  let obj1 = @nostd.Object::new()
+  obj1["a"] = @nostd.any(1)
+  obj1["b"] = @nostd.any(2)
+  let obj2 = @nostd.Object::new()
+  obj2["a"] = @nostd.any(1)
+  obj2["b"] = @nostd.any(3)
   notDeepEqual(obj1, obj2)
 }
 
 ///|
 test "strictEqual checks strict equality" {
-  let obj1 = @js.any("hello")
-  let obj2 = @js.any("hello")
+  let obj1 = @nostd.any("hello")
+  let obj2 = @nostd.any("hello")
   strictEqual(obj1, obj2)
 }
 
 ///|
 test "notStrictEqual checks strict inequality" {
-  let obj1 = @js.any(42)
-  let obj2 = @js.any("42")
+  let obj1 = @nostd.any(42)
+  let obj2 = @nostd.any("42")
   notStrictEqual(obj1, obj2)
 }
 

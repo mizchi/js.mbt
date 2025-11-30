@@ -102,7 +102,7 @@ async test "IndexedDB: add and get item" {
   let _ = request_to_promise(add_request).wait()
 
   // Get the item
-  let get_request = store.get(1)
+  let get_request = store.get(@nostd.any(1))
   let result = request_to_promise(get_request).wait()
   assert_eq(@js.identity(result.get("name")), "Test")
   db.close()
@@ -138,7 +138,7 @@ async test "IndexedDB: put updates existing item" {
   request_to_promise(store.put(item2)).wait() |> ignore
 
   // Get and verify
-  let result = request_to_promise(store.get(1)).wait()
+  let result = request_to_promise(store.get(@nostd.any(1))).wait()
   assert_eq(@js.identity(result.get("value")), "updated")
   db.close()
   @indexeddb.deleteDatabase("test-put-db") |> ignore
@@ -166,10 +166,10 @@ async test "IndexedDB: delete removes item" {
   request_to_promise(store.add(item)).wait() |> ignore
 
   // Delete it
-  request_to_promise(store.delete(1)).wait() |> ignore
+  request_to_promise(store.delete(@nostd.any(1))).wait() |> ignore
 
   // Verify deletion
-  let result = request_to_promise(store.get(1)).wait()
+  let result = request_to_promise(store.get(@nostd.any(1))).wait()
   assert_true(@js.is_undefined(result))
   db.close()
   @indexeddb.deleteDatabase("test-delete-db") |> ignore
@@ -326,12 +326,12 @@ async test "IndexedDB: IDBKeyRange operations" {
 
   // Test key range queries
   let range = @indexeddb.IDBKeyRange::bound(
-    3,
-    7,
+    @nostd.any(3),
+    @nostd.any(7),
     lowerOpen=false,
     upperOpen=false,
   )
-  let results = request_to_promise(store.getAll(query=range)).wait()
+  let results = request_to_promise(store.getAll(query=range.as_any())).wait()
   let len : Int = @js.identity(results.get("length"))
   assert_eq(len, 5) // 3, 4, 5, 6, 7
   db.close()
@@ -340,10 +340,10 @@ async test "IndexedDB: IDBKeyRange operations" {
 
 ///|
 async test "IndexedDB: cmp function compares keys" {
-  assert_eq(@indexeddb.cmp(1, 2), -1) // 1 < 2
-  assert_eq(@indexeddb.cmp(2, 1), 1) // 2 > 1
-  assert_eq(@indexeddb.cmp(5, 5), 0) // 5 == 5
-  assert_eq(@indexeddb.cmp("a", "b"), -1) // "a" < "b"
+  assert_eq(@indexeddb.cmp(@nostd.any(1), @nostd.any(2)), -1) // 1 < 2
+  assert_eq(@indexeddb.cmp(@nostd.any(2), @nostd.any(1)), 1) // 2 > 1
+  assert_eq(@indexeddb.cmp(@nostd.any(5), @nostd.any(5)), 0) // 5 == 5
+  assert_eq(@indexeddb.cmp(@nostd.any("a"), @nostd.any("b")), -1) // "a" < "b"
 }
 
 ///| Real-world user scenarios with MoonBit structs
@@ -408,7 +408,7 @@ async test "IndexedDB: store and retrieve User struct with full type safety" {
   request_to_promise(add_request).wait() |> ignore
 
   // Get with type parameter User: @indexeddb.IDBRequest[User]
-  let get_request : @indexeddb.IDBRequest[User] = store.get(1)
+  let get_request : @indexeddb.IDBRequest[User] = store.get(@nostd.any(1))
   let result = request_to_promise(get_request).wait()
 
   // result is User type - direct cast, no from_js() needed
@@ -462,7 +462,9 @@ async test "IndexedDB: manage products with Product struct type safety" {
   request_to_promise(store.add(mouse)).wait() |> ignore
 
   // Get with IDBRequest[Product]
-  let laptop_request : @indexeddb.IDBRequest[Product] = store.get("LAPTOP-001")
+  let laptop_request : @indexeddb.IDBRequest[Product] = store.get(
+    @nostd.any("LAPTOP-001"),
+  )
   let laptop_result = request_to_promise(laptop_request).wait()
   let retrieved_laptop : Product = laptop_result |> @js.identity
 
@@ -474,7 +476,9 @@ async test "IndexedDB: manage products with Product struct type safety" {
 
   // Query all electronics using index
   let category_index : @indexeddb.IDBIndex[Product] = store.index("category")
-  let electronics_request = category_index.getAll(query="electronics")
+  let electronics_request = category_index.getAll(
+    query=@nostd.any("electronics"),
+  )
   let electronics_array = request_to_promise(electronics_request).wait()
 
   // Array operations with Js

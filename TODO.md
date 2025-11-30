@@ -1,5 +1,45 @@
 # TODO
 
+## Deprecated Warning Removal (Priority: Critical)
+
+`moon check` で表示される deprecated 警告を削除することが最優先。
+
+### 現状
+
+`@js.JsImpl` trait は deprecated となり、`@nostd.Any` パターンへの移行を推奨している。
+`moon check` を実行すると大量の警告が表示される:
+
+```
+Warning (Alert deprecated): trait inlining is too heavy. Use @nostd.Any
+```
+
+### 対応方針
+
+1. **各ファイルの `pub impl @js.JsImpl for SomeType` を削除**
+2. **代わりに `pub fn SomeType::as_any(self : SomeType) -> @nostd.Any = "%identity"` を追加**
+3. **内部で `self.call()` / `self.get()` / `self.set()` を使用している箇所を `self.as_any()._call()` / `self.as_any()["key"]` に変更**
+
+### 警告が多いファイル
+
+- `src/cloudflare/r2.mbt` - R2Bucket, R2Object, R2MultipartUpload 等
+- `src/npm/ai/` - 多数の型で JsImpl を使用
+- `src/npm/drizzle/` - 多数の型で JsImpl を使用
+- `src/npm/puppeteer/` - Page, Browser 等
+- `src/node/` パッケージ群
+
+### 現在の警告数
+
+```bash
+$ moon check 2>&1 | grep -c "Alert deprecated"
+663
+```
+
+### 完了基準
+
+`moon check 2>&1 | grep -c "Alert deprecated"` が 0 になること。
+
+---
+
 ## nostd Migration (Priority: High)
 
 `@js.JsImpl` trait のオーバーヘッドを削減し、バンドルサイズを最小化するため `@nostd` への移行を進める。
@@ -66,7 +106,9 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 ### Progress
 
 - npm パッケージの主要部分は移行完了
-- テスト: 2357 件パス
+- `src/mbtconv/` パッケージ作成済み (`@js.from_map` → `@mbtconv.from_map`)
+- `src/builtins/global/` パッケージ作成済み (setTimeout等のグローバル関数)
+- テスト: 2365 件パス
 
 ### In Progress
 
@@ -109,6 +151,9 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 - データ変換を伴わない純粋な FFI 呼び出しは `pub extern "js" fn ...` による直接実装を優先する
   - 例: `pub extern "js" fn close(self : Self) -> Unit = #| ...`
   - ラッパー関数より直接 FFI の方がバンドルサイズが小さくなる
+- **`@mbtconv` は `@nostd` のみに依存** - `mizchi/js` への依存がなく、MoonBit 変換コストが大きいため、API 内部での使用は推奨しない
+  - `@mbtconv.from_map` / `@mbtconv.from_json` / `@mbtconv.to_json` は MoonBit コレクション型の変換でランタイムオーバーヘッドが発生
+  - ユーザー向け便利関数としては有用だが、高頻度で呼ばれる内部実装では直接 FFI を使用すること
 
 ---
 

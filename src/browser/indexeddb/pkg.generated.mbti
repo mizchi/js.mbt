@@ -8,11 +8,11 @@ import(
 )
 
 // Values
-fn cmp(&@js.JsImpl, &@js.JsImpl) -> Int
+fn cmp(@nostd.Any, @nostd.Any) -> Int
 
 fn deleteDatabase(String) -> IDBOpenDBRequest
 
-fn indexedDB() -> @js.Any
+fn indexedDB() -> @nostd.Any
 
 fn open(String, version? : Int) -> IDBOpenDBRequest
 
@@ -27,10 +27,9 @@ pub(all) struct IDBCursor[T] {
 }
 fn[T] IDBCursor::advance(Self[T], Int) -> Unit
 fn[T] IDBCursor::as_any(Self[T]) -> @nostd.Any
-fn[T] IDBCursor::continue_(Self[T], key? : &@js.JsImpl) -> Unit
+fn[T] IDBCursor::continue_(Self[T], key? : @nostd.Any) -> Unit
 fn[T] IDBCursor::delete_current(Self[T]) -> IDBRequest[@js.Any]
 fn[T] IDBCursor::update(Self[T], T) -> IDBRequest[@js.Any]
-impl[T] @js.JsImpl for IDBCursor[T]
 
 pub(all) struct IDBCursorWithValue[T] {
   key : @js.Any
@@ -41,10 +40,9 @@ pub(all) struct IDBCursorWithValue[T] {
 }
 fn[T] IDBCursorWithValue::advance(Self[T], Int) -> Unit
 fn[T] IDBCursorWithValue::as_any(Self[T]) -> @nostd.Any
-fn[T] IDBCursorWithValue::continue_(Self[T], key? : &@js.JsImpl) -> Unit
+fn[T] IDBCursorWithValue::continue_(Self[T], key? : @nostd.Any) -> Unit
 fn[T] IDBCursorWithValue::delete_current(Self[T]) -> IDBRequest[@js.Any]
 fn[T] IDBCursorWithValue::update(Self[T], T) -> IDBRequest[@js.Any]
-impl[T] @js.JsImpl for IDBCursorWithValue[T]
 
 pub(all) struct IDBDatabase {
   name : String
@@ -56,7 +54,6 @@ fn IDBDatabase::close(Self) -> Unit
 fn IDBDatabase::createObjectStore(Self, String, keyPath? : String, autoIncrement? : Bool) -> IDBObjectStore[@js.Any]
 fn IDBDatabase::deleteObjectStore(Self, String) -> Unit
 fn IDBDatabase::transaction(Self, Array[String], mode? : String) -> IDBTransaction[@js.Any]
-impl @js.JsImpl for IDBDatabase
 
 pub(all) struct IDBIndex[T] {
   name : String
@@ -66,13 +63,12 @@ pub(all) struct IDBIndex[T] {
   unique : Bool
 }
 fn[T] IDBIndex::as_any(Self[T]) -> @nostd.Any
-fn[T] IDBIndex::count(Self[T], query? : &@js.JsImpl) -> IDBRequest[@js.Any]
-fn[T] IDBIndex::get(Self[T], &@js.JsImpl) -> IDBRequest[T]
-fn[T] IDBIndex::getAll(Self[T], query? : &@js.JsImpl, count? : Int) -> IDBRequest[@js.Any]
-fn[T] IDBIndex::getAllKeys(Self[T], query? : &@js.JsImpl, count? : Int) -> IDBRequest[@js.Any]
-fn[T] IDBIndex::openCursor(Self[T], query? : &@js.JsImpl, direction? : String) -> IDBRequest[@js.Any]
-fn[T] IDBIndex::openKeyCursor(Self[T], query? : &@js.JsImpl, direction? : String) -> IDBRequest[@js.Any]
-impl[T] @js.JsImpl for IDBIndex[T]
+fn[T] IDBIndex::count(Self[T], query? : @nostd.Any) -> IDBRequest[@js.Any]
+fn[T] IDBIndex::get(Self[T], @nostd.Any) -> IDBRequest[T]
+fn[T] IDBIndex::getAll(Self[T], query? : @nostd.Any, count? : Int) -> IDBRequest[@js.Any]
+fn[T] IDBIndex::getAllKeys(Self[T], query? : @nostd.Any, count? : Int) -> IDBRequest[@js.Any]
+fn[T] IDBIndex::openCursor(Self[T], query? : @nostd.Any, direction? : String) -> IDBRequest[@js.Any]
+fn[T] IDBIndex::openKeyCursor(Self[T], query? : @nostd.Any, direction? : String) -> IDBRequest[@js.Any]
 
 pub(all) struct IDBKeyRange {
   lower : @js.Any
@@ -81,12 +77,11 @@ pub(all) struct IDBKeyRange {
   upperOpen : Bool
 }
 fn IDBKeyRange::as_any(Self) -> @nostd.Any
-fn IDBKeyRange::bound(&@js.JsImpl, &@js.JsImpl, lowerOpen? : Bool, upperOpen? : Bool) -> Self
-fn IDBKeyRange::includes(Self, &@js.JsImpl) -> Bool
-fn IDBKeyRange::lowerBound(&@js.JsImpl, open? : Bool) -> Self
-fn IDBKeyRange::only(&@js.JsImpl) -> Self
-fn IDBKeyRange::upperBound(&@js.JsImpl, open? : Bool) -> Self
-impl @js.JsImpl for IDBKeyRange
+fn IDBKeyRange::bound(@nostd.Any, @nostd.Any, lowerOpen? : Bool, upperOpen? : Bool) -> Self
+fn IDBKeyRange::includes(Self, @nostd.Any) -> Bool
+fn IDBKeyRange::lowerBound(@nostd.Any, open? : Bool) -> Self
+fn IDBKeyRange::only(@nostd.Any) -> Self
+fn IDBKeyRange::upperBound(@nostd.Any, open? : Bool) -> Self
 
 pub(all) struct IDBObjectStore[T] {
   name : String
@@ -95,21 +90,20 @@ pub(all) struct IDBObjectStore[T] {
   indexNames : @js.Any
   transaction : IDBTransaction[T]
 }
-fn[T] IDBObjectStore::add(Self[T], T, key? : &@js.JsImpl) -> IDBRequest[@js.Any]
+fn[T] IDBObjectStore::add(Self[T], T, key? : @nostd.Any) -> IDBRequest[@js.Any]
 fn[T] IDBObjectStore::as_any(Self[T]) -> @nostd.Any
 fn[T] IDBObjectStore::clear(Self[T]) -> IDBRequest[@js.Any]
-fn[T] IDBObjectStore::count(Self[T], query? : &@js.JsImpl) -> IDBRequest[@js.Any]
+fn[T] IDBObjectStore::count(Self[T], query? : @nostd.Any) -> IDBRequest[@js.Any]
 fn[T] IDBObjectStore::createIndex(Self[T], String, String, unique? : Bool, multiEntry? : Bool) -> IDBIndex[T]
-fn[T] IDBObjectStore::delete(Self[T], &@js.JsImpl) -> IDBRequest[@js.Any]
+fn[T] IDBObjectStore::delete(Self[T], @nostd.Any) -> IDBRequest[@js.Any]
 fn[T] IDBObjectStore::deleteIndex(Self[T], String) -> Unit
-fn[T] IDBObjectStore::get(Self[T], &@js.JsImpl) -> IDBRequest[T]
-fn[T] IDBObjectStore::getAll(Self[T], query? : &@js.JsImpl, count? : Int) -> IDBRequest[@js.Any]
-fn[T] IDBObjectStore::getAllKeys(Self[T], query? : &@js.JsImpl, count? : Int) -> IDBRequest[@js.Any]
+fn[T] IDBObjectStore::get(Self[T], @nostd.Any) -> IDBRequest[T]
+fn[T] IDBObjectStore::getAll(Self[T], query? : @nostd.Any, count? : Int) -> IDBRequest[@js.Any]
+fn[T] IDBObjectStore::getAllKeys(Self[T], query? : @nostd.Any, count? : Int) -> IDBRequest[@js.Any]
 fn[T] IDBObjectStore::index(Self[T], String) -> IDBIndex[T]
-fn[T] IDBObjectStore::openCursor(Self[T], query? : &@js.JsImpl, direction? : String) -> IDBRequest[@js.Any]
-fn[T] IDBObjectStore::openKeyCursor(Self[T], query? : &@js.JsImpl, direction? : String) -> IDBRequest[@js.Any]
-fn[T] IDBObjectStore::put(Self[T], T, key? : &@js.JsImpl) -> IDBRequest[@js.Any]
-impl[T] @js.JsImpl for IDBObjectStore[T]
+fn[T] IDBObjectStore::openCursor(Self[T], query? : @nostd.Any, direction? : String) -> IDBRequest[@js.Any]
+fn[T] IDBObjectStore::openKeyCursor(Self[T], query? : @nostd.Any, direction? : String) -> IDBRequest[@js.Any]
+fn[T] IDBObjectStore::put(Self[T], T, key? : @nostd.Any) -> IDBRequest[@js.Any]
 
 pub(all) struct IDBOpenDBRequest {
   result : @js.Any
@@ -119,7 +113,6 @@ pub(all) struct IDBOpenDBRequest {
 }
 fn IDBOpenDBRequest::as_any(Self) -> @nostd.Any
 fn IDBOpenDBRequest::as_event_target(Self) -> @event.EventTarget
-impl @js.JsImpl for IDBOpenDBRequest
 impl @event.EventTargetImpl for IDBOpenDBRequest
 
 pub(all) struct IDBRequest[T] {
@@ -135,7 +128,6 @@ fn[T] IDBRequest::is_pending(Self[T]) -> Bool
 fn[T, U] IDBRequest::source_as_cursor(Self[T]) -> IDBCursor[U]
 fn[T] IDBRequest::source_as_index(Self[T]) -> IDBIndex[@js.Any]
 fn[T] IDBRequest::source_as_object_store(Self[T]) -> IDBObjectStore[@js.Any]
-impl[T] @js.JsImpl for IDBRequest[T]
 impl[T] @event.EventTargetImpl for IDBRequest[T]
 
 pub(all) struct IDBTransaction[T] {
@@ -147,7 +139,6 @@ fn[T] IDBTransaction::abort(Self[T]) -> Unit
 fn[T] IDBTransaction::as_any(Self[T]) -> @nostd.Any
 fn[T] IDBTransaction::commit(Self[T]) -> Unit
 fn[T] IDBTransaction::objectStore(Self[T], String) -> IDBObjectStore[T]
-impl[T] @js.JsImpl for IDBTransaction[T]
 
 // Type aliases
 

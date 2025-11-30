@@ -183,15 +183,15 @@ pub fn to_json(v : @nostd.Any) -> Json {
   }
   match ffi_typeof(v) {
     "boolean" => {
-      let b : Bool = @js.identity(v)
+      let b : Bool = @nostd.identity(v)
       return b.to_json()
     }
     "number" => {
-      let n : Double = @js.identity(v)
+      let n : Double = @nostd.identity(v)
       return n.to_json()
     }
     "string" => {
-      let s : String = @js.identity(v)
+      let s : String = @nostd.identity(v)
       return s.to_json()
     }
     _ => ()
@@ -210,7 +210,7 @@ pub fn to_json(v : @nostd.Any) -> Json {
     let keys = ffi_object_keys(v)
     let keys_len : Int = ffi_get_length(keys)
     for i = 0; i < keys_len; i = i + 1 {
-      let k : String = @js.identity(ffi_get_index(keys, i))
+      let k : String = @nostd.identity(ffi_get_index(keys, i))
       let val = ffi_get_property(v, k)
       out[k] = to_json(val)
     }
@@ -265,6 +265,6 @@ pub fn[A] to_option(v : @nostd.Any) -> A? {
   if ffi_is_nullish(v) {
     None
   } else {
-    Some(@js.identity(v))
+    Some(@nostd.identity(v))
   }
 }

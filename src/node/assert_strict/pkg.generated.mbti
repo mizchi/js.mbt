@@ -2,43 +2,43 @@
 package "mizchi/js/node/assert_strict"
 
 import(
-  "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn deepEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+fn deepEqual(@nostd.Any, @nostd.Any, message? : String) -> Unit
 
-fn deepStrictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+fn deepStrictEqual(@nostd.Any, @nostd.Any, message? : String) -> Unit
 
 fn doesNotMatch(String, String, message? : String) -> Unit
 
-async fn doesNotReject(&@js.JsImpl, message? : String) -> Unit
+async fn doesNotReject(@nostd.Any, message? : String) -> Unit
 
 fn doesNotThrow(() -> Unit, message? : String) -> Unit
 
-fn equal(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+fn equal(@nostd.Any, @nostd.Any, message? : String) -> Unit
 
 fn fail(message? : String) -> Unit
 
-fn ifError(&@js.JsImpl) -> Unit
+fn ifError(@nostd.Any) -> Unit
 
 fn match_(String, String, message? : String) -> Unit
 
-fn notDeepEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+fn notDeepEqual(@nostd.Any, @nostd.Any, message? : String) -> Unit
 
-fn notDeepStrictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+fn notDeepStrictEqual(@nostd.Any, @nostd.Any, message? : String) -> Unit
 
-fn notEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+fn notEqual(@nostd.Any, @nostd.Any, message? : String) -> Unit
 
-fn notStrictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+fn notStrictEqual(@nostd.Any, @nostd.Any, message? : String) -> Unit
 
 fn ok(Bool, message? : String) -> Unit
 
-fn partialDeepStrictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+fn partialDeepStrictEqual(@nostd.Any, @nostd.Any, message? : String) -> Unit
 
-async fn rejects(&@js.JsImpl, error? : &@js.JsImpl, message? : String) -> Unit
+async fn rejects(@nostd.Any, error? : @nostd.Any, message? : String) -> Unit
 
-fn strictEqual(&@js.JsImpl, &@js.JsImpl, message? : String) -> Unit
+fn strictEqual(@nostd.Any, @nostd.Any, message? : String) -> Unit
 
 fn throws(() -> Unit, message? : String) -> Unit
 
