@@ -29,21 +29,21 @@ pub async fn fetch(
   for k, v in headers {
     header_obj.set(k, v)
   }
-  let init_obj = @js.from_option_map({
-    "method": Some(@js.any(method_)),
-    "headers": Some(header_obj.as_any()),
-    "body": body.map(fn(x) { x.as_any() }),
-    "cache": cache.map(fn(x) { @js.any(x) }),
-    "mode": mode.map(fn(x) { @js.any(x) }),
-    "credentials": credentials.map(fn(x) { @js.any(x) }),
-    "integrity": integrity.map(fn(x) { @js.any(x) }),
-    "keepalive": keepalive.map(fn(x) { @js.any(x) }),
-    "priority": priority.map(fn(x) { @js.any(x) }),
-    "redirect": redirect.map(fn(x) { @js.any(x) }),
-    "referrer": referrer.map(fn(x) { @js.any(x) }),
-    "referrerPolicy": referrerPolicy.map(fn(x) { @js.any(x) }),
-    "signal": signal.map(fn(x) { x |> @js.identity }),
-  })
+  let init_obj = @mbtconv.from_option_map({
+    "method": Some(@nostd.any(method_)),
+    "headers": Some(@nostd.identity(header_obj.as_any())),
+    "body": body.map(fn(x) { @nostd.identity(x.as_any()) }),
+    "cache": cache.map(fn(x) { @nostd.any(x) }),
+    "mode": mode.map(fn(x) { @nostd.any(x) }),
+    "credentials": credentials.map(fn(x) { @nostd.any(x) }),
+    "integrity": integrity.map(fn(x) { @nostd.any(x) }),
+    "keepalive": keepalive.map(fn(x) { @nostd.any(x) }),
+    "priority": priority.map(fn(x) { @nostd.any(x) }),
+    "redirect": redirect.map(fn(x) { @nostd.any(x) }),
+    "referrer": referrer.map(fn(x) { @nostd.any(x) }),
+    "referrerPolicy": referrerPolicy.map(fn(x) { @nostd.any(x) }),
+    "signal": signal.map(fn(x) { @nostd.identity(x) }),
+  }).cast()
   ffi_fetch(url, init_obj).wait()
 }
 

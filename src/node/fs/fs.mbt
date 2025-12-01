@@ -111,7 +111,7 @@ pub fn mkdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
     let fs = fs_module()
     match recursive {
       Some(r) => {
-        let opts : @js.Any = @mbtconv.from_map({ "recursive": @nostd.any(r) }).cast()
+        let opts : @js.Any = @nostd.from_entries([("recursive", @nostd.any(r))]).cast()
         fs.call2("mkdirSync", path, opts) |> ignore
       }
       None => fs.call1("mkdirSync", path) |> ignore
@@ -283,7 +283,7 @@ pub fn rmdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
     let fs = fs_module()
     match recursive {
       Some(r) => {
-        let opts : @js.Any = @mbtconv.from_map({ "recursive": @nostd.any(r) }).cast()
+        let opts : @js.Any = @nostd.from_entries([("recursive", @nostd.any(r))]).cast()
         fs.call2("rmdirSync", path, opts) |> ignore
       }
       None => fs.call1("rmdirSync", path) |> ignore
@@ -316,7 +316,7 @@ pub fn cpSync(
     let fs = fs_module()
     match recursive {
       Some(r) => {
-        let opts : @js.Any = @mbtconv.from_map({ "recursive": @nostd.any(r) }).cast()
+        let opts : @js.Any = @nostd.from_entries([("recursive", @nostd.any(r))]).cast()
         fs.call("cpSync", [src, dest, opts]) |> ignore
       }
       None => fs.call2("cpSync", src, dest) |> ignore

@@ -16,17 +16,19 @@ test "is_builtin_trait detects MoonBit builtin traits" {
 ///|
 test "from_json converts MoonBit Json to Any object" {
   inspect(
-    from_json({
-      "value": null,
-      "items": [1, 2, 3],
-      "nested": { "key": "value" },
-    }),
+    @nostd.json_stringify(
+      @mbtconv.from_json({
+        "value": null,
+        "items": [1, 2, 3],
+        "nested": { "key": "value" },
+      }),
+    ),
     content=(
       #|{"value":null,"items":[1,2,3],"nested":{"key":"value"}}
     ),
   )
   inspect(
-    from_json({ "age": 30, "name": "Alice" }),
+    @nostd.json_stringify(@mbtconv.from_json({ "age": 30, "name": "Alice" })),
     content=(
       #|{"age":30,"name":"Alice"}
     ),
@@ -80,23 +82,21 @@ test "identity to struct" {
 }
 
 ///|
-test "from_map converts MoonBit Map to Any object" {
-  let map : Map[String, @js.Any] = {
-    "name": @js.any("Alice"),
-    "age": @js.any(30),
-  }
-  let obj : @js.Any = from_map(map)
+test "from_entries converts Array to Any object" {
+  let obj : @js.Any = @nostd.from_entries([
+    ("name", @nostd.any("Alice")),
+    ("age", @nostd.any(30)),
+  ]).cast()
   assert_eq(@js.identity(obj.get("name")), "Alice")
   assert_eq(@js.identity(obj.get("age")), 30)
 }
 
 ///|
-test "from_map and to_string" {
-  let map : Map[String, @js.Any] = {
-    "name": @js.any("Alice"),
-    "age": @js.any(30),
-  }
-  let obj : @js.Any = from_map(map)
+test "from_entries and to_string" {
+  let obj : @js.Any = @nostd.from_entries([
+    ("name", @nostd.any("Alice")),
+    ("age", @nostd.any(30)),
+  ]).cast()
   inspect(
     obj.to_string(),
     content=(
@@ -106,13 +106,12 @@ test "from_map and to_string" {
 }
 
 ///|
-test "from_map" {
-  let map : Map[String, @js.Any] = {
-    "name": @js.any("Alice"),
-    "age": @js.any(30),
-    "active": @js.any(true),
-  }
-  let obj = from_map(map)
+test "from_entries" {
+  let obj : @js.Any = @nostd.from_entries([
+    ("name", @nostd.any("Alice")),
+    ("age", @nostd.any(30)),
+    ("active", @nostd.any(true)),
+  ]).cast()
   assert_eq(@js.identity(obj.get("name")), "Alice")
   assert_eq(@js.identity(obj.get("age")), 30)
   assert_eq(@js.identity(obj.get("active")), true)
@@ -310,11 +309,11 @@ test "JSON::stringify" {
       #|]
     ),
   )
-  let v = from_map({
-    "key1": 123 |> @js.any,
-    "key2": 456 |> @js.any,
-    "key3": 789 |> @js.any,
-  })
+  let v : @js.Any = @nostd.from_entries([
+    ("key1", @nostd.any(123)),
+    ("key2", @nostd.any(456)),
+    ("key3", @nostd.any(789)),
+  ]).cast()
   JSON::stringify(v, space=2)
   |> inspect(
     content=(
@@ -630,7 +629,10 @@ test "Any.to_json with array" {
 
 ///|
 test "Any.to_json with object" {
-  let obj = from_map({ "name": @js.any("Alice"), "age": @js.any(30) })
+  let obj : @js.Any = @nostd.from_entries([
+    ("name", @nostd.any("Alice")),
+    ("age", @nostd.any(30)),
+  ]).cast()
   let json = obj.to_json()
   match json {
     Object(map) => {

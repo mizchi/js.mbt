@@ -17,3 +17,4 @@ bisect.coverage
 .minio-data
 test-results
 tmp
+.jj

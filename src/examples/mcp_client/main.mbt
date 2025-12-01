@@ -30,7 +30,7 @@ async fn run() -> Unit {
   println("\n=== Calling 'greet' Tool ===")
   let greet_result = client.call_tool(
     "greet",
-    @mbtconv.from_map({ "name": @nostd.any("MoonBit") }).cast(),
+    @nostd.from_entries([("name", @nostd.any("MoonBit"))]).cast(),
   )
   for content in greet_result.content {
     if content.text is Some(text) {
@@ -79,7 +79,7 @@ async fn run() -> Unit {
   println("\n=== Getting Prompt ===")
   let prompt_result = client.get_prompt(
     "greeting-template",
-    Some(@mbtconv.from_map({ "name": @nostd.any("Developer") }).cast()),
+    Some(@nostd.from_entries([("name", @nostd.any("Developer"))]).cast()),
   )
   if prompt_result.description is Some(desc) {
     println("Description: " + desc)

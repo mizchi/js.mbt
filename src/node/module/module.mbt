@@ -61,7 +61,7 @@ pub fn enableCompileCache(cache_dir? : String) -> Unit {
   match cache_dir {
     Some(dir) =>
       mod.call("enableCompileCache", [
-        @js.from_option_map({ "cacheDir": Some(@js.any(dir)) }),
+        @mbtconv.from_option_map({ "cacheDir": Some(@nostd.any(dir)) }).cast(),
       ])
       |> ignore
     None => mod.call0("enableCompileCache") |> ignore
@@ -102,17 +102,14 @@ pub fn stripTypeScriptTypes(
   let mod = ffi_require_module()
   match (mode, source_map, source_url) {
     (None, None, None) => @js.identity(mod.call("stripTypeScriptTypes", [code]))
-    _ =>
-      @js.identity(
-        mod.call("stripTypeScriptTypes", [
-          code,
-          @js.from_option_map({
-            "mode": mode.map(fn(x) { @js.any(x) }),
-            "sourceMap": source_map.map(fn(x) { @js.any(x) }),
-            "sourceUrl": source_url.map(fn(x) { @js.any(x) }),
-          }),
-        ]),
-      )
+    _ => {
+      let opts : @js.Any = @mbtconv.from_option_map({
+        "mode": mode.map(fn(x) { @nostd.any(x) }),
+        "sourceMap": source_map.map(fn(x) { @nostd.any(x) }),
+        "sourceUrl": source_url.map(fn(x) { @nostd.any(x) }),
+      }).cast()
+      @js.identity(mod.call("stripTypeScriptTypes", [code, opts]))
+    }
   }
 }
 

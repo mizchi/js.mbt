@@ -322,21 +322,27 @@ pub fn LighthouseFlags::new(
 
 ///|
 pub impl @js.JsImpl for LighthouseFlags with as_any(self) -> @js.Any {
-  @js.from_option_map({
-    "logLevel": self.logLevel.map(fn(x) { @js.any(x) }),
-    "output": self.output.map(fn(x) { @js.any(x) }),
-    "onlyCategories": self.onlyCategories.map(fn(x) { @js.from_array(x) }),
-    "skipAudits": self.skipAudits.map(fn(x) { @js.from_array(x) }),
-    "onlyAudits": self.onlyAudits.map(fn(x) { @js.from_array(x) }),
-    "port": self.port.map(fn(x) { @js.any(x) }),
-    "formFactor": self.formFactor.map(fn(x) { @js.any(x) }),
-    "screenEmulation": self.screenEmulation,
-    "throttling": self.throttling,
-    "throttlingMethod": self.throttlingMethod.map(fn(x) { @js.any(x) }),
-    "extraHeaders": self.extraHeaders,
-    "maxWaitForLoad": self.maxWaitForLoad.map(fn(x) { @js.any(x) }),
-    "disableStorageReset": self.disableStorageReset.map(fn(x) { @js.any(x) }),
-  })
+  @mbtconv.from_option_map({
+    "logLevel": self.logLevel.map(fn(x) { @nostd.any(x) }),
+    "output": self.output.map(fn(x) { @nostd.any(x) }),
+    "onlyCategories": self.onlyCategories.map(fn(x) {
+      @nostd.identity(@js.from_array(x))
+    }),
+    "skipAudits": self.skipAudits.map(fn(x) {
+      @nostd.identity(@js.from_array(x))
+    }),
+    "onlyAudits": self.onlyAudits.map(fn(x) {
+      @nostd.identity(@js.from_array(x))
+    }),
+    "port": self.port.map(fn(x) { @nostd.any(x) }),
+    "formFactor": self.formFactor.map(fn(x) { @nostd.any(x) }),
+    "screenEmulation": self.screenEmulation.map(fn(x) { @nostd.identity(x) }),
+    "throttling": self.throttling.map(fn(x) { @nostd.identity(x) }),
+    "throttlingMethod": self.throttlingMethod.map(fn(x) { @nostd.any(x) }),
+    "extraHeaders": self.extraHeaders.map(fn(x) { @nostd.identity(x) }),
+    "maxWaitForLoad": self.maxWaitForLoad.map(fn(x) { @nostd.any(x) }),
+    "disableStorageReset": self.disableStorageReset.map(fn(x) { @nostd.any(x) }),
+  }).cast()
 }
 
 ///| Main Functions

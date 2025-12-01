@@ -3,6 +3,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/nostd",
+    "mizchi/js/mbtconv",
     "mizchi/js/node/stream",
     "mizchi/js/builtins/regexp"
   ]

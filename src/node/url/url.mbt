@@ -13,7 +13,7 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
       .call2(
         "fileURLToPath",
         url,
-        @js.from_option_map({ "windows": Some(@js.any(w)) }),
+        @mbtconv.from_option_map({ "windows": Some(@nostd.any(w)) }).cast(),
       )
       .cast()
     None => url_module.call1("fileURLToPath", url).cast()
@@ -30,7 +30,7 @@ pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
       url_module
       ._call("fileURLToPath", [
         url.as_any(),
-        @nostd.any(@js.from_option_map({ "windows": Some(@js.any(w)) })),
+        @mbtconv.from_option_map({ "windows": Some(@nostd.any(w)) }),
       ])
       .cast()
     None => url_module._call("fileURLToPath", [url.as_any()]).cast()
@@ -48,7 +48,7 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
       .call2(
         "pathToFileURL",
         path,
-        @js.from_option_map({ "windows": Some(@js.any(w)) }),
+        @mbtconv.from_option_map({ "windows": Some(@nostd.any(w)) }).cast(),
       )
       .cast()
     None => url_module.call1("pathToFileURL", path).cast()

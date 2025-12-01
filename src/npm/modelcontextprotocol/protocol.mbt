@@ -50,13 +50,13 @@ pub fn Content::resource(uri : String) -> Content {
 
 ///|
 pub fn Content::as_any(self : Content) -> @js.Any {
-  @js.from_option_map({
-    "type": Some(@js.any(self.type_.to_string())),
-    "text": self.text.map(fn(t) { @js.any(t) }),
-    "data": self.data.map(fn(d) { @js.any(d) }),
-    "mimeType": self.mime_type.map(fn(m) { @js.any(m) }),
-    "uri": self.uri.map(fn(u) { @js.any(u) }),
-  })
+  @mbtconv.from_option_map({
+    "type": Some(@nostd.any(self.type_.to_string())),
+    "text": self.text.map(fn(t) { @nostd.any(t) }),
+    "data": self.data.map(fn(d) { @nostd.any(d) }),
+    "mimeType": self.mime_type.map(fn(m) { @nostd.any(m) }),
+    "uri": self.uri.map(fn(u) { @nostd.any(u) }),
+  }).cast()
 }
 
 ///|
@@ -89,12 +89,12 @@ pub(all) struct Resource {
 
 ///|
 pub fn Resource::as_any(self : Resource) -> @js.Any {
-  @js.from_option_map({
-    "uri": Some(@js.any(self.uri)),
-    "name": Some(@js.any(self.name)),
-    "description": self.description.map(fn(d) { @js.any(d) }),
-    "mimeType": self.mime_type.map(fn(m) { @js.any(m) }),
-  })
+  @mbtconv.from_option_map({
+    "uri": Some(@nostd.any(self.uri)),
+    "name": Some(@nostd.any(self.name)),
+    "description": self.description.map(fn(d) { @nostd.any(d) }),
+    "mimeType": self.mime_type.map(fn(m) { @nostd.any(m) }),
+  }).cast()
 }
 
 ///|
@@ -114,11 +114,11 @@ pub(all) struct PromptArgument {
 
 ///|
 pub fn PromptArgument::as_any(self : PromptArgument) -> @js.Any {
-  @js.from_option_map({
-    "name": Some(@js.any(self.name)),
-    "description": self.description.map(fn(d) { @js.any(d) }),
-    "required": Some(@js.any(self.required)),
-  })
+  @mbtconv.from_option_map({
+    "name": Some(@nostd.any(self.name)),
+    "description": self.description.map(fn(d) { @nostd.any(d) }),
+    "required": Some(@nostd.any(self.required)),
+  }).cast()
 }
 
 ///|
@@ -127,11 +127,11 @@ pub fn Prompt::as_any(self : Prompt) -> @js.Any {
   for i = 0; i < self.arguments.length(); i = i + 1 {
     args.push(self.arguments[i].as_any())
   }
-  @js.from_option_map({
-    "name": Some(@js.any(self.name)),
-    "description": self.description.map(fn(d) { @js.any(d) }),
-    "arguments": Some(@js.from_array(args)),
-  })
+  @mbtconv.from_option_map({
+    "name": Some(@nostd.any(self.name)),
+    "description": self.description.map(fn(d) { @nostd.any(d) }),
+    "arguments": Some(@nostd.identity(@js.from_array(args))),
+  }).cast()
 }
 
 ///|
@@ -154,7 +154,9 @@ pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @js.Any {
   if self.prompts {
     capabilities.set("prompts", @js.Object::new())
   }
-  @js.identity(@mbtconv.from_map({ "capabilities": @nostd.any(capabilities) }))
+  @js.identity(
+    @nostd.from_entries([("capabilities", @nostd.any(capabilities))]),
+  )
 }
 
 ///|

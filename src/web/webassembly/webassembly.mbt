@@ -66,11 +66,11 @@ pub fn WebAssemblyMemory::new(
   descriptor : MemoryDescriptor,
 ) -> WebAssemblyMemory {
   ffi_new_memory(
-    @js.from_option_map({
-      "initial": Some(@js.any(descriptor.initial)),
-      "maximum": descriptor.maximum.map(fn(x) { @js.any(x) }),
-      "shared": Some(@js.any(descriptor.shared)),
-    }),
+    @mbtconv.from_option_map({
+      "initial": Some(@nostd.any(descriptor.initial)),
+      "maximum": descriptor.maximum.map(fn(x) { @nostd.any(x) }),
+      "shared": Some(@nostd.any(descriptor.shared)),
+    }).cast(),
   )
 }
 
@@ -116,11 +116,11 @@ extern "js" fn ffi_new_table(descriptor : @js.Any) -> WebAssemblyTable =
 /// Create a new WebAssembly table
 pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
   ffi_new_table(
-    @js.from_option_map({
-      "element": Some(@js.any(descriptor.element)),
-      "initial": Some(@js.any(descriptor.initial)),
-      "maximum": descriptor.maximum.map(fn(x) { @js.any(x) }),
-    }),
+    @mbtconv.from_option_map({
+      "element": Some(@nostd.any(descriptor.element)),
+      "initial": Some(@nostd.any(descriptor.initial)),
+      "maximum": descriptor.maximum.map(fn(x) { @nostd.any(x) }),
+    }).cast(),
   )
 }
 

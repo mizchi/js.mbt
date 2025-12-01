@@ -1,5 +1,5 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/web/webassembly", "mizchi/js/nostd"],
+  "import": ["mizchi/js", "mizchi/js/web/webassembly", "mizchi/js/nostd", "mizchi/js/mbtconv"],
   "test-import": ["mizchi/js/node/fs"]
 }

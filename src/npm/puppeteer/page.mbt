@@ -64,7 +64,7 @@ pub async fn Page::content(self : Page) -> String {
 ///|
 /// Page: Take screenshot
 pub async fn Page::screenshot(self : Page, path : String) -> Unit {
-  let opts = @mbtconv.from_map({ "path": @nostd.any(path) })
+  let opts = @nostd.from_entries([("path", @nostd.any(path))])
   let promise : @js.Promise[Unit] = @js.identity(self.call1("screenshot", opts))
   promise.wait()
 }
@@ -139,10 +139,10 @@ pub async fn Page::evaluate(self : Page, script : String) -> @js.Any {
 /// Page: Set viewport size
 /// JS: page.setViewport({ width, height })
 pub async fn Page::setViewport(self : Page, width : Int, height : Int) -> Unit {
-  let viewport = @mbtconv.from_map({
-    "width": @nostd.any(width),
-    "height": @nostd.any(height),
-  })
+  let viewport = @nostd.from_entries([
+    ("width", @nostd.any(width)),
+    ("height", @nostd.any(height)),
+  ])
   let promise : @js.Promise[Unit] = @js.identity(
     self.call1("setViewport", viewport),
   )
@@ -313,7 +313,7 @@ pub async fn Page::deleteCookie(self : Page, cookies : Array[@js.Any]) -> Unit {
 /// Page: Generate PDF with options
 /// JS: page.pdf({ path })
 pub async fn Page::pdf(self : Page, path : String) -> Unit raise @js.ThrowError {
-  let opts = @mbtconv.from_map({ "path": @nostd.any(path) })
+  let opts = @nostd.from_entries([("path", @nostd.any(path))])
   let promise : @js.Promise[Unit] = @js.identity(self.call1("pdf", opts))
   promise.wait() catch {
     e => raise @js.ThrowError::from_js(@js.unsafe_any(e))

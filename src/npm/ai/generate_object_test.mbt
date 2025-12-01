@@ -12,7 +12,7 @@ test "output strategy to_string" {
 test "generate object result from_any" {
   let empty_warnings : Array[@js.Any] = []
   let raw = @mbtconv.from_map({
-    "object": @mbtconv.from_map({ "name": "test" |> @nostd.any }).cast(),
+    "object": @nostd.from_entries([("name", "test" |> @nostd.any)]).cast(),
     "finishReason": "stop" |> @nostd.any,
     "usage": @mbtconv.from_map({
       "inputTokens": 10 |> @nostd.any,
@@ -20,7 +20,7 @@ test "generate object result from_any" {
       "totalTokens": 30 |> @nostd.any,
     }).cast(),
     "warnings": @js.from_array(empty_warnings) |> @nostd.any,
-    "response": @mbtconv.from_map({ "id": "resp-123" |> @nostd.any }).cast(),
+    "response": @nostd.from_entries([("id", "resp-123" |> @nostd.any)]).cast(),
   }).cast()
   let result = @ai.GenerateObjectResult::from_any(raw)
   assert_eq(result.finish_reason, @ai.FinishReason::Stop)
@@ -59,8 +59,8 @@ async test "generateObject with mock" {
   let schema = @mbtconv.from_map({
     "type": "object" |> @nostd.any,
     "properties": @mbtconv.from_map({
-      "name": @mbtconv.from_map({ "type": "string" |> @nostd.any }).cast(),
-      "age": @mbtconv.from_map({ "type": "number" |> @nostd.any }).cast(),
+      "name": @nostd.from_entries([("type", "string" |> @nostd.any)]).cast(),
+      "age": @nostd.from_entries([("type", "number" |> @nostd.any)]).cast(),
     }).cast(),
     "required": @js.from_array(["name" |> @js.any, "age" |> @js.any])
     |> @nostd.any,

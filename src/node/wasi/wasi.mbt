@@ -73,16 +73,16 @@ pub fn WASI::new(
     }
     None => None
   }
-  let options = @js.from_option_map({
-    "version": Some(@js.any(version)),
-    "args": args.map(fn(x) { @js.from_array(x) }),
-    "env": env_obj.map(fn(x) { x.as_any() }),
-    "preopens": preopens_obj.map(fn(x) { x.as_any() }),
-    "returnOnExit": returnOnExit.map(fn(x) { @js.any(x) }),
-    "stdin": stdin.map(fn(x) { @js.any(x) }),
-    "stdout": stdout.map(fn(x) { @js.any(x) }),
-    "stderr": stderr.map(fn(x) { @js.any(x) }),
-  })
+  let options = @mbtconv.from_option_map({
+    "version": Some(@nostd.any(version)),
+    "args": args.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+    "env": env_obj.map(fn(x) { @nostd.identity(x.as_any()) }),
+    "preopens": preopens_obj.map(fn(x) { @nostd.identity(x.as_any()) }),
+    "returnOnExit": returnOnExit.map(fn(x) { @nostd.any(x) }),
+    "stdin": stdin.map(fn(x) { @nostd.any(x) }),
+    "stdout": stdout.map(fn(x) { @nostd.any(x) }),
+    "stderr": stderr.map(fn(x) { @nostd.any(x) }),
+  }).cast()
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.get("WASI")
   let instance = ffi_new_wasi(wasi_class, options)

@@ -3,6 +3,8 @@
   "import": [
     "mizchi/js",
     "mizchi/js/node",
+    "mizchi/js/nostd",
+    "mizchi/js/mbtconv",
     "mizchi/js/node/events",
     "mizchi/js/web/streams"
   ],

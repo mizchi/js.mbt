@@ -324,9 +324,12 @@ pub fn throw_(v : &JsImpl) -> Unit {
 /// Create a new JavaScript Error object.
 pub fn JsError::new(message : String, cause? : JsError) -> JsError {
   let args : Array[Any] = if cause is Some(cause) {
-    [message |> any, from_map({ "cause": cause |> identity() })]
+    [
+      @nostd.any(message).cast(),
+      @nostd.from_entries([("cause", @nostd.identity(cause.as_any()))]).cast(),
+    ]
   } else {
-    [message |> any]
+    [@nostd.any(message).cast()]
   }
   ffi_new_error(args)
 }

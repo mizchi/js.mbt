@@ -131,7 +131,7 @@ async test "MessageChannel: message event properties" {
     resolver.resolve(event)
   })
   MessagePort::start(port2)
-  let obj : @js.Any = @mbtconv.from_map({ "key": @nostd.any("value") }).cast()
+  let obj : @js.Any = @nostd.from_entries([("key", @nostd.any("value"))]).cast()
   MessagePort::post_message(port1, obj)
   let event = resolver.promise.wait()
   let data : @js.Any = event.get("data")

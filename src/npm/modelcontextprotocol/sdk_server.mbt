@@ -252,10 +252,10 @@ pub fn PromptMessage::as_any(self : PromptMessage) -> @js.Any {
 ///|
 pub fn PromptResult::as_any(self : PromptResult) -> @js.Any {
   let messages_arr : Array[@js.Any] = self.messages.map(fn(m) { m.as_any() })
-  @js.from_option_map({
-    "description": self.description.map(fn(d) { d |> @js.any }),
-    "messages": Some(@js.from_array(messages_arr)),
-  })
+  @mbtconv.from_option_map({
+    "description": self.description.map(fn(d) { d |> @nostd.any }),
+    "messages": Some(@nostd.identity(@js.from_array(messages_arr))),
+  }).cast()
 }
 
 // ============================================================

@@ -257,7 +257,7 @@ test "PrepareStepResult::with_active_tools should set tools" {
 
 ///|
 test "PrepareStepResult::with_messages should set messages" {
-  let msg : @js.Any = @mbtconv.from_map({ "role": "user" |> @nostd.any }).cast()
+  let msg : @js.Any = @nostd.from_entries([("role", "user" |> @nostd.any)]).cast()
   let result = @ai.PrepareStepResult::with_messages([msg])
   assert_true(result.model is None)
   guard result.messages is Some(msgs)

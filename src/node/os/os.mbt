@@ -240,7 +240,7 @@ pub fn userInfoWithEncoding(encoding : String) -> UserInfo {
   os_module()
   .call1(
     "userInfo",
-    @js.identity(@mbtconv.from_map({ "encoding": @nostd.any(encoding) })),
+    @js.identity(@nostd.from_entries([("encoding", @nostd.any(encoding))])),
   )
   .cast()
 }

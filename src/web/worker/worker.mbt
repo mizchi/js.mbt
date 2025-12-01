@@ -14,9 +14,9 @@ pub(open) trait Transferable {
 /// fn _worker() -> Unit {
 ///   let worker = Worker::new("./worker_script.js", type_="module")
 ///   // or: extern "js" fn get_my_worker() -> Worker = "() => new Worker('./worker_script.js', { type: 'module' })"
-///   worker.post_message(@js.from_json({
+///   worker.post_message(@mbtconv.from_json({
 ///     "type": "greeting"
-///   }))
+///   }).cast())
 ///   worker.addEventListener("message", _event => {
 ///     @js.log("Received message from worker:")
 ///   })
@@ -45,7 +45,7 @@ extern "js" fn ffi_new_worker(script_url : String, option : @js.Any) -> Worker =
 ///|
 pub fn Worker::new(script_url : String, type_? : String) -> Worker {
   let option : @js.Any = if type_ is Some(v) {
-    @mbtconv.from_map({ "type": @nostd.any(v) }).cast()
+    @nostd.from_entries([("type", @nostd.any(v))]).cast()
   } else {
     @global.undefined()
   }

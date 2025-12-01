@@ -72,17 +72,19 @@ pub fn create_server(
   alpn_protocols? : Array[String],
 ) -> Server {
   let cb : @js.Any = @js.identity(secureConnectionListener)
-  let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).as_any() })
-  let opts = @js.from_option_map({
-    "key": key.map(fn(x) { @js.any(x) }),
-    "cert": cert.map(fn(x) { @js.any(x) }),
-    "ca": ca.map(fn(x) { @js.any(x) }),
-    "pfx": pfx.map(fn(x) { @js.any(x) }),
-    "passphrase": passphrase.map(fn(x) { @js.any(x) }),
-    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @js.any(x) }),
-    "requestCert": requestCert.map(fn(x) { @js.any(x) }),
-    "ALPNProtocols": alpn_js,
+  let alpn_js = alpn_protocols.map(fn(v) {
+    @nostd.identity(array_to_js_array(v).as_any())
   })
+  let opts = @mbtconv.from_option_map({
+    "key": key.map(fn(x) { @nostd.any(x) }),
+    "cert": cert.map(fn(x) { @nostd.any(x) }),
+    "ca": ca.map(fn(x) { @nostd.any(x) }),
+    "pfx": pfx.map(fn(x) { @nostd.any(x) }),
+    "passphrase": passphrase.map(fn(x) { @nostd.any(x) }),
+    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @nostd.any(x) }),
+    "requestCert": requestCert.map(fn(x) { @nostd.any(x) }),
+    "ALPNProtocols": alpn_js,
+  }).cast()
   ffi_create_server(opts, cb)
 }
 
@@ -122,18 +124,20 @@ pub fn connect(
   session? : @js.Object,
 ) -> TLSSocket {
   let cb : @js.Any = @js.identity(callback)
-  let alpn_js = alpn_protocols.map(fn(v) { array_to_js_array(v).as_any() })
-  let opts = @js.from_option_map({
-    "port": Some(@js.any(port)),
-    "host": Some(@js.any(host)),
-    "servername": servername.map(fn(x) { @js.any(x) }),
-    "key": key.map(fn(x) { @js.any(x) }),
-    "cert": cert.map(fn(x) { @js.any(x) }),
-    "ca": ca.map(fn(x) { @js.any(x) }),
-    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @js.any(x) }),
-    "ALPNProtocols": alpn_js,
-    "session": session.map(fn(x) { x.as_any() }),
+  let alpn_js = alpn_protocols.map(fn(v) {
+    @nostd.identity(array_to_js_array(v).as_any())
   })
+  let opts = @mbtconv.from_option_map({
+    "port": Some(@nostd.any(port)),
+    "host": Some(@nostd.any(host)),
+    "servername": servername.map(fn(x) { @nostd.any(x) }),
+    "key": key.map(fn(x) { @nostd.any(x) }),
+    "cert": cert.map(fn(x) { @nostd.any(x) }),
+    "ca": ca.map(fn(x) { @nostd.any(x) }),
+    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @nostd.any(x) }),
+    "ALPNProtocols": alpn_js,
+    "session": session.map(fn(x) { @nostd.identity(x.as_any()) }),
+  }).cast()
   ffi_connect(opts, cb)
 }
 

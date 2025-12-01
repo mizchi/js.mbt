@@ -46,7 +46,7 @@ pub async fn KVNamespace::get_array_buffer(
   self : Self,
   key : String,
 ) -> @js.Any? {
-  let opts_js = @mbtconv.from_map({ "type": @nostd.any("arrayBuffer") }).cast()
+  let opts_js = @nostd.from_entries([("type", @nostd.any("arrayBuffer"))]).cast()
   let promise : @js.Promise[@js.Any?] = self
     .as_any()
     ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
@@ -57,7 +57,7 @@ pub async fn KVNamespace::get_array_buffer(
 ///|
 /// Get a value as JSON
 pub async fn KVNamespace::get_json(self : Self, key : String) -> @js.Any? {
-  let opts_js = @mbtconv.from_map({ "type": @nostd.any("json") }).cast()
+  let opts_js = @nostd.from_entries([("type", @nostd.any("json"))]).cast()
   let promise : @js.Promise[@js.Any?] = self
     .as_any()
     ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
@@ -68,7 +68,7 @@ pub async fn KVNamespace::get_json(self : Self, key : String) -> @js.Any? {
 ///|
 /// Get a value as stream
 pub async fn KVNamespace::get_stream(self : Self, key : String) -> @js.Any? {
-  let opts_js = @mbtconv.from_map({ "type": @nostd.any("stream") }).cast()
+  let opts_js = @nostd.from_entries([("type", @nostd.any("stream"))]).cast()
   let promise : @js.Promise[@js.Any?] = self
     .as_any()
     ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
@@ -131,7 +131,7 @@ pub async fn KVNamespace::put_with_metadata(
   value : String,
   metadata : @js.Any,
 ) -> Unit {
-  let opts_js = @mbtconv.from_map({ "metadata": @nostd.any(metadata) }).cast()
+  let opts_js = @nostd.from_entries([("metadata", @nostd.any(metadata))]).cast()
   let promise : @js.Promise[Unit] = self
     .as_any()
     ._call("put", [@nostd.any(key), @nostd.any(value), @nostd.any(opts_js)])

@@ -22,11 +22,11 @@ pub fn lookup(
   if family is None && all is None && order is None {
     ffi_lookup(hostname, @js.Object::new().as_any(), cb)
   } else {
-    let opts = @js.from_option_map({
-      "family": family.map(fn(x) { @js.any(x) }),
-      "all": all.map(fn(x) { @js.any(x) }),
-      "order": order.map(fn(x) { @js.any(x) }),
-    })
+    let opts = @mbtconv.from_option_map({
+      "family": family.map(fn(x) { @nostd.any(x) }),
+      "all": all.map(fn(x) { @nostd.any(x) }),
+      "order": order.map(fn(x) { @nostd.any(x) }),
+    }).cast()
     ffi_lookup(hostname, opts, cb)
   }
 }

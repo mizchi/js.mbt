@@ -28,19 +28,21 @@ pub fn createInterface(
   tabSize? : Int,
   signal? : @js.AbortSignal,
 ) -> Interface {
-  let opts = @js.from_option_map({
-    "input": Some(input.as_any().cast()),
-    "output": output.map(fn(x) { x.as_any().cast() }),
-    "completer": completer.map(fn(x) { @js.from_fn1(x) }),
-    "terminator": terminator.map(fn(x) { @js.any(x) }),
-    "history": history.map(fn(x) { @js.from_array(x) }),
-    "removeHistoryDuplicates": removeHistoryDuplicates.map(fn(x) { @js.any(x) }),
-    "prompt": prompt.map(fn(x) { @js.any(x) }),
-    "crlfDelay": crlfDelay.map(fn(x) { @js.any(x) }),
-    "escapeCodeTimeout": escapeCodeTimeout.map(fn(x) { @js.any(x) }),
-    "tabSize": tabSize.map(fn(x) { @js.any(x) }),
-    "signal": signal.map(fn(x) { x |> @js.identity }),
-  })
+  let opts = @mbtconv.from_option_map({
+    "input": Some(@nostd.identity(input.as_any())),
+    "output": output.map(fn(x) { @nostd.identity(x.as_any()) }),
+    "completer": completer.map(fn(x) { @nostd.identity(@js.from_fn1(x)) }),
+    "terminator": terminator.map(fn(x) { @nostd.any(x) }),
+    "history": history.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+    "removeHistoryDuplicates": removeHistoryDuplicates.map(fn(x) {
+      @nostd.any(x)
+    }),
+    "prompt": prompt.map(fn(x) { @nostd.any(x) }),
+    "crlfDelay": crlfDelay.map(fn(x) { @nostd.any(x) }),
+    "escapeCodeTimeout": escapeCodeTimeout.map(fn(x) { @nostd.any(x) }),
+    "tabSize": tabSize.map(fn(x) { @nostd.any(x) }),
+    "signal": signal.map(fn(x) { @nostd.identity(x) }),
+  }).cast()
   @js.identity(
     readline_promises_module().get("createInterface").call_self([opts]),
   )

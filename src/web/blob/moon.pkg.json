@@ -3,6 +3,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/nostd",
+    "mizchi/js/mbtconv",
     "mizchi/js/builtins/typedarray",
     "mizchi/js/web/streams"
   ]

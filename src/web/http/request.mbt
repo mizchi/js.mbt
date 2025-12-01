@@ -63,21 +63,21 @@ pub fn RequestInit::new(
 
 ///|
 pub fn RequestInit::as_any(self : RequestInit) -> @js.Any {
-  @js.from_option_map({
-    "method": self.method_.map(fn(x) { @js.any(x) }),
-    "headers": self.headers.map(fn(x) { x.as_any().cast() }),
-    "body": self.body,
-    "mode": self.mode.map(fn(x) { @js.any(x) }),
-    "credentials": self.credentials.map(fn(x) { @js.any(x) }),
-    "cache": self.cache.map(fn(x) { @js.any(x) }),
-    "redirect": self.redirect.map(fn(x) { @js.any(x) }),
-    "referrer": self.referrer.map(fn(x) { @js.any(x) }),
-    "referrerPolicy": self.referrerPolicy.map(fn(x) { @js.any(x) }),
-    "integrity": self.integrity.map(fn(x) { @js.any(x) }),
-    "keepalive": self.keepalive.map(fn(x) { @js.any(x) }),
-    "signal": self.signal.map(fn(x) { @js.identity(x) }),
-    "priority": self.priority.map(fn(x) { @js.any(x) }),
-  })
+  @mbtconv.from_option_map({
+    "method": self.method_.map(fn(x) { @nostd.any(x) }),
+    "headers": self.headers.map(fn(x) { @nostd.identity(x.as_any()) }),
+    "body": self.body.map(fn(x) { @nostd.identity(x) }),
+    "mode": self.mode.map(fn(x) { @nostd.any(x) }),
+    "credentials": self.credentials.map(fn(x) { @nostd.any(x) }),
+    "cache": self.cache.map(fn(x) { @nostd.any(x) }),
+    "redirect": self.redirect.map(fn(x) { @nostd.any(x) }),
+    "referrer": self.referrer.map(fn(x) { @nostd.any(x) }),
+    "referrerPolicy": self.referrerPolicy.map(fn(x) { @nostd.any(x) }),
+    "integrity": self.integrity.map(fn(x) { @nostd.any(x) }),
+    "keepalive": self.keepalive.map(fn(x) { @nostd.any(x) }),
+    "signal": self.signal.map(fn(x) { @nostd.identity(x) }),
+    "priority": self.priority.map(fn(x) { @nostd.any(x) }),
+  }).cast()
 }
 
 ///|

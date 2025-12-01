@@ -31,7 +31,9 @@ pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
   }
   ffi_new_blob(
     arr.as_any(),
-    @js.from_option_map({ "type": content_type.map(fn(x) { @js.any(x) }) }),
+    @mbtconv.from_option_map({
+      "type": content_type.map(fn(x) { @nostd.any(x) }),
+    }).cast(),
   ).cast()
 }
 

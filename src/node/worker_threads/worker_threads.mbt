@@ -48,15 +48,15 @@ pub fn Worker::new(
 ) -> Worker {
   let wt = ffi_require_worker_threads()
   let worker_class = wt.get("Worker")
-  let js_opts = @js.from_option_map({
-    "workerData": workerData,
-    "env": env,
-    "stdin": stdin.map(fn(x) { @js.any(x) }),
-    "stdout": stdout.map(fn(x) { @js.any(x) }),
-    "stderr": stderr.map(fn(x) { @js.any(x) }),
-    "execArgv": execArgv.map(fn(x) { @js.from_array(x) }),
-    "resourceLimits": resourceLimits,
-  })
+  let js_opts = @mbtconv.from_option_map({
+    "workerData": workerData.map(fn(x) { @nostd.identity(x) }),
+    "env": env.map(fn(x) { @nostd.identity(x) }),
+    "stdin": stdin.map(fn(x) { @nostd.any(x) }),
+    "stdout": stdout.map(fn(x) { @nostd.any(x) }),
+    "stderr": stderr.map(fn(x) { @nostd.any(x) }),
+    "execArgv": execArgv.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+    "resourceLimits": resourceLimits.map(fn(x) { @nostd.identity(x) }),
+  }).cast()
   @js.identity(@js.new_(worker_class, [@js.any(filename), js_opts]))
 }
 

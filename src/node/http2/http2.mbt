@@ -148,19 +148,19 @@ pub fn create_server(
   max_send_header_block_length? : Int,
   padding_strategy? : Int,
 ) -> Http2Server {
-  let opts = @js.from_option_map({
-    "allowHTTP1": allow_http1.map(fn(x) { @js.any(x) }),
+  let opts = @mbtconv.from_option_map({
+    "allowHTTP1": allow_http1.map(fn(x) { @nostd.any(x) }),
     "maxDeflateDynamicTableSize": max_deflate_dynamic_table_size.map(fn(x) {
-      @js.any(x)
+      @nostd.any(x)
     }),
-    "maxSessionMemory": max_session_memory.map(fn(x) { @js.any(x) }),
-    "maxHeaderListSize": max_header_list_size.map(fn(x) { @js.any(x) }),
-    "maxOutstandingPings": max_outstanding_pings.map(fn(x) { @js.any(x) }),
+    "maxSessionMemory": max_session_memory.map(fn(x) { @nostd.any(x) }),
+    "maxHeaderListSize": max_header_list_size.map(fn(x) { @nostd.any(x) }),
+    "maxOutstandingPings": max_outstanding_pings.map(fn(x) { @nostd.any(x) }),
     "maxSendHeaderBlockLength": max_send_header_block_length.map(fn(x) {
-      @js.any(x)
+      @nostd.any(x)
     }),
-    "paddingStrategy": padding_strategy.map(fn(x) { @js.any(x) }),
-  })
+    "paddingStrategy": padding_strategy.map(fn(x) { @nostd.any(x) }),
+  }).cast()
   ffi_create_server(opts, @js.from_fn2(request_handler))
 }
 
@@ -184,13 +184,13 @@ pub fn create_secure_server(
   passphrase? : String,
   allow_http1? : Bool,
 ) -> Http2SecureServer {
-  let opts = @js.from_option_map({
-    "key": key.map(fn(x) { @js.any(x) }),
-    "cert": cert.map(fn(x) { @js.any(x) }),
-    "pfx": pfx.map(fn(x) { @js.any(x) }),
-    "passphrase": passphrase.map(fn(x) { @js.any(x) }),
-    "allowHTTP1": allow_http1.map(fn(x) { @js.any(x) }),
-  })
+  let opts = @mbtconv.from_option_map({
+    "key": key.map(fn(x) { @nostd.any(x) }),
+    "cert": cert.map(fn(x) { @nostd.any(x) }),
+    "pfx": pfx.map(fn(x) { @nostd.any(x) }),
+    "passphrase": passphrase.map(fn(x) { @nostd.any(x) }),
+    "allowHTTP1": allow_http1.map(fn(x) { @nostd.any(x) }),
+  }).cast()
   ffi_create_secure_server(opts, @js.from_fn2(request_handler))
 }
 

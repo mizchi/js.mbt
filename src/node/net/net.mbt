@@ -265,16 +265,14 @@ pub fn createServer(
     keepAlive is Some(_) ||
     keepAliveInitialDelay is Some(_)
   if has_options {
-    net_module().call("createServer", [
-      @js.from_option_map({
-        "allowHalfOpen": allowHalfOpen.map(fn(x) { @js.any(x) }),
-        "pauseOnConnect": pauseOnConnect.map(fn(x) { @js.any(x) }),
-        "noDelay": noDelay.map(fn(x) { @js.any(x) }),
-        "keepAlive": keepAlive.map(fn(x) { @js.any(x) }),
-        "keepAliveInitialDelay": keepAliveInitialDelay.map(fn(x) { @js.any(x) }),
-      }),
-    ])
-    |> @js.identity
+    let opts : @js.Any = @mbtconv.from_option_map({
+      "allowHalfOpen": allowHalfOpen.map(fn(x) { @nostd.any(x) }),
+      "pauseOnConnect": pauseOnConnect.map(fn(x) { @nostd.any(x) }),
+      "noDelay": noDelay.map(fn(x) { @nostd.any(x) }),
+      "keepAlive": keepAlive.map(fn(x) { @nostd.any(x) }),
+      "keepAliveInitialDelay": keepAliveInitialDelay.map(fn(x) { @nostd.any(x) }),
+    }).cast()
+    net_module().call1("createServer", opts) |> @js.identity
   } else {
     net_module().call0("createServer") |> @js.identity
   }

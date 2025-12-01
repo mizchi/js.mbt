@@ -22,7 +22,7 @@ test "runInNewContext basic execution" {
 ///|
 /// Test runInNewContext with context object
 test "runInNewContext with context" {
-  let context = @mbtconv.from_map({ "x": @nostd.any(42) }).cast()
+  let context = @nostd.from_entries([("x", @nostd.any(42))]).cast()
   let result = runInNewContext("x * 2", contextObject=context)
   inspect(result, content="84")
 }
@@ -37,7 +37,7 @@ test "createContext creates context" {
 ///|
 /// Test createContext with object
 test "createContext with initial object" {
-  let obj = @mbtconv.from_map({ "foo": @nostd.any("bar") }).cast()
+  let obj = @nostd.from_entries([("foo", @nostd.any("bar"))]).cast()
   let context = createContext(contextObject=obj)
   inspect(context |> @js.typeof_, content="object")
 }
@@ -45,7 +45,7 @@ test "createContext with initial object" {
 ///|
 /// Test isContext
 test "isContext on regular object" {
-  let obj = @mbtconv.from_map({ "foo": @nostd.any("bar") }).cast()
+  let obj = @nostd.from_entries([("foo", @nostd.any("bar"))]).cast()
   let result = isContext(obj)
   inspect(result, content="false")
 }
@@ -62,7 +62,7 @@ test "isContext on contextified object" {
 /// Test runInContext
 test "runInContext basic execution" {
   let context = createContext(
-    contextObject=@mbtconv.from_map({ "x": @nostd.any(10) }).cast(),
+    contextObject=@nostd.from_entries([("x", @nostd.any(10))]).cast(),
   )
   let result = runInContext("x * 3", context)
   inspect(result, content="30")
@@ -108,10 +108,10 @@ test "Script runInContext" {
 test "Script reuse" {
   let script = Script::new("value * 2")
   let ctx1 = createContext(
-    contextObject=@mbtconv.from_map({ "value": @nostd.any(5) }).cast(),
+    contextObject=@nostd.from_entries([("value", @nostd.any(5))]).cast(),
   )
   let ctx2 = createContext(
-    contextObject=@mbtconv.from_map({ "value": @nostd.any(10) }).cast(),
+    contextObject=@nostd.from_entries([("value", @nostd.any(10))]).cast(),
   )
   let result1 = script.runInContext(ctx1)
   let result2 = script.runInContext(ctx2)

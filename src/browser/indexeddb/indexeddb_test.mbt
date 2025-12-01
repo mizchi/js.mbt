@@ -265,11 +265,11 @@ async test "IndexedDB: count returns correct number" {
   let store = tx.objectStore("counters")
 
   // Add items
-  let i1 : @js.Any = @mbtconv.from_map({ "id": @nostd.any(1) }).cast()
+  let i1 : @js.Any = @nostd.from_entries([("id", @nostd.any(1))]).cast()
   request_to_promise(store.add(i1)).wait() |> ignore
-  let i2 : @js.Any = @mbtconv.from_map({ "id": @nostd.any(2) }).cast()
+  let i2 : @js.Any = @nostd.from_entries([("id", @nostd.any(2))]).cast()
   request_to_promise(store.add(i2)).wait() |> ignore
-  let i3 : @js.Any = @mbtconv.from_map({ "id": @nostd.any(3) }).cast()
+  let i3 : @js.Any = @nostd.from_entries([("id", @nostd.any(3))]).cast()
   request_to_promise(store.add(i3)).wait() |> ignore
 
   // Count
@@ -320,7 +320,7 @@ async test "IndexedDB: IDBKeyRange operations" {
 
   // Add numbers 1-10
   for i = 1; i <= 10; i = i + 1 {
-    let item : @js.Any = @mbtconv.from_map({ "id": @nostd.any(i) }).cast()
+    let item : @js.Any = @nostd.from_entries([("id", @nostd.any(i))]).cast()
     request_to_promise(store.add(item)).wait() |> ignore
   }
 

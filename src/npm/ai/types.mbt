@@ -333,11 +333,11 @@ pub fn[Input, Output : ToJson] Tool::typed(
 ) -> Tool {
   {
     description,
-    input_schema: @js.from_json(input_schema),
+    input_schema: @mbtconv.from_json(input_schema).cast(),
     execute: fn(args) {
       let typed_input : Input = @js.identity(args)
       let result = execute(typed_input)
-      @js.from_json(result.to_json())
+      @mbtconv.from_json(result.to_json()).cast()
     },
   }
 }
@@ -356,11 +356,11 @@ pub fn[Input, Output : ToJson] Tool::typed_async(
   let promisified = @js.promisify1(async fn(args : @js.Any) -> @js.Any {
     let typed_input : Input = @js.identity(args)
     let result = execute(typed_input)
-    @js.from_json(result.to_json())
+    @mbtconv.from_json(result.to_json()).cast()
   })
   {
     description,
-    input_schema: @js.from_json(input_schema),
+    input_schema: @mbtconv.from_json(input_schema).cast(),
     execute: fn(args) { promisified(args) |> @js.identity },
   }
 }

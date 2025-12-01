@@ -84,7 +84,7 @@ pub(all) struct TextDocumentIdentifier {
 
 ///|
 fn TextDocumentIdentifier::to_json(self : TextDocumentIdentifier) -> @js.Any {
-  @mbtconv.from_map({ "uri": @nostd.any(self.uri) }).cast()
+  @nostd.from_entries([("uri", @nostd.any(self.uri))]).cast()
 }
 
 ///|
@@ -452,7 +452,7 @@ pub fn LspClient::open_document(
 /// Close a text document
 pub fn LspClient::close_document(self : LspClient, uri : String) -> Unit {
   let params = @mbtconv.from_map({
-    "textDocument": @mbtconv.from_map({ "uri": @nostd.any(uri) }).cast(),
+    "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]).cast(),
   }).cast()
   self.send_notification("textDocument/didClose", params)
 }
@@ -512,7 +512,7 @@ pub async fn LspClient::references(
 ) -> Array[Location] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @mbtconv.from_map({ "uri": @nostd.any(uri) }).cast(),
+      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]).cast(),
       "position": @mbtconv.from_map({
         "line": @nostd.any(line),
         "character": @nostd.any(character),
@@ -695,7 +695,7 @@ pub async fn LspClient::document_symbol(
 ) -> Array[DocumentSymbol] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @mbtconv.from_map({ "uri": @nostd.any(uri) }).cast(),
+      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]).cast(),
     }).cast()
     self.send_request("textDocument/documentSymbol", params, fn(response) {
       let error = response.get("error")
@@ -728,7 +728,7 @@ pub async fn LspClient::workspace_symbol(
   query : String,
 ) -> Array[SymbolInformation] raise LspError {
   @js.suspend(fn(resolve, reject) {
-    let params = @mbtconv.from_map({ "query": @nostd.any(query) }).cast()
+    let params = @nostd.from_entries([("query", @nostd.any(query))]).cast()
     self.send_request("workspace/symbol", params, fn(response) {
       let error = response.get("error")
       if not(@js.is_nullish(error)) {
@@ -763,7 +763,7 @@ pub async fn LspClient::formatting(
 ) -> Array[TextEdit] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @mbtconv.from_map({ "uri": @nostd.any(uri) }).cast(),
+      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]).cast(),
       "options": @mbtconv.from_map({
         "tabSize": @nostd.any(tab_size.unwrap_or(2)),
         "insertSpaces": @nostd.any(insert_spaces.unwrap_or(true)),
@@ -802,7 +802,7 @@ pub async fn LspClient::code_action(
 ) -> Array[CodeAction] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @mbtconv.from_map({ "uri": @nostd.any(uri) }),
+      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]),
       "range": @nostd.any(range.to_json()),
       "context": @mbtconv.from_map({
         "diagnostics": @nostd.any(@js.from_array(([] : Array[@js.Any]))),
@@ -960,7 +960,7 @@ pub async fn LspClient::inlay_hint(
 ) -> Array[InlayHint] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @mbtconv.from_map({ "uri": @nostd.any(uri) }),
+      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]),
       "range": @nostd.any(range.to_json()),
     }).cast()
     self.send_request("textDocument/inlayHint", params, fn(response) {

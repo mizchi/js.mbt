@@ -120,7 +120,7 @@ pub(all) struct ToolInfo {
 /// List available tools
 pub async fn SdkClient::list_tools(self : SdkClient) -> ListToolsResult {
   let request = @js.identity(
-    @mbtconv.from_map({ "method": "tools/list" |> @nostd.any }),
+    @nostd.from_entries([("method", "tools/list" |> @nostd.any)]),
   )
   let types = require_mcp_client_types()
   let schema = types.get("ListToolsResultSchema")
@@ -203,7 +203,7 @@ pub(all) struct ResourceInfo {
 /// List available resources
 pub async fn SdkClient::list_resources(self : SdkClient) -> ListResourcesResult {
   let request = @js.identity(
-    @mbtconv.from_map({ "method": "resources/list" |> @nostd.any }),
+    @nostd.from_entries([("method", "resources/list" |> @nostd.any)]),
   )
   let types = require_mcp_client_types()
   let schema = types.get("ListResourcesResultSchema")
@@ -225,7 +225,7 @@ pub async fn SdkClient::read_resource(
   self : SdkClient,
   uri : String,
 ) -> ReadResourceResult {
-  let params = @js.identity(@mbtconv.from_map({ "uri": uri |> @nostd.any }))
+  let params = @js.identity(@nostd.from_entries([("uri", uri |> @nostd.any)]))
   let request = @js.identity(
     @mbtconv.from_map({
       "method": "resources/read" |> @nostd.any,
@@ -270,7 +270,7 @@ pub(all) struct PromptArgumentInfo {
 /// List available prompts
 pub async fn SdkClient::list_prompts(self : SdkClient) -> ListPromptsResult {
   let request = @js.identity(
-    @mbtconv.from_map({ "method": "prompts/list" |> @nostd.any }),
+    @nostd.from_entries([("method", "prompts/list" |> @nostd.any)]),
   )
   let types = require_mcp_client_types()
   let schema = types.get("ListPromptsResultSchema")
@@ -381,7 +381,7 @@ pub fn SdkClient::set_notification_handler(
   .as_any()
   .get("setNotificationHandler")
   .call_self([
-    @js.identity(@mbtconv.from_map({ "method": method_name |> @nostd.any })),
+    @js.identity(@nostd.from_entries([("method", method_name |> @nostd.any)])),
     @js.identity(handler),
   ])
   |> ignore

@@ -40,12 +40,12 @@ pub struct JsonRpcRequest {
 
 ///|
 pub fn JsonRpcRequest::as_any(self : JsonRpcRequest) -> @js.Any {
-  @js.from_option_map({
-    "jsonrpc": Some(@js.any(self.jsonrpc)),
-    "id": Some(self.id.as_any()),
-    "method": Some(@js.any(self.method_name)),
-    "params": self.params,
-  })
+  @mbtconv.from_option_map({
+    "jsonrpc": Some(@nostd.any(self.jsonrpc)),
+    "id": Some(@nostd.identity(self.id.as_any())),
+    "method": Some(@nostd.any(self.method_name)),
+    "params": self.params.map(fn(x) { @nostd.identity(x) }),
+  }).cast()
 }
 
 ///|
@@ -99,11 +99,11 @@ pub struct JsonRpcError {
 
 ///|
 pub fn JsonRpcError::as_any(self : JsonRpcError) -> @js.Any {
-  @js.from_option_map({
-    "code": Some(@js.any(self.code)),
-    "message": Some(@js.any(self.message)),
-    "data": self.data,
-  })
+  @mbtconv.from_option_map({
+    "code": Some(@nostd.any(self.code)),
+    "message": Some(@nostd.any(self.message)),
+    "data": self.data.map(fn(x) { @nostd.identity(x) }),
+  }).cast()
 }
 
 ///|
@@ -134,11 +134,11 @@ pub(all) struct JsonRpcNotification {
 
 ///|
 pub fn JsonRpcNotification::as_any(self : JsonRpcNotification) -> @js.Any {
-  @js.from_option_map({
-    "jsonrpc": Some(@js.any(self.jsonrpc)),
-    "method": Some(@js.any(self.method_name)),
-    "params": self.params,
-  })
+  @mbtconv.from_option_map({
+    "jsonrpc": Some(@nostd.any(self.jsonrpc)),
+    "method": Some(@nostd.any(self.method_name)),
+    "params": self.params.map(fn(x) { @nostd.identity(x) }),
+  }).cast()
 }
 
 ///|

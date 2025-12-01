@@ -45,10 +45,10 @@ pub fn File::new(
   ffi_new_file(
     arr.as_any(),
     filename |> @js.any,
-    @js.from_option_map({
-      "type": content_type.map(fn(x) { @js.any(x) }),
-      "lastModified": last_modified.map(fn(x) { @js.any(x) }),
-    }),
+    @mbtconv.from_option_map({
+      "type": content_type.map(fn(x) { @nostd.any(x) }),
+      "lastModified": last_modified.map(fn(x) { @nostd.any(x) }),
+    }).cast(),
   )
   |> @js.identity
 }

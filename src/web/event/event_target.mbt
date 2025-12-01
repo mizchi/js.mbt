@@ -16,10 +16,10 @@ pub fn Event::new(
 ) -> Event {
   ffi_new_event(
     event_type,
-    @js.from_option_map({
-      "bubbles": bubbles.map(fn(x) { @js.any(x) }),
-      "cancelable": cancelable.map(fn(x) { @js.any(x) }),
-    }),
+    @mbtconv.from_option_map({
+      "bubbles": bubbles.map(fn(x) { @nostd.any(x) }),
+      "cancelable": cancelable.map(fn(x) { @nostd.any(x) }),
+    }).cast(),
   )
 }
 
@@ -116,14 +116,12 @@ impl EventTargetImpl with addEventListener(
   ._call("addEventListener", [
     @nostd.any(event_type),
     @nostd.any(@js.from_fn1(handler)),
-    @nostd.any(
-      @js.from_option_map({
-        "capture": Some(@js.any(capture)),
-        "once": Some(@js.any(once)),
-        "passive": Some(@js.any(passive)),
-        "signal": signal.map(fn(x) { x |> @js.identity }),
-      }),
-    ),
+    @mbtconv.from_option_map({
+      "capture": Some(@nostd.any(capture)),
+      "once": Some(@nostd.any(once)),
+      "passive": Some(@nostd.any(passive)),
+      "signal": signal.map(fn(x) { x |> @js.identity }),
+    }),
   ])
   |> ignore
 }
@@ -140,7 +138,7 @@ impl EventTargetImpl with removeEventListener(
   ._call("removeEventListener", [
     @nostd.any(event_type),
     @nostd.any(@js.from_fn1(handler)),
-    @nostd.any(@js.from_option_map({ "capture": Some(@js.any(capture)) })),
+    @mbtconv.from_option_map({ "capture": Some(@nostd.any(capture)) }),
   ])
   |> ignore
 }
@@ -183,14 +181,12 @@ pub fn EventTarget::addEventListener(
   ._call("addEventListener", [
     @nostd.any(event_type),
     @nostd.any(@js.from_fn1(handler)),
-    @nostd.any(
-      @js.from_option_map({
-        "capture": Some(@js.any(capture)),
-        "once": Some(@js.any(once)),
-        "passive": Some(@js.any(passive)),
-        "signal": signal.map(fn(x) { x |> @js.identity }),
-      }),
-    ),
+    @mbtconv.from_option_map({
+      "capture": Some(@nostd.any(capture)),
+      "once": Some(@nostd.any(once)),
+      "passive": Some(@nostd.any(passive)),
+      "signal": signal.map(fn(x) { x |> @js.identity }),
+    }),
   ])
   |> ignore
 }
@@ -223,7 +219,7 @@ pub fn EventTarget::removeEventListener(
   ._call("removeEventListener", [
     @nostd.any(event_type),
     @nostd.any(@js.from_fn1(handler)),
-    @nostd.any(@js.from_option_map({ "capture": Some(@js.any(capture)) })),
+    @mbtconv.from_option_map({ "capture": Some(@nostd.any(capture)) }),
   ])
   |> ignore
 }

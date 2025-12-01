@@ -45,12 +45,10 @@ pub async fn stat(path : String) -> Stat {
 /// node:fs/promises.mkdir
 pub async fn mkdir(path : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let promise : @js.Promise[Unit] = @js.identity(
-    fs.call("mkdir", [
-      path,
-      @js.from_option_map({ "recursive": recursive.map(fn(x) { @js.any(x) }) }),
-    ]),
-  )
+  let opts : @js.Any = @mbtconv.from_option_map({
+    "recursive": recursive.map(fn(x) { @nostd.any(x) }),
+  }).cast()
+  let promise : @js.Promise[Unit] = fs.call2("mkdir", path, opts).cast()
   promise.wait()
 }
 
@@ -64,20 +62,16 @@ pub fn glob(
 ) -> @js.AsyncIterator[String] {
   let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
-  let exclude_opt : @js.Any? = match (exclude, exclude_fn) {
-    (Some(arr), _) => Some(arr |> @js.from_array)
-    (None, Some(f)) => Some(f |> @js.from_fn1)
+  let exclude_opt : @nostd.Any? = match (exclude, exclude_fn) {
+    (Some(arr), _) => Some(@nostd.identity(arr |> @js.from_array))
+    (None, Some(f)) => Some(@nostd.identity(f |> @js.from_fn1))
     (None, None) => None
   }
-  @js.identity(
-    fs.call("glob", [
-      path,
-      @js.from_option_map({
-        "cwd": cwd.map(fn(x) { @js.any(x) }),
-        "exclude": exclude_opt,
-      }),
-    ]),
-  )
+  let opts : @js.Any = @mbtconv.from_option_map({
+    "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+    "exclude": exclude_opt,
+  }).cast()
+  fs.call2("glob", path, opts).cast()
 }
 
 ///|
@@ -116,21 +110,17 @@ pub fn glob_with_filetype(
 ) -> @js.AsyncIterator[Dirent] {
   let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
-  let exclude_opt : @js.Any? = match (exclude, exclude_fn) {
-    (Some(arr), _) => Some(arr |> @js.from_array)
-    (None, Some(f)) => Some(f |> @js.from_fn1)
+  let exclude_opt : @nostd.Any? = match (exclude, exclude_fn) {
+    (Some(arr), _) => Some(@nostd.identity(arr |> @js.from_array))
+    (None, Some(f)) => Some(@nostd.identity(f |> @js.from_fn1))
     (None, None) => None
   }
-  @js.identity(
-    fs.call("glob", [
-      path,
-      @js.from_option_map({
-        "withFileTypes": Some(@js.any(true)),
-        "cwd": cwd.map(fn(x) { @js.any(x) }),
-        "exclude": exclude_opt,
-      }),
-    ]),
-  )
+  let opts : @js.Any = @mbtconv.from_option_map({
+    "withFileTypes": Some(@nostd.any(true)),
+    "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+    "exclude": exclude_opt,
+  }).cast()
+  fs.call2("glob", path, opts).cast()
 }
 
 ///|
@@ -195,18 +185,15 @@ pub async fn writeFile(
   signal? : @js.AbortSignal,
 ) -> Unit {
   let fs = fs_promises_module()
+  let opts : @js.Any = @mbtconv.from_option_map({
+    "encoding": Some(@nostd.any(encoding)),
+    "mode": Some(@nostd.any(mode)),
+    "flag": Some(@nostd.any(flag)),
+    "flush": Some(@nostd.any(flush)),
+    "signal": signal.map(fn(x) { x |> @js.identity }),
+  }).cast()
   let promise : @js.Promise[Unit] = @js.identity(
-    fs.call("writeFile", [
-      path,
-      content,
-      @js.from_option_map({
-        "encoding": Some(@js.any(encoding)),
-        "mode": Some(@js.any(mode)),
-        "flag": Some(@js.any(flag)),
-        "flush": Some(@js.any(flush)),
-        "signal": signal.map(fn(x) { x |> @js.identity }),
-      }),
-    ]),
+    fs.call("writeFile", [path, content, opts]),
   )
   promise.wait()
 }
@@ -221,27 +208,22 @@ pub async fn rename(path : String, dest : String) -> Unit {
 ///|
 pub async fn rm(path : String, recursive? : Bool, force? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let promise : @js.Promise[Unit] = @js.identity(
-    fs.call("rm", [
-      path,
-      @js.from_option_map({
-        "recursive": recursive.map(fn(x) { @js.any(x) }),
-        "force": force.map(fn(x) { @js.any(x) }),
-      }),
-    ]),
-  )
+  let opts : @js.Any = @mbtconv.from_option_map({
+    "recursive": recursive.map(fn(x) { @nostd.any(x) }),
+    "force": force.map(fn(x) { @nostd.any(x) }),
+  }).cast()
+  let promise : @js.Promise[Unit] = fs.call2("rm", path, opts).cast()
   promise.wait()
 }
 
 ///|
 pub async fn cp(path : String, dest : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
+  let opts : @js.Any = @mbtconv.from_option_map({
+    "recursive": recursive.map(fn(x) { @nostd.any(x) }),
+  }).cast()
   let promise : @js.Promise[Unit] = @js.identity(
-    fs.call("cp", [
-      path,
-      dest,
-      @js.from_option_map({ "recursive": recursive.map(fn(x) { @js.any(x) }) }),
-    ]),
+    fs.call("cp", [path, dest, opts]),
   )
   promise.wait()
 }
@@ -308,12 +290,10 @@ pub async fn truncate(path : String, len? : Int) -> Unit {
 /// Remove directory
 pub async fn rmdir(path : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let promise : @js.Promise[Unit] = @js.identity(
-    fs.call("rmdir", [
-      path,
-      @js.from_option_map({ "recursive": recursive.map(fn(x) { @js.any(x) }) }),
-    ]),
-  )
+  let opts : @js.Any = @mbtconv.from_option_map({
+    "recursive": recursive.map(fn(x) { @nostd.any(x) }),
+  }).cast()
+  let promise : @js.Promise[Unit] = fs.call2("rmdir", path, opts).cast()
   promise.wait()
 }
 
@@ -337,14 +317,12 @@ pub async fn appendFile(
 ) -> Unit {
   let fs = fs_promises_module()
   let promise : @js.Promise[Unit] = match encoding {
-    Some(enc) =>
-      @js.identity(
-        fs.call("appendFile", [
-          path,
-          data,
-          @js.from_option_map({ "encoding": Some(@js.any(enc)) }),
-        ]),
-      )
+    Some(enc) => {
+      let opts : @js.Any = @mbtconv.from_option_map({
+        "encoding": Some(@nostd.any(enc)),
+      }).cast()
+      @js.identity(fs.call("appendFile", [path, data, opts]))
+    }
     None => fs.call2("appendFile", path, data).cast()
   }
   promise.wait()

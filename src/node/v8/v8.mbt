@@ -187,13 +187,13 @@ pub fn getHeapSnapshot(
   let v8 = ffi_require_v8()
   match (expose_internals, expose_numeric_values) {
     (None, None) => v8.call0("getHeapSnapshot")
-    _ =>
-      v8.call("getHeapSnapshot", [
-        @js.from_option_map({
-          "exposeInternals": expose_internals.map(fn(x) { @js.any(x) }),
-          "exposeNumericValues": expose_numeric_values.map(fn(x) { @js.any(x) }),
-        }),
-      ])
+    _ => {
+      let opts : @js.Any = @mbtconv.from_option_map({
+        "exposeInternals": expose_internals.map(fn(x) { @nostd.any(x) }),
+        "exposeNumericValues": expose_numeric_values.map(fn(x) { @nostd.any(x) }),
+      }).cast()
+      v8.call1("getHeapSnapshot", opts)
+    }
   }
 }
 

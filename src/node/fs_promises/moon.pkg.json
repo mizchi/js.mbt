@@ -1,5 +1,5 @@
 {
   "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/nostd", "mizchi/js/node/buffer"],
+  "import": ["mizchi/js", "mizchi/js/nostd", "mizchi/js/mbtconv", "mizchi/js/node/buffer"],
   "test-import": ["moonbitlang/async"]
 }

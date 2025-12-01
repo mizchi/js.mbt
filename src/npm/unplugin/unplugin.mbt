@@ -79,10 +79,10 @@ pub(all) struct StringFilter {
 
 ///|
 pub fn StringFilter::as_any(self : StringFilter) -> @js.Any {
-  @js.from_option_map({
-    "include": self.includes.map(fn(x) { @js.from_array(x) }),
-    "exclude": self.excludes.map(fn(x) { @js.from_array(x) }),
-  })
+  @mbtconv.from_option_map({
+    "include": self.includes.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+    "exclude": self.excludes.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+  }).cast()
 }
 
 ///|
@@ -94,10 +94,10 @@ pub(all) struct HookFilter {
 
 ///|
 pub fn HookFilter::as_any(self : HookFilter) -> @js.Any {
-  @js.from_option_map({
-    "id": self.id.map(fn(x) { x.as_any() }),
-    "code": self.code.map(fn(x) { x.as_any() }),
-  })
+  @mbtconv.from_option_map({
+    "id": self.id.map(fn(x) { @nostd.identity(x.as_any()) }),
+    "code": self.code.map(fn(x) { @nostd.identity(x.as_any()) }),
+  }).cast()
 }
 
 ///| Hook Types

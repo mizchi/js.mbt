@@ -151,7 +151,7 @@ test "fireEvent change" {
   let s = screen()
   let input = s.getByRole("textbox")
   let event : @nostd.Any = @mbtconv.from_map({
-    "target": @mbtconv.from_map({ "value": @nostd.any("hello") }).cast(),
+    "target": @nostd.from_entries([("value", @nostd.any("hello"))]).cast(),
   }).cast()
   fireEvent().change(input, event) |> ignore
   inspect(value.val, content="hello")
@@ -174,7 +174,7 @@ test "fireEvent input" {
   let s = screen()
   let input = s.getByRole("textbox")
   let event : @nostd.Any = @mbtconv.from_map({
-    "target": @mbtconv.from_map({ "value": @nostd.any("world") }).cast(),
+    "target": @nostd.from_entries([("value", @nostd.any("world"))]).cast(),
   }).cast()
   fireEvent().input(input, event) |> ignore
   inspect(value.val, content="world")
@@ -216,7 +216,7 @@ test "fireEvent keyDown" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @mbtconv.from_map({ "key": @nostd.any("Enter") }).cast()
+  let event : @nostd.Any = @nostd.from_entries([("key", @nostd.any("Enter"))]).cast()
   fireEvent().keyDown(input, event) |> ignore
   inspect(key_pressed.val, content="Enter")
 }
@@ -236,7 +236,7 @@ test "fireEvent keyUp" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @mbtconv.from_map({ "key": @nostd.any("Escape") }).cast()
+  let event : @nostd.Any = @nostd.from_entries([("key", @nostd.any("Escape"))]).cast()
   fireEvent().keyUp(input, event) |> ignore
   inspect(key_released.val, content="Escape")
 }

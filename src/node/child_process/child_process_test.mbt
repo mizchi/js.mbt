@@ -27,7 +27,7 @@ test "execSync with input string" {
 
 ///|
 test "execSync with env option" {
-  let env_obj = @mbtconv.from_map({ "TEST_VAR": @nostd.any("custom_value") }).cast()
+  let env_obj = @nostd.from_entries([("TEST_VAR", @nostd.any("custom_value"))]).cast()
   let output = execSync("echo $TEST_VAR", shell="/bin/sh", env=env_obj)
   assert_true(output.contains("custom_value"))
 }
@@ -118,7 +118,7 @@ test "spawnSync with shell option" {
 
 ///|
 test "spawnSync with env option" {
-  let env_obj = @mbtconv.from_map({ "TEST_VAR": @nostd.any("test_value") }).cast()
+  let env_obj = @nostd.from_entries([("TEST_VAR", @nostd.any("test_value"))]).cast()
   let result = spawnSync("echo", args=["$TEST_VAR"], shell=true, env=env_obj)
   let stdout = result.stdout()
   let buffer : @buffer.Buffer = @js.identity(stdout)
@@ -183,7 +183,7 @@ test "execFileSync with working directory" {
 
 ///|
 test "execFileSync with env option" {
-  let env_obj = @mbtconv.from_map({ "MY_VAR": @nostd.any("file_value") }).cast()
+  let env_obj = @nostd.from_entries([("MY_VAR", @nostd.any("file_value"))]).cast()
   let output = execFileSync("sh", args=["-c", "echo $MY_VAR"], env=env_obj)
   assert_true(output.contains("file_value"))
 }

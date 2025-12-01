@@ -46,7 +46,7 @@ test "ToolInfo identity cast" {
   let raw = @mbtconv.from_map({
     "name": "test-tool" |> @nostd.any,
     "description": "A test tool" |> @nostd.any,
-    "inputSchema": @mbtconv.from_map({ "type": "object" |> @nostd.any }),
+    "inputSchema": @nostd.from_entries([("type", "object" |> @nostd.any)]),
   })
   let info : ToolInfo = @js.identity(raw)
   assert_eq(info.name, "test-tool")
@@ -59,7 +59,7 @@ test "ContentResult identity cast" {
   let raw = @mbtconv.from_map({
     "type": "text" |> @nostd.any,
     "text": "Hello, world!" |> @nostd.any,
-    "raw": @mbtconv.from_map({ "type": "text" |> @nostd.any }),
+    "raw": @nostd.from_entries([("type", "text" |> @nostd.any)]),
   })
   let content : ContentResult = @js.identity(raw)
   assert_eq(content.type_(), "text")
@@ -113,7 +113,7 @@ test "PromptInfo identity cast" {
 
 ///|
 test "PromptMessageResult identity cast" {
-  let content_raw = @mbtconv.from_map({ "type": "text" |> @nostd.any })
+  let content_raw = @nostd.from_entries([("type", "text" |> @nostd.any)])
   let raw = @mbtconv.from_map({
     "role": "assistant" |> @nostd.any,
     "content": @mbtconv.from_map({

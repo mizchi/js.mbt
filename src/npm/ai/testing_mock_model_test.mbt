@@ -25,7 +25,7 @@ test "MockContentPart ToolCall as_any" {
   let part = MockContentPart::ToolCall(
     tool_call_id="call-1",
     tool_name="get_weather",
-    args={ "location": "Tokyo" } |> @js.from_json,
+    args=@mbtconv.from_json({ "location": "Tokyo" }).cast(),
   )
   let any = part.as_any()
   let type_ : String = any.get("type").cast()
