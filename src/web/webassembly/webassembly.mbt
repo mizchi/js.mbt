@@ -13,9 +13,6 @@ pub type WebAssemblyModule
 pub fn WebAssemblyModule::as_any(self : WebAssemblyModule) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for WebAssemblyModule
-
-///|
 /// WebAssembly.Instance represents an instantiated WebAssembly module
 /// https://developer.mozilla.org/ja/docs/WebAssembly/JavaScript_interface/Instance
 #external
@@ -23,9 +20,6 @@ pub type WebAssemblyInstance
 
 ///|
 pub fn WebAssemblyInstance::as_any(self : WebAssemblyInstance) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for WebAssemblyInstance
 
 ///|
 /// Get the exports object from a WebAssembly instance
@@ -41,9 +35,6 @@ pub type WebAssemblyMemory
 
 ///|
 pub fn WebAssemblyMemory::as_any(self : WebAssemblyMemory) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for WebAssemblyMemory
 
 ///|
 /// Get the buffer from WebAssembly memory
@@ -90,9 +81,6 @@ pub type WebAssemblyTable
 
 ///|
 pub fn WebAssemblyTable::as_any(self : WebAssemblyTable) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for WebAssemblyTable
 
 ///|
 /// Get the length of the table
@@ -143,9 +131,6 @@ pub type WebAssemblyGlobal
 
 ///|
 pub fn WebAssemblyGlobal::as_any(self : WebAssemblyGlobal) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for WebAssemblyGlobal
 
 ///|
 /// Get the value of the global

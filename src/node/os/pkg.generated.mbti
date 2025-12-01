@@ -73,7 +73,6 @@ fn CpuInfo::times_irq(Self) -> Int
 fn CpuInfo::times_nice(Self) -> Int
 fn CpuInfo::times_sys(Self) -> Int
 fn CpuInfo::times_user(Self) -> Int
-impl @js.JsImpl for CpuInfo
 
 #external
 pub type UserInfo
@@ -83,7 +82,6 @@ fn UserInfo::homedir(Self) -> String
 fn UserInfo::shell(Self) -> String?
 fn UserInfo::uid(Self) -> Int
 fn UserInfo::username(Self) -> String
-impl @js.JsImpl for UserInfo
 
 // Type aliases
 

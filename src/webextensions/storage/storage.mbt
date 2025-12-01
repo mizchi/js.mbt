@@ -8,7 +8,7 @@
 pub type StorageArea
 
 ///|
-pub impl @js.JsImpl for StorageArea
+pub fn StorageArea::as_any(self : StorageArea) -> @nostd.Any = "%identity"
 
 ///|
 /// Get items from storage

@@ -7,46 +7,46 @@ extern "js" fn nodetest() -> @js.Any =
 pub type TestContext
 
 ///|
-pub impl @js.JsImpl for TestContext
+pub fn TestContext::as_any(self : TestContext) -> @nostd.Any = "%identity"
 
 ///|
 #external
 pub type SuiteContext
 
 ///|
-pub impl @js.JsImpl for SuiteContext
+pub fn SuiteContext::as_any(self : SuiteContext) -> @nostd.Any = "%identity"
 
 ///| TestContext methods
 
 ///|
 pub fn TestContext::skip(self : Self, message? : String) -> Unit {
   match message {
-    Some(msg) => self.call("skip", [@js.any(msg)]) |> ignore
-    None => self.call0("skip") |> ignore
+    Some(msg) => self.as_any()._call("skip", [@nostd.any(msg)]) |> ignore
+    None => self.as_any()._call("skip", []) |> ignore
   }
 }
 
 ///|
 pub fn TestContext::todo(self : Self, message? : String) -> Unit {
   match message {
-    Some(msg) => self.call("todo", [@js.any(msg)]) |> ignore
-    None => self.call0("todo") |> ignore
+    Some(msg) => self.as_any()._call("todo", [@nostd.any(msg)]) |> ignore
+    None => self.as_any()._call("todo", []) |> ignore
   }
 }
 
 ///|
 pub fn TestContext::diagnostic(self : Self, message : String) -> Unit {
-  self.call("diagnostic", [@js.any(message)]) |> ignore
+  self.as_any()._call("diagnostic", [@nostd.any(message)]) |> ignore
 }
 
 ///|
 pub fn TestContext::plan(self : Self, count : Int) -> Unit {
-  self.call("plan", [@js.any(count)]) |> ignore
+  self.as_any()._call("plan", [@nostd.any(count)]) |> ignore
 }
 
 ///|
 pub fn TestContext::runOnly(self : Self, shouldRunOnlyTests : Bool) -> Unit {
-  self.call("runOnly", [@js.any(shouldRunOnlyTests)]) |> ignore
+  self.as_any()._call("runOnly", [@nostd.any(shouldRunOnlyTests)]) |> ignore
 }
 
 ///| TestContext assertion methods
@@ -54,7 +54,7 @@ pub fn TestContext::runOnly(self : Self, shouldRunOnlyTests : Bool) -> Unit {
 ///|
 /// Get assert object from context
 fn TestContext::assert_obj(self : Self) -> @js.Any {
-  self.get("assert")
+  self.as_any()["assert"].cast()
 }
 
 ///|

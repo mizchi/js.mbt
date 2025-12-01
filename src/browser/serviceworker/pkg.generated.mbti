@@ -15,7 +15,6 @@ fn serviceWorkerContainer() -> ServiceWorkerContainer
 #external
 pub type RegistrationOptions
 fn RegistrationOptions::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for RegistrationOptions
 
 #external
 pub type ServiceWorker
@@ -26,7 +25,6 @@ fn ServiceWorker::postMessage(Self, @js.Any) -> Unit
 fn ServiceWorker::postMessageWithTransfer(Self, @js.Any, Array[@js.Any]) -> Unit
 fn ServiceWorker::scriptUrl(Self) -> String
 fn ServiceWorker::state(Self) -> String
-impl @js.JsImpl for ServiceWorker
 
 #external
 pub type ServiceWorkerContainer
@@ -40,7 +38,6 @@ fn ServiceWorkerContainer::onMessageError(Self, (@js.Any) -> Unit) -> Unit
 fn ServiceWorkerContainer::ready(Self) -> @js.Promise[ServiceWorkerRegistration]
 async fn ServiceWorkerContainer::register(Self, String, scope? : String, type_? : String, update_via_cache? : String) -> ServiceWorkerRegistration
 fn ServiceWorkerContainer::startMessages(Self) -> Unit
-impl @js.JsImpl for ServiceWorkerContainer
 
 #external
 pub type ServiceWorkerRegistration
@@ -53,7 +50,6 @@ async fn ServiceWorkerRegistration::unregister(Self) -> Bool
 async fn ServiceWorkerRegistration::update(Self) -> Self
 fn ServiceWorkerRegistration::updateViaCache(Self) -> String
 fn ServiceWorkerRegistration::waiting(Self) -> ServiceWorker?
-impl @js.JsImpl for ServiceWorkerRegistration
 
 // Type aliases
 

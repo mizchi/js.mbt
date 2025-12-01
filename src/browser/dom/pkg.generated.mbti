@@ -916,7 +916,6 @@ fn Window::sessionStorage(Self) -> @js.Any
 fn Window::setInterval(Self, () -> Unit, Int) -> Int
 #alias(set_timeout)
 fn Window::setTimeout(Self, () -> Unit, Int) -> Int
-impl @js.JsImpl for Window
 impl @event.EventTargetImpl for Window
 
 // Type aliases

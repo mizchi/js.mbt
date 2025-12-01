@@ -8,9 +8,6 @@ pub type Event
 pub fn Event::as_any(self : Event) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Event
-
-///|
 /// Create a new Event
 pub fn Event::new(
   event_type : String,
@@ -162,9 +159,6 @@ pub type EventTarget
 
 ///|
 pub fn EventTarget::as_any(self : EventTarget) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for EventTarget
 
 ///|
 pub impl EventTargetImpl for EventTarget with as_any(self) -> @nostd.Any {

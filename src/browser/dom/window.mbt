@@ -11,9 +11,6 @@ pub fn Window::as_any(self : Window) -> @nostd.Any = "%identity"
 pub fn Window::as_event_target(self : Window) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for Window
-
-///|
 pub impl @event.EventTargetImpl for Window with as_any(self) -> @nostd.Any {
   self.as_any()
 }

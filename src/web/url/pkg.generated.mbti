@@ -2,7 +2,6 @@
 package "mizchi/js/web/url"
 
 import(
-  "mizchi/js"
   "mizchi/js/nostd"
 )
 
@@ -32,7 +31,6 @@ fn URL::searchParams(Self) -> URLSearchParams
 fn URL::to_json(Self) -> String
 #alias(toString)
 fn URL::to_string(Self) -> String
-impl @js.JsImpl for URL
 impl Eq for URL
 impl Show for URL
 

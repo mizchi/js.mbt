@@ -22,10 +22,6 @@ pub(all) struct URL {
 pub fn URL::as_any(self : URL) -> @nostd.Any = "%identity"
 
 ///|
-/// For backward compatibility with node/url
-pub impl @js.JsImpl for URL
-
-///|
 /// Create a new URL (internal)
 extern "js" fn ffi_url_new(url : String, base? : String) -> URL =
   #| (url, base) => new URL(url, base)

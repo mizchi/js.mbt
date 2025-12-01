@@ -7,9 +7,6 @@ pub type FormData
 pub fn FormData::as_any(self : FormData) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for FormData
-
-///|
 pub fn FormData::append(self : Self, name : String, value : String) -> Unit {
   self.as_any()._call("append", [@nostd.any(name), @nostd.any(value)]) |> ignore
 }

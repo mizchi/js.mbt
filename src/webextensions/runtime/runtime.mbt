@@ -104,9 +104,6 @@ pub type Port
 pub fn Port::as_any(self : Port) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Port
-
-///|
 /// Get port name
 pub fn Port::name(self : Port) -> String {
   self.as_any()["name"].cast()

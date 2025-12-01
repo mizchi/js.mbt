@@ -8,7 +8,7 @@
 pub type MockTracker
 
 ///|
-pub impl @js.JsImpl for MockTracker
+pub fn MockTracker::as_any(self : MockTracker) -> @nostd.Any = "%identity"
 
 ///|
 /// MockFunctionContext - tracks mock function calls
@@ -16,12 +16,12 @@ pub impl @js.JsImpl for MockTracker
 pub type MockFunctionContext
 
 ///|
-pub impl @js.JsImpl for MockFunctionContext
+pub fn MockFunctionContext::as_any(self : MockFunctionContext) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the global mock tracker
 pub fn mock() -> MockTracker {
-  nodetest().get("mock").cast()
+  @nostd.any(nodetest())["mock"].cast()
 }
 
 ///|
@@ -33,10 +33,11 @@ pub fn MockTracker::fn_(
   implementation? : @js.Any,
 ) -> @js.Any {
   match (original, implementation) {
-    (Some(orig), Some(imp)) => self.call2("fn", orig, imp)
-    (Some(orig), None) => self.call("fn", [orig])
-    (None, Some(imp)) => self.call("fn", [imp])
-    (None, None) => self.call0("fn")
+    (Some(orig), Some(imp)) =>
+      self.as_any()._call("fn", [@nostd.any(orig), @nostd.any(imp)]).cast()
+    (Some(orig), None) => self.as_any()._call("fn", [@nostd.any(orig)]).cast()
+    (None, Some(imp)) => self.as_any()._call("fn", [@nostd.any(imp)]).cast()
+    (None, None) => self.as_any()._call("fn", []).cast()
   }
 }
 
@@ -50,8 +51,20 @@ pub fn MockTracker::method_(
   implementation? : @js.Any,
 ) -> @js.Any {
   match implementation {
-    Some(imp) => self.call("method", [object, methodName, imp])
-    None => self.call2("method", object, methodName)
+    Some(imp) =>
+      self
+      .as_any()
+      ._call("method", [
+        @nostd.any(object),
+        @nostd.any(methodName),
+        @nostd.any(imp),
+      ])
+      .cast()
+    None =>
+      self
+      .as_any()
+      ._call("method", [@nostd.any(object), @nostd.any(methodName)])
+      .cast()
   }
 }
 
@@ -65,8 +78,20 @@ pub fn MockTracker::getter_(
   implementation? : @js.Any,
 ) -> @js.Any {
   match implementation {
-    Some(imp) => self.call("getter", [object, methodName, imp])
-    None => self.call2("getter", object, methodName)
+    Some(imp) =>
+      self
+      .as_any()
+      ._call("getter", [
+        @nostd.any(object),
+        @nostd.any(methodName),
+        @nostd.any(imp),
+      ])
+      .cast()
+    None =>
+      self
+      .as_any()
+      ._call("getter", [@nostd.any(object), @nostd.any(methodName)])
+      .cast()
   }
 }
 
@@ -80,8 +105,20 @@ pub fn MockTracker::setter_(
   implementation? : @js.Any,
 ) -> @js.Any {
   match implementation {
-    Some(imp) => self.call("setter", [object, methodName, imp])
-    None => self.call2("setter", object, methodName)
+    Some(imp) =>
+      self
+      .as_any()
+      ._call("setter", [
+        @nostd.any(object),
+        @nostd.any(methodName),
+        @nostd.any(imp),
+      ])
+      .cast()
+    None =>
+      self
+      .as_any()
+      ._call("setter", [@nostd.any(object), @nostd.any(methodName)])
+      .cast()
   }
 }
 
@@ -101,7 +138,8 @@ pub fn MockTracker::module_(
   if namedExports is Some(exp) {
     options.set("namedExports", exp)
   }
-  self.call2("module", @js.any(specifier), options) |> ignore
+  self.as_any()._call("module", [@nostd.any(specifier), @nostd.any(options)])
+  |> ignore
 }
 
 ///|
@@ -114,21 +152,33 @@ pub fn MockTracker::property_(
   value? : @js.Any,
 ) -> @js.Any {
   match value {
-    Some(val) => self.call("property", [object, propertyName, val])
-    None => self.call2("property", object, propertyName)
+    Some(val) =>
+      self
+      .as_any()
+      ._call("property", [
+        @nostd.any(object),
+        @nostd.any(propertyName),
+        @nostd.any(val),
+      ])
+      .cast()
+    None =>
+      self
+      .as_any()
+      ._call("property", [@nostd.any(object), @nostd.any(propertyName)])
+      .cast()
   }
 }
 
 ///|
 /// Reset all mocks (clear call tracking without restoration)
 pub fn MockTracker::reset(self : MockTracker) -> Unit {
-  self.call0("reset") |> ignore
+  self.as_any()._call("reset", []) |> ignore
 }
 
 ///|
 /// Restore all mocked functionality
 pub fn MockTracker::restoreAll(self : MockTracker) -> Unit {
-  self.call0("restoreAll") |> ignore
+  self.as_any()._call("restoreAll", []) |> ignore
 }
 
 ///|
@@ -137,13 +187,13 @@ pub fn MockTracker::restoreAll(self : MockTracker) -> Unit {
 ///|
 /// Get the calls array
 pub fn MockFunctionContext::calls(self : MockFunctionContext) -> Array[@js.Any] {
-  self.get("calls").cast()
+  self.as_any()["calls"].cast()
 }
 
 ///|
 /// Get the call count
 pub fn MockFunctionContext::callCount(self : MockFunctionContext) -> Int {
-  self.call0("callCount").cast()
+  self.as_any()._call("callCount", []).cast()
 }
 
 ///|
@@ -152,7 +202,8 @@ pub fn MockFunctionContext::mockImplementation(
   self : MockFunctionContext,
   implementation : @js.Any,
 ) -> Unit {
-  self.call("mockImplementation", [implementation]) |> ignore
+  self.as_any()._call("mockImplementation", [@nostd.any(implementation)])
+  |> ignore
 }
 
 ///|
@@ -164,25 +215,35 @@ pub fn MockFunctionContext::mockImplementationOnce(
 ) -> Unit {
   match onCall {
     Some(call) =>
-      self.call2("mockImplementationOnce", implementation, call) |> ignore
-    None => self.call("mockImplementationOnce", [implementation]) |> ignore
+      self
+      .as_any()
+      ._call("mockImplementationOnce", [
+        @nostd.any(implementation),
+        @nostd.any(call),
+      ])
+      |> ignore
+    None =>
+      self
+      .as_any()
+      ._call("mockImplementationOnce", [@nostd.any(implementation)])
+      |> ignore
   }
 }
 
 ///|
 /// Reset call history
 pub fn MockFunctionContext::resetCalls(self : MockFunctionContext) -> Unit {
-  self.call0("resetCalls") |> ignore
+  self.as_any()._call("resetCalls", []) |> ignore
 }
 
 ///|
 /// Restore the original function
 pub fn MockFunctionContext::restore(self : MockFunctionContext) -> Unit {
-  self.call0("restore") |> ignore
+  self.as_any()._call("restore", []) |> ignore
 }
 
 ///|
 /// Get the mock context from a mocked function
 pub fn get_mock_context(func : @js.Any) -> MockFunctionContext {
-  func.get("mock").cast()
+  @nostd.any(func)["mock"].cast()
 }

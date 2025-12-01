@@ -60,7 +60,6 @@ fn Port::name(Self) -> String
 fn Port::on_disconnect(Self, () -> Unit) -> Unit
 fn Port::on_message(Self, (@js.Any) -> Unit) -> Unit
 fn Port::post_message(Self, @js.Any) -> Unit
-impl @js.JsImpl for Port
 
 // Type aliases
 

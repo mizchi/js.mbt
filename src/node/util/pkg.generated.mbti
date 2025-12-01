@@ -3,10 +3,11 @@ package "mizchi/js/node/util"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
-fn inspect(&@js.JsImpl, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, breakLength? : Int, maxArrayLength? : Int, maxStringLength? : Int) -> String
+fn inspect(@nostd.Any, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, breakLength? : Int, maxArrayLength? : Int, maxStringLength? : Int) -> String
 
 #alias(parse_args)
 fn parseArgs(args~ : Array[String], options~ : Array[ParseArgsOption], allow_positionals? : Bool) -> ParseArgsResult
@@ -18,6 +19,7 @@ pub(all) enum ParseArgsOption {
   Boolean(key~ : String, short~ : String)
   String(key~ : String, short~ : String, multiple~ : Bool, default~ : String?)
 }
+fn ParseArgsOption::as_any(Self) -> @nostd.Any
 fn ParseArgsOption::key(Self) -> String
 
 pub(all) struct ParseArgsResult {
@@ -28,7 +30,7 @@ pub(all) struct ParseArgsResult {
 
 #external
 pub type Util
-impl @js.JsImpl for Util
+fn Util::as_any(Self) -> @nostd.Any
 
 // Type aliases
 

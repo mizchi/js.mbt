@@ -13,20 +13,20 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 }
 
 ///|
-impl @js.JsImpl for ParseArgsOption with as_any(self) -> @js.Any {
+pub fn ParseArgsOption::as_any(self : ParseArgsOption) -> @nostd.Any {
   match self {
     Boolean(short~, ..) =>
       @mbtconv.from_map({
         "type": @nostd.any("boolean"),
         "short": @nostd.any(short),
-      }).cast()
+      })
     String(short~, multiple~, default~, ..) =>
       @mbtconv.from_option_map({
         "type": Some(@nostd.any("string")),
         "short": Some(@nostd.any(short)),
         "multiple": Some(@nostd.any(multiple)),
         "default": default.map(fn(x) { @nostd.any(x) }),
-      }).cast()
+      })
   }
 }
 
@@ -45,30 +45,30 @@ pub fn parseArgs(
   allow_positionals? : Bool = false,
   // tokens?: Bool = false,
 ) -> ParseArgsResult {
-  let opts_obj = if options.is_empty() {
-    @js.Object::new()
+  let opts_obj : @nostd.Any = if options.is_empty() {
+    @nostd.any(@js.Object::new())
   } else {
-    let o = @js.Object::new()
+    let o : @nostd.Any = @nostd.any(@js.Object::new())
     for opt in options {
-      o.set(opt.key(), opt.as_any())
+      o[opt.key()] = opt.as_any()
     }
     o
   }
-  let result : @js.Any = @mbtconv.from_map({
+  let result : @nostd.Any = @mbtconv.from_map({
     "args": @nostd.any(args),
-    "options": @nostd.any(opts_obj.as_any()),
+    "options": opts_obj,
     "allowPositionals": @nostd.any(allow_positionals),
-  }).cast()
+  })
   // result["tokens"] = tokens
-  let r : @js.Any = @js.identity(util().get("parseArgs").call_self([result]))
+  let r : @nostd.Any = util().as_any()["parseArgs"]._invoke([result])
   let values : Map[String, @js.Any] = {}
-  let result_keys = r.get("values") |> @js.Object::keys
+  let result_keys : Array[String] = @nostd.Object::keys(r["values"])
   for k in result_keys {
-    values[k] = @js.identity(r.get("values").get(k))
+    values[k] = r["values"][k].cast()
   }
   ParseArgsResult::{
     values,
-    positionals: r.get("positionals").cast(),
+    positionals: r["positionals"].cast(),
     tokens: None,
   }
 }

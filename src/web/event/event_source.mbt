@@ -18,9 +18,6 @@ pub fn EventSource::as_any(self : EventSource) -> @nostd.Any = "%identity"
 pub fn EventSource::as_event_target(self : EventSource) -> EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for EventSource
-
-///|
 pub impl EventTargetImpl for EventSource with as_any(self) -> @nostd.Any {
   self.as_any()
 }

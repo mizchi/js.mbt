@@ -80,8 +80,8 @@ pub fn parse(path : String) -> ParsedPath {
 ///|
 /// JS: path.format(parsed)
 pub fn format(parsed : ParsedPath) -> String {
-  let path_module = path_module()
-  @js.identity(path_module.call("format", [parsed.as_any()]))
+  let path_module : @nostd.Any = @nostd.any(path_module())
+  path_module._call("format", [parsed.as_any()]).cast()
 }
 
 ///|
@@ -95,7 +95,7 @@ pub(all) struct ParsedPath {
 }
 
 ///|
-pub impl @js.JsImpl for ParsedPath
+pub fn ParsedPath::as_any(self : ParsedPath) -> @nostd.Any = "%identity"
 
 ///|
 pub fn delimiter() -> String {

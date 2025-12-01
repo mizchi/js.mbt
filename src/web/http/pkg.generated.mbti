@@ -24,12 +24,10 @@ fn FormData::append(Self, String, String) -> Unit
 fn FormData::as_any(Self) -> @nostd.Any
 fn FormData::delete(Self, String) -> Unit
 fn FormData::get(Self, String) -> String
-impl @js.JsImpl for FormData
 
 #external
 pub type Headers
 fn Headers::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for Headers
 
 pub(all) struct Request {
   bodyUsed : Bool

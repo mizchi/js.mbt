@@ -21,9 +21,6 @@ pub fn WebSocket::as_any(self : WebSocket) -> @nostd.Any = "%identity"
 pub fn WebSocket::as_event_target(self : WebSocket) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for WebSocket
-
-///|
 pub impl @event.EventTargetImpl for WebSocket with as_any(self) -> @nostd.Any {
   self.as_any()
 }

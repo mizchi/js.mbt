@@ -3,6 +3,7 @@ package "mizchi/js/webextensions/storage"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -19,6 +20,7 @@ fn sync_storage() -> StorageArea
 // Types and methods
 #external
 pub type StorageArea
+fn StorageArea::as_any(Self) -> @nostd.Any
 async fn StorageArea::clear(Self) -> Unit
 async fn StorageArea::get(Self, @js.Any) -> @js.Any
 async fn StorageArea::get_all(Self) -> @js.Any
@@ -27,7 +29,6 @@ async fn StorageArea::remove(Self, @js.Any) -> Unit
 async fn StorageArea::remove_item(Self, String) -> Unit
 async fn StorageArea::set(Self, @js.Any) -> Unit
 async fn StorageArea::set_item(Self, String, @js.Any) -> Unit
-impl @js.JsImpl for StorageArea
 
 pub struct StorageChange {
   old_value : @js.Any

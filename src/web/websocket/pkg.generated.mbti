@@ -41,7 +41,6 @@ fn WebSocket::set_onclose(Self, (@js.Any) -> Unit) -> Unit
 fn WebSocket::set_onerror(Self, (@js.Any) -> Unit) -> Unit
 fn WebSocket::set_onmessage(Self, (@js.Any) -> Unit) -> Unit
 fn WebSocket::set_onopen(Self, (@js.Any) -> Unit) -> Unit
-impl @js.JsImpl for WebSocket
 impl @event.EventTargetImpl for WebSocket
 
 pub enum WebSocketReadyState {

@@ -18,9 +18,6 @@ pub fn ServiceWorkerContainer::as_any(
 ) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for ServiceWorkerContainer
-
-///|
 /// ServiceWorkerRegistration - represents a service worker registration
 /// https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration
 #external
@@ -32,9 +29,6 @@ pub fn ServiceWorkerRegistration::as_any(
 ) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for ServiceWorkerRegistration
-
-///|
 /// ServiceWorker - represents a service worker
 /// https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker
 #external
@@ -44,18 +38,12 @@ pub type ServiceWorker
 pub fn ServiceWorker::as_any(self : ServiceWorker) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for ServiceWorker
-
-///|
 /// RegistrationOptions for register()
 #external
 pub type RegistrationOptions
 
 ///|
 pub fn RegistrationOptions::as_any(self : RegistrationOptions) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for RegistrationOptions
 
 ///| ServiceWorkerContainer FFI
 

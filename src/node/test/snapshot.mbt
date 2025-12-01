@@ -9,13 +9,14 @@
 /// context.assert.snapshot(value) - Compare value against stored snapshot
 pub fn TestContext::assert_snapshot(
   self : TestContext,
-  value : &@js.JsImpl,
+  value : @nostd.Any,
   message? : String,
 ) -> Unit {
-  let assert_obj = self.get("assert")
+  let assert_obj : @nostd.Any = self.as_any()["assert"]
   match message {
-    Some(msg) => assert_obj.call2("snapshot", value.as_any(), msg) |> ignore
-    None => assert_obj.call("snapshot", [value.as_any()]) |> ignore
+    Some(msg) =>
+      assert_obj._call("snapshot", [value, @nostd.any(msg)]) |> ignore
+    None => assert_obj._call("snapshot", [value]) |> ignore
   }
 }
 
@@ -23,15 +24,21 @@ pub fn TestContext::assert_snapshot(
 /// context.assert.fileSnapshot(value, path) - File-based snapshot comparison
 pub fn TestContext::assert_fileSnapshot(
   self : TestContext,
-  value : &@js.JsImpl,
+  value : @nostd.Any,
   path : String,
   message? : String,
 ) -> Unit {
-  let assert_obj = self.get("assert")
+  let assert_obj : @nostd.Any = self.as_any()["assert"]
   match message {
     Some(msg) =>
-      assert_obj.call("fileSnapshot", [value.as_any(), path, msg]) |> ignore
-    None => assert_obj.call2("fileSnapshot", value.as_any(), path) |> ignore
+      assert_obj._call("fileSnapshot", [
+        value,
+        @nostd.any(path),
+        @nostd.any(msg),
+      ])
+      |> ignore
+    None =>
+      assert_obj._call("fileSnapshot", [value, @nostd.any(path)]) |> ignore
   }
 }
 
@@ -40,20 +47,19 @@ pub fn TestContext::assert_fileSnapshot(
 
 ///|
 fn snapshot_module() -> @js.Any {
-  nodetest().get("snapshot")
+  @nostd.any(nodetest())["snapshot"].cast()
 }
 
 ///|
 /// setDefaultSnapshotSerializers(serializers) - Customize snapshot serialization
-pub fn setDefaultSnapshotSerializers(serializers : Array[&@js.JsImpl]) -> Unit {
-  let s = snapshot_module()
-  s.call("setDefaultSnapshotSerializers", [@js.from_array(serializers)])
-  |> ignore
+pub fn setDefaultSnapshotSerializers(serializers : Array[@nostd.Any]) -> Unit {
+  let s : @nostd.Any = @nostd.any(snapshot_module())
+  s._call("setDefaultSnapshotSerializers", [@nostd.any(serializers)]) |> ignore
 }
 
 ///|
 /// setResolveSnapshotPath(fn) - Custom snapshot file location
 pub fn setResolveSnapshotPath(fn_ : (String) -> String) -> Unit {
-  let s = snapshot_module()
-  s.call("setResolveSnapshotPath", [@js.from_fn1(fn_)]) |> ignore
+  let s : @nostd.Any = @nostd.any(snapshot_module())
+  s._call("setResolveSnapshotPath", [@nostd.any(@js.from_fn1(fn_))]) |> ignore
 }

@@ -7,7 +7,7 @@ extern "js" fn util_module() -> @js.Any =
 pub type Util
 
 ///|
-pub impl @js.JsImpl for Util
+pub fn Util::as_any(self : Util) -> @nostd.Any = "%identity"
 
 ///|
 fn util() -> Util {
@@ -17,7 +17,7 @@ fn util() -> Util {
 ///|
 /// util.inspect
 pub fn inspect(
-  value : &@js.JsImpl,
+  value : @nostd.Any,
   depth? : Int,
   colors? : Bool,
   compact? : Bool,
@@ -26,7 +26,7 @@ pub fn inspect(
   maxArrayLength? : Int,
   maxStringLength? : Int,
 ) -> String {
-  let opt : @js.Any = @mbtconv.from_option_map({
+  let opt : @nostd.Any = @mbtconv.from_option_map({
     "depth": depth.map(fn(x) { @nostd.any(x) }),
     "colors": colors.map(fn(x) { @nostd.any(x) }),
     "compact": compact.map(fn(x) { @nostd.any(x) }),
@@ -34,6 +34,6 @@ pub fn inspect(
     "breakLength": breakLength.map(fn(x) { @nostd.any(x) }),
     "maxArrayLength": maxArrayLength.map(fn(x) { @nostd.any(x) }),
     "maxStringLength": maxStringLength.map(fn(x) { @nostd.any(x) }),
-  }).cast()
-  @js.identity(util().get("inspect").call_self([value.as_any(), opt]))
+  })
+  util().as_any()["inspect"]._invoke([value, opt]).cast()
 }

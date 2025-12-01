@@ -100,7 +100,7 @@ test "uptime returns positive number" {
 ///|
 test "userinfo returns object" {
   let info = @os.userInfo()
-  assert_true(@js.typeof_(info) == "object")
+  assert_true(@nostd.type_of(info.as_any()) == "object")
 }
 
 ///|

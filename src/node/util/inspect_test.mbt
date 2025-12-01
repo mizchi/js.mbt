@@ -7,7 +7,7 @@ test "util:inspect" {
     "c": { "d": "hello" },
   }
   let s = @util.inspect(
-    @js.from_json(obj),
+    @mbtconv.from_json(obj),
     depth=2,
     colors=false,
     compact=true,
@@ -27,11 +27,11 @@ test "util:inspect with depth" {
   let nested : Json = { "a": { "b": { "c": { "d": "deep" } } } }
 
   // Shallow depth
-  let s1 = @util.inspect(@js.from_json(nested), depth=1, sorted=false)
+  let s1 = @util.inspect(@mbtconv.from_json(nested), depth=1, sorted=false)
   assert_eq(s1.contains("[Object]"), true)
 
   // Deep depth
-  let s2 = @util.inspect(@js.from_json(nested), depth=5, sorted=false)
+  let s2 = @util.inspect(@mbtconv.from_json(nested), depth=5, sorted=false)
   assert_eq(s2.contains("deep"), true)
 }
 
@@ -40,10 +40,10 @@ test "util:inspect with colors" {
   let obj : Json = { "num": 123, "str": "hello" }
 
   // Without colors
-  let s1 = @util.inspect(@js.from_json(obj), colors=false, sorted=false)
+  let s1 = @util.inspect(@mbtconv.from_json(obj), colors=false, sorted=false)
   assert_eq(s1.length() > 0, true)
 
   // With colors (will have ANSI codes)
-  let s2 = @util.inspect(@js.from_json(obj), colors=true, sorted=false)
+  let s2 = @util.inspect(@mbtconv.from_json(obj), colors=true, sorted=false)
   assert_eq(s2.length() > 0, true)
 }

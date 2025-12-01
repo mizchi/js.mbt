@@ -15,48 +15,45 @@ pub type CpuInfo
 pub fn CpuInfo::as_any(self : CpuInfo) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for CpuInfo
-
-///|
 /// Get the CPU model name
 pub fn CpuInfo::model(self : CpuInfo) -> String {
-  self.get("model") |> @js.identity
+  self.as_any()["model"].cast()
 }
 
 ///|
 /// Get the CPU speed in MHz
 pub fn CpuInfo::speed(self : CpuInfo) -> Int {
-  self.get("speed") |> @js.identity
+  self.as_any()["speed"].cast()
 }
 
 ///|
 /// Get user CPU time in milliseconds
 pub fn CpuInfo::times_user(self : CpuInfo) -> Int {
-  self.get("times").get("user") |> @js.identity
+  self.as_any()["times"]["user"].cast()
 }
 
 ///|
 /// Get nice CPU time in milliseconds
 pub fn CpuInfo::times_nice(self : CpuInfo) -> Int {
-  self.get("times").get("nice") |> @js.identity
+  self.as_any()["times"]["nice"].cast()
 }
 
 ///|
 /// Get system CPU time in milliseconds
 pub fn CpuInfo::times_sys(self : CpuInfo) -> Int {
-  self.get("times").get("sys") |> @js.identity
+  self.as_any()["times"]["sys"].cast()
 }
 
 ///|
 /// Get idle CPU time in milliseconds
 pub fn CpuInfo::times_idle(self : CpuInfo) -> Int {
-  self.get("times").get("idle") |> @js.identity
+  self.as_any()["times"]["idle"].cast()
 }
 
 ///|
 /// Get IRQ CPU time in milliseconds
 pub fn CpuInfo::times_irq(self : CpuInfo) -> Int {
-  self.get("times").get("irq") |> @js.identity
+  self.as_any()["times"]["irq"].cast()
 }
 
 ///|
@@ -68,41 +65,38 @@ pub type UserInfo
 pub fn UserInfo::as_any(self : UserInfo) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for UserInfo
-
-///|
 /// Get the username
 pub fn UserInfo::username(self : UserInfo) -> String {
-  self.get("username") |> @js.identity
+  self.as_any()["username"].cast()
 }
 
 ///|
 /// Get the user ID (uid)
 pub fn UserInfo::uid(self : UserInfo) -> Int {
-  self.get("uid") |> @js.identity
+  self.as_any()["uid"].cast()
 }
 
 ///|
 /// Get the group ID (gid)
 pub fn UserInfo::gid(self : UserInfo) -> Int {
-  self.get("gid") |> @js.identity
+  self.as_any()["gid"].cast()
 }
 
 ///|
 /// Get the user's shell (may be null on Windows)
 pub fn UserInfo::shell(self : UserInfo) -> String? {
-  let v = self.get("shell")
-  if @js.is_null(v) {
+  let v = self.as_any()["shell"]
+  if @nostd.is_null(v) {
     None
   } else {
-    Some(@js.identity(v))
+    Some(v.cast())
   }
 }
 
 ///|
 /// Get the user's home directory
 pub fn UserInfo::homedir(self : UserInfo) -> String {
-  self.get("homedir") |> @js.identity
+  self.as_any()["homedir"].cast()
 }
 
 ///| System Information

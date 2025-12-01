@@ -7,12 +7,12 @@
 pub type MockTimers
 
 ///|
-pub impl @js.JsImpl for MockTimers
+pub fn MockTimers::as_any(self : MockTimers) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the mock.timers object
 pub fn mock_timers() -> MockTimers {
-  mock().get("timers").cast()
+  mock().as_any()["timers"].cast()
 }
 
 ///|
@@ -30,33 +30,33 @@ pub fn MockTimers::enable(
   if now is Some(now) {
     options.set("now", now)
   }
-  self.call("enable", [options]) |> ignore
+  self.as_any()._call("enable", [@nostd.any(options)]) |> ignore
 }
 
 ///|
 /// Advance mocked time by milliseconds
 /// mock.timers.tick(milliseconds)
 pub fn MockTimers::tick(self : MockTimers, milliseconds : Int) -> Unit {
-  self.call("tick", [@js.any(milliseconds)]) |> ignore
+  self.as_any()._call("tick", [@nostd.any(milliseconds)]) |> ignore
 }
 
 ///|
 /// Execute all queued timers
 /// mock.timers.runAll()
 pub fn MockTimers::runAll(self : MockTimers) -> Unit {
-  self.call0("runAll") |> ignore
+  self.as_any()._call("runAll", []) |> ignore
 }
 
 ///|
 /// Clear timer queue
 /// mock.timers.reset()
 pub fn MockTimers::reset(self : MockTimers) -> Unit {
-  self.call0("reset") |> ignore
+  self.as_any()._call("reset", []) |> ignore
 }
 
 ///|
 /// Set absolute time
 /// mock.timers.setTime(milliseconds)
 pub fn MockTimers::setTime(self : MockTimers, milliseconds : Int) -> Unit {
-  self.call("setTime", [@js.any(milliseconds)]) |> ignore
+  self.as_any()._call("setTime", [@nostd.any(milliseconds)]) |> ignore
 }

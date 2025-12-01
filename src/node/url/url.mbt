@@ -24,17 +24,16 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
 /// Convert a file URL object to a file path
 #alias(file_url_to_path_from_url)
 pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
-  let url_module = url_module()
+  let url_module : @nostd.Any = @nostd.any(url_module())
   match windows {
     Some(w) =>
       url_module
-      .call2(
-        "fileURLToPath",
-        url,
-        @js.from_option_map({ "windows": Some(@js.any(w)) }),
-      )
+      ._call("fileURLToPath", [
+        url.as_any(),
+        @nostd.any(@js.from_option_map({ "windows": Some(@js.any(w)) })),
+      ])
       .cast()
-    None => url_module.call1("fileURLToPath", url).cast()
+    None => url_module._call("fileURLToPath", [url.as_any()]).cast()
   }
 }
 
@@ -60,13 +59,13 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
 /// Convert URL to HTTP options object
 #alias(url_to_http_options)
 pub fn urlToHttpOptions(url : @weburl.URL) -> @js.Any {
-  let url_module = url_module()
-  url_module.call1("urlToHttpOptions", url)
+  let url_module : @nostd.Any = @nostd.any(url_module())
+  url_module._call("urlToHttpOptions", [url.as_any()]).cast()
 }
 
 ///|
 /// Format a URL object to string (legacy API)
 pub fn format(url : @weburl.URL) -> String {
-  let url_module = url_module()
-  url_module.call1("format", url).cast()
+  let url_module : @nostd.Any = @nostd.any(url_module())
+  url_module._call("format", [url.as_any()]).cast()
 }

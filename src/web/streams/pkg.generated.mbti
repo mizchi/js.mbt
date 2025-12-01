@@ -17,7 +17,6 @@ pub(all) struct CompressionStream {
 }
 fn CompressionStream::as_any(Self) -> @nostd.Any
 fn CompressionStream::new(String) -> Self
-impl @js.JsImpl for CompressionStream
 
 pub(all) struct DecompressionStream {
   readable : ReadableStream
@@ -25,7 +24,6 @@ pub(all) struct DecompressionStream {
 }
 fn DecompressionStream::as_any(Self) -> @nostd.Any
 fn DecompressionStream::new(String) -> Self
-impl @js.JsImpl for DecompressionStream
 
 #external
 pub type ReadableStream
@@ -40,7 +38,6 @@ fn ReadableStream::pipeThrough(Self, @nostd.Any, options? : @nostd.Any) -> Self
 #alias(pipe_to)
 async fn ReadableStream::pipeTo(Self, WritableStream, options? : @nostd.Any) -> Unit
 fn ReadableStream::tee(Self) -> (Self, Self)
-impl @js.JsImpl for ReadableStream
 
 #external
 pub type ReadableStreamDefaultReader
@@ -50,7 +47,6 @@ fn ReadableStreamDefaultReader::closed(Self) -> @js.Promise[Unit]
 async fn ReadableStreamDefaultReader::read(Self) -> @nostd.Any
 #alias(release_lock)
 fn ReadableStreamDefaultReader::releaseLock(Self) -> Unit
-impl @js.JsImpl for ReadableStreamDefaultReader
 
 #external
 pub type TransformStream
@@ -60,7 +56,6 @@ fn TransformStream::new(@nostd.Any) -> Self
 fn TransformStream::new_identity() -> Self
 fn TransformStream::readable(Self) -> ReadableStream
 fn TransformStream::writable(Self) -> WritableStream
-impl @js.JsImpl for TransformStream
 
 #external
 pub type WritableStream
@@ -71,7 +66,6 @@ async fn WritableStream::close(Self) -> Unit
 fn WritableStream::getWriter(Self) -> WritableStreamDefaultWriter
 fn WritableStream::locked(Self) -> Bool
 fn WritableStream::new(@nostd.Any) -> Self
-impl @js.JsImpl for WritableStream
 
 #external
 pub type WritableStreamDefaultWriter
@@ -84,7 +78,6 @@ fn WritableStreamDefaultWriter::ready(Self) -> @js.Promise[Unit]
 #alias(release_lock)
 fn WritableStreamDefaultWriter::releaseLock(Self) -> Unit
 async fn WritableStreamDefaultWriter::write(Self, @nostd.Any) -> Unit
-impl @js.JsImpl for WritableStreamDefaultWriter
 
 // Type aliases
 

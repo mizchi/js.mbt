@@ -36,7 +36,6 @@ fn Event::stopImmediatePropagation(Self) -> Unit
 fn Event::stopPropagation(Self) -> Unit
 fn Event::target(Self) -> EventTarget?
 fn Event::type_(Self) -> String
-impl @js.JsImpl for Event
 
 pub(all) struct EventSource {
   url : String
@@ -50,7 +49,6 @@ fn EventSource::new(String, withCredentials? : Bool) -> Self
 fn EventSource::set_onerror(Self, (@js.Any) -> Unit) -> Unit
 fn EventSource::set_onmessage(Self, (@js.Any) -> Unit) -> Unit
 fn EventSource::set_onopen(Self, (@js.Any) -> Unit) -> Unit
-impl @js.JsImpl for EventSource
 impl EventTargetImpl for EventSource
 
 #external
@@ -64,7 +62,6 @@ fn EventTarget::off(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit
 fn EventTarget::on(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 #alias(remove_event_listener)
 fn EventTarget::removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit
-impl @js.JsImpl for EventTarget
 impl EventTargetImpl for EventTarget
 
 // Type aliases

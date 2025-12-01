@@ -8,9 +8,6 @@ pub type ReadableStream
 pub fn ReadableStream::as_any(self : ReadableStream) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for ReadableStream
-
-///|
 /// Create a new ReadableStream (typically constructed from JavaScript)
 extern "js" fn ffi_new_readable_stream(
   underlying_source : @nostd.Any,
@@ -108,9 +105,6 @@ pub fn ReadableStreamDefaultReader::as_any(
 ) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for ReadableStreamDefaultReader
-
-///|
 /// Read a chunk from the stream
 pub async fn ReadableStreamDefaultReader::read(
   self : ReadableStreamDefaultReader,
@@ -158,9 +152,6 @@ pub type WritableStream
 
 ///|
 pub fn WritableStream::as_any(self : WritableStream) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for WritableStream
 
 ///|
 /// Create a new WritableStream
@@ -219,9 +210,6 @@ pub type WritableStreamDefaultWriter
 pub fn WritableStreamDefaultWriter::as_any(
   self : WritableStreamDefaultWriter,
 ) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for WritableStreamDefaultWriter
 
 ///|
 /// Write a chunk to the stream
@@ -297,9 +285,6 @@ pub type TransformStream
 
 ///|
 pub fn TransformStream::as_any(self : TransformStream) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for TransformStream
 
 ///|
 /// Create a new TransformStream

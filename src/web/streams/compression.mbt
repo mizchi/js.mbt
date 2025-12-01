@@ -14,9 +14,6 @@ pub(all) struct CompressionStream {
 pub fn CompressionStream::as_any(self : CompressionStream) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for CompressionStream
-
-///|
 /// Create a new CompressionStream with the specified format
 ///
 /// Supported formats:
@@ -46,9 +43,6 @@ pub(all) struct DecompressionStream {
 
 ///|
 pub fn DecompressionStream::as_any(self : DecompressionStream) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for DecompressionStream
 
 ///|
 /// Create a new DecompressionStream with the specified format
