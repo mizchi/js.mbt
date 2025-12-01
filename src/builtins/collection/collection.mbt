@@ -52,6 +52,12 @@ pub fn[K, V] JsMap::get(self : JsMap[K, V], key : K) -> V? {
 }
 
 ///|
+#alias("_[_]")
+pub fn[K, V] JsMap::_get(self : JsMap[K, V], key : K) -> V? {
+  self.get(key)
+}
+
+///|
 /// JS: map.has(key)
 pub fn[K, V] JsMap::has(self : JsMap[K, V], key : K) -> Bool {
   self.to_any()._call("has", [@nostd.any(key)]).cast()

@@ -7,11 +7,10 @@ extern "js" fn readline_promises_module() -> @nostd.Any =
 pub type Interface
 
 ///|
-impl @js.JsImpl for Interface
+pub fn Interface::as_any(self : Interface) -> @nostd.Any = "%identity"
 
 ///|
-/// Implement EventEmitter trait for Interface
-pub impl @events.EventEmitterImpl for Interface
+impl @js.JsImpl for Interface
 
 ///|
 #alias(create_interface)
@@ -50,45 +49,48 @@ pub fn createInterface(
 
 ///|
 pub async fn Interface::question(self : Self, query : String) -> String {
-  let promise : @js.Promise[String] = self._call("question", [query]).cast()
+  let promise : @js.Promise[String] =
+    self.as_any()._call("question", [@nostd.any(query)]).cast()
   promise.wait()
 }
 
 ///|
 pub async fn Interface::commit(self : Self) -> Unit {
-  let promise : @js.Promise[Unit] = self.call0("commit").cast()
+  let promise : @js.Promise[Unit] = self.as_any().call0("commit").cast()
   promise.wait()
 }
 
 ///|
 pub fn Interface::rollback(self : Self) -> Self {
-  self.call0("rollback").cast()
+  self.as_any().call0("rollback").cast()
 }
 
 ///|
 #alias(cursor_to)
 pub async fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Unit {
-  let promise : @js.Promise[Unit] = self.call2("cursorTo", x, y).cast()
+  let promise : @js.Promise[Unit] =
+    self.as_any().call2("cursorTo", @nostd.any(x), @nostd.any(y)).cast()
   promise.wait()
 }
 
 ///|
 #alias(move_cursor)
 pub async fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Unit {
-  let promise : @js.Promise[Unit] = self.call2("moveCursor", dx, dy).cast()
+  let promise : @js.Promise[Unit] =
+    self.as_any().call2("moveCursor", @nostd.any(dx), @nostd.any(dy)).cast()
   promise.wait()
 }
 
 ///|
 #alias(clear_line)
 pub fn Interface::clearLine(self : Self, dir : Int) -> Self {
-  self._call("clearLine", [dir]).cast()
+  self.as_any()._call("clearLine", [@nostd.any(dir)]).cast()
 }
 
 ///|
 #alias(clear_screen_down)
 pub fn Interface::clearScreenDown(self : Self, dir : Int) -> Self {
-  self._call("clearScreenDown", [dir]).cast()
+  self.as_any()._call("clearScreenDown", [@nostd.any(dir)]).cast()
 }
 
 ///|

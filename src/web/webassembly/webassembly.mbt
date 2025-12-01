@@ -188,7 +188,7 @@ extern "js" fn ffi_new_module(bytes : @nostd.Any) -> WebAssemblyModule =
 pub fn WebAssemblyModule::from_bytes(
   bytes : @typedarray.Uint8Array,
 ) -> WebAssemblyModule {
-  ffi_new_module(bytes.as_any())
+  ffi_new_module(@nostd.any(bytes))
 }
 
 ///|
@@ -196,7 +196,7 @@ pub fn WebAssemblyModule::from_bytes(
 pub fn WebAssemblyModule::from_buffer(
   buffer : @js.ArrayBuffer,
 ) -> WebAssemblyModule {
-  ffi_new_module(buffer.as_any())
+  ffi_new_module(@nostd.any(buffer))
 }
 
 ///|

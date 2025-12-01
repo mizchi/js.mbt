@@ -150,9 +150,9 @@ test "fireEvent change" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @mbtconv.from_map({
-    "target": @nostd.from_entries([("value", @nostd.any("hello"))]).cast(),
-  }).cast()
+  let event : @nostd.Any = @nostd.from_entries([
+    ("target", @nostd.from_entries([("value", @nostd.any("hello"))]).cast()),
+  ]).cast()
   fireEvent().change(input, event) |> ignore
   inspect(value.val, content="hello")
 }
@@ -173,9 +173,9 @@ test "fireEvent input" {
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @mbtconv.from_map({
-    "target": @nostd.from_entries([("value", @nostd.any("world"))]).cast(),
-  }).cast()
+  let event : @nostd.Any = @nostd.from_entries([
+    ("target", @nostd.from_entries([("value", @nostd.any("world"))]).cast()),
+  ]).cast()
   fireEvent().input(input, event) |> ignore
   inspect(value.val, content="world")
 }
@@ -605,10 +605,10 @@ test "fireEvent scroll" {
   defer dispose()
   let scrolled = Ref::new(false)
   let handler : () -> Unit = fn() { scrolled.val = true }
-  let style_obj : @nostd.Any = @mbtconv.from_map({
-    "overflow": @nostd.any("auto"),
-    "height": @nostd.any("100px"),
-  }).cast()
+  let style_obj : @nostd.Any = @nostd.from_entries([
+    ("overflow", @nostd.any("auto")),
+    ("height", @nostd.any("100px")),
+  ]).cast()
   let handler_any : @nostd.Any = @js.identity(handler)
   let vnode = @preact.h("div", ["Scrollable"], props={
     "onScroll": handler_any,

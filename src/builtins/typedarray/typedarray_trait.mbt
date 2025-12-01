@@ -36,6 +36,41 @@ pub(open) trait TypedArrayImpl: @js.JsImpl {
 
   /// Convert to string
   toString(Self) -> String = _
+
+  /// Internal helpers for JS interop
+  _get(Self, String) -> @nostd.Any = _
+  _call(Self, String, Array[@nostd.Any]) -> @nostd.Any = _
+  call0(Self, String) -> @nostd.Any = _
+  call2(Self, String, @nostd.Any, @nostd.Any) -> @nostd.Any = _
+}
+
+///| Helper bridge to @nostd.Any operations for typed arrays
+impl TypedArrayImpl with _get(self, key : String) -> @nostd.Any {
+  @nostd.any(self)._get(key)
+}
+
+///|
+impl TypedArrayImpl with _call(
+  self,
+  key : String,
+  args : Array[@nostd.Any],
+) -> @nostd.Any {
+  @nostd.any(self)._call(key, args)
+}
+
+///|
+impl TypedArrayImpl with call0(self, key : String) -> @nostd.Any {
+  @nostd.any(self).call0(key)
+}
+
+///|
+impl TypedArrayImpl with call2(
+  self,
+  key : String,
+  arg1 : @nostd.Any,
+  arg2 : @nostd.Any,
+) -> @nostd.Any {
+  @nostd.any(self).call2(key, arg1, arg2)
 }
 
 ///| Default implementations
@@ -58,24 +93,29 @@ impl TypedArrayImpl with byteOffset(self) -> UInt {
 ///|
 impl TypedArrayImpl with slice(self, start? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.call2("slice", start, e).cast()
-    None => self._call("slice", [start]).cast()
+    Some(e) => self.call2("slice", @nostd.any(start), @nostd.any(e)).cast()
+    None => self._call("slice", [@nostd.any(start)]).cast()
   }
 }
 
 ///|
 impl TypedArrayImpl with subarray(self, begin? : Int = 0, end? : Int) -> Self {
   match end {
-    Some(e) => self.call2("subarray", begin, e).cast()
-    None => self._call("subarray", [begin]).cast()
+    Some(e) => self.call2("subarray", @nostd.any(begin), @nostd.any(e)).cast()
+    None => self._call("subarray", [@nostd.any(begin)]).cast()
   }
 }
 
 ///|
 impl TypedArrayImpl with copyWithin(self, target, start, end? : Int) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) =>
+      self._call("copyWithin", [
+        @nostd.any(target),
+        @nostd.any(start),
+        @nostd.any(e),
+      ]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -91,7 +131,7 @@ impl TypedArrayImpl with sort(self) -> Self {
 
 ///|
 impl TypedArrayImpl with join(self, separator? : String = ",") -> String {
-  self._call("join", [separator]).cast()
+  self._call("join", [@nostd.any(separator)]).cast()
 }
 
 ///|

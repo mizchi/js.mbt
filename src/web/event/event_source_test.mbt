@@ -38,8 +38,8 @@ test "get_last_event_id extracts lastEventId from event" {
 
 ///|
 test "get_event_origin extracts origin from event" {
-  let event : @nostd.Any = @mbtconv.from_map({
-    "origin": @nostd.any("https://example.com"),
-  }).cast()
+  let event : @nostd.Any = @nostd.from_entries([
+    ("origin", @nostd.any("https://example.com")),
+  ]).cast()
   assert_eq(get_event_origin(event), "https://example.com")
 }

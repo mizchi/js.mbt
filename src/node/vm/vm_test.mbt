@@ -87,7 +87,10 @@ test "Script runInThisContext" {
 /// Test Script::runInNewContext
 test "Script runInNewContext" {
   let script = Script::new("a + b")
-  let context = @mbtconv.from_map({ "a": @nostd.any(10), "b": @nostd.any(20) }).cast()
+  let context = @nostd.from_entries([
+    ("a", @nostd.any(10)),
+    ("b", @nostd.any(20)),
+  ]).cast()
   let result = script.runInNewContext(contextObject=context)
   inspect(result, content="30")
 }
@@ -97,7 +100,10 @@ test "Script runInNewContext" {
 test "Script runInContext" {
   let script = Script::new("x * y")
   let context = createContext(
-    contextObject=@mbtconv.from_map({ "x": @nostd.any(5), "y": @nostd.any(6) }).cast(),
+    contextObject=@nostd.from_entries([
+      ("x", @nostd.any(5)),
+      ("y", @nostd.any(6)),
+    ]).cast(),
   )
   let result = script.runInContext(context)
   inspect(result, content="30")

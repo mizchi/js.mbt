@@ -25,7 +25,7 @@ test "MockContentPart ToolCall as_any" {
   let part = MockContentPart::ToolCall(
     tool_call_id="call-1",
     tool_name="get_weather",
-    args=@mbtconv.from_json({ "location": "Tokyo" }).cast(),
+    args=@nostd.from_entries([("location", @nostd.any("Tokyo"))]).cast(),
   )
   let any = part.as_any()
   let type_ : String = any._get("type").cast()
@@ -78,7 +78,7 @@ test "tool_call_chunk creates correct structure" {
   let chunk = tool_call_chunk(
     "call-1",
     "get_weather",
-    ({ "location": "Tokyo" } |> @mbtconv.from_json).cast(),
+    @nostd.from_entries([("location", @nostd.any("Tokyo"))]).cast(),
   )
   let type_ : String = chunk._get("type").cast()
   let tool_name : String = chunk._get("toolName").cast()

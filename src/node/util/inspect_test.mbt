@@ -1,13 +1,13 @@
 ///|
 test "util:inspect" {
-  let obj : Json = {
-    "xxx": "------------------------",
-    "a": 1,
-    "b": [1, 2, 3],
-    "c": { "d": "hello" },
-  }
+  let obj = @nostd.from_entries([
+    ("xxx", @nostd.any("------------------------")),
+    ("a", @nostd.any(1)),
+    ("b", @nostd.any([1, 2, 3])),
+    ("c", @nostd.from_entries([("d", @nostd.any("hello"))])),
+  ])
   let s = @util.inspect(
-    @mbtconv.from_json(obj),
+    obj,
     depth=2,
     colors=false,
     compact=true,
@@ -24,26 +24,35 @@ test "util:inspect" {
 
 ///|
 test "util:inspect with depth" {
-  let nested : Json = { "a": { "b": { "c": { "d": "deep" } } } }
+  let nested = @nostd.from_entries([
+    ("a", @nostd.from_entries([
+      ("b", @nostd.from_entries([
+        ("c", @nostd.from_entries([("d", @nostd.any("deep"))])),
+      ])),
+    ])),
+  ])
 
   // Shallow depth
-  let s1 = @util.inspect(@mbtconv.from_json(nested), depth=1, sorted=false)
+  let s1 = @util.inspect(nested, depth=1, sorted=false)
   assert_eq(s1.contains("[Object]"), true)
 
   // Deep depth
-  let s2 = @util.inspect(@mbtconv.from_json(nested), depth=5, sorted=false)
+  let s2 = @util.inspect(nested, depth=5, sorted=false)
   assert_eq(s2.contains("deep"), true)
 }
 
 ///|
 test "util:inspect with colors" {
-  let obj : Json = { "num": 123, "str": "hello" }
+  let obj = @nostd.from_entries([
+    ("num", @nostd.any(123)),
+    ("str", @nostd.any("hello")),
+  ])
 
   // Without colors
-  let s1 = @util.inspect(@mbtconv.from_json(obj), colors=false, sorted=false)
+  let s1 = @util.inspect(obj, colors=false, sorted=false)
   assert_eq(s1.length() > 0, true)
 
   // With colors (will have ANSI codes)
-  let s2 = @util.inspect(@mbtconv.from_json(obj), colors=true, sorted=false)
+  let s2 = @util.inspect(obj, colors=true, sorted=false)
   assert_eq(s2.length() > 0, true)
 }

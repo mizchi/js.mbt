@@ -188,10 +188,10 @@ async test "testClient with JSON response" {
 
   // Define a JSON route
   app._get("/api/user", fn(c) {
-    let user = @mbtconv.from_map({
-      "name": @nostd.any("Alice"),
-      "age": @nostd.any(25),
-    }).cast()
+    let user = @nostd.from_entries([
+      ("name", @nostd.any("Alice")),
+      ("age", @nostd.any(25)),
+    ]).cast()
     c.json(user)
   })
   |> ignore

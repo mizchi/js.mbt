@@ -43,11 +43,11 @@ test "PromptResult::as_any without description" {
 
 ///|
 test "ToolInfo identity cast" {
-  let raw = @mbtconv.from_map({
-    "name": "test-tool" |> @nostd.any,
-    "description": "A test tool" |> @nostd.any,
-    "inputSchema": @nostd.from_entries([("type", "object" |> @nostd.any)]),
-  })
+  let raw = @nostd.from_entries([
+    ("name", @nostd.any("test-tool")),
+    ("description", @nostd.any("A test tool")),
+    ("inputSchema", @nostd.from_entries([("type", @nostd.any("object"))])),
+  ])
   let info : ToolInfo = @js.identity(raw)
   assert_eq(info.name, "test-tool")
   guard info.description is Some(desc)
@@ -56,11 +56,11 @@ test "ToolInfo identity cast" {
 
 ///|
 test "ContentResult identity cast" {
-  let raw = @mbtconv.from_map({
-    "type": "text" |> @nostd.any,
-    "text": "Hello, world!" |> @nostd.any,
-    "raw": @nostd.from_entries([("type", "text" |> @nostd.any)]),
-  })
+  let raw = @nostd.from_entries([
+    ("type", @nostd.any("text")),
+    ("text", @nostd.any("Hello, world!")),
+    ("raw", @nostd.from_entries([("type", @nostd.any("text"))])),
+  ])
   let content : ContentResult = @js.identity(raw)
   assert_eq(content.type_(), "text")
   guard content.text is Some(text)
@@ -69,12 +69,12 @@ test "ContentResult identity cast" {
 
 ///|
 test "ResourceInfo identity cast" {
-  let raw = @mbtconv.from_map({
-    "uri": "file:///test.txt" |> @nostd.any,
-    "name": "test.txt" |> @nostd.any,
-    "description": "A test file" |> @nostd.any,
-    "mime_type": "text/plain" |> @nostd.any,
-  })
+  let raw = @nostd.from_entries([
+    ("uri", @nostd.any("file:///test.txt")),
+    ("name", @nostd.any("test.txt")),
+    ("description", @nostd.any("A test file")),
+    ("mime_type", @nostd.any("text/plain")),
+  ])
   let info : ResourceInfo = @js.identity(raw)
   assert_eq(info.uri, "file:///test.txt")
   assert_eq(info.name, "test.txt")
@@ -86,11 +86,11 @@ test "ResourceInfo identity cast" {
 
 ///|
 test "PromptArgumentInfo identity cast" {
-  let raw = @mbtconv.from_map({
-    "name": "query" |> @nostd.any,
-    "description": "The search query" |> @nostd.any,
-    "required": true |> @nostd.any,
-  })
+  let raw = @nostd.from_entries([
+    ("name", @nostd.any("query")),
+    ("description", @nostd.any("The search query")),
+    ("required", @nostd.any(true)),
+  ])
   let info : PromptArgumentInfo = @js.identity(raw)
   assert_eq(info.name, "query")
   guard info.description is Some(desc)
@@ -101,10 +101,10 @@ test "PromptArgumentInfo identity cast" {
 
 ///|
 test "PromptInfo identity cast" {
-  let raw = @mbtconv.from_map({
-    "name": "greeting" |> @nostd.any,
-    "description": "A greeting prompt" |> @nostd.any,
-  })
+  let raw = @nostd.from_entries([
+    ("name", @nostd.any("greeting")),
+    ("description", @nostd.any("A greeting prompt")),
+  ])
   let info : PromptInfo = @js.identity(raw)
   assert_eq(info.name, "greeting")
   guard info.description is Some(desc)
@@ -114,14 +114,17 @@ test "PromptInfo identity cast" {
 ///|
 test "PromptMessageResult identity cast" {
   let content_raw = @nostd.from_entries([("type", "text" |> @nostd.any)])
-  let raw = @mbtconv.from_map({
-    "role": "assistant" |> @nostd.any,
-    "content": @mbtconv.from_map({
-      "type": "text" |> @nostd.any,
-      "text": "Hello!" |> @nostd.any,
-      "raw": content_raw,
-    }),
-  })
+  let raw = @nostd.from_entries([
+    ("role", @nostd.any("assistant")),
+    (
+      "content",
+      @nostd.from_entries([
+        ("type", @nostd.any("text")),
+        ("text", @nostd.any("Hello!")),
+        ("raw", content_raw),
+      ]),
+    ),
+  ])
   let msg : PromptMessageResult = @js.identity(raw)
   assert_eq(msg.role, "assistant")
   assert_eq(msg.content.type_(), "text")

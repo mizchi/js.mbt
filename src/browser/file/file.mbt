@@ -43,7 +43,7 @@ pub fn File::new(
     i = i + 1
   }
   ffi_new_file(
-    arr.as_any(),
+    @nostd.any(arr),
     filename |> @js.any,
     @mbtconv.from_option_map({
       "type": content_type.map(fn(x) { @nostd.any(x) }),

@@ -6,8 +6,8 @@ test "mock.fn creates spy function" {
   let spy = m.fn_()
 
   // Call the spy
-  spy.call_self([1, 2, 3]) |> ignore
-  spy.call_self(["test"]) |> ignore
+  spy.call_self([@nostd.any(1), @nostd.any(2), @nostd.any(3)]) |> ignore
+  spy.call_self([@nostd.any("test")]) |> ignore
 
   // Check call count
   let ctx = get_mock_context(spy)
@@ -38,7 +38,7 @@ test "mock.fn with implementation" {
       n * 2
     }),
   )
-  let result : Int = @js.identity(spy.call_self([5]))
+  let result : Int = @js.identity(spy.call_self([@nostd.any(5)]))
   inspect(result, content="10")
   let ctx = get_mock_context(spy)
   inspect(ctx.callCount(), content="1")
@@ -56,7 +56,7 @@ test "mock.fn with both original and implementation" {
     n * 2
   })
   let spy = m.fn_(original=original_fn, implementation=implementation_fn)
-  let result : Int = @js.identity(spy.call_self([5]))
+  let result : Int = @js.identity(spy.call_self([@nostd.any(5)]))
   inspect(result, content="10")
 }
 

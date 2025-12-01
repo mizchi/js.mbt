@@ -21,8 +21,8 @@ pub fn Uint8Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -33,7 +33,7 @@ pub fn Uint8Array::indexOf(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -44,8 +44,8 @@ pub fn Uint8Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -129,8 +129,8 @@ pub fn Uint8Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -140,7 +140,7 @@ pub fn Uint8Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -166,8 +166,8 @@ pub fn Uint16Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -178,7 +178,7 @@ pub fn Uint16Array::indexOf(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -189,8 +189,8 @@ pub fn Uint16Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -263,8 +263,8 @@ pub fn Uint16Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -274,7 +274,7 @@ pub fn Uint16Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -300,8 +300,8 @@ pub fn Uint32Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -312,7 +312,7 @@ pub fn Uint32Array::indexOf(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -323,8 +323,8 @@ pub fn Uint32Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -397,8 +397,8 @@ pub fn Uint32Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -408,7 +408,7 @@ pub fn Uint32Array::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -434,8 +434,8 @@ pub fn Int8Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -446,7 +446,7 @@ pub fn Int8Array::indexOf(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -457,8 +457,8 @@ pub fn Int8Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -531,8 +531,8 @@ pub fn Int8Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -542,7 +542,7 @@ pub fn Int8Array::includes(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -568,8 +568,8 @@ pub fn Int16Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -580,7 +580,7 @@ pub fn Int16Array::indexOf(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -591,8 +591,8 @@ pub fn Int16Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -665,8 +665,8 @@ pub fn Int16Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -676,7 +676,7 @@ pub fn Int16Array::includes(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -702,8 +702,8 @@ pub fn Int32Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -714,7 +714,7 @@ pub fn Int32Array::indexOf(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -725,8 +725,8 @@ pub fn Int32Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -799,8 +799,8 @@ pub fn Int32Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -810,7 +810,7 @@ pub fn Int32Array::includes(
   search_element : Int,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -836,8 +836,8 @@ pub fn Float32Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -848,7 +848,7 @@ pub fn Float32Array::indexOf(
   search_element : Double,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -859,8 +859,8 @@ pub fn Float32Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -933,8 +933,8 @@ pub fn Float32Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -944,7 +944,7 @@ pub fn Float32Array::includes(
   search_element : Double,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -970,8 +970,8 @@ pub fn Float64Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -982,7 +982,7 @@ pub fn Float64Array::indexOf(
   search_element : Double,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -993,8 +993,8 @@ pub fn Float64Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -1067,8 +1067,8 @@ pub fn Float64Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -1078,7 +1078,7 @@ pub fn Float64Array::includes(
   search_element : Double,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -1104,8 +1104,8 @@ pub fn Uint8ClampedArray::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -1116,7 +1116,7 @@ pub fn Uint8ClampedArray::indexOf(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -1127,8 +1127,8 @@ pub fn Uint8ClampedArray::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -1214,8 +1214,8 @@ pub fn Uint8ClampedArray::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -1225,7 +1225,7 @@ pub fn Uint8ClampedArray::includes(
   search_element : UInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -1234,6 +1234,9 @@ pub type BigUint64Array
 
 ///|
 pub fn BigUint64Array::as_any(self : BigUint64Array) -> @nostd.Any = "%identity"
+
+///|
+pub impl @js.JsImpl for BigUint64Array
 
 ///|
 pub impl TypedArrayImpl for BigUint64Array
@@ -1390,8 +1393,8 @@ pub fn BigUint64Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -1401,7 +1404,7 @@ pub fn BigUint64Array::includes(
   search_element : @bigint.JsBigInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -1435,8 +1438,8 @@ pub fn BigInt64Array::copyWithin(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("copyWithin", [target, start, e]).cast()
-    None => self.call2("copyWithin", target, start).cast()
+    Some(e) => self._call("copyWithin", [@nostd.any(target), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
   }
 }
 
@@ -1447,7 +1450,7 @@ pub fn BigInt64Array::indexOf(
   search_element : @bigint.JsBigInt,
   from_index? : Int = 0,
 ) -> Int {
-  self.call2("indexOf", search_element, from_index).cast()
+  self.call2("indexOf", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }
 
 ///|
@@ -1458,8 +1461,8 @@ pub fn BigInt64Array::lastIndexOf(
   from_index? : Int,
 ) -> Int {
   match from_index {
-    Some(i) => self.call2("lastIndexOf", search_element, i).cast()
-    None => self._call("lastIndexOf", [search_element]).cast()
+    Some(i) => self.call2("lastIndexOf", @nostd.any(search_element), @nostd.any(i)).cast()
+    None => self._call("lastIndexOf", [@nostd.any(search_element)]).cast()
   }
 }
 
@@ -1548,8 +1551,8 @@ pub fn BigInt64Array::fill(
   end? : Int,
 ) -> Self {
   match end {
-    Some(e) => self._call("fill", [value, start, e]).cast()
-    None => self.call2("fill", value, start).cast()
+    Some(e) => self._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)]).cast()
+    None => self.call2("fill", @nostd.any(value), @nostd.any(start)).cast()
   }
 }
 
@@ -1559,5 +1562,5 @@ pub fn BigInt64Array::includes(
   search_element : @bigint.JsBigInt,
   from_index? : Int = 0,
 ) -> Bool {
-  self.call2("includes", search_element, from_index).cast()
+  self.call2("includes", @nostd.any(search_element), @nostd.any(from_index)).cast()
 }

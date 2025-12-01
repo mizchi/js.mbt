@@ -151,9 +151,33 @@ pub fn Any::call1(self : Any, key : String, arg1 : Any) -> Any {
 }
 
 ///|
+/// Convenience method call: obj.call0("method")
+pub fn Any::call0(self : Any, key : String) -> Any {
+  self._call(key, [])
+}
+
+///|
+/// Convenience method call: obj.call2("method", a, b)
+pub fn Any::call2(self : Any, key : String, arg1 : Any, arg2 : Any) -> Any {
+  self._call(key, [arg1, arg2])
+}
+
+///|
 /// Call function: func._invoke([arg1, arg2])
 pub extern "js" fn Any::_invoke(self : Any, args : Array[Any]) -> Any =
   #| (func, args) => func(...args)
+
+///|
+/// Convenience function call: func.call_self([args])
+pub fn Any::call_self(self : Any, args : Array[Any]) -> Any {
+  self._invoke(args)
+}
+
+///|
+/// Convenience function call: func.call_self0()
+pub fn Any::call_self0(self : Any) -> Any {
+  self._invoke([])
+}
 
 ///|
 /// JS: value[key]

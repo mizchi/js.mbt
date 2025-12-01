@@ -30,6 +30,13 @@ test "step_count_is should stop at max steps" {
   assert_true(f(ctx4))
 }
 
+fn make_tool_call(name : String, id : String) -> @nostd.Any {
+  @nostd.from_entries([
+    ("toolName", @nostd.any(name)),
+    ("toolCallId", @nostd.any(id)),
+  ]).cast()
+}
+
 ///|
 test "has_tool_call should detect specific tool" {
   let condition = @ai.has_tool_call("search")
@@ -43,12 +50,7 @@ test "has_tool_call should detect specific tool" {
   }
   assert_false(f(ctx_empty))
   // Different tool called - should not stop
-  let other_tool = @ai.ToolCall::from_any(
-    @mbtconv.from_map({
-      "toolName": "other" |> @nostd.any,
-      "toolCallId": "1" |> @nostd.any,
-    }).cast(),
-  )
+  let other_tool = @ai.ToolCall::from_any(make_tool_call("other", "1"))
   let ctx_other : @ai.StopConditionContext = {
     step_number: 1,
     messages: [],
@@ -57,12 +59,7 @@ test "has_tool_call should detect specific tool" {
   }
   assert_false(f(ctx_other))
   // Target tool called - should stop
-  let search_tool = @ai.ToolCall::from_any(
-    @mbtconv.from_map({
-      "toolName": "search" |> @nostd.any,
-      "toolCallId": "2" |> @nostd.any,
-    }).cast(),
-  )
+  let search_tool = @ai.ToolCall::from_any(make_tool_call("search", "2"))
   let ctx_found : @ai.StopConditionContext = {
     step_number: 1,
     messages: [],
@@ -77,12 +74,7 @@ test "has_any_tool_call should detect any of specified tools" {
   let condition = @ai.has_any_tool_call(["search", "execute"])
   let @ai.StopCondition(f) = condition
   // No matching tools
-  let other_tool = @ai.ToolCall::from_any(
-    @mbtconv.from_map({
-      "toolName": "read" |> @nostd.any,
-      "toolCallId": "1" |> @nostd.any,
-    }).cast(),
-  )
+  let other_tool = @ai.ToolCall::from_any(make_tool_call("read", "1"))
   let ctx_no_match : @ai.StopConditionContext = {
     step_number: 1,
     messages: [],
@@ -91,12 +83,7 @@ test "has_any_tool_call should detect any of specified tools" {
   }
   assert_false(f(ctx_no_match))
   // First matching tool
-  let search_tool = @ai.ToolCall::from_any(
-    @mbtconv.from_map({
-      "toolName": "search" |> @nostd.any,
-      "toolCallId": "2" |> @nostd.any,
-    }).cast(),
-  )
+  let search_tool = @ai.ToolCall::from_any(make_tool_call("search", "2"))
   let ctx_search : @ai.StopConditionContext = {
     step_number: 1,
     messages: [],
@@ -105,12 +92,7 @@ test "has_any_tool_call should detect any of specified tools" {
   }
   assert_true(f(ctx_search))
   // Second matching tool
-  let execute_tool = @ai.ToolCall::from_any(
-    @mbtconv.from_map({
-      "toolName": "execute" |> @nostd.any,
-      "toolCallId": "3" |> @nostd.any,
-    }).cast(),
-  )
+  let execute_tool = @ai.ToolCall::from_any(make_tool_call("execute", "3"))
   let ctx_execute : @ai.StopConditionContext = {
     step_number: 1,
     messages: [],
@@ -133,12 +115,7 @@ test "model_finished should detect natural stop" {
   }
   assert_true(f(ctx_finished))
   // Stop with tool calls - should not stop
-  let tool = @ai.ToolCall::from_any(
-    @mbtconv.from_map({
-      "toolName": "test" |> @nostd.any,
-      "toolCallId": "1" |> @nostd.any,
-    }).cast(),
-  )
+  let tool = @ai.ToolCall::from_any(make_tool_call("test", "1"))
   let ctx_tool_calls : @ai.StopConditionContext = {
     step_number: 1,
     messages: [],
@@ -179,12 +156,7 @@ test "any_of should combine conditions with OR" {
   }
   assert_true(f(ctx_step))
   // Second condition met (tool call)
-  let done_tool = @ai.ToolCall::from_any(
-    @mbtconv.from_map({
-      "toolName": "done" |> @nostd.any,
-      "toolCallId": "1" |> @nostd.any,
-    }).cast(),
-  )
+  let done_tool = @ai.ToolCall::from_any(make_tool_call("done", "1"))
   let ctx_tool : @ai.StopConditionContext = {
     step_number: 1,
     messages: [],

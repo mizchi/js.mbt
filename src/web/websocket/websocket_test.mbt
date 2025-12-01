@@ -20,9 +20,9 @@ test "get_close_code extracts code from event" {
 
 ///|
 test "get_close_reason extracts reason from event" {
-  let event : @nostd.Any = @mbtconv.from_map({
-    "reason": @nostd.any("Normal closure"),
-  }).cast()
+  let event : @nostd.Any = @nostd.from_entries([
+    ("reason", @nostd.any("Normal closure")),
+  ]).cast()
   let reason = get_close_reason(event)
   inspect(reason, content="Normal closure")
 }

@@ -94,10 +94,10 @@ async test "IndexedDB: add and get item" {
   // Add an item
   let tx = db.transaction(["items"], mode="readwrite")
   let store = tx.objectStore("items")
-  let item : @nostd.Any = @mbtconv.from_map({
-    "id": @nostd.any(1),
-    "name": @nostd.any("Test"),
-  }).cast()
+  let item : @nostd.Any = @nostd.from_entries([
+    ("id", @nostd.any(1)),
+    ("name", @nostd.any("Test")),
+  ]).cast()
   let add_request = store.add(item)
   let _ = request_to_promise(add_request).wait()
 
@@ -124,17 +124,17 @@ async test "IndexedDB: put updates existing item" {
   let store = tx.objectStore("records")
 
   // Add initial item
-  let item1 : @nostd.Any = @mbtconv.from_map({
-    "id": @nostd.any(1),
-    "value": @nostd.any("initial"),
-  }).cast()
+  let item1 : @nostd.Any = @nostd.from_entries([
+    ("id", @nostd.any(1)),
+    ("value", @nostd.any("initial")),
+  ]).cast()
   request_to_promise(store.add(item1)).wait() |> ignore
 
   // Update with put
-  let item2 : @nostd.Any = @mbtconv.from_map({
-    "id": @nostd.any(1),
-    "value": @nostd.any("updated"),
-  }).cast()
+  let item2 : @nostd.Any = @nostd.from_entries([
+    ("id", @nostd.any(1)),
+    ("value", @nostd.any("updated")),
+  ]).cast()
   request_to_promise(store.put(item2)).wait() |> ignore
 
   // Get and verify
@@ -159,10 +159,10 @@ async test "IndexedDB: delete removes item" {
   let store = tx.objectStore("todos")
 
   // Add item
-  let item : @nostd.Any = @mbtconv.from_map({
-    "id": @nostd.any(1),
-    "task": @nostd.any("Do it"),
-  }).cast()
+  let item : @nostd.Any = @nostd.from_entries([
+    ("id", @nostd.any(1)),
+    ("task", @nostd.any("Do it")),
+  ]).cast()
   request_to_promise(store.add(item)).wait() |> ignore
 
   // Delete it
@@ -190,15 +190,15 @@ async test "IndexedDB: clear removes all items" {
   let store = tx.objectStore("data")
 
   // Add multiple items
-  let item1 : @nostd.Any = @mbtconv.from_map({
-    "id": @nostd.any(1),
-    "v": @nostd.any("a"),
-  }).cast()
+  let item1 : @nostd.Any = @nostd.from_entries([
+    ("id", @nostd.any(1)),
+    ("v", @nostd.any("a")),
+  ]).cast()
   request_to_promise(store.add(item1)).wait() |> ignore
-  let item2 : @nostd.Any = @mbtconv.from_map({
-    "id": @nostd.any(2),
-    "v": @nostd.any("b"),
-  }).cast()
+  let item2 : @nostd.Any = @nostd.from_entries([
+    ("id", @nostd.any(2)),
+    ("v", @nostd.any("b")),
+  ]).cast()
   request_to_promise(store.add(item2)).wait() |> ignore
 
   // Clear all
@@ -226,20 +226,20 @@ async test "IndexedDB: getAll returns all items" {
   let store = tx.objectStore("entries")
 
   // Add items
-  let alice : @nostd.Any = @mbtconv.from_map({
-    "id": @nostd.any(1),
-    "name": @nostd.any("Alice"),
-  }).cast()
+  let alice : @nostd.Any = @nostd.from_entries([
+    ("id", @nostd.any(1)),
+    ("name", @nostd.any("Alice")),
+  ]).cast()
   request_to_promise(store.add(alice)).wait() |> ignore
-  let bob : @nostd.Any = @mbtconv.from_map({
-    "id": @nostd.any(2),
-    "name": @nostd.any("Bob"),
-  }).cast()
+  let bob : @nostd.Any = @nostd.from_entries([
+    ("id", @nostd.any(2)),
+    ("name", @nostd.any("Bob")),
+  ]).cast()
   request_to_promise(store.add(bob)).wait() |> ignore
-  let charlie : @nostd.Any = @mbtconv.from_map({
-    "id": @nostd.any(3),
-    "name": @nostd.any("Charlie"),
-  }).cast()
+  let charlie : @nostd.Any = @nostd.from_entries([
+    ("id", @nostd.any(3)),
+    ("name", @nostd.any("Charlie")),
+  ]).cast()
   request_to_promise(store.add(charlie)).wait() |> ignore
 
   // Get all

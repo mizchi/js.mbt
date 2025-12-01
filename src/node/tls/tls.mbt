@@ -73,7 +73,7 @@ pub fn create_server(
 ) -> Server {
   let cb : @nostd.Any = @js.identity(secureConnectionListener)
   let alpn_js = alpn_protocols.map(fn(v) {
-    @nostd.identity(array_to_js_array(v).as_any())
+    @nostd.identity(array_to_js_array(v))
   })
   let opts = @mbtconv.from_option_map({
     "key": key.map(fn(x) { @nostd.any(x) }),
@@ -92,14 +92,14 @@ pub fn create_server(
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
   let cb : @nostd.Any = @js.identity(callback)
-  self.call2("listen", port, cb) |> ignore
+  self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
   let cb : @nostd.Any = @js.identity(callback)
-  self._call("close", [cb]) |> ignore
+  self.as_any()._call("close", [cb]) |> ignore
 }
 
 ///|
@@ -128,7 +128,7 @@ pub fn connect(
 ) -> TLSSocket {
   let cb : @nostd.Any = @js.identity(callback)
   let alpn_js = alpn_protocols.map(fn(v) {
-    @nostd.identity(array_to_js_array(v).as_any())
+    @nostd.identity(array_to_js_array(v))
   })
   let opts = @mbtconv.from_option_map({
     "port": Some(@nostd.any(port)),
@@ -139,7 +139,7 @@ pub fn connect(
     "ca": ca.map(fn(x) { @nostd.any(x) }),
     "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @nostd.any(x) }),
     "ALPNProtocols": alpn_js,
-    "session": session.map(fn(x) { @nostd.identity(x.as_any()) }),
+    "session": session.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
   }).cast()
   ffi_connect(opts, cb)
 }
@@ -150,35 +150,36 @@ pub fn TLSSocket::get_peer_certificate(
   self : TLSSocket,
   detailed : Bool,
 ) -> @js.Object {
-  let val : @nostd.Any = self._call("getPeerCertificate", [detailed])
+  let val : @nostd.Any =
+    self.as_any()._call("getPeerCertificate", [@nostd.any(detailed)])
   @js.identity(val)
 }
 
 ///|
 /// Get the cipher information
 pub fn TLSSocket::get_cipher(self : TLSSocket) -> @js.Object {
-  let val : @nostd.Any = self.call0("getCipher")
+  let val : @nostd.Any = self.as_any().call0("getCipher")
   @js.identity(val)
 }
 
 ///|
 /// Get the negotiated TLS protocol version
 pub fn TLSSocket::get_protocol(self : TLSSocket) -> String {
-  let val : @nostd.Any = self.call0("getProtocol")
+  let val : @nostd.Any = self.as_any().call0("getProtocol")
   @js.identity(val)
 }
 
 ///|
 /// Check if the connection is authorized
 pub fn TLSSocket::authorized(self : TLSSocket) -> Bool {
-  let val : @nostd.Any = self._get("authorized")
+  let val : @nostd.Any = self.as_any()._get("authorized")
   @js.identity(val)
 }
 
 ///|
 /// Get the authorization error if not authorized
 pub fn TLSSocket::authorization_error(self : TLSSocket) -> String? {
-  let val : @nostd.Any = self._get("authorizationError")
+  let val : @nostd.Any = self.as_any()._get("authorizationError")
   let is_null : Bool = @js.identity(@js.typeof_(val) == "undefined")
   if is_null {
     None
@@ -190,13 +191,13 @@ pub fn TLSSocket::authorization_error(self : TLSSocket) -> String? {
 ///|
 /// Write data to the socket
 pub fn TLSSocket::write(self : TLSSocket, data : String) -> Unit {
-  self._call("write", [data]) |> ignore
+  self.as_any()._call("write", [@nostd.any(data)]) |> ignore
 }
 
 ///|
 /// End the socket
 pub fn TLSSocket::end(self : TLSSocket) -> Unit {
-  self.call0("end") |> ignore
+  self.as_any().call0("end") |> ignore
 }
 
 ///|

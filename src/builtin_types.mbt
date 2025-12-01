@@ -206,6 +206,11 @@ pub type JsArray
 pub fn JsArray::to_any(self : JsArray) -> @nostd.Any = "%identity"
 
 ///|
+pub fn JsArray::_get(self : JsArray, key : String) -> @nostd.Any {
+  self.to_any()._get(key)
+}
+
+///|
 pub fn JsArray::to_string(self : Self) -> String {
   ffi_json_stringify(self.to_any() |> identity, undefined(), undefined())
 }

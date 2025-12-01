@@ -79,15 +79,15 @@ pub fn WASI::new(
   let options = @mbtconv.from_option_map({
     "version": Some(@nostd.any(version)),
     "args": args.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
-    "env": env_obj.map(fn(x) { @nostd.identity(x.as_any()) }),
-    "preopens": preopens_obj.map(fn(x) { @nostd.identity(x.as_any()) }),
+    "env": env_obj.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
+    "preopens": preopens_obj.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
     "returnOnExit": returnOnExit.map(fn(x) { @nostd.any(x) }),
     "stdin": stdin.map(fn(x) { @nostd.any(x) }),
     "stdout": stdout.map(fn(x) { @nostd.any(x) }),
     "stderr": stderr.map(fn(x) { @nostd.any(x) }),
   }).cast()
   let wasi_module = wasi_module()
-  let wasi_class = wasi_module._get("WASI")
+  let wasi_class = wasi_module.as_any()._get("WASI")
   let instance = ffi_new_wasi(wasi_class, options)
   instance.cast()
 }
@@ -95,7 +95,7 @@ pub fn WASI::new(
 ///|
 /// Get import object for WebAssembly.instantiate()
 pub fn WASI::getImportObject(self : Self) -> @nostd.Any {
-  self.call0("getImportObject")
+  self.as_any().call0("getImportObject")
 }
 
 ///|
@@ -104,7 +104,7 @@ pub fn WASI::start(
   self : Self,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.call1("start", instance.as_any().cast()) |> ignore
+  self.as_any().call1("start", @nostd.any(instance)) |> ignore
 }
 
 ///|
@@ -113,11 +113,11 @@ pub fn WASI::initialize(
   self : WASI,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.call1("initialize", instance.as_any().cast()) |> ignore
+  self.as_any().call1("initialize", @nostd.any(instance)) |> ignore
 }
 
 ///|
 /// Get the wasiImport property
 pub fn WASI::wasiImport(self : Self) -> @nostd.Any {
-  self._get("wasiImport")
+  self.as_any()._get("wasiImport")
 }

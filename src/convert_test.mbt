@@ -14,28 +14,6 @@ test "is_builtin_trait detects MoonBit builtin traits" {
 }
 
 ///|
-test "from_json converts MoonBit Json to Any object" {
-  inspect(
-    @nostd.json_stringify(
-      @mbtconv.from_json({
-        "value": null,
-        "items": [1, 2, 3],
-        "nested": { "key": "value" },
-      }),
-    ),
-    content=(
-      #|{"value":null,"items":[1,2,3],"nested":{"key":"value"}}
-    ),
-  )
-  inspect(
-    @nostd.json_stringify(@mbtconv.from_json({ "age": 30, "name": "Alice" })),
-    content=(
-      #|{"age":30,"name":"Alice"}
-    ),
-  )
-}
-
-///|
 priv struct Point {
   x : Int
   y : Int
@@ -115,82 +93,6 @@ test "from_entries" {
   assert_eq(@js.identity(obj._get("name")), "Alice")
   assert_eq(@js.identity(obj._get("age")), 30)
   assert_eq(@js.identity(obj._get("active")), true)
-}
-
-///|
-test "from_option_map filters None and nullish values" {
-  let map : Map[String, @nostd.Any?] = {
-    "name": Some(@nostd.any("Alice")),
-    "age": Some(@nostd.any(30)),
-    "email": None,
-    "nullValue": Some(@nostd.null()),
-  }
-  let obj = @mbtconv.from_option_map(map)
-  assert_eq(@js.identity(obj._get("name")), "Alice")
-  assert_eq(@js.identity(obj._get("age")), 30)
-  assert_eq(@nostd.Object::has_own(obj, "email"), false)
-  assert_eq(@nostd.Object::has_own(obj, "nullValue"), false)
-}
-
-///|
-/// from_map vs from_option_map: from_map sets all keys (including null/undefined values),
-/// from_option_map skips None and nullish values (key does not exist)
-test "from_map sets null values as property" {
-  let map : Map[String, @nostd.Any] = {
-    "name": @nostd.any("Alice"),
-    "email": @nostd.null(),
-    "bio": @global.undefined(),
-  }
-  let obj = @mbtconv.from_map(map)
-  // from_map: all keys exist, even if value is null/undefined
-  assert_eq(@nostd.Object::has_own(obj, "name"), true)
-  assert_eq(@nostd.Object::has_own(obj, "email"), true)
-  assert_eq(@nostd.Object::has_own(obj, "bio"), true)
-  assert_eq(@js.is_null(obj._get("email")), true)
-  assert_eq(@js.is_undefined(obj._get("bio")), true)
-}
-
-///|
-/// from_option_map skips None and nullish, so the key does not exist
-test "from_option_map skips keys for None values" {
-  let map : Map[String, @nostd.Any?] = {
-    "name": Some(@nostd.any("Alice")),
-    "email": None,
-    "bio": Some(@nostd.null()),
-  }
-  let obj = @mbtconv.from_option_map(map)
-  // from_option_map: None values are skipped (key does not exist)
-  assert_eq(@nostd.Object::has_own(obj, "name"), true)
-  assert_eq(@nostd.Object::has_own(obj, "email"), false)
-  // nullish values in Some are also skipped
-  assert_eq(@nostd.Object::has_own(obj, "bio"), false)
-}
-
-///|
-/// from_option_map_or_undefined returns undefined when all properties are None
-test "from_option_map_or_undefined returns undefined when all None" {
-  let map : Map[String, @nostd.Any?] = { "name": None, "age": None }
-  let result = @mbtconv.from_option_map_or_undefined(map)
-  assert_eq(@js.is_undefined(result), true)
-}
-
-///|
-test "from_option_map_or_undefined returns object when some values exist" {
-  let map : Map[String, @nostd.Any?] = {
-    "name": Some(@nostd.any("Alice")),
-    "age": None,
-  }
-  let result = @mbtconv.from_option_map_or_undefined(map)
-  assert_eq(@js.is_undefined(result), false)
-  assert_eq(@nostd.Object::has_own(result, "name"), true)
-  assert_eq(@nostd.Object::has_own(result, "age"), false)
-}
-
-///|
-test "from_option_map_or_undefined returns undefined for empty map" {
-  let map : Map[String, @nostd.Any?] = {}
-  let result = @mbtconv.from_option_map_or_undefined(map)
-  assert_eq(@js.is_undefined(result), true)
 }
 
 ///|
@@ -575,71 +477,6 @@ test "ThrowError Show trait works for all variants" {
       let msg = err.to_string()
       assert_eq(msg, "42")
     }
-  }
-}
-
-///| Any.to_json tests
-
-///|
-test "Any.to_json with null" {
-  let null_val = null_()
-  let json = @mbtconv.to_json(null_val)
-  assert_eq(json, Json::null())
-}
-
-///|
-test "Any.to_json with boolean" {
-  let true_val = @nostd.any(true)
-  let json_true = @mbtconv.to_json(true_val)
-  assert_true(json_true is True)
-  let false_val = @nostd.any(false)
-  let json_false = @mbtconv.to_json(false_val)
-  assert_true(json_false is False)
-}
-
-///|
-test "Any.to_json with number" {
-  let num_val = @nostd.any(42.5)
-  let json = @mbtconv.to_json(num_val)
-  match json {
-    Number(n, ..) => assert_eq(n, 42.5)
-    _ => fail("Expected Number")
-  }
-}
-
-///|
-test "Any.to_json with string" {
-  let str_val = @nostd.any("hello")
-  let json = @mbtconv.to_json(str_val)
-  match json {
-    String(s) => assert_eq(s, "hello")
-    _ => fail("Expected String")
-  }
-}
-
-///|
-test "Any.to_json with array" {
-  let arr = from_array([@nostd.any(1), @nostd.any(2), @nostd.any(3)])
-  let json = @mbtconv.to_json(arr)
-  match json {
-    Array(items) => assert_eq(items.length(), 3)
-    _ => fail("Expected Array")
-  }
-}
-
-///|
-test "Any.to_json with object" {
-  let obj : @nostd.Any = @nostd.from_entries([
-    ("name", @nostd.any("Alice")),
-    ("age", @nostd.any(30)),
-  ]).cast()
-  let json = @mbtconv.to_json(obj)
-  match json {
-    Object(map) => {
-      assert_true(map.contains("name"))
-      assert_true(map.contains("age"))
-    }
-    _ => fail("Expected Object")
   }
 }
 

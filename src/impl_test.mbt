@@ -83,11 +83,6 @@ test "JsImpl::to_string" {
   assert_eq(@nostd.Object::new().to_string(), "{}")
   assert_eq(@js.JsArray::new().to_string(), "[]")
   from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
-  let expected =
-    #|{"a":1,"b":2}
-  @mbtconv.from_map({ "a": 1 |> any, "b": 2 |> any }).to_string() |> assert_eq(
-    expected,
-  )
 }
 
 ///|

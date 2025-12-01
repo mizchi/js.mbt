@@ -11,17 +11,20 @@ test "output strategy to_string" {
 ///|
 test "generate object result from_any" {
   let empty_warnings : Array[@nostd.Any] = []
-  let raw = @mbtconv.from_map({
-    "object": @nostd.from_entries([("name", "test" |> @nostd.any)]).cast(),
-    "finishReason": "stop" |> @nostd.any,
-    "usage": @mbtconv.from_map({
-      "inputTokens": 10 |> @nostd.any,
-      "outputTokens": 20 |> @nostd.any,
-      "totalTokens": 30 |> @nostd.any,
-    }).cast(),
-    "warnings": @js.from_array(empty_warnings) |> @nostd.any,
-    "response": @nostd.from_entries([("id", "resp-123" |> @nostd.any)]).cast(),
-  }).cast()
+  let raw = @nostd.from_entries([
+    ("object", @nostd.from_entries([("name", "test" |> @nostd.any)]).cast()),
+    ("finishReason", @nostd.any("stop")),
+    (
+      "usage",
+      @nostd.from_entries([
+        ("inputTokens", @nostd.any(10)),
+        ("outputTokens", @nostd.any(20)),
+        ("totalTokens", @nostd.any(30)),
+      ]).cast(),
+    ),
+    ("warnings", @js.from_array(empty_warnings) |> @nostd.any),
+    ("response", @nostd.from_entries([("id", "resp-123" |> @nostd.any)]).cast()),
+  ]).cast()
   let result = @ai.GenerateObjectResult::from_any(raw)
   assert_eq(result.finish_reason, @ai.FinishReason::Stop)
   assert_eq(result.usage.total_tokens, 30)
@@ -30,20 +33,26 @@ test "generate object result from_any" {
 ///|
 test "generate object result get_object" {
   let empty_warnings : Array[@nostd.Any] = []
-  let raw = @mbtconv.from_map({
-    "object": @mbtconv.from_map({
-      "name": "John" |> @nostd.any,
-      "age": 30 |> @nostd.any,
-    }).cast(),
-    "finishReason": "stop" |> @nostd.any,
-    "usage": @mbtconv.from_map({
-      "inputTokens": 10 |> @nostd.any,
-      "outputTokens": 20 |> @nostd.any,
-      "totalTokens": 30 |> @nostd.any,
-    }).cast(),
-    "warnings": @js.from_array(empty_warnings) |> @nostd.any,
-    "response": @nostd.Object::new().as_any() |> @nostd.any,
-  }).cast()
+  let raw = @nostd.from_entries([
+    (
+      "object",
+      @nostd.from_entries([
+        ("name", @nostd.any("John")),
+        ("age", @nostd.any(30)),
+      ]).cast(),
+    ),
+    ("finishReason", @nostd.any("stop")),
+    (
+      "usage",
+      @nostd.from_entries([
+        ("inputTokens", @nostd.any(10)),
+        ("outputTokens", @nostd.any(20)),
+        ("totalTokens", @nostd.any(30)),
+      ]).cast(),
+    ),
+    ("warnings", @js.from_array(empty_warnings) |> @nostd.any),
+    ("response", @nostd.Object::new().as_any() |> @nostd.any),
+  ]).cast()
   let result = @ai.GenerateObjectResult::from_any(raw)
   // Get object as raw Any
   let obj = result.object
@@ -56,15 +65,20 @@ test "generate object result get_object" {
 async test "generateObject with mock" {
   // This test requires actual API key, so skip by default
   let model = @ai.anthropic("claude-sonnet-4-20250514")
-  let schema = @mbtconv.from_map({
-    "type": "object" |> @nostd.any,
-    "properties": @mbtconv.from_map({
-      "name": @nostd.from_entries([("type", "string" |> @nostd.any)]).cast(),
-      "age": @nostd.from_entries([("type", "number" |> @nostd.any)]).cast(),
-    }).cast(),
-    "required": @js.from_array(["name" |> @js.any, "age" |> @js.any])
-    |> @nostd.any,
-  }).cast()
+  let schema = @nostd.from_entries([
+    ("type", @nostd.any("object")),
+    (
+      "properties",
+      @nostd.from_entries([
+        ("name", @nostd.from_entries([("type", @nostd.any("string"))]).cast()),
+        ("age", @nostd.from_entries([("type", @nostd.any("number"))]).cast()),
+      ]).cast(),
+    ),
+    (
+      "required",
+      @js.from_array(["name" |> @js.any, "age" |> @js.any]) |> @nostd.any,
+    ),
+  ]).cast()
   let result = @ai.generateObject(
     model~,
     schema~,

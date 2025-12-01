@@ -30,6 +30,6 @@ test "url returns string or undefined" {
 /// Test console function
 test "console returns Console instance" {
   let inspector_console = console()
-  let console_js : @nostd.Any = inspector_console.as_any().cast()
+  let console_js : @nostd.Any = @nostd.any(inspector_console)
   inspect(@js.typeof_(console_js), content="object")
 }

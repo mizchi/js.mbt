@@ -39,11 +39,8 @@ pub type Socket
 pub fn Socket::as_any(self : Socket) -> @nostd.Any = "%identity"
 
 ///|
-/// Note: Keep JsImpl for EventEmitterImpl compatibility
+/// Note: Keep JsImpl for compatibility
 pub impl @js.JsImpl for Socket
-
-///|
-pub impl @events.EventEmitterImpl for Socket
 
 ///|
 /// Socket is a Duplex stream
@@ -167,11 +164,8 @@ pub type Server
 pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
 
 ///|
-/// Note: Keep JsImpl for EventEmitterImpl compatibility
+/// Note: Keep JsImpl for compatibility
 pub impl @js.JsImpl for Server
-
-///|
-pub impl @events.EventEmitterImpl for Server
 
 ///|
 /// Listen on a port and host
@@ -184,30 +178,40 @@ pub fn Server::listen(
 ) -> Server {
   // Register callback as 'listening' event listener if provided
   match callback {
-    Some(cb) => self.once("listening", fn(_) { cb() })
+    Some(cb) =>
+      self.as_any()._call("once", [
+        @nostd.any("listening"),
+        @nostd.any(@js.from_fn1(fn(_ : @nostd.Any) { cb() })),
+      ]) |> ignore
     None => ()
   }
 
   // Call listen with port, host, and backlog
   match (host, backlog) {
-    (Some(h), Some(b)) => self._call("listen", [port, h, b]).cast()
-    (Some(h), None) => self.call2("listen", port, h) |> @js.identity
-    (None, Some(b)) => self.call2("listen", port, b) |> @js.identity
-    (None, None) => self._call("listen", [port]).cast()
+    (Some(h), Some(b)) =>
+      self
+      .as_any()
+      ._call("listen", [@nostd.any(port), @nostd.any(h), @nostd.any(b)])
+      .cast()
+    (Some(h), None) =>
+      self.as_any().call2("listen", @nostd.any(port), @nostd.any(h)) |> @js.identity
+    (None, Some(b)) =>
+      self.as_any().call2("listen", @nostd.any(port), @nostd.any(b)) |> @js.identity
+    (None, None) => self.as_any()._call("listen", [@nostd.any(port)]).cast()
   }
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server) -> Server {
-  self.call0("close") |> @js.identity
+  self.as_any().call0("close") |> @js.identity
 }
 
 ///|
 /// Get the server address
 /// Returns AddressInfo for TCP servers, or null if not listening
 pub fn Server::address(self : Server) -> AddressInfo? {
-  let result = self.call0("address")
+  let result = self.as_any().call0("address")
   if @js.is_null(result) {
     None
   } else {
@@ -218,19 +222,19 @@ pub fn Server::address(self : Server) -> AddressInfo? {
 ///|
 /// Check if the server is listening
 pub fn Server::listening(self : Server) -> Bool {
-  self._get("listening").cast()
+  self.as_any()._get("listening").cast()
 }
 
 ///|
 /// Get max connections
 pub fn Server::maxConnections(self : Server) -> Int? {
-  self._get("maxConnections") |> @js.identity_option
+  self.as_any()._get("maxConnections") |> @js.identity_option
 }
 
 ///|
 /// Set max connections
 pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
-  self.set("maxConnections", max |> @js.any)
+  self.as_any()._set("maxConnections", @nostd.any(max))
 }
 
 ///| Module functions
@@ -239,8 +243,11 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 /// Create a new Socket and connect
 pub fn createConnection(port : Int, host? : String) -> Socket {
   match host {
-    Some(h) => net_module().call2("createConnection", port, h) |> @js.identity
-    None => net_module()._call("createConnection", [port]).cast()
+    Some(h) =>
+      net_module()
+      .call2("createConnection", @nostd.any(port), @nostd.any(h))
+      |> @js.identity
+    None => net_module()._call("createConnection", [@nostd.any(port)]).cast()
   }
 }
 
@@ -281,17 +288,17 @@ pub fn createServer(
 ///|
 /// Check if IP address is IPv4
 pub fn isIPv4(input : String) -> Bool {
-  net_module()._call("isIPv4", [input]).cast()
+  net_module()._call("isIPv4", [@nostd.any(input)]).cast()
 }
 
 ///|
 /// Check if IP address is IPv6
 pub fn isIPv6(input : String) -> Bool {
-  net_module()._call("isIPv6", [input]).cast()
+  net_module()._call("isIPv6", [@nostd.any(input)]).cast()
 }
 
 ///|
 /// Check IP version (returns 4, 6, or 0 for invalid)
 pub fn isIP(input : String) -> Int {
-  net_module()._call("isIP", [input]).cast()
+  net_module()._call("isIP", [@nostd.any(input)]).cast()
 }

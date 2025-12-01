@@ -68,7 +68,7 @@ pub fn SdkServer::new(
   )
   // Create server instance
   let opts = @js.identity(
-    @mbtconv.from_map({ "capabilities": @nostd.any(capabilities.as_any()) }),
+    @mbtconv.from_map({ "capabilities": @nostd.any(capabilities) }),
   )
   ffi_construct(server_class, [server_info, opts]) |> @js.identity
 }

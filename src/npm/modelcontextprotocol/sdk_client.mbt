@@ -52,7 +52,7 @@ pub fn SdkClient::new(name : String, version : String) -> SdkClient {
   // Create client instance with empty capabilities
   let opts = @js.identity(
     @mbtconv.from_map({
-      "capabilities": @nostd.any(@nostd.Object::new().as_any()),
+      "capabilities": @nostd.any(@nostd.Object::new()),
     }),
   )
   ffi_construct_client(client_class, [client_info, opts]) |> @js.identity
@@ -164,7 +164,7 @@ pub async fn SdkClient::call_tool(
   let params = @js.identity(
     @mbtconv.from_map({
       "name": name |> @nostd.any,
-      "arguments": @nostd.any(arguments.as_any()),
+      "arguments": @nostd.any(arguments),
     }),
   )
   let request = @js.identity(
@@ -311,7 +311,7 @@ pub async fn SdkClient::get_prompt(
   let request = @js.identity(
     @mbtconv.from_map({
       "method": "prompts/get" |> @nostd.any,
-      "params": @nostd.any(params.as_any()),
+      "params": @nostd.any(params),
     }),
   )
   let types = require_mcp_client_types()
@@ -349,7 +349,7 @@ pub fn StdioClientTransport::new(
   if cwd is Some(c) {
     opts.set("cwd", c)
   }
-  ffi_construct_client(transport_class, [opts.as_any()]) |> @js.identity
+  ffi_construct_client(transport_class, [@nostd.any(opts)]) |> @js.identity
 }
 
 ///|

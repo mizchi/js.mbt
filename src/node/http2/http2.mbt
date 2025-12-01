@@ -202,7 +202,7 @@ pub fn Http2Server::listen(
   callback : () -> Unit,
 ) -> Unit {
   let cb : @nostd.Any = @js.identity(callback)
-  self.call2("listen", port, cb) |> ignore
+  self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
 }
 
 ///|
@@ -213,14 +213,14 @@ pub fn Http2SecureServer::listen(
   callback : () -> Unit,
 ) -> Unit {
   let cb : @nostd.Any = @js.identity(callback)
-  self.call2("listen", port, cb) |> ignore
+  self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Http2Server::close(self : Http2Server, callback : () -> Unit) -> Unit {
   let cb : @nostd.Any = @js.identity(callback)
-  self._call("close", [cb]) |> ignore
+  self.as_any()._call("close", [cb]) |> ignore
 }
 
 ///|
@@ -230,7 +230,7 @@ pub fn Http2SecureServer::close(
   callback : () -> Unit,
 ) -> Unit {
   let cb : @nostd.Any = @js.identity(callback)
-  self._call("close", [cb]) |> ignore
+  self.as_any()._call("close", [cb]) |> ignore
 }
 
 ///|
@@ -255,20 +255,20 @@ pub fn Http2Session::request(
   self : Http2Session,
   headers : @js.Object,
 ) -> ClientHttp2Stream {
-  self._call("request", [headers.as_any()]).cast()
+  self.as_any()._call("request", [@nostd.any(headers)]).cast()
 }
 
 ///|
 /// Close the session
 pub fn Http2Session::close(self : Http2Session) -> Unit {
-  self.call0("close") |> ignore
+  self.as_any().call0("close") |> ignore
 }
 
 ///|
 /// Send a ping
 pub fn Http2Session::ping(self : Http2Session, callback : () -> Unit) -> Unit {
   let cb : @nostd.Any = @js.identity(callback)
-  self._call("ping", [cb]) |> ignore
+  self.as_any()._call("ping", [cb]) |> ignore
 }
 
 ///|
@@ -277,13 +277,13 @@ pub fn ServerHttp2Stream::respond(
   self : ServerHttp2Stream,
   headers : @js.Object,
 ) -> Unit {
-  self._call("respond", [headers.as_any()]) |> ignore
+  self.as_any()._call("respond", [@nostd.any(headers)]) |> ignore
 }
 
 ///|
 /// End the stream with data
 pub fn ServerHttp2Stream::end(self : ServerHttp2Stream, data : String) -> Unit {
-  self._call("end", [data]) |> ignore
+  self.as_any()._call("end", [@nostd.any(data)]) |> ignore
 }
 
 ///|
@@ -292,13 +292,13 @@ pub fn ClientHttp2Stream::write(
   self : ClientHttp2Stream,
   data : String,
 ) -> Unit {
-  self._call("write", [data]) |> ignore
+  self.as_any()._call("write", [@nostd.any(data)]) |> ignore
 }
 
 ///|
 /// End the client stream
 pub fn ClientHttp2Stream::end(self : ClientHttp2Stream) -> Unit {
-  self.call0("end") |> ignore
+  self.as_any().call0("end") |> ignore
 }
 
 ///|

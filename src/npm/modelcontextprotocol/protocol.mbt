@@ -186,8 +186,10 @@ pub struct ClientInfo {
 ///|
 pub fn ClientInfo::from_js(js : @nostd.Any) -> ClientInfo? {
   let obj : @js.Object = @js.identity(js)
-  let name : String? = obj._get("name") |> @js.identity_option()
-  let version : String? = obj._get("version") |> @js.identity_option()
+  let name : String? =
+    @nostd.any(obj)._get("name") |> @js.identity_option()
+  let version : String? =
+    @nostd.any(obj)._get("version") |> @js.identity_option()
   match (name, version) {
     (Some(n), Some(v)) => Some({ name: n, version: v })
     _ => None

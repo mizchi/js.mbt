@@ -12,11 +12,11 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
       url_module
       .call2(
         "fileURLToPath",
-        url,
+        @nostd.any(url),
         @mbtconv.from_option_map({ "windows": Some(@nostd.any(w)) }).cast(),
       )
       .cast()
-    None => url_module.call1("fileURLToPath", url).cast()
+    None => url_module.call1("fileURLToPath", @nostd.any(url)).cast()
   }
 }
 
@@ -47,11 +47,11 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
       url_module
       .call2(
         "pathToFileURL",
-        path,
+        @nostd.any(path),
         @mbtconv.from_option_map({ "windows": Some(@nostd.any(w)) }).cast(),
       )
       .cast()
-    None => url_module.call1("pathToFileURL", path).cast()
+    None => url_module.call1("pathToFileURL", @nostd.any(path)).cast()
   }
 }
 
