@@ -11,7 +11,12 @@ test "basic object operations" {
   let obj = @nostd.Object::new()
   obj.set("name", "MoonBit")
   obj.set("version", 1)
-  inspect(obj, content="{\"name\":\"MoonBit\",\"version\":1}")
+  inspect(@js.JSON::stringify(obj), content=(
+    #|{
+    #|  "name": "MoonBit",
+    #|  "version": 1
+    #|}
+  ))
 
   // Property access with different key types
   obj.set(0, "first") // Int key
@@ -34,7 +39,14 @@ test "basic object operations" {
 test "array operations" {
   let arr = @nostd.any([1, 2, 3])
   arr._call("push", [4 |> @nostd.any]) |> ignore
-  inspect(arr, content="[1,2,3,4]")
+  inspect(@js.JSON::stringify(arr), content=(
+    #|[
+    #|  1,
+    #|  2,
+    #|  3,
+    #|  4
+    #|]
+  ))
 
   // Higher-order methods
   let filtered = arr.call1(
@@ -44,7 +56,7 @@ test "array operations" {
       n > 2
     }),
   )
-  inspect(filtered, content="[3,4]")
+  inspect(filtered, content="3,4")
 }
 ```
 
@@ -135,7 +147,13 @@ test "function conversion" {
 test "constructors" {
   let array_ctor = @js.globalThis()._get("Array")
   let arr = @js.new_(array_ctor, [@nostd.any(3)])
-  inspect(arr, content="[null,null,null]")
+  inspect(@js.JSON::stringify(arr), content=(
+    #|[
+    #|  null,
+    #|  null,
+    #|  null
+    #|]
+  ))
 }
 ```
 

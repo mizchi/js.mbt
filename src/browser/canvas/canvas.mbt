@@ -560,7 +560,7 @@ pub(all) struct ImageBitmap {
 }
 
 ///|
-pub extern "js" fn ImageBitmap::as_any(self : ImageBitmap) -> @nostd.Any = "%identity"
+pub fn ImageBitmap::as_any(self : ImageBitmap) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @worker.Transferable for ImageBitmap with to_transferable(self) -> @nostd.Any {

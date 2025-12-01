@@ -73,9 +73,12 @@ test "from_entries and to_string" {
     ("age", @nostd.any(30)),
   ]).cast()
   inspect(
-    obj.to_string(),
+    JSON::stringify(obj),
     content=(
-      #|{"name":"Alice","age":30}
+      #|{
+      #|  "name": "Alice",
+      #|  "age": 30
+      #|}
     ),
   )
 }
