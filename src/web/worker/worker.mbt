@@ -34,9 +34,6 @@ pub fn Worker::as_any(self : Worker) -> @nostd.Any = "%identity"
 pub fn Worker::as_event_target(self : Worker) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for Worker
-
-///|
 pub impl @event.EventTargetImpl for Worker with as_any(self) -> @nostd.Any {
   self.as_any()
 }
@@ -57,7 +54,7 @@ pub fn Worker::new(script_url : String, type_? : String) -> Worker {
 
 ///|
 pub fn Worker::terminate(worker : Worker) -> Unit {
-  worker.call0("terminate") |> ignore
+  worker.as_any()._call("terminate", []) |> ignore
 }
 
 ///|

@@ -6,25 +6,22 @@ pub type Stat
 pub fn Stat::as_any(self : Stat) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Stat
-
-///|
 pub fn Stat::isFile(self : Self) -> Bool {
-  self.call0("isFile").cast()
+  self.as_any()._call("isFile", []).cast()
 }
 
 ///|
 pub fn Stat::isDirectory(self : Self) -> Bool {
-  self.call0("isDirectory").cast()
+  self.as_any()._call("isDirectory", []).cast()
 }
 
 ///|
 pub fn Stat::size(self : Self) -> Int {
-  self.get("size").cast()
+  self.as_any()["size"].cast()
 }
 
 ///|
 pub fn Stat::mtime_ms(self : Self) -> Float {
-  let mtime = self.get("mtime")
-  @js.identity(mtime.get("getTime").call("call", [mtime]))
+  let mtime = self.as_any()["mtime"]
+  mtime["getTime"]._call("call", [mtime]).cast()
 }

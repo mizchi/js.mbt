@@ -19,9 +19,6 @@ pub fn MessageEvent::as_any(self : MessageEvent) -> @nostd.Any = "%identity"
 pub fn MessageEvent::as_event_target(self : MessageEvent) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for MessageEvent
-
-///|
 pub impl @event.EventTargetImpl for MessageEvent with as_any(self) -> @nostd.Any {
   self.as_any()
 }
@@ -39,9 +36,6 @@ pub fn MessagePort::as_any(self : MessagePort) -> @nostd.Any = "%identity"
 
 ///|
 pub fn MessagePort::as_event_target(self : MessagePort) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @js.JsImpl for MessagePort
 
 ///|
 pub impl @event.EventTargetImpl for MessagePort with as_any(self) -> @nostd.Any {
@@ -66,7 +60,7 @@ pub fn MessagePort::postMessage(
   port : MessagePort,
   message : &@js.JsImpl,
 ) -> Unit {
-  port.call("postMessage", [message.as_any()]) |> ignore
+  port.as_any()._call("postMessage", [@nostd.any(message.as_any())]) |> ignore
 }
 
 ///|
@@ -83,21 +77,24 @@ pub fn MessagePort::postMessageWithTransfer(
     arr.call("push", [transfer[i]]) |> ignore
     i = i + 1
   }
-  port.call2("postMessage", message.as_any(), arr.as_any()) |> ignore
+  port
+  .as_any()
+  ._call("postMessage", [@nostd.any(message.as_any()), @nostd.any(arr.as_any())])
+  |> ignore
 }
 
 ///|
 /// Starts the sending of messages queued on the port
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/start
 pub fn MessagePort::start(port : MessagePort) -> Unit {
-  port.call0("start") |> ignore
+  port.as_any()._call("start", []) |> ignore
 }
 
 ///|
 /// Disconnects the port, so it is no longer active
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/close
 pub fn MessagePort::close(port : MessagePort) -> Unit {
-  port.call0("close") |> ignore
+  port.as_any()._call("close", []) |> ignore
 }
 
 ///|
@@ -107,7 +104,7 @@ pub fn MessagePort::close(port : MessagePort) -> Unit {
 pub type MessageChannel
 
 ///|
-pub impl @js.JsImpl for MessageChannel
+pub fn MessageChannel::as_any(self : MessageChannel) -> @nostd.Any = "%identity"
 
 ///|
 pub impl Show for MessageChannel with output(self, logger) {
@@ -134,12 +131,12 @@ pub fn MessageChannel::new() -> MessageChannel {
 /// Returns the first port of the channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/port1
 pub fn MessageChannel::port1(channel : MessageChannel) -> MessagePort {
-  channel.get("port1").cast()
+  channel.as_any()["port1"].cast()
 }
 
 ///|
 /// Returns the second port of the channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/port2
 pub fn MessageChannel::port2(channel : MessageChannel) -> MessagePort {
-  channel.get("port2").cast()
+  channel.as_any()["port2"].cast()
 }

@@ -62,7 +62,7 @@ pub fn RequestInit::new(
 }
 
 ///|
-pub impl @js.JsImpl for RequestInit with as_any(self) -> @js.Any {
+pub fn RequestInit::as_any(self : RequestInit) -> @js.Any {
   @js.from_option_map({
     "method": self.method_.map(fn(x) { @js.any(x) }),
     "headers": self.headers.map(fn(x) { x.as_any().cast() }),
@@ -170,9 +170,6 @@ pub(all) struct Request {
 pub fn Request::as_any(self : Request) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Request
-
-///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Request/Request
 pub fn Request::new(url : String) -> Request {
   let req = ffi_request_new(url)
@@ -190,40 +187,46 @@ pub fn Request::new_with_init(url : String, init : RequestInit) -> Request {
 /// Get the HTTP method (e.g., "GET", "POST")
 /// Note: This is a method because "method" is a reserved word in MoonBit
 pub fn Request::method_(self : Request) -> String {
-  self.get("method").cast()
+  self.as_any()["method"].cast()
 }
 
 ///|
 pub fn Request::clone(self : Request) -> Request {
-  self.call0("clone").cast()
+  self.as_any()._call("clone", []).cast()
 }
 
 ///|
 pub async fn Request::json(self : Request) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self.call0("json").cast()
+  let promise : @js.Promise[@js.Any] = self.as_any()._call("json", []).cast()
   promise.wait()
 }
 
 ///|
 pub async fn Request::text(self : Request) -> String {
-  let promise : @js.Promise[String] = self.call0("text").cast()
+  let promise : @js.Promise[String] = self.as_any()._call("text", []).cast()
   promise.wait()
 }
 
 ///|
 pub async fn Request::arraybuffer(self : Request) -> @js.ArrayBuffer {
-  let promise : @js.Promise[@js.ArrayBuffer] = self.call0("arrayBuffer").cast()
+  let promise : @js.Promise[@js.ArrayBuffer] = self
+    .as_any()
+    ._call("arrayBuffer", [])
+    .cast()
   promise.wait()
 }
 
 ///|
 pub async fn Request::blob(self : Request) -> @blob.Blob {
-  let promise : @js.Promise[@blob.Blob] = self.call0("blob").cast()
+  let promise : @js.Promise[@blob.Blob] = self.as_any()._call("blob", []).cast()
   promise.wait()
 }
 
 ///|
 pub async fn Request::bytes(self : Request) -> @typedarray.Uint8Array {
-  let promise : @js.Promise[@typedarray.Uint8Array] = self.call0("bytes").cast()
+  let promise : @js.Promise[@typedarray.Uint8Array] = self
+    .as_any()
+    ._call("bytes", [])
+    .cast()
   promise.wait()
 }

@@ -44,11 +44,11 @@ fn Request::method_(Self) -> String
 fn Request::new(String) -> Self
 fn Request::new_with_init(String, RequestInit) -> Self
 async fn Request::text(Self) -> String
-impl @js.JsImpl for Request
 
 pub struct RequestInit {
   // private fields
 }
+fn RequestInit::as_any(Self) -> @js.Any
 fn RequestInit::get_body(Self) -> @js.Any?
 fn RequestInit::get_cache(Self) -> String?
 fn RequestInit::get_credentials(Self) -> String?
@@ -63,7 +63,6 @@ fn RequestInit::get_referrer(Self) -> String?
 fn RequestInit::get_referrerPolicy(Self) -> String?
 fn RequestInit::get_signal(Self) -> @js_async.AbortSignal?
 fn RequestInit::new(http_method? : String, headers? : Headers, body? : &@js.JsImpl, mode? : String, credentials? : String, cache? : String, redirect? : String, referrer? : String, referrerPolicy? : String, integrity? : String, keepalive? : Bool, signal? : @js_async.AbortSignal, priority? : String) -> Self
-impl @js.JsImpl for RequestInit
 
 pub(all) struct Response {
   ok : Bool
@@ -86,7 +85,6 @@ fn Response::redirect(String, status? : Int) -> Self
 async fn Response::text(Self) -> String
 fn Response::text_(String, Int) -> Self
 fn Response::type_(Self) -> String
-impl @js.JsImpl for Response
 
 // Type aliases
 

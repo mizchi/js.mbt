@@ -14,10 +14,10 @@ import(
 // Types and methods
 #external
 pub type MessageChannel
+fn MessageChannel::as_any(Self) -> @nostd.Any
 fn MessageChannel::new() -> Self
 fn MessageChannel::port1(Self) -> MessagePort
 fn MessageChannel::port2(Self) -> MessagePort
-impl @js.JsImpl for MessageChannel
 impl Show for MessageChannel
 
 pub(all) struct MessageEvent {
@@ -28,7 +28,6 @@ pub(all) struct MessageEvent {
 }
 fn MessageEvent::as_any(Self) -> @nostd.Any
 fn MessageEvent::as_event_target(Self) -> @event.EventTarget
-impl @js.JsImpl for MessageEvent
 impl @event.EventTargetImpl for MessageEvent
 impl Show for MessageEvent
 
@@ -42,7 +41,6 @@ fn MessagePort::postMessage(Self, &@js.JsImpl) -> Unit
 #alias(post_message_with_transfer)
 fn MessagePort::postMessageWithTransfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
 fn MessagePort::start(Self) -> Unit
-impl @js.JsImpl for MessagePort
 impl @event.EventTargetImpl for MessagePort
 impl Show for MessagePort
 

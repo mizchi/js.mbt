@@ -20,7 +20,6 @@ fn[T] AsyncLocalStorage::exit(Self[T], () -> Unit) -> Unit
 fn[T] AsyncLocalStorage::getStore(Self[T]) -> T?
 fn[T] AsyncLocalStorage::new() -> Self[T]
 fn[T : @js.JsImpl] AsyncLocalStorage::run(Self[T], T, () -> Unit) -> Unit
-impl[T] @js.JsImpl for AsyncLocalStorage[T]
 
 // Type aliases
 

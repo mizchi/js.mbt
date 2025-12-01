@@ -12,9 +12,6 @@ pub type MutationObserver
 pub fn MutationObserver::as_any(self : MutationObserver) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for MutationObserver
-
-///|
 /// Creates a new MutationObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
 pub fn MutationObserver::new(
@@ -65,13 +62,13 @@ pub(all) struct MutationRecord {
 }
 
 ///|
-/// Get the type of mutation
-pub fn MutationRecord::mutation_type(self : Self) -> String {
-  self.as_any().get("type").cast()
-}
+pub fn MutationRecord::as_any(self : MutationRecord) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for MutationRecord
+/// Get the type of mutation
+pub fn MutationRecord::mutation_type(self : Self) -> String {
+  self.as_any()["type"].cast()
+}
 
 ///|
 /// IntersectionObserver observes intersection changes
@@ -81,9 +78,6 @@ pub type IntersectionObserver
 
 ///|
 pub fn IntersectionObserver::as_any(self : IntersectionObserver) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for IntersectionObserver
 
 ///|
 /// Creates a new IntersectionObserver
@@ -147,7 +141,9 @@ pub(all) struct IntersectionObserverEntry {
 }
 
 ///|
-pub impl @js.JsImpl for IntersectionObserverEntry
+pub fn IntersectionObserverEntry::as_any(
+  self : IntersectionObserverEntry,
+) -> @nostd.Any = "%identity"
 
 ///|
 /// ResizeObserver observes size changes
@@ -157,9 +153,6 @@ pub type ResizeObserver
 
 ///|
 pub fn ResizeObserver::as_any(self : ResizeObserver) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for ResizeObserver
 
 ///|
 /// Creates a new ResizeObserver
@@ -214,4 +207,4 @@ pub(all) struct ResizeObserverEntry {
 }
 
 ///|
-pub impl @js.JsImpl for ResizeObserverEntry
+pub fn ResizeObserverEntry::as_any(self : ResizeObserverEntry) -> @nostd.Any = "%identity"

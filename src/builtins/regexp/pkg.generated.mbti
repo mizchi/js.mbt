@@ -46,7 +46,6 @@ pub struct RegExpMatchArray {
   groups : Map[String, String]?
 }
 fn RegExpMatchArray::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for RegExpMatchArray
 
 pub struct RegExpResult {
   full : String
@@ -56,7 +55,6 @@ pub struct RegExpResult {
   groups : Map[String, String]?
 }
 fn RegExpResult::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for RegExpResult
 
 // Type aliases
 

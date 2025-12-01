@@ -8,9 +8,6 @@ pub type R2Bucket
 pub fn R2Bucket::as_any(self : R2Bucket) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for R2Bucket
-
-///|
 /// Get an object from R2
 pub async fn R2Bucket::get(
   self : Self,
@@ -19,7 +16,7 @@ pub async fn R2Bucket::get(
   range? : R2Range,
 ) -> R2Object? {
   let promise : @js.Promise[R2Object?] = if onlyIf is None && range is None {
-    self.call("get", [key]).cast()
+    self.as_any()._call("get", [@nostd.any(key)]).cast()
   } else {
     let onlyIf_js : @js.Any? = match onlyIf {
       Some(cond) =>
@@ -51,8 +48,8 @@ pub async fn R2Bucket::get(
     let opts = @mbtconv.from_option_map({
       "onlyIf": onlyIf_js.map(fn(x) { @nostd.any(x) }),
       "range": range_js.map(fn(x) { @nostd.any(x) }),
-    }).cast()
-    self.call2("get", key, opts).cast()
+    })
+    self.as_any()._call("get", [@nostd.any(key), opts]).cast()
   }
   promise.wait()
 }
@@ -60,7 +57,10 @@ pub async fn R2Bucket::get(
 ///|
 /// Get object metadata without body
 pub async fn R2Bucket::head(self : Self, key : String) -> R2Object? {
-  let promise : @js.Promise[R2Object?] = self.call("head", [key]).cast()
+  let promise : @js.Promise[R2Object?] = self
+    .as_any()
+    ._call("head", [@nostd.any(key)])
+    .cast()
   promise.wait()
 }
 
@@ -85,7 +85,7 @@ pub async fn R2Bucket::put(
     sha256 is None &&
     sha384 is None &&
     sha512 is None {
-    self.call2("put", key, value).cast()
+    self.as_any()._call("put", [@nostd.any(key), @nostd.any(value)]).cast()
   } else {
     let httpMetadata_js : @nostd.Any? = match httpMetadata {
       Some(meta) => Some(@nostd.any(meta.as_any()))
@@ -102,8 +102,11 @@ pub async fn R2Bucket::put(
       "sha256": sha256.map(fn(x) { @nostd.any(x) }),
       "sha384": sha384.map(fn(x) { @nostd.any(x) }),
       "sha512": sha512.map(fn(x) { @nostd.any(x) }),
-    }).cast()
-    self.call("put", [key, value, opts]).cast()
+    })
+    self
+    .as_any()
+    ._call("put", [@nostd.any(key), @nostd.any(value), opts])
+    .cast()
   }
   promise.wait()
 }
@@ -111,7 +114,10 @@ pub async fn R2Bucket::put(
 ///|
 /// Delete an object from R2
 pub async fn R2Bucket::delete(self : Self, key : String) -> Unit {
-  let promise : @js.Promise[Unit] = self.call("delete", [key]).cast()
+  let promise : @js.Promise[Unit] = self
+    .as_any()
+    ._call("delete", [@nostd.any(key)])
+    .cast()
   promise.wait()
 }
 
@@ -124,10 +130,13 @@ pub async fn R2Bucket::delete_multiple(
   let keys_js = @js.JsArray::new()
   let mut i = 0
   while i < keys.length() {
-    keys_js.call("push", [keys[i]]) |> ignore
+    @nostd.any(keys_js)._call("push", [@nostd.any(keys[i])]) |> ignore
     i = i + 1
   }
-  let promise : @js.Promise[Unit] = self.call("delete", [keys_js]).cast()
+  let promise : @js.Promise[Unit] = self
+    .as_any()
+    ._call("delete", [@nostd.any(keys_js)])
+    .cast()
   promise.wait()
 }
 
@@ -148,7 +157,7 @@ pub async fn R2Bucket::list(
     delimiter is None &&
     startAfter is None &&
     include_ is None {
-    self.call0("list").cast()
+    self.as_any()._call("list", []).cast()
   } else {
     let include_js : @nostd.Any? = match include_ {
       Some(inc) => Some(@nostd.any(@js.from_array(inc)))
@@ -161,8 +170,8 @@ pub async fn R2Bucket::list(
       "delimiter": delimiter.map(fn(x) { @nostd.any(x) }),
       "startAfter": startAfter.map(fn(x) { @nostd.any(x) }),
       "include": include_js,
-    }).cast()
-    self.call("list", [opts]).cast()
+    })
+    self.as_any()._call("list", [opts]).cast()
   }
   promise.wait()
 }
@@ -187,7 +196,7 @@ pub async fn R2Bucket::create_multipart_upload(
     sha256 is None &&
     sha384 is None &&
     sha512 is None {
-    self.call("createMultipartUpload", [key]).cast()
+    self.as_any()._call("createMultipartUpload", [@nostd.any(key)]).cast()
   } else {
     let httpMetadata_js : @nostd.Any? = match httpMetadata {
       Some(meta) => Some(@nostd.any(meta.as_any()))
@@ -204,8 +213,8 @@ pub async fn R2Bucket::create_multipart_upload(
       "sha256": sha256.map(fn(x) { @nostd.any(x) }),
       "sha384": sha384.map(fn(x) { @nostd.any(x) }),
       "sha512": sha512.map(fn(x) { @nostd.any(x) }),
-    }).cast()
-    self.call2("createMultipartUpload", key, opts).cast()
+    })
+    self.as_any()._call("createMultipartUpload", [@nostd.any(key), opts]).cast()
   }
   promise.wait()
 }
@@ -217,7 +226,10 @@ pub fn R2Bucket::resume_multipart_upload(
   key : String,
   upload_id : String,
 ) -> R2MultipartUpload {
-  self.call2("resumeMultipartUpload", key, upload_id).cast()
+  self
+  .as_any()
+  ._call("resumeMultipartUpload", [@nostd.any(key), @nostd.any(upload_id)])
+  .cast()
 }
 
 ///|
@@ -249,7 +261,7 @@ pub(all) struct R2HttpMetadata {
 }
 
 ///|
-pub impl @js.JsImpl for R2HttpMetadata with as_any(self) {
+pub fn R2HttpMetadata::as_any(self : R2HttpMetadata) -> @js.Any {
   @mbtconv.from_option_map({
     "contentType": self.contentType.map(fn(x) { @nostd.any(x) }),
     "contentLanguage": self.contentLanguage.map(fn(x) { @nostd.any(x) }),
@@ -269,94 +281,94 @@ pub type R2Object
 pub fn R2Object::as_any(self : R2Object) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for R2Object
-
-///|
 /// Get object key
 pub fn R2Object::key(self : Self) -> String {
-  self.get("key").cast()
+  self.as_any()["key"].cast()
 }
 
 ///|
 /// Get object version
 pub fn R2Object::version(self : Self) -> String {
-  self.get("version").cast()
+  self.as_any()["version"].cast()
 }
 
 ///|
 /// Get object size
 pub fn R2Object::size(self : Self) -> Int {
-  self.get("size").cast()
+  self.as_any()["size"].cast()
 }
 
 ///|
 /// Get object etag
 pub fn R2Object::etag(self : Self) -> String {
-  self.get("etag").cast()
+  self.as_any()["etag"].cast()
 }
 
 ///|
 /// Get object HTTP metadata
 pub fn R2Object::http_metadata(self : Self) -> @js.Any {
-  self.get("httpMetadata")
+  self.as_any()["httpMetadata"].cast()
 }
 
 ///|
 /// Get object custom metadata
 pub fn R2Object::custom_metadata(self : Self) -> @js.Any {
-  self.get("customMetadata")
+  self.as_any()["customMetadata"].cast()
 }
 
 ///|
 /// Get object uploaded time
 pub fn R2Object::uploaded(self : Self) -> @js.Any {
-  self.get("uploaded")
+  self.as_any()["uploaded"].cast()
 }
 
 ///|
 /// Get object body as ArrayBuffer
 pub async fn R2Object::array_buffer(self : Self) -> @js.ArrayBuffer {
-  let promise : @js.Promise[@js.ArrayBuffer] = self.call0("arrayBuffer").cast()
+  let promise : @js.Promise[@js.ArrayBuffer] = self
+    .as_any()
+    ._call("arrayBuffer", [])
+    .cast()
   promise.wait()
 }
 
 ///|
 /// Get object body as text
 pub async fn R2Object::text(self : Self) -> String {
-  let promise : @js.Promise[String] = self.call0("text").cast()
+  let promise : @js.Promise[String] = self.as_any()._call("text", []).cast()
   promise.wait()
 }
 
 ///|
 /// Get object body as JSON
 pub async fn R2Object::json(self : Self) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self.call0("json").cast()
+  let promise : @js.Promise[@js.Any] = self.as_any()._call("json", []).cast()
   promise.wait()
 }
 
 ///|
 /// Get object body as blob
 pub async fn R2Object::blob(self : Self) -> @blob.Blob {
-  let promise : @js.Promise[@blob.Blob] = self.call0("blob").cast()
+  let promise : @js.Promise[@blob.Blob] = self.as_any()._call("blob", []).cast()
   promise.wait()
 }
 
 ///|
 /// Get object body as ReadableStream
 pub fn R2Object::body(self : Self) -> @streams.ReadableStream {
-  self.get("body").cast()
+  self.as_any()["body"].cast()
 }
 
 ///|
 /// Get object body used status
 pub fn R2Object::body_used(self : Self) -> Bool {
-  self.get("bodyUsed").cast()
+  self.as_any()["bodyUsed"].cast()
 }
 
 ///|
 /// Write object to a writable stream
 pub fn R2Object::write_http_metadata(self : Self, headers : @js.Any) -> Unit {
-  self.call("writeHttpMetadata", [headers]).cast()
+  self.as_any()._call("writeHttpMetadata", [@nostd.any(headers)]).cast()
 }
 
 ///|
@@ -372,9 +384,6 @@ pub(all) struct R2Objects {
 pub fn R2Objects::as_any(self : R2Objects) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for R2Objects
-
-///|
 /// R2 Multipart Upload
 #external
 pub type R2MultipartUpload
@@ -383,18 +392,15 @@ pub type R2MultipartUpload
 pub fn R2MultipartUpload::as_any(self : R2MultipartUpload) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for R2MultipartUpload
-
-///|
 /// Get upload key
 pub fn R2MultipartUpload::key(self : Self) -> String {
-  self.get("key").cast()
+  self.as_any()["key"].cast()
 }
 
 ///|
 /// Get upload ID
 pub fn R2MultipartUpload::uploadId(self : Self) -> String {
-  self.get("uploadId").cast()
+  self.as_any()["uploadId"].cast()
 }
 
 ///|
@@ -405,7 +411,8 @@ pub async fn R2MultipartUpload::upload_part(
   value : @js.Any,
 ) -> R2UploadedPart {
   let promise : @js.Promise[R2UploadedPart] = self
-    .call2("uploadPart", part_number, value)
+    .as_any()
+    ._call("uploadPart", [@nostd.any(part_number), @nostd.any(value)])
     .cast()
   promise.wait()
 }
@@ -413,7 +420,7 @@ pub async fn R2MultipartUpload::upload_part(
 ///|
 /// Abort the multipart upload
 pub async fn R2MultipartUpload::abort(self : Self) -> Unit {
-  let promise : @js.Promise[Unit] = self.call0("abort").cast()
+  let promise : @js.Promise[Unit] = self.as_any()._call("abort", []).cast()
   promise.wait()
 }
 
@@ -426,10 +433,14 @@ pub async fn R2MultipartUpload::complete(
   let parts_js = @js.JsArray::new()
   let mut i = 0
   while i < parts.length() {
-    parts_js.call("push", [parts[i]]) |> ignore
+    @nostd.any(parts_js)._call("push", [@nostd.any(parts[i].as_any())])
+    |> ignore
     i = i + 1
   }
-  let promise : @js.Promise[R2Object] = self.call("complete", [parts_js]).cast()
+  let promise : @js.Promise[R2Object] = self
+    .as_any()
+    ._call("complete", [@nostd.any(parts_js)])
+    .cast()
   promise.wait()
 }
 
@@ -441,7 +452,7 @@ pub(all) struct R2UploadedPart {
 }
 
 ///|
-pub impl @js.JsImpl for R2UploadedPart with as_any(self) {
+pub fn R2UploadedPart::as_any(self : R2UploadedPart) -> @js.Any {
   @mbtconv.from_map({
     "partNumber": @nostd.any(self.partNumber),
     "etag": @nostd.any(self.etag),

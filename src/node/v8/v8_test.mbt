@@ -7,23 +7,23 @@
 /// Test get_heap_statistics returns object
 test "get_heap_statistics returns object" {
   let stats = @v8.getHeapStatistics()
-  inspect(@js.typeof_(stats) == "object", content="true")
+  inspect(stats.total_heap_size() > 0, content="true")
 }
 
 ///|
 /// Test heap statistics has total_heap_size
 test "heap statistics has total_heap_size" {
   let stats = @v8.getHeapStatistics()
-  let total = stats.get("total_heap_size")
-  inspect(@js.typeof_(total) == "number", content="true")
+  let total = stats.total_heap_size()
+  inspect(total > 0, content="true")
 }
 
 ///|
 /// Test heap statistics has used_heap_size
 test "heap statistics has used_heap_size" {
   let stats = @v8.getHeapStatistics()
-  let used = stats.get("used_heap_size")
-  inspect(@js.typeof_(used) == "number", content="true")
+  let used = stats.used_heap_size()
+  inspect(used > 0, content="true")
 }
 
 ///|
@@ -38,15 +38,15 @@ test "get_heap_space_statistics returns array" {
 test "heap space has space_name" {
   let spaces = @v8.getHeapSpaceStatistics()
   let first = spaces[0]
-  let name = first.get("space_name")
-  inspect(@js.typeof_(name) == "string", content="true")
+  let name = first.space_name()
+  inspect(name.length() > 0, content="true")
 }
 
 ///|
 /// Test get_heap_code_statistics returns object
 test "get_heap_code_statistics returns object" {
   let stats = @v8.getHeapCodeStatistics()
-  inspect(@js.typeof_(stats) == "object", content="true")
+  inspect(stats.code_and_metadata_size() >= 0, content="true")
 }
 
 ///| Heap Snapshot Tests

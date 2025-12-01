@@ -4,6 +4,7 @@ package "mizchi/js/builtins/typedarray"
 import(
   "mizchi/js"
   "mizchi/js/builtins/bigint"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -73,6 +74,7 @@ pub(all) struct DataView {
   byteLength : UInt
   byteOffset : UInt
 }
+fn DataView::as_any(Self) -> @nostd.Any
 #alias(getFloat32)
 fn DataView::get_float32(Self, UInt, little_endian? : Bool) -> Double
 #alias(getFloat64)
@@ -106,7 +108,6 @@ fn DataView::set_uint16(Self, UInt, UInt, little_endian? : Bool) -> Unit
 fn DataView::set_uint32(Self, UInt, UInt, little_endian? : Bool) -> Unit
 #alias(setUint8)
 fn DataView::set_uint8(Self, UInt, UInt) -> Unit
-impl @js.JsImpl for DataView
 
 pub(all) struct Float32Array {
   buffer : @js.ArrayBuffer

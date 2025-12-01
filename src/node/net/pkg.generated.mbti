@@ -30,7 +30,6 @@ fn AddressInfo::address(Self) -> String
 fn AddressInfo::as_any(Self) -> @nostd.Any
 fn AddressInfo::family(Self) -> String
 fn AddressInfo::port(Self) -> Int
-impl @js.JsImpl for AddressInfo
 
 #external
 pub type Server

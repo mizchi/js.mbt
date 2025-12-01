@@ -7,7 +7,7 @@
 pub type RegExp
 
 ///|
-/// For backward compatibility
+/// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
 pub impl @js.JsImpl for RegExp
 
 ///|
@@ -27,10 +27,6 @@ pub struct RegExpResult {
 }
 
 ///|
-/// For backward compatibility
-pub impl @js.JsImpl for RegExpResult
-
-///|
 pub fn RegExpResult::as_any(self : RegExpResult) -> @nostd.Any = "%identity"
 
 ///|
@@ -45,10 +41,6 @@ pub struct RegExpMatchArray {
   input : String?
   groups : Map[String, String]?
 }
-
-///|
-/// For backward compatibility
-pub impl @js.JsImpl for RegExpMatchArray
 
 ///|
 pub fn RegExpMatchArray::as_any(self : RegExpMatchArray) -> @nostd.Any = "%identity"

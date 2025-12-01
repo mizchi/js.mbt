@@ -20,7 +20,6 @@ fn IntersectionObserver::new((@js.Any?, Self) -> Unit, options? : @js.Any) -> Se
 fn IntersectionObserver::observe(Self, @dom.Element) -> Unit
 fn IntersectionObserver::take_records(Self) -> @js.Any
 fn IntersectionObserver::unobserve(Self, @dom.Element) -> Unit
-impl @js.JsImpl for IntersectionObserver
 
 pub(all) struct IntersectionObserverEntry {
   target : @dom.Element
@@ -31,7 +30,7 @@ pub(all) struct IntersectionObserverEntry {
   isIntersecting : Bool
   time : Double
 }
-impl @js.JsImpl for IntersectionObserverEntry
+fn IntersectionObserverEntry::as_any(Self) -> @nostd.Any
 
 #external
 pub type MutationObserver
@@ -40,7 +39,6 @@ fn MutationObserver::disconnect(Self) -> Unit
 fn MutationObserver::new((@js.Any?, Self) -> Unit) -> Self
 fn MutationObserver::observe(Self, @dom.Element, @js.Any) -> Unit
 fn MutationObserver::take_records(Self) -> @js.Any
-impl @js.JsImpl for MutationObserver
 
 pub(all) struct MutationRecord {
   mutationType : String
@@ -52,8 +50,8 @@ pub(all) struct MutationRecord {
   attributeName : @js.Nullable[String]
   oldValue : @js.Nullable[String]
 }
+fn MutationRecord::as_any(Self) -> @nostd.Any
 fn MutationRecord::mutation_type(Self) -> String
-impl @js.JsImpl for MutationRecord
 
 #external
 pub type ResizeObserver
@@ -63,7 +61,6 @@ fn ResizeObserver::new((@js.Any?, Self) -> Unit) -> Self
 fn ResizeObserver::observe(Self, @dom.Element) -> Unit
 fn ResizeObserver::observe_with_options(Self, @dom.Element, @js.Any) -> Unit
 fn ResizeObserver::unobserve(Self, @dom.Element) -> Unit
-impl @js.JsImpl for ResizeObserver
 
 pub(all) struct ResizeObserverEntry {
   target : @dom.Element
@@ -71,7 +68,7 @@ pub(all) struct ResizeObserverEntry {
   borderBoxSize : @js.Any
   contentBoxSize : @js.Any
 }
-impl @js.JsImpl for ResizeObserverEntry
+fn ResizeObserverEntry::as_any(Self) -> @nostd.Any
 
 // Type aliases
 

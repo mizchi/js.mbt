@@ -6,7 +6,7 @@
 pub type JsBigInt
 
 ///|
-/// For backward compatibility with typedarray
+/// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
 pub impl @js.JsImpl for JsBigInt
 
 ///|

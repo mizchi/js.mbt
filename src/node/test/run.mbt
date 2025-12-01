@@ -5,7 +5,7 @@ pub(all) struct TestShard {
 }
 
 ///|
-pub impl @js.JsImpl for TestShard
+pub fn TestShard::as_any(self : TestShard) -> @nostd.Any = "%identity"
 
 ///|
 /// https://nodejs.org/api/test.html#runoptions
@@ -60,7 +60,7 @@ pub fn run(
     "testNamePatterns": testNamePatterns.map(fn(x) { @js.from_array(x) }),
     "testSkipPatterns": testSkipPatterns.map(fn(x) { @js.from_array(x) }),
     "timeout": timeout.map(fn(x) { @js.any(x) }),
-    "shard": shard.map(fn(x) { x.as_any() }),
+    "shard": shard.map(fn(x) { @js.identity(x.as_any()) }),
     "rerunFailuresFilePath": rerunFailuresFilePath.map(fn(x) { @js.any(x) }),
     "setup": setup.map(fn(x) { @js.from_fn0(x) }),
   })

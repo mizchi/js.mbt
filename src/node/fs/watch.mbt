@@ -8,13 +8,10 @@ pub type FSWatcher
 pub fn FSWatcher::as_any(self : FSWatcher) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for FSWatcher
-
-///|
 /// Close the watcher
 /// JS: watcher.close()
 pub fn FSWatcher::close(self : Self) -> Unit {
-  self.call0("close") |> ignore
+  self.as_any()._call("close", []) |> ignore
 }
 
 ///|
@@ -25,7 +22,10 @@ pub fn FSWatcher::on(
   event : String,
   listener : (String, String) -> Unit,
 ) -> Self {
-  self.call2("on", event, @js.from_fn2(listener)).cast()
+  self
+  .as_any()
+  ._call("on", [@nostd.any(event), @nostd.any(@js.from_fn2(listener))])
+  .cast()
 }
 
 ///|

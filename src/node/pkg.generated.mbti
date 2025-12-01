@@ -39,7 +39,6 @@ fn setImmediate(() -> Unit) -> Immediate
 #external
 pub type Immediate
 fn Immediate::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for Immediate
 
 // Type aliases
 pub using @buffer {type Buffer}

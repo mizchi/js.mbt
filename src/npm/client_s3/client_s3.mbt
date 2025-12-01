@@ -8,7 +8,7 @@
 pub type S3Client
 
 ///|
-pub impl @js.JsImpl for S3Client
+pub fn S3Client::as_any(self : S3Client) -> @nostd.Any = "%identity"
 
 ///|
 /// Create a new S3Client
@@ -353,10 +353,10 @@ pub async fn copy_object(
   let input = @js.Object::new()
   input["CopySource"] = sourceBucket + "/" + sourceKey
   input["Bucket"] = destBucket
-  input.set("Key", destKey)
+  input["Key"] = destKey
   let result = ffi_copy_object(client |> @js.identity, input.as_any()).wait()
-  let copy_result = result.get("CopyObjectResult")
-  { etag: copy_result.get("ETag") |> @js.identity }
+  let copy_result = result["CopyObjectResult"]
+  { etag: copy_result["ETag"] |> @js.identity }
 }
 
 ///|

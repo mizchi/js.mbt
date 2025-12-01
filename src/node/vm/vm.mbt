@@ -16,6 +16,7 @@ extern "js" fn vm_module() -> @js.Any =
 pub type Script
 
 ///|
+/// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
 pub impl @js.JsImpl for Script
 
 ///|
@@ -132,13 +133,13 @@ pub fn Script::createCachedData(self : Script) -> @buffer.Buffer {
 ///|
 /// Get cachedDataRejected property
 pub fn Script::cachedDataRejected(self : Script) -> Bool? {
-  self.get("cachedDataRejected") |> @js.identity_option
+  @nostd.any(self)["cachedDataRejected"] |> @nostd.identity_option
 }
 
 ///|
 /// Get sourceMapURL property
 pub fn Script::sourceMapURL(self : Script) -> String? {
-  self.get("sourceMapURL") |> @js.identity_option
+  @nostd.any(self)["sourceMapURL"] |> @nostd.identity_option
 }
 
 ///| Module functions

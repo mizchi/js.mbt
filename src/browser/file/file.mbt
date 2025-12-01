@@ -13,9 +13,6 @@ pub(all) struct File {
 pub fn File::as_any(self : File) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for File
-
-///|
 /// Get the content type of the File
 #alias(content_type)
 pub fn File::contentType(self : Self) -> String {
@@ -105,9 +102,6 @@ pub(all) struct FileReader {
 
 ///|
 pub fn FileReader::as_any(self : FileReader) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for FileReader
 
 ///|
 /// Create a new FileReader

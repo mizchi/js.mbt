@@ -29,7 +29,6 @@ fn Worker::postMessage(Self, &@js.JsImpl) -> Unit
 #alias(post_message_with_transfer)
 fn Worker::postMessageWithTransfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
 fn Worker::terminate(Self) -> Unit
-impl @js.JsImpl for Worker
 impl @event.EventTargetImpl for Worker
 
 // Type aliases

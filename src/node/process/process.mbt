@@ -10,17 +10,19 @@ pub type Process
 pub fn Process::as_any(self : Process) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Process
-
-///|
 pub fn process() -> Process {
   @js.identity(process_module())
 }
 
 ///|
+fn process_any() -> @nostd.Any {
+  @nostd.any(process_module())
+}
+
+///|
 /// JS: process.env
 pub fn env() -> ProcessEnv {
-  process_module().get("env").cast()
+  process_any()["env"].cast()
 }
 
 ///|
@@ -28,80 +30,85 @@ pub fn env() -> ProcessEnv {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn argv() -> Array[String] {
-  @js.identity(process().get("argv"))
+  process_any()["argv"].cast()
 }
 
 ///|
 /// JS: process.cwd()
 pub fn cwd() -> String {
-  process().call0("cwd").cast()
+  process_any()._call("cwd", []).cast()
 }
 
 ///|
 /// JS: process.version
 pub fn version() -> String {
-  @js.identity(process().get("version"))
+  process_any()["version"].cast()
 }
 
 ///|
 /// JS: process.versions
 pub fn versions() -> @js.Object {
-  @js.identity(process().get("version"))
+  process_any()["version"].cast()
 }
 
 ///|
 /// JS: process.isTTY
 pub fn isTTY() -> Bool {
-  @js.identity(process().get("isTTY"))
+  process_any()["isTTY"].cast()
 }
 
 ///|
 /// JS: process.chdir(path)
 pub fn chdir(path : String) -> Unit {
-  @js.identity(process().get("chdir").call_self([path]))
+  process_any()["chdir"]._invoke([@nostd.any(path)]) |> ignore
 }
 
 ///|
 /// JS: process.exit(code)
 pub fn exit(code : Int) -> Unit {
-  process().get("exit").call_self([code]) |> ignore
+  process_any()["exit"]._invoke([@nostd.any(code)]) |> ignore
 }
 
 ///|
 /// JS: process.exitCode
 pub fn exitCode() -> Int {
-  process().get("exitCode").cast()
+  process_any()["exitCode"].cast()
 }
 
 ///|
 /// JS: process.stdin
 /// Returns tty.ReadStream when connected to a TTY, otherwise stream.Readable
 pub fn stdin() -> @tty.ReadStream {
-  @js.identity(process().get("stdin"))
+  process_any()["stdin"].cast()
 }
 
 ///|
 /// JS: process.stdout
 /// Returns tty.WriteStream when connected to a TTY, otherwise stream.Writable
 pub fn stdout() -> @tty.WriteStream {
-  @js.identity(process().get("stdout"))
+  process_any()["stdout"].cast()
 }
 
 ///|
 /// JS: process.stderr
 /// Returns tty.WriteStream when connected to a TTY, otherwise stream.Writable
 pub fn stderr() -> @tty.WriteStream {
-  @js.identity(process().get("stderr"))
+  process_any()["stderr"].cast()
 }
 
 ///|
 /// JS: process.on(sig, listener)
 pub fn on(sig : String, listener : () -> Unit) -> Unit {
-  @js.identity(process().call2("on", sig, @js.from_fn0(listener)))
+  process_any()._call("on", [
+    @nostd.any(sig),
+    @nostd.any(@js.from_fn0(listener)),
+  ])
+  |> ignore
 }
 
 ///|
 /// JS: process.nextTick(callback)
 pub fn nextTick(callback : () -> Unit) -> Unit {
-  process().call1("nextTick", @js.from_fn0(callback)) |> ignore
+  process_any()._call("nextTick", [@nostd.any(@js.from_fn0(callback))])
+  |> ignore
 }

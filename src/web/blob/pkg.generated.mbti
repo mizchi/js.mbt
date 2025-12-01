@@ -24,7 +24,6 @@ fn Blob::new(Array[&@js.JsImpl], content_type? : String) -> Self
 fn Blob::slice(Self, start? : Int, end? : Int, content_type? : String) -> Self
 fn Blob::stream(Self) -> @streams.ReadableStream
 async fn Blob::text(Self) -> String
-impl @js.JsImpl for Blob
 
 // Type aliases
 

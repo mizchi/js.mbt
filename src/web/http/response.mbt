@@ -11,9 +11,6 @@ pub(all) struct Response {
 pub fn Response::as_any(self : Response) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Response
-
-///|
 /// Create a new Response
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/Response
 pub fn Response::new(
@@ -169,7 +166,7 @@ pub extern "js" fn Response::type_(self : Self) -> String =
 ///|
 /// Get the body as a ReadableStream
 pub fn Response::body(self : Self) -> @streams.ReadableStream? {
-  self.get("body") |> @js.identity_option()
+  self.as_any()["body"] |> @nostd.identity_option()
 }
 
 ///|

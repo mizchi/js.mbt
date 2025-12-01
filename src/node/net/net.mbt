@@ -12,24 +12,21 @@ pub type AddressInfo
 pub fn AddressInfo::as_any(self : AddressInfo) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for AddressInfo
-
-///|
 /// Get the port number
 pub fn AddressInfo::port(self : AddressInfo) -> Int {
-  self.get("port") |> @js.identity
+  self.as_any()["port"].cast()
 }
 
 ///|
 /// Get the IP address (e.g., "127.0.0.1" or "::1")
 pub fn AddressInfo::address(self : AddressInfo) -> String {
-  self.get("address") |> @js.identity
+  self.as_any()["address"].cast()
 }
 
 ///|
 /// Get the IP family ("IPv4" or "IPv6")
 pub fn AddressInfo::family(self : AddressInfo) -> String {
-  self.get("family") |> @js.identity
+  self.as_any()["family"].cast()
 }
 
 ///| Socket class
@@ -42,6 +39,7 @@ pub type Socket
 pub fn Socket::as_any(self : Socket) -> @nostd.Any = "%identity"
 
 ///|
+/// Note: Keep JsImpl for EventEmitterImpl compatibility
 pub impl @js.JsImpl for Socket
 
 ///|
@@ -57,105 +55,106 @@ pub fn Socket::as_duplex(self : Socket) -> @stream.Duplex {
 /// Connect the socket to a port and host
 pub fn Socket::connect(self : Socket, port : Int, host? : String) -> Socket {
   match host {
-    Some(h) => self.call2("connect", port, h) |> @js.identity
-    None => self.call("connect", [port]).cast()
+    Some(h) =>
+      self.as_any()._call("connect", [@nostd.any(port), @nostd.any(h)]).cast()
+    None => self.as_any()._call("connect", [@nostd.any(port)]).cast()
   }
 }
 
 ///|
 /// Write data to the socket
 pub fn Socket::write(self : Socket, data : String) -> Bool {
-  self.call("write", [data]).cast()
+  self.as_any()._call("write", [@nostd.any(data)]).cast()
 }
 
 ///|
 /// End the socket connection
 pub fn Socket::end(self : Socket) -> Socket {
-  self.call0("end") |> @js.identity
+  self.as_any()._call("end", []).cast()
 }
 
 ///|
 /// Destroy the socket
 pub fn Socket::destroy(self : Socket) -> Socket {
-  self.call0("destroy") |> @js.identity
+  self.as_any()._call("destroy", []).cast()
 }
 
 ///|
 /// Pause reading data
 pub fn Socket::pause(self : Socket) -> Socket {
-  self.call0("pause") |> @js.identity
+  self.as_any()._call("pause", []).cast()
 }
 
 ///|
 /// Resume reading data
 pub fn Socket::resume_(self : Socket) -> Socket {
-  self.call0("resume") |> @js.identity
+  self.as_any()._call("resume", []).cast()
 }
 
 ///|
 /// Set the socket encoding
 pub fn Socket::setEncoding(self : Socket, encoding : String) -> Socket {
-  self.call("setEncoding", [encoding]).cast()
+  self.as_any()._call("setEncoding", [@nostd.any(encoding)]).cast()
 }
 
 ///|
 /// Set keep alive
 pub fn Socket::setKeepAlive(self : Socket, enable : Bool) -> Socket {
-  self.call("setKeepAlive", [enable]).cast()
+  self.as_any()._call("setKeepAlive", [@nostd.any(enable)]).cast()
 }
 
 ///|
 /// Set no delay (disable Nagle algorithm)
 pub fn Socket::setNoDelay(self : Socket, noDelay : Bool) -> Socket {
-  self.call("setNoDelay", [noDelay]).cast()
+  self.as_any()._call("setNoDelay", [@nostd.any(noDelay)]).cast()
 }
 
 ///|
 /// Set timeout
 pub fn Socket::setTimeout(self : Socket, timeout : Int) -> Socket {
-  self.call("setTimeout", [timeout]).cast()
+  self.as_any()._call("setTimeout", [@nostd.any(timeout)]).cast()
 }
 
 ///|
 /// Get the remote address
 pub fn Socket::remoteAddress(self : Socket) -> String? {
-  self.get("remoteAddress") |> @js.identity_option
+  self.as_any()["remoteAddress"] |> @nostd.identity_option
 }
 
 ///|
 /// Get the remote port
 pub fn Socket::remotePort(self : Socket) -> Int? {
-  self.get("remotePort") |> @js.identity_option
+  self.as_any()["remotePort"] |> @nostd.identity_option
 }
 
 ///|
 /// Get the local address
 pub fn Socket::localAddress(self : Socket) -> String? {
-  self.get("localAddress") |> @js.identity_option
+  self.as_any()["localAddress"] |> @nostd.identity_option
 }
 
 ///|
 /// Get the local port
 pub fn Socket::localPort(self : Socket) -> Int? {
-  self.get("localPort") |> @js.identity_option
+  self.as_any()["localPort"] |> @nostd.identity_option
 }
 
 ///|
 /// Check if the socket is destroyed
 pub fn Socket::destroyed(self : Socket) -> Bool {
-  self.get("destroyed").cast()
+  self.as_any()["destroyed"].cast()
 }
 
 ///|
 /// Get bytes read
 pub fn Socket::bytesRead(self : Socket) -> Int {
-  self.get("bytesRead").cast()
+  self.as_any()["bytesRead"].cast()
 }
 
 ///|
 /// Get bytes written
 pub fn Socket::bytesWritten(self : Socket) -> Int {
-  self.get("bytesWritten").cast()
+  self.as_any()["bytesWritten"].cast()
 }
 
 ///| Server class
@@ -168,6 +167,7 @@ pub type Server
 pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
 
 ///|
+/// Note: Keep JsImpl for EventEmitterImpl compatibility
 pub impl @js.JsImpl for Server
 
 ///|

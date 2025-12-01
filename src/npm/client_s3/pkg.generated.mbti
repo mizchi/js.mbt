@@ -3,6 +3,7 @@ package "mizchi/js/npm/client_s3"
 
 import(
   "mizchi/js"
+  "mizchi/js/nostd"
 )
 
 // Values
@@ -71,8 +72,8 @@ pub struct PutObjectOutput {
 
 #external
 pub type S3Client
+fn S3Client::as_any(Self) -> @nostd.Any
 fn S3Client::new(region? : String, endpoint? : String, accessKeyId? : String, secretAccessKey? : String, forcePathStyle? : Bool) -> Self
-impl @js.JsImpl for S3Client
 
 pub struct S3Object {
   key : String?

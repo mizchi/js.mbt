@@ -62,7 +62,7 @@ test "exists_sync returns false for non-existing file" {
 /// Test stat_sync returns file stats
 test "stat_sync returns stats for package.json" {
   let stats = statSync("package.json")
-  inspect(@js.typeof_(stats) == "object", content="true")
+  inspect(@nostd.typeof_(stats.as_any()) == "object", content="true")
 }
 
 ///|
@@ -242,8 +242,8 @@ test "chown_sync changes file ownership" {
   let test_file = "test_chown.txt"
   writeFileSync(test_file, "chown test" |> @js.any)
   let stats = statSync(test_file)
-  let uid : Int = stats.get("uid").cast()
-  let gid : Int = stats.get("gid").cast()
+  let uid : Int = stats.as_any()["uid"].cast()
+  let gid : Int = stats.as_any()["gid"].cast()
   // Set to same owner (should succeed without elevated permissions)
   chownSync(test_file, uid, gid)
   let exists = existsSync(test_file)

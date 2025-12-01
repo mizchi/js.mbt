@@ -106,7 +106,7 @@ pub(all) struct TestShard {
   total : Int
   index : Int
 }
-impl @js.JsImpl for TestShard
+fn TestShard::as_any(Self) -> @nostd.Any
 
 // Type aliases
 

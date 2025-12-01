@@ -16,9 +16,6 @@ pub type AsyncLocalStorage[T]
 pub fn[T] AsyncLocalStorage::as_any(self : AsyncLocalStorage[T]) -> @nostd.Any = "%identity"
 
 ///|
-pub impl[T] @js.JsImpl for AsyncLocalStorage[T]
-
-///|
 /// Create a new AsyncLocalStorage instance
 pub fn[T] AsyncLocalStorage::new() -> AsyncLocalStorage[T] {
   @js.identity(@js.new_(async_local_storage_constructor(), []))
@@ -32,7 +29,13 @@ pub fn[T : @js.JsImpl] AsyncLocalStorage::run(
   store : T,
   callback : () -> Unit,
 ) -> Unit {
-  self.call2("run", store, callback |> @js.from_fn0) |> @js.identity
+  self
+  .as_any()
+  ._call("run", [
+    @nostd.any(store.as_any()),
+    @nostd.any(callback |> @js.from_fn0),
+  ])
+  |> ignore
 }
 
 ///|
@@ -42,14 +45,14 @@ pub fn[T] AsyncLocalStorage::exit(
   self : AsyncLocalStorage[T],
   callback : () -> Unit,
 ) -> Unit {
-  self.call("exit", [callback |> @js.from_fn0]).cast()
+  self.as_any()._call("exit", [@nostd.any(callback |> @js.from_fn0)]) |> ignore
 }
 
 ///|
 /// Returns the current store. If called outside of an asynchronous context, it returns undefined.
 /// https://nodejs.org/api/async_context.html#asynclocalstoragegetstore
 pub fn[T] AsyncLocalStorage::getStore(self : AsyncLocalStorage[T]) -> T? {
-  self.call0("getStore") |> @js.identity_option()
+  self.as_any()._call("getStore", []) |> @nostd.identity_option()
 }
 
 ///|
@@ -59,12 +62,12 @@ pub fn[T : @js.JsImpl] AsyncLocalStorage::enterWith(
   self : AsyncLocalStorage[T],
   store : T,
 ) -> Unit {
-  self.call("enterWith", [store]).cast()
+  self.as_any()._call("enterWith", [@nostd.any(store.as_any())]) |> ignore
 }
 
 ///|
 /// Disables the instance of AsyncLocalStorage
 /// https://nodejs.org/api/async_context.html#asynclocalstoragedisable
 pub fn[T] AsyncLocalStorage::disable(self : AsyncLocalStorage[T]) -> Unit {
-  self.call0("disable") |> @js.identity
+  self.as_any()._call("disable", []) |> ignore
 }

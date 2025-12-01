@@ -9,9 +9,6 @@ pub(all) struct Blob {
 pub fn Blob::as_any(self : Blob) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Blob
-
-///|
 /// Get the content type of the Blob
 #alias(content_type)
 pub fn Blob::contentType(self : Self) -> String {
@@ -42,14 +39,17 @@ pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
 /// Get the Blob contents as ArrayBuffer
 #alias(array_buffer)
 pub async fn Blob::arrayBuffer(self : Self) -> @js.ArrayBuffer {
-  let promise : @js.Promise[@js.ArrayBuffer] = self.call0("arrayBuffer").cast()
+  let promise : @js.Promise[@js.ArrayBuffer] = self
+    .as_any()
+    ._call("arrayBuffer", [])
+    .cast()
   promise.wait()
 }
 
 ///|
 /// Get the Blob contents as text
 pub async fn Blob::text(self : Self) -> String {
-  let promise : @js.Promise[String] = self.call0("text").cast()
+  let promise : @js.Promise[String] = self.as_any()._call("text", []).cast()
   promise.wait()
 }
 
@@ -95,5 +95,5 @@ pub fn Blob::slice(
 ///|
 /// Get a ReadableStream for the Blob contents
 pub fn Blob::stream(self : Self) -> @streams.ReadableStream {
-  self.call0("stream").cast()
+  self.as_any()._call("stream", []).cast()
 }

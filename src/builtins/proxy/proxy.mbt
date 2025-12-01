@@ -14,7 +14,7 @@ pub type Proxy
 pub fn Proxy::as_any(self : Proxy) -> @nostd.Any = "%identity"
 
 ///|
-/// Backward compatibility
+/// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
 pub impl @js.JsImpl for Proxy
 
 ///|

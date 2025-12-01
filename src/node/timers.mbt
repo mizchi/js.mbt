@@ -10,9 +10,6 @@ pub type Immediate
 pub fn Immediate::as_any(self : Immediate) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Immediate
-
-///|
 /// JS: setImmediate(callback)
 pub extern "js" fn setImmediate(callback : () -> Unit) -> Immediate =
   #| (callback) => setImmediate(callback)

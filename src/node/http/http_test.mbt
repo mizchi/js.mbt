@@ -71,7 +71,7 @@ async test "Node HTTP: HTTP server can get address after listening" {
   inspect(address is None, content="false")
   match address {
     Some(addr) => {
-      let port : Int = addr.get("port") |> @js.identity
+      let port = addr.port()
       inspect(port > 0, content="true")
     }
     None => ()
@@ -108,10 +108,7 @@ async test "Node HTTP: HTTP server handles simple request" {
 
   // Get port
   let port = match server.address() {
-    Some(addr) => {
-      let p : Int = @js.identity(addr.get("port"))
-      p
-    }
+    Some(addr) => addr.port()
     None => 0
   }
 

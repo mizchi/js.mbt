@@ -26,7 +26,6 @@ fn File::contentType(Self) -> String
 fn File::new(Array[&@js.JsImpl], String, content_type? : String, last_modified? : Int) -> Self
 fn File::slice(Self, start? : Int, end? : Int) -> @blob.Blob
 async fn File::text(Self) -> String
-impl @js.JsImpl for File
 
 pub(all) struct FileReader {
   readyState : Int
@@ -45,7 +44,6 @@ fn FileReader::readAsText(Self, @blob.Blob, encoding? : String) -> Unit
 fn FileReader::set_onerror(Self, (@js.Any) -> Unit) -> Unit
 fn FileReader::set_onload(Self, (@js.Any) -> Unit) -> Unit
 fn FileReader::set_onloadend(Self, (@js.Any) -> Unit) -> Unit
-impl @js.JsImpl for FileReader
 
 // Type aliases
 
