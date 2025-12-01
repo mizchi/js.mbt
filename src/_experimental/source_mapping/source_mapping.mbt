@@ -69,7 +69,7 @@ pub fn ErrorTracer::resolve_frame(
 ) -> ResolvedFrame {
   let original = match frame.file_name {
     Some(file) =>
-      match self.consumers._get(file) {
+      match self.consumers.get(file) {
         Some(consumer) => {
           let line = frame.line_number.unwrap_or(1)
           let col = frame.column_number.unwrap_or(0)

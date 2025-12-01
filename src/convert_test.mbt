@@ -407,7 +407,7 @@ test "throwable catches RangeError" {
   throwable(fn() {
     // Creating array with invalid length throws RangeError
     let arr = @nostd.any(([] : Array[Int]))
-    arr._set("length", @nostd.any(-1)) |> ignore
+    arr.set("length", -1)
   }) catch {
     ThrowError::RangeError(_) => caught_range_error = true
     _ => assert_true(false) // Should not catch other error types
@@ -502,7 +502,7 @@ test "throwable catches generic Error" {
   throwable(fn() {
     // Create and throw a generic Error
     let err = JsError::new("Generic error message")
-    throw._(err)
+    throw_(err.to_any())
   }) catch {
     ThrowError::Error(err) => {
       caught_error = true
@@ -583,24 +583,24 @@ test "ThrowError Show trait works for all variants" {
 ///|
 test "Any.to_json with null" {
   let null_val = null_()
-  let json = null_val.to_json()
+  let json = @mbtconv.to_json(null_val)
   assert_eq(json, Json::null())
 }
 
 ///|
 test "Any.to_json with boolean" {
   let true_val = @nostd.any(true)
-  let json_true = true_val.to_json()
+  let json_true = @mbtconv.to_json(true_val)
   assert_true(json_true is True)
   let false_val = @nostd.any(false)
-  let json_false = false_val.to_json()
+  let json_false = @mbtconv.to_json(false_val)
   assert_true(json_false is False)
 }
 
 ///|
 test "Any.to_json with number" {
   let num_val = @nostd.any(42.5)
-  let json = num_val.to_json()
+  let json = @mbtconv.to_json(num_val)
   match json {
     Number(n, ..) => assert_eq(n, 42.5)
     _ => fail("Expected Number")
@@ -610,7 +610,7 @@ test "Any.to_json with number" {
 ///|
 test "Any.to_json with string" {
   let str_val = @nostd.any("hello")
-  let json = str_val.to_json()
+  let json = @mbtconv.to_json(str_val)
   match json {
     String(s) => assert_eq(s, "hello")
     _ => fail("Expected String")
@@ -620,7 +620,7 @@ test "Any.to_json with string" {
 ///|
 test "Any.to_json with array" {
   let arr = from_array([@nostd.any(1), @nostd.any(2), @nostd.any(3)])
-  let json = arr.to_json()
+  let json = @mbtconv.to_json(arr)
   match json {
     Array(items) => assert_eq(items.length(), 3)
     _ => fail("Expected Array")
@@ -633,7 +633,7 @@ test "Any.to_json with object" {
     ("name", @nostd.any("Alice")),
     ("age", @nostd.any(30)),
   ]).cast()
-  let json = obj.to_json()
+  let json = @mbtconv.to_json(obj)
   match json {
     Object(map) => {
       assert_true(map.contains("name"))
@@ -648,7 +648,7 @@ test "Any.to_json with object" {
 ///|
 test "Json::True to Any" {
   let json_true : Json = true
-  let any_val : @nostd.Any = JsImpl::as_any(json_true)
+  let any_val : @nostd.Any = @nostd.any(json_true)
   let result : Bool = @js.identity(any_val)
   assert_eq(result, true)
 }
@@ -656,7 +656,7 @@ test "Json::True to Any" {
 ///|
 test "Json::False to Any" {
   let json_false : Json = false
-  let any_val : @nostd.Any = JsImpl::as_any(json_false)
+  let any_val : @nostd.Any = @nostd.any(json_false)
   let result : Bool = @js.identity(any_val)
   assert_eq(result, false)
 }
@@ -666,7 +666,7 @@ test "Json::False to Any" {
 ///|
 test "call_self_throwable success" {
   let parse_int = @global.global_this()._get("parseInt")
-  let result = parse_int.call_self_throwable([@nostd.any("42")])
+  let result = throwable(fn() { parse_int._invoke([@nostd.any("42")]) })
   let num : Int = @js.identity(result)
   assert_eq(num, 42)
 }
@@ -677,7 +677,7 @@ test "call_self_throwable with error" {
   let throw_fn = @global.global_this()._call("eval", [
     @nostd.any("(function() { throw new Error('test'); })"),
   ])
-  let result = try? throw_fn.call_self_throwable([])
+  let result = try? throwable(fn() { throw_fn._invoke([]) })
   assert_true(result is Err(_))
 }
 

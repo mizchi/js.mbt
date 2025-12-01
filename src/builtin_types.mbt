@@ -20,7 +20,7 @@
 
 ///|
 /// JS: null
-pub fn null_() -> Any {
+pub fn null_() -> @nostd.Any {
   ffi_null()
 }
 
@@ -28,12 +28,12 @@ pub fn null_() -> Any {
 /// property key for js object access
 /// obj[0], obj["name"], obj[symbol]
 pub trait PropertyKey {
-  to_key(Self) -> Any = _
+  to_key(Self) -> @nostd.Any = _
 }
 
 ///|
-impl PropertyKey with to_key(self) -> Any {
-  self |> identity
+impl PropertyKey with to_key(self) -> @nostd.Any {
+  self |> @nostd.any
 }
 
 ///|
@@ -59,14 +59,14 @@ pub fn Object::to_any(self : Object) -> @nostd.Any = "%identity"
 /// JS: new Object()
 /// Returns Any directly - use from_map() for creating objects with initial properties
 /// Example: `let obj = @js.from_map({ "key": @nostd.any(value) })` for typed object creation
-pub fn Object::new() -> Any {
+pub fn Object::new() -> @nostd.Any {
   ffi_new_object()
 }
 
 ///|
 /// get the Object class
 fn object_class() -> @nostd.Any {
-  ffi_get(global_this(), "Object")
+  ffi_get(@nostd.global_this(), "Object")
 }
 
 ///|
@@ -303,6 +303,9 @@ pub(all) struct JsError {
 
 ///|
 pub fn JsError::to_any(self : JsError) -> @nostd.Any = "%identity"
+
+///|
+pub fn JsError::as_any(self : JsError) -> @nostd.Any = "%identity"
 
 ///|
 pub impl Show for JsError with output(self, logger) {
@@ -560,6 +563,9 @@ pub(all) type JsIterator[T]
 
 ///|
 pub fn[T] JsIterator::to_any(self : JsIterator[T]) -> @nostd.Any = "%identity"
+
+///|
+pub fn[T] JsIterator::as_any(self : JsIterator[T]) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_iterator_from(v : Any) -> Any =

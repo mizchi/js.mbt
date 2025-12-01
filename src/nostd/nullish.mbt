@@ -25,3 +25,8 @@ pub fn[T] Nullable::to_option(self : Nullable[T]) -> T? {
     Some(self |> identity)
   }
 }
+
+///|
+pub fn[T] Nullable::is_null(self : Nullable[T]) -> Bool {
+  is_null(self |> any)
+}

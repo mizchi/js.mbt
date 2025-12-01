@@ -201,14 +201,14 @@ test "bench: from_option_map (5 Some)" (b : @bench.T) {
 ///|
 /// Benchmark: Object creation from option map (mixed)
 test "bench: from_option_map (3 Some, 2 None)" (b : @bench.T) {
-  let map : Map[String, Any?] = {
-    "a": Some(any(1)),
+  let map : Map[String, @nostd.Any?] = {
+    "a": Some(@nostd.any(1)),
     "b": None,
-    "c": Some(any(3)),
+    "c": Some(@nostd.any(3)),
     "d": None,
-    "e": Some(any(5)),
+    "e": Some(@nostd.any(5)),
   }
-  b.bench(fn() { b.keep(from_option_map(map)) })
+  b.bench(fn() { b.keep(@mbtconv.from_option_map(map)) })
 }
 
 ///|
@@ -274,7 +274,7 @@ test "bench: chained method calls" (b : @bench.T) {
 /// Benchmark: from_json - simple object with 3 properties
 test "bench: from_json (simple 3 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = from_json({ "name": "Alice", "age": 30, "active": true })
+    let result = @mbtconv.from_json({ "name": "Alice", "age": 30, "active": true })
     b.keep(result)
   })
 }
@@ -308,7 +308,7 @@ test "bench: Object::new (simple 3 props)" (b : @bench.T) {
 /// Benchmark: from_json - nested object
 test "bench: from_json (nested)" (b : @bench.T) {
   b.bench(fn() {
-    let result = from_json({
+    let result = @mbtconv.from_json({
       "user": {
         "name": "Alice",
         "age": 30,
@@ -361,7 +361,7 @@ test "bench: Object::new (nested)" (b : @bench.T) {
 /// Benchmark: from_json - object with array
 test "bench: from_json (with array)" (b : @bench.T) {
   b.bench(fn() {
-    let result = from_json({
+    let result = @mbtconv.from_json({
       "name": "Alice",
       "tags": ["developer", "moonbit", "javascript"],
     })
@@ -396,7 +396,7 @@ test "bench: Object::new (with array)" (b : @bench.T) {
 /// Benchmark: from_json - large flat object (10 properties)
 test "bench: from_json (10 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = from_json({
+    let result = @mbtconv.from_json({
       "a": 1,
       "b": 2,
       "c": 3,

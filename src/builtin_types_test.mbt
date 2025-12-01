@@ -219,7 +219,7 @@ test "Function::name" {
 test "JsError creation and properties" {
   let error = JsError::new("Test error")
   assert_eq(error.message, "Test error")
-  assert_true(JsError::isError(error))
+  assert_true(JsError::isError(error.to_any()))
   let error_val : @nostd.Any = @js.identity(error)
   assert_true(@js.is_object(error_val))
   assert_eq(@js.identity(error_val._get("message")), "Test error")
@@ -243,10 +243,10 @@ test "JsError Show trait" {
 
 ///|
 test "ThrowError from call_throwable" {
-  let v = try? globalThis().call_throwable("nonexistentMethod", [])
+  let v = try? throwable(fn() { globalThis()._call("nonexistentMethod", []) })
   match v {
     Err(ThrowError::Error(e)) | Err(ThrowError::TypeError(e)) =>
-      assert_true(JsError::isError(e))
+      assert_true(JsError::isError(e.to_any()))
     Err(_) => fail("Expected Error or TypeError")
     Ok(_) => fail("Expected error to be thrown")
   }
@@ -254,7 +254,8 @@ test "ThrowError from call_throwable" {
 
 ///|
 test "ThrowError Show trait" {
-  let result = try? globalThis().call_throwable("nonexistentMethod", [])
+  let result =
+    try? throwable(fn() { globalThis()._call("nonexistentMethod", []) })
   match result {
     Err(throw_err) => {
       let str = throw_err.to_string()
@@ -364,7 +365,7 @@ test "identity_option with Show types" {
 ///|
 test "identity_option for nullish detection" {
   let obj = @nostd.Object::new()
-  let result : @js.Object? = @js.identity_option(obj.as_any())
+  let result : @js.Object? = @js.identity_option(obj)
   assert_false(result is None)
   let null_result : @js.Object? = @js.identity_option(@js.null_())
   assert_true(null_result is None)
@@ -421,7 +422,7 @@ test "Js Show trait for different types" {
   // Objects
   let obj = @nostd.Object::new()
   obj.set("key", "value")
-  let obj_str = obj.as_any().to_string()
+  let obj_str = obj.to_string()
   assert_true(obj_str.contains("key") && obj_str.contains("value"))
 }
 
@@ -452,9 +453,9 @@ test "Object::to_string" {
 ///|
 test "JsArray::to_string" {
   let arr : JsArray = @js.identity(JsArray::new())
-  arr.push(1)
-  arr.push(2)
-  arr.push(3)
+  arr.push(@nostd.any(1))
+  arr.push(@nostd.any(2))
+  arr.push(@nostd.any(3))
   let str = arr.to_string()
   assert_true(str.contains("1"))
   assert_true(str.contains("2"))
@@ -505,7 +506,8 @@ test "JsError Show output" {
 
 ///|
 test "ThrowError Show output" {
-  let result = try? @global.global_this().call_throwable("nonexistentMethod", [])
+  let result =
+    try? throwable(fn() { @global.global_this()._call("nonexistentMethod", []) })
   match result {
     Err(throw_err) => {
       // Using inspect triggers Show::output

@@ -85,7 +85,9 @@ test "JsImpl::to_string" {
   from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
   let expected =
     #|{"a":1,"b":2}
-  from_map({ "a": 1 |> any, "b": 2 |> any }).to_string() |> assert_eq(expected)
+  @mbtconv.from_map({ "a": 1 |> any, "b": 2 |> any }).to_string() |> assert_eq(
+    expected,
+  )
 }
 
 ///|
@@ -249,48 +251,53 @@ test "Val with mixed types in object" {
 ///|
 test "Js trait for primitives" {
   // String
-  let str_js : @nostd.Any = JsImpl::as_any("hello")
+  let str_js : @nostd.Any = @nostd.any("hello")
   assert_eq(@js.identity(str_js), "hello")
 
   // Int
-  let int_js : @nostd.Any = JsImpl::as_any(42)
+  let int_js : @nostd.Any = @nostd.any(42)
   assert_eq(@js.identity(int_js), 42)
 
   // Double
-  let double_js : @nostd.Any = JsImpl::as_any(3.14)
+  let double_js : @nostd.Any = @nostd.any(3.14)
   assert_eq(@js.identity(double_js), 3.14)
 
   // Bool
-  let bool_js : @nostd.Any = JsImpl::as_any(true)
+  let bool_js : @nostd.Any = @nostd.any(true)
   assert_eq(@js.identity(bool_js), true)
 
   // Val (identity)
   let val = @nostd.any(100)
-  let val_js : @nostd.Any = JsImpl::as_any(val)
+  let val_js : @nostd.Any = val
   assert_eq(val_js, val)
 }
 
 ///|
 test "JsImpl for Array[&JsImpl]" {
-  let arr : Array[&JsImpl] = ["hello", 42, 3.14, true]
-  let val = JsImpl::as_any(arr)
+  let arr : Array[@nostd.Any] = [
+    @nostd.any("hello"),
+    @nostd.any(42),
+    @nostd.any(3.14),
+    @nostd.any(true),
+  ]
+  let val = @nostd.any(arr)
   assert_true(@js.is_array(val))
-  assert_eq(@js.identity(val._get(0)), "hello")
-  assert_eq(@js.identity(val._get(1)), 42)
-  assert_eq(@js.identity(val._get(2)), 3.14)
-  assert_eq(@js.identity(val._get(3)), true)
+  assert_eq(@js.identity(val._get("0")), "hello")
+  assert_eq(@js.identity(val._get("1")), 42)
+  assert_eq(@js.identity(val._get("2")), 3.14)
+  assert_eq(@js.identity(val._get("3")), true)
 }
 
 ///|
 test "JsImpl for Option[T]" {
   // Some value
   let some_val : Int? = Some(42)
-  let some_js = JsImpl::as_any(some_val)
+  let some_js = @nostd.nullable(some_val)
   assert_eq(@js.identity(some_js), 42)
 
   // None value - represented as undefined in MoonBit
   let none_val : Int? = None
-  let none_js = JsImpl::as_any(none_val)
+  let none_js = @nostd.nullable(none_val)
   assert_true(@js.is_undefined(none_js))
 }
 
@@ -421,7 +428,7 @@ test "ThrowError Show through throwable" {
   let mut error_str = ""
   throwable(fn() {
     let err = JsError::new("Show test error")
-    throw_(err)
+    throw_(err.to_any())
   }) catch {
     e => error_str = e.to_string()
   }

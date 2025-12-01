@@ -126,6 +126,16 @@ pub extern "js" fn Any::_set(self : Any, key : String, value : Any) -> Unit =
   #| (obj, key, value) => { obj[key] = value }
 
 ///|
+pub extern "js" fn Any::_set_any(self : Any, key : Any, value : Any) -> Unit =
+  #| (obj, key, value) => { obj[key] = value }
+
+///|
+/// Convenience setter: obj.set("key", value)
+pub fn[T, K] Any::set(self : Any, key : K, value : T) -> Unit {
+  self._set_any(any(key), any(value))
+}
+
+///|
 /// Call method: obj._call("method", [arg1, arg2])
 pub extern "js" fn Any::_call(
   self : Any,
@@ -133,6 +143,12 @@ pub extern "js" fn Any::_call(
   args : Array[Any],
 ) -> Any =
   #| (obj, key, args) => obj[key](...args)
+
+///|
+/// Convenience method call: obj.call1("method", arg)
+pub fn Any::call1(self : Any, key : String, arg1 : Any) -> Any {
+  self._call(key, [arg1])
+}
 
 ///|
 /// Call function: func._invoke([arg1, arg2])

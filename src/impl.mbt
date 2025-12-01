@@ -31,7 +31,7 @@ pub fn new_(cls : Any, args : Array[Any]) -> Any {
 ///   let obj = @nostd.Object::new()
 ///   obj.set("name", name)
 ///   obj.set("age", age)
-///   obj.as_any()
+///   obj
 /// }
 /// let _obj = create_object("Alice", 30)  // Strings and Ints implement Js
 /// ```
