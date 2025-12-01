@@ -6,6 +6,11 @@
 pub type Any
 
 ///|
+pub impl Eq for Any with equal(self, other) -> Bool {
+  equal(self, other)
+}
+
+///|
 #external
 pub type Object
 

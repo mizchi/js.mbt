@@ -24,15 +24,15 @@ pub fn OpenAIOptions::default() -> OpenAIOptions {
 pub fn OpenAIOptions::as_any(self : OpenAIOptions) -> @nostd.Any {
   let obj = @nostd.Object::new()
   if self.api_key is Some(key) {
-    obj.set("apiKey", key)
+    obj._set("apiKey", key |> @nostd.any)
   }
   if self.base_url is Some(url) {
-    obj.set("baseURL", url)
+    obj._set("baseURL", url |> @nostd.any)
   }
   if self.organization is Some(org) {
-    obj.set("organization", org)
+    obj._set("organization", org |> @nostd.any)
   }
-  obj.as_any()
+  obj
 }
 
 ///|

@@ -43,17 +43,25 @@ pub impl Show for Any with output(self, logger) {
 ///|
 pub impl Show for Any with to_string(self) {
   if is_array(self) {
-    ffi_json_stringify(self, undefined(), undefined())
+    ffi_json_stringify(
+      self |> @nostd.any,
+      @nostd.undefined(),
+      @nostd.undefined(),
+    )
   } else if is_object(self) {
-    ffi_json_stringify(self, undefined(), undefined())
+    ffi_json_stringify(
+      self |> @nostd.any,
+      @nostd.undefined(),
+      @nostd.undefined(),
+    )
   } else {
-    ffi_to_string(self)
+    ffi_to_string(self |> @nostd.any)
   }
 }
 
 ///|
 pub impl Eq for Any with equal(self, other) -> Bool {
-  ffi_object_is(self, other)
+  ffi_object_is(self |> @nostd.any, other |> @nostd.any)
 }
 
 ///|
@@ -114,8 +122,7 @@ pub type Nullish[T]
 
 ///|
 pub fn[T] Nullish::to_option(self : Nullish[T]) -> T? {
-  let js_value : Any = self |> identity
-  if ffi_is_nullish(js_value) {
+  if ffi_is_nullish(self |> identity) {
     None
   } else {
     Some(self |> identity)

@@ -65,8 +65,8 @@ pub fn Object::new() -> Any {
 
 ///|
 /// get the Object class
-fn object_class() -> Any {
-  ffi_get(globalThis(), "Object")
+fn object_class() -> @nostd.Any {
+  ffi_get(global_this(), "Object")
 }
 
 ///|
@@ -172,8 +172,8 @@ pub fn Object::propertyIsEnumerable(self : Self, key : &PropertyKey) -> Bool {
 
 ///|
 /// JS: object.isPrototypeOf(target)
-pub fn Object::isPrototypeOf(self : Self, target : Any) -> Bool {
-  ffi_is_prototype_of(self.to_any() |> identity, target)
+pub fn Object::isPrototypeOf(self : Self, target : @nostd.Any) -> Bool {
+  ffi_is_prototype_of(self.to_any() |> identity, target |> identity)
 }
 
 ///|

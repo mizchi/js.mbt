@@ -70,7 +70,7 @@ pub fn[A, B] Promise::then(
   |> identity
   |> resolve
   |> identity) catch {
-    e => e |> ffi_promise_reject |> identity
+    e => e |> identity |> ffi_promise_reject |> identity
   })
   |> identity
 }

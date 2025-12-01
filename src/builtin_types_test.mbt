@@ -163,7 +163,7 @@ test "Object::isExtensible instance method" {
 ///|
 test "Object with empty strings" {
   let obj = @nostd.Object::new()
-  obj._qsset("empty", "")
+  obj._set("empty", "" |> @nostd.any)
   assert_eq(@js.identity(obj._get("empty")), "")
   let obj_typed : Object = @js.identity(obj)
   assert_true(obj_typed.hasOwnProperty("empty"))
