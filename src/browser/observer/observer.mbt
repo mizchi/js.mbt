@@ -15,9 +15,9 @@ pub fn MutationObserver::as_any(self : MutationObserver) -> @nostd.Any = "%ident
 /// Creates a new MutationObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
 pub fn MutationObserver::new(
-  callback : (@js.Any?, MutationObserver) -> Unit,
+  callback : (@nostd.Any?, MutationObserver) -> Unit,
 ) -> MutationObserver {
-  let ctor = @global.global_this().get("MutationObserver")
+  let ctor = @global.global_this()._get("MutationObserver")
   @js.new_(ctor, [callback |> @js.from_fn2]).cast()
 }
 
@@ -27,7 +27,7 @@ pub fn MutationObserver::new(
 pub fn MutationObserver::observe(
   self : Self,
   target : @dom.Element,
-  options : @js.Any,
+  options : @nostd.Any,
 ) -> Unit {
   self.as_any()._call("observe", [@nostd.any(target), @nostd.any(options)])
   |> ignore
@@ -43,7 +43,7 @@ pub fn MutationObserver::disconnect(self : Self) -> Unit {
 ///|
 /// Returns all pending mutation records
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/takeRecords
-pub fn MutationObserver::take_records(self : Self) -> @js.Any {
+pub fn MutationObserver::take_records(self : Self) -> @nostd.Any {
   self.as_any()._call("takeRecords", []).cast()
 }
 
@@ -83,10 +83,10 @@ pub fn IntersectionObserver::as_any(self : IntersectionObserver) -> @nostd.Any =
 /// Creates a new IntersectionObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
 pub fn IntersectionObserver::new(
-  callback : (@js.Any?, IntersectionObserver) -> Unit,
-  options? : @js.Any,
+  callback : (@nostd.Any?, IntersectionObserver) -> Unit,
+  options? : @nostd.Any,
 ) -> IntersectionObserver {
-  let ctor = @global.global_this().get("IntersectionObserver")
+  let ctor = @global.global_this()._get("IntersectionObserver")
   match options {
     Some(opts) => @js.new_(ctor, [callback |> @js.from_fn2, opts]).cast()
     None => @js.new_(ctor, [callback |> @js.from_fn2]).cast()
@@ -123,7 +123,7 @@ pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
 ///|
 /// Returns all pending intersection records
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords
-pub fn IntersectionObserver::take_records(self : Self) -> @js.Any {
+pub fn IntersectionObserver::take_records(self : Self) -> @nostd.Any {
   self.as_any()._call("takeRecords", []).cast()
 }
 
@@ -158,9 +158,9 @@ pub fn ResizeObserver::as_any(self : ResizeObserver) -> @nostd.Any = "%identity"
 /// Creates a new ResizeObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/ResizeObserver
 pub fn ResizeObserver::new(
-  callback : (@js.Any?, ResizeObserver) -> Unit,
+  callback : (@nostd.Any?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
-  let ctor = @global.global_this().get("ResizeObserver")
+  let ctor = @global.global_this()._get("ResizeObserver")
   @js.new_(ctor, [callback |> @js.from_fn2]).cast()
 }
 
@@ -176,7 +176,7 @@ pub fn ResizeObserver::observe(self : Self, target : @dom.Element) -> Unit {
 pub fn ResizeObserver::observe_with_options(
   self : Self,
   target : @dom.Element,
-  options : @js.Any,
+  options : @nostd.Any,
 ) -> Unit {
   self.as_any()._call("observe", [@nostd.any(target), @nostd.any(options)])
   |> ignore
@@ -202,8 +202,8 @@ pub fn ResizeObserver::disconnect(self : Self) -> Unit {
 pub(all) struct ResizeObserverEntry {
   target : @dom.Element
   contentRect : @dom.DOMRectReadOnly
-  borderBoxSize : @js.Any
-  contentBoxSize : @js.Any
+  borderBoxSize : @nostd.Any
+  contentBoxSize : @nostd.Any
 }
 
 ///|

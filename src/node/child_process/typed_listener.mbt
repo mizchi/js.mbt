@@ -10,7 +10,7 @@ pub fn ChildProcess::on_exit(
   @nostd.any(self)._call("on", [
     @nostd.any("exit"),
     @nostd.any(
-      @js.from_fn2(fn(code : @js.Any, signal : @js.Any) {
+      @js.from_fn2(fn(code : @nostd.Any, signal : @nostd.Any) {
         callback(code |> @js.identity_option(), signal |> @js.identity_option())
       }),
     ),
@@ -28,7 +28,7 @@ pub fn ChildProcess::on_close(
   @nostd.any(self)._call("on", [
     @nostd.any("close"),
     @nostd.any(
-      @js.from_fn2(fn(code : @js.Any, signal : @js.Any) {
+      @js.from_fn2(fn(code : @nostd.Any, signal : @nostd.Any) {
         callback(code |> @js.identity_option(), signal |> @js.identity_option())
       }),
     ),
@@ -52,15 +52,15 @@ pub fn ChildProcess::on_error(
 
 ///|
 /// Listen for 'message' event with typed callback
-/// Callback receives: message (@js.Any), sendHandle (@js.Any?)
+/// Callback receives: message (@nostd.Any), sendHandle (@nostd.Any?)
 pub fn ChildProcess::on_message(
   self : Self,
-  callback : (@js.Any, @js.Any?) -> Unit noraise,
+  callback : (@nostd.Any, @nostd.Any?) -> Unit noraise,
 ) -> Unit {
   @nostd.any(self)._call("on", [
     @nostd.any("message"),
     @nostd.any(
-      @js.from_fn2(fn(message : @js.Any, sendHandle : @js.Any) {
+      @js.from_fn2(fn(message : @nostd.Any, sendHandle : @nostd.Any) {
         callback(message, sendHandle |> @js.identity_option())
       }),
     ),
@@ -98,10 +98,10 @@ pub fn ChildProcess::on_spawn(
 
 ///|
 /// Listen for stdout 'data' event with typed callback
-/// Callback receives: data (@js.Any) - typically Buffer or String
+/// Callback receives: data (@nostd.Any) - typically Buffer or String
 pub fn ChildProcess::on_stdout_data(
   self : Self,
-  callback : (@js.Any) -> Unit noraise,
+  callback : (@nostd.Any) -> Unit noraise,
 ) -> Unit {
   @nostd.any(self.stdout())._call("on", [
     @nostd.any("data"),

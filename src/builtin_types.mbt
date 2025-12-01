@@ -53,12 +53,12 @@ pub impl PropertyKey for Symbol
 pub type Object
 
 ///|
-pub impl JsImpl for Object
+pub fn Object::to_any(self : Object) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: new Object()
 /// Returns Any directly - use from_map() for creating objects with initial properties
-/// Example: `let obj = @js.from_map({ "key": @js.any(value) })` for typed object creation
+/// Example: `let obj = @js.from_map({ "key": @nostd.any(value) })` for typed object creation
 pub fn Object::new() -> Any {
   ffi_new_object()
 }
@@ -66,7 +66,7 @@ pub fn Object::new() -> Any {
 ///|
 /// get the Object class
 fn object_class() -> Any {
-  identity(globalThis().get("Object"))
+  ffi_get(globalThis(), "Object")
 }
 
 ///|
@@ -74,8 +74,8 @@ fn object_class() -> Any {
 ///
 /// Returns an array of a given object's own enumerable property names.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::keys(v : &JsImpl) -> Array[String] {
-  object_class().call1("keys", v.as_any()) |> identity
+pub fn Object::keys(v : @nostd.Any) -> Array[String] {
+  @nostd.any(object_class())._call("keys", [v]) |> identity
 }
 
 ///|
@@ -83,8 +83,8 @@ pub fn Object::keys(v : &JsImpl) -> Array[String] {
 ///
 /// Returns an array of a given object's own enumerable property values.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::values(v : &JsImpl) -> Array[Any] {
-  object_class().call1("values", v.as_any()) |> identity
+pub fn Object::values(v : @nostd.Any) -> Array[Any] {
+  @nostd.any(object_class())._call("values", [v]) |> identity
 }
 
 ///|
@@ -92,99 +92,105 @@ pub fn Object::values(v : &JsImpl) -> Array[Any] {
 ///
 /// Returns an array of a given object's own enumerable property [key, value] pairs.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::entries(v : &JsImpl) -> Array[(String, Any)] {
-  let entries = ffi_object_entries(v.as_any())
-  entries.map(entry => (entry.get(0) |> identity, entry.get(1) |> identity))
+pub fn Object::entries(v : @nostd.Any) -> Array[(String, Any)] {
+  let entries = ffi_object_entries(v |> identity)
+  entries.map(entry => (
+    @nostd.any(entry)["0"] |> identity,
+    @nostd.any(entry)["1"] |> identity,
+  ))
 }
 
 ///|
 /// JS: Object.assign(target, source)
-pub fn Object::assign(target : &JsImpl, source : &JsImpl) -> Any {
-  object_class().call2("assign", target.as_any(), source.as_any())
+pub fn Object::assign(target : @nostd.Any, source : @nostd.Any) -> @nostd.Any {
+  @nostd.any(object_class())._call("assign", [target, source]) |> identity
 }
 
 ///|
 /// JS: Object.create(v)
-pub fn Object::create(v : &JsImpl) -> Any {
-  object_class().call1("create", v)
+pub fn Object::create(v : @nostd.Any) -> Any {
+  @nostd.any(object_class())._call("create", [v]) |> identity
 }
 
 ///|
 /// JS: Object.is(a, b)
 /// Determines whether two values are the same value
-pub fn Object::is_(a : &JsImpl, b : &JsImpl) -> Bool {
-  object_class().call2("is", a, b) |> identity
+pub fn Object::is_(a : @nostd.Any, b : @nostd.Any) -> Bool {
+  @nostd.any(object_class())._call("is", [a, b]) |> identity
 }
 
 ///|
 /// JS: Object.freeze(obj)
 /// Freezes an object, preventing new properties from being added and existing properties from being removed or changed
-pub fn Object::freeze(obj : &JsImpl) -> Any {
-  object_class().call1("freeze", obj)
+pub fn Object::freeze(obj : @nostd.Any) -> Any {
+  @nostd.any(object_class())._call("freeze", [obj]) |> identity
 }
 
 ///|
 /// JS: Object.seal(obj)
 /// Seals an object, preventing new properties from being added and marking all existing properties as non-configurable
-pub fn Object::seal(obj : &JsImpl) -> Any {
-  object_class().call1("seal", obj)
+pub fn Object::seal(obj : @nostd.Any) -> Any {
+  @nostd.any(object_class())._call("seal", [obj]) |> identity
 }
 
 ///|
 /// JS: Object.isFrozen(obj)
 /// Determines if an object is frozen
-pub fn Object::isFrozen(obj : &JsImpl) -> Bool {
-  object_class().call1("isFrozen", obj) |> identity
+pub fn Object::isFrozen(obj : @nostd.Any) -> Bool {
+  @nostd.any(object_class())._call("isFrozen", [obj]) |> identity
 }
 
 ///|
 /// JS: Object.isSealed(obj)
 /// Determines if an object is sealed
-pub fn Object::isSealed(obj : &JsImpl) -> Bool {
-  object_class().call1("isSealed", obj) |> identity
+pub fn Object::isSealed(obj : @nostd.Any) -> Bool {
+  @nostd.any(object_class())._call("isSealed", [obj]) |> identity
 }
 
 ///|
 /// JS: Object.preventExtensions(obj)
 /// Prevents new properties from being added to an object
-pub fn Object::preventExtensions(obj : &JsImpl) -> Any {
-  object_class().call1("preventExtensions", obj) |> identity
+pub fn Object::preventExtensions(obj : @nostd.Any) -> Any {
+  @nostd.any(object_class())._call("preventExtensions", [obj]) |> identity
 }
 
 ///|
 /// JS: Object.isExtensible(obj)
 /// Determines if an object is extensible
-pub fn Object::isExtensible_static(obj : &JsImpl) -> Bool {
-  object_class().call1("isExtensible", obj) |> identity
+pub fn Object::isExtensible_static(obj : @nostd.Any) -> Bool {
+  @nostd.any(object_class())._call("isExtensible", [obj]) |> identity
 }
 
 ///|
 /// JS: object.propertyIsEnumerable(k)
 pub fn Object::propertyIsEnumerable(self : Self, key : &PropertyKey) -> Bool {
-  ffi_property_is_enumerable(self.as_any(), key.to_key() |> identity)
+  ffi_property_is_enumerable(
+    self.to_any() |> identity,
+    key.to_key() |> identity,
+  )
 }
 
 ///|
 /// JS: object.isPrototypeOf(target)
 pub fn Object::isPrototypeOf(self : Self, target : Any) -> Bool {
-  ffi_is_prototype_of(self.as_any(), target)
+  ffi_is_prototype_of(self.to_any() |> identity, target)
 }
 
 ///|
 pub fn Object::hasOwnProperty(self : Self, key : &PropertyKey) -> Bool {
-  ffi_has_own_property(self.as_any(), key.to_key() |> identity)
+  ffi_has_own_property(self.to_any() |> identity, key.to_key() |> identity)
 }
 
 ///|
 /// JS: Object.isExtensible(obj)
 /// Instance method that calls the static Object.isExtensible
 pub fn Object::isExtensible(self : Self) -> Bool {
-  object_class().call1("isExtensible", self) |> identity
+  @nostd.any(object_class())._call("isExtensible", [self.to_any()]) |> identity
 }
 
 ///|
 pub fn Object::to_string(self : Self) -> String {
-  ffi_json_stringify(self.as_any(), undefined(), undefined())
+  ffi_json_stringify(self.to_any() |> identity, undefined(), undefined())
 }
 
 ///| Array - Second most frequently used builtin type
@@ -197,11 +203,11 @@ pub fn Object::to_string(self : Self) -> String {
 pub type JsArray
 
 ///|
-pub impl JsImpl for JsArray
+pub fn JsArray::to_any(self : JsArray) -> @nostd.Any = "%identity"
 
 ///|
 pub fn JsArray::to_string(self : Self) -> String {
-  ffi_json_stringify(self.as_any(), undefined(), undefined())
+  ffi_json_stringify(self.to_any() |> identity, undefined(), undefined())
 }
 
 ///|
@@ -220,8 +226,8 @@ pub fn JsArray::new() -> Any {
 
 ///|
 /// JS: array.push(item)
-pub fn JsArray::push(self : JsArray, item : &JsImpl) -> Unit {
-  self.as_builtin_array().push(item.as_any())
+pub fn JsArray::push(self : JsArray, item : @nostd.Any) -> Unit {
+  self.as_builtin_array().push(item |> identity)
 }
 
 ///|
@@ -232,8 +238,8 @@ pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
 
 ///|
 /// JS: Array.isArray(v)
-pub fn[T : JsImpl] JsArray::isArray(v : T) -> Bool {
-  ffi_is_array(v.as_any())
+pub fn JsArray::isArray(v : @nostd.Any) -> Bool {
+  ffi_is_array(v |> identity)
 }
 
 ///|
@@ -250,19 +256,19 @@ pub fn array_from(v : Any) -> Array[Any] {
 pub type Function
 
 ///|
-pub impl JsImpl for Function
+pub fn Function::to_any(self : Function) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: function.toString()
 /// Returns a string representing the source code of the function
 pub fn Function::to_string(self : Self) -> String {
-  self.call0("toString") |> identity
+  self.to_any()._call("toString", []) |> identity
 }
 
 ///|
 /// JS: function.name
 pub fn Function::name(self : Self) -> String {
-  self.get("name") |> identity
+  self.to_any()["name"] |> identity
 }
 
 ///|
@@ -296,7 +302,7 @@ pub(all) struct JsError {
 }
 
 ///|
-pub impl JsImpl for JsError
+pub fn JsError::to_any(self : JsError) -> @nostd.Any = "%identity"
 
 ///|
 pub impl Show for JsError with output(self, logger) {
@@ -310,14 +316,14 @@ pub impl Show for JsError with to_string(self) {
 
 ///|
 /// JS: Error.isError(value)
-pub fn JsError::isError(val : &JsImpl) -> Bool {
-  ffi_is_error(val.as_any())
+pub fn JsError::isError(val : @nostd.Any) -> Bool {
+  ffi_is_error(val |> identity)
 }
 
 ///|
 /// Throws a JavaScript error/value
-pub fn throw_(v : &JsImpl) -> Unit {
-  ffi_throw(v.as_any())
+pub fn throw_(v : @nostd.Any) -> Unit {
+  ffi_throw(v |> identity)
 }
 
 ///|
@@ -326,7 +332,7 @@ pub fn JsError::new(message : String, cause? : JsError) -> JsError {
   let args : Array[Any] = if cause is Some(cause) {
     [
       @nostd.any(message).cast(),
-      @nostd.from_entries([("cause", @nostd.identity(cause.as_any()))]).cast(),
+      @nostd.from_entries([("cause", cause.to_any())]).cast(),
     ]
   } else {
     [@nostd.any(message).cast()]
@@ -362,7 +368,7 @@ pub suberror ThrowError {
 }
 
 ///|
-pub impl JsImpl for ThrowError
+pub fn ThrowError::to_any(self : ThrowError) -> @nostd.Any = "%identity"
 
 ///|
 pub impl Show for ThrowError with output(self, logger) {
@@ -394,7 +400,7 @@ pub impl Show for ThrowError with to_string(self) {
 /// # Example
 ///
 /// ```moonbit no-check
-/// let js_error = globalThis().get("TypeError")
+/// let js_error = globalThis()._get("TypeError")
 /// let throw_error = ThrowError::from_js(js_error)
 /// // Returns ThrowError::TypeError(...)
 /// ```
@@ -402,23 +408,23 @@ pub fn ThrowError::from_js(value : Any) -> ThrowError {
   let global = globalThis()
 
   // Check specific error types first (most specific to least specific)
-  if ffi_instance_of(value, global.get("TypeError")) {
+  if ffi_instance_of(value, ffi_get(global, "TypeError")) {
     ThrowError::TypeError(identity(value))
-  } else if ffi_instance_of(value, global.get("RangeError")) {
+  } else if ffi_instance_of(value, ffi_get(global, "RangeError")) {
     ThrowError::RangeError(identity(value))
-  } else if ffi_instance_of(value, global.get("ReferenceError")) {
+  } else if ffi_instance_of(value, ffi_get(global, "ReferenceError")) {
     ThrowError::ReferenceError(identity(value))
-  } else if ffi_instance_of(value, global.get("SyntaxError")) {
+  } else if ffi_instance_of(value, ffi_get(global, "SyntaxError")) {
     ThrowError::SyntaxError(identity(value))
-  } else if ffi_instance_of(value, global.get("URIError")) {
+  } else if ffi_instance_of(value, ffi_get(global, "URIError")) {
     ThrowError::URIError(identity(value))
-  } else if ffi_instance_of(value, global.get("EvalError")) {
+  } else if ffi_instance_of(value, ffi_get(global, "EvalError")) {
     ThrowError::EvalError(identity(value))
-  } else if ffi_instance_of(value, global.get("AggregateError")) {
+  } else if ffi_instance_of(value, ffi_get(global, "AggregateError")) {
     ThrowError::AggregateError(identity(value))
-  } else if ffi_instance_of(value, global.get("SuppressedError")) {
+  } else if ffi_instance_of(value, ffi_get(global, "SuppressedError")) {
     ThrowError::SuppressedError(identity(value))
-  } else if JsError::isError(value) {
+  } else if JsError::isError(@nostd.any(value)) {
     // Generic Error or custom error types
     ThrowError::Error(identity(value))
   } else {
@@ -437,11 +443,11 @@ pub type JSON
 ///|
 /// JS: JSON.stringify(v, replacer, space)
 pub fn JSON::stringify(
-  v : &JsImpl,
+  v : @nostd.Any,
   replacer? : Any = undefined(),
   space? : Int = 2,
 ) -> String {
-  ffi_json_stringify(v.as_any(), replacer, space |> any)
+  ffi_json_stringify(v |> identity, replacer, space |> any)
 }
 
 ///|
@@ -458,7 +464,7 @@ pub fn JSON::parse(s : String, reviver? : Any? = None) -> Any raise ThrowError {
 pub type Symbol
 
 ///|
-pub impl JsImpl for Symbol
+pub fn Symbol::to_any(self : Symbol) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn symbol_class() -> Any =
@@ -473,37 +479,37 @@ pub fn symbol(name : String) -> Symbol {
 ///|
 /// JS: Symbol.for(name)
 pub fn Symbol::for_(name : String) -> Symbol {
-  symbol_class().call1("for", name) |> identity
+  ffi_call1(symbol_class(), "for", any(name)) |> identity
 }
 
 ///|
 /// JS: Symbol.iterator
 pub fn Symbol::iterator() -> Symbol {
-  symbol_class().get("iterator") |> identity
+  ffi_get(symbol_class(), "iterator") |> identity
 }
 
 ///|
 /// JS: Symbol.asyncIterator
 pub fn Symbol::asyncIterator() -> Symbol {
-  symbol_class().get("asyncIterator") |> identity
+  ffi_get(symbol_class(), "asyncIterator") |> identity
 }
 
 ///|
 /// JS: Symbol.dispose
 pub fn Symbol::dispose() -> Symbol {
-  symbol_class().get("dispose") |> identity
+  ffi_get(symbol_class(), "dispose") |> identity
 }
 
 ///|
 /// JS: Symbol.asyncDispose
 pub fn Symbol::asyncDispose() -> Symbol {
-  symbol_class().get("asyncDispose") |> identity
+  ffi_get(symbol_class(), "asyncDispose") |> identity
 }
 
 ///|
 /// JS: Symbol.asyncDispose
 pub fn Symbol::toStringTag() -> Symbol {
-  symbol_class().get("toStringTag") |> identity
+  ffi_get(symbol_class(), "toStringTag") |> identity
 }
 
 ///| JsString - String utilities
@@ -513,27 +519,35 @@ pub fn Symbol::toStringTag() -> Symbol {
 pub type JsString
 
 ///|
-pub impl JsImpl for JsString
+pub fn JsString::to_any(self : JsString) -> @nostd.Any = "%identity"
 
 ///|
 fn string_instance() -> JsString {
-  identity(globalThis().get("String"))
+  ffi_get(globalThis(), "String") |> identity
 }
 
 ///|
 /// JS: String.fromCharCode(...values)
 pub fn JsString::fromCharCode(values : Array[Int]) -> String {
   let string_class = string_instance()
-  let from_char_code = string_class.get("fromCharCode")
-  from_char_code.call2("apply", string_class, values |> from_array) |> identity
+  let from_char_code = string_class.to_any()["fromCharCode"]
+  from_char_code._call("apply", [
+    string_class.to_any(),
+    @nostd.any(from_array(values)),
+  ])
+  |> identity
 }
 
 ///|
 /// JS: String.fromCodePoint(...values)
 pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
   let string_class = string_instance()
-  let from_code_point = string_class.get("fromCodePoint")
-  from_code_point.call2("apply", string_class, values |> from_array) |> identity
+  let from_code_point = string_class.to_any()["fromCodePoint"]
+  from_code_point._call("apply", [
+    string_class.to_any(),
+    @nostd.any(from_array(values)),
+  ])
+  |> identity
 }
 
 ///| Iterator - Iteration protocol
@@ -545,7 +559,7 @@ pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
 pub(all) type JsIterator[T]
 
 ///|
-pub impl[T] JsImpl for JsIterator[T]
+pub fn[T] JsIterator::to_any(self : JsIterator[T]) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_iterator_from(v : Any) -> Any =
@@ -561,11 +575,11 @@ pub fn[T] JsIterator::from(v : Any) -> JsIterator[T] {
 ///|
 /// JS: iterator.next()
 pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
-  let v : Any = self.call0("next") |> identity
-  if (v.get("done") |> identity) {
+  let v = self.to_any()._call("next", [])
+  if (v["done"] |> identity) {
     None
   } else {
-    Some(v.get("value") |> identity)
+    Some(v["value"] |> identity)
   }
 }
 
@@ -573,21 +587,21 @@ pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
 /// JS: iterator.drop(limit)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/drop
 pub fn[T] JsIterator::drop(self : Self[T], limit : Int) -> Self[T] {
-  self.call1("drop", limit) |> identity
+  self.to_any()._call("drop", [@nostd.any(limit)]) |> identity
 }
 
 ///|
 /// JS: iterator.take(limit)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/take
 pub fn[T] JsIterator::take(self : Self[T], limit : Int) -> Self[T] {
-  self.call1("take", limit) |> identity
+  self.to_any()._call("take", [@nostd.any(limit)]) |> identity
 }
 
 ///|
 /// JS: iterator.toArray()
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/toArray
 pub fn[T] JsIterator::toArray(self : Self[T]) -> Array[T] {
-  self.call0("toArray") |> identity
+  self.to_any()._call("toArray", []) |> identity
 }
 
 ///|
@@ -605,16 +619,16 @@ pub fn[T] JsIterator::iter(self : JsIterator[T]) -> Iterator[T] {
 pub(all) type AsyncIterator[T]
 
 ///|
-pub impl[T] JsImpl for AsyncIterator[T]
+pub fn[T] AsyncIterator::to_any(self : AsyncIterator[T]) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: asyncIterator.next()
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
-  let v : Promise[Any] = self.call0("next") |> identity
+  let v : Promise[Any] = self.to_any()._call("next", []) |> identity
   let v : Any = v.wait()
-  if (v.get("done") |> identity) {
+  if (@nostd.any(v)["done"] |> identity) {
     None
   } else {
-    Some(v.get("value") |> identity)
+    Some(@nostd.any(v)["value"] |> identity)
   }
 }

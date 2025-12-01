@@ -4,11 +4,11 @@
 ///|
 /// Provider metadata - additional provider-specific information
 pub(all) struct ProviderMetadata {
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn ProviderMetadata::from_any(value : @js.Any) -> ProviderMetadata? {
+pub fn ProviderMetadata::from_any(value : @nostd.Any) -> ProviderMetadata? {
   if @js.is_undefined(value) || @js.is_null(value) {
     None
   } else {
@@ -17,7 +17,7 @@ pub fn ProviderMetadata::from_any(value : @js.Any) -> ProviderMetadata? {
 }
 
 ///|
-pub fn ProviderMetadata::as_any(self : ProviderMetadata) -> @js.Any {
+pub fn ProviderMetadata::as_any(self : ProviderMetadata) -> @nostd.Any {
   self.raw
 }
 
@@ -32,12 +32,12 @@ pub(all) struct LanguageModelUsage {
 }
 
 ///|
-pub fn LanguageModelUsage::from_any(value : @js.Any) -> LanguageModelUsage {
-  let cached = value.get("cachedInputTokens")
+pub fn LanguageModelUsage::from_any(value : @nostd.Any) -> LanguageModelUsage {
+  let cached = value._get("cachedInputTokens")
   {
-    input_tokens: value.get("inputTokens").cast(),
-    output_tokens: value.get("outputTokens").cast(),
-    total_tokens: value.get("totalTokens").cast(),
+    input_tokens: value._get("inputTokens").cast(),
+    output_tokens: value._get("outputTokens").cast(),
+    total_tokens: value._get("totalTokens").cast(),
     cached_input_tokens: if @js.is_undefined(cached) {
       0
     } else {
@@ -89,15 +89,15 @@ pub fn FinishReason::to_string(self : FinishReason) -> String {
 pub(all) struct CallWarning {
   type_ : String
   message : String?
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn CallWarning::from_any(value : @js.Any) -> CallWarning {
+pub fn CallWarning::from_any(value : @nostd.Any) -> CallWarning {
   {
-    type_: value.get("type").cast(),
+    type_: value._get("type").cast(),
     message: {
-      let m = value.get("message")
+      let m = value._get("message")
       if @js.is_undefined(m) {
         None
       } else {
@@ -149,14 +149,14 @@ pub(all) enum Source {
 }
 
 ///|
-pub fn Source::from_any(value : @js.Any) -> Source {
-  let source_type = value.get("sourceType")
+pub fn Source::from_any(value : @nostd.Any) -> Source {
+  let source_type = value._get("sourceType")
   if @js.is_undefined(source_type) || source_type.cast() == "url" {
     UrlSource({
-      id: value.get("id").cast(),
-      url: value.get("url").cast(),
+      id: value._get("id").cast(),
+      url: value._get("url").cast(),
       title: {
-        let t = value.get("title")
+        let t = value._get("title")
         if @js.is_undefined(t) {
           None
         } else {
@@ -164,14 +164,14 @@ pub fn Source::from_any(value : @js.Any) -> Source {
         }
       },
       provider_metadata: ProviderMetadata::from_any(
-        value.get("providerMetadata"),
+        value._get("providerMetadata"),
       ),
     })
   } else {
     DocumentSource({
-      id: value.get("id").cast(),
+      id: value._get("id").cast(),
       title: {
-        let t = value.get("title")
+        let t = value._get("title")
         if @js.is_undefined(t) {
           None
         } else {
@@ -179,7 +179,7 @@ pub fn Source::from_any(value : @js.Any) -> Source {
         }
       },
       provider_metadata: ProviderMetadata::from_any(
-        value.get("providerMetadata"),
+        value._get("providerMetadata"),
       ),
     })
   }
@@ -190,15 +190,15 @@ pub fn Source::from_any(value : @js.Any) -> Source {
 pub(all) struct GeneratedFile {
   name : String?
   media_type : String?
-  data : @js.Any
-  raw : @js.Any
+  data : @nostd.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn GeneratedFile::from_any(value : @js.Any) -> GeneratedFile {
+pub fn GeneratedFile::from_any(value : @nostd.Any) -> GeneratedFile {
   {
     name: {
-      let n = value.get("name")
+      let n = value._get("name")
       if @js.is_undefined(n) {
         None
       } else {
@@ -206,14 +206,14 @@ pub fn GeneratedFile::from_any(value : @js.Any) -> GeneratedFile {
       }
     },
     media_type: {
-      let m = value.get("mediaType")
+      let m = value._get("mediaType")
       if @js.is_undefined(m) {
         None
       } else {
         Some(m.cast())
       }
     },
-    data: value.get("data"),
+    data: value._get("data"),
     raw: value,
   }
 }
@@ -224,15 +224,15 @@ pub fn GeneratedFile::from_any(value : @js.Any) -> GeneratedFile {
 pub(all) struct ToolCall {
   tool_call_id : String
   tool_name : String
-  input : @js.Any
+  input : @nostd.Any
 }
 
 ///|
-pub fn ToolCall::from_any(value : @js.Any) -> ToolCall {
+pub fn ToolCall::from_any(value : @nostd.Any) -> ToolCall {
   {
-    tool_call_id: value.get("toolCallId").cast(),
-    tool_name: value.get("toolName").cast(),
-    input: value.get("input"),
+    tool_call_id: value._get("toolCallId").cast(),
+    tool_name: value._get("toolName").cast(),
+    input: value._get("input"),
   }
 }
 
@@ -242,17 +242,17 @@ pub fn ToolCall::from_any(value : @js.Any) -> ToolCall {
 pub(all) struct ToolResult {
   tool_call_id : String
   tool_name : String
-  input : @js.Any
-  output : @js.Any
+  input : @nostd.Any
+  output : @nostd.Any
 }
 
 ///|
-pub fn ToolResult::from_any(value : @js.Any) -> ToolResult {
+pub fn ToolResult::from_any(value : @nostd.Any) -> ToolResult {
   {
-    tool_call_id: value.get("toolCallId").cast(),
-    tool_name: value.get("toolName").cast(),
-    input: value.get("input"),
-    output: value.get("output"),
+    tool_call_id: value._get("toolCallId").cast(),
+    tool_name: value._get("toolName").cast(),
+    input: value._get("input"),
+    output: value._get("output"),
   }
 }
 
@@ -261,17 +261,17 @@ pub fn ToolResult::from_any(value : @js.Any) -> ToolResult {
 pub(all) struct ToolError {
   tool_call_id : String
   tool_name : String
-  args : @js.Any
-  error : @js.Any
+  args : @nostd.Any
+  error : @nostd.Any
 }
 
 ///|
-pub fn ToolError::from_any(value : @js.Any) -> ToolError {
+pub fn ToolError::from_any(value : @nostd.Any) -> ToolError {
   {
-    tool_call_id: value.get("toolCallId").cast(),
-    tool_name: value.get("toolName").cast(),
-    args: value.get("args"),
-    error: value.get("error"),
+    tool_call_id: value._get("toolCallId").cast(),
+    tool_name: value._get("toolName").cast(),
+    args: value._get("args"),
+    error: value._get("error"),
   }
 }
 
@@ -281,15 +281,15 @@ pub fn ToolError::from_any(value : @js.Any) -> ToolError {
 pub(all) struct ToolOutputDenied {
   tool_call_id : String
   tool_name : String
-  input : @js.Any
+  input : @nostd.Any
 }
 
 ///|
-pub fn ToolOutputDenied::from_any(value : @js.Any) -> ToolOutputDenied {
+pub fn ToolOutputDenied::from_any(value : @nostd.Any) -> ToolOutputDenied {
   {
-    tool_call_id: value.get("toolCallId").cast(),
-    tool_name: value.get("toolName").cast(),
-    input: value.get("input"),
+    tool_call_id: value._get("toolCallId").cast(),
+    tool_name: value._get("toolName").cast(),
+    input: value._get("input"),
   }
 }
 
@@ -299,15 +299,15 @@ pub fn ToolOutputDenied::from_any(value : @js.Any) -> ToolOutputDenied {
 pub(all) struct ToolApprovalRequest {
   tool_call_id : String
   tool_name : String
-  input : @js.Any
+  input : @nostd.Any
 }
 
 ///|
-pub fn ToolApprovalRequest::from_any(value : @js.Any) -> ToolApprovalRequest {
+pub fn ToolApprovalRequest::from_any(value : @nostd.Any) -> ToolApprovalRequest {
   {
-    tool_call_id: value.get("toolCallId").cast(),
-    tool_name: value.get("toolName").cast(),
-    input: value.get("input"),
+    tool_call_id: value._get("toolCallId").cast(),
+    tool_name: value._get("toolName").cast(),
+    input: value._get("input"),
   }
 }
 
@@ -317,14 +317,14 @@ pub(all) struct Tool {
   /// Tool description for the model
   description : String
   /// JSON Schema for input parameters (raw JSON schema object)
-  input_schema : @js.Any
+  input_schema : @nostd.Any
   /// Execute function (receives parsed args, returns result)
-  execute : (@js.Any) -> @js.Any
+  execute : (@nostd.Any) -> @nostd.Any
 }
 
 ///|
 /// Create a typed tool with input/output type conversion.
-/// Input type must be convertible from @js.Any (via @js.identity cast).
+/// Input type must be convertible from @nostd.Any (via @js.identity cast).
 /// Output type must implement ToJson for serialization.
 pub fn[Input, Output : ToJson] Tool::typed(
   description~ : String,
@@ -344,7 +344,7 @@ pub fn[Input, Output : ToJson] Tool::typed(
 
 ///|
 /// Create an async typed tool with input/output type conversion.
-/// Input type must be convertible from @js.Any (via @js.identity cast).
+/// Input type must be convertible from @nostd.Any (via @js.identity cast).
 /// Output type must implement ToJson for serialization.
 /// The execute function can be async for API calls, database access, etc.
 pub fn[Input, Output : ToJson] Tool::typed_async(
@@ -353,7 +353,7 @@ pub fn[Input, Output : ToJson] Tool::typed_async(
   execute : async (Input) -> Output,
 ) -> Tool {
   // Wrap async function with promisify1 to return a Promise
-  let promisified = @js.promisify1(async fn(args : @js.Any) -> @js.Any {
+  let promisified = @js.promisify1(async fn(args : @nostd.Any) -> @nostd.Any {
     let typed_input : Input = @js.identity(args)
     let result = execute(typed_input)
     @mbtconv.from_json(result.to_json()).cast()
@@ -368,16 +368,18 @@ pub fn[Input, Output : ToJson] Tool::typed_async(
 ///|
 /// Convert Tool to JS object format expected by AI SDK
 /// Note: AI SDK v6 requires inputSchema to be wrapped with jsonSchema()
-pub fn Tool::as_any(self : Tool) -> @js.Any {
+pub fn Tool::as_any(self : Tool) -> @nostd.Any {
   let ai_module = @node.require("ai")
-  let json_schema_fn = ai_module.get("jsonSchema")
-  let obj = @js.Object::new()
+  let json_schema_fn = ai_module._get("jsonSchema")
+  let obj = @nostd.Object::new()
   obj.set("description", self.description)
   // Wrap with jsonSchema() helper from AI SDK
   let wrapped_schema = json_schema_fn.call_self([self.input_schema])
   obj.set("inputSchema", wrapped_schema)
   // Wrap execute function
-  let execute_fn : @js.Any = @js.from_fn1(fn(args : @js.Any) -> @js.Any {
+  let execute_fn : @nostd.Any = @js.from_fn1(fn(
+    args : @nostd.Any,
+  ) -> @nostd.Any {
     (self.execute)(args)
   })
   obj.set("execute", execute_fn)
@@ -405,8 +407,8 @@ pub fn Tools::add(self : Tools, name : String, tool : Tool) -> Tools {
 
 ///|
 /// Convert Tools to JS object format
-pub fn Tools::as_any(self : Tools) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn Tools::as_any(self : Tools) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   for name, tool in self.tools {
     obj.set(name, tool.as_any())
   }
@@ -427,13 +429,13 @@ pub(all) enum ToolChoice {
 }
 
 ///|
-pub fn ToolChoice::as_any(self : ToolChoice) -> @js.Any {
+pub fn ToolChoice::as_any(self : ToolChoice) -> @nostd.Any {
   match self {
     Auto => "auto" |> @js.any
     Required => "required" |> @js.any
     None_ => "none" |> @js.any
     Tool(name) => {
-      let obj = @js.Object::new()
+      let obj = @nostd.Object::new()
       obj.set("type", "tool")
       obj.set("toolName", name)
       obj.as_any()
@@ -444,12 +446,12 @@ pub fn ToolChoice::as_any(self : ToolChoice) -> @js.Any {
 ///|
 /// Language model request metadata
 pub(all) struct LanguageModelRequestMetadata {
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
 pub fn LanguageModelRequestMetadata::from_any(
-  value : @js.Any,
+  value : @nostd.Any,
 ) -> LanguageModelRequestMetadata {
   { raw: value }
 }
@@ -459,17 +461,17 @@ pub fn LanguageModelRequestMetadata::from_any(
 pub(all) struct LanguageModelResponseMetadata {
   id : String?
   model_id : String?
-  timestamp : @js.Any?
-  raw : @js.Any
+  timestamp : @nostd.Any?
+  raw : @nostd.Any
 }
 
 ///|
 pub fn LanguageModelResponseMetadata::from_any(
-  value : @js.Any,
+  value : @nostd.Any,
 ) -> LanguageModelResponseMetadata {
   {
     id: {
-      let i = value.get("id")
+      let i = value._get("id")
       if @js.is_undefined(i) {
         None
       } else {
@@ -477,7 +479,7 @@ pub fn LanguageModelResponseMetadata::from_any(
       }
     },
     model_id: {
-      let m = value.get("modelId")
+      let m = value._get("modelId")
       if @js.is_undefined(m) {
         None
       } else {
@@ -485,7 +487,7 @@ pub fn LanguageModelResponseMetadata::from_any(
       }
     },
     timestamp: {
-      let t = value.get("timestamp")
+      let t = value._get("timestamp")
       if @js.is_undefined(t) {
         None
       } else {
@@ -556,70 +558,70 @@ pub(all) enum TextStreamPart {
   Finish(finish_reason~ : FinishReason, total_usage~ : LanguageModelUsage)
   Abort
   // Error and raw
-  Error(error~ : @js.Any)
-  Raw(raw_value~ : @js.Any)
+  Error(error~ : @nostd.Any)
+  Raw(raw_value~ : @nostd.Any)
   // Unknown
-  Unknown(type_~ : String, raw~ : @js.Any)
+  Unknown(type_~ : String, raw~ : @nostd.Any)
 }
 
 ///|
 /// Parse TextStreamPart from raw JavaScript object
-pub fn TextStreamPart::from_any(value : @js.Any) -> TextStreamPart {
-  let type_str : String = value.get("type").cast()
+pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
+  let type_str : String = value._get("type").cast()
   match type_str {
     "text-start" =>
       TextStart(
-        id=value.get("id").cast(),
+        id=value._get("id").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "text-end" =>
       TextEnd(
-        id=value.get("id").cast(),
+        id=value._get("id").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "text-delta" =>
       TextDelta(
-        id=value.get("id").cast(),
-        text=value.get("text").cast(),
+        id=value._get("id").cast(),
+        text=value._get("text").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "reasoning-start" =>
       ReasoningStart(
-        id=value.get("id").cast(),
+        id=value._get("id").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "reasoning-end" =>
       ReasoningEnd(
-        id=value.get("id").cast(),
+        id=value._get("id").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "reasoning-delta" =>
       ReasoningDelta(
-        id=value.get("id").cast(),
-        text=value.get("text").cast(),
+        id=value._get("id").cast(),
+        text=value._get("text").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "tool-input-start" =>
       ToolInputStart(
-        id=value.get("id").cast(),
-        tool_name=value.get("toolName").cast(),
+        id=value._get("id").cast(),
+        tool_name=value._get("toolName").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
         provider_executed={
-          let p = value.get("providerExecuted")
+          let p = value._get("providerExecuted")
           if @js.is_undefined(p) {
             None
           } else {
@@ -627,7 +629,7 @@ pub fn TextStreamPart::from_any(value : @js.Any) -> TextStreamPart {
           }
         },
         dynamic={
-          let d = value.get("dynamic")
+          let d = value._get("dynamic")
           if @js.is_undefined(d) {
             None
           } else {
@@ -635,7 +637,7 @@ pub fn TextStreamPart::from_any(value : @js.Any) -> TextStreamPart {
           }
         },
         title={
-          let t = value.get("title")
+          let t = value._get("title")
           if @js.is_undefined(t) {
             None
           } else {
@@ -645,21 +647,21 @@ pub fn TextStreamPart::from_any(value : @js.Any) -> TextStreamPart {
       )
     "tool-input-end" =>
       ToolInputEnd(
-        id=value.get("id").cast(),
+        id=value._get("id").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "tool-input-delta" =>
       ToolInputDelta(
-        id=value.get("id").cast(),
-        delta=value.get("delta").cast(),
+        id=value._get("id").cast(),
+        delta=value._get("delta").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "source" => SourcePart(source=Source::from_any(value))
-    "file" => FilePart(file=GeneratedFile::from_any(value.get("file")))
+    "file" => FilePart(file=GeneratedFile::from_any(value._get("file")))
     "tool-call" => ToolCallPart(tool_call=ToolCall::from_any(value))
     "tool-result" => ToolResultPart(tool_result=ToolResult::from_any(value))
     "tool-error" => ToolErrorPart(tool_error=ToolError::from_any(value))
@@ -670,40 +672,40 @@ pub fn TextStreamPart::from_any(value : @js.Any) -> TextStreamPart {
         tool_approval_request=ToolApprovalRequest::from_any(value),
       )
     "start-step" => {
-      let warnings_raw = value.get("warnings")
+      let warnings_raw = value._get("warnings")
       let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) {
         []
       } else {
-        let arr : Array[@js.Any] = @js.identity(warnings_raw)
+        let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
         arr.map(CallWarning::from_any)
       }
       StartStep(
-        request=LanguageModelRequestMetadata::from_any(value.get("request")),
+        request=LanguageModelRequestMetadata::from_any(value._get("request")),
         warnings~,
       )
     }
     "finish-step" =>
       FinishStep(
-        response=LanguageModelResponseMetadata::from_any(value.get("response")),
-        usage=LanguageModelUsage::from_any(value.get("usage")),
+        response=LanguageModelResponseMetadata::from_any(value._get("response")),
+        usage=LanguageModelUsage::from_any(value._get("usage")),
         finish_reason=FinishReason::from_string(
-          value.get("finishReason").cast(),
+          value._get("finishReason").cast(),
         ),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "start" => Start
     "finish" =>
       Finish(
         finish_reason=FinishReason::from_string(
-          value.get("finishReason").cast(),
+          value._get("finishReason").cast(),
         ),
-        total_usage=LanguageModelUsage::from_any(value.get("totalUsage")),
+        total_usage=LanguageModelUsage::from_any(value._get("totalUsage")),
       )
     "abort" => Abort
-    "error" => Error(error=value.get("error"))
-    "raw" => Raw(raw_value=value.get("rawValue"))
+    "error" => Error(error=value._get("error"))
+    "raw" => Raw(raw_value=value._get("rawValue"))
     _ => Unknown(type_=type_str, raw=value)
   }
 }
@@ -799,10 +801,12 @@ pub(all) struct ReasoningOutput {
 }
 
 ///|
-pub fn ReasoningOutput::from_any(value : @js.Any) -> ReasoningOutput {
+pub fn ReasoningOutput::from_any(value : @nostd.Any) -> ReasoningOutput {
   {
-    text: value.get("text").cast(),
-    provider_metadata: ProviderMetadata::from_any(value.get("providerMetadata")),
+    text: value._get("text").cast(),
+    provider_metadata: ProviderMetadata::from_any(
+      value._get("providerMetadata"),
+    ),
   }
 }
 
@@ -828,51 +832,51 @@ pub(all) enum ContentPart {
 }
 
 ///|
-pub fn ContentPart::from_any(value : @js.Any) -> ContentPart {
-  let type_str : String = value.get("type").cast()
+pub fn ContentPart::from_any(value : @nostd.Any) -> ContentPart {
+  let type_str : String = value._get("type").cast()
   match type_str {
     "text" =>
       TextPart(
-        text=value.get("text").cast(),
+        text=value._get("text").cast(),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "reasoning" => ReasoningPart(reasoning=ReasoningOutput::from_any(value))
     "source" => SourceContentPart(source=Source::from_any(value))
     "file" =>
       FilePart(
-        file=GeneratedFile::from_any(value.get("file")),
+        file=GeneratedFile::from_any(value._get("file")),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "tool-call" =>
       ToolCallContentPart(
         tool_call=ToolCall::from_any(value),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "tool-result" =>
       ToolResultContentPart(
         tool_result=ToolResult::from_any(value),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     "tool-error" =>
       ToolErrorContentPart(
         tool_error=ToolError::from_any(value),
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
     _ =>
       TextPart(
         text="",
         provider_metadata=ProviderMetadata::from_any(
-          value.get("providerMetadata"),
+          value._get("providerMetadata"),
         ),
       )
   }
@@ -910,76 +914,76 @@ pub(all) struct GenerateTextResult {
   /// Response metadata
   response : LanguageModelResponseMetadata
   /// Raw result object
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn GenerateTextResult::from_any(value : @js.Any) -> GenerateTextResult {
+pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
   // Parse content array
-  let content_raw = value.get("content")
+  let content_raw = value._get("content")
   let content : Array[ContentPart] = if @js.is_undefined(content_raw) ||
     @js.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(content_raw)
+    let arr : Array[@nostd.Any] = @js.identity(content_raw)
     arr.map(ContentPart::from_any)
   }
   // Parse reasoning array
-  let reasoning_raw = value.get("reasoning")
+  let reasoning_raw = value._get("reasoning")
   let reasoning : Array[ReasoningOutput] = if @js.is_undefined(reasoning_raw) ||
     @js.is_null(reasoning_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(reasoning_raw)
+    let arr : Array[@nostd.Any] = @js.identity(reasoning_raw)
     arr.map(ReasoningOutput::from_any)
   }
   // Parse files array
-  let files_raw = value.get("files")
+  let files_raw = value._get("files")
   let files : Array[GeneratedFile] = if @js.is_undefined(files_raw) ||
     @js.is_null(files_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(files_raw)
+    let arr : Array[@nostd.Any] = @js.identity(files_raw)
     arr.map(GeneratedFile::from_any)
   }
   // Parse sources array
-  let sources_raw = value.get("sources")
+  let sources_raw = value._get("sources")
   let sources : Array[Source] = if @js.is_undefined(sources_raw) ||
     @js.is_null(sources_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(sources_raw)
+    let arr : Array[@nostd.Any] = @js.identity(sources_raw)
     arr.map(Source::from_any)
   }
   // Parse tool_calls array
-  let tool_calls_raw = value.get("toolCalls")
+  let tool_calls_raw = value._get("toolCalls")
   let tool_calls : Array[ToolCall] = if @js.is_undefined(tool_calls_raw) ||
     @js.is_null(tool_calls_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(tool_calls_raw)
+    let arr : Array[@nostd.Any] = @js.identity(tool_calls_raw)
     arr.map(ToolCall::from_any)
   }
   // Parse tool_results array
-  let tool_results_raw = value.get("toolResults")
+  let tool_results_raw = value._get("toolResults")
   let tool_results : Array[ToolResult] = if @js.is_undefined(tool_results_raw) ||
     @js.is_null(tool_results_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(tool_results_raw)
+    let arr : Array[@nostd.Any] = @js.identity(tool_results_raw)
     arr.map(ToolResult::from_any)
   }
   // Parse warnings array
-  let warnings_raw = value.get("warnings")
+  let warnings_raw = value._get("warnings")
   let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
     @js.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(warnings_raw)
+    let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   // Parse reasoning_text
-  let reasoning_text_raw = value.get("reasoningText")
+  let reasoning_text_raw = value._get("reasoningText")
   let reasoning_text : String? = if @js.is_undefined(reasoning_text_raw) ||
     @js.is_null(reasoning_text_raw) {
     None
@@ -988,19 +992,19 @@ pub fn GenerateTextResult::from_any(value : @js.Any) -> GenerateTextResult {
   }
   {
     content,
-    text: value.get("text").cast(),
+    text: value._get("text").cast(),
     reasoning,
     reasoning_text,
     files,
     sources,
     tool_calls,
     tool_results,
-    finish_reason: FinishReason::from_string(value.get("finishReason").cast()),
-    usage: LanguageModelUsage::from_any(value.get("usage")),
-    total_usage: LanguageModelUsage::from_any(value.get("totalUsage")),
+    finish_reason: FinishReason::from_string(value._get("finishReason").cast()),
+    usage: LanguageModelUsage::from_any(value._get("usage")),
+    total_usage: LanguageModelUsage::from_any(value._get("totalUsage")),
     warnings,
-    request: LanguageModelRequestMetadata::from_any(value.get("request")),
-    response: LanguageModelResponseMetadata::from_any(value.get("response")),
+    request: LanguageModelRequestMetadata::from_any(value._get("request")),
+    response: LanguageModelResponseMetadata::from_any(value._get("response")),
     raw: value,
   }
 }
@@ -1023,46 +1027,46 @@ pub(all) struct StepResult {
   /// Step response metadata
   response : LanguageModelResponseMetadata
   /// Raw step object
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn StepResult::from_any(value : @js.Any) -> StepResult {
+pub fn StepResult::from_any(value : @nostd.Any) -> StepResult {
   // Parse content array
-  let content_raw = value.get("content")
+  let content_raw = value._get("content")
   let content : Array[ContentPart] = if @js.is_undefined(content_raw) ||
     @js.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(content_raw)
+    let arr : Array[@nostd.Any] = @js.identity(content_raw)
     arr.map(ContentPart::from_any)
   }
   // Parse reasoning array
-  let reasoning_raw = value.get("reasoning")
+  let reasoning_raw = value._get("reasoning")
   let reasoning : Array[ReasoningOutput] = if @js.is_undefined(reasoning_raw) ||
     @js.is_null(reasoning_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(reasoning_raw)
+    let arr : Array[@nostd.Any] = @js.identity(reasoning_raw)
     arr.map(ReasoningOutput::from_any)
   }
   // Parse warnings array
-  let warnings_raw = value.get("warnings")
+  let warnings_raw = value._get("warnings")
   let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
     @js.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(warnings_raw)
+    let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   {
     content,
-    text: value.get("text").cast(),
+    text: value._get("text").cast(),
     reasoning,
-    finish_reason: FinishReason::from_string(value.get("finishReason").cast()),
-    usage: LanguageModelUsage::from_any(value.get("usage")),
+    finish_reason: FinishReason::from_string(value._get("finishReason").cast()),
+    usage: LanguageModelUsage::from_any(value._get("usage")),
     warnings,
-    response: LanguageModelResponseMetadata::from_any(value.get("response")),
+    response: LanguageModelResponseMetadata::from_any(value._get("response")),
     raw: value,
   }
 }

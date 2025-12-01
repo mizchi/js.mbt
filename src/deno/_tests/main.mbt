@@ -500,7 +500,7 @@ fn main {
     let worker = create_inline_worker(worker_code)
 
     // Set up message handler and wait for response
-    let result = worker_round_trip(worker, @js.any(21))
+    let result = worker_round_trip(worker, @nostd.any(21))
     let value : Int = @js.identity(result)
     assert_eq(value, 42)
     worker.terminate()
@@ -514,12 +514,12 @@ fn main {
       #|  self.postMessage({ sum: a + b, product: a * b });
       #|};
     let worker = create_inline_worker(worker_code)
-    let msg = @js.Object::new()
+    let msg = @nostd.Object::new()
     msg.set("a", 3)
     msg.set("b", 4)
     let result = worker_round_trip(worker, msg.as_any())
-    let sum : Int = @js.identity(result.get("sum"))
-    let product : Int = @js.identity(result.get("product"))
+    let sum : Int = @js.identity(result._get("sum"))
+    let product : Int = @js.identity(result._get("product"))
     assert_eq(sum, 7)
     assert_eq(product, 12)
     worker.terminate()
@@ -532,7 +532,7 @@ fn main {
       #|  self.postMessage("Hello, " + e.data + "!");
       #|};
     let worker = create_inline_worker(worker_code)
-    let result = worker_round_trip(worker, @js.any("World"))
+    let result = worker_round_trip(worker, @nostd.any("World"))
     let text : String = @js.identity(result)
     assert_eq(text, "Hello, World!")
     worker.terminate()
@@ -655,8 +655,8 @@ extern "js" fn create_inline_worker(code : String) -> @worker.Worker =
 /// Send message to worker and wait for response (Promise-based)
 extern "js" fn worker_round_trip_ffi(
   worker : @worker.Worker,
-  message : @js.Any,
-) -> @js.Promise[@js.Any] =
+  message : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #| (worker, message) => {
   #|   return new Promise((resolve) => {
   #|     worker.onmessage = (e) => resolve(e.data);
@@ -667,7 +667,7 @@ extern "js" fn worker_round_trip_ffi(
 ///|
 async fn worker_round_trip(
   worker : @worker.Worker,
-  message : @js.Any,
-) -> @js.Any {
+  message : @nostd.Any,
+) -> @nostd.Any {
   worker_round_trip_ffi(worker, message).wait()
 }

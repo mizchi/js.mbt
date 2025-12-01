@@ -28,7 +28,7 @@ async test "SSR: renderToString nested elements" {
 ///|
 async test "SSR: renderToString with props" {
   let _ = setup()
-  let vnode = @vue.h("div", ["Test"], props={ "class": @js.any("my-class") })
+  let vnode = @vue.h("div", ["Test"], props={ "class": @nostd.any("my-class") })
   let html = @vue.renderToString(vnode)
   inspect(html, content="<div class=\"my-class\">Test</div>")
 }
@@ -59,8 +59,8 @@ async test "SSR: renderToString button element" {
 async test "SSR: renderToString input element" {
   let _ = setup()
   let vnode = @vue.h("input", [], props={
-    "type": @js.any("text"),
-    "placeholder": @js.any("Enter name"),
+    "type": @nostd.any("text"),
+    "placeholder": @nostd.any("Enter name"),
   })
   let html = @vue.renderToString(vnode)
   inspect(html, content="<input type=\"text\" placeholder=\"Enter name\">")
@@ -70,7 +70,7 @@ async test "SSR: renderToString input element" {
 async test "SSR: renderToString with data-testid" {
   let _ = setup()
   let vnode = @vue.h("div", ["Test Element"], props={
-    "data-testid": @js.any("my-element"),
+    "data-testid": @nostd.any("my-element"),
   })
   let html = @vue.renderToString(vnode)
   inspect(html, content="<div data-testid=\"my-element\">Test Element</div>")
@@ -108,7 +108,7 @@ async test "SSR: renderToString with key" {
 async test "SSR: renderToString anchor tag" {
   let _ = setup()
   let vnode = @vue.h("a", ["Link"], props={
-    "href": @js.any("https://example.com"),
+    "href": @nostd.any("https://example.com"),
   })
   let html = @vue.renderToString(vnode)
   inspect(html, content="<a href=\"https://example.com\">Link</a>")
@@ -118,8 +118,8 @@ async test "SSR: renderToString anchor tag" {
 async test "SSR: renderToString image element" {
   let _ = setup()
   let vnode = @vue.h("img", [], props={
-    "src": @js.any("image.png"),
-    "alt": @js.any("An image"),
+    "src": @nostd.any("image.png"),
+    "alt": @nostd.any("An image"),
   })
   let html = @vue.renderToString(vnode)
   inspect(html, content="<img src=\"image.png\" alt=\"An image\">")
@@ -129,12 +129,12 @@ async test "SSR: renderToString image element" {
 async test "SSR: renderToString form structure" {
   let _ = setup()
   let vnode = @vue.h("form", [
-    @vue.h("label", ["Name"], props={ "for": @js.any("name-input") }),
+    @vue.h("label", ["Name"], props={ "for": @nostd.any("name-input") }),
     @vue.h("input", [], props={
-      "id": @js.any("name-input"),
-      "type": @js.any("text"),
+      "id": @nostd.any("name-input"),
+      "type": @nostd.any("text"),
     }),
-    @vue.h("button", ["Submit"], props={ "type": @js.any("submit") }),
+    @vue.h("button", ["Submit"], props={ "type": @nostd.any("submit") }),
   ])
   let html = @vue.renderToString(vnode)
   inspect(
@@ -165,7 +165,7 @@ async test "SSR: renderToString table structure" {
 async test "SSR: renderToString with disabled attribute" {
   let _ = setup()
   let vnode = @vue.h("button", ["Disabled Button"], props={
-    "disabled": @js.any(true),
+    "disabled": @nostd.any(true),
   })
   let html = @vue.renderToString(vnode)
   inspect(html, content="<button disabled>Disabled Button</button>")
@@ -175,8 +175,8 @@ async test "SSR: renderToString with disabled attribute" {
 async test "SSR: renderToString checkbox" {
   let _ = setup()
   let vnode = @vue.h("input", [], props={
-    "type": @js.any("checkbox"),
-    "checked": @js.any(true),
+    "type": @nostd.any("checkbox"),
+    "checked": @nostd.any(true),
   })
   let html = @vue.renderToString(vnode)
   inspect(html, content="<input type=\"checkbox\" checked>")
@@ -186,8 +186,8 @@ async test "SSR: renderToString checkbox" {
 async test "SSR: renderToString select with options" {
   let _ = setup()
   let vnode = @vue.h("select", [
-    @vue.h("option", ["Option A"], props={ "value": @js.any("a") }),
-    @vue.h("option", ["Option B"], props={ "value": @js.any("b") }),
+    @vue.h("option", ["Option A"], props={ "value": @nostd.any("a") }),
+    @vue.h("option", ["Option B"], props={ "value": @nostd.any("b") }),
   ])
   let html = @vue.renderToString(vnode)
   inspect(

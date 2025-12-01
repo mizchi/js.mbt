@@ -9,17 +9,17 @@ pub async fn renderToString(vnode : VNode) -> String {
 }
 
 ///|
-extern "js" fn ffi_render_to_string(vnode : @js.Any) -> @js.Promise[String] =
+extern "js" fn ffi_render_to_string(vnode : @nostd.Any) -> @js.Promise[String] =
   #|(v) => globalThis.__VueSSR.renderToString(v)
 
 ///|
 /// Render a VNode to a readable stream (returns readable stream)
-pub fn renderToStream(vnode : VNode) -> @js.Any {
+pub fn renderToStream(vnode : VNode) -> @nostd.Any {
   ffi_render_to_stream(vnode |> @js.identity)
 }
 
 ///|
-extern "js" fn ffi_render_to_stream(vnode : @js.Any) -> @js.Any =
+extern "js" fn ffi_render_to_stream(vnode : @nostd.Any) -> @nostd.Any =
   #|(v) => globalThis.__VueSSR.renderToStream(v)
 
 ///|
@@ -30,14 +30,14 @@ pub async fn renderToStaticMarkup(vnode : VNode) -> String {
 
 ///|
 extern "js" fn ffi_render_to_static_markup(
-  vnode : @js.Any,
+  vnode : @nostd.Any,
 ) -> @js.Promise[String] =
   #|(v) => globalThis.__VueSSR.renderToStaticMarkup(v)
 
 ///|
 /// Initialize the Vue SSR API
-pub fn init_vue_ssr(ssr : @js.Any) -> Unit {
-  if @js.is_nullish(@global.global_this().get("__VueSSR")) {
+pub fn init_vue_ssr(ssr : @nostd.Any) -> Unit {
+  if @js.is_nullish(@global.global_this()._get("__VueSSR")) {
     @global.global_this().set("__VueSSR", ssr)
   }
 }

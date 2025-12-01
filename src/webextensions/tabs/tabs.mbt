@@ -21,21 +21,25 @@ pub struct Tab {
 }
 
 ///|
-pub fn Tab::from_any(obj : @js.Any) -> Tab {
+pub fn Tab::as_any(self : Tab) -> @nostd.Any = "%identity"
+
+///|
+pub fn Tab::from_any(obj : @nostd.Any) -> Tab {
+  let o : @nostd.Any = obj |> @nostd.any
   {
-    id: obj.get("id") |> @js.identity,
-    index: obj.get("index") |> @js.identity,
-    window_id: obj.get("windowId") |> @js.identity,
-    highlighted: obj.get("highlighted") |> @js.identity,
-    active: obj.get("active") |> @js.identity,
-    pinned: obj.get("pinned") |> @js.identity,
-    url: obj.get("url") |> @js.identity,
-    title: obj.get("title") |> @js.identity,
-    fav_icon_url: obj.get("favIconUrl") |> @js.identity,
-    status: obj.get("status") |> @js.identity,
-    incognito: obj.get("incognito") |> @js.identity,
-    width: obj.get("width") |> @js.identity,
-    height: obj.get("height") |> @js.identity,
+    id: @nostd.identity_option(o["id"]),
+    index: o["index"].cast(),
+    window_id: o["windowId"].cast(),
+    highlighted: o["highlighted"].cast(),
+    active: o["active"].cast(),
+    pinned: o["pinned"].cast(),
+    url: @nostd.identity_option(o["url"]),
+    title: @nostd.identity_option(o["title"]),
+    fav_icon_url: @nostd.identity_option(o["favIconUrl"]),
+    status: @nostd.identity_option(o["status"]),
+    incognito: o["incognito"].cast(),
+    width: @nostd.identity_option(o["width"]),
+    height: @nostd.identity_option(o["height"]),
   }
 }
 
@@ -67,33 +71,33 @@ pub fn QueryOptions::default() -> QueryOptions {
 }
 
 ///|
-fn QueryOptions::as_any(self : QueryOptions) -> @js.Any {
-  let obj = @js.Object::new()
+fn QueryOptions::to_any(self : QueryOptions) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if self.active is Some(v) {
-    obj.set("active", v)
+    obj["active"] = @nostd.any(v)
   }
   if self.current_window is Some(v) {
-    obj.set("currentWindow", v)
+    obj["currentWindow"] = @nostd.any(v)
   }
   if self.highlighted is Some(v) {
-    obj.set("highlighted", v)
+    obj["highlighted"] = @nostd.any(v)
   }
   if self.pinned is Some(v) {
-    obj.set("pinned", v)
+    obj["pinned"] = @nostd.any(v)
   }
   if self.url is Some(v) {
-    obj.set("url", v)
+    obj["url"] = @nostd.any(v)
   }
   if self.window_id is Some(v) {
-    obj.set("windowId", v)
+    obj["windowId"] = @nostd.any(v)
   }
   if self.index is Some(v) {
-    obj.set("index", v)
+    obj["index"] = @nostd.any(v)
   }
   if self.status is Some(v) {
-    obj.set("status", v)
+    obj["status"] = @nostd.any(v)
   }
-  obj.as_any()
+  obj |> @js.identity
 }
 
 ///|
@@ -101,13 +105,13 @@ fn QueryOptions::as_any(self : QueryOptions) -> @js.Any {
 pub async fn query(
   options? : QueryOptions = QueryOptions::default(),
 ) -> Array[Tab] {
-  let result = ffi_query(options.as_any()).wait()
-  let arr : Array[@js.Any] = result |> @js.identity
+  let result = ffi_query(options.to_any()).wait()
+  let arr : Array[@nostd.Any] = result |> @js.identity
   arr.map(Tab::from_any)
 }
 
 ///|
-extern "js" fn ffi_query(options : @js.Any) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_query(options : @nostd.Any) -> @js.Promise[@nostd.Any] =
   #|async (options) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.query(options);
@@ -136,10 +140,10 @@ pub async fn get(tab_id : Int) -> Tab {
 }
 
 ///|
-extern "js" fn ffi_get(tab_id : Int) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_get(tab_id : Int) -> @js.Promise[@nostd.Any] =
   #|async (tabId) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
-  #|  return b.tabs.get(tabId);
+  #|  return b.tabs._get(tabId);
   #|}
 
 ///|
@@ -166,38 +170,38 @@ pub fn CreateOptions::default() -> CreateOptions {
 }
 
 ///|
-fn CreateOptions::as_any(self : CreateOptions) -> @js.Any {
-  let obj = @js.Object::new()
+fn CreateOptions::to_any(self : CreateOptions) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if self.url is Some(v) {
-    obj.set("url", v)
+    obj["url"] = @nostd.any(v)
   }
   if self.active is Some(v) {
-    obj.set("active", v)
+    obj["active"] = @nostd.any(v)
   }
   if self.pinned is Some(v) {
-    obj.set("pinned", v)
+    obj["pinned"] = @nostd.any(v)
   }
   if self.window_id is Some(v) {
-    obj.set("windowId", v)
+    obj["windowId"] = @nostd.any(v)
   }
   if self.index is Some(v) {
-    obj.set("index", v)
+    obj["index"] = @nostd.any(v)
   }
   if self.opener_tab_id is Some(v) {
-    obj.set("openerTabId", v)
+    obj["openerTabId"] = @nostd.any(v)
   }
-  obj.as_any()
+  obj |> @js.identity
 }
 
 ///|
 /// Create a new tab
 pub async fn create(options? : CreateOptions = CreateOptions::default()) -> Tab {
-  let result = ffi_create(options.as_any()).wait()
+  let result = ffi_create(options.to_any()).wait()
   Tab::from_any(result)
 }
 
 ///|
-extern "js" fn ffi_create(options : @js.Any) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_create(options : @nostd.Any) -> @js.Promise[@nostd.Any] =
   #|async (options) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.create(options);
@@ -219,38 +223,38 @@ pub fn UpdateOptions::default() -> UpdateOptions {
 }
 
 ///|
-fn UpdateOptions::as_any(self : UpdateOptions) -> @js.Any {
-  let obj = @js.Object::new()
+fn UpdateOptions::to_any(self : UpdateOptions) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if self.url is Some(v) {
-    obj.set("url", v)
+    obj["url"] = @nostd.any(v)
   }
   if self.active is Some(v) {
-    obj.set("active", v)
+    obj["active"] = @nostd.any(v)
   }
   if self.pinned is Some(v) {
-    obj.set("pinned", v)
+    obj["pinned"] = @nostd.any(v)
   }
   if self.highlighted is Some(v) {
-    obj.set("highlighted", v)
+    obj["highlighted"] = @nostd.any(v)
   }
   if self.muted is Some(v) {
-    obj.set("muted", v)
+    obj["muted"] = @nostd.any(v)
   }
-  obj.as_any()
+  obj |> @js.identity
 }
 
 ///|
 /// Update a tab
 pub async fn update(tab_id : Int, options : UpdateOptions) -> Tab {
-  let result = ffi_update(tab_id, options.as_any()).wait()
+  let result = ffi_update(tab_id, options.to_any()).wait()
   Tab::from_any(result)
 }
 
 ///|
 extern "js" fn ffi_update(
   tab_id : Int,
-  options : @js.Any,
-) -> @js.Promise[@js.Any] =
+  options : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (tabId, options) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.update(tabId, options);
@@ -278,15 +282,18 @@ pub async fn remove_tab(tab_id : Int) -> Unit {
 ///|
 /// Reload a tab
 pub async fn reload(tab_id : Int, bypass_cache? : Bool = false) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if bypass_cache {
-    options.set("bypassCache", true)
+    options["bypassCache"] = @nostd.any(true)
   }
-  ffi_reload(tab_id, options.as_any()).wait()
+  ffi_reload(tab_id, options |> @js.identity).wait()
 }
 
 ///|
-extern "js" fn ffi_reload(tab_id : Int, options : @js.Any) -> @js.Promise[Unit] =
+extern "js" fn ffi_reload(
+  tab_id : Int,
+  options : @nostd.Any,
+) -> @js.Promise[Unit] =
   #|async (tabId, options) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.reload(tabId, options);
@@ -300,7 +307,7 @@ pub async fn duplicate(tab_id : Int) -> Tab {
 }
 
 ///|
-extern "js" fn ffi_duplicate(tab_id : Int) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_duplicate(tab_id : Int) -> @js.Promise[@nostd.Any] =
   #|async (tabId) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.duplicate(tabId);
@@ -308,15 +315,15 @@ extern "js" fn ffi_duplicate(tab_id : Int) -> @js.Promise[@js.Any] =
 
 ///|
 /// Send message to content script in tab
-pub async fn send_message(tab_id : Int, message : @js.Any) -> @js.Any {
+pub async fn send_message(tab_id : Int, message : @nostd.Any) -> @nostd.Any {
   ffi_send_message(tab_id, message).wait()
 }
 
 ///|
 extern "js" fn ffi_send_message(
   tab_id : Int,
-  message : @js.Any,
-) -> @js.Promise[@js.Any] =
+  message : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (tabId, message) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.sendMessage(tabId, message);
@@ -329,7 +336,7 @@ pub fn on_created(callback : (Tab) -> Unit) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_on_created(callback : (@js.Any) -> Unit) -> Unit =
+extern "js" fn ffi_on_created(callback : (@nostd.Any) -> Unit) -> Unit =
   #|(callback) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  b.tabs.onCreated.addListener(callback);
@@ -337,12 +344,12 @@ extern "js" fn ffi_on_created(callback : (@js.Any) -> Unit) -> Unit =
 
 ///|
 /// Listen for tab removal
-pub fn on_removed(callback : (Int, @js.Any) -> Unit) -> Unit {
+pub fn on_removed(callback : (Int, @nostd.Any) -> Unit) -> Unit {
   ffi_on_removed(callback)
 }
 
 ///|
-extern "js" fn ffi_on_removed(callback : (Int, @js.Any) -> Unit) -> Unit =
+extern "js" fn ffi_on_removed(callback : (Int, @nostd.Any) -> Unit) -> Unit =
   #|(callback) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  b.tabs.onRemoved.addListener(callback);
@@ -350,7 +357,7 @@ extern "js" fn ffi_on_removed(callback : (Int, @js.Any) -> Unit) -> Unit =
 
 ///|
 /// Listen for tab updates
-pub fn on_updated(callback : (Int, @js.Any, Tab) -> Unit) -> Unit {
+pub fn on_updated(callback : (Int, @nostd.Any, Tab) -> Unit) -> Unit {
   ffi_on_updated(fn(tab_id, change_info, tab) {
     callback(tab_id, change_info, Tab::from_any(tab))
   })
@@ -358,7 +365,7 @@ pub fn on_updated(callback : (Int, @js.Any, Tab) -> Unit) -> Unit {
 
 ///|
 extern "js" fn ffi_on_updated(
-  callback : (Int, @js.Any, @js.Any) -> Unit,
+  callback : (Int, @nostd.Any, @nostd.Any) -> Unit,
 ) -> Unit =
   #|(callback) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
@@ -367,12 +374,12 @@ extern "js" fn ffi_on_updated(
 
 ///|
 /// Listen for tab activation
-pub fn on_activated(callback : (@js.Any) -> Unit) -> Unit {
+pub fn on_activated(callback : (@nostd.Any) -> Unit) -> Unit {
   ffi_on_activated(callback)
 }
 
 ///|
-extern "js" fn ffi_on_activated(callback : (@js.Any) -> Unit) -> Unit =
+extern "js" fn ffi_on_activated(callback : (@nostd.Any) -> Unit) -> Unit =
   #|(callback) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  b.tabs.onActivated.addListener(callback);

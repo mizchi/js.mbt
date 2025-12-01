@@ -8,7 +8,7 @@ pub(all) struct StopConditionContext {
   /// Current step number (1-indexed)
   step_number : Int
   /// Messages in the conversation
-  messages : Array[@js.Any]
+  messages : Array[@nostd.Any]
   /// Tool calls made in this step
   tool_calls : Array[ToolCall]
   /// Finish reason of this step
@@ -85,7 +85,7 @@ pub(all) struct PrepareStepContext {
   /// Current step number (1-indexed)
   step_number : Int
   /// Messages in the conversation so far
-  messages : Array[@js.Any]
+  messages : Array[@nostd.Any]
   /// Previous step results (if any)
   steps : Array[StepResult]
 }
@@ -99,7 +99,7 @@ pub(all) struct PrepareStepResult {
   /// Override active tools for this step
   active_tools : Array[String]?
   /// Override messages for this step
-  messages : Array[@js.Any]?
+  messages : Array[@nostd.Any]?
   /// Override system prompt for this step
   system : String?
   /// Override max tokens for this step
@@ -138,7 +138,7 @@ pub fn PrepareStepResult::with_active_tools(
 ///|
 /// Create PrepareStepResult with messages override
 pub fn PrepareStepResult::with_messages(
-  messages : Array[@js.Any],
+  messages : Array[@nostd.Any],
 ) -> PrepareStepResult {
   { ..PrepareStepResult::empty(), messages: Some(messages) }
 }
@@ -149,8 +149,8 @@ pub suberror PrepareStep async (PrepareStepContext) -> PrepareStepResult
 
 ///|
 /// Convert PrepareStepResult to JS options object
-pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if self.model is Some(m) {
     obj.set("model", m.as_any())
   }
@@ -174,21 +174,21 @@ pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @js.Any {
 
 ///|
 /// Convert StopCondition to JS function for AI SDK
-pub fn StopCondition::as_any(self : StopCondition) -> @js.Any {
+pub fn StopCondition::as_any(self : StopCondition) -> @nostd.Any {
   let StopCondition(f) = self
-  @js.from_fn1(fn(ctx_raw : @js.Any) -> Bool {
-    let step_number : Int = ctx_raw.get("stepNumber").cast()
-    let messages : Array[@js.Any] = @js.identity(ctx_raw.get("messages"))
-    let tool_calls_raw = ctx_raw.get("toolCalls")
+  @js.from_fn1(fn(ctx_raw : @nostd.Any) -> Bool {
+    let step_number : Int = ctx_raw._get("stepNumber").cast()
+    let messages : Array[@nostd.Any] = @js.identity(ctx_raw._get("messages"))
+    let tool_calls_raw = ctx_raw._get("toolCalls")
     let tool_calls : Array[ToolCall] = if @js.is_undefined(tool_calls_raw) ||
       @js.is_null(tool_calls_raw) {
       []
     } else {
-      let arr : Array[@js.Any] = @js.identity(tool_calls_raw)
+      let arr : Array[@nostd.Any] = @js.identity(tool_calls_raw)
       arr.map(ToolCall::from_any)
     }
     let finish_reason = FinishReason::from_string(
-      ctx_raw.get("finishReason").cast(),
+      ctx_raw._get("finishReason").cast(),
     )
     let ctx : StopConditionContext = {
       step_number,
@@ -202,17 +202,19 @@ pub fn StopCondition::as_any(self : StopCondition) -> @js.Any {
 
 ///|
 /// Convert PrepareStep callback to JS function for AI SDK
-pub fn PrepareStep::as_any(self : PrepareStep) -> @js.Any {
+pub fn PrepareStep::as_any(self : PrepareStep) -> @nostd.Any {
   let PrepareStep(f) = self
-  let promisified = @js.promisify1(async fn(ctx_raw : @js.Any) -> @js.Any {
-    let step_number : Int = ctx_raw.get("stepNumber").cast()
-    let messages : Array[@js.Any] = @js.identity(ctx_raw.get("messages"))
-    let steps_raw = ctx_raw.get("steps")
+  let promisified = @js.promisify1(async fn(
+    ctx_raw : @nostd.Any,
+  ) -> @nostd.Any {
+    let step_number : Int = ctx_raw._get("stepNumber").cast()
+    let messages : Array[@nostd.Any] = @js.identity(ctx_raw._get("messages"))
+    let steps_raw = ctx_raw._get("steps")
     let steps : Array[StepResult] = if @js.is_undefined(steps_raw) ||
       @js.is_null(steps_raw) {
       []
     } else {
-      let arr : Array[@js.Any] = @js.identity(steps_raw)
+      let arr : Array[@nostd.Any] = @js.identity(steps_raw)
       arr.map(StepResult::from_any)
     }
     let ctx : PrepareStepContext = { step_number, messages, steps }

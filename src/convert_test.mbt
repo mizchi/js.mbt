@@ -1,15 +1,15 @@
 ///|
 test "JsImpl::as_any converts builtin Json to Js" {
   let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
-  let v : @js.Any = JsImpl::as_any(j)
-  assert_eq(@js.identity(v.get("items").get(0)), 1)
-  assert_eq(@js.identity(v.get("nested").get("key")), "value")
+  let v : @nostd.Any = @nostd.any(j)
+  assert_eq(@js.identity(v._get("items")._get("0")), 1)
+  assert_eq(@js.identity(v._get("nested")._get("key")), "value")
 }
 
 ///|
 test "is_builtin_trait detects MoonBit builtin traits" {
   let show : &Show = "hello"
-  let v : @js.Any = @js.identity(show)
+  let v : @nostd.Any = @js.identity(show)
   assert_true(is_builtin_trait(v))
 }
 
@@ -59,21 +59,21 @@ impl JsImpl for Point
 ///|
 /// [Test Helper] Creates a plain JS object with x and y properties.
 /// Used to test @js.identity casting JS objects to MoonBit structs.
-extern "js" fn test_ffi_point_new(x : Int, y : Int) -> Any =
+extern "js" fn test_ffi_point_new(x : Int, y : Int) -> @nostd.Any =
   #|(x, y) => ({ x: x, y: y })
 
 ///|
 test "from builtin struct" {
   let p = Point::{ x: 10, y: 20 }
-  let v : @js.Any = JsImpl::as_any(p)
-  assert_eq(@js.identity(v.get("x")), 10)
-  assert_eq(@js.identity(v.get("y")), 20)
+  let v : @nostd.Any = @nostd.any(p)
+  assert_eq(@js.identity(v._get("x")), 10)
+  assert_eq(@js.identity(v._get("y")), 20)
   inspect(p, content="{x: 10, y: 20}")
 }
 
 ///|
 test "identity to struct" {
-  let v : @js.Any = test_ffi_point_new(5, 15)
+  let v : @nostd.Any = test_ffi_point_new(5, 15)
   let p : Point = @js.identity(v)
   assert_eq(p.x, 5)
   assert_eq(p.y, 15)
@@ -83,17 +83,17 @@ test "identity to struct" {
 
 ///|
 test "from_entries converts Array to Any object" {
-  let obj : @js.Any = @nostd.from_entries([
+  let obj : @nostd.Any = @nostd.from_entries([
     ("name", @nostd.any("Alice")),
     ("age", @nostd.any(30)),
   ]).cast()
-  assert_eq(@js.identity(obj.get("name")), "Alice")
-  assert_eq(@js.identity(obj.get("age")), 30)
+  assert_eq(@js.identity(obj._get("name")), "Alice")
+  assert_eq(@js.identity(obj._get("age")), 30)
 }
 
 ///|
 test "from_entries and to_string" {
-  let obj : @js.Any = @nostd.from_entries([
+  let obj : @nostd.Any = @nostd.from_entries([
     ("name", @nostd.any("Alice")),
     ("age", @nostd.any(30)),
   ]).cast()
@@ -107,108 +107,108 @@ test "from_entries and to_string" {
 
 ///|
 test "from_entries" {
-  let obj : @js.Any = @nostd.from_entries([
+  let obj : @nostd.Any = @nostd.from_entries([
     ("name", @nostd.any("Alice")),
     ("age", @nostd.any(30)),
     ("active", @nostd.any(true)),
   ]).cast()
-  assert_eq(@js.identity(obj.get("name")), "Alice")
-  assert_eq(@js.identity(obj.get("age")), 30)
-  assert_eq(@js.identity(obj.get("active")), true)
+  assert_eq(@js.identity(obj._get("name")), "Alice")
+  assert_eq(@js.identity(obj._get("age")), 30)
+  assert_eq(@js.identity(obj._get("active")), true)
 }
 
 ///|
 test "from_option_map filters None and nullish values" {
-  let map : Map[String, @js.Any?] = {
-    "name": Some(@js.any("Alice")),
-    "age": Some(@js.any(30)),
+  let map : Map[String, @nostd.Any?] = {
+    "name": Some(@nostd.any("Alice")),
+    "age": Some(@nostd.any(30)),
     "email": None,
-    "nullValue": Some(@js.null_()),
+    "nullValue": Some(@nostd.null()),
   }
-  let obj = from_option_map(map)
-  assert_eq(@js.identity(obj.get("name")), "Alice")
-  assert_eq(@js.identity(obj.get("age")), 30)
-  assert_eq(obj.hasOwnProperty("email"), false)
-  assert_eq(obj.hasOwnProperty("nullValue"), false)
+  let obj = @mbtconv.from_option_map(map)
+  assert_eq(@js.identity(obj._get("name")), "Alice")
+  assert_eq(@js.identity(obj._get("age")), 30)
+  assert_eq(@nostd.Object::has_own(obj, "email"), false)
+  assert_eq(@nostd.Object::has_own(obj, "nullValue"), false)
 }
 
 ///|
 /// from_map vs from_option_map: from_map sets all keys (including null/undefined values),
 /// from_option_map skips None and nullish values (key does not exist)
 test "from_map sets null values as property" {
-  let map : Map[String, @js.Any] = {
-    "name": @js.any("Alice"),
-    "email": @js.null_(),
+  let map : Map[String, @nostd.Any] = {
+    "name": @nostd.any("Alice"),
+    "email": @nostd.null(),
     "bio": @global.undefined(),
   }
-  let obj = from_map(map)
+  let obj = @mbtconv.from_map(map)
   // from_map: all keys exist, even if value is null/undefined
-  assert_eq(obj.hasOwnProperty("name"), true)
-  assert_eq(obj.hasOwnProperty("email"), true)
-  assert_eq(obj.hasOwnProperty("bio"), true)
-  assert_eq(@js.is_null(obj.get("email")), true)
-  assert_eq(@js.is_undefined(obj.get("bio")), true)
+  assert_eq(@nostd.Object::has_own(obj, "name"), true)
+  assert_eq(@nostd.Object::has_own(obj, "email"), true)
+  assert_eq(@nostd.Object::has_own(obj, "bio"), true)
+  assert_eq(@js.is_null(obj._get("email")), true)
+  assert_eq(@js.is_undefined(obj._get("bio")), true)
 }
 
 ///|
 /// from_option_map skips None and nullish, so the key does not exist
 test "from_option_map skips keys for None values" {
-  let map : Map[String, @js.Any?] = {
-    "name": Some(@js.any("Alice")),
+  let map : Map[String, @nostd.Any?] = {
+    "name": Some(@nostd.any("Alice")),
     "email": None,
-    "bio": Some(@js.null_()),
+    "bio": Some(@nostd.null()),
   }
-  let obj = from_option_map(map)
+  let obj = @mbtconv.from_option_map(map)
   // from_option_map: None values are skipped (key does not exist)
-  assert_eq(obj.hasOwnProperty("name"), true)
-  assert_eq(obj.hasOwnProperty("email"), false)
+  assert_eq(@nostd.Object::has_own(obj, "name"), true)
+  assert_eq(@nostd.Object::has_own(obj, "email"), false)
   // nullish values in Some are also skipped
-  assert_eq(obj.hasOwnProperty("bio"), false)
+  assert_eq(@nostd.Object::has_own(obj, "bio"), false)
 }
 
 ///|
 /// from_option_map_or_undefined returns undefined when all properties are None
 test "from_option_map_or_undefined returns undefined when all None" {
-  let map : Map[String, @js.Any?] = { "name": None, "age": None }
-  let result = from_option_map_or_undefined(map)
+  let map : Map[String, @nostd.Any?] = { "name": None, "age": None }
+  let result = @mbtconv.from_option_map_or_undefined(map)
   assert_eq(@js.is_undefined(result), true)
 }
 
 ///|
 test "from_option_map_or_undefined returns object when some values exist" {
-  let map : Map[String, @js.Any?] = {
-    "name": Some(@js.any("Alice")),
+  let map : Map[String, @nostd.Any?] = {
+    "name": Some(@nostd.any("Alice")),
     "age": None,
   }
-  let result = from_option_map_or_undefined(map)
+  let result = @mbtconv.from_option_map_or_undefined(map)
   assert_eq(@js.is_undefined(result), false)
-  assert_eq(result.hasOwnProperty("name"), true)
-  assert_eq(result.hasOwnProperty("age"), false)
+  assert_eq(@nostd.Object::has_own(result, "name"), true)
+  assert_eq(@nostd.Object::has_own(result, "age"), false)
 }
 
 ///|
 test "from_option_map_or_undefined returns undefined for empty map" {
-  let map : Map[String, @js.Any?] = {}
-  let result = from_option_map_or_undefined(map)
+  let map : Map[String, @nostd.Any?] = {}
+  let result = @mbtconv.from_option_map_or_undefined(map)
   assert_eq(@js.is_undefined(result), true)
 }
 
 ///|
 test "from_array" {
   let arr = [1, 2, 3, 4, 5]
-  let val = from_array(arr)
+  let val = @nostd.any(arr)
   assert_true(@js.is_array(val))
-  assert_eq(@js.identity(val.get(0)), 1)
-  assert_eq(@js.identity(val.get(2)), 3)
-  assert_eq(@js.identity(val.get(4)), 5)
+  assert_eq(@js.identity(val._get("0")), 1)
+  assert_eq(@js.identity(val._get("2")), 3)
+  assert_eq(@js.identity(val._get("4")), 5)
 }
 
 ///|
 test "from_fn2 converts 2-arg function to Js" {
   let add = fn(a : Int, b : Int) -> Int { a + b }
-  let js_add : @js.Any = from_fn2(add)
+  let js_add : @nostd.Any = @nostd.from_fn2(add)
   assert_eq(@js.typeof_(js_add), "function")
-  let result = js_add.call_self([@js.any(5), @js.any(3)])
+  let result = js_add._invoke([@nostd.any(5), @nostd.any(3)])
   assert_eq(@js.identity(result), 8)
 }
 
@@ -225,10 +225,10 @@ test "globalThis" {
 
 ///|
 test "global isNaN" {
-  let nan_val = @js.any(0.0 / 0.0)
+  let nan_val = @nostd.any(0.0 / 0.0)
   assert_true(@global.is_nan(nan_val))
-  assert_false(@global.is_nan(@js.any(42)))
-  assert_false(@global.is_nan(@js.any(3.14)))
+  assert_false(@global.is_nan(@nostd.any(42)))
+  assert_false(@global.is_nan(@nostd.any(3.14)))
 }
 
 ///| String Encoding (Base64)
@@ -301,7 +301,7 @@ test "encode_uri_component and decode_uri_component" {
 test "JSON::stringify" {
   let arr : Array[Int] = [1] |> identity
   arr |> inspect(content="[1]")
-  JSON::stringify(arr |> from_array, space=2)
+  JSON::stringify(arr |> @nostd.any, space=2)
   |> inspect(
     content=(
       #|[
@@ -309,7 +309,7 @@ test "JSON::stringify" {
       #|]
     ),
   )
-  let v : @js.Any = @nostd.from_entries([
+  let v : @nostd.Any = @nostd.from_entries([
     ("key1", @nostd.any(123)),
     ("key2", @nostd.any(456)),
     ("key3", @nostd.any(789)),
@@ -329,56 +329,56 @@ test "JSON::stringify" {
 ///|
 test "from_fn0 converts 0-arg function to Js" {
   let greet = fn() -> String { "Hello" }
-  let js_greet : @js.Any = from_fn0(greet)
+  let js_greet : @nostd.Any = @nostd.from_fn0(greet)
   assert_eq(@js.typeof_(js_greet), "function")
-  let result = js_greet.call_self0()
+  let result = js_greet._invoke([])
   assert_eq(@js.identity(result), "Hello")
 }
 
 ///|
 test "from_fn1 converts 1-arg function to Js" {
   let double = fn(x : Int) -> Int { x * 2 }
-  let js_double : @js.Any = from_fn1(double)
+  let js_double : @nostd.Any = @nostd.from_fn1(double)
   assert_eq(@js.typeof_(js_double), "function")
-  let result = js_double.call_self([@js.any(5)])
+  let result = js_double._invoke([@nostd.any(5)])
   assert_eq(@js.identity(result), 10)
 }
 
 ///|
 test "from_fn3 converts 3-arg function to Js" {
   let add3 = fn(a : Int, b : Int, c : Int) -> Int { a + b + c }
-  let js_add3 : @js.Any = from_fn3(add3)
+  let js_add3 : @nostd.Any = @nostd.from_fn3(add3)
   assert_eq(@js.typeof_(js_add3), "function")
-  let result = js_add3.call_self([@js.any(1), @js.any(2), @js.any(3)])
+  let result = js_add3._invoke([@nostd.any(1), @nostd.any(2), @nostd.any(3)])
   assert_eq(@js.identity(result), 6)
 }
 
-///|
-test "JsImpl for Map[String, &JsImpl]" {
-  let map : Map[String, &JsImpl] = { "name": "Bob", "age": 25, "active": true }
-  let obj : @js.Any = JsImpl::as_any(map)
-  assert_eq(@js.identity(obj.get("name")), "Bob")
-  assert_eq(@js.identity(obj.get("age")), 25)
-  assert_eq(@js.identity(obj.get("active")), true)
-}
+// ///|
+// test "JsImpl for Map[String, &JsImpl]" {
+//   let map : Map[String, &JsImpl] = { "name": "Bob", "age": 25, "active": true }
+//   let obj : @nostd.Any = @nostd.any(map)
+//   assert_eq(@js.identity(obj._get("name")), "Bob")
+//   assert_eq(@js.identity(obj._get("age")), 25)
+//   assert_eq(@js.identity(obj._get("active")), true)
+// }
 
 ///|
-test "JsImpl for Array[&JsImpl]" {
-  let arr : Array[&JsImpl] = [1, "hello", true, 3.14]
-  let js_arr : @js.Any = JsImpl::as_any(arr)
-  assert_true(@js.is_array(js_arr))
-  assert_eq(@js.identity(js_arr.get(0)), 1)
-  assert_eq(@js.identity(js_arr.get(1)), "hello")
-  assert_eq(@js.identity(js_arr.get(2)), true)
-  assert_eq(@js.identity(js_arr.get(3)), 3.14)
-}
+// test "JsImpl for Array[&JsImpl]" {
+//   let arr : Array[&JsImpl] = [1, "hello", true, 3.14]
+//   let js_arr : @nostd.Any = JsImpl::as_any(arr)
+//   assert_true(@js.is_array(js_arr))
+//   assert_eq(@js.identity(js_arr._get(0)), 1)
+//   assert_eq(@js.identity(js_arr._get(1)), "hello")
+//   assert_eq(@js.identity(js_arr._get(2)), true)
+//   assert_eq(@js.identity(js_arr._get(3)), 3.14)
+// }
 
 ///|
 test "JsImpl for Option types" {
   let some_val : Int? = Some(42)
   let none_val : Int? = None
-  let js_some : @js.Any = JsImpl::as_any(some_val)
-  let js_none : @js.Any = JsImpl::as_any(none_val)
+  let js_some : @nostd.Any = @nostd.any(some_val)
+  let js_none : @nostd.Any = @nostd.any(none_val)
   assert_eq(@js.identity(js_some), 42)
   assert_true(is_undefined(js_none))
 }
@@ -390,9 +390,9 @@ test "JsImpl for Option types" {
 test "throwable catches TypeError" {
   let mut caught_type_error = false
   throwable(fn() {
-    let null_val = null_()
+    let null_val = @nostd.null()
     // Calling a method on null will throw TypeError
-    null_val.call0("toString") |> ignore
+    null_val._call("toString", []) |> ignore
   }) catch {
     ThrowError::TypeError(_) => caught_type_error = true
     _ => assert_true(false) // Should not catch other error types
@@ -406,8 +406,8 @@ test "throwable catches RangeError" {
   let mut caught_range_error = false
   throwable(fn() {
     // Creating array with invalid length throws RangeError
-    let arr = JsArray::new()
-    arr.set("length", @js.any(-1)) |> ignore
+    let arr = @nostd.any(([] : Array[Int]))
+    arr._set("length", @nostd.any(-1)) |> ignore
   }) catch {
     ThrowError::RangeError(_) => caught_range_error = true
     _ => assert_true(false) // Should not catch other error types
@@ -451,7 +451,7 @@ test "throwable catches ReferenceError" {
   throwable(fn() {
     // Accessing undefined variable throws ReferenceError
     let code = "nonExistentVariable"
-    @global.global_this().call1("eval", @js.any(code)) |> ignore
+    @global.global_this().call1("eval", @nostd.any(code)) |> ignore
   }) catch {
     ThrowError::ReferenceError(_) => caught_reference_error = true
     _ => assert_true(false) // Should not catch other error types
@@ -465,8 +465,8 @@ test "throwable catches EvalError" {
   let mut caught_eval_error = false
   throwable(fn() {
     // Create EvalError manually since it's rarely thrown naturally
-    let eval_error_cls = @global.global_this().get("EvalError")
-    let err = new_(eval_error_cls, [any("Eval error message")])
+    let eval_error_cls = @global.global_this()._get("EvalError")
+    let err = @nostd.new(eval_error_cls, [@nostd.any("Eval error message")])
     throw_(err)
   }) catch {
     ThrowError::EvalError(_) => caught_eval_error = true
@@ -485,7 +485,7 @@ test "throwable catches AggregateError" {
       JsError::new("Error 1").as_any(),
       JsError::new("Error 2").as_any(),
     ])
-    let agg_error_cls = @global.global_this().get("AggregateError")
+    let agg_error_cls = @global.global_this()._get("AggregateError")
     let agg_err = new_(agg_error_cls, [errors, any("Multiple errors")])
     throw_(agg_err)
   }) catch {
@@ -502,7 +502,7 @@ test "throwable catches generic Error" {
   throwable(fn() {
     // Create and throw a generic Error
     let err = JsError::new("Generic error message")
-    throw_(err)
+    throw._(err)
   }) catch {
     ThrowError::Error(err) => {
       caught_error = true
@@ -519,7 +519,7 @@ test "throwable catches non-error value" {
   let mut caught_value = false
   throwable(fn() {
     // Throw a non-Error value (string)
-    throw_(@js.any("custom error string"))
+    throw_(@nostd.any("custom error string"))
   }) catch {
     ThrowError::Value(val) => {
       caught_value = true
@@ -548,7 +548,7 @@ test "ThrowError preserves error message" {
 /// Test ThrowError Show trait implementation
 test "ThrowError Show trait works for all variants" {
   // Test TypeError
-  throwable(fn() { null_().call0("toString") |> ignore }) catch {
+  throwable(fn() { @nostd.null()._call("toString", []) |> ignore }) catch {
     ThrowError::TypeError(err) => {
       let msg = err.to_string()
       assert_true(msg.length() > 0)
@@ -569,7 +569,7 @@ test "ThrowError Show trait works for all variants" {
   }
 
   // Test Value variant - direct to_string on ThrowError
-  throwable(fn() { throw_(@js.any(42)) }) catch {
+  throwable(fn() { throw_(@nostd.any(42)) }) catch {
     err => {
       // Test ThrowError's to_string() implementation
       let msg = err.to_string()
@@ -589,17 +589,17 @@ test "Any.to_json with null" {
 
 ///|
 test "Any.to_json with boolean" {
-  let true_val = @js.any(true)
+  let true_val = @nostd.any(true)
   let json_true = true_val.to_json()
   assert_true(json_true is True)
-  let false_val = @js.any(false)
+  let false_val = @nostd.any(false)
   let json_false = false_val.to_json()
   assert_true(json_false is False)
 }
 
 ///|
 test "Any.to_json with number" {
-  let num_val = @js.any(42.5)
+  let num_val = @nostd.any(42.5)
   let json = num_val.to_json()
   match json {
     Number(n, ..) => assert_eq(n, 42.5)
@@ -609,7 +609,7 @@ test "Any.to_json with number" {
 
 ///|
 test "Any.to_json with string" {
-  let str_val = @js.any("hello")
+  let str_val = @nostd.any("hello")
   let json = str_val.to_json()
   match json {
     String(s) => assert_eq(s, "hello")
@@ -619,7 +619,7 @@ test "Any.to_json with string" {
 
 ///|
 test "Any.to_json with array" {
-  let arr = from_array([@js.any(1), @js.any(2), @js.any(3)])
+  let arr = from_array([@nostd.any(1), @nostd.any(2), @nostd.any(3)])
   let json = arr.to_json()
   match json {
     Array(items) => assert_eq(items.length(), 3)
@@ -629,7 +629,7 @@ test "Any.to_json with array" {
 
 ///|
 test "Any.to_json with object" {
-  let obj : @js.Any = @nostd.from_entries([
+  let obj : @nostd.Any = @nostd.from_entries([
     ("name", @nostd.any("Alice")),
     ("age", @nostd.any(30)),
   ]).cast()
@@ -648,7 +648,7 @@ test "Any.to_json with object" {
 ///|
 test "Json::True to Any" {
   let json_true : Json = true
-  let any_val : @js.Any = JsImpl::as_any(json_true)
+  let any_val : @nostd.Any = JsImpl::as_any(json_true)
   let result : Bool = @js.identity(any_val)
   assert_eq(result, true)
 }
@@ -656,7 +656,7 @@ test "Json::True to Any" {
 ///|
 test "Json::False to Any" {
   let json_false : Json = false
-  let any_val : @js.Any = JsImpl::as_any(json_false)
+  let any_val : @nostd.Any = JsImpl::as_any(json_false)
   let result : Bool = @js.identity(any_val)
   assert_eq(result, false)
 }
@@ -665,8 +665,8 @@ test "Json::False to Any" {
 
 ///|
 test "call_self_throwable success" {
-  let parse_int = @global.global_this().get("parseInt")
-  let result = parse_int.call_self_throwable([@js.any("42")])
+  let parse_int = @global.global_this()._get("parseInt")
+  let result = parse_int.call_self_throwable([@nostd.any("42")])
   let num : Int = @js.identity(result)
   assert_eq(num, 42)
 }
@@ -674,10 +674,9 @@ test "call_self_throwable success" {
 ///|
 test "call_self_throwable with error" {
   // Create a function that throws
-  let throw_fn = @global.global_this().call1(
-    "eval",
-    @js.any("(function() { throw new Error('test'); })"),
-  )
+  let throw_fn = @global.global_this()._call("eval", [
+    @nostd.any("(function() { throw new Error('test'); })"),
+  ])
   let result = try? throw_fn.call_self_throwable([])
   assert_true(result is Err(_))
 }
@@ -686,13 +685,13 @@ test "call_self_throwable with error" {
 
 ///|
 test "SuppressedError instanceof check" {
-  let suppressed_error_cls = @global.global_this().get("SuppressedError")
+  let suppressed_error_cls = @global.global_this()._get("SuppressedError")
   let err1 = JsError::new("Error 1")
   let err2 = JsError::new("Error 2")
-  let suppressed_err = new_(suppressed_error_cls, [
-    err1.as_any(),
-    err2.as_any(),
-    @js.any("Suppressed error message"),
+  let suppressed_err = @nostd.new(suppressed_error_cls, [
+    err1 |> @nostd.any,
+    err2 |> @nostd.any,
+    @nostd.any("Suppressed error message"),
   ])
   // Check instanceof
   assert_true(@js.instanceof_(suppressed_err, suppressed_error_cls))

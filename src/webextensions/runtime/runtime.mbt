@@ -3,55 +3,57 @@
 /// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime
 
 ///|
-fn runtime() -> @js.Any {
-  @webextensions.browser().get("runtime")
+fn runtime() -> @nostd.Any {
+  let b : @nostd.Any = @webextensions.browser() |> @nostd.any
+  b["runtime"]
 }
 
 ///|
 /// Get the extension's manifest
-pub fn get_manifest() -> @js.Any {
-  runtime().call("getManifest", [])
+pub fn get_manifest() -> @nostd.Any {
+  runtime()._call("getManifest", []) |> @js.identity
 }
 
 ///|
 /// Get the URL of a resource within the extension
 pub fn get_url(path : String) -> String {
-  runtime().call("getURL", [path |> @js.any]) |> @js.identity
+  runtime()._call("getURL", [@nostd.any(path)]).cast()
 }
 
 ///|
 /// Get the extension's ID
 pub fn id() -> String {
-  runtime().get("id") |> @js.identity
+  runtime()["id"].cast()
 }
 
 ///|
 /// MessageSender - info about message sender
 pub struct MessageSender {
-  tab : @js.Any
+  tab : @nostd.Any
   frame_id : Int?
   id : String?
   url : String?
 }
 
 ///|
-pub fn MessageSender::from_any(obj : @js.Any) -> MessageSender {
+pub fn MessageSender::from_any(obj : @nostd.Any) -> MessageSender {
+  let o : @nostd.Any = obj |> @nostd.any
   {
-    tab: obj.get("tab"),
-    frame_id: obj.get("frameId") |> @js.identity,
-    id: obj.get("id") |> @js.identity,
-    url: obj.get("url") |> @js.identity,
+    tab: o["tab"] |> @js.identity,
+    frame_id: @nostd.identity_option(o["frameId"]),
+    id: @nostd.identity_option(o["id"]),
+    url: @nostd.identity_option(o["url"]),
   }
 }
 
 ///|
 /// Send a message to other parts of the extension
-pub async fn send_message(message : @js.Any) -> @js.Any {
+pub async fn send_message(message : @nostd.Any) -> @nostd.Any {
   ffi_send_message(message).wait()
 }
 
 ///|
-extern "js" fn ffi_send_message(message : @js.Any) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_send_message(message : @nostd.Any) -> @js.Promise[@nostd.Any] =
   #|async (message) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.runtime.sendMessage(message);
@@ -61,16 +63,16 @@ extern "js" fn ffi_send_message(message : @js.Any) -> @js.Promise[@js.Any] =
 /// Send a message to a specific extension
 pub async fn send_message_to_extension(
   extension_id : String,
-  message : @js.Any,
-) -> @js.Any {
+  message : @nostd.Any,
+) -> @nostd.Any {
   ffi_send_message_to_extension(extension_id, message).wait()
 }
 
 ///|
 extern "js" fn ffi_send_message_to_extension(
   extension_id : String,
-  message : @js.Any,
-) -> @js.Promise[@js.Any] =
+  message : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (extensionId, message) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.runtime.sendMessage(extensionId, message);
@@ -79,14 +81,14 @@ extern "js" fn ffi_send_message_to_extension(
 ///|
 /// Listen for messages from other parts of the extension
 pub fn on_message(
-  callback : (@js.Any, @js.Any, (@js.Any) -> Unit) -> Bool,
+  callback : (@nostd.Any, @nostd.Any, (@nostd.Any) -> Unit) -> Bool,
 ) -> Unit {
   ffi_on_message(callback)
 }
 
 ///|
 extern "js" fn ffi_on_message(
-  callback : (@js.Any, @js.Any, (@js.Any) -> Unit) -> Bool,
+  callback : (@nostd.Any, @nostd.Any, (@nostd.Any) -> Unit) -> Bool,
 ) -> Unit =
   #|(callback) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
@@ -101,36 +103,36 @@ extern "js" fn ffi_on_message(
 pub type Port
 
 ///|
-pub fn Port::as_any(self : Port) -> @nostd.Any = "%identity"
+pub fn Port::to_any(self : Port) -> @nostd.Any = "%identity"
 
 ///|
 /// Get port name
 pub fn Port::name(self : Port) -> String {
-  self.as_any()["name"].cast()
+  self.to_any()["name"].cast()
 }
 
 ///|
 /// Post message to port
-pub fn Port::post_message(self : Port, message : @js.Any) -> Unit {
-  self.as_any()._call("postMessage", [@nostd.any(message)]) |> ignore
+pub fn Port::post_message(self : Port, message : @nostd.Any) -> Unit {
+  self.to_any()._call("postMessage", [@nostd.any(message)]) |> ignore
 }
 
 ///|
 /// Disconnect port
 pub fn Port::disconnect(self : Port) -> Unit {
-  self.as_any()._call("disconnect", []) |> ignore
+  self.to_any()._call("disconnect", []) |> ignore
 }
 
 ///|
 /// Add message listener to port
-pub fn Port::on_message(self : Port, callback : (@js.Any) -> Unit) -> Unit {
-  ffi_port_on_message(self.as_any().cast(), callback)
+pub fn Port::on_message(self : Port, callback : (@nostd.Any) -> Unit) -> Unit {
+  ffi_port_on_message(self.to_any() |> @js.identity, callback)
 }
 
 ///|
 extern "js" fn ffi_port_on_message(
-  port : @js.Any,
-  callback : (@js.Any) -> Unit,
+  port : @nostd.Any,
+  callback : (@nostd.Any) -> Unit,
 ) -> Unit =
   #|(port, callback) => {
   #|  port.onMessage.addListener(callback);
@@ -139,12 +141,12 @@ extern "js" fn ffi_port_on_message(
 ///|
 /// Add disconnect listener to port
 pub fn Port::on_disconnect(self : Port, callback : () -> Unit) -> Unit {
-  ffi_port_on_disconnect(self.as_any().cast(), callback)
+  ffi_port_on_disconnect(self.to_any() |> @js.identity, callback)
 }
 
 ///|
 extern "js" fn ffi_port_on_disconnect(
-  port : @js.Any,
+  port : @nostd.Any,
   callback : () -> Unit,
 ) -> Unit =
   #|(port, callback) => {
@@ -158,7 +160,7 @@ pub fn connect(name? : String) -> Port {
 }
 
 ///|
-extern "js" fn ffi_connect(name : String) -> @js.Any =
+extern "js" fn ffi_connect(name : String) -> @nostd.Any =
   #|(name) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  const options = name ? { name } : undefined;
@@ -172,7 +174,7 @@ pub fn on_connect(callback : (Port) -> Unit) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_on_connect(callback : (@js.Any) -> Unit) -> Unit =
+extern "js" fn ffi_on_connect(callback : (@nostd.Any) -> Unit) -> Unit =
   #|(callback) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  b.runtime.onConnect.addListener(callback);
@@ -180,12 +182,12 @@ extern "js" fn ffi_on_connect(callback : (@js.Any) -> Unit) -> Unit =
 
 ///|
 /// Listen for extension install/update
-pub fn on_installed(callback : (@js.Any) -> Unit) -> Unit {
+pub fn on_installed(callback : (@nostd.Any) -> Unit) -> Unit {
   ffi_on_installed(callback)
 }
 
 ///|
-extern "js" fn ffi_on_installed(callback : (@js.Any) -> Unit) -> Unit =
+extern "js" fn ffi_on_installed(callback : (@nostd.Any) -> Unit) -> Unit =
   #|(callback) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  b.runtime.onInstalled.addListener(callback);
@@ -212,7 +214,7 @@ pub async fn get_platform_info() -> PlatformInfo {
 }
 
 ///|
-extern "js" fn ffi_get_platform_info() -> @js.Promise[@js.Any] =
+extern "js" fn ffi_get_platform_info() -> @js.Promise[@nostd.Any] =
   #|async () => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.runtime.getPlatformInfo();
@@ -226,8 +228,9 @@ pub struct PlatformInfo {
 }
 
 ///|
-pub fn PlatformInfo::from_any(obj : @js.Any) -> PlatformInfo {
-  { os: obj.get("os") |> @js.identity, arch: obj.get("arch") |> @js.identity }
+pub fn PlatformInfo::from_any(obj : @nostd.Any) -> PlatformInfo {
+  let o : @nostd.Any = obj |> @nostd.any
+  { os: o["os"].cast(), arch: o["arch"].cast() }
 }
 
 ///|
@@ -246,11 +249,11 @@ extern "js" fn ffi_open_options_page() -> @js.Promise[Unit] =
 ///|
 /// Reload the extension
 pub fn reload() -> Unit {
-  runtime().call("reload", []) |> ignore
+  runtime()._call("reload", []) |> ignore
 }
 
 ///|
 /// Get the last error
-pub fn last_error() -> @js.Any {
-  runtime().get("lastError")
+pub fn last_error() -> @nostd.Any {
+  runtime()["lastError"] |> @js.identity
 }

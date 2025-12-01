@@ -3,7 +3,7 @@
 pub type ReactDOMStatic
 
 ///|
-pub fn ReactDOMStatic::as_any(self : ReactDOMStatic) -> @js.Any = "%identity"
+pub fn ReactDOMStatic::as_any(self : ReactDOMStatic) -> @nostd.Any = "%identity"
 
 // Internal helper for calling JS methods
 
@@ -11,10 +11,10 @@ pub fn ReactDOMStatic::as_any(self : ReactDOMStatic) -> @js.Any = "%identity"
 fn ReactDOMStatic::call2(
   self : ReactDOMStatic,
   name : String,
-  arg1 : @js.Any,
-  arg2 : @js.Any,
-) -> @js.Any {
-  self.as_any().call(name, [arg1, arg2])
+  arg1 : @nostd.Any,
+  arg2 : @nostd.Any,
+) -> @nostd.Any {
+  self.as_any()._call(name, [arg1, arg2])
 }
 
 ///|
@@ -34,7 +34,7 @@ pub struct PrerenderResult {
   /// HTML content as a Web ReadableStream
   prelude : @streams.ReadableStream
   /// Postponed data for resuming, or null if complete
-  postponed : @js.Any
+  postponed : @nostd.Any
 }
 
 ///|
@@ -43,7 +43,7 @@ pub struct PrerenderToNodeStreamResult {
   /// HTML content as a Node.js Readable stream
   prelude : @stream.Readable
   /// Postponed data for resuming, or null if complete
-  postponed : @js.Any
+  postponed : @nostd.Any
 }
 
 ///|
@@ -56,8 +56,8 @@ fn build_options(
   on_error? : (@js.JsError) -> Unit,
   progressive_chunk_size? : Int,
   signal? : @js.AbortSignal,
-) -> @js.Any {
-  let opts = @js.Object::new()
+) -> @nostd.Any {
+  let opts = @nostd.Object::new()
   if bootstrap_script_content is Some(v) {
     opts.set("bootstrapScriptContent", v)
   }
@@ -110,12 +110,15 @@ pub async fn ReactDOMStatic::prerender(
     progressive_chunk_size?,
     signal?,
   )
-  let react_node_js : @js.Any = react_node.as_any().cast()
-  let promise : @js.Promise[@js.Any] = self
+  let react_node_js : @nostd.Any = react_node.as_any().cast()
+  let promise : @js.Promise[@nostd.Any] = self
     .call2("prerender", react_node_js, opts)
     .cast()
   let result = promise.wait()
-  { prelude: result.get("prelude").cast(), postponed: result.get("postponed") }
+  {
+    prelude: result._get("prelude").cast(),
+    postponed: result._get("postponed"),
+  }
 }
 
 ///|
@@ -144,10 +147,13 @@ pub async fn ReactDOMStatic::prerenderToNodeStream(
     progressive_chunk_size?,
     signal?,
   )
-  let react_node_js : @js.Any = react_node.as_any().cast()
-  let promise : @js.Promise[@js.Any] = self
+  let react_node_js : @nostd.Any = react_node.as_any().cast()
+  let promise : @js.Promise[@nostd.Any] = self
     .call2("prerenderToNodeStream", react_node_js, opts)
     .cast()
   let result = promise.wait()
-  { prelude: result.get("prelude").cast(), postponed: result.get("postponed") }
+  {
+    prelude: result._get("prelude").cast(),
+    postponed: result._get("postponed"),
+  }
 }

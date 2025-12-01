@@ -113,7 +113,7 @@ async test "Node HTTP: HTTP server handles simple request" {
   }
 
   // Make request
-  let client_req = @http.get("http://127.0.0.1:\{port}/", callback=fn(
+  let client_req = @http._get("http://127.0.0.1:\{port}/", callback=fn(
     _res : @http.IncomingMessage,
   ) {
     response_received = true
@@ -139,11 +139,11 @@ async test "Node HTTP: status_codes returns status code map" {
   inspect(@js.typeof_(codes), content="object")
 
   // Check some common status codes
-  let code200 : String = @js.identity(codes.get("200"))
+  let code200 : String = @js.identity(codes._get("200"))
   inspect(code200, content="OK")
-  let code404 : String = @js.identity(codes.get("404"))
+  let code404 : String = @js.identity(codes._get("404"))
   inspect(code404, content="Not Found")
-  let code500 : String = @js.identity(codes.get("500"))
+  let code500 : String = @js.identity(codes._get("500"))
   inspect(code500, content="Internal Server Error")
 }
 

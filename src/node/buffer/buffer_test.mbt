@@ -21,9 +21,9 @@ test "Buffer.alloc" {
   let buf = Buffer::alloc(10)
   assert_eq(buf.length(), 10)
   // Zero-filled buffer
-  assert_eq(buf.get(0).cast(), 0)
-  assert_eq(buf.get(9).cast(), 0)
-  let buf_filled = Buffer::alloc(5, fill=@js.any(0x41)) // Fill with 'A'
+  assert_eq(buf.as_any()._get("0").cast(), 0)
+  assert_eq(buf.as_any()._get("9").cast(), 0)
+  let buf_filled = Buffer::alloc(5, fill=@nostd.any(0x41)) // Fill with 'A'
   assert_eq(buf_filled.toString(), "AAAAA")
 }
 
@@ -36,8 +36,8 @@ test "Buffer.allocUnsafe" {
 ///|
 test "Buffer.isBuffer" {
   let buf = Buffer::from_string("test")
-  assert_eq(Buffer::isBuffer(buf), true)
-  assert_eq(Buffer::isBuffer(@js.any("hello")), false)
+  assert_eq(Buffer::isBuffer(buf |> @nostd.any), true)
+  assert_eq(Buffer::isBuffer(@nostd.any("hello")), false)
 }
 
 ///|
@@ -113,14 +113,14 @@ test "Buffer copy" {
 ///|
 test "Buffer fill" {
   let buf = Buffer::alloc(5)
-  buf.fill(@js.any(0x41)) |> ignore // Fill with 'A'
+  buf.fill(@nostd.any(0x41)) |> ignore // Fill with 'A'
   assert_eq(buf.toString(), "AAAAA")
   let buf2 = Buffer::alloc(10)
-  buf2.fill(@js.any(0x42), offset=2, end=7) |> ignore // Fill with 'B'
-  assert_eq(buf2.get(1).cast(), 0)
-  assert_eq(buf2.get(2).cast(), 0x42) // 'B'
-  assert_eq(buf2.get(6).cast(), 0x42) // 'B'
-  assert_eq(buf2.get(7).cast(), 0)
+  buf2.fill(@nostd.any(0x42), offset=2, end=7) |> ignore // Fill with 'B'
+  assert_eq(buf2.as_any()._get("1").cast(), 0)
+  assert_eq(buf2.as_any()._get("2").cast(), 0x42) // 'B'
+  assert_eq(buf2.as_any()._get("6").cast(), 0x42) // 'B'
+  assert_eq(buf2.as_any()._get("7").cast(), 0)
 }
 
 ///|
@@ -135,22 +135,22 @@ test "Buffer equals" {
 ///|
 test "Buffer includes and indexOf" {
   let buf = Buffer::from_string("Hello World")
-  assert_eq(buf.includes(@js.any("World")), true)
-  assert_eq(buf.includes(@js.any("Foo")), false)
-  assert_eq(buf.indexOf(@js.any("World")), 6)
-  assert_eq(buf.indexOf(@js.any("Foo")), -1)
-  assert_eq(buf.indexOf(@js.any("o")), 4)
+  assert_eq(buf.includes(@nostd.any("World")), true)
+  assert_eq(buf.includes(@nostd.any("Foo")), false)
+  assert_eq(buf.indexOf(@nostd.any("World")), 6)
+  assert_eq(buf.indexOf(@nostd.any("Foo")), -1)
+  assert_eq(buf.indexOf(@nostd.any("o")), 4)
 }
 
 ///|
 test "Buffer get and set" {
   let buf = Buffer::alloc(5)
-  buf.set(0, 72) // 'H'
-  buf.set(1, 101) // 'e'
-  buf.set(2, 108) // 'l'
-  buf.set(3, 108) // 'l'
-  buf.set(4, 111) // 'o'
-  assert_eq(buf.get(0).cast(), 72)
+  buf.as_any()._set("0", 72 |> @nostd.any) // 'H'
+  buf.as_any()._set("1", 101 |> @nostd.any) // 'e'
+  buf.as_any()._set("2", 108 |> @nostd.any) // 'l'
+  buf.as_any()._set("3", 108 |> @nostd.any) // 'l'
+  buf.as_any()._set("4", 111 |> @nostd.any) // 'o'
+  assert_eq(buf.as_any()._get("0").cast(), 72)
   assert_eq(buf.toString(), "Hello")
 }
 
@@ -160,11 +160,11 @@ test "Buffer toJSON" {
   let json = buf.toJSON()
 
   // JSON representation has type and data fields
-  let json_type : String = @js.identity(json.get("type"))
+  let json_type : String = @js.identity(json.as_any()._get("type"))
   assert_eq(json_type, "Buffer")
   // The data field is an array, verify it has the correct length
-  let data = json.get("data")
-  let data_length : Int = @js.identity(data.get("length"))
+  let data = json.as_any()._get("data")
+  let data_length : Int = @js.identity(data._get("length"))
   assert_eq(data_length, 5)
 }
 

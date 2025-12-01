@@ -44,8 +44,8 @@ pub async fn D1Database::batch(
 
 ///|
 /// Dump the entire database
-pub async fn D1Database::dump(self : Self) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self.as_any()._call("dump", []).cast()
+pub async fn D1Database::dump(self : Self) -> @nostd.Any {
+  let promise : @js.Promise[@nostd.Any] = self.as_any()._call("dump", []).cast()
   promise.wait()
 }
 
@@ -60,7 +60,7 @@ pub fn D1PreparedStatement::as_any(self : D1PreparedStatement) -> @nostd.Any = "
 ///|
 /// Bind parameters to a prepared statement
 /// Note: This wraps parameters in an array and spreads them to match Cloudflare's API
-pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Any]) -> Self {
+pub fn D1PreparedStatement::bind(self : Self, params : Array[@nostd.Any]) -> Self {
   // Cloudflare's bind() expects variadic arguments, not an array
   // We need to spread the array when calling bind
   let stmt_js = self.as_any()
@@ -80,7 +80,7 @@ pub fn D1PreparedStatement::bind(self : Self, params : Array[@js.Any]) -> Self {
 
 ///|
 /// Bind a single parameter
-pub fn D1PreparedStatement::bind1(self : Self, param : @js.Any) -> Self {
+pub fn D1PreparedStatement::bind1(self : Self, param : @nostd.Any) -> Self {
   self.bind([param])
 }
 
@@ -88,8 +88,8 @@ pub fn D1PreparedStatement::bind1(self : Self, param : @js.Any) -> Self {
 /// Bind two parameters
 pub fn D1PreparedStatement::bind2(
   self : Self,
-  p1 : @js.Any,
-  p2 : @js.Any,
+  p1 : @nostd.Any,
+  p2 : @nostd.Any,
 ) -> Self {
   self.bind([p1, p2])
 }
@@ -98,17 +98,17 @@ pub fn D1PreparedStatement::bind2(
 /// Bind three parameters
 pub fn D1PreparedStatement::bind3(
   self : Self,
-  p1 : @js.Any,
-  p2 : @js.Any,
-  p3 : @js.Any,
+  p1 : @nostd.Any,
+  p2 : @nostd.Any,
+  p3 : @nostd.Any,
 ) -> Self {
   self.bind([p1, p2, p3])
 }
 
 ///|
 /// Execute the statement and return first row
-pub async fn D1PreparedStatement::first(self : Self) -> @js.Any? {
-  let promise : @js.Promise[@js.Any?] = self.as_any()._call("first", []).cast()
+pub async fn D1PreparedStatement::first(self : Self) -> @nostd.Any? {
+  let promise : @js.Promise[@nostd.Any?] = self.as_any()._call("first", []).cast()
   promise.wait()
 }
 
@@ -117,8 +117,8 @@ pub async fn D1PreparedStatement::first(self : Self) -> @js.Any? {
 pub async fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
-) -> @js.Any? {
-  let promise : @js.Promise[@js.Any?] = self
+) -> @nostd.Any? {
+  let promise : @js.Promise[@nostd.Any?] = self
     .as_any()
     ._call("first", [@nostd.any(col_name)])
     .cast()
@@ -144,8 +144,8 @@ pub async fn D1PreparedStatement::run(self : Self) -> D1Result {
 pub async fn D1PreparedStatement::raw(
   self : Self,
   columnNames? : Bool,
-) -> Array[@js.Any] {
-  let promise : @js.Promise[Array[@js.Any]] = if columnNames is None {
+) -> Array[@nostd.Any] {
+  let promise : @js.Promise[Array[@nostd.Any]] = if columnNames is None {
     self.as_any()._call("raw", []).cast()
   } else {
     let opts = @mbtconv.from_option_map({
@@ -159,7 +159,7 @@ pub async fn D1PreparedStatement::raw(
 ///|
 /// Result of a D1 query
 pub(all) struct D1Result {
-  results : Array[@js.Any]?
+  results : Array[@nostd.Any]?
   success : Bool
   meta : D1Meta?
   error : String?
@@ -172,7 +172,7 @@ pub fn D1Result::as_any(self : D1Result) -> @nostd.Any = "%identity"
 /// Get results from D1Result
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn D1Result::get_results(self : Self) -> Array[@js.Any] {
+pub fn D1Result::get_results(self : Self) -> Array[@nostd.Any] {
   match self.results {
     Some(r) => r
     None => []

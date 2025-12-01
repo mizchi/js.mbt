@@ -126,7 +126,7 @@ pub(all) struct CallHierarchyIncomingCall {
   from : CallHierarchyItem
   from_ranges : Array[Range]
 }
-fn CallHierarchyIncomingCall::from_json(@js.Any) -> Self
+fn CallHierarchyIncomingCall::from_json(@nostd.Any) -> Self
 
 pub(all) struct CallHierarchyItem {
   name : String
@@ -136,22 +136,22 @@ pub(all) struct CallHierarchyItem {
   range : Range
   selection_range : Range
 }
-fn CallHierarchyItem::from_json(@js.Any) -> Self
+fn CallHierarchyItem::from_json(@nostd.Any) -> Self
 
 pub(all) struct CallHierarchyOutgoingCall {
   to : CallHierarchyItem
   from_ranges : Array[Range]
 }
-fn CallHierarchyOutgoingCall::from_json(@js.Any) -> Self
+fn CallHierarchyOutgoingCall::from_json(@nostd.Any) -> Self
 
 pub(all) struct CodeAction {
   title : String
   kind : String?
-  diagnostics : Array[@js.Any]
+  diagnostics : Array[@nostd.Any]
   is_preferred : Bool?
   edit : WorkspaceEdit?
 }
-fn CodeAction::from_json(@js.Any) -> Self
+fn CodeAction::from_json(@nostd.Any) -> Self
 
 pub(all) struct CompletionItem {
   label : String
@@ -161,13 +161,13 @@ pub(all) struct CompletionItem {
   insert_text : String?
   insert_text_format : Int?
 }
-fn CompletionItem::from_json(@js.Any) -> Self
+fn CompletionItem::from_json(@nostd.Any) -> Self
 
 pub(all) struct CompletionList {
   is_incomplete : Bool
   items : Array[CompletionItem]
 }
-fn CompletionList::from_json(@js.Any) -> Self
+fn CompletionList::from_json(@nostd.Any) -> Self
 
 pub(all) struct DocumentSymbol {
   name : String
@@ -177,13 +177,13 @@ pub(all) struct DocumentSymbol {
   selection_range : Range
   children : Array[DocumentSymbol]
 }
-fn DocumentSymbol::from_json(@js.Any) -> Self
+fn DocumentSymbol::from_json(@nostd.Any) -> Self
 
 pub(all) struct Hover {
   contents : MarkupContent
   range : Range?
 }
-fn Hover::from_json(@js.Any) -> Self
+fn Hover::from_json(@nostd.Any) -> Self
 
 pub(all) struct InlayHint {
   position : Position
@@ -192,19 +192,19 @@ pub(all) struct InlayHint {
   padding_left : Bool?
   padding_right : Bool?
 }
-fn InlayHint::from_json(@js.Any) -> Self
+fn InlayHint::from_json(@nostd.Any) -> Self
 
 pub(all) struct Location {
   uri : String
   range : Range
 }
-fn Location::from_json(@js.Any) -> Self
+fn Location::from_json(@nostd.Any) -> Self
 impl @js.JsImpl for Location
 
 pub struct LspClient {
   process : @child_process.ChildProcess
   mut request_id : Int
-  pending_requests : Map[Int, (@js.Any) -> Unit]
+  pending_requests : Map[Int, (@nostd.Any) -> Unit]
   mut is_initialized : Bool
   mut buffer : String
 }
@@ -217,7 +217,7 @@ fn LspClient::exit(Self) -> Unit
 async fn LspClient::formatting(Self, String, tab_size? : Int, insert_spaces? : Bool) -> Array[TextEdit] raise LspError
 async fn LspClient::hover(Self, String, Int, Int) -> Hover? raise LspError
 async fn LspClient::incoming_calls(Self, CallHierarchyItem) -> Array[CallHierarchyIncomingCall] raise LspError
-async fn LspClient::initialize(Self, String) -> @js.Any raise LspError
+async fn LspClient::initialize(Self, String) -> @nostd.Any raise LspError
 async fn LspClient::inlay_hint(Self, String, Range) -> Array[InlayHint] raise LspError
 fn LspClient::new() -> Self
 fn LspClient::open_document(Self, String, String, Int, String) -> Unit
@@ -233,28 +233,28 @@ pub(all) struct MarkupContent {
   kind : String
   value : String
 }
-fn MarkupContent::from_json(@js.Any) -> Self
+fn MarkupContent::from_json(@nostd.Any) -> Self
 
 pub(all) struct ParameterInformation {
   label : String
   documentation : String?
 }
-fn ParameterInformation::from_json(@js.Any) -> Self
+fn ParameterInformation::from_json(@nostd.Any) -> Self
 
 pub(all) struct Position {
   line : Int
   character : Int
 }
-fn Position::from_json(@js.Any) -> Self
-fn Position::to_json(Self) -> @js.Any
+fn Position::from_json(@nostd.Any) -> Self
+fn Position::to_json(Self) -> @nostd.Any
 impl @js.JsImpl for Position
 
 pub(all) struct Range {
   start : Position
   end_ : Position
 }
-fn Range::from_json(@js.Any) -> Self
-fn Range::to_json(Self) -> @js.Any
+fn Range::from_json(@nostd.Any) -> Self
+fn Range::to_json(Self) -> @nostd.Any
 impl @js.JsImpl for Range
 
 pub(all) struct RenameParams {
@@ -268,14 +268,14 @@ pub(all) struct SignatureHelp {
   active_signature : Int?
   active_parameter : Int?
 }
-fn SignatureHelp::from_json(@js.Any) -> Self
+fn SignatureHelp::from_json(@nostd.Any) -> Self
 
 pub(all) struct SignatureInformation {
   label : String
   documentation : String?
   parameters : Array[ParameterInformation]
 }
-fn SignatureInformation::from_json(@js.Any) -> Self
+fn SignatureInformation::from_json(@nostd.Any) -> Self
 
 pub(all) struct SymbolInformation {
   name : String
@@ -283,7 +283,7 @@ pub(all) struct SymbolInformation {
   location : Location
   container_name : String?
 }
-fn SymbolInformation::from_json(@js.Any) -> Self
+fn SymbolInformation::from_json(@nostd.Any) -> Self
 
 pub(all) struct TextDocumentIdentifier {
   uri : String
@@ -298,13 +298,13 @@ pub(all) struct TextEdit {
   range : Range
   new_text : String
 }
-fn TextEdit::from_json(@js.Any) -> Self
+fn TextEdit::from_json(@nostd.Any) -> Self
 impl @js.JsImpl for TextEdit
 
 pub(all) struct WorkspaceEdit {
   changes : Map[String, Array[TextEdit]]
 }
-fn WorkspaceEdit::from_json(@js.Any) -> Self
+fn WorkspaceEdit::from_json(@nostd.Any) -> Self
 
 // Type aliases
 

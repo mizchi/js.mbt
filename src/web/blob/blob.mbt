@@ -17,20 +17,15 @@ pub fn Blob::contentType(self : Self) -> String {
 
 ///|
 /// Create a new Blob from array of data
-extern "js" fn ffi_new_blob(data : @js.Any, options : @js.Any) -> @js.Any =
+extern "js" fn ffi_new_blob(data : @nostd.Any, options : @nostd.Any) -> @nostd.Any =
   #|(data, options) => new Blob(data, options)
 
 ///|
 /// Create a new Blob
-pub fn Blob::new(data : Array[&@js.JsImpl], content_type? : String) -> Blob {
-  let arr = @js.JsArray::new()
-  let mut i = 0
-  while i < data.length() {
-    arr.call("push", [data[i]]) |> ignore
-    i = i + 1
-  }
+pub fn Blob::new(data : Array[@nostd.Any], content_type? : String) -> Blob {
+  let js_data = @js.from_array(data)
   ffi_new_blob(
-    arr.as_any(),
+    js_data,
     @mbtconv.from_option_map({
       "type": content_type.map(fn(x) { @nostd.any(x) }),
     }).cast(),

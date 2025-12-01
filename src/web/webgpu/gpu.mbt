@@ -12,11 +12,11 @@
 pub(all) struct GPU {}
 
 ///|
-pub impl @js.JsImpl for GPU
+pub fn GPU::as_any(self : GPU) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the GPU object from navigator
-extern "js" fn ffi_navigator_gpu() -> @js.Any =
+extern "js" fn ffi_navigator_gpu() -> @nostd.Any =
   #| () => navigator.gpu
 
 ///|
@@ -38,17 +38,18 @@ pub async fn GPU::requestAdapter(
   power_preference? : String,
   force_fallback_adapter? : Bool,
 ) -> GPUAdapter? {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   match power_preference {
-    Some(p) => options.set("powerPreference", p)
+    Some(p) => options._set("powerPreference", @nostd.any(p))
     None => ()
   }
   match force_fallback_adapter {
-    Some(f) => options.set("forceFallbackAdapter", f)
+    Some(f) => options._set("forceFallbackAdapter", @nostd.any(f))
     None => ()
   }
-  let promise : @js.Promise[@js.Any] = self
-    .call("requestAdapter", [options.as_any()])
+  let promise : @js.Promise[@nostd.Any] = self
+    .as_any()
+    ._call("requestAdapter", [options])
     .cast()
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -62,13 +63,13 @@ pub async fn GPU::requestAdapter(
 /// Get the preferred canvas format
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPU/getPreferredCanvasFormat
 pub fn GPU::getPreferredCanvasFormat(self : GPU) -> String {
-  self.call0("getPreferredCanvasFormat").cast()
+  self.as_any()._call("getPreferredCanvasFormat", []).cast()
 }
 
 ///|
 /// Get WGSL language features
-pub fn GPU::wgslLanguageFeatures(self : GPU) -> @js.Any {
-  self.get("wgslLanguageFeatures")
+pub fn GPU::wgslLanguageFeatures(self : GPU) -> @nostd.Any {
+  self.as_any()["wgslLanguageFeatures"].cast()
 }
 
 // =============================================================================
@@ -81,30 +82,30 @@ pub fn GPU::wgslLanguageFeatures(self : GPU) -> @js.Any {
 pub(all) struct GPUAdapter {}
 
 ///|
-pub impl @js.JsImpl for GPUAdapter
+pub fn GPUAdapter::as_any(self : GPUAdapter) -> @nostd.Any = "%identity"
 
 ///|
 /// Get supported features
 pub fn GPUAdapter::features(self : GPUAdapter) -> GPUSupportedFeatures {
-  self.get("features").cast()
+  self.as_any()["features"].cast()
 }
 
 ///|
 /// Get supported limits
 pub fn GPUAdapter::limits(self : GPUAdapter) -> GPUSupportedLimits {
-  self.get("limits").cast()
+  self.as_any()["limits"].cast()
 }
 
 ///|
 /// Get adapter info
 pub fn GPUAdapter::info(self : GPUAdapter) -> GPUAdapterInfo {
-  self.get("info").cast()
+  self.as_any()["info"].cast()
 }
 
 ///|
 /// Check if this is a fallback adapter
 pub fn GPUAdapter::isFallbackAdapter(self : GPUAdapter) -> Bool {
-  self.get("isFallbackAdapter").cast()
+  self.as_any()["isFallbackAdapter"].cast()
 }
 
 ///|
@@ -114,26 +115,27 @@ pub async fn GPUAdapter::requestDevice(
   self : GPUAdapter,
   label? : String,
   required_features? : Array[String],
-  required_limits? : @js.Any,
+  required_limits? : @nostd.Any,
 ) -> GPUDevice? {
-  let descriptor = @js.Object::new()
+  let descriptor = @nostd.Object::new()
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
   match required_features {
     Some(features) => {
-      let arr = @js.JsArray::from(features.map(fn(f) { @js.any(f) }))
-      descriptor.set("requiredFeatures", arr)
+      let arr = @js.from_array(features)
+      descriptor._set("requiredFeatures", @nostd.any(arr))
     }
     None => ()
   }
   match required_limits {
-    Some(limits) => descriptor.set("requiredLimits", limits)
+    Some(limits) => descriptor._set("requiredLimits", limits)
     None => ()
   }
-  let promise : @js.Promise[@js.Any] = self
-    .call("requestDevice", [descriptor.as_any()])
+  let promise : @js.Promise[@nostd.Any] = self
+    .as_any()
+    ._call("requestDevice", [descriptor])
     .cast()
   let result = promise.wait()
   if @js.is_nullish(result) {
@@ -153,48 +155,48 @@ pub async fn GPUAdapter::requestDevice(
 pub(all) struct GPUDevice {}
 
 ///|
-pub impl @js.JsImpl for GPUDevice
+pub fn GPUDevice::as_any(self : GPUDevice) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the device label
 pub fn GPUDevice::label(self : GPUDevice) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 ///|
 /// Set the device label
 pub fn GPUDevice::set_label(self : GPUDevice, label : String) -> Unit {
-  self.set("label", label)
+  self.as_any()._set("label", @nostd.any(label))
 }
 
 ///|
 /// Get supported features
 pub fn GPUDevice::features(self : GPUDevice) -> GPUSupportedFeatures {
-  self.get("features").cast()
+  self.as_any()["features"].cast()
 }
 
 ///|
 /// Get supported limits
 pub fn GPUDevice::limits(self : GPUDevice) -> GPUSupportedLimits {
-  self.get("limits").cast()
+  self.as_any()["limits"].cast()
 }
 
 ///|
 /// Get the device queue
 pub fn GPUDevice::queue(self : GPUDevice) -> GPUQueue {
-  self.get("queue").cast()
+  self.as_any()["queue"].cast()
 }
 
 ///|
 /// Get the lost promise
 pub fn GPUDevice::lost(self : GPUDevice) -> @js.Promise[GPUDeviceLostInfo] {
-  self.get("lost").cast()
+  self.as_any()["lost"].cast()
 }
 
 ///|
 /// Destroy the device
 pub fn GPUDevice::destroy(self : GPUDevice) -> Unit {
-  self.call0("destroy") |> ignore
+  self.as_any()._call("destroy", []) |> ignore
 }
 
 ///|
@@ -207,18 +209,18 @@ pub fn GPUDevice::createBuffer(
   label? : String,
   mapped_at_creation? : Bool,
 ) -> GPUBuffer {
-  let descriptor = @js.Object::new()
-  descriptor.set("size", size)
-  descriptor.set("usage", usage)
+  let descriptor = @nostd.Object::new()
+  descriptor._set("size", @nostd.any(size))
+  descriptor._set("usage", @nostd.any(usage))
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
   match mapped_at_creation {
-    Some(m) => descriptor.set("mappedAtCreation", m)
+    Some(m) => descriptor._set("mappedAtCreation", @nostd.any(m))
     None => ()
   }
-  self.call("createBuffer", [descriptor.as_any()]).cast()
+  self.as_any()._call("createBuffer", [descriptor]).cast()
 }
 
 ///|
@@ -235,34 +237,34 @@ pub fn GPUDevice::createTexture(
   dimension? : String,
   view_formats? : Array[String],
 ) -> GPUTexture {
-  let descriptor = @js.Object::new()
-  descriptor.set("size", size)
-  descriptor.set("format", format)
-  descriptor.set("usage", usage)
+  let descriptor = @nostd.Object::new()
+  descriptor._set("size", @nostd.any(size))
+  descriptor._set("format", @nostd.any(format))
+  descriptor._set("usage", @nostd.any(usage))
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
   match mip_level_count {
-    Some(m) => descriptor.set("mipLevelCount", m)
+    Some(m) => descriptor._set("mipLevelCount", @nostd.any(m))
     None => ()
   }
   match sample_count {
-    Some(s) => descriptor.set("sampleCount", s)
+    Some(s) => descriptor._set("sampleCount", @nostd.any(s))
     None => ()
   }
   match dimension {
-    Some(d) => descriptor.set("dimension", d)
+    Some(d) => descriptor._set("dimension", @nostd.any(d))
     None => ()
   }
   match view_formats {
     Some(vf) => {
-      let arr = @js.JsArray::from(vf.map(fn(f) { @js.any(f) }))
-      descriptor.set("viewFormats", arr)
+      let arr = @js.from_array(vf)
+      descriptor._set("viewFormats", @nostd.any(arr))
     }
     None => ()
   }
-  self.call("createTexture", [descriptor.as_any()]).cast()
+  self.as_any()._call("createTexture", [descriptor]).cast()
 }
 
 ///|
@@ -273,13 +275,13 @@ pub fn GPUDevice::createShaderModule(
   code : String,
   label? : String,
 ) -> GPUShaderModule {
-  let descriptor = @js.Object::new()
-  descriptor.set("code", code)
+  let descriptor = @nostd.Object::new()
+  descriptor._set("code", @nostd.any(code))
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
-  self.call("createShaderModule", [descriptor.as_any()]).cast()
+  self.as_any()._call("createShaderModule", [descriptor]).cast()
 }
 
 ///|
@@ -299,52 +301,52 @@ pub fn GPUDevice::createSampler(
   compare? : String,
   max_anisotropy? : Int,
 ) -> GPUSampler {
-  let descriptor = @js.Object::new()
+  let descriptor = @nostd.Object::new()
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
   match address_mode_u {
-    Some(m) => descriptor.set("addressModeU", m)
+    Some(m) => descriptor._set("addressModeU", @nostd.any(m))
     None => ()
   }
   match address_mode_v {
-    Some(m) => descriptor.set("addressModeV", m)
+    Some(m) => descriptor._set("addressModeV", @nostd.any(m))
     None => ()
   }
   match address_mode_w {
-    Some(m) => descriptor.set("addressModeW", m)
+    Some(m) => descriptor._set("addressModeW", @nostd.any(m))
     None => ()
   }
   match mag_filter {
-    Some(f) => descriptor.set("magFilter", f)
+    Some(f) => descriptor._set("magFilter", @nostd.any(f))
     None => ()
   }
   match min_filter {
-    Some(f) => descriptor.set("minFilter", f)
+    Some(f) => descriptor._set("minFilter", @nostd.any(f))
     None => ()
   }
   match mipmap_filter {
-    Some(f) => descriptor.set("mipmapFilter", f)
+    Some(f) => descriptor._set("mipmapFilter", @nostd.any(f))
     None => ()
   }
   match lod_min_clamp {
-    Some(l) => descriptor.set("lodMinClamp", l)
+    Some(l) => descriptor._set("lodMinClamp", @nostd.any(l))
     None => ()
   }
   match lod_max_clamp {
-    Some(l) => descriptor.set("lodMaxClamp", l)
+    Some(l) => descriptor._set("lodMaxClamp", @nostd.any(l))
     None => ()
   }
   match compare {
-    Some(c) => descriptor.set("compare", c)
+    Some(c) => descriptor._set("compare", @nostd.any(c))
     None => ()
   }
   match max_anisotropy {
-    Some(a) => descriptor.set("maxAnisotropy", a)
+    Some(a) => descriptor._set("maxAnisotropy", @nostd.any(a))
     None => ()
   }
-  self.call("createSampler", [descriptor.as_any()]).cast()
+  self.as_any()._call("createSampler", [descriptor]).cast()
 }
 
 ///|
@@ -354,28 +356,28 @@ pub fn GPUDevice::createCommandEncoder(
   self : GPUDevice,
   label? : String,
 ) -> GPUCommandEncoder {
-  let descriptor = @js.Object::new()
+  let descriptor = @nostd.Object::new()
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
-  self.call("createCommandEncoder", [descriptor.as_any()]).cast()
+  self.as_any()._call("createCommandEncoder", [descriptor]).cast()
 }
 
 ///|
 /// Create a bind group layout
 pub fn GPUDevice::createBindGroupLayout(
   self : GPUDevice,
-  entries : @js.Any,
+  entries : @nostd.Any,
   label? : String,
 ) -> GPUBindGroupLayout {
-  let descriptor = @js.Object::new()
-  descriptor.set("entries", entries)
+  let descriptor = @nostd.Object::new()
+  descriptor._set("entries", entries)
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
-  self.call("createBindGroupLayout", [descriptor.as_any()]).cast()
+  self.as_any()._call("createBindGroupLayout", [descriptor]).cast()
 }
 
 ///|
@@ -383,17 +385,17 @@ pub fn GPUDevice::createBindGroupLayout(
 pub fn GPUDevice::createBindGroup(
   self : GPUDevice,
   layout : GPUBindGroupLayout,
-  entries : @js.Any,
+  entries : @nostd.Any,
   label? : String,
 ) -> GPUBindGroup {
-  let descriptor = @js.Object::new()
-  descriptor.set("layout", layout)
-  descriptor.set("entries", entries)
+  let descriptor = @nostd.Object::new()
+  descriptor._set("layout", @nostd.any(layout))
+  descriptor._set("entries", entries)
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
-  self.call("createBindGroup", [descriptor.as_any()]).cast()
+  self.as_any()._call("createBindGroup", [descriptor]).cast()
 }
 
 ///|
@@ -403,14 +405,14 @@ pub fn GPUDevice::createPipelineLayout(
   bind_group_layouts : Array[GPUBindGroupLayout],
   label? : String,
 ) -> GPUPipelineLayout {
-  let descriptor = @js.Object::new()
-  let arr = @js.JsArray::from(bind_group_layouts.map(fn(l) { l.as_any() }))
-  descriptor.set("bindGroupLayouts", arr)
+  let descriptor = @nostd.Object::new()
+  let arr = @js.from_array(bind_group_layouts)
+  descriptor._set("bindGroupLayouts", @nostd.any(arr))
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
-  self.call("createPipelineLayout", [descriptor.as_any()]).cast()
+  self.as_any()._call("createPipelineLayout", [descriptor]).cast()
 }
 
 ///|
@@ -418,30 +420,33 @@ pub fn GPUDevice::createPipelineLayout(
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPUDevice/createRenderPipeline
 pub fn GPUDevice::createRenderPipeline(
   self : GPUDevice,
-  descriptor : @js.Any,
+  descriptor : @nostd.Any,
 ) -> GPURenderPipeline {
-  self.call("createRenderPipeline", [descriptor]).cast()
+  self.as_any()._call("createRenderPipeline", [descriptor]).cast()
 }
 
 ///|
 /// Create a compute pipeline
 pub fn GPUDevice::createComputePipeline(
   self : GPUDevice,
-  descriptor : @js.Any,
+  descriptor : @nostd.Any,
 ) -> GPUComputePipeline {
-  self.call("createComputePipeline", [descriptor]).cast()
+  self.as_any()._call("createComputePipeline", [descriptor]).cast()
 }
 
 ///|
 /// Push an error scope
 pub fn GPUDevice::pushErrorScope(self : GPUDevice, filter : String) -> Unit {
-  self.call("pushErrorScope", [filter]) |> ignore
+  self.as_any()._call("pushErrorScope", [@nostd.any(filter)]) |> ignore
 }
 
 ///|
 /// Pop an error scope
 pub async fn GPUDevice::popErrorScope(self : GPUDevice) -> GPUError? {
-  let promise : @js.Promise[@js.Any] = self.call0("popErrorScope").cast()
+  let promise : @js.Promise[@nostd.Any] = self
+    .as_any()
+    ._call("popErrorScope", [])
+    .cast()
   let result = promise.wait()
   if @js.is_nullish(result) {
     None
@@ -460,7 +465,7 @@ pub async fn GPUDevice::popErrorScope(self : GPUDevice) -> GPUError? {
 pub(all) struct GPUBuffer {}
 
 ///|
-pub impl @js.JsImpl for GPUBuffer
+pub fn GPUBuffer::as_any(self : GPUBuffer) -> @nostd.Any = "%identity"
 
 ///|
 /// Buffer usage flags
@@ -496,25 +501,25 @@ pub const BUFFER_USAGE_QUERY_RESOLVE : Int = 0x0200
 ///|
 /// Get buffer size
 pub fn GPUBuffer::size(self : GPUBuffer) -> Int {
-  self.get("size").cast()
+  self.as_any()["size"].cast()
 }
 
 ///|
 /// Get buffer usage
 pub fn GPUBuffer::usage(self : GPUBuffer) -> Int {
-  self.get("usage").cast()
+  self.as_any()["usage"].cast()
 }
 
 ///|
 /// Get buffer map state
 pub fn GPUBuffer::mapState(self : GPUBuffer) -> String {
-  self.get("mapState").cast()
+  self.as_any()["mapState"].cast()
 }
 
 ///|
 /// Get buffer label
 pub fn GPUBuffer::label(self : GPUBuffer) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 ///|
@@ -526,10 +531,19 @@ pub async fn GPUBuffer::mapAsync(
   size? : Int,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match (offset, size) {
-    (None, None) => self.call("mapAsync", [mode]).cast()
-    (Some(o), None) => self.call2("mapAsync", mode, o).cast()
-    (Some(o), Some(s)) => self.call("mapAsync", [mode, o, s]).cast()
-    (None, Some(s)) => self.call("mapAsync", [mode, 0, s]).cast()
+    (None, None) => self.as_any()._call("mapAsync", [@nostd.any(mode)]).cast()
+    (Some(o), None) =>
+      self.as_any()._call("mapAsync", [@nostd.any(mode), @nostd.any(o)]).cast()
+    (Some(o), Some(s)) =>
+      self
+      .as_any()
+      ._call("mapAsync", [@nostd.any(mode), @nostd.any(o), @nostd.any(s)])
+      .cast()
+    (None, Some(s)) =>
+      self
+      .as_any()
+      ._call("mapAsync", [@nostd.any(mode), @nostd.any(0), @nostd.any(s)])
+      .cast()
   }
   promise.wait()
 }
@@ -542,23 +556,32 @@ pub fn GPUBuffer::getMappedRange(
   size? : Int,
 ) -> @js.ArrayBuffer {
   match (offset, size) {
-    (None, None) => self.call0("getMappedRange").cast()
-    (Some(o), None) => self.call("getMappedRange", [o]).cast()
-    (Some(o), Some(s)) => self.call2("getMappedRange", o, s).cast()
-    (None, Some(s)) => self.call2("getMappedRange", 0, s).cast()
+    (None, None) => self.as_any()._call("getMappedRange", []).cast()
+    (Some(o), None) =>
+      self.as_any()._call("getMappedRange", [@nostd.any(o)]).cast()
+    (Some(o), Some(s)) =>
+      self
+      .as_any()
+      ._call("getMappedRange", [@nostd.any(o), @nostd.any(s)])
+      .cast()
+    (None, Some(s)) =>
+      self
+      .as_any()
+      ._call("getMappedRange", [@nostd.any(0), @nostd.any(s)])
+      .cast()
   }
 }
 
 ///|
 /// Unmap the buffer
 pub fn GPUBuffer::unmap(self : GPUBuffer) -> Unit {
-  self.call0("unmap") |> ignore
+  self.as_any()._call("unmap", []) |> ignore
 }
 
 ///|
 /// Destroy the buffer
 pub fn GPUBuffer::destroy(self : GPUBuffer) -> Unit {
-  self.call0("destroy") |> ignore
+  self.as_any()._call("destroy", []) |> ignore
 }
 
 // =============================================================================
@@ -571,7 +594,7 @@ pub fn GPUBuffer::destroy(self : GPUBuffer) -> Unit {
 pub(all) struct GPUTexture {}
 
 ///|
-pub impl @js.JsImpl for GPUTexture
+pub fn GPUTexture::as_any(self : GPUTexture) -> @nostd.Any = "%identity"
 
 ///|
 /// Texture usage flags
@@ -592,49 +615,49 @@ pub const TEXTURE_USAGE_RENDER_ATTACHMENT : Int = 0x10
 ///|
 /// Get texture width
 pub fn GPUTexture::width(self : GPUTexture) -> Int {
-  self.get("width").cast()
+  self.as_any()["width"].cast()
 }
 
 ///|
 /// Get texture height
 pub fn GPUTexture::height(self : GPUTexture) -> Int {
-  self.get("height").cast()
+  self.as_any()["height"].cast()
 }
 
 ///|
 /// Get texture depth or array layers
 pub fn GPUTexture::depthOrArrayLayers(self : GPUTexture) -> Int {
-  self.get("depthOrArrayLayers").cast()
+  self.as_any()["depthOrArrayLayers"].cast()
 }
 
 ///|
 /// Get texture format
 pub fn GPUTexture::format(self : GPUTexture) -> String {
-  self.get("format").cast()
+  self.as_any()["format"].cast()
 }
 
 ///|
 /// Get mip level count
 pub fn GPUTexture::mipLevelCount(self : GPUTexture) -> Int {
-  self.get("mipLevelCount").cast()
+  self.as_any()["mipLevelCount"].cast()
 }
 
 ///|
 /// Get sample count
 pub fn GPUTexture::sampleCount(self : GPUTexture) -> Int {
-  self.get("sampleCount").cast()
+  self.as_any()["sampleCount"].cast()
 }
 
 ///|
 /// Get texture dimension
 pub fn GPUTexture::dimension(self : GPUTexture) -> String {
-  self.get("dimension").cast()
+  self.as_any()["dimension"].cast()
 }
 
 ///|
 /// Get texture usage
 pub fn GPUTexture::usage(self : GPUTexture) -> Int {
-  self.get("usage").cast()
+  self.as_any()["usage"].cast()
 }
 
 ///|
@@ -650,46 +673,46 @@ pub fn GPUTexture::createView(
   array_layer_count? : Int,
   label? : String,
 ) -> GPUTextureView {
-  let descriptor = @js.Object::new()
+  let descriptor = @nostd.Object::new()
   match format {
-    Some(f) => descriptor.set("format", f)
+    Some(f) => descriptor._set("format", @nostd.any(f))
     None => ()
   }
   match dimension {
-    Some(d) => descriptor.set("dimension", d)
+    Some(d) => descriptor._set("dimension", @nostd.any(d))
     None => ()
   }
   match aspect {
-    Some(a) => descriptor.set("aspect", a)
+    Some(a) => descriptor._set("aspect", @nostd.any(a))
     None => ()
   }
   match base_mip_level {
-    Some(b) => descriptor.set("baseMipLevel", b)
+    Some(b) => descriptor._set("baseMipLevel", @nostd.any(b))
     None => ()
   }
   match mip_level_count {
-    Some(m) => descriptor.set("mipLevelCount", m)
+    Some(m) => descriptor._set("mipLevelCount", @nostd.any(m))
     None => ()
   }
   match base_array_layer {
-    Some(b) => descriptor.set("baseArrayLayer", b)
+    Some(b) => descriptor._set("baseArrayLayer", @nostd.any(b))
     None => ()
   }
   match array_layer_count {
-    Some(a) => descriptor.set("arrayLayerCount", a)
+    Some(a) => descriptor._set("arrayLayerCount", @nostd.any(a))
     None => ()
   }
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
-  self.call("createView", [descriptor.as_any()]).cast()
+  self.as_any()._call("createView", [descriptor]).cast()
 }
 
 ///|
 /// Destroy the texture
 pub fn GPUTexture::destroy(self : GPUTexture) -> Unit {
-  self.call0("destroy") |> ignore
+  self.as_any()._call("destroy", []) |> ignore
 }
 
 // =============================================================================
@@ -701,11 +724,11 @@ pub fn GPUTexture::destroy(self : GPUTexture) -> Unit {
 pub(all) struct GPUTextureView {}
 
 ///|
-pub impl @js.JsImpl for GPUTextureView
+pub fn GPUTextureView::as_any(self : GPUTextureView) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPUTextureView::label(self : GPUTextureView) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 // =============================================================================
@@ -718,7 +741,7 @@ pub fn GPUTextureView::label(self : GPUTextureView) -> String {
 pub(all) struct GPUQueue {}
 
 ///|
-pub impl @js.JsImpl for GPUQueue
+pub fn GPUQueue::as_any(self : GPUQueue) -> @nostd.Any = "%identity"
 
 ///|
 /// Submit command buffers to the queue
@@ -726,8 +749,8 @@ pub fn GPUQueue::submit(
   self : GPUQueue,
   command_buffers : Array[GPUCommandBuffer],
 ) -> Unit {
-  let arr = @js.JsArray::from(command_buffers.map(fn(cb) { cb.as_any() }))
-  self.call("submit", [arr.as_any()]) |> ignore
+  let arr = @js.from_array(command_buffers)
+  self.as_any()._call("submit", [@nostd.any(arr)]) |> ignore
 }
 
 ///|
@@ -736,21 +759,47 @@ pub fn GPUQueue::writeBuffer(
   self : GPUQueue,
   buffer : GPUBuffer,
   buffer_offset : Int,
-  data : @js.Any,
+  data : @nostd.Any,
   data_offset? : Int,
   size? : Int,
 ) -> Unit {
   match (data_offset, size) {
     (None, None) =>
-      self.call("writeBuffer", [buffer.as_any(), buffer_offset, data]) |> ignore
+      self
+      .as_any()
+      ._call("writeBuffer", [buffer.as_any(), @nostd.any(buffer_offset), data])
+      |> ignore
     (Some(do_), None) =>
-      self.call("writeBuffer", [buffer.as_any(), buffer_offset, data, do_])
+      self
+      .as_any()
+      ._call("writeBuffer", [
+        buffer.as_any(),
+        @nostd.any(buffer_offset),
+        data,
+        @nostd.any(do_),
+      ])
       |> ignore
     (Some(do_), Some(s)) =>
-      self.call("writeBuffer", [buffer.as_any(), buffer_offset, data, do_, s])
+      self
+      .as_any()
+      ._call("writeBuffer", [
+        buffer.as_any(),
+        @nostd.any(buffer_offset),
+        data,
+        @nostd.any(do_),
+        @nostd.any(s),
+      ])
       |> ignore
     (None, Some(s)) =>
-      self.call("writeBuffer", [buffer.as_any(), buffer_offset, data, 0, s])
+      self
+      .as_any()
+      ._call("writeBuffer", [
+        buffer.as_any(),
+        @nostd.any(buffer_offset),
+        data,
+        @nostd.any(0),
+        @nostd.any(s),
+      ])
       |> ignore
   }
 }
@@ -759,19 +808,24 @@ pub fn GPUQueue::writeBuffer(
 /// Write data to a texture
 pub fn GPUQueue::writeTexture(
   self : GPUQueue,
-  destination : @js.Any,
-  data : @js.Any,
-  data_layout : @js.Any,
+  destination : @nostd.Any,
+  data : @nostd.Any,
+  data_layout : @nostd.Any,
   size : GPUExtent3D,
 ) -> Unit {
-  self.call("writeTexture", [destination, data, data_layout, size.as_any()])
+  self
+  .as_any()
+  ._call("writeTexture", [destination, data, data_layout, @nostd.any(size)])
   |> ignore
 }
 
 ///|
 /// Get a promise that resolves when all submitted work is done
 pub async fn GPUQueue::onSubmittedWorkDone(self : GPUQueue) -> Unit {
-  let promise : @js.Promise[Unit] = self.call0("onSubmittedWorkDone").cast()
+  let promise : @js.Promise[Unit] = self
+    .as_any()
+    ._call("onSubmittedWorkDone", [])
+    .cast()
   promise.wait()
 }
 
@@ -785,20 +839,20 @@ pub async fn GPUQueue::onSubmittedWorkDone(self : GPUQueue) -> Unit {
 pub(all) struct GPUCommandEncoder {}
 
 ///|
-pub impl @js.JsImpl for GPUCommandEncoder
+pub fn GPUCommandEncoder::as_any(self : GPUCommandEncoder) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPUCommandEncoder::label(self : GPUCommandEncoder) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 ///|
 /// Begin a render pass
 pub fn GPUCommandEncoder::beginRenderPass(
   self : GPUCommandEncoder,
-  descriptor : @js.Any,
+  descriptor : @nostd.Any,
 ) -> GPURenderPassEncoder {
-  self.call("beginRenderPass", [descriptor]).cast()
+  self.as_any()._call("beginRenderPass", [descriptor]).cast()
 }
 
 ///|
@@ -807,12 +861,12 @@ pub fn GPUCommandEncoder::beginComputePass(
   self : GPUCommandEncoder,
   label? : String,
 ) -> GPUComputePassEncoder {
-  let descriptor = @js.Object::new()
+  let descriptor = @nostd.Object::new()
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
-  self.call("beginComputePass", [descriptor.as_any()]).cast()
+  self.as_any()._call("beginComputePass", [descriptor]).cast()
 }
 
 ///|
@@ -825,12 +879,14 @@ pub fn GPUCommandEncoder::copyBufferToBuffer(
   destination_offset : Int,
   size : Int,
 ) -> Unit {
-  self.call("copyBufferToBuffer", [
+  self
+  .as_any()
+  ._call("copyBufferToBuffer", [
     source.as_any(),
-    source_offset,
+    @nostd.any(source_offset),
     destination.as_any(),
-    destination_offset,
-    size,
+    @nostd.any(destination_offset),
+    @nostd.any(size),
   ])
   |> ignore
 }
@@ -839,11 +895,13 @@ pub fn GPUCommandEncoder::copyBufferToBuffer(
 /// Copy buffer to texture
 pub fn GPUCommandEncoder::copyBufferToTexture(
   self : GPUCommandEncoder,
-  source : @js.Any,
-  destination : @js.Any,
+  source : @nostd.Any,
+  destination : @nostd.Any,
   copy_size : GPUExtent3D,
 ) -> Unit {
-  self.call("copyBufferToTexture", [source, destination, copy_size.as_any()])
+  self
+  .as_any()
+  ._call("copyBufferToTexture", [source, destination, @nostd.any(copy_size)])
   |> ignore
 }
 
@@ -851,11 +909,13 @@ pub fn GPUCommandEncoder::copyBufferToTexture(
 /// Copy texture to buffer
 pub fn GPUCommandEncoder::copyTextureToBuffer(
   self : GPUCommandEncoder,
-  source : @js.Any,
-  destination : @js.Any,
+  source : @nostd.Any,
+  destination : @nostd.Any,
   copy_size : GPUExtent3D,
 ) -> Unit {
-  self.call("copyTextureToBuffer", [source, destination, copy_size.as_any()])
+  self
+  .as_any()
+  ._call("copyTextureToBuffer", [source, destination, @nostd.any(copy_size)])
   |> ignore
 }
 
@@ -863,11 +923,13 @@ pub fn GPUCommandEncoder::copyTextureToBuffer(
 /// Copy texture to texture
 pub fn GPUCommandEncoder::copyTextureToTexture(
   self : GPUCommandEncoder,
-  source : @js.Any,
-  destination : @js.Any,
+  source : @nostd.Any,
+  destination : @nostd.Any,
   copy_size : GPUExtent3D,
 ) -> Unit {
-  self.call("copyTextureToTexture", [source, destination, copy_size.as_any()])
+  self
+  .as_any()
+  ._call("copyTextureToTexture", [source, destination, @nostd.any(copy_size)])
   |> ignore
 }
 
@@ -880,12 +942,21 @@ pub fn GPUCommandEncoder::clearBuffer(
   size? : Int,
 ) -> Unit {
   match (offset, size) {
-    (None, None) => self.call("clearBuffer", [buffer.as_any()]) |> ignore
-    (Some(o), None) => self.call2("clearBuffer", buffer.as_any(), o) |> ignore
+    (None, None) =>
+      self.as_any()._call("clearBuffer", [buffer.as_any()]) |> ignore
+    (Some(o), None) =>
+      self.as_any()._call("clearBuffer", [buffer.as_any(), @nostd.any(o)])
+      |> ignore
     (Some(o), Some(s)) =>
-      self.call("clearBuffer", [buffer.as_any(), o, s]) |> ignore
+      self
+      .as_any()
+      ._call("clearBuffer", [buffer.as_any(), @nostd.any(o), @nostd.any(s)])
+      |> ignore
     (None, Some(s)) =>
-      self.call("clearBuffer", [buffer.as_any(), 0, s]) |> ignore
+      self
+      .as_any()
+      ._call("clearBuffer", [buffer.as_any(), @nostd.any(0), @nostd.any(s)])
+      |> ignore
   }
 }
 
@@ -895,12 +966,12 @@ pub fn GPUCommandEncoder::finish(
   self : GPUCommandEncoder,
   label? : String,
 ) -> GPUCommandBuffer {
-  let descriptor = @js.Object::new()
+  let descriptor = @nostd.Object::new()
   match label {
-    Some(l) => descriptor.set("label", l)
+    Some(l) => descriptor._set("label", @nostd.any(l))
     None => ()
   }
-  self.call("finish", [descriptor.as_any()]).cast()
+  self.as_any()._call("finish", [descriptor]).cast()
 }
 
 // =============================================================================
@@ -912,11 +983,11 @@ pub fn GPUCommandEncoder::finish(
 pub(all) struct GPUCommandBuffer {}
 
 ///|
-pub impl @js.JsImpl for GPUCommandBuffer
+pub fn GPUCommandBuffer::as_any(self : GPUCommandBuffer) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPUCommandBuffer::label(self : GPUCommandBuffer) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 // =============================================================================
@@ -928,7 +999,7 @@ pub fn GPUCommandBuffer::label(self : GPUCommandBuffer) -> String {
 pub(all) struct GPURenderPassEncoder {}
 
 ///|
-pub impl @js.JsImpl for GPURenderPassEncoder
+pub fn GPURenderPassEncoder::as_any(self : GPURenderPassEncoder) -> @nostd.Any = "%identity"
 
 ///|
 /// Set the render pipeline
@@ -936,7 +1007,7 @@ pub fn GPURenderPassEncoder::setPipeline(
   self : GPURenderPassEncoder,
   pipeline : GPURenderPipeline,
 ) -> Unit {
-  self.call("setPipeline", [pipeline.as_any()]) |> ignore
+  self.as_any()._call("setPipeline", [pipeline.as_any()]) |> ignore
 }
 
 ///|
@@ -946,7 +1017,8 @@ pub fn GPURenderPassEncoder::setBindGroup(
   index : Int,
   bind_group : GPUBindGroup,
 ) -> Unit {
-  self.call2("setBindGroup", index, bind_group.as_any()) |> ignore
+  self.as_any()._call("setBindGroup", [@nostd.any(index), bind_group.as_any()])
+  |> ignore
 }
 
 ///|
@@ -960,13 +1032,39 @@ pub fn GPURenderPassEncoder::setVertexBuffer(
 ) -> Unit {
   match (offset, size) {
     (None, None) =>
-      self.call2("setVertexBuffer", slot, buffer.as_any()) |> ignore
+      self
+      .as_any()
+      ._call("setVertexBuffer", [@nostd.any(slot), buffer.as_any()])
+      |> ignore
     (Some(o), None) =>
-      self.call("setVertexBuffer", [slot, buffer.as_any(), o]) |> ignore
+      self
+      .as_any()
+      ._call("setVertexBuffer", [
+        @nostd.any(slot),
+        buffer.as_any(),
+        @nostd.any(o),
+      ])
+      |> ignore
     (Some(o), Some(s)) =>
-      self.call("setVertexBuffer", [slot, buffer.as_any(), o, s]) |> ignore
+      self
+      .as_any()
+      ._call("setVertexBuffer", [
+        @nostd.any(slot),
+        buffer.as_any(),
+        @nostd.any(o),
+        @nostd.any(s),
+      ])
+      |> ignore
     (None, Some(s)) =>
-      self.call("setVertexBuffer", [slot, buffer.as_any(), 0, s]) |> ignore
+      self
+      .as_any()
+      ._call("setVertexBuffer", [
+        @nostd.any(slot),
+        buffer.as_any(),
+        @nostd.any(0),
+        @nostd.any(s),
+      ])
+      |> ignore
   }
 }
 
@@ -981,13 +1079,39 @@ pub fn GPURenderPassEncoder::setIndexBuffer(
 ) -> Unit {
   match (offset, size) {
     (None, None) =>
-      self.call2("setIndexBuffer", buffer.as_any(), format) |> ignore
+      self
+      .as_any()
+      ._call("setIndexBuffer", [buffer.as_any(), @nostd.any(format)])
+      |> ignore
     (Some(o), None) =>
-      self.call("setIndexBuffer", [buffer.as_any(), format, o]) |> ignore
+      self
+      .as_any()
+      ._call("setIndexBuffer", [
+        buffer.as_any(),
+        @nostd.any(format),
+        @nostd.any(o),
+      ])
+      |> ignore
     (Some(o), Some(s)) =>
-      self.call("setIndexBuffer", [buffer.as_any(), format, o, s]) |> ignore
+      self
+      .as_any()
+      ._call("setIndexBuffer", [
+        buffer.as_any(),
+        @nostd.any(format),
+        @nostd.any(o),
+        @nostd.any(s),
+      ])
+      |> ignore
     (None, Some(s)) =>
-      self.call("setIndexBuffer", [buffer.as_any(), format, 0, s]) |> ignore
+      self
+      .as_any()
+      ._call("setIndexBuffer", [
+        buffer.as_any(),
+        @nostd.any(format),
+        @nostd.any(0),
+        @nostd.any(s),
+      ])
+      |> ignore
   }
 }
 
@@ -1001,21 +1125,68 @@ pub fn GPURenderPassEncoder::draw(
   first_instance? : Int,
 ) -> Unit {
   match (instance_count, first_vertex, first_instance) {
-    (None, None, None) => self.call("draw", [vertex_count]) |> ignore
-    (Some(ic), None, None) => self.call2("draw", vertex_count, ic) |> ignore
+    (None, None, None) =>
+      self.as_any()._call("draw", [@nostd.any(vertex_count)]) |> ignore
+    (Some(ic), None, None) =>
+      self.as_any()._call("draw", [@nostd.any(vertex_count), @nostd.any(ic)])
+      |> ignore
     (Some(ic), Some(fv), None) =>
-      self.call("draw", [vertex_count, ic, fv]) |> ignore
+      self
+      .as_any()
+      ._call("draw", [@nostd.any(vertex_count), @nostd.any(ic), @nostd.any(fv)])
+      |> ignore
     (Some(ic), Some(fv), Some(fi)) =>
-      self.call("draw", [vertex_count, ic, fv, fi]) |> ignore
+      self
+      .as_any()
+      ._call("draw", [
+        @nostd.any(vertex_count),
+        @nostd.any(ic),
+        @nostd.any(fv),
+        @nostd.any(fi),
+      ])
+      |> ignore
     (None, Some(fv), fi) =>
       match fi {
-        Some(f) => self.call("draw", [vertex_count, 1, fv, f]) |> ignore
-        None => self.call("draw", [vertex_count, 1, fv]) |> ignore
+        Some(f) =>
+          self
+          .as_any()
+          ._call("draw", [
+            @nostd.any(vertex_count),
+            @nostd.any(1),
+            @nostd.any(fv),
+            @nostd.any(f),
+          ])
+          |> ignore
+        None =>
+          self
+          .as_any()
+          ._call("draw", [
+            @nostd.any(vertex_count),
+            @nostd.any(1),
+            @nostd.any(fv),
+          ])
+          |> ignore
       }
     (Some(ic), None, Some(fi)) =>
-      self.call("draw", [vertex_count, ic, 0, fi]) |> ignore
+      self
+      .as_any()
+      ._call("draw", [
+        @nostd.any(vertex_count),
+        @nostd.any(ic),
+        @nostd.any(0),
+        @nostd.any(fi),
+      ])
+      |> ignore
     (None, None, Some(fi)) =>
-      self.call("draw", [vertex_count, 1, 0, fi]) |> ignore
+      self
+      .as_any()
+      ._call("draw", [
+        @nostd.any(vertex_count),
+        @nostd.any(1),
+        @nostd.any(0),
+        @nostd.any(fi),
+      ])
+      |> ignore
   }
 }
 
@@ -1031,16 +1202,43 @@ pub fn GPURenderPassEncoder::drawIndexed(
 ) -> Unit {
   match (instance_count, first_index, base_vertex, first_instance) {
     (None, None, None, None) =>
-      self.call("drawIndexed", [index_count]) |> ignore
+      self.as_any()._call("drawIndexed", [@nostd.any(index_count)]) |> ignore
     (Some(ic), None, None, None) =>
-      self.call2("drawIndexed", index_count, ic) |> ignore
+      self
+      .as_any()
+      ._call("drawIndexed", [@nostd.any(index_count), @nostd.any(ic)])
+      |> ignore
     (Some(ic), Some(fi), None, None) =>
-      self.call("drawIndexed", [index_count, ic, fi]) |> ignore
+      self
+      .as_any()
+      ._call("drawIndexed", [
+        @nostd.any(index_count),
+        @nostd.any(ic),
+        @nostd.any(fi),
+      ])
+      |> ignore
     (Some(ic), Some(fi), Some(bv), None) =>
-      self.call("drawIndexed", [index_count, ic, fi, bv]) |> ignore
+      self
+      .as_any()
+      ._call("drawIndexed", [
+        @nostd.any(index_count),
+        @nostd.any(ic),
+        @nostd.any(fi),
+        @nostd.any(bv),
+      ])
+      |> ignore
     (Some(ic), Some(fi), Some(bv), Some(fii)) =>
-      self.call("drawIndexed", [index_count, ic, fi, bv, fii]) |> ignore
-    _ => self.call("drawIndexed", [index_count]) |> ignore
+      self
+      .as_any()
+      ._call("drawIndexed", [
+        @nostd.any(index_count),
+        @nostd.any(ic),
+        @nostd.any(fi),
+        @nostd.any(bv),
+        @nostd.any(fii),
+      ])
+      |> ignore
+    _ => self.as_any()._call("drawIndexed", [@nostd.any(index_count)]) |> ignore
   }
 }
 
@@ -1055,7 +1253,16 @@ pub fn GPURenderPassEncoder::setViewport(
   min_depth : Double,
   max_depth : Double,
 ) -> Unit {
-  self.call("setViewport", [x, y, width, height, min_depth, max_depth])
+  self
+  .as_any()
+  ._call("setViewport", [
+    @nostd.any(x),
+    @nostd.any(y),
+    @nostd.any(width),
+    @nostd.any(height),
+    @nostd.any(min_depth),
+    @nostd.any(max_depth),
+  ])
   |> ignore
 }
 
@@ -1068,16 +1275,24 @@ pub fn GPURenderPassEncoder::setScissorRect(
   width : Int,
   height : Int,
 ) -> Unit {
-  self.call("setScissorRect", [x, y, width, height]) |> ignore
+  self
+  .as_any()
+  ._call("setScissorRect", [
+    @nostd.any(x),
+    @nostd.any(y),
+    @nostd.any(width),
+    @nostd.any(height),
+  ])
+  |> ignore
 }
 
 ///|
 /// Set blend constant
 pub fn GPURenderPassEncoder::setBlendConstant(
   self : GPURenderPassEncoder,
-  color : @js.Any,
+  color : @nostd.Any,
 ) -> Unit {
-  self.call("setBlendConstant", [color]) |> ignore
+  self.as_any()._call("setBlendConstant", [color]) |> ignore
 }
 
 ///|
@@ -1086,13 +1301,13 @@ pub fn GPURenderPassEncoder::setStencilReference(
   self : GPURenderPassEncoder,
   reference : Int,
 ) -> Unit {
-  self.call("setStencilReference", [reference]) |> ignore
+  self.as_any()._call("setStencilReference", [@nostd.any(reference)]) |> ignore
 }
 
 ///|
 /// End the render pass
 pub fn GPURenderPassEncoder::end(self : GPURenderPassEncoder) -> Unit {
-  self.call0("end") |> ignore
+  self.as_any()._call("end", []) |> ignore
 }
 
 // =============================================================================
@@ -1104,7 +1319,9 @@ pub fn GPURenderPassEncoder::end(self : GPURenderPassEncoder) -> Unit {
 pub(all) struct GPUComputePassEncoder {}
 
 ///|
-pub impl @js.JsImpl for GPUComputePassEncoder
+pub fn GPUComputePassEncoder::as_any(
+  self : GPUComputePassEncoder,
+) -> @nostd.Any = "%identity"
 
 ///|
 /// Set the compute pipeline
@@ -1112,7 +1329,7 @@ pub fn GPUComputePassEncoder::setPipeline(
   self : GPUComputePassEncoder,
   pipeline : GPUComputePipeline,
 ) -> Unit {
-  self.call("setPipeline", [pipeline.as_any()]) |> ignore
+  self.as_any()._call("setPipeline", [pipeline.as_any()]) |> ignore
 }
 
 ///|
@@ -1122,7 +1339,8 @@ pub fn GPUComputePassEncoder::setBindGroup(
   index : Int,
   bind_group : GPUBindGroup,
 ) -> Unit {
-  self.call2("setBindGroup", index, bind_group.as_any()) |> ignore
+  self.as_any()._call("setBindGroup", [@nostd.any(index), bind_group.as_any()])
+  |> ignore
 }
 
 ///|
@@ -1135,13 +1353,34 @@ pub fn GPUComputePassEncoder::dispatchWorkgroups(
 ) -> Unit {
   match (workgroup_count_y, workgroup_count_z) {
     (None, None) =>
-      self.call("dispatchWorkgroups", [workgroup_count_x]) |> ignore
+      self.as_any()._call("dispatchWorkgroups", [@nostd.any(workgroup_count_x)])
+      |> ignore
     (Some(y), None) =>
-      self.call2("dispatchWorkgroups", workgroup_count_x, y) |> ignore
+      self
+      .as_any()
+      ._call("dispatchWorkgroups", [
+        @nostd.any(workgroup_count_x),
+        @nostd.any(y),
+      ])
+      |> ignore
     (Some(y), Some(z)) =>
-      self.call("dispatchWorkgroups", [workgroup_count_x, y, z]) |> ignore
+      self
+      .as_any()
+      ._call("dispatchWorkgroups", [
+        @nostd.any(workgroup_count_x),
+        @nostd.any(y),
+        @nostd.any(z),
+      ])
+      |> ignore
     (None, Some(z)) =>
-      self.call("dispatchWorkgroups", [workgroup_count_x, 1, z]) |> ignore
+      self
+      .as_any()
+      ._call("dispatchWorkgroups", [
+        @nostd.any(workgroup_count_x),
+        @nostd.any(1),
+        @nostd.any(z),
+      ])
+      |> ignore
   }
 }
 
@@ -1152,18 +1391,19 @@ pub fn GPUComputePassEncoder::dispatchWorkgroupsIndirect(
   indirect_buffer : GPUBuffer,
   indirect_offset : Int,
 ) -> Unit {
-  self.call2(
-    "dispatchWorkgroupsIndirect",
+  self
+  .as_any()
+  ._call("dispatchWorkgroupsIndirect", [
     indirect_buffer.as_any(),
-    indirect_offset,
-  )
+    @nostd.any(indirect_offset),
+  ])
   |> ignore
 }
 
 ///|
 /// End the compute pass
 pub fn GPUComputePassEncoder::end(self : GPUComputePassEncoder) -> Unit {
-  self.call0("end") |> ignore
+  self.as_any()._call("end", []) |> ignore
 }
 
 // =============================================================================
@@ -1175,11 +1415,11 @@ pub fn GPUComputePassEncoder::end(self : GPUComputePassEncoder) -> Unit {
 pub(all) struct GPURenderPipeline {}
 
 ///|
-pub impl @js.JsImpl for GPURenderPipeline
+pub fn GPURenderPipeline::as_any(self : GPURenderPipeline) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPURenderPipeline::label(self : GPURenderPipeline) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 ///|
@@ -1188,7 +1428,7 @@ pub fn GPURenderPipeline::getBindGroupLayout(
   self : GPURenderPipeline,
   index : Int,
 ) -> GPUBindGroupLayout {
-  self.call("getBindGroupLayout", [index]).cast()
+  self.as_any()._call("getBindGroupLayout", [@nostd.any(index)]).cast()
 }
 
 // =============================================================================
@@ -1200,11 +1440,11 @@ pub fn GPURenderPipeline::getBindGroupLayout(
 pub(all) struct GPUComputePipeline {}
 
 ///|
-pub impl @js.JsImpl for GPUComputePipeline
+pub fn GPUComputePipeline::as_any(self : GPUComputePipeline) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPUComputePipeline::label(self : GPUComputePipeline) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 ///|
@@ -1213,7 +1453,7 @@ pub fn GPUComputePipeline::getBindGroupLayout(
   self : GPUComputePipeline,
   index : Int,
 ) -> GPUBindGroupLayout {
-  self.call("getBindGroupLayout", [index]).cast()
+  self.as_any()._call("getBindGroupLayout", [@nostd.any(index)]).cast()
 }
 
 // =============================================================================
@@ -1225,11 +1465,11 @@ pub fn GPUComputePipeline::getBindGroupLayout(
 pub(all) struct GPUShaderModule {}
 
 ///|
-pub impl @js.JsImpl for GPUShaderModule
+pub fn GPUShaderModule::as_any(self : GPUShaderModule) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPUShaderModule::label(self : GPUShaderModule) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 ///|
@@ -1238,7 +1478,8 @@ pub async fn GPUShaderModule::getCompilationInfo(
   self : GPUShaderModule,
 ) -> GPUCompilationInfo {
   let promise : @js.Promise[GPUCompilationInfo] = self
-    .call0("getCompilationInfo")
+    .as_any()
+    ._call("getCompilationInfo", [])
     .cast()
   promise.wait()
 }
@@ -1252,11 +1493,11 @@ pub async fn GPUShaderModule::getCompilationInfo(
 pub(all) struct GPUSampler {}
 
 ///|
-pub impl @js.JsImpl for GPUSampler
+pub fn GPUSampler::as_any(self : GPUSampler) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPUSampler::label(self : GPUSampler) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 // =============================================================================
@@ -1268,11 +1509,11 @@ pub fn GPUSampler::label(self : GPUSampler) -> String {
 pub(all) struct GPUBindGroup {}
 
 ///|
-pub impl @js.JsImpl for GPUBindGroup
+pub fn GPUBindGroup::as_any(self : GPUBindGroup) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPUBindGroup::label(self : GPUBindGroup) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 // =============================================================================
@@ -1284,11 +1525,11 @@ pub fn GPUBindGroup::label(self : GPUBindGroup) -> String {
 pub(all) struct GPUBindGroupLayout {}
 
 ///|
-pub impl @js.JsImpl for GPUBindGroupLayout
+pub fn GPUBindGroupLayout::as_any(self : GPUBindGroupLayout) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPUBindGroupLayout::label(self : GPUBindGroupLayout) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 // =============================================================================
@@ -1300,11 +1541,11 @@ pub fn GPUBindGroupLayout::label(self : GPUBindGroupLayout) -> String {
 pub(all) struct GPUPipelineLayout {}
 
 ///|
-pub impl @js.JsImpl for GPUPipelineLayout
+pub fn GPUPipelineLayout::as_any(self : GPUPipelineLayout) -> @nostd.Any = "%identity"
 
 ///|
 pub fn GPUPipelineLayout::label(self : GPUPipelineLayout) -> String {
-  self.get("label").cast()
+  self.as_any()["label"].cast()
 }
 
 // =============================================================================
@@ -1316,7 +1557,7 @@ pub fn GPUPipelineLayout::label(self : GPUPipelineLayout) -> String {
 pub(all) struct GPUSupportedFeatures {}
 
 ///|
-pub impl @js.JsImpl for GPUSupportedFeatures
+pub fn GPUSupportedFeatures::as_any(self : GPUSupportedFeatures) -> @nostd.Any = "%identity"
 
 ///|
 /// Check if a feature is supported
@@ -1324,7 +1565,7 @@ pub fn GPUSupportedFeatures::has(
   self : GPUSupportedFeatures,
   feature : String,
 ) -> Bool {
-  self.call("has", [feature]).cast()
+  self.as_any()._call("has", [@nostd.any(feature)]).cast()
 }
 
 ///|
@@ -1332,14 +1573,14 @@ pub fn GPUSupportedFeatures::has(
 pub(all) struct GPUSupportedLimits {}
 
 ///|
-pub impl @js.JsImpl for GPUSupportedLimits
+pub fn GPUSupportedLimits::as_any(self : GPUSupportedLimits) -> @nostd.Any = "%identity"
 
 ///|
 /// Get max texture dimension 1D
 pub fn GPUSupportedLimits::maxTextureDimension1D(
   self : GPUSupportedLimits,
 ) -> Int {
-  self.get("maxTextureDimension1D").cast()
+  self.as_any()["maxTextureDimension1D"].cast()
 }
 
 ///|
@@ -1347,7 +1588,7 @@ pub fn GPUSupportedLimits::maxTextureDimension1D(
 pub fn GPUSupportedLimits::maxTextureDimension2D(
   self : GPUSupportedLimits,
 ) -> Int {
-  self.get("maxTextureDimension2D").cast()
+  self.as_any()["maxTextureDimension2D"].cast()
 }
 
 ///|
@@ -1355,19 +1596,19 @@ pub fn GPUSupportedLimits::maxTextureDimension2D(
 pub fn GPUSupportedLimits::maxTextureDimension3D(
   self : GPUSupportedLimits,
 ) -> Int {
-  self.get("maxTextureDimension3D").cast()
+  self.as_any()["maxTextureDimension3D"].cast()
 }
 
 ///|
 /// Get max buffer size
 pub fn GPUSupportedLimits::maxBufferSize(self : GPUSupportedLimits) -> Int {
-  self.get("maxBufferSize").cast()
+  self.as_any()["maxBufferSize"].cast()
 }
 
 ///|
 /// Get max bind groups
 pub fn GPUSupportedLimits::maxBindGroups(self : GPUSupportedLimits) -> Int {
-  self.get("maxBindGroups").cast()
+  self.as_any()["maxBindGroups"].cast()
 }
 
 ///|
@@ -1375,30 +1616,30 @@ pub fn GPUSupportedLimits::maxBindGroups(self : GPUSupportedLimits) -> Int {
 pub(all) struct GPUAdapterInfo {}
 
 ///|
-pub impl @js.JsImpl for GPUAdapterInfo
+pub fn GPUAdapterInfo::as_any(self : GPUAdapterInfo) -> @nostd.Any = "%identity"
 
 ///|
 /// Get vendor name
 pub fn GPUAdapterInfo::vendor(self : GPUAdapterInfo) -> String {
-  self.get("vendor").cast()
+  self.as_any()["vendor"].cast()
 }
 
 ///|
 /// Get architecture
 pub fn GPUAdapterInfo::architecture(self : GPUAdapterInfo) -> String {
-  self.get("architecture").cast()
+  self.as_any()["architecture"].cast()
 }
 
 ///|
 /// Get device name
 pub fn GPUAdapterInfo::device(self : GPUAdapterInfo) -> String {
-  self.get("device").cast()
+  self.as_any()["device"].cast()
 }
 
 ///|
 /// Get description
 pub fn GPUAdapterInfo::description(self : GPUAdapterInfo) -> String {
-  self.get("description").cast()
+  self.as_any()["description"].cast()
 }
 
 ///|
@@ -1406,18 +1647,18 @@ pub fn GPUAdapterInfo::description(self : GPUAdapterInfo) -> String {
 pub(all) struct GPUDeviceLostInfo {}
 
 ///|
-pub impl @js.JsImpl for GPUDeviceLostInfo
+pub fn GPUDeviceLostInfo::as_any(self : GPUDeviceLostInfo) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the reason for device loss
 pub fn GPUDeviceLostInfo::reason(self : GPUDeviceLostInfo) -> String {
-  self.get("reason").cast()
+  self.as_any()["reason"].cast()
 }
 
 ///|
 /// Get the message
 pub fn GPUDeviceLostInfo::message(self : GPUDeviceLostInfo) -> String {
-  self.get("message").cast()
+  self.as_any()["message"].cast()
 }
 
 ///|
@@ -1425,12 +1666,12 @@ pub fn GPUDeviceLostInfo::message(self : GPUDeviceLostInfo) -> String {
 pub(all) struct GPUError {}
 
 ///|
-pub impl @js.JsImpl for GPUError
+pub fn GPUError::as_any(self : GPUError) -> @nostd.Any = "%identity"
 
 ///|
 /// Get error message
 pub fn GPUError::message(self : GPUError) -> String {
-  self.get("message").cast()
+  self.as_any()["message"].cast()
 }
 
 ///|
@@ -1438,12 +1679,12 @@ pub fn GPUError::message(self : GPUError) -> String {
 pub(all) struct GPUCompilationInfo {}
 
 ///|
-pub impl @js.JsImpl for GPUCompilationInfo
+pub fn GPUCompilationInfo::as_any(self : GPUCompilationInfo) -> @nostd.Any = "%identity"
 
 ///|
 /// Get compilation messages
 pub fn GPUCompilationInfo::messages(self : GPUCompilationInfo) -> @js.JsArray {
-  self.get("messages").cast()
+  self.as_any()["messages"].cast()
 }
 
 ///|
@@ -1451,30 +1692,32 @@ pub fn GPUCompilationInfo::messages(self : GPUCompilationInfo) -> @js.JsArray {
 pub(all) struct GPUCompilationMessage {}
 
 ///|
-pub impl @js.JsImpl for GPUCompilationMessage
+pub fn GPUCompilationMessage::as_any(
+  self : GPUCompilationMessage,
+) -> @nostd.Any = "%identity"
 
 ///|
 /// Get message text
 pub fn GPUCompilationMessage::message(self : GPUCompilationMessage) -> String {
-  self.get("message").cast()
+  self.as_any()["message"].cast()
 }
 
 ///|
 /// Get message type (error, warning, info)
 pub fn GPUCompilationMessage::type_(self : GPUCompilationMessage) -> String {
-  self.get("type").cast()
+  self.as_any()["type"].cast()
 }
 
 ///|
 /// Get line number
 pub fn GPUCompilationMessage::lineNum(self : GPUCompilationMessage) -> Int {
-  self.get("lineNum").cast()
+  self.as_any()["lineNum"].cast()
 }
 
 ///|
 /// Get line position
 pub fn GPUCompilationMessage::linePos(self : GPUCompilationMessage) -> Int {
-  self.get("linePos").cast()
+  self.as_any()["linePos"].cast()
 }
 
 // =============================================================================
@@ -1486,7 +1729,7 @@ pub fn GPUCompilationMessage::linePos(self : GPUCompilationMessage) -> Int {
 pub(all) struct GPUExtent3D {}
 
 ///|
-pub impl @js.JsImpl for GPUExtent3D
+pub fn GPUExtent3D::as_any(self : GPUExtent3D) -> @nostd.Any = "%identity"
 
 ///|
 /// Create GPUExtent3D from width, height, depth
@@ -1495,21 +1738,21 @@ pub fn GPUExtent3D::new(
   height? : Int,
   depth_or_array_layers? : Int,
 ) -> GPUExtent3D {
-  let obj = @js.Object::new()
-  obj.set("width", width)
+  let obj = @nostd.Object::new()
+  obj._set("width", @nostd.any(width))
   match height {
-    Some(h) => obj.set("height", h)
+    Some(h) => obj._set("height", @nostd.any(h))
     None => ()
   }
   match depth_or_array_layers {
-    Some(d) => obj.set("depthOrArrayLayers", d)
+    Some(d) => obj._set("depthOrArrayLayers", @nostd.any(d))
     None => ()
   }
-  obj.as_any().cast()
+  obj.cast()
 }
 
 ///|
 /// Create GPUExtent3D from an array [width, height?, depthOrArrayLayers?]
 pub fn GPUExtent3D::from_array(arr : Array[Int]) -> GPUExtent3D {
-  @js.JsArray::from(arr.map(fn(x) { @js.any(x) })).as_any().cast()
+  @js.from_array(arr).cast()
 }

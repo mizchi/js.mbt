@@ -139,9 +139,9 @@ test "fireEvent change" {
   let dispose = setup()
   defer dispose()
   let value = Ref::new("")
-  let handler : (@js.Any) -> Unit = fn(e) {
-    let target : @js.Any = e.get("target")
-    value.val = target.get("value").cast()
+  let handler : (@nostd.Any) -> Unit = fn(e) {
+    let target : @nostd.Any = e._get("target")
+    value.val = target._get("value").cast()
   }
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
@@ -162,9 +162,9 @@ test "fireEvent input" {
   let dispose = setup()
   defer dispose()
   let value = Ref::new("")
-  let handler : (@js.Any) -> Unit = fn(e) {
-    let target : @js.Any = e.get("target")
-    value.val = target.get("value").cast()
+  let handler : (@nostd.Any) -> Unit = fn(e) {
+    let target : @nostd.Any = e._get("target")
+    value.val = target._get("value").cast()
   }
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
@@ -206,8 +206,8 @@ test "fireEvent keyDown" {
   let dispose = setup()
   defer dispose()
   let key_pressed = Ref::new("")
-  let handler : (@js.Any) -> Unit = fn(e) {
-    key_pressed.val = e.get("key").cast()
+  let handler : (@nostd.Any) -> Unit = fn(e) {
+    key_pressed.val = e._get("key").cast()
   }
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
@@ -226,8 +226,8 @@ test "fireEvent keyUp" {
   let dispose = setup()
   defer dispose()
   let key_released = Ref::new("")
-  let handler : (@js.Any) -> Unit = fn(e) {
-    key_released.val = e.get("key").cast()
+  let handler : (@nostd.Any) -> Unit = fn(e) {
+    key_released.val = e._get("key").cast()
   }
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
@@ -580,7 +580,7 @@ test "fireEvent submit" {
   let dispose = setup()
   defer dispose()
   let submitted = Ref::new(false)
-  let handler : (@js.Any) -> Unit = fn(e) {
+  let handler : (@nostd.Any) -> Unit = fn(e) {
     e.call0("preventDefault") |> ignore
     submitted.val = true
   }
@@ -605,7 +605,7 @@ test "fireEvent scroll" {
   defer dispose()
   let scrolled = Ref::new(false)
   let handler : () -> Unit = fn() { scrolled.val = true }
-  let style_obj : @js.Any = @mbtconv.from_map({
+  let style_obj : @nostd.Any = @mbtconv.from_map({
     "overflow": @nostd.any("auto"),
     "height": @nostd.any("100px"),
   }).cast()

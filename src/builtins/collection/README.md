@@ -30,7 +30,7 @@ fn main {
   // Map
   let map = @collection.JsMap::new()
   map.set("key", "value")
-  let value = map.get("key")
+  let value = map._get("key")
   let has = map.has("key")
   
   // Set

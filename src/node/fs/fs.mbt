@@ -3,7 +3,7 @@
 
 ///|
 /// Get fs module
-extern "js" fn fs_module() -> @js.Any =
+extern "js" fn fs_module() -> @nostd.Any =
   #| () => require("node:fs")
 
 ///| File Reading
@@ -13,8 +13,8 @@ extern "js" fn fs_module() -> @js.Any =
 #alias(readFileSync)
 pub fn read_file_sync(path : String) -> @buffer.Buffer raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call("readFileSync", [path]).cast()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("readFileSync", [@nostd.any(path)]).cast()
   })
 }
 
@@ -25,8 +25,8 @@ pub fn read_file_sync_string(
   encoding : String,
 ) -> String raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call2("readFileSync", path, encoding) |> @js.identity
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("readFileSync", [@nostd.any(path), @nostd.any(encoding)]).cast()
   })
 }
 
@@ -38,8 +38,8 @@ pub fn read_file_as_string(
   encoding? : String = "utf8",
 ) -> String raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call2("readFileSync", path, encoding) |> @js.identity
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("readFileSync", [@nostd.any(path), @nostd.any(encoding)]).cast()
   })
 }
 
@@ -50,8 +50,8 @@ pub fn read_file_as_buffer(
   path : String,
 ) -> @buffer.Buffer raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call("readFileSync", [path]).cast()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("readFileSync", [@nostd.any(path)]).cast()
   })
 }
 
@@ -62,11 +62,11 @@ pub fn read_file_as_buffer(
 #alias(write_file_sync)
 pub fn writeFileSync(
   path : String,
-  data : &@js.JsImpl,
+  data : @nostd.Any,
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call2("writeFileSync", path, data.as_any()) |> ignore
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("writeFileSync", [@nostd.any(path), data]) |> ignore
   })
 }
 
@@ -75,11 +75,11 @@ pub fn writeFileSync(
 #alias(appendFileSync)
 pub fn append_file_sync(
   path : String,
-  data : &@js.JsImpl,
+  data : @nostd.Any,
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call2("appendFileSync", path, data.as_any()) |> ignore
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("appendFileSync", [@nostd.any(path), data]) |> ignore
   })
 }
 
@@ -89,8 +89,8 @@ pub fn append_file_sync(
 /// Check if path exists
 #alias(exists_sync)
 pub fn existsSync(path : String) -> Bool {
-  let fs = fs_module()
-  fs.call1("existsSync", path) |> @js.identity
+  let fs : @nostd.Any = fs_module() |> @nostd.any
+  fs._call("existsSync", [@nostd.any(path)]).cast()
 }
 
 ///|
@@ -98,8 +98,8 @@ pub fn existsSync(path : String) -> Bool {
 #alias(stat_sync)
 pub fn statSync(path : String) -> Stat raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call1("statSync", path).cast()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("statSync", [@nostd.any(path)]).cast()
   })
 }
 
@@ -108,13 +108,15 @@ pub fn statSync(path : String) -> Stat raise @js.ThrowError {
 #alias(mkdir_sync)
 pub fn mkdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match recursive {
       Some(r) => {
-        let opts : @js.Any = @nostd.from_entries([("recursive", @nostd.any(r))]).cast()
-        fs.call2("mkdirSync", path, opts) |> ignore
+        let opts : @nostd.Any = @nostd.from_entries([
+          ("recursive", @nostd.any(r)),
+        ])
+        fs._call("mkdirSync", [@nostd.any(path), opts]) |> ignore
       }
-      None => fs.call1("mkdirSync", path) |> ignore
+      None => fs._call("mkdirSync", [@nostd.any(path)]) |> ignore
     }
   })
 }
@@ -124,8 +126,8 @@ pub fn mkdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
 #alias(unlink_sync)
 pub fn unlinkSync(path : String) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call1("unlinkSync", path) |> ignore
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("unlinkSync", [@nostd.any(path)]) |> ignore
   })
 }
 
@@ -137,8 +139,9 @@ pub fn renameSync(
   new_path : String,
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call2("renameSync", old_path, new_path) |> ignore
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("renameSync", [@nostd.any(old_path), @nostd.any(new_path)])
+    |> ignore
   })
 }
 
@@ -147,8 +150,8 @@ pub fn renameSync(
 // #alias(copyFileSync)
 pub fn copyFileSync(src : String, dest : String) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call2("copyFileSync", src, dest) |> ignore
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("copyFileSync", [@nostd.any(src), @nostd.any(dest)]) |> ignore
   })
 }
 
@@ -159,8 +162,8 @@ pub fn copyFileSync(src : String, dest : String) -> Unit raise @js.ThrowError {
 #alias(readdir_sync)
 pub fn readdirSync(path : String) -> Array[String] raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call1("readdirSync", path) |> @js.identity
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("readdirSync", [@nostd.any(path)]).cast()
   })
 }
 
@@ -173,15 +176,15 @@ pub fn rmSync(
   force? : Bool,
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match (recursive, force) {
-      (None, None) => fs.call1("rmSync", path) |> ignore
+      (None, None) => fs._call("rmSync", [@nostd.any(path)]) |> ignore
       _ => {
-        let opts : @js.Any = @mbtconv.from_option_map({
+        let opts : @nostd.Any = @mbtconv.from_option_map({
           "recursive": recursive.map(fn(x) { @nostd.any(x) }),
           "force": force.map(fn(x) { @nostd.any(x) }),
-        }).cast()
-        fs.call2("rmSync", path, opts) |> ignore
+        }) |> @nostd.any
+        fs._call("rmSync", [@nostd.any(path), opts]) |> ignore
       }
     }
   })
@@ -189,14 +192,14 @@ pub fn rmSync(
 
 ///|
 pub fn createReadStream(path : String) -> @stream.Readable {
-  let fs = fs_module()
-  fs.call1("createReadStream", path) |> @js.identity
+  let fs : @nostd.Any = fs_module() |> @nostd.any
+  fs._call("createReadStream", [@nostd.any(path)]).cast()
 }
 
 ///|
 pub fn createWriteStream(path : String) -> @stream.Writable {
-  let fs = fs_module()
-  fs.call1("createWriteStream", path) |> @js.identity
+  let fs : @nostd.Any = fs_module() |> @nostd.any
+  fs._call("createWriteStream", [@nostd.any(path)]).cast()
 }
 
 ///| Additional File Operations
@@ -206,8 +209,8 @@ pub fn createWriteStream(path : String) -> @stream.Writable {
 #alias(chmod_sync)
 pub fn chmodSync(path : String, mode : Int) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call2("chmodSync", path, mode) |> ignore
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("chmodSync", [@nostd.any(path), @nostd.any(mode)]) |> ignore
   })
 }
 
@@ -220,8 +223,9 @@ pub fn chownSync(
   gid : Int,
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call("chownSync", [path, uid, gid]) |> ignore
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("chownSync", [@nostd.any(path), @nostd.any(uid), @nostd.any(gid)])
+    |> ignore
   })
 }
 
@@ -234,10 +238,18 @@ pub fn symlinkSync(
   type_? : String,
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match type_ {
-      Some(t) => fs.call("symlinkSync", [target, path, t]) |> ignore
-      None => fs.call2("symlinkSync", target, path) |> ignore
+      Some(t) =>
+        fs._call("symlinkSync", [
+          @nostd.any(target),
+          @nostd.any(path),
+          @nostd.any(t),
+        ])
+        |> ignore
+      None =>
+        fs._call("symlinkSync", [@nostd.any(target), @nostd.any(path)])
+        |> ignore
     }
   })
 }
@@ -247,8 +259,8 @@ pub fn symlinkSync(
 #alias(readlink_sync)
 pub fn readlinkSync(path : String) -> String raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call1("readlinkSync", path) |> @js.identity
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("readlinkSync", [@nostd.any(path)]).cast()
   })
 }
 
@@ -257,8 +269,8 @@ pub fn readlinkSync(path : String) -> String raise @js.ThrowError {
 #alias(realpath_sync)
 pub fn realpathSync(path : String) -> String raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call1("realpathSync", path) |> @js.identity
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("realpathSync", [@nostd.any(path)]).cast()
   })
 }
 
@@ -267,10 +279,11 @@ pub fn realpathSync(path : String) -> String raise @js.ThrowError {
 #alias(truncate_sync)
 pub fn truncateSync(path : String, len? : Int) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match len {
-      Some(l) => fs.call2("truncateSync", path, l) |> ignore
-      None => fs.call1("truncateSync", path) |> ignore
+      Some(l) =>
+        fs._call("truncateSync", [@nostd.any(path), @nostd.any(l)]) |> ignore
+      None => fs._call("truncateSync", [@nostd.any(path)]) |> ignore
     }
   })
 }
@@ -280,13 +293,15 @@ pub fn truncateSync(path : String, len? : Int) -> Unit raise @js.ThrowError {
 #alias(rmdir_sync)
 pub fn rmdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match recursive {
       Some(r) => {
-        let opts : @js.Any = @nostd.from_entries([("recursive", @nostd.any(r))]).cast()
-        fs.call2("rmdirSync", path, opts) |> ignore
+        let opts : @nostd.Any = @nostd.from_entries([
+          ("recursive", @nostd.any(r)),
+        ])
+        fs._call("rmdirSync", [@nostd.any(path), opts]) |> ignore
       }
-      None => fs.call1("rmdirSync", path) |> ignore
+      None => fs._call("rmdirSync", [@nostd.any(path)]) |> ignore
     }
   })
 }
@@ -296,10 +311,11 @@ pub fn rmdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
 #alias(access_sync)
 pub fn accessSync(path : String, mode? : Int) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match mode {
-      Some(m) => fs.call2("accessSync", path, m) |> ignore
-      None => fs.call1("accessSync", path) |> ignore
+      Some(m) =>
+        fs._call("accessSync", [@nostd.any(path), @nostd.any(m)]) |> ignore
+      None => fs._call("accessSync", [@nostd.any(path)]) |> ignore
     }
   })
 }
@@ -313,13 +329,16 @@ pub fn cpSync(
   recursive? : Bool,
 ) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match recursive {
       Some(r) => {
-        let opts : @js.Any = @nostd.from_entries([("recursive", @nostd.any(r))]).cast()
-        fs.call("cpSync", [src, dest, opts]) |> ignore
+        let opts : @nostd.Any = @nostd.from_entries([
+          ("recursive", @nostd.any(r)),
+        ])
+        fs._call("cpSync", [@nostd.any(src), @nostd.any(dest), opts]) |> ignore
       }
-      None => fs.call2("cpSync", src, dest) |> ignore
+      None =>
+        fs._call("cpSync", [@nostd.any(src), @nostd.any(dest)]) |> ignore
     }
   })
 }
@@ -333,10 +352,18 @@ pub fn openSync(
   mode? : Int,
 ) -> Int raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match mode {
-      Some(m) => fs.call("openSync", [path, flags, m]).cast()
-      None => fs.call2("openSync", path, flags) |> @js.identity
+      Some(m) =>
+        fs
+        ._call("openSync", [
+          @nostd.any(path),
+          @nostd.any(flags),
+          @nostd.any(m),
+        ])
+        .cast()
+      None =>
+        fs._call("openSync", [@nostd.any(path), @nostd.any(flags)]).cast()
     }
   })
 }
@@ -346,8 +373,8 @@ pub fn openSync(
 #alias(close_sync)
 pub fn closeSync(fd : Int) -> Unit raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
-    fs.call1("closeSync", fd) |> ignore
+    let fs : @nostd.Any = fs_module() |> @nostd.any
+    fs._call("closeSync", [@nostd.any(fd)]) |> ignore
   })
 }
 
@@ -362,11 +389,27 @@ pub fn readSync(
   position : Int?,
 ) -> Int raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match position {
       Some(pos) =>
-        fs.call("readSync", [fd, buffer, offset, length, pos]) |> @js.identity
-      None => fs.call("readSync", [fd, buffer, offset, length]).cast()
+        fs
+        ._call("readSync", [
+          @nostd.any(fd),
+          @nostd.any(buffer),
+          @nostd.any(offset),
+          @nostd.any(length),
+          @nostd.any(pos),
+        ])
+        .cast()
+      None =>
+        fs
+        ._call("readSync", [
+          @nostd.any(fd),
+          @nostd.any(buffer),
+          @nostd.any(offset),
+          @nostd.any(length),
+        ])
+        .cast()
     }
   })
 }
@@ -382,11 +425,27 @@ pub fn writeSync(
   position : Int?,
 ) -> Int raise @js.ThrowError {
   @js.throwable(fn() {
-    let fs = fs_module()
+    let fs : @nostd.Any = fs_module() |> @nostd.any
     match position {
       Some(pos) =>
-        fs.call("writeSync", [fd, buffer, offset, length, pos]) |> @js.identity
-      None => fs.call("writeSync", [fd, buffer, offset, length]).cast()
+        fs
+        ._call("writeSync", [
+          @nostd.any(fd),
+          @nostd.any(buffer),
+          @nostd.any(offset),
+          @nostd.any(length),
+          @nostd.any(pos),
+        ])
+        .cast()
+      None =>
+        fs
+        ._call("writeSync", [
+          @nostd.any(fd),
+          @nostd.any(buffer),
+          @nostd.any(offset),
+          @nostd.any(length),
+        ])
+        .cast()
     }
   })
 }

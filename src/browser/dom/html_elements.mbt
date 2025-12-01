@@ -91,7 +91,7 @@ pub impl HTMLElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any {
 pub fn HTMLCanvasElement::getContext(
   self : Self,
   context_type : String,
-) -> @js.Any {
+) -> @nostd.Any {
   self.as_any()._call("getContext", [@nostd.any(context_type)]).cast()
 }
 
@@ -546,7 +546,7 @@ pub impl HTMLElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any {
 /// Returns the content window
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
 pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
-  let v : @js.Any = self.as_any()._get("contentWindow").cast()
+  let v : @nostd.Any = self.as_any()._get("contentWindow").cast()
   v |> @js.identity_option
 }
 
@@ -554,7 +554,7 @@ pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
 /// Returns the content document
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
 pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
-  let v : @js.Any = self.as_any()._get("contentDocument").cast()
+  let v : @nostd.Any = self.as_any()._get("contentDocument").cast()
   v |> @js.identity_option
 }
 

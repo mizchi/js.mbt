@@ -6,13 +6,13 @@ import(
 )
 
 // Values
-async fn createServer(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @js.Any, plugins? : @js.Any) -> ViteDevServer
+async fn createServer(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @nostd.Any, plugins? : @nostd.Any) -> ViteDevServer
 
-async fn createServerWithConfig(@js.Any) -> ViteDevServer
+async fn createServerWithConfig(@nostd.Any) -> ViteDevServer
 
-fn defineConfig(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @js.Any, build? : @js.Any, preview? : @js.Any, optimizeDeps? : @js.Any, plugins? : @js.Any, publicDir? : String, cacheDir? : String, resolve? : @js.Any, css? : @js.Any, json? : @js.Any, esbuild? : @js.Any, assetsInclude? : @js.Any, envDir? : String, envPrefix? : String) -> @js.Any
+fn defineConfig(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @nostd.Any, build? : @nostd.Any, preview? : @nostd.Any, optimizeDeps? : @nostd.Any, plugins? : @nostd.Any, publicDir? : String, cacheDir? : String, resolve? : @nostd.Any, css? : @nostd.Any, json? : @nostd.Any, esbuild? : @nostd.Any, assetsInclude? : @nostd.Any, envDir? : String, envPrefix? : String) -> @nostd.Any
 
-fn define_plugin(String, enforce? : String, apply? : String, config? : (@js.Any) -> Unit, configResolved? : (@js.Any) -> Unit, configureServer? : (@js.Any) -> Unit, configurePreviewServer? : (@js.Any) -> Unit, transformIndexHtml? : (@js.Any) -> @js.Any, handleHotUpdate? : (@js.Any) -> Unit, options? : (@js.Any) -> Unit, buildStart? : (@js.Any) -> Unit, resolveId? : (String, String?, @js.Any) -> String?, load? : (String) -> String?, transform? : (String, String) -> String?, buildEnd? : (@js.Any?) -> Unit, closeBundle? : () -> Unit) -> @js.Any
+fn define_plugin(String, enforce? : String, apply? : String, config? : (@nostd.Any) -> Unit, configResolved? : (@nostd.Any) -> Unit, configureServer? : (@nostd.Any) -> Unit, configurePreviewServer? : (@nostd.Any) -> Unit, transformIndexHtml? : (@nostd.Any) -> @nostd.Any, handleHotUpdate? : (@nostd.Any) -> Unit, options? : (@nostd.Any) -> Unit, buildStart? : (@nostd.Any) -> Unit, resolveId? : (String, String?, @nostd.Any) -> String?, load? : (String) -> String?, transform? : (String, String) -> String?, buildEnd? : (@nostd.Any?) -> Unit, closeBundle? : () -> Unit) -> @nostd.Any
 
 // Errors
 
@@ -23,18 +23,18 @@ pub(all) struct Config {
   mode : String?
   logLevel : String?
   clearScreen : Bool?
-  server : @js.Any?
-  build : @js.Any?
-  preview : @js.Any?
-  optimizeDeps : @js.Any?
-  plugins : @js.Any?
+  server : @nostd.Any?
+  build : @nostd.Any?
+  preview : @nostd.Any?
+  optimizeDeps : @nostd.Any?
+  plugins : @nostd.Any?
   publicDir : String?
   cacheDir : String?
-  resolve : @js.Any?
-  css : @js.Any?
-  json : @js.Any?
-  esbuild : @js.Any?
-  assetsInclude : @js.Any?
+  resolve : @nostd.Any?
+  css : @nostd.Any?
+  json : @nostd.Any?
+  esbuild : @nostd.Any?
+  assetsInclude : @nostd.Any?
   envDir : String?
   envPrefix : String?
 }
@@ -42,7 +42,7 @@ impl Show for Config
 
 #external
 pub type DevEnvironment
-fn DevEnvironment::as_any(Self) -> @js.Any
+fn DevEnvironment::as_any(Self) -> @nostd.Any
 async fn DevEnvironment::fetchModule(Self, String, importer? : String) -> FetchResult
 fn DevEnvironment::hot(Self) -> HotChannel
 fn DevEnvironment::moduleGraph(Self) -> ModuleGraph
@@ -53,25 +53,25 @@ fn DevEnvironment::warmupRequest(Self, String) -> Unit
 
 #external
 pub type FetchResult
-fn FetchResult::as_any(Self) -> @js.Any
+fn FetchResult::as_any(Self) -> @nostd.Any
 
 #external
 pub type HotChannel
-fn HotChannel::as_any(Self) -> @js.Any
-fn HotChannel::off(Self, String, (@js.Any) -> Unit) -> Unit
-fn HotChannel::on(Self, String, (@js.Any) -> Unit) -> Unit
-fn HotChannel::send(Self, @js.Any) -> Unit
+fn HotChannel::as_any(Self) -> @nostd.Any
+fn HotChannel::off(Self, String, (@nostd.Any) -> Unit) -> Unit
+fn HotChannel::on(Self, String, (@nostd.Any) -> Unit) -> Unit
+fn HotChannel::send(Self, @nostd.Any) -> Unit
 
 #external
 pub type ModuleGraph
-fn ModuleGraph::as_any(Self) -> @js.Any
+fn ModuleGraph::as_any(Self) -> @nostd.Any
 fn ModuleGraph::getModuleById(Self, String) -> ModuleNode?
 async fn ModuleGraph::getModuleByUrl(Self, String) -> ModuleNode?
 fn ModuleGraph::invalidateModule(Self, ModuleNode) -> Unit
 
 #external
 pub type ModuleNode
-fn ModuleNode::as_any(Self) -> @js.Any
+fn ModuleNode::as_any(Self) -> @nostd.Any
 fn ModuleNode::file(Self) -> String?
 fn ModuleNode::id(Self) -> String?
 fn ModuleNode::importedModules(Self) -> Array[Self]
@@ -81,49 +81,49 @@ fn ModuleNode::url(Self) -> String
 
 #external
 pub type ModuleRunner
-fn ModuleRunner::as_any(Self) -> @js.Any
+fn ModuleRunner::as_any(Self) -> @nostd.Any
 fn ModuleRunner::clearCache(Self) -> Unit
 async fn ModuleRunner::close(Self) -> Unit
-async fn ModuleRunner::importModule(Self, String) -> @js.Any
+async fn ModuleRunner::importModule(Self, String) -> @nostd.Any
 fn ModuleRunner::isClosed(Self) -> Bool
 
 #external
 pub type PluginContainer
-fn PluginContainer::as_any(Self) -> @js.Any
+fn PluginContainer::as_any(Self) -> @nostd.Any
 
 #external
 pub type TransformResult
-fn TransformResult::as_any(Self) -> @js.Any
+fn TransformResult::as_any(Self) -> @nostd.Any
 fn TransformResult::code(Self) -> String
 fn TransformResult::etag(Self) -> String?
-fn TransformResult::map(Self) -> @js.Any
+fn TransformResult::map(Self) -> @nostd.Any
 
 #external
 pub type ViteDevServer
-fn ViteDevServer::as_any(Self) -> @js.Any
+fn ViteDevServer::as_any(Self) -> @nostd.Any
 fn ViteDevServer::client(Self) -> DevEnvironment
 async fn ViteDevServer::close(Self) -> Unit
-fn ViteDevServer::environments(Self) -> @js.Any
+fn ViteDevServer::environments(Self) -> @nostd.Any
 fn ViteDevServer::getEnvironment(Self, String) -> DevEnvironment
 async fn ViteDevServer::listen(Self, port? : Int) -> Self
 fn ViteDevServer::printUrls(Self) -> Unit
-fn ViteDevServer::resolvedUrls(Self) -> @js.Any
+fn ViteDevServer::resolvedUrls(Self) -> @nostd.Any
 fn ViteDevServer::ssr(Self) -> DevEnvironment
 
 // Type aliases
-pub type BuildEndHook = (@js.Any?) -> Unit
+pub type BuildEndHook = (@nostd.Any?) -> Unit
 
-pub type BuildStartHook = (@js.Any) -> Unit
+pub type BuildStartHook = (@nostd.Any) -> Unit
 
-pub type ConfigResolvedHook = (@js.Any) -> Unit
+pub type ConfigResolvedHook = (@nostd.Any) -> Unit
 
-pub type ConfigureServerHook = (@js.Any) -> Unit
+pub type ConfigureServerHook = (@nostd.Any) -> Unit
 
 pub type LoadHook = (String) -> String?
 
 pub using @js {type Any as Plugin}
 
-pub type ResolveIdHook = (String, String?, @js.Any) -> String?
+pub type ResolveIdHook = (String, String?, @nostd.Any) -> String?
 
 pub type TransformHook = (String, String) -> String?
 

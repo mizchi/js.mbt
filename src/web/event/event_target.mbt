@@ -24,7 +24,7 @@ pub fn Event::new(
 }
 
 ///|
-extern "js" fn ffi_new_event(event_type : String, options : @js.Any) -> Event =
+extern "js" fn ffi_new_event(event_type : String, options : @nostd.Any) -> Event =
   #|(type, options) => new Event(type, options)
 
 ///|
@@ -36,14 +36,14 @@ pub fn Event::type_(self : Event) -> String {
 ///|
 /// Get the event target
 pub fn Event::target(self : Event) -> EventTarget? {
-  let v : @js.Any = self.as_any()._get("target").cast()
+  let v : @nostd.Any = self.as_any()._get("target").cast()
   v |> @js.identity_option
 }
 
 ///|
 /// Get the current target
 pub fn Event::currentTarget(self : Event) -> EventTarget? {
-  let v : @js.Any = self.as_any()._get("currentTarget").cast()
+  let v : @nostd.Any = self.as_any()._get("currentTarget").cast()
   v |> @js.identity_option
 }
 
@@ -91,13 +91,13 @@ pub(open) trait EventTargetImpl {
   addEventListener(
     Self,
     String,
-    (@js.Any) -> Unit,
+    (@nostd.Any) -> Unit,
     capture? : Bool,
     once? : Bool,
     passive? : Bool,
     signal? : @js.AbortSignal,
   ) -> Unit = _
-  removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit = _
+  removeEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool) -> Unit = _
   dispatchEvent(Self, Event) -> Bool = _
 }
 
@@ -170,7 +170,7 @@ pub impl EventTargetImpl for EventTarget with as_any(self) -> @nostd.Any {
 pub fn EventTarget::addEventListener(
   self : EventTarget,
   event_type : String,
-  handler : (@js.Any) -> Unit,
+  handler : (@nostd.Any) -> Unit,
   capture? : Bool = false,
   once? : Bool = false,
   passive? : Bool = false,
@@ -196,7 +196,7 @@ pub fn EventTarget::addEventListener(
 pub fn EventTarget::on(
   self : EventTarget,
   event_type : String,
-  handler : (@js.Any) -> Unit,
+  handler : (@nostd.Any) -> Unit,
   capture? : Bool = false,
   once? : Bool = false,
   passive? : Bool = false,
@@ -211,7 +211,7 @@ pub fn EventTarget::on(
 pub fn EventTarget::removeEventListener(
   self : EventTarget,
   event_type : String,
-  handler : (@js.Any) -> Unit,
+  handler : (@nostd.Any) -> Unit,
   capture? : Bool = false,
 ) -> Unit {
   self
@@ -229,7 +229,7 @@ pub fn EventTarget::removeEventListener(
 pub fn EventTarget::off(
   self : EventTarget,
   event_type : String,
-  handler : (@js.Any) -> Unit,
+  handler : (@nostd.Any) -> Unit,
   capture? : Bool = false,
 ) -> Unit {
   self.removeEventListener(event_type, handler, capture~)

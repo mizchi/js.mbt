@@ -4,7 +4,7 @@
 /// Helper to create Anthropic model
 fn anthropic(model_id : String) -> @ai.Model {
   @node.require("@ai-sdk/anthropic")
-  .get("anthropic")
+  ._get("anthropic")
   .call_self([model_id])
   .cast()
 }

@@ -9,25 +9,25 @@ pub(all) struct Config {
   mode : String?
   logLevel : String?
   clearScreen : Bool?
-  server : @js.Any?
-  build : @js.Any?
-  preview : @js.Any?
-  optimizeDeps : @js.Any?
-  plugins : @js.Any?
+  server : @nostd.Any?
+  build : @nostd.Any?
+  preview : @nostd.Any?
+  optimizeDeps : @nostd.Any?
+  plugins : @nostd.Any?
   publicDir : String?
   cacheDir : String?
-  resolve : @js.Any?
-  css : @js.Any?
-  json : @js.Any?
-  esbuild : @js.Any?
-  assetsInclude : @js.Any?
+  resolve : @nostd.Any?
+  css : @nostd.Any?
+  json : @nostd.Any?
+  esbuild : @nostd.Any?
+  assetsInclude : @nostd.Any?
   envDir : String?
   envPrefix : String?
 } derive(Show)
 
 ///|
 /// FFI: defineConfig
-extern "js" fn ffi_defineConfig(config : @js.Any) -> @js.Any =
+extern "js" fn ffi_defineConfig(config : @nostd.Any) -> @nostd.Any =
   #| (config) => {
   #|   const vite = require('vite');
   #|   return vite.defineConfig(config);
@@ -37,104 +37,85 @@ extern "js" fn ffi_defineConfig(config : @js.Any) -> @js.Any =
 /// Define Vite configuration with type support
 /// JS: defineConfig(config)
 /// See: https://ja.vite.dev/config/#config-intellisense
-/// Returns a @js.Any object with defineConfig applied
+/// Returns a @nostd.Any object with defineConfig applied
 pub fn defineConfig(
   root? : String,
   base? : String,
   mode? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  server? : @js.Any,
-  build? : @js.Any,
-  preview? : @js.Any,
-  optimizeDeps? : @js.Any,
-  plugins? : @js.Any,
+  server? : @nostd.Any,
+  build? : @nostd.Any,
+  preview? : @nostd.Any,
+  optimizeDeps? : @nostd.Any,
+  plugins? : @nostd.Any,
   publicDir? : String,
   cacheDir? : String,
-  resolve? : @js.Any,
-  css? : @js.Any,
-  json? : @js.Any,
-  esbuild? : @js.Any,
-  assetsInclude? : @js.Any,
+  resolve? : @nostd.Any,
+  css? : @nostd.Any,
+  json? : @nostd.Any,
+  esbuild? : @nostd.Any,
+  assetsInclude? : @nostd.Any,
   envDir? : String,
   envPrefix? : String,
-) -> @js.Any {
-  let obj = @js.Object::new()
-  match root {
-    Some(v) => obj.set("root", @js.any(v))
-    None => ()
+) -> @nostd.Any {
+  let obj = @nostd.Object::new()
+  if root is Some(v) {
+    obj["root"] = @nostd.any(v)
   }
-  match base {
-    Some(v) => obj.set("base", @js.any(v))
-    None => ()
+  if base is Some(v) {
+    obj["base"] = @nostd.any(v)
   }
-  match mode {
-    Some(v) => obj.set("mode", @js.any(v))
-    None => ()
+  if mode is Some(v) {
+    obj["mode"] = @nostd.any(v)
   }
-  match logLevel {
-    Some(v) => obj.set("logLevel", @js.any(v))
-    None => ()
+  if logLevel is Some(v) {
+    obj["logLevel"] = @nostd.any(v)
   }
-  match clearScreen {
-    Some(v) => obj.set("clearScreen", @js.any(v))
-    None => ()
+  if clearScreen is Some(v) {
+    obj["clearScreen"] = @nostd.any(v)
   }
-  match server {
-    Some(v) => obj.set("server", v)
-    None => ()
+  if server is Some(v) {
+    obj["server"] = @nostd.any(v)
   }
-  match build {
-    Some(v) => obj.set("build", v)
-    None => ()
+  if build is Some(v) {
+    obj["build"] = @nostd.any(v)
   }
-  match preview {
-    Some(v) => obj.set("preview", v)
-    None => ()
+  if preview is Some(v) {
+    obj["preview"] = @nostd.any(v)
   }
-  match optimizeDeps {
-    Some(v) => obj.set("optimizeDeps", v)
-    None => ()
+  if optimizeDeps is Some(v) {
+    obj["optimizeDeps"] = @nostd.any(v)
   }
-  match plugins {
-    Some(v) => obj.set("plugins", v)
-    None => ()
+  if plugins is Some(v) {
+    obj["plugins"] = @nostd.any(v)
   }
-  match publicDir {
-    Some(v) => obj.set("publicDir", @js.any(v))
-    None => ()
+  if publicDir is Some(v) {
+    obj["publicDir"] = @nostd.any(v)
   }
-  match cacheDir {
-    Some(v) => obj.set("cacheDir", @js.any(v))
-    None => ()
+  if cacheDir is Some(v) {
+    obj["cacheDir"] = @nostd.any(v)
   }
-  match resolve {
-    Some(v) => obj.set("resolve", v)
-    None => ()
+  if resolve is Some(v) {
+    obj["resolve"] = @nostd.any(v)
   }
-  match css {
-    Some(v) => obj.set("css", v)
-    None => ()
+  if css is Some(v) {
+    obj["css"] = @nostd.any(v)
   }
-  match json {
-    Some(v) => obj.set("json", v)
-    None => ()
+  if json is Some(v) {
+    obj["json"] = @nostd.any(v)
   }
-  match esbuild {
-    Some(v) => obj.set("esbuild", v)
-    None => ()
+  if esbuild is Some(v) {
+    obj["esbuild"] = @nostd.any(v)
   }
-  match assetsInclude {
-    Some(v) => obj.set("assetsInclude", v)
-    None => ()
+  if assetsInclude is Some(v) {
+    obj["assetsInclude"] = @nostd.any(v)
   }
-  match envDir {
-    Some(v) => obj.set("envDir", @js.any(v))
-    None => ()
+  if envDir is Some(v) {
+    obj["envDir"] = @nostd.any(v)
   }
-  match envPrefix {
-    Some(v) => obj.set("envPrefix", @js.any(v))
-    None => ()
+  if envPrefix is Some(v) {
+    obj["envPrefix"] = @nostd.any(v)
   }
-  ffi_defineConfig(obj.as_any())
+  ffi_defineConfig(obj)
 }

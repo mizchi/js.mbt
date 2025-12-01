@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-fn betterAuth(database~ : @js.Any, providers~ : Array[&Provider], base_url? : String, secret? : String) -> Auth
+fn betterAuth(database~ : @nostd.Any, providers~ : Array[&Provider], base_url? : String, secret? : String) -> Auth
 
 fn createAuthClient(base_url~ : String) -> AuthClient
 
@@ -16,21 +16,21 @@ fn createAuthClient(base_url~ : String) -> AuthClient
 #external
 pub type Auth
 fn Auth::api(Self) -> AuthApi
-fn Auth::handler(Self) -> @js.Any
+fn Auth::handler(Self) -> @nostd.Any
 impl @js.JsImpl for Auth
 
 #external
 pub type AuthApi
-async fn AuthApi::getSession(Self, @js.Any) -> SessionResponse?
-async fn AuthApi::signInEmail(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String, headers? : @js.Any) -> AuthResponse
-async fn AuthApi::signInSocial(Self, provider~ : String, callback_url? : String) -> @js.Any
-async fn AuthApi::signOut(Self, @js.Any) -> Unit
+async fn AuthApi::getSession(Self, @nostd.Any) -> SessionResponse?
+async fn AuthApi::signInEmail(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String, headers? : @nostd.Any) -> AuthResponse
+async fn AuthApi::signInSocial(Self, provider~ : String, callback_url? : String) -> @nostd.Any
+async fn AuthApi::signOut(Self, @nostd.Any) -> Unit
 async fn AuthApi::signUpEmail(Self, name~ : String, email~ : String, password~ : String, image? : String, callback_url? : String) -> AuthResponse
 impl @js.JsImpl for AuthApi
 
 #external
 pub type AuthClient
-async fn AuthClient::getSession(Self) -> @js.Any
+async fn AuthClient::getSession(Self) -> @nostd.Any
 fn AuthClient::signIn(Self) -> SignInClient
 async fn AuthClient::signOut(Self) -> Unit
 fn AuthClient::signUp(Self) -> SignUpClient
@@ -38,7 +38,7 @@ impl @js.JsImpl for AuthClient
 
 #external
 pub type AuthResponse
-fn AuthResponse::error(Self) -> @js.Any
+fn AuthResponse::error(Self) -> @nostd.Any
 fn AuthResponse::errorMessage(Self) -> String?
 fn AuthResponse::hasError(Self) -> Bool
 fn AuthResponse::token(Self) -> String
@@ -81,7 +81,7 @@ impl @js.JsImpl for SessionResponse
 #external
 pub type SignInClient
 async fn SignInClient::email(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String) -> AuthResponse
-async fn SignInClient::social(Self, provider~ : String, callback_url? : String) -> @js.Any
+async fn SignInClient::social(Self, provider~ : String, callback_url? : String) -> @nostd.Any
 impl @js.JsImpl for SignInClient
 
 #external
@@ -91,8 +91,8 @@ impl @js.JsImpl for SignUpClient
 
 #external
 pub type UseSessionResult
-fn UseSessionResult::data(Self) -> @js.Any
-fn UseSessionResult::error(Self) -> @js.Any?
+fn UseSessionResult::data(Self) -> @nostd.Any
+fn UseSessionResult::error(Self) -> @nostd.Any?
 fn UseSessionResult::isPending(Self) -> Bool
 impl @js.JsImpl for UseSessionResult
 
@@ -111,6 +111,6 @@ impl @js.JsImpl for User
 
 // Traits
 pub trait Provider {
-  apply(Self, @js.Any) -> Unit
+  apply(Self, @nostd.Any) -> Unit
 }
 

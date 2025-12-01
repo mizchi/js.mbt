@@ -49,7 +49,7 @@ pub fn Content::resource(uri : String) -> Content {
 }
 
 ///|
-pub fn Content::as_any(self : Content) -> @js.Any {
+pub fn Content::as_any(self : Content) -> @nostd.Any {
   @mbtconv.from_option_map({
     "type": Some(@nostd.any(self.type_.to_string())),
     "text": self.text.map(fn(t) { @nostd.any(t) }),
@@ -64,11 +64,11 @@ pub fn Content::as_any(self : Content) -> @js.Any {
 pub(all) struct Tool {
   name : String
   description : String
-  input_schema : @js.Any
+  input_schema : @nostd.Any
 }
 
 ///|
-pub fn Tool::as_any(self : Tool) -> @js.Any {
+pub fn Tool::as_any(self : Tool) -> @nostd.Any {
   @js.identity(
     @mbtconv.from_map({
       "name": @nostd.any(self.name),
@@ -88,7 +88,7 @@ pub(all) struct Resource {
 } derive(Show)
 
 ///|
-pub fn Resource::as_any(self : Resource) -> @js.Any {
+pub fn Resource::as_any(self : Resource) -> @nostd.Any {
   @mbtconv.from_option_map({
     "uri": Some(@nostd.any(self.uri)),
     "name": Some(@nostd.any(self.name)),
@@ -113,7 +113,7 @@ pub(all) struct PromptArgument {
 } derive(Show)
 
 ///|
-pub fn PromptArgument::as_any(self : PromptArgument) -> @js.Any {
+pub fn PromptArgument::as_any(self : PromptArgument) -> @nostd.Any {
   @mbtconv.from_option_map({
     "name": Some(@nostd.any(self.name)),
     "description": self.description.map(fn(d) { @nostd.any(d) }),
@@ -122,8 +122,8 @@ pub fn PromptArgument::as_any(self : PromptArgument) -> @js.Any {
 }
 
 ///|
-pub fn Prompt::as_any(self : Prompt) -> @js.Any {
-  let args : Array[@js.Any] = []
+pub fn Prompt::as_any(self : Prompt) -> @nostd.Any {
+  let args : Array[@nostd.Any] = []
   for i = 0; i < self.arguments.length(); i = i + 1 {
     args.push(self.arguments[i].as_any())
   }
@@ -143,16 +143,16 @@ pub struct ServerCapabilities {
 } derive(Show)
 
 ///|
-pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @js.Any {
-  let capabilities = @js.Object::new()
+pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @nostd.Any {
+  let capabilities = @nostd.Object::new()
   if self.tools {
-    capabilities.set("tools", @js.Object::new())
+    capabilities.set("tools", @nostd.Object::new())
   }
   if self.resources {
-    capabilities.set("resources", @js.Object::new())
+    capabilities.set("resources", @nostd.Object::new())
   }
   if self.prompts {
-    capabilities.set("prompts", @js.Object::new())
+    capabilities.set("prompts", @nostd.Object::new())
   }
   @js.identity(
     @nostd.from_entries([("capabilities", @nostd.any(capabilities))]),
@@ -167,7 +167,7 @@ pub struct ServerInfo {
 } derive(Show)
 
 ///|
-pub fn ServerInfo::as_any(self : ServerInfo) -> @js.Any {
+pub fn ServerInfo::as_any(self : ServerInfo) -> @nostd.Any {
   @js.identity(
     @mbtconv.from_map({
       "name": @nostd.any(self.name),
@@ -184,10 +184,10 @@ pub struct ClientInfo {
 } derive(Show)
 
 ///|
-pub fn ClientInfo::from_js(js : @js.Any) -> ClientInfo? {
+pub fn ClientInfo::from_js(js : @nostd.Any) -> ClientInfo? {
   let obj : @js.Object = @js.identity(js)
-  let name : String? = obj.get("name") |> @js.identity_option()
-  let version : String? = obj.get("version") |> @js.identity_option()
+  let name : String? = obj._get("name") |> @js.identity_option()
+  let version : String? = obj._get("version") |> @js.identity_option()
   match (name, version) {
     (Some(n), Some(v)) => Some({ name: n, version: v })
     _ => None

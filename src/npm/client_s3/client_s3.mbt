@@ -21,14 +21,14 @@ pub fn S3Client::new(
   secretAccessKey? : String,
   forcePathStyle? : Bool = false,
 ) -> S3Client {
-  let config = @js.Object::new()
+  let config = @nostd.Object::new()
   config["region"] = region
   if endpoint is Some(ep) {
     config["endpoint"] = ep
   }
   config["forcePathStyle"] = forcePathStyle
   if accessKeyId is Some(ak) && secretAccessKey is Some(sk) {
-    let creds = @js.Object::new()
+    let creds = @nostd.Object::new()
     creds["accessKeyId"] = ak
     creds["secretAccessKey"] = sk
     config["credentials"] = creds.as_any()
@@ -37,7 +37,7 @@ pub fn S3Client::new(
 }
 
 ///|
-extern "js" fn ffi_new_s3_client(config : @js.Any) -> @js.Any =
+extern "js" fn ffi_new_s3_client(config : @nostd.Any) -> @nostd.Any =
   #|(config) => {
   #|  const { S3Client } = require('@aws-sdk/client-s3');
   #|  return new S3Client(config);
@@ -52,7 +52,7 @@ pub async fn put_object(
   body : String,
   contentType? : String,
 ) -> PutObjectOutput {
-  let input = @js.Object::new()
+  let input = @nostd.Object::new()
   input["Bucket"] = bucket
   input["Key"] = key
   input["Body"] = body
@@ -70,9 +70,9 @@ pub struct PutObjectOutput {
 
 ///|
 extern "js" fn ffi_put_object(
-  client : @js.Any,
-  input : @js.Any,
-) -> @js.Promise[@js.Any] =
+  client : @nostd.Any,
+  input : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (client, input) => {
   #|  const { PutObjectCommand } = require('@aws-sdk/client-s3');
   #|  return client.send(new PutObjectCommand(input));
@@ -87,7 +87,7 @@ pub async fn put_object_bytes(
   body : Bytes,
   contentType? : String,
 ) -> PutObjectOutput {
-  let input = @js.Object::new()
+  let input = @nostd.Object::new()
   input["Bucket"] = bucket
   input["Key"] = key
   input["Body"] = @typedarray.bytes_to_uint8array(body)
@@ -105,7 +105,7 @@ pub async fn get_object(
   bucket : String,
   key : String,
 ) -> GetObjectOutput {
-  let input = @js.Object::new()
+  let input = @nostd.Object::new()
   input["Bucket"] = bucket
   input["Key"] = key
   let result = ffi_get_object(client |> @js.identity, input).wait()
@@ -119,7 +119,7 @@ pub async fn get_object(
 
 ///|
 pub struct GetObjectOutput {
-  body : @js.Any
+  body : @nostd.Any
   content_type : String?
   content_length : Int?
   etag : String?
@@ -132,7 +132,7 @@ pub async fn GetObjectOutput::body_as_string(self : GetObjectOutput) -> String {
 }
 
 ///|
-extern "js" fn ffi_stream_to_string(body : @js.Any) -> @js.Promise[String] =
+extern "js" fn ffi_stream_to_string(body : @nostd.Any) -> @js.Promise[String] =
   #|async (body) => {
   #|  const chunks = [];
   #|  for await (const chunk of body) {
@@ -143,9 +143,9 @@ extern "js" fn ffi_stream_to_string(body : @js.Any) -> @js.Promise[String] =
 
 ///|
 extern "js" fn ffi_get_object(
-  client : @js.Any,
-  input : @js.Any,
-) -> @js.Promise[@js.Any] =
+  client : @nostd.Any,
+  input : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (client, input) => {
   #|  const { GetObjectCommand } = require('@aws-sdk/client-s3');
   #|  return client.send(new GetObjectCommand(input));
@@ -158,7 +158,7 @@ pub async fn delete_object(
   bucket : String,
   key : String,
 ) -> DeleteObjectOutput {
-  let input = @js.Object::new()
+  let input = @nostd.Object::new()
   input["Bucket"] = bucket
   input["Key"] = key
   let result = ffi_delete_object(client |> @js.identity, input).wait()
@@ -172,9 +172,9 @@ pub struct DeleteObjectOutput {
 
 ///|
 extern "js" fn ffi_delete_object(
-  client : @js.Any,
-  input : @js.Any,
-) -> @js.Promise[@js.Any] =
+  client : @nostd.Any,
+  input : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (client, input) => {
   #|  const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
   #|  return client.send(new DeleteObjectCommand(input));
@@ -187,7 +187,7 @@ pub async fn head_object(
   bucket : String,
   key : String,
 ) -> HeadObjectOutput {
-  let input = @js.Object::new()
+  let input = @nostd.Object::new()
   input["Bucket"] = bucket
   input["Key"] = key
   let result = ffi_head_object(client |> @js.identity, input.as_any()).wait()
@@ -207,9 +207,9 @@ pub struct HeadObjectOutput {
 
 ///|
 extern "js" fn ffi_head_object(
-  client : @js.Any,
-  input : @js.Any,
-) -> @js.Promise[@js.Any] =
+  client : @nostd.Any,
+  input : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (client, input) => {
   #|  const { HeadObjectCommand } = require('@aws-sdk/client-s3');
   #|  return client.send(new HeadObjectCommand(input));
@@ -224,7 +224,7 @@ pub async fn list_objects_v2(
   maxKeys? : Int,
   continuationToken? : String,
 ) -> ListObjectsV2Output {
-  let input = @js.Object::new()
+  let input = @nostd.Object::new()
   input["Bucket"] = bucket
   if prefix is Some(p) {
     input["Prefix"] = p
@@ -236,7 +236,7 @@ pub async fn list_objects_v2(
     input["ContinuationToken"] = ct
   }
   let result = ffi_list_objects_v2(client |> @js.identity, input).wait()
-  let contents_raw : Array[@js.Any] = result["Contents"] |> @js.identity
+  let contents_raw : Array[@nostd.Any] = result["Contents"] |> @js.identity
   let contents = contents_raw.map(fn(obj) {
     {
       key: obj["Key"].cast(),
@@ -264,14 +264,14 @@ pub struct S3Object {
   key : String?
   size : Int?
   etag : String?
-  last_modified : @js.Any
+  last_modified : @nostd.Any
 }
 
 ///|
 extern "js" fn ffi_list_objects_v2(
-  client : @js.Any,
-  input : @js.Any,
-) -> @js.Promise[@js.Any] =
+  client : @nostd.Any,
+  input : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (client, input) => {
   #|  const { ListObjectsV2Command } = require('@aws-sdk/client-s3');
   #|  const result = await client.send(new ListObjectsV2Command(input));
@@ -281,16 +281,16 @@ extern "js" fn ffi_list_objects_v2(
 ///|
 /// CreateBucket - create a new bucket
 pub async fn create_bucket(client : S3Client, bucket : String) -> Unit {
-  let input = @js.Object::new()
+  let input = @nostd.Object::new()
   input["Bucket"] = bucket
   ffi_create_bucket(client |> @js.identity, input.as_any()).wait() |> ignore
 }
 
 ///|
 extern "js" fn ffi_create_bucket(
-  client : @js.Any,
-  input : @js.Any,
-) -> @js.Promise[@js.Any] =
+  client : @nostd.Any,
+  input : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (client, input) => {
   #|  const { CreateBucketCommand } = require('@aws-sdk/client-s3');
   #|  return client.send(new CreateBucketCommand(input));
@@ -299,16 +299,16 @@ extern "js" fn ffi_create_bucket(
 ///|
 /// DeleteBucket - delete a bucket
 pub async fn delete_bucket(client : S3Client, bucket : String) -> Unit {
-  let input = @js.Object::new()
+  let input = @nostd.Object::new()
   input["Bucket"] = bucket
   ffi_delete_bucket(client |> @js.identity, input.as_any()).wait() |> ignore
 }
 
 ///|
 extern "js" fn ffi_delete_bucket(
-  client : @js.Any,
-  input : @js.Any,
-) -> @js.Promise[@js.Any] =
+  client : @nostd.Any,
+  input : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (client, input) => {
   #|  const { DeleteBucketCommand } = require('@aws-sdk/client-s3');
   #|  return client.send(new DeleteBucketCommand(input));
@@ -318,7 +318,7 @@ extern "js" fn ffi_delete_bucket(
 /// ListBuckets - list all buckets
 pub async fn list_buckets(client : S3Client) -> ListBucketsOutput {
   let result = ffi_list_buckets(client |> @js.identity).wait()
-  let buckets_raw : Array[@js.Any] = result["Buckets"].cast()
+  let buckets_raw : Array[@nostd.Any] = result["Buckets"].cast()
   let buckets = buckets_raw.map(fn(b) { { name: b["Name"].cast() } })
   { buckets, }
 }
@@ -334,7 +334,7 @@ pub struct Bucket {
 }
 
 ///|
-extern "js" fn ffi_list_buckets(client : @js.Any) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_list_buckets(client : @nostd.Any) -> @js.Promise[@nostd.Any] =
   #|async (client) => {
   #|  const { ListBucketsCommand } = require('@aws-sdk/client-s3');
   #|  const result = await client.send(new ListBucketsCommand({}));
@@ -350,7 +350,7 @@ pub async fn copy_object(
   destBucket : String,
   destKey : String,
 ) -> CopyObjectOutput {
-  let input = @js.Object::new()
+  let input = @nostd.Object::new()
   input["CopySource"] = sourceBucket + "/" + sourceKey
   input["Bucket"] = destBucket
   input["Key"] = destKey
@@ -366,9 +366,9 @@ pub struct CopyObjectOutput {
 
 ///|
 extern "js" fn ffi_copy_object(
-  client : @js.Any,
-  input : @js.Any,
-) -> @js.Promise[@js.Any] =
+  client : @nostd.Any,
+  input : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #|async (client, input) => {
   #|  const { CopyObjectCommand } = require('@aws-sdk/client-s3');
   #|  return client.send(new CopyObjectCommand(input));

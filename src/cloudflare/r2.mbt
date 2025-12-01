@@ -18,7 +18,7 @@ pub async fn R2Bucket::get(
   let promise : @js.Promise[R2Object?] = if onlyIf is None && range is None {
     self.as_any()._call("get", [@nostd.any(key)]).cast()
   } else {
-    let onlyIf_js : @js.Any? = match onlyIf {
+    let onlyIf_js : @nostd.Any? = match onlyIf {
       Some(cond) =>
         Some(
           @mbtconv.from_option_map({
@@ -34,7 +34,7 @@ pub async fn R2Bucket::get(
         )
       None => None
     }
-    let range_js : @js.Any? = match range {
+    let range_js : @nostd.Any? = match range {
       Some(r) =>
         Some(
           @mbtconv.from_option_map({
@@ -69,9 +69,9 @@ pub async fn R2Bucket::head(self : Self, key : String) -> R2Object? {
 pub async fn R2Bucket::put(
   self : Self,
   key : String,
-  value : @js.Any,
+  value : @nostd.Any,
   httpMetadata? : R2HttpMetadata,
-  customMetadata? : @js.Any,
+  customMetadata? : @nostd.Any,
   md5? : String,
   sha1? : String,
   sha256? : String,
@@ -182,7 +182,7 @@ pub async fn R2Bucket::create_multipart_upload(
   self : Self,
   key : String,
   httpMetadata? : R2HttpMetadata,
-  customMetadata? : @js.Any,
+  customMetadata? : @nostd.Any,
   md5? : String,
   sha1? : String,
   sha256? : String,
@@ -261,7 +261,7 @@ pub(all) struct R2HttpMetadata {
 }
 
 ///|
-pub fn R2HttpMetadata::as_any(self : R2HttpMetadata) -> @js.Any {
+pub fn R2HttpMetadata::as_any(self : R2HttpMetadata) -> @nostd.Any {
   @mbtconv.from_option_map({
     "contentType": self.contentType.map(fn(x) { @nostd.any(x) }),
     "contentLanguage": self.contentLanguage.map(fn(x) { @nostd.any(x) }),
@@ -306,19 +306,19 @@ pub fn R2Object::etag(self : Self) -> String {
 
 ///|
 /// Get object HTTP metadata
-pub fn R2Object::http_metadata(self : Self) -> @js.Any {
+pub fn R2Object::http_metadata(self : Self) -> @nostd.Any {
   self.as_any()["httpMetadata"].cast()
 }
 
 ///|
 /// Get object custom metadata
-pub fn R2Object::custom_metadata(self : Self) -> @js.Any {
+pub fn R2Object::custom_metadata(self : Self) -> @nostd.Any {
   self.as_any()["customMetadata"].cast()
 }
 
 ///|
 /// Get object uploaded time
-pub fn R2Object::uploaded(self : Self) -> @js.Any {
+pub fn R2Object::uploaded(self : Self) -> @nostd.Any {
   self.as_any()["uploaded"].cast()
 }
 
@@ -341,8 +341,8 @@ pub async fn R2Object::text(self : Self) -> String {
 
 ///|
 /// Get object body as JSON
-pub async fn R2Object::json(self : Self) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self.as_any()._call("json", []).cast()
+pub async fn R2Object::json(self : Self) -> @nostd.Any {
+  let promise : @js.Promise[@nostd.Any] = self.as_any()._call("json", []).cast()
   promise.wait()
 }
 
@@ -367,7 +367,7 @@ pub fn R2Object::body_used(self : Self) -> Bool {
 
 ///|
 /// Write object to a writable stream
-pub fn R2Object::write_http_metadata(self : Self, headers : @js.Any) -> Unit {
+pub fn R2Object::write_http_metadata(self : Self, headers : @nostd.Any) -> Unit {
   self.as_any()._call("writeHttpMetadata", [@nostd.any(headers)]).cast()
 }
 
@@ -408,7 +408,7 @@ pub fn R2MultipartUpload::uploadId(self : Self) -> String {
 pub async fn R2MultipartUpload::upload_part(
   self : Self,
   part_number : Int,
-  value : @js.Any,
+  value : @nostd.Any,
 ) -> R2UploadedPart {
   let promise : @js.Promise[R2UploadedPart] = self
     .as_any()
@@ -452,7 +452,7 @@ pub(all) struct R2UploadedPart {
 }
 
 ///|
-pub fn R2UploadedPart::as_any(self : R2UploadedPart) -> @js.Any {
+pub fn R2UploadedPart::as_any(self : R2UploadedPart) -> @nostd.Any {
   @mbtconv.from_map({
     "partNumber": @nostd.any(self.partNumber),
     "etag": @nostd.any(self.etag),

@@ -7,21 +7,21 @@
 pub type Transaction
 
 ///|
-pub fn Transaction::as_any(self : Transaction) -> @js.Any = "%identity"
+pub fn Transaction::as_any(self : Transaction) -> @nostd.Any = "%identity"
 
 // ============ Transaction Operations ============
 
 ///|
 extern "js" fn ffi_transaction(
   db : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@js.Any],
-) -> @js.Promise[@js.Any] =
+  callback : (Transaction) -> @js.Promise[@nostd.Any],
+) -> @js.Promise[@nostd.Any] =
   #| (db, callback) => db.transaction(callback)
 
 ///|
 extern "js" fn ffi_wrap_tx_callback(
   callback : (Transaction) -> Unit,
-) -> (Transaction) -> @js.Promise[@js.Any] =
+) -> (Transaction) -> @js.Promise[@nostd.Any] =
   #| (callback) => async (tx) => { callback(tx); return null; }
 
 ///|
@@ -29,15 +29,15 @@ extern "js" fn ffi_wrap_tx_callback(
 pub async fn DrizzleDB::transaction(
   self : DrizzleDB,
   callback : (Transaction) -> Unit,
-) -> @js.Any {
+) -> @nostd.Any {
   ffi_transaction(self, ffi_wrap_tx_callback(callback)).wait()
 }
 
 ///|
 extern "js" fn ffi_transaction_async(
   db : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@js.Any],
-) -> @js.Promise[@js.Any] =
+  callback : (Transaction) -> @js.Promise[@nostd.Any],
+) -> @js.Promise[@nostd.Any] =
   #| (db, callback) => db.transaction(callback)
 
 ///|
@@ -45,8 +45,8 @@ extern "js" fn ffi_transaction_async(
 #alias(transaction_async)
 pub async fn DrizzleDB::transactionAsync(
   self : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@js.Any],
-) -> @js.Any {
+  callback : (Transaction) -> @js.Promise[@nostd.Any],
+) -> @nostd.Any {
   ffi_transaction_async(self, callback).wait()
 }
 
@@ -89,9 +89,9 @@ pub fn PgAccessMode::to_string(self : PgAccessMode) -> String {
 ///|
 extern "js" fn ffi_pg_transaction_with_opts(
   db : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@js.Any],
-  opts : @js.Any,
-) -> @js.Promise[@js.Any] =
+  callback : (Transaction) -> @js.Promise[@nostd.Any],
+  opts : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #| (db, callback, opts) => db.transaction(callback, opts)
 
 ///|
@@ -103,8 +103,8 @@ pub async fn DrizzleDB::pgTransaction(
   isolation_level? : PgIsolationLevel,
   access_mode? : PgAccessMode,
   deferrable? : Bool,
-) -> @js.Any {
-  let opts = @js.Object::new()
+) -> @nostd.Any {
+  let opts = @nostd.Object::new()
   if isolation_level is Some(il) {
     opts.set("isolationLevel", il.to_string())
   }
@@ -143,9 +143,9 @@ pub fn SqliteBehavior::to_string(self : SqliteBehavior) -> String {
 ///|
 extern "js" fn ffi_sqlite_transaction_with_behavior(
   db : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@js.Any],
+  callback : (Transaction) -> @js.Promise[@nostd.Any],
   behavior : String,
-) -> @js.Promise[@js.Any] =
+) -> @js.Promise[@nostd.Any] =
   #| (db, callback, behavior) => db.transaction(callback, { behavior })
 
 ///|
@@ -155,7 +155,7 @@ pub async fn DrizzleDB::sqliteTransaction(
   self : DrizzleDB,
   behavior : SqliteBehavior,
   callback : (Transaction) -> Unit,
-) -> @js.Any {
+) -> @nostd.Any {
   ffi_sqlite_transaction_with_behavior(
     self,
     ffi_wrap_tx_callback(callback),
@@ -172,7 +172,7 @@ extern "js" fn ffi_tx_select(tx : Transaction) -> QueryBuilder =
 ///|
 extern "js" fn ffi_tx_select_fields(
   tx : Transaction,
-  fields : @js.Any,
+  fields : @nostd.Any,
 ) -> QueryBuilder =
   #| (tx, fields) => tx.select(fields)
 
@@ -180,7 +180,7 @@ extern "js" fn ffi_tx_select_fields(
 /// Start a SELECT query within transaction
 pub fn Transaction::select(
   self : Transaction,
-  fields? : @js.Any,
+  fields? : @nostd.Any,
 ) -> QueryBuilder {
   match fields {
     Some(f) => ffi_tx_select_fields(self, f)

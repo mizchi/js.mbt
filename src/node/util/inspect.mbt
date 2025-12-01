@@ -1,5 +1,5 @@
 ///|
-extern "js" fn util_module() -> @js.Any =
+extern "js" fn util_module() -> @nostd.Any =
   #| () => require("node:util")
 
 ///|

@@ -51,7 +51,7 @@ pub fn[T] ReadonlySignal::as_any(self : ReadonlySignal[T]) -> @nostd.Any = "%ide
 ///|
 /// Get the current value of a readonly signal
 // pub fn[T] ReadonlySignal::value(self : ReadonlySignal[T]) -> T {
-//   self.get("value").cast()
+//   self._get("value").cast()
 // }
 
 ///|

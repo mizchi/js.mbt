@@ -2,22 +2,22 @@
 test "URLSearchParams::get - existing parameter" {
   let url = URL::new("https://example.com?foo=bar&baz=qux")
   let params = url.searchParams
-  assert_eq(params.get("foo"), Some("bar"))
-  assert_eq(params.get("baz"), Some("qux"))
+  assert_eq(params._get("foo"), Some("bar"))
+  assert_eq(params._get("baz"), Some("qux"))
 }
 
 ///|
 test "URLSearchParams::get - missing parameter" {
   let url = URL::new("https://example.com?foo=bar")
   let params = url.searchParams
-  assert_eq(params.get("missing"), None)
+  assert_eq(params._get("missing"), None)
 }
 
 ///|
 test "URLSearchParams::get - first value of duplicate" {
   let url = URL::new("https://example.com?foo=first&foo=second")
   let params = url.searchParams
-  assert_eq(params.get("foo"), Some("first"))
+  assert_eq(params._get("foo"), Some("first"))
 }
 
 ///|
@@ -68,7 +68,7 @@ test "URLSearchParams::set - new parameter" {
   let url = URL::new("https://example.com?foo=bar")
   let params = url.searchParams
   params.set("new", "value")
-  assert_eq(params.get("new"), Some("value"))
+  assert_eq(params._get("new"), Some("value"))
 }
 
 ///|
@@ -76,7 +76,7 @@ test "URLSearchParams::set - replace existing" {
   let url = URL::new("https://example.com?foo=bar")
   let params = url.searchParams
   params.set("foo", "updated")
-  assert_eq(params.get("foo"), Some("updated"))
+  assert_eq(params._get("foo"), Some("updated"))
 }
 
 ///|
@@ -84,7 +84,7 @@ test "URLSearchParams::set - replace duplicates" {
   let url = URL::new("https://example.com?foo=first&foo=second")
   let params = url.searchParams
   params.set("foo", "only")
-  assert_eq(params.get("foo"), Some("only"))
+  assert_eq(params._get("foo"), Some("only"))
   let values = params.get_all("foo")
   assert_eq(values.length(), 1)
   assert_eq(values[0], "only")
@@ -94,7 +94,7 @@ test "URLSearchParams::set - replace duplicates" {
 test "URLSearchParams - empty query string" {
   let url = URL::new("https://example.com")
   let params = url.searchParams
-  assert_eq(params.get("anything"), None)
+  assert_eq(params._get("anything"), None)
   assert_false(params.has("anything"))
 }
 
@@ -102,15 +102,15 @@ test "URLSearchParams - empty query string" {
 test "URLSearchParams - encoded values" {
   let url = URL::new("https://example.com?name=hello%20world&special=%40%23%24")
   let params = url.searchParams
-  assert_eq(params.get("name"), Some("hello world"))
-  assert_eq(params.get("special"), Some("@#$"))
+  assert_eq(params._get("name"), Some("hello world"))
+  assert_eq(params._get("special"), Some("@#$"))
 }
 
 ///|
 test "URLSearchParams - empty value" {
   let url = URL::new("https://example.com?empty=")
   let params = url.searchParams
-  assert_eq(params.get("empty"), Some(""))
+  assert_eq(params._get("empty"), Some(""))
   assert_true(params.has("empty"))
 }
 
@@ -119,16 +119,16 @@ test "URLSearchParams - parameter without value" {
   let url = URL::new("https://example.com?flag")
   let params = url.searchParams
   assert_true(params.has("flag"))
-  assert_eq(params.get("flag"), Some(""))
+  assert_eq(params._get("flag"), Some(""))
 }
 
 ///|
 test "URLSearchParams - complex query" {
   let url = URL::new("https://example.com?a=1&b=2&c=3&a=4")
   let params = url.searchParams
-  assert_eq(params.get("a"), Some("1"))
-  assert_eq(params.get("b"), Some("2"))
-  assert_eq(params.get("c"), Some("3"))
+  assert_eq(params._get("a"), Some("1"))
+  assert_eq(params._get("b"), Some("2"))
+  assert_eq(params._get("c"), Some("3"))
   let a_values = params.get_all("a")
   assert_eq(a_values.length(), 2)
   assert_eq(a_values[0], "1")
@@ -139,7 +139,7 @@ test "URLSearchParams - complex query" {
 test "URLSearchParams - special characters in keys" {
   let url = URL::new("https://example.com?foo%5Bbar%5D=value")
   let params = url.searchParams
-  assert_eq(params.get("foo[bar]"), Some("value"))
+  assert_eq(params._get("foo[bar]"), Some("value"))
 }
 
 ///|
@@ -147,7 +147,7 @@ test "URLSearchParams::append - add new parameter" {
   let url = URL::new("https://example.com?foo=bar")
   let params = url.searchParams
   params.append("baz", "qux")
-  assert_eq(params.get("baz"), Some("qux"))
+  assert_eq(params._get("baz"), Some("qux"))
 }
 
 ///|
@@ -249,7 +249,7 @@ test "URLSearchParams - mutation workflow" {
   params.append("c", "3")
   assert_eq(params.size, 3)
   params.set("a", "updated")
-  assert_eq(params.get("a"), Some("updated"))
+  assert_eq(params._get("a"), Some("updated"))
   params.delete("b")
   assert_eq(params.size, 2)
   assert_false(params.has("b"))

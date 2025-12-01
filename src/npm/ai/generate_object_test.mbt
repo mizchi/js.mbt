@@ -10,7 +10,7 @@ test "output strategy to_string" {
 
 ///|
 test "generate object result from_any" {
-  let empty_warnings : Array[@js.Any] = []
+  let empty_warnings : Array[@nostd.Any] = []
   let raw = @mbtconv.from_map({
     "object": @nostd.from_entries([("name", "test" |> @nostd.any)]).cast(),
     "finishReason": "stop" |> @nostd.any,
@@ -29,7 +29,7 @@ test "generate object result from_any" {
 
 ///|
 test "generate object result get_object" {
-  let empty_warnings : Array[@js.Any] = []
+  let empty_warnings : Array[@nostd.Any] = []
   let raw = @mbtconv.from_map({
     "object": @mbtconv.from_map({
       "name": "John" |> @nostd.any,
@@ -42,12 +42,12 @@ test "generate object result get_object" {
       "totalTokens": 30 |> @nostd.any,
     }).cast(),
     "warnings": @js.from_array(empty_warnings) |> @nostd.any,
-    "response": @js.Object::new().as_any() |> @nostd.any,
+    "response": @nostd.Object::new().as_any() |> @nostd.any,
   }).cast()
   let result = @ai.GenerateObjectResult::from_any(raw)
   // Get object as raw Any
   let obj = result.object
-  let name : String = obj.get("name").cast()
+  let name : String = obj._get("name").cast()
   assert_eq(name, "John")
 }
 

@@ -10,10 +10,10 @@ test "global_this" {
 
 ///|
 test "is_nan" {
-  let nan_val : @js.Any = @js.any(0.0 / 0.0)
+  let nan_val : @nostd.Any = @nostd.any(0.0 / 0.0)
   assert_true(is_nan(nan_val))
-  assert_false(is_nan(@js.any(42)))
-  assert_false(is_nan(@js.any(3.14)))
+  assert_false(is_nan(@nostd.any(42)))
+  assert_false(is_nan(@nostd.any(3.14)))
 }
 
 ///|

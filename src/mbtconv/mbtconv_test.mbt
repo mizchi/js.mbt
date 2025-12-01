@@ -21,7 +21,7 @@ test "from_option_map skips None values" {
   let obj = from_option_map(map)
   let name : String = obj._get("name").cast()
   let age : Int = obj._get("age").cast()
-  let email : @js.Any = obj._get("email").cast()
+  let email : @nostd.Any = obj._get("email").cast()
   inspect(name, content="Bob")
   inspect(age, content="25")
   inspect(@js.is_undefined(email), content="true")
@@ -30,7 +30,7 @@ test "from_option_map skips None values" {
 ///|
 test "from_option_map_or_undefined returns undefined when all None" {
   let map : Map[String, @nostd.Any?] = { "a": None, "b": None }
-  let result : @js.Any = from_option_map_or_undefined(map).cast()
+  let result : @nostd.Any = from_option_map_or_undefined(map).cast()
   inspect(@js.is_undefined(result), content="true")
 }
 
@@ -57,7 +57,7 @@ test "from_json converts Json to JS value" {
   let name : String = obj._get("name").cast()
   let age : Double = obj._get("age").cast()
   let active : Bool = obj._get("active").cast()
-  let tags : @js.Any = obj._get("tags").cast()
+  let tags : @nostd.Any = obj._get("tags").cast()
   inspect(name, content="Alice")
   inspect(age, content="30")
   inspect(active, content="true")
@@ -66,10 +66,10 @@ test "from_json converts Json to JS value" {
 
 ///|
 test "to_json converts JS value to Json" {
-  let obj = @js.Object::new()
-  obj.set("name", "Bob")
-  obj.set("age", 25)
-  let json = to_json(@nostd.any(obj))
+  let obj = @nostd.Object::new()
+  obj["name"] = @nostd.any("Bob")
+  obj["age"] = @nostd.any(25)
+  let json = to_json(obj)
   inspect(
     json,
     content=(
@@ -80,10 +80,7 @@ test "to_json converts JS value to Json" {
 
 ///|
 test "to_json handles arrays" {
-  let arr : @js.JsArray = @js.identity(@js.JsArray::new())
-  arr.push(@js.any(1))
-  arr.push(@js.any(2))
-  arr.push(@js.any(3))
+  let arr : Array[@nostd.Any] = [@nostd.any(1), @nostd.any(2), @nostd.any(3)]
   let json = to_json(@nostd.any(arr))
   inspect(json, content="Array([Number(1), Number(2), Number(3)])")
 }
@@ -101,7 +98,7 @@ test "from_option converts Option to Any" {
   let some_val : @nostd.Any? = Some(@nostd.any(42))
   let none_val : @nostd.Any? = None
   let some_result = from_option(some_val)
-  let none_result : @js.Any = from_option(none_val).cast()
+  let none_result : @nostd.Any = from_option(none_val).cast()
   let n : Int = some_result.cast()
   inspect(n, content="42")
   inspect(@js.is_null(none_result), content="true")

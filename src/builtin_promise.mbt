@@ -5,7 +5,7 @@
 pub type Promise[T]
 
 ///|
-impl[T] JsImpl for Promise[T]
+pub fn[T] Promise::to_any(self : Promise[T]) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: new Promise((resolve, reject) => { ... })
@@ -57,7 +57,7 @@ pub fn[A] Promise::resolve(x : A) -> Self[A] {
 ///|
 /// js: Promise.reject(error)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject
-pub fn Promise::reject(x : Any) -> Self[Any] {
+pub fn Promise::reject(x : @nostd.Any) -> Self[@nostd.Any] {
   ffi_promise_reject(identity(x)) |> identity
 }
 
@@ -66,7 +66,10 @@ pub fn[A, B] Promise::then(
   self : Self[A],
   resolve : (A) -> Self[B] raise,
 ) -> Promise[B] {
-  ffi_promise_then(self.as_any(), a => (a |> identity |> resolve |> identity) catch {
+  ffi_promise_then(self.to_any() |> identity, a => (a
+  |> identity
+  |> resolve
+  |> identity) catch {
     e => e |> ffi_promise_reject |> identity
   })
   |> identity
@@ -77,13 +80,13 @@ pub fn[A, B] Promise::catch_(
   self : Self[A],
   f : (Error) -> Promise[B],
 ) -> Promise[B] {
-  self.call1("catch", from_fn1(f)) |> identity
+  self.to_any()._call("catch", [@nostd.any(from_fn1(f))]).cast()
 }
 
 ///|
 /// JS: promise.finally(() => { ... })
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
-  self.call1("finally", from_fn0(f)) |> identity
+  self.to_any()._call("finally", [@nostd.any(from_fn0(f))]).cast()
 }
 
 ///|
@@ -91,8 +94,9 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[T] Promise::wait(self : Self[T]) -> T {
   suspend((ok, err) => self
-    .call1("then", from_fn1(ok))
-    .call1("catch", from_fn1(err))
+    .to_any()
+    ._call("then", [@nostd.any(from_fn1(ok))])
+    ._call("catch", [@nostd.any(from_fn1(err))])
     |> ignore)
 }
 
@@ -144,7 +148,7 @@ pub(all) struct SettledResult[T] {
 }
 
 ///|
-pub impl[T] JsImpl for SettledResult[T]
+pub fn[T] SettledResult::to_any(self : SettledResult[T]) -> @nostd.Any = "%identity"
 
 ///|
 /// JS: Promise.allSettled(promises)

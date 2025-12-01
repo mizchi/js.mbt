@@ -23,16 +23,16 @@ pub(all) struct GeneratedImage {
   /// Base64-encoded image data
   base64 : String
   /// Binary image data (Uint8Array in JS)
-  uint8_array : @js.Any
+  uint8_array : @nostd.Any
   /// Raw image object
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn GeneratedImage::from_any(value : @js.Any) -> GeneratedImage {
+pub fn GeneratedImage::from_any(value : @nostd.Any) -> GeneratedImage {
   {
-    base64: value.get("base64").cast(),
-    uint8_array: value.get("uint8Array"),
+    base64: value._get("base64").cast(),
+    uint8_array: value._get("uint8Array"),
     raw: value,
   }
 }
@@ -53,34 +53,36 @@ pub(all) struct GenerateImageResult {
   /// Provider-specific metadata
   provider_metadata : ProviderMetadata?
   /// Raw response
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn GenerateImageResult::from_any(value : @js.Any) -> GenerateImageResult {
+pub fn GenerateImageResult::from_any(value : @nostd.Any) -> GenerateImageResult {
   // Parse images array
-  let images_raw = value.get("images")
+  let images_raw = value._get("images")
   let images : Array[GeneratedImage] = if @js.is_undefined(images_raw) ||
     @js.is_null(images_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(images_raw)
+    let arr : Array[@nostd.Any] = @js.identity(images_raw)
     arr.map(GeneratedImage::from_any)
   }
   // Parse warnings array
-  let warnings_raw = value.get("warnings")
+  let warnings_raw = value._get("warnings")
   let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
     @js.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(warnings_raw)
+    let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   {
-    image: GeneratedImage::from_any(value.get("image")),
+    image: GeneratedImage::from_any(value._get("image")),
     images,
     warnings,
-    provider_metadata: ProviderMetadata::from_any(value.get("providerMetadata")),
+    provider_metadata: ProviderMetadata::from_any(
+      value._get("providerMetadata"),
+    ),
     raw: value,
   }
 }
@@ -107,16 +109,16 @@ pub async fn generateImage(
   /// Seed for reproducible results
   seed? : Int,
   /// Provider-specific options
-  provider_options? : @js.Any,
+  provider_options? : @nostd.Any,
   /// Maximum retries
   max_retries? : Int,
   /// Abort signal
-  abort_signal? : @js.Any,
+  abort_signal? : @nostd.Any,
   /// Custom headers
-  headers? : @js.Any,
+  headers? : @nostd.Any,
 ) -> GenerateImageResult {
-  let opts = @js.Object::new()
-  let model_any : @js.Any = model.as_any().cast()
+  let opts = @nostd.Object::new()
+  let model_any : @nostd.Any = model.as_any().cast()
   opts.set("model", model_any)
   opts.set("prompt", prompt)
   if n is Some(num) {
@@ -144,8 +146,8 @@ pub async fn generateImage(
     opts.set("headers", h)
   }
   // Use experimental_generateImage function
-  let promise : @js.Promise[@js.Any] = ai_module()
-    .get("experimental_generateImage")
+  let promise : @js.Promise[@nostd.Any] = ai_module()
+    ._get("experimental_generateImage")
     .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()

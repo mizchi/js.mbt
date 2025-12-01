@@ -60,7 +60,7 @@ pub fn deleteProperty(target : @nostd.Any, property_key : @nostd.Any) -> Bool {
 }
 
 ///|
-/// JS: Reflect.get(target, propertyKey, receiver?)
+/// JS: Reflect._get(target, propertyKey, receiver?)
 /// Gets a property value from an object
 pub fn get(
   target : @nostd.Any,

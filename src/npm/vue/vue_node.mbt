@@ -1,7 +1,7 @@
 ///|
 /// VueNode trait - types that can be children in Vue
 pub trait VueNode {
-  to_vue_node(Self) -> @js.Any
+  to_vue_node(Self) -> @nostd.Any
 }
 
 ///|

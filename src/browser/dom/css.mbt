@@ -16,7 +16,7 @@ pub fn CSSStyleDeclaration::as_any(self : CSSStyleDeclaration) -> @nostd.Any = "
 
 ///|
 /// Returns a CSS style declaration from a Val
-pub fn css_style_from_val(val : @js.Any) -> CSSStyleDeclaration {
+pub fn css_style_from_val(val : @nostd.Any) -> CSSStyleDeclaration {
   @js.identity(val)
 }
 
@@ -100,14 +100,14 @@ pub fn CSSRule::set_css_text(self : Self, text : String) -> Unit {
 ///|
 /// Returns the parent rule
 pub fn CSSRule::parent_rule(self : Self) -> CSSRule? {
-  let v : @js.Any = self.as_any()._get("parentRule").cast()
+  let v : @nostd.Any = self.as_any()._get("parentRule").cast()
   v |> @js.identity_option()
 }
 
 ///|
 /// Returns the parent stylesheet
 pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
-  let v : @js.Any = self.as_any()._get("parentStyleSheet").cast()
+  let v : @nostd.Any = self.as_any()._get("parentStyleSheet").cast()
   v |> @js.identity_option()
 }
 
@@ -129,7 +129,7 @@ pub fn CSSStyleSheet::as_any(self : CSSStyleSheet) -> @nostd.Any = "%identity"
 ///|
 /// Returns the CSS rules
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/cssRules
-pub fn CSSStyleSheet::cssRules(self : Self) -> @js.Any {
+pub fn CSSStyleSheet::cssRules(self : Self) -> @nostd.Any {
   self.as_any()._get("cssRules").cast()
 }
 
@@ -162,8 +162,8 @@ pub fn CSSStyleSheet::deleteRule(self : Self, index : Int) -> Unit {
 
 ///|
 /// Returns the owner node
-pub fn CSSStyleSheet::ownerNode(self : Self) -> @js.Any? {
-  let v : @js.Any = self.as_any()._get("ownerNode").cast()
+pub fn CSSStyleSheet::ownerNode(self : Self) -> @nostd.Any? {
+  let v : @nostd.Any = self.as_any()._get("ownerNode").cast()
   v |> @js.identity_option()
 }
 
@@ -182,20 +182,20 @@ pub fn CSSStyleSheet::set_disabled(self : Self, disabled : Bool) -> Unit {
 ///|
 /// Returns the stylesheet's href
 pub fn CSSStyleSheet::href(self : Self) -> String? {
-  let v : @js.Any = self.as_any()._get("href").cast()
+  let v : @nostd.Any = self.as_any()._get("href").cast()
   v |> @js.identity_option()
 }
 
 ///|
 /// Returns the stylesheet's title
 pub fn CSSStyleSheet::title(self : Self) -> String? {
-  let v : @js.Any = self.as_any()._get("title").cast()
+  let v : @nostd.Any = self.as_any()._get("title").cast()
   v |> @js.identity_option()
 }
 
 ///|
 /// Returns the stylesheet's media
-pub fn CSSStyleSheet::media(self : Self) -> @js.Any {
+pub fn CSSStyleSheet::media(self : Self) -> @nostd.Any {
   self.as_any()._get("media").cast()
 }
 
@@ -278,7 +278,7 @@ pub fn MediaQueryList::removeChangeListener(
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSS/escape
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
-  let css_obj = @global.global_this().get("CSS")
+  let css_obj = @global.global_this()._get("CSS")
   @js.identity(css_obj.call1("escape", value))
 }
 
@@ -287,7 +287,7 @@ pub fn cssEscape(value : String) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSS/supports
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
-  let css_obj = @global.global_this().get("CSS")
+  let css_obj = @global.global_this()._get("CSS")
   css_obj.call2("supports", property, value).cast()
 }
 
@@ -295,14 +295,14 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 /// Checks if a CSS condition is supported
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
-  let css_obj = @global.global_this().get("CSS")
+  let css_obj = @global.global_this()._get("CSS")
   @js.identity(css_obj.call1("supports", condition))
 }
 
 ///|
 /// Access document stylesheets
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/styleSheets
-pub fn Document::styleSheets(self : Self) -> @js.Any {
+pub fn Document::styleSheets(self : Self) -> @nostd.Any {
   self.as_any()._get("styleSheets").cast()
 }
 

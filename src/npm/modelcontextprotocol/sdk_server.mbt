@@ -2,15 +2,15 @@
 /// Bindings for @modelcontextprotocol/sdk server implementation
 
 ///|
-extern "js" fn require_mcp_server() -> @js.Any =
+extern "js" fn require_mcp_server() -> @nostd.Any =
   #| () => require("@modelcontextprotocol/sdk/server/index.js")
 
 ///|
-extern "js" fn require_mcp_types() -> @js.Any =
+extern "js" fn require_mcp_types() -> @nostd.Any =
   #| () => require("@modelcontextprotocol/sdk/types.js")
 
 ///|
-extern "js" fn require_stdio_transport() -> @js.Any =
+extern "js" fn require_stdio_transport() -> @nostd.Any =
   #| () => require("@modelcontextprotocol/sdk/server/stdio.js")
 
 // ============================================================
@@ -47,17 +47,17 @@ pub fn SdkServer::new(
   prompts? : Bool = true,
 ) -> SdkServer {
   let sdk = require_mcp_server()
-  let server_class = sdk.get("Server")
+  let server_class = sdk._get("Server")
   // Build capabilities object
-  let capabilities = @js.Object::new()
+  let capabilities = @nostd.Object::new()
   if tools {
-    capabilities.set("tools", @js.Object::new())
+    capabilities.set("tools", @nostd.Object::new())
   }
   if resources {
-    capabilities.set("resources", @js.Object::new())
+    capabilities.set("resources", @nostd.Object::new())
   }
   if prompts {
-    capabilities.set("prompts", @js.Object::new())
+    capabilities.set("prompts", @nostd.Object::new())
   }
   // Build server info
   let server_info = @js.identity(
@@ -75,9 +75,9 @@ pub fn SdkServer::new(
 
 ///|
 extern "js" fn ffi_construct(
-  class_ : @js.Any,
-  args : Array[@js.Any],
-) -> @js.Any =
+  class_ : @nostd.Any,
+  args : Array[@nostd.Any],
+) -> @nostd.Any =
   #| (cls, args) => new cls(...args)
 
 ///|
@@ -87,10 +87,10 @@ pub fn SdkServer::set_tools_list_handler(
   handler : () -> Array[Tool],
 ) -> Unit {
   let types = require_mcp_types()
-  let schema = types.get("ListToolsRequestSchema")
-  let wrapped = fn(_request : @js.Any) -> @js.Any {
+  let schema = types._get("ListToolsRequestSchema")
+  let wrapped = fn(_request : @nostd.Any) -> @nostd.Any {
     let tools = handler()
-    let tools_arr : Array[@js.Any] = tools.map(fn(t) { t.as_any() })
+    let tools_arr : Array[@nostd.Any] = tools.map(fn(t) { t.as_any() })
     @js.identity(
       @mbtconv.from_map({ "tools": @nostd.any(@js.from_array(tools_arr)) }),
     )
@@ -100,9 +100,9 @@ pub fn SdkServer::set_tools_list_handler(
 
 ///|
 extern "js" fn ffi_set_handler(
-  server : @js.Any,
-  schema : @js.Any,
-  handler : (@js.Any) -> @js.Any,
+  server : @nostd.Any,
+  schema : @nostd.Any,
+  handler : (@nostd.Any) -> @nostd.Any,
 ) -> Unit =
   #| (server, schema, handler) => server.setRequestHandler(schema, handler)
 
@@ -110,17 +110,17 @@ extern "js" fn ffi_set_handler(
 /// Set request handler for tools/call
 pub fn SdkServer::set_tools_call_handler(
   self : SdkServer,
-  handler : async (String, @js.Any) -> Array[Content],
+  handler : async (String, @nostd.Any) -> Array[Content],
 ) -> Unit {
   let types = require_mcp_types()
-  let schema = types.get("CallToolRequestSchema")
-  let wrapped = fn(request : @js.Any) -> @js.Promise[@js.Any] {
-    let params = request.get("params")
-    let name : String = params.get("name").cast()
-    let args = params.get("arguments")
+  let schema = types._get("CallToolRequestSchema")
+  let wrapped = fn(request : @nostd.Any) -> @js.Promise[@nostd.Any] {
+    let params = request._get("params")
+    let name : String = params._get("name").cast()
+    let args = params._get("arguments")
     let promise_handler = @js.promisify2(handler)
     promise_handler(name, args).then(fn(contents) {
-      let content_arr : Array[@js.Any] = contents.map(fn(c) { c.as_any() })
+      let content_arr : Array[@nostd.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
         @js.identity(
           @mbtconv.from_map({
@@ -135,9 +135,9 @@ pub fn SdkServer::set_tools_call_handler(
 
 ///|
 extern "js" fn ffi_set_handler_async(
-  server : @js.Any,
-  schema : @js.Any,
-  handler : (@js.Any) -> @js.Promise[@js.Any],
+  server : @nostd.Any,
+  schema : @nostd.Any,
+  handler : (@nostd.Any) -> @js.Promise[@nostd.Any],
 ) -> Unit =
   #| (server, schema, handler) => server.setRequestHandler(schema, handler)
 
@@ -148,10 +148,10 @@ pub fn SdkServer::set_resources_list_handler(
   handler : () -> Array[Resource],
 ) -> Unit {
   let types = require_mcp_types()
-  let schema = types.get("ListResourcesRequestSchema")
-  let wrapped = fn(_request : @js.Any) -> @js.Any {
+  let schema = types._get("ListResourcesRequestSchema")
+  let wrapped = fn(_request : @nostd.Any) -> @nostd.Any {
     let resources = handler()
-    let resources_arr : Array[@js.Any] = resources.map(fn(r) { r.as_any() })
+    let resources_arr : Array[@nostd.Any] = resources.map(fn(r) { r.as_any() })
     @js.identity(
       @mbtconv.from_map({
         "resources": @nostd.any(@js.from_array(resources_arr)),
@@ -168,13 +168,13 @@ pub fn SdkServer::set_resources_read_handler(
   handler : async (String) -> Array[Content],
 ) -> Unit {
   let types = require_mcp_types()
-  let schema = types.get("ReadResourceRequestSchema")
-  let wrapped = fn(request : @js.Any) -> @js.Promise[@js.Any] {
-    let params = request.get("params")
-    let uri : String = params.get("uri").cast()
+  let schema = types._get("ReadResourceRequestSchema")
+  let wrapped = fn(request : @nostd.Any) -> @js.Promise[@nostd.Any] {
+    let params = request._get("params")
+    let uri : String = params._get("uri").cast()
     let promise_handler = @js.promisify1(handler)
     promise_handler(uri).then(fn(contents) {
-      let content_arr : Array[@js.Any] = contents.map(fn(c) { c.as_any() })
+      let content_arr : Array[@nostd.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
         @js.identity(
           @mbtconv.from_map({
@@ -194,10 +194,10 @@ pub fn SdkServer::set_prompts_list_handler(
   handler : () -> Array[Prompt],
 ) -> Unit {
   let types = require_mcp_types()
-  let schema = types.get("ListPromptsRequestSchema")
-  let wrapped = fn(_request : @js.Any) -> @js.Any {
+  let schema = types._get("ListPromptsRequestSchema")
+  let wrapped = fn(_request : @nostd.Any) -> @nostd.Any {
     let prompts = handler()
-    let prompts_arr : Array[@js.Any] = prompts.map(fn(p) { p.as_any() })
+    let prompts_arr : Array[@nostd.Any] = prompts.map(fn(p) { p.as_any() })
     @js.identity(
       @mbtconv.from_map({ "prompts": @nostd.any(@js.from_array(prompts_arr)) }),
     )
@@ -209,14 +209,14 @@ pub fn SdkServer::set_prompts_list_handler(
 /// Set request handler for prompts/get
 pub fn SdkServer::set_prompts_get_handler(
   self : SdkServer,
-  handler : async (String, @js.Any) -> PromptResult,
+  handler : async (String, @nostd.Any) -> PromptResult,
 ) -> Unit {
   let types = require_mcp_types()
-  let schema = types.get("GetPromptRequestSchema")
-  let wrapped = fn(request : @js.Any) -> @js.Promise[@js.Any] {
-    let params = request.get("params")
-    let name : String = params.get("name").cast()
-    let args = params.get("arguments")
+  let schema = types._get("GetPromptRequestSchema")
+  let wrapped = fn(request : @nostd.Any) -> @js.Promise[@nostd.Any] {
+    let params = request._get("params")
+    let name : String = params._get("name").cast()
+    let args = params._get("arguments")
     let promise_handler = @js.promisify2(handler)
     promise_handler(name, args).then(fn(result) {
       @js.Promise::resolve(result.as_any())
@@ -240,7 +240,7 @@ pub(all) struct PromptMessage {
 }
 
 ///|
-pub fn PromptMessage::as_any(self : PromptMessage) -> @js.Any {
+pub fn PromptMessage::as_any(self : PromptMessage) -> @nostd.Any {
   @js.identity(
     @mbtconv.from_map({
       "role": self.role |> @nostd.any,
@@ -250,8 +250,8 @@ pub fn PromptMessage::as_any(self : PromptMessage) -> @js.Any {
 }
 
 ///|
-pub fn PromptResult::as_any(self : PromptResult) -> @js.Any {
-  let messages_arr : Array[@js.Any] = self.messages.map(fn(m) { m.as_any() })
+pub fn PromptResult::as_any(self : PromptResult) -> @nostd.Any {
+  let messages_arr : Array[@nostd.Any] = self.messages.map(fn(m) { m.as_any() })
   @mbtconv.from_option_map({
     "description": self.description.map(fn(d) { d |> @nostd.any }),
     "messages": Some(@nostd.identity(@js.from_array(messages_arr))),
@@ -266,19 +266,19 @@ pub fn PromptResult::as_any(self : PromptResult) -> @js.Any {
 /// Create a new StdioServerTransport
 pub fn StdioServerTransport::new() -> StdioServerTransport {
   let stdio_mod = require_stdio_transport()
-  let transport_class = stdio_mod.get("StdioServerTransport")
+  let transport_class = stdio_mod._get("StdioServerTransport")
   ffi_construct(transport_class, []) |> @js.identity
 }
 
 ///|
 extern "js" fn ffi_server_connect(
-  server : @js.Any,
-  transport : @js.Any,
+  server : @nostd.Any,
+  transport : @nostd.Any,
 ) -> @js.Promise[Unit] =
   #| (server, transport) => server.connect(transport)
 
 ///|
-extern "js" fn ffi_server_close(server : @js.Any) -> @js.Promise[Unit] =
+extern "js" fn ffi_server_close(server : @nostd.Any) -> @js.Promise[Unit] =
   #| (server) => server.close()
 
 ///|
@@ -309,7 +309,7 @@ pub fn SdkServer::send_notification(
       "params": @nostd.any(params.as_any()),
     }),
   )
-  self.as_any().get("notification").call_self([notification]) |> ignore
+  self.as_any()._get("notification").call_self([notification]) |> ignore
 }
 
 ///|

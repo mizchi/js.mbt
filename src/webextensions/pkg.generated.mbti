@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-fn browser() -> @js.Any
+fn browser() -> @nostd.Any
 
 // Errors
 

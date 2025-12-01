@@ -44,14 +44,14 @@ pub impl @event.EventTargetImpl for TLSSocket with as_any(self) -> @nostd.Any {
 
 ///|
 /// Helper function to convert Array[String] to JavaScript array
-fn array_to_js_array(arr : Array[String]) -> @js.Any {
+fn array_to_js_array(arr : Array[String]) -> @nostd.Any {
   @js.from_array(arr)
 }
 
 ///|
 extern "js" fn ffi_create_server(
-  options : @js.Any,
-  secureConnectionListener : @js.Any,
+  options : @nostd.Any,
+  secureConnectionListener : @nostd.Any,
 ) -> Server =
   #| (options, secureConnectionListener) => {
   #|   const tls = require('tls');
@@ -71,7 +71,7 @@ pub fn create_server(
   requestCert? : Bool,
   alpn_protocols? : Array[String],
 ) -> Server {
-  let cb : @js.Any = @js.identity(secureConnectionListener)
+  let cb : @nostd.Any = @js.identity(secureConnectionListener)
   let alpn_js = alpn_protocols.map(fn(v) {
     @nostd.identity(array_to_js_array(v).as_any())
   })
@@ -91,19 +91,22 @@ pub fn create_server(
 ///|
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
+  let cb : @nostd.Any = @js.identity(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
-  self.call("close", [cb]) |> ignore
+  let cb : @nostd.Any = @js.identity(callback)
+  self._call("close", [cb]) |> ignore
 }
 
 ///|
-extern "js" fn ffi_connect(options : @js.Any, callback : @js.Any) -> TLSSocket =
+extern "js" fn ffi_connect(
+  options : @nostd.Any,
+  callback : @nostd.Any,
+) -> TLSSocket =
   #| (options, callback) => {
   #|   const tls = require('tls');
   #|   return tls.connect(options, callback);
@@ -123,7 +126,7 @@ pub fn connect(
   alpn_protocols? : Array[String],
   session? : @js.Object,
 ) -> TLSSocket {
-  let cb : @js.Any = @js.identity(callback)
+  let cb : @nostd.Any = @js.identity(callback)
   let alpn_js = alpn_protocols.map(fn(v) {
     @nostd.identity(array_to_js_array(v).as_any())
   })
@@ -147,35 +150,35 @@ pub fn TLSSocket::get_peer_certificate(
   self : TLSSocket,
   detailed : Bool,
 ) -> @js.Object {
-  let val : @js.Any = self.call("getPeerCertificate", [detailed])
+  let val : @nostd.Any = self._call("getPeerCertificate", [detailed])
   @js.identity(val)
 }
 
 ///|
 /// Get the cipher information
 pub fn TLSSocket::get_cipher(self : TLSSocket) -> @js.Object {
-  let val : @js.Any = self.call0("getCipher")
+  let val : @nostd.Any = self.call0("getCipher")
   @js.identity(val)
 }
 
 ///|
 /// Get the negotiated TLS protocol version
 pub fn TLSSocket::get_protocol(self : TLSSocket) -> String {
-  let val : @js.Any = self.call0("getProtocol")
+  let val : @nostd.Any = self.call0("getProtocol")
   @js.identity(val)
 }
 
 ///|
 /// Check if the connection is authorized
 pub fn TLSSocket::authorized(self : TLSSocket) -> Bool {
-  let val : @js.Any = self.get("authorized")
+  let val : @nostd.Any = self._get("authorized")
   @js.identity(val)
 }
 
 ///|
 /// Get the authorization error if not authorized
 pub fn TLSSocket::authorization_error(self : TLSSocket) -> String? {
-  let val : @js.Any = self.get("authorizationError")
+  let val : @nostd.Any = self._get("authorizationError")
   let is_null : Bool = @js.identity(@js.typeof_(val) == "undefined")
   if is_null {
     None
@@ -187,7 +190,7 @@ pub fn TLSSocket::authorization_error(self : TLSSocket) -> String? {
 ///|
 /// Write data to the socket
 pub fn TLSSocket::write(self : TLSSocket, data : String) -> Unit {
-  self.call("write", [data]) |> ignore
+  self._call("write", [data]) |> ignore
 }
 
 ///|
@@ -202,7 +205,7 @@ pub fn TLSSocket::on_secure_connect(
   self : TLSSocket,
   callback : () -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("secureConnect", fn(_e : @js.Any) { callback() })
+  self.addEventListener("secureConnect", fn(_e : @nostd.Any) { callback() })
   self
 }
 
@@ -212,14 +215,14 @@ pub fn TLSSocket::on_data(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("data", fn(e : @js.Any) { callback(@js.identity(e)) })
+  self.addEventListener("data", fn(e : @nostd.Any) { callback(@js.identity(e)) })
   self
 }
 
 ///|
 /// Register 'end' event handler
 pub fn TLSSocket::on_end(self : TLSSocket, callback : () -> Unit) -> TLSSocket {
-  self.addEventListener("end", fn(_e : @js.Any) { callback() })
+  self.addEventListener("end", fn(_e : @nostd.Any) { callback() })
   self
 }
 
@@ -229,6 +232,8 @@ pub fn TLSSocket::on_error(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("error", fn(e : @js.Any) { callback(@js.identity(e)) })
+  self.addEventListener("error", fn(e : @nostd.Any) {
+    callback(@js.identity(e))
+  })
   self
 }

@@ -8,7 +8,7 @@ pub enum RequestId {
 } derive(Show, Eq)
 
 ///|
-pub fn RequestId::as_any(self : RequestId) -> @js.Any {
+pub fn RequestId::as_any(self : RequestId) -> @nostd.Any {
   match self {
     String(s) => @js.identity(s)
     Number(n) => @js.identity(n)
@@ -16,7 +16,7 @@ pub fn RequestId::as_any(self : RequestId) -> @js.Any {
 }
 
 ///|
-pub fn RequestId::from_js(js : @js.Any) -> RequestId? {
+pub fn RequestId::from_js(js : @nostd.Any) -> RequestId? {
   let ty = @js.typeof_(js)
   if ty == "string" {
     let s : String = @js.identity(js)
@@ -35,11 +35,11 @@ pub struct JsonRpcRequest {
   jsonrpc : String // Always "2.0"
   id : RequestId
   method_name : String
-  params : @js.Any?
+  params : @nostd.Any?
 }
 
 ///|
-pub fn JsonRpcRequest::as_any(self : JsonRpcRequest) -> @js.Any {
+pub fn JsonRpcRequest::as_any(self : JsonRpcRequest) -> @nostd.Any {
   @mbtconv.from_option_map({
     "jsonrpc": Some(@nostd.any(self.jsonrpc)),
     "id": Some(@nostd.identity(self.id.as_any())),
@@ -49,11 +49,11 @@ pub fn JsonRpcRequest::as_any(self : JsonRpcRequest) -> @js.Any {
 }
 
 ///|
-pub fn JsonRpcRequest::from_js(js : @js.Any) -> JsonRpcRequest? {
+pub fn JsonRpcRequest::from_js(js : @nostd.Any) -> JsonRpcRequest? {
   let obj : @js.Object = @js.identity(js)
-  let jsonrpc : String? = obj.get("jsonrpc") |> @js.identity_option()
-  let id_js = obj.get("id")
-  let method_name : String? = obj.get("method") |> @js.identity_option()
+  let jsonrpc : String? = obj._get("jsonrpc") |> @js.identity_option()
+  let id_js = obj._get("id")
+  let method_name : String? = obj._get("method") |> @js.identity_option()
   match (jsonrpc, method_name) {
     (Some(jrpc), Some(m)) =>
       match RequestId::from_js(id_js) {
@@ -62,7 +62,7 @@ pub fn JsonRpcRequest::from_js(js : @js.Any) -> JsonRpcRequest? {
             jsonrpc: jrpc,
             id,
             method_name: m,
-            params: obj.get("params") |> @js.identity_option(),
+            params: obj._get("params") |> @js.identity_option(),
           })
         None => None
       }
@@ -75,11 +75,11 @@ pub fn JsonRpcRequest::from_js(js : @js.Any) -> JsonRpcRequest? {
 pub struct JsonRpcResponse {
   jsonrpc : String // Always "2.0"
   id : RequestId
-  result : @js.Any
+  result : @nostd.Any
 }
 
 ///|
-pub fn JsonRpcResponse::as_any(self : JsonRpcResponse) -> @js.Any {
+pub fn JsonRpcResponse::as_any(self : JsonRpcResponse) -> @nostd.Any {
   @js.identity(
     @mbtconv.from_map({
       "jsonrpc": @nostd.any(self.jsonrpc),
@@ -94,11 +94,11 @@ pub fn JsonRpcResponse::as_any(self : JsonRpcResponse) -> @js.Any {
 pub struct JsonRpcError {
   code : Int
   message : String
-  data : @js.Any?
+  data : @nostd.Any?
 }
 
 ///|
-pub fn JsonRpcError::as_any(self : JsonRpcError) -> @js.Any {
+pub fn JsonRpcError::as_any(self : JsonRpcError) -> @nostd.Any {
   @mbtconv.from_option_map({
     "code": Some(@nostd.any(self.code)),
     "message": Some(@nostd.any(self.message)),
@@ -114,7 +114,7 @@ pub struct JsonRpcErrorResponse {
 }
 
 ///|
-pub fn JsonRpcErrorResponse::as_any(self : JsonRpcErrorResponse) -> @js.Any {
+pub fn JsonRpcErrorResponse::as_any(self : JsonRpcErrorResponse) -> @nostd.Any {
   @js.identity(
     @mbtconv.from_map({
       "jsonrpc": @nostd.any(self.jsonrpc),
@@ -129,11 +129,11 @@ pub fn JsonRpcErrorResponse::as_any(self : JsonRpcErrorResponse) -> @js.Any {
 pub(all) struct JsonRpcNotification {
   jsonrpc : String // Always "2.0"
   method_name : String
-  params : @js.Any?
+  params : @nostd.Any?
 }
 
 ///|
-pub fn JsonRpcNotification::as_any(self : JsonRpcNotification) -> @js.Any {
+pub fn JsonRpcNotification::as_any(self : JsonRpcNotification) -> @nostd.Any {
   @mbtconv.from_option_map({
     "jsonrpc": Some(@nostd.any(self.jsonrpc)),
     "method": Some(@nostd.any(self.method_name)),

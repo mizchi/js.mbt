@@ -21,7 +21,7 @@ fn MessageChannel::port2(Self) -> MessagePort
 impl Show for MessageChannel
 
 pub(all) struct MessageEvent {
-  data : @js.Any
+  data : @nostd.Any
   origin : String
   lastEventId : String
   ports : Array[MessagePort]
@@ -39,7 +39,7 @@ fn MessagePort::close(Self) -> Unit
 #alias(post_message)
 fn MessagePort::postMessage(Self, &@js.JsImpl) -> Unit
 #alias(post_message_with_transfer)
-fn MessagePort::postMessageWithTransfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
+fn MessagePort::postMessageWithTransfer(Self, &@js.JsImpl, Array[@nostd.Any]) -> Unit
 fn MessagePort::start(Self) -> Unit
 impl @event.EventTargetImpl for MessagePort
 impl Show for MessagePort

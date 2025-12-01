@@ -10,7 +10,7 @@
 ///
 /// 2. **Workarounds:**
 ///    - Use non-optional fields (T instead of T?) in structs
-///    - Access raw JS object with `obj.as_any().get("field")` and check with `is_nullish()`
+///    - Access raw JS object with `obj.as_any()._get("field")` and check with `is_nullish()`
 ///    - Use getter methods with `identity_option()` for nullable fields
 ///
 /// 3. **identity_option() works correctly:**
@@ -127,23 +127,23 @@ extern "js" fn create_undefined_nested() -> Any =
   #|})
 
 ///|
-extern "js" fn create_null_value() -> Any =
+extern "js" fn create_null_value() -> @nostd.Any =
   #|() => ({ value: null })
 
 ///|
-extern "js" fn get_number() -> Any =
+extern "js" fn get_number() -> @nostd.Any =
   #|() => 42
 
 ///|
-extern "js" fn get_null() -> Any =
+extern "js" fn get_null() -> @nostd.Any =
   #|() => null
 
 ///|
-extern "js" fn get_undefined() -> Any =
+extern "js" fn get_undefined() -> @nostd.Any =
   #|() => undefined
 
 ///|
-extern "js" fn get_simple() -> Any =
+extern "js" fn get_simple() -> @nostd.Any =
   #|() => ({ name: "Charlie", age: 35 })
 
 ///| Test Cases
@@ -214,7 +214,7 @@ test "Js? field with null value" {
   let obj : StructWithOptions = create_null_fields() |> identity
   // Js? field cannot be matched - it crashes when trying to access $tag
   // Convert to Any and check with is_nullish instead
-  let raw : @js.Any = obj.as_any().get("optionalJs")
+  let raw : @nostd.Any = obj.as_any()._get("optionalJs")
   inspect(is_nullish(raw), content="true")
 }
 
@@ -222,7 +222,7 @@ test "Js? field with null value" {
 test "Js? field with undefined value" {
   let obj : StructWithOptions = create_undefined_fields() |> identity
   // Js? field cannot be matched - it crashes when trying to access $tag
-  let raw : @js.Any = obj.as_any().get("optionalJs")
+  let raw : @nostd.Any = obj.as_any()._get("optionalJs")
   inspect(is_nullish(raw), content="true")
 }
 
@@ -263,25 +263,25 @@ test "Optional nested struct with undefined" {
 
 ///|
 test "Generic Container[Int]" {
-  let js_obj = @js.Object::new()
-  js_obj.set("value", 42)
-  let container : Container[Int] = js_obj.as_any() |> identity
+  let js_obj = @nostd.Object::new()
+  js_obj._set("value", 42 |> @nostd.any)
+  let container : Container[Int] = js_obj |> identity
   inspect(container.value, content="42")
 }
 
 ///|
 test "Generic Container[String]" {
-  let js_obj = @js.Object::new()
-  js_obj.set("value", "test")
-  let container : Container[String] = js_obj.as_any() |> identity
+  let js_obj = @nostd.Object::new()
+  js_obj._set("value", "test" |> @nostd.any)
+  let container : Container[String] = js_obj |> identity
   inspect(container.value, content="test")
 }
 
 ///|
 test "Generic Container[Int?] with value" {
-  let js_obj = @js.Object::new()
-  js_obj.set("value", 42)
-  let container : Container[Int?] = js_obj.as_any() |> identity
+  let js_obj = @nostd.Object::new()
+  js_obj._set("value", 42 |> @nostd.any)
+  let container : Container[Int?] = js_obj |> identity
   inspect(container.value, content="Some(42)")
 }
 
@@ -297,12 +297,12 @@ test "Generic Container[Int?] with null" {
 
 ///|
 test "Generic Container[SimpleStruct]" {
-  let js_obj = @js.Object::new()
-  let simple_obj = @js.Object::new()
-  simple_obj.set("name", "Bob")
-  simple_obj.set("age", 25)
-  js_obj.set("value", simple_obj.as_any())
-  let container : Container[SimpleStruct] = js_obj.as_any() |> identity
+  let js_obj = @nostd.Object::new()
+  let simple_obj = @nostd.Object::new()
+  simple_obj._set("name", "Bob" |> @nostd.any)
+  simple_obj._set("age", 25 |> @nostd.any)
+  js_obj._set("value", simple_obj)
+  let container : Container[SimpleStruct] = js_obj |> identity
   inspect(container.value.name, content="Bob")
   inspect(container.value.age, content="25")
 }
@@ -331,19 +331,19 @@ test "Direct identity to Int? with undefined" {
 
 ///|
 test "identity_option with null" {
-  let value : Int? = identity_option(get_null())
+  let value : Int? = @nostd.identity_option(get_null())
   inspect(value, content="None")
 }
 
 ///|
 test "identity_option with undefined" {
-  let value : Int? = identity_option(get_undefined())
+  let value : Int? = @nostd.identity_option(get_undefined())
   inspect(value, content="None")
 }
 
 ///|
 test "identity_option with value" {
-  let value : Int? = identity_option(get_number())
+  let value : Int? = @nostd.identity_option(get_number())
   inspect(value, content="Some(42)")
 }
 
@@ -351,12 +351,12 @@ test "identity_option with value" {
 
 ///|
 pub trait Convertible {
-  from_js(Any) -> Self
+  from_js(@nostd.Any) -> Self
 }
 
 ///|
-pub impl Convertible for SimpleStruct with from_js(js : @js.Any) -> SimpleStruct {
-  @js.identity(js)
+pub impl Convertible for SimpleStruct with from_js(js : @nostd.Any) -> SimpleStruct {
+  @nostd.identity(js)
 }
 
 ///|
@@ -417,7 +417,7 @@ extern "js" fn create_with_custom_value() -> Any =
 ///|
 test "CustomStruct? field with null" {
   let obj : ContainerWithCustom = create_with_null_custom() |> identity
-  let raw = obj.as_any().get("optional")
+  let raw = obj.as_any()._get("optional")
   inspect(is_nullish(raw), content="true")
 
   // CustomStruct? field with null - same issue as Js?
@@ -431,7 +431,7 @@ test "CustomStruct? field with null" {
 ///|
 test "CustomStruct? field with undefined" {
   let obj : ContainerWithCustom = create_with_undefined_custom() |> identity
-  let raw = obj.as_any().get("optional")
+  let raw = obj.as_any()._get("optional")
   inspect(is_nullish(raw), content="true")
 
   // CustomStruct? field with undefined
@@ -444,7 +444,7 @@ test "CustomStruct? field with undefined" {
 ///|
 test "CustomStruct? field with value" {
   let obj : ContainerWithCustom = create_with_custom_value() |> identity
-  let raw = obj.as_any().get("optional")
+  let raw = obj.as_any()._get("optional")
   inspect(is_nullish(raw), content="false")
 
   // CustomStruct? field with actual value
@@ -481,7 +481,7 @@ test "from_option with Some(String)" {
   let opt : String? = Some("hello")
   let js_val = from_option(opt)
   inspect(is_nullish(js_val), content="false")
-  let back : String = js_val |> identity
+  let back : String = js_val |> @nostd.identity
   inspect(back, content="hello")
 }
 

@@ -7,7 +7,7 @@
 /// Create a PostgreSQL index
 #alias(pg_index)
 pub fn pgIndex(name : String) -> PgIndexBuilder {
-  let fn_ = drizzle_pg_core().get("index")
+  let fn_ = drizzle_pg_core()._get("index")
   @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
 }
 
@@ -15,7 +15,7 @@ pub fn pgIndex(name : String) -> PgIndexBuilder {
 /// Create a PostgreSQL unique index
 #alias(pg_unique_index)
 pub fn pgUniqueIndex(name : String) -> PgIndexBuilder {
-  let fn_ = drizzle_pg_core().get("uniqueIndex")
+  let fn_ = drizzle_pg_core()._get("uniqueIndex")
   @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
 }
 
@@ -25,7 +25,7 @@ pub fn pgUniqueIndex(name : String) -> PgIndexBuilder {
 pub type PgIndexBuilder
 
 ///|
-pub fn PgIndexBuilder::as_any(self : PgIndexBuilder) -> @js.Any = "%identity"
+pub fn PgIndexBuilder::as_any(self : PgIndexBuilder) -> @nostd.Any = "%identity"
 
 ///|
 /// Specify columns for index
@@ -55,7 +55,7 @@ pub fn PgIndexBuilder::concurrently(self : PgIndexBuilder) -> PgIndexBuilder {
 extern "js" fn ffi_pg_index_using(
   builder : PgIndexBuilder,
   index_type : String,
-  columns : @js.Any,
+  columns : @nostd.Any,
 ) -> PgIndexBuilder =
   #| (builder, index_type, columns) => builder.using(index_type, ...columns)
 
@@ -65,7 +65,7 @@ extern "js" fn ffi_pg_index_using(
 pub fn PgIndexBuilder::usingMethod(
   self : PgIndexBuilder,
   index_method : String,
-  columns : Array[@js.Any],
+  columns : Array[@nostd.Any],
 ) -> PgIndexBuilder {
   ffi_pg_index_using(self, index_method, @js.from_array(columns))
 }
@@ -75,9 +75,9 @@ pub fn PgIndexBuilder::usingMethod(
 ///|
 /// Create a composite primary key (PostgreSQL)
 #alias(pg_primary_key)
-pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
-  let fn_ = drizzle_pg_core().get("primaryKey")
-  let opts = @js.Object::new()
+pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
+  let fn_ = drizzle_pg_core()._get("primaryKey")
+  let opts = @nostd.Object::new()
   opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
     opts.set("name", n)
@@ -88,9 +88,9 @@ pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
 ///|
 /// Create a composite primary key (SQLite)
 #alias(sqlite_primary_key)
-pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
-  let fn_ = drizzle_sqlite_core().get("primaryKey")
-  let opts = @js.Object::new()
+pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
+  let fn_ = drizzle_sqlite_core()._get("primaryKey")
+  let opts = @nostd.Object::new()
   opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
     opts.set("name", n)
@@ -104,7 +104,7 @@ pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @js.Any {
 /// Create a composite unique constraint (PostgreSQL)
 #alias(pg_unique)
 pub fn pgUnique(name? : String) -> UniqueBuilder {
-  let fn_ = drizzle_pg_core().get("unique")
+  let fn_ = drizzle_pg_core()._get("unique")
   match name {
     Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
     None => @nostd.any(fn_)._invoke([]).cast()
@@ -115,7 +115,7 @@ pub fn pgUnique(name? : String) -> UniqueBuilder {
 /// Create a composite unique constraint (SQLite)
 #alias(sqlite_unique)
 pub fn sqliteUnique(name? : String) -> UniqueBuilder {
-  let fn_ = drizzle_sqlite_core().get("unique")
+  let fn_ = drizzle_sqlite_core()._get("unique")
   match name {
     Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
     None => @nostd.any(fn_)._invoke([]).cast()
@@ -128,7 +128,7 @@ pub fn sqliteUnique(name? : String) -> UniqueBuilder {
 pub type UniqueBuilder
 
 ///|
-pub fn UniqueBuilder::as_any(self : UniqueBuilder) -> @js.Any = "%identity"
+pub fn UniqueBuilder::as_any(self : UniqueBuilder) -> @nostd.Any = "%identity"
 
 ///|
 /// Specify columns for unique constraint
@@ -155,9 +155,9 @@ pub fn pgForeignKey(
   columns : Array[Column],
   foreign_columns : Array[Column],
   name? : String,
-) -> @js.Any {
-  let fn_ = drizzle_pg_core().get("foreignKey")
-  let opts = @js.Object::new()
+) -> @nostd.Any {
+  let fn_ = drizzle_pg_core()._get("foreignKey")
+  let opts = @nostd.Object::new()
   opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   opts.set(
     "foreignColumns",
@@ -176,9 +176,9 @@ pub fn sqliteForeignKey(
   columns : Array[Column],
   foreign_columns : Array[Column],
   name? : String,
-) -> @js.Any {
-  let fn_ = drizzle_sqlite_core().get("foreignKey")
-  let opts = @js.Object::new()
+) -> @nostd.Any {
+  let fn_ = drizzle_sqlite_core()._get("foreignKey")
+  let opts = @nostd.Object::new()
   opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   opts.set(
     "foreignColumns",
@@ -195,16 +195,16 @@ pub fn sqliteForeignKey(
 ///|
 /// Create a check constraint (PostgreSQL)
 #alias(pg_check)
-pub fn pgCheck(name : String, condition : SQL) -> @js.Any {
-  let fn_ = drizzle_pg_core().get("check")
+pub fn pgCheck(name : String, condition : SQL) -> @nostd.Any {
+  let fn_ = drizzle_pg_core()._get("check")
   @nostd.any(fn_)._invoke([@nostd.any(name), @nostd.any(condition)]).cast()
 }
 
 ///|
 /// Create a check constraint (SQLite)
 #alias(sqlite_check)
-pub fn sqliteCheck(name : String, condition : SQL) -> @js.Any {
-  let fn_ = drizzle_sqlite_core().get("check")
+pub fn sqliteCheck(name : String, condition : SQL) -> @nostd.Any {
+  let fn_ = drizzle_sqlite_core()._get("check")
   @nostd.any(fn_)._invoke([@nostd.any(name), @nostd.any(condition)]).cast()
 }
 
@@ -212,27 +212,27 @@ pub fn sqliteCheck(name : String, condition : SQL) -> @js.Any {
 
 ///|
 /// Ascending order for column in index
-pub fn Column::asc_(self : Column) -> @js.Any {
+pub fn Column::asc_(self : Column) -> @nostd.Any {
   self.call0("asc")
 }
 
 ///|
 /// Descending order for column in index
-pub fn Column::desc_(self : Column) -> @js.Any {
+pub fn Column::desc_(self : Column) -> @nostd.Any {
   self.call0("desc")
 }
 
 ///|
 /// NULLS FIRST for column in index
 #alias(nulls_first)
-pub fn Column::nullsFirst(self : Column) -> @js.Any {
+pub fn Column::nullsFirst(self : Column) -> @nostd.Any {
   self.call0("nullsFirst")
 }
 
 ///|
 /// NULLS LAST for column in index
 #alias(nulls_last)
-pub fn Column::nullsLast(self : Column) -> @js.Any {
+pub fn Column::nullsLast(self : Column) -> @nostd.Any {
   self.call0("nullsLast")
 }
 

@@ -21,7 +21,7 @@ fn cssSupports(String, String) -> Bool
 #alias(css_supports_condition)
 fn cssSupportsCondition(String) -> Bool
 
-fn css_style_from_val(@js.Any) -> CSSStyleDeclaration
+fn css_style_from_val(@nostd.Any) -> CSSStyleDeclaration
 
 #alias(custom_elements)
 fn customElements() -> CustomElementRegistry
@@ -82,14 +82,14 @@ fn CSSStyleDeclaration::set_property_priority(Self, String, String, String) -> U
 #external
 pub type CSSStyleSheet
 fn CSSStyleSheet::as_any(Self) -> @nostd.Any
-fn CSSStyleSheet::cssRules(Self) -> @js.Any
+fn CSSStyleSheet::cssRules(Self) -> @nostd.Any
 fn CSSStyleSheet::deleteRule(Self, Int) -> Unit
 fn CSSStyleSheet::disabled(Self) -> Bool
 fn CSSStyleSheet::href(Self) -> String?
 fn CSSStyleSheet::insertRule(Self, String) -> Int
 fn CSSStyleSheet::insertRuleAt(Self, String, Int) -> Int
-fn CSSStyleSheet::media(Self) -> @js.Any
-fn CSSStyleSheet::ownerNode(Self) -> @js.Any?
+fn CSSStyleSheet::media(Self) -> @nostd.Any
+fn CSSStyleSheet::ownerNode(Self) -> @nostd.Any?
 fn CSSStyleSheet::set_disabled(Self, Bool) -> Unit
 fn CSSStyleSheet::title(Self) -> String?
 
@@ -122,8 +122,8 @@ pub type CustomElementRegistry
 fn CustomElementRegistry::as_any(Self) -> @nostd.Any
 fn CustomElementRegistry::define_(Self, String, CustomElementCallbacks) -> Unit
 fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomElementCallbacks, Array[String]) -> Unit
-fn CustomElementRegistry::get(Self, String) -> @js.Any?
-fn CustomElementRegistry::getName(Self, @js.Any) -> String?
+fn CustomElementRegistry::get(Self, String) -> @nostd.Any?
+fn CustomElementRegistry::getName(Self, @nostd.Any) -> String?
 fn CustomElementRegistry::upgrade(Self, Node) -> Unit
 async fn CustomElementRegistry::whenDefined(Self, String) -> Unit
 
@@ -154,14 +154,14 @@ fn DOMRectReadOnly::as_any(Self) -> @nostd.Any
 pub(all) struct DataTransfer {
   mut dropEffect : String
   mut effectAllowed : String
-  items : @js.Any
-  files : @js.Any
-  types : @js.Any
+  items : @nostd.Any
+  files : @nostd.Any
+  types : @nostd.Any
 }
 fn DataTransfer::as_any(Self) -> @nostd.Any
 fn DataTransfer::clearData(Self, String) -> Unit
 fn DataTransfer::getData(Self, String) -> String
-fn DataTransfer::get_files(Self) -> Array[@js.Any]
+fn DataTransfer::get_files(Self) -> Array[@nostd.Any]
 fn DataTransfer::get_types(Self) -> Array[String]
 fn DataTransfer::setData(Self, String, String) -> Unit
 
@@ -197,7 +197,7 @@ fn Document::createEvent(Self, String) -> Event
 fn Document::createStylesheet(Self) -> CSSStyleSheet
 #alias(create_text_node)
 fn Document::createTextNode(Self, String) -> Text
-fn Document::doctype(Self) -> @js.Any?
+fn Document::doctype(Self) -> @nostd.Any?
 #alias(document_element)
 fn Document::documentElement(Self) -> Element
 #alias(document_uri)
@@ -222,7 +222,7 @@ fn Document::setBody(Self, HTMLBodyElement) -> Unit
 #alias(set_title)
 fn Document::setTitle(Self, String) -> Unit
 fn Document::set_cookie(Self, String) -> Unit
-fn Document::styleSheets(Self) -> @js.Any
+fn Document::styleSheets(Self) -> @nostd.Any
 fn Document::title(Self) -> String
 fn Document::url(Self) -> String
 
@@ -305,7 +305,7 @@ fn HTMLCanvasElement::as_element(Self) -> Element
 fn HTMLCanvasElement::as_event_target(Self) -> @event.EventTarget
 fn HTMLCanvasElement::as_html_element(Self) -> HTMLElement
 fn HTMLCanvasElement::as_node(Self) -> Node
-fn HTMLCanvasElement::getContext(Self, String) -> @js.Any
+fn HTMLCanvasElement::getContext(Self, String) -> @nostd.Any
 async fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @blob.Blob
 fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
 impl ElementImpl for HTMLCanvasElement
@@ -565,7 +565,7 @@ fn MediaQueryList::removeChangeListener(Self, (Event) -> Unit) -> Unit
 fn MediaQueryList::removeListener(Self, (Self) -> Unit) -> Unit
 
 pub(all) struct MessageEvent {
-  data : @js.Any
+  data : @nostd.Any
   origin : String
   lastEventId : String
   ports : Array[@message.MessagePort]
@@ -632,7 +632,7 @@ impl Show for PointerEvent
 #external
 pub type PopStateEvent
 fn PopStateEvent::as_any(Self) -> @nostd.Any
-fn PopStateEvent::state(Self) -> @js.Any?
+fn PopStateEvent::state(Self) -> @nostd.Any?
 impl EventImpl for PopStateEvent
 
 #external
@@ -871,37 +871,37 @@ fn Window::clearInterval(Self, Int) -> Unit
 fn Window::clearTimeout(Self, Int) -> Unit
 fn Window::close(Self) -> Unit
 fn Window::confirm(Self, String) -> Bool
-fn Window::console(Self) -> @js.Any
+fn Window::console(Self) -> @nostd.Any
 #alias(device_pixel_ratio)
 fn Window::devicePixelRatio(Self) -> Double
 fn Window::document(Self) -> Document
 async fn Window::fetch(Self, String, init? : @http.RequestInit) -> @http.Response
 #alias(get_computed_style)
-fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @js.Any
+fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @nostd.Any
 #alias(get_selection)
-fn Window::getSelection(Self) -> @js.Any?
+fn Window::getSelection(Self) -> @nostd.Any?
 fn Window::history(Self) -> @history.History
 #alias(inner_height)
 fn Window::innerHeight(Self) -> Int
 #alias(inner_width)
 fn Window::innerWidth(Self) -> Int
 #alias(local_storage)
-fn Window::localStorage(Self) -> @js.Any
-fn Window::location(Self) -> @js.Any
+fn Window::localStorage(Self) -> @nostd.Any
+fn Window::location(Self) -> @nostd.Any
 #alias(match_media)
-fn Window::matchMedia(Self, String) -> @js.Any
-fn Window::navigator(Self) -> @js.Any
+fn Window::matchMedia(Self, String) -> @nostd.Any
+fn Window::navigator(Self) -> @nostd.Any
 fn Window::open(Self, url? : String, target? : String, features? : String) -> Self?
 #alias(outer_height)
 fn Window::outerHeight(Self) -> Int
 #alias(outer_width)
 fn Window::outerWidth(Self) -> Int
 #alias(post_message)
-fn Window::postMessage(Self, @js.Any, String, transfer? : Array[@js.Any]) -> Unit
+fn Window::postMessage(Self, @nostd.Any, String, transfer? : Array[@nostd.Any]) -> Unit
 fn Window::prompt(Self, String, default? : String) -> String?
 #alias(request_animation_frame)
 fn Window::requestAnimationFrame(Self, (Double) -> Unit) -> Int
-fn Window::screen(Self) -> @js.Any
+fn Window::screen(Self) -> @nostd.Any
 #alias(scroll_by)
 fn Window::scrollBy(Self, Int, Int) -> Unit
 #alias(scroll_to)
@@ -911,7 +911,7 @@ fn Window::scrollX(Self) -> Double
 #alias(scroll_y)
 fn Window::scrollY(Self) -> Double
 #alias(session_storage)
-fn Window::sessionStorage(Self) -> @js.Any
+fn Window::sessionStorage(Self) -> @nostd.Any
 #alias(set_interval)
 fn Window::setInterval(Self, () -> Unit, Int) -> Int
 #alias(set_timeout)

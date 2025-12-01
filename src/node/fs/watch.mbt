@@ -38,7 +38,7 @@ pub fn watch(
   encoding? : String,
   listener? : (String, String) -> Unit,
 ) -> FSWatcher {
-  let fs = fs_module()
+  let fs : @nostd.Any = fs_module() |> @nostd.any
   let has_options = not(persistent is None) ||
     not(recursive is None) ||
     not(encoding is None)
@@ -59,15 +59,26 @@ pub fn watch(
       }
       m
     }
-    let options : @js.Any = @mbtconv.from_map(map).cast()
+    let options : @nostd.Any = @mbtconv.from_map(map) |> @nostd.any
     match listener {
-      Some(l) => fs.call("watch", [filename, options, @js.from_fn2(l)]).cast()
-      None => fs.call2("watch", filename, options).cast()
+      Some(l) =>
+        fs
+        ._call("watch", [
+          @nostd.any(filename),
+          options,
+          @nostd.any(@js.from_fn2(l)),
+        ])
+        .cast()
+      None =>
+        fs._call("watch", [@nostd.any(filename), options]).cast()
     }
   } else {
     match listener {
-      Some(l) => fs.call2("watch", filename, @js.from_fn2(l)).cast()
-      None => fs.call1("watch", filename).cast()
+      Some(l) =>
+        fs
+        ._call("watch", [@nostd.any(filename), @nostd.any(@js.from_fn2(l))])
+        .cast()
+      None => fs._call("watch", [@nostd.any(filename)]).cast()
     }
   }
 }

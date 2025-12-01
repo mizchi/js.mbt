@@ -22,7 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ##### MSW (`npm/msw`)
 - **API mocking** - Mock Service Worker for HTTP mocking
-  - `http.get()`, `http.post()`, `http.put()`, `http.patch()`, `http.delete()`
+  - `http._get()`, `http.post()`, `http.put()`, `http.patch()`, `http.delete()`
   - `HttpResponse::json()`, `text()`, `arrayBuffer()`, `formData()`
   - `setupServer()` for Node.js and `setupWorker()` for browser
   - Request handlers and response utilities
@@ -220,7 +220,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `StreamTextResultHandle` methods: `finishReason`, `fullStream`, `fullStreamRaw`, `textStream`
 
 #### Type Safety Improvements
-- **`@js.Any` → `&@js.JsImpl`** - Improved type safety for JS interop parameters:
+- **`@nostd.Any` → `&@js.JsImpl`** - Improved type safety for JS interop parameters:
   - `node/buffer`: `fill`, `includes`, `indexOf`, `lastIndexOf`
   - `node/stream`: `Readable::from`, `unshift`, `Duplex::from`, `fromWeb`, `addAbortSignal`
   - `node/util`: `inspect`
@@ -383,20 +383,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   ```
 
 #### Type System Changes
-- **`@js.Js` → `@js.Any`** - Renamed core JavaScript interop type
+- **`@js.Js` → `@nostd.Any`** - Renamed core JavaScript interop type
   - All `Js` type references must be updated to `Any`
   - Affects all FFI function signatures and type annotations
-  - Migration: Replace `@js.Js` with `@js.Any` throughout your codebase
+  - Migration: Replace `@js.Js` with `@nostd.Any` throughout your codebase
 
 - **`to_js()` → `to_any()`** - Renamed JsImpl trait method
   - The `JsImpl` trait method `to_js()` is now `to_any()`
   - Aligns with the `Js` → `Any` type rename
   - Migration: Replace `.to_js()` with `.to_any()` in your code
 
-- **`@js.js()` → `@js.any()`** - Renamed standalone conversion function
-  - The global function `@js.js()` is now `@js.any()`
+- **`@js.js()` → `@nostd.any()`** - Renamed standalone conversion function
+  - The global function `@js.js()` is now `@nostd.any()`
   - Used for converting values to the `Any` type
-  - Migration: Replace `@js.js(value)` with `@js.any(value)`
+  - Migration: Replace `@js.js(value)` with `@nostd.any(value)`
 
 - **`unsafe_cast` → `identity`** - Renamed unsafe type conversion function
   - `@js.unsafe_cast()` is now `@js.identity()`
@@ -413,7 +413,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `@js.from_entries_option()` removed - Use `@js.from_option_map()` instead
   - `@js.from_entries_option_cast()` removed - Use `@js.from_option_map()` instead
   - `ToMapValue` trait removed
-  - Migration: Replace `from_entries([("key", value)])` with `from_map({ "key": @js.any(value) })`
+  - Migration: Replace `from_entries([("key", value)])` with `from_map({ "key": @nostd.any(value) })`
   - New: `@js.from_option_map_or_undefined()` returns `undefined` if all properties are `None`
 
 - **Naming convention: camelCase for JS API wrappers** - Standardized function names
@@ -796,7 +796,7 @@ This applies to all packages listed in the "Async Function Conversion" breaking 
 
 #### Update Type References
 
-Replace all `@js.Js` with `@js.Any`:
+Replace all `@js.Js` with `@nostd.Any`:
 
 ```moonbit
 // Before (v0.4.0)
@@ -807,16 +807,16 @@ fn my_function(value : @js.Js) -> @js.Js {
 extern "js" fn ffi_call() -> @js.Js = #|() => {}
 
 // After (v0.5.0)
-fn my_function(value : @js.Any) -> @js.Any {
+fn my_function(value : @nostd.Any) -> @nostd.Any {
   value
 }
 
-extern "js" fn ffi_call() -> @js.Any = #|() => {}
+extern "js" fn ffi_call() -> @nostd.Any = #|() => {}
 ```
 
 #### Update method and function names
 
-Replace `to_js()` with `to_any()` and `@js.js()` with `@js.any()`:
+Replace `to_js()` with `to_any()` and `@js.js()` with `@nostd.any()`:
 
 ```moonbit
 // Before (v0.4.0)
@@ -825,7 +825,7 @@ let converted = @js.js(value)
 
 // After (v0.5.0)
 let js_val = my_object.to_any()
-let converted = @js.any(value)
+let converted = @nostd.any(value)
 ```
 
 #### Replace unsafe_cast with identity
@@ -856,8 +856,8 @@ let obj = @js.from_entries([("name", "Alice"), ("age", 30)])
 let opts = @js.from_entries_option([("timeout", Some(1000)), ("retries", None)])
 
 // After (v0.5.0)
-let obj = @js.from_map({ "name": @js.any("Alice"), "age": @js.any(30) })
-let opts = @js.from_option_map({ "timeout": Some(@js.any(1000)), "retries": None })
+let obj = @js.from_map({ "name": @nostd.any("Alice"), "age": @nostd.any(30) })
+let opts = @js.from_option_map({ "timeout": Some(@nostd.any(1000)), "retries": None })
 
 // New: returns undefined if all properties are None
 let opts = @js.from_option_map_or_undefined({ "timeout": None, "retries": None })
@@ -872,7 +872,7 @@ Most types have been converted from `#external` to `pub(all) struct`, enabling d
 
 ```moonbit
 // Before (v0.2.0)
-let value = obj.get("field")
+let value = obj._get("field")
 
 // After (v0.4.0)
 let value = obj.field  // Direct access
@@ -931,6 +931,6 @@ useState(initial)
 
 ## Current Version
 
-The current version is **v0.5.0**, which includes breaking changes to the core type system (`@js.Js` → `@js.Any`) and FFI utilities (`unsafe_cast` → `identity`).
+The current version is **v0.5.0**, which includes breaking changes to the core type system (`@js.Js` → `@nostd.Any`) and FFI utilities (`unsafe_cast` → `identity`).
 
 For detailed API documentation, see the README.md files in each package directory.

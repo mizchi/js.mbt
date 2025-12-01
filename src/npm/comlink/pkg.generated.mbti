@@ -9,33 +9,33 @@ import(
 )
 
 // Values
-fn createEndpointSymbol() -> @js.Any
+fn createEndpointSymbol() -> @nostd.Any
 
-fn expose(@js.Any, endpoint? : @js.Any) -> Unit
+fn expose(@nostd.Any, endpoint? : @nostd.Any) -> Unit
 
-fn exposeToMessagePort(@js.Any, @message.MessagePort) -> Unit
+fn exposeToMessagePort(@nostd.Any, @message.MessagePort) -> Unit
 
-fn exposeToWorker(@js.Any, @worker.Worker) -> Unit
+fn exposeToWorker(@nostd.Any, @worker.Worker) -> Unit
 
-fn proxy(@js.Any) -> ProxyMarked
+fn proxy(@nostd.Any) -> ProxyMarked
 
-fn proxyCallback((@js.Any) -> Unit) -> ProxyMarked
+fn proxyCallback((@nostd.Any) -> Unit) -> ProxyMarked
 
-fn proxyFunction((@js.Any) -> @js.Any) -> ProxyMarked
+fn proxyFunction((@nostd.Any) -> @nostd.Any) -> ProxyMarked
 
-fn proxyMarkerSymbol() -> @js.Any
+fn proxyMarkerSymbol() -> @nostd.Any
 
-fn releaseProxySymbol() -> @js.Any
+fn releaseProxySymbol() -> @nostd.Any
 
-fn transfer(@js.Any, Array[@js.Any]) -> @js.Any
+fn transfer(@nostd.Any, Array[@nostd.Any]) -> @nostd.Any
 
-fn transferArrayBuffer(@js.Any) -> @js.Any
+fn transferArrayBuffer(@nostd.Any) -> @nostd.Any
 
-fn transferHandlers() -> @js.Any
+fn transferHandlers() -> @nostd.Any
 
-fn windowEndpoint(@js.Any, context? : @js.Any, target_origin? : String) -> Endpoint
+fn windowEndpoint(@nostd.Any, context? : @nostd.Any, target_origin? : String) -> Endpoint
 
-fn wrap(@js.Any) -> Remote
+fn wrap(@nostd.Any) -> Remote
 
 fn wrapMessagePort(@message.MessagePort) -> Remote
 
@@ -55,12 +55,12 @@ fn ProxyMarked::as_any(Self) -> @nostd.Any
 #external
 pub type Remote
 fn Remote::as_any(Self) -> @nostd.Any
-fn Remote::call0(Self, String) -> @js.Promise[@js.Any]
-fn Remote::call1(Self, String, @js.Any) -> @js.Promise[@js.Any]
-fn Remote::call2(Self, String, @js.Any, @js.Any) -> @js.Promise[@js.Any]
-fn Remote::callMethod(Self, String, Array[@js.Any]) -> @js.Promise[@js.Any]
+fn Remote::call0(Self, String) -> @js.Promise[@nostd.Any]
+fn Remote::call1(Self, String, @nostd.Any) -> @js.Promise[@nostd.Any]
+fn Remote::call2(Self, String, @nostd.Any, @nostd.Any) -> @js.Promise[@nostd.Any]
+fn Remote::callMethod(Self, String, Array[@nostd.Any]) -> @js.Promise[@nostd.Any]
 fn Remote::createEndpoint(Self) -> @js.Promise[@message.MessagePort]
-fn Remote::get(Self, String) -> @js.Promise[@js.Any]
+fn Remote::get(Self, String) -> @js.Promise[@nostd.Any]
 fn Remote::release(Self) -> Unit
 
 #external

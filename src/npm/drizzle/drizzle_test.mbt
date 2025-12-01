@@ -13,7 +13,7 @@
 extern "js" fn test_ffi_db_run(
   db : DrizzleDB,
   sql : SQL,
-) -> @js.Promise[@js.Any] =
+) -> @js.Promise[@nostd.Any] =
   #| (db, sql) => db.run(sql)
 
 // Schema definition for tests using Map
@@ -63,7 +63,7 @@ async test "drizzle libsql - create table and insert" {
   let _ = db.insert(users).values(@nostd.any(insert_data.as_any())).execute()
 
   // Query users
-  let result : Array[@js.Any] = db.select().from(users).execute_array()
+  let result : Array[@nostd.Any] = db.select().from(users).execute_array()
   inspect(result.length(), content="1")
 }
 
@@ -99,12 +99,12 @@ async test "drizzle libsql - multiple inserts and select" {
     .execute()
 
   // Select all
-  let all_users : Array[@js.Any] = db.select().from(users).execute_array()
+  let all_users : Array[@nostd.Any] = db.select().from(users).execute_array()
   inspect(all_users.length(), content="3")
 
   // Select with filter
-  let age_col : Column = users.get("age") |> @js.identity
-  let older_users : Array[@js.Any] = db
+  let age_col : Column = users._get("age") |> @js.identity
+  let older_users : Array[@nostd.Any] = db
     .select()
     .from(users)
     .filter(gt(age_col, @nostd.any(28)))
@@ -128,7 +128,7 @@ async test "drizzle libsql - update and delete" {
   let _ = db.insert(users).values(@nostd.any(user.as_any())).execute()
 
   // Update
-  let name_col : Column = users.get("name") |> @js.identity
+  let name_col : Column = users._get("name") |> @js.identity
   let update_data = Row::new().int("age", 31)
   let _ = db
     .update(users)
@@ -137,21 +137,21 @@ async test "drizzle libsql - update and delete" {
     .execute()
 
   // Verify update
-  let result : Array[@js.Any] = db
+  let result : Array[@nostd.Any] = db
     .select()
     .from(users)
     .filter(eq(name_col, @nostd.any("Alice")))
     .execute_array()
   inspect(result.length(), content="1")
   let updated_user = result[0]
-  let age : Int = updated_user.get("age").cast()
+  let age : Int = updated_user._get("age").cast()
   inspect(age, content="31")
 
   // Delete
   let _ = db.delete(users).filter(eq(name_col, @nostd.any("Alice"))).execute()
 
   // Verify delete
-  let after_delete : Array[@js.Any] = db.select().from(users).execute_array()
+  let after_delete : Array[@nostd.Any] = db.select().from(users).execute_array()
   inspect(after_delete.length(), content="0")
 }
 
@@ -173,11 +173,11 @@ async test "drizzle libsql - order by and limit" {
   let _ = db.insert(users).values(@nostd.any(rows([u1, u2, u3]))).execute()
 
   // Select without orderBy first to verify data
-  let all : Array[@js.Any] = db.select().from(users).execute_array()
+  let all : Array[@nostd.Any] = db.select().from(users).execute_array()
   inspect(all.length(), content="3")
 
   // Limit only (without orderBy)
-  let limited : Array[@js.Any] = db
+  let limited : Array[@nostd.Any] = db
     .select()
     .from(users)
     .limit(2)
@@ -206,8 +206,8 @@ async test "drizzle libsql - SQL operators" {
     .execute()
 
   // Simple test - lt operator (which is similar to gt that works)
-  let age_col : Column = users.get("age") |> @js.identity
-  let lt_result : Array[@js.Any] = db
+  let age_col : Column = users._get("age") |> @js.identity
+  let lt_result : Array[@nostd.Any] = db
     .select()
     .from(users)
     .filter(lt(age_col, @nostd.any(32)))

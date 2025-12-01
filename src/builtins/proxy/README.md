@@ -23,8 +23,8 @@ Provides bindings for JavaScript's Proxy object, which allows you to create a wr
 
 ```moonbit
 fn main {
-  let target = @js.Object::new()
-  let handler = @js.Object::new()
+  let target = @nostd.Object::new()
+  let handler = @nostd.Object::new()
   
   // Create a proxy
   let proxy = @proxy.Proxy::new(target, handler)

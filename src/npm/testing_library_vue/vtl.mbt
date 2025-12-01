@@ -41,7 +41,7 @@ pub fn render(component : @vue.VNode) -> RenderResult {
 
 ///|
 /// JS: render(component, options?) with props
-pub fn renderWithProps(component : @vue.VNode, props : @js.Any) -> RenderResult {
+pub fn renderWithProps(component : @vue.VNode, props : @nostd.Any) -> RenderResult {
   let vtl = testing_library()
   let options = @nostd.Object::new()
   options._set("props", @nostd.identity(props))
@@ -71,7 +71,7 @@ pub fn RenderResult::debug(self : RenderResult) -> Unit {
 
 ///|
 /// JS: result.rerender(props)
-pub fn RenderResult::rerender(self : RenderResult, props : @js.Any) -> Unit {
+pub fn RenderResult::rerender(self : RenderResult, props : @nostd.Any) -> Unit {
   self.as_any()._call("rerender", [@nostd.identity(props)]) |> ignore
 }
 
@@ -96,7 +96,7 @@ pub fn cleanup() -> Unit {
 
 ///|
 /// JS: configure(options)
-pub fn configure(options : @js.Any) -> Unit {
+pub fn configure(options : @nostd.Any) -> Unit {
   let vtl = testing_library()
   vtl.as_any()._call("configure", [@nostd.identity(options)]) |> ignore
 }
@@ -114,7 +114,7 @@ pub async fn waitFor(callback : () -> Unit) -> Unit {
 
 ///|
 /// JS: waitForElementToBeRemoved(callback, options?)
-pub async fn waitForElementToBeRemoved(callback : () -> @js.Any) -> Unit {
+pub async fn waitForElementToBeRemoved(callback : () -> @nostd.Any) -> Unit {
   let vtl = testing_library()
   let promise : @js.Promise[Unit] = vtl
     .as_any()

@@ -18,7 +18,8 @@ pub fn plugin_example() -> Unit {
     }),
   )
   println("✓ Transform plugin created")
-  let plugin_name = transform_plugin.get("name")
+  let plugin_any : @nostd.Any = transform_plugin |> @nostd.any
+  let plugin_name = plugin_any["name"]
   println("Plugin name: \{plugin_name}")
 
   // Create a build lifecycle plugin

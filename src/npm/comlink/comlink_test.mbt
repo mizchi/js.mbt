@@ -11,14 +11,14 @@ test "proxy function" {
 
 ///|
 test "transfer array buffer" {
-  let buffer = @js.Object::new()
+  let buffer = @nostd.Object::new()
   let result = @comlink.transferArrayBuffer(buffer.as_any())
   inspect(result |> @js.is_nullish |> not, content="true")
 }
 
 ///|
 test "transfer with transferables" {
-  let data = @js.Object::new()
+  let data = @nostd.Object::new()
   let result = @comlink.transfer(data.as_any(), [])
   inspect(result |> @js.is_nullish |> not, content="true")
 }

@@ -38,7 +38,7 @@ div.append_child(text.as_element()) |> ignore
 ```moonbit
 // Property access
 div.set("innerHTML", "Hello World")
-let content = div.get("innerHTML")
+let content = div._get("innerHTML")
 
 // Attributes
 div.set_attribute("data-value", "123")
@@ -157,7 +157,7 @@ div.set_style_property("border-radius", "5px")
 
 // Get computed style
 let computed = @dom.get_computed_style(div)
-let color = computed.get("color")
+let color = computed._get("color")
 ```
 
 ### Flexbox & Grid
@@ -282,7 +282,7 @@ extern "js" fn require(module_name : String) -> @js.Val =
 
 fn setup_jsdom() -> Unit {
   let jsdom = require("global-jsdom")
-  jsdom.call("register", []) |> ignore
+  jsdom._call("register", []) |> ignore
 }
 
 // Run tests

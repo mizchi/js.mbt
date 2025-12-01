@@ -14,7 +14,7 @@ fn parentPort() -> MessagePort?
 
 fn threadId() -> Int
 
-fn workerData() -> @js.Any?
+fn workerData() -> @nostd.Any?
 
 // Errors
 
@@ -29,7 +29,7 @@ impl @events.EventEmitterImpl for MessagePort
 
 #external
 pub type Worker
-fn Worker::new(String, workerData? : @js.Any, env? : @js.Any, stdin? : Bool, stdout? : Bool, stderr? : Bool, execArgv? : Array[String], resourceLimits? : @js.Any) -> Self
+fn Worker::new(String, workerData? : @nostd.Any, env? : @nostd.Any, stdin? : Bool, stdout? : Bool, stderr? : Bool, execArgv? : Array[String], resourceLimits? : @nostd.Any) -> Self
 fn Worker::postMessage(Self, &@js.JsImpl, transferList? : Array[&@js.JsImpl]) -> Unit
 fn Worker::ref_(Self) -> Unit
 fn Worker::stderr(Self) -> @streams.ReadableStream?

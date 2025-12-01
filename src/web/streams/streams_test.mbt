@@ -29,8 +29,8 @@ extern "js" fn test_ffi_readable_from_chunks(
 
 ///|
 /// [Test Helper] Creates a WritableStream that collects all written chunks.
-/// Returns the stream as @js.Any because it has a custom `.chunks` property.
-extern "js" fn test_ffi_writable_collector() -> @js.Any =
+/// Returns the stream as @nostd.Any because it has a custom `.chunks` property.
+extern "js" fn test_ffi_writable_collector() -> @nostd.Any =
   #| () => {
   #|   const chunks = [];
   #|   const writable = new WritableStream({
@@ -45,14 +45,14 @@ extern "js" fn test_ffi_writable_collector() -> @js.Any =
 ///|
 /// [Test Helper] Retrieves the collected chunks from a collector stream.
 extern "js" fn test_ffi_get_collected_chunks(
-  writable : @js.Any,
+  writable : @nostd.Any,
 ) -> Array[String] =
   #| (writable) => writable.chunks || []
 
 ///|
 /// [Test Helper] Creates a transformer object that uppercases string chunks.
 /// TransformStream constructor requires a JavaScript object with transform method.
-extern "js" fn test_ffi_uppercase_transformer() -> @js.Any =
+extern "js" fn test_ffi_uppercase_transformer() -> @nostd.Any =
   #| () => ({
   #|   transform(chunk, controller) {
   #|     controller.enqueue(chunk.toString().toUpperCase());
@@ -63,19 +63,19 @@ extern "js" fn test_ffi_uppercase_transformer() -> @js.Any =
 /// [Test Helper] Writes a chunk to a WritableStreamDefaultWriter.
 /// Writer.write() is not yet wrapped in the library's public API.
 extern "js" fn test_ffi_writer_write(
-  writer : @js.Any,
+  writer : @nostd.Any,
   chunk : String,
-) -> @js.Any =
+) -> @nostd.Any =
   #| (writer, chunk) => writer.write(chunk)
 
 ///|
 /// [Test Helper] Closes a WritableStreamDefaultWriter.
-extern "js" fn test_ffi_writer_close(writer : @js.Any) -> @js.Any =
+extern "js" fn test_ffi_writer_close(writer : @nostd.Any) -> @nostd.Any =
   #| (writer) => writer.close()
 
 ///|
 /// [Test Helper] Aborts a WritableStreamDefaultWriter.
-extern "js" fn test_ffi_writer_abort(writer : @js.Any) -> @js.Any =
+extern "js" fn test_ffi_writer_abort(writer : @nostd.Any) -> @nostd.Any =
   #| (writer) => writer.abort()
 
 ///|
@@ -85,33 +85,33 @@ async test "ReadableStream: read chunks sequentially" {
   defer reader.release_lock()
 
   // Read first chunk
-  let result1 : @js.Any = reader.as_any()._call("read", []).cast()
-  let promise1 : @js.Promise[@js.Any] = @js.identity(result1)
+  let result1 : @nostd.Any = reader.as_any()._call("read", []).cast()
+  let promise1 : @js.Promise[@nostd.Any] = @js.identity(result1)
   let data1 = promise1.wait()
-  let done1 : Bool = @js.identity(data1.get("done"))
-  let value1 : String = @js.identity(data1.get("value"))
+  let done1 : Bool = @js.identity(data1._get("done"))
+  let value1 : String = @js.identity(data1._get("value"))
   assert_eq(done1, false)
   assert_eq(value1, "chunk1")
 
   // Read second chunk
-  let result2 : @js.Any = reader.as_any()._call("read", []).cast()
-  let promise2 : @js.Promise[@js.Any] = @js.identity(result2)
+  let result2 : @nostd.Any = reader.as_any()._call("read", []).cast()
+  let promise2 : @js.Promise[@nostd.Any] = @js.identity(result2)
   let data2 = promise2.wait()
-  let value2 : String = @js.identity(data2.get("value"))
+  let value2 : String = @js.identity(data2._get("value"))
   assert_eq(value2, "chunk2")
 
   // Read third chunk
-  let result3 : @js.Any = reader.as_any()._call("read", []).cast()
-  let promise3 : @js.Promise[@js.Any] = @js.identity(result3)
+  let result3 : @nostd.Any = reader.as_any()._call("read", []).cast()
+  let promise3 : @js.Promise[@nostd.Any] = @js.identity(result3)
   let data3 = promise3.wait()
-  let value3 : String = @js.identity(data3.get("value"))
+  let value3 : String = @js.identity(data3._get("value"))
   assert_eq(value3, "chunk3")
 
   // Read end - should be done
-  let result4 : @js.Any = reader.as_any()._call("read", []).cast()
-  let promise4 : @js.Promise[@js.Any] = @js.identity(result4)
+  let result4 : @nostd.Any = reader.as_any()._call("read", []).cast()
+  let promise4 : @js.Promise[@nostd.Any] = @js.identity(result4)
   let data4 = promise4.wait()
-  let done4 : Bool = @js.identity(data4.get("done"))
+  let done4 : Bool = @js.identity(data4._get("done"))
   assert_eq(done4, true)
 }
 
@@ -153,7 +153,7 @@ async test "ReadableStream: pipe to WritableStream" {
   let writable : WritableStream = @js.identity(writable_js)
 
   // Pipe readable to writable
-  let pipe_result : @js.Any = readable
+  let pipe_result : @nostd.Any = readable
     .as_any()
     ._call("pipeTo", [@nostd.any(writable)])
     .cast()
@@ -179,11 +179,11 @@ async test "TransformStream: transform data through pipeline" {
   let transform = TransformStream::new(@nostd.any(transformer))
 
   // Pipe through transform
-  let pipe1 : @js.Any = readable
+  let pipe1 : @nostd.Any = readable
     .as_any()
     ._call("pipeTo", [transform.writable().as_any()])
     .cast()
-  let pipe2 : @js.Any = transform
+  let pipe2 : @nostd.Any = transform
     .readable()
     .as_any()
     ._call("pipeTo", [writable.as_any()])
@@ -210,17 +210,17 @@ async test "ReadableStream: tee creates independent branches" {
   defer reader2.release_lock()
 
   // Read from branch1
-  let result1 : @js.Any = reader1.as_any()._call("read", []).cast()
-  let promise1 : @js.Promise[@js.Any] = @js.identity(result1)
+  let result1 : @nostd.Any = reader1.as_any()._call("read", []).cast()
+  let promise1 : @js.Promise[@nostd.Any] = @js.identity(result1)
   let data1 = promise1.wait()
-  let value1 : String = @js.identity(data1.get("value"))
+  let value1 : String = @js.identity(data1._get("value"))
   assert_eq(value1, "item1")
 
   // Read from branch2 - should get same data
-  let result2 : @js.Any = reader2.as_any()._call("read", []).cast()
-  let promise2 : @js.Promise[@js.Any] = @js.identity(result2)
+  let result2 : @nostd.Any = reader2.as_any()._call("read", []).cast()
+  let promise2 : @js.Promise[@nostd.Any] = @js.identity(result2)
   let data2 = promise2.wait()
-  let value2 : String = @js.identity(data2.get("value"))
+  let value2 : String = @js.identity(data2._get("value"))
   assert_eq(value2, "item1")
 }
 
@@ -231,22 +231,22 @@ async test "ReadableStream: cancel stops reading" {
   defer reader.release_lock()
 
   // Read one chunk
-  let result1 : @js.Any = reader.as_any()._call("read", []).cast()
-  let promise1 : @js.Promise[@js.Any] = @js.identity(result1)
+  let result1 : @nostd.Any = reader.as_any()._call("read", []).cast()
+  let promise1 : @js.Promise[@nostd.Any] = @js.identity(result1)
   let data1 = promise1.wait()
-  let value1 : String = @js.identity(data1.get("value"))
+  let value1 : String = @js.identity(data1._get("value"))
   assert_eq(value1, "a")
 
   // Cancel the stream
-  let cancel_result : @js.Any = reader.as_any()._call("cancel", []).cast()
+  let cancel_result : @nostd.Any = reader.as_any()._call("cancel", []).cast()
   let cancel_promise : @js.Promise[Unit] = @js.identity(cancel_result)
   cancel_promise.wait()
 
   // Further reads should indicate done
-  let result2 : @js.Any = reader.as_any()._call("read", []).cast()
-  let promise2 : @js.Promise[@js.Any] = @js.identity(result2)
+  let result2 : @nostd.Any = reader.as_any()._call("read", []).cast()
+  let promise2 : @js.Promise[@nostd.Any] = @js.identity(result2)
   let data2 = promise2.wait()
-  let done2 : Bool = @js.identity(data2.get("done"))
+  let done2 : Bool = @js.identity(data2._get("done"))
   assert_eq(done2, true)
 }
 

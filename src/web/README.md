@@ -258,7 +258,7 @@ ws.addEventListener("error", fn(event) {
 
 // Cloudflare Workers Durable Objects WebSocket example
 fn handle_websocket(request : @http.Request) -> @http.Response {
-  let upgrade = request.headers().get("Upgrade")
+  let upgrade = request.headers()._get("Upgrade")
   if upgrade == Some("websocket") {
     // Upgrade connection to WebSocket
     // Handle WebSocket messages
@@ -286,7 +286,7 @@ worker.postMessage("Start processing")
 Build HTTP clients that work in any environment:
 ```moonbit
 // Same code runs in browser, Node.js, Deno, Cloudflare Workers
-fn fetch_user(id : Int) -> @js.Promise[@js.Any] {
+fn fetch_user(id : Int) -> @js.Promise[@nostd.Any] {
   let response = @http.fetch("https://api.example.com/users/\(id)")
   response.json()
 }

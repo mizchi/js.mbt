@@ -40,7 +40,7 @@ pub type QueryResult
 pub fn QueryResult::as_any(self : QueryResult) -> @nostd.Any = "%identity"
 
 ///|
-extern "js" fn ffi_import_duckdb() -> @js.Promise[@js.Any] =
+extern "js" fn ffi_import_duckdb() -> @js.Promise[@nostd.Any] =
   #| () => import("@duckdb/duckdb-wasm")
 
 ///|
@@ -152,7 +152,7 @@ pub fn AsyncDuckDBConnection::closeSync(
 
 ///|
 /// Get rows as array from query result
-pub fn QueryResult::toArray(self : QueryResult) -> @js.Any {
+pub fn QueryResult::toArray(self : QueryResult) -> @nostd.Any {
   self.as_any()._call("toArray", []).cast()
 }
 
@@ -172,6 +172,6 @@ pub fn QueryResult::numCols(self : QueryResult) -> Int {
 
 ///|
 /// Get schema
-pub fn QueryResult::schema(self : QueryResult) -> @js.Any {
+pub fn QueryResult::schema(self : QueryResult) -> @nostd.Any {
   self.as_any()["schema"].cast()
 }

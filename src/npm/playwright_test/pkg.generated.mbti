@@ -18,7 +18,7 @@ fn test_fn() -> Test
 pub type Expect
 fn Expect::locator(Self, @playwright.Locator) -> LocatorAssertions
 fn Expect::page(Self, @playwright.Page) -> PageAssertions
-fn Expect::value(Self, @js.Any) -> @js.Any
+fn Expect::value(Self, @nostd.Any) -> @nostd.Any
 impl @js.JsImpl for Expect
 
 #external
@@ -45,16 +45,16 @@ impl @js.JsImpl for PageAssertions
 
 #external
 pub type Test
-fn Test::afterAll(Self, @js.Any) -> Unit
-fn Test::afterEach(Self, @js.Any) -> Unit
-fn Test::beforeAll(Self, @js.Any) -> Unit
-fn Test::beforeEach(Self, @js.Any) -> Unit
-fn Test::describe(Self, String, @js.Any) -> Unit
-fn Test::run(Self, String, @js.Any) -> Unit
+fn Test::afterAll(Self, @nostd.Any) -> Unit
+fn Test::afterEach(Self, @nostd.Any) -> Unit
+fn Test::beforeAll(Self, @nostd.Any) -> Unit
+fn Test::beforeEach(Self, @nostd.Any) -> Unit
+fn Test::describe(Self, String, @nostd.Any) -> Unit
+fn Test::run(Self, String, @nostd.Any) -> Unit
 fn Test::setTimeout(Self, Int) -> Unit
 fn Test::skip(Self, condition? : Bool) -> Unit
 fn Test::slow(Self) -> Unit
-fn Test::use_options(Self, @js.Any) -> Unit
+fn Test::use_options(Self, @nostd.Any) -> Unit
 impl @js.JsImpl for Test
 
 #external

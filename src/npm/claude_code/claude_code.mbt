@@ -2,7 +2,7 @@
 /// Based on @anthropic-ai/claude-code TypeScript SDK
 
 ///|
-fn claude_code_module() -> @js.Any {
+fn claude_code_module() -> @nostd.Any {
   @node.require("@anthropic-ai/claude-code")
 }
 
@@ -16,16 +16,16 @@ pub fn Query::as_any(self : Query) -> @nostd.Any = "%identity"
 
 ///|
 /// Get async iterator from Query
-pub fn Query::async_iterator(self : Query) -> @js.AsyncIterator[@js.Any] {
-  let any : @js.Any = self.as_any().cast()
-  let iter = any.call(@js.Symbol::asyncIterator(), [])
+pub fn Query::async_iterator(self : Query) -> @js.AsyncIterator[@nostd.Any] {
+  let any : @nostd.Any = self.as_any().cast()
+  let iter = any._call(@js.Symbol::asyncIterator(), [])
   @js.identity(iter)
 }
 
 ///|
 /// Typed async iterator wrapper for SDKMessage
 pub(all) struct SDKMessageIterator {
-  raw : @js.AsyncIterator[@js.Any]
+  raw : @js.AsyncIterator[@nostd.Any]
 }
 
 ///|
@@ -41,18 +41,18 @@ pub async fn SDKMessageIterator::next(self : SDKMessageIterator) -> SDKMessage? 
 /// Query Claude Code SDK
 /// Returns an async iterator of SDKMessage
 pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("prompt", prompt)
   if options is Some(o) {
     let options_any = o.as_any()
     // Merge options into opts
     let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity
     for key in keys {
-      opts.set(key, options_any.get(key))
+      opts.set(key, options_any._get(key))
     }
   }
-  let result = claude_code_module().get("query").call_self([opts.as_any()])
-  let iter = result.call(@js.Symbol::asyncIterator(), [])
+  let result = claude_code_module()._get("query").call_self([opts.as_any()])
+  let iter = result._call(@js.Symbol::asyncIterator(), [])
   { raw: @js.identity(iter) }
 }
 
@@ -61,20 +61,20 @@ pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
 /// For streaming prompts using SDKUserMessage
 #alias(query_stream)
 pub fn queryStream(
-  prompt~ : @js.Any,
+  prompt~ : @nostd.Any,
   options? : QueryOptions,
 ) -> SDKMessageIterator {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("prompt", prompt)
   if options is Some(o) {
     let options_any = o.as_any()
     let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity
     for key in keys {
-      opts.set(key, options_any.get(key))
+      opts.set(key, options_any._get(key))
     }
   }
-  let result = claude_code_module().get("query").call_self([opts.as_any()])
-  let iter = result.call(@js.Symbol::asyncIterator(), [])
+  let result = claude_code_module()._get("query").call_self([opts.as_any()])
+  let iter = result._call(@js.Symbol::asyncIterator(), [])
   { raw: @js.identity(iter) }
 }
 
@@ -89,7 +89,7 @@ pub fn AbortHandle::as_any(self : AbortHandle) -> @nostd.Any = "%identity"
 ///|
 /// Abort the current query
 pub fn AbortHandle::abort(self : AbortHandle) -> Unit {
-  let abort_fn : @js.Any = self.as_any()["abort"].cast()
+  let abort_fn : @nostd.Any = self.as_any()["abort"].cast()
   let _ = abort_fn.call_self([])
 
 }
@@ -102,20 +102,20 @@ pub fn queryWithAbort(
   prompt~ : String,
   options? : QueryOptions,
 ) -> (SDKMessageIterator, AbortHandle) {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("prompt", prompt)
   let abort_controller = @js.AbortController::new()
-  let signal : @js.Any = @js.identity(abort_controller.signal())
+  let signal : @nostd.Any = @js.identity(abort_controller.signal())
   opts.set("abortSignal", signal)
   if options is Some(o) {
     let options_any = o.as_any()
     let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity
     for key in keys {
-      opts.set(key, options_any.get(key))
+      opts.set(key, options_any._get(key))
     }
   }
-  let result = claude_code_module().get("query").call_self([opts.as_any()])
-  let iter = result.call(@js.Symbol::asyncIterator(), [])
+  let result = claude_code_module()._get("query").call_self([opts.as_any()])
+  let iter = result._call(@js.Symbol::asyncIterator(), [])
   ({ raw: @js.identity(iter) }, @js.identity(abort_controller))
 }
 

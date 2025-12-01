@@ -37,7 +37,7 @@ fn CloudflareRequest::as_any(Self) -> @nostd.Any
 pub type D1Database
 fn D1Database::as_any(Self) -> @nostd.Any
 async fn D1Database::batch(Self, Array[D1PreparedStatement]) -> Array[D1Result]
-async fn D1Database::dump(Self) -> @js.Any
+async fn D1Database::dump(Self) -> @nostd.Any
 async fn D1Database::exec(Self, String) -> D1ExecResult
 fn D1Database::prepare(Self, String) -> D1PreparedStatement
 
@@ -62,24 +62,24 @@ fn D1Meta::as_any(Self) -> @nostd.Any
 pub type D1PreparedStatement
 async fn D1PreparedStatement::all(Self) -> D1Result
 fn D1PreparedStatement::as_any(Self) -> @nostd.Any
-fn D1PreparedStatement::bind(Self, Array[@js.Any]) -> Self
-fn D1PreparedStatement::bind1(Self, @js.Any) -> Self
-fn D1PreparedStatement::bind2(Self, @js.Any, @js.Any) -> Self
-fn D1PreparedStatement::bind3(Self, @js.Any, @js.Any, @js.Any) -> Self
-async fn D1PreparedStatement::first(Self) -> @js.Any?
-async fn D1PreparedStatement::first_col(Self, String) -> @js.Any?
-async fn D1PreparedStatement::raw(Self, columnNames? : Bool) -> Array[@js.Any]
+fn D1PreparedStatement::bind(Self, Array[@nostd.Any]) -> Self
+fn D1PreparedStatement::bind1(Self, @nostd.Any) -> Self
+fn D1PreparedStatement::bind2(Self, @nostd.Any, @nostd.Any) -> Self
+fn D1PreparedStatement::bind3(Self, @nostd.Any, @nostd.Any, @nostd.Any) -> Self
+async fn D1PreparedStatement::first(Self) -> @nostd.Any?
+async fn D1PreparedStatement::first_col(Self, String) -> @nostd.Any?
+async fn D1PreparedStatement::raw(Self, columnNames? : Bool) -> Array[@nostd.Any]
 async fn D1PreparedStatement::run(Self) -> D1Result
 
 #alias(D1ResultSet)
 pub(all) struct D1Result {
-  results : Array[@js.Any]?
+  results : Array[@nostd.Any]?
   success : Bool
   meta : D1Meta?
   error : String?
 }
 fn D1Result::as_any(Self) -> @nostd.Any
-fn D1Result::get_results(Self) -> Array[@js.Any]
+fn D1Result::get_results(Self) -> Array[@nostd.Any]
 
 pub(all) struct DurableObjectGetAlarmOptions {
   allowConcurrency : Bool?
@@ -206,7 +206,7 @@ async fn DurableObjectTransaction::set_alarm(Self, Int) -> Unit
 pub(all) struct KVKey {
   name : String
   expiration : Int?
-  metadata : @js.Any?
+  metadata : @nostd.Any?
 }
 fn KVKey::as_any(Self) -> @nostd.Any
 
@@ -222,30 +222,30 @@ pub type KVNamespace
 fn KVNamespace::as_any(Self) -> @nostd.Any
 async fn KVNamespace::delete(Self, String) -> Unit
 async fn KVNamespace::get(Self, String, type_? : String, cacheTtl? : Int) -> String?
-async fn KVNamespace::get_array_buffer(Self, String) -> @js.Any?
-async fn KVNamespace::get_json(Self, String) -> @js.Any?
-async fn KVNamespace::get_stream(Self, String) -> @js.Any?
+async fn KVNamespace::get_array_buffer(Self, String) -> @nostd.Any?
+async fn KVNamespace::get_json(Self, String) -> @nostd.Any?
+async fn KVNamespace::get_stream(Self, String) -> @nostd.Any?
 async fn KVNamespace::get_with_metadata(Self, String, type_? : String, cacheTtl? : Int) -> KVValueWithMetadata
 async fn KVNamespace::list(Self, prefix? : String, limit? : Int, cursor? : String) -> KVListResult
-async fn KVNamespace::put(Self, String, String, expiration? : Int, expirationTtl? : Int, metadata? : @js.Any) -> Unit
-async fn KVNamespace::put_with_metadata(Self, String, String, @js.Any) -> Unit
+async fn KVNamespace::put(Self, String, String, expiration? : Int, expirationTtl? : Int, metadata? : @nostd.Any) -> Unit
+async fn KVNamespace::put_with_metadata(Self, String, String, @nostd.Any) -> Unit
 
 pub(all) struct KVValueWithMetadata {
-  value : @js.Any?
-  metadata : @js.Any?
+  value : @nostd.Any?
+  metadata : @nostd.Any?
 }
 fn KVValueWithMetadata::as_any(Self) -> @nostd.Any
 
 #external
 pub type R2Bucket
 fn R2Bucket::as_any(Self) -> @nostd.Any
-async fn R2Bucket::create_multipart_upload(Self, String, httpMetadata? : R2HttpMetadata, customMetadata? : @js.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> R2MultipartUpload
+async fn R2Bucket::create_multipart_upload(Self, String, httpMetadata? : R2HttpMetadata, customMetadata? : @nostd.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> R2MultipartUpload
 async fn R2Bucket::delete(Self, String) -> Unit
 async fn R2Bucket::delete_multiple(Self, Array[String]) -> Unit
 async fn R2Bucket::get(Self, String, onlyIf? : R2Conditional, range? : R2Range) -> R2Object?
 async fn R2Bucket::head(Self, String) -> R2Object?
 async fn R2Bucket::list(Self, limit? : Int, prefix? : String, cursor? : String, delimiter? : String, startAfter? : String, include_? : Array[String]) -> R2Objects
-async fn R2Bucket::put(Self, String, @js.Any, httpMetadata? : R2HttpMetadata, customMetadata? : @js.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> R2Object
+async fn R2Bucket::put(Self, String, @nostd.Any, httpMetadata? : R2HttpMetadata, customMetadata? : @nostd.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> R2Object
 fn R2Bucket::resume_multipart_upload(Self, String, String) -> R2MultipartUpload
 
 pub(all) struct R2Conditional {
@@ -263,7 +263,7 @@ pub(all) struct R2HttpMetadata {
   cacheControl : String?
   cacheExpiry : @date.Date?
 }
-fn R2HttpMetadata::as_any(Self) -> @js.Any
+fn R2HttpMetadata::as_any(Self) -> @nostd.Any
 
 #external
 pub type R2MultipartUpload
@@ -272,7 +272,7 @@ fn R2MultipartUpload::as_any(Self) -> @nostd.Any
 async fn R2MultipartUpload::complete(Self, Array[R2UploadedPart]) -> R2Object
 fn R2MultipartUpload::key(Self) -> String
 fn R2MultipartUpload::uploadId(Self) -> String
-async fn R2MultipartUpload::upload_part(Self, Int, @js.Any) -> R2UploadedPart
+async fn R2MultipartUpload::upload_part(Self, Int, @nostd.Any) -> R2UploadedPart
 
 #external
 pub type R2Object
@@ -281,16 +281,16 @@ fn R2Object::as_any(Self) -> @nostd.Any
 async fn R2Object::blob(Self) -> @blob.Blob
 fn R2Object::body(Self) -> @streams.ReadableStream
 fn R2Object::body_used(Self) -> Bool
-fn R2Object::custom_metadata(Self) -> @js.Any
+fn R2Object::custom_metadata(Self) -> @nostd.Any
 fn R2Object::etag(Self) -> String
-fn R2Object::http_metadata(Self) -> @js.Any
-async fn R2Object::json(Self) -> @js.Any
+fn R2Object::http_metadata(Self) -> @nostd.Any
+async fn R2Object::json(Self) -> @nostd.Any
 fn R2Object::key(Self) -> String
 fn R2Object::size(Self) -> Int
 async fn R2Object::text(Self) -> String
-fn R2Object::uploaded(Self) -> @js.Any
+fn R2Object::uploaded(Self) -> @nostd.Any
 fn R2Object::version(Self) -> String
-fn R2Object::write_http_metadata(Self, @js.Any) -> Unit
+fn R2Object::write_http_metadata(Self, @nostd.Any) -> Unit
 
 pub(all) struct R2Objects {
   objects : Array[R2Object]
@@ -310,7 +310,7 @@ pub(all) struct R2UploadedPart {
   partNumber : Int
   etag : String
 }
-fn R2UploadedPart::as_any(Self) -> @js.Any
+fn R2UploadedPart::as_any(Self) -> @nostd.Any
 
 // Type aliases
 pub type CloudflareFetchHandler = (CloudflareRequest, CloudflareEnv, CloudflareContext) -> @js.Promise[@http.Response]

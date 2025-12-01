@@ -31,10 +31,10 @@ test "Loader enum to_string" {
 ///|
 test "esbuild module exists" {
   let es = esbuild()
-  @js.typeof_(es.as_any().get("build")) |> assert_eq("function")
-  @js.typeof_(es.as_any().get("transform")) |> assert_eq("function")
-  @js.typeof_(es.as_any().get("buildSync")) |> assert_eq("function")
-  @js.typeof_(es.as_any().get("transformSync")) |> assert_eq("function")
+  @js.typeof_(es.as_any()._get("build")) |> assert_eq("function")
+  @js.typeof_(es.as_any()._get("transform")) |> assert_eq("function")
+  @js.typeof_(es.as_any()._get("buildSync")) |> assert_eq("function")
+  @js.typeof_(es.as_any()._get("transformSync")) |> assert_eq("function")
 }
 
 ///|

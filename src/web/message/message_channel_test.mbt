@@ -17,7 +17,7 @@ test "MessageChannel implements Show trait" {
 /// Test MessageEvent can be created and accessed
 test "MessageEvent struct" {
   let event : MessageEvent = {
-    data: @js.any("test data"),
+    data: @nostd.any("test data"),
     origin: "https://example.com",
     lastEventId: "123",
     ports: [],

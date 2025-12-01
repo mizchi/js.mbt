@@ -32,7 +32,7 @@ pub fn Window::document(self : Self) -> Document {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
 ///
 /// For typed access to Navigator methods, use the `mizchi/js/browser/navigator` package.
-pub fn Window::navigator(self : Self) -> @js.Any {
+pub fn Window::navigator(self : Self) -> @nostd.Any {
   self.as_any()._get("navigator").cast()
 }
 
@@ -41,7 +41,7 @@ pub fn Window::navigator(self : Self) -> @js.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/location
 ///
 /// For typed access to Location methods, use the `mizchi/js/browser/location` package.
-pub fn Window::location(self : Self) -> @js.Any {
+pub fn Window::location(self : Self) -> @nostd.Any {
   self.as_any()._get("location").cast()
 }
 
@@ -49,7 +49,7 @@ pub fn Window::location(self : Self) -> @js.Any {
 /// Returns the localStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 #alias(local_storage)
-pub fn Window::localStorage(self : Self) -> @js.Any {
+pub fn Window::localStorage(self : Self) -> @nostd.Any {
   self.as_any()._get("localStorage").cast()
 }
 
@@ -57,14 +57,14 @@ pub fn Window::localStorage(self : Self) -> @js.Any {
 /// Returns the sessionStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 #alias(session_storage)
-pub fn Window::sessionStorage(self : Self) -> @js.Any {
+pub fn Window::sessionStorage(self : Self) -> @nostd.Any {
   self.as_any()._get("sessionStorage").cast()
 }
 
 ///|
 /// Returns the console object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/console
-pub fn Window::console(self : Self) -> @js.Any {
+pub fn Window::console(self : Self) -> @nostd.Any {
   self.as_any()._get("console").cast()
 }
 
@@ -110,7 +110,7 @@ pub fn Window::outerHeight(self : Self) -> Int {
 ///|
 /// Returns the screen object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/screen
-pub fn Window::screen(self : Self) -> @js.Any {
+pub fn Window::screen(self : Self) -> @nostd.Any {
   self.as_any()._get("screen").cast()
 }
 
@@ -144,7 +144,7 @@ pub fn Window::prompt(
   message : String,
   default? : String,
 ) -> String? {
-  let v : @js.Any = match default {
+  let v : @nostd.Any = match default {
     Some(d) =>
       self.as_any()._call("prompt", [@nostd.any(message), @nostd.any(d)]).cast()
     None => self.as_any()._call("prompt", [@nostd.any(message)]).cast()
@@ -161,7 +161,7 @@ pub fn Window::open(
   target? : String,
   features? : String,
 ) -> Window? {
-  let v : @js.Any = match (url, target, features) {
+  let v : @nostd.Any = match (url, target, features) {
     (Some(u), Some(t), Some(f)) =>
       self
       .as_any()
@@ -302,8 +302,8 @@ pub async fn Window::fetch(
 /// Returns a selection object representing selected text
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 #alias(get_selection)
-pub fn Window::getSelection(self : Self) -> @js.Any? {
-  let v : @js.Any = self.as_any()._call("getSelection", []).cast()
+pub fn Window::getSelection(self : Self) -> @nostd.Any? {
+  let v : @nostd.Any = self.as_any()._call("getSelection", []).cast()
   v |> @js.identity_option
 }
 
@@ -315,7 +315,7 @@ pub fn Window::getComputedStyle(
   self : Self,
   element : Element,
   pseudo_elt? : String,
-) -> @js.Any {
+) -> @nostd.Any {
   match pseudo_elt {
     Some(p) =>
       self
@@ -330,7 +330,7 @@ pub fn Window::getComputedStyle(
 /// Returns a media query list
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
-pub fn Window::matchMedia(self : Self, query : String) -> @js.Any {
+pub fn Window::matchMedia(self : Self, query : String) -> @nostd.Any {
   self.as_any()._call("matchMedia", [@nostd.any(query)]).cast()
 }
 
@@ -340,9 +340,9 @@ pub fn Window::matchMedia(self : Self, query : String) -> @js.Any {
 #alias(post_message)
 pub fn Window::postMessage(
   self : Self,
-  message : @js.Any,
+  message : @nostd.Any,
   target_origin : String,
-  transfer? : Array[@js.Any],
+  transfer? : Array[@nostd.Any],
 ) -> Unit {
   match transfer {
     Some(t) =>

@@ -19,10 +19,10 @@ fn RegistrationOptions::as_any(Self) -> @nostd.Any
 #external
 pub type ServiceWorker
 fn ServiceWorker::as_any(Self) -> @nostd.Any
-fn ServiceWorker::onError(Self, (@js.Any) -> Unit) -> Unit
-fn ServiceWorker::onStateChange(Self, (@js.Any) -> Unit) -> Unit
-fn ServiceWorker::postMessage(Self, @js.Any) -> Unit
-fn ServiceWorker::postMessageWithTransfer(Self, @js.Any, Array[@js.Any]) -> Unit
+fn ServiceWorker::onError(Self, (@nostd.Any) -> Unit) -> Unit
+fn ServiceWorker::onStateChange(Self, (@nostd.Any) -> Unit) -> Unit
+fn ServiceWorker::postMessage(Self, @nostd.Any) -> Unit
+fn ServiceWorker::postMessageWithTransfer(Self, @nostd.Any, Array[@nostd.Any]) -> Unit
 fn ServiceWorker::scriptUrl(Self) -> String
 fn ServiceWorker::state(Self) -> String
 
@@ -32,9 +32,9 @@ fn ServiceWorkerContainer::as_any(Self) -> @nostd.Any
 fn ServiceWorkerContainer::controller(Self) -> ServiceWorker?
 async fn ServiceWorkerContainer::getRegistration(Self, client_url? : String) -> ServiceWorkerRegistration?
 async fn ServiceWorkerContainer::getRegistrations(Self) -> Array[ServiceWorkerRegistration]
-fn ServiceWorkerContainer::onControllerChange(Self, (@js.Any) -> Unit) -> Unit
-fn ServiceWorkerContainer::onMessage(Self, (@js.Any) -> Unit) -> Unit
-fn ServiceWorkerContainer::onMessageError(Self, (@js.Any) -> Unit) -> Unit
+fn ServiceWorkerContainer::onControllerChange(Self, (@nostd.Any) -> Unit) -> Unit
+fn ServiceWorkerContainer::onMessage(Self, (@nostd.Any) -> Unit) -> Unit
+fn ServiceWorkerContainer::onMessageError(Self, (@nostd.Any) -> Unit) -> Unit
 fn ServiceWorkerContainer::ready(Self) -> @js.Promise[ServiceWorkerRegistration]
 async fn ServiceWorkerContainer::register(Self, String, scope? : String, type_? : String, update_via_cache? : String) -> ServiceWorkerRegistration
 fn ServiceWorkerContainer::startMessages(Self) -> Unit
@@ -44,7 +44,7 @@ pub type ServiceWorkerRegistration
 fn ServiceWorkerRegistration::active(Self) -> ServiceWorker?
 fn ServiceWorkerRegistration::as_any(Self) -> @nostd.Any
 fn ServiceWorkerRegistration::installing(Self) -> ServiceWorker?
-fn ServiceWorkerRegistration::onUpdateFound(Self, (@js.Any) -> Unit) -> Unit
+fn ServiceWorkerRegistration::onUpdateFound(Self, (@nostd.Any) -> Unit) -> Unit
 fn ServiceWorkerRegistration::scope(Self) -> String
 async fn ServiceWorkerRegistration::unregister(Self) -> Bool
 async fn ServiceWorkerRegistration::update(Self) -> Self

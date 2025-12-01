@@ -1,16 +1,16 @@
 ///|
 /// Node.js: require(moduleName)
-pub extern "js" fn require(module_name : String) -> @js.Any =
+pub extern "js" fn require(module_name : String) -> @nostd.Any =
   #| (moduleName) => require(moduleName)
 
 ///|
 /// Node.js: require.cache
-pub extern "js" fn require_cache() -> @js.Object =
+pub extern "js" fn require_cache() -> @nostd.Any =
   #| (moduleName) => require.cache
 
 ///|
 /// Node.js: module
-pub extern "js" fn module_() -> @js.Any =
+pub extern "js" fn module_() -> @nostd.Any =
   #| () => module
 
 ///|

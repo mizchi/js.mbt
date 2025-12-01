@@ -7,9 +7,9 @@ import(
 )
 
 // Values
-async fn finished(@js.Any) -> Unit
+async fn finished(@nostd.Any) -> Unit
 
-async fn pipeline(Array[@js.Any]) -> @stream.Stream
+async fn pipeline(Array[@nostd.Any]) -> @stream.Stream
 
 // Errors
 

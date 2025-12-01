@@ -5,19 +5,19 @@
 
 ///|
 /// JS: globalThis
-pub extern "js" fn global_this() -> @js.Any =
+pub extern "js" fn global_this() -> @nostd.Any =
   #| () => globalThis
 
 ///|
 /// JS: undefined
-pub extern "js" fn undefined() -> @js.Any =
+pub extern "js" fn undefined() -> @nostd.Any =
   #| () => undefined
 
 ///| Type Checking
 
 ///|
 /// JS: isNaN(v)
-pub extern "js" fn is_nan(v : @js.Any) -> Bool =
+pub extern "js" fn is_nan(v : @nostd.Any) -> Bool =
   #| (v) => isNaN(v)
 
 ///|
@@ -28,11 +28,11 @@ pub extern "js" fn is_finite(v : Double) -> Bool =
 ///| Number Parsing
 
 ///|
-extern "js" fn ffi_parse_int(string : String, radix : Int) -> @js.Any =
+extern "js" fn ffi_parse_int(string : String, radix : Int) -> @nostd.Any =
   #| (string, radix) => parseInt(string, radix)
 
 ///|
-extern "js" fn ffi_parse_float(string : String) -> @js.Any =
+extern "js" fn ffi_parse_float(string : String) -> @nostd.Any =
   #| (string) => parseFloat(string)
 
 ///|
@@ -116,5 +116,5 @@ pub extern "js" fn decode_uri_component(encoded_str : String) -> String =
 ///|
 /// Dynamic import (ES modules)
 /// Note: Returns a Promise<Module>
-pub extern "js" fn dynamic_import(module_name : String) -> @js.Any =
+pub extern "js" fn dynamic_import(module_name : String) -> @nostd.Any =
   #| (moduleName) => import(moduleName)

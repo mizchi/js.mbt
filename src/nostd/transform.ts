@@ -210,7 +210,7 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
 
     // Inline call expressions
     if (node.type === 'CallExpression' && node.callee?.type === 'Identifier' && node.callee.name) {
-      const fnInfo = inlineable.get(node.callee.name);
+      const fnInfo = inlineable._get(node.callee.name);
       if (fnInfo) {
         let inlined: AstNode | null = null;
         const args = (node.arguments || []) as AstNode[];
@@ -258,7 +258,7 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
 
     // Count identifier references (but not in declarations)
     if (node.type === 'Identifier' && node.name && refCounts.has(node.name) && !isDecl) {
-      refCounts.set(node.name, refCounts.get(node.name)! + 1);
+      refCounts.set(node.name, refCounts._get(node.name)! + 1);
     }
 
     // Recurse, marking declaration ids
@@ -279,7 +279,7 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
 
   // Remove unused declarations
   for (const [name, range] of declRanges) {
-    const count = refCounts.get(name) || 0;
+    const count = refCounts._get(name) || 0;
     if (count <= 1) {
       let end = range.end;
       while (end < code.length && code[end] !== '\n') end++;

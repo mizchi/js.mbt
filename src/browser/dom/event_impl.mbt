@@ -135,7 +135,7 @@ pub impl EventImpl for MouseEvent with as_any(self) -> @nostd.Any {
 /// Returns the secondary target for the mouse event
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/relatedTarget
 pub fn MouseEvent::relatedTarget(self : Self) -> Element? {
-  let v : @js.Any = self.as_any()._get("relatedTarget").cast()
+  let v : @nostd.Any = self.as_any()._get("relatedTarget").cast()
   v |> @js.identity_option
 }
 
@@ -195,7 +195,7 @@ pub impl EventImpl for FocusEvent with as_any(self) -> @nostd.Any {
 ///|
 /// Returns the related target (element losing/gaining focus)
 pub fn FocusEvent::relatedTarget(self : FocusEvent) -> Element? {
-  let v : @js.Any = self.as_any()._get("relatedTarget").cast()
+  let v : @nostd.Any = self.as_any()._get("relatedTarget").cast()
   v |> @js.identity_option
 }
 
@@ -378,7 +378,7 @@ pub impl EventImpl for ScrollEvent with as_any(self) -> @nostd.Any {
 /// MessageEvent is fired when a message is received from another browsing context
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
 pub(all) struct MessageEvent {
-  data : @js.Any
+  data : @nostd.Any
   origin : String
   lastEventId : String
   ports : Array[@message.MessagePort]
@@ -398,7 +398,7 @@ pub impl EventImpl for MessageEvent with as_any(self) -> @nostd.Any {
 /// Returns the source window of the message
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/source
 pub fn MessageEvent::source(self : Self) -> Window? {
-  let v : @js.Any = self.as_any()._get("source").cast()
+  let v : @nostd.Any = self.as_any()._get("source").cast()
   v |> @js.identity_option()
 }
 
@@ -421,8 +421,8 @@ pub impl EventImpl for PopStateEvent with as_any(self) -> @nostd.Any {
 ///|
 /// Returns the state associated with the history entry
 /// https://developer.mozilla.org/en-US/docs/Web/API/PopStateEvent/state
-pub fn PopStateEvent::state(self : Self) -> @js.Any? {
-  let v : @js.Any = self.as_any()._get("state").cast()
+pub fn PopStateEvent::state(self : Self) -> @nostd.Any? {
+  let v : @nostd.Any = self.as_any()._get("state").cast()
   v |> @js.identity_option()
 }
 

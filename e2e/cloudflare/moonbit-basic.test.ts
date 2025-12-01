@@ -7,7 +7,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
   it("should return HTML homepage at /", async () => {
     const request = new Request("http://localhost/");
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
@@ -20,11 +20,11 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
   it("should return JSON at /api/hello", async () => {
     const request = new Request("http://localhost/api/hello");
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
-    expect(response.headers.get("content-type")).toContain("application/json");
+    expect(response.headers._get("content-type")).toContain("application/json");
 
     const json = await response.json();
     expect(json.message).toBe("Hello from MoonBit Worker!");
@@ -34,7 +34,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
     const testUrl = "http://localhost/api/echo";
     const request = new Request(testUrl);
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
@@ -46,11 +46,11 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
   it("should return plain text at /api/text", async () => {
     const request = new Request("http://localhost/api/text");
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
-    expect(response.headers.get("content-type")).toContain("text/plain");
+    expect(response.headers._get("content-type")).toContain("text/plain");
 
     const text = await response.text();
     expect(text).toBe("Plain text response from MoonBit");
@@ -59,7 +59,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
   it("should return 404 for unknown routes", async () => {
     const request = new Request("http://localhost/unknown/route");
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(404);
@@ -71,12 +71,12 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
   it("should return custom headers at /api/headers", async () => {
     const request = new Request("http://localhost/api/headers");
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
-    expect(response.headers.get("x-custom-header")).toBe("MoonBit-Worker");
-    expect(response.headers.get("x-powered-by")).toBe("Cloudflare");
+    expect(response.headers._get("x-custom-header")).toBe("MoonBit-Worker");
+    expect(response.headers._get("x-powered-by")).toBe("Cloudflare");
   });
 
   it("should parse query parameters at /api/query", async () => {
@@ -84,7 +84,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
       "http://localhost/api/query?name=Alice&message=Hi",
     );
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
@@ -96,7 +96,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
   it("should use defaults for missing query parameters", async () => {
     const request = new Request("http://localhost/api/query");
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
@@ -108,7 +108,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
   it("should return health status", async () => {
     const request = new Request("http://localhost/health");
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
@@ -121,7 +121,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
   it("should handle math add endpoint", async () => {
     const request = new Request("http://localhost/api/math/add?a=5&b=3");
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
@@ -133,7 +133,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
   it("should return 400 for missing math parameters", async () => {
     const request = new Request("http://localhost/api/math/add?a=5");
     const env = {};
-    const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
+    const ctx = { waitUntil: () => { }, passThroughOnException: () => { } };
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(400);

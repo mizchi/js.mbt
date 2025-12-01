@@ -11,7 +11,7 @@
 pub type Esbuild
 
 ///|
-pub fn Esbuild::as_any(self : Esbuild) -> @js.Any = "%identity"
+pub fn Esbuild::as_any(self : Esbuild) -> @nostd.Any = "%identity"
 
 // Internal helpers for calling JS methods
 
@@ -20,8 +20,8 @@ fn[T : @js.JsImpl] Esbuild::call1(
   self : Esbuild,
   name : String,
   arg : T,
-) -> @js.Any {
-  self.as_any().call(name, [arg.as_any()])
+) -> @nostd.Any {
+  self.as_any()._call(name, [arg.as_any()])
 }
 
 ///|
@@ -30,8 +30,8 @@ fn[T : @js.JsImpl, U : @js.JsImpl] Esbuild::call2(
   name : String,
   arg1 : T,
   arg2 : U,
-) -> @js.Any {
-  self.as_any().call(name, [arg1.as_any(), arg2.as_any()])
+) -> @nostd.Any {
+  self.as_any()._call(name, [arg1.as_any(), arg2.as_any()])
 }
 
 ///|
@@ -131,19 +131,19 @@ pub fn Loader::to_string(self : Loader) -> String {
 pub(all) type BuildResult
 
 ///|
-pub fn BuildResult::as_any(self : BuildResult) -> @js.Any = "%identity"
+pub fn BuildResult::as_any(self : BuildResult) -> @nostd.Any = "%identity"
 
 ///|
 /// Get output files from build result
 pub fn BuildResult::output_files(self : BuildResult) -> Array[OutputFile] {
-  let files_arr = self.as_any().get("outputFiles")
+  let files_arr = self.as_any()._get("outputFiles")
   if @js.is_undefined(files_arr) || @js.is_null(files_arr) {
     return []
   }
-  let len : Int = @js.identity(files_arr.get("length"))
+  let len : Int = @js.identity(files_arr._get("length"))
   let result : Array[OutputFile] = []
   for i = 0; i < len; i = i + 1 {
-    result.push(files_arr.get(i.to_string()).cast())
+    result.push(files_arr._get(i.to_string()).cast())
   }
   result
 }
@@ -151,14 +151,14 @@ pub fn BuildResult::output_files(self : BuildResult) -> Array[OutputFile] {
 ///|
 /// Get errors from build result
 pub fn BuildResult::errors(self : BuildResult) -> Array[Message] {
-  let errors_arr = self.as_any().get("errors")
+  let errors_arr = self.as_any()._get("errors")
   if @js.is_undefined(errors_arr) || @js.is_null(errors_arr) {
     return []
   }
-  let len : Int = @js.identity(errors_arr.get("length"))
+  let len : Int = @js.identity(errors_arr._get("length"))
   let result : Array[Message] = []
   for i = 0; i < len; i = i + 1 {
-    result.push(errors_arr.get(i.to_string()).cast())
+    result.push(errors_arr._get(i.to_string()).cast())
   }
   result
 }
@@ -166,14 +166,14 @@ pub fn BuildResult::errors(self : BuildResult) -> Array[Message] {
 ///|
 /// Get warnings from build result
 pub fn BuildResult::warnings(self : BuildResult) -> Array[Message] {
-  let warnings_arr = self.as_any().get("warnings")
+  let warnings_arr = self.as_any()._get("warnings")
   if @js.is_undefined(warnings_arr) || @js.is_null(warnings_arr) {
     return []
   }
-  let len : Int = @js.identity(warnings_arr.get("length"))
+  let len : Int = @js.identity(warnings_arr._get("length"))
   let result : Array[Message] = []
   for i = 0; i < len; i = i + 1 {
-    result.push(warnings_arr.get(i.to_string()).cast())
+    result.push(warnings_arr._get(i.to_string()).cast())
   }
   result
 }
@@ -188,24 +188,24 @@ pub fn BuildResult::warnings(self : BuildResult) -> Array[Message] {
 pub(all) type OutputFile
 
 ///|
-pub fn OutputFile::as_any(self : OutputFile) -> @js.Any = "%identity"
+pub fn OutputFile::as_any(self : OutputFile) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the file path
 pub fn OutputFile::path(self : OutputFile) -> String {
-  @js.identity(self.as_any().get("path"))
+  @js.identity(self.as_any()._get("path"))
 }
 
 ///|
 /// Get the file contents as text
 pub fn OutputFile::text(self : OutputFile) -> String {
-  @js.identity(self.as_any().get("text"))
+  @js.identity(self.as_any()._get("text"))
 }
 
 ///|
 /// Get the file contents as Uint8Array
-pub fn OutputFile::contents(self : OutputFile) -> @js.Any {
-  self.as_any().get("contents")
+pub fn OutputFile::contents(self : OutputFile) -> @nostd.Any {
+  self.as_any()._get("contents")
 }
 
 // ============================================================
@@ -218,12 +218,12 @@ pub fn OutputFile::contents(self : OutputFile) -> @js.Any {
 pub(all) type Message
 
 ///|
-pub fn Message::as_any(self : Message) -> @js.Any = "%identity"
+pub fn Message::as_any(self : Message) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the message text
 pub fn Message::text(self : Message) -> String {
-  @js.identity(self.as_any().get("text"))
+  @js.identity(self.as_any()._get("text"))
 }
 
 // ============================================================
@@ -236,18 +236,18 @@ pub fn Message::text(self : Message) -> String {
 pub(all) type TransformResult
 
 ///|
-pub fn TransformResult::as_any(self : TransformResult) -> @js.Any = "%identity"
+pub fn TransformResult::as_any(self : TransformResult) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the transformed code
 pub fn TransformResult::code(self : TransformResult) -> String {
-  @js.identity(self.as_any().get("code"))
+  @js.identity(self.as_any()._get("code"))
 }
 
 ///|
 /// Get the source map
 pub fn TransformResult::map(self : TransformResult) -> String {
-  let m = self.as_any().get("map")
+  let m = self.as_any()._get("map")
   if @js.is_undefined(m) || @js.is_null(m) {
     ""
   } else {
@@ -258,14 +258,14 @@ pub fn TransformResult::map(self : TransformResult) -> String {
 ///|
 /// Get warnings from transform result
 pub fn TransformResult::warnings(self : TransformResult) -> Array[Message] {
-  let warnings_arr = self.as_any().get("warnings")
+  let warnings_arr = self.as_any()._get("warnings")
   if @js.is_undefined(warnings_arr) || @js.is_null(warnings_arr) {
     return []
   }
-  let len : Int = @js.identity(warnings_arr.get("length"))
+  let len : Int = @js.identity(warnings_arr._get("length"))
   let result : Array[Message] = []
   for i = 0; i < len; i = i + 1 {
-    result.push(warnings_arr.get(i.to_string()).cast())
+    result.push(warnings_arr._get(i.to_string()).cast())
   }
   result
 }
@@ -291,7 +291,7 @@ pub async fn Esbuild::build(
   external? : Array[String] = [],
   definitions? : Array[(String, String)] = [],
 ) -> BuildResult {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   if entry_points.length() > 0 {
     opts.set("entryPoints", entry_points |> @js.from_array)
   }
@@ -314,7 +314,7 @@ pub async fn Esbuild::build(
     opts.set("external", external |> @js.from_array)
   }
   if definitions.length() > 0 {
-    let defs = @js.Object::new()
+    let defs = @nostd.Object::new()
     for pair in definitions {
       let (key, value) = pair
       defs.set(key, value)
@@ -336,7 +336,7 @@ pub async fn Esbuild::transform(
   target? : String = "",
   sourcemap? : Bool = false,
 ) -> TransformResult {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("loader", loader.to_string())
   opts.set("minify", minify)
   opts.set("format", format.to_string())
@@ -367,7 +367,7 @@ pub fn Esbuild::build_sync(
   external? : Array[String] = [],
   definitions? : Array[(String, String)] = [],
 ) -> BuildResult {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   if entry_points.length() > 0 {
     opts.set("entryPoints", entry_points |> @js.from_array)
   }
@@ -390,7 +390,7 @@ pub fn Esbuild::build_sync(
     opts.set("external", external |> @js.from_array)
   }
   if definitions.length() > 0 {
-    let defs = @js.Object::new()
+    let defs = @nostd.Object::new()
     for pair in definitions {
       let (key, value) = pair
       defs.set(key, value)
@@ -411,7 +411,7 @@ pub fn Esbuild::transform_sync(
   target? : String = "",
   sourcemap? : Bool = false,
 ) -> TransformResult {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("loader", loader.to_string())
   opts.set("minify", minify)
   opts.set("format", format.to_string())

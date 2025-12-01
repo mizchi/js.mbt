@@ -137,7 +137,7 @@ test "spawnSync handles non-existent command with error" {
   // Use stdio="pipe" to suppress error output to console
   let result = spawnSync("/nonexistent/command", stdio="pipe")
   // Error is a Js object (not nullish) when command is not found
-  let error : @js.Any = result.error().cast()
+  let error : @nostd.Any = result.error().cast()
   inspect(@js.is_nullish(error), content="false")
   // Verify it's an error object
   assert_true(@js.is_object(error))
@@ -147,7 +147,7 @@ test "spawnSync handles non-existent command with error" {
 test "spawnSync handles command not found" {
   // Use stdio="pipe" to suppress error output to console
   let result = spawnSync("/nonexistent/command", stdio="pipe")
-  let error : @js.Any = result.error().cast()
+  let error : @nostd.Any = result.error().cast()
   // Error field exists as a Js object
   assert_true(@js.is_object(error))
 }

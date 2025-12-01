@@ -251,16 +251,16 @@ test "type_of" {
 test "instance_of" {
   let global = global_this()
   let arr : Any = global["Array"]._call("from", [any([1, 2, 3])])
-  assert_true(instance_of(arr, global["Array"]))
-  assert_true(instance_of(arr, global["Object"]))
-  assert_true(not(instance_of(arr, global["String"])))
+  assert_true(instanceof_(arr, global["Array"]))
+  assert_true(instanceof_(arr, global["Object"]))
+  assert_true(not(instanceof_(arr, global["String"])))
 }
 
 ///|
 test "new - create Date" {
   let global = global_this()
   let date = new(global["Date"], [any(0)]) // Unix epoch
-  assert_true(instance_of(date, global["Date"]))
+  assert_true(instanceof_(date, global["Date"]))
   let time : Int = date._call("getTime", []).cast()
   assert_eq(time, 0)
 }
@@ -269,7 +269,7 @@ test "new - create Date" {
 test "new - create Error" {
   let global = global_this()
   let err = new(global["Error"], [any("test error")])
-  assert_true(instance_of(err, global["Error"]))
+  assert_true(instanceof_(err, global["Error"]))
   let msg : String = err["message"].cast()
   assert_eq(msg, "test error")
 }

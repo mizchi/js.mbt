@@ -16,9 +16,9 @@ import(
 pub type IntersectionObserver
 fn IntersectionObserver::as_any(Self) -> @nostd.Any
 fn IntersectionObserver::disconnect(Self) -> Unit
-fn IntersectionObserver::new((@js.Any?, Self) -> Unit, options? : @js.Any) -> Self
+fn IntersectionObserver::new((@nostd.Any?, Self) -> Unit, options? : @nostd.Any) -> Self
 fn IntersectionObserver::observe(Self, @dom.Element) -> Unit
-fn IntersectionObserver::take_records(Self) -> @js.Any
+fn IntersectionObserver::take_records(Self) -> @nostd.Any
 fn IntersectionObserver::unobserve(Self, @dom.Element) -> Unit
 
 pub(all) struct IntersectionObserverEntry {
@@ -36,9 +36,9 @@ fn IntersectionObserverEntry::as_any(Self) -> @nostd.Any
 pub type MutationObserver
 fn MutationObserver::as_any(Self) -> @nostd.Any
 fn MutationObserver::disconnect(Self) -> Unit
-fn MutationObserver::new((@js.Any?, Self) -> Unit) -> Self
-fn MutationObserver::observe(Self, @dom.Element, @js.Any) -> Unit
-fn MutationObserver::take_records(Self) -> @js.Any
+fn MutationObserver::new((@nostd.Any?, Self) -> Unit) -> Self
+fn MutationObserver::observe(Self, @dom.Element, @nostd.Any) -> Unit
+fn MutationObserver::take_records(Self) -> @nostd.Any
 
 pub(all) struct MutationRecord {
   mutationType : String
@@ -57,16 +57,16 @@ fn MutationRecord::mutation_type(Self) -> String
 pub type ResizeObserver
 fn ResizeObserver::as_any(Self) -> @nostd.Any
 fn ResizeObserver::disconnect(Self) -> Unit
-fn ResizeObserver::new((@js.Any?, Self) -> Unit) -> Self
+fn ResizeObserver::new((@nostd.Any?, Self) -> Unit) -> Self
 fn ResizeObserver::observe(Self, @dom.Element) -> Unit
-fn ResizeObserver::observe_with_options(Self, @dom.Element, @js.Any) -> Unit
+fn ResizeObserver::observe_with_options(Self, @dom.Element, @nostd.Any) -> Unit
 fn ResizeObserver::unobserve(Self, @dom.Element) -> Unit
 
 pub(all) struct ResizeObserverEntry {
   target : @dom.Element
   contentRect : @dom.DOMRectReadOnly
-  borderBoxSize : @js.Any
-  contentBoxSize : @js.Any
+  borderBoxSize : @nostd.Any
+  contentBoxSize : @nostd.Any
 }
 fn ResizeObserverEntry::as_any(Self) -> @nostd.Any
 

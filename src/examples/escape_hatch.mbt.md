@@ -5,17 +5,18 @@ When `mizchi/js` doesn't provide a wrapper for a JavaScript API you need, use th
 ## Pattern: Accessing Missing Properties
 
 ```moonbit
+
 ///|
 test "access globalThis properties" {
   // Access global object
-  let global = @js.globalThis()
+  let global = @nostd.global_this()
 
   // Check if Math exists
-  let math = global.get("Math")
+  let math = global._get("Math")
   assert_eq(@js.is_undefined(math), false)
 
   // Get Math.PI
-  let pi : Double = @js.identity(math.get("PI"))
+  let pi : Double = @js.identity(math._get("PI"))
   inspect(pi, content="3.141592653589793")
 }
 ```
@@ -23,22 +24,23 @@ test "access globalThis properties" {
 ## Pattern: Calling Missing Methods
 
 ```moonbit
+
 ///|
 test "call methods with call()" {
-  let obj = @js.Object::new()
-  obj.set("value", 42)
+  let obj = @nostd.Object::new()
+  obj._set("value", 42 |> @nostd.any)
 
   // call0 - no arguments
-  let str = obj.call0("toString")
+  let str = obj._call("toString", [])
   inspect(str, content="[object Object]")
 
   // call1 - one argument
-  let has : Bool = @js.identity(obj.call1("hasOwnProperty", "value"))
+  let has : Bool = @js.identity(obj._call("hasOwnProperty", ["value" |> @nostd.any]))
   assert_eq(has, true)
 
   // call - variable arguments
   let arr = @js.JsArray::from([1, 2, 3])
-  let joined : String = @js.identity(arr.call("join", ["-"]))
+  let joined : String = @js.identity(arr._call("join", ["-"]))
   inspect(joined, content="1-2-3")
 }
 ```
@@ -46,15 +48,16 @@ test "call methods with call()" {
 ## Pattern: Checking API Availability
 
 ```moonbit
+
 ///|
 test "feature detection" {
   // Check if Math exists
-  let math = @js.globalThis().get("Math")
+  let math = @js.globalThis()._get("Math")
   let has_math = !@js.is_undefined(math)
   assert_eq(has_math, true)
 
   // Check if a fictional API exists
-  let fake_api = @js.globalThis().get("FakeAPI12345")
+  let fake_api = @js.globalThis()._get("FakeAPI12345")
   let has_fake = !@js.is_undefined(fake_api)
   assert_eq(has_fake, false)
 }
@@ -63,19 +66,20 @@ test "feature detection" {
 ## Pattern: Accessing Nested Properties
 
 ```moonbit
+
 ///|
 test "nested property access" {
   // Create nested structure
-  let obj = @js.Object::new()
-  let config = @js.Object::new()
-  let api = @js.Object::new()
+  let obj = @nostd.Object::new()
+  let config = @nostd.Object::new()
+  let api = @nostd.Object::new()
   api.set("endpoint", "https://api.example.com")
   config.set("api", api)
   obj.set("config", config)
 
-  // Chain .get() calls for nested access
+  // Chain ._get() calls for nested access
   let endpoint : String = @js.identity(
-    obj.get("config").get("api").get("endpoint"),
+    obj._get("config")._get("api")._get("endpoint"),
   )
   assert_eq(endpoint, "https://api.example.com")
 }
@@ -84,18 +88,19 @@ test "nested property access" {
 ## Pattern: Safe Nested Access
 
 ```moonbit
+
 ///|
 test "safe nested access with undefined checks" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
 
   // Check each level before accessing
-  let config = obj.get("config")
+  let config = obj._get("config")
   if @js.is_undefined(config) {
     inspect("Config not found", content="Config not found")
   } else {
-    let api = config.get("api")
+    let api = config._get("api")
     if !@js.is_undefined(api) {
-      let _ = api.get("endpoint")
+      let _ = api._get("endpoint")
 
     }
   }
@@ -105,11 +110,12 @@ test "safe nested access with undefined checks" {
 ## Pattern: Error Handling with throwable
 
 ```moonbit
+
 ///|
 test "error handling with throwable" {
-  let result = @js.throwable(fn() -> @js.Any {
+  let result = @js.throwable(fn() -> @nostd.Any {
     // Risky JS operation
-    let obj = @js.Object::new()
+    let obj = @nostd.Object::new()
     obj.set("value", 42)
     obj.as_any()
   }) catch {
@@ -122,17 +128,18 @@ test "error handling with throwable" {
 ## Pattern: Creating Instances with new_
 
 ```moonbit
+
 ///|
 test "create instances of unsupported classes" {
   // Access constructor from globalThis
-  let map_constructor = @js.globalThis().get("Map")
+  let map_constructor = @js.globalThis()._get("Map")
   let map = @js.new_(map_constructor, [])
 
   // Use methods via call()
-  map.call("set", ["key", "value"]) |> ignore
+  map._call("set", ["key", "value"]) |> ignore
   let value = map.call1("get", "key")
   inspect(value, content="value")
-  let size : Int = @js.identity(map.get("size"))
+  let size : Int = @js.identity(map._get("size"))
   assert_eq(size, 1)
 }
 ```
@@ -141,7 +148,7 @@ test "create instances of unsupported classes" {
 
 | Pattern | Use Case |
 |---------|----------|
-| `globalThis().get("API")` | Access any global API |
+| `globalThis()._get("API")` | Access any global API |
 | `obj.call0/call1/call()` | Call any method |
 | `@js.identity(val)` | Cast to MoonBit type |
 | `@js.is_undefined(val)` | Check if property exists |

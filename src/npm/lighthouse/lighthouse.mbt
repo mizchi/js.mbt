@@ -8,7 +8,7 @@
 ///| FFI
 
 ///|
-extern "js" fn ffi_require_lighthouse() -> @js.Any =
+extern "js" fn ffi_require_lighthouse() -> @nostd.Any =
   #|() => require("lighthouse")
 
 ///| Core Types
@@ -19,65 +19,66 @@ extern "js" fn ffi_require_lighthouse() -> @js.Any =
 pub type LighthouseResult
 
 ///|
-pub impl @js.JsImpl for LighthouseResult
+pub fn LighthouseResult::to_any(self : LighthouseResult) -> @nostd.Any =
+  "%identity"
 
 ///|
 /// Get the final displayed URL after redirects
 pub fn LighthouseResult::finalDisplayedUrl(self : LighthouseResult) -> String {
-  self.get("finalDisplayedUrl").cast()
+  self.to_any()["finalDisplayedUrl"].cast()
 }
 
 ///|
 /// Get the final URL (may differ from finalDisplayedUrl)
 pub fn LighthouseResult::finalUrl(self : LighthouseResult) -> String {
-  self.get("finalUrl").cast()
+  self.to_any()["finalUrl"].cast()
 }
 
 ///|
 /// Get the requested URL
 pub fn LighthouseResult::requestedUrl(self : LighthouseResult) -> String {
-  self.get("requestedUrl").cast()
+  self.to_any()["requestedUrl"].cast()
 }
 
 ///|
 /// Get the fetch time as ISO string
 pub fn LighthouseResult::fetchTime(self : LighthouseResult) -> String {
-  self.get("fetchTime").cast()
+  self.to_any()["fetchTime"].cast()
 }
 
 ///|
 /// Get the Lighthouse version used
 pub fn LighthouseResult::lighthouseVersion(self : LighthouseResult) -> String {
-  self.get("lighthouseVersion").cast()
+  self.to_any()["lighthouseVersion"].cast()
 }
 
 ///|
 /// Get the user agent used
 pub fn LighthouseResult::userAgent(self : LighthouseResult) -> String {
-  self.get("userAgent").cast()
+  self.to_any()["userAgent"].cast()
 }
 
 ///|
 /// Get all categories
 pub fn LighthouseResult::categories(self : LighthouseResult) -> Categories {
-  @js.identity(self.get("categories"))
+  self.to_any()["categories"] |> @nostd.identity
 }
 
 ///|
 /// Get all audits
-pub fn LighthouseResult::audits(self : LighthouseResult) -> @js.Any {
-  self.get("audits")
+pub fn LighthouseResult::audits(self : LighthouseResult) -> @nostd.Any {
+  self.to_any()["audits"] |> @js.identity
 }
 
 ///|
 /// Get a specific audit by id
 pub fn LighthouseResult::audit(self : LighthouseResult, id : String) -> Audit? {
-  let audits = self.get("audits")
-  let audit = audits.get(id)
-  if @js.is_nullish(audit) {
+  let audits = self.to_any()["audits"]
+  let audit = audits[id]
+  if @nostd.is_nullish(audit) {
     None
   } else {
-    Some(@js.identity(audit))
+    Some(audit |> @nostd.identity)
   }
 }
 
@@ -87,36 +88,36 @@ pub fn LighthouseResult::audit(self : LighthouseResult, id : String) -> Audit? {
 pub type Categories
 
 ///|
-pub impl @js.JsImpl for Categories
+pub fn Categories::to_any(self : Categories) -> @nostd.Any = "%identity"
 
 ///|
 /// Get performance category
 pub fn Categories::performance(self : Categories) -> Category? {
-  self.get("performance") |> @js.identity_option
+  @nostd.identity_option(self.to_any()["performance"])
 }
 
 ///|
 /// Get accessibility category
 pub fn Categories::accessibility(self : Categories) -> Category? {
-  self.get("accessibility") |> @js.identity_option
+  @nostd.identity_option(self.to_any()["accessibility"])
 }
 
 ///|
 /// Get best-practices category
 pub fn Categories::bestPractices(self : Categories) -> Category? {
-  self.get("best-practices") |> @js.identity_option
+  @nostd.identity_option(self.to_any()["best-practices"])
 }
 
 ///|
 /// Get SEO category
 pub fn Categories::seo(self : Categories) -> Category? {
-  self.get("seo") |> @js.identity_option
+  @nostd.identity_option(self.to_any()["seo"])
 }
 
 ///|
 /// Get PWA category
 pub fn Categories::pwa(self : Categories) -> Category? {
-  self.get("pwa") |> @js.identity_option
+  @nostd.identity_option(self.to_any()["pwa"])
 }
 
 ///|
@@ -125,30 +126,30 @@ pub fn Categories::pwa(self : Categories) -> Category? {
 pub type Category
 
 ///|
-pub impl @js.JsImpl for Category
+pub fn Category::to_any(self : Category) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the category title
 pub fn Category::title(self : Category) -> String {
-  self.get("title").cast()
+  self.to_any()["title"].cast()
 }
 
 ///|
 /// Get the category id
 pub fn Category::id(self : Category) -> String {
-  self.get("id").cast()
+  self.to_any()["id"].cast()
 }
 
 ///|
 /// Get the category score (0-1)
 pub fn Category::score(self : Category) -> Double {
-  self.get("score").cast()
+  self.to_any()["score"].cast()
 }
 
 ///|
 /// Get the category score as percentage (0-100)
 pub fn Category::scorePercent(self : Category) -> Int {
-  let score : Double = self.get("score").cast()
+  let score : Double = self.to_any()["score"].cast()
   (score * 100.0).to_int()
 }
 
@@ -158,31 +159,31 @@ pub fn Category::scorePercent(self : Category) -> Int {
 pub type Audit
 
 ///|
-pub impl @js.JsImpl for Audit
+pub fn Audit::to_any(self : Audit) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the audit id
 pub fn Audit::id(self : Audit) -> String {
-  self.get("id").cast()
+  self.to_any()["id"].cast()
 }
 
 ///|
 /// Get the audit title
 pub fn Audit::title(self : Audit) -> String {
-  self.get("title").cast()
+  self.to_any()["title"].cast()
 }
 
 ///|
 /// Get the audit description
 pub fn Audit::description(self : Audit) -> String {
-  self.get("description").cast()
+  self.to_any()["description"].cast()
 }
 
 ///|
 /// Get the audit score (0-1 or null for informational)
 pub fn Audit::score(self : Audit) -> Double? {
-  let score = self.get("score")
-  if @js.is_nullish(score) {
+  let score = self.to_any()["score"]
+  if @nostd.is_nullish(score) {
     None
   } else {
     Some(score.cast())
@@ -192,14 +193,14 @@ pub fn Audit::score(self : Audit) -> Double? {
 ///|
 /// Get the score display mode
 pub fn Audit::scoreDisplayMode(self : Audit) -> String {
-  self.get("scoreDisplayMode").cast()
+  self.to_any()["scoreDisplayMode"].cast()
 }
 
 ///|
 /// Get the display value (human readable)
 pub fn Audit::displayValue(self : Audit) -> String? {
-  let value = self.get("displayValue")
-  if @js.is_nullish(value) {
+  let value = self.to_any()["displayValue"]
+  if @nostd.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -209,8 +210,8 @@ pub fn Audit::displayValue(self : Audit) -> String? {
 ///|
 /// Get the numeric value (e.g., milliseconds for timing audits)
 pub fn Audit::numericValue(self : Audit) -> Double? {
-  let value = self.get("numericValue")
-  if @js.is_nullish(value) {
+  let value = self.to_any()["numericValue"]
+  if @nostd.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -220,8 +221,8 @@ pub fn Audit::numericValue(self : Audit) -> Double? {
 ///|
 /// Get the numeric unit (e.g., "millisecond")
 pub fn Audit::numericUnit(self : Audit) -> String? {
-  let value = self.get("numericUnit")
-  if @js.is_nullish(value) {
+  let value = self.to_any()["numericUnit"]
+  if @nostd.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -234,24 +235,24 @@ pub fn Audit::numericUnit(self : Audit) -> String? {
 pub type RunnerResult
 
 ///|
-pub impl @js.JsImpl for RunnerResult
+pub fn RunnerResult::to_any(self : RunnerResult) -> @nostd.Any = "%identity"
 
 ///|
 /// Get the Lighthouse Result (lhr)
 pub fn RunnerResult::lhr(self : RunnerResult) -> LighthouseResult {
-  @js.identity(self.get("lhr"))
+  self.to_any()["lhr"] |> @nostd.identity
 }
 
 ///|
 /// Get the report as string (HTML, JSON, or CSV depending on output option)
 pub fn RunnerResult::report(self : RunnerResult) -> String {
-  self.get("report").cast()
+  self.to_any()["report"].cast()
 }
 
 ///|
 /// Get the artifacts collected during the audit
-pub fn RunnerResult::artifacts(self : RunnerResult) -> @js.Any {
-  self.get("artifacts")
+pub fn RunnerResult::artifacts(self : RunnerResult) -> @nostd.Any {
+  self.to_any()["artifacts"] |> @js.identity
 }
 
 ///| Lighthouse Options
@@ -274,13 +275,13 @@ pub(all) struct LighthouseFlags {
   /// Form factor: 'mobile' | 'desktop'
   formFactor : String?
   /// Screen emulation settings
-  screenEmulation : @js.Any?
+  screenEmulation : @nostd.Any?
   /// Throttling settings
-  throttling : @js.Any?
+  throttling : @nostd.Any?
   /// Throttling method: 'simulate' | 'devtools' | 'provided'
   throttlingMethod : String?
   /// Extra HTTP headers
-  extraHeaders : @js.Any?
+  extraHeaders : @nostd.Any?
   /// Maximum wait time for page load in ms
   maxWaitForLoad : Int?
   /// Disable storage reset
@@ -296,10 +297,10 @@ pub fn LighthouseFlags::new(
   onlyAudits? : Array[String],
   port? : Int,
   formFactor? : String,
-  screenEmulation? : @js.Any,
-  throttling? : @js.Any,
+  screenEmulation? : @nostd.Any,
+  throttling? : @nostd.Any,
   throttlingMethod? : String,
-  extraHeaders? : @js.Any,
+  extraHeaders? : @nostd.Any,
   maxWaitForLoad? : Int,
   disableStorageReset? : Bool,
 ) -> LighthouseFlags {
@@ -321,28 +322,48 @@ pub fn LighthouseFlags::new(
 }
 
 ///|
-pub impl @js.JsImpl for LighthouseFlags with as_any(self) -> @js.Any {
-  @mbtconv.from_option_map({
-    "logLevel": self.logLevel.map(fn(x) { @nostd.any(x) }),
-    "output": self.output.map(fn(x) { @nostd.any(x) }),
-    "onlyCategories": self.onlyCategories.map(fn(x) {
-      @nostd.identity(@js.from_array(x))
-    }),
-    "skipAudits": self.skipAudits.map(fn(x) {
-      @nostd.identity(@js.from_array(x))
-    }),
-    "onlyAudits": self.onlyAudits.map(fn(x) {
-      @nostd.identity(@js.from_array(x))
-    }),
-    "port": self.port.map(fn(x) { @nostd.any(x) }),
-    "formFactor": self.formFactor.map(fn(x) { @nostd.any(x) }),
-    "screenEmulation": self.screenEmulation.map(fn(x) { @nostd.identity(x) }),
-    "throttling": self.throttling.map(fn(x) { @nostd.identity(x) }),
-    "throttlingMethod": self.throttlingMethod.map(fn(x) { @nostd.any(x) }),
-    "extraHeaders": self.extraHeaders.map(fn(x) { @nostd.identity(x) }),
-    "maxWaitForLoad": self.maxWaitForLoad.map(fn(x) { @nostd.any(x) }),
-    "disableStorageReset": self.disableStorageReset.map(fn(x) { @nostd.any(x) }),
-  }).cast()
+pub fn LighthouseFlags::to_any(self : LighthouseFlags) -> @nostd.Any {
+  let obj = @nostd.Object::new()
+  if self.logLevel is Some(v) {
+    obj["logLevel"] = @nostd.any(v)
+  }
+  if self.output is Some(v) {
+    obj["output"] = @nostd.any(v)
+  }
+  if self.onlyCategories is Some(v) {
+    obj["onlyCategories"] = @nostd.any(v)
+  }
+  if self.skipAudits is Some(v) {
+    obj["skipAudits"] = @nostd.any(v)
+  }
+  if self.onlyAudits is Some(v) {
+    obj["onlyAudits"] = @nostd.any(v)
+  }
+  if self.port is Some(v) {
+    obj["port"] = @nostd.any(v)
+  }
+  if self.formFactor is Some(v) {
+    obj["formFactor"] = @nostd.any(v)
+  }
+  if self.screenEmulation is Some(v) {
+    obj["screenEmulation"] = @nostd.any(v)
+  }
+  if self.throttling is Some(v) {
+    obj["throttling"] = @nostd.any(v)
+  }
+  if self.throttlingMethod is Some(v) {
+    obj["throttlingMethod"] = @nostd.any(v)
+  }
+  if self.extraHeaders is Some(v) {
+    obj["extraHeaders"] = @nostd.any(v)
+  }
+  if self.maxWaitForLoad is Some(v) {
+    obj["maxWaitForLoad"] = @nostd.any(v)
+  }
+  if self.disableStorageReset is Some(v) {
+    obj["disableStorageReset"] = @nostd.any(v)
+  }
+  obj
 }
 
 ///| Main Functions
@@ -363,24 +384,24 @@ pub async fn run(
   url : String,
   page? : @puppeteer.Page,
   flags? : LighthouseFlags,
-  config? : @js.Any,
+  config? : @nostd.Any,
 ) -> RunnerResult {
-  let lighthouse_fn = ffi_require_lighthouse()
-  let js_flags = match flags {
-    Some(f) => f.as_any()
-    None => @global.undefined()
+  let lighthouse_fn : @nostd.Any = ffi_require_lighthouse() |> @nostd.any
+  let js_flags : @nostd.Any = match flags {
+    Some(f) => f.to_any()
+    None => @global.undefined() |> @nostd.any
   }
-  let js_config = match config {
-    Some(c) => c
-    None => @global.undefined()
+  let js_config : @nostd.Any = match config {
+    Some(c) => c |> @nostd.any
+    None => @global.undefined() |> @nostd.any
   }
-  let js_page = match page {
-    Some(p) => p.as_any()
-    None => @global.undefined()
+  let js_page : @nostd.Any = match page {
+    Some(p) => p.to_any()
+    None => @global.undefined() |> @nostd.any
   }
-  let promise : @js.Promise[RunnerResult] = @js.identity(
-    lighthouse_fn.call_self([url, js_flags, js_config, js_page]),
-  )
+  let promise : @js.Promise[RunnerResult] = lighthouse_fn
+    ._invoke([@nostd.any(url), js_flags, js_config, js_page])
+    |> @js.identity
   promise.wait()
 }
 
@@ -396,21 +417,21 @@ pub async fn run_with_port(
   url : String,
   port : Int,
   flags? : LighthouseFlags,
-  config? : @js.Any,
+  config? : @nostd.Any,
 ) -> RunnerResult {
-  let lighthouse_fn = ffi_require_lighthouse()
+  let lighthouse_fn : @nostd.Any = ffi_require_lighthouse() |> @nostd.any
   let base_flags = match flags {
     Some(f) => f
     None => LighthouseFlags::new()
   }
   let flags_with_port = { ..base_flags, port: Some(port) }
-  let js_config = match config {
-    Some(c) => c
-    None => @global.undefined()
+  let js_config : @nostd.Any = match config {
+    Some(c) => c |> @nostd.any
+    None => @global.undefined() |> @nostd.any
   }
-  let promise : @js.Promise[RunnerResult] = @js.identity(
-    lighthouse_fn.call_self([url, flags_with_port.as_any(), js_config]),
-  )
+  let promise : @js.Promise[RunnerResult] = lighthouse_fn
+    ._invoke([@nostd.any(url), flags_with_port.to_any(), js_config])
+    |> @js.identity
   promise.wait()
 }
 
@@ -418,41 +439,41 @@ pub async fn run_with_port(
 
 ///|
 /// Desktop configuration preset
-pub fn desktop_config() -> @js.Any {
-  let config = @js.Object::new()
-  let settings = @js.Object::new()
-  settings.set("formFactor", @js.any("desktop"))
-  settings.set("throttlingMethod", @js.any("simulate"))
-  let screen = @js.Object::new()
-  screen.set("mobile", @js.any(false))
-  screen.set("width", @js.any(1350))
-  screen.set("height", @js.any(940))
-  screen.set("deviceScaleFactor", @js.any(1))
-  settings.set("screenEmulation", screen.as_any())
-  let throttling = @js.Object::new()
-  throttling.set("rttMs", @js.any(40))
-  throttling.set("throughputKbps", @js.any(10240))
-  throttling.set("cpuSlowdownMultiplier", @js.any(1))
-  settings.set("throttling", throttling.as_any())
-  config.set("settings", settings.as_any())
-  config.as_any()
+pub fn desktop_config() -> @nostd.Any {
+  let config = @nostd.Object::new()
+  let settings = @nostd.Object::new()
+  settings["formFactor"] = @nostd.any("desktop")
+  settings["throttlingMethod"] = @nostd.any("simulate")
+  let screen = @nostd.Object::new()
+  screen["mobile"] = @nostd.any(false)
+  screen["width"] = @nostd.any(1350)
+  screen["height"] = @nostd.any(940)
+  screen["deviceScaleFactor"] = @nostd.any(1)
+  settings["screenEmulation"] = screen
+  let throttling = @nostd.Object::new()
+  throttling["rttMs"] = @nostd.any(40)
+  throttling["throughputKbps"] = @nostd.any(10240)
+  throttling["cpuSlowdownMultiplier"] = @nostd.any(1)
+  settings["throttling"] = throttling
+  config["settings"] = settings
+  config |> @js.identity
 }
 
 ///|
 /// Mobile configuration preset (default Lighthouse behavior)
-pub fn mobile_config() -> @js.Any {
-  let config = @js.Object::new()
-  let settings = @js.Object::new()
-  settings.set("formFactor", @js.any("mobile"))
-  settings.set("throttlingMethod", @js.any("simulate"))
-  let screen = @js.Object::new()
-  screen.set("mobile", @js.any(true))
-  screen.set("width", @js.any(412))
-  screen.set("height", @js.any(823))
-  screen.set("deviceScaleFactor", @js.any(1.75))
-  settings.set("screenEmulation", screen.as_any())
-  config.set("settings", settings.as_any())
-  config.as_any()
+pub fn mobile_config() -> @nostd.Any {
+  let config = @nostd.Object::new()
+  let settings = @nostd.Object::new()
+  settings["formFactor"] = @nostd.any("mobile")
+  settings["throttlingMethod"] = @nostd.any("simulate")
+  let screen = @nostd.Object::new()
+  screen["mobile"] = @nostd.any(true)
+  screen["width"] = @nostd.any(412)
+  screen["height"] = @nostd.any(823)
+  screen["deviceScaleFactor"] = @nostd.any(1.75)
+  settings["screenEmulation"] = screen
+  config["settings"] = settings
+  config |> @js.identity
 }
 
 ///| Common Categories

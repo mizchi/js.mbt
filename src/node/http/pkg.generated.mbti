@@ -12,13 +12,13 @@ import(
 // Values
 fn createServer(requestListener? : (IncomingMessage, ServerResponse) -> Unit) -> Server
 
-fn get(String, options? : @js.Any, callback? : (IncomingMessage) -> Unit) -> ClientRequest
+fn get(String, options? : @nostd.Any, callback? : (IncomingMessage) -> Unit) -> ClientRequest
 
-fn globalAgent() -> @js.Any
+fn globalAgent() -> @nostd.Any
 
-fn request(String, options? : @js.Any, callback? : (IncomingMessage) -> Unit) -> ClientRequest
+fn request(String, options? : @nostd.Any, callback? : (IncomingMessage) -> Unit) -> ClientRequest
 
-fn status_codes() -> @js.Any
+fn status_codes() -> @nostd.Any
 
 // Errors
 
@@ -40,7 +40,7 @@ impl @events.EventEmitterImpl for ClientRequest
 pub(all) struct IncomingMessage {
   httpVersion : String
   url : String?
-  headers : @js.Any
+  headers : @nostd.Any
   rawHeaders : Array[String]
   statusCode : Int?
   statusMessage : String?
@@ -82,7 +82,7 @@ fn ServerResponse::set_statusMessage(Self, String) -> Unit
 fn ServerResponse::statusCode(Self) -> Int
 fn ServerResponse::statusMessage(Self) -> String
 fn ServerResponse::write(Self, String, encoding? : String) -> Bool
-fn ServerResponse::writeHead(Self, Int, statusMessage? : String, headers? : @js.Any) -> Self
+fn ServerResponse::writeHead(Self, Int, statusMessage? : String, headers? : @nostd.Any) -> Self
 impl @js.JsImpl for ServerResponse
 impl @events.EventEmitterImpl for ServerResponse
 

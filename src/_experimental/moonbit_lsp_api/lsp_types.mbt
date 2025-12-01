@@ -9,9 +9,9 @@ pub(all) struct Hover {
 }
 
 ///|
-pub fn Hover::from_json(json : @js.Any) -> Hover {
-  let contents = json.get("contents")
-  let range_json = json.get("range")
+pub fn Hover::from_json(json : @nostd.Any) -> Hover {
+  let contents = json._get("contents")
+  let range_json = json._get("range")
   let range = if @js.is_nullish(range_json) {
     None
   } else {
@@ -28,17 +28,17 @@ pub(all) struct MarkupContent {
 }
 
 ///|
-pub fn MarkupContent::from_json(json : @js.Any) -> MarkupContent {
+pub fn MarkupContent::from_json(json : @nostd.Any) -> MarkupContent {
   // Can be string or { kind, value }
   if ffi_typeof(json) == "string" {
     { kind: "plaintext", value: json.cast() }
   } else {
-    { kind: json.get("kind").cast(), value: json.get("value").cast() }
+    { kind: json._get("kind").cast(), value: json._get("value").cast() }
   }
 }
 
 ///|
-extern "js" fn ffi_typeof(value : @js.Any) -> String =
+extern "js" fn ffi_typeof(value : @nostd.Any) -> String =
   #|(value) => typeof value
 
 ///|
@@ -53,14 +53,14 @@ pub(all) struct CompletionItem {
 }
 
 ///|
-pub fn CompletionItem::from_json(json : @js.Any) -> CompletionItem {
-  let kind_json = json.get("kind")
-  let detail_json = json.get("detail")
-  let doc_json = json.get("documentation")
-  let insert_text_json = json.get("insertText")
-  let insert_format_json = json.get("insertTextFormat")
+pub fn CompletionItem::from_json(json : @nostd.Any) -> CompletionItem {
+  let kind_json = json._get("kind")
+  let detail_json = json._get("detail")
+  let doc_json = json._get("documentation")
+  let insert_text_json = json._get("insertText")
+  let insert_format_json = json._get("insertTextFormat")
   {
-    label: json.get("label").cast(),
+    label: json._get("label").cast(),
     kind: if @js.is_nullish(kind_json) {
       None
     } else {
@@ -76,7 +76,7 @@ pub fn CompletionItem::from_json(json : @js.Any) -> CompletionItem {
     } else if ffi_typeof(doc_json) == "string" {
       Some(doc_json.cast())
     } else {
-      Some(doc_json.get("value").cast())
+      Some(doc_json._get("value").cast())
     },
     insert_text: if @js.is_nullish(insert_text_json) {
       None
@@ -99,23 +99,23 @@ pub(all) struct CompletionList {
 }
 
 ///|
-pub fn CompletionList::from_json(json : @js.Any) -> CompletionList {
+pub fn CompletionList::from_json(json : @nostd.Any) -> CompletionList {
   // Can be CompletionItem[] or CompletionList
   if ffi_is_array(json) {
     let items : Array[CompletionItem] = []
-    let len : Int = json.get("length").cast()
+    let len : Int = json._get("length").cast()
     for i in 0..<len {
-      items.push(CompletionItem::from_json(json.get(i)))
+      items.push(CompletionItem::from_json(json._get(i)))
     }
     { is_incomplete: false, items }
   } else {
-    let items_json = json.get("items")
+    let items_json = json._get("items")
     let items : Array[CompletionItem] = []
-    let len : Int = items_json.get("length").cast()
+    let len : Int = items_json._get("length").cast()
     for i in 0..<len {
-      items.push(CompletionItem::from_json(items_json.get(i)))
+      items.push(CompletionItem::from_json(items_json._get(i)))
     }
-    { is_incomplete: json.get("isIncomplete").cast(), items }
+    { is_incomplete: json._get("isIncomplete").cast(), items }
   }
 }
 
@@ -128,15 +128,15 @@ pub(all) struct SignatureHelp {
 }
 
 ///|
-pub fn SignatureHelp::from_json(json : @js.Any) -> SignatureHelp {
-  let sigs_json = json.get("signatures")
+pub fn SignatureHelp::from_json(json : @nostd.Any) -> SignatureHelp {
+  let sigs_json = json._get("signatures")
   let signatures : Array[SignatureInformation] = []
-  let len : Int = sigs_json.get("length").cast()
+  let len : Int = sigs_json._get("length").cast()
   for i in 0..<len {
-    signatures.push(SignatureInformation::from_json(sigs_json.get(i)))
+    signatures.push(SignatureInformation::from_json(sigs_json._get(i)))
   }
-  let active_sig = json.get("activeSignature")
-  let active_param = json.get("activeParameter")
+  let active_sig = json._get("activeSignature")
+  let active_param = json._get("activeParameter")
   {
     signatures,
     active_signature: if @js.is_nullish(active_sig) {
@@ -161,24 +161,26 @@ pub(all) struct SignatureInformation {
 }
 
 ///|
-pub fn SignatureInformation::from_json(json : @js.Any) -> SignatureInformation {
-  let doc_json = json.get("documentation")
-  let params_json = json.get("parameters")
+pub fn SignatureInformation::from_json(
+  json : @nostd.Any,
+) -> SignatureInformation {
+  let doc_json = json._get("documentation")
+  let params_json = json._get("parameters")
   let parameters : Array[ParameterInformation] = []
   if not(@js.is_nullish(params_json)) {
-    let len : Int = params_json.get("length").cast()
+    let len : Int = params_json._get("length").cast()
     for i in 0..<len {
-      parameters.push(ParameterInformation::from_json(params_json.get(i)))
+      parameters.push(ParameterInformation::from_json(params_json._get(i)))
     }
   }
   {
-    label: json.get("label").cast(),
+    label: json._get("label").cast(),
     documentation: if @js.is_nullish(doc_json) {
       None
     } else if ffi_typeof(doc_json) == "string" {
       Some(doc_json.cast())
     } else {
-      Some(doc_json.get("value").cast())
+      Some(doc_json._get("value").cast())
     },
     parameters,
   }
@@ -192,9 +194,11 @@ pub(all) struct ParameterInformation {
 }
 
 ///|
-pub fn ParameterInformation::from_json(json : @js.Any) -> ParameterInformation {
-  let label_json = json.get("label")
-  let doc_json = json.get("documentation")
+pub fn ParameterInformation::from_json(
+  json : @nostd.Any,
+) -> ParameterInformation {
+  let label_json = json._get("label")
+  let doc_json = json._get("documentation")
   {
     label: if ffi_typeof(label_json) == "string" {
       label_json.cast()
@@ -207,7 +211,7 @@ pub fn ParameterInformation::from_json(json : @js.Any) -> ParameterInformation {
     } else if ffi_typeof(doc_json) == "string" {
       Some(doc_json.cast())
     } else {
-      Some(doc_json.get("value").cast())
+      Some(doc_json._get("value").cast())
     },
   }
 }
@@ -224,26 +228,26 @@ pub(all) struct DocumentSymbol {
 }
 
 ///|
-pub fn DocumentSymbol::from_json(json : @js.Any) -> DocumentSymbol {
-  let detail_json = json.get("detail")
-  let children_json = json.get("children")
+pub fn DocumentSymbol::from_json(json : @nostd.Any) -> DocumentSymbol {
+  let detail_json = json._get("detail")
+  let children_json = json._get("children")
   let children : Array[DocumentSymbol] = []
   if not(@js.is_nullish(children_json)) {
-    let len : Int = children_json.get("length").cast()
+    let len : Int = children_json._get("length").cast()
     for i in 0..<len {
-      children.push(DocumentSymbol::from_json(children_json.get(i)))
+      children.push(DocumentSymbol::from_json(children_json._get(i)))
     }
   }
   {
-    name: json.get("name").cast(),
+    name: json._get("name").cast(),
     detail: if @js.is_nullish(detail_json) {
       None
     } else {
       Some(detail_json.cast())
     },
-    kind: json.get("kind").cast(),
-    range: Range::from_json(json.get("range")),
-    selection_range: Range::from_json(json.get("selectionRange")),
+    kind: json._get("kind").cast(),
+    range: Range::from_json(json._get("range")),
+    selection_range: Range::from_json(json._get("selectionRange")),
     children,
   }
 }
@@ -258,12 +262,12 @@ pub(all) struct SymbolInformation {
 }
 
 ///|
-pub fn SymbolInformation::from_json(json : @js.Any) -> SymbolInformation {
-  let container_json = json.get("containerName")
+pub fn SymbolInformation::from_json(json : @nostd.Any) -> SymbolInformation {
+  let container_json = json._get("containerName")
   {
-    name: json.get("name").cast(),
-    kind: json.get("kind").cast(),
-    location: Location::from_json(json.get("location")),
+    name: json._get("name").cast(),
+    kind: json._get("kind").cast(),
+    location: Location::from_json(json._get("location")),
     container_name: if @js.is_nullish(container_json) {
       None
     } else {
@@ -277,26 +281,26 @@ pub fn SymbolInformation::from_json(json : @js.Any) -> SymbolInformation {
 pub(all) struct CodeAction {
   title : String
   kind : String?
-  diagnostics : Array[@js.Any]
+  diagnostics : Array[@nostd.Any]
   is_preferred : Bool?
   edit : WorkspaceEdit?
 }
 
 ///|
-pub fn CodeAction::from_json(json : @js.Any) -> CodeAction {
-  let kind_json = json.get("kind")
-  let pref_json = json.get("isPreferred")
-  let edit_json = json.get("edit")
-  let diag_json = json.get("diagnostics")
-  let diagnostics : Array[@js.Any] = []
+pub fn CodeAction::from_json(json : @nostd.Any) -> CodeAction {
+  let kind_json = json._get("kind")
+  let pref_json = json._get("isPreferred")
+  let edit_json = json._get("edit")
+  let diag_json = json._get("diagnostics")
+  let diagnostics : Array[@nostd.Any] = []
   if not(@js.is_nullish(diag_json)) {
-    let len : Int = diag_json.get("length").cast()
+    let len : Int = diag_json._get("length").cast()
     for i in 0..<len {
-      diagnostics.push(diag_json.get(i))
+      diagnostics.push(diag_json._get(i))
     }
   }
   {
-    title: json.get("title").cast(),
+    title: json._get("title").cast(),
     kind: if @js.is_nullish(kind_json) {
       None
     } else {
@@ -328,19 +332,19 @@ pub(all) struct CallHierarchyItem {
 }
 
 ///|
-pub fn CallHierarchyItem::from_json(json : @js.Any) -> CallHierarchyItem {
-  let detail_json = json.get("detail")
+pub fn CallHierarchyItem::from_json(json : @nostd.Any) -> CallHierarchyItem {
+  let detail_json = json._get("detail")
   {
-    name: json.get("name").cast(),
-    kind: json.get("kind").cast(),
+    name: json._get("name").cast(),
+    kind: json._get("kind").cast(),
     detail: if @js.is_nullish(detail_json) {
       None
     } else {
       Some(detail_json.cast())
     },
-    uri: json.get("uri").cast(),
-    range: Range::from_json(json.get("range")),
-    selection_range: Range::from_json(json.get("selectionRange")),
+    uri: json._get("uri").cast(),
+    range: Range::from_json(json._get("range")),
+    selection_range: Range::from_json(json._get("selectionRange")),
   }
 }
 
@@ -353,15 +357,15 @@ pub(all) struct CallHierarchyIncomingCall {
 
 ///|
 pub fn CallHierarchyIncomingCall::from_json(
-  json : @js.Any,
+  json : @nostd.Any,
 ) -> CallHierarchyIncomingCall {
-  let ranges_json = json.get("fromRanges")
+  let ranges_json = json._get("fromRanges")
   let from_ranges : Array[Range] = []
-  let len : Int = ranges_json.get("length").cast()
+  let len : Int = ranges_json._get("length").cast()
   for i in 0..<len {
-    from_ranges.push(Range::from_json(ranges_json.get(i)))
+    from_ranges.push(Range::from_json(ranges_json._get(i)))
   }
-  { from: CallHierarchyItem::from_json(json.get("from")), from_ranges }
+  { from: CallHierarchyItem::from_json(json._get("from")), from_ranges }
 }
 
 ///|
@@ -373,15 +377,15 @@ pub(all) struct CallHierarchyOutgoingCall {
 
 ///|
 pub fn CallHierarchyOutgoingCall::from_json(
-  json : @js.Any,
+  json : @nostd.Any,
 ) -> CallHierarchyOutgoingCall {
-  let ranges_json = json.get("fromRanges")
+  let ranges_json = json._get("fromRanges")
   let from_ranges : Array[Range] = []
-  let len : Int = ranges_json.get("length").cast()
+  let len : Int = ranges_json._get("length").cast()
   for i in 0..<len {
-    from_ranges.push(Range::from_json(ranges_json.get(i)))
+    from_ranges.push(Range::from_json(ranges_json._get(i)))
   }
-  { to: CallHierarchyItem::from_json(json.get("to")), from_ranges }
+  { to: CallHierarchyItem::from_json(json._get("to")), from_ranges }
 }
 
 ///|
@@ -395,21 +399,21 @@ pub(all) struct InlayHint {
 }
 
 ///|
-pub fn InlayHint::from_json(json : @js.Any) -> InlayHint {
-  let label_json = json.get("label")
-  let kind_json = json.get("kind")
-  let pl_json = json.get("paddingLeft")
-  let pr_json = json.get("paddingRight")
+pub fn InlayHint::from_json(json : @nostd.Any) -> InlayHint {
+  let label_json = json._get("label")
+  let kind_json = json._get("kind")
+  let pl_json = json._get("paddingLeft")
+  let pr_json = json._get("paddingRight")
   {
-    position: Position::from_json(json.get("position")),
+    position: Position::from_json(json._get("position")),
     label: if ffi_typeof(label_json) == "string" {
       label_json.cast()
     } else {
       // label can be InlayHintLabelPart[]
       let parts : Array[String] = []
-      let len : Int = label_json.get("length").cast()
+      let len : Int = label_json._get("length").cast()
       for i in 0..<len {
-        let part_value : String = label_json.get(i).get("value").cast()
+        let part_value : String = label_json._get(i)._get("value").cast()
         parts.push(part_value)
       }
       parts.join("")

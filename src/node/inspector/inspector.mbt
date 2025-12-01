@@ -7,18 +7,15 @@
 pub type Session
 
 ///|
-pub fn Session::as_any(self : Session) -> @nostd.Any = "%identity"
+pub fn Session::to_any(self : Session) -> @nostd.Any = "%identity"
 
 ///|
 /// Cast to EventTarget for event handling
 pub fn Session::as_event_target(self : Session) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for Session
-
-///|
 pub impl @event.EventTargetImpl for Session with as_any(self) -> @nostd.Any {
-  self.as_any()
+  self.to_any()
 }
 
 ///|
@@ -37,17 +34,17 @@ pub fn Session::new() -> Session {
 ///|
 /// Session methods
 pub fn Session::connect(self : Session) -> Unit {
-  self.call("connect", []) |> ignore
+  self.to_any()._call("connect", []) |> ignore
 }
 
 ///|
 pub fn Session::connect_to_main_thread(self : Session) -> Unit {
-  self.call("connectToMainThread", []) |> ignore
+  self.to_any()._call("connectToMainThread", []) |> ignore
 }
 
 ///|
 pub fn Session::disconnect(self : Session) -> Unit {
-  self.call("disconnect", []) |> ignore
+  self.to_any()._call("disconnect", []) |> ignore
 }
 
 ///|
@@ -57,10 +54,12 @@ pub fn Session::post(
   params : @js.Object?,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
+  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
   match params {
-    Some(p) => self.call("post", [method_, p.as_any(), cb]) |> ignore
-    None => self.call("post", [method_, cb]) |> ignore
+    Some(p) =>
+      self.to_any()._call("post", [@nostd.any(method_), @nostd.any(p), cb])
+      |> ignore
+    None => self.to_any()._call("post", [@nostd.any(method_), cb]) |> ignore
   }
 }
 
@@ -102,7 +101,7 @@ extern "js" fn ffi_close() -> Unit =
 
 ///|
 pub fn url() -> String? {
-  let result : @js.Any = ffi_url()
+  let result : @nostd.Any = ffi_url()
   let is_undef : Bool = @js.identity(@js.typeof_(result) == "undefined")
   if is_undef {
     None
@@ -112,7 +111,7 @@ pub fn url() -> String? {
 }
 
 ///|
-extern "js" fn ffi_url() -> @js.Any =
+extern "js" fn ffi_url() -> @nostd.Any =
   #| () => require('node:inspector').url()
 
 ///|
@@ -129,7 +128,7 @@ extern "js" fn ffi_wait_for_debugger() -> Unit =
 pub type Console
 
 ///|
-pub impl @js.JsImpl for Console
+pub fn Console::to_any(self : Console) -> @nostd.Any = "%identity"
 
 ///|
 pub fn console() -> Console {

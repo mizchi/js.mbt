@@ -46,7 +46,7 @@ pub fn TestContext::assert_fileSnapshot(
 /// snapshot module functions
 
 ///|
-fn snapshot_module() -> @js.Any {
+fn snapshot_module() -> @nostd.Any {
   @nostd.any(nodetest())["snapshot"].cast()
 }
 

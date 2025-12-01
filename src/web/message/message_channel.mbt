@@ -3,7 +3,7 @@
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
 pub(all) struct MessageEvent {
   /// The data sent by the message emitter
-  data : @js.Any
+  data : @nostd.Any
   /// The origin of the message emitter
   origin : String
   /// The last event ID
@@ -58,9 +58,9 @@ pub impl Show for MessagePort with to_string(_self) {
 #alias(post_message)
 pub fn MessagePort::postMessage(
   port : MessagePort,
-  message : &@js.JsImpl,
+  message : @nostd.Any,
 ) -> Unit {
-  port.as_any()._call("postMessage", [@nostd.any(message.as_any())]) |> ignore
+  port.as_any()._call("postMessage", [message]) |> ignore
 }
 
 ///|
@@ -68,19 +68,11 @@ pub fn MessagePort::postMessage(
 #alias(post_message_with_transfer)
 pub fn MessagePort::postMessageWithTransfer(
   port : MessagePort,
-  message : &@js.JsImpl,
-  transfer : Array[@js.Any],
+  message : @nostd.Any,
+  transfer : Array[@nostd.Any],
 ) -> Unit {
-  let arr = @js.JsArray::new()
-  let mut i = 0
-  while i < transfer.length() {
-    arr.call("push", [transfer[i]]) |> ignore
-    i = i + 1
-  }
-  port
-  .as_any()
-  ._call("postMessage", [@nostd.any(message.as_any()), @nostd.any(arr.as_any())])
-  |> ignore
+  let arr : Array[@nostd.Any] = transfer.map(fn(x) { x |> @nostd.any })
+  port.as_any()._call("postMessage", [message, @nostd.any(arr)]) |> ignore
 }
 
 ///|

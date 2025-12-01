@@ -30,40 +30,40 @@ test "lighthouse - flags serialization" {
     formFactor="desktop",
     port=9222,
   )
-  let js = flags.as_any()
-  let log_level : String = js.get("logLevel").cast()
+  let js = flags.to_any()
+  let log_level : String = js["logLevel"].cast()
   inspect(log_level, content="info")
-  let output : String = js.get("output").cast()
+  let output : String = js["output"].cast()
   inspect(output, content="html")
-  let form_factor : String = js.get("formFactor").cast()
+  let form_factor : String = js["formFactor"].cast()
   inspect(form_factor, content="desktop")
-  let port : Int = js.get("port").cast()
+  let port : Int = js["port"].cast()
   inspect(port, content="9222")
 }
 
 ///|
 test "lighthouse - desktop config" {
-  let config = desktop_config()
-  let settings = config.get("settings")
-  let form_factor : String = settings.get("formFactor").cast()
+  let config : @nostd.Any = desktop_config() |> @nostd.any
+  let settings = config["settings"]
+  let form_factor : String = settings["formFactor"].cast()
   inspect(form_factor, content="desktop")
-  let screen = settings.get("screenEmulation")
-  let mobile : Bool = screen.get("mobile").cast()
+  let screen = settings["screenEmulation"]
+  let mobile : Bool = screen["mobile"].cast()
   inspect(mobile, content="false")
-  let width : Int = screen.get("width").cast()
+  let width : Int = screen["width"].cast()
   inspect(width, content="1350")
 }
 
 ///|
 test "lighthouse - mobile config" {
-  let config = mobile_config()
-  let settings = config.get("settings")
-  let form_factor : String = settings.get("formFactor").cast()
+  let config : @nostd.Any = mobile_config() |> @nostd.any
+  let settings = config["settings"]
+  let form_factor : String = settings["formFactor"].cast()
   inspect(form_factor, content="mobile")
-  let screen = settings.get("screenEmulation")
-  let mobile : Bool = screen.get("mobile").cast()
+  let screen = settings["screenEmulation"]
+  let mobile : Bool = screen["mobile"].cast()
   inspect(mobile, content="true")
-  let width : Int = screen.get("width").cast()
+  let width : Int = screen["width"].cast()
   inspect(width, content="412")
 }
 

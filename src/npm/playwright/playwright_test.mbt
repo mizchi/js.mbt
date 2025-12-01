@@ -10,7 +10,7 @@
 ///|
 /// Check if PLAYWRIGHT_TEST=1 is set
 fn should_run_playwright_tests() -> Bool {
-  @process.env().get("PLAYWRIGHT_TEST") == Some("1")
+  @process.env()._get("PLAYWRIGHT_TEST") == Some("1")
 }
 
 ///|

@@ -14,13 +14,13 @@ async fn get(Int) -> Tab
 
 async fn get_current() -> Tab?
 
-fn on_activated((@js.Any) -> Unit) -> Unit
+fn on_activated((@nostd.Any) -> Unit) -> Unit
 
 fn on_created((Tab) -> Unit) -> Unit
 
-fn on_removed((Int, @js.Any) -> Unit) -> Unit
+fn on_removed((Int, @nostd.Any) -> Unit) -> Unit
 
-fn on_updated((Int, @js.Any, Tab) -> Unit) -> Unit
+fn on_updated((Int, @nostd.Any, Tab) -> Unit) -> Unit
 
 async fn query(options? : QueryOptions) -> Array[Tab]
 
@@ -30,7 +30,7 @@ async fn remove(Array[Int]) -> Unit
 
 async fn remove_tab(Int) -> Unit
 
-async fn send_message(Int, @js.Any) -> @js.Any
+async fn send_message(Int, @nostd.Any) -> @nostd.Any
 
 async fn update(Int, UpdateOptions) -> Tab
 
@@ -74,7 +74,7 @@ pub struct Tab {
   width : Int?
   height : Int?
 }
-fn Tab::from_any(@js.Any) -> Self
+fn Tab::from_any(@nostd.Any) -> Self
 
 pub(all) struct UpdateOptions {
   url : String?

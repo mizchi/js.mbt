@@ -1,6 +1,6 @@
 ///|
 /// node:http module
-extern "js" fn http_module() -> @js.Any =
+extern "js" fn http_module() -> @nostd.Any =
   #| () => require("node:http")
 
 ///| IncomingMessage class
@@ -9,7 +9,7 @@ extern "js" fn http_module() -> @js.Any =
 pub(all) struct IncomingMessage {
   httpVersion : String
   url : String?
-  headers : @js.Any
+  headers : @nostd.Any
   rawHeaders : Array[String]
   statusCode : Int?
   statusMessage : String?
@@ -31,7 +31,7 @@ pub fn IncomingMessage::as_readable(self : IncomingMessage) -> @stream.Readable 
 ///|
 /// Get HTTP method
 pub fn IncomingMessage::method_(self : IncomingMessage) -> String? {
-  self.get("method") |> @js.identity_option
+  self._get("method") |> @js.identity_option
 }
 
 ///|
@@ -44,7 +44,7 @@ pub fn IncomingMessage::setTimeout(
   match callback {
     Some(cb) =>
       self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
-    None => self.call("setTimeout", [msecs]).cast()
+    None => self._call("setTimeout", [msecs]).cast()
   }
 }
 
@@ -75,16 +75,16 @@ pub fn ServerResponse::writeHead(
   self : ServerResponse,
   statusCode : Int,
   statusMessage? : String,
-  headers? : @js.Any,
+  headers? : @nostd.Any,
 ) -> ServerResponse {
   match (statusMessage, headers) {
     (Some(msg), Some(hdrs)) =>
-      self.call("writeHead", [statusCode, msg, hdrs]).cast()
+      self._call("writeHead", [statusCode, msg, hdrs]).cast()
     (Some(msg), None) =>
       self.call2("writeHead", statusCode, msg) |> @js.identity
     (None, Some(hdrs)) =>
       self.call2("writeHead", statusCode, hdrs) |> @js.identity
-    (None, None) => self.call("writeHead", [statusCode]).cast()
+    (None, None) => self._call("writeHead", [statusCode]).cast()
   }
 }
 
@@ -97,7 +97,7 @@ pub fn ServerResponse::write(
 ) -> Bool {
   match encoding {
     Some(enc) => self.call2("write", chunk, enc) |> @js.identity
-    None => self.call("write", [chunk]).cast()
+    None => self._call("write", [chunk]).cast()
   }
 }
 
@@ -110,7 +110,7 @@ pub fn ServerResponse::end(
 ) -> Unit {
   match (data, encoding) {
     (Some(d), Some(enc)) => self.call2("end", d, enc) |> ignore
-    (Some(d), None) => self.call("end", [d]) |> ignore
+    (Some(d), None) => self._call("end", [d]) |> ignore
     (None, _) => self.call0("end") |> ignore
   }
 }
@@ -131,7 +131,7 @@ pub fn ServerResponse::getHeader(
   self : ServerResponse,
   name : String,
 ) -> String? {
-  self.call("getHeader", [name]) |> @js.identity_option
+  self._call("getHeader", [name]) |> @js.identity_option
 }
 
 ///|
@@ -140,19 +140,19 @@ pub fn ServerResponse::removeHeader(
   self : ServerResponse,
   name : String,
 ) -> Unit {
-  self.call("removeHeader", [name]) |> ignore
+  self._call("removeHeader", [name]) |> ignore
 }
 
 ///|
 /// Get headers sent status
 pub fn ServerResponse::headersSent(self : ServerResponse) -> Bool {
-  self.get("headersSent").cast()
+  self._get("headersSent").cast()
 }
 
 ///|
 /// Get status code
 pub fn ServerResponse::statusCode(self : ServerResponse) -> Int {
-  self.get("statusCode").cast()
+  self._get("statusCode").cast()
 }
 
 ///|
@@ -167,7 +167,7 @@ pub fn ServerResponse::set_statusCode(
 ///|
 /// Get status message
 pub fn ServerResponse::statusMessage(self : ServerResponse) -> String {
-  self.get("statusMessage").cast()
+  self._get("statusMessage").cast()
 }
 
 ///|
@@ -189,7 +189,7 @@ pub fn ServerResponse::setTimeout(
   match callback {
     Some(cb) =>
       self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
-    None => self.call("setTimeout", [msecs]).cast()
+    None => self._call("setTimeout", [msecs]).cast()
   }
 }
 
@@ -225,10 +225,10 @@ pub fn Server::listen(
 
   // Call listen with port, host, and backlog
   match (host, backlog) {
-    (Some(h), Some(b)) => self.call("listen", [port, h, b]).cast()
+    (Some(h), Some(b)) => self._call("listen", [port, h, b]).cast()
     (Some(h), None) => self.call2("listen", port, h) |> @js.identity
     (None, Some(b)) => self.call2("listen", port, b) |> @js.identity
-    (None, None) => self.call("listen", [port]).cast()
+    (None, None) => self._call("listen", [port]).cast()
   }
 }
 
@@ -236,7 +236,7 @@ pub fn Server::listen(
 /// Close the server
 pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
   match callback {
-    Some(cb) => self.call("close", [@js.from_fn0(cb)]).cast()
+    Some(cb) => self._call("close", [@js.from_fn0(cb)]).cast()
     None => self.call0("close") |> @js.identity
   }
 }
@@ -256,13 +256,13 @@ pub fn Server::address(self : Server) -> @net.AddressInfo? {
 ///|
 /// Check if the server is listening
 pub fn Server::listening(self : Server) -> Bool {
-  self.get("listening").cast()
+  self._get("listening").cast()
 }
 
 ///|
 /// Get max headers count
 pub fn Server::maxHeadersCount(self : Server) -> Int? {
-  self.get("maxHeadersCount") |> @js.identity_option
+  self._get("maxHeadersCount") |> @js.identity_option
 }
 
 ///|
@@ -281,14 +281,14 @@ pub fn Server::setTimeout(
   match callback {
     Some(cb) =>
       self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
-    None => self.call("setTimeout", [msecs]).cast()
+    None => self._call("setTimeout", [msecs]).cast()
   }
 }
 
 ///|
 /// Get timeout
 pub fn Server::timeout(self : Server) -> Int {
-  self.get("timeout").cast()
+  self._get("timeout").cast()
 }
 
 ///|
@@ -327,7 +327,7 @@ pub fn ClientRequest::write(
 ) -> Bool {
   match encoding {
     Some(enc) => self.call2("write", chunk, enc) |> @js.identity
-    None => self.call("write", [chunk]).cast()
+    None => self._call("write", [chunk]).cast()
   }
 }
 
@@ -340,7 +340,7 @@ pub fn ClientRequest::end(
 ) -> Unit {
   match (data, encoding) {
     (Some(d), Some(enc)) => self.call2("end", d, enc) |> ignore
-    (Some(d), None) => self.call("end", [d]) |> ignore
+    (Some(d), None) => self._call("end", [d]) |> ignore
     (None, _) => self.call0("end") |> ignore
   }
 }
@@ -364,13 +364,13 @@ pub fn ClientRequest::setHeader(
 ///|
 /// Get header
 pub fn ClientRequest::getHeader(self : ClientRequest, name : String) -> String? {
-  self.call("getHeader", [name]) |> @js.identity_option
+  self._call("getHeader", [name]) |> @js.identity_option
 }
 
 ///|
 /// Remove header
 pub fn ClientRequest::removeHeader(self : ClientRequest, name : String) -> Unit {
-  self.call("removeHeader", [name]) |> ignore
+  self._call("removeHeader", [name]) |> ignore
 }
 
 ///|
@@ -383,7 +383,7 @@ pub fn ClientRequest::setTimeout(
   match callback {
     Some(cb) =>
       self.call2("setTimeout", msecs, @js.from_fn0(cb)) |> @js.identity
-    None => self.call("setTimeout", [msecs]).cast()
+    None => self._call("setTimeout", [msecs]).cast()
   }
 }
 
@@ -396,7 +396,7 @@ pub fn createServer(
 ) -> Server {
   match requestListener {
     Some(listener) =>
-      http_module().call("createServer", [@js.from_fn2(listener)])
+      http_module()._call("createServer", [@js.from_fn2(listener)])
       |> @js.identity
     None => http_module().call0("createServer") |> @js.identity
   }
@@ -406,18 +406,18 @@ pub fn createServer(
 /// Make HTTP request
 pub fn request(
   url : String,
-  options? : @js.Any,
+  options? : @nostd.Any,
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
     (Some(opts), Some(cb)) =>
-      http_module().call("request", [url, opts, @js.from_fn1(cb)])
+      http_module()._call("request", [url, opts, @js.from_fn1(cb)])
       |> @js.identity
     (Some(opts), None) =>
       http_module().call2("request", url, opts) |> @js.identity
     (None, Some(cb)) =>
       http_module().call2("request", url, @js.from_fn1(cb)) |> @js.identity
-    (None, None) => http_module().call("request", [url]).cast()
+    (None, None) => http_module()._call("request", [url]).cast()
   }
 }
 
@@ -425,27 +425,27 @@ pub fn request(
 /// Make HTTP GET request
 pub fn get(
   url : String,
-  options? : @js.Any,
+  options? : @nostd.Any,
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
     (Some(opts), Some(cb)) =>
-      http_module().call("get", [url, opts, @js.from_fn1(cb)]).cast()
+      http_module()._call("get", [url, opts, @js.from_fn1(cb)]).cast()
     (Some(opts), None) => http_module().call2("get", url, opts) |> @js.identity
     (None, Some(cb)) =>
       http_module().call2("get", url, @js.from_fn1(cb)) |> @js.identity
-    (None, None) => http_module().call("get", [url]).cast()
+    (None, None) => http_module()._call("get", [url]).cast()
   }
 }
 
 ///|
 /// Global max sockets
-pub fn globalAgent() -> @js.Any {
-  http_module().get("globalAgent")
+pub fn globalAgent() -> @nostd.Any {
+  http_module()._get("globalAgent")
 }
 
 ///|
 /// HTTP status codes
-pub fn status_codes() -> @js.Any {
-  http_module().get("STATUS_CODES")
+pub fn status_codes() -> @nostd.Any {
+  http_module()._get("STATUS_CODES")
 }

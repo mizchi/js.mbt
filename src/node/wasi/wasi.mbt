@@ -2,7 +2,7 @@
 // WebAssembly System Interface (WASI) API
 
 ///|
-extern "js" fn wasi_module_ffi() -> @js.Any =
+extern "js" fn wasi_module_ffi() -> @nostd.Any =
   #| () => require("node:wasi")
 
 ///|
@@ -23,7 +23,10 @@ fn wasi_module() -> WasiModule {
 }
 
 ///|
-extern "js" fn ffi_new_wasi(wasi_class : @js.Any, options : @js.Any) -> @js.Any =
+extern "js" fn ffi_new_wasi(
+  wasi_class : @nostd.Any,
+  options : @nostd.Any,
+) -> @nostd.Any =
   #| (WasiClass, options) => new WasiClass(options)
 
 ///|
@@ -59,7 +62,7 @@ pub fn WASI::new(
 ) -> WASI {
   let env_obj = match env {
     Some(env) => {
-      let obj = @js.Object::new()
+      let obj = @nostd.Object::new()
       env.each(fn(key, value) { obj.set(key, value) })
       Some(obj)
     }
@@ -67,7 +70,7 @@ pub fn WASI::new(
   }
   let preopens_obj = match preopens {
     Some(preopens) => {
-      let obj = @js.Object::new()
+      let obj = @nostd.Object::new()
       preopens.each(fn(key, value) { obj.set(key, value) })
       Some(obj)
     }
@@ -84,14 +87,14 @@ pub fn WASI::new(
     "stderr": stderr.map(fn(x) { @nostd.any(x) }),
   }).cast()
   let wasi_module = wasi_module()
-  let wasi_class = wasi_module.get("WASI")
+  let wasi_class = wasi_module._get("WASI")
   let instance = ffi_new_wasi(wasi_class, options)
   instance.cast()
 }
 
 ///|
 /// Get import object for WebAssembly.instantiate()
-pub fn WASI::getImportObject(self : Self) -> @js.Any {
+pub fn WASI::getImportObject(self : Self) -> @nostd.Any {
   self.call0("getImportObject")
 }
 
@@ -115,6 +118,6 @@ pub fn WASI::initialize(
 
 ///|
 /// Get the wasiImport property
-pub fn WASI::wasiImport(self : Self) -> @js.Any {
-  self.get("wasiImport")
+pub fn WASI::wasiImport(self : Self) -> @nostd.Any {
+  self._get("wasiImport")
 }

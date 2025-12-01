@@ -2,15 +2,15 @@
 /// Dynamic import for react-router module
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-extern "js" fn import_react_router() -> @js.Promise[@js.Any] =
+extern "js" fn import_react_router() -> @js.Promise[@nostd.Any] =
   #|() => import("react-router")
 
 ///|
 /// Internal FFI to create React element with component
 extern "js" fn ffi_create_element(
-  tag : @js.Any,
-  props : @js.Any,
-  children : @js.Any,
+  tag : @nostd.Any,
+  props : @nostd.Any,
+  children : @nostd.Any,
 ) -> @react.Element =
   #|(tag, props, children) => {
   #|  return __ReactApi.createElement(tag, props, ...children)
@@ -23,7 +23,7 @@ extern "js" fn ffi_create_element(
 ///
 /// Implementation detail: Stores the module in globalThis for internal use.
 pub async fn dynamic_import() -> Unit {
-  if @js.is_undefined(@global.global_this().get("__ReactRouterApi")) {
+  if @js.is_undefined(@global.global_this()._get("__ReactRouterApi")) {
     let v = import_react_router().wait()
     @global.global_this().set("__ReactRouterApi", v)
   }
@@ -70,16 +70,16 @@ pub(all) enum Route {
 }
 
 ///|
-pub fn Route::as_any(self : Route) -> @js.Any {
+pub fn Route::as_any(self : Route) -> @nostd.Any {
   match self {
     Route::Component(path~, component~) => {
-      let obj = @js.Object::new()
+      let obj = @nostd.Object::new()
       obj.set("path", path)
       obj.set("Component", component |> @js.unsafe_any)
       obj.as_any()
     }
     Route::Element(path~, element~) => {
-      let obj = @js.Object::new()
+      let obj = @nostd.Object::new()
       obj.set("path", path)
       obj.set("element", element |> @js.unsafe_any)
       obj.as_any()
@@ -91,9 +91,9 @@ pub fn Route::as_any(self : Route) -> @js.Any {
 /// Creates a browser router with the given routes
 /// https://reactrouter.com/en/main/routers/create-browser-router
 pub fn create_browser_router(routes : Array[Route]) -> Router {
-  let create_fn : (Array[@js.Any]) -> Router = @global.global_this()
-    .get("__ReactRouterApi")
-    .get("createBrowserRouter")
+  let create_fn : (Array[@nostd.Any]) -> Router = @global.global_this()
+    ._get("__ReactRouterApi")
+    ._get("createBrowserRouter")
     .cast()
   create_fn(routes.map(_.as_any()))
 }
@@ -114,11 +114,11 @@ pub fn create_memory_router(
   routes : Array[Route],
   options? : MemoryRouterOptions,
 ) -> Router {
-  let create_fn : (Array[@js.Any], @js.Any) -> Router = @global.global_this()
-    .get("__ReactRouterApi")
-    .get("createMemoryRouter")
+  let create_fn : (Array[@nostd.Any], @nostd.Any) -> Router = @global.global_this()
+    ._get("__ReactRouterApi")
+    ._get("createMemoryRouter")
     .cast()
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   match options {
     Some(o) => {
       match o.initial_entries {
@@ -164,12 +164,12 @@ pub fn link(
 pub type Params
 
 ///|
-pub fn Params::as_any(self : Params) -> @js.Any = "%identity"
+pub fn Params::as_any(self : Params) -> @nostd.Any = "%identity"
 
 ///|
 /// Get a parameter value by name
 pub fn Params::get(self : Self, name : String) -> String? {
-  let val = self.as_any().get(name)
+  let val = self.as_any()._get(name)
   if @js.is_undefined(val) || @js.is_null(val) {
     None
   } else {
@@ -184,20 +184,20 @@ pub(all) struct Location {
   pathname : String
   search : String
   hash : String
-  state : @js.Any
+  state : @nostd.Any
   key : String
 }
 
 ///|
-pub fn Location::as_any(self : Location) -> @js.Any = "%identity"
+pub fn Location::as_any(self : Location) -> @nostd.Any = "%identity"
 
 ///|
 /// Hook: Returns the current location object
 /// https://reactrouter.com/en/main/hooks/use-location
 pub fn useLocation() -> Location {
   let hook : () -> Location = @global.global_this()
-    .get("__ReactRouterApi")
-    .get("useLocation")
+    ._get("__ReactRouterApi")
+    ._get("useLocation")
     .cast()
   hook()
 }
@@ -207,27 +207,27 @@ pub fn useLocation() -> Location {
 /// https://reactrouter.com/en/main/hooks/use-params
 pub fn useParams() -> Params {
   let hook : () -> Params = @global.global_this()
-    .get("__ReactRouterApi")
-    .get("useParams")
+    ._get("__ReactRouterApi")
+    ._get("useParams")
     .cast()
   hook()
 }
 
 ///|
 /// NavigateFunction type for programmatic navigation
-pub(all) struct NavigateFunction((@js.Any, @js.Any?) -> Unit)
+pub(all) struct NavigateFunction((@nostd.Any, @nostd.Any?) -> Unit)
 
 ///|
 /// NavigateOptions for navigate function
 pub(all) struct NavigateOptions {
   replace : Bool?
-  state : @js.Any?
+  state : @nostd.Any?
   relative : String? // "route" | "path"
 }
 
 ///|
-pub fn NavigateOptions::as_any(self : NavigateOptions) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn NavigateOptions::as_any(self : NavigateOptions) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   match self.replace {
     Some(r) => obj.set("replace", r)
     None => ()
@@ -248,8 +248,8 @@ pub fn NavigateOptions::as_any(self : NavigateOptions) -> @js.Any {
 /// https://reactrouter.com/en/main/hooks/use-navigate
 pub fn useNavigate() -> NavigateFunction {
   let hook : () -> NavigateFunction = @global.global_this()
-    .get("__ReactRouterApi")
-    .get("useNavigate")
+    ._get("__ReactRouterApi")
+    ._get("useNavigate")
     .cast()
   hook()
 }
@@ -260,7 +260,7 @@ pub fn NavigateFunction::to(
   self : NavigateFunction,
   path : String,
   replace? : Bool,
-  state? : @js.Any,
+  state? : @nostd.Any,
   relative? : String,
 ) -> Unit {
   if replace is None && state is None && relative is None {
@@ -296,9 +296,9 @@ pub fn useSearchParams() -> (
   @url.URLSearchParams,
   (@url.URLSearchParams) -> Unit,
 ) {
-  let hook : () -> Array[@js.Any] = @global.global_this()
-    .get("__ReactRouterApi")
-    .get("useSearchParams")
+  let hook : () -> Array[@nostd.Any] = @global.global_this()
+    ._get("__ReactRouterApi")
+    ._get("useSearchParams")
     .cast()
   let result = hook()
   let search_params : @url.URLSearchParams = result[0].cast()
@@ -312,19 +312,19 @@ pub(all) struct Match {
   params : Params
   pathname : String
   pathnameBase : String
-  pattern : @js.Any
+  pattern : @nostd.Any
 }
 
 ///|
-pub fn Match::as_any(self : Match) -> @js.Any = "%identity"
+pub fn Match::as_any(self : Match) -> @nostd.Any = "%identity"
 
 ///|
 /// Hook: Returns match data if the current location matches the given path pattern
 /// https://reactrouter.com/en/main/hooks/use-match
 pub fn useMatch(pattern : String) -> Match? {
-  let hook : (String) -> @js.Any = @global.global_this()
-    .get("__ReactRouterApi")
-    .get("useMatch")
+  let hook : (String) -> @nostd.Any = @global.global_this()
+    ._get("__ReactRouterApi")
+    ._get("useMatch")
     .cast()
   let result = hook(pattern)
   if @js.is_null(result) {
@@ -347,10 +347,10 @@ pub(all) struct NavLinkRenderProps {
 }
 
 ///|
-pub fn NavLinkRenderProps::as_any(self : NavLinkRenderProps) -> @js.Any = "%identity"
+pub fn NavLinkRenderProps::as_any(self : NavLinkRenderProps) -> @nostd.Any = "%identity"
 
 ///|
-extern "js" fn get_nav_link() -> @js.Any =
+extern "js" fn get_nav_link() -> @nostd.Any =
   #| () => __ReactRouterApi.NavLink
 
 ///|
@@ -363,7 +363,7 @@ pub fn nav_link(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let nav_link_component = get_nav_link()
-  let props = @js.Object::new()
+  let props = @nostd.Object::new()
   props.set("to", to)
   match (class_name, active_class_name) {
     (Some(base), Some(active)) =>
@@ -394,10 +394,12 @@ pub fn nav_link(
   let children_arr : Array[@nostd.Any] = children.map(fn(c) {
     c.to_react_node()
   })
-  let children_js : @js.Any = children_arr.map(fn(c) -> @js.Any { c.cast() })
+  let children_js : @nostd.Any = children_arr.map(fn(c) -> @nostd.Any {
+      c.cast()
+    })
     |> @js.from_array
   props.set("children", children_js)
-  let empty : Array[@js.Any] = []
+  let empty : Array[@nostd.Any] = []
   ffi_create_element(nav_link_component, props.as_any(), @js.from_array(empty))
 }
 
@@ -408,10 +410,10 @@ pub fn nav_link_render(
   render~ : (NavLinkRenderProps) -> @react.Element,
 ) -> @react.Element {
   let nav_link_component = get_nav_link()
-  let props = @js.Object::new()
+  let props = @nostd.Object::new()
   props.set("to", to)
   props.set("children", @js.from_fn1(render))
-  let empty : Array[@js.Any] = []
+  let empty : Array[@nostd.Any] = []
   ffi_create_element(nav_link_component, props.as_any(), @js.from_array(empty))
 }
 
@@ -420,7 +422,7 @@ pub fn nav_link_render(
 // =============================================================================
 
 ///|
-extern "js" fn get_outlet() -> @js.Any =
+extern "js" fn get_outlet() -> @nostd.Any =
   #| () => __ReactRouterApi.Outlet
 
 ///|
@@ -428,7 +430,7 @@ extern "js" fn get_outlet() -> @js.Any =
 /// https://reactrouter.com/en/main/components/outlet
 pub fn outlet() -> @react.Element {
   let outlet_component = get_outlet()
-  let empty : Array[@js.Any] = []
+  let empty : Array[@nostd.Any] = []
   ffi_create_element(outlet_component, @js.null_(), @js.from_array(empty))
 }
 
@@ -440,13 +442,13 @@ pub fn outlet() -> @react.Element {
 pub struct NavigateProps {
   to : String
   replace : Bool?
-  state : @js.Any?
+  state : @nostd.Any?
   relative : String?
 }
 
 ///|
-pub fn NavigateProps::as_any(self : NavigateProps) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn NavigateProps::as_any(self : NavigateProps) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   obj.set("to", self.to)
   match self.replace {
     Some(r) => obj.set("replace", r)
@@ -464,7 +466,7 @@ pub fn NavigateProps::as_any(self : NavigateProps) -> @js.Any {
 }
 
 ///|
-extern "js" fn get_navigate_component() -> (@js.Any) -> @react.Element =
+extern "js" fn get_navigate_component() -> (@nostd.Any) -> @react.Element =
   #| () => __ReactRouterApi.Navigate
 
 ///|
@@ -473,7 +475,7 @@ extern "js" fn get_navigate_component() -> (@js.Any) -> @react.Element =
 pub fn navigate(
   to~ : String,
   replace? : Bool,
-  state? : @js.Any,
+  state? : @nostd.Any,
   relative? : String,
 ) -> @react.Element {
   let nav_component = get_navigate_component()

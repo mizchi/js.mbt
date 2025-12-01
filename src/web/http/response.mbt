@@ -17,7 +17,7 @@ pub fn Response::new(
   body? : String,
   status? : Int,
   statusText? : String,
-  headers? : &@js.JsImpl,
+  headers? : @nostd.Any,
 ) -> Response {
   let body_js = match body {
     Some(b) => @js.identity(b)
@@ -25,66 +25,66 @@ pub fn Response::new(
   }
   match (status, statusText, headers) {
     (Some(s), Some(st), Some(h)) =>
-      new_impl_full(body_js, s, @js.identity(st), h.as_any())
+      new_impl_full(body_js, s, @js.identity(st), h.cast())
     (Some(s), Some(st), None) =>
       new_impl_status_text(body_js, s, @js.identity(st))
-    (Some(s), None, Some(h)) => new_impl_status_headers(body_js, s, h.as_any())
+    (Some(s), None, Some(h)) => new_impl_status_headers(body_js, s, h.cast())
     (Some(s), None, None) => new_impl_status(body_js, s)
     (None, Some(st), Some(h)) =>
-      new_impl_text_headers(body_js, @js.identity(st), h.as_any())
+      new_impl_text_headers(body_js, @js.identity(st), h.cast())
     (None, Some(st), None) => new_impl_text(body_js, @js.identity(st))
-    (None, None, Some(h)) => new_impl_headers(body_js, h.as_any())
+    (None, None, Some(h)) => new_impl_headers(body_js, h.cast())
     (None, None, None) => new_impl_plain(body_js)
   }
 }
 
 ///|
 extern "js" fn new_impl_full(
-  body : @js.Any,
+  body : @nostd.Any,
   status : Int,
-  statusText : @js.Any,
-  headers : @js.Any,
+  statusText : @nostd.Any,
+  headers : @nostd.Any,
 ) -> Response =
   #| (body, status, statusText, headers) => new Response(body, { status, statusText, headers })
 
 ///|
 extern "js" fn new_impl_status_text(
-  body : @js.Any,
+  body : @nostd.Any,
   status : Int,
-  statusText : @js.Any,
+  statusText : @nostd.Any,
 ) -> Response =
   #| (body, status, statusText) => new Response(body, { status, statusText })
 
 ///|
 extern "js" fn new_impl_status_headers(
-  body : @js.Any,
+  body : @nostd.Any,
   status : Int,
-  headers : @js.Any,
+  headers : @nostd.Any,
 ) -> Response =
   #| (body, status, headers) => new Response(body, { status, headers })
 
 ///|
-extern "js" fn new_impl_status(body : @js.Any, status : Int) -> Response =
+extern "js" fn new_impl_status(body : @nostd.Any, status : Int) -> Response =
   #| (body, status) => new Response(body, { status })
 
 ///|
 extern "js" fn new_impl_text_headers(
-  body : @js.Any,
-  statusText : @js.Any,
-  headers : @js.Any,
+  body : @nostd.Any,
+  statusText : @nostd.Any,
+  headers : @nostd.Any,
 ) -> Response =
   #| (body, statusText, headers) => new Response(body, { statusText, headers })
 
 ///|
-extern "js" fn new_impl_text(body : @js.Any, statusText : @js.Any) -> Response =
+extern "js" fn new_impl_text(body : @nostd.Any, statusText : @nostd.Any) -> Response =
   #| (body, statusText) => new Response(body, { statusText })
 
 ///|
-extern "js" fn new_impl_headers(body : @js.Any, headers : @js.Any) -> Response =
+extern "js" fn new_impl_headers(body : @nostd.Any, headers : @nostd.Any) -> Response =
   #| (body, headers) => new Response(body, { headers })
 
 ///|
-extern "js" fn new_impl_plain(body : @js.Any) -> Response =
+extern "js" fn new_impl_plain(body : @nostd.Any) -> Response =
   #| (body) => new Response(body)
 
 ///|
@@ -94,15 +94,15 @@ pub extern "js" fn Response::redirect(url : String, status? : Int) -> Response =
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/json_static
-pub fn Response::json_(data : &@js.JsImpl, options? : &@js.JsImpl) -> Response {
+pub fn Response::json_(data : @nostd.Any, options? : @nostd.Any) -> Response {
   match options {
-    Some(opts) => json_impl(data.as_any(), opts.as_any())
-    None => json_impl(data.as_any(), @global.undefined())
+    Some(opts) => json_impl(data.cast(), opts.cast())
+    None => json_impl(data.cast(), @global.undefined())
   }
 }
 
 ///|
-extern "js" fn json_impl(data : @js.Any, options : @js.Any) -> Response =
+extern "js" fn json_impl(data : @nostd.Any, options : @nostd.Any) -> Response =
   #| (data, options) => Response.json(data, options)
 
 ///|
@@ -111,12 +111,12 @@ pub extern "js" fn Response::error() -> Response =
   #| () => Response.error()
 
 ///|
-extern "js" fn ffi_response_json(response : Response) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_response_json(response : Response) -> @js.Promise[@nostd.Any] =
   #| (v) => v.json()
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/json
-pub async fn Response::json(self : Self) -> @js.Any {
+pub async fn Response::json(self : Self) -> @nostd.Any {
   ffi_response_json(self).wait()
 }
 

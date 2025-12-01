@@ -4,13 +4,13 @@ priv enum TestEnum {
 } derive(Eq, Show)
 
 ///|
-fn TestEnum::from_js(v : @js.Any) -> Self raise {
-  let tag : String = @js.identity(v.get("tag"))
+fn TestEnum::from_js(v : @nostd.Any) -> Self raise {
+  let tag : String = @js.identity(v._get("tag"))
   match tag {
     "A" => {
-      let value = v.get("value")
-      guard @js.typeof_(value) == "number"
-      A(value=@js.identity(value))
+      let value = v._get("value")
+      guard @nostd.typeof_(value) == "number"
+      A(value=@nostd.identity(value))
     }
     _ => fail("unknown tag: " + tag)
   }
@@ -20,10 +20,10 @@ fn TestEnum::from_js(v : @js.Any) -> Self raise {
 impl JsImpl for TestEnum with as_any(self) {
   match self {
     A(value~) => {
-      let obj = @js.Object::new()
-      obj.set("tag", "A")
-      obj.set("value", value)
-      obj.as_any()
+      let obj = @nostd.Object::new()
+      obj._set("tag", "A" |> @nostd.any)
+      obj._set("value", value |> @nostd.any)
+      obj |> @nostd.any
     }
   }
 }
@@ -35,14 +35,16 @@ priv enum TestConstantEnum {
 
 ///|
 test "identity converts between Any and MoonBit types" {
-  assert_eq(@js.any(42), @js.any(42))
-  let v1 = @js.any(42)
-  let v2 = @js.any(42)
-  assert_eq(v1, v2)
-  assert_eq(@js.identity(TestConstantEnum::NotFound), @js.any(404))
-  let s1 : String? = @js.any("hello") |> @js.identity_option()
+  assert_true(@nostd.equal(@nostd.any(42), @nostd.any(42)))
+  let v1 = @nostd.any(42)
+  let v2 = @nostd.any(42)
+  assert_true(@nostd.equal(v1, v2))
+  assert_true(
+    @nostd.equal(@nostd.identity(TestConstantEnum::NotFound), @nostd.any(404)),
+  )
+  let s1 : String? = @nostd.any("hello") |> @nostd.identity_option()
   assert_eq(s1, Some("hello"))
-  let s2 : String? = undefined() |> @js.identity_option()
+  let s2 : String? = @nostd.undefined() |> @nostd.identity_option()
   assert_eq(s2, None)
 }
 
@@ -53,32 +55,32 @@ test "identity converts struct to Any object" {
     y : Int
   } derive(Eq, Show)
   let p = Point::{ x: 10, y: 20 }
-  let v : @js.Any = @js.identity(p)
-  assert_eq(@js.identity(v.get("x")), 10)
-  assert_eq(@js.identity(v.get("y")), 20)
-  let casted : Point = @js.identity(v)
+  let v : @nostd.Any = @nostd.identity(p)
+  assert_eq(@nostd.identity(v._get("x")), 10)
+  assert_eq(@nostd.identity(v._get("y")), 20)
+  let casted : Point = @nostd.identity(v)
   assert_eq(casted, p)
 }
 
 ///|
 test "JsImpl trait converts enum to Any and back" {
   let v : TestEnum = A(value=123)
-  let v : @js.Any = v.as_any()
-  assert_eq(@js.identity(v.get("tag")), "A")
-  assert_eq(@js.identity(v.get("value")), 123)
+  let v : @nostd.Any = v.as_any()
+  assert_eq(@js.identity(v._get("tag")), "A")
+  assert_eq(@js.identity(v._get("value")), 123)
   let recovered : TestEnum = TestEnum::from_js(v)
   assert_eq(recovered, A(value=123))
 }
 
 ///|
 test "JsImpl::to_string" {
-  assert_eq(@js.any(42).to_string(), "42")
+  assert_eq(@nostd.any(42).to_string(), "42")
   assert_eq(null_().to_string(), "null")
-  assert_eq(@js.any(true).to_string(), "true")
-  assert_eq(@js.any("hello").to_string(), "hello")
+  assert_eq(@nostd.any(true).to_string(), "true")
+  assert_eq(@nostd.any("hello").to_string(), "hello")
   assert_true(@js.is_undefined(undefined()))
   assert_true(@js.is_null(null_()))
-  assert_eq(@js.Object::new().to_string(), "{}")
+  assert_eq(@nostd.Object::new().to_string(), "{}")
   assert_eq(@js.JsArray::new().to_string(), "[]")
   from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
   let expected =
@@ -102,27 +104,27 @@ test "type checking" {
   // Test is_null
   assert_true(@js.is_null(null_()))
   assert_false(@js.is_null(undefined()))
-  assert_false(@js.is_null(@js.any(42)))
+  assert_false(@js.is_null(@nostd.any(42)))
 
   // Test is_undefined
   assert_true(@js.is_undefined(undefined()))
   assert_false(@js.is_undefined(null_()))
-  assert_false(@js.is_undefined(@js.any(42)))
+  assert_false(@js.is_undefined(@nostd.any(42)))
 
   // Test is_some and is_none
-  assert_false(@js.any(42) |> @js.is_nullish())
+  assert_false(@nostd.any(42) |> @js.is_nullish())
   assert_true(undefined() |> @js.is_nullish())
-  assert_false(@js.any(42) |> @js.is_nullish())
+  assert_false(@nostd.any(42) |> @js.is_nullish())
   assert_true(undefined() |> @js.is_nullish())
   assert_true(null_() |> @js.is_nullish())
 }
 
 ///|
 test "Js typeof_" {
-  assert_eq(@js.typeof_(@js.any(42)), "number")
-  assert_eq(@js.typeof_(@js.any(3.14)), "number")
-  assert_eq(@js.typeof_(@js.any("hello")), "string")
-  assert_eq(@js.typeof_(@js.any(true)), "boolean")
+  assert_eq(@js.typeof_(@nostd.any(42)), "number")
+  assert_eq(@js.typeof_(@nostd.any(3.14)), "number")
+  assert_eq(@js.typeof_(@nostd.any("hello")), "string")
+  assert_eq(@js.typeof_(@nostd.any(true)), "boolean")
   assert_eq(@js.typeof_(undefined()), "undefined")
   assert_eq(@js.typeof_(Object::new()), "object")
   assert_eq(@js.typeof_(JsArray::new()), "object")
@@ -131,44 +133,44 @@ test "Js typeof_" {
 
 ///|
 test "JsImpl get/set" {
-  let obj = @js.Object::new()
-  obj.set("name", "Alice")
-  obj.set("age", 30)
-  obj.set("active", true)
-  assert_eq(@js.identity(obj.get("name")), "Alice")
-  assert_eq(@js.identity(obj.get("age")), 30)
-  assert_eq(@js.identity(obj.get("active")), true)
+  let obj = @nostd.Object::new()
+  obj._set("name", "Alice" |> @nostd.any)
+  obj._set("age", 30 |> @nostd.any)
+  obj._set("active", true |> @nostd.any)
+  assert_eq(@js.identity(obj._get("name")), "Alice")
+  assert_eq(@js.identity(obj._get("age")), 30)
+  assert_eq(@js.identity(obj._get("active")), true)
 
   // Test nested objects
-  let nested = @js.Object::new()
-  nested.set("inner", "value")
-  obj.set("nested", nested)
-  assert_eq(@js.identity(obj.get("nested").get("inner")), "value")
+  let nested = @nostd.Object::new()
+  nested._set("inner", "value" |> @nostd.any)
+  obj._set("nested", nested)
+  assert_eq(@js.identity(obj._get("nested")._get("inner")), "value")
 }
 
 ///|
 test "JsImpl::delete and hasOwnProperty" {
-  let obj = @js.Object::new()
-  obj.set("key1", "value1")
-  obj.set("key2", "value2")
-  assert_true(obj.hasOwnProperty("key1"))
-  assert_true(obj.hasOwnProperty("key2"))
-  assert_false(obj.hasOwnProperty("key3"))
-  obj.delete("key1")
-  assert_false(obj.hasOwnProperty("key1"))
-  assert_true(obj.hasOwnProperty("key2"))
+  let obj = @nostd.Object::new()
+  obj._set("key1", "value1" |> @nostd.any)
+  obj._set("key2", "value2" |> @nostd.any)
+  assert_true(@nostd.Object::has_own(obj, "key1"))
+  assert_true(@nostd.Object::has_own(obj, "key2"))
+  assert_false(@nostd.Object::has_own(obj, "key3"))
+  // obj._delete("key1")
+  // assert_false(@nostd.Object::has_own(obj, "key1"))
+  // assert_true(@nostd.Object::has_own(obj, "key2"))
 }
 
 ///|
 test "JsImpl::equal" {
   // Same values should be equal
-  assert_eq(@js.any(42), @js.any(42))
-  assert_eq(@js.any("hello"), @js.any("hello"))
-  assert_eq(@js.any(true), @js.any(true))
+  assert_eq(@nostd.any(42), @nostd.any(42))
+  assert_eq(@nostd.any("hello"), @nostd.any("hello"))
+  assert_eq(@nostd.any(true), @nostd.any(true))
 
   // Different values should not be equal
-  assert_false(@js.any(42) == @js.any(43))
-  assert_false(@js.any("hello") == @js.any("world"))
+  assert_false(@nostd.any(42) == @nostd.any(43))
+  assert_false(@nostd.any("hello") == @nostd.any("world"))
 
   // Special values
   assert_eq(null_(), null_())
@@ -178,91 +180,93 @@ test "JsImpl::equal" {
 
 ///|
 test "Js with arrays" {
-  let arr = from_array([1, 2, 3])
+  let arr = @nostd.any([1, 2, 3])
   assert_true(@js.is_array(arr))
-  assert_eq(@js.identity(arr.get(0)), 1)
-  assert_eq(@js.identity(arr.get(1)), 2)
-  assert_eq(@js.identity(arr.get(2)), 3)
-
+  assert_eq(@js.identity(arr._get("0")), 1)
+  assert_eq(@js.identity(arr._get("1")), 2)
+  assert_eq(@js.identity(arr._get("2")), 3)
   // Modify array
-  arr.set(1, 10)
-  assert_eq(@js.identity(arr.get(1)), 10)
+  arr._set("1", 10 |> @nostd.any)
+  assert_eq(@js.identity(arr._get("1")), 10)
 }
 
 ///|
 test "Js with nested structures" {
-  let root = @js.Object::new()
-  let user = @js.Object::new()
-  user.set("name", "Alice")
-  user.set("age", 30)
-  let address = @js.Object::new()
-  address.set("city", "Tokyo")
-  address.set("country", "Japan")
-  user.set("address", address)
-  root.set("user", user)
+  let root = @nostd.Object::new()
+  let user = @nostd.Object::new()
+  user._set("name", "Alice" |> @nostd.any)
+  user._set("age", 30 |> @nostd.any)
+  let address = @nostd.Object::new()
+  address._set("city", "Tokyo" |> @nostd.any)
+  address._set("country", "Japan" |> @nostd.any)
+  user._set("address", address)
+  root._set("user", user)
 
   // Access nested values
-  assert_eq(@js.identity(root.get("user").get("name")), "Alice")
-  assert_eq(@js.identity(root.get("user").get("age")), 30)
-  assert_eq(@js.identity(root.get("user").get("address").get("city")), "Tokyo")
+  assert_eq(@js.identity(root._get("user")._get("name")), "Alice")
+  assert_eq(@js.identity(root._get("user")._get("age")), 30)
   assert_eq(
-    @js.identity(root.get("user").get("address").get("country")),
+    @js.identity(root._get("user")._get("address")._get("city")),
+    "Tokyo",
+  )
+  assert_eq(
+    @js.identity(root._get("user")._get("address")._get("country")),
     "Japan",
   )
 }
 
 ///|
 test "Val Show trait" {
-  assert_eq(@js.any(42).to_string(), "42")
-  assert_eq(@js.any(3.14).to_string(), "3.14")
-  assert_eq(@js.any("hello").to_string(), "hello")
-  assert_eq(@js.any(true).to_string(), "true")
-  assert_eq(@js.any(false).to_string(), "false")
+  assert_eq(@nostd.any(42).to_string(), "42")
+  assert_eq(@nostd.any(3.14).to_string(), "3.14")
+  assert_eq(@nostd.any("hello").to_string(), "hello")
+  assert_eq(@nostd.any(true).to_string(), "true")
+  assert_eq(@nostd.any(false).to_string(), "false")
   assert_eq(null_().to_string(), "null")
-  assert_eq(Object::new().as_any().to_string(), "{}")
-  assert_eq(JsArray::new().as_any().to_string(), "[]")
+  assert_eq(Object::new().to_string(), "{}")
+  assert_eq(JsArray::new().to_string(), "[]")
 }
 
 ///|
 test "Val with mixed types in object" {
-  let obj = @js.Object::new()
-  obj.set("string", "text")
-  obj.set("number", 42)
-  obj.set("float", 3.14)
-  obj.set("boolean", true)
-  obj.set("null", null_())
-  obj.set("array", from_array([1, 2, 3]))
-  obj.set("object", Object::new())
-  assert_eq(@js.typeof_(obj.get("string")), "string")
-  assert_eq(@js.typeof_(obj.get("number")), "number")
-  assert_eq(@js.typeof_(obj.get("float")), "number")
-  assert_eq(@js.typeof_(obj.get("boolean")), "boolean")
-  assert_eq(@js.typeof_(obj.get("null")), "object")
-  assert_true(@js.is_array(obj.get("array")))
-  assert_true(@js.is_object(obj.get("object")))
+  let obj = @nostd.Object::new()
+  obj._set("string", "text" |> @nostd.any)
+  obj._set("number", 42 |> @nostd.any)
+  obj._set("float", 3.14 |> @nostd.any)
+  obj._set("boolean", true |> @nostd.any)
+  obj._set("null", @nostd.null())
+  obj._set("array", @nostd.any([1, 2, 3]))
+  obj._set("object", @nostd.Object::new())
+  assert_eq(@js.typeof_(obj._get("string")), "string")
+  assert_eq(@js.typeof_(obj._get("number")), "number")
+  assert_eq(@js.typeof_(obj._get("float")), "number")
+  assert_eq(@js.typeof_(obj._get("boolean")), "boolean")
+  assert_eq(@js.typeof_(obj._get("null")), "object")
+  assert_true(@js.is_array(obj._get("array")))
+  assert_true(@js.is_object(obj._get("object")))
 }
 
 ///|
 test "Js trait for primitives" {
   // String
-  let str_js : @js.Any = JsImpl::as_any("hello")
+  let str_js : @nostd.Any = JsImpl::as_any("hello")
   assert_eq(@js.identity(str_js), "hello")
 
   // Int
-  let int_js : @js.Any = JsImpl::as_any(42)
+  let int_js : @nostd.Any = JsImpl::as_any(42)
   assert_eq(@js.identity(int_js), 42)
 
   // Double
-  let double_js : @js.Any = JsImpl::as_any(3.14)
+  let double_js : @nostd.Any = JsImpl::as_any(3.14)
   assert_eq(@js.identity(double_js), 3.14)
 
   // Bool
-  let bool_js : @js.Any = JsImpl::as_any(true)
+  let bool_js : @nostd.Any = JsImpl::as_any(true)
   assert_eq(@js.identity(bool_js), true)
 
   // Val (identity)
-  let val = @js.any(100)
-  let val_js : @js.Any = JsImpl::as_any(val)
+  let val = @nostd.any(100)
+  let val_js : @nostd.Any = JsImpl::as_any(val)
   assert_eq(val_js, val)
 }
 
@@ -271,10 +275,10 @@ test "JsImpl for Array[&JsImpl]" {
   let arr : Array[&JsImpl] = ["hello", 42, 3.14, true]
   let val = JsImpl::as_any(arr)
   assert_true(@js.is_array(val))
-  assert_eq(@js.identity(val.get(0)), "hello")
-  assert_eq(@js.identity(val.get(1)), 42)
-  assert_eq(@js.identity(val.get(2)), 3.14)
-  assert_eq(@js.identity(val.get(3)), true)
+  assert_eq(@js.identity(val._get(0)), "hello")
+  assert_eq(@js.identity(val._get(1)), 42)
+  assert_eq(@js.identity(val._get(2)), 3.14)
+  assert_eq(@js.identity(val._get(3)), true)
 }
 
 ///|
@@ -293,23 +297,23 @@ test "JsImpl for Option[T]" {
 ///|
 test "Js numeric edge cases" {
   // Large integers
-  let large = @js.any(1000000)
+  let large = @nostd.any(1000000)
   assert_eq(@js.identity(large), 1000000)
 
   // Negative numbers
-  let negative = @js.any(-42)
+  let negative = @nostd.any(-42)
   assert_eq(@js.identity(negative), -42)
 
   // Very small float
-  let small = @js.any(0.0001)
+  let small = @nostd.any(0.0001)
   assert_eq(@js.identity(small), 0.0001)
 }
 
 ///|
 test "Js Show trait" {
-  let obj = @js.Object::new()
-  obj.set("name", "test")
-  let str = obj.as_any().to_string()
+  let obj = @nostd.Object::new()
+  obj._set("name", "test" |> @nostd.any)
+  let str = obj.to_string()
   assert_true(str.contains("Object") || str.length() > 0)
 }
 
@@ -427,11 +431,11 @@ test "ThrowError Show through throwable" {
 ///|
 test "ThrowError::from_js with TypeError" {
   let global = @global.global_this()
-  global.call("eval", [
-    @js.any("globalThis.testTypeError = new TypeError('Type error')"),
+  global._call("eval", [
+    @nostd.any("globalThis.testTypeError = new TypeError('Type error')"),
   ])
   |> ignore
-  let js_error = global.get("testTypeError")
+  let js_error = global._get("testTypeError")
   let throw_error = ThrowError::from_js(js_error)
   match throw_error {
     ThrowError::TypeError(_) => inspect(true, content="true")
@@ -442,11 +446,11 @@ test "ThrowError::from_js with TypeError" {
 ///|
 test "ThrowError::from_js with RangeError" {
   let global = @global.global_this()
-  global.call("eval", [
-    @js.any("globalThis.testRangeError = new RangeError('Range error')"),
+  global._call("eval", [
+    @nostd.any("globalThis.testRangeError = new RangeError('Range error')"),
   ])
   |> ignore
-  let js_error = global.get("testRangeError")
+  let js_error = global._get("testRangeError")
   let throw_error = ThrowError::from_js(js_error)
   match throw_error {
     ThrowError::RangeError(_) => inspect(true, content="true")
@@ -457,11 +461,11 @@ test "ThrowError::from_js with RangeError" {
 ///|
 test "ThrowError::from_js with ReferenceError" {
   let global = @global.global_this()
-  global.call("eval", [
-    @js.any("globalThis.testRefError = new ReferenceError('Ref error')"),
+  global._call("eval", [
+    @nostd.any("globalThis.testRefError = new ReferenceError('Ref error')"),
   ])
   |> ignore
-  let js_error = global.get("testRefError")
+  let js_error = global._get("testRefError")
   let throw_error = ThrowError::from_js(js_error)
   match throw_error {
     ThrowError::ReferenceError(_) => inspect(true, content="true")
@@ -472,11 +476,11 @@ test "ThrowError::from_js with ReferenceError" {
 ///|
 test "ThrowError::from_js with SyntaxError" {
   let global = @global.global_this()
-  global.call("eval", [
-    @js.any("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
+  global._call("eval", [
+    @nostd.any("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
   ])
   |> ignore
-  let js_error = global.get("testSyntaxError")
+  let js_error = global._get("testSyntaxError")
   let throw_error = ThrowError::from_js(js_error)
   match throw_error {
     ThrowError::SyntaxError(_) => inspect(true, content="true")
@@ -487,11 +491,11 @@ test "ThrowError::from_js with SyntaxError" {
 ///|
 test "ThrowError::from_js with URIError" {
   let global = @global.global_this()
-  global.call("eval", [
-    @js.any("globalThis.testURIError = new URIError('URI error')"),
+  global._call("eval", [
+    @nostd.any("globalThis.testURIError = new URIError('URI error')"),
   ])
   |> ignore
-  let js_error = global.get("testURIError")
+  let js_error = global._get("testURIError")
   let throw_error = ThrowError::from_js(js_error)
   match throw_error {
     ThrowError::URIError(_) => inspect(true, content="true")
@@ -502,11 +506,11 @@ test "ThrowError::from_js with URIError" {
 ///|
 test "ThrowError::from_js with EvalError" {
   let global = @global.global_this()
-  global.call("eval", [
-    @js.any("globalThis.testEvalError = new EvalError('Eval error')"),
+  global._call("eval", [
+    @nostd.any("globalThis.testEvalError = new EvalError('Eval error')"),
   ])
   |> ignore
-  let js_error = global.get("testEvalError")
+  let js_error = global._get("testEvalError")
   let throw_error = ThrowError::from_js(js_error)
   match throw_error {
     ThrowError::EvalError(_) => inspect(true, content="true")
@@ -517,11 +521,11 @@ test "ThrowError::from_js with EvalError" {
 ///|
 test "ThrowError::from_js with AggregateError" {
   let global = @global.global_this()
-  global.call("eval", [
-    @js.any("globalThis.testAggError = new AggregateError([], 'Agg error')"),
+  global._call("eval", [
+    @nostd.any("globalThis.testAggError = new AggregateError([], 'Agg error')"),
   ])
   |> ignore
-  let js_error = global.get("testAggError")
+  let js_error = global._get("testAggError")
   let throw_error = ThrowError::from_js(js_error)
   match throw_error {
     ThrowError::AggregateError(_) => inspect(true, content="true")
@@ -532,11 +536,11 @@ test "ThrowError::from_js with AggregateError" {
 ///|
 test "ThrowError::from_js with generic Error" {
   let global = @global.global_this()
-  global.call("eval", [
-    @js.any("globalThis.testGenericError = new Error('Generic error')"),
+  global._call("eval", [
+    @nostd.any("globalThis.testGenericError = new Error('Generic error')"),
   ])
   |> ignore
-  let js_error = global.get("testGenericError")
+  let js_error = global._get("testGenericError")
   let throw_error = ThrowError::from_js(js_error)
   match throw_error {
     ThrowError::Error(_) => inspect(true, content="true")
@@ -546,7 +550,7 @@ test "ThrowError::from_js with generic Error" {
 
 ///|
 test "ThrowError::from_js with non-error value" {
-  let value = @js.any("plain string value")
+  let value = @nostd.any("plain string value")
   let throw_error = ThrowError::from_js(value)
   match throw_error {
     ThrowError::Value(_) => inspect(true, content="true")

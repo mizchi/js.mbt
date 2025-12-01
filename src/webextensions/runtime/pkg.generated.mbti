@@ -9,7 +9,7 @@ import(
 // Values
 fn connect(name? : String) -> Port
 
-fn get_manifest() -> @js.Any
+fn get_manifest() -> @nostd.Any
 
 async fn get_platform_info() -> PlatformInfo
 
@@ -17,13 +17,13 @@ fn get_url(String) -> String
 
 fn id() -> String
 
-fn last_error() -> @js.Any
+fn last_error() -> @nostd.Any
 
 fn on_connect((Port) -> Unit) -> Unit
 
-fn on_installed((@js.Any) -> Unit) -> Unit
+fn on_installed((@nostd.Any) -> Unit) -> Unit
 
-fn on_message((@js.Any, @js.Any, (@js.Any) -> Unit) -> Bool) -> Unit
+fn on_message((@nostd.Any, @nostd.Any, (@nostd.Any) -> Unit) -> Bool) -> Unit
 
 fn on_startup(() -> Unit) -> Unit
 
@@ -31,26 +31,26 @@ async fn open_options_page() -> Unit
 
 fn reload() -> Unit
 
-async fn send_message(@js.Any) -> @js.Any
+async fn send_message(@nostd.Any) -> @nostd.Any
 
-async fn send_message_to_extension(String, @js.Any) -> @js.Any
+async fn send_message_to_extension(String, @nostd.Any) -> @nostd.Any
 
 // Errors
 
 // Types and methods
 pub struct MessageSender {
-  tab : @js.Any
+  tab : @nostd.Any
   frame_id : Int?
   id : String?
   url : String?
 }
-fn MessageSender::from_any(@js.Any) -> Self
+fn MessageSender::from_any(@nostd.Any) -> Self
 
 pub struct PlatformInfo {
   os : String
   arch : String
 }
-fn PlatformInfo::from_any(@js.Any) -> Self
+fn PlatformInfo::from_any(@nostd.Any) -> Self
 
 #external
 pub type Port
@@ -58,8 +58,8 @@ fn Port::as_any(Self) -> @nostd.Any
 fn Port::disconnect(Self) -> Unit
 fn Port::name(Self) -> String
 fn Port::on_disconnect(Self, () -> Unit) -> Unit
-fn Port::on_message(Self, (@js.Any) -> Unit) -> Unit
-fn Port::post_message(Self, @js.Any) -> Unit
+fn Port::on_message(Self, (@nostd.Any) -> Unit) -> Unit
+fn Port::post_message(Self, @nostd.Any) -> Unit
 
 // Type aliases
 

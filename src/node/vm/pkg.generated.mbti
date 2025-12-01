@@ -7,17 +7,17 @@ import(
 )
 
 // Values
-fn compileFunction(String, params? : Array[String], filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool, parsingContext? : @js.Any, contextExtensions? : Array[@js.Any]) -> @js.Any
+fn compileFunction(String, params? : Array[String], filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool, parsingContext? : @nostd.Any, contextExtensions? : Array[@nostd.Any]) -> @nostd.Any
 
-fn createContext(contextObject? : @js.Any, name? : String, origin? : String, microtaskMode? : String) -> @js.Any
+fn createContext(contextObject? : @nostd.Any, name? : String, origin? : String, microtaskMode? : String) -> @nostd.Any
 
-fn isContext(@js.Any) -> Bool
+fn isContext(@nostd.Any) -> Bool
 
-fn runInContext(String, @js.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js.Any
+fn runInContext(String, @nostd.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @nostd.Any
 
-fn runInNewContext(String, contextObject? : @js.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @js.Any
+fn runInNewContext(String, contextObject? : @nostd.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @nostd.Any
 
-fn runInThisContext(String, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js.Any
+fn runInThisContext(String, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @nostd.Any
 
 // Errors
 
@@ -27,9 +27,9 @@ pub type Script
 fn Script::cachedDataRejected(Self) -> Bool?
 fn Script::createCachedData(Self) -> @buffer.Buffer
 fn Script::new(String, filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool) -> Self
-fn Script::runInContext(Self, @js.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js.Any
-fn Script::runInNewContext(Self, contextObject? : @js.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @js.Any
-fn Script::runInThisContext(Self, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js.Any
+fn Script::runInContext(Self, @nostd.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @nostd.Any
+fn Script::runInNewContext(Self, contextObject? : @nostd.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @nostd.Any
+fn Script::runInThisContext(Self, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @nostd.Any
 fn Script::sourceMapURL(Self) -> String?
 impl @js.JsImpl for Script
 

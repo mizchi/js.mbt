@@ -47,9 +47,9 @@ export class TestDurableObject implements DurableObject {
     }
 
     if (path === "/storage/get") {
-      const key = url.searchParams.get("key");
+      const key = url.searchParams._get("key");
       if (!key) return new Response("Missing key", { status: 400 });
-      const value = await this.state.storage.get(key);
+      const value = await this.state.storage._get(key);
       return new Response(JSON.stringify({ value }), {
         headers: { "Content-Type": "application/json" },
       });
@@ -57,7 +57,7 @@ export class TestDurableObject implements DurableObject {
 
     // Test alarm
     if (path === "/alarm/set") {
-      const timestamp = parseInt(url.searchParams.get("timestamp") || "0");
+      const timestamp = parseInt(url.searchParams._get("timestamp") || "0");
       await this.state.storage.setAlarm(timestamp);
       return new Response("Alarm set");
     }
@@ -137,14 +137,14 @@ describe("Durable Objects - Namespace", () => {
   describe("Stub Creation", () => {
     it("should get stub from ID", () => {
       const id = namespace.newUniqueId();
-      const stub = namespace.get(id);
+      const stub = namespace._get(id);
       expect(stub).toBeDefined();
       expect(stub.id.toString()).toBe(id.toString());
     });
 
     it("should get stub from name", () => {
       const name = "named-stub";
-      const stub = namespace.get(namespace.idFromName(name));
+      const stub = namespace._get(namespace.idFromName(name));
       expect(stub).toBeDefined();
       expect(stub.name).toBe(name);
     });
@@ -156,7 +156,7 @@ describe("Durable Objects - Stub Communication", () => {
 
   it("should send fetch request to DO", async () => {
     const id = namespace.idFromName("fetch-test");
-    const stub = namespace.get(id);
+    const stub = namespace._get(id);
 
     const response = await stub.fetch("http://fake-host/get");
     expect(response.status).toBe(200);
@@ -166,7 +166,7 @@ describe("Durable Objects - Stub Communication", () => {
 
   it("should increment counter across requests", async () => {
     const id = namespace.idFromName("counter-test");
-    const stub = namespace.get(id);
+    const stub = namespace._get(id);
 
     try {
       // Reset first
@@ -190,8 +190,8 @@ describe("Durable Objects - Stub Communication", () => {
   });
 
   it("should maintain separate state per DO instance", async () => {
-    const stub1 = namespace.get(namespace.idFromName("instance-1"));
-    const stub2 = namespace.get(namespace.idFromName("instance-2"));
+    const stub1 = namespace._get(namespace.idFromName("instance-1"));
+    const stub2 = namespace._get(namespace.idFromName("instance-2"));
 
     await stub1.fetch("http://fake-host/reset");
     await stub2.fetch("http://fake-host/reset");
@@ -212,7 +212,7 @@ describe("Durable Objects - Stub Communication", () => {
 
   it("should send POST request with body", async () => {
     const id = namespace.idFromName("post-test");
-    const stub = namespace.get(id);
+    const stub = namespace._get(id);
 
     const response = await stub.fetch("http://fake-host/storage/put", {
       method: "POST",
@@ -236,7 +236,7 @@ describe("Durable Objects - Storage", () => {
   let stub: DurableObjectStub;
 
   beforeEach(async () => {
-    stub = namespace.get(namespace.idFromName("storage-test-" + Date.now()));
+    stub = namespace._get(namespace.idFromName("storage-test-" + Date.now()));
     await stub.fetch("http://fake-host/reset");
   });
 
@@ -303,7 +303,7 @@ describe("Durable Objects - Storage", () => {
   describe("State Persistence", () => {
     it("should persist state across multiple requests", async () => {
       const id = namespace.idFromName("persistent-state");
-      const stub = namespace.get(id);
+      const stub = namespace._get(id);
 
       await stub.fetch("http://fake-host/reset");
 
@@ -324,7 +324,7 @@ describe("Durable Objects - Alarms", () => {
   let stub: DurableObjectStub;
 
   beforeEach(() => {
-    stub = namespace.get(namespace.idFromName("alarm-test-" + Date.now()));
+    stub = namespace._get(namespace.idFromName("alarm-test-" + Date.now()));
   });
 
   it("should set and get alarm", async () => {
@@ -349,7 +349,7 @@ describe("Durable Objects - Edge Cases", () => {
 
   it("should handle concurrent requests to same DO", async () => {
     const id = namespace.idFromName("concurrent-test");
-    const stub = namespace.get(id);
+    const stub = namespace._get(id);
 
     await stub.fetch("http://fake-host/reset");
 
@@ -367,7 +367,7 @@ describe("Durable Objects - Edge Cases", () => {
   });
 
   it("should handle unicode in storage keys", async () => {
-    const stub = namespace.get(namespace.idFromName("unicode-test"));
+    const stub = namespace._get(namespace.idFromName("unicode-test"));
 
     await stub.fetch("http://fake-host/storage/put", {
       method: "POST",
@@ -380,7 +380,7 @@ describe("Durable Objects - Edge Cases", () => {
   });
 
   it("should handle large values in storage", async () => {
-    const stub = namespace.get(namespace.idFromName("large-value-test"));
+    const stub = namespace._get(namespace.idFromName("large-value-test"));
     const largeValue = "x".repeat(100000);
 
     await stub.fetch("http://fake-host/storage/put", {
@@ -394,7 +394,7 @@ describe("Durable Objects - Edge Cases", () => {
   });
 
   it("should handle empty string values", async () => {
-    const stub = namespace.get(namespace.idFromName("empty-string-test"));
+    const stub = namespace._get(namespace.idFromName("empty-string-test"));
 
     await stub.fetch("http://fake-host/storage/put", {
       method: "POST",

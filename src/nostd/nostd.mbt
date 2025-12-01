@@ -187,14 +187,14 @@ pub extern "js" fn type_of(value : Any) -> String =
 
 ///|
 /// JS: typeof value (alias for type_of)
-pub fn[T] typeof_(value : T) -> String {
-  type_of(any(value))
-}
+// pub fn[T] typeof_(value : T) -> String {
+//   type_of(any(value))
+// }
 
 ///|
 /// JS: value instanceof cls
-pub extern "js" fn instance_of(value : Any, cls : Any) -> Bool =
-  #|(value, cls) => value instanceof cls
+// pub extern "js" fn instance_of(value : Any, cls : Any) -> Bool =
+//   #|(value, cls) => value instanceof cls
 
 ///|
 /// JS: new cls(...args)
@@ -267,3 +267,11 @@ pub fn[T] identity_option(v : Any) -> T? {
     Some(identity(v))
   }
 }
+
+///|
+#external
+pub type JsArray
+
+///|
+pub extern "js" fn JsArray::new() -> JsArray =
+  #| () => []

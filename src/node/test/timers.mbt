@@ -23,7 +23,7 @@ pub fn MockTimers::enable(
   apis? : Array[String],
   now? : Int,
 ) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if apis is Some(apis) {
     options.set("apis", @js.from_array(apis))
   }

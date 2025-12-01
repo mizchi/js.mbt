@@ -2,7 +2,7 @@
 /// JavaScript Proxy
 ///
 /// After creation with Proxy::new(), use JsImpl trait methods to interact:
-/// - proxy.get("key") - triggers get trap
+/// - proxy._get("key") - triggers get trap
 /// - proxy.set("key", value) - triggers set trap
 /// - proxy.delete("key") - triggers deleteProperty trap
 /// - proxy.hasOwnProperty("key") - triggers has trap
@@ -29,7 +29,7 @@ fn proxy_class() -> @nostd.Any {
 ///
 /// Example with get trap:
 /// ```moonbit no-check
-/// let target = @js.Object::new()
+/// let target = @nostd.Object::new()
 /// let _proxy = Proxy::new(@nostd.any(target), get=fn(_target, _prop, _receiver) { @nostd.any("value") })
 /// ```
 pub fn Proxy::new(

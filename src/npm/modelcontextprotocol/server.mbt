@@ -15,13 +15,13 @@ pub type PromptHandler[T] = async (T) -> Array[Content]
 // Internal handler type aliases (promisified versions)
 
 ///|
-type InternalToolHandler = (@js.Any) -> @js.Promise[Array[Content]]
+type InternalToolHandler = (@nostd.Any) -> @js.Promise[Array[Content]]
 
 ///|
 type InternalResourceHandler = (String) -> @js.Promise[Array[Content]]
 
 ///|
-type InternalPromptHandler = (@js.Any) -> @js.Promise[Array[Content]]
+type InternalPromptHandler = (@nostd.Any) -> @js.Promise[Array[Content]]
 
 ///|
 /// MCP Server
@@ -52,7 +52,7 @@ pub fn[T] McpServer::add_tool(
   tool : Tool,
   handler : ToolHandler[T],
 ) -> Unit {
-  let wrapped : async (@js.Any) -> Array[Content] = async fn(args) {
+  let wrapped : async (@nostd.Any) -> Array[Content] = async fn(args) {
     handler(@js.identity(args))
   }
   let promisified : InternalToolHandler = @js.promisify1(wrapped)
@@ -77,7 +77,7 @@ pub fn[T] McpServer::add_prompt(
   prompt : Prompt,
   handler : PromptHandler[T],
 ) -> Unit {
-  let wrapped : async (@js.Any) -> Array[Content] = async fn(args) {
+  let wrapped : async (@nostd.Any) -> Array[Content] = async fn(args) {
     handler(@js.identity(args))
   }
   let promisified : InternalPromptHandler = @js.promisify1(wrapped)
@@ -118,7 +118,7 @@ pub fn McpServer::handle_request(
 fn McpServer::handle_initialize(
   self : McpServer,
   id : RequestId,
-  _params : @js.Any?,
+  _params : @nostd.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   // Build capabilities dynamically
   let capabilities : ServerCapabilities = {
@@ -139,7 +139,7 @@ fn McpServer::handle_tools_list(
   self : McpServer,
   id : RequestId,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let tools : Array[@js.Any] = []
+  let tools : Array[@nostd.Any] = []
   self.tools.each(fn(_, value) {
     let (tool, _) = value
     tools.push(tool.as_any())
@@ -152,21 +152,21 @@ fn McpServer::handle_tools_list(
 fn McpServer::handle_tools_call(
   self : McpServer,
   id : RequestId,
-  params : @js.Any?,
+  params : @nostd.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
-    @js.identity_option(p.get("name")) is Some(tool_name) else {
+    @js.identity_option(p._get("name")) is Some(tool_name) else {
     return @js.Promise::resolve(
       Err(self.invalid_params_error(id, "Missing tool name")),
     )
   }
-  guard self.tools.get(tool_name) is Some((_, handler)) else {
+  guard self.tools._get(tool_name) is Some((_, handler)) else {
     return @js.Promise::resolve(
       Err(self.method_not_found_error(id, "Tool not found: " + tool_name)),
     )
   }
-  let arguments : @js.Any = @js.identity_option(p.get("arguments")).unwrap_or(
-    @js.Object::new(),
+  let arguments : @nostd.Any = @js.identity_option(p._get("arguments")).unwrap_or(
+    @nostd.Object::new(),
   )
   handler(arguments).then(fn(content) {
     let result = @mbtconv.from_map({
@@ -183,7 +183,7 @@ fn McpServer::handle_resources_list(
   self : McpServer,
   id : RequestId,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let resources : Array[@js.Any] = []
+  let resources : Array[@nostd.Any] = []
   self.resources.each(fn(_, value) {
     let (resource, _) = value
     resources.push(resource.as_any())
@@ -198,15 +198,15 @@ fn McpServer::handle_resources_list(
 fn McpServer::handle_resources_read(
   self : McpServer,
   id : RequestId,
-  params : @js.Any?,
+  params : @nostd.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
-    @js.identity_option(p.get("uri")) is Some(resource_uri) else {
+    @js.identity_option(p._get("uri")) is Some(resource_uri) else {
     return @js.Promise::resolve(
       Err(self.invalid_params_error(id, "Missing resource URI")),
     )
   }
-  guard self.resources.get(resource_uri) is Some((_, handler)) else {
+  guard self.resources._get(resource_uri) is Some((_, handler)) else {
     return @js.Promise::resolve(
       Err(
         self.method_not_found_error(id, "Resource not found: " + resource_uri),
@@ -228,7 +228,7 @@ fn McpServer::handle_prompts_list(
   self : McpServer,
   id : RequestId,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let prompts : Array[@js.Any] = []
+  let prompts : Array[@nostd.Any] = []
   self.prompts.each(fn(_, value) {
     let (prompt, _) = value
     prompts.push(prompt.as_any())
@@ -243,21 +243,21 @@ fn McpServer::handle_prompts_list(
 fn McpServer::handle_prompts_get(
   self : McpServer,
   id : RequestId,
-  params : @js.Any?,
+  params : @nostd.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
-    @js.identity_option(p.get("name")) is Some(prompt_name) else {
+    @js.identity_option(p._get("name")) is Some(prompt_name) else {
     return @js.Promise::resolve(
       Err(self.invalid_params_error(id, "Missing prompt name")),
     )
   }
-  guard self.prompts.get(prompt_name) is Some((_, handler)) else {
+  guard self.prompts._get(prompt_name) is Some((_, handler)) else {
     return @js.Promise::resolve(
       Err(self.method_not_found_error(id, "Prompt not found: " + prompt_name)),
     )
   }
-  let arguments : @js.Any = @js.identity_option(p.get("arguments")).unwrap_or(
-    @js.Object::new(),
+  let arguments : @nostd.Any = @js.identity_option(p._get("arguments")).unwrap_or(
+    @nostd.Object::new(),
   )
   handler(arguments).then(fn(content) {
     let result = @mbtconv.from_map({

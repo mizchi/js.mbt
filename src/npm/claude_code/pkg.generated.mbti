@@ -17,7 +17,7 @@ fn get_text(Array[SDKMessage]) -> String
 fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator
 
 #alias(query_stream)
-fn queryStream(prompt~ : @js.Any, options? : QueryOptions) -> SDKMessageIterator
+fn queryStream(prompt~ : @nostd.Any, options? : QueryOptions) -> SDKMessageIterator
 
 #alias(query_with_abort)
 fn queryWithAbort(prompt~ : String, options? : QueryOptions) -> (SDKMessageIterator, AbortHandle)
@@ -40,7 +40,7 @@ pub(all) struct AgentDefinition {
   system_prompt : String?
   model : ClaudeModel?
 }
-fn AgentDefinition::as_any(Self) -> @js.Any
+fn AgentDefinition::as_any(Self) -> @nostd.Any
 
 pub(all) enum ClaudeModel {
   Sonnet
@@ -56,41 +56,41 @@ pub(all) enum ContentBlock {
   Text(TextBlock)
   ToolUse(ToolUseBlock)
   ToolResult(ToolResultBlock)
-  Unknown(@js.Any)
+  Unknown(@nostd.Any)
 }
-fn ContentBlock::from_any(@js.Any) -> Self
+fn ContentBlock::from_any(@nostd.Any) -> Self
 
 pub(all) struct CostInfo {
   input_cost : Double
   output_cost : Double
   total_cost : Double
 }
-fn CostInfo::from_any(@js.Any) -> Self
+fn CostInfo::from_any(@nostd.Any) -> Self
 
 pub(all) enum McpServerConfig {
   Stdio(McpServerStdio)
   Sse(McpServerSse)
 }
-fn McpServerConfig::as_any(Self) -> @js.Any
+fn McpServerConfig::as_any(Self) -> @nostd.Any
 
 pub(all) struct McpServerSse {
   url : String
   headers : Map[String, String]
 }
-fn McpServerSse::as_any(Self) -> @js.Any
+fn McpServerSse::as_any(Self) -> @nostd.Any
 
 pub(all) struct McpServerStdio {
   command : String
   args : Array[String]
   env : Map[String, String]
 }
-fn McpServerStdio::as_any(Self) -> @js.Any
+fn McpServerStdio::as_any(Self) -> @nostd.Any
 
 pub(all) struct PermissionDenial {
   tool_name : String
   reason : String
 }
-fn PermissionDenial::from_any(@js.Any) -> Self
+fn PermissionDenial::from_any(@nostd.Any) -> Self
 
 pub(all) enum PermissionMode {
   Default
@@ -106,7 +106,7 @@ impl Show for PermissionMode
 #external
 pub type Query
 fn Query::as_any(Self) -> @nostd.Any
-fn Query::async_iterator(Self) -> @js.AsyncIterator[@js.Any]
+fn Query::async_iterator(Self) -> @js.AsyncIterator[@nostd.Any]
 
 pub(all) struct QueryOptions {
   model : ClaudeModel?
@@ -123,15 +123,15 @@ pub(all) struct QueryOptions {
   include_partial_messages : Bool?
   resume_session : String?
 }
-fn QueryOptions::as_any(Self) -> @js.Any
+fn QueryOptions::as_any(Self) -> @nostd.Any
 fn QueryOptions::new() -> Self
 
 pub(all) struct SDKAssistantMessage {
   role : String
   content : Array[ContentBlock]
-  raw : @js.Any
+  raw : @nostd.Any
 }
-fn SDKAssistantMessage::from_any(@js.Any) -> Self
+fn SDKAssistantMessage::from_any(@nostd.Any) -> Self
 
 pub(all) enum SDKMessage {
   Assistant(SDKAssistantMessage)
@@ -139,20 +139,20 @@ pub(all) enum SDKMessage {
   Result(SDKResultMessage)
   System(SDKSystemMessage)
   Partial(SDKPartialMessage)
-  Unknown(@js.Any)
+  Unknown(@nostd.Any)
 }
-fn SDKMessage::from_any(@js.Any) -> Self
+fn SDKMessage::from_any(@nostd.Any) -> Self
 
 pub(all) struct SDKMessageIterator {
-  raw : @js.AsyncIterator[@js.Any]
+  raw : @js.AsyncIterator[@nostd.Any]
 }
 async fn SDKMessageIterator::next(Self) -> SDKMessage?
 
 pub(all) struct SDKPartialMessage {
   content : Array[ContentBlock]
-  raw : @js.Any
+  raw : @nostd.Any
 }
-fn SDKPartialMessage::from_any(@js.Any) -> Self
+fn SDKPartialMessage::from_any(@nostd.Any) -> Self
 
 pub(all) struct SDKResultMessage {
   success : Bool
@@ -160,25 +160,25 @@ pub(all) struct SDKResultMessage {
   usage : TokenUsage
   cost : CostInfo?
   permission_denials : Array[PermissionDenial]
-  raw : @js.Any
+  raw : @nostd.Any
 }
-fn SDKResultMessage::from_any(@js.Any) -> Self
+fn SDKResultMessage::from_any(@nostd.Any) -> Self
 
 pub(all) struct SDKSystemMessage {
   tools : Array[String]
   mcp_servers : Array[String]
   model : String
   permission_mode : PermissionMode
-  raw : @js.Any
+  raw : @nostd.Any
 }
-fn SDKSystemMessage::from_any(@js.Any) -> Self
+fn SDKSystemMessage::from_any(@nostd.Any) -> Self
 
 pub(all) struct SDKUserMessage {
   role : String
   content : String
-  raw : @js.Any
+  raw : @nostd.Any
 }
-fn SDKUserMessage::from_any(@js.Any) -> Self
+fn SDKUserMessage::from_any(@nostd.Any) -> Self
 
 pub(all) enum SettingSource {
   User
@@ -191,9 +191,9 @@ impl Show for SettingSource
 
 pub(all) struct TextBlock {
   text : String
-  raw : @js.Any
+  raw : @nostd.Any
 }
-fn TextBlock::from_any(@js.Any) -> Self
+fn TextBlock::from_any(@nostd.Any) -> Self
 
 pub(all) struct TokenUsage {
   input_tokens : Int
@@ -201,23 +201,23 @@ pub(all) struct TokenUsage {
   cache_read_input_tokens : Int
   cache_creation_input_tokens : Int
 }
-fn TokenUsage::from_any(@js.Any) -> Self
+fn TokenUsage::from_any(@nostd.Any) -> Self
 
 pub(all) struct ToolResultBlock {
   tool_use_id : String
   content : String
   is_error : Bool
-  raw : @js.Any
+  raw : @nostd.Any
 }
-fn ToolResultBlock::from_any(@js.Any) -> Self
+fn ToolResultBlock::from_any(@nostd.Any) -> Self
 
 pub(all) struct ToolUseBlock {
   id : String
   name : String
-  input : @js.Any
-  raw : @js.Any
+  input : @nostd.Any
+  raw : @nostd.Any
 }
-fn ToolUseBlock::from_any(@js.Any) -> Self
+fn ToolUseBlock::from_any(@nostd.Any) -> Self
 
 // Type aliases
 

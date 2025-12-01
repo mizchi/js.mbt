@@ -1,6 +1,7 @@
 {
   "import": [
-    "mizchi/js"
+    "mizchi/js",
+    "mizchi/js/nostd"
   ],
   "test-import": ["moonbitlang/async", "mizchi/js/node/process"]
 }

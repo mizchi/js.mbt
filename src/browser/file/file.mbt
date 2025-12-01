@@ -22,10 +22,10 @@ pub fn File::contentType(self : Self) -> String {
 ///|
 /// Create a new File from FFI
 extern "js" fn ffi_new_file(
-  data : @js.Any,
-  filename : @js.Any,
-  options : @js.Any,
-) -> @js.Any =
+  data : @nostd.Any,
+  filename : @nostd.Any,
+  options : @nostd.Any,
+) -> @nostd.Any =
   #|(data, filename, options) => new File(data, filename, options)
 
 ///|
@@ -39,7 +39,7 @@ pub fn File::new(
   let arr = @js.JsArray::new()
   let mut i = 0
   while i < data.length() {
-    arr.call("push", [data[i].as_any()]) |> ignore
+    arr._call("push", [data[i].as_any()]) |> ignore
     i = i + 1
   }
   ffi_new_file(
@@ -96,8 +96,8 @@ pub fn File::slice(self : Self, start? : Int, end? : Int) -> @blob.Blob {
 /// FileReader allows reading file contents asynchronously
 pub(all) struct FileReader {
   readyState : Int
-  result : @js.Nullable[@js.Any]
-  error : @js.Nullable[@js.Any]
+  result : @js.Nullable[@nostd.Any]
+  error : @js.Nullable[@nostd.Any]
 }
 
 ///|
@@ -105,7 +105,7 @@ pub fn FileReader::as_any(self : FileReader) -> @nostd.Any = "%identity"
 
 ///|
 /// Create a new FileReader
-extern "js" fn ffi_new_file_reader() -> @js.Any =
+extern "js" fn ffi_new_file_reader() -> @nostd.Any =
   #|() => new FileReader()
 
 ///|
@@ -154,7 +154,7 @@ pub fn FileReader::abort(self : Self) -> Unit {
 /// Set onload event handler
 pub fn FileReader::set_onload(
   self : Self,
-  callback : (@js.Any) -> Unit noraise,
+  callback : (@nostd.Any) -> Unit noraise,
 ) -> Unit {
   self.as_any()["onload"] = @nostd.any(callback)
 }
@@ -163,7 +163,7 @@ pub fn FileReader::set_onload(
 /// Set onerror event handler
 pub fn FileReader::set_onerror(
   self : Self,
-  callback : (@js.Any) -> Unit noraise,
+  callback : (@nostd.Any) -> Unit noraise,
 ) -> Unit {
   self.as_any()["onerror"] = @nostd.any(callback)
 }
@@ -172,7 +172,7 @@ pub fn FileReader::set_onerror(
 /// Set onloadend event handler
 pub fn FileReader::set_onloadend(
   self : Self,
-  callback : (@js.Any) -> Unit noraise,
+  callback : (@nostd.Any) -> Unit noraise,
 ) -> Unit {
   self.as_any()["onloadend"] = @nostd.any(callback)
 }

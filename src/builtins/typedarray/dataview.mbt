@@ -10,10 +10,10 @@ pub fn DataView::as_any(self : DataView) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_dataview(
-  buffer : @js.Any,
+  buffer : @nostd.Any,
   byte_offset : UInt,
   byte_length : UInt?,
-) -> @js.Any =
+) -> @nostd.Any =
   #| (buf, offset, len) => len !== undefined ? new DataView(buf, offset, len) : new DataView(buf, offset)
 
 ///|
@@ -22,7 +22,7 @@ pub fn DataView::new(
   byte_offset? : UInt = 0,
   byte_length? : UInt,
 ) -> DataView {
-  @js.identity(ffi_new_dataview(buffer.as_any(), byte_offset, byte_length))
+  @js.identity(ffi_new_dataview(buffer.to_any() |> @js.identity, byte_offset, byte_length))
 }
 
 ///|

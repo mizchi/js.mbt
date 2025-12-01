@@ -8,11 +8,11 @@ import(
 )
 
 // Values
-fn compile(@typedarray.Uint8Array) -> @js.Any
+fn compile(@typedarray.Uint8Array) -> @nostd.Any
 
-fn instantiate_bytes(@typedarray.Uint8Array, @js.Any?) -> (WebAssemblyModule, WebAssemblyInstance)
+fn instantiate_bytes(@typedarray.Uint8Array, @nostd.Any?) -> (WebAssemblyModule, WebAssemblyInstance)
 
-fn instantiate_module(WebAssemblyModule, @js.Any?) -> WebAssemblyInstance
+fn instantiate_module(WebAssemblyModule, @nostd.Any?) -> WebAssemblyInstance
 
 fn validate(@typedarray.Uint8Array) -> Bool
 
@@ -39,15 +39,15 @@ pub(all) struct TableDescriptor {
 #external
 pub type WebAssemblyGlobal
 fn WebAssemblyGlobal::as_any(Self) -> @nostd.Any
-fn WebAssemblyGlobal::new(GlobalDescriptor, @js.Any) -> Self
-fn WebAssemblyGlobal::set_value(Self, @js.Any) -> Unit
-fn WebAssemblyGlobal::value(Self) -> @js.Any
+fn WebAssemblyGlobal::new(GlobalDescriptor, @nostd.Any) -> Self
+fn WebAssemblyGlobal::set_value(Self, @nostd.Any) -> Unit
+fn WebAssemblyGlobal::value(Self) -> @nostd.Any
 
 #external
 pub type WebAssemblyInstance
 fn WebAssemblyInstance::as_any(Self) -> @nostd.Any
-fn WebAssemblyInstance::exports(Self) -> @js.Any
-fn WebAssemblyInstance::from_module(WebAssemblyModule, @js.Any?) -> Self
+fn WebAssemblyInstance::exports(Self) -> @nostd.Any
+fn WebAssemblyInstance::from_module(WebAssemblyModule, @nostd.Any?) -> Self
 
 #external
 pub type WebAssemblyMemory
@@ -65,10 +65,10 @@ fn WebAssemblyModule::from_bytes(@typedarray.Uint8Array) -> Self
 #external
 pub type WebAssemblyTable
 fn WebAssemblyTable::as_any(Self) -> @nostd.Any
-fn WebAssemblyTable::grow(Self, Int, @js.Any) -> Int
+fn WebAssemblyTable::grow(Self, Int, @nostd.Any) -> Int
 fn WebAssemblyTable::length(Self) -> Int
 fn WebAssemblyTable::new(TableDescriptor) -> Self
-fn WebAssemblyTable::set(Self, Int, @js.Any) -> Unit
+fn WebAssemblyTable::set(Self, Int, @nostd.Any) -> Unit
 
 // Type aliases
 

@@ -14,32 +14,32 @@ fn[T] computed(() -> T) -> Ref[T]
 
 fn[T] computedWritable(() -> T, (T) -> Unit) -> Ref[T]
 
-fn createApp(@js.Any, props? : @js.Any) -> @js.Any
+fn createApp(@nostd.Any, props? : @nostd.Any) -> @nostd.Any
 
 async fn dynamic_import() -> Unit
 
 fn fragment(Array[&VueNode], key? : String) -> VNode
 
 #alias(get_current_instance)
-fn getCurrentInstance() -> @js.Any?
+fn getCurrentInstance() -> @nostd.Any?
 
-fn h(String, Array[&VueNode], props? : Map[String, @js.Any], style? : Map[String, String], ref_? : Ref[@dom.Element], key? : String) -> VNode
+fn h(String, Array[&VueNode], props? : Map[String, @nostd.Any], style? : Map[String, String], ref_? : Ref[@dom.Element], key? : String) -> VNode
 
-fn init_vue_api(@js.Any, global_key? : String) -> Unit
+fn init_vue_api(@nostd.Any, global_key? : String) -> Unit
 
-fn init_vue_ssr(@js.Any) -> Unit
+fn init_vue_ssr(@nostd.Any) -> Unit
 
 fn[T] inject(String, default_value? : T) -> T
 
-fn isReactive(@js.Any) -> Bool
+fn isReactive(@nostd.Any) -> Bool
 
-fn isReadonly(@js.Any) -> Bool
+fn isReadonly(@nostd.Any) -> Bool
 
-fn isRef(@js.Any) -> Bool
+fn isRef(@nostd.Any) -> Bool
 
 fn[T] markRaw(T) -> T
 
-fn mount(@js.Any, @dom.Element) -> Unit
+fn mount(@nostd.Any, @dom.Element) -> Unit
 
 #alias(next_tick)
 async fn nextTick() -> Unit
@@ -63,7 +63,7 @@ fn onBeforeUpdate(() -> Unit) -> Unit
 fn onDeactivated(() -> Unit) -> Unit
 
 #alias(on_error_captured)
-fn onErrorCaptured((@js.Any, @js.Any, String) -> Bool?) -> Unit
+fn onErrorCaptured((@nostd.Any, @nostd.Any, String) -> Bool?) -> Unit
 
 #alias(on_mounted)
 fn onMounted(() -> Unit) -> Unit
@@ -87,7 +87,7 @@ fn render(VNode, @dom.Element) -> Unit
 
 async fn renderToStaticMarkup(VNode) -> String
 
-fn renderToStream(VNode) -> @js.Any
+fn renderToStream(VNode) -> @nostd.Any
 
 async fn renderToString(VNode) -> String
 
@@ -99,19 +99,19 @@ fn[T] shallowRef(T) -> Ref[T]
 
 fn[T] toRaw(T) -> T
 
-fn[T] toRef(@js.Any, String) -> Ref[T]
+fn[T] toRef(@nostd.Any, String) -> Ref[T]
 
-fn toRefs(@js.Any) -> @js.Any
+fn toRefs(@nostd.Any) -> @nostd.Any
 
 fn[T] triggerRef(Ref[T]) -> Unit
 
 fn[T] unref(Ref[T]) -> T
 
 #alias(use_attrs)
-fn useAttrs() -> @js.Any
+fn useAttrs() -> @nostd.Any
 
 #alias(use_slots)
-fn useSlots() -> @js.Any
+fn useSlots() -> @nostd.Any
 
 fn[T] watch(Ref[T], (T, T) -> Unit, immediate? : Bool, deep? : Bool) -> () -> Unit
 
@@ -125,15 +125,15 @@ fn watchSyncEffect(() -> Unit) -> () -> Unit
 
 // Types and methods
 pub(all) struct Ref[T] {
-  value : @js.Any
+  value : @nostd.Any
 }
-fn[T] Ref::as_any(Self[T]) -> @js.Any
+fn[T] Ref::as_any(Self[T]) -> @nostd.Any
 fn[T] Ref::get_value(Self[T]) -> T
 fn[T] Ref::set_value(Self[T], T) -> Unit
 
 #external
 pub type VNode
-fn VNode::as_any(Self) -> @js.Any
+fn VNode::as_any(Self) -> @nostd.Any
 impl VueNode for VNode
 
 // Type aliases
@@ -143,7 +143,7 @@ pub type WatchStopHandle = () -> Unit
 
 // Traits
 pub trait VueNode {
-  to_vue_node(Self) -> @js.Any
+  to_vue_node(Self) -> @nostd.Any
 }
 impl VueNode for Bool
 impl VueNode for Int

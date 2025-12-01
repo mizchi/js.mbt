@@ -1,5 +1,5 @@
 ///|
-extern "js" fn nodetest() -> @js.Any =
+extern "js" fn nodetest() -> @nostd.Any =
   #| () => require("node:test")
 
 ///|
@@ -53,8 +53,8 @@ pub fn TestContext::runOnly(self : Self, shouldRunOnlyTests : Bool) -> Unit {
 
 ///|
 /// Get assert object from context
-fn TestContext::assert_obj(self : Self) -> @js.Any {
-  self.as_any()["assert"].cast()
+fn TestContext::assert_obj(self : Self) -> @nostd.Any {
+  self.as_any()["assert"]
 }
 
 ///|
@@ -66,72 +66,77 @@ pub fn TestContext::assert_ok(
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
-    Some(msg) => assert_obj.call2("ok", value, msg) |> ignore
-    None => assert_obj.call1("ok", value) |> ignore
+    Some(msg) =>
+      assert_obj._call("ok", [@nostd.any(value), @nostd.any(msg)]) |> ignore
+    None => assert_obj._call("ok", [@nostd.any(value)]) |> ignore
   }
 }
 
 ///|
 /// JS: context.assert.strictEqual(actual, expected, message?)
-pub fn[T : @js.JsImpl] TestContext::assert_strict_equal(
+pub fn TestContext::assert_strict_equal(
   self : Self,
-  actual : T,
-  expected : T,
+  actual : @nostd.Any,
+  expected : @nostd.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
     Some(msg) =>
-      assert_obj.call("strictEqual", [actual, expected, msg]) |> ignore
-    None => assert_obj.call2("strictEqual", actual, expected) |> ignore
+      assert_obj._call("strictEqual", [actual, expected, @nostd.any(msg)])
+      |> ignore
+    None => assert_obj._call("strictEqual", [actual, expected]) |> ignore
   }
 }
 
 ///|
 /// JS: context.assert.notStrictEqual(actual, expected, message?)
-pub fn[T : @js.JsImpl] TestContext::assert_not_strict_equal(
+pub fn TestContext::assert_not_strict_equal(
   self : Self,
-  actual : T,
-  expected : T,
+  actual : @nostd.Any,
+  expected : @nostd.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
     Some(msg) =>
-      assert_obj.call("notStrictEqual", [actual, expected, msg]) |> ignore
-    None => assert_obj.call2("notStrictEqual", actual, expected) |> ignore
+      assert_obj._call("notStrictEqual", [actual, expected, @nostd.any(msg)])
+      |> ignore
+    None => assert_obj._call("notStrictEqual", [actual, expected]) |> ignore
   }
 }
 
 ///|
 /// JS: context.assert.deepStrictEqual(actual, expected, message?)
-pub fn[T : @js.JsImpl] TestContext::assert_deep_strict_equal(
+pub fn TestContext::assert_deep_strict_equal(
   self : Self,
-  actual : T,
-  expected : T,
+  actual : @nostd.Any,
+  expected : @nostd.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
     Some(msg) =>
-      assert_obj.call("deepStrictEqual", [actual, expected, msg]) |> ignore
-    None => assert_obj.call2("deepStrictEqual", actual, expected) |> ignore
+      assert_obj._call("deepStrictEqual", [actual, expected, @nostd.any(msg)])
+      |> ignore
+    None => assert_obj._call("deepStrictEqual", [actual, expected]) |> ignore
   }
 }
 
 ///|
 /// JS: context.assert.notDeepStrictEqual(actual, expected, message?)
-pub fn[T : @js.JsImpl] TestContext::assert_not_deep_strict_equal(
+pub fn TestContext::assert_not_deep_strict_equal(
   self : Self,
-  actual : T,
-  expected : T,
+  actual : @nostd.Any,
+  expected : @nostd.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
     Some(msg) =>
-      assert_obj.call("notDeepStrictEqual", [actual, expected, msg]) |> ignore
-    None => assert_obj.call2("notDeepStrictEqual", actual, expected) |> ignore
+      assert_obj._call("notDeepStrictEqual", [actual, expected, @nostd.any(msg)])
+      |> ignore
+    None => assert_obj._call("notDeepStrictEqual", [actual, expected]) |> ignore
   }
 }
 
@@ -145,8 +150,16 @@ pub fn TestContext::assert_match(
 ) -> Unit {
   let assert_obj = self.assert_obj()
   match message {
-    Some(msg) => assert_obj.call("match", [string, regexp, msg]) |> ignore
-    None => assert_obj.call2("match", string, regexp) |> ignore
+    Some(msg) =>
+      assert_obj._call("match", [
+        @nostd.any(string),
+        @nostd.any(regexp),
+        @nostd.any(msg),
+      ])
+      |> ignore
+    None =>
+      assert_obj._call("match", [@nostd.any(string), @nostd.any(regexp)])
+      |> ignore
   }
 }
 
@@ -161,8 +174,15 @@ pub fn TestContext::assert_does_not_match(
   let assert_obj = self.assert_obj()
   match message {
     Some(msg) =>
-      assert_obj.call("doesNotMatch", [string, regexp, msg]) |> ignore
-    None => assert_obj.call2("doesNotMatch", string, regexp) |> ignore
+      assert_obj._call("doesNotMatch", [
+        @nostd.any(string),
+        @nostd.any(regexp),
+        @nostd.any(msg),
+      ])
+      |> ignore
+    None =>
+      assert_obj._call("doesNotMatch", [@nostd.any(string), @nostd.any(regexp)])
+      |> ignore
   }
 }
 
@@ -171,17 +191,18 @@ pub fn TestContext::assert_does_not_match(
 pub fn TestContext::assert_throws(
   self : Self,
   fn_ : () -> Unit,
-  error? : @js.Any,
+  error? : @nostd.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let fn_js = @js.from_fn0(fn_)
+  let fn_js = @nostd.any(@js.from_fn0(fn_))
   match (error, message) {
     (Some(err), Some(msg)) =>
-      assert_obj.call("throws", [fn_js, err, msg]) |> ignore
-    (Some(err), None) => assert_obj.call2("throws", fn_js, err) |> ignore
-    (None, Some(msg)) => assert_obj.call2("throws", fn_js, msg) |> ignore
-    (None, None) => assert_obj.call1("throws", fn_js) |> ignore
+      assert_obj._call("throws", [fn_js, err, @nostd.any(msg)]) |> ignore
+    (Some(err), None) => assert_obj._call("throws", [fn_js, err]) |> ignore
+    (None, Some(msg)) =>
+      assert_obj._call("throws", [fn_js, @nostd.any(msg)]) |> ignore
+    (None, None) => assert_obj._call("throws", [fn_js]) |> ignore
   }
 }
 
@@ -190,17 +211,19 @@ pub fn TestContext::assert_throws(
 pub fn TestContext::assert_does_not_throw(
   self : Self,
   fn_ : () -> Unit,
-  error? : @js.Any,
+  error? : @nostd.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let fn_js = @js.from_fn0(fn_)
+  let fn_js = @nostd.any(@js.from_fn0(fn_))
   match (error, message) {
     (Some(err), Some(msg)) =>
-      assert_obj.call("doesNotThrow", [fn_js, err, msg]) |> ignore
-    (Some(err), None) => assert_obj.call2("doesNotThrow", fn_js, err) |> ignore
-    (None, Some(msg)) => assert_obj.call2("doesNotThrow", fn_js, msg) |> ignore
-    (None, None) => assert_obj.call1("doesNotThrow", fn_js) |> ignore
+      assert_obj._call("doesNotThrow", [fn_js, err, @nostd.any(msg)]) |> ignore
+    (Some(err), None) =>
+      assert_obj._call("doesNotThrow", [fn_js, err]) |> ignore
+    (None, Some(msg)) =>
+      assert_obj._call("doesNotThrow", [fn_js, @nostd.any(msg)]) |> ignore
+    (None, None) => assert_obj._call("doesNotThrow", [fn_js]) |> ignore
   }
 }
 
@@ -210,17 +233,19 @@ pub fn TestContext::assert_does_not_throw(
 pub fn TestContext::assert_rejects(
   self : Self,
   asyncFn : async () -> Unit,
-  error? : @js.Any,
+  error? : @nostd.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : @js.Any = @js.promisify0(asyncFn)() |> @js.identity
+  let promise_js : @nostd.Any = @js.promisify0(asyncFn)() |> @nostd.any
   match (error, message) {
     (Some(err), Some(msg)) =>
-      assert_obj.call("rejects", [promise_js, err, msg]) |> ignore
-    (Some(err), None) => assert_obj.call2("rejects", promise_js, err) |> ignore
-    (None, Some(msg)) => assert_obj.call2("rejects", promise_js, msg) |> ignore
-    (None, None) => assert_obj.call1("rejects", promise_js) |> ignore
+      assert_obj._call("rejects", [promise_js, err, @nostd.any(msg)]) |> ignore
+    (Some(err), None) =>
+      assert_obj._call("rejects", [promise_js, err]) |> ignore
+    (None, Some(msg)) =>
+      assert_obj._call("rejects", [promise_js, @nostd.any(msg)]) |> ignore
+    (None, None) => assert_obj._call("rejects", [promise_js]) |> ignore
   }
 }
 
@@ -229,19 +254,20 @@ pub fn TestContext::assert_rejects(
 pub fn TestContext::assert_does_not_reject(
   self : Self,
   asyncFn : async () -> Unit,
-  error? : @js.Any,
+  error? : @nostd.Any,
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : @js.Any = @js.promisify0(asyncFn)() |> @js.identity
+  let promise_js : @nostd.Any = @js.promisify0(asyncFn)() |> @nostd.any
   match (error, message) {
     (Some(err), Some(msg)) =>
-      assert_obj.call("doesNotReject", [promise_js, err, msg]) |> ignore
+      assert_obj._call("doesNotReject", [promise_js, err, @nostd.any(msg)])
+      |> ignore
     (Some(err), None) =>
-      assert_obj.call2("doesNotReject", promise_js, err) |> ignore
+      assert_obj._call("doesNotReject", [promise_js, err]) |> ignore
     (None, Some(msg)) =>
-      assert_obj.call2("doesNotReject", promise_js, msg) |> ignore
-    (None, None) => assert_obj.call1("doesNotReject", promise_js) |> ignore
+      assert_obj._call("doesNotReject", [promise_js, @nostd.any(msg)]) |> ignore
+    (None, None) => assert_obj._call("doesNotReject", [promise_js]) |> ignore
   }
 }
 
@@ -257,20 +283,24 @@ pub fn test_(
   timeout? : Int,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if skip is Some(true) {
-    options.set("skip", true)
+    options._set("skip", @nostd.any(true))
   }
   if todo is Some(true) {
-    options.set("todo", true)
+    options._set("todo", @nostd.any(true))
   }
   if only is Some(true) {
-    options.set("only", true)
+    options._set("only", @nostd.any(true))
   }
   if timeout is Some(t) {
-    options.set("timeout", t)
+    options._set("timeout", @nostd.any(t))
   }
-  nodetest().call("test", [name, options, @js.promisify1(f) |> @js.from_fn1])
+  nodetest()._call("test", [
+    @nostd.any(name),
+    options,
+    @nostd.any(@js.promisify1(f) |> @js.from_fn1),
+  ])
   |> ignore
 }
 
@@ -284,20 +314,24 @@ pub fn it(
   timeout? : Int,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if skip is Some(s) {
-    options.set("skip", s)
+    options._set("skip", @nostd.any(s))
   }
   if todo is Some(t) {
-    options.set("todo", t)
+    options._set("todo", @nostd.any(t))
   }
   if only is Some(true) {
-    options.set("only", true)
+    options._set("only", @nostd.any(true))
   }
   if timeout is Some(t) {
-    options.set("timeout", t)
+    options._set("timeout", @nostd.any(t))
   }
-  nodetest().call("it", [name, options, @js.promisify1(f) |> @js.from_fn1])
+  nodetest()._call("it", [
+    @nostd.any(name),
+    options,
+    @nostd.any(@js.promisify1(f) |> @js.from_fn1),
+  ])
   |> ignore
 }
 
@@ -311,20 +345,24 @@ pub fn describe(
   timeout? : Int,
   f : async (SuiteContext) -> Unit,
 ) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if skip is Some(true) {
-    options.set("skip", true)
+    options._set("skip", @nostd.any(true))
   }
   if todo is Some(true) {
-    options.set("todo", true)
+    options._set("todo", @nostd.any(true))
   }
   if only is Some(true) {
-    options.set("only", true)
+    options._set("only", @nostd.any(true))
   }
   if timeout is Some(t) {
-    options.set("timeout", t)
+    options._set("timeout", @nostd.any(t))
   }
-  nodetest().call("describe", [name, options, @js.promisify1(f) |> @js.from_fn1])
+  nodetest()._call("describe", [
+    @nostd.any(name),
+    options,
+    @nostd.any(@js.promisify1(f) |> @js.from_fn1),
+  ])
   |> ignore
 }
 
@@ -333,7 +371,7 @@ pub fn describe(
 ///|
 /// before(fn) - Run once before suite tests
 pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if timeout is Some(t) {
     options.set("timeout", t)
   }
@@ -344,7 +382,7 @@ pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
 ///|
 /// after(fn) - Run once after suite completion
 pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if timeout is Some(t) {
     options.set("timeout", t)
   }
@@ -355,7 +393,7 @@ pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
 ///|
 /// beforeEach(fn) - Run before each test
 pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if timeout is Some(t) {
     options.set("timeout", t)
   }
@@ -366,7 +404,7 @@ pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
 ///|
 /// afterEach(fn) - Run after each test
 pub fn afterEach(f : async () -> Unit, timeout? : Int) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if timeout is Some(t) {
     options.set("timeout", t)
   }

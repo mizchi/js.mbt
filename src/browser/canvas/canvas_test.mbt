@@ -16,9 +16,9 @@
 /// [Test Helper] Creates a canvas element using node-canvas for Node.js testing.
 /// In browsers, use document.createElement('canvas') instead.
 extern "js" fn test_ffi_create_canvas(
-  width : @js.Any,
-  height : @js.Any,
-) -> @js.Any =
+  width : @nostd.Any,
+  height : @nostd.Any,
+) -> @nostd.Any =
   #|(width, height) => {
   #|  const { createCanvas } = require('canvas');
   #|  return createCanvas(width, height);
@@ -28,9 +28,9 @@ extern "js" fn test_ffi_create_canvas(
 /// [Test Helper] Creates an empty ImageData using node-canvas.
 /// In browsers, use CanvasRenderingContext2D.createImageData() instead.
 extern "js" fn test_ffi_create_image_data(
-  width : @js.Any,
-  height : @js.Any,
-) -> @js.Any =
+  width : @nostd.Any,
+  height : @nostd.Any,
+) -> @nostd.Any =
   #|(width, height) => {
   #|  const { createImageData } = require('canvas');
   #|  return createImageData(width, height);
@@ -39,10 +39,10 @@ extern "js" fn test_ffi_create_image_data(
 ///|
 /// [Test Helper] Creates ImageData from a Uint8Array using node-canvas.
 extern "js" fn test_ffi_create_image_data_with_data(
-  data : @js.Any,
-  width : @js.Any,
-  height : @js.Any,
-) -> @js.Any =
+  data : @nostd.Any,
+  width : @nostd.Any,
+  height : @nostd.Any,
+) -> @nostd.Any =
   #|(data, width, height) => {
   #|  const { createImageData } = require('canvas');
   #|  return createImageData(new Uint8ClampedArray(data.buffer), width, height);

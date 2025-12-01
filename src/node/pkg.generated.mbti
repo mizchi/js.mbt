@@ -19,11 +19,11 @@ fn import_meta_resolve(String) -> Unit
 
 fn import_meta_url() -> String
 
-fn module_() -> @js.Any
+fn module_() -> @nostd.Any
 
 fn process() -> @process.Process
 
-fn require(String) -> @js.Any
+fn require(String) -> @nostd.Any
 
 fn require_cache() -> @js.Object
 

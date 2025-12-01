@@ -17,9 +17,9 @@ fn generate_from_zod_nested(@zod.ZodSchema, String, type_prefix? : String, struc
 
 fn generate_struct(JsonSchema, String, type_prefix? : String, struct_prefix? : String, struct_postfix? : String, add_docs? : Bool) -> String
 
-fn to_json_schema(@zod.ZodSchema) -> @js.Any
+fn to_json_schema(@zod.ZodSchema) -> @nostd.Any
 
-fn to_json_schema_with_options(@zod.ZodSchema, name? : String, io? : String, unrepresentable? : String, override_? : @js.Any) -> @js.Any
+fn to_json_schema_with_options(@zod.ZodSchema, name? : String, io? : String, unrepresentable? : String, override_? : @nostd.Any) -> @nostd.Any
 
 // Errors
 
@@ -31,18 +31,18 @@ pub struct GeneratedType {
 }
 
 pub struct JsonSchema {
-  raw : @js.Any
+  raw : @nostd.Any
 }
 fn JsonSchema::additional_properties(Self) -> Self?
 fn JsonSchema::any_of(Self) -> Array[Self]?
-fn JsonSchema::as_any(Self) -> @js.Any
-fn JsonSchema::const_value(Self) -> @js.Any?
-fn JsonSchema::default_value(Self) -> @js.Any?
-fn JsonSchema::definitions(Self) -> @js.Any
+fn JsonSchema::as_any(Self) -> @nostd.Any
+fn JsonSchema::const_value(Self) -> @nostd.Any?
+fn JsonSchema::default_value(Self) -> @nostd.Any?
+fn JsonSchema::definitions(Self) -> @nostd.Any
 fn JsonSchema::description(Self) -> String?
 fn JsonSchema::enum_values(Self) -> Array[String]?
 fn JsonSchema::format(Self) -> String?
-fn JsonSchema::from_any(@js.Any) -> Self
+fn JsonSchema::from_any(@nostd.Any) -> Self
 fn JsonSchema::from_zod(@zod.ZodSchema) -> Self
 fn JsonSchema::from_zod_with_name(@zod.ZodSchema, String) -> Self
 fn JsonSchema::items(Self) -> Self?
@@ -50,7 +50,7 @@ fn JsonSchema::max_length(Self) -> Int?
 fn JsonSchema::maximum(Self) -> Double?
 fn JsonSchema::min_length(Self) -> Int?
 fn JsonSchema::minimum(Self) -> Double?
-fn JsonSchema::properties(Self) -> @js.Any
+fn JsonSchema::properties(Self) -> @nostd.Any
 fn JsonSchema::ref_(Self) -> String?
 fn JsonSchema::required(Self) -> Array[String]
 fn JsonSchema::to_json(Self) -> String

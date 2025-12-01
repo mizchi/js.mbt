@@ -9,7 +9,7 @@ import(
 // Values
 fn and_(Array[SQL]) -> SQL
 
-fn asc(Column) -> @js.Any
+fn asc(Column) -> @nostd.Any
 
 fn avg(Column) -> SQL
 
@@ -22,7 +22,7 @@ fn boolean(name? : String) -> Column
 
 fn count(column? : Column) -> SQL
 
-fn desc(Column) -> @js.Any
+fn desc(Column) -> @nostd.Any
 
 fn drizzle(String) -> DrizzleDB
 
@@ -30,23 +30,23 @@ fn drizzle(String) -> DrizzleDB
 fn drizzleBetterSqlite(String) -> DrizzleDB
 
 #alias(drizzle_better_sqlite_db)
-fn drizzleBetterSqliteDb(@js.Any) -> DrizzleDB
+fn drizzleBetterSqliteDb(@nostd.Any) -> DrizzleDB
 
 #alias(drizzle_d1)
-fn drizzleD1(@js.Any) -> DrizzleDB
+fn drizzleD1(@nostd.Any) -> DrizzleDB
 
 #alias(drizzle_d1_with_schema)
-fn drizzleD1WithSchema(@js.Any, @js.Any) -> DrizzleDB
+fn drizzleD1WithSchema(@nostd.Any, @nostd.Any) -> DrizzleDB
 
 fn drizzleLibsql(String) -> DrizzleDB
 
-fn drizzleLibsqlClient(@js.Any) -> DrizzleDB
+fn drizzleLibsqlClient(@nostd.Any) -> DrizzleDB
 
 #alias(drizzle_with_config)
-fn drizzleWithConfig(@js.Any) -> DrizzleDB
+fn drizzleWithConfig(@nostd.Any) -> DrizzleDB
 
 #alias(drizzle_with_pool)
-fn drizzleWithPool(@js.Any) -> DrizzleDB
+fn drizzleWithPool(@nostd.Any) -> DrizzleDB
 
 fn eq(Column, @nostd.Any) -> SQL
 
@@ -56,7 +56,7 @@ fn gte(Column, @nostd.Any) -> SQL
 
 fn ilike(Column, String) -> SQL
 
-fn inArray(Column, Array[@js.Any]) -> SQL
+fn inArray(Column, Array[@nostd.Any]) -> SQL
 
 fn integer(name? : String) -> Column
 
@@ -83,7 +83,7 @@ fn min_(Column) -> SQL
 fn ne(Column, @nostd.Any) -> SQL
 
 #alias(not_in_array)
-fn notInArray(Column, Array[@js.Any]) -> SQL
+fn notInArray(Column, Array[@nostd.Any]) -> SQL
 
 fn not_(SQL) -> SQL
 
@@ -92,19 +92,19 @@ fn numeric(name? : String, precision? : Int, scale? : Int) -> Column
 fn or_(Array[SQL]) -> SQL
 
 #alias(pg_check)
-fn pgCheck(String, SQL) -> @js.Any
+fn pgCheck(String, SQL) -> @nostd.Any
 
 #alias(pg_foreign_key)
-fn pgForeignKey(Array[Column], Array[Column], name? : String) -> @js.Any
+fn pgForeignKey(Array[Column], Array[Column], name? : String) -> @nostd.Any
 
 #alias(pg_index)
 fn pgIndex(String) -> PgIndexBuilder
 
 #alias(pg_primary_key)
-fn pgPrimaryKey(Array[Column], name? : String) -> @js.Any
+fn pgPrimaryKey(Array[Column], name? : String) -> @nostd.Any
 
 #alias(pg_table)
-fn pgTable(String, @js.Any) -> Table
+fn pgTable(String, @nostd.Any) -> Table
 
 #alias(pg_table_from_map)
 fn pgTableFromMap(String, Map[String, Column]) -> Table
@@ -115,29 +115,29 @@ fn pgUnique(name? : String) -> UniqueBuilder
 #alias(pg_unique_index)
 fn pgUniqueIndex(String) -> PgIndexBuilder
 
-fn placeholder(String) -> @js.Any
+fn placeholder(String) -> @nostd.Any
 
-fn rows(Array[Row]) -> @js.Any
+fn rows(Array[Row]) -> @nostd.Any
 
 fn serial(name? : String) -> Column
 
 #alias(sql_add)
-fn sqlAdd(@js.Any, @js.Any) -> SQL
+fn sqlAdd(@nostd.Any, @nostd.Any) -> SQL
 
 #alias(sql_div)
-fn sqlDiv(@js.Any, @js.Any) -> SQL
+fn sqlDiv(@nostd.Any, @nostd.Any) -> SQL
 
 #alias(sql_mul)
-fn sqlMul(@js.Any, @js.Any) -> SQL
+fn sqlMul(@nostd.Any, @nostd.Any) -> SQL
 
 #alias(sql_raw)
 fn sqlRaw(String) -> SQL
 
 #alias(sql_sub)
-fn sqlSub(@js.Any, @js.Any) -> SQL
+fn sqlSub(@nostd.Any, @nostd.Any) -> SQL
 
 #alias(sql_template)
-fn sqlTemplate(Array[String], Array[@js.Any]) -> SQL
+fn sqlTemplate(Array[String], Array[@nostd.Any]) -> SQL
 
 fn sql_expr(String) -> SQL
 
@@ -145,10 +145,10 @@ fn sql_expr(String) -> SQL
 fn sqliteBlob(name? : String, mode? : String) -> Column
 
 #alias(sqlite_check)
-fn sqliteCheck(String, SQL) -> @js.Any
+fn sqliteCheck(String, SQL) -> @nostd.Any
 
 #alias(sqlite_foreign_key)
-fn sqliteForeignKey(Array[Column], Array[Column], name? : String) -> @js.Any
+fn sqliteForeignKey(Array[Column], Array[Column], name? : String) -> @nostd.Any
 
 #alias(sqlite_index)
 fn sqliteIndex(String) -> IndexBuilder
@@ -163,19 +163,19 @@ fn sqliteInteger(name? : String, mode? : String) -> Column
 fn sqliteNumeric(name? : String) -> Column
 
 #alias(sqlite_primary_key)
-fn sqlitePrimaryKey(Array[Column], name? : String) -> @js.Any
+fn sqlitePrimaryKey(Array[Column], name? : String) -> @nostd.Any
 
 #alias(sqlite_real)
 fn sqliteReal(name? : String) -> Column
 
 #alias(sqlite_table)
-fn sqliteTable(String, @js.Any) -> Table
+fn sqliteTable(String, @nostd.Any) -> Table
 
 #alias(sqlite_table_from_map)
 fn sqliteTableFromMap(String, Map[String, Column]) -> Table
 
 #alias(sqlite_table_with_config)
-fn sqliteTableWithConfig(String, @js.Any, (Table) -> @js.Any) -> Table
+fn sqliteTableWithConfig(String, @nostd.Any, (Table) -> @nostd.Any) -> Table
 
 #alias(sqlite_text)
 fn sqliteText(name? : String, mode? : String) -> Column
@@ -201,21 +201,21 @@ fn varchar(name? : String, length? : Int) -> Column
 // Types and methods
 #external
 pub type Column
-fn Column::as_any(Self) -> @js.Any
-fn Column::asc_(Self) -> @js.Any
+fn Column::as_any(Self) -> @nostd.Any
+fn Column::asc_(Self) -> @nostd.Any
 #alias(default_now)
 fn Column::defaultNow(Self) -> Self
 #alias(default_value)
 fn Column::defaultValue(Self, @nostd.Any) -> Self
-fn Column::desc_(Self) -> @js.Any
+fn Column::desc_(Self) -> @nostd.Any
 #alias(generated_always_as_identity)
 fn Column::generatedAlwaysAsIdentity(Self) -> Self
 #alias(not_null)
 fn Column::notNull(Self) -> Self
 #alias(nulls_first)
-fn Column::nullsFirst(Self) -> @js.Any
+fn Column::nullsFirst(Self) -> @nostd.Any
 #alias(nulls_last)
-fn Column::nullsLast(Self) -> @js.Any
+fn Column::nullsLast(Self) -> @nostd.Any
 #alias(on_delete)
 fn Column::onDelete(Self, ForeignKeyAction) -> Self
 #alias(on_update)
@@ -229,19 +229,19 @@ fn Column::unique(Self) -> Self
 
 #external
 pub type DrizzleDB
-fn DrizzleDB::as_any(Self) -> @js.Any
+fn DrizzleDB::as_any(Self) -> @nostd.Any
 fn DrizzleDB::delete(Self, Table) -> QueryBuilder
 fn DrizzleDB::insert(Self, Table) -> QueryBuilder
 #alias(pg_transaction)
-async fn DrizzleDB::pgTransaction(Self, (Transaction) -> Unit, isolation_level? : PgIsolationLevel, access_mode? : PgAccessMode, deferrable? : Bool) -> @js.Any
-fn DrizzleDB::select(Self, fields? : @js.Any) -> QueryBuilder
+async fn DrizzleDB::pgTransaction(Self, (Transaction) -> Unit, isolation_level? : PgIsolationLevel, access_mode? : PgAccessMode, deferrable? : Bool) -> @nostd.Any
+fn DrizzleDB::select(Self, fields? : @nostd.Any) -> QueryBuilder
 #alias(select_distinct)
 fn DrizzleDB::selectDistinct(Self) -> QueryBuilder
 #alias(sqlite_transaction)
-async fn DrizzleDB::sqliteTransaction(Self, SqliteBehavior, (Transaction) -> Unit) -> @js.Any
-async fn DrizzleDB::transaction(Self, (Transaction) -> Unit) -> @js.Any
+async fn DrizzleDB::sqliteTransaction(Self, SqliteBehavior, (Transaction) -> Unit) -> @nostd.Any
+async fn DrizzleDB::transaction(Self, (Transaction) -> Unit) -> @nostd.Any
 #alias(transaction_async)
-async fn DrizzleDB::transactionAsync(Self, (Transaction) -> @js.Promise[@js.Any]) -> @js.Any
+async fn DrizzleDB::transactionAsync(Self, (Transaction) -> @js.Promise[@nostd.Any]) -> @nostd.Any
 fn DrizzleDB::update(Self, Table) -> QueryBuilder
 
 pub(all) enum ForeignKeyAction {
@@ -257,7 +257,7 @@ impl Show for ForeignKeyAction
 
 #external
 pub type IndexBuilder
-fn IndexBuilder::as_any(Self) -> @js.Any
+fn IndexBuilder::as_any(Self) -> @nostd.Any
 #alias(index_where)
 fn IndexBuilder::filter(Self, SQL) -> Self
 fn IndexBuilder::on(Self, Array[Column]) -> Self
@@ -272,12 +272,12 @@ impl Show for PgAccessMode
 
 #external
 pub type PgIndexBuilder
-fn PgIndexBuilder::as_any(Self) -> @js.Any
+fn PgIndexBuilder::as_any(Self) -> @nostd.Any
 fn PgIndexBuilder::concurrently(Self) -> Self
 fn PgIndexBuilder::filter(Self, SQL) -> Self
 fn PgIndexBuilder::on(Self, Array[Column]) -> Self
 #alias(using_method)
-fn PgIndexBuilder::usingMethod(Self, String, Array[@js.Any]) -> Self
+fn PgIndexBuilder::usingMethod(Self, String, Array[@nostd.Any]) -> Self
 
 pub(all) enum PgIsolationLevel {
   ReadUncommitted
@@ -291,16 +291,16 @@ impl Show for PgIsolationLevel
 
 #external
 pub type PreparedQuery
-fn PreparedQuery::as_any(Self) -> @js.Any
-async fn PreparedQuery::execute(Self, params? : @js.Any) -> @js.Any
-async fn[T] PreparedQuery::execute_array(Self, params? : @js.Any) -> Array[T]
+fn PreparedQuery::as_any(Self) -> @nostd.Any
+async fn PreparedQuery::execute(Self, params? : @nostd.Any) -> @nostd.Any
+async fn[T] PreparedQuery::execute_array(Self, params? : @nostd.Any) -> Array[T]
 
 #external
 pub type QueryBuilder
-fn QueryBuilder::as_(Self, String) -> @js.Any
-fn QueryBuilder::as_any(Self) -> @js.Any
+fn QueryBuilder::as_(Self, String) -> @nostd.Any
+fn QueryBuilder::as_any(Self) -> @nostd.Any
 fn QueryBuilder::except(Self, Self) -> Self
-async fn QueryBuilder::execute(Self) -> @js.Any
+async fn QueryBuilder::execute(Self) -> @nostd.Any
 async fn[T] QueryBuilder::execute_array(Self) -> Array[T]
 fn QueryBuilder::filter(Self, SQL) -> Self
 fn QueryBuilder::from(Self, Table) -> Self
@@ -317,9 +317,9 @@ fn QueryBuilder::offset(Self, Int) -> Self
 #alias(on_conflict_do_nothing)
 fn QueryBuilder::onConflictDoNothing(Self) -> Self
 #alias(on_conflict_do_update)
-fn QueryBuilder::onConflictDoUpdate(Self, Array[Column], @js.Any) -> Self
+fn QueryBuilder::onConflictDoUpdate(Self, Array[Column], @nostd.Any) -> Self
 #alias(order_by)
-fn QueryBuilder::orderBy(Self, Array[@js.Any]) -> Self
+fn QueryBuilder::orderBy(Self, Array[@nostd.Any]) -> Self
 fn QueryBuilder::prepare(Self, String) -> PreparedQuery
 fn QueryBuilder::returning(Self) -> Self
 fn QueryBuilder::set(Self, @nostd.Any) -> Self
@@ -331,9 +331,9 @@ fn QueryBuilder::values(Self, @nostd.Any) -> Self
 pub struct Row {
   // private fields
 }
-fn Row::as_any(Self) -> @js.Any
+fn Row::as_any(Self) -> @nostd.Any
 fn Row::bool(Self, String, Bool) -> Self
-fn Row::build(Self) -> @js.Any
+fn Row::build(Self) -> @nostd.Any
 fn Row::double(Self, String, Double) -> Self
 fn Row::int(Self, String, Int) -> Self
 fn Row::new() -> Self
@@ -343,7 +343,7 @@ fn Row::str(Self, String, String) -> Self
 
 #external
 pub type SQL
-fn SQL::as_any(Self) -> @js.Any
+fn SQL::as_any(Self) -> @nostd.Any
 
 pub(all) enum SqliteBehavior {
   Deferred
@@ -356,21 +356,21 @@ impl Show for SqliteBehavior
 
 #external
 pub type Table
-fn Table::as_any(Self) -> @js.Any
-fn Table::get(Self, String) -> @js.Any
+fn Table::as_any(Self) -> @nostd.Any
+fn Table::get(Self, String) -> @nostd.Any
 
 #external
 pub type Transaction
-fn Transaction::as_any(Self) -> @js.Any
+fn Transaction::as_any(Self) -> @nostd.Any
 fn Transaction::delete(Self, Table) -> QueryBuilder
 fn Transaction::insert(Self, Table) -> QueryBuilder
 fn Transaction::rollback(Self) -> Unit
-fn Transaction::select(Self, fields? : @js.Any) -> QueryBuilder
+fn Transaction::select(Self, fields? : @nostd.Any) -> QueryBuilder
 fn Transaction::update(Self, Table) -> QueryBuilder
 
 #external
 pub type UniqueBuilder
-fn UniqueBuilder::as_any(Self) -> @js.Any
+fn UniqueBuilder::as_any(Self) -> @nostd.Any
 #alias(nulls_not_distinct)
 fn UniqueBuilder::nullsNotDistinct(Self) -> Self
 fn UniqueBuilder::on(Self, Array[Column]) -> Self

@@ -4,7 +4,7 @@
 /// https://nodejs.org/api/async_context.html#class-asynclocalstorage
 
 ///|
-extern "js" fn async_local_storage_constructor() -> @js.Any =
+extern "js" fn async_local_storage_constructor() -> @nostd.Any =
   #| () => require("async_hooks").AsyncLocalStorage
 
 ///|

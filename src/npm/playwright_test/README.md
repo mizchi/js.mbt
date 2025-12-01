@@ -25,7 +25,7 @@ async fn main {
 
   // Define a test
   t.run("my test", @js.from_fn1(async fn(fixtures) {
-    let page : @playwright.Page = @js.identity(fixtures.get("page"))
+    let page : @playwright.Page = @js.identity(fixtures._get("page"))
     defer page.close() |> ignore
     let _ = page.goto("https://example.com")
 
@@ -37,12 +37,12 @@ async fn main {
   // Define a describe block
   t.describe("my suite", @js.from_fn0(fn() {
     t.beforeEach(@js.from_fn1(async fn(fixtures) {
-      let page : @playwright.Page = @js.identity(fixtures.get("page"))
+      let page : @playwright.Page = @js.identity(fixtures._get("page"))
       let _ = page.goto("https://example.com")
     }))
 
     t.run("has title", @js.from_fn1(async fn(fixtures) {
-      let page : @playwright.Page = @js.identity(fixtures.get("page"))
+      let page : @playwright.Page = @js.identity(fixtures._get("page"))
       expect.page(page).toHaveTitle("Example Domain")
     }))
   }))

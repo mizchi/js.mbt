@@ -43,7 +43,7 @@ pub struct DeleteObjectOutput {
 }
 
 pub struct GetObjectOutput {
-  body : @js.Any
+  body : @nostd.Any
   content_type : String?
   content_length : Int?
   etag : String?
@@ -79,7 +79,7 @@ pub struct S3Object {
   key : String?
   size : Int?
   etag : String?
-  last_modified : @js.Any
+  last_modified : @nostd.Any
 }
 
 // Type aliases

@@ -3,13 +3,13 @@
 /// https://github.com/date-fns/date-fns
 
 ///|
-fn date_fns() -> @js.Any {
+fn date_fns() -> @nostd.Any {
   @node.require("date-fns")
 }
 
 ///|
 pub(open) trait DateArgs {
-  to_date(Self) -> @js.Any = _
+  to_date(Self) -> @nostd.Any = _
 }
 
 ///|
@@ -72,7 +72,7 @@ pub fn parse(
   format_str : String,
   reference : &DateArgs,
 ) -> @date.Date {
-  date_fns().call("parse", [date_str, format_str, reference.to_date()]).cast()
+  date_fns()._call("parse", [date_str, format_str, reference.to_date()]).cast()
 }
 
 ///|
@@ -227,7 +227,7 @@ pub fn add(
   minutes? : Int,
   seconds? : Int,
 ) -> @date.Date {
-  let duration = @js.Object::new()
+  let duration = @nostd.Object::new()
   match years {
     Some(v) => duration.set("years", v)
     None => ()
@@ -271,7 +271,7 @@ pub fn sub(
   minutes? : Int,
   seconds? : Int,
 ) -> @date.Date {
-  let duration = @js.Object::new()
+  let duration = @nostd.Object::new()
   match years {
     Some(v) => duration.set("years", v)
     None => ()
@@ -550,7 +550,7 @@ pub fn fromUnixTime(timestamp : Int) -> @date.Date {
 }
 
 ///|
-extern "js" fn ffi_new_date_from_time(time : Int) -> @js.Any =
+extern "js" fn ffi_new_date_from_time(time : Int) -> @nostd.Any =
   #| (time) => new Date(time)
 
 ///|

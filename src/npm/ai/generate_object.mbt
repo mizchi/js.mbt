@@ -36,7 +36,7 @@ pub fn OutputStrategy::to_string(self : OutputStrategy) -> String {
 /// Result from generateObject call
 pub(all) struct GenerateObjectResult {
   /// The generated object (type depends on schema)
-  object : @js.Any
+  object : @nostd.Any
   /// The finish reason
   finish_reason : FinishReason
   /// Token usage
@@ -48,27 +48,31 @@ pub(all) struct GenerateObjectResult {
   /// Provider metadata
   provider_metadata : ProviderMetadata?
   /// Raw result object
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn GenerateObjectResult::from_any(value : @js.Any) -> GenerateObjectResult {
+pub fn GenerateObjectResult::from_any(
+  value : @nostd.Any,
+) -> GenerateObjectResult {
   // Parse warnings array
-  let warnings_raw = value.get("warnings")
+  let warnings_raw = value._get("warnings")
   let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
     @js.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(warnings_raw)
+    let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   {
-    object: value.get("object"),
-    finish_reason: FinishReason::from_string(value.get("finishReason").cast()),
-    usage: LanguageModelUsage::from_any(value.get("usage")),
+    object: value._get("object"),
+    finish_reason: FinishReason::from_string(value._get("finishReason").cast()),
+    usage: LanguageModelUsage::from_any(value._get("usage")),
     warnings,
-    response: LanguageModelResponseMetadata::from_any(value.get("response")),
-    provider_metadata: ProviderMetadata::from_any(value.get("providerMetadata")),
+    response: LanguageModelResponseMetadata::from_any(value._get("response")),
+    provider_metadata: ProviderMetadata::from_any(
+      value._get("providerMetadata"),
+    ),
     raw: value,
   }
 }
@@ -90,7 +94,7 @@ pub fn[T] GenerateObjectResult::get_object(self : GenerateObjectResult) -> T {
 pub async fn generateObject(
   model~ : Model,
   /// JSON schema for the output object
-  schema~ : @js.Any,
+  schema~ : @nostd.Any,
   /// Schema name (helps LLM understand expected output)
   schema_name? : String,
   /// Schema description
@@ -112,12 +116,12 @@ pub async fn generateObject(
   /// Maximum retries
   max_retries? : Int,
   /// Abort signal
-  abort_signal? : @js.Any,
+  abort_signal? : @nostd.Any,
 ) -> GenerateObjectResult {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("model", model.as_any())
   // Wrap schema with jsonSchema() helper
-  let json_schema_fn = ai_module().get("jsonSchema")
+  let json_schema_fn = ai_module()._get("jsonSchema")
   let wrapped_schema = json_schema_fn.call_self([schema])
   opts.set("schema", wrapped_schema)
   if schema_name is Some(n) {
@@ -153,8 +157,8 @@ pub async fn generateObject(
   if abort_signal is Some(s) {
     opts.set("abortSignal", s)
   }
-  let promise : @js.Promise[@js.Any] = ai_module()
-    .get("generateObject")
+  let promise : @js.Promise[@nostd.Any] = ai_module()
+    ._get("generateObject")
     .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()
@@ -168,7 +172,7 @@ pub async fn generateObject(
 pub async fn generateObjectWithZod(
   model~ : Model,
   /// Zod schema object (from @zod)
-  zod_schema~ : @js.Any,
+  zod_schema~ : @nostd.Any,
   /// Schema name (helps LLM understand expected output)
   schema_name? : String,
   /// Schema description
@@ -184,7 +188,7 @@ pub async fn generateObjectWithZod(
   /// Temperature for randomness
   temperature? : Double,
 ) -> GenerateObjectResult {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("model", model.as_any())
   opts.set("schema", zod_schema)
   if schema_name is Some(n) {
@@ -208,8 +212,8 @@ pub async fn generateObjectWithZod(
   if temperature is Some(t) {
     opts.set("temperature", t)
   }
-  let promise : @js.Promise[@js.Any] = ai_module()
-    .get("generateObject")
+  let promise : @js.Promise[@nostd.Any] = ai_module()
+    ._get("generateObject")
     .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()

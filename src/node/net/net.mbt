@@ -1,6 +1,6 @@
 ///|
 /// node:net module
-extern "js" fn net_module() -> @js.Any =
+extern "js" fn net_module() -> @nostd.Any =
   #| () => require("node:net")
 
 ///|
@@ -190,10 +190,10 @@ pub fn Server::listen(
 
   // Call listen with port, host, and backlog
   match (host, backlog) {
-    (Some(h), Some(b)) => self.call("listen", [port, h, b]).cast()
+    (Some(h), Some(b)) => self._call("listen", [port, h, b]).cast()
     (Some(h), None) => self.call2("listen", port, h) |> @js.identity
     (None, Some(b)) => self.call2("listen", port, b) |> @js.identity
-    (None, None) => self.call("listen", [port]).cast()
+    (None, None) => self._call("listen", [port]).cast()
   }
 }
 
@@ -218,13 +218,13 @@ pub fn Server::address(self : Server) -> AddressInfo? {
 ///|
 /// Check if the server is listening
 pub fn Server::listening(self : Server) -> Bool {
-  self.get("listening").cast()
+  self._get("listening").cast()
 }
 
 ///|
 /// Get max connections
 pub fn Server::maxConnections(self : Server) -> Int? {
-  self.get("maxConnections") |> @js.identity_option
+  self._get("maxConnections") |> @js.identity_option
 }
 
 ///|
@@ -240,7 +240,7 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 pub fn createConnection(port : Int, host? : String) -> Socket {
   match host {
     Some(h) => net_module().call2("createConnection", port, h) |> @js.identity
-    None => net_module().call("createConnection", [port]).cast()
+    None => net_module()._call("createConnection", [port]).cast()
   }
 }
 
@@ -265,7 +265,7 @@ pub fn createServer(
     keepAlive is Some(_) ||
     keepAliveInitialDelay is Some(_)
   if has_options {
-    let opts : @js.Any = @mbtconv.from_option_map({
+    let opts : @nostd.Any = @mbtconv.from_option_map({
       "allowHalfOpen": allowHalfOpen.map(fn(x) { @nostd.any(x) }),
       "pauseOnConnect": pauseOnConnect.map(fn(x) { @nostd.any(x) }),
       "noDelay": noDelay.map(fn(x) { @nostd.any(x) }),
@@ -281,17 +281,17 @@ pub fn createServer(
 ///|
 /// Check if IP address is IPv4
 pub fn isIPv4(input : String) -> Bool {
-  net_module().call("isIPv4", [input]).cast()
+  net_module()._call("isIPv4", [input]).cast()
 }
 
 ///|
 /// Check if IP address is IPv6
 pub fn isIPv6(input : String) -> Bool {
-  net_module().call("isIPv6", [input]).cast()
+  net_module()._call("isIPv6", [input]).cast()
 }
 
 ///|
 /// Check IP version (returns 4, 6, or 0 for invalid)
 pub fn isIP(input : String) -> Int {
-  net_module().call("isIP", [input]).cast()
+  net_module()._call("isIP", [input]).cast()
 }

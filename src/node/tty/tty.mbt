@@ -7,38 +7,33 @@
 pub type ReadStream
 
 ///|
-pub fn ReadStream::as_any(self : ReadStream) -> @nostd.Any = "%identity"
+pub fn ReadStream::to_any(self : ReadStream) -> @nostd.Any = "%identity"
 
 ///|
 pub fn ReadStream::as_event_target(self : ReadStream) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for ReadStream
-
-///|
 pub impl @event.EventTargetImpl for ReadStream with as_any(self) -> @nostd.Any {
-  self.as_any()
+  self.to_any()
 }
 
 ///|
 /// Check if ReadStream is a TTY
 pub fn ReadStream::is_tty(self : ReadStream) -> Bool {
-  let val : @js.Any = self.get("isTTY")
-  @js.identity(val)
+  self.to_any()["isTTY"].cast()
 }
 
 ///|
 /// Check if ReadStream is in raw mode
 pub fn ReadStream::is_raw(self : ReadStream) -> Bool {
-  let val : @js.Any = self.get("isRaw")
-  @js.identity(val)
+  self.to_any()["isRaw"].cast()
 }
 
 ///|
 /// Set raw mode for the ReadStream
 /// In raw mode, input is available character-by-character
 pub fn ReadStream::set_raw_mode(self : ReadStream, mode : Bool) -> Unit {
-  self.call("setRawMode", [mode]) |> ignore
+  self.to_any()._call("setRawMode", [@nostd.any(mode)]) |> ignore
 }
 
 ///|
@@ -49,64 +44,74 @@ pub fn ReadStream::set_raw_mode(self : ReadStream, mode : Bool) -> Unit {
 pub type WriteStream
 
 ///|
-pub fn WriteStream::as_any(self : WriteStream) -> @nostd.Any = "%identity"
+pub fn WriteStream::to_any(self : WriteStream) -> @nostd.Any = "%identity"
 
 ///|
 pub fn WriteStream::as_event_target(self : WriteStream) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for WriteStream
-
-///|
 pub impl @event.EventTargetImpl for WriteStream with as_any(self) -> @nostd.Any {
-  self.as_any()
+  self.to_any()
 }
 
 ///|
 /// Check if WriteStream is a TTY
 pub fn WriteStream::is_tty(self : WriteStream) -> Bool {
-  let val : @js.Any = self.get("isTTY")
-  @js.identity(val)
+  self.to_any()["isTTY"].cast()
 }
 
 ///|
 /// Write data to the stream (inherited from stream.Writable)
-pub fn[T : @js.JsImpl] WriteStream::write(
+pub fn WriteStream::write(
   self : WriteStream,
-  chunk : T,
+  chunk : @nostd.Any,
   encoding? : String,
-  callback? : @js.Any,
+  callback? : @nostd.Any,
 ) -> Bool {
-  self.call("write", [chunk.as_any(), encoding, callback]).cast()
+  let enc : @nostd.Any = match encoding {
+    Some(e) => @nostd.any(e)
+    None => @global.undefined() |> @nostd.any
+  }
+  let cb : @nostd.Any = match callback {
+    Some(c) => c |> @nostd.any
+    None => @global.undefined() |> @nostd.any
+  }
+  self.to_any()._call("write", [chunk, enc, cb]).cast()
 }
 
 ///|
 /// End the stream (inherited from stream.Writable)
-pub fn[T : @js.JsImpl] WriteStream::end(
+pub fn WriteStream::end(
   self : WriteStream,
-  chunk? : T,
+  chunk? : @nostd.Any,
   encoding? : String,
-  callback? : @js.Any,
+  callback? : @nostd.Any,
 ) -> WriteStream {
-  let chunk_any : @js.Any = match chunk {
-    Some(c) => c.as_any()
-    None => @global.undefined()
+  let chunk_any : @nostd.Any = match chunk {
+    Some(c) => c
+    None => @global.undefined() |> @nostd.any
   }
-  self.call("end", [chunk_any, encoding, callback]).cast()
+  let enc : @nostd.Any = match encoding {
+    Some(e) => @nostd.any(e)
+    None => @global.undefined() |> @nostd.any
+  }
+  let cb : @nostd.Any = match callback {
+    Some(c) => c |> @nostd.any
+    None => @global.undefined() |> @nostd.any
+  }
+  self.to_any()._call("end", [chunk_any, enc, cb]) |> @nostd.identity
 }
 
 ///|
 /// Get the number of columns in the terminal
 pub fn WriteStream::columns(self : WriteStream) -> Int {
-  let val : @js.Any = self.get("columns")
-  @js.identity(val)
+  self.to_any()["columns"].cast()
 }
 
 ///|
 /// Get the number of rows in the terminal
 pub fn WriteStream::rows(self : WriteStream) -> Int {
-  let val : @js.Any = self.get("rows")
-  @js.identity(val)
+  self.to_any()["rows"].cast()
 }
 
 ///|
@@ -117,8 +122,8 @@ pub fn WriteStream::clear_line(
   dir : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
-  self.call2("clearLine", dir, cb) |> ignore
+  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
+  self.to_any()._call("clearLine", [@nostd.any(dir), cb]) |> ignore
 }
 
 ///|
@@ -127,8 +132,8 @@ pub fn WriteStream::clear_screen_down(
   self : WriteStream,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
-  self.call("clearScreenDown", [cb]) |> ignore
+  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
+  self.to_any()._call("clearScreenDown", [cb]) |> ignore
 }
 
 ///|
@@ -139,8 +144,8 @@ pub fn WriteStream::cursor_to(
   y : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
-  self.call("cursorTo", [x, y, cb]) |> ignore
+  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
+  self.to_any()._call("cursorTo", [@nostd.any(x), @nostd.any(y), cb]) |> ignore
 }
 
 ///|
@@ -151,32 +156,30 @@ pub fn WriteStream::move_cursor(
   dy : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
-  self.call("moveCursor", [dx, dy, cb]) |> ignore
+  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
+  self.to_any()._call("moveCursor", [@nostd.any(dx), @nostd.any(dy), cb])
+  |> ignore
 }
 
 ///|
 /// Get the color depth supported by the terminal
 /// Returns 1, 4, 8, or 24 bits
 pub fn WriteStream::get_color_depth(self : WriteStream) -> Int {
-  let val : @js.Any = self.call0("getColorDepth")
-  @js.identity(val)
+  self.to_any()._call("getColorDepth", []).cast()
 }
 
 ///|
 /// Check if terminal supports the requested color count
 pub fn WriteStream::has_colors(self : WriteStream, count : Int) -> Bool {
-  let val : @js.Any = self.call("hasColors", [count])
-  @js.identity(val)
+  self.to_any()._call("hasColors", [@nostd.any(count)]).cast()
 }
 
 ///|
 /// Get window size as [columns, rows]
 pub fn WriteStream::get_window_size(self : WriteStream) -> (Int, Int) {
-  let val : @js.Any = self.call0("getWindowSize")
-  let arr : @js.JsArray = @js.identity(val)
-  let cols : Int = @js.identity(arr.get(0))
-  let rows : Int = @js.identity(arr.get(1))
+  let arr : @nostd.Any = self.to_any()._call("getWindowSize", [])
+  let cols : Int = arr["0"].cast()
+  let rows : Int = arr["1"].cast()
   (cols, rows)
 }
 
@@ -186,7 +189,7 @@ pub fn WriteStream::on_resize(
   self : WriteStream,
   callback : () -> Unit,
 ) -> WriteStream {
-  self.addEventListener("resize", fn(_e : @js.Any) { callback() })
+  self.addEventListener("resize", fn(_e : @nostd.Any) { callback() })
   self
 }
 

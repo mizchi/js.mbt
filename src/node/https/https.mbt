@@ -10,7 +10,7 @@ pub type Agent
 pub impl @js.JsImpl for Agent
 
 ///|
-extern "js" fn ffi_new_agent(options : @js.Any) -> Agent =
+extern "js" fn ffi_new_agent(options : @nostd.Any) -> Agent =
   #| (options) => {
   #|   const https = require('https');
   #|   return new https.Agent(options);
@@ -61,8 +61,8 @@ pub impl @event.EventTargetImpl for Server with as_any(self) -> @nostd.Any {
 
 ///|
 extern "js" fn ffi_create_server(
-  options : @js.Any,
-  request_listener : @js.Any,
+  options : @nostd.Any,
+  request_listener : @nostd.Any,
 ) -> Server =
   #| (options, requestListener) => {
   #|   const https = require('https');
@@ -91,15 +91,15 @@ pub fn create_server(
 ///|
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
+  let cb : @nostd.Any = @js.identity(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
-  self.call("close", [cb]) |> ignore
+  let cb : @nostd.Any = @js.identity(callback)
+  self._call("close", [cb]) |> ignore
 }
 
 ///|
@@ -125,8 +125,8 @@ pub impl @event.EventTargetImpl for ClientRequest with as_any(self) -> @nostd.An
 
 ///|
 extern "js" fn ffi_request(
-  options : @js.Any,
-  callback : @js.Any,
+  options : @nostd.Any,
+  callback : @nostd.Any,
 ) -> ClientRequest =
   #| (options, callback) => {
   #|   const https = require('https');
@@ -137,17 +137,17 @@ extern "js" fn ffi_request(
 /// Make an HTTPS request
 pub fn request(
   url : String,
-  callback : (@js.Any) -> Unit,
+  callback : (@nostd.Any) -> Unit,
   method_? : String,
   host? : String,
   port? : Int,
   path? : String,
-  headers? : @js.Any,
+  headers? : @nostd.Any,
   agent? : Agent,
   rejectUnauthorized? : Bool,
 ) -> ClientRequest {
-  let cb : @js.Any = @js.identity(callback)
-  let obj = headers.unwrap_or(@js.Object::new())
+  let cb : @nostd.Any = @js.identity(callback)
+  let obj = headers.unwrap_or(@nostd.Object::new())
   obj.set("url", url)
   if method_ is Some(v) {
     obj.set("method", v)
@@ -173,7 +173,7 @@ pub fn request(
 ///|
 /// Write data to the request
 pub fn ClientRequest::write(self : ClientRequest, data : String) -> Unit {
-  self.call("write", [data]) |> ignore
+  self._call("write", [data]) |> ignore
 }
 
 ///|
@@ -183,16 +183,16 @@ pub fn ClientRequest::end(self : ClientRequest) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_get(url : String, callback : @js.Any) -> ClientRequest =
+extern "js" fn ffi_get(url : String, callback : @nostd.Any) -> ClientRequest =
   #| (url, callback) => {
   #|   const https = require('https');
-  #|   return https.get(url, callback);
+  #|   return https._get(url, callback);
   #| }
 
 ///|
 /// Make an HTTPS GET request
 pub fn get(url : String, callback : (@js.Object) -> Unit) -> ClientRequest {
-  let cb : @js.Any = @js.identity(callback)
+  let cb : @nostd.Any = @js.identity(callback)
   ffi_get(url, cb)
 }
 

@@ -3,7 +3,7 @@
 
 ///|
 /// V8 Module FFI
-extern "js" fn ffi_require_v8() -> @js.Any =
+extern "js" fn ffi_require_v8() -> @nostd.Any =
   #|() => require("node:v8")
 
 ///|
@@ -16,64 +16,64 @@ pub impl @js.JsImpl for HeapStatistics
 
 ///|
 pub fn HeapStatistics::total_heap_size(self : HeapStatistics) -> Int {
-  self.get("total_heap_size") |> @js.identity
+  self._get("total_heap_size") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::total_heap_size_executable(self : HeapStatistics) -> Int {
-  self.get("total_heap_size_executable") |> @js.identity
+  self._get("total_heap_size_executable") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::total_physical_size(self : HeapStatistics) -> Int {
-  self.get("total_physical_size") |> @js.identity
+  self._get("total_physical_size") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::total_available_size(self : HeapStatistics) -> Int {
-  self.get("total_available_size") |> @js.identity
+  self._get("total_available_size") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::used_heap_size(self : HeapStatistics) -> Int {
-  self.get("used_heap_size") |> @js.identity
+  self._get("used_heap_size") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::heap_size_limit(self : HeapStatistics) -> Int {
-  self.get("heap_size_limit") |> @js.identity
+  self._get("heap_size_limit") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::malloced_memory(self : HeapStatistics) -> Int {
-  self.get("malloced_memory") |> @js.identity
+  self._get("malloced_memory") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::peak_malloced_memory(self : HeapStatistics) -> Int {
-  self.get("peak_malloced_memory") |> @js.identity
+  self._get("peak_malloced_memory") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::does_zap_garbage(self : HeapStatistics) -> Int {
-  self.get("does_zap_garbage") |> @js.identity
+  self._get("does_zap_garbage") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::number_of_native_contexts(self : HeapStatistics) -> Int {
-  self.get("number_of_native_contexts") |> @js.identity
+  self._get("number_of_native_contexts") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::number_of_detached_contexts(
   self : HeapStatistics,
 ) -> Int {
-  self.get("number_of_detached_contexts") |> @js.identity
+  self._get("number_of_detached_contexts") |> @js.identity
 }
 
 ///|
 pub fn HeapStatistics::external_memory(self : HeapStatistics) -> Int {
-  self.get("external_memory") |> @js.identity
+  self._get("external_memory") |> @js.identity
 }
 
 ///|
@@ -88,28 +88,28 @@ pub impl @js.JsImpl for HeapCodeStatistics
 pub fn HeapCodeStatistics::code_and_metadata_size(
   self : HeapCodeStatistics,
 ) -> Int {
-  self.get("code_and_metadata_size") |> @js.identity
+  self._get("code_and_metadata_size") |> @js.identity
 }
 
 ///|
 pub fn HeapCodeStatistics::bytecode_and_metadata_size(
   self : HeapCodeStatistics,
 ) -> Int {
-  self.get("bytecode_and_metadata_size") |> @js.identity
+  self._get("bytecode_and_metadata_size") |> @js.identity
 }
 
 ///|
 pub fn HeapCodeStatistics::external_script_source_size(
   self : HeapCodeStatistics,
 ) -> Int {
-  self.get("external_script_source_size") |> @js.identity
+  self._get("external_script_source_size") |> @js.identity
 }
 
 ///|
 pub fn HeapCodeStatistics::cpu_profiler_metadata_size(
   self : HeapCodeStatistics,
 ) -> Int {
-  self.get("cpu_profiler_metadata_size") |> @js.identity
+  self._get("cpu_profiler_metadata_size") |> @js.identity
 }
 
 ///|
@@ -122,31 +122,31 @@ pub impl @js.JsImpl for HeapSpaceStatistics
 
 ///|
 pub fn HeapSpaceStatistics::space_name(self : HeapSpaceStatistics) -> String {
-  self.get("space_name") |> @js.identity
+  self._get("space_name") |> @js.identity
 }
 
 ///|
 pub fn HeapSpaceStatistics::space_size(self : HeapSpaceStatistics) -> Int {
-  self.get("space_size") |> @js.identity
+  self._get("space_size") |> @js.identity
 }
 
 ///|
 pub fn HeapSpaceStatistics::space_used_size(self : HeapSpaceStatistics) -> Int {
-  self.get("space_used_size") |> @js.identity
+  self._get("space_used_size") |> @js.identity
 }
 
 ///|
 pub fn HeapSpaceStatistics::space_available_size(
   self : HeapSpaceStatistics,
 ) -> Int {
-  self.get("space_available_size") |> @js.identity
+  self._get("space_available_size") |> @js.identity
 }
 
 ///|
 pub fn HeapSpaceStatistics::physical_space_size(
   self : HeapSpaceStatistics,
 ) -> Int {
-  self.get("physical_space_size") |> @js.identity
+  self._get("physical_space_size") |> @js.identity
 }
 
 ///| Heap Statistics Functions
@@ -183,12 +183,12 @@ pub fn getHeapCodeStatistics() -> HeapCodeStatistics {
 pub fn getHeapSnapshot(
   expose_internals? : Bool,
   expose_numeric_values? : Bool,
-) -> @js.Any {
+) -> @nostd.Any {
   let v8 = ffi_require_v8()
   match (expose_internals, expose_numeric_values) {
     (None, None) => v8.call0("getHeapSnapshot")
     _ => {
-      let opts : @js.Any = @mbtconv.from_option_map({
+      let opts : @nostd.Any = @mbtconv.from_option_map({
         "exposeInternals": expose_internals.map(fn(x) { @nostd.any(x) }),
         "exposeNumericValues": expose_numeric_values.map(fn(x) { @nostd.any(x) }),
       }).cast()
@@ -203,7 +203,7 @@ pub fn getHeapSnapshot(
 pub fn writeHeapSnapshot(filename? : String) -> String {
   let v8 = ffi_require_v8()
   match filename {
-    Some(f) => @js.identity(v8.call("writeHeapSnapshot", [f]))
+    Some(f) => @js.identity(v8._call("writeHeapSnapshot", [f]))
     None => v8.call0("writeHeapSnapshot").cast()
   }
 }
@@ -213,7 +213,7 @@ pub fn writeHeapSnapshot(filename? : String) -> String {
 #alias(set_heap_snapshot_near_heap_limit)
 pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
   let v8 = ffi_require_v8()
-  v8.call("setHeapSnapshotNearHeapLimit", [limit]) |> ignore
+  v8._call("setHeapSnapshotNearHeapLimit", [limit]) |> ignore
 }
 
 ///| Serialization Functions
@@ -222,14 +222,14 @@ pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
 /// Serialize a value to a Buffer
 pub fn serialize(value : &@js.JsImpl) -> @buffer.Buffer {
   let v8 = ffi_require_v8()
-  @js.identity(v8.call("serialize", [value.as_any()]))
+  @js.identity(v8._call("serialize", [value.as_any()]))
 }
 
 ///|
 /// Deserialize a Buffer to a value
-pub fn deserialize(buffer : @buffer.Buffer) -> @js.Any {
+pub fn deserialize(buffer : @buffer.Buffer) -> @nostd.Any {
   let v8 = ffi_require_v8()
-  v8.call("deserialize", [buffer])
+  v8._call("deserialize", [buffer])
 }
 
 ///| Serializer Class
@@ -242,7 +242,7 @@ pub type Serializer
 pub impl @js.JsImpl for Serializer
 
 ///|
-extern "js" fn ffi_new_serializer() -> @js.Any =
+extern "js" fn ffi_new_serializer() -> @nostd.Any =
   #|() => { const v8 = require("node:v8"); return new v8.Serializer(); }
 
 ///|
@@ -262,7 +262,7 @@ pub fn Serializer::writeHeader(self : Self) -> Unit {
 /// Write a value
 #alias(write_value)
 pub fn Serializer::writeValue(self : Self, value : &@js.JsImpl) -> Bool {
-  self.call("writeValue", [value.as_any()]).cast()
+  self._call("writeValue", [value.as_any()]).cast()
 }
 
 ///|
@@ -287,21 +287,21 @@ pub fn Serializer::transferArrayBuffer(
 /// Write uint32
 #alias(writeUint32)
 pub fn Serializer::write_uint32(self : Self, value : Int) -> Unit {
-  self.call("writeUint32", [value]) |> ignore
+  self._call("writeUint32", [value]) |> ignore
 }
 
 ///|
 /// Write double
 #alias(writeDouble)
 pub fn Serializer::write_double(self : Self, value : Double) -> Unit {
-  self.call("writeDouble", [value]) |> ignore
+  self._call("writeDouble", [value]) |> ignore
 }
 
 ///|
 /// Write raw bytes
 #alias(writeRawBytes)
 pub fn Serializer::write_raw_bytes(self : Self, buffer : &@js.JsImpl) -> Unit {
-  self.call("writeRawBytes", [buffer.as_any()]) |> ignore
+  self._call("writeRawBytes", [buffer.as_any()]) |> ignore
 }
 
 ///| Deserializer Class
@@ -314,11 +314,11 @@ pub type Deserializer
 pub impl @js.JsImpl for Deserializer
 
 ///|
-extern "js" fn ffi_new_deserializer(buffer : @js.Any) -> @js.Any =
+extern "js" fn ffi_new_deserializer(buffer : @nostd.Any) -> @nostd.Any =
   #|(buffer) => { const v8 = require("node:v8"); return new v8.Deserializer(buffer); }
 
 ///|
-extern "js" fn buffer_to_js_any(buffer : @buffer.Buffer) -> @js.Any =
+extern "js" fn buffer_to_js_any(buffer : @buffer.Buffer) -> @nostd.Any =
   #| (b) => b
 
 ///|
@@ -337,7 +337,7 @@ pub fn Deserializer::readHeader(self : Self) -> Bool {
 ///|
 /// Read a value
 #alias(read_value)
-pub fn Deserializer::readValue(self : Self) -> @js.Any {
+pub fn Deserializer::readValue(self : Self) -> @nostd.Any {
   self.call0("readValue")
 }
 
@@ -377,7 +377,7 @@ pub fn Deserializer::readDouble(self : Self) -> Double {
 /// Read raw bytes
 #alias(read_raw_bytes)
 pub fn Deserializer::readRawBytes(self : Self, length : Int) -> @buffer.Buffer {
-  self.call("readRawBytes", [length]).cast()
+  self._call("readRawBytes", [length]).cast()
 }
 
 ///| Utility Functions
@@ -395,7 +395,7 @@ pub fn cachedDataVersionTag() -> Int {
 #alias(set_flags_from_string)
 pub fn setFlagsFromString(flags : String) -> Unit {
   let v8 = ffi_require_v8()
-  v8.call("setFlagsFromString", [flags]) |> ignore
+  v8._call("setFlagsFromString", [flags]) |> ignore
 }
 
 ///|

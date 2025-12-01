@@ -1,6 +1,6 @@
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/fetch
-extern "js" fn ffi_fetch(url : String, init : @js.Any) -> @js.Promise[Response] =
+extern "js" fn ffi_fetch(url : String, init : @nostd.Any) -> @js.Promise[Response] =
   #| (url, init) => fetch(url, init)
 
 ///|
@@ -15,7 +15,7 @@ pub async fn fetch(
   headers? : Map[String, String] = {},
   cache? : String,
   mode? : String,
-  body? : &@js.JsImpl, // String, ArrayBuffer, FormData, etc.
+  body? : @nostd.Any, // String, ArrayBuffer, FormData, etc.
   credentials? : String,
   integrity? : String,
   keepalive? : Bool,
@@ -25,14 +25,14 @@ pub async fn fetch(
   referrerPolicy? : String,
   signal? : @js.AbortSignal,
 ) -> Response {
-  let header_obj = @js.Object::new()
+  let header_obj = @nostd.Object::new()
   for k, v in headers {
-    header_obj.set(k, v)
+    header_obj._set(k, @nostd.any(v))
   }
   let init_obj = @mbtconv.from_option_map({
     "method": Some(@nostd.any(method_)),
-    "headers": Some(@nostd.identity(header_obj.as_any())),
-    "body": body.map(fn(x) { @nostd.identity(x.as_any()) }),
+    "headers": Some(header_obj),
+    "body": body.map(fn(x) { x }),
     "cache": cache.map(fn(x) { @nostd.any(x) }),
     "mode": mode.map(fn(x) { @nostd.any(x) }),
     "credentials": credentials.map(fn(x) { @nostd.any(x) }),

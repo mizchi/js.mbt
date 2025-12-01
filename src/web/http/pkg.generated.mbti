@@ -39,7 +39,7 @@ fn Request::as_any(Self) -> @nostd.Any
 async fn Request::blob(Self) -> @blob.Blob
 async fn Request::bytes(Self) -> @typedarray.Uint8Array
 fn Request::clone(Self) -> Self
-async fn Request::json(Self) -> @js.Any
+async fn Request::json(Self) -> @nostd.Any
 fn Request::method_(Self) -> String
 fn Request::new(String) -> Self
 fn Request::new_with_init(String, RequestInit) -> Self
@@ -48,8 +48,8 @@ async fn Request::text(Self) -> String
 pub struct RequestInit {
   // private fields
 }
-fn RequestInit::as_any(Self) -> @js.Any
-fn RequestInit::get_body(Self) -> @js.Any?
+fn RequestInit::as_any(Self) -> @nostd.Any
+fn RequestInit::get_body(Self) -> @nostd.Any?
 fn RequestInit::get_cache(Self) -> String?
 fn RequestInit::get_credentials(Self) -> String?
 fn RequestInit::get_headers(Self) -> Headers?
@@ -78,7 +78,7 @@ fn Response::error() -> Self
 #alias(form_data)
 async fn Response::formData(Self) -> FormData
 fn Response::html(String, Int) -> Self
-async fn Response::json(Self) -> @js.Any
+async fn Response::json(Self) -> @nostd.Any
 fn Response::json_(&@js.JsImpl, options? : &@js.JsImpl) -> Self
 fn Response::new(body? : String, status? : Int, statusText? : String, headers? : &@js.JsImpl) -> Self
 fn Response::redirect(String, status? : Int) -> Self

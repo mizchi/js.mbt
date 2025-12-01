@@ -18,7 +18,7 @@ fn create_auth_client(String) -> @better_auth.AuthClient
 pub type ApiClient
 async fn ApiClient::add_todo(Self, String) -> Unit
 async fn ApiClient::delete_todo(Self, Int) -> Unit
-async fn ApiClient::fetch_todos(Self) -> Array[@js.Any]
+async fn ApiClient::fetch_todos(Self) -> Array[@nostd.Any]
 impl @js.JsImpl for ApiClient
 
 // Type aliases

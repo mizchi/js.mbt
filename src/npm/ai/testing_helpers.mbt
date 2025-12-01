@@ -68,7 +68,7 @@ pub fn[T] MockValues::reset(self : MockValues[T]) -> Unit {
 
 ///|
 /// Load the test module from ai/test
-pub fn require_test() -> @js.Any {
+pub fn require_test() -> @nostd.Any {
   @node.require("ai/test")
 }
 
@@ -81,9 +81,9 @@ pub fn mock_id() -> MockId {
 ///|
 /// Get mockValues function from ai/test (JS version)
 /// Returns a function that returns values in order, then the last value
-pub fn mock_values_js(values : Array[@js.Any]) -> @js.Any {
+pub fn mock_values_js(values : Array[@nostd.Any]) -> @nostd.Any {
   let test_module = require_test()
-  let mock_values_fn : @nostd.Any = test_module.get("mockValues").cast()
+  let mock_values_fn : @nostd.Any = test_module._get("mockValues").cast()
   // Call mockValues(...values) using the spread pattern
   @reflect.apply(
     mock_values_fn,
@@ -94,30 +94,30 @@ pub fn mock_values_js(values : Array[@js.Any]) -> @js.Any {
 
 ///|
 /// Convert array to async iterable (JS)
-pub fn convert_array_to_async_iterable(arr : Array[@js.Any]) -> @js.Any {
+pub fn convert_array_to_async_iterable(arr : Array[@nostd.Any]) -> @nostd.Any {
   let test_module = require_test()
   test_module
-  .get("convertArrayToAsyncIterable")
+  ._get("convertArrayToAsyncIterable")
   .call_self([arr |> @js.from_array])
 }
 
 ///|
 /// Convert array to readable stream (JS)
-pub fn convert_array_to_readable_stream(arr : Array[@js.Any]) -> @js.Any {
+pub fn convert_array_to_readable_stream(arr : Array[@nostd.Any]) -> @nostd.Any {
   let test_module = require_test()
   test_module
-  .get("convertArrayToReadableStream")
+  ._get("convertArrayToReadableStream")
   .call_self([arr |> @js.from_array])
 }
 
 ///|
 /// Convert readable stream to array (JS)
 pub async fn convert_readable_stream_to_array(
-  stream : @js.Any,
-) -> Array[@js.Any] {
+  stream : @nostd.Any,
+) -> Array[@nostd.Any] {
   let test_module = require_test()
-  let promise : @js.Promise[Array[@js.Any]] = test_module
-    .get("convertReadableStreamToArray")
+  let promise : @js.Promise[Array[@nostd.Any]] = test_module
+    ._get("convertReadableStreamToArray")
     .call_self([stream])
     |> @js.identity
   promise.wait()

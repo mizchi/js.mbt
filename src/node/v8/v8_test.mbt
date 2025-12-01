@@ -139,13 +139,13 @@ test "serialize and deserialize string" {
 ///|
 /// Test serialize and deserialize object
 test "serialize and deserialize object" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("name", "test")
   obj.set("value", 123)
   let serialized = serialize(obj)
   let deserialized = deserialize(serialized)
-  inspect(@js.identity(deserialized.get("name")) == "test", content="true")
-  inspect(@js.identity(deserialized.get("value")) == 123, content="true")
+  inspect(@js.identity(deserialized._get("name")) == "test", content="true")
+  inspect(@js.identity(deserialized._get("value")) == 123, content="true")
 }
 
 ///| Serializer Tests
@@ -158,7 +158,7 @@ test "Serializer write and release" {
   let success = serializer.write_value(42)
   inspect(success, content="true")
   let buffer = serializer.releaseBuffer()
-  inspect(@js.identity(buffer.get("length")) > 0, content="true")
+  inspect(@js.identity(buffer._get("length")) > 0, content="true")
 }
 
 ///|
@@ -168,7 +168,7 @@ test "Serializer write_uint32" {
   serializer.write_header()
   serializer.write_uint32(42)
   let buffer = serializer.releaseBuffer()
-  inspect(@js.identity(buffer.get("length")) > 0, content="true")
+  inspect(@js.identity(buffer._get("length")) > 0, content="true")
 }
 
 ///|
@@ -178,7 +178,7 @@ test "Serializer write_double" {
   serializer.write_header()
   serializer.write_double(3.14)
   let buffer = serializer.releaseBuffer()
-  inspect(@js.identity(buffer.get("length")) > 0, content="true")
+  inspect(@js.identity(buffer._get("length")) > 0, content="true")
 }
 
 ///|
@@ -189,7 +189,7 @@ test "Serializer transfer_array_buffer" {
   let ab = @js.ArrayBuffer::new(16)
   serializer.transferArrayBuffer(1, ab)
   let buffer = serializer.releaseBuffer()
-  inspect(@js.identity(buffer.get("length")) > 0, content="true")
+  inspect(@js.identity(buffer._get("length")) > 0, content="true")
 }
 
 ///|
@@ -200,7 +200,7 @@ test "Serializer write_raw_bytes" {
   let buffer = @buffer.Buffer::from_string("test")
   serializer.write_raw_bytes(buffer)
   let released = serializer.releaseBuffer()
-  inspect(@js.identity(released.get("length")) > 0, content="true")
+  inspect(@js.identity(released._get("length")) > 0, content="true")
 }
 
 ///| Deserializer Tests
@@ -274,7 +274,7 @@ test "Deserializer read_raw_bytes" {
   let deserializer = Deserializer::new(buffer)
   deserializer.read_header() |> ignore
   let read_buffer = deserializer.readRawBytes(9)
-  inspect(@js.identity(read_buffer.get("length")) == 9, content="true")
+  inspect(@js.identity(read_buffer._get("length")) == 9, content="true")
 }
 
 ///| Utility Function Tests

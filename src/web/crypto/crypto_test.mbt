@@ -10,7 +10,7 @@ test "Crypto::getRandomValues fills Uint8Array" {
   // Verify at least some values are non-zero (extremely unlikely all zeros)
   let mut has_nonzero = false
   for i = 0; i < 16; i = i + 1 {
-    let val : UInt = result.get(i).cast()
+    let val : UInt = result._get(i).cast()
     if val != 0 {
       has_nonzero = true
       break
@@ -29,7 +29,7 @@ test "Crypto::getRandomValuesU32 fills Uint32Array" {
   // Verify randomness
   let mut has_nonzero = false
   for i = 0; i < 4; i = i + 1 {
-    let val : UInt = result.get(i).cast()
+    let val : UInt = result._get(i).cast()
     if val != 0 {
       has_nonzero = true
       break
@@ -48,13 +48,13 @@ test "Crypto::randomUUID generates valid UUID" {
   assert_eq(uuid.length(), 36)
 
   // Should contain hyphens at specific positions
-  assert_eq(uuid.get(8), Some('-'))
-  assert_eq(uuid.get(13), Some('-'))
-  assert_eq(uuid.get(18), Some('-'))
-  assert_eq(uuid.get(23), Some('-'))
+  assert_eq(uuid._get(8), Some('-'))
+  assert_eq(uuid._get(13), Some('-'))
+  assert_eq(uuid._get(18), Some('-'))
+  assert_eq(uuid._get(23), Some('-'))
 
   // Version should be 4 (at position 14)
-  assert_eq(uuid.get(14), Some('4'))
+  assert_eq(uuid._get(14), Some('4'))
 }
 
 ///|

@@ -28,7 +28,7 @@ test "FinishReason to_string" {
 
 ///|
 test "LanguageModelUsage from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("inputTokens", 10)
   obj.set("outputTokens", 20)
   obj.set("totalTokens", 30)
@@ -42,7 +42,7 @@ test "LanguageModelUsage from_any" {
 
 ///|
 test "LanguageModelUsage from_any without cached" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("inputTokens", 10)
   obj.set("outputTokens", 20)
   obj.set("totalTokens", 30)
@@ -61,16 +61,16 @@ test "ProviderMetadata from_any with undefined" {
 
 ///|
 test "ProviderMetadata from_any with value" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("key", "value")
   let result = ProviderMetadata::from_any(obj.as_any())
   guard result is Some(meta)
-  assert_eq(meta.raw.get("key").cast(), "value")
+  assert_eq(meta.raw._get("key").cast(), "value")
 }
 
 ///|
 test "CallWarning from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "test-warning")
   obj.set("message", "Test message")
   let warning = CallWarning::from_any(obj.as_any())
@@ -81,7 +81,7 @@ test "CallWarning from_any" {
 
 ///|
 test "CallWarning from_any without message" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "test-warning")
   let warning = CallWarning::from_any(obj.as_any())
   assert_eq(warning.type_, "test-warning")
@@ -97,7 +97,7 @@ test "SourceType from_string" {
 
 ///|
 test "Source from_any url" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "source")
   obj.set("sourceType", "url")
   obj.set("id", "src-1")
@@ -113,7 +113,7 @@ test "Source from_any url" {
 
 ///|
 test "Source from_any document" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "source")
   obj.set("sourceType", "document")
   obj.set("id", "doc-1")
@@ -127,25 +127,25 @@ test "Source from_any document" {
 
 ///|
 test "ToolCall from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "get_weather")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   input_obj.set("city", "Tokyo")
   obj.set("input", input_obj)
   let tool_call = ToolCall::from_any(obj.as_any())
   assert_eq(tool_call.tool_call_id, "call-1")
   assert_eq(tool_call.tool_name, "get_weather")
-  let city : String = tool_call.input.get("city").cast()
+  let city : String = tool_call.input._get("city").cast()
   assert_eq(city, "Tokyo")
 }
 
 ///|
 test "ToolResult from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "get_weather")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   input_obj.set("city", "Tokyo")
   obj.set("input", input_obj)
   obj.set("output", "Sunny, 25°C")
@@ -158,7 +158,7 @@ test "ToolResult from_any" {
 
 ///|
 test "TextStreamPart from_any text-start" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "text-start")
   obj.set("id", "text-1")
   let part = TextStreamPart::from_any(obj.as_any())
@@ -170,7 +170,7 @@ test "TextStreamPart from_any text-start" {
 
 ///|
 test "TextStreamPart from_any text-delta" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "text-delta")
   obj.set("id", "text-1")
   obj.set("text", "Hello")
@@ -184,7 +184,7 @@ test "TextStreamPart from_any text-delta" {
 
 ///|
 test "TextStreamPart from_any reasoning-delta" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "reasoning-delta")
   obj.set("id", "reason-1")
   obj.set("text", "Thinking...")
@@ -199,7 +199,7 @@ test "TextStreamPart from_any reasoning-delta" {
 
 ///|
 test "TextStreamPart from_any tool-input-start" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-input-start")
   obj.set("id", "tool-1")
   obj.set("toolName", "search")
@@ -212,7 +212,7 @@ test "TextStreamPart from_any tool-input-start" {
 
 ///|
 test "TextStreamPart from_any start" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "start")
   let part = TextStreamPart::from_any(obj.as_any())
   guard part is Start
@@ -221,10 +221,10 @@ test "TextStreamPart from_any start" {
 
 ///|
 test "TextStreamPart from_any finish" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "finish")
   obj.set("finishReason", "stop")
-  let usage_obj = @js.Object::new()
+  let usage_obj = @nostd.Object::new()
   usage_obj.set("promptTokens", 100)
   usage_obj.set("completionTokens", 50)
   usage_obj.set("totalTokens", 150)
@@ -237,7 +237,7 @@ test "TextStreamPart from_any finish" {
 
 ///|
 test "TextStreamPart from_any error" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "error")
   obj.set("error", "Something went wrong")
   let part = TextStreamPart::from_any(obj.as_any())
@@ -248,7 +248,7 @@ test "TextStreamPart from_any error" {
 
 ///|
 test "TextStreamPart from_any abort" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "abort")
   let part = TextStreamPart::from_any(obj.as_any())
   guard part is Abort
@@ -257,7 +257,7 @@ test "TextStreamPart from_any abort" {
 
 ///|
 test "TextStreamPart from_any unknown" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "custom-type")
   let part = TextStreamPart::from_any(obj.as_any())
   guard part is Unknown(type_~, ..)
@@ -266,41 +266,41 @@ test "TextStreamPart from_any unknown" {
 
 ///|
 test "ToolOutputDenied from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "get_weather")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   input_obj.set("city", "Tokyo")
   obj.set("input", input_obj)
   let denied = ToolOutputDenied::from_any(obj.as_any())
   assert_eq(denied.tool_call_id, "call-1")
   assert_eq(denied.tool_name, "get_weather")
-  let city : String = denied.input.get("city").cast()
+  let city : String = denied.input._get("city").cast()
   assert_eq(city, "Tokyo")
 }
 
 ///|
 test "ToolApprovalRequest from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("toolCallId", "call-2")
   obj.set("toolName", "delete_file")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   input_obj.set("path", "/tmp/test.txt")
   obj.set("input", input_obj)
   let request = ToolApprovalRequest::from_any(obj.as_any())
   assert_eq(request.tool_call_id, "call-2")
   assert_eq(request.tool_name, "delete_file")
-  let path : String = request.input.get("path").cast()
+  let path : String = request.input._get("path").cast()
   assert_eq(path, "/tmp/test.txt")
 }
 
 ///|
 test "TextStreamPart from_any tool-output-denied" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-output-denied")
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "get_weather")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   input_obj.set("city", "Tokyo")
   obj.set("input", input_obj)
   let part = TextStreamPart::from_any(obj.as_any())
@@ -313,11 +313,11 @@ test "TextStreamPart from_any tool-output-denied" {
 
 ///|
 test "TextStreamPart from_any tool-approval-request" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-approval-request")
   obj.set("toolCallId", "call-2")
   obj.set("toolName", "delete_file")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   input_obj.set("path", "/tmp/test.txt")
   obj.set("input", input_obj)
   let part = TextStreamPart::from_any(obj.as_any())
@@ -330,13 +330,13 @@ test "TextStreamPart from_any tool-approval-request" {
 
 ///|
 test "TextStreamPart from_any finish-step" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "finish-step")
-  let response_obj = @js.Object::new()
+  let response_obj = @nostd.Object::new()
   response_obj.set("id", "resp-1")
   response_obj.set("modelId", "gpt-4")
   obj.set("response", response_obj)
-  let usage_obj = @js.Object::new()
+  let usage_obj = @nostd.Object::new()
   usage_obj.set("promptTokens", 10)
   usage_obj.set("completionTokens", 20)
   usage_obj.set("totalTokens", 30)
@@ -354,7 +354,7 @@ test "TextStreamPart from_any finish-step" {
 
 ///|
 test "TextStreamPart get_text returns None for non-text-delta" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "start")
   let part = TextStreamPart::from_any(obj.as_any())
   guard part.get_text() is None
@@ -362,7 +362,7 @@ test "TextStreamPart get_text returns None for non-text-delta" {
 
 ///|
 test "TextStreamPart get_reasoning_text returns None for non-reasoning" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "text-delta")
   obj.set("id", "text-1")
   obj.set("text", "Hello")
@@ -372,7 +372,7 @@ test "TextStreamPart get_reasoning_text returns None for non-reasoning" {
 
 ///|
 test "TextStreamPart from_any text-end" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "text-end")
   obj.set("id", "text-1")
   let part = TextStreamPart::from_any(obj.as_any())
@@ -384,7 +384,7 @@ test "TextStreamPart from_any text-end" {
 
 ///|
 test "TextStreamPart from_any reasoning-start" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "reasoning-start")
   obj.set("id", "reason-1")
   let part = TextStreamPart::from_any(obj.as_any())
@@ -396,7 +396,7 @@ test "TextStreamPart from_any reasoning-start" {
 
 ///|
 test "TextStreamPart from_any reasoning-end" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "reasoning-end")
   obj.set("id", "reason-1")
   let part = TextStreamPart::from_any(obj.as_any())
@@ -408,7 +408,7 @@ test "TextStreamPart from_any reasoning-end" {
 
 ///|
 test "TextStreamPart from_any tool-input-end" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-input-end")
   obj.set("id", "tool-1")
   let part = TextStreamPart::from_any(obj.as_any())
@@ -420,7 +420,7 @@ test "TextStreamPart from_any tool-input-end" {
 
 ///|
 test "TextStreamPart from_any tool-input-delta" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-input-delta")
   obj.set("id", "tool-1")
   obj.set("delta", "{\"query\":")
@@ -434,11 +434,11 @@ test "TextStreamPart from_any tool-input-delta" {
 
 ///|
 test "TextStreamPart from_any tool-call" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-call")
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "search")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   input_obj.set("query", "weather")
   obj.set("input", input_obj)
   let part = TextStreamPart::from_any(obj.as_any())
@@ -451,11 +451,11 @@ test "TextStreamPart from_any tool-call" {
 
 ///|
 test "TextStreamPart from_any tool-result" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-result")
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "search")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   input_obj.set("query", "weather")
   obj.set("input", input_obj)
   obj.set("output", "Sunny")
@@ -469,11 +469,11 @@ test "TextStreamPart from_any tool-result" {
 
 ///|
 test "TextStreamPart from_any tool-error" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-error")
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "search")
-  let args_obj = @js.Object::new()
+  let args_obj = @nostd.Object::new()
   args_obj.set("query", "weather")
   obj.set("args", args_obj)
   obj.set("error", "Network error")
@@ -487,7 +487,7 @@ test "TextStreamPart from_any tool-error" {
 
 ///|
 test "TextStreamPart from_any raw" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "raw")
   obj.set("rawValue", "raw data")
   let part = TextStreamPart::from_any(obj.as_any())
@@ -499,12 +499,12 @@ test "TextStreamPart from_any raw" {
 
 ///|
 test "TextStreamPart from_any start-step" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "start-step")
-  let request_obj = @js.Object::new()
+  let request_obj = @nostd.Object::new()
   request_obj.set("id", "req-1")
   obj.set("request", request_obj)
-  let warning_obj = @js.Object::new()
+  let warning_obj = @nostd.Object::new()
   warning_obj.set("type", "test-warning")
   obj.set("warnings", [warning_obj] |> @js.from_array)
   let part = TextStreamPart::from_any(obj.as_any())
@@ -516,7 +516,7 @@ test "TextStreamPart from_any start-step" {
 
 ///|
 test "TextStreamPart from_any source" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "source")
   obj.set("sourceType", "url")
   obj.set("id", "src-1")
@@ -530,9 +530,9 @@ test "TextStreamPart from_any source" {
 
 ///|
 test "TextStreamPart from_any file" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "file")
-  let file_obj = @js.Object::new()
+  let file_obj = @nostd.Object::new()
   file_obj.set("name", "image.png")
   file_obj.set("mediaType", "image/png")
   file_obj.set("data", "base64data")
@@ -546,10 +546,10 @@ test "TextStreamPart from_any file" {
 
 ///|
 test "ToolError from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "search")
-  let args_obj = @js.Object::new()
+  let args_obj = @nostd.Object::new()
   args_obj.set("query", "weather")
   obj.set("args", args_obj)
   obj.set("error", "Network error")
@@ -562,7 +562,7 @@ test "ToolError from_any" {
 
 ///|
 test "GeneratedFile from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("name", "output.png")
   obj.set("mediaType", "image/png")
   obj.set("data", "base64encodeddata")
@@ -575,7 +575,7 @@ test "GeneratedFile from_any" {
 
 ///|
 test "GeneratedFile from_any without optional fields" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("data", "base64encodeddata")
   let file = GeneratedFile::from_any(obj.as_any())
   guard file.name is None
@@ -584,7 +584,7 @@ test "GeneratedFile from_any without optional fields" {
 
 ///|
 test "ReasoningOutput from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("text", "Let me think about this...")
   let output = ReasoningOutput::from_any(obj.as_any())
   assert_eq(output.text, "Let me think about this...")
@@ -592,7 +592,7 @@ test "ReasoningOutput from_any" {
 
 ///|
 test "ContentPart from_any text" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "text")
   obj.set("text", "Hello world")
   let part = ContentPart::from_any(obj.as_any())
@@ -602,7 +602,7 @@ test "ContentPart from_any text" {
 
 ///|
 test "ContentPart from_any reasoning" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "reasoning")
   obj.set("text", "Thinking...")
   let part = ContentPart::from_any(obj.as_any())
@@ -612,7 +612,7 @@ test "ContentPart from_any reasoning" {
 
 ///|
 test "ContentPart from_any source" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "source")
   obj.set("sourceType", "url")
   obj.set("id", "src-1")
@@ -625,9 +625,9 @@ test "ContentPart from_any source" {
 
 ///|
 test "ContentPart from_any file" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "file")
-  let file_obj = @js.Object::new()
+  let file_obj = @nostd.Object::new()
   file_obj.set("name", "doc.pdf")
   file_obj.set("data", "data")
   obj.set("file", file_obj)
@@ -639,11 +639,11 @@ test "ContentPart from_any file" {
 
 ///|
 test "ContentPart from_any tool-call" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-call")
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "search")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   input_obj.set("q", "test")
   obj.set("input", input_obj)
   let part = ContentPart::from_any(obj.as_any())
@@ -653,11 +653,11 @@ test "ContentPart from_any tool-call" {
 
 ///|
 test "ContentPart from_any tool-result" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-result")
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "search")
-  let input_obj = @js.Object::new()
+  let input_obj = @nostd.Object::new()
   obj.set("input", input_obj)
   obj.set("output", "result")
   let part = ContentPart::from_any(obj.as_any())
@@ -667,11 +667,11 @@ test "ContentPart from_any tool-result" {
 
 ///|
 test "ContentPart from_any tool-error" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-error")
   obj.set("toolCallId", "call-1")
   obj.set("toolName", "search")
-  let args_obj = @js.Object::new()
+  let args_obj = @nostd.Object::new()
   obj.set("args", args_obj)
   obj.set("error", "Error message")
   let part = ContentPart::from_any(obj.as_any())
@@ -681,7 +681,7 @@ test "ContentPart from_any tool-error" {
 
 ///|
 test "ContentPart from_any unknown type" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "unknown-type")
   let part = ContentPart::from_any(obj.as_any())
   // Unknown types fall through to TextPart with empty text
@@ -691,7 +691,7 @@ test "ContentPart from_any unknown type" {
 
 ///|
 test "LanguageModelResponseMetadata from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("id", "resp-123")
   obj.set("modelId", "gpt-4")
   obj.set("timestamp", "2024-01-01T00:00:00Z")
@@ -705,7 +705,7 @@ test "LanguageModelResponseMetadata from_any" {
 
 ///|
 test "LanguageModelResponseMetadata from_any without optional" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   let meta = LanguageModelResponseMetadata::from_any(obj.as_any())
   guard meta.id is None
   guard meta.model_id is None
@@ -721,7 +721,7 @@ test "Tools new and add" {
       "type": "object",
       "properties": { "x": { "type": "number" } },
     },
-    fn(input : @js.Any) -> Int { input.get("x").cast() },
+    fn(input : @nostd.Any) -> Int { input._get("x").cast() },
   )
   let updated = tools.add("test_tool", tool)
   assert_eq(updated.tools.length(), 1)
@@ -755,35 +755,35 @@ test "ToolChoice as_any none" {
 test "ToolChoice as_any tool" {
   let choice = ToolChoice::Tool("my_tool")
   let any = choice.as_any()
-  let type_val : String = any.get("type").cast()
-  let name_val : String = any.get("toolName").cast()
+  let type_val : String = any._get("type").cast()
+  let name_val : String = any._get("toolName").cast()
   assert_eq(type_val, "tool")
   assert_eq(name_val, "my_tool")
 }
 
 ///|
 test "ProviderMetadata as_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("key", "value")
   let meta : ProviderMetadata = { raw: obj.as_any() }
   let any = meta.as_any()
-  let val : String = any.get("key").cast()
+  let val : String = any._get("key").cast()
   assert_eq(val, "value")
 }
 
 ///|
 test "LanguageModelRequestMetadata from_any" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("requestId", "req-1")
   let meta = LanguageModelRequestMetadata::from_any(obj.as_any())
   // Just verify it can be created
-  let val : String = meta.raw.get("requestId").cast()
+  let val : String = meta.raw._get("requestId").cast()
   assert_eq(val, "req-1")
 }
 
 ///|
 test "ToolInputStart with all optional fields" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-input-start")
   obj.set("id", "tool-1")
   obj.set("toolName", "search")

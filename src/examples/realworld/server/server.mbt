@@ -172,7 +172,7 @@ pub fn create_auth(db : @sqlite.DatabaseSync) -> @better_auth.Auth {
 }
 
 ///|
-extern "js" fn ffi_sqlite_adapter(db : @sqlite.DatabaseSync) -> @js.Any =
+extern "js" fn ffi_sqlite_adapter(db : @sqlite.DatabaseSync) -> @nostd.Any =
   #|(db) => db
 
 // ============ Middleware ============
@@ -203,7 +203,7 @@ async fn get_session_user(
 }
 
 ///|
-extern "js" fn ffi_get_request_headers(c : Ctx) -> @js.Any =
+extern "js" fn ffi_get_request_headers(c : Ctx) -> @nostd.Any =
   #|(c) => c.req.raw.headers
 
 // ============ Layout ============
@@ -294,7 +294,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
 
   // Home page - TODO list
   app
-  .get("/", async fn(c) {
+  ._get("/", async fn(c) {
     let user = get_session_user(db, c)
     match user {
       Some(u) => {
@@ -340,9 +340,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
             h(
               "div",
               todos.map(fn(todo) {
-                let id : Int = todo.get("id").cast()
-                let title : String = todo.get("title").cast()
-                let completed : Int = todo.get("completed").cast()
+                let id : Int = todo._get("id").cast()
+                let title : String = todo._get("title").cast()
+                let completed : Int = todo._get("completed").cast()
                 h(
                   "div",
                   [
@@ -445,7 +445,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
         match c.req.param("id") {
           Some(id) => {
             let body = ffi_parse_body(c).wait()
-            let completed : String = body.get("completed").cast()
+            let completed : String = body._get("completed").cast()
             toggle_todo(db, u.id(), @strconv.parse_int(id), completed == "true")
           }
           None => ()
@@ -472,7 +472,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
   })
 
   // Auth pages
-  .get("/auth/login", async fn(c) {
+  ._get("/auth/login", async fn(c) {
     let user = get_session_user(db, c)
     if user is Some(_) {
       return c.redirect("/")
@@ -541,8 +541,8 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
   })
   .post("/auth/login", async fn(c) {
     let body = ffi_parse_body(c).wait()
-    let email : String = body.get("email").cast()
-    let password : String = body.get("password").cast()
+    let email : String = body._get("email").cast()
+    let password : String = body._get("password").cast()
     let response = auth.api().signInEmail(email~, password~)
     if not(response.hasError()) {
       let token = response.token()
@@ -575,7 +575,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
       c.html_jsx(content, status=401)
     }
   })
-  .get("/auth/register", async fn(c) {
+  ._get("/auth/register", async fn(c) {
     let user = get_session_user(db, c)
     if user is Some(_) {
       return c.redirect("/")
@@ -656,9 +656,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
   })
   .post("/auth/register", async fn(c) {
     let body = ffi_parse_body(c).wait()
-    let name : String = body.get("name").cast()
-    let email : String = body.get("email").cast()
-    let password : String = body.get("password").cast()
+    let name : String = body._get("name").cast()
+    let email : String = body._get("email").cast()
+    let password : String = body._get("password").cast()
     let response = auth.api().signUpEmail(name~, email~, password~)
     if not(response.hasError()) {
       c.redirect("/auth/login")
@@ -684,14 +684,14 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
       c.html_jsx(content, status=400)
     }
   })
-  .get("/auth/logout", async fn(c) {
+  ._get("/auth/logout", async fn(c) {
     let headers = ffi_get_request_headers(c)
     auth.api().signOut(headers)
     c.redirect("/auth/login")
   })
 
   // API endpoints for client
-  .get("/api/todos", async fn(c) {
+  ._get("/api/todos", async fn(c) {
     let user = get_session_user(db, c)
     match user {
       Some(u) => {
@@ -699,7 +699,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
         c.json(todos |> @js.from_array)
       }
       None => {
-        let obj = @js.Object::new()
+        let obj = @nostd.Object::new()
         obj["error"] = "Unauthorized"
         c.json(obj, status=401)
       }
@@ -715,19 +715,19 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
           Ok(data) => {
             let title : String = data["title"].cast()
             create_todo(db, u.id(), title)
-            let obj = @js.Object::new()
+            let obj = @nostd.Object::new()
             obj["success"] = true
             c.json(obj)
           }
           Err(_) => {
-            let obj = @js.Object::new()
+            let obj = @nostd.Object::new()
             obj["error"] = "Invalid data"
             c.json(obj, status=400)
           }
         }
       }
       None => {
-        let obj = @js.Object::new()
+        let obj = @nostd.Object::new()
         obj["error"] = "Unauthorized"
         c.json(obj, status=401)
       }
@@ -740,18 +740,18 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
         match c.req.param("id") {
           Some(id) => {
             delete_todo(db, u.id(), @strconv.parse_int(id))
-            let obj = @js.Object::new()
+            let obj = @nostd.Object::new()
             obj["success"] = true
             c.json(obj)
           }
           None => {
-            let obj = @js.Object::new()
+            let obj = @nostd.Object::new()
             obj["error"] = "Invalid id"
             c.json(obj, status=400)
           }
         }
       None => {
-        let obj = @js.Object::new()
+        let obj = @nostd.Object::new()
         obj["error"] = "Unauthorized"
         c.json(obj, status=401)
       }
@@ -764,7 +764,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
 // ============ DB Operations ============
 
 ///|
-fn get_todos(db : @sqlite.DatabaseSync, user_id : String) -> Array[@js.Any] {
+fn get_todos(db : @sqlite.DatabaseSync, user_id : String) -> Array[@nostd.Any] {
   let stmt = db.prepare(
     "SELECT * FROM todos WHERE user_id = ? ORDER BY created_at DESC",
   )
@@ -814,7 +814,7 @@ fn delete_todo(db : @sqlite.DatabaseSync, user_id : String, id : Int) -> Unit {
 // ============ FFI ============
 
 ///|
-extern "js" fn ffi_parse_body(c : Ctx) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_parse_body(c : Ctx) -> @js.Promise[@nostd.Any] =
   #|(c) => c.req.parseBody()
 
 ///|
@@ -823,7 +823,7 @@ pub fn serve(app : App, port : Int) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_serve(app : @js.Any, port : Int) -> Unit =
+extern "js" fn ffi_serve(app : @nostd.Any, port : Int) -> Unit =
   #|(app, port) => {
   #|  const { serve } = require('@hono/node-server');
   #|  serve({ fetch: app.fetch, port });

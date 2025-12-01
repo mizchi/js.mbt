@@ -32,9 +32,9 @@ pub fn ParseArgsOption::as_any(self : ParseArgsOption) -> @nostd.Any {
 
 ///|
 pub(all) struct ParseArgsResult {
-  values : Map[String, @js.Any]
+  values : Map[String, @nostd.Any]
   positionals : Array[String]
-  tokens : Array[@js.Any]?
+  tokens : Array[@nostd.Any]?
 }
 
 ///|
@@ -46,9 +46,9 @@ pub fn parseArgs(
   // tokens?: Bool = false,
 ) -> ParseArgsResult {
   let opts_obj : @nostd.Any = if options.is_empty() {
-    @nostd.any(@js.Object::new())
+    @nostd.any(@nostd.Object::new())
   } else {
-    let o : @nostd.Any = @nostd.any(@js.Object::new())
+    let o : @nostd.Any = @nostd.any(@nostd.Object::new())
     for opt in options {
       o[opt.key()] = opt.as_any()
     }
@@ -61,7 +61,7 @@ pub fn parseArgs(
   })
   // result["tokens"] = tokens
   let r : @nostd.Any = util().as_any()["parseArgs"]._invoke([result])
-  let values : Map[String, @js.Any] = {}
+  let values : Map[String, @nostd.Any] = {}
   let result_keys : Array[String] = @nostd.Object::keys(r["values"])
   for k in result_keys {
     values[k] = r["values"][k].cast()

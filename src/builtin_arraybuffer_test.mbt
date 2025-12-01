@@ -50,7 +50,7 @@ test "@js.ArrayBuffer::is_view" {
   let buffer = @js.ArrayBuffer::new(16)
 
   // Plain buffer is not a view
-  assert_false(@js.ArrayBuffer::isView(buffer.as_any()))
+  assert_false(@js.ArrayBuffer::isView(buffer |> @nostd.any))
 
   // Note: Testing with actual views requires typedarray package
   // which would create circular dependency.

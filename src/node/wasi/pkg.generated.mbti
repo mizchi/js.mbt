@@ -15,11 +15,11 @@ import(
 #external
 pub type WASI
 fn WASI::as_any(Self) -> @nostd.Any
-fn WASI::getImportObject(Self) -> @js.Any
+fn WASI::getImportObject(Self) -> @nostd.Any
 fn WASI::initialize(Self, @webassembly.WebAssemblyInstance) -> Unit
 fn WASI::new(String, args? : Array[String], env? : Map[String, String], preopens? : Map[String, String], returnOnExit? : Bool, stdin? : Int, stdout? : Int, stderr? : Int) -> Self
 fn WASI::start(Self, @webassembly.WebAssemblyInstance) -> Unit
-fn WASI::wasiImport(Self) -> @js.Any
+fn WASI::wasiImport(Self) -> @nostd.Any
 impl @js.JsImpl for WASI
 
 #external

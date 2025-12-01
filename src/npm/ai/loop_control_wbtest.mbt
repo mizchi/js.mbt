@@ -215,7 +215,7 @@ test "PrepareStepResult::with_active_tools" {
 
 ///|
 test "PrepareStepResult::with_messages" {
-  let msgs : Array[@js.Any] = [@js.any("hello")]
+  let msgs : Array[@nostd.Any] = [@nostd.any("hello")]
   let result = PrepareStepResult::with_messages(msgs)
   assert_true(result.model is None)
   assert_true(result.active_tools is None)
@@ -237,18 +237,18 @@ test "PrepareStepResult as_any creates JS object" {
   }
   let js_obj = result.as_any()
   // Check activeTools is set
-  let active_tools = js_obj.get("activeTools")
+  let active_tools = js_obj._get("activeTools")
   assert_false(@js.is_undefined(active_tools))
   // Check system is set
-  let system : String = js_obj.get("system").cast()
+  let system : String = js_obj._get("system").cast()
   assert_eq(system, "You are helpful")
   // Check maxTokens is set
-  let max_tokens : Int = js_obj.get("maxTokens").cast()
+  let max_tokens : Int = js_obj._get("maxTokens").cast()
   assert_eq(max_tokens, 100)
   // Check model is not set
-  assert_true(@js.is_undefined(js_obj.get("model")))
+  assert_true(@js.is_undefined(js_obj._get("model")))
   // Check temperature is not set
-  assert_true(@js.is_undefined(js_obj.get("temperature")))
+  assert_true(@js.is_undefined(js_obj._get("temperature")))
 }
 
 ///|
@@ -258,9 +258,9 @@ test "StopCondition as_any creates JS function" {
   // Verify it's a function
   assert_false(@js.is_undefined(js_fn))
   // Call it with a mock context
-  let ctx = @js.Object::new()
+  let ctx = @nostd.Object::new()
   ctx.set("stepNumber", 2)
-  let empty_arr : Array[@js.Any] = []
+  let empty_arr : Array[@nostd.Any] = []
   ctx.set("messages", empty_arr |> @js.from_array)
   ctx.set("toolCalls", empty_arr |> @js.from_array)
   ctx.set("finishReason", "stop")

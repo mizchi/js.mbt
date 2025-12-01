@@ -257,7 +257,7 @@ test "PrepareStepResult::with_active_tools should set tools" {
 
 ///|
 test "PrepareStepResult::with_messages should set messages" {
-  let msg : @js.Any = @nostd.from_entries([("role", "user" |> @nostd.any)]).cast()
+  let msg : @nostd.Any = @nostd.from_entries([("role", "user" |> @nostd.any)]).cast()
   let result = @ai.PrepareStepResult::with_messages([msg])
   assert_true(result.model is None)
   guard result.messages is Some(msgs)
@@ -268,19 +268,19 @@ test "PrepareStepResult::with_messages should set messages" {
 test "PrepareStepResult::as_any with empty" {
   let result = @ai.PrepareStepResult::empty()
   let js_obj = result.as_any()
-  assert_true(@js.is_undefined(js_obj.get("model")))
-  assert_true(@js.is_undefined(js_obj.get("activeTools")))
-  assert_true(@js.is_undefined(js_obj.get("messages")))
-  assert_true(@js.is_undefined(js_obj.get("system")))
-  assert_true(@js.is_undefined(js_obj.get("maxTokens")))
-  assert_true(@js.is_undefined(js_obj.get("temperature")))
+  assert_true(@js.is_undefined(js_obj._get("model")))
+  assert_true(@js.is_undefined(js_obj._get("activeTools")))
+  assert_true(@js.is_undefined(js_obj._get("messages")))
+  assert_true(@js.is_undefined(js_obj._get("system")))
+  assert_true(@js.is_undefined(js_obj._get("maxTokens")))
+  assert_true(@js.is_undefined(js_obj._get("temperature")))
 }
 
 ///|
 test "PrepareStepResult::as_any with active_tools" {
   let result = @ai.PrepareStepResult::with_active_tools(["tool1", "tool2"])
   let js_obj = result.as_any()
-  let tools_arr : Array[String] = @js.identity(js_obj.get("activeTools"))
+  let tools_arr : Array[String] = @js.identity(js_obj._get("activeTools"))
   assert_eq(tools_arr.length(), 2)
   assert_eq(tools_arr[0], "tool1")
 }
@@ -293,9 +293,9 @@ test "PrepareStepResult::as_any with system and temperature" {
     temperature: Some(0.7),
   }
   let js_obj = result.as_any()
-  let system : String = js_obj.get("system").cast()
+  let system : String = js_obj._get("system").cast()
   assert_eq(system, "You are a helpful assistant")
-  let temp : Double = js_obj.get("temperature").cast()
+  let temp : Double = js_obj._get("temperature").cast()
   assert_eq(temp, 0.7)
 }
 
@@ -306,7 +306,7 @@ test "PrepareStepResult::as_any with max_tokens" {
     max_tokens: Some(1000),
   }
   let js_obj = result.as_any()
-  let max_tokens : Int = js_obj.get("maxTokens").cast()
+  let max_tokens : Int = js_obj._get("maxTokens").cast()
   assert_eq(max_tokens, 1000)
 }
 

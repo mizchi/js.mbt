@@ -49,11 +49,11 @@ async fn run() -> Unit {
   // Register tool call handler
   server.set_tools_call_handler(async fn(name, args) {
     if name == "greet" {
-      let person_name : String = args.get("name").cast()
+      let person_name : String = args._get("name").cast()
       [@mcp.Content::text("Hello, " + person_name + "!")]
     } else if name == "add" {
-      let a : Double = args.get("a").cast()
-      let b : Double = args.get("b").cast()
+      let a : Double = args._get("a").cast()
+      let b : Double = args._get("b").cast()
       let result = a + b
       [@mcp.Content::text("Result: " + result.to_string())]
     } else {
@@ -94,7 +94,7 @@ async fn run() -> Unit {
   // Register prompt get handler
   server.set_prompts_get_handler(async fn(name, args) {
     if name == "greeting-template" {
-      let person_name : String = args.get("name")
+      let person_name : String = args._get("name")
         |> @js.identity_option()
         |> Option::unwrap_or("World")
       {

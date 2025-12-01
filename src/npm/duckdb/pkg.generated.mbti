@@ -43,8 +43,8 @@ fn QueryResult::as_any(Self) -> @nostd.Any
 fn QueryResult::numCols(Self) -> Int
 #alias(num_rows)
 fn QueryResult::numRows(Self) -> Int
-fn QueryResult::schema(Self) -> @js.Any
-fn QueryResult::toArray(Self) -> @js.Any
+fn QueryResult::schema(Self) -> @nostd.Any
+fn QueryResult::toArray(Self) -> @nostd.Any
 
 // Type aliases
 

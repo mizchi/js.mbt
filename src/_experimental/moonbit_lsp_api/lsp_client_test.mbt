@@ -18,8 +18,8 @@ test "uri_to_path converts URI to file path" {
 test "Position::to_json creates correct JSON" {
   let pos = Position::{ line: 10, character: 5 }
   let json = pos.to_json()
-  let line : Int = json.get("line").cast()
-  let character : Int = json.get("character").cast()
+  let line : Int = json._get("line").cast()
+  let character : Int = json._get("character").cast()
   inspect(line, content="10")
   inspect(character, content="5")
 }
@@ -42,10 +42,10 @@ test "Range::to_json creates correct JSON" {
     end_: { line: 1, character: 10 },
   }
   let json = range.to_json()
-  let start = json.get("start")
-  let end = json.get("end")
-  let start_line : Int = start.get("line").cast()
-  let end_char : Int = end.get("character").cast()
+  let start = json._get("start")
+  let end = json._get("end")
+  let start_line : Int = start._get("line").cast()
+  let end_char : Int = end._get("character").cast()
   inspect(start_line, content="1")
   inspect(end_char, content="10")
 }

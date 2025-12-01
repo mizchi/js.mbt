@@ -70,9 +70,9 @@ test "URL - origin property" {
 test "URL - searchParams integration" {
   let url = URL::new("https://example.com?foo=bar&baz=qux")
   let params = url.searchParams
-  assert_eq(params.get("foo"), Some("bar"))
-  assert_eq(params.get("baz"), Some("qux"))
-  assert_eq(params.get("missing"), None)
+  assert_eq(params._get("foo"), Some("bar"))
+  assert_eq(params._get("baz"), Some("qux"))
+  assert_eq(params._get("missing"), None)
 }
 
 ///|

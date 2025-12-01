@@ -14,11 +14,11 @@ fn event_source_connecting() -> Int
 
 fn event_source_open() -> Int
 
-fn get_event_data(@js.Any) -> String
+fn get_event_data(@nostd.Any) -> String
 
-fn get_event_origin(@js.Any) -> String
+fn get_event_origin(@nostd.Any) -> String
 
-fn get_last_event_id(@js.Any) -> String
+fn get_last_event_id(@nostd.Any) -> String
 
 // Errors
 
@@ -46,22 +46,22 @@ fn EventSource::as_any(Self) -> @nostd.Any
 fn EventSource::as_event_target(Self) -> EventTarget
 fn EventSource::close(Self) -> Unit
 fn EventSource::new(String, withCredentials? : Bool) -> Self
-fn EventSource::set_onerror(Self, (@js.Any) -> Unit) -> Unit
-fn EventSource::set_onmessage(Self, (@js.Any) -> Unit) -> Unit
-fn EventSource::set_onopen(Self, (@js.Any) -> Unit) -> Unit
+fn EventSource::set_onerror(Self, (@nostd.Any) -> Unit) -> Unit
+fn EventSource::set_onmessage(Self, (@nostd.Any) -> Unit) -> Unit
+fn EventSource::set_onopen(Self, (@nostd.Any) -> Unit) -> Unit
 impl EventTargetImpl for EventSource
 
 #external
 pub type EventTarget
 #alias(add_event_listener)
-fn EventTarget::addEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
+fn EventTarget::addEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 fn EventTarget::as_any(Self) -> @nostd.Any
 #alias(dispatch_event)
 fn EventTarget::dispatchEvent(Self, Event) -> Bool
-fn EventTarget::off(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit
-fn EventTarget::on(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
+fn EventTarget::off(Self, String, (@nostd.Any) -> Unit, capture? : Bool) -> Unit
+fn EventTarget::on(Self, String, (@nostd.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 #alias(remove_event_listener)
-fn EventTarget::removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit
+fn EventTarget::removeEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool) -> Unit
 impl EventTargetImpl for EventTarget
 
 // Type aliases
@@ -69,8 +69,8 @@ impl EventTargetImpl for EventTarget
 // Traits
 pub(open) trait EventTargetImpl {
   as_any(Self) -> @nostd.Any
-  addEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit = _
-  removeEventListener(Self, String, (@js.Any) -> Unit, capture? : Bool) -> Unit = _
+  addEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit = _
+  removeEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool) -> Unit = _
   dispatchEvent(Self, Event) -> Bool = _
 }
 

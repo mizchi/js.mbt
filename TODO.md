@@ -17,7 +17,7 @@ Warning (Alert deprecated): trait inlining is too heavy. Use @nostd.Any
 
 1. **各ファイルの `pub impl @js.JsImpl for SomeType` を削除**
 2. **代わりに `pub fn SomeType::as_any(self : SomeType) -> @nostd.Any = "%identity"` を追加**
-3. **内部で `self.call()` / `self.get()` / `self.set()` を使用している箇所を `self.as_any()._call()` / `self.as_any()["key"]` に変更**
+3. **内部で `self._call()` / `self._get()` / `self.set()` を使用している箇所を `self.as_any()._call()` / `self.as_any()["key"]` に変更**
 
 ### 警告が多いファイル
 
@@ -76,10 +76,10 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 - [x] `src/builtins/reflect` - `&@js.JsImpl` を `@nostd.Any` に変換、`as_any()` 追加
 - [x] `src/builtins/proxy` - `&@js.JsImpl` を `@nostd.Any` に変換、`as_any()` 追加 (後方互換のため `@js.JsImpl` 維持)
 - [x] `src/browser/serviceworker` - `as_any()` 追加、`self.as_any().set()` を `self.as_any()["key"] =` に変換
-- [x] `src/browser/observer` - 外部タイプに `as_any()` 追加、`self.call()` を `self.as_any()._call()` に変換
+- [x] `src/browser/observer` - 外部タイプに `as_any()` 追加、`self._call()` を `self.as_any()._call()` に変換
 - [x] `src/npm/comlink` - 外部タイプに `as_any()` 追加、Remote メソッドを `._call()` に変換
 - [x] `src/web/http/headers` - `as_any()` 追加
-- [x] `src/web/http/form_data` - `as_any()` 追加、`self.call()` を `self.as_any()._call()` に変換
+- [x] `src/web/http/form_data` - `as_any()` 追加、`self._call()` を `self.as_any()._call()` に変換
 - [x] `src/web/websocket` - `as_any()` 追加、call/set メソッドを `._call()` / `[]` に変換
 - [x] `src/web/event/event_source` - `as_any()` 追加、call/set メソッドを `._call()` / `[]` に変換
 - [x] `src/web/streams/stream` - 全ての stream 型に `as_any()` 追加

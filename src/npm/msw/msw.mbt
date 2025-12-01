@@ -69,7 +69,7 @@ extern "js" fn ffi_http_get(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
 ) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.get(path, resolver)
+  #| (path, resolver) => require('msw').http._get(path, resolver)
 
 ///|
 extern "js" fn ffi_http_post(

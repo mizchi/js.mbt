@@ -556,7 +556,7 @@ fn count_lines(s : String) -> Int {
 }
 
 ///|
-extern "js" fn ffi_to_string(data : @js.Any) -> String =
+extern "js" fn ffi_to_string(data : @nostd.Any) -> String =
   #|(data) => typeof data === 'string' ? data : data.toString()
 
 ///|

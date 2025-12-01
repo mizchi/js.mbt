@@ -53,6 +53,10 @@ extern "js" fn ffi_get(obj : Any, key : String) -> Any =
   #| (obj, key) => obj[key]
 
 ///|
+extern "js" fn ffi_get_dyn(obj : Any, key : Any) -> Any =
+  #| (obj, key) => obj[key]
+
+///|
 extern "js" fn ffi_set(obj : Any, key : String, value : Any) -> Unit =
   #| (obj, key, value) => { obj[key] = value }
 

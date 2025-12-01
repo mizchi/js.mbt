@@ -24,7 +24,7 @@ test "WebAssembly module from bytes" {
 
   // Get exports and call add function
   let exports = instance.exports()
-  let add_func = exports.get("add")
+  let add_func = exports._get("add")
   let result : Int = add_func.call_self([5, 3]).cast()
   inspect(result, content="8")
 }
@@ -77,7 +77,7 @@ test "WebAssembly Global" {
   // Create a mutable i32 global
   let global = WebAssemblyGlobal::new(
     { value: "i32", mutable: true },
-    @js.any(42),
+    @nostd.any(42),
   )
   inspect(@nostd.typeof_(global.as_any()), content="object")
 
@@ -86,7 +86,7 @@ test "WebAssembly Global" {
   inspect(value, content="42")
 
   // Set a new value
-  global.set_value(100 |> @js.any())
+  global.set_value(100 |> @nostd.any())
   let new_value : Int = global.value().cast()
   inspect(new_value, content="100")
 }
@@ -97,7 +97,7 @@ test "WebAssembly Global immutable" {
   // Create an immutable f64 global
   let global = WebAssemblyGlobal::new(
     { value: "f64", mutable: false },
-    @js.any(3.14),
+    @nostd.any(3.14),
   )
   inspect(@nostd.typeof_(global.as_any()), content="object")
 

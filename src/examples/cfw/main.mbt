@@ -25,15 +25,15 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
         200,
       )
     } else if pathname == "/api/hello" {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["message"] = "Hello from MoonBit Worker!"
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/echo" {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["url"] = url_str
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/fetch" {
@@ -44,48 +44,48 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
       ) catch {
         e => {
           log("Error: " + e.to_string())
-          let data = @js.Object::new()
+          let data = @nostd.Object::new()
           data["error"] = "Failed to fetch"
-          let options = @js.Object::new()
+          let options = @nostd.Object::new()
           options["status"] = 500
           return Response::json_(data, options~)
         }
       }
       res
     } else if pathname == "/api/json" {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["status"] = "ok"
-      let inner_data = @js.Object::new()
+      let inner_data = @nostd.Object::new()
       inner_data["foo"] = "bar"
       inner_data["num"] = 42
       data["data"] = inner_data
       data["timestamp"] = 1234567890
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/redirect" {
       Response::redirect("/", status=302)
     } else if pathname == "/api/headers" {
-      let headers = @js.Object::new()
+      let headers = @nostd.Object::new()
       headers["Content-Type"] = "application/json"
       headers["x-custom-header"] = "MoonBit-Worker"
       headers["x-powered-by"] = "Cloudflare"
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["message"] = "Check the headers"
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 200
       options["headers"] = headers
       Response::json_(data, options~)
     } else if pathname == "/api/status/404" {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["error"] = "Not Found"
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 404
       Response::json_(data, options~)
     } else if pathname == "/api/status/500" {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["error"] = "Internal Server Error"
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 500
       Response::json_(data, options~)
     } else if pathname == "/api/text" {
@@ -93,68 +93,68 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
     } else if pathname == "/api/query" {
       // Parse query parameters
       let params = url.searchParams()
-      let name = match params.get("name") {
+      let name = match params._get("name") {
         Some(n) => n
         None => "World"
       }
-      let message = match params.get("message") {
+      let message = match params._get("message") {
         Some(m) => m
         None => "Hello"
       }
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["greeting"] = message + ", " + name + "!"
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/time" {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["timestamp"] = 1234567890
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/user-agent" {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["userAgent"] = "unknown"
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/method" {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["method"] = "unknown"
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/health" {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["status"] = "healthy"
       data["service"] = "moonbit-worker"
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 200
       Response::json_(data, options~)
     } else if pathname == "/api/math/add" {
       let params = url.searchParams()
-      let a_str = params.get("a")
-      let b_str = params.get("b")
+      let a_str = params._get("a")
+      let b_str = params._get("b")
       match (a_str, b_str) {
         (Some(a), Some(b)) => {
-          let data = @js.Object::new()
+          let data = @nostd.Object::new()
           data["result"] = a + "+" + b
-          let options = @js.Object::new()
+          let options = @nostd.Object::new()
           options["status"] = 200
           Response::json_(data, options~)
         }
         _ => {
-          let data = @js.Object::new()
+          let data = @nostd.Object::new()
           data["error"] = "Missing parameters a or b"
-          let options = @js.Object::new()
+          let options = @nostd.Object::new()
           options["status"] = 400
           Response::json_(data, options~)
         }
       }
     } else {
-      let data = @js.Object::new()
+      let data = @nostd.Object::new()
       data["error"] = "Route not found"
-      let options = @js.Object::new()
+      let options = @nostd.Object::new()
       options["status"] = 404
       Response::json_(data, options~)
     }

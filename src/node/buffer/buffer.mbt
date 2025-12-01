@@ -15,31 +15,25 @@ pub type BufferJSON
 pub fn BufferJSON::as_any(self : BufferJSON) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for BufferJSON
-
-///|
 /// Get the type field (always "Buffer")
 pub fn BufferJSON::type_(self : BufferJSON) -> String {
-  self.get("type") |> @js.identity
+  self.as_any()["type"].cast()
 }
 
 ///|
 /// Get the data as an array of bytes
 pub fn BufferJSON::data(self : BufferJSON) -> Array[Int] {
-  self.get("data") |> @js.identity
+  self.as_any()["data"].cast()
 }
 
 ///|
-pub impl @js.JsImpl for Buffer
-
-///|
 /// Get the Buffer constructor
-extern "js" fn buffer_constructor() -> @js.Any =
+extern "js" fn buffer_constructor() -> @nostd.Any =
   #| () => require("node:buffer").Buffer
 
 ///|
-/// Convert Buffer to @js.Any for FFI calls
-extern "js" fn buffer_to_js_any(buf : Buffer) -> @js.Any =
+/// Convert Buffer to @nostd.Any for FFI calls
+extern "js" fn buffer_to_js_any(buf : Buffer) -> @nostd.Any =
   #| (b) => b
 
 ///|
@@ -48,15 +42,15 @@ pub fn Buffer::from_string(
   str : String,
   encoding? : String = "utf-8",
 ) -> Buffer {
-  let ctor = buffer_constructor()
-  ctor.call2("from", str, encoding).cast()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
+  ctor._call("from", [@nostd.any(str), @nostd.any(encoding)]).cast()
 }
 
 ///|
 /// Create a Buffer from an array of bytes
 pub fn Buffer::from_array(arr : Array[Int]) -> Buffer {
-  let ctor = buffer_constructor()
-  ctor.call1("from", @js.from_array(arr)).cast()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
+  ctor._call("from", [@nostd.any(@js.from_array(arr))]).cast()
 }
 
 ///|
@@ -66,31 +60,35 @@ pub fn Buffer::from_arraybuffer(
   byte_offset? : Int = 0,
   length? : Int,
 ) -> Buffer {
-  let ctor = buffer_constructor()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
   match length {
-    Some(len) => ctor.call("from", [ab, byte_offset, len]).cast()
-    None => ctor.call2("from", ab, byte_offset).cast()
+    Some(len) =>
+      ctor
+      ._call("from", [@nostd.any(ab), @nostd.any(byte_offset), @nostd.any(len)])
+      .cast()
+    None => ctor._call("from", [@nostd.any(ab), @nostd.any(byte_offset)]).cast()
   }
 }
 
 ///|
 /// Create a Buffer by copying another buffer
 pub fn Buffer::from_buffer(buf : Buffer) -> Buffer {
-  let ctor = buffer_constructor()
-  ctor.call1("from", buffer_to_js_any(buf)).cast()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
+  ctor._call("from", [@nostd.any(buffer_to_js_any(buf))]).cast()
 }
 
 ///|
 /// Allocate a new zero-filled buffer
 pub fn Buffer::alloc(
   size : Int,
-  fill? : &@js.JsImpl,
+  fill? : @nostd.Any,
   encoding? : String = "utf-8",
 ) -> Buffer {
-  let ctor = buffer_constructor()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
   match fill {
-    Some(f) => ctor.call("alloc", [size, f.as_any(), encoding]).cast()
-    None => ctor.call1("alloc", size).cast()
+    Some(f) =>
+      ctor._call("alloc", [@nostd.any(size), f, @nostd.any(encoding)]).cast()
+    None => ctor._call("alloc", [@nostd.any(size)]).cast()
   }
 }
 
@@ -98,41 +96,47 @@ pub fn Buffer::alloc(
 /// Allocate an uninitialized buffer (faster but potentially insecure)
 #alias(alloc_unsafe)
 pub fn Buffer::allocUnsafe(size : Int) -> Buffer {
-  let ctor = buffer_constructor()
-  ctor.call1("allocUnsafe", size).cast()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
+  ctor._call("allocUnsafe", [@nostd.any(size)]).cast()
 }
 
 ///|
 /// Check if an object is a Buffer
 #alias(is_buffer)
-pub fn Buffer::isBuffer(obj : &@js.JsImpl) -> Bool {
-  let ctor = buffer_constructor()
-  ctor.call1("isBuffer", obj.as_any()).cast()
+pub fn Buffer::isBuffer(obj : @nostd.Any) -> Bool {
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
+  ctor._call("isBuffer", [obj]).cast()
 }
 
 ///|
 /// Check if a string is a valid encoding
 #alias(is_encoding)
 pub fn Buffer::isEncoding(encoding : String) -> Bool {
-  let ctor = buffer_constructor()
-  ctor.call1("isEncoding", encoding).cast()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
+  ctor._call("isEncoding", [@nostd.any(encoding)]).cast()
 }
 
 ///|
 /// Compare two buffers
 pub fn Buffer::compare(buf1 : Buffer, buf2 : Buffer) -> Int {
-  let ctor = buffer_constructor()
-  ctor.call2("compare", buffer_to_js_any(buf1), buffer_to_js_any(buf2)).cast()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
+  ctor
+  ._call("compare", [
+    @nostd.any(buffer_to_js_any(buf1)),
+    @nostd.any(buffer_to_js_any(buf2)),
+  ])
+  .cast()
 }
 
 ///|
 /// Concatenate an array of buffers
 pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
-  let ctor = buffer_constructor()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
   let list_js = @js.from_array(list)
   match total_length {
-    Some(len) => ctor.call2("concat", list_js, len).cast()
-    None => ctor.call1("concat", list_js).cast()
+    Some(len) =>
+      ctor._call("concat", [@nostd.any(list_js), @nostd.any(len)]).cast()
+    None => ctor._call("concat", [@nostd.any(list_js)]).cast()
   }
 }
 
@@ -140,14 +144,14 @@ pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
 /// Get the byte length of a string when encoded
 #alias(byte_length)
 pub fn Buffer::byteLength(str : String, encoding? : String = "utf-8") -> Int {
-  let ctor = buffer_constructor()
-  ctor.call2("byteLength", str, encoding).cast()
+  let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
+  ctor._call("byteLength", [@nostd.any(str), @nostd.any(encoding)]).cast()
 }
 
 ///|
 /// Get the length of the buffer in bytes
 pub fn Buffer::length(self : Self) -> Int {
-  self.get("length").cast()
+  self.as_any()["length"].cast()
 }
 
 ///|
@@ -159,9 +163,20 @@ pub fn Buffer::toString(
   start? : Int = 0,
   end? : Int,
 ) -> String {
+  let self_any = self.as_any()
   match end {
-    Some(e) => self.call("toString", [encoding, start, e]).cast()
-    None => self.call2("toString", encoding, start).cast()
+    Some(e) =>
+      self_any
+      ._call("toString", [
+        @nostd.any(encoding),
+        @nostd.any(start),
+        @nostd.any(e),
+      ])
+      .cast()
+    None =>
+      self_any
+      ._call("toString", [@nostd.any(encoding), @nostd.any(start)])
+      .cast()
   }
 }
 
@@ -252,7 +267,7 @@ pub fn Buffer::copy(
 /// Fill the buffer with a value
 pub fn Buffer::fill(
   self : Self,
-  value : &@js.JsImpl,
+  value : @nostd.Any,
   offset? : Int = 0,
   end? : Int,
   encoding? : String = "utf-8",
@@ -262,16 +277,13 @@ pub fn Buffer::fill(
     Some(e) =>
       buf_js
       ._call("fill", [
-        @nostd.any(value.as_any()),
+        value,
         @nostd.any(offset),
         @nostd.any(e),
         @nostd.any(encoding),
       ])
       .cast()
-    None =>
-      buf_js
-      ._call("fill", [@nostd.any(value.as_any()), @nostd.any(offset)])
-      .cast()
+    None => buf_js._call("fill", [value, @nostd.any(offset)]).cast()
   }
 }
 
@@ -292,14 +304,14 @@ pub fn Buffer::compare_with(
   source_end? : Int,
 ) -> Int {
   let buf_js = self.as_any()
-  // Build args as @js.Any array for @js.from_array compatibility
-  let args : Array[@js.Any] = [target.as_any().cast(), @js.any(target_start)]
+  // Build args as @nostd.Any array for @js.from_array compatibility
+  let args : Array[@nostd.Any] = [target.as_any().cast(), @nostd.any(target_start)]
   if target_end is Some(te) {
-    args.push(@js.any(te))
+    args.push(@nostd.any(te))
   }
-  args.push(@js.any(source_start))
+  args.push(@nostd.any(source_start))
   if source_end is Some(se) {
-    args.push(@js.any(se))
+    args.push(@nostd.any(se))
   }
   let compare_fn = buf_js["compare"]
   let apply = compare_fn["apply"]
@@ -312,17 +324,13 @@ pub fn Buffer::compare_with(
 /// Check if the buffer includes a value
 pub fn Buffer::includes(
   self : Self,
-  value : &@js.JsImpl,
+  value : @nostd.Any,
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Bool {
   self
   .as_any()
-  ._call("includes", [
-    @nostd.any(value.as_any()),
-    @nostd.any(byte_offset),
-    @nostd.any(encoding),
-  ])
+  ._call("includes", [value, @nostd.any(byte_offset), @nostd.any(encoding)])
   .cast()
 }
 
@@ -331,17 +339,13 @@ pub fn Buffer::includes(
 #alias(index_of)
 pub fn Buffer::indexOf(
   self : Self,
-  value : &@js.JsImpl,
+  value : @nostd.Any,
   byte_offset? : Int = 0,
   encoding? : String = "utf-8",
 ) -> Int {
   self
   .as_any()
-  ._call("indexOf", [
-    @nostd.any(value.as_any()),
-    @nostd.any(byte_offset),
-    @nostd.any(encoding),
-  ])
+  ._call("indexOf", [value, @nostd.any(byte_offset), @nostd.any(encoding)])
   .cast()
 }
 
@@ -350,7 +354,7 @@ pub fn Buffer::indexOf(
 #alias(last_index_of)
 pub fn Buffer::lastIndexOf(
   self : Self,
-  value : &@js.JsImpl,
+  value : @nostd.Any,
   byte_offset? : Int,
   encoding? : String = "utf-8",
 ) -> Int {
@@ -358,25 +362,18 @@ pub fn Buffer::lastIndexOf(
   match byte_offset {
     Some(offset) =>
       buf_js
-      ._call("lastIndexOf", [
-        @nostd.any(value.as_any()),
-        @nostd.any(offset),
-        @nostd.any(encoding),
-      ])
+      ._call("lastIndexOf", [value, @nostd.any(offset), @nostd.any(encoding)])
       .cast()
-    None =>
-      buf_js
-      ._call("lastIndexOf", [@nostd.any(value.as_any()), @nostd.any(encoding)])
-      .cast()
+    None => buf_js._call("lastIndexOf", [value, @nostd.any(encoding)]).cast()
   }
 }
 
 ///|
-// extern "js" fn ffi_get_index(obj : @js.Any, index : Int) -> Js =
+// extern "js" fn ffi_get_index(obj : @nostd.Any, index : Int) -> Js =
 //   #|(obj, i) => obj[i]
 
 // ///|
-// extern "js" fn ffi_set_index(obj : @js.Any, index : Int, value : @js.Any) -> Unit =
+// extern "js" fn ffi_set_index(obj : @nostd.Any, index : Int, value : @nostd.Any) -> Unit =
 //   #|(obj, i, v) => { obj[i] = v }
 
 ///|
@@ -394,19 +391,19 @@ pub fn Buffer::lastIndexOf(
 ///|
 /// Get the underlying ArrayBuffer
 pub fn Buffer::buffer(self : Self) -> @js.ArrayBuffer {
-  self.get("buffer").cast()
+  self.as_any()["buffer"].cast()
 }
 
 ///|
 /// Get the byte offset in the underlying ArrayBuffer
 #alias(byte_offset)
 pub fn Buffer::byteOffset(self : Self) -> Int {
-  self.get("byteOffset").cast()
+  self.as_any()["byteOffset"].cast()
 }
 
 ///|
 /// Convert buffer to JSON representation
 #alias(to_json)
 pub fn Buffer::toJSON(self : Self) -> BufferJSON {
-  self.call0("toJSON").cast()
+  self.as_any()._call("toJSON", []).cast()
 }

@@ -212,7 +212,7 @@ test "fireEvent submit on form" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (submitted, set_submitted) = @react.use_state(false)
-    let on_submit = fn(e : @js.Any) {
+    let on_submit = fn(e : @nostd.Any) {
       e.call0("preventDefault") |> ignore
       set_submitted(true)
     }
@@ -250,8 +250,8 @@ test "fireEvent focus and blur on input" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (focused, set_focused) = @react.use_state(false)
-    let on_focus = fn(_e : @js.Any) { set_focused(true) }
-    let on_blur = fn(_e : @js.Any) { set_focused(false) }
+    let on_focus = fn(_e : @nostd.Any) { set_focused(true) }
+    let on_blur = fn(_e : @nostd.Any) { set_focused(false) }
     @react_element.div([
       @react_element.input(
         on_focus=@js.identity(on_focus),
@@ -281,8 +281,8 @@ test "fireEvent keyDown on input" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (key, set_key) = @react.use_state("")
-    let on_keydown = fn(e : @js.Any) {
-      let k : String = e.get("key").cast()
+    let on_keydown = fn(e : @nostd.Any) {
+      let k : String = e._get("key").cast()
       set_key("Key: \{k}")
     }
     @react_element.div([
@@ -310,7 +310,7 @@ test "configure function exists" {
   @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   // Just test that configure can be called without error
-  let config = @js.Object::new()
+  let config = @nostd.Object::new()
   let config_any : @nostd.Any = config.as_any().cast()
   configure(config_any)
 }
@@ -603,7 +603,7 @@ fn child_component(_props : ChildProps) -> @react.Element {
   let ref_val : @react.ReactRef[@dom.HTMLDivElement] = @react.use_ref(None)
   @react.use_imperative_handle(
     ref_val,
-    fn() -> @dom.HTMLDivElement { @js.Object::new() |> @js.identity },
+    fn() -> @dom.HTMLDivElement { @nostd.Object::new() |> @js.identity },
     [],
   )
   @react_element.div(["Child"], ref_=ref_val)
@@ -651,7 +651,7 @@ fn about_component(_props : @react_router.RouteProps) -> @react.Element {
 ///|
 fn user_component(_props : @react_router.RouteProps) -> @react.Element {
   let params = @react_router.useParams()
-  let user_id = params.get("id").unwrap_or("unknown")
+  let user_id = params._get("id").unwrap_or("unknown")
   @react_element.div(["User: \{user_id}"], id="user")
 }
 

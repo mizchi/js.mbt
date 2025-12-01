@@ -29,8 +29,8 @@ async fn File::text(Self) -> String
 
 pub(all) struct FileReader {
   readyState : Int
-  result : @js.Nullable[@js.Any]
-  error : @js.Nullable[@js.Any]
+  result : @js.Nullable[@nostd.Any]
+  error : @js.Nullable[@nostd.Any]
 }
 fn FileReader::abort(Self) -> Unit
 fn FileReader::as_any(Self) -> @nostd.Any
@@ -41,9 +41,9 @@ fn FileReader::readAsArrayBuffer(Self, @blob.Blob) -> Unit
 fn FileReader::readAsDataURL(Self, @blob.Blob) -> Unit
 #alias(read_as_text)
 fn FileReader::readAsText(Self, @blob.Blob, encoding? : String) -> Unit
-fn FileReader::set_onerror(Self, (@js.Any) -> Unit) -> Unit
-fn FileReader::set_onload(Self, (@js.Any) -> Unit) -> Unit
-fn FileReader::set_onloadend(Self, (@js.Any) -> Unit) -> Unit
+fn FileReader::set_onerror(Self, (@nostd.Any) -> Unit) -> Unit
+fn FileReader::set_onload(Self, (@nostd.Any) -> Unit) -> Unit
+fn FileReader::set_onloadend(Self, (@nostd.Any) -> Unit) -> Unit
 
 // Type aliases
 

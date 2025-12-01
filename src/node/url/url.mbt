@@ -1,5 +1,5 @@
 ///|
-extern "js" fn url_module() -> @js.Any =
+extern "js" fn url_module() -> @nostd.Any =
   #| () => require("node:url")
 
 ///|
@@ -58,7 +58,7 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
 ///|
 /// Convert URL to HTTP options object
 #alias(url_to_http_options)
-pub fn urlToHttpOptions(url : @weburl.URL) -> @js.Any {
+pub fn urlToHttpOptions(url : @weburl.URL) -> @nostd.Any {
   let url_module : @nostd.Any = @nostd.any(url_module())
   url_module._call("urlToHttpOptions", [url.as_any()]).cast()
 }

@@ -24,7 +24,7 @@ fn is_target_build() -> Bool
 
 fn is_target_build_path(String) -> Bool
 
-fn load_source_map(String) -> @js.Any?
+fn load_source_map(String) -> @nostd.Any?
 
 fn resolve_pkg_name(String) -> String?
 
@@ -51,7 +51,7 @@ pub struct MoonMod {
   keywords : Array[String]
   preferred_target : String?
   warn_list : String?
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 pub struct MoonPkg {
@@ -67,7 +67,7 @@ pub struct MoonPkg {
   warn_list : String?
   native_stub : Array[String]
   overrides : Array[String]
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 pub struct SourceDirInfo {

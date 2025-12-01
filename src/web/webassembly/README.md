@@ -28,14 +28,14 @@ fn main {
   let module = @webassembly.WebAssembly_Module::new(bytes)
   
   // Instantiate the module
-  let imports = @js.Object::new()
+  let imports = @nostd.Object::new()
   let instance = @webassembly.WebAssembly_Instance::new(module, imports)
   
   // Access exports
   let exports = instance.exports()
   
   // Call exported functions
-  // let result = exports.get("add").call([1, 2])
+  // let result = exports._get("add")._call([1, 2])
 }
 ```
 

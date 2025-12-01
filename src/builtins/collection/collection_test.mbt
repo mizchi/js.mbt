@@ -13,10 +13,10 @@ test "JsMap creation and basic operations" {
   assert_eq(map.size(), 3)
 
   // Get items
-  assert_eq(map.get("one"), Some(1))
-  assert_eq(map.get("two"), Some(2))
-  assert_eq(map.get("three"), Some(3))
-  assert_eq(map.get("four"), None)
+  assert_eq(map._get("one"), Some(1))
+  assert_eq(map._get("two"), Some(2))
+  assert_eq(map._get("three"), Some(3))
+  assert_eq(map._get("four"), None)
 
   // Has items
   assert_true(map.has("one"))
@@ -27,9 +27,9 @@ test "JsMap creation and basic operations" {
 test "JsMap::from_entries" {
   let map = JsMap::from_entries([("a", 1), ("b", 2), ("c", 3)])
   assert_eq(map.size(), 3)
-  assert_eq(map.get("a"), Some(1))
-  assert_eq(map.get("b"), Some(2))
-  assert_eq(map.get("c"), Some(3))
+  assert_eq(map._get("a"), Some(1))
+  assert_eq(map._get("b"), Some(2))
+  assert_eq(map._get("c"), Some(3))
 }
 
 ///|
@@ -42,13 +42,13 @@ test "JsMap delete and clear" {
   // Delete one item
   assert_true(map.delete("b"))
   assert_eq(map.size(), 2)
-  assert_eq(map.get("b"), None)
+  assert_eq(map._get("b"), None)
   assert_false(map.delete("nonexistent"))
 
   // Clear all
   map.clear()
   assert_eq(map.size(), 0)
-  assert_eq(map.get("a"), None)
+  assert_eq(map._get("a"), None)
 }
 
 ///|

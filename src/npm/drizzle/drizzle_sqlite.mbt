@@ -2,17 +2,17 @@
 /// https://orm.drizzle.team/docs/get-started/sqlite-new
 
 ///|
-fn drizzle_libsql_module() -> @js.Any {
+fn drizzle_libsql_module() -> @nostd.Any {
   @node.require("drizzle-orm/libsql")
 }
 
 ///|
-fn drizzle_better_sqlite3() -> @js.Any {
+fn drizzle_better_sqlite3() -> @nostd.Any {
   @node.require("drizzle-orm/better-sqlite3")
 }
 
 ///|
-fn drizzle_sqlite_core() -> @js.Any {
+fn drizzle_sqlite_core() -> @nostd.Any {
   @node.require("drizzle-orm/sqlite-core")
 }
 
@@ -21,15 +21,15 @@ fn drizzle_sqlite_core() -> @js.Any {
 ///|
 /// Create a Drizzle instance for SQLite with libsql (connection string)
 pub fn drizzleLibsql(connection_url : String) -> DrizzleDB {
-  let drizzle_fn = drizzle_libsql_module().get("drizzle")
+  let drizzle_fn = drizzle_libsql_module()._get("drizzle")
   @nostd.any(drizzle_fn)._invoke([@nostd.any(connection_url)]).cast()
 }
 
 ///|
 /// Create a Drizzle instance for SQLite with libsql client
-pub fn drizzleLibsqlClient(client : @js.Any) -> DrizzleDB {
-  let drizzle_fn = drizzle_libsql_module().get("drizzle")
-  let config = @js.Object::new()
+pub fn drizzleLibsqlClient(client : @nostd.Any) -> DrizzleDB {
+  let drizzle_fn = drizzle_libsql_module()._get("drizzle")
+  let config = @nostd.Object::new()
   config.set("client", client)
   @nostd.any(drizzle_fn)._invoke([@nostd.any(config)]).cast()
 }
@@ -38,15 +38,15 @@ pub fn drizzleLibsqlClient(client : @js.Any) -> DrizzleDB {
 /// Create a Drizzle instance for SQLite with better-sqlite3
 #alias(drizzle_better_sqlite)
 pub fn drizzleBetterSqlite(filename : String) -> DrizzleDB {
-  let drizzle_fn = drizzle_better_sqlite3().get("drizzle")
+  let drizzle_fn = drizzle_better_sqlite3()._get("drizzle")
   @nostd.any(drizzle_fn)._invoke([@nostd.any(filename)]).cast()
 }
 
 ///|
 /// Create a Drizzle instance for SQLite with better-sqlite3 database instance
 #alias(drizzle_better_sqlite_db)
-pub fn drizzleBetterSqliteDb(db : @js.Any) -> DrizzleDB {
-  let drizzle_fn = drizzle_better_sqlite3().get("drizzle")
+pub fn drizzleBetterSqliteDb(db : @nostd.Any) -> DrizzleDB {
+  let drizzle_fn = drizzle_better_sqlite3()._get("drizzle")
   @nostd.any(drizzle_fn)._invoke([@nostd.any(db)]).cast()
 }
 
@@ -55,8 +55,8 @@ pub fn drizzleBetterSqliteDb(db : @js.Any) -> DrizzleDB {
 ///|
 /// Create a SQLite table
 #alias(sqlite_table)
-pub fn sqliteTable(name : String, columns : @js.Any) -> Table {
-  let fn_ = drizzle_sqlite_core().get("sqliteTable")
+pub fn sqliteTable(name : String, columns : @nostd.Any) -> Table {
+  let fn_ = drizzle_sqlite_core()._get("sqliteTable")
   @nostd.any(fn_)._invoke([@nostd.any(name), @nostd.any(columns)]).cast()
 }
 
@@ -67,7 +67,7 @@ pub fn sqliteTableFromMap(
   name : String,
   columns : Map[String, Column],
 ) -> Table {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   columns.each(fn(key, col) { obj.set(key, col.as_any()) })
   sqliteTable(name, obj.as_any())
 }
@@ -77,11 +77,11 @@ pub fn sqliteTableFromMap(
 #alias(sqlite_table_with_config)
 pub fn sqliteTableWithConfig(
   name : String,
-  columns : @js.Any,
-  extra : (Table) -> @js.Any,
+  columns : @nostd.Any,
+  extra : (Table) -> @nostd.Any,
 ) -> Table {
-  let fn_ = drizzle_sqlite_core().get("sqliteTable")
-  let extra_fn : @js.Any = @js.from_fn1(fn(t : @js.Any) -> @js.Any {
+  let fn_ = drizzle_sqlite_core()._get("sqliteTable")
+  let extra_fn : @nostd.Any = @js.from_fn1(fn(t : @nostd.Any) -> @nostd.Any {
     extra(@js.identity(t))
   })
   @nostd.any(fn_)
@@ -95,7 +95,7 @@ pub fn sqliteTableWithConfig(
 /// SQLite integer column type (alias for int)
 #alias(sqlite_int)
 pub fn sqliteInt(name? : String) -> Column {
-  let fn_ = drizzle_sqlite_core().get("int")
+  let fn_ = drizzle_sqlite_core()._get("int")
   match name {
     Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
     None => @nostd.any(fn_)._invoke([]).cast()
@@ -106,8 +106,8 @@ pub fn sqliteInt(name? : String) -> Column {
 /// SQLite integer column type with mode
 #alias(sqlite_integer)
 pub fn sqliteInteger(name? : String, mode? : String) -> Column {
-  let fn_ = drizzle_sqlite_core().get("integer")
-  let opts = @js.Object::new()
+  let fn_ = drizzle_sqlite_core()._get("integer")
+  let opts = @nostd.Object::new()
   if mode is Some(m) {
     opts.set("mode", m)
   }
@@ -121,8 +121,8 @@ pub fn sqliteInteger(name? : String, mode? : String) -> Column {
 /// SQLite text column type
 #alias(sqlite_text)
 pub fn sqliteText(name? : String, mode? : String) -> Column {
-  let fn_ = drizzle_sqlite_core().get("text")
-  let opts = @js.Object::new()
+  let fn_ = drizzle_sqlite_core()._get("text")
+  let opts = @nostd.Object::new()
   if mode is Some(m) {
     opts.set("mode", m)
   }
@@ -146,7 +146,7 @@ pub fn sqliteText(name? : String, mode? : String) -> Column {
 /// SQLite real (floating point) column type
 #alias(sqlite_real)
 pub fn sqliteReal(name? : String) -> Column {
-  let fn_ = drizzle_sqlite_core().get("real")
+  let fn_ = drizzle_sqlite_core()._get("real")
   match name {
     Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
     None => @nostd.any(fn_)._invoke([]).cast()
@@ -157,8 +157,8 @@ pub fn sqliteReal(name? : String) -> Column {
 /// SQLite blob column type
 #alias(sqlite_blob)
 pub fn sqliteBlob(name? : String, mode? : String) -> Column {
-  let fn_ = drizzle_sqlite_core().get("blob")
-  let opts = @js.Object::new()
+  let fn_ = drizzle_sqlite_core()._get("blob")
+  let opts = @nostd.Object::new()
   if mode is Some(m) {
     opts.set("mode", m)
   }
@@ -182,7 +182,7 @@ pub fn sqliteBlob(name? : String, mode? : String) -> Column {
 /// SQLite numeric column type
 #alias(sqlite_numeric)
 pub fn sqliteNumeric(name? : String) -> Column {
-  let fn_ = drizzle_sqlite_core().get("numeric")
+  let fn_ = drizzle_sqlite_core()._get("numeric")
   match name {
     Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
     None => @nostd.any(fn_)._invoke([]).cast()
@@ -195,7 +195,7 @@ pub fn sqliteNumeric(name? : String) -> Column {
 /// Set primary key with auto increment for SQLite
 #alias(primary_key_auto_increment)
 pub fn Column::primaryKeyAutoIncrement(self : Column) -> Column {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("autoIncrement", true)
   self.call1("primaryKey", @nostd.any(opts.as_any())) |> @js.identity
 }
@@ -206,7 +206,7 @@ pub fn Column::primaryKeyAutoIncrement(self : Column) -> Column {
 /// Create a SQLite index
 #alias(sqlite_index)
 pub fn sqliteIndex(name : String) -> IndexBuilder {
-  let fn_ = drizzle_sqlite_core().get("index")
+  let fn_ = drizzle_sqlite_core()._get("index")
   @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
 }
 
@@ -214,7 +214,7 @@ pub fn sqliteIndex(name : String) -> IndexBuilder {
 /// Create a SQLite unique index
 #alias(sqlite_unique_index)
 pub fn sqliteUniqueIndex(name : String) -> IndexBuilder {
-  let fn_ = drizzle_sqlite_core().get("uniqueIndex")
+  let fn_ = drizzle_sqlite_core()._get("uniqueIndex")
   @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
 }
 
@@ -224,7 +224,7 @@ pub fn sqliteUniqueIndex(name : String) -> IndexBuilder {
 pub type IndexBuilder
 
 ///|
-pub fn IndexBuilder::as_any(self : IndexBuilder) -> @js.Any = "%identity"
+pub fn IndexBuilder::as_any(self : IndexBuilder) -> @nostd.Any = "%identity"
 
 ///|
 /// Specify columns for index

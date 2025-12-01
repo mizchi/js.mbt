@@ -58,7 +58,7 @@ test "notStrictEqual checks strict inequality" {
 ///|
 test "throws checks if function throws" {
   throws(fn() {
-    @js.throw_("Expected error")
+    @js.throw_(@nostd.any("Expected error"))
     ()
   })
 }

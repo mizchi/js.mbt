@@ -12,7 +12,7 @@ async test "PGlite simple query" {
   let db = PGlite::create()
   defer db.closeSync() |> ignore
   let result = db.query("SELECT 1 + 1 as sum")
-  let rows : Array[@js.Any] = result.rows_array()
+  let rows : Array[@nostd.Any] = result.rows_array()
   assert_eq(rows.length(), 1)
 }
 
@@ -26,14 +26,14 @@ async test "PGlite create table and insert" {
   )
   |> ignore
   db.query("INSERT INTO users (name, age) VALUES ($1, $2)", params=[
-    @js.any("Alice"),
-    @js.any(30),
+    @nostd.any("Alice"),
+    @nostd.any(30),
   ])
   |> ignore
   let result = db.query("SELECT * FROM users WHERE name = $1", params=[
-    @js.any("Alice"),
+    @nostd.any("Alice"),
   ])
-  let rows : Array[@js.Any] = result.rows_array()
+  let rows : Array[@nostd.Any] = result.rows_array()
   assert_eq(rows.length(), 1)
 }
 
@@ -45,7 +45,7 @@ async test "PGlite query with multiple rows" {
   db.exec("CREATE TABLE items (id SERIAL PRIMARY KEY, name TEXT)") |> ignore
   db.exec("INSERT INTO items (name) VALUES ('a'), ('b'), ('c')") |> ignore
   let result = db.query("SELECT * FROM items ORDER BY name")
-  let rows : Array[@js.Any] = result.rows_array()
+  let rows : Array[@nostd.Any] = result.rows_array()
   assert_eq(rows.length(), 3)
 }
 
@@ -59,7 +59,7 @@ async test "PGlite exec multiple statements" {
   let result = db.query(
     "SELECT table_name FROM information_schema.tables WHERE table_name IN ('test1', 'test2')",
   )
-  let rows : Array[@js.Any] = result.rows_array()
+  let rows : Array[@nostd.Any] = result.rows_array()
   assert_eq(rows.length(), 2)
 }
 
@@ -80,7 +80,7 @@ async test "PGlite query string result" {
   defer db.closeSync() |> ignore
   let result = db.query("SELECT 'Hello PGlite' as message")
   let rows = result.rows()
-  let first_row = rows.get("0")
-  let message : String = first_row.get("message").cast()
+  let first_row = rows._get("0")
+  let message : String = first_row._get("message").cast()
   assert_eq(message, "Hello PGlite")
 }

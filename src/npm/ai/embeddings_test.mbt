@@ -84,9 +84,9 @@ async test "embed with mock" {
   // This test requires actual API key, so skip by default
   let model : @ai.EmbeddingModel = @js.identity(
     @node.require("@ai-sdk/openai")
-    .get("openai")
+    ._get("openai")
     .call_self([])
-    .get("textEmbeddingModel")
+    ._get("textEmbeddingModel")
     .call_self(["text-embedding-3-small"]),
   )
   let result = @ai.embed(model~, value="Hello, world!")

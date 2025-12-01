@@ -74,5 +74,5 @@ pub fn run(
     "rerunFailuresFilePath": rerunFailuresFilePath.map(fn(x) { @nostd.any(x) }),
     "setup": setup.map(fn(x) { @nostd.identity(@js.from_fn0(x)) }),
   }).cast()
-  nodetest().call("run", [obj]).cast()
+  nodetest()._call("run", [obj]).cast()
 }

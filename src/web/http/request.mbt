@@ -1,12 +1,12 @@
 ///|
-extern "js" fn ffi_request_new(url : String) -> @js.Any =
+extern "js" fn ffi_request_new(url : String) -> @nostd.Any =
   #| (url) => new Request(url)
 
 ///|
 extern "js" fn ffi_request_new_with_init(
   url : String,
-  init : @js.Any,
-) -> @js.Any =
+  init : @nostd.Any,
+) -> @nostd.Any =
   #| (url, init) => new Request(url, init)
 
 ///|
@@ -15,7 +15,7 @@ extern "js" fn ffi_request_new_with_init(
 pub struct RequestInit {
   priv method_ : String?
   priv headers : Headers?
-  priv body : @js.Any?
+  priv body : @nostd.Any?
   priv mode : String?
   priv credentials : String?
   priv cache : String?
@@ -32,7 +32,7 @@ pub struct RequestInit {
 pub fn RequestInit::new(
   http_method? : String = "GET",
   headers? : Headers,
-  body? : &@js.JsImpl,
+  body? : @nostd.Any,
   mode? : String,
   credentials? : String,
   cache? : String,
@@ -47,7 +47,7 @@ pub fn RequestInit::new(
   {
     method_: Some(http_method),
     headers,
-    body: body.map(fn(b) { b.as_any() }),
+    body: body.map(fn(b) { b.cast() }),
     mode,
     credentials,
     cache,
@@ -62,7 +62,7 @@ pub fn RequestInit::new(
 }
 
 ///|
-pub fn RequestInit::as_any(self : RequestInit) -> @js.Any {
+pub fn RequestInit::as_any(self : RequestInit) -> @nostd.Any {
   @mbtconv.from_option_map({
     "method": self.method_.map(fn(x) { @nostd.any(x) }),
     "headers": self.headers.map(fn(x) { @nostd.identity(x.as_any()) }),
@@ -94,7 +94,7 @@ pub fn RequestInit::get_headers(self : RequestInit) -> Headers? {
 
 ///|
 /// Get the body
-pub fn RequestInit::get_body(self : RequestInit) -> @js.Any? {
+pub fn RequestInit::get_body(self : RequestInit) -> @nostd.Any? {
   self.body
 }
 
@@ -196,8 +196,8 @@ pub fn Request::clone(self : Request) -> Request {
 }
 
 ///|
-pub async fn Request::json(self : Request) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = self.as_any()._call("json", []).cast()
+pub async fn Request::json(self : Request) -> @nostd.Any {
+  let promise : @js.Promise[@nostd.Any] = self.as_any()._call("json", []).cast()
   promise.wait()
 }
 

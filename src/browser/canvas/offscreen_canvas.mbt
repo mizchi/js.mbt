@@ -7,15 +7,15 @@ pub type OffscreenCanvas
 pub impl @js.JsImpl for OffscreenCanvas
 
 ///|
-pub impl @worker.Transferable for OffscreenCanvas with to_transferable(self) -> @js.Any {
+pub impl @worker.Transferable for OffscreenCanvas with to_transferable(self) -> @nostd.Any {
   self.as_any()
 }
 
 ///|
 extern "js" fn ffi_new_offscreen_canvas(
-  width : @js.Any,
-  height : @js.Any,
-) -> @js.Any =
+  width : @nostd.Any,
+  height : @nostd.Any,
+) -> @nostd.Any =
   #|(width, height) => new OffscreenCanvas(width, height)
 
 ///|
@@ -25,7 +25,7 @@ pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
 
 ///|
 pub fn OffscreenCanvas::width(self : Self) -> Int {
-  self.get("width").cast()
+  self._get("width").cast()
 }
 
 ///|
@@ -35,7 +35,7 @@ pub fn OffscreenCanvas::setWidth(self : Self, value : Int) -> Unit {
 
 ///|
 pub fn OffscreenCanvas::height(self : Self) -> Int {
-  self.get("height").cast()
+  self._get("height").cast()
 }
 
 ///|
@@ -48,7 +48,7 @@ pub fn OffscreenCanvas::getContext(
   self : Self,
   context_type : String,
 ) -> CanvasRenderingContext2D {
-  self.call("getContext", [context_type]).cast()
+  self._call("getContext", [context_type]).cast()
 }
 
 ///|
@@ -57,7 +57,7 @@ pub async fn OffscreenCanvas::convertToBlob(
   options? : String,
 ) -> @blob.Blob {
   let promise : @js.Promise[@blob.Blob] = match options {
-    Some(opts) => self.call("convertToBlob", [opts]).cast()
+    Some(opts) => self._call("convertToBlob", [opts]).cast()
     None => self.call0("convertToBlob").cast()
   }
   promise.wait()

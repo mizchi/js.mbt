@@ -4,11 +4,11 @@
 /// Message content types
 pub(all) enum MessageContent {
   Text(String)
-  Parts(Array[@js.Any])
+  Parts(Array[@nostd.Any])
 }
 
 ///|
-pub fn MessageContent::as_any(self : MessageContent) -> @js.Any {
+pub fn MessageContent::as_any(self : MessageContent) -> @nostd.Any {
   match self {
     Text(text) => text |> @js.any
     Parts(parts) => parts |> @js.from_array
@@ -25,7 +25,7 @@ pub(all) enum ModelMessage {
 }
 
 ///|
-pub fn ModelMessage::as_any(self : ModelMessage) -> @js.Any {
+pub fn ModelMessage::as_any(self : ModelMessage) -> @nostd.Any {
   match self {
     AssistantMessage(content~) =>
       @mbtconv.from_map({
@@ -56,10 +56,10 @@ pub fn ModelMessage::as_any(self : ModelMessage) -> @js.Any {
 pub type Model
 
 ///|
-pub fn Model::as_any(self : Model) -> @js.Any = "%identity"
+pub fn Model::as_any(self : Model) -> @nostd.Any = "%identity"
 
 ///|
-fn ai_module() -> @js.Any {
+fn ai_module() -> @nostd.Any {
   @node.require("ai")
 }
 
@@ -80,7 +80,7 @@ pub async fn generateText(
   prepare_step? : PrepareStep,
   active_tools? : Array[String],
 ) -> GenerateTextResult {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("model", model.as_any())
   if messages is Some(msgs) {
     opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
@@ -115,8 +115,8 @@ pub async fn generateText(
   if active_tools is Some(at) {
     opts.set("activeTools", at |> @js.from_array)
   }
-  let promise : @js.Promise[@js.Any] = ai_module()
-    .get("generateText")
+  let promise : @js.Promise[@nostd.Any] = ai_module()
+    ._get("generateText")
     .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()
@@ -129,7 +129,9 @@ pub async fn generateText(
 pub type StreamTextResultHandle
 
 ///|
-pub fn StreamTextResultHandle::as_any(self : StreamTextResultHandle) -> @js.Any = "%identity"
+pub fn StreamTextResultHandle::as_any(
+  self : StreamTextResultHandle,
+) -> @nostd.Any = "%identity"
 
 ///|
 /// Stream text using the AI SDK (streaming)
@@ -149,7 +151,7 @@ pub fn streamText(
   prepare_step? : PrepareStep,
   active_tools? : Array[String],
 ) -> StreamTextResultHandle {
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("model", model.as_any())
   if messages is Some(msgs) {
     opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
@@ -184,7 +186,7 @@ pub fn streamText(
   if active_tools is Some(at) {
     opts.set("activeTools", at |> @js.from_array)
   }
-  let result = ai_module().get("streamText").call_self([opts.as_any()])
+  let result = ai_module()._get("streamText").call_self([opts.as_any()])
   @js.identity(result)
 }
 
@@ -194,17 +196,17 @@ pub fn streamText(
 #alias(full_stream_raw)
 pub fn StreamTextResultHandle::fullStreamRaw(
   self : StreamTextResultHandle,
-) -> @js.AsyncIterator[@js.Any] {
-  let iterable = self.as_any().get("fullStream")
+) -> @js.AsyncIterator[@nostd.Any] {
+  let iterable = self.as_any()._get("fullStream")
   // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
-  let iter = iterable.call(@js.Symbol::asyncIterator(), [])
+  let iter = iterable._call(@js.Symbol::asyncIterator(), [])
   @js.identity(iter)
 }
 
 ///|
 /// Typed async iterator wrapper that converts raw JS values to TextStreamPart
 pub(all) struct TextStreamPartIterator {
-  raw : @js.AsyncIterator[@js.Any]
+  raw : @js.AsyncIterator[@nostd.Any]
 }
 
 ///|
@@ -224,8 +226,8 @@ pub async fn TextStreamPartIterator::next(
 pub fn StreamTextResultHandle::fullStream(
   self : StreamTextResultHandle,
 ) -> TextStreamPartIterator {
-  let iterable = self.as_any().get("fullStream")
-  let iter = iterable.call(@js.Symbol::asyncIterator(), [])
+  let iterable = self.as_any()._get("fullStream")
+  let iter = iterable._call(@js.Symbol::asyncIterator(), [])
   { raw: @js.identity(iter) }
 }
 
@@ -236,9 +238,9 @@ pub fn StreamTextResultHandle::fullStream(
 pub fn StreamTextResultHandle::textStream(
   self : StreamTextResultHandle,
 ) -> @js.AsyncIterator[String] {
-  let iterable = self.as_any().get("textStream")
+  let iterable = self.as_any()._get("textStream")
   // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
-  let iter = iterable.call(@js.Symbol::asyncIterator(), [])
+  let iter = iterable._call(@js.Symbol::asyncIterator(), [])
   @js.identity(iter)
 }
 
@@ -247,7 +249,7 @@ pub fn StreamTextResultHandle::textStream(
 pub async fn StreamTextResultHandle::text(
   self : StreamTextResultHandle,
 ) -> String {
-  let promise : @js.Promise[String] = @js.identity(self.as_any().get("text"))
+  let promise : @js.Promise[String] = @js.identity(self.as_any()._get("text"))
   promise.wait()
 }
 
@@ -257,8 +259,8 @@ pub async fn StreamTextResultHandle::text(
 pub async fn StreamTextResultHandle::finishReason(
   self : StreamTextResultHandle,
 ) -> FinishReason {
-  let promise : @js.Promise[@js.Any] = @js.identity(
-    self.as_any().get("finishReason"),
+  let promise : @js.Promise[@nostd.Any] = @js.identity(
+    self.as_any()._get("finishReason"),
   )
   let result = promise.wait()
   FinishReason::from_string(result.cast())
@@ -269,7 +271,9 @@ pub async fn StreamTextResultHandle::finishReason(
 pub async fn StreamTextResultHandle::usage(
   self : StreamTextResultHandle,
 ) -> LanguageModelUsage {
-  let promise : @js.Promise[@js.Any] = @js.identity(self.as_any().get("usage"))
+  let promise : @js.Promise[@nostd.Any] = @js.identity(
+    self.as_any()._get("usage"),
+  )
   let result = promise.wait()
   LanguageModelUsage::from_any(result)
 }
@@ -279,9 +283,11 @@ pub async fn StreamTextResultHandle::usage(
 pub async fn StreamTextResultHandle::steps(
   self : StreamTextResultHandle,
 ) -> Array[StepResult] {
-  let promise : @js.Promise[@js.Any] = @js.identity(self.as_any().get("steps"))
+  let promise : @js.Promise[@nostd.Any] = @js.identity(
+    self.as_any()._get("steps"),
+  )
   let result = promise.wait()
-  let arr : Array[@js.Any] = @js.identity(result)
+  let arr : Array[@nostd.Any] = @js.identity(result)
   arr.map(StepResult::from_any)
 }
 

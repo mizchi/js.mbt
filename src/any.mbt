@@ -5,7 +5,7 @@
 /// ## Example
 ///
 /// ```moonbit
-/// let num: @js.Any = @js.any(42) // MoonBit Int -> @js.Any
+/// let num: @nostd.Any = @nostd.any(42) // MoonBit Int -> @nostd.Any
 /// let _val : Int = num.cast()   // Any -> MoonBit Int (unsafe)
 /// ```
 #external
@@ -21,14 +21,18 @@ pub fn[T] Any::cast(self : Self) -> T {
 /// JS: value[key]
 #alias("_[_]")
 pub fn Any::get_property(self : Any, key : &PropertyKey) -> Any {
-  self.get(key)
+  self.to_any()[key.to_key() |> identity].cast()
 }
 
 ///|
 /// JS: value[key] = val
 #alias("_[_]=_")
-pub fn Any::set_property(self : Any, key : &PropertyKey, val : &JsImpl) -> Unit {
-  self.set(key, val)
+pub fn Any::set_property(
+  self : Any,
+  key : &PropertyKey,
+  val : @nostd.Any,
+) -> Unit {
+  self.to_any()._set(key.to_key() |> identity, val)
 }
 
 ///|
@@ -54,7 +58,7 @@ pub impl Eq for Any with equal(self, other) -> Bool {
 
 ///|
 /// Identity implementation for Js.
-pub impl JsImpl for Any
+pub fn Any::to_any(self : Any) -> @nostd.Any = "%identity"
 
 ///|
 /// Nullable type for explicit null handling in FFI struct fields.

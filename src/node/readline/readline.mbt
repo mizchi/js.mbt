@@ -10,14 +10,14 @@ pub type Interface
 /// Wrap MoonBit completer function to JavaScript function
 extern "js" fn wrap_completer(
   f : (String) -> (Array[String], String),
-) -> @js.Any =
+) -> @nostd.Any =
   #|(f) => (line) => {
   #|  const result = f(line);
   #|  return result;
   #|}
 
 ///|
-extern "js" fn create_interface_impl(options : @js.Any) -> Interface =
+extern "js" fn create_interface_impl(options : @nostd.Any) -> Interface =
   #|(options) => {
   #|  const readline = require('node:readline');
   #|  return readline.createInterface(options);
@@ -38,7 +38,7 @@ pub fn createInterface(
   escape_code_timeout? : Int,
   tab_size? : Int,
 ) -> Interface {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("input", input)
   if output is Some(o) {
     obj.set("output", o)

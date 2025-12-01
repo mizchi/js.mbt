@@ -15,14 +15,14 @@ npm install vite
 ### Using defineConfig
 
 ```moonbit
-// defineConfig returns @js.Any object directly
+// defineConfig returns @nostd.Any object directly
 let config = @vite.defineConfig(
   root?=Some("."),
   base?=Some("/"),
   mode?=Some("development"),
   server?=Some(@js.from_map({
-    "port": @js.any(3000),
-    "host": @js.any("localhost")
+    "port": @nostd.any(3000),
+    "host": @nostd.any("localhost")
   }))
 )
 ```
@@ -97,21 +97,21 @@ pub fn defineConfig(
   mode? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  server? : @js.Any,
-  build? : @js.Any,
-  preview? : @js.Any,
-  optimizeDeps? : @js.Any,
-  plugins? : @js.Any,
+  server? : @nostd.Any,
+  build? : @nostd.Any,
+  preview? : @nostd.Any,
+  optimizeDeps? : @nostd.Any,
+  plugins? : @nostd.Any,
   publicDir? : String,
   cacheDir? : String,
-  resolve? : @js.Any,
-  css? : @js.Any,
-  json? : @js.Any,
-  esbuild? : @js.Any,
-  assetsInclude? : @js.Any,
+  resolve? : @nostd.Any,
+  css? : @nostd.Any,
+  json? : @nostd.Any,
+  esbuild? : @nostd.Any,
+  assetsInclude? : @nostd.Any,
   envDir? : String,
   envPrefix? : String
-) -> @js.Any
+) -> @nostd.Any
 ```
 
 **Example:**
@@ -122,13 +122,13 @@ let config = @vite.defineConfig(
   mode?=Some("development"),
   plugins?=Some(@js.from_array([])),
   server?=Some(@js.from_map({
-    "port": @js.any(5173),
-    "host": @js.any("0.0.0.0"),
-    "open": @js.any(true)
+    "port": @nostd.any(5173),
+    "host": @nostd.any("0.0.0.0"),
+    "open": @nostd.any(true)
   })),
   build?=Some(@js.from_map({
-    "outDir": @js.any("dist"),
-    "sourcemap": @js.any(true)
+    "outDir": @nostd.any("dist"),
+    "sourcemap": @nostd.any(true)
   }))
 )
 ```
@@ -142,13 +142,13 @@ pub fn define_plugin(
   name : String,
   enforce? : String,
   apply? : String,
-  config? : (@js.Any) -> Unit,
+  config? : (@nostd.Any) -> Unit,
   configResolved? : ConfigResolvedHook,
   configureServer? : ConfigureServerHook,
-  configurePreviewServer? : (@js.Any) -> Unit,
-  transformIndexHtml? : (@js.Any) -> @js.Any,
-  handleHotUpdate? : (@js.Any) -> Unit,
-  options? : (@js.Any) -> Unit,
+  configurePreviewServer? : (@nostd.Any) -> Unit,
+  transformIndexHtml? : (@nostd.Any) -> @nostd.Any,
+  handleHotUpdate? : (@nostd.Any) -> Unit,
+  options? : (@nostd.Any) -> Unit,
   buildStart? : BuildStartHook,
   resolveId? : ResolveIdHook,
   load? : LoadHook,
@@ -160,13 +160,13 @@ pub fn define_plugin(
 
 **Hook Types:**
 ```moonbit
-pub type ResolveIdHook = (String, String?, @js.Any) -> String?
+pub type ResolveIdHook = (String, String?, @nostd.Any) -> String?
 pub type LoadHook = (String) -> String?
 pub type TransformHook = (String, String) -> String?
-pub type BuildStartHook = (@js.Any) -> Unit
-pub type BuildEndHook = (@js.Any?) -> Unit
-pub type ConfigResolvedHook = (@js.Any) -> Unit
-pub type ConfigureServerHook = (@js.Any) -> Unit
+pub type BuildStartHook = (@nostd.Any) -> Unit
+pub type BuildEndHook = (@nostd.Any?) -> Unit
+pub type ConfigResolvedHook = (@nostd.Any) -> Unit
+pub type ConfigureServerHook = (@nostd.Any) -> Unit
 ```
 
 **Parameters:**
@@ -228,7 +228,7 @@ pub async fn createServer(
   ~configFile : String = "",
   ~logLevel : String = "",
   ~clearScreen : Bool = true,
-  ~server : @js.Any = @js.undefined
+  ~server : @nostd.Any = @js.undefined
 ) -> ViteDevServer
 ```
 
@@ -239,7 +239,7 @@ pub async fn createServer(
 - `configFile` - Path to config file (default: auto-detect)
 - `logLevel` - Log level: "info" | "warn" | "error" | "silent"
 - `clearScreen` - Clear terminal screen (default: true)
-- `server` - Server-specific options as `@js.Any` object
+- `server` - Server-specific options as `@nostd.Any` object
 
 #### build
 
@@ -253,7 +253,7 @@ pub async fn build(
   ~configFile : String = "",
   ~logLevel : String = "",
   ~clearScreen : Bool = true,
-  ~build : @js.Any = @js.undefined
+  ~build : @nostd.Any = @js.undefined
 ) -> RollupOutput
 ```
 
@@ -264,7 +264,7 @@ pub async fn build(
 - `configFile` - Path to config file
 - `logLevel` - Log level
 - `clearScreen` - Clear terminal screen
-- `build` - Build-specific options as `@js.Any` object
+- `build` - Build-specific options as `@nostd.Any` object
 
 #### preview
 
@@ -278,7 +278,7 @@ pub async fn preview(
   ~configFile : String = "",
   ~logLevel : String = "",
   ~clearScreen : Bool = true,
-  ~preview : @js.Any = @js.undefined
+  ~preview : @nostd.Any = @js.undefined
 ) -> PreviewServer
 ```
 
@@ -289,7 +289,7 @@ pub async fn preview(
 - `configFile` - Path to config file
 - `logLevel` - Log level
 - `clearScreen` - Clear terminal screen
-- `preview` - Preview-specific options as `@js.Any` object
+- `preview` - Preview-specific options as `@nostd.Any` object
 
 ### ViteDevServer Methods
 
@@ -337,7 +337,7 @@ pub async fn ViteDevServer::restart(
 Get resolved URLs:
 
 ```moonbit
-pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @js.Any
+pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @nostd.Any
 ```
 
 ### PreviewServer Methods
@@ -355,7 +355,7 @@ pub fn PreviewServer::printUrls(self : PreviewServer) -> Unit
 Get resolved URLs:
 
 ```moonbit
-pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @js.Any
+pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @nostd.Any
 ```
 
 ## Advanced Configuration
@@ -364,10 +364,10 @@ pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @js.Any
 
 ```moonbit
 let serverConfig = @js.from_map({
-  "port": @js.any(3000),
-  "host": @js.any("localhost"),
-  "open": @js.any(true),
-  "cors": @js.any(true)
+  "port": @nostd.any(3000),
+  "host": @nostd.any("localhost"),
+  "open": @nostd.any(true),
+  "cors": @nostd.any(true)
 })
 
 let server = @vite.createServer(
@@ -380,9 +380,9 @@ let server = @vite.createServer(
 
 ```moonbit
 let buildConfig = @js.from_map({
-  "outDir": @js.any("dist"),
-  "minify": @js.any(true),
-  "sourcemap": @js.any(true)
+  "outDir": @nostd.any("dist"),
+  "minify": @nostd.any(true),
+  "sourcemap": @nostd.any(true)
 })
 
 let output = @vite.build(
@@ -404,28 +404,28 @@ pub(all) struct Config {
   mode : String?
   logLevel : String?
   clearScreen : Bool?
-  server : @js.Any?
-  build : @js.Any?
-  preview : @js.Any?
-  optimizeDeps : @js.Any?
-  plugins : @js.Any?
+  server : @nostd.Any?
+  build : @nostd.Any?
+  preview : @nostd.Any?
+  optimizeDeps : @nostd.Any?
+  plugins : @nostd.Any?
   publicDir : String?
   cacheDir : String?
-  resolve : @js.Any?
-  css : @js.Any?
-  json : @js.Any?
-  esbuild : @js.Any?
-  assetsInclude : @js.Any?
+  resolve : @nostd.Any?
+  css : @nostd.Any?
+  json : @nostd.Any?
+  esbuild : @nostd.Any?
+  assetsInclude : @nostd.Any?
   envDir : String?
   envPrefix : String?
 } derive(Show)
 ```
 
-Note: `defineConfig()` returns `@js.Any` directly, so you typically don't need to work with the `Config` struct directly.
+Note: `defineConfig()` returns `@nostd.Any` directly, so you typically don't need to work with the `Config` struct directly.
 
 ### Other Types
 
-- `Plugin` - Vite plugin (alias for `@js.Any`)
+- `Plugin` - Vite plugin (alias for `@nostd.Any`)
 - `ViteDevServer` - Development server instance
 - `PreviewServer` - Preview server instance
 - `ResolvedConfig` - Resolved Vite configuration

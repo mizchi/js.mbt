@@ -18,7 +18,7 @@ test "generate image result from_any" {
     "uint8Array": @global.undefined() |> @nostd.any,
   })
   let image_raw = image_raw_nostd.cast()
-  let empty_warnings : Array[@js.Any] = []
+  let empty_warnings : Array[@nostd.Any] = []
   let raw = @mbtconv.from_map({
     "image": image_raw_nostd,
     "images": [image_raw_nostd] |> @nostd.any,
@@ -42,7 +42,7 @@ test "generate image result multiple images" {
     "uint8Array": @global.undefined() |> @nostd.any,
   })
   let image2 = image2_nostd.cast()
-  let empty_warnings : Array[@js.Any] = []
+  let empty_warnings : Array[@nostd.Any] = []
   let raw = @mbtconv.from_map({
     "image": image1_nostd,
     "images": [image1_nostd, image2_nostd] |> @nostd.any,
@@ -60,9 +60,9 @@ async test "generate image with openai" {
   // This test requires actual API key, so skip by default
   let model : @ai.ImageModel = @js.identity(
     @node.require("@ai-sdk/openai")
-    .get("openai")
+    ._get("openai")
     .call_self([])
-    .get("image")
+    ._get("image")
     .call_self(["dall-e-3"]),
   )
   let result = @ai.generateImage(

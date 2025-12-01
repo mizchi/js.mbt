@@ -178,19 +178,19 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 ```moonbit
 // Create JavaScript objects
-let obj = @js.from_map({ "name": @js.any("Alice"), "age": @js.any(30) })
+let obj = @js.from_map({ "name": @nostd.any("Alice"), "age": @nostd.any(30) })
 
 // Get property
-let name = obj.get("name")
+let name = obj._get("name")
 
 // Set property
 obj.set("age", 31)
 
 // Call method
-let result = obj.call("toString", [])
+let result = obj._call("toString", [])
 
 // Type casting
-let age: Int = obj.get("age").cast()
+let age: Int = obj._get("age").cast()
 ```
 
 ## LICENSE

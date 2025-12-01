@@ -2,18 +2,18 @@
 /// https://orm.drizzle.team/
 
 // ============ Row Builder ============
-// Helper for building row data without exposing @js.Any
+// Helper for building row data without exposing @nostd.Any
 
 ///|
 /// Row builder for constructing insert/update data
 pub struct Row {
-  priv obj : @js.Any
+  priv obj : @nostd.Any
 }
 
 ///|
 /// Create a new empty row
 pub fn Row::new() -> Row {
-  { obj: @js.Object::new() }
+  { obj: @nostd.Object::new() }
 }
 
 ///|
@@ -60,12 +60,12 @@ pub fn Row::set_(self : Row, key : String, value : @nostd.Any) -> Row {
 
 ///|
 /// Build the row data (returns the underlying JS object)
-pub fn Row::build(self : Row) -> @js.Any {
+pub fn Row::build(self : Row) -> @nostd.Any {
   self.obj
 }
 
 ///|
-pub fn Row::as_any(self : Row) -> @js.Any {
+pub fn Row::as_any(self : Row) -> @nostd.Any {
   self.obj
 }
 
@@ -73,19 +73,19 @@ pub fn Row::as_any(self : Row) -> @js.Any {
 
 ///|
 /// Create an array of rows for batch insert
-pub fn rows(items : Array[Row]) -> @js.Any {
+pub fn rows(items : Array[Row]) -> @nostd.Any {
   @js.from_array(items.map(fn(r) { r.obj }))
 }
 
 // Internal helpers for other files in this package
 
 ///|
-fn drizzle_pg_core() -> @js.Any {
+fn drizzle_pg_core() -> @nostd.Any {
   @node.require("drizzle-orm/pg-core")
 }
 
 ///|
-fn drizzle_orm() -> @js.Any {
+fn drizzle_orm() -> @nostd.Any {
   @node.require("drizzle-orm")
 }
 
@@ -95,7 +95,7 @@ fn drizzle_orm() -> @js.Any {
 pub type DrizzleDB
 
 ///|
-pub fn DrizzleDB::as_any(self : DrizzleDB) -> @js.Any = "%identity"
+pub fn DrizzleDB::as_any(self : DrizzleDB) -> @nostd.Any = "%identity"
 
 ///|
 /// Query builder
@@ -103,12 +103,12 @@ pub fn DrizzleDB::as_any(self : DrizzleDB) -> @js.Any = "%identity"
 pub type QueryBuilder
 
 ///|
-pub fn QueryBuilder::as_any(self : QueryBuilder) -> @js.Any = "%identity"
+pub fn QueryBuilder::as_any(self : QueryBuilder) -> @nostd.Any = "%identity"
 
 // Internal helper for method calls
 
 ///|
-fn QueryBuilder::call0(self : QueryBuilder, name : String) -> @js.Any {
+fn QueryBuilder::call0(self : QueryBuilder, name : String) -> @nostd.Any {
   @nostd.any(self)._call(name, []).cast()
 }
 
@@ -117,7 +117,7 @@ fn QueryBuilder::call1(
   self : QueryBuilder,
   name : String,
   arg : @nostd.Any,
-) -> @js.Any {
+) -> @nostd.Any {
   @nostd.any(self)._call(name, [arg]).cast()
 }
 
@@ -127,12 +127,12 @@ fn QueryBuilder::call1(
 pub type Table
 
 ///|
-pub fn Table::as_any(self : Table) -> @js.Any = "%identity"
+pub fn Table::as_any(self : Table) -> @nostd.Any = "%identity"
 
 ///|
 /// Get a column from a table by name
-pub fn Table::get(self : Table, name : String) -> @js.Any {
-  self.as_any().get(name)
+pub fn Table::get(self : Table, name : String) -> @nostd.Any {
+  self.as_any()._get(name)
 }
 
 ///|
@@ -141,17 +141,17 @@ pub fn Table::get(self : Table, name : String) -> @js.Any {
 pub type Column
 
 ///|
-pub fn Column::as_any(self : Column) -> @js.Any = "%identity"
+pub fn Column::as_any(self : Column) -> @nostd.Any = "%identity"
 
 // Internal helper for method calls
 
 ///|
-fn Column::call0(self : Column, name : String) -> @js.Any {
+fn Column::call0(self : Column, name : String) -> @nostd.Any {
   @nostd.any(self)._call(name, []).cast()
 }
 
 ///|
-fn Column::call1(self : Column, name : String, arg : @nostd.Any) -> @js.Any {
+fn Column::call1(self : Column, name : String, arg : @nostd.Any) -> @nostd.Any {
   @nostd.any(self)._call(name, [arg]).cast()
 }
 
@@ -161,7 +161,7 @@ fn Column::call1(self : Column, name : String, arg : @nostd.Any) -> @js.Any {
 pub type SQL
 
 ///|
-pub fn SQL::as_any(self : SQL) -> @js.Any = "%identity"
+pub fn SQL::as_any(self : SQL) -> @nostd.Any = "%identity"
 
 // ============ Database Creation ============
 
@@ -176,41 +176,41 @@ pub fn drizzle(connection_string : String) -> DrizzleDB {
 }
 
 ///|
-extern "js" fn ffi_drizzle_with_pool(pool : @js.Any) -> DrizzleDB =
+extern "js" fn ffi_drizzle_with_pool(pool : @nostd.Any) -> DrizzleDB =
   #| (pool) => require("drizzle-orm/node-postgres").drizzle(pool)
 
 ///|
 /// Create a Drizzle instance with pg Pool
 #alias(drizzle_with_pool)
-pub fn drizzleWithPool(pool : @js.Any) -> DrizzleDB {
+pub fn drizzleWithPool(pool : @nostd.Any) -> DrizzleDB {
   ffi_drizzle_with_pool(pool)
 }
 
 ///|
 /// Create a Drizzle instance with config object
 #alias(drizzle_with_config)
-pub fn drizzleWithConfig(config : @js.Any) -> DrizzleDB {
+pub fn drizzleWithConfig(config : @nostd.Any) -> DrizzleDB {
   ffi_drizzle_with_pool(config)
 }
 
 // ============ Cloudflare D1 ============
 
 ///|
-extern "js" fn ffi_drizzle_d1(d1_database : @js.Any) -> DrizzleDB =
+extern "js" fn ffi_drizzle_d1(d1_database : @nostd.Any) -> DrizzleDB =
   #| (d1) => require("drizzle-orm/d1").drizzle(d1)
 
 ///|
 /// Create a Drizzle instance with Cloudflare D1 database binding
 /// Usage: drizzleD1(env.DB) where env.DB is D1Database from Cloudflare Workers
 #alias(drizzle_d1)
-pub fn drizzleD1(d1_database : @js.Any) -> DrizzleDB {
+pub fn drizzleD1(d1_database : @nostd.Any) -> DrizzleDB {
   ffi_drizzle_d1(d1_database)
 }
 
 ///|
 extern "js" fn ffi_drizzle_d1_with_schema(
-  d1_database : @js.Any,
-  schema : @js.Any,
+  d1_database : @nostd.Any,
+  schema : @nostd.Any,
 ) -> DrizzleDB =
   #| (d1, schema) => require("drizzle-orm/d1").drizzle(d1, { schema })
 
@@ -218,8 +218,8 @@ extern "js" fn ffi_drizzle_d1_with_schema(
 /// Create a Drizzle instance with D1 and schema for relational queries
 #alias(drizzle_d1_with_schema)
 pub fn drizzleD1WithSchema(
-  d1_database : @js.Any,
-  schema : @js.Any,
+  d1_database : @nostd.Any,
+  schema : @nostd.Any,
 ) -> DrizzleDB {
   ffi_drizzle_d1_with_schema(d1_database, schema)
 }
@@ -227,13 +227,13 @@ pub fn drizzleD1WithSchema(
 // ============ Schema Definition ============
 
 ///|
-extern "js" fn ffi_pg_table(name : String, columns : @js.Any) -> Table =
+extern "js" fn ffi_pg_table(name : String, columns : @nostd.Any) -> Table =
   #| (name, columns) => require("drizzle-orm/pg-core").pgTable(name, columns)
 
 ///|
 /// Create a PostgreSQL table
 #alias(pg_table)
-pub fn pgTable(name : String, columns : @js.Any) -> Table {
+pub fn pgTable(name : String, columns : @nostd.Any) -> Table {
   ffi_pg_table(name, columns)
 }
 
@@ -241,7 +241,7 @@ pub fn pgTable(name : String, columns : @js.Any) -> Table {
 /// Create a PostgreSQL table from a Map of column definitions
 #alias(pg_table_from_map)
 pub fn pgTableFromMap(name : String, columns : Map[String, Column]) -> Table {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   columns.each(fn(key, col) { obj.set(key, col.as_any()) })
   pgTable(name, obj.as_any())
 }
@@ -506,7 +506,7 @@ pub fn Column::unique(self : Column) -> Column {
 }
 
 ///|
-extern "js" fn ffi_default_value(col : Column, value : @js.Any) -> Column =
+extern "js" fn ffi_default_value(col : Column, value : @nostd.Any) -> Column =
   #| (col, value) => col.default(value)
 
 ///|
@@ -557,13 +557,16 @@ extern "js" fn ffi_select(db : DrizzleDB) -> QueryBuilder =
 ///|
 extern "js" fn ffi_select_fields(
   db : DrizzleDB,
-  fields : @js.Any,
+  fields : @nostd.Any,
 ) -> QueryBuilder =
   #| (db, fields) => db.select(fields)
 
 ///|
 /// Start a SELECT query
-pub fn DrizzleDB::select(self : DrizzleDB, fields? : @js.Any) -> QueryBuilder {
+pub fn DrizzleDB::select(
+  self : DrizzleDB,
+  fields? : @nostd.Any,
+) -> QueryBuilder {
   match fields {
     Some(f) => ffi_select_fields(self, f)
     None => ffi_select(self)
@@ -637,7 +640,7 @@ pub fn QueryBuilder::filter(
 }
 
 ///|
-extern "js" fn ffi_values(qb : QueryBuilder, data : @js.Any) -> QueryBuilder =
+extern "js" fn ffi_values(qb : QueryBuilder, data : @nostd.Any) -> QueryBuilder =
   #| (qb, data) => qb.values(data)
 
 ///|
@@ -650,7 +653,7 @@ pub fn QueryBuilder::values(
 }
 
 ///|
-extern "js" fn ffi_set(qb : QueryBuilder, data : @js.Any) -> QueryBuilder =
+extern "js" fn ffi_set(qb : QueryBuilder, data : @nostd.Any) -> QueryBuilder =
   #| (qb, data) => qb.set(data)
 
 ///|
@@ -665,7 +668,7 @@ pub fn QueryBuilder::set(
 ///|
 extern "js" fn ffi_order_by(
   qb : QueryBuilder,
-  columns : Array[@js.Any],
+  columns : Array[@nostd.Any],
 ) -> QueryBuilder =
   #| (qb, columns) => qb.orderBy(...columns)
 
@@ -674,7 +677,7 @@ extern "js" fn ffi_order_by(
 #alias(order_by)
 pub fn QueryBuilder::orderBy(
   self : QueryBuilder,
-  columns : Array[@js.Any],
+  columns : Array[@nostd.Any],
 ) -> QueryBuilder {
   ffi_order_by(self, columns)
 }
@@ -749,12 +752,12 @@ pub fn QueryBuilder::innerJoin(
 
 ///|
 /// Execute the query and return promise
-extern "js" fn ffi_query_then(qb : QueryBuilder) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_query_then(qb : QueryBuilder) -> @js.Promise[@nostd.Any] =
   #| (qb) => qb
 
 ///|
 /// Execute the query
-pub async fn QueryBuilder::execute(self : QueryBuilder) -> @js.Any {
+pub async fn QueryBuilder::execute(self : QueryBuilder) -> @nostd.Any {
   ffi_query_then(self).wait()
 }
 
@@ -767,7 +770,7 @@ pub async fn[T] QueryBuilder::execute_array(self : QueryBuilder) -> Array[T] {
 // ============ SQL Operators ============
 
 ///|
-extern "js" fn ffi_eq(column : Column, value : @js.Any) -> SQL =
+extern "js" fn ffi_eq(column : Column, value : @nostd.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").eq(column, value)
 
 ///|
@@ -777,7 +780,7 @@ pub fn eq(column : Column, value : @nostd.Any) -> SQL {
 }
 
 ///|
-extern "js" fn ffi_ne(column : Column, value : @js.Any) -> SQL =
+extern "js" fn ffi_ne(column : Column, value : @nostd.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").ne(column, value)
 
 ///|
@@ -787,7 +790,7 @@ pub fn ne(column : Column, value : @nostd.Any) -> SQL {
 }
 
 ///|
-extern "js" fn ffi_gt(column : Column, value : @js.Any) -> SQL =
+extern "js" fn ffi_gt(column : Column, value : @nostd.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").gt(column, value)
 
 ///|
@@ -797,7 +800,7 @@ pub fn gt(column : Column, value : @nostd.Any) -> SQL {
 }
 
 ///|
-extern "js" fn ffi_gte(column : Column, value : @js.Any) -> SQL =
+extern "js" fn ffi_gte(column : Column, value : @nostd.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").gte(column, value)
 
 ///|
@@ -807,7 +810,7 @@ pub fn gte(column : Column, value : @nostd.Any) -> SQL {
 }
 
 ///|
-extern "js" fn ffi_lt(column : Column, value : @js.Any) -> SQL =
+extern "js" fn ffi_lt(column : Column, value : @nostd.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").lt(column, value)
 
 ///|
@@ -817,7 +820,7 @@ pub fn lt(column : Column, value : @nostd.Any) -> SQL {
 }
 
 ///|
-extern "js" fn ffi_lte(column : Column, value : @js.Any) -> SQL =
+extern "js" fn ffi_lte(column : Column, value : @nostd.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").lte(column, value)
 
 ///|
@@ -869,34 +872,34 @@ pub fn isNotNull(column : Column) -> SQL {
 }
 
 ///|
-extern "js" fn ffi_in_array(column : Column, values : Array[@js.Any]) -> SQL =
+extern "js" fn ffi_in_array(column : Column, values : Array[@nostd.Any]) -> SQL =
   #| (column, values) => require("drizzle-orm").inArray(column, values)
 
 ///|
 /// IN comparison
-pub fn inArray(column : Column, values : Array[@js.Any]) -> SQL {
+pub fn inArray(column : Column, values : Array[@nostd.Any]) -> SQL {
   ffi_in_array(column, values)
 }
 
 ///|
 extern "js" fn ffi_not_in_array(
   column : Column,
-  values : Array[@js.Any],
+  values : Array[@nostd.Any],
 ) -> SQL =
   #| (column, values) => require("drizzle-orm").notInArray(column, values)
 
 ///|
 /// NOT IN comparison
 #alias(not_in_array)
-pub fn notInArray(column : Column, values : Array[@js.Any]) -> SQL {
+pub fn notInArray(column : Column, values : Array[@nostd.Any]) -> SQL {
   ffi_not_in_array(column, values)
 }
 
 ///|
 extern "js" fn ffi_between(
   column : Column,
-  min_val : @js.Any,
-  max_val : @js.Any,
+  min_val : @nostd.Any,
+  max_val : @nostd.Any,
 ) -> SQL =
   #| (column, min, max) => require("drizzle-orm").between(column, min, max)
 
@@ -1002,22 +1005,22 @@ pub fn min_(column : Column) -> SQL {
 // ============ Ordering ============
 
 ///|
-extern "js" fn ffi_asc(column : Column) -> @js.Any =
+extern "js" fn ffi_asc(column : Column) -> @nostd.Any =
   #| (column) => require("drizzle-orm").asc(column)
 
 ///|
 /// Ascending order
-pub fn asc(column : Column) -> @js.Any {
+pub fn asc(column : Column) -> @nostd.Any {
   ffi_asc(column)
 }
 
 ///|
-extern "js" fn ffi_desc(column : Column) -> @js.Any =
+extern "js" fn ffi_desc(column : Column) -> @nostd.Any =
   #| (column) => require("drizzle-orm").desc(column)
 
 ///|
 /// Descending order
-pub fn desc(column : Column) -> @js.Any {
+pub fn desc(column : Column) -> @nostd.Any {
   ffi_desc(column)
 }
 

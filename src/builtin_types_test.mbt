@@ -5,11 +5,11 @@
 
 ///|
 test "Object creation and basic operations" {
-  let obj = @js.Object::new()
-  obj.set("name", "Alice")
-  obj.set("age", 30)
-  assert_eq(@js.identity(obj.get("name")), "Alice")
-  assert_eq(@js.identity(obj.get("age")), 30)
+  let obj = @nostd.Object::new()
+  obj._set("name", "Alice" |> @nostd.any)
+  obj._set("age", 30 |> @nostd.any)
+  assert_eq(@js.identity(obj._get("name")), "Alice")
+  assert_eq(@js.identity(obj._get("age")), 30)
   let obj_typed : Object = @js.identity(obj)
   assert_true(obj_typed.hasOwnProperty("name"))
   assert_false(obj_typed.hasOwnProperty("nonexistent"))
@@ -17,29 +17,29 @@ test "Object creation and basic operations" {
 
 ///|
 test "Object::create" {
-  let obj = Object::create(@js.Object::new())
+  let obj = Object::create(@nostd.Object::new())
   assert_true(@js.is_object(obj))
 }
 
 ///|
 test "Object::keys, values, entries" {
-  let obj = @js.Object::new()
-  obj.set("name", "Alice")
-  obj.set("age", 30)
-  obj.set("city", "Tokyo")
+  let obj = @nostd.Object::new()
+  obj._set("name", "Alice" |> @nostd.any)
+  obj._set("age", 30 |> @nostd.any)
+  obj._set("city", "Tokyo" |> @nostd.any)
 
   // Test keys
-  let keys = Object::keys(obj.as_any())
+  let keys = Object::keys(obj)
   assert_eq(keys.length(), 3)
   assert_true(keys.contains("name"))
   assert_true(keys.contains("age"))
   assert_true(keys.contains("city"))
 
   // Test values
-  let obj2 = @js.Object::new()
-  obj2.set("a", 1)
-  obj2.set("b", 2)
-  obj2.set("c", 3)
+  let obj2 = @nostd.Object::new()
+  obj2._set("a", 1 |> @nostd.any)
+  obj2._set("b", 2 |> @nostd.any)
+  obj2._set("c", 3 |> @nostd.any)
   let values = Object::values(obj2)
   assert_eq(values.length(), 3)
   let sum : Int = @js.identity(values[0]) +
@@ -68,59 +68,59 @@ test "Object::keys, values, entries" {
 
 ///|
 test "Object::assign" {
-  let target = @js.Object::new()
-  target.set("a", 1)
-  target.set("b", 2)
-  let source = @js.Object::new()
-  source.set("b", 3)
-  source.set("c", 4)
+  let target = @nostd.Object::new()
+  target._set("a", 1 |> @nostd.any)
+  target._set("b", 2 |> @nostd.any)
+  let source = @nostd.Object::new()
+  source._set("b", 3 |> @nostd.any)
+  source._set("c", 4 |> @nostd.any)
   let result = Object::assign(target, source)
-  assert_eq(@js.identity(result.get("a")), 1)
-  assert_eq(@js.identity(result.get("b")), 3)
-  assert_eq(@js.identity(result.get("c")), 4)
+  assert_eq(@js.identity(result._get("a")), 1)
+  assert_eq(@js.identity(result._get("b")), 3)
+  assert_eq(@js.identity(result._get("c")), 4)
 }
 
 ///|
 test "Object::is_ comparison" {
-  let obj1 = @js.Object::new()
-  let obj2 = @js.Object::new()
+  let obj1 = @nostd.Object::new()
+  let obj2 = @nostd.Object::new()
   assert_true(Object::is_(obj1, obj1))
   assert_false(Object::is_(obj1, obj2))
 
   // Primitive values
-  assert_true(Object::is_(42, 42))
-  assert_false(Object::is_(42, 43))
-  assert_true(Object::is_("hello", "hello"))
-  assert_false(Object::is_("hello", "world"))
+  assert_true(Object::is_(42 |> @nostd.any, 42 |> @nostd.any))
+  assert_false(Object::is_(42 |> @nostd.any, 43 |> @nostd.any))
+  assert_true(Object::is_("hello" |> @nostd.any, "hello" |> @nostd.any))
+  assert_false(Object::is_("hello" |> @nostd.any, "world" |> @nostd.any))
 }
 
 ///|
 test "Object freeze, seal, preventExtensions" {
   // Test freeze
-  let frozen = @js.Object::new()
-  frozen.set("a", 1)
+  let frozen = @nostd.Object::new()
+  frozen._set("a", 1 |> @nostd.any)
   assert_false(Object::isFrozen(frozen))
   Object::freeze(frozen) |> ignore
   assert_true(Object::isFrozen(frozen))
   assert_false(Object::isExtensible_static(frozen))
-  assert_eq(@js.identity(frozen.get("a")), 1)
+  assert_eq(@js.identity(frozen._get("a")), 1)
 
   // Test seal
-  let sealed_obj = @js.Object::new()
-  sealed_obj.set("b", 2)
+  let sealed_obj = @nostd.Object::new()
+  sealed_obj._set("b", 2 |> @nostd.any)
   assert_false(Object::isSealed(sealed_obj))
   Object::seal(sealed_obj) |> ignore
   assert_true(Object::isSealed(sealed_obj))
   assert_false(Object::isExtensible_static(sealed_obj))
-  assert_eq(@js.identity(sealed_obj.get("b")), 2)
+  assert_eq(@js.identity(sealed_obj._get("b")), 2)
 
   // Test preventExtensions
-  let non_ext = @js.Object::new()
-  non_ext.set("c", 3)
+  let non_ext = @nostd.Object::new()
+  non_ext._set("c", 3 |> @nostd.any)
   assert_true(Object::isExtensible_static(non_ext))
   Object::preventExtensions(non_ext) |> ignore
   assert_false(Object::isExtensible_static(non_ext))
-  assert_eq(@js.identity(non_ext.get("c")), 3)
+  assert_eq(@js.identity(non_ext._get("c")), 3)
 
   // Compare all three
   assert_true(Object::isFrozen(frozen))
@@ -133,8 +133,8 @@ test "Object freeze, seal, preventExtensions" {
 
 ///|
 test "Object::propertyIsEnumerable" {
-  let obj = @js.Object::new()
-  obj.set("enumerable", "value")
+  let obj = @nostd.Object::new()
+  obj._set("enumerable", "value" |> @nostd.any)
   let obj_typed : Object = @js.identity(obj)
   assert_true(obj_typed.propertyIsEnumerable("enumerable"))
   assert_false(obj_typed.propertyIsEnumerable("nonexistent"))
@@ -142,7 +142,7 @@ test "Object::propertyIsEnumerable" {
 
 ///|
 test "Object::isPrototypeOf" {
-  let parent = @js.Object::new()
+  let parent = @nostd.Object::new()
   let parent_typed : Object = @js.identity(parent)
   let child = Object::create(parent)
   assert_true(parent_typed.isPrototypeOf(child))
@@ -152,8 +152,8 @@ test "Object::isPrototypeOf" {
 
 ///|
 test "Object::isExtensible instance method" {
-  let obj = @js.Object::new()
-  obj.set("prop", "value")
+  let obj = @nostd.Object::new()
+  obj._set("prop", "value" |> @nostd.any)
   let obj_typed : Object = @js.identity(obj)
   assert_true(obj_typed.isExtensible())
   Object::preventExtensions(obj) |> ignore
@@ -162,9 +162,9 @@ test "Object::isExtensible instance method" {
 
 ///|
 test "Object with empty strings" {
-  let obj = @js.Object::new()
-  obj.set("empty", "")
-  assert_eq(@js.identity(obj.get("empty")), "")
+  let obj = @nostd.Object::new()
+  obj._qsset("empty", "")
+  assert_eq(@js.identity(obj._get("empty")), "")
   let obj_typed : Object = @js.identity(obj)
   assert_true(obj_typed.hasOwnProperty("empty"))
 }
@@ -189,7 +189,7 @@ test "JsIterator::from converts iterable to iterator" {
   let arr = @js.from_array([1, 2, 3])
 
   // Use Iterator.from to convert iterable to iterator
-  let js_iter : JsIterator[@js.Any] = JsIterator::from(arr)
+  let js_iter : JsIterator[@nostd.Any] = JsIterator::from(arr)
 
   // Verify it's created (basic type check)
   assert_true(@js.is_object(js_iter.as_any()))
@@ -199,7 +199,7 @@ test "JsIterator::from converts iterable to iterator" {
 
 ///|
 test "Function::to_string" {
-  let parse_int = @global.global_this().get("parseInt")
+  let parse_int = @global.global_this()._get("parseInt")
   let func : Function = @js.identity(parse_int)
   let func_str = func.to_string()
   assert_true(func_str.length() > 0)
@@ -207,7 +207,7 @@ test "Function::to_string" {
 
 ///|
 test "Function::name" {
-  let parse_int = @global.global_this().get("parseInt")
+  let parse_int = @global.global_this()._get("parseInt")
   let func : Function = @js.identity(parse_int)
   let name = func.name()
   assert_eq(name, "parseInt")
@@ -220,17 +220,17 @@ test "JsError creation and properties" {
   let error = JsError::new("Test error")
   assert_eq(error.message, "Test error")
   assert_true(JsError::isError(error))
-  let error_val : @js.Any = @js.identity(error)
+  let error_val : @nostd.Any = @js.identity(error)
   assert_true(@js.is_object(error_val))
-  assert_eq(@js.identity(error_val.get("message")), "Test error")
+  assert_eq(@js.identity(error_val._get("message")), "Test error")
 }
 
 ///|
 test "JsError with cause" {
   let cause_error = JsError::new("Cause error")
   let error_with_cause = JsError::new("Main error", cause=cause_error)
-  let error_with_cause_val : @js.Any = @js.identity(error_with_cause)
-  assert_eq(@js.identity(error_with_cause_val.get("message")), "Main error")
+  let error_with_cause_val : @nostd.Any = @js.identity(error_with_cause)
+  assert_eq(@js.identity(error_with_cause_val._get("message")), "Main error")
 }
 
 ///|
@@ -312,16 +312,16 @@ test "JsString::fromCodePoint" {
 
 ///|
 test "Primitive type casting" {
-  let int_val = @js.any(42)
+  let int_val = @nostd.any(42)
   let int_result : Int = @js.identity(int_val)
   assert_eq(int_result, 42)
-  let double_val = @js.any(3.14)
+  let double_val = @nostd.any(3.14)
   let double_result : Double = @js.identity(double_val)
   assert_eq(double_result, 3.14)
-  let str_val = @js.any("hello")
+  let str_val = @nostd.any("hello")
   let str_result : String = @js.identity(str_val)
   assert_eq(str_result, "hello")
-  let bool_val = @js.any(true)
+  let bool_val = @nostd.any(true)
   let bool_result : Bool = @js.identity(bool_val)
   assert_eq(bool_result, true)
 }
@@ -329,9 +329,9 @@ test "Primitive type casting" {
 ///|
 test "identity_option" {
   // Some cases
-  let some_str : String? = @js.any("hello") |> @js.identity_option()
+  let some_str : String? = @nostd.any("hello") |> @js.identity_option()
   assert_eq(some_str, Some("hello"))
-  let some_int : Int? = @js.any(42) |> @js.identity_option()
+  let some_int : Int? = @nostd.any(42) |> @js.identity_option()
   assert_eq(some_int, Some(42))
 
   // None cases
@@ -343,10 +343,10 @@ test "identity_option" {
 
 ///|
 test "identity_option with Show types" {
-  let num_val = @js.any(42)
+  let num_val = @nostd.any(42)
   let num_opt : Int? = @js.identity_option(num_val)
   assert_eq(num_opt, Some(42))
-  let str_val = @js.any("hello")
+  let str_val = @nostd.any("hello")
   let str_opt : String? = @js.identity_option(str_val)
   assert_eq(str_opt, Some("hello"))
 
@@ -363,7 +363,7 @@ test "identity_option with Show types" {
 
 ///|
 test "identity_option for nullish detection" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   let result : @js.Object? = @js.identity_option(obj.as_any())
   assert_false(result is None)
   let null_result : @js.Object? = @js.identity_option(@js.null_())
@@ -374,14 +374,14 @@ test "identity_option for nullish detection" {
 
 ///|
 test "Conditional property setting with Option" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
 
   // Set with Some value
   match Some("value1") {
     Some(v) => obj.set("key1", v)
     None => ()
   }
-  assert_eq(@js.identity(obj.get("key1")), "value1")
+  assert_eq(@js.identity(obj._get("key1")), "value1")
 
   // Set with None should not add property
   let v : Int? = None
@@ -389,28 +389,28 @@ test "Conditional property setting with Option" {
     Some(val) => obj.set("key2", val)
     None => ()
   }
-  assert_true(@js.is_undefined(obj.get("key2")))
+  assert_true(@js.is_undefined(obj._get("key2")))
 
   // Set with undefined value - check before setting
   match Some(undefined()) {
     Some(val) if not(@js.is_undefined(val)) => obj.set("key3", val)
     _ => ()
   }
-  assert_true(@js.is_undefined(obj.get("key3")))
+  assert_true(@js.is_undefined(obj._get("key3")))
 }
 
 ///|
 test "Js Show trait for different types" {
   // Numbers
-  let num = @js.any(123)
+  let num = @nostd.any(123)
   assert_eq(num.to_string(), "123")
 
   // Strings
-  let str = @js.any("test")
+  let str = @nostd.any("test")
   assert_eq(str.to_string(), "test")
 
   // Booleans
-  let bool_val = @js.any(true)
+  let bool_val = @nostd.any(true)
   assert_eq(bool_val.to_string(), "true")
 
   // Arrays
@@ -419,7 +419,7 @@ test "Js Show trait for different types" {
   assert_true(arr_str.contains("1") && arr_str.contains("2"))
 
   // Objects
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("key", "value")
   let obj_str = obj.as_any().to_string()
   assert_true(obj_str.contains("key") && obj_str.contains("value"))
@@ -436,7 +436,7 @@ test "JsError Show implementation" {
 
 ///|
 test "Object::to_string" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("name", "Alice")
   obj.set("age", 30)
   let obj_typed : Object = @js.identity(obj)
@@ -475,10 +475,10 @@ test "Symbol::asyncIterator" {
 test "AbortController::signal and abort" {
   let controller = AbortController::new()
   let _signal = controller.signal()
-  // let aborted_before : Bool = @js.identity(signal.get("aborted"))
+  // let aborted_before : Bool = @js.identity(signal._get("aborted"))
   // assert_false(aborted_before)
   controller.abort() |> ignore
-  // let aborted_after : Bool = @js.identity(signal.get("aborted"))
+  // let aborted_after : Bool = @js.identity(signal._get("aborted"))
   // assert_true(aborted_after)
 }
 
@@ -487,10 +487,10 @@ test "AbortController::signal and abort" {
 ///|
 test "instanceof_" {
   let arr = @js.from_array([1, 2, 3])
-  let array_class = @global.global_this().get("Array")
+  let array_class = @global.global_this()._get("Array")
   assert_true(@js.instanceof_(arr, array_class))
-  let obj = @js.Object::new()
-  let object_class = @global.global_this().get("Object")
+  let obj = @nostd.Object::new()
+  let object_class = @global.global_this()._get("Object")
   assert_true(@js.instanceof_(obj, object_class))
 }
 
@@ -520,18 +520,18 @@ test "ThrowError Show output" {
 
 ///|
 test "Object::defineProperty with value" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   Object::defineProperty(obj, "name", value="Alice" |> @js.any, writable=true)
   |> ignore
-  assert_eq(@js.identity(obj.get("name")), "Alice")
+  assert_eq(@js.identity(obj._get("name")), "Alice")
   // Should be writable
   obj.set("name", "Bob")
-  assert_eq(@js.identity(obj.get("name")), "Bob")
+  assert_eq(@js.identity(obj._get("name")), "Bob")
 }
 
 ///|
 test "Object::defineProperty with non-writable" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   Object::defineProperty(
     obj,
     "id",
@@ -540,16 +540,16 @@ test "Object::defineProperty with non-writable" {
     configurable=true,
   )
   |> ignore
-  assert_eq(@js.identity(obj.get("id")), 123)
+  assert_eq(@js.identity(obj._get("id")), 123)
   // Attempting to write won't work in strict mode, but in non-strict mode it's silently ignored
   obj.set("id", 456)
   // Value should still be 123 (write ignored)
-  assert_eq(@js.identity(obj.get("id")), 123)
+  assert_eq(@js.identity(obj._get("id")), 123)
 }
 
 ///|
 test "Object::defineProperty with getter/setter" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   let storage : Ref[Int] = { val: 0 }
   Object::defineProperty(
     obj,
@@ -561,16 +561,16 @@ test "Object::defineProperty with getter/setter" {
   )
   |> ignore
   // Test getter
-  assert_eq(@js.identity(obj.get("value")), 0)
+  assert_eq(@js.identity(obj._get("value")), 0)
   // Test setter
   obj.set("value", 42)
-  assert_eq(@js.identity(obj.get("value")), 42)
+  assert_eq(@js.identity(obj._get("value")), 42)
   assert_eq(storage.val, 42)
 }
 
 ///|
 test "Object::getOwnPropertyDescriptor" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("name", "Alice")
   let desc = Object::getOwnPropertyDescriptor(obj, "name")
   assert_true(desc is Some(_))
@@ -583,14 +583,14 @@ test "Object::getOwnPropertyDescriptor" {
 
 ///|
 test "Object::getOwnPropertyDescriptor returns None for non-existent" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   let desc = Object::getOwnPropertyDescriptor(obj, "nonexistent")
   assert_true(desc is None)
 }
 
 ///|
 test "Object::getOwnPropertyNames" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("a", 1)
   obj.set("b", 2)
   Object::defineProperty(obj, "c", value=3 |> @js.any, enumerable=false)
@@ -604,7 +604,7 @@ test "Object::getOwnPropertyNames" {
 
 ///|
 test "Object::getOwnPropertySymbols" {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   let sym = @js.symbol("mySymbol")
   obj.set(sym, "symbol value")
   let symbols = Object::getOwnPropertySymbols(obj)
@@ -613,26 +613,26 @@ test "Object::getOwnPropertySymbols" {
 
 ///|
 test "Object::defineProperties" {
-  let obj = @js.Object::new()
-  let props = @js.Object::new()
-  let x_desc = @js.Object::new()
+  let obj = @nostd.Object::new()
+  let props = @nostd.Object::new()
+  let x_desc = @nostd.Object::new()
   x_desc.set("value", 10)
   x_desc.set("writable", true)
   props.set("x", x_desc)
-  let y_desc = @js.Object::new()
+  let y_desc = @nostd.Object::new()
   y_desc.set("value", 20)
   y_desc.set("writable", true)
   props.set("y", y_desc)
   Object::defineProperties(obj, props) |> ignore
-  assert_eq(@js.identity(obj.get("x")), 10)
-  assert_eq(@js.identity(obj.get("y")), 20)
+  assert_eq(@js.identity(obj._get("x")), 10)
+  assert_eq(@js.identity(obj._get("y")), 20)
 }
 
 ///| Object.groupBy tests
 
 ///|
 test "Object::groupBy basic" {
-  let items : Array[@js.Any] = [1, 2, 3, 4, 5].map(fn(x) { x |> @js.any })
+  let items : Array[@nostd.Any] = [1, 2, 3, 4, 5].map(fn(x) { x |> @js.any })
   let result = Object::groupBy(items, fn(item, _index) {
     let n : Int = item |> @js.identity
     if n % 2 == 0 {
@@ -641,29 +641,29 @@ test "Object::groupBy basic" {
       "odd"
     }
   })
-  let odd : Array[Int] = result.get("odd") |> @js.identity
-  let even : Array[Int] = result.get("even") |> @js.identity
+  let odd : Array[Int] = result._get("odd") |> @js.identity
+  let even : Array[Int] = result._get("even") |> @js.identity
   assert_eq(odd, [1, 3, 5])
   assert_eq(even, [2, 4])
 }
 
 ///|
 test "Object::groupBy with objects" {
-  let inventory = @js.Object::new()
+  let inventory = @nostd.Object::new()
   inventory.set("name", "apple")
   inventory.set("type", "fruit")
-  let inventory2 = @js.Object::new()
+  let inventory2 = @nostd.Object::new()
   inventory2.set("name", "beef")
   inventory2.set("type", "meat")
-  let inventory3 = @js.Object::new()
+  let inventory3 = @nostd.Object::new()
   inventory3.set("name", "banana")
   inventory3.set("type", "fruit")
   let items = [inventory, inventory2, inventory3]
   let result = Object::groupBy(items, fn(item, _index) {
-    item.get("type") |> @js.identity
+    item._get("type") |> @js.identity
   })
-  let fruits : Array[@js.Any] = result.get("fruit") |> @js.identity
-  let meats : Array[@js.Any] = result.get("meat") |> @js.identity
+  let fruits : Array[@nostd.Any] = result._get("fruit") |> @js.identity
+  let meats : Array[@nostd.Any] = result._get("meat") |> @js.identity
   assert_eq(fruits.length(), 2)
   assert_eq(meats.length(), 1)
 }

@@ -1,6 +1,6 @@
 ///|
 /// node:vm module
-extern "js" fn vm_module() -> @js.Any =
+extern "js" fn vm_module() -> @nostd.Any =
   #| () => require("node:vm")
 
 ///|
@@ -30,7 +30,7 @@ pub fn Script::new(
   produceCachedData? : Bool,
 ) -> Script {
   let vm = vm_module()
-  let script_constructor = vm.get("Script")
+  let script_constructor = vm._get("Script")
   let options = @mbtconv.from_option_map({
     "filename": filename.map(fn(x) { @nostd.any(x) }),
     "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
@@ -38,7 +38,7 @@ pub fn Script::new(
     "cachedData": cachedData.map(fn(x) { @nostd.any(x) }),
     "produceCachedData": produceCachedData.map(fn(x) { @nostd.any(x) }),
   })
-  @js.new_(script_constructor, [@js.any(code), @js.identity(options)])
+  @js.new_(script_constructor, [@nostd.any(code), @js.identity(options)])
   |> @js.identity
 }
 
@@ -52,7 +52,7 @@ pub fn Script::runInThisContext(
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @js.Any {
+) -> @nostd.Any {
   let options = @mbtconv.from_option_map({
     "filename": filename.map(fn(x) { @nostd.any(x) }),
     "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
@@ -68,7 +68,7 @@ pub fn Script::runInThisContext(
 /// Run script in new context
 pub fn Script::runInNewContext(
   self : Script,
-  contextObject? : @js.Any,
+  contextObject? : @nostd.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
@@ -78,7 +78,7 @@ pub fn Script::runInNewContext(
   contextName? : String,
   contextOrigin? : String,
   microtaskMode? : String,
-) -> @js.Any {
+) -> @nostd.Any {
   let options = @mbtconv.from_option_map({
     "filename": filename.map(fn(x) { @nostd.any(x) }),
     "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
@@ -103,14 +103,14 @@ pub fn Script::runInNewContext(
 /// Run script in context
 pub fn Script::runInContext(
   self : Script,
-  contextifiedObject : @js.Any,
+  contextifiedObject : @nostd.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @js.Any {
+) -> @nostd.Any {
   let options = @mbtconv.from_option_map({
     "filename": filename.map(fn(x) { @nostd.any(x) }),
     "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
@@ -154,7 +154,7 @@ pub fn runInThisContext(
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @js.Any {
+) -> @nostd.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
     "filename": filename.map(fn(x) { @nostd.any(x) }),
@@ -171,7 +171,7 @@ pub fn runInThisContext(
 /// Compile and run code in new context
 pub fn runInNewContext(
   code : String,
-  contextObject? : @js.Any,
+  contextObject? : @nostd.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
@@ -181,7 +181,7 @@ pub fn runInNewContext(
   contextName? : String,
   contextOrigin? : String,
   microtaskMode? : String,
-) -> @js.Any {
+) -> @nostd.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
     "filename": filename.map(fn(x) { @nostd.any(x) }),
@@ -210,14 +210,14 @@ pub fn runInNewContext(
 /// Run code in context
 pub fn runInContext(
   code : String,
-  contextifiedObject : @js.Any,
+  contextifiedObject : @nostd.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @js.Any {
+) -> @nostd.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
     "filename": filename.map(fn(x) { @nostd.any(x) }),
@@ -239,11 +239,11 @@ pub fn runInContext(
 ///|
 /// Create a new context
 pub fn createContext(
-  contextObject? : @js.Any,
+  contextObject? : @nostd.Any,
   name? : String,
   origin? : String,
   microtaskMode? : String,
-) -> @js.Any {
+) -> @nostd.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
     "name": name.map(fn(x) { @nostd.any(x) }),
@@ -259,7 +259,7 @@ pub fn createContext(
 
 ///|
 /// Check if object is a context
-pub fn isContext(object : @js.Any) -> Bool {
+pub fn isContext(object : @nostd.Any) -> Bool {
   let vm = vm_module()
   @nostd.any(vm)._call("isContext", [@nostd.any(object)]).cast()
 }
@@ -274,9 +274,9 @@ pub fn compileFunction(
   columnOffset? : Int,
   cachedData? : @buffer.Buffer,
   produceCachedData? : Bool,
-  parsingContext? : @js.Any,
-  contextExtensions? : Array[@js.Any],
-) -> @js.Any {
+  parsingContext? : @nostd.Any,
+  contextExtensions? : Array[@nostd.Any],
+) -> @nostd.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
     "filename": filename.map(fn(x) { @nostd.any(x) }),

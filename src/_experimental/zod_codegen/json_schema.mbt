@@ -2,14 +2,14 @@
 /// Uses zod's built-in toJSONSchema function
 
 ///|
-fn zod_module() -> @js.Any {
+fn zod_module() -> @nostd.Any {
   @node.require("zod")
 }
 
 ///|
 /// Convert a ZodSchema to JSON Schema (zod v4 built-in)
-pub fn to_json_schema(schema : @zod.ZodSchema) -> @js.Any {
-  let schema_any : @js.Any = schema.as_any() |> @nostd.identity()
+pub fn to_json_schema(schema : @zod.ZodSchema) -> @nostd.Any {
+  let schema_any : @nostd.Any = schema.as_any() |> @nostd.identity()
   zod_module().call1("toJSONSchema", schema_any)
 }
 
@@ -20,9 +20,9 @@ pub fn to_json_schema_with_options(
   name? : String,
   io? : String,
   unrepresentable? : String,
-  override_? : @js.Any,
-) -> @js.Any {
-  let opts = @js.Object::new()
+  override_? : @nostd.Any,
+) -> @nostd.Any {
+  let opts = @nostd.Object::new()
   match name {
     Some(v) => opts.set("name", v)
     None => ()
@@ -39,14 +39,14 @@ pub fn to_json_schema_with_options(
     Some(v) => opts.set("override", v)
     None => ()
   }
-  let schema_any : @js.Any = schema.as_any() |> @nostd.identity()
+  let schema_any : @nostd.Any = schema.as_any() |> @nostd.identity()
   zod_module().call2("toJSONSchema", schema_any, opts.as_any())
 }
 
 ///|
 /// JSON Schema type representation
 pub struct JsonSchema {
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
@@ -63,13 +63,13 @@ pub fn JsonSchema::from_zod_with_name(
 }
 
 ///|
-/// Create JsonSchema from raw @js.Any value
-pub fn JsonSchema::from_any(raw : @js.Any) -> JsonSchema {
+/// Create JsonSchema from raw @nostd.Any value
+pub fn JsonSchema::from_any(raw : @nostd.Any) -> JsonSchema {
   { raw, }
 }
 
 ///|
-pub fn JsonSchema::as_any(self : JsonSchema) -> @js.Any {
+pub fn JsonSchema::as_any(self : JsonSchema) -> @nostd.Any {
   self.raw
 }
 
@@ -80,7 +80,7 @@ pub fn JsonSchema::to_json(self : JsonSchema) -> String {
 
 ///|
 pub fn JsonSchema::type_(self : JsonSchema) -> String? {
-  let t = self.raw.get("type")
+  let t = self.raw._get("type")
   if @js.is_undefined(t) {
     None
   } else {
@@ -89,13 +89,13 @@ pub fn JsonSchema::type_(self : JsonSchema) -> String? {
 }
 
 ///|
-pub fn JsonSchema::properties(self : JsonSchema) -> @js.Any {
-  self.raw.get("properties")
+pub fn JsonSchema::properties(self : JsonSchema) -> @nostd.Any {
+  self.raw._get("properties")
 }
 
 ///|
 pub fn JsonSchema::required(self : JsonSchema) -> Array[String] {
-  let req = self.raw.get("required")
+  let req = self.raw._get("required")
   if @js.is_undefined(req) || @js.is_null(req) {
     []
   } else {
@@ -105,7 +105,7 @@ pub fn JsonSchema::required(self : JsonSchema) -> Array[String] {
 
 ///|
 pub fn JsonSchema::items(self : JsonSchema) -> JsonSchema? {
-  let items = self.raw.get("items")
+  let items = self.raw._get("items")
   if @js.is_undefined(items) {
     None
   } else {
@@ -114,10 +114,10 @@ pub fn JsonSchema::items(self : JsonSchema) -> JsonSchema? {
 }
 
 ///|
-pub fn JsonSchema::definitions(self : JsonSchema) -> @js.Any {
-  let defs = self.raw.get("definitions")
+pub fn JsonSchema::definitions(self : JsonSchema) -> @nostd.Any {
+  let defs = self.raw._get("definitions")
   if @js.is_undefined(defs) {
-    self.raw.get("$defs")
+    self.raw._get("$defs")
   } else {
     defs
   }
@@ -125,7 +125,7 @@ pub fn JsonSchema::definitions(self : JsonSchema) -> @js.Any {
 
 ///|
 pub fn JsonSchema::ref_(self : JsonSchema) -> String? {
-  let r = self.raw.get("$ref")
+  let r = self.raw._get("$ref")
   if @js.is_undefined(r) {
     None
   } else {
@@ -135,18 +135,18 @@ pub fn JsonSchema::ref_(self : JsonSchema) -> String? {
 
 ///|
 pub fn JsonSchema::any_of(self : JsonSchema) -> Array[JsonSchema]? {
-  let any = self.raw.get("anyOf")
+  let any = self.raw._get("anyOf")
   if @js.is_undefined(any) {
     None
   } else {
-    let arr : Array[@js.Any] = @js.identity(any)
+    let arr : Array[@nostd.Any] = @js.identity(any)
     Some(arr.map(fn(x) { { raw: x } }))
   }
 }
 
 ///|
 pub fn JsonSchema::enum_values(self : JsonSchema) -> Array[String]? {
-  let e = self.raw.get("enum")
+  let e = self.raw._get("enum")
   if @js.is_undefined(e) {
     None
   } else {
@@ -155,8 +155,8 @@ pub fn JsonSchema::enum_values(self : JsonSchema) -> Array[String]? {
 }
 
 ///|
-pub fn JsonSchema::const_value(self : JsonSchema) -> @js.Any? {
-  let c = self.raw.get("const")
+pub fn JsonSchema::const_value(self : JsonSchema) -> @nostd.Any? {
+  let c = self.raw._get("const")
   if @js.is_undefined(c) {
     None
   } else {
@@ -166,7 +166,7 @@ pub fn JsonSchema::const_value(self : JsonSchema) -> @js.Any? {
 
 ///|
 pub fn JsonSchema::minimum(self : JsonSchema) -> Double? {
-  let m = self.raw.get("minimum")
+  let m = self.raw._get("minimum")
   if @js.is_undefined(m) {
     None
   } else {
@@ -176,7 +176,7 @@ pub fn JsonSchema::minimum(self : JsonSchema) -> Double? {
 
 ///|
 pub fn JsonSchema::maximum(self : JsonSchema) -> Double? {
-  let m = self.raw.get("maximum")
+  let m = self.raw._get("maximum")
   if @js.is_undefined(m) {
     None
   } else {
@@ -186,7 +186,7 @@ pub fn JsonSchema::maximum(self : JsonSchema) -> Double? {
 
 ///|
 pub fn JsonSchema::min_length(self : JsonSchema) -> Int? {
-  let m = self.raw.get("minLength")
+  let m = self.raw._get("minLength")
   if @js.is_undefined(m) {
     None
   } else {
@@ -196,7 +196,7 @@ pub fn JsonSchema::min_length(self : JsonSchema) -> Int? {
 
 ///|
 pub fn JsonSchema::max_length(self : JsonSchema) -> Int? {
-  let m = self.raw.get("maxLength")
+  let m = self.raw._get("maxLength")
   if @js.is_undefined(m) {
     None
   } else {
@@ -206,7 +206,7 @@ pub fn JsonSchema::max_length(self : JsonSchema) -> Int? {
 
 ///|
 pub fn JsonSchema::format(self : JsonSchema) -> String? {
-  let f = self.raw.get("format")
+  let f = self.raw._get("format")
   if @js.is_undefined(f) {
     None
   } else {
@@ -216,7 +216,7 @@ pub fn JsonSchema::format(self : JsonSchema) -> String? {
 
 ///|
 pub fn JsonSchema::description(self : JsonSchema) -> String? {
-  let d = self.raw.get("description")
+  let d = self.raw._get("description")
   if @js.is_undefined(d) {
     None
   } else {
@@ -225,8 +225,8 @@ pub fn JsonSchema::description(self : JsonSchema) -> String? {
 }
 
 ///|
-pub fn JsonSchema::default_value(self : JsonSchema) -> @js.Any? {
-  let d = self.raw.get("default")
+pub fn JsonSchema::default_value(self : JsonSchema) -> @nostd.Any? {
+  let d = self.raw._get("default")
   if @js.is_undefined(d) {
     None
   } else {
@@ -236,7 +236,7 @@ pub fn JsonSchema::default_value(self : JsonSchema) -> @js.Any? {
 
 ///|
 pub fn JsonSchema::additional_properties(self : JsonSchema) -> JsonSchema? {
-  let ap = self.raw.get("additionalProperties")
+  let ap = self.raw._get("additionalProperties")
   if @js.is_undefined(ap) || @js.is_null(ap) {
     None
   } else if @js.typeof_(ap) == "boolean" {

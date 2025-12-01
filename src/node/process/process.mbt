@@ -1,5 +1,5 @@
 ///|
-extern "js" fn process_module() -> @js.Any =
+extern "js" fn process_module() -> @nostd.Any =
   #| () => require("node:process")
 
 ///|

@@ -9,18 +9,7 @@
 pub type CDPSession
 
 ///|
-pub fn CDPSession::as_any(self : CDPSession) -> @js.Any = "%identity"
-
-// Internal helper functions for method calls
-
-///|
-fn CDPSession::call(
-  self : CDPSession,
-  name : String,
-  args : Array[&@js.JsImpl],
-) -> @js.Any {
-  self.as_any().call(name, args)
-}
+pub fn CDPSession::to_any(self : CDPSession) -> @nostd.Any = "%identity"
 
 ///| Page methods (CDP)
 
@@ -29,9 +18,10 @@ fn CDPSession::call(
 /// JS: page.createCDPSession()
 /// See: https://pptr.dev/api/puppeteer.page.createcdpsession
 pub async fn Page::createCDPSession(self : Page) -> CDPSession {
-  let promise : @js.Promise[CDPSession] = @js.identity(
-    self.as_any().call("createCDPSession", []),
-  )
+  let promise : @js.Promise[CDPSession] = self
+    .to_any()
+    ._call("createCDPSession", [])
+    |> @js.identity
   promise.wait()
 }
 
@@ -42,7 +32,8 @@ pub async fn Page::createCDPSession(self : Page) -> CDPSession {
 /// JS: cdpSession.detach()
 /// See: https://pptr.dev/api/puppeteer.cdpsession.detach
 pub async fn CDPSession::detach(self : CDPSession) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(self.call("detach", []))
+  let promise : @js.Promise[Unit] = self.to_any()._call("detach", [])
+    |> @js.identity
   promise.wait()
 }
 
@@ -51,7 +42,7 @@ pub async fn CDPSession::detach(self : CDPSession) -> Unit {
 /// JS: cdpSession.id()
 /// See: https://pptr.dev/api/puppeteer.cdpsession.id
 pub fn CDPSession::id(self : CDPSession) -> String {
-  self.call("id", []).cast()
+  self.to_any()._call("id", []).cast()
 }
 
 ///|
@@ -61,11 +52,12 @@ pub fn CDPSession::id(self : CDPSession) -> String {
 pub async fn CDPSession::send(
   self : CDPSession,
   method_ : String,
-  params : @js.Any,
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("send", [@js.any(method_), params]),
-  )
+  params : @nostd.Any,
+) -> @nostd.Any {
+  let promise : @js.Promise[@nostd.Any] = self
+    .to_any()
+    ._call("send", [@nostd.any(method_), @nostd.any(params)])
+    |> @js.identity
   promise.wait()
 }
 
@@ -76,9 +68,10 @@ pub async fn CDPSession::send_simple(
   self : CDPSession,
   method_ : String,
 ) -> Unit {
-  let promise : @js.Promise[@js.Any] = @js.identity(
-    self.call("send", [@js.any(method_)]),
-  )
+  let promise : @js.Promise[@nostd.Any] = self
+    .to_any()
+    ._call("send", [@nostd.any(method_)])
+    |> @js.identity
   let _ = promise.wait()
 
 }

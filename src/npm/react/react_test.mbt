@@ -2,9 +2,9 @@
 
 ///|
 fn render_to_string(element : Element) -> String {
-  let react_dom_server : @js.Any = @node.require("react-dom/server")
-  let element_js : @js.Any = element.as_any().cast()
-  react_dom_server.get("renderToString").call_self([element_js]).cast()
+  let react_dom_server : @nostd.Any = @node.require("react-dom/server")
+  let element_js : @nostd.Any = element.as_any().cast()
+  react_dom_server._get("renderToString").call_self([element_js]).cast()
 }
 
 ///|
@@ -606,7 +606,7 @@ test "component: argument children passed to React.createElement" {
 }
 
 ///|
-extern "js" fn get_props_children(props : @js.Any) -> @react.Element =
+extern "js" fn get_props_children(props : @nostd.Any) -> @react.Element =
   #| (props) => props.children
 
 ///|
@@ -614,7 +614,7 @@ test "component: children argument becomes props.children in React" {
   init_react()
   // Component that accesses props.children via FFI and renders them
   let wrapper : @react.Component[Unit] = fn(props) {
-    let props_any : @js.Any = @js.identity(props)
+    let props_any : @nostd.Any = @js.identity(props)
     let children = get_props_children(props_any)
     // Render children directly - React handles this
     @react.createElement("div", [

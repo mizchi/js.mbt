@@ -11,14 +11,14 @@ pub(all) struct MockGenerateResult {
   /// Generated content
   content : Array[MockContentPart]
   /// Warnings (optional)
-  warnings : Array[@js.Any]
+  warnings : Array[@nostd.Any]
 }
 
 ///|
-pub fn MockGenerateResult::as_any(self : MockGenerateResult) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn MockGenerateResult::as_any(self : MockGenerateResult) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   obj.set("finishReason", self.finish_reason)
-  let usage_obj = @js.Object::new()
+  let usage_obj = @nostd.Object::new()
   usage_obj.set("inputTokens", self.usage.input_tokens)
   usage_obj.set("outputTokens", self.usage.output_tokens)
   usage_obj.set("totalTokens", self.usage.total_tokens)
@@ -41,20 +41,20 @@ pub(all) struct MockUsage {
 /// Content part
 pub(all) enum MockContentPart {
   Text(String)
-  ToolCall(tool_call_id~ : String, tool_name~ : String, args~ : @js.Any)
+  ToolCall(tool_call_id~ : String, tool_name~ : String, args~ : @nostd.Any)
 }
 
 ///|
-pub fn MockContentPart::as_any(self : MockContentPart) -> @js.Any {
+pub fn MockContentPart::as_any(self : MockContentPart) -> @nostd.Any {
   match self {
     Text(text) => {
-      let obj = @js.Object::new()
+      let obj = @nostd.Object::new()
       obj.set("type", "text")
       obj.set("text", text)
       obj.as_any()
     }
     ToolCall(tool_call_id~, tool_name~, args~) => {
-      let obj = @js.Object::new()
+      let obj = @nostd.Object::new()
       obj.set("type", "tool-call")
       obj.set("toolCallId", tool_call_id)
       obj.set("toolName", tool_name)
@@ -68,12 +68,12 @@ pub fn MockContentPart::as_any(self : MockContentPart) -> @js.Any {
 /// Result from doStream
 pub(all) struct MockStreamResult {
   /// The readable stream of chunks
-  stream : @js.Any
+  stream : @nostd.Any
 }
 
 ///|
-pub fn MockStreamResult::as_any(self : MockStreamResult) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn MockStreamResult::as_any(self : MockStreamResult) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   obj.set("stream", self.stream)
   obj.as_any()
 }
@@ -99,7 +99,7 @@ pub(all) enum MockGenerateHandler {
   /// Return different results for each call
   Results(Array[MockGenerateResult])
   /// Custom function (JS function)
-  Fn(@js.Any)
+  Fn(@nostd.Any)
 }
 
 ///|
@@ -110,15 +110,15 @@ pub(all) enum MockStreamHandler {
   /// Return different results for each call
   Results(Array[MockStreamResult])
   /// Custom function (JS function)
-  Fn(@js.Any)
+  Fn(@nostd.Any)
 }
 
 ///|
 /// Create a MockLanguageModelV3 instance
-pub fn mock_language_model(options : MockLanguageModelOptions) -> @js.Any {
+pub fn mock_language_model(options : MockLanguageModelOptions) -> @nostd.Any {
   let test_module = require_test()
-  let mock_class = test_module.get("MockLanguageModelV3")
-  let opts = @js.Object::new()
+  let mock_class = test_module._get("MockLanguageModelV3")
+  let opts = @nostd.Object::new()
   if options.provider is Some(p) {
     opts.set("provider", p)
   }
@@ -152,7 +152,7 @@ pub fn mock_language_model(options : MockLanguageModelOptions) -> @js.Any {
 
 ///|
 /// Create a simple mock model that returns fixed text
-pub fn mock_model_with_text(text : String) -> @js.Any {
+pub fn mock_model_with_text(text : String) -> @nostd.Any {
   mock_language_model({
     provider: None,
     model_id: None,
@@ -170,7 +170,7 @@ pub fn mock_model_with_text(text : String) -> @js.Any {
 
 ///|
 /// Create a mock model with streaming support
-pub fn mock_model_with_stream(chunks : Array[@js.Any]) -> @js.Any {
+pub fn mock_model_with_stream(chunks : Array[@nostd.Any]) -> @nostd.Any {
   let stream = simulate_stream(chunks)
   mock_language_model({
     provider: None,
@@ -182,8 +182,8 @@ pub fn mock_model_with_stream(chunks : Array[@js.Any]) -> @js.Any {
 
 ///|
 /// Create text delta chunk for streaming
-pub fn text_delta_chunk(text : String) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn text_delta_chunk(text : String) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   obj.set("type", "text-delta")
   obj.set("textDelta", text)
   obj.as_any()
@@ -191,11 +191,11 @@ pub fn text_delta_chunk(text : String) -> @js.Any {
 
 ///|
 /// Create finish chunk for streaming
-pub fn finish_chunk(finish_reason : String, usage : MockUsage) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn finish_chunk(finish_reason : String, usage : MockUsage) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   obj.set("type", "finish")
   obj.set("finishReason", finish_reason)
-  let usage_obj = @js.Object::new()
+  let usage_obj = @nostd.Object::new()
   usage_obj.set("inputTokens", usage.input_tokens)
   usage_obj.set("outputTokens", usage.output_tokens)
   usage_obj.set("totalTokens", usage.total_tokens)
@@ -208,9 +208,9 @@ pub fn finish_chunk(finish_reason : String, usage : MockUsage) -> @js.Any {
 pub fn tool_call_chunk(
   tool_call_id : String,
   tool_name : String,
-  args : @js.Any,
-) -> @js.Any {
-  let obj = @js.Object::new()
+  args : @nostd.Any,
+) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   obj.set("type", "tool-call")
   obj.set("toolCallId", tool_call_id)
   obj.set("toolName", tool_name)

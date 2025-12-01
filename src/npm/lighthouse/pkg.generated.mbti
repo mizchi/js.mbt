@@ -11,15 +11,15 @@ let accessibility_only : Array[String]
 
 let all_categories : Array[String]
 
-fn desktop_config() -> @js.Any
+fn desktop_config() -> @nostd.Any
 
-fn mobile_config() -> @js.Any
+fn mobile_config() -> @nostd.Any
 
 let performance_only : Array[String]
 
-async fn run(String, page? : @puppeteer.Page, flags? : LighthouseFlags, config? : @js.Any) -> RunnerResult
+async fn run(String, page? : @puppeteer.Page, flags? : LighthouseFlags, config? : @nostd.Any) -> RunnerResult
 
-async fn run_with_port(String, Int, flags? : LighthouseFlags, config? : @js.Any) -> RunnerResult
+async fn run_with_port(String, Int, flags? : LighthouseFlags, config? : @nostd.Any) -> RunnerResult
 
 // Errors
 
@@ -61,20 +61,20 @@ pub(all) struct LighthouseFlags {
   onlyAudits : Array[String]?
   port : Int?
   formFactor : String?
-  screenEmulation : @js.Any?
-  throttling : @js.Any?
+  screenEmulation : @nostd.Any?
+  throttling : @nostd.Any?
   throttlingMethod : String?
-  extraHeaders : @js.Any?
+  extraHeaders : @nostd.Any?
   maxWaitForLoad : Int?
   disableStorageReset : Bool?
 }
-fn LighthouseFlags::new(logLevel? : String, output? : String, onlyCategories? : Array[String], skipAudits? : Array[String], onlyAudits? : Array[String], port? : Int, formFactor? : String, screenEmulation? : @js.Any, throttling? : @js.Any, throttlingMethod? : String, extraHeaders? : @js.Any, maxWaitForLoad? : Int, disableStorageReset? : Bool) -> Self
+fn LighthouseFlags::new(logLevel? : String, output? : String, onlyCategories? : Array[String], skipAudits? : Array[String], onlyAudits? : Array[String], port? : Int, formFactor? : String, screenEmulation? : @nostd.Any, throttling? : @nostd.Any, throttlingMethod? : String, extraHeaders? : @nostd.Any, maxWaitForLoad? : Int, disableStorageReset? : Bool) -> Self
 impl @js.JsImpl for LighthouseFlags
 
 #external
 pub type LighthouseResult
 fn LighthouseResult::audit(Self, String) -> Audit?
-fn LighthouseResult::audits(Self) -> @js.Any
+fn LighthouseResult::audits(Self) -> @nostd.Any
 fn LighthouseResult::categories(Self) -> Categories
 fn LighthouseResult::fetchTime(Self) -> String
 fn LighthouseResult::finalDisplayedUrl(Self) -> String
@@ -86,7 +86,7 @@ impl @js.JsImpl for LighthouseResult
 
 #external
 pub type RunnerResult
-fn RunnerResult::artifacts(Self) -> @js.Any
+fn RunnerResult::artifacts(Self) -> @nostd.Any
 fn RunnerResult::lhr(Self) -> LighthouseResult
 fn RunnerResult::report(Self) -> String
 impl @js.JsImpl for RunnerResult

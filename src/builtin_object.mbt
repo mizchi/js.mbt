@@ -28,7 +28,7 @@ extern "js" fn ffi_set_property(obj : Any, key : String, value : Any) -> Unit =
 /// Defines a new property directly on an object, or modifies an existing property
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
 pub fn Object::defineProperty(
-  obj : &JsImpl,
+  obj : @nostd.Any,
   prop : &PropertyKey,
   value? : Any,
   writable? : Bool,
@@ -56,19 +56,21 @@ pub fn Object::defineProperty(
   if set is Some(setter) {
     ffi_set_property(descriptor, "set", setter |> identity)
   }
-  object_class().call("defineProperty", [
-    obj.as_any(),
-    prop.to_key(),
-    descriptor,
+  @nostd.any(object_class())._call("defineProperty", [
+    obj,
+    @nostd.any(prop.to_key()),
+    @nostd.any(descriptor),
   ])
+  |> identity
 }
 
 ///|
 /// JS: Object.defineProperties(obj, props)
 /// Defines new or modifies existing properties directly on an object
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties
-pub fn Object::defineProperties(obj : &JsImpl, props : Any) -> Any {
-  object_class().call2("defineProperties", obj.as_any(), props)
+pub fn Object::defineProperties(obj : @nostd.Any, props : Any) -> Any {
+  @nostd.any(object_class())._call("defineProperties", [obj, @nostd.any(props)])
+  |> identity
 }
 
 ///|
@@ -76,45 +78,45 @@ pub fn Object::defineProperties(obj : &JsImpl, props : Any) -> Any {
 /// Returns a property descriptor for an own property
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor
 pub fn Object::getOwnPropertyDescriptor(
-  obj : &JsImpl,
+  obj : @nostd.Any,
   prop : &PropertyKey,
 ) -> PropertyDescriptor? {
-  let desc : Any = object_class().call2(
-    "getOwnPropertyDescriptor",
-    obj.as_any(),
-    prop.to_key(),
-  )
+  let desc : Any = @nostd.any(object_class())._call(
+      "getOwnPropertyDescriptor",
+      [obj, @nostd.any(prop.to_key())],
+    )
+    |> identity
   if is_nullish(desc) {
     None
   } else {
     Some({
-      value: if desc.hasOwnProperty("value") {
-        Some(desc.get("value"))
+      value: if ffi_has_own_property(desc, "value") {
+        Some(ffi_get(desc, "value"))
       } else {
         None
       },
-      writable: if desc.hasOwnProperty("writable") {
-        Some(desc.get("writable") |> identity)
+      writable: if ffi_has_own_property(desc, "writable") {
+        Some(ffi_get(desc, "writable") |> identity)
       } else {
         None
       },
-      enumerable: if desc.hasOwnProperty("enumerable") {
-        Some(desc.get("enumerable") |> identity)
+      enumerable: if ffi_has_own_property(desc, "enumerable") {
+        Some(ffi_get(desc, "enumerable") |> identity)
       } else {
         None
       },
-      configurable: if desc.hasOwnProperty("configurable") {
-        Some(desc.get("configurable") |> identity)
+      configurable: if ffi_has_own_property(desc, "configurable") {
+        Some(ffi_get(desc, "configurable") |> identity)
       } else {
         None
       },
-      get: if desc.hasOwnProperty("get") {
-        Some(desc.get("get") |> identity)
+      get: if ffi_has_own_property(desc, "get") {
+        Some(ffi_get(desc, "get") |> identity)
       } else {
         None
       },
-      set: if desc.hasOwnProperty("set") {
-        Some(desc.get("set") |> identity)
+      set: if ffi_has_own_property(desc, "set") {
+        Some(ffi_get(desc, "set") |> identity)
       } else {
         None
       },
@@ -126,36 +128,41 @@ pub fn Object::getOwnPropertyDescriptor(
 /// JS: Object.getOwnPropertyDescriptors(obj)
 /// Returns all own property descriptors of an object
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors
-pub fn Object::getOwnPropertyDescriptors(obj : &JsImpl) -> Any {
-  object_class().call1("getOwnPropertyDescriptors", obj.as_any())
+pub fn Object::getOwnPropertyDescriptors(obj : @nostd.Any) -> Any {
+  @nostd.any(object_class())._call("getOwnPropertyDescriptors", [obj])
+  |> identity
 }
 
 ///|
 /// JS: Object.getOwnPropertyNames(obj)
 /// Returns an array of all own property names (including non-enumerable)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
-pub fn Object::getOwnPropertyNames(obj : &JsImpl) -> Array[String] {
-  object_class().call1("getOwnPropertyNames", obj.as_any()) |> identity
+pub fn Object::getOwnPropertyNames(obj : @nostd.Any) -> Array[String] {
+  @nostd.any(object_class())._call("getOwnPropertyNames", [obj]) |> identity
 }
 
 ///|
 /// JS: Object.getOwnPropertySymbols(obj)
 /// Returns an array of all own symbol properties
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols
-pub fn Object::getOwnPropertySymbols(obj : &JsImpl) -> Array[Symbol] {
-  object_class().call1("getOwnPropertySymbols", obj.as_any()) |> identity
+pub fn Object::getOwnPropertySymbols(obj : @nostd.Any) -> Array[Symbol] {
+  @nostd.any(object_class())._call("getOwnPropertySymbols", [obj]) |> identity
 }
 
 ///|
 /// JS: Object.groupBy(items, callbackFn)
 /// Groups the elements of an iterable according to the string values returned by a callback function
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/groupBy
-pub fn[T : JsImpl] Object::groupBy(
+pub fn[T] Object::groupBy(
   items : Array[T],
   callback : (T, Int) -> String,
 ) -> Any {
   let js_callback : (Any, Int) -> String = fn(item, index) {
     callback(item |> identity, index)
   }
-  object_class().call2("groupBy", items |> from_array, from_fn2(js_callback))
+  @nostd.any(object_class())._call("groupBy", [
+    @nostd.any(items),
+    @nostd.any(from_fn2(js_callback)),
+  ])
+  |> identity
 }

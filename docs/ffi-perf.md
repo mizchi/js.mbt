@@ -101,7 +101,7 @@ impl JsImpl with call(self, key, args) -> Js {
 obj.call1("method", arg)
 
 // Avoid: Array map overhead
-obj.call("method", [arg])
+obj._call("method", [arg])
 ```
 
 **Impact:** ~2x faster for small argument counts

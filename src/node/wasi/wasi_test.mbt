@@ -75,7 +75,7 @@ test "get_import_object returns object" {
   let import_obj = wasi.getImportObject()
   inspect(@js.typeof_(import_obj) == "object", content="true")
   // Check that it has wasi_snapshot_preview1 key
-  let has_preview1 = @js.typeof_(import_obj.get("wasi_snapshot_preview1")) !=
+  let has_preview1 = @js.typeof_(import_obj._get("wasi_snapshot_preview1")) !=
     "undefined"
   inspect(has_preview1, content="true")
 }

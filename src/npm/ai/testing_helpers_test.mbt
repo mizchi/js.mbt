@@ -54,7 +54,7 @@ test "MockValues reset resets counter" {
 test "require_test loads ai/test module" {
   let test_module = require_test()
   // Check that MockLanguageModelV3 exists
-  let mock_class = test_module.get("MockLanguageModelV3")
+  let mock_class = test_module._get("MockLanguageModelV3")
   assert_false(@js.is_undefined(mock_class))
 }
 

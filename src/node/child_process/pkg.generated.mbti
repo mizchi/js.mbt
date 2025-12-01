@@ -43,10 +43,10 @@ fn ChildProcess::on_close(Self, (Int?, String?) -> Unit) -> Unit
 fn ChildProcess::on_disconnect(Self, () -> Unit) -> Unit
 fn ChildProcess::on_error(Self, (@js.JsError) -> Unit) -> Unit
 fn ChildProcess::on_exit(Self, (Int?, String?) -> Unit) -> Unit
-fn ChildProcess::on_message(Self, (@js.Any, @js.Any?) -> Unit) -> Unit
+fn ChildProcess::on_message(Self, (@nostd.Any, @nostd.Any?) -> Unit) -> Unit
 fn ChildProcess::on_spawn(Self, () -> Unit) -> Unit
 fn ChildProcess::on_stderr_data(Self, (@nostd.Any) -> Unit) -> Unit
-fn ChildProcess::on_stdout_data(Self, (@js.Any) -> Unit) -> Unit
+fn ChildProcess::on_stdout_data(Self, (@nostd.Any) -> Unit) -> Unit
 fn ChildProcess::pid(Self) -> Int
 fn ChildProcess::ref_(Self) -> Unit
 fn ChildProcess::send(Self, @nostd.Any) -> Bool

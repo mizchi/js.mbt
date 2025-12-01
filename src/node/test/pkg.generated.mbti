@@ -26,7 +26,7 @@ fn beforeEach(async () -> Unit, timeout? : Int) -> Unit
 
 fn describe(String, skip? : Bool, todo? : Bool, only? : Bool, timeout? : Int, async (SuiteContext) -> Unit) -> Unit
 
-fn get_mock_context(@js.Any) -> MockFunctionContext
+fn get_mock_context(@nostd.Any) -> MockFunctionContext
 
 fn it(String, skip? : String, todo? : String, only? : Bool, timeout? : Int, async (TestContext) -> Unit) -> Unit
 
@@ -49,9 +49,9 @@ fn test_(String, skip? : Bool, todo? : Bool, only? : Bool, timeout? : Int, async
 pub type MockFunctionContext
 fn MockFunctionContext::as_any(Self) -> @nostd.Any
 fn MockFunctionContext::callCount(Self) -> Int
-fn MockFunctionContext::calls(Self) -> Array[@js.Any]
-fn MockFunctionContext::mockImplementation(Self, @js.Any) -> Unit
-fn MockFunctionContext::mockImplementationOnce(Self, @js.Any, onCall? : Int) -> Unit
+fn MockFunctionContext::calls(Self) -> Array[@nostd.Any]
+fn MockFunctionContext::mockImplementation(Self, @nostd.Any) -> Unit
+fn MockFunctionContext::mockImplementationOnce(Self, @nostd.Any, onCall? : Int) -> Unit
 fn MockFunctionContext::resetCalls(Self) -> Unit
 fn MockFunctionContext::restore(Self) -> Unit
 
@@ -67,14 +67,14 @@ fn MockTimers::tick(Self, Int) -> Unit
 #external
 pub type MockTracker
 fn MockTracker::as_any(Self) -> @nostd.Any
-fn MockTracker::fn_(Self, original? : @js.Any, implementation? : @js.Any) -> @js.Any
-fn MockTracker::getter_(Self, @js.Any, String, implementation? : @js.Any) -> @js.Any
-fn MockTracker::method_(Self, @js.Any, String, implementation? : @js.Any) -> @js.Any
-fn MockTracker::module_(Self, String, defaultExport? : @js.Any, namedExports? : @js.Any) -> Unit
-fn MockTracker::property_(Self, @js.Any, String, value? : @js.Any) -> @js.Any
+fn MockTracker::fn_(Self, original? : @nostd.Any, implementation? : @nostd.Any) -> @nostd.Any
+fn MockTracker::getter_(Self, @nostd.Any, String, implementation? : @nostd.Any) -> @nostd.Any
+fn MockTracker::method_(Self, @nostd.Any, String, implementation? : @nostd.Any) -> @nostd.Any
+fn MockTracker::module_(Self, String, defaultExport? : @nostd.Any, namedExports? : @nostd.Any) -> Unit
+fn MockTracker::property_(Self, @nostd.Any, String, value? : @nostd.Any) -> @nostd.Any
 fn MockTracker::reset(Self) -> Unit
 fn MockTracker::restoreAll(Self) -> Unit
-fn MockTracker::setter_(Self, @js.Any, String, implementation? : @js.Any) -> @js.Any
+fn MockTracker::setter_(Self, @nostd.Any, String, implementation? : @nostd.Any) -> @nostd.Any
 
 #external
 pub type SuiteContext
@@ -85,17 +85,17 @@ pub type TestContext
 fn TestContext::as_any(Self) -> @nostd.Any
 fn[T : @js.JsImpl] TestContext::assert_deep_strict_equal(Self, T, T, message? : String) -> Unit
 fn TestContext::assert_does_not_match(Self, String, @regexp.RegExp, message? : String) -> Unit
-fn TestContext::assert_does_not_reject(Self, async () -> Unit, error? : @js.Any, message? : String) -> Unit
-fn TestContext::assert_does_not_throw(Self, () -> Unit, error? : @js.Any, message? : String) -> Unit
+fn TestContext::assert_does_not_reject(Self, async () -> Unit, error? : @nostd.Any, message? : String) -> Unit
+fn TestContext::assert_does_not_throw(Self, () -> Unit, error? : @nostd.Any, message? : String) -> Unit
 fn TestContext::assert_fileSnapshot(Self, @nostd.Any, String, message? : String) -> Unit
 fn TestContext::assert_match(Self, String, @regexp.RegExp, message? : String) -> Unit
 fn[T : @js.JsImpl] TestContext::assert_not_deep_strict_equal(Self, T, T, message? : String) -> Unit
 fn[T : @js.JsImpl] TestContext::assert_not_strict_equal(Self, T, T, message? : String) -> Unit
 fn TestContext::assert_ok(Self, Bool, message? : String) -> Unit
-fn TestContext::assert_rejects(Self, async () -> Unit, error? : @js.Any, message? : String) -> Unit
+fn TestContext::assert_rejects(Self, async () -> Unit, error? : @nostd.Any, message? : String) -> Unit
 fn TestContext::assert_snapshot(Self, @nostd.Any, message? : String) -> Unit
 fn[T : @js.JsImpl] TestContext::assert_strict_equal(Self, T, T, message? : String) -> Unit
-fn TestContext::assert_throws(Self, () -> Unit, error? : @js.Any, message? : String) -> Unit
+fn TestContext::assert_throws(Self, () -> Unit, error? : @nostd.Any, message? : String) -> Unit
 fn TestContext::diagnostic(Self, String) -> Unit
 fn TestContext::plan(Self, Int) -> Unit
 fn TestContext::runOnly(Self, Bool) -> Unit

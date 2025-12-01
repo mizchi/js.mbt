@@ -2,7 +2,7 @@
 
 ///|
 /// Setup fake-indexeddb for Node.js testing environment
-extern "js" fn ffi_require_fake_indexeddb() -> @js.Any =
+extern "js" fn ffi_require_fake_indexeddb() -> @nostd.Any =
   #|() => { require("fake-indexeddb/auto"); return globalThis.indexedDB; }
 
 ///|
@@ -18,14 +18,14 @@ fn init_fake_indexeddb() -> Unit {
 /// Helper to promisify IDBRequest
 fn[T] request_to_promise(
   request : @indexeddb.IDBRequest[T],
-) -> @js.Promise[@js.Any] {
+) -> @js.Promise[@nostd.Any] {
   let resolvers = @js.Promise::withResolvers()
   request.addEventListener("success", fn(event) {
-    resolvers.resolve(event.get("target").get("result"))
+    resolvers.resolve(event._get("target")._get("result"))
   })
   request.addEventListener("error", fn(event) {
     let error_msg = @js.identity(
-      event.get("target").get("error").call0("toString"),
+      event._get("target")._get("error").call0("toString"),
     )
     resolvers.reject(Failure(error_msg))
   })
@@ -36,8 +36,8 @@ fn[T] request_to_promise(
 /// Helper to promisify IDBOpenDBRequest
 fn open_request_to_promise(
   request : @indexeddb.IDBOpenDBRequest,
-  onupgradeneeded? : (@js.Any) -> Unit,
-) -> @js.Promise[@js.Any] {
+  onupgradeneeded? : (@nostd.Any) -> Unit,
+) -> @js.Promise[@nostd.Any] {
   let resolvers = @js.Promise::withResolvers()
 
   // Handle upgrade if needed
@@ -46,11 +46,11 @@ fn open_request_to_promise(
     None => ()
   }
   request.addEventListener("success", fn(event) {
-    resolvers.resolve(event.get("target").get("result"))
+    resolvers.resolve(event._get("target")._get("result"))
   })
   request.addEventListener("error", fn(event) {
     let error_msg = @js.identity(
-      event.get("target").get("error").call0("toString"),
+      event._get("target")._get("error").call0("toString"),
     )
     resolvers.reject(Failure(error_msg))
   })
@@ -65,7 +65,7 @@ async test "IndexedDB: open and close database" {
   let request = @indexeddb.open("test-open-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("store1", keyPath="id") |> ignore
   })
@@ -84,7 +84,7 @@ async test "IndexedDB: add and get item" {
   let request = @indexeddb.open("test-add-get-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("items", keyPath="id") |> ignore
   })
@@ -94,7 +94,7 @@ async test "IndexedDB: add and get item" {
   // Add an item
   let tx = db.transaction(["items"], mode="readwrite")
   let store = tx.objectStore("items")
-  let item : @js.Any = @mbtconv.from_map({
+  let item : @nostd.Any = @mbtconv.from_map({
     "id": @nostd.any(1),
     "name": @nostd.any("Test"),
   }).cast()
@@ -102,9 +102,9 @@ async test "IndexedDB: add and get item" {
   let _ = request_to_promise(add_request).wait()
 
   // Get the item
-  let get_request = store.get(@nostd.any(1))
+  let get_request = store._get(@nostd.any(1))
   let result = request_to_promise(get_request).wait()
-  assert_eq(@js.identity(result.get("name")), "Test")
+  assert_eq(@js.identity(result._get("name")), "Test")
   db.close()
   @indexeddb.deleteDatabase("test-add-get-db") |> ignore
 }
@@ -114,7 +114,7 @@ async test "IndexedDB: put updates existing item" {
   let request = @indexeddb.open("test-put-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("records", keyPath="id") |> ignore
   })
@@ -124,22 +124,22 @@ async test "IndexedDB: put updates existing item" {
   let store = tx.objectStore("records")
 
   // Add initial item
-  let item1 : @js.Any = @mbtconv.from_map({
+  let item1 : @nostd.Any = @mbtconv.from_map({
     "id": @nostd.any(1),
     "value": @nostd.any("initial"),
   }).cast()
   request_to_promise(store.add(item1)).wait() |> ignore
 
   // Update with put
-  let item2 : @js.Any = @mbtconv.from_map({
+  let item2 : @nostd.Any = @mbtconv.from_map({
     "id": @nostd.any(1),
     "value": @nostd.any("updated"),
   }).cast()
   request_to_promise(store.put(item2)).wait() |> ignore
 
   // Get and verify
-  let result = request_to_promise(store.get(@nostd.any(1))).wait()
-  assert_eq(@js.identity(result.get("value")), "updated")
+  let result = request_to_promise(store._get(@nostd.any(1))).wait()
+  assert_eq(@js.identity(result._get("value")), "updated")
   db.close()
   @indexeddb.deleteDatabase("test-put-db") |> ignore
 }
@@ -149,7 +149,7 @@ async test "IndexedDB: delete removes item" {
   let request = @indexeddb.open("test-delete-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("todos", keyPath="id") |> ignore
   })
@@ -159,7 +159,7 @@ async test "IndexedDB: delete removes item" {
   let store = tx.objectStore("todos")
 
   // Add item
-  let item : @js.Any = @mbtconv.from_map({
+  let item : @nostd.Any = @mbtconv.from_map({
     "id": @nostd.any(1),
     "task": @nostd.any("Do it"),
   }).cast()
@@ -169,7 +169,7 @@ async test "IndexedDB: delete removes item" {
   request_to_promise(store.delete(@nostd.any(1))).wait() |> ignore
 
   // Verify deletion
-  let result = request_to_promise(store.get(@nostd.any(1))).wait()
+  let result = request_to_promise(store._get(@nostd.any(1))).wait()
   assert_true(@js.is_undefined(result))
   db.close()
   @indexeddb.deleteDatabase("test-delete-db") |> ignore
@@ -180,7 +180,7 @@ async test "IndexedDB: clear removes all items" {
   let request = @indexeddb.open("test-clear-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("data", keyPath="id") |> ignore
   })
@@ -190,12 +190,12 @@ async test "IndexedDB: clear removes all items" {
   let store = tx.objectStore("data")
 
   // Add multiple items
-  let item1 : @js.Any = @mbtconv.from_map({
+  let item1 : @nostd.Any = @mbtconv.from_map({
     "id": @nostd.any(1),
     "v": @nostd.any("a"),
   }).cast()
   request_to_promise(store.add(item1)).wait() |> ignore
-  let item2 : @js.Any = @mbtconv.from_map({
+  let item2 : @nostd.Any = @mbtconv.from_map({
     "id": @nostd.any(2),
     "v": @nostd.any("b"),
   }).cast()
@@ -216,7 +216,7 @@ async test "IndexedDB: getAll returns all items" {
   let request = @indexeddb.open("test-getall-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("entries", keyPath="id") |> ignore
   })
@@ -226,17 +226,17 @@ async test "IndexedDB: getAll returns all items" {
   let store = tx.objectStore("entries")
 
   // Add items
-  let alice : @js.Any = @mbtconv.from_map({
+  let alice : @nostd.Any = @mbtconv.from_map({
     "id": @nostd.any(1),
     "name": @nostd.any("Alice"),
   }).cast()
   request_to_promise(store.add(alice)).wait() |> ignore
-  let bob : @js.Any = @mbtconv.from_map({
+  let bob : @nostd.Any = @mbtconv.from_map({
     "id": @nostd.any(2),
     "name": @nostd.any("Bob"),
   }).cast()
   request_to_promise(store.add(bob)).wait() |> ignore
-  let charlie : @js.Any = @mbtconv.from_map({
+  let charlie : @nostd.Any = @mbtconv.from_map({
     "id": @nostd.any(3),
     "name": @nostd.any("Charlie"),
   }).cast()
@@ -244,7 +244,7 @@ async test "IndexedDB: getAll returns all items" {
 
   // Get all
   let results = request_to_promise(store.getAll()).wait()
-  let len : Int = @js.identity(results.get("length"))
+  let len : Int = @js.identity(results._get("length"))
   assert_eq(len, 3)
   db.close()
   @indexeddb.deleteDatabase("test-getall-db") |> ignore
@@ -255,7 +255,7 @@ async test "IndexedDB: count returns correct number" {
   let request = @indexeddb.open("test-count-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("counters", keyPath="id") |> ignore
   })
@@ -265,11 +265,11 @@ async test "IndexedDB: count returns correct number" {
   let store = tx.objectStore("counters")
 
   // Add items
-  let i1 : @js.Any = @nostd.from_entries([("id", @nostd.any(1))]).cast()
+  let i1 : @nostd.Any = @nostd.from_entries([("id", @nostd.any(1))]).cast()
   request_to_promise(store.add(i1)).wait() |> ignore
-  let i2 : @js.Any = @nostd.from_entries([("id", @nostd.any(2))]).cast()
+  let i2 : @nostd.Any = @nostd.from_entries([("id", @nostd.any(2))]).cast()
   request_to_promise(store.add(i2)).wait() |> ignore
-  let i3 : @js.Any = @nostd.from_entries([("id", @nostd.any(3))]).cast()
+  let i3 : @nostd.Any = @nostd.from_entries([("id", @nostd.any(3))]).cast()
   request_to_promise(store.add(i3)).wait() |> ignore
 
   // Count
@@ -284,7 +284,7 @@ async test "IndexedDB: transaction modes work correctly" {
   let request = @indexeddb.open("test-tx-mode-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("txtest", keyPath="id") |> ignore
   })
@@ -309,7 +309,7 @@ async test "IndexedDB: IDBKeyRange operations" {
   let request = @indexeddb.open("test-keyrange-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("numbers", keyPath="id") |> ignore
   })
@@ -320,7 +320,7 @@ async test "IndexedDB: IDBKeyRange operations" {
 
   // Add numbers 1-10
   for i = 1; i <= 10; i = i + 1 {
-    let item : @js.Any = @nostd.from_entries([("id", @nostd.any(i))]).cast()
+    let item : @nostd.Any = @nostd.from_entries([("id", @nostd.any(i))]).cast()
     request_to_promise(store.add(item)).wait() |> ignore
   }
 
@@ -332,7 +332,7 @@ async test "IndexedDB: IDBKeyRange operations" {
     upperOpen=false,
   )
   let results = request_to_promise(store.getAll(query=range.as_any())).wait()
-  let len : Int = @js.identity(results.get("length"))
+  let len : Int = @js.identity(results._get("length"))
   assert_eq(len, 5) // 3, 4, 5, 6, 7
   db.close()
   @indexeddb.deleteDatabase("test-keyrange-db") |> ignore
@@ -383,7 +383,7 @@ async test "IndexedDB: store and retrieve User struct with full type safety" {
   let request = @indexeddb.open("typed-user-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("users", keyPath="id") |> ignore
   })
@@ -408,7 +408,7 @@ async test "IndexedDB: store and retrieve User struct with full type safety" {
   request_to_promise(add_request).wait() |> ignore
 
   // Get with type parameter User: @indexeddb.IDBRequest[User]
-  let get_request : @indexeddb.IDBRequest[User] = store.get(@nostd.any(1))
+  let get_request : @indexeddb.IDBRequest[User] = store._get(@nostd.any(1))
   let result = request_to_promise(get_request).wait()
 
   // result is User type - direct cast, no from_js() needed
@@ -428,7 +428,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
   let request = @indexeddb.open("typed-product-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     let store = db.createObjectStore("products", keyPath="sku")
     store.createIndex("category", "category", unique=false) |> ignore
@@ -462,7 +462,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
   request_to_promise(store.add(mouse)).wait() |> ignore
 
   // Get with IDBRequest[Product]
-  let laptop_request : @indexeddb.IDBRequest[Product] = store.get(
+  let laptop_request : @indexeddb.IDBRequest[Product] = store._get(
     @nostd.any("LAPTOP-001"),
   )
   let laptop_result = request_to_promise(laptop_request).wait()
@@ -482,11 +482,11 @@ async test "IndexedDB: manage products with Product struct type safety" {
   let electronics_array = request_to_promise(electronics_request).wait()
 
   // Array operations with Js
-  let length : Int = @js.identity(electronics_array.get("length"))
+  let length : Int = @js.identity(electronics_array._get("length"))
   assert_eq(length, 2)
 
   // Access first product with direct cast
-  let first_product_js : @js.Any = electronics_array.call1("at", 0)
+  let first_product_js : @nostd.Any = electronics_array.call1("at", 0)
   let first_product : Product = first_product_js |> @js.identity
   assert_eq(first_product.category, "electronics")
   db.close()
@@ -498,7 +498,7 @@ async test "IndexedDB: iterate orders with IDBCursorWithValue and Order struct" 
   let request = @indexeddb.open("typed-orders-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
     let db : @indexeddb.IDBDatabase = @js.identity(
-      event.get("target").get("result"),
+      event._get("target")._get("result"),
     )
     db.createObjectStore("orders", keyPath="order_id") |> ignore
   })

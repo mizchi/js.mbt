@@ -17,7 +17,7 @@ fn webkit() -> BrowserType
 // Types and methods
 #external
 pub type Browser
-fn Browser::as_any(Self) -> @js.Any
+fn Browser::as_any(Self) -> @nostd.Any
 async fn Browser::close(Self) -> Unit
 fn Browser::close_with_error_callback(Self, (Error) -> Unit) -> Unit
 fn Browser::contexts(Self) -> Array[BrowserContext]
@@ -28,13 +28,13 @@ fn Browser::version(Self) -> String
 
 #external
 pub type BrowserContext
-async fn BrowserContext::addCookies(Self, @js.Any) -> Unit
-fn BrowserContext::as_any(Self) -> @js.Any
+async fn BrowserContext::addCookies(Self, @nostd.Any) -> Unit
+fn BrowserContext::as_any(Self) -> @nostd.Any
 async fn BrowserContext::clearCookies(Self) -> Unit
 async fn BrowserContext::clearPermissions(Self) -> Unit
 async fn BrowserContext::close(Self) -> Unit
 fn BrowserContext::close_with_error_callback(Self, (Error) -> Unit) -> Unit
-async fn BrowserContext::cookies(Self, urls? : Array[String]) -> @js.Any
+async fn BrowserContext::cookies(Self, urls? : Array[String]) -> @nostd.Any
 async fn BrowserContext::grantPermissions(Self, Array[String], origin? : String) -> Unit
 async fn BrowserContext::newPage(Self) -> Page
 fn BrowserContext::pages(Self) -> Array[Page]
@@ -45,14 +45,14 @@ async fn BrowserContext::setOffline(Self, Bool) -> Unit
 
 #external
 pub type BrowserType
-fn BrowserType::as_any(Self) -> @js.Any
+fn BrowserType::as_any(Self) -> @nostd.Any
 async fn BrowserType::launch(Self, headless? : Bool, args? : Array[String], channel? : String, chromiumSandbox? : Bool, devtools? : Bool, downloadsPath? : String, executablePath? : String, handleSIGHUP? : Bool, handleSIGINT? : Bool, handleSIGTERM? : Bool, slowMo? : Int, timeout? : Int) -> Browser
 async fn BrowserType::launchPersistentContext(Self, String, headless? : Bool, args? : Array[String], channel? : String, slowMo? : Int, timeout? : Int) -> BrowserContext
 fn BrowserType::name(Self) -> String
 
 #external
 pub type Frame
-fn Frame::as_any(Self) -> @js.Any
+fn Frame::as_any(Self) -> @nostd.Any
 fn Frame::childFrames(Self) -> Array[Self]
 async fn Frame::content(Self) -> String
 async fn Frame::goto(Self, String, timeout? : Int, waitUntil? : String) -> Response?
@@ -67,16 +67,16 @@ fn Frame::url(Self) -> String
 pub type Locator
 async fn Locator::allInnerTexts(Self) -> Array[String]
 async fn Locator::allTextContents(Self) -> Array[String]
-fn Locator::as_any(Self) -> @js.Any
+fn Locator::as_any(Self) -> @nostd.Any
 async fn Locator::blur(Self, timeout? : Int) -> Unit
-async fn Locator::boundingBox(Self, timeout? : Int) -> @js.Any
+async fn Locator::boundingBox(Self, timeout? : Int) -> @nostd.Any
 async fn Locator::check(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Locator::clear(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Locator::click(Self, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
 async fn Locator::count(Self) -> Int
 async fn Locator::dblclick(Self, timeout? : Int, force? : Bool) -> Unit
-async fn Locator::evaluate(Self, String, arg? : @js.Any, timeout? : Int) -> @js.Any
-async fn Locator::evaluateAll(Self, String, arg? : @js.Any) -> @js.Any
+async fn Locator::evaluate(Self, String, arg? : @nostd.Any, timeout? : Int) -> @nostd.Any
+async fn Locator::evaluateAll(Self, String, arg? : @nostd.Any) -> @nostd.Any
 async fn Locator::fill(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 fn Locator::filter(Self, has? : Self, hasNot? : Self, hasText? : String, hasNotText? : String) -> Self
 fn Locator::first(Self) -> Self
@@ -101,9 +101,9 @@ fn Locator::last(Self) -> Self
 fn Locator::locator(Self, String) -> Self
 fn Locator::nth(Self, Int) -> Self
 async fn Locator::press(Self, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Locator::screenshot(Self, path? : String, type_? : String, quality? : Int, omitBackground? : Bool, timeout? : Int, scale? : String) -> @js.Any
+async fn Locator::screenshot(Self, path? : String, type_? : String, quality? : Int, omitBackground? : Bool, timeout? : Int, scale? : String) -> @nostd.Any
 async fn Locator::scrollIntoViewIfNeeded(Self, timeout? : Int) -> Unit
-async fn Locator::selectOption(Self, @js.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
+async fn Locator::selectOption(Self, @nostd.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
 async fn Locator::setChecked(Self, Bool, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Locator::textContent(Self, timeout? : Int) -> String?
 async fn Locator::type_(Self, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
@@ -112,9 +112,9 @@ async fn Locator::waitFor(Self, state? : String, timeout? : Int) -> Unit
 
 #external
 pub type Page
-async fn Page::addScriptTag(Self, url? : String, path? : String, content? : String, type_? : String) -> @js.Any
-async fn Page::addStyleTag(Self, url? : String, path? : String, content? : String) -> @js.Any
-fn Page::as_any(Self) -> @js.Any
+async fn Page::addScriptTag(Self, url? : String, path? : String, content? : String, type_? : String) -> @nostd.Any
+async fn Page::addStyleTag(Self, url? : String, path? : String, content? : String) -> @nostd.Any
+fn Page::as_any(Self) -> @nostd.Any
 async fn Page::bringToFront(Self) -> Unit
 async fn Page::check(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Page::click(Self, String, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
@@ -122,9 +122,9 @@ async fn Page::close(Self, runBeforeUnload? : Bool) -> Unit
 fn Page::close_with_error_callback(Self, (Error) -> Unit) -> Unit
 async fn Page::content(Self) -> String
 async fn Page::dblclick(Self, String, timeout? : Int, force? : Bool) -> Unit
-async fn Page::evaluate(Self, String, arg? : @js.Any) -> @js.Any
-async fn Page::evaluateHandle(Self, String, arg? : @js.Any) -> @js.Any
-async fn Page::exposeFunction(Self, String, @js.Any) -> Unit
+async fn Page::evaluate(Self, String, arg? : @nostd.Any) -> @nostd.Any
+async fn Page::evaluateHandle(Self, String, arg? : @nostd.Any) -> @nostd.Any
+async fn Page::exposeFunction(Self, String, @nostd.Any) -> Unit
 async fn Page::fill(Self, String, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Page::focus(Self, String, timeout? : Int) -> Unit
 fn Page::getByAltText(Self, String, exact? : Bool) -> Locator
@@ -140,51 +140,51 @@ async fn Page::goto(Self, String, timeout? : Int, waitUntil? : String, referer? 
 async fn Page::hover(Self, String, force? : Bool, modifiers? : Array[String], position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
 fn Page::isClosed(Self) -> Bool
 fn Page::locator(Self, String) -> Locator
-async fn Page::pdf(Self, path? : String, scale? : Double, displayHeaderFooter? : Bool, headerTemplate? : String, footerTemplate? : String, printBackground? : Bool, landscape? : Bool, pageRanges? : String, format? : String, width? : String, height? : String, margin? : @js.Any, preferCSSPageSize? : Bool) -> @js.Any
+async fn Page::pdf(Self, path? : String, scale? : Double, displayHeaderFooter? : Bool, headerTemplate? : String, footerTemplate? : String, printBackground? : Bool, landscape? : Bool, pageRanges? : String, format? : String, width? : String, height? : String, margin? : @nostd.Any, preferCSSPageSize? : Bool) -> @nostd.Any
 async fn Page::press(Self, String, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Page::reload(Self, timeout? : Int, waitUntil? : String) -> Response?
-async fn Page::screenshot(Self, path? : String, type_? : String, quality? : Int, fullPage? : Bool, clip? : @js.Any, omitBackground? : Bool, timeout? : Int, scale? : String) -> @js.Any
-async fn Page::selectOption(Self, String, @js.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
+async fn Page::screenshot(Self, path? : String, type_? : String, quality? : Int, fullPage? : Bool, clip? : @nostd.Any, omitBackground? : Bool, timeout? : Int, scale? : String) -> @nostd.Any
+async fn Page::selectOption(Self, String, @nostd.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
 async fn Page::setContent(Self, String, timeout? : Int, waitUntil? : String) -> Unit
 fn Page::setDefaultNavigationTimeout(Self, Int) -> Unit
 fn Page::setDefaultTimeout(Self, Int) -> Unit
-async fn Page::setExtraHTTPHeaders(Self, @js.Any) -> Unit
+async fn Page::setExtraHTTPHeaders(Self, @nostd.Any) -> Unit
 async fn Page::setViewportSize(Self, Int, Int) -> Unit
 async fn Page::title(Self) -> String
 async fn Page::type_(Self, String, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
 async fn Page::uncheck(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
 fn Page::url(Self) -> String
 fn Page::viewportSize(Self) -> (Int, Int)?
-async fn Page::waitForFunction(Self, String, arg? : @js.Any, polling? : Int, timeout? : Int) -> @js.Any
+async fn Page::waitForFunction(Self, String, arg? : @nostd.Any, polling? : Int, timeout? : Int) -> @nostd.Any
 async fn Page::waitForLoadState(Self, state? : String, timeout? : Int) -> Unit
 async fn Page::waitForNavigation(Self, timeout? : Int, url? : String, waitUntil? : String) -> Response?
-async fn Page::waitForSelector(Self, String, state? : String, timeout? : Int, strict? : Bool) -> @js.Any
+async fn Page::waitForSelector(Self, String, state? : String, timeout? : Int, strict? : Bool) -> @nostd.Any
 async fn Page::waitForTimeout(Self, Int) -> Unit
 async fn Page::waitForURL(Self, String, timeout? : Int, waitUntil? : String) -> Unit
 
 #external
 pub type Request
-async fn Request::allHeaders(Self) -> @js.Any
-fn Request::as_any(Self) -> @js.Any
-fn Request::headers(Self) -> @js.Any
+async fn Request::allHeaders(Self) -> @nostd.Any
+fn Request::as_any(Self) -> @nostd.Any
+fn Request::headers(Self) -> @nostd.Any
 fn Request::isNavigationRequest(Self) -> Bool
 fn Request::method_(Self) -> String
 fn Request::postData(Self) -> String?
-fn Request::postDataJSON(Self) -> @js.Any
+fn Request::postDataJSON(Self) -> @nostd.Any
 fn Request::resourceType(Self) -> String
 async fn Request::response(Self) -> Response?
 fn Request::url(Self) -> String
 
 #external
 pub type Response
-async fn Response::allHeaders(Self) -> @js.Any
-fn Response::as_any(Self) -> @js.Any
-async fn Response::body(Self) -> @js.Any
+async fn Response::allHeaders(Self) -> @nostd.Any
+fn Response::as_any(Self) -> @nostd.Any
+async fn Response::body(Self) -> @nostd.Any
 fn Response::frame(Self) -> Frame
 fn Response::fromCache(Self) -> Bool
 fn Response::fromServiceWorker(Self) -> Bool
-fn Response::headers(Self) -> @js.Any
-async fn Response::json(Self) -> @js.Any
+fn Response::headers(Self) -> @nostd.Any
+async fn Response::json(Self) -> @nostd.Any
 fn Response::ok(Self) -> Bool
 fn Response::request(Self) -> Request
 fn Response::status(Self) -> Int

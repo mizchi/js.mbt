@@ -35,7 +35,7 @@ fn main {
   // Work with query parameters
   let params = url.search_params()
   params.set("key", "value")
-  let value = params.get("key")
+  let value = params._get("key")
   
   // Create URLSearchParams directly
   let search_params = @url.URLSearchParams::new()

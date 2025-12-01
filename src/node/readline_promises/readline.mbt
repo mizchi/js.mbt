@@ -1,5 +1,5 @@
 ///|
-extern "js" fn readline_promises_module() -> @js.Any =
+extern "js" fn readline_promises_module() -> @nostd.Any =
   #| () => require("node:readline/promises")
 
 ///|
@@ -44,13 +44,13 @@ pub fn createInterface(
     "signal": signal.map(fn(x) { @nostd.identity(x) }),
   }).cast()
   @js.identity(
-    readline_promises_module().get("createInterface").call_self([opts]),
+    readline_promises_module()._get("createInterface").call_self([opts]),
   )
 }
 
 ///|
 pub async fn Interface::question(self : Self, query : String) -> String {
-  let promise : @js.Promise[String] = self.call("question", [query]).cast()
+  let promise : @js.Promise[String] = self._call("question", [query]).cast()
   promise.wait()
 }
 
@@ -82,21 +82,21 @@ pub async fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Unit {
 ///|
 #alias(clear_line)
 pub fn Interface::clearLine(self : Self, dir : Int) -> Self {
-  self.call("clearLine", [dir]).cast()
+  self._call("clearLine", [dir]).cast()
 }
 
 ///|
 #alias(clear_screen_down)
 pub fn Interface::clearScreenDown(self : Self, dir : Int) -> Self {
-  self.call("clearScreenDown", [dir]).cast()
+  self._call("clearScreenDown", [dir]).cast()
 }
 
 ///|
 /// TODO: impl after async test support
 // test "readline promises interface" {
 //   let rl = create_interface(
-//     input=identity(@node.require("node:process").get("stdin")),
-//     output=identity(@node.require("node:process").get("stdout")),
+//     input=identity(@node.require("node:process")._get("stdin")),
+//     output=identity(@node.require("node:process")._get("stdout")),
 //   )
 //   // let x = rl.question("What is your name? ")
 // }

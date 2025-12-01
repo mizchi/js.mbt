@@ -9,15 +9,15 @@ import(
 )
 
 // Values
-fn build_matcher_options(exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @js.Any?
+fn build_matcher_options(exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @nostd.Any?
 
-fn build_role_options(name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> @js.Any?
+fn build_role_options(name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> @nostd.Any?
 
-fn build_selector_matcher_options(exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @js.Any?
+fn build_selector_matcher_options(exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @nostd.Any?
 
-fn[T : @js.JsImpl] set_opt(@js.Any, String, T?) -> Bool
+fn[T : @js.JsImpl] set_opt(@nostd.Any, String, T?) -> Bool
 
-fn to_options(@js.Any, Bool) -> @js.Any?
+fn to_options(@nostd.Any, Bool) -> @nostd.Any?
 
 // Errors
 
@@ -171,7 +171,7 @@ fn ScreenResult::as_element(Self) -> @dom.HTMLElement
 
 // Traits
 pub trait TextMatch {
-  as_any(Self) -> @js.Any
+  as_any(Self) -> @nostd.Any
 }
 impl TextMatch for String
 impl TextMatch for @regexp.RegExp

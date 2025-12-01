@@ -39,7 +39,7 @@ fn main {
 
 ```moonbit
 fn main {
-  let handlers = @js.Object::new()
+  let handlers = @nostd.Object::new()
   handlers["onopentag"] = @js.from_fn1(fn(name : String) {
     println("Opening: " + name)
   })

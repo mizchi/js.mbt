@@ -15,7 +15,7 @@ Practical, executable examples of JavaScript FFI patterns using `mizchi/js`.
 
 | Type | Handles | Use Case |
 |------|---------|----------|
-| `@js.Any` | Any JS value | TypeScript `any` equivalent |
+| `@nostd.Any` | Any JS value | TypeScript `any` equivalent |
 | `@nostd.Any` | Any JS value (lightweight) | Low overhead JS interop |
 | `@js.Nullable[T]` | `T \| null` | API returns explicit null |
 | `@js.Nullish[T]` | `T \| null \| undefined` | Optional/missing fields |
@@ -101,8 +101,8 @@ Use `Nullable[T]` or `Nullish[T]` for struct fields:
 // Nullable[T] for fields that can be null
 pub(all) struct FileReader {
   readyState : Int
-  result : @js.Nullable[@js.Any]
-  error : @js.Nullable[@js.Any]
+  result : @js.Nullable[@nostd.Any]
+  error : @js.Nullable[@nostd.Any]
 }
 
 // Nullish[T] for fields that can be null or undefined
@@ -190,11 +190,11 @@ Benefits:
 
 ### Return Concrete Types
 
-Return specific types instead of `@js.Any` when possible:
+Return specific types instead of `@nostd.Any` when possible:
 
 ```
 // Avoid
-fn Document::getElementById(self : Document, id : String) -> @js.Any?
+fn Document::getElementById(self : Document, id : String) -> @nostd.Any?
 
 // Prefer
 fn Document::getElementById(self : Document, id : String) -> Element?
@@ -243,7 +243,7 @@ pub fn MyObject::greet(self : MyObject, msg : String) -> String {
 
 - **MoonBit-specific wrappers**: Use snake_case
   ```
-  fn from_map(map : Map[String, @js.Any]) -> @js.Any
+  fn from_map(map : Map[String, @nostd.Any]) -> @nostd.Any
   fn to_string_radix(n : Int) -> String
   ```
 

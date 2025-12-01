@@ -14,7 +14,7 @@ fn get(String, (@js.Object) -> Unit) -> ClientRequest
 
 fn global_agent() -> Agent
 
-fn request(String, (@js.Any) -> Unit, method_? : String, host? : String, port? : Int, path? : String, headers? : @js.Any, agent? : Agent, rejectUnauthorized? : Bool) -> ClientRequest
+fn request(String, (@nostd.Any) -> Unit, method_? : String, host? : String, port? : Int, path? : String, headers? : @nostd.Any, agent? : Agent, rejectUnauthorized? : Bool) -> ClientRequest
 
 // Errors
 

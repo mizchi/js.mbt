@@ -24,23 +24,23 @@ pub(all) struct Runtime {
   id : String
 }
 fn Runtime::connect(Self, name? : String) -> @runtime.Port
-fn Runtime::get_manifest(Self) -> @js.Any
+fn Runtime::get_manifest(Self) -> @nostd.Any
 async fn Runtime::get_platform_info(Self) -> @runtime.PlatformInfo
 fn Runtime::get_url(Self, String) -> String
 fn Runtime::on_connect(Self, (@runtime.Port) -> Unit) -> Unit
-fn Runtime::on_installed(Self, (@js.Any) -> Unit) -> Unit
-fn Runtime::on_message(Self, (@js.Any, @js.Any, (@js.Any) -> Unit) -> Bool) -> Unit
+fn Runtime::on_installed(Self, (@nostd.Any) -> Unit) -> Unit
+fn Runtime::on_message(Self, (@nostd.Any, @nostd.Any, (@nostd.Any) -> Unit) -> Bool) -> Unit
 fn Runtime::on_startup(Self, () -> Unit) -> Unit
 async fn Runtime::open_options_page(Self) -> Unit
 fn Runtime::reload(Self) -> Unit
-async fn Runtime::send_message(Self, @js.Any) -> @js.Any
+async fn Runtime::send_message(Self, @nostd.Any) -> @nostd.Any
 
 pub(all) struct Storage {
   local_area : @storage.StorageArea
   sync_area : @storage.StorageArea
   session_area : @storage.StorageArea
 }
-fn Storage::on_changed(Self, (@js.Any, String) -> Unit) -> Unit
+fn Storage::on_changed(Self, (@nostd.Any, String) -> Unit) -> Unit
 
 pub(all) struct Tabs {
   // private fields
@@ -49,15 +49,15 @@ async fn Tabs::create(Self, options? : @tabs.CreateOptions) -> @tabs.Tab
 async fn Tabs::duplicate(Self, Int) -> @tabs.Tab
 async fn Tabs::get(Self, Int) -> @tabs.Tab
 async fn Tabs::get_current(Self) -> @tabs.Tab?
-fn Tabs::on_activated(Self, (@js.Any) -> Unit) -> Unit
+fn Tabs::on_activated(Self, (@nostd.Any) -> Unit) -> Unit
 fn Tabs::on_created(Self, (@tabs.Tab) -> Unit) -> Unit
-fn Tabs::on_removed(Self, (Int, @js.Any) -> Unit) -> Unit
-fn Tabs::on_updated(Self, (Int, @js.Any, @tabs.Tab) -> Unit) -> Unit
+fn Tabs::on_removed(Self, (Int, @nostd.Any) -> Unit) -> Unit
+fn Tabs::on_updated(Self, (Int, @nostd.Any, @tabs.Tab) -> Unit) -> Unit
 async fn Tabs::query(Self, options? : @tabs.QueryOptions) -> Array[@tabs.Tab]
 async fn Tabs::reload(Self, Int, bypass_cache? : Bool) -> Unit
 async fn Tabs::remove(Self, Array[Int]) -> Unit
 async fn Tabs::remove_tab(Self, Int) -> Unit
-async fn Tabs::send_message(Self, Int, @js.Any) -> @js.Any
+async fn Tabs::send_message(Self, Int, @nostd.Any) -> @nostd.Any
 async fn Tabs::update(Self, Int, @tabs.UpdateOptions) -> @tabs.Tab
 
 // Type aliases

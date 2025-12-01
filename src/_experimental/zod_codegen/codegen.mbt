@@ -55,7 +55,7 @@ fn handle_any_of(
   if non_null.length() == 1 && variants.length() == 2 {
     json_type_to_moonbit_ctx(non_null[0], ctx, root_name) + "?"
   } else {
-    "@js.Any"
+    "@nostd.Any"
   }
 }
 
@@ -66,9 +66,9 @@ fn handle_object_type(
   ctx : CodegenContext?,
   root_name : String,
 ) -> String {
-  guard ctx is Some(context) else { return "@js.Any" }
+  guard ctx is Some(context) else { return "@nostd.Any" }
   let props = schema.properties()
-  guard not(@js.is_undefined(props)) else { return "@js.Any" }
+  guard not(@js.is_undefined(props)) else { return "@nostd.Any" }
   // Build type name from path: Root_field1_field2
   let type_name = build_type_name(root_name, context.current_path)
   let path = context.current_path.copy()
@@ -96,10 +96,10 @@ fn handle_type(
       match schema.items() {
         Some(items) =>
           "Array[" + json_type_to_moonbit_ctx(items, ctx, root_name) + "]"
-        None => "Array[@js.Any]"
+        None => "Array[@nostd.Any]"
       }
     "object" => handle_object_type(schema, ctx, root_name)
-    _ => "@js.Any"
+    _ => "@nostd.Any"
   }
 }
 
@@ -124,12 +124,12 @@ fn json_type_to_moonbit_ctx(
   }
   // 4. Check for const
   if schema.const_value() is Some(_) {
-    return "@js.Any"
+    return "@nostd.Any"
   }
   // 5. Handle regular type
   match schema.type_() {
     Some(t) => handle_type(schema, t, ctx, root_name)
-    None => "@js.Any"
+    None => "@nostd.Any"
   }
 }
 
@@ -167,7 +167,7 @@ fn generate_struct_ctx(
     let required = schema.required()
     let keys : Array[String] = @js.Object::keys(props) |> @js.identity
     for key in keys {
-      let prop_schema = JsonSchema::from_any(props.get(key))
+      let prop_schema = JsonSchema::from_any(props._get(key))
       let field_name = to_snake_case(key)
       // Push field to path before processing nested object
       ctx.current_path.push(key)
@@ -292,7 +292,7 @@ pub fn generate_all_types(
   if not(@js.is_undefined(defs)) && not(@js.is_null(defs)) {
     let keys : Array[String] = @js.Object::keys(defs) |> @js.identity
     for key in keys {
-      let def_schema = JsonSchema::from_any(defs.get(key))
+      let def_schema = JsonSchema::from_any(defs._get(key))
       let code = generate_struct(
         def_schema,
         key,

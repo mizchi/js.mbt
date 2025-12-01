@@ -7,7 +7,7 @@
 pub type Timer
 
 ///|
-pub fn Timer::as_any(self : Timer) -> @js.Any = "%identity"
+pub fn Timer::as_any(self : Timer) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_set_timeout(f : () -> Unit, duration : Int) -> Timer =

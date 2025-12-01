@@ -109,8 +109,11 @@ pub async fn sleep(ms : Int) -> Unit noraise {
 ///|
 /// Async dispose (Symbol.asyncDispose)
 /// Usage: defer value |> dispose_async
-pub async fn dispose_async(value : &JsImpl) -> Unit {
-  let dispose_fn = value.as_any().get(Symbol::asyncDispose())
-  let promise : Promise[Unit] = dispose_fn.call_self0() |> identity
+pub async fn dispose_async(value : @nostd.Any) -> Unit {
+  let dispose_fn : Any = ffi_get_dyn(
+    value.cast(),
+    Symbol::asyncDispose().to_any() |> identity,
+  )
+  let promise : Promise[Unit] = ffi_call_self0(dispose_fn) |> identity
   promise.wait()
 }

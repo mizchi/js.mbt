@@ -45,7 +45,7 @@ pub(all) struct GPU {
 }
 fn GPU::getPreferredCanvasFormat(Self) -> String
 async fn GPU::requestAdapter(Self, power_preference? : String, force_fallback_adapter? : Bool) -> GPUAdapter?
-fn GPU::wgslLanguageFeatures(Self) -> @js.Any
+fn GPU::wgslLanguageFeatures(Self) -> @nostd.Any
 impl @js.JsImpl for GPU
 
 pub(all) struct GPUAdapter {
@@ -54,7 +54,7 @@ fn GPUAdapter::features(Self) -> GPUSupportedFeatures
 fn GPUAdapter::info(Self) -> GPUAdapterInfo
 fn GPUAdapter::isFallbackAdapter(Self) -> Bool
 fn GPUAdapter::limits(Self) -> GPUSupportedLimits
-async fn GPUAdapter::requestDevice(Self, label? : String, required_features? : Array[String], required_limits? : @js.Any) -> GPUDevice?
+async fn GPUAdapter::requestDevice(Self, label? : String, required_features? : Array[String], required_limits? : @nostd.Any) -> GPUDevice?
 impl @js.JsImpl for GPUAdapter
 
 pub(all) struct GPUAdapterInfo {
@@ -95,12 +95,12 @@ impl @js.JsImpl for GPUCommandBuffer
 pub(all) struct GPUCommandEncoder {
 }
 fn GPUCommandEncoder::beginComputePass(Self, label? : String) -> GPUComputePassEncoder
-fn GPUCommandEncoder::beginRenderPass(Self, @js.Any) -> GPURenderPassEncoder
+fn GPUCommandEncoder::beginRenderPass(Self, @nostd.Any) -> GPURenderPassEncoder
 fn GPUCommandEncoder::clearBuffer(Self, GPUBuffer, offset? : Int, size? : Int) -> Unit
 fn GPUCommandEncoder::copyBufferToBuffer(Self, GPUBuffer, Int, GPUBuffer, Int, Int) -> Unit
-fn GPUCommandEncoder::copyBufferToTexture(Self, @js.Any, @js.Any, GPUExtent3D) -> Unit
-fn GPUCommandEncoder::copyTextureToBuffer(Self, @js.Any, @js.Any, GPUExtent3D) -> Unit
-fn GPUCommandEncoder::copyTextureToTexture(Self, @js.Any, @js.Any, GPUExtent3D) -> Unit
+fn GPUCommandEncoder::copyBufferToTexture(Self, @nostd.Any, @nostd.Any, GPUExtent3D) -> Unit
+fn GPUCommandEncoder::copyTextureToBuffer(Self, @nostd.Any, @nostd.Any, GPUExtent3D) -> Unit
+fn GPUCommandEncoder::copyTextureToTexture(Self, @nostd.Any, @nostd.Any, GPUExtent3D) -> Unit
 fn GPUCommandEncoder::finish(Self, label? : String) -> GPUCommandBuffer
 fn GPUCommandEncoder::label(Self) -> String
 impl @js.JsImpl for GPUCommandEncoder
@@ -135,13 +135,13 @@ impl @js.JsImpl for GPUComputePipeline
 
 pub(all) struct GPUDevice {
 }
-fn GPUDevice::createBindGroup(Self, GPUBindGroupLayout, @js.Any, label? : String) -> GPUBindGroup
-fn GPUDevice::createBindGroupLayout(Self, @js.Any, label? : String) -> GPUBindGroupLayout
+fn GPUDevice::createBindGroup(Self, GPUBindGroupLayout, @nostd.Any, label? : String) -> GPUBindGroup
+fn GPUDevice::createBindGroupLayout(Self, @nostd.Any, label? : String) -> GPUBindGroupLayout
 fn GPUDevice::createBuffer(Self, Int, Int, label? : String, mapped_at_creation? : Bool) -> GPUBuffer
 fn GPUDevice::createCommandEncoder(Self, label? : String) -> GPUCommandEncoder
-fn GPUDevice::createComputePipeline(Self, @js.Any) -> GPUComputePipeline
+fn GPUDevice::createComputePipeline(Self, @nostd.Any) -> GPUComputePipeline
 fn GPUDevice::createPipelineLayout(Self, Array[GPUBindGroupLayout], label? : String) -> GPUPipelineLayout
-fn GPUDevice::createRenderPipeline(Self, @js.Any) -> GPURenderPipeline
+fn GPUDevice::createRenderPipeline(Self, @nostd.Any) -> GPURenderPipeline
 fn GPUDevice::createSampler(Self, label? : String, address_mode_u? : String, address_mode_v? : String, address_mode_w? : String, mag_filter? : String, min_filter? : String, mipmap_filter? : String, lod_min_clamp? : Double, lod_max_clamp? : Double, compare? : String, max_anisotropy? : Int) -> GPUSampler
 fn GPUDevice::createShaderModule(Self, String, label? : String) -> GPUShaderModule
 fn GPUDevice::createTexture(Self, GPUExtent3D, String, Int, label? : String, mip_level_count? : Int, sample_count? : Int, dimension? : String, view_formats? : Array[String]) -> GPUTexture
@@ -182,8 +182,8 @@ pub(all) struct GPUQueue {
 }
 async fn GPUQueue::onSubmittedWorkDone(Self) -> Unit
 fn GPUQueue::submit(Self, Array[GPUCommandBuffer]) -> Unit
-fn GPUQueue::writeBuffer(Self, GPUBuffer, Int, @js.Any, data_offset? : Int, size? : Int) -> Unit
-fn GPUQueue::writeTexture(Self, @js.Any, @js.Any, @js.Any, GPUExtent3D) -> Unit
+fn GPUQueue::writeBuffer(Self, GPUBuffer, Int, @nostd.Any, data_offset? : Int, size? : Int) -> Unit
+fn GPUQueue::writeTexture(Self, @nostd.Any, @nostd.Any, @nostd.Any, GPUExtent3D) -> Unit
 impl @js.JsImpl for GPUQueue
 
 pub(all) struct GPURenderPassEncoder {
@@ -192,7 +192,7 @@ fn GPURenderPassEncoder::draw(Self, Int, instance_count? : Int, first_vertex? : 
 fn GPURenderPassEncoder::drawIndexed(Self, Int, instance_count? : Int, first_index? : Int, base_vertex? : Int, first_instance? : Int) -> Unit
 fn GPURenderPassEncoder::end(Self) -> Unit
 fn GPURenderPassEncoder::setBindGroup(Self, Int, GPUBindGroup) -> Unit
-fn GPURenderPassEncoder::setBlendConstant(Self, @js.Any) -> Unit
+fn GPURenderPassEncoder::setBlendConstant(Self, @nostd.Any) -> Unit
 fn GPURenderPassEncoder::setIndexBuffer(Self, GPUBuffer, String, offset? : Int, size? : Int) -> Unit
 fn GPURenderPassEncoder::setPipeline(Self, GPURenderPipeline) -> Unit
 fn GPURenderPassEncoder::setScissorRect(Self, Int, Int, Int, Int) -> Unit

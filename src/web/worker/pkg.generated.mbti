@@ -13,9 +13,9 @@ import(
 
 // Types and methods
 pub(all) struct MessageEvent {
-  data : @js.Any
+  data : @nostd.Any
   origin : String
-  source : @js.Any
+  source : @nostd.Any
 }
 fn MessageEvent::as_any(Self) -> @nostd.Any
 
@@ -27,7 +27,7 @@ fn Worker::new(String, type_? : String) -> Self
 #alias(post_message)
 fn Worker::postMessage(Self, &@js.JsImpl) -> Unit
 #alias(post_message_with_transfer)
-fn Worker::postMessageWithTransfer(Self, &@js.JsImpl, Array[@js.Any]) -> Unit
+fn Worker::postMessageWithTransfer(Self, &@js.JsImpl, Array[@nostd.Any]) -> Unit
 fn Worker::terminate(Self) -> Unit
 impl @event.EventTargetImpl for Worker
 
@@ -35,6 +35,6 @@ impl @event.EventTargetImpl for Worker
 
 // Traits
 pub(open) trait Transferable {
-  to_transferable(Self) -> @js.Any
+  to_transferable(Self) -> @nostd.Any
 }
 

@@ -4,8 +4,8 @@
 test "mock_model_with_text creates working model" {
   let model = mock_model_with_text("Hello, World!")
   // Check the model has expected properties
-  let provider : String = model.get("provider").cast()
-  let model_id : String = model.get("modelId").cast()
+  let provider : String = model._get("provider").cast()
+  let model_id : String = model._get("modelId").cast()
   assert_eq(provider, "mock-provider")
   assert_eq(model_id, "mock-model-id")
 }
@@ -14,8 +14,8 @@ test "mock_model_with_text creates working model" {
 test "MockContentPart Text as_any" {
   let part = MockContentPart::Text("Hello")
   let any = part.as_any()
-  let type_ : String = any.get("type").cast()
-  let text : String = any.get("text").cast()
+  let type_ : String = any._get("type").cast()
+  let text : String = any._get("text").cast()
   assert_eq(type_, "text")
   assert_eq(text, "Hello")
 }
@@ -28,8 +28,8 @@ test "MockContentPart ToolCall as_any" {
     args=@mbtconv.from_json({ "location": "Tokyo" }).cast(),
   )
   let any = part.as_any()
-  let type_ : String = any.get("type").cast()
-  let tool_name : String = any.get("toolName").cast()
+  let type_ : String = any._get("type").cast()
+  let tool_name : String = any._get("toolName").cast()
   assert_eq(type_, "tool-call")
   assert_eq(tool_name, "get_weather")
 }
@@ -43,8 +43,8 @@ test "MockGenerateResult as_any" {
     warnings: [],
   }
   let any = result.as_any()
-  let finish_reason : String = any.get("finishReason").cast()
-  let input_tokens : Int = any.get("usage").get("inputTokens").cast()
+  let finish_reason : String = any._get("finishReason").cast()
+  let input_tokens : Int = any._get("usage")._get("inputTokens").cast()
   assert_eq(finish_reason, "stop")
   assert_eq(input_tokens, 10)
 }
@@ -52,8 +52,8 @@ test "MockGenerateResult as_any" {
 ///|
 test "text_delta_chunk creates correct structure" {
   let chunk = text_delta_chunk("Hello")
-  let type_ : String = chunk.get("type").cast()
-  let text : String = chunk.get("textDelta").cast()
+  let type_ : String = chunk._get("type").cast()
+  let text : String = chunk._get("textDelta").cast()
   assert_eq(type_, "text-delta")
   assert_eq(text, "Hello")
 }
@@ -65,9 +65,9 @@ test "finish_chunk creates correct structure" {
     output_tokens: 20,
     total_tokens: 30,
   })
-  let type_ : String = chunk.get("type").cast()
-  let finish_reason : String = chunk.get("finishReason").cast()
-  let input : Int = chunk.get("usage").get("inputTokens").cast()
+  let type_ : String = chunk._get("type").cast()
+  let finish_reason : String = chunk._get("finishReason").cast()
+  let input : Int = chunk._get("usage")._get("inputTokens").cast()
   assert_eq(type_, "finish")
   assert_eq(finish_reason, "stop")
   assert_eq(input, 10)
@@ -80,9 +80,9 @@ test "tool_call_chunk creates correct structure" {
     "get_weather",
     ({ "location": "Tokyo" } |> @mbtconv.from_json).cast(),
   )
-  let type_ : String = chunk.get("type").cast()
-  let tool_name : String = chunk.get("toolName").cast()
-  let location : String = chunk.get("args").get("location").cast()
+  let type_ : String = chunk._get("type").cast()
+  let tool_name : String = chunk._get("toolName").cast()
+  let location : String = chunk._get("args")._get("location").cast()
   assert_eq(type_, "tool-call")
   assert_eq(tool_name, "get_weather")
   assert_eq(location, "Tokyo")
@@ -96,8 +96,8 @@ test "mock_language_model with custom provider" {
     do_generate: None,
     do_stream: None,
   })
-  let provider : String = model.get("provider").cast()
-  let model_id : String = model.get("modelId").cast()
+  let provider : String = model._get("provider").cast()
+  let model_id : String = model._get("modelId").cast()
   assert_eq(provider, "my-provider")
   assert_eq(model_id, "my-model")
 }

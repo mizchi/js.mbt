@@ -23,9 +23,9 @@ fn ParseArgsOption::as_any(Self) -> @nostd.Any
 fn ParseArgsOption::key(Self) -> String
 
 pub(all) struct ParseArgsResult {
-  values : Map[String, @js.Any]
+  values : Map[String, @nostd.Any]
   positionals : Array[String]
-  tokens : Array[@js.Any]?
+  tokens : Array[@nostd.Any]?
 }
 
 #external

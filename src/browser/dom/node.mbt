@@ -50,7 +50,7 @@ impl NodeImpl with nodeName(self) -> String {
 
 ///|
 impl NodeImpl with parentNode(self) -> Node? {
-  let v : @js.Any = self.as_any()._get("parentNode").cast()
+  let v : @nostd.Any = self.as_any()._get("parentNode").cast()
   @js.identity_option(v)
 }
 
@@ -58,31 +58,31 @@ impl NodeImpl with parentNode(self) -> Node? {
 /// Returns a static array of child nodes.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl NodeImpl with childNodes(self) -> Array[Node] {
-  let arr : @js.Any = self.as_any()._get("childNodes").cast()
+  let arr : @nostd.Any = self.as_any()._get("childNodes").cast()
   @js.array_from(arr).map(v => @js.identity(v))
 }
 
 ///|
 impl NodeImpl with firstChild(self) -> Node? {
-  let v : @js.Any = self.as_any()._get("firstChild").cast()
+  let v : @nostd.Any = self.as_any()._get("firstChild").cast()
   @js.identity_option(v)
 }
 
 ///|
 impl NodeImpl with lastChild(self) -> Node? {
-  let v : @js.Any = self.as_any()._get("lastChild").cast()
+  let v : @nostd.Any = self.as_any()._get("lastChild").cast()
   @js.identity_option(v)
 }
 
 ///|
 impl NodeImpl with previousSibling(self) -> Node? {
-  let v : @js.Any = self.as_any()._get("previousSibling").cast()
+  let v : @nostd.Any = self.as_any()._get("previousSibling").cast()
   @js.identity_option(v)
 }
 
 ///|
 impl NodeImpl with nextSibling(self) -> Node? {
-  let v : @js.Any = self.as_any()._get("nextSibling").cast()
+  let v : @nostd.Any = self.as_any()._get("nextSibling").cast()
   @js.identity_option(v)
 }
 

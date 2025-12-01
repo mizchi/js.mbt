@@ -64,7 +64,7 @@ pub fn ShadowRoot::setInnerHTML(self : Self, html : String) -> Unit {
 /// Returns the active element within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/activeElement
 pub fn ShadowRoot::activeElement(self : Self) -> Element? {
-  let v : @js.Any = self.as_any()._get("activeElement").cast()
+  let v : @nostd.Any = self.as_any()._get("activeElement").cast()
   v |> @js.identity_option()
 }
 
@@ -76,7 +76,7 @@ pub fn ShadowRoot::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  let v : @js.Any = self
+  let v : @nostd.Any = self
     .as_any()
     ._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)])
     .cast()
@@ -93,7 +93,7 @@ pub fn ShadowRoot::elementsFromPoint(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  let arr : @js.Any = self
+  let arr : @nostd.Any = self
     .as_any()
     ._call("elementsFromPoint", [@nostd.any(x), @nostd.any(y)])
     .cast()
@@ -137,6 +137,6 @@ pub fn HTMLElement::attachShadow(
 /// Returns the shadow root of the element if it exists
 /// https://developer.mozilla.org/en-US/docs/Web/API/Element/shadowRoot
 pub fn HTMLElement::shadowRoot(self : Self) -> ShadowRoot? {
-  let v : @js.Any = self.as_any()._get("shadowRoot").cast()
+  let v : @nostd.Any = self.as_any()._get("shadowRoot").cast()
   v |> @js.identity_option()
 }

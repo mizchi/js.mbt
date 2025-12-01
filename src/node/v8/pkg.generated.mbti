@@ -10,13 +10,13 @@ import(
 #alias(cached_data_version_tag)
 fn cachedDataVersionTag() -> Int
 
-fn deserialize(@buffer.Buffer) -> @js.Any
+fn deserialize(@buffer.Buffer) -> @nostd.Any
 
 #alias(get_heap_code_statistics)
 fn getHeapCodeStatistics() -> HeapCodeStatistics
 
 #alias(get_heap_snapshot)
-fn getHeapSnapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @js.Any
+fn getHeapSnapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @nostd.Any
 
 #alias(get_heap_space_statistics)
 fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics]
@@ -58,7 +58,7 @@ fn Deserializer::readRawBytes(Self, Int) -> @buffer.Buffer
 #alias(read_uint32)
 fn Deserializer::readUint32(Self) -> Int
 #alias(read_value)
-fn Deserializer::readValue(Self) -> @js.Any
+fn Deserializer::readValue(Self) -> @nostd.Any
 #alias(transferArrayBuffer)
 fn Deserializer::transfer_array_buffer(Self, Int, @js.ArrayBuffer) -> Unit
 impl @js.JsImpl for Deserializer

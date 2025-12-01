@@ -10,7 +10,7 @@ extern "js" fn create_readable_from_string(
   #| }
 
 ///|
-extern "js" fn create_writable_to_array() -> @js.Any =
+extern "js" fn create_writable_to_array() -> @nostd.Any =
   #| () => {
   #|   const { Writable } = require('node:stream');
   #|   const chunks = [];
@@ -44,7 +44,7 @@ extern "js" fn create_passthrough() -> @stream.PassThrough =
   #| }
 
 ///|
-extern "js" fn get_chunks(writable : @js.Any) -> Array[String] =
+extern "js" fn get_chunks(writable : @nostd.Any) -> Array[String] =
   #| (writable) => writable.chunks || []
 
 ///| @stream.Readable operations
@@ -242,7 +242,7 @@ async test "Node Stream: pipeline with callback" {
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.identity(writable_js)
   let callback : @nostd.Any = @nostd.any(
-    @js.from_fn1(fn(err : @js.Any) -> Unit {
+    @js.from_fn1(fn(err : @nostd.Any) -> Unit {
       callback_called = true
       ignore(err)
     }),
@@ -261,7 +261,7 @@ async test "Node Stream: finished - stream completion" {
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @js.identity(writable_js)
   let callback : @nostd.Any = @nostd.any(
-    @js.from_fn1(fn(err : @js.Any) -> Unit {
+    @js.from_fn1(fn(err : @nostd.Any) -> Unit {
       finished_called = true
       ignore(err)
     }),
@@ -281,7 +281,7 @@ async test "Node Stream: async pipeline with Promise" {
     let writable_js = create_writable_to_array()
     let writable : @stream.Writable = @js.identity(writable_js)
     let callback : @nostd.Any = @nostd.any(
-      @js.from_fn1(fn(err : @js.Any) -> Unit {
+      @js.from_fn1(fn(err : @nostd.Any) -> Unit {
         ignore(err)
         let chunks = get_chunks(writable_js)
         let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"

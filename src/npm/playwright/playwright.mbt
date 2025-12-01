@@ -13,18 +13,7 @@
 pub type BrowserType
 
 ///|
-pub fn BrowserType::as_any(self : BrowserType) -> @js.Any = "%identity"
-
-// Internal helper for method calls
-
-///|
-fn BrowserType::call(
-  self : BrowserType,
-  name : String,
-  args : Array[&@js.JsImpl],
-) -> @js.Any {
-  self.as_any().call(name, args)
-}
+pub fn BrowserType::to_any(self : BrowserType) -> @nostd.Any = "%identity"
 
 ///|
 /// Browser instance
@@ -32,18 +21,7 @@ fn BrowserType::call(
 pub type Browser
 
 ///|
-pub fn Browser::as_any(self : Browser) -> @js.Any = "%identity"
-
-// Internal helper for method calls
-
-///|
-fn Browser::call(
-  self : Browser,
-  name : String,
-  args : Array[&@js.JsImpl],
-) -> @js.Any {
-  self.as_any().call(name, args)
-}
+pub fn Browser::to_any(self : Browser) -> @nostd.Any = "%identity"
 
 ///|
 /// BrowserContext - isolated browser session
@@ -51,18 +29,7 @@ fn Browser::call(
 pub type BrowserContext
 
 ///|
-pub fn BrowserContext::as_any(self : BrowserContext) -> @js.Any = "%identity"
-
-// Internal helper for method calls
-
-///|
-fn BrowserContext::call(
-  self : BrowserContext,
-  name : String,
-  args : Array[&@js.JsImpl],
-) -> @js.Any {
-  self.as_any().call(name, args)
-}
+pub fn BrowserContext::to_any(self : BrowserContext) -> @nostd.Any = "%identity"
 
 ///| FFI Functions
 
@@ -127,46 +94,47 @@ pub async fn BrowserType::launch(
   slowMo? : Int,
   timeout? : Int,
 ) -> Browser {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if headless is Some(v) {
-    options["headless"] = v
+    options["headless"] = @nostd.any(v)
   }
   if args is Some(v) {
-    options["args"] = @js.from_array(v)
+    options["args"] = @nostd.any(@js.from_array(v))
   }
   if channel is Some(v) {
-    options["channel"] = v
+    options["channel"] = @nostd.any(v)
   }
   if chromiumSandbox is Some(v) {
-    options["chromiumSandbox"] = v
+    options["chromiumSandbox"] = @nostd.any(v)
   }
   if devtools is Some(v) {
-    options["devtools"] = v
+    options["devtools"] = @nostd.any(v)
   }
   if downloadsPath is Some(v) {
-    options["downloadsPath"] = v
+    options["downloadsPath"] = @nostd.any(v)
   }
   if executablePath is Some(v) {
-    options["executablePath"] = v
+    options["executablePath"] = @nostd.any(v)
   }
   if handleSIGHUP is Some(v) {
-    options["handleSIGHUP"] = v
+    options["handleSIGHUP"] = @nostd.any(v)
   }
   if handleSIGINT is Some(v) {
-    options["handleSIGINT"] = v
+    options["handleSIGINT"] = @nostd.any(v)
   }
   if handleSIGTERM is Some(v) {
-    options["handleSIGTERM"] = v
+    options["handleSIGTERM"] = @nostd.any(v)
   }
   if slowMo is Some(v) {
-    options["slowMo"] = v
+    options["slowMo"] = @nostd.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = v
+    options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Browser] = @js.identity(
-    self.call("launch", [options.as_any()]),
-  )
+  let promise : @js.Promise[Browser] = self
+    .to_any()
+    ._call("launch", [options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -181,35 +149,33 @@ pub async fn BrowserType::launchPersistentContext(
   slowMo? : Int,
   timeout? : Int,
 ) -> BrowserContext {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if headless is Some(v) {
-    options["headless"] = v
+    options["headless"] = @nostd.any(v)
   }
   if args is Some(v) {
-    options["args"] = @js.from_array(v)
+    options["args"] = @nostd.any(@js.from_array(v))
   }
   if channel is Some(v) {
-    options["channel"] = v
+    options["channel"] = @nostd.any(v)
   }
   if slowMo is Some(v) {
-    options["slowMo"] = v
+    options["slowMo"] = @nostd.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = v
+    options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[BrowserContext] = @js.identity(
-    self.call("launchPersistentContext", [
-      @js.any(userDataDir),
-      options.as_any(),
-    ]),
-  )
+  let promise : @js.Promise[BrowserContext] = self
+    .to_any()
+    ._call("launchPersistentContext", [@nostd.any(userDataDir), options])
+    |> @js.identity
   promise.wait()
 }
 
 ///|
 /// Get browser type name
 pub fn BrowserType::name(self : BrowserType) -> String {
-  self.call("name", []).cast()
+  self.to_any()._call("name", []).cast()
 }
 
 ///| Browser Methods
@@ -217,7 +183,8 @@ pub fn BrowserType::name(self : BrowserType) -> String {
 ///|
 /// Close browser (async)
 pub async fn Browser::close(self : Browser) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
+  let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
+    |> @js.identity
   promise.wait()
 }
 
@@ -228,7 +195,8 @@ pub fn Browser::close_with_error_callback(
   self : Browser,
   on_error : (Error) -> Unit,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
+  let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
+    |> @js.identity
   let _ = promise.catch_(fn(e) {
     on_error(e)
     @js.Promise::resolve(())
@@ -258,67 +226,68 @@ pub async fn Browser::newContext(
   isMobile? : Bool,
   hasTouch? : Bool,
 ) -> BrowserContext {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if viewport is Some((width, height)) {
-    let vp = @js.Object::new()
-    vp["width"] = width
-    vp["height"] = height
-    options["viewport"] = vp.as_any()
+    let vp = @nostd.Object::new()
+    vp["width"] = @nostd.any(width)
+    vp["height"] = @nostd.any(height)
+    options["viewport"] = vp
   }
   if userAgent is Some(v) {
-    options["userAgent"] = v
+    options["userAgent"] = @nostd.any(v)
   }
   if locale is Some(v) {
-    options["locale"] = v
+    options["locale"] = @nostd.any(v)
   }
   if timezoneId is Some(v) {
-    options["timezoneId"] = v
+    options["timezoneId"] = @nostd.any(v)
   }
   if geolocation is Some((latitude, longitude)) {
-    let geo = @js.Object::new()
-    geo["latitude"] = latitude
-    geo["longitude"] = longitude
-    options["geolocation"] = geo.as_any()
+    let geo = @nostd.Object::new()
+    geo["latitude"] = @nostd.any(latitude)
+    geo["longitude"] = @nostd.any(longitude)
+    options["geolocation"] = geo
   }
   if permissions is Some(v) {
-    options["permissions"] = @js.from_array(v)
+    options["permissions"] = @nostd.any(@js.from_array(v))
   }
   if colorScheme is Some(v) {
-    options["colorScheme"] = v
+    options["colorScheme"] = @nostd.any(v)
   }
   if reducedMotion is Some(v) {
-    options["reducedMotion"] = v
+    options["reducedMotion"] = @nostd.any(v)
   }
   if forcedColors is Some(v) {
-    options["forcedColors"] = v
+    options["forcedColors"] = @nostd.any(v)
   }
   if acceptDownloads is Some(v) {
-    options["acceptDownloads"] = v
+    options["acceptDownloads"] = @nostd.any(v)
   }
   if ignoreHTTPSErrors is Some(v) {
-    options["ignoreHTTPSErrors"] = v
+    options["ignoreHTTPSErrors"] = @nostd.any(v)
   }
   if javaScriptEnabled is Some(v) {
-    options["javaScriptEnabled"] = v
+    options["javaScriptEnabled"] = @nostd.any(v)
   }
   if bypassCSP is Some(v) {
-    options["bypassCSP"] = v
+    options["bypassCSP"] = @nostd.any(v)
   }
   if offline is Some(v) {
-    options["offline"] = v
+    options["offline"] = @nostd.any(v)
   }
   if deviceScaleFactor is Some(v) {
-    options["deviceScaleFactor"] = v
+    options["deviceScaleFactor"] = @nostd.any(v)
   }
   if isMobile is Some(v) {
-    options["isMobile"] = v
+    options["isMobile"] = @nostd.any(v)
   }
   if hasTouch is Some(v) {
-    options["hasTouch"] = v
+    options["hasTouch"] = @nostd.any(v)
   }
-  let promise : @js.Promise[BrowserContext] = @js.identity(
-    self.call("newContext", [options.as_any()]),
-  )
+  let promise : @js.Promise[BrowserContext] = self
+    .to_any()
+    ._call("newContext", [options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -339,68 +308,69 @@ pub async fn Browser::newPage(
   isMobile? : Bool,
   hasTouch? : Bool,
 ) -> Page {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if viewport is Some((width, height)) {
-    let vp = @js.Object::new()
-    vp["width"] = width
-    vp["height"] = height
-    options["viewport"] = vp.as_any()
+    let vp = @nostd.Object::new()
+    vp["width"] = @nostd.any(width)
+    vp["height"] = @nostd.any(height)
+    options["viewport"] = vp
   }
   if userAgent is Some(v) {
-    options["userAgent"] = v
+    options["userAgent"] = @nostd.any(v)
   }
   if locale is Some(v) {
-    options["locale"] = v
+    options["locale"] = @nostd.any(v)
   }
   if timezoneId is Some(v) {
-    options["timezoneId"] = v
+    options["timezoneId"] = @nostd.any(v)
   }
   if ignoreHTTPSErrors is Some(v) {
-    options["ignoreHTTPSErrors"] = v
+    options["ignoreHTTPSErrors"] = @nostd.any(v)
   }
   if javaScriptEnabled is Some(v) {
-    options["javaScriptEnabled"] = v
+    options["javaScriptEnabled"] = @nostd.any(v)
   }
   if bypassCSP is Some(v) {
-    options["bypassCSP"] = v
+    options["bypassCSP"] = @nostd.any(v)
   }
   if offline is Some(v) {
-    options["offline"] = v
+    options["offline"] = @nostd.any(v)
   }
   if colorScheme is Some(v) {
-    options["colorScheme"] = v
+    options["colorScheme"] = @nostd.any(v)
   }
   if deviceScaleFactor is Some(v) {
-    options["deviceScaleFactor"] = v
+    options["deviceScaleFactor"] = @nostd.any(v)
   }
   if isMobile is Some(v) {
-    options["isMobile"] = v
+    options["isMobile"] = @nostd.any(v)
   }
   if hasTouch is Some(v) {
-    options["hasTouch"] = v
+    options["hasTouch"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Page] = @js.identity(
-    self.call("newPage", [options.as_any()]),
-  )
+  let promise : @js.Promise[Page] = self
+    .to_any()
+    ._call("newPage", [options])
+    |> @js.identity
   promise.wait()
 }
 
 ///|
 /// Get all contexts
 pub fn Browser::contexts(self : Browser) -> Array[BrowserContext] {
-  @js.identity(self.call("contexts", []))
+  self.to_any()._call("contexts", []) |> @nostd.identity
 }
 
 ///|
 /// Check if browser is connected
 pub fn Browser::isConnected(self : Browser) -> Bool {
-  self.call("isConnected", []).cast()
+  self.to_any()._call("isConnected", []).cast()
 }
 
 ///|
 /// Get browser version
 pub fn Browser::version(self : Browser) -> String {
-  self.call("version", []).cast()
+  self.to_any()._call("version", []).cast()
 }
 
 ///| BrowserContext Methods
@@ -408,7 +378,8 @@ pub fn Browser::version(self : Browser) -> String {
 ///|
 /// Close context
 pub async fn BrowserContext::close(self : BrowserContext) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
+  let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
+    |> @js.identity
   promise.wait()
 }
 
@@ -419,7 +390,8 @@ pub fn BrowserContext::close_with_error_callback(
   self : BrowserContext,
   on_error : (Error) -> Unit,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(self.call("close", []))
+  let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
+    |> @js.identity
   let _ = promise.catch_(fn(e) {
     on_error(e)
     @js.Promise::resolve(())
@@ -430,14 +402,15 @@ pub fn BrowserContext::close_with_error_callback(
 ///|
 /// Create new page in context
 pub async fn BrowserContext::newPage(self : BrowserContext) -> Page {
-  let promise : @js.Promise[Page] = @js.identity(self.call("newPage", []))
+  let promise : @js.Promise[Page] = self.to_any()._call("newPage", [])
+    |> @js.identity
   promise.wait()
 }
 
 ///|
 /// Get all pages in context
 pub fn BrowserContext::pages(self : BrowserContext) -> Array[Page] {
-  @js.identity(self.call("pages", []))
+  self.to_any()._call("pages", []) |> @nostd.identity
 }
 
 ///|
@@ -446,8 +419,8 @@ pub fn BrowserContext::setDefaultNavigationTimeout(
   self : BrowserContext,
   timeout : Int,
 ) -> Unit {
-  let _ = self.call("setDefaultNavigationTimeout", [timeout])
-
+  self.to_any()._call("setDefaultNavigationTimeout", [@nostd.any(timeout)])
+  |> ignore
 }
 
 ///|
@@ -456,26 +429,27 @@ pub fn BrowserContext::setDefaultTimeout(
   self : BrowserContext,
   timeout : Int,
 ) -> Unit {
-  let _ = self.call("setDefaultTimeout", [timeout])
-
+  self.to_any()._call("setDefaultTimeout", [@nostd.any(timeout)]) |> ignore
 }
 
 ///|
 /// Add cookies
 pub async fn BrowserContext::addCookies(
   self : BrowserContext,
-  cookies : @js.Any,
+  cookies : @nostd.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("addCookies", [cookies]),
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("addCookies", [@nostd.any(cookies)])
+    |> @js.identity
   promise.wait()
 }
 
 ///|
 /// Clear cookies
 pub async fn BrowserContext::clearCookies(self : BrowserContext) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(self.call("clearCookies", []))
+  let promise : @js.Promise[Unit] = self.to_any()._call("clearCookies", [])
+    |> @js.identity
   promise.wait()
 }
 
@@ -484,10 +458,12 @@ pub async fn BrowserContext::clearCookies(self : BrowserContext) -> Unit {
 pub async fn BrowserContext::cookies(
   self : BrowserContext,
   urls? : Array[String],
-) -> @js.Any {
-  let promise : @js.Promise[@js.Any] = match urls {
-    Some(u) => @js.identity(self.call("cookies", [@js.from_array(u)]))
-    None => @js.identity(self.call("cookies", []))
+) -> @nostd.Any {
+  let promise : @js.Promise[@nostd.Any] = match urls {
+    Some(u) =>
+      self.to_any()._call("cookies", [@nostd.any(@js.from_array(u))])
+      |> @js.identity
+    None => self.to_any()._call("cookies", []) |> @js.identity
   }
   promise.wait()
 }
@@ -499,25 +475,22 @@ pub async fn BrowserContext::grantPermissions(
   permissions : Array[String],
   origin? : String,
 ) -> Unit {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if origin is Some(v) {
-    options["origin"] = v
+    options["origin"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("grantPermissions", [
-      @js.from_array(permissions),
-      options.as_any(),
-    ]),
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("grantPermissions", [@nostd.any(@js.from_array(permissions)), options])
+    |> @js.identity
   promise.wait()
 }
 
 ///|
 /// Clear permissions
 pub async fn BrowserContext::clearPermissions(self : BrowserContext) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("clearPermissions", []),
-  )
+  let promise : @js.Promise[Unit] = self.to_any()._call("clearPermissions", [])
+    |> @js.identity
   promise.wait()
 }
 
@@ -529,15 +502,16 @@ pub async fn BrowserContext::setGeolocation(
   longitude : Double,
   accuracy? : Double,
 ) -> Unit {
-  let geo = @js.Object::new()
-  geo["latitude"] = latitude
-  geo["longitude"] = longitude
+  let geo = @nostd.Object::new()
+  geo["latitude"] = @nostd.any(latitude)
+  geo["longitude"] = @nostd.any(longitude)
   if accuracy is Some(v) {
-    geo["accuracy"] = v
+    geo["accuracy"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("setGeolocation", [geo.as_any()]),
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("setGeolocation", [geo])
+    |> @js.identity
   promise.wait()
 }
 
@@ -547,8 +521,9 @@ pub async fn BrowserContext::setOffline(
   self : BrowserContext,
   offline : Bool,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.call("setOffline", [offline]),
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("setOffline", [@nostd.any(offline)])
+    |> @js.identity
   promise.wait()
 }

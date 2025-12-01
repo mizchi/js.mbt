@@ -254,7 +254,7 @@ function findDifferences(
 
   // Find tests that failed in run2 but passed in run1
   for (const [key, test2] of run2Map) {
-    const test1 = run1Map.get(key);
+    const test1 = run1Map._get(key);
     if (test1) {
       if (test1.status === "ok" && test2.status === "failed") {
         newFailures.push(test2);

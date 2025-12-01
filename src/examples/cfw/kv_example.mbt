@@ -10,12 +10,12 @@ extern "js" fn kv_json_response(body : String, status : Int) -> @http.Response =
 ///|
 /// Helper to get KV namespace from env
 fn get_kv(env : @cloudflare.CloudflareEnv) -> @cloudflare.KVNamespace? {
-  let env_js : @js.Any = @js.identity(env)
-  let kv_js = env_js.get("MY_KV")
-  if @js.typeof_(kv_js) == "undefined" {
+  let env_js : @nostd.Any = @nostd.identity(env)
+  let kv_js = env_js._get("MY_KV")
+  if @nostd.typeof_(kv_js) == "undefined" {
     None
   } else {
-    Some(@js.identity(kv_js))
+    Some(@nostd.identity(kv_js))
   }
 }
 
@@ -43,10 +43,10 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
     // Route handling for KV operations
     if pathname == "/kv/get" {
       // Get a key from KV
-      let key = url.searchParams().get("key")
+      let key = url.searchParams()._get("key")
       match key {
         Some(k) => {
-          let value = kv.get(k) catch {
+          let value = kv._get(k) catch {
             _ =>
               return kv_json_response("{\"error\":\"Failed to get key\"}", 500)
           }
@@ -63,8 +63,8 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       }
     } else if pathname == "/kv/put" {
       // Put a key-value pair into KV
-      let key = url.searchParams().get("key")
-      let value = url.searchParams().get("value")
+      let key = url.searchParams()._get("key")
+      let value = url.searchParams()._get("value")
       match (key, value) {
         (Some(k), Some(v)) => {
           kv.put(k, v) catch {
@@ -80,7 +80,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       }
     } else if pathname == "/kv/delete" {
       // Delete a key from KV
-      let key = url.searchParams().get("key")
+      let key = url.searchParams()._get("key")
       match key {
         Some(k) => {
           kv.delete(k) catch {
@@ -95,7 +95,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       }
     } else if pathname == "/kv/counter/increment" {
       // Increment a counter
-      let current_str = kv.get("counter") catch {
+      let current_str = kv._get("counter") catch {
         _ =>
           return kv_json_response("{\"error\":\"Failed to get counter\"}", 500)
       }
@@ -114,7 +114,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
       kv_json_response("{\"counter\":" + new_value_str + "}", 200)
     } else if pathname == "/kv/counter/get" {
       // Get current counter value
-      let current_str = kv.get("counter") catch {
+      let current_str = kv._get("counter") catch {
         _ =>
           return kv_json_response("{\"error\":\"Failed to get counter\"}", 500)
       }
@@ -129,15 +129,15 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
         _ => return kv_json_response("{\"error\":\"Failed to list keys\"}", 500)
       }
       let keys = result.keys
-      let keys_json = @js.JsArray::new()
+      let keys_json = @nostd.JsArray::new()
       let mut i = 0
       while i < keys.length() {
         let key = keys[i]
         let name = key.name
-        keys_json.call1("push", @js.any(name)) |> ignore
+        keys_json.call1("push", @nostd.any(name)) |> ignore
         i = i + 1
       }
-      let response_json = @js.Object::new()
+      let response_json = @nostd.Object::new()
       response_json["keys"] = keys_json
       response_json["count"] = keys.length()
 

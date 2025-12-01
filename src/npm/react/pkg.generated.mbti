@@ -36,7 +36,7 @@ fn error_boundary(children~ : Array[&ReactNode], fallback? : (@nostd.Any, () -> 
 
 fn fragment(Array[&ReactNode], key? : String) -> Element
 
-fn init_react_api(@js.Any, global_key? : String) -> Unit
+fn init_react_api(@nostd.Any, global_key? : String) -> Unit
 
 #alias(initReactAsync)
 async fn init_react_async() -> Unit

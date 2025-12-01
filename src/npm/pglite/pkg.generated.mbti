@@ -22,23 +22,23 @@ async fn PGlite::create() -> Self
 async fn PGlite::createWithDir(String) -> Self
 #alias(create_with_options)
 async fn PGlite::createWithOptions(String, debug? : Int, relaxed_durability? : Bool, username? : String, database? : String) -> Self
-async fn PGlite::exec(Self, String) -> @js.Any
-async fn PGlite::query(Self, String, params? : Array[@js.Any]) -> Results
-async fn PGlite::transaction(Self, (Transaction) -> Unit) -> @js.Any
+async fn PGlite::exec(Self, String) -> @nostd.Any
+async fn PGlite::query(Self, String, params? : Array[@nostd.Any]) -> Results
+async fn PGlite::transaction(Self, (Transaction) -> Unit) -> @nostd.Any
 
 #external
 pub type Results
 #alias(affected_rows)
 fn Results::affectedRows(Self) -> Int
 fn Results::as_any(Self) -> @nostd.Any
-fn Results::fields(Self) -> @js.Any
-fn Results::rows(Self) -> @js.Any
+fn Results::fields(Self) -> @nostd.Any
+fn Results::rows(Self) -> @nostd.Any
 fn[T] Results::rows_array(Self) -> Array[T]
 
 #external
 pub type Transaction
 fn Transaction::as_any(Self) -> @nostd.Any
-async fn Transaction::query(Self, String, params? : Array[@js.Any]) -> Results
+async fn Transaction::query(Self, String, params? : Array[@nostd.Any]) -> Results
 async fn Transaction::rollback(Self) -> Unit
 
 // Type aliases

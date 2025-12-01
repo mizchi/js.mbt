@@ -10,6 +10,7 @@
 // - to_json() / as_any() - Bidirectional conversion between Json and Js
 
 ///| JsImpl implementations for MoonBit primitive types
+///  Note: These must remain as impl JsImpl because we cannot define methods on foreign types
 
 ///|
 pub impl JsImpl for String
@@ -37,33 +38,12 @@ pub impl JsImpl for Unit
 ///|
 pub impl JsImpl for BigInt
 
-///|
-/// Convert an Array of Js-implementing types to a JavaScript array.
-pub impl JsImpl for Array[&JsImpl] with as_any(self) {
-  from_array(self)
-}
-
-///|
-pub impl JsImpl for Map[String, &JsImpl] with as_any(self) {
-  let v = Object::new()
-  for k, val in self {
-    v.set(k, val.as_any())
-  }
-  v.as_any()
-}
-
-///|
-/// Convert an Option to a JavaScript value.
-pub impl[T] JsImpl for T? with as_any(self) {
-  identity(self)
-}
-
 ///| Conversion functions
 
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
-pub fn[T : JsImpl] from_array(v : Array[T]) -> Any {
-  identity(v.map(_.as_any()))
+pub fn[T] from_array(v : Array[T]) -> Any {
+  identity(v)
 }
 
 ///|
@@ -110,10 +90,9 @@ extern "js" fn ffi_wrap_sync(
 pub fn[A, B] identity(v : A) -> B = "%identity"
 
 ///|
-/// Cast any JsImpl type to a JavaScript Val safely.
-/// When you can not, use `unsafe_any()`.
-pub fn any(a : &JsImpl) -> Any {
-  identity(a.as_any())
+/// Cast any value to a JavaScript Val safely.
+pub fn[T] any(a : T) -> Any {
+  identity(a)
 }
 
 ///|
@@ -131,8 +110,8 @@ pub fn[T] unsafe_any(v : T) -> Any {
 ///
 /// # Common Patterns
 ///
-/// - DOM API nullable returns: `node.get("parentNode") |> identity_option()`
-/// - Optional object properties: `obj.get("name") |> identity_option()`
+/// - DOM API nullable returns: `node._get("parentNode") |> identity_option()`
+/// - Optional object properties: `obj._get("name") |> identity_option()`
 /// - Converting back to Js: use `from_option(opt)`
 ///
 /// # Related Functions
@@ -160,47 +139,48 @@ pub fn[A] identity_option(v : Any) -> A? {
 ///
 /// # See Also
 /// - `identity_option(Js) -> A?` - Inverse conversion (Js to Option)
-pub fn[A : JsImpl] from_option(opt : A?) -> Any {
+pub fn[A] from_option(opt : A?) -> Any {
   match opt {
-    Some(v) => v.as_any()
+    Some(v) => identity(v)
     None => ffi_null()
   }
 }
 
 ///|
 /// JS: Array.isArray(v)
-pub fn[T : JsImpl] is_array(v : T) -> Bool {
-  ffi_is_array(v.as_any())
+pub fn[T] is_array(v : T) -> Bool {
+  ffi_is_array(identity(v))
 }
 
 ///|
 /// JS: typeof v === "object" && v !== null && !Array.isArray(v)
-pub fn[T : JsImpl] is_object(v : T) -> Bool {
-  ffi_is_object(v.as_any())
+pub fn[T] is_object(v : T) -> Bool {
+  ffi_is_object(identity(v))
 }
 
 ///|
 /// JS: v === null
-pub fn[T : JsImpl] is_null(v : T) -> Bool {
-  ffi_is_null(v.as_any())
+pub fn[T] is_null(v : T) -> Bool {
+  ffi_is_null(identity(v))
 }
 
 ///|
 /// JS: v === undefined
-pub fn[T : JsImpl] is_undefined(v : T) -> Bool {
-  ffi_is_undefined(v.as_any())
+pub fn[T] is_undefined(v : T) -> Bool {
+  ffi_is_undefined(identity(v))
 }
 
 ///|
 /// JS: v == undefined
-pub fn[T : JsImpl] is_nullish(v : T) -> Bool {
-  ffi_is_nullish(v.as_any())
+pub fn[T] is_nullish(v : T) -> Bool {
+  ffi_is_nullish(identity(v))
 }
 
 ///|
 pub fn[T] is_builtin_trait(v : T) -> Bool {
-  let v : Any = v |> identity
-  v.hasOwnProperty("self") && v.hasOwnProperty("method_0")
+  let v = @nostd.any(v)
+  ffi_has_own_property(v.cast(), "self") &&
+  ffi_has_own_property(v.cast(), "method_0")
 }
 
 ///|

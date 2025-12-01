@@ -4,12 +4,12 @@
 pub type Union2[A, B]
 
 ///|
-pub fn[A, B] Union2::from(x : &JsImpl) -> Self[A, B] {
-  x.as_any().cast()
+pub fn[A, B] Union2::from(x : @nostd.Any) -> Self[A, B] {
+  x.cast()
 }
 
 ///|
-pub impl[A, B] JsImpl for Union2[A, B]
+pub fn[A, B] Union2::to_any(self : Union2[A, B]) -> @nostd.Any = "%identity"
 
 ///|
 pub fn[A, B] Union2::to0(self : Self[A, B]) -> A {
@@ -27,12 +27,12 @@ pub fn[A, B] Union2::to1(self : Self[A, B]) -> B {
 pub type Union3[A, B, C]
 
 ///|
-pub fn[A, B, C] Union3::from(x : &JsImpl) -> Self[A, B, C] {
-  x.as_any().cast()
+pub fn[A, B, C] Union3::from(x : @nostd.Any) -> Self[A, B, C] {
+  x.cast()
 }
 
 ///|
-pub impl[A, B, C] JsImpl for Union3[A, B, C]
+pub fn[A, B, C] Union3::to_any(self : Union3[A, B, C]) -> @nostd.Any = "%identity"
 
 ///|
 pub fn[A, B, C] Union3::to0(self : Self[A, B, C]) -> A {
@@ -56,12 +56,12 @@ pub fn[A, B, C] Union3::to2(self : Self[A, B, C]) -> C {
 pub type Union4[A, B, C, D]
 
 ///|
-pub fn[A, B, C, D] Union4::from(x : &JsImpl) -> Self[A, B, C, D] {
-  x.as_any().cast()
+pub fn[A, B, C, D] Union4::from(x : @nostd.Any) -> Self[A, B, C, D] {
+  x.cast()
 }
 
 ///|
-pub impl[A, B, C, D] JsImpl for Union4[A, B, C, D]
+pub fn[A, B, C, D] Union4::to_any(self : Union4[A, B, C, D]) -> @nostd.Any = "%identity"
 
 ///|
 pub fn[A, B, C, D] Union4::to0(self : Self[A, B, C, D]) -> A {
@@ -89,12 +89,14 @@ pub fn[A, B, C, D] Union4::to3(self : Self[A, B, C, D]) -> D {
 pub type Union5[A, B, C, D, E]
 
 ///|
-pub fn[A, B, C, D, E] Union5::from(x : &JsImpl) -> Self[A, B, C, D, E] {
-  x.as_any().cast()
+pub fn[A, B, C, D, E] Union5::from(x : @nostd.Any) -> Self[A, B, C, D, E] {
+  x.cast()
 }
 
 ///|
-pub impl[A, B, C, D, E] JsImpl for Union5[A, B, C, D, E]
+pub fn[A, B, C, D, E] Union5::to_any(
+  self : Union5[A, B, C, D, E],
+) -> @nostd.Any = "%identity"
 
 ///|
 pub fn[A, B, C, D, E] Union5::to0(self : Self[A, B, C, D, E]) -> A {

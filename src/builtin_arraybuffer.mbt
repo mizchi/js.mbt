@@ -11,7 +11,7 @@
 pub type ArrayBuffer
 
 ///|
-pub impl JsImpl for ArrayBuffer
+pub fn ArrayBuffer::to_any(self : ArrayBuffer) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_array_buffer(
@@ -31,23 +31,23 @@ pub fn ArrayBuffer::new(
 ///|
 #alias(byte_length)
 pub fn ArrayBuffer::byteLength(self : ArrayBuffer) -> UInt {
-  self.get("byteLength") |> identity
+  self.to_any()["byteLength"].cast()
 }
 
 ///|
 #alias(max_byte_length)
 pub fn ArrayBuffer::maxByteLength(self : ArrayBuffer) -> UInt {
-  self.get("maxByteLength") |> identity
+  self.to_any()["maxByteLength"].cast()
 }
 
 ///|
 pub fn ArrayBuffer::resizable(self : ArrayBuffer) -> Bool {
-  self.get("resizable") |> identity
+  self.to_any()["resizable"].cast()
 }
 
 ///|
 pub fn ArrayBuffer::resize(self : ArrayBuffer, new_byte_length : UInt) -> Unit {
-  self.call1("resize", new_byte_length) |> ignore
+  self.to_any()._call("resize", [@nostd.any(new_byte_length)]) |> ignore
 }
 
 ///|
@@ -57,19 +57,20 @@ pub fn ArrayBuffer::slice(
   end? : Int,
 ) -> ArrayBuffer {
   match end {
-    Some(e) => self.call2("slice", begin, e).cast()
-    None => self.call1("slice", begin).cast()
+    Some(e) =>
+      self.to_any()._call("slice", [@nostd.any(begin), @nostd.any(e)]).cast()
+    None => self.to_any()._call("slice", [@nostd.any(begin)]).cast()
   }
 }
 
 ///|
-extern "js" fn ffi_is_view(arg : Any) -> Any =
+extern "js" fn ffi_is_view(arg : @nostd.Any) -> Bool =
   #| (arg) => ArrayBuffer.isView(arg)
 
 ///|
 #alias(is_view)
-pub fn ArrayBuffer::isView(arg : Any) -> Bool {
-  ffi_is_view(arg) |> identity
+pub fn ArrayBuffer::isView(arg : @nostd.Any) -> Bool {
+  ffi_is_view(arg)
 }
 
 ///| SharedArrayBuffer
@@ -79,7 +80,7 @@ pub fn ArrayBuffer::isView(arg : Any) -> Bool {
 pub type SharedArrayBuffer
 
 ///|
-pub impl JsImpl for SharedArrayBuffer
+pub fn SharedArrayBuffer::to_any(self : SharedArrayBuffer) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_shared_array_buffer(byte_length : UInt) -> Any =
@@ -93,7 +94,7 @@ pub fn SharedArrayBuffer::new(byte_length : UInt) -> SharedArrayBuffer {
 ///|
 #alias(byte_length)
 pub fn SharedArrayBuffer::byteLength(self : SharedArrayBuffer) -> UInt {
-  self.get("byteLength") |> identity
+  self.to_any()["byteLength"].cast()
 }
 
 ///|
@@ -103,7 +104,8 @@ pub fn SharedArrayBuffer::slice(
   end? : Int,
 ) -> SharedArrayBuffer {
   match end {
-    Some(e) => self.call2("slice", begin, e) |> identity
-    None => self.call1("slice", begin) |> identity
+    Some(e) =>
+      self.to_any()._call("slice", [@nostd.any(begin), @nostd.any(e)]).cast()
+    None => self.to_any()._call("slice", [@nostd.any(begin)]).cast()
   }
 }

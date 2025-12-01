@@ -38,7 +38,7 @@ pub fn SVGElement::setAttribute(
 ///|
 /// Gets an attribute from the SVG element
 pub fn SVGElement::getAttribute(self : Self, name : String) -> String? {
-  let v : @js.Any = self
+  let v : @nostd.Any = self
     .as_any()
     ._call("getAttribute", [@nostd.any(name)])
     .cast()
@@ -102,7 +102,7 @@ pub fn SVGSVGElement::setAttribute(
 ///|
 /// Gets an attribute from the SVG element
 pub fn SVGSVGElement::getAttribute(self : Self, name : String) -> String? {
-  let v : @js.Any = self
+  let v : @nostd.Any = self
     .as_any()
     ._call("getAttribute", [@nostd.any(name)])
     .cast()

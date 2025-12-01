@@ -35,7 +35,7 @@ fn loadavg() -> Array[Double]
 fn machine() -> String
 
 #alias(network_interfaces)
-fn networkInterfaces() -> @js.Any
+fn networkInterfaces() -> @nostd.Any
 
 fn platform() -> String
 

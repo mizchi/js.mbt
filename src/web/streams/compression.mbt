@@ -30,7 +30,7 @@ pub fn CompressionStream::new(format : String) -> CompressionStream {
 }
 
 ///|
-extern "js" fn new_compression_stream(format : String) -> @js.Any =
+extern "js" fn new_compression_stream(format : String) -> @nostd.Any =
   #|(format) => new CompressionStream(format)
 
 ///|
@@ -61,5 +61,5 @@ pub fn DecompressionStream::new(format : String) -> DecompressionStream {
 }
 
 ///|
-extern "js" fn new_decompression_stream(format : String) -> @js.Any =
+extern "js" fn new_decompression_stream(format : String) -> @nostd.Any =
   #|(format) => new DecompressionStream(format)

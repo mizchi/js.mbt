@@ -17,13 +17,13 @@ fn main {
   let obj = @js_yaml.load_object(yaml_str)
 
   // Access parsed values
-  let name : String = @js.identity(obj.get("name"))
-  let age : Int = @js.identity(obj.get("age"))
+  let name : String = @js.identity(obj._get("name"))
+  let age : Int = @js.identity(obj._get("age"))
   println("Name: " + name)
   println("Age: " + age.to_string())
 
   // Serialize to YAML
-  let new_obj = @js.Object::new()
+  let new_obj = @nostd.Object::new()
   new_obj["key"] = "value"
   let yaml_output = @js_yaml.dump_object(new_obj)
   println(yaml_output)

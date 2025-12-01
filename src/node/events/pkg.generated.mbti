@@ -22,15 +22,15 @@ impl EventEmitterImpl for EventEmitter
 
 // Traits
 pub(open) trait EventEmitterImpl : @js.JsImpl {
-  on(Self, String, (@js.Any) -> Unit) -> Unit = _
-  on2(Self, String, (@js.Any?, @js.Any) -> Unit) -> Unit = _
-  once(Self, String, (@js.Any) -> Unit) -> Unit = _
+  on(Self, String, (@nostd.Any) -> Unit) -> Unit = _
+  on2(Self, String, (@nostd.Any?, @nostd.Any) -> Unit) -> Unit = _
+  once(Self, String, (@nostd.Any) -> Unit) -> Unit = _
   eventNames(Self) -> Array[String] = _
   listenerCount(Self, String) -> Int = _
-  listeners(Self, event? : String) -> Array[(@js.Any) -> Unit] = _
-  off(Self, String, (@js.Any) -> Unit) -> Unit = _
-  removeListener(Self, String, (@js.Any) -> Unit) -> Unit = _
+  listeners(Self, event? : String) -> Array[(@nostd.Any) -> Unit] = _
+  off(Self, String, (@nostd.Any) -> Unit) -> Unit = _
+  removeListener(Self, String, (@nostd.Any) -> Unit) -> Unit = _
   removeAllListeners(Self) -> Unit = _
-  emit(Self, String, @js.Any) -> Unit = _
+  emit(Self, String, @nostd.Any) -> Unit = _
 }
 

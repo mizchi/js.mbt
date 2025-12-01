@@ -43,7 +43,7 @@ fn h(String, Array[&PreactNode], props? : Map[String, @nostd.Any], style? : Map[
 
 fn hydrate(VNode, @dom.Element) -> Unit
 
-fn init_preact_api(@js.Any, @js.Any, global_key? : String) -> Unit
+fn init_preact_api(@nostd.Any, @nostd.Any, global_key? : String) -> Unit
 
 fn init_preact_signals(@nostd.Any) -> Unit
 

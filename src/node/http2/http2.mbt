@@ -128,8 +128,8 @@ pub impl @event.EventTargetImpl for ServerHttp2Stream with as_any(self) -> @nost
 
 ///|
 extern "js" fn ffi_create_server(
-  options : @js.Any,
-  request_handler : @js.Any,
+  options : @nostd.Any,
+  request_handler : @nostd.Any,
 ) -> Http2Server =
   #| (options, requestHandler) => {
   #|   const http2 = require('http2');
@@ -166,8 +166,8 @@ pub fn create_server(
 
 ///|
 extern "js" fn ffi_create_secure_server(
-  options : @js.Any,
-  request_handler : @js.Any,
+  options : @nostd.Any,
+  request_handler : @nostd.Any,
 ) -> Http2SecureServer =
   #| (options, requestHandler) => {
   #|   const http2 = require('http2');
@@ -201,7 +201,7 @@ pub fn Http2Server::listen(
   port : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
+  let cb : @nostd.Any = @js.identity(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
@@ -212,15 +212,15 @@ pub fn Http2SecureServer::listen(
   port : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
+  let cb : @nostd.Any = @js.identity(callback)
   self.call2("listen", port, cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Http2Server::close(self : Http2Server, callback : () -> Unit) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
-  self.call("close", [cb]) |> ignore
+  let cb : @nostd.Any = @js.identity(callback)
+  self._call("close", [cb]) |> ignore
 }
 
 ///|
@@ -229,14 +229,14 @@ pub fn Http2SecureServer::close(
   self : Http2SecureServer,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
-  self.call("close", [cb]) |> ignore
+  let cb : @nostd.Any = @js.identity(callback)
+  self._call("close", [cb]) |> ignore
 }
 
 ///|
 extern "js" fn ffi_connect(
   authority : String,
-  options : @js.Any,
+  options : @nostd.Any,
 ) -> Http2Session =
   #| (authority, options) => {
   #|   const http2 = require('http2');
@@ -255,7 +255,7 @@ pub fn Http2Session::request(
   self : Http2Session,
   headers : @js.Object,
 ) -> ClientHttp2Stream {
-  self.call("request", [headers.as_any()]).cast()
+  self._call("request", [headers.as_any()]).cast()
 }
 
 ///|
@@ -267,8 +267,8 @@ pub fn Http2Session::close(self : Http2Session) -> Unit {
 ///|
 /// Send a ping
 pub fn Http2Session::ping(self : Http2Session, callback : () -> Unit) -> Unit {
-  let cb : @js.Any = @js.identity(callback)
-  self.call("ping", [cb]) |> ignore
+  let cb : @nostd.Any = @js.identity(callback)
+  self._call("ping", [cb]) |> ignore
 }
 
 ///|
@@ -277,13 +277,13 @@ pub fn ServerHttp2Stream::respond(
   self : ServerHttp2Stream,
   headers : @js.Object,
 ) -> Unit {
-  self.call("respond", [headers.as_any()]) |> ignore
+  self._call("respond", [headers.as_any()]) |> ignore
 }
 
 ///|
 /// End the stream with data
 pub fn ServerHttp2Stream::end(self : ServerHttp2Stream, data : String) -> Unit {
-  self.call("end", [data]) |> ignore
+  self._call("end", [data]) |> ignore
 }
 
 ///|
@@ -292,7 +292,7 @@ pub fn ClientHttp2Stream::write(
   self : ClientHttp2Stream,
   data : String,
 ) -> Unit {
-  self.call("write", [data]) |> ignore
+  self._call("write", [data]) |> ignore
 }
 
 ///|
@@ -307,7 +307,7 @@ pub fn ClientHttp2Stream::on_data(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("data", fn(e : @js.Any) { callback(@js.identity(e)) })
+  self.addEventListener("data", fn(e : @nostd.Any) { callback(@js.identity(e)) })
   self
 }
 
@@ -317,7 +317,7 @@ pub fn ClientHttp2Stream::on_response(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("response", fn(e : @js.Any) {
+  self.addEventListener("response", fn(e : @nostd.Any) {
     callback(@js.identity(e))
   })
   self
@@ -329,6 +329,6 @@ pub fn ClientHttp2Stream::on_end(
   self : ClientHttp2Stream,
   callback : () -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("end", fn(_e : @js.Any) { callback() })
+  self.addEventListener("end", fn(_e : @nostd.Any) { callback() })
   self
 }

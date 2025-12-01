@@ -79,16 +79,16 @@ pub fn ClaudeModel::to_string(self : ClaudeModel) -> String {
 pub(all) struct ToolUseBlock {
   id : String
   name : String
-  input : @js.Any
-  raw : @js.Any
+  input : @nostd.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn ToolUseBlock::from_any(value : @js.Any) -> ToolUseBlock {
+pub fn ToolUseBlock::from_any(value : @nostd.Any) -> ToolUseBlock {
   {
-    id: value.get("id").cast(),
-    name: value.get("name").cast(),
-    input: value.get("input"),
+    id: value._get("id").cast(),
+    name: value._get("name").cast(),
+    input: value._get("input"),
     raw: value,
   }
 }
@@ -99,15 +99,15 @@ pub(all) struct ToolResultBlock {
   tool_use_id : String
   content : String
   is_error : Bool
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn ToolResultBlock::from_any(value : @js.Any) -> ToolResultBlock {
-  let is_error_raw = value.get("is_error")
+pub fn ToolResultBlock::from_any(value : @nostd.Any) -> ToolResultBlock {
+  let is_error_raw = value._get("is_error")
   {
-    tool_use_id: value.get("tool_use_id").cast(),
-    content: value.get("content").cast(),
+    tool_use_id: value._get("tool_use_id").cast(),
+    content: value._get("content").cast(),
     is_error: if @js.is_undefined(is_error_raw) {
       false
     } else {
@@ -121,12 +121,12 @@ pub fn ToolResultBlock::from_any(value : @js.Any) -> ToolResultBlock {
 /// Text content block
 pub(all) struct TextBlock {
   text : String
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn TextBlock::from_any(value : @js.Any) -> TextBlock {
-  { text: value.get("text").cast(), raw: value }
+pub fn TextBlock::from_any(value : @nostd.Any) -> TextBlock {
+  { text: value._get("text").cast(), raw: value }
 }
 
 ///|
@@ -135,12 +135,12 @@ pub(all) enum ContentBlock {
   Text(TextBlock)
   ToolUse(ToolUseBlock)
   ToolResult(ToolResultBlock)
-  Unknown(@js.Any)
+  Unknown(@nostd.Any)
 }
 
 ///|
-pub fn ContentBlock::from_any(value : @js.Any) -> ContentBlock {
-  let type_str : String = value.get("type").cast()
+pub fn ContentBlock::from_any(value : @nostd.Any) -> ContentBlock {
+  let type_str : String = value._get("type").cast()
   match type_str {
     "text" => Text(TextBlock::from_any(value))
     "tool_use" => ToolUse(ToolUseBlock::from_any(value))
@@ -159,12 +159,12 @@ pub(all) struct TokenUsage {
 }
 
 ///|
-pub fn TokenUsage::from_any(value : @js.Any) -> TokenUsage {
-  let cache_read = value.get("cache_read_input_tokens")
-  let cache_creation = value.get("cache_creation_input_tokens")
+pub fn TokenUsage::from_any(value : @nostd.Any) -> TokenUsage {
+  let cache_read = value._get("cache_read_input_tokens")
+  let cache_creation = value._get("cache_creation_input_tokens")
   {
-    input_tokens: value.get("input_tokens").cast(),
-    output_tokens: value.get("output_tokens").cast(),
+    input_tokens: value._get("input_tokens").cast(),
+    output_tokens: value._get("output_tokens").cast(),
     cache_read_input_tokens: if @js.is_undefined(cache_read) {
       0
     } else {
@@ -187,11 +187,11 @@ pub(all) struct CostInfo {
 }
 
 ///|
-pub fn CostInfo::from_any(value : @js.Any) -> CostInfo {
+pub fn CostInfo::from_any(value : @nostd.Any) -> CostInfo {
   {
-    input_cost: value.get("inputCost").cast(),
-    output_cost: value.get("outputCost").cast(),
-    total_cost: value.get("totalCost").cast(),
+    input_cost: value._get("inputCost").cast(),
+    output_cost: value._get("outputCost").cast(),
+    total_cost: value._get("totalCost").cast(),
   }
 }
 
@@ -203,10 +203,10 @@ pub(all) struct PermissionDenial {
 }
 
 ///|
-pub fn PermissionDenial::from_any(value : @js.Any) -> PermissionDenial {
+pub fn PermissionDenial::from_any(value : @nostd.Any) -> PermissionDenial {
   {
-    tool_name: value.get("toolName").cast(),
-    reason: value.get("reason").cast(),
+    tool_name: value._get("toolName").cast(),
+    reason: value._get("reason").cast(),
   }
 }
 
@@ -215,17 +215,17 @@ pub fn PermissionDenial::from_any(value : @js.Any) -> PermissionDenial {
 pub(all) struct SDKAssistantMessage {
   role : String
   content : Array[ContentBlock]
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn SDKAssistantMessage::from_any(value : @js.Any) -> SDKAssistantMessage {
-  let content_raw = value.get("content")
+pub fn SDKAssistantMessage::from_any(value : @nostd.Any) -> SDKAssistantMessage {
+  let content_raw = value._get("content")
   let content : Array[ContentBlock] = if @js.is_undefined(content_raw) ||
     @js.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(content_raw)
+    let arr : Array[@nostd.Any] = @js.identity(content_raw)
     arr.map(ContentBlock::from_any)
   }
   { role: "assistant", content, raw: value }
@@ -236,12 +236,12 @@ pub fn SDKAssistantMessage::from_any(value : @js.Any) -> SDKAssistantMessage {
 pub(all) struct SDKUserMessage {
   role : String
   content : String
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn SDKUserMessage::from_any(value : @js.Any) -> SDKUserMessage {
-  { role: "user", content: value.get("content").cast(), raw: value }
+pub fn SDKUserMessage::from_any(value : @nostd.Any) -> SDKUserMessage {
+  { role: "user", content: value._get("content").cast(), raw: value }
 }
 
 ///|
@@ -252,29 +252,29 @@ pub(all) struct SDKResultMessage {
   usage : TokenUsage
   cost : CostInfo?
   permission_denials : Array[PermissionDenial]
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn SDKResultMessage::from_any(value : @js.Any) -> SDKResultMessage {
-  let cost_raw = value.get("cost")
+pub fn SDKResultMessage::from_any(value : @nostd.Any) -> SDKResultMessage {
+  let cost_raw = value._get("cost")
   let cost : CostInfo? = if @js.is_undefined(cost_raw) || @js.is_null(cost_raw) {
     None
   } else {
     Some(CostInfo::from_any(cost_raw))
   }
-  let denials_raw = value.get("permissionDenials")
+  let denials_raw = value._get("permissionDenials")
   let denials : Array[PermissionDenial] = if @js.is_undefined(denials_raw) ||
     @js.is_null(denials_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(denials_raw)
+    let arr : Array[@nostd.Any] = @js.identity(denials_raw)
     arr.map(PermissionDenial::from_any)
   }
   {
-    success: value.get("success").cast(),
-    duration_ms: value.get("durationMs").cast(),
-    usage: TokenUsage::from_any(value.get("usage")),
+    success: value._get("success").cast(),
+    duration_ms: value._get("durationMs").cast(),
+    usage: TokenUsage::from_any(value._get("usage")),
     cost,
     permission_denials: denials,
     raw: value,
@@ -288,28 +288,28 @@ pub(all) struct SDKSystemMessage {
   mcp_servers : Array[String]
   model : String
   permission_mode : PermissionMode
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn SDKSystemMessage::from_any(value : @js.Any) -> SDKSystemMessage {
-  let tools_raw = value.get("tools")
+pub fn SDKSystemMessage::from_any(value : @nostd.Any) -> SDKSystemMessage {
+  let tools_raw = value._get("tools")
   let tools : Array[String] = if @js.is_undefined(tools_raw) ||
     @js.is_null(tools_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(tools_raw)
+    let arr : Array[@nostd.Any] = @js.identity(tools_raw)
     arr.map(fn(v) { v.cast() })
   }
-  let mcp_raw = value.get("mcpServers")
+  let mcp_raw = value._get("mcpServers")
   let mcp_servers : Array[String] = if @js.is_undefined(mcp_raw) ||
     @js.is_null(mcp_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(mcp_raw)
+    let arr : Array[@nostd.Any] = @js.identity(mcp_raw)
     arr.map(fn(v) { v.cast() })
   }
-  let perm_raw = value.get("permissionMode")
+  let perm_raw = value._get("permissionMode")
   let perm_mode = if @js.is_undefined(perm_raw) {
     PermissionMode::Default
   } else {
@@ -318,7 +318,7 @@ pub fn SDKSystemMessage::from_any(value : @js.Any) -> SDKSystemMessage {
   {
     tools,
     mcp_servers,
-    model: value.get("model").cast(),
+    model: value._get("model").cast(),
     permission_mode: perm_mode,
     raw: value,
   }
@@ -328,17 +328,17 @@ pub fn SDKSystemMessage::from_any(value : @js.Any) -> SDKSystemMessage {
 /// SDK Partial Message (for streaming)
 pub(all) struct SDKPartialMessage {
   content : Array[ContentBlock]
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn SDKPartialMessage::from_any(value : @js.Any) -> SDKPartialMessage {
-  let content_raw = value.get("content")
+pub fn SDKPartialMessage::from_any(value : @nostd.Any) -> SDKPartialMessage {
+  let content_raw = value._get("content")
   let content : Array[ContentBlock] = if @js.is_undefined(content_raw) ||
     @js.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@js.Any] = @js.identity(content_raw)
+    let arr : Array[@nostd.Any] = @js.identity(content_raw)
     arr.map(ContentBlock::from_any)
   }
   { content, raw: value }
@@ -352,12 +352,12 @@ pub(all) enum SDKMessage {
   Result(SDKResultMessage)
   System(SDKSystemMessage)
   Partial(SDKPartialMessage)
-  Unknown(@js.Any)
+  Unknown(@nostd.Any)
 }
 
 ///|
-pub fn SDKMessage::from_any(value : @js.Any) -> SDKMessage {
-  let type_str : String = value.get("type").cast()
+pub fn SDKMessage::from_any(value : @nostd.Any) -> SDKMessage {
+  let type_str : String = value._get("type").cast()
   match type_str {
     "assistant" => Assistant(SDKAssistantMessage::from_any(value))
     "user" => User(SDKUserMessage::from_any(value))
@@ -377,12 +377,12 @@ pub(all) struct McpServerStdio {
 }
 
 ///|
-pub fn McpServerStdio::as_any(self : McpServerStdio) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn McpServerStdio::as_any(self : McpServerStdio) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   obj.set("type", "stdio")
   obj.set("command", self.command)
   obj.set("args", self.args |> @js.from_array)
-  let env_obj = @js.Object::new()
+  let env_obj = @nostd.Object::new()
   for k, v in self.env {
     env_obj.set(k, v)
   }
@@ -398,11 +398,11 @@ pub(all) struct McpServerSse {
 }
 
 ///|
-pub fn McpServerSse::as_any(self : McpServerSse) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn McpServerSse::as_any(self : McpServerSse) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   obj.set("type", "sse")
   obj.set("url", self.url)
-  let headers_obj = @js.Object::new()
+  let headers_obj = @nostd.Object::new()
   for k, v in self.headers {
     headers_obj.set(k, v)
   }
@@ -418,7 +418,7 @@ pub(all) enum McpServerConfig {
 }
 
 ///|
-pub fn McpServerConfig::as_any(self : McpServerConfig) -> @js.Any {
+pub fn McpServerConfig::as_any(self : McpServerConfig) -> @nostd.Any {
   match self {
     Stdio(cfg) => cfg.as_any()
     Sse(cfg) => cfg.as_any()
@@ -441,8 +441,8 @@ pub(all) struct AgentDefinition {
 }
 
 ///|
-pub fn AgentDefinition::as_any(self : AgentDefinition) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn AgentDefinition::as_any(self : AgentDefinition) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   obj.set("description", self.description)
   if self.allowed_tools is Some(tools) {
     obj.set("allowedTools", tools |> @js.from_array)
@@ -510,8 +510,8 @@ pub fn QueryOptions::new() -> QueryOptions {
 }
 
 ///|
-pub fn QueryOptions::as_any(self : QueryOptions) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn QueryOptions::as_any(self : QueryOptions) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if self.model is Some(m) {
     obj.set("model", m.to_string())
   }
@@ -537,14 +537,14 @@ pub fn QueryOptions::as_any(self : QueryOptions) -> @js.Any {
     obj.set("disallowedTools", tools |> @js.from_array)
   }
   if self.mcp_servers is Some(servers) {
-    let servers_obj = @js.Object::new()
+    let servers_obj = @nostd.Object::new()
     for name, config in servers {
       servers_obj.set(name, config.as_any())
     }
     obj.set("mcpServers", servers_obj.as_any())
   }
   if self.agents is Some(agents) {
-    let agents_obj = @js.Object::new()
+    let agents_obj = @nostd.Object::new()
     for name, agent in agents {
       agents_obj.set(name, agent.as_any())
     }

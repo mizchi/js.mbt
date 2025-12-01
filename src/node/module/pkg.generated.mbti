@@ -10,7 +10,7 @@ import(
 fn builtinModules() -> Array[String]
 
 #alias(create_require)
-fn createRequire(String) -> @js.Any
+fn createRequire(String) -> @nostd.Any
 
 #alias(enable_compile_cache)
 fn enableCompileCache(cache_dir? : String) -> Unit
@@ -37,7 +37,7 @@ fn syncBuiltinESMExports() -> Unit
 
 // Types and methods
 pub(all) struct SourceMap {
-  payload : @js.Any
+  payload : @nostd.Any
 }
 #alias(find_entry)
 fn SourceMap::findEntry(Self, Int, Int) -> SourceMapEntry?

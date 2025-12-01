@@ -17,11 +17,11 @@ test "mock.fn creates spy function" {
 ///|
 test "mock.method mocks object method" {
   let m = mock()
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("getValue", @js.from_fn0(fn() { 42 }))
 
   // Mock the method to return different value
-  let obj_js : @js.Any = @js.identity(obj)
+  let obj_js : @nostd.Any = @js.identity(obj)
   m.method_(obj_js, "getValue", implementation=@js.from_fn0(fn() { 100 }))
   |> ignore
   let result : Int = @js.identity(obj.call0("getValue"))
@@ -33,7 +33,7 @@ test "mock.method mocks object method" {
 test "mock.fn with implementation" {
   let m = mock()
   let spy = m.fn_(
-    implementation=@js.from_fn1(fn(x : @js.Any) {
+    implementation=@js.from_fn1(fn(x : @nostd.Any) {
       let n : Int = @js.identity(x)
       n * 2
     }),
@@ -47,11 +47,11 @@ test "mock.fn with implementation" {
 ///|
 test "mock.fn with both original and implementation" {
   let m = mock()
-  let original_fn = @js.from_fn1(fn(x : @js.Any) {
+  let original_fn = @js.from_fn1(fn(x : @nostd.Any) {
     let n : Int = @js.identity(x)
     n + 1
   })
-  let implementation_fn = @js.from_fn1(fn(x : @js.Any) {
+  let implementation_fn = @js.from_fn1(fn(x : @nostd.Any) {
     let n : Int = @js.identity(x)
     n * 2
   })
@@ -63,11 +63,11 @@ test "mock.fn with both original and implementation" {
 ///|
 test "mock.method without implementation" {
   let m = mock()
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   obj.set("getValue", @js.from_fn0(fn() { 42 }))
 
   // Mock the method without implementation (spy on original)
-  let obj_js : @js.Any = @js.identity(obj)
+  let obj_js : @nostd.Any = @js.identity(obj)
   m.method_(obj_js, "getValue") |> ignore
   let result : Int = @js.identity(obj.call0("getValue"))
   inspect(result, content="42")

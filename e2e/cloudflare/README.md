@@ -51,7 +51,7 @@ Tests for Cloudflare KV (Key-Value Storage):
 ```typescript
 it('should put and get a value', async () => {
   await TEST_KV.put('test-key', 'test-value');
-  const value = await TEST_KV.get('test-key');
+  const value = await TEST_KV._get('test-key');
   expect(value).toBe('test-value');
 });
 ```
@@ -97,7 +97,7 @@ Tests for Cloudflare R2 (S3-compatible Object Storage):
 ```typescript
 it('should put and get an object', async () => {
   await TEST_R2.put('file.txt', 'Hello, R2!');
-  const obj = await TEST_R2.get('file.txt');
+  const obj = await TEST_R2._get('file.txt');
   const text = await obj!.text();
   expect(text).toBe('Hello, R2!');
 });
@@ -120,7 +120,7 @@ Tests for Cloudflare Durable Objects (Stateful coordination):
 **Example:**
 ```typescript
 it('should increment counter across requests', async () => {
-  const stub = namespace.get(namespace.idFromName('counter'));
+  const stub = namespace._get(namespace.idFromName('counter'));
   
   await stub.fetch('http://fake-host/increment');
   await stub.fetch('http://fake-host/increment');
@@ -227,7 +227,7 @@ it('should test my feature', async () => {
   await TEST_KV.put('key', 'value');
   
   // Act
-  const result = await TEST_KV.get('key');
+  const result = await TEST_KV._get('key');
   
   // Assert
   expect(result).toBe('value');

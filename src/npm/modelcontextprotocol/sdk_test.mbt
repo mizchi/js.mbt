@@ -11,9 +11,9 @@ test "PromptMessage::as_any creates correct structure" {
     content: Content::text("Hello, world!"),
   }
   let js_obj = msg.as_any()
-  let role : String = js_obj.get("role").cast()
+  let role : String = js_obj._get("role").cast()
   assert_eq(role, "user")
-  let content_type : String = js_obj.get("content").get("type").cast()
+  let content_type : String = js_obj._get("content")._get("type").cast()
   assert_eq(content_type, "text")
 }
 
@@ -24,9 +24,9 @@ test "PromptResult::as_any with description" {
     messages: [{ role: "assistant", content: Content::text("Hi there!") }],
   }
   let js_obj = result.as_any()
-  let desc : String = js_obj.get("description").cast()
+  let desc : String = js_obj._get("description").cast()
   assert_eq(desc, "A test prompt")
-  let messages : Array[@js.Any] = @js.identity(js_obj.get("messages"))
+  let messages : Array[@nostd.Any] = @js.identity(js_obj._get("messages"))
   assert_eq(messages.length(), 1)
 }
 
@@ -34,7 +34,7 @@ test "PromptResult::as_any with description" {
 test "PromptResult::as_any without description" {
   let result : PromptResult = { description: None, messages: [] }
   let js_obj = result.as_any()
-  assert_true(@js.is_undefined(js_obj.get("description")))
+  assert_true(@js.is_undefined(js_obj._get("description")))
 }
 
 // ============================================================

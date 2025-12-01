@@ -5,7 +5,7 @@
 pub type DisposableStack
 
 ///|
-pub impl JsImpl for DisposableStack
+pub fn DisposableStack::to_any(self : DisposableStack) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_disposable_stack() -> DisposableStack =
@@ -21,28 +21,28 @@ pub fn DisposableStack::new() -> DisposableStack {
 /// Check if the stack has been disposed
 /// JS: stack.disposed
 pub fn DisposableStack::disposed(self : DisposableStack) -> Bool {
-  self.get("disposed") |> identity
+  self.to_any()["disposed"].cast()
 }
 
 ///|
 /// Register a value implementing the disposable protocol
 /// JS: stack.use(value)
-pub fn[T : JsImpl] DisposableStack::use_(
-  self : DisposableStack,
-  value : T,
-) -> T {
-  self.call1("use", value) |> identity
+pub fn[T] DisposableStack::use_(self : DisposableStack, value : T) -> T {
+  self.to_any()._call("use", [@nostd.any(value)]).cast()
 }
 
 ///|
 /// Register a value with a custom disposal function
 /// JS: stack.adopt(value, disposer)
-pub fn[T : JsImpl] DisposableStack::adopt(
+pub fn[T] DisposableStack::adopt(
   self : DisposableStack,
   value : T,
   disposer : (T) -> Unit,
 ) -> T {
-  self.call2("adopt", value, from_fn1(disposer)) |> identity
+  self
+  .to_any()
+  ._call("adopt", [@nostd.any(value), @nostd.any(from_fn1(disposer))])
+  .cast()
 }
 
 ///|
@@ -52,21 +52,21 @@ pub fn DisposableStack::defer_(
   self : DisposableStack,
   callback : () -> Unit,
 ) -> Unit {
-  self.call1("defer", from_fn0(callback)) |> ignore
+  self.to_any()._call("defer", [@nostd.any(from_fn0(callback))]) |> ignore
 }
 
 ///|
 /// Dispose all registered resources in reverse order
 /// JS: stack.dispose()
 pub fn DisposableStack::dispose(self : DisposableStack) -> Unit {
-  self.call0("dispose") |> ignore
+  self.to_any()._call("dispose", []) |> ignore
 }
 
 ///|
 /// Move all resources to a new DisposableStack
 /// JS: stack.move()
 pub fn DisposableStack::move_(self : DisposableStack) -> DisposableStack {
-  self.call0("move") |> identity
+  self.to_any()._call("move", []).cast()
 }
 
 ///|
@@ -76,7 +76,7 @@ pub fn DisposableStack::move_(self : DisposableStack) -> DisposableStack {
 pub type AsyncDisposableStack
 
 ///|
-pub impl JsImpl for AsyncDisposableStack
+pub fn AsyncDisposableStack::to_any(self : AsyncDisposableStack) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_async_disposable_stack() -> AsyncDisposableStack =
@@ -92,28 +92,31 @@ pub fn AsyncDisposableStack::new() -> AsyncDisposableStack {
 /// Check if the stack has been disposed
 /// JS: stack.disposed
 pub fn AsyncDisposableStack::disposed(self : AsyncDisposableStack) -> Bool {
-  self.get("disposed") |> identity
+  self.to_any()["disposed"].cast()
 }
 
 ///|
 /// Register a value implementing the async disposable protocol
 /// JS: stack.use(value)
-pub fn[T : JsImpl] AsyncDisposableStack::use_(
+pub fn[T] AsyncDisposableStack::use_(
   self : AsyncDisposableStack,
   value : T,
 ) -> T {
-  self.call1("use", value) |> identity
+  self.to_any()._call("use", [@nostd.any(value)]).cast()
 }
 
 ///|
 /// Register a value with a custom async disposal function
 /// JS: stack.adopt(value, disposer)
-pub fn[T : JsImpl] AsyncDisposableStack::adopt(
+pub fn[T] AsyncDisposableStack::adopt(
   self : AsyncDisposableStack,
   value : T,
   disposer : (T) -> Unit,
 ) -> T {
-  self.call2("adopt", value, from_fn1(disposer)) |> identity
+  self
+  .to_any()
+  ._call("adopt", [@nostd.any(value), @nostd.any(from_fn1(disposer))])
+  .cast()
 }
 
 ///|
@@ -123,7 +126,7 @@ pub fn AsyncDisposableStack::defer_(
   self : AsyncDisposableStack,
   callback : () -> Unit,
 ) -> Unit {
-  self.call1("defer", from_fn0(callback)) |> ignore
+  self.to_any()._call("defer", [@nostd.any(from_fn0(callback))]) |> ignore
 }
 
 ///|
@@ -132,7 +135,7 @@ pub fn AsyncDisposableStack::defer_(
 pub async fn AsyncDisposableStack::disposeAsync(
   self : AsyncDisposableStack,
 ) -> Unit {
-  let promise : Promise[Unit] = self.call0("disposeAsync") |> identity
+  let promise : Promise[Unit] = self.to_any()._call("disposeAsync", []).cast()
   promise.wait()
 }
 
@@ -142,5 +145,5 @@ pub async fn AsyncDisposableStack::disposeAsync(
 pub fn AsyncDisposableStack::move_(
   self : AsyncDisposableStack,
 ) -> AsyncDisposableStack {
-  self.call0("move") |> identity
+  self.to_any()._call("move", []).cast()
 }

@@ -48,7 +48,7 @@ let tool : Tool = {
 }
 
 let handler : ToolHandler = fn(params) {
-  let name = match params.get("name") {
+  let name = match params._get("name") {
     Some(n) => @js.identity(n)
     None => "World"
   }

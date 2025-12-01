@@ -10,7 +10,7 @@ pub fn[T] watch(
   immediate? : Bool,
   deep? : Bool,
 ) -> WatchStopHandle {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if immediate is Some(v) {
     options.set("immediate", v)
   }
@@ -29,7 +29,7 @@ pub fn[T] watch(
 ///|
 /// Vue.watchEffect - Watch with automatic dependency tracking
 pub fn watchEffect(effect : () -> Unit, flush? : String) -> WatchStopHandle {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   if flush is Some(v) {
     options.set("flush", v)
   }
@@ -107,14 +107,16 @@ pub fn onDeactivated(callback : () -> Unit) -> Unit {
 ///|
 /// Vue.onErrorCaptured - Error handling hook
 #alias(on_error_captured)
-pub fn onErrorCaptured(callback : (@js.Any, @js.Any, String) -> Bool?) -> Unit {
+pub fn onErrorCaptured(
+  callback : (@nostd.Any, @nostd.Any, String) -> Bool?,
+) -> Unit {
   ffi_on_error_captured(callback |> @js.unsafe_any)
 }
 
 ///|
 /// Vue.provide - Provide value for injection
 pub fn[T] provide(key : String, value : T) -> Unit {
-  ffi_provide(@js.any(key), value |> @js.identity)
+  ffi_provide(@nostd.any(key), value |> @js.identity)
 }
 
 ///|
@@ -124,7 +126,7 @@ pub fn[T] inject(key : String, default_value? : T) -> T {
     Some(v) => v |> @js.identity
     None => @global.undefined()
   }
-  @js.identity(ffi_inject(@js.any(key), default_val))
+  @js.identity(ffi_inject(@nostd.any(key), default_val))
 }
 
 ///|
@@ -148,7 +150,7 @@ pub fn nextTickCallback(callback : () -> Unit) -> Unit {
 ///|
 /// Vue.getCurrentInstance - Get current component instance
 #alias(get_current_instance)
-pub fn getCurrentInstance() -> @js.Any? {
+pub fn getCurrentInstance() -> @nostd.Any? {
   let inst = ffi_get_current_instance()
   if @js.is_nullish(inst) {
     None
@@ -160,13 +162,13 @@ pub fn getCurrentInstance() -> @js.Any? {
 ///|
 /// Vue.useAttrs - Get current component's attrs
 #alias(use_attrs)
-pub fn useAttrs() -> @js.Any {
+pub fn useAttrs() -> @nostd.Any {
   ffi_use_attrs()
 }
 
 ///|
 /// Vue.useSlots - Get current component's slots
 #alias(use_slots)
-pub fn useSlots() -> @js.Any {
+pub fn useSlots() -> @nostd.Any {
   ffi_use_slots()
 }

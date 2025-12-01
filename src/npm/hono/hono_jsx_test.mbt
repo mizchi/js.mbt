@@ -113,8 +113,8 @@ test "createContext creates context" {
 
 ///|
 async test "Context::htmlJsx renders JSX response" {
-  let app : @hono.Hono[@js.Any, @js.Any] = @hono.Hono::new()
-  app.get("/jsx", fn(c) {
+  let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
+  app._get("/jsx", fn(c) {
     let node = @hono.jsx("h1", ["Hello from JSX!"])
     c.html_jsx(node)
   })
@@ -126,8 +126,8 @@ async test "Context::htmlJsx renders JSX response" {
 
 ///|
 async test "Context::htmlJsx with complex JSX" {
-  let app : @hono.Hono[@js.Any, @js.Any] = @hono.Hono::new()
-  app.get("/page", fn(c) {
+  let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
+  app._get("/page", fn(c) {
     let content = @hono.jsx("html", [
       @hono.jsx("head", [@hono.jsx("title", ["My Page"])]),
       @hono.jsx("body", [
@@ -145,8 +145,8 @@ async test "Context::htmlJsx with complex JSX" {
 
 ///|
 async test "Context::htmlJsx with status code" {
-  let app : @hono.Hono[@js.Any, @js.Any] = @hono.Hono::new()
-  app.get("/not-found", fn(c) {
+  let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
+  app._get("/not-found", fn(c) {
     let node = @hono.jsx("h1", ["Page Not Found"])
     c.html_jsx(node, status=404)
   })

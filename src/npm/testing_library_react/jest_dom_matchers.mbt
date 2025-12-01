@@ -32,11 +32,11 @@ fn MatcherResult::message(self : MatcherResult) -> String {
 
 ///|
 /// Cached jest-dom matchers module
-let jest_dom_matchers : Ref[@js.Any?] = Ref::new(None)
+let jest_dom_matchers : Ref[@nostd.Any?] = Ref::new(None)
 
 ///|
 /// Cached matcher context
-let matcher_context : Ref[@js.Any?] = Ref::new(None)
+let matcher_context : Ref[@nostd.Any?] = Ref::new(None)
 
 ///|
 /// Setup jest-dom matchers. Call once before using matchers.
@@ -49,7 +49,7 @@ pub fn setup_matchers() -> Unit {
     @node.require("@testing-library/jest-dom/matchers"),
   )
   // Create matcher context with minimal utils (no colors)
-  let utils = @js.Object::new()
+  let utils = @nostd.Object::new()
   // matcherHint function
   let matcher_hint : (String, String, String) -> String = fn(
     matcher_name,
@@ -66,7 +66,7 @@ pub fn setup_matchers() -> Unit {
   let print_expected : (String) -> String = fn(value) { value }
   utils.set("printExpected", @js.from_fn1(print_expected))
   // printWithType
-  let print_with_type : (String, @js.Any, @js.Any) -> String = fn(
+  let print_with_type : (String, @nostd.Any, @nostd.Any) -> String = fn(
     name,
     value,
     print,
@@ -82,11 +82,11 @@ pub fn setup_matchers() -> Unit {
   utils.set("BOLD_WEIGHT", @js.from_fn1(identity))
   utils.set("DIM_COLOR", @js.from_fn1(identity))
   // Create context
-  let ctx = @js.Object::new()
+  let ctx = @nostd.Object::new()
   ctx.set("isNot", false)
   ctx.set("utils", utils)
   // equals function for some matchers (using Object.is)
-  let equals_fn : (@js.Any, @js.Any) -> Bool = fn(a, b) { a == b }
+  let equals_fn : (@nostd.Any, @nostd.Any) -> Bool = fn(a, b) { a == b }
   ctx.set("equals", @js.from_fn2(equals_fn))
   matcher_context.val = Some(ctx)
 }
@@ -104,8 +104,8 @@ fn call_matcher(
   guard matcher_context.val is Some(ctx) else {
     abort("setup_matchers() must be called before using matchers")
   }
-  let matcher : @nostd.Any = matchers.get(matcher_name) |> @nostd.identity
-  // matcher.call(ctx, element, ...args)
+  let matcher : @nostd.Any = matchers._get(matcher_name) |> @nostd.identity
+  // matcher._call(ctx, element, ...args)
   let all_args : Array[@nostd.Any] = [@nostd.identity(ctx), element.as_any()]
   for arg in args {
     all_args.push(arg)

@@ -136,7 +136,7 @@ pub fn create_app() -> App {
   app.cors("/api/*", origin="*") |> ignore
   // Home page with JSX
   app
-  .get("/", fn(c) {
+  ._get("/", fn(c) {
     let user = get_current_user(c)
     let content = default_layout({
       title: "Hono App",
@@ -163,7 +163,7 @@ pub fn create_app() -> App {
     c.html_jsx(content)
   })
   // About page
-  .get("/about", fn(c) {
+  ._get("/about", fn(c) {
     let user = get_current_user(c)
     let content = default_layout({
       title: "About",
@@ -179,7 +179,7 @@ pub fn create_app() -> App {
     c.html_jsx(content)
   })
   // Auth page - show login form or logout button
-  .get("/auth", fn(c) {
+  ._get("/auth", fn(c) {
     let user = get_current_user(c)
     let content = default_layout({
       title: "Auth",
@@ -238,7 +238,7 @@ pub fn create_app() -> App {
   // Login handler
   .post("/auth/login", async fn(c) {
     let body = ffi_parse_body(c |> @js.identity).wait()
-    let username : String = body.get("username").cast()
+    let username : String = body._get("username").cast()
     if username.length() > 0 {
       set_cookie(c, "user", username, path="/", httpOnly=true, maxAge=3600)
       c.redirect("/auth")
@@ -260,15 +260,15 @@ pub fn create_app() -> App {
     c.redirect("/auth")
   })
   // API endpoints
-  .get("/api/hello", fn(c) { c.text("Hello from Hono!") })
-  .get("/api/me", fn(c) {
+  ._get("/api/hello", fn(c) { c.text("Hello from Hono!") })
+  ._get("/api/me", fn(c) {
     match get_current_user(c) {
       Some(name) => c.text("user: " + name)
       None => c.text("not logged in")
     }
   })
   // Health check
-  .get("/health", fn(c) { c.text("OK") })
+  ._get("/health", fn(c) { c.text("OK") })
   // 404 handler
   .notFound(fn(c) {
     let user = get_current_user(c)
@@ -286,7 +286,7 @@ pub fn create_app() -> App {
 }
 
 ///|
-extern "js" fn ffi_parse_body(c : @js.Any) -> @js.Promise[@js.Any] =
+extern "js" fn ffi_parse_body(c : @nostd.Any) -> @js.Promise[@nostd.Any] =
   #|(c) => c.req.parseBody()
 
 ///|
@@ -296,7 +296,7 @@ fn serve(app : App, port : Int) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_serve(app : @js.Any, port : Int) -> Unit =
+extern "js" fn ffi_serve(app : @nostd.Any, port : Int) -> Unit =
   #|(app, port) => {
   #|  const { serve } = require('@hono/node-server');
   #|  serve({ fetch: app.fetch, port });

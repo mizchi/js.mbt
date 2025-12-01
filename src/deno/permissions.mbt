@@ -23,7 +23,7 @@ pub fn PermissionStatus::is_granted(self : PermissionStatus) -> Bool {
 
 ///|
 /// Get permissions object
-pub fn Deno::permissions(self : Deno) -> @js.Any {
+pub fn Deno::permissions(self : Deno) -> @nostd.Any {
   self.as_any()["permissions"].cast()
 }
 

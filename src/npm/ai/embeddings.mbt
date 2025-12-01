@@ -24,8 +24,8 @@ pub(all) struct EmbeddingUsage {
 }
 
 ///|
-pub fn EmbeddingUsage::from_any(value : @js.Any) -> EmbeddingUsage {
-  { tokens: value.get("tokens").cast() }
+pub fn EmbeddingUsage::from_any(value : @nostd.Any) -> EmbeddingUsage {
+  { tokens: value._get("tokens").cast() }
 }
 
 // ============================================================
@@ -40,14 +40,18 @@ pub(all) struct EmbedResult {
   /// Token usage
   usage : EmbeddingUsage
   /// Raw response
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn EmbedResult::from_any(value : @js.Any) -> EmbedResult {
-  let embedding_raw = value.get("embedding")
+pub fn EmbedResult::from_any(value : @nostd.Any) -> EmbedResult {
+  let embedding_raw = value._get("embedding")
   let embedding : Array[Double] = @js.identity(embedding_raw)
-  { embedding, usage: EmbeddingUsage::from_any(value.get("usage")), raw: value }
+  {
+    embedding,
+    usage: EmbeddingUsage::from_any(value._get("usage")),
+    raw: value,
+  }
 }
 
 // ============================================================
@@ -62,16 +66,16 @@ pub(all) struct EmbedManyResult {
   /// Total token usage
   usage : EmbeddingUsage
   /// Raw response
-  raw : @js.Any
+  raw : @nostd.Any
 }
 
 ///|
-pub fn EmbedManyResult::from_any(value : @js.Any) -> EmbedManyResult {
-  let embeddings_raw = value.get("embeddings")
+pub fn EmbedManyResult::from_any(value : @nostd.Any) -> EmbedManyResult {
+  let embeddings_raw = value._get("embeddings")
   let embeddings : Array[Array[Double]] = @js.identity(embeddings_raw)
   {
     embeddings,
-    usage: EmbeddingUsage::from_any(value.get("usage")),
+    usage: EmbeddingUsage::from_any(value._get("usage")),
     raw: value,
   }
 }
@@ -90,12 +94,12 @@ pub async fn embed(
   /// Maximum retries
   max_retries? : Int,
   /// Abort signal
-  abort_signal? : @js.Any,
+  abort_signal? : @nostd.Any,
   /// Custom headers
-  headers? : @js.Any,
+  headers? : @nostd.Any,
 ) -> EmbedResult {
-  let opts = @js.Object::new()
-  let model_any : @js.Any = model.as_any().cast()
+  let opts = @nostd.Object::new()
+  let model_any : @nostd.Any = model.as_any().cast()
   opts.set("model", model_any)
   opts.set("value", value)
   if max_retries is Some(r) {
@@ -107,8 +111,8 @@ pub async fn embed(
   if headers is Some(h) {
     opts.set("headers", h)
   }
-  let promise : @js.Promise[@js.Any] = ai_module()
-    .get("embed")
+  let promise : @js.Promise[@nostd.Any] = ai_module()
+    ._get("embed")
     .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()
@@ -128,12 +132,12 @@ pub async fn embedMany(
   /// Maximum retries
   max_retries? : Int,
   /// Abort signal
-  abort_signal? : @js.Any,
+  abort_signal? : @nostd.Any,
   /// Custom headers
-  headers? : @js.Any,
+  headers? : @nostd.Any,
 ) -> EmbedManyResult {
-  let opts = @js.Object::new()
-  let model_any : @js.Any = model.as_any().cast()
+  let opts = @nostd.Object::new()
+  let model_any : @nostd.Any = model.as_any().cast()
   opts.set("model", model_any)
   opts.set("values", values |> @js.from_array)
   if max_parallel_calls is Some(c) {
@@ -148,8 +152,8 @@ pub async fn embedMany(
   if headers is Some(h) {
     opts.set("headers", h)
   }
-  let promise : @js.Promise[@js.Any] = ai_module()
-    .get("embedMany")
+  let promise : @js.Promise[@nostd.Any] = ai_module()
+    ._get("embedMany")
     .call_self([opts.as_any()])
     |> @js.identity
   let result = promise.wait()

@@ -102,7 +102,7 @@ All methods are async and raise `LspError` on failure.
 #### Lifecycle
 
 - `new()` - Create a new LSP client
-- `initialize(root_uri)` -> `@js.Any` - Initialize the server
+- `initialize(root_uri)` -> `@nostd.Any` - Initialize the server
 - `shutdown()` -> `Unit` - Shutdown the server
 - `exit()` - Exit the server process (sync)
 

@@ -4,7 +4,7 @@
 pub type VNode
 
 ///|
-pub fn VNode::as_any(self : VNode) -> @js.Any = "%identity"
+pub fn VNode::as_any(self : VNode) -> @nostd.Any = "%identity"
 
 ///|
 /// Component function type (functional component)
@@ -13,7 +13,7 @@ pub type Component[T] = (T) -> VNode
 ///|
 /// Vue.Ref<T> - Reactive reference
 pub(all) struct Ref[T] {
-  value : @js.Any
+  value : @nostd.Any
 }
 
 ///|
@@ -27,11 +27,14 @@ pub fn[T] Ref::set_value(self : Ref[T], value : T) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_set_ref_value(ref_obj : @js.Any, value : @js.Any) -> Unit =
+extern "js" fn ffi_set_ref_value(
+  ref_obj : @nostd.Any,
+  value : @nostd.Any,
+) -> Unit =
   #|(ref, value) => { ref.value = value; }
 
 ///|
-pub fn[T] Ref::as_any(self : Ref[T]) -> @js.Any {
+pub fn[T] Ref::as_any(self : Ref[T]) -> @nostd.Any {
   self.value
 }
 
@@ -40,14 +43,14 @@ pub fn[T] Ref::as_any(self : Ref[T]) -> @js.Any {
 pub fn h(
   tag : String,
   children : Array[&VueNode],
-  props? : Map[String, @js.Any],
+  props? : Map[String, @nostd.Any],
   style? : Map[String, String],
   ref_? : Ref[@dom.Element],
   key? : String,
 ) -> VNode {
-  let tag = @js.any(tag)
+  let tag = @nostd.any(tag)
   let children = children.map(_.to_vue_node()) |> @js.from_array
-  let val = @js.Object::new()
+  let val = @nostd.Object::new()
   if props is Some(props) {
     for k, v in props {
       val.set(k, v)
@@ -60,7 +63,7 @@ pub fn h(
     val.set("key", key)
   }
   if style is Some(style) {
-    let style_obj = @js.Object::new()
+    let style_obj = @nostd.Object::new()
     for k, v in style {
       style_obj.set(k, v)
     }
@@ -80,10 +83,10 @@ pub fn[T] component(
 ) -> VNode {
   let tag = @js.identity(tag)
   let children = children.map(_.to_vue_node()) |> @js.from_array
-  let val : @js.Any = props |> @js.identity
+  let val : @nostd.Any = props |> @js.identity
   if key is Some(key) {
     if @js.is_nullish(val) {
-      let obj = @js.Object::new()
+      let obj = @nostd.Object::new()
       obj.set("key", key)
       return ffi_h(tag, obj.as_any(), children) |> @js.identity
     }
@@ -97,7 +100,7 @@ pub fn[T] component(
 pub fn fragment(children : Array[&VueNode], key? : String) -> VNode {
   let tag = get_fragment()
   let children = children.map(_.to_vue_node()) |> @js.from_array
-  let val = @js.Object::new()
+  let val = @nostd.Object::new()
   if key is Some(key) {
     val.set("key", key)
   }
@@ -112,17 +115,17 @@ pub fn render(vnode : VNode, container : @dom.Element) -> Unit {
 
 ///|
 /// Vue.createApp - Create a Vue application instance
-pub fn createApp(rootComponent : @js.Any, props? : @js.Any) -> @js.Any {
+pub fn createApp(rootComponent : @nostd.Any, props? : @nostd.Any) -> @nostd.Any {
   let p = match props {
     Some(p) => p
-    None => @js.Object::new().as_any()
+    None => @nostd.Object::new().as_any()
   }
   ffi_create_app(rootComponent, p)
 }
 
 ///|
 /// Mount a Vue app to a container
-pub fn mount(app : @js.Any, container : @dom.Element) -> Unit {
+pub fn mount(app : @nostd.Any, container : @dom.Element) -> Unit {
   ffi_mount(app, container |> @js.identity)
 }
 
@@ -148,7 +151,7 @@ pub fn[T] computed(getter : () -> T) -> Ref[T] {
 ///|
 /// Vue.computed with getter and setter
 pub fn[T] computedWritable(get : () -> T, set : (T) -> Unit) -> Ref[T] {
-  let options = @js.Object::new()
+  let options = @nostd.Object::new()
   options.set("get", get |> @js.unsafe_any)
   options.set("set", set |> @js.unsafe_any)
   @js.identity(ffi_computed(options.as_any()))
@@ -162,13 +165,13 @@ pub fn[T] readonly_(obj : T) -> T {
 
 ///|
 /// Vue.toRef - Create a ref from a reactive object property
-pub fn[T] toRef(obj : @js.Any, key : String) -> Ref[T] {
+pub fn[T] toRef(obj : @nostd.Any, key : String) -> Ref[T] {
   @js.identity(ffi_to_ref(obj, key))
 }
 
 ///|
 /// Vue.toRefs - Create refs from all properties of a reactive object
-pub fn toRefs(obj : @js.Any) -> @js.Any {
+pub fn toRefs(obj : @nostd.Any) -> @nostd.Any {
   ffi_to_refs(obj)
 }
 
@@ -180,19 +183,19 @@ pub fn[T] unref(ref_ : Ref[T]) -> T {
 
 ///|
 /// Vue.isRef - Check if a value is a ref
-pub fn isRef(value : @js.Any) -> Bool {
+pub fn isRef(value : @nostd.Any) -> Bool {
   ffi_is_ref(value)
 }
 
 ///|
 /// Vue.isReactive - Check if a value is reactive
-pub fn isReactive(value : @js.Any) -> Bool {
+pub fn isReactive(value : @nostd.Any) -> Bool {
   ffi_is_reactive(value)
 }
 
 ///|
 /// Vue.isReadonly - Check if a value is readonly
-pub fn isReadonly(value : @js.Any) -> Bool {
+pub fn isReadonly(value : @nostd.Any) -> Bool {
   ffi_is_readonly(value)
 }
 

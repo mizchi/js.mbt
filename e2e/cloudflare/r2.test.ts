@@ -19,21 +19,21 @@ describe("R2 Bucket", () => {
   describe("Basic Operations", () => {
     it("should put and get an object", async () => {
       await TEST_R2.put("test-file.txt", "Hello, R2!");
-      const obj = await TEST_R2.get("test-file.txt");
+      const obj = await TEST_R2._get("test-file.txt");
       expect(obj).not.toBeNull();
       const text = await obj!.text();
       expect(text).toBe("Hello, R2!");
     });
 
     it("should return null for non-existent object", async () => {
-      const obj = await TEST_R2.get("non-existent.txt");
+      const obj = await TEST_R2._get("non-existent.txt");
       expect(obj).toBeNull();
     });
 
     it("should delete an object", async () => {
       await TEST_R2.put("delete-me.txt", "temporary");
       await TEST_R2.delete("delete-me.txt");
-      const obj = await TEST_R2.get("delete-me.txt");
+      const obj = await TEST_R2._get("delete-me.txt");
       expect(obj).toBeNull();
     });
 
@@ -49,7 +49,7 @@ describe("R2 Bucket", () => {
   describe("Object Content Types", () => {
     it("should store and retrieve text", async () => {
       await TEST_R2.put("text.txt", "Plain text content");
-      const obj = await TEST_R2.get("text.txt");
+      const obj = await TEST_R2._get("text.txt");
       const text = await obj!.text();
       expect(text).toBe("Plain text content");
     });
@@ -57,7 +57,7 @@ describe("R2 Bucket", () => {
     it("should store and retrieve JSON", async () => {
       const data = { name: "Alice", age: 30, active: true };
       await TEST_R2.put("data.json", JSON.stringify(data));
-      const obj = await TEST_R2.get("data.json");
+      const obj = await TEST_R2._get("data.json");
       const json = await obj!.json();
       expect(json).toEqual(data);
     });
@@ -66,7 +66,7 @@ describe("R2 Bucket", () => {
       const encoder = new TextEncoder();
       const buffer = encoder.encode("Binary data").buffer;
       await TEST_R2.put("binary.dat", buffer);
-      const obj = await TEST_R2.get("binary.dat");
+      const obj = await TEST_R2._get("binary.dat");
       const retrieved = await obj!.arrayBuffer();
       const decoder = new TextDecoder();
       expect(decoder.decode(retrieved)).toBe("Binary data");
@@ -75,7 +75,7 @@ describe("R2 Bucket", () => {
     it("should store and retrieve Blob", async () => {
       const blob = new Blob(["Blob content"], { type: "text/plain" });
       await TEST_R2.put("blob.txt", blob);
-      const obj = await TEST_R2.get("blob.txt");
+      const obj = await TEST_R2._get("blob.txt");
       const retrievedBlob = await obj!.blob();
       const text = await retrievedBlob.text();
       expect(text).toBe("Blob content");
@@ -95,7 +95,7 @@ describe("R2 Bucket", () => {
         });
         expect(putResult).toBeDefined();
 
-        const obj = await TEST_R2.get("styled.html");
+        const obj = await TEST_R2._get("styled.html");
         expect(obj).not.toBeNull();
         if (obj) {
           expect(obj.httpMetadata.contentType).toBe("text/html");
@@ -117,7 +117,7 @@ describe("R2 Bucket", () => {
       });
       expect(putResult).toBeDefined();
 
-      const obj = await TEST_R2.get("download.pdf");
+      const obj = await TEST_R2._get("download.pdf");
       expect(obj).not.toBeNull();
       if (obj) {
         expect(obj.httpMetadata.contentDisposition).toBe(
@@ -139,13 +139,13 @@ describe("R2 Bucket", () => {
         customMetadata: metadata,
       });
 
-      const obj = await TEST_R2.get("doc.txt");
+      const obj = await TEST_R2._get("doc.txt");
       expect(obj!.customMetadata).toEqual(metadata);
     });
 
     it("should handle empty custom metadata", async () => {
       await TEST_R2.put("no-meta.txt", "content");
-      const obj = await TEST_R2.get("no-meta.txt");
+      const obj = await TEST_R2._get("no-meta.txt");
       expect(obj!.customMetadata).toEqual({});
     });
   });
@@ -153,33 +153,33 @@ describe("R2 Bucket", () => {
   describe("Object Properties", () => {
     it("should return correct object key", async () => {
       await TEST_R2.put("my-key.txt", "content");
-      const obj = await TEST_R2.get("my-key.txt");
+      const obj = await TEST_R2._get("my-key.txt");
       expect(obj!.key).toBe("my-key.txt");
     });
 
     it("should return correct object size", async () => {
       const content = "x".repeat(1000);
       await TEST_R2.put("sized.txt", content);
-      const obj = await TEST_R2.get("sized.txt");
+      const obj = await TEST_R2._get("sized.txt");
       expect(obj!.size).toBe(1000);
     });
 
     it("should have etag", async () => {
       await TEST_R2.put("tagged.txt", "content");
-      const obj = await TEST_R2.get("tagged.txt");
+      const obj = await TEST_R2._get("tagged.txt");
       expect(obj!.etag).toBeDefined();
       expect(typeof obj!.etag).toBe("string");
     });
 
     it("should have version", async () => {
       await TEST_R2.put("versioned.txt", "content");
-      const obj = await TEST_R2.get("versioned.txt");
+      const obj = await TEST_R2._get("versioned.txt");
       expect(obj!.version).toBeDefined();
     });
 
     it("should have uploaded timestamp", async () => {
       await TEST_R2.put("timestamped.txt", "content");
-      const obj = await TEST_R2.get("timestamped.txt");
+      const obj = await TEST_R2._get("timestamped.txt");
       expect(obj!.uploaded).toBeInstanceOf(Date);
     });
   });
@@ -187,10 +187,10 @@ describe("R2 Bucket", () => {
   describe("Conditional Gets", () => {
     it("should get object only if etag matches", async () => {
       await TEST_R2.put("conditional.txt", "content");
-      const obj1 = await TEST_R2.get("conditional.txt");
+      const obj1 = await TEST_R2._get("conditional.txt");
       const etag = obj1!.etag;
 
-      const obj2 = await TEST_R2.get("conditional.txt", {
+      const obj2 = await TEST_R2._get("conditional.txt", {
         onlyIf: { etagMatches: etag },
       });
       expect(obj2).not.toBeNull();
@@ -198,7 +198,7 @@ describe("R2 Bucket", () => {
 
     it("should return null if etag does not match", async () => {
       await TEST_R2.put("conditional2.txt", "content");
-      const obj = await TEST_R2.get("conditional2.txt", {
+      const obj = await TEST_R2._get("conditional2.txt", {
         onlyIf: { etagDoesNotMatch: "fake-etag" },
       });
       expect(obj).not.toBeNull();
@@ -208,7 +208,7 @@ describe("R2 Bucket", () => {
   describe("Range Requests", () => {
     it("should get object with byte range", async () => {
       await TEST_R2.put("range.txt", "0123456789");
-      const obj = await TEST_R2.get("range.txt", {
+      const obj = await TEST_R2._get("range.txt", {
         range: { offset: 2, length: 5 },
       });
       const text = await obj!.text();
@@ -217,7 +217,7 @@ describe("R2 Bucket", () => {
 
     it("should get object with suffix range", async () => {
       await TEST_R2.put("suffix.txt", "0123456789");
-      const obj = await TEST_R2.get("suffix.txt", {
+      const obj = await TEST_R2._get("suffix.txt", {
         range: { suffix: 3 },
       });
       const text = await obj!.text();
@@ -301,9 +301,9 @@ describe("R2 Bucket", () => {
 
       await TEST_R2.delete(["bulk1.txt", "bulk2.txt", "bulk3.txt"]);
 
-      const obj1 = await TEST_R2.get("bulk1.txt");
-      const obj2 = await TEST_R2.get("bulk2.txt");
-      const obj3 = await TEST_R2.get("bulk3.txt");
+      const obj1 = await TEST_R2._get("bulk1.txt");
+      const obj2 = await TEST_R2._get("bulk2.txt");
+      const obj3 = await TEST_R2._get("bulk3.txt");
 
       expect(obj1).toBeNull();
       expect(obj2).toBeNull();
@@ -340,7 +340,7 @@ describe("R2 Bucket", () => {
       await upload.abort();
 
       // After abort, the object should not exist
-      const obj = await TEST_R2.get("abort-multipart.bin");
+      const obj = await TEST_R2._get("abort-multipart.bin");
       expect(obj).toBeNull();
     });
 
@@ -365,7 +365,7 @@ describe("R2 Bucket", () => {
   describe("Edge Cases", () => {
     it("should handle empty content", async () => {
       await TEST_R2.put("empty.txt", "");
-      const obj = await TEST_R2.get("empty.txt");
+      const obj = await TEST_R2._get("empty.txt");
       expect(obj!.size).toBe(0);
       const text = await obj!.text();
       expect(text).toBe("");
@@ -373,14 +373,14 @@ describe("R2 Bucket", () => {
 
     it("should handle unicode keys", async () => {
       await TEST_R2.put("emoji-🚀.txt", "rocket");
-      const obj = await TEST_R2.get("emoji-🚀.txt");
+      const obj = await TEST_R2._get("emoji-🚀.txt");
       const text = await obj!.text();
       expect(text).toBe("rocket");
     });
 
     it("should handle unicode content", async () => {
       await TEST_R2.put("unicode.txt", "こんにちは世界 🌍");
-      const obj = await TEST_R2.get("unicode.txt");
+      const obj = await TEST_R2._get("unicode.txt");
       const text = await obj!.text();
       expect(text).toBe("こんにちは世界 🌍");
     });
@@ -388,14 +388,14 @@ describe("R2 Bucket", () => {
     it("should handle large objects", async () => {
       const largeContent = "x".repeat(1024 * 1024); // 1MB
       await TEST_R2.put("large.txt", largeContent);
-      const obj = await TEST_R2.get("large.txt");
+      const obj = await TEST_R2._get("large.txt");
       expect(obj!.size).toBe(1024 * 1024);
     });
 
     it("should overwrite existing object", async () => {
       await TEST_R2.put("overwrite.txt", "version1");
       await TEST_R2.put("overwrite.txt", "version2");
-      const obj = await TEST_R2.get("overwrite.txt");
+      const obj = await TEST_R2._get("overwrite.txt");
       const text = await obj!.text();
       expect(text).toBe("version2");
     });
@@ -403,7 +403,7 @@ describe("R2 Bucket", () => {
     it("should handle keys with special characters", async () => {
       const specialKey = "path/to/file-name_v1.2.3.txt";
       await TEST_R2.put(specialKey, "content");
-      const obj = await TEST_R2.get(specialKey);
+      const obj = await TEST_R2._get(specialKey);
       expect(obj!.key).toBe(specialKey);
     });
   });
@@ -411,7 +411,7 @@ describe("R2 Bucket", () => {
   describe("Body Consumption", () => {
     it("should mark body as used after reading", async () => {
       await TEST_R2.put("body-test.txt", "content");
-      const obj = await TEST_R2.get("body-test.txt");
+      const obj = await TEST_R2._get("body-test.txt");
       expect(obj).not.toBeNull();
       if (obj) {
         expect(obj.bodyUsed).toBe(false);
@@ -422,7 +422,7 @@ describe("R2 Bucket", () => {
 
     it("should not allow reading body twice", async () => {
       await TEST_R2.put("double-read.txt", "content");
-      const obj = await TEST_R2.get("double-read.txt");
+      const obj = await TEST_R2._get("double-read.txt");
       expect(obj).not.toBeNull();
       if (obj) {
         await obj.text();
@@ -444,7 +444,7 @@ describe("R2 Bucket", () => {
       await TEST_R2.put("md5.txt", content, {
         md5: "fake-md5-for-test",
       });
-      const obj = await TEST_R2.get("md5.txt");
+      const obj = await TEST_R2._get("md5.txt");
       expect(obj).not.toBeNull();
     });
   });

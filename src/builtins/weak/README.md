@@ -25,7 +25,7 @@ Provides bindings for JavaScript's weak reference APIs:
 
 ```moonbit
 fn main {
-  let obj = @js.Object::new()
+  let obj = @nostd.Object::new()
   
   // Create a weak reference
   let weak_ref = @weak.WeakRef::new(obj)

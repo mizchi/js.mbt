@@ -21,8 +21,8 @@ pub fn OpenAIOptions::default() -> OpenAIOptions {
 
 ///|
 /// Convert OpenAI options to JS object
-pub fn OpenAIOptions::as_any(self : OpenAIOptions) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn OpenAIOptions::as_any(self : OpenAIOptions) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if self.api_key is Some(key) {
     obj.set("apiKey", key)
   }
@@ -41,21 +41,21 @@ pub fn OpenAIOptions::as_any(self : OpenAIOptions) -> @js.Any {
 pub type OpenAIProvider
 
 ///|
-pub fn OpenAIProvider::as_any(self : OpenAIProvider) -> @js.Any = "%identity"
+pub fn OpenAIProvider::as_any(self : OpenAIProvider) -> @nostd.Any = "%identity"
 
 ///|
 /// Load the OpenAI provider module
 /// Returns the default openai provider function from @ai-sdk/openai
 pub fn OpenAIProvider::require() -> OpenAIProvider {
   let pkg = @node.require("@ai-sdk/openai")
-  pkg.get("openai") |> @js.identity
+  pkg._get("openai") |> @js.identity
 }
 
 ///|
 /// Create a customized OpenAI provider with options
 pub fn OpenAIProvider::create(options : OpenAIOptions) -> OpenAIProvider {
   let pkg = @node.require("@ai-sdk/openai")
-  let create_fn = pkg.get("createOpenAI")
+  let create_fn = pkg._get("createOpenAI")
   create_fn.call_self([options.as_any()]) |> @js.identity
 }
 
@@ -95,8 +95,8 @@ pub fn AnthropicOptions::default() -> AnthropicOptions {
 
 ///|
 /// Convert Anthropic options to JS object
-pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if self.api_key is Some(key) {
     obj.set("apiKey", key)
   }
@@ -112,14 +112,14 @@ pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @js.Any {
 pub type AnthropicProvider
 
 ///|
-pub fn AnthropicProvider::as_any(self : AnthropicProvider) -> @js.Any = "%identity"
+pub fn AnthropicProvider::as_any(self : AnthropicProvider) -> @nostd.Any = "%identity"
 
 ///|
 /// Load the Anthropic provider module
 /// Returns the default anthropic provider function from @ai-sdk/anthropic
 pub fn AnthropicProvider::require() -> AnthropicProvider {
   let pkg = @node.require("@ai-sdk/anthropic")
-  pkg.get("anthropic") |> @js.identity
+  pkg._get("anthropic") |> @js.identity
 }
 
 ///|
@@ -128,7 +128,7 @@ pub fn AnthropicProvider::create(
   options : AnthropicOptions,
 ) -> AnthropicProvider {
   let pkg = @node.require("@ai-sdk/anthropic")
-  let create_fn = pkg.get("createAnthropic")
+  let create_fn = pkg._get("createAnthropic")
   create_fn.call_self([options.as_any()]) |> @js.identity
 }
 
@@ -174,8 +174,8 @@ pub fn GoogleOptions::default() -> GoogleOptions {
 
 ///|
 /// Convert Google options to JS object
-pub fn GoogleOptions::as_any(self : GoogleOptions) -> @js.Any {
-  let obj = @js.Object::new()
+pub fn GoogleOptions::as_any(self : GoogleOptions) -> @nostd.Any {
+  let obj = @nostd.Object::new()
   if self.api_key is Some(key) {
     obj.set("apiKey", key)
   }
@@ -191,21 +191,21 @@ pub fn GoogleOptions::as_any(self : GoogleOptions) -> @js.Any {
 pub type GoogleProvider
 
 ///|
-pub fn GoogleProvider::as_any(self : GoogleProvider) -> @js.Any = "%identity"
+pub fn GoogleProvider::as_any(self : GoogleProvider) -> @nostd.Any = "%identity"
 
 ///|
 /// Load the Google Generative AI provider module
 /// Returns the default google provider function from @ai-sdk/google
 pub fn GoogleProvider::require() -> GoogleProvider {
   let pkg = @node.require("@ai-sdk/google")
-  pkg.get("google") |> @js.identity
+  pkg._get("google") |> @js.identity
 }
 
 ///|
 /// Create a customized Google provider with options
 pub fn GoogleProvider::create(options : GoogleOptions) -> GoogleProvider {
   let pkg = @node.require("@ai-sdk/google")
-  let create_fn = pkg.get("createGoogleGenerativeAI")
+  let create_fn = pkg._get("createGoogleGenerativeAI")
   create_fn.call_self([options.as_any()]) |> @js.identity
 }
 

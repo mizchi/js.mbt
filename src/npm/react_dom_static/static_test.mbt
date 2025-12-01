@@ -23,17 +23,17 @@ test "prerenderToNodeStream returns Promise" {
   init_react()
   let static_ = get_react_dom_static()
   // Use dynamic import to get Promise, then wait
-  let element : @js.Any = @react.component(simple_component, {
+  let element : @nostd.Any = @react.component(simple_component, {
       message: "Hello SSR",
     })
     .as_any()
     .cast()
-  let promise : @js.Any = static_
+  let promise : @nostd.Any = static_
     .as_any()
-    .call("prerenderToNodeStream", [element])
+    ._call("prerenderToNodeStream", [element])
   // Verify it returns a Promise (object with then method)
   @js.typeof_(promise) |> assert_eq("object")
-  @js.typeof_(promise.get("then")) |> assert_eq("function")
+  @js.typeof_(promise._get("then")) |> assert_eq("function")
 }
 
 ///|
@@ -41,7 +41,7 @@ test "prerender function exists" {
   init_react()
   let static_ = get_react_dom_static()
   // Verify prerender function exists
-  let prerender_fn = static_.as_any().get("prerender")
+  let prerender_fn = static_.as_any()._get("prerender")
   @js.typeof_(prerender_fn) |> assert_eq("function")
 }
 
@@ -50,7 +50,7 @@ test "prerenderToNodeStream function exists" {
   init_react()
   let static_ = get_react_dom_static()
   // Verify prerenderToNodeStream function exists
-  let fn_ = static_.as_any().get("prerenderToNodeStream")
+  let fn_ = static_.as_any()._get("prerenderToNodeStream")
   @js.typeof_(fn_) |> assert_eq("function")
 }
 
@@ -60,34 +60,34 @@ test "build_options with all parameters" {
   init_react()
   let static_ = get_react_dom_static()
   // Create options object similar to what build_options would create
-  let opts = @js.Object::new()
+  let opts = @nostd.Object::new()
   opts.set("bootstrapScriptContent", "console.log('bootstrap')")
   opts.set("bootstrapScripts", @js.from_array(["/main.js"]))
   opts.set("identifierPrefix", "test-")
   // Verify react-dom/static.prerenderToNodeStream accepts options
-  let element : @js.Any = @react.component(simple_component, {
+  let element : @nostd.Any = @react.component(simple_component, {
       message: "Options Test",
     })
     .as_any()
     .cast()
-  let promise : @js.Any = static_
+  let promise : @nostd.Any = static_
     .as_any()
-    .call("prerenderToNodeStream", [element, opts.as_any()])
+    ._call("prerenderToNodeStream", [element, opts.as_any()])
   @js.typeof_(promise) |> assert_eq("object")
-  @js.typeof_(promise.get("then")) |> assert_eq("function")
+  @js.typeof_(promise._get("then")) |> assert_eq("function")
 }
 
 ///|
 test "prerender returns Promise" {
   init_react()
   let static_ = get_react_dom_static()
-  let element : @js.Any = @react.component(simple_component, {
+  let element : @nostd.Any = @react.component(simple_component, {
       message: "Web Stream Test",
     })
     .as_any()
     .cast()
-  let promise : @js.Any = static_.as_any().call("prerender", [element])
+  let promise : @nostd.Any = static_.as_any()._call("prerender", [element])
   // Verify it returns a Promise
   @js.typeof_(promise) |> assert_eq("object")
-  @js.typeof_(promise.get("then")) |> assert_eq("function")
+  @js.typeof_(promise._get("then")) |> assert_eq("function")
 }

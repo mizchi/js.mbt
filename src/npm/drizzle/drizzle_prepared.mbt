@@ -7,7 +7,7 @@
 pub type PreparedQuery
 
 ///|
-pub fn PreparedQuery::as_any(self : PreparedQuery) -> @js.Any = "%identity"
+pub fn PreparedQuery::as_any(self : PreparedQuery) -> @nostd.Any = "%identity"
 
 // ============ Prepared Statements ============
 
@@ -23,22 +23,22 @@ pub fn QueryBuilder::prepare(
 ///|
 extern "js" fn ffi_prepared_execute(
   pq : PreparedQuery,
-  params : @js.Any,
-) -> @js.Promise[@js.Any] =
+  params : @nostd.Any,
+) -> @js.Promise[@nostd.Any] =
   #| (pq, params) => pq.execute(params)
 
 ///|
 extern "js" fn ffi_prepared_execute_no_params(
   pq : PreparedQuery,
-) -> @js.Promise[@js.Any] =
+) -> @js.Promise[@nostd.Any] =
   #| (pq) => pq.execute()
 
 ///|
 /// Execute a prepared query with parameters
 pub async fn PreparedQuery::execute(
   self : PreparedQuery,
-  params? : @js.Any,
-) -> @js.Any {
+  params? : @nostd.Any,
+) -> @nostd.Any {
   match params {
     Some(p) => ffi_prepared_execute(self, p).wait()
     None => ffi_prepared_execute_no_params(self).wait()
@@ -49,7 +49,7 @@ pub async fn PreparedQuery::execute(
 /// Execute a prepared query and get typed array result
 pub async fn[T] PreparedQuery::execute_array(
   self : PreparedQuery,
-  params? : @js.Any,
+  params? : @nostd.Any,
 ) -> Array[T] {
   let result = match params {
     Some(p) => ffi_prepared_execute(self, p).wait()
@@ -64,8 +64,8 @@ pub async fn[T] PreparedQuery::execute_array(
 /// Create SQL template with placeholders
 /// Usage: sql_template(["SELECT * FROM users WHERE id = ", ""], [user_id])
 #alias(sql_template)
-pub fn sqlTemplate(strings : Array[String], values : Array[@js.Any]) -> SQL {
-  let sql_fn = drizzle_orm().get("sql")
+pub fn sqlTemplate(strings : Array[String], values : Array[@nostd.Any]) -> SQL {
+  let sql_fn = drizzle_orm()._get("sql")
   // drizzle's sql is a tagged template function
   // We simulate it by calling sql.raw with the built string
   let mut result = ""
@@ -76,7 +76,7 @@ pub fn sqlTemplate(strings : Array[String], values : Array[@js.Any]) -> SQL {
     }
   }
   // Use sql.raw for raw SQL with placeholders
-  let raw_fn = sql_fn.get("raw")
+  let raw_fn = sql_fn._get("raw")
   @nostd.any(raw_fn)._invoke([@nostd.any(result)]).cast()
 }
 
@@ -84,16 +84,16 @@ pub fn sqlTemplate(strings : Array[String], values : Array[@js.Any]) -> SQL {
 /// Create raw SQL (no escaping)
 #alias(sql_raw)
 pub fn sqlRaw(query : String) -> SQL {
-  let sql_fn = drizzle_orm().get("sql")
-  let raw_fn = sql_fn.get("raw")
+  let sql_fn = drizzle_orm()._get("sql")
+  let raw_fn = sql_fn._get("raw")
   @nostd.any(raw_fn)._invoke([@nostd.any(query)]).cast()
 }
 
 ///|
 /// Create a placeholder for prepared statement parameters
-pub fn placeholder(name : String) -> @js.Any {
-  let sql_fn = drizzle_orm().get("sql")
-  let placeholder_fn = sql_fn.get("placeholder")
+pub fn placeholder(name : String) -> @nostd.Any {
+  let sql_fn = drizzle_orm()._get("sql")
+  let placeholder_fn = sql_fn._get("placeholder")
   @nostd.any(placeholder_fn)._invoke([@nostd.any(name)]).cast()
 }
 
@@ -102,8 +102,8 @@ pub fn placeholder(name : String) -> @js.Any {
 ///|
 /// SQL addition
 #alias(sql_add)
-pub fn sqlAdd(left : @js.Any, right : @js.Any) -> SQL {
-  let sql_fn = drizzle_orm().get("sql")
+pub fn sqlAdd(left : @nostd.Any, right : @nostd.Any) -> SQL {
+  let sql_fn = drizzle_orm()._get("sql")
   @nostd.any(sql_fn)
   ._invoke([
     @nostd.any(@js.from_array(["", " + ", ""])),
@@ -116,8 +116,8 @@ pub fn sqlAdd(left : @js.Any, right : @js.Any) -> SQL {
 ///|
 /// SQL subtraction
 #alias(sql_sub)
-pub fn sqlSub(left : @js.Any, right : @js.Any) -> SQL {
-  let sql_fn = drizzle_orm().get("sql")
+pub fn sqlSub(left : @nostd.Any, right : @nostd.Any) -> SQL {
+  let sql_fn = drizzle_orm()._get("sql")
   @nostd.any(sql_fn)
   ._invoke([
     @nostd.any(@js.from_array(["", " - ", ""])),
@@ -130,8 +130,8 @@ pub fn sqlSub(left : @js.Any, right : @js.Any) -> SQL {
 ///|
 /// SQL multiplication
 #alias(sql_mul)
-pub fn sqlMul(left : @js.Any, right : @js.Any) -> SQL {
-  let sql_fn = drizzle_orm().get("sql")
+pub fn sqlMul(left : @nostd.Any, right : @nostd.Any) -> SQL {
+  let sql_fn = drizzle_orm()._get("sql")
   @nostd.any(sql_fn)
   ._invoke([
     @nostd.any(@js.from_array(["", " * ", ""])),
@@ -144,8 +144,8 @@ pub fn sqlMul(left : @js.Any, right : @js.Any) -> SQL {
 ///|
 /// SQL division
 #alias(sql_div)
-pub fn sqlDiv(left : @js.Any, right : @js.Any) -> SQL {
-  let sql_fn = drizzle_orm().get("sql")
+pub fn sqlDiv(left : @nostd.Any, right : @nostd.Any) -> SQL {
+  let sql_fn = drizzle_orm()._get("sql")
   @nostd.any(sql_fn)
   ._invoke([
     @nostd.any(@js.from_array(["", " / ", ""])),
@@ -159,7 +159,7 @@ pub fn sqlDiv(left : @js.Any, right : @js.Any) -> SQL {
 
 ///|
 /// Create a subquery alias
-pub fn QueryBuilder::as_(self : QueryBuilder, name : String) -> @js.Any {
+pub fn QueryBuilder::as_(self : QueryBuilder, name : String) -> @nostd.Any {
   self.call1("as", @nostd.any(name))
 }
 
@@ -168,7 +168,7 @@ pub fn QueryBuilder::as_(self : QueryBuilder, name : String) -> @js.Any {
 ///|
 extern "js" fn ffi_group_by(
   qb : QueryBuilder,
-  columns : @js.Any,
+  columns : @nostd.Any,
 ) -> QueryBuilder =
   #| (qb, columns) => qb.groupBy(...columns)
 
@@ -242,7 +242,7 @@ pub fn QueryBuilder::onConflictDoNothing(self : QueryBuilder) -> QueryBuilder {
 ///|
 extern "js" fn ffi_on_conflict_do_update(
   qb : QueryBuilder,
-  config : @js.Any,
+  config : @nostd.Any,
 ) -> QueryBuilder =
   #| (qb, config) => qb.onConflictDoUpdate(config)
 
@@ -252,9 +252,9 @@ extern "js" fn ffi_on_conflict_do_update(
 pub fn QueryBuilder::onConflictDoUpdate(
   self : QueryBuilder,
   target : Array[Column],
-  set_values : @js.Any,
+  set_values : @nostd.Any,
 ) -> QueryBuilder {
-  let config = @js.Object::new()
+  let config = @nostd.Object::new()
   config.set("target", @js.from_array(target.map(fn(c) { c.as_any() })))
   config.set("set", set_values)
   ffi_on_conflict_do_update(self, config.as_any())

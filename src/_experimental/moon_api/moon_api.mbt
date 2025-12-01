@@ -123,17 +123,17 @@ fn exec_moon_command(
   match stdio {
     Inherit => {
       let result = ffi_spawn_sync_inherit("moon", args, cwd)
-      let exit_code : Int = result.get("status").cast()
+      let exit_code : Int = result._get("status").cast()
       { exit_code, stdout: "", stderr: "", success: exit_code == 0 }
     }
     Pipe => {
       let command = "moon " + args.join(" ")
       let result = ffi_exec_sync_with_result(command, cwd)
-      let exit_code : Int = result.get("exitCode").cast()
+      let exit_code : Int = result._get("exitCode").cast()
       {
         exit_code,
-        stdout: result.get("stdout").cast(),
-        stderr: result.get("stderr").cast(),
+        stdout: result._get("stdout").cast(),
+        stderr: result._get("stderr").cast(),
         success: exit_code == 0,
       }
     }
@@ -145,7 +145,7 @@ extern "js" fn ffi_spawn_sync_inherit(
   command : String,
   args : Array[String],
   cwd : String?,
-) -> @js.Any =
+) -> @nostd.Any =
   #|(command, args, cwd) => {
   #|  const { spawnSync } = require('node:child_process');
   #|  const result = spawnSync(command, args, {
@@ -159,7 +159,7 @@ extern "js" fn ffi_spawn_sync_inherit(
 extern "js" fn ffi_exec_sync_with_result(
   command : String,
   cwd : String?,
-) -> @js.Any =
+) -> @nostd.Any =
   #|(command, cwd) => {
   #|  const { execSync } = require('node:child_process');
   #|  try {
@@ -437,16 +437,16 @@ fn ffi_exec_command(
   match stdio {
     Inherit => {
       let result = ffi_spawn_sync_shell(command, cwd)
-      let exit_code : Int = result.get("status").cast()
+      let exit_code : Int = result._get("status").cast()
       { exit_code, stdout: "", stderr: "", success: exit_code == 0 }
     }
     Pipe => {
       let result = ffi_exec_sync_with_result(command, cwd)
-      let exit_code : Int = result.get("exitCode").cast()
+      let exit_code : Int = result._get("exitCode").cast()
       {
         exit_code,
-        stdout: result.get("stdout").cast(),
-        stderr: result.get("stderr").cast(),
+        stdout: result._get("stdout").cast(),
+        stderr: result._get("stderr").cast(),
         success: exit_code == 0,
       }
     }
@@ -454,7 +454,10 @@ fn ffi_exec_command(
 }
 
 ///|
-extern "js" fn ffi_spawn_sync_shell(command : String, cwd : String?) -> @js.Any =
+extern "js" fn ffi_spawn_sync_shell(
+  command : String,
+  cwd : String?,
+) -> @nostd.Any =
   #|(command, cwd) => {
   #|  const { spawnSync } = require('node:child_process');
   #|  const result = spawnSync(command, {
