@@ -32,7 +32,7 @@ pub impl DateArgs for @date.Date
 /// Format a date using a format string
 /// https://date-fns.org/docs/format
 pub fn format(date : &DateArgs, format_str : String) -> String {
-  date_fns().call2("format", date.to_date(), format_str).cast()
+  date_fns().call2("format", date.to_date(), format_str |> @nostd.any).cast()
 }
 
 ///|
@@ -72,14 +72,20 @@ pub fn parse(
   format_str : String,
   reference : &DateArgs,
 ) -> @date.Date {
-  date_fns()._call("parse", [date_str, format_str, reference.to_date()]).cast()
+  date_fns()
+  ._call("parse", [
+    date_str |> @nostd.any,
+    format_str |> @nostd.any,
+    reference.to_date(),
+  ])
+  .cast()
 }
 
 ///|
 /// Parse an ISO 8601 string
 #alias(parse_iso)
 pub fn parseISO(date_str : String) -> @date.Date {
-  date_fns().call1("parseISO", date_str).cast()
+  date_fns().call1("parseISO", date_str |> @nostd.any).cast()
 }
 
 ///| Comparison
@@ -256,7 +262,7 @@ pub fn add(
     Some(v) => duration.set("seconds", v)
     None => ()
   }
-  date_fns().call2("add", date.to_date(), duration.as_any()).cast()
+  date_fns().call2("add", date.to_date(), duration).cast()
 }
 
 ///|
@@ -300,77 +306,77 @@ pub fn sub(
     Some(v) => duration.set("seconds", v)
     None => ()
   }
-  date_fns().call2("sub", date.to_date(), duration.as_any()).cast()
+  date_fns().call2("sub", date.to_date(), duration).cast()
 }
 
 ///|
 /// Add days
 #alias(add_days)
 pub fn addDays(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("addDays", date.to_date(), amount).cast()
+  date_fns().call2("addDays", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///|
 /// Sub days
 #alias(sub_days)
 pub fn subDays(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("subDays", date.to_date(), amount).cast()
+  date_fns().call2("subDays", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///|
 /// Add months
 #alias(add_months)
 pub fn addMonths(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("addMonths", date.to_date(), amount).cast()
+  date_fns().call2("addMonths", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///|
 /// Sub months
 #alias(sub_months)
 pub fn subMonths(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("subMonths", date.to_date(), amount).cast()
+  date_fns().call2("subMonths", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///|
 /// Add years
 #alias(add_years)
 pub fn addYears(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("addYears", date.to_date(), amount).cast()
+  date_fns().call2("addYears", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///|
 /// Sub years
 #alias(sub_years)
 pub fn subYears(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("subYears", date.to_date(), amount).cast()
+  date_fns().call2("subYears", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///|
 /// Add hours
 #alias(add_hours)
 pub fn addHours(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("addHours", date.to_date(), amount).cast()
+  date_fns().call2("addHours", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///|
 /// Sub hours
 #alias(sub_hours)
 pub fn subHours(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("subHours", date.to_date(), amount).cast()
+  date_fns().call2("subHours", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///|
 /// Add minutes
 #alias(add_minutes)
 pub fn addMinutes(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("addMinutes", date.to_date(), amount).cast()
+  date_fns().call2("addMinutes", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///|
 /// Sub minutes
 #alias(sub_minutes)
 pub fn subMinutes(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns().call2("subMinutes", date.to_date(), amount).cast()
+  date_fns().call2("subMinutes", date.to_date(), amount |> @nostd.any).cast()
 }
 
 ///| Getters
@@ -444,42 +450,42 @@ pub fn getTime(date : &DateArgs) -> Int {
 /// Set year
 #alias(set_year)
 pub fn setYear(date : &DateArgs, year : Int) -> @date.Date {
-  date_fns().call2("setYear", date.to_date(), year).cast()
+  date_fns().call2("setYear", date.to_date(), year |> @nostd.any).cast()
 }
 
 ///|
 /// Set month
 #alias(set_month)
 pub fn setMonth(date : &DateArgs, month : Int) -> @date.Date {
-  date_fns().call2("setMonth", date.to_date(), month).cast()
+  date_fns().call2("setMonth", date.to_date(), month |> @nostd.any).cast()
 }
 
 ///|
 /// Set date (day of month)
 #alias(set_date)
 pub fn setDate(date : &DateArgs, day : Int) -> @date.Date {
-  date_fns().call2("setDate", date.to_date(), day).cast()
+  date_fns().call2("setDate", date.to_date(), day |> @nostd.any).cast()
 }
 
 ///|
 /// Set hours
 #alias(set_hours)
 pub fn setHours(date : &DateArgs, hours : Int) -> @date.Date {
-  date_fns().call2("setHours", date.to_date(), hours).cast()
+  date_fns().call2("setHours", date.to_date(), hours |> @nostd.any).cast()
 }
 
 ///|
 /// Set minutes
 #alias(set_minutes)
 pub fn setMinutes(date : &DateArgs, minutes : Int) -> @date.Date {
-  date_fns().call2("setMinutes", date.to_date(), minutes).cast()
+  date_fns().call2("setMinutes", date.to_date(), minutes |> @nostd.any).cast()
 }
 
 ///|
 /// Set seconds
 #alias(set_seconds)
 pub fn setSeconds(date : &DateArgs, seconds : Int) -> @date.Date {
-  date_fns().call2("setSeconds", date.to_date(), seconds).cast()
+  date_fns().call2("setSeconds", date.to_date(), seconds |> @nostd.any).cast()
 }
 
 ///| Start/End of period
@@ -546,7 +552,7 @@ pub fn endOfWeek(date : &DateArgs) -> @date.Date {
 /// Create a new Date from timestamp
 #alias(from_unix_time)
 pub fn fromUnixTime(timestamp : Int) -> @date.Date {
-  date_fns().call1("fromUnixTime", timestamp).cast()
+  date_fns().call1("fromUnixTime", timestamp |> @nostd.any).cast()
 }
 
 ///|

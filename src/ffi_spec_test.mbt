@@ -29,7 +29,7 @@ pub(all) struct SimpleStruct {
 } derive(Show)
 
 ///|
-pub impl JsImpl for SimpleStruct
+pub fn SimpleStruct::as_any(self : Self) -> @nostd.Any = "%identity"
 
 ///|
 /// Struct with Option fields
@@ -37,11 +37,11 @@ pub(all) struct StructWithOptions {
   required : String
   optionalInt : Int?
   optionalString : String?
-  optionalJs : Any?
+  optionalJs : @nostd.Any?
 }
 
 ///|
-pub impl JsImpl for StructWithOptions
+pub fn StructWithOptions::as_any(self : Self) -> @nostd.Any = "%identity"
 
 ///|
 /// Nested struct
@@ -51,7 +51,7 @@ pub(all) struct NestedStruct {
 }
 
 ///|
-pub impl JsImpl for NestedStruct
+pub fn NestedStruct::as_any(self : Self) -> @nostd.Any = "%identity"
 
 ///|
 /// Struct with optional nested struct
@@ -61,7 +61,7 @@ pub(all) struct StructWithOptionalNested {
 }
 
 ///|
-pub impl JsImpl for StructWithOptionalNested
+pub fn StructWithOptionalNested::as_any(self : Self) -> @nostd.Any = "%identity"
 
 ///|
 /// Generic container
@@ -69,13 +69,10 @@ pub(all) struct Container[T] {
   value : T
 }
 
-///|
-pub impl[T : JsImpl] JsImpl for Container[T]
-
 ///| Helper Functions - All extern "js" must be at top level
 
 ///|
-extern "js" fn create_all_fields() -> Any =
+extern "js" fn create_all_fields() -> @nostd.Any =
   #|() => ({
   #|  required: "test",
   #|  optionalInt: 42,
@@ -84,7 +81,7 @@ extern "js" fn create_all_fields() -> Any =
   #|})
 
 ///|
-extern "js" fn create_null_fields() -> Any =
+extern "js" fn create_null_fields() -> @nostd.Any =
   #|() => ({
   #|  required: "test",
   #|  optionalInt: null,
@@ -93,8 +90,8 @@ extern "js" fn create_null_fields() -> Any =
   #|})
 
 ///|
-extern "js" fn create_undefined_fields() -> Any =
-  #|() => ({
+extern "js" fn create_undefined_fields() -> @nostd.Any =
+  #|() => ({  
   #|  required: "test",
   #|  optionalInt: undefined,
   #|  optionalString: undefined,
@@ -102,25 +99,25 @@ extern "js" fn create_undefined_fields() -> Any =
   #|})
 
 ///|
-extern "js" fn create_missing_fields() -> Any =
+extern "js" fn create_missing_fields() -> @nostd.Any =
   #|() => ({ required: "test" })
 
 ///|
-extern "js" fn create_nested() -> Any =
+extern "js" fn create_nested() -> @nostd.Any =
   #|() => ({
   #|  id: 1,
   #|  simple: { name: "Alice", age: 30 }
   #|})
 
 ///|
-extern "js" fn create_null_nested() -> Any =
+extern "js" fn create_null_nested() -> @nostd.Any =
   #|() => ({
   #|  id: 1,
   #|  nested: null
   #|})
 
 ///|
-extern "js" fn create_undefined_nested() -> Any =
+extern "js" fn create_undefined_nested() -> @nostd.Any =
   #|() => ({
   #|  id: 1,
   #|  nested: undefined
@@ -382,33 +379,30 @@ pub(all) struct CustomStruct {
 } derive(Show)
 
 ///|
-pub impl JsImpl for CustomStruct
-
-///|
 pub(all) struct ContainerWithCustom {
   required : String
   optional : CustomStruct?
 }
 
 ///|
-pub impl JsImpl for ContainerWithCustom
+pub fn ContainerWithCustom::as_any(self : Self) -> @nostd.Any = "%identity"
 
 ///|
-extern "js" fn create_with_null_custom() -> Any =
+extern "js" fn create_with_null_custom() -> @nostd.Any =
   #|() => ({
   #|  required: "test",
   #|  optional: null
   #|})
 
 ///|
-extern "js" fn create_with_undefined_custom() -> Any =
+extern "js" fn create_with_undefined_custom() -> @nostd.Any =
   #|() => ({
   #|  required: "test",
   #|  optional: undefined
   #|})
 
 ///|
-extern "js" fn create_with_custom_value() -> Any =
+extern "js" fn create_with_custom_value() -> @nostd.Any =
   #|() => ({
   #|  required: "test",
   #|  optional: { id: 42, name: "Alice" }

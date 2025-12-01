@@ -6,10 +6,6 @@
 pub type JsBigInt
 
 ///|
-/// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
-pub impl @js.JsImpl for JsBigInt
-
-///|
 pub fn JsBigInt::as_any(self : JsBigInt) -> @nostd.Any = "%identity"
 
 ///|

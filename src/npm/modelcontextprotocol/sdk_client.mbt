@@ -23,15 +23,12 @@ extern "js" fn require_stdio_client_transport() -> @nostd.Any =
 pub type SdkClient
 
 ///|
-pub impl @js.JsImpl for SdkClient
+pub extern "js" fn SdkClient::as_any(self : SdkClient) -> @nostd.Any = "%identity"
 
 ///|
 /// StdioClientTransport from @modelcontextprotocol/sdk
 #external
 pub type StdioClientTransport
-
-///|
-pub impl @js.JsImpl for StdioClientTransport
 
 // ============================================================
 // Client Implementation
@@ -51,9 +48,7 @@ pub fn SdkClient::new(name : String, version : String) -> SdkClient {
   )
   // Create client instance with empty capabilities
   let opts = @js.identity(
-    @mbtconv.from_map({
-      "capabilities": @nostd.any(@nostd.Object::new()),
-    }),
+    @mbtconv.from_map({ "capabilities": @nostd.any(@nostd.Object::new()) }),
   )
   ffi_construct_client(client_class, [client_info, opts]) |> @js.identity
 }
@@ -90,13 +85,13 @@ pub async fn SdkClient::connect(
   self : SdkClient,
   transport : StdioClientTransport,
 ) -> Unit {
-  ffi_client_connect(self.as_any(), transport.as_any()).wait()
+  ffi_client_connect(self |> @nostd.any, transport |> @nostd.any).wait()
 }
 
 ///|
 /// Close client
 pub async fn SdkClient::close(self : SdkClient) -> Unit {
-  ffi_client_close(self.as_any()).wait()
+  ffi_client_close(self |> @nostd.any).wait()
 }
 
 // ============================================================
@@ -126,7 +121,7 @@ pub async fn SdkClient::list_tools(self : SdkClient) -> ListToolsResult {
   )
   let types = require_mcp_client_types()
   let schema = types._get("ListToolsResultSchema")
-  let result = ffi_client_request(self.as_any(), request, schema).wait()
+  let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
   let tools : Array[ToolInfo] = result._get("tools") |> @js.identity
   { tools, raw: result }
 }
@@ -159,14 +154,12 @@ pub fn ContentResult::type_(self : ContentResult) -> String {
 pub async fn SdkClient::call_tool(
   self : SdkClient,
   name : String,
-  arguments : &@js.JsImpl,
+  arguments : @nostd.Any,
 ) -> CallToolResult {
-  let params = @js.identity(
-    @mbtconv.from_map({
-      "name": name |> @nostd.any,
-      "arguments": @nostd.any(arguments),
-    }),
-  )
+  let params = @mbtconv.from_map({
+    "name": name |> @nostd.any,
+    "arguments": @nostd.any(arguments),
+  })
   let request = @js.identity(
     @mbtconv.from_map({
       "method": "tools/call" |> @nostd.any,
@@ -175,7 +168,7 @@ pub async fn SdkClient::call_tool(
   )
   let types = require_mcp_client_types()
   let schema = types._get("CallToolResultSchema")
-  let result = ffi_client_request(self.as_any(), request, schema).wait()
+  let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
   let content : Array[ContentResult] = result._get("content") |> @js.identity
   let is_error : Bool? = result._get("isError") |> @js.identity_option()
   { content, is_error, raw: result }
@@ -209,7 +202,7 @@ pub async fn SdkClient::list_resources(self : SdkClient) -> ListResourcesResult 
   )
   let types = require_mcp_client_types()
   let schema = types._get("ListResourcesResultSchema")
-  let result = ffi_client_request(self.as_any(), request, schema).wait()
+  let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
   let resources : Array[ResourceInfo] = result._get("resources") |> @js.identity
   { resources, raw: result }
 }
@@ -227,16 +220,14 @@ pub async fn SdkClient::read_resource(
   self : SdkClient,
   uri : String,
 ) -> ReadResourceResult {
-  let params = @js.identity(@nostd.from_entries([("uri", uri |> @nostd.any)]))
-  let request = @js.identity(
-    @mbtconv.from_map({
-      "method": "resources/read" |> @nostd.any,
-      "params": @nostd.any(params),
-    }),
-  )
+  let params = @nostd.from_entries([("uri", uri |> @nostd.any)])
+  let request = @mbtconv.from_map({
+    "method": "resources/read" |> @nostd.any,
+    "params": @nostd.any(params),
+  })
   let types = require_mcp_client_types()
   let schema = types._get("ReadResourceResultSchema")
-  let result = ffi_client_request(self.as_any(), request, schema).wait()
+  let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
   let contents : Array[ContentResult] = result._get("contents") |> @js.identity
   { contents, raw: result }
 }
@@ -276,7 +267,7 @@ pub async fn SdkClient::list_prompts(self : SdkClient) -> ListPromptsResult {
   )
   let types = require_mcp_client_types()
   let schema = types._get("ListPromptsResultSchema")
-  let result = ffi_client_request(self.as_any(), request, schema).wait()
+  let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
   let prompts : Array[PromptInfo] = result._get("prompts") |> @js.identity
   { prompts, raw: result }
 }
@@ -316,7 +307,7 @@ pub async fn SdkClient::get_prompt(
   )
   let types = require_mcp_client_types()
   let schema = types._get("GetPromptResultSchema")
-  let result = ffi_client_request(self.as_any(), request, schema).wait()
+  let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
   let messages : Array[PromptMessageResult] = result._get("messages")
     |> @js.identity
   {
@@ -355,7 +346,9 @@ pub fn StdioClientTransport::new(
 ///|
 /// Start the transport
 pub async fn StdioClientTransport::start(self : StdioClientTransport) -> Unit {
-  let promise : @js.Promise[Unit] = self.as_any()._get("start").call_self([])
+  let promise : @js.Promise[Unit] = (self |> @nostd.any)
+    ._get("start")
+    .call_self([])
     |> @js.identity
   promise.wait()
 }
@@ -363,8 +356,7 @@ pub async fn StdioClientTransport::start(self : StdioClientTransport) -> Unit {
 ///|
 /// Close the transport
 pub async fn StdioClientTransport::close(self : StdioClientTransport) -> Unit {
-  let promise : @js.Promise[Unit] = self.as_any()._get("close").call_self([])
-    |> @js.identity
+  let promise : @js.Promise[Unit] = self |> @nostd.any |> @js.identity
   promise.wait()
 }
 

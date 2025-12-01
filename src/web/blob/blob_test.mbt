@@ -15,11 +15,10 @@ test "Blob new creates blob from string" {
 ///|
 /// Test Blob constructor with multiple parts
 test "Blob new creates blob from multiple parts" {
-  let blob = Blob::new([
-    @nostd.any("Hello"),
-    @nostd.any(" "),
-    @nostd.any("World!"),
-  ], content_type="text/plain")
+  let blob = Blob::new(
+    [@nostd.any("Hello"), @nostd.any(" "), @nostd.any("World!")],
+    content_type="text/plain",
+  )
   inspect(blob.size > 0, content="true")
 }
 
@@ -113,7 +112,7 @@ test "Blob slice with content_type sets MIME type" {
 test "Blob stream returns ReadableStream" {
   let blob = Blob::new([@nostd.any("test")])
   let stream = blob.stream()
-  inspect(@js.typeof_(stream.as_any().cast()) == "object", content="true")
+  inspect(@nostd.typeof_(stream.as_any().cast()) == "object", content="true")
 }
 
 ///| Integration Tests
@@ -121,7 +120,7 @@ test "Blob stream returns ReadableStream" {
 ///|
 /// Test Blob with binary data
 test "Blob handles binary data" {
-  let uint8 = @typedarray.Uint8Array::from_size(3)
+  let uint8 = @typedarray.Uint8Array::from_size(3).as_typed_array()
   uint8.set_at(0, 72) // 'H'
   uint8.set_at(1, 105) // 'i'
   uint8.set_at(2, 33) // '!'

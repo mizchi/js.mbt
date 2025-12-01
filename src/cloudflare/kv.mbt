@@ -46,7 +46,7 @@ pub async fn KVNamespace::get_array_buffer(
   self : Self,
   key : String,
 ) -> @nostd.Any? {
-  let opts_js = @nostd.from_entries([("type", @nostd.any("arrayBuffer"))]).cast()
+  let opts_js = @nostd.from_entries([("type", @nostd.any("arrayBuffer"))])
   let promise : @js.Promise[@nostd.Any?] = self
     .as_any()
     ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
@@ -57,7 +57,7 @@ pub async fn KVNamespace::get_array_buffer(
 ///|
 /// Get a value as JSON
 pub async fn KVNamespace::get_json(self : Self, key : String) -> @nostd.Any? {
-  let opts_js = @nostd.from_entries([("type", @nostd.any("json"))]).cast()
+  let opts_js = @nostd.from_entries([("type", @nostd.any("json"))])
   let promise : @js.Promise[@nostd.Any?] = self
     .as_any()
     ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
@@ -68,7 +68,7 @@ pub async fn KVNamespace::get_json(self : Self, key : String) -> @nostd.Any? {
 ///|
 /// Get a value as stream
 pub async fn KVNamespace::get_stream(self : Self, key : String) -> @nostd.Any? {
-  let opts_js = @nostd.from_entries([("type", @nostd.any("stream"))]).cast()
+  let opts_js = @nostd.from_entries([("type", @nostd.any("stream"))])
   let promise : @js.Promise[@nostd.Any?] = self
     .as_any()
     ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
@@ -87,7 +87,7 @@ pub async fn KVNamespace::get_with_metadata(
   let opts_js = @mbtconv.from_option_map({
     "type": Some(@nostd.any(type_.unwrap_or("text"))),
     "cacheTtl": cacheTtl.map(fn(x) { @nostd.any(x) }),
-  }).cast()
+  })
   let promise : @js.Promise[KVValueWithMetadata] = self
     .as_any()
     ._call("getWithMetadata", [@nostd.any(key), @nostd.any(opts_js)])
@@ -114,7 +114,7 @@ pub async fn KVNamespace::put(
       "expiration": expiration.map(fn(x) { @nostd.any(x) }),
       "expirationTtl": expirationTtl.map(fn(x) { @nostd.any(x) }),
       "metadata": metadata.map(fn(x) { @nostd.any(x) }),
-    }).cast()
+    })
     self
     .as_any()
     ._call("put", [@nostd.any(key), @nostd.any(value), @nostd.any(opts)])
@@ -131,7 +131,7 @@ pub async fn KVNamespace::put_with_metadata(
   value : String,
   metadata : @nostd.Any,
 ) -> Unit {
-  let opts_js = @nostd.from_entries([("metadata", @nostd.any(metadata))]).cast()
+  let opts_js = @nostd.from_entries([("metadata", @nostd.any(metadata))])
   let promise : @js.Promise[Unit] = self
     .as_any()
     ._call("put", [@nostd.any(key), @nostd.any(value), @nostd.any(opts_js)])
@@ -166,7 +166,7 @@ pub async fn KVNamespace::list(
       "prefix": prefix.map(fn(x) { @nostd.any(x) }),
       "limit": limit.map(fn(x) { @nostd.any(x) }),
       "cursor": cursor.map(fn(x) { @nostd.any(x) }),
-    }).cast()
+    })
     self.as_any()._call("list", [@nostd.any(opts)]).cast()
   }
   promise.wait()

@@ -25,7 +25,7 @@ pub fn simulate_readable_stream(options : SimulateStreamOptions) -> @nostd.Any {
   if options.chunk_delay_ms is Some(delay) {
     opts.set("chunkDelayInMs", delay)
   }
-  test_module._get("simulateReadableStream").call_self([opts.as_any()])
+  test_module._get("simulateReadableStream").call_self([opts])
 }
 
 ///|

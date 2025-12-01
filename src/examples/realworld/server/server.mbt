@@ -294,7 +294,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
 
   // Home page - TODO list
   app
-  ._get("/", async fn(c) {
+  .get("/", async fn(c) {
     let user = get_session_user(db, c)
     match user {
       Some(u) => {
@@ -472,7 +472,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
   })
 
   // Auth pages
-  ._get("/auth/login", async fn(c) {
+  .get("/auth/login", async fn(c) {
     let user = get_session_user(db, c)
     if user is Some(_) {
       return c.redirect("/")
@@ -575,7 +575,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
       c.html_jsx(content, status=401)
     }
   })
-  ._get("/auth/register", async fn(c) {
+  .get("/auth/register", async fn(c) {
     let user = get_session_user(db, c)
     if user is Some(_) {
       return c.redirect("/")
@@ -684,14 +684,14 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
       c.html_jsx(content, status=400)
     }
   })
-  ._get("/auth/logout", async fn(c) {
+  .get("/auth/logout", async fn(c) {
     let headers = ffi_get_request_headers(c)
     auth.api().signOut(headers)
     c.redirect("/auth/login")
   })
 
   // API endpoints for client
-  ._get("/api/todos", async fn(c) {
+  .get("/api/todos", async fn(c) {
     let user = get_session_user(db, c)
     match user {
       Some(u) => {
@@ -700,7 +700,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
       }
       None => {
         let obj = @nostd.Object::new()
-        obj["error"] = "Unauthorized"
+        obj["error"] = "Unauthorized" |> @nostd.any
         c.json(obj, status=401)
       }
     }
@@ -716,19 +716,19 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
             let title : String = data["title"].cast()
             create_todo(db, u.id(), title)
             let obj = @nostd.Object::new()
-            obj["success"] = true
+            obj["success"] = true |> @nostd.any
             c.json(obj)
           }
           Err(_) => {
             let obj = @nostd.Object::new()
-            obj["error"] = "Invalid data"
+            obj["error"] = "Invalid data" |> @nostd.any
             c.json(obj, status=400)
           }
         }
       }
       None => {
         let obj = @nostd.Object::new()
-        obj["error"] = "Unauthorized"
+        obj["error"] = "Unauthorized" |> @nostd.any
         c.json(obj, status=401)
       }
     }
@@ -741,18 +741,18 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
           Some(id) => {
             delete_todo(db, u.id(), @strconv.parse_int(id))
             let obj = @nostd.Object::new()
-            obj["success"] = true
+            obj["success"] = true |> @nostd.any
             c.json(obj)
           }
           None => {
             let obj = @nostd.Object::new()
-            obj["error"] = "Invalid id"
+            obj["error"] = "Invalid id" |> @nostd.any
             c.json(obj, status=400)
           }
         }
       None => {
         let obj = @nostd.Object::new()
-        obj["error"] = "Unauthorized"
+        obj["error"] = "Unauthorized" |> @nostd.any
         c.json(obj, status=401)
       }
     }

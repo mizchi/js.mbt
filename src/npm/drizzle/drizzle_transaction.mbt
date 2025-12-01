@@ -114,11 +114,7 @@ pub async fn DrizzleDB::pgTransaction(
   if deferrable is Some(d) {
     opts.set("deferrable", d)
   }
-  ffi_pg_transaction_with_opts(
-    self,
-    ffi_wrap_tx_callback(callback),
-    opts.as_any(),
-  ).wait()
+  ffi_pg_transaction_with_opts(self, ffi_wrap_tx_callback(callback), opts).wait()
 }
 
 // ============ SQLite Transaction Options ============

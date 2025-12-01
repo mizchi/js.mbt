@@ -57,7 +57,7 @@ pub fn Session::post(
   params : @js.Object?,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
+  let cb : @nostd.Any = callback |> @nostd.any
   match params {
     Some(p) =>
       self.to_any()._call("post", [@nostd.any(method_), @nostd.any(p), cb])

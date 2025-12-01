@@ -76,13 +76,13 @@ pub fn Route::as_any(self : Route) -> @nostd.Any {
       let obj = @nostd.Object::new()
       obj.set("path", path)
       obj.set("Component", component |> @js.unsafe_any)
-      obj.as_any()
+      obj
     }
     Route::Element(path~, element~) => {
       let obj = @nostd.Object::new()
       obj.set("path", path)
       obj.set("element", element |> @js.unsafe_any)
-      obj.as_any()
+      obj
     }
   }
 }
@@ -132,7 +132,7 @@ pub fn create_memory_router(
     }
     None => ()
   }
-  create_fn(routes.map(_.as_any()), opts.as_any())
+  create_fn(routes.map(_.as_any()), opts)
 }
 
 ///|
@@ -240,7 +240,7 @@ pub fn NavigateOptions::as_any(self : NavigateOptions) -> @nostd.Any {
     Some(r) => obj.set("relative", r)
     None => ()
   }
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -400,7 +400,7 @@ pub fn nav_link(
     |> @js.from_array
   props.set("children", children_js)
   let empty : Array[@nostd.Any] = []
-  ffi_create_element(nav_link_component, props.as_any(), @js.from_array(empty))
+  ffi_create_element(nav_link_component, props, @nostd.any(empty))
 }
 
 ///|
@@ -414,7 +414,7 @@ pub fn nav_link_render(
   props.set("to", to)
   props.set("children", @js.from_fn1(render))
   let empty : Array[@nostd.Any] = []
-  ffi_create_element(nav_link_component, props.as_any(), @js.from_array(empty))
+  ffi_create_element(nav_link_component, props, @nostd.any(empty))
 }
 
 // =============================================================================
@@ -462,7 +462,7 @@ pub fn NavigateProps::as_any(self : NavigateProps) -> @nostd.Any {
     Some(r) => obj.set("relative", r)
     None => ()
   }
-  obj.as_any()
+  obj
 }
 
 ///|

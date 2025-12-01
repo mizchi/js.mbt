@@ -57,7 +57,7 @@ test "MessagePort::close disconnects the port" {
 test "MessagePort::post_message sends a number" {
   let channel = @message.MessageChannel::new()
   let port1 = @message.MessageChannel::port1(channel)
-  @message.MessagePort::post_message(port1, 42)
+  @message.MessagePort::post_message(port1, 42 |> @nostd.any)
   let port1_js : @nostd.Any = port1.as_any().cast()
   inspect(@js.typeof_(port1_js), content="object")
 }

@@ -12,49 +12,23 @@
 ///| JsImpl implementations for MoonBit primitive types
 ///  Note: These must remain as impl JsImpl because we cannot define methods on foreign types
 
-///|
-pub impl JsImpl for String
-
-///|
-pub impl JsImpl for Double
-
-///|
-pub impl JsImpl for Float
-
-///|
-pub impl JsImpl for Int
-
-///|
-/// Convert a MoonBit Bool to a JavaScript boolean value.
-pub impl JsImpl for Bool
-
-///|
-/// Convert a MoonBit UInt to a JavaScript number value.
-pub impl JsImpl for UInt
-
-///|
-pub impl JsImpl for Unit
-
-///|
-pub impl JsImpl for BigInt
-
 ///| Conversion functions
 
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
-pub fn[T] from_array(v : Array[T]) -> Any {
+pub fn[T] from_array(v : Array[T]) -> @nostd.Any {
   identity(v)
 }
 
 ///|
 /// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
-pub fn[R] from_fn0(f : () -> R) -> Any {
+pub fn[R] from_fn0(f : () -> R) -> @nostd.Any {
   identity(f)
 }
 
 ///|
 /// Cast a MoonBit function with 1 argument to a JavaScript function Val.
-pub fn[A, R] from_fn1(f : (A) -> R) -> Any {
+pub fn[A, R] from_fn1(f : (A) -> R) -> @nostd.Any {
   identity(f)
 }
 
@@ -154,7 +128,11 @@ pub fn[T] is_array(v : T) -> Bool {
 
 ///|
 /// JS: typeof v === "object" && v !== null && !Array.isArray(v)
-pub fn[T] is_object(v : T) -> Bool {
+// pub fn[T] is_object(v : T) -> Bool {
+//   ffi_is_object(identity(v))
+// }
+
+pub fn is_object(v : @nostd.Any) -> Bool {
   ffi_is_object(identity(v))
 }
 

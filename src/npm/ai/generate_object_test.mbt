@@ -50,8 +50,8 @@ test "generate object result get_object" {
         ("totalTokens", @nostd.any(30)),
       ]).cast(),
     ),
-    ("warnings", @js.from_array(empty_warnings) |> @nostd.any),
-    ("response", @nostd.Object::new().as_any() |> @nostd.any),
+    ("warnings", @nostd.any(empty_warnings)),
+    ("response", @nostd.Object::new()),
   ]).cast()
   let result = @ai.GenerateObjectResult::from_any(raw)
   // Get object as raw Any

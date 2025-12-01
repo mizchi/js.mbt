@@ -1,6 +1,7 @@
 {
   "import": [
     "mizchi/js",
+    "mizchi/js/nostd",
     "mizchi/js/node/child_process",
     "mizchi/js/node/process"
   ],

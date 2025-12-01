@@ -11,7 +11,7 @@ test "basic object operations" {
   let obj = @nostd.Object::new()
   obj.set("name", "MoonBit")
   obj.set("version", 1)
-  inspect(obj.as_any(), content="{\"name\":\"MoonBit\",\"version\":1}")
+  inspect(obj, content="{\"name\":\"MoonBit\",\"version\":1}")
 
   // Property access with different key types
   obj.set(0, "first") // Int key
@@ -32,9 +32,9 @@ test "basic object operations" {
 
 ///|
 test "array operations" {
-  let arr = @js.JsArray::from([1, 2, 3])
-  arr.push(4)
-  inspect(arr.as_any(), content="[1,2,3,4]")
+  let arr = @nostd.any([1, 2, 3])
+  arr._call("push", [4 |> @nostd.any]) |> ignore
+  inspect(arr, content="[1,2,3,4]")
 
   // Higher-order methods
   let filtered = arr.call1(
@@ -97,14 +97,14 @@ test "type checking" {
 ///|
 test "method calls" {
   let obj = @nostd.Object::new()
-  obj["name"] = "test"
+  obj["name"] = "test" |> @nostd.any
 
   // Specific arities (optimized)
   inspect(obj.call0("toString"), content="[object Object]")
-  inspect(obj.call1("hasOwnProperty", "name"), content="true")
+  inspect(obj.call1("hasOwnProperty", "name" |> @nostd.any), content="true")
 
   // Variable arguments
-  let result = obj._call("hasOwnProperty", ["name"])
+  let result = obj._call("hasOwnProperty", ["name" |> @nostd.any])
   assert_eq(@js.identity(result), true)
 }
 ```
@@ -117,12 +117,12 @@ test "method calls" {
 test "function conversion" {
   // MoonBit function -> JS function
   let fn1 = @js.from_fn1(fn(x : Int) -> Int { x * 2 })
-  let result : Int = @js.identity(fn1.call_self([10]))
+  let result : Int = @js.identity(fn1.call_self([10 |> @nostd.any]))
   assert_eq(result, 20)
 
   // Calling JS functions
   let parseInt = @js.globalThis()._get("parseInt")
-  let parsed : Int = @js.identity(parseInt.call_self(["123"]))
+  let parsed : Int = @js.identity(parseInt.call_self(["123" |> @nostd.any]))
   assert_eq(parsed, 123)
 }
 ```
@@ -146,8 +146,8 @@ test "constructors" {
 ///|
 test "json" {
   let obj = @nostd.Object::new()
-  obj["name"] = "Moonbit"
-  let json_str = @js.JSON::stringify(obj.as_any())
+  obj["name"] = "Moonbit" |> @nostd.any
+  let json_str = @js.JSON::stringify(obj)
   assert_eq(json_str.contains("name"), true)
   let parsed = @js.JSON::parse(json_str) catch { _ => @js.undefined() }
   assert_eq(@js.is_object(parsed), true)

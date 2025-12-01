@@ -128,7 +128,7 @@ pub fn WriteStream::clear_line(
   dir : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
+  let cb : @nostd.Any = @nostd.identity(callback)
   self.to_any()._call("clearLine", [@nostd.any(dir), cb]) |> ignore
 }
 
@@ -138,7 +138,7 @@ pub fn WriteStream::clear_screen_down(
   self : WriteStream,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
+  let cb : @nostd.Any = @nostd.identity(callback)
   self.to_any()._call("clearScreenDown", [cb]) |> ignore
 }
 
@@ -150,7 +150,7 @@ pub fn WriteStream::cursor_to(
   y : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
+  let cb : @nostd.Any = callback |> @nostd.any
   self.to_any()._call("cursorTo", [@nostd.any(x), @nostd.any(y), cb]) |> ignore
 }
 
@@ -162,7 +162,7 @@ pub fn WriteStream::move_cursor(
   dy : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback) |> @nostd.any
+  let cb : @nostd.Any = callback |> @nostd.any
   self.to_any()._call("moveCursor", [@nostd.any(dx), @nostd.any(dy), cb])
   |> ignore
 }

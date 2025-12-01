@@ -31,19 +31,13 @@ extern "js" fn ffi_new_file(
 ///|
 /// Create a new File
 pub fn File::new(
-  data : Array[&@js.JsImpl],
+  data : Array[String],
   filename : String,
   content_type? : String,
   last_modified? : Int,
 ) -> File {
-  let arr = @js.JsArray::new()
-  let mut i = 0
-  while i < data.length() {
-    arr._call("push", [data[i].as_any()]) |> ignore
-    i = i + 1
-  }
   ffi_new_file(
-    @nostd.any(arr),
+    @nostd.any(data),
     filename |> @js.any,
     @mbtconv.from_option_map({
       "type": content_type.map(fn(x) { @nostd.any(x) }),

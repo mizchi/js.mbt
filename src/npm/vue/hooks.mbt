@@ -18,11 +18,7 @@ pub fn[T] watch(
     options.set("deep", v)
   }
   @js.identity(
-    ffi_watch(
-      source |> @js.identity,
-      callback |> @js.unsafe_any,
-      options.as_any(),
-    ),
+    ffi_watch(source |> @js.identity, callback |> @js.unsafe_any, options),
   )
 }
 
@@ -33,7 +29,7 @@ pub fn watchEffect(effect : () -> Unit, flush? : String) -> WatchStopHandle {
   if flush is Some(v) {
     options.set("flush", v)
   }
-  @js.identity(ffi_watch_effect(effect |> @js.unsafe_any, options.as_any()))
+  @js.identity(ffi_watch_effect(effect |> @js.unsafe_any, options))
 }
 
 ///|

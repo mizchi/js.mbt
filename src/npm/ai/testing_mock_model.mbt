@@ -26,7 +26,7 @@ pub fn MockGenerateResult::as_any(self : MockGenerateResult) -> @nostd.Any {
   let content_arr = self.content.map(MockContentPart::as_any)
   obj.set("content", content_arr |> @js.from_array)
   obj.set("warnings", self.warnings |> @js.from_array)
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -51,7 +51,7 @@ pub fn MockContentPart::as_any(self : MockContentPart) -> @nostd.Any {
       let obj = @nostd.Object::new()
       obj.set("type", "text")
       obj.set("text", text)
-      obj.as_any()
+      obj
     }
     ToolCall(tool_call_id~, tool_name~, args~) => {
       let obj = @nostd.Object::new()
@@ -59,7 +59,7 @@ pub fn MockContentPart::as_any(self : MockContentPart) -> @nostd.Any {
       obj.set("toolCallId", tool_call_id)
       obj.set("toolName", tool_name)
       obj.set("args", args)
-      obj.as_any()
+      obj
     }
   }
 }
@@ -75,7 +75,7 @@ pub(all) struct MockStreamResult {
 pub fn MockStreamResult::as_any(self : MockStreamResult) -> @nostd.Any {
   let obj = @nostd.Object::new()
   obj.set("stream", self.stream)
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -146,7 +146,7 @@ pub fn mock_language_model(options : MockLanguageModelOptions) -> @nostd.Any {
   }
   // Call new MockLanguageModelV3(opts)
   let mock_class_any : @nostd.Any = mock_class.cast()
-  let opts_any : @nostd.Any = opts.as_any().cast()
+  let opts_any : @nostd.Any = opts.cast()
   @reflect.construct(mock_class_any, [opts_any], None).cast()
 }
 
@@ -186,7 +186,7 @@ pub fn text_delta_chunk(text : String) -> @nostd.Any {
   let obj = @nostd.Object::new()
   obj.set("type", "text-delta")
   obj.set("textDelta", text)
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -200,7 +200,7 @@ pub fn finish_chunk(finish_reason : String, usage : MockUsage) -> @nostd.Any {
   usage_obj.set("outputTokens", usage.output_tokens)
   usage_obj.set("totalTokens", usage.total_tokens)
   obj.set("usage", usage_obj)
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -215,5 +215,5 @@ pub fn tool_call_chunk(
   obj.set("toolCallId", tool_call_id)
   obj.set("toolName", tool_name)
   obj.set("args", args)
-  obj.as_any()
+  obj
 }

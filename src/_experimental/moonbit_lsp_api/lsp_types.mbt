@@ -105,7 +105,7 @@ pub fn CompletionList::from_json(json : @nostd.Any) -> CompletionList {
     let items : Array[CompletionItem] = []
     let len : Int = json._get("length").cast()
     for i in 0..<len {
-      items.push(CompletionItem::from_json(json._get(i)))
+      items.push(CompletionItem::from_json(json._get_by_index(i)))
     }
     { is_incomplete: false, items }
   } else {
@@ -113,7 +113,7 @@ pub fn CompletionList::from_json(json : @nostd.Any) -> CompletionList {
     let items : Array[CompletionItem] = []
     let len : Int = items_json._get("length").cast()
     for i in 0..<len {
-      items.push(CompletionItem::from_json(items_json._get(i)))
+      items.push(CompletionItem::from_json(items_json._get_by_index(i)))
     }
     { is_incomplete: json._get("isIncomplete").cast(), items }
   }
@@ -133,7 +133,7 @@ pub fn SignatureHelp::from_json(json : @nostd.Any) -> SignatureHelp {
   let signatures : Array[SignatureInformation] = []
   let len : Int = sigs_json._get("length").cast()
   for i in 0..<len {
-    signatures.push(SignatureInformation::from_json(sigs_json._get(i)))
+    signatures.push(SignatureInformation::from_json(sigs_json._get_by_index(i)))
   }
   let active_sig = json._get("activeSignature")
   let active_param = json._get("activeParameter")
@@ -170,7 +170,9 @@ pub fn SignatureInformation::from_json(
   if not(@js.is_nullish(params_json)) {
     let len : Int = params_json._get("length").cast()
     for i in 0..<len {
-      parameters.push(ParameterInformation::from_json(params_json._get(i)))
+      parameters.push(
+        ParameterInformation::from_json(params_json._get_by_index(i)),
+      )
     }
   }
   {
@@ -235,7 +237,7 @@ pub fn DocumentSymbol::from_json(json : @nostd.Any) -> DocumentSymbol {
   if not(@js.is_nullish(children_json)) {
     let len : Int = children_json._get("length").cast()
     for i in 0..<len {
-      children.push(DocumentSymbol::from_json(children_json._get(i)))
+      children.push(DocumentSymbol::from_json(children_json._get_by_index(i)))
     }
   }
   {
@@ -296,7 +298,7 @@ pub fn CodeAction::from_json(json : @nostd.Any) -> CodeAction {
   if not(@js.is_nullish(diag_json)) {
     let len : Int = diag_json._get("length").cast()
     for i in 0..<len {
-      diagnostics.push(diag_json._get(i))
+      diagnostics.push(diag_json._get_by_index(i))
     }
   }
   {
@@ -363,7 +365,7 @@ pub fn CallHierarchyIncomingCall::from_json(
   let from_ranges : Array[Range] = []
   let len : Int = ranges_json._get("length").cast()
   for i in 0..<len {
-    from_ranges.push(Range::from_json(ranges_json._get(i)))
+    from_ranges.push(Range::from_json(ranges_json._get_by_index(i)))
   }
   { from: CallHierarchyItem::from_json(json._get("from")), from_ranges }
 }
@@ -383,7 +385,7 @@ pub fn CallHierarchyOutgoingCall::from_json(
   let from_ranges : Array[Range] = []
   let len : Int = ranges_json._get("length").cast()
   for i in 0..<len {
-    from_ranges.push(Range::from_json(ranges_json._get(i)))
+    from_ranges.push(Range::from_json(ranges_json._get_by_index(i)))
   }
   { to: CallHierarchyItem::from_json(json._get("to")), from_ranges }
 }
@@ -413,7 +415,10 @@ pub fn InlayHint::from_json(json : @nostd.Any) -> InlayHint {
       let parts : Array[String] = []
       let len : Int = label_json._get("length").cast()
       for i in 0..<len {
-        let part_value : String = label_json._get(i)._get("value").cast()
+        let part_value : String = label_json
+          ._get_by_index(i)
+          ._get("value")
+          .cast()
         parts.push(part_value)
       }
       parts.join("")

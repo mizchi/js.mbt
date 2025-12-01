@@ -46,7 +46,7 @@ test "Proxy with target array" {
   let proxy = Proxy::new(@nostd.any(target))
 
   // Transparent proxy works with arrays
-  assert_true(@js.is_array(proxy.as_any().cast()))
+  assert_true(@nostd.is_array(proxy.as_any().cast()))
 }
 
 ///|

@@ -12,7 +12,7 @@ pub fn[T] typeof_(v : T) -> String {
 
 ///|
 /// JS: new cls(...args)
-pub fn new_(cls : Any, args : Array[Any]) -> Any {
+pub fn new_(cls : @nostd.Any, args : Array[@nostd.Any]) -> @nostd.Any {
   ffi_new(cls, args)
 }
 
@@ -35,27 +35,6 @@ pub fn new_(cls : Any, args : Array[Any]) -> Any {
 /// }
 /// let _obj = create_object("Alice", 30)  // Strings and Ints implement Js
 /// ```
-#deprecated("trait inlining is too heavy. Use @nostd.Any")
-pub(open) trait JsImpl {
-  as_any(Self) -> @nostd.Any = _
-  // get(Self, &PropertyKey) -> Any = _
-  // set(Self, &PropertyKey, &JsImpl) -> Unit = _
-  // call(Self, &PropertyKey, Array[&JsImpl]) -> Any = _
-  // call0(Self, &PropertyKey) -> Any = _
-  // call1(Self, &PropertyKey, &JsImpl) -> Any = _
-  // call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Any = _
-  // call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Any raise ThrowError = _
-  // call_self(Self, Array[&JsImpl]) -> Any = _
-  // call_self0(Self) -> Any = _
-  // call_self_throwable(Self, Array[&JsImpl]) -> Any raise ThrowError = _
-  // delete(Self, &PropertyKey) -> Unit = _
-  // hasOwnProperty(Self, &PropertyKey) -> Bool = _
-}
-
-///|
-impl JsImpl with as_any(self) -> @nostd.Any {
-  identity(self)
-}
 
 ///|
 /// JS: self[key]

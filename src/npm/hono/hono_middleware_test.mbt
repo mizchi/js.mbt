@@ -40,7 +40,7 @@ test "JwtPayload::default creates empty payload" {
 ///|
 async test "set_cookie in handler" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/set-cookie", fn(c) {
+  app.get("/set-cookie", fn(c) {
     @hono.set_cookie(c, "test", "value", httpOnly=true, path="/")
     c.text("OK")
   })
@@ -73,7 +73,7 @@ test "cors with options creates configured middleware" {
 async test "Hono::cors_all applies cors to all routes" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
   app.cors_all() |> ignore
-  app._get("/test", fn(c) { c.text("OK") }) |> ignore
+  app.get("/test", fn(c) { c.text("OK") }) |> ignore
   let client = @hono.test_client(app)
   @nostd.typeof_(client.as_any()) |> assert_eq("function")
 }
@@ -82,7 +82,7 @@ async test "Hono::cors_all applies cors to all routes" {
 async test "Hono::cors applies cors to specific path" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
   app.cors("/api/*", origin="*", credentials=false) |> ignore
-  app._get("/api/test", fn(c) { c.text("OK") }) |> ignore
+  app.get("/api/test", fn(c) { c.text("OK") }) |> ignore
   let client = @hono.test_client(app)
   @nostd.typeof_(client.as_any()) |> assert_eq("function")
 }

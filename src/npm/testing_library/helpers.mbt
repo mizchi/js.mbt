@@ -1,10 +1,6 @@
 ///|
 /// Helper to set optional value on JS object, returns true if value was set
-pub fn[T : @js.JsImpl] set_opt(
-  obj : @nostd.Any,
-  key : String,
-  val : T?,
-) -> Bool {
+pub fn set_opt(obj : @nostd.Any, key : String, val : @nostd.Any?) -> Bool {
   match val {
     Some(v) => {
       obj.set(key, v)

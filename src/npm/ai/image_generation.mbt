@@ -148,7 +148,7 @@ pub async fn generateImage(
   // Use experimental_generateImage function
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("experimental_generateImage")
-    .call_self([opts.as_any()])
+    .call_self([opts])
     |> @js.identity
   let result = promise.wait()
   GenerateImageResult::from_any(result)

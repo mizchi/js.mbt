@@ -91,7 +91,7 @@ pub async fn PGlite::createWithOptions(
     Some(v) => opts.set("database", v)
     None => ()
   }
-  ffi_pglite_create_with_options(data_dir, opts.as_any()).wait()
+  ffi_pglite_create_with_options(data_dir, opts).wait()
 }
 
 ///|

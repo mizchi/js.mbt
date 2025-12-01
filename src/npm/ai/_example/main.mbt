@@ -3,9 +3,9 @@
 ///|
 /// Helper to create Anthropic model
 fn anthropic(model_id : String) -> @ai.Model {
-  @node.require("@ai-sdk/anthropic")
+  (@node.require("@ai-sdk/anthropic") |> @nostd.any)
   ._get("anthropic")
-  .call_self([model_id])
+  ._invoke([model_id |> @nostd.any])
   .cast()
 }
 
@@ -48,7 +48,7 @@ async fn example_stream_text(model : @ai.Model) -> Unit {
   let iter = stream.textStream()
   loop iter.next() {
     Some(chunk) => {
-      @process.stdout().write(chunk) |> ignore
+      @process.stdout().write(chunk |> @nostd.any) |> ignore
       continue iter.next()
     }
     None => ()

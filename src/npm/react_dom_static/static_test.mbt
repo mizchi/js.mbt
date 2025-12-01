@@ -72,7 +72,7 @@ test "build_options with all parameters" {
     .cast()
   let promise : @nostd.Any = static_
     .as_any()
-    ._call("prerenderToNodeStream", [element, opts.as_any()])
+    ._call("prerenderToNodeStream", [element, opts])
   @js.typeof_(promise) |> assert_eq("object")
   @js.typeof_(promise._get("then")) |> assert_eq("function")
 }

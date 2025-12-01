@@ -10,9 +10,6 @@ pub type Interface
 pub fn Interface::as_any(self : Interface) -> @nostd.Any = "%identity"
 
 ///|
-impl @js.JsImpl for Interface
-
-///|
 #alias(create_interface)
 pub fn createInterface(
   input~ : @stream.Stream,
@@ -49,8 +46,10 @@ pub fn createInterface(
 
 ///|
 pub async fn Interface::question(self : Self, query : String) -> String {
-  let promise : @js.Promise[String] =
-    self.as_any()._call("question", [@nostd.any(query)]).cast()
+  let promise : @js.Promise[String] = self
+    .as_any()
+    ._call("question", [@nostd.any(query)])
+    .cast()
   promise.wait()
 }
 
@@ -68,16 +67,20 @@ pub fn Interface::rollback(self : Self) -> Self {
 ///|
 #alias(cursor_to)
 pub async fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Unit {
-  let promise : @js.Promise[Unit] =
-    self.as_any().call2("cursorTo", @nostd.any(x), @nostd.any(y)).cast()
+  let promise : @js.Promise[Unit] = self
+    .as_any()
+    .call2("cursorTo", @nostd.any(x), @nostd.any(y))
+    .cast()
   promise.wait()
 }
 
 ///|
 #alias(move_cursor)
 pub async fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Unit {
-  let promise : @js.Promise[Unit] =
-    self.as_any().call2("moveCursor", @nostd.any(dx), @nostd.any(dy)).cast()
+  let promise : @js.Promise[Unit] = self
+    .as_any()
+    .call2("moveCursor", @nostd.any(dx), @nostd.any(dy))
+    .cast()
   promise.wait()
 }
 

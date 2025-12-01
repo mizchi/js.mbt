@@ -571,22 +571,22 @@ pub fn polygon(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+      if @nostd.Object::keys(p).length() > 0 {
+        @nostd.Object::assign(@nostd.Object::new(), p)
       } else {
         p
       }
     None => @nostd.Object::new()
   }
-  attrs.set("points", points |> @js.identity)
+  attrs._set("points", points |> @nostd.identity)
   if stroke is Some(stroke) {
-    attrs.set("stroke", stroke)
+    attrs._set("stroke", stroke |> @nostd.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs.set("strokeWidth", stroke_width)
+    attrs._set("strokeWidth", stroke_width |> @nostd.any)
   }
   if fill is Some(fill) {
-    attrs.set("fill", fill)
+    attrs._set("fill", fill |> @nostd.any)
   }
   common_node(
     "points",
@@ -648,22 +648,22 @@ pub fn polyline(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+      if @nostd.Object::keys(p).length() > 0 {
+        @nostd.Object::assign(@nostd.Object::new(), p)
       } else {
         p
       }
     None => @nostd.Object::new()
   }
-  attrs.set("points", points |> @js.identity)
+  attrs._set("points", points |> @nostd.identity)
   if stroke is Some(stroke) {
-    attrs.set("stroke", stroke)
+    attrs._set("stroke", stroke |> @nostd.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs.set("strokeWidth", stroke_width)
+    attrs._set("strokeWidth", stroke_width |> @nostd.any)
   }
   if fill is Some(fill) {
-    attrs.set("fill", fill)
+    attrs._set("fill", fill |> @nostd.any)
   }
   common_node(
     "polyline",

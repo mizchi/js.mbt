@@ -17,7 +17,6 @@ test "generate image result from_any" {
     ("base64", @nostd.any("base64data")),
     ("uint8Array", @global.undefined() |> @nostd.any),
   ])
-  let image_raw = image_raw_nostd.cast()
   let empty_warnings : Array[@nostd.Any] = []
   let raw = @nostd.from_entries([
     ("image", image_raw_nostd),
@@ -36,12 +35,10 @@ test "generate image result multiple images" {
     ("base64", @nostd.any("image1base64")),
     ("uint8Array", @global.undefined() |> @nostd.any),
   ])
-  let image1 = image1_nostd.cast()
   let image2_nostd = @nostd.from_entries([
     ("base64", @nostd.any("image2base64")),
     ("uint8Array", @global.undefined() |> @nostd.any),
   ])
-  let image2 = image2_nostd.cast()
   let empty_warnings : Array[@nostd.Any] = []
   let raw = @nostd.from_entries([
     ("image", image1_nostd),
@@ -63,7 +60,7 @@ async test "generate image with openai" {
     ._get("openai")
     .call_self([])
     ._get("image")
-    .call_self(["dall-e-3"]),
+    .call_self(["dall-e-3" |> @nostd.any]),
   )
   let result = @ai.generateImage(
     model~,

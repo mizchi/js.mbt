@@ -35,12 +35,12 @@ test "call methods with call()" {
   inspect(str, content="[object Object]")
 
   // call1 - one argument
-  let has : Bool = @js.identity(obj._call("hasOwnProperty", ["value" |> @nostd.any]))
+  let has : Bool = @nostd.identity(obj._call("hasOwnProperty", ["value" |> @nostd.any]))
   assert_eq(has, true)
 
   // call - variable arguments
-  let arr = @js.JsArray::from([1, 2, 3])
-  let joined : String = @js.identity(arr._call("join", ["-"]))
+  let arr = @nostd.any([1, 2, 3])
+  let joined : String = @nostd.identity(arr._call("join", ["-" |> @nostd.any]))
   inspect(joined, content="1-2-3")
 }
 ```
@@ -117,7 +117,7 @@ test "error handling with throwable" {
     // Risky JS operation
     let obj = @nostd.Object::new()
     obj.set("value", 42)
-    obj.as_any()
+    obj
   }) catch {
     _ => @js.undefined()
   }
@@ -136,8 +136,8 @@ test "create instances of unsupported classes" {
   let map = @js.new_(map_constructor, [])
 
   // Use methods via call()
-  map._call("set", ["key", "value"]) |> ignore
-  let value = map.call1("get", "key")
+  map._call("set", ["key" |> @nostd.any, "value" |> @nostd.any]) |> ignore
+  let value = map.call1("get", "key" |> @nostd.any)
   inspect(value, content="value")
   let size : Int = @js.identity(map._get("size"))
   assert_eq(size, 1)

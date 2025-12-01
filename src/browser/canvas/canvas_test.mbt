@@ -411,7 +411,7 @@ test "ImageData data property returns Uint8Array" {
     test_ffi_create_image_data(10 |> @js.any, 10 |> @js.any),
   )
   let data = image_data.data
-  let length = data.length()
+  let length = data.length
   // 10 * 10 * 4 (RGBA) = 400
   inspect(length, content="400")
 }

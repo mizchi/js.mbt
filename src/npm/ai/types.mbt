@@ -383,7 +383,7 @@ pub fn Tool::as_any(self : Tool) -> @nostd.Any {
     (self.execute)(args)
   })
   obj.set("execute", execute_fn)
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -412,7 +412,7 @@ pub fn Tools::as_any(self : Tools) -> @nostd.Any {
   for name, tool in self.tools {
     obj.set(name, tool.as_any())
   }
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -438,7 +438,7 @@ pub fn ToolChoice::as_any(self : ToolChoice) -> @nostd.Any {
       let obj = @nostd.Object::new()
       obj.set("type", "tool")
       obj.set("toolName", name)
-      obj.as_any()
+      obj
     }
   }
 }

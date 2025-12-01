@@ -39,7 +39,7 @@ fn[T] common_node(
     for k, v in style {
       style_obj.set(k, v)
     }
-    props.set("style", style_obj.as_any())
+    props.set("style", style_obj)
   }
   if ref_ is Some(ref_) {
     let ref_js : @nostd.Any = ref_.as_any().cast()
@@ -89,7 +89,7 @@ fn[T] common_node(
     props.set("onDrop", f |> @js.from_fn1)
   }
   let children_js : @nostd.Any = @nostd.any(children.map(_.to_react_node()))
-  let props_js : @nostd.Any = props.as_any().cast()
+  let props_js : @nostd.Any = props.cast()
   @react.createElementDirect(tag_name, props_js, children_js)
 }
 

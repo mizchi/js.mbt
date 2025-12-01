@@ -386,8 +386,8 @@ pub fn McpServerStdio::as_any(self : McpServerStdio) -> @nostd.Any {
   for k, v in self.env {
     env_obj.set(k, v)
   }
-  obj.set("env", env_obj.as_any())
-  obj.as_any()
+  obj.set("env", env_obj)
+  obj
 }
 
 ///|
@@ -406,8 +406,8 @@ pub fn McpServerSse::as_any(self : McpServerSse) -> @nostd.Any {
   for k, v in self.headers {
     headers_obj.set(k, v)
   }
-  obj.set("headers", headers_obj.as_any())
-  obj.as_any()
+  obj.set("headers", headers_obj)
+  obj
 }
 
 ///|
@@ -456,7 +456,7 @@ pub fn AgentDefinition::as_any(self : AgentDefinition) -> @nostd.Any {
   if self.model is Some(m) {
     obj.set("model", m.to_string())
   }
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -541,14 +541,14 @@ pub fn QueryOptions::as_any(self : QueryOptions) -> @nostd.Any {
     for name, config in servers {
       servers_obj.set(name, config.as_any())
     }
-    obj.set("mcpServers", servers_obj.as_any())
+    obj.set("mcpServers", servers_obj)
   }
   if self.agents is Some(agents) {
     let agents_obj = @nostd.Object::new()
     for name, agent in agents {
       agents_obj.set(name, agent.as_any())
     }
-    obj.set("agents", agents_obj.as_any())
+    obj.set("agents", agents_obj)
   }
   if self.setting_sources is Some(sources) {
     obj.set(
@@ -562,5 +562,5 @@ pub fn QueryOptions::as_any(self : QueryOptions) -> @nostd.Any {
   if self.resume_session is Some(r) {
     obj.set("resume", r)
   }
-  obj.as_any()
+  obj
 }

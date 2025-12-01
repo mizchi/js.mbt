@@ -2,7 +2,7 @@
 #skip("history not available in JSDOM")
 test "history global function returns History" {
   let h = history()
-  assert_eq(@nostd.typeof_(h), "object")
+  assert_eq(@nostd.typeof_(h |> @nostd.any), "object")
 }
 
 ///|

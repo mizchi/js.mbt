@@ -9,7 +9,7 @@ test "TextEncoder::new - create encoder" {
 ///|
 test "TextEncoder::encode - basic ASCII text" {
   let encoder = TextEncoder::new()
-  let result = encoder.encode("hello")
+  let result = encoder.encode("hello").as_typed_array()
   assert_eq(result.length(), 5)
   assert_eq(result.get_at(0), 104) // 'h'
   assert_eq(result.get_at(1), 101) // 'e'
@@ -21,35 +21,35 @@ test "TextEncoder::encode - basic ASCII text" {
 ///|
 test "TextEncoder::encode - empty string" {
   let encoder = TextEncoder::new()
-  let result = encoder.encode("")
+  let result = encoder.encode("").as_typed_array()
   assert_eq(result.length(), 0)
 }
 
 ///|
 test "TextEncoder::encode - UTF-8 multibyte characters" {
   let encoder = TextEncoder::new()
-  let result = encoder.encode("こんにちは")
+  let result = encoder.encode("こんにちは").as_typed_array()
   assert_eq(result.length(), 15) // 5 characters * 3 bytes each
 }
 
 ///|
 test "TextEncoder::encode - emoji" {
   let encoder = TextEncoder::new()
-  let result = encoder.encode("😀")
+  let result = encoder.encode("😀").as_typed_array()
   assert_eq(result.length(), 4)
 }
 
 ///|
 test "TextEncoder::encode - mixed ASCII and UTF-8" {
   let encoder = TextEncoder::new()
-  let result = encoder.encode("Hello 世界")
+  let result = encoder.encode("Hello 世界").as_typed_array()
   assert_eq(result.length(), 12) // "Hello " (6 bytes) + "世界" (6 bytes)
 }
 
 ///|
 test "TextEncoder::encode - special characters" {
   let encoder = TextEncoder::new()
-  let result = encoder.encode("Hello\nWorld\t!")
+  let result = encoder.encode("Hello\nWorld\t!").as_typed_array()
   assert_eq(result.get_at(5), 10) // '\n'
   assert_eq(result.get_at(11), 9) // '\t'
 }
@@ -139,14 +139,14 @@ test "TextEncoder and TextDecoder - special characters round trip" {
 test "TextEncoder::encode - long text" {
   let encoder = TextEncoder::new()
   let text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-  let result = encoder.encode(text)
+  let result = encoder.encode(text).as_typed_array()
   assert_eq(result.length(), 123)
 }
 
 ///|
 test "TextEncoder::encode - numbers as text" {
   let encoder = TextEncoder::new()
-  let result = encoder.encode("0123456789")
+  let result = encoder.encode("0123456789").as_typed_array()
   assert_eq(result.length(), 10)
   assert_eq(result.get_at(0), 48) // '0'
   assert_eq(result.get_at(9), 57) // '9'
@@ -165,8 +165,8 @@ test "TextDecoder::decode - numbers from bytes" {
 ///|
 test "TextEncoder - multiple encode calls" {
   let encoder = TextEncoder::new()
-  let result1 = encoder.encode("First")
-  let result2 = encoder.encode("Second")
+  let result1 = encoder.encode("First").as_typed_array()
+  let result2 = encoder.encode("Second").as_typed_array()
   assert_eq(result1.length(), 5)
   assert_eq(result2.length(), 6)
   assert_eq(result1.get_at(0), 70) // 'F'

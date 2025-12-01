@@ -47,7 +47,7 @@ extern "js" fn ffi_set_property(
 /// # Example
 ///
 /// ```moonbit
-/// let obj = @mbtconv.from_option_map({
+/// let _obj = @mbtconv.from_option_map({
 ///   "name": Some(@nostd.any("Alice")),
 ///   "age": Some(@nostd.any(30)),
 ///   "email": None

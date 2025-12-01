@@ -154,9 +154,6 @@ pub(all) struct TestRecord {
 }
 
 ///|
-pub impl JsImpl for TestRecord
-
-///|
 test "struct with Nullable field - null value" {
   let obj = create_object_with_null_field()
   let record : TestRecord = obj |> identity
@@ -185,9 +182,6 @@ pub(all) struct MultiNullableRecord {
   int_field : @js.Nullable[Int]
   bool_field : @js.Nullable[Bool]
 }
-
-///|
-pub impl JsImpl for MultiNullableRecord
 
 ///|
 extern "js" fn create_multi_nullable(

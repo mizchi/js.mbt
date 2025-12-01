@@ -264,10 +264,10 @@ test "StopCondition as_any creates JS function" {
   ctx.set("messages", empty_arr |> @js.from_array)
   ctx.set("toolCalls", empty_arr |> @js.from_array)
   ctx.set("finishReason", "stop")
-  let result1 : Bool = js_fn.call_self([ctx.as_any()]).cast()
+  let result1 : Bool = js_fn.call_self([ctx]).cast()
   assert_eq(result1, false)
   // Call with step 3
   ctx.set("stepNumber", 3)
-  let result2 : Bool = js_fn.call_self([ctx.as_any()]).cast()
+  let result2 : Bool = js_fn.call_self([ctx]).cast()
   assert_eq(result2, true)
 }

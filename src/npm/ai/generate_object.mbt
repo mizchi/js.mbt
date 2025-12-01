@@ -159,7 +159,7 @@ pub async fn generateObject(
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateObject")
-    .call_self([opts.as_any()])
+    .call_self([opts])
     |> @js.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)
@@ -214,7 +214,7 @@ pub async fn generateObjectWithZod(
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateObject")
-    .call_self([opts.as_any()])
+    .call_self([opts])
     |> @js.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)

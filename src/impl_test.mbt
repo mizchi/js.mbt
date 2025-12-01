@@ -1,34 +1,4 @@
 ///|
-priv enum TestEnum {
-  A(value~ : Int)
-} derive(Eq, Show)
-
-///|
-fn TestEnum::from_js(v : @nostd.Any) -> Self raise {
-  let tag : String = @js.identity(v._get("tag"))
-  match tag {
-    "A" => {
-      let value = v._get("value")
-      guard @nostd.typeof_(value) == "number"
-      A(value=@nostd.identity(value))
-    }
-    _ => fail("unknown tag: " + tag)
-  }
-}
-
-///|
-impl JsImpl for TestEnum with as_any(self) {
-  match self {
-    A(value~) => {
-      let obj = @nostd.Object::new()
-      obj._set("tag", "A" |> @nostd.any)
-      obj._set("value", value |> @nostd.any)
-      obj |> @nostd.any
-    }
-  }
-}
-
-///|
 priv enum TestConstantEnum {
   NotFound = 404
 }
@@ -63,16 +33,6 @@ test "identity converts struct to Any object" {
 }
 
 ///|
-test "JsImpl trait converts enum to Any and back" {
-  let v : TestEnum = A(value=123)
-  let v : @nostd.Any = v.as_any()
-  assert_eq(@js.identity(v._get("tag")), "A")
-  assert_eq(@js.identity(v._get("value")), 123)
-  let recovered : TestEnum = TestEnum::from_js(v)
-  assert_eq(recovered, A(value=123))
-}
-
-///|
 test "JsImpl::to_string" {
   assert_eq(@nostd.any(42).to_string(), "42")
   assert_eq(null_().to_string(), "null")
@@ -95,7 +55,7 @@ test "type checking" {
   // Test is_object
   let obj = Object::new()
   assert_true(@js.is_object(obj))
-  assert_false(@js.is_object(42))
+  assert_false(@js.is_object(42 |> @nostd.any))
   assert_false(@js.is_object(null_()))
 
   // Test is_null

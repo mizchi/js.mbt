@@ -169,7 +169,7 @@ pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @nostd.Any {
   if self.temperature is Some(t) {
     obj.set("temperature", t)
   }
-  obj.as_any()
+  obj
 }
 
 ///|

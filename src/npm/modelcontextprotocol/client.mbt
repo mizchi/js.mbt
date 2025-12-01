@@ -24,10 +24,11 @@ fn McpClient::next_id(self : McpClient) -> RequestId {
 pub fn McpClient::create_request_with_params(
   self : McpClient,
   method_name : String,
-  params : &@js.JsImpl,
+  params : @nostd.Any,
 ) -> JsonRpcRequest {
   let id = self.next_id()
-  { jsonrpc: "2.0", id, method_name, params: Some(params.as_any()) }
+  // TODO: need Some?
+  { jsonrpc: "2.0", id, method_name, params: Some(params) }
 }
 
 ///|

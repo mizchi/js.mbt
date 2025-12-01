@@ -13,7 +13,7 @@ async fn main {
   let stdout = @process.stdout()
   while true {
     match text_iter.next() {
-      Some(chunk) => stdout.write(chunk) |> ignore
+      Some(chunk) => stdout.write(chunk |> @nostd.any) |> ignore
       None => break
     }
   }

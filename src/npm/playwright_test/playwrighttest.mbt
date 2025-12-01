@@ -45,8 +45,7 @@ pub fn PageAssertions::to_any(self : PageAssertions) -> @nostd.Any = "%identity"
 pub type LocatorAssertions
 
 ///|
-pub fn LocatorAssertions::to_any(self : LocatorAssertions) -> @nostd.Any =
-  "%identity"
+pub fn LocatorAssertions::to_any(self : LocatorAssertions) -> @nostd.Any = "%identity"
 
 ///| FFI Functions
 
@@ -105,7 +104,11 @@ extern "js" fn ffi_describe(
   #| (t, name, callback) => t.describe(name, callback)
 
 ///|
-pub fn Test::describe(self : Test, name : String, callback : @nostd.Any) -> Unit {
+pub fn Test::describe(
+  self : Test,
+  name : String,
+  callback : @nostd.Any,
+) -> Unit {
   ffi_describe(self, name, callback)
 }
 
@@ -196,7 +199,10 @@ pub fn Test::use_options(self : Test, options : @nostd.Any) -> Unit {
 
 ///|
 /// Call expect function (expect is callable)
-extern "js" fn ffi_expect_value(expect : Expect, value : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_expect_value(
+  expect : Expect,
+  value : @nostd.Any,
+) -> @nostd.Any =
   #| (expect, value) => expect(value)
 
 ///|
@@ -233,10 +239,10 @@ pub async fn PageAssertions::toHaveTitle(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toHaveTitle", [@nostd.any(title), options])
-    |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toHaveTitle", [@nostd.any(title), options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -251,9 +257,10 @@ pub async fn PageAssertions::toHaveURL(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toHaveURL", [@nostd.any(url), options]) |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toHaveURL", [@nostd.any(url), options])
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -269,9 +276,10 @@ pub async fn LocatorAssertions::toBeVisible(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toBeVisible", [options]) |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toBeVisible", [options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -285,9 +293,8 @@ pub async fn LocatorAssertions::toBeHidden(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toBeHidden", [options]) |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self.to_any()._call("toBeHidden", [options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -301,9 +308,10 @@ pub async fn LocatorAssertions::toBeEnabled(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toBeEnabled", [options]) |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toBeEnabled", [options])
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -317,9 +325,10 @@ pub async fn LocatorAssertions::toBeDisabled(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toBeDisabled", [options]) |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toBeDisabled", [options])
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -337,9 +346,10 @@ pub async fn LocatorAssertions::toBeChecked(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toBeChecked", [options]) |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toBeChecked", [options])
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -358,10 +368,10 @@ pub async fn LocatorAssertions::toHaveText(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toHaveText", [@nostd.any(text), options])
-    |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toHaveText", [@nostd.any(text), options])
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -380,10 +390,10 @@ pub async fn LocatorAssertions::toContainText(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toContainText", [@nostd.any(text), options])
-    |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toContainText", [@nostd.any(text), options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -398,10 +408,10 @@ pub async fn LocatorAssertions::toHaveValue(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toHaveValue", [@nostd.any(value), options])
-    |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toHaveValue", [@nostd.any(value), options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -417,12 +427,10 @@ pub async fn LocatorAssertions::toHaveAttribute(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self
+  let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveAttribute", [@nostd.any(name), @nostd.any(value), options])
-    |> @js.identity,
-  )
+    |> @js.identity
   promise.wait()
 }
 
@@ -437,10 +445,10 @@ pub async fn LocatorAssertions::toHaveClass(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toHaveClass", [@nostd.any(class_), options])
-    |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toHaveClass", [@nostd.any(class_), options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -455,10 +463,10 @@ pub async fn LocatorAssertions::toHaveCount(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toHaveCount", [@nostd.any(count), options])
-    |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toHaveCount", [@nostd.any(count), options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -472,9 +480,10 @@ pub async fn LocatorAssertions::toBeFocused(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("toBeFocused", [options]) |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toBeFocused", [options])
+    |> @js.identity
   promise.wait()
 }
 
@@ -572,8 +581,9 @@ pub async fn TestInfo::attach(
   if contentType is Some(v) {
     options["contentType"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = @js.identity(
-    self.to_any()._call("attach", [@nostd.any(name), options]) |> @js.identity,
-  )
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("attach", [@nostd.any(name), options])
+    |> @js.identity
   promise.wait()
 }

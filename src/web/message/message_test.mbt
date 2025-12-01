@@ -13,7 +13,7 @@ async test "MessageChannel: send and receive message between ports" {
   // Setup receiver on port2
   port2.addEventListener("message", fn(event : @nostd.Any) {
     let e : @nostd.Any = event |> @nostd.any
-    let data : String = @js.identity(e["data"] |> @js.identity)
+    let data : String = e["data"] |> @nostd.identity
     resolver.resolve(data)
   })
 

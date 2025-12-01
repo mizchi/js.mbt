@@ -14,8 +14,8 @@ pub fn ApiClient::as_any(self : ApiClient) -> @nostd.Any = "%identity"
 /// Create a new API client
 pub fn create_api_client(base_url : String) -> ApiClient {
   let obj = @nostd.Object::new()
-  obj["baseUrl"] = base_url
-  obj.as_any().cast()
+  obj["baseUrl"] = base_url |> @nostd.any
+  obj.cast()
 }
 
 ///|

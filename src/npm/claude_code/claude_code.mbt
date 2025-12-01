@@ -18,7 +18,8 @@ pub fn Query::as_any(self : Query) -> @nostd.Any = "%identity"
 /// Get async iterator from Query
 pub fn Query::async_iterator(self : Query) -> @js.AsyncIterator[@nostd.Any] {
   let any : @nostd.Any = self.as_any().cast()
-  let iter = any._call(@js.Symbol::asyncIterator(), [])
+  let key : String = @js.Symbol::asyncIterator() |> @nostd.identity
+  let iter = any._call(key, [])
   @js.identity(iter)
 }
 
@@ -51,8 +52,11 @@ pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
       opts.set(key, options_any._get(key))
     }
   }
-  let result = claude_code_module()._get("query").call_self([opts.as_any()])
-  let iter = result._call(@js.Symbol::asyncIterator(), [])
+  let result = claude_code_module()._get("query").call_self([opts])
+
+  // MEMO: Lie
+  let key : String = @js.Symbol::asyncIterator() |> @nostd.identity
+  let iter = result._call(key, [])
   { raw: @js.identity(iter) }
 }
 
@@ -73,8 +77,11 @@ pub fn queryStream(
       opts.set(key, options_any._get(key))
     }
   }
-  let result = claude_code_module()._get("query").call_self([opts.as_any()])
-  let iter = result._call(@js.Symbol::asyncIterator(), [])
+  let result = claude_code_module()._get("query").call_self([opts])
+
+  // MEMO: Lie
+  let key : String = @js.Symbol::asyncIterator() |> @nostd.identity
+  let iter = result._call(key, [])
   { raw: @js.identity(iter) }
 }
 
@@ -114,8 +121,11 @@ pub fn queryWithAbort(
       opts.set(key, options_any._get(key))
     }
   }
-  let result = claude_code_module()._get("query").call_self([opts.as_any()])
-  let iter = result._call(@js.Symbol::asyncIterator(), [])
+  let result = claude_code_module()._get("query").call_self([opts])
+
+  // MEMO: Lie
+  let key : String = @js.Symbol::asyncIterator() |> @nostd.identity
+  let iter = result._call(key, [])
   ({ raw: @js.identity(iter) }, @js.identity(abort_controller))
 }
 

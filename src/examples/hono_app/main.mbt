@@ -136,7 +136,7 @@ pub fn create_app() -> App {
   app.cors("/api/*", origin="*") |> ignore
   // Home page with JSX
   app
-  ._get("/", fn(c) {
+  .get("/", fn(c) {
     let user = get_current_user(c)
     let content = default_layout({
       title: "Hono App",
@@ -163,7 +163,7 @@ pub fn create_app() -> App {
     c.html_jsx(content)
   })
   // About page
-  ._get("/about", fn(c) {
+  .get("/about", fn(c) {
     let user = get_current_user(c)
     let content = default_layout({
       title: "About",
@@ -179,7 +179,7 @@ pub fn create_app() -> App {
     c.html_jsx(content)
   })
   // Auth page - show login form or logout button
-  ._get("/auth", fn(c) {
+  .get("/auth", fn(c) {
     let user = get_current_user(c)
     let content = default_layout({
       title: "Auth",
@@ -260,15 +260,15 @@ pub fn create_app() -> App {
     c.redirect("/auth")
   })
   // API endpoints
-  ._get("/api/hello", fn(c) { c.text("Hello from Hono!") })
-  ._get("/api/me", fn(c) {
+  .get("/api/hello", fn(c) { c.text("Hello from Hono!") })
+  .get("/api/me", fn(c) {
     match get_current_user(c) {
       Some(name) => c.text("user: " + name)
       None => c.text("not logged in")
     }
   })
   // Health check
-  ._get("/health", fn(c) { c.text("OK") })
+  .get("/health", fn(c) { c.text("OK") })
   // 404 handler
   .notFound(fn(c) {
     let user = get_current_user(c)

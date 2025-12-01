@@ -82,7 +82,7 @@ fn build_options(
   if signal is Some(v) {
     opts.set("signal", @js.unsafe_any(v))
   }
-  opts.as_any()
+  opts
 }
 
 ///|

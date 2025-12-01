@@ -2,6 +2,7 @@
   "is-main": true,
   "import": [
     "mizchi/js",
+    "mizchi/js/nostd",
     "mizchi/js/node/process",
     "mizchi/js/node/tty",
     "mizchi/js/npm/ai",

@@ -152,12 +152,12 @@ pub fn WorkspaceEdit::from_json(json : @nostd.Any) -> WorkspaceEdit {
   if not(@js.is_nullish(changes_obj)) {
     let keys = @js.Object::keys(changes_obj)
     for i in 0..<keys.length() {
-      let key : String = keys._get(i).unwrap()
+      let key : String = keys.get(i).unwrap()
       let edits_arr = changes_obj._get(key)
       let edits : Array[TextEdit] = []
       let len : Int = edits_arr._get("length").cast()
       for j in 0..<len {
-        edits.push(TextEdit::from_json(edits_arr._get(j)))
+        edits.push(TextEdit::from_json(edits_arr._get_by_index(j)))
       }
       changes[key] = edits
     }
@@ -296,7 +296,7 @@ fn LspClient::handle_message(self : LspClient, content : String) -> Unit {
   let id = json._get("id")
   if not(@js.is_nullish(id)) {
     let request_id : Int = id.cast()
-    match self.pending_requests._get(request_id) {
+    match self.pending_requests.get(request_id) {
       Some(callback) => {
         self.pending_requests.remove(request_id)
         callback(json)
@@ -489,7 +489,7 @@ pub async fn LspClient::definition(
           if ffi_is_array(result) {
             let len : Int = result._get("length").cast()
             for i in 0..<len {
-              locations.push(Location::from_json(result._get(i)))
+              locations.push(Location::from_json(result._get_by_index(i)))
             }
           } else {
             locations.push(Location::from_json(result))
@@ -536,7 +536,7 @@ pub async fn LspClient::references(
         if not(@js.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
-            locations.push(Location::from_json(result._get(i)))
+            locations.push(Location::from_json(result._get_by_index(i)))
           }
         }
         resolve(locations)
@@ -712,7 +712,7 @@ pub async fn LspClient::document_symbol(
         if not(@js.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
-            symbols.push(DocumentSymbol::from_json(result._get(i)))
+            symbols.push(DocumentSymbol::from_json(result._get_by_index(i)))
           }
         }
         resolve(symbols)
@@ -744,7 +744,7 @@ pub async fn LspClient::workspace_symbol(
         if not(@js.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
-            symbols.push(SymbolInformation::from_json(result._get(i)))
+            symbols.push(SymbolInformation::from_json(result._get_by_index(i)))
           }
         }
         resolve(symbols)
@@ -784,7 +784,7 @@ pub async fn LspClient::formatting(
         if not(@js.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
-            edits.push(TextEdit::from_json(result._get(i)))
+            edits.push(TextEdit::from_json(result._get_by_index(i)))
           }
         }
         resolve(edits)
@@ -823,7 +823,7 @@ pub async fn LspClient::code_action(
         if not(@js.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
-            actions.push(CodeAction::from_json(result._get(i)))
+            actions.push(CodeAction::from_json(result._get_by_index(i)))
           }
         }
         resolve(actions)
@@ -862,7 +862,7 @@ pub async fn LspClient::prepare_call_hierarchy(
         if not(@js.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
-            items.push(CallHierarchyItem::from_json(result._get(i)))
+            items.push(CallHierarchyItem::from_json(result._get_by_index(i)))
           }
         }
         resolve(items)
@@ -902,7 +902,9 @@ pub async fn LspClient::incoming_calls(
         if not(@js.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
-            calls.push(CallHierarchyIncomingCall::from_json(result._get(i)))
+            calls.push(
+              CallHierarchyIncomingCall::from_json(result._get_by_index(i)),
+            )
           }
         }
         resolve(calls)
@@ -942,7 +944,9 @@ pub async fn LspClient::outgoing_calls(
         if not(@js.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
-            calls.push(CallHierarchyOutgoingCall::from_json(result._get(i)))
+            calls.push(
+              CallHierarchyOutgoingCall::from_json(result._get_by_index(i)),
+            )
           }
         }
         resolve(calls)
@@ -978,7 +982,7 @@ pub async fn LspClient::inlay_hint(
         if not(@js.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
-            hints.push(InlayHint::from_json(result._get(i)))
+            hints.push(InlayHint::from_json(result._get_by_index(i)))
           }
         }
         resolve(hints)

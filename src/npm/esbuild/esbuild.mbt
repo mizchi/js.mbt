@@ -13,27 +13,6 @@ pub type Esbuild
 ///|
 pub fn Esbuild::as_any(self : Esbuild) -> @nostd.Any = "%identity"
 
-// Internal helpers for calling JS methods
-
-///|
-fn[T : @js.JsImpl] Esbuild::call1(
-  self : Esbuild,
-  name : String,
-  arg : T,
-) -> @nostd.Any {
-  self.as_any()._call(name, [arg.as_any()])
-}
-
-///|
-fn[T : @js.JsImpl, U : @js.JsImpl] Esbuild::call2(
-  self : Esbuild,
-  name : String,
-  arg1 : T,
-  arg2 : U,
-) -> @nostd.Any {
-  self.as_any()._call(name, [arg1.as_any(), arg2.as_any()])
-}
-
 ///|
 /// Get the esbuild module
 pub fn esbuild() -> Esbuild {
@@ -319,9 +298,12 @@ pub async fn Esbuild::build(
       let (key, value) = pair
       defs.set(key, value)
     }
-    opts.set("define", defs.as_any())
+    opts.set("define", defs)
   }
-  let promise : @js.Promise[BuildResult] = self.call1("build", opts).cast()
+  let promise : @js.Promise[BuildResult] = self
+    .as_any()
+    .call1("build", opts)
+    .cast()
   promise.wait()
 }
 
@@ -345,7 +327,8 @@ pub async fn Esbuild::transform(
   }
   opts.set("sourcemap", sourcemap)
   let promise : @js.Promise[TransformResult] = self
-    .call2("transform", code, opts)
+    .as_any()
+    .call2("transform", code |> @nostd.identity, opts)
     .cast()
   promise.wait()
 }
@@ -395,9 +378,9 @@ pub fn Esbuild::build_sync(
       let (key, value) = pair
       defs.set(key, value)
     }
-    opts.set("define", defs.as_any())
+    opts.set("define", defs)
   }
-  self.call1("buildSync", opts).cast()
+  self.as_any().call1("buildSync", opts).cast()
 }
 
 ///|
@@ -419,5 +402,5 @@ pub fn Esbuild::transform_sync(
     opts.set("target", target)
   }
   opts.set("sourcemap", sourcemap)
-  self.call2("transformSync", code, opts).cast()
+  self.as_any().call2("transformSync", code |> @nostd.identity, opts).cast()
 }

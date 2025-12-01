@@ -186,6 +186,12 @@ pub fn Any::call_self0(self : Any) -> Any {
 pub extern "js" fn Any::_get(self : Any, key : String) -> Any =
   #| (obj, key) => obj[key]
 
+///|
+/// JS: value[key]
+/// Enables syntax: obj[index]
+pub extern "js" fn Any::_get_by_index(self : Any, key : Int) -> Any =
+  #| (obj, key) => obj[key]
+
 ///| Global functions
 
 ///|
@@ -318,5 +324,5 @@ pub fn[T] identity_option(v : Any) -> T? {
 pub type JsArray
 
 ///|
-pub extern "js" fn JsArray::new() -> JsArray =
+pub extern "js" fn JsArray::new() -> Any =
   #| () => []

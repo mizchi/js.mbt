@@ -40,7 +40,7 @@ pub fn to_json_schema_with_options(
     None => ()
   }
   let schema_any : @nostd.Any = schema.as_any() |> @nostd.identity()
-  zod_module().call2("toJSONSchema", schema_any, opts.as_any())
+  zod_module().call2("toJSONSchema", schema_any, opts)
 }
 
 ///|

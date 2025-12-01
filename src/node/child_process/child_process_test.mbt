@@ -233,11 +233,11 @@ test "ChildProcess has killed property" {
 ///|
 /// Test ChildProcess implements EventEmitter trait
 test "ChildProcess implements EventEmitter trait" {
-  let proc = spawn("echo", args=["test"])
+  let proc = spawn("echo", args=["test"]).as_event_emitter()
 
   // Test that we can use EventEmitter trait methods via explicit trait call
-  @events.EventEmitterImpl::on(proc, "close", fn(_) { () })
-  @events.EventEmitterImpl::once(proc, "exit", fn(_) { () })
+  proc.on("close", fn(_) { () })
+  proc.once("exit", fn(_) { () })
   inspect(true, content="true")
 }
 
@@ -386,10 +386,11 @@ async test "Node Child Process: ChildProcess unref and ref methods" {
 async test "Node Child Process: ChildProcess has EventEmitter methods" {
   let proc = @child_process.spawn("echo", args=["test"])
   defer proc.kill() |> ignore
+  let proc = proc.as_event_emitter()
   // Test EventEmitter trait methods are available via explicit trait call
-  @events.EventEmitterImpl::on(proc, "exit", fn(_) { () })
-  @events.EventEmitterImpl::once(proc, "close", fn(_) { () })
-  let names = @events.EventEmitterImpl::eventNames(proc)
+  proc.on("exit", fn(_) { () })
+  proc.once("close", fn(_) { () })
+  let names = proc.eventNames()
   assert_true(names.length() >= 0)
 }
 

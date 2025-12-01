@@ -103,7 +103,7 @@ pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @nostd.Any {
   if self.base_url is Some(url) {
     obj.set("baseURL", url)
   }
-  obj.as_any()
+  obj
 }
 
 ///|
@@ -182,7 +182,7 @@ pub fn GoogleOptions::as_any(self : GoogleOptions) -> @nostd.Any {
   if self.base_url is Some(url) {
     obj.set("baseURL", url)
   }
-  obj.as_any()
+  obj
 }
 
 ///|

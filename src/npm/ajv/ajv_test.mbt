@@ -1,13 +1,13 @@
 ///|
 test "Ajv instance creation" {
   let ajv = Ajv::new()
-  @nostd.typeof_(ajv) |> assert_eq("object")
+  @nostd.typeof_(ajv.as_any()) |> assert_eq("object")
 }
 
 ///|
 test "Ajv with allErrors option" {
   let ajv = Ajv::new(all_errors=true)
-  @nostd.typeof_(ajv) |> assert_eq("object")
+  @nostd.typeof_(ajv.as_any()) |> assert_eq("object")
 }
 
 ///|
@@ -15,7 +15,7 @@ test "compile returns ValidateFunction" {
   let ajv = Ajv::new()
   let schema = @nostd.json_parse("{\"type\": \"object\"}")
   let validate = ajv.compile(schema)
-  @nostd.typeof_(validate) |> assert_eq("function")
+  @nostd.typeof_(validate.as_any()) |> assert_eq("function")
 }
 
 ///|
@@ -92,7 +92,7 @@ test "addSchema and getSchema" {
   ajv.addSchema(schema, key="mySchema") |> ignore
   let retrieved = ajv.getSchema("mySchema")
   guard retrieved is Some(validate)
-  @nostd.typeof_(validate) |> assert_eq("function")
+  @nostd.typeof_(validate.as_any()) |> assert_eq("function")
 }
 
 ///|

@@ -119,7 +119,10 @@ async test "transform async" {
 async test "build with write=false" {
   let es = esbuild()
   // Create a temp file first
-  @fs.write_file_sync("/tmp/esbuild_test_entry.js", "export const x = 42;")
+  @fs.write_file_sync(
+    "/tmp/esbuild_test_entry.js",
+    "export const x = 42;" |> @nostd.any,
+  )
   let result = es.build(
     entry_points=["/tmp/esbuild_test_entry.js"],
     write=false,
@@ -139,7 +142,8 @@ async test "build with write=false" {
 async test "build with minify" {
   let es = esbuild()
   @fs.write_file_sync(
-    "/tmp/esbuild_minify_test.js", "export function longFunctionName() { return 1 + 2 + 3; }",
+    "/tmp/esbuild_minify_test.js",
+    "export function longFunctionName() { return 1 + 2 + 3; }" |> @nostd.any,
   )
   let result = es.build(
     entry_points=["/tmp/esbuild_minify_test.js"],

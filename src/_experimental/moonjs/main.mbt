@@ -237,60 +237,63 @@ fn create_project(
   try {
     @fs.writeFileSync(
       @path.join2(name, "moon.mod.json"),
-      template_moon_mod_json(module_name),
+      template_moon_mod_json(module_name) |> @nostd.any,
     )
     // Write src/moon.pkg.json based on project type
     @fs.writeFileSync(
       @path.join([name, "src", "moon.pkg.json"]),
-      template_src_pkg_json_for(project_type),
+      template_src_pkg_json_for(project_type) |> @nostd.any,
     )
     // Write source file based on project type
     match project_type {
       Bin => {
         @fs.writeFileSync(
           @path.join([name, "src", "main", "moon.pkg.json"]),
-          template_main_pkg_json(),
+          template_main_pkg_json() |> @nostd.any,
         )
         @fs.writeFileSync(
           @path.join([name, "src", "lib.mbt"]),
-          template_lib_mbt(),
+          template_lib_mbt() |> @nostd.any,
         )
         @fs.writeFileSync(
           @path.join([name, "src", "main", "main.mbt"]),
-          template_main_mbt(),
+          template_main_mbt() |> @nostd.any,
         )
       }
       LibNode | LibMbt =>
         @fs.writeFileSync(
           @path.join([name, "src", "lib.mbt"]),
-          template_lib_mbt(),
+          template_lib_mbt() |> @nostd.any,
         )
       React => {
         @fs.writeFileSync(
           @path.join([name, "src", "main.mbt"]),
-          template_react_main_mbt(),
+          template_react_main_mbt() |> @nostd.any,
         )
         @fs.writeFileSync(
           @path.join2(name, "index.html"),
-          template_react_index_html(base_name),
+          template_react_index_html(base_name) |> @nostd.any,
         )
         @fs.writeFileSync(
           @path.join2(name, "package.json"),
-          template_react_package_json(base_name),
+          template_react_package_json(base_name) |> @nostd.any,
         )
       }
     }
-    @fs.writeFileSync(@path.join2(name, ".gitignore"), template_gitignore())
+    @fs.writeFileSync(
+      @path.join2(name, ".gitignore"),
+      template_gitignore() |> @nostd.any,
+    )
     @fs.writeFileSync(
       @path.join2(name, "README.md"),
-      template_readme_for(base_name, project_type),
+      template_readme_for(base_name, project_type) |> @nostd.any,
     )
     // Write package.json for LibNode (React already written above)
     match project_type {
       LibNode =>
         @fs.writeFileSync(
           @path.join2(name, "package.json"),
-          template_package_json(base_name),
+          template_package_json(base_name) |> @nostd.any,
         )
       Bin | LibMbt | React => ()
     }

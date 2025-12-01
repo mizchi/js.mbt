@@ -314,12 +314,12 @@ pub fn Crypto::getRandomValuesI32(
 ///|
 /// Crypto::getRandomValuesClamped()
 /// Fills the passed Uint8ClampedArray with cryptographically secure random values.
-pub fn Crypto::getRandomValuesClamped(
-  self : Self,
-  array : @typedarray.Uint8ClampedArray,
-) -> @typedarray.Uint8ClampedArray {
-  self.as_any()._call("getRandomValues", [@nostd.any(array)]).cast()
-}
+// pub fn Crypto::getRandomValuesClamped(
+//   self : Self,
+//   array : @typedarray.Uint8ClampedArray,
+// ) -> @typedarray.Uint8ClampedArray {
+//   self.as_any()._call("getRandomValues", [@nostd.any(array)]).cast()
+// }
 
 ///|
 /// Crypto::randomUUID()

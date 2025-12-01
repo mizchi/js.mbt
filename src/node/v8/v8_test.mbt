@@ -122,7 +122,7 @@ test "set_heap_snapshot_near_heap_limit" {
 /// Test serialize and deserialize number
 test "serialize and deserialize number" {
   let original = 42
-  let serialized = serialize(original)
+  let serialized = serialize(original |> @nostd.any)
   let deserialized = deserialize(serialized)
   inspect(@js.identity(deserialized) == 42, content="true")
 }
@@ -131,7 +131,7 @@ test "serialize and deserialize number" {
 /// Test serialize and deserialize string
 test "serialize and deserialize string" {
   let original = "Hello, V8!"
-  let serialized = serialize(original)
+  let serialized = serialize(original |> @nostd.any)
   let deserialized : String = @js.identity(deserialize(serialized))
   inspect(deserialized == "Hello, V8!", content="true")
 }
@@ -155,10 +155,10 @@ test "serialize and deserialize object" {
 test "Serializer write and release" {
   let serializer = Serializer::new()
   serializer.write_header()
-  let success = serializer.write_value(42)
+  let success = serializer.write_value(42 |> @nostd.any)
   inspect(success, content="true")
   let buffer = serializer.releaseBuffer()
-  inspect(@js.identity(buffer._get("length")) > 0, content="true")
+  inspect(@js.identity(buffer.as_any()._get("length")) > 0, content="true")
 }
 
 ///|
@@ -168,7 +168,7 @@ test "Serializer write_uint32" {
   serializer.write_header()
   serializer.write_uint32(42)
   let buffer = serializer.releaseBuffer()
-  inspect(@js.identity(buffer._get("length")) > 0, content="true")
+  inspect(@js.identity(buffer.as_any()._get("length")) > 0, content="true")
 }
 
 ///|
@@ -178,7 +178,7 @@ test "Serializer write_double" {
   serializer.write_header()
   serializer.write_double(3.14)
   let buffer = serializer.releaseBuffer()
-  inspect(@js.identity(buffer._get("length")) > 0, content="true")
+  inspect(@js.identity(buffer.as_any()._get("length")) > 0, content="true")
 }
 
 ///|
@@ -189,7 +189,7 @@ test "Serializer transfer_array_buffer" {
   let ab = @js.ArrayBuffer::new(16)
   serializer.transferArrayBuffer(1, ab)
   let buffer = serializer.releaseBuffer()
-  inspect(@js.identity(buffer._get("length")) > 0, content="true")
+  inspect(@js.identity(buffer.as_any()._get("length")) > 0, content="true")
 }
 
 ///|
@@ -198,9 +198,9 @@ test "Serializer write_raw_bytes" {
   let serializer = Serializer::new()
   serializer.write_header()
   let buffer = @buffer.Buffer::from_string("test")
-  serializer.write_raw_bytes(buffer)
+  serializer.write_raw_bytes(buffer |> @nostd.any)
   let released = serializer.releaseBuffer()
-  inspect(@js.identity(released._get("length")) > 0, content="true")
+  inspect(@js.identity(released.as_any()._get("length")) > 0, content="true")
 }
 
 ///| Deserializer Tests
@@ -209,7 +209,7 @@ test "Serializer write_raw_bytes" {
 /// Test Deserializer read value
 test "Deserializer read value" {
   let original = 42
-  let serialized = serialize(original)
+  let serialized = serialize(original |> @nostd.any)
   let deserializer = Deserializer::new(serialized)
   deserializer.read_header() |> ignore
   let value = deserializer.read_value()
@@ -219,7 +219,7 @@ test "Deserializer read value" {
 ///|
 /// Test Deserializer get wire format version
 test "Deserializer get_wire_format_version" {
-  let serialized = serialize(42)
+  let serialized = serialize(42 |> @nostd.any)
   let deserializer = Deserializer::new(serialized)
   let version = deserializer.get_wire_format_version()
   inspect(version >= 0, content="true")
@@ -229,7 +229,7 @@ test "Deserializer get_wire_format_version" {
 /// Test Deserializer transfer_array_buffer
 test "Deserializer transfer_array_buffer" {
   let ab = @js.ArrayBuffer::new(16)
-  let serialized = serialize(ab)
+  let serialized = serialize(ab |> @nostd.any)
   let deserializer = Deserializer::new(serialized)
   deserializer.read_header() |> ignore
   let new_ab = @js.ArrayBuffer::new(16)
@@ -269,12 +269,15 @@ test "Deserializer read_raw_bytes" {
   let serializer = Serializer::new()
   serializer.write_header()
   let test_buffer = @buffer.Buffer::from_string("test data")
-  serializer.write_raw_bytes(test_buffer)
+  serializer.write_raw_bytes(test_buffer |> @nostd.any)
   let buffer = serializer.releaseBuffer()
   let deserializer = Deserializer::new(buffer)
   deserializer.read_header() |> ignore
   let read_buffer = deserializer.readRawBytes(9)
-  inspect(@js.identity(read_buffer._get("length")) == 9, content="true")
+  inspect(
+    @js.identity(read_buffer.as_any()._get("length")) == 9,
+    content="true",
+  )
 }
 
 ///| Utility Function Tests

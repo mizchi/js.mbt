@@ -103,7 +103,7 @@ async test "drizzle libsql - multiple inserts and select" {
   inspect(all_users.length(), content="3")
 
   // Select with filter
-  let age_col : Column = users._get("age") |> @js.identity
+  let age_col : Column = users.get("age") |> @js.identity
   let older_users : Array[@nostd.Any] = db
     .select()
     .from(users)
@@ -128,7 +128,7 @@ async test "drizzle libsql - update and delete" {
   let _ = db.insert(users).values(@nostd.any(user.as_any())).execute()
 
   // Update
-  let name_col : Column = users._get("name") |> @js.identity
+  let name_col : Column = users.get("name") |> @js.identity
   let update_data = Row::new().int("age", 31)
   let _ = db
     .update(users)
@@ -206,7 +206,7 @@ async test "drizzle libsql - SQL operators" {
     .execute()
 
   // Simple test - lt operator (which is similar to gt that works)
-  let age_col : Column = users._get("age") |> @js.identity
+  let age_col : Column = users.get("age") |> @js.identity
   let lt_result : Array[@nostd.Any] = db
     .select()
     .from(users)

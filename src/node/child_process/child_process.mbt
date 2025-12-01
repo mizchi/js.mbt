@@ -15,9 +15,14 @@ pub fn ChildProcess::as_any(self : ChildProcess) -> @nostd.Any = "%identity"
 pub fn ChildProcess::to_any(self : ChildProcess) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @events.EventEmitterImpl for ChildProcess with to_any(self) -> @nostd.Any {
-  self.to_any()
-}
+pub fn ChildProcess::to_event_emitter(
+  self : ChildProcess,
+) -> @events.EventEmitter = "%identity"
+
+///|
+// pub impl @events.EventEmitterImpl for ChildProcess with to_any(self) -> @nostd.Any {
+//   self.to_any()
+// }
 
 ///|
 pub fn ChildProcess::as_event_emitter(

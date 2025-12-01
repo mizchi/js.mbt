@@ -69,7 +69,7 @@ pub fn h(
     }
     val.set("style", style_obj)
   }
-  @js.identity(ffi_h(tag, val.as_any(), children))
+  @js.identity(ffi_h(tag, val, children))
 }
 
 ///|
@@ -88,7 +88,7 @@ pub fn[T] component(
     if @js.is_nullish(val) {
       let obj = @nostd.Object::new()
       obj.set("key", key)
-      return ffi_h(tag, obj.as_any(), children) |> @js.identity
+      return ffi_h(tag, obj, children) |> @js.identity
     }
     val.set("key", key)
   }
@@ -104,7 +104,7 @@ pub fn fragment(children : Array[&VueNode], key? : String) -> VNode {
   if key is Some(key) {
     val.set("key", key)
   }
-  ffi_h(tag, val.as_any(), children) |> @js.identity
+  ffi_h(tag, val, children) |> @js.identity
 }
 
 ///|
@@ -118,7 +118,7 @@ pub fn render(vnode : VNode, container : @dom.Element) -> Unit {
 pub fn createApp(rootComponent : @nostd.Any, props? : @nostd.Any) -> @nostd.Any {
   let p = match props {
     Some(p) => p
-    None => @nostd.Object::new().as_any()
+    None => @nostd.Object::new()
   }
   ffi_create_app(rootComponent, p)
 }
@@ -154,7 +154,7 @@ pub fn[T] computedWritable(get : () -> T, set : (T) -> Unit) -> Ref[T] {
   let options = @nostd.Object::new()
   options.set("get", get |> @js.unsafe_any)
   options.set("set", set |> @js.unsafe_any)
-  @js.identity(ffi_computed(options.as_any()))
+  @js.identity(ffi_computed(options))
 }
 
 ///|

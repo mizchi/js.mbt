@@ -69,7 +69,7 @@ pub fn sqliteTableFromMap(
 ) -> Table {
   let obj = @nostd.Object::new()
   columns.each(fn(key, col) { obj.set(key, col.as_any()) })
-  sqliteTable(name, obj.as_any())
+  sqliteTable(name, obj)
 }
 
 ///|
@@ -197,7 +197,7 @@ pub fn sqliteNumeric(name? : String) -> Column {
 pub fn Column::primaryKeyAutoIncrement(self : Column) -> Column {
   let opts = @nostd.Object::new()
   opts.set("autoIncrement", true)
-  self.call1("primaryKey", @nostd.any(opts.as_any())) |> @js.identity
+  self.call1("primaryKey", opts) |> @js.identity
 }
 
 // ============ SQLite Specific Index ============

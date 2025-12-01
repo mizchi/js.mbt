@@ -117,7 +117,7 @@ pub async fn generateText(
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateText")
-    .call_self([opts.as_any()])
+    .call_self([opts])
     |> @js.identity
   let result = promise.wait()
   GenerateTextResult::from_any(result)
@@ -186,7 +186,7 @@ pub fn streamText(
   if active_tools is Some(at) {
     opts.set("activeTools", at |> @js.from_array)
   }
-  let result = ai_module()._get("streamText").call_self([opts.as_any()])
+  let result = ai_module()._get("streamText").call_self([opts])
   @js.identity(result)
 }
 
@@ -199,7 +199,9 @@ pub fn StreamTextResultHandle::fullStreamRaw(
 ) -> @js.AsyncIterator[@nostd.Any] {
   let iterable = self.as_any()._get("fullStream")
   // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
-  let iter = iterable._call(@js.Symbol::asyncIterator(), [])
+  // TODO: unsafe cast as string to access key
+  let key = @js.Symbol::asyncIterator() |> @nostd.identity
+  let iter = iterable._call(key, [])
   @js.identity(iter)
 }
 
@@ -227,7 +229,10 @@ pub fn StreamTextResultHandle::fullStream(
   self : StreamTextResultHandle,
 ) -> TextStreamPartIterator {
   let iterable = self.as_any()._get("fullStream")
-  let iter = iterable._call(@js.Symbol::asyncIterator(), [])
+
+  // TODO: unsafe cast as string to access key
+  let key = @js.Symbol::asyncIterator() |> @nostd.identity
+  let iter = iterable._call(key, [])
   { raw: @js.identity(iter) }
 }
 
@@ -240,7 +245,10 @@ pub fn StreamTextResultHandle::textStream(
 ) -> @js.AsyncIterator[String] {
   let iterable = self.as_any()._get("textStream")
   // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
-  let iter = iterable._call(@js.Symbol::asyncIterator(), [])
+
+  // TODO: unsafe cast as string to access key
+  let key = @js.Symbol::asyncIterator() |> @nostd.identity
+  let iter = iterable._call(key, [])
   @js.identity(iter)
 }
 

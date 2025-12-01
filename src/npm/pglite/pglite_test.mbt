@@ -70,7 +70,7 @@ async test "Results fields" {
   defer db.closeSync() |> ignore
   let result = db.query("SELECT 1 as num, 'hello' as msg")
   let fields = result.fields()
-  @nostd.typeof_(fields.as_any()) |> assert_eq("object")
+  @nostd.typeof_(fields) |> assert_eq("object")
 }
 
 ///|

@@ -243,7 +243,7 @@ pub fn pgTable(name : String, columns : @nostd.Any) -> Table {
 pub fn pgTableFromMap(name : String, columns : Map[String, Column]) -> Table {
   let obj = @nostd.Object::new()
   columns.each(fn(key, col) { obj.set(key, col.as_any()) })
-  pgTable(name, obj.as_any())
+  pgTable(name, obj)
 }
 
 ///|

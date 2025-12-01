@@ -87,7 +87,7 @@ async test "embed with mock" {
     ._get("openai")
     .call_self([])
     ._get("textEmbeddingModel")
-    .call_self(["text-embedding-3-small"]),
+    .call_self(["text-embedding-3-small" |> @nostd.any]),
   )
   let result = @ai.embed(model~, value="Hello, world!")
   @js.log("Embedding dimension: " + result.embedding.length().to_string())

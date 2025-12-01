@@ -22,18 +22,18 @@ pub fn S3Client::new(
   forcePathStyle? : Bool = false,
 ) -> S3Client {
   let config = @nostd.Object::new()
-  config["region"] = region
+  config["region"] = region |> @nostd.any
   if endpoint is Some(ep) {
-    config["endpoint"] = ep
+    config["endpoint"] = ep |> @nostd.any
   }
-  config["forcePathStyle"] = forcePathStyle
+  config["forcePathStyle"] = forcePathStyle |> @nostd.any
   if accessKeyId is Some(ak) && secretAccessKey is Some(sk) {
     let creds = @nostd.Object::new()
-    creds["accessKeyId"] = ak
-    creds["secretAccessKey"] = sk
-    config["credentials"] = creds.as_any()
+    creds["accessKeyId"] = ak |> @nostd.any
+    creds["secretAccessKey"] = sk |> @nostd.any
+    config["credentials"] = creds |> @nostd.any
   }
-  ffi_new_s3_client(config.as_any()) |> @js.identity
+  ffi_new_s3_client(config |> @nostd.any) |> @nostd.identity
 }
 
 ///|
@@ -53,11 +53,11 @@ pub async fn put_object(
   contentType? : String,
 ) -> PutObjectOutput {
   let input = @nostd.Object::new()
-  input["Bucket"] = bucket
-  input["Key"] = key
-  input["Body"] = body
+  input["Bucket"] = bucket |> @nostd.any
+  input["Key"] = key |> @nostd.any
+  input["Body"] = body |> @nostd.any
   if contentType is Some(ct) {
-    input["ContentType"] = ct
+    input["ContentType"] = ct |> @nostd.any
   }
   let result = ffi_put_object(client |> @js.identity, input).wait()
   { etag: result["ETag"].cast() }
@@ -88,13 +88,13 @@ pub async fn put_object_bytes(
   contentType? : String,
 ) -> PutObjectOutput {
   let input = @nostd.Object::new()
-  input["Bucket"] = bucket
-  input["Key"] = key
-  input["Body"] = @typedarray.bytes_to_uint8array(body)
+  input["Bucket"] = bucket |> @nostd.any
+  input["Key"] = key |> @nostd.any
+  input["Body"] = @typedarray.bytes_to_uint8array(body) |> @nostd.any
   if contentType is Some(ct) {
-    input["ContentType"] = ct
+    input["ContentType"] = ct |> @nostd.any
   }
-  let result = ffi_put_object(client |> @js.identity, input).wait()
+  let result = ffi_put_object(client |> @nostd.identity, input).wait()
   { etag: result["ETag"].cast() }
 }
 
@@ -106,9 +106,9 @@ pub async fn get_object(
   key : String,
 ) -> GetObjectOutput {
   let input = @nostd.Object::new()
-  input["Bucket"] = bucket
-  input["Key"] = key
-  let result = ffi_get_object(client |> @js.identity, input).wait()
+  input["Bucket"] = bucket |> @nostd.any
+  input["Key"] = key |> @nostd.any
+  let result = ffi_get_object(client |> @nostd.identity, input).wait()
   {
     body: result["Body"].cast(),
     content_type: result["ContentType"].cast(),
@@ -159,9 +159,9 @@ pub async fn delete_object(
   key : String,
 ) -> DeleteObjectOutput {
   let input = @nostd.Object::new()
-  input["Bucket"] = bucket
-  input["Key"] = key
-  let result = ffi_delete_object(client |> @js.identity, input).wait()
+  input["Bucket"] = bucket |> @nostd.any
+  input["Key"] = key |> @nostd.any
+  let result = ffi_delete_object(client |> @nostd.identity, input).wait()
   { delete_marker: result["DeleteMarker"].cast() }
 }
 
@@ -188,9 +188,9 @@ pub async fn head_object(
   key : String,
 ) -> HeadObjectOutput {
   let input = @nostd.Object::new()
-  input["Bucket"] = bucket
-  input["Key"] = key
-  let result = ffi_head_object(client |> @js.identity, input.as_any()).wait()
+  input["Bucket"] = bucket |> @nostd.any
+  input["Key"] = key |> @nostd.any
+  let result = ffi_head_object(client |> @nostd.identity, input).wait()
   {
     content_type: result["ContentType"].cast(),
     content_length: result["ContentLength"].cast(),
@@ -225,15 +225,15 @@ pub async fn list_objects_v2(
   continuationToken? : String,
 ) -> ListObjectsV2Output {
   let input = @nostd.Object::new()
-  input["Bucket"] = bucket
+  input["Bucket"] = bucket |> @nostd.any
   if prefix is Some(p) {
-    input["Prefix"] = p
+    input["Prefix"] = p |> @nostd.any
   }
   if maxKeys is Some(mk) {
-    input["MaxKeys"] = mk
+    input["MaxKeys"] = mk |> @nostd.any
   }
   if continuationToken is Some(ct) {
-    input["ContinuationToken"] = ct
+    input["ContinuationToken"] = ct |> @nostd.any
   }
   let result = ffi_list_objects_v2(client |> @js.identity, input).wait()
   let contents_raw : Array[@nostd.Any] = result["Contents"] |> @js.identity
@@ -282,8 +282,8 @@ extern "js" fn ffi_list_objects_v2(
 /// CreateBucket - create a new bucket
 pub async fn create_bucket(client : S3Client, bucket : String) -> Unit {
   let input = @nostd.Object::new()
-  input["Bucket"] = bucket
-  ffi_create_bucket(client |> @js.identity, input.as_any()).wait() |> ignore
+  input["Bucket"] = bucket |> @nostd.any
+  ffi_create_bucket(client |> @nostd.identity, input).wait() |> ignore
 }
 
 ///|
@@ -300,8 +300,8 @@ extern "js" fn ffi_create_bucket(
 /// DeleteBucket - delete a bucket
 pub async fn delete_bucket(client : S3Client, bucket : String) -> Unit {
   let input = @nostd.Object::new()
-  input["Bucket"] = bucket
-  ffi_delete_bucket(client |> @js.identity, input.as_any()).wait() |> ignore
+  input["Bucket"] = bucket |> @nostd.any
+  ffi_delete_bucket(client |> @nostd.identity, input).wait() |> ignore
 }
 
 ///|
@@ -351,10 +351,10 @@ pub async fn copy_object(
   destKey : String,
 ) -> CopyObjectOutput {
   let input = @nostd.Object::new()
-  input["CopySource"] = sourceBucket + "/" + sourceKey
-  input["Bucket"] = destBucket
-  input["Key"] = destKey
-  let result = ffi_copy_object(client |> @js.identity, input.as_any()).wait()
+  input["CopySource"] = (sourceBucket + "/" + sourceKey) |> @nostd.any
+  input["Bucket"] = destBucket |> @nostd.any
+  input["Key"] = destKey |> @nostd.any
+  let result = ffi_copy_object(client |> @nostd.identity, input).wait()
   let copy_result = result["CopyObjectResult"]
   { etag: copy_result["ETag"] |> @js.identity }
 }

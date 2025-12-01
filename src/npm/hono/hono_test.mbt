@@ -48,7 +48,7 @@ test "Hono::new creates instance" {
 ///|
 test "Hono GET route" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/hello", fn(c) { c.text("Hello, Hono!") }) |> ignore
+  app.get("/hello", fn(c) { c.text("Hello, Hono!") }) |> ignore
   @nostd.typeof_(app.as_any()) |> assert_eq("object")
 }
 
@@ -62,8 +62,8 @@ test "Hono POST route" {
 ///|
 test "Hono multiple routes" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/", fn(c) { c.text("Home") }) |> ignore
-  app._get("/about", fn(c) { c.text("About") }) |> ignore
+  app.get("/", fn(c) { c.text("Home") }) |> ignore
+  app.get("/about", fn(c) { c.text("About") }) |> ignore
   app.post("/api/create", fn(c) { c.json({ created: true }) }) |> ignore
   @nostd.typeof_(app.as_any()) |> assert_eq("object")
 }
@@ -71,35 +71,35 @@ test "Hono multiple routes" {
 ///|
 test "Context json response" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/json", fn(c) { c.json({ message: "Hello", count: 42 }) }) |> ignore
+  app.get("/json", fn(c) { c.json({ message: "Hello", count: 42 }) }) |> ignore
   @nostd.typeof_(app.as_any()) |> assert_eq("object")
 }
 
 ///|
 test "Context text response" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/text", fn(c) { c.text("Plain text response") }) |> ignore
+  app.get("/text", fn(c) { c.text("Plain text response") }) |> ignore
   @nostd.typeof_(app.as_any()) |> assert_eq("object")
 }
 
 ///|
 test "Context html response" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/html", fn(c) { c.html("<h1>Hello, Hono!</h1>") }) |> ignore
+  app.get("/html", fn(c) { c.html("<h1>Hello, Hono!</h1>") }) |> ignore
   @nostd.typeof_(app.as_any()) |> assert_eq("object")
 }
 
 ///|
 test "Context redirect" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/old", fn(c) { c.redirect("/new") }) |> ignore
+  app.get("/old", fn(c) { c.redirect("/new") }) |> ignore
   @nostd.typeof_(app.as_any()) |> assert_eq("object")
 }
 
 ///|
 test "Context not_found" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/404", fn(c) { c.notFound() }) |> ignore
+  app.get("/404", fn(c) { c.notFound() }) |> ignore
   @nostd.typeof_(app.as_any()) |> assert_eq("object")
 }
 
@@ -107,7 +107,7 @@ test "Context not_found" {
 test "Hono basePath" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
   let api = app.basePath("/api")
-  api._get("/users", fn(c) { c.json({ users: [] }) }) |> ignore
+  api.get("/users", fn(c) { c.json({ users: [] }) }) |> ignore
   @nostd.typeof_(api.as_any()) |> assert_eq("object")
 }
 
@@ -123,7 +123,7 @@ test "Hono PUT, DELETE, PATCH methods" {
 ///|
 test "Context status and headers" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/custom", fn(c) {
+  app.get("/custom", fn(c) {
     c.status(201)
     c.header("X-Custom-Header", "CustomValue")
     c.text("Created")
@@ -142,8 +142,7 @@ test "Context json with status" {
 ///|
 test "Context redirect with status" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  app._get("/moved", fn(c) { c.redirect("/new-location", status=301) })
-  |> ignore
+  app.get("/moved", fn(c) { c.redirect("/new-location", status=301) }) |> ignore
   @nostd.typeof_(app.as_any()) |> assert_eq("object")
 }
 
@@ -158,7 +157,7 @@ test "Hono all method" {
 test "Hono route grouping" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
   let api : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
-  api._get("/users", fn(c) { c.json({ users: [] }) }) |> ignore
+  api.get("/users", fn(c) { c.json({ users: [] }) }) |> ignore
   app.route("/api", api) |> ignore
   @nostd.typeof_(app.as_any()) |> assert_eq("object")
 }
@@ -170,7 +169,7 @@ async test "testClient with simple GET route" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
 
   // Define a simple route
-  app._get("/hello", fn(c) { c.text("Hello World") }) |> ignore
+  app.get("/hello", fn(c) { c.text("Hello World") }) |> ignore
 
   // Create test client
   let client = @hono.test_client(app)
@@ -187,11 +186,11 @@ async test "testClient with JSON response" {
   let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
 
   // Define a JSON route
-  app._get("/api/user", fn(c) {
+  app.get("/api/user", fn(c) {
     let user = @nostd.from_entries([
       ("name", @nostd.any("Alice")),
       ("age", @nostd.any(25)),
-    ]).cast()
+    ])
     c.json(user)
   })
   |> ignore

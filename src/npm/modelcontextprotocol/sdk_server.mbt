@@ -23,15 +23,9 @@ extern "js" fn require_stdio_transport() -> @nostd.Any =
 pub type SdkServer
 
 ///|
-pub impl @js.JsImpl for SdkServer
-
-///|
 /// StdioServerTransport from @modelcontextprotocol/sdk
 #external
 pub type StdioServerTransport
-
-///|
-pub impl @js.JsImpl for StdioServerTransport
 
 // ============================================================
 // Server Implementation
@@ -95,7 +89,7 @@ pub fn SdkServer::set_tools_list_handler(
       @mbtconv.from_map({ "tools": @nostd.any(@js.from_array(tools_arr)) }),
     )
   }
-  ffi_set_handler(self.as_any(), schema, wrapped)
+  ffi_set_handler(self |> @nostd.any, schema, wrapped)
 }
 
 ///|
@@ -130,7 +124,7 @@ pub fn SdkServer::set_tools_call_handler(
       )
     })
   }
-  ffi_set_handler_async(self.as_any(), schema, wrapped)
+  ffi_set_handler_async(self |> @nostd.any, schema, wrapped)
 }
 
 ///|
@@ -158,7 +152,7 @@ pub fn SdkServer::set_resources_list_handler(
       }),
     )
   }
-  ffi_set_handler(self.as_any(), schema, wrapped)
+  ffi_set_handler(self |> @nostd.any, schema, wrapped)
 }
 
 ///|
@@ -184,7 +178,7 @@ pub fn SdkServer::set_resources_read_handler(
       )
     })
   }
-  ffi_set_handler_async(self.as_any(), schema, wrapped)
+  ffi_set_handler_async(self |> @nostd.any, schema, wrapped)
 }
 
 ///|
@@ -202,7 +196,7 @@ pub fn SdkServer::set_prompts_list_handler(
       @mbtconv.from_map({ "prompts": @nostd.any(@js.from_array(prompts_arr)) }),
     )
   }
-  ffi_set_handler(self.as_any(), schema, wrapped)
+  ffi_set_handler(self |> @nostd.any, schema, wrapped)
 }
 
 ///|
@@ -222,7 +216,7 @@ pub fn SdkServer::set_prompts_get_handler(
       @js.Promise::resolve(result.as_any())
     })
   }
-  ffi_set_handler_async(self.as_any(), schema, wrapped)
+  ffi_set_handler_async(self |> @nostd.any, schema, wrapped)
 }
 
 ///|
@@ -287,13 +281,13 @@ pub async fn SdkServer::connect(
   self : SdkServer,
   transport : StdioServerTransport,
 ) -> Unit {
-  ffi_server_connect(self.as_any(), transport.as_any()).wait()
+  ffi_server_connect(self |> @nostd.any, transport |> @nostd.any).wait()
 }
 
 ///|
 /// Close server
 pub async fn SdkServer::close(self : SdkServer) -> Unit {
-  ffi_server_close(self.as_any()).wait()
+  ffi_server_close(self |> @nostd.any).wait()
 }
 
 ///|
@@ -301,15 +295,15 @@ pub async fn SdkServer::close(self : SdkServer) -> Unit {
 pub fn SdkServer::send_notification(
   self : SdkServer,
   method_name : String,
-  params : &@js.JsImpl,
+  params : @nostd.Any,
 ) -> Unit {
   let notification = @js.identity(
     @mbtconv.from_map({
       "method": method_name |> @nostd.any,
-      "params": @nostd.any(params.as_any()),
+      "params": @nostd.any(params),
     }),
   )
-  self.as_any()._get("notification").call_self([notification]) |> ignore
+  (self |> @nostd.any)._get("notification").call_self([notification]) |> ignore
 }
 
 ///|

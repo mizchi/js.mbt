@@ -25,10 +25,7 @@ test "WebAssembly module from bytes" {
   // Get exports and call add function
   let exports = instance.exports()
   let add_func = exports._get("add")
-  let result : Int = add_func.call_self([
-    @nostd.any(5),
-    @nostd.any(3),
-  ]).cast()
+  let result : Int = add_func.call_self([@nostd.any(5), @nostd.any(3)]).cast()
   inspect(result, content="8")
 }
 
@@ -45,7 +42,7 @@ test "WebAssembly Memory" {
 
   // Get the buffer
   let buffer = memory.buffer()
-  let view = @typedarray.Uint8Array::from_array_buffer(buffer)
+  let view = @typedarray.Uint8Array::from_array_buffer(buffer).as_typed_array()
 
   // Write some data
   view.set_at(0, 42)
